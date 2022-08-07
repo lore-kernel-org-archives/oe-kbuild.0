@@ -1,321 +1,648 @@
-Content-Type: multipart/mixed; boundary="===============4758970092265527129=="
+Content-Type: multipart/mixed; boundary="===============0062733022456215173=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [chrome-os:chromeos-5.10 57/58] drivers/gpu/arm/mali/mali_kbase_mem_linux.c:1025:25: warning: variable 'dma_buf' set but not used
-Date: Sat, 13 Aug 2022 03:30:20 +0800
-Message-ID: <202208130314.8kYeuLzD-lkp@intel.com>
+Subject: include/linux/fortify-string.h:20:45: warning: use of uninitialized value '*(unsigned char *)(&stat_buf[31])' [CWE-457]
+Date: Sun, 07 Aug 2022 09:16:46 +0800
+Message-ID: <202208070955.CD3XK87L-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4758970092265527129==
+--===============0062733022456215173==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 :::::: =
 
-:::::: Manual check reason: "commit no functional change"
+:::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "low confidence static check warning: include/l=
+inux/fortify-string.h:20:45: warning: use of uninitialized value '*(unsigne=
+d char *)(&stat_buf[31])' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]"
 :::::: =
 
 
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
-TO: cros-kernel-buildreports(a)googlegroups.com
-TO: Guenter Roeck <groeck@google.com>
+CC: linux-kernel(a)vger.kernel.org
+TO: Kees Cook <keescook@chromium.org>
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chr=
-omeos-5.10
-head:   7af632a8881d94b2b4576adc1c2eb26ae733a952
-commit: 62c8f0ef54f519e80ccb82f9698073947c04db55 [57/58] CHROMIUM: gpu: mal=
-i: Rename driver path
-:::::: branch date: 2 hours ago
-:::::: commit date: 6 hours ago
-config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/2022081=
-3/202208130314.8kYeuLzD-lkp(a)intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   4d1044fcb996e8de9b9ab392f4a767890e45202d
+commit: 3009f891bb9f328945ebd5b71e12df7e2467f3dd fortify: Allow strlen() an=
+d strnlen() to pass compile-time known lengths
+date:   11 months ago
+:::::: branch date: 3 hours ago
+:::::: commit date: 11 months ago
+config: arm-randconfig-c002-20220805 (https://download.01.org/0day-ci/archi=
+ve/20220807/202208070955.CD3XK87L-lkp(a)intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        git remote add chrome-os https://chromium.googlesource.com/chromium=
-os/third_party/kernel
-        git fetch --no-tags chrome-os chromeos-5.10
-        git checkout 62c8f0ef54f519e80ccb82f9698073947c04db55
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3D3009f891bb9f328945ebd5b71e12df7e2467f3dd
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 3009f891bb9f328945ebd5b71e12df7e2467f3dd
         # save the config file
-        mkdir build_dir && cp config build_dir/.config
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cross=
- W=3D1 O=3Dbuild_dir ARCH=3Darm64 SHELL=3D/bin/bash drivers/gpu/arm/mali/
+ ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
+
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 
-All warnings (new ones prefixed by >>):
+gcc-analyzer warnings: (new ones prefixed by >>)
+                            |
+                            +--> 'uart_port_ref': event 33
+                                   |
+                                   |   58 | static inline struct uart_port =
+*uart_port_ref(struct uart_state *state)
+                                   |      |                                =
+ ^~~~~~~~~~~~~
+                                   |      |                                =
+ |
+                                   |      |                                =
+ (33) entry to 'uart_port_ref'
+                                   |
+                                 'uart_port_ref': event 34
+                                   |
+                                   |include/linux/atomic/atomic-arch-fallba=
+ck.h:1161:20:
+                                   | 1161 |                 if (unlikely(c =
+=3D=3D u))
+                                   |      |                    ^
+                                   |      |                    |
+                                   |      |                    (34) followi=
+ng 'false' branch...
+                                   |
+                                 'uart_port_ref': event 35
+                                   |
+                                   |  995 | #define arch_atomic_try_cmpxchg=
+ arch_atomic_try_cmpxchg
+                                   |      |                                =
+ ^
+                                   |      |                                =
+ |
+                                   |      |                                =
+ (35) ...to here
+   include/linux/atomic/atomic-arch-fallback.h:1163:19: note: in expansion =
+of macro 'arch_atomic_try_cmpxchg'
+                                   | 1163 |         } while (!arch_atomic_t=
+ry_cmpxchg(v, &c, c + a));
+                                   |      |                   ^~~~~~~~~~~~~=
+~~~~~~~~~~
+                                   |
+                            <------+
+                            |
+                          'uart_port_startup': event 36
+                            |
+                            |drivers/tty/serial/serial_core.c:73:45:
+                            |   73 |                 struct uart_port *__up=
+ort =3D uart_port_ref(state);       \
+                            |      |                                       =
+      ^~~~~~~~~~~~~~~~~~~~
+                            |      |                                       =
+      |
+                            |      |                                       =
+      (36) returning to 'uart_port_startup' from 'uart_port_ref'
+   drivers/tty/serial/serial_core.c:207:9: note: in expansion of macro 'uar=
+t_port_lock'
+                            |  207 |         uart_port_lock(state, flags);
+                            |      |         ^~~~~~~~~~~~~~
+                            |
+                          'uart_port_startup': event 37
+                            |
+                            |   74 |                 if (__uport)          =
+                                  \
+                            |      |                    ^
+                            |      |                    |
+                            |      |                    (37) following 'fal=
+se' branch (when '__uport' is NULL)...
+   drivers/tty/serial/serial_core.c:207:9: note: in expansion of macro 'uar=
+t_port_lock'
+                            |  207 |         uart_port_lock(state, flags);
+                            |      |         ^~~~~~~~~~~~~~
+                            |
+                          'uart_port_startup': events 38-39
+                            |
+                            |  208 |         if (!state->xmit.buf) {
+                            |      |            ~ ~~~~~~~~~~~^~~~
+                            |      |            |            |
+                            |      |            |            (38) ...to here
+                            |      |            (39) following 'false' bran=
+ch...
+                            |
+                          'uart_port_startup': event 40
+                            |
+                            |   82 |                 if (__uport) {        =
+                                  \
+                            |      |                    ^
+                            |      |                    |
+                            |      |                    (40) ...to here
+   drivers/tty/serial/serial_core.c:213:17: note: in expansion of macro 'ua=
+rt_port_unlock'
+                            |  213 |                 uart_port_unlock(uport=
+, flags);
+                            |      |                 ^~~~~~~~~~~~~~~~
+                            |
+                          'uart_port_startup': event 41
+                            |
+                            |   82 |                 if (__uport) {        =
+                                  \
+                            |      |                    ^
+                            |      |                    |
+                            |      |                    (41) following 'tru=
+e' branch...
+   drivers/tty/serial/serial_core.c:213:17: note: in expansion of macro 'ua=
+rt_port_unlock'
+                            |  213 |                 uart_port_unlock(uport=
+, flags);
+                            |      |                 ^~~~~~~~~~~~~~~~
+                            |
+                          'uart_port_startup': events 42-43
+                            |
+                            |arch/arm/include/asm/irqflags.h:159:9:
+                            |  159 |         asm volatile(
+                            |      |         ^~~
+                            |      |         |
+                            |      |         (42) ...to here
+                            |......
+                            |  171 |         asm volatile(
+                            |      |         ~~~
+                            |      |         |
+                            |      |         (43) use of uninitialized valu=
+e 'flags' here
+                            |
+   In file included from include/linux/string.h:253,
+                    from include/linux/bitmap.h:10,
+                    from include/linux/cpumask.h:12,
+                    from include/linux/mm_types_task.h:14,
+                    from include/linux/mm_types.h:5,
+                    from include/linux/buildid.h:5,
+                    from include/linux/module.h:14:
+   In function 'strnlen',
+       inlined from 'strlen' at include/linux/fortify-string.h:103:8,
+       inlined from 'uart_line_info' at drivers/tty/serial/serial_core.c:18=
+60:3:
+>> include/linux/fortify-string.h:20:45: warning: use of uninitialized valu=
+e '*(unsigned char *)(&stat_buf[31])' [CWE-457] [-Wanalyzer-use-of-uninitia=
+lized-value]
+      20 |                 if (__builtin_constant_p(__p[p_len]) && \
+         |                                          ~~~^~~~~~~
+   include/linux/fortify-string.h:77:24: note: in expansion of macro '__com=
+piletime_strlen'
+      77 |         size_t p_len =3D __compiletime_strlen(p);
+         |                        ^~~~~~~~~~~~~~~~~~~~
+     'uart_line_info': events 1-7
+       |
+       |drivers/tty/serial/serial_core.c:1804:14:
+       | 1804 |         char stat_buf[32];
+       |      |              ^~~~~~~~
+       |      |              |
+       |      |              (1) region created on stack here
+       |......
+       | 1810 |         if (!uport)
+       |      |            ~  =
 
-   cc1: warning: kbuild/src/consumer/drivers/gpu/arm/mali: No such file or =
-directory [-Wmissing-include-dirs]
-   drivers/gpu/arm/mali/mali_kbase_mem_linux.c: In function 'kbase_mem_do_s=
-ync_imported':
->> drivers/gpu/arm/mali/mali_kbase_mem_linux.c:1025:25: warning: variable '=
-dma_buf' set but not used [-Wunused-but-set-variable]
-    1025 |         struct dma_buf *dma_buf;
-         |                         ^~~~~~~
---
-   cc1: warning: kbuild/src/consumer/drivers/gpu/arm/mali: No such file or =
-directory [-Wmissing-include-dirs]
-   drivers/gpu/arm/mali/backend/gpu/mali_kbase_jm_hw.c: In function 'kbase_=
-job_slot_hardstop':
->> drivers/gpu/arm/mali/backend/gpu/mali_kbase_jm_hw.c:988:14: warning: var=
-iable 'stopped' set but not used [-Wunused-but-set-variable]
-     988 |         bool stopped;
-         |              ^~~~~~~
---
-   cc1: warning: kbuild/src/consumer/drivers/gpu/arm/mali: No such file or =
-directory [-Wmissing-include-dirs]
->> drivers/gpu/arm/mali/ipa/mali_kbase_ipa.c:399:5: warning: no previous pr=
-ototype for 'kbase_scale_static_power' [-Wmissing-prototypes]
-     399 | u32 kbase_scale_static_power(const u32 c, const u32 voltage)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~
+       |      |            |
+       |      |            (2) following 'false' branch...
+       |......
+       | 1813 |         mmio =3D uport->iotype >=3D UPIO_MEM;
+       |      |                ~~~~~~~~~~~~~
+       |      |                     |
+       |      |                     (3) ...to here
+       |......
+       | 1821 |         if (uport->type =3D=3D PORT_UNKNOWN) {
+       |      |            ~  =
 
+       |      |            |
+       |      |            (4) following 'false' branch...
+       |......
+       | 1826 |         if (capable(CAP_SYS_ADMIN)) {
+       |      |            ~~~~~~~~~~~~~~~~~~~~~~~
+       |      |            ||
+       |      |            |(5) ...to here
+       |      |            (6) following 'true' branch...
+       | 1827 |                 pm_state =3D state->pm_state;
+       |      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |                          |
+       |      |                          (7) ...to here
+       |
+     'uart_line_info': event 8
+       |
+       | 1850 |         if (uport->mctrl & (bit)) \
+       |      |            ^
+       |      |            |
+       |      |            (8) following 'true' branch...
+   drivers/tty/serial/serial_core.c:1860:17: note: in expansion of macro 'I=
+NFOBIT'
+       | 1860 |                 INFOBIT(TIOCM_RTS, "|RTS");
+       |      |                 ^~~~~~~
+       |
+     'uart_line_info': event 9
+       |
+       |include/linux/fortify-string.h:20:45:
+       |   20 |                 if (__builtin_constant_p(__p[p_len]) && \
+       |      |                                          ~~~^~~~~~~
+       |      |                                             |
+       |      |                                             (9) ...to here
+   include/linux/fortify-string.h:77:24: note: in expansion of macro '__com=
+piletime_strlen'
+       |   77 |         size_t p_len =3D __compiletime_strlen(p);
+       |      |                        ^~~~~~~~~~~~~~~~~~~~
+       |
+     'uart_line_info': event 10
+       |
+       |   20 |                 if (__builtin_constant_p(__p[p_len]) && \
+       |      |                                          ~~~^~~~~~~
+       |      |                                             |
+       |      |                                             (10) use of uni=
+nitialized value '*(unsigned char *)(&stat_buf[31])' here
+   include/linux/fortify-string.h:77:24: note: in expansion of macro '__com=
+piletime_strlen'
+       |   77 |         size_t p_len =3D __compiletime_strlen(p);
+       |      |                        ^~~~~~~~~~~~~~~~~~~~
+       |
+   In function 'strnlen',
+       inlined from 'strlen' at include/linux/fortify-string.h:103:8,
+       inlined from 'strncat' at include/linux/fortify-string.h:192:10,
+       inlined from 'uart_line_info' at drivers/tty/serial/serial_core.c:18=
+60:3:
+>> include/linux/fortify-string.h:20:45: warning: use of uninitialized valu=
+e '*(unsigned char *)(&stat_buf[31])' [CWE-457] [-Wanalyzer-use-of-uninitia=
+lized-value]
+      20 |                 if (__builtin_constant_p(__p[p_len]) && \
+         |                                          ~~~^~~~~~~
+   include/linux/fortify-string.h:77:24: note: in expansion of macro '__com=
+piletime_strlen'
+      77 |         size_t p_len =3D __compiletime_strlen(p);
+         |                        ^~~~~~~~~~~~~~~~~~~~
+     'uart_line_info': events 1-7
+       |
+       |drivers/tty/serial/serial_core.c:1804:14:
+       | 1804 |         char stat_buf[32];
+       |      |              ^~~~~~~~
+       |      |              |
+       |      |              (1) region created on stack here
+       |......
+       | 1810 |         if (!uport)
+       |      |            ~  =
 
-vim +/dma_buf +1025 drivers/gpu/arm/mali/mali_kbase_mem_linux.c
+       |      |            |
+       |      |            (2) following 'false' branch...
+       |......
+       | 1813 |         mmio =3D uport->iotype >=3D UPIO_MEM;
+       |      |                ~~~~~~~~~~~~~
+       |      |                     |
+       |      |                     (3) ...to here
+       |......
+       | 1821 |         if (uport->type =3D=3D PORT_UNKNOWN) {
+       |      |            ~  =
 
-f38632197c49e6 drivers/gpu/arm/valhall/mali_kbase_mem_linux.c Nicolas Boich=
-at 2020-04-18  1020  =
+       |      |            |
+       |      |            (4) following 'false' branch...
+       |......
+       | 1826 |         if (capable(CAP_SYS_ADMIN)) {
+       |      |            ~~~~~~~~~~~~~~~~~~~~~~~
+       |      |            ||
+       |      |            |(5) ...to here
+       |      |            (6) following 'true' branch...
+       | 1827 |                 pm_state =3D state->pm_state;
+       |      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |                          |
+       |      |                          (7) ...to here
+       |
+     'uart_line_info': event 8
+       |
+       | 1850 |         if (uport->mctrl & (bit)) \
+       |      |            ^
+       |      |            |
+       |      |            (8) following 'true' branch...
+   drivers/tty/serial/serial_core.c:1860:17: note: in expansion of macro 'I=
+NFOBIT'
+       | 1860 |                 INFOBIT(TIOCM_RTS, "|RTS");
+       |      |                 ^~~~~~~
+       |
+     'uart_line_info': event 9
+       |
+       |include/linux/fortify-string.h:20:45:
+       |   20 |                 if (__builtin_constant_p(__p[p_len]) && \
+       |      |                                          ~~~^~~~~~~
+       |      |                                             |
+       |      |                                             (9) ...to here
+   include/linux/fortify-string.h:77:24: note: in expansion of macro '__com=
+piletime_strlen'
+       |   77 |         size_t p_len =3D __compiletime_strlen(p);
+       |      |                        ^~~~~~~~~~~~~~~~~~~~
+       |
+     'uart_line_info': events 10-12
+       |
+       |   89 |         if (p_size <=3D ret && maxlen !=3D ret)
+       |      |            ^
+       |      |            |
+       |      |            (10) following 'false' branch...
+       |......
+       |  104 |         if (p_size <=3D ret)
+       |      |            ~
+       |      |            |
+       |      |            (11) ...to here
+       |      |            (12) following 'false' branch...
+       |
+     'uart_line_info': event 13
+       |
+       |drivers/tty/serial/serial_core.c:1851:17:
+       | 1851 |                 strncat(stat_buf, (str), sizeof(stat_buf) -=
+ \
+       |      |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~
+       |      |                 |
+       |      |                 (13) ...to here
+       | 1852 |                         strlen(stat_buf) - 2)
+       |      |                         ~~~~~~~~~~~~~~~~~~~~~
+   drivers/tty/serial/serial_core.c:1860:17: note: in expansion of macro 'I=
+NFOBIT'
+       | 1860 |                 INFOBIT(TIOCM_RTS, "|RTS");
+       |      |                 ^~~~~~~
+       |
+     'uart_line_info': event 14
+       |
+       |include/linux/fortify-string.h:20:45:
+       |   20 |                 if (__builtin_constant_p(__p[p_len]) && \
+       |      |                                          ~~~^~~~~~~
+       |      |                                             |
+       |      |                                             (14) use of uni=
+nitialized value '*(unsigned char *)(&stat_buf[31])' here
+   include/linux/fortify-string.h:77:24: note: in expansion of macro '__com=
+piletime_strlen'
+       |   77 |         size_t p_len =3D __compiletime_strlen(p);
+       |      |                        ^~~~~~~~~~~~~~~~~~~~
+       |
+   In function 'strnlen',
+       inlined from 'strlen' at include/linux/fortify-string.h:103:8,
+       inlined from 'uart_line_info'@drivers/tty/serial/serial_core.c:18=
+60:3:
+>> include/linux/fortify-string.h:20:45: warning: use of uninitialized valu=
+e '*(unsigned char *)(&stat_buf[31])' [CWE-457] [-Wanalyzer-use-of-uninitia=
+lized-value]
+      20 |                 if (__builtin_constant_p(__p[p_len]) && \
+         |                                          ~~~^~~~~~~
+   include/linux/fortify-string.h:77:24: note: in expansion of macro '__com=
+piletime_strlen'
+      77 |         size_t p_len =3D __compiletime_strlen(p);
+         |                        ^~~~~~~~~~~~~~~~~~~~
+     'uart_proc_show': events 1-4
+       |
+       |drivers/tty/serial/serial_core.c:1878:12:
+       | 1878 | static int uart_proc_show(struct seq_file *m, void *v)
+       |      |            ^~~~~~~~~~~~~~
+       |      |            |
+       |      |            (1) entry to 'uart_proc_show'
+       |......
+       | 1885 |         for (i =3D 0; i < drv->nr; i++)
+       |      |                     ~~~~~~~~~~~
+       |      |                       |
+       |      |                       (2) following 'true' branch...
+       | 1886 |                 uart_line_info(m, drv, i);
+       |      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |                 |
+       |      |                 (3) ...to here
+       |      |                 (4) calling 'uart_line_info' from 'uart_pro=
+c_show'
+       |
+       +--> 'uart_line_info': events 5-12
+              |
+              | 1798 | static void uart_line_info(struct seq_file *m, struc=
+t uart_driver *drv, int i)
+              |      |             ^~~~~~~~~~~~~~
+              |      |             |
+              |      |             (5) entry to 'uart_line_info'
+              |......
+              | 1804 |         char stat_buf[32];
+              |      |              ~~~~~~~~
+              |      |              |
+              |      |              (6) region created on stack here
+              |......
+              | 1810 |         if (!uport)
+              |      |            ~ =
 
-f38632197c49e6 drivers/gpu/arm/valhall/mali_kbase_mem_linux.c Nicolas Boich=
-at 2020-04-18  1021  int kbase_mem_do_sync_imported(struct kbase_context *k=
-ctx,
-f38632197c49e6 drivers/gpu/arm/valhall/mali_kbase_mem_linux.c Nicolas Boich=
-at 2020-04-18  1022  		struct kbase_va_region *reg, enum kbase_sync_type sy=
-nc_fn)
-f38632197c49e6 drivers/gpu/arm/valhall/mali_kbase_mem_linux.c Nicolas Boich=
-at 2020-04-18  1023  {
-f38632197c49e6 drivers/gpu/arm/valhall/mali_kbase_mem_linux.c Nicolas Boich=
-at 2020-04-18  1024  	int ret =3D -EINVAL;
-f38632197c49e6 drivers/gpu/arm/valhall/mali_kbase_mem_linux.c Nicolas Boich=
-at 2020-04-18 @1025  	struct dma_buf *dma_buf;
-f38632197c49e6 drivers/gpu/arm/valhall/mali_kbase_mem_linux.c Nicolas Boich=
-at 2020-04-18  1026  	enum dma_data_direction dir =3D DMA_BIDIRECTIONAL;
-f38632197c49e6 drivers/gpu/arm/valhall/mali_kbase_mem_linux.c Nicolas Boich=
-at 2020-04-18  1027  =
+              |      |            |
+              |      |            (7) following 'false' branch...
+              |......
+              | 1813 |         mmio =3D uport->iotype >=3D UPIO_MEM;
+              |      |                ~~~~~~~~~~~~~
+              |      |                     |
+              |      |                     (8) ...to here
+              |......
+              | 1821 |         if (uport->type =3D=3D PORT_UNKNOWN) {
+              |      |            ~ =
 
-f38632197c49e6 drivers/gpu/arm/valhall/mali_kbase_mem_linux.c Nicolas Boich=
-at 2020-04-18  1028  	lockdep_assert_held(&kctx->reg_lock);
-f38632197c49e6 drivers/gpu/arm/valhall/mali_kbase_mem_linux.c Nicolas Boich=
-at 2020-04-18  1029  =
+              |      |            |
+              |      |            (9) following 'false' branch...
+              |......
+              | 1826 |         if (capable(CAP_SYS_ADMIN)) {
+              |      |            ~~~~~~~~~~~~~~~~~~~~~~~
+              |      |            ||
+              |      |            |(10) ...to here
+              |      |            (11) following 'true' branch...
+              | 1827 |                 pm_state =3D state->pm_state;
+              |      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |                          |
+              |      |                          (12) ...to here
+              |
+            'uart_line_info': event 13
+              |
+              | 1850 |         if (uport->mctrl & (bit)) \
+              |      |            ^
+              |      |            |
+              |      |            (13) following 'true' branch...
+   drivers/tty/serial/serial_core.c:1860:17: note: in expansion of macro 'I=
+NFOBIT'
+              | 1860 |                 INFOBIT(TIOCM_RTS, "|RTS");
+              |      |                 ^~~~~~~
+              |
+            'uart_line_info': event 14
+              |
+              |include/linux/fortify-string.h:20:45:
+              |   20 |                 if (__builtin_constant_p(__p[p_len])=
+ && \
+              |      |                                          ~~~^~~~~~~
+              |      |                                             |
+              |      |                                             (14) ...=
+to here
+   include/linux/fortify-string.h:77:24: note: in expansion of macro '__com=
+piletime_strlen'
+              |   77 |         size_t p_len =3D __compiletime_strlen(p);
+              |      |                        ^~~~~~~~~~~~~~~~~~~~
+              |
+            'uart_line_info': event 15
+              |
+              |   20 |                 if (__builtin_constant_p(__p[p_len])=
+ && \
+              |      |                                          ~~~^~~~~~~
+              |      |                                             |
+              |      |                                             (15) use=
+ of uninitialized value '*(unsigned char *)(&stat_buf[31])' here
+   include/linux/fortify-string.h:77:24: note: in expansion of macro '__com=
+piletime_strlen'
+              |   77 |         size_t p_len =3D __compiletime_strlen(p);
+              |      |                        ^~~~~~~~~~~~~~~~~~~~
+              |
+   In function 'strnlen',
+       inlined from 'strlen' at include/linux/fortify-string.h:103:8,
+       inlined from 'strncat' at include/linux/fortify-string.h:192:10,
+       inlined from 'uart_line_info' at drivers/tty/serial/serial_core.c:18=
+60:3:
+>> include/linux/fortify-string.h:20:45: warning: use of uninitialized valu=
+e '*(unsigned char *)(&stat_buf[31])' [CWE-457] [-Wanalyzer-use-of-uninitia=
+lized-value]
+      20 |                 if (__builtin_constant_p(__p[p_len]) && \
+         |                                          ~~~^~~~~~~
+   include/linux/fortify-string.h:77:24: note: in expansion of macro '__com=
+piletime_strlen'
+      77 |         size_t p_len =3D __compiletime_strlen(p);
+         |                        ^~~~~~~~~~~~~~~~~~~~
+     'uart_proc_show': events 1-4
+       |
+       |drivers/tty/serial/serial_core.c:1878:12:
+       | 1878 | static int uart_proc_show(struct seq_file *m, void *v)
+       |      |            ^~~~~~~~~~~~~~
+       |      |            |
+       |      |            (1) entry to 'uart_proc_show'
+       |......
+       | 1885 |         for (i =3D 0; i < drv->nr; i++)
+       |      |                     ~~~~~~~~~~~
+       |      |                       |
+       |      |                       (2) following 'true' branch...
+       | 1886 |                 uart_line_info(m, drv, i);
+       |      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |                 |
+       |      |                 (3) ...to here
+       |      |                 (4) calling 'uart_line_info' from 'uart_pro=
+c_show'
+       |
+       +--> 'uart_line_info': events 5-12
+              |
+              | 1798 | static void uart_line_info(struct seq_file *m, struc=
+t uart_driver *drv, int i)
+              |      |             ^~~~~~~~~~~~~~
+              |      |             |
+              |      |             (5) entry to 'uart_line_info'
+              |......
+              | 1804 |         char stat_buf[32];
+              |      |              ~~~~~~~~
+              |      |              |
+              |      |              (6) region created on stack here
+              |......
+              | 1810 |         if (!uport)
+              |      |            ~ =
 
-f38632197c49e6 drivers/gpu/arm/valhall/mali_kbase_mem_linux.c Nicolas Boich=
-at 2020-04-18  1030  	/* We assume that the same physical allocation object=
- is used for both
-f38632197c49e6 drivers/gpu/arm/valhall/mali_kbase_mem_linux.c Nicolas Boich=
-at 2020-04-18  1031  	 * GPU and CPU for imported buffers.
-f38632197c49e6 drivers/gpu/arm/valhall/mali_kbase_mem_linux.c Nicolas Boich=
-at 2020-04-18  1032  	 */
-f38632197c49e6 drivers/gpu/arm/valhall/mali_kbase_mem_linux.c Nicolas Boich=
-at 2020-04-18  1033  	WARN_ON(reg->cpu_alloc !=3D reg->gpu_alloc);
-f38632197c49e6 drivers/gpu/arm/valhall/mali_kbase_mem_linux.c Nicolas Boich=
-at 2020-04-18  1034  =
+              |      |            |
+              |      |            (7) following 'false' branch...
+              |......
+              | 1813 |         mmio =3D uport->iotype >=3D UPIO_MEM;
+              |      |                ~~~~~~~~~~~~~
+              |      |                     |
+              |      |                     (8) ...to here
+              |......
+              | 1821 |         if (uport->type =3D=3D PORT_UNKNOWN) {
+              |      |            ~ =
 
-f38632197c49e6 drivers/gpu/arm/valhall/mali_kbase_mem_linux.c Nicolas Boich=
-at 2020-04-18  1035  	/* Currently only handle dma-bufs */
-f38632197c49e6 drivers/gpu/arm/valhall/mali_kbase_mem_linux.c Nicolas Boich=
-at 2020-04-18  1036  	if (reg->gpu_alloc->type !=3D KBASE_MEM_TYPE_IMPORTED=
-_UMM)
-f38632197c49e6 drivers/gpu/arm/valhall/mali_kbase_mem_linux.c Nicolas Boich=
-at 2020-04-18  1037  		return ret;
-f38632197c49e6 drivers/gpu/arm/valhall/mali_kbase_mem_linux.c Nicolas Boich=
-at 2020-04-18  1038  	/*
-f38632197c49e6 drivers/gpu/arm/valhall/mali_kbase_mem_linux.c Nicolas Boich=
-at 2020-04-18  1039  	 * Attempting to sync with CONFIG_MALI_VALHALL_DMA_BU=
-F_MAP_ON_DEMAND
-f38632197c49e6 drivers/gpu/arm/valhall/mali_kbase_mem_linux.c Nicolas Boich=
-at 2020-04-18  1040  	 * enabled can expose us to a Linux Kernel issue betw=
-een v4.6 and
-f38632197c49e6 drivers/gpu/arm/valhall/mali_kbase_mem_linux.c Nicolas Boich=
-at 2020-04-18  1041  	 * v4.19. We will not attempt to support cache syncs =
-on dma-bufs that
-f38632197c49e6 drivers/gpu/arm/valhall/mali_kbase_mem_linux.c Nicolas Boich=
-at 2020-04-18  1042  	 * are mapped on demand (i.e. not on import), even on=
- pre-4.6, neither
-f38632197c49e6 drivers/gpu/arm/valhall/mali_kbase_mem_linux.c Nicolas Boich=
-at 2020-04-18  1043  	 * on 4.20 or newer kernels, because this makes it di=
-fficult for
-f38632197c49e6 drivers/gpu/arm/valhall/mali_kbase_mem_linux.c Nicolas Boich=
-at 2020-04-18  1044  	 * userspace to know when they can rely on the cache =
-sync.
-f38632197c49e6 drivers/gpu/arm/valhall/mali_kbase_mem_linux.c Nicolas Boich=
-at 2020-04-18  1045  	 * Instead, only support syncing when we always map d=
-ma-bufs on import,
-f38632197c49e6 drivers/gpu/arm/valhall/mali_kbase_mem_linux.c Nicolas Boich=
-at 2020-04-18  1046  	 * or if the particular buffer is mapped right now.
-f38632197c49e6 drivers/gpu/arm/valhall/mali_kbase_mem_linux.c Nicolas Boich=
-at 2020-04-18  1047  	 */
-f38632197c49e6 drivers/gpu/arm/valhall/mali_kbase_mem_linux.c Nicolas Boich=
-at 2020-04-18  1048  	if (IS_ENABLED(CONFIG_MALI_VALHALL_DMA_BUF_MAP_ON_DEM=
-AND) &&
-f38632197c49e6 drivers/gpu/arm/valhall/mali_kbase_mem_linux.c Nicolas Boich=
-at 2020-04-18  1049  	    !reg->gpu_alloc->imported.umm.current_mapping_usa=
-ge_count)
-f38632197c49e6 drivers/gpu/arm/valhall/mali_kbase_mem_linux.c Nicolas Boich=
-at 2020-04-18  1050  		return ret;
-f38632197c49e6 drivers/gpu/arm/valhall/mali_kbase_mem_linux.c Nicolas Boich=
-at 2020-04-18  1051  =
+              |      |            |
+              |      |            (9) following 'false' branch...
+              |......
+              | 1826 |         if (capable(CAP_SYS_ADMIN)) {
+              |      |            ~~~~~~~~~~~~~~~~~~~~~~~
+              |      |            ||
+              |      |            |(10) ...to here
+              |      |            (11) following 'true' branch...
+              | 1827 |                 pm_state =3D state->pm_state;
+              |      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |                          |
+              |      |                          (12) ...to here
+              |
+            'uart_line_info': event 13
+              |
+              | 1850 |         if (uport->mctrl & (bit)) \
+              |      |            ^
+              |      |            |
+              |      |            (13) following 'true' branch...
+   drivers/tty/serial/serial_core.c:1860:17: note: in expansion of macro 'I=
+NFOBIT'
+              | 1860 |                 INFOBIT(TIOCM_RTS, "|RTS");
+              |      |                 ^~~~~~~
+              |
+            'uart_line_info': event 14
+              |
+              |include/linux/fortify-string.h:20:45:
+              |   20 |                 if (__builtin_constant_p(__p[p_len])=
+ && \
+              |      |                                          ~~~^~~~~~~
+              |      |                                             |
+              |      |                                             (14) ...=
+to here
+   include/linux/fortify-string.h:77:24: note: in expansion of macro '__com=
+piletime_strlen'
+              |   77 |         size_t p_len =3D __compiletime_strlen(p);
+              |      |                        ^~~~~~~~~~~~~~~~~~~~
+              |
+            'uart_line_info': events 15-17
+              |
+              |   89 |         if (p_size <=3D ret && maxlen !=3D ret)
+              |      |            ^
+              |      |            |
+              |      |            (15) following 'false' branch...
+              |......
+              |  104 |         if (p_size <=3D ret)
+              |      |            ~
+              |      |            |
+              |      |            (16) ...to here
+              |      |            (17) following 'false' branch...
+              |
+            'uart_line_info': event 18
+              |
+              |drivers/tty/serial/serial_core.c:1851:17:
+              | 1851 |                 strncat(stat_buf, (str), sizeof(stat=
+_buf) - \
+              |      |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~
+              |      |                 |
 
-f38632197c49e6 drivers/gpu/arm/valhall/mali_kbase_mem_linux.c Nicolas Boich=
-at 2020-04-18  1052  	dma_buf =3D reg->gpu_alloc->imported.umm.dma_buf;
-f38632197c49e6 drivers/gpu/arm/valhall/mali_kbase_mem_linux.c Nicolas Boich=
-at 2020-04-18  1053  =
+vim +20 include/linux/fortify-string.h
 
-f38632197c49e6 drivers/gpu/arm/valhall/mali_kbase_mem_linux.c Nicolas Boich=
-at 2020-04-18  1054  	switch (sync_fn) {
-f38632197c49e6 drivers/gpu/arm/valhall/mali_kbase_mem_linux.c Nicolas Boich=
-at 2020-04-18  1055  	case KBASE_SYNC_TO_DEVICE:
-f38632197c49e6 drivers/gpu/arm/valhall/mali_kbase_mem_linux.c Nicolas Boich=
-at 2020-04-18  1056  		dev_dbg(kctx->kbdev->dev,
-f38632197c49e6 drivers/gpu/arm/valhall/mali_kbase_mem_linux.c Nicolas Boich=
-at 2020-04-18  1057  			"Syncing imported buffer at GPU VA %llx to GPU\n",
-f38632197c49e6 drivers/gpu/arm/valhall/mali_kbase_mem_linux.c Nicolas Boich=
-at 2020-04-18  1058  			reg->start_pfn);
-f38632197c49e6 drivers/gpu/arm/valhall/mali_kbase_mem_linux.c Nicolas Boich=
-at 2020-04-18  1059  #ifdef KBASE_MEM_ION_SYNC_WORKAROUND
-f38632197c49e6 drivers/gpu/arm/valhall/mali_kbase_mem_linux.c Nicolas Boich=
-at 2020-04-18  1060  		if (!WARN_ON(!reg->gpu_alloc->imported.umm.dma_attac=
-hment)) {
-f38632197c49e6 drivers/gpu/arm/valhall/mali_kbase_mem_linux.c Nicolas Boich=
-at 2020-04-18  1061  			struct dma_buf_attachment *attachment =3D reg->gpu_=
-alloc->imported.umm.dma_attachment;
-f38632197c49e6 drivers/gpu/arm/valhall/mali_kbase_mem_linux.c Nicolas Boich=
-at 2020-04-18  1062  			struct sg_table *sgt =3D reg->gpu_alloc->imported.u=
-mm.sgt;
-f38632197c49e6 drivers/gpu/arm/valhall/mali_kbase_mem_linux.c Nicolas Boich=
-at 2020-04-18  1063  =
+a28a6e860c6cf23 Francis Laniel 2021-02-25  12  =
 
-f38632197c49e6 drivers/gpu/arm/valhall/mali_kbase_mem_linux.c Nicolas Boich=
-at 2020-04-18  1064  			dma_sync_sg_for_device(attachment->dev, sgt->sgl,
-f38632197c49e6 drivers/gpu/arm/valhall/mali_kbase_mem_linux.c Nicolas Boich=
-at 2020-04-18  1065  					sgt->nents, dir);
-f38632197c49e6 drivers/gpu/arm/valhall/mali_kbase_mem_linux.c Nicolas Boich=
-at 2020-04-18  1066  			ret =3D 0;
-f38632197c49e6 drivers/gpu/arm/valhall/mali_kbase_mem_linux.c Nicolas Boich=
-at 2020-04-18  1067  		}
-f38632197c49e6 drivers/gpu/arm/valhall/mali_kbase_mem_linux.c Nicolas Boich=
-at 2020-04-18  1068  #else
-f38632197c49e6 drivers/gpu/arm/valhall/mali_kbase_mem_linux.c Nicolas Boich=
-at 2020-04-18  1069  	/* Though the below version check could be superfluou=
-s depending upon the version condition
-f38632197c49e6 drivers/gpu/arm/valhall/mali_kbase_mem_linux.c Nicolas Boich=
-at 2020-04-18  1070  	 * used for enabling KBASE_MEM_ION_SYNC_WORKAROUND, w=
-e still keep this check here to allow
-f38632197c49e6 drivers/gpu/arm/valhall/mali_kbase_mem_linux.c Nicolas Boich=
-at 2020-04-18  1071  	 * ease of modification for non-ION systems or system=
-s where ION has been patched.
-f38632197c49e6 drivers/gpu/arm/valhall/mali_kbase_mem_linux.c Nicolas Boich=
-at 2020-04-18  1072  	 */
-f38632197c49e6 drivers/gpu/arm/valhall/mali_kbase_mem_linux.c Nicolas Boich=
-at 2020-04-18  1073  #if KERNEL_VERSION(4, 6, 0) > LINUX_VERSION_CODE && !d=
-efined(CONFIG_CHROMEOS)
-f38632197c49e6 drivers/gpu/arm/valhall/mali_kbase_mem_linux.c Nicolas Boich=
-at 2020-04-18  1074  		dma_buf_end_cpu_access(dma_buf,
-f38632197c49e6 drivers/gpu/arm/valhall/mali_kbase_mem_linux.c Nicolas Boich=
-at 2020-04-18  1075  				0, dma_buf->size,
-f38632197c49e6 drivers/gpu/arm/valhall/mali_kbase_mem_linux.c Nicolas Boich=
-at 2020-04-18  1076  				dir);
-f38632197c49e6 drivers/gpu/arm/valhall/mali_kbase_mem_linux.c Nicolas Boich=
-at 2020-04-18  1077  		ret =3D 0;
-f38632197c49e6 drivers/gpu/arm/valhall/mali_kbase_mem_linux.c Nicolas Boich=
-at 2020-04-18  1078  #else
-f38632197c49e6 drivers/gpu/arm/valhall/mali_kbase_mem_linux.c Nicolas Boich=
-at 2020-04-18  1079  		ret =3D dma_buf_end_cpu_access(dma_buf,
-f38632197c49e6 drivers/gpu/arm/valhall/mali_kbase_mem_linux.c Nicolas Boich=
-at 2020-04-18  1080  				dir);
-f38632197c49e6 drivers/gpu/arm/valhall/mali_kbase_mem_linux.c Nicolas Boich=
-at 2020-04-18  1081  #endif
-f38632197c49e6 drivers/gpu/arm/valhall/mali_kbase_mem_linux.c Nicolas Boich=
-at 2020-04-18  1082  #endif /* KBASE_MEM_ION_SYNC_WORKAROUND */
-f38632197c49e6 drivers/gpu/arm/valhall/mali_kbase_mem_linux.c Nicolas Boich=
-at 2020-04-18  1083  		break;
-f38632197c49e6 drivers/gpu/arm/valhall/mali_kbase_mem_linux.c Nicolas Boich=
-at 2020-04-18  1084  	case KBASE_SYNC_TO_CPU:
-f38632197c49e6 drivers/gpu/arm/valhall/mali_kbase_mem_linux.c Nicolas Boich=
-at 2020-04-18  1085  		dev_dbg(kctx->kbdev->dev,
-f38632197c49e6 drivers/gpu/arm/valhall/mali_kbase_mem_linux.c Nicolas Boich=
-at 2020-04-18  1086  			"Syncing imported buffer at GPU VA %llx to CPU\n",
-f38632197c49e6 drivers/gpu/arm/valhall/mali_kbase_mem_linux.c Nicolas Boich=
-at 2020-04-18  1087  			reg->start_pfn);
-f38632197c49e6 drivers/gpu/arm/valhall/mali_kbase_mem_linux.c Nicolas Boich=
-at 2020-04-18  1088  #ifdef KBASE_MEM_ION_SYNC_WORKAROUND
-f38632197c49e6 drivers/gpu/arm/valhall/mali_kbase_mem_linux.c Nicolas Boich=
-at 2020-04-18  1089  		if (!WARN_ON(!reg->gpu_alloc->imported.umm.dma_attac=
-hment)) {
-f38632197c49e6 drivers/gpu/arm/valhall/mali_kbase_mem_linux.c Nicolas Boich=
-at 2020-04-18  1090  			struct dma_buf_attachment *attachment =3D reg->gpu_=
-alloc->imported.umm.dma_attachment;
-f38632197c49e6 drivers/gpu/arm/valhall/mali_kbase_mem_linux.c Nicolas Boich=
-at 2020-04-18  1091  			struct sg_table *sgt =3D reg->gpu_alloc->imported.u=
-mm.sgt;
-f38632197c49e6 drivers/gpu/arm/valhall/mali_kbase_mem_linux.c Nicolas Boich=
-at 2020-04-18  1092  =
+3009f891bb9f328 Kees Cook      2021-08-02  13  #define __compiletime_strlen=
+(p)				\
+3009f891bb9f328 Kees Cook      2021-08-02  14  ({							\
+3009f891bb9f328 Kees Cook      2021-08-02  15  	unsigned char *__p =3D (uns=
+igned char *)(p);      \
+3009f891bb9f328 Kees Cook      2021-08-02  16  	size_t ret =3D (size_t)-1;	=
+		\
+3009f891bb9f328 Kees Cook      2021-08-02  17  	size_t p_size =3D __builtin=
+_object_size(p, 1);	\
+3009f891bb9f328 Kees Cook      2021-08-02  18  	if (p_size !=3D (size_t)-1)=
+ {			\
+3009f891bb9f328 Kees Cook      2021-08-02  19  		size_t p_len =3D p_size - =
+1;		\
+3009f891bb9f328 Kees Cook      2021-08-02 @20  		if (__builtin_constant_p(_=
+_p[p_len]) &&	\
+3009f891bb9f328 Kees Cook      2021-08-02  21  		    __p[p_len] =3D=3D '\0'=
+)			\
+3009f891bb9f328 Kees Cook      2021-08-02  22  			ret =3D __builtin_strlen(=
+__p);	\
+3009f891bb9f328 Kees Cook      2021-08-02  23  	}						\
+3009f891bb9f328 Kees Cook      2021-08-02  24  	ret;						\
+3009f891bb9f328 Kees Cook      2021-08-02  25  })
+3009f891bb9f328 Kees Cook      2021-08-02  26  =
 
-f38632197c49e6 drivers/gpu/arm/valhall/mali_kbase_mem_linux.c Nicolas Boich=
-at 2020-04-18  1093  			dma_sync_sg_for_cpu(attachment->dev, sgt->sgl,
-f38632197c49e6 drivers/gpu/arm/valhall/mali_kbase_mem_linux.c Nicolas Boich=
-at 2020-04-18  1094  					sgt->nents, dir);
-f38632197c49e6 drivers/gpu/arm/valhall/mali_kbase_mem_linux.c Nicolas Boich=
-at 2020-04-18  1095  			ret =3D 0;
-f38632197c49e6 drivers/gpu/arm/valhall/mali_kbase_mem_linux.c Nicolas Boich=
-at 2020-04-18  1096  		}
-f38632197c49e6 drivers/gpu/arm/valhall/mali_kbase_mem_linux.c Nicolas Boich=
-at 2020-04-18  1097  #else
-f38632197c49e6 drivers/gpu/arm/valhall/mali_kbase_mem_linux.c Nicolas Boich=
-at 2020-04-18  1098  		ret =3D dma_buf_begin_cpu_access(dma_buf,
-f38632197c49e6 drivers/gpu/arm/valhall/mali_kbase_mem_linux.c Nicolas Boich=
-at 2020-04-18  1099  #if KERNEL_VERSION(4, 6, 0) > LINUX_VERSION_CODE && !d=
-efined(CONFIG_CHROMEOS)
-f38632197c49e6 drivers/gpu/arm/valhall/mali_kbase_mem_linux.c Nicolas Boich=
-at 2020-04-18  1100  				0, dma_buf->size,
-f38632197c49e6 drivers/gpu/arm/valhall/mali_kbase_mem_linux.c Nicolas Boich=
-at 2020-04-18  1101  #endif
-f38632197c49e6 drivers/gpu/arm/valhall/mali_kbase_mem_linux.c Nicolas Boich=
-at 2020-04-18  1102  				dir);
-f38632197c49e6 drivers/gpu/arm/valhall/mali_kbase_mem_linux.c Nicolas Boich=
-at 2020-04-18  1103  #endif /* KBASE_MEM_ION_SYNC_WORKAROUND */
-f38632197c49e6 drivers/gpu/arm/valhall/mali_kbase_mem_linux.c Nicolas Boich=
-at 2020-04-18  1104  		break;
-79b0a1f26446bb drivers/gpu/arm/valhall/mali_kbase_mem_linux.c Fei Shao     =
-   2021-12-13  1105  	}
-f38632197c49e6 drivers/gpu/arm/valhall/mali_kbase_mem_linux.c Nicolas Boich=
-at 2020-04-18  1106  =
-
-f38632197c49e6 drivers/gpu/arm/valhall/mali_kbase_mem_linux.c Nicolas Boich=
-at 2020-04-18  1107  	if (unlikely(ret))
-f38632197c49e6 drivers/gpu/arm/valhall/mali_kbase_mem_linux.c Nicolas Boich=
-at 2020-04-18  1108  		dev_warn(kctx->kbdev->dev,
-f38632197c49e6 drivers/gpu/arm/valhall/mali_kbase_mem_linux.c Nicolas Boich=
-at 2020-04-18  1109  			 "Failed to sync mem region %pK at GPU VA %llx: %d\=
-n",
-f38632197c49e6 drivers/gpu/arm/valhall/mali_kbase_mem_linux.c Nicolas Boich=
-at 2020-04-18  1110  			 reg, reg->start_pfn, ret);
-f38632197c49e6 drivers/gpu/arm/valhall/mali_kbase_mem_linux.c Nicolas Boich=
-at 2020-04-18  1111  =
-
-f38632197c49e6 drivers/gpu/arm/valhall/mali_kbase_mem_linux.c Nicolas Boich=
-at 2020-04-18  1112  	return ret;
-f38632197c49e6 drivers/gpu/arm/valhall/mali_kbase_mem_linux.c Nicolas Boich=
-at 2020-04-18  1113  }
-f38632197c49e6 drivers/gpu/arm/valhall/mali_kbase_mem_linux.c Nicolas Boich=
-at 2020-04-18  1114  =
-
-
-:::::: The code at line 1025 was first introduced by commit
-:::::: f38632197c49e6558fbbd293bcaa11c1cd91c2ca CHROMIUM: MALI: Apply Valha=
-ll r24p0 EAC release
-
-:::::: TO: Nicolas Boichat <drinkcat@chromium.org>
-:::::: CC: Guenter Roeck <groeck@chromium.org>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============4758970092265527129==--
+--===============0062733022456215173==--
 
