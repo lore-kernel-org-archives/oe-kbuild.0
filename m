@@ -1,219 +1,124 @@
-Content-Type: multipart/mixed; boundary="===============2818595308042678658=="
+Content-Type: multipart/mixed; boundary="===============0112166914535820375=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: kernel/sysctl.c:1256:48: warning: use of uninitialized value 'tmp' [CWE-457]
-Date: Sun, 07 Aug 2022 12:41:05 +0800
-Message-ID: <202208071208.038EwLzE-lkp@intel.com>
+Subject: drivers/s390/cio/vfio_ccw_cp.c:69 page_array_alloc() warn: double check that we're allocating correct size: 8 vs 16
+Date: Sun, 07 Aug 2022 12:41:02 +0800
+Message-ID: <202208071226.m6YIXeZR-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2818595308042678658==
+--===============0112166914535820375==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-:::::: =
-
-:::::: Manual check reason: "low confidence bisect report"
-:::::: Manual check reason: "low confidence static check warning: kernel/sy=
-sctl.c:1256:48: warning: use of uninitialized value 'tmp' [CWE-457] [-Wanal=
-yzer-use-of-uninitialized-value]"
-:::::: =
-
-
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Yuwei Wang <wangyuweihx@gmail.com>
-CC: Paolo Abeni <pabeni@redhat.com>
+TO: Nicolin Chen <nicolinc@nvidia.com>
+CC: Alex Williamson <alex.williamson@redhat.com>
+CC: Jason Gunthorpe <jgg@nvidia.com>
+CC: Eric Farman <farman@linux.ibm.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   1612c382ffbdf1f673caec76502b1c00e6d35363
-commit: c381d02b2fd5f82d2207db1b9b25ff60d0d9c27c sysctl: add proc_dointvec_=
-ms_jiffies_minmax
-date:   5 weeks ago
+commit: 1331460514ff7d378373223109eefae4cd55ec77 vfio/ccw: Change pa_pfn li=
+st to pa_iova list
+date:   12 days ago
 :::::: branch date: 4 hours ago
-:::::: commit date: 5 weeks ago
-config: arm-randconfig-c002-20220805 (https://download.01.org/0day-ci/archi=
-ve/20220807/202208071208.038EwLzE-lkp(a)intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3Dc381d02b2fd5f82d2207db1b9b25ff60d0d9c27c
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout c381d02b2fd5f82d2207db1b9b25ff60d0d9c27c
-        # save the config file
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cross=
- ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
-
+:::::: commit date: 12 days ago
+config: s390-randconfig-m041-20220807 (https://download.01.org/0day-ci/arch=
+ive/20220807/202208071226.m6YIXeZR-lkp(a)intel.com/config)
+compiler: s390-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-gcc-analyzer warnings: (new ones prefixed by >>)
-   kernel/sysctl.c: In function 'do_proc_dointvec_ms_jiffies_minmax_conv':
->> kernel/sysctl.c:1256:48: warning: use of uninitialized value 'tmp' [CWE-=
-457] [-Wanalyzer-use-of-uninitialized-value]
-    1256 |                 if ((param->min && *param->min > tmp) ||
-         |                                    ~~~~~~~~~~~~^~~~~
-     'do_proc_dointvec_ms_jiffies_minmax_conv': events 1-8
-       |
-       | 1243 |         int tmp, ret;
-       |      |             ^~~
-       |      |             |
-       |      |             (1) region created on stack here
-       |......
-       | 1252 |         if (ret)
-       |      |            ~ =
+smatch warnings:
+drivers/s390/cio/vfio_ccw_cp.c:69 page_array_alloc() warn: double check tha=
+t we're allocating correct size: 8 vs 16
+drivers/s390/cio/vfio_ccw_cp.c:76 page_array_alloc() warn: potentially one =
+past the end of array 'pa->pa_iova[pa->pa_nr]'
 
-       |      |            |
-       |      |            (2) following 'false' branch (when 'ret =3D=3D 0=
-')...
-       |......
-       | 1255 |         if (write) {
-       |      |            ~ =
+vim +69 drivers/s390/cio/vfio_ccw_cp.c
 
-       |      |            |
-       |      |            (3) ...to here
-       |      |            (4) following 'true' branch (when 'write !=3D 0'=
-)...
-       | 1256 |                 if ((param->min && *param->min > tmp) ||
-       |      |                    ~ ~~~~~~~~~~    ~~~~~~~~~~~~~~~~~
-       |      |                    |      |        |           |
-       |      |                    |      |        |           (8) use of u=
-ninitialized value 'tmp' here
-       |      |                    |      |        (7) ...to here
-       |      |                    |      (5) ...to here
-       |      |                    (6) following 'true' branch...
-       |
-   kernel/sysctl.c:1257:60: warning: use of uninitialized value 'tmp' [CWE-=
-457] [-Wanalyzer-use-of-uninitialized-value]
-    1257 |                                 (param->max && *param->max < tmp=
-))
-         |                                                ~~~~~~~~~~~~^~~~~
-     'do_proc_dointvec_ms_jiffies_minmax_conv': events 1-8
-       |
-       | 1243 |         int tmp, ret;
-       |      |             ^~~
-       |      |             |
-       |      |             (1) region created on stack here
-       |......
-       | 1252 |         if (ret)
-       |      |            ~ =
+0a19e61e6d4c61 Dong Jia Shi 2017-03-17  40  =
 
-       |      |            |
-       |      |            (2) following 'false' branch (when 'ret =3D=3D 0=
-')...
-       |......
-       | 1255 |         if (write) {
-       |      |            ~ =
+0a19e61e6d4c61 Dong Jia Shi 2017-03-17  41  /*
+1331460514ff7d Nicolin Chen 2022-07-22  42   * page_array_alloc() - alloc m=
+emory for page array
+1331460514ff7d Nicolin Chen 2022-07-22  43   * @pa: page_array on which to =
+perform the operation
+5c1cfb1c3948fe Dong Jia Shi 2018-05-23  44   * @iova: target guest physical=
+ address
+5c1cfb1c3948fe Dong Jia Shi 2018-05-23  45   * @len: number of bytes that s=
+hould be pinned from @iova
+0a19e61e6d4c61 Dong Jia Shi 2017-03-17  46   *
+1331460514ff7d Nicolin Chen 2022-07-22  47   * Attempt to allocate memory f=
+or page array.
+0a19e61e6d4c61 Dong Jia Shi 2017-03-17  48   *
+1331460514ff7d Nicolin Chen 2022-07-22  49   * Usage of page_array:
+1331460514ff7d Nicolin Chen 2022-07-22  50   * We expect (pa_nr =3D=3D 0) a=
+nd (pa_iova =3D=3D NULL), any field in
+5c1cfb1c3948fe Dong Jia Shi 2018-05-23  51   * this structure will be fille=
+d in by this function.
+0a19e61e6d4c61 Dong Jia Shi 2017-03-17  52   *
+0a19e61e6d4c61 Dong Jia Shi 2017-03-17  53   * Returns:
+1331460514ff7d Nicolin Chen 2022-07-22  54   *         0 if page array is a=
+llocated
+1331460514ff7d Nicolin Chen 2022-07-22  55   *   -EINVAL if pa->pa_nr is no=
+t initially zero, or pa->pa_iova is not NULL
+e4f3f18b12324e Eric Farman  2019-05-15  56   *   -ENOMEM if alloc failed
+0a19e61e6d4c61 Dong Jia Shi 2017-03-17  57   */
+1331460514ff7d Nicolin Chen 2022-07-22  58  static int page_array_alloc(str=
+uct page_array *pa, u64 iova, unsigned int len)
+0a19e61e6d4c61 Dong Jia Shi 2017-03-17  59  {
+e4f3f18b12324e Eric Farman  2019-05-15  60  	int i;
+0a19e61e6d4c61 Dong Jia Shi 2017-03-17  61  =
 
-       |      |            |
-       |      |            (3) ...to here
-       |      |            (4) following 'true' branch (when 'write !=3D 0'=
-)...
-       | 1256 |                 if ((param->min && *param->min > tmp) ||
-       |      |                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |                           |                           |
-       |      |                           (5) ...to here              (6) f=
-ollowing 'true' branch...
-       | 1257 |                                 (param->max && *param->max =
-< tmp))
-       |      |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~
-       |      |                                                |           |
-       |      |                                                |           =
-(8) use of uninitialized value 'tmp' here
-       |      |                                                (7) ...to he=
-re
-       |
-   kernel/sysctl.c:1259:23: warning: use of uninitialized value 'tmp' [CWE-=
-457] [-Wanalyzer-use-of-uninitialized-value]
-    1259 |                 *valp =3D tmp;
-         |                 ~~~~~~^~~~~
-     'do_proc_dointvec_ms_jiffies_minmax_conv': events 1-6
-       |
-       | 1243 |         int tmp, ret;
-       |      |             ^~~
-       |      |             |
-       |      |             (1) region created on stack here
-       |......
-       | 1252 |         if (ret)
-       |      |            ~ =
+1331460514ff7d Nicolin Chen 2022-07-22  62  	if (pa->pa_nr || pa->pa_iova)
+0a19e61e6d4c61 Dong Jia Shi 2017-03-17  63  		return -EINVAL;
+0a19e61e6d4c61 Dong Jia Shi 2017-03-17  64  =
 
-       |      |            |
-       |      |            (2) following 'false' branch (when 'ret =3D=3D 0=
-')...
-       |......
-       | 1255 |         if (write) {
-       |      |            ~ =
+0a19e61e6d4c61 Dong Jia Shi 2017-03-17  65  	pa->pa_nr =3D ((iova & ~PAGE_M=
+ASK) + len + (PAGE_SIZE - 1)) >> PAGE_SHIFT;
+0a19e61e6d4c61 Dong Jia Shi 2017-03-17  66  	if (!pa->pa_nr)
+0a19e61e6d4c61 Dong Jia Shi 2017-03-17  67  		return -EINVAL;
+0a19e61e6d4c61 Dong Jia Shi 2017-03-17  68  =
 
-       |      |            |
-       |      |            (3) ...to here
-       |      |            (4) following 'true' branch (when 'write !=3D 0'=
-)...
-       | 1256 |                 if ((param->min && *param->min > tmp) ||
-       |      |                      ~~~~~~~~~~
-       |      |                           |
-       |      |                           (5) ...to here
-       |......
-       | 1259 |                 *valp =3D tmp;
-       |      |                 ~~~~~~~~~~~
-       |      |                       |
-       |      |                       (6) use of uninitialized value 'tmp' =
-here
-       |
+1331460514ff7d Nicolin Chen 2022-07-22 @69  	pa->pa_iova =3D kcalloc(pa->pa=
+_nr,
+1331460514ff7d Nicolin Chen 2022-07-22  70  			      sizeof(*pa->pa_iova) +=
+ sizeof(*pa->pa_pfn),
+0a19e61e6d4c61 Dong Jia Shi 2017-03-17  71  			      GFP_KERNEL);
+1331460514ff7d Nicolin Chen 2022-07-22  72  	if (unlikely(!pa->pa_iova)) {
+c1ab69268d124e Farhan Ali   2019-07-11  73  		pa->pa_nr =3D 0;
+0a19e61e6d4c61 Dong Jia Shi 2017-03-17  74  		return -ENOMEM;
+c1ab69268d124e Farhan Ali   2019-07-11  75  	}
+1331460514ff7d Nicolin Chen 2022-07-22 @76  	pa->pa_pfn =3D (unsigned long =
+*)&pa->pa_iova[pa->pa_nr];
+0a19e61e6d4c61 Dong Jia Shi 2017-03-17  77  =
 
-vim +/tmp +1256 kernel/sysctl.c
+1331460514ff7d Nicolin Chen 2022-07-22  78  	pa->pa_iova[0] =3D iova;
+c34a12e6a3df3a Eric Farman  2019-05-15  79  	pa->pa_pfn[0] =3D -1ULL;
+c34a12e6a3df3a Eric Farman  2019-05-15  80  	for (i =3D 1; i < pa->pa_nr; i=
+++) {
+1331460514ff7d Nicolin Chen 2022-07-22  81  		pa->pa_iova[i] =3D pa->pa_iov=
+a[i - 1] + PAGE_SIZE;
+c34a12e6a3df3a Eric Farman  2019-05-15  82  		pa->pa_pfn[i] =3D -1ULL;
+c34a12e6a3df3a Eric Farman  2019-05-15  83  	}
+5c1cfb1c3948fe Dong Jia Shi 2018-05-23  84  =
 
-f461d2dcd511c0 Christoph Hellwig 2020-04-24  1239  =
-
-c381d02b2fd5f8 Yuwei Wang        2022-06-29  1240  static int do_proc_doint=
-vec_ms_jiffies_minmax_conv(bool *negp, unsigned long *lvalp,
-c381d02b2fd5f8 Yuwei Wang        2022-06-29  1241  						int *valp, int wri=
-te, void *data)
-c381d02b2fd5f8 Yuwei Wang        2022-06-29  1242  {
-c381d02b2fd5f8 Yuwei Wang        2022-06-29  1243  	int tmp, ret;
-c381d02b2fd5f8 Yuwei Wang        2022-06-29  1244  	struct do_proc_dointvec=
-_minmax_conv_param *param =3D data;
-c381d02b2fd5f8 Yuwei Wang        2022-06-29  1245  	/*
-c381d02b2fd5f8 Yuwei Wang        2022-06-29  1246  	 * If writing, first do=
- so via a temporary local int so we can
-c381d02b2fd5f8 Yuwei Wang        2022-06-29  1247  	 * bounds-check it befo=
-re touching *valp.
-c381d02b2fd5f8 Yuwei Wang        2022-06-29  1248  	 */
-c381d02b2fd5f8 Yuwei Wang        2022-06-29  1249  	int *ip =3D write ? &tm=
-p : valp;
-c381d02b2fd5f8 Yuwei Wang        2022-06-29  1250  =
-
-c381d02b2fd5f8 Yuwei Wang        2022-06-29  1251  	ret =3D do_proc_dointve=
-c_ms_jiffies_conv(negp, lvalp, ip, write, data);
-c381d02b2fd5f8 Yuwei Wang        2022-06-29  1252  	if (ret)
-c381d02b2fd5f8 Yuwei Wang        2022-06-29  1253  		return ret;
-c381d02b2fd5f8 Yuwei Wang        2022-06-29  1254  =
-
-c381d02b2fd5f8 Yuwei Wang        2022-06-29  1255  	if (write) {
-c381d02b2fd5f8 Yuwei Wang        2022-06-29 @1256  		if ((param->min && *pa=
-ram->min > tmp) ||
-c381d02b2fd5f8 Yuwei Wang        2022-06-29  1257  				(param->max && *para=
-m->max < tmp))
-c381d02b2fd5f8 Yuwei Wang        2022-06-29  1258  			return -EINVAL;
-c381d02b2fd5f8 Yuwei Wang        2022-06-29  1259  		*valp =3D tmp;
-c381d02b2fd5f8 Yuwei Wang        2022-06-29  1260  	}
-c381d02b2fd5f8 Yuwei Wang        2022-06-29  1261  	return 0;
-c381d02b2fd5f8 Yuwei Wang        2022-06-29  1262  }
-c381d02b2fd5f8 Yuwei Wang        2022-06-29  1263  =
+e4f3f18b12324e Eric Farman  2019-05-15  85  	return 0;
+e4f3f18b12324e Eric Farman  2019-05-15  86  }
+e4f3f18b12324e Eric Farman  2019-05-15  87  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============2818595308042678658==--
+--===============0112166914535820375==--
 
