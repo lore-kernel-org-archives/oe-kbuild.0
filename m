@@ -1,390 +1,282 @@
-Content-Type: multipart/mixed; boundary="===============2631891421201632599=="
+Content-Type: multipart/mixed; boundary="===============0592089341143399568=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: kernel/kallsyms.c:855:41: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]
-Date: Mon, 08 Aug 2022 00:21:10 +0800
-Message-ID: <202208080056.PZ8Jd38I-lkp@intel.com>
+Subject: [djwong-xfs:vectorized-scrub 202/411] fs/remap_range.c:571:17: warning: use of uninitialized value '<unknown>' [CWE-457]
+Date: Mon, 08 Aug 2022 00:00:38 +0800
+Message-ID: <202208072326.y46DqvlU-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2631891421201632599==
+--===============0592089341143399568==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 :::::: =
 
-:::::: Manual check reason: "low confidence static check warning: kernel/ka=
-llsyms.c:855:41: warning: Dereference of null pointer [clang-analyzer-core.=
-NullDereference]"
+:::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "low confidence static check warning: fs/remap_=
+range.c:571:17: warning: use of uninitialized value '<unknown>' [CWE-457] [=
+-Wanalyzer-use-of-uninitialized-value]"
 :::::: =
 
 
 BCC: lkp(a)intel.com
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-CC: linux-kernel(a)vger.kernel.org
-TO: Alan Maguire <alan.maguire@oracle.com>
-CC: Alexei Starovoitov <ast@kernel.org>
+TO: "Darrick J. Wong" <darrick.wong@oracle.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   1612c382ffbdf1f673caec76502b1c00e6d35363
-commit: 647cafa22349026a8435030e9157074ab7fe5710 bpf: add a ksym BPF iterat=
-or
-date:   4 weeks ago
-:::::: branch date: 16 hours ago
-:::::: commit date: 4 weeks ago
-config: s390-randconfig-c005-20220804 (https://download.01.org/0day-ci/arch=
-ive/20220808/202208080056.PZ8Jd38I-lkp(a)intel.com/config)
-compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 26dd42=
-705c2af0b8f6e5d6cdb32c9bd5ed9524eb)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.gi=
+t vectorized-scrub
+head:   1d79555b9e2bc74efef217aee3f208794112be10
+commit: 23eba991e1a20b4a71314c01541d2e30af80a809 [202/411] vfs: introduce n=
+ew file range exchange ioctl
+:::::: branch date: 12 days ago
+:::::: commit date: 12 days ago
+config: arm-randconfig-c002-20220804 (https://download.01.org/0day-ci/archi=
+ve/20220807/202208072326.y46DqvlU-lkp(a)intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install s390 cross compiling tool for clang build
-        # apt-get install binutils-s390x-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D647cafa22349026a8435030e9157074ab7fe5710
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 647cafa22349026a8435030e9157074ab7fe5710
+        # https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.=
+git/commit/?id=3D23eba991e1a20b4a71314c01541d2e30af80a809
+        git remote add djwong-xfs https://git.kernel.org/pub/scm/linux/kern=
+el/git/djwong/xfs-linux.git
+        git fetch --no-tags djwong-xfs vectorized-scrub
+        git checkout 23eba991e1a20b4a71314c01541d2e30af80a809
         # save the config file
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Ds390 clang-analyzer =
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cross=
+ ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
 
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 
-clang-analyzer warnings: (new ones prefixed by >>)
-   #define __underlying_memset     __builtin_memset
-                                   ^~~~~~~~~~~~~~~~
-   kernel/dma/direct.c:383:2: note: Call to function 'memset' is insecure a=
-s it does not provide security checks introduced in the C11 standard. Repla=
-ce with analogous functions that support length arguments or provides bound=
-ary checks such as 'memset_s' in case of C11
-           memset(ret, 0, size);
-           ^
-   include/linux/fortify-string.h:288:25: note: expanded from macro 'memset'
-   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:281:2: note: expanded from macro '__forti=
-fy_memset_chk'
-           __underlying_memset(p, c, __fortify_size);                      \
-           ^~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
-lying_memset'
-   #define __underlying_memset     __builtin_memset
-                                   ^~~~~~~~~~~~~~~~
-   Suppressed 60 warnings (48 in non-user code, 12 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   53 warnings generated.
-   kernel/gcov/clang.c:230:3: warning: Call to function 'memset' is insecur=
-e as it does not provide security checks introduced in the C11 standard. Re=
-place with analogous functions that support length arguments or provides bo=
-undary checks such as 'memset_s' in case of C11 [clang-analyzer-security.in=
-secureAPI.DeprecatedOrUnsafeBufferHandling]
-                   memset(fn->counters, 0,
-                   ^
-   include/linux/fortify-string.h:288:25: note: expanded from macro 'memset'
-   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:281:2: note: expanded from macro '__forti=
-fy_memset_chk'
-           __underlying_memset(p, c, __fortify_size);                      \
-           ^~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
-lying_memset'
-   #define __underlying_memset     __builtin_memset
-                                   ^~~~~~~~~~~~~~~~
-   kernel/gcov/clang.c:230:3: note: Call to function 'memset' is insecure a=
-s it does not provide security checks introduced in the C11 standard. Repla=
-ce with analogous functions that support length arguments or provides bound=
-ary checks such as 'memset_s' in case of C11
-                   memset(fn->counters, 0,
-                   ^
-   include/linux/fortify-string.h:288:25: note: expanded from macro 'memset'
-   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:281:2: note: expanded from macro '__forti=
-fy_memset_chk'
-           __underlying_memset(p, c, __fortify_size);                      \
-           ^~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
-lying_memset'
-   #define __underlying_memset     __builtin_memset
-                                   ^~~~~~~~~~~~~~~~
-   kernel/gcov/clang.c:302:2: warning: Call to function 'memcpy' is insecur=
-e as it does not provide security checks introduced in the C11 standard. Re=
-place with analogous functions that support length arguments or provides bo=
-undary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.in=
-secureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(fn_dup->counters, fn->counters, cv_size);
-           ^
-   include/linux/fortify-string.h:385:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:378:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   kernel/gcov/clang.c:302:2: note: Call to function 'memcpy' is insecure a=
-s it does not provide security checks introduced in the C11 standard. Repla=
-ce with analogous functions that support length arguments or provides bound=
-ary checks such as 'memcpy_s' in case of C11
-           memcpy(fn_dup->counters, fn->counters, cv_size);
-           ^
-   include/linux/fortify-string.h:385:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:378:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   Suppressed 51 warnings (45 in non-user code, 6 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   119 warnings generated.
-   kernel/kallsyms.c:458:10: warning: Call to function 'sprintf' is insecur=
-e as it does not provide security checks introduced in the C11 standard. Re=
-place with analogous functions that support length arguments or provides bo=
-undary checks such as 'sprintf_s' in case of C11 [clang-analyzer-security.i=
-nsecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   return sprintf(buffer, "0x%lx", address - symbol_offset);
-                          ^~~~~~~
-   kernel/kallsyms.c:458:10: note: Call to function 'sprintf' is insecure a=
-s it does not provide security checks introduced in the C11 standard. Repla=
-ce with analogous functions that support length arguments or provides bound=
-ary checks such as 'sprintf_s' in case of C11
-                   return sprintf(buffer, "0x%lx", address - symbol_offset);
-                          ^~~~~~~
-   kernel/kallsyms.c:461:3: warning: Call to function 'strcpy' is insecure =
-as it does not provide bounding of the memory buffer. Replace unbounded cop=
-y functions with analogous functions that support length arguments such as =
-'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-                   strcpy(buffer, name);
-                   ^~~~~~
-   kernel/kallsyms.c:461:3: note: Call to function 'strcpy' is insecure as =
-it does not provide bounding of the memory buffer. Replace unbounded copy f=
-unctions with analogous functions that support length arguments such as 'st=
-rlcpy'. CWE-119
-                   strcpy(buffer, name);
-                   ^~~~~~
-   kernel/kallsyms.c:466:10: warning: Call to function 'sprintf' is insecur=
-e as it does not provide security checks introduced in the C11 standard. Re=
-place with analogous functions that support length arguments or provides bo=
-undary checks such as 'sprintf_s' in case of C11 [clang-analyzer-security.i=
-nsecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   len +=3D sprintf(buffer + len, "+%#lx/%#lx", offset, siz=
-e);
-                          ^~~~~~~
-   kernel/kallsyms.c:466:10: note: Call to function 'sprintf' is insecure a=
-s it does not provide security checks introduced in the C11 standard. Repla=
-ce with analogous functions that support length arguments or provides bound=
-ary checks such as 'sprintf_s' in case of C11
-                   len +=3D sprintf(buffer + len, "+%#lx/%#lx", offset, siz=
-e);
-                          ^~~~~~~
-   kernel/kallsyms.c:469:10: warning: Call to function 'sprintf' is insecur=
-e as it does not provide bounding of the memory buffer or security checks i=
-ntroduced in the C11 standard. Replace with analogous functions that suppor=
-t length arguments or provides boundary checks such as 'sprintf_s' in case =
-of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandlin=
-g]
-                   len +=3D sprintf(buffer + len, " [%s", modname);
-                          ^~~~~~~
-   kernel/kallsyms.c:469:10: note: Call to function 'sprintf' is insecure a=
-s it does not provide bounding of the memory buffer or security checks intr=
-oduced in the C11 standard. Replace with analogous functions that support l=
-ength arguments or provides boundary checks such as 'sprintf_s' in case of =
-C11
-                   len +=3D sprintf(buffer + len, " [%s", modname);
-                          ^~~~~~~
-   kernel/kallsyms.c:479:10: warning: Call to function 'sprintf' is insecur=
-e as it does not provide security checks introduced in the C11 standard. Re=
-place with analogous functions that support length arguments or provides bo=
-undary checks such as 'sprintf_s' in case of C11 [clang-analyzer-security.i=
-nsecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   len +=3D sprintf(buffer + len, "]");
-                          ^~~~~~~
-   kernel/kallsyms.c:479:10: note: Call to function 'sprintf' is insecure a=
-s it does not provide security checks introduced in the C11 standard. Repla=
-ce with analogous functions that support length arguments or provides bound=
-ary checks such as 'sprintf_s' in case of C11
-                   len +=3D sprintf(buffer + len, "]");
-                          ^~~~~~~
->> kernel/kallsyms.c:855:41: warning: Dereference of null pointer [clang-an=
-alyzer-core.NullDereference]
-           iter->show_value =3D kallsyms_show_value(current_cred());
-                                                  ^
-   include/linux/cred.h:299:28: note: expanded from macro 'current_cred'
-           rcu_dereference_protected(current->cred, 1)
-           ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~
-   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'curren=
-t'
-   #define current ((struct task_struct *const)S390_lowcore.current_task)
-                                               ^
-   arch/s390/include/asm/lowcore.h:213:22: note: expanded from macro 'S390_=
-lowcore'
-   #define S390_lowcore (*((struct lowcore *) 0))
-                        ^
-   include/linux/rcupdate.h:595:31: note: expanded from macro 'rcu_derefere=
-nce_protected'
-           __rcu_dereference_protected((p), __UNIQUE_ID(rcu), (c), __rcu)
-           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/rcupdate.h:401:35: note: expanded from macro '__rcu_derefe=
-rence_protected'
-           ((typeof(*p) __force __kernel *)(p)); \
-                                            ^
-   kernel/kallsyms.c:855:41: note: Left side of '&&' is false
-           iter->show_value =3D kallsyms_show_value(current_cred());
-                                                  ^
-   include/linux/cred.h:299:2: note: expanded from macro 'current_cred'
-           rcu_dereference_protected(current->cred, 1)
-           ^
-   include/linux/rcupdate.h:595:2: note: expanded from macro 'rcu_dereferen=
-ce_protected'
-           __rcu_dereference_protected((p), __UNIQUE_ID(rcu), (c), __rcu)
-           ^
-   include/linux/rcupdate.h:399:2: note: expanded from macro '__rcu_derefer=
-ence_protected'
-           RCU_LOCKDEP_WARN(!(c), "suspicious rcu_dereference_protected() u=
-sage"); \
-           ^
-   include/linux/rcupdate.h:348:48: note: expanded from macro 'RCU_LOCKDEP_=
-WARN'
-   #define RCU_LOCKDEP_WARN(c, s) do { } while (0 && (c))
-                                                  ^
-   kernel/kallsyms.c:855:41: note: Loop condition is false.  Exiting loop
-           iter->show_value =3D kallsyms_show_value(current_cred());
-                                                  ^
-   include/linux/cred.h:299:2: note: expanded from macro 'current_cred'
-           rcu_dereference_protected(current->cred, 1)
-           ^
-   include/linux/rcupdate.h:595:2: note: expanded from macro 'rcu_dereferen=
-ce_protected'
-           __rcu_dereference_protected((p), __UNIQUE_ID(rcu), (c), __rcu)
-           ^
-   include/linux/rcupdate.h:399:2: note: expanded from macro '__rcu_derefer=
-ence_protected'
-           RCU_LOCKDEP_WARN(!(c), "suspicious rcu_dereference_protected() u=
-sage"); \
-           ^
-   include/linux/rcupdate.h:348:32: note: expanded from macro 'RCU_LOCKDEP_=
-WARN'
-   #define RCU_LOCKDEP_WARN(c, s) do { } while (0 && (c))
-                                  ^
-   kernel/kallsyms.c:855:41: note: Dereference of null pointer
-           iter->show_value =3D kallsyms_show_value(current_cred());
-                                                  ^
-   include/linux/cred.h:299:28: note: expanded from macro 'current_cred'
-           rcu_dereference_protected(current->cred, 1)
-           ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~
-   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'curren=
-t'
-   #define current ((struct task_struct *const)S390_lowcore.current_task)
-                                               ^
-   arch/s390/include/asm/lowcore.h:213:22: note: expanded from macro 'S390_=
-lowcore'
-   #define S390_lowcore (*((struct lowcore *) 0))
-                        ^
-   include/linux/rcupdate.h:595:31: note: expanded from macro 'rcu_derefere=
-nce_protected'
-           __rcu_dereference_protected((p), __UNIQUE_ID(rcu), (c), __rcu)
-           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/rcupdate.h:401:35: note: expanded from macro '__rcu_derefe=
-rence_protected'
-           ((typeof(*p) __force __kernel *)(p)); \
-                                            ^
-   Suppressed 113 warnings (100 in non-user code, 13 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   61 warnings generated.
-   Suppressed 61 warnings (49 in non-user code, 12 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   67 warnings generated.
-   include/linux/trace_events.h:161:17: warning: Dereference of null pointe=
-r [clang-analyzer-core.NullDereference]
-           entry->pid                      =3D current->pid;
-                                             ^
-   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'curren=
-t'
-   #define current ((struct task_struct *const)S390_lowcore.current_task)
-                                               ^
-   arch/s390/include/asm/lowcore.h:213:22: note: expanded from macro 'S390_=
-lowcore'
-   #define S390_lowcore (*((struct lowcore *) 0))
-                        ^
-   kernel/trace/trace_events_inject.c:293:6: note: Assuming the condition i=
-s false
-           if (cnt >=3D PAGE_SIZE)
-               ^~~~~~~~~~~~~~~~
-   kernel/trace/trace_events_inject.c:293:2: note: Taking false branch
-           if (cnt >=3D PAGE_SIZE)
-           ^
-   kernel/trace/trace_events_inject.c:297:2: note: Taking false branch
-           if (IS_ERR(buf))
-           ^
-   kernel/trace/trace_events_inject.c:303:6: note: Assuming 'file' is non-n=
-ull
-           if (file) {
-               ^~~~
-   kernel/trace/trace_events_inject.c:303:2: note: Taking true branch
-           if (file) {
-           ^
-   kernel/trace/trace_events_inject.c:305:10: note: Calling 'parse_entry'
-                   size =3D parse_entry(buf, call, &entry);
-                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/trace/trace_events_inject.c:206:6: note: Assuming 'entry' is non-=
-null
-           if (!entry)
+gcc-analyzer warnings: (new ones prefixed by >>)
+   fs/remap_range.c: In function 'generic_xchg_file_range_checks':
+>> fs/remap_range.c:571:17: warning: use of uninitialized value '<unknown>'=
+ [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+     571 |         int64_t test_len;
+         |                 ^~~~~~~~
+     'generic_xchg_file_range_checks': event 1
+       |
+       |  571 |         int64_t test_len;
+       |      |                 ^~~~~~~~
+       |      |                 |
+       |      |                 (1) use of uninitialized value '<unknown>' =
+here
+       |
 
-vim +855 kernel/kallsyms.c
+vim +571 fs/remap_range.c
 
-647cafa2234902 Alan Maguire 2022-07-12  845  =
+23eba991e1a20b Darrick J. Wong 2022-07-14  561  =
 
-647cafa2234902 Alan Maguire 2022-07-12  846  static int bpf_iter_ksym_init(=
-void *priv_data, struct bpf_iter_aux_info *aux)
-647cafa2234902 Alan Maguire 2022-07-12  847  {
-647cafa2234902 Alan Maguire 2022-07-12  848  	struct kallsym_iter *iter =3D=
- priv_data;
-647cafa2234902 Alan Maguire 2022-07-12  849  =
+23eba991e1a20b Darrick J. Wong 2022-07-14  562  /* Performs necessary check=
+s before doing a range exchange. */
+23eba991e1a20b Darrick J. Wong 2022-07-14  563  static int generic_xchg_fil=
+e_range_checks(struct file *file1,
+23eba991e1a20b Darrick J. Wong 2022-07-14  564  					  struct file *file2,
+23eba991e1a20b Darrick J. Wong 2022-07-14  565  					  struct file_xchg_ran=
+ge *fxr,
+23eba991e1a20b Darrick J. Wong 2022-07-14  566  					  unsigned int blocksi=
+ze)
+23eba991e1a20b Darrick J. Wong 2022-07-14  567  {
+23eba991e1a20b Darrick J. Wong 2022-07-14  568  	struct inode *inode1 =3D f=
+ile1->f_mapping->host;
+23eba991e1a20b Darrick J. Wong 2022-07-14  569  	struct inode *inode2 =3D f=
+ile2->f_mapping->host;
+23eba991e1a20b Darrick J. Wong 2022-07-14  570  	uint64_t blkmask =3D block=
+size - 1;
+23eba991e1a20b Darrick J. Wong 2022-07-14 @571  	int64_t test_len;
+23eba991e1a20b Darrick J. Wong 2022-07-14  572  	uint64_t blen;
+23eba991e1a20b Darrick J. Wong 2022-07-14  573  	loff_t size1, size2;
+23eba991e1a20b Darrick J. Wong 2022-07-14  574  	int ret;
+23eba991e1a20b Darrick J. Wong 2022-07-14  575  =
 
-647cafa2234902 Alan Maguire 2022-07-12  850  	reset_iter(iter, 0);
-647cafa2234902 Alan Maguire 2022-07-12  851  =
+23eba991e1a20b Darrick J. Wong 2022-07-14  576  	/* Don't touch certain kin=
+ds of inodes */
+23eba991e1a20b Darrick J. Wong 2022-07-14  577  	if (IS_IMMUTABLE(inode1) |=
+| IS_IMMUTABLE(inode2))
+23eba991e1a20b Darrick J. Wong 2022-07-14  578  		return -EPERM;
+23eba991e1a20b Darrick J. Wong 2022-07-14  579  	if (IS_SWAPFILE(inode1) ||=
+ IS_SWAPFILE(inode2))
+23eba991e1a20b Darrick J. Wong 2022-07-14  580  		return -ETXTBSY;
+23eba991e1a20b Darrick J. Wong 2022-07-14  581  =
 
-647cafa2234902 Alan Maguire 2022-07-12  852  	/* cache here as in kallsyms_=
-open() case; use current process
-647cafa2234902 Alan Maguire 2022-07-12  853  	 * credentials to tell BPF it=
-erators if values should be shown.
-647cafa2234902 Alan Maguire 2022-07-12  854  	 */
-647cafa2234902 Alan Maguire 2022-07-12 @855  	iter->show_value =3D kallsyms=
-_show_value(current_cred());
-647cafa2234902 Alan Maguire 2022-07-12  856  =
+23eba991e1a20b Darrick J. Wong 2022-07-14  582  	size1 =3D i_size_read(inod=
+e1);
+23eba991e1a20b Darrick J. Wong 2022-07-14  583  	size2 =3D i_size_read(inod=
+e2);
+23eba991e1a20b Darrick J. Wong 2022-07-14  584  =
 
-647cafa2234902 Alan Maguire 2022-07-12  857  	return 0;
-647cafa2234902 Alan Maguire 2022-07-12  858  }
-647cafa2234902 Alan Maguire 2022-07-12  859  =
+23eba991e1a20b Darrick J. Wong 2022-07-14  585  	/* Ranges cannot start aft=
+er EOF. */
+23eba991e1a20b Darrick J. Wong 2022-07-14  586  	if (fxr->file1_offset > si=
+ze1 || fxr->file2_offset > size2)
+23eba991e1a20b Darrick J. Wong 2022-07-14  587  		return -EINVAL;
+23eba991e1a20b Darrick J. Wong 2022-07-14  588  =
+
+23eba991e1a20b Darrick J. Wong 2022-07-14  589  	/*
+23eba991e1a20b Darrick J. Wong 2022-07-14  590  	 * If the caller asked for=
+ full files, check that the offset/length
+23eba991e1a20b Darrick J. Wong 2022-07-14  591  	 * values cover all of bot=
+h files.
+23eba991e1a20b Darrick J. Wong 2022-07-14  592  	 */
+23eba991e1a20b Darrick J. Wong 2022-07-14  593  	if ((fxr->flags & FILE_XCH=
+G_RANGE_FULL_FILES) &&
+23eba991e1a20b Darrick J. Wong 2022-07-14  594  	    (fxr->file1_offset !=
+=3D 0 || fxr->file2_offset !=3D 0 ||
+23eba991e1a20b Darrick J. Wong 2022-07-14  595  	     fxr->length !=3D size=
+1 || fxr->length !=3D size2))
+23eba991e1a20b Darrick J. Wong 2022-07-14  596  		return -EDOM;
+23eba991e1a20b Darrick J. Wong 2022-07-14  597  =
+
+23eba991e1a20b Darrick J. Wong 2022-07-14  598  	/*
+23eba991e1a20b Darrick J. Wong 2022-07-14  599  	 * If the caller said to e=
+xchange to EOF, we set the length of the
+23eba991e1a20b Darrick J. Wong 2022-07-14  600  	 * request large enough to=
+ cover everything to the end of both files.
+23eba991e1a20b Darrick J. Wong 2022-07-14  601  	 */
+23eba991e1a20b Darrick J. Wong 2022-07-14  602  	if (fxr->flags & FILE_XCHG=
+_RANGE_TO_EOF)
+23eba991e1a20b Darrick J. Wong 2022-07-14  603  		fxr->length =3D max_t(int=
+64_t, size1 - fxr->file1_offset,
+23eba991e1a20b Darrick J. Wong 2022-07-14  604  					     size2 - fxr->file=
+2_offset);
+23eba991e1a20b Darrick J. Wong 2022-07-14  605  =
+
+23eba991e1a20b Darrick J. Wong 2022-07-14  606  	/* The start of both range=
+s must be aligned to an fs block. */
+23eba991e1a20b Darrick J. Wong 2022-07-14  607  	if (!IS_ALIGNED(fxr->file1=
+_offset, blocksize) ||
+23eba991e1a20b Darrick J. Wong 2022-07-14  608  	    !IS_ALIGNED(fxr->file2=
+_offset, blocksize))
+23eba991e1a20b Darrick J. Wong 2022-07-14  609  		return -EINVAL;
+23eba991e1a20b Darrick J. Wong 2022-07-14  610  =
+
+23eba991e1a20b Darrick J. Wong 2022-07-14  611  	/* Ensure offsets don't wr=
+ap. */
+23eba991e1a20b Darrick J. Wong 2022-07-14  612  	if (fxr->file1_offset + fx=
+r->length < fxr->file1_offset ||
+23eba991e1a20b Darrick J. Wong 2022-07-14  613  	    fxr->file2_offset + fx=
+r->length < fxr->file2_offset)
+23eba991e1a20b Darrick J. Wong 2022-07-14  614  		return -EINVAL;
+23eba991e1a20b Darrick J. Wong 2022-07-14  615  =
+
+23eba991e1a20b Darrick J. Wong 2022-07-14  616  	/*
+23eba991e1a20b Darrick J. Wong 2022-07-14  617  	 * We require both ranges =
+to be within EOF, unless we're exchanging
+23eba991e1a20b Darrick J. Wong 2022-07-14  618  	 * to EOF.  generic_xchg_r=
+ange_prep already checked that both
+23eba991e1a20b Darrick J. Wong 2022-07-14  619  	 * fxr->file1_offset and f=
+xr->file2_offset are within EOF.
+23eba991e1a20b Darrick J. Wong 2022-07-14  620  	 */
+23eba991e1a20b Darrick J. Wong 2022-07-14  621  	if (!(fxr->flags & FILE_XC=
+HG_RANGE_TO_EOF) &&
+23eba991e1a20b Darrick J. Wong 2022-07-14  622  	    (fxr->file1_offset + f=
+xr->length > size1 ||
+23eba991e1a20b Darrick J. Wong 2022-07-14  623  	     fxr->file2_offset + f=
+xr->length > size2))
+23eba991e1a20b Darrick J. Wong 2022-07-14  624  		return -EINVAL;
+23eba991e1a20b Darrick J. Wong 2022-07-14  625  =
+
+23eba991e1a20b Darrick J. Wong 2022-07-14  626  	/*
+23eba991e1a20b Darrick J. Wong 2022-07-14  627  	 * Make sure we don't hit =
+any file size limits.  If we hit any size
+23eba991e1a20b Darrick J. Wong 2022-07-14  628  	 * limits such that test_l=
+ength was adjusted, we abort the whole
+23eba991e1a20b Darrick J. Wong 2022-07-14  629  	 * operation.
+23eba991e1a20b Darrick J. Wong 2022-07-14  630  	 */
+23eba991e1a20b Darrick J. Wong 2022-07-14  631  	test_len =3D fxr->length;
+23eba991e1a20b Darrick J. Wong 2022-07-14  632  	ret =3D generic_write_chec=
+k_limits(file2, fxr->file2_offset, &test_len);
+23eba991e1a20b Darrick J. Wong 2022-07-14  633  	if (ret)
+23eba991e1a20b Darrick J. Wong 2022-07-14  634  		return ret;
+23eba991e1a20b Darrick J. Wong 2022-07-14  635  	ret =3D generic_write_chec=
+k_limits(file1, fxr->file1_offset, &test_len);
+23eba991e1a20b Darrick J. Wong 2022-07-14  636  	if (ret)
+23eba991e1a20b Darrick J. Wong 2022-07-14  637  		return ret;
+23eba991e1a20b Darrick J. Wong 2022-07-14  638  	if (test_len !=3D fxr->len=
+gth)
+23eba991e1a20b Darrick J. Wong 2022-07-14  639  		return -EINVAL;
+23eba991e1a20b Darrick J. Wong 2022-07-14  640  =
+
+23eba991e1a20b Darrick J. Wong 2022-07-14  641  	/*
+23eba991e1a20b Darrick J. Wong 2022-07-14  642  	 * If the user wanted us t=
+o exchange up to the infile's EOF, round up
+23eba991e1a20b Darrick J. Wong 2022-07-14  643  	 * to the next block bound=
+ary for this check.  Do the same for the
+23eba991e1a20b Darrick J. Wong 2022-07-14  644  	 * outfile.
+23eba991e1a20b Darrick J. Wong 2022-07-14  645  	 *
+23eba991e1a20b Darrick J. Wong 2022-07-14  646  	 * Otherwise, reject the r=
+ange length if it's not block aligned.  We
+23eba991e1a20b Darrick J. Wong 2022-07-14  647  	 * already confirmed the s=
+tarting offsets' block alignment.
+23eba991e1a20b Darrick J. Wong 2022-07-14  648  	 */
+23eba991e1a20b Darrick J. Wong 2022-07-14  649  	if (fxr->file1_offset + fx=
+r->length =3D=3D size1)
+23eba991e1a20b Darrick J. Wong 2022-07-14  650  		blen =3D ALIGN(size1, blo=
+cksize) - fxr->file1_offset;
+23eba991e1a20b Darrick J. Wong 2022-07-14  651  	else if (fxr->file2_offset=
+ + fxr->length =3D=3D size2)
+23eba991e1a20b Darrick J. Wong 2022-07-14  652  		blen =3D ALIGN(size2, blo=
+cksize) - fxr->file2_offset;
+23eba991e1a20b Darrick J. Wong 2022-07-14  653  	else if (!IS_ALIGNED(fxr->=
+length, blocksize))
+23eba991e1a20b Darrick J. Wong 2022-07-14  654  		return -EINVAL;
+23eba991e1a20b Darrick J. Wong 2022-07-14  655  	else
+23eba991e1a20b Darrick J. Wong 2022-07-14  656  		blen =3D fxr->length;
+23eba991e1a20b Darrick J. Wong 2022-07-14  657  =
+
+23eba991e1a20b Darrick J. Wong 2022-07-14  658  	/* Don't allow overlapped =
+exchanges within the same file. */
+23eba991e1a20b Darrick J. Wong 2022-07-14  659  	if (inode1 =3D=3D inode2 &&
+23eba991e1a20b Darrick J. Wong 2022-07-14  660  	    fxr->file2_offset + bl=
+en > fxr->file1_offset &&
+23eba991e1a20b Darrick J. Wong 2022-07-14  661  	    fxr->file1_offset + bl=
+en > fxr->file2_offset)
+23eba991e1a20b Darrick J. Wong 2022-07-14  662  		return -EINVAL;
+23eba991e1a20b Darrick J. Wong 2022-07-14  663  =
+
+23eba991e1a20b Darrick J. Wong 2022-07-14  664  	/* If we already failed th=
+e freshness check, we're done. */
+23eba991e1a20b Darrick J. Wong 2022-07-14  665  	ret =3D generic_xchg_file_=
+range_check_fresh(inode2, fxr);
+23eba991e1a20b Darrick J. Wong 2022-07-14  666  	if (ret)
+23eba991e1a20b Darrick J. Wong 2022-07-14  667  		return ret;
+23eba991e1a20b Darrick J. Wong 2022-07-14  668  =
+
+23eba991e1a20b Darrick J. Wong 2022-07-14  669  	/*
+23eba991e1a20b Darrick J. Wong 2022-07-14  670  	 * Ensure that we don't ex=
+change a partial EOF block into the middle of
+23eba991e1a20b Darrick J. Wong 2022-07-14  671  	 * another file.
+23eba991e1a20b Darrick J. Wong 2022-07-14  672  	 */
+23eba991e1a20b Darrick J. Wong 2022-07-14  673  	if ((fxr->length & blkmask=
+) =3D=3D 0)
+23eba991e1a20b Darrick J. Wong 2022-07-14  674  		return 0;
+23eba991e1a20b Darrick J. Wong 2022-07-14  675  =
+
+23eba991e1a20b Darrick J. Wong 2022-07-14  676  	blen =3D fxr->length;
+23eba991e1a20b Darrick J. Wong 2022-07-14  677  	if (fxr->file2_offset + bl=
+en < size2)
+23eba991e1a20b Darrick J. Wong 2022-07-14  678  		blen &=3D ~blkmask;
+23eba991e1a20b Darrick J. Wong 2022-07-14  679  =
+
+23eba991e1a20b Darrick J. Wong 2022-07-14  680  	if (fxr->file1_offset + bl=
+en < size1)
+23eba991e1a20b Darrick J. Wong 2022-07-14  681  		blen &=3D ~blkmask;
+23eba991e1a20b Darrick J. Wong 2022-07-14  682  =
+
+23eba991e1a20b Darrick J. Wong 2022-07-14  683  	return blen =3D=3D fxr->le=
+ngth ? 0 : -EINVAL;
+23eba991e1a20b Darrick J. Wong 2022-07-14  684  }
+23eba991e1a20b Darrick J. Wong 2022-07-14  685  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============2631891421201632599==--
+--===============0592089341143399568==--
 
