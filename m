@@ -1,170 +1,283 @@
-Content-Type: multipart/mixed; boundary="===============4619276298606977888=="
+Content-Type: multipart/mixed; boundary="===============4567777091212932793=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [ardb:efi-rng-seed 4/4] drivers/firmware/efi/libstub/random.c:118 efi_random_get_seed() error: we previously assumed 'seed' could be null (see line 86)
-Date: Sun, 07 Aug 2022 15:05:58 +0800
-Message-ID: <202208071444.vTqq3qSo-lkp@intel.com>
+Subject: io_uring/net.c:235:23: warning: use of uninitialized value '*(int *)((char *)&msg + offsetof(struct msghdr, msg_control_is_user))' [CWE-457]
+Date: Sun, 07 Aug 2022 13:52:58 +0800
+Message-ID: <202208071316.9ggj3213-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4619276298606977888==
+--===============4567777091212932793==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+:::::: =
+
+:::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "low confidence static check warning: io_uring/=
+net.c:235:23: warning: use of uninitialized value '*(int *)((char *)&msg + =
+offsetof(struct msghdr, msg_control_is_user))' [CWE-457] [-Wanalyzer-use-of=
+-uninitialized-value]"
+:::::: =
+
+
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Ard Biesheuvel <ardb@kernel.org>
+TO: Jens Axboe <axboe@kernel.dk>
 
-tree:   git://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git efi-rn=
-g-seed
-head:   455638a66f76aa791739682ffd9af4d87158f008
-commit: 455638a66f76aa791739682ffd9af4d87158f008 [4/4] efi: rng: combine bo=
-otloader provided RNG seed with RNG protocol output
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: x86_64-randconfig-m001 (https://download.01.org/0day-ci/archive/202=
-20807/202208071444.vTqq3qSo-lkp(a)intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-3) 11.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   1612c382ffbdf1f673caec76502b1c00e6d35363
+commit: f9ead18c10589a351f395ac5aa107360f2f6ce53 io_uring: split network re=
+lated opcodes into its own file
+date:   13 days ago
+:::::: branch date: 5 hours ago
+:::::: commit date: 13 days ago
+config: arm-randconfig-c002-20220804 (https://download.01.org/0day-ci/archi=
+ve/20220807/202208071316.9ggj3213-lkp(a)intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3Df9ead18c10589a351f395ac5aa107360f2f6ce53
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout f9ead18c10589a351f395ac5aa107360f2f6ce53
+        # save the config file
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cross=
+ ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
+
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-drivers/firmware/efi/libstub/random.c:118 efi_random_get_seed() error: we p=
-reviously assumed 'seed' could be null (see line 86)
+gcc-analyzer warnings: (new ones prefixed by >>)
+   io_uring/net.c: In function 'io_sendmsg':
+   io_uring/net.c:177:32: warning: use of uninitialized value '*(int *)((ch=
+ar *)&iomsg + offsetof(struct io_async_msghdr, fast_iov[6].iov_len))' [CWE-=
+457] [-Wanalyzer-use-of-uninitialized-value]
+     177 |         struct io_async_msghdr iomsg, *kmsg;
+         |                                ^~~~~
+     'io_sendmsg': events 1-2
+       |
+       |  177 |         struct io_async_msghdr iomsg, *kmsg;
+       |      |                                ^~~~~
+       |      |                                |
+       |      |                                (1) region created on stack =
+here
+       |      |                                (2) use of uninitialized val=
+ue '*(int *)((char *)&iomsg + offsetof(struct io_async_msghdr, fast_iov[6].=
+iov_len))' here
+       |
+   io_uring/net.c: In function 'io_send':
+>> io_uring/net.c:235:23: warning: use of uninitialized value '*(int *)((ch=
+ar *)&msg + offsetof(struct msghdr, msg_control_is_user))' [CWE-457] [-Wana=
+lyzer-use-of-uninitialized-value]
+     235 |         struct msghdr msg;
+         |                       ^~~
+     'io_send': events 1-2
+       |
+       |  235 |         struct msghdr msg;
+       |      |                       ^~~
+       |      |                       |
+       |      |                       (1) region created on stack here
+       |      |                       (2) use of uninitialized value '*(int=
+ *)((char *)&msg + offsetof(struct msghdr, msg_control_is_user))' here
+       |
+   io_uring/net.c: In function '__io_recvmsg_copy_hdr':
+>> io_uring/net.c:293:30: warning: use of uninitialized value '<unknown>' [=
+CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+     293 |         struct iovec __user *uiov;
+         |                              ^~~~
+     '__io_recvmsg_copy_hdr': event 1
+       |
+       |  293 |         struct iovec __user *uiov;
+       |      |                              ^~~~
+       |      |                              |
+       |      |                              (1) use of uninitialized value=
+ '<unknown>' here
+       |
+   io_uring/net.c:294:16: warning: use of uninitialized value '<unknown>' [=
+CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+     294 |         size_t iov_len;
+         |                ^~~~~~~
+     '__io_recvmsg_copy_hdr': event 1
+       |
+       |  294 |         size_t iov_len;
+       |      |                ^~~~~~~
+       |      |                |
+       |      |                (1) use of uninitialized value '<unknown>' h=
+ere
+       |
+   io_uring/net.c: In function 'io_recvmsg':
+   io_uring/net.c:415:32: warning: use of uninitialized value '*(int *)((ch=
+ar *)&iomsg + offsetof(struct io_async_msghdr, fast_iov[6].iov_len))' [CWE-=
+457] [-Wanalyzer-use-of-uninitialized-value]
+     415 |         struct io_async_msghdr iomsg, *kmsg;
+         |                                ^~~~~
+     'io_recvmsg': events 1-2
+       |
+       |  415 |         struct io_async_msghdr iomsg, *kmsg;
+       |      |                                ^~~~~
+       |      |                                |
+       |      |                                (1) region created on stack =
+here
+       |      |                                (2) use of uninitialized val=
+ue '*(int *)((char *)&iomsg + offsetof(struct io_async_msghdr, fast_iov[6].=
+iov_len))' here
+       |
+   io_uring/net.c: In function 'io_recv':
+   io_uring/net.c:492:23: warning: use of uninitialized value '*(int *)((ch=
+ar *)&msg + offsetof(struct msghdr, msg_control_is_user))' [CWE-457] [-Wana=
+lyzer-use-of-uninitialized-value]
+     492 |         struct msghdr msg;
+         |                       ^~~
+     'io_recv': events 1-2
+       |
+       |  492 |         struct msghdr msg;
+       |      |                       ^~~
+       |      |                       |
+       |      |                       (1) region created on stack here
+       |      |                       (2) use of uninitialized value '*(int=
+ *)((char *)&msg + offsetof(struct msghdr, msg_control_is_user))' here
+       |
 
-vim +/seed +118 drivers/firmware/efi/libstub/random.c
+vim +235 io_uring/net.c
 
-455638a66f76aa Ard Biesheuvel      2022-08-05   54  =
+f9ead18c10589a Jens Axboe 2022-05-25  231  =
 
-ba832f68dcf171 Heinrich Schuchardt 2020-02-21   55  /**
-ba832f68dcf171 Heinrich Schuchardt 2020-02-21   56   * efi_random_get_seed(=
-) - provide random seed as configuration table
-ba832f68dcf171 Heinrich Schuchardt 2020-02-21   57   *
-ba832f68dcf171 Heinrich Schuchardt 2020-02-21   58   * The EFI_RNG_PROTOCOL=
- is used to read random bytes. These random bytes are
-ba832f68dcf171 Heinrich Schuchardt 2020-02-21   59   * saved as a configura=
-tion table which can be used as entropy by the kernel
-ba832f68dcf171 Heinrich Schuchardt 2020-02-21   60   * for the initializati=
-on of its pseudo random number generator.
-ba832f68dcf171 Heinrich Schuchardt 2020-02-21   61   */
-455638a66f76aa Ard Biesheuvel      2022-08-05   62  void efi_random_get_see=
-d(void)
-568bc4e87033d2 Ard Biesheuvel      2016-11-12   63  {
-568bc4e87033d2 Ard Biesheuvel      2016-11-12   64  	efi_guid_t rng_proto =
-=3D EFI_RNG_PROTOCOL_GUID;
-568bc4e87033d2 Ard Biesheuvel      2016-11-12   65  	efi_guid_t rng_algo_ra=
-w =3D EFI_RNG_ALGORITHM_RAW;
-568bc4e87033d2 Ard Biesheuvel      2016-11-12   66  	efi_guid_t rng_table_g=
-uid =3D LINUX_EFI_RANDOM_SEED_TABLE_GUID;
-1786e83011644e Ard Biesheuvel      2019-12-24   67  	efi_rng_protocol_t *rn=
-g =3D NULL;
-818c7ce724770f Hans de Goede       2019-12-24   68  	struct linux_efi_rando=
-m_seed *seed =3D NULL;
-455638a66f76aa Ard Biesheuvel      2022-08-05   69  	struct blake2s_state s=
-tate;
-455638a66f76aa Ard Biesheuvel      2022-08-05   70  	unsigned int total_len=
- =3D 0;
-568bc4e87033d2 Ard Biesheuvel      2016-11-12   71  	efi_status_t status;
-568bc4e87033d2 Ard Biesheuvel      2016-11-12   72  =
+f9ead18c10589a Jens Axboe 2022-05-25  232  int io_send(struct io_kiocb *req=
+, unsigned int issue_flags)
+f9ead18c10589a Jens Axboe 2022-05-25  233  {
+f9ead18c10589a Jens Axboe 2022-05-25  234  	struct io_sr_msg *sr =3D io_kio=
+cb_to_cmd(req);
+f9ead18c10589a Jens Axboe 2022-05-25 @235  	struct msghdr msg;
+f9ead18c10589a Jens Axboe 2022-05-25  236  	struct iovec iov;
+f9ead18c10589a Jens Axboe 2022-05-25  237  	struct socket *sock;
+f9ead18c10589a Jens Axboe 2022-05-25  238  	unsigned flags;
+f9ead18c10589a Jens Axboe 2022-05-25  239  	int min_ret =3D 0;
+f9ead18c10589a Jens Axboe 2022-05-25  240  	int ret;
+f9ead18c10589a Jens Axboe 2022-05-25  241  =
 
-455638a66f76aa Ard Biesheuvel      2022-08-05   73  	// grab the EFI RNG pr=
-otocol, if it exists
-455638a66f76aa Ard Biesheuvel      2022-08-05   74  	efi_bs_call(locate_pro=
-tocol, &rng_proto, NULL, (void **)&rng);
-568bc4e87033d2 Ard Biesheuvel      2016-11-12   75  =
+f9ead18c10589a Jens Axboe 2022-05-25  242  	if (!(req->flags & REQ_F_POLLED=
+) &&
+f9ead18c10589a Jens Axboe 2022-05-25  243  	    (sr->flags & IORING_RECVSEN=
+D_POLL_FIRST))
+f9ead18c10589a Jens Axboe 2022-05-25  244  		return -EAGAIN;
+f9ead18c10589a Jens Axboe 2022-05-25  245  =
 
-455638a66f76aa Ard Biesheuvel      2022-08-05   76  	// grab the seed provi=
-ded by the previous boot stages
-455638a66f76aa Ard Biesheuvel      2022-08-05   77  	seed =3D get_efi_confi=
-g_table(LINUX_EFI_RANDOM_SEED_TABLE_GUID);
-568bc4e87033d2 Ard Biesheuvel      2016-11-12   78  =
+f9ead18c10589a Jens Axboe 2022-05-25  246  	sock =3D sock_from_file(req->fi=
+le);
+f9ead18c10589a Jens Axboe 2022-05-25  247  	if (unlikely(!sock))
+f9ead18c10589a Jens Axboe 2022-05-25  248  		return -ENOTSOCK;
+f9ead18c10589a Jens Axboe 2022-05-25  249  =
 
-455638a66f76aa Ard Biesheuvel      2022-08-05   79  	// if neither exists, =
-there is little we can do
-455638a66f76aa Ard Biesheuvel      2022-08-05   80  	if (!seed && !rng)
-455638a66f76aa Ard Biesheuvel      2022-08-05   81  		return;
-41e8a7c249bf50 Dominik Brodowski   2019-11-06   82  =
+f9ead18c10589a Jens Axboe 2022-05-25  250  	ret =3D import_single_range(WRI=
+TE, sr->buf, sr->len, &iov, &msg.msg_iter);
+f9ead18c10589a Jens Axboe 2022-05-25  251  	if (unlikely(ret))
+f9ead18c10589a Jens Axboe 2022-05-25  252  		return ret;
+f9ead18c10589a Jens Axboe 2022-05-25  253  =
 
-455638a66f76aa Ard Biesheuvel      2022-08-05   83  	blake2s_init(&state, E=
-FI_RANDOM_SEED_SIZE);
-455638a66f76aa Ard Biesheuvel      2022-08-05   84  	blake2s_update(&state,=
- pstr, sizeof(pstr) - 1);
-455638a66f76aa Ard Biesheuvel      2022-08-05   85  =
+f9ead18c10589a Jens Axboe 2022-05-25  254  	msg.msg_name =3D NULL;
+f9ead18c10589a Jens Axboe 2022-05-25  255  	msg.msg_control =3D NULL;
+f9ead18c10589a Jens Axboe 2022-05-25  256  	msg.msg_controllen =3D 0;
+f9ead18c10589a Jens Axboe 2022-05-25  257  	msg.msg_namelen =3D 0;
+f9ead18c10589a Jens Axboe 2022-05-25  258  =
 
-455638a66f76aa Ard Biesheuvel      2022-08-05  @86  	if (seed) {
-455638a66f76aa Ard Biesheuvel      2022-08-05   87  		blake2s_update(&state=
-, (void *)&seed->size, sizeof(seed->size));
-455638a66f76aa Ard Biesheuvel      2022-08-05   88  		blake2s_update(&state=
-, seed->bits, seed->size);
-455638a66f76aa Ard Biesheuvel      2022-08-05   89  		total_len +=3D seed->=
-size;
-455638a66f76aa Ard Biesheuvel      2022-08-05   90  	}
-455638a66f76aa Ard Biesheuvel      2022-08-05   91  =
+f9ead18c10589a Jens Axboe 2022-05-25  259  	flags =3D sr->msg_flags;
+f9ead18c10589a Jens Axboe 2022-05-25  260  	if (issue_flags & IO_URING_F_NO=
+NBLOCK)
+f9ead18c10589a Jens Axboe 2022-05-25  261  		flags |=3D MSG_DONTWAIT;
+f9ead18c10589a Jens Axboe 2022-05-25  262  	if (flags & MSG_WAITALL)
+f9ead18c10589a Jens Axboe 2022-05-25  263  		min_ret =3D iov_iter_count(&ms=
+g.msg_iter);
+f9ead18c10589a Jens Axboe 2022-05-25  264  =
 
-455638a66f76aa Ard Biesheuvel      2022-08-05   92  	if (rng) {
-455638a66f76aa Ard Biesheuvel      2022-08-05   93  		const int sz =3D EFI_=
-RANDOM_SEED_SIZE;
-455638a66f76aa Ard Biesheuvel      2022-08-05   94  		u8 bits[EFI_RANDOM_SE=
-ED_SIZE];
-455638a66f76aa Ard Biesheuvel      2022-08-05   95  =
+f9ead18c10589a Jens Axboe 2022-05-25  265  	msg.msg_flags =3D flags;
+f9ead18c10589a Jens Axboe 2022-05-25  266  	ret =3D sock_sendmsg(sock, &msg=
+);
+f9ead18c10589a Jens Axboe 2022-05-25  267  	if (ret < min_ret) {
+f9ead18c10589a Jens Axboe 2022-05-25  268  		if (ret =3D=3D -EAGAIN && (iss=
+ue_flags & IO_URING_F_NONBLOCK))
+f9ead18c10589a Jens Axboe 2022-05-25  269  			return -EAGAIN;
+f9ead18c10589a Jens Axboe 2022-05-25  270  		if (ret =3D=3D -ERESTARTSYS)
+f9ead18c10589a Jens Axboe 2022-05-25  271  			ret =3D -EINTR;
+f9ead18c10589a Jens Axboe 2022-05-25  272  		if (ret > 0 && io_net_retry(so=
+ck, flags)) {
+f9ead18c10589a Jens Axboe 2022-05-25  273  			sr->len -=3D ret;
+f9ead18c10589a Jens Axboe 2022-05-25  274  			sr->buf +=3D ret;
+f9ead18c10589a Jens Axboe 2022-05-25  275  			sr->done_io +=3D ret;
+f9ead18c10589a Jens Axboe 2022-05-25  276  			req->flags |=3D REQ_F_PARTIAL=
+_IO;
+f9ead18c10589a Jens Axboe 2022-05-25  277  			return -EAGAIN;
+f9ead18c10589a Jens Axboe 2022-05-25  278  		}
+f9ead18c10589a Jens Axboe 2022-05-25  279  		req_set_fail(req);
+f9ead18c10589a Jens Axboe 2022-05-25  280  	}
+f9ead18c10589a Jens Axboe 2022-05-25  281  	if (ret >=3D 0)
+f9ead18c10589a Jens Axboe 2022-05-25  282  		ret +=3D sr->done_io;
+f9ead18c10589a Jens Axboe 2022-05-25  283  	else if (sr->done_io)
+f9ead18c10589a Jens Axboe 2022-05-25  284  		ret =3D sr->done_io;
+f9ead18c10589a Jens Axboe 2022-05-25  285  	io_req_set_res(req, ret, 0);
+f9ead18c10589a Jens Axboe 2022-05-25  286  	return IOU_OK;
+f9ead18c10589a Jens Axboe 2022-05-25  287  }
+f9ead18c10589a Jens Axboe 2022-05-25  288  =
 
-455638a66f76aa Ard Biesheuvel      2022-08-05   96  		status =3D efi_call_p=
-roto(rng, get_rng, &rng_algo_raw, sz, bits);
-568bc4e87033d2 Ard Biesheuvel      2016-11-12   97  		if (status =3D=3D EFI=
-_UNSUPPORTED)
-568bc4e87033d2 Ard Biesheuvel      2016-11-12   98  			/*
-568bc4e87033d2 Ard Biesheuvel      2016-11-12   99  			 * Use whatever algo=
-rithm we have available if the raw algorithm
-568bc4e87033d2 Ard Biesheuvel      2016-11-12  100  			 * is not implemente=
-d.
-568bc4e87033d2 Ard Biesheuvel      2016-11-12  101  			 */
-455638a66f76aa Ard Biesheuvel      2022-08-05  102  			status =3D efi_call_=
-proto(rng, get_rng, NULL, sz, bits);
-455638a66f76aa Ard Biesheuvel      2022-08-05  103  =
+f9ead18c10589a Jens Axboe 2022-05-25  289  static int __io_recvmsg_copy_hdr=
+(struct io_kiocb *req,
+f9ead18c10589a Jens Axboe 2022-05-25  290  				 struct io_async_msghdr *iom=
+sg)
+f9ead18c10589a Jens Axboe 2022-05-25  291  {
+f9ead18c10589a Jens Axboe 2022-05-25  292  	struct io_sr_msg *sr =3D io_kio=
+cb_to_cmd(req);
+f9ead18c10589a Jens Axboe 2022-05-25 @293  	struct iovec __user *uiov;
+f9ead18c10589a Jens Axboe 2022-05-25  294  	size_t iov_len;
+f9ead18c10589a Jens Axboe 2022-05-25  295  	int ret;
+f9ead18c10589a Jens Axboe 2022-05-25  296  =
 
-455638a66f76aa Ard Biesheuvel      2022-08-05  104  		if (status =3D=3D EFI=
-_SUCCESS) {
-455638a66f76aa Ard Biesheuvel      2022-08-05  105  			blake2s_update(&stat=
-e, (void *)&sz, sizeof(sz));
-455638a66f76aa Ard Biesheuvel      2022-08-05  106  			blake2s_update(&stat=
-e, bits, sz);
-455638a66f76aa Ard Biesheuvel      2022-08-05  107  			total_len +=3D sz;
-455638a66f76aa Ard Biesheuvel      2022-08-05  108  		}
-455638a66f76aa Ard Biesheuvel      2022-08-05  109  	}
-568bc4e87033d2 Ard Biesheuvel      2016-11-12  110  =
+f9ead18c10589a Jens Axboe 2022-05-25  297  	ret =3D __copy_msghdr_from_user=
+(&iomsg->msg, sr->umsg,
+f9ead18c10589a Jens Axboe 2022-05-25  298  					&iomsg->uaddr, &uiov, &iov_=
+len);
+f9ead18c10589a Jens Axboe 2022-05-25  299  	if (ret)
+f9ead18c10589a Jens Axboe 2022-05-25  300  		return ret;
+f9ead18c10589a Jens Axboe 2022-05-25  301  =
 
-455638a66f76aa Ard Biesheuvel      2022-08-05  111  	// place the seed in E=
-FI runtime services data which the OS will preserve
-455638a66f76aa Ard Biesheuvel      2022-08-05  112  	status =3D efi_bs_call=
-(allocate_pool, EFI_RUNTIME_SERVICES_DATA,
-455638a66f76aa Ard Biesheuvel      2022-08-05  113  			     sizeof(*seed) +=
- EFI_RANDOM_SEED_SIZE,
-455638a66f76aa Ard Biesheuvel      2022-08-05  114  			     (void **)&seed);
-568bc4e87033d2 Ard Biesheuvel      2016-11-12  115  	if (status !=3D EFI_SU=
-CCESS)
-455638a66f76aa Ard Biesheuvel      2022-08-05  116  		return;
-568bc4e87033d2 Ard Biesheuvel      2016-11-12  117  =
+f9ead18c10589a Jens Axboe 2022-05-25  302  	if (req->flags & REQ_F_BUFFER_S=
+ELECT) {
+f9ead18c10589a Jens Axboe 2022-05-25  303  		if (iov_len > 1)
+f9ead18c10589a Jens Axboe 2022-05-25  304  			return -EINVAL;
+f9ead18c10589a Jens Axboe 2022-05-25  305  		if (copy_from_user(iomsg->fast=
+_iov, uiov, sizeof(*uiov)))
+f9ead18c10589a Jens Axboe 2022-05-25  306  			return -EFAULT;
+f9ead18c10589a Jens Axboe 2022-05-25  307  		sr->len =3D iomsg->fast_iov[0]=
+.iov_len;
+f9ead18c10589a Jens Axboe 2022-05-25  308  		iomsg->free_iov =3D NULL;
+f9ead18c10589a Jens Axboe 2022-05-25  309  	} else {
+f9ead18c10589a Jens Axboe 2022-05-25  310  		iomsg->free_iov =3D iomsg->fas=
+t_iov;
+f9ead18c10589a Jens Axboe 2022-05-25  311  		ret =3D __import_iovec(READ, u=
+iov, iov_len, UIO_FASTIOV,
+f9ead18c10589a Jens Axboe 2022-05-25  312  				     &iomsg->free_iov, &ioms=
+g->msg.msg_iter,
+f9ead18c10589a Jens Axboe 2022-05-25  313  				     false);
+f9ead18c10589a Jens Axboe 2022-05-25  314  		if (ret > 0)
+f9ead18c10589a Jens Axboe 2022-05-25  315  			ret =3D 0;
+f9ead18c10589a Jens Axboe 2022-05-25  316  	}
+f9ead18c10589a Jens Axboe 2022-05-25  317  =
 
-455638a66f76aa Ard Biesheuvel      2022-08-05 @118  	blake2s_final(&state, =
-seed->bits);
-455638a66f76aa Ard Biesheuvel      2022-08-05  119  	seed->size =3D min(tot=
-al_len, EFI_RANDOM_SEED_SIZE);
-966291f6344d7e Ard Biesheuvel      2019-12-24  120  	status =3D efi_bs_call=
-(install_configuration_table, &rng_table_guid, seed);
-568bc4e87033d2 Ard Biesheuvel      2016-11-12  121  	if (status !=3D EFI_SU=
-CCESS)
-455638a66f76aa Ard Biesheuvel      2022-08-05  122  		efi_warn("Failed to i=
-nstall LINUX_EFI_RANDOM_SEED_TABLE_GUID config table\n");
-568bc4e87033d2 Ard Biesheuvel      2016-11-12  123  =
+f9ead18c10589a Jens Axboe 2022-05-25  318  	return ret;
+f9ead18c10589a Jens Axboe 2022-05-25  319  }
+f9ead18c10589a Jens Axboe 2022-05-25  320  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============4619276298606977888==--
+--===============4567777091212932793==--
 
