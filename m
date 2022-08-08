@@ -1,209 +1,160 @@
-Content-Type: multipart/mixed; boundary="===============0819156599068524142=="
+Content-Type: multipart/mixed; boundary="===============7640273687739264560=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [ammarfaizi2-block:paulmck/linux-rcu/dev.2022.08.03b 68/79] kernel/rcu/rcutorture.c:1194:18-31: duplicated argument to && or ||
-Date: Sat, 13 Aug 2022 13:44:24 +0800
-Message-ID: <202208131334.n1nRXiCK-lkp@intel.com>
+Subject: arch/x86/kvm/x86.c:4988 kvm_arch_tsc_set_attr() warn: check for integer overflow 'offset'
+Date: Mon, 08 Aug 2022 22:20:09 +0800
+Message-ID: <202208082240.2wKJ0aav-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0819156599068524142==
+--===============7640273687739264560==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
-CC: Ammar Faizi <ammarfaizi2@gnuweeb.org>
-CC: "GNU/Weeb Mailing List" <gwml@vger.gnuweeb.org>
 CC: linux-kernel(a)vger.kernel.org
-TO: "Paul E. McKenney" <paulmck@kernel.org>
+TO: Oliver Upton <oupton@google.com>
+CC: Paolo Bonzini <pbonzini@redhat.com>
 
-tree:   https://github.com/ammarfaizi2/linux-block paulmck/linux-rcu/dev.20=
-22.08.03b
-head:   ce1b7858edab35808512996e67c82cac4273381c
-commit: 12a0809f363631e425b29958f37327ae09a44d06 [68/79] rcu: Add full-size=
-d polling for cond_sync_full()
-:::::: branch date: 8 days ago
-:::::: commit date: 8 days ago
-config: xtensa-randconfig-c032-20220811 (https://download.01.org/0day-ci/ar=
-chive/20220813/202208131334.n1nRXiCK-lkp(a)intel.com/config)
-compiler: xtensa-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   4e23eeebb2e57f5a28b36221aa776b5a1122dde5
+commit: 828ca89628bfcb1b8f27535025f69dd00eb55207 KVM: x86: Expose TSC offse=
+t controls to userspace
+date:   10 months ago
+:::::: branch date: 13 hours ago
+:::::: commit date: 10 months ago
+config: i386-randconfig-m021-20220808 (https://download.01.org/0day-ci/arch=
+ive/20220808/202208082240.2wKJ0aav-lkp(a)intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-3) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Julia Lawall <julia.lawall@lip6.fr>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-cocci warnings: (new ones prefixed by >>)
->> kernel/rcu/rcutorture.c:1194:18-31: duplicated argument to && or ||
+New smatch warnings:
+arch/x86/kvm/x86.c:4988 kvm_arch_tsc_set_attr() warn: check for integer ove=
+rflow 'offset'
+arch/x86/kvm/x86.c:5029 kvm_vcpu_ioctl_device_attr() error: uninitialized s=
+ymbol 'r'.
 
-vim +1194 kernel/rcu/rcutorture.c
+Old smatch warnings:
+arch/x86/kvm/x86.c:9320 enter_smm() warn: inconsistent indenting
 
-18fbf307b7319a kernel/rcu/rcutorture.c Paul E. McKenney 2020-11-16  1182  =
+vim +/offset +4988 arch/x86/kvm/x86.c
 
-a241ec65aeac3d kernel/rcutorture.c     Paul E. McKenney 2005-10-30  1183  /*
-18fbf307b7319a kernel/rcu/rcutorture.c Paul E. McKenney 2020-11-16  1184   =
-* Determine which grace-period primitives are available.
-a241ec65aeac3d kernel/rcutorture.c     Paul E. McKenney 2005-10-30  1185   =
-*/
-18fbf307b7319a kernel/rcu/rcutorture.c Paul E. McKenney 2020-11-16  1186  s=
-tatic void rcu_torture_write_types(void)
-a241ec65aeac3d kernel/rcutorture.c     Paul E. McKenney 2005-10-30  1187  {
-12a0809f363631 kernel/rcu/rcutorture.c Paul E. McKenney 2022-08-04  1188  	=
-bool gp_cond1 =3D gp_cond, gp_cond_exp1 =3D gp_cond_exp, gp_cond_full1 =3D =
-gp_cond_full;
-12a0809f363631 kernel/rcu/rcutorture.c Paul E. McKenney 2022-08-04  1189  	=
-bool gp_exp1 =3D gp_exp, gp_poll_exp1 =3D gp_poll_exp, gp_poll_exp_full1 =
-=3D gp_poll_exp_full;
-582a3d589d761b kernel/rcu/rcutorture.c Paul E. McKenney 2022-08-03  1190  	=
-bool gp_normal1 =3D gp_normal, gp_poll1 =3D gp_poll, gp_poll_full1 =3D gp_p=
-oll_full;
-582a3d589d761b kernel/rcu/rcutorture.c Paul E. McKenney 2022-08-03  1191  	=
-bool gp_sync1 =3D gp_sync;
-dbdf65b1b7f8ec kernel/rcutorture.c     Ingo Molnar      2005-11-13  1192  =
+828ca89628bfcb Oliver Upton 2021-09-16  4961  =
 
-a48f3fad4f97fe kernel/rcu/rcutorture.c Paul E. McKenney 2014-03-18  1193  	=
-/* Initialize synctype[] array.  If none set, take default. */
-12a0809f363631 kernel/rcu/rcutorture.c Paul E. McKenney 2022-08-04 @1194  	=
-if (!gp_cond1 && !gp_cond_exp1 && !gp_cond_exp1 && !gp_exp1 && !gp_poll_exp=
- &&
-12a0809f363631 kernel/rcu/rcutorture.c Paul E. McKenney 2022-08-04  1195  	=
-    !gp_poll_exp_full && !gp_normal1 && !gp_poll1 && !gp_poll_full1 && !gp_=
-sync1)
-12a0809f363631 kernel/rcu/rcutorture.c Paul E. McKenney 2022-08-04  1196  	=
-	gp_cond1 =3D gp_cond_exp1 =3D gp_cond_full1 =3D gp_exp1 =3D gp_poll_exp1 =
-=3D
-12a0809f363631 kernel/rcu/rcutorture.c Paul E. McKenney 2022-08-04  1197  	=
-		   gp_poll_exp_full1 =3D gp_normal1 =3D gp_poll1 =3D gp_poll_full1 =3D
-12a0809f363631 kernel/rcu/rcutorture.c Paul E. McKenney 2022-08-04  1198  	=
-		   gp_sync1 =3D true;
-fd56f64b4e3b9c kernel/rcu/rcutorture.c Paul E. McKenney 2020-11-13  1199  	=
-if (gp_cond1 && cur_ops->get_gp_state && cur_ops->cond_sync) {
-a48f3fad4f97fe kernel/rcu/rcutorture.c Paul E. McKenney 2014-03-18  1200  	=
-	synctype[nsynctypes++] =3D RTWS_COND_GET;
-db0c1a8aba31ed kernel/rcu/rcutorture.c Paul E. McKenney 2017-12-08  1201  	=
-	pr_info("%s: Testing conditional GPs.\n", __func__);
-fd56f64b4e3b9c kernel/rcu/rcutorture.c Paul E. McKenney 2020-11-13  1202  	=
-} else if (gp_cond && (!cur_ops->get_gp_state || !cur_ops->cond_sync)) {
-e0d31a34c6db63 kernel/rcu/rcutorture.c Paul E. McKenney 2017-12-01  1203  	=
-	pr_alert("%s: gp_cond without primitives.\n", __func__);
-db0c1a8aba31ed kernel/rcu/rcutorture.c Paul E. McKenney 2017-12-08  1204  	}
-11d62f0f43a35d kernel/rcu/rcutorture.c Paul E. McKenney 2022-02-01  1205  	=
-if (gp_cond_exp1 && cur_ops->get_gp_state_exp && cur_ops->cond_sync_exp) {
-11d62f0f43a35d kernel/rcu/rcutorture.c Paul E. McKenney 2022-02-01  1206  	=
-	synctype[nsynctypes++] =3D RTWS_COND_GET_EXP;
-11d62f0f43a35d kernel/rcu/rcutorture.c Paul E. McKenney 2022-02-01  1207  	=
-	pr_info("%s: Testing conditional expedited GPs.\n", __func__);
-11d62f0f43a35d kernel/rcu/rcutorture.c Paul E. McKenney 2022-02-01  1208  	=
-} else if (gp_cond_exp && (!cur_ops->get_gp_state_exp || !cur_ops->cond_syn=
-c_exp)) {
-11d62f0f43a35d kernel/rcu/rcutorture.c Paul E. McKenney 2022-02-01  1209  	=
-	pr_alert("%s: gp_cond_exp without primitives.\n", __func__);
-11d62f0f43a35d kernel/rcu/rcutorture.c Paul E. McKenney 2022-02-01  1210  	}
-12a0809f363631 kernel/rcu/rcutorture.c Paul E. McKenney 2022-08-04  1211  	=
-if (gp_cond_full1 && cur_ops->get_gp_state && cur_ops->cond_sync_full) {
-12a0809f363631 kernel/rcu/rcutorture.c Paul E. McKenney 2022-08-04  1212  	=
-	synctype[nsynctypes++] =3D RTWS_COND_GET_FULL;
-12a0809f363631 kernel/rcu/rcutorture.c Paul E. McKenney 2022-08-04  1213  	=
-	pr_info("%s: Testing conditional full-state GPs.\n", __func__);
-12a0809f363631 kernel/rcu/rcutorture.c Paul E. McKenney 2022-08-04  1214  	=
-} else if (gp_cond_full && (!cur_ops->get_gp_state || !cur_ops->cond_sync_f=
-ull)) {
-12a0809f363631 kernel/rcu/rcutorture.c Paul E. McKenney 2022-08-04  1215  	=
-	pr_alert("%s: gp_cond_full without primitives.\n", __func__);
-12a0809f363631 kernel/rcu/rcutorture.c Paul E. McKenney 2022-08-04  1216  	}
-db0c1a8aba31ed kernel/rcu/rcutorture.c Paul E. McKenney 2017-12-08  1217  	=
-if (gp_exp1 && cur_ops->exp_sync) {
-a48f3fad4f97fe kernel/rcu/rcutorture.c Paul E. McKenney 2014-03-18  1218  	=
-	synctype[nsynctypes++] =3D RTWS_EXP_SYNC;
-db0c1a8aba31ed kernel/rcu/rcutorture.c Paul E. McKenney 2017-12-08  1219  	=
-	pr_info("%s: Testing expedited GPs.\n", __func__);
-db0c1a8aba31ed kernel/rcu/rcutorture.c Paul E. McKenney 2017-12-08  1220  	=
-} else if (gp_exp && !cur_ops->exp_sync) {
-e0d31a34c6db63 kernel/rcu/rcutorture.c Paul E. McKenney 2017-12-01  1221  	=
-	pr_alert("%s: gp_exp without primitives.\n", __func__);
-db0c1a8aba31ed kernel/rcu/rcutorture.c Paul E. McKenney 2017-12-08  1222  	}
-db0c1a8aba31ed kernel/rcu/rcutorture.c Paul E. McKenney 2017-12-08  1223  	=
-if (gp_normal1 && cur_ops->deferred_free) {
-a48f3fad4f97fe kernel/rcu/rcutorture.c Paul E. McKenney 2014-03-18  1224  	=
-	synctype[nsynctypes++] =3D RTWS_DEF_FREE;
-db0c1a8aba31ed kernel/rcu/rcutorture.c Paul E. McKenney 2017-12-08  1225  	=
-	pr_info("%s: Testing asynchronous GPs.\n", __func__);
-db0c1a8aba31ed kernel/rcu/rcutorture.c Paul E. McKenney 2017-12-08  1226  	=
-} else if (gp_normal && !cur_ops->deferred_free) {
-e0d31a34c6db63 kernel/rcu/rcutorture.c Paul E. McKenney 2017-12-01  1227  	=
-	pr_alert("%s: gp_normal without primitives.\n", __func__);
-db0c1a8aba31ed kernel/rcu/rcutorture.c Paul E. McKenney 2017-12-08  1228  	}
-0fd0548db13346 kernel/rcu/rcutorture.c Paul E. McKenney 2020-11-13  1229  	=
-if (gp_poll1 && cur_ops->start_gp_poll && cur_ops->poll_gp_state) {
-0fd0548db13346 kernel/rcu/rcutorture.c Paul E. McKenney 2020-11-13  1230  	=
-	synctype[nsynctypes++] =3D RTWS_POLL_GET;
-0fd0548db13346 kernel/rcu/rcutorture.c Paul E. McKenney 2020-11-13  1231  	=
-	pr_info("%s: Testing polling GPs.\n", __func__);
-0fd0548db13346 kernel/rcu/rcutorture.c Paul E. McKenney 2020-11-13  1232  	=
-} else if (gp_poll && (!cur_ops->start_gp_poll || !cur_ops->poll_gp_state))=
- {
-0fd0548db13346 kernel/rcu/rcutorture.c Paul E. McKenney 2020-11-13  1233  	=
-	pr_alert("%s: gp_poll without primitives.\n", __func__);
-0fd0548db13346 kernel/rcu/rcutorture.c Paul E. McKenney 2020-11-13  1234  	}
-1e5cbdf2877d3f kernel/rcu/rcutorture.c Paul E. McKenney 2022-08-02  1235  	=
-if (gp_poll_full1 && cur_ops->start_gp_poll_full && cur_ops->poll_gp_state_=
-full) {
-1e5cbdf2877d3f kernel/rcu/rcutorture.c Paul E. McKenney 2022-08-02  1236  	=
-	synctype[nsynctypes++] =3D RTWS_POLL_GET_FULL;
-1e5cbdf2877d3f kernel/rcu/rcutorture.c Paul E. McKenney 2022-08-02  1237  	=
-	pr_info("%s: Testing polling full-state GPs.\n", __func__);
-1e5cbdf2877d3f kernel/rcu/rcutorture.c Paul E. McKenney 2022-08-02  1238  	=
-} else if (gp_poll_full && (!cur_ops->start_gp_poll_full || !cur_ops->poll_=
-gp_state_full)) {
-1e5cbdf2877d3f kernel/rcu/rcutorture.c Paul E. McKenney 2022-08-02  1239  	=
-	pr_alert("%s: gp_poll_full without primitives.\n", __func__);
-1e5cbdf2877d3f kernel/rcu/rcutorture.c Paul E. McKenney 2022-08-02  1240  	}
-11d62f0f43a35d kernel/rcu/rcutorture.c Paul E. McKenney 2022-02-01  1241  	=
-if (gp_poll_exp1 && cur_ops->start_gp_poll_exp && cur_ops->poll_gp_state_ex=
-p) {
-11d62f0f43a35d kernel/rcu/rcutorture.c Paul E. McKenney 2022-02-01  1242  	=
-	synctype[nsynctypes++] =3D RTWS_POLL_GET_EXP;
-11d62f0f43a35d kernel/rcu/rcutorture.c Paul E. McKenney 2022-02-01  1243  	=
-	pr_info("%s: Testing polling expedited GPs.\n", __func__);
-11d62f0f43a35d kernel/rcu/rcutorture.c Paul E. McKenney 2022-02-01  1244  	=
-} else if (gp_poll_exp && (!cur_ops->start_gp_poll_exp || !cur_ops->poll_gp=
-_state_exp)) {
-11d62f0f43a35d kernel/rcu/rcutorture.c Paul E. McKenney 2022-02-01  1245  	=
-	pr_alert("%s: gp_poll_exp without primitives.\n", __func__);
-11d62f0f43a35d kernel/rcu/rcutorture.c Paul E. McKenney 2022-02-01  1246  	}
-582a3d589d761b kernel/rcu/rcutorture.c Paul E. McKenney 2022-08-03  1247  	=
-if (gp_poll_exp_full1 && cur_ops->start_gp_poll_exp_full && cur_ops->poll_g=
-p_state_full) {
-582a3d589d761b kernel/rcu/rcutorture.c Paul E. McKenney 2022-08-03  1248  	=
-	synctype[nsynctypes++] =3D RTWS_POLL_GET_EXP_FULL;
-582a3d589d761b kernel/rcu/rcutorture.c Paul E. McKenney 2022-08-03  1249  	=
-	pr_info("%s: Testing polling full-state expedited GPs.\n", __func__);
-582a3d589d761b kernel/rcu/rcutorture.c Paul E. McKenney 2022-08-03  1250  	=
-} else if (gp_poll_exp_full &&
-582a3d589d761b kernel/rcu/rcutorture.c Paul E. McKenney 2022-08-03  1251  	=
-	   (!cur_ops->start_gp_poll_exp_full || !cur_ops->poll_gp_state_full)) {
-582a3d589d761b kernel/rcu/rcutorture.c Paul E. McKenney 2022-08-03  1252  	=
-	pr_alert("%s: gp_poll_exp_full without primitives.\n", __func__);
-582a3d589d761b kernel/rcu/rcutorture.c Paul E. McKenney 2022-08-03  1253  	}
-db0c1a8aba31ed kernel/rcu/rcutorture.c Paul E. McKenney 2017-12-08  1254  	=
-if (gp_sync1 && cur_ops->sync) {
-f0bf8fab4f311c kernel/rcu/rcutorture.c Paul E. McKenney 2014-03-21  1255  	=
-	synctype[nsynctypes++] =3D RTWS_SYNC;
-db0c1a8aba31ed kernel/rcu/rcutorture.c Paul E. McKenney 2017-12-08  1256  	=
-	pr_info("%s: Testing normal GPs.\n", __func__);
-db0c1a8aba31ed kernel/rcu/rcutorture.c Paul E. McKenney 2017-12-08  1257  	=
-} else if (gp_sync && !cur_ops->sync) {
-e0d31a34c6db63 kernel/rcu/rcutorture.c Paul E. McKenney 2017-12-01  1258  	=
-	pr_alert("%s: gp_sync without primitives.\n", __func__);
-db0c1a8aba31ed kernel/rcu/rcutorture.c Paul E. McKenney 2017-12-08  1259  	}
-18fbf307b7319a kernel/rcu/rcutorture.c Paul E. McKenney 2020-11-16  1260  }
-18fbf307b7319a kernel/rcu/rcutorture.c Paul E. McKenney 2020-11-16  1261  =
+828ca89628bfcb Oliver Upton 2021-09-16  4962  static int kvm_arch_tsc_set_a=
+ttr(struct kvm_vcpu *vcpu,
+828ca89628bfcb Oliver Upton 2021-09-16  4963  				 struct kvm_device_attr *=
+attr)
+828ca89628bfcb Oliver Upton 2021-09-16  4964  {
+828ca89628bfcb Oliver Upton 2021-09-16  4965  	u64 __user *uaddr =3D (u64 _=
+_user *)(unsigned long)attr->addr;
+828ca89628bfcb Oliver Upton 2021-09-16  4966  	struct kvm *kvm =3D vcpu->kv=
+m;
+828ca89628bfcb Oliver Upton 2021-09-16  4967  	int r;
+828ca89628bfcb Oliver Upton 2021-09-16  4968  =
+
+828ca89628bfcb Oliver Upton 2021-09-16  4969  	if ((u64)(unsigned long)uadd=
+r !=3D attr->addr)
+828ca89628bfcb Oliver Upton 2021-09-16  4970  		return -EFAULT;
+828ca89628bfcb Oliver Upton 2021-09-16  4971  =
+
+828ca89628bfcb Oliver Upton 2021-09-16  4972  	switch (attr->attr) {
+828ca89628bfcb Oliver Upton 2021-09-16  4973  	case KVM_VCPU_TSC_OFFSET: {
+828ca89628bfcb Oliver Upton 2021-09-16  4974  		u64 offset, tsc, ns;
+828ca89628bfcb Oliver Upton 2021-09-16  4975  		unsigned long flags;
+828ca89628bfcb Oliver Upton 2021-09-16  4976  		bool matched;
+828ca89628bfcb Oliver Upton 2021-09-16  4977  =
+
+828ca89628bfcb Oliver Upton 2021-09-16  4978  		r =3D -EFAULT;
+828ca89628bfcb Oliver Upton 2021-09-16  4979  		if (get_user(offset, uaddr))
+828ca89628bfcb Oliver Upton 2021-09-16  4980  			break;
+828ca89628bfcb Oliver Upton 2021-09-16  4981  =
+
+828ca89628bfcb Oliver Upton 2021-09-16  4982  		raw_spin_lock_irqsave(&kvm-=
+>arch.tsc_write_lock, flags);
+828ca89628bfcb Oliver Upton 2021-09-16  4983  =
+
+828ca89628bfcb Oliver Upton 2021-09-16  4984  		matched =3D (vcpu->arch.vir=
+tual_tsc_khz &&
+828ca89628bfcb Oliver Upton 2021-09-16  4985  			   kvm->arch.last_tsc_khz =
+=3D=3D vcpu->arch.virtual_tsc_khz &&
+828ca89628bfcb Oliver Upton 2021-09-16  4986  			   kvm->arch.last_tsc_offs=
+et =3D=3D offset);
+828ca89628bfcb Oliver Upton 2021-09-16  4987  =
+
+828ca89628bfcb Oliver Upton 2021-09-16 @4988  		tsc =3D kvm_scale_tsc(vcpu,=
+ rdtsc(), vcpu->arch.l1_tsc_scaling_ratio) + offset;
+828ca89628bfcb Oliver Upton 2021-09-16  4989  		ns =3D get_kvmclock_base_ns=
+();
+828ca89628bfcb Oliver Upton 2021-09-16  4990  =
+
+828ca89628bfcb Oliver Upton 2021-09-16  4991  		__kvm_synchronize_tsc(vcpu,=
+ offset, tsc, ns, matched);
+828ca89628bfcb Oliver Upton 2021-09-16  4992  		raw_spin_unlock_irqrestore(=
+&kvm->arch.tsc_write_lock, flags);
+828ca89628bfcb Oliver Upton 2021-09-16  4993  =
+
+828ca89628bfcb Oliver Upton 2021-09-16  4994  		r =3D 0;
+828ca89628bfcb Oliver Upton 2021-09-16  4995  		break;
+828ca89628bfcb Oliver Upton 2021-09-16  4996  	}
+828ca89628bfcb Oliver Upton 2021-09-16  4997  	default:
+828ca89628bfcb Oliver Upton 2021-09-16  4998  		r =3D -ENXIO;
+828ca89628bfcb Oliver Upton 2021-09-16  4999  	}
+828ca89628bfcb Oliver Upton 2021-09-16  5000  =
+
+828ca89628bfcb Oliver Upton 2021-09-16  5001  	return r;
+828ca89628bfcb Oliver Upton 2021-09-16  5002  }
+828ca89628bfcb Oliver Upton 2021-09-16  5003  =
+
+828ca89628bfcb Oliver Upton 2021-09-16  5004  static int kvm_vcpu_ioctl_dev=
+ice_attr(struct kvm_vcpu *vcpu,
+828ca89628bfcb Oliver Upton 2021-09-16  5005  				      unsigned int ioctl,
+828ca89628bfcb Oliver Upton 2021-09-16  5006  				      void __user *argp)
+828ca89628bfcb Oliver Upton 2021-09-16  5007  {
+828ca89628bfcb Oliver Upton 2021-09-16  5008  	struct kvm_device_attr attr;
+828ca89628bfcb Oliver Upton 2021-09-16  5009  	int r;
+828ca89628bfcb Oliver Upton 2021-09-16  5010  =
+
+828ca89628bfcb Oliver Upton 2021-09-16  5011  	if (copy_from_user(&attr, ar=
+gp, sizeof(attr)))
+828ca89628bfcb Oliver Upton 2021-09-16  5012  		return -EFAULT;
+828ca89628bfcb Oliver Upton 2021-09-16  5013  =
+
+828ca89628bfcb Oliver Upton 2021-09-16  5014  	if (attr.group !=3D KVM_VCPU=
+_TSC_CTRL)
+828ca89628bfcb Oliver Upton 2021-09-16  5015  		return -ENXIO;
+828ca89628bfcb Oliver Upton 2021-09-16  5016  =
+
+828ca89628bfcb Oliver Upton 2021-09-16  5017  	switch (ioctl) {
+828ca89628bfcb Oliver Upton 2021-09-16  5018  	case KVM_HAS_DEVICE_ATTR:
+828ca89628bfcb Oliver Upton 2021-09-16  5019  		r =3D kvm_arch_tsc_has_attr=
+(vcpu, &attr);
+828ca89628bfcb Oliver Upton 2021-09-16  5020  		break;
+828ca89628bfcb Oliver Upton 2021-09-16  5021  	case KVM_GET_DEVICE_ATTR:
+828ca89628bfcb Oliver Upton 2021-09-16  5022  		r =3D kvm_arch_tsc_get_attr=
+(vcpu, &attr);
+828ca89628bfcb Oliver Upton 2021-09-16  5023  		break;
+828ca89628bfcb Oliver Upton 2021-09-16  5024  	case KVM_SET_DEVICE_ATTR:
+828ca89628bfcb Oliver Upton 2021-09-16  5025  		r =3D kvm_arch_tsc_set_attr=
+(vcpu, &attr);
+828ca89628bfcb Oliver Upton 2021-09-16  5026  		break;
+828ca89628bfcb Oliver Upton 2021-09-16  5027  	}
+828ca89628bfcb Oliver Upton 2021-09-16  5028  =
+
+828ca89628bfcb Oliver Upton 2021-09-16 @5029  	return r;
+828ca89628bfcb Oliver Upton 2021-09-16  5030  }
+828ca89628bfcb Oliver Upton 2021-09-16  5031  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============0819156599068524142==--
+--===============7640273687739264560==--
 
