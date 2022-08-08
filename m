@@ -1,388 +1,259 @@
-Content-Type: multipart/mixed; boundary="===============7567134517850414667=="
+Content-Type: multipart/mixed; boundary="===============4577668671028380685=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: io_uring/rsrc.c:452:13: warning: use of uninitialized value '<unknown>' [CWE-457]
-Date: Mon, 08 Aug 2022 08:32:40 +0800
-Message-ID: <202208080801.wK6w82xI-lkp@intel.com>
+Subject: [intel-lts:5.10/dovetail-xenomai 41/207] drivers/pinctrl/samsung/pinctrl-s3c24xx.c:160:32: error: passing argument 1 of 'spin_unlock_irqrestore' from incompatible pointer type
+Date: Mon, 08 Aug 2022 08:02:10 +0800
+Message-ID: <202208080714.84vGyCkq-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7567134517850414667==
+--===============4577668671028380685==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 :::::: =
 
-:::::: Manual check reason: "low confidence bisect report"
-:::::: Manual check reason: "low confidence static check warning: io_uring/=
-rsrc.c:452:13: warning: use of uninitialized value '<unknown>' [CWE-457] [-=
-Wanalyzer-use-of-uninitialized-value]"
+:::::: Manual check reason: "commit no functional change"
 :::::: =
 
 
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
-CC: linux-kernel(a)vger.kernel.org
-TO: Jens Axboe <axboe@kernel.dk>
+CC: Hao Li <hao3.li@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   3bc1bc0b59d04e997db25b84babf459ca1cd80b7
-commit: 73572984481907d92673255b494c0ff4f77c8ed4 io_uring: move rsrc relate=
-d data, core, and commands
-date:   2 weeks ago
-:::::: branch date: 7 hours ago
-:::::: commit date: 2 weeks ago
-config: arm-randconfig-c002-20220804 (https://download.01.org/0day-ci/archi=
-ve/20220808/202208080801.wK6w82xI-lkp(a)intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+tree:   https://github.com/intel/linux-intel-lts.git 5.10/dovetail-xenomai
+head:   1ec5fba16dd51c564b43e1de41ff50e30ecd0e9b
+commit: aecbe5feac8e1a307a3357c83536307dd8a9f224 [41/207] pinctrl: samsung:=
+ irq_pipeline: convert per-bank lock to hard form
+:::::: branch date: 9 days ago
+:::::: commit date: 4 months ago
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20220808=
+/202208080714.84vGyCkq-lkp(a)intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D73572984481907d92673255b494c0ff4f77c8ed4
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 73572984481907d92673255b494c0ff4f77c8ed4
+        # https://github.com/intel/linux-intel-lts/commit/aecbe5feac8e1a307=
+a3357c83536307dd8a9f224
+        git remote add intel-lts https://github.com/intel/linux-intel-lts.g=
+it
+        git fetch --no-tags intel-lts 5.10/dovetail-xenomai
+        git checkout aecbe5feac8e1a307a3357c83536307dd8a9f224
         # save the config file
+        mkdir build_dir && cp config build_dir/.config
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cross=
- ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
-
+ W=3D1 O=3Dbuild_dir ARCH=3Dm68k SHELL=3D/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 
-gcc-analyzer warnings: (new ones prefixed by >>)
-   In function '__io_sqe_buffers_update':
-   cc1: warning: use of uninitialized value '<unknown>' [CWE-457] [-Wanalyz=
-er-use-of-uninitialized-value]
-     '__io_register_rsrc_update.part.0': events 1-4
-       |
-       |io_uring/rsrc.c:583:12:
-       |  583 | static int __io_register_rsrc_update(struct io_ring_ctx *ct=
-x, unsigned type,
-       |      |            ^~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |            |
-       |      |            (1) entry to '__io_register_rsrc_update.part.0'
-       |......
-       |  596 |         switch (type) {
-       |      |         ~~~~~~
-       |      |         |
-       |      |         (2) following 'case 1:' branch...
-       |......
-       |  599 |         case IORING_RSRC_BUFFER:
-       |      |         ~~~~
-       |      |         |
-       |      |         (3) ...to here
-       |  600 |                 return __io_sqe_buffers_update(ctx, up, nr_=
-args);
-       |      |                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~
-       |      |                        |
-       |      |                        (4) calling '__io_sqe_buffers_update=
-' from '__io_register_rsrc_update.part.0'
-       |
-       +--> '__io_sqe_buffers_update': events 5-8
-              |
-              |  523 | static int __io_sqe_buffers_update(struct io_ring_ct=
-x *ctx,
-              |      |            ^~~~~~~~~~~~~~~~~~~~~~~
-              |      |            |
-              |      |            (5) entry to '__io_sqe_buffers_update'
-              |......
-              |  534 |         if (!ctx->buf_data)
-              |      |            ~
-              |      |            |
-              |      |            (6) following 'false' branch...
-              |  535 |                 return -ENXIO;
-              |  536 |         if (up->offset + nr_args > ctx->nr_user_bufs)
-              |      |         ~~ ~
-              |      |         |  |
-              |      |         |  (8) following 'false' branch...
-              |      |         (7) ...to here
-              |
-            '__io_sqe_buffers_update': event 9
-              |
-              |cc1:
-              | (9): ...to here
-              |
-            '__io_sqe_buffers_update': events 10-14
-              |
-              |  539 |         for (done =3D 0; done < nr_args; done++) {
-              |      |                        ~~~~~^~~~~~~~~
-              |      |                             |
-              |      |                             (10) following 'false' b=
-ranch (when 'done >=3D nr_args')...
-              |......
-              |  578 |         if (needs_switch)
-              |      |         ~~ ~                 =
+Note: the intel-lts/5.10/dovetail-xenomai HEAD 1ec5fba16dd51c564b43e1de41ff=
+50e30ecd0e9b builds fine.
+      It only hurts bisectability.
 
-              |      |         |  |
-              |      |         |  (12) following 'false' branch (when 'need=
-s_switch =3D=3D 0')...
-              |      |         (11) ...to here
-              |  579 |                 io_rsrc_node_switch(ctx, ctx->buf_da=
-ta);
-              |  580 |         return done ? done : err;
-              |      |         ~~~~~~ ~~~~~~~~~~~~~~~~~
-              |      |         |                  |
-              |      |         (13) ...to here    (14) following 'false' br=
-anch (when 'done =3D=3D 0')...
-              |
-            '__io_sqe_buffers_update': event 15
-              |
-              |cc1:
-              | (15): ...to here
-              |
-            '__io_sqe_buffers_update': event 16
-              |
-              |cc1:
-              | (16): use of uninitialized value '=1B[01m=1B[K<unknown>=1B[=
-m=1B[K' here
-              |
-   io_uring/rsrc.c: In function '__io_sqe_files_update':
->> io_uring/rsrc.c:452:13: warning: use of uninitialized value '<unknown>' =
-[CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-     452 |         int fd, i, err =3D 0;
-         |             ^~
-     '__io_register_rsrc_update.part.0': events 1-4
-       |
-       |  583 | static int __io_register_rsrc_update(struct io_ring_ctx *ct=
-x, unsigned type,
-       |      |            ^~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |            |
-       |      |            (1) entry to '__io_register_rsrc_update.part.0'
-       |......
-       |  596 |         switch (type) {
-       |      |         ~~~~~~
-       |      |         |
-       |      |         (2) following 'case 0:' branch...
-       |  597 |         case IORING_RSRC_FILE:
-       |      |         ~~~~
-       |      |         |
-       |      |         (3) ...to here
-       |  598 |                 return __io_sqe_files_update(ctx, up, nr_ar=
-gs);
-       |      |                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+All errors (new ones prefixed by >>):
+
+   In file included from include/linux/ratelimit_types.h:7,
+                    from include/linux/ratelimit.h:5,
+                    from include/linux/dev_printk.h:16,
+                    from include/linux/device.h:15,
+                    from drivers/pinctrl/samsung/pinctrl-s3c24xx.c:12:
+   drivers/pinctrl/samsung/pinctrl-s3c24xx.c: In function 's3c24xx_eint_set=
+_function':
+>> drivers/pinctrl/samsung/pinctrl-s3c24xx.c:153:27: error: passing argumen=
+t 1 of 'spinlock_check' from incompatible pointer type [-Werror=3Dincompati=
+ble-pointer-types]
+     153 |         spin_lock_irqsave(&bank->slock, flags);
+         |                           ^~~~~~~~~~~~
+         |                           |
+         |                           hard_spinlock_t * {aka struct raw_spin=
+lock *}
+   include/linux/spinlock_types.h:217:9: note: in definition of macro 'LOCK=
+_ALTERNATIVES'
+     217 |         __raw_form
+         |         ^~~~~~~~~~
+   include/linux/spinlock.h:266:48: note: in expansion of macro '__RAWLOCK'
+     266 |                 flags =3D _raw_spin_lock_irqsave(__RAWLOCK(lock)=
+);        \
+         |                                                ^~~~~~~~~
+   include/linux/spinlock.h:416:9: note: in expansion of macro 'raw_spin_lo=
+ck_irqsave'
+     416 |         raw_spin_lock_irqsave(spinlock_check(lock), flags);     \
+         |         ^~~~~~~~~~~~~~~~~~~~~
+   drivers/pinctrl/samsung/pinctrl-s3c24xx.c:153:9: note: in expansion of m=
+acro 'spin_lock_irqsave'
+     153 |         spin_lock_irqsave(&bank->slock, flags);
+         |         ^~~~~~~~~~~~~~~~~
+   In file included from include/linux/wait.h:9,
+                    from include/linux/pid.h:6,
+                    from include/linux/sched.h:14,
+                    from include/linux/ratelimit.h:6:
+   include/linux/spinlock.h:358:67: note: expected 'spinlock_t *' {aka 'str=
+uct spinlock *'} but argument is of type 'hard_spinlock_t *' {aka 'struct r=
+aw_spinlock *'}
+     358 | static __always_inline raw_spinlock_t *spinlock_check(spinlock_t=
+ *lock)
+         |                                                       ~~~~~~~~~~=
+~~^~~~
+>> drivers/pinctrl/samsung/pinctrl-s3c24xx.c:160:32: error: passing argumen=
+t 1 of 'spin_unlock_irqrestore' from incompatible pointer type [-Werror=3Di=
+ncompatible-pointer-types]
+     160 |         spin_unlock_irqrestore(&bank->slock, flags);
+         |                                ^~~~~~~~~~~~
+         |                                |
+         |                                hard_spinlock_t * {aka struct raw=
+_spinlock *}
+   include/linux/spinlock.h:439:64: note: expected 'spinlock_t *' {aka 'str=
+uct spinlock *'} but argument is of type 'hard_spinlock_t *' {aka 'struct r=
+aw_spinlock *'}
+     439 | static __always_inline void spin_unlock_irqrestore(spinlock_t *l=
+ock, unsigned long flags)
+         |                                                    ~~~~~~~~~~~~^=
 ~~~
-       |      |                        |
-       |      |                        (4) calling '__io_sqe_files_update' =
-from '__io_register_rsrc_update.part.0'
-       |
-       +--> '__io_sqe_files_update': events 5-6
-              |
-              |  443 | static int __io_sqe_files_update(struct io_ring_ctx =
-*ctx,
-              |      |            ^~~~~~~~~~~~~~~~~~~~~
-              |      |            |
-              |      |            (5) entry to '__io_sqe_files_update'
-              |......
-              |  452 |         int fd, i, err =3D 0;
-              |      |             ~~
-              |      |             |
-              |      |             (6) use of uninitialized value '<unknown=
->' here
-              |
-   io_uring/rsrc.c: In function '__io_sqe_buffers_update':
-   io_uring/rsrc.c:540:40: warning: use of uninitialized value '<unknown>' =
-[CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-     540 |                 struct io_mapped_ubuf *imu;
-         |                                        ^~~
-     '__io_register_rsrc_update.part.0': events 1-4
-       |
-       |  583 | static int __io_register_rsrc_update(struct io_ring_ctx *ct=
-x, unsigned type,
-       |      |            ^~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |            |
-       |      |            (1) entry to '__io_register_rsrc_update.part.0'
-       |......
-       |  596 |         switch (type) {
-       |      |         ~~~~~~
-       |      |         |
-       |      |         (2) following 'case 1:' branch...
-       |......
-       |  599 |         case IORING_RSRC_BUFFER:
-       |      |         ~~~~
-       |      |         |
-       |      |         (3) ...to here
-       |  600 |                 return __io_sqe_buffers_update(ctx, up, nr_=
-args);
-       |      |                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~
-       |      |                        |
-       |      |                        (4) calling '__io_sqe_buffers_update=
-' from '__io_register_rsrc_update.part.0'
-       |
-       +--> '__io_sqe_buffers_update': events 5-8
-              |
-              |  523 | static int __io_sqe_buffers_update(struct io_ring_ct=
-x *ctx,
-              |      |            ^~~~~~~~~~~~~~~~~~~~~~~
-              |      |            |
-              |      |            (5) entry to '__io_sqe_buffers_update'
-              |......
-              |  534 |         if (!ctx->buf_data)
-              |      |            ~
-              |      |            |
-              |      |            (6) following 'false' branch...
-              |  535 |                 return -ENXIO;
-              |  536 |         if (up->offset + nr_args > ctx->nr_user_bufs)
-              |      |         ~~ ~
-              |      |         |  |
-              |      |         |  (8) following 'false' branch...
-              |      |         (7) ...to here
-              |
-            '__io_sqe_buffers_update': event 9
-              |
-              |cc1:
-              | (9): ...to here
-              |
-            '__io_sqe_buffers_update': events 10-12
-              |
-              |  539 |         for (done =3D 0; done < nr_args; done++) {
-              |      |                        ~~~~~^~~~~~~~~
-              |      |                             |
-              |      |                             (10) following 'true' br=
-anch (when 'done < nr_args')...
-              |  540 |                 struct io_mapped_ubuf *imu;
-              |      |                 ~~~~~~                 ~~~
-              |      |                 |                      |
-              |      |                 (11) ...to here        (12) use of u=
-ninitialized value '<unknown>' here
-              |
-   io_uring/rsrc.c: In function 'io_sqe_buffer_register':
-   io_uring/rsrc.c:1204:18: warning: use of uninitialized value '<unknown>'=
- [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-    1204 |         int ret, nr_pages, i;
-         |                  ^~~~~~~~
-     'io_sqe_buffer_register': event 1
-       |
-       | 1204 |         int ret, nr_pages, i;
+   cc1: some warnings being treated as errors
+--
+   In file included from include/linux/ratelimit_types.h:7,
+                    from include/linux/ratelimit.h:5,
+                    from include/linux/dev_printk.h:16,
+                    from include/linux/device.h:15,
+                    from drivers/pinctrl/samsung/pinctrl-s3c64xx.c:14:
+   drivers/pinctrl/samsung/pinctrl-s3c64xx.c: In function 's3c64xx_irq_set_=
+function':
+>> drivers/pinctrl/samsung/pinctrl-s3c64xx.c:289:27: error: passing argumen=
+t 1 of 'spinlock_check' from incompatible pointer type [-Werror=3Dincompati=
+ble-pointer-types]
+     289 |         spin_lock_irqsave(&bank->slock, flags);
+         |                           ^~~~~~~~~~~~
+         |                           |
+         |                           hard_spinlock_t * {aka struct raw_spin=
+lock *}
+   include/linux/spinlock_types.h:217:9: note: in definition of macro 'LOCK=
+_ALTERNATIVES'
+     217 |         __raw_form
+         |         ^~~~~~~~~~
+   include/linux/spinlock.h:266:48: note: in expansion of macro '__RAWLOCK'
+     266 |                 flags =3D _raw_spin_lock_irqsave(__RAWLOCK(lock)=
+);        \
+         |                                                ^~~~~~~~~
+   include/linux/spinlock.h:416:9: note: in expansion of macro 'raw_spin_lo=
+ck_irqsave'
+     416 |         raw_spin_lock_irqsave(spinlock_check(lock), flags);     \
+         |         ^~~~~~~~~~~~~~~~~~~~~
+   drivers/pinctrl/samsung/pinctrl-s3c64xx.c:289:9: note: in expansion of m=
+acro 'spin_lock_irqsave'
+     289 |         spin_lock_irqsave(&bank->slock, flags);
+         |         ^~~~~~~~~~~~~~~~~
+   In file included from include/linux/wait.h:9,
+                    from include/linux/pid.h:6,
+                    from include/linux/sched.h:14,
+                    from include/linux/ratelimit.h:6:
+   include/linux/spinlock.h:358:67: note: expected 'spinlock_t *' {aka 'str=
+uct spinlock *'} but argument is of type 'hard_spinlock_t *' {aka 'struct r=
+aw_spinlock *'}
+     358 | static __always_inline raw_spinlock_t *spinlock_check(spinlock_t=
+ *lock)
+         |                                                       ~~~~~~~~~~=
+~~^~~~
+>> drivers/pinctrl/samsung/pinctrl-s3c64xx.c:296:32: error: passing argumen=
+t 1 of 'spin_unlock_irqrestore' from incompatible pointer type [-Werror=3Di=
+ncompatible-pointer-types]
+     296 |         spin_unlock_irqrestore(&bank->slock, flags);
+         |                                ^~~~~~~~~~~~
+         |                                |
+         |                                hard_spinlock_t * {aka struct raw=
+_spinlock *}
+   include/linux/spinlock.h:439:64: note: expected 'spinlock_t *' {aka 'str=
+uct spinlock *'} but argument is of type 'hard_spinlock_t *' {aka 'struct r=
+aw_spinlock *'}
+     439 | static __always_inline void spin_unlock_irqrestore(spinlock_t *l=
+ock, unsigned long flags)
+         |                                                    ~~~~~~~~~~~~^=
+~~~
+   cc1: some warnings being treated as errors
 
-vim +452 io_uring/rsrc.c
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for NEED_MULTIPLE_NODES
+   Depends on [n]: DISCONTIGMEM [=3Dn] || NUMA
+   Selected by [y]:
+   - SINGLE_MEMORY_CHUNK [=3Dy] && MMU [=3Dy]
 
-73572984481907 Jens Axboe 2022-06-13  442  =
 
-73572984481907 Jens Axboe 2022-06-13  443  static int __io_sqe_files_update=
-(struct io_ring_ctx *ctx,
-73572984481907 Jens Axboe 2022-06-13  444  				 struct io_uring_rsrc_update=
-2 *up,
-73572984481907 Jens Axboe 2022-06-13  445  				 unsigned nr_args)
-73572984481907 Jens Axboe 2022-06-13  446  {
-73572984481907 Jens Axboe 2022-06-13  447  	u64 __user *tags =3D u64_to_use=
-r_ptr(up->tags);
-73572984481907 Jens Axboe 2022-06-13  448  	__s32 __user *fds =3D u64_to_us=
-er_ptr(up->data);
-73572984481907 Jens Axboe 2022-06-13  449  	struct io_rsrc_data *data =3D c=
-tx->file_data;
-73572984481907 Jens Axboe 2022-06-13  450  	struct io_fixed_file *file_slot;
-73572984481907 Jens Axboe 2022-06-13  451  	struct file *file;
-73572984481907 Jens Axboe 2022-06-13 @452  	int fd, i, err =3D 0;
-73572984481907 Jens Axboe 2022-06-13  453  	unsigned int done;
-73572984481907 Jens Axboe 2022-06-13  454  	bool needs_switch =3D false;
-73572984481907 Jens Axboe 2022-06-13  455  =
+vim +/spin_unlock_irqrestore +160 drivers/pinctrl/samsung/pinctrl-s3c24xx.c
 
-73572984481907 Jens Axboe 2022-06-13  456  	if (!ctx->file_data)
-73572984481907 Jens Axboe 2022-06-13  457  		return -ENXIO;
-73572984481907 Jens Axboe 2022-06-13  458  	if (up->offset + nr_args > ctx-=
->nr_user_files)
-73572984481907 Jens Axboe 2022-06-13  459  		return -EINVAL;
-73572984481907 Jens Axboe 2022-06-13  460  =
+af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner    =
+  2013-05-21  137  =
 
-73572984481907 Jens Axboe 2022-06-13  461  	for (done =3D 0; done < nr_args=
-; done++) {
-73572984481907 Jens Axboe 2022-06-13  462  		u64 tag =3D 0;
-73572984481907 Jens Axboe 2022-06-13  463  =
+af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner    =
+  2013-05-21  138  static void s3c24xx_eint_set_function(struct samsung_pin=
+ctrl_drv_data *d,
+af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner    =
+  2013-05-21  139  					struct samsung_pin_bank *bank, int pin)
+af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner    =
+  2013-05-21  140  {
+94ce944bed8a84 drivers/pinctrl/samsung/pinctrl-s3c24xx.c Tomasz Figa       =
+  2014-09-23  141  	const struct samsung_pin_bank_type *bank_type =3D bank-=
+>type;
+af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner    =
+  2013-05-21  142  	unsigned long flags;
+af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner    =
+  2013-05-21  143  	void __iomem *reg;
+af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner    =
+  2013-05-21  144  	u8 shift;
+af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner    =
+  2013-05-21  145  	u32 mask;
+af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner    =
+  2013-05-21  146  	u32 val;
+af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner    =
+  2013-05-21  147  =
 
-73572984481907 Jens Axboe 2022-06-13  464  		if ((tags && copy_from_user(&t=
-ag, &tags[done], sizeof(tag))) ||
-73572984481907 Jens Axboe 2022-06-13  465  		    copy_from_user(&fd, &fds[d=
-one], sizeof(fd))) {
-73572984481907 Jens Axboe 2022-06-13  466  			err =3D -EFAULT;
-73572984481907 Jens Axboe 2022-06-13  467  			break;
-73572984481907 Jens Axboe 2022-06-13  468  		}
-73572984481907 Jens Axboe 2022-06-13  469  		if ((fd =3D=3D IORING_REGISTER=
-_FILES_SKIP || fd =3D=3D -1) && tag) {
-73572984481907 Jens Axboe 2022-06-13  470  			err =3D -EINVAL;
-73572984481907 Jens Axboe 2022-06-13  471  			break;
-73572984481907 Jens Axboe 2022-06-13  472  		}
-73572984481907 Jens Axboe 2022-06-13  473  		if (fd =3D=3D IORING_REGISTER_=
-FILES_SKIP)
-73572984481907 Jens Axboe 2022-06-13  474  			continue;
-73572984481907 Jens Axboe 2022-06-13  475  =
+af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner    =
+  2013-05-21  148  	/* Make sure that pin is configured as interrupt */
+cee7413d84044a drivers/pinctrl/samsung/pinctrl-s3c24xx.c Krzysztof Kozlowsk=
+i 2017-06-15  149  	reg =3D d->virt_base + bank->pctl_offset;
+af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner    =
+  2013-05-21  150  	shift =3D pin * bank_type->fld_width[PINCFG_TYPE_FUNC];
+af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner    =
+  2013-05-21  151  	mask =3D (1 << bank_type->fld_width[PINCFG_TYPE_FUNC]) =
+- 1;
+af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner    =
+  2013-05-21  152  =
 
-73572984481907 Jens Axboe 2022-06-13  476  		i =3D array_index_nospec(up->o=
-ffset + done, ctx->nr_user_files);
-73572984481907 Jens Axboe 2022-06-13  477  		file_slot =3D io_fixed_file_sl=
-ot(&ctx->file_table, i);
-73572984481907 Jens Axboe 2022-06-13  478  =
+af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner    =
+  2013-05-21 @153  	spin_lock_irqsave(&bank->slock, flags);
+af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner    =
+  2013-05-21  154  =
 
-73572984481907 Jens Axboe 2022-06-13  479  		if (file_slot->file_ptr) {
-73572984481907 Jens Axboe 2022-06-13  480  			file =3D (struct file *)(file=
-_slot->file_ptr & FFS_MASK);
-73572984481907 Jens Axboe 2022-06-13  481  			err =3D io_queue_rsrc_removal=
-(data, i, ctx->rsrc_node, file);
-73572984481907 Jens Axboe 2022-06-13  482  			if (err)
-73572984481907 Jens Axboe 2022-06-13  483  				break;
-73572984481907 Jens Axboe 2022-06-13  484  			file_slot->file_ptr =3D 0;
-73572984481907 Jens Axboe 2022-06-13  485  			io_file_bitmap_clear(&ctx->fi=
-le_table, i);
-73572984481907 Jens Axboe 2022-06-13  486  			needs_switch =3D true;
-73572984481907 Jens Axboe 2022-06-13  487  		}
-73572984481907 Jens Axboe 2022-06-13  488  		if (fd !=3D -1) {
-73572984481907 Jens Axboe 2022-06-13  489  			file =3D fget(fd);
-73572984481907 Jens Axboe 2022-06-13  490  			if (!file) {
-73572984481907 Jens Axboe 2022-06-13  491  				err =3D -EBADF;
-73572984481907 Jens Axboe 2022-06-13  492  				break;
-73572984481907 Jens Axboe 2022-06-13  493  			}
-73572984481907 Jens Axboe 2022-06-13  494  			/*
-73572984481907 Jens Axboe 2022-06-13  495  			 * Don't allow io_uring insta=
-nces to be registered. If
-73572984481907 Jens Axboe 2022-06-13  496  			 * UNIX isn't enabled, then t=
-his causes a reference
-73572984481907 Jens Axboe 2022-06-13  497  			 * cycle and this instance ca=
-n never get freed. If UNIX
-73572984481907 Jens Axboe 2022-06-13  498  			 * is enabled we'll handle it=
- just fine, but there's
-73572984481907 Jens Axboe 2022-06-13  499  			 * still no point in allowing=
- a ring fd as it doesn't
-73572984481907 Jens Axboe 2022-06-13  500  			 * support regular read/write=
- anyway.
-73572984481907 Jens Axboe 2022-06-13  501  			 */
-73572984481907 Jens Axboe 2022-06-13  502  			if (io_is_uring_fops(file)) {
-73572984481907 Jens Axboe 2022-06-13  503  				fput(file);
-73572984481907 Jens Axboe 2022-06-13  504  				err =3D -EBADF;
-73572984481907 Jens Axboe 2022-06-13  505  				break;
-73572984481907 Jens Axboe 2022-06-13  506  			}
-73572984481907 Jens Axboe 2022-06-13  507  			err =3D io_scm_file_account(c=
-tx, file);
-73572984481907 Jens Axboe 2022-06-13  508  			if (err) {
-73572984481907 Jens Axboe 2022-06-13  509  				fput(file);
-73572984481907 Jens Axboe 2022-06-13  510  				break;
-73572984481907 Jens Axboe 2022-06-13  511  			}
-73572984481907 Jens Axboe 2022-06-13  512  			*io_get_tag_slot(data, i) =3D=
- tag;
-73572984481907 Jens Axboe 2022-06-13  513  			io_fixed_file_set(file_slot, =
-file);
-73572984481907 Jens Axboe 2022-06-13  514  			io_file_bitmap_set(&ctx->file=
-_table, i);
-73572984481907 Jens Axboe 2022-06-13  515  		}
-73572984481907 Jens Axboe 2022-06-13  516  	}
-73572984481907 Jens Axboe 2022-06-13  517  =
+af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner    =
+  2013-05-21  155  	val =3D readl(reg);
+af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner    =
+  2013-05-21  156  	val &=3D ~(mask << shift);
+af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner    =
+  2013-05-21  157  	val |=3D bank->eint_func << shift;
+af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner    =
+  2013-05-21  158  	writel(val, reg);
+af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner    =
+  2013-05-21  159  =
 
-73572984481907 Jens Axboe 2022-06-13  518  	if (needs_switch)
-73572984481907 Jens Axboe 2022-06-13  519  		io_rsrc_node_switch(ctx, data);
-73572984481907 Jens Axboe 2022-06-13  520  	return done ? done : err;
-73572984481907 Jens Axboe 2022-06-13  521  }
-73572984481907 Jens Axboe 2022-06-13  522  =
+af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner    =
+  2013-05-21 @160  	spin_unlock_irqrestore(&bank->slock, flags);
+af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner    =
+  2013-05-21  161  }
+af99a7507469d4 drivers/pinctrl/pinctrl-s3c24xx.c         Heiko Stuebner    =
+  2013-05-21  162  =
 
+
+:::::: The code at line 160 was first introduced by commit
+:::::: af99a7507469d4fa6dd4d8d633e093b1ff7aff6e pinctrl: Add pinctrl-s3c24x=
+x driver
+
+:::::: TO: Heiko Stuebner <heiko@sntech.de>
+:::::: CC: Kukjin Kim <kgene.kim@samsung.com>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============7567134517850414667==--
+--===============4577668671028380685==--
 
