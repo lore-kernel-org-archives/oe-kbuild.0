@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============8332471004661512835=="
+Content-Type: multipart/mixed; boundary="===============7567134517850414667=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: include/linux/fortify-string.h:41:33: warning: use of NULL '*(struct napi_gro_cb *)((char *)skb + 24).frag0' where non-null expected [CWE-476]
-Date: Mon, 08 Aug 2022 08:53:18 +0800
-Message-ID: <202208080847.fCs2Hdkj-lkp@intel.com>
+Subject: io_uring/rsrc.c:452:13: warning: use of uninitialized value '<unknown>' [CWE-457]
+Date: Mon, 08 Aug 2022 08:32:40 +0800
+Message-ID: <202208080801.wK6w82xI-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8332471004661512835==
+--===============7567134517850414667==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,237 +15,374 @@ Content-Transfer-Encoding: quoted-printable
 :::::: =
 
 :::::: Manual check reason: "low confidence bisect report"
-:::::: Manual check reason: "low confidence static check first_new_problem:=
- include/linux/fortify-string.h:41:33: warning: use of NULL '*(struct napi_=
-gro_cb *)((char *)skb + 24).frag0' where non-null expected [CWE-476] [-Wana=
-lyzer-null-argument]"
+:::::: Manual check reason: "low confidence static check warning: io_uring/=
+rsrc.c:452:13: warning: use of uninitialized value '<unknown>' [CWE-457] [-=
+Wanalyzer-use-of-uninitialized-value]"
 :::::: =
 
 
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Eric Dumazet <edumazet@google.com>
+TO: Jens Axboe <axboe@kernel.dk>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   3bc1bc0b59d04e997db25b84babf459ca1cd80b7
-commit: 587652bbdd06ab38a4c1b85e40f933d2cf4a1147 net: gro: populate net/cor=
-e/gro.c
-date:   9 months ago
+commit: 73572984481907d92673255b494c0ff4f77c8ed4 io_uring: move rsrc relate=
+d data, core, and commands
+date:   2 weeks ago
 :::::: branch date: 7 hours ago
-:::::: commit date: 9 months ago
-config: i386-randconfig-c001-20220801 (https://download.01.org/0day-ci/arch=
-ive/20220808/202208080847.fCs2Hdkj-lkp(a)intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-3) 11.3.0
+:::::: commit date: 2 weeks ago
+config: arm-randconfig-c002-20220804 (https://download.01.org/0day-ci/archi=
+ve/20220808/202208080801.wK6w82xI-lkp(a)intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
 reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D587652bbdd06ab38a4c1b85e40f933d2cf4a1147
+t/commit/?id=3D73572984481907d92673255b494c0ff4f77c8ed4
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
 t/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout 587652bbdd06ab38a4c1b85e40f933d2cf4a1147
+        git checkout 73572984481907d92673255b494c0ff4f77c8ed4
         # save the config file
-        make ARCH=3Di386 KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cross=
+ ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
 
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 
 gcc-analyzer warnings: (new ones prefixed by >>)
-   In file included from include/linux/string.h:253,
-                    from arch/x86/include/asm/page_32.h:35,
-                    from arch/x86/include/asm/page.h:14,
-                    from arch/x86/include/asm/processor.h:19,
-                    from arch/x86/include/asm/timex.h:5,
-                    from include/linux/timex.h:65,
-                    from include/linux/time32.h:13,
-                    from include/linux/time.h:60,
-                    from include/linux/skbuff.h:15,
-                    from include/linux/ip.h:16,
-                    from include/net/gro.h:7,
-                    from net/core/gro.c:2:
-   include/linux/fortify-string.h: In function 'gro_pull_from_frag0':
->> include/linux/fortify-string.h:41:33: warning: use of NULL '*(struct nap=
-i_gro_cb *)((char *)skb + 24).frag0' where non-null expected [CWE-476] [-Wa=
-nalyzer-null-argument]
-      41 | #define __underlying_memcpy     __builtin_memcpy
-         |                                 ^
-   include/linux/fortify-string.h:225:16: note: in expansion of macro '__un=
-derlying_memcpy'
-     225 |         return __underlying_memcpy(p, q, size);
-         |                ^~~~~~~~~~~~~~~~~~~
-     'napi_frags_skb': events 1-2
+   In function '__io_sqe_buffers_update':
+   cc1: warning: use of uninitialized value '<unknown>' [CWE-457] [-Wanalyz=
+er-use-of-uninitialized-value]
+     '__io_register_rsrc_update.part.0': events 1-4
        |
-       |net/core/gro.c:691:24:
-       |  691 | static struct sk_buff *napi_frags_skb(struct napi_struct *n=
-api)
-       |      |                        ^~~~~~~~~~~~~~
-       |      |                        |
-       |      |                        (1) entry to 'napi_frags_skb'
-       |......
-       |  700 |         skb_gro_reset_offset(skb, hlen);
-       |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |         |
-       |      |         (2) calling 'skb_gro_reset_offset' from 'napi_frags=
-_skb'
-       |
-       +--> 'skb_gro_reset_offset': event 3
-              |
-              |  375 | static inline void skb_gro_reset_offset(struct sk_bu=
-ff *skb, u32 nhoff)
-              |      |                    ^~~~~~~~~~~~~~~~~~~~
-              |      |                    |
-              |      |                    (3) entry to 'skb_gro_reset_offse=
-t'
-              |
-            'skb_gro_reset_offset': event 4
-              |
-              |  381 |         NAPI_GRO_CB(skb)->frag0 =3D NULL;
-              |
-            'skb_gro_reset_offset': event 5
-              |
-              |  381 |         NAPI_GRO_CB(skb)->frag0 =3D NULL;
-              |
-            'skb_gro_reset_offset': event 6
-              |
-              |  381 |         NAPI_GRO_CB(skb)->frag0 =3D NULL;
-              |
-            'skb_gro_reset_offset': event 7
-              |
-              |  381 |         NAPI_GRO_CB(skb)->frag0 =3D NULL;
-              |
-       <------+
-       |
-     'napi_frags_skb': events 8-11
-       |
-       |  700 |         skb_gro_reset_offset(skb, hlen);
-       |      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |         |
-       |      |         (8) returning to 'napi_frags_skb' from 'skb_gro_res=
-et_offset'
-       |  701 | =
-
-       |  702 |         if (unlikely(skb_gro_header_hard(skb, hlen))) {
-       |      |            ~
+       |io_uring/rsrc.c:583:12:
+       |  583 | static int __io_register_rsrc_update(struct io_ring_ctx *ct=
+x, unsigned type,
+       |      |            ^~~~~~~~~~~~~~~~~~~~~~~~~
        |      |            |
-       |      |            (9) following 'false' branch...
+       |      |            (1) entry to '__io_register_rsrc_update.part.0'
        |......
-       |  711 |                 eth =3D (const struct ethhdr *)skb->data;
-       |      |                 ~~~
-       |      |                 |
-       |      |                 (10) ...to here
-       |  712 |                 gro_pull_from_frag0(skb, hlen);
-       |      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |                 |
-       |      |                 (11) calling 'gro_pull_from_frag0' from 'na=
-pi_frags_skb'
+       |  596 |         switch (type) {
+       |      |         ~~~~~~
+       |      |         |
+       |      |         (2) following 'case 1:' branch...
+       |......
+       |  599 |         case IORING_RSRC_BUFFER:
+       |      |         ~~~~
+       |      |         |
+       |      |         (3) ...to here
+       |  600 |                 return __io_sqe_buffers_update(ctx, up, nr_=
+args);
+       |      |                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~
+       |      |                        |
+       |      |                        (4) calling '__io_sqe_buffers_update=
+' from '__io_register_rsrc_update.part.0'
        |
-       +--> 'gro_pull_from_frag0': event 12
+       +--> '__io_sqe_buffers_update': events 5-8
               |
-              |  394 | static void gro_pull_from_frag0(struct sk_buff *skb,=
- int grow)
-              |      |             ^~~~~~~~~~~~~~~~~~~
-              |      |             |
-              |      |             (12) entry to 'gro_pull_from_frag0'
-              |
-            'gro_pull_from_frag0': event 13
-              |
-              |include/asm-generic/bug.h:65:35:
-              |   65 | #define BUG_ON(condition) do { if (unlikely(conditio=
-n)) BUG(); } while (0)
-              |      |                                   ^
-              |      |                                   |
-              |      |                                   (13) following 'fa=
-lse' branch...
-   net/core/gro.c:398:9: note: in expansion of macro 'BUG_ON'
-              |  398 |         BUG_ON(skb->end - skb->tail < grow);
-              |      |         ^~~~~~
-              |
-            'gro_pull_from_frag0': event 14
-              |
-              |include/linux/compiler-gcc.h:63:12:
-              |   63 |         do {                                    \
-              |      |            ^
+              |  523 | static int __io_sqe_buffers_update(struct io_ring_ct=
+x *ctx,
+              |      |            ^~~~~~~~~~~~~~~~~~~~~~~
               |      |            |
-              |      |            (14) ...to here
-   arch/x86/include/asm/bug.h:67:9: note: in expansion of macro 'unreachabl=
-e'
-              |   67 |         unreachable();                              =
-            \
-              |      |         ^~~~~~~~~~~
-   include/asm-generic/bug.h:65:57: note: in expansion of macro 'BUG'
-              |   65 | #define BUG_ON(condition) do { if (unlikely(conditio=
-n)) BUG(); } while (0)
-              |      |                                                     =
-    ^~~
-   net/core/gro.c:398:9: note: in expansion of macro 'BUG_ON'
-              |  398 |         BUG_ON(skb->end - skb->tail < grow);
-              |      |         ^~~~~~
+              |      |            (5) entry to '__io_sqe_buffers_update'
+              |......
+              |  534 |         if (!ctx->buf_data)
+              |      |            ~
+              |      |            |
+              |      |            (6) following 'false' branch...
+              |  535 |                 return -ENXIO;
+              |  536 |         if (up->offset + nr_args > ctx->nr_user_bufs)
+              |      |         ~~ ~
+              |      |         |  |
+              |      |         |  (8) following 'false' branch...
+              |      |         (7) ...to here
               |
-            'gro_pull_from_frag0': events 15-16
+            '__io_sqe_buffers_update': event 9
+              |
+              |cc1:
+              | (9): ...to here
+              |
+            '__io_sqe_buffers_update': events 10-14
+              |
+              |  539 |         for (done =3D 0; done < nr_args; done++) {
+              |      |                        ~~~~~^~~~~~~~~
+              |      |                             |
+              |      |                             (10) following 'false' b=
+ranch (when 'done >=3D nr_args')...
+              |......
+              |  578 |         if (needs_switch)
+              |      |         ~~ ~                 =
 
-vim +41 include/linux/fortify-string.h
+              |      |         |  |
+              |      |         |  (12) following 'false' branch (when 'need=
+s_switch =3D=3D 0')...
+              |      |         (11) ...to here
+              |  579 |                 io_rsrc_node_switch(ctx, ctx->buf_da=
+ta);
+              |  580 |         return done ? done : err;
+              |      |         ~~~~~~ ~~~~~~~~~~~~~~~~~
+              |      |         |                  |
+              |      |         (13) ...to here    (14) following 'false' br=
+anch (when 'done =3D=3D 0')...
+              |
+            '__io_sqe_buffers_update': event 15
+              |
+              |cc1:
+              | (15): ...to here
+              |
+            '__io_sqe_buffers_update': event 16
+              |
+              |cc1:
+              | (16): use of uninitialized value '=1B[01m=1B[K<unknown>=1B[=
+m=1B[K' here
+              |
+   io_uring/rsrc.c: In function '__io_sqe_files_update':
+>> io_uring/rsrc.c:452:13: warning: use of uninitialized value '<unknown>' =
+[CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+     452 |         int fd, i, err =3D 0;
+         |             ^~
+     '__io_register_rsrc_update.part.0': events 1-4
+       |
+       |  583 | static int __io_register_rsrc_update(struct io_ring_ctx *ct=
+x, unsigned type,
+       |      |            ^~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |            |
+       |      |            (1) entry to '__io_register_rsrc_update.part.0'
+       |......
+       |  596 |         switch (type) {
+       |      |         ~~~~~~
+       |      |         |
+       |      |         (2) following 'case 0:' branch...
+       |  597 |         case IORING_RSRC_FILE:
+       |      |         ~~~~
+       |      |         |
+       |      |         (3) ...to here
+       |  598 |                 return __io_sqe_files_update(ctx, up, nr_ar=
+gs);
+       |      |                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~
+       |      |                        |
+       |      |                        (4) calling '__io_sqe_files_update' =
+from '__io_register_rsrc_update.part.0'
+       |
+       +--> '__io_sqe_files_update': events 5-6
+              |
+              |  443 | static int __io_sqe_files_update(struct io_ring_ctx =
+*ctx,
+              |      |            ^~~~~~~~~~~~~~~~~~~~~
+              |      |            |
+              |      |            (5) entry to '__io_sqe_files_update'
+              |......
+              |  452 |         int fd, i, err =3D 0;
+              |      |             ~~
+              |      |             |
+              |      |             (6) use of uninitialized value '<unknown=
+>' here
+              |
+   io_uring/rsrc.c: In function '__io_sqe_buffers_update':
+   io_uring/rsrc.c:540:40: warning: use of uninitialized value '<unknown>' =
+[CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+     540 |                 struct io_mapped_ubuf *imu;
+         |                                        ^~~
+     '__io_register_rsrc_update.part.0': events 1-4
+       |
+       |  583 | static int __io_register_rsrc_update(struct io_ring_ctx *ct=
+x, unsigned type,
+       |      |            ^~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |            |
+       |      |            (1) entry to '__io_register_rsrc_update.part.0'
+       |......
+       |  596 |         switch (type) {
+       |      |         ~~~~~~
+       |      |         |
+       |      |         (2) following 'case 1:' branch...
+       |......
+       |  599 |         case IORING_RSRC_BUFFER:
+       |      |         ~~~~
+       |      |         |
+       |      |         (3) ...to here
+       |  600 |                 return __io_sqe_buffers_update(ctx, up, nr_=
+args);
+       |      |                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~
+       |      |                        |
+       |      |                        (4) calling '__io_sqe_buffers_update=
+' from '__io_register_rsrc_update.part.0'
+       |
+       +--> '__io_sqe_buffers_update': events 5-8
+              |
+              |  523 | static int __io_sqe_buffers_update(struct io_ring_ct=
+x *ctx,
+              |      |            ^~~~~~~~~~~~~~~~~~~~~~~
+              |      |            |
+              |      |            (5) entry to '__io_sqe_buffers_update'
+              |......
+              |  534 |         if (!ctx->buf_data)
+              |      |            ~
+              |      |            |
+              |      |            (6) following 'false' branch...
+              |  535 |                 return -ENXIO;
+              |  536 |         if (up->offset + nr_args > ctx->nr_user_bufs)
+              |      |         ~~ ~
+              |      |         |  |
+              |      |         |  (8) following 'false' branch...
+              |      |         (7) ...to here
+              |
+            '__io_sqe_buffers_update': event 9
+              |
+              |cc1:
+              | (9): ...to here
+              |
+            '__io_sqe_buffers_update': events 10-12
+              |
+              |  539 |         for (done =3D 0; done < nr_args; done++) {
+              |      |                        ~~~~~^~~~~~~~~
+              |      |                             |
+              |      |                             (10) following 'true' br=
+anch (when 'done < nr_args')...
+              |  540 |                 struct io_mapped_ubuf *imu;
+              |      |                 ~~~~~~                 ~~~
+              |      |                 |                      |
+              |      |                 (11) ...to here        (12) use of u=
+ninitialized value '<unknown>' here
+              |
+   io_uring/rsrc.c: In function 'io_sqe_buffer_register':
+   io_uring/rsrc.c:1204:18: warning: use of uninitialized value '<unknown>'=
+ [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+    1204 |         int ret, nr_pages, i;
+         |                  ^~~~~~~~
+     'io_sqe_buffer_register': event 1
+       |
+       | 1204 |         int ret, nr_pages, i;
 
-3009f891bb9f32 Kees Cook      2021-08-02  26  =
+vim +452 io_uring/rsrc.c
 
-a28a6e860c6cf2 Francis Laniel 2021-02-25  27  #if defined(CONFIG_KASAN_GENE=
-RIC) || defined(CONFIG_KASAN_SW_TAGS)
-a28a6e860c6cf2 Francis Laniel 2021-02-25  28  extern void *__underlying_mem=
-chr(const void *p, int c, __kernel_size_t size) __RENAME(memchr);
-a28a6e860c6cf2 Francis Laniel 2021-02-25  29  extern int __underlying_memcm=
-p(const void *p, const void *q, __kernel_size_t size) __RENAME(memcmp);
-a28a6e860c6cf2 Francis Laniel 2021-02-25  30  extern void *__underlying_mem=
-cpy(void *p, const void *q, __kernel_size_t size) __RENAME(memcpy);
-a28a6e860c6cf2 Francis Laniel 2021-02-25  31  extern void *__underlying_mem=
-move(void *p, const void *q, __kernel_size_t size) __RENAME(memmove);
-a28a6e860c6cf2 Francis Laniel 2021-02-25  32  extern void *__underlying_mem=
-set(void *p, int c, __kernel_size_t size) __RENAME(memset);
-a28a6e860c6cf2 Francis Laniel 2021-02-25  33  extern char *__underlying_str=
-cat(char *p, const char *q) __RENAME(strcat);
-a28a6e860c6cf2 Francis Laniel 2021-02-25  34  extern char *__underlying_str=
-cpy(char *p, const char *q) __RENAME(strcpy);
-a28a6e860c6cf2 Francis Laniel 2021-02-25  35  extern __kernel_size_t __unde=
-rlying_strlen(const char *p) __RENAME(strlen);
-a28a6e860c6cf2 Francis Laniel 2021-02-25  36  extern char *__underlying_str=
-ncat(char *p, const char *q, __kernel_size_t count) __RENAME(strncat);
-a28a6e860c6cf2 Francis Laniel 2021-02-25  37  extern char *__underlying_str=
-ncpy(char *p, const char *q, __kernel_size_t size) __RENAME(strncpy);
-a28a6e860c6cf2 Francis Laniel 2021-02-25  38  #else
-a28a6e860c6cf2 Francis Laniel 2021-02-25  39  #define __underlying_memchr	_=
-_builtin_memchr
-a28a6e860c6cf2 Francis Laniel 2021-02-25  40  #define __underlying_memcmp	_=
-_builtin_memcmp
-a28a6e860c6cf2 Francis Laniel 2021-02-25 @41  #define __underlying_memcpy	_=
-_builtin_memcpy
-a28a6e860c6cf2 Francis Laniel 2021-02-25  42  #define __underlying_memmove	=
-__builtin_memmove
-a28a6e860c6cf2 Francis Laniel 2021-02-25  43  #define __underlying_memset	_=
-_builtin_memset
-a28a6e860c6cf2 Francis Laniel 2021-02-25  44  #define __underlying_strcat	_=
-_builtin_strcat
-a28a6e860c6cf2 Francis Laniel 2021-02-25  45  #define __underlying_strcpy	_=
-_builtin_strcpy
-a28a6e860c6cf2 Francis Laniel 2021-02-25  46  #define __underlying_strlen	_=
-_builtin_strlen
-a28a6e860c6cf2 Francis Laniel 2021-02-25  47  #define __underlying_strncat	=
-__builtin_strncat
-a28a6e860c6cf2 Francis Laniel 2021-02-25  48  #define __underlying_strncpy	=
-__builtin_strncpy
-a28a6e860c6cf2 Francis Laniel 2021-02-25  49  #endif
-a28a6e860c6cf2 Francis Laniel 2021-02-25  50  =
+73572984481907 Jens Axboe 2022-06-13  442  =
 
+73572984481907 Jens Axboe 2022-06-13  443  static int __io_sqe_files_update=
+(struct io_ring_ctx *ctx,
+73572984481907 Jens Axboe 2022-06-13  444  				 struct io_uring_rsrc_update=
+2 *up,
+73572984481907 Jens Axboe 2022-06-13  445  				 unsigned nr_args)
+73572984481907 Jens Axboe 2022-06-13  446  {
+73572984481907 Jens Axboe 2022-06-13  447  	u64 __user *tags =3D u64_to_use=
+r_ptr(up->tags);
+73572984481907 Jens Axboe 2022-06-13  448  	__s32 __user *fds =3D u64_to_us=
+er_ptr(up->data);
+73572984481907 Jens Axboe 2022-06-13  449  	struct io_rsrc_data *data =3D c=
+tx->file_data;
+73572984481907 Jens Axboe 2022-06-13  450  	struct io_fixed_file *file_slot;
+73572984481907 Jens Axboe 2022-06-13  451  	struct file *file;
+73572984481907 Jens Axboe 2022-06-13 @452  	int fd, i, err =3D 0;
+73572984481907 Jens Axboe 2022-06-13  453  	unsigned int done;
+73572984481907 Jens Axboe 2022-06-13  454  	bool needs_switch =3D false;
+73572984481907 Jens Axboe 2022-06-13  455  =
 
-:::::: The code@line 41 was first introduced by commit
-:::::: a28a6e860c6cf231cf3c5171c75c342adcd00406 string.h: move fortified fu=
-nctions definitions in a dedicated header.
+73572984481907 Jens Axboe 2022-06-13  456  	if (!ctx->file_data)
+73572984481907 Jens Axboe 2022-06-13  457  		return -ENXIO;
+73572984481907 Jens Axboe 2022-06-13  458  	if (up->offset + nr_args > ctx-=
+>nr_user_files)
+73572984481907 Jens Axboe 2022-06-13  459  		return -EINVAL;
+73572984481907 Jens Axboe 2022-06-13  460  =
 
-:::::: TO: Francis Laniel <laniel_francis@privacyrequired.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+73572984481907 Jens Axboe 2022-06-13  461  	for (done =3D 0; done < nr_args=
+; done++) {
+73572984481907 Jens Axboe 2022-06-13  462  		u64 tag =3D 0;
+73572984481907 Jens Axboe 2022-06-13  463  =
+
+73572984481907 Jens Axboe 2022-06-13  464  		if ((tags && copy_from_user(&t=
+ag, &tags[done], sizeof(tag))) ||
+73572984481907 Jens Axboe 2022-06-13  465  		    copy_from_user(&fd, &fds[d=
+one], sizeof(fd))) {
+73572984481907 Jens Axboe 2022-06-13  466  			err =3D -EFAULT;
+73572984481907 Jens Axboe 2022-06-13  467  			break;
+73572984481907 Jens Axboe 2022-06-13  468  		}
+73572984481907 Jens Axboe 2022-06-13  469  		if ((fd =3D=3D IORING_REGISTER=
+_FILES_SKIP || fd =3D=3D -1) && tag) {
+73572984481907 Jens Axboe 2022-06-13  470  			err =3D -EINVAL;
+73572984481907 Jens Axboe 2022-06-13  471  			break;
+73572984481907 Jens Axboe 2022-06-13  472  		}
+73572984481907 Jens Axboe 2022-06-13  473  		if (fd =3D=3D IORING_REGISTER_=
+FILES_SKIP)
+73572984481907 Jens Axboe 2022-06-13  474  			continue;
+73572984481907 Jens Axboe 2022-06-13  475  =
+
+73572984481907 Jens Axboe 2022-06-13  476  		i =3D array_index_nospec(up->o=
+ffset + done, ctx->nr_user_files);
+73572984481907 Jens Axboe 2022-06-13  477  		file_slot =3D io_fixed_file_sl=
+ot(&ctx->file_table, i);
+73572984481907 Jens Axboe 2022-06-13  478  =
+
+73572984481907 Jens Axboe 2022-06-13  479  		if (file_slot->file_ptr) {
+73572984481907 Jens Axboe 2022-06-13  480  			file =3D (struct file *)(file=
+_slot->file_ptr & FFS_MASK);
+73572984481907 Jens Axboe 2022-06-13  481  			err =3D io_queue_rsrc_removal=
+(data, i, ctx->rsrc_node, file);
+73572984481907 Jens Axboe 2022-06-13  482  			if (err)
+73572984481907 Jens Axboe 2022-06-13  483  				break;
+73572984481907 Jens Axboe 2022-06-13  484  			file_slot->file_ptr =3D 0;
+73572984481907 Jens Axboe 2022-06-13  485  			io_file_bitmap_clear(&ctx->fi=
+le_table, i);
+73572984481907 Jens Axboe 2022-06-13  486  			needs_switch =3D true;
+73572984481907 Jens Axboe 2022-06-13  487  		}
+73572984481907 Jens Axboe 2022-06-13  488  		if (fd !=3D -1) {
+73572984481907 Jens Axboe 2022-06-13  489  			file =3D fget(fd);
+73572984481907 Jens Axboe 2022-06-13  490  			if (!file) {
+73572984481907 Jens Axboe 2022-06-13  491  				err =3D -EBADF;
+73572984481907 Jens Axboe 2022-06-13  492  				break;
+73572984481907 Jens Axboe 2022-06-13  493  			}
+73572984481907 Jens Axboe 2022-06-13  494  			/*
+73572984481907 Jens Axboe 2022-06-13  495  			 * Don't allow io_uring insta=
+nces to be registered. If
+73572984481907 Jens Axboe 2022-06-13  496  			 * UNIX isn't enabled, then t=
+his causes a reference
+73572984481907 Jens Axboe 2022-06-13  497  			 * cycle and this instance ca=
+n never get freed. If UNIX
+73572984481907 Jens Axboe 2022-06-13  498  			 * is enabled we'll handle it=
+ just fine, but there's
+73572984481907 Jens Axboe 2022-06-13  499  			 * still no point in allowing=
+ a ring fd as it doesn't
+73572984481907 Jens Axboe 2022-06-13  500  			 * support regular read/write=
+ anyway.
+73572984481907 Jens Axboe 2022-06-13  501  			 */
+73572984481907 Jens Axboe 2022-06-13  502  			if (io_is_uring_fops(file)) {
+73572984481907 Jens Axboe 2022-06-13  503  				fput(file);
+73572984481907 Jens Axboe 2022-06-13  504  				err =3D -EBADF;
+73572984481907 Jens Axboe 2022-06-13  505  				break;
+73572984481907 Jens Axboe 2022-06-13  506  			}
+73572984481907 Jens Axboe 2022-06-13  507  			err =3D io_scm_file_account(c=
+tx, file);
+73572984481907 Jens Axboe 2022-06-13  508  			if (err) {
+73572984481907 Jens Axboe 2022-06-13  509  				fput(file);
+73572984481907 Jens Axboe 2022-06-13  510  				break;
+73572984481907 Jens Axboe 2022-06-13  511  			}
+73572984481907 Jens Axboe 2022-06-13  512  			*io_get_tag_slot(data, i) =3D=
+ tag;
+73572984481907 Jens Axboe 2022-06-13  513  			io_fixed_file_set(file_slot, =
+file);
+73572984481907 Jens Axboe 2022-06-13  514  			io_file_bitmap_set(&ctx->file=
+_table, i);
+73572984481907 Jens Axboe 2022-06-13  515  		}
+73572984481907 Jens Axboe 2022-06-13  516  	}
+73572984481907 Jens Axboe 2022-06-13  517  =
+
+73572984481907 Jens Axboe 2022-06-13  518  	if (needs_switch)
+73572984481907 Jens Axboe 2022-06-13  519  		io_rsrc_node_switch(ctx, data);
+73572984481907 Jens Axboe 2022-06-13  520  	return done ? done : err;
+73572984481907 Jens Axboe 2022-06-13  521  }
+73572984481907 Jens Axboe 2022-06-13  522  =
+
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============8332471004661512835==--
+--===============7567134517850414667==--
 
