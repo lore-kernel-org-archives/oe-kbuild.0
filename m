@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============3661965670276435809=="
+Content-Type: multipart/mixed; boundary="===============8872261259024651624=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: io_uring/rw.c:382:17: warning: use of uninitialized value '<unknown>' [CWE-457]
-Date: Mon, 08 Aug 2022 16:33:42 +0800
-Message-ID: <202208081640.uCDfbp65-lkp@intel.com>
+Subject: drivers/thermal/tegra/soctherm.c:592:32: warning: use of uninitialized value '<unknown>' [CWE-457]
+Date: Mon, 08 Aug 2022 15:42:51 +0800
+Message-ID: <202208081535.8OJkpcSO-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3661965670276435809==
+--===============8872261259024651624==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,38 +15,44 @@ Content-Transfer-Encoding: quoted-printable
 :::::: =
 
 :::::: Manual check reason: "low confidence bisect report"
-:::::: Manual check reason: "low confidence static check warning: io_uring/=
-rw.c:382:17: warning: use of uninitialized value '<unknown>' [CWE-457] [-Wa=
-nalyzer-use-of-uninitialized-value]"
+:::::: Manual check reason: "only Kconfig file updated"
+:::::: Manual check reason: "low confidence static check first_new_problem:=
+ drivers/thermal/tegra/soctherm.c:592:32: warning: use of uninitialized val=
+ue '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]"
 :::::: =
 
 
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Jens Axboe <axboe@kernel.dk>
+TO: Dmitry Osipenko <digetx@gmail.com>
+CC: Daniel Lezcano <daniel.lezcano@linaro.org>
+
+Hi Dmitry,
+
+First bad commit (maybe !=3D root cause):
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   4e23eeebb2e57f5a28b36221aa776b5a1122dde5
-commit: f3b44f92e59a804cf375479bda0bccbf4b6e6ef6 io_uring: move read/write =
-related opcodes to its own file
-date:   2 weeks ago
-:::::: branch date: 8 hours ago
-:::::: commit date: 2 weeks ago
+commit: 8f8d8b0334cc4e7908b78e73936a7673bbef0411 thermal/drivers/tegra: Cor=
+rect compile-testing of drivers
+date:   12 months ago
+:::::: branch date: 7 hours ago
+:::::: commit date: 12 months ago
 config: arm-randconfig-c002-20220804 (https://download.01.org/0day-ci/archi=
-ve/20220808/202208081640.uCDfbp65-lkp(a)intel.com/config)
+ve/20220808/202208081535.8OJkpcSO-lkp(a)intel.com/config)
 compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3Df3b44f92e59a804cf375479bda0bccbf4b6e6ef6
+t/commit/?id=3D8f8d8b0334cc4e7908b78e73936a7673bbef0411
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
 t/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout f3b44f92e59a804cf375479bda0bccbf4b6e6ef6
+        git checkout 8f8d8b0334cc4e7908b78e73936a7673bbef0411
         # save the config file
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cross=
  ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
@@ -56,306 +62,207 @@ If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 
 gcc-analyzer warnings: (new ones prefixed by >>)
+   In file included from drivers/thermal/tegra/soctherm.c:27:
+   include/linux/irqdomain.h: In function 'irq_find_mapping':
+   include/linux/irqdomain.h:423:22: warning: use of uninitialized value '<=
+unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+     423 |         unsigned int irq;
+         |                      ^~~
+     'irq_find_mapping': event 1
        |
-     'io_do_iopoll': event 5
+       |  423 |         unsigned int irq;
+       |      |                      ^~~
+       |      |                      |
+       |      |                      (1) use of uninitialized value '<unkno=
+wn>' here
        |
-       |cc1:
-       | (5): ...to here
+   drivers/thermal/tegra/soctherm.c: In function 'tegra_thermctl_set_trip_t=
+emp':
+>> drivers/thermal/tegra/soctherm.c:592:32: warning: use of uninitialized v=
+alue '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+     592 |         enum thermal_trip_type type;
+         |                                ^~~~
+     'tegra_thermctl_set_trip_temp': event 1
        |
-     'io_do_iopoll': event 6
+       |  592 |         enum thermal_trip_type type;
+       |      |                                ^~~~
+       |      |                                |
+       |      |                                (1) use of uninitialized val=
+ue '<unknown>' here
        |
-       | 1076 |         wq_list_for_each_resume(pos, prev) {
-       |      |                                 ^~~
-       |      |                                 |
-       |      |                                 (6) following 'true' branch=
- (when 'pos' is non-NULL)...
-   io_uring/io-wq.h:36:16: note: in definition of macro 'wq_list_for_each_r=
-esume'
-       |   36 |         for (; pos; prv =3D pos, pos =3D (pos)->next)
-       |      |                ^~~
+   drivers/thermal/tegra/soctherm.c: In function 'tegra_thermctl_get_trend':
+   drivers/thermal/tegra/soctherm.c:641:13: warning: use of uninitialized v=
+alue '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+     641 |         int trip_temp, temp, last_temp, ret;
+         |             ^~~~~~~~~
+     'tegra_thermctl_get_trend': event 1
        |
-     'io_do_iopoll': events 7-12
+       |  641 |         int trip_temp, temp, last_temp, ret;
+       |      |             ^~~~~~~~~
+       |      |             |
+       |      |             (1) use of uninitialized value '<unknown>' here
        |
-       |io_uring/rw.c:1077:17:
-       | 1077 |                 struct io_kiocb *req =3D container_of(pos, =
-struct io_kiocb, comp_list);
-       |      |                 ^~~~~~
-       |      |                 |
-       |      |                 (7) ...to here
-       |......
-       | 1080 |                 if (!smp_load_acquire(&req->iopoll_complete=
-d))
-       |      |                    ~
-       |      |                    |
-       |      |                    (8) following 'false' branch...
-       | 1081 |                         break;
-       | 1082 |                 nr_events++;
-       |      |                 ~~~~~~~~~
-       |      |                 |
-       |      |                 (9) ...to here
-       | 1083 |                 if (unlikely(req->flags & REQ_F_CQE_SKIP))
-       |      |                    ~
-       |      |                    |
-       |      |                    (10) following 'false' branch...
-       |......
-       | 1086 |                 req->cqe.flags =3D io_put_kbuf(req, 0);
-       |      |                 ~~~              ~~~~~~~~~~~~~~~~~~~
-       |      |                 |                |
-       |      |                 (11) ...to here  (12) calling 'io_put_kbuf'=
- from 'io_do_iopoll'
+   drivers/thermal/tegra/soctherm.c: In function 'get_hot_temp':
+   drivers/thermal/tegra/soctherm.c:726:32: warning: use of uninitialized v=
+alue '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+     726 |         enum thermal_trip_type type;
+         |                                ^~~~
+     'get_hot_temp': event 1
        |
-       +--> 'io_put_kbuf': events 13-18
-              |
-              |io_uring/kbuf.h:105:28:
-              |  105 | static inline unsigned int io_put_kbuf(struct io_kio=
-cb *req,
-              |      |                            ^~~~~~~~~~~
-              |      |                            |
-              |      |                            (13) entry to 'io_put_kbu=
-f'
-              |......
-              |  110 |         if (!(req->flags & (REQ_F_BUFFER_SELECTED|RE=
-Q_F_BUFFER_RING)))
-              |      |            ~                =
-
-              |      |            |
-              |      |            (14) following 'false' branch...
-              |......
-              |  125 |         if (req->flags & REQ_F_BUFFER_RING) {
-              |      |         ~~ ~                =
-
-              |      |         |  |
-              |      |         |  (16) following 'true' branch...
-              |      |         (15) ...to here
-              |  126 |                 /* no buffers to recycle for this ca=
-se */
-              |  127 |                 cflags =3D __io_put_kbuf(req, NULL);
-              |      |                 ~~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~
-              |      |                 |        |
-              |      |                 |        (18) calling '__io_put_kbuf=
-' from 'io_put_kbuf'
-              |      |                 (17) ...to here
-              |
-              +--> '__io_put_kbuf': events 19-22
-                     |
-                     |   82 | static unsigned int __io_put_kbuf(struct io_k=
-iocb *req, struct list_head *list)
-                     |      |                     ^~~~~~~~~~~~~
-                     |      |                     |
-                     |      |                     (19) entry to '__io_put_k=
-buf'
-                     |   83 | {
-                     |   84 |         if (req->flags & REQ_F_BUFFER_RING) {
-                     |      |            ~         =
-
-                     |      |            |
-                     |      |            (20) following 'false' branch...
-                     |......
-                     |   89 |                 list_add(&req->kbuf->list, li=
-st);
-                     |      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~
-                     |      |                 |
-                     |      |                 (21) ...to here
-                     |      |                 (22) calling 'list_add' from =
-'__io_put_kbuf'
-                     |
-                     +--> 'list_add': events 23-24
-                            |
-                            |include/linux/list.h:86:20:
-                            |   86 | static inline void list_add(struct lis=
-t_head *new, struct list_head *head)
-                            |      |                    ^~~~~~~~
-                            |      |                    |
-                            |      |                    (23) entry to 'list=
-_add'
-                            |   87 | {
-                            |   88 |         __list_add(new, head, head->ne=
-xt);
-                            |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~
-                            |      |         |
-                            |      |         (24) dereference of NULL 'head'
-                            |
-   io_uring/rw.c: In function '__io_iov_buffer_select':
->> io_uring/rw.c:382:17: warning: use of uninitialized value '<unknown>' [C=
-WE-457] [-Wanalyzer-use-of-uninitialized-value]
-     382 |         ssize_t len;
-         |                 ^~~
-     'io_write': events 1-4
+       |  726 |         enum thermal_trip_type type;
+       |      |                                ^~~~
+       |      |                                |
+       |      |                                (1) use of uninitialized val=
+ue '<unknown>' here
        |
-       |  916 | int io_write(struct io_kiocb *req, unsigned int issue_flags)
-       |      |     ^~~~~~~~
-       |      |     |
-       |      |     (1) entry to 'io_write'
-       |......
-       |  926 |         if (!req_has_async_data(req)) {
-       |      |            ~
-       |      |            |
-       |      |            (2) following 'true' branch...
-       |  927 |                 ret =3D io_import_iovec(WRITE, req, &iovec,=
- s, issue_flags);
-       |      |                 ~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~
-       |      |                 |     |
-       |      |                 |     (4) calling 'io_import_iovec' from 'i=
-o_write'
-       |      |                 (3) ...to here
+   drivers/thermal/tegra/soctherm.c: In function 'tegra_soctherm_set_hwtrip=
+s':
+   drivers/thermal/tegra/soctherm.c:778:16: warning: use of uninitialized v=
+alue '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+     778 |         int i, trip, temperature, ret;
+         |                ^~~~
+     'tegra_soctherm_set_hwtrips': event 1
        |
-       +--> 'io_import_iovec': events 5-6
-              |
-              |  473 | static inline int io_import_iovec(int rw, struct io_=
-kiocb *req,
-              |      |                   ^~~~~~~~~~~~~~~
-              |      |                   |
-              |      |                   (5) entry to 'io_import_iovec'
-              |......
-              |  477 |         *iovec =3D __io_import_iovec(rw, req, s, iss=
-ue_flags);
-              |      |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~
-              |      |                  |
-              |      |                  (6) calling '__io_import_iovec' fro=
-m 'io_import_iovec'
-              |
-              +--> '__io_import_iovec': events 7-14
-                     |
-                     |  420 | static struct iovec *__io_import_iovec(int dd=
-ir, struct io_kiocb *req,
-                     |      |                      ^~~~~~~~~~~~~~~~~
-                     |      |                      |
-                     |      |                      (7) entry to '__io_impor=
-t_iovec'
-                     |......
-                     |  432 |         if (opcode =3D=3D IORING_OP_READ_FIXE=
-D || opcode =3D=3D IORING_OP_WRITE_FIXED) {
-                     |      |            ~          =
+       |  778 |         int i, trip, temperature, ret;
+       |      |                ^~~~
+       |      |                |
+       |      |                (1) use of uninitialized value '<unknown>' h=
+ere
+       |
+   drivers/thermal/tegra/soctherm.c:778:22: warning: use of uninitialized v=
+alue '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+     778 |         int i, trip, temperature, ret;
+         |                      ^~~~~~~~~~~
+     'tegra_soctherm_set_hwtrips': event 1
+       |
+       |  778 |         int i, trip, temperature, ret;
+       |      |                      ^~~~~~~~~~~
+       |      |                      |
+       |      |                      (1) use of uninitialized value '<unkno=
+wn>' here
+       |
+   drivers/thermal/tegra/soctherm.c: In function 'soctherm_oc_cfg_parse':
+   drivers/thermal/tegra/soctherm.c:1620:13: warning: use of uninitialized =
+value '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+    1620 |         u32 val;
+         |             ^~~
+     'soctherm_oc_cfg_parse': event 1
+       |
+       | 1620 |         u32 val;
+       |      |             ^~~
+       |      |             |
+       |      |             (1) use of uninitialized value '<unknown>' here
+       |
+   drivers/thermal/tegra/soctherm.c: In function 'soctherm_throt_cfg_parse':
+   drivers/thermal/tegra/soctherm.c:1648:13: warning: use of uninitialized =
+value '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+    1648 |         u32 val;
+         |             ^~~
+     'soctherm_throt_cfg_parse': event 1
+       |
+       | 1648 |         u32 val;
+       |      |             ^~~
+       |      |             |
+       |      |             (1) use of uninitialized value '<unknown>' here
+       |
 
-                     |      |            |
-                     |      |            (8) following 'false' branch...
-                     |......
-                     |  439 |         buf =3D u64_to_user_ptr(rw->addr);
-                     |      |         ~~~           =
+vim +592 drivers/thermal/tegra/soctherm.c
 
-                     |      |         |
-                     |      |         (9) ...to here
-                     |......
-                     |  442 |         if (opcode =3D=3D IORING_OP_READ || o=
-pcode =3D=3D IORING_OP_WRITE) {
-                     |      |            ~          =
+2510aa56ab8795 Wei Ni       2019-02-21  584  =
 
-                     |      |            |
-                     |      |            (10) following 'false' branch...
-                     |......
-                     |  457 |         iovec =3D s->fast_iov;
-                     |      |         ~~~~~         =
+d790405d1b23cf Nicolin Chen 2017-10-25  585  static int tegra_thermctl_set_=
+trip_temp(void *data, int trip, int temp)
+d790405d1b23cf Nicolin Chen 2017-10-25  586  {
+d790405d1b23cf Nicolin Chen 2017-10-25  587  	struct tegra_thermctl_zone *z=
+one =3D data;
+d790405d1b23cf Nicolin Chen 2017-10-25  588  	struct thermal_zone_device *t=
+z =3D zone->tz;
+d790405d1b23cf Nicolin Chen 2017-10-25  589  	struct tegra_soctherm *ts =3D=
+ zone->ts;
+d790405d1b23cf Nicolin Chen 2017-10-25  590  	const struct tegra_tsensor_gr=
+oup *sg =3D zone->sg;
+d790405d1b23cf Nicolin Chen 2017-10-25  591  	struct device *dev =3D zone->=
+dev;
+d790405d1b23cf Nicolin Chen 2017-10-25 @592  	enum thermal_trip_type type;
+d790405d1b23cf Nicolin Chen 2017-10-25  593  	int ret;
+d790405d1b23cf Nicolin Chen 2017-10-25  594  =
 
-                     |      |         |
-                     |      |         (11) ...to here
-                     |  458 |         if (req->flags & REQ_F_BUFFER_SELECT)=
- {
-                     |      |            ~          =
+d790405d1b23cf Nicolin Chen 2017-10-25  595  	if (!tz)
+d790405d1b23cf Nicolin Chen 2017-10-25  596  		return -EINVAL;
+d790405d1b23cf Nicolin Chen 2017-10-25  597  =
 
-                     |      |            |
-                     |      |            (12) following 'true' branch...
-                     |  459 |                 ret =3D io_iov_buffer_select(=
-req, iovec, issue_flags);
-                     |      |                 ~~~   ~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~~~~~~~~~
-                     |      |                 |     |
-                     |      |                 |     (14) calling 'io_iov_bu=
-ffer_select' from '__io_import_iovec'
-                     |      |                 (13) ...to here
-                     |
-                     +--> 'io_iov_buffer_select': events 15-20
-                            |
-                            |  399 | static ssize_t io_iov_buffer_select(st=
-ruct io_kiocb *req, struct iovec *iov,
-                            |      |                ^~~~~~~~~~~~~~~~~~~~
-                            |      |                |
-                            |      |                (15) entry to 'io_iov_b=
-uffer_select'
-                            |......
-                            |  404 |         if (req->flags & (REQ_F_BUFFER=
-_SELECTED|REQ_F_BUFFER_RING)) {
-                            |      |            ~    =
+d790405d1b23cf Nicolin Chen 2017-10-25  598  	ret =3D tz->ops->get_trip_typ=
+e(tz, trip, &type);
+d790405d1b23cf Nicolin Chen 2017-10-25  599  	if (ret)
+d790405d1b23cf Nicolin Chen 2017-10-25  600  		return ret;
+d790405d1b23cf Nicolin Chen 2017-10-25  601  =
 
-                            |      |            |
-                            |      |            (16) following 'false' bran=
-ch...
-                            |......
-                            |  409 |         if (rw->len !=3D 1)
-                            |      |         ~~ ~    =
+d790405d1b23cf Nicolin Chen 2017-10-25  602  	if (type =3D=3D THERMAL_TRIP_=
+CRITICAL) {
+2510aa56ab8795 Wei Ni       2019-02-21  603  		/*
+2510aa56ab8795 Wei Ni       2019-02-21  604  		 * If thermtrips property is=
+ set in DT,
+2510aa56ab8795 Wei Ni       2019-02-21  605  		 * doesn't need to program c=
+ritical type trip to HW,
+2510aa56ab8795 Wei Ni       2019-02-21  606  		 * if not, program critical =
+trip to HW.
+2510aa56ab8795 Wei Ni       2019-02-21  607  		 */
+2510aa56ab8795 Wei Ni       2019-02-21  608  		if (min_low_temp =3D=3D tsen=
+sor_group_thermtrip_get(ts, sg->id))
+d790405d1b23cf Nicolin Chen 2017-10-25  609  			return thermtrip_program(de=
+v, sg, temp);
+2510aa56ab8795 Wei Ni       2019-02-21  610  		else
+2510aa56ab8795 Wei Ni       2019-02-21  611  			return 0;
+2510aa56ab8795 Wei Ni       2019-02-21  612  =
 
-                            |      |         |  |
-                            |      |         |  (18) following 'false' bran=
-ch...
-                            |      |         (17) ...to here
-                            |......
-                            |  417 |         return __io_iov_buffer_select(=
-req, iov, issue_flags);
-                            |      |         ~~~~~~ ~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~~~~~~~~~
-                            |      |         |      |
-                            |      |         |      (20) calling '__io_iov_=
-buffer_select' from 'io_iov_buffer_select'
-                            |      |         (19) ...to here
-                            |
-                            +--> '__io_iov_buffer_select': events 21-22
-                                   |
-                                   |  376 | static ssize_t __io_iov_buffer_=
-select(struct io_kiocb *req, struct iovec *iov,
-                                   |      |                ^~~~~~~~~~~~~~~~=
-~~~~~~
-                                   |      |                |
-                                   |      |                (21) entry to '_=
-_io_iov_buffer_select'
-                                   |......
-                                   |  382 |         ssize_t len;
-                                   |      |                 ~~~
+d790405d1b23cf Nicolin Chen 2017-10-25  613  	} else if (type =3D=3D THERMA=
+L_TRIP_HOT) {
+d790405d1b23cf Nicolin Chen 2017-10-25  614  		int i;
+d790405d1b23cf Nicolin Chen 2017-10-25  615  =
 
-vim +382 io_uring/rw.c
+d790405d1b23cf Nicolin Chen 2017-10-25  616  		for (i =3D 0; i < THROTTLE_S=
+IZE; i++) {
+d790405d1b23cf Nicolin Chen 2017-10-25  617  			struct thermal_cooling_devi=
+ce *cdev;
+d790405d1b23cf Nicolin Chen 2017-10-25  618  			struct soctherm_throt_cfg *=
+stc;
+d790405d1b23cf Nicolin Chen 2017-10-25  619  =
 
-f3b44f92e59a80 Jens Axboe 2022-06-13  375  =
+d790405d1b23cf Nicolin Chen 2017-10-25  620  			if (!ts->throt_cfgs[i].init)
+d790405d1b23cf Nicolin Chen 2017-10-25  621  				continue;
+d790405d1b23cf Nicolin Chen 2017-10-25  622  =
 
-f3b44f92e59a80 Jens Axboe 2022-06-13  376  static ssize_t __io_iov_buffer_s=
-elect(struct io_kiocb *req, struct iovec *iov,
-f3b44f92e59a80 Jens Axboe 2022-06-13  377  				      unsigned int issue_fla=
-gs)
-f3b44f92e59a80 Jens Axboe 2022-06-13  378  {
-f3b44f92e59a80 Jens Axboe 2022-06-13  379  	struct io_rw *rw =3D io_kiocb_t=
-o_cmd(req);
-f3b44f92e59a80 Jens Axboe 2022-06-13  380  	struct iovec __user *uiov =3D u=
-64_to_user_ptr(rw->addr);
-f3b44f92e59a80 Jens Axboe 2022-06-13  381  	void __user *buf;
-f3b44f92e59a80 Jens Axboe 2022-06-13 @382  	ssize_t len;
-f3b44f92e59a80 Jens Axboe 2022-06-13  383  =
+d790405d1b23cf Nicolin Chen 2017-10-25  623  			cdev =3D ts->throt_cfgs[i].=
+cdev;
+d790405d1b23cf Nicolin Chen 2017-10-25  624  			if (get_thermal_instance(tz=
+, cdev, trip))
+d790405d1b23cf Nicolin Chen 2017-10-25  625  				stc =3D find_throttle_cfg_=
+by_name(ts, cdev->type);
+d790405d1b23cf Nicolin Chen 2017-10-25  626  			else
+d790405d1b23cf Nicolin Chen 2017-10-25  627  				continue;
+d790405d1b23cf Nicolin Chen 2017-10-25  628  =
 
-f3b44f92e59a80 Jens Axboe 2022-06-13  384  	if (copy_from_user(iov, uiov, s=
-izeof(*uiov)))
-f3b44f92e59a80 Jens Axboe 2022-06-13  385  		return -EFAULT;
-f3b44f92e59a80 Jens Axboe 2022-06-13  386  =
+d790405d1b23cf Nicolin Chen 2017-10-25  629  			return throttrip_program(de=
+v, sg, stc, temp);
+d790405d1b23cf Nicolin Chen 2017-10-25  630  		}
+d790405d1b23cf Nicolin Chen 2017-10-25  631  	}
+d790405d1b23cf Nicolin Chen 2017-10-25  632  =
 
-f3b44f92e59a80 Jens Axboe 2022-06-13  387  	len =3D iov[0].iov_len;
-f3b44f92e59a80 Jens Axboe 2022-06-13  388  	if (len < 0)
-f3b44f92e59a80 Jens Axboe 2022-06-13  389  		return -EINVAL;
-f3b44f92e59a80 Jens Axboe 2022-06-13  390  	buf =3D io_buffer_select(req, &=
-len, issue_flags);
-f3b44f92e59a80 Jens Axboe 2022-06-13  391  	if (!buf)
-f3b44f92e59a80 Jens Axboe 2022-06-13  392  		return -ENOBUFS;
-f3b44f92e59a80 Jens Axboe 2022-06-13  393  	rw->addr =3D (unsigned long) bu=
-f;
-f3b44f92e59a80 Jens Axboe 2022-06-13  394  	iov[0].iov_base =3D buf;
-f3b44f92e59a80 Jens Axboe 2022-06-13  395  	rw->len =3D iov[0].iov_len =3D =
-len;
-f3b44f92e59a80 Jens Axboe 2022-06-13  396  	return 0;
-f3b44f92e59a80 Jens Axboe 2022-06-13  397  }
-f3b44f92e59a80 Jens Axboe 2022-06-13  398  =
+d790405d1b23cf Nicolin Chen 2017-10-25  633  	return 0;
+d790405d1b23cf Nicolin Chen 2017-10-25  634  }
+d790405d1b23cf Nicolin Chen 2017-10-25  635  =
 
+
+:::::: The code at line 592 was first introduced by commit
+:::::: d790405d1b23cf1495d22ed043a422dc44bb6848 thermal: tegra: remove forw=
+ard declarations
+
+:::::: TO: Nicolin Chen <nicoleotsuka@gmail.com>
+:::::: CC: Eduardo Valentin <edubezval@gmail.com>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============3661965670276435809==--
+--===============8872261259024651624==--
 
