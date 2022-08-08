@@ -1,359 +1,217 @@
-Content-Type: multipart/mixed; boundary="===============7891313714411369110=="
+Content-Type: multipart/mixed; boundary="===============2080161366123209369=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: arch/s390/include/asm/vtime.h:16:31: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]
-Date: Mon, 08 Aug 2022 10:54:42 +0800
-Message-ID: <202208081053.ZNtvXHJm-lkp@intel.com>
+Subject: drivers/gpu/drm/panel/panel-edp.c:673:13: warning: use of uninitialized value '<unknown>' [CWE-457]
+Date: Mon, 08 Aug 2022 09:23:44 +0800
+Message-ID: <202208080945.wMO5cgEu-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7891313714411369110==
+--===============2080161366123209369==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 :::::: =
 
-:::::: Manual check reason: "low confidence static check first_new_problem:=
- arch/s390/include/asm/vtime.h:16:31: warning: Dereference of null pointer =
-[clang-analyzer-core.NullDereference]"
+:::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "low confidence static check warning: drivers/g=
+pu/drm/panel/panel-edp.c:673:13: warning: use of uninitialized value '<unkn=
+own>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]"
 :::::: =
 
 
 BCC: lkp(a)intel.com
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Sven Schnelle <svens@linux.ibm.com>
-CC: Alexander Gordeev <agordeev@linux.ibm.com>
-CC: Heiko Carstens <hca@linux.ibm.com>
+TO: Douglas Anderson <dianders@chromium.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   3bc1bc0b59d04e997db25b84babf459ca1cd80b7
-commit: 520763a3272abf0ebf161c748bdbc8dad275521c s390/nmi: use irqentry_nmi=
-_enter()/irqentry_nmi_exit()
-date:   10 days ago
-:::::: branch date: 9 hours ago
-:::::: commit date: 10 days ago
-config: s390-randconfig-c005-20220801 (https://download.01.org/0day-ci/arch=
-ive/20220808/202208081053.ZNtvXHJm-lkp(a)intel.com/config)
-compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 52cd00=
-cabf479aa7eb6dbb063b7ba41ea57bce9e)
+commit: 5540cf8f3e8dac7ef2de28edcf2623c1516fbe45 drm/panel-edp: Implement g=
+eneric "edp-panel"s probed by EDID
+date:   11 months ago
+:::::: branch date: 7 hours ago
+:::::: commit date: 11 months ago
+config: arm-randconfig-c002-20220807 (https://download.01.org/0day-ci/archi=
+ve/20220808/202208080945.wMO5cgEu-lkp(a)intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install s390 cross compiling tool for clang build
-        # apt-get install binutils-s390x-linux-gnu
         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D520763a3272abf0ebf161c748bdbc8dad275521c
+t/commit/?id=3D5540cf8f3e8dac7ef2de28edcf2623c1516fbe45
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
 t/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout 520763a3272abf0ebf161c748bdbc8dad275521c
+        git checkout 5540cf8f3e8dac7ef2de28edcf2623c1516fbe45
         # save the config file
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Ds390 clang-analyzer =
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cross=
+ ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
 
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 
-clang-analyzer warnings: (new ones prefixed by >>)
-   #define raw_cpu_add(pcp, val)           __pcpu_size_call(raw_cpu_add_, p=
-cp, val)
-                                           ^
-   include/linux/percpu-defs.h:375:2: note: expanded from macro '__pcpu_siz=
-e_call'
-           __verify_pcpu_ptr(&(variable));                                 \
-           ^
-   include/linux/percpu-defs.h:217:37: note: expanded from macro '__verify_=
-pcpu_ptr'
-   #define __verify_pcpu_ptr(ptr)                                          \
-                                                                           ^
-   arch/s390/include/asm/irq.h:80:2: note: Control jumps to 'case 4:'  at l=
-ine 80
-           __this_cpu_inc(irq_stat.irqs[irq]);
-           ^
-   include/linux/percpu-defs.h:497:30: note: expanded from macro '__this_cp=
-u_inc'
-   #define __this_cpu_inc(pcp)             __this_cpu_add(pcp, 1)
-                                           ^
-   include/linux/percpu-defs.h:458:2: note: expanded from macro '__this_cpu=
-_add'
-           raw_cpu_add(pcp, val);                                          \
-           ^
-   include/linux/percpu-defs.h:422:32: note: expanded from macro 'raw_cpu_a=
-dd'
-   #define raw_cpu_add(pcp, val)           __pcpu_size_call(raw_cpu_add_, p=
-cp, val)
-                                           ^
-   include/linux/percpu-defs.h:376:2: note: expanded from macro '__pcpu_siz=
-e_call'
-           switch(sizeof(variable)) {                                      \
-           ^
-   arch/s390/include/asm/irq.h:80:2: note: Loop condition is false.  Exitin=
-g loop
-           __this_cpu_inc(irq_stat.irqs[irq]);
-           ^
-   include/linux/percpu-defs.h:497:30: note: expanded from macro '__this_cp=
-u_inc'
-   #define __this_cpu_inc(pcp)             __this_cpu_add(pcp, 1)
-                                           ^
-   include/linux/percpu-defs.h:458:2: note: expanded from macro '__this_cpu=
-_add'
-           raw_cpu_add(pcp, val);                                          \
-           ^
-   include/linux/percpu-defs.h:422:32: note: expanded from macro 'raw_cpu_a=
-dd'
-   #define raw_cpu_add(pcp, val)           __pcpu_size_call(raw_cpu_add_, p=
-cp, val)
-                                           ^
-   note: (skipping 3 expansions in backtrace; use -fmacro-backtrace-limit=
-=3D0 to see all)
-   include/asm-generic/percpu.h:72:3: note: expanded from macro 'raw_cpu_ge=
-neric_to_op'
-           *raw_cpu_ptr(&(pcp)) op val;                                    \
-            ^
-   include/linux/percpu-defs.h:241:2: note: expanded from macro 'raw_cpu_pt=
-r'
-           __verify_pcpu_ptr(ptr);                                         \
-           ^
-   include/linux/percpu-defs.h:217:37: note: expanded from macro '__verify_=
-pcpu_ptr'
-   #define __verify_pcpu_ptr(ptr)                                          \
-                                                                           ^
-   arch/s390/include/asm/irq.h:80:2: note: Dereference of null pointer
-           __this_cpu_inc(irq_stat.irqs[irq]);
-           ^
-   include/linux/percpu-defs.h:497:30: note: expanded from macro '__this_cp=
-u_inc'
-   #define __this_cpu_inc(pcp)             __this_cpu_add(pcp, 1)
-                                           ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/percpu-defs.h:458:2: note: expanded from macro '__this_cpu=
-_add'
-           raw_cpu_add(pcp, val);                                          \
-           ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/percpu-defs.h:422:32: note: expanded from macro 'raw_cpu_a=
-dd'
-   #define raw_cpu_add(pcp, val)           __pcpu_size_call(raw_cpu_add_, p=
-cp, val)
-                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~
-   note: (skipping 5 expansions in backtrace; use -fmacro-backtrace-limit=
-=3D0 to see all)
-   include/asm-generic/percpu.h:44:31: note: expanded from macro 'arch_raw_=
-cpu_ptr'
-   #define arch_raw_cpu_ptr(ptr) SHIFT_PERCPU_PTR(ptr, __my_cpu_offset)
-                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/percpu-defs.h:231:2: note: expanded from macro 'SHIFT_PERC=
-PU_PTR'
-           RELOC_HIDE((typeof(*(__p)) __kernel __force *)(__p), (__offset))
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:170:28: note: expanded from macro 'RELOC_HIDE'
-       (typeof(ptr)) (__ptr + (off)); })
-                              ^~~~~
-   arch/s390/include/asm/pai.h:54:7: warning: Dereference of null pointer [=
-clang-analyzer-core.NullDereference]
-           if (!S390_lowcore.ccd)
-                ^
-   arch/s390/include/asm/lowcore.h:213:22: note: expanded from macro 'S390_=
-lowcore'
-   #define S390_lowcore (*((struct lowcore *) 0))
-                        ^
-   arch/s390/kernel/nmi.c:178:2: note: Calling 'pai_kernel_enter'
-           pai_kernel_enter(regs);
-           ^~~~~~~~~~~~~~~~~~~~~~
-   arch/s390/include/asm/pai.h:50:2: note: Taking false branch
-           if (!IS_ENABLED(CONFIG_PERF_EVENTS))
-           ^
-   arch/s390/include/asm/pai.h:52:7: note: Left side of '&&' is false
-           if (!static_branch_unlikely(&pai_key))
-                ^
-   include/linux/jump_label.h:503:52: note: expanded from macro 'static_bra=
-nch_unlikely'
-   #define static_branch_unlikely(x)       unlikely_notrace(static_key_enab=
-led(&(x)->key))
-                                                            ^
-   include/linux/jump_label.h:411:67: note: expanded from macro 'static_key=
-_enabled'
-           if (!__builtin_types_compatible_p(typeof(*x), struct static_key)=
- &&     \
-                                                                           =
- ^
-   arch/s390/include/asm/pai.h:52:6: note: Assuming the condition is false
-           if (!static_branch_unlikely(&pai_key))
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/s390/include/asm/pai.h:52:2: note: Taking false branch
-           if (!static_branch_unlikely(&pai_key))
-           ^
-   arch/s390/include/asm/pai.h:54:7: note: Dereference of null pointer
-           if (!S390_lowcore.ccd)
-                ^
-   arch/s390/include/asm/lowcore.h:213:22: note: expanded from macro 'S390_=
-lowcore'
-   #define S390_lowcore (*((struct lowcore *) 0))
-                        ^
->> arch/s390/include/asm/vtime.h:16:31: warning: Dereference of null pointe=
-r [clang-analyzer-core.NullDereference]
-           S390_lowcore.system_timer +=3D S390_lowcore.last_update_timer - =
-S390_lowcore.exit_timer;
-                                        ^
-   arch/s390/include/asm/lowcore.h:213:22: note: expanded from macro 'S390_=
-lowcore'
-   #define S390_lowcore (*((struct lowcore *) 0))
-                        ^
-   arch/s390/kernel/nmi.c:408:6: note: Assuming the condition is true
-           if (user_mode(regs))
-               ^
-   arch/s390/include/asm/ptrace.h:210:26: note: expanded from macro 'user_m=
-ode'
-   #define user_mode(regs) (((regs)->psw.mask & PSW_MASK_PSTATE) !=3D 0)
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/s390/kernel/nmi.c:408:2: note: Taking true branch
-           if (user_mode(regs))
-           ^
-   arch/s390/kernel/nmi.c:409:3: note: Calling 'update_timer_mcck'
-                   update_timer_mcck();
-                   ^~~~~~~~~~~~~~~~~~~
-   arch/s390/include/asm/vtime.h:16:31: note: Dereference of null pointer
-           S390_lowcore.system_timer +=3D S390_lowcore.last_update_timer - =
-S390_lowcore.exit_timer;
-                                        ^
-   arch/s390/include/asm/lowcore.h:213:22: note: expanded from macro 'S390_=
-lowcore'
-   #define S390_lowcore (*((struct lowcore *) 0))
-                        ^
-   arch/s390/kernel/nmi.c:51:9: warning: Dereference of null pointer [clang=
--analyzer-core.NullDereference]
-           return MACHINE_HAS_VX || MACHINE_HAS_GS;
-                  ^
-   arch/s390/include/asm/setup.h:92:26: note: expanded from macro 'MACHINE_=
-HAS_VX'
-   #define MACHINE_HAS_VX          (S390_lowcore.machine_flags & MACHINE_FL=
-AG_VX)
-                                    ^
-   arch/s390/include/asm/lowcore.h:213:22: note: expanded from macro 'S390_=
-lowcore'
-   #define S390_lowcore (*((struct lowcore *) 0))
-                        ^
-   arch/s390/kernel/nmi.c:113:7: note: Calling 'nmi_needs_mcesa'
-           if (!nmi_needs_mcesa())
-                ^~~~~~~~~~~~~~~~~
-   arch/s390/kernel/nmi.c:51:9: note: Dereference of null pointer
-           return MACHINE_HAS_VX || MACHINE_HAS_GS;
-                  ^
-   arch/s390/include/asm/setup.h:92:26: note: expanded from macro 'MACHINE_=
-HAS_VX'
-   #define MACHINE_HAS_VX          (S390_lowcore.machine_flags & MACHINE_FL=
-AG_VX)
-                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/s390/include/asm/lowcore.h:213:22: note: expanded from macro 'S390_=
-lowcore'
-   #define S390_lowcore (*((struct lowcore *) 0))
-                        ^
-   arch/s390/kernel/nmi.c:56:6: warning: Dereference of null pointer [clang=
--analyzer-core.NullDereference]
-           if (MACHINE_HAS_GS)
-               ^
-   arch/s390/include/asm/setup.h:95:26: note: expanded from macro 'MACHINE_=
-HAS_GS'
-   #define MACHINE_HAS_GS          (S390_lowcore.machine_flags & MACHINE_FL=
-AG_GS)
-                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/s390/include/asm/lowcore.h:213:22: note: expanded from macro 'S390_=
-lowcore'
-   #define S390_lowcore (*((struct lowcore *) 0))
-                        ^
-   arch/s390/kernel/nmi.c:56:6: note: Dereference of null pointer
-           if (MACHINE_HAS_GS)
-               ^
-   arch/s390/include/asm/setup.h:95:26: note: expanded from macro 'MACHINE_=
-HAS_GS'
-   #define MACHINE_HAS_GS          (S390_lowcore.machine_flags & MACHINE_FL=
-AG_GS)
-                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/s390/include/asm/lowcore.h:213:22: note: expanded from macro 'S390_=
-lowcore'
-   #define S390_lowcore (*((struct lowcore *) 0))
-                        ^
-   arch/s390/kernel/nmi.c:140:10: warning: Dereference of null pointer [cla=
-ng-analyzer-core.NullDereference]
-           mcck =3D *this_cpu_ptr(&cpu_mcck);
-                   ^
-   include/linux/percpu-defs.h:252:27: note: expanded from macro 'this_cpu_=
-ptr'
-   #define this_cpu_ptr(ptr) raw_cpu_ptr(ptr)
-                             ^
-   include/linux/percpu-defs.h:242:2: note: expanded from macro 'raw_cpu_pt=
-r'
-           arch_raw_cpu_ptr(ptr);                                          \
-           ^
-   include/asm-generic/percpu.h:44:31: note: expanded from macro 'arch_raw_=
-cpu_ptr'
-   #define arch_raw_cpu_ptr(ptr) SHIFT_PERCPU_PTR(ptr, __my_cpu_offset)
-                                 ^
-   include/linux/percpu-defs.h:231:2: note: expanded from macro 'SHIFT_PERC=
-PU_PTR'
-           RELOC_HIDE((typeof(*(__p)) __kernel __force *)(__p), (__offset))
-           ^
-   include/linux/compiler.h:170:28: note: expanded from macro 'RELOC_HIDE'
-       (typeof(ptr)) (__ptr + (off)); })
-                              ^
-   arch/s390/kernel/nmi.c:179:2: note: Calling '__s390_handle_mcck'
-           __s390_handle_mcck();
-           ^~~~~~~~~~~~~~~~~~~~
-   arch/s390/kernel/nmi.c:140:10: note: Loop condition is false.  Exiting l=
-oop
-           mcck =3D *this_cpu_ptr(&cpu_mcck);
-                   ^
-   include/linux/percpu-defs.h:252:27: note: expanded from macro 'this_cpu_=
-ptr'
-   #define this_cpu_ptr(ptr) raw_cpu_ptr(ptr)
-                             ^
-   include/linux/percpu-defs.h:241:2: note: expanded from macro 'raw_cpu_pt=
-r'
-           __verify_pcpu_ptr(ptr);                                         \
-           ^
-   include/linux/percpu-defs.h:217:37: note: expanded from macro '__verify_=
-pcpu_ptr'
-   #define __verify_pcpu_ptr(ptr)                                          \
-                                                                           ^
-   arch/s390/kernel/nmi.c:140:10: note: Dereference of null pointer
-           mcck =3D *this_cpu_ptr(&cpu_mcck);
-                   ^
-   include/linux/percpu-defs.h:252:27: note: expanded from macro 'this_cpu_=
-ptr'
-   #define this_cpu_ptr(ptr) raw_cpu_ptr(ptr)
+gcc-analyzer warnings: (new ones prefixed by >>)
+   drivers/gpu/drm/panel/panel-edp.c: In function 'generic_edp_panel_probe':
+>> drivers/gpu/drm/panel/panel-edp.c:673:13: warning: use of uninitialized =
+value '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+     673 |         u16 product_id;
+         |             ^~~~~~~~~~
+     'generic_edp_panel_probe': event 1
+       |
+       |  673 |         u16 product_id;
+       |      |             ^~~~~~~~~~
+       |      |             |
+       |      |             (1) use of uninitialized value '<unknown>' here
+       |
 
-vim +16 arch/s390/include/asm/vtime.h
+vim +673 drivers/gpu/drm/panel/panel-edp.c
 
-56e62a737028360 Sven Schnelle 2020-11-21  13  =
+5540cf8f3e8dac Douglas Anderson 2021-09-14  666  =
 
-56e62a737028360 Sven Schnelle 2020-11-21  14  static inline void update_tim=
-er_mcck(void)
-56e62a737028360 Sven Schnelle 2020-11-21  15  {
-56e62a737028360 Sven Schnelle 2020-11-21 @16  	S390_lowcore.system_timer +=
-=3D S390_lowcore.last_update_timer - S390_lowcore.exit_timer;
-56e62a737028360 Sven Schnelle 2020-11-21  17  	S390_lowcore.user_timer +=3D=
- S390_lowcore.exit_timer - S390_lowcore.mcck_enter_timer;
-56e62a737028360 Sven Schnelle 2020-11-21  18  	S390_lowcore.last_update_tim=
-er =3D S390_lowcore.mcck_enter_timer;
-56e62a737028360 Sven Schnelle 2020-11-21  19  }
-56e62a737028360 Sven Schnelle 2020-11-21  20  =
+5540cf8f3e8dac Douglas Anderson 2021-09-14  667  static int generic_edp_pan=
+el_probe(struct device *dev, struct panel_edp *panel)
+5540cf8f3e8dac Douglas Anderson 2021-09-14  668  {
+5540cf8f3e8dac Douglas Anderson 2021-09-14  669  	const struct edp_panel_en=
+try *edp_panel;
+5540cf8f3e8dac Douglas Anderson 2021-09-14  670  	struct panel_desc *desc;
+5540cf8f3e8dac Douglas Anderson 2021-09-14  671  	u32 panel_id;
+5540cf8f3e8dac Douglas Anderson 2021-09-14  672  	char vend[4];
+5540cf8f3e8dac Douglas Anderson 2021-09-14 @673  	u16 product_id;
+5540cf8f3e8dac Douglas Anderson 2021-09-14  674  	u32 reliable_ms =3D 0;
+5540cf8f3e8dac Douglas Anderson 2021-09-14  675  	u32 absent_ms =3D 0;
+5540cf8f3e8dac Douglas Anderson 2021-09-14  676  	int ret;
+5540cf8f3e8dac Douglas Anderson 2021-09-14  677  =
 
+5540cf8f3e8dac Douglas Anderson 2021-09-14  678  	desc =3D devm_kzalloc(dev=
+, sizeof(*desc), GFP_KERNEL);
+5540cf8f3e8dac Douglas Anderson 2021-09-14  679  	if (!desc)
+5540cf8f3e8dac Douglas Anderson 2021-09-14  680  		return -ENOMEM;
+5540cf8f3e8dac Douglas Anderson 2021-09-14  681  	panel->desc =3D desc;
+5540cf8f3e8dac Douglas Anderson 2021-09-14  682  =
 
-:::::: The code at line 16 was first introduced by commit
-:::::: 56e62a73702836017564eaacd5212e4d0fa1c01d s390: convert to generic en=
-try
+5540cf8f3e8dac Douglas Anderson 2021-09-14  683  	/*
+5540cf8f3e8dac Douglas Anderson 2021-09-14  684  	 * Read the dts propertie=
+s for the initial probe. These are used by
+5540cf8f3e8dac Douglas Anderson 2021-09-14  685  	 * the runtime resume cod=
+e which will get called by the
+5540cf8f3e8dac Douglas Anderson 2021-09-14  686  	 * pm_runtime_get_sync() =
+call below.
+5540cf8f3e8dac Douglas Anderson 2021-09-14  687  	 */
+5540cf8f3e8dac Douglas Anderson 2021-09-14  688  	of_property_read_u32(dev-=
+>of_node, "hpd-reliable-delay-ms", &reliable_ms);
+5540cf8f3e8dac Douglas Anderson 2021-09-14  689  	desc->delay.hpd_reliable =
+=3D reliable_ms;
+5540cf8f3e8dac Douglas Anderson 2021-09-14  690  	of_property_read_u32(dev-=
+>of_node, "hpd-absent-delay-ms", &absent_ms);
+5540cf8f3e8dac Douglas Anderson 2021-09-14  691  	desc->delay.hpd_reliable =
+=3D absent_ms;
+5540cf8f3e8dac Douglas Anderson 2021-09-14  692  =
 
-:::::: TO: Sven Schnelle <svens@linux.ibm.com>
-:::::: CC: Vasily Gorbik <gor@linux.ibm.com>
+5540cf8f3e8dac Douglas Anderson 2021-09-14  693  	/* Power the panel on so =
+we can read the EDID */
+5540cf8f3e8dac Douglas Anderson 2021-09-14  694  	ret =3D pm_runtime_get_sy=
+nc(dev);
+5540cf8f3e8dac Douglas Anderson 2021-09-14  695  	if (ret < 0) {
+5540cf8f3e8dac Douglas Anderson 2021-09-14  696  		dev_err(dev, "Couldn't p=
+ower on panel to read EDID: %d\n", ret);
+5540cf8f3e8dac Douglas Anderson 2021-09-14  697  		goto exit;
+5540cf8f3e8dac Douglas Anderson 2021-09-14  698  	}
+5540cf8f3e8dac Douglas Anderson 2021-09-14  699  =
+
+5540cf8f3e8dac Douglas Anderson 2021-09-14  700  	panel_id =3D drm_edid_get=
+_panel_id(panel->ddc);
+5540cf8f3e8dac Douglas Anderson 2021-09-14  701  	if (!panel_id) {
+5540cf8f3e8dac Douglas Anderson 2021-09-14  702  		dev_err(dev, "Couldn't i=
+dentify panel via EDID\n");
+5540cf8f3e8dac Douglas Anderson 2021-09-14  703  		ret =3D -EIO;
+5540cf8f3e8dac Douglas Anderson 2021-09-14  704  		goto exit;
+5540cf8f3e8dac Douglas Anderson 2021-09-14  705  	}
+5540cf8f3e8dac Douglas Anderson 2021-09-14  706  	drm_edid_decode_panel_id(=
+panel_id, vend, &product_id);
+5540cf8f3e8dac Douglas Anderson 2021-09-14  707  =
+
+5540cf8f3e8dac Douglas Anderson 2021-09-14  708  	edp_panel =3D find_edp_pa=
+nel(panel_id);
+5540cf8f3e8dac Douglas Anderson 2021-09-14  709  =
+
+5540cf8f3e8dac Douglas Anderson 2021-09-14  710  	/*
+5540cf8f3e8dac Douglas Anderson 2021-09-14  711  	 * We're using non-optimi=
+zed timings and want it really obvious that
+5540cf8f3e8dac Douglas Anderson 2021-09-14  712  	 * someone needs to add a=
+n entry to the table, so we'll do a WARN_ON
+5540cf8f3e8dac Douglas Anderson 2021-09-14  713  	 * splat.
+5540cf8f3e8dac Douglas Anderson 2021-09-14  714  	 */
+5540cf8f3e8dac Douglas Anderson 2021-09-14  715  	if (WARN_ON(!edp_panel)) {
+5540cf8f3e8dac Douglas Anderson 2021-09-14  716  		dev_warn(dev,
+5540cf8f3e8dac Douglas Anderson 2021-09-14  717  			 "Unknown panel %s %#06=
+x, using conservative timings\n",
+5540cf8f3e8dac Douglas Anderson 2021-09-14  718  			 vend, product_id);
+5540cf8f3e8dac Douglas Anderson 2021-09-14  719  =
+
+5540cf8f3e8dac Douglas Anderson 2021-09-14  720  		/*
+5540cf8f3e8dac Douglas Anderson 2021-09-14  721  		 * It's highly likely th=
+at the panel will work if we use very
+5540cf8f3e8dac Douglas Anderson 2021-09-14  722  		 * conservative timings,=
+ so let's do that. We already know that
+5540cf8f3e8dac Douglas Anderson 2021-09-14  723  		 * the HPD-related delay=
+s must have worked since we got this
+5540cf8f3e8dac Douglas Anderson 2021-09-14  724  		 * far, so we really jus=
+t need the "unprepare" / "enable"
+5540cf8f3e8dac Douglas Anderson 2021-09-14  725  		 * delays. We don't need=
+ "prepare_to_enable" since that
+5540cf8f3e8dac Douglas Anderson 2021-09-14  726  		 * overlaps the "enable"=
+ delay anyway.
+5540cf8f3e8dac Douglas Anderson 2021-09-14  727  		 *
+5540cf8f3e8dac Douglas Anderson 2021-09-14  728  		 * Nearly all panels hav=
+e a "unprepare" delay of 500 ms though
+5540cf8f3e8dac Douglas Anderson 2021-09-14  729  		 * there are a few with =
+1000. Let's stick 2000 in just to be
+5540cf8f3e8dac Douglas Anderson 2021-09-14  730  		 * super conservative.
+5540cf8f3e8dac Douglas Anderson 2021-09-14  731  		 *
+5540cf8f3e8dac Douglas Anderson 2021-09-14  732  		 * An "enable" delay of =
+80 ms seems the most common, but we'll
+5540cf8f3e8dac Douglas Anderson 2021-09-14  733  		 * throw in 200 ms to be=
+ safe.
+5540cf8f3e8dac Douglas Anderson 2021-09-14  734  		 */
+5540cf8f3e8dac Douglas Anderson 2021-09-14  735  		desc->delay.unprepare =
+=3D 2000;
+5540cf8f3e8dac Douglas Anderson 2021-09-14  736  		desc->delay.enable =3D 2=
+00;
+5540cf8f3e8dac Douglas Anderson 2021-09-14  737  	} else {
+5540cf8f3e8dac Douglas Anderson 2021-09-14  738  		dev_info(dev, "Detected =
+%s %s (%#06x)\n",
+5540cf8f3e8dac Douglas Anderson 2021-09-14  739  			 vend, edp_panel->name,=
+ product_id);
+5540cf8f3e8dac Douglas Anderson 2021-09-14  740  =
+
+5540cf8f3e8dac Douglas Anderson 2021-09-14  741  		/* Update the delay; eve=
+rything else comes from EDID */
+5540cf8f3e8dac Douglas Anderson 2021-09-14  742  		desc->delay =3D *edp_pan=
+el->delay;
+5540cf8f3e8dac Douglas Anderson 2021-09-14  743  	}
+5540cf8f3e8dac Douglas Anderson 2021-09-14  744  =
+
+5540cf8f3e8dac Douglas Anderson 2021-09-14  745  	ret =3D 0;
+5540cf8f3e8dac Douglas Anderson 2021-09-14  746  exit:
+5540cf8f3e8dac Douglas Anderson 2021-09-14  747  	pm_runtime_mark_last_busy=
+(dev);
+5540cf8f3e8dac Douglas Anderson 2021-09-14  748  	pm_runtime_put_autosuspen=
+d(dev);
+5540cf8f3e8dac Douglas Anderson 2021-09-14  749  =
+
+5540cf8f3e8dac Douglas Anderson 2021-09-14  750  	return ret;
+5540cf8f3e8dac Douglas Anderson 2021-09-14  751  }
+5540cf8f3e8dac Douglas Anderson 2021-09-14  752  =
+
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============7891313714411369110==--
+--===============2080161366123209369==--
 
