@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============2080161366123209369=="
+Content-Type: multipart/mixed; boundary="===============8332471004661512835=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/gpu/drm/panel/panel-edp.c:673:13: warning: use of uninitialized value '<unknown>' [CWE-457]
-Date: Mon, 08 Aug 2022 09:23:44 +0800
-Message-ID: <202208080945.wMO5cgEu-lkp@intel.com>
+Subject: include/linux/fortify-string.h:41:33: warning: use of NULL '*(struct napi_gro_cb *)((char *)skb + 24).frag0' where non-null expected [CWE-476]
+Date: Mon, 08 Aug 2022 08:53:18 +0800
+Message-ID: <202208080847.fCs2Hdkj-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2080161366123209369==
+--===============8332471004661512835==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,203 +15,237 @@ Content-Transfer-Encoding: quoted-printable
 :::::: =
 
 :::::: Manual check reason: "low confidence bisect report"
-:::::: Manual check reason: "low confidence static check warning: drivers/g=
-pu/drm/panel/panel-edp.c:673:13: warning: use of uninitialized value '<unkn=
-own>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]"
+:::::: Manual check reason: "low confidence static check first_new_problem:=
+ include/linux/fortify-string.h:41:33: warning: use of NULL '*(struct napi_=
+gro_cb *)((char *)skb + 24).frag0' where non-null expected [CWE-476] [-Wana=
+lyzer-null-argument]"
 :::::: =
 
 
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Douglas Anderson <dianders@chromium.org>
+TO: Eric Dumazet <edumazet@google.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   3bc1bc0b59d04e997db25b84babf459ca1cd80b7
-commit: 5540cf8f3e8dac7ef2de28edcf2623c1516fbe45 drm/panel-edp: Implement g=
-eneric "edp-panel"s probed by EDID
-date:   11 months ago
+commit: 587652bbdd06ab38a4c1b85e40f933d2cf4a1147 net: gro: populate net/cor=
+e/gro.c
+date:   9 months ago
 :::::: branch date: 7 hours ago
-:::::: commit date: 11 months ago
-config: arm-randconfig-c002-20220807 (https://download.01.org/0day-ci/archi=
-ve/20220808/202208080945.wMO5cgEu-lkp(a)intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+:::::: commit date: 9 months ago
+config: i386-randconfig-c001-20220801 (https://download.01.org/0day-ci/arch=
+ive/20220808/202208080847.fCs2Hdkj-lkp(a)intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-3) 11.3.0
 reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D5540cf8f3e8dac7ef2de28edcf2623c1516fbe45
+t/commit/?id=3D587652bbdd06ab38a4c1b85e40f933d2cf4a1147
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
 t/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout 5540cf8f3e8dac7ef2de28edcf2623c1516fbe45
+        git checkout 587652bbdd06ab38a4c1b85e40f933d2cf4a1147
         # save the config file
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cross=
- ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
+        make ARCH=3Di386 KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
 
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 
 gcc-analyzer warnings: (new ones prefixed by >>)
-   drivers/gpu/drm/panel/panel-edp.c: In function 'generic_edp_panel_probe':
->> drivers/gpu/drm/panel/panel-edp.c:673:13: warning: use of uninitialized =
-value '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-     673 |         u16 product_id;
-         |             ^~~~~~~~~~
-     'generic_edp_panel_probe': event 1
+   In file included from include/linux/string.h:253,
+                    from arch/x86/include/asm/page_32.h:35,
+                    from arch/x86/include/asm/page.h:14,
+                    from arch/x86/include/asm/processor.h:19,
+                    from arch/x86/include/asm/timex.h:5,
+                    from include/linux/timex.h:65,
+                    from include/linux/time32.h:13,
+                    from include/linux/time.h:60,
+                    from include/linux/skbuff.h:15,
+                    from include/linux/ip.h:16,
+                    from include/net/gro.h:7,
+                    from net/core/gro.c:2:
+   include/linux/fortify-string.h: In function 'gro_pull_from_frag0':
+>> include/linux/fortify-string.h:41:33: warning: use of NULL '*(struct nap=
+i_gro_cb *)((char *)skb + 24).frag0' where non-null expected [CWE-476] [-Wa=
+nalyzer-null-argument]
+      41 | #define __underlying_memcpy     __builtin_memcpy
+         |                                 ^
+   include/linux/fortify-string.h:225:16: note: in expansion of macro '__un=
+derlying_memcpy'
+     225 |         return __underlying_memcpy(p, q, size);
+         |                ^~~~~~~~~~~~~~~~~~~
+     'napi_frags_skb': events 1-2
        |
-       |  673 |         u16 product_id;
-       |      |             ^~~~~~~~~~
-       |      |             |
-       |      |             (1) use of uninitialized value '<unknown>' here
+       |net/core/gro.c:691:24:
+       |  691 | static struct sk_buff *napi_frags_skb(struct napi_struct *n=
+api)
+       |      |                        ^~~~~~~~~~~~~~
+       |      |                        |
+       |      |                        (1) entry to 'napi_frags_skb'
+       |......
+       |  700 |         skb_gro_reset_offset(skb, hlen);
+       |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |         |
+       |      |         (2) calling 'skb_gro_reset_offset' from 'napi_frags=
+_skb'
        |
+       +--> 'skb_gro_reset_offset': event 3
+              |
+              |  375 | static inline void skb_gro_reset_offset(struct sk_bu=
+ff *skb, u32 nhoff)
+              |      |                    ^~~~~~~~~~~~~~~~~~~~
+              |      |                    |
+              |      |                    (3) entry to 'skb_gro_reset_offse=
+t'
+              |
+            'skb_gro_reset_offset': event 4
+              |
+              |  381 |         NAPI_GRO_CB(skb)->frag0 =3D NULL;
+              |
+            'skb_gro_reset_offset': event 5
+              |
+              |  381 |         NAPI_GRO_CB(skb)->frag0 =3D NULL;
+              |
+            'skb_gro_reset_offset': event 6
+              |
+              |  381 |         NAPI_GRO_CB(skb)->frag0 =3D NULL;
+              |
+            'skb_gro_reset_offset': event 7
+              |
+              |  381 |         NAPI_GRO_CB(skb)->frag0 =3D NULL;
+              |
+       <------+
+       |
+     'napi_frags_skb': events 8-11
+       |
+       |  700 |         skb_gro_reset_offset(skb, hlen);
+       |      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |         |
+       |      |         (8) returning to 'napi_frags_skb' from 'skb_gro_res=
+et_offset'
+       |  701 | =
 
-vim +673 drivers/gpu/drm/panel/panel-edp.c
+       |  702 |         if (unlikely(skb_gro_header_hard(skb, hlen))) {
+       |      |            ~
+       |      |            |
+       |      |            (9) following 'false' branch...
+       |......
+       |  711 |                 eth =3D (const struct ethhdr *)skb->data;
+       |      |                 ~~~
+       |      |                 |
+       |      |                 (10) ...to here
+       |  712 |                 gro_pull_from_frag0(skb, hlen);
+       |      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |                 |
+       |      |                 (11) calling 'gro_pull_from_frag0' from 'na=
+pi_frags_skb'
+       |
+       +--> 'gro_pull_from_frag0': event 12
+              |
+              |  394 | static void gro_pull_from_frag0(struct sk_buff *skb,=
+ int grow)
+              |      |             ^~~~~~~~~~~~~~~~~~~
+              |      |             |
+              |      |             (12) entry to 'gro_pull_from_frag0'
+              |
+            'gro_pull_from_frag0': event 13
+              |
+              |include/asm-generic/bug.h:65:35:
+              |   65 | #define BUG_ON(condition) do { if (unlikely(conditio=
+n)) BUG(); } while (0)
+              |      |                                   ^
+              |      |                                   |
+              |      |                                   (13) following 'fa=
+lse' branch...
+   net/core/gro.c:398:9: note: in expansion of macro 'BUG_ON'
+              |  398 |         BUG_ON(skb->end - skb->tail < grow);
+              |      |         ^~~~~~
+              |
+            'gro_pull_from_frag0': event 14
+              |
+              |include/linux/compiler-gcc.h:63:12:
+              |   63 |         do {                                    \
+              |      |            ^
+              |      |            |
+              |      |            (14) ...to here
+   arch/x86/include/asm/bug.h:67:9: note: in expansion of macro 'unreachabl=
+e'
+              |   67 |         unreachable();                              =
+            \
+              |      |         ^~~~~~~~~~~
+   include/asm-generic/bug.h:65:57: note: in expansion of macro 'BUG'
+              |   65 | #define BUG_ON(condition) do { if (unlikely(conditio=
+n)) BUG(); } while (0)
+              |      |                                                     =
+    ^~~
+   net/core/gro.c:398:9: note: in expansion of macro 'BUG_ON'
+              |  398 |         BUG_ON(skb->end - skb->tail < grow);
+              |      |         ^~~~~~
+              |
+            'gro_pull_from_frag0': events 15-16
 
-5540cf8f3e8dac Douglas Anderson 2021-09-14  666  =
+vim +41 include/linux/fortify-string.h
 
-5540cf8f3e8dac Douglas Anderson 2021-09-14  667  static int generic_edp_pan=
-el_probe(struct device *dev, struct panel_edp *panel)
-5540cf8f3e8dac Douglas Anderson 2021-09-14  668  {
-5540cf8f3e8dac Douglas Anderson 2021-09-14  669  	const struct edp_panel_en=
-try *edp_panel;
-5540cf8f3e8dac Douglas Anderson 2021-09-14  670  	struct panel_desc *desc;
-5540cf8f3e8dac Douglas Anderson 2021-09-14  671  	u32 panel_id;
-5540cf8f3e8dac Douglas Anderson 2021-09-14  672  	char vend[4];
-5540cf8f3e8dac Douglas Anderson 2021-09-14 @673  	u16 product_id;
-5540cf8f3e8dac Douglas Anderson 2021-09-14  674  	u32 reliable_ms =3D 0;
-5540cf8f3e8dac Douglas Anderson 2021-09-14  675  	u32 absent_ms =3D 0;
-5540cf8f3e8dac Douglas Anderson 2021-09-14  676  	int ret;
-5540cf8f3e8dac Douglas Anderson 2021-09-14  677  =
+3009f891bb9f32 Kees Cook      2021-08-02  26  =
 
-5540cf8f3e8dac Douglas Anderson 2021-09-14  678  	desc =3D devm_kzalloc(dev=
-, sizeof(*desc), GFP_KERNEL);
-5540cf8f3e8dac Douglas Anderson 2021-09-14  679  	if (!desc)
-5540cf8f3e8dac Douglas Anderson 2021-09-14  680  		return -ENOMEM;
-5540cf8f3e8dac Douglas Anderson 2021-09-14  681  	panel->desc =3D desc;
-5540cf8f3e8dac Douglas Anderson 2021-09-14  682  =
+a28a6e860c6cf2 Francis Laniel 2021-02-25  27  #if defined(CONFIG_KASAN_GENE=
+RIC) || defined(CONFIG_KASAN_SW_TAGS)
+a28a6e860c6cf2 Francis Laniel 2021-02-25  28  extern void *__underlying_mem=
+chr(const void *p, int c, __kernel_size_t size) __RENAME(memchr);
+a28a6e860c6cf2 Francis Laniel 2021-02-25  29  extern int __underlying_memcm=
+p(const void *p, const void *q, __kernel_size_t size) __RENAME(memcmp);
+a28a6e860c6cf2 Francis Laniel 2021-02-25  30  extern void *__underlying_mem=
+cpy(void *p, const void *q, __kernel_size_t size) __RENAME(memcpy);
+a28a6e860c6cf2 Francis Laniel 2021-02-25  31  extern void *__underlying_mem=
+move(void *p, const void *q, __kernel_size_t size) __RENAME(memmove);
+a28a6e860c6cf2 Francis Laniel 2021-02-25  32  extern void *__underlying_mem=
+set(void *p, int c, __kernel_size_t size) __RENAME(memset);
+a28a6e860c6cf2 Francis Laniel 2021-02-25  33  extern char *__underlying_str=
+cat(char *p, const char *q) __RENAME(strcat);
+a28a6e860c6cf2 Francis Laniel 2021-02-25  34  extern char *__underlying_str=
+cpy(char *p, const char *q) __RENAME(strcpy);
+a28a6e860c6cf2 Francis Laniel 2021-02-25  35  extern __kernel_size_t __unde=
+rlying_strlen(const char *p) __RENAME(strlen);
+a28a6e860c6cf2 Francis Laniel 2021-02-25  36  extern char *__underlying_str=
+ncat(char *p, const char *q, __kernel_size_t count) __RENAME(strncat);
+a28a6e860c6cf2 Francis Laniel 2021-02-25  37  extern char *__underlying_str=
+ncpy(char *p, const char *q, __kernel_size_t size) __RENAME(strncpy);
+a28a6e860c6cf2 Francis Laniel 2021-02-25  38  #else
+a28a6e860c6cf2 Francis Laniel 2021-02-25  39  #define __underlying_memchr	_=
+_builtin_memchr
+a28a6e860c6cf2 Francis Laniel 2021-02-25  40  #define __underlying_memcmp	_=
+_builtin_memcmp
+a28a6e860c6cf2 Francis Laniel 2021-02-25 @41  #define __underlying_memcpy	_=
+_builtin_memcpy
+a28a6e860c6cf2 Francis Laniel 2021-02-25  42  #define __underlying_memmove	=
+__builtin_memmove
+a28a6e860c6cf2 Francis Laniel 2021-02-25  43  #define __underlying_memset	_=
+_builtin_memset
+a28a6e860c6cf2 Francis Laniel 2021-02-25  44  #define __underlying_strcat	_=
+_builtin_strcat
+a28a6e860c6cf2 Francis Laniel 2021-02-25  45  #define __underlying_strcpy	_=
+_builtin_strcpy
+a28a6e860c6cf2 Francis Laniel 2021-02-25  46  #define __underlying_strlen	_=
+_builtin_strlen
+a28a6e860c6cf2 Francis Laniel 2021-02-25  47  #define __underlying_strncat	=
+__builtin_strncat
+a28a6e860c6cf2 Francis Laniel 2021-02-25  48  #define __underlying_strncpy	=
+__builtin_strncpy
+a28a6e860c6cf2 Francis Laniel 2021-02-25  49  #endif
+a28a6e860c6cf2 Francis Laniel 2021-02-25  50  =
 
-5540cf8f3e8dac Douglas Anderson 2021-09-14  683  	/*
-5540cf8f3e8dac Douglas Anderson 2021-09-14  684  	 * Read the dts propertie=
-s for the initial probe. These are used by
-5540cf8f3e8dac Douglas Anderson 2021-09-14  685  	 * the runtime resume cod=
-e which will get called by the
-5540cf8f3e8dac Douglas Anderson 2021-09-14  686  	 * pm_runtime_get_sync() =
-call below.
-5540cf8f3e8dac Douglas Anderson 2021-09-14  687  	 */
-5540cf8f3e8dac Douglas Anderson 2021-09-14  688  	of_property_read_u32(dev-=
->of_node, "hpd-reliable-delay-ms", &reliable_ms);
-5540cf8f3e8dac Douglas Anderson 2021-09-14  689  	desc->delay.hpd_reliable =
-=3D reliable_ms;
-5540cf8f3e8dac Douglas Anderson 2021-09-14  690  	of_property_read_u32(dev-=
->of_node, "hpd-absent-delay-ms", &absent_ms);
-5540cf8f3e8dac Douglas Anderson 2021-09-14  691  	desc->delay.hpd_reliable =
-=3D absent_ms;
-5540cf8f3e8dac Douglas Anderson 2021-09-14  692  =
 
-5540cf8f3e8dac Douglas Anderson 2021-09-14  693  	/* Power the panel on so =
-we can read the EDID */
-5540cf8f3e8dac Douglas Anderson 2021-09-14  694  	ret =3D pm_runtime_get_sy=
-nc(dev);
-5540cf8f3e8dac Douglas Anderson 2021-09-14  695  	if (ret < 0) {
-5540cf8f3e8dac Douglas Anderson 2021-09-14  696  		dev_err(dev, "Couldn't p=
-ower on panel to read EDID: %d\n", ret);
-5540cf8f3e8dac Douglas Anderson 2021-09-14  697  		goto exit;
-5540cf8f3e8dac Douglas Anderson 2021-09-14  698  	}
-5540cf8f3e8dac Douglas Anderson 2021-09-14  699  =
+:::::: The code@line 41 was first introduced by commit
+:::::: a28a6e860c6cf231cf3c5171c75c342adcd00406 string.h: move fortified fu=
+nctions definitions in a dedicated header.
 
-5540cf8f3e8dac Douglas Anderson 2021-09-14  700  	panel_id =3D drm_edid_get=
-_panel_id(panel->ddc);
-5540cf8f3e8dac Douglas Anderson 2021-09-14  701  	if (!panel_id) {
-5540cf8f3e8dac Douglas Anderson 2021-09-14  702  		dev_err(dev, "Couldn't i=
-dentify panel via EDID\n");
-5540cf8f3e8dac Douglas Anderson 2021-09-14  703  		ret =3D -EIO;
-5540cf8f3e8dac Douglas Anderson 2021-09-14  704  		goto exit;
-5540cf8f3e8dac Douglas Anderson 2021-09-14  705  	}
-5540cf8f3e8dac Douglas Anderson 2021-09-14  706  	drm_edid_decode_panel_id(=
-panel_id, vend, &product_id);
-5540cf8f3e8dac Douglas Anderson 2021-09-14  707  =
-
-5540cf8f3e8dac Douglas Anderson 2021-09-14  708  	edp_panel =3D find_edp_pa=
-nel(panel_id);
-5540cf8f3e8dac Douglas Anderson 2021-09-14  709  =
-
-5540cf8f3e8dac Douglas Anderson 2021-09-14  710  	/*
-5540cf8f3e8dac Douglas Anderson 2021-09-14  711  	 * We're using non-optimi=
-zed timings and want it really obvious that
-5540cf8f3e8dac Douglas Anderson 2021-09-14  712  	 * someone needs to add a=
-n entry to the table, so we'll do a WARN_ON
-5540cf8f3e8dac Douglas Anderson 2021-09-14  713  	 * splat.
-5540cf8f3e8dac Douglas Anderson 2021-09-14  714  	 */
-5540cf8f3e8dac Douglas Anderson 2021-09-14  715  	if (WARN_ON(!edp_panel)) {
-5540cf8f3e8dac Douglas Anderson 2021-09-14  716  		dev_warn(dev,
-5540cf8f3e8dac Douglas Anderson 2021-09-14  717  			 "Unknown panel %s %#06=
-x, using conservative timings\n",
-5540cf8f3e8dac Douglas Anderson 2021-09-14  718  			 vend, product_id);
-5540cf8f3e8dac Douglas Anderson 2021-09-14  719  =
-
-5540cf8f3e8dac Douglas Anderson 2021-09-14  720  		/*
-5540cf8f3e8dac Douglas Anderson 2021-09-14  721  		 * It's highly likely th=
-at the panel will work if we use very
-5540cf8f3e8dac Douglas Anderson 2021-09-14  722  		 * conservative timings,=
- so let's do that. We already know that
-5540cf8f3e8dac Douglas Anderson 2021-09-14  723  		 * the HPD-related delay=
-s must have worked since we got this
-5540cf8f3e8dac Douglas Anderson 2021-09-14  724  		 * far, so we really jus=
-t need the "unprepare" / "enable"
-5540cf8f3e8dac Douglas Anderson 2021-09-14  725  		 * delays. We don't need=
- "prepare_to_enable" since that
-5540cf8f3e8dac Douglas Anderson 2021-09-14  726  		 * overlaps the "enable"=
- delay anyway.
-5540cf8f3e8dac Douglas Anderson 2021-09-14  727  		 *
-5540cf8f3e8dac Douglas Anderson 2021-09-14  728  		 * Nearly all panels hav=
-e a "unprepare" delay of 500 ms though
-5540cf8f3e8dac Douglas Anderson 2021-09-14  729  		 * there are a few with =
-1000. Let's stick 2000 in just to be
-5540cf8f3e8dac Douglas Anderson 2021-09-14  730  		 * super conservative.
-5540cf8f3e8dac Douglas Anderson 2021-09-14  731  		 *
-5540cf8f3e8dac Douglas Anderson 2021-09-14  732  		 * An "enable" delay of =
-80 ms seems the most common, but we'll
-5540cf8f3e8dac Douglas Anderson 2021-09-14  733  		 * throw in 200 ms to be=
- safe.
-5540cf8f3e8dac Douglas Anderson 2021-09-14  734  		 */
-5540cf8f3e8dac Douglas Anderson 2021-09-14  735  		desc->delay.unprepare =
-=3D 2000;
-5540cf8f3e8dac Douglas Anderson 2021-09-14  736  		desc->delay.enable =3D 2=
-00;
-5540cf8f3e8dac Douglas Anderson 2021-09-14  737  	} else {
-5540cf8f3e8dac Douglas Anderson 2021-09-14  738  		dev_info(dev, "Detected =
-%s %s (%#06x)\n",
-5540cf8f3e8dac Douglas Anderson 2021-09-14  739  			 vend, edp_panel->name,=
- product_id);
-5540cf8f3e8dac Douglas Anderson 2021-09-14  740  =
-
-5540cf8f3e8dac Douglas Anderson 2021-09-14  741  		/* Update the delay; eve=
-rything else comes from EDID */
-5540cf8f3e8dac Douglas Anderson 2021-09-14  742  		desc->delay =3D *edp_pan=
-el->delay;
-5540cf8f3e8dac Douglas Anderson 2021-09-14  743  	}
-5540cf8f3e8dac Douglas Anderson 2021-09-14  744  =
-
-5540cf8f3e8dac Douglas Anderson 2021-09-14  745  	ret =3D 0;
-5540cf8f3e8dac Douglas Anderson 2021-09-14  746  exit:
-5540cf8f3e8dac Douglas Anderson 2021-09-14  747  	pm_runtime_mark_last_busy=
-(dev);
-5540cf8f3e8dac Douglas Anderson 2021-09-14  748  	pm_runtime_put_autosuspen=
-d(dev);
-5540cf8f3e8dac Douglas Anderson 2021-09-14  749  =
-
-5540cf8f3e8dac Douglas Anderson 2021-09-14  750  	return ret;
-5540cf8f3e8dac Douglas Anderson 2021-09-14  751  }
-5540cf8f3e8dac Douglas Anderson 2021-09-14  752  =
-
+:::::: TO: Francis Laniel <laniel_francis@privacyrequired.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============2080161366123209369==--
+--===============8332471004661512835==--
 
