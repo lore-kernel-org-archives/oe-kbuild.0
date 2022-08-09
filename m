@@ -1,102 +1,240 @@
-Content-Type: multipart/mixed; boundary="===============4861073090062314412=="
+Content-Type: multipart/mixed; boundary="===============8071543264625761223=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: arch/riscv/include/asm/atomic.h:204 arch_atomic_fetch_add_unless() warn: inconsistent indenting
-Date: Tue, 09 Aug 2022 10:09:59 +0800
-Message-ID: <202208091010.XSofB7HT-lkp@intel.com>
+Subject: drivers/firmware/arm_scmi/powercap.c:129:27: warning: use of uninitialized value '<unknown>' [CWE-457]
+Date: Tue, 09 Aug 2022 09:39:12 +0800
+Message-ID: <202208090959.bTh94NNl-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4861073090062314412==
+--===============8071543264625761223==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+:::::: =
+
+:::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "low confidence static check warning: drivers/f=
+irmware/arm_scmi/powercap.c:129:27: warning: use of uninitialized value '<u=
+nknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]"
+:::::: =
+
+
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Mark Rutland <mark.rutland@arm.com>
-CC: Peter Zijlstra <peterz@infradead.org>
-CC: Palmer Dabbelt <palmerdabbelt@google.com>
+TO: Cristian Marussi <cristian.marussi@arm.com>
+CC: Sudeep Holla <sudeep.holla@arm.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   5d5d353bed32dc3ea52e2619e0d1c60b17133b91
-commit: 9efbb355831014ca004d241db8ede182c019b9bf locking/atomic: riscv: mov=
-e to ARCH_ATOMIC
-date:   1 year, 2 months ago
-:::::: branch date: 4 hours ago
-:::::: commit date: 1 year, 2 months ago
-config: riscv-randconfig-m031-20220808 (https://download.01.org/0day-ci/arc=
-hive/20220809/202208091010.XSofB7HT-lkp(a)intel.com/config)
-compiler: riscv32-linux-gcc (GCC) 12.1.0
+commit: 0316f99c4780b0a5fd60b7f136c64cb1af8d5fc3 firmware: arm_scmi: Add SC=
+MI v3.1 powercap protocol basic support
+date:   5 weeks ago
+:::::: branch date: 3 hours ago
+:::::: commit date: 5 weeks ago
+config: arm-randconfig-c002-20220804 (https://download.01.org/0day-ci/archi=
+ve/20220809/202208090959.bTh94NNl-lkp(a)intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3D0316f99c4780b0a5fd60b7f136c64cb1af8d5fc3
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 0316f99c4780b0a5fd60b7f136c64cb1af8d5fc3
+        # save the config file
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cross=
+ ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
+
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-arch/riscv/include/asm/atomic.h:204 arch_atomic_fetch_add_unless() warn: in=
-consistent indenting
-arch/riscv/include/asm/atomic.h:204 arch_atomic_fetch_add_unless() warn: in=
-consistent indenting
-arch/riscv/include/asm/atomic.h:204 arch_atomic_fetch_add_unless() warn: in=
-consistent indenting
+gcc-analyzer warnings: (new ones prefixed by >>)
+   drivers/firmware/arm_scmi/powercap.c: In function 'scmi_powercap_attribu=
+tes_get':
+>> drivers/firmware/arm_scmi/powercap.c:129:27: warning: use of uninitializ=
+ed value '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+     129 |         struct scmi_xfer *t;
+         |                           ^
+     'scmi_powercap_attributes_get': event 1
+       |
+       |  129 |         struct scmi_xfer *t;
+       |      |                           ^
+       |      |                           |
+       |      |                           (1) use of uninitialized value '<=
+unknown>' here
+       |
+   drivers/firmware/arm_scmi/powercap.c: In function 'scmi_powercap_domain_=
+attributes_get':
+   drivers/firmware/arm_scmi/powercap.c:171:27: warning: use of uninitializ=
+ed value '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+     171 |         struct scmi_xfer *t;
+         |                           ^
+     'scmi_powercap_domain_attributes_get': event 1
+       |
+       |  171 |         struct scmi_xfer *t;
+       |      |                           ^
+       |      |                           |
+       |      |                           (1) use of uninitialized value '<=
+unknown>' here
+       |
+   drivers/firmware/arm_scmi/powercap.c: In function 'scmi_powercap_cap_get=
+':
+   drivers/firmware/arm_scmi/powercap.c:287:27: warning: use of uninitializ=
+ed value '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+     287 |         struct scmi_xfer *t;
+         |                           ^
+     'scmi_powercap_cap_get': event 1
+       |
+       |  287 |         struct scmi_xfer *t;
+       |      |                           ^
+       |      |                           |
+       |      |                           (1) use of uninitialized value '<=
+unknown>' here
+       |
+   drivers/firmware/arm_scmi/powercap.c: In function 'scmi_powercap_cap_set=
+':
+   drivers/firmware/arm_scmi/powercap.c:313:27: warning: use of uninitializ=
+ed value '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+     313 |         struct scmi_xfer *t;
+         |                           ^
+     'scmi_powercap_cap_set': event 1
+       |
+       |  313 |         struct scmi_xfer *t;
+       |      |                           ^
+       |      |                           |
+       |      |                           (1) use of uninitialized value '<=
+unknown>' here
+       |
+   drivers/firmware/arm_scmi/powercap.c: In function 'scmi_powercap_pai_get=
+':
+   drivers/firmware/arm_scmi/powercap.c:361:27: warning: use of uninitializ=
+ed value '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+     361 |         struct scmi_xfer *t;
+         |                           ^
+     'scmi_powercap_pai_get': event 1
+       |
+       |  361 |         struct scmi_xfer *t;
+       |      |                           ^
+       |      |                           |
+       |      |                           (1) use of uninitialized value '<=
+unknown>' here
+       |
+   drivers/firmware/arm_scmi/powercap.c: In function 'scmi_powercap_pai_set=
+':
+   drivers/firmware/arm_scmi/powercap.c:386:27: warning: use of uninitializ=
+ed value '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+     386 |         struct scmi_xfer *t;
+         |                           ^
+     'scmi_powercap_pai_set': event 1
+       |
+       |  386 |         struct scmi_xfer *t;
+       |      |                           ^
+       |      |                           |
+       |      |                           (1) use of uninitialized value '<=
+unknown>' here
+       |
+   drivers/firmware/arm_scmi/powercap.c: In function 'scmi_powercap_measure=
+ments_get':
+   drivers/firmware/arm_scmi/powercap.c:416:27: warning: use of uninitializ=
+ed value '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+     416 |         struct scmi_xfer *t;
+         |                           ^
+     'scmi_powercap_measurements_get': event 1
+       |
+       |  416 |         struct scmi_xfer *t;
+       |      |                           ^
+       |      |                           |
+       |      |                           (1) use of uninitialized value '<=
+unknown>' here
+       |
+   drivers/firmware/arm_scmi/powercap.c: In function 'scmi_powercap_notify':
+   drivers/firmware/arm_scmi/powercap.c:504:27: warning: use of uninitializ=
+ed value '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+     504 |         struct scmi_xfer *t;
+         |                           ^
+     'scmi_powercap_notify': event 1
+       |
+       |  504 |         struct scmi_xfer *t;
+       |      |                           ^
+       |      |                           |
+       |      |                           (1) use of uninitialized value '<=
+unknown>' here
+       |
+   drivers/firmware/arm_scmi/powercap.c:523:21: warning: use of uninitializ=
+ed value '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+     523 |                 u32 low, high;
+         |                     ^~~
+     'scmi_powercap_notify': events 1-3
+       |
+       |  506 |         switch (message_id) {
+       |      |         ^~~~~~
+       |      |         |
+       |      |         (1) following 'case 11:' branch...
+       |......
+       |  521 |         case POWERCAP_MEASUREMENTS_NOTIFY:
+       |      |         ~~~~
+       |      |         |
+       |      |         (2) ...to here
 
-Old smatch warnings:
-net/ipv6/ip6_input.c:192 ip6_rcv_core() warn: potential spectre issue '_ide=
-v->stats.ipv6->mibs' [w]
-net/ipv6/ip6_input.c:192 ip6_rcv_core() warn: potential spectre issue 'net-=
->mib.ipv6_statistics->mibs' [w]
-net/ipv6/ip6_input.c:373 ip6_protocol_deliver_rcu() warn: potential spectre=
- issue 'inet6_protos' [w]
-net/ipv6/route.c:3304 ip6_route_check_nh() error: we previously assumed '_d=
-ev' could be null (see line 3264)
+vim +129 drivers/firmware/arm_scmi/powercap.c
 
-vim +204 arch/riscv/include/asm/atomic.h
+0316f99c4780b0a5 Cristian Marussi 2022-07-04  120  =
 
-fab957c11efe2f Palmer Dabbelt 2017-07-10  198  =
+0316f99c4780b0a5 Cristian Marussi 2022-07-04  121  static int scmi_powercap=
+_notify(const struct scmi_protocol_handle *ph,
+0316f99c4780b0a5 Cristian Marussi 2022-07-04  122  				u32 domain, int mess=
+age_id, bool enable);
+0316f99c4780b0a5 Cristian Marussi 2022-07-04  123  =
 
-5ce6c1f3535fa8 Andrea Parri   2018-03-09  199  /* This is required to provi=
-de a full barrier on success. */
-9efbb355831014 Mark Rutland   2021-05-25  200  static __always_inline int a=
-rch_atomic_fetch_add_unless(atomic_t *v, int a, int u)
-fab957c11efe2f Palmer Dabbelt 2017-07-10  201  {
-fab957c11efe2f Palmer Dabbelt 2017-07-10  202         int prev, rc;
-fab957c11efe2f Palmer Dabbelt 2017-07-10  203  =
+0316f99c4780b0a5 Cristian Marussi 2022-07-04  124  static int
+0316f99c4780b0a5 Cristian Marussi 2022-07-04  125  scmi_powercap_attributes=
+_get(const struct scmi_protocol_handle *ph,
+0316f99c4780b0a5 Cristian Marussi 2022-07-04  126  			     struct powercap_=
+info *pi)
+0316f99c4780b0a5 Cristian Marussi 2022-07-04  127  {
+0316f99c4780b0a5 Cristian Marussi 2022-07-04  128  	int ret;
+0316f99c4780b0a5 Cristian Marussi 2022-07-04 @129  	struct scmi_xfer *t;
+0316f99c4780b0a5 Cristian Marussi 2022-07-04  130  =
 
-fab957c11efe2f Palmer Dabbelt 2017-07-10 @204  	__asm__ __volatile__ (
-5ce6c1f3535fa8 Andrea Parri   2018-03-09  205  		"0:	lr.w     %[p],  %[c]\n"
-5ce6c1f3535fa8 Andrea Parri   2018-03-09  206  		"	beq      %[p],  %[u], 1f=
-\n"
-5ce6c1f3535fa8 Andrea Parri   2018-03-09  207  		"	add      %[rc], %[p], %[=
-a]\n"
-5ce6c1f3535fa8 Andrea Parri   2018-03-09  208  		"	sc.w.rl  %[rc], %[rc], %=
-[c]\n"
-5ce6c1f3535fa8 Andrea Parri   2018-03-09  209  		"	bnez     %[rc], 0b\n"
-5ce6c1f3535fa8 Andrea Parri   2018-03-09  210  		"	fence    rw, rw\n"
-5ce6c1f3535fa8 Andrea Parri   2018-03-09  211  		"1:\n"
-fab957c11efe2f Palmer Dabbelt 2017-07-10  212  		: [p]"=3D&r" (prev), [rc]"=
-=3D&r" (rc), [c]"+A" (v->counter)
-fab957c11efe2f Palmer Dabbelt 2017-07-10  213  		: [a]"r" (a), [u]"r" (u)
-fab957c11efe2f Palmer Dabbelt 2017-07-10  214  		: "memory");
-fab957c11efe2f Palmer Dabbelt 2017-07-10  215  	return prev;
-fab957c11efe2f Palmer Dabbelt 2017-07-10  216  }
-9efbb355831014 Mark Rutland   2021-05-25  217  #define arch_atomic_fetch_ad=
-d_unless arch_atomic_fetch_add_unless
-fab957c11efe2f Palmer Dabbelt 2017-07-10  218  =
+0316f99c4780b0a5 Cristian Marussi 2022-07-04  131  	ret =3D ph->xops->xfer_=
+get_init(ph, PROTOCOL_ATTRIBUTES, 0,
+0316f99c4780b0a5 Cristian Marussi 2022-07-04  132  				      sizeof(u32), &=
+t);
+0316f99c4780b0a5 Cristian Marussi 2022-07-04  133  	if (ret)
+0316f99c4780b0a5 Cristian Marussi 2022-07-04  134  		return ret;
+0316f99c4780b0a5 Cristian Marussi 2022-07-04  135  =
 
+0316f99c4780b0a5 Cristian Marussi 2022-07-04  136  	ret =3D ph->xops->do_xf=
+er(ph, t);
+0316f99c4780b0a5 Cristian Marussi 2022-07-04  137  	if (!ret) {
+0316f99c4780b0a5 Cristian Marussi 2022-07-04  138  		u32 attributes;
+0316f99c4780b0a5 Cristian Marussi 2022-07-04  139  =
 
-:::::: The code at line 204 was first introduced by commit
-:::::: fab957c11efe2f405e08b9f0d080524bc2631428 RISC-V: Atomic and Locking =
-Code
+0316f99c4780b0a5 Cristian Marussi 2022-07-04  140  		attributes =3D get_una=
+ligned_le32(t->rx.buf);
+0316f99c4780b0a5 Cristian Marussi 2022-07-04  141  		pi->num_domains =3D FI=
+ELD_GET(GENMASK(15, 0), attributes);
+0316f99c4780b0a5 Cristian Marussi 2022-07-04  142  	}
+0316f99c4780b0a5 Cristian Marussi 2022-07-04  143  =
 
-:::::: TO: Palmer Dabbelt <palmer@dabbelt.com>
-:::::: CC: Palmer Dabbelt <palmer@dabbelt.com>
+0316f99c4780b0a5 Cristian Marussi 2022-07-04  144  	ph->xops->xfer_put(ph, =
+t);
+0316f99c4780b0a5 Cristian Marussi 2022-07-04  145  	return ret;
+0316f99c4780b0a5 Cristian Marussi 2022-07-04  146  }
+0316f99c4780b0a5 Cristian Marussi 2022-07-04  147  =
+
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============4861073090062314412==--
+--===============8071543264625761223==--
 
