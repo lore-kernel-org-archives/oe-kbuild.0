@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============3918654497895214592=="
+Content-Type: multipart/mixed; boundary="===============4861073090062314412=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: arch/x86/kvm/x86.c:4988 kvm_arch_tsc_set_attr() warn: check for integer overflow 'offset'
-Date: Tue, 09 Aug 2022 11:21:03 +0800
-Message-ID: <202208091110.QNliME9i-lkp@intel.com>
+Subject: arch/riscv/include/asm/atomic.h:204 arch_atomic_fetch_add_unless() warn: inconsistent indenting
+Date: Tue, 09 Aug 2022 10:09:59 +0800
+Message-ID: <202208091010.XSofB7HT-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3918654497895214592==
+--===============4861073090062314412==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,147 +15,88 @@ Content-Transfer-Encoding: quoted-printable
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Oliver Upton <oupton@google.com>
-CC: Paolo Bonzini <pbonzini@redhat.com>
+TO: Mark Rutland <mark.rutland@arm.com>
+CC: Peter Zijlstra <peterz@infradead.org>
+CC: Palmer Dabbelt <palmerdabbelt@google.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   5d5d353bed32dc3ea52e2619e0d1c60b17133b91
-commit: 828ca89628bfcb1b8f27535025f69dd00eb55207 KVM: x86: Expose TSC offse=
-t controls to userspace
-date:   10 months ago
-:::::: branch date: 5 hours ago
-:::::: commit date: 10 months ago
-config: i386-randconfig-m021-20220808 (https://download.01.org/0day-ci/arch=
-ive/20220809/202208091110.QNliME9i-lkp(a)intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-3) 11.3.0
+commit: 9efbb355831014ca004d241db8ede182c019b9bf locking/atomic: riscv: mov=
+e to ARCH_ATOMIC
+date:   1 year, 2 months ago
+:::::: branch date: 4 hours ago
+:::::: commit date: 1 year, 2 months ago
+config: riscv-randconfig-m031-20220808 (https://download.01.org/0day-ci/arc=
+hive/20220809/202208091010.XSofB7HT-lkp(a)intel.com/config)
+compiler: riscv32-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 New smatch warnings:
-arch/x86/kvm/x86.c:4988 kvm_arch_tsc_set_attr() warn: check for integer ove=
-rflow 'offset'
-arch/x86/kvm/x86.c:5029 kvm_vcpu_ioctl_device_attr() error: uninitialized s=
-ymbol 'r'.
+arch/riscv/include/asm/atomic.h:204 arch_atomic_fetch_add_unless() warn: in=
+consistent indenting
+arch/riscv/include/asm/atomic.h:204 arch_atomic_fetch_add_unless() warn: in=
+consistent indenting
+arch/riscv/include/asm/atomic.h:204 arch_atomic_fetch_add_unless() warn: in=
+consistent indenting
 
 Old smatch warnings:
-arch/x86/kvm/x86.c:9320 enter_smm() warn: inconsistent indenting
+net/ipv6/ip6_input.c:192 ip6_rcv_core() warn: potential spectre issue '_ide=
+v->stats.ipv6->mibs' [w]
+net/ipv6/ip6_input.c:192 ip6_rcv_core() warn: potential spectre issue 'net-=
+>mib.ipv6_statistics->mibs' [w]
+net/ipv6/ip6_input.c:373 ip6_protocol_deliver_rcu() warn: potential spectre=
+ issue 'inet6_protos' [w]
+net/ipv6/route.c:3304 ip6_route_check_nh() error: we previously assumed '_d=
+ev' could be null (see line 3264)
 
-vim +/offset +4988 arch/x86/kvm/x86.c
+vim +204 arch/riscv/include/asm/atomic.h
 
-828ca89628bfcb1 Oliver Upton 2021-09-16  4961  =
+fab957c11efe2f Palmer Dabbelt 2017-07-10  198  =
 
-828ca89628bfcb1 Oliver Upton 2021-09-16  4962  static int kvm_arch_tsc_set_=
-attr(struct kvm_vcpu *vcpu,
-828ca89628bfcb1 Oliver Upton 2021-09-16  4963  				 struct kvm_device_attr =
-*attr)
-828ca89628bfcb1 Oliver Upton 2021-09-16  4964  {
-828ca89628bfcb1 Oliver Upton 2021-09-16  4965  	u64 __user *uaddr =3D (u64 =
-__user *)(unsigned long)attr->addr;
-828ca89628bfcb1 Oliver Upton 2021-09-16  4966  	struct kvm *kvm =3D vcpu->k=
-vm;
-828ca89628bfcb1 Oliver Upton 2021-09-16  4967  	int r;
-828ca89628bfcb1 Oliver Upton 2021-09-16  4968  =
+5ce6c1f3535fa8 Andrea Parri   2018-03-09  199  /* This is required to provi=
+de a full barrier on success. */
+9efbb355831014 Mark Rutland   2021-05-25  200  static __always_inline int a=
+rch_atomic_fetch_add_unless(atomic_t *v, int a, int u)
+fab957c11efe2f Palmer Dabbelt 2017-07-10  201  {
+fab957c11efe2f Palmer Dabbelt 2017-07-10  202         int prev, rc;
+fab957c11efe2f Palmer Dabbelt 2017-07-10  203  =
 
-828ca89628bfcb1 Oliver Upton 2021-09-16  4969  	if ((u64)(unsigned long)uad=
-dr !=3D attr->addr)
-828ca89628bfcb1 Oliver Upton 2021-09-16  4970  		return -EFAULT;
-828ca89628bfcb1 Oliver Upton 2021-09-16  4971  =
+fab957c11efe2f Palmer Dabbelt 2017-07-10 @204  	__asm__ __volatile__ (
+5ce6c1f3535fa8 Andrea Parri   2018-03-09  205  		"0:	lr.w     %[p],  %[c]\n"
+5ce6c1f3535fa8 Andrea Parri   2018-03-09  206  		"	beq      %[p],  %[u], 1f=
+\n"
+5ce6c1f3535fa8 Andrea Parri   2018-03-09  207  		"	add      %[rc], %[p], %[=
+a]\n"
+5ce6c1f3535fa8 Andrea Parri   2018-03-09  208  		"	sc.w.rl  %[rc], %[rc], %=
+[c]\n"
+5ce6c1f3535fa8 Andrea Parri   2018-03-09  209  		"	bnez     %[rc], 0b\n"
+5ce6c1f3535fa8 Andrea Parri   2018-03-09  210  		"	fence    rw, rw\n"
+5ce6c1f3535fa8 Andrea Parri   2018-03-09  211  		"1:\n"
+fab957c11efe2f Palmer Dabbelt 2017-07-10  212  		: [p]"=3D&r" (prev), [rc]"=
+=3D&r" (rc), [c]"+A" (v->counter)
+fab957c11efe2f Palmer Dabbelt 2017-07-10  213  		: [a]"r" (a), [u]"r" (u)
+fab957c11efe2f Palmer Dabbelt 2017-07-10  214  		: "memory");
+fab957c11efe2f Palmer Dabbelt 2017-07-10  215  	return prev;
+fab957c11efe2f Palmer Dabbelt 2017-07-10  216  }
+9efbb355831014 Mark Rutland   2021-05-25  217  #define arch_atomic_fetch_ad=
+d_unless arch_atomic_fetch_add_unless
+fab957c11efe2f Palmer Dabbelt 2017-07-10  218  =
 
-828ca89628bfcb1 Oliver Upton 2021-09-16  4972  	switch (attr->attr) {
-828ca89628bfcb1 Oliver Upton 2021-09-16  4973  	case KVM_VCPU_TSC_OFFSET: {
-828ca89628bfcb1 Oliver Upton 2021-09-16  4974  		u64 offset, tsc, ns;
-828ca89628bfcb1 Oliver Upton 2021-09-16  4975  		unsigned long flags;
-828ca89628bfcb1 Oliver Upton 2021-09-16  4976  		bool matched;
-828ca89628bfcb1 Oliver Upton 2021-09-16  4977  =
 
-828ca89628bfcb1 Oliver Upton 2021-09-16  4978  		r =3D -EFAULT;
-828ca89628bfcb1 Oliver Upton 2021-09-16  4979  		if (get_user(offset, uaddr=
-))
-828ca89628bfcb1 Oliver Upton 2021-09-16  4980  			break;
-828ca89628bfcb1 Oliver Upton 2021-09-16  4981  =
+:::::: The code at line 204 was first introduced by commit
+:::::: fab957c11efe2f405e08b9f0d080524bc2631428 RISC-V: Atomic and Locking =
+Code
 
-828ca89628bfcb1 Oliver Upton 2021-09-16  4982  		raw_spin_lock_irqsave(&kvm=
-->arch.tsc_write_lock, flags);
-828ca89628bfcb1 Oliver Upton 2021-09-16  4983  =
-
-828ca89628bfcb1 Oliver Upton 2021-09-16  4984  		matched =3D (vcpu->arch.vi=
-rtual_tsc_khz &&
-828ca89628bfcb1 Oliver Upton 2021-09-16  4985  			   kvm->arch.last_tsc_khz=
- =3D=3D vcpu->arch.virtual_tsc_khz &&
-828ca89628bfcb1 Oliver Upton 2021-09-16  4986  			   kvm->arch.last_tsc_off=
-set =3D=3D offset);
-828ca89628bfcb1 Oliver Upton 2021-09-16  4987  =
-
-828ca89628bfcb1 Oliver Upton 2021-09-16 @4988  		tsc =3D kvm_scale_tsc(vcpu=
-, rdtsc(), vcpu->arch.l1_tsc_scaling_ratio) + offset;
-828ca89628bfcb1 Oliver Upton 2021-09-16  4989  		ns =3D get_kvmclock_base_n=
-s();
-828ca89628bfcb1 Oliver Upton 2021-09-16  4990  =
-
-828ca89628bfcb1 Oliver Upton 2021-09-16  4991  		__kvm_synchronize_tsc(vcpu=
-, offset, tsc, ns, matched);
-828ca89628bfcb1 Oliver Upton 2021-09-16  4992  		raw_spin_unlock_irqrestore=
-(&kvm->arch.tsc_write_lock, flags);
-828ca89628bfcb1 Oliver Upton 2021-09-16  4993  =
-
-828ca89628bfcb1 Oliver Upton 2021-09-16  4994  		r =3D 0;
-828ca89628bfcb1 Oliver Upton 2021-09-16  4995  		break;
-828ca89628bfcb1 Oliver Upton 2021-09-16  4996  	}
-828ca89628bfcb1 Oliver Upton 2021-09-16  4997  	default:
-828ca89628bfcb1 Oliver Upton 2021-09-16  4998  		r =3D -ENXIO;
-828ca89628bfcb1 Oliver Upton 2021-09-16  4999  	}
-828ca89628bfcb1 Oliver Upton 2021-09-16  5000  =
-
-828ca89628bfcb1 Oliver Upton 2021-09-16  5001  	return r;
-828ca89628bfcb1 Oliver Upton 2021-09-16  5002  }
-828ca89628bfcb1 Oliver Upton 2021-09-16  5003  =
-
-828ca89628bfcb1 Oliver Upton 2021-09-16  5004  static int kvm_vcpu_ioctl_de=
-vice_attr(struct kvm_vcpu *vcpu,
-828ca89628bfcb1 Oliver Upton 2021-09-16  5005  				      unsigned int ioctl,
-828ca89628bfcb1 Oliver Upton 2021-09-16  5006  				      void __user *argp)
-828ca89628bfcb1 Oliver Upton 2021-09-16  5007  {
-828ca89628bfcb1 Oliver Upton 2021-09-16  5008  	struct kvm_device_attr attr;
-828ca89628bfcb1 Oliver Upton 2021-09-16  5009  	int r;
-828ca89628bfcb1 Oliver Upton 2021-09-16  5010  =
-
-828ca89628bfcb1 Oliver Upton 2021-09-16  5011  	if (copy_from_user(&attr, a=
-rgp, sizeof(attr)))
-828ca89628bfcb1 Oliver Upton 2021-09-16  5012  		return -EFAULT;
-828ca89628bfcb1 Oliver Upton 2021-09-16  5013  =
-
-828ca89628bfcb1 Oliver Upton 2021-09-16  5014  	if (attr.group !=3D KVM_VCP=
-U_TSC_CTRL)
-828ca89628bfcb1 Oliver Upton 2021-09-16  5015  		return -ENXIO;
-828ca89628bfcb1 Oliver Upton 2021-09-16  5016  =
-
-828ca89628bfcb1 Oliver Upton 2021-09-16  5017  	switch (ioctl) {
-828ca89628bfcb1 Oliver Upton 2021-09-16  5018  	case KVM_HAS_DEVICE_ATTR:
-828ca89628bfcb1 Oliver Upton 2021-09-16  5019  		r =3D kvm_arch_tsc_has_att=
-r(vcpu, &attr);
-828ca89628bfcb1 Oliver Upton 2021-09-16  5020  		break;
-828ca89628bfcb1 Oliver Upton 2021-09-16  5021  	case KVM_GET_DEVICE_ATTR:
-828ca89628bfcb1 Oliver Upton 2021-09-16  5022  		r =3D kvm_arch_tsc_get_att=
-r(vcpu, &attr);
-828ca89628bfcb1 Oliver Upton 2021-09-16  5023  		break;
-828ca89628bfcb1 Oliver Upton 2021-09-16  5024  	case KVM_SET_DEVICE_ATTR:
-828ca89628bfcb1 Oliver Upton 2021-09-16  5025  		r =3D kvm_arch_tsc_set_att=
-r(vcpu, &attr);
-828ca89628bfcb1 Oliver Upton 2021-09-16  5026  		break;
-828ca89628bfcb1 Oliver Upton 2021-09-16  5027  	}
-828ca89628bfcb1 Oliver Upton 2021-09-16  5028  =
-
-828ca89628bfcb1 Oliver Upton 2021-09-16 @5029  	return r;
-828ca89628bfcb1 Oliver Upton 2021-09-16  5030  }
-828ca89628bfcb1 Oliver Upton 2021-09-16  5031  =
-
+:::::: TO: Palmer Dabbelt <palmer@dabbelt.com>
+:::::: CC: Palmer Dabbelt <palmer@dabbelt.com>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============3918654497895214592==--
+--===============4861073090062314412==--
 
