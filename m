@@ -1,256 +1,261 @@
-Content-Type: multipart/mixed; boundary="===============5170582677218384418=="
+Content-Type: multipart/mixed; boundary="===============7417463445975949559=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: sound/pci/hda/cs35l41_hda.c:433 cs35l41_hda_probe() warn: missing error code 'ret'
-Date: Tue, 09 Aug 2022 18:58:12 +0800
-Message-ID: <202208091848.DFZpk6RX-lkp@intel.com>
+Subject: drivers/hwmon/asb100.c:579:23: warning: use of uninitialized value '<unknown>' [CWE-457]
+Date: Tue, 09 Aug 2022 17:56:53 +0800
+Message-ID: <202208091714.RmAaAJTY-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5170582677218384418==
+--===============7417463445975949559==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+:::::: =
+
+:::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "low confidence static check first_new_problem:=
+ drivers/hwmon/asb100.c:579:23: warning: use of uninitialized value '<unkno=
+wn>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]"
+:::::: =
+
+
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Lucas Tanure <tanureal@opensource.cirrus.com>
-CC: Takashi Iwai <tiwai@suse.de>
+TO: "Uwe Kleine-K=C3=B6nig" <u.kleine-koenig@pengutronix.de>
+CC: Guenter Roeck <linux@roeck-us.net>
+CC: Jean Delvare <jdelvare@suse.de>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   eb555cb5b794f4e12a9897f3d46d5a72104cd4a7
-commit: a025df02ce424fa77f6bc6aa195db21677e11274 ALSA: hda: cs35l41: Make u=
-se of the helper function dev_err_probe()
-date:   7 months ago
-:::::: branch date: 8 hours ago
-:::::: commit date: 7 months ago
-config: i386-randconfig-m021-20220808 (https://download.01.org/0day-ci/arch=
-ive/20220809/202208091848.DFZpk6RX-lkp(a)intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-3) 11.3.0
+commit: b97adb596399581df42a5f94e14235359f150373 hwmon: Allow to compile AS=
+B100 and FSCHMD on !X86
+date:   4 weeks ago
+:::::: branch date: 7 hours ago
+:::::: commit date: 4 weeks ago
+config: arm-randconfig-c002-20220804 (https://download.01.org/0day-ci/archi=
+ve/20220809/202208091714.RmAaAJTY-lkp(a)intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3Db97adb596399581df42a5f94e14235359f150373
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout b97adb596399581df42a5f94e14235359f150373
+        # save the config file
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cross=
+ ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
+
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-sound/pci/hda/cs35l41_hda.c:433 cs35l41_hda_probe() warn: missing error cod=
-e 'ret'
+gcc-analyzer warnings: (new ones prefixed by >>)
+   drivers/hwmon/asb100.c: In function 'pwm1_enable_store':
+>> drivers/hwmon/asb100.c:579:23: warning: use of uninitialized value '<unk=
+nown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+     579 |         unsigned long val;
+         |                       ^~~
+     'pwm1_enable_store': event 1
+       |
+       |  579 |         unsigned long val;
+       |      |                       ^~~
+       |      |                       |
+       |      |                       (1) use of uninitialized value '<unkn=
+own>' here
+       |
+   In file included from include/linux/bitops.h:7,
+                    from include/linux/log2.h:12,
+                    from include/asm-generic/div64.h:55,
+                    from arch/arm/include/asm/div64.h:107,
+                    from include/linux/math.h:6,
+                    from include/linux/math64.h:6,
+                    from include/linux/time.h:6,
+                    from include/linux/stat.h:19,
+                    from include/linux/module.h:13,
+                    from drivers/hwmon/asb100.c:28:
+   drivers/hwmon/asb100.c: In function 'asb100_update_device':
+   include/linux/typecheck.h:11:19: warning: use of uninitialized value '<u=
+nknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+      11 |         typeof(x) __dummy2; \
+         |                   ^~~~~~~~
+   include/linux/jiffies.h:105:10: note: in expansion of macro 'typecheck'
+     105 |         (typecheck(unsigned long, a) && \
+         |          ^~~~~~~~~
+   drivers/hwmon/asb100.c:945:13: note: in expansion of macro 'time_after'
+     945 |         if (time_after(jiffies, data->last_updated + HZ + HZ / 2)
+         |             ^~~~~~~~~~
+     'asb100_update_device': event 1
+       |
+       |include/linux/typecheck.h:11:19:
+       |   11 |         typeof(x) __dummy2; \
+       |      |                   ^~~~~~~~
+       |      |                   |
+       |      |                   (1) use of uninitialized value '<unknown>=
+' here
+   include/linux/jiffies.h:105:10: note: in expansion of macro 'typecheck'
+       |  105 |         (typecheck(unsigned long, a) && \
+       |      |          ^~~~~~~~~
+   drivers/hwmon/asb100.c:945:13: note: in expansion of macro 'time_after'
+       |  945 |         if (time_after(jiffies, data->last_updated + HZ + H=
+Z / 2)
+       |      |             ^~~~~~~~~~
+       |
+--
+   drivers/hwmon/fschmd.c: In function 'temp_max_store':
+>> drivers/hwmon/fschmd.c:362:14: warning: use of uninitialized value '<unk=
+nown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+     362 |         long v;
+         |              ^
+     'temp_max_store': event 1
+       |
+       |  362 |         long v;
+       |      |              ^
+       |      |              |
+       |      |              (1) use of uninitialized value '<unknown>' here
+       |
+   drivers/hwmon/fschmd.c: In function 'fan_div_store':
+   drivers/hwmon/fschmd.c:436:23: warning: use of uninitialized value '<unk=
+nown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+     436 |         unsigned long v;
+         |                       ^
+     'fan_div_store': event 1
+       |
+       |  436 |         unsigned long v;
+       |      |                       ^
+       |      |                       |
+       |      |                       (1) use of uninitialized value '<unkn=
+own>' here
+       |
+   drivers/hwmon/fschmd.c: In function 'pwm_auto_point1_pwm_store':
+   drivers/hwmon/fschmd.c:525:23: warning: use of uninitialized value '<unk=
+nown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+     525 |         unsigned long v;
+         |                       ^
+     'pwm_auto_point1_pwm_store': event 1
+       |
+       |  525 |         unsigned long v;
+       |      |                       ^
+       |      |                       |
+       |      |                       (1) use of uninitialized value '<unkn=
+own>' here
+       |
+   drivers/hwmon/fschmd.c: In function 'alert_led_store':
+   drivers/hwmon/fschmd.c:570:23: warning: use of uninitialized value '<unk=
+nown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+     570 |         unsigned long v;
+         |                       ^
+     'alert_led_store': event 1
+       |
+       |  570 |         unsigned long v;
+       |      |                       ^
+       |      |                       |
+       |      |                       (1) use of uninitialized value '<unkn=
+own>' here
+       |
+   In file included from include/linux/bitops.h:7,
+                    from include/linux/log2.h:12,
+                    from include/asm-generic/div64.h:55,
+                    from arch/arm/include/asm/div64.h:107,
+                    from include/linux/math.h:6,
+                    from include/linux/math64.h:6,
+                    from include/linux/time.h:6,
+                    from include/linux/stat.h:19,
+                    from include/linux/module.h:13,
+                    from drivers/hwmon/fschmd.c:22:
+   drivers/hwmon/fschmd.c: In function 'fschmd_update_device':
+   include/linux/typecheck.h:11:19: warning: use of uninitialized value '<u=
+nknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+      11 |         typeof(x) __dummy2; \
+         |                   ^~~~~~~~
+   include/linux/jiffies.h:105:10: note: in expansion of macro 'typecheck'
+     105 |         (typecheck(unsigned long, a) && \
+         |          ^~~~~~~~~
+   drivers/hwmon/fschmd.c:1306:13: note: in expansion of macro 'time_after'
+    1306 |         if (time_after(jiffies, data->last_updated + 2 * HZ) || =
+!data->valid) {
+         |             ^~~~~~~~~~
+     'fschmd_update_device': event 1
+       |
+       |include/linux/typecheck.h:11:19:
+       |   11 |         typeof(x) __dummy2; \
+       |      |                   ^~~~~~~~
+       |      |                   |
+       |      |                   (1) use of uninitialized value '<unknown>=
+' here
+   include/linux/jiffies.h:105:10: note: in expansion of macro 'typecheck'
+       |  105 |         (typecheck(unsigned long, a) && \
+       |      |          ^~~~~~~~~
+   drivers/hwmon/fschmd.c:1306:13: note: in expansion of macro 'time_after'
+       | 1306 |         if (time_after(jiffies, data->last_updated + 2 * HZ=
+) || !data->valid) {
+       |      |             ^~~~~~~~~~
+       |
 
-vim +/ret +433 sound/pci/hda/cs35l41_hda.c
+vim +579 drivers/hwmon/asb100.c
 
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  401  =
+^1da177e4c3f4152 drivers/i2c/chips/asb100.c Linus Torvalds 2005-04-16  572  =
 
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  402  int cs35l41_hda_probe(struc=
-t device *dev, const char *device_name, int id, int irq,
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  403  		      struct regmap *regm=
-ap)
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  404  {
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  405  	unsigned int int_sts, regi=
-d, reg_revid, mtl_revid, chipid, int_status;
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  406  	struct cs35l41_hda_hw_conf=
-ig *acpi_hw_cfg;
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  407  	struct cs35l41_hda *cs35l4=
-1;
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  408  	int ret;
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  409  =
+82e73f7f95387737 drivers/hwmon/asb100.c     Julia Lawall   2016-12-22  573 =
+ static ssize_t pwm1_enable_store(struct device *dev,
+82e73f7f95387737 drivers/hwmon/asb100.c     Julia Lawall   2016-12-22  574 =
+ 				 struct device_attribute *attr,
+82e73f7f95387737 drivers/hwmon/asb100.c     Julia Lawall   2016-12-22  575 =
+ 				 const char *buf, size_t count)
+^1da177e4c3f4152 drivers/i2c/chips/asb100.c Linus Torvalds 2005-04-16  576 =
+ {
+^1da177e4c3f4152 drivers/i2c/chips/asb100.c Linus Torvalds 2005-04-16  577 =
+ 	struct i2c_client *client =3D to_i2c_client(dev);
+^1da177e4c3f4152 drivers/i2c/chips/asb100.c Linus Torvalds 2005-04-16  578 =
+ 	struct asb100_data *data =3D i2c_get_clientdata(client);
+8c103696fa59e1b8 drivers/hwmon/asb100.c     Guenter Roeck  2012-01-14 @579 =
+ 	unsigned long val;
+8c103696fa59e1b8 drivers/hwmon/asb100.c     Guenter Roeck  2012-01-14  580 =
+ 	int err;
+8c103696fa59e1b8 drivers/hwmon/asb100.c     Guenter Roeck  2012-01-14  581  =
 
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  410  	if (IS_ERR(regmap))
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  411  		return PTR_ERR(regmap);
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  412  =
+8c103696fa59e1b8 drivers/hwmon/asb100.c     Guenter Roeck  2012-01-14  582 =
+ 	err =3D kstrtoul(buf, 10, &val);
+8c103696fa59e1b8 drivers/hwmon/asb100.c     Guenter Roeck  2012-01-14  583 =
+ 	if (err)
+8c103696fa59e1b8 drivers/hwmon/asb100.c     Guenter Roeck  2012-01-14  584 =
+ 		return err;
+^1da177e4c3f4152 drivers/i2c/chips/asb100.c Linus Torvalds 2005-04-16  585  =
 
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  413  	cs35l41 =3D devm_kzalloc(d=
-ev, sizeof(*cs35l41), GFP_KERNEL);
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  414  	if (!cs35l41)
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  415  		return -ENOMEM;
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  416  =
-
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  417  	cs35l41->dev =3D dev;
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  418  	cs35l41->irq =3D irq;
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  419  	cs35l41->regmap =3D regmap;
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  420  	dev_set_drvdata(dev, cs35l=
-41);
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  421  =
-
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  422  	acpi_hw_cfg =3D cs35l41_hd=
-a_read_acpi(cs35l41, device_name, id);
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  423  	if (IS_ERR(acpi_hw_cfg))
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  424  		return PTR_ERR(acpi_hw_cf=
-g);
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  425  =
-
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  426  	if (IS_ERR(cs35l41->reset_=
-gpio)) {
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  427  		ret =3D PTR_ERR(cs35l41->=
-reset_gpio);
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  428  		cs35l41->reset_gpio =3D N=
-ULL;
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  429  		if (ret =3D=3D -EBUSY) {
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  430  			dev_info(cs35l41->dev, "=
-Reset line busy, assuming shared reset\n");
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  431  		} else {
-a025df02ce424fa Lucas Tanure   2022-01-17  432  			dev_err_probe(cs35l41->d=
-ev, ret, "Failed to get reset GPIO: %d\n", ret);
-7b2f3eb492dac76 Lucas Tanure   2021-12-17 @433  			goto err;
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  434  		}
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  435  	}
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  436  	if (cs35l41->reset_gpio) {
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  437  		usleep_range(2000, 2100);
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  438  		gpiod_set_value_cansleep(=
-cs35l41->reset_gpio, 1);
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  439  	}
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  440  =
-
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  441  	usleep_range(2000, 2100);
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  442  =
-
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  443  	ret =3D regmap_read_poll_t=
-imeout(cs35l41->regmap, CS35L41_IRQ1_STATUS4, int_status,
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  444  				       int_status & CS3=
-5L41_OTP_BOOT_DONE, 1000, 100000);
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  445  	if (ret) {
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  446  		dev_err(cs35l41->dev, "Fa=
-iled waiting for OTP_BOOT_DONE: %d\n", ret);
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  447  		goto err;
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  448  	}
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  449  =
-
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  450  	ret =3D regmap_read(cs35l4=
-1->regmap, CS35L41_IRQ1_STATUS3, &int_sts);
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  451  	if (ret || (int_sts & CS35=
-L41_OTP_BOOT_ERR)) {
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  452  		dev_err(cs35l41->dev, "OT=
-P Boot error\n");
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  453  		ret =3D -EIO;
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  454  		goto err;
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  455  	}
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  456  =
-
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  457  	ret =3D regmap_read(cs35l4=
-1->regmap, CS35L41_DEVID, &regid);
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  458  	if (ret) {
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  459  		dev_err(cs35l41->dev, "Ge=
-t Device ID failed: %d\n", ret);
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  460  		goto err;
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  461  	}
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  462  =
-
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  463  	ret =3D regmap_read(cs35l4=
-1->regmap, CS35L41_REVID, &reg_revid);
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  464  	if (ret) {
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  465  		dev_err(cs35l41->dev, "Ge=
-t Revision ID failed: %d\n", ret);
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  466  		goto err;
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  467  	}
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  468  =
-
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  469  	mtl_revid =3D reg_revid & =
-CS35L41_MTLREVID_MASK;
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  470  =
-
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  471  	chipid =3D (mtl_revid % 2)=
- ? CS35L41R_CHIP_ID : CS35L41_CHIP_ID;
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  472  	if (regid !=3D chipid) {
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  473  		dev_err(cs35l41->dev, "CS=
-35L41 Device ID (%X). Expected ID %X\n", regid, chipid);
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  474  		ret =3D -ENODEV;
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  475  		goto err;
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  476  	}
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  477  =
-
-6e4320d8ecbc871 Charles Keepax 2022-01-17  478  	ret =3D cs35l41_test_key_u=
-nlock(cs35l41->dev, cs35l41->regmap);
-6e4320d8ecbc871 Charles Keepax 2022-01-17  479  	if (ret)
-6e4320d8ecbc871 Charles Keepax 2022-01-17  480  		goto err;
-6e4320d8ecbc871 Charles Keepax 2022-01-17  481  =
-
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  482  	ret =3D cs35l41_register_e=
-rrata_patch(cs35l41->dev, cs35l41->regmap, reg_revid);
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  483  	if (ret)
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  484  		goto err;
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  485  =
-
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  486  	ret =3D cs35l41_otp_unpack=
-(cs35l41->dev, cs35l41->regmap);
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  487  	if (ret) {
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  488  		dev_err(cs35l41->dev, "OT=
-P Unpack failed: %d\n", ret);
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  489  		goto err;
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  490  	}
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  491  =
-
-6e4320d8ecbc871 Charles Keepax 2022-01-17  492  	ret =3D cs35l41_test_key_l=
-ock(cs35l41->dev, cs35l41->regmap);
-6e4320d8ecbc871 Charles Keepax 2022-01-17  493  	if (ret)
-6e4320d8ecbc871 Charles Keepax 2022-01-17  494  		goto err;
-6e4320d8ecbc871 Charles Keepax 2022-01-17  495  =
-
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  496  	ret =3D cs35l41_hda_apply_=
-properties(cs35l41, acpi_hw_cfg);
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  497  	if (ret)
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  498  		goto err;
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  499  	kfree(acpi_hw_cfg);
-10b1a5a99c6ac42 Dan Carpenter  2022-01-11  500  	acpi_hw_cfg =3D NULL;
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  501  =
-
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  502  	if (cs35l41->reg_seq->prob=
-e) {
-2cb52046d186863 Charles Keepax 2022-01-17  503  		ret =3D regmap_multi_reg_=
-write(cs35l41->regmap, cs35l41->reg_seq->probe,
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  504  					    cs35l41->reg_seq->=
-num_probe);
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  505  		if (ret) {
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  506  			dev_err(cs35l41->dev, "F=
-ail to apply probe reg patch: %d\n", ret);
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  507  			goto err;
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  508  		}
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  509  	}
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  510  =
-
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  511  	ret =3D component_add(cs35=
-l41->dev, &cs35l41_hda_comp_ops);
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  512  	if (ret) {
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  513  		dev_err(cs35l41->dev, "Re=
-gister component failed: %d\n", ret);
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  514  		goto err;
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  515  	}
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  516  =
-
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  517  	dev_info(cs35l41->dev, "Ci=
-rrus Logic CS35L41 (%x), Revision: %02X\n", regid, reg_revid);
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  518  =
-
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  519  	return 0;
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  520  =
-
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  521  err:
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  522  	kfree(acpi_hw_cfg);
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  523  	if (!cs35l41->vspk_always_=
-on)
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  524  		gpiod_set_value_cansleep(=
-cs35l41->reset_gpio, 0);
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  525  	gpiod_put(cs35l41->reset_g=
-pio);
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  526  =
-
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  527  	return ret;
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  528  }
-77dc3a6ee2eb585 Lucas Tanure   2022-01-17  529  EXPORT_SYMBOL_NS_GPL(cs35l4=
-1_hda_probe, SND_HDA_SCODEC_CS35L41);
-7b2f3eb492dac76 Lucas Tanure   2021-12-17  530  =
+9a61bf6300533d3b drivers/hwmon/asb100.c     Ingo Molnar    2006-01-18  586 =
+ 	mutex_lock(&data->update_lock);
+^1da177e4c3f4152 drivers/i2c/chips/asb100.c Linus Torvalds 2005-04-16  587 =
+ 	data->pwm &=3D 0x0f; /* keep the duty cycle bits */
+^1da177e4c3f4152 drivers/i2c/chips/asb100.c Linus Torvalds 2005-04-16  588 =
+ 	data->pwm |=3D (val ? 0x80 : 0x00);
+^1da177e4c3f4152 drivers/i2c/chips/asb100.c Linus Torvalds 2005-04-16  589 =
+ 	asb100_write_value(client, ASB100_REG_PWM1, data->pwm);
+9a61bf6300533d3b drivers/hwmon/asb100.c     Ingo Molnar    2006-01-18  590 =
+ 	mutex_unlock(&data->update_lock);
+^1da177e4c3f4152 drivers/i2c/chips/asb100.c Linus Torvalds 2005-04-16  591 =
+ 	return count;
+^1da177e4c3f4152 drivers/i2c/chips/asb100.c Linus Torvalds 2005-04-16  592 =
+ }
+^1da177e4c3f4152 drivers/i2c/chips/asb100.c Linus Torvalds 2005-04-16  593  =
 
 
-:::::: The code at line 433 was first introduced by commit
-:::::: 7b2f3eb492dac7665c75df067e4d8e4869589f4a ALSA: hda: cs35l41: Add sup=
-port for CS35L41 in HDA systems
+:::::: The code at line 579 was first introduced by commit
+:::::: 8c103696fa59e1b810bf24a63304acd5ab585c12 hwmon: (asb100): Fix checkp=
+atch issues
 
-:::::: TO: Lucas Tanure <tanureal@opensource.cirrus.com>
-:::::: CC: Takashi Iwai <tiwai@suse.de>
+:::::: TO: Guenter Roeck <linux@roeck-us.net>
+:::::: CC: Guenter Roeck <guenter.roeck@ericsson.com>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============5170582677218384418==--
+--===============7417463445975949559==--
 
