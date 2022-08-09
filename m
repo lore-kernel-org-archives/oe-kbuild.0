@@ -1,232 +1,371 @@
-Content-Type: multipart/mixed; boundary="===============1494922847598573303=="
+Content-Type: multipart/mixed; boundary="===============6547091733862306137=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/platform/chrome/cros_ec_lpc.c:382 cros_ec_lpc_probe() warn: consider using resource_size() here
-Date: Wed, 10 Aug 2022 02:48:02 +0800
-Message-ID: <202208100209.YVz4IYFb-lkp@intel.com>
+Subject: io_uring/io_uring.c:3702:17: warning: use of uninitialized value '<unknown>' [CWE-457]
+Date: Wed, 10 Aug 2022 02:37:46 +0800
+Message-ID: <202208100248.RRVoFQRC-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1494922847598573303==
+--===============6547091733862306137==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+:::::: =
+
+:::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "low confidence static check warning: io_uring/=
+io_uring.c:3702:17: warning: use of uninitialized value '<unknown>' [CWE-45=
+7] [-Wanalyzer-use-of-uninitialized-value]"
+:::::: =
+
+
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: "Dustin L. Howett" <dustin@howett.net>
-CC: "Tzung-Bi Shih" <tzungbi@kernel.org>
+TO: Jens Axboe <axboe@kernel.dk>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
-head:   426b4ca2d6a5ab51f6b6175d06e4f8ddea434cdf
-commit: c9bc1a0ef9f613a7bc1adfff4c67dc5e5d7d1709 platform/chrome: cros_ec_l=
-pcs: reserve the MEC LPC I/O ports first
-date:   3 months ago
-:::::: branch date: 2 hours ago
-:::::: commit date: 3 months ago
-config: i386-randconfig-m021-20220808 (https://download.01.org/0day-ci/arch=
-ive/20220810/202208100209.YVz4IYFb-lkp(a)intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-3) 11.3.0
+head:   eb555cb5b794f4e12a9897f3d46d5a72104cd4a7
+commit: ed29b0b4fd835b058ddd151c49d021e28d631ee6 io_uring: move to separate=
+ directory
+date:   2 weeks ago
+:::::: branch date: 15 hours ago
+:::::: commit date: 2 weeks ago
+config: arm-randconfig-c002-20220804 (https://download.01.org/0day-ci/archi=
+ve/20220810/202208100248.RRVoFQRC-lkp(a)intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3Ded29b0b4fd835b058ddd151c49d021e28d631ee6
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout ed29b0b4fd835b058ddd151c49d021e28d631ee6
+        # save the config file
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cross=
+ ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
+
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-drivers/platform/chrome/cros_ec_lpc.c:382 cros_ec_lpc_probe() warn: conside=
-r using resource_size() here
+gcc-analyzer warnings: (new ones prefixed by >>)
+              |
+              |cc1:
+              | (15): ...to here
+              |
+            '__io_sqe_buffers_update': event 16
+              |
+              |cc1:
+              | (16): use of uninitialized value '=1B[01m=1B[K<unknown>=1B[=
+m=1B[K' here
+              |
+   In file included from include/linux/wait.h:7,
+                    from include/linux/wait_bit.h:8,
+                    from include/linux/fs.h:6,
+                    from include/uapi/linux/aio_abi.h:31,
+                    from include/linux/syscalls.h:77,
+                    from io_uring/io_uring.c:45:
+   include/linux/list.h: In function 'list_add':
+   include/linux/list.h:88:9: warning: dereference of NULL 'head' [CWE-476]=
+ [-Wanalyzer-null-dereference]
+      88 |         __list_add(new, head, head->next);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     'io_req_task_submit.part.0': events 1-2
+       |
+       |io_uring/io_uring.c:2841:13:
+       | 2841 | static void io_req_task_submit(struct io_kiocb *req, bool *=
+locked)
+       |      |             ^~~~~~~~~~~~~~~~~~
+       |      |             |
+       |      |             (1) entry to 'io_req_task_submit.part.0'
+       |......
+       | 2848 |                 io_req_complete_failed(req, -EFAULT);
+       |      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |                 |
+       |      |                 (2) calling 'io_req_complete_failed' from '=
+io_req_task_submit.part.0'
+       |
+       +--> 'io_req_complete_failed': events 3-4
+              |
+              | 2402 | static void io_req_complete_failed(struct io_kiocb *=
+req, s32 res)
+              |      |             ^~~~~~~~~~~~~~~~~~~~~~
+              |      |             |
+              |      |             (3) entry to 'io_req_complete_failed'
+              |......
+              | 2405 |         io_req_complete_post(req, res, io_put_kbuf(r=
+eq, IO_URING_F_UNLOCKED));
+              |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |         |
+              |      |         (4) calling 'io_put_kbuf' from 'io_req_compl=
+ete_failed'
+              |
+              +--> 'io_put_kbuf': events 5-10
+                     |
+                     | 1457 | static inline unsigned int io_put_kbuf(struct=
+ io_kiocb *req,
+                     |      |                            ^~~~~~~~~~~
+                     |      |                            |
+                     |      |                            (5) entry to 'io_p=
+ut_kbuf'
+                     |......
+                     | 1462 |         if (!(req->flags & (REQ_F_BUFFER_SELE=
+CTED|REQ_F_BUFFER_RING)))
+                     |      |            ~                =
 
-vim +382 drivers/platform/chrome/cros_ec_lpc.c
+                     |      |            |
+                     |      |            (6) following 'false' branch...
+                     |......
+                     | 1477 |         if (req->flags & REQ_F_BUFFER_RING) {
+                     |      |         ~~ ~                =
 
-a6df7798d03b29 Gwendal Grignou        2017-05-16  334  =
+                     |      |         |  |
+                     |      |         |  (8) following 'true' branch...
+                     |      |         (7) ...to here
+                     | 1478 |                 /* no buffers to recycle for =
+this case */
+                     | 1479 |                 cflags =3D __io_put_kbuf(req,=
+ NULL);
+                     |      |                 ~~~~~~   ~~~~~~~~~~~~~~~~~~~~=
+~~~~
+                     |      |                 |        |
+                     |      |                 |        (10) calling '__io_p=
+ut_kbuf' from 'io_put_kbuf'
+                     |      |                 (9) ...to here
+                     |
+                     +--> '__io_put_kbuf': events 11-14
+                            |
+                            | 1434 | static unsigned int __io_put_kbuf(stru=
+ct io_kiocb *req, struct list_head *list)
+                            |      |                     ^~~~~~~~~~~~~
+                            |      |                     |
+                            |      |                     (11) entry to '__i=
+o_put_kbuf'
+                            | 1435 | {
+                            | 1436 |         if (req->flags & REQ_F_BUFFER_=
+RING) {
+                            |      |            ~         =
 
-ec2f33ab582bf6 Bill Richardson        2015-02-02  335  static int cros_ec_l=
-pc_probe(struct platform_device *pdev)
-ec2f33ab582bf6 Bill Richardson        2015-02-02  336  {
-ec2f33ab582bf6 Bill Richardson        2015-02-02  337  	struct device *dev =
-=3D &pdev->dev;
-a6df7798d03b29 Gwendal Grignou        2017-05-16  338  	struct acpi_device =
-*adev;
-a6df7798d03b29 Gwendal Grignou        2017-05-16  339  	acpi_status status;
-ec2f33ab582bf6 Bill Richardson        2015-02-02  340  	struct cros_ec_devi=
-ce *ec_dev;
-bce70fef727924 Shawn Nematbakhsh      2017-05-16  341  	u8 buf[2];
-da1cf5a1cf124f Enrico Granata         2018-10-09  342  	int irq, ret;
-ec2f33ab582bf6 Bill Richardson        2015-02-02  343  =
+                            |      |            |
+                            |      |            (12) following 'false' bran=
+ch...
+                            |......
+                            | 1441 |                 list_add(&req->kbuf->l=
+ist, list);
+                            |      |                 ~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~
+                            |      |                 |
+                            |      |                 (13) ...to here
+                            |      |                 (14) calling 'list_add=
+' from '__io_put_kbuf'
+                            |
+                            +--> 'list_add': events 15-16
+                                   |
+                                   |include/linux/list.h:86:20:
+                                   |   86 | static inline void list_add(str=
+uct list_head *new, struct list_head *head)
+                                   |      |                    ^~~~~~~~
+                                   |      |                    |
+                                   |      |                    (15) entry t=
+o 'list_add'
+                                   |   87 | {
+                                   |   88 |         __list_add(new, head, h=
+ead->next);
+                                   |      |         ~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~
+                                   |      |         |
+                                   |      |         (16) dereference of NUL=
+L 'head'
+                                   |
+   io_uring/io_uring.c: In function '__io_iov_buffer_select':
+>> io_uring/io_uring.c:3702:17: warning: use of uninitialized value '<unkno=
+wn>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+    3702 |         ssize_t len;
+         |                 ^~~
+     'io_req_prep_async.part.0': events 1-4
+       |
+       | 7824 | static int io_req_prep_async(struct io_kiocb *req)
+       |      |            ^~~~~~~~~~~~~~~~~
+       |      |            |
+       |      |            (1) entry to 'io_req_prep_async.part.0'
+       |......
+       | 7833 |         if (WARN_ON_ONCE(req_has_async_data(req)))
+       |      |            ~
+       |      |            |
+       |      |            (2) following 'false' branch...
+       | 7834 |                 return -EFAULT;
+       | 7835 |         if (io_alloc_async_data(req))
+       |      |         ~~  ~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |         |   |
+       |      |         |   (4) calling 'io_alloc_async_data' from 'io_req_=
+prep_async.part.0'
+       |      |         (3) ...to here
+       |
+       +--> 'io_alloc_async_data': events 5-7
+              |
+              | 3905 | static inline bool io_alloc_async_data(struct io_kio=
+cb *req)
+              |      |                    ^~~~~~~~~~~~~~~~~~~
+              |      |                    |
+              |      |                    (5) entry to 'io_alloc_async_data'
+              |......
+              | 3909 |         if (req->async_data) {
+              |      |            ~        =
 
-c9bc1a0ef9f613 Dustin L. Howett       2022-02-17  344  	/*
-c9bc1a0ef9f613 Dustin L. Howett       2022-02-17  345  	 * The Framework La=
-ptop (and possibly other non-ChromeOS devices)
-c9bc1a0ef9f613 Dustin L. Howett       2022-02-17  346  	 * only exposes the=
- eight I/O ports that are required for the Microchip EC.
-c9bc1a0ef9f613 Dustin L. Howett       2022-02-17  347  	 * Requesting a lar=
-ger reservation will fail.
-c9bc1a0ef9f613 Dustin L. Howett       2022-02-17  348  	 */
-c9bc1a0ef9f613 Dustin L. Howett       2022-02-17  349  	if (!devm_request_r=
-egion(dev, EC_HOST_CMD_REGION0,
-c9bc1a0ef9f613 Dustin L. Howett       2022-02-17  350  				 EC_HOST_CMD_MEC=
-_REGION_SIZE, dev_name(dev))) {
-c9bc1a0ef9f613 Dustin L. Howett       2022-02-17  351  		dev_err(dev, "coul=
-dn't reserve MEC region\n");
-ec2f33ab582bf6 Bill Richardson        2015-02-02  352  		return -EBUSY;
-ec2f33ab582bf6 Bill Richardson        2015-02-02  353  	}
-ec2f33ab582bf6 Bill Richardson        2015-02-02  354  =
+              |      |            |
+              |      |            (6) following 'true' branch...
+              | 3910 |                 req->flags |=3D REQ_F_ASYNC_DATA;
+              |      |                 ~~~ =
 
-22c040fa21b604 Enric Balletbo i Serra 2019-06-14  355  	/*
-22c040fa21b604 Enric Balletbo i Serra 2019-06-14  356  	 * Read the mapped =
-ID twice, the first one is assuming the
-22c040fa21b604 Enric Balletbo i Serra 2019-06-14  357  	 * EC is a Microchi=
-p Embedded Controller (MEC) variant, if the
-22c040fa21b604 Enric Balletbo i Serra 2019-06-14  358  	 * protocol fails, =
-fallback to the non MEC variant and try to
-22c040fa21b604 Enric Balletbo i Serra 2019-06-14  359  	 * read again the I=
-D.
-22c040fa21b604 Enric Balletbo i Serra 2019-06-14  360  	 */
-22c040fa21b604 Enric Balletbo i Serra 2019-06-14  361  	cros_ec_lpc_ops.rea=
-d =3D cros_ec_lpc_mec_read_bytes;
-22c040fa21b604 Enric Balletbo i Serra 2019-06-14  362  	cros_ec_lpc_ops.wri=
-te =3D cros_ec_lpc_mec_write_bytes;
-22c040fa21b604 Enric Balletbo i Serra 2019-06-14  363  	cros_ec_lpc_ops.rea=
-d(EC_LPC_ADDR_MEMMAP + EC_MEMMAP_ID, 2, buf);
-22c040fa21b604 Enric Balletbo i Serra 2019-06-14  364  	if (buf[0] !=3D 'E'=
- || buf[1] !=3D 'C') {
-c9bc1a0ef9f613 Dustin L. Howett       2022-02-17  365  		if (!devm_request_=
-region(dev, EC_LPC_ADDR_MEMMAP, EC_MEMMAP_SIZE,
-c9bc1a0ef9f613 Dustin L. Howett       2022-02-17  366  					 dev_name(dev))=
-) {
-c9bc1a0ef9f613 Dustin L. Howett       2022-02-17  367  			dev_err(dev, "cou=
-ldn't reserve memmap region\n");
-c9bc1a0ef9f613 Dustin L. Howett       2022-02-17  368  			return -EBUSY;
-c9bc1a0ef9f613 Dustin L. Howett       2022-02-17  369  		}
-c9bc1a0ef9f613 Dustin L. Howett       2022-02-17  370  =
+              |      |                 |
+              |      |                 (7) ...to here
+              |
+       <------+
+       |
+     'io_req_prep_async.part.0': events 8-13
+       |
+       | 7835 |         if (io_alloc_async_data(req))
+       |      |            ~^~~~~~~~~~~~~~~~~~~~~~~~
+       |      |            ||
+       |      |            |(8) returning to 'io_req_prep_async.part.0' fro=
+m 'io_alloc_async_data'
+       |      |            (9) following 'false' branch...
+       |......
+       | 7838 |         switch (req->opcode) {
+       |      |         ~~~~~~
+       |      |         |
+       |      |         (10) ...to here
+       |      |         (11) following 'case 1:' branch...
+       | 7839 |         case IORING_OP_READV:
+       |      |         ~~~~ =
 
-22c040fa21b604 Enric Balletbo i Serra 2019-06-14  371  		/* Re-assign read/=
-write operations for the non MEC variant */
-22c040fa21b604 Enric Balletbo i Serra 2019-06-14  372  		cros_ec_lpc_ops.re=
-ad =3D cros_ec_lpc_read_bytes;
-22c040fa21b604 Enric Balletbo i Serra 2019-06-14  373  		cros_ec_lpc_ops.wr=
-ite =3D cros_ec_lpc_write_bytes;
-22c040fa21b604 Enric Balletbo i Serra 2019-06-14  374  		cros_ec_lpc_ops.re=
-ad(EC_LPC_ADDR_MEMMAP + EC_MEMMAP_ID, 2,
-22c040fa21b604 Enric Balletbo i Serra 2019-06-14  375  				     buf);
-bce70fef727924 Shawn Nematbakhsh      2017-05-16  376  		if (buf[0] !=3D 'E=
-' || buf[1] !=3D 'C') {
-ec2f33ab582bf6 Bill Richardson        2015-02-02  377  			dev_err(dev, "EC =
-ID not detected\n");
-ec2f33ab582bf6 Bill Richardson        2015-02-02  378  			return -ENODEV;
-ec2f33ab582bf6 Bill Richardson        2015-02-02  379  		}
-ec2f33ab582bf6 Bill Richardson        2015-02-02  380  =
+       |      |         |
+       |      |         (12) ...to here
+       | 7840 |                 return io_readv_prep_async(req);
+       |      |                        ~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |                        |
+       |      |                        (13) calling 'io_readv_prep_async' f=
+rom 'io_req_prep_async.part.0'
+       |
+       +--> 'io_readv_prep_async': events 14-15
+              |
+              | 3955 | static int io_readv_prep_async(struct io_kiocb *req)
+              |      |            ^~~~~~~~~~~~~~~~~~~
+              |      |            |
+              |      |            (14) entry to 'io_readv_prep_async'
+              | 3956 | {
+              | 3957 |         return io_rw_prep_async(req, READ);
+              |      |                ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |                |
+              |      |                (15) calling 'io_rw_prep_async' from =
+'io_readv_prep_async'
+              |
+              +--> 'io_rw_prep_async': events 16-17
+                     |
+                     | 3937 | static inline int io_rw_prep_async(struct io_=
+kiocb *req, int rw)
+                     |      |                   ^~~~~~~~~~~~~~~~
+                     |      |                   |
+                     |      |                   (16) entry to 'io_rw_prep_a=
+sync'
+                     |......
+                     | 3944 |         ret =3D io_import_iovec(rw, req, &iov=
+, &iorw->s, 0);
+                     |      |               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~
+                     |      |               |
+                     |      |               (17) calling 'io_import_iovec' =
+from 'io_rw_prep_async'
+                     |
+                     +--> 'io_import_iovec': events 18-19
+                            |
+                            | 3797 | static inline int io_import_iovec(int =
+rw, struct io_kiocb *req,
+                            |      |                   ^~~~~~~~~~~~~~~
+                            |      |                   |
+                            |      |                   (18) entry to 'io_im=
+port_iovec'
+                            |......
+                            | 3801 |         *iovec =3D __io_import_iovec(r=
+w, req, s, issue_flags);
+                            |      |                  ~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~~~~~~~
+                            |      |                  |
+                            |      |                  (19) calling '__io_im=
+port_iovec' from 'io_import_iovec'
+                            |
+                            +--> '__io_import_iovec': events 20-27
+                                   |
+                                   | 3745 | static struct iovec *__io_impor=
+t_iovec(int rw, struct io_kiocb *req,
+                                   |      |                      ^~~~~~~~~~=
+~~~~~~~
 
-c9bc1a0ef9f613 Dustin L. Howett       2022-02-17  381  		/* Reserve the rem=
-aining I/O ports required by the non-MEC protocol. */
-c9bc1a0ef9f613 Dustin L. Howett       2022-02-17 @382  		if (!devm_request_=
-region(dev, EC_HOST_CMD_REGION0 + EC_HOST_CMD_MEC_REGION_SIZE,
-c9bc1a0ef9f613 Dustin L. Howett       2022-02-17  383  					 EC_HOST_CMD_RE=
-GION_SIZE - EC_HOST_CMD_MEC_REGION_SIZE,
-c9bc1a0ef9f613 Dustin L. Howett       2022-02-17  384  					 dev_name(dev))=
-) {
-c9bc1a0ef9f613 Dustin L. Howett       2022-02-17  385  			dev_err(dev, "cou=
-ldn't reserve remainder of region0\n");
-ec2f33ab582bf6 Bill Richardson        2015-02-02  386  			return -EBUSY;
-ec2f33ab582bf6 Bill Richardson        2015-02-02  387  		}
-ec2f33ab582bf6 Bill Richardson        2015-02-02  388  		if (!devm_request_=
-region(dev, EC_HOST_CMD_REGION1,
-ec2f33ab582bf6 Bill Richardson        2015-02-02  389  					 EC_HOST_CMD_RE=
-GION_SIZE, dev_name(dev))) {
-ec2f33ab582bf6 Bill Richardson        2015-02-02  390  			dev_err(dev, "cou=
-ldn't reserve region1\n");
-ec2f33ab582bf6 Bill Richardson        2015-02-02  391  			return -EBUSY;
-ec2f33ab582bf6 Bill Richardson        2015-02-02  392  		}
-c9bc1a0ef9f613 Dustin L. Howett       2022-02-17  393  	}
-ec2f33ab582bf6 Bill Richardson        2015-02-02  394  =
+vim +3702 io_uring/io_uring.c
 
-ec2f33ab582bf6 Bill Richardson        2015-02-02  395  	ec_dev =3D devm_kza=
-lloc(dev, sizeof(*ec_dev), GFP_KERNEL);
-ec2f33ab582bf6 Bill Richardson        2015-02-02  396  	if (!ec_dev)
-ec2f33ab582bf6 Bill Richardson        2015-02-02  397  		return -ENOMEM;
-ec2f33ab582bf6 Bill Richardson        2015-02-02  398  =
+4d954c258a0c365a fs/io_uring.c Jens Axboe        2020-02-27  3696  =
 
-ec2f33ab582bf6 Bill Richardson        2015-02-02  399  	platform_set_drvdat=
-a(pdev, ec_dev);
-ec2f33ab582bf6 Bill Richardson        2015-02-02  400  	ec_dev->dev =3D dev;
-ec2f33ab582bf6 Bill Richardson        2015-02-02  401  	ec_dev->phys_name =
-=3D dev_name(dev);
-ec2f33ab582bf6 Bill Richardson        2015-02-02  402  	ec_dev->cmd_xfer =
-=3D cros_ec_cmd_xfer_lpc;
-d365407079d331 Stephen Barber         2015-06-09  403  	ec_dev->pkt_xfer =
-=3D cros_ec_pkt_xfer_lpc;
-ec2f33ab582bf6 Bill Richardson        2015-02-02  404  	ec_dev->cmd_readmem=
- =3D cros_ec_lpc_readmem;
-2c7589af3c4dee Stephen Barber         2015-06-09  405  	ec_dev->din_size =
-=3D sizeof(struct ec_host_response) +
-2c7589af3c4dee Stephen Barber         2015-06-09  406  			   sizeof(struct =
-ec_response_get_protocol_info);
-2c7589af3c4dee Stephen Barber         2015-06-09  407  	ec_dev->dout_size =
-=3D sizeof(struct ec_host_request);
-ec2f33ab582bf6 Bill Richardson        2015-02-02  408  =
+4d954c258a0c365a fs/io_uring.c Jens Axboe        2020-02-27  3697  static s=
+size_t __io_iov_buffer_select(struct io_kiocb *req, struct iovec *iov,
+51aac424aef980a6 fs/io_uring.c Pavel Begunkov    2021-10-14  3698  				    =
+  unsigned int issue_flags)
+4d954c258a0c365a fs/io_uring.c Jens Axboe        2020-02-27  3699  {
+4d954c258a0c365a fs/io_uring.c Jens Axboe        2020-02-27  3700  	struct =
+iovec __user *uiov =3D u64_to_user_ptr(req->rw.addr);
+4d954c258a0c365a fs/io_uring.c Jens Axboe        2020-02-27  3701  	void __=
+user *buf;
+4d954c258a0c365a fs/io_uring.c Jens Axboe        2020-02-27 @3702  	ssize_t=
+ len;
+4d954c258a0c365a fs/io_uring.c Jens Axboe        2020-02-27  3703  =
 
-da1cf5a1cf124f Enrico Granata         2018-10-09  409  	/*
-da1cf5a1cf124f Enrico Granata         2018-10-09  410  	 * Some boards do n=
-ot have an IRQ allotted for cros_ec_lpc,
-da1cf5a1cf124f Enrico Granata         2018-10-09  411  	 * which makes ENXI=
-O an expected (and safe) scenario.
-da1cf5a1cf124f Enrico Granata         2018-10-09  412  	 */
-a69b4eebe513b8 Enric Balletbo i Serra 2019-11-29  413  	irq =3D platform_ge=
-t_irq_optional(pdev, 0);
-da1cf5a1cf124f Enrico Granata         2018-10-09  414  	if (irq > 0)
-da1cf5a1cf124f Enrico Granata         2018-10-09  415  		ec_dev->irq =3D ir=
-q;
-da1cf5a1cf124f Enrico Granata         2018-10-09  416  	else if (irq !=3D -=
-ENXIO) {
-da1cf5a1cf124f Enrico Granata         2018-10-09  417  		dev_err(dev, "coul=
-dn't retrieve IRQ number (%d)\n", irq);
-da1cf5a1cf124f Enrico Granata         2018-10-09  418  		return irq;
-da1cf5a1cf124f Enrico Granata         2018-10-09  419  	}
-da1cf5a1cf124f Enrico Granata         2018-10-09  420  =
+4d954c258a0c365a fs/io_uring.c Jens Axboe        2020-02-27  3704  	if (cop=
+y_from_user(iov, uiov, sizeof(*uiov)))
+4d954c258a0c365a fs/io_uring.c Jens Axboe        2020-02-27  3705  		return=
+ -EFAULT;
+4d954c258a0c365a fs/io_uring.c Jens Axboe        2020-02-27  3706  =
 
-ec2f33ab582bf6 Bill Richardson        2015-02-02  421  	ret =3D cros_ec_reg=
-ister(ec_dev);
-ec2f33ab582bf6 Bill Richardson        2015-02-02  422  	if (ret) {
-ec2f33ab582bf6 Bill Richardson        2015-02-02  423  		dev_err(dev, "coul=
-dn't register ec_dev (%d)\n", ret);
-ec2f33ab582bf6 Bill Richardson        2015-02-02  424  		return ret;
-ec2f33ab582bf6 Bill Richardson        2015-02-02  425  	}
-ec2f33ab582bf6 Bill Richardson        2015-02-02  426  =
+4d954c258a0c365a fs/io_uring.c Jens Axboe        2020-02-27  3707  	len =3D=
+ iov[0].iov_len;
+4d954c258a0c365a fs/io_uring.c Jens Axboe        2020-02-27  3708  	if (len=
+ < 0)
+4d954c258a0c365a fs/io_uring.c Jens Axboe        2020-02-27  3709  		return=
+ -EINVAL;
+4e9067025259d122 fs/io_uring.c Jens Axboe        2022-04-28  3710  	buf =3D=
+ io_buffer_select(req, &len, issue_flags);
+984824db844a9bd6 fs/io_uring.c Christoph Hellwig 2022-05-18  3711  	if (!bu=
+f)
+984824db844a9bd6 fs/io_uring.c Christoph Hellwig 2022-05-18  3712  		return=
+ -ENOBUFS;
+b66e65f41426ec82 fs/io_uring.c Jens Axboe        2022-04-30  3713  	req->rw=
+.addr =3D (unsigned long) buf;
+4d954c258a0c365a fs/io_uring.c Jens Axboe        2020-02-27  3714  	iov[0].=
+iov_base =3D buf;
+b66e65f41426ec82 fs/io_uring.c Jens Axboe        2022-04-30  3715  	req->rw=
+.len =3D iov[0].iov_len =3D len;
+4d954c258a0c365a fs/io_uring.c Jens Axboe        2020-02-27  3716  	return =
+0;
+4d954c258a0c365a fs/io_uring.c Jens Axboe        2020-02-27  3717  }
+4d954c258a0c365a fs/io_uring.c Jens Axboe        2020-02-27  3718  =
 
-a6df7798d03b29 Gwendal Grignou        2017-05-16  427  	/*
-a6df7798d03b29 Gwendal Grignou        2017-05-16  428  	 * Connect a notify=
- handler to process MKBP messages if we have a
-a6df7798d03b29 Gwendal Grignou        2017-05-16  429  	 * companion ACPI d=
-evice.
-a6df7798d03b29 Gwendal Grignou        2017-05-16  430  	 */
-a6df7798d03b29 Gwendal Grignou        2017-05-16  431  	adev =3D ACPI_COMPA=
-NION(dev);
-a6df7798d03b29 Gwendal Grignou        2017-05-16  432  	if (adev) {
-a6df7798d03b29 Gwendal Grignou        2017-05-16  433  		status =3D acpi_in=
-stall_notify_handler(adev->handle,
-a6df7798d03b29 Gwendal Grignou        2017-05-16  434  						     ACPI_ALL_=
-NOTIFY,
-a6df7798d03b29 Gwendal Grignou        2017-05-16  435  						     cros_ec_l=
-pc_acpi_notify,
-a6df7798d03b29 Gwendal Grignou        2017-05-16  436  						     ec_dev);
-a6df7798d03b29 Gwendal Grignou        2017-05-16  437  		if (ACPI_FAILURE(s=
-tatus))
-a6df7798d03b29 Gwendal Grignou        2017-05-16  438  			dev_warn(dev, "Fa=
-iled to register notifier %08x\n",
-a6df7798d03b29 Gwendal Grignou        2017-05-16  439  				 status);
-a6df7798d03b29 Gwendal Grignou        2017-05-16  440  	}
-a6df7798d03b29 Gwendal Grignou        2017-05-16  441  =
 
-ec2f33ab582bf6 Bill Richardson        2015-02-02  442  	return 0;
-ec2f33ab582bf6 Bill Richardson        2015-02-02  443  }
-ec2f33ab582bf6 Bill Richardson        2015-02-02  444  =
+:::::: The code at line 3702 was first introduced by commit
+:::::: 4d954c258a0c365a85a2d1b1cccf63aec38fca4c io_uring: add IOSQE_BUFFER_=
+SELECT support for IORING_OP_READV
 
+:::::: TO: Jens Axboe <axboe@kernel.dk>
+:::::: CC: Jens Axboe <axboe@kernel.dk>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============1494922847598573303==--
+--===============6547091733862306137==--
 
