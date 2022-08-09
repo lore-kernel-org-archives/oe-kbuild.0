@@ -1,250 +1,232 @@
-Content-Type: multipart/mixed; boundary="===============4442938243831364265=="
+Content-Type: multipart/mixed; boundary="===============1494922847598573303=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/opp/core.c:901:23: warning: Parameter 'regulators' can be declared with const [constParameter]
-Date: Wed, 10 Aug 2022 07:21:18 +0800
-Message-ID: <202208100737.D6o6BhWR-lkp@intel.com>
+Subject: drivers/platform/chrome/cros_ec_lpc.c:382 cros_ec_lpc_probe() warn: consider using resource_size() here
+Date: Wed, 10 Aug 2022 02:48:02 +0800
+Message-ID: <202208100209.YVz4IYFb-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4442938243831364265==
+--===============1494922847598573303==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-:::::: =
-
-:::::: Manual check reason: "low confidence static check warning: drivers/o=
-pp/core.c:901:23: warning: Parameter 'regulators' can be declared with cons=
-t [constParameter]"
-:::::: =
-
-
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Viresh Kumar <viresh.kumar@linaro.org>
+TO: "Dustin L. Howett" <dustin@howett.net>
+CC: "Tzung-Bi Shih" <tzungbi@kernel.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
-head:   15205c2829ca2cbb5ece5ceaafe1171a8470e62b
-commit: c522ce8a08066b44539e0dd0998b8e3b277a759b OPP: Make _generic_set_opp=
-_regulator() a config_regulators() interface
-date:   5 weeks ago
-:::::: branch date: 6 hours ago
-:::::: commit date: 5 weeks ago
-compiler: sparc64-linux-gcc (GCC) 12.1.0
-reproduce (cppcheck warning):
-        # apt-get install cppcheck
-        git checkout c522ce8a08066b44539e0dd0998b8e3b277a759b
-        cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
-e=3Dgcc FILE
+head:   426b4ca2d6a5ab51f6b6175d06e4f8ddea434cdf
+commit: c9bc1a0ef9f613a7bc1adfff4c67dc5e5d7d1709 platform/chrome: cros_ec_l=
+pcs: reserve the MEC LPC I/O ports first
+date:   3 months ago
+:::::: branch date: 2 hours ago
+:::::: commit date: 3 months ago
+config: i386-randconfig-m021-20220808 (https://download.01.org/0day-ci/arch=
+ive/20220810/202208100209.YVz4IYFb-lkp(a)intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-3) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+smatch warnings:
+drivers/platform/chrome/cros_ec_lpc.c:382 cros_ec_lpc_probe() warn: conside=
+r using resource_size() here
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+vim +382 drivers/platform/chrome/cros_ec_lpc.c
 
->> drivers/opp/core.c:901:23: warning: Parameter 'regulators' can be declar=
-ed with const [constParameter]
-      struct regulator **regulators, unsigned int count)
-                         ^
-   drivers/opp/core.c:2636:27: warning: Parameter 'src_opp' can be declared=
- with const [constParameter]
-          struct dev_pm_opp *src_opp)
-                             ^
-   drivers/opp/core.c:64:26: warning: Uninitialized variables: opp_table.no=
-de, opp_table.lazy, opp_table.head, opp_table.dev_list, opp_table.opp_list,=
- opp_table.kref, opp_table.lock, opp_table.np, opp_table.clock_latency_ns_m=
-ax, opp_table.voltage_tolerance_v1, opp_table.parsed_static_opps, opp_table=
-.shared_opp, opp_table.current_rate, opp_table.current_opp, opp_table.suspe=
-nd_opp, opp_table.genpd_virt_dev_lock, opp_table.genpd_virt_devs, opp_table=
-.required_opp_tables, opp_table.required_opp_count, opp_table.supported_hw,=
- opp_table.supported_hw_count, opp_table.prop_name, opp_table.clk_configure=
-d, opp_table.clk, opp_table.config_regulators, opp_table.regulators, opp_ta=
-ble.regulator_count, opp_table.paths, opp_table.path_count, opp_table.enabl=
-ed, opp_table.genpd_performance_state, opp_table.is_genpd, opp_table.set_op=
-p, opp_table.sod_supplies, opp_table.set_opp_data [uninitvar]
-     if (_find_opp_dev(dev, opp_table)) {
-                            ^
-   drivers/opp/core.c:369:12: warning: Uninitialized variable: opp->availab=
-le [uninitvar]
-     if (opp->available)
-              ^
-   drivers/opp/core.c:446:17: warning: Uninitialized variable: temp_opp->av=
-ailable [uninitvar]
-     if (temp_opp->available =3D=3D available &&
-                   ^
-   drivers/opp/core.c:436:12: note: Assuming condition is false
-    if (IS_ERR(opp_table)) {
-              ^
-   drivers/opp/core.c:446:17: note: Uninitialized variable: temp_opp->avail=
-able
-     if (temp_opp->available =3D=3D available &&
-                   ^
-   drivers/opp/core.c:471:17: warning: Uninitialized variable: temp_opp->av=
-ailable [uninitvar]
-     if (temp_opp->available && temp_opp->rate >=3D *freq) {
-                   ^
-   drivers/opp/core.c:671:17: warning: Uninitialized variable: temp_opp->le=
-vel [uninitvar]
-     if (temp_opp->level =3D=3D level) {
-                   ^
-   drivers/opp/core.c:661:12: note: Assuming condition is false
-    if (IS_ERR(opp_table)) {
-              ^
-   drivers/opp/core.c:671:17: note: Uninitialized variable: temp_opp->level
-     if (temp_opp->level =3D=3D level) {
-                   ^
-   drivers/opp/core.c:719:17: warning: Uninitialized variable: temp_opp->av=
-ailable [uninitvar]
-     if (temp_opp->available && temp_opp->level >=3D *level) {
-                   ^
-   drivers/opp/core.c:709:12: note: Assuming condition is false
-    if (IS_ERR(opp_table)) {
-              ^
-   drivers/opp/core.c:719:17: note: Uninitialized variable: temp_opp->avail=
-able
-     if (temp_opp->available && temp_opp->level >=3D *level) {
-                   ^
-   drivers/opp/core.c:1614:13: warning: Uninitialized variable: iter->rate =
-[uninitvar]
-     if (iter->rate =3D=3D freq) {
-               ^
-   drivers/opp/core.c:1608:12: note: Assuming condition is false
-    if (IS_ERR(opp_table))
-              ^
-   drivers/opp/core.c:1614:13: note: Uninitialized variable: iter->rate
-     if (iter->rate =3D=3D freq) {
-               ^
-   drivers/opp/core.c:1648:14: warning: Uninitialized variable: temp->remov=
-ed [uninitvar]
-     if (!temp->removed && dynamic =3D=3D temp->dynamic) {
-                ^
-   drivers/opp/core.c:1796:39: warning: Uninitialized variables: opp.node, =
-opp.kref, opp.available, opp.dynamic, opp.turbo, opp.suspend, opp.removed, =
-opp.pstate, opp.rate, opp.level, opp.supplies, opp.bandwidth, opp.clock_lat=
-ency_ns, opp.required_opps, opp.opp_table, opp.np [uninitvar]
-     opp_cmp =3D _opp_compare_key(new_opp, opp);
-                                         ^
-   drivers/opp/core.c:2808:16: warning: Uninitialized variable: tmp_opp->ra=
-te [uninitvar]
-     if (tmp_opp->rate =3D=3D freq) {
-                  ^
-   drivers/opp/core.c:2798:12: note: Assuming condition is false
-    if (IS_ERR(opp_table)) {
-              ^
-   drivers/opp/core.c:2808:16: note: Uninitialized variable: tmp_opp->rate
-     if (tmp_opp->rate =3D=3D freq) {
-                  ^
-   drivers/opp/core.c:2879:16: warning: Uninitialized variable: tmp_opp->ra=
-te [uninitvar]
-     if (tmp_opp->rate =3D=3D freq) {
-                  ^
-   drivers/opp/core.c:2869:12: note: Assuming condition is false
-    if (IS_ERR(opp_table)) {
-              ^
-   drivers/opp/core.c:2879:16: note: Uninitialized variable: tmp_opp->rate
-     if (tmp_opp->rate =3D=3D freq) {
-                  ^
-   drivers/opp/core.c:64:26: warning: Uninitialized variables: opp_table.no=
-de, opp_table.lazy, opp_table.head, opp_table.dev_list, opp_table.opp_list,=
- opp_table.kref, opp_table.lock, opp_table.np, opp_table.clock_latency_ns_m=
-ax, opp_table.voltage_tolerance_v1, opp_table.parsed_static_opps, opp_table=
-.shared_opp, opp_table.current_rate, opp_table.current_opp, opp_table.suspe=
-nd_opp, opp_table.genpd_virt_dev_lock, opp_table.genpd_virt_devs, opp_table=
-.required_opp_tables, opp_table.required_opp_count, opp_table.supported_hw,=
- opp_table.supported_hw_count, opp_table.prop_name, opp_table.clk_configure=
-d, opp_table.clk, opp_table.config_regulators, opp_table.regulators, opp_ta=
-ble.regulator_count, opp_table.paths, opp_table.path_count, opp_table.enabl=
-ed, opp_table.genpd_performance_state, opp_table.is_genpd, opp_table.set_op=
-p, opp_table.sod_supplies, opp_table.set_opp_data, opp_table.dentry [uninit=
-var]
-     if (_find_opp_dev(dev, opp_table)) {
-                            ^
-   drivers/opp/core.c:1796:39: warning: Uninitialized variables: opp.node, =
-opp.kref, opp.available, opp.dynamic, opp.turbo, opp.suspend, opp.removed, =
-opp.pstate, opp.rate, opp.level, opp.supplies, opp.bandwidth, opp.clock_lat=
-ency_ns, opp.required_opps, opp.opp_table, opp.np, opp.dentry, opp.of_name =
-[uninitvar]
-     opp_cmp =3D _opp_compare_key(new_opp, opp);
-                                         ^
+a6df7798d03b29 Gwendal Grignou        2017-05-16  334  =
 
-vim +/regulators +901 drivers/opp/core.c
+ec2f33ab582bf6 Bill Richardson        2015-02-02  335  static int cros_ec_l=
+pc_probe(struct platform_device *pdev)
+ec2f33ab582bf6 Bill Richardson        2015-02-02  336  {
+ec2f33ab582bf6 Bill Richardson        2015-02-02  337  	struct device *dev =
+=3D &pdev->dev;
+a6df7798d03b29 Gwendal Grignou        2017-05-16  338  	struct acpi_device =
+*adev;
+a6df7798d03b29 Gwendal Grignou        2017-05-16  339  	acpi_status status;
+ec2f33ab582bf6 Bill Richardson        2015-02-02  340  	struct cros_ec_devi=
+ce *ec_dev;
+bce70fef727924 Shawn Nematbakhsh      2017-05-16  341  	u8 buf[2];
+da1cf5a1cf124f Enrico Granata         2018-10-09  342  	int irq, ret;
+ec2f33ab582bf6 Bill Richardson        2015-02-02  343  =
 
-947355850fcb3b drivers/base/power/opp/core.c Viresh Kumar    2016-12-01  89=
-8  =
+c9bc1a0ef9f613 Dustin L. Howett       2022-02-17  344  	/*
+c9bc1a0ef9f613 Dustin L. Howett       2022-02-17  345  	 * The Framework La=
+ptop (and possibly other non-ChromeOS devices)
+c9bc1a0ef9f613 Dustin L. Howett       2022-02-17  346  	 * only exposes the=
+ eight I/O ports that are required for the Microchip EC.
+c9bc1a0ef9f613 Dustin L. Howett       2022-02-17  347  	 * Requesting a lar=
+ger reservation will fail.
+c9bc1a0ef9f613 Dustin L. Howett       2022-02-17  348  	 */
+c9bc1a0ef9f613 Dustin L. Howett       2022-02-17  349  	if (!devm_request_r=
+egion(dev, EC_HOST_CMD_REGION0,
+c9bc1a0ef9f613 Dustin L. Howett       2022-02-17  350  				 EC_HOST_CMD_MEC=
+_REGION_SIZE, dev_name(dev))) {
+c9bc1a0ef9f613 Dustin L. Howett       2022-02-17  351  		dev_err(dev, "coul=
+dn't reserve MEC region\n");
+ec2f33ab582bf6 Bill Richardson        2015-02-02  352  		return -EBUSY;
+ec2f33ab582bf6 Bill Richardson        2015-02-02  353  	}
+ec2f33ab582bf6 Bill Richardson        2015-02-02  354  =
 
-c522ce8a08066b drivers/opp/core.c            Viresh Kumar    2022-05-31  89=
-9  static int _opp_config_regulator_single(struct device *dev,
-c522ce8a08066b drivers/opp/core.c            Viresh Kumar    2022-05-31  90=
-0  			struct dev_pm_opp *old_opp, struct dev_pm_opp *new_opp,
-c522ce8a08066b drivers/opp/core.c            Viresh Kumar    2022-05-31 @90=
-1  			struct regulator **regulators, unsigned int count)
-947355850fcb3b drivers/base/power/opp/core.c Viresh Kumar    2016-12-01  90=
-2  {
-c522ce8a08066b drivers/opp/core.c            Viresh Kumar    2022-05-31  90=
-3  	struct regulator *reg =3D regulators[0];
-947355850fcb3b drivers/base/power/opp/core.c Viresh Kumar    2016-12-01  90=
-4  	int ret;
-947355850fcb3b drivers/base/power/opp/core.c Viresh Kumar    2016-12-01  90=
-5  =
+22c040fa21b604 Enric Balletbo i Serra 2019-06-14  355  	/*
+22c040fa21b604 Enric Balletbo i Serra 2019-06-14  356  	 * Read the mapped =
+ID twice, the first one is assuming the
+22c040fa21b604 Enric Balletbo i Serra 2019-06-14  357  	 * EC is a Microchi=
+p Embedded Controller (MEC) variant, if the
+22c040fa21b604 Enric Balletbo i Serra 2019-06-14  358  	 * protocol fails, =
+fallback to the non MEC variant and try to
+22c040fa21b604 Enric Balletbo i Serra 2019-06-14  359  	 * read again the I=
+D.
+22c040fa21b604 Enric Balletbo i Serra 2019-06-14  360  	 */
+22c040fa21b604 Enric Balletbo i Serra 2019-06-14  361  	cros_ec_lpc_ops.rea=
+d =3D cros_ec_lpc_mec_read_bytes;
+22c040fa21b604 Enric Balletbo i Serra 2019-06-14  362  	cros_ec_lpc_ops.wri=
+te =3D cros_ec_lpc_mec_write_bytes;
+22c040fa21b604 Enric Balletbo i Serra 2019-06-14  363  	cros_ec_lpc_ops.rea=
+d(EC_LPC_ADDR_MEMMAP + EC_MEMMAP_ID, 2, buf);
+22c040fa21b604 Enric Balletbo i Serra 2019-06-14  364  	if (buf[0] !=3D 'E'=
+ || buf[1] !=3D 'C') {
+c9bc1a0ef9f613 Dustin L. Howett       2022-02-17  365  		if (!devm_request_=
+region(dev, EC_LPC_ADDR_MEMMAP, EC_MEMMAP_SIZE,
+c9bc1a0ef9f613 Dustin L. Howett       2022-02-17  366  					 dev_name(dev))=
+) {
+c9bc1a0ef9f613 Dustin L. Howett       2022-02-17  367  			dev_err(dev, "cou=
+ldn't reserve memmap region\n");
+c9bc1a0ef9f613 Dustin L. Howett       2022-02-17  368  			return -EBUSY;
+c9bc1a0ef9f613 Dustin L. Howett       2022-02-17  369  		}
+c9bc1a0ef9f613 Dustin L. Howett       2022-02-17  370  =
 
-947355850fcb3b drivers/base/power/opp/core.c Viresh Kumar    2016-12-01  90=
-6  	/* This function only supports single regulator per device */
-c522ce8a08066b drivers/opp/core.c            Viresh Kumar    2022-05-31  90=
-7  	if (WARN_ON(count > 1)) {
-947355850fcb3b drivers/base/power/opp/core.c Viresh Kumar    2016-12-01  90=
-8  		dev_err(dev, "multiple regulators are not supported\n");
-947355850fcb3b drivers/base/power/opp/core.c Viresh Kumar    2016-12-01  90=
-9  		return -EINVAL;
-947355850fcb3b drivers/base/power/opp/core.c Viresh Kumar    2016-12-01  91=
-0  	}
-947355850fcb3b drivers/base/power/opp/core.c Viresh Kumar    2016-12-01  91=
-1  =
+22c040fa21b604 Enric Balletbo i Serra 2019-06-14  371  		/* Re-assign read/=
+write operations for the non MEC variant */
+22c040fa21b604 Enric Balletbo i Serra 2019-06-14  372  		cros_ec_lpc_ops.re=
+ad =3D cros_ec_lpc_read_bytes;
+22c040fa21b604 Enric Balletbo i Serra 2019-06-14  373  		cros_ec_lpc_ops.wr=
+ite =3D cros_ec_lpc_write_bytes;
+22c040fa21b604 Enric Balletbo i Serra 2019-06-14  374  		cros_ec_lpc_ops.re=
+ad(EC_LPC_ADDR_MEMMAP + EC_MEMMAP_ID, 2,
+22c040fa21b604 Enric Balletbo i Serra 2019-06-14  375  				     buf);
+bce70fef727924 Shawn Nematbakhsh      2017-05-16  376  		if (buf[0] !=3D 'E=
+' || buf[1] !=3D 'C') {
+ec2f33ab582bf6 Bill Richardson        2015-02-02  377  			dev_err(dev, "EC =
+ID not detected\n");
+ec2f33ab582bf6 Bill Richardson        2015-02-02  378  			return -ENODEV;
+ec2f33ab582bf6 Bill Richardson        2015-02-02  379  		}
+ec2f33ab582bf6 Bill Richardson        2015-02-02  380  =
 
-c522ce8a08066b drivers/opp/core.c            Viresh Kumar    2022-05-31  91=
-2  	ret =3D _set_opp_voltage(dev, reg, new_opp->supplies);
-947355850fcb3b drivers/base/power/opp/core.c Viresh Kumar    2016-12-01  91=
-3  	if (ret)
-c522ce8a08066b drivers/opp/core.c            Viresh Kumar    2022-05-31  91=
-4  		return ret;
-947355850fcb3b drivers/base/power/opp/core.c Viresh Kumar    2016-12-01  91=
-5  =
+c9bc1a0ef9f613 Dustin L. Howett       2022-02-17  381  		/* Reserve the rem=
+aining I/O ports required by the non-MEC protocol. */
+c9bc1a0ef9f613 Dustin L. Howett       2022-02-17 @382  		if (!devm_request_=
+region(dev, EC_HOST_CMD_REGION0 + EC_HOST_CMD_MEC_REGION_SIZE,
+c9bc1a0ef9f613 Dustin L. Howett       2022-02-17  383  					 EC_HOST_CMD_RE=
+GION_SIZE - EC_HOST_CMD_MEC_REGION_SIZE,
+c9bc1a0ef9f613 Dustin L. Howett       2022-02-17  384  					 dev_name(dev))=
+) {
+c9bc1a0ef9f613 Dustin L. Howett       2022-02-17  385  			dev_err(dev, "cou=
+ldn't reserve remainder of region0\n");
+ec2f33ab582bf6 Bill Richardson        2015-02-02  386  			return -EBUSY;
+ec2f33ab582bf6 Bill Richardson        2015-02-02  387  		}
+ec2f33ab582bf6 Bill Richardson        2015-02-02  388  		if (!devm_request_=
+region(dev, EC_HOST_CMD_REGION1,
+ec2f33ab582bf6 Bill Richardson        2015-02-02  389  					 EC_HOST_CMD_RE=
+GION_SIZE, dev_name(dev))) {
+ec2f33ab582bf6 Bill Richardson        2015-02-02  390  			dev_err(dev, "cou=
+ldn't reserve region1\n");
+ec2f33ab582bf6 Bill Richardson        2015-02-02  391  			return -EBUSY;
+ec2f33ab582bf6 Bill Richardson        2015-02-02  392  		}
+c9bc1a0ef9f613 Dustin L. Howett       2022-02-17  393  	}
+ec2f33ab582bf6 Bill Richardson        2015-02-02  394  =
 
-8d45719caaf56c drivers/opp/core.c            Kamil Konieczny 2019-07-19  91=
-6  	/*
-8d45719caaf56c drivers/opp/core.c            Kamil Konieczny 2019-07-19  91=
-7  	 * Enable the regulator after setting its voltages, otherwise it breaks
-8d45719caaf56c drivers/opp/core.c            Kamil Konieczny 2019-07-19  91=
-8  	 * some boot-enabled regulators.
-8d45719caaf56c drivers/opp/core.c            Kamil Konieczny 2019-07-19  91=
-9  	 */
-c522ce8a08066b drivers/opp/core.c            Viresh Kumar    2022-05-31  92=
-0  	if (unlikely(!new_opp->opp_table->enabled)) {
-8d45719caaf56c drivers/opp/core.c            Kamil Konieczny 2019-07-19  92=
-1  		ret =3D regulator_enable(reg);
-8d45719caaf56c drivers/opp/core.c            Kamil Konieczny 2019-07-19  92=
-2  		if (ret < 0)
-8d45719caaf56c drivers/opp/core.c            Kamil Konieczny 2019-07-19  92=
-3  			dev_warn(dev, "Failed to enable regulator: %d", ret);
-8d45719caaf56c drivers/opp/core.c            Kamil Konieczny 2019-07-19  92=
-4  	}
-8d45719caaf56c drivers/opp/core.c            Kamil Konieczny 2019-07-19  92=
-5  =
+ec2f33ab582bf6 Bill Richardson        2015-02-02  395  	ec_dev =3D devm_kza=
+lloc(dev, sizeof(*ec_dev), GFP_KERNEL);
+ec2f33ab582bf6 Bill Richardson        2015-02-02  396  	if (!ec_dev)
+ec2f33ab582bf6 Bill Richardson        2015-02-02  397  		return -ENOMEM;
+ec2f33ab582bf6 Bill Richardson        2015-02-02  398  =
 
-947355850fcb3b drivers/base/power/opp/core.c Viresh Kumar    2016-12-01  92=
-6  	return 0;
-947355850fcb3b drivers/base/power/opp/core.c Viresh Kumar    2016-12-01  92=
-7  }
-947355850fcb3b drivers/base/power/opp/core.c Viresh Kumar    2016-12-01  92=
-8  =
+ec2f33ab582bf6 Bill Richardson        2015-02-02  399  	platform_set_drvdat=
+a(pdev, ec_dev);
+ec2f33ab582bf6 Bill Richardson        2015-02-02  400  	ec_dev->dev =3D dev;
+ec2f33ab582bf6 Bill Richardson        2015-02-02  401  	ec_dev->phys_name =
+=3D dev_name(dev);
+ec2f33ab582bf6 Bill Richardson        2015-02-02  402  	ec_dev->cmd_xfer =
+=3D cros_ec_cmd_xfer_lpc;
+d365407079d331 Stephen Barber         2015-06-09  403  	ec_dev->pkt_xfer =
+=3D cros_ec_pkt_xfer_lpc;
+ec2f33ab582bf6 Bill Richardson        2015-02-02  404  	ec_dev->cmd_readmem=
+ =3D cros_ec_lpc_readmem;
+2c7589af3c4dee Stephen Barber         2015-06-09  405  	ec_dev->din_size =
+=3D sizeof(struct ec_host_response) +
+2c7589af3c4dee Stephen Barber         2015-06-09  406  			   sizeof(struct =
+ec_response_get_protocol_info);
+2c7589af3c4dee Stephen Barber         2015-06-09  407  	ec_dev->dout_size =
+=3D sizeof(struct ec_host_request);
+ec2f33ab582bf6 Bill Richardson        2015-02-02  408  =
+
+da1cf5a1cf124f Enrico Granata         2018-10-09  409  	/*
+da1cf5a1cf124f Enrico Granata         2018-10-09  410  	 * Some boards do n=
+ot have an IRQ allotted for cros_ec_lpc,
+da1cf5a1cf124f Enrico Granata         2018-10-09  411  	 * which makes ENXI=
+O an expected (and safe) scenario.
+da1cf5a1cf124f Enrico Granata         2018-10-09  412  	 */
+a69b4eebe513b8 Enric Balletbo i Serra 2019-11-29  413  	irq =3D platform_ge=
+t_irq_optional(pdev, 0);
+da1cf5a1cf124f Enrico Granata         2018-10-09  414  	if (irq > 0)
+da1cf5a1cf124f Enrico Granata         2018-10-09  415  		ec_dev->irq =3D ir=
+q;
+da1cf5a1cf124f Enrico Granata         2018-10-09  416  	else if (irq !=3D -=
+ENXIO) {
+da1cf5a1cf124f Enrico Granata         2018-10-09  417  		dev_err(dev, "coul=
+dn't retrieve IRQ number (%d)\n", irq);
+da1cf5a1cf124f Enrico Granata         2018-10-09  418  		return irq;
+da1cf5a1cf124f Enrico Granata         2018-10-09  419  	}
+da1cf5a1cf124f Enrico Granata         2018-10-09  420  =
+
+ec2f33ab582bf6 Bill Richardson        2015-02-02  421  	ret =3D cros_ec_reg=
+ister(ec_dev);
+ec2f33ab582bf6 Bill Richardson        2015-02-02  422  	if (ret) {
+ec2f33ab582bf6 Bill Richardson        2015-02-02  423  		dev_err(dev, "coul=
+dn't register ec_dev (%d)\n", ret);
+ec2f33ab582bf6 Bill Richardson        2015-02-02  424  		return ret;
+ec2f33ab582bf6 Bill Richardson        2015-02-02  425  	}
+ec2f33ab582bf6 Bill Richardson        2015-02-02  426  =
+
+a6df7798d03b29 Gwendal Grignou        2017-05-16  427  	/*
+a6df7798d03b29 Gwendal Grignou        2017-05-16  428  	 * Connect a notify=
+ handler to process MKBP messages if we have a
+a6df7798d03b29 Gwendal Grignou        2017-05-16  429  	 * companion ACPI d=
+evice.
+a6df7798d03b29 Gwendal Grignou        2017-05-16  430  	 */
+a6df7798d03b29 Gwendal Grignou        2017-05-16  431  	adev =3D ACPI_COMPA=
+NION(dev);
+a6df7798d03b29 Gwendal Grignou        2017-05-16  432  	if (adev) {
+a6df7798d03b29 Gwendal Grignou        2017-05-16  433  		status =3D acpi_in=
+stall_notify_handler(adev->handle,
+a6df7798d03b29 Gwendal Grignou        2017-05-16  434  						     ACPI_ALL_=
+NOTIFY,
+a6df7798d03b29 Gwendal Grignou        2017-05-16  435  						     cros_ec_l=
+pc_acpi_notify,
+a6df7798d03b29 Gwendal Grignou        2017-05-16  436  						     ec_dev);
+a6df7798d03b29 Gwendal Grignou        2017-05-16  437  		if (ACPI_FAILURE(s=
+tatus))
+a6df7798d03b29 Gwendal Grignou        2017-05-16  438  			dev_warn(dev, "Fa=
+iled to register notifier %08x\n",
+a6df7798d03b29 Gwendal Grignou        2017-05-16  439  				 status);
+a6df7798d03b29 Gwendal Grignou        2017-05-16  440  	}
+a6df7798d03b29 Gwendal Grignou        2017-05-16  441  =
+
+ec2f33ab582bf6 Bill Richardson        2015-02-02  442  	return 0;
+ec2f33ab582bf6 Bill Richardson        2015-02-02  443  }
+ec2f33ab582bf6 Bill Richardson        2015-02-02  444  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============4442938243831364265==--
+--===============1494922847598573303==--
 
