@@ -1,240 +1,142 @@
-Content-Type: multipart/mixed; boundary="===============8071543264625761223=="
+Content-Type: multipart/mixed; boundary="===============1920100615609305196=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/firmware/arm_scmi/powercap.c:129:27: warning: use of uninitialized value '<unknown>' [CWE-457]
-Date: Tue, 09 Aug 2022 09:39:12 +0800
-Message-ID: <202208090959.bTh94NNl-lkp@intel.com>
+Subject: drivers/media/platform/samsung/s5p-g2d/g2d.c:103 g2d_queue_setup() warn: passing a valid pointer to 'PTR_ERR'
+Date: Tue, 09 Aug 2022 09:28:56 +0800
+Message-ID: <202208090901.LkM0bVwX-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8071543264625761223==
+--===============1920100615609305196==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-:::::: =
-
-:::::: Manual check reason: "low confidence bisect report"
-:::::: Manual check reason: "low confidence static check warning: drivers/f=
-irmware/arm_scmi/powercap.c:129:27: warning: use of uninitialized value '<u=
-nknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]"
-:::::: =
-
-
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Cristian Marussi <cristian.marussi@arm.com>
-CC: Sudeep Holla <sudeep.holla@arm.com>
+TO: Mauro Carvalho Chehab <mchehab@kernel.org>
+CC: linux-media(a)vger.kernel.org
+
+Hi Mauro,
+
+First bad commit (maybe !=3D root cause):
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   5d5d353bed32dc3ea52e2619e0d1c60b17133b91
-commit: 0316f99c4780b0a5fd60b7f136c64cb1af8d5fc3 firmware: arm_scmi: Add SC=
-MI v3.1 powercap protocol basic support
-date:   5 weeks ago
+commit: a7f3b2d32dabd8e59854ec39ba257050b5e4949e media: platform: rename s5=
+p-g2d/ to samsung/s5p-g2d/
+date:   5 months ago
 :::::: branch date: 3 hours ago
-:::::: commit date: 5 weeks ago
-config: arm-randconfig-c002-20220804 (https://download.01.org/0day-ci/archi=
-ve/20220809/202208090959.bTh94NNl-lkp(a)intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D0316f99c4780b0a5fd60b7f136c64cb1af8d5fc3
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 0316f99c4780b0a5fd60b7f136c64cb1af8d5fc3
-        # save the config file
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cross=
- ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
-
+:::::: commit date: 5 months ago
+config: openrisc-randconfig-m031-20220808 (https://download.01.org/0day-ci/=
+archive/20220809/202208090901.LkM0bVwX-lkp(a)intel.com/config)
+compiler: or1k-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-gcc-analyzer warnings: (new ones prefixed by >>)
-   drivers/firmware/arm_scmi/powercap.c: In function 'scmi_powercap_attribu=
-tes_get':
->> drivers/firmware/arm_scmi/powercap.c:129:27: warning: use of uninitializ=
-ed value '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-     129 |         struct scmi_xfer *t;
-         |                           ^
-     'scmi_powercap_attributes_get': event 1
-       |
-       |  129 |         struct scmi_xfer *t;
-       |      |                           ^
-       |      |                           |
-       |      |                           (1) use of uninitialized value '<=
-unknown>' here
-       |
-   drivers/firmware/arm_scmi/powercap.c: In function 'scmi_powercap_domain_=
-attributes_get':
-   drivers/firmware/arm_scmi/powercap.c:171:27: warning: use of uninitializ=
-ed value '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-     171 |         struct scmi_xfer *t;
-         |                           ^
-     'scmi_powercap_domain_attributes_get': event 1
-       |
-       |  171 |         struct scmi_xfer *t;
-       |      |                           ^
-       |      |                           |
-       |      |                           (1) use of uninitialized value '<=
-unknown>' here
-       |
-   drivers/firmware/arm_scmi/powercap.c: In function 'scmi_powercap_cap_get=
-':
-   drivers/firmware/arm_scmi/powercap.c:287:27: warning: use of uninitializ=
-ed value '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-     287 |         struct scmi_xfer *t;
-         |                           ^
-     'scmi_powercap_cap_get': event 1
-       |
-       |  287 |         struct scmi_xfer *t;
-       |      |                           ^
-       |      |                           |
-       |      |                           (1) use of uninitialized value '<=
-unknown>' here
-       |
-   drivers/firmware/arm_scmi/powercap.c: In function 'scmi_powercap_cap_set=
-':
-   drivers/firmware/arm_scmi/powercap.c:313:27: warning: use of uninitializ=
-ed value '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-     313 |         struct scmi_xfer *t;
-         |                           ^
-     'scmi_powercap_cap_set': event 1
-       |
-       |  313 |         struct scmi_xfer *t;
-       |      |                           ^
-       |      |                           |
-       |      |                           (1) use of uninitialized value '<=
-unknown>' here
-       |
-   drivers/firmware/arm_scmi/powercap.c: In function 'scmi_powercap_pai_get=
-':
-   drivers/firmware/arm_scmi/powercap.c:361:27: warning: use of uninitializ=
-ed value '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-     361 |         struct scmi_xfer *t;
-         |                           ^
-     'scmi_powercap_pai_get': event 1
-       |
-       |  361 |         struct scmi_xfer *t;
-       |      |                           ^
-       |      |                           |
-       |      |                           (1) use of uninitialized value '<=
-unknown>' here
-       |
-   drivers/firmware/arm_scmi/powercap.c: In function 'scmi_powercap_pai_set=
-':
-   drivers/firmware/arm_scmi/powercap.c:386:27: warning: use of uninitializ=
-ed value '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-     386 |         struct scmi_xfer *t;
-         |                           ^
-     'scmi_powercap_pai_set': event 1
-       |
-       |  386 |         struct scmi_xfer *t;
-       |      |                           ^
-       |      |                           |
-       |      |                           (1) use of uninitialized value '<=
-unknown>' here
-       |
-   drivers/firmware/arm_scmi/powercap.c: In function 'scmi_powercap_measure=
-ments_get':
-   drivers/firmware/arm_scmi/powercap.c:416:27: warning: use of uninitializ=
-ed value '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-     416 |         struct scmi_xfer *t;
-         |                           ^
-     'scmi_powercap_measurements_get': event 1
-       |
-       |  416 |         struct scmi_xfer *t;
-       |      |                           ^
-       |      |                           |
-       |      |                           (1) use of uninitialized value '<=
-unknown>' here
-       |
-   drivers/firmware/arm_scmi/powercap.c: In function 'scmi_powercap_notify':
-   drivers/firmware/arm_scmi/powercap.c:504:27: warning: use of uninitializ=
-ed value '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-     504 |         struct scmi_xfer *t;
-         |                           ^
-     'scmi_powercap_notify': event 1
-       |
-       |  504 |         struct scmi_xfer *t;
-       |      |                           ^
-       |      |                           |
-       |      |                           (1) use of uninitialized value '<=
-unknown>' here
-       |
-   drivers/firmware/arm_scmi/powercap.c:523:21: warning: use of uninitializ=
-ed value '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-     523 |                 u32 low, high;
-         |                     ^~~
-     'scmi_powercap_notify': events 1-3
-       |
-       |  506 |         switch (message_id) {
-       |      |         ^~~~~~
-       |      |         |
-       |      |         (1) following 'case 11:' branch...
-       |......
-       |  521 |         case POWERCAP_MEASUREMENTS_NOTIFY:
-       |      |         ~~~~
-       |      |         |
-       |      |         (2) ...to here
+smatch warnings:
+drivers/media/platform/samsung/s5p-g2d/g2d.c:103 g2d_queue_setup() warn: pa=
+ssing a valid pointer to 'PTR_ERR'
+drivers/media/platform/samsung/s5p-g2d/g2d.c:120 g2d_buf_prepare() warn: pa=
+ssing a valid pointer to 'PTR_ERR'
+drivers/media/platform/samsung/s5p-g2d/g2d.c:319 vidioc_g_fmt() warn: passi=
+ng a valid pointer to 'PTR_ERR'
+drivers/media/platform/samsung/s5p-g2d/g2d.c:381 vidioc_s_fmt() warn: passi=
+ng a valid pointer to 'PTR_ERR'
+drivers/media/platform/samsung/s5p-g2d/g2d.c:408 vidioc_g_selection() warn:=
+ passing a valid pointer to 'PTR_ERR'
+drivers/media/platform/samsung/s5p-g2d/g2d.c:459 vidioc_try_selection() war=
+n: passing a valid pointer to 'PTR_ERR'
+drivers/media/platform/samsung/s5p-g2d/g2d.c:490 vidioc_s_selection() warn:=
+ passing a valid pointer to 'PTR_ERR'
 
-vim +129 drivers/firmware/arm_scmi/powercap.c
+vim +/PTR_ERR +103 drivers/media/platform/samsung/s5p-g2d/g2d.c
 
-0316f99c4780b0a5 Cristian Marussi 2022-07-04  120  =
+918847341af0f5f drivers/media/video/s5p-g2d/g2d.c    Kamil Debski 2011-10-0=
+6   94  =
 
-0316f99c4780b0a5 Cristian Marussi 2022-07-04  121  static int scmi_powercap=
-_notify(const struct scmi_protocol_handle *ph,
-0316f99c4780b0a5 Cristian Marussi 2022-07-04  122  				u32 domain, int mess=
-age_id, bool enable);
-0316f99c4780b0a5 Cristian Marussi 2022-07-04  123  =
+df9ecb0cad14b95 drivers/media/platform/s5p-g2d/g2d.c Hans Verkuil 2015-10-2=
+8   95  static int g2d_queue_setup(struct vb2_queue *vq,
+918847341af0f5f drivers/media/video/s5p-g2d/g2d.c    Kamil Debski 2011-10-0=
+6   96  			   unsigned int *nbuffers, unsigned int *nplanes,
+36c0f8b32c4bd4f drivers/media/platform/s5p-g2d/g2d.c Hans Verkuil 2016-04-1=
+5   97  			   unsigned int sizes[], struct device *alloc_devs[])
+918847341af0f5f drivers/media/video/s5p-g2d/g2d.c    Kamil Debski 2011-10-0=
+6   98  {
+918847341af0f5f drivers/media/video/s5p-g2d/g2d.c    Kamil Debski 2011-10-0=
+6   99  	struct g2d_ctx *ctx =3D vb2_get_drv_priv(vq);
+918847341af0f5f drivers/media/video/s5p-g2d/g2d.c    Kamil Debski 2011-10-0=
+6  100  	struct g2d_frame *f =3D get_frame(ctx, vq->type);
+918847341af0f5f drivers/media/video/s5p-g2d/g2d.c    Kamil Debski 2011-10-0=
+6  101  =
 
-0316f99c4780b0a5 Cristian Marussi 2022-07-04  124  static int
-0316f99c4780b0a5 Cristian Marussi 2022-07-04  125  scmi_powercap_attributes=
-_get(const struct scmi_protocol_handle *ph,
-0316f99c4780b0a5 Cristian Marussi 2022-07-04  126  			     struct powercap_=
-info *pi)
-0316f99c4780b0a5 Cristian Marussi 2022-07-04  127  {
-0316f99c4780b0a5 Cristian Marussi 2022-07-04  128  	int ret;
-0316f99c4780b0a5 Cristian Marussi 2022-07-04 @129  	struct scmi_xfer *t;
-0316f99c4780b0a5 Cristian Marussi 2022-07-04  130  =
+918847341af0f5f drivers/media/video/s5p-g2d/g2d.c    Kamil Debski 2011-10-0=
+6  102  	if (IS_ERR(f))
+918847341af0f5f drivers/media/video/s5p-g2d/g2d.c    Kamil Debski 2011-10-0=
+6 @103  		return PTR_ERR(f);
+918847341af0f5f drivers/media/video/s5p-g2d/g2d.c    Kamil Debski 2011-10-0=
+6  104  =
 
-0316f99c4780b0a5 Cristian Marussi 2022-07-04  131  	ret =3D ph->xops->xfer_=
-get_init(ph, PROTOCOL_ATTRIBUTES, 0,
-0316f99c4780b0a5 Cristian Marussi 2022-07-04  132  				      sizeof(u32), &=
-t);
-0316f99c4780b0a5 Cristian Marussi 2022-07-04  133  	if (ret)
-0316f99c4780b0a5 Cristian Marussi 2022-07-04  134  		return ret;
-0316f99c4780b0a5 Cristian Marussi 2022-07-04  135  =
+918847341af0f5f drivers/media/video/s5p-g2d/g2d.c    Kamil Debski 2011-10-0=
+6  105  	sizes[0] =3D f->size;
+918847341af0f5f drivers/media/video/s5p-g2d/g2d.c    Kamil Debski 2011-10-0=
+6  106  	*nplanes =3D 1;
+918847341af0f5f drivers/media/video/s5p-g2d/g2d.c    Kamil Debski 2011-10-0=
+6  107  =
 
-0316f99c4780b0a5 Cristian Marussi 2022-07-04  136  	ret =3D ph->xops->do_xf=
-er(ph, t);
-0316f99c4780b0a5 Cristian Marussi 2022-07-04  137  	if (!ret) {
-0316f99c4780b0a5 Cristian Marussi 2022-07-04  138  		u32 attributes;
-0316f99c4780b0a5 Cristian Marussi 2022-07-04  139  =
+918847341af0f5f drivers/media/video/s5p-g2d/g2d.c    Kamil Debski 2011-10-0=
+6  108  	if (*nbuffers =3D=3D 0)
+918847341af0f5f drivers/media/video/s5p-g2d/g2d.c    Kamil Debski 2011-10-0=
+6  109  		*nbuffers =3D 1;
+918847341af0f5f drivers/media/video/s5p-g2d/g2d.c    Kamil Debski 2011-10-0=
+6  110  =
 
-0316f99c4780b0a5 Cristian Marussi 2022-07-04  140  		attributes =3D get_una=
-ligned_le32(t->rx.buf);
-0316f99c4780b0a5 Cristian Marussi 2022-07-04  141  		pi->num_domains =3D FI=
-ELD_GET(GENMASK(15, 0), attributes);
-0316f99c4780b0a5 Cristian Marussi 2022-07-04  142  	}
-0316f99c4780b0a5 Cristian Marussi 2022-07-04  143  =
+918847341af0f5f drivers/media/video/s5p-g2d/g2d.c    Kamil Debski 2011-10-0=
+6  111  	return 0;
+918847341af0f5f drivers/media/video/s5p-g2d/g2d.c    Kamil Debski 2011-10-0=
+6  112  }
+918847341af0f5f drivers/media/video/s5p-g2d/g2d.c    Kamil Debski 2011-10-0=
+6  113  =
 
-0316f99c4780b0a5 Cristian Marussi 2022-07-04  144  	ph->xops->xfer_put(ph, =
-t);
-0316f99c4780b0a5 Cristian Marussi 2022-07-04  145  	return ret;
-0316f99c4780b0a5 Cristian Marussi 2022-07-04  146  }
-0316f99c4780b0a5 Cristian Marussi 2022-07-04  147  =
+918847341af0f5f drivers/media/video/s5p-g2d/g2d.c    Kamil Debski 2011-10-0=
+6  114  static int g2d_buf_prepare(struct vb2_buffer *vb)
+918847341af0f5f drivers/media/video/s5p-g2d/g2d.c    Kamil Debski 2011-10-0=
+6  115  {
+918847341af0f5f drivers/media/video/s5p-g2d/g2d.c    Kamil Debski 2011-10-0=
+6  116  	struct g2d_ctx *ctx =3D vb2_get_drv_priv(vb->vb2_queue);
+918847341af0f5f drivers/media/video/s5p-g2d/g2d.c    Kamil Debski 2011-10-0=
+6  117  	struct g2d_frame *f =3D get_frame(ctx, vb->vb2_queue->type);
+918847341af0f5f drivers/media/video/s5p-g2d/g2d.c    Kamil Debski 2011-10-0=
+6  118  =
 
+918847341af0f5f drivers/media/video/s5p-g2d/g2d.c    Kamil Debski 2011-10-0=
+6  119  	if (IS_ERR(f))
+918847341af0f5f drivers/media/video/s5p-g2d/g2d.c    Kamil Debski 2011-10-0=
+6 @120  		return PTR_ERR(f);
+918847341af0f5f drivers/media/video/s5p-g2d/g2d.c    Kamil Debski 2011-10-0=
+6  121  	vb2_set_plane_payload(vb, 0, f->size);
+918847341af0f5f drivers/media/video/s5p-g2d/g2d.c    Kamil Debski 2011-10-0=
+6  122  	return 0;
+918847341af0f5f drivers/media/video/s5p-g2d/g2d.c    Kamil Debski 2011-10-0=
+6  123  }
+918847341af0f5f drivers/media/video/s5p-g2d/g2d.c    Kamil Debski 2011-10-0=
+6  124  =
+
+
+:::::: The code at line 103 was first introduced by commit
+:::::: 918847341af0f5f1907fc0b52549f0dc29192c03 [media] v4l: add G2D driver=
+ for s5p device family
+
+:::::: TO: Kamil Debski <k.debski@samsung.com>
+:::::: CC: Mauro Carvalho Chehab <mchehab@redhat.com>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============8071543264625761223==--
+--===============1920100615609305196==--
 
