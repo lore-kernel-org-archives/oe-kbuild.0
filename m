@@ -1,136 +1,110 @@
-Content-Type: multipart/mixed; boundary="===============5832970044132964428=="
+Content-Type: multipart/mixed; boundary="===============1943884654119941221=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: arch/x86/kvm/x86.c:1014 __kvm_set_xcr() warn: bitwise AND condition is false here
-Date: Wed, 10 Aug 2022 19:35:05 +0800
-Message-ID: <202208101940.bI3gmMrW-lkp@intel.com>
+Subject: [linux-next:pending-fixes 13358/13464] include/net/bluetooth/bluetooth.h:347:16: warning: 'memcmp' specified bound 6 exceeds source size 0
+Date: Wed, 10 Aug 2022 15:50:50 +0800
+Message-ID: <202208101504.NDdUBuGe-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5832970044132964428==
+--===============1943884654119941221==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+:::::: =
+
+:::::: Manual check reason: "low confidence static check first_new_problem:=
+ include/net/bluetooth/bluetooth.h:347:16: warning: 'memcmp' specified boun=
+d 6 exceeds source size 0 [-Wstringop-overread]"
+:::::: =
+
+
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
-CC: linux-kernel(a)vger.kernel.org
-TO: Jing Liu <jing2.liu@intel.com>
-CC: Paolo Bonzini <pbonzini@redhat.com>
-CC: Kevin Tian <kevin.tian@intel.com>
-CC: Yang Zhong <yang.zhong@intel.com>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Luiz Augusto von Dentz <luiz.von.dentz@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   d4252071b97d2027d246f6a82cbee4d52f618b47
-commit: 86aff7a4799286635efd94dab17b513544703cad kvm: x86: Add XCR0 support=
- for Intel AMX
-date:   7 months ago
-:::::: branch date: 13 hours ago
-:::::: commit date: 7 months ago
-config: i386-randconfig-m021-20220808 (https://download.01.org/0day-ci/arch=
-ive/20220810/202208101940.bI3gmMrW-lkp(a)intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-3) 11.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
+ pending-fixes
+head:   5c5775c41d5494a213623a99b8ba1a7679efd79f
+commit: 332f1795ca202489c665a75e62e18ff6284de077 [13358/13464] Bluetooth: L=
+2CAP: Fix l2cap_global_chan_by_psm regression
+:::::: branch date: 9 hours ago
+:::::: commit date: 32 hours ago
+config: powerpc-randconfig-s051-20220810 (https://download.01.org/0day-ci/a=
+rchive/20220810/202208101504.NDdUBuGe-lkp(a)intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 12.1.0
+reproduce:
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
+it/commit/?id=3D332f1795ca202489c665a75e62e18ff6284de077
+        git remote add linux-next https://git.kernel.org/pub/scm/linux/kern=
+el/git/next/linux-next.git
+        git fetch --no-tags linux-next pending-fixes
+        git checkout 332f1795ca202489c665a75e62e18ff6284de077
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cross=
+ C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3Dbuild_dir ARCH=3Dp=
+owerpc SHELL=3D/bin/bash net/bluetooth/
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-arch/x86/kvm/x86.c:1014 __kvm_set_xcr() warn: bitwise AND condition is fals=
-e here
+All warnings (new ones prefixed by >>):
 
-Old smatch warnings:
-arch/x86/kvm/x86.c:1015 __kvm_set_xcr() warn: bitwise AND condition is fals=
-e here
-arch/x86/kvm/x86.c:5048 kvm_arch_tsc_set_attr() warn: check for integer ove=
-rflow 'offset'
-arch/x86/kvm/x86.c:5089 kvm_vcpu_ioctl_device_attr() error: uninitialized s=
-ymbol 'r'.
-arch/x86/kvm/x86.c:9516 enter_smm() warn: inconsistent indenting
+   In file included from net/bluetooth/l2cap_core.c:37:
+   In function 'bacmp',
+       inlined from 'l2cap_global_chan_by_psm' at net/bluetooth/l2cap_core.=
+c:2003:15:
+>> include/net/bluetooth/bluetooth.h:347:16: warning: 'memcmp' specified bo=
+und 6 exceeds source size 0 [-Wstringop-overread]
+     347 |         return memcmp(ba1, ba2, sizeof(bdaddr_t));
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In function 'bacmp',
+       inlined from 'l2cap_global_chan_by_psm' at net/bluetooth/l2cap_core.=
+c:2004:15:
+>> include/net/bluetooth/bluetooth.h:347:16: warning: 'memcmp' specified bo=
+und 6 exceeds source size 0 [-Wstringop-overread]
+     347 |         return memcmp(ba1, ba2, sizeof(bdaddr_t));
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-vim +1014 arch/x86/kvm/x86.c
 
-42bdf991f4cad9 Marcelo Tosatti     2013-04-15   979  =
+vim +/memcmp +347 include/net/bluetooth/bluetooth.h
 
-69b0049a89ad41 Fengguang Wu        2015-01-19   980  static int __kvm_set_x=
-cr(struct kvm_vcpu *vcpu, u32 index, u64 xcr)
-2acf923e38fb6a Dexuan Cui          2010-06-10   981  {
-56c103ec040b19 Liu, Jinsong        2014-02-21   982  	u64 xcr0 =3D xcr;
-56c103ec040b19 Liu, Jinsong        2014-02-21   983  	u64 old_xcr0 =3D vcpu=
-->arch.xcr0;
-46c34cb059d519 Paolo Bonzini       2013-10-17   984  	u64 valid_bits;
-2acf923e38fb6a Dexuan Cui          2010-06-10   985  =
+^1da177e4c3f41 Linus Torvalds 2005-04-16  343  =
 
-2acf923e38fb6a Dexuan Cui          2010-06-10   986  	/* Only support XCR_X=
-FEATURE_ENABLED_MASK(xcr0) now  */
-2acf923e38fb6a Dexuan Cui          2010-06-10   987  	if (index !=3D XCR_XF=
-EATURE_ENABLED_MASK)
-2acf923e38fb6a Dexuan Cui          2010-06-10   988  		return 1;
-d91cab78133d33 Dave Hansen         2015-09-02   989  	if (!(xcr0 & XFEATURE=
-_MASK_FP))
-2acf923e38fb6a Dexuan Cui          2010-06-10   990  		return 1;
-d91cab78133d33 Dave Hansen         2015-09-02   991  	if ((xcr0 & XFEATURE_=
-MASK_YMM) && !(xcr0 & XFEATURE_MASK_SSE))
-2acf923e38fb6a Dexuan Cui          2010-06-10   992  		return 1;
-46c34cb059d519 Paolo Bonzini       2013-10-17   993  =
+^1da177e4c3f41 Linus Torvalds 2005-04-16  344  /* Copy, swap, convert BD Ad=
+dress */
+f53c20e93612f7 David Herrmann 2013-04-06  345  static inline int bacmp(cons=
+t bdaddr_t *ba1, const bdaddr_t *ba2)
+^1da177e4c3f41 Linus Torvalds 2005-04-16  346  {
+^1da177e4c3f41 Linus Torvalds 2005-04-16 @347  	return memcmp(ba1, ba2, siz=
+eof(bdaddr_t));
+^1da177e4c3f41 Linus Torvalds 2005-04-16  348  }
+f53c20e93612f7 David Herrmann 2013-04-06  349  static inline void bacpy(bda=
+ddr_t *dst, const bdaddr_t *src)
+^1da177e4c3f41 Linus Torvalds 2005-04-16  350  {
+^1da177e4c3f41 Linus Torvalds 2005-04-16  351  	memcpy(dst, src, sizeof(bda=
+ddr_t));
+^1da177e4c3f41 Linus Torvalds 2005-04-16  352  }
+^1da177e4c3f41 Linus Torvalds 2005-04-16  353  =
 
-46c34cb059d519 Paolo Bonzini       2013-10-17   994  	/*
-46c34cb059d519 Paolo Bonzini       2013-10-17   995  	 * Do not allow the g=
-uest to set bits that we do not support
-46c34cb059d519 Paolo Bonzini       2013-10-17   996  	 * saving.  However, =
-xcr0 bit 0 is always set, even if the
-e8f65b9bb48320 Sean Christopherson 2021-09-20   997  	 * emulated CPU does =
-not support XSAVE (see kvm_vcpu_reset()).
-46c34cb059d519 Paolo Bonzini       2013-10-17   998  	 */
-d91cab78133d33 Dave Hansen         2015-09-02   999  	valid_bits =3D vcpu->=
-arch.guest_supported_xcr0 | XFEATURE_MASK_FP;
-46c34cb059d519 Paolo Bonzini       2013-10-17  1000  	if (xcr0 & ~valid_bit=
-s)
-2acf923e38fb6a Dexuan Cui          2010-06-10  1001  		return 1;
-46c34cb059d519 Paolo Bonzini       2013-10-17  1002  =
 
-d91cab78133d33 Dave Hansen         2015-09-02  1003  	if ((!(xcr0 & XFEATUR=
-E_MASK_BNDREGS)) !=3D
-d91cab78133d33 Dave Hansen         2015-09-02  1004  	    (!(xcr0 & XFEATUR=
-E_MASK_BNDCSR)))
-390bd528ae1c14 Liu, Jinsong        2014-02-24  1005  		return 1;
-390bd528ae1c14 Liu, Jinsong        2014-02-24  1006  =
+:::::: The code at line 347 was first introduced by commit
+:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
 
-d91cab78133d33 Dave Hansen         2015-09-02  1007  	if (xcr0 & XFEATURE_M=
-ASK_AVX512) {
-d91cab78133d33 Dave Hansen         2015-09-02  1008  		if (!(xcr0 & XFEATUR=
-E_MASK_YMM))
-612263b30c900b Chao Peng           2014-10-22  1009  			return 1;
-d91cab78133d33 Dave Hansen         2015-09-02  1010  		if ((xcr0 & XFEATURE=
-_MASK_AVX512) !=3D XFEATURE_MASK_AVX512)
-612263b30c900b Chao Peng           2014-10-22  1011  			return 1;
-612263b30c900b Chao Peng           2014-10-22  1012  	}
-86aff7a4799286 Jing Liu            2022-01-05  1013  =
-
-86aff7a4799286 Jing Liu            2022-01-05 @1014  	if ((xcr0 & XFEATURE_=
-MASK_XTILE) &&
-86aff7a4799286 Jing Liu            2022-01-05  1015  	    ((xcr0 & XFEATURE=
-_MASK_XTILE) !=3D XFEATURE_MASK_XTILE))
-86aff7a4799286 Jing Liu            2022-01-05  1016  		return 1;
-86aff7a4799286 Jing Liu            2022-01-05  1017  =
-
-2acf923e38fb6a Dexuan Cui          2010-06-10  1018  	vcpu->arch.xcr0 =3D x=
-cr0;
-56c103ec040b19 Liu, Jinsong        2014-02-21  1019  =
-
-d91cab78133d33 Dave Hansen         2015-09-02  1020  	if ((xcr0 ^ old_xcr0)=
- & XFEATURE_MASK_EXTEND)
-aedbaf4f6afdcf Xiaoyao Li          2020-07-09  1021  		kvm_update_cpuid_run=
-time(vcpu);
-2acf923e38fb6a Dexuan Cui          2010-06-10  1022  	return 0;
-2acf923e38fb6a Dexuan Cui          2010-06-10  1023  }
-2acf923e38fb6a Dexuan Cui          2010-06-10  1024  =
-
+:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============5832970044132964428==--
+--===============1943884654119941221==--
 
