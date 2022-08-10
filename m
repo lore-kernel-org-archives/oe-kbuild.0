@@ -1,110 +1,161 @@
-Content-Type: multipart/mixed; boundary="===============1943884654119941221=="
+Content-Type: multipart/mixed; boundary="===============2856400642386822629=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [linux-next:pending-fixes 13358/13464] include/net/bluetooth/bluetooth.h:347:16: warning: 'memcmp' specified bound 6 exceeds source size 0
-Date: Wed, 10 Aug 2022 15:50:50 +0800
-Message-ID: <202208101504.NDdUBuGe-lkp@intel.com>
+Subject: arch/x86/kvm/x86.c:4988 kvm_arch_tsc_set_attr() warn: check for integer overflow 'offset'
+Date: Wed, 10 Aug 2022 14:18:29 +0800
+Message-ID: <202208101402.QDw1buH3-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1943884654119941221==
+--===============2856400642386822629==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-:::::: =
-
-:::::: Manual check reason: "low confidence static check first_new_problem:=
- include/net/bluetooth/bluetooth.h:347:16: warning: 'memcmp' specified boun=
-d 6 exceeds source size 0 [-Wstringop-overread]"
-:::::: =
-
-
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Luiz Augusto von Dentz <luiz.von.dentz@intel.com>
+CC: linux-kernel(a)vger.kernel.org
+TO: Oliver Upton <oupton@google.com>
+CC: Paolo Bonzini <pbonzini@redhat.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
- pending-fixes
-head:   5c5775c41d5494a213623a99b8ba1a7679efd79f
-commit: 332f1795ca202489c665a75e62e18ff6284de077 [13358/13464] Bluetooth: L=
-2CAP: Fix l2cap_global_chan_by_psm regression
-:::::: branch date: 9 hours ago
-:::::: commit date: 32 hours ago
-config: powerpc-randconfig-s051-20220810 (https://download.01.org/0day-ci/a=
-rchive/20220810/202208101504.NDdUBuGe-lkp(a)intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 12.1.0
-reproduce:
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
-it/commit/?id=3D332f1795ca202489c665a75e62e18ff6284de077
-        git remote add linux-next https://git.kernel.org/pub/scm/linux/kern=
-el/git/next/linux-next.git
-        git fetch --no-tags linux-next pending-fixes
-        git checkout 332f1795ca202489c665a75e62e18ff6284de077
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cross=
- C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3Dbuild_dir ARCH=3Dp=
-owerpc SHELL=3D/bin/bash net/bluetooth/
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   d4252071b97d2027d246f6a82cbee4d52f618b47
+commit: 828ca89628bfcb1b8f27535025f69dd00eb55207 KVM: x86: Expose TSC offse=
+t controls to userspace
+date:   10 months ago
+:::::: branch date: 8 hours ago
+:::::: commit date: 10 months ago
+config: i386-randconfig-m021-20220808 (https://download.01.org/0day-ci/arch=
+ive/20220810/202208101402.QDw1buH3-lkp(a)intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-3) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-All warnings (new ones prefixed by >>):
+New smatch warnings:
+arch/x86/kvm/x86.c:4988 kvm_arch_tsc_set_attr() warn: check for integer ove=
+rflow 'offset'
+arch/x86/kvm/x86.c:5029 kvm_vcpu_ioctl_device_attr() error: uninitialized s=
+ymbol 'r'.
 
-   In file included from net/bluetooth/l2cap_core.c:37:
-   In function 'bacmp',
-       inlined from 'l2cap_global_chan_by_psm' at net/bluetooth/l2cap_core.=
-c:2003:15:
->> include/net/bluetooth/bluetooth.h:347:16: warning: 'memcmp' specified bo=
-und 6 exceeds source size 0 [-Wstringop-overread]
-     347 |         return memcmp(ba1, ba2, sizeof(bdaddr_t));
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In function 'bacmp',
-       inlined from 'l2cap_global_chan_by_psm' at net/bluetooth/l2cap_core.=
-c:2004:15:
->> include/net/bluetooth/bluetooth.h:347:16: warning: 'memcmp' specified bo=
-und 6 exceeds source size 0 [-Wstringop-overread]
-     347 |         return memcmp(ba1, ba2, sizeof(bdaddr_t));
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Old smatch warnings:
+arch/x86/kvm/x86.c:9320 enter_smm() warn: inconsistent indenting
 
+vim +/offset +4988 arch/x86/kvm/x86.c
 
-vim +/memcmp +347 include/net/bluetooth/bluetooth.h
+828ca89628bfcb1 Oliver Upton 2021-09-16  4961  =
 
-^1da177e4c3f41 Linus Torvalds 2005-04-16  343  =
+828ca89628bfcb1 Oliver Upton 2021-09-16  4962  static int kvm_arch_tsc_set_=
+attr(struct kvm_vcpu *vcpu,
+828ca89628bfcb1 Oliver Upton 2021-09-16  4963  				 struct kvm_device_attr =
+*attr)
+828ca89628bfcb1 Oliver Upton 2021-09-16  4964  {
+828ca89628bfcb1 Oliver Upton 2021-09-16  4965  	u64 __user *uaddr =3D (u64 =
+__user *)(unsigned long)attr->addr;
+828ca89628bfcb1 Oliver Upton 2021-09-16  4966  	struct kvm *kvm =3D vcpu->k=
+vm;
+828ca89628bfcb1 Oliver Upton 2021-09-16  4967  	int r;
+828ca89628bfcb1 Oliver Upton 2021-09-16  4968  =
 
-^1da177e4c3f41 Linus Torvalds 2005-04-16  344  /* Copy, swap, convert BD Ad=
-dress */
-f53c20e93612f7 David Herrmann 2013-04-06  345  static inline int bacmp(cons=
-t bdaddr_t *ba1, const bdaddr_t *ba2)
-^1da177e4c3f41 Linus Torvalds 2005-04-16  346  {
-^1da177e4c3f41 Linus Torvalds 2005-04-16 @347  	return memcmp(ba1, ba2, siz=
-eof(bdaddr_t));
-^1da177e4c3f41 Linus Torvalds 2005-04-16  348  }
-f53c20e93612f7 David Herrmann 2013-04-06  349  static inline void bacpy(bda=
-ddr_t *dst, const bdaddr_t *src)
-^1da177e4c3f41 Linus Torvalds 2005-04-16  350  {
-^1da177e4c3f41 Linus Torvalds 2005-04-16  351  	memcpy(dst, src, sizeof(bda=
-ddr_t));
-^1da177e4c3f41 Linus Torvalds 2005-04-16  352  }
-^1da177e4c3f41 Linus Torvalds 2005-04-16  353  =
+828ca89628bfcb1 Oliver Upton 2021-09-16  4969  	if ((u64)(unsigned long)uad=
+dr !=3D attr->addr)
+828ca89628bfcb1 Oliver Upton 2021-09-16  4970  		return -EFAULT;
+828ca89628bfcb1 Oliver Upton 2021-09-16  4971  =
 
+828ca89628bfcb1 Oliver Upton 2021-09-16  4972  	switch (attr->attr) {
+828ca89628bfcb1 Oliver Upton 2021-09-16  4973  	case KVM_VCPU_TSC_OFFSET: {
+828ca89628bfcb1 Oliver Upton 2021-09-16  4974  		u64 offset, tsc, ns;
+828ca89628bfcb1 Oliver Upton 2021-09-16  4975  		unsigned long flags;
+828ca89628bfcb1 Oliver Upton 2021-09-16  4976  		bool matched;
+828ca89628bfcb1 Oliver Upton 2021-09-16  4977  =
 
-:::::: The code at line 347 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+828ca89628bfcb1 Oliver Upton 2021-09-16  4978  		r =3D -EFAULT;
+828ca89628bfcb1 Oliver Upton 2021-09-16  4979  		if (get_user(offset, uaddr=
+))
+828ca89628bfcb1 Oliver Upton 2021-09-16  4980  			break;
+828ca89628bfcb1 Oliver Upton 2021-09-16  4981  =
 
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+828ca89628bfcb1 Oliver Upton 2021-09-16  4982  		raw_spin_lock_irqsave(&kvm=
+->arch.tsc_write_lock, flags);
+828ca89628bfcb1 Oliver Upton 2021-09-16  4983  =
+
+828ca89628bfcb1 Oliver Upton 2021-09-16  4984  		matched =3D (vcpu->arch.vi=
+rtual_tsc_khz &&
+828ca89628bfcb1 Oliver Upton 2021-09-16  4985  			   kvm->arch.last_tsc_khz=
+ =3D=3D vcpu->arch.virtual_tsc_khz &&
+828ca89628bfcb1 Oliver Upton 2021-09-16  4986  			   kvm->arch.last_tsc_off=
+set =3D=3D offset);
+828ca89628bfcb1 Oliver Upton 2021-09-16  4987  =
+
+828ca89628bfcb1 Oliver Upton 2021-09-16 @4988  		tsc =3D kvm_scale_tsc(vcpu=
+, rdtsc(), vcpu->arch.l1_tsc_scaling_ratio) + offset;
+828ca89628bfcb1 Oliver Upton 2021-09-16  4989  		ns =3D get_kvmclock_base_n=
+s();
+828ca89628bfcb1 Oliver Upton 2021-09-16  4990  =
+
+828ca89628bfcb1 Oliver Upton 2021-09-16  4991  		__kvm_synchronize_tsc(vcpu=
+, offset, tsc, ns, matched);
+828ca89628bfcb1 Oliver Upton 2021-09-16  4992  		raw_spin_unlock_irqrestore=
+(&kvm->arch.tsc_write_lock, flags);
+828ca89628bfcb1 Oliver Upton 2021-09-16  4993  =
+
+828ca89628bfcb1 Oliver Upton 2021-09-16  4994  		r =3D 0;
+828ca89628bfcb1 Oliver Upton 2021-09-16  4995  		break;
+828ca89628bfcb1 Oliver Upton 2021-09-16  4996  	}
+828ca89628bfcb1 Oliver Upton 2021-09-16  4997  	default:
+828ca89628bfcb1 Oliver Upton 2021-09-16  4998  		r =3D -ENXIO;
+828ca89628bfcb1 Oliver Upton 2021-09-16  4999  	}
+828ca89628bfcb1 Oliver Upton 2021-09-16  5000  =
+
+828ca89628bfcb1 Oliver Upton 2021-09-16  5001  	return r;
+828ca89628bfcb1 Oliver Upton 2021-09-16  5002  }
+828ca89628bfcb1 Oliver Upton 2021-09-16  5003  =
+
+828ca89628bfcb1 Oliver Upton 2021-09-16  5004  static int kvm_vcpu_ioctl_de=
+vice_attr(struct kvm_vcpu *vcpu,
+828ca89628bfcb1 Oliver Upton 2021-09-16  5005  				      unsigned int ioctl,
+828ca89628bfcb1 Oliver Upton 2021-09-16  5006  				      void __user *argp)
+828ca89628bfcb1 Oliver Upton 2021-09-16  5007  {
+828ca89628bfcb1 Oliver Upton 2021-09-16  5008  	struct kvm_device_attr attr;
+828ca89628bfcb1 Oliver Upton 2021-09-16  5009  	int r;
+828ca89628bfcb1 Oliver Upton 2021-09-16  5010  =
+
+828ca89628bfcb1 Oliver Upton 2021-09-16  5011  	if (copy_from_user(&attr, a=
+rgp, sizeof(attr)))
+828ca89628bfcb1 Oliver Upton 2021-09-16  5012  		return -EFAULT;
+828ca89628bfcb1 Oliver Upton 2021-09-16  5013  =
+
+828ca89628bfcb1 Oliver Upton 2021-09-16  5014  	if (attr.group !=3D KVM_VCP=
+U_TSC_CTRL)
+828ca89628bfcb1 Oliver Upton 2021-09-16  5015  		return -ENXIO;
+828ca89628bfcb1 Oliver Upton 2021-09-16  5016  =
+
+828ca89628bfcb1 Oliver Upton 2021-09-16  5017  	switch (ioctl) {
+828ca89628bfcb1 Oliver Upton 2021-09-16  5018  	case KVM_HAS_DEVICE_ATTR:
+828ca89628bfcb1 Oliver Upton 2021-09-16  5019  		r =3D kvm_arch_tsc_has_att=
+r(vcpu, &attr);
+828ca89628bfcb1 Oliver Upton 2021-09-16  5020  		break;
+828ca89628bfcb1 Oliver Upton 2021-09-16  5021  	case KVM_GET_DEVICE_ATTR:
+828ca89628bfcb1 Oliver Upton 2021-09-16  5022  		r =3D kvm_arch_tsc_get_att=
+r(vcpu, &attr);
+828ca89628bfcb1 Oliver Upton 2021-09-16  5023  		break;
+828ca89628bfcb1 Oliver Upton 2021-09-16  5024  	case KVM_SET_DEVICE_ATTR:
+828ca89628bfcb1 Oliver Upton 2021-09-16  5025  		r =3D kvm_arch_tsc_set_att=
+r(vcpu, &attr);
+828ca89628bfcb1 Oliver Upton 2021-09-16  5026  		break;
+828ca89628bfcb1 Oliver Upton 2021-09-16  5027  	}
+828ca89628bfcb1 Oliver Upton 2021-09-16  5028  =
+
+828ca89628bfcb1 Oliver Upton 2021-09-16 @5029  	return r;
+828ca89628bfcb1 Oliver Upton 2021-09-16  5030  }
+828ca89628bfcb1 Oliver Upton 2021-09-16  5031  =
+
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============1943884654119941221==--
+--===============2856400642386822629==--
 
