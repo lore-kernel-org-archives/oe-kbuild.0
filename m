@@ -1,269 +1,139 @@
-Content-Type: multipart/mixed; boundary="===============2411472562542474344=="
+Content-Type: multipart/mixed; boundary="===============2358100058630048844=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: sound/soc/mediatek/common/mtk-btcvsd.c:365:13: warning: use of uninitialized value '<unknown>' [CWE-457]
-Date: Thu, 11 Aug 2022 10:50:07 +0800
-Message-ID: <202208111018.K4KqJee1-lkp@intel.com>
+Subject: drivers/iommu/dma-iommu.c:1340 iommu_dma_unmap_sg() error: uninitialized symbol 'start'.
+Date: Thu, 11 Aug 2022 10:18:42 +0800
+Message-ID: <202208111009.WIvpanDD-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2411472562542474344==
+--===============2358100058630048844==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-:::::: =
-
-:::::: Manual check reason: "low confidence bisect report"
-:::::: Manual check reason: "low confidence static check first_new_problem:=
- sound/soc/mediatek/common/mtk-btcvsd.c:365:13: warning: use of uninitializ=
-ed value '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]"
-:::::: =
-
-
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Trevor Wu <trevor.wu@mediatek.com>
-CC: Mark Brown <broonie@kernel.org>
+TO: Logan Gunthorpe <logang@deltatee.com>
+CC: Christoph Hellwig <hch@lst.de>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   aeb6e6ac18c73ec287b3b1e2c913520699358c13
-commit: 6746cc858259985a945a07075a19ec4d24352407 ASoC: mediatek: mt8195: ad=
-d platform driver
-date:   12 months ago
-:::::: branch date: 6 hours ago
-:::::: commit date: 12 months ago
-config: arm-randconfig-c002-20220810 (https://download.01.org/0day-ci/archi=
-ve/20220811/202208111018.K4KqJee1-lkp(a)intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D6746cc858259985a945a07075a19ec4d24352407
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 6746cc858259985a945a07075a19ec4d24352407
-        # save the config file
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cross=
- ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
-
+commit: 30280eee2db10ed6f9f2e1b4ec9197465a96b996 iommu/dma: support PCI P2P=
+DMA pages in dma-iommu map_sg
+date:   2 weeks ago
+:::::: branch date: 5 hours ago
+:::::: commit date: 2 weeks ago
+config: x86_64-randconfig-m001 (https://download.01.org/0day-ci/archive/202=
+20811/202208111009.WIvpanDD-lkp(a)intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-3) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-gcc-analyzer warnings: (new ones prefixed by >>)
-   sound/soc/mediatek/common/mtk-btcvsd.c: In function 'mtk_btcvsd_read_fro=
-m_bt':
->> sound/soc/mediatek/common/mtk-btcvsd.c:365:13: warning: use of uninitial=
-ized value '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-     365 |         int pv;
-         |             ^~
-     'mtk_btcvsd_snd_irq_handler': events 1-12
-       |
-       |  481 | static irqreturn_t mtk_btcvsd_snd_irq_handler(int irq_id, v=
-oid *dev)
-       |      |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |                    |
-       |      |                    (1) entry to 'mtk_btcvsd_snd_irq_handler'
-       |......
-       |  500 |         if (((control >> 31) & 1) =3D=3D 0) {
-       |      |            ~        =
+smatch warnings:
+drivers/iommu/dma-iommu.c:1340 iommu_dma_unmap_sg() error: uninitialized sy=
+mbol 'start'.
 
-       |      |            |
-       |      |            (2) following 'false' branch...
-       |......
-       |  506 |         if (packet_type >=3D BT_SCO_CVSD_MAX) {
-       |      |            ~        =
+vim +/start +1340 drivers/iommu/dma-iommu.c
 
-       |      |            |
-       |      |            (3) ...to here
-       |      |            (4) following 'false' branch (when 'packet_type =
-<=3D 5')...
-       |......
-       |  512 |         packet_length =3D btsco_packet_info[packet_type][0];
-       |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |                       |
-       |      |                       (5) ...to here
-       |......
-       |  553 |         if (bt->rx->state =3D=3D BT_SCO_STATE_RUNNING ||
-       |      |            ~        =
+0db2e5d18f76a6 Robin Murphy      2015-10-01  1292  =
 
-       |      |            |
-       |      |            (6) following 'true' branch...
-       |  554 |             bt->rx->state =3D=3D BT_SCO_STATE_ENDING) {
-       |  555 |                 if (bt->rx->xrun) {
-       |      |                     ~~
-       |      |                     |
-       |      |                     (7) ...to here
-       |......
-       |  568 |                 if (!bt->rx->xrun &&
-       |      |                    ~~~~~~~~~~~~~~~~~
-       |      |                    |              |
-       |      |                    |              (10) following 'true' bra=
-nch...
-       |      |                    (8) following 'true' branch...
-       |  569 |                     (bt->rx->packet_w - bt->rx->packet_r <=
-=3D
-       |      |                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |                            |
-       |      |                            (9) ...to here
-       |  570 |                      SCO_RX_PACKER_BUF_NUM - buf_cnt_rx)) {
-       |      |                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |  571 |                         mtk_btcvsd_read_from_bt(bt,
-       |      |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |                         |
-       |      |                         (11) ...to here
-       |      |                         (12) calling 'mtk_btcvsd_read_from_=
-bt' from 'mtk_btcvsd_snd_irq_handler'
-       |  572 |                                                 packet_type,
-       |      |                                                 ~~~~~~~~~~~~
-       |  573 |                                                 packet_leng=
-th,
-       |      |                                                 ~~~~~~~~~~~=
-~~~
-       |  574 |                                                 packet_num,
-       |      |                                                 ~~~~~~~~~~~
-       |  575 |                                                 buf_cnt_rx,
-       |      |                                                 ~~~~~~~~~~~
-       |  576 |                                                 control);
-       |      |                                                 ~~~~~~~~
-       |
-       +--> 'mtk_btcvsd_read_from_bt': events 13-14
-              |
-              |  357 | static int mtk_btcvsd_read_from_bt(struct mtk_btcvsd=
-_snd *bt,
-              |      |            ^~~~~~~~~~~~~~~~~~~~~~~
-              |      |            |
-              |      |            (13) entry to 'mtk_btcvsd_read_from_bt'
-              |......
-              |  365 |         int pv;
-              |      |             ~~
-              |      |             |
-              |      |             (14) use of uninitialized value '<unknow=
-n>' here
-              |
---
-   sound/soc/mediatek/mt8195/mt8195-dai-etdm.c: In function 'mt8195_dai_etd=
-m_parse_of':
->> sound/soc/mediatek/mt8195/mt8195-dai-etdm.c:2499:13: warning: use of uni=
-nitialized value '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-val=
-ue]
-    2499 |         u32 sel;
-         |             ^~~
-     'mt8195_dai_etdm_parse_of': event 1
-       |
-       | 2499 |         u32 sel;
-       |      |             ^~~
-       |      |             |
-       |      |             (1) use of uninitialized value '<unknown>' here
-       |
+06d60728ff5c01 Christoph Hellwig 2019-05-20  1293  static void iommu_dma_un=
+map_sg(struct device *dev, struct scatterlist *sg,
+06d60728ff5c01 Christoph Hellwig 2019-05-20  1294  		int nents, enum dma_da=
+ta_direction dir, unsigned long attrs)
+0db2e5d18f76a6 Robin Murphy      2015-10-01  1295  {
+30280eee2db10e Logan Gunthorpe   2022-07-08  1296  	dma_addr_t end =3D 0, s=
+tart;
+842fe519f68b4d Robin Murphy      2017-03-31  1297  	struct scatterlist *tmp;
+842fe519f68b4d Robin Murphy      2017-03-31  1298  	int i;
+06d60728ff5c01 Christoph Hellwig 2019-05-20  1299  =
 
-vim +365 sound/soc/mediatek/common/mtk-btcvsd.c
+2e727bffbe9375 David Stevens     2021-09-29  1300  	if (dev_use_swiotlb(dev=
+)) {
+82612d66d51d3b Tom Murphy        2020-11-24  1301  		iommu_dma_unmap_sg_swi=
+otlb(dev, sg, nents, dir, attrs);
+82612d66d51d3b Tom Murphy        2020-11-24  1302  		return;
+82612d66d51d3b Tom Murphy        2020-11-24  1303  	}
+82612d66d51d3b Tom Murphy        2020-11-24  1304  =
 
-4bd8597dc36c37 KaiChieh Chuang 2019-01-30  356  =
+ee9d4097cc145d David Stevens     2021-09-29  1305  	if (!(attrs & DMA_ATTR_=
+SKIP_CPU_SYNC))
+ee9d4097cc145d David Stevens     2021-09-29  1306  		iommu_dma_sync_sg_for_=
+cpu(dev, sg, nents, dir);
+ee9d4097cc145d David Stevens     2021-09-29  1307  =
 
-4bd8597dc36c37 KaiChieh Chuang 2019-01-30  357  static int mtk_btcvsd_read_=
-from_bt(struct mtk_btcvsd_snd *bt,
-4bd8597dc36c37 KaiChieh Chuang 2019-01-30  358  				   enum bt_sco_packet_l=
-en packet_type,
-4bd8597dc36c37 KaiChieh Chuang 2019-01-30  359  				   unsigned int packet_=
-length,
-4bd8597dc36c37 KaiChieh Chuang 2019-01-30  360  				   unsigned int packet_=
-num,
-4bd8597dc36c37 KaiChieh Chuang 2019-01-30  361  				   unsigned int blk_siz=
-e,
-4bd8597dc36c37 KaiChieh Chuang 2019-01-30  362  				   unsigned int control)
-4bd8597dc36c37 KaiChieh Chuang 2019-01-30  363  {
-4bd8597dc36c37 KaiChieh Chuang 2019-01-30  364  	unsigned int i;
-4bd8597dc36c37 KaiChieh Chuang 2019-01-30 @365  	int pv;
-4bd8597dc36c37 KaiChieh Chuang 2019-01-30  366  	u8 *src;
-4bd8597dc36c37 KaiChieh Chuang 2019-01-30  367  	unsigned int packet_buf_of=
-s;
-4bd8597dc36c37 KaiChieh Chuang 2019-01-30  368  	unsigned long flags;
-4bd8597dc36c37 KaiChieh Chuang 2019-01-30  369  	unsigned long connsys_addr=
-_rx, ap_addr_rx;
-4bd8597dc36c37 KaiChieh Chuang 2019-01-30  370  =
+0db2e5d18f76a6 Robin Murphy      2015-10-01  1308  	/*
+0db2e5d18f76a6 Robin Murphy      2015-10-01  1309  	 * The scatterlist segm=
+ents are mapped into a single
+30280eee2db10e Logan Gunthorpe   2022-07-08  1310  	 * contiguous IOVA allo=
+cation, the start and end points
+30280eee2db10e Logan Gunthorpe   2022-07-08  1311  	 * just have to be dete=
+rmined.
+0db2e5d18f76a6 Robin Murphy      2015-10-01  1312  	 */
+30280eee2db10e Logan Gunthorpe   2022-07-08  1313  	for_each_sg(sg, tmp, ne=
+nts, i) {
+30280eee2db10e Logan Gunthorpe   2022-07-08  1314  		if (sg_is_dma_bus_addr=
+ess(tmp)) {
+30280eee2db10e Logan Gunthorpe   2022-07-08  1315  			sg_dma_unmark_bus_add=
+ress(tmp);
+30280eee2db10e Logan Gunthorpe   2022-07-08  1316  			continue;
+30280eee2db10e Logan Gunthorpe   2022-07-08  1317  		}
+30280eee2db10e Logan Gunthorpe   2022-07-08  1318  =
 
-4bd8597dc36c37 KaiChieh Chuang 2019-01-30  371  	connsys_addr_rx =3D *bt->b=
-t_reg_pkt_r;
-4bd8597dc36c37 KaiChieh Chuang 2019-01-30  372  	ap_addr_rx =3D (unsigned l=
-ong)bt->bt_sram_bank2_base +
-4bd8597dc36c37 KaiChieh Chuang 2019-01-30  373  		     (connsys_addr_rx & 0=
-xFFFF);
-4bd8597dc36c37 KaiChieh Chuang 2019-01-30  374  =
+30280eee2db10e Logan Gunthorpe   2022-07-08  1319  		if (sg_dma_len(tmp) =
+=3D=3D 0)
+30280eee2db10e Logan Gunthorpe   2022-07-08  1320  			break;
+30280eee2db10e Logan Gunthorpe   2022-07-08  1321  =
 
-4bd8597dc36c37 KaiChieh Chuang 2019-01-30  375  	if (connsys_addr_rx =3D=3D=
- 0xdeadfeed) {
-4bd8597dc36c37 KaiChieh Chuang 2019-01-30  376  		/* bt return 0xdeadfeed i=
-f read register during bt sleep */
-4bd8597dc36c37 KaiChieh Chuang 2019-01-30  377  		dev_warn(bt->dev, "%s(), =
-connsys_addr_rx =3D=3D 0xdeadfeed",
-4bd8597dc36c37 KaiChieh Chuang 2019-01-30  378  			 __func__);
-4bd8597dc36c37 KaiChieh Chuang 2019-01-30  379  		return -EIO;
-4bd8597dc36c37 KaiChieh Chuang 2019-01-30  380  	}
-4bd8597dc36c37 KaiChieh Chuang 2019-01-30  381  =
+30280eee2db10e Logan Gunthorpe   2022-07-08  1322  		start =3D sg_dma_addre=
+ss(tmp);
+30280eee2db10e Logan Gunthorpe   2022-07-08  1323  		break;
+30280eee2db10e Logan Gunthorpe   2022-07-08  1324  	}
+30280eee2db10e Logan Gunthorpe   2022-07-08  1325  =
 
-4bd8597dc36c37 KaiChieh Chuang 2019-01-30  382  	src =3D (u8 *)ap_addr_rx;
-4bd8597dc36c37 KaiChieh Chuang 2019-01-30  383  =
+30280eee2db10e Logan Gunthorpe   2022-07-08  1326  	nents -=3D i;
+30280eee2db10e Logan Gunthorpe   2022-07-08  1327  	for_each_sg(tmp, tmp, n=
+ents, i) {
+30280eee2db10e Logan Gunthorpe   2022-07-08  1328  		if (sg_is_dma_bus_addr=
+ess(tmp)) {
+30280eee2db10e Logan Gunthorpe   2022-07-08  1329  			sg_dma_unmark_bus_add=
+ress(tmp);
+30280eee2db10e Logan Gunthorpe   2022-07-08  1330  			continue;
+30280eee2db10e Logan Gunthorpe   2022-07-08  1331  		}
+30280eee2db10e Logan Gunthorpe   2022-07-08  1332  =
 
-4bd8597dc36c37 KaiChieh Chuang 2019-01-30  384  	mtk_btcvsd_snd_data_transf=
-er(BT_SCO_DIRECT_BT2ARM, src,
-4bd8597dc36c37 KaiChieh Chuang 2019-01-30  385  				     bt->rx->temp_packe=
-t_buf, packet_length,
-4bd8597dc36c37 KaiChieh Chuang 2019-01-30  386  				     packet_num);
-4bd8597dc36c37 KaiChieh Chuang 2019-01-30  387  =
+842fe519f68b4d Robin Murphy      2017-03-31  1333  		if (sg_dma_len(tmp) =
+=3D=3D 0)
+842fe519f68b4d Robin Murphy      2017-03-31  1334  			break;
+30280eee2db10e Logan Gunthorpe   2022-07-08  1335  =
 
-4bd8597dc36c37 KaiChieh Chuang 2019-01-30  388  	spin_lock_irqsave(&bt->rx_=
-lock, flags);
-4bd8597dc36c37 KaiChieh Chuang 2019-01-30  389  	for (i =3D 0; i < blk_size=
-; i++) {
-4bd8597dc36c37 KaiChieh Chuang 2019-01-30  390  		packet_buf_ofs =3D (bt->r=
-x->packet_w & SCO_RX_PACKET_MASK) *
-4bd8597dc36c37 KaiChieh Chuang 2019-01-30  391  				 bt->rx->packet_size;
-4bd8597dc36c37 KaiChieh Chuang 2019-01-30  392  		memcpy(bt->rx_packet_buf =
-+ packet_buf_ofs,
-4bd8597dc36c37 KaiChieh Chuang 2019-01-30  393  		       bt->rx->temp_packe=
-t_buf + (SCO_RX_PLC_SIZE * i),
-4bd8597dc36c37 KaiChieh Chuang 2019-01-30  394  		       SCO_RX_PLC_SIZE);
-4bd8597dc36c37 KaiChieh Chuang 2019-01-30  395  		if ((control & btsco_pack=
-et_valid_mask[packet_type][i]) =3D=3D
-4bd8597dc36c37 KaiChieh Chuang 2019-01-30  396  		    btsco_packet_valid_ma=
-sk[packet_type][i])
-4bd8597dc36c37 KaiChieh Chuang 2019-01-30  397  			pv =3D 1;
-4bd8597dc36c37 KaiChieh Chuang 2019-01-30  398  		else
-4bd8597dc36c37 KaiChieh Chuang 2019-01-30  399  			pv =3D 0;
-4bd8597dc36c37 KaiChieh Chuang 2019-01-30  400  =
+30280eee2db10e Logan Gunthorpe   2022-07-08  1336  		end =3D sg_dma_address=
+(tmp) + sg_dma_len(tmp);
+842fe519f68b4d Robin Murphy      2017-03-31  1337  	}
+30280eee2db10e Logan Gunthorpe   2022-07-08  1338  =
 
-4bd8597dc36c37 KaiChieh Chuang 2019-01-30  401  		packet_buf_ofs +=3D SCO_R=
-X_PLC_SIZE;
-4bd8597dc36c37 KaiChieh Chuang 2019-01-30  402  		memcpy(bt->rx_packet_buf =
-+ packet_buf_ofs, (void *)&pv,
-4bd8597dc36c37 KaiChieh Chuang 2019-01-30  403  		       SCO_CVSD_PACKET_VA=
-LID_SIZE);
-4bd8597dc36c37 KaiChieh Chuang 2019-01-30  404  		bt->rx->packet_w++;
-4bd8597dc36c37 KaiChieh Chuang 2019-01-30  405  	}
-4bd8597dc36c37 KaiChieh Chuang 2019-01-30  406  	spin_unlock_irqrestore(&bt=
-->rx_lock, flags);
-4bd8597dc36c37 KaiChieh Chuang 2019-01-30  407  	return 0;
-4bd8597dc36c37 KaiChieh Chuang 2019-01-30  408  }
-4bd8597dc36c37 KaiChieh Chuang 2019-01-30  409  =
+30280eee2db10e Logan Gunthorpe   2022-07-08  1339  	if (end)
+b61d271e59d7fd Robin Murphy      2019-05-20 @1340  		__iommu_dma_unmap(dev,=
+ start, end - start);
+0db2e5d18f76a6 Robin Murphy      2015-10-01  1341  }
+0db2e5d18f76a6 Robin Murphy      2015-10-01  1342  =
 
 
-:::::: The code at line 365 was first introduced by commit
-:::::: 4bd8597dc36c376a2bb1ef2c72984615bdeb68de ASoC: mediatek: add btcvsd =
-driver
+:::::: The code at line 1340 was first introduced by commit
+:::::: b61d271e59d7fd679ad9922ce5f16c116c0f8e94 iommu/dma: Move domain look=
+up into __iommu_dma_{map,unmap}
 
-:::::: TO: KaiChieh Chuang <kaichieh.chuang@mediatek.com>
-:::::: CC: Mark Brown <broonie@kernel.org>
+:::::: TO: Robin Murphy <robin.murphy@arm.com>
+:::::: CC: Joerg Roedel <jroedel@suse.de>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============2411472562542474344==--
+--===============2358100058630048844==--
 
