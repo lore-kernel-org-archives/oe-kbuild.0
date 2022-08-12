@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============5181080587478633051=="
+Content-Type: multipart/mixed; boundary="===============0150889019878685016=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: fs/xfs/xfs_mount.h:306 xfs_clear_blockgc_enabled() warn: signedness bug returning '(-128)'
-Date: Sun, 07 Aug 2022 04:39:48 +0800
-Message-ID: <202208070445.JvqIRXeU-lkp@intel.com>
+Subject: drivers/net/ethernet/mellanox/mlxsw/spectrum_router.c:8506 mlxsw_sp_rif_mac_profile_replace() error: uninitialized symbol 'mac_profile'.
+Date: Fri, 12 Aug 2022 15:23:43 +0800
+Message-ID: <202208121541.32gY2nxU-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5181080587478633051==
+--===============0150889019878685016==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,54 +15,77 @@ Content-Transfer-Encoding: quoted-printable
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: "Darrick J. Wong" <djwong@kernel.org>
-CC: Dave Chinner <dchinner@redhat.com>
+TO: Danielle Ratson <danieller@nvidia.com>
+CC: Ido Schimmel <idosch@nvidia.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
-head:   6614a3c3164a5df2b54abb0b3559f51041cf705b
-commit: 6f6490914d9b712004ddad648e47b1bf22647978 xfs: don't run speculative=
- preallocation gc when fs is frozen
-date:   12 months ago
-:::::: branch date: 21 hours ago
-:::::: commit date: 12 months ago
-config: m68k-randconfig-m041-20220804 (https://download.01.org/0day-ci/arch=
-ive/20220807/202208070445.JvqIRXeU-lkp(a)intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.1.0
+head:   7ebfc85e2cd7b08f518b526173e9a33b56b3913b
+commit: 605d25cd782a67f0c9d871096ee04acfe14f89ca mlxsw: spectrum_router: Ad=
+d RIF MAC profiles support
+date:   10 months ago
+:::::: branch date: 11 hours ago
+:::::: commit date: 10 months ago
+config: s390-randconfig-m031-20220810 (https://download.01.org/0day-ci/arch=
+ive/20220812/202208121541.32gY2nxU-lkp(a)intel.com/config)
+compiler: s390-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-fs/xfs/xfs_mount.h:306 xfs_clear_blockgc_enabled() warn: signedness bug ret=
-urning '(-128)'
-fs/xfs/xfs_mount.h:306 xfs_set_blockgc_enabled() warn: signedness bug retur=
-ning '(-128)'
+smatch warnings:
+drivers/net/ethernet/mellanox/mlxsw/spectrum_router.c:8506 mlxsw_sp_rif_mac=
+_profile_replace() error: uninitialized symbol 'mac_profile'.
+drivers/net/ethernet/mellanox/mlxsw/spectrum_router.c:9281 mlxsw_sp_rif_sub=
+port_configure() error: uninitialized symbol 'mac_profile'.
+drivers/net/ethernet/mellanox/mlxsw/spectrum_router.c:9363 mlxsw_sp_rif_fid=
+_configure() error: uninitialized symbol 'mac_profile'.
 
-Old smatch warnings:
-fs/xfs/xfs_icache.c:52 xfs_icwalk_tag() warn: unsigned 'goal' is never less=
- than zero.
-fs/xfs/xfs_icache.c:1781 xfs_icwalk() warn: ignoring unreachable code.
-fs/xfs/xfs_mount.h:305 xfs_clear_inodegc_enabled() warn: signedness bug ret=
-urning '(-128)'
-fs/xfs/xfs_mount.h:305 xfs_set_inodegc_enabled() warn: signedness bug retur=
-ning '(-128)'
+vim +/mac_profile +8506 drivers/net/ethernet/mellanox/mlxsw/spectrum_router=
+.c
 
-vim +306 fs/xfs/xfs_mount.h
+605d25cd782a67 Danielle Ratson 2021-10-26  8487  =
 
-ab23a7768739a23 Dave Chinner    2021-08-06  304  =
+605d25cd782a67 Danielle Ratson 2021-10-26  8488  static int
+605d25cd782a67 Danielle Ratson 2021-10-26  8489  mlxsw_sp_rif_mac_profile_r=
+eplace(struct mlxsw_sp *mlxsw_sp,
+605d25cd782a67 Danielle Ratson 2021-10-26  8490  				 struct mlxsw_sp_rif *=
+rif,
+605d25cd782a67 Danielle Ratson 2021-10-26  8491  				 const char *new_mac,
+605d25cd782a67 Danielle Ratson 2021-10-26  8492  				 struct netlink_ext_ac=
+k *extack)
+605d25cd782a67 Danielle Ratson 2021-10-26  8493  {
+605d25cd782a67 Danielle Ratson 2021-10-26  8494  	u8 mac_profile;
+605d25cd782a67 Danielle Ratson 2021-10-26  8495  	int err;
+605d25cd782a67 Danielle Ratson 2021-10-26  8496  =
 
-ab23a7768739a23 Dave Chinner    2021-08-06  305  __XFS_IS_OPSTATE(inodegc_e=
-nabled, INODEGC_ENABLED)
-6f6490914d9b712 Darrick J. Wong 2021-08-06 @306  __XFS_IS_OPSTATE(blockgc_e=
-nabled, BLOCKGC_ENABLED)
-ab23a7768739a23 Dave Chinner    2021-08-06  307  =
+605d25cd782a67 Danielle Ratson 2021-10-26  8497  	if (!mlxsw_sp_rif_mac_pro=
+file_is_shared(rif))
+605d25cd782a67 Danielle Ratson 2021-10-26  8498  		return mlxsw_sp_rif_mac_=
+profile_edit(rif, new_mac);
+605d25cd782a67 Danielle Ratson 2021-10-26  8499  =
+
+605d25cd782a67 Danielle Ratson 2021-10-26  8500  	err =3D mlxsw_sp_rif_mac_=
+profile_get(mlxsw_sp, new_mac,
+605d25cd782a67 Danielle Ratson 2021-10-26  8501  					   &mac_profile, exta=
+ck);
+605d25cd782a67 Danielle Ratson 2021-10-26  8502  	if (err)
+605d25cd782a67 Danielle Ratson 2021-10-26  8503  		return err;
+605d25cd782a67 Danielle Ratson 2021-10-26  8504  =
+
+605d25cd782a67 Danielle Ratson 2021-10-26  8505  	mlxsw_sp_rif_mac_profile_=
+put(mlxsw_sp, rif->mac_profile_id);
+605d25cd782a67 Danielle Ratson 2021-10-26 @8506  	rif->mac_profile_id =3D m=
+ac_profile;
+605d25cd782a67 Danielle Ratson 2021-10-26  8507  	return 0;
+605d25cd782a67 Danielle Ratson 2021-10-26  8508  }
+605d25cd782a67 Danielle Ratson 2021-10-26  8509  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============5181080587478633051==--
+--===============0150889019878685016==--
 
