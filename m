@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============2358100058630048844=="
+Content-Type: multipart/mixed; boundary="===============6748067531051136874=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/iommu/dma-iommu.c:1340 iommu_dma_unmap_sg() error: uninitialized symbol 'start'.
-Date: Thu, 11 Aug 2022 10:18:42 +0800
-Message-ID: <202208111009.WIvpanDD-lkp@intel.com>
+Subject: drivers/irqchip/irq-stm32-exti.c:719 stm32_exti_h_domain_alloc() warn: variable dereferenced before check 'host_data->drv_data' (see line 707)
+Date: Sat, 13 Aug 2022 17:42:41 +0800
+Message-ID: <202208131739.gJvcs9ls-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2358100058630048844==
+--===============6748067531051136874==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,125 +15,114 @@ Content-Transfer-Encoding: quoted-printable
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Logan Gunthorpe <logang@deltatee.com>
-CC: Christoph Hellwig <hch@lst.de>
+TO: Antonio Borneo <antonio.borneo@foss.st.com>
+CC: Marc Zyngier <maz@kernel.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
-head:   aeb6e6ac18c73ec287b3b1e2c913520699358c13
-commit: 30280eee2db10ed6f9f2e1b4ec9197465a96b996 iommu/dma: support PCI P2P=
-DMA pages in dma-iommu map_sg
-date:   2 weeks ago
-:::::: branch date: 5 hours ago
-:::::: commit date: 2 weeks ago
-config: x86_64-randconfig-m001 (https://download.01.org/0day-ci/archive/202=
-20811/202208111009.WIvpanDD-lkp(a)intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-3) 11.3.0
+head:   69dac8e431af26173ca0a1ebc87054e01c585bcc
+commit: c297493336b7bc0c12ced484a9e61d04ec2d9403 irqchip/stm32-exti: Simpli=
+fy irq description table
+date:   5 weeks ago
+:::::: branch date: 8 hours ago
+:::::: commit date: 5 weeks ago
+config: arm-randconfig-m041-20220812 (https://download.01.org/0day-ci/archi=
+ve/20220813/202208131739.gJvcs9ls-lkp(a)intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 smatch warnings:
-drivers/iommu/dma-iommu.c:1340 iommu_dma_unmap_sg() error: uninitialized sy=
-mbol 'start'.
+drivers/irqchip/irq-stm32-exti.c:719 stm32_exti_h_domain_alloc() warn: vari=
+able dereferenced before check 'host_data->drv_data' (see line 707)
 
-vim +/start +1340 drivers/iommu/dma-iommu.c
+vim +719 drivers/irqchip/irq-stm32-exti.c
 
-0db2e5d18f76a6 Robin Murphy      2015-10-01  1292  =
+9d6a5fe1757cbbd9 Alexandre Torgue 2020-07-17  691  =
 
-06d60728ff5c01 Christoph Hellwig 2019-05-20  1293  static void iommu_dma_un=
-map_sg(struct device *dev, struct scatterlist *sg,
-06d60728ff5c01 Christoph Hellwig 2019-05-20  1294  		int nents, enum dma_da=
-ta_direction dir, unsigned long attrs)
-0db2e5d18f76a6 Robin Murphy      2015-10-01  1295  {
-30280eee2db10e Logan Gunthorpe   2022-07-08  1296  	dma_addr_t end =3D 0, s=
-tart;
-842fe519f68b4d Robin Murphy      2017-03-31  1297  	struct scatterlist *tmp;
-842fe519f68b4d Robin Murphy      2017-03-31  1298  	int i;
-06d60728ff5c01 Christoph Hellwig 2019-05-20  1299  =
+927abfc4461e7fd7 Ludovic Barre    2018-04-26  692  static int stm32_exti_h_=
+domain_alloc(struct irq_domain *dm,
+927abfc4461e7fd7 Ludovic Barre    2018-04-26  693  				     unsigned int vi=
+rq,
+927abfc4461e7fd7 Ludovic Barre    2018-04-26  694  				     unsigned int nr=
+_irqs, void *data)
+927abfc4461e7fd7 Ludovic Barre    2018-04-26  695  {
+927abfc4461e7fd7 Ludovic Barre    2018-04-26  696  	struct stm32_exti_host_=
+data *host_data =3D dm->host_data;
+927abfc4461e7fd7 Ludovic Barre    2018-04-26  697  	struct stm32_exti_chip_=
+data *chip_data;
+c297493336b7bc0c Antonio Borneo   2022-06-06  698  	u8 desc_irq;
+927abfc4461e7fd7 Ludovic Barre    2018-04-26  699  	struct irq_fwspec *fwsp=
+ec =3D data;
+927abfc4461e7fd7 Ludovic Barre    2018-04-26  700  	struct irq_fwspec p_fws=
+pec;
+927abfc4461e7fd7 Ludovic Barre    2018-04-26  701  	irq_hw_number_t hwirq;
+9d6a5fe1757cbbd9 Alexandre Torgue 2020-07-17  702  	int bank;
+ce4ef8f9f2abcf10 Antonio Borneo   2022-06-06  703  	u32 event_trg;
+ce4ef8f9f2abcf10 Antonio Borneo   2022-06-06  704  	struct irq_chip *chip;
+927abfc4461e7fd7 Ludovic Barre    2018-04-26  705  =
 
-2e727bffbe9375 David Stevens     2021-09-29  1300  	if (dev_use_swiotlb(dev=
-)) {
-82612d66d51d3b Tom Murphy        2020-11-24  1301  		iommu_dma_unmap_sg_swi=
-otlb(dev, sg, nents, dir, attrs);
-82612d66d51d3b Tom Murphy        2020-11-24  1302  		return;
-82612d66d51d3b Tom Murphy        2020-11-24  1303  	}
-82612d66d51d3b Tom Murphy        2020-11-24  1304  =
+927abfc4461e7fd7 Ludovic Barre    2018-04-26  706  	hwirq =3D fwspec->param=
+[0];
+c16ae609214e8356 Antonio Borneo   2022-06-06 @707  	if (hwirq >=3D host_dat=
+a->drv_data->bank_nr * IRQS_PER_BANK)
+c16ae609214e8356 Antonio Borneo   2022-06-06  708  		return -EINVAL;
+c16ae609214e8356 Antonio Borneo   2022-06-06  709  =
 
-ee9d4097cc145d David Stevens     2021-09-29  1305  	if (!(attrs & DMA_ATTR_=
-SKIP_CPU_SYNC))
-ee9d4097cc145d David Stevens     2021-09-29  1306  		iommu_dma_sync_sg_for_=
-cpu(dev, sg, nents, dir);
-ee9d4097cc145d David Stevens     2021-09-29  1307  =
+927abfc4461e7fd7 Ludovic Barre    2018-04-26  710  	bank  =3D hwirq / IRQS_=
+PER_BANK;
+927abfc4461e7fd7 Ludovic Barre    2018-04-26  711  	chip_data =3D &host_dat=
+a->chips_data[bank];
+927abfc4461e7fd7 Ludovic Barre    2018-04-26  712  =
 
-0db2e5d18f76a6 Robin Murphy      2015-10-01  1308  	/*
-0db2e5d18f76a6 Robin Murphy      2015-10-01  1309  	 * The scatterlist segm=
-ents are mapped into a single
-30280eee2db10e Logan Gunthorpe   2022-07-08  1310  	 * contiguous IOVA allo=
-cation, the start and end points
-30280eee2db10e Logan Gunthorpe   2022-07-08  1311  	 * just have to be dete=
-rmined.
-0db2e5d18f76a6 Robin Murphy      2015-10-01  1312  	 */
-30280eee2db10e Logan Gunthorpe   2022-07-08  1313  	for_each_sg(sg, tmp, ne=
-nts, i) {
-30280eee2db10e Logan Gunthorpe   2022-07-08  1314  		if (sg_is_dma_bus_addr=
-ess(tmp)) {
-30280eee2db10e Logan Gunthorpe   2022-07-08  1315  			sg_dma_unmark_bus_add=
-ress(tmp);
-30280eee2db10e Logan Gunthorpe   2022-07-08  1316  			continue;
-30280eee2db10e Logan Gunthorpe   2022-07-08  1317  		}
-30280eee2db10e Logan Gunthorpe   2022-07-08  1318  =
+ce4ef8f9f2abcf10 Antonio Borneo   2022-06-06  713  	event_trg =3D readl_rel=
+axed(host_data->base + chip_data->reg_bank->trg_ofst);
+ce4ef8f9f2abcf10 Antonio Borneo   2022-06-06  714  	chip =3D (event_trg & B=
+IT(hwirq % IRQS_PER_BANK)) ?
+ce4ef8f9f2abcf10 Antonio Borneo   2022-06-06  715  	       &stm32_exti_h_ch=
+ip : &stm32_exti_h_chip_direct;
+ce4ef8f9f2abcf10 Antonio Borneo   2022-06-06  716  =
 
-30280eee2db10e Logan Gunthorpe   2022-07-08  1319  		if (sg_dma_len(tmp) =
-=3D=3D 0)
-30280eee2db10e Logan Gunthorpe   2022-07-08  1320  			break;
-30280eee2db10e Logan Gunthorpe   2022-07-08  1321  =
+ce4ef8f9f2abcf10 Antonio Borneo   2022-06-06  717  	irq_domain_set_hwirq_an=
+d_chip(dm, virq, hwirq, chip, chip_data);
+c297493336b7bc0c Antonio Borneo   2022-06-06  718  =
 
-30280eee2db10e Logan Gunthorpe   2022-07-08  1322  		start =3D sg_dma_addre=
-ss(tmp);
-30280eee2db10e Logan Gunthorpe   2022-07-08  1323  		break;
-30280eee2db10e Logan Gunthorpe   2022-07-08  1324  	}
-30280eee2db10e Logan Gunthorpe   2022-07-08  1325  =
+c297493336b7bc0c Antonio Borneo   2022-06-06 @719  	if (!host_data->drv_dat=
+a || !host_data->drv_data->desc_irqs)
+c297493336b7bc0c Antonio Borneo   2022-06-06  720  		return -EINVAL;
+c297493336b7bc0c Antonio Borneo   2022-06-06  721  =
 
-30280eee2db10e Logan Gunthorpe   2022-07-08  1326  	nents -=3D i;
-30280eee2db10e Logan Gunthorpe   2022-07-08  1327  	for_each_sg(tmp, tmp, n=
-ents, i) {
-30280eee2db10e Logan Gunthorpe   2022-07-08  1328  		if (sg_is_dma_bus_addr=
-ess(tmp)) {
-30280eee2db10e Logan Gunthorpe   2022-07-08  1329  			sg_dma_unmark_bus_add=
-ress(tmp);
-30280eee2db10e Logan Gunthorpe   2022-07-08  1330  			continue;
-30280eee2db10e Logan Gunthorpe   2022-07-08  1331  		}
-30280eee2db10e Logan Gunthorpe   2022-07-08  1332  =
+c297493336b7bc0c Antonio Borneo   2022-06-06  722  	desc_irq =3D host_data-=
+>drv_data->desc_irqs[hwirq];
+c297493336b7bc0c Antonio Borneo   2022-06-06  723  	if (desc_irq !=3D EXTI_=
+INVALID_IRQ) {
+927abfc4461e7fd7 Ludovic Barre    2018-04-26  724  		p_fwspec.fwnode =3D dm=
+->parent->fwnode;
+927abfc4461e7fd7 Ludovic Barre    2018-04-26  725  		p_fwspec.param_count =
+=3D 3;
+927abfc4461e7fd7 Ludovic Barre    2018-04-26  726  		p_fwspec.param[0] =3D =
+GIC_SPI;
+c297493336b7bc0c Antonio Borneo   2022-06-06  727  		p_fwspec.param[1] =3D =
+desc_irq;
+927abfc4461e7fd7 Ludovic Barre    2018-04-26  728  		p_fwspec.param[2] =3D =
+IRQ_TYPE_LEVEL_HIGH;
+927abfc4461e7fd7 Ludovic Barre    2018-04-26  729  =
 
-842fe519f68b4d Robin Murphy      2017-03-31  1333  		if (sg_dma_len(tmp) =
-=3D=3D 0)
-842fe519f68b4d Robin Murphy      2017-03-31  1334  			break;
-30280eee2db10e Logan Gunthorpe   2022-07-08  1335  =
+927abfc4461e7fd7 Ludovic Barre    2018-04-26  730  		return irq_domain_allo=
+c_irqs_parent(dm, virq, 1, &p_fwspec);
+927abfc4461e7fd7 Ludovic Barre    2018-04-26  731  	}
+927abfc4461e7fd7 Ludovic Barre    2018-04-26  732  =
 
-30280eee2db10e Logan Gunthorpe   2022-07-08  1336  		end =3D sg_dma_address=
-(tmp) + sg_dma_len(tmp);
-842fe519f68b4d Robin Murphy      2017-03-31  1337  	}
-30280eee2db10e Logan Gunthorpe   2022-07-08  1338  =
+927abfc4461e7fd7 Ludovic Barre    2018-04-26  733  	return 0;
+927abfc4461e7fd7 Ludovic Barre    2018-04-26  734  }
+927abfc4461e7fd7 Ludovic Barre    2018-04-26  735  =
 
-30280eee2db10e Logan Gunthorpe   2022-07-08  1339  	if (end)
-b61d271e59d7fd Robin Murphy      2019-05-20 @1340  		__iommu_dma_unmap(dev,=
- start, end - start);
-0db2e5d18f76a6 Robin Murphy      2015-10-01  1341  }
-0db2e5d18f76a6 Robin Murphy      2015-10-01  1342  =
-
-
-:::::: The code at line 1340 was first introduced by commit
-:::::: b61d271e59d7fd679ad9922ce5f16c116c0f8e94 iommu/dma: Move domain look=
-up into __iommu_dma_{map,unmap}
-
-:::::: TO: Robin Murphy <robin.murphy@arm.com>
-:::::: CC: Joerg Roedel <jroedel@suse.de>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============2358100058630048844==--
+--===============6748067531051136874==--
 
