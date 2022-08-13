@@ -1,131 +1,239 @@
-Content-Type: multipart/mixed; boundary="===============3958073730435941637=="
+Content-Type: multipart/mixed; boundary="===============6396659875530646575=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: kernel/rcu/tasks.h:1254:15: sparse: sparse: cast to non-scalar
-Date: Sat, 06 Aug 2022 16:00:32 +0800
-Message-ID: <202208061535.uokuJWx8-lkp@intel.com>
+Subject: drivers/crypto/marvell/octeontx2/otx2_cptpf_ucode.c:1121 otx2_cpt_create_eng_grps() warn: missing error code 'ret'
+Date: Sat, 13 Aug 2022 18:44:09 +0800
+Message-ID: <202208131854.VO0GSvsH-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3958073730435941637==
+--===============6396659875530646575==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-:::::: =
-
-:::::: Manual check reason: "low confidence static check warning: kernel/rc=
-u/tasks.h:1254:15: sparse: sparse: cast to non-scalar"
-:::::: =
-
-
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: "Paul E. McKenney" <paulmck@kernel.org>
+TO: Srujana Challa <schalla@marvell.com>
+CC: Herbert Xu <herbert@gondor.apana.org.au>
+CC: Shijith Thotton <sthotton@marvell.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
-head:   6614a3c3164a5df2b54abb0b3559f51041cf705b
-commit: 0bcb386857376224b5fd3f38b6e3173ec74d8d36 rcu-tasks: Untrack blocked=
- RCU Tasks Trace at reader end
-date:   7 weeks ago
-:::::: branch date: 8 hours ago
-:::::: commit date: 7 weeks ago
-config: alpha-randconfig-s042-20220804 (https://download.01.org/0day-ci/arc=
-hive/20220806/202208061535.uokuJWx8-lkp(a)intel.com/config)
-compiler: alpha-linux-gcc (GCC) 12.1.0
-reproduce:
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D0bcb386857376224b5fd3f38b6e3173ec74d8d36
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 0bcb386857376224b5fd3f38b6e3173ec74d8d36
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cross=
- C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3Dbuild_dir ARCH=3Da=
-lpha SHELL=3D/bin/bash .// kernel/
+head:   69dac8e431af26173ca0a1ebc87054e01c585bcc
+commit: d9d7749773e8895aaedc11f1d2885a9eee5c73ac crypto: octeontx2 - add ap=
+is for custom engine groups
+date:   8 months ago
+:::::: branch date: 9 hours ago
+:::::: commit date: 8 months ago
+config: s390-randconfig-m031-20220810 (https://download.01.org/0day-ci/arch=
+ive/20220813/202208131854.VO0GSvsH-lkp(a)intel.com/config)
+compiler: s390-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-sparse warnings: (new ones prefixed by >>)
-   kernel/rcu/update.c: note: in included file:
->> kernel/rcu/tasks.h:1254:15: sparse: sparse: cast to non-scalar
->> kernel/rcu/tasks.h:1254:15: sparse: sparse: cast from non-scalar
-   kernel/rcu/tasks.h:329:9: sparse: sparse: context imbalance in 'call_rcu=
-_tasks_generic' - wrong count at exit
+New smatch warnings:
+drivers/crypto/marvell/octeontx2/otx2_cptpf_ucode.c:1121 otx2_cpt_create_en=
+g_grps() warn: missing error code 'ret'
+drivers/crypto/marvell/octeontx2/otx2_cptpf_ucode.c:1564 otx2_cpt_dl_custom=
+_egrp_create() warn: variable dereferenced before check 'val' (see line 155=
+7)
+drivers/crypto/marvell/octeontx2/otx2_cptpf_ucode.c:1707 otx2_cpt_dl_custom=
+_egrp_delete() warn: potential spectre issue 'eng_grps->grp' [r] (local cap)
 
-vim +1254 kernel/rcu/tasks.h
+Old smatch warnings:
+drivers/crypto/marvell/octeontx2/otx2_cptpf_ucode.c:1576 otx2_cpt_dl_custom=
+_egrp_create() warn: variable dereferenced before check 'val' (see line 155=
+7)
+drivers/crypto/marvell/octeontx2/otx2_cptpf_ucode.c:1588 otx2_cpt_dl_custom=
+_egrp_create() warn: variable dereferenced before check 'val' (see line 155=
+7)
 
-3847b64570b175 Paul E. McKenney 2022-05-23  1244  =
+vim +/ret +1121 drivers/crypto/marvell/octeontx2/otx2_cptpf_ucode.c
 
-d5f177d35c2442 Paul E. McKenney 2020-03-09  1245  /* If we are the last rea=
-der, wake up the grace-period kthread. */
-a5c071ccfa1728 Paul E. McKenney 2021-07-28  1246  void rcu_read_unlock_trac=
-e_special(struct task_struct *t)
-d5f177d35c2442 Paul E. McKenney 2020-03-09  1247  {
-0bcb3868573762 Paul E. McKenney 2022-05-17  1248  	unsigned long flags;
-0bcb3868573762 Paul E. McKenney 2022-05-17  1249  	struct rcu_tasks_percpu =
-*rtpcp;
-0bcb3868573762 Paul E. McKenney 2022-05-17  1250  	union rcu_special trs;
-0bcb3868573762 Paul E. McKenney 2022-05-17  1251  =
+43ac0b824f1cb7 Srujana Challa 2021-01-15  1105  =
 
-0bcb3868573762 Paul E. McKenney 2022-05-17  1252  	// Open-coded full-word =
-version of rcu_ld_need_qs().
-0bcb3868573762 Paul E. McKenney 2022-05-17  1253  	smp_mb(); // Enforce ful=
-l grace-period ordering.
-0bcb3868573762 Paul E. McKenney 2022-05-17 @1254  	trs =3D smp_load_acquire=
-(&t->trc_reader_special);
-276c410448dbca Paul E. McKenney 2020-03-17  1255  =
+40a645f753b323 Srujana Challa 2021-05-25  1106  int otx2_cpt_create_eng_grp=
+s(struct otx2_cptpf_dev *cptpf,
+43ac0b824f1cb7 Srujana Challa 2021-01-15  1107  			     struct otx2_cpt_eng=
+_grps *eng_grps)
+43ac0b824f1cb7 Srujana Challa 2021-01-15  1108  {
+43ac0b824f1cb7 Srujana Challa 2021-01-15  1109  	struct otx2_cpt_uc_info_t =
+*uc_info[OTX2_CPT_MAX_ETYPES_PER_GRP] =3D {  };
+43ac0b824f1cb7 Srujana Challa 2021-01-15  1110  	struct otx2_cpt_engines en=
+gs[OTX2_CPT_MAX_ETYPES_PER_GRP] =3D { {0} };
+40a645f753b323 Srujana Challa 2021-05-25  1111  	struct pci_dev *pdev =3D c=
+ptpf->pdev;
+43ac0b824f1cb7 Srujana Challa 2021-01-15  1112  	struct fw_info_t fw_info;
+d9d7749773e889 Srujana Challa 2021-12-01  1113  	int ret =3D 0;
+43ac0b824f1cb7 Srujana Challa 2021-01-15  1114  =
 
-3847b64570b175 Paul E. McKenney 2022-05-23  1256  	if (IS_ENABLED(CONFIG_TA=
-SKS_TRACE_RCU_READ_MB) && t->trc_reader_special.b.need_mb)
-276c410448dbca Paul E. McKenney 2020-03-17  1257  		smp_mb(); // Pairs with=
- update-side barriers.
-276c410448dbca Paul E. McKenney 2020-03-17  1258  	// Update .need_qs befor=
-e ->trc_reader_nesting for irq/NMI handlers.
-0bcb3868573762 Paul E. McKenney 2022-05-17  1259  	if (trs.b.need_qs =3D=3D=
- (TRC_NEED_QS_CHECKED | TRC_NEED_QS)) {
-3847b64570b175 Paul E. McKenney 2022-05-23  1260  		u8 result =3D rcu_trc_c=
-mpxchg_need_qs(t, TRC_NEED_QS_CHECKED | TRC_NEED_QS,
-3847b64570b175 Paul E. McKenney 2022-05-23  1261  						       TRC_NEED_QS_=
-CHECKED);
-3847b64570b175 Paul E. McKenney 2022-05-23  1262  =
+d9d7749773e889 Srujana Challa 2021-12-01  1115  	mutex_lock(&eng_grps->lock=
+);
+43ac0b824f1cb7 Srujana Challa 2021-01-15  1116  	/*
+43ac0b824f1cb7 Srujana Challa 2021-01-15  1117  	 * We don't create engine =
+groups if it was already
+43ac0b824f1cb7 Srujana Challa 2021-01-15  1118  	 * made (when user enabled=
+ VFs for the first time)
+43ac0b824f1cb7 Srujana Challa 2021-01-15  1119  	 */
+43ac0b824f1cb7 Srujana Challa 2021-01-15  1120  	if (eng_grps->is_grps_crea=
+ted)
+d9d7749773e889 Srujana Challa 2021-12-01 @1121  		goto unlock;
+43ac0b824f1cb7 Srujana Challa 2021-01-15  1122  =
 
-0bcb3868573762 Paul E. McKenney 2022-05-17  1263  		WARN_ONCE(result !=3D t=
-rs.b.need_qs, "%s: result =3D %d", __func__, result);
-0bcb3868573762 Paul E. McKenney 2022-05-17  1264  	}
-0bcb3868573762 Paul E. McKenney 2022-05-17  1265  	if (trs.b.blocked) {
-0bcb3868573762 Paul E. McKenney 2022-05-17  1266  		rtpcp =3D per_cpu_ptr(r=
-cu_tasks_trace.rtpcpu, t->trc_blkd_cpu);
-0bcb3868573762 Paul E. McKenney 2022-05-17  1267  		raw_spin_lock_irqsave_r=
-cu_node(rtpcp, flags);
-0bcb3868573762 Paul E. McKenney 2022-05-17  1268  		list_del_init(&t->trc_b=
-lkd_node);
-0bcb3868573762 Paul E. McKenney 2022-05-17  1269  		WRITE_ONCE(t->trc_reade=
-r_special.b.blocked, false);
-0bcb3868573762 Paul E. McKenney 2022-05-17  1270  		raw_spin_unlock_irqrest=
-ore_rcu_node(rtpcp, flags);
-3847b64570b175 Paul E. McKenney 2022-05-23  1271  	}
-a5c071ccfa1728 Paul E. McKenney 2021-07-28  1272  	WRITE_ONCE(t->trc_reader=
-_nesting, 0);
-d5f177d35c2442 Paul E. McKenney 2020-03-09  1273  }
-d5f177d35c2442 Paul E. McKenney 2020-03-09  1274  EXPORT_SYMBOL_GPL(rcu_rea=
-d_unlock_trace_special);
-d5f177d35c2442 Paul E. McKenney 2020-03-09  1275  =
+43ac0b824f1cb7 Srujana Challa 2021-01-15  1123  	ret =3D cpt_ucode_load_fw(=
+pdev, &fw_info);
+43ac0b824f1cb7 Srujana Challa 2021-01-15  1124  	if (ret)
+d9d7749773e889 Srujana Challa 2021-12-01  1125  		goto unlock;
+43ac0b824f1cb7 Srujana Challa 2021-01-15  1126  =
+
+43ac0b824f1cb7 Srujana Challa 2021-01-15  1127  	/*
+43ac0b824f1cb7 Srujana Challa 2021-01-15  1128  	 * Create engine group wit=
+h SE engines for kernel
+43ac0b824f1cb7 Srujana Challa 2021-01-15  1129  	 * crypto functionality (s=
+ymmetric crypto)
+43ac0b824f1cb7 Srujana Challa 2021-01-15  1130  	 */
+43ac0b824f1cb7 Srujana Challa 2021-01-15  1131  	uc_info[0] =3D get_ucode(&=
+fw_info, OTX2_CPT_SE_TYPES);
+43ac0b824f1cb7 Srujana Challa 2021-01-15  1132  	if (uc_info[0] =3D=3D NULL=
+) {
+43ac0b824f1cb7 Srujana Challa 2021-01-15  1133  		dev_err(&pdev->dev, "Unab=
+le to find firmware for SE\n");
+43ac0b824f1cb7 Srujana Challa 2021-01-15  1134  		ret =3D -EINVAL;
+43ac0b824f1cb7 Srujana Challa 2021-01-15  1135  		goto release_fw;
+43ac0b824f1cb7 Srujana Challa 2021-01-15  1136  	}
+43ac0b824f1cb7 Srujana Challa 2021-01-15  1137  	engs[0].type =3D OTX2_CPT_=
+SE_TYPES;
+43ac0b824f1cb7 Srujana Challa 2021-01-15  1138  	engs[0].count =3D eng_grps=
+->avail.max_se_cnt;
+43ac0b824f1cb7 Srujana Challa 2021-01-15  1139  =
+
+43ac0b824f1cb7 Srujana Challa 2021-01-15  1140  	ret =3D create_engine_grou=
+p(&pdev->dev, eng_grps, engs, 1,
+43ac0b824f1cb7 Srujana Challa 2021-01-15  1141  				  (void **) uc_info, 1);
+43ac0b824f1cb7 Srujana Challa 2021-01-15  1142  	if (ret)
+43ac0b824f1cb7 Srujana Challa 2021-01-15  1143  		goto release_fw;
+43ac0b824f1cb7 Srujana Challa 2021-01-15  1144  =
+
+43ac0b824f1cb7 Srujana Challa 2021-01-15  1145  	/*
+43ac0b824f1cb7 Srujana Challa 2021-01-15  1146  	 * Create engine group wit=
+h SE+IE engines for IPSec.
+43ac0b824f1cb7 Srujana Challa 2021-01-15  1147  	 * All SE engines will be =
+shared with engine group 0.
+43ac0b824f1cb7 Srujana Challa 2021-01-15  1148  	 */
+43ac0b824f1cb7 Srujana Challa 2021-01-15  1149  	uc_info[0] =3D get_ucode(&=
+fw_info, OTX2_CPT_SE_TYPES);
+43ac0b824f1cb7 Srujana Challa 2021-01-15  1150  	uc_info[1] =3D get_ucode(&=
+fw_info, OTX2_CPT_IE_TYPES);
+43ac0b824f1cb7 Srujana Challa 2021-01-15  1151  =
+
+43ac0b824f1cb7 Srujana Challa 2021-01-15  1152  	if (uc_info[1] =3D=3D NULL=
+) {
+43ac0b824f1cb7 Srujana Challa 2021-01-15  1153  		dev_err(&pdev->dev, "Unab=
+le to find firmware for IE");
+43ac0b824f1cb7 Srujana Challa 2021-01-15  1154  		ret =3D -EINVAL;
+43ac0b824f1cb7 Srujana Challa 2021-01-15  1155  		goto delete_eng_grp;
+43ac0b824f1cb7 Srujana Challa 2021-01-15  1156  	}
+43ac0b824f1cb7 Srujana Challa 2021-01-15  1157  	engs[0].type =3D OTX2_CPT_=
+SE_TYPES;
+43ac0b824f1cb7 Srujana Challa 2021-01-15  1158  	engs[0].count =3D eng_grps=
+->avail.max_se_cnt;
+43ac0b824f1cb7 Srujana Challa 2021-01-15  1159  	engs[1].type =3D OTX2_CPT_=
+IE_TYPES;
+43ac0b824f1cb7 Srujana Challa 2021-01-15  1160  	engs[1].count =3D eng_grps=
+->avail.max_ie_cnt;
+43ac0b824f1cb7 Srujana Challa 2021-01-15  1161  =
+
+43ac0b824f1cb7 Srujana Challa 2021-01-15  1162  	ret =3D create_engine_grou=
+p(&pdev->dev, eng_grps, engs, 2,
+43ac0b824f1cb7 Srujana Challa 2021-01-15  1163  				  (void **) uc_info, 1);
+43ac0b824f1cb7 Srujana Challa 2021-01-15  1164  	if (ret)
+43ac0b824f1cb7 Srujana Challa 2021-01-15  1165  		goto delete_eng_grp;
+43ac0b824f1cb7 Srujana Challa 2021-01-15  1166  =
+
+43ac0b824f1cb7 Srujana Challa 2021-01-15  1167  	/*
+43ac0b824f1cb7 Srujana Challa 2021-01-15  1168  	 * Create engine group wit=
+h AE engines for asymmetric
+43ac0b824f1cb7 Srujana Challa 2021-01-15  1169  	 * crypto functionality.
+43ac0b824f1cb7 Srujana Challa 2021-01-15  1170  	 */
+43ac0b824f1cb7 Srujana Challa 2021-01-15  1171  	uc_info[0] =3D get_ucode(&=
+fw_info, OTX2_CPT_AE_TYPES);
+43ac0b824f1cb7 Srujana Challa 2021-01-15  1172  	if (uc_info[0] =3D=3D NULL=
+) {
+43ac0b824f1cb7 Srujana Challa 2021-01-15  1173  		dev_err(&pdev->dev, "Unab=
+le to find firmware for AE");
+43ac0b824f1cb7 Srujana Challa 2021-01-15  1174  		ret =3D -EINVAL;
+43ac0b824f1cb7 Srujana Challa 2021-01-15  1175  		goto delete_eng_grp;
+43ac0b824f1cb7 Srujana Challa 2021-01-15  1176  	}
+43ac0b824f1cb7 Srujana Challa 2021-01-15  1177  	engs[0].type =3D OTX2_CPT_=
+AE_TYPES;
+43ac0b824f1cb7 Srujana Challa 2021-01-15  1178  	engs[0].count =3D eng_grps=
+->avail.max_ae_cnt;
+43ac0b824f1cb7 Srujana Challa 2021-01-15  1179  =
+
+43ac0b824f1cb7 Srujana Challa 2021-01-15  1180  	ret =3D create_engine_grou=
+p(&pdev->dev, eng_grps, engs, 1,
+43ac0b824f1cb7 Srujana Challa 2021-01-15  1181  				  (void **) uc_info, 1);
+43ac0b824f1cb7 Srujana Challa 2021-01-15  1182  	if (ret)
+43ac0b824f1cb7 Srujana Challa 2021-01-15  1183  		goto delete_eng_grp;
+43ac0b824f1cb7 Srujana Challa 2021-01-15  1184  =
+
+43ac0b824f1cb7 Srujana Challa 2021-01-15  1185  	eng_grps->is_grps_created =
+=3D true;
+43ac0b824f1cb7 Srujana Challa 2021-01-15  1186  =
+
+43ac0b824f1cb7 Srujana Challa 2021-01-15  1187  	cpt_ucode_release_fw(&fw_i=
+nfo);
+40a645f753b323 Srujana Challa 2021-05-25  1188  =
+
+40a645f753b323 Srujana Challa 2021-05-25  1189  	if (is_dev_otx2(pdev))
+d9d7749773e889 Srujana Challa 2021-12-01  1190  		goto unlock;
+40a645f753b323 Srujana Challa 2021-05-25  1191  	/*
+40a645f753b323 Srujana Challa 2021-05-25  1192  	 * Configure engine group =
+mask to allow context prefetching
+40a645f753b323 Srujana Challa 2021-05-25  1193  	 * for the groups.
+40a645f753b323 Srujana Challa 2021-05-25  1194  	 */
+40a645f753b323 Srujana Challa 2021-05-25  1195  	otx2_cpt_write_af_reg(&cpt=
+pf->afpf_mbox, pdev, CPT_AF_CTL,
+40a645f753b323 Srujana Challa 2021-05-25  1196  			      OTX2_CPT_ALL_ENG_G=
+RPS_MASK << 3 | BIT_ULL(16),
+40a645f753b323 Srujana Challa 2021-05-25  1197  			      BLKADDR_CPT0);
+40a645f753b323 Srujana Challa 2021-05-25  1198  	/*
+40a645f753b323 Srujana Challa 2021-05-25  1199  	 * Set interval to periodi=
+cally flush dirty data for the next
+40a645f753b323 Srujana Challa 2021-05-25  1200  	 * CTX cache entry. Set th=
+e interval count to maximum supported
+40a645f753b323 Srujana Challa 2021-05-25  1201  	 * value.
+40a645f753b323 Srujana Challa 2021-05-25  1202  	 */
+40a645f753b323 Srujana Challa 2021-05-25  1203  	otx2_cpt_write_af_reg(&cpt=
+pf->afpf_mbox, pdev, CPT_AF_CTX_FLUSH_TIMER,
+40a645f753b323 Srujana Challa 2021-05-25  1204  			      CTX_FLUSH_TIMER_CN=
+T, BLKADDR_CPT0);
+d9d7749773e889 Srujana Challa 2021-12-01  1205  	mutex_unlock(&eng_grps->lo=
+ck);
+43ac0b824f1cb7 Srujana Challa 2021-01-15  1206  	return 0;
+43ac0b824f1cb7 Srujana Challa 2021-01-15  1207  =
+
+43ac0b824f1cb7 Srujana Challa 2021-01-15  1208  delete_eng_grp:
+43ac0b824f1cb7 Srujana Challa 2021-01-15  1209  	delete_engine_grps(pdev, e=
+ng_grps);
+43ac0b824f1cb7 Srujana Challa 2021-01-15  1210  release_fw:
+43ac0b824f1cb7 Srujana Challa 2021-01-15  1211  	cpt_ucode_release_fw(&fw_i=
+nfo);
+d9d7749773e889 Srujana Challa 2021-12-01  1212  unlock:
+d9d7749773e889 Srujana Challa 2021-12-01  1213  	mutex_unlock(&eng_grps->lo=
+ck);
+43ac0b824f1cb7 Srujana Challa 2021-01-15  1214  	return ret;
+43ac0b824f1cb7 Srujana Challa 2021-01-15  1215  }
+43ac0b824f1cb7 Srujana Challa 2021-01-15  1216  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============3958073730435941637==--
+--===============6396659875530646575==--
 
