@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============2269907380708314836=="
+Content-Type: multipart/mixed; boundary="===============5152977527821017288=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/net/ethernet/mscc/ocelot.c:1778 ocelot_port_update_stats() error: uninitialized symbol 'err'.
-Date: Mon, 15 Aug 2022 01:02:42 +0800
-Message-ID: <202208150019.O8Lp3TAB-lkp@intel.com>
+Subject: arch/s390/kvm/gaccess.c:1064 access_guest_with_key() error: uninitialized symbol 'prot'.
+Date: Mon, 15 Aug 2022 00:00:23 +0800
+Message-ID: <202208142355.cBVNx71d-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2269907380708314836==
+--===============5152977527821017288==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,131 +15,170 @@ Content-Transfer-Encoding: quoted-printable
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Colin Foster <colin.foster@in-advantage.com>
-CC: Vladimir Oltean <vladimir.oltean@nxp.com>
+TO: "Janis Schoetterl-Glausch" <scgl@linux.ibm.com>
+CC: Christian Borntraeger <borntraeger@linux.ibm.com>
+CC: Janosch Frank <frankja@linux.ibm.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   aea23e7c464bfdec04b52cf61edb62030e9e0d0a
-commit: d87b1c08f38a2ce40cf559df36c107a2e6c16a8f net: mscc: ocelot: use bul=
-k reads for stats
+commit: e613d83454d7da1c37d78edb278db9c20afb21a2 KVM: s390: Honor storage k=
+eys when accessing guest memory
 date:   6 months ago
-:::::: branch date: 16 hours ago
+:::::: branch date: 15 hours ago
 :::::: commit date: 6 months ago
-config: parisc-randconfig-m031-20220807 (https://download.01.org/0day-ci/ar=
-chive/20220815/202208150019.O8Lp3TAB-lkp(a)intel.com/config)
-compiler: hppa-linux-gcc (GCC) 12.1.0
+config: s390-randconfig-m041-20220807 (https://download.01.org/0day-ci/arch=
+ive/20220814/202208142355.cBVNx71d-lkp(a)intel.com/config)
+compiler: s390-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-drivers/net/ethernet/mscc/ocelot.c:1778 ocelot_port_update_stats() error: u=
-ninitialized symbol 'err'.
-drivers/net/ethernet/mscc/ocelot.c:1796 ocelot_check_stats_work() error: un=
-initialized symbol 'err'.
+New smatch warnings:
+arch/s390/kvm/gaccess.c:1064 access_guest_with_key() error: uninitialized s=
+ymbol 'prot'.
 
-vim +/err +1778 drivers/net/ethernet/mscc/ocelot.c
+Old smatch warnings:
+arch/s390/kvm/gaccess.c:935 guest_range_to_gpas() error: uninitialized symb=
+ol 'prot'.
 
-a556c76adc052c Alexandre Belloni 2018-05-14  1747  =
+vim +/prot +1064 arch/s390/kvm/gaccess.c
 
-7fbf6795d127a3 Colin Foster      2022-02-10  1748  /* Caller must hold &oce=
-lot->stats_lock */
-d87b1c08f38a2c Colin Foster      2022-02-13  1749  static int ocelot_port_u=
-pdate_stats(struct ocelot *ocelot, int port)
-a556c76adc052c Alexandre Belloni 2018-05-14  1750  {
-d87b1c08f38a2c Colin Foster      2022-02-13  1751  	unsigned int idx =3D po=
-rt * ocelot->num_stats;
-d87b1c08f38a2c Colin Foster      2022-02-13  1752  	struct ocelot_stats_reg=
-ion *region;
-d87b1c08f38a2c Colin Foster      2022-02-13  1753  	int err, j;
-a556c76adc052c Alexandre Belloni 2018-05-14  1754  =
+e613d83454d7da Janis Schoetterl-Glausch 2022-02-11   996  =
 
-a556c76adc052c Alexandre Belloni 2018-05-14  1755  	/* Configure the port t=
-o read the stats from */
-e27d785e60b6b1 Colin Foster      2022-02-13  1756  	ocelot_write(ocelot, SY=
-S_STAT_CFG_STAT_VIEW(port), SYS_STAT_CFG);
-a556c76adc052c Alexandre Belloni 2018-05-14  1757  =
+e613d83454d7da Janis Schoetterl-Glausch 2022-02-11   997  int access_guest_=
+with_key(struct kvm_vcpu *vcpu, unsigned long ga, u8 ar,
+e613d83454d7da Janis Schoetterl-Glausch 2022-02-11   998  			  void *data, =
+unsigned long len, enum gacc_mode mode,
+e613d83454d7da Janis Schoetterl-Glausch 2022-02-11   999  			  u8 access_ke=
+y)
+2293897805c2fe Heiko Carstens           2014-01-01  1000  {
+2293897805c2fe Heiko Carstens           2014-01-01  1001  	psw_t *psw =3D &=
+vcpu->arch.sie_block->gpsw;
+7faa543df19bf6 Janis Schoetterl-Glausch 2021-11-26  1002  	unsigned long nr=
+_pages, idx;
+7faa543df19bf6 Janis Schoetterl-Glausch 2021-11-26  1003  	unsigned long gp=
+a_array[2];
+416e7f0c9d613b Janis Schoetterl-Glausch 2021-11-26  1004  	unsigned int fra=
+gment_len;
+7faa543df19bf6 Janis Schoetterl-Glausch 2021-11-26  1005  	unsigned long *g=
+pas;
+e613d83454d7da Janis Schoetterl-Glausch 2022-02-11  1006  	enum prot_type p=
+rot;
+8a242234b4bfed Heiko Carstens           2014-01-10  1007  	int need_ipte_lo=
+ck;
+8a242234b4bfed Heiko Carstens           2014-01-10  1008  	union asce asce;
+e613d83454d7da Janis Schoetterl-Glausch 2022-02-11  1009  	bool try_storage=
+_prot_override;
+e613d83454d7da Janis Schoetterl-Glausch 2022-02-11  1010  	bool try_fetch_p=
+rot_override;
+2293897805c2fe Heiko Carstens           2014-01-01  1011  	int rc;
+2293897805c2fe Heiko Carstens           2014-01-01  1012  =
 
-d87b1c08f38a2c Colin Foster      2022-02-13  1758  	list_for_each_entry(reg=
-ion, &ocelot->stats_regions, node) {
-d87b1c08f38a2c Colin Foster      2022-02-13  1759  		err =3D ocelot_bulk_re=
-ad_rix(ocelot, SYS_COUNT_RX_OCTETS,
-d87b1c08f38a2c Colin Foster      2022-02-13  1760  					   region->offset, =
-region->buf,
-d87b1c08f38a2c Colin Foster      2022-02-13  1761  					   region->count);
-d87b1c08f38a2c Colin Foster      2022-02-13  1762  		if (err)
-d87b1c08f38a2c Colin Foster      2022-02-13  1763  			return err;
-a556c76adc052c Alexandre Belloni 2018-05-14  1764  =
-
-d87b1c08f38a2c Colin Foster      2022-02-13  1765  		for (j =3D 0; j < regi=
-on->count; j++) {
-d87b1c08f38a2c Colin Foster      2022-02-13  1766  			u64 *stat =3D &ocelot=
-->stats[idx + j];
-d87b1c08f38a2c Colin Foster      2022-02-13  1767  			u64 val =3D region->b=
-uf[j];
-a556c76adc052c Alexandre Belloni 2018-05-14  1768  =
-
-d87b1c08f38a2c Colin Foster      2022-02-13  1769  			if (val < (*stat & U3=
-2_MAX))
-d87b1c08f38a2c Colin Foster      2022-02-13  1770  				*stat +=3D (u64)1 <<=
- 32;
-d87b1c08f38a2c Colin Foster      2022-02-13  1771  =
-
-d87b1c08f38a2c Colin Foster      2022-02-13  1772  			*stat =3D (*stat & ~(=
-u64)U32_MAX) + val;
-d87b1c08f38a2c Colin Foster      2022-02-13  1773  		}
-a556c76adc052c Alexandre Belloni 2018-05-14  1774  =
-
-d87b1c08f38a2c Colin Foster      2022-02-13  1775  		idx +=3D region->count;
-a556c76adc052c Alexandre Belloni 2018-05-14  1776  	}
-d87b1c08f38a2c Colin Foster      2022-02-13  1777  =
-
-d87b1c08f38a2c Colin Foster      2022-02-13 @1778  	return err;
-1e1caa9735f90b Claudiu Manoil    2019-04-16  1779  }
-1e1caa9735f90b Claudiu Manoil    2019-04-16  1780  =
-
-1e1caa9735f90b Claudiu Manoil    2019-04-16  1781  static void ocelot_check=
-_stats_work(struct work_struct *work)
-1e1caa9735f90b Claudiu Manoil    2019-04-16  1782  {
-1e1caa9735f90b Claudiu Manoil    2019-04-16  1783  	struct delayed_work *de=
-l_work =3D to_delayed_work(work);
-1e1caa9735f90b Claudiu Manoil    2019-04-16  1784  	struct ocelot *ocelot =
-=3D container_of(del_work, struct ocelot,
-1e1caa9735f90b Claudiu Manoil    2019-04-16  1785  					     stats_work);
-d87b1c08f38a2c Colin Foster      2022-02-13  1786  	int i, err;
-1e1caa9735f90b Claudiu Manoil    2019-04-16  1787  =
-
-7fbf6795d127a3 Colin Foster      2022-02-10  1788  	mutex_lock(&ocelot->sta=
-ts_lock);
-d87b1c08f38a2c Colin Foster      2022-02-13  1789  	for (i =3D 0; i < ocelo=
-t->num_phys_ports; i++) {
-d87b1c08f38a2c Colin Foster      2022-02-13  1790  		err =3D ocelot_port_up=
-date_stats(ocelot, i);
-d87b1c08f38a2c Colin Foster      2022-02-13  1791  		if (err)
-d87b1c08f38a2c Colin Foster      2022-02-13  1792  			break;
-d87b1c08f38a2c Colin Foster      2022-02-13  1793  	}
-7fbf6795d127a3 Colin Foster      2022-02-10  1794  	mutex_unlock(&ocelot->s=
-tats_lock);
-1e1caa9735f90b Claudiu Manoil    2019-04-16  1795  =
-
-d87b1c08f38a2c Colin Foster      2022-02-13 @1796  	if (err)
-d87b1c08f38a2c Colin Foster      2022-02-13  1797  		dev_err(ocelot->dev, "=
-Error %d updating ethtool stats\n",  err);
-d87b1c08f38a2c Colin Foster      2022-02-13  1798  =
-
-a556c76adc052c Alexandre Belloni 2018-05-14  1799  	queue_delayed_work(ocel=
-ot->stats_queue, &ocelot->stats_work,
-a556c76adc052c Alexandre Belloni 2018-05-14  1800  			   OCELOT_STATS_CHECK=
-_DELAY);
-a556c76adc052c Alexandre Belloni 2018-05-14  1801  }
-a556c76adc052c Alexandre Belloni 2018-05-14  1802  =
+2293897805c2fe Heiko Carstens           2014-01-01  1013  	if (!len)
+2293897805c2fe Heiko Carstens           2014-01-01  1014  		return 0;
+6167375b558196 David Hildenbrand        2016-05-31  1015  	ga =3D kvm_s390_=
+logical_to_effective(vcpu, ga);
+6167375b558196 David Hildenbrand        2016-05-31  1016  	rc =3D get_vcpu_=
+asce(vcpu, &asce, ga, ar, mode);
+664b4973537068 Alexander Yarygin        2015-03-09  1017  	if (rc)
+664b4973537068 Alexander Yarygin        2015-03-09  1018  		return rc;
+2293897805c2fe Heiko Carstens           2014-01-01  1019  	nr_pages =3D (((=
+ga & ~PAGE_MASK) + len - 1) >> PAGE_SHIFT) + 1;
+7faa543df19bf6 Janis Schoetterl-Glausch 2021-11-26  1020  	gpas =3D gpa_arr=
+ay;
+7faa543df19bf6 Janis Schoetterl-Glausch 2021-11-26  1021  	if (nr_pages > A=
+RRAY_SIZE(gpa_array))
+7faa543df19bf6 Janis Schoetterl-Glausch 2021-11-26  1022  		gpas =3D vmallo=
+c(array_size(nr_pages, sizeof(unsigned long)));
+7faa543df19bf6 Janis Schoetterl-Glausch 2021-11-26  1023  	if (!gpas)
+2293897805c2fe Heiko Carstens           2014-01-01  1024  		return -ENOMEM;
+e613d83454d7da Janis Schoetterl-Glausch 2022-02-11  1025  	try_fetch_prot_o=
+verride =3D fetch_prot_override_applicable(vcpu, mode, asce);
+e613d83454d7da Janis Schoetterl-Glausch 2022-02-11  1026  	try_storage_prot=
+_override =3D storage_prot_override_applicable(vcpu);
+a752598254016d Heiko Carstens           2017-06-03  1027  	need_ipte_lock =
+=3D psw_bits(*psw).dat && !asce.r;
+8a242234b4bfed Heiko Carstens           2014-01-10  1028  	if (need_ipte_lo=
+ck)
+8a242234b4bfed Heiko Carstens           2014-01-10  1029  		ipte_lock(vcpu);
+e613d83454d7da Janis Schoetterl-Glausch 2022-02-11  1030  	/*
+e613d83454d7da Janis Schoetterl-Glausch 2022-02-11  1031  	 * Since we do t=
+he access further down ultimately via a move instruction
+e613d83454d7da Janis Schoetterl-Glausch 2022-02-11  1032  	 * that does key=
+ checking and returns an error in case of a protection
+e613d83454d7da Janis Schoetterl-Glausch 2022-02-11  1033  	 * violation, we=
+ don't need to do the check during address translation.
+e613d83454d7da Janis Schoetterl-Glausch 2022-02-11  1034  	 * Skip it by pa=
+ssing access key 0, which matches any storage key,
+e613d83454d7da Janis Schoetterl-Glausch 2022-02-11  1035  	 * obviating the=
+ need for any further checks. As a result the check is
+e613d83454d7da Janis Schoetterl-Glausch 2022-02-11  1036  	 * handled entir=
+ely in hardware on access, we only need to take care to
+e613d83454d7da Janis Schoetterl-Glausch 2022-02-11  1037  	 * forego key pr=
+otection checking if fetch protection override applies or
+e613d83454d7da Janis Schoetterl-Glausch 2022-02-11  1038  	 * retry with th=
+e special key 9 in case of storage protection override.
+e613d83454d7da Janis Schoetterl-Glausch 2022-02-11  1039  	 */
+e613d83454d7da Janis Schoetterl-Glausch 2022-02-11  1040  	rc =3D guest_ran=
+ge_to_gpas(vcpu, ga, ar, gpas, len, asce, mode, 0);
+e613d83454d7da Janis Schoetterl-Glausch 2022-02-11  1041  	if (rc)
+e613d83454d7da Janis Schoetterl-Glausch 2022-02-11  1042  		goto out_unlock;
+e613d83454d7da Janis Schoetterl-Glausch 2022-02-11  1043  	for (idx =3D 0; =
+idx < nr_pages; idx++) {
+7faa543df19bf6 Janis Schoetterl-Glausch 2021-11-26  1044  		fragment_len =
+=3D min(PAGE_SIZE - offset_in_page(gpas[idx]), len);
+e613d83454d7da Janis Schoetterl-Glausch 2022-02-11  1045  		if (try_fetch_p=
+rot_override && fetch_prot_override_applies(ga, fragment_len)) {
+e613d83454d7da Janis Schoetterl-Glausch 2022-02-11  1046  			rc =3D access_=
+guest_page(vcpu->kvm, mode, gpas[idx],
+e613d83454d7da Janis Schoetterl-Glausch 2022-02-11  1047  					       data,=
+ fragment_len);
+e613d83454d7da Janis Schoetterl-Glausch 2022-02-11  1048  		} else {
+e613d83454d7da Janis Schoetterl-Glausch 2022-02-11  1049  			rc =3D access_=
+guest_page_with_key(vcpu->kvm, mode, gpas[idx],
+e613d83454d7da Janis Schoetterl-Glausch 2022-02-11  1050  							data, frag=
+ment_len, access_key);
+e613d83454d7da Janis Schoetterl-Glausch 2022-02-11  1051  		}
+e613d83454d7da Janis Schoetterl-Glausch 2022-02-11  1052  		if (rc =3D=3D P=
+GM_PROTECTION && try_storage_prot_override)
+e613d83454d7da Janis Schoetterl-Glausch 2022-02-11  1053  			rc =3D access_=
+guest_page_with_key(vcpu->kvm, mode, gpas[idx],
+e613d83454d7da Janis Schoetterl-Glausch 2022-02-11  1054  							data, frag=
+ment_len, PAGE_SPO_ACC);
+e613d83454d7da Janis Schoetterl-Glausch 2022-02-11  1055  		if (rc =3D=3D P=
+GM_PROTECTION)
+e613d83454d7da Janis Schoetterl-Glausch 2022-02-11  1056  			prot =3D PROT_=
+TYPE_KEYC;
+e613d83454d7da Janis Schoetterl-Glausch 2022-02-11  1057  		if (rc)
+e613d83454d7da Janis Schoetterl-Glausch 2022-02-11  1058  			break;
+416e7f0c9d613b Janis Schoetterl-Glausch 2021-11-26  1059  		len -=3D fragme=
+nt_len;
+416e7f0c9d613b Janis Schoetterl-Glausch 2021-11-26  1060  		data +=3D fragm=
+ent_len;
+e613d83454d7da Janis Schoetterl-Glausch 2022-02-11  1061  		ga =3D kvm_s390=
+_logical_to_effective(vcpu, ga + fragment_len);
+2293897805c2fe Heiko Carstens           2014-01-01  1062  	}
+e613d83454d7da Janis Schoetterl-Glausch 2022-02-11  1063  	if (rc > 0)
+e613d83454d7da Janis Schoetterl-Glausch 2022-02-11 @1064  		rc =3D trans_ex=
+c(vcpu, rc, ga, ar, mode, prot);
+e613d83454d7da Janis Schoetterl-Glausch 2022-02-11  1065  out_unlock:
+8a242234b4bfed Heiko Carstens           2014-01-10  1066  	if (need_ipte_lo=
+ck)
+8a242234b4bfed Heiko Carstens           2014-01-10  1067  		ipte_unlock(vcp=
+u);
+7faa543df19bf6 Janis Schoetterl-Glausch 2021-11-26  1068  	if (nr_pages > A=
+RRAY_SIZE(gpa_array))
+7faa543df19bf6 Janis Schoetterl-Glausch 2021-11-26  1069  		vfree(gpas);
+2293897805c2fe Heiko Carstens           2014-01-01  1070  	return rc;
+2293897805c2fe Heiko Carstens           2014-01-01  1071  }
+2293897805c2fe Heiko Carstens           2014-01-01  1072  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============2269907380708314836==--
+--===============5152977527821017288==--
 
