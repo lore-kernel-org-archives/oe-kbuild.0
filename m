@@ -1,183 +1,95 @@
-Content-Type: multipart/mixed; boundary="===============8497160766382387308=="
+Content-Type: multipart/mixed; boundary="===============0513187613610392832=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/gpu/drm/tegra/gr3d.c:396:25: warning: use of uninitialized value '<unknown>' [CWE-457]
-Date: Sun, 14 Aug 2022 20:29:33 +0800
-Message-ID: <202208142034.pGRrHrZz-lkp@intel.com>
+Subject: drivers/net/ethernet/mellanox/mlx5/core/fs_core.c:2861 create_fdb_bypass() warn: passing a valid pointer to 'PTR_ERR'
+Date: Sun, 14 Aug 2022 18:45:49 +0800
+Message-ID: <202208141854.40SrrBx0-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8497160766382387308==
+--===============0513187613610392832==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-:::::: =
-
-:::::: Manual check reason: "low confidence bisect report"
-:::::: Manual check reason: "low confidence static check warning: drivers/g=
-pu/drm/tegra/gr3d.c:396:25: warning: use of uninitialized value '<unknown>'=
- [CWE-457] [-Wanalyzer-use-of-uninitialized-value]"
-:::::: =
-
-
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Dmitry Osipenko <digetx@gmail.com>
-CC: Thierry Reding <treding@nvidia.com>
-CC: Ulf Hansson <ulf.hansson@linaro.org>
+TO: Maor Gottlieb <maorg@nvidia.com>
+CC: Saeed Mahameed <saeedm@nvidia.com>
+CC: Mark Bloch <mbloch@nvidia.com>
+CC: Leon Romanovsky <leonro@nvidia.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   aea23e7c464bfdec04b52cf61edb62030e9e0d0a
-commit: 2421b20d659069ed6435b27a919e627b74c27e7e drm/tegra: gr3d: Support g=
-eneric power domain and runtime PM
+commit: c7d5fa105b5d2630ab9428914d36730eda13876c net/mlx5: Create more prio=
+rities for FDB bypass namespace
 date:   8 months ago
-:::::: branch date: 12 hours ago
+:::::: branch date: 10 hours ago
 :::::: commit date: 8 months ago
-config: arm-randconfig-c002-20220808 (https://download.01.org/0day-ci/archi=
-ve/20220814/202208142034.pGRrHrZz-lkp(a)intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D2421b20d659069ed6435b27a919e627b74c27e7e
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 2421b20d659069ed6435b27a919e627b74c27e7e
-        # save the config file
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cross=
- ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
-
+config: parisc-randconfig-m031-20220807 (https://download.01.org/0day-ci/ar=
+chive/20220814/202208141854.40SrrBx0-lkp(a)intel.com/config)
+compiler: hppa-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-gcc-analyzer warnings: (new ones prefixed by >>)
-   drivers/gpu/drm/tegra/gr3d.c: In function 'gr3d_init_power':
->> drivers/gpu/drm/tegra/gr3d.c:396:25: warning: use of uninitialized value=
- '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-     396 |         struct device **opp_virt_devs, *pd_dev;
-         |                         ^~~~~~~~~~~~~
-     'gr3d_init_power': event 1
-       |
-       |  396 |         struct device **opp_virt_devs, *pd_dev;
-       |      |                         ^~~~~~~~~~~~~
-       |      |                         |
-       |      |                         (1) use of uninitialized value '<un=
-known>' here
-       |
+New smatch warnings:
+drivers/net/ethernet/mellanox/mlx5/core/fs_core.c:2861 create_fdb_bypass() =
+warn: passing a valid pointer to 'PTR_ERR'
 
-vim +396 drivers/gpu/drm/tegra/gr3d.c
+Old smatch warnings:
+drivers/net/ethernet/mellanox/mlx5/core/fs_core.c:1666 dest_is_valid() erro=
+r: we previously assumed 'dest' could be null (see line 1655)
+drivers/net/ethernet/mellanox/mlx5/core/fs_core.c:1941 _mlx5_add_flow_rules=
+() warn: passing a valid pointer to 'PTR_ERR'
+drivers/net/ethernet/mellanox/mlx5/core/fs_core.c:2456 init_root_tree_recur=
+sive() warn: passing a valid pointer to 'PTR_ERR'
+drivers/net/ethernet/mellanox/mlx5/core/fs_core.c:2790 create_fdb_sub_ns_pr=
+io_chain() warn: passing a valid pointer to 'PTR_ERR'
 
-5f60ed0d840d53 Thierry Reding  2013-02-28  391  =
+vim +/PTR_ERR +2861 drivers/net/ethernet/mellanox/mlx5/core/fs_core.c
 
-2421b20d659069 Dmitry Osipenko 2021-12-01  392  static int gr3d_init_power(=
-struct device *dev, struct gr3d *gr3d)
-2421b20d659069 Dmitry Osipenko 2021-12-01  393  {
-2421b20d659069 Dmitry Osipenko 2021-12-01  394  	static const char * const =
-opp_genpd_names[] =3D { "3d0", "3d1", NULL };
-2421b20d659069 Dmitry Osipenko 2021-12-01  395  	const u32 link_flags =3D D=
-L_FLAG_STATELESS | DL_FLAG_PM_RUNTIME;
-2421b20d659069 Dmitry Osipenko 2021-12-01 @396  	struct device **opp_virt_d=
-evs, *pd_dev;
-2421b20d659069 Dmitry Osipenko 2021-12-01  397  	struct device_link *link;
-2421b20d659069 Dmitry Osipenko 2021-12-01  398  	unsigned int i;
-2421b20d659069 Dmitry Osipenko 2021-12-01  399  	int err;
-2421b20d659069 Dmitry Osipenko 2021-12-01  400  =
+1033665e63b6d9 Or Gerlitz    2016-07-14  2848  =
 
-2421b20d659069 Dmitry Osipenko 2021-12-01  401  	err =3D of_count_phandle_w=
-ith_args(dev->of_node, "power-domains",
-2421b20d659069 Dmitry Osipenko 2021-12-01  402  					 "#power-domain-cells"=
-);
-5f60ed0d840d53 Thierry Reding  2013-02-28  403  	if (err < 0) {
-2421b20d659069 Dmitry Osipenko 2021-12-01  404  		if (err !=3D -ENOENT)
-2421b20d659069 Dmitry Osipenko 2021-12-01  405  			return err;
-2421b20d659069 Dmitry Osipenko 2021-12-01  406  =
+c7d5fa105b5d26 Maor Gottlieb 2021-12-01  2849  static int create_fdb_bypass=
+(struct mlx5_flow_steering *steering)
+c7d5fa105b5d26 Maor Gottlieb 2021-12-01  2850  {
+c7d5fa105b5d26 Maor Gottlieb 2021-12-01  2851  	struct mlx5_flow_namespace =
+*ns;
+c7d5fa105b5d26 Maor Gottlieb 2021-12-01  2852  	struct fs_prio *prio;
+c7d5fa105b5d26 Maor Gottlieb 2021-12-01  2853  	int i;
+c7d5fa105b5d26 Maor Gottlieb 2021-12-01  2854  =
 
-2421b20d659069 Dmitry Osipenko 2021-12-01  407  		/*
-2421b20d659069 Dmitry Osipenko 2021-12-01  408  		 * Older device-trees don=
-'t use GENPD. In this case we should
-2421b20d659069 Dmitry Osipenko 2021-12-01  409  		 * toggle power domain ma=
-nually.
-2421b20d659069 Dmitry Osipenko 2021-12-01  410  		 */
-2421b20d659069 Dmitry Osipenko 2021-12-01  411  		err =3D gr3d_power_up_leg=
-acy_domain(dev, "3d",
-2421b20d659069 Dmitry Osipenko 2021-12-01  412  						  TEGRA_POWERGATE_3D);
-2421b20d659069 Dmitry Osipenko 2021-12-01  413  		if (err)
-2421b20d659069 Dmitry Osipenko 2021-12-01  414  			return err;
-2421b20d659069 Dmitry Osipenko 2021-12-01  415  =
+c7d5fa105b5d26 Maor Gottlieb 2021-12-01  2855  	prio =3D fs_create_prio(&st=
+eering->fdb_root_ns->ns, FDB_BYPASS_PATH, 0);
+c7d5fa105b5d26 Maor Gottlieb 2021-12-01  2856  	if (IS_ERR(prio))
+c7d5fa105b5d26 Maor Gottlieb 2021-12-01  2857  		return PTR_ERR(prio);
+c7d5fa105b5d26 Maor Gottlieb 2021-12-01  2858  =
 
-2421b20d659069 Dmitry Osipenko 2021-12-01  416  		err =3D gr3d_power_up_leg=
-acy_domain(dev, "3d2",
-2421b20d659069 Dmitry Osipenko 2021-12-01  417  						  TEGRA_POWERGATE_3D1=
-);
-2421b20d659069 Dmitry Osipenko 2021-12-01  418  		if (err)
-2421b20d659069 Dmitry Osipenko 2021-12-01  419  			return err;
-2421b20d659069 Dmitry Osipenko 2021-12-01  420  =
+c7d5fa105b5d26 Maor Gottlieb 2021-12-01  2859  	ns =3D fs_create_namespace(=
+prio, MLX5_FLOW_TABLE_MISS_ACTION_DEF);
+c7d5fa105b5d26 Maor Gottlieb 2021-12-01  2860  	if (IS_ERR(ns))
+c7d5fa105b5d26 Maor Gottlieb 2021-12-01 @2861  		return PTR_ERR(ns);
+c7d5fa105b5d26 Maor Gottlieb 2021-12-01  2862  =
 
-2421b20d659069 Dmitry Osipenko 2021-12-01  421  		return 0;
-2421b20d659069 Dmitry Osipenko 2021-12-01  422  	}
-2421b20d659069 Dmitry Osipenko 2021-12-01  423  =
-
-2421b20d659069 Dmitry Osipenko 2021-12-01  424  	/*
-2421b20d659069 Dmitry Osipenko 2021-12-01  425  	 * The PM domain core auto=
-matically attaches a single power domain,
-2421b20d659069 Dmitry Osipenko 2021-12-01  426  	 * otherwise it skips atta=
-ching completely. We have a single domain
-2421b20d659069 Dmitry Osipenko 2021-12-01  427  	 * on Tegra20 and two doma=
-ins on Tegra30+.
-2421b20d659069 Dmitry Osipenko 2021-12-01  428  	 */
-2421b20d659069 Dmitry Osipenko 2021-12-01  429  	if (dev->pm_domain)
-2421b20d659069 Dmitry Osipenko 2021-12-01  430  		return 0;
-2421b20d659069 Dmitry Osipenko 2021-12-01  431  =
-
-2421b20d659069 Dmitry Osipenko 2021-12-01  432  	err =3D devm_pm_opp_attach=
-_genpd(dev, opp_genpd_names, &opp_virt_devs);
-2421b20d659069 Dmitry Osipenko 2021-12-01  433  	if (err)
-2421b20d659069 Dmitry Osipenko 2021-12-01  434  		return err;
-2421b20d659069 Dmitry Osipenko 2021-12-01  435  =
-
-2421b20d659069 Dmitry Osipenko 2021-12-01  436  	for (i =3D 0; opp_genpd_na=
-mes[i]; i++) {
-2421b20d659069 Dmitry Osipenko 2021-12-01  437  		pd_dev =3D opp_virt_devs[=
-i];
-2421b20d659069 Dmitry Osipenko 2021-12-01  438  		if (!pd_dev) {
-2421b20d659069 Dmitry Osipenko 2021-12-01  439  			dev_err(dev, "failed to =
-get %s power domain\n",
-2421b20d659069 Dmitry Osipenko 2021-12-01  440  				opp_genpd_names[i]);
-2421b20d659069 Dmitry Osipenko 2021-12-01  441  			return -EINVAL;
-2421b20d659069 Dmitry Osipenko 2021-12-01  442  		}
-2421b20d659069 Dmitry Osipenko 2021-12-01  443  =
-
-2421b20d659069 Dmitry Osipenko 2021-12-01  444  		link =3D device_link_add(=
-dev, pd_dev, link_flags);
-2421b20d659069 Dmitry Osipenko 2021-12-01  445  		if (!link) {
-2421b20d659069 Dmitry Osipenko 2021-12-01  446  			dev_err(dev, "failed to =
-link to %s\n", dev_name(pd_dev));
-2421b20d659069 Dmitry Osipenko 2021-12-01  447  			return -EINVAL;
-2421b20d659069 Dmitry Osipenko 2021-12-01  448  		}
-2421b20d659069 Dmitry Osipenko 2021-12-01  449  =
-
-2421b20d659069 Dmitry Osipenko 2021-12-01  450  		err =3D devm_add_action_o=
-r_reset(dev, gr3d_del_link, link);
-2421b20d659069 Dmitry Osipenko 2021-12-01  451  		if (err)
-5f60ed0d840d53 Thierry Reding  2013-02-28  452  			return err;
-5f60ed0d840d53 Thierry Reding  2013-02-28  453  	}
-5f60ed0d840d53 Thierry Reding  2013-02-28  454  =
-
-2421b20d659069 Dmitry Osipenko 2021-12-01  455  	return 0;
-2421b20d659069 Dmitry Osipenko 2021-12-01  456  }
-2421b20d659069 Dmitry Osipenko 2021-12-01  457  =
+c7d5fa105b5d26 Maor Gottlieb 2021-12-01  2863  	for (i =3D 0; i < MLX5_BY_P=
+ASS_NUM_REGULAR_PRIOS; i++) {
+c7d5fa105b5d26 Maor Gottlieb 2021-12-01  2864  		prio =3D fs_create_prio(ns=
+, i, 1);
+c7d5fa105b5d26 Maor Gottlieb 2021-12-01  2865  		if (IS_ERR(prio))
+c7d5fa105b5d26 Maor Gottlieb 2021-12-01  2866  			return PTR_ERR(prio);
+c7d5fa105b5d26 Maor Gottlieb 2021-12-01  2867  	}
+c7d5fa105b5d26 Maor Gottlieb 2021-12-01  2868  	return 0;
+c7d5fa105b5d26 Maor Gottlieb 2021-12-01  2869  }
+c7d5fa105b5d26 Maor Gottlieb 2021-12-01  2870  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============8497160766382387308==--
+--===============0513187613610392832==--
 
