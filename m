@@ -1,357 +1,146 @@
-Content-Type: multipart/mixed; boundary="===============1337017413417855317=="
+Content-Type: multipart/mixed; boundary="===============2758642426746151984=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/power/supply/ip5xxx_power.c:341:63: warning: use of uninitialized value 'raw' [CWE-457]
-Date: Mon, 15 Aug 2022 04:57:29 +0800
-Message-ID: <202208150419.z1BmgcNe-lkp@intel.com>
+Subject: drivers/net/ethernet/mellanox/mlx5/core/eswitch_offloads.c:142 mlx5_eswitch_set_rule_source_port() warn: variable dereferenced before check 'attr' (see line 130)
+Date: Mon, 15 Aug 2022 04:26:40 +0800
+Message-ID: <202208150418.3WdXNdnr-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1337017413417855317==
+--===============2758642426746151984==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-:::::: =
-
-:::::: Manual check reason: "low confidence bisect report"
-:::::: Manual check reason: "low confidence static check warning: drivers/p=
-ower/supply/ip5xxx_power.c:341:63: warning: use of uninitialized value 'raw=
-' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]"
-:::::: =
-
-
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Samuel Holland <samuel@sholland.org>
-CC: Sebastian Reichel <sebastian.reichel@collabora.com>
+TO: Ariel Levkovich <lariel@nvidia.com>
+CC: Saeed Mahameed <saeedm@nvidia.com>
+CC: Maor Dickman <maord@nvidia.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   5d6a0f4da9275f6c212de33777778673ba91241a
-commit: 75853406fa27961044e7dc03c7dc8544477e81f5 power: supply: Add a drive=
-r for Injoinic power bank ICs
-date:   5 months ago
+commit: cb0d54cbf94866b48a73e10a73a55655f808cc7c net/mlx5e: Fix wrong sourc=
+e vport matching on tunnel rule
+date:   3 months ago
 :::::: branch date: 4 hours ago
-:::::: commit date: 5 months ago
-config: arm-randconfig-c002-20220814 (https://download.01.org/0day-ci/archi=
-ve/20220815/202208150419.z1BmgcNe-lkp(a)intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D75853406fa27961044e7dc03c7dc8544477e81f5
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 75853406fa27961044e7dc03c7dc8544477e81f5
-        # save the config file
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cross=
- ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
-
+:::::: commit date: 3 months ago
+config: parisc-randconfig-m031-20220807 (https://download.01.org/0day-ci/ar=
+chive/20220815/202208150418.3WdXNdnr-lkp(a)intel.com/config)
+compiler: hppa-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-gcc-analyzer warnings: (new ones prefixed by >>)
-   In file included from include/linux/math64.h:6,
-                    from include/linux/time64.h:5,
-                    from include/linux/restart_block.h:10,
-                    from include/linux/thread_info.h:14,
-                    from include/asm-generic/current.h:5,
-                    from arch/arm/include/asm/current.h:50,
-                    from include/linux/mutex.h:14,
-                    from include/linux/kernfs.h:11,
-                    from include/linux/sysfs.h:16,
-                    from include/linux/kobject.h:20,
-                    from include/linux/of.h:17,
-                    from include/linux/irqdomain.h:35,
-                    from include/linux/acpi.h:13,
-                    from include/linux/i2c.h:13,
-                    from drivers/power/supply/ip5xxx_power.c:5:
-   drivers/power/supply/ip5xxx_power.c: In function 'ip5xxx_battery_get_pro=
-perty':
->> drivers/power/supply/ip5xxx_power.c:341:63: warning: use of uninitialize=
-d value 'raw' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-     341 |                 val->intval =3D 2600000 + DIV_ROUND_CLOSEST(raw =
-* 26855, 100);
-         |                                                           ~~~~^~=
-~~~~~
-   include/linux/math.h:87:25: note: in definition of macro 'DIV_ROUND_CLOS=
-EST'
-      87 |         typeof(x) __x =3D x;                              \
-         |                         ^
-     'ip5xxx_battery_get_property': events 1-7
-       |
-       |drivers/power/supply/ip5xxx_power.c:312:12:
-       |  312 | static int ip5xxx_battery_get_property(struct power_supply =
-*psy,
-       |      |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |            |
-       |      |            (1) entry to 'ip5xxx_battery_get_property'
-       |......
-       |  317 |         int raw, ret, vmax;
-       |      |             ~~~
-       |      |             |
-       |      |             (2) region created on stack here
-       |......
-       |  321 |         if (ret)
-       |      |            ~
-       |      |            |
-       |      |            (3) following 'false' branch (when 'ret =3D=3D 0=
-')...
-       |......
-       |  324 |         switch (psp) {
-       |      |         ~~~~~~
-       |      |         |
-       |      |         (4) ...to here
-       |      |         (5) following 'case 12:' branch...
-       |......
-       |  337 |         case POWER_SUPPLY_PROP_VOLTAGE_NOW:
-       |      |         ~~~~
-       |      |         |
-       |      |         (6) ...to here
-       |  338 |                 ret =3D ip5xxx_battery_read_adc(ip5xxx, IP5=
-XXX_BATVADC_DAT0,
-       |      |                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~~
-       |      |                       |
-       |      |                       (7) calling 'ip5xxx_battery_read_adc'=
- from 'ip5xxx_battery_get_property'
-       |  339 |                                               IP5XXX_BATVAD=
-C_DAT1, &raw);
-       |      |                                               ~~~~~~~~~~~~~=
-~~~~~~~~~~~~~
-       |
-       +--> 'ip5xxx_battery_read_adc': events 8-11
-              |
-              |  293 | static int ip5xxx_battery_read_adc(struct ip5xxx *ip=
-5xxx,
-              |      |            ^~~~~~~~~~~~~~~~~~~~~~~
-              |      |            |
-              |      |            (8) entry to 'ip5xxx_battery_read_adc'
-              |......
-              |  300 |         if (ret)
-              |      |            ~
-              |      |            |
-              |      |            (9) following 'false' branch (when 'ret =
-=3D=3D 0')...
-              |......
-              |  303 |         ret =3D ip5xxx_read(ip5xxx, hi_reg, &hi);
-              |      |               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-              |      |               |
-              |      |               (10) ...to here
-              |      |               (11) calling 'ip5xxx_read' from 'ip5xx=
-x_battery_read_adc'
-              |
-              +--> 'ip5xxx_read': events 12-14
-                     |
-                     |   90 | static int ip5xxx_read(struct ip5xxx *ip5xxx,=
- unsigned int reg,
-                     |      |            ^~~~~~~~~~~
-                     |      |            |
-                     |      |            (12) entry to 'ip5xxx_read'
-                     |......
-                     |   96 |         if (ret)
-                     |      |            ~
-                     |      |            |
-                     |      |            (13) following 'true' branch (when=
- 'ret !=3D 0')...
-                     |   97 |                 ip5xxx->initialized =3D false;
-                     |      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                     |      |                                     |
-                     |      |                                     (14) ...t=
-o here
-                     |
-              <------+
-              |
-            'ip5xxx_battery_read_adc': events 15-16
-              |
-              |  303 |         ret =3D ip5xxx_read(ip5xxx, hi_reg, &hi);
-              |      |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-              |      |               |
-              |      |               (15) returning to 'ip5xxx_battery_read=
-_adc' from 'ip5xxx_read'
-              |  304 |         if (ret)
-              |      |            ~   =
+smatch warnings:
+drivers/net/ethernet/mellanox/mlx5/core/eswitch_offloads.c:142 mlx5_eswitch=
+_set_rule_source_port() warn: variable dereferenced before check 'attr' (se=
+e line 130)
 
-              |      |            |
-              |      |            (16) following 'true' branch (when 'ret !=
-=3D 0')...
-              |
-            'ip5xxx_battery_read_adc': event 17
-              |
-              |cc1:
-              | (17): ...to here
-              |
-       <------+
-       |
-     'ip5xxx_battery_get_property': event 18
-       |
-       |  338 |                 ret =3D ip5xxx_battery_read_adc(ip5xxx, IP5=
-XXX_BATVADC_DAT0,
-       |      |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~~
-       |      |                       |
-       |      |                       (18) returning to 'ip5xxx_battery_get=
-_property' from 'ip5xxx_battery_read_adc'
+vim +/attr +142 drivers/net/ethernet/mellanox/mlx5/core/eswitch_offloads.c
 
-vim +/raw +341 drivers/power/supply/ip5xxx_power.c
+f94d6389f6a8ab Chris Mi        2020-09-21  122  =
 
-75853406fa27961 Samuel Holland 2022-02-13  311  =
+c01cfd0f111511 Jianbo Liu      2019-06-25  123  static void
+c01cfd0f111511 Jianbo Liu      2019-06-25  124  mlx5_eswitch_set_rule_sourc=
+e_port(struct mlx5_eswitch *esw,
+c01cfd0f111511 Jianbo Liu      2019-06-25  125  				  struct mlx5_flow_spec=
+ *spec,
+a508728a4c8bfa Vlad Buslov     2021-01-25  126  				  struct mlx5_flow_attr=
+ *attr,
+b055ecf5827d81 Mark Bloch      2020-10-12  127  				  struct mlx5_eswitch *=
+src_esw,
+b055ecf5827d81 Mark Bloch      2020-10-12  128  				  u16 vport)
+c01cfd0f111511 Jianbo Liu      2019-06-25  129  {
+166f431ec6beaf Ariel Levkovich 2021-04-29 @130  	struct mlx5_esw_flow_attr =
+*esw_attr =3D attr->esw_attr;
+166f431ec6beaf Ariel Levkovich 2021-04-29  131  	u32 metadata;
+c01cfd0f111511 Jianbo Liu      2019-06-25  132  	void *misc2;
+c01cfd0f111511 Jianbo Liu      2019-06-25  133  	void *misc;
+c01cfd0f111511 Jianbo Liu      2019-06-25  134  =
 
-75853406fa27961 Samuel Holland 2022-02-13  312  static int ip5xxx_battery_g=
-et_property(struct power_supply *psy,
-75853406fa27961 Samuel Holland 2022-02-13  313  				       enum power_suppl=
-y_property psp,
-75853406fa27961 Samuel Holland 2022-02-13  314  				       union power_supp=
-ly_propval *val)
-75853406fa27961 Samuel Holland 2022-02-13  315  {
-75853406fa27961 Samuel Holland 2022-02-13  316  	struct ip5xxx *ip5xxx =3D =
-power_supply_get_drvdata(psy);
-75853406fa27961 Samuel Holland 2022-02-13  317  	int raw, ret, vmax;
-75853406fa27961 Samuel Holland 2022-02-13  318  	unsigned int rval;
-75853406fa27961 Samuel Holland 2022-02-13  319  =
+c01cfd0f111511 Jianbo Liu      2019-06-25  135  	/* Use metadata matching b=
+ecause vport is not represented by single
+c01cfd0f111511 Jianbo Liu      2019-06-25  136  	 * VHCA in dual-port RoCE =
+mode, and matching on source vport may fail.
+c01cfd0f111511 Jianbo Liu      2019-06-25  137  	 */
+c01cfd0f111511 Jianbo Liu      2019-06-25  138  	if (mlx5_eswitch_vport_mat=
+ch_metadata_enabled(esw)) {
+a508728a4c8bfa Vlad Buslov     2021-01-25  139  		if (mlx5_esw_indir_table_=
+decap_vport(attr))
+a508728a4c8bfa Vlad Buslov     2021-01-25  140  			vport =3D mlx5_esw_indir=
+_table_decap_vport(attr);
+166f431ec6beaf Ariel Levkovich 2021-04-29  141  =
 
-75853406fa27961 Samuel Holland 2022-02-13  320  	ret =3D ip5xxx_initialize(=
-psy);
-75853406fa27961 Samuel Holland 2022-02-13  321  	if (ret)
-75853406fa27961 Samuel Holland 2022-02-13  322  		return ret;
-75853406fa27961 Samuel Holland 2022-02-13  323  =
+cb0d54cbf94866 Ariel Levkovich 2022-03-15 @142  		if (attr && !attr->chain =
+&& esw_attr->int_port)
+166f431ec6beaf Ariel Levkovich 2021-04-29  143  			metadata =3D
+166f431ec6beaf Ariel Levkovich 2021-04-29  144  				mlx5e_tc_int_port_get_m=
+etadata_for_match(esw_attr->int_port);
+166f431ec6beaf Ariel Levkovich 2021-04-29  145  		else
+166f431ec6beaf Ariel Levkovich 2021-04-29  146  			metadata =3D
+166f431ec6beaf Ariel Levkovich 2021-04-29  147  				mlx5_eswitch_get_vport_=
+metadata_for_match(src_esw, vport);
+166f431ec6beaf Ariel Levkovich 2021-04-29  148  =
 
-75853406fa27961 Samuel Holland 2022-02-13  324  	switch (psp) {
-75853406fa27961 Samuel Holland 2022-02-13  325  	case POWER_SUPPLY_PROP_STA=
-TUS:
-75853406fa27961 Samuel Holland 2022-02-13  326  		return ip5xxx_battery_get=
-_status(ip5xxx, &val->intval);
-75853406fa27961 Samuel Holland 2022-02-13  327  =
+c01cfd0f111511 Jianbo Liu      2019-06-25  149  		misc2 =3D MLX5_ADDR_OF(ft=
+e_match_param, spec->match_value, misc_parameters_2);
+166f431ec6beaf Ariel Levkovich 2021-04-29  150  		MLX5_SET(fte_match_set_mi=
+sc2, misc2, metadata_reg_c_0, metadata);
+c01cfd0f111511 Jianbo Liu      2019-06-25  151  =
 
-75853406fa27961 Samuel Holland 2022-02-13  328  	case POWER_SUPPLY_PROP_CHA=
-RGE_TYPE:
-75853406fa27961 Samuel Holland 2022-02-13  329  		return ip5xxx_battery_get=
-_charge_type(ip5xxx, &val->intval);
-75853406fa27961 Samuel Holland 2022-02-13  330  =
+c01cfd0f111511 Jianbo Liu      2019-06-25  152  		misc2 =3D MLX5_ADDR_OF(ft=
+e_match_param, spec->match_criteria, misc_parameters_2);
+0f0d3827c0b4d6 Paul Blakey     2020-02-16  153  		MLX5_SET(fte_match_set_mi=
+sc2, misc2, metadata_reg_c_0,
+0f0d3827c0b4d6 Paul Blakey     2020-02-16  154  			 mlx5_eswitch_get_vport_=
+metadata_mask());
+c01cfd0f111511 Jianbo Liu      2019-06-25  155  =
 
-75853406fa27961 Samuel Holland 2022-02-13  331  	case POWER_SUPPLY_PROP_HEA=
-LTH:
-75853406fa27961 Samuel Holland 2022-02-13  332  		return ip5xxx_battery_get=
-_health(ip5xxx, &val->intval);
-75853406fa27961 Samuel Holland 2022-02-13  333  =
+c01cfd0f111511 Jianbo Liu      2019-06-25  156  		spec->match_criteria_enab=
+le |=3D MLX5_MATCH_MISC_PARAMETERS_2;
+c01cfd0f111511 Jianbo Liu      2019-06-25  157  	} else {
+c01cfd0f111511 Jianbo Liu      2019-06-25  158  		misc =3D MLX5_ADDR_OF(fte=
+_match_param, spec->match_value, misc_parameters);
+b055ecf5827d81 Mark Bloch      2020-10-12  159  		MLX5_SET(fte_match_set_mi=
+sc, misc, source_port, vport);
+c01cfd0f111511 Jianbo Liu      2019-06-25  160  =
 
-75853406fa27961 Samuel Holland 2022-02-13  334  	case POWER_SUPPLY_PROP_VOL=
-TAGE_MAX_DESIGN:
-75853406fa27961 Samuel Holland 2022-02-13  335  		return ip5xxx_battery_get=
-_voltage_max(ip5xxx, &val->intval);
-75853406fa27961 Samuel Holland 2022-02-13  336  =
+c01cfd0f111511 Jianbo Liu      2019-06-25  161  		if (MLX5_CAP_ESW(esw->dev=
+, merged_eswitch))
+c01cfd0f111511 Jianbo Liu      2019-06-25  162  			MLX5_SET(fte_match_set_m=
+isc, misc,
+c01cfd0f111511 Jianbo Liu      2019-06-25  163  				 source_eswitch_owner_v=
+hca_id,
+b055ecf5827d81 Mark Bloch      2020-10-12  164  				 MLX5_CAP_GEN(src_esw->=
+dev, vhca_id));
+c01cfd0f111511 Jianbo Liu      2019-06-25  165  =
 
-75853406fa27961 Samuel Holland 2022-02-13  337  	case POWER_SUPPLY_PROP_VOL=
-TAGE_NOW:
-75853406fa27961 Samuel Holland 2022-02-13  338  		ret =3D ip5xxx_battery_re=
-ad_adc(ip5xxx, IP5XXX_BATVADC_DAT0,
-75853406fa27961 Samuel Holland 2022-02-13  339  					      IP5XXX_BATVADC_D=
-AT1, &raw);
-75853406fa27961 Samuel Holland 2022-02-13  340  =
+c01cfd0f111511 Jianbo Liu      2019-06-25  166  		misc =3D MLX5_ADDR_OF(fte=
+_match_param, spec->match_criteria, misc_parameters);
+c01cfd0f111511 Jianbo Liu      2019-06-25  167  		MLX5_SET_TO_ONES(fte_matc=
+h_set_misc, misc, source_port);
+c01cfd0f111511 Jianbo Liu      2019-06-25  168  		if (MLX5_CAP_ESW(esw->dev=
+, merged_eswitch))
+c01cfd0f111511 Jianbo Liu      2019-06-25  169  			MLX5_SET_TO_ONES(fte_mat=
+ch_set_misc, misc,
+c01cfd0f111511 Jianbo Liu      2019-06-25  170  					 source_eswitch_owner_=
+vhca_id);
+c01cfd0f111511 Jianbo Liu      2019-06-25  171  =
 
-75853406fa27961 Samuel Holland 2022-02-13 @341  		val->intval =3D 2600000 +=
- DIV_ROUND_CLOSEST(raw * 26855, 100);
-75853406fa27961 Samuel Holland 2022-02-13  342  		return 0;
-75853406fa27961 Samuel Holland 2022-02-13  343  =
-
-75853406fa27961 Samuel Holland 2022-02-13  344  	case POWER_SUPPLY_PROP_VOL=
-TAGE_OCV:
-75853406fa27961 Samuel Holland 2022-02-13  345  		ret =3D ip5xxx_battery_re=
-ad_adc(ip5xxx, IP5XXX_BATOCV_DAT0,
-75853406fa27961 Samuel Holland 2022-02-13  346  					      IP5XXX_BATOCV_DA=
-T1, &raw);
-75853406fa27961 Samuel Holland 2022-02-13  347  =
-
-75853406fa27961 Samuel Holland 2022-02-13  348  		val->intval =3D 2600000 +=
- DIV_ROUND_CLOSEST(raw * 26855, 100);
-75853406fa27961 Samuel Holland 2022-02-13  349  		return 0;
-75853406fa27961 Samuel Holland 2022-02-13  350  =
-
-75853406fa27961 Samuel Holland 2022-02-13  351  	case POWER_SUPPLY_PROP_CUR=
-RENT_NOW:
-75853406fa27961 Samuel Holland 2022-02-13  352  		ret =3D ip5xxx_battery_re=
-ad_adc(ip5xxx, IP5XXX_BATIADC_DAT0,
-75853406fa27961 Samuel Holland 2022-02-13  353  					      IP5XXX_BATIADC_D=
-AT1, &raw);
-75853406fa27961 Samuel Holland 2022-02-13  354  =
-
-75853406fa27961 Samuel Holland 2022-02-13  355  		val->intval =3D DIV_ROUND=
-_CLOSEST(raw * 745985, 1000);
-75853406fa27961 Samuel Holland 2022-02-13  356  		return 0;
-75853406fa27961 Samuel Holland 2022-02-13  357  =
-
-75853406fa27961 Samuel Holland 2022-02-13  358  	case POWER_SUPPLY_PROP_CON=
-STANT_CHARGE_CURRENT:
-75853406fa27961 Samuel Holland 2022-02-13  359  		ret =3D ip5xxx_read(ip5xx=
-x, IP5XXX_CHG_CTL4A, &rval);
-75853406fa27961 Samuel Holland 2022-02-13  360  		if (ret)
-75853406fa27961 Samuel Holland 2022-02-13  361  			return ret;
-75853406fa27961 Samuel Holland 2022-02-13  362  =
-
-75853406fa27961 Samuel Holland 2022-02-13  363  		rval &=3D IP5XXX_CHG_CTL4=
-A_CONST_CUR_SEL;
-75853406fa27961 Samuel Holland 2022-02-13  364  		val->intval =3D 100000 * =
-rval;
-75853406fa27961 Samuel Holland 2022-02-13  365  		return 0;
-75853406fa27961 Samuel Holland 2022-02-13  366  =
-
-75853406fa27961 Samuel Holland 2022-02-13  367  	case POWER_SUPPLY_PROP_CON=
-STANT_CHARGE_CURRENT_MAX:
-75853406fa27961 Samuel Holland 2022-02-13  368  		val->intval =3D 100000 * =
-0x1f;
-75853406fa27961 Samuel Holland 2022-02-13  369  		return 0;
-75853406fa27961 Samuel Holland 2022-02-13  370  =
-
-75853406fa27961 Samuel Holland 2022-02-13  371  	case POWER_SUPPLY_PROP_CON=
-STANT_CHARGE_VOLTAGE:
-75853406fa27961 Samuel Holland 2022-02-13  372  		ret =3D ip5xxx_battery_ge=
-t_voltage_max(ip5xxx, &vmax);
-75853406fa27961 Samuel Holland 2022-02-13  373  		if (ret)
-75853406fa27961 Samuel Holland 2022-02-13  374  			return ret;
-75853406fa27961 Samuel Holland 2022-02-13  375  =
-
-75853406fa27961 Samuel Holland 2022-02-13  376  		ret =3D ip5xxx_read(ip5xx=
-x, IP5XXX_CHG_CTL2, &rval);
-75853406fa27961 Samuel Holland 2022-02-13  377  		if (ret)
-75853406fa27961 Samuel Holland 2022-02-13  378  			return ret;
-75853406fa27961 Samuel Holland 2022-02-13  379  =
-
-75853406fa27961 Samuel Holland 2022-02-13  380  		rval &=3D IP5XXX_CHG_CTL2=
-_CONST_VOLT_SEL;
-75853406fa27961 Samuel Holland 2022-02-13  381  		val->intval =3D vmax + 14=
-000 * (rval >> 1);
-75853406fa27961 Samuel Holland 2022-02-13  382  		return 0;
-75853406fa27961 Samuel Holland 2022-02-13  383  =
-
-75853406fa27961 Samuel Holland 2022-02-13  384  	case POWER_SUPPLY_PROP_CON=
-STANT_CHARGE_VOLTAGE_MAX:
-75853406fa27961 Samuel Holland 2022-02-13  385  		ret =3D ip5xxx_battery_ge=
-t_voltage_max(ip5xxx, &vmax);
-75853406fa27961 Samuel Holland 2022-02-13  386  		if (ret)
-75853406fa27961 Samuel Holland 2022-02-13  387  			return ret;
-75853406fa27961 Samuel Holland 2022-02-13  388  =
-
-75853406fa27961 Samuel Holland 2022-02-13  389  		val->intval =3D vmax + 14=
-000 * 3;
-75853406fa27961 Samuel Holland 2022-02-13  390  		return 0;
-75853406fa27961 Samuel Holland 2022-02-13  391  =
-
-75853406fa27961 Samuel Holland 2022-02-13  392  	default:
-75853406fa27961 Samuel Holland 2022-02-13  393  		return -EINVAL;
-75853406fa27961 Samuel Holland 2022-02-13  394  	}
-75853406fa27961 Samuel Holland 2022-02-13  395  }
-75853406fa27961 Samuel Holland 2022-02-13  396  =
+c01cfd0f111511 Jianbo Liu      2019-06-25  172  		spec->match_criteria_enab=
+le |=3D MLX5_MATCH_MISC_PARAMETERS;
+c01cfd0f111511 Jianbo Liu      2019-06-25  173  	}
+c01cfd0f111511 Jianbo Liu      2019-06-25  174  }
+c01cfd0f111511 Jianbo Liu      2019-06-25  175  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============1337017413417855317==--
+--===============2758642426746151984==--
 
