@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============0730653162634558651=="
+Content-Type: multipart/mixed; boundary="===============7096335476448726892=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [asahilinux:bits/120-spmi 3/4] drivers/nvmem/spmi-mfd-nvmem.c:40:13: warning: use of uninitialized value '<unknown>' [CWE-457]
-Date: Sun, 14 Aug 2022 23:49:27 +0800
-Message-ID: <202208142340.YtHpyTAP-lkp@intel.com>
+Subject: drivers/ata/sata_fsl.c:333:22: warning: use of uninitialized value '<unknown>' [CWE-457]
+Date: Sun, 14 Aug 2022 23:28:03 +0800
+Message-ID: <202208142356.3JFxrCpc-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0730653162634558651==
+--===============7096335476448726892==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,35 +15,39 @@ Content-Transfer-Encoding: quoted-printable
 :::::: =
 
 :::::: Manual check reason: "low confidence bisect report"
-:::::: Manual check reason: "low confidence static check warning: drivers/n=
-vmem/spmi-mfd-nvmem.c:40:13: warning: use of uninitialized value '<unknown>=
-' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]"
+:::::: Manual check reason: "low confidence static check first_new_problem:=
+ drivers/ata/sata_fsl.c:333:22: warning: use of uninitialized value '<unkno=
+wn>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]"
 :::::: =
 
 
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Hector Martin <marcan@marcan.st>
+TO: Damien Le Moal <damien.lemoal@opensource.wdc.com>
+CC: Hannes Reinecke <hare@suse.de>
 
-tree:   https://github.com/AsahiLinux/linux bits/120-spmi
-head:   0324791a3cdc3e93df57f6293e2cfaaadc264aeb
-commit: 7d8a1a4c3dddcdaa51aa354bf82074a86640794c [3/4] nvmem: Add spmi-mfd-=
-nvmem driver
-:::::: branch date: 12 days ago
-:::::: commit date: 12 days ago
-config: arm-randconfig-c002-20220804 (https://download.01.org/0day-ci/archi=
-ve/20220814/202208142340.YtHpyTAP-lkp(a)intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   aea23e7c464bfdec04b52cf61edb62030e9e0d0a
+commit: 87924c5b4094f195507bebcab96e141e48c947d7 ata: sata_fsl: add compile=
+ test support
+date:   7 months ago
+:::::: branch date: 15 hours ago
+:::::: commit date: 7 months ago
+config: arm-randconfig-c002-20220807 (https://download.01.org/0day-ci/archi=
+ve/20220814/202208142356.3JFxrCpc-lkp(a)intel.com/config)
 compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/AsahiLinux/linux/commit/7d8a1a4c3dddcdaa51aa35=
-4bf82074a86640794c
-        git remote add asahilinux https://github.com/AsahiLinux/linux
-        git fetch --no-tags asahilinux bits/120-spmi
-        git checkout 7d8a1a4c3dddcdaa51aa354bf82074a86640794c
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3D87924c5b4094f195507bebcab96e141e48c947d7
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 87924c5b4094f195507bebcab96e141e48c947d7
         # save the config file
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cross=
  ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
@@ -53,91 +57,131 @@ If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 
 gcc-analyzer warnings: (new ones prefixed by >>)
-   drivers/nvmem/spmi-mfd-nvmem.c: In function 'spmi_mfd_nvmem_probe':
->> drivers/nvmem/spmi-mfd-nvmem.c:40:13: warning: use of uninitialized valu=
-e '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-      40 |         int len;
-         |             ^~~
-     'spmi_mfd_nvmem_probe': event 1
+   drivers/ata/sata_fsl.c:1384:22: warning: initialized field overwritten [=
+-Woverride-init]
+    1384 |         .can_queue =3D SATA_FSL_QUEUE_DEPTH,
+         |                      ^~~~~~~~~~~~~~~~~~~~
+   drivers/ata/sata_fsl.c:1384:22: note: (near initialization for 'sata_fsl=
+_sht.can_queue')
+   drivers/ata/sata_fsl.c: In function 'fsl_sata_intr_coalescing_store':
+>> drivers/ata/sata_fsl.c:333:22: warning: use of uninitialized value '<unk=
+nown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+     333 |         unsigned int coalescing_count,  coalescing_ticks;
+         |                      ^~~~~~~~~~~~~~~~
+     'fsl_sata_intr_coalescing_store': event 1
        |
-       |   40 |         int len;
-       |      |             ^~~
+       |  333 |         unsigned int coalescing_count,  coalescing_ticks;
+       |      |                      ^~~~~~~~~~~~~~~~
+       |      |                      |
+       |      |                      (1) use of uninitialized value '<unkno=
+wn>' here
+       |
+   drivers/ata/sata_fsl.c:333:41: warning: use of uninitialized value '<unk=
+nown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+     333 |         unsigned int coalescing_count,  coalescing_ticks;
+         |                                         ^~~~~~~~~~~~~~~~
+     'fsl_sata_intr_coalescing_store': event 1
+       |
+       |  333 |         unsigned int coalescing_count,  coalescing_ticks;
+       |      |                                         ^~~~~~~~~~~~~~~~
+       |      |                                         |
+       |      |                                         (1) use of uninitia=
+lized value '<unknown>' here
+       |
+   drivers/ata/sata_fsl.c: In function 'fsl_sata_rx_watermark_store':
+   drivers/ata/sata_fsl.c:369:22: warning: use of uninitialized value '<unk=
+nown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+     369 |         unsigned int rx_watermark;
+         |                      ^~~~~~~~~~~~
+     'fsl_sata_rx_watermark_store': event 1
+       |
+       |  369 |         unsigned int rx_watermark;
+       |      |                      ^~~~~~~~~~~~
+       |      |                      |
+       |      |                      (1) use of uninitialized value '<unkno=
+wn>' here
+       |
+   drivers/ata/sata_fsl.c: In function 'sata_fsl_port_start':
+   drivers/ata/sata_fsl.c:707:20: warning: use of uninitialized value '<unk=
+nown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+     707 |         dma_addr_t mem_dma;
+         |                    ^~~~~~~
+     'sata_fsl_port_start': event 1
+       |
+       |  707 |         dma_addr_t mem_dma;
+       |      |                    ^~~~~~~
+       |      |                    |
+       |      |                    (1) use of uninitialized value '<unknown=
+>' here
+       |
+   drivers/ata/sata_fsl.c: In function 'sata_fsl_softreset':
+   drivers/ata/sata_fsl.c:929:13: warning: use of uninitialized value '<unk=
+nown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+     929 |         u32 Serror;
+         |             ^~~~~~
+     'sata_fsl_softreset': event 1
+       |
+       |  929 |         u32 Serror;
+       |      |             ^~~~~~
+       |      |             |
+       |      |             (1) use of uninitialized value '<unknown>' here
+       |
+   drivers/ata/sata_fsl.c: In function 'sata_fsl_host_intr':
+   drivers/ata/sata_fsl.c:1188:13: warning: use of uninitialized value '<un=
+known>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+    1188 |         u32 SError;
+         |             ^~~~~~
+     'sata_fsl_host_intr': event 1
+       |
+       | 1188 |         u32 SError;
+       |      |             ^~~~~~
        |      |             |
        |      |             (1) use of uninitialized value '<unknown>' here
        |
 
-vim +40 drivers/nvmem/spmi-mfd-nvmem.c
+vim +333 drivers/ata/sata_fsl.c
 
-7d8a1a4c3dddcd Hector Martin 2022-02-15  35  =
+6b4b8fc87dc5cb Qiang Liu 2012-02-15  328  =
 
-7d8a1a4c3dddcd Hector Martin 2022-02-15  36  static int spmi_mfd_nvmem_prob=
-e(struct platform_device *pdev)
-7d8a1a4c3dddcd Hector Martin 2022-02-15  37  {
-7d8a1a4c3dddcd Hector Martin 2022-02-15  38  	struct spmi_mfd_nvmem *nvmem;
-7d8a1a4c3dddcd Hector Martin 2022-02-15  39  	const __be32 *addr;
-7d8a1a4c3dddcd Hector Martin 2022-02-15 @40  	int len;
-7d8a1a4c3dddcd Hector Martin 2022-02-15  41  	struct nvmem_config nvmem_cfg=
- =3D {
-7d8a1a4c3dddcd Hector Martin 2022-02-15  42  		.dev =3D &pdev->dev,
-7d8a1a4c3dddcd Hector Martin 2022-02-15  43  		.name =3D "spmi_mfd_nvmem",
-7d8a1a4c3dddcd Hector Martin 2022-02-15  44  		.id =3D NVMEM_DEVID_AUTO,
-7d8a1a4c3dddcd Hector Martin 2022-02-15  45  		.word_size =3D 1,
-7d8a1a4c3dddcd Hector Martin 2022-02-15  46  		.stride =3D 1,
-7d8a1a4c3dddcd Hector Martin 2022-02-15  47  		.reg_read =3D spmi_mfd_nvmem=
-_read,
-7d8a1a4c3dddcd Hector Martin 2022-02-15  48  		.reg_write =3D spmi_mfd_nvme=
-m_write,
-7d8a1a4c3dddcd Hector Martin 2022-02-15  49  	};
-7d8a1a4c3dddcd Hector Martin 2022-02-15  50  =
+6b4b8fc87dc5cb Qiang Liu 2012-02-15  329  static ssize_t fsl_sata_intr_coal=
+escing_store(struct device *dev,
+6b4b8fc87dc5cb Qiang Liu 2012-02-15  330  		struct device_attribute *attr,
+6b4b8fc87dc5cb Qiang Liu 2012-02-15  331  		const char *buf, size_t count)
+6b4b8fc87dc5cb Qiang Liu 2012-02-15  332  {
+6b4b8fc87dc5cb Qiang Liu 2012-02-15 @333  	unsigned int coalescing_count,	c=
+oalescing_ticks;
+6b4b8fc87dc5cb Qiang Liu 2012-02-15  334  =
 
-7d8a1a4c3dddcd Hector Martin 2022-02-15  51  	nvmem =3D devm_kzalloc(&pdev-=
->dev, sizeof(*nvmem), GFP_KERNEL);
-7d8a1a4c3dddcd Hector Martin 2022-02-15  52  	if (!nvmem)
-7d8a1a4c3dddcd Hector Martin 2022-02-15  53  		return -ENOMEM;
-7d8a1a4c3dddcd Hector Martin 2022-02-15  54  =
+6b4b8fc87dc5cb Qiang Liu 2012-02-15  335  	if (sscanf(buf, "%d%d",
+6b4b8fc87dc5cb Qiang Liu 2012-02-15  336  				&coalescing_count,
+6b4b8fc87dc5cb Qiang Liu 2012-02-15  337  				&coalescing_ticks) !=3D 2) {
+6b4b8fc87dc5cb Qiang Liu 2012-02-15  338  		printk(KERN_ERR "fsl-sata: wron=
+g parameter format.\n");
+6b4b8fc87dc5cb Qiang Liu 2012-02-15  339  		return -EINVAL;
+6b4b8fc87dc5cb Qiang Liu 2012-02-15  340  	}
+6b4b8fc87dc5cb Qiang Liu 2012-02-15  341  =
 
-7d8a1a4c3dddcd Hector Martin 2022-02-15  55  	nvmem_cfg.priv =3D nvmem;
-7d8a1a4c3dddcd Hector Martin 2022-02-15  56  =
+6b4b8fc87dc5cb Qiang Liu 2012-02-15  342  	fsl_sata_set_irq_coalescing(dev_=
+get_drvdata(dev),
+6b4b8fc87dc5cb Qiang Liu 2012-02-15  343  			coalescing_count, coalescing_t=
+icks);
+6b4b8fc87dc5cb Qiang Liu 2012-02-15  344  =
 
-7d8a1a4c3dddcd Hector Martin 2022-02-15  57  	nvmem->regmap =3D dev_get_reg=
-map(pdev->dev.parent, NULL);
-7d8a1a4c3dddcd Hector Martin 2022-02-15  58  	if (!nvmem->regmap) {
-7d8a1a4c3dddcd Hector Martin 2022-02-15  59  		dev_err(&pdev->dev, "Parent =
-regmap unavailable.\n");
-7d8a1a4c3dddcd Hector Martin 2022-02-15  60  		return -ENXIO;
-7d8a1a4c3dddcd Hector Martin 2022-02-15  61  	}
-7d8a1a4c3dddcd Hector Martin 2022-02-15  62  =
+6b4b8fc87dc5cb Qiang Liu 2012-02-15  345  	return strlen(buf);
+6b4b8fc87dc5cb Qiang Liu 2012-02-15  346  }
+6b4b8fc87dc5cb Qiang Liu 2012-02-15  347  =
 
-7d8a1a4c3dddcd Hector Martin 2022-02-15  63  	addr =3D of_get_property(pdev=
-->dev.of_node, "reg", &len);
-7d8a1a4c3dddcd Hector Martin 2022-02-15  64  	if (!addr) {
-7d8a1a4c3dddcd Hector Martin 2022-02-15  65  		dev_err(&pdev->dev, "no reg =
-property\n");
-7d8a1a4c3dddcd Hector Martin 2022-02-15  66  		return -EINVAL;
-7d8a1a4c3dddcd Hector Martin 2022-02-15  67  	}
-7d8a1a4c3dddcd Hector Martin 2022-02-15  68  	if (len !=3D 2 * sizeof(u32))=
- {
-7d8a1a4c3dddcd Hector Martin 2022-02-15  69  		dev_err(&pdev->dev, "invalid=
- reg property\n");
-7d8a1a4c3dddcd Hector Martin 2022-02-15  70  		return -EINVAL;
-7d8a1a4c3dddcd Hector Martin 2022-02-15  71  	}
-7d8a1a4c3dddcd Hector Martin 2022-02-15  72  =
 
-7d8a1a4c3dddcd Hector Martin 2022-02-15  73  	nvmem->base =3D be32_to_cpup(=
-&addr[0]);
-7d8a1a4c3dddcd Hector Martin 2022-02-15  74  	nvmem_cfg.size =3D be32_to_cp=
-up(&addr[1]);
-7d8a1a4c3dddcd Hector Martin 2022-02-15  75  =
+:::::: The code at line 333 was first introduced by commit
+:::::: 6b4b8fc87dc5cbfcfb5c749dc200906471fb854c sata_fsl: add support for i=
+nterrupt coalsecing feature
 
-7d8a1a4c3dddcd Hector Martin 2022-02-15  76  	return PTR_ERR_OR_ZERO(devm_n=
-vmem_register(&pdev->dev, &nvmem_cfg));
-7d8a1a4c3dddcd Hector Martin 2022-02-15  77  }
-7d8a1a4c3dddcd Hector Martin 2022-02-15  78  =
-
+:::::: TO: Qiang Liu <qiang.liu@freescale.com>
+:::::: CC: Jeff Garzik <jgarzik@redhat.com>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============0730653162634558651==--
+--===============7096335476448726892==--
 
