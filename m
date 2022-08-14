@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============1208003935569414147=="
+Content-Type: multipart/mixed; boundary="===============9006497552421452493=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/power/supply/ip5xxx_power.c:341:63: warning: use of uninitialized value 'raw' [CWE-457]
-Date: Sun, 14 Aug 2022 16:40:05 +0800
-Message-ID: <202208141603.HgKwA5bg-lkp@intel.com>
+Subject: kernel/bpf/verifier.c:10291:18: warning: use of uninitialized value '*(int *)((char *)&u_core_relo + offsetof(bpfptr_t, is_kernel))' [CWE-457]
+Date: Sun, 14 Aug 2022 16:19:43 +0800
+Message-ID: <202208141644.fKN57p0i-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1208003935569414147==
+--===============9006497552421452493==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,39 +15,40 @@ Content-Transfer-Encoding: quoted-printable
 :::::: =
 
 :::::: Manual check reason: "low confidence bisect report"
-:::::: Manual check reason: "low confidence static check warning: drivers/p=
-ower/supply/ip5xxx_power.c:341:63: warning: use of uninitialized value 'raw=
-' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]"
+:::::: Manual check reason: "low confidence static check warning: kernel/bp=
+f/verifier.c:10291:18: warning: use of uninitialized value '*(int *)((char =
+*)&u_core_relo + offsetof(bpfptr_t, is_kernel))' [CWE-457] [-Wanalyzer-use-=
+of-uninitialized-value]"
 :::::: =
 
 
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Samuel Holland <samuel@sholland.org>
-CC: Sebastian Reichel <sebastian.reichel@collabora.com>
+TO: Alexei Starovoitov <ast@kernel.org>
+CC: Andrii Nakryiko <andrii@kernel.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   aea23e7c464bfdec04b52cf61edb62030e9e0d0a
-commit: 75853406fa27961044e7dc03c7dc8544477e81f5 power: supply: Add a drive=
-r for Injoinic power bank ICs
-date:   5 months ago
+commit: fbd94c7afcf99c9f3b1ba1168657ecc428eb2c8d bpf: Pass a set of bpf_cor=
+e_relo-s to prog_load command.
+date:   9 months ago
 :::::: branch date: 8 hours ago
-:::::: commit date: 5 months ago
-config: arm-randconfig-c002-20220814 (https://download.01.org/0day-ci/archi=
-ve/20220814/202208141603.HgKwA5bg-lkp(a)intel.com/config)
+:::::: commit date: 9 months ago
+config: arm-randconfig-c002-20220810 (https://download.01.org/0day-ci/archi=
+ve/20220814/202208141644.fKN57p0i-lkp(a)intel.com/config)
 compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D75853406fa27961044e7dc03c7dc8544477e81f5
+t/commit/?id=3Dfbd94c7afcf99c9f3b1ba1168657ecc428eb2c8d
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
 t/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout 75853406fa27961044e7dc03c7dc8544477e81f5
+        git checkout fbd94c7afcf99c9f3b1ba1168657ecc428eb2c8d
         # save the config file
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cross=
  ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
@@ -57,301 +58,355 @@ If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 
 gcc-analyzer warnings: (new ones prefixed by >>)
-   In file included from include/linux/math64.h:6,
-                    from include/linux/time64.h:5,
-                    from include/linux/restart_block.h:10,
-                    from include/linux/thread_info.h:14,
-                    from include/asm-generic/current.h:5,
-                    from arch/arm/include/asm/current.h:50,
-                    from include/linux/mutex.h:14,
-                    from include/linux/kernfs.h:11,
-                    from include/linux/sysfs.h:16,
-                    from include/linux/kobject.h:20,
-                    from include/linux/of.h:17,
-                    from include/linux/irqdomain.h:35,
-                    from include/linux/acpi.h:13,
-                    from include/linux/i2c.h:13,
-                    from drivers/power/supply/ip5xxx_power.c:5:
-   drivers/power/supply/ip5xxx_power.c: In function 'ip5xxx_battery_get_pro=
-perty':
->> drivers/power/supply/ip5xxx_power.c:341:63: warning: use of uninitialize=
-d value 'raw' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-     341 |                 val->intval =3D 2600000 + DIV_ROUND_CLOSEST(raw =
-* 26855, 100);
-         |                                                           ~~~~^~=
-~~~~~
-   include/linux/math.h:87:25: note: in definition of macro 'DIV_ROUND_CLOS=
-EST'
-      87 |         typeof(x) __x =3D x;                              \
-         |                         ^
-     'ip5xxx_battery_get_property': events 1-7
-       |
-       |drivers/power/supply/ip5xxx_power.c:312:12:
-       |  312 | static int ip5xxx_battery_get_property(struct power_supply =
-*psy,
-       |      |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |            |
-       |      |            (1) entry to 'ip5xxx_battery_get_property'
-       |......
-       |  317 |         int raw, ret, vmax;
-       |      |             ~~~
-       |      |             |
-       |      |             (2) region created on stack here
-       |......
-       |  321 |         if (ret)
-       |      |            ~
-       |      |            |
-       |      |            (3) following 'false' branch (when 'ret =3D=3D 0=
-')...
-       |......
-       |  324 |         switch (psp) {
-       |      |         ~~~~~~
-       |      |         |
-       |      |         (4) ...to here
-       |      |         (5) following 'case 12:' branch...
-       |......
-       |  337 |         case POWER_SUPPLY_PROP_VOLTAGE_NOW:
-       |      |         ~~~~
-       |      |         |
-       |      |         (6) ...to here
-       |  338 |                 ret =3D ip5xxx_battery_read_adc(ip5xxx, IP5=
-XXX_BATVADC_DAT0,
-       |      |                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~~
-       |      |                       |
-       |      |                       (7) calling 'ip5xxx_battery_read_adc'=
- from 'ip5xxx_battery_get_property'
-       |  339 |                                               IP5XXX_BATVAD=
-C_DAT1, &raw);
-       |      |                                               ~~~~~~~~~~~~~=
-~~~~~~~~~~~~~
-       |
-       +--> 'ip5xxx_battery_read_adc': events 8-11
-              |
-              |  293 | static int ip5xxx_battery_read_adc(struct ip5xxx *ip=
-5xxx,
-              |      |            ^~~~~~~~~~~~~~~~~~~~~~~
-              |      |            |
-              |      |            (8) entry to 'ip5xxx_battery_read_adc'
-              |......
-              |  300 |         if (ret)
-              |      |            ~
-              |      |            |
-              |      |            (9) following 'false' branch (when 'ret =
-=3D=3D 0')...
-              |......
-              |  303 |         ret =3D ip5xxx_read(ip5xxx, hi_reg, &hi);
-              |      |               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-              |      |               |
-              |      |               (10) ...to here
-              |      |               (11) calling 'ip5xxx_read' from 'ip5xx=
-x_battery_read_adc'
-              |
-              +--> 'ip5xxx_read': events 12-14
-                     |
-                     |   90 | static int ip5xxx_read(struct ip5xxx *ip5xxx,=
- unsigned int reg,
-                     |      |            ^~~~~~~~~~~
-                     |      |            |
-                     |      |            (12) entry to 'ip5xxx_read'
+                     |      |                             |
+                     |      |                             (21) following 'f=
+alse' branch (when 'off >=3D 0')...
                      |......
-                     |   96 |         if (ret)
-                     |      |            ~
-                     |      |            |
-                     |      |            (13) following 'true' branch (when=
- 'ret !=3D 0')...
-                     |   97 |                 ip5xxx->initialized =3D false;
-                     |      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                     |      |                                     |
-                     |      |                                     (14) ...t=
-o here
+                     | 1625 |         ret =3D find_subprog(env, off);
+                     |      |               ~~~~~~~~~~~~~~~~~~~~~~
+                     |      |               |
+                     |      |               (22) ...to here
                      |
               <------+
               |
-            'ip5xxx_battery_read_adc': events 15-16
+            'add_subprog_and_kfunc': event 23
               |
-              |  303 |         ret =3D ip5xxx_read(ip5xxx, hi_reg, &hi);
-              |      |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              | 1945 |         ret =3D add_subprog(env, 0);
+              |      |               ^~~~~~~~~~~~~~~~~~~
               |      |               |
-              |      |               (15) returning to 'ip5xxx_battery_read=
-_adc' from 'ip5xxx_read'
-              |  304 |         if (ret)
-              |      |            ~   =
-
-              |      |            |
-              |      |            (16) following 'true' branch (when 'ret !=
-=3D 0')...
-              |
-            'ip5xxx_battery_read_adc': event 17
-              |
-              |cc1:
-              | (17): ...to here
+              |      |               (23) returning to 'add_subprog_and_kfu=
+nc' from 'add_subprog'
               |
        <------+
        |
-     'ip5xxx_battery_get_property': event 18
+     'bpf_check': events 24-29
        |
-       |  338 |                 ret =3D ip5xxx_battery_read_adc(ip5xxx, IP5=
-XXX_BATVADC_DAT0,
-       |      |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~~
-       |      |                       |
-       |      |                       (18) returning to 'ip5xxx_battery_get=
-_property' from 'ip5xxx_battery_read_adc'
+       |14090 |         ret =3D add_subprog_and_kfunc(env);
+       |      |               ^~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |               |
+       |      |               (24) returning to 'bpf_check' from 'add_subpr=
+og_and_kfunc'
+       |14091 |         if (ret < 0)
+       |      |            ~   =
 
-vim +/raw +341 drivers/power/supply/ip5xxx_power.c
+       |      |            |
+       |      |            (25) following 'false' branch (when 'ret >=3D 0'=
+)...
+       |......
+       |14094 |         ret =3D check_subprogs(env);
+       |      |               ~~~~~~~~~~~~~~~~~~~
+       |      |               |
+       |      |               (26) ...to here
+       |14095 |         if (ret < 0)
+       |      |            ~   =
 
-75853406fa2796 Samuel Holland 2022-02-13  311  =
+       |      |            |
+       |      |            (27) following 'false' branch (when 'ret >=3D 0'=
+)...
+       |......
+       |14098 |         ret =3D check_btf_info(env, attr, uattr);
+       |      |               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |               |
+       |      |               (28) ...to here
+       |      |               (29) calling 'check_btf_info' from 'bpf_check'
+       |
+       +--> 'check_btf_info': events 30-39
+              |
+              |10348 | static int check_btf_info(struct bpf_verifier_env *e=
+nv,
+              |      |            ^~~~~~~~~~~~~~
+              |      |            |
+              |      |            (30) entry to 'check_btf_info'
+              |......
+              |10362 |         if (IS_ERR(btf))
+              |      |            ~
+              |      |            |
+              |      |            (31) following 'false' branch...
+              |10363 |                 return PTR_ERR(btf);
+              |10364 |         if (btf_is_kernel(btf)) {
+              |      |            ~~~~~~~~~~~~~~~~~~~
+              |      |            ||
+              |      |            |(32) ...to here
+              |      |            (33) following 'false' branch...
+              |......
+              |10368 |         env->prog->aux->btf =3D btf;
+              |      |         ~~~~~~~~~
+              |      |            |
+              |      |            (34) ...to here
+              |......
+              |10371 |         if (err)
+              |      |            ~
+              |      |            |
+              |      |            (35) following 'false' branch (when 'err =
+=3D=3D 0')...
+              |......
+              |10374 |         err =3D check_btf_line(env, attr, uattr);
+              |      |               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |               |
+              |      |               (36) ...to here
+              |10375 |         if (err)
+              |      |            ~
+              |      |            |
+              |      |            (37) following 'false' branch (when 'err =
+=3D=3D 0')...
+              |......
+              |10378 |         err =3D check_core_relo(env, attr, uattr);
+              |      |               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |               |
+              |      |               (38) ...to here
+              |      |               (39) calling 'check_core_relo' from 'c=
+heck_btf_info'
+              |
+              +--> 'check_core_relo': events 40-41
+                     |
+                     |10279 | static int check_core_relo(struct bpf_verifie=
+r_env *env,
+                     |      |            ^~~~~~~~~~~~~~~
+                     |      |            |
+                     |      |            (40) entry to 'check_core_relo'
+                     |......
+                     |10283 |         u32 i, nr_core_relo, ncopy, expected_=
+size, rec_size;
+                     |      |                                     ~~~~~~~~~=
+~~~~
+                     |      |                                     |
+                     |      |                                     (41) use =
+of uninitialized value '<unknown>' here
+                     |
+>> kernel/bpf/verifier.c:10291:18: warning: use of uninitialized value '*(i=
+nt *)((char *)&u_core_relo + offsetof(bpfptr_t, is_kernel))' [CWE-457] [-Wa=
+nalyzer-use-of-uninitialized-value]
+   10291 |         bpfptr_t u_core_relo;
+         |                  ^~~~~~~~~~~
+     'bpf_check': events 1-4
+       |
+       |14006 | int bpf_check(struct bpf_prog **prog, union bpf_attr *attr,=
+ bpfptr_t uattr)
+       |      |     ^~~~~~~~~
+       |      |     |
+       |      |     (1) entry to 'bpf_check'
+       |......
+       |14022 |         if (!env)
+       |      |            ~
+       |      |            |
+       |      |            (2) following 'false' branch (when 'env' is non-=
+NULL)...
+       |......
+       |14026 |         len =3D (*prog)->len;
+       |      |               ~~~~~~~
+       |      |                |
+       |      |                (3) ...to here
+       |......
+       |14030 |         if (!env->insn_aux_data)
+       |      |            ~
+       |      |            |
+       |      |            (4) following 'false' branch...
+       |
+     'bpf_check': event 5
+       |
+       |cc1:
+       | (5): ...to here
+       |
+     'bpf_check': events 6-7
+       |
+       |include/linux/bpfptr.h:28:12:
+       |   28 |         if (is_kernel)
+       |      |            ^
+       |      |            |
+       |      |            (6) following 'true' branch...
+       |   29 |                 return KERNEL_BPFPTR((void*) (uintptr_t) ad=
+dr);
+       |      |                                              ~~~~~~~~~~~~~~=
+~~
+       |      |                                              |
+       |      |                                              (7) ...to here
+       |
+     'bpf_check': events 8-9
+       |
+       |kernel/bpf/verifier.c:14060:12:
+       |14060 |         if (IS_ERR(btf_vmlinux)) {
+       |      |            ^
+       |      |            |
+       |      |            (8) following 'false' branch...
+       |......
+       |14067 |         env->strict_alignment =3D !!(attr->prog_flags & BPF=
+_F_STRICT_ALIGNMENT);
+       |      |                                    ~~~~~~~~~~~~~~~~
+       |      |                                        |
+       |      |                                        (9) ...to here
+       |
+     'bpf_check': event 10
+       |
+       |include/linux/slab.h:764:16:
+       |  764 |         return kvmalloc_array(n, size, flags | __GFP_ZERO);
+       |      |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |                |
+       |      |                (10) calling 'kvmalloc_array' from 'bpf_chec=
+k'
+       |
+       +--> 'kvmalloc_array': events 11-13
+              |
+              |  752 | static inline __alloc_size(1, 2) void *kvmalloc_arra=
+y(size_t n, size_t size, gfp_t flags)
+              |      |                                        ^~~~~~~~~~~~~~
+              |      |                                        |
+              |      |                                        (11) entry to=
+ 'kvmalloc_array'
+              |......
+              |  756 |         if (unlikely(check_mul_overflow(n, size, &by=
+tes)))
+              |      |            ~                            =
 
-75853406fa2796 Samuel Holland 2022-02-13  312  static int ip5xxx_battery_ge=
-t_property(struct power_supply *psy,
-75853406fa2796 Samuel Holland 2022-02-13  313  				       enum power_supply=
-_property psp,
-75853406fa2796 Samuel Holland 2022-02-13  314  				       union power_suppl=
-y_propval *val)
-75853406fa2796 Samuel Holland 2022-02-13  315  {
-75853406fa2796 Samuel Holland 2022-02-13  316  	struct ip5xxx *ip5xxx =3D p=
-ower_supply_get_drvdata(psy);
-75853406fa2796 Samuel Holland 2022-02-13  317  	int raw, ret, vmax;
-75853406fa2796 Samuel Holland 2022-02-13  318  	unsigned int rval;
-75853406fa2796 Samuel Holland 2022-02-13  319  =
+              |      |            |
+              |      |            (12) following 'false' branch...
+              |......
+              |  759 |         return kvmalloc(bytes, flags);
+              |      |                ~~~~~~~~~~~~~~~~~~~~~~   =
 
-75853406fa2796 Samuel Holland 2022-02-13  320  	ret =3D ip5xxx_initialize(p=
-sy);
-75853406fa2796 Samuel Holland 2022-02-13  321  	if (ret)
-75853406fa2796 Samuel Holland 2022-02-13  322  		return ret;
-75853406fa2796 Samuel Holland 2022-02-13  323  =
+              |      |                |
+              |      |                (13) ...to here
+              |
+       <------+
+       |
+     'bpf_check': event 14
+       |
+       |  764 |         return kvmalloc_array(n, size, flags | __GFP_ZERO);
+       |      |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |                |
+       |      |                (14) returning to 'bpf_check' from 'kvmalloc=
+_array'
+       |
+     'bpf_check': events 15-17
+       |
+       |kernel/bpf/verifier.c:14087:12:
+       |14087 |         if (!env->explored_states)
+       |      |            ^
+       |      |            |
+       |      |            (15) following 'false' branch...
+       |......
+       |14090 |         ret =3D add_subprog_and_kfunc(env);
+       |      |               ~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |               |
+       |      |               (16) ...to here
 
-75853406fa2796 Samuel Holland 2022-02-13  324  	switch (psp) {
-75853406fa2796 Samuel Holland 2022-02-13  325  	case POWER_SUPPLY_PROP_STAT=
-US:
-75853406fa2796 Samuel Holland 2022-02-13  326  		return ip5xxx_battery_get_=
-status(ip5xxx, &val->intval);
-75853406fa2796 Samuel Holland 2022-02-13  327  =
+vim +10291 kernel/bpf/verifier.c
 
-75853406fa2796 Samuel Holland 2022-02-13  328  	case POWER_SUPPLY_PROP_CHAR=
-GE_TYPE:
-75853406fa2796 Samuel Holland 2022-02-13  329  		return ip5xxx_battery_get_=
-charge_type(ip5xxx, &val->intval);
-75853406fa2796 Samuel Holland 2022-02-13  330  =
+fbd94c7afcf99c Alexei Starovoitov 2021-12-01  10278  =
 
-75853406fa2796 Samuel Holland 2022-02-13  331  	case POWER_SUPPLY_PROP_HEAL=
-TH:
-75853406fa2796 Samuel Holland 2022-02-13  332  		return ip5xxx_battery_get_=
-health(ip5xxx, &val->intval);
-75853406fa2796 Samuel Holland 2022-02-13  333  =
+fbd94c7afcf99c Alexei Starovoitov 2021-12-01  10279  static int check_core_=
+relo(struct bpf_verifier_env *env,
+fbd94c7afcf99c Alexei Starovoitov 2021-12-01  10280  			   const union bpf_=
+attr *attr,
+fbd94c7afcf99c Alexei Starovoitov 2021-12-01  10281  			   bpfptr_t uattr)
+fbd94c7afcf99c Alexei Starovoitov 2021-12-01  10282  {
+fbd94c7afcf99c Alexei Starovoitov 2021-12-01  10283  	u32 i, nr_core_relo, =
+ncopy, expected_size, rec_size;
+fbd94c7afcf99c Alexei Starovoitov 2021-12-01  10284  	struct bpf_core_relo =
+core_relo =3D {};
+fbd94c7afcf99c Alexei Starovoitov 2021-12-01  10285  	struct bpf_prog *prog=
+ =3D env->prog;
+fbd94c7afcf99c Alexei Starovoitov 2021-12-01  10286  	const struct btf *btf=
+ =3D prog->aux->btf;
+fbd94c7afcf99c Alexei Starovoitov 2021-12-01  10287  	struct bpf_core_ctx c=
+tx =3D {
+fbd94c7afcf99c Alexei Starovoitov 2021-12-01  10288  		.log =3D &env->log,
+fbd94c7afcf99c Alexei Starovoitov 2021-12-01  10289  		.btf =3D btf,
+fbd94c7afcf99c Alexei Starovoitov 2021-12-01  10290  	};
+fbd94c7afcf99c Alexei Starovoitov 2021-12-01 @10291  	bpfptr_t u_core_relo;
+fbd94c7afcf99c Alexei Starovoitov 2021-12-01  10292  	int err;
+fbd94c7afcf99c Alexei Starovoitov 2021-12-01  10293  =
 
-75853406fa2796 Samuel Holland 2022-02-13  334  	case POWER_SUPPLY_PROP_VOLT=
-AGE_MAX_DESIGN:
-75853406fa2796 Samuel Holland 2022-02-13  335  		return ip5xxx_battery_get_=
-voltage_max(ip5xxx, &val->intval);
-75853406fa2796 Samuel Holland 2022-02-13  336  =
+fbd94c7afcf99c Alexei Starovoitov 2021-12-01  10294  	nr_core_relo =3D attr=
+->core_relo_cnt;
+fbd94c7afcf99c Alexei Starovoitov 2021-12-01  10295  	if (!nr_core_relo)
+fbd94c7afcf99c Alexei Starovoitov 2021-12-01  10296  		return 0;
+fbd94c7afcf99c Alexei Starovoitov 2021-12-01  10297  	if (nr_core_relo > IN=
+T_MAX / sizeof(struct bpf_core_relo))
+fbd94c7afcf99c Alexei Starovoitov 2021-12-01  10298  		return -EINVAL;
+fbd94c7afcf99c Alexei Starovoitov 2021-12-01  10299  =
 
-75853406fa2796 Samuel Holland 2022-02-13  337  	case POWER_SUPPLY_PROP_VOLT=
-AGE_NOW:
-75853406fa2796 Samuel Holland 2022-02-13  338  		ret =3D ip5xxx_battery_rea=
-d_adc(ip5xxx, IP5XXX_BATVADC_DAT0,
-75853406fa2796 Samuel Holland 2022-02-13  339  					      IP5XXX_BATVADC_DA=
-T1, &raw);
-75853406fa2796 Samuel Holland 2022-02-13  340  =
+fbd94c7afcf99c Alexei Starovoitov 2021-12-01  10300  	rec_size =3D attr->co=
+re_relo_rec_size;
+fbd94c7afcf99c Alexei Starovoitov 2021-12-01  10301  	if (rec_size < MIN_CO=
+RE_RELO_SIZE ||
+fbd94c7afcf99c Alexei Starovoitov 2021-12-01  10302  	    rec_size > MAX_CO=
+RE_RELO_SIZE ||
+fbd94c7afcf99c Alexei Starovoitov 2021-12-01  10303  	    rec_size % sizeof=
+(u32))
+fbd94c7afcf99c Alexei Starovoitov 2021-12-01  10304  		return -EINVAL;
+fbd94c7afcf99c Alexei Starovoitov 2021-12-01  10305  =
 
-75853406fa2796 Samuel Holland 2022-02-13 @341  		val->intval =3D 2600000 + =
-DIV_ROUND_CLOSEST(raw * 26855, 100);
-75853406fa2796 Samuel Holland 2022-02-13  342  		return 0;
-75853406fa2796 Samuel Holland 2022-02-13  343  =
+fbd94c7afcf99c Alexei Starovoitov 2021-12-01  10306  	u_core_relo =3D make_=
+bpfptr(attr->core_relos, uattr.is_kernel);
+fbd94c7afcf99c Alexei Starovoitov 2021-12-01  10307  	expected_size =3D siz=
+eof(struct bpf_core_relo);
+fbd94c7afcf99c Alexei Starovoitov 2021-12-01  10308  	ncopy =3D min_t(u32, =
+expected_size, rec_size);
+fbd94c7afcf99c Alexei Starovoitov 2021-12-01  10309  =
 
-75853406fa2796 Samuel Holland 2022-02-13  344  	case POWER_SUPPLY_PROP_VOLT=
-AGE_OCV:
-75853406fa2796 Samuel Holland 2022-02-13  345  		ret =3D ip5xxx_battery_rea=
-d_adc(ip5xxx, IP5XXX_BATOCV_DAT0,
-75853406fa2796 Samuel Holland 2022-02-13  346  					      IP5XXX_BATOCV_DAT=
-1, &raw);
-75853406fa2796 Samuel Holland 2022-02-13  347  =
+fbd94c7afcf99c Alexei Starovoitov 2021-12-01  10310  	/* Unlike func_info a=
+nd line_info, copy and apply each CO-RE
+fbd94c7afcf99c Alexei Starovoitov 2021-12-01  10311  	 * relocation record =
+one at a time.
+fbd94c7afcf99c Alexei Starovoitov 2021-12-01  10312  	 */
+fbd94c7afcf99c Alexei Starovoitov 2021-12-01  10313  	for (i =3D 0; i < nr_=
+core_relo; i++) {
+fbd94c7afcf99c Alexei Starovoitov 2021-12-01  10314  		/* future proofing w=
+hen sizeof(bpf_core_relo) changes */
+fbd94c7afcf99c Alexei Starovoitov 2021-12-01  10315  		err =3D bpf_check_ua=
+rg_tail_zero(u_core_relo, expected_size, rec_size);
+fbd94c7afcf99c Alexei Starovoitov 2021-12-01  10316  		if (err) {
+fbd94c7afcf99c Alexei Starovoitov 2021-12-01  10317  			if (err =3D=3D -E2B=
+IG) {
+fbd94c7afcf99c Alexei Starovoitov 2021-12-01  10318  				verbose(env, "nonz=
+ero tailing record in core_relo");
+fbd94c7afcf99c Alexei Starovoitov 2021-12-01  10319  				if (copy_to_bpfptr=
+_offset(uattr,
+fbd94c7afcf99c Alexei Starovoitov 2021-12-01  10320  							  offsetof(unio=
+n bpf_attr, core_relo_rec_size),
+fbd94c7afcf99c Alexei Starovoitov 2021-12-01  10321  							  &expected_siz=
+e, sizeof(expected_size)))
+fbd94c7afcf99c Alexei Starovoitov 2021-12-01  10322  					err =3D -EFAULT;
+fbd94c7afcf99c Alexei Starovoitov 2021-12-01  10323  			}
+fbd94c7afcf99c Alexei Starovoitov 2021-12-01  10324  			break;
+fbd94c7afcf99c Alexei Starovoitov 2021-12-01  10325  		}
+fbd94c7afcf99c Alexei Starovoitov 2021-12-01  10326  =
 
-75853406fa2796 Samuel Holland 2022-02-13  348  		val->intval =3D 2600000 + =
-DIV_ROUND_CLOSEST(raw * 26855, 100);
-75853406fa2796 Samuel Holland 2022-02-13  349  		return 0;
-75853406fa2796 Samuel Holland 2022-02-13  350  =
+fbd94c7afcf99c Alexei Starovoitov 2021-12-01  10327  		if (copy_from_bpfptr=
+(&core_relo, u_core_relo, ncopy)) {
+fbd94c7afcf99c Alexei Starovoitov 2021-12-01  10328  			err =3D -EFAULT;
+fbd94c7afcf99c Alexei Starovoitov 2021-12-01  10329  			break;
+fbd94c7afcf99c Alexei Starovoitov 2021-12-01  10330  		}
+fbd94c7afcf99c Alexei Starovoitov 2021-12-01  10331  =
 
-75853406fa2796 Samuel Holland 2022-02-13  351  	case POWER_SUPPLY_PROP_CURR=
-ENT_NOW:
-75853406fa2796 Samuel Holland 2022-02-13  352  		ret =3D ip5xxx_battery_rea=
-d_adc(ip5xxx, IP5XXX_BATIADC_DAT0,
-75853406fa2796 Samuel Holland 2022-02-13  353  					      IP5XXX_BATIADC_DA=
-T1, &raw);
-75853406fa2796 Samuel Holland 2022-02-13  354  =
+fbd94c7afcf99c Alexei Starovoitov 2021-12-01  10332  		if (core_relo.insn_o=
+ff % 8 || core_relo.insn_off / 8 >=3D prog->len) {
+fbd94c7afcf99c Alexei Starovoitov 2021-12-01  10333  			verbose(env, "Inval=
+id core_relo[%u].insn_off:%u prog->len:%u\n",
+fbd94c7afcf99c Alexei Starovoitov 2021-12-01  10334  				i, core_relo.insn_=
+off, prog->len);
+fbd94c7afcf99c Alexei Starovoitov 2021-12-01  10335  			err =3D -EINVAL;
+fbd94c7afcf99c Alexei Starovoitov 2021-12-01  10336  			break;
+fbd94c7afcf99c Alexei Starovoitov 2021-12-01  10337  		}
+fbd94c7afcf99c Alexei Starovoitov 2021-12-01  10338  =
 
-75853406fa2796 Samuel Holland 2022-02-13  355  		val->intval =3D DIV_ROUND_=
-CLOSEST(raw * 745985, 1000);
-75853406fa2796 Samuel Holland 2022-02-13  356  		return 0;
-75853406fa2796 Samuel Holland 2022-02-13  357  =
-
-75853406fa2796 Samuel Holland 2022-02-13  358  	case POWER_SUPPLY_PROP_CONS=
-TANT_CHARGE_CURRENT:
-75853406fa2796 Samuel Holland 2022-02-13  359  		ret =3D ip5xxx_read(ip5xxx=
-, IP5XXX_CHG_CTL4A, &rval);
-75853406fa2796 Samuel Holland 2022-02-13  360  		if (ret)
-75853406fa2796 Samuel Holland 2022-02-13  361  			return ret;
-75853406fa2796 Samuel Holland 2022-02-13  362  =
-
-75853406fa2796 Samuel Holland 2022-02-13  363  		rval &=3D IP5XXX_CHG_CTL4A=
-_CONST_CUR_SEL;
-75853406fa2796 Samuel Holland 2022-02-13  364  		val->intval =3D 100000 * r=
-val;
-75853406fa2796 Samuel Holland 2022-02-13  365  		return 0;
-75853406fa2796 Samuel Holland 2022-02-13  366  =
-
-75853406fa2796 Samuel Holland 2022-02-13  367  	case POWER_SUPPLY_PROP_CONS=
-TANT_CHARGE_CURRENT_MAX:
-75853406fa2796 Samuel Holland 2022-02-13  368  		val->intval =3D 100000 * 0=
-x1f;
-75853406fa2796 Samuel Holland 2022-02-13  369  		return 0;
-75853406fa2796 Samuel Holland 2022-02-13  370  =
-
-75853406fa2796 Samuel Holland 2022-02-13  371  	case POWER_SUPPLY_PROP_CONS=
-TANT_CHARGE_VOLTAGE:
-75853406fa2796 Samuel Holland 2022-02-13  372  		ret =3D ip5xxx_battery_get=
-_voltage_max(ip5xxx, &vmax);
-75853406fa2796 Samuel Holland 2022-02-13  373  		if (ret)
-75853406fa2796 Samuel Holland 2022-02-13  374  			return ret;
-75853406fa2796 Samuel Holland 2022-02-13  375  =
-
-75853406fa2796 Samuel Holland 2022-02-13  376  		ret =3D ip5xxx_read(ip5xxx=
-, IP5XXX_CHG_CTL2, &rval);
-75853406fa2796 Samuel Holland 2022-02-13  377  		if (ret)
-75853406fa2796 Samuel Holland 2022-02-13  378  			return ret;
-75853406fa2796 Samuel Holland 2022-02-13  379  =
-
-75853406fa2796 Samuel Holland 2022-02-13  380  		rval &=3D IP5XXX_CHG_CTL2_=
-CONST_VOLT_SEL;
-75853406fa2796 Samuel Holland 2022-02-13  381  		val->intval =3D vmax + 140=
-00 * (rval >> 1);
-75853406fa2796 Samuel Holland 2022-02-13  382  		return 0;
-75853406fa2796 Samuel Holland 2022-02-13  383  =
-
-75853406fa2796 Samuel Holland 2022-02-13  384  	case POWER_SUPPLY_PROP_CONS=
-TANT_CHARGE_VOLTAGE_MAX:
-75853406fa2796 Samuel Holland 2022-02-13  385  		ret =3D ip5xxx_battery_get=
-_voltage_max(ip5xxx, &vmax);
-75853406fa2796 Samuel Holland 2022-02-13  386  		if (ret)
-75853406fa2796 Samuel Holland 2022-02-13  387  			return ret;
-75853406fa2796 Samuel Holland 2022-02-13  388  =
-
-75853406fa2796 Samuel Holland 2022-02-13  389  		val->intval =3D vmax + 140=
-00 * 3;
-75853406fa2796 Samuel Holland 2022-02-13  390  		return 0;
-75853406fa2796 Samuel Holland 2022-02-13  391  =
-
-75853406fa2796 Samuel Holland 2022-02-13  392  	default:
-75853406fa2796 Samuel Holland 2022-02-13  393  		return -EINVAL;
-75853406fa2796 Samuel Holland 2022-02-13  394  	}
-75853406fa2796 Samuel Holland 2022-02-13  395  }
-75853406fa2796 Samuel Holland 2022-02-13  396  =
+fbd94c7afcf99c Alexei Starovoitov 2021-12-01  10339  		err =3D bpf_core_app=
+ly(&ctx, &core_relo, i,
+fbd94c7afcf99c Alexei Starovoitov 2021-12-01  10340  				     &prog->insnsi=
+[core_relo.insn_off / 8]);
+fbd94c7afcf99c Alexei Starovoitov 2021-12-01  10341  		if (err)
+fbd94c7afcf99c Alexei Starovoitov 2021-12-01  10342  			break;
+fbd94c7afcf99c Alexei Starovoitov 2021-12-01  10343  		bpfptr_add(&u_core_r=
+elo, rec_size);
+fbd94c7afcf99c Alexei Starovoitov 2021-12-01  10344  	}
+fbd94c7afcf99c Alexei Starovoitov 2021-12-01  10345  	return err;
+fbd94c7afcf99c Alexei Starovoitov 2021-12-01  10346  }
+fbd94c7afcf99c Alexei Starovoitov 2021-12-01  10347  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============1208003935569414147==--
+--===============9006497552421452493==--
 
