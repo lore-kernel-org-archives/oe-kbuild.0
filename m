@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============0808166431406717438=="
+Content-Type: multipart/mixed; boundary="===============1208003935569414147=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: include/linux/fortify-string.h:43:33: warning: use of NULL 'nonce' where non-null expected [CWE-476]
-Date: Sun, 14 Aug 2022 17:10:54 +0800
-Message-ID: <202208141743.AELvZxu4-lkp@intel.com>
+Subject: drivers/power/supply/ip5xxx_power.c:341:63: warning: use of uninitialized value 'raw' [CWE-457]
+Date: Sun, 14 Aug 2022 16:40:05 +0800
+Message-ID: <202208141603.HgKwA5bg-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0808166431406717438==
+--===============1208003935569414147==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,38 +15,39 @@ Content-Transfer-Encoding: quoted-printable
 :::::: =
 
 :::::: Manual check reason: "low confidence bisect report"
-:::::: Manual check reason: "low confidence static check warning: include/l=
-inux/fortify-string.h:43:33: warning: use of NULL 'nonce' where non-null ex=
-pected [CWE-476] [-Wanalyzer-null-argument]"
+:::::: Manual check reason: "low confidence static check warning: drivers/p=
+ower/supply/ip5xxx_power.c:341:63: warning: use of uninitialized value 'raw=
+' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]"
 :::::: =
 
 
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Kees Cook <keescook@chromium.org>
+TO: Samuel Holland <samuel@sholland.org>
+CC: Sebastian Reichel <sebastian.reichel@collabora.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   aea23e7c464bfdec04b52cf61edb62030e9e0d0a
-commit: 28e77cc1c0686621a4d416f599cee5ab369daa0a fortify: Detect struct mem=
-ber overflows in memset() at compile-time
-date:   6 months ago
-:::::: branch date: 9 hours ago
-:::::: commit date: 6 months ago
+commit: 75853406fa27961044e7dc03c7dc8544477e81f5 power: supply: Add a drive=
+r for Injoinic power bank ICs
+date:   5 months ago
+:::::: branch date: 8 hours ago
+:::::: commit date: 5 months ago
 config: arm-randconfig-c002-20220814 (https://download.01.org/0day-ci/archi=
-ve/20220814/202208141743.AELvZxu4-lkp(a)intel.com/config)
+ve/20220814/202208141603.HgKwA5bg-lkp(a)intel.com/config)
 compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D28e77cc1c0686621a4d416f599cee5ab369daa0a
+t/commit/?id=3D75853406fa27961044e7dc03c7dc8544477e81f5
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
 t/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout 28e77cc1c0686621a4d416f599cee5ab369daa0a
+        git checkout 75853406fa27961044e7dc03c7dc8544477e81f5
         # save the config file
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cross=
  ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
@@ -56,214 +57,301 @@ If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 
 gcc-analyzer warnings: (new ones prefixed by >>)
-   In file included from include/linux/string.h:253,
-                    from include/linux/bitmap.h:11,
-                    from include/linux/cpumask.h:12,
-                    from include/linux/smp.h:13,
-                    from include/linux/lockdep.h:14,
-                    from include/linux/spinlock.h:62,
-                    from include/linux/mmzone.h:8,
-                    from include/linux/gfp.h:6,
-                    from include/linux/slab.h:15,
-                    from include/linux/crypto.h:20,
-                    from include/crypto/skcipher.h:12,
-                    from fs/crypto/keysetup.c:11:
-   fs/crypto/keysetup.c: In function 'fscrypt_setup_encryption_info':
->> include/linux/fortify-string.h:43:33: warning: use of NULL 'nonce' where=
- non-null expected [CWE-476] [-Wanalyzer-null-argument]
-      43 | #define __underlying_memcpy     __builtin_memcpy
-         |                                 ^
-   include/linux/fortify-string.h:340:9: note: in expansion of macro '__und=
-erlying_memcpy'
-     340 |         __underlying_##op(p, q, __fortify_size);                =
-        \
-         |         ^~~~~~~~~~~~~
-   include/linux/fortify-string.h:347:26: note: in expansion of macro '__fo=
-rtify_memcpy_chk'
-     347 | #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,          =
-        \
-         |                          ^~~~~~~~~~~~~~~~~~~~
-   fs/crypto/keysetup.c:555:9: note: in expansion of macro 'memcpy'
-     555 |         memcpy(crypt_info->ci_nonce, nonce, FSCRYPT_FILE_NONCE_S=
-IZE);
-         |         ^~~~~~
-     'fscrypt_get_encryption_info': events 1-10
+   In file included from include/linux/math64.h:6,
+                    from include/linux/time64.h:5,
+                    from include/linux/restart_block.h:10,
+                    from include/linux/thread_info.h:14,
+                    from include/asm-generic/current.h:5,
+                    from arch/arm/include/asm/current.h:50,
+                    from include/linux/mutex.h:14,
+                    from include/linux/kernfs.h:11,
+                    from include/linux/sysfs.h:16,
+                    from include/linux/kobject.h:20,
+                    from include/linux/of.h:17,
+                    from include/linux/irqdomain.h:35,
+                    from include/linux/acpi.h:13,
+                    from include/linux/i2c.h:13,
+                    from drivers/power/supply/ip5xxx_power.c:5:
+   drivers/power/supply/ip5xxx_power.c: In function 'ip5xxx_battery_get_pro=
+perty':
+>> drivers/power/supply/ip5xxx_power.c:341:63: warning: use of uninitialize=
+d value 'raw' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+     341 |                 val->intval =3D 2600000 + DIV_ROUND_CLOSEST(raw =
+* 26855, 100);
+         |                                                           ~~~~^~=
+~~~~~
+   include/linux/math.h:87:25: note: in definition of macro 'DIV_ROUND_CLOS=
+EST'
+      87 |         typeof(x) __x =3D x;                              \
+         |                         ^
+     'ip5xxx_battery_get_property': events 1-7
        |
-       |  622 | int fscrypt_get_encryption_info(struct inode *inode, bool a=
-llow_unsupported)
-       |      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |     |
-       |      |     (1) entry to 'fscrypt_get_encryption_info'
+       |drivers/power/supply/ip5xxx_power.c:312:12:
+       |  312 | static int ip5xxx_battery_get_property(struct power_supply =
+*psy,
+       |      |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |            |
+       |      |            (1) entry to 'ip5xxx_battery_get_property'
        |......
-       |  628 |         if (fscrypt_has_encryption_key(inode))
+       |  317 |         int raw, ret, vmax;
+       |      |             ~~~
+       |      |             |
+       |      |             (2) region created on stack here
+       |......
+       |  321 |         if (ret)
        |      |            ~
        |      |            |
-       |      |            (2) following 'false' branch...
-       |......
-       |  631 |         res =3D inode->i_sb->s_cop->get_context(inode, &ctx=
-, sizeof(ctx));
-       |      |               ~~~~~~~~~~~
-       |      |                    |
-       |      |                    (3) ...to here
-       |  632 |         if (res < 0) {
-       |      |            ~
-       |      |            |
-       |      |            (4) following 'false' branch (when 'res >=3D 0')=
-...
-       |......
-       |  639 |         res =3D fscrypt_policy_from_context(&policy, &ctx, =
-res);
-       |      |               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~
-       |      |               |
-       |      |               (5) ...to here
-       |  640 |         if (res) {
-       |      |            ~
-       |      |            |
-       |      |            (6) following 'false' branch (when 'res =3D=3D 0=
+       |      |            (3) following 'false' branch (when 'ret =3D=3D 0=
 ')...
        |......
-       |  648 |         if (!fscrypt_supported_policy(&policy, inode)) {
-       |      |            ~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |            | |
-       |      |            | (7) ...to here
-       |      |            (8) following 'true' branch...
+       |  324 |         switch (psp) {
+       |      |         ~~~~~~
+       |      |         |
+       |      |         (4) ...to here
+       |      |         (5) following 'case 12:' branch...
        |......
-       |  654 |         res =3D fscrypt_setup_encryption_info(inode, &polic=
-y,
-       |      |               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |               |
-       |      |               (9) ...to here
-       |      |               (10) calling 'fscrypt_context_nonce' from 'fs=
-crypt_get_encryption_info'
-       |  655 |                                             fscrypt_context=
-_nonce(&ctx),
-       |      |                                             ~~~~~~~~~~~~~~~=
+       |  337 |         case POWER_SUPPLY_PROP_VOLTAGE_NOW:
+       |      |         ~~~~
+       |      |         |
+       |      |         (6) ...to here
+       |  338 |                 ret =3D ip5xxx_battery_read_adc(ip5xxx, IP5=
+XXX_BATVADC_DAT0,
+       |      |                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~
+       |      |                       |
+       |      |                       (7) calling 'ip5xxx_battery_read_adc'=
+ from 'ip5xxx_battery_get_property'
+       |  339 |                                               IP5XXX_BATVAD=
+C_DAT1, &raw);
+       |      |                                               ~~~~~~~~~~~~~=
 ~~~~~~~~~~~~~
-       |  656 |                                             IS_CASEFOLDED(i=
-node) &&
-       |      |                                             ~~~~~~~~~~~~~~~=
-~~~~~~~~
-       |  657 |                                             S_ISDIR(inode->=
-i_mode));
-       |      |                                             ~~~~~~~~~~~~~~~=
-~~~~~~~~
        |
-       +--> 'fscrypt_context_nonce': events 11-12
+       +--> 'ip5xxx_battery_read_adc': events 8-11
               |
-              |fs/crypto/fscrypt_private.h:96:25:
-              |   96 | static inline const u8 *fscrypt_context_nonce(const =
-union fscrypt_context *ctx)
-              |      |                         ^~~~~~~~~~~~~~~~~~~~~
-              |      |                         |
-              |      |                         (11) entry to 'fscrypt_conte=
-xt_nonce'
-              |   97 | {
-              |   98 |         switch (ctx->version) {
-              |      |         ~~~~~~           =
+              |  293 | static int ip5xxx_battery_read_adc(struct ip5xxx *ip=
+5xxx,
+              |      |            ^~~~~~~~~~~~~~~~~~~~~~~
+              |      |            |
+              |      |            (8) entry to 'ip5xxx_battery_read_adc'
+              |......
+              |  300 |         if (ret)
+              |      |            ~
+              |      |            |
+              |      |            (9) following 'false' branch (when 'ret =
+=3D=3D 0')...
+              |......
+              |  303 |         ret =3D ip5xxx_read(ip5xxx, hi_reg, &hi);
+              |      |               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |               |
+              |      |               (10) ...to here
+              |      |               (11) calling 'ip5xxx_read' from 'ip5xx=
+x_battery_read_adc'
+              |
+              +--> 'ip5xxx_read': events 12-14
+                     |
+                     |   90 | static int ip5xxx_read(struct ip5xxx *ip5xxx,=
+ unsigned int reg,
+                     |      |            ^~~~~~~~~~~
+                     |      |            |
+                     |      |            (12) entry to 'ip5xxx_read'
+                     |......
+                     |   96 |         if (ret)
+                     |      |            ~
+                     |      |            |
+                     |      |            (13) following 'true' branch (when=
+ 'ret !=3D 0')...
+                     |   97 |                 ip5xxx->initialized =3D false;
+                     |      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                     |      |                                     |
+                     |      |                                     (14) ...t=
+o here
+                     |
+              <------+
+              |
+            'ip5xxx_battery_read_adc': events 15-16
+              |
+              |  303 |         ret =3D ip5xxx_read(ip5xxx, hi_reg, &hi);
+              |      |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |               |
+              |      |               (15) returning to 'ip5xxx_battery_read=
+_adc' from 'ip5xxx_read'
+              |  304 |         if (ret)
+              |      |            ~   =
 
-              |      |         |
-              |      |         (12) following 'default:' branch...
+              |      |            |
+              |      |            (16) following 'true' branch (when 'ret !=
+=3D 0')...
               |
-            'fscrypt_context_nonce': event 13
+            'ip5xxx_battery_read_adc': event 17
               |
               |cc1:
-              | (13): ...to here
+              | (17): ...to here
               |
        <------+
        |
-     'fscrypt_get_encryption_info': events 14-15
+     'ip5xxx_battery_get_property': event 18
        |
-       |fs/crypto/keysetup.c:654:15:
-       |  654 |         res =3D fscrypt_setup_encryption_info(inode, &polic=
-y,
-       |      |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |               |
-       |      |               (14) returning to 'fscrypt_get_encryption_inf=
-o' from 'fscrypt_context_nonce'
-       |      |               (15) calling 'fscrypt_setup_encryption_info' =
-from 'fscrypt_get_encryption_info'
-       |  655 |                                             fscrypt_context=
-_nonce(&ctx),
-       |      |                                             ~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~
-       |  656 |                                             IS_CASEFOLDED(i=
-node) &&
-       |      |                                             ~~~~~~~~~~~~~~~=
-~~~~~~~~
-       |  657 |                                             S_ISDIR(inode->=
-i_mode));
-       |      |                                             ~~~~~~~~~~~~~~~=
-~~~~~~~~
-       |
-       +--> 'fscrypt_setup_encryption_info': events 16-20
-              |
-              |  535 | fscrypt_setup_encryption_info(struct inode *inode,
-              |      | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-              |      | |
-              |      | (16) entry to 'fscrypt_setup_encryption_info'
+       |  338 |                 ret =3D ip5xxx_battery_read_adc(ip5xxx, IP5=
+XXX_BATVADC_DAT0,
+       |      |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~
+       |      |                       |
+       |      |                       (18) returning to 'ip5xxx_battery_get=
+_property' from 'ip5xxx_battery_read_adc'
 
-vim +/nonce +43 include/linux/fortify-string.h
+vim +/raw +341 drivers/power/supply/ip5xxx_power.c
 
-3009f891bb9f32 Kees Cook      2021-08-02  28  =
+75853406fa2796 Samuel Holland 2022-02-13  311  =
 
-a28a6e860c6cf2 Francis Laniel 2021-02-25  29  #if defined(CONFIG_KASAN_GENE=
-RIC) || defined(CONFIG_KASAN_SW_TAGS)
-a28a6e860c6cf2 Francis Laniel 2021-02-25  30  extern void *__underlying_mem=
-chr(const void *p, int c, __kernel_size_t size) __RENAME(memchr);
-a28a6e860c6cf2 Francis Laniel 2021-02-25  31  extern int __underlying_memcm=
-p(const void *p, const void *q, __kernel_size_t size) __RENAME(memcmp);
-a28a6e860c6cf2 Francis Laniel 2021-02-25  32  extern void *__underlying_mem=
-cpy(void *p, const void *q, __kernel_size_t size) __RENAME(memcpy);
-a28a6e860c6cf2 Francis Laniel 2021-02-25  33  extern void *__underlying_mem=
-move(void *p, const void *q, __kernel_size_t size) __RENAME(memmove);
-a28a6e860c6cf2 Francis Laniel 2021-02-25  34  extern void *__underlying_mem=
-set(void *p, int c, __kernel_size_t size) __RENAME(memset);
-a28a6e860c6cf2 Francis Laniel 2021-02-25  35  extern char *__underlying_str=
-cat(char *p, const char *q) __RENAME(strcat);
-a28a6e860c6cf2 Francis Laniel 2021-02-25  36  extern char *__underlying_str=
-cpy(char *p, const char *q) __RENAME(strcpy);
-a28a6e860c6cf2 Francis Laniel 2021-02-25  37  extern __kernel_size_t __unde=
-rlying_strlen(const char *p) __RENAME(strlen);
-a28a6e860c6cf2 Francis Laniel 2021-02-25  38  extern char *__underlying_str=
-ncat(char *p, const char *q, __kernel_size_t count) __RENAME(strncat);
-a28a6e860c6cf2 Francis Laniel 2021-02-25  39  extern char *__underlying_str=
-ncpy(char *p, const char *q, __kernel_size_t size) __RENAME(strncpy);
-a28a6e860c6cf2 Francis Laniel 2021-02-25  40  #else
-a28a6e860c6cf2 Francis Laniel 2021-02-25  41  #define __underlying_memchr	_=
-_builtin_memchr
-a28a6e860c6cf2 Francis Laniel 2021-02-25  42  #define __underlying_memcmp	_=
-_builtin_memcmp
-a28a6e860c6cf2 Francis Laniel 2021-02-25 @43  #define __underlying_memcpy	_=
-_builtin_memcpy
-a28a6e860c6cf2 Francis Laniel 2021-02-25  44  #define __underlying_memmove	=
-__builtin_memmove
-a28a6e860c6cf2 Francis Laniel 2021-02-25  45  #define __underlying_memset	_=
-_builtin_memset
-a28a6e860c6cf2 Francis Laniel 2021-02-25  46  #define __underlying_strcat	_=
-_builtin_strcat
-a28a6e860c6cf2 Francis Laniel 2021-02-25  47  #define __underlying_strcpy	_=
-_builtin_strcpy
-a28a6e860c6cf2 Francis Laniel 2021-02-25  48  #define __underlying_strlen	_=
-_builtin_strlen
-a28a6e860c6cf2 Francis Laniel 2021-02-25  49  #define __underlying_strncat	=
-__builtin_strncat
-a28a6e860c6cf2 Francis Laniel 2021-02-25  50  #define __underlying_strncpy	=
-__builtin_strncpy
-a28a6e860c6cf2 Francis Laniel 2021-02-25  51  #endif
-a28a6e860c6cf2 Francis Laniel 2021-02-25  52  =
+75853406fa2796 Samuel Holland 2022-02-13  312  static int ip5xxx_battery_ge=
+t_property(struct power_supply *psy,
+75853406fa2796 Samuel Holland 2022-02-13  313  				       enum power_supply=
+_property psp,
+75853406fa2796 Samuel Holland 2022-02-13  314  				       union power_suppl=
+y_propval *val)
+75853406fa2796 Samuel Holland 2022-02-13  315  {
+75853406fa2796 Samuel Holland 2022-02-13  316  	struct ip5xxx *ip5xxx =3D p=
+ower_supply_get_drvdata(psy);
+75853406fa2796 Samuel Holland 2022-02-13  317  	int raw, ret, vmax;
+75853406fa2796 Samuel Holland 2022-02-13  318  	unsigned int rval;
+75853406fa2796 Samuel Holland 2022-02-13  319  =
 
+75853406fa2796 Samuel Holland 2022-02-13  320  	ret =3D ip5xxx_initialize(p=
+sy);
+75853406fa2796 Samuel Holland 2022-02-13  321  	if (ret)
+75853406fa2796 Samuel Holland 2022-02-13  322  		return ret;
+75853406fa2796 Samuel Holland 2022-02-13  323  =
 
-:::::: The code at line 43 was first introduced by commit
-:::::: a28a6e860c6cf231cf3c5171c75c342adcd00406 string.h: move fortified fu=
-nctions definitions in a dedicated header.
+75853406fa2796 Samuel Holland 2022-02-13  324  	switch (psp) {
+75853406fa2796 Samuel Holland 2022-02-13  325  	case POWER_SUPPLY_PROP_STAT=
+US:
+75853406fa2796 Samuel Holland 2022-02-13  326  		return ip5xxx_battery_get_=
+status(ip5xxx, &val->intval);
+75853406fa2796 Samuel Holland 2022-02-13  327  =
 
-:::::: TO: Francis Laniel <laniel_francis@privacyrequired.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+75853406fa2796 Samuel Holland 2022-02-13  328  	case POWER_SUPPLY_PROP_CHAR=
+GE_TYPE:
+75853406fa2796 Samuel Holland 2022-02-13  329  		return ip5xxx_battery_get_=
+charge_type(ip5xxx, &val->intval);
+75853406fa2796 Samuel Holland 2022-02-13  330  =
+
+75853406fa2796 Samuel Holland 2022-02-13  331  	case POWER_SUPPLY_PROP_HEAL=
+TH:
+75853406fa2796 Samuel Holland 2022-02-13  332  		return ip5xxx_battery_get_=
+health(ip5xxx, &val->intval);
+75853406fa2796 Samuel Holland 2022-02-13  333  =
+
+75853406fa2796 Samuel Holland 2022-02-13  334  	case POWER_SUPPLY_PROP_VOLT=
+AGE_MAX_DESIGN:
+75853406fa2796 Samuel Holland 2022-02-13  335  		return ip5xxx_battery_get_=
+voltage_max(ip5xxx, &val->intval);
+75853406fa2796 Samuel Holland 2022-02-13  336  =
+
+75853406fa2796 Samuel Holland 2022-02-13  337  	case POWER_SUPPLY_PROP_VOLT=
+AGE_NOW:
+75853406fa2796 Samuel Holland 2022-02-13  338  		ret =3D ip5xxx_battery_rea=
+d_adc(ip5xxx, IP5XXX_BATVADC_DAT0,
+75853406fa2796 Samuel Holland 2022-02-13  339  					      IP5XXX_BATVADC_DA=
+T1, &raw);
+75853406fa2796 Samuel Holland 2022-02-13  340  =
+
+75853406fa2796 Samuel Holland 2022-02-13 @341  		val->intval =3D 2600000 + =
+DIV_ROUND_CLOSEST(raw * 26855, 100);
+75853406fa2796 Samuel Holland 2022-02-13  342  		return 0;
+75853406fa2796 Samuel Holland 2022-02-13  343  =
+
+75853406fa2796 Samuel Holland 2022-02-13  344  	case POWER_SUPPLY_PROP_VOLT=
+AGE_OCV:
+75853406fa2796 Samuel Holland 2022-02-13  345  		ret =3D ip5xxx_battery_rea=
+d_adc(ip5xxx, IP5XXX_BATOCV_DAT0,
+75853406fa2796 Samuel Holland 2022-02-13  346  					      IP5XXX_BATOCV_DAT=
+1, &raw);
+75853406fa2796 Samuel Holland 2022-02-13  347  =
+
+75853406fa2796 Samuel Holland 2022-02-13  348  		val->intval =3D 2600000 + =
+DIV_ROUND_CLOSEST(raw * 26855, 100);
+75853406fa2796 Samuel Holland 2022-02-13  349  		return 0;
+75853406fa2796 Samuel Holland 2022-02-13  350  =
+
+75853406fa2796 Samuel Holland 2022-02-13  351  	case POWER_SUPPLY_PROP_CURR=
+ENT_NOW:
+75853406fa2796 Samuel Holland 2022-02-13  352  		ret =3D ip5xxx_battery_rea=
+d_adc(ip5xxx, IP5XXX_BATIADC_DAT0,
+75853406fa2796 Samuel Holland 2022-02-13  353  					      IP5XXX_BATIADC_DA=
+T1, &raw);
+75853406fa2796 Samuel Holland 2022-02-13  354  =
+
+75853406fa2796 Samuel Holland 2022-02-13  355  		val->intval =3D DIV_ROUND_=
+CLOSEST(raw * 745985, 1000);
+75853406fa2796 Samuel Holland 2022-02-13  356  		return 0;
+75853406fa2796 Samuel Holland 2022-02-13  357  =
+
+75853406fa2796 Samuel Holland 2022-02-13  358  	case POWER_SUPPLY_PROP_CONS=
+TANT_CHARGE_CURRENT:
+75853406fa2796 Samuel Holland 2022-02-13  359  		ret =3D ip5xxx_read(ip5xxx=
+, IP5XXX_CHG_CTL4A, &rval);
+75853406fa2796 Samuel Holland 2022-02-13  360  		if (ret)
+75853406fa2796 Samuel Holland 2022-02-13  361  			return ret;
+75853406fa2796 Samuel Holland 2022-02-13  362  =
+
+75853406fa2796 Samuel Holland 2022-02-13  363  		rval &=3D IP5XXX_CHG_CTL4A=
+_CONST_CUR_SEL;
+75853406fa2796 Samuel Holland 2022-02-13  364  		val->intval =3D 100000 * r=
+val;
+75853406fa2796 Samuel Holland 2022-02-13  365  		return 0;
+75853406fa2796 Samuel Holland 2022-02-13  366  =
+
+75853406fa2796 Samuel Holland 2022-02-13  367  	case POWER_SUPPLY_PROP_CONS=
+TANT_CHARGE_CURRENT_MAX:
+75853406fa2796 Samuel Holland 2022-02-13  368  		val->intval =3D 100000 * 0=
+x1f;
+75853406fa2796 Samuel Holland 2022-02-13  369  		return 0;
+75853406fa2796 Samuel Holland 2022-02-13  370  =
+
+75853406fa2796 Samuel Holland 2022-02-13  371  	case POWER_SUPPLY_PROP_CONS=
+TANT_CHARGE_VOLTAGE:
+75853406fa2796 Samuel Holland 2022-02-13  372  		ret =3D ip5xxx_battery_get=
+_voltage_max(ip5xxx, &vmax);
+75853406fa2796 Samuel Holland 2022-02-13  373  		if (ret)
+75853406fa2796 Samuel Holland 2022-02-13  374  			return ret;
+75853406fa2796 Samuel Holland 2022-02-13  375  =
+
+75853406fa2796 Samuel Holland 2022-02-13  376  		ret =3D ip5xxx_read(ip5xxx=
+, IP5XXX_CHG_CTL2, &rval);
+75853406fa2796 Samuel Holland 2022-02-13  377  		if (ret)
+75853406fa2796 Samuel Holland 2022-02-13  378  			return ret;
+75853406fa2796 Samuel Holland 2022-02-13  379  =
+
+75853406fa2796 Samuel Holland 2022-02-13  380  		rval &=3D IP5XXX_CHG_CTL2_=
+CONST_VOLT_SEL;
+75853406fa2796 Samuel Holland 2022-02-13  381  		val->intval =3D vmax + 140=
+00 * (rval >> 1);
+75853406fa2796 Samuel Holland 2022-02-13  382  		return 0;
+75853406fa2796 Samuel Holland 2022-02-13  383  =
+
+75853406fa2796 Samuel Holland 2022-02-13  384  	case POWER_SUPPLY_PROP_CONS=
+TANT_CHARGE_VOLTAGE_MAX:
+75853406fa2796 Samuel Holland 2022-02-13  385  		ret =3D ip5xxx_battery_get=
+_voltage_max(ip5xxx, &vmax);
+75853406fa2796 Samuel Holland 2022-02-13  386  		if (ret)
+75853406fa2796 Samuel Holland 2022-02-13  387  			return ret;
+75853406fa2796 Samuel Holland 2022-02-13  388  =
+
+75853406fa2796 Samuel Holland 2022-02-13  389  		val->intval =3D vmax + 140=
+00 * 3;
+75853406fa2796 Samuel Holland 2022-02-13  390  		return 0;
+75853406fa2796 Samuel Holland 2022-02-13  391  =
+
+75853406fa2796 Samuel Holland 2022-02-13  392  	default:
+75853406fa2796 Samuel Holland 2022-02-13  393  		return -EINVAL;
+75853406fa2796 Samuel Holland 2022-02-13  394  	}
+75853406fa2796 Samuel Holland 2022-02-13  395  }
+75853406fa2796 Samuel Holland 2022-02-13  396  =
+
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============0808166431406717438==--
+--===============1208003935569414147==--
 
