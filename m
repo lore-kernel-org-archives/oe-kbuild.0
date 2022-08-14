@@ -1,193 +1,134 @@
-Content-Type: multipart/mixed; boundary="===============9200619428652011170=="
+Content-Type: multipart/mixed; boundary="===============4914245678579680478=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH] Input: HID-rmi - ignore to rmi_hid_read_block after system resumes.
-Date: Sun, 14 Aug 2022 22:55:56 +0800
-Message-ID: <202208142212.QB3fvm5l-lkp@intel.com>
+Subject: drivers/vfio/fsl-mc/vfio_fsl_mc.c:79:21: warning: use of uninitialized value '<unknown>' [CWE-457]
+Date: Sun, 14 Aug 2022 22:44:50 +0800
+Message-ID: <202208142248.XcwPK3kT-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============9200619428652011170==
+--===============4914245678579680478==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+:::::: =
+
+:::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "low confidence static check warning: drivers/v=
+fio/fsl-mc/vfio_fsl_mc.c:79:21: warning: use of uninitialized value '<unkno=
+wn>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]"
+:::::: =
+
+
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <1659336403-2546-1-git-send-email-marge.yang@synaptics.corp-=
-partner.google.com>
-References: <1659336403-2546-1-git-send-email-marge.yang@synaptics.corp-p=
-artner.google.com>
-TO: margeyang <marge.yang@synaptics.corp-partner.google.com>
-TO: dmitry.torokhov(a)gmail.com
-TO: linux-input(a)vger.kernel.org
-TO: linux-kernel(a)vger.kernel.org
-CC: marge.yang(a)tw.synaptics.com
-CC: derek.chegn(a)tw.synaptcs.com
-CC: vincent.huang(a)tw.synaptics.com
-CC: Marge Yang <marge.yang@synaptics.corp-partner.google.com>
+CC: linux-kernel(a)vger.kernel.org
+TO: Diana Craciun <diana.craciun@oss.nxp.com>
+CC: Alex Williamson <alex.williamson@redhat.com>
+CC: Laurentiu Tudor <laurentiu.tudor@nxp.com>
 
-Hi margeyang,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   aea23e7c464bfdec04b52cf61edb62030e9e0d0a
+commit: 8798a803ddf6329dc3b995775862b571db4909d2 vfio/fsl-mc: Add per devic=
+e reset support
+date:   11 months ago
+:::::: branch date: 14 hours ago
+:::::: commit date: 11 months ago
+config: arm-randconfig-c002-20220808 (https://download.01.org/0day-ci/archi=
+ve/20220814/202208142248.XcwPK3kT-lkp(a)intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3D8798a803ddf6329dc3b995775862b571db4909d2
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 8798a803ddf6329dc3b995775862b571db4909d2
+        # save the config file
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cross=
+ ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
 
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on hid/for-next]
-[also build test WARNING on dtor-input/next linus/master v5.19 next-2022081=
-2]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/margeyang/Input-HID-=
-rmi-ignore-to-rmi_hid_read_block-after-system-resumes/20220801-145006
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-next
-:::::: branch date: 13 days ago
-:::::: commit date: 13 days ago
-config: x86_64-randconfig-m001-20220801 (https://download.01.org/0day-ci/ar=
-chive/20220814/202208142212.QB3fvm5l-lkp(a)intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-3) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-drivers/hid/hid-rmi.c:263 rmi_hid_read_block() error: uninitialized symbol =
-'ret'.
+gcc-analyzer warnings: (new ones prefixed by >>)
+   drivers/vfio/fsl-mc/vfio_fsl_mc.c: In function 'vfio_fsl_mc_reset_device=
+':
+>> drivers/vfio/fsl-mc/vfio_fsl_mc.c:79:21: warning: use of uninitialized v=
+alue '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+      79 |                 u16 token;
+         |                     ^~~~~
+     'vfio_fsl_mc_reset_device': events 1-3
+       |
+       |   73 |         if (is_fsl_mc_bus_dprc(vdev->mc_dev)) {
+       |      |            ^
+       |      |            |
+       |      |            (1) following 'false' branch...
+       |......
+       |   79 |                 u16 token;
+       |      |                     ~~~~~
+       |      |                     |
+       |      |                     (2) ...to here
+       |      |                     (3) use of uninitialized value '<unknow=
+n>' here
+       |
 
-Old smatch warnings:
-drivers/hid/hid-rmi.c:356 rmi_read_data_event() warn: check sign expansion =
-for 'size'
+vim +79 drivers/vfio/fsl-mc/vfio_fsl_mc.c
 
-vim +/ret +263 drivers/hid/hid-rmi.c
+df747bcd5b216d Diana Craciun  2020-10-05  67  =
 
-9fb6bf02e3ad04 Benjamin Tissoires 2014-04-07  187  =
+8798a803ddf632 Diana Craciun  2021-09-22  68  static int vfio_fsl_mc_reset_=
+device(struct vfio_fsl_mc_device *vdev)
+8798a803ddf632 Diana Craciun  2021-09-22  69  {
+8798a803ddf632 Diana Craciun  2021-09-22  70  	struct fsl_mc_device *mc_dev=
+ =3D vdev->mc_dev;
+8798a803ddf632 Diana Craciun  2021-09-22  71  	int ret =3D 0;
+8798a803ddf632 Diana Craciun  2021-09-22  72  =
 
-0b2c7a897378f1 Andrew Duggan      2017-01-05  188  static int rmi_hid_read_=
-block(struct rmi_transport_dev *xport, u16 addr,
-0b2c7a897378f1 Andrew Duggan      2017-01-05  189  		void *buf, size_t len)
-9fb6bf02e3ad04 Benjamin Tissoires 2014-04-07  190  {
-0b2c7a897378f1 Andrew Duggan      2017-01-05  191  	struct rmi_data *data =
-=3D container_of(xport, struct rmi_data, xport);
-0b2c7a897378f1 Andrew Duggan      2017-01-05  192  	struct hid_device *hdev=
- =3D data->hdev;
-9fb6bf02e3ad04 Benjamin Tissoires 2014-04-07  193  	int ret;
-9fb6bf02e3ad04 Benjamin Tissoires 2014-04-07  194  	int bytes_read;
-9fb6bf02e3ad04 Benjamin Tissoires 2014-04-07  195  	int bytes_needed;
-9fb6bf02e3ad04 Benjamin Tissoires 2014-04-07  196  	int retries;
-9fb6bf02e3ad04 Benjamin Tissoires 2014-04-07  197  	int read_input_count;
-9fb6bf02e3ad04 Benjamin Tissoires 2014-04-07  198  =
+8798a803ddf632 Diana Craciun  2021-09-22  73  	if (is_fsl_mc_bus_dprc(vdev-=
+>mc_dev)) {
+8798a803ddf632 Diana Craciun  2021-09-22  74  		return dprc_reset_container=
+(mc_dev->mc_io, 0,
+8798a803ddf632 Diana Craciun  2021-09-22  75  					mc_dev->mc_handle,
+8798a803ddf632 Diana Craciun  2021-09-22  76  					mc_dev->obj_desc.id,
+8798a803ddf632 Diana Craciun  2021-09-22  77  					DPRC_RESET_OPTION_NON_RE=
+CURSIVE);
+8798a803ddf632 Diana Craciun  2021-09-22  78  	} else {
+8798a803ddf632 Diana Craciun  2021-09-22 @79  		u16 token;
+8798a803ddf632 Diana Craciun  2021-09-22  80  =
 
-9fb6bf02e3ad04 Benjamin Tissoires 2014-04-07  199  	mutex_lock(&data->page_=
-mutex);
-9fb6bf02e3ad04 Benjamin Tissoires 2014-04-07  200  =
-
-9fb6bf02e3ad04 Benjamin Tissoires 2014-04-07  201  	if (RMI_PAGE(addr) !=3D=
- data->page) {
-9fb6bf02e3ad04 Benjamin Tissoires 2014-04-07  202  		ret =3D rmi_set_page(h=
-dev, RMI_PAGE(addr));
-9fb6bf02e3ad04 Benjamin Tissoires 2014-04-07  203  		if (ret < 0)
-9fb6bf02e3ad04 Benjamin Tissoires 2014-04-07  204  			goto exit;
-9fb6bf02e3ad04 Benjamin Tissoires 2014-04-07  205  	}
-30a3df7ece6145 Marge Yang         2022-08-01  206  	if (ignoreonce =3D=3D 1=
-) {
-30a3df7ece6145 Marge Yang         2022-08-01  207  		dev_err(&hdev->dev,
-30a3df7ece6145 Marge Yang         2022-08-01  208  			"ignoreonce (%d)\n",
-30a3df7ece6145 Marge Yang         2022-08-01  209  			ignoreonce);
-30a3df7ece6145 Marge Yang         2022-08-01  210  		ignoreonce =3D 0;
-30a3df7ece6145 Marge Yang         2022-08-01  211  		goto exit;
-30a3df7ece6145 Marge Yang         2022-08-01  212  	}
-9fb6bf02e3ad04 Benjamin Tissoires 2014-04-07  213  	for (retries =3D 5; ret=
-ries > 0; retries--) {
-9fb6bf02e3ad04 Benjamin Tissoires 2014-04-07  214  		data->writeReport[0] =
-=3D RMI_READ_ADDR_REPORT_ID;
-9fb6bf02e3ad04 Benjamin Tissoires 2014-04-07  215  		data->writeReport[1] =
-=3D 0; /* old 1 byte read count */
-9fb6bf02e3ad04 Benjamin Tissoires 2014-04-07  216  		data->writeReport[2] =
-=3D addr & 0xFF;
-9fb6bf02e3ad04 Benjamin Tissoires 2014-04-07  217  		data->writeReport[3] =
-=3D (addr >> 8) & 0xFF;
-9fb6bf02e3ad04 Benjamin Tissoires 2014-04-07  218  		data->writeReport[4] =
-=3D len  & 0xFF;
-9fb6bf02e3ad04 Benjamin Tissoires 2014-04-07  219  		data->writeReport[5] =
-=3D (len >> 8) & 0xFF;
-9fb6bf02e3ad04 Benjamin Tissoires 2014-04-07  220  =
-
-9fb6bf02e3ad04 Benjamin Tissoires 2014-04-07  221  		set_bit(RMI_READ_REQUE=
-ST_PENDING, &data->flags);
-9fb6bf02e3ad04 Benjamin Tissoires 2014-04-07  222  =
-
-9fb6bf02e3ad04 Benjamin Tissoires 2014-04-07  223  		ret =3D rmi_write_repo=
-rt(hdev, data->writeReport,
-9fb6bf02e3ad04 Benjamin Tissoires 2014-04-07  224  						data->output_repor=
-t_size);
-9fb6bf02e3ad04 Benjamin Tissoires 2014-04-07  225  		if (ret !=3D data->out=
-put_report_size) {
-9fb6bf02e3ad04 Benjamin Tissoires 2014-04-07  226  			dev_err(&hdev->dev,
-9fb6bf02e3ad04 Benjamin Tissoires 2014-04-07  227  				"failed to write req=
-uest output report (%d)\n",
-9fb6bf02e3ad04 Benjamin Tissoires 2014-04-07  228  				ret);
-9fb6bf02e3ad04 Benjamin Tissoires 2014-04-07  229  			goto exit;
-9fb6bf02e3ad04 Benjamin Tissoires 2014-04-07  230  		}
-9fb6bf02e3ad04 Benjamin Tissoires 2014-04-07  231  =
-
-9fb6bf02e3ad04 Benjamin Tissoires 2014-04-07  232  		bytes_read =3D 0;
-9fb6bf02e3ad04 Benjamin Tissoires 2014-04-07  233  		bytes_needed =3D len;
-9fb6bf02e3ad04 Benjamin Tissoires 2014-04-07  234  		while (bytes_read < le=
-n) {
-9fb6bf02e3ad04 Benjamin Tissoires 2014-04-07  235  			if (!wait_event_timeo=
-ut(data->wait,
-9fb6bf02e3ad04 Benjamin Tissoires 2014-04-07  236  				test_bit(RMI_READ_DA=
-TA_PENDING, &data->flags),
-9fb6bf02e3ad04 Benjamin Tissoires 2014-04-07  237  					msecs_to_jiffies(10=
-00))) {
-9fb6bf02e3ad04 Benjamin Tissoires 2014-04-07  238  				hid_warn(hdev, "%s: =
-timeout elapsed\n",
-9fb6bf02e3ad04 Benjamin Tissoires 2014-04-07  239  					 __func__);
-9fb6bf02e3ad04 Benjamin Tissoires 2014-04-07  240  				ret =3D -EAGAIN;
-9fb6bf02e3ad04 Benjamin Tissoires 2014-04-07  241  				break;
-9fb6bf02e3ad04 Benjamin Tissoires 2014-04-07  242  			}
-9fb6bf02e3ad04 Benjamin Tissoires 2014-04-07  243  =
-
-9fb6bf02e3ad04 Benjamin Tissoires 2014-04-07  244  			read_input_count =3D =
-data->readReport[1];
-9fb6bf02e3ad04 Benjamin Tissoires 2014-04-07  245  			memcpy(buf + bytes_re=
-ad, &data->readReport[2],
-9fb6bf02e3ad04 Benjamin Tissoires 2014-04-07  246  				read_input_count < b=
-ytes_needed ?
-9fb6bf02e3ad04 Benjamin Tissoires 2014-04-07  247  					read_input_count : =
-bytes_needed);
-9fb6bf02e3ad04 Benjamin Tissoires 2014-04-07  248  =
-
-9fb6bf02e3ad04 Benjamin Tissoires 2014-04-07  249  			bytes_read +=3D read_=
-input_count;
-9fb6bf02e3ad04 Benjamin Tissoires 2014-04-07  250  			bytes_needed -=3D rea=
-d_input_count;
-9fb6bf02e3ad04 Benjamin Tissoires 2014-04-07  251  			clear_bit(RMI_READ_DA=
-TA_PENDING, &data->flags);
-9fb6bf02e3ad04 Benjamin Tissoires 2014-04-07  252  		}
-9fb6bf02e3ad04 Benjamin Tissoires 2014-04-07  253  =
-
-9fb6bf02e3ad04 Benjamin Tissoires 2014-04-07  254  		if (ret >=3D 0) {
-9fb6bf02e3ad04 Benjamin Tissoires 2014-04-07  255  			ret =3D 0;
-9fb6bf02e3ad04 Benjamin Tissoires 2014-04-07  256  			break;
-9fb6bf02e3ad04 Benjamin Tissoires 2014-04-07  257  		}
-9fb6bf02e3ad04 Benjamin Tissoires 2014-04-07  258  	}
-9fb6bf02e3ad04 Benjamin Tissoires 2014-04-07  259  =
-
-9fb6bf02e3ad04 Benjamin Tissoires 2014-04-07  260  exit:
-9fb6bf02e3ad04 Benjamin Tissoires 2014-04-07  261  	clear_bit(RMI_READ_REQU=
-EST_PENDING, &data->flags);
-9fb6bf02e3ad04 Benjamin Tissoires 2014-04-07  262  	mutex_unlock(&data->pag=
-e_mutex);
-9fb6bf02e3ad04 Benjamin Tissoires 2014-04-07 @263  	return ret;
-9fb6bf02e3ad04 Benjamin Tissoires 2014-04-07  264  }
-9fb6bf02e3ad04 Benjamin Tissoires 2014-04-07  265  =
+8798a803ddf632 Diana Craciun  2021-09-22  81  		ret =3D fsl_mc_obj_open(mc_=
+dev->mc_io, 0, mc_dev->obj_desc.id,
+8798a803ddf632 Diana Craciun  2021-09-22  82  				      mc_dev->obj_desc.ty=
+pe,
+8798a803ddf632 Diana Craciun  2021-09-22  83  				      &token);
+8798a803ddf632 Diana Craciun  2021-09-22  84  		if (ret)
+8798a803ddf632 Diana Craciun  2021-09-22  85  			goto out;
+8798a803ddf632 Diana Craciun  2021-09-22  86  		ret =3D fsl_mc_obj_reset(mc=
+_dev->mc_io, 0, token);
+8798a803ddf632 Diana Craciun  2021-09-22  87  		if (ret) {
+8798a803ddf632 Diana Craciun  2021-09-22  88  			fsl_mc_obj_close(mc_dev->m=
+c_io, 0, token);
+8798a803ddf632 Diana Craciun  2021-09-22  89  			goto out;
+8798a803ddf632 Diana Craciun  2021-09-22  90  		}
+8798a803ddf632 Diana Craciun  2021-09-22  91  		ret =3D fsl_mc_obj_close(mc=
+_dev->mc_io, 0, token);
+8798a803ddf632 Diana Craciun  2021-09-22  92  	}
+8798a803ddf632 Diana Craciun  2021-09-22  93  out:
+8798a803ddf632 Diana Craciun  2021-09-22  94  	return ret;
+8798a803ddf632 Diana Craciun  2021-09-22  95  }
+fb1ff4c1941573 Bharat Bhushan 2020-10-05  96  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============9200619428652011170==--
+--===============4914245678579680478==--
 
