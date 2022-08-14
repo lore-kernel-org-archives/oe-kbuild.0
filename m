@@ -1,35 +1,33 @@
-Content-Type: multipart/mixed; boundary="===============2600424437163038078=="
+Content-Type: multipart/mixed; boundary="===============3771665164443390320=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [linux-next:master 2392/2947] fs/btrfs/volumes.c:6546 __btrfs_map_block() error: we previously assumed 'mirror_num_ret' could be null (see line 6373)
-Date: Wed, 24 Aug 2022 19:16:28 +0800
-Message-ID: <202208241953.fwEYHF3G-lkp@intel.com>
+Subject: net/netfilter/nf_tables_api.c:9669 nft_verdict_init() warn: passing a valid pointer to 'PTR_ERR'
+Date: Sun, 14 Aug 2022 23:28:02 +0800
+Message-ID: <202208142304.8AJF9bcD-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2600424437163038078==
+--===============3771665164443390320==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Christoph Hellwig <hch@lst.de>
-CC: David Sterba <dsterba@suse.com>
-CC: Nikolay Borisov <nborisov@suse.com>
-CC: Johannes Thumshirn <johannes.thumshirn@wdc.com>
-CC: Anand Jain <anand.jain@oracle.com>
+CC: linux-kernel(a)vger.kernel.org
+TO: Thadeu Lima de Souza Cascardo <cascardo@canonical.com>
+CC: Pablo Neira Ayuso <pablo@netfilter.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
- master
-head:   68a00424bf69036970ced7930f9e4d709b4a6423
-commit: 8c1e13672fefc7c3f251bd5e75830939890a628a [2392/2947] btrfs: add fas=
-t path for single device io in __btrfs_map_block
-:::::: branch date: 7 hours ago
-:::::: commit date: 18 hours ago
-config: nios2-randconfig-m031-20220824 (https://download.01.org/0day-ci/arc=
-hive/20220824/202208241953.fwEYHF3G-lkp(a)intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   aea23e7c464bfdec04b52cf61edb62030e9e0d0a
+commit: 95f466d22364a33d183509629d0879885b4f547e netfilter: nf_tables: do n=
+ot allow CHAIN_ID to refer to another table
+date:   5 days ago
+:::::: branch date: 15 hours ago
+:::::: commit date: 5 days ago
+config: nios2-randconfig-m031-20220814 (https://download.01.org/0day-ci/arc=
+hive/20220814/202208142304.8AJF9bcD-lkp(a)intel.com/config)
 compiler: nios2-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
@@ -37,470 +35,159 @@ Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 New smatch warnings:
-fs/btrfs/volumes.c:6546 __btrfs_map_block() error: we previously assumed 'm=
-irror_num_ret' could be null (see line 6373)
+net/netfilter/nf_tables_api.c:9669 nft_verdict_init() warn: passing a valid=
+ pointer to 'PTR_ERR'
 
 Old smatch warnings:
 arch/nios2/include/asm/thread_info.h:62 current_thread_info() error: uninit=
 ialized symbol 'sp'.
-fs/btrfs/volumes.c:6396 __btrfs_map_block() error: 'em' dereferencing possi=
-ble ERR_PTR()
+net/netfilter/nf_tables_api.c:2526 nf_tables_newchain() warn: passing a val=
+id pointer to 'PTR_ERR'
+net/netfilter/nf_tables_api.c:3425 nf_tables_newrule() warn: passing a vali=
+d pointer to 'PTR_ERR'
+net/netfilter/nf_tables_api.c:3436 nf_tables_newrule() warn: passing a vali=
+d pointer to 'PTR_ERR'
+net/netfilter/nf_tables_api.c:3461 nf_tables_newrule() warn: passing a vali=
+d pointer to 'PTR_ERR'
+net/netfilter/nf_tables_api.c:4242 nf_tables_getset() warn: passing a valid=
+ pointer to 'PTR_ERR'
+net/netfilter/nf_tables_api.c:4468 nf_tables_newset() warn: passing a valid=
+ pointer to 'PTR_ERR'
+net/netfilter/nf_tables_api.c:4670 nf_tables_delset() warn: passing a valid=
+ pointer to 'PTR_ERR'
+net/netfilter/nf_tables_api.c:5363 nf_tables_getsetelem() warn: passing a v=
+alid pointer to 'PTR_ERR'
+net/netfilter/nf_tables_api.c:6514 nf_tables_delsetelem() warn: passing a v=
+alid pointer to 'PTR_ERR'
+net/netfilter/nf_tables_api.c:6843 nf_tables_newobj() warn: passing a valid=
+ pointer to 'PTR_ERR'
+net/netfilter/nf_tables_api.c:7646 nf_tables_newflowtable() warn: passing a=
+ valid pointer to 'PTR_ERR'
 
-vim +/mirror_num_ret +6546 fs/btrfs/volumes.c
+vim +/PTR_ERR +9669 net/netfilter/nf_tables_api.c
 
-8c1e13672fefc7 Christoph Hellwig 2022-08-06  6357  =
+20a69341f2d00c Patrick McHardy               2013-10-11  9626  =
 
-cf8cddd38bab31 Christoph Hellwig 2016-10-27  6358  static int __btrfs_map_b=
-lock(struct btrfs_fs_info *fs_info,
-8c1e13672fefc7 Christoph Hellwig 2022-08-06  6359  			     enum btrfs_map_o=
-p op, u64 logical, u64 *length,
-4c664611791239 Qu Wenruo         2021-09-15  6360  			     struct btrfs_io_=
-context **bioc_ret,
-8c1e13672fefc7 Christoph Hellwig 2022-08-06  6361  			     struct btrfs_io_=
-stripe *smap,
-8c1e13672fefc7 Christoph Hellwig 2022-08-06  6362  			     int *mirror_num_=
-ret, int need_raid_map)
-0b86a832a1f38a Chris Mason       2008-03-24  6363  {
-0b86a832a1f38a Chris Mason       2008-03-24  6364  	struct extent_map *em;
-0b86a832a1f38a Chris Mason       2008-03-24  6365  	struct map_lookup *map;
-593060d756e0c2 Chris Mason       2008-03-25  6366  	u64 stripe_offset;
-593060d756e0c2 Chris Mason       2008-03-25  6367  	u64 stripe_nr;
-53b381b3abeb86 David Woodhouse   2013-01-29  6368  	u64 stripe_len;
-9d644a623ec48e David Sterba      2015-02-20  6369  	u32 stripe_index;
-cff8267228c14e David Sterba      2019-05-17  6370  	int data_stripes;
-cea9e4452ebaf1 Chris Mason       2008-04-09  6371  	int i;
-de11cc12df1733 Li Zefan          2011-12-01  6372  	int ret =3D 0;
-8c1e13672fefc7 Christoph Hellwig 2022-08-06 @6373  	int mirror_num =3D (mir=
-ror_num_ret ? *mirror_num_ret : 0);
-f2d8d74d7874f8 Chris Mason       2008-04-21  6374  	int num_stripes;
-a236aed14ccb06 Chris Mason       2008-04-29  6375  	int max_errors =3D 0;
-2c8cdd6ee4e7f6 Miao Xie          2014-11-14  6376  	int tgtdev_indexes =3D =
-0;
-4c664611791239 Qu Wenruo         2021-09-15  6377  	struct btrfs_io_context=
- *bioc =3D NULL;
-472262f35a6b34 Stefan Behrens    2012-11-06  6378  	struct btrfs_dev_replac=
-e *dev_replace =3D &fs_info->dev_replace;
-472262f35a6b34 Stefan Behrens    2012-11-06  6379  	int dev_replace_is_ongo=
-ing =3D 0;
-472262f35a6b34 Stefan Behrens    2012-11-06  6380  	int num_alloc_stripes;
-ad6d620e2a5704 Stefan Behrens    2012-11-06  6381  	int patch_the_first_str=
-ipe_for_dev_replace =3D 0;
-ad6d620e2a5704 Stefan Behrens    2012-11-06  6382  	u64 physical_to_patch_i=
-n_first_stripe =3D 0;
-53b381b3abeb86 David Woodhouse   2013-01-29  6383  	u64 raid56_full_stripe_=
-start =3D (u64)-1;
-89b798ad1b42b1 Nikolay Borisov   2019-06-03  6384  	struct btrfs_io_geometr=
-y geom;
-89b798ad1b42b1 Nikolay Borisov   2019-06-03  6385  =
+20a69341f2d00c Patrick McHardy               2013-10-11  9627  static int n=
+ft_verdict_init(const struct nft_ctx *ctx, struct nft_data *data,
+20a69341f2d00c Patrick McHardy               2013-10-11  9628  			    struc=
+t nft_data_desc *desc, const struct nlattr *nla)
+20a69341f2d00c Patrick McHardy               2013-10-11  9629  {
+664b0f8cd8c66d Pablo Neira Ayuso             2016-06-12  9630  	u8 genmask =
+=3D nft_genmask_next(ctx->net);
+20a69341f2d00c Patrick McHardy               2013-10-11  9631  	struct nlat=
+tr *tb[NFTA_VERDICT_MAX + 1];
+20a69341f2d00c Patrick McHardy               2013-10-11  9632  	struct nft_=
+chain *chain;
+20a69341f2d00c Patrick McHardy               2013-10-11  9633  	int err;
+20a69341f2d00c Patrick McHardy               2013-10-11  9634  =
 
-4c664611791239 Qu Wenruo         2021-09-15  6386  	ASSERT(bioc_ret);
-75fb2e9e49c1bf David Sterba      2018-08-03  6387  	ASSERT(op !=3D BTRFS_MA=
-P_DISCARD);
-0b3d4cd371edb6 Liu Bo            2017-03-14  6388  =
+8cb081746c031f Johannes Berg                 2019-04-26  9635  	err =3D nla=
+_parse_nested_deprecated(tb, NFTA_VERDICT_MAX, nla,
+8cb081746c031f Johannes Berg                 2019-04-26  9636  					  nft_v=
+erdict_policy, NULL);
+20a69341f2d00c Patrick McHardy               2013-10-11  9637  	if (err < 0)
+20a69341f2d00c Patrick McHardy               2013-10-11  9638  		return err;
+20a69341f2d00c Patrick McHardy               2013-10-11  9639  =
 
-420343131970fd Michal Rostecki   2021-01-27  6389  	em =3D btrfs_get_chunk_=
-map(fs_info, logical, *length);
-420343131970fd Michal Rostecki   2021-01-27  6390  	ASSERT(!IS_ERR(em));
-420343131970fd Michal Rostecki   2021-01-27  6391  =
+20a69341f2d00c Patrick McHardy               2013-10-11  9640  	if (!tb[NFT=
+A_VERDICT_CODE])
+20a69341f2d00c Patrick McHardy               2013-10-11  9641  		return -EI=
+NVAL;
+1ca2e1702c050a Patrick McHardy               2015-04-11  9642  	data->verdi=
+ct.code =3D ntohl(nla_get_be32(tb[NFTA_VERDICT_CODE]));
+20a69341f2d00c Patrick McHardy               2013-10-11  9643  =
 
-43c0d1a5e11795 Qu Wenruo         2021-04-13  6392  	ret =3D btrfs_get_io_ge=
-ometry(fs_info, em, op, logical, &geom);
-89b798ad1b42b1 Nikolay Borisov   2019-06-03  6393  	if (ret < 0)
-89b798ad1b42b1 Nikolay Borisov   2019-06-03  6394  		return ret;
-0b86a832a1f38a Chris Mason       2008-03-24  6395  =
+1ca2e1702c050a Patrick McHardy               2015-04-11  9644  	switch (dat=
+a->verdict.code) {
+e0abdadcc6e113 Patrick McHardy               2014-02-18  9645  	default:
+1ca2e1702c050a Patrick McHardy               2015-04-11  9646  		switch (da=
+ta->verdict.code & NF_VERDICT_MASK) {
+20a69341f2d00c Patrick McHardy               2013-10-11  9647  		case NF_AC=
+CEPT:
+20a69341f2d00c Patrick McHardy               2013-10-11  9648  		case NF_DR=
+OP:
+20a69341f2d00c Patrick McHardy               2013-10-11  9649  		case NF_QU=
+EUE:
+e0abdadcc6e113 Patrick McHardy               2014-02-18  9650  			break;
+e0abdadcc6e113 Patrick McHardy               2014-02-18  9651  		default:
+e0abdadcc6e113 Patrick McHardy               2014-02-18  9652  			return -E=
+INVAL;
+e0abdadcc6e113 Patrick McHardy               2014-02-18  9653  		}
+954d82979b2f9d Gustavo A. R. Silva           2020-07-08  9654  		fallthroug=
+h;
+20a69341f2d00c Patrick McHardy               2013-10-11  9655  	case NFT_CO=
+NTINUE:
+20a69341f2d00c Patrick McHardy               2013-10-11  9656  	case NFT_BR=
+EAK:
+20a69341f2d00c Patrick McHardy               2013-10-11  9657  	case NFT_RE=
+TURN:
+20a69341f2d00c Patrick McHardy               2013-10-11  9658  		break;
+20a69341f2d00c Patrick McHardy               2013-10-11  9659  	case NFT_JU=
+MP:
+20a69341f2d00c Patrick McHardy               2013-10-11  9660  	case NFT_GO=
+TO:
+51d70f181ff4e2 Pablo Neira Ayuso             2020-06-30  9661  		if (tb[NFT=
+A_VERDICT_CHAIN]) {
+f102d66b335a41 Florian Westphal              2018-07-11  9662  			chain =3D=
+ nft_chain_lookup(ctx->net, ctx->table,
+51d70f181ff4e2 Pablo Neira Ayuso             2020-06-30  9663  						 tb[NF=
+TA_VERDICT_CHAIN],
+51d70f181ff4e2 Pablo Neira Ayuso             2020-06-30  9664  						 genma=
+sk);
+51d70f181ff4e2 Pablo Neira Ayuso             2020-06-30  9665  		} else if =
+(tb[NFTA_VERDICT_CHAIN_ID]) {
+95f466d22364a3 Thadeu Lima de Souza Cascardo 2022-08-09  9666  			chain =3D=
+ nft_chain_lookup_byid(ctx->net, ctx->table,
+51d70f181ff4e2 Pablo Neira Ayuso             2020-06-30  9667  						      =
+tb[NFTA_VERDICT_CHAIN_ID]);
+51d70f181ff4e2 Pablo Neira Ayuso             2020-06-30  9668  			if (IS_ER=
+R(chain))
+51d70f181ff4e2 Pablo Neira Ayuso             2020-06-30 @9669  				return P=
+TR_ERR(chain);
+51d70f181ff4e2 Pablo Neira Ayuso             2020-06-30  9670  		} else {
+51d70f181ff4e2 Pablo Neira Ayuso             2020-06-30  9671  			return -E=
+INVAL;
+51d70f181ff4e2 Pablo Neira Ayuso             2020-06-30  9672  		}
+51d70f181ff4e2 Pablo Neira Ayuso             2020-06-30  9673  =
 
-95617d69326ce3 Jeff Mahoney      2015-06-03  6396  	map =3D em->map_lookup;
-593060d756e0c2 Chris Mason       2008-03-25  6397  =
+20a69341f2d00c Patrick McHardy               2013-10-11  9674  		if (IS_ERR=
+(chain))
+20a69341f2d00c Patrick McHardy               2013-10-11  9675  			return PT=
+R_ERR(chain);
+f323d9546927a0 Pablo Neira Ayuso             2017-03-20  9676  		if (nft_is=
+_base_chain(chain))
+20a69341f2d00c Patrick McHardy               2013-10-11  9677  			return -E=
+OPNOTSUPP;
+96518518cc417b Patrick McHardy               2013-10-14  9678  =
 
-89b798ad1b42b1 Nikolay Borisov   2019-06-03  6398  	*length =3D geom.len;
-89b798ad1b42b1 Nikolay Borisov   2019-06-03  6399  	stripe_len =3D geom.str=
-ipe_len;
-89b798ad1b42b1 Nikolay Borisov   2019-06-03  6400  	stripe_nr =3D geom.stri=
-pe_nr;
-89b798ad1b42b1 Nikolay Borisov   2019-06-03  6401  	stripe_offset =3D geom.=
-stripe_offset;
-89b798ad1b42b1 Nikolay Borisov   2019-06-03  6402  	raid56_full_stripe_star=
-t =3D geom.raid56_stripe_offset;
-cff8267228c14e David Sterba      2019-05-17  6403  	data_stripes =3D nr_dat=
-a_stripes(map);
-593060d756e0c2 Chris Mason       2008-03-25  6404  =
+96518518cc417b Patrick McHardy               2013-10-14  9679  		chain->use=
+++;
+1ca2e1702c050a Patrick McHardy               2015-04-11  9680  		data->verd=
+ict.chain =3D chain;
+96518518cc417b Patrick McHardy               2013-10-14  9681  		break;
+96518518cc417b Patrick McHardy               2013-10-14  9682  	}
+96518518cc417b Patrick McHardy               2013-10-14  9683  =
 
-cb5583dd52fab4 David Sterba      2018-09-07  6405  	down_read(&dev_replace-=
->rwsem);
-472262f35a6b34 Stefan Behrens    2012-11-06  6406  	dev_replace_is_ongoing =
-=3D btrfs_dev_replace_is_ongoing(dev_replace);
-53176dde0acd8f David Sterba      2018-04-05  6407  	/*
-53176dde0acd8f David Sterba      2018-04-05  6408  	 * Hold the semaphore f=
-or read during the whole operation, write is
-53176dde0acd8f David Sterba      2018-04-05  6409  	 * requested at commit =
-time but must wait.
-53176dde0acd8f David Sterba      2018-04-05  6410  	 */
-472262f35a6b34 Stefan Behrens    2012-11-06  6411  	if (!dev_replace_is_ong=
-oing)
-cb5583dd52fab4 David Sterba      2018-09-07  6412  		up_read(&dev_replace->=
-rwsem);
-472262f35a6b34 Stefan Behrens    2012-11-06  6413  =
+4c4ed0748f82e2 Florian Westphal              2015-04-14  9684  	desc->len =
+=3D sizeof(data->verdict);
+96518518cc417b Patrick McHardy               2013-10-14  9685  	desc->type =
+=3D NFT_DATA_VERDICT;
+96518518cc417b Patrick McHardy               2013-10-14  9686  	return 0;
+96518518cc417b Patrick McHardy               2013-10-14  9687  }
+96518518cc417b Patrick McHardy               2013-10-14  9688  =
 
-ad6d620e2a5704 Stefan Behrens    2012-11-06  6414  	if (dev_replace_is_ongo=
-ing && mirror_num =3D=3D map->num_stripes + 1 &&
-2b19a1fef7be74 Liu Bo            2017-03-14  6415  	    !need_full_stripe(o=
-p) && dev_replace->tgtdev !=3D NULL) {
-5ab56090b8824c Liu Bo            2017-03-14  6416  		ret =3D get_extra_mirr=
-or_from_replace(fs_info, logical, *length,
-5ab56090b8824c Liu Bo            2017-03-14  6417  						    dev_replace->s=
-rcdev->devid,
-5ab56090b8824c Liu Bo            2017-03-14  6418  						    &mirror_num,
-5ab56090b8824c Liu Bo            2017-03-14  6419  					    &physical_to_pa=
-tch_in_first_stripe);
-5ab56090b8824c Liu Bo            2017-03-14  6420  		if (ret)
-ad6d620e2a5704 Stefan Behrens    2012-11-06  6421  			goto out;
-5ab56090b8824c Liu Bo            2017-03-14  6422  		else
-94a97dfeb61e32 Zhao Lei          2015-12-09  6423  			patch_the_first_strip=
-e_for_dev_replace =3D 1;
-ad6d620e2a5704 Stefan Behrens    2012-11-06  6424  	} else if (mirror_num >=
- map->num_stripes) {
-ad6d620e2a5704 Stefan Behrens    2012-11-06  6425  		mirror_num =3D 0;
-ad6d620e2a5704 Stefan Behrens    2012-11-06  6426  	}
-ad6d620e2a5704 Stefan Behrens    2012-11-06  6427  =
 
-f2d8d74d7874f8 Chris Mason       2008-04-21  6428  	num_stripes =3D 1;
-cea9e4452ebaf1 Chris Mason       2008-04-09  6429  	stripe_index =3D 0;
-fce3bb9a1bd492 Li Dongyang       2011-03-24  6430  	if (map->type & BTRFS_B=
-LOCK_GROUP_RAID0) {
-47c5713f4737e4 David Sterba      2015-02-20  6431  		stripe_nr =3D div_u64_=
-rem(stripe_nr, map->num_stripes,
-47c5713f4737e4 David Sterba      2015-02-20  6432  				&stripe_index);
-de48373454acea Anand Jain        2017-10-12  6433  		if (!need_full_stripe(=
-op))
-28e1cc7d1baf80 Miao Xie          2014-09-12  6434  			mirror_num =3D 1;
-c7369b3faea230 David Sterba      2019-05-31  6435  	} else if (map->type & =
-BTRFS_BLOCK_GROUP_RAID1_MASK) {
-de48373454acea Anand Jain        2017-10-12  6436  		if (need_full_stripe(o=
-p))
-f2d8d74d7874f8 Chris Mason       2008-04-21  6437  			num_stripes =3D map->=
-num_stripes;
-2fff734fafa742 Chris Mason       2008-04-29  6438  		else if (mirror_num)
-f188591e987e21 Chris Mason       2008-04-09  6439  			stripe_index =3D mirr=
-or_num - 1;
-dfe25020689bb2 Chris Mason       2008-05-13  6440  		else {
-30d9861ff9520e Stefan Behrens    2012-11-06  6441  			stripe_index =3D find=
-_live_mirror(fs_info, map, 0,
-30d9861ff9520e Stefan Behrens    2012-11-06  6442  					    dev_replace_is_=
-ongoing);
-a1d3c4786a4b9c Jan Schmidt       2011-08-04  6443  			mirror_num =3D stripe=
-_index + 1;
-dfe25020689bb2 Chris Mason       2008-05-13  6444  		}
-2fff734fafa742 Chris Mason       2008-04-29  6445  =
+:::::: The code at line 9669 was first introduced by commit
+:::::: 51d70f181ff4e2c996ddf256af1efecd7d5864e5 netfilter: nf_tables: add N=
+FTA_VERDICT_CHAIN_ID attribute
 
-611f0e00a27fe0 Chris Mason       2008-04-03  6446  	} else if (map->type & =
-BTRFS_BLOCK_GROUP_DUP) {
-de48373454acea Anand Jain        2017-10-12  6447  		if (need_full_stripe(o=
-p)) {
-f2d8d74d7874f8 Chris Mason       2008-04-21  6448  			num_stripes =3D map->=
-num_stripes;
-a1d3c4786a4b9c Jan Schmidt       2011-08-04  6449  		} else if (mirror_num)=
- {
-f188591e987e21 Chris Mason       2008-04-09  6450  			stripe_index =3D mirr=
-or_num - 1;
-a1d3c4786a4b9c Jan Schmidt       2011-08-04  6451  		} else {
-a1d3c4786a4b9c Jan Schmidt       2011-08-04  6452  			mirror_num =3D 1;
-a1d3c4786a4b9c Jan Schmidt       2011-08-04  6453  		}
-2fff734fafa742 Chris Mason       2008-04-29  6454  =
-
-321aecc65671ae Chris Mason       2008-04-16  6455  	} else if (map->type & =
-BTRFS_BLOCK_GROUP_RAID10) {
-9d644a623ec48e David Sterba      2015-02-20  6456  		u32 factor =3D map->nu=
-m_stripes / map->sub_stripes;
-321aecc65671ae Chris Mason       2008-04-16  6457  =
-
-47c5713f4737e4 David Sterba      2015-02-20  6458  		stripe_nr =3D div_u64_=
-rem(stripe_nr, factor, &stripe_index);
-321aecc65671ae Chris Mason       2008-04-16  6459  		stripe_index *=3D map-=
->sub_stripes;
-321aecc65671ae Chris Mason       2008-04-16  6460  =
-
-de48373454acea Anand Jain        2017-10-12  6461  		if (need_full_stripe(o=
-p))
-f2d8d74d7874f8 Chris Mason       2008-04-21  6462  			num_stripes =3D map->=
-sub_stripes;
-321aecc65671ae Chris Mason       2008-04-16  6463  		else if (mirror_num)
-321aecc65671ae Chris Mason       2008-04-16  6464  			stripe_index +=3D mir=
-ror_num - 1;
-dfe25020689bb2 Chris Mason       2008-05-13  6465  		else {
-3e74317ad773ba Jan Schmidt       2012-04-27  6466  			int old_stripe_index =
-=3D stripe_index;
-30d9861ff9520e Stefan Behrens    2012-11-06  6467  			stripe_index =3D find=
-_live_mirror(fs_info, map,
-30d9861ff9520e Stefan Behrens    2012-11-06  6468  					      stripe_index,
-30d9861ff9520e Stefan Behrens    2012-11-06  6469  					      dev_replace_i=
-s_ongoing);
-3e74317ad773ba Jan Schmidt       2012-04-27  6470  			mirror_num =3D stripe=
-_index - old_stripe_index + 1;
-dfe25020689bb2 Chris Mason       2008-05-13  6471  		}
-53b381b3abeb86 David Woodhouse   2013-01-29  6472  =
-
-ffe2d2034bbb34 Zhao Lei          2015-01-20  6473  	} else if (map->type & =
-BTRFS_BLOCK_GROUP_RAID56_MASK) {
-ff18a4afebdd9b Christoph Hellwig 2022-06-17  6474  		ASSERT(map->stripe_len=
- =3D=3D BTRFS_STRIPE_LEN);
-de48373454acea Anand Jain        2017-10-12  6475  		if (need_raid_map && (=
-need_full_stripe(op) || mirror_num > 1)) {
-53b381b3abeb86 David Woodhouse   2013-01-29  6476  			/* push stripe_nr bac=
-k to the start of the full stripe */
-42c61ab6760f5f Liu Bo            2017-04-03  6477  			stripe_nr =3D div64_u=
-64(raid56_full_stripe_start,
-cff8267228c14e David Sterba      2019-05-17  6478  					stripe_len * data_s=
-tripes);
-53b381b3abeb86 David Woodhouse   2013-01-29  6479  =
-
-53b381b3abeb86 David Woodhouse   2013-01-29  6480  			/* RAID[56] write or =
-recovery. Return all stripes */
-53b381b3abeb86 David Woodhouse   2013-01-29  6481  			num_stripes =3D map->=
-num_stripes;
-6dead96c1a1e09 Qu Wenruo         2022-05-13  6482  			max_errors =3D btrfs_=
-chunk_max_errors(map);
-53b381b3abeb86 David Woodhouse   2013-01-29  6483  =
-
-462b0b2a86c4d5 Qu Wenruo         2022-06-17  6484  			/* Return the length =
-to the full stripe end */
-462b0b2a86c4d5 Qu Wenruo         2022-06-17  6485  			*length =3D min(logic=
-al + *length,
-462b0b2a86c4d5 Qu Wenruo         2022-06-17  6486  				      raid56_full_st=
-ripe_start + em->start +
-462b0b2a86c4d5 Qu Wenruo         2022-06-17  6487  				      data_stripes *=
- stripe_len) - logical;
-53b381b3abeb86 David Woodhouse   2013-01-29  6488  			stripe_index =3D 0;
-53b381b3abeb86 David Woodhouse   2013-01-29  6489  			stripe_offset =3D 0;
-53b381b3abeb86 David Woodhouse   2013-01-29  6490  		} else {
-53b381b3abeb86 David Woodhouse   2013-01-29  6491  			/*
-53b381b3abeb86 David Woodhouse   2013-01-29  6492  			 * Mirror #0 or #1 me=
-ans the original data block.
-53b381b3abeb86 David Woodhouse   2013-01-29  6493  			 * Mirror #2 is RAID5=
- parity block.
-53b381b3abeb86 David Woodhouse   2013-01-29  6494  			 * Mirror #3 is RAID6=
- Q block.
-53b381b3abeb86 David Woodhouse   2013-01-29  6495  			 */
-47c5713f4737e4 David Sterba      2015-02-20  6496  			stripe_nr =3D div_u64=
-_rem(stripe_nr,
-cff8267228c14e David Sterba      2019-05-17  6497  					data_stripes, &stri=
-pe_index);
-53b381b3abeb86 David Woodhouse   2013-01-29  6498  			if (mirror_num > 1)
-cff8267228c14e David Sterba      2019-05-17  6499  				stripe_index =3D dat=
-a_stripes + mirror_num - 2;
-53b381b3abeb86 David Woodhouse   2013-01-29  6500  =
-
-53b381b3abeb86 David Woodhouse   2013-01-29  6501  			/* We distribute the =
-parity blocks across stripes */
-47c5713f4737e4 David Sterba      2015-02-20  6502  			div_u64_rem(stripe_nr=
- + stripe_index, map->num_stripes,
-47c5713f4737e4 David Sterba      2015-02-20  6503  					&stripe_index);
-de48373454acea Anand Jain        2017-10-12  6504  			if (!need_full_stripe=
-(op) && mirror_num <=3D 1)
-28e1cc7d1baf80 Miao Xie          2014-09-12  6505  				mirror_num =3D 1;
-53b381b3abeb86 David Woodhouse   2013-01-29  6506  		}
-8790d502e4401a Chris Mason       2008-04-03  6507  	} else {
-593060d756e0c2 Chris Mason       2008-03-25  6508  		/*
-47c5713f4737e4 David Sterba      2015-02-20  6509  		 * after this, stripe_=
-nr is the number of stripes on this
-47c5713f4737e4 David Sterba      2015-02-20  6510  		 * device we have to w=
-alk to find the data, and stripe_index is
-47c5713f4737e4 David Sterba      2015-02-20  6511  		 * the number of our d=
-evice in the stripe array
-593060d756e0c2 Chris Mason       2008-03-25  6512  		 */
-47c5713f4737e4 David Sterba      2015-02-20  6513  		stripe_nr =3D div_u64_=
-rem(stripe_nr, map->num_stripes,
-47c5713f4737e4 David Sterba      2015-02-20  6514  				&stripe_index);
-a1d3c4786a4b9c Jan Schmidt       2011-08-04  6515  		mirror_num =3D stripe_=
-index + 1;
-8790d502e4401a Chris Mason       2008-04-03  6516  	}
-e042d1ec441798 Josef Bacik       2016-04-12  6517  	if (stripe_index >=3D m=
-ap->num_stripes) {
-5d163e0e68ce74 Jeff Mahoney      2016-09-20  6518  		btrfs_crit(fs_info,
-5d163e0e68ce74 Jeff Mahoney      2016-09-20  6519  			   "stripe index math=
- went horribly wrong, got stripe_index=3D%u, num_stripes=3D%u",
-e042d1ec441798 Josef Bacik       2016-04-12  6520  			   stripe_index, map-=
->num_stripes);
-e042d1ec441798 Josef Bacik       2016-04-12  6521  		ret =3D -EINVAL;
-e042d1ec441798 Josef Bacik       2016-04-12  6522  		goto out;
-e042d1ec441798 Josef Bacik       2016-04-12  6523  	}
-593060d756e0c2 Chris Mason       2008-03-25  6524  =
-
-472262f35a6b34 Stefan Behrens    2012-11-06  6525  	num_alloc_stripes =3D n=
-um_stripes;
-6fad823f4998cd Liu Bo            2017-03-14  6526  	if (dev_replace_is_ongo=
-ing && dev_replace->tgtdev !=3D NULL) {
-0b3d4cd371edb6 Liu Bo            2017-03-14  6527  		if (op =3D=3D BTRFS_MA=
-P_WRITE)
-472262f35a6b34 Stefan Behrens    2012-11-06  6528  			num_alloc_stripes <<=
-=3D 1;
-cf8cddd38bab31 Christoph Hellwig 2016-10-27  6529  		if (op =3D=3D BTRFS_MA=
-P_GET_READ_MIRRORS)
-ad6d620e2a5704 Stefan Behrens    2012-11-06  6530  			num_alloc_stripes++;
-2c8cdd6ee4e7f6 Miao Xie          2014-11-14  6531  		tgtdev_indexes =3D num=
-_stripes;
-ad6d620e2a5704 Stefan Behrens    2012-11-06  6532  	}
-2c8cdd6ee4e7f6 Miao Xie          2014-11-14  6533  =
-
-8c1e13672fefc7 Christoph Hellwig 2022-08-06  6534  	/*
-8c1e13672fefc7 Christoph Hellwig 2022-08-06  6535  	 * If this I/O maps to =
-a single device, try to return the device and
-8c1e13672fefc7 Christoph Hellwig 2022-08-06  6536  	 * physical block infor=
-mation on the stack instead of allocating an
-8c1e13672fefc7 Christoph Hellwig 2022-08-06  6537  	 * I/O context structur=
-e.
-8c1e13672fefc7 Christoph Hellwig 2022-08-06  6538  	 */
-8c1e13672fefc7 Christoph Hellwig 2022-08-06  6539  	if (smap && num_alloc_s=
-tripes =3D=3D 1 &&
-8c1e13672fefc7 Christoph Hellwig 2022-08-06  6540  	    !((map->type & BTRF=
-S_BLOCK_GROUP_RAID56_MASK) && mirror_num > 1) &&
-8c1e13672fefc7 Christoph Hellwig 2022-08-06  6541  	    (!need_full_stripe(=
-op) || !dev_replace_is_ongoing ||
-8c1e13672fefc7 Christoph Hellwig 2022-08-06  6542  	     !dev_replace->tgtd=
-ev)) {
-8c1e13672fefc7 Christoph Hellwig 2022-08-06  6543  		if (patch_the_first_st=
-ripe_for_dev_replace) {
-8c1e13672fefc7 Christoph Hellwig 2022-08-06  6544  			smap->dev =3D dev_rep=
-lace->tgtdev;
-8c1e13672fefc7 Christoph Hellwig 2022-08-06  6545  			smap->physical =3D ph=
-ysical_to_patch_in_first_stripe;
-8c1e13672fefc7 Christoph Hellwig 2022-08-06 @6546  			*mirror_num_ret =3D m=
-ap->num_stripes + 1;
-8c1e13672fefc7 Christoph Hellwig 2022-08-06  6547  		} else {
-8c1e13672fefc7 Christoph Hellwig 2022-08-06  6548  			set_io_stripe(smap, m=
-ap, stripe_index, stripe_offset,
-8c1e13672fefc7 Christoph Hellwig 2022-08-06  6549  				      stripe_nr);
-8c1e13672fefc7 Christoph Hellwig 2022-08-06  6550  			*mirror_num_ret =3D m=
-irror_num;
-8c1e13672fefc7 Christoph Hellwig 2022-08-06  6551  		}
-8c1e13672fefc7 Christoph Hellwig 2022-08-06  6552  		*bioc_ret =3D NULL;
-8c1e13672fefc7 Christoph Hellwig 2022-08-06  6553  		ret =3D 0;
-8c1e13672fefc7 Christoph Hellwig 2022-08-06  6554  		goto out;
-8c1e13672fefc7 Christoph Hellwig 2022-08-06  6555  	}
-8c1e13672fefc7 Christoph Hellwig 2022-08-06  6556  =
-
-731ccf15c952d5 Qu Wenruo         2021-09-23  6557  	bioc =3D alloc_btrfs_io=
-_context(fs_info, num_alloc_stripes, tgtdev_indexes);
-4c664611791239 Qu Wenruo         2021-09-15  6558  	if (!bioc) {
-de11cc12df1733 Li Zefan          2011-12-01  6559  		ret =3D -ENOMEM;
-de11cc12df1733 Li Zefan          2011-12-01  6560  		goto out;
-de11cc12df1733 Li Zefan          2011-12-01  6561  	}
-608769a4e41cce Nikolay Borisov   2020-07-02  6562  =
-
-608769a4e41cce Nikolay Borisov   2020-07-02  6563  	for (i =3D 0; i < num_s=
-tripes; i++) {
-8c1e13672fefc7 Christoph Hellwig 2022-08-06  6564  		set_io_stripe(&bioc->s=
-tripes[i], map, stripe_index, stripe_offset,
-8c1e13672fefc7 Christoph Hellwig 2022-08-06  6565  			      stripe_nr);
-608769a4e41cce Nikolay Borisov   2020-07-02  6566  		stripe_index++;
-608769a4e41cce Nikolay Borisov   2020-07-02  6567  	}
-de11cc12df1733 Li Zefan          2011-12-01  6568  =
-
-4c664611791239 Qu Wenruo         2021-09-15  6569  	/* Build raid_map */
-2b19a1fef7be74 Liu Bo            2017-03-14  6570  	if (map->type & BTRFS_B=
-LOCK_GROUP_RAID56_MASK && need_raid_map &&
-2b19a1fef7be74 Liu Bo            2017-03-14  6571  	    (need_full_stripe(o=
-p) || mirror_num > 1)) {
-8e5cfb55d3f7dc Zhao Lei          2015-01-20  6572  		u64 tmp;
-9d644a623ec48e David Sterba      2015-02-20  6573  		unsigned rot;
-8e5cfb55d3f7dc Zhao Lei          2015-01-20  6574  =
-
-8e5cfb55d3f7dc Zhao Lei          2015-01-20  6575  		/* Work out the disk r=
-otation on this stripe-set */
-47c5713f4737e4 David Sterba      2015-02-20  6576  		div_u64_rem(stripe_nr,=
- num_stripes, &rot);
-8e5cfb55d3f7dc Zhao Lei          2015-01-20  6577  =
-
-8e5cfb55d3f7dc Zhao Lei          2015-01-20  6578  		/* Fill in the logical=
- address of each stripe */
-cff8267228c14e David Sterba      2019-05-17  6579  		tmp =3D stripe_nr * da=
-ta_stripes;
-cff8267228c14e David Sterba      2019-05-17  6580  		for (i =3D 0; i < data=
-_stripes; i++)
-4c664611791239 Qu Wenruo         2021-09-15  6581  			bioc->raid_map[(i + r=
-ot) % num_stripes] =3D
-8e5cfb55d3f7dc Zhao Lei          2015-01-20  6582  				em->start + (tmp + i=
-) * map->stripe_len;
-8e5cfb55d3f7dc Zhao Lei          2015-01-20  6583  =
-
-4c664611791239 Qu Wenruo         2021-09-15  6584  		bioc->raid_map[(i + ro=
-t) % map->num_stripes] =3D RAID5_P_STRIPE;
-8e5cfb55d3f7dc Zhao Lei          2015-01-20  6585  		if (map->type & BTRFS_=
-BLOCK_GROUP_RAID6)
-4c664611791239 Qu Wenruo         2021-09-15  6586  			bioc->raid_map[(i + r=
-ot + 1) % num_stripes] =3D
-8e5cfb55d3f7dc Zhao Lei          2015-01-20  6587  				RAID6_Q_STRIPE;
-8e5cfb55d3f7dc Zhao Lei          2015-01-20  6588  =
-
-4c664611791239 Qu Wenruo         2021-09-15  6589  		sort_parity_stripes(bi=
-oc, num_stripes);
-593060d756e0c2 Chris Mason       2008-03-25  6590  	}
-de11cc12df1733 Li Zefan          2011-12-01  6591  =
-
-2b19a1fef7be74 Liu Bo            2017-03-14  6592  	if (need_full_stripe(op=
-))
-d20983b40e828f Miao Xie          2014-07-03  6593  		max_errors =3D btrfs_c=
-hunk_max_errors(map);
-de11cc12df1733 Li Zefan          2011-12-01  6594  =
-
-73c0f228250ff7 Liu Bo            2017-03-14  6595  	if (dev_replace_is_ongo=
-ing && dev_replace->tgtdev !=3D NULL &&
-2b19a1fef7be74 Liu Bo            2017-03-14  6596  	    need_full_stripe(op=
-)) {
-4c664611791239 Qu Wenruo         2021-09-15  6597  		handle_ops_on_dev_repl=
-ace(op, &bioc, dev_replace, logical,
-6143c23ccced76 Naohiro Aota      2021-02-04  6598  					  &num_stripes, &ma=
-x_errors);
-ad6d620e2a5704 Stefan Behrens    2012-11-06  6599  	}
-472262f35a6b34 Stefan Behrens    2012-11-06  6600  =
-
-4c664611791239 Qu Wenruo         2021-09-15  6601  	*bioc_ret =3D bioc;
-4c664611791239 Qu Wenruo         2021-09-15  6602  	bioc->map_type =3D map-=
->type;
-4c664611791239 Qu Wenruo         2021-09-15  6603  	bioc->num_stripes =3D n=
-um_stripes;
-4c664611791239 Qu Wenruo         2021-09-15  6604  	bioc->max_errors =3D ma=
-x_errors;
-4c664611791239 Qu Wenruo         2021-09-15  6605  	bioc->mirror_num =3D mi=
-rror_num;
-ad6d620e2a5704 Stefan Behrens    2012-11-06  6606  =
-
-ad6d620e2a5704 Stefan Behrens    2012-11-06  6607  	/*
-ad6d620e2a5704 Stefan Behrens    2012-11-06  6608  	 * this is the case tha=
-t REQ_READ && dev_replace_is_ongoing &&
-ad6d620e2a5704 Stefan Behrens    2012-11-06  6609  	 * mirror_num =3D=3D nu=
-m_stripes + 1 && dev_replace target drive is
-ad6d620e2a5704 Stefan Behrens    2012-11-06  6610  	 * available as a mirror
-ad6d620e2a5704 Stefan Behrens    2012-11-06  6611  	 */
-ad6d620e2a5704 Stefan Behrens    2012-11-06  6612  	if (patch_the_first_str=
-ipe_for_dev_replace && num_stripes > 0) {
-ad6d620e2a5704 Stefan Behrens    2012-11-06  6613  		WARN_ON(num_stripes > =
-1);
-4c664611791239 Qu Wenruo         2021-09-15  6614  		bioc->stripes[0].dev =
-=3D dev_replace->tgtdev;
-4c664611791239 Qu Wenruo         2021-09-15  6615  		bioc->stripes[0].physi=
-cal =3D physical_to_patch_in_first_stripe;
-4c664611791239 Qu Wenruo         2021-09-15  6616  		bioc->mirror_num =3D m=
-ap->num_stripes + 1;
-ad6d620e2a5704 Stefan Behrens    2012-11-06  6617  	}
-cea9e4452ebaf1 Chris Mason       2008-04-09  6618  out:
-73beece9ca07c0 Liu Bo            2015-07-17  6619  	if (dev_replace_is_ongo=
-ing) {
-53176dde0acd8f David Sterba      2018-04-05  6620  		lockdep_assert_held(&d=
-ev_replace->rwsem);
-53176dde0acd8f David Sterba      2018-04-05  6621  		/* Unlock and let wait=
-ing writers proceed */
-cb5583dd52fab4 David Sterba      2018-09-07  6622  		up_read(&dev_replace->=
-rwsem);
-73beece9ca07c0 Liu Bo            2015-07-17  6623  	}
-0b86a832a1f38a Chris Mason       2008-03-24  6624  	free_extent_map(em);
-de11cc12df1733 Li Zefan          2011-12-01  6625  	return ret;
-0b86a832a1f38a Chris Mason       2008-03-24  6626  }
-0b86a832a1f38a Chris Mason       2008-03-24  6627  =
-
+:::::: TO: Pablo Neira Ayuso <pablo@netfilter.org>
+:::::: CC: Pablo Neira Ayuso <pablo@netfilter.org>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============2600424437163038078==--
+--===============3771665164443390320==--
 
