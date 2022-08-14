@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============3812582721846136563=="
+Content-Type: multipart/mixed; boundary="===============1337017413417855317=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/gpu/drm/tegra/nvdec.c:180:20: warning: use of uninitialized value '<unknown>' [CWE-457]
-Date: Mon, 15 Aug 2022 08:20:17 +0800
-Message-ID: <202208150830.je33LixY-lkp@intel.com>
+Subject: drivers/power/supply/ip5xxx_power.c:341:63: warning: use of uninitialized value 'raw' [CWE-457]
+Date: Mon, 15 Aug 2022 04:57:29 +0800
+Message-ID: <202208150419.z1BmgcNe-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3812582721846136563==
+--===============1337017413417855317==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,8 +15,8 @@ Content-Transfer-Encoding: quoted-printable
 :::::: =
 
 :::::: Manual check reason: "low confidence bisect report"
-:::::: Manual check reason: "low confidence static check warning: drivers/g=
-pu/drm/tegra/nvdec.c:180:20: warning: use of uninitialized value '<unknown>=
+:::::: Manual check reason: "low confidence static check warning: drivers/p=
+ower/supply/ip5xxx_power.c:341:63: warning: use of uninitialized value 'raw=
 ' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]"
 :::::: =
 
@@ -24,29 +24,30 @@ pu/drm/tegra/nvdec.c:180:20: warning: use of uninitialized value '<unknown>=
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Mikko Perttunen <mperttunen@nvidia.com>
-CC: Thierry Reding <treding@nvidia.com>
+TO: Samuel Holland <samuel@sholland.org>
+CC: Sebastian Reichel <sebastian.reichel@collabora.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   5d6a0f4da9275f6c212de33777778673ba91241a
-commit: 46f226c93d35b936aeec6eb31da932dc2e86f413 drm/tegra: Add NVDEC driver
-date:   8 months ago
-:::::: branch date: 8 hours ago
-:::::: commit date: 8 months ago
-config: arm-randconfig-c002-20220808 (https://download.01.org/0day-ci/archi=
-ve/20220815/202208150830.je33LixY-lkp(a)intel.com/config)
+commit: 75853406fa27961044e7dc03c7dc8544477e81f5 power: supply: Add a drive=
+r for Injoinic power bank ICs
+date:   5 months ago
+:::::: branch date: 4 hours ago
+:::::: commit date: 5 months ago
+config: arm-randconfig-c002-20220814 (https://download.01.org/0day-ci/archi=
+ve/20220815/202208150419.z1BmgcNe-lkp(a)intel.com/config)
 compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D46f226c93d35b936aeec6eb31da932dc2e86f413
+t/commit/?id=3D75853406fa27961044e7dc03c7dc8544477e81f5
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
 t/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout 46f226c93d35b936aeec6eb31da932dc2e86f413
+        git checkout 75853406fa27961044e7dc03c7dc8544477e81f5
         # save the config file
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cross=
  ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
@@ -56,138 +57,301 @@ If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 
 gcc-analyzer warnings: (new ones prefixed by >>)
-   drivers/gpu/drm/tegra/nvdec.c: In function 'nvdec_load_firmware':
->> drivers/gpu/drm/tegra/nvdec.c:180:20: warning: use of uninitialized valu=
-e '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-     180 |         dma_addr_t iova;
-         |                    ^~~~
-     'nvdec_load_firmware': event 1
+   In file included from include/linux/math64.h:6,
+                    from include/linux/time64.h:5,
+                    from include/linux/restart_block.h:10,
+                    from include/linux/thread_info.h:14,
+                    from include/asm-generic/current.h:5,
+                    from arch/arm/include/asm/current.h:50,
+                    from include/linux/mutex.h:14,
+                    from include/linux/kernfs.h:11,
+                    from include/linux/sysfs.h:16,
+                    from include/linux/kobject.h:20,
+                    from include/linux/of.h:17,
+                    from include/linux/irqdomain.h:35,
+                    from include/linux/acpi.h:13,
+                    from include/linux/i2c.h:13,
+                    from drivers/power/supply/ip5xxx_power.c:5:
+   drivers/power/supply/ip5xxx_power.c: In function 'ip5xxx_battery_get_pro=
+perty':
+>> drivers/power/supply/ip5xxx_power.c:341:63: warning: use of uninitialize=
+d value 'raw' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+     341 |                 val->intval =3D 2600000 + DIV_ROUND_CLOSEST(raw =
+* 26855, 100);
+         |                                                           ~~~~^~=
+~~~~~
+   include/linux/math.h:87:25: note: in definition of macro 'DIV_ROUND_CLOS=
+EST'
+      87 |         typeof(x) __x =3D x;                              \
+         |                         ^
+     'ip5xxx_battery_get_property': events 1-7
        |
-       |  180 |         dma_addr_t iova;
-       |      |                    ^~~~
-       |      |                    |
-       |      |                    (1) use of uninitialized value '<unknown=
->' here
-       |
-   drivers/gpu/drm/tegra/nvdec.c: In function 'nvdec_probe':
-   drivers/gpu/drm/tegra/nvdec.c:347:13: warning: use of uninitialized valu=
-e '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-     347 |         u32 host_class;
-         |             ^~~~~~~~~~
-     'nvdec_probe': event 1
-       |
-       |  347 |         u32 host_class;
-       |      |             ^~~~~~~~~~
+       |drivers/power/supply/ip5xxx_power.c:312:12:
+       |  312 | static int ip5xxx_battery_get_property(struct power_supply =
+*psy,
+       |      |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |            |
+       |      |            (1) entry to 'ip5xxx_battery_get_property'
+       |......
+       |  317 |         int raw, ret, vmax;
+       |      |             ~~~
        |      |             |
-       |      |             (1) use of uninitialized value '<unknown>' here
+       |      |             (2) region created on stack here
+       |......
+       |  321 |         if (ret)
+       |      |            ~
+       |      |            |
+       |      |            (3) following 'false' branch (when 'ret =3D=3D 0=
+')...
+       |......
+       |  324 |         switch (psp) {
+       |      |         ~~~~~~
+       |      |         |
+       |      |         (4) ...to here
+       |      |         (5) following 'case 12:' branch...
+       |......
+       |  337 |         case POWER_SUPPLY_PROP_VOLTAGE_NOW:
+       |      |         ~~~~
+       |      |         |
+       |      |         (6) ...to here
+       |  338 |                 ret =3D ip5xxx_battery_read_adc(ip5xxx, IP5=
+XXX_BATVADC_DAT0,
+       |      |                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~
+       |      |                       |
+       |      |                       (7) calling 'ip5xxx_battery_read_adc'=
+ from 'ip5xxx_battery_get_property'
+       |  339 |                                               IP5XXX_BATVAD=
+C_DAT1, &raw);
+       |      |                                               ~~~~~~~~~~~~~=
+~~~~~~~~~~~~~
        |
+       +--> 'ip5xxx_battery_read_adc': events 8-11
+              |
+              |  293 | static int ip5xxx_battery_read_adc(struct ip5xxx *ip=
+5xxx,
+              |      |            ^~~~~~~~~~~~~~~~~~~~~~~
+              |      |            |
+              |      |            (8) entry to 'ip5xxx_battery_read_adc'
+              |......
+              |  300 |         if (ret)
+              |      |            ~
+              |      |            |
+              |      |            (9) following 'false' branch (when 'ret =
+=3D=3D 0')...
+              |......
+              |  303 |         ret =3D ip5xxx_read(ip5xxx, hi_reg, &hi);
+              |      |               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |               |
+              |      |               (10) ...to here
+              |      |               (11) calling 'ip5xxx_read' from 'ip5xx=
+x_battery_read_adc'
+              |
+              +--> 'ip5xxx_read': events 12-14
+                     |
+                     |   90 | static int ip5xxx_read(struct ip5xxx *ip5xxx,=
+ unsigned int reg,
+                     |      |            ^~~~~~~~~~~
+                     |      |            |
+                     |      |            (12) entry to 'ip5xxx_read'
+                     |......
+                     |   96 |         if (ret)
+                     |      |            ~
+                     |      |            |
+                     |      |            (13) following 'true' branch (when=
+ 'ret !=3D 0')...
+                     |   97 |                 ip5xxx->initialized =3D false;
+                     |      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                     |      |                                     |
+                     |      |                                     (14) ...t=
+o here
+                     |
+              <------+
+              |
+            'ip5xxx_battery_read_adc': events 15-16
+              |
+              |  303 |         ret =3D ip5xxx_read(ip5xxx, hi_reg, &hi);
+              |      |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |               |
+              |      |               (15) returning to 'ip5xxx_battery_read=
+_adc' from 'ip5xxx_read'
+              |  304 |         if (ret)
+              |      |            ~   =
 
-vim +180 drivers/gpu/drm/tegra/nvdec.c
+              |      |            |
+              |      |            (16) following 'true' branch (when 'ret !=
+=3D 0')...
+              |
+            'ip5xxx_battery_read_adc': event 17
+              |
+              |cc1:
+              | (17): ...to here
+              |
+       <------+
+       |
+     'ip5xxx_battery_get_property': event 18
+       |
+       |  338 |                 ret =3D ip5xxx_battery_read_adc(ip5xxx, IP5=
+XXX_BATVADC_DAT0,
+       |      |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~
+       |      |                       |
+       |      |                       (18) returning to 'ip5xxx_battery_get=
+_property' from 'ip5xxx_battery_read_adc'
 
-46f226c93d35b9 Mikko Perttunen 2021-09-16  175  =
+vim +/raw +341 drivers/power/supply/ip5xxx_power.c
 
-46f226c93d35b9 Mikko Perttunen 2021-09-16  176  static int nvdec_load_firmw=
-are(struct nvdec *nvdec)
-46f226c93d35b9 Mikko Perttunen 2021-09-16  177  {
-46f226c93d35b9 Mikko Perttunen 2021-09-16  178  	struct host1x_client *clie=
-nt =3D &nvdec->client.base;
-46f226c93d35b9 Mikko Perttunen 2021-09-16  179  	struct tegra_drm *tegra =
-=3D nvdec->client.drm;
-46f226c93d35b9 Mikko Perttunen 2021-09-16 @180  	dma_addr_t iova;
-46f226c93d35b9 Mikko Perttunen 2021-09-16  181  	size_t size;
-46f226c93d35b9 Mikko Perttunen 2021-09-16  182  	void *virt;
-46f226c93d35b9 Mikko Perttunen 2021-09-16  183  	int err;
-46f226c93d35b9 Mikko Perttunen 2021-09-16  184  =
+75853406fa27961 Samuel Holland 2022-02-13  311  =
 
-46f226c93d35b9 Mikko Perttunen 2021-09-16  185  	if (nvdec->falcon.firmware=
-.virt)
-46f226c93d35b9 Mikko Perttunen 2021-09-16  186  		return 0;
-46f226c93d35b9 Mikko Perttunen 2021-09-16  187  =
+75853406fa27961 Samuel Holland 2022-02-13  312  static int ip5xxx_battery_g=
+et_property(struct power_supply *psy,
+75853406fa27961 Samuel Holland 2022-02-13  313  				       enum power_suppl=
+y_property psp,
+75853406fa27961 Samuel Holland 2022-02-13  314  				       union power_supp=
+ly_propval *val)
+75853406fa27961 Samuel Holland 2022-02-13  315  {
+75853406fa27961 Samuel Holland 2022-02-13  316  	struct ip5xxx *ip5xxx =3D =
+power_supply_get_drvdata(psy);
+75853406fa27961 Samuel Holland 2022-02-13  317  	int raw, ret, vmax;
+75853406fa27961 Samuel Holland 2022-02-13  318  	unsigned int rval;
+75853406fa27961 Samuel Holland 2022-02-13  319  =
 
-46f226c93d35b9 Mikko Perttunen 2021-09-16  188  	err =3D falcon_read_firmwa=
-re(&nvdec->falcon, nvdec->config->firmware);
-46f226c93d35b9 Mikko Perttunen 2021-09-16  189  	if (err < 0)
-46f226c93d35b9 Mikko Perttunen 2021-09-16  190  		return err;
-46f226c93d35b9 Mikko Perttunen 2021-09-16  191  =
+75853406fa27961 Samuel Holland 2022-02-13  320  	ret =3D ip5xxx_initialize(=
+psy);
+75853406fa27961 Samuel Holland 2022-02-13  321  	if (ret)
+75853406fa27961 Samuel Holland 2022-02-13  322  		return ret;
+75853406fa27961 Samuel Holland 2022-02-13  323  =
 
-46f226c93d35b9 Mikko Perttunen 2021-09-16  192  	size =3D nvdec->falcon.fir=
-mware.size;
-46f226c93d35b9 Mikko Perttunen 2021-09-16  193  =
+75853406fa27961 Samuel Holland 2022-02-13  324  	switch (psp) {
+75853406fa27961 Samuel Holland 2022-02-13  325  	case POWER_SUPPLY_PROP_STA=
+TUS:
+75853406fa27961 Samuel Holland 2022-02-13  326  		return ip5xxx_battery_get=
+_status(ip5xxx, &val->intval);
+75853406fa27961 Samuel Holland 2022-02-13  327  =
 
-46f226c93d35b9 Mikko Perttunen 2021-09-16  194  	if (!client->group) {
-46f226c93d35b9 Mikko Perttunen 2021-09-16  195  		virt =3D dma_alloc_cohere=
-nt(nvdec->dev, size, &iova, GFP_KERNEL);
-46f226c93d35b9 Mikko Perttunen 2021-09-16  196  =
+75853406fa27961 Samuel Holland 2022-02-13  328  	case POWER_SUPPLY_PROP_CHA=
+RGE_TYPE:
+75853406fa27961 Samuel Holland 2022-02-13  329  		return ip5xxx_battery_get=
+_charge_type(ip5xxx, &val->intval);
+75853406fa27961 Samuel Holland 2022-02-13  330  =
 
-46f226c93d35b9 Mikko Perttunen 2021-09-16  197  		err =3D dma_mapping_error=
-(nvdec->dev, iova);
-46f226c93d35b9 Mikko Perttunen 2021-09-16  198  		if (err < 0)
-46f226c93d35b9 Mikko Perttunen 2021-09-16  199  			return err;
-46f226c93d35b9 Mikko Perttunen 2021-09-16  200  	} else {
-46f226c93d35b9 Mikko Perttunen 2021-09-16  201  		virt =3D tegra_drm_alloc(=
-tegra, size, &iova);
-46f226c93d35b9 Mikko Perttunen 2021-09-16  202  	}
-46f226c93d35b9 Mikko Perttunen 2021-09-16  203  =
+75853406fa27961 Samuel Holland 2022-02-13  331  	case POWER_SUPPLY_PROP_HEA=
+LTH:
+75853406fa27961 Samuel Holland 2022-02-13  332  		return ip5xxx_battery_get=
+_health(ip5xxx, &val->intval);
+75853406fa27961 Samuel Holland 2022-02-13  333  =
 
-46f226c93d35b9 Mikko Perttunen 2021-09-16  204  	nvdec->falcon.firmware.vir=
-t =3D virt;
-46f226c93d35b9 Mikko Perttunen 2021-09-16  205  	nvdec->falcon.firmware.iov=
-a =3D iova;
-46f226c93d35b9 Mikko Perttunen 2021-09-16  206  =
+75853406fa27961 Samuel Holland 2022-02-13  334  	case POWER_SUPPLY_PROP_VOL=
+TAGE_MAX_DESIGN:
+75853406fa27961 Samuel Holland 2022-02-13  335  		return ip5xxx_battery_get=
+_voltage_max(ip5xxx, &val->intval);
+75853406fa27961 Samuel Holland 2022-02-13  336  =
 
-46f226c93d35b9 Mikko Perttunen 2021-09-16  207  	err =3D falcon_load_firmwa=
-re(&nvdec->falcon);
-46f226c93d35b9 Mikko Perttunen 2021-09-16  208  	if (err < 0)
-46f226c93d35b9 Mikko Perttunen 2021-09-16  209  		goto cleanup;
-46f226c93d35b9 Mikko Perttunen 2021-09-16  210  =
+75853406fa27961 Samuel Holland 2022-02-13  337  	case POWER_SUPPLY_PROP_VOL=
+TAGE_NOW:
+75853406fa27961 Samuel Holland 2022-02-13  338  		ret =3D ip5xxx_battery_re=
+ad_adc(ip5xxx, IP5XXX_BATVADC_DAT0,
+75853406fa27961 Samuel Holland 2022-02-13  339  					      IP5XXX_BATVADC_D=
+AT1, &raw);
+75853406fa27961 Samuel Holland 2022-02-13  340  =
 
-46f226c93d35b9 Mikko Perttunen 2021-09-16  211  	/*
-46f226c93d35b9 Mikko Perttunen 2021-09-16  212  	 * In this case we have re=
-ceived an IOVA from the shared domain, so we
-46f226c93d35b9 Mikko Perttunen 2021-09-16  213  	 * need to make sure to ge=
-t the physical address so that the DMA API
-46f226c93d35b9 Mikko Perttunen 2021-09-16  214  	 * knows what memory pages=
- to flush the cache for.
-46f226c93d35b9 Mikko Perttunen 2021-09-16  215  	 */
-46f226c93d35b9 Mikko Perttunen 2021-09-16  216  	if (client->group) {
-46f226c93d35b9 Mikko Perttunen 2021-09-16  217  		dma_addr_t phys;
-46f226c93d35b9 Mikko Perttunen 2021-09-16  218  =
+75853406fa27961 Samuel Holland 2022-02-13 @341  		val->intval =3D 2600000 +=
+ DIV_ROUND_CLOSEST(raw * 26855, 100);
+75853406fa27961 Samuel Holland 2022-02-13  342  		return 0;
+75853406fa27961 Samuel Holland 2022-02-13  343  =
 
-46f226c93d35b9 Mikko Perttunen 2021-09-16  219  		phys =3D dma_map_single(n=
-vdec->dev, virt, size, DMA_TO_DEVICE);
-46f226c93d35b9 Mikko Perttunen 2021-09-16  220  =
+75853406fa27961 Samuel Holland 2022-02-13  344  	case POWER_SUPPLY_PROP_VOL=
+TAGE_OCV:
+75853406fa27961 Samuel Holland 2022-02-13  345  		ret =3D ip5xxx_battery_re=
+ad_adc(ip5xxx, IP5XXX_BATOCV_DAT0,
+75853406fa27961 Samuel Holland 2022-02-13  346  					      IP5XXX_BATOCV_DA=
+T1, &raw);
+75853406fa27961 Samuel Holland 2022-02-13  347  =
 
-46f226c93d35b9 Mikko Perttunen 2021-09-16  221  		err =3D dma_mapping_error=
-(nvdec->dev, phys);
-46f226c93d35b9 Mikko Perttunen 2021-09-16  222  		if (err < 0)
-46f226c93d35b9 Mikko Perttunen 2021-09-16  223  			goto cleanup;
-46f226c93d35b9 Mikko Perttunen 2021-09-16  224  =
+75853406fa27961 Samuel Holland 2022-02-13  348  		val->intval =3D 2600000 +=
+ DIV_ROUND_CLOSEST(raw * 26855, 100);
+75853406fa27961 Samuel Holland 2022-02-13  349  		return 0;
+75853406fa27961 Samuel Holland 2022-02-13  350  =
 
-46f226c93d35b9 Mikko Perttunen 2021-09-16  225  		nvdec->falcon.firmware.ph=
-ys =3D phys;
-46f226c93d35b9 Mikko Perttunen 2021-09-16  226  	}
-46f226c93d35b9 Mikko Perttunen 2021-09-16  227  =
+75853406fa27961 Samuel Holland 2022-02-13  351  	case POWER_SUPPLY_PROP_CUR=
+RENT_NOW:
+75853406fa27961 Samuel Holland 2022-02-13  352  		ret =3D ip5xxx_battery_re=
+ad_adc(ip5xxx, IP5XXX_BATIADC_DAT0,
+75853406fa27961 Samuel Holland 2022-02-13  353  					      IP5XXX_BATIADC_D=
+AT1, &raw);
+75853406fa27961 Samuel Holland 2022-02-13  354  =
 
-46f226c93d35b9 Mikko Perttunen 2021-09-16  228  	return 0;
-46f226c93d35b9 Mikko Perttunen 2021-09-16  229  =
+75853406fa27961 Samuel Holland 2022-02-13  355  		val->intval =3D DIV_ROUND=
+_CLOSEST(raw * 745985, 1000);
+75853406fa27961 Samuel Holland 2022-02-13  356  		return 0;
+75853406fa27961 Samuel Holland 2022-02-13  357  =
 
-46f226c93d35b9 Mikko Perttunen 2021-09-16  230  cleanup:
-46f226c93d35b9 Mikko Perttunen 2021-09-16  231  	if (!client->group)
-46f226c93d35b9 Mikko Perttunen 2021-09-16  232  		dma_free_coherent(nvdec->=
-dev, size, virt, iova);
-46f226c93d35b9 Mikko Perttunen 2021-09-16  233  	else
-46f226c93d35b9 Mikko Perttunen 2021-09-16  234  		tegra_drm_free(tegra, siz=
-e, virt, iova);
-46f226c93d35b9 Mikko Perttunen 2021-09-16  235  =
+75853406fa27961 Samuel Holland 2022-02-13  358  	case POWER_SUPPLY_PROP_CON=
+STANT_CHARGE_CURRENT:
+75853406fa27961 Samuel Holland 2022-02-13  359  		ret =3D ip5xxx_read(ip5xx=
+x, IP5XXX_CHG_CTL4A, &rval);
+75853406fa27961 Samuel Holland 2022-02-13  360  		if (ret)
+75853406fa27961 Samuel Holland 2022-02-13  361  			return ret;
+75853406fa27961 Samuel Holland 2022-02-13  362  =
 
-46f226c93d35b9 Mikko Perttunen 2021-09-16  236  	return err;
-46f226c93d35b9 Mikko Perttunen 2021-09-16  237  }
-46f226c93d35b9 Mikko Perttunen 2021-09-16  238  =
+75853406fa27961 Samuel Holland 2022-02-13  363  		rval &=3D IP5XXX_CHG_CTL4=
+A_CONST_CUR_SEL;
+75853406fa27961 Samuel Holland 2022-02-13  364  		val->intval =3D 100000 * =
+rval;
+75853406fa27961 Samuel Holland 2022-02-13  365  		return 0;
+75853406fa27961 Samuel Holland 2022-02-13  366  =
+
+75853406fa27961 Samuel Holland 2022-02-13  367  	case POWER_SUPPLY_PROP_CON=
+STANT_CHARGE_CURRENT_MAX:
+75853406fa27961 Samuel Holland 2022-02-13  368  		val->intval =3D 100000 * =
+0x1f;
+75853406fa27961 Samuel Holland 2022-02-13  369  		return 0;
+75853406fa27961 Samuel Holland 2022-02-13  370  =
+
+75853406fa27961 Samuel Holland 2022-02-13  371  	case POWER_SUPPLY_PROP_CON=
+STANT_CHARGE_VOLTAGE:
+75853406fa27961 Samuel Holland 2022-02-13  372  		ret =3D ip5xxx_battery_ge=
+t_voltage_max(ip5xxx, &vmax);
+75853406fa27961 Samuel Holland 2022-02-13  373  		if (ret)
+75853406fa27961 Samuel Holland 2022-02-13  374  			return ret;
+75853406fa27961 Samuel Holland 2022-02-13  375  =
+
+75853406fa27961 Samuel Holland 2022-02-13  376  		ret =3D ip5xxx_read(ip5xx=
+x, IP5XXX_CHG_CTL2, &rval);
+75853406fa27961 Samuel Holland 2022-02-13  377  		if (ret)
+75853406fa27961 Samuel Holland 2022-02-13  378  			return ret;
+75853406fa27961 Samuel Holland 2022-02-13  379  =
+
+75853406fa27961 Samuel Holland 2022-02-13  380  		rval &=3D IP5XXX_CHG_CTL2=
+_CONST_VOLT_SEL;
+75853406fa27961 Samuel Holland 2022-02-13  381  		val->intval =3D vmax + 14=
+000 * (rval >> 1);
+75853406fa27961 Samuel Holland 2022-02-13  382  		return 0;
+75853406fa27961 Samuel Holland 2022-02-13  383  =
+
+75853406fa27961 Samuel Holland 2022-02-13  384  	case POWER_SUPPLY_PROP_CON=
+STANT_CHARGE_VOLTAGE_MAX:
+75853406fa27961 Samuel Holland 2022-02-13  385  		ret =3D ip5xxx_battery_ge=
+t_voltage_max(ip5xxx, &vmax);
+75853406fa27961 Samuel Holland 2022-02-13  386  		if (ret)
+75853406fa27961 Samuel Holland 2022-02-13  387  			return ret;
+75853406fa27961 Samuel Holland 2022-02-13  388  =
+
+75853406fa27961 Samuel Holland 2022-02-13  389  		val->intval =3D vmax + 14=
+000 * 3;
+75853406fa27961 Samuel Holland 2022-02-13  390  		return 0;
+75853406fa27961 Samuel Holland 2022-02-13  391  =
+
+75853406fa27961 Samuel Holland 2022-02-13  392  	default:
+75853406fa27961 Samuel Holland 2022-02-13  393  		return -EINVAL;
+75853406fa27961 Samuel Holland 2022-02-13  394  	}
+75853406fa27961 Samuel Holland 2022-02-13  395  }
+75853406fa27961 Samuel Holland 2022-02-13  396  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============3812582721846136563==--
+--===============1337017413417855317==--
 
