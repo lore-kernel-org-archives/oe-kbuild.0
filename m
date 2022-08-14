@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============1082111873540977923=="
+Content-Type: multipart/mixed; boundary="===============5832094091648819016=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/s390/net/qeth_core_main.c:4644 qeth_snmp_command() error: copy_from_user() '&__ipa_cmd(iob)->data.setadapterparms.data.snmp' too small (37 vs 4096)
-Date: Sun, 14 Aug 2022 09:12:59 +0800
-Message-ID: <202208140946.0cNI19p8-lkp@intel.com>
+Subject: arch/s390/kvm/gaccess.c:1064 access_guest_with_key() error: uninitialized symbol 'prot'.
+Date: Sun, 14 Aug 2022 09:12:57 +0800
+Message-ID: <202208140957.tRQQbiQI-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1082111873540977923==
+--===============5832094091648819016==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,18 +15,20 @@ Content-Transfer-Encoding: quoted-printable
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Heiko Carstens <hca@linux.ibm.com>
+TO: "Janis Schoetterl-Glausch" <scgl@linux.ibm.com>
+CC: Christian Borntraeger <borntraeger@linux.ibm.com>
+CC: Janosch Frank <frankja@linux.ibm.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   f6eb0fed6a3957c0b93e3a00c1ffaad84d4ffc31
-commit: 454ede3f1424c36bc124f8d7ed4b3ea654654be1 s390/uaccess: use exceptio=
-n handler to zero result on get_user() failure
-date:   2 months ago
-:::::: branch date: 4 hours ago
-:::::: commit date: 2 months ago
-config: s390-randconfig-m031-20220810 (https://download.01.org/0day-ci/arch=
-ive/20220814/202208140946.0cNI19p8-lkp(a)intel.com/config)
+commit: e613d83454d7da1c37d78edb278db9c20afb21a2 KVM: s390: Honor storage k=
+eys when accessing guest memory
+date:   6 months ago
+:::::: branch date: 3 hours ago
+:::::: commit date: 6 months ago
+config: s390-randconfig-m031-20220812 (https://download.01.org/0day-ci/arch=
+ive/20220814/202208140957.tRQQbiQI-lkp(a)intel.com/config)
 compiler: s390-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
@@ -34,117 +36,149 @@ Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 New smatch warnings:
-drivers/s390/net/qeth_core_main.c:4644 qeth_snmp_command() error: copy_from=
-_user() '&__ipa_cmd(iob)->data.setadapterparms.data.snmp' too small (37 vs =
-4096)
+arch/s390/kvm/gaccess.c:1064 access_guest_with_key() error: uninitialized s=
+ymbol 'prot'.
 
 Old smatch warnings:
-drivers/s390/net/qeth_core_main.c:2760 qeth_print_status_message() warn: ar=
-gument 3 to %02x specifier has type 'char'
-drivers/s390/net/qeth_core_main.c:2760 qeth_print_status_message() warn: ar=
-gument 4 to %02x specifier has type 'char'
+arch/s390/kvm/gaccess.c:935 guest_range_to_gpas() error: uninitialized symb=
+ol 'prot'.
 
-vim +4644 drivers/s390/net/qeth_core_main.c
+vim +/prot +1064 arch/s390/kvm/gaccess.c
 
-4a71df50047f0d Frank Blaschka  2008-02-15  4613  =
+e613d83454d7da Janis Schoetterl-Glausch 2022-02-11   996  =
 
-942d6984aa0cb3 Julian Wiedmann 2017-04-11  4614  static int qeth_snmp_comma=
-nd(struct qeth_card *card, char __user *udata)
-4a71df50047f0d Frank Blaschka  2008-02-15  4615  {
-d4c08afafa0469 Julian Wiedmann 2019-06-27  4616  	struct qeth_snmp_ureq __u=
-ser *ureq;
-4a71df50047f0d Frank Blaschka  2008-02-15  4617  	struct qeth_cmd_buffer *i=
-ob;
-6fb392b1a63ae3 Ursula Braun    2013-11-06  4618  	unsigned int req_len;
-4a71df50047f0d Frank Blaschka  2008-02-15  4619  	struct qeth_arp_query_inf=
-o qinfo =3D {0, };
-4a71df50047f0d Frank Blaschka  2008-02-15  4620  	int rc =3D 0;
-4a71df50047f0d Frank Blaschka  2008-02-15  4621  =
+e613d83454d7da Janis Schoetterl-Glausch 2022-02-11   997  int access_guest_=
+with_key(struct kvm_vcpu *vcpu, unsigned long ga, u8 ar,
+e613d83454d7da Janis Schoetterl-Glausch 2022-02-11   998  			  void *data, =
+unsigned long len, enum gacc_mode mode,
+e613d83454d7da Janis Schoetterl-Glausch 2022-02-11   999  			  u8 access_ke=
+y)
+2293897805c2fe Heiko Carstens           2014-01-01  1000  {
+2293897805c2fe Heiko Carstens           2014-01-01  1001  	psw_t *psw =3D &=
+vcpu->arch.sie_block->gpsw;
+7faa543df19bf6 Janis Schoetterl-Glausch 2021-11-26  1002  	unsigned long nr=
+_pages, idx;
+7faa543df19bf6 Janis Schoetterl-Glausch 2021-11-26  1003  	unsigned long gp=
+a_array[2];
+416e7f0c9d613b Janis Schoetterl-Glausch 2021-11-26  1004  	unsigned int fra=
+gment_len;
+7faa543df19bf6 Janis Schoetterl-Glausch 2021-11-26  1005  	unsigned long *g=
+pas;
+e613d83454d7da Janis Schoetterl-Glausch 2022-02-11  1006  	enum prot_type p=
+rot;
+8a242234b4bfed Heiko Carstens           2014-01-10  1007  	int need_ipte_lo=
+ck;
+8a242234b4bfed Heiko Carstens           2014-01-10  1008  	union asce asce;
+e613d83454d7da Janis Schoetterl-Glausch 2022-02-11  1009  	bool try_storage=
+_prot_override;
+e613d83454d7da Janis Schoetterl-Glausch 2022-02-11  1010  	bool try_fetch_p=
+rot_override;
+2293897805c2fe Heiko Carstens           2014-01-01  1011  	int rc;
+2293897805c2fe Heiko Carstens           2014-01-01  1012  =
 
-847a50fd9f3d6a Carsten Otte    2010-06-21  4622  	QETH_CARD_TEXT(card, 3, "=
-snmpcmd");
-4a71df50047f0d Frank Blaschka  2008-02-15  4623  =
+2293897805c2fe Heiko Carstens           2014-01-01  1013  	if (!len)
+2293897805c2fe Heiko Carstens           2014-01-01  1014  		return 0;
+6167375b558196 David Hildenbrand        2016-05-31  1015  	ga =3D kvm_s390_=
+logical_to_effective(vcpu, ga);
+6167375b558196 David Hildenbrand        2016-05-31  1016  	rc =3D get_vcpu_=
+asce(vcpu, &asce, ga, ar, mode);
+664b4973537068 Alexander Yarygin        2015-03-09  1017  	if (rc)
+664b4973537068 Alexander Yarygin        2015-03-09  1018  		return rc;
+2293897805c2fe Heiko Carstens           2014-01-01  1019  	nr_pages =3D (((=
+ga & ~PAGE_MASK) + len - 1) >> PAGE_SHIFT) + 1;
+7faa543df19bf6 Janis Schoetterl-Glausch 2021-11-26  1020  	gpas =3D gpa_arr=
+ay;
+7faa543df19bf6 Janis Schoetterl-Glausch 2021-11-26  1021  	if (nr_pages > A=
+RRAY_SIZE(gpa_array))
+7faa543df19bf6 Janis Schoetterl-Glausch 2021-11-26  1022  		gpas =3D vmallo=
+c(array_size(nr_pages, sizeof(unsigned long)));
+7faa543df19bf6 Janis Schoetterl-Glausch 2021-11-26  1023  	if (!gpas)
+2293897805c2fe Heiko Carstens           2014-01-01  1024  		return -ENOMEM;
+e613d83454d7da Janis Schoetterl-Glausch 2022-02-11  1025  	try_fetch_prot_o=
+verride =3D fetch_prot_override_applicable(vcpu, mode, asce);
+e613d83454d7da Janis Schoetterl-Glausch 2022-02-11  1026  	try_storage_prot=
+_override =3D storage_prot_override_applicable(vcpu);
+a752598254016d Heiko Carstens           2017-06-03  1027  	need_ipte_lock =
+=3D psw_bits(*psw).dat && !asce.r;
+8a242234b4bfed Heiko Carstens           2014-01-10  1028  	if (need_ipte_lo=
+ck)
+8a242234b4bfed Heiko Carstens           2014-01-10  1029  		ipte_lock(vcpu);
+e613d83454d7da Janis Schoetterl-Glausch 2022-02-11  1030  	/*
+e613d83454d7da Janis Schoetterl-Glausch 2022-02-11  1031  	 * Since we do t=
+he access further down ultimately via a move instruction
+e613d83454d7da Janis Schoetterl-Glausch 2022-02-11  1032  	 * that does key=
+ checking and returns an error in case of a protection
+e613d83454d7da Janis Schoetterl-Glausch 2022-02-11  1033  	 * violation, we=
+ don't need to do the check during address translation.
+e613d83454d7da Janis Schoetterl-Glausch 2022-02-11  1034  	 * Skip it by pa=
+ssing access key 0, which matches any storage key,
+e613d83454d7da Janis Schoetterl-Glausch 2022-02-11  1035  	 * obviating the=
+ need for any further checks. As a result the check is
+e613d83454d7da Janis Schoetterl-Glausch 2022-02-11  1036  	 * handled entir=
+ely in hardware on access, we only need to take care to
+e613d83454d7da Janis Schoetterl-Glausch 2022-02-11  1037  	 * forego key pr=
+otection checking if fetch protection override applies or
+e613d83454d7da Janis Schoetterl-Glausch 2022-02-11  1038  	 * retry with th=
+e special key 9 in case of storage protection override.
+e613d83454d7da Janis Schoetterl-Glausch 2022-02-11  1039  	 */
+e613d83454d7da Janis Schoetterl-Glausch 2022-02-11  1040  	rc =3D guest_ran=
+ge_to_gpas(vcpu, ga, ar, gpas, len, asce, mode, 0);
+e613d83454d7da Janis Schoetterl-Glausch 2022-02-11  1041  	if (rc)
+e613d83454d7da Janis Schoetterl-Glausch 2022-02-11  1042  		goto out_unlock;
+e613d83454d7da Janis Schoetterl-Glausch 2022-02-11  1043  	for (idx =3D 0; =
+idx < nr_pages; idx++) {
+7faa543df19bf6 Janis Schoetterl-Glausch 2021-11-26  1044  		fragment_len =
+=3D min(PAGE_SIZE - offset_in_page(gpas[idx]), len);
+e613d83454d7da Janis Schoetterl-Glausch 2022-02-11  1045  		if (try_fetch_p=
+rot_override && fetch_prot_override_applies(ga, fragment_len)) {
+e613d83454d7da Janis Schoetterl-Glausch 2022-02-11  1046  			rc =3D access_=
+guest_page(vcpu->kvm, mode, gpas[idx],
+e613d83454d7da Janis Schoetterl-Glausch 2022-02-11  1047  					       data,=
+ fragment_len);
+e613d83454d7da Janis Schoetterl-Glausch 2022-02-11  1048  		} else {
+e613d83454d7da Janis Schoetterl-Glausch 2022-02-11  1049  			rc =3D access_=
+guest_page_with_key(vcpu->kvm, mode, gpas[idx],
+e613d83454d7da Janis Schoetterl-Glausch 2022-02-11  1050  							data, frag=
+ment_len, access_key);
+e613d83454d7da Janis Schoetterl-Glausch 2022-02-11  1051  		}
+e613d83454d7da Janis Schoetterl-Glausch 2022-02-11  1052  		if (rc =3D=3D P=
+GM_PROTECTION && try_storage_prot_override)
+e613d83454d7da Janis Schoetterl-Glausch 2022-02-11  1053  			rc =3D access_=
+guest_page_with_key(vcpu->kvm, mode, gpas[idx],
+e613d83454d7da Janis Schoetterl-Glausch 2022-02-11  1054  							data, frag=
+ment_len, PAGE_SPO_ACC);
+e613d83454d7da Janis Schoetterl-Glausch 2022-02-11  1055  		if (rc =3D=3D P=
+GM_PROTECTION)
+e613d83454d7da Janis Schoetterl-Glausch 2022-02-11  1056  			prot =3D PROT_=
+TYPE_KEYC;
+e613d83454d7da Janis Schoetterl-Glausch 2022-02-11  1057  		if (rc)
+e613d83454d7da Janis Schoetterl-Glausch 2022-02-11  1058  			break;
+416e7f0c9d613b Janis Schoetterl-Glausch 2021-11-26  1059  		len -=3D fragme=
+nt_len;
+416e7f0c9d613b Janis Schoetterl-Glausch 2021-11-26  1060  		data +=3D fragm=
+ent_len;
+e613d83454d7da Janis Schoetterl-Glausch 2022-02-11  1061  		ga =3D kvm_s390=
+_logical_to_effective(vcpu, ga + fragment_len);
+2293897805c2fe Heiko Carstens           2014-01-01  1062  	}
+e613d83454d7da Janis Schoetterl-Glausch 2022-02-11  1063  	if (rc > 0)
+e613d83454d7da Janis Schoetterl-Glausch 2022-02-11 @1064  		rc =3D trans_ex=
+c(vcpu, rc, ga, ar, mode, prot);
+e613d83454d7da Janis Schoetterl-Glausch 2022-02-11  1065  out_unlock:
+8a242234b4bfed Heiko Carstens           2014-01-10  1066  	if (need_ipte_lo=
+ck)
+8a242234b4bfed Heiko Carstens           2014-01-10  1067  		ipte_unlock(vcp=
+u);
+7faa543df19bf6 Janis Schoetterl-Glausch 2021-11-26  1068  	if (nr_pages > A=
+RRAY_SIZE(gpa_array))
+7faa543df19bf6 Janis Schoetterl-Glausch 2021-11-26  1069  		vfree(gpas);
+2293897805c2fe Heiko Carstens           2014-01-01  1070  	return rc;
+2293897805c2fe Heiko Carstens           2014-01-01  1071  }
+2293897805c2fe Heiko Carstens           2014-01-01  1072  =
 
-379ac99e5192f9 Julian Wiedmann 2019-04-25  4624  	if (IS_VM_NIC(card))
-4a71df50047f0d Frank Blaschka  2008-02-15  4625  		return -EOPNOTSUPP;
-4a71df50047f0d Frank Blaschka  2008-02-15  4626  =
-
-4a71df50047f0d Frank Blaschka  2008-02-15  4627  	if ((!qeth_adp_supported(=
-card, IPA_SETADP_SET_SNMP_CONTROL)) &&
-4fda33547676e2 Julian Wiedmann 2018-09-26  4628  	    IS_LAYER3(card))
-4a71df50047f0d Frank Blaschka  2008-02-15  4629  		return -EOPNOTSUPP;
-4fda33547676e2 Julian Wiedmann 2018-09-26  4630  =
-
-d4c08afafa0469 Julian Wiedmann 2019-06-27  4631  	ureq =3D (struct qeth_snm=
-p_ureq __user *) udata;
-d4c08afafa0469 Julian Wiedmann 2019-06-27  4632  	if (get_user(qinfo.udata_=
-len, &ureq->hdr.data_len) ||
-d4c08afafa0469 Julian Wiedmann 2019-06-27  4633  	    get_user(req_len, &ur=
-eq->hdr.req_len))
-d4c08afafa0469 Julian Wiedmann 2019-06-27  4634  		return -EFAULT;
-d4c08afafa0469 Julian Wiedmann 2019-06-27  4635  =
-
-292a50e3fc2cf6 Julian Wiedmann 2019-08-23  4636  	/* Sanitize user input, t=
-o avoid overflows in iob size calculation: */
-292a50e3fc2cf6 Julian Wiedmann 2019-08-23  4637  	if (req_len > QETH_BUFSIZ=
-E)
-292a50e3fc2cf6 Julian Wiedmann 2019-08-23  4638  		return -EINVAL;
-292a50e3fc2cf6 Julian Wiedmann 2019-08-23  4639  =
-
-d4c08afafa0469 Julian Wiedmann 2019-06-27  4640  	iob =3D qeth_get_adapter_=
-cmd(card, IPA_SETADP_SET_SNMP_CONTROL, req_len);
-d4c08afafa0469 Julian Wiedmann 2019-06-27  4641  	if (!iob)
-d4c08afafa0469 Julian Wiedmann 2019-06-27  4642  		return -ENOMEM;
-d4c08afafa0469 Julian Wiedmann 2019-06-27  4643  =
-
-d4c08afafa0469 Julian Wiedmann 2019-06-27 @4644  	if (copy_from_user(&__ipa=
-_cmd(iob)->data.setadapterparms.data.snmp,
-d4c08afafa0469 Julian Wiedmann 2019-06-27  4645  			   &ureq->cmd, req_len)=
-) {
-d4c08afafa0469 Julian Wiedmann 2019-06-27  4646  		qeth_put_cmd(iob);
-4a71df50047f0d Frank Blaschka  2008-02-15  4647  		return -EFAULT;
-4a71df50047f0d Frank Blaschka  2008-02-15  4648  	}
-d4c08afafa0469 Julian Wiedmann 2019-06-27  4649  =
-
-4a71df50047f0d Frank Blaschka  2008-02-15  4650  	qinfo.udata =3D kzalloc(q=
-info.udata_len, GFP_KERNEL);
-4a71df50047f0d Frank Blaschka  2008-02-15  4651  	if (!qinfo.udata) {
-d4c08afafa0469 Julian Wiedmann 2019-06-27  4652  		qeth_put_cmd(iob);
-4a71df50047f0d Frank Blaschka  2008-02-15  4653  		return -ENOMEM;
-4a71df50047f0d Frank Blaschka  2008-02-15  4654  	}
-4a71df50047f0d Frank Blaschka  2008-02-15  4655  	qinfo.udata_offset =3D si=
-zeof(struct qeth_snmp_ureq_hdr);
-4a71df50047f0d Frank Blaschka  2008-02-15  4656  =
-
-c21532771e9f96 Julian Wiedmann 2019-02-12  4657  	rc =3D qeth_send_ipa_cmd(=
-card, iob, qeth_snmp_command_cb, &qinfo);
-4a71df50047f0d Frank Blaschka  2008-02-15  4658  	if (rc)
-e19e5be8b4cafa Julian Wiedmann 2018-11-02  4659  		QETH_DBF_MESSAGE(2, "SNM=
-P command failed on device %x: (%#x)\n",
-e19e5be8b4cafa Julian Wiedmann 2018-11-02  4660  				 CARD_DEVID(card), rc);
-4a71df50047f0d Frank Blaschka  2008-02-15  4661  	else {
-4a71df50047f0d Frank Blaschka  2008-02-15  4662  		if (copy_to_user(udata, =
-qinfo.udata, qinfo.udata_len))
-4a71df50047f0d Frank Blaschka  2008-02-15  4663  			rc =3D -EFAULT;
-4a71df50047f0d Frank Blaschka  2008-02-15  4664  	}
-d4c08afafa0469 Julian Wiedmann 2019-06-27  4665  =
-
-4a71df50047f0d Frank Blaschka  2008-02-15  4666  	kfree(qinfo.udata);
-4a71df50047f0d Frank Blaschka  2008-02-15  4667  	return rc;
-4a71df50047f0d Frank Blaschka  2008-02-15  4668  }
-4a71df50047f0d Frank Blaschka  2008-02-15  4669  =
-
-
-:::::: The code at line 4644 was first introduced by commit
-:::::: d4c08afafa0469a24771b14528ee179f72861ea3 s390/qeth: streamline SNMP =
-cmd code
-
-:::::: TO: Julian Wiedmann <jwi@linux.ibm.com>
-:::::: CC: David S. Miller <davem@davemloft.net>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============1082111873540977923==--
+--===============5832094091648819016==--
 
