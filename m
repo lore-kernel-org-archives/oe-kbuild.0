@@ -1,147 +1,193 @@
-Content-Type: multipart/mixed; boundary="===============7360813983396485358=="
+Content-Type: multipart/mixed; boundary="===============0739175026334416060=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/net/ethernet/mellanox/mlxsw/spectrum_router.c:9601 mlxsw_sp_rif_vlan_configure() error: uninitialized symbol 'mac_profile'.
-Date: Sun, 14 Aug 2022 15:35:46 +0800
-Message-ID: <202208141513.9JvHsm8O-lkp@intel.com>
+Subject: drivers/gpu/drm/tegra/nvdec.c:180:20: warning: use of uninitialized value '<unknown>' [CWE-457]
+Date: Sun, 14 Aug 2022 12:08:02 +0800
+Message-ID: <202208141240.hEJPKfba-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7360813983396485358==
+--===============0739175026334416060==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+:::::: =
+
+:::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "low confidence static check warning: drivers/g=
+pu/drm/tegra/nvdec.c:180:20: warning: use of uninitialized value '<unknown>=
+' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]"
+:::::: =
+
+
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Amit Cohen <amcohen@nvidia.com>
-CC: Petr Machata <petrm@nvidia.com>
-CC: Ido Schimmel <idosch@nvidia.com>
+TO: Mikko Perttunen <mperttunen@nvidia.com>
+CC: Thierry Reding <treding@nvidia.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   aea23e7c464bfdec04b52cf61edb62030e9e0d0a
-commit: 662761d8987dc232e85fc35b529f80e01fd4fc71 mlxsw: Add support for VLA=
-N RIFs
-date:   6 weeks ago
-:::::: branch date: 7 hours ago
-:::::: commit date: 6 weeks ago
-config: s390-randconfig-m031-20220810 (https://download.01.org/0day-ci/arch=
-ive/20220814/202208141513.9JvHsm8O-lkp(a)intel.com/config)
-compiler: s390-linux-gcc (GCC) 12.1.0
+commit: 46f226c93d35b936aeec6eb31da932dc2e86f413 drm/tegra: Add NVDEC driver
+date:   8 months ago
+:::::: branch date: 3 hours ago
+:::::: commit date: 8 months ago
+config: arm-randconfig-c002-20220808 (https://download.01.org/0day-ci/archi=
+ve/20220814/202208141240.hEJPKfba-lkp(a)intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3D46f226c93d35b936aeec6eb31da932dc2e86f413
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 46f226c93d35b936aeec6eb31da932dc2e86f413
+        # save the config file
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cross=
+ ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
+
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-drivers/net/ethernet/mellanox/mlxsw/spectrum_router.c:9601 mlxsw_sp_rif_vla=
-n_configure() error: uninitialized symbol 'mac_profile'.
+gcc-analyzer warnings: (new ones prefixed by >>)
+   drivers/gpu/drm/tegra/nvdec.c: In function 'nvdec_load_firmware':
+>> drivers/gpu/drm/tegra/nvdec.c:180:20: warning: use of uninitialized valu=
+e '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+     180 |         dma_addr_t iova;
+         |                    ^~~~
+     'nvdec_load_firmware': event 1
+       |
+       |  180 |         dma_addr_t iova;
+       |      |                    ^~~~
+       |      |                    |
+       |      |                    (1) use of uninitialized value '<unknown=
+>' here
+       |
+   drivers/gpu/drm/tegra/nvdec.c: In function 'nvdec_probe':
+   drivers/gpu/drm/tegra/nvdec.c:347:13: warning: use of uninitialized valu=
+e '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+     347 |         u32 host_class;
+         |             ^~~~~~~~~~
+     'nvdec_probe': event 1
+       |
+       |  347 |         u32 host_class;
+       |      |             ^~~~~~~~~~
+       |      |             |
+       |      |             (1) use of uninitialized value '<unknown>' here
+       |
 
-Old smatch warnings:
-drivers/net/ethernet/mellanox/mlxsw/spectrum_router.c:8462 mlxsw_sp_rif_mac=
-_profile_replace() error: uninitialized symbol 'mac_profile'.
-drivers/net/ethernet/mellanox/mlxsw/spectrum_router.c:9346 mlxsw_sp_rif_sub=
-port_configure() error: uninitialized symbol 'mac_profile'.
-drivers/net/ethernet/mellanox/mlxsw/spectrum_router.c:9433 mlxsw_sp_rif_fid=
-_configure() error: uninitialized symbol 'mac_profile'.
+vim +180 drivers/gpu/drm/tegra/nvdec.c
 
-vim +/mac_profile +9601 drivers/net/ethernet/mellanox/mlxsw/spectrum_router=
-.c
+46f226c93d35b9 Mikko Perttunen 2021-09-16  175  =
 
-662761d8987dc23 Amit Cohen 2022-07-04  9588  =
+46f226c93d35b9 Mikko Perttunen 2021-09-16  176  static int nvdec_load_firmw=
+are(struct nvdec *nvdec)
+46f226c93d35b9 Mikko Perttunen 2021-09-16  177  {
+46f226c93d35b9 Mikko Perttunen 2021-09-16  178  	struct host1x_client *clie=
+nt =3D &nvdec->client.base;
+46f226c93d35b9 Mikko Perttunen 2021-09-16  179  	struct tegra_drm *tegra =
+=3D nvdec->client.drm;
+46f226c93d35b9 Mikko Perttunen 2021-09-16 @180  	dma_addr_t iova;
+46f226c93d35b9 Mikko Perttunen 2021-09-16  181  	size_t size;
+46f226c93d35b9 Mikko Perttunen 2021-09-16  182  	void *virt;
+46f226c93d35b9 Mikko Perttunen 2021-09-16  183  	int err;
+46f226c93d35b9 Mikko Perttunen 2021-09-16  184  =
 
-662761d8987dc23 Amit Cohen 2022-07-04  9589  static int mlxsw_sp_rif_vlan_c=
-onfigure(struct mlxsw_sp_rif *rif, u16 efid,
-662761d8987dc23 Amit Cohen 2022-07-04  9590  				       struct netlink_ext_=
-ack *extack)
-662761d8987dc23 Amit Cohen 2022-07-04  9591  {
-662761d8987dc23 Amit Cohen 2022-07-04  9592  	u16 vid =3D mlxsw_sp_fid_8021=
-q_vid(rif->fid);
-662761d8987dc23 Amit Cohen 2022-07-04  9593  	struct mlxsw_sp *mlxsw_sp =3D=
- rif->mlxsw_sp;
-662761d8987dc23 Amit Cohen 2022-07-04  9594  	u8 mac_profile;
-662761d8987dc23 Amit Cohen 2022-07-04  9595  	int err;
-662761d8987dc23 Amit Cohen 2022-07-04  9596  =
+46f226c93d35b9 Mikko Perttunen 2021-09-16  185  	if (nvdec->falcon.firmware=
+.virt)
+46f226c93d35b9 Mikko Perttunen 2021-09-16  186  		return 0;
+46f226c93d35b9 Mikko Perttunen 2021-09-16  187  =
 
-662761d8987dc23 Amit Cohen 2022-07-04  9597  	err =3D mlxsw_sp_rif_mac_prof=
-ile_get(mlxsw_sp, rif->addr,
-662761d8987dc23 Amit Cohen 2022-07-04  9598  					   &mac_profile, extack);
-662761d8987dc23 Amit Cohen 2022-07-04  9599  	if (err)
-662761d8987dc23 Amit Cohen 2022-07-04  9600  		return err;
-662761d8987dc23 Amit Cohen 2022-07-04 @9601  	rif->mac_profile_id =3D mac_p=
-rofile;
-662761d8987dc23 Amit Cohen 2022-07-04  9602  =
+46f226c93d35b9 Mikko Perttunen 2021-09-16  188  	err =3D falcon_read_firmwa=
+re(&nvdec->falcon, nvdec->config->firmware);
+46f226c93d35b9 Mikko Perttunen 2021-09-16  189  	if (err < 0)
+46f226c93d35b9 Mikko Perttunen 2021-09-16  190  		return err;
+46f226c93d35b9 Mikko Perttunen 2021-09-16  191  =
 
-662761d8987dc23 Amit Cohen 2022-07-04  9603  	err =3D mlxsw_sp_rif_vlan_op(=
-rif, vid, efid, true);
-662761d8987dc23 Amit Cohen 2022-07-04  9604  	if (err)
-662761d8987dc23 Amit Cohen 2022-07-04  9605  		goto err_rif_vlan_fid_op;
-662761d8987dc23 Amit Cohen 2022-07-04  9606  =
+46f226c93d35b9 Mikko Perttunen 2021-09-16  192  	size =3D nvdec->falcon.fir=
+mware.size;
+46f226c93d35b9 Mikko Perttunen 2021-09-16  193  =
 
-662761d8987dc23 Amit Cohen 2022-07-04  9607  	err =3D mlxsw_sp_fid_flood_se=
-t(rif->fid, MLXSW_SP_FLOOD_TYPE_MC,
-662761d8987dc23 Amit Cohen 2022-07-04  9608  				     mlxsw_sp_router_port(=
-mlxsw_sp), true);
-662761d8987dc23 Amit Cohen 2022-07-04  9609  	if (err)
-662761d8987dc23 Amit Cohen 2022-07-04  9610  		goto err_fid_mc_flood_set;
-662761d8987dc23 Amit Cohen 2022-07-04  9611  =
+46f226c93d35b9 Mikko Perttunen 2021-09-16  194  	if (!client->group) {
+46f226c93d35b9 Mikko Perttunen 2021-09-16  195  		virt =3D dma_alloc_cohere=
+nt(nvdec->dev, size, &iova, GFP_KERNEL);
+46f226c93d35b9 Mikko Perttunen 2021-09-16  196  =
 
-662761d8987dc23 Amit Cohen 2022-07-04  9612  	err =3D mlxsw_sp_fid_flood_se=
-t(rif->fid, MLXSW_SP_FLOOD_TYPE_BC,
-662761d8987dc23 Amit Cohen 2022-07-04  9613  				     mlxsw_sp_router_port(=
-mlxsw_sp), true);
-662761d8987dc23 Amit Cohen 2022-07-04  9614  	if (err)
-662761d8987dc23 Amit Cohen 2022-07-04  9615  		goto err_fid_bc_flood_set;
-662761d8987dc23 Amit Cohen 2022-07-04  9616  =
+46f226c93d35b9 Mikko Perttunen 2021-09-16  197  		err =3D dma_mapping_error=
+(nvdec->dev, iova);
+46f226c93d35b9 Mikko Perttunen 2021-09-16  198  		if (err < 0)
+46f226c93d35b9 Mikko Perttunen 2021-09-16  199  			return err;
+46f226c93d35b9 Mikko Perttunen 2021-09-16  200  	} else {
+46f226c93d35b9 Mikko Perttunen 2021-09-16  201  		virt =3D tegra_drm_alloc(=
+tegra, size, &iova);
+46f226c93d35b9 Mikko Perttunen 2021-09-16  202  	}
+46f226c93d35b9 Mikko Perttunen 2021-09-16  203  =
 
-662761d8987dc23 Amit Cohen 2022-07-04  9617  	err =3D mlxsw_sp_rif_fdb_op(r=
-if->mlxsw_sp, rif->dev->dev_addr,
-662761d8987dc23 Amit Cohen 2022-07-04  9618  				  mlxsw_sp_fid_index(rif->=
-fid), true);
-662761d8987dc23 Amit Cohen 2022-07-04  9619  	if (err)
-662761d8987dc23 Amit Cohen 2022-07-04  9620  		goto err_rif_fdb_op;
-662761d8987dc23 Amit Cohen 2022-07-04  9621  =
+46f226c93d35b9 Mikko Perttunen 2021-09-16  204  	nvdec->falcon.firmware.vir=
+t =3D virt;
+46f226c93d35b9 Mikko Perttunen 2021-09-16  205  	nvdec->falcon.firmware.iov=
+a =3D iova;
+46f226c93d35b9 Mikko Perttunen 2021-09-16  206  =
 
-662761d8987dc23 Amit Cohen 2022-07-04  9622  	err =3D mlxsw_sp_fid_rif_set(=
-rif->fid, rif);
-662761d8987dc23 Amit Cohen 2022-07-04  9623  	if (err)
-662761d8987dc23 Amit Cohen 2022-07-04  9624  		goto err_fid_rif_set;
-662761d8987dc23 Amit Cohen 2022-07-04  9625  =
+46f226c93d35b9 Mikko Perttunen 2021-09-16  207  	err =3D falcon_load_firmwa=
+re(&nvdec->falcon);
+46f226c93d35b9 Mikko Perttunen 2021-09-16  208  	if (err < 0)
+46f226c93d35b9 Mikko Perttunen 2021-09-16  209  		goto cleanup;
+46f226c93d35b9 Mikko Perttunen 2021-09-16  210  =
 
-662761d8987dc23 Amit Cohen 2022-07-04  9626  	return 0;
-662761d8987dc23 Amit Cohen 2022-07-04  9627  =
+46f226c93d35b9 Mikko Perttunen 2021-09-16  211  	/*
+46f226c93d35b9 Mikko Perttunen 2021-09-16  212  	 * In this case we have re=
+ceived an IOVA from the shared domain, so we
+46f226c93d35b9 Mikko Perttunen 2021-09-16  213  	 * need to make sure to ge=
+t the physical address so that the DMA API
+46f226c93d35b9 Mikko Perttunen 2021-09-16  214  	 * knows what memory pages=
+ to flush the cache for.
+46f226c93d35b9 Mikko Perttunen 2021-09-16  215  	 */
+46f226c93d35b9 Mikko Perttunen 2021-09-16  216  	if (client->group) {
+46f226c93d35b9 Mikko Perttunen 2021-09-16  217  		dma_addr_t phys;
+46f226c93d35b9 Mikko Perttunen 2021-09-16  218  =
 
-662761d8987dc23 Amit Cohen 2022-07-04  9628  err_fid_rif_set:
-662761d8987dc23 Amit Cohen 2022-07-04  9629  	mlxsw_sp_rif_fdb_op(rif->mlxs=
-w_sp, rif->dev->dev_addr,
-662761d8987dc23 Amit Cohen 2022-07-04  9630  			    mlxsw_sp_fid_index(rif-=
->fid), false);
-662761d8987dc23 Amit Cohen 2022-07-04  9631  err_rif_fdb_op:
-662761d8987dc23 Amit Cohen 2022-07-04  9632  	mlxsw_sp_fid_flood_set(rif->f=
-id, MLXSW_SP_FLOOD_TYPE_BC,
-662761d8987dc23 Amit Cohen 2022-07-04  9633  			       mlxsw_sp_router_port=
-(mlxsw_sp), false);
-662761d8987dc23 Amit Cohen 2022-07-04  9634  err_fid_bc_flood_set:
-662761d8987dc23 Amit Cohen 2022-07-04  9635  	mlxsw_sp_fid_flood_set(rif->f=
-id, MLXSW_SP_FLOOD_TYPE_MC,
-662761d8987dc23 Amit Cohen 2022-07-04  9636  			       mlxsw_sp_router_port=
-(mlxsw_sp), false);
-662761d8987dc23 Amit Cohen 2022-07-04  9637  err_fid_mc_flood_set:
-662761d8987dc23 Amit Cohen 2022-07-04  9638  	mlxsw_sp_rif_vlan_op(rif, vid=
-, 0, false);
-662761d8987dc23 Amit Cohen 2022-07-04  9639  err_rif_vlan_fid_op:
-662761d8987dc23 Amit Cohen 2022-07-04  9640  	mlxsw_sp_rif_mac_profile_put(=
-mlxsw_sp, mac_profile);
-662761d8987dc23 Amit Cohen 2022-07-04  9641  	return err;
-662761d8987dc23 Amit Cohen 2022-07-04  9642  }
-662761d8987dc23 Amit Cohen 2022-07-04  9643  =
+46f226c93d35b9 Mikko Perttunen 2021-09-16  219  		phys =3D dma_map_single(n=
+vdec->dev, virt, size, DMA_TO_DEVICE);
+46f226c93d35b9 Mikko Perttunen 2021-09-16  220  =
+
+46f226c93d35b9 Mikko Perttunen 2021-09-16  221  		err =3D dma_mapping_error=
+(nvdec->dev, phys);
+46f226c93d35b9 Mikko Perttunen 2021-09-16  222  		if (err < 0)
+46f226c93d35b9 Mikko Perttunen 2021-09-16  223  			goto cleanup;
+46f226c93d35b9 Mikko Perttunen 2021-09-16  224  =
+
+46f226c93d35b9 Mikko Perttunen 2021-09-16  225  		nvdec->falcon.firmware.ph=
+ys =3D phys;
+46f226c93d35b9 Mikko Perttunen 2021-09-16  226  	}
+46f226c93d35b9 Mikko Perttunen 2021-09-16  227  =
+
+46f226c93d35b9 Mikko Perttunen 2021-09-16  228  	return 0;
+46f226c93d35b9 Mikko Perttunen 2021-09-16  229  =
+
+46f226c93d35b9 Mikko Perttunen 2021-09-16  230  cleanup:
+46f226c93d35b9 Mikko Perttunen 2021-09-16  231  	if (!client->group)
+46f226c93d35b9 Mikko Perttunen 2021-09-16  232  		dma_free_coherent(nvdec->=
+dev, size, virt, iova);
+46f226c93d35b9 Mikko Perttunen 2021-09-16  233  	else
+46f226c93d35b9 Mikko Perttunen 2021-09-16  234  		tegra_drm_free(tegra, siz=
+e, virt, iova);
+46f226c93d35b9 Mikko Perttunen 2021-09-16  235  =
+
+46f226c93d35b9 Mikko Perttunen 2021-09-16  236  	return err;
+46f226c93d35b9 Mikko Perttunen 2021-09-16  237  }
+46f226c93d35b9 Mikko Perttunen 2021-09-16  238  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============7360813983396485358==--
+--===============0739175026334416060==--
 
