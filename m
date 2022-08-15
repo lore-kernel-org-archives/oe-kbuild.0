@@ -1,131 +1,183 @@
-Content-Type: multipart/mixed; boundary="===============1943845531639696365=="
+Content-Type: multipart/mixed; boundary="===============2557898945037170035=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/net/wireless/mediatek/mt76/mt7921/acpi_sar.c:57 mt7921_acpi_read() error: dereferencing freed memory 'sar_root'
-Date: Mon, 15 Aug 2022 19:29:18 +0800
-Message-ID: <202208151913.eVjlCUfV-lkp@intel.com>
+Subject: drivers/gpu/drm/tegra/gr3d.c:396:25: warning: use of uninitialized value '<unknown>' [CWE-457]
+Date: Mon, 15 Aug 2022 18:48:29 +0800
+Message-ID: <202208151838.SZuztuoD-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1943845531639696365==
+--===============2557898945037170035==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+:::::: =
+
+:::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "low confidence static check warning: drivers/g=
+pu/drm/tegra/gr3d.c:396:25: warning: use of uninitialized value '<unknown>'=
+ [CWE-457] [-Wanalyzer-use-of-uninitialized-value]"
+:::::: =
+
+
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Deren Wu <deren.wu@mediatek.com>
-CC: Felix Fietkau <nbd@nbd.name>
-CC: Sean Wang <sean.wang@mediatek.com>
-CC: Quan Zhou <quan.zhou@mediatek.com>
-CC: Ming Yen Hsieh <mingyen.hsieh@mediatek.com>
+TO: Dmitry Osipenko <digetx@gmail.com>
+CC: Thierry Reding <treding@nvidia.com>
+CC: Ulf Hansson <ulf.hansson@linaro.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   568035b01cfb107af8d2e4bd2fb9aea22cf5b868
-commit: f965333e491e36adb0fa91e389fba8685b704fb6 mt76: mt7921: introduce AC=
-PI SAR support
-date:   5 weeks ago
-:::::: branch date: 13 hours ago
-:::::: commit date: 5 weeks ago
-config: ia64-randconfig-m031-20220814 (https://download.01.org/0day-ci/arch=
-ive/20220815/202208151913.eVjlCUfV-lkp(a)intel.com/config)
-compiler: ia64-linux-gcc (GCC) 12.1.0
+commit: 2421b20d659069ed6435b27a919e627b74c27e7e drm/tegra: gr3d: Support g=
+eneric power domain and runtime PM
+date:   8 months ago
+:::::: branch date: 12 hours ago
+:::::: commit date: 8 months ago
+config: arm-randconfig-c002-20220808 (https://download.01.org/0day-ci/archi=
+ve/20220815/202208151838.SZuztuoD-lkp(a)intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3D2421b20d659069ed6435b27a919e627b74c27e7e
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 2421b20d659069ed6435b27a919e627b74c27e7e
+        # save the config file
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cross=
+ ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
+
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-drivers/net/wireless/mediatek/mt76/mt7921/acpi_sar.c:57 mt7921_acpi_read() =
-error: dereferencing freed memory 'sar_root'
+gcc-analyzer warnings: (new ones prefixed by >>)
+   drivers/gpu/drm/tegra/gr3d.c: In function 'gr3d_init_power':
+>> drivers/gpu/drm/tegra/gr3d.c:396:25: warning: use of uninitialized value=
+ '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+     396 |         struct device **opp_virt_devs, *pd_dev;
+         |                         ^~~~~~~~~~~~~
+     'gr3d_init_power': event 1
+       |
+       |  396 |         struct device **opp_virt_devs, *pd_dev;
+       |      |                         ^~~~~~~~~~~~~
+       |      |                         |
+       |      |                         (1) use of uninitialized value '<un=
+known>' here
+       |
 
-vim +/sar_root +57 drivers/net/wireless/mediatek/mt76/mt7921/acpi_sar.c
+vim +396 drivers/gpu/drm/tegra/gr3d.c
 
-f965333e491e36 Deren Wu 2022-05-20   6  =
+5f60ed0d840d53 Thierry Reding  2013-02-28  391  =
 
-f965333e491e36 Deren Wu 2022-05-20   7  static int
-f965333e491e36 Deren Wu 2022-05-20   8  mt7921_acpi_read(struct mt7921_dev =
-*dev, u8 *method, u8 **tbl, u32 *len)
-f965333e491e36 Deren Wu 2022-05-20   9  {
-f965333e491e36 Deren Wu 2022-05-20  10  	struct acpi_buffer buf =3D { ACPI_=
-ALLOCATE_BUFFER, NULL };
-f965333e491e36 Deren Wu 2022-05-20  11  	union acpi_object *sar_root, *sar_=
-unit;
-f965333e491e36 Deren Wu 2022-05-20  12  	struct mt76_dev *mdev =3D &dev->mt=
-76;
-f965333e491e36 Deren Wu 2022-05-20  13  	acpi_handle root, handle;
-f965333e491e36 Deren Wu 2022-05-20  14  	acpi_status status;
-f965333e491e36 Deren Wu 2022-05-20  15  	u32 i =3D 0;
-f965333e491e36 Deren Wu 2022-05-20  16  =
+2421b20d659069 Dmitry Osipenko 2021-12-01  392  static int gr3d_init_power(=
+struct device *dev, struct gr3d *gr3d)
+2421b20d659069 Dmitry Osipenko 2021-12-01  393  {
+2421b20d659069 Dmitry Osipenko 2021-12-01  394  	static const char * const =
+opp_genpd_names[] =3D { "3d0", "3d1", NULL };
+2421b20d659069 Dmitry Osipenko 2021-12-01  395  	const u32 link_flags =3D D=
+L_FLAG_STATELESS | DL_FLAG_PM_RUNTIME;
+2421b20d659069 Dmitry Osipenko 2021-12-01 @396  	struct device **opp_virt_d=
+evs, *pd_dev;
+2421b20d659069 Dmitry Osipenko 2021-12-01  397  	struct device_link *link;
+2421b20d659069 Dmitry Osipenko 2021-12-01  398  	unsigned int i;
+2421b20d659069 Dmitry Osipenko 2021-12-01  399  	int err;
+2421b20d659069 Dmitry Osipenko 2021-12-01  400  =
 
-f965333e491e36 Deren Wu 2022-05-20  17  	root =3D ACPI_HANDLE(mdev->dev);
-f965333e491e36 Deren Wu 2022-05-20  18  	if (!root)
-f965333e491e36 Deren Wu 2022-05-20  19  		return -EOPNOTSUPP;
-f965333e491e36 Deren Wu 2022-05-20  20  =
+2421b20d659069 Dmitry Osipenko 2021-12-01  401  	err =3D of_count_phandle_w=
+ith_args(dev->of_node, "power-domains",
+2421b20d659069 Dmitry Osipenko 2021-12-01  402  					 "#power-domain-cells"=
+);
+5f60ed0d840d53 Thierry Reding  2013-02-28  403  	if (err < 0) {
+2421b20d659069 Dmitry Osipenko 2021-12-01  404  		if (err !=3D -ENOENT)
+2421b20d659069 Dmitry Osipenko 2021-12-01  405  			return err;
+2421b20d659069 Dmitry Osipenko 2021-12-01  406  =
 
-f965333e491e36 Deren Wu 2022-05-20  21  	status =3D acpi_get_handle(root, m=
-ethod, &handle);
-f965333e491e36 Deren Wu 2022-05-20  22  	if (ACPI_FAILURE(status))
-f965333e491e36 Deren Wu 2022-05-20  23  		return -EIO;
-f965333e491e36 Deren Wu 2022-05-20  24  =
+2421b20d659069 Dmitry Osipenko 2021-12-01  407  		/*
+2421b20d659069 Dmitry Osipenko 2021-12-01  408  		 * Older device-trees don=
+'t use GENPD. In this case we should
+2421b20d659069 Dmitry Osipenko 2021-12-01  409  		 * toggle power domain ma=
+nually.
+2421b20d659069 Dmitry Osipenko 2021-12-01  410  		 */
+2421b20d659069 Dmitry Osipenko 2021-12-01  411  		err =3D gr3d_power_up_leg=
+acy_domain(dev, "3d",
+2421b20d659069 Dmitry Osipenko 2021-12-01  412  						  TEGRA_POWERGATE_3D);
+2421b20d659069 Dmitry Osipenko 2021-12-01  413  		if (err)
+2421b20d659069 Dmitry Osipenko 2021-12-01  414  			return err;
+2421b20d659069 Dmitry Osipenko 2021-12-01  415  =
 
-f965333e491e36 Deren Wu 2022-05-20  25  	status =3D acpi_evaluate_object(ha=
-ndle, NULL, NULL, &buf);
-f965333e491e36 Deren Wu 2022-05-20  26  	if (ACPI_FAILURE(status))
-f965333e491e36 Deren Wu 2022-05-20  27  		return -EIO;
-f965333e491e36 Deren Wu 2022-05-20  28  =
+2421b20d659069 Dmitry Osipenko 2021-12-01  416  		err =3D gr3d_power_up_leg=
+acy_domain(dev, "3d2",
+2421b20d659069 Dmitry Osipenko 2021-12-01  417  						  TEGRA_POWERGATE_3D1=
+);
+2421b20d659069 Dmitry Osipenko 2021-12-01  418  		if (err)
+2421b20d659069 Dmitry Osipenko 2021-12-01  419  			return err;
+2421b20d659069 Dmitry Osipenko 2021-12-01  420  =
 
-f965333e491e36 Deren Wu 2022-05-20  29  	sar_root =3D buf.pointer;
-f965333e491e36 Deren Wu 2022-05-20  30  	if (sar_root->type !=3D ACPI_TYPE_=
-PACKAGE ||
-f965333e491e36 Deren Wu 2022-05-20  31  	    sar_root->package.count < 4 ||
-f965333e491e36 Deren Wu 2022-05-20  32  	    sar_root->package.elements[0].=
-type !=3D ACPI_TYPE_INTEGER) {
-f965333e491e36 Deren Wu 2022-05-20  33  		dev_err(mdev->dev, "sar cnt =3D %=
-d\n",
-f965333e491e36 Deren Wu 2022-05-20  34  			sar_root->package.count);
-f965333e491e36 Deren Wu 2022-05-20  35  		goto free;
-f965333e491e36 Deren Wu 2022-05-20  36  	}
-f965333e491e36 Deren Wu 2022-05-20  37  =
+2421b20d659069 Dmitry Osipenko 2021-12-01  421  		return 0;
+2421b20d659069 Dmitry Osipenko 2021-12-01  422  	}
+2421b20d659069 Dmitry Osipenko 2021-12-01  423  =
 
-f965333e491e36 Deren Wu 2022-05-20  38  	if (!*tbl) {
-f965333e491e36 Deren Wu 2022-05-20  39  		*tbl =3D devm_kzalloc(mdev->dev, =
-sar_root->package.count,
-f965333e491e36 Deren Wu 2022-05-20  40  				    GFP_KERNEL);
-f965333e491e36 Deren Wu 2022-05-20  41  		if (!*tbl)
-f965333e491e36 Deren Wu 2022-05-20  42  			goto free;
-f965333e491e36 Deren Wu 2022-05-20  43  	}
-f965333e491e36 Deren Wu 2022-05-20  44  	if (len)
-f965333e491e36 Deren Wu 2022-05-20  45  		*len =3D sar_root->package.count;
-f965333e491e36 Deren Wu 2022-05-20  46  =
+2421b20d659069 Dmitry Osipenko 2021-12-01  424  	/*
+2421b20d659069 Dmitry Osipenko 2021-12-01  425  	 * The PM domain core auto=
+matically attaches a single power domain,
+2421b20d659069 Dmitry Osipenko 2021-12-01  426  	 * otherwise it skips atta=
+ching completely. We have a single domain
+2421b20d659069 Dmitry Osipenko 2021-12-01  427  	 * on Tegra20 and two doma=
+ins on Tegra30+.
+2421b20d659069 Dmitry Osipenko 2021-12-01  428  	 */
+2421b20d659069 Dmitry Osipenko 2021-12-01  429  	if (dev->pm_domain)
+2421b20d659069 Dmitry Osipenko 2021-12-01  430  		return 0;
+2421b20d659069 Dmitry Osipenko 2021-12-01  431  =
 
-f965333e491e36 Deren Wu 2022-05-20  47  	for (i =3D 0; i < sar_root->packag=
-e.count; i++) {
-f965333e491e36 Deren Wu 2022-05-20  48  		sar_unit =3D &sar_root->package.e=
-lements[i];
-f965333e491e36 Deren Wu 2022-05-20  49  =
+2421b20d659069 Dmitry Osipenko 2021-12-01  432  	err =3D devm_pm_opp_attach=
+_genpd(dev, opp_genpd_names, &opp_virt_devs);
+2421b20d659069 Dmitry Osipenko 2021-12-01  433  	if (err)
+2421b20d659069 Dmitry Osipenko 2021-12-01  434  		return err;
+2421b20d659069 Dmitry Osipenko 2021-12-01  435  =
 
-f965333e491e36 Deren Wu 2022-05-20  50  		if (sar_unit->type !=3D ACPI_TYPE=
-_INTEGER)
-f965333e491e36 Deren Wu 2022-05-20  51  			break;
-f965333e491e36 Deren Wu 2022-05-20  52  		*(*tbl + i) =3D (u8)sar_unit->int=
-eger.value;
-f965333e491e36 Deren Wu 2022-05-20  53  	}
-f965333e491e36 Deren Wu 2022-05-20  54  free:
-f965333e491e36 Deren Wu 2022-05-20  55  	kfree(sar_root);
-f965333e491e36 Deren Wu 2022-05-20  56  =
+2421b20d659069 Dmitry Osipenko 2021-12-01  436  	for (i =3D 0; opp_genpd_na=
+mes[i]; i++) {
+2421b20d659069 Dmitry Osipenko 2021-12-01  437  		pd_dev =3D opp_virt_devs[=
+i];
+2421b20d659069 Dmitry Osipenko 2021-12-01  438  		if (!pd_dev) {
+2421b20d659069 Dmitry Osipenko 2021-12-01  439  			dev_err(dev, "failed to =
+get %s power domain\n",
+2421b20d659069 Dmitry Osipenko 2021-12-01  440  				opp_genpd_names[i]);
+2421b20d659069 Dmitry Osipenko 2021-12-01  441  			return -EINVAL;
+2421b20d659069 Dmitry Osipenko 2021-12-01  442  		}
+2421b20d659069 Dmitry Osipenko 2021-12-01  443  =
 
-f965333e491e36 Deren Wu 2022-05-20 @57  	return (i =3D=3D sar_root->package=
-.count) ? 0 : -EINVAL;
-f965333e491e36 Deren Wu 2022-05-20  58  }
-f965333e491e36 Deren Wu 2022-05-20  59  =
+2421b20d659069 Dmitry Osipenko 2021-12-01  444  		link =3D device_link_add(=
+dev, pd_dev, link_flags);
+2421b20d659069 Dmitry Osipenko 2021-12-01  445  		if (!link) {
+2421b20d659069 Dmitry Osipenko 2021-12-01  446  			dev_err(dev, "failed to =
+link to %s\n", dev_name(pd_dev));
+2421b20d659069 Dmitry Osipenko 2021-12-01  447  			return -EINVAL;
+2421b20d659069 Dmitry Osipenko 2021-12-01  448  		}
+2421b20d659069 Dmitry Osipenko 2021-12-01  449  =
+
+2421b20d659069 Dmitry Osipenko 2021-12-01  450  		err =3D devm_add_action_o=
+r_reset(dev, gr3d_del_link, link);
+2421b20d659069 Dmitry Osipenko 2021-12-01  451  		if (err)
+5f60ed0d840d53 Thierry Reding  2013-02-28  452  			return err;
+5f60ed0d840d53 Thierry Reding  2013-02-28  453  	}
+5f60ed0d840d53 Thierry Reding  2013-02-28  454  =
+
+2421b20d659069 Dmitry Osipenko 2021-12-01  455  	return 0;
+2421b20d659069 Dmitry Osipenko 2021-12-01  456  }
+2421b20d659069 Dmitry Osipenko 2021-12-01  457  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============1943845531639696365==--
+--===============2557898945037170035==--
 
