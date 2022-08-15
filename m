@@ -1,165 +1,142 @@
-Content-Type: multipart/mixed; boundary="===============2157114131439702649=="
+Content-Type: multipart/mixed; boundary="===============0396827752427730770=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: kernel/module/kallsyms.c:424:3: warning: Assignment of function parameter has no effect outside the function. [uselessAssignmentArg]
-Date: Mon, 15 Aug 2022 17:06:37 +0800
-Message-ID: <202208151610.fQxoYS4U-lkp@intel.com>
+Subject: drivers/net/wireless/mediatek/mt76/mt7915/mcu.c:1856 mt7915_mcu_beacon_mbss() warn: potential spectre issue 'sub_elem->data' [r] (local cap)
+Date: Mon, 15 Aug 2022 16:26:00 +0800
+Message-ID: <202208151652.kMUTYoWY-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2157114131439702649==
+--===============0396827752427730770==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-:::::: =
-
-:::::: Manual check reason: "commit no functional change"
-:::::: Manual check reason: "low confidence static check warning: kernel/mo=
-dule/kallsyms.c:424:3: warning: Assignment of function parameter has no eff=
-ect outside the function. [uselessAssignmentArg]"
-:::::: =
-
-
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Aaron Tomlin <atomlin@redhat.com>
-CC: Luis Chamberlain <mcgrof@kernel.org>
+TO: Lorenzo Bianconi <lorenzo@kernel.org>
+CC: Felix Fietkau <nbd@nbd.name>
+CC: Ryder Lee <ryder.lee@mediatek.com>
+CC: Money Wang <money.wang@mediatek.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   568035b01cfb107af8d2e4bd2fb9aea22cf5b868
-commit: 91fb02f31505dc22262b13a129550f470ab90a79 module: Move kallsyms supp=
-ort into a separate file
-date:   4 months ago
+commit: 6b7f9aff7c673989c6adf601c7e3f3684d5acd44 mt76: mt7915: introduce 80=
+2.11ax multi-bss support
+date:   5 months ago
 :::::: branch date: 10 hours ago
-:::::: commit date: 4 months ago
-compiler: powerpc-linux-gcc (GCC) 12.1.0
-reproduce (cppcheck warning):
-        # apt-get install cppcheck
-        git checkout 91fb02f31505dc22262b13a129550f470ab90a79
-        cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
-e=3Dgcc FILE
+:::::: commit date: 5 months ago
+config: ia64-randconfig-m031-20220814 (https://download.01.org/0day-ci/arch=
+ive/20220815/202208151652.kMUTYoWY-lkp(a)intel.com/config)
+compiler: ia64-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-cppcheck warnings: (new ones prefixed by >>)
->> kernel/module/main.c:357:20: warning: Local variable 'arr' shadows outer=
- variable [shadowVariable]
-     struct symsearch arr[] =3D {
-                      ^
-   kernel/module/main.c:339:32: note: Shadowed declaration
-    static const struct symsearch arr[] =3D {
-                                  ^
-   kernel/module/main.c:357:20: note: Shadow variable
-     struct symsearch arr[] =3D {
-                      ^
+New smatch warnings:
+drivers/net/wireless/mediatek/mt76/mt7915/mcu.c:1856 mt7915_mcu_beacon_mbss=
+() warn: potential spectre issue 'sub_elem->data' [r] (local cap)
+drivers/net/wireless/mediatek/mt76/mt7915/mcu.c:1848 mt7915_mcu_beacon_mbss=
+() warn: potential spectre issue 'elem->data' [r] (local cap)
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+Old smatch warnings:
+drivers/net/wireless/mediatek/mt76/mt7915/mcu.c:3540 mt7915_mcu_get_rx_rate=
+() warn: potential spectre issue 'sband->bitrates' [r]
 
->> kernel/module/kallsyms.c:424:3: warning: Assignment of function paramete=
-r has no effect outside the function. [uselessAssignmentArg]
-     symnum -=3D kallsyms->num_symtab;
-     ^
-   kernel/module/kallsyms.c:142:24: warning: Redundant assignment of 'mod->=
-core_layout.size' to itself. [selfAssignment]
-    mod->core_layout.size =3D debug_align(mod->core_layout.size);
-                          ^
-   kernel/module/kallsyms.c:157:24: warning: Redundant assignment of 'mod->=
-init_layout.size' to itself. [selfAssignment]
-    mod->init_layout.size =3D debug_align(mod->init_layout.size);
-                          ^
-   kernel/module/main.c:2113:26: warning: Redundant assignment of 'mod->cor=
-e_layout.size' to itself. [selfAssignment]
-      mod->core_layout.size =3D debug_align(mod->core_layout.size);
-                            ^
-   kernel/module/main.c:2117:26: warning: Redundant assignment of 'mod->cor=
-e_layout.size' to itself. [selfAssignment]
-      mod->core_layout.size =3D debug_align(mod->core_layout.size);
-                            ^
-   kernel/module/main.c:2121:26: warning: Redundant assignment of 'mod->cor=
-e_layout.size' to itself. [selfAssignment]
-      mod->core_layout.size =3D debug_align(mod->core_layout.size);
-                            ^
-   kernel/module/main.c:2125:26: warning: Redundant assignment of 'mod->cor=
-e_layout.size' to itself. [selfAssignment]
-      mod->core_layout.size =3D debug_align(mod->core_layout.size);
-                            ^
-   kernel/module/main.c:2147:26: warning: Redundant assignment of 'mod->ini=
-t_layout.size' to itself. [selfAssignment]
-      mod->init_layout.size =3D debug_align(mod->init_layout.size);
-                            ^
-   kernel/module/main.c:2151:26: warning: Redundant assignment of 'mod->ini=
-t_layout.size' to itself. [selfAssignment]
-      mod->init_layout.size =3D debug_align(mod->init_layout.size);
-                            ^
-   kernel/module/main.c:2162:26: warning: Redundant assignment of 'mod->ini=
-t_layout.size' to itself. [selfAssignment]
-      mod->init_layout.size =3D debug_align(mod->init_layout.size);
-                            ^
->> kernel/module/main.c:2261:70: warning: Parameter 'debug' can be declared=
- with const [constParameter]
-   static void dynamic_debug_remove(struct module *mod, struct _ddebug *deb=
-ug)
-                                                                        ^
+vim +1856 drivers/net/wireless/mediatek/mt76/mt7915/mcu.c
 
-vim +424 kernel/module/kallsyms.c
+e57b7901469fc0 Ryder Lee        2020-04-25  1827  =
 
-91fb02f31505dc Aaron Tomlin 2022-03-22  400  =
+6b7f9aff7c6739 Lorenzo Bianconi 2022-03-15  1828  static void
+6b7f9aff7c6739 Lorenzo Bianconi 2022-03-15  1829  mt7915_mcu_beacon_mbss(st=
+ruct sk_buff *rskb, struct sk_buff *skb,
+6b7f9aff7c6739 Lorenzo Bianconi 2022-03-15  1830  		       struct ieee80211=
+_vif *vif, struct bss_info_bcn *bcn,
+6b7f9aff7c6739 Lorenzo Bianconi 2022-03-15  1831  		       struct ieee80211=
+_mutable_offsets *offs)
+6b7f9aff7c6739 Lorenzo Bianconi 2022-03-15  1832  {
+6b7f9aff7c6739 Lorenzo Bianconi 2022-03-15  1833  	struct bss_info_bcn_mbss=
+ *mbss;
+6b7f9aff7c6739 Lorenzo Bianconi 2022-03-15  1834  	const struct element *el=
+em;
+6b7f9aff7c6739 Lorenzo Bianconi 2022-03-15  1835  	struct tlv *tlv;
+6b7f9aff7c6739 Lorenzo Bianconi 2022-03-15  1836  =
 
-91fb02f31505dc Aaron Tomlin 2022-03-22  401  int module_get_kallsym(unsigne=
-d int symnum, unsigned long *value, char *type,
-91fb02f31505dc Aaron Tomlin 2022-03-22  402  		       char *name, char *mod=
-ule_name, int *exported)
-91fb02f31505dc Aaron Tomlin 2022-03-22  403  {
-91fb02f31505dc Aaron Tomlin 2022-03-22  404  	struct module *mod;
-91fb02f31505dc Aaron Tomlin 2022-03-22  405  =
+6b7f9aff7c6739 Lorenzo Bianconi 2022-03-15  1837  	if (!vif->bss_conf.bssid=
+_indicator)
+6b7f9aff7c6739 Lorenzo Bianconi 2022-03-15  1838  		return;
+6b7f9aff7c6739 Lorenzo Bianconi 2022-03-15  1839  =
 
-91fb02f31505dc Aaron Tomlin 2022-03-22  406  	preempt_disable();
-91fb02f31505dc Aaron Tomlin 2022-03-22  407  	list_for_each_entry_rcu(mod, =
-&modules, list) {
-91fb02f31505dc Aaron Tomlin 2022-03-22  408  		struct mod_kallsyms *kallsym=
-s;
-91fb02f31505dc Aaron Tomlin 2022-03-22  409  =
+6b7f9aff7c6739 Lorenzo Bianconi 2022-03-15  1840  	tlv =3D mt7915_mcu_add_n=
+ested_subtlv(rskb, BSS_INFO_BCN_MBSSID,
+6b7f9aff7c6739 Lorenzo Bianconi 2022-03-15  1841  					   sizeof(*mbss), &b=
+cn->sub_ntlv,
+6b7f9aff7c6739 Lorenzo Bianconi 2022-03-15  1842  					   &bcn->len);
+6b7f9aff7c6739 Lorenzo Bianconi 2022-03-15  1843  =
 
-91fb02f31505dc Aaron Tomlin 2022-03-22  410  		if (mod->state =3D=3D MODULE=
-_STATE_UNFORMED)
-91fb02f31505dc Aaron Tomlin 2022-03-22  411  			continue;
-91fb02f31505dc Aaron Tomlin 2022-03-22  412  		kallsyms =3D rcu_dereference=
-_sched(mod->kallsyms);
-91fb02f31505dc Aaron Tomlin 2022-03-22  413  		if (symnum < kallsyms->num_s=
-ymtab) {
-91fb02f31505dc Aaron Tomlin 2022-03-22  414  			const Elf_Sym *sym =3D &kal=
-lsyms->symtab[symnum];
-91fb02f31505dc Aaron Tomlin 2022-03-22  415  =
+6b7f9aff7c6739 Lorenzo Bianconi 2022-03-15  1844  	mbss =3D (struct bss_inf=
+o_bcn_mbss *)tlv;
+6b7f9aff7c6739 Lorenzo Bianconi 2022-03-15  1845  	mbss->offset[0] =3D cpu_=
+to_le16(offs->tim_offset);
+6b7f9aff7c6739 Lorenzo Bianconi 2022-03-15  1846  	mbss->bitmap =3D cpu_to_=
+le32(1);
+6b7f9aff7c6739 Lorenzo Bianconi 2022-03-15  1847  =
 
-91fb02f31505dc Aaron Tomlin 2022-03-22  416  			*value =3D kallsyms_symbol_=
-value(sym);
-91fb02f31505dc Aaron Tomlin 2022-03-22  417  			*type =3D kallsyms->typetab=
-[symnum];
-91fb02f31505dc Aaron Tomlin 2022-03-22  418  			strscpy(name, kallsyms_symb=
-ol_name(kallsyms, symnum), KSYM_NAME_LEN);
-91fb02f31505dc Aaron Tomlin 2022-03-22  419  			strscpy(module_name, mod->n=
-ame, MODULE_NAME_LEN);
-91fb02f31505dc Aaron Tomlin 2022-03-22  420  			*exported =3D is_exported(n=
-ame, *value, mod);
-91fb02f31505dc Aaron Tomlin 2022-03-22  421  			preempt_enable();
-91fb02f31505dc Aaron Tomlin 2022-03-22  422  			return 0;
-91fb02f31505dc Aaron Tomlin 2022-03-22  423  		}
-91fb02f31505dc Aaron Tomlin 2022-03-22 @424  		symnum -=3D kallsyms->num_sy=
-mtab;
-91fb02f31505dc Aaron Tomlin 2022-03-22  425  	}
-91fb02f31505dc Aaron Tomlin 2022-03-22  426  	preempt_enable();
-91fb02f31505dc Aaron Tomlin 2022-03-22  427  	return -ERANGE;
-91fb02f31505dc Aaron Tomlin 2022-03-22  428  }
-91fb02f31505dc Aaron Tomlin 2022-03-22  429  =
+6b7f9aff7c6739 Lorenzo Bianconi 2022-03-15 @1848  	for_each_element_id(elem=
+, WLAN_EID_MULTIPLE_BSSID,
+6b7f9aff7c6739 Lorenzo Bianconi 2022-03-15  1849  			    &skb->data[offs->m=
+bssid_off],
+6b7f9aff7c6739 Lorenzo Bianconi 2022-03-15  1850  			    skb->len - offs->m=
+bssid_off) {
+6b7f9aff7c6739 Lorenzo Bianconi 2022-03-15  1851  		const struct element *s=
+ub_elem;
+6b7f9aff7c6739 Lorenzo Bianconi 2022-03-15  1852  =
+
+6b7f9aff7c6739 Lorenzo Bianconi 2022-03-15  1853  		if (elem->datalen < 2)
+6b7f9aff7c6739 Lorenzo Bianconi 2022-03-15  1854  			continue;
+6b7f9aff7c6739 Lorenzo Bianconi 2022-03-15  1855  =
+
+6b7f9aff7c6739 Lorenzo Bianconi 2022-03-15 @1856  		for_each_element(sub_el=
+em, elem->data + 1, elem->datalen - 1) {
+6b7f9aff7c6739 Lorenzo Bianconi 2022-03-15  1857  			const u8 *data;
+6b7f9aff7c6739 Lorenzo Bianconi 2022-03-15  1858  =
+
+6b7f9aff7c6739 Lorenzo Bianconi 2022-03-15  1859  			if (sub_elem->id || su=
+b_elem->datalen < 4)
+6b7f9aff7c6739 Lorenzo Bianconi 2022-03-15  1860  				continue; /* not a va=
+lid BSS profile */
+6b7f9aff7c6739 Lorenzo Bianconi 2022-03-15  1861  =
+
+6b7f9aff7c6739 Lorenzo Bianconi 2022-03-15  1862  			/* Find WLAN_EID_MULTI=
+_BSSID_IDX
+6b7f9aff7c6739 Lorenzo Bianconi 2022-03-15  1863  			 * in the merged nontr=
+ansmitted profile
+6b7f9aff7c6739 Lorenzo Bianconi 2022-03-15  1864  			 */
+6b7f9aff7c6739 Lorenzo Bianconi 2022-03-15  1865  			data =3D cfg80211_find=
+_ie(WLAN_EID_MULTI_BSSID_IDX,
+6b7f9aff7c6739 Lorenzo Bianconi 2022-03-15  1866  						sub_elem->data,
+6b7f9aff7c6739 Lorenzo Bianconi 2022-03-15  1867  						sub_elem->datalen);
+6b7f9aff7c6739 Lorenzo Bianconi 2022-03-15  1868  			if (!data || data[1] <=
+ 1 || !data[2])
+6b7f9aff7c6739 Lorenzo Bianconi 2022-03-15  1869  				continue;
+6b7f9aff7c6739 Lorenzo Bianconi 2022-03-15  1870  =
+
+6b7f9aff7c6739 Lorenzo Bianconi 2022-03-15  1871  			mbss->offset[data[2]] =
+=3D cpu_to_le16(data - skb->data);
+6b7f9aff7c6739 Lorenzo Bianconi 2022-03-15  1872  			mbss->bitmap |=3D cpu_=
+to_le32(BIT(data[2]));
+6b7f9aff7c6739 Lorenzo Bianconi 2022-03-15  1873  		}
+6b7f9aff7c6739 Lorenzo Bianconi 2022-03-15  1874  	}
+6b7f9aff7c6739 Lorenzo Bianconi 2022-03-15  1875  }
+6b7f9aff7c6739 Lorenzo Bianconi 2022-03-15  1876  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============2157114131439702649==--
+--===============0396827752427730770==--
 
