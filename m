@@ -1,183 +1,269 @@
-Content-Type: multipart/mixed; boundary="===============2557898945037170035=="
+Content-Type: multipart/mixed; boundary="===============0894111210381374616=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/gpu/drm/tegra/gr3d.c:396:25: warning: use of uninitialized value '<unknown>' [CWE-457]
-Date: Mon, 15 Aug 2022 18:48:29 +0800
-Message-ID: <202208151838.SZuztuoD-lkp@intel.com>
+Subject: [chrome-os:chromeos-5.15 1/8] drivers/gpu/arm/mali/arbiter/mali_kbase_arbiter_pm.c:1124: warning: expecting prototype for gpu_clk_notifier_unregister(). Prototype was for arb_gpu_clk_notifier_unregister() instead
+Date: Mon, 15 Aug 2022 18:17:24 +0800
+Message-ID: <202208151807.ov7PZjbA-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2557898945037170035==
+--===============0894111210381374616==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 :::::: =
 
-:::::: Manual check reason: "low confidence bisect report"
-:::::: Manual check reason: "low confidence static check warning: drivers/g=
-pu/drm/tegra/gr3d.c:396:25: warning: use of uninitialized value '<unknown>'=
- [CWE-457] [-Wanalyzer-use-of-uninitialized-value]"
+:::::: Manual check reason: "commit no functional change"
 :::::: =
 
 
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
-CC: linux-kernel(a)vger.kernel.org
-TO: Dmitry Osipenko <digetx@gmail.com>
-CC: Thierry Reding <treding@nvidia.com>
-CC: Ulf Hansson <ulf.hansson@linaro.org>
+TO: cros-kernel-buildreports(a)googlegroups.com
+TO: Guenter Roeck <groeck@google.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   568035b01cfb107af8d2e4bd2fb9aea22cf5b868
-commit: 2421b20d659069ed6435b27a919e627b74c27e7e drm/tegra: gr3d: Support g=
-eneric power domain and runtime PM
-date:   8 months ago
-:::::: branch date: 12 hours ago
-:::::: commit date: 8 months ago
-config: arm-randconfig-c002-20220808 (https://download.01.org/0day-ci/archi=
-ve/20220815/202208151838.SZuztuoD-lkp(a)intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chr=
+omeos-5.15
+head:   33e3465eab47a4bac4e110f58b67c52ddf52c2f9
+commit: 0b8e9d9dd88a3b246025c2174151169f4c00b4b6 [1/8] CHROMIUM: gpu: mali:=
+ Rename driver path
+:::::: branch date: 73 minutes ago
+:::::: commit date: 6 hours ago
+config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/2022081=
+5/202208151807.ov7PZjbA-lkp(a)intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D2421b20d659069ed6435b27a919e627b74c27e7e
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 2421b20d659069ed6435b27a919e627b74c27e7e
+        git remote add chrome-os https://chromium.googlesource.com/chromium=
+os/third_party/kernel
+        git fetch --no-tags chrome-os chromeos-5.15
+        git checkout 0b8e9d9dd88a3b246025c2174151169f4c00b4b6
         # save the config file
+        mkdir build_dir && cp config build_dir/.config
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cross=
- ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
-
+ W=3D1 O=3Dbuild_dir ARCH=3Darm64 SHELL=3D/bin/bash drivers/gpu/arm/mali/
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 
-gcc-analyzer warnings: (new ones prefixed by >>)
-   drivers/gpu/drm/tegra/gr3d.c: In function 'gr3d_init_power':
->> drivers/gpu/drm/tegra/gr3d.c:396:25: warning: use of uninitialized value=
- '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-     396 |         struct device **opp_virt_devs, *pd_dev;
-         |                         ^~~~~~~~~~~~~
-     'gr3d_init_power': event 1
-       |
-       |  396 |         struct device **opp_virt_devs, *pd_dev;
-       |      |                         ^~~~~~~~~~~~~
-       |      |                         |
-       |      |                         (1) use of uninitialized value '<un=
-known>' here
-       |
+All warnings (new ones prefixed by >>):
 
-vim +396 drivers/gpu/drm/tegra/gr3d.c
+   drivers/gpu/arm/mali/arbiter/mali_kbase_arbiter_pm.c:23: warning: Cannot=
+ understand  * @file
+    on line 23 - I thought it was a doc line
+   drivers/gpu/arm/mali/arbiter/mali_kbase_arbiter_pm.c:1031: warning: Func=
+tion parameter or member 'arb_freq' not described in 'kbase_arbiter_pm_upda=
+te_gpu_freq'
+   drivers/gpu/arm/mali/arbiter/mali_kbase_arbiter_pm.c:1031: warning: Func=
+tion parameter or member 'freq' not described in 'kbase_arbiter_pm_update_g=
+pu_freq'
+   drivers/gpu/arm/mali/arbiter/mali_kbase_arbiter_pm.c:1059: warning: Func=
+tion parameter or member 'kbdev' not described in 'enumerate_arb_gpu_clk'
+   drivers/gpu/arm/mali/arbiter/mali_kbase_arbiter_pm.c:1059: warning: Func=
+tion parameter or member 'index' not described in 'enumerate_arb_gpu_clk'
+   drivers/gpu/arm/mali/arbiter/mali_kbase_arbiter_pm.c:1074: warning: Func=
+tion parameter or member 'kbdev' not described in 'get_arb_gpu_clk_rate'
+   drivers/gpu/arm/mali/arbiter/mali_kbase_arbiter_pm.c:1074: warning: Func=
+tion parameter or member 'gpu_clk_handle' not described in 'get_arb_gpu_clk=
+_rate'
+   drivers/gpu/arm/mali/arbiter/mali_kbase_arbiter_pm.c:1099: warning: Func=
+tion parameter or member 'kbdev' not described in 'arb_gpu_clk_notifier_reg=
+ister'
+   drivers/gpu/arm/mali/arbiter/mali_kbase_arbiter_pm.c:1099: warning: Func=
+tion parameter or member 'gpu_clk_handle' not described in 'arb_gpu_clk_not=
+ifier_register'
+   drivers/gpu/arm/mali/arbiter/mali_kbase_arbiter_pm.c:1099: warning: Func=
+tion parameter or member 'nb' not described in 'arb_gpu_clk_notifier_regist=
+er'
+   drivers/gpu/arm/mali/arbiter/mali_kbase_arbiter_pm.c:1124: warning: Func=
+tion parameter or member 'kbdev' not described in 'arb_gpu_clk_notifier_unr=
+egister'
+   drivers/gpu/arm/mali/arbiter/mali_kbase_arbiter_pm.c:1124: warning: Func=
+tion parameter or member 'gpu_clk_handle' not described in 'arb_gpu_clk_not=
+ifier_unregister'
+   drivers/gpu/arm/mali/arbiter/mali_kbase_arbiter_pm.c:1124: warning: Func=
+tion parameter or member 'nb' not described in 'arb_gpu_clk_notifier_unregi=
+ster'
+>> drivers/gpu/arm/mali/arbiter/mali_kbase_arbiter_pm.c:1124: warning: expe=
+cting prototype for gpu_clk_notifier_unregister(). Prototype was for arb_gp=
+u_clk_notifier_unregister() instead
+--
+>> drivers/gpu/arm/mali/ipa/backend/mali_kbase_ipa_counter_common_jm.c:45: =
+warning: expecting prototype for read_hwcnt(). Prototype was for kbase_ipa_=
+read_hwcnt() instead
+--
+>> drivers/gpu/arm/mali/ipa/backend/mali_kbase_ipa_counter_jm.c:67: warning=
+: expecting prototype for get_jm_counter(). Prototype was for kbase_g7x_pow=
+er_model_get_jm_counter() instead
+>> drivers/gpu/arm/mali/ipa/backend/mali_kbase_ipa_counter_jm.c:80: warning=
+: expecting prototype for get_memsys_counter(). Prototype was for kbase_g7x=
+_power_model_get_memsys_counter() instead
+>> drivers/gpu/arm/mali/ipa/backend/mali_kbase_ipa_counter_jm.c:96: warning=
+: expecting prototype for get_sc_counter(). Prototype was for kbase_g7x_pow=
+er_model_get_sc_counter() instead
+>> drivers/gpu/arm/mali/ipa/backend/mali_kbase_ipa_counter_jm.c:115: warnin=
+g: expecting prototype for memsys_single_counter(). Prototype was for kbase=
+_g7x_sum_all_memsys_blocks() instead
+>> drivers/gpu/arm/mali/ipa/backend/mali_kbase_ipa_counter_jm.c:134: warnin=
+g: expecting prototype for sum_all_shader_cores(). Prototype was for kbase_=
+g7x_sum_all_shader_cores() instead
+>> drivers/gpu/arm/mali/ipa/backend/mali_kbase_ipa_counter_jm.c:154: warnin=
+g: expecting prototype for jm_single_counter(). Prototype was for kbase_g7x=
+_jm_single_counter() instead
+>> drivers/gpu/arm/mali/ipa/backend/mali_kbase_ipa_counter_jm.c:171: warnin=
+g: expecting prototype for get_active_cycles(). Prototype was for kbase_g7x=
+_get_active_cycles() instead
+--
+>> drivers/gpu/arm/mali/mali_kbase_vinstr.c:942: warning: expecting prototy=
+pe for The hwcnt reader's ioctl command(). Prototype was for kbasep_vinstr_=
+hwcnt_reader_ioctl_get_api_version() instead
+--
+>> drivers/gpu/arm/mali/mali_kbase_mem_profile_debugfs.c:27: warning: This =
+comment starts with '/**', but isn't a kernel-doc comment. Refer Documentat=
+ion/doc-guide/kernel-doc.rst
+    * Show callback for the @c mem_profile debugfs file.
+--
+>> drivers/gpu/arm/mali/mali_kbase_kinstr_jm.c:674: warning: expecting prot=
+otype for kbasep_kinstr_jm_release(). Prototype was for kbase_kinstr_jm_rel=
+ease() instead
+>> drivers/gpu/arm/mali/mali_kbase_kinstr_jm.c:747: warning: expecting prot=
+otype for readers_del(). Prototype was for kbase_kinstr_jm_readers_del() in=
+stead
+--
+>> drivers/gpu/arm/mali/mali_kbase_js_ctx_attr.c:30: warning: This comment =
+starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-=
+guide/kernel-doc.rst
+    * Check whether a ctx has a certain attribute, and if so, retain that
+   drivers/gpu/arm/mali/mali_kbase_js_ctx_attr.c:79: warning: This comment =
+starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-=
+guide/kernel-doc.rst
+    * Check whether a ctx has a certain attribute, and if so, release that
+   drivers/gpu/arm/mali/mali_kbase_js_ctx_attr.c:127: warning: This comment=
+ starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc=
+-guide/kernel-doc.rst
+    * Retain a certain attribute on a ctx, also retaining it on the runpool
+   drivers/gpu/arm/mali/mali_kbase_js_ctx_attr.c:167: warning: This comment=
+ starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc=
+-guide/kernel-doc.rst
+    * Release a certain attribute on a ctx, also releasing it from the runp=
+ool
+--
+>> drivers/gpu/arm/mali/mali_kbase_mem.c:23: warning: This comment starts w=
+ith '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/ke=
+rnel-doc.rst
+    * Base kernel memory APIs
+   drivers/gpu/arm/mali/mali_kbase_mem.c:353: warning: This comment starts =
+with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/k=
+ernel-doc.rst
+    * Remove a region object from the global list.
+   drivers/gpu/arm/mali/mali_kbase_mem.c:837: warning: This comment starts =
+with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/k=
+ernel-doc.rst
+    * Determine if any allocations have been made on a context's region tra=
+cker
+   drivers/gpu/arm/mali/mali_kbase_mem.c:1291: warning: This comment starts=
+ with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/=
+kernel-doc.rst
+    * Allocate a free region object.
+   drivers/gpu/arm/mali/mali_kbase_mem.c:1368: warning: This comment starts=
+ with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/=
+kernel-doc.rst
+    * Free a region object.
+   drivers/gpu/arm/mali/mali_kbase_mem.c:1966: warning: This comment starts=
+ with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/=
+kernel-doc.rst
+    * Free the region from the GPU and unregister it.
+>> drivers/gpu/arm/mali/mali_kbase_mem.c:3148: warning: expecting prototype=
+ for Acquire the per(). Prototype was for kbase_gpu_vm_lock() instead
+>> drivers/gpu/arm/mali/mali_kbase_mem.c:3160: warning: expecting prototype=
+ for Release the per(). Prototype was for kbase_gpu_vm_unlock() instead
+--
+>> drivers/gpu/arm/mali/tl/mali_kbase_tlstream.c:200: warning: expecting pr=
+ototype for kbase_tlstream_msgbuf_submit(). Prototype was for kbasep_tlstre=
+am_msgbuf_submit() instead
+--
+>> drivers/gpu/arm/mali/tl/mali_kbase_timeline_io.c:160: warning: expecting=
+ prototype for kbasep_timeline_copy_header(). Prototype was for kbasep_time=
+line_copy_headers() instead
+--
+>> drivers/gpu/arm/mali/backend/gpu/mali_kbase_jm_hw.c:1046: warning: expec=
+ting prototype for kbase_job_check_enter_disjoint(). Prototype was for kbas=
+e_job_check_leave_disjoint() instead
 
-5f60ed0d840d53 Thierry Reding  2013-02-28  391  =
 
-2421b20d659069 Dmitry Osipenko 2021-12-01  392  static int gr3d_init_power(=
-struct device *dev, struct gr3d *gr3d)
-2421b20d659069 Dmitry Osipenko 2021-12-01  393  {
-2421b20d659069 Dmitry Osipenko 2021-12-01  394  	static const char * const =
-opp_genpd_names[] =3D { "3d0", "3d1", NULL };
-2421b20d659069 Dmitry Osipenko 2021-12-01  395  	const u32 link_flags =3D D=
-L_FLAG_STATELESS | DL_FLAG_PM_RUNTIME;
-2421b20d659069 Dmitry Osipenko 2021-12-01 @396  	struct device **opp_virt_d=
-evs, *pd_dev;
-2421b20d659069 Dmitry Osipenko 2021-12-01  397  	struct device_link *link;
-2421b20d659069 Dmitry Osipenko 2021-12-01  398  	unsigned int i;
-2421b20d659069 Dmitry Osipenko 2021-12-01  399  	int err;
-2421b20d659069 Dmitry Osipenko 2021-12-01  400  =
+vim +1124 drivers/gpu/arm/mali/arbiter/mali_kbase_arbiter_pm.c
 
-2421b20d659069 Dmitry Osipenko 2021-12-01  401  	err =3D of_count_phandle_w=
-ith_args(dev->of_node, "power-domains",
-2421b20d659069 Dmitry Osipenko 2021-12-01  402  					 "#power-domain-cells"=
-);
-5f60ed0d840d53 Thierry Reding  2013-02-28  403  	if (err < 0) {
-2421b20d659069 Dmitry Osipenko 2021-12-01  404  		if (err !=3D -ENOENT)
-2421b20d659069 Dmitry Osipenko 2021-12-01  405  			return err;
-2421b20d659069 Dmitry Osipenko 2021-12-01  406  =
+97b1271a1316e9 drivers/gpu/arm/bifrost/arbiter/mali_kbase_arbiter_pm.c Fei =
+Shao 2021-12-06  1111  =
 
-2421b20d659069 Dmitry Osipenko 2021-12-01  407  		/*
-2421b20d659069 Dmitry Osipenko 2021-12-01  408  		 * Older device-trees don=
-'t use GENPD. In this case we should
-2421b20d659069 Dmitry Osipenko 2021-12-01  409  		 * toggle power domain ma=
-nually.
-2421b20d659069 Dmitry Osipenko 2021-12-01  410  		 */
-2421b20d659069 Dmitry Osipenko 2021-12-01  411  		err =3D gr3d_power_up_leg=
-acy_domain(dev, "3d",
-2421b20d659069 Dmitry Osipenko 2021-12-01  412  						  TEGRA_POWERGATE_3D);
-2421b20d659069 Dmitry Osipenko 2021-12-01  413  		if (err)
-2421b20d659069 Dmitry Osipenko 2021-12-01  414  			return err;
-2421b20d659069 Dmitry Osipenko 2021-12-01  415  =
+97b1271a1316e9 drivers/gpu/arm/bifrost/arbiter/mali_kbase_arbiter_pm.c Fei =
+Shao 2021-12-06  1112  /**
+97b1271a1316e9 drivers/gpu/arm/bifrost/arbiter/mali_kbase_arbiter_pm.c Fei =
+Shao 2021-12-06  1113   * gpu_clk_notifier_unregister() - Unregister clock =
+rate change notifier
+97b1271a1316e9 drivers/gpu/arm/bifrost/arbiter/mali_kbase_arbiter_pm.c Fei =
+Shao 2021-12-06  1114   * @kbdev          - kbase_device pointer
+97b1271a1316e9 drivers/gpu/arm/bifrost/arbiter/mali_kbase_arbiter_pm.c Fei =
+Shao 2021-12-06  1115   * @gpu_clk_handle - Handle unique to the enumerated=
+ GPU clock
+97b1271a1316e9 drivers/gpu/arm/bifrost/arbiter/mali_kbase_arbiter_pm.c Fei =
+Shao 2021-12-06  1116   * @nb             - notifier block containing the c=
+allback function pointer
+97b1271a1316e9 drivers/gpu/arm/bifrost/arbiter/mali_kbase_arbiter_pm.c Fei =
+Shao 2021-12-06  1117   *
+97b1271a1316e9 drivers/gpu/arm/bifrost/arbiter/mali_kbase_arbiter_pm.c Fei =
+Shao 2021-12-06  1118   * This function pointer is used to unregister a cal=
+lback function that
+97b1271a1316e9 drivers/gpu/arm/bifrost/arbiter/mali_kbase_arbiter_pm.c Fei =
+Shao 2021-12-06  1119   * was previously registered to get notified of a fr=
+equency change of the
+97b1271a1316e9 drivers/gpu/arm/bifrost/arbiter/mali_kbase_arbiter_pm.c Fei =
+Shao 2021-12-06  1120   * clock corresponding to @gpu_clk_handle.
+97b1271a1316e9 drivers/gpu/arm/bifrost/arbiter/mali_kbase_arbiter_pm.c Fei =
+Shao 2021-12-06  1121   */
+97b1271a1316e9 drivers/gpu/arm/bifrost/arbiter/mali_kbase_arbiter_pm.c Fei =
+Shao 2021-12-06  1122  static void arb_gpu_clk_notifier_unregister(struct k=
+base_device *kbdev,
+97b1271a1316e9 drivers/gpu/arm/bifrost/arbiter/mali_kbase_arbiter_pm.c Fei =
+Shao 2021-12-06  1123  	void *gpu_clk_handle, struct notifier_block *nb)
+97b1271a1316e9 drivers/gpu/arm/bifrost/arbiter/mali_kbase_arbiter_pm.c Fei =
+Shao 2021-12-06 @1124  {
+97b1271a1316e9 drivers/gpu/arm/bifrost/arbiter/mali_kbase_arbiter_pm.c Fei =
+Shao 2021-12-06  1125  	struct kbase_arbiter_freq *arb_dev_freq =3D
+97b1271a1316e9 drivers/gpu/arm/bifrost/arbiter/mali_kbase_arbiter_pm.c Fei =
+Shao 2021-12-06  1126  		(struct kbase_arbiter_freq *)gpu_clk_handle;
+97b1271a1316e9 drivers/gpu/arm/bifrost/arbiter/mali_kbase_arbiter_pm.c Fei =
+Shao 2021-12-06  1127  	if (arb_dev_freq->nb =3D=3D nb) {
+97b1271a1316e9 drivers/gpu/arm/bifrost/arbiter/mali_kbase_arbiter_pm.c Fei =
+Shao 2021-12-06  1128  		arb_dev_freq->nb =3D NULL;
+97b1271a1316e9 drivers/gpu/arm/bifrost/arbiter/mali_kbase_arbiter_pm.c Fei =
+Shao 2021-12-06  1129  	} else {
+97b1271a1316e9 drivers/gpu/arm/bifrost/arbiter/mali_kbase_arbiter_pm.c Fei =
+Shao 2021-12-06  1130  		dev_err(kbdev->dev, "%s - notifier did not match\n=
+",
+97b1271a1316e9 drivers/gpu/arm/bifrost/arbiter/mali_kbase_arbiter_pm.c Fei =
+Shao 2021-12-06  1131  			 __func__);
+97b1271a1316e9 drivers/gpu/arm/bifrost/arbiter/mali_kbase_arbiter_pm.c Fei =
+Shao 2021-12-06  1132  	}
+97b1271a1316e9 drivers/gpu/arm/bifrost/arbiter/mali_kbase_arbiter_pm.c Fei =
+Shao 2021-12-06  1133  }
+97b1271a1316e9 drivers/gpu/arm/bifrost/arbiter/mali_kbase_arbiter_pm.c Fei =
+Shao 2021-12-06  1134  =
 
-2421b20d659069 Dmitry Osipenko 2021-12-01  416  		err =3D gr3d_power_up_leg=
-acy_domain(dev, "3d2",
-2421b20d659069 Dmitry Osipenko 2021-12-01  417  						  TEGRA_POWERGATE_3D1=
-);
-2421b20d659069 Dmitry Osipenko 2021-12-01  418  		if (err)
-2421b20d659069 Dmitry Osipenko 2021-12-01  419  			return err;
-2421b20d659069 Dmitry Osipenko 2021-12-01  420  =
 
-2421b20d659069 Dmitry Osipenko 2021-12-01  421  		return 0;
-2421b20d659069 Dmitry Osipenko 2021-12-01  422  	}
-2421b20d659069 Dmitry Osipenko 2021-12-01  423  =
+:::::: The code at line 1124 was first introduced by commit
+:::::: 97b1271a1316e9353e0192e8883921e859e08446 CHROMIUM: Mali: Apply Bifro=
+st r32p0 EAC release
 
-2421b20d659069 Dmitry Osipenko 2021-12-01  424  	/*
-2421b20d659069 Dmitry Osipenko 2021-12-01  425  	 * The PM domain core auto=
-matically attaches a single power domain,
-2421b20d659069 Dmitry Osipenko 2021-12-01  426  	 * otherwise it skips atta=
-ching completely. We have a single domain
-2421b20d659069 Dmitry Osipenko 2021-12-01  427  	 * on Tegra20 and two doma=
-ins on Tegra30+.
-2421b20d659069 Dmitry Osipenko 2021-12-01  428  	 */
-2421b20d659069 Dmitry Osipenko 2021-12-01  429  	if (dev->pm_domain)
-2421b20d659069 Dmitry Osipenko 2021-12-01  430  		return 0;
-2421b20d659069 Dmitry Osipenko 2021-12-01  431  =
-
-2421b20d659069 Dmitry Osipenko 2021-12-01  432  	err =3D devm_pm_opp_attach=
-_genpd(dev, opp_genpd_names, &opp_virt_devs);
-2421b20d659069 Dmitry Osipenko 2021-12-01  433  	if (err)
-2421b20d659069 Dmitry Osipenko 2021-12-01  434  		return err;
-2421b20d659069 Dmitry Osipenko 2021-12-01  435  =
-
-2421b20d659069 Dmitry Osipenko 2021-12-01  436  	for (i =3D 0; opp_genpd_na=
-mes[i]; i++) {
-2421b20d659069 Dmitry Osipenko 2021-12-01  437  		pd_dev =3D opp_virt_devs[=
-i];
-2421b20d659069 Dmitry Osipenko 2021-12-01  438  		if (!pd_dev) {
-2421b20d659069 Dmitry Osipenko 2021-12-01  439  			dev_err(dev, "failed to =
-get %s power domain\n",
-2421b20d659069 Dmitry Osipenko 2021-12-01  440  				opp_genpd_names[i]);
-2421b20d659069 Dmitry Osipenko 2021-12-01  441  			return -EINVAL;
-2421b20d659069 Dmitry Osipenko 2021-12-01  442  		}
-2421b20d659069 Dmitry Osipenko 2021-12-01  443  =
-
-2421b20d659069 Dmitry Osipenko 2021-12-01  444  		link =3D device_link_add(=
-dev, pd_dev, link_flags);
-2421b20d659069 Dmitry Osipenko 2021-12-01  445  		if (!link) {
-2421b20d659069 Dmitry Osipenko 2021-12-01  446  			dev_err(dev, "failed to =
-link to %s\n", dev_name(pd_dev));
-2421b20d659069 Dmitry Osipenko 2021-12-01  447  			return -EINVAL;
-2421b20d659069 Dmitry Osipenko 2021-12-01  448  		}
-2421b20d659069 Dmitry Osipenko 2021-12-01  449  =
-
-2421b20d659069 Dmitry Osipenko 2021-12-01  450  		err =3D devm_add_action_o=
-r_reset(dev, gr3d_del_link, link);
-2421b20d659069 Dmitry Osipenko 2021-12-01  451  		if (err)
-5f60ed0d840d53 Thierry Reding  2013-02-28  452  			return err;
-5f60ed0d840d53 Thierry Reding  2013-02-28  453  	}
-5f60ed0d840d53 Thierry Reding  2013-02-28  454  =
-
-2421b20d659069 Dmitry Osipenko 2021-12-01  455  	return 0;
-2421b20d659069 Dmitry Osipenko 2021-12-01  456  }
-2421b20d659069 Dmitry Osipenko 2021-12-01  457  =
-
+:::::: TO: Fei Shao <fshao@chromium.org>
+:::::: CC: Commit Bot <commit-bot@chromium.org>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============2557898945037170035==--
+--===============0894111210381374616==--
 
