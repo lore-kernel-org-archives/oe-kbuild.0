@@ -1,422 +1,459 @@
-Content-Type: multipart/mixed; boundary="===============6962757734534816274=="
+Content-Type: multipart/mixed; boundary="===============0973494521825719174=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/md/dm.c:1638:27: warning: use of uninitialized value '*(int *)((char *)&ci + offsetof(struct clone_info, is_abnormal_io))' [CWE-457]
-Date: Mon, 15 Aug 2022 14:12:12 +0800
-Message-ID: <202208151436.UBMkBm37-lkp@intel.com>
+Subject: drivers/net/ethernet/mellanox/mlx5/core/en/htb.c:196 mlx5e_htb_root_add() warn: passing a valid pointer to 'PTR_ERR'
+Date: Mon, 15 Aug 2022 14:01:50 +0800
+Message-ID: <202208151424.UUpBioJg-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6962757734534816274==
+--===============0973494521825719174==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-:::::: =
-
-:::::: Manual check reason: "low confidence bisect report"
-:::::: Manual check reason: "low confidence static check warning: drivers/m=
-d/dm.c:1638:27: warning: use of uninitialized value '*(int *)((char *)&ci +=
- offsetof(struct clone_info, is_abnormal_io))' [CWE-457] [-Wanalyzer-use-of=
--uninitialized-value]"
-:::::: =
-
-
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Mike Snitzer <snitzer@kernel.org>
+TO: Moshe Tal <moshet@nvidia.com>
+CC: Saeed Mahameed <saeedm@nvidia.com>
+CC: Tariq Toukan <tariqt@nvidia.com>
+CC: Maxim Mikityanskiy <maximmi@nvidia.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   568035b01cfb107af8d2e4bd2fb9aea22cf5b868
-commit: 4edadf6dcb54d2a86eeb424f27122dc0076d9267 dm: improve abnormal bio p=
-rocessing
-date:   3 months ago
+commit: 462b0059993696eaf863c23c2a12658e4fe0ccbf net/mlx5e: HTB, move htb f=
+unctions to a new file
+date:   4 weeks ago
 :::::: branch date: 7 hours ago
-:::::: commit date: 3 months ago
-config: arm-randconfig-c002-20220801 (https://download.01.org/0day-ci/archi=
-ve/20220815/202208151436.UBMkBm37-lkp(a)intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D4edadf6dcb54d2a86eeb424f27122dc0076d9267
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 4edadf6dcb54d2a86eeb424f27122dc0076d9267
-        # save the config file
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cross=
- ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
-
+:::::: commit date: 4 weeks ago
+config: parisc-randconfig-m031-20220807 (https://download.01.org/0day-ci/ar=
+chive/20220815/202208151424.UUpBioJg-lkp(a)intel.com/config)
+compiler: hppa-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-gcc-analyzer warnings: (new ones prefixed by >>)
-                     | 1455 |         while ((ti =3D dm_table_get_target(ci=
-->map, target_nr++))) {
-                     |      |                ~
-                     |      |                |
-                     |      |                (12) following 'true' branch (=
-when 'ti' is non-NULL)...
-                     | 1456 |                 int bios;
-                     |      |                 ~~~
-                     |      |                 |
-                     |      |                 (13) ...to here
-                     |......
-                     | 1459 |                 bios =3D __send_duplicate_bio=
-s(ci, ti, ti->num_flush_bios, NULL);
-                     |      |                        ~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                     |      |                        |
-                     |      |                        (14) calling '__send_d=
-uplicate_bios' from '__send_empty_flush'
-                     |
-                     +--> '__send_duplicate_bios': events 15-22
-                            |
-                            | 1406 | static int __send_duplicate_bios(struc=
-t clone_info *ci, struct dm_target *ti,
-                            |      |            ^~~~~~~~~~~~~~~~~~~~~
-                            |      |            |
-                            |      |            (15) entry to '__send_dupli=
-cate_bios'
-                            |......
-                            | 1409 |         struct bio_list blist =3D BIO_=
-EMPTY_LIST;
-                            |      |                         ~~~~~
-                            |      |                         |
-                            |      |                         (16) 'blist.he=
-ad' is NULL
-                            |      |                         (17) 'blist.ta=
-il' is NULL
-                            |......
-                            | 1413 |         switch (num_bios) {
-                            |      |         ~~~~~~
-                            |      |         |
-                            |      |         (18) following 'case 1:' branc=
-h...
-                            |......
-                            | 1416 |         case 1:
-                            |      |         ~~~~
-                            |      |         |
-                            |      |         (19) ...to here
-                            | 1417 |                 if (len)
-                            |      |                    ~
-                            |      |                    |
-                            |      |                    (20) following 'fal=
-se' branch (when 'len' is NULL)...
-                            | 1418 |                         setup_split_ac=
-counting(ci, *len);
-                            | 1419 |                 clone =3D alloc_tio(ci=
-, ti, 0, len, GFP_NOIO);
-                            |      |                 ~~~~~   ~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~~~~~~~~
-                            |      |                 |       |
-                            |      |                 |       (22) calling '=
-alloc_tio' from '__send_duplicate_bios'
-                            |      |                 (21) ...to here
-                            |
-                            +--> 'alloc_tio': events 23-26
-                                   |
-                                   |  615 | static struct bio *alloc_tio(st=
-ruct clone_info *ci, struct dm_target *ti,
-                                   |      |                    ^~~~~~~~~
-                                   |      |                    |
-                                   |      |                    (23) entry t=
-o 'alloc_tio'
-                                   |......
-                                   |  621 |         if (!ci->io->tio.io) {
-                                   |      |            ~        =
+New smatch warnings:
+drivers/net/ethernet/mellanox/mlx5/core/en/htb.c:196 mlx5e_htb_root_add() w=
+arn: passing a valid pointer to 'PTR_ERR'
+drivers/net/ethernet/mellanox/mlx5/core/en/htb.c:310 mlx5e_htb_leaf_alloc_q=
+ueue() warn: passing a valid pointer to 'PTR_ERR'
+drivers/net/ethernet/mellanox/mlx5/core/en/htb.c:371 mlx5e_htb_leaf_to_inne=
+r() warn: passing a valid pointer to 'PTR_ERR'
 
-                                   |      |            |
-                                   |      |            (24) following 'fals=
-e' branch...
-                                   |......
-                                   |  627 |                 clone =3D bio_a=
-lloc_clone(ci->bio->bi_bdev, ci->bio,
-                                   |      |                 ~~~~~
-                                   |      |                 |
-                                   |      |                 (25) ...to here
-                                   |  628 |                                =
-         gfp_mask, &ci->io->md->bs);
-                                   |  629 |                 if (!clone)
-                                   |      |                    ~
-                                   |      |                    |
-                                   |      |                    (26) followi=
-ng 'true' branch (when 'clone' is NULL)...
-                                   |
-                                 'alloc_tio': event 27
-                                   |
-                                   |cc1:
-                                   | (27): ...to here
-                                   |
-                            <------+
-                            |
-                          '__send_duplicate_bios': events 28-29
-                            |
-                            | 1419 |                 clone =3D alloc_tio(ci=
-, ti, 0, len, GFP_NOIO);
-                            |      |                         ^~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~~~~~~~~
-                            |      |                         |
-                            |      |                         (28) return of=
- NULL to '__send_duplicate_bios' from 'alloc_tio'
-                            | 1420 |                 __map_bio(clone);
-                            |      |                 ~~~~~~~~~~~~~~~~
-                            |      |                 |
-                            |      |                 (29) calling '__map_bi=
-o' from '__send_duplicate_bios'
-                            |
-                            +--> '__map_bio': events 30-31
-                                   |
-                                   | 1290 | static void __map_bio(struct bi=
-o *clone)
-                                   |      |             ^~~~~~~~~
-                                   |      |             |
-                                   |      |             (30) entry to '__ma=
-p_bio'
-                                   |......
-                                   | 1293 |         struct dm_target *ti =
-=3D tio->ti;
-                                   |      |                           ~~
-                                   |      |                           |
-                                   |      |                           (31) =
-dereference of NULL 'clone'
-                                   |
-   drivers/md/dm.c: In function 'dm_split_and_process_bio':
->> drivers/md/dm.c:1638:27: warning: use of uninitialized value '*(int *)((=
-char *)&ci + offsetof(struct clone_info, is_abnormal_io))' [CWE-457] [-Wana=
-lyzer-use-of-uninitialized-value]
-    1638 |         struct clone_info ci;
-         |                           ^~
-     'dm_submit_bio': events 1-2
-       |
-       | 1692 | static void dm_submit_bio(struct bio *bio)
-       |      |             ^~~~~~~~~~~~~
-       |      |             |
-       |      |             (1) entry to 'dm_submit_bio'
-       |......
-       | 1701 |         if (unlikely(test_bit(DMF_BLOCK_IO_FOR_SUSPEND, &md=
-->flags)) ||
-       |      |            ~ =
+Old smatch warnings:
+arch/parisc/include/asm/hash.h:44 __hash_32() warn: inconsistent indenting
 
-       |      |            |
-       |      |            (2) following 'false' branch...
-       |
-     'dm_submit_bio': event 3
-       |
-       |include/linux/compiler.h:78:42:
-       |   78 | # define unlikely(x)    __builtin_expect(!!(x), 0)
-       |      |                                          ^~~~~
-       |      |                                          |
-       |      |                                          (3) ...to here
-   drivers/md/dm.c:1702:13: note: in expansion of macro 'unlikely'
-       | 1702 |             unlikely(!map)) {
-       |      |             ^~~~~~~~
-       |
-     'dm_submit_bio': events 4-6
-       |
-       | 1701 |         if (unlikely(test_bit(DMF_BLOCK_IO_FOR_SUSPEND, &md=
-->flags)) ||
-       |......
-       | 1712 |         dm_split_and_process_bio(md, map, bio);
-       |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~             =
-           =
+vim +/PTR_ERR +196 drivers/net/ethernet/mellanox/mlx5/core/en/htb.c
 
-       |      |         |
-       |      |         (5) ...to here
-       |      |         (6) calling 'dm_split_and_process_bio' from 'dm_sub=
-mit_bio'
-       |
-       +--> 'dm_split_and_process_bio': events 7-9
-              |
-              | 1635 | static void dm_split_and_process_bio(struct mapped_d=
-evice *md,
-              |      |             ^~~~~~~~~~~~~~~~~~~~~~~~
-              |      |             |
-              |      |             (7) entry to 'dm_split_and_process_bio'
-              |......
-              | 1638 |         struct clone_info ci;
-              |      |                           ~~
-              |      |                           |
-              |      |                           (8) region created on stac=
-k here
-              |      |                           (9) use of uninitialized v=
-alue '*(int *)((char *)&ci + offsetof(struct clone_info, is_abnormal_io))' =
-here
-              |
-   drivers/md/dm.c: In function 'dm_submit_bio':
-   drivers/md/dm.c:1695:13: warning: use of uninitialized value '<unknown>'=
- [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-    1695 |         int srcu_idx;
-         |             ^~~~~~~~
-     'dm_submit_bio': event 1
-       |
-       | 1695 |         int srcu_idx;
-       |      |             ^~~~~~~~
-       |      |             |
-       |      |             (1) use of uninitialized value '<unknown>' here
-       |
-   drivers/md/dm.c: In function 'dm_pr_reserve':
-   drivers/md/dm.c:3117:16: warning: use of uninitialized value '<unknown>'=
- [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-    3117 |         int r, srcu_idx;
-         |                ^~~~~~~~
-     'dm_pr_reserve': event 1
-       |
-       | 3117 |         int r, srcu_idx;
-       |      |                ^~~~~~~~
-       |      |                |
-       |      |                (1) use of uninitialized value '<unknown>' h=
-ere
-       |
-   drivers/md/dm.c: In function 'dm_pr_release':
-   drivers/md/dm.c:3137:16: warning: use of uninitialized value '<unknown>'=
- [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-    3137 |         int r, srcu_idx;
-         |                ^~~~~~~~
-     'dm_pr_release': event 1
-       |
-       | 3137 |         int r, srcu_idx;
-       |      |                ^~~~~~~~
-       |      |                |
-       |      |                (1) use of uninitialized value '<unknown>' h=
-ere
-       |
-   drivers/md/dm.c: In function 'dm_pr_preempt':
-   drivers/md/dm.c:3158:16: warning: use of uninitialized value '<unknown>'=
- [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-    3158 |         int r, srcu_idx;
-         |                ^~~~~~~~
-     'dm_pr_preempt': event 1
-       |
-       | 3158 |         int r, srcu_idx;
-       |      |                ^~~~~~~~
-       |      |                |
-       |      |                (1) use of uninitialized value '<unknown>' h=
-ere
-       |
-   drivers/md/dm.c: In function 'dm_pr_clear':
-   drivers/md/dm.c:3178:16: warning: use of uninitialized value '<unknown>'=
- [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-    3178 |         int r, srcu_idx;
-         |                ^~~~~~~~
-     'dm_pr_clear': event 1
-       |
-       | 3178 |         int r, srcu_idx;
-       |      |                ^~~~~~~~
+462b0059993696 Moshe Tal 2022-05-02  173  =
 
-vim +1638 drivers/md/dm.c
+462b0059993696 Moshe Tal 2022-05-02  174  static int
+462b0059993696 Moshe Tal 2022-05-02  175  mlx5e_htb_root_add(struct mlx5e_h=
+tb *htb, u16 htb_maj_id, u16 htb_defcls,
+462b0059993696 Moshe Tal 2022-05-02  176  		   struct netlink_ext_ack *exta=
+ck)
+462b0059993696 Moshe Tal 2022-05-02  177  {
+462b0059993696 Moshe Tal 2022-05-02  178  	struct mlx5e_priv *priv =3D htb-=
+>priv;
+462b0059993696 Moshe Tal 2022-05-02  179  	struct mlx5e_qos_node *root;
+462b0059993696 Moshe Tal 2022-05-02  180  	bool opened;
+462b0059993696 Moshe Tal 2022-05-02  181  	int err;
+462b0059993696 Moshe Tal 2022-05-02  182  =
 
-978e51ba38e00e Mike Snitzer      2017-12-09  1631  =
+462b0059993696 Moshe Tal 2022-05-02  183  	qos_dbg(htb->mdev, "TC_HTB_CREAT=
+E handle %04x:, default :%04x\n", htb_maj_id, htb_defcls);
+462b0059993696 Moshe Tal 2022-05-02  184  =
 
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1632  /*
-14fe594d679c9b Alasdair G Kergon 2013-03-01  1633   * Entry point to split =
-a bio into clones and submit them to the targets.
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1634   */
-96c9865cb6dd06 Mike Snitzer      2022-02-17  1635  static void dm_split_and=
-_process_bio(struct mapped_device *md,
-83d5e5b0af907d Mikulas Patocka   2013-07-10  1636  				     struct dm_table=
- *map, struct bio *bio)
-0ce65797a77ee7 Mike Snitzer      2015-02-26  1637  {
-^1da177e4c3f41 Linus Torvalds    2005-04-16 @1638  	struct clone_info ci;
-4857abf66434d9 Mike Snitzer      2022-03-25  1639  	struct dm_io *io;
-84b98f4ce4d1d1 Mike Snitzer      2022-03-17  1640  	blk_status_t error =3D =
-BLK_STS_OK;
-4edadf6dcb54d2 Mike Snitzer      2022-04-17  1641  	bool is_abnormal;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1642  =
+462b0059993696 Moshe Tal 2022-05-02  185  	mlx5e_selq_prepare_htb(htb->selq=
+, htb_maj_id, htb_defcls);
+462b0059993696 Moshe Tal 2022-05-02  186  =
 
-4edadf6dcb54d2 Mike Snitzer      2022-04-17  1643  	is_abnormal =3D is_abno=
-rmal_io(bio);
-4edadf6dcb54d2 Mike Snitzer      2022-04-17  1644  	if (unlikely(is_abnorma=
-l)) {
-4edadf6dcb54d2 Mike Snitzer      2022-04-17  1645  		/*
-4edadf6dcb54d2 Mike Snitzer      2022-04-17  1646  		 * Use blk_queue_split=
-() for abnormal IO (e.g. discard, etc)
-4edadf6dcb54d2 Mike Snitzer      2022-04-17  1647  		 * otherwise associate=
-d queue_limits won't be imposed.
-4edadf6dcb54d2 Mike Snitzer      2022-04-17  1648  		 */
-4edadf6dcb54d2 Mike Snitzer      2022-04-17  1649  		blk_queue_split(&bio);
-4edadf6dcb54d2 Mike Snitzer      2022-04-17  1650  	}
-4edadf6dcb54d2 Mike Snitzer      2022-04-17  1651  =
+462b0059993696 Moshe Tal 2022-05-02  187  	opened =3D test_bit(MLX5E_STATE_=
+OPENED, &priv->state);
+462b0059993696 Moshe Tal 2022-05-02  188  	if (opened) {
+462b0059993696 Moshe Tal 2022-05-02  189  		err =3D mlx5e_qos_alloc_queues(=
+priv, &priv->channels);
+462b0059993696 Moshe Tal 2022-05-02  190  		if (err)
+462b0059993696 Moshe Tal 2022-05-02  191  			goto err_cancel_selq;
+462b0059993696 Moshe Tal 2022-05-02  192  	}
+462b0059993696 Moshe Tal 2022-05-02  193  =
 
-4edadf6dcb54d2 Mike Snitzer      2022-04-17  1652  	init_clone_info(&ci, md=
-, map, bio, is_abnormal);
-4857abf66434d9 Mike Snitzer      2022-03-25  1653  	io =3D ci.io;
-0ce65797a77ee7 Mike Snitzer      2015-02-26  1654  =
+462b0059993696 Moshe Tal 2022-05-02  194  	root =3D mlx5e_htb_node_create_r=
+oot(htb);
+462b0059993696 Moshe Tal 2022-05-02  195  	if (IS_ERR(root)) {
+462b0059993696 Moshe Tal 2022-05-02 @196  		err =3D PTR_ERR(root);
+462b0059993696 Moshe Tal 2022-05-02  197  		goto err_free_queues;
+462b0059993696 Moshe Tal 2022-05-02  198  	}
+462b0059993696 Moshe Tal 2022-05-02  199  =
 
-1eff9d322a4442 Jens Axboe        2016-08-05  1655  	if (bio->bi_opf & REQ_P=
-REFLUSH) {
-332f2b1e7360dc Mike Snitzer      2022-03-10  1656  		__send_empty_flush(&ci=
+462b0059993696 Moshe Tal 2022-05-02  200  	err =3D mlx5_qos_create_root_nod=
+e(htb->mdev, &root->hw_id);
+462b0059993696 Moshe Tal 2022-05-02  201  	if (err) {
+462b0059993696 Moshe Tal 2022-05-02  202  		NL_SET_ERR_MSG_MOD(extack, "Fir=
+mware error. Try upgrading firmware.");
+462b0059993696 Moshe Tal 2022-05-02  203  		goto err_sw_node_delete;
+462b0059993696 Moshe Tal 2022-05-02  204  	}
+462b0059993696 Moshe Tal 2022-05-02  205  =
+
+462b0059993696 Moshe Tal 2022-05-02  206  	mlx5e_selq_apply(htb->selq);
+462b0059993696 Moshe Tal 2022-05-02  207  =
+
+462b0059993696 Moshe Tal 2022-05-02  208  	return 0;
+462b0059993696 Moshe Tal 2022-05-02  209  =
+
+462b0059993696 Moshe Tal 2022-05-02  210  err_sw_node_delete:
+462b0059993696 Moshe Tal 2022-05-02  211  	mlx5e_htb_node_delete(htb, root);
+462b0059993696 Moshe Tal 2022-05-02  212  =
+
+462b0059993696 Moshe Tal 2022-05-02  213  err_free_queues:
+462b0059993696 Moshe Tal 2022-05-02  214  	if (opened)
+462b0059993696 Moshe Tal 2022-05-02  215  		mlx5e_qos_close_all_queues(&pri=
+v->channels);
+462b0059993696 Moshe Tal 2022-05-02  216  err_cancel_selq:
+462b0059993696 Moshe Tal 2022-05-02  217  	mlx5e_selq_cancel(htb->selq);
+462b0059993696 Moshe Tal 2022-05-02  218  	return err;
+462b0059993696 Moshe Tal 2022-05-02  219  }
+462b0059993696 Moshe Tal 2022-05-02  220  =
+
+462b0059993696 Moshe Tal 2022-05-02  221  static int mlx5e_htb_root_del(str=
+uct mlx5e_htb *htb)
+462b0059993696 Moshe Tal 2022-05-02  222  {
+462b0059993696 Moshe Tal 2022-05-02  223  	struct mlx5e_priv *priv =3D htb-=
+>priv;
+462b0059993696 Moshe Tal 2022-05-02  224  	struct mlx5e_qos_node *root;
+462b0059993696 Moshe Tal 2022-05-02  225  	int err;
+462b0059993696 Moshe Tal 2022-05-02  226  =
+
+462b0059993696 Moshe Tal 2022-05-02  227  	qos_dbg(htb->mdev, "TC_HTB_DESTR=
+OY\n");
+462b0059993696 Moshe Tal 2022-05-02  228  =
+
+462b0059993696 Moshe Tal 2022-05-02  229  	/* Wait until real_num_tx_queues=
+ is updated for mlx5e_select_queue,
+462b0059993696 Moshe Tal 2022-05-02  230  	 * so that we can safely switch =
+to its non-HTB non-PTP fastpath.
+462b0059993696 Moshe Tal 2022-05-02  231  	 */
+462b0059993696 Moshe Tal 2022-05-02  232  	synchronize_net();
+462b0059993696 Moshe Tal 2022-05-02  233  =
+
+462b0059993696 Moshe Tal 2022-05-02  234  	mlx5e_selq_prepare_htb(htb->selq=
+, 0, 0);
+462b0059993696 Moshe Tal 2022-05-02  235  	mlx5e_selq_apply(htb->selq);
+462b0059993696 Moshe Tal 2022-05-02  236  =
+
+462b0059993696 Moshe Tal 2022-05-02  237  	root =3D mlx5e_htb_node_find(htb=
+, MLX5E_HTB_CLASSID_ROOT);
+462b0059993696 Moshe Tal 2022-05-02  238  	if (!root) {
+462b0059993696 Moshe Tal 2022-05-02  239  		qos_err(htb->mdev, "Failed to f=
+ind the root node in the QoS tree\n");
+462b0059993696 Moshe Tal 2022-05-02  240  		return -ENOENT;
+462b0059993696 Moshe Tal 2022-05-02  241  	}
+462b0059993696 Moshe Tal 2022-05-02  242  	err =3D mlx5_qos_destroy_node(ht=
+b->mdev, root->hw_id);
+462b0059993696 Moshe Tal 2022-05-02  243  	if (err)
+462b0059993696 Moshe Tal 2022-05-02  244  		qos_err(htb->mdev, "Failed to d=
+estroy root node %u, err =3D %d\n",
+462b0059993696 Moshe Tal 2022-05-02  245  			root->hw_id, err);
+462b0059993696 Moshe Tal 2022-05-02  246  	mlx5e_htb_node_delete(htb, root);
+462b0059993696 Moshe Tal 2022-05-02  247  =
+
+462b0059993696 Moshe Tal 2022-05-02  248  	mlx5e_qos_deactivate_all_queues(=
+&priv->channels);
+462b0059993696 Moshe Tal 2022-05-02  249  	mlx5e_qos_close_all_queues(&priv=
+->channels);
+462b0059993696 Moshe Tal 2022-05-02  250  =
+
+462b0059993696 Moshe Tal 2022-05-02  251  	return err;
+462b0059993696 Moshe Tal 2022-05-02  252  }
+462b0059993696 Moshe Tal 2022-05-02  253  =
+
+462b0059993696 Moshe Tal 2022-05-02  254  static int mlx5e_htb_convert_rate=
+(struct mlx5e_htb *htb, u64 rate,
+462b0059993696 Moshe Tal 2022-05-02  255  				  struct mlx5e_qos_node *pare=
+nt, u32 *bw_share)
+462b0059993696 Moshe Tal 2022-05-02  256  {
+462b0059993696 Moshe Tal 2022-05-02  257  	u64 share =3D 0;
+462b0059993696 Moshe Tal 2022-05-02  258  =
+
+462b0059993696 Moshe Tal 2022-05-02  259  	while (parent->classid !=3D MLX5=
+E_HTB_CLASSID_ROOT && !parent->max_average_bw)
+462b0059993696 Moshe Tal 2022-05-02  260  		parent =3D parent->parent;
+462b0059993696 Moshe Tal 2022-05-02  261  =
+
+462b0059993696 Moshe Tal 2022-05-02  262  	if (parent->max_average_bw)
+462b0059993696 Moshe Tal 2022-05-02  263  		share =3D div64_u64(div_u64(rat=
+e * 100, BYTES_IN_MBIT),
+462b0059993696 Moshe Tal 2022-05-02  264  				  parent->max_average_bw);
+462b0059993696 Moshe Tal 2022-05-02  265  	else
+462b0059993696 Moshe Tal 2022-05-02  266  		share =3D 101;
+462b0059993696 Moshe Tal 2022-05-02  267  =
+
+462b0059993696 Moshe Tal 2022-05-02  268  	*bw_share =3D share =3D=3D 0 ? 1=
+ : share > 100 ? 0 : share;
+462b0059993696 Moshe Tal 2022-05-02  269  =
+
+462b0059993696 Moshe Tal 2022-05-02  270  	qos_dbg(htb->mdev, "Convert: rat=
+e %llu, parent ceil %llu -> bw_share %u\n",
+462b0059993696 Moshe Tal 2022-05-02  271  		rate, (u64)parent->max_average_=
+bw * BYTES_IN_MBIT, *bw_share);
+462b0059993696 Moshe Tal 2022-05-02  272  =
+
+462b0059993696 Moshe Tal 2022-05-02  273  	return 0;
+462b0059993696 Moshe Tal 2022-05-02  274  }
+462b0059993696 Moshe Tal 2022-05-02  275  =
+
+462b0059993696 Moshe Tal 2022-05-02  276  static void mlx5e_htb_convert_cei=
+l(struct mlx5e_htb *htb, u64 ceil, u32 *max_average_bw)
+462b0059993696 Moshe Tal 2022-05-02  277  {
+462b0059993696 Moshe Tal 2022-05-02  278  	/* Hardware treats 0 as "unlimit=
+ed", set at least 1. */
+462b0059993696 Moshe Tal 2022-05-02  279  	*max_average_bw =3D max_t(u32, d=
+iv_u64(ceil, BYTES_IN_MBIT), 1);
+462b0059993696 Moshe Tal 2022-05-02  280  =
+
+462b0059993696 Moshe Tal 2022-05-02  281  	qos_dbg(htb->mdev, "Convert: cei=
+l %llu -> max_average_bw %u\n",
+462b0059993696 Moshe Tal 2022-05-02  282  		ceil, *max_average_bw);
+462b0059993696 Moshe Tal 2022-05-02  283  }
+462b0059993696 Moshe Tal 2022-05-02  284  =
+
+462b0059993696 Moshe Tal 2022-05-02  285  int
+462b0059993696 Moshe Tal 2022-05-02  286  mlx5e_htb_leaf_alloc_queue(struct=
+ mlx5e_htb *htb, u16 classid,
+462b0059993696 Moshe Tal 2022-05-02  287  			   u32 parent_classid, u64 rat=
+e, u64 ceil,
+462b0059993696 Moshe Tal 2022-05-02  288  			   struct netlink_ext_ack *ext=
+ack)
+462b0059993696 Moshe Tal 2022-05-02  289  {
+462b0059993696 Moshe Tal 2022-05-02  290  	struct mlx5e_qos_node *node, *pa=
+rent;
+462b0059993696 Moshe Tal 2022-05-02  291  	struct mlx5e_priv *priv =3D htb-=
+>priv;
+462b0059993696 Moshe Tal 2022-05-02  292  	int qid;
+462b0059993696 Moshe Tal 2022-05-02  293  	int err;
+462b0059993696 Moshe Tal 2022-05-02  294  =
+
+462b0059993696 Moshe Tal 2022-05-02  295  	qos_dbg(htb->mdev, "TC_HTB_LEAF_=
+ALLOC_QUEUE classid %04x, parent %04x, rate %llu, ceil %llu\n",
+462b0059993696 Moshe Tal 2022-05-02  296  		classid, parent_classid, rate, =
+ceil);
+462b0059993696 Moshe Tal 2022-05-02  297  =
+
+462b0059993696 Moshe Tal 2022-05-02  298  	qid =3D mlx5e_htb_find_unused_qo=
+s_qid(htb);
+462b0059993696 Moshe Tal 2022-05-02  299  	if (qid < 0) {
+462b0059993696 Moshe Tal 2022-05-02  300  		NL_SET_ERR_MSG_MOD(extack, "Max=
+imum amount of leaf classes is reached.");
+462b0059993696 Moshe Tal 2022-05-02  301  		return qid;
+462b0059993696 Moshe Tal 2022-05-02  302  	}
+462b0059993696 Moshe Tal 2022-05-02  303  =
+
+462b0059993696 Moshe Tal 2022-05-02  304  	parent =3D mlx5e_htb_node_find(h=
+tb, parent_classid);
+462b0059993696 Moshe Tal 2022-05-02  305  	if (!parent)
+462b0059993696 Moshe Tal 2022-05-02  306  		return -EINVAL;
+462b0059993696 Moshe Tal 2022-05-02  307  =
+
+462b0059993696 Moshe Tal 2022-05-02  308  	node =3D mlx5e_htb_node_create_l=
+eaf(htb, classid, qid, parent);
+462b0059993696 Moshe Tal 2022-05-02  309  	if (IS_ERR(node))
+462b0059993696 Moshe Tal 2022-05-02 @310  		return PTR_ERR(node);
+462b0059993696 Moshe Tal 2022-05-02  311  =
+
+462b0059993696 Moshe Tal 2022-05-02  312  	node->rate =3D rate;
+462b0059993696 Moshe Tal 2022-05-02  313  	mlx5e_htb_convert_rate(htb, rate=
+, node->parent, &node->bw_share);
+462b0059993696 Moshe Tal 2022-05-02  314  	mlx5e_htb_convert_ceil(htb, ceil=
+, &node->max_average_bw);
+462b0059993696 Moshe Tal 2022-05-02  315  =
+
+462b0059993696 Moshe Tal 2022-05-02  316  	err =3D mlx5_qos_create_leaf_nod=
+e(htb->mdev, node->parent->hw_id,
+462b0059993696 Moshe Tal 2022-05-02  317  					node->bw_share, node->max_av=
+erage_bw,
+462b0059993696 Moshe Tal 2022-05-02  318  					&node->hw_id);
+462b0059993696 Moshe Tal 2022-05-02  319  	if (err) {
+462b0059993696 Moshe Tal 2022-05-02  320  		NL_SET_ERR_MSG_MOD(extack, "Fir=
+mware error when creating a leaf node.");
+462b0059993696 Moshe Tal 2022-05-02  321  		qos_err(htb->mdev, "Failed to c=
+reate a leaf node (class %04x), err =3D %d\n",
+462b0059993696 Moshe Tal 2022-05-02  322  			classid, err);
+462b0059993696 Moshe Tal 2022-05-02  323  		mlx5e_htb_node_delete(htb, node=
 );
-e27363472f9bc9 Mike Snitzer      2022-03-09  1657  		/* dm_io_complete subm=
-its any data associated with flush */
-d41e077ab6ea3c Mike Snitzer      2022-02-17  1658  		goto out;
-d41e077ab6ea3c Mike Snitzer      2022-02-17  1659  	}
-a1e1cb72d96491 Mike Snitzer      2019-01-17  1660  =
+462b0059993696 Moshe Tal 2022-05-02  324  		return err;
+462b0059993696 Moshe Tal 2022-05-02  325  	}
+462b0059993696 Moshe Tal 2022-05-02  326  =
 
-96c9865cb6dd06 Mike Snitzer      2022-02-17  1661  	error =3D __split_and_p=
-rocess_bio(&ci);
-d41e077ab6ea3c Mike Snitzer      2022-02-17  1662  	if (error || !ci.sector=
-_count)
-d41e077ab6ea3c Mike Snitzer      2022-02-17  1663  		goto out;
-18a25da84354c6 NeilBrown         2017-09-06  1664  	/*
-d41e077ab6ea3c Mike Snitzer      2022-02-17  1665  	 * Remainder must be pa=
-ssed to submit_bio_noacct() so it gets handled
-d41e077ab6ea3c Mike Snitzer      2022-02-17  1666  	 * *after* bios already=
- submitted have been completely processed.
-18a25da84354c6 NeilBrown         2017-09-06  1667  	 */
-7dd76d1feec70a Ming Lei          2022-04-12  1668  	bio_trim(bio, io->secto=
-rs, ci.sector_count);
-7dd76d1feec70a Ming Lei          2022-04-12  1669  	trace_block_split(bio, =
-bio->bi_iter.bi_sector);
-7dd76d1feec70a Ming Lei          2022-04-12  1670  	bio_inc_remaining(bio);
-3e08773c3841e9 Christoph Hellwig 2021-10-12  1671  	submit_bio_noacct(bio);
-d41e077ab6ea3c Mike Snitzer      2022-02-17  1672  out:
-b99fdcdc36369d Ming Lei          2022-03-04  1673  	/*
-b99fdcdc36369d Ming Lei          2022-03-04  1674  	 * Drop the extra refer=
-ence count for non-POLLED bio, and hold one
-b99fdcdc36369d Ming Lei          2022-03-04  1675  	 * reference for POLLED=
- bio, which will be released in dm_poll_bio
-b99fdcdc36369d Ming Lei          2022-03-04  1676  	 *
-ec211631ae24b1 Ming Lei          2022-04-12  1677  	 * Add every dm_io inst=
-ance into the dm_io list head which is stored
-ec211631ae24b1 Ming Lei          2022-04-12  1678  	 * in bio->bi_private, =
-so that dm_poll_bio can poll them all.
-b99fdcdc36369d Ming Lei          2022-03-04  1679  	 */
-0f14d60a023cc4 Ming Lei          2022-04-12  1680  	if (error || !ci.submit=
-_as_polled) {
-0f14d60a023cc4 Ming Lei          2022-04-12  1681  		/*
-0f14d60a023cc4 Ming Lei          2022-04-12  1682  		 * In case of submissi=
-on failure, the extra reference for
-0f14d60a023cc4 Ming Lei          2022-04-12  1683  		 * submitting io isn't=
- consumed yet
-0f14d60a023cc4 Ming Lei          2022-04-12  1684  		 */
-0f14d60a023cc4 Ming Lei          2022-04-12  1685  		if (error)
-0f14d60a023cc4 Ming Lei          2022-04-12  1686  			atomic_dec(&io->io_co=
-unt);
-0f14d60a023cc4 Ming Lei          2022-04-12  1687  		dm_io_dec_pending(io, =
-error);
-0f14d60a023cc4 Ming Lei          2022-04-12  1688  	} else
-4857abf66434d9 Mike Snitzer      2022-03-25  1689  		dm_queue_poll_io(bio, =
-io);
-0ce65797a77ee7 Mike Snitzer      2015-02-26  1690  }
-0ce65797a77ee7 Mike Snitzer      2015-02-26  1691  =
+462b0059993696 Moshe Tal 2022-05-02  327  	if (test_bit(MLX5E_STATE_OPENED,=
+ &priv->state)) {
+462b0059993696 Moshe Tal 2022-05-02  328  		err =3D mlx5e_open_qos_sq(priv,=
+ &priv->channels, node->qid, node->hw_id);
+462b0059993696 Moshe Tal 2022-05-02  329  		if (err) {
+462b0059993696 Moshe Tal 2022-05-02  330  			NL_SET_ERR_MSG_MOD(extack, "Er=
+ror creating an SQ.");
+462b0059993696 Moshe Tal 2022-05-02  331  			qos_warn(htb->mdev, "Failed to=
+ create a QoS SQ (class %04x), err =3D %d\n",
+462b0059993696 Moshe Tal 2022-05-02  332  				 classid, err);
+462b0059993696 Moshe Tal 2022-05-02  333  		} else {
+462b0059993696 Moshe Tal 2022-05-02  334  			mlx5e_activate_qos_sq(priv, no=
+de->qid, node->hw_id);
+462b0059993696 Moshe Tal 2022-05-02  335  		}
+462b0059993696 Moshe Tal 2022-05-02  336  	}
+462b0059993696 Moshe Tal 2022-05-02  337  =
 
+462b0059993696 Moshe Tal 2022-05-02  338  	return mlx5e_qid_from_qos(&priv-=
+>channels, node->qid);
+462b0059993696 Moshe Tal 2022-05-02  339  }
+462b0059993696 Moshe Tal 2022-05-02  340  =
 
-:::::: The code at line 1638 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+462b0059993696 Moshe Tal 2022-05-02  341  int
+462b0059993696 Moshe Tal 2022-05-02  342  mlx5e_htb_leaf_to_inner(struct ml=
+x5e_htb *htb, u16 classid, u16 child_classid,
+462b0059993696 Moshe Tal 2022-05-02  343  			u64 rate, u64 ceil, struct net=
+link_ext_ack *extack)
+462b0059993696 Moshe Tal 2022-05-02  344  {
+462b0059993696 Moshe Tal 2022-05-02  345  	struct mlx5e_qos_node *node, *ch=
+ild;
+462b0059993696 Moshe Tal 2022-05-02  346  	struct mlx5e_priv *priv =3D htb-=
+>priv;
+462b0059993696 Moshe Tal 2022-05-02  347  	int err, tmp_err;
+462b0059993696 Moshe Tal 2022-05-02  348  	u32 new_hw_id;
+462b0059993696 Moshe Tal 2022-05-02  349  	u16 qid;
+462b0059993696 Moshe Tal 2022-05-02  350  =
 
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+462b0059993696 Moshe Tal 2022-05-02  351  	qos_dbg(htb->mdev, "TC_HTB_LEAF_=
+TO_INNER classid %04x, upcoming child %04x, rate %llu, ceil %llu\n",
+462b0059993696 Moshe Tal 2022-05-02  352  		classid, child_classid, rate, c=
+eil);
+462b0059993696 Moshe Tal 2022-05-02  353  =
+
+462b0059993696 Moshe Tal 2022-05-02  354  	node =3D mlx5e_htb_node_find(htb=
+, classid);
+462b0059993696 Moshe Tal 2022-05-02  355  	if (!node)
+462b0059993696 Moshe Tal 2022-05-02  356  		return -ENOENT;
+462b0059993696 Moshe Tal 2022-05-02  357  =
+
+462b0059993696 Moshe Tal 2022-05-02  358  	err =3D mlx5_qos_create_inner_no=
+de(htb->mdev, node->parent->hw_id,
+462b0059993696 Moshe Tal 2022-05-02  359  					 node->bw_share, node->max_a=
+verage_bw,
+462b0059993696 Moshe Tal 2022-05-02  360  					 &new_hw_id);
+462b0059993696 Moshe Tal 2022-05-02  361  	if (err) {
+462b0059993696 Moshe Tal 2022-05-02  362  		NL_SET_ERR_MSG_MOD(extack, "Fir=
+mware error when creating an inner node.");
+462b0059993696 Moshe Tal 2022-05-02  363  		qos_err(htb->mdev, "Failed to c=
+reate an inner node (class %04x), err =3D %d\n",
+462b0059993696 Moshe Tal 2022-05-02  364  			classid, err);
+462b0059993696 Moshe Tal 2022-05-02  365  		return err;
+462b0059993696 Moshe Tal 2022-05-02  366  	}
+462b0059993696 Moshe Tal 2022-05-02  367  =
+
+462b0059993696 Moshe Tal 2022-05-02  368  	/* Intentionally reuse the qid f=
+or the upcoming first child. */
+462b0059993696 Moshe Tal 2022-05-02  369  	child =3D mlx5e_htb_node_create_=
+leaf(htb, child_classid, node->qid, node);
+462b0059993696 Moshe Tal 2022-05-02  370  	if (IS_ERR(child)) {
+462b0059993696 Moshe Tal 2022-05-02 @371  		err =3D PTR_ERR(child);
+462b0059993696 Moshe Tal 2022-05-02  372  		goto err_destroy_hw_node;
+462b0059993696 Moshe Tal 2022-05-02  373  	}
+462b0059993696 Moshe Tal 2022-05-02  374  =
+
+462b0059993696 Moshe Tal 2022-05-02  375  	child->rate =3D rate;
+462b0059993696 Moshe Tal 2022-05-02  376  	mlx5e_htb_convert_rate(htb, rate=
+, node, &child->bw_share);
+462b0059993696 Moshe Tal 2022-05-02  377  	mlx5e_htb_convert_ceil(htb, ceil=
+, &child->max_average_bw);
+462b0059993696 Moshe Tal 2022-05-02  378  =
+
+462b0059993696 Moshe Tal 2022-05-02  379  	err =3D mlx5_qos_create_leaf_nod=
+e(htb->mdev, new_hw_id, child->bw_share,
+462b0059993696 Moshe Tal 2022-05-02  380  					child->max_average_bw, &chil=
+d->hw_id);
+462b0059993696 Moshe Tal 2022-05-02  381  	if (err) {
+462b0059993696 Moshe Tal 2022-05-02  382  		NL_SET_ERR_MSG_MOD(extack, "Fir=
+mware error when creating a leaf node.");
+462b0059993696 Moshe Tal 2022-05-02  383  		qos_err(htb->mdev, "Failed to c=
+reate a leaf node (class %04x), err =3D %d\n",
+462b0059993696 Moshe Tal 2022-05-02  384  			classid, err);
+462b0059993696 Moshe Tal 2022-05-02  385  		goto err_delete_sw_node;
+462b0059993696 Moshe Tal 2022-05-02  386  	}
+462b0059993696 Moshe Tal 2022-05-02  387  =
+
+462b0059993696 Moshe Tal 2022-05-02  388  	/* No fail point. */
+462b0059993696 Moshe Tal 2022-05-02  389  =
+
+462b0059993696 Moshe Tal 2022-05-02  390  	qid =3D node->qid;
+462b0059993696 Moshe Tal 2022-05-02  391  	/* Pairs with mlx5e_htb_get_txq_=
+by_classid. */
+462b0059993696 Moshe Tal 2022-05-02  392  	WRITE_ONCE(node->qid, MLX5E_QOS_=
+QID_INNER);
+462b0059993696 Moshe Tal 2022-05-02  393  =
+
+462b0059993696 Moshe Tal 2022-05-02  394  	if (test_bit(MLX5E_STATE_OPENED,=
+ &priv->state)) {
+462b0059993696 Moshe Tal 2022-05-02  395  		mlx5e_deactivate_qos_sq(priv, q=
+id);
+462b0059993696 Moshe Tal 2022-05-02  396  		mlx5e_close_qos_sq(priv, qid);
+462b0059993696 Moshe Tal 2022-05-02  397  	}
+462b0059993696 Moshe Tal 2022-05-02  398  =
+
+462b0059993696 Moshe Tal 2022-05-02  399  	err =3D mlx5_qos_destroy_node(ht=
+b->mdev, node->hw_id);
+462b0059993696 Moshe Tal 2022-05-02  400  	if (err) /* Not fatal. */
+462b0059993696 Moshe Tal 2022-05-02  401  		qos_warn(htb->mdev, "Failed to =
+destroy leaf node %u (class %04x), err =3D %d\n",
+462b0059993696 Moshe Tal 2022-05-02  402  			 node->hw_id, classid, err);
+462b0059993696 Moshe Tal 2022-05-02  403  =
+
+462b0059993696 Moshe Tal 2022-05-02  404  	node->hw_id =3D new_hw_id;
+462b0059993696 Moshe Tal 2022-05-02  405  =
+
+462b0059993696 Moshe Tal 2022-05-02  406  	if (test_bit(MLX5E_STATE_OPENED,=
+ &priv->state)) {
+462b0059993696 Moshe Tal 2022-05-02  407  		err =3D mlx5e_open_qos_sq(priv,=
+ &priv->channels, child->qid, child->hw_id);
+462b0059993696 Moshe Tal 2022-05-02  408  		if (err) {
+462b0059993696 Moshe Tal 2022-05-02  409  			NL_SET_ERR_MSG_MOD(extack, "Er=
+ror creating an SQ.");
+462b0059993696 Moshe Tal 2022-05-02  410  			qos_warn(htb->mdev, "Failed to=
+ create a QoS SQ (class %04x), err =3D %d\n",
+462b0059993696 Moshe Tal 2022-05-02  411  				 classid, err);
+462b0059993696 Moshe Tal 2022-05-02  412  		} else {
+462b0059993696 Moshe Tal 2022-05-02  413  			mlx5e_activate_qos_sq(priv, ch=
+ild->qid, child->hw_id);
+462b0059993696 Moshe Tal 2022-05-02  414  		}
+462b0059993696 Moshe Tal 2022-05-02  415  	}
+462b0059993696 Moshe Tal 2022-05-02  416  =
+
+462b0059993696 Moshe Tal 2022-05-02  417  	return 0;
+462b0059993696 Moshe Tal 2022-05-02  418  =
+
+462b0059993696 Moshe Tal 2022-05-02  419  err_delete_sw_node:
+462b0059993696 Moshe Tal 2022-05-02  420  	child->qid =3D MLX5E_QOS_QID_INN=
+ER;
+462b0059993696 Moshe Tal 2022-05-02  421  	mlx5e_htb_node_delete(htb, child=
+);
+462b0059993696 Moshe Tal 2022-05-02  422  =
+
+462b0059993696 Moshe Tal 2022-05-02  423  err_destroy_hw_node:
+462b0059993696 Moshe Tal 2022-05-02  424  	tmp_err =3D mlx5_qos_destroy_nod=
+e(htb->mdev, new_hw_id);
+462b0059993696 Moshe Tal 2022-05-02  425  	if (tmp_err) /* Not fatal. */
+462b0059993696 Moshe Tal 2022-05-02  426  		qos_warn(htb->mdev, "Failed to =
+roll back creation of an inner node %u (class %04x), err =3D %d\n",
+462b0059993696 Moshe Tal 2022-05-02  427  			 new_hw_id, classid, tmp_err);
+462b0059993696 Moshe Tal 2022-05-02  428  	return err;
+462b0059993696 Moshe Tal 2022-05-02  429  }
+462b0059993696 Moshe Tal 2022-05-02  430  =
+
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============6962757734534816274==--
+--===============0973494521825719174==--
 
