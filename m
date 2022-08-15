@@ -1,147 +1,193 @@
-Content-Type: multipart/mixed; boundary="===============6704905415978930130=="
+Content-Type: multipart/mixed; boundary="===============3812582721846136563=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/net/wwan/t7xx/t7xx_hif_dpmaif_tx.c:127 t7xx_dpmaif_release_tx_buffer() error: potentially dereferencing uninitialized 'cur_drb'.
-Date: Mon, 15 Aug 2022 08:30:33 +0800
-Message-ID: <202208150838.JRmdTauQ-lkp@intel.com>
+Subject: drivers/gpu/drm/tegra/nvdec.c:180:20: warning: use of uninitialized value '<unknown>' [CWE-457]
+Date: Mon, 15 Aug 2022 08:20:17 +0800
+Message-ID: <202208150830.je33LixY-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6704905415978930130==
+--===============3812582721846136563==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+:::::: =
+
+:::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "low confidence static check warning: drivers/g=
+pu/drm/tegra/nvdec.c:180:20: warning: use of uninitialized value '<unknown>=
+' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]"
+:::::: =
+
+
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Haijun Liu <haijun.liu@mediatek.com>
-CC: Chandrashekar Devegowda <chandrashekar.devegowda@intel.com>
-CC: Ricardo Martinez <ricardo.martinez@linux.intel.com>
-CC: Loic Poulain <loic.poulain@linaro.org>
-CC: Sergey Ryazanov <ryazanov.s.a@gmail.com>
-CC: "Ilpo J=C3=A4rvinen" <ilpo.jarvinen@linux.intel.com>
+TO: Mikko Perttunen <mperttunen@nvidia.com>
+CC: Thierry Reding <treding@nvidia.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
-head:   568035b01cfb107af8d2e4bd2fb9aea22cf5b868
-commit: d642b012df70a76dd5723f2d426b40bffe83ac49 net: wwan: t7xx: Add data =
-path interface
-date:   3 months ago
-:::::: branch date: 2 hours ago
-:::::: commit date: 3 months ago
-config: parisc-randconfig-m031-20220807 (https://download.01.org/0day-ci/ar=
-chive/20220815/202208150838.JRmdTauQ-lkp(a)intel.com/config)
-compiler: hppa-linux-gcc (GCC) 12.1.0
+head:   5d6a0f4da9275f6c212de33777778673ba91241a
+commit: 46f226c93d35b936aeec6eb31da932dc2e86f413 drm/tegra: Add NVDEC driver
+date:   8 months ago
+:::::: branch date: 8 hours ago
+:::::: commit date: 8 months ago
+config: arm-randconfig-c002-20220808 (https://download.01.org/0day-ci/archi=
+ve/20220815/202208150830.je33LixY-lkp(a)intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3D46f226c93d35b936aeec6eb31da932dc2e86f413
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 46f226c93d35b936aeec6eb31da932dc2e86f413
+        # save the config file
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cross=
+ ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
+
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-drivers/net/wwan/t7xx/t7xx_hif_dpmaif_tx.c:127 t7xx_dpmaif_release_tx_buffe=
-r() error: potentially dereferencing uninitialized 'cur_drb'.
+gcc-analyzer warnings: (new ones prefixed by >>)
+   drivers/gpu/drm/tegra/nvdec.c: In function 'nvdec_load_firmware':
+>> drivers/gpu/drm/tegra/nvdec.c:180:20: warning: use of uninitialized valu=
+e '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+     180 |         dma_addr_t iova;
+         |                    ^~~~
+     'nvdec_load_firmware': event 1
+       |
+       |  180 |         dma_addr_t iova;
+       |      |                    ^~~~
+       |      |                    |
+       |      |                    (1) use of uninitialized value '<unknown=
+>' here
+       |
+   drivers/gpu/drm/tegra/nvdec.c: In function 'nvdec_probe':
+   drivers/gpu/drm/tegra/nvdec.c:347:13: warning: use of uninitialized valu=
+e '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+     347 |         u32 host_class;
+         |             ^~~~~~~~~~
+     'nvdec_probe': event 1
+       |
+       |  347 |         u32 host_class;
+       |      |             ^~~~~~~~~~
+       |      |             |
+       |      |             (1) use of uninitialized value '<unknown>' here
+       |
 
-vim +/cur_drb +127 drivers/net/wwan/t7xx/t7xx_hif_dpmaif_tx.c
+vim +180 drivers/gpu/drm/tegra/nvdec.c
 
-d642b012df70a7 Haijun Liu 2022-05-06   78  =
+46f226c93d35b9 Mikko Perttunen 2021-09-16  175  =
 
-d642b012df70a7 Haijun Liu 2022-05-06   79  static unsigned int t7xx_dpmaif_=
-release_tx_buffer(struct dpmaif_ctrl *dpmaif_ctrl,
-d642b012df70a7 Haijun Liu 2022-05-06   80  						  unsigned int q_num, unsi=
-gned int release_cnt)
-d642b012df70a7 Haijun Liu 2022-05-06   81  {
-d642b012df70a7 Haijun Liu 2022-05-06   82  	struct dpmaif_tx_queue *txq =3D=
- &dpmaif_ctrl->txq[q_num];
-d642b012df70a7 Haijun Liu 2022-05-06   83  	struct dpmaif_callbacks *cb =3D=
- dpmaif_ctrl->callbacks;
-d642b012df70a7 Haijun Liu 2022-05-06   84  	struct dpmaif_drb_skb *cur_drb_=
-skb, *drb_skb_base;
-d642b012df70a7 Haijun Liu 2022-05-06   85  	struct dpmaif_drb *cur_drb, *dr=
-b_base;
-d642b012df70a7 Haijun Liu 2022-05-06   86  	unsigned int drb_cnt, i, cur_id=
-x;
-d642b012df70a7 Haijun Liu 2022-05-06   87  	unsigned long flags;
-d642b012df70a7 Haijun Liu 2022-05-06   88  =
+46f226c93d35b9 Mikko Perttunen 2021-09-16  176  static int nvdec_load_firmw=
+are(struct nvdec *nvdec)
+46f226c93d35b9 Mikko Perttunen 2021-09-16  177  {
+46f226c93d35b9 Mikko Perttunen 2021-09-16  178  	struct host1x_client *clie=
+nt =3D &nvdec->client.base;
+46f226c93d35b9 Mikko Perttunen 2021-09-16  179  	struct tegra_drm *tegra =
+=3D nvdec->client.drm;
+46f226c93d35b9 Mikko Perttunen 2021-09-16 @180  	dma_addr_t iova;
+46f226c93d35b9 Mikko Perttunen 2021-09-16  181  	size_t size;
+46f226c93d35b9 Mikko Perttunen 2021-09-16  182  	void *virt;
+46f226c93d35b9 Mikko Perttunen 2021-09-16  183  	int err;
+46f226c93d35b9 Mikko Perttunen 2021-09-16  184  =
 
-d642b012df70a7 Haijun Liu 2022-05-06   89  	drb_skb_base =3D txq->drb_skb_b=
-ase;
-d642b012df70a7 Haijun Liu 2022-05-06   90  	drb_base =3D txq->drb_base;
-d642b012df70a7 Haijun Liu 2022-05-06   91  =
+46f226c93d35b9 Mikko Perttunen 2021-09-16  185  	if (nvdec->falcon.firmware=
+.virt)
+46f226c93d35b9 Mikko Perttunen 2021-09-16  186  		return 0;
+46f226c93d35b9 Mikko Perttunen 2021-09-16  187  =
 
-d642b012df70a7 Haijun Liu 2022-05-06   92  	spin_lock_irqsave(&txq->tx_lock=
-, flags);
-d642b012df70a7 Haijun Liu 2022-05-06   93  	drb_cnt =3D txq->drb_size_cnt;
-d642b012df70a7 Haijun Liu 2022-05-06   94  	cur_idx =3D txq->drb_release_rd=
-_idx;
-d642b012df70a7 Haijun Liu 2022-05-06   95  	spin_unlock_irqrestore(&txq->tx=
-_lock, flags);
-d642b012df70a7 Haijun Liu 2022-05-06   96  =
+46f226c93d35b9 Mikko Perttunen 2021-09-16  188  	err =3D falcon_read_firmwa=
+re(&nvdec->falcon, nvdec->config->firmware);
+46f226c93d35b9 Mikko Perttunen 2021-09-16  189  	if (err < 0)
+46f226c93d35b9 Mikko Perttunen 2021-09-16  190  		return err;
+46f226c93d35b9 Mikko Perttunen 2021-09-16  191  =
 
-d642b012df70a7 Haijun Liu 2022-05-06   97  	for (i =3D 0; i < release_cnt; =
-i++) {
-d642b012df70a7 Haijun Liu 2022-05-06   98  		cur_drb =3D drb_base + cur_idx;
-d642b012df70a7 Haijun Liu 2022-05-06   99  		if (FIELD_GET(DRB_HDR_DTYP, le=
-32_to_cpu(cur_drb->header)) =3D=3D DES_DTYP_PD) {
-d642b012df70a7 Haijun Liu 2022-05-06  100  			cur_drb_skb =3D drb_skb_base =
-+ cur_idx;
-d642b012df70a7 Haijun Liu 2022-05-06  101  			if (!cur_drb_skb->is_msg)
-d642b012df70a7 Haijun Liu 2022-05-06  102  				dma_unmap_single(dpmaif_ctrl=
-->dev, cur_drb_skb->bus_addr,
-d642b012df70a7 Haijun Liu 2022-05-06  103  						 cur_drb_skb->data_len, DM=
-A_TO_DEVICE);
-d642b012df70a7 Haijun Liu 2022-05-06  104  =
+46f226c93d35b9 Mikko Perttunen 2021-09-16  192  	size =3D nvdec->falcon.fir=
+mware.size;
+46f226c93d35b9 Mikko Perttunen 2021-09-16  193  =
 
-d642b012df70a7 Haijun Liu 2022-05-06  105  			if (!FIELD_GET(DRB_HDR_CONT, =
-le32_to_cpu(cur_drb->header))) {
-d642b012df70a7 Haijun Liu 2022-05-06  106  				if (!cur_drb_skb->skb) {
-d642b012df70a7 Haijun Liu 2022-05-06  107  					dev_err(dpmaif_ctrl->dev,
-d642b012df70a7 Haijun Liu 2022-05-06  108  						"txq%u: DRB check fail, in=
-valid skb\n", q_num);
-d642b012df70a7 Haijun Liu 2022-05-06  109  					continue;
-d642b012df70a7 Haijun Liu 2022-05-06  110  				}
-d642b012df70a7 Haijun Liu 2022-05-06  111  =
+46f226c93d35b9 Mikko Perttunen 2021-09-16  194  	if (!client->group) {
+46f226c93d35b9 Mikko Perttunen 2021-09-16  195  		virt =3D dma_alloc_cohere=
+nt(nvdec->dev, size, &iova, GFP_KERNEL);
+46f226c93d35b9 Mikko Perttunen 2021-09-16  196  =
 
-d642b012df70a7 Haijun Liu 2022-05-06  112  				dev_kfree_skb_any(cur_drb_sk=
-b->skb);
-d642b012df70a7 Haijun Liu 2022-05-06  113  			}
-d642b012df70a7 Haijun Liu 2022-05-06  114  =
+46f226c93d35b9 Mikko Perttunen 2021-09-16  197  		err =3D dma_mapping_error=
+(nvdec->dev, iova);
+46f226c93d35b9 Mikko Perttunen 2021-09-16  198  		if (err < 0)
+46f226c93d35b9 Mikko Perttunen 2021-09-16  199  			return err;
+46f226c93d35b9 Mikko Perttunen 2021-09-16  200  	} else {
+46f226c93d35b9 Mikko Perttunen 2021-09-16  201  		virt =3D tegra_drm_alloc(=
+tegra, size, &iova);
+46f226c93d35b9 Mikko Perttunen 2021-09-16  202  	}
+46f226c93d35b9 Mikko Perttunen 2021-09-16  203  =
 
-d642b012df70a7 Haijun Liu 2022-05-06  115  			cur_drb_skb->skb =3D NULL;
-d642b012df70a7 Haijun Liu 2022-05-06  116  		}
-d642b012df70a7 Haijun Liu 2022-05-06  117  =
+46f226c93d35b9 Mikko Perttunen 2021-09-16  204  	nvdec->falcon.firmware.vir=
+t =3D virt;
+46f226c93d35b9 Mikko Perttunen 2021-09-16  205  	nvdec->falcon.firmware.iov=
+a =3D iova;
+46f226c93d35b9 Mikko Perttunen 2021-09-16  206  =
 
-d642b012df70a7 Haijun Liu 2022-05-06  118  		spin_lock_irqsave(&txq->tx_loc=
-k, flags);
-d642b012df70a7 Haijun Liu 2022-05-06  119  		cur_idx =3D t7xx_ring_buf_get_=
-next_wr_idx(drb_cnt, cur_idx);
-d642b012df70a7 Haijun Liu 2022-05-06  120  		txq->drb_release_rd_idx =3D cu=
-r_idx;
-d642b012df70a7 Haijun Liu 2022-05-06  121  		spin_unlock_irqrestore(&txq->t=
-x_lock, flags);
-d642b012df70a7 Haijun Liu 2022-05-06  122  =
+46f226c93d35b9 Mikko Perttunen 2021-09-16  207  	err =3D falcon_load_firmwa=
+re(&nvdec->falcon);
+46f226c93d35b9 Mikko Perttunen 2021-09-16  208  	if (err < 0)
+46f226c93d35b9 Mikko Perttunen 2021-09-16  209  		goto cleanup;
+46f226c93d35b9 Mikko Perttunen 2021-09-16  210  =
 
-d642b012df70a7 Haijun Liu 2022-05-06  123  		if (atomic_inc_return(&txq->tx=
-_budget) > txq->drb_size_cnt / 8)
-d642b012df70a7 Haijun Liu 2022-05-06  124  			cb->state_notify(dpmaif_ctrl-=
->t7xx_dev, DMPAIF_TXQ_STATE_IRQ, txq->index);
-d642b012df70a7 Haijun Liu 2022-05-06  125  	}
-d642b012df70a7 Haijun Liu 2022-05-06  126  =
+46f226c93d35b9 Mikko Perttunen 2021-09-16  211  	/*
+46f226c93d35b9 Mikko Perttunen 2021-09-16  212  	 * In this case we have re=
+ceived an IOVA from the shared domain, so we
+46f226c93d35b9 Mikko Perttunen 2021-09-16  213  	 * need to make sure to ge=
+t the physical address so that the DMA API
+46f226c93d35b9 Mikko Perttunen 2021-09-16  214  	 * knows what memory pages=
+ to flush the cache for.
+46f226c93d35b9 Mikko Perttunen 2021-09-16  215  	 */
+46f226c93d35b9 Mikko Perttunen 2021-09-16  216  	if (client->group) {
+46f226c93d35b9 Mikko Perttunen 2021-09-16  217  		dma_addr_t phys;
+46f226c93d35b9 Mikko Perttunen 2021-09-16  218  =
 
-d642b012df70a7 Haijun Liu 2022-05-06 @127  	if (FIELD_GET(DRB_HDR_CONT, le3=
-2_to_cpu(cur_drb->header)))
-d642b012df70a7 Haijun Liu 2022-05-06  128  		dev_err(dpmaif_ctrl->dev, "txq=
-%u: DRB not marked as the last one\n", q_num);
-d642b012df70a7 Haijun Liu 2022-05-06  129  =
+46f226c93d35b9 Mikko Perttunen 2021-09-16  219  		phys =3D dma_map_single(n=
+vdec->dev, virt, size, DMA_TO_DEVICE);
+46f226c93d35b9 Mikko Perttunen 2021-09-16  220  =
 
-d642b012df70a7 Haijun Liu 2022-05-06  130  	return i;
-d642b012df70a7 Haijun Liu 2022-05-06  131  }
-d642b012df70a7 Haijun Liu 2022-05-06  132  =
+46f226c93d35b9 Mikko Perttunen 2021-09-16  221  		err =3D dma_mapping_error=
+(nvdec->dev, phys);
+46f226c93d35b9 Mikko Perttunen 2021-09-16  222  		if (err < 0)
+46f226c93d35b9 Mikko Perttunen 2021-09-16  223  			goto cleanup;
+46f226c93d35b9 Mikko Perttunen 2021-09-16  224  =
+
+46f226c93d35b9 Mikko Perttunen 2021-09-16  225  		nvdec->falcon.firmware.ph=
+ys =3D phys;
+46f226c93d35b9 Mikko Perttunen 2021-09-16  226  	}
+46f226c93d35b9 Mikko Perttunen 2021-09-16  227  =
+
+46f226c93d35b9 Mikko Perttunen 2021-09-16  228  	return 0;
+46f226c93d35b9 Mikko Perttunen 2021-09-16  229  =
+
+46f226c93d35b9 Mikko Perttunen 2021-09-16  230  cleanup:
+46f226c93d35b9 Mikko Perttunen 2021-09-16  231  	if (!client->group)
+46f226c93d35b9 Mikko Perttunen 2021-09-16  232  		dma_free_coherent(nvdec->=
+dev, size, virt, iova);
+46f226c93d35b9 Mikko Perttunen 2021-09-16  233  	else
+46f226c93d35b9 Mikko Perttunen 2021-09-16  234  		tegra_drm_free(tegra, siz=
+e, virt, iova);
+46f226c93d35b9 Mikko Perttunen 2021-09-16  235  =
+
+46f226c93d35b9 Mikko Perttunen 2021-09-16  236  	return err;
+46f226c93d35b9 Mikko Perttunen 2021-09-16  237  }
+46f226c93d35b9 Mikko Perttunen 2021-09-16  238  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============6704905415978930130==--
+--===============3812582721846136563==--
 
