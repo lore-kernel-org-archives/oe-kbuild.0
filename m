@@ -1,215 +1,131 @@
-Content-Type: multipart/mixed; boundary="===============6999736446751311183=="
+Content-Type: multipart/mixed; boundary="===============1943845531639696365=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: sound/soc/soc-utils-test.c:125:34: warning: use of uninitialized value '((int *)_13 = PHI <&MEM <struct snd_pcm_hw_params> [(void *)&params + 4B](2), _48(3)>)[2]' [CWE-457]
-Date: Mon, 15 Aug 2022 20:40:54 +0800
-Message-ID: <202208152002.a2YViWmE-lkp@intel.com>
+Subject: drivers/net/wireless/mediatek/mt76/mt7921/acpi_sar.c:57 mt7921_acpi_read() error: dereferencing freed memory 'sar_root'
+Date: Mon, 15 Aug 2022 19:29:18 +0800
+Message-ID: <202208151913.eVjlCUfV-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6999736446751311183==
+--===============1943845531639696365==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-:::::: =
-
-:::::: Manual check reason: "low confidence bisect report"
-:::::: Manual check reason: "low confidence static check warning: sound/soc=
-/soc-utils-test.c:125:34: warning: use of uninitialized value '((int *)_13 =
-=3D PHI <&MEM <struct snd_pcm_hw_params> [(void *)&params + 4B](2), _48(3)>=
-)[2]' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]"
-:::::: =
-
-
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Richard Fitzgerald <rf@opensource.cirrus.com>
-CC: Mark Brown <broonie@kernel.org>
+TO: Deren Wu <deren.wu@mediatek.com>
+CC: Felix Fietkau <nbd@nbd.name>
+CC: Sean Wang <sean.wang@mediatek.com>
+CC: Quan Zhou <quan.zhou@mediatek.com>
+CC: Ming Yen Hsieh <mingyen.hsieh@mediatek.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   568035b01cfb107af8d2e4bd2fb9aea22cf5b868
-commit: 89342fa38bbaade51584f255eee5cd43621f4e10 ASoC: soc-utils: Add kunit=
- test for snd_soc_tdm_params_to_bclk()
-date:   4 months ago
-:::::: branch date: 14 hours ago
-:::::: commit date: 4 months ago
-config: arm-randconfig-c002-20220810 (https://download.01.org/0day-ci/archi=
-ve/20220815/202208152002.a2YViWmE-lkp(a)intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D89342fa38bbaade51584f255eee5cd43621f4e10
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 89342fa38bbaade51584f255eee5cd43621f4e10
-        # save the config file
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cross=
- ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
-
+commit: f965333e491e36adb0fa91e389fba8685b704fb6 mt76: mt7921: introduce AC=
+PI SAR support
+date:   5 weeks ago
+:::::: branch date: 13 hours ago
+:::::: commit date: 5 weeks ago
+config: ia64-randconfig-m031-20220814 (https://download.01.org/0day-ci/arch=
+ive/20220815/202208151913.eVjlCUfV-lkp(a)intel.com/config)
+compiler: ia64-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-gcc-analyzer warnings: (new ones prefixed by >>)
-   sound/soc/soc-utils-test.c: In function 'test_tdm_params_to_bclk_one':
->> sound/soc/soc-utils-test.c:125:34: warning: use of uninitialized value '=
-((int *)_13 =3D PHI <&MEM <struct snd_pcm_hw_params> [(void *)&params + 4B]=
-(2), _48(3)>)[2]' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-     125 |         struct snd_pcm_hw_params params;
-         |                                  ^~~~~~
-     'test_tdm_params_to_bclk_one': events 1-4
-       |
-       |  125 |         struct snd_pcm_hw_params params;
-       |      |                                  ^~~~~~
-       |      |                                  |
-       |      |                                  (1) region created on stac=
-k here
-       |      |                                  (2) following 'true' branc=
-h...
-       |      |                                  (3) ...to here
-       |      |                                  (4) use of uninitialized v=
-alue '((int *)_13 =3D PHI <&MEM <struct snd_pcm_hw_params> [(void *)&params=
- + 4B](2), _48(3)>)[2]' here
-       |
->> sound/soc/soc-utils-test.c:125:34: warning: use of uninitialized value '=
-((int *)_13 =3D PHI <&MEM <struct snd_pcm_hw_params> [(void *)&params + 4B]=
-(2), _48(3)>)[2]' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-     125 |         struct snd_pcm_hw_params params;
-         |                                  ^~~~~~
-     'test_tdm_params_to_bclk': event 1
-       |
-       |  144 | static void test_tdm_params_to_bclk(struct kunit *test)
-       |      |             ^~~~~~~~~~~~~~~~~~~~~~~
-       |      |             |
-       |      |             (1) entry to 'test_tdm_params_to_bclk'
-       |
-     'test_tdm_params_to_bclk': events 2-4
-       |
-       |  148 |         for (i =3D 0; i < ARRAY_SIZE(tdm_params_to_bclk_cas=
-es); ++i) {
-       |  149 |                 test_tdm_params_to_bclk_one(test,
-       |      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |                 |
-       |      |                 (4) calling 'test_tdm_params_to_bclk_one' f=
-rom 'test_tdm_params_to_bclk'
-       |  150 |                                             tdm_params_to_b=
-clk_cases[i].rate,
-       |      |                                             ~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~~~~~
-       |      |                                                            =
-            |
-       |      |                                                            =
-            (3) ...to here
-       |  151 |                                             tdm_params_to_b=
-clk_cases[i].fmt,
-       |      |                                             ~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~~~~
-       |  152 |                                             tdm_params_to_b=
-clk_cases[i].channels,
-       |      |                                             ~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~~~~~~~~~
-       |  153 |                                             tdm_params_to_b=
-clk_cases[i].tdm_width,
-       |      |                                             ~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~~~~~~~~~~
-       |  154 |                                             tdm_params_to_b=
-clk_cases[i].tdm_slots,
-       |      |                                             ~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~~~~~~~~~~
-       |  155 |                                             tdm_params_to_b=
-clk_cases[i].slot_multiple,
-       |      |                                             ~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |  156 |                                             tdm_params_to_b=
-clk_cases[i].bclk);
-       |      |                                             ~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~~~~~
-       |
-       +--> 'test_tdm_params_to_bclk_one': events 5-9
-              |
-              |  118 | static void test_tdm_params_to_bclk_one(struct kunit=
- *test,
-              |      |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-              |      |             |
-              |      |             (5) entry to 'test_tdm_params_to_bclk_on=
-e'
-              |......
-              |  125 |         struct snd_pcm_hw_params params;
-              |      |                                  ~~~~~~
-              |      |                                  |
-              |      |                                  (6) region created =
-on stack here
-              |      |                                  (7) following 'true=
-' branch...
-              |      |                                  (8) ...to here
-              |      |                                  (9) use of uninitia=
-lized value '((int *)_13 =3D PHI <&MEM <struct snd_pcm_hw_params> [(void *)=
-&params + 4B](2), _48(3)>)[2]' here
-              |
+smatch warnings:
+drivers/net/wireless/mediatek/mt76/mt7921/acpi_sar.c:57 mt7921_acpi_read() =
+error: dereferencing freed memory 'sar_root'
 
-vim +125 sound/soc/soc-utils-test.c
+vim +/sar_root +57 drivers/net/wireless/mediatek/mt76/mt7921/acpi_sar.c
 
-89342fa38bbaad Richard Fitzgerald 2022-04-05  117  =
+f965333e491e36 Deren Wu 2022-05-20   6  =
 
-89342fa38bbaad Richard Fitzgerald 2022-04-05  118  static void test_tdm_par=
-ams_to_bclk_one(struct kunit *test,
-89342fa38bbaad Richard Fitzgerald 2022-04-05  119  					unsigned int rate, =
-snd_pcm_format_t fmt,
-89342fa38bbaad Richard Fitzgerald 2022-04-05  120  					unsigned int channe=
-ls,
-89342fa38bbaad Richard Fitzgerald 2022-04-05  121  					unsigned int tdm_wi=
-dth, unsigned int tdm_slots,
-89342fa38bbaad Richard Fitzgerald 2022-04-05  122  					unsigned int slot_m=
-ultiple,
-89342fa38bbaad Richard Fitzgerald 2022-04-05  123  					unsigned int expect=
-ed_bclk)
-89342fa38bbaad Richard Fitzgerald 2022-04-05  124  {
-89342fa38bbaad Richard Fitzgerald 2022-04-05 @125  	struct snd_pcm_hw_param=
-s params;
-89342fa38bbaad Richard Fitzgerald 2022-04-05  126  	int got_bclk;
-89342fa38bbaad Richard Fitzgerald 2022-04-05  127  =
+f965333e491e36 Deren Wu 2022-05-20   7  static int
+f965333e491e36 Deren Wu 2022-05-20   8  mt7921_acpi_read(struct mt7921_dev =
+*dev, u8 *method, u8 **tbl, u32 *len)
+f965333e491e36 Deren Wu 2022-05-20   9  {
+f965333e491e36 Deren Wu 2022-05-20  10  	struct acpi_buffer buf =3D { ACPI_=
+ALLOCATE_BUFFER, NULL };
+f965333e491e36 Deren Wu 2022-05-20  11  	union acpi_object *sar_root, *sar_=
+unit;
+f965333e491e36 Deren Wu 2022-05-20  12  	struct mt76_dev *mdev =3D &dev->mt=
+76;
+f965333e491e36 Deren Wu 2022-05-20  13  	acpi_handle root, handle;
+f965333e491e36 Deren Wu 2022-05-20  14  	acpi_status status;
+f965333e491e36 Deren Wu 2022-05-20  15  	u32 i =3D 0;
+f965333e491e36 Deren Wu 2022-05-20  16  =
 
-89342fa38bbaad Richard Fitzgerald 2022-04-05  128  	_snd_pcm_hw_params_any(=
-&params);
-89342fa38bbaad Richard Fitzgerald 2022-04-05  129  	snd_mask_none(hw_param_=
-mask(&params, SNDRV_PCM_HW_PARAM_FORMAT));
-89342fa38bbaad Richard Fitzgerald 2022-04-05  130  	hw_param_interval(&para=
-ms, SNDRV_PCM_HW_PARAM_RATE)->min =3D rate;
-89342fa38bbaad Richard Fitzgerald 2022-04-05  131  	hw_param_interval(&para=
-ms, SNDRV_PCM_HW_PARAM_RATE)->max =3D rate;
-89342fa38bbaad Richard Fitzgerald 2022-04-05  132  	hw_param_interval(&para=
-ms, SNDRV_PCM_HW_PARAM_CHANNELS)->min =3D channels;
-89342fa38bbaad Richard Fitzgerald 2022-04-05  133  	hw_param_interval(&para=
-ms, SNDRV_PCM_HW_PARAM_CHANNELS)->max =3D channels;
-89342fa38bbaad Richard Fitzgerald 2022-04-05  134  	params_set_format(&para=
-ms, fmt);
-89342fa38bbaad Richard Fitzgerald 2022-04-05  135  =
+f965333e491e36 Deren Wu 2022-05-20  17  	root =3D ACPI_HANDLE(mdev->dev);
+f965333e491e36 Deren Wu 2022-05-20  18  	if (!root)
+f965333e491e36 Deren Wu 2022-05-20  19  		return -EOPNOTSUPP;
+f965333e491e36 Deren Wu 2022-05-20  20  =
 
-89342fa38bbaad Richard Fitzgerald 2022-04-05  136  	got_bclk =3D snd_soc_td=
-m_params_to_bclk(&params, tdm_width, tdm_slots, slot_multiple);
-89342fa38bbaad Richard Fitzgerald 2022-04-05  137  	pr_debug("%s: r=3D%u sb=
-=3D%u ch=3D%u tw=3D%u ts=3D%u sm=3D%u expected=3D%u got=3D%d\n",
-89342fa38bbaad Richard Fitzgerald 2022-04-05  138  		 __func__,
-89342fa38bbaad Richard Fitzgerald 2022-04-05  139  		 rate, params_width(&p=
-arams), channels, tdm_width, tdm_slots, slot_multiple,
-89342fa38bbaad Richard Fitzgerald 2022-04-05  140  		 expected_bclk, got_bc=
-lk);
-89342fa38bbaad Richard Fitzgerald 2022-04-05  141  	KUNIT_ASSERT_EQ(test, e=
-xpected_bclk, (unsigned int)got_bclk);
-89342fa38bbaad Richard Fitzgerald 2022-04-05  142  }
-89342fa38bbaad Richard Fitzgerald 2022-04-05  143  =
+f965333e491e36 Deren Wu 2022-05-20  21  	status =3D acpi_get_handle(root, m=
+ethod, &handle);
+f965333e491e36 Deren Wu 2022-05-20  22  	if (ACPI_FAILURE(status))
+f965333e491e36 Deren Wu 2022-05-20  23  		return -EIO;
+f965333e491e36 Deren Wu 2022-05-20  24  =
+
+f965333e491e36 Deren Wu 2022-05-20  25  	status =3D acpi_evaluate_object(ha=
+ndle, NULL, NULL, &buf);
+f965333e491e36 Deren Wu 2022-05-20  26  	if (ACPI_FAILURE(status))
+f965333e491e36 Deren Wu 2022-05-20  27  		return -EIO;
+f965333e491e36 Deren Wu 2022-05-20  28  =
+
+f965333e491e36 Deren Wu 2022-05-20  29  	sar_root =3D buf.pointer;
+f965333e491e36 Deren Wu 2022-05-20  30  	if (sar_root->type !=3D ACPI_TYPE_=
+PACKAGE ||
+f965333e491e36 Deren Wu 2022-05-20  31  	    sar_root->package.count < 4 ||
+f965333e491e36 Deren Wu 2022-05-20  32  	    sar_root->package.elements[0].=
+type !=3D ACPI_TYPE_INTEGER) {
+f965333e491e36 Deren Wu 2022-05-20  33  		dev_err(mdev->dev, "sar cnt =3D %=
+d\n",
+f965333e491e36 Deren Wu 2022-05-20  34  			sar_root->package.count);
+f965333e491e36 Deren Wu 2022-05-20  35  		goto free;
+f965333e491e36 Deren Wu 2022-05-20  36  	}
+f965333e491e36 Deren Wu 2022-05-20  37  =
+
+f965333e491e36 Deren Wu 2022-05-20  38  	if (!*tbl) {
+f965333e491e36 Deren Wu 2022-05-20  39  		*tbl =3D devm_kzalloc(mdev->dev, =
+sar_root->package.count,
+f965333e491e36 Deren Wu 2022-05-20  40  				    GFP_KERNEL);
+f965333e491e36 Deren Wu 2022-05-20  41  		if (!*tbl)
+f965333e491e36 Deren Wu 2022-05-20  42  			goto free;
+f965333e491e36 Deren Wu 2022-05-20  43  	}
+f965333e491e36 Deren Wu 2022-05-20  44  	if (len)
+f965333e491e36 Deren Wu 2022-05-20  45  		*len =3D sar_root->package.count;
+f965333e491e36 Deren Wu 2022-05-20  46  =
+
+f965333e491e36 Deren Wu 2022-05-20  47  	for (i =3D 0; i < sar_root->packag=
+e.count; i++) {
+f965333e491e36 Deren Wu 2022-05-20  48  		sar_unit =3D &sar_root->package.e=
+lements[i];
+f965333e491e36 Deren Wu 2022-05-20  49  =
+
+f965333e491e36 Deren Wu 2022-05-20  50  		if (sar_unit->type !=3D ACPI_TYPE=
+_INTEGER)
+f965333e491e36 Deren Wu 2022-05-20  51  			break;
+f965333e491e36 Deren Wu 2022-05-20  52  		*(*tbl + i) =3D (u8)sar_unit->int=
+eger.value;
+f965333e491e36 Deren Wu 2022-05-20  53  	}
+f965333e491e36 Deren Wu 2022-05-20  54  free:
+f965333e491e36 Deren Wu 2022-05-20  55  	kfree(sar_root);
+f965333e491e36 Deren Wu 2022-05-20  56  =
+
+f965333e491e36 Deren Wu 2022-05-20 @57  	return (i =3D=3D sar_root->package=
+.count) ? 0 : -EINVAL;
+f965333e491e36 Deren Wu 2022-05-20  58  }
+f965333e491e36 Deren Wu 2022-05-20  59  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============6999736446751311183==--
+--===============1943845531639696365==--
 
