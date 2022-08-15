@@ -1,218 +1,196 @@
-Content-Type: multipart/mixed; boundary="===============2101397823482457233=="
+Content-Type: multipart/mixed; boundary="===============0864440068155646728=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/media/platform/renesas/rcar_fdp1.c:691:9: warning: use of NULL 'job' where non-null expected [CWE-476]
-Date: Mon, 15 Aug 2022 16:25:59 +0800
-Message-ID: <202208151634.beH3iJjY-lkp@intel.com>
+Subject: fs/btrfs/send.c:6858:13: warning: Either the condition '*level==0' is redundant or the array 'path->nodes[8]' is accessed at index -1, which is out of bounds. [negativeIndex]
+Date: Mon, 15 Aug 2022 14:52:37 +0800
+Message-ID: <202208151453.RpUEb3Sg-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2101397823482457233==
+--===============0864440068155646728==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 :::::: =
 
-:::::: Manual check reason: "low confidence bisect report"
-:::::: Manual check reason: "low confidence static check warning: drivers/m=
-edia/platform/renesas/rcar_fdp1.c:691:9: warning: use of NULL 'job' where n=
-on-null expected [CWE-476] [-Wanalyzer-null-argument]"
+:::::: Manual check reason: "low confidence static check warning: fs/btrfs/=
+send.c:6858:13: warning: Either the condition '*level=3D=3D0' is redundant =
+or the array 'path->nodes[8]' is accessed at index -1, which is out of boun=
+ds. [negativeIndex]"
 :::::: =
 
 
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Mauro Carvalho Chehab <mchehab@kernel.org>
-CC: linux-media(a)vger.kernel.org
-CC: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+TO: Filipe Manana <fdmanana@suse.com>
+CC: David Sterba <dsterba@suse.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   568035b01cfb107af8d2e4bd2fb9aea22cf5b868
-commit: ee4a77a32b39064fdab0aa2b36bbd35ebf57e077 media: platform: place Ren=
-esas drivers on a separate dir
-date:   5 months ago
-:::::: branch date: 9 hours ago
-:::::: commit date: 5 months ago
-config: arm-randconfig-c002-20220808 (https://download.01.org/0day-ci/archi=
-ve/20220815/202208151634.beH3iJjY-lkp(a)intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3Dee4a77a32b39064fdab0aa2b36bbd35ebf57e077
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout ee4a77a32b39064fdab0aa2b36bbd35ebf57e077
-        # save the config file
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cross=
- ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
-
+commit: d96b34248c2f4ea8cd09286090f2f6f77102eaab btrfs: make send work with=
+ concurrent block group relocation
+date:   7 months ago
+:::::: branch date: 8 hours ago
+:::::: commit date: 7 months ago
+compiler: powerpc-linux-gcc (GCC) 12.1.0
+reproduce (cppcheck warning):
+        # apt-get install cppcheck
+        git checkout d96b34248c2f4ea8cd09286090f2f6f77102eaab
+        cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
+e=3Dgcc FILE
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 
-gcc-analyzer warnings: (new ones prefixed by >>)
-   drivers/media/platform/renesas/rcar_fdp1.c: In function 'fdp1_job_free':
->> drivers/media/platform/renesas/rcar_fdp1.c:691:9: warning: use of NULL '=
-job' where non-null expected [CWE-476] [-Wanalyzer-null-argument]
-     691 |         memset(job, 0, sizeof(struct fdp1_job));
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     'fdp1_irq_handler': events 1-2
-       |
-       | 2205 | static irqreturn_t fdp1_irq_handler(int irq, void *dev_id)
-       |      |                    ^~~~~~~~~~~~~~~~
-       |      |                    |
-       |      |                    (1) entry to 'fdp1_irq_handler'
-       |......
-       | 2242 |         if (!(FD1_CTL_IRQ_MASK & int_status))
-       |      |            ~        =
 
-       |      |            |
-       |      |            (2) following 'false' branch...
-       |
-     'fdp1_irq_handler': events 3-6
-       |
-       | 2246 |         if (FD1_CTL_IRQ_VERE & int_status)
-       |      |            ~                  =
+cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
-       |      |            |
-       |      |            (4) following 'true' branch...
-       | 2247 |                 device_frame_end(fdp1, VB2_BUF_STATE_ERROR);
-       |      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |                 |
-       |      |                 (5) ...to here
-       |      |                 (6) calling 'device_frame_end' from 'fdp1_i=
-rq_handler'
-       |
-       +--> 'device_frame_end': events 7-10
-              |
-              | 1305 | static void device_frame_end(struct fdp1_dev *fdp1,
-              |      |             ^~~~~~~~~~~~~~~~
-              |      |             |
-              |      |             (7) entry to 'device_frame_end'
-              |......
-              | 1316 |         if (ctx =3D=3D NULL) {
-              |      |            ~ =
+>> fs/btrfs/send.c:6858:13: warning: Either the condition '*level=3D=3D0' i=
+s redundant or the array 'path->nodes[8]' is accessed at index -1, which is=
+ out of bounds. [negativeIndex]
+    path->nodes[*level - 1] =3D eb;
+               ^
+   fs/btrfs/send.c:6862:13: note: Assuming that condition '*level=3D=3D0' i=
+s not redundant
+    if (*level =3D=3D 0)
+               ^
+   fs/btrfs/send.c:6858:13: note: Negative array index
+    path->nodes[*level - 1] =3D eb;
+               ^
+>> fs/btrfs/send.c:6859:13: warning: Either the condition '*level=3D=3D0' i=
+s redundant or the array 'path->slots[8]' is accessed at index -1, which is=
+ out of bounds. [negativeIndex]
+    path->slots[*level - 1] =3D 0;
+               ^
+   fs/btrfs/send.c:6862:13: note: Assuming that condition '*level=3D=3D0' i=
+s not redundant
+    if (*level =3D=3D 0)
+               ^
+   fs/btrfs/send.c:6859:13: note: Negative array index
+    path->slots[*level - 1] =3D 0;
+               ^
+   fs/btrfs/send.c:2099:12: warning: Uninitialized variable: cur->ino [unin=
+itvar]
+     if (cur->ino =3D=3D ino && cur->gen =3D=3D gen)
+              ^
+   fs/btrfs/send.c:2095:6: note: Assuming condition is false
+    if (!nce_head)
+        ^
+   fs/btrfs/send.c:2099:12: note: Uninitialized variable: cur->ino
+     if (cur->ino =3D=3D ino && cur->gen =3D=3D gen)
+              ^
+   fs/btrfs/send.c:3135:17: warning: Uninitialized variables: cur.list, cur=
+.name, cur.full_path, cur.dir, cur.dir_gen, cur.name_len [uninitvar]
+     ret =3D dup_ref(cur, &pm->update_refs);
+                   ^
+   fs/btrfs/send.c:3112:6: note: Assuming condition is false
+    if (!pm)
+        ^
+   fs/btrfs/send.c:3112:6: note: Assuming condition is false
+    if (!pm)
+        ^
+   fs/btrfs/send.c:3112:6: note: Assuming condition is false
+    if (!pm)
+        ^
+   fs/btrfs/send.c:3112:6: note: Assuming condition is false
+    if (!pm)
+        ^
+   fs/btrfs/send.c:3112:6: note: Assuming condition is false
+    if (!pm)
+        ^
+   fs/btrfs/send.c:3112:6: note: Assuming condition is false
+    if (!pm)
+        ^
+   fs/btrfs/send.c:3135:17: note: Uninitialized variables: cur.list, cur.na=
+me, cur.full_path, cur.dir, cur.dir_gen, cur.name_len
+     ret =3D dup_ref(cur, &pm->update_refs);
+                   ^
 
-              |      |            |
-              |      |            (8) following 'false' branch (when 'ctx' =
-is non-NULL)...
-              |......
-              | 1322 |         ctx->num_processed++;
-              |      |         ~~~~~~~~~~~~~~~~~~
-              |      |            |
-              |      |            (9) ...to here
-              |......
-              | 1339 |         fdp1_job_free(fdp1, job);
-              |      |         ~~~~~~~~~~~~~~~~~~~~~~~~
-              |      |         |
-              |      |         (10) calling 'fdp1_job_free' from 'device_fr=
-ame_end'
-              |
-              +--> 'fdp1_job_free': events 11-12
-                     |
-                     |  688 | static void fdp1_job_free(struct fdp1_dev *fd=
-p1, struct fdp1_job *job)
-                     |      |             ^~~~~~~~~~~~~
-                     |      |             |
-                     |      |             (11) entry to 'fdp1_job_free'
-                     |......
-                     |  691 |         memset(job, 0, sizeof(struct fdp1_job=
-));
-                     |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~
-                     |      |         |
-                     |      |         (12) argument 1 ('job') NULL where no=
-n-null expected
-                     |
-   In file included from include/linux/string.h:20,
-                    from include/linux/bitmap.h:11,
-                    from include/linux/cpumask.h:12,
-                    from include/linux/smp.h:13,
-                    from include/linux/lockdep.h:14,
-                    from include/linux/mutex.h:17,
-                    from include/linux/notifier.h:14,
-                    from include/linux/clk.h:14,
-                    from drivers/media/platform/renesas/rcar_fdp1.c:14:
-   arch/arm/include/asm/string.h:31:15: note: argument 1 of 'memset' must b=
-e non-null
-      31 | extern void * memset(void *, int, __kernel_size_t);
-         |               ^~~~~~
-   drivers/media/platform/renesas/rcar_fdp1.c: In function 'device_frame_en=
-d':
-   drivers/media/platform/renesas/rcar_fdp1.c:1329:17: warning: dereference=
- of NULL '0' [CWE-476] [-Wanalyzer-null-dereference]
-    1329 |                 fdp1_field_complete(ctx, job->previous);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     'fdp1_irq_handler': events 1-2
-       |
-       | 2205 | static irqreturn_t fdp1_irq_handler(int irq, void *dev_id)
-       |      |                    ^~~~~~~~~~~~~~~~
-       |      |                    |
-       |      |                    (1) entry to 'fdp1_irq_handler'
-       |......
-       | 2242 |         if (!(FD1_CTL_IRQ_MASK & int_status))
-       |      |            ~        =
+vim +6858 fs/btrfs/send.c
 
-       |      |            |
-       |      |            (2) following 'false' branch...
-       |
-     'fdp1_irq_handler': events 3-6
-       |
-       | 2246 |         if (FD1_CTL_IRQ_VERE & int_status)
-       |      |            ~                  =
+d96b34248c2f4ea Filipe Manana 2021-11-22  6826  =
 
-       |      |            |
-       |      |            (4) following 'true' branch...
-       | 2247 |                 device_frame_end(fdp1, VB2_BUF_STATE_ERROR);
-       |      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |                 |
-       |      |                 (5) ...to here
-       |      |                 (6) calling 'device_frame_end' from 'fdp1_i=
-rq_handler'
-       |
+2ce73c633573f14 Filipe Manana 2021-03-01  6827  static int tree_move_down(s=
+truct btrfs_path *path, int *level, u64 reada_min_gen)
+18d0f5c6e16ce76 David Sterba  2019-08-21  6828  {
+18d0f5c6e16ce76 David Sterba  2019-08-21  6829  	struct extent_buffer *eb;
+2ce73c633573f14 Filipe Manana 2021-03-01  6830  	struct extent_buffer *pare=
+nt =3D path->nodes[*level];
+2ce73c633573f14 Filipe Manana 2021-03-01  6831  	int slot =3D path->slots[*=
+level];
+2ce73c633573f14 Filipe Manana 2021-03-01  6832  	const int nritems =3D btrf=
+s_header_nritems(parent);
+2ce73c633573f14 Filipe Manana 2021-03-01  6833  	u64 reada_max;
+2ce73c633573f14 Filipe Manana 2021-03-01  6834  	u64 reada_done =3D 0;
+18d0f5c6e16ce76 David Sterba  2019-08-21  6835  =
 
-vim +/job +691 drivers/media/platform/renesas/rcar_fdp1.c
+d96b34248c2f4ea Filipe Manana 2021-11-22  6836  	lockdep_assert_held_read(&=
+parent->fs_info->commit_root_sem);
+d96b34248c2f4ea Filipe Manana 2021-11-22  6837  =
 
-4710b752e029f3f drivers/media/platform/rcar_fdp1.c Kieran Bingham 2016-06-3=
-0  687  =
+18d0f5c6e16ce76 David Sterba  2019-08-21  6838  	BUG_ON(*level =3D=3D 0);
+2ce73c633573f14 Filipe Manana 2021-03-01  6839  	eb =3D btrfs_read_node_slo=
+t(parent, slot);
+18d0f5c6e16ce76 David Sterba  2019-08-21  6840  	if (IS_ERR(eb))
+18d0f5c6e16ce76 David Sterba  2019-08-21  6841  		return PTR_ERR(eb);
+18d0f5c6e16ce76 David Sterba  2019-08-21  6842  =
 
-4710b752e029f3f drivers/media/platform/rcar_fdp1.c Kieran Bingham 2016-06-3=
-0  688  static void fdp1_job_free(struct fdp1_dev *fdp1, struct fdp1_job *j=
-ob)
-4710b752e029f3f drivers/media/platform/rcar_fdp1.c Kieran Bingham 2016-06-3=
-0  689  {
-4710b752e029f3f drivers/media/platform/rcar_fdp1.c Kieran Bingham 2016-06-3=
-0  690  	/* Ensure that all residue from previous jobs is gone */
-4710b752e029f3f drivers/media/platform/rcar_fdp1.c Kieran Bingham 2016-06-3=
-0 @691  	memset(job, 0, sizeof(struct fdp1_job));
-4710b752e029f3f drivers/media/platform/rcar_fdp1.c Kieran Bingham 2016-06-3=
-0  692  =
+2ce73c633573f14 Filipe Manana 2021-03-01  6843  	/*
+2ce73c633573f14 Filipe Manana 2021-03-01  6844  	 * Trigger readahead for t=
+he next leaves we will process, so that it is
+2ce73c633573f14 Filipe Manana 2021-03-01  6845  	 * very likely that when w=
+e need them they are already in memory and we
+2ce73c633573f14 Filipe Manana 2021-03-01  6846  	 * will not block on disk =
+IO. For nodes we only do readahead for one,
+2ce73c633573f14 Filipe Manana 2021-03-01  6847  	 * since the time window b=
+etween processing nodes is typically larger.
+2ce73c633573f14 Filipe Manana 2021-03-01  6848  	 */
+2ce73c633573f14 Filipe Manana 2021-03-01  6849  	reada_max =3D (*level =3D=
+=3D 1 ? SZ_128K : eb->fs_info->nodesize);
+2ce73c633573f14 Filipe Manana 2021-03-01  6850  =
 
-4710b752e029f3f drivers/media/platform/rcar_fdp1.c Kieran Bingham 2016-06-3=
-0  693  	list_add_job(fdp1, &fdp1->free_job_list, job);
-4710b752e029f3f drivers/media/platform/rcar_fdp1.c Kieran Bingham 2016-06-3=
-0  694  }
-4710b752e029f3f drivers/media/platform/rcar_fdp1.c Kieran Bingham 2016-06-3=
-0  695  =
+2ce73c633573f14 Filipe Manana 2021-03-01  6851  	for (slot++; slot < nritem=
+s && reada_done < reada_max; slot++) {
+2ce73c633573f14 Filipe Manana 2021-03-01  6852  		if (btrfs_node_ptr_genera=
+tion(parent, slot) > reada_min_gen) {
+2ce73c633573f14 Filipe Manana 2021-03-01  6853  			btrfs_readahead_node_chi=
+ld(parent, slot);
+2ce73c633573f14 Filipe Manana 2021-03-01  6854  			reada_done +=3D eb->fs_i=
+nfo->nodesize;
+2ce73c633573f14 Filipe Manana 2021-03-01  6855  		}
+2ce73c633573f14 Filipe Manana 2021-03-01  6856  	}
+2ce73c633573f14 Filipe Manana 2021-03-01  6857  =
+
+18d0f5c6e16ce76 David Sterba  2019-08-21 @6858  	path->nodes[*level - 1] =
+=3D eb;
+18d0f5c6e16ce76 David Sterba  2019-08-21 @6859  	path->slots[*level - 1] =
+=3D 0;
+18d0f5c6e16ce76 David Sterba  2019-08-21  6860  	(*level)--;
+d96b34248c2f4ea Filipe Manana 2021-11-22  6861  =
+
+d96b34248c2f4ea Filipe Manana 2021-11-22  6862  	if (*level =3D=3D 0)
+d96b34248c2f4ea Filipe Manana 2021-11-22  6863  		return replace_node_with_=
+clone(path, 0);
+d96b34248c2f4ea Filipe Manana 2021-11-22  6864  =
+
+18d0f5c6e16ce76 David Sterba  2019-08-21  6865  	return 0;
+18d0f5c6e16ce76 David Sterba  2019-08-21  6866  }
+18d0f5c6e16ce76 David Sterba  2019-08-21  6867  =
 
 
-:::::: The code at line 691 was first introduced by commit
-:::::: 4710b752e029f3f82dd4a84d9dc61fe72c97bf82 [media] v4l: Add Renesas R-=
-Car FDP1 Driver
+:::::: The code at line 6858 was first introduced by commit
+:::::: 18d0f5c6e16ce762f92ab7879c30ff2e37cd9cef btrfs: move functions for t=
+ree compare to send.c
 
-:::::: TO: Kieran Bingham <kieran+renesas@bingham.xyz>
-:::::: CC: Mauro Carvalho Chehab <mchehab@s-opensource.com>
+:::::: TO: David Sterba <dsterba@suse.com>
+:::::: CC: David Sterba <dsterba@suse.com>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============2101397823482457233==--
+--===============0864440068155646728==--
 
