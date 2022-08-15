@@ -1,87 +1,201 @@
-Content-Type: multipart/mixed; boundary="===============6448540541673445153=="
+Content-Type: multipart/mixed; boundary="===============5378455296255375175=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: fs/afs/server.c:406 afs_put_server() warn: variable dereferenced before check 'server' (see line 402)
-Date: Mon, 15 Aug 2022 10:33:56 +0800
-Message-ID: <202208151006.5QHVQK8p-lkp@intel.com>
+Subject: drivers/hsi/clients/hsi_char.c:147:15: warning: use of uninitialized value '*msg.sgt.sgl' [CWE-457]
+Date: Mon, 15 Aug 2022 09:52:51 +0800
+Message-ID: <202208150952.mmo9Tp0N-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6448540541673445153==
+--===============5378455296255375175==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+:::::: =
+
+:::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "low confidence static check first_new_problem:=
+ drivers/hsi/clients/hsi_char.c:147:15: warning: use of uninitialized value=
+ '*msg.sgt.sgl' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]"
+:::::: =
+
+
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: David Howells <dhowells@redhat.com>
+TO: Ard Biesheuvel <ardb@kernel.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   568035b01cfb107af8d2e4bd2fb9aea22cf5b868
-commit: 2757a4dc184997c66ef1de32636f73b9f21aac14 afs: Fix access after dec =
-in put functions
-date:   12 days ago
-:::::: branch date: 4 hours ago
-:::::: commit date: 12 days ago
-config: parisc-randconfig-m031-20220807 (https://download.01.org/0day-ci/ar=
-chive/20220815/202208151006.5QHVQK8p-lkp(a)intel.com/config)
-compiler: hppa-linux-gcc (GCC) 12.1.0
+commit: 9c46929e7989efacc1dd0a1dd662a839897ea2b6 ARM: implement THREAD_INFO=
+_IN_TASK for uniprocessor systems
+date:   8 months ago
+:::::: branch date: 3 hours ago
+:::::: commit date: 8 months ago
+config: arm-randconfig-c002-20220810 (https://download.01.org/0day-ci/archi=
+ve/20220815/202208150952.mmo9Tp0N-lkp(a)intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3D9c46929e7989efacc1dd0a1dd662a839897ea2b6
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 9c46929e7989efacc1dd0a1dd662a839897ea2b6
+        # save the config file
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cross=
+ ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
+
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-fs/afs/server.c:406 afs_put_server() warn: variable dereferenced before che=
-ck 'server' (see line 402)
+gcc-analyzer warnings: (new ones prefixed by >>)
+   drivers/hsi/clients/hsi_char.c: In function 'hsc_msg_free':
+>> drivers/hsi/clients/hsi_char.c:147:15: warning: use of uninitialized val=
+ue '*msg.sgt.sgl' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+     147 |         kfree(sg_virt(msg->sgt.sgl));
+         |               ^~~~~~~~~~~~~~~~~~~~~
+     'hsc_reset_list': event 1
+       |
+       |  161 | static void hsc_reset_list(struct hsc_channel *channel, str=
+uct list_head *l)
+       |      |             ^~~~~~~~~~~~~~
+       |      |             |
+       |      |             (1) entry to 'hsc_reset_list'
+       |
+     'hsc_reset_list': event 2
+       |
+       |  164 |         LIST_HEAD(list);
+       |      |                   ^~~~
+       |      |                   |
+       |      |                   (2) region created on stack here
+   include/linux/list.h:26:26: note: in definition of macro 'LIST_HEAD'
+       |   26 |         struct list_head name =3D LIST_HEAD_INIT(name)
+       |      |                          ^~~~
+       |
+     'hsc_reset_list': event 3
+       |
+       |drivers/hsi/clients/hsi_char.c:167:9:
+       |  167 |         list_splice_init(l, &list);
+       |      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |         |
+       |      |         (3) calling 'list_splice_init' from 'hsc_reset_list'
+       |
+       +--> 'list_splice_init': events 4-6
+              |
+              |include/linux/list.h:480:20:
+              |  480 | static inline void list_splice_init(struct list_head=
+ *list,
+              |      |                    ^~~~~~~~~~~~~~~~
+              |      |                    |
+              |      |                    (4) entry to 'list_splice_init'
+              |......
+              |  483 |         if (!list_empty(list)) {
+              |      |            ~        =
 
-vim +/server +406 fs/afs/server.c
+              |      |            |
+              |      |            (5) following 'false' branch...
+              |......
+              |  487 | }
+              |      | ~                   =
 
-452181936931f0 David Howells  2019-06-20  395  =
+              |      | |
+              |      | (6) ...to here
+              |
+       <------+
+       |
+     'hsc_reset_list': events 7-8
+       |
+       |drivers/hsi/clients/hsi_char.c:167:9:
+       |  167 |         list_splice_init(l, &list);
+       |      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |         |
+       |      |         (7) returning to 'hsc_reset_list' from 'list_splice=
+_init'
+       |......
+       |  170 |         hsc_free_list(&list);
+       |      |         ~~~~~~~~~~~~~~~~~~~~
+       |      |         |
+       |      |         (8) calling 'hsc_free_list' from 'hsc_reset_list'
+       |
+       +--> 'hsc_free_list': event 9
+              |
+              |  151 | static void hsc_free_list(struct list_head *list)
+              |      |             ^~~~~~~~~~~~~
+              |      |             |
+              |      |             (9) entry to 'hsc_free_list'
+              |
+            'hsc_free_list': event 10
+              |
+              |include/linux/list.h:719:14:
+              |  719 |              !list_entry_is_head(pos, head, member);=
+                    \
+              |      |              ^
+              |      |              |
+              |      |              (10) following 'true' branch...
+   drivers/hsi/clients/hsi_char.c:155:9: note: in expansion of macro 'list_=
+for_each_entry_safe'
+              |  155 |         list_for_each_entry_safe(msg, tmp, list, lin=
+k) {
+              |      |         ^~~~~~~~~~~~~~~~~~~~~~~~
+              |
+            'hsc_free_list': events 11-12
+              |
+              |  156 |                 list_del(&msg->link);
+              |      |                 ^~~~~~~~~~~~~~~~~~~~
+              |      |                 |
+              |      |                 (11) ...to here
+              |  157 |                 hsc_msg_free(msg);
+              |      |                 ~~~~~~~~~~~~~~~~~
+              |      |                 |
+              |      |                 (12) calling 'hsc_msg_free' from 'hs=
+c_free_list'
+              |
+              +--> 'hsc_msg_free': events 13-14
+                     |
+                     |  145 | static inline void hsc_msg_free(struct hsi_ms=
+g *msg)
+                     |      |                    ^~~~~~~~~~~~
+                     |      |                    |
+                     |      |                    (13) entry to 'hsc_msg_fre=
+e'
+                     |  146 | {
+                     |  147 |         kfree(sg_virt(msg->sgt.sgl));
+                     |      |               ~~~~~~~~~~~~~~~~~~~~~
+                     |      |               |
+                     |      |               (14) use of uninitialized value=
+ '*msg.sgt.sgl' here
 
-d2ddc776a4581d David Howells  2017-11-02  396  /*
-d2ddc776a4581d David Howells  2017-11-02  397   * Release a reference on a =
-server record.
-^1da177e4c3f41 Linus Torvalds 2005-04-16  398   */
-452181936931f0 David Howells  2019-06-20  399  void afs_put_server(struct a=
-fs_net *net, struct afs_server *server,
-452181936931f0 David Howells  2019-06-20  400  		    enum afs_server_trace =
-reason)
-^1da177e4c3f41 Linus Torvalds 2005-04-16  401  {
-2757a4dc184997 David Howells  2022-07-06 @402  	unsigned int a, debug_id =
-=3D server->debug_id;
-c56f9ec8b20f93 David Howells  2022-07-06  403  	bool zero;
-c56f9ec8b20f93 David Howells  2022-07-06  404  	int r;
-d2ddc776a4581d David Howells  2017-11-02  405  =
+vim +147 drivers/hsi/clients/hsi_char.c
 
-^1da177e4c3f41 Linus Torvalds 2005-04-16 @406  	if (!server)
-^1da177e4c3f41 Linus Torvalds 2005-04-16  407  		return;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  408  =
+4e69fc22753fcc Andras Domokos 2010-09-30  144  =
 
-2757a4dc184997 David Howells  2022-07-06  409  	a =3D atomic_inc_return(&se=
-rver->active);
-c56f9ec8b20f93 David Howells  2022-07-06  410  	zero =3D __refcount_dec_and=
-_test(&server->ref, &r);
-2757a4dc184997 David Howells  2022-07-06  411  	trace_afs_server(debug_id, =
-r - 1, a, reason);
-c56f9ec8b20f93 David Howells  2022-07-06  412  	if (unlikely(zero))
-977e5f8ed0ab27 David Howells  2020-04-17  413  		__afs_put_server(net, serv=
-er);
-977e5f8ed0ab27 David Howells  2020-04-17  414  }
-^1da177e4c3f41 Linus Torvalds 2005-04-16  415  =
+4e69fc22753fcc Andras Domokos 2010-09-30  145  static inline void hsc_msg_f=
+ree(struct hsi_msg *msg)
+4e69fc22753fcc Andras Domokos 2010-09-30  146  {
+4e69fc22753fcc Andras Domokos 2010-09-30 @147  	kfree(sg_virt(msg->sgt.sgl)=
+);
+4e69fc22753fcc Andras Domokos 2010-09-30  148  	hsi_free_msg(msg);
+4e69fc22753fcc Andras Domokos 2010-09-30  149  }
+4e69fc22753fcc Andras Domokos 2010-09-30  150  =
 
 
-:::::: The code at line 406 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+:::::: The code at line 147 was first introduced by commit
+:::::: 4e69fc22753fcce1d9275b5517ef3646ffeffcf4 HSI: hsi_char: Add HSI char=
+ device driver
 
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: TO: Andras Domokos <andras.domokos@nokia.com>
+:::::: CC: Carlos Chinea <carlos.chinea@nokia.com>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============6448540541673445153==--
+--===============5378455296255375175==--
 
