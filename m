@@ -1,171 +1,112 @@
-Content-Type: multipart/mixed; boundary="===============4978801165657360068=="
+Content-Type: multipart/mixed; boundary="===============0130256678195047385=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v4 05/16] iommu: Move bus setup to IOMMU device registration
-Date: Tue, 16 Aug 2022 10:37:32 +0800
-Message-ID: <202208161020.ZiuDgisa-lkp@intel.com>
+Subject: drivers/net/wireless/mediatek/mt76/mt7915/mac.c:2285 mt7915_mac_twt_sched_list_add() error: uninitialized symbol 'start_tsf'.
+Date: Tue, 16 Aug 2022 07:44:31 +0800
+Message-ID: <202208160719.xjIz58Fl-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4978801165657360068==
+--===============0130256678195047385==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-:::::: =
-
-:::::: Manual check reason: "low confidence static check warning: drivers/i=
-ommu/iommu.c:191:57: warning: Parameter 'data' can be declared with const [=
-constParameter]"
-:::::: =
-
-
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <d342b6f27efb5ef3e93aacaa3012d25386d74866.1660572783.git.robin=
-.murphy@arm.com>
-References: <d342b6f27efb5ef3e93aacaa3012d25386d74866.1660572783.git.robin.=
-murphy@arm.com>
-TO: Robin Murphy <robin.murphy@arm.com>
-TO: joro(a)8bytes.org
-CC: will(a)kernel.org
-CC: iommu(a)lists.linux.dev
-CC: linux-arm-kernel(a)lists.infradead.org
-CC: baolu.lu(a)linux.intel.com
-CC: kevin.tian(a)intel.com
-CC: suravee.suthikulpanit(a)amd.com
-CC: vasant.hegde(a)amd.com
-CC: mjrosato(a)linux.ibm.com
-CC: schnelle(a)linux.ibm.com
 CC: linux-kernel(a)vger.kernel.org
+TO: Lorenzo Bianconi <lorenzo@kernel.org>
+CC: Felix Fietkau <nbd@nbd.name>
 
-Hi Robin,
-
-I love your patch! Perhaps something to improve:
-
-[auto build test WARNING on v6.0-rc1]
-[also build test WARNING on linus/master next-20220815]
-[cannot apply to joro-iommu/next krzk/for-next tegra/for-next rockchip/for-=
-next sunxi/sunxi/for-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Robin-Murphy/iommu-r=
-etire-bus_set_iommu/20220816-002348
-base:    568035b01cfb107af8d2e4bd2fb9aea22cf5b868
-:::::: branch date: 10 hours ago
-:::::: commit date: 10 hours ago
-compiler: xtensa-linux-gcc (GCC) 12.1.0
-reproduce (cppcheck warning):
-        # apt-get install cppcheck
-        git checkout 6227cfa1406324ce434f5524a321e87687386208
-        cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
-e=3Dgcc FILE
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   568035b01cfb107af8d2e4bd2fb9aea22cf5b868
+commit: 3782b69d03e714b8ff98b84c7426d8cef0e64d7c mt76: mt7915: introduce mt=
+7915_mac_add_twt_setup routine
+date:   10 months ago
+:::::: branch date: 25 hours ago
+:::::: commit date: 10 months ago
+config: ia64-randconfig-m031-20220814 (https://download.01.org/0day-ci/arch=
+ive/20220816/202208160719.xjIz58Fl-lkp(a)intel.com/config)
+compiler: ia64-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+New smatch warnings:
+drivers/net/wireless/mediatek/mt76/mt7915/mac.c:2285 mt7915_mac_twt_sched_l=
+ist_add() error: uninitialized symbol 'start_tsf'.
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+Old smatch warnings:
+drivers/net/wireless/mediatek/mt76/mt7915/mac.c:1312 mt7915_mac_tx_free() w=
+arn: potential spectre issue 'dev->mt76.wcid' [w]
 
->> drivers/iommu/iommu.c:191:57: warning: Parameter 'data' can be declared =
-with const [constParameter]
-   static int remove_iommu_group(struct device *dev, void *data)
-                                                           ^
->> drivers/iommu/iommu.c:2031:47: warning: Parameter 'domain' can be declar=
-ed with const [constParameter]
-   void iommu_detach_device(struct iommu_domain *domain, struct device *dev)
-                                                 ^
->> drivers/iommu/iommu.c:2652:69: warning: Parameter 'fwnode' can be declar=
-ed with const [constParameter]
-   const struct iommu_ops *iommu_ops_from_fwnode(struct fwnode_handle *fwno=
-de)
-                                                                       ^
->> drivers/iommu/iommu.c:580:16: warning: Uninitialized variable: device->d=
-ev [uninitvar]
-     if (!device->dev->iommu)
-                  ^
->> drivers/iommu/iommu.c:1020:19: warning: Uninitialized variable: tmp_devi=
-ce->dev [uninitvar]
-     if (tmp_device->dev =3D=3D dev) {
-                     ^
-   drivers/iommu/iommu.c:1013:6: note: Assuming condition is false
-    if (!group)
-        ^
-   drivers/iommu/iommu.c:1020:19: note: Uninitialized variable: tmp_device-=
->dev
-     if (tmp_device->dev =3D=3D dev) {
-                     ^
->> drivers/iommu/iommu.c:1808:35: warning: Uninitialized variables: group.k=
-obj, group.devices_kobj, group.devices, group.iommu_data, group.iommu_data_=
-release, group.name, group.id, group.default_domain, group.blocking_domain,=
- group.domain, group.owner_cnt, group.owner [uninitvar]
-     probe_alloc_default_domain(bus, group);
-                                     ^
-   drivers/iommu/iommu.c:1798:6: note: Assuming condition is false
-    if (ret)
-        ^
-   drivers/iommu/iommu.c:1798:6: note: Assuming condition is false
-    if (ret)
-        ^
-   drivers/iommu/iommu.c:1798:6: note: Assuming condition is false
-    if (ret)
-        ^
-   drivers/iommu/iommu.c:1798:6: note: Assuming condition is false
-    if (ret)
-        ^
-   drivers/iommu/iommu.c:1798:6: note: Assuming condition is false
-    if (ret)
-        ^
-   drivers/iommu/iommu.c:1798:6: note: Assuming condition is false
-    if (ret)
-        ^
-   drivers/iommu/iommu.c:1798:6: note: Assuming condition is false
-    if (ret)
-        ^
-   drivers/iommu/iommu.c:1798:6: note: Assuming condition is false
-    if (ret)
-        ^
-   drivers/iommu/iommu.c:1798:6: note: Assuming condition is false
-    if (ret)
-        ^
-   drivers/iommu/iommu.c:1798:6: note: Assuming condition is false
-    if (ret)
-        ^
-   drivers/iommu/iommu.c:1798:6: note: Assuming condition is false
-    if (ret)
-        ^
-   drivers/iommu/iommu.c:1798:6: note: Assuming condition is false
-    if (ret)
-        ^
-   drivers/iommu/iommu.c:1808:35: note: Uninitialized variables: group.kobj=
-, group.devices_kobj, group.devices, group.iommu_data, group.iommu_data_rel=
-ease, group.name, group.id, group.default_domain, group.blocking_domain, gr=
-oup.domain, group.owner_cnt, group.owner
-     probe_alloc_default_domain(bus, group);
-                                     ^
+vim +/start_tsf +2285 drivers/net/wireless/mediatek/mt76/mt7915/mac.c
 
-vim +/data +191 drivers/iommu/iommu.c
+3782b69d03e714 Lorenzo Bianconi 2021-09-23  2252  =
 
-5fa9e7c5fa50f2 Joerg Roedel 2019-08-19  190  =
+3782b69d03e714 Lorenzo Bianconi 2021-09-23  2253  static u64
+3782b69d03e714 Lorenzo Bianconi 2021-09-23  2254  mt7915_mac_twt_sched_list=
+_add(struct mt7915_dev *dev,
+3782b69d03e714 Lorenzo Bianconi 2021-09-23  2255  			      struct mt7915_tw=
+t_flow *flow)
+3782b69d03e714 Lorenzo Bianconi 2021-09-23  2256  {
+3782b69d03e714 Lorenzo Bianconi 2021-09-23  2257  	struct mt7915_twt_flow *=
+iter, *iter_next;
+3782b69d03e714 Lorenzo Bianconi 2021-09-23  2258  	u32 duration =3D flow->d=
+uration << 8;
+3782b69d03e714 Lorenzo Bianconi 2021-09-23  2259  	u64 start_tsf;
+3782b69d03e714 Lorenzo Bianconi 2021-09-23  2260  =
 
-6227cfa1406324 Robin Murphy 2022-08-15 @191  static int remove_iommu_group(=
-struct device *dev, void *data)
-6227cfa1406324 Robin Murphy 2022-08-15  192  {
-6227cfa1406324 Robin Murphy 2022-08-15  193  	if (dev->iommu && dev->iommu-=
->iommu_dev =3D=3D data)
-6227cfa1406324 Robin Murphy 2022-08-15  194  		iommu_release_device(dev);
-6227cfa1406324 Robin Murphy 2022-08-15  195  =
+3782b69d03e714 Lorenzo Bianconi 2021-09-23  2261  	iter =3D list_first_entr=
+y_or_null(&dev->twt_list,
+3782b69d03e714 Lorenzo Bianconi 2021-09-23  2262  					struct mt7915_twt_fl=
+ow, list);
+3782b69d03e714 Lorenzo Bianconi 2021-09-23  2263  	if (!iter || !iter->sche=
+d || iter->start_tsf > duration) {
+3782b69d03e714 Lorenzo Bianconi 2021-09-23  2264  		/* add flow as first en=
+try in the list */
+3782b69d03e714 Lorenzo Bianconi 2021-09-23  2265  		list_add(&flow->list, &=
+dev->twt_list);
+3782b69d03e714 Lorenzo Bianconi 2021-09-23  2266  		return 0;
+3782b69d03e714 Lorenzo Bianconi 2021-09-23  2267  	}
+3782b69d03e714 Lorenzo Bianconi 2021-09-23  2268  =
 
-6227cfa1406324 Robin Murphy 2022-08-15  196  	return 0;
-6227cfa1406324 Robin Murphy 2022-08-15  197  }
-6227cfa1406324 Robin Murphy 2022-08-15  198  =
+3782b69d03e714 Lorenzo Bianconi 2021-09-23  2269  	list_for_each_entry_safe=
+(iter, iter_next, &dev->twt_list, list) {
+3782b69d03e714 Lorenzo Bianconi 2021-09-23  2270  		start_tsf =3D iter->sta=
+rt_tsf +
+3782b69d03e714 Lorenzo Bianconi 2021-09-23  2271  			    mt7915_mac_twt_dur=
+ation_align(iter->duration);
+3782b69d03e714 Lorenzo Bianconi 2021-09-23  2272  		if (list_is_last(&iter-=
+>list, &dev->twt_list))
+3782b69d03e714 Lorenzo Bianconi 2021-09-23  2273  			break;
+3782b69d03e714 Lorenzo Bianconi 2021-09-23  2274  =
+
+3782b69d03e714 Lorenzo Bianconi 2021-09-23  2275  		if (!iter_next->sched ||
+3782b69d03e714 Lorenzo Bianconi 2021-09-23  2276  		    iter_next->start_ts=
+f > start_tsf + duration) {
+3782b69d03e714 Lorenzo Bianconi 2021-09-23  2277  			list_add(&flow->list, =
+&iter->list);
+3782b69d03e714 Lorenzo Bianconi 2021-09-23  2278  			goto out;
+3782b69d03e714 Lorenzo Bianconi 2021-09-23  2279  		}
+3782b69d03e714 Lorenzo Bianconi 2021-09-23  2280  	}
+3782b69d03e714 Lorenzo Bianconi 2021-09-23  2281  =
+
+3782b69d03e714 Lorenzo Bianconi 2021-09-23  2282  	/* add flow as last entr=
+y in the list */
+3782b69d03e714 Lorenzo Bianconi 2021-09-23  2283  	list_add_tail(&flow->lis=
+t, &dev->twt_list);
+3782b69d03e714 Lorenzo Bianconi 2021-09-23  2284  out:
+3782b69d03e714 Lorenzo Bianconi 2021-09-23 @2285  	return start_tsf;
+3782b69d03e714 Lorenzo Bianconi 2021-09-23  2286  }
+3782b69d03e714 Lorenzo Bianconi 2021-09-23  2287  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============4978801165657360068==--
+--===============0130256678195047385==--
 
