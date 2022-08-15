@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============7115487733418157547=="
+Content-Type: multipart/mixed; boundary="===============9003627824066125262=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: sound/soc/soc-utils-test.c:125:34: warning: use of uninitialized value '((int *)_13 = PHI <&MEM <struct snd_pcm_hw_params> [(void *)&params + 4B](2), _48(3)>)[2]' [CWE-457]
-Date: Mon, 15 Aug 2022 09:32:26 +0800
-Message-ID: <202208150941.ST9tLAb3-lkp@intel.com>
+Subject: include/asm-generic/rwonce.h:44:26: warning: use of uninitialized value 'field_value' [CWE-457]
+Date: Mon, 15 Aug 2022 09:12:05 +0800
+Message-ID: <202208150921.dGxzL6bZ-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7115487733418157547==
+--===============9003627824066125262==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,40 +15,39 @@ Content-Transfer-Encoding: quoted-printable
 :::::: =
 
 :::::: Manual check reason: "low confidence bisect report"
-:::::: Manual check reason: "low confidence static check warning: sound/soc=
-/soc-utils-test.c:125:34: warning: use of uninitialized value '((int *)_13 =
-=3D PHI <&MEM <struct snd_pcm_hw_params> [(void *)&params + 4B](2), _48(3)>=
-)[2]' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]"
+:::::: Manual check reason: "low confidence static check first_new_problem:=
+ include/asm-generic/rwonce.h:44:26: warning: use of uninitialized value 'f=
+ield_value' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]"
 :::::: =
 
 
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Richard Fitzgerald <rf@opensource.cirrus.com>
-CC: Mark Brown <broonie@kernel.org>
+TO: Jagath Jog J <jagathjog1996@gmail.com>
+CC: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   568035b01cfb107af8d2e4bd2fb9aea22cf5b868
-commit: 89342fa38bbaade51584f255eee5cd43621f4e10 ASoC: soc-utils: Add kunit=
- test for snd_soc_tdm_params_to_bclk()
-date:   4 months ago
-:::::: branch date: 3 hours ago
-:::::: commit date: 4 months ago
-config: arm-randconfig-c002-20220810 (https://download.01.org/0day-ci/archi=
-ve/20220815/202208150941.ST9tLAb3-lkp(a)intel.com/config)
+commit: 3cf122c20bf835b53e8d2074611d68b7822be782 iio: accel: bma400: Add su=
+pport for activity and inactivity events
+date:   9 weeks ago
+:::::: branch date: 2 hours ago
+:::::: commit date: 9 weeks ago
+config: arm-randconfig-c002-20220814 (https://download.01.org/0day-ci/archi=
+ve/20220815/202208150921.dGxzL6bZ-lkp(a)intel.com/config)
 compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D89342fa38bbaade51584f255eee5cd43621f4e10
+t/commit/?id=3D3cf122c20bf835b53e8d2074611d68b7822be782
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
 t/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout 89342fa38bbaade51584f255eee5cd43621f4e10
+        git checkout 3cf122c20bf835b53e8d2074611d68b7822be782
         # save the config file
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cross=
  ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
@@ -58,158 +57,374 @@ If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 
 gcc-analyzer warnings: (new ones prefixed by >>)
-   sound/soc/soc-utils-test.c: In function 'test_tdm_params_to_bclk_one':
->> sound/soc/soc-utils-test.c:125:34: warning: use of uninitialized value '=
-((int *)_13 =3D PHI <&MEM <struct snd_pcm_hw_params> [(void *)&params + 4B]=
-(2), _48(3)>)[2]' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-     125 |         struct snd_pcm_hw_params params;
-         |                                  ^~~~~~
-     'test_tdm_params_to_bclk_one': events 1-4
+   In file included from ./arch/arm/include/generated/asm/rwonce.h:1,
+                    from include/linux/compiler.h:248,
+                    from include/linux/build_bug.h:5,
+                    from include/linux/bitfield.h:10,
+                    from drivers/iio/accel/bma400_core.c:14:
+   drivers/iio/accel/bma400_core.c: In function 'bma400_activity_event_en':
+>> include/asm-generic/rwonce.h:44:26: warning: use of uninitialized value =
+'field_value' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+      44 | #define __READ_ONCE(x)  (*(const volatile __unqual_scalar_typeof=
+(x) *)&(x))
+         |                         ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~
+   include/asm-generic/rwonce.h:50:9: note: in expansion of macro '__READ_O=
+NCE'
+      50 |         __READ_ONCE(x);                                         =
+        \
+         |         ^~~~~~~~~~~
+   include/linux/bitops.h:281:25: note: in expansion of macro 'READ_ONCE'
+     281 |                 old__ =3D READ_ONCE(*(ptr));                    =
+  \
+         |                         ^~~~~~~~~
+   drivers/iio/accel/bma400_core.c:1056:17: note: in expansion of macro 'se=
+t_mask_bits'
+    1056 |                 set_mask_bits(&field_value, BMA400_INT_GEN1_MSK,
+         |                 ^~~~~~~~~~~~~
+     'bma400_activity_event_en': events 1-3
        |
-       |  125 |         struct snd_pcm_hw_params params;
-       |      |                                  ^~~~~~
-       |      |                                  |
-       |      |                                  (1) region created on stac=
-k here
-       |      |                                  (2) following 'true' branc=
-h...
-       |      |                                  (3) ...to here
-       |      |                                  (4) use of uninitialized v=
-alue '((int *)_13 =3D PHI <&MEM <struct snd_pcm_hw_params> [(void *)&params=
- + 4B](2), _48(3)>)[2]' here
+       | 1049 |         int ret, reg, msk, value, field_value;
+       |      |                                   ^~~~~~~~~~~
+       |      |                                   |
+       |      |                                   (1) region created on sta=
+ck here
+       | 1050 | =
+
+       | 1051 |         switch (dir) {
+       |      |         ~~~~~~                     =
+
+       |      |         |
+       |      |         (2) following 'case 1:' branch...
+       | 1052 |         case IIO_EV_DIR_RISING:
+       |      |         ~~~~                       =
+
+       |      |         |
+       |      |         (3) ...to here
        |
->> sound/soc/soc-utils-test.c:125:34: warning: use of uninitialized value '=
-((int *)_13 =3D PHI <&MEM <struct snd_pcm_hw_params> [(void *)&params + 4B]=
-(2), _48(3)>)[2]' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-     125 |         struct snd_pcm_hw_params params;
-         |                                  ^~~~~~
-     'test_tdm_params_to_bclk': event 1
+     'bma400_activity_event_en': event 4
        |
-       |  144 | static void test_tdm_params_to_bclk(struct kunit *test)
-       |      |             ^~~~~~~~~~~~~~~~~~~~~~~
-       |      |             |
-       |      |             (1) entry to 'test_tdm_params_to_bclk'
+       |include/asm-generic/rwonce.h:44:26:
+       |   44 | #define __READ_ONCE(x)  (*(const volatile __unqual_scalar_t=
+ypeof(x) *)&(x))
+       |      |                         ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~~
+       |      |                          |
+       |      |                          (4) use of uninitialized value 'fi=
+eld_value' here
+   include/asm-generic/rwonce.h:50:9: note: in expansion of macro '__READ_O=
+NCE'
+       |   50 |         __READ_ONCE(x);                                    =
+             \
+       |      |         ^~~~~~~~~~~
+   include/linux/bitops.h:281:25: note: in expansion of macro 'READ_ONCE'
+       |  281 |                 old__ =3D READ_ONCE(*(ptr));               =
+       \
+       |      |                         ^~~~~~~~~
+   drivers/iio/accel/bma400_core.c:1056:17: note: in expansion of macro 'se=
+t_mask_bits'
+       | 1056 |                 set_mask_bits(&field_value, BMA400_INT_GEN1=
+_MSK,
+       |      |                 ^~~~~~~~~~~~~
        |
-     'test_tdm_params_to_bclk': events 2-4
+>> include/asm-generic/rwonce.h:44:26: warning: use of uninitialized value =
+'field_value' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+      44 | #define __READ_ONCE(x)  (*(const volatile __unqual_scalar_typeof=
+(x) *)&(x))
+         |                         ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~
+   include/asm-generic/rwonce.h:50:9: note: in expansion of macro '__READ_O=
+NCE'
+      50 |         __READ_ONCE(x);                                         =
+        \
+         |         ^~~~~~~~~~~
+   include/linux/bitops.h:281:25: note: in expansion of macro 'READ_ONCE'
+     281 |                 old__ =3D READ_ONCE(*(ptr));                    =
+  \
+         |                         ^~~~~~~~~
+   drivers/iio/accel/bma400_core.c:1056:17: note: in expansion of macro 'se=
+t_mask_bits'
+    1056 |                 set_mask_bits(&field_value, BMA400_INT_GEN1_MSK,
+         |                 ^~~~~~~~~~~~~
+     'bma400_write_event_config': events 1-4
        |
-       |  148 |         for (i =3D 0; i < ARRAY_SIZE(tdm_params_to_bclk_cas=
-es); ++i) {
-       |  149 |                 test_tdm_params_to_bclk_one(test,
-       |      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |                 |
-       |      |                 (4) calling 'test_tdm_params_to_bclk_one' f=
-rom 'test_tdm_params_to_bclk'
-       |  150 |                                             tdm_params_to_b=
-clk_cases[i].rate,
-       |      |                                             ~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~~~~~
-       |      |                                                            =
-            |
-       |      |                                                            =
-            (3) ...to here
-       |  151 |                                             tdm_params_to_b=
-clk_cases[i].fmt,
-       |      |                                             ~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~~~~
-       |  152 |                                             tdm_params_to_b=
-clk_cases[i].channels,
-       |      |                                             ~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~~~~~~~~~
-       |  153 |                                             tdm_params_to_b=
-clk_cases[i].tdm_width,
-       |      |                                             ~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~~~~~~~~~~
-       |  154 |                                             tdm_params_to_b=
-clk_cases[i].tdm_slots,
-       |      |                                             ~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~~~~~~~~~~
-       |  155 |                                             tdm_params_to_b=
-clk_cases[i].slot_multiple,
-       |      |                                             ~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |  156 |                                             tdm_params_to_b=
-clk_cases[i].bclk);
-       |      |                                             ~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~~~~~
+       | 1104 | static int bma400_write_event_config(struct iio_dev *indio_=
+dev,
+       |      |            ^~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |            |
+       |      |            (1) entry to 'bma400_write_event_config'
+       |......
+       | 1112 |         switch (chan->type) {
+       |      |         ~~~~~~
+       |      |         |
+       |      |         (2) following 'case 3:' branch...
+       | 1113 |         case IIO_ACCEL:
+       |      |         ~~~~
+       |      |         |
+       |      |         (3) ...to here
+       | 1114 |                 mutex_lock(&data->mutex);
+       | 1115 |                 ret =3D bma400_activity_event_en(data, dir,=
+ state);
+       |      |                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~
+       |      |                       |
+       |      |                       (4) calling 'bma400_activity_event_en=
+' from 'bma400_write_event_config'
        |
-       +--> 'test_tdm_params_to_bclk_one': events 5-9
+       +--> 'bma400_activity_event_en': events 5-8
               |
-              |  118 | static void test_tdm_params_to_bclk_one(struct kunit=
- *test,
-              |      |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-              |      |             |
-              |      |             (5) entry to 'test_tdm_params_to_bclk_on=
-e'
+              | 1045 | static int bma400_activity_event_en(struct bma400_da=
+ta *data,
+              |      |            ^~~~~~~~~~~~~~~~~~~~~~~~
+              |      |            |
+              |      |            (5) entry to 'bma400_activity_event_en'
               |......
-              |  125 |         struct snd_pcm_hw_params params;
-              |      |                                  ~~~~~~
-              |      |                                  |
-              |      |                                  (6) region created =
-on stack here
-              |      |                                  (7) following 'true=
-' branch...
-              |      |                                  (8) ...to here
-              |      |                                  (9) use of uninitia=
-lized value '((int *)_13 =3D PHI <&MEM <struct snd_pcm_hw_params> [(void *)=
-&params + 4B](2), _48(3)>)[2]' here
+              | 1049 |         int ret, reg, msk, value, field_value;
+              |      |                                   ~~~~~~~~~~~
+              |      |                                   |
+              |      |                                   (6) region created=
+ on stack here
+              | 1050 | =
+
+              | 1051 |         switch (dir) {
+              |      |         ~~~~~~
+              |      |         |
+              |      |         (7) following 'case 1:' branch...
+              | 1052 |         case IIO_EV_DIR_RISING:
+              |      |         ~~~~
+              |      |         |
+              |      |         (8) ...to here
+              |
+            'bma400_activity_event_en': event 9
+              |
+              |include/asm-generic/rwonce.h:44:26:
+              |   44 | #define __READ_ONCE(x)  (*(const volatile __unqual_s=
+calar_typeof(x) *)&(x))
+              |      |                         ~^~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~~~~~~~~~
+              |      |                          |
+              |      |                          (9) use of uninitialized va=
+lue 'field_value' here
+   include/asm-generic/rwonce.h:50:9: note: in expansion of macro '__READ_O=
+NCE'
+              |   50 |         __READ_ONCE(x);                             =
+                    \
+              |      |         ^~~~~~~~~~~
+   include/linux/bitops.h:281:25: note: in expansion of macro 'READ_ONCE'
+              |  281 |                 old__ =3D READ_ONCE(*(ptr));        =
+              \
+              |      |                         ^~~~~~~~~
+   drivers/iio/accel/bma400_core.c:1056:17: note: in expansion of macro 'se=
+t_mask_bits'
+              | 1056 |                 set_mask_bits(&field_value, BMA400_I=
+NT_GEN1_MSK,
+              |      |                 ^~~~~~~~~~~~~
+              |
+>> include/asm-generic/rwonce.h:44:26: warning: use of uninitialized value =
+'field_value' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+      44 | #define __READ_ONCE(x)  (*(const volatile __unqual_scalar_typeof=
+(x) *)&(x))
+         |                         ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~
+   include/asm-generic/rwonce.h:50:9: note: in expansion of macro '__READ_O=
+NCE'
+      50 |         __READ_ONCE(x);                                         =
+        \
+         |         ^~~~~~~~~~~
+   include/linux/bitops.h:281:25: note: in expansion of macro 'READ_ONCE'
+     281 |                 old__ =3D READ_ONCE(*(ptr));                    =
+  \
+         |                         ^~~~~~~~~
+   drivers/iio/accel/bma400_core.c:1063:17: note: in expansion of macro 'se=
+t_mask_bits'
+    1063 |                 set_mask_bits(&field_value, BMA400_INT_GEN2_MSK,
+         |                 ^~~~~~~~~~~~~
+     'bma400_activity_event_en': events 1-3
+       |
+       | 1049 |         int ret, reg, msk, value, field_value;
+       |      |                                   ^~~~~~~~~~~
+       |      |                                   |
+       |      |                                   (1) region created on sta=
+ck here
+       | 1050 | =
+
+       | 1051 |         switch (dir) {
+       |      |         ~~~~~~                     =
+
+       |      |         |
+       |      |         (2) following 'case 2:' branch...
+       |......
+       | 1059 |         case IIO_EV_DIR_FALLING:
+       |      |         ~~~~                       =
+
+       |      |         |
+       |      |         (3) ...to here
+       |
+     'bma400_activity_event_en': event 4
+       |
+       |include/asm-generic/rwonce.h:44:26:
+       |   44 | #define __READ_ONCE(x)  (*(const volatile __unqual_scalar_t=
+ypeof(x) *)&(x))
+       |      |                         ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~~
+       |      |                          |
+       |      |                          (4) use of uninitialized value 'fi=
+eld_value' here
+   include/asm-generic/rwonce.h:50:9: note: in expansion of macro '__READ_O=
+NCE'
+       |   50 |         __READ_ONCE(x);                                    =
+             \
+       |      |         ^~~~~~~~~~~
+   include/linux/bitops.h:281:25: note: in expansion of macro 'READ_ONCE'
+       |  281 |                 old__ =3D READ_ONCE(*(ptr));               =
+       \
+       |      |                         ^~~~~~~~~
+   drivers/iio/accel/bma400_core.c:1063:17: note: in expansion of macro 'se=
+t_mask_bits'
+       | 1063 |                 set_mask_bits(&field_value, BMA400_INT_GEN2=
+_MSK,
+       |      |                 ^~~~~~~~~~~~~
+       |
+>> include/asm-generic/rwonce.h:44:26: warning: use of uninitialized value =
+'field_value' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+      44 | #define __READ_ONCE(x)  (*(const volatile __unqual_scalar_typeof=
+(x) *)&(x))
+         |                         ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~
+   include/asm-generic/rwonce.h:50:9: note: in expansion of macro '__READ_O=
+NCE'
+      50 |         __READ_ONCE(x);                                         =
+        \
+         |         ^~~~~~~~~~~
+   include/linux/bitops.h:281:25: note: in expansion of macro 'READ_ONCE'
+     281 |                 old__ =3D READ_ONCE(*(ptr));                    =
+  \
+         |                         ^~~~~~~~~
+   drivers/iio/accel/bma400_core.c:1063:17: note: in expansion of macro 'se=
+t_mask_bits'
+    1063 |                 set_mask_bits(&field_value, BMA400_INT_GEN2_MSK,
+         |                 ^~~~~~~~~~~~~
+     'bma400_write_event_config': events 1-4
+       |
+       | 1104 | static int bma400_write_event_config(struct iio_dev *indio_=
+dev,
+       |      |            ^~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |            |
+       |      |            (1) entry to 'bma400_write_event_config'
+       |......
+       | 1112 |         switch (chan->type) {
+       |      |         ~~~~~~
+       |      |         |
+       |      |         (2) following 'case 3:' branch...
+       | 1113 |         case IIO_ACCEL:
+       |      |         ~~~~
+       |      |         |
+       |      |         (3) ...to here
+       | 1114 |                 mutex_lock(&data->mutex);
+       | 1115 |                 ret =3D bma400_activity_event_en(data, dir,=
+ state);
+       |      |                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~
+       |      |                       |
+       |      |                       (4) calling 'bma400_activity_event_en=
+' from 'bma400_write_event_config'
+       |
+       +--> 'bma400_activity_event_en': events 5-8
+              |
+              | 1045 | static int bma400_activity_event_en(struct bma400_da=
+ta *data,
+              |      |            ^~~~~~~~~~~~~~~~~~~~~~~~
+              |      |            |
+              |      |            (5) entry to 'bma400_activity_event_en'
+              |......
+              | 1049 |         int ret, reg, msk, value, field_value;
+              |      |                                   ~~~~~~~~~~~
+              |      |                                   |
+              |      |                                   (6) region created=
+ on stack here
+              | 1050 | =
+
+              | 1051 |         switch (dir) {
+              |      |         ~~~~~~
+              |      |         |
+              |      |         (7) following 'case 2:' branch...
+              |......
+              | 1059 |         case IIO_EV_DIR_FALLING:
+              |      |         ~~~~
+              |      |         |
+              |      |         (8) ...to here
+              |
+            'bma400_activity_event_en': event 9
+              |
+              |include/asm-generic/rwonce.h:44:26:
+              |   44 | #define __READ_ONCE(x)  (*(const volatile __unqual_s=
+calar_typeof(x) *)&(x))
+              |      |                         ~^~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~~~~~~~~~
+              |      |                          |
+              |      |                          (9) use of uninitialized va=
+lue 'field_value' here
+   include/asm-generic/rwonce.h:50:9: note: in expansion of macro '__READ_O=
+NCE'
+              |   50 |         __READ_ONCE(x);                             =
+                    \
+              |      |         ^~~~~~~~~~~
+   include/linux/bitops.h:281:25: note: in expansion of macro 'READ_ONCE'
+              |  281 |                 old__ =3D READ_ONCE(*(ptr));        =
+              \
+              |      |                         ^~~~~~~~~
+   drivers/iio/accel/bma400_core.c:1063:17: note: in expansion of macro 'se=
+t_mask_bits'
+              | 1063 |                 set_mask_bits(&field_value, BMA400_I=
+NT_GEN2_MSK,
+              |      |                 ^~~~~~~~~~~~~
               |
 
-vim +125 sound/soc/soc-utils-test.c
+vim +/field_value +44 include/asm-generic/rwonce.h
 
-89342fa38bbaad Richard Fitzgerald 2022-04-05  117  =
+e506ea451254ab1 Will Deacon 2019-10-15  28  =
 
-89342fa38bbaad Richard Fitzgerald 2022-04-05  118  static void test_tdm_par=
-ams_to_bclk_one(struct kunit *test,
-89342fa38bbaad Richard Fitzgerald 2022-04-05  119  					unsigned int rate, =
-snd_pcm_format_t fmt,
-89342fa38bbaad Richard Fitzgerald 2022-04-05  120  					unsigned int channe=
-ls,
-89342fa38bbaad Richard Fitzgerald 2022-04-05  121  					unsigned int tdm_wi=
-dth, unsigned int tdm_slots,
-89342fa38bbaad Richard Fitzgerald 2022-04-05  122  					unsigned int slot_m=
-ultiple,
-89342fa38bbaad Richard Fitzgerald 2022-04-05  123  					unsigned int expect=
-ed_bclk)
-89342fa38bbaad Richard Fitzgerald 2022-04-05  124  {
-89342fa38bbaad Richard Fitzgerald 2022-04-05 @125  	struct snd_pcm_hw_param=
-s params;
-89342fa38bbaad Richard Fitzgerald 2022-04-05  126  	int got_bclk;
-89342fa38bbaad Richard Fitzgerald 2022-04-05  127  =
+e506ea451254ab1 Will Deacon 2019-10-15  29  /*
+e506ea451254ab1 Will Deacon 2019-10-15  30   * Yes, this permits 64-bit acc=
+esses on 32-bit architectures. These will
+e506ea451254ab1 Will Deacon 2019-10-15  31   * actually be atomic in some c=
+ases (namely Armv7 + LPAE), but for others we
+e506ea451254ab1 Will Deacon 2019-10-15  32   * rely on the access being spl=
+it into 2x32-bit accesses for a 32-bit quantity
+e506ea451254ab1 Will Deacon 2019-10-15  33   * (e.g. a virtual address) and=
+ a strong prevailing wind.
+e506ea451254ab1 Will Deacon 2019-10-15  34   */
+e506ea451254ab1 Will Deacon 2019-10-15  35  #define compiletime_assert_rwon=
+ce_type(t)					\
+e506ea451254ab1 Will Deacon 2019-10-15  36  	compiletime_assert(__native_wo=
+rd(t) || sizeof(t) =3D=3D sizeof(long long),	\
+e506ea451254ab1 Will Deacon 2019-10-15  37  		"Unsupported access size for =
+{READ,WRITE}_ONCE().")
+e506ea451254ab1 Will Deacon 2019-10-15  38  =
 
-89342fa38bbaad Richard Fitzgerald 2022-04-05  128  	_snd_pcm_hw_params_any(=
-&params);
-89342fa38bbaad Richard Fitzgerald 2022-04-05  129  	snd_mask_none(hw_param_=
-mask(&params, SNDRV_PCM_HW_PARAM_FORMAT));
-89342fa38bbaad Richard Fitzgerald 2022-04-05  130  	hw_param_interval(&para=
-ms, SNDRV_PCM_HW_PARAM_RATE)->min =3D rate;
-89342fa38bbaad Richard Fitzgerald 2022-04-05  131  	hw_param_interval(&para=
-ms, SNDRV_PCM_HW_PARAM_RATE)->max =3D rate;
-89342fa38bbaad Richard Fitzgerald 2022-04-05  132  	hw_param_interval(&para=
-ms, SNDRV_PCM_HW_PARAM_CHANNELS)->min =3D channels;
-89342fa38bbaad Richard Fitzgerald 2022-04-05  133  	hw_param_interval(&para=
-ms, SNDRV_PCM_HW_PARAM_CHANNELS)->max =3D channels;
-89342fa38bbaad Richard Fitzgerald 2022-04-05  134  	params_set_format(&para=
-ms, fmt);
-89342fa38bbaad Richard Fitzgerald 2022-04-05  135  =
+e506ea451254ab1 Will Deacon 2019-10-15  39  /*
+e506ea451254ab1 Will Deacon 2019-10-15  40   * Use __READ_ONCE() instead of=
+ READ_ONCE() if you do not require any
+3c9184109e78ea2 Will Deacon 2019-10-30  41   * atomicity. Note that this ma=
+y result in tears!
+e506ea451254ab1 Will Deacon 2019-10-15  42   */
+b78b331a3f5c077 Will Deacon 2019-10-15  43  #ifndef __READ_ONCE
+e506ea451254ab1 Will Deacon 2019-10-15 @44  #define __READ_ONCE(x)	(*(const=
+ volatile __unqual_scalar_typeof(x) *)&(x))
+b78b331a3f5c077 Will Deacon 2019-10-15  45  #endif
+e506ea451254ab1 Will Deacon 2019-10-15  46  =
 
-89342fa38bbaad Richard Fitzgerald 2022-04-05  136  	got_bclk =3D snd_soc_td=
-m_params_to_bclk(&params, tdm_width, tdm_slots, slot_multiple);
-89342fa38bbaad Richard Fitzgerald 2022-04-05  137  	pr_debug("%s: r=3D%u sb=
-=3D%u ch=3D%u tw=3D%u ts=3D%u sm=3D%u expected=3D%u got=3D%d\n",
-89342fa38bbaad Richard Fitzgerald 2022-04-05  138  		 __func__,
-89342fa38bbaad Richard Fitzgerald 2022-04-05  139  		 rate, params_width(&p=
-arams), channels, tdm_width, tdm_slots, slot_multiple,
-89342fa38bbaad Richard Fitzgerald 2022-04-05  140  		 expected_bclk, got_bc=
-lk);
-89342fa38bbaad Richard Fitzgerald 2022-04-05  141  	KUNIT_ASSERT_EQ(test, e=
-xpected_bclk, (unsigned int)got_bclk);
-89342fa38bbaad Richard Fitzgerald 2022-04-05  142  }
-89342fa38bbaad Richard Fitzgerald 2022-04-05  143  =
 
+:::::: The code at line 44 was first introduced by commit
+:::::: e506ea451254ab17e0bf918ca36232fec2a9b10c compiler.h: Split {READ,WRI=
+TE}_ONCE definitions out into rwonce.h
+
+:::::: TO: Will Deacon <will@kernel.org>
+:::::: CC: Will Deacon <will@kernel.org>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============7115487733418157547==--
+--===============9003627824066125262==--
 
