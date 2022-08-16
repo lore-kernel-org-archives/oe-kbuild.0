@@ -1,142 +1,118 @@
-Content-Type: multipart/mixed; boundary="===============5447078932342781666=="
+Content-Type: multipart/mixed; boundary="===============6573882474186732441=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/net/wireless/mediatek/mt76/mt7915/mcu.c:1856 mt7915_mcu_beacon_mbss() warn: potential spectre issue 'sub_elem->data' [r] (local cap)
-Date: Tue, 16 Aug 2022 15:14:12 +0800
-Message-ID: <202208161511.rEgEmjDF-lkp@intel.com>
+Subject: [tip:x86/microcode 1/2] htmldocs: Documentation/admin-guide/tainted-kernels.rst:143: WARNING: Block quote ends without a blank line; unexpected unindent.
+Date: Tue, 16 Aug 2022 15:14:10 +0800
+Message-ID: <202208161512.2Cr4Ai9h-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5447078932342781666==
+--===============6573882474186732441==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+:::::: =
+
+:::::: Manual check reason: "commit no functional change"
+:::::: =
+
+
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Lorenzo Bianconi <lorenzo@kernel.org>
-CC: Felix Fietkau <nbd@nbd.name>
-CC: Ryder Lee <ryder.lee@mediatek.com>
-CC: Money Wang <money.wang@mediatek.com>
+CC: x86(a)kernel.org
+TO: Ashok Raj <ashok.raj@intel.com>
+CC: Borislav Petkov <bp@suse.de>
+CC: linux-doc(a)vger.kernel.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   568035b01cfb107af8d2e4bd2fb9aea22cf5b868
-commit: 6b7f9aff7c673989c6adf601c7e3f3684d5acd44 mt76: mt7915: introduce 80=
-2.11ax multi-bss support
-date:   5 months ago
-:::::: branch date: 32 hours ago
-:::::: commit date: 5 months ago
-config: ia64-randconfig-m031-20220814 (https://download.01.org/0day-ci/arch=
-ive/20220816/202208161511.rEgEmjDF-lkp(a)intel.com/config)
-compiler: ia64-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git x86/mic=
+rocode
+head:   71da8a554f25713964a919311c324e5a32f08239
+commit: 35da8ad78e9b1a25d95a281966c439da1ef9a98a [1/2] x86/microcode: Docum=
+ent the whole late loading problem
+:::::: branch date: 12 hours ago
+:::::: commit date: 12 hours ago
+reproduce: make htmldocs
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-drivers/net/wireless/mediatek/mt76/mt7915/mcu.c:1856 mt7915_mcu_beacon_mbss=
-() warn: potential spectre issue 'sub_elem->data' [r] (local cap)
-drivers/net/wireless/mediatek/mt76/mt7915/mcu.c:1848 mt7915_mcu_beacon_mbss=
-() warn: potential spectre issue 'elem->data' [r] (local cap)
+All warnings (new ones prefixed by >>):
 
-Old smatch warnings:
-drivers/net/wireless/mediatek/mt76/mt7915/mcu.c:3540 mt7915_mcu_get_rx_rate=
-() warn: potential spectre issue 'sband->bitrates' [r]
+>> Documentation/admin-guide/tainted-kernels.rst:143: WARNING: Block quote =
+ends without a blank line; unexpected unindent.
 
-vim +1856 drivers/net/wireless/mediatek/mt76/mt7915/mcu.c
+vim +143 Documentation/admin-guide/tainted-kernels.rst
 
-e57b7901469fc0 Ryder Lee        2020-04-25  1827  =
+896dd323abbf6a Thorsten Leemhuis         2019-01-08  111  =
 
-6b7f9aff7c6739 Lorenzo Bianconi 2022-03-15  1828  static void
-6b7f9aff7c6739 Lorenzo Bianconi 2022-03-15  1829  mt7915_mcu_beacon_mbss(st=
-ruct sk_buff *rskb, struct sk_buff *skb,
-6b7f9aff7c6739 Lorenzo Bianconi 2022-03-15  1830  		       struct ieee80211=
-_vif *vif, struct bss_info_bcn *bcn,
-6b7f9aff7c6739 Lorenzo Bianconi 2022-03-15  1831  		       struct ieee80211=
-_mutable_offsets *offs)
-6b7f9aff7c6739 Lorenzo Bianconi 2022-03-15  1832  {
-6b7f9aff7c6739 Lorenzo Bianconi 2022-03-15  1833  	struct bss_info_bcn_mbss=
- *mbss;
-6b7f9aff7c6739 Lorenzo Bianconi 2022-03-15  1834  	const struct element *el=
-em;
-6b7f9aff7c6739 Lorenzo Bianconi 2022-03-15  1835  	struct tlv *tlv;
-6b7f9aff7c6739 Lorenzo Bianconi 2022-03-15  1836  =
+896dd323abbf6a Thorsten Leemhuis         2019-01-08  112   0)  ``G`` if all=
+ modules loaded have a GPL or compatible license, ``P`` if
+337c188dff4a85 Mauro Carvalho Chehab     2016-11-07  113       any propriet=
+ary module has been loaded.  Modules without a
+337c188dff4a85 Mauro Carvalho Chehab     2016-11-07  114       MODULE_LICEN=
+SE or with a MODULE_LICENSE that is not recognised by
+337c188dff4a85 Mauro Carvalho Chehab     2016-11-07  115       insmod as GP=
+L compatible are assumed to be proprietary.
+337c188dff4a85 Mauro Carvalho Chehab     2016-11-07  116  =
 
-6b7f9aff7c6739 Lorenzo Bianconi 2022-03-15  1837  	if (!vif->bss_conf.bssid=
-_indicator)
-6b7f9aff7c6739 Lorenzo Bianconi 2022-03-15  1838  		return;
-6b7f9aff7c6739 Lorenzo Bianconi 2022-03-15  1839  =
+896dd323abbf6a Thorsten Leemhuis         2019-01-08  117   1)  ``F`` if any=
+ module was force loaded by ``insmod -f``, ``' '`` if all
+337c188dff4a85 Mauro Carvalho Chehab     2016-11-07  118       modules were=
+ loaded normally.
+337c188dff4a85 Mauro Carvalho Chehab     2016-11-07  119  =
 
-6b7f9aff7c6739 Lorenzo Bianconi 2022-03-15  1840  	tlv =3D mt7915_mcu_add_n=
-ested_subtlv(rskb, BSS_INFO_BCN_MBSSID,
-6b7f9aff7c6739 Lorenzo Bianconi 2022-03-15  1841  					   sizeof(*mbss), &b=
-cn->sub_ntlv,
-6b7f9aff7c6739 Lorenzo Bianconi 2022-03-15  1842  					   &bcn->len);
-6b7f9aff7c6739 Lorenzo Bianconi 2022-03-15  1843  =
+547f574fd9d5e3 Mathieu Chouquet-Stringer 2020-12-02  120   2)  ``S`` if the=
+ kernel is running on a processor or system that is out of
+547f574fd9d5e3 Mathieu Chouquet-Stringer 2020-12-02  121       specificatio=
+n: hardware has been put into an unsupported configuration,
+547f574fd9d5e3 Mathieu Chouquet-Stringer 2020-12-02  122       therefore pr=
+oper execution cannot be guaranteed.
+547f574fd9d5e3 Mathieu Chouquet-Stringer 2020-12-02  123       Kernel will =
+be tainted if, for example:
+547f574fd9d5e3 Mathieu Chouquet-Stringer 2020-12-02  124  =
 
-6b7f9aff7c6739 Lorenzo Bianconi 2022-03-15  1844  	mbss =3D (struct bss_inf=
-o_bcn_mbss *)tlv;
-6b7f9aff7c6739 Lorenzo Bianconi 2022-03-15  1845  	mbss->offset[0] =3D cpu_=
-to_le16(offs->tim_offset);
-6b7f9aff7c6739 Lorenzo Bianconi 2022-03-15  1846  	mbss->bitmap =3D cpu_to_=
-le32(1);
-6b7f9aff7c6739 Lorenzo Bianconi 2022-03-15  1847  =
-
-6b7f9aff7c6739 Lorenzo Bianconi 2022-03-15 @1848  	for_each_element_id(elem=
-, WLAN_EID_MULTIPLE_BSSID,
-6b7f9aff7c6739 Lorenzo Bianconi 2022-03-15  1849  			    &skb->data[offs->m=
-bssid_off],
-6b7f9aff7c6739 Lorenzo Bianconi 2022-03-15  1850  			    skb->len - offs->m=
-bssid_off) {
-6b7f9aff7c6739 Lorenzo Bianconi 2022-03-15  1851  		const struct element *s=
-ub_elem;
-6b7f9aff7c6739 Lorenzo Bianconi 2022-03-15  1852  =
-
-6b7f9aff7c6739 Lorenzo Bianconi 2022-03-15  1853  		if (elem->datalen < 2)
-6b7f9aff7c6739 Lorenzo Bianconi 2022-03-15  1854  			continue;
-6b7f9aff7c6739 Lorenzo Bianconi 2022-03-15  1855  =
-
-6b7f9aff7c6739 Lorenzo Bianconi 2022-03-15 @1856  		for_each_element(sub_el=
-em, elem->data + 1, elem->datalen - 1) {
-6b7f9aff7c6739 Lorenzo Bianconi 2022-03-15  1857  			const u8 *data;
-6b7f9aff7c6739 Lorenzo Bianconi 2022-03-15  1858  =
-
-6b7f9aff7c6739 Lorenzo Bianconi 2022-03-15  1859  			if (sub_elem->id || su=
-b_elem->datalen < 4)
-6b7f9aff7c6739 Lorenzo Bianconi 2022-03-15  1860  				continue; /* not a va=
-lid BSS profile */
-6b7f9aff7c6739 Lorenzo Bianconi 2022-03-15  1861  =
-
-6b7f9aff7c6739 Lorenzo Bianconi 2022-03-15  1862  			/* Find WLAN_EID_MULTI=
-_BSSID_IDX
-6b7f9aff7c6739 Lorenzo Bianconi 2022-03-15  1863  			 * in the merged nontr=
-ansmitted profile
-6b7f9aff7c6739 Lorenzo Bianconi 2022-03-15  1864  			 */
-6b7f9aff7c6739 Lorenzo Bianconi 2022-03-15  1865  			data =3D cfg80211_find=
-_ie(WLAN_EID_MULTI_BSSID_IDX,
-6b7f9aff7c6739 Lorenzo Bianconi 2022-03-15  1866  						sub_elem->data,
-6b7f9aff7c6739 Lorenzo Bianconi 2022-03-15  1867  						sub_elem->datalen);
-6b7f9aff7c6739 Lorenzo Bianconi 2022-03-15  1868  			if (!data || data[1] <=
- 1 || !data[2])
-6b7f9aff7c6739 Lorenzo Bianconi 2022-03-15  1869  				continue;
-6b7f9aff7c6739 Lorenzo Bianconi 2022-03-15  1870  =
-
-6b7f9aff7c6739 Lorenzo Bianconi 2022-03-15  1871  			mbss->offset[data[2]] =
-=3D cpu_to_le16(data - skb->data);
-6b7f9aff7c6739 Lorenzo Bianconi 2022-03-15  1872  			mbss->bitmap |=3D cpu_=
-to_le32(BIT(data[2]));
-6b7f9aff7c6739 Lorenzo Bianconi 2022-03-15  1873  		}
-6b7f9aff7c6739 Lorenzo Bianconi 2022-03-15  1874  	}
-6b7f9aff7c6739 Lorenzo Bianconi 2022-03-15  1875  }
-6b7f9aff7c6739 Lorenzo Bianconi 2022-03-15  1876  =
-
+547f574fd9d5e3 Mathieu Chouquet-Stringer 2020-12-02  125       - on x86: PA=
+E is forced through forcepae on intel CPUs (such as Pentium M)
+547f574fd9d5e3 Mathieu Chouquet-Stringer 2020-12-02  126         which do n=
+ot report PAE but may have a functional implementation, an SMP
+547f574fd9d5e3 Mathieu Chouquet-Stringer 2020-12-02  127         kernel is =
+running on non officially capable SMP Athlon CPUs, MSRs are
+547f574fd9d5e3 Mathieu Chouquet-Stringer 2020-12-02  128         being poke=
+d at from userspace.
+547f574fd9d5e3 Mathieu Chouquet-Stringer 2020-12-02  129       - on arm: ke=
+rnel running on certain CPUs (such as Keystone 2) without
+547f574fd9d5e3 Mathieu Chouquet-Stringer 2020-12-02  130         having cer=
+tain kernel features enabled.
+547f574fd9d5e3 Mathieu Chouquet-Stringer 2020-12-02  131       - on arm64: =
+there are mismatched hardware features between CPUs, the
+547f574fd9d5e3 Mathieu Chouquet-Stringer 2020-12-02  132         bootloader=
+ has booted CPUs in different modes.
+547f574fd9d5e3 Mathieu Chouquet-Stringer 2020-12-02  133       - certain dr=
+ivers are being used on non supported architectures (such as
+547f574fd9d5e3 Mathieu Chouquet-Stringer 2020-12-02  134         scsi/snic =
+on something else than x86_64, scsi/ips on non
+547f574fd9d5e3 Mathieu Chouquet-Stringer 2020-12-02  135         x86/x86_64=
+/itanium, have broken firmware settings for the
+547f574fd9d5e3 Mathieu Chouquet-Stringer 2020-12-02  136         irqchip/ir=
+q-gic on arm64 ...).
+35da8ad78e9b1a Ashok Raj                 2022-08-13  137       - x86/x86_64=
+: Microcode late loading is dangerous and will result in
+35da8ad78e9b1a Ashok Raj                 2022-08-13  138         tainting t=
+he kernel. It requires that all CPUs rendezvous to make sure
+35da8ad78e9b1a Ashok Raj                 2022-08-13  139         the update=
+ happens when the system is as quiescent as possible. However,
+35da8ad78e9b1a Ashok Raj                 2022-08-13  140         a higher p=
+riority MCE/SMI/NMI can move control flow away from that
+35da8ad78e9b1a Ashok Raj                 2022-08-13  141         rendezvous=
+ and interrupt the update, which can be detrimental to the
+35da8ad78e9b1a Ashok Raj                 2022-08-13  142         machine.
+35da8ad78e9b1a Ashok Raj                 2022-08-13 @143  e
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============5447078932342781666==--
+--===============6573882474186732441==--
 
