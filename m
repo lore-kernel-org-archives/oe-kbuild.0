@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============2428518380798382340=="
+Content-Type: multipart/mixed; boundary="===============5330254901157549487=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 Subject: [intel-tdx:kvm-upstream-workaround 150/308] arch/x86/kvm/mmu/mmu.c:7276 __mem_attr_is_mixed() error: uninitialized symbol 'entry'.
-Date: Wed, 17 Aug 2022 06:48:29 +0800
-Message-ID: <202208170645.o8etfqlG-lkp@intel.com>
+Date: Wed, 17 Aug 2022 05:16:47 +0800
+Message-ID: <202208170542.XpJ3DGlU-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2428518380798382340==
+--===============5330254901157549487==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -22,10 +22,10 @@ tree:   https://github.com/intel/tdx.git kvm-upstream-workaround
 head:   85c097fdd1667a842a9e75d8f658fc16bd72981a
 commit: a3b11dafa9058bdecc235b9c02aaae2d6b39c24d [150/308] KVM: Update lpag=
 e info when private/shared memory are mixed
-:::::: branch date: 13 hours ago
-:::::: commit date: 13 hours ago
+:::::: branch date: 12 hours ago
+:::::: commit date: 12 hours ago
 config: x86_64-randconfig-m001-20220815 (https://download.01.org/0day-ci/ar=
-chive/20220817/202208170645.o8etfqlG-lkp(a)intel.com/config)
+chive/20220817/202208170542.XpJ3DGlU-lkp(a)intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-5) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
@@ -79,5 +79,5 @@ a3b11dafa9058b Chao Peng 2022-07-20  7291  =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============2428518380798382340==--
+--===============5330254901157549487==--
 
