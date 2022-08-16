@@ -1,229 +1,200 @@
-Content-Type: multipart/mixed; boundary="===============8437782486349376369=="
+Content-Type: multipart/mixed; boundary="===============0138784921408412126=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [broonie-misc:arm64-sysreg-gen-4 4/28] drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-sva.c:153:50: error: use of undeclared identifier 'ID_AA64MMFR0_PARANGE_SHIFT'
-Date: Tue, 16 Aug 2022 11:49:11 +0800
-Message-ID: <202208161156.9HEoSNJb-lkp@intel.com>
+Subject: Re: [PATCH 5/7] nilfs2: Convert nilfs_find_uncommited_extent() to use filemap_get_folios_contig()
+Date: Tue, 16 Aug 2022 11:49:09 +0800
+Message-ID: <202208161124.6bsJaKsJ-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8437782486349376369==
+--===============0138784921408412126==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 :::::: =
 
-:::::: Manual check reason: "commit no functional change"
+:::::: Manual check reason: "low confidence static check warning: fs/nilfs2=
+/page.c:542:1: sparse: sparse: unused label 'out'"
 :::::: =
 
 
 BCC: lkp(a)intel.com
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
+In-Reply-To: <20220815185452.37447-6-vishal.moola@gmail.com>
+References: <20220815185452.37447-6-vishal.moola@gmail.com>
+TO: "Vishal Moola (Oracle)" <vishal.moola@gmail.com>
+TO: linux-fsdevel(a)vger.kernel.org
+CC: linux-btrfs(a)vger.kernel.org
+CC: linux-nilfs(a)vger.kernel.org
+CC: linux-mm(a)kvack.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Mark Brown <broonie@kernel.org>
+CC: "Vishal Moola (Oracle)" <vishal.moola@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/misc.git ar=
-m64-sysreg-gen-4
-head:   36985fd29b63e897332d6d831d3aa03ea8722f3c
-commit: e520c3303ffbf18b004d7cc16d60141def9bf675 [4/28] arm64/sysreg: Add _=
-EL1 into ID_AA64MMFR0_EL1 definition names
-:::::: branch date: 14 hours ago
-:::::: commit date: 28 hours ago
-config: arm64-randconfig-r022-20220815 (https://download.01.org/0day-ci/arc=
-hive/20220816/202208161156.9HEoSNJb-lkp(a)intel.com/config)
-compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project aed5e3=
-bea138ce581d682158eb61c27b3cfdd6ec)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install arm64 cross compiling tool for clang build
-        # apt-get install binutils-aarch64-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/broonie/misc.git/=
-commit/?id=3De520c3303ffbf18b004d7cc16d60141def9bf675
-        git remote add broonie-misc https://git.kernel.org/pub/scm/linux/ke=
-rnel/git/broonie/misc.git
-        git fetch --no-tags broonie-misc arm64-sysreg-gen-4
-        git checkout e520c3303ffbf18b004d7cc16d60141def9bf675
+Hi "Vishal,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.0-rc1 next-20220815]
+[cannot apply to kdave/for-next konis-nilfs2/upstream]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Vishal-Moola-Oracle/=
+Convert-to-filemap_get_folios_contig/20220816-025830
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+568035b01cfb107af8d2e4bd2fb9aea22cf5b868
+:::::: branch date: 9 hours ago
+:::::: commit date: 9 hours ago
+config: i386-randconfig-s001-20220815 (https://download.01.org/0day-ci/arch=
+ive/20220816/202208161124.6bsJaKsJ-lkp(a)intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-5) 11.3.0
+reproduce:
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://github.com/intel-lab-lkp/linux/commit/ce1966344933bbe1001=
+0035cd25f23ec7dd76914
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Vishal-Moola-Oracle/Convert-to-fil=
+emap_get_folios_contig/20220816-025830
+        git checkout ce1966344933bbe10010035cd25f23ec7dd76914
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross W=3D=
-1 O=3Dbuild_dir ARCH=3Darm64 SHELL=3D/bin/bash drivers/iommu/arm/arm-smmu-v=
-3/
+        make W=3D1 C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3D=
+build_dir ARCH=3Di386 SHELL=3D/bin/bash fs/nilfs2/
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> fs/nilfs2/page.c:542:1: sparse: sparse: unused label 'out'
 
->> drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-sva.c:153:50: error: use of un=
-declared identifier 'ID_AA64MMFR0_PARANGE_SHIFT'
-           par =3D cpuid_feature_extract_unsigned_field(reg, ID_AA64MMFR0_P=
-ARANGE_SHIFT);
-                                                           ^
-   drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-sva.c:428:50: error: use of un=
-declared identifier 'ID_AA64MMFR0_PARANGE_SHIFT'
-           fld =3D cpuid_feature_extract_unsigned_field(reg, ID_AA64MMFR0_P=
-ARANGE_SHIFT);
-                                                           ^
->> drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-sva.c:434:50: error: use of un=
-declared identifier 'ID_AA64MMFR0_ASID_SHIFT'
-           fld =3D cpuid_feature_extract_unsigned_field(reg, ID_AA64MMFR0_A=
-SID_SHIFT);
-                                                           ^
-   3 errors generated.
+vim +/out +542 fs/nilfs2/page.c
 
+622daaff0a8975 Ryusuke Konishi       2010-12-26  466  =
 
-vim +/ID_AA64MMFR0_PARANGE_SHIFT +153 drivers/iommu/arm/arm-smmu-v3/arm-smm=
-u-v3-sva.c
+622daaff0a8975 Ryusuke Konishi       2010-12-26  467  /**
+622daaff0a8975 Ryusuke Konishi       2010-12-26  468   * nilfs_find_uncommi=
+tted_extent - find extent of uncommitted data
+622daaff0a8975 Ryusuke Konishi       2010-12-26  469   * @inode: inode
+622daaff0a8975 Ryusuke Konishi       2010-12-26  470   * @start_blk: start =
+block offset (in)
+622daaff0a8975 Ryusuke Konishi       2010-12-26  471   * @blkoff: start off=
+set of the found extent (out)
+622daaff0a8975 Ryusuke Konishi       2010-12-26  472   *
+622daaff0a8975 Ryusuke Konishi       2010-12-26  473   * This function sear=
+ches an extent of buffers marked "delayed" which
+622daaff0a8975 Ryusuke Konishi       2010-12-26  474   * starts from a bloc=
+k offset equal to or larger than @start_blk.  If
+622daaff0a8975 Ryusuke Konishi       2010-12-26  475   * such an extent was=
+ found, this will store the start offset in
+622daaff0a8975 Ryusuke Konishi       2010-12-26  476   * @blkoff and return=
+ its length in blocks.  Otherwise, zero is
+622daaff0a8975 Ryusuke Konishi       2010-12-26  477   * returned.
+622daaff0a8975 Ryusuke Konishi       2010-12-26  478   */
+622daaff0a8975 Ryusuke Konishi       2010-12-26  479  unsigned long nilfs_f=
+ind_uncommitted_extent(struct inode *inode,
+622daaff0a8975 Ryusuke Konishi       2010-12-26  480  					    sector_t sta=
+rt_blk,
+622daaff0a8975 Ryusuke Konishi       2010-12-26  481  					    sector_t *bl=
+koff)
+622daaff0a8975 Ryusuke Konishi       2010-12-26  482  {
+ce1966344933bb Vishal Moola (Oracle  2022-08-15  483) 	unsigned int i, nr;
+622daaff0a8975 Ryusuke Konishi       2010-12-26  484  	pgoff_t index;
+622daaff0a8975 Ryusuke Konishi       2010-12-26  485  	unsigned int nblocks=
+_in_page;
+622daaff0a8975 Ryusuke Konishi       2010-12-26  486  	unsigned long length=
+ =3D 0;
+622daaff0a8975 Ryusuke Konishi       2010-12-26  487  	sector_t b;
+ce1966344933bb Vishal Moola (Oracle  2022-08-15  488) 	struct folio_batch f=
+batch;
+ce1966344933bb Vishal Moola (Oracle  2022-08-15  489) 	struct folio *folio;
+622daaff0a8975 Ryusuke Konishi       2010-12-26  490  =
 
-3f1ce8e85ee06d Jean-Philippe Brucker 2020-09-18   91  =
+622daaff0a8975 Ryusuke Konishi       2010-12-26  491  	if (inode->i_mapping=
+->nrpages =3D=3D 0)
+622daaff0a8975 Ryusuke Konishi       2010-12-26  492  		return 0;
+622daaff0a8975 Ryusuke Konishi       2010-12-26  493  =
 
-3f1ce8e85ee06d Jean-Philippe Brucker 2020-09-18   92  static struct arm_smm=
-u_ctx_desc *arm_smmu_alloc_shared_cd(struct mm_struct *mm)
-3f1ce8e85ee06d Jean-Philippe Brucker 2020-09-18   93  {
-3f1ce8e85ee06d Jean-Philippe Brucker 2020-09-18   94  	u16 asid;
-3f1ce8e85ee06d Jean-Philippe Brucker 2020-09-18   95  	int err =3D 0;
-3f1ce8e85ee06d Jean-Philippe Brucker 2020-09-18   96  	u64 tcr, par, reg;
-3f1ce8e85ee06d Jean-Philippe Brucker 2020-09-18   97  	struct arm_smmu_ctx_=
-desc *cd;
-3f1ce8e85ee06d Jean-Philippe Brucker 2020-09-18   98  	struct arm_smmu_ctx_=
-desc *ret =3D NULL;
-3f1ce8e85ee06d Jean-Philippe Brucker 2020-09-18   99  =
+09cbfeaf1a5a67 Kirill A. Shutemov    2016-04-01  494  	index =3D start_blk =
+>> (PAGE_SHIFT - inode->i_blkbits);
+09cbfeaf1a5a67 Kirill A. Shutemov    2016-04-01  495  	nblocks_in_page =3D =
+1U << (PAGE_SHIFT - inode->i_blkbits);
+622daaff0a8975 Ryusuke Konishi       2010-12-26  496  =
 
-cbd23144f7662b Jean-Philippe Brucker 2022-04-26  100  	/* Don't free the mm=
- until we release the ASID */
-cbd23144f7662b Jean-Philippe Brucker 2022-04-26  101  	mmgrab(mm);
-cbd23144f7662b Jean-Philippe Brucker 2022-04-26  102  =
+ce1966344933bb Vishal Moola (Oracle  2022-08-15  497) 	folio_batch_init(&fb=
+atch);
+622daaff0a8975 Ryusuke Konishi       2010-12-26  498  =
 
-3f1ce8e85ee06d Jean-Philippe Brucker 2020-09-18  103  	asid =3D arm64_mm_co=
-ntext_get(mm);
-cbd23144f7662b Jean-Philippe Brucker 2022-04-26  104  	if (!asid) {
-cbd23144f7662b Jean-Philippe Brucker 2022-04-26  105  		err =3D -ESRCH;
-cbd23144f7662b Jean-Philippe Brucker 2022-04-26  106  		goto out_drop_mm;
-cbd23144f7662b Jean-Philippe Brucker 2022-04-26  107  	}
-3f1ce8e85ee06d Jean-Philippe Brucker 2020-09-18  108  =
+622daaff0a8975 Ryusuke Konishi       2010-12-26  499  repeat:
+ce1966344933bb Vishal Moola (Oracle  2022-08-15  500) 	nr =3D filemap_get_f=
+olios_contig(inode->i_mapping, &index, ULONG_MAX,
+ce1966344933bb Vishal Moola (Oracle  2022-08-15  501) 			&fbatch);
+ce1966344933bb Vishal Moola (Oracle  2022-08-15  502) 	if (nr =3D=3D 0)
+622daaff0a8975 Ryusuke Konishi       2010-12-26  503  		return length;
+622daaff0a8975 Ryusuke Konishi       2010-12-26  504  =
 
-3f1ce8e85ee06d Jean-Philippe Brucker 2020-09-18  109  	cd =3D kzalloc(sizeo=
-f(*cd), GFP_KERNEL);
-3f1ce8e85ee06d Jean-Philippe Brucker 2020-09-18  110  	if (!cd) {
-3f1ce8e85ee06d Jean-Philippe Brucker 2020-09-18  111  		err =3D -ENOMEM;
-3f1ce8e85ee06d Jean-Philippe Brucker 2020-09-18  112  		goto out_put_contex=
-t;
-3f1ce8e85ee06d Jean-Philippe Brucker 2020-09-18  113  	}
-3f1ce8e85ee06d Jean-Philippe Brucker 2020-09-18  114  =
+ce1966344933bb Vishal Moola (Oracle  2022-08-15  505) 	b =3D fbatch.folios[=
+0]->index << (PAGE_SHIFT - inode->i_blkbits);
+622daaff0a8975 Ryusuke Konishi       2010-12-26  506  	i =3D 0;
+622daaff0a8975 Ryusuke Konishi       2010-12-26  507  	do {
+ce1966344933bb Vishal Moola (Oracle  2022-08-15  508) 		folio =3D fbatch.fo=
+lios[i];
+622daaff0a8975 Ryusuke Konishi       2010-12-26  509  =
 
-3f1ce8e85ee06d Jean-Philippe Brucker 2020-09-18  115  	refcount_set(&cd->re=
-fs, 1);
-3f1ce8e85ee06d Jean-Philippe Brucker 2020-09-18  116  =
+ce1966344933bb Vishal Moola (Oracle  2022-08-15  510) 		folio_lock(folio);
+ce1966344933bb Vishal Moola (Oracle  2022-08-15  511) 		if (folio_buffers(f=
+olio)) {
+622daaff0a8975 Ryusuke Konishi       2010-12-26  512  			struct buffer_head=
+ *bh, *head;
+622daaff0a8975 Ryusuke Konishi       2010-12-26  513  =
 
-3f1ce8e85ee06d Jean-Philippe Brucker 2020-09-18  117  	mutex_lock(&arm_smmu=
-_asid_lock);
-3f1ce8e85ee06d Jean-Philippe Brucker 2020-09-18  118  	ret =3D arm_smmu_sha=
-re_asid(mm, asid);
-3f1ce8e85ee06d Jean-Philippe Brucker 2020-09-18  119  	if (ret) {
-3f1ce8e85ee06d Jean-Philippe Brucker 2020-09-18  120  		mutex_unlock(&arm_s=
-mmu_asid_lock);
-3f1ce8e85ee06d Jean-Philippe Brucker 2020-09-18  121  		goto out_free_cd;
-3f1ce8e85ee06d Jean-Philippe Brucker 2020-09-18  122  	}
-3f1ce8e85ee06d Jean-Philippe Brucker 2020-09-18  123  =
+ce1966344933bb Vishal Moola (Oracle  2022-08-15  514) 			bh =3D head =3D fo=
+lio_buffers(folio);
+622daaff0a8975 Ryusuke Konishi       2010-12-26  515  			do {
+622daaff0a8975 Ryusuke Konishi       2010-12-26  516  				if (b < start_blk)
+622daaff0a8975 Ryusuke Konishi       2010-12-26  517  					continue;
+622daaff0a8975 Ryusuke Konishi       2010-12-26  518  				if (buffer_delay(=
+bh)) {
+622daaff0a8975 Ryusuke Konishi       2010-12-26  519  					if (length =3D=
+=3D 0)
+622daaff0a8975 Ryusuke Konishi       2010-12-26  520  						*blkoff =3D b;
+622daaff0a8975 Ryusuke Konishi       2010-12-26  521  					length++;
+622daaff0a8975 Ryusuke Konishi       2010-12-26  522  				} else if (length=
+ > 0) {
+622daaff0a8975 Ryusuke Konishi       2010-12-26  523  					goto out_locked;
+622daaff0a8975 Ryusuke Konishi       2010-12-26  524  				}
+622daaff0a8975 Ryusuke Konishi       2010-12-26  525  			} while (++b, bh =
+=3D bh->b_this_page, bh !=3D head);
+622daaff0a8975 Ryusuke Konishi       2010-12-26  526  		} else {
+622daaff0a8975 Ryusuke Konishi       2010-12-26  527  			if (length > 0)
+622daaff0a8975 Ryusuke Konishi       2010-12-26  528  				goto out_locked;
+622daaff0a8975 Ryusuke Konishi       2010-12-26  529  =
 
-3f1ce8e85ee06d Jean-Philippe Brucker 2020-09-18  124  	err =3D xa_insert(&a=
-rm_smmu_asid_xa, asid, cd, GFP_KERNEL);
-3f1ce8e85ee06d Jean-Philippe Brucker 2020-09-18  125  	mutex_unlock(&arm_sm=
-mu_asid_lock);
-3f1ce8e85ee06d Jean-Philippe Brucker 2020-09-18  126  =
+622daaff0a8975 Ryusuke Konishi       2010-12-26  530  			b +=3D nblocks_in_=
+page;
+622daaff0a8975 Ryusuke Konishi       2010-12-26  531  		}
+ce1966344933bb Vishal Moola (Oracle  2022-08-15  532) 		folio_unlock(folio);
+622daaff0a8975 Ryusuke Konishi       2010-12-26  533  =
 
-3f1ce8e85ee06d Jean-Philippe Brucker 2020-09-18  127  	if (err)
-3f1ce8e85ee06d Jean-Philippe Brucker 2020-09-18  128  		goto out_free_asid;
-3f1ce8e85ee06d Jean-Philippe Brucker 2020-09-18  129  =
+ce1966344933bb Vishal Moola (Oracle  2022-08-15  534) 	} while (++i < nr);
+622daaff0a8975 Ryusuke Konishi       2010-12-26  535  =
 
-3f1ce8e85ee06d Jean-Philippe Brucker 2020-09-18  130  	tcr =3D FIELD_PREP(C=
-TXDESC_CD_0_TCR_T0SZ, 64ULL - vabits_actual) |
-3f1ce8e85ee06d Jean-Philippe Brucker 2020-09-18  131  	      FIELD_PREP(CTX=
-DESC_CD_0_TCR_IRGN0, ARM_LPAE_TCR_RGN_WBWA) |
-3f1ce8e85ee06d Jean-Philippe Brucker 2020-09-18  132  	      FIELD_PREP(CTX=
-DESC_CD_0_TCR_ORGN0, ARM_LPAE_TCR_RGN_WBWA) |
-3f1ce8e85ee06d Jean-Philippe Brucker 2020-09-18  133  	      FIELD_PREP(CTX=
-DESC_CD_0_TCR_SH0, ARM_LPAE_TCR_SH_IS) |
-3f1ce8e85ee06d Jean-Philippe Brucker 2020-09-18  134  	      CTXDESC_CD_0_T=
-CR_EPD1 | CTXDESC_CD_0_AA64;
-3f1ce8e85ee06d Jean-Philippe Brucker 2020-09-18  135  =
+ce1966344933bb Vishal Moola (Oracle  2022-08-15  536) 	folio_batch_release(=
+&fbatch);
+622daaff0a8975 Ryusuke Konishi       2010-12-26  537  	cond_resched();
+622daaff0a8975 Ryusuke Konishi       2010-12-26  538  	goto repeat;
+622daaff0a8975 Ryusuke Konishi       2010-12-26  539  =
 
-3f1ce8e85ee06d Jean-Philippe Brucker 2020-09-18  136  	switch (PAGE_SIZE) {
-3f1ce8e85ee06d Jean-Philippe Brucker 2020-09-18  137  	case SZ_4K:
-3f1ce8e85ee06d Jean-Philippe Brucker 2020-09-18  138  		tcr |=3D FIELD_PREP=
-(CTXDESC_CD_0_TCR_TG0, ARM_LPAE_TCR_TG0_4K);
-3f1ce8e85ee06d Jean-Philippe Brucker 2020-09-18  139  		break;
-3f1ce8e85ee06d Jean-Philippe Brucker 2020-09-18  140  	case SZ_16K:
-3f1ce8e85ee06d Jean-Philippe Brucker 2020-09-18  141  		tcr |=3D FIELD_PREP=
-(CTXDESC_CD_0_TCR_TG0, ARM_LPAE_TCR_TG0_16K);
-3f1ce8e85ee06d Jean-Philippe Brucker 2020-09-18  142  		break;
-3f1ce8e85ee06d Jean-Philippe Brucker 2020-09-18  143  	case SZ_64K:
-3f1ce8e85ee06d Jean-Philippe Brucker 2020-09-18  144  		tcr |=3D FIELD_PREP=
-(CTXDESC_CD_0_TCR_TG0, ARM_LPAE_TCR_TG0_64K);
-3f1ce8e85ee06d Jean-Philippe Brucker 2020-09-18  145  		break;
-3f1ce8e85ee06d Jean-Philippe Brucker 2020-09-18  146  	default:
-3f1ce8e85ee06d Jean-Philippe Brucker 2020-09-18  147  		WARN_ON(1);
-3f1ce8e85ee06d Jean-Philippe Brucker 2020-09-18  148  		err =3D -EINVAL;
-3f1ce8e85ee06d Jean-Philippe Brucker 2020-09-18  149  		goto out_free_asid;
-3f1ce8e85ee06d Jean-Philippe Brucker 2020-09-18  150  	}
-3f1ce8e85ee06d Jean-Philippe Brucker 2020-09-18  151  =
-
-3f1ce8e85ee06d Jean-Philippe Brucker 2020-09-18  152  	reg =3D read_sanitis=
-ed_ftr_reg(SYS_ID_AA64MMFR0_EL1);
-3f1ce8e85ee06d Jean-Philippe Brucker 2020-09-18 @153  	par =3D cpuid_featur=
-e_extract_unsigned_field(reg, ID_AA64MMFR0_PARANGE_SHIFT);
-3f1ce8e85ee06d Jean-Philippe Brucker 2020-09-18  154  	tcr |=3D FIELD_PREP(=
-CTXDESC_CD_0_TCR_IPS, par);
-3f1ce8e85ee06d Jean-Philippe Brucker 2020-09-18  155  =
-
-3f1ce8e85ee06d Jean-Philippe Brucker 2020-09-18  156  	cd->ttbr =3D virt_to=
-_phys(mm->pgd);
-3f1ce8e85ee06d Jean-Philippe Brucker 2020-09-18  157  	cd->tcr =3D tcr;
-3f1ce8e85ee06d Jean-Philippe Brucker 2020-09-18  158  	/*
-3f1ce8e85ee06d Jean-Philippe Brucker 2020-09-18  159  	 * MAIR value is pre=
-tty much constant and global, so we can just get it
-3f1ce8e85ee06d Jean-Philippe Brucker 2020-09-18  160  	 * from the current =
-CPU register
-3f1ce8e85ee06d Jean-Philippe Brucker 2020-09-18  161  	 */
-3f1ce8e85ee06d Jean-Philippe Brucker 2020-09-18  162  	cd->mair =3D read_sy=
-sreg(mair_el1);
-3f1ce8e85ee06d Jean-Philippe Brucker 2020-09-18  163  	cd->asid =3D asid;
-3f1ce8e85ee06d Jean-Philippe Brucker 2020-09-18  164  	cd->mm =3D mm;
-3f1ce8e85ee06d Jean-Philippe Brucker 2020-09-18  165  =
-
-3f1ce8e85ee06d Jean-Philippe Brucker 2020-09-18  166  	return cd;
-3f1ce8e85ee06d Jean-Philippe Brucker 2020-09-18  167  =
-
-3f1ce8e85ee06d Jean-Philippe Brucker 2020-09-18  168  out_free_asid:
-3f1ce8e85ee06d Jean-Philippe Brucker 2020-09-18  169  	arm_smmu_free_asid(c=
-d);
-3f1ce8e85ee06d Jean-Philippe Brucker 2020-09-18  170  out_free_cd:
-3f1ce8e85ee06d Jean-Philippe Brucker 2020-09-18  171  	kfree(cd);
-3f1ce8e85ee06d Jean-Philippe Brucker 2020-09-18  172  out_put_context:
-3f1ce8e85ee06d Jean-Philippe Brucker 2020-09-18  173  	arm64_mm_context_put=
-(mm);
-cbd23144f7662b Jean-Philippe Brucker 2022-04-26  174  out_drop_mm:
-cbd23144f7662b Jean-Philippe Brucker 2022-04-26  175  	mmdrop(mm);
-3f1ce8e85ee06d Jean-Philippe Brucker 2020-09-18  176  	return err < 0 ? ERR=
-_PTR(err) : ret;
-3f1ce8e85ee06d Jean-Philippe Brucker 2020-09-18  177  }
-3f1ce8e85ee06d Jean-Philippe Brucker 2020-09-18  178  =
-
-
-:::::: The code@line 153 was first introduced by commit
-:::::: 3f1ce8e85ee06dbe6a8b2e037e9b35f6b32e9ab3 iommu/arm-smmu-v3: Share pr=
-ocess page tables
-
-:::::: TO: Jean-Philippe Brucker <jean-philippe@linaro.org>
-:::::: CC: Will Deacon <will@kernel.org>
+622daaff0a8975 Ryusuke Konishi       2010-12-26  540  out_locked:
+ce1966344933bb Vishal Moola (Oracle  2022-08-15  541) 	folio_unlock(folio);
+622daaff0a8975 Ryusuke Konishi       2010-12-26 @542  out:
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============8437782486349376369==--
+--===============0138784921408412126==--
 
