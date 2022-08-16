@@ -1,125 +1,171 @@
-Content-Type: multipart/mixed; boundary="===============4334254943765026657=="
+Content-Type: multipart/mixed; boundary="===============4978801165657360068=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/net/phy/phylink.c:887 phylink_change_inband_advert() error: we previously assumed 'pl->pcs' could be null (see line 870)
-Date: Thu, 25 Aug 2022 00:24:58 +0800
-Message-ID: <202208250056.TryBiAaK-lkp@intel.com>
+Subject: Re: [PATCH v4 05/16] iommu: Move bus setup to IOMMU device registration
+Date: Tue, 16 Aug 2022 10:37:32 +0800
+Message-ID: <202208161020.ZiuDgisa-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4334254943765026657==
+--===============4978801165657360068==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+:::::: =
+
+:::::: Manual check reason: "low confidence static check warning: drivers/i=
+ommu/iommu.c:191:57: warning: Parameter 'data' can be declared with const [=
+constParameter]"
+:::::: =
+
+
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
+In-Reply-To: <d342b6f27efb5ef3e93aacaa3012d25386d74866.1660572783.git.robin=
+.murphy@arm.com>
+References: <d342b6f27efb5ef3e93aacaa3012d25386d74866.1660572783.git.robin.=
+murphy@arm.com>
+TO: Robin Murphy <robin.murphy@arm.com>
+TO: joro(a)8bytes.org
+CC: will(a)kernel.org
+CC: iommu(a)lists.linux.dev
+CC: linux-arm-kernel(a)lists.infradead.org
+CC: baolu.lu(a)linux.intel.com
+CC: kevin.tian(a)intel.com
+CC: suravee.suthikulpanit(a)amd.com
+CC: vasant.hegde(a)amd.com
+CC: mjrosato(a)linux.ibm.com
+CC: schnelle(a)linux.ibm.com
 CC: linux-kernel(a)vger.kernel.org
-TO: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
-CC: Jakub Kicinski <kuba@kernel.org>
-CC: Andrew Lunn <andrew@lunn.ch>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   c40e8341e3b3bb27e3a65b06b5b454626234c4f0
-commit: 4f1dd48f403149dc720a24c54120749433c4b984 net: phylink: remove pcs_o=
-ps member
-date:   8 weeks ago
-:::::: branch date: 14 hours ago
-:::::: commit date: 8 weeks ago
-config: openrisc-randconfig-m031-20220824 (https://download.01.org/0day-ci/=
-archive/20220825/202208250056.TryBiAaK-lkp(a)intel.com/config)
-compiler: or1k-linux-gcc (GCC) 12.1.0
+Hi Robin,
+
+I love your patch! Perhaps something to improve:
+
+[auto build test WARNING on v6.0-rc1]
+[also build test WARNING on linus/master next-20220815]
+[cannot apply to joro-iommu/next krzk/for-next tegra/for-next rockchip/for-=
+next sunxi/sunxi/for-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Robin-Murphy/iommu-r=
+etire-bus_set_iommu/20220816-002348
+base:    568035b01cfb107af8d2e4bd2fb9aea22cf5b868
+:::::: branch date: 10 hours ago
+:::::: commit date: 10 hours ago
+compiler: xtensa-linux-gcc (GCC) 12.1.0
+reproduce (cppcheck warning):
+        # apt-get install cppcheck
+        git checkout 6227cfa1406324ce434f5524a321e87687386208
+        cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
+e=3Dgcc FILE
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-drivers/net/phy/phylink.c:887 phylink_change_inband_advert() error: we prev=
-iously assumed 'pl->pcs' could be null (see line 870)
 
-vim +887 drivers/net/phy/phylink.c
+cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
-9525ae83959b60 Russell King          2017-07-25  856  =
+>> drivers/iommu/iommu.c:191:57: warning: Parameter 'data' can be declared =
+with const [constParameter]
+   static int remove_iommu_group(struct device *dev, void *data)
+                                                           ^
+>> drivers/iommu/iommu.c:2031:47: warning: Parameter 'domain' can be declar=
+ed with const [constParameter]
+   void iommu_detach_device(struct iommu_domain *domain, struct device *dev)
+                                                 ^
+>> drivers/iommu/iommu.c:2652:69: warning: Parameter 'fwnode' can be declar=
+ed with const [constParameter]
+   const struct iommu_ops *iommu_ops_from_fwnode(struct fwnode_handle *fwno=
+de)
+                                                                       ^
+>> drivers/iommu/iommu.c:580:16: warning: Uninitialized variable: device->d=
+ev [uninitvar]
+     if (!device->dev->iommu)
+                  ^
+>> drivers/iommu/iommu.c:1020:19: warning: Uninitialized variable: tmp_devi=
+ce->dev [uninitvar]
+     if (tmp_device->dev =3D=3D dev) {
+                     ^
+   drivers/iommu/iommu.c:1013:6: note: Assuming condition is false
+    if (!group)
+        ^
+   drivers/iommu/iommu.c:1020:19: note: Uninitialized variable: tmp_device-=
+>dev
+     if (tmp_device->dev =3D=3D dev) {
+                     ^
+>> drivers/iommu/iommu.c:1808:35: warning: Uninitialized variables: group.k=
+obj, group.devices_kobj, group.devices, group.iommu_data, group.iommu_data_=
+release, group.name, group.id, group.default_domain, group.blocking_domain,=
+ group.domain, group.owner_cnt, group.owner [uninitvar]
+     probe_alloc_default_domain(bus, group);
+                                     ^
+   drivers/iommu/iommu.c:1798:6: note: Assuming condition is false
+    if (ret)
+        ^
+   drivers/iommu/iommu.c:1798:6: note: Assuming condition is false
+    if (ret)
+        ^
+   drivers/iommu/iommu.c:1798:6: note: Assuming condition is false
+    if (ret)
+        ^
+   drivers/iommu/iommu.c:1798:6: note: Assuming condition is false
+    if (ret)
+        ^
+   drivers/iommu/iommu.c:1798:6: note: Assuming condition is false
+    if (ret)
+        ^
+   drivers/iommu/iommu.c:1798:6: note: Assuming condition is false
+    if (ret)
+        ^
+   drivers/iommu/iommu.c:1798:6: note: Assuming condition is false
+    if (ret)
+        ^
+   drivers/iommu/iommu.c:1798:6: note: Assuming condition is false
+    if (ret)
+        ^
+   drivers/iommu/iommu.c:1798:6: note: Assuming condition is false
+    if (ret)
+        ^
+   drivers/iommu/iommu.c:1798:6: note: Assuming condition is false
+    if (ret)
+        ^
+   drivers/iommu/iommu.c:1798:6: note: Assuming condition is false
+    if (ret)
+        ^
+   drivers/iommu/iommu.c:1798:6: note: Assuming condition is false
+    if (ret)
+        ^
+   drivers/iommu/iommu.c:1808:35: note: Uninitialized variables: group.kobj=
+, group.devices_kobj, group.devices, group.iommu_data, group.iommu_data_rel=
+ease, group.name, group.id, group.default_domain, group.blocking_domain, gr=
+oup.domain, group.owner_cnt, group.owner
+     probe_alloc_default_domain(bus, group);
+                                     ^
 
-1571e700fd610c Russell King          2020-07-21  857  /*
-1571e700fd610c Russell King          2020-07-21  858   * Reconfigure for a =
-change of inband advertisement.
-1571e700fd610c Russell King          2020-07-21  859   * If we have a separ=
-ate PCS, we only need to call its pcs_config() method,
-1571e700fd610c Russell King          2020-07-21  860   * and then restart A=
-N if it indicates something changed. Otherwise, we do
-1571e700fd610c Russell King          2020-07-21  861   * the full MAC recon=
-figuration.
-1571e700fd610c Russell King          2020-07-21  862   */
-1571e700fd610c Russell King          2020-07-21  863  static int phylink_ch=
-ange_inband_advert(struct phylink *pl)
-1571e700fd610c Russell King          2020-07-21  864  {
-1571e700fd610c Russell King          2020-07-21  865  	int ret;
-1571e700fd610c Russell King          2020-07-21  866  =
+vim +/data +191 drivers/iommu/iommu.c
 
-1571e700fd610c Russell King          2020-07-21  867  	if (test_bit(PHYLINK=
-_DISABLE_STOPPED, &pl->phylink_disable_state))
-1571e700fd610c Russell King          2020-07-21  868  		return 0;
-1571e700fd610c Russell King          2020-07-21  869  =
+5fa9e7c5fa50f2 Joerg Roedel 2019-08-19  190  =
 
-4f1dd48f403149 Russell King (Oracle  2022-06-27 @870) 	if (!pl->pcs && pl->=
-config->legacy_pre_march2020) {
-1571e700fd610c Russell King          2020-07-21  871  		/* Legacy method */
-1571e700fd610c Russell King          2020-07-21  872  		phylink_mac_config(=
-pl, &pl->link_config);
-1571e700fd610c Russell King          2020-07-21  873  		phylink_mac_pcs_an_=
-restart(pl);
-1571e700fd610c Russell King          2020-07-21  874  		return 0;
-1571e700fd610c Russell King          2020-07-21  875  	}
-1571e700fd610c Russell King          2020-07-21  876  =
+6227cfa1406324 Robin Murphy 2022-08-15 @191  static int remove_iommu_group(=
+struct device *dev, void *data)
+6227cfa1406324 Robin Murphy 2022-08-15  192  {
+6227cfa1406324 Robin Murphy 2022-08-15  193  	if (dev->iommu && dev->iommu-=
+>iommu_dev =3D=3D data)
+6227cfa1406324 Robin Murphy 2022-08-15  194  		iommu_release_device(dev);
+6227cfa1406324 Robin Murphy 2022-08-15  195  =
 
-1571e700fd610c Russell King          2020-07-21  877  	phylink_dbg(pl, "%s:=
- mode=3D%s/%s adv=3D%*pb pause=3D%02x\n", __func__,
-1571e700fd610c Russell King          2020-07-21  878  		    phylink_an_mode=
-_str(pl->cur_link_an_mode),
-1571e700fd610c Russell King          2020-07-21  879  		    phy_modes(pl->l=
-ink_config.interface),
-1571e700fd610c Russell King          2020-07-21  880  		    __ETHTOOL_LINK_=
-MODE_MASK_NBITS, pl->link_config.advertising,
-1571e700fd610c Russell King          2020-07-21  881  		    pl->link_config=
-.pause);
-1571e700fd610c Russell King          2020-07-21  882  =
-
-1571e700fd610c Russell King          2020-07-21  883  	/* Modern PCS-based =
-method; update the advert at the PCS, and
-1571e700fd610c Russell King          2020-07-21  884  	 * restart negotiati=
-on if the pcs_config() helper indicates that
-1571e700fd610c Russell King          2020-07-21  885  	 * the programmed ad=
-vertisement has changed.
-1571e700fd610c Russell King          2020-07-21  886  	 */
-4f1dd48f403149 Russell King (Oracle  2022-06-27 @887) 	ret =3D pl->pcs->ops=
-->pcs_config(pl->pcs, pl->cur_link_an_mode,
-1571e700fd610c Russell King          2020-07-21  888  				       pl->link_c=
-onfig.interface,
-1571e700fd610c Russell King          2020-07-21  889  				       pl->link_c=
-onfig.advertising,
-4f1dd48f403149 Russell King (Oracle  2022-06-27  890) 				       !!(pl->lin=
-k_config.pause &
-4f1dd48f403149 Russell King (Oracle  2022-06-27  891) 					  MLO_PAUSE_AN));
-1571e700fd610c Russell King          2020-07-21  892  	if (ret < 0)
-1571e700fd610c Russell King          2020-07-21  893  		return ret;
-1571e700fd610c Russell King          2020-07-21  894  =
-
-1571e700fd610c Russell King          2020-07-21  895  	if (ret > 0)
-1571e700fd610c Russell King          2020-07-21  896  		phylink_mac_pcs_an_=
-restart(pl);
-1571e700fd610c Russell King          2020-07-21  897  =
-
-1571e700fd610c Russell King          2020-07-21  898  	return 0;
-1571e700fd610c Russell King          2020-07-21  899  }
-1571e700fd610c Russell King          2020-07-21  900  =
+6227cfa1406324 Robin Murphy 2022-08-15  196  	return 0;
+6227cfa1406324 Robin Murphy 2022-08-15  197  }
+6227cfa1406324 Robin Murphy 2022-08-15  198  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============4334254943765026657==--
+--===============4978801165657360068==--
 
