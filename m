@@ -1,102 +1,130 @@
-Content-Type: multipart/mixed; boundary="===============1408684005248726166=="
+Content-Type: multipart/mixed; boundary="===============2270039467456860802=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [intel-tdx:guest-filter 1/28] drivers/usb/core/sysfs.c:1164:24: warning: unused variable 'intf'
-Date: Wed, 17 Aug 2022 08:20:31 +0800
-Message-ID: <202208170816.9Y3pFVhv-lkp@intel.com>
+Subject: [intel-tdx:kvm-upstream-workaround 192/308] arch/x86/kvm/mmu/mmu.c:3194 __direct_populate_nonleaf() error: uninitialized symbol 'base_gfn'.
+Date: Wed, 17 Aug 2022 07:19:07 +0800
+Message-ID: <202208170731.En9MpxuW-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1408684005248726166==
+--===============2270039467456860802==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-:::::: =
-
-:::::: Manual check reason: "commit no functional change"
-:::::: =
-
-
 BCC: lkp(a)intel.com
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.co=
-m>
-CC: Dan Williams <dan.j.williams@intel.com>
+TO: Isaku Yamahata <isaku.yamahata@intel.com>
 
-tree:   https://github.com/intel/tdx.git guest-filter
-head:   c8ae661a124d107ccb71713b70010f1bf237b7a2
-commit: 43ef78fa0be78320a27a01cee80aeb3e235ab426 [1/28] driver core: Move t=
-he "authorized" attribute from USB/Thunderbolt to core
-:::::: branch date: 4 hours ago
-:::::: commit date: 4 hours ago
-config: i386-randconfig-a012-20220815 (https://download.01.org/0day-ci/arch=
-ive/20220817/202208170816.9Y3pFVhv-lkp(a)intel.com/config)
-compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project aed5e3=
-bea138ce581d682158eb61c27b3cfdd6ec)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel/tdx/commit/43ef78fa0be78320a27a01cee80ae=
-b3e235ab426
-        git remote add intel-tdx https://github.com/intel/tdx.git
-        git fetch --no-tags intel-tdx guest-filter
-        git checkout 43ef78fa0be78320a27a01cee80aeb3e235ab426
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross W=3D=
-1 O=3Dbuild_dir ARCH=3Di386 SHELL=3D/bin/bash drivers/usb/core/
+tree:   https://github.com/intel/tdx.git kvm-upstream-workaround
+head:   85c097fdd1667a842a9e75d8f658fc16bd72981a
+commit: b917e5926dbb22c59f48063fb6196fb7dad75e03 [192/308] KVM: x86/legacy =
+mmu: factor out __direct_map()
+:::::: branch date: 14 hours ago
+:::::: commit date: 14 hours ago
+config: x86_64-randconfig-m001-20220815 (https://download.01.org/0day-ci/ar=
+chive/20220817/202208170731.En9MpxuW-lkp(a)intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-5) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-All warnings (new ones prefixed by >>):
+New smatch warnings:
+arch/x86/kvm/mmu/mmu.c:3194 __direct_populate_nonleaf() error: uninitialize=
+d symbol 'base_gfn'.
 
->> drivers/usb/core/sysfs.c:1164:24: warning: unused variable 'intf' [-Wunu=
-sed-variable]
-           struct usb_interface *intf =3D to_usb_interface(dev);
-                                 ^
-   1 warning generated.
+Old smatch warnings:
+arch/x86/kvm/mmu/mmu.c:7296 __mem_attr_is_mixed() error: uninitialized symb=
+ol 'entry'.
 
+vim +/base_gfn +3194 arch/x86/kvm/mmu/mmu.c
 
-vim +/intf +1164 drivers/usb/core/sysfs.c
+b8e8c8303ff28c arch/x86/kvm/mmu.c     Paolo Bonzini       2019-11-04  3157  =
 
-49e7cc84a86784 Sarah Sharp                2008-10-06  1156  =
+b917e5926dbb22 arch/x86/kvm/mmu/mmu.c Isaku Yamahata      2022-01-12  3158 =
+ static void __direct_populate_nonleaf(struct kvm_vcpu *vcpu,
+b917e5926dbb22 arch/x86/kvm/mmu/mmu.c Isaku Yamahata      2022-01-12  3159 =
+ 				struct kvm_page_fault *fault,
+b917e5926dbb22 arch/x86/kvm/mmu/mmu.c Isaku Yamahata      2022-01-12  3160 =
+ 				struct kvm_shadow_walk_iterator *itp,
+b917e5926dbb22 arch/x86/kvm/mmu/mmu.c Isaku Yamahata      2022-01-12  3161 =
+ 				gfn_t *base_gfnp)
+140754bc80e1cd arch/x86/kvm/mmu.c     Avi Kivity          2008-08-22  3162 =
+ {
+3fcf2d1bdeb6a5 arch/x86/kvm/mmu.c     Paolo Bonzini       2019-06-24  3163 =
+ 	struct kvm_shadow_walk_iterator it;
+140754bc80e1cd arch/x86/kvm/mmu.c     Avi Kivity          2008-08-22  3164 =
+ 	struct kvm_mmu_page *sp;
+b917e5926dbb22 arch/x86/kvm/mmu/mmu.c Isaku Yamahata      2022-01-12  3165 =
+ 	gfn_t base_gfn;
+6aa8b732ca01c3 drivers/kvm/mmu.c      Avi Kivity          2006-12-10  3166  =
 
-310d2b4124c073 Stefan Koch                2015-08-25  1157  /*
-310d2b4124c073 Stefan Koch                2015-08-25  1158   * interface_au=
-thorized_show - show authorization status of an USB interface
-310d2b4124c073 Stefan Koch                2015-08-25  1159   * 1 is authori=
-zed, 0 is deauthorized
-310d2b4124c073 Stefan Koch                2015-08-25  1160   */
-310d2b4124c073 Stefan Koch                2015-08-25  1161  static ssize_t =
-interface_authorized_show(struct device *dev,
-310d2b4124c073 Stefan Koch                2015-08-25  1162  		struct device=
-_attribute *attr, char *buf)
-310d2b4124c073 Stefan Koch                2015-08-25  1163  {
-310d2b4124c073 Stefan Koch                2015-08-25 @1164  	struct usb_int=
-erface *intf =3D to_usb_interface(dev);
-310d2b4124c073 Stefan Koch                2015-08-25  1165  =
+73a3c659478a2e arch/x86/kvm/mmu/mmu.c Paolo Bonzini       2021-08-07  3167 =
+ 	kvm_mmu_hugepage_adjust(vcpu, fault);
+4cd071d13c5cc6 arch/x86/kvm/mmu/mmu.c Sean Christopherson 2019-12-06  3168  =
 
-43ef78fa0be783 Kuppuswamy Sathyanarayanan 2021-08-14  1166  	return sysfs_e=
-mit(buf, "%u\n", dev->authorized);
-310d2b4124c073 Stefan Koch                2015-08-25  1167  }
-310d2b4124c073 Stefan Koch                2015-08-25  1168  =
+f0066d94c92dc5 arch/x86/kvm/mmu/mmu.c Paolo Bonzini       2021-08-06  3169 =
+ 	trace_kvm_mmu_spte_requested(fault);
+43b74355ef8ba8 arch/x86/kvm/mmu/mmu.c Paolo Bonzini       2021-08-06  3170 =
+ 	for_each_shadow_entry(vcpu, fault->addr, it) {
+b8e8c8303ff28c arch/x86/kvm/mmu.c     Paolo Bonzini       2019-11-04  3171 =
+ 		/*
+b8e8c8303ff28c arch/x86/kvm/mmu.c     Paolo Bonzini       2019-11-04  3172 =
+ 		 * We cannot overwrite existing page tables with an NX
+b8e8c8303ff28c arch/x86/kvm/mmu.c     Paolo Bonzini       2019-11-04  3173 =
+ 		 * large page, as the leaf could be executable.
+b8e8c8303ff28c arch/x86/kvm/mmu.c     Paolo Bonzini       2019-11-04  3174 =
+ 		 */
+73a3c659478a2e arch/x86/kvm/mmu/mmu.c Paolo Bonzini       2021-08-07  3175 =
+ 		if (fault->nx_huge_page_workaround_enabled)
+536f0e6ace95aa arch/x86/kvm/mmu/mmu.c Paolo Bonzini       2021-08-06  3176 =
+ 			disallowed_hugepage_adjust(fault, *it.sptep, it.level);
+b8e8c8303ff28c arch/x86/kvm/mmu.c     Paolo Bonzini       2019-11-04  3177  =
 
+43b74355ef8ba8 arch/x86/kvm/mmu/mmu.c Paolo Bonzini       2021-08-06  3178 =
+ 		base_gfn =3D fault->gfn & ~(KVM_PAGES_PER_HPAGE(it.level) - 1);
+73a3c659478a2e arch/x86/kvm/mmu/mmu.c Paolo Bonzini       2021-08-07  3179 =
+ 		if (it.level =3D=3D fault->goal_level)
+9f652d21c3f887 arch/x86/kvm/mmu.c     Avi Kivity          2008-12-25  3180 =
+ 			break;
+c9fa0b3bef9a0b arch/x86/kvm/mmu.c     Lai Jiangshan       2010-05-26  3181  =
 
-:::::: The code at line 1164 was first introduced by commit
-:::::: 310d2b4124c073a2057ef9d952d4d938e9b1dfd9 usb: interface authorizatio=
-n: SysFS part of USB interface authorization
+2e65e842c57d72 arch/x86/kvm/mmu/mmu.c David Matlack       2022-06-22  3182 =
+ 		sp =3D kvm_mmu_get_child_sp(vcpu, it.sptep, base_gfn, true, ACC_ALL);
+0cd8dc73983308 arch/x86/kvm/mmu/mmu.c Paolo Bonzini       2022-06-22  3183 =
+ 		if (sp =3D=3D ERR_PTR(-EEXIST))
+0cd8dc73983308 arch/x86/kvm/mmu/mmu.c Paolo Bonzini       2022-06-22  3184 =
+ 			continue;
+6aa8b732ca01c3 drivers/kvm/mmu.c      Avi Kivity          2006-12-10  3185  =
 
-:::::: TO: Stefan Koch <stefan.koch10@gmail.com>
-:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+3fcf2d1bdeb6a5 arch/x86/kvm/mmu.c     Paolo Bonzini       2019-06-24  3186 =
+ 		link_shadow_page(vcpu, it.sptep, sp);
+73a3c659478a2e arch/x86/kvm/mmu/mmu.c Paolo Bonzini       2021-08-07  3187 =
+ 		if (fault->is_tdp && fault->huge_page_disallowed &&
+73a3c659478a2e arch/x86/kvm/mmu/mmu.c Paolo Bonzini       2021-08-07  3188 =
+ 		    fault->req_level >=3D it.level)
+b8e8c8303ff28c arch/x86/kvm/mmu.c     Paolo Bonzini       2019-11-04  3189 =
+ 			account_huge_nx_page(vcpu->kvm, sp);
+6aa8b732ca01c3 drivers/kvm/mmu.c      Avi Kivity          2006-12-10  3190 =
+ 	}
+3fcf2d1bdeb6a5 arch/x86/kvm/mmu.c     Paolo Bonzini       2019-06-24  3191  =
+
+b917e5926dbb22 arch/x86/kvm/mmu/mmu.c Isaku Yamahata      2022-01-12  3192 =
+ 	*itp =3D it;
+b917e5926dbb22 arch/x86/kvm/mmu/mmu.c Isaku Yamahata      2022-01-12  3193 =
+ 	if (base_gfnp)
+b917e5926dbb22 arch/x86/kvm/mmu/mmu.c Isaku Yamahata      2022-01-12 @3194 =
+ 		*base_gfnp =3D base_gfn;
+b917e5926dbb22 arch/x86/kvm/mmu/mmu.c Isaku Yamahata      2022-01-12  3195 =
+ }
+b917e5926dbb22 arch/x86/kvm/mmu/mmu.c Isaku Yamahata      2022-01-12  3196  =
+
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============1408684005248726166==--
+--===============2270039467456860802==--
 
