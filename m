@@ -1,195 +1,125 @@
-Content-Type: multipart/mixed; boundary="===============8479125350323323810=="
+Content-Type: multipart/mixed; boundary="===============0495283536407384977=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [linux-next:master 1126/1472] drivers/iio/cdc/ad7746.c:336:14: warning: use of uninitialized value '<unknown>' [CWE-457]
-Date: Wed, 17 Aug 2022 20:29:24 +0800
-Message-ID: <202208172004.6EUBN7yD-lkp@intel.com>
+Subject: drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_stream.c:395 dc_stream_set_cursor_position() warn: variable dereferenced before check 'stream' (see line 392)
+Date: Wed, 17 Aug 2022 17:15:08 +0800
+Message-ID: <202208171701.gFan3WQE-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8479125350323323810==
+--===============0495283536407384977==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-:::::: =
-
-:::::: Manual check reason: "low confidence bisect report"
-:::::: Manual check reason: "low confidence static check warning: drivers/i=
-io/cdc/ad7746.c:336:14: warning: use of uninitialized value '<unknown>' [CW=
-E-457] [-Wanalyzer-use-of-uninitialized-value]"
-:::::: =
-
-
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-CC: Andy Shevchenko <andy.shevchenko@gmail.com>
+CC: linux-kernel(a)vger.kernel.org
+TO: Alvin Lee <Alvin.Lee2@amd.com>
+CC: Alex Deucher <alexander.deucher@amd.com>
+CC: Samson Tam <Samson.Tam@amd.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
- master
-head:   95d10484d66e54d5c01e36389e9318221fb8f60b
-commit: 40b5c4d5b5a67e79eef86a653cdc8b10b4d73f11 [1126/1472] iio: cdc: ad77=
-46: Move driver out of staging.
-:::::: branch date: 9 hours ago
-:::::: commit date: 2 days ago
-config: arm-randconfig-c002-20220817 (https://download.01.org/0day-ci/archi=
-ve/20220817/202208172004.6EUBN7yD-lkp(a)intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
-it/commit/?id=3D40b5c4d5b5a67e79eef86a653cdc8b10b4d73f11
-        git remote add linux-next https://git.kernel.org/pub/scm/linux/kern=
-el/git/next/linux-next.git
-        git fetch --no-tags linux-next master
-        git checkout 40b5c4d5b5a67e79eef86a653cdc8b10b4d73f11
-        # save the config file
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cross=
- ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
-
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   3cc40a443a04d52b0c95255dce264068b01e9bfe
+commit: a141d2083b462505727e14d98db5fc3cd43d59c6 drm/amd/display: Add debug=
+ option for exiting idle optimizations on cursor updates
+date:   9 weeks ago
+:::::: branch date: 14 hours ago
+:::::: commit date: 9 weeks ago
+config: ia64-randconfig-m031-20220814 (https://download.01.org/0day-ci/arch=
+ive/20220817/202208171701.gFan3WQE-lkp(a)intel.com/config)
+compiler: ia64-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-gcc-analyzer warnings: (new ones prefixed by >>)
-   drivers/iio/cdc/ad7746.c: In function 'ad7746_start_calib':
->> drivers/iio/cdc/ad7746.c:336:14: warning: use of uninitialized value '<u=
-nknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-     336 |         bool doit;
-         |              ^~~~
-     'ad7746_start_calib': event 1
-       |
-       |  336 |         bool doit;
-       |      |              ^~~~
-       |      |              |
-       |      |              (1) use of uninitialized value '<unknown>' here
-       |
-   drivers/iio/cdc/ad7746.c: In function 'ad7746_probe':
-   drivers/iio/cdc/ad7746.c:727:22: warning: use of uninitialized value '<u=
-nknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-     727 |         unsigned int vdd_permille;
-         |                      ^~~~~~~~~~~~
-     'ad7746_probe': event 1
-       |
-       |  727 |         unsigned int vdd_permille;
-       |      |                      ^~~~~~~~~~~~
-       |      |                      |
-       |      |                      (1) use of uninitialized value '<unkno=
-wn>' here
-       |
+smatch warnings:
+drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_stream.c:395 dc_stream_set=
+_cursor_position() warn: variable dereferenced before check 'stream' (see l=
+ine 392)
 
-vim +336 drivers/iio/cdc/ad7746.c
+vim +/stream +395 drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_stream.c
 
-83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich  2011-09-=
-21  326  =
+ab2541b6739508 Aric Cyr            2016-12-29  387  =
 
-83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich  2011-09-=
-21  327  static inline ssize_t ad7746_start_calib(struct device *dev,
-83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich  2011-09-=
-21  328  					 struct device_attribute *attr,
-83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich  2011-09-=
-21  329  					 const char *buf,
-83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich  2011-09-=
-21  330  					 size_t len,
-83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich  2011-09-=
-21  331  					 u8 regval)
-83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich  2011-09-=
-21  332  {
-d30a7f9df02232 drivers/staging/iio/cdc/ad7746.c Lars-Peter Clausen 2012-05-=
-12  333  	struct iio_dev *indio_dev =3D dev_to_iio_dev(dev);
-83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich  2011-09-=
-21  334  	struct ad7746_chip_info *chip =3D iio_priv(indio_dev);
-83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich  2011-09-=
-21  335  	int ret, timeout =3D 10;
-afcd0b22e35e0b drivers/staging/iio/cdc/ad7746.c Hern=C3=A1n Gonzalez    201=
-8-04-13 @336  	bool doit;
-83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich  2011-09-=
-21  337  =
+ab2541b6739508 Aric Cyr            2016-12-29  388  bool dc_stream_set_curs=
+or_position(
+0971c40e180696 Harry Wentland      2017-07-27  389  	struct dc_stream_state=
+ *stream,
+beb16b6a0f921f Dmytro Laktyushkin  2017-04-21  390  	const struct dc_cursor=
+_position *position)
+ab2541b6739508 Aric Cyr            2016-12-29  391  {
+a141d2083b4625 Alvin Lee           2022-06-03 @392  	struct dc  *dc =3D str=
+eam->ctx->dc;
+4d55b0dd1cdd85 Bhawanpreet Lakha   2020-05-21  393  	bool reset_idle_optimi=
+zations =3D false;
+ab2541b6739508 Aric Cyr            2016-12-29  394  =
 
-74f582ec127e3b drivers/staging/iio/cdc/ad7746.c Lars-Peter Clausen 2022-04-=
-09  338  	ret =3D kstrtobool(buf, &doit);
-83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich  2011-09-=
-21  339  	if (ret < 0)
-83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich  2011-09-=
-21  340  		return ret;
-83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich  2011-09-=
-21  341  =
+4fa086b9b66408 Leo (Sunpeng  Li    2017-07-25 @395) 	if (NULL =3D=3D stream=
+) {
+ab2541b6739508 Aric Cyr            2016-12-29  396  		dm_error("DC: dc_stre=
+am is NULL!\n");
+ab2541b6739508 Aric Cyr            2016-12-29  397  		return false;
+ab2541b6739508 Aric Cyr            2016-12-29  398  	}
+ab2541b6739508 Aric Cyr            2016-12-29  399  =
 
-83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich  2011-09-=
-21  342  	if (!doit)
-83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich  2011-09-=
-21  343  		return 0;
-83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich  2011-09-=
-21  344  =
+ab2541b6739508 Aric Cyr            2016-12-29  400  	if (NULL =3D=3D positi=
+on) {
+ab2541b6739508 Aric Cyr            2016-12-29  401  		dm_error("DC: cursor =
+position is NULL!\n");
+ab2541b6739508 Aric Cyr            2016-12-29  402  		return false;
+ab2541b6739508 Aric Cyr            2016-12-29  403  	}
+ab2541b6739508 Aric Cyr            2016-12-29  404  =
 
-9854a1b5c46573 drivers/staging/iio/cdc/ad7746.c Aishwarya Pant     2017-03-=
-14  345  	mutex_lock(&chip->lock);
-83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich  2011-09-=
-21  346  	regval |=3D chip->config;
-83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich  2011-09-=
-21  347  	ret =3D i2c_smbus_write_byte_data(chip->client, AD7746_REG_CFG, r=
-egval);
-aa6b707c146d4d drivers/staging/iio/cdc/ad7746.c Markus Elfring     2017-11-=
-03  348  	if (ret < 0)
-aa6b707c146d4d drivers/staging/iio/cdc/ad7746.c Markus Elfring     2017-11-=
-03  349  		goto unlock;
-83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich  2011-09-=
-21  350  =
+2b77dcc5e5aa38 Anthony Koo         2019-11-05  405  	dc =3D stream->ctx->dc;
+bae1f0b8a5b189 Nicholas Kazlauskas 2021-05-19  406  	dc_z10_restore(dc);
+4d55b0dd1cdd85 Bhawanpreet Lakha   2020-05-21  407  =
 
-83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich  2011-09-=
-21  351  	do {
-83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich  2011-09-=
-21  352  		msleep(20);
-83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich  2011-09-=
-21  353  		ret =3D i2c_smbus_read_byte_data(chip->client, AD7746_REG_CFG);
-aa6b707c146d4d drivers/staging/iio/cdc/ad7746.c Markus Elfring     2017-11-=
-03  354  		if (ret < 0)
-aa6b707c146d4d drivers/staging/iio/cdc/ad7746.c Markus Elfring     2017-11-=
-03  355  			goto unlock;
-aa6b707c146d4d drivers/staging/iio/cdc/ad7746.c Markus Elfring     2017-11-=
-03  356  =
+4d55b0dd1cdd85 Bhawanpreet Lakha   2020-05-21  408  	/* disable idle optimi=
+zations if enabling cursor */
+a141d2083b4625 Alvin Lee           2022-06-03  409  	if (dc->idle_optimizat=
+ions_allowed && (!stream->cursor_position.enable || dc->debug.exit_idle_opt=
+_for_cursor_updates)
+a141d2083b4625 Alvin Lee           2022-06-03  410  			&& position->enable)=
+ {
+4b675aad969507 Joshua Aberback     2020-08-31  411  		dc_allow_idle_optimiz=
+ations(dc, false);
+4d55b0dd1cdd85 Bhawanpreet Lakha   2020-05-21  412  		reset_idle_optimizati=
+ons =3D true;
+4d55b0dd1cdd85 Bhawanpreet Lakha   2020-05-21  413  	}
+4d55b0dd1cdd85 Bhawanpreet Lakha   2020-05-21  414  =
 
-83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich  2011-09-=
-21  357  	} while ((ret =3D=3D regval) && timeout--);
-83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich  2011-09-=
-21  358  =
+33fd17d9125c00 Eric Yang           2018-01-18  415  	stream->cursor_positio=
+n =3D *position;
+ab2541b6739508 Aric Cyr            2016-12-29  416  =
 
-9854a1b5c46573 drivers/staging/iio/cdc/ad7746.c Aishwarya Pant     2017-03-=
-14  359  	mutex_unlock(&chip->lock);
-83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich  2011-09-=
-21  360  =
+4fd771ea441ed9 Roy Chan            2021-07-19  417  	program_cursor_positio=
+n(dc, stream, position);
+4d55b0dd1cdd85 Bhawanpreet Lakha   2020-05-21  418  	/* re-enable idle opti=
+mizations if necessary */
+4d55b0dd1cdd85 Bhawanpreet Lakha   2020-05-21  419  	if (reset_idle_optimiz=
+ations)
+4b675aad969507 Joshua Aberback     2020-08-31  420  		dc_allow_idle_optimiz=
+ations(dc, true);
+4d55b0dd1cdd85 Bhawanpreet Lakha   2020-05-21  421  =
 
-83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich  2011-09-=
-21  361  	return len;
-aa6b707c146d4d drivers/staging/iio/cdc/ad7746.c Markus Elfring     2017-11-=
-03  362  =
-
-aa6b707c146d4d drivers/staging/iio/cdc/ad7746.c Markus Elfring     2017-11-=
-03  363  unlock:
-aa6b707c146d4d drivers/staging/iio/cdc/ad7746.c Markus Elfring     2017-11-=
-03  364  	mutex_unlock(&chip->lock);
-aa6b707c146d4d drivers/staging/iio/cdc/ad7746.c Markus Elfring     2017-11-=
-03  365  	return ret;
-83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich  2011-09-=
-21  366  }
-83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich  2011-09-=
-21  367  =
+beb16b6a0f921f Dmytro Laktyushkin  2017-04-21  422  	return true;
+ab2541b6739508 Aric Cyr            2016-12-29  423  }
+ab2541b6739508 Aric Cyr            2016-12-29  424  =
 
 
-:::::: The code at line 336 was first introduced by commit
-:::::: afcd0b22e35e0b3375e524c220ec52e549e9b9cb staging: iio: ad7746: Reord=
-er variable declarations
+:::::: The code at line 395 was first introduced by commit
+:::::: 4fa086b9b6640818c053c79d4d7104790ba76cb7 drm/amd/display: Roll core_=
+stream into dc_stream
 
-:::::: TO: Hern=C3=A1n Gonzalez <hernan@vanguardiasur.com.ar>
-:::::: CC: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+:::::: TO: Leo (Sunpeng) Li <sunpeng.li@amd.com>
+:::::: CC: Alex Deucher <alexander.deucher@amd.com>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============8479125350323323810==--
+--===============0495283536407384977==--
 
