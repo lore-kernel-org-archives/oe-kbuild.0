@@ -1,113 +1,146 @@
-Content-Type: multipart/mixed; boundary="===============0913051872384829597=="
+Content-Type: multipart/mixed; boundary="===============5618852048082209632=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/net/wireless/mediatek/mt76/mt7915/mac.c:2285 mt7915_mac_twt_sched_list_add() error: uninitialized symbol 'start_tsf'.
-Date: Thu, 18 Aug 2022 07:17:20 +0800
-Message-ID: <202208180748.JgNDcVEO-lkp@intel.com>
+Subject: [drm-misc:for-linux-next 8/9] drivers/gpu/drm/tests/drm_buddy_test.c:197:26-31: ERROR: invalid reference to the index variable of the iterator on line 152
+Date: Thu, 18 Aug 2022 05:25:16 +0800
+Message-ID: <202208180530.6UOyVaJK-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0913051872384829597==
+--===============5618852048082209632==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
-CC: linux-kernel(a)vger.kernel.org
-TO: Lorenzo Bianconi <lorenzo@kernel.org>
-CC: Felix Fietkau <nbd@nbd.name>
+CC: dri-devel(a)lists.freedesktop.org
+TO: "Ma=C3=ADra Canal" <maira.canal@usp.br>
+CC: Javier Martinez Canillas <javierm@redhat.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   274a2eebf80c60246f9edd6ef8e9a095ad121264
-commit: 3782b69d03e714b8ff98b84c7426d8cef0e64d7c mt76: mt7915: introduce mt=
-7915_mac_add_twt_setup routine
-date:   10 months ago
-:::::: branch date: 7 hours ago
-:::::: commit date: 10 months ago
-config: ia64-randconfig-m031-20220814 (https://download.01.org/0day-ci/arch=
-ive/20220818/202208180748.JgNDcVEO-lkp(a)intel.com/config)
-compiler: ia64-linux-gcc (GCC) 12.1.0
+tree:   git://anongit.freedesktop.org/drm/drm-misc for-linux-next
+head:   8ba9249396bef37cb68be9e8dee7847f1737db9d
+commit: 932da861956ac425ba4e65f7696458f96d833883 [8/9] drm: selftest: conve=
+rt drm_buddy selftest to KUnit
+:::::: branch date: 26 hours ago
+:::::: commit date: 5 weeks ago
+config: m68k-randconfig-c043-20220818 (https://download.01.org/0day-ci/arch=
+ive/20220818/202208180530.6UOyVaJK-lkp(a)intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+Reported-by: Julia Lawall <julia.lawall@lip6.fr>
 
-New smatch warnings:
-drivers/net/wireless/mediatek/mt76/mt7915/mac.c:2285 mt7915_mac_twt_sched_l=
-ist_add() error: uninitialized symbol 'start_tsf'.
+cocci warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/tests/drm_buddy_test.c:197:26-31: ERROR: invalid referen=
+ce to the index variable of the iterator on line 152
 
-Old smatch warnings:
-drivers/net/wireless/mediatek/mt76/mt7915/mac.c:1312 mt7915_mac_tx_free() w=
-arn: potential spectre issue 'dev->mt76.wcid' [w]
+vim +197 drivers/gpu/drm/tests/drm_buddy_test.c
 
-vim +/start_tsf +2285 drivers/net/wireless/mediatek/mt76/mt7915/mac.c
+932da861956ac42 Ma=C3=ADra Canal 2022-07-08  139  =
 
-3782b69d03e714b Lorenzo Bianconi 2021-09-23  2252  =
+932da861956ac42 Ma=C3=ADra Canal 2022-07-08  140  static int igt_check_bloc=
+ks(struct kunit *test, struct drm_buddy *mm,
+932da861956ac42 Ma=C3=ADra Canal 2022-07-08  141  			    struct list_head *=
+blocks, u64 expected_size, bool is_contiguous)
+932da861956ac42 Ma=C3=ADra Canal 2022-07-08  142  {
+932da861956ac42 Ma=C3=ADra Canal 2022-07-08  143  	struct drm_buddy_block *=
+block;
+932da861956ac42 Ma=C3=ADra Canal 2022-07-08  144  	struct drm_buddy_block *=
+prev;
+932da861956ac42 Ma=C3=ADra Canal 2022-07-08  145  	u64 total;
+932da861956ac42 Ma=C3=ADra Canal 2022-07-08  146  	int err =3D 0;
+932da861956ac42 Ma=C3=ADra Canal 2022-07-08  147  =
 
-3782b69d03e714b Lorenzo Bianconi 2021-09-23  2253  static u64
-3782b69d03e714b Lorenzo Bianconi 2021-09-23  2254  mt7915_mac_twt_sched_lis=
-t_add(struct mt7915_dev *dev,
-3782b69d03e714b Lorenzo Bianconi 2021-09-23  2255  			      struct mt7915_t=
-wt_flow *flow)
-3782b69d03e714b Lorenzo Bianconi 2021-09-23  2256  {
-3782b69d03e714b Lorenzo Bianconi 2021-09-23  2257  	struct mt7915_twt_flow =
-*iter, *iter_next;
-3782b69d03e714b Lorenzo Bianconi 2021-09-23  2258  	u32 duration =3D flow->=
-duration << 8;
-3782b69d03e714b Lorenzo Bianconi 2021-09-23  2259  	u64 start_tsf;
-3782b69d03e714b Lorenzo Bianconi 2021-09-23  2260  =
+932da861956ac42 Ma=C3=ADra Canal 2022-07-08  148  	block =3D NULL;
+932da861956ac42 Ma=C3=ADra Canal 2022-07-08  149  	prev =3D NULL;
+932da861956ac42 Ma=C3=ADra Canal 2022-07-08  150  	total =3D 0;
+932da861956ac42 Ma=C3=ADra Canal 2022-07-08  151  =
 
-3782b69d03e714b Lorenzo Bianconi 2021-09-23  2261  	iter =3D list_first_ent=
-ry_or_null(&dev->twt_list,
-3782b69d03e714b Lorenzo Bianconi 2021-09-23  2262  					struct mt7915_twt_f=
-low, list);
-3782b69d03e714b Lorenzo Bianconi 2021-09-23  2263  	if (!iter || !iter->sch=
-ed || iter->start_tsf > duration) {
-3782b69d03e714b Lorenzo Bianconi 2021-09-23  2264  		/* add flow as first e=
-ntry in the list */
-3782b69d03e714b Lorenzo Bianconi 2021-09-23  2265  		list_add(&flow->list, =
-&dev->twt_list);
-3782b69d03e714b Lorenzo Bianconi 2021-09-23  2266  		return 0;
-3782b69d03e714b Lorenzo Bianconi 2021-09-23  2267  	}
-3782b69d03e714b Lorenzo Bianconi 2021-09-23  2268  =
+932da861956ac42 Ma=C3=ADra Canal 2022-07-08 @152  	list_for_each_entry(bloc=
+k, blocks, link) {
+932da861956ac42 Ma=C3=ADra Canal 2022-07-08  153  		err =3D igt_check_block=
+(test, mm, block);
+932da861956ac42 Ma=C3=ADra Canal 2022-07-08  154  =
 
-3782b69d03e714b Lorenzo Bianconi 2021-09-23  2269  	list_for_each_entry_saf=
-e(iter, iter_next, &dev->twt_list, list) {
-3782b69d03e714b Lorenzo Bianconi 2021-09-23  2270  		start_tsf =3D iter->st=
-art_tsf +
-3782b69d03e714b Lorenzo Bianconi 2021-09-23  2271  			    mt7915_mac_twt_du=
-ration_align(iter->duration);
-3782b69d03e714b Lorenzo Bianconi 2021-09-23  2272  		if (list_is_last(&iter=
-->list, &dev->twt_list))
-3782b69d03e714b Lorenzo Bianconi 2021-09-23  2273  			break;
-3782b69d03e714b Lorenzo Bianconi 2021-09-23  2274  =
+932da861956ac42 Ma=C3=ADra Canal 2022-07-08  155  		if (!drm_buddy_block_is=
+_allocated(block)) {
+932da861956ac42 Ma=C3=ADra Canal 2022-07-08  156  			kunit_err(test, "block=
+ not allocated\n");
+932da861956ac42 Ma=C3=ADra Canal 2022-07-08  157  			err =3D -EINVAL;
+932da861956ac42 Ma=C3=ADra Canal 2022-07-08  158  		}
+932da861956ac42 Ma=C3=ADra Canal 2022-07-08  159  =
 
-3782b69d03e714b Lorenzo Bianconi 2021-09-23  2275  		if (!iter_next->sched =
-||
-3782b69d03e714b Lorenzo Bianconi 2021-09-23  2276  		    iter_next->start_t=
-sf > start_tsf + duration) {
-3782b69d03e714b Lorenzo Bianconi 2021-09-23  2277  			list_add(&flow->list,=
- &iter->list);
-3782b69d03e714b Lorenzo Bianconi 2021-09-23  2278  			goto out;
-3782b69d03e714b Lorenzo Bianconi 2021-09-23  2279  		}
-3782b69d03e714b Lorenzo Bianconi 2021-09-23  2280  	}
-3782b69d03e714b Lorenzo Bianconi 2021-09-23  2281  =
+932da861956ac42 Ma=C3=ADra Canal 2022-07-08  160  		if (is_contiguous && pr=
+ev) {
+932da861956ac42 Ma=C3=ADra Canal 2022-07-08  161  			u64 prev_block_size;
+932da861956ac42 Ma=C3=ADra Canal 2022-07-08  162  			u64 prev_offset;
+932da861956ac42 Ma=C3=ADra Canal 2022-07-08  163  			u64 offset;
+932da861956ac42 Ma=C3=ADra Canal 2022-07-08  164  =
 
-3782b69d03e714b Lorenzo Bianconi 2021-09-23  2282  	/* add flow as last ent=
-ry in the list */
-3782b69d03e714b Lorenzo Bianconi 2021-09-23  2283  	list_add_tail(&flow->li=
-st, &dev->twt_list);
-3782b69d03e714b Lorenzo Bianconi 2021-09-23  2284  out:
-3782b69d03e714b Lorenzo Bianconi 2021-09-23 @2285  	return start_tsf;
-3782b69d03e714b Lorenzo Bianconi 2021-09-23  2286  }
-3782b69d03e714b Lorenzo Bianconi 2021-09-23  2287  =
+932da861956ac42 Ma=C3=ADra Canal 2022-07-08  165  			prev_offset =3D drm_bu=
+ddy_block_offset(prev);
+932da861956ac42 Ma=C3=ADra Canal 2022-07-08  166  			prev_block_size =3D dr=
+m_buddy_block_size(mm, prev);
+932da861956ac42 Ma=C3=ADra Canal 2022-07-08  167  			offset =3D drm_buddy_b=
+lock_offset(block);
+932da861956ac42 Ma=C3=ADra Canal 2022-07-08  168  =
+
+932da861956ac42 Ma=C3=ADra Canal 2022-07-08  169  			if (offset !=3D (prev_=
+offset + prev_block_size)) {
+932da861956ac42 Ma=C3=ADra Canal 2022-07-08  170  				kunit_err(test, "bloc=
+k offset mismatch\n");
+932da861956ac42 Ma=C3=ADra Canal 2022-07-08  171  				err =3D -EINVAL;
+932da861956ac42 Ma=C3=ADra Canal 2022-07-08  172  			}
+932da861956ac42 Ma=C3=ADra Canal 2022-07-08  173  		}
+932da861956ac42 Ma=C3=ADra Canal 2022-07-08  174  =
+
+932da861956ac42 Ma=C3=ADra Canal 2022-07-08  175  		if (err)
+932da861956ac42 Ma=C3=ADra Canal 2022-07-08  176  			break;
+932da861956ac42 Ma=C3=ADra Canal 2022-07-08  177  =
+
+932da861956ac42 Ma=C3=ADra Canal 2022-07-08  178  		total +=3D drm_buddy_bl=
+ock_size(mm, block);
+932da861956ac42 Ma=C3=ADra Canal 2022-07-08  179  		prev =3D block;
+932da861956ac42 Ma=C3=ADra Canal 2022-07-08  180  	}
+932da861956ac42 Ma=C3=ADra Canal 2022-07-08  181  =
+
+932da861956ac42 Ma=C3=ADra Canal 2022-07-08  182  	if (!err) {
+932da861956ac42 Ma=C3=ADra Canal 2022-07-08  183  		if (total !=3D expected=
+_size) {
+932da861956ac42 Ma=C3=ADra Canal 2022-07-08  184  			kunit_err(test, "size =
+mismatch, expected=3D%llx, found=3D%llx\n",
+932da861956ac42 Ma=C3=ADra Canal 2022-07-08  185  				  expected_size, tota=
+l);
+932da861956ac42 Ma=C3=ADra Canal 2022-07-08  186  			err =3D -EINVAL;
+932da861956ac42 Ma=C3=ADra Canal 2022-07-08  187  		}
+932da861956ac42 Ma=C3=ADra Canal 2022-07-08  188  		return err;
+932da861956ac42 Ma=C3=ADra Canal 2022-07-08  189  	}
+932da861956ac42 Ma=C3=ADra Canal 2022-07-08  190  =
+
+932da861956ac42 Ma=C3=ADra Canal 2022-07-08  191  	if (prev) {
+932da861956ac42 Ma=C3=ADra Canal 2022-07-08  192  		kunit_err(test, "prev b=
+lock, dump:\n");
+932da861956ac42 Ma=C3=ADra Canal 2022-07-08  193  		igt_dump_block(test, mm=
+, prev);
+932da861956ac42 Ma=C3=ADra Canal 2022-07-08  194  	}
+932da861956ac42 Ma=C3=ADra Canal 2022-07-08  195  =
+
+932da861956ac42 Ma=C3=ADra Canal 2022-07-08  196  	kunit_err(test, "bad blo=
+ck, dump:\n");
+932da861956ac42 Ma=C3=ADra Canal 2022-07-08 @197  	igt_dump_block(test, mm,=
+ block);
+932da861956ac42 Ma=C3=ADra Canal 2022-07-08  198  =
+
+932da861956ac42 Ma=C3=ADra Canal 2022-07-08  199  	return err;
+932da861956ac42 Ma=C3=ADra Canal 2022-07-08  200  }
+932da861956ac42 Ma=C3=ADra Canal 2022-07-08  201  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============0913051872384829597==--
+--===============5618852048082209632==--
 
