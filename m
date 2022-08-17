@@ -1,146 +1,161 @@
-Content-Type: multipart/mixed; boundary="===============5618852048082209632=="
+Content-Type: multipart/mixed; boundary="===============2008044817894559480=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [drm-misc:for-linux-next 8/9] drivers/gpu/drm/tests/drm_buddy_test.c:197:26-31: ERROR: invalid reference to the index variable of the iterator on line 152
-Date: Thu, 18 Aug 2022 05:25:16 +0800
-Message-ID: <202208180530.6UOyVaJK-lkp@intel.com>
+Subject: [drm-misc:drm-misc-next 3/18] drivers/gpu/drm/drm_format_helper.c:150:38: warning: Parameter 'dst' can be declared with const [constParameter]
+Date: Wed, 17 Aug 2022 22:03:08 +0800
+Message-ID: <202208172219.CfOMEUSa-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5618852048082209632==
+--===============2008044817894559480==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+:::::: =
+
+:::::: Manual check reason: "low confidence static check warning: drivers/g=
+pu/drm/drm_format_helper.c:150:38: warning: Parameter 'dst' can be declared=
+ with const [constParameter]"
+:::::: =
+
+
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
 CC: dri-devel(a)lists.freedesktop.org
-TO: "Ma=C3=ADra Canal" <maira.canal@usp.br>
-CC: Javier Martinez Canillas <javierm@redhat.com>
+TO: Thomas Zimmermann <tzimmermann@suse.de>
+CC: Sam Ravnborg <sam@ravnborg.org>
 
-tree:   git://anongit.freedesktop.org/drm/drm-misc for-linux-next
+tree:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
 head:   8ba9249396bef37cb68be9e8dee7847f1737db9d
-commit: 932da861956ac425ba4e65f7696458f96d833883 [8/9] drm: selftest: conve=
-rt drm_buddy selftest to KUnit
-:::::: branch date: 26 hours ago
-:::::: commit date: 5 weeks ago
-config: m68k-randconfig-c043-20220818 (https://download.01.org/0day-ci/arch=
-ive/20220818/202208180530.6UOyVaJK-lkp(a)intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.1.0
+commit: edbe262acf92c986ad9a1f594ae3b4f3d3373133 [3/18] drm/format-helper: =
+Merge drm_fb_memcpy() and drm_fb_memcpy_toio()
+:::::: branch date: 18 hours ago
+:::::: commit date: 7 days ago
+compiler: xtensa-linux-gcc (GCC) 12.1.0
+reproduce (cppcheck warning):
+        # apt-get install cppcheck
+        git checkout edbe262acf92c986ad9a1f594ae3b4f3d3373133
+        cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
+e=3Dgcc FILE
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Julia Lawall <julia.lawall@lip6.fr>
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/tests/drm_buddy_test.c:197:26-31: ERROR: invalid referen=
-ce to the index variable of the iterator on line 152
 
-vim +197 drivers/gpu/drm/tests/drm_buddy_test.c
+cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  139  =
+>> drivers/gpu/drm/drm_gem_framebuffer_helper.c:71:28: warning: Parameter '=
+obj' can be declared with const [constParameter]
+      struct drm_gem_object **obj, unsigned int num_planes,
+                              ^
+--
+>> drivers/gpu/drm/drm_format_helper.c:150:38: warning: Parameter 'dst' can=
+ be declared with const [constParameter]
+   void drm_fb_memcpy(struct iosys_map *dst, const unsigned int *dst_pitch,
+                                        ^
 
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  140  static int igt_check_bloc=
-ks(struct kunit *test, struct drm_buddy *mm,
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  141  			    struct list_head *=
-blocks, u64 expected_size, bool is_contiguous)
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  142  {
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  143  	struct drm_buddy_block *=
-block;
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  144  	struct drm_buddy_block *=
-prev;
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  145  	u64 total;
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  146  	int err =3D 0;
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  147  =
+vim +/dst +150 drivers/gpu/drm/drm_format_helper.c
 
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  148  	block =3D NULL;
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  149  	prev =3D NULL;
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  150  	total =3D 0;
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  151  =
+cce6bedb38ed08f Thomas Zimmermann 2022-04-27  131  =
 
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08 @152  	list_for_each_entry(bloc=
-k, blocks, link) {
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  153  		err =3D igt_check_block=
-(test, mm, block);
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  154  =
+7415287e1f36759 Gerd Hoffmann     2019-04-05  132  /**
+7415287e1f36759 Gerd Hoffmann     2019-04-05  133   * drm_fb_memcpy - Copy =
+clip buffer
+edbe262acf92c98 Thomas Zimmermann 2022-08-08  134   * @dst: Array of destin=
+ation buffers
+edbe262acf92c98 Thomas Zimmermann 2022-08-08  135   * @dst_pitch: Array of =
+numbers of bytes between the start of two consecutive scanlines
+edbe262acf92c98 Thomas Zimmermann 2022-08-08  136   *             within @d=
+st; can be NULL if scanlines are stored next to each other.
+edbe262acf92c98 Thomas Zimmermann 2022-08-08  137   * @vmap: Array of sourc=
+e buffers
+7415287e1f36759 Gerd Hoffmann     2019-04-05  138   * @fb: DRM framebuffer
+7415287e1f36759 Gerd Hoffmann     2019-04-05  139   * @clip: Clip rectangle=
+ area to copy
+26f024f54ab69a1 Gerd Hoffmann     2019-04-05  140   *
+edbe262acf92c98 Thomas Zimmermann 2022-08-08  141   * This function copies =
+parts of a framebuffer to display memory. Destination and
+edbe262acf92c98 Thomas Zimmermann 2022-08-08  142   * framebuffer formats m=
+ust match. No conversion takes place. The parameters @dst,
+edbe262acf92c98 Thomas Zimmermann 2022-08-08  143   * @dst_pitch and @vmap =
+refer to arrays. Each array must have at least as many entries
+edbe262acf92c98 Thomas Zimmermann 2022-08-08  144   * as there are planes i=
+n @fb's format. Each entry stores the value for the format's
+edbe262acf92c98 Thomas Zimmermann 2022-08-08  145   * respective color plan=
+e at the same index.
+edbe262acf92c98 Thomas Zimmermann 2022-08-08  146   *
+edbe262acf92c98 Thomas Zimmermann 2022-08-08  147   * This function does no=
+t apply clipping on @dst (i.e. the destination is at the
+edbe262acf92c98 Thomas Zimmermann 2022-08-08  148   * top-left corner).
+7415287e1f36759 Gerd Hoffmann     2019-04-05  149   */
+edbe262acf92c98 Thomas Zimmermann 2022-08-08 @150  void drm_fb_memcpy(struc=
+t iosys_map *dst, const unsigned int *dst_pitch,
+edbe262acf92c98 Thomas Zimmermann 2022-08-08  151  		   const struct iosys_=
+map *vmap, const struct drm_framebuffer *fb,
+edbe262acf92c98 Thomas Zimmermann 2022-08-08  152  		   const struct drm_re=
+ct *clip)
+7415287e1f36759 Gerd Hoffmann     2019-04-05  153  {
+edbe262acf92c98 Thomas Zimmermann 2022-08-08  154  	static const unsigned i=
+nt default_dst_pitch[DRM_FORMAT_MAX_PLANES] =3D {
+edbe262acf92c98 Thomas Zimmermann 2022-08-08  155  		0, 0, 0, 0
+edbe262acf92c98 Thomas Zimmermann 2022-08-08  156  	};
+7415287e1f36759 Gerd Hoffmann     2019-04-05  157  =
 
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  155  		if (!drm_buddy_block_is=
-_allocated(block)) {
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  156  			kunit_err(test, "block=
- not allocated\n");
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  157  			err =3D -EINVAL;
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  158  		}
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  159  =
+edbe262acf92c98 Thomas Zimmermann 2022-08-08  158  	const struct drm_format=
+_info *format =3D fb->format;
+edbe262acf92c98 Thomas Zimmermann 2022-08-08  159  	unsigned int i, y, line=
+s =3D drm_rect_height(clip);
+27bd66dd6419c45 Thomas Zimmermann 2021-11-10  160  =
 
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  160  		if (is_contiguous && pr=
-ev) {
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  161  			u64 prev_block_size;
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  162  			u64 prev_offset;
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  163  			u64 offset;
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  164  =
+edbe262acf92c98 Thomas Zimmermann 2022-08-08  161  	if (!dst_pitch)
+edbe262acf92c98 Thomas Zimmermann 2022-08-08  162  		dst_pitch =3D default_=
+dst_pitch;
+7415287e1f36759 Gerd Hoffmann     2019-04-05  163  =
 
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  165  			prev_offset =3D drm_bu=
-ddy_block_offset(prev);
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  166  			prev_block_size =3D dr=
-m_buddy_block_size(mm, prev);
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  167  			offset =3D drm_buddy_b=
-lock_offset(block);
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  168  =
+edbe262acf92c98 Thomas Zimmermann 2022-08-08  164  	for (i =3D 0; i < forma=
+t->num_planes; ++i) {
+edbe262acf92c98 Thomas Zimmermann 2022-08-08  165  		unsigned int bpp_i =3D=
+ drm_format_info_bpp(format, i);
+edbe262acf92c98 Thomas Zimmermann 2022-08-08  166  		unsigned int cpp_i =3D=
+ DIV_ROUND_UP(bpp_i, 8);
+edbe262acf92c98 Thomas Zimmermann 2022-08-08  167  		size_t len_i =3D DIV_R=
+OUND_UP(drm_rect_width(clip) * bpp_i, 8);
+edbe262acf92c98 Thomas Zimmermann 2022-08-08  168  		unsigned int dst_pitch=
+_i =3D dst_pitch[i];
+edbe262acf92c98 Thomas Zimmermann 2022-08-08  169  		struct iosys_map dst_i=
+ =3D dst[i];
+edbe262acf92c98 Thomas Zimmermann 2022-08-08  170  		struct iosys_map vmap_=
+i =3D vmap[i];
+26f024f54ab69a1 Gerd Hoffmann     2019-04-05  171  =
 
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  169  			if (offset !=3D (prev_=
-offset + prev_block_size)) {
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  170  				kunit_err(test, "bloc=
-k offset mismatch\n");
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  171  				err =3D -EINVAL;
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  172  			}
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  173  		}
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  174  =
+edbe262acf92c98 Thomas Zimmermann 2022-08-08  172  		if (!dst_pitch_i)
+edbe262acf92c98 Thomas Zimmermann 2022-08-08  173  			dst_pitch_i =3D len_i;
+27bd66dd6419c45 Thomas Zimmermann 2021-11-10  174  =
 
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  175  		if (err)
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  176  			break;
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  177  =
-
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  178  		total +=3D drm_buddy_bl=
-ock_size(mm, block);
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  179  		prev =3D block;
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  180  	}
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  181  =
-
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  182  	if (!err) {
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  183  		if (total !=3D expected=
-_size) {
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  184  			kunit_err(test, "size =
-mismatch, expected=3D%llx, found=3D%llx\n",
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  185  				  expected_size, tota=
-l);
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  186  			err =3D -EINVAL;
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  187  		}
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  188  		return err;
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  189  	}
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  190  =
-
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  191  	if (prev) {
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  192  		kunit_err(test, "prev b=
-lock, dump:\n");
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  193  		igt_dump_block(test, mm=
-, prev);
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  194  	}
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  195  =
-
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  196  	kunit_err(test, "bad blo=
-ck, dump:\n");
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08 @197  	igt_dump_block(test, mm,=
- block);
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  198  =
-
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  199  	return err;
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  200  }
-932da861956ac42 Ma=C3=ADra Canal 2022-07-08  201  =
+edbe262acf92c98 Thomas Zimmermann 2022-08-08  175  		iosys_map_incr(&vmap_i=
+, clip_offset(clip, fb->pitches[i], cpp_i));
+bf4f6d16c89466b Gerd Hoffmann     2019-04-10  176  		for (y =3D 0; y < line=
+s; y++) {
+edbe262acf92c98 Thomas Zimmermann 2022-08-08  177  			/* TODO: handle vmap_=
+i in I/O memory here */
+edbe262acf92c98 Thomas Zimmermann 2022-08-08  178  			iosys_map_memcpy_to(&=
+dst_i, 0, vmap_i.vaddr, len_i);
+edbe262acf92c98 Thomas Zimmermann 2022-08-08  179  			iosys_map_incr(&vmap_=
+i, fb->pitches[i]);
+edbe262acf92c98 Thomas Zimmermann 2022-08-08  180  			iosys_map_incr(&dst_i=
+, dst_pitch_i);
+bf4f6d16c89466b Gerd Hoffmann     2019-04-10  181  		}
+26f024f54ab69a1 Gerd Hoffmann     2019-04-05  182  	}
+edbe262acf92c98 Thomas Zimmermann 2022-08-08  183  }
+edbe262acf92c98 Thomas Zimmermann 2022-08-08  184  EXPORT_SYMBOL(drm_fb_mem=
+cpy);
+26f024f54ab69a1 Gerd Hoffmann     2019-04-05  185  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============5618852048082209632==--
+--===============2008044817894559480==--
 
