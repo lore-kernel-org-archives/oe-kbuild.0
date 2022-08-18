@@ -1,127 +1,73 @@
-Content-Type: multipart/mixed; boundary="===============8345774719184430733=="
+Content-Type: multipart/mixed; boundary="===============3366230433596768265=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [peterz-queue:perf/core 6/13] arch/x86/events/amd/lbr.c:79:36: sparse: sparse: invalid access past the end of 'entry' (12 16)
-Date: Fri, 19 Aug 2022 10:16:06 +0800
-Message-ID: <202208191023.KOHYxWK9-lkp@intel.com>
+Subject: drivers/gpu/drm/amd/amdgpu/../pm/swsmu/amdgpu_smu.c:139 smu_set_gfx_power_up_by_imu() error: we previously assumed 'smu->ppt_funcs' could be null (see line 139)
+Date: Fri, 19 Aug 2022 04:42:05 +0800
+Message-ID: <202208190418.1Y3QCIis-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8345774719184430733==
+--===============3366230433596768265==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-:::::: =
-
-:::::: Manual check reason: "low confidence static check warning: arch/x86/=
-events/amd/lbr.c:79:36: sparse: sparse: invalid access past the end of 'ent=
-ry' (12 16)"
-:::::: =
-
-
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Sandipan Das <sandipan.das@amd.com>
-CC: Peter Zijlstra <peterz@infradead.org>
+TO: Huang Rui <ray.huang@amd.com>
+CC: Alex Deucher <alexander.deucher@amd.com>
+CC: Tim Huang <Tim.Huang@amd.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git pe=
-rf/core
-head:   3a8b83ed8cff6da47a4e157d5e7bd461554149ec
-commit: a499b4b06c9f978dc69ca4058cd3346075dc7870 [6/13] perf/x86/amd/lbr: A=
-dd LbrExtV2 branch record support
-:::::: branch date: 9 hours ago
-:::::: commit date: 9 hours ago
-config: i386-randconfig-s002 (https://download.01.org/0day-ci/archive/20220=
-819/202208191023.KOHYxWK9-lkp(a)intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-5) 11.3.0
-reproduce:
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git/=
-commit/?id=3Da499b4b06c9f978dc69ca4058cd3346075dc7870
-        git remote add peterz-queue https://git.kernel.org/pub/scm/linux/ke=
-rnel/git/peterz/queue.git
-        git fetch --no-tags peterz-queue perf/core
-        git checkout a499b4b06c9f978dc69ca4058cd3346075dc7870
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=3D1 C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3D=
-build_dir ARCH=3Di386 SHELL=3D/bin/bash arch/x86/events/amd/
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   573ae4f13f630d6660008f1974c0a8a29c30e18a
+commit: 7101ab97e3b00ec1c68d09826bb0521d17783673 drm/amdgpu/pm: implement t=
+he SMU_MSG_EnableGfxImu function
+date:   3 months ago
+:::::: branch date: 4 hours ago
+:::::: commit date: 3 months ago
+config: ia64-randconfig-m031-20220814 (https://download.01.org/0day-ci/arch=
+ive/20220819/202208190418.1Y3QCIis-lkp(a)intel.com/config)
+compiler: ia64-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-sparse warnings: (new ones prefixed by >>)
->> arch/x86/events/amd/lbr.c:79:36: sparse: sparse: invalid access past the=
- end of 'entry' (12 16)
+smatch warnings:
+drivers/gpu/drm/amd/amdgpu/../pm/swsmu/amdgpu_smu.c:139 smu_set_gfx_power_u=
+p_by_imu() error: we previously assumed 'smu->ppt_funcs' could be null (see=
+ line 139)
 
-vim +/entry +79 arch/x86/events/amd/lbr.c
+vim +139 drivers/gpu/drm/amd/amdgpu/../pm/swsmu/amdgpu_smu.c
 
-a499b4b06c9f97 Sandipan Das 2022-08-11  63  =
+8b3d243e47ddd4a drivers/gpu/drm/amd/powerplay/amdgpu_smu.c Kevin Wang 2019-=
+04-18  136  =
 
-a499b4b06c9f97 Sandipan Das 2022-08-11  64  void amd_pmu_lbr_read(void)
-a499b4b06c9f97 Sandipan Das 2022-08-11  65  {
-a499b4b06c9f97 Sandipan Das 2022-08-11  66  	struct cpu_hw_events *cpuc =3D=
- this_cpu_ptr(&cpu_hw_events);
-a499b4b06c9f97 Sandipan Das 2022-08-11  67  	struct perf_branch_entry *br =
-=3D cpuc->lbr_entries;
-a499b4b06c9f97 Sandipan Das 2022-08-11  68  	struct branch_entry entry;
-a499b4b06c9f97 Sandipan Das 2022-08-11  69  	int out =3D 0, i;
-a499b4b06c9f97 Sandipan Das 2022-08-11  70  =
+7101ab97e3b00ec drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c  Huang Rui  2022-=
+05-18  137  int smu_set_gfx_power_up_by_imu(struct smu_context *smu)
+7101ab97e3b00ec drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c  Huang Rui  2022-=
+05-18  138  {
+7101ab97e3b00ec drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c  Huang Rui  2022-=
+05-18 @139  	if (!smu->ppt_funcs && !smu->ppt_funcs->set_gfx_power_up_by_im=
+u)
+7101ab97e3b00ec drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c  Huang Rui  2022-=
+05-18  140  		return -EOPNOTSUPP;
+7101ab97e3b00ec drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c  Huang Rui  2022-=
+05-18  141  =
 
-a499b4b06c9f97 Sandipan Das 2022-08-11  71  	if (!cpuc->lbr_users)
-a499b4b06c9f97 Sandipan Das 2022-08-11  72  		return;
-a499b4b06c9f97 Sandipan Das 2022-08-11  73  =
-
-a499b4b06c9f97 Sandipan Das 2022-08-11  74  	for (i =3D 0; i < x86_pmu.lbr_=
-nr; i++) {
-a499b4b06c9f97 Sandipan Das 2022-08-11  75  		entry.from.full	=3D amd_pmu_l=
-br_get_from(i);
-a499b4b06c9f97 Sandipan Das 2022-08-11  76  		entry.to.full	=3D amd_pmu_lbr=
-_get_to(i);
-a499b4b06c9f97 Sandipan Das 2022-08-11  77  =
-
-a499b4b06c9f97 Sandipan Das 2022-08-11  78  		/* Check if a branch has been=
- logged */
-a499b4b06c9f97 Sandipan Das 2022-08-11 @79  		if (!entry.to.split.valid)
-a499b4b06c9f97 Sandipan Das 2022-08-11  80  			continue;
-a499b4b06c9f97 Sandipan Das 2022-08-11  81  =
-
-a499b4b06c9f97 Sandipan Das 2022-08-11  82  		perf_clear_branch_entry_bitfi=
-elds(br + out);
-a499b4b06c9f97 Sandipan Das 2022-08-11  83  =
-
-a499b4b06c9f97 Sandipan Das 2022-08-11  84  		br[out].from	=3D sign_ext_bra=
-nch_ip(entry.from.split.ip);
-a499b4b06c9f97 Sandipan Das 2022-08-11  85  		br[out].to	=3D sign_ext_branc=
-h_ip(entry.to.split.ip);
-a499b4b06c9f97 Sandipan Das 2022-08-11  86  		br[out].mispred	=3D entry.fro=
-m.split.mispredict;
-a499b4b06c9f97 Sandipan Das 2022-08-11  87  		br[out].predicted =3D !br[out=
-].mispred;
-a499b4b06c9f97 Sandipan Das 2022-08-11  88  		out++;
-a499b4b06c9f97 Sandipan Das 2022-08-11  89  	}
-a499b4b06c9f97 Sandipan Das 2022-08-11  90  =
-
-a499b4b06c9f97 Sandipan Das 2022-08-11  91  	cpuc->lbr_stack.nr =3D out;
-a499b4b06c9f97 Sandipan Das 2022-08-11  92  =
-
-a499b4b06c9f97 Sandipan Das 2022-08-11  93  	/*
-a499b4b06c9f97 Sandipan Das 2022-08-11  94  	 * Internal register renaming =
-always ensures that LBR From[0] and
-a499b4b06c9f97 Sandipan Das 2022-08-11  95  	 * LBR To[0] always represent =
-the TOS
-a499b4b06c9f97 Sandipan Das 2022-08-11  96  	 */
-a499b4b06c9f97 Sandipan Das 2022-08-11  97  	cpuc->lbr_stack.hw_idx =3D 0;
-a499b4b06c9f97 Sandipan Das 2022-08-11  98  }
-a499b4b06c9f97 Sandipan Das 2022-08-11  99  =
+7101ab97e3b00ec drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c  Huang Rui  2022-=
+05-18  142  	return smu->ppt_funcs->set_gfx_power_up_by_imu(smu);
+7101ab97e3b00ec drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c  Huang Rui  2022-=
+05-18  143  }
+7101ab97e3b00ec drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c  Huang Rui  2022-=
+05-18  144  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============8345774719184430733==--
+--===============3366230433596768265==--
 
