@@ -1,142 +1,195 @@
-Content-Type: multipart/mixed; boundary="===============4599171343077170610=="
+Content-Type: multipart/mixed; boundary="===============7211973790858243316=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/net/wireless/mediatek/mt76/mt7915/mcu.c:1856 mt7915_mcu_beacon_mbss() warn: potential spectre issue 'sub_elem->data' [r] (local cap)
-Date: Thu, 18 Aug 2022 13:03:03 +0800
-Message-ID: <202208181251.hmtzm39W-lkp@intel.com>
+Subject: [linux-next:master 1126/1472] drivers/iio/cdc/ad7746.c:336:14: warning: use of uninitialized value '<unknown>' [CWE-457]
+Date: Thu, 18 Aug 2022 10:51:27 +0800
+Message-ID: <202208181018.DqdzB6pi-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4599171343077170610==
+--===============7211973790858243316==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+:::::: =
+
+:::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "low confidence static check warning: drivers/i=
+io/cdc/ad7746.c:336:14: warning: use of uninitialized value '<unknown>' [CW=
+E-457] [-Wanalyzer-use-of-uninitialized-value]"
+:::::: =
+
+
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
-CC: linux-kernel(a)vger.kernel.org
-TO: Lorenzo Bianconi <lorenzo@kernel.org>
-CC: Felix Fietkau <nbd@nbd.name>
-CC: Ryder Lee <ryder.lee@mediatek.com>
-CC: Money Wang <money.wang@mediatek.com>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+CC: Andy Shevchenko <andy.shevchenko@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   3b06a2755758937add738545ba4a544fc5a1c56d
-commit: 6b7f9aff7c673989c6adf601c7e3f3684d5acd44 mt76: mt7915: introduce 80=
-2.11ax multi-bss support
-date:   5 months ago
-:::::: branch date: 7 hours ago
-:::::: commit date: 5 months ago
-config: ia64-randconfig-m031-20220814 (https://download.01.org/0day-ci/arch=
-ive/20220818/202208181251.hmtzm39W-lkp(a)intel.com/config)
-compiler: ia64-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
+ master
+head:   95d10484d66e54d5c01e36389e9318221fb8f60b
+commit: 40b5c4d5b5a67e79eef86a653cdc8b10b4d73f11 [1126/1472] iio: cdc: ad77=
+46: Move driver out of staging.
+:::::: branch date: 23 hours ago
+:::::: commit date: 2 days ago
+config: arm-randconfig-c002-20220817 (https://download.01.org/0day-ci/archi=
+ve/20220818/202208181018.DqdzB6pi-lkp(a)intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
+it/commit/?id=3D40b5c4d5b5a67e79eef86a653cdc8b10b4d73f11
+        git remote add linux-next https://git.kernel.org/pub/scm/linux/kern=
+el/git/next/linux-next.git
+        git fetch --no-tags linux-next master
+        git checkout 40b5c4d5b5a67e79eef86a653cdc8b10b4d73f11
+        # save the config file
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cross=
+ ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
+
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-drivers/net/wireless/mediatek/mt76/mt7915/mcu.c:1856 mt7915_mcu_beacon_mbss=
-() warn: potential spectre issue 'sub_elem->data' [r] (local cap)
-drivers/net/wireless/mediatek/mt76/mt7915/mcu.c:1848 mt7915_mcu_beacon_mbss=
-() warn: potential spectre issue 'elem->data' [r] (local cap)
+gcc-analyzer warnings: (new ones prefixed by >>)
+   drivers/iio/cdc/ad7746.c: In function 'ad7746_start_calib':
+>> drivers/iio/cdc/ad7746.c:336:14: warning: use of uninitialized value '<u=
+nknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+     336 |         bool doit;
+         |              ^~~~
+     'ad7746_start_calib': event 1
+       |
+       |  336 |         bool doit;
+       |      |              ^~~~
+       |      |              |
+       |      |              (1) use of uninitialized value '<unknown>' here
+       |
+   drivers/iio/cdc/ad7746.c: In function 'ad7746_probe':
+   drivers/iio/cdc/ad7746.c:727:22: warning: use of uninitialized value '<u=
+nknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+     727 |         unsigned int vdd_permille;
+         |                      ^~~~~~~~~~~~
+     'ad7746_probe': event 1
+       |
+       |  727 |         unsigned int vdd_permille;
+       |      |                      ^~~~~~~~~~~~
+       |      |                      |
+       |      |                      (1) use of uninitialized value '<unkno=
+wn>' here
+       |
 
-Old smatch warnings:
-drivers/net/wireless/mediatek/mt76/mt7915/mcu.c:3540 mt7915_mcu_get_rx_rate=
-() warn: potential spectre issue 'sband->bitrates' [r]
+vim +336 drivers/iio/cdc/ad7746.c
 
-vim +1856 drivers/net/wireless/mediatek/mt76/mt7915/mcu.c
+83e416f458d532f drivers/staging/iio/adc/ad7746.c Michael Hennerich  2011-09=
+-21  326  =
 
-e57b7901469fc0b Ryder Lee        2020-04-25  1827  =
+83e416f458d532f drivers/staging/iio/adc/ad7746.c Michael Hennerich  2011-09=
+-21  327  static inline ssize_t ad7746_start_calib(struct device *dev,
+83e416f458d532f drivers/staging/iio/adc/ad7746.c Michael Hennerich  2011-09=
+-21  328  					 struct device_attribute *attr,
+83e416f458d532f drivers/staging/iio/adc/ad7746.c Michael Hennerich  2011-09=
+-21  329  					 const char *buf,
+83e416f458d532f drivers/staging/iio/adc/ad7746.c Michael Hennerich  2011-09=
+-21  330  					 size_t len,
+83e416f458d532f drivers/staging/iio/adc/ad7746.c Michael Hennerich  2011-09=
+-21  331  					 u8 regval)
+83e416f458d532f drivers/staging/iio/adc/ad7746.c Michael Hennerich  2011-09=
+-21  332  {
+d30a7f9df02232b drivers/staging/iio/cdc/ad7746.c Lars-Peter Clausen 2012-05=
+-12  333  	struct iio_dev *indio_dev =3D dev_to_iio_dev(dev);
+83e416f458d532f drivers/staging/iio/adc/ad7746.c Michael Hennerich  2011-09=
+-21  334  	struct ad7746_chip_info *chip =3D iio_priv(indio_dev);
+83e416f458d532f drivers/staging/iio/adc/ad7746.c Michael Hennerich  2011-09=
+-21  335  	int ret, timeout =3D 10;
+afcd0b22e35e0b3 drivers/staging/iio/cdc/ad7746.c Hern=C3=A1n Gonzalez    20=
+18-04-13 @336  	bool doit;
+83e416f458d532f drivers/staging/iio/adc/ad7746.c Michael Hennerich  2011-09=
+-21  337  =
 
-6b7f9aff7c67398 Lorenzo Bianconi 2022-03-15  1828  static void
-6b7f9aff7c67398 Lorenzo Bianconi 2022-03-15  1829  mt7915_mcu_beacon_mbss(s=
-truct sk_buff *rskb, struct sk_buff *skb,
-6b7f9aff7c67398 Lorenzo Bianconi 2022-03-15  1830  		       struct ieee8021=
-1_vif *vif, struct bss_info_bcn *bcn,
-6b7f9aff7c67398 Lorenzo Bianconi 2022-03-15  1831  		       struct ieee8021=
-1_mutable_offsets *offs)
-6b7f9aff7c67398 Lorenzo Bianconi 2022-03-15  1832  {
-6b7f9aff7c67398 Lorenzo Bianconi 2022-03-15  1833  	struct bss_info_bcn_mbs=
-s *mbss;
-6b7f9aff7c67398 Lorenzo Bianconi 2022-03-15  1834  	const struct element *e=
-lem;
-6b7f9aff7c67398 Lorenzo Bianconi 2022-03-15  1835  	struct tlv *tlv;
-6b7f9aff7c67398 Lorenzo Bianconi 2022-03-15  1836  =
+74f582ec127e3b1 drivers/staging/iio/cdc/ad7746.c Lars-Peter Clausen 2022-04=
+-09  338  	ret =3D kstrtobool(buf, &doit);
+83e416f458d532f drivers/staging/iio/adc/ad7746.c Michael Hennerich  2011-09=
+-21  339  	if (ret < 0)
+83e416f458d532f drivers/staging/iio/adc/ad7746.c Michael Hennerich  2011-09=
+-21  340  		return ret;
+83e416f458d532f drivers/staging/iio/adc/ad7746.c Michael Hennerich  2011-09=
+-21  341  =
 
-6b7f9aff7c67398 Lorenzo Bianconi 2022-03-15  1837  	if (!vif->bss_conf.bssi=
-d_indicator)
-6b7f9aff7c67398 Lorenzo Bianconi 2022-03-15  1838  		return;
-6b7f9aff7c67398 Lorenzo Bianconi 2022-03-15  1839  =
+83e416f458d532f drivers/staging/iio/adc/ad7746.c Michael Hennerich  2011-09=
+-21  342  	if (!doit)
+83e416f458d532f drivers/staging/iio/adc/ad7746.c Michael Hennerich  2011-09=
+-21  343  		return 0;
+83e416f458d532f drivers/staging/iio/adc/ad7746.c Michael Hennerich  2011-09=
+-21  344  =
 
-6b7f9aff7c67398 Lorenzo Bianconi 2022-03-15  1840  	tlv =3D mt7915_mcu_add_=
-nested_subtlv(rskb, BSS_INFO_BCN_MBSSID,
-6b7f9aff7c67398 Lorenzo Bianconi 2022-03-15  1841  					   sizeof(*mbss), &=
-bcn->sub_ntlv,
-6b7f9aff7c67398 Lorenzo Bianconi 2022-03-15  1842  					   &bcn->len);
-6b7f9aff7c67398 Lorenzo Bianconi 2022-03-15  1843  =
+9854a1b5c46573d drivers/staging/iio/cdc/ad7746.c Aishwarya Pant     2017-03=
+-14  345  	mutex_lock(&chip->lock);
+83e416f458d532f drivers/staging/iio/adc/ad7746.c Michael Hennerich  2011-09=
+-21  346  	regval |=3D chip->config;
+83e416f458d532f drivers/staging/iio/adc/ad7746.c Michael Hennerich  2011-09=
+-21  347  	ret =3D i2c_smbus_write_byte_data(chip->client, AD7746_REG_CFG, =
+regval);
+aa6b707c146d4d1 drivers/staging/iio/cdc/ad7746.c Markus Elfring     2017-11=
+-03  348  	if (ret < 0)
+aa6b707c146d4d1 drivers/staging/iio/cdc/ad7746.c Markus Elfring     2017-11=
+-03  349  		goto unlock;
+83e416f458d532f drivers/staging/iio/adc/ad7746.c Michael Hennerich  2011-09=
+-21  350  =
 
-6b7f9aff7c67398 Lorenzo Bianconi 2022-03-15  1844  	mbss =3D (struct bss_in=
-fo_bcn_mbss *)tlv;
-6b7f9aff7c67398 Lorenzo Bianconi 2022-03-15  1845  	mbss->offset[0] =3D cpu=
-_to_le16(offs->tim_offset);
-6b7f9aff7c67398 Lorenzo Bianconi 2022-03-15  1846  	mbss->bitmap =3D cpu_to=
-_le32(1);
-6b7f9aff7c67398 Lorenzo Bianconi 2022-03-15  1847  =
+83e416f458d532f drivers/staging/iio/adc/ad7746.c Michael Hennerich  2011-09=
+-21  351  	do {
+83e416f458d532f drivers/staging/iio/adc/ad7746.c Michael Hennerich  2011-09=
+-21  352  		msleep(20);
+83e416f458d532f drivers/staging/iio/adc/ad7746.c Michael Hennerich  2011-09=
+-21  353  		ret =3D i2c_smbus_read_byte_data(chip->client, AD7746_REG_CFG);
+aa6b707c146d4d1 drivers/staging/iio/cdc/ad7746.c Markus Elfring     2017-11=
+-03  354  		if (ret < 0)
+aa6b707c146d4d1 drivers/staging/iio/cdc/ad7746.c Markus Elfring     2017-11=
+-03  355  			goto unlock;
+aa6b707c146d4d1 drivers/staging/iio/cdc/ad7746.c Markus Elfring     2017-11=
+-03  356  =
 
-6b7f9aff7c67398 Lorenzo Bianconi 2022-03-15 @1848  	for_each_element_id(ele=
-m, WLAN_EID_MULTIPLE_BSSID,
-6b7f9aff7c67398 Lorenzo Bianconi 2022-03-15  1849  			    &skb->data[offs->=
-mbssid_off],
-6b7f9aff7c67398 Lorenzo Bianconi 2022-03-15  1850  			    skb->len - offs->=
-mbssid_off) {
-6b7f9aff7c67398 Lorenzo Bianconi 2022-03-15  1851  		const struct element *=
-sub_elem;
-6b7f9aff7c67398 Lorenzo Bianconi 2022-03-15  1852  =
+83e416f458d532f drivers/staging/iio/adc/ad7746.c Michael Hennerich  2011-09=
+-21  357  	} while ((ret =3D=3D regval) && timeout--);
+83e416f458d532f drivers/staging/iio/adc/ad7746.c Michael Hennerich  2011-09=
+-21  358  =
 
-6b7f9aff7c67398 Lorenzo Bianconi 2022-03-15  1853  		if (elem->datalen < 2)
-6b7f9aff7c67398 Lorenzo Bianconi 2022-03-15  1854  			continue;
-6b7f9aff7c67398 Lorenzo Bianconi 2022-03-15  1855  =
+9854a1b5c46573d drivers/staging/iio/cdc/ad7746.c Aishwarya Pant     2017-03=
+-14  359  	mutex_unlock(&chip->lock);
+83e416f458d532f drivers/staging/iio/adc/ad7746.c Michael Hennerich  2011-09=
+-21  360  =
 
-6b7f9aff7c67398 Lorenzo Bianconi 2022-03-15 @1856  		for_each_element(sub_e=
-lem, elem->data + 1, elem->datalen - 1) {
-6b7f9aff7c67398 Lorenzo Bianconi 2022-03-15  1857  			const u8 *data;
-6b7f9aff7c67398 Lorenzo Bianconi 2022-03-15  1858  =
+83e416f458d532f drivers/staging/iio/adc/ad7746.c Michael Hennerich  2011-09=
+-21  361  	return len;
+aa6b707c146d4d1 drivers/staging/iio/cdc/ad7746.c Markus Elfring     2017-11=
+-03  362  =
 
-6b7f9aff7c67398 Lorenzo Bianconi 2022-03-15  1859  			if (sub_elem->id || s=
-ub_elem->datalen < 4)
-6b7f9aff7c67398 Lorenzo Bianconi 2022-03-15  1860  				continue; /* not a v=
-alid BSS profile */
-6b7f9aff7c67398 Lorenzo Bianconi 2022-03-15  1861  =
+aa6b707c146d4d1 drivers/staging/iio/cdc/ad7746.c Markus Elfring     2017-11=
+-03  363  unlock:
+aa6b707c146d4d1 drivers/staging/iio/cdc/ad7746.c Markus Elfring     2017-11=
+-03  364  	mutex_unlock(&chip->lock);
+aa6b707c146d4d1 drivers/staging/iio/cdc/ad7746.c Markus Elfring     2017-11=
+-03  365  	return ret;
+83e416f458d532f drivers/staging/iio/adc/ad7746.c Michael Hennerich  2011-09=
+-21  366  }
+83e416f458d532f drivers/staging/iio/adc/ad7746.c Michael Hennerich  2011-09=
+-21  367  =
 
-6b7f9aff7c67398 Lorenzo Bianconi 2022-03-15  1862  			/* Find WLAN_EID_MULT=
-I_BSSID_IDX
-6b7f9aff7c67398 Lorenzo Bianconi 2022-03-15  1863  			 * in the merged nont=
-ransmitted profile
-6b7f9aff7c67398 Lorenzo Bianconi 2022-03-15  1864  			 */
-6b7f9aff7c67398 Lorenzo Bianconi 2022-03-15  1865  			data =3D cfg80211_fin=
-d_ie(WLAN_EID_MULTI_BSSID_IDX,
-6b7f9aff7c67398 Lorenzo Bianconi 2022-03-15  1866  						sub_elem->data,
-6b7f9aff7c67398 Lorenzo Bianconi 2022-03-15  1867  						sub_elem->datalen);
-6b7f9aff7c67398 Lorenzo Bianconi 2022-03-15  1868  			if (!data || data[1] =
-< 1 || !data[2])
-6b7f9aff7c67398 Lorenzo Bianconi 2022-03-15  1869  				continue;
-6b7f9aff7c67398 Lorenzo Bianconi 2022-03-15  1870  =
 
-6b7f9aff7c67398 Lorenzo Bianconi 2022-03-15  1871  			mbss->offset[data[2]]=
- =3D cpu_to_le16(data - skb->data);
-6b7f9aff7c67398 Lorenzo Bianconi 2022-03-15  1872  			mbss->bitmap |=3D cpu=
-_to_le32(BIT(data[2]));
-6b7f9aff7c67398 Lorenzo Bianconi 2022-03-15  1873  		}
-6b7f9aff7c67398 Lorenzo Bianconi 2022-03-15  1874  	}
-6b7f9aff7c67398 Lorenzo Bianconi 2022-03-15  1875  }
-6b7f9aff7c67398 Lorenzo Bianconi 2022-03-15  1876  =
+:::::: The code at line 336 was first introduced by commit
+:::::: afcd0b22e35e0b3375e524c220ec52e549e9b9cb staging: iio: ad7746: Reord=
+er variable declarations
 
+:::::: TO: Hern=C3=A1n Gonzalez <hernan@vanguardiasur.com.ar>
+:::::: CC: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============4599171343077170610==--
+--===============7211973790858243316==--
 
