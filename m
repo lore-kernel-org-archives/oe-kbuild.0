@@ -1,557 +1,255 @@
-Content-Type: multipart/mixed; boundary="===============2602880020196053295=="
+Content-Type: multipart/mixed; boundary="===============0868718380470943701=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/scsi/qedi/qedi_fw.c:1460:31: sparse: sparse: incorrect type in assignment (different base types)
-Date: Sat, 20 Aug 2022 06:51:13 +0800
-Message-ID: <202208200608.rjiNMGXA-lkp@intel.com>
+Subject: Re: [PATCH v3 2/3] driver: input: matric-keypad: add reduced matrix support
+Date: Sat, 20 Aug 2022 01:36:29 +0800
+Message-ID: <202208200111.6wvFtbES-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2602880020196053295==
+--===============0868718380470943701==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-:::::: =
-
-:::::: Manual check reason: "low confidence bisect report"
-:::::: =
-
-
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
-CC: linux-kernel(a)vger.kernel.org
-TO: Justin Stitt <jstitt007@gmail.com>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
-CC: Nathan Chancellor <nathan@kernel.org>
+In-Reply-To: <20220819065946.9572-2-Gireesh.Hiremath@in.bosch.com>
+References: <20220819065946.9572-2-Gireesh.Hiremath@in.bosch.com>
+TO: Gireesh.Hiremath(a)in.bosch.com
+TO: linux-omap(a)vger.kernel.org
+TO: devicetree(a)vger.kernel.org
+TO: linux-kernel(a)vger.kernel.org
+TO: linux-input(a)vger.kernel.org
+TO: bcousson(a)baylibre.com
+TO: tony(a)atomide.com
+TO: robh+dt(a)kernel.org
+TO: krzysztof.kozlowski+dt(a)linaro.org
+TO: dmitry.torokhov(a)gmail.com
+TO: mkorpershoek(a)baylibre.com
+TO: davidgow(a)google.com
+TO: m.felsch(a)pengutronix.de
+TO: swboyd(a)chromium.org
+TO: fengping.yu(a)mediatek.com
+TO: y.oudjana(a)protonmail.com
+TO: rdunlap(a)infradead.org
+TO: colin.king(a)intel.com
+TO: Gireesh.Hiremath(a)in.bosch.com
+CC: sjoerd.simons(a)collabora.co.uk
+CC: VinayKumar.Shettar(a)in.bosch.com
+CC: Govindaraji.Sivanantham(a)in.bosch.com
+CC: anaclaudia.dias(a)de.bosch.com
 
-include/uapi/linux/swab.h
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   50cd95ac46548429e5bba7ca75cc97d11a697947
-commit: d30dfd490f7dc4cb6a7c11a647bd1ff7a22139e7 include/uapi/linux/swab.h:=
- move explicit cast outside ternary
-date:   9 weeks ago
-:::::: branch date: 2 hours ago
-:::::: commit date: 9 weeks ago
-config: ia64-randconfig-s053-20220820 (https://download.01.org/0day-ci/arch=
-ive/20220820/202208200608.rjiNMGXA-lkp(a)intel.com/config)
-compiler: ia64-linux-gcc (GCC) 12.1.0
-reproduce:
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3Dd30dfd490f7dc4cb6a7c11a647bd1ff7a22139e7
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout d30dfd490f7dc4cb6a7c11a647bd1ff7a22139e7
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cross=
- C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3Dbuild_dir ARCH=3Di=
-a64 SHELL=3D/bin/bash drivers/scsi/qedi/
+Hi,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on dtor-input/next]
+[also build test WARNING on linus/master v6.0-rc1 next-20220819]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Gireesh-Hiremath-in-=
+bosch-com/driver-input-matric-keypad-switch-to-gpiod/20220819-151155
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
+:::::: branch date: 10 hours ago
+:::::: commit date: 10 hours ago
+config: s390-randconfig-m041-20220819 (https://download.01.org/0day-ci/arch=
+ive/20220820/202208200111.6wvFtbES-lkp(a)intel.com/config)
+compiler: s390-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/scsi/qedi/qedi_fw.c:1459:30: sparse: sparse: cast to restricted =
-itt_t
-   drivers/scsi/qedi/qedi_fw.c:1459:28: sparse: sparse: incorrect type in a=
-ssignment (different base types) @@     expected restricted __le32 [address=
-able] [usertype] itt @@     got unsigned int [usertype] @@
-   drivers/scsi/qedi/qedi_fw.c:1459:28: sparse:     expected restricted __l=
-e32 [addressable] [usertype] itt
-   drivers/scsi/qedi/qedi_fw.c:1459:28: sparse:     got unsigned int [usert=
-ype]
->> drivers/scsi/qedi/qedi_fw.c:1460:31: sparse: sparse: incorrect type in a=
-ssignment (different base types) @@     expected restricted __le32 [address=
-able] [usertype] cmd_sn @@     got unsigned int [usertype] @@
-   drivers/scsi/qedi/qedi_fw.c:1460:31: sparse:     expected restricted __l=
-e32 [addressable] [usertype] cmd_sn
-   drivers/scsi/qedi/qedi_fw.c:1460:31: sparse:     got unsigned int [usert=
-ype]
-   drivers/scsi/qedi/qedi_fw.c:1463:33: sparse: sparse: cast to restricted =
-__be32
-   drivers/scsi/qedi/qedi_fw.c:1463:33: sparse: sparse: cast to restricted =
-__be32
-   drivers/scsi/qedi/qedi_fw.c:1463:33: sparse: sparse: cast to restricted =
-__be32
-   drivers/scsi/qedi/qedi_fw.c:1463:33: sparse: sparse: cast to restricted =
-__be32
-   drivers/scsi/qedi/qedi_fw.c:1463:33: sparse: sparse: cast to restricted =
-__be32
-   drivers/scsi/qedi/qedi_fw.c:1463:33: sparse: sparse: cast to restricted =
-__be32
->> drivers/scsi/qedi/qedi_fw.c:1463:31: sparse: sparse: incorrect type in a=
-ssignment (different base types) @@     expected restricted __le32 [address=
-able] [usertype] lo @@     got unsigned int [usertype] @@
-   drivers/scsi/qedi/qedi_fw.c:1463:31: sparse:     expected restricted __l=
-e32 [addressable] [usertype] lo
-   drivers/scsi/qedi/qedi_fw.c:1463:31: sparse:     got unsigned int [usert=
-ype]
-   drivers/scsi/qedi/qedi_fw.c:1464:33: sparse: sparse: cast to restricted =
-__be32
-   drivers/scsi/qedi/qedi_fw.c:1464:33: sparse: sparse: cast to restricted =
-__be32
-   drivers/scsi/qedi/qedi_fw.c:1464:33: sparse: sparse: cast to restricted =
-__be32
-   drivers/scsi/qedi/qedi_fw.c:1464:33: sparse: sparse: cast to restricted =
-__be32
-   drivers/scsi/qedi/qedi_fw.c:1464:33: sparse: sparse: cast to restricted =
-__be32
-   drivers/scsi/qedi/qedi_fw.c:1464:33: sparse: sparse: cast to restricted =
-__be32
->> drivers/scsi/qedi/qedi_fw.c:1464:31: sparse: sparse: incorrect type in a=
-ssignment (different base types) @@     expected restricted __le32 [address=
-able] [usertype] hi @@     got unsigned int [usertype] @@
-   drivers/scsi/qedi/qedi_fw.c:1464:31: sparse:     expected restricted __l=
-e32 [addressable] [usertype] hi
-   drivers/scsi/qedi/qedi_fw.c:1464:31: sparse:     got unsigned int [usert=
-ype]
-   drivers/scsi/qedi/qedi_fw.c:1469:36: sparse: sparse: incorrect type in a=
-ssignment (different base types) @@     expected restricted __le32 [address=
-able] [usertype] rtt @@     got unsigned int [usertype] @@
-   drivers/scsi/qedi/qedi_fw.c:1469:36: sparse:     expected restricted __l=
-e32 [addressable] [usertype] rtt
-   drivers/scsi/qedi/qedi_fw.c:1469:36: sparse:     got unsigned int [usert=
-ype]
-   drivers/scsi/qedi/qedi_fw.c:1473:36: sparse: sparse: incorrect type in a=
-ssignment (different base types) @@     expected restricted __le32 [address=
-able] [usertype] rtt @@     got unsigned int @@
-   drivers/scsi/qedi/qedi_fw.c:1473:36: sparse:     expected restricted __l=
-e32 [addressable] [usertype] rtt
-   drivers/scsi/qedi/qedi_fw.c:1473:36: sparse:     got unsigned int
-   drivers/scsi/qedi/qedi_fw.c:1478:41: sparse: sparse: incorrect type in a=
-ssignment (different base types) @@     expected restricted __le32 [address=
-able] [assigned] [usertype] hdr_second_dword @@     got int @@
-   drivers/scsi/qedi/qedi_fw.c:1478:41: sparse:     expected restricted __l=
-e32 [addressable] [assigned] [usertype] hdr_second_dword
-   drivers/scsi/qedi/qedi_fw.c:1478:41: sparse:     got int
->> drivers/scsi/qedi/qedi_fw.c:1479:35: sparse: sparse: incorrect type in a=
-ssignment (different base types) @@     expected restricted __le32 [address=
-able] [assigned] [usertype] ref_cmd_sn @@     got unsigned int [usertype] @@
-   drivers/scsi/qedi/qedi_fw.c:1479:35: sparse:     expected restricted __l=
-e32 [addressable] [assigned] [usertype] ref_cmd_sn
-   drivers/scsi/qedi/qedi_fw.c:1479:35: sparse:     got unsigned int [usert=
-ype]
-   drivers/scsi/qedi/qedi_fw.c:50:25: sparse: sparse: restricted __le16 deg=
-rades to integer
-   drivers/scsi/qedi/qedi_fw.c:51:28: sparse: sparse: incorrect type in arg=
-ument 1 (different base types) @@     expected unsigned int [usertype] val =
-@@     got restricted __le32 [usertype] stat_sn @@
-   drivers/scsi/qedi/qedi_fw.c:51:28: sparse:     expected unsigned int [us=
-ertype] val
-   drivers/scsi/qedi/qedi_fw.c:51:28: sparse:     got restricted __le32 [us=
-ertype] stat_sn
-   drivers/scsi/qedi/qedi_fw.c:51:28: sparse: sparse: cast from restricted =
-__le32
-   drivers/scsi/qedi/qedi_fw.c:51:28: sparse: sparse: cast from restricted =
-__le32
-   drivers/scsi/qedi/qedi_fw.c:51:28: sparse: sparse: cast from restricted =
-__le32
-   drivers/scsi/qedi/qedi_fw.c:51:28: sparse: sparse: cast from restricted =
-__le32
-   drivers/scsi/qedi/qedi_fw.c:52:31: sparse: sparse: incorrect type in arg=
-ument 1 (different base types) @@     expected unsigned int [usertype] val =
-@@     got restricted __le32 [usertype] exp_cmd_sn @@
-   drivers/scsi/qedi/qedi_fw.c:52:31: sparse:     expected unsigned int [us=
-ertype] val
-   drivers/scsi/qedi/qedi_fw.c:52:31: sparse:     got restricted __le32 [us=
-ertype] exp_cmd_sn
-   drivers/scsi/qedi/qedi_fw.c:52:31: sparse: sparse: cast from restricted =
-__le32
-   drivers/scsi/qedi/qedi_fw.c:52:31: sparse: sparse: cast from restricted =
-__le32
-   drivers/scsi/qedi/qedi_fw.c:52:31: sparse: sparse: cast from restricted =
-__le32
-   drivers/scsi/qedi/qedi_fw.c:52:31: sparse: sparse: cast from restricted =
-__le32
-   drivers/scsi/qedi/qedi_fw.c:53:31: sparse: sparse: incorrect type in arg=
-ument 1 (different base types) @@     expected unsigned int [usertype] val =
-@@     got restricted __le32 [usertype] max_cmd_sn @@
-   drivers/scsi/qedi/qedi_fw.c:53:31: sparse:     expected unsigned int [us=
-ertype] val
-   drivers/scsi/qedi/qedi_fw.c:53:31: sparse:     got restricted __le32 [us=
-ertype] max_cmd_sn
-   drivers/scsi/qedi/qedi_fw.c:53:31: sparse: sparse: cast from restricted =
-__le32
-   drivers/scsi/qedi/qedi_fw.c:53:31: sparse: sparse: cast from restricted =
-__le32
-   drivers/scsi/qedi/qedi_fw.c:53:31: sparse: sparse: cast from restricted =
-__le32
-   drivers/scsi/qedi/qedi_fw.c:53:31: sparse: sparse: cast from restricted =
-__le32
-   drivers/scsi/qedi/qedi_fw.c:55:28: sparse: sparse: incorrect type in arg=
-ument 1 (different base types) @@     expected unsigned int [usertype] val =
-@@     got restricted __le16 [usertype] time_2_wait @@
-   drivers/scsi/qedi/qedi_fw.c:55:28: sparse:     expected unsigned int [us=
-ertype] val
-   drivers/scsi/qedi/qedi_fw.c:55:28: sparse:     got restricted __le16 [us=
-ertype] time_2_wait
-   drivers/scsi/qedi/qedi_fw.c:55:28: sparse: sparse: cast from restricted =
-__le16
-   drivers/scsi/qedi/qedi_fw.c:55:28: sparse: sparse: cast from restricted =
-__le16
-   drivers/scsi/qedi/qedi_fw.c:55:28: sparse: sparse: cast from restricted =
-__le16
-   drivers/scsi/qedi/qedi_fw.c:55:28: sparse: sparse: cast from restricted =
-__le16
-   drivers/scsi/qedi/qedi_fw.c:55:26: sparse: sparse: incorrect type in ass=
-ignment (different base types) @@     expected restricted __be16 [usertype]=
- t2wait @@     got restricted __be32 [usertype] @@
-   drivers/scsi/qedi/qedi_fw.c:55:26: sparse:     expected restricted __be1=
-6 [usertype] t2wait
-   drivers/scsi/qedi/qedi_fw.c:55:26: sparse:     got restricted __be32 [us=
-ertype]
-   drivers/scsi/qedi/qedi_fw.c:56:30: sparse: sparse: incorrect type in arg=
-ument 1 (different base types) @@     expected unsigned int [usertype] val =
-@@     got restricted __le16 [usertype] time_2_retain @@
-   drivers/scsi/qedi/qedi_fw.c:56:30: sparse:     expected unsigned int [us=
-ertype] val
-   drivers/scsi/qedi/qedi_fw.c:56:30: sparse:     got restricted __le16 [us=
-ertype] time_2_retain
-   drivers/scsi/qedi/qedi_fw.c:56:30: sparse: sparse: cast from restricted =
-__le16
-   drivers/scsi/qedi/qedi_fw.c:56:30: sparse: sparse: cast from restricted =
-__le16
-   drivers/scsi/qedi/qedi_fw.c:56:30: sparse: sparse: cast from restricted =
-__le16
-   drivers/scsi/qedi/qedi_fw.c:56:30: sparse: sparse: cast from restricted =
-__le16
-   drivers/scsi/qedi/qedi_fw.c:56:28: sparse: sparse: incorrect type in ass=
-ignment (different base types) @@     expected restricted __be16 [usertype]=
- t2retain @@     got restricted __be32 [usertype] @@
-   drivers/scsi/qedi/qedi_fw.c:56:28: sparse:     expected restricted __be1=
-6 [usertype] t2retain
-   drivers/scsi/qedi/qedi_fw.c:56:28: sparse:     got restricted __be32 [us=
-ertype]
-   drivers/scsi/qedi/qedi_fw.c:105:9: sparse: sparse: restricted __le32 deg=
-rades to integer
-   drivers/scsi/qedi/qedi_fw.c:105:9: sparse: sparse: restricted __le32 deg=
-rades to integer
-   drivers/scsi/qedi/qedi_fw.c:105:9: sparse: sparse: restricted __le32 deg=
-rades to integer
-   drivers/scsi/qedi/qedi_fw.c:109:29: sparse: sparse: restricted __le16 de=
-grades to integer
-   drivers/scsi/qedi/qedi_fw.c:111:27: sparse: sparse: incorrect type in as=
-signment (different base types) @@     expected restricted __be32 [usertype=
-] ttt @@     got restricted __le32 [usertype] ttt @@
-   drivers/scsi/qedi/qedi_fw.c:111:27: sparse:     expected restricted __be=
-32 [usertype] ttt
-   drivers/scsi/qedi/qedi_fw.c:111:27: sparse:     got restricted __le32 [u=
-sertype] ttt
-   drivers/scsi/qedi/qedi_fw.c:112:32: sparse: sparse: incorrect type in ar=
-gument 1 (different base types) @@     expected unsigned int [usertype] val=
- @@     got restricted __le32 [usertype] stat_sn @@
-   drivers/scsi/qedi/qedi_fw.c:112:32: sparse:     expected unsigned int [u=
-sertype] val
-   drivers/scsi/qedi/qedi_fw.c:112:32: sparse:     got restricted __le32 [u=
-sertype] stat_sn
-   drivers/scsi/qedi/qedi_fw.c:112:32: sparse: sparse: cast from restricted=
- __le32
-   drivers/scsi/qedi/qedi_fw.c:112:32: sparse: sparse: cast from restricted=
- __le32
-   drivers/scsi/qedi/qedi_fw.c:112:32: sparse: sparse: cast from restricted=
- __le32
-   drivers/scsi/qedi/qedi_fw.c:112:32: sparse: sparse: cast from restricted=
- __le32
-   drivers/scsi/qedi/qedi_fw.c:113:35: sparse: sparse: incorrect type in ar=
-gument 1 (different base types) @@     expected unsigned int [usertype] val=
- @@     got restricted __le32 [usertype] exp_cmd_sn @@
-   drivers/scsi/qedi/qedi_fw.c:113:35: sparse:     expected unsigned int [u=
-sertype] val
-   drivers/scsi/qedi/qedi_fw.c:113:35: sparse:     got restricted __le32 [u=
-sertype] exp_cmd_sn
-   drivers/scsi/qedi/qedi_fw.c:113:35: sparse: sparse: cast from restricted=
- __le32
-   drivers/scsi/qedi/qedi_fw.c:113:35: sparse: sparse: cast from restricted=
- __le32
-   drivers/scsi/qedi/qedi_fw.c:113:35: sparse: sparse: cast from restricted=
- __le32
-   drivers/scsi/qedi/qedi_fw.c:113:35: sparse: sparse: cast from restricted=
- __le32
-   drivers/scsi/qedi/qedi_fw.c:114:35: sparse: sparse: incorrect type in ar=
-gument 1 (different base types) @@     expected unsigned int [usertype] val=
- @@     got restricted __le32 [usertype] max_cmd_sn @@
-   drivers/scsi/qedi/qedi_fw.c:114:35: sparse:     expected unsigned int [u=
-sertype] val
-   drivers/scsi/qedi/qedi_fw.c:114:35: sparse:     got restricted __le32 [u=
-sertype] max_cmd_sn
-   drivers/scsi/qedi/qedi_fw.c:114:35: sparse: sparse: cast from restricted=
- __le32
-   drivers/scsi/qedi/qedi_fw.c:114:35: sparse: sparse: cast from restricted=
- __le32
-   drivers/scsi/qedi/qedi_fw.c:114:35: sparse: sparse: cast from restricted=
- __le32
-   drivers/scsi/qedi/qedi_fw.c:114:35: sparse: sparse: cast from restricted=
- __le32
-   drivers/scsi/qedi/qedi_fw.c:116:36: sparse: sparse: restricted __le32 de=
-grades to integer
-   drivers/scsi/qedi/qedi_fw.c:211:9: sparse: sparse: restricted __le32 deg=
-rades to integer
-   drivers/scsi/qedi/qedi_fw.c:211:9: sparse: sparse: restricted __le32 deg=
-rades to integer
-   drivers/scsi/qedi/qedi_fw.c:211:9: sparse: sparse: restricted __le32 deg=
-rades to integer
-   drivers/scsi/qedi/qedi_fw.c:214:29: sparse: sparse: restricted __le16 de=
-grades to integer
-   drivers/scsi/qedi/qedi_fw.c:216:32: sparse: sparse: incorrect type in ar=
-gument 1 (different base types) @@     expected unsigned int [usertype] val=
- @@     got restricted __le32 [usertype] stat_sn @@
-   drivers/scsi/qedi/qedi_fw.c:216:32: sparse:     expected unsigned int [u=
-sertype] val
-   drivers/scsi/qedi/qedi_fw.c:216:32: sparse:     got restricted __le32 [u=
-sertype] stat_sn
-   drivers/scsi/qedi/qedi_fw.c:216:32: sparse: sparse: cast from restricted=
- __le32
-   drivers/scsi/qedi/qedi_fw.c:216:32: sparse: sparse: cast from restricted=
- __le32
-   drivers/scsi/qedi/qedi_fw.c:216:32: sparse: sparse: cast from restricted=
- __le32
-   drivers/scsi/qedi/qedi_fw.c:216:32: sparse: sparse: cast from restricted=
- __le32
-   drivers/scsi/qedi/qedi_fw.c:217:36: sparse: sparse: incorrect type in ar=
-gument 1 (different base types) @@     expected unsigned int [usertype] val=
- @@     got restricted __le32 [usertype] exp_cmd_sn @@
-   drivers/scsi/qedi/qedi_fw.c:217:36: sparse:     expected unsigned int [u=
-sertype] val
-   drivers/scsi/qedi/qedi_fw.c:217:36: sparse:     got restricted __le32 [u=
-sertype] exp_cmd_sn
-   drivers/scsi/qedi/qedi_fw.c:217:36: sparse: sparse: cast from restricted=
- __le32
-   drivers/scsi/qedi/qedi_fw.c:217:36: sparse: sparse: cast from restricted=
- __le32
-   drivers/scsi/qedi/qedi_fw.c:217:36: sparse: sparse: cast from restricted=
- __le32
-   drivers/scsi/qedi/qedi_fw.c:217:36: sparse: sparse: cast from restricted=
- __le32
-   drivers/scsi/qedi/qedi_fw.c:218:35: sparse: sparse: incorrect type in ar=
-gument 1 (different base types) @@     expected unsigned int [usertype] val=
- @@     got restricted __le32 [usertype] max_cmd_sn @@
-   drivers/scsi/qedi/qedi_fw.c:218:35: sparse:     expected unsigned int [u=
-sertype] val
-   drivers/scsi/qedi/qedi_fw.c:218:35: sparse:     got restricted __le32 [u=
-sertype] max_cmd_sn
-   drivers/scsi/qedi/qedi_fw.c:218:35: sparse: sparse: cast from restricted=
- __le32
-   drivers/scsi/qedi/qedi_fw.c:218:35: sparse: sparse: cast from restricted=
- __le32
-   drivers/scsi/qedi/qedi_fw.c:218:35: sparse: sparse: cast from restricted=
- __le32
-   drivers/scsi/qedi/qedi_fw.c:218:35: sparse: sparse: cast from restricted=
- __le32
-   drivers/scsi/qedi/qedi_fw.c:282:9: sparse: sparse: restricted __le32 deg=
-rades to integer
-   drivers/scsi/qedi/qedi_fw.c:282:9: sparse: sparse: restricted __le32 deg=
-rades to integer
-   drivers/scsi/qedi/qedi_fw.c:282:9: sparse: sparse: restricted __le32 deg=
-rades to integer
-   drivers/scsi/qedi/qedi_fw.c:285:29: sparse: sparse: restricted __le16 de=
-grades to integer
->> drivers/scsi/qedi/qedi_fw.c:287:28: sparse: sparse: incorrect type in as=
-signment (different base types) @@     expected restricted __be16 [usertype=
-] tsih @@     got restricted __le16 [usertype] tsih @@
-   drivers/scsi/qedi/qedi_fw.c:287:28: sparse:     expected restricted __be=
-16 [usertype] tsih
-   drivers/scsi/qedi/qedi_fw.c:287:28: sparse:     got restricted __le16 [u=
-sertype] tsih
-   drivers/scsi/qedi/qedi_fw.c:288:32: sparse: sparse: incorrect type in ar=
-gument 1 (different base types) @@     expected unsigned int [usertype] val=
- @@     got restricted __le32 [usertype] stat_sn @@
-   drivers/scsi/qedi/qedi_fw.c:288:32: sparse:     expected unsigned int [u=
-sertype] val
-   drivers/scsi/qedi/qedi_fw.c:288:32: sparse:     got restricted __le32 [u=
-sertype] stat_sn
-   drivers/scsi/qedi/qedi_fw.c:288:32: sparse: sparse: cast from restricted=
- __le32
-   drivers/scsi/qedi/qedi_fw.c:288:32: sparse: sparse: cast from restricted=
- __le32
-   drivers/scsi/qedi/qedi_fw.c:288:32: sparse: sparse: cast from restricted=
- __le32
-   drivers/scsi/qedi/qedi_fw.c:288:32: sparse: sparse: cast from restricted=
- __le32
-   drivers/scsi/qedi/qedi_fw.c:289:35: sparse: sparse: too many warnings
+smatch warnings:
+drivers/input/keyboard/matrix_keypad.c:932 matrix_keypad_probe() error: uni=
+nitialized symbol 'err'.
 
-vim +1460 drivers/scsi/qedi/qedi_fw.c
+vim +/err +932 drivers/input/keyboard/matrix_keypad.c
 
-ace7f46ba5fde7 Manish Rangankar            2016-12-01  1421  =
+4a83eecff65bd3 AnilKumar Ch     2012-11-20  822  =
 
-60a0d379f11bc7 Mike Christie               2021-05-25  1422  static int sen=
-d_iscsi_tmf(struct qedi_conn *qedi_conn, struct iscsi_task *mtask,
-60a0d379f11bc7 Mike Christie               2021-05-25  1423  			  struct is=
-csi_task *ctask)
-ace7f46ba5fde7 Manish Rangankar            2016-12-01  1424  {
-be086e7c53f1fa Mintz, Yuval                2017-03-11  1425  	struct iscsi_=
-tmf_request_hdr tmf_pdu_header;
-be086e7c53f1fa Mintz, Yuval                2017-03-11  1426  	struct iscsi_=
-task_params task_params;
-ace7f46ba5fde7 Manish Rangankar            2016-12-01  1427  	struct qedi_c=
-tx *qedi =3D qedi_conn->qedi;
-fb09a1ed5c6e50 Shai Malin                  2021-10-04  1428  	struct iscsi_=
-task_context *fw_task_ctx;
-ace7f46ba5fde7 Manish Rangankar            2016-12-01  1429  	struct iscsi_=
-tm *tmf_hdr;
-be086e7c53f1fa Mintz, Yuval                2017-03-11  1430  	struct qedi_c=
-md *qedi_cmd;
-be086e7c53f1fa Mintz, Yuval                2017-03-11  1431  	struct qedi_c=
-md *cmd;
-be086e7c53f1fa Mintz, Yuval                2017-03-11  1432  	struct qedi_e=
-ndpoint *ep;
-be086e7c53f1fa Mintz, Yuval                2017-03-11  1433  	u32 scsi_lun[=
-2];
-be086e7c53f1fa Mintz, Yuval                2017-03-11  1434  	s16 tid =3D 0;
-be086e7c53f1fa Mintz, Yuval                2017-03-11  1435  	u16 sq_idx =
-=3D 0;
-ace7f46ba5fde7 Manish Rangankar            2016-12-01  1436  =
+5298cc4cc753bb Bill Pemberton   2012-11-23  823  static int matrix_keypad_p=
+robe(struct platform_device *pdev)
+bab7614d6d1b1f Eric Miao        2009-06-29  824  {
+bab7614d6d1b1f Eric Miao        2009-06-29  825  	const struct matrix_keypa=
+d_platform_data *pdata;
+bab7614d6d1b1f Eric Miao        2009-06-29  826  	struct matrix_keypad *key=
+pad;
+bab7614d6d1b1f Eric Miao        2009-06-29  827  	struct input_dev *input_d=
+ev;
+bab7614d6d1b1f Eric Miao        2009-06-29  828  	int err;
+bab7614d6d1b1f Eric Miao        2009-06-29  829  =
 
-ace7f46ba5fde7 Manish Rangankar            2016-12-01  1437  	tmf_hdr =3D (=
-struct iscsi_tm *)mtask->hdr;
-be086e7c53f1fa Mintz, Yuval                2017-03-11  1438  	qedi_cmd =3D =
-(struct qedi_cmd *)mtask->dd_data;
-be086e7c53f1fa Mintz, Yuval                2017-03-11  1439  	ep =3D qedi_c=
-onn->ep;
-b19775e4785996 manish.rangankar(a)cavium.com 2017-05-19  1440  	if (!ep)
-b19775e4785996 manish.rangankar(a)cavium.com 2017-05-19  1441  		return -EN=
-ODEV;
-ace7f46ba5fde7 Manish Rangankar            2016-12-01  1442  =
+4a83eecff65bd3 AnilKumar Ch     2012-11-20  830  	pdata =3D dev_get_platdat=
+a(&pdev->dev);
+bab7614d6d1b1f Eric Miao        2009-06-29  831  	if (!pdata) {
+4a83eecff65bd3 AnilKumar Ch     2012-11-20  832  		pdata =3D matrix_keypad_=
+parse_dt(&pdev->dev);
+d55bda1b3e7c5a Christian Hoff   2018-11-12  833  		if (IS_ERR(pdata))
+4a83eecff65bd3 AnilKumar Ch     2012-11-20  834  			return PTR_ERR(pdata);
+4a83eecff65bd3 AnilKumar Ch     2012-11-20  835  	} else if (!pdata->keymap=
+_data) {
+bab7614d6d1b1f Eric Miao        2009-06-29  836  		dev_err(&pdev->dev, "no =
+keymap data defined\n");
+bab7614d6d1b1f Eric Miao        2009-06-29  837  		return -EINVAL;
+bab7614d6d1b1f Eric Miao        2009-06-29  838  	}
+bab7614d6d1b1f Eric Miao        2009-06-29  839  =
 
-be086e7c53f1fa Mintz, Yuval                2017-03-11  1443  	tid =3D qedi_=
-get_task_idx(qedi);
-be086e7c53f1fa Mintz, Yuval                2017-03-11  1444  	if (tid =3D=
-=3D -1)
-be086e7c53f1fa Mintz, Yuval                2017-03-11  1445  		return -ENOM=
-EM;
-ace7f46ba5fde7 Manish Rangankar            2016-12-01  1446  =
+4a83eecff65bd3 AnilKumar Ch     2012-11-20  840  	keypad =3D kzalloc(sizeof=
+(struct matrix_keypad), GFP_KERNEL);
+bab7614d6d1b1f Eric Miao        2009-06-29  841  	input_dev =3D input_alloc=
+ate_device();
+01111fcd42b050 Dmitry Torokhov  2012-04-20  842  	if (!keypad || !input_dev=
+) {
+bab7614d6d1b1f Eric Miao        2009-06-29  843  		err =3D -ENOMEM;
+bab7614d6d1b1f Eric Miao        2009-06-29  844  		goto err_free_mem;
+bab7614d6d1b1f Eric Miao        2009-06-29  845  	}
+bab7614d6d1b1f Eric Miao        2009-06-29  846  =
 
-be086e7c53f1fa Mintz, Yuval                2017-03-11  1447  	fw_task_ctx =
-=3D
-fb09a1ed5c6e50 Shai Malin                  2021-10-04  1448  	     (struct =
-iscsi_task_context *)qedi_get_task_mem(&qedi->tasks,
-21dd79e82f00b2 Tomer Tayar                 2017-12-27  1449  							       =
-tid);
-fb09a1ed5c6e50 Shai Malin                  2021-10-04  1450  	memset(fw_tas=
-k_ctx, 0, sizeof(struct iscsi_task_context));
-ace7f46ba5fde7 Manish Rangankar            2016-12-01  1451  =
+bab7614d6d1b1f Eric Miao        2009-06-29  847  	keypad->input_dev =3D inp=
+ut_dev;
+bab7614d6d1b1f Eric Miao        2009-06-29  848  	keypad->pdata =3D pdata;
+4a83eecff65bd3 AnilKumar Ch     2012-11-20  849  	keypad->row_shift =3D get=
+_count_order(pdata->num_col_gpios);
+bab7614d6d1b1f Eric Miao        2009-06-29  850  	keypad->stopped =3D true;
+a0b420e08e3b87 Gireesh Hiremath 2022-08-19  851  =
 
-be086e7c53f1fa Mintz, Yuval                2017-03-11  1452  	qedi_cmd->tas=
-k_id =3D tid;
-ace7f46ba5fde7 Manish Rangankar            2016-12-01  1453  =
+a0b420e08e3b87 Gireesh Hiremath 2022-08-19  852  	if (pdata->mode =3D=3D RE=
+DUCED) {
+a0b420e08e3b87 Gireesh Hiremath 2022-08-19  853  		keypad->button_array =3D=
+ devm_kzalloc(
+a0b420e08e3b87 Gireesh Hiremath 2022-08-19  854  			&pdev->dev,
+a0b420e08e3b87 Gireesh Hiremath 2022-08-19  855  			sizeof(struct button) *=
+ (pdata->num_of_buttons),
+a0b420e08e3b87 Gireesh Hiremath 2022-08-19  856  			GFP_KERNEL);
+a0b420e08e3b87 Gireesh Hiremath 2022-08-19  857  		if (!keypad->button_arra=
+y) {
+a0b420e08e3b87 Gireesh Hiremath 2022-08-19  858  			dev_err(&pdev->dev,
+a0b420e08e3b87 Gireesh Hiremath 2022-08-19  859  				"could not allocate me=
+mory for button array\n");
+a0b420e08e3b87 Gireesh Hiremath 2022-08-19  860  			goto err_free_mem;
+a0b420e08e3b87 Gireesh Hiremath 2022-08-19  861  			;
+a0b420e08e3b87 Gireesh Hiremath 2022-08-19  862  		}
+a0b420e08e3b87 Gireesh Hiremath 2022-08-19  863  =
 
-be086e7c53f1fa Mintz, Yuval                2017-03-11  1454  	memset(&task_=
-params, 0, sizeof(task_params));
-be086e7c53f1fa Mintz, Yuval                2017-03-11  1455  	memset(&tmf_p=
-du_header, 0, sizeof(tmf_pdu_header));
-ace7f46ba5fde7 Manish Rangankar            2016-12-01  1456  =
+a0b420e08e3b87 Gireesh Hiremath 2022-08-19  864  		poll_prepare(keypad);
+a0b420e08e3b87 Gireesh Hiremath 2022-08-19  865  =
 
-be086e7c53f1fa Mintz, Yuval                2017-03-11  1457  	/* Update hea=
-der info */
-be086e7c53f1fa Mintz, Yuval                2017-03-11  1458  	qedi_update_i=
-tt_map(qedi, tid, mtask->itt, qedi_cmd);
-be086e7c53f1fa Mintz, Yuval                2017-03-11 @1459  	tmf_pdu_heade=
-r.itt =3D qedi_set_itt(tid, get_itt(mtask->itt));
-be086e7c53f1fa Mintz, Yuval                2017-03-11 @1460  	tmf_pdu_heade=
-r.cmd_sn =3D be32_to_cpu(tmf_hdr->cmdsn);
-be086e7c53f1fa Mintz, Yuval                2017-03-11  1461  =
+a0b420e08e3b87 Gireesh Hiremath 2022-08-19  866  		err =3D input_setup_poll=
+ing(input_dev, matrix_keypad_poll);
+a0b420e08e3b87 Gireesh Hiremath 2022-08-19  867  		if (err) {
+a0b420e08e3b87 Gireesh Hiremath 2022-08-19  868  			dev_err(&pdev->dev,
+a0b420e08e3b87 Gireesh Hiremath 2022-08-19  869  				"unable to set up poll=
+ing, err=3D%d\n", err);
+a0b420e08e3b87 Gireesh Hiremath 2022-08-19  870  			return err;
+a0b420e08e3b87 Gireesh Hiremath 2022-08-19  871  		}
+a0b420e08e3b87 Gireesh Hiremath 2022-08-19  872  =
 
-be086e7c53f1fa Mintz, Yuval                2017-03-11  1462  	memcpy(scsi_l=
-un, &tmf_hdr->lun, sizeof(struct scsi_lun));
-be086e7c53f1fa Mintz, Yuval                2017-03-11 @1463  	tmf_pdu_heade=
-r.lun.lo =3D be32_to_cpu(scsi_lun[0]);
-be086e7c53f1fa Mintz, Yuval                2017-03-11 @1464  	tmf_pdu_heade=
-r.lun.hi =3D be32_to_cpu(scsi_lun[1]);
-ace7f46ba5fde7 Manish Rangankar            2016-12-01  1465  =
+a0b420e08e3b87 Gireesh Hiremath 2022-08-19  873  		input_set_poll_interval(=
+input_dev, pdata->poll_interval_ms);
+a0b420e08e3b87 Gireesh Hiremath 2022-08-19  874  	} else {
+bab7614d6d1b1f Eric Miao        2009-06-29  875  		INIT_DELAYED_WORK(&keypa=
+d->work, matrix_keypad_scan);
+a0b420e08e3b87 Gireesh Hiremath 2022-08-19  876  	}
+bab7614d6d1b1f Eric Miao        2009-06-29  877  	spin_lock_init(&keypad->l=
+ock);
+bab7614d6d1b1f Eric Miao        2009-06-29  878  =
 
-ace7f46ba5fde7 Manish Rangankar            2016-12-01  1466  	if ((tmf_hdr-=
->flags & ISCSI_FLAG_TM_FUNC_MASK) =3D=3D
-ace7f46ba5fde7 Manish Rangankar            2016-12-01  1467  	     ISCSI_TM=
-_FUNC_ABORT_TASK) {
-ace7f46ba5fde7 Manish Rangankar            2016-12-01  1468  		cmd =3D (str=
-uct qedi_cmd *)ctask->dd_data;
-be086e7c53f1fa Mintz, Yuval                2017-03-11 @1469  		tmf_pdu_head=
-er.rtt =3D
-ace7f46ba5fde7 Manish Rangankar            2016-12-01  1470  				qedi_set_i=
-tt(cmd->task_id,
-ace7f46ba5fde7 Manish Rangankar            2016-12-01  1471  					     get_=
-itt(tmf_hdr->rtt));
-ace7f46ba5fde7 Manish Rangankar            2016-12-01  1472  	} else {
-be086e7c53f1fa Mintz, Yuval                2017-03-11  1473  		tmf_pdu_head=
-er.rtt =3D ISCSI_RESERVED_TAG;
-be086e7c53f1fa Mintz, Yuval                2017-03-11  1474  	}
-ace7f46ba5fde7 Manish Rangankar            2016-12-01  1475  =
+bab7614d6d1b1f Eric Miao        2009-06-29  879  	input_dev->name =3D pdev-=
+>name;
+bab7614d6d1b1f Eric Miao        2009-06-29  880  	input_dev->id.bustype =3D=
+ BUS_HOST;
+bab7614d6d1b1f Eric Miao        2009-06-29  881  	input_dev->dev.parent =3D=
+ &pdev->dev;
+bab7614d6d1b1f Eric Miao        2009-06-29  882  	input_dev->open =3D matri=
+x_keypad_start;
+bab7614d6d1b1f Eric Miao        2009-06-29  883  	input_dev->close =3D matr=
+ix_keypad_stop;
+bab7614d6d1b1f Eric Miao        2009-06-29  884  =
 
-be086e7c53f1fa Mintz, Yuval                2017-03-11  1476  	tmf_pdu_heade=
-r.opcode =3D tmf_hdr->opcode;
-be086e7c53f1fa Mintz, Yuval                2017-03-11  1477  	tmf_pdu_heade=
-r.function =3D tmf_hdr->flags;
-be086e7c53f1fa Mintz, Yuval                2017-03-11  1478  	tmf_pdu_heade=
-r.hdr_second_dword =3D ntoh24(tmf_hdr->dlength);
-be086e7c53f1fa Mintz, Yuval                2017-03-11 @1479  	tmf_pdu_heade=
-r.ref_cmd_sn =3D be32_to_cpu(tmf_hdr->refcmdsn);
-be086e7c53f1fa Mintz, Yuval                2017-03-11  1480  =
+a0b420e08e3b87 Gireesh Hiremath 2022-08-19  885  	if (pdata->mode =3D=3D RE=
+DUCED) {
+a0b420e08e3b87 Gireesh Hiremath 2022-08-19  886  		err =3D matrix_keypad_bu=
+ild_keymap(pdata->keymap_data, NULL,
+a0b420e08e3b87 Gireesh Hiremath 2022-08-19  887  						 pdata->num_line_gpi=
+os,
+a0b420e08e3b87 Gireesh Hiremath 2022-08-19  888  						 pdata->num_line_gpi=
+os, NULL,
+a0b420e08e3b87 Gireesh Hiremath 2022-08-19  889  						 input_dev);
+a0b420e08e3b87 Gireesh Hiremath 2022-08-19  890  		if (err) {
+a0b420e08e3b87 Gireesh Hiremath 2022-08-19  891  			dev_err(&pdev->dev, "fa=
+iled to build keymap for reduced mode\n");
+a0b420e08e3b87 Gireesh Hiremath 2022-08-19  892  			goto err_free_mem;
+a0b420e08e3b87 Gireesh Hiremath 2022-08-19  893  		}
+a0b420e08e3b87 Gireesh Hiremath 2022-08-19  894  	} else {
+4a83eecff65bd3 AnilKumar Ch     2012-11-20  895  		err =3D matrix_keypad_bu=
+ild_keymap(pdata->keymap_data, NULL,
+1932811f426fee Dmitry Torokhov  2012-05-10  896  						 pdata->num_row_gpio=
+s,
+a0b420e08e3b87 Gireesh Hiremath 2022-08-19  897  						 pdata->num_col_gpio=
+s, NULL,
+a0b420e08e3b87 Gireesh Hiremath 2022-08-19  898  						 input_dev);
+4a83eecff65bd3 AnilKumar Ch     2012-11-20  899  		if (err) {
+a0b420e08e3b87 Gireesh Hiremath 2022-08-19  900  			dev_err(&pdev->dev, "fa=
+iled to build keymap for generic mode\n");
+1932811f426fee Dmitry Torokhov  2012-05-10  901  			goto err_free_mem;
+4a83eecff65bd3 AnilKumar Ch     2012-11-20  902  		}
+a0b420e08e3b87 Gireesh Hiremath 2022-08-19  903  	}
+bab7614d6d1b1f Eric Miao        2009-06-29  904  =
 
-be086e7c53f1fa Mintz, Yuval                2017-03-11  1481  	/* Fill fw in=
-put params */
-be086e7c53f1fa Mintz, Yuval                2017-03-11  1482  	task_params.c=
-ontext =3D fw_task_ctx;
-be086e7c53f1fa Mintz, Yuval                2017-03-11  1483  	task_params.c=
-onn_icid =3D (u16)qedi_conn->iscsi_conn_id;
-be086e7c53f1fa Mintz, Yuval                2017-03-11  1484  	task_params.i=
-tid =3D tid;
-be086e7c53f1fa Mintz, Yuval                2017-03-11  1485  	task_params.c=
-q_rss_number =3D 0;
-be086e7c53f1fa Mintz, Yuval                2017-03-11  1486  	task_params.t=
-x_io_size =3D 0;
-be086e7c53f1fa Mintz, Yuval                2017-03-11  1487  	task_params.r=
-x_io_size =3D 0;
-be086e7c53f1fa Mintz, Yuval                2017-03-11  1488  =
+1932811f426fee Dmitry Torokhov  2012-05-10  905  	if (!pdata->no_autorepeat)
+1932811f426fee Dmitry Torokhov  2012-05-10  906  		__set_bit(EV_REP, input_=
+dev->evbit);
+bab7614d6d1b1f Eric Miao        2009-06-29  907  	input_set_capability(inpu=
+t_dev, EV_MSC, MSC_SCAN);
+bab7614d6d1b1f Eric Miao        2009-06-29  908  	input_set_drvdata(input_d=
+ev, keypad);
+bab7614d6d1b1f Eric Miao        2009-06-29  909  =
 
-be086e7c53f1fa Mintz, Yuval                2017-03-11  1489  	sq_idx =3D qe=
-di_get_wqe_idx(qedi_conn);
-be086e7c53f1fa Mintz, Yuval                2017-03-11  1490  	task_params.s=
-qe =3D &ep->sq[sq_idx];
-be086e7c53f1fa Mintz, Yuval                2017-03-11  1491  =
+a0b420e08e3b87 Gireesh Hiremath 2022-08-19  910  	if (pdata->mode =3D=3D RE=
+DUCED) {
+a0b420e08e3b87 Gireesh Hiremath 2022-08-19  911  		button_hdl_init(keypad);
+a0b420e08e3b87 Gireesh Hiremath 2022-08-19  912  	} else {
+b83643ebf22423 Dmitry Torokhov  2012-04-20  913  		err =3D matrix_keypad_in=
+it_gpio(pdev, keypad);
+bab7614d6d1b1f Eric Miao        2009-06-29  914  		if (err)
+bab7614d6d1b1f Eric Miao        2009-06-29  915  			goto err_free_mem;
+a0b420e08e3b87 Gireesh Hiremath 2022-08-19  916  	}
+bab7614d6d1b1f Eric Miao        2009-06-29  917  =
 
-be086e7c53f1fa Mintz, Yuval                2017-03-11  1492  	memset(task_p=
-arams.sqe, 0, sizeof(struct iscsi_wqe));
-f7eea75262fc8e Mike Christie               2021-05-25  1493  	init_initiato=
-r_tmf_request_task(&task_params, &tmf_pdu_header);
-ace7f46ba5fde7 Manish Rangankar            2016-12-01  1494  =
+bab7614d6d1b1f Eric Miao        2009-06-29  918  	err =3D input_register_de=
+vice(keypad->input_dev);
+bab7614d6d1b1f Eric Miao        2009-06-29  919  	if (err)
+b83643ebf22423 Dmitry Torokhov  2012-04-20  920  		goto err_free_gpio;
+bab7614d6d1b1f Eric Miao        2009-06-29  921  =
 
-ace7f46ba5fde7 Manish Rangankar            2016-12-01  1495  	spin_lock(&qe=
-di_conn->list_lock);
-ace7f46ba5fde7 Manish Rangankar            2016-12-01  1496  	list_add_tail=
-(&qedi_cmd->io_cmd, &qedi_conn->active_cmd_list);
-ace7f46ba5fde7 Manish Rangankar            2016-12-01  1497  	qedi_cmd->io_=
-cmd_in_list =3D true;
-ace7f46ba5fde7 Manish Rangankar            2016-12-01  1498  	qedi_conn->ac=
-tive_cmd_count++;
-ace7f46ba5fde7 Manish Rangankar            2016-12-01  1499  	spin_unlock(&=
-qedi_conn->list_lock);
-ace7f46ba5fde7 Manish Rangankar            2016-12-01  1500  =
+bab7614d6d1b1f Eric Miao        2009-06-29  922  	device_init_wakeup(&pdev-=
+>dev, pdata->wakeup);
+bab7614d6d1b1f Eric Miao        2009-06-29  923  	platform_set_drvdata(pdev=
+, keypad);
+bab7614d6d1b1f Eric Miao        2009-06-29  924  =
 
-ace7f46ba5fde7 Manish Rangankar            2016-12-01  1501  	qedi_ring_doo=
-rbell(qedi_conn);
-ace7f46ba5fde7 Manish Rangankar            2016-12-01  1502  	return 0;
-ace7f46ba5fde7 Manish Rangankar            2016-12-01  1503  }
-ace7f46ba5fde7 Manish Rangankar            2016-12-01  1504  =
+bab7614d6d1b1f Eric Miao        2009-06-29  925  	return 0;
+bab7614d6d1b1f Eric Miao        2009-06-29  926  =
 
+b83643ebf22423 Dmitry Torokhov  2012-04-20  927  err_free_gpio:
+b83643ebf22423 Dmitry Torokhov  2012-04-20  928  	matrix_keypad_free_gpio(k=
+eypad);
+bab7614d6d1b1f Eric Miao        2009-06-29  929  err_free_mem:
+bab7614d6d1b1f Eric Miao        2009-06-29  930  	input_free_device(input_d=
+ev);
+bab7614d6d1b1f Eric Miao        2009-06-29  931  	kfree(keypad);
+bab7614d6d1b1f Eric Miao        2009-06-29 @932  	return err;
+bab7614d6d1b1f Eric Miao        2009-06-29  933  }
+bab7614d6d1b1f Eric Miao        2009-06-29  934  =
 
-:::::: The code at line 1460 was first introduced by commit
-:::::: be086e7c53f1fac51eed14523b28f2214b548dd2 qed*: Utilize Firmware 8.15=
-.3.0
-
-:::::: TO: Mintz, Yuval <Yuval.Mintz@cavium.com>
-:::::: CC: David S. Miller <davem@davemloft.net>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============2602880020196053295==--
+--===============0868718380470943701==--
 
