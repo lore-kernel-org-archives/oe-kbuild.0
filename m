@@ -1,21 +1,21 @@
-Content-Type: multipart/mixed; boundary="===============0868718380470943701=="
+Content-Type: multipart/mixed; boundary="===============7889093061151848194=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v3 2/3] driver: input: matric-keypad: add reduced matrix support
-Date: Sat, 20 Aug 2022 01:36:29 +0800
-Message-ID: <202208200111.6wvFtbES-lkp@intel.com>
+Subject: Re: [PATCH v3 1/3] driver: input: matric-keypad: switch to gpiod
+Date: Fri, 19 Aug 2022 23:53:02 +0800
+Message-ID: <202208192340.m1XMlTj5-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0868718380470943701==
+--===============7889093061151848194==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <20220819065946.9572-2-Gireesh.Hiremath@in.bosch.com>
-References: <20220819065946.9572-2-Gireesh.Hiremath@in.bosch.com>
+In-Reply-To: <20220819065946.9572-1-Gireesh.Hiremath@in.bosch.com>
+References: <20220819065946.9572-1-Gireesh.Hiremath@in.bosch.com>
 TO: Gireesh.Hiremath(a)in.bosch.com
 TO: linux-omap(a)vger.kernel.org
 TO: devicetree(a)vger.kernel.org
@@ -53,203 +53,157 @@ https://git-scm.com/docs/git-format-patch#_base_tree_information]
 url:    https://github.com/intel-lab-lkp/linux/commits/Gireesh-Hiremath-in-=
 bosch-com/driver-input-matric-keypad-switch-to-gpiod/20220819-151155
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
-:::::: branch date: 10 hours ago
-:::::: commit date: 10 hours ago
-config: s390-randconfig-m041-20220819 (https://download.01.org/0day-ci/arch=
-ive/20220820/202208200111.6wvFtbES-lkp(a)intel.com/config)
-compiler: s390-linux-gcc (GCC) 12.1.0
+:::::: branch date: 9 hours ago
+:::::: commit date: 9 hours ago
+config: i386-randconfig-m021 (https://download.01.org/0day-ci/archive/20220=
+819/202208192340.m1XMlTj5-lkp(a)intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-5) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-drivers/input/keyboard/matrix_keypad.c:932 matrix_keypad_probe() error: uni=
-nitialized symbol 'err'.
+New smatch warnings:
+drivers/input/keyboard/matrix_keypad.c:432 matrix_keypad_parse_dt() error: =
+uninitialized symbol 'ret'.
 
-vim +/err +932 drivers/input/keyboard/matrix_keypad.c
+Old smatch warnings:
+drivers/input/keyboard/matrix_keypad.c:439 matrix_keypad_parse_dt() error: =
+uninitialized symbol 'ret'.
 
-4a83eecff65bd3 AnilKumar Ch     2012-11-20  822  =
+vim +/ret +432 drivers/input/keyboard/matrix_keypad.c
 
-5298cc4cc753bb Bill Pemberton   2012-11-23  823  static int matrix_keypad_p=
-robe(struct platform_device *pdev)
-bab7614d6d1b1f Eric Miao        2009-06-29  824  {
-bab7614d6d1b1f Eric Miao        2009-06-29  825  	const struct matrix_keypa=
-d_platform_data *pdata;
-bab7614d6d1b1f Eric Miao        2009-06-29  826  	struct matrix_keypad *key=
-pad;
-bab7614d6d1b1f Eric Miao        2009-06-29  827  	struct input_dev *input_d=
-ev;
-bab7614d6d1b1f Eric Miao        2009-06-29  828  	int err;
-bab7614d6d1b1f Eric Miao        2009-06-29  829  =
+b83643ebf22423 Dmitry Torokhov  2012-04-20  378  =
 
-4a83eecff65bd3 AnilKumar Ch     2012-11-20  830  	pdata =3D dev_get_platdat=
-a(&pdev->dev);
-bab7614d6d1b1f Eric Miao        2009-06-29  831  	if (!pdata) {
-4a83eecff65bd3 AnilKumar Ch     2012-11-20  832  		pdata =3D matrix_keypad_=
-parse_dt(&pdev->dev);
-d55bda1b3e7c5a Christian Hoff   2018-11-12  833  		if (IS_ERR(pdata))
-4a83eecff65bd3 AnilKumar Ch     2012-11-20  834  			return PTR_ERR(pdata);
-4a83eecff65bd3 AnilKumar Ch     2012-11-20  835  	} else if (!pdata->keymap=
-_data) {
-bab7614d6d1b1f Eric Miao        2009-06-29  836  		dev_err(&pdev->dev, "no =
-keymap data defined\n");
-bab7614d6d1b1f Eric Miao        2009-06-29  837  		return -EINVAL;
-bab7614d6d1b1f Eric Miao        2009-06-29  838  	}
-bab7614d6d1b1f Eric Miao        2009-06-29  839  =
+4a83eecff65bd3 AnilKumar Ch     2012-11-20  379  #ifdef CONFIG_OF
+5298cc4cc753bb Bill Pemberton   2012-11-23  380  static struct matrix_keypa=
+d_platform_data *
+4a83eecff65bd3 AnilKumar Ch     2012-11-20  381  matrix_keypad_parse_dt(str=
+uct device *dev)
+4a83eecff65bd3 AnilKumar Ch     2012-11-20  382  {
+4a83eecff65bd3 AnilKumar Ch     2012-11-20  383  	struct matrix_keypad_plat=
+form_data *pdata;
+4a83eecff65bd3 AnilKumar Ch     2012-11-20  384  	struct device_node *np =
+=3D dev->of_node;
+90bb4ee8dc3c27 Gireesh Hiremath 2022-08-19  385  	struct gpio_desc **gpios;
+90bb4ee8dc3c27 Gireesh Hiremath 2022-08-19  386  	struct gpio_desc *desc;
+d55bda1b3e7c5a Christian Hoff   2018-11-12  387  	int ret, i, nrow, ncol;
+4a83eecff65bd3 AnilKumar Ch     2012-11-20  388  =
 
-4a83eecff65bd3 AnilKumar Ch     2012-11-20  840  	keypad =3D kzalloc(sizeof=
-(struct matrix_keypad), GFP_KERNEL);
-bab7614d6d1b1f Eric Miao        2009-06-29  841  	input_dev =3D input_alloc=
-ate_device();
-01111fcd42b050 Dmitry Torokhov  2012-04-20  842  	if (!keypad || !input_dev=
-) {
-bab7614d6d1b1f Eric Miao        2009-06-29  843  		err =3D -ENOMEM;
-bab7614d6d1b1f Eric Miao        2009-06-29  844  		goto err_free_mem;
-bab7614d6d1b1f Eric Miao        2009-06-29  845  	}
-bab7614d6d1b1f Eric Miao        2009-06-29  846  =
+4a83eecff65bd3 AnilKumar Ch     2012-11-20  389  	if (!np) {
+4a83eecff65bd3 AnilKumar Ch     2012-11-20  390  		dev_err(dev, "device lac=
+ks DT data\n");
+4a83eecff65bd3 AnilKumar Ch     2012-11-20  391  		return ERR_PTR(-ENODEV);
+4a83eecff65bd3 AnilKumar Ch     2012-11-20  392  	}
+4a83eecff65bd3 AnilKumar Ch     2012-11-20  393  =
 
-bab7614d6d1b1f Eric Miao        2009-06-29  847  	keypad->input_dev =3D inp=
-ut_dev;
-bab7614d6d1b1f Eric Miao        2009-06-29  848  	keypad->pdata =3D pdata;
-4a83eecff65bd3 AnilKumar Ch     2012-11-20  849  	keypad->row_shift =3D get=
-_count_order(pdata->num_col_gpios);
-bab7614d6d1b1f Eric Miao        2009-06-29  850  	keypad->stopped =3D true;
-a0b420e08e3b87 Gireesh Hiremath 2022-08-19  851  =
+4a83eecff65bd3 AnilKumar Ch     2012-11-20  394  	pdata =3D devm_kzalloc(de=
+v, sizeof(*pdata), GFP_KERNEL);
+4a83eecff65bd3 AnilKumar Ch     2012-11-20  395  	if (!pdata) {
+4a83eecff65bd3 AnilKumar Ch     2012-11-20  396  		dev_err(dev, "could not =
+allocate memory for platform data\n");
+4a83eecff65bd3 AnilKumar Ch     2012-11-20  397  		return ERR_PTR(-ENOMEM);
+4a83eecff65bd3 AnilKumar Ch     2012-11-20  398  	}
+4a83eecff65bd3 AnilKumar Ch     2012-11-20  399  =
 
-a0b420e08e3b87 Gireesh Hiremath 2022-08-19  852  	if (pdata->mode =3D=3D RE=
-DUCED) {
-a0b420e08e3b87 Gireesh Hiremath 2022-08-19  853  		keypad->button_array =3D=
- devm_kzalloc(
-a0b420e08e3b87 Gireesh Hiremath 2022-08-19  854  			&pdev->dev,
-a0b420e08e3b87 Gireesh Hiremath 2022-08-19  855  			sizeof(struct button) *=
- (pdata->num_of_buttons),
-a0b420e08e3b87 Gireesh Hiremath 2022-08-19  856  			GFP_KERNEL);
-a0b420e08e3b87 Gireesh Hiremath 2022-08-19  857  		if (!keypad->button_arra=
-y) {
-a0b420e08e3b87 Gireesh Hiremath 2022-08-19  858  			dev_err(&pdev->dev,
-a0b420e08e3b87 Gireesh Hiremath 2022-08-19  859  				"could not allocate me=
-mory for button array\n");
-a0b420e08e3b87 Gireesh Hiremath 2022-08-19  860  			goto err_free_mem;
-a0b420e08e3b87 Gireesh Hiremath 2022-08-19  861  			;
-a0b420e08e3b87 Gireesh Hiremath 2022-08-19  862  		}
-a0b420e08e3b87 Gireesh Hiremath 2022-08-19  863  =
+90bb4ee8dc3c27 Gireesh Hiremath 2022-08-19  400  	pdata->num_row_gpios =3D =
+nrow =3D gpiod_count(dev, "row");
+90bb4ee8dc3c27 Gireesh Hiremath 2022-08-19  401  	pdata->num_col_gpios =3D =
+ncol =3D gpiod_count(dev, "col");
+e80beb27d2f81a Grant Likely     2013-02-12  402  	if (nrow <=3D 0 || ncol <=
+=3D 0) {
+4a83eecff65bd3 AnilKumar Ch     2012-11-20  403  		dev_err(dev, "number of =
+keypad rows/columns not specified\n");
+4a83eecff65bd3 AnilKumar Ch     2012-11-20  404  		return ERR_PTR(-EINVAL);
+4a83eecff65bd3 AnilKumar Ch     2012-11-20  405  	}
+4a83eecff65bd3 AnilKumar Ch     2012-11-20  406  =
 
-a0b420e08e3b87 Gireesh Hiremath 2022-08-19  864  		poll_prepare(keypad);
-a0b420e08e3b87 Gireesh Hiremath 2022-08-19  865  =
+4a83eecff65bd3 AnilKumar Ch     2012-11-20  407  	if (of_get_property(np, "=
+linux,no-autorepeat", NULL))
+4a83eecff65bd3 AnilKumar Ch     2012-11-20  408  		pdata->no_autorepeat =3D=
+ true;
+aeda5003d0b987 Dmitry Torokhov  2015-07-16  409  =
 
-a0b420e08e3b87 Gireesh Hiremath 2022-08-19  866  		err =3D input_setup_poll=
-ing(input_dev, matrix_keypad_poll);
-a0b420e08e3b87 Gireesh Hiremath 2022-08-19  867  		if (err) {
-a0b420e08e3b87 Gireesh Hiremath 2022-08-19  868  			dev_err(&pdev->dev,
-a0b420e08e3b87 Gireesh Hiremath 2022-08-19  869  				"unable to set up poll=
-ing, err=3D%d\n", err);
-a0b420e08e3b87 Gireesh Hiremath 2022-08-19  870  			return err;
-a0b420e08e3b87 Gireesh Hiremath 2022-08-19  871  		}
-a0b420e08e3b87 Gireesh Hiremath 2022-08-19  872  =
+aeda5003d0b987 Dmitry Torokhov  2015-07-16  410  	pdata->wakeup =3D of_prop=
+erty_read_bool(np, "wakeup-source") ||
+aeda5003d0b987 Dmitry Torokhov  2015-07-16  411  			of_property_read_bool(n=
+p, "linux,wakeup"); /* legacy */
+aeda5003d0b987 Dmitry Torokhov  2015-07-16  412  =
 
-a0b420e08e3b87 Gireesh Hiremath 2022-08-19  873  		input_set_poll_interval(=
-input_dev, pdata->poll_interval_ms);
-a0b420e08e3b87 Gireesh Hiremath 2022-08-19  874  	} else {
-bab7614d6d1b1f Eric Miao        2009-06-29  875  		INIT_DELAYED_WORK(&keypa=
-d->work, matrix_keypad_scan);
-a0b420e08e3b87 Gireesh Hiremath 2022-08-19  876  	}
-bab7614d6d1b1f Eric Miao        2009-06-29  877  	spin_lock_init(&keypad->l=
-ock);
-bab7614d6d1b1f Eric Miao        2009-06-29  878  =
+aa0e26bb786b00 David Rivshin    2017-03-29  413  	pdata->drive_inactive_col=
+s =3D
+aa0e26bb786b00 David Rivshin    2017-03-29  414  		of_property_read_bool(np=
+, "drive-inactive-cols");
+aa0e26bb786b00 David Rivshin    2017-03-29  415  =
 
-bab7614d6d1b1f Eric Miao        2009-06-29  879  	input_dev->name =3D pdev-=
->name;
-bab7614d6d1b1f Eric Miao        2009-06-29  880  	input_dev->id.bustype =3D=
- BUS_HOST;
-bab7614d6d1b1f Eric Miao        2009-06-29  881  	input_dev->dev.parent =3D=
- &pdev->dev;
-bab7614d6d1b1f Eric Miao        2009-06-29  882  	input_dev->open =3D matri=
-x_keypad_start;
-bab7614d6d1b1f Eric Miao        2009-06-29  883  	input_dev->close =3D matr=
-ix_keypad_stop;
-bab7614d6d1b1f Eric Miao        2009-06-29  884  =
+4a83eecff65bd3 AnilKumar Ch     2012-11-20  416  	of_property_read_u32(np, =
+"debounce-delay-ms", &pdata->debounce_ms);
+4a83eecff65bd3 AnilKumar Ch     2012-11-20  417  	of_property_read_u32(np, =
+"col-scan-delay-us",
+4a83eecff65bd3 AnilKumar Ch     2012-11-20  418  						&pdata->col_scan_del=
+ay_us);
+4a83eecff65bd3 AnilKumar Ch     2012-11-20  419  =
 
-a0b420e08e3b87 Gireesh Hiremath 2022-08-19  885  	if (pdata->mode =3D=3D RE=
-DUCED) {
-a0b420e08e3b87 Gireesh Hiremath 2022-08-19  886  		err =3D matrix_keypad_bu=
-ild_keymap(pdata->keymap_data, NULL,
-a0b420e08e3b87 Gireesh Hiremath 2022-08-19  887  						 pdata->num_line_gpi=
-os,
-a0b420e08e3b87 Gireesh Hiremath 2022-08-19  888  						 pdata->num_line_gpi=
-os, NULL,
-a0b420e08e3b87 Gireesh Hiremath 2022-08-19  889  						 input_dev);
-a0b420e08e3b87 Gireesh Hiremath 2022-08-19  890  		if (err) {
-a0b420e08e3b87 Gireesh Hiremath 2022-08-19  891  			dev_err(&pdev->dev, "fa=
-iled to build keymap for reduced mode\n");
-a0b420e08e3b87 Gireesh Hiremath 2022-08-19  892  			goto err_free_mem;
-a0b420e08e3b87 Gireesh Hiremath 2022-08-19  893  		}
-a0b420e08e3b87 Gireesh Hiremath 2022-08-19  894  	} else {
-4a83eecff65bd3 AnilKumar Ch     2012-11-20  895  		err =3D matrix_keypad_bu=
-ild_keymap(pdata->keymap_data, NULL,
-1932811f426fee Dmitry Torokhov  2012-05-10  896  						 pdata->num_row_gpio=
-s,
-a0b420e08e3b87 Gireesh Hiremath 2022-08-19  897  						 pdata->num_col_gpio=
-s, NULL,
-a0b420e08e3b87 Gireesh Hiremath 2022-08-19  898  						 input_dev);
-4a83eecff65bd3 AnilKumar Ch     2012-11-20  899  		if (err) {
-a0b420e08e3b87 Gireesh Hiremath 2022-08-19  900  			dev_err(&pdev->dev, "fa=
-iled to build keymap for generic mode\n");
-1932811f426fee Dmitry Torokhov  2012-05-10  901  			goto err_free_mem;
-4a83eecff65bd3 AnilKumar Ch     2012-11-20  902  		}
-a0b420e08e3b87 Gireesh Hiremath 2022-08-19  903  	}
-bab7614d6d1b1f Eric Miao        2009-06-29  904  =
+a86854d0c599b3 Kees Cook        2018-06-12  420  	gpios =3D devm_kcalloc(de=
+v,
+a86854d0c599b3 Kees Cook        2018-06-12  421  			     pdata->num_row_gpi=
+os + pdata->num_col_gpios,
+90bb4ee8dc3c27 Gireesh Hiremath 2022-08-19  422  			     sizeof(*gpios),
+4a83eecff65bd3 AnilKumar Ch     2012-11-20  423  			     GFP_KERNEL);
+4a83eecff65bd3 AnilKumar Ch     2012-11-20  424  	if (!gpios) {
+4a83eecff65bd3 AnilKumar Ch     2012-11-20  425  		dev_err(dev, "could not =
+allocate memory for gpios\n");
+4a83eecff65bd3 AnilKumar Ch     2012-11-20  426  		return ERR_PTR(-ENOMEM);
+4a83eecff65bd3 AnilKumar Ch     2012-11-20  427  	}
+4a83eecff65bd3 AnilKumar Ch     2012-11-20  428  =
 
-1932811f426fee Dmitry Torokhov  2012-05-10  905  	if (!pdata->no_autorepeat)
-1932811f426fee Dmitry Torokhov  2012-05-10  906  		__set_bit(EV_REP, input_=
-dev->evbit);
-bab7614d6d1b1f Eric Miao        2009-06-29  907  	input_set_capability(inpu=
-t_dev, EV_MSC, MSC_SCAN);
-bab7614d6d1b1f Eric Miao        2009-06-29  908  	input_set_drvdata(input_d=
-ev, keypad);
-bab7614d6d1b1f Eric Miao        2009-06-29  909  =
+d55bda1b3e7c5a Christian Hoff   2018-11-12  429  	for (i =3D 0; i < nrow; i=
+++) {
+90bb4ee8dc3c27 Gireesh Hiremath 2022-08-19  430  		desc =3D devm_gpiod_get_=
+index(dev, "row", i, GPIOD_IN);
+90bb4ee8dc3c27 Gireesh Hiremath 2022-08-19  431  		if (IS_ERR(desc))
+d55bda1b3e7c5a Christian Hoff   2018-11-12 @432  			return ERR_PTR(ret);
+90bb4ee8dc3c27 Gireesh Hiremath 2022-08-19  433  		gpios[i] =3D desc;
+d55bda1b3e7c5a Christian Hoff   2018-11-12  434  	}
+4a83eecff65bd3 AnilKumar Ch     2012-11-20  435  =
 
-a0b420e08e3b87 Gireesh Hiremath 2022-08-19  910  	if (pdata->mode =3D=3D RE=
-DUCED) {
-a0b420e08e3b87 Gireesh Hiremath 2022-08-19  911  		button_hdl_init(keypad);
-a0b420e08e3b87 Gireesh Hiremath 2022-08-19  912  	} else {
-b83643ebf22423 Dmitry Torokhov  2012-04-20  913  		err =3D matrix_keypad_in=
-it_gpio(pdev, keypad);
-bab7614d6d1b1f Eric Miao        2009-06-29  914  		if (err)
-bab7614d6d1b1f Eric Miao        2009-06-29  915  			goto err_free_mem;
-a0b420e08e3b87 Gireesh Hiremath 2022-08-19  916  	}
-bab7614d6d1b1f Eric Miao        2009-06-29  917  =
+d55bda1b3e7c5a Christian Hoff   2018-11-12  436  	for (i =3D 0; i < ncol; i=
+++) {
+90bb4ee8dc3c27 Gireesh Hiremath 2022-08-19  437  		desc =3D devm_gpiod_get_=
+index(dev, "col", i, GPIOD_IN);
+90bb4ee8dc3c27 Gireesh Hiremath 2022-08-19  438  		if (IS_ERR(desc))
+d55bda1b3e7c5a Christian Hoff   2018-11-12  439  			return ERR_PTR(ret);
+90bb4ee8dc3c27 Gireesh Hiremath 2022-08-19  440  		gpios[nrow + i] =3D desc;
+d55bda1b3e7c5a Christian Hoff   2018-11-12  441  	}
+4a83eecff65bd3 AnilKumar Ch     2012-11-20  442  =
 
-bab7614d6d1b1f Eric Miao        2009-06-29  918  	err =3D input_register_de=
-vice(keypad->input_dev);
-bab7614d6d1b1f Eric Miao        2009-06-29  919  	if (err)
-b83643ebf22423 Dmitry Torokhov  2012-04-20  920  		goto err_free_gpio;
-bab7614d6d1b1f Eric Miao        2009-06-29  921  =
+4a83eecff65bd3 AnilKumar Ch     2012-11-20  443  	pdata->row_gpios =3D gpio=
+s;
+4a83eecff65bd3 AnilKumar Ch     2012-11-20  444  	pdata->col_gpios =3D &gpi=
+os[pdata->num_row_gpios];
+4a83eecff65bd3 AnilKumar Ch     2012-11-20  445  =
 
-bab7614d6d1b1f Eric Miao        2009-06-29  922  	device_init_wakeup(&pdev-=
->dev, pdata->wakeup);
-bab7614d6d1b1f Eric Miao        2009-06-29  923  	platform_set_drvdata(pdev=
-, keypad);
-bab7614d6d1b1f Eric Miao        2009-06-29  924  =
+4a83eecff65bd3 AnilKumar Ch     2012-11-20  446  	return pdata;
+4a83eecff65bd3 AnilKumar Ch     2012-11-20  447  }
+4a83eecff65bd3 AnilKumar Ch     2012-11-20  448  #else
+4a83eecff65bd3 AnilKumar Ch     2012-11-20  449  static inline struct matri=
+x_keypad_platform_data *
+4a83eecff65bd3 AnilKumar Ch     2012-11-20  450  matrix_keypad_parse_dt(str=
+uct device *dev)
+4a83eecff65bd3 AnilKumar Ch     2012-11-20  451  {
+4a83eecff65bd3 AnilKumar Ch     2012-11-20  452  	dev_err(dev, "no platform=
+ data defined\n");
+4a83eecff65bd3 AnilKumar Ch     2012-11-20  453  =
 
-bab7614d6d1b1f Eric Miao        2009-06-29  925  	return 0;
-bab7614d6d1b1f Eric Miao        2009-06-29  926  =
-
-b83643ebf22423 Dmitry Torokhov  2012-04-20  927  err_free_gpio:
-b83643ebf22423 Dmitry Torokhov  2012-04-20  928  	matrix_keypad_free_gpio(k=
-eypad);
-bab7614d6d1b1f Eric Miao        2009-06-29  929  err_free_mem:
-bab7614d6d1b1f Eric Miao        2009-06-29  930  	input_free_device(input_d=
-ev);
-bab7614d6d1b1f Eric Miao        2009-06-29  931  	kfree(keypad);
-bab7614d6d1b1f Eric Miao        2009-06-29 @932  	return err;
-bab7614d6d1b1f Eric Miao        2009-06-29  933  }
-bab7614d6d1b1f Eric Miao        2009-06-29  934  =
+4a83eecff65bd3 AnilKumar Ch     2012-11-20  454  	return ERR_PTR(-EINVAL);
+4a83eecff65bd3 AnilKumar Ch     2012-11-20  455  }
+4a83eecff65bd3 AnilKumar Ch     2012-11-20  456  #endif
+4a83eecff65bd3 AnilKumar Ch     2012-11-20  457  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============0868718380470943701==--
+--===============7889093061151848194==--
 
