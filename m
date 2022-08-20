@@ -1,714 +1,174 @@
-Content-Type: multipart/mixed; boundary="===============3947549164474091088=="
+Content-Type: multipart/mixed; boundary="===============9115279026190541242=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/gpu/drm/msm/adreno/a6xx_gmu.h:96:16: sparse: sparse: incorrect type in argument 1 (different address spaces)
-Date: Sun, 21 Aug 2022 08:52:34 +0800
-Message-ID: <202208210845.My2md01T-lkp@intel.com>
+Subject: Re: [PATCH v4] thunderbolt: thunderbolt: add vendor's NVM formats
+Date: Sun, 21 Aug 2022 05:08:44 +0800
+Message-ID: <202208210428.twrbg1M9-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3947549164474091088==
+--===============9115279026190541242==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-:::::: =
-
-:::::: Manual check reason: "low confidence bisect report"
-:::::: =
-
-
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
-CC: linux-kernel(a)vger.kernel.org
-TO: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-CC: Stephen Boyd <swboyd@chromium.org>
+In-Reply-To: <20220816105502.9059-1-chensiying21@gmail.com>
+References: <20220816105502.9059-1-chensiying21@gmail.com>
+TO: Szuying Chen <chensiying21@gmail.com>
+TO: gregkh(a)linuxfoundation.org
+TO: mario.limonciello(a)amd.com
+TO: mika.westerberg(a)linux.intel.com
+TO: andreas.noever(a)gmail.com
+TO: michael.jamet(a)intel.com
+TO: YehezkelShB(a)gmail.com
+TO: linux-usb(a)vger.kernel.org
+TO: linux-kernel(a)vger.kernel.org
+CC: Yd_Tseng(a)asmedia.com.tw
+CC: Chloe_Chen(a)asmedia.com.tw
+CC: Richard_Hsu(a)asmedia.com.tw
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   15b3f48a4339e3c16acf18624e2b7f60bc5e9a2c
-commit: 3f4a80cbf968466c5ba0c78ef41cae8292965bd8 drm/msm: move msm_readl/_w=
-ritel to msm_drv.h
-date:   6 months ago
-:::::: branch date: 3 hours ago
-:::::: commit date: 6 months ago
-config: mips-randconfig-s042-20220821 (https://download.01.org/0day-ci/arch=
-ive/20220821/202208210845.My2md01T-lkp(a)intel.com/config)
-compiler: mipsel-linux-gcc (GCC) 12.1.0
-reproduce:
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D3f4a80cbf968466c5ba0c78ef41cae8292965bd8
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 3f4a80cbf968466c5ba0c78ef41cae8292965bd8
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cross=
- C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3Dbuild_dir ARCH=3Dm=
-ips SHELL=3D/bin/bash drivers/gpu/drm/msm/
+Hi Szuying,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.0-rc1 next-20220819]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Szuying-Chen/thunder=
+bolt-thunderbolt-add-vendor-s-NVM-formats/20220816-193757
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+568035b01cfb107af8d2e4bd2fb9aea22cf5b868
+:::::: branch date: 4 days ago
+:::::: commit date: 4 days ago
+config: i386-randconfig-m021 (https://download.01.org/0day-ci/archive/20220=
+821/202208210428.twrbg1M9-lkp(a)intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-5) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:1515:36: sparse: sparse: incorrect=
- type in assignment (different address spaces) @@     expected void [nodere=
-f] __iomem *llc_mmio @@     got void * @@
-   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:1515:36: sparse:     expected void=
- [noderef] __iomem *llc_mmio
-   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:1515:36: sparse:     got void *
-   drivers/gpu/drm/msm/adreno/a6xx_gpu.c: note: in included file (through d=
-rivers/gpu/drm/msm/adreno/a6xx_gpu.h):
->> drivers/gpu/drm/msm/adreno/a6xx_gmu.h:96:16: sparse: sparse: incorrect t=
-ype in argument 1 (different address spaces) @@     expected void const vol=
-atile [noderef] __iomem *mem @@     got void * @@
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:96:16: sparse:     expected void c=
-onst volatile [noderef] __iomem *mem
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:96:16: sparse:     got void *
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:96:16: sparse: sparse: dereference=
- of noderef expression
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:96:16: sparse: sparse: dereference=
- of noderef expression
->> drivers/gpu/drm/msm/adreno/a6xx_gmu.h:101:16: sparse: sparse: incorrect =
-type in argument 2 (different address spaces) @@     expected void volatile=
- [noderef] __iomem *mem @@     got void * @@
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:101:16: sparse:     expected void =
-volatile [noderef] __iomem *mem
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:101:16: sparse:     got void *
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:101:16: sparse: sparse: dereferenc=
-e of noderef expression
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:101:16: sparse: sparse: dereferenc=
-e of noderef expression
->> drivers/gpu/drm/msm/adreno/a6xx_gmu.h:96:16: sparse: sparse: incorrect t=
-ype in argument 1 (different address spaces) @@     expected void const vol=
-atile [noderef] __iomem *mem @@     got void * @@
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:96:16: sparse:     expected void c=
-onst volatile [noderef] __iomem *mem
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:96:16: sparse:     got void *
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:96:16: sparse: sparse: dereference=
- of noderef expression
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:96:16: sparse: sparse: dereference=
- of noderef expression
->> drivers/gpu/drm/msm/adreno/a6xx_gmu.h:101:16: sparse: sparse: incorrect =
-type in argument 2 (different address spaces) @@     expected void volatile=
- [noderef] __iomem *mem @@     got void * @@
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:101:16: sparse:     expected void =
-volatile [noderef] __iomem *mem
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:101:16: sparse:     got void *
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:101:16: sparse: sparse: dereferenc=
-e of noderef expression
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:101:16: sparse: sparse: dereferenc=
-e of noderef expression
->> drivers/gpu/drm/msm/adreno/a6xx_gmu.h:101:16: sparse: sparse: incorrect =
-type in argument 2 (different address spaces) @@     expected void volatile=
- [noderef] __iomem *mem @@     got void * @@
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:101:16: sparse:     expected void =
-volatile [noderef] __iomem *mem
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:101:16: sparse:     got void *
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:101:16: sparse: sparse: dereferenc=
-e of noderef expression
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:101:16: sparse: sparse: dereferenc=
-e of noderef expression
->> drivers/gpu/drm/msm/adreno/a6xx_gmu.h:101:16: sparse: sparse: incorrect =
-type in argument 2 (different address spaces) @@     expected void volatile=
- [noderef] __iomem *mem @@     got void * @@
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:101:16: sparse:     expected void =
-volatile [noderef] __iomem *mem
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:101:16: sparse:     got void *
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:101:16: sparse: sparse: dereferenc=
-e of noderef expression
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:101:16: sparse: sparse: dereferenc=
-e of noderef expression
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:124:21: sparse: sparse: incorrect =
-type in argument 1 (different address spaces) @@     expected void const vo=
-latile [noderef] __iomem *mem @@     got void * @@
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:124:21: sparse:     expected void =
-const volatile [noderef] __iomem *mem
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:124:21: sparse:     got void *
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:125:23: sparse: sparse: incorrect =
-type in argument 1 (different address spaces) @@     expected void const vo=
-latile [noderef] __iomem *mem @@     got void * @@
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:125:23: sparse:     expected void =
-const volatile [noderef] __iomem *mem
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:125:23: sparse:     got void *
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:124:21: sparse: sparse: dereferenc=
-e of noderef expression
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:124:21: sparse: sparse: dereferenc=
-e of noderef expression
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:125:23: sparse: sparse: dereferenc=
-e of noderef expression
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:125:23: sparse: sparse: dereferenc=
-e of noderef expression
---
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:224:15: sparse: sparse: incorrect =
-type in argument 1 (different address spaces) @@     expected void const vo=
-latile [noderef] __iomem *mem @@     got void * @@
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:224:15: sparse:     expected void =
-const volatile [noderef] __iomem *mem
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:224:15: sparse:     got void *
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:240:15: sparse: sparse: incorrect =
-type in argument 1 (different address spaces) @@     expected void const vo=
-latile [noderef] __iomem *mem @@     got void * @@
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:240:15: sparse:     expected void =
-const volatile [noderef] __iomem *mem
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:240:15: sparse:     got void *
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:240:15: sparse: sparse: incorrect =
-type in argument 1 (different address spaces) @@     expected void const vo=
-latile [noderef] __iomem *mem @@     got void * @@
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:240:15: sparse:     expected void =
-const volatile [noderef] __iomem *mem
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:240:15: sparse:     got void *
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:322:15: sparse: sparse: incorrect =
-type in argument 1 (different address spaces) @@     expected void const vo=
-latile [noderef] __iomem *mem @@     got void * @@
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:322:15: sparse:     expected void =
-const volatile [noderef] __iomem *mem
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:322:15: sparse:     got void *
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:322:15: sparse: sparse: incorrect =
-type in argument 1 (different address spaces) @@     expected void const vo=
-latile [noderef] __iomem *mem @@     got void * @@
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:322:15: sparse:     expected void =
-const volatile [noderef] __iomem *mem
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:322:15: sparse:     got void *
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:366:15: sparse: sparse: incorrect =
-type in argument 1 (different address spaces) @@     expected void const vo=
-latile [noderef] __iomem *mem @@     got void * @@
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:366:15: sparse:     expected void =
-const volatile [noderef] __iomem *mem
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:366:15: sparse:     got void *
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:366:15: sparse: sparse: incorrect =
-type in argument 1 (different address spaces) @@     expected void const vo=
-latile [noderef] __iomem *mem @@     got void * @@
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:366:15: sparse:     expected void =
-const volatile [noderef] __iomem *mem
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:366:15: sparse:     got void *
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:391:15: sparse: sparse: incorrect =
-type in argument 1 (different address spaces) @@     expected void const vo=
-latile [noderef] __iomem *mem @@     got void * @@
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:391:15: sparse:     expected void =
-const volatile [noderef] __iomem *mem
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:391:15: sparse:     got void *
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:391:15: sparse: sparse: incorrect =
-type in argument 1 (different address spaces) @@     expected void const vo=
-latile [noderef] __iomem *mem @@     got void * @@
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:391:15: sparse:     expected void =
-const volatile [noderef] __iomem *mem
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:391:15: sparse:     got void *
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:464:15: sparse: sparse: incorrect =
-type in argument 1 (different address spaces) @@     expected void const vo=
-latile [noderef] __iomem *mem @@     got void * @@
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:464:15: sparse:     expected void =
-const volatile [noderef] __iomem *mem
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:464:15: sparse:     got void *
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:464:15: sparse: sparse: incorrect =
-type in argument 1 (different address spaces) @@     expected void const vo=
-latile [noderef] __iomem *mem @@     got void * @@
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:464:15: sparse:     expected void =
-const volatile [noderef] __iomem *mem
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:464:15: sparse:     got void *
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:471:15: sparse: sparse: incorrect =
-type in argument 1 (different address spaces) @@     expected void const vo=
-latile [noderef] __iomem *mem @@     got void * @@
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:471:15: sparse:     expected void =
-const volatile [noderef] __iomem *mem
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:471:15: sparse:     got void *
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:471:15: sparse: sparse: incorrect =
-type in argument 1 (different address spaces) @@     expected void const vo=
-latile [noderef] __iomem *mem @@     got void * @@
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:471:15: sparse:     expected void =
-const volatile [noderef] __iomem *mem
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:471:15: sparse:     got void *
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:497:15: sparse: sparse: incorrect =
-type in argument 1 (different address spaces) @@     expected void const vo=
-latile [noderef] __iomem *mem @@     got void * @@
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:497:15: sparse:     expected void =
-const volatile [noderef] __iomem *mem
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:497:15: sparse:     got void *
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:497:15: sparse: sparse: incorrect =
-type in argument 1 (different address spaces) @@     expected void const vo=
-latile [noderef] __iomem *mem @@     got void * @@
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:497:15: sparse:     expected void =
-const volatile [noderef] __iomem *mem
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:497:15: sparse:     got void *
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:1418:31: sparse: sparse: incorrect=
- type in return expression (different address spaces) @@     expected void =
-[noderef] __iomem * @@     got void * @@
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:1418:31: sparse:     expected void=
- [noderef] __iomem *
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:1418:31: sparse:     got void *
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:1424:31: sparse: sparse: incorrect=
- type in return expression (different address spaces) @@     expected void =
-[noderef] __iomem * @@     got void * @@
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:1424:31: sparse:     expected void=
- [noderef] __iomem *
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:1424:31: sparse:     got void *
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:862:9: sparse: sparse: incorrect t=
-ype in argument 1 (different address spaces) @@     expected void const vol=
-atile [noderef] __iomem *mem @@     got void * @@
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:862:9: sparse:     expected void c=
-onst volatile [noderef] __iomem *mem
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:862:9: sparse:     got void *
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:862:9: sparse: sparse: incorrect t=
-ype in argument 1 (different address spaces) @@     expected void const vol=
-atile [noderef] __iomem *mem @@     got void * @@
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:862:9: sparse:     expected void c=
-onst volatile [noderef] __iomem *mem
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:862:9: sparse:     got void *
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:864:9: sparse: sparse: incorrect t=
-ype in argument 1 (different address spaces) @@     expected void const vol=
-atile [noderef] __iomem *mem @@     got void * @@
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:864:9: sparse:     expected void c=
-onst volatile [noderef] __iomem *mem
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:864:9: sparse:     got void *
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:864:9: sparse: sparse: incorrect t=
-ype in argument 1 (different address spaces) @@     expected void const vol=
-atile [noderef] __iomem *mem @@     got void * @@
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:864:9: sparse:     expected void c=
-onst volatile [noderef] __iomem *mem
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:864:9: sparse:     got void *
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:866:9: sparse: sparse: incorrect t=
-ype in argument 1 (different address spaces) @@     expected void const vol=
-atile [noderef] __iomem *mem @@     got void * @@
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:866:9: sparse:     expected void c=
-onst volatile [noderef] __iomem *mem
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:866:9: sparse:     got void *
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:866:9: sparse: sparse: incorrect t=
-ype in argument 1 (different address spaces) @@     expected void const vol=
-atile [noderef] __iomem *mem @@     got void * @@
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:866:9: sparse:     expected void c=
-onst volatile [noderef] __iomem *mem
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:866:9: sparse:     got void *
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:868:9: sparse: sparse: incorrect t=
-ype in argument 1 (different address spaces) @@     expected void const vol=
-atile [noderef] __iomem *mem @@     got void * @@
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:868:9: sparse:     expected void c=
-onst volatile [noderef] __iomem *mem
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:868:9: sparse:     got void *
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:868:9: sparse: sparse: incorrect t=
-ype in argument 1 (different address spaces) @@     expected void const vol=
-atile [noderef] __iomem *mem @@     got void * @@
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:868:9: sparse:     expected void c=
-onst volatile [noderef] __iomem *mem
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:868:9: sparse:     got void *
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:1070:23: sparse: sparse: incorrect=
- type in argument 1 (different address spaces) @@     expected void const v=
-olatile [noderef] __iomem *mem @@     got void * @@
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:1070:23: sparse:     expected void=
- const volatile [noderef] __iomem *mem
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:1070:23: sparse:     got void *
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:1070:23: sparse: sparse: incorrect=
- type in argument 1 (different address spaces) @@     expected void const v=
-olatile [noderef] __iomem *mem @@     got void * @@
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:1070:23: sparse:     expected void=
- const volatile [noderef] __iomem *mem
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:1070:23: sparse:     got void *
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:1464:20: sparse: sparse: incorrect=
- type in argument 1 (different address spaces) @@     expected void const v=
-olatile [noderef] __iomem *addr @@     got void *[noderef] mmio @@
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:1464:20: sparse:     expected void=
- const volatile [noderef] __iomem *addr
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:1464:20: sparse:     got void *[no=
-deref] mmio
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:1466:28: sparse: sparse: incorrect=
- type in argument 1 (different address spaces) @@     expected void const v=
-olatile [noderef] __iomem *addr @@     got void *[noderef] rscc @@
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:1466:28: sparse:     expected void=
- const volatile [noderef] __iomem *addr
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:1466:28: sparse:     got void *[no=
-deref] rscc
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:1573:19: sparse: sparse: incorrect=
- type in assignment (different address spaces) @@     expected void *[noder=
-ef] mmio @@     got void [noderef] __iomem * @@
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:1573:19: sparse:     expected void=
- *[noderef] mmio
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:1573:19: sparse:     got void [nod=
-eref] __iomem *
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:1580:27: sparse: sparse: incorrect=
- type in assignment (different address spaces) @@     expected void *[noder=
-ef] rscc @@     got void [noderef] __iomem * @@
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:1580:27: sparse:     expected void=
- *[noderef] rscc
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:1580:27: sparse:     got void [nod=
-eref] __iomem *
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:1611:20: sparse: sparse: incorrect=
- type in argument 1 (different address spaces) @@     expected void const v=
-olatile [noderef] __iomem *addr @@     got void *[noderef] mmio @@
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:1611:20: sparse:     expected void=
- const volatile [noderef] __iomem *addr
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:1611:20: sparse:     got void *[no=
-deref] mmio
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:1613:28: sparse: sparse: incorrect=
- type in argument 1 (different address spaces) @@     expected void const v=
-olatile [noderef] __iomem *addr @@     got void *[noderef] rscc @@
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:1613:28: sparse:     expected void=
- const volatile [noderef] __iomem *addr
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:1613:28: sparse:     got void *[no=
-deref] rscc
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c: note: in included file (through d=
-rivers/gpu/drm/msm/adreno/a6xx_gpu.h):
->> drivers/gpu/drm/msm/adreno/a6xx_gmu.h:96:16: sparse: sparse: incorrect t=
-ype in argument 1 (different address spaces) @@     expected void const vol=
-atile [noderef] __iomem *mem @@     got void * @@
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:96:16: sparse:     expected void c=
-onst volatile [noderef] __iomem *mem
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:96:16: sparse:     got void *
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:96:16: sparse: sparse: dereference=
- of noderef expression
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:96:16: sparse: sparse: dereference=
- of noderef expression
->> drivers/gpu/drm/msm/adreno/a6xx_gmu.h:101:16: sparse: sparse: incorrect =
-type in argument 2 (different address spaces) @@     expected void volatile=
- [noderef] __iomem *mem @@     got void * @@
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:101:16: sparse:     expected void =
-volatile [noderef] __iomem *mem
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:101:16: sparse:     got void *
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:101:16: sparse: sparse: dereferenc=
-e of noderef expression
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:101:16: sparse: sparse: dereferenc=
-e of noderef expression
->> drivers/gpu/drm/msm/adreno/a6xx_gmu.h:96:16: sparse: sparse: incorrect t=
-ype in argument 1 (different address spaces) @@     expected void const vol=
-atile [noderef] __iomem *mem @@     got void * @@
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:96:16: sparse:     expected void c=
-onst volatile [noderef] __iomem *mem
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:96:16: sparse:     got void *
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:96:16: sparse: sparse: dereference=
- of noderef expression
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:96:16: sparse: sparse: dereference=
- of noderef expression
->> drivers/gpu/drm/msm/adreno/a6xx_gmu.h:96:16: sparse: sparse: incorrect t=
-ype in argument 1 (different address spaces) @@     expected void const vol=
-atile [noderef] __iomem *mem @@     got void * @@
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:96:16: sparse:     expected void c=
-onst volatile [noderef] __iomem *mem
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:96:16: sparse:     got void *
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:96:16: sparse: sparse: dereference=
- of noderef expression
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:96:16: sparse: sparse: dereference=
- of noderef expression
->> drivers/gpu/drm/msm/adreno/a6xx_gmu.h:101:16: sparse: sparse: incorrect =
-type in argument 2 (different address spaces) @@     expected void volatile=
- [noderef] __iomem *mem @@     got void * @@
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:101:16: sparse:     expected void =
-volatile [noderef] __iomem *mem
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:101:16: sparse:     got void *
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:101:16: sparse: sparse: dereferenc=
-e of noderef expression
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:101:16: sparse: sparse: dereferenc=
-e of noderef expression
->> drivers/gpu/drm/msm/adreno/a6xx_gmu.h:96:16: sparse: sparse: incorrect t=
-ype in argument 1 (different address spaces) @@     expected void const vol=
-atile [noderef] __iomem *mem @@     got void * @@
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:96:16: sparse:     expected void c=
-onst volatile [noderef] __iomem *mem
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:96:16: sparse:     got void *
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:96:16: sparse: sparse: dereference=
- of noderef expression
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:96:16: sparse: sparse: dereference=
- of noderef expression
->> drivers/gpu/drm/msm/adreno/a6xx_gmu.h:96:16: sparse: sparse: incorrect t=
-ype in argument 1 (different address spaces) @@     expected void const vol=
-atile [noderef] __iomem *mem @@     got void * @@
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:96:16: sparse:     expected void c=
-onst volatile [noderef] __iomem *mem
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:96:16: sparse:     got void *
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:96:16: sparse: sparse: dereference=
- of noderef expression
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:96:16: sparse: sparse: dereference=
- of noderef expression
->> drivers/gpu/drm/msm/adreno/a6xx_gmu.h:101:16: sparse: sparse: incorrect =
-type in argument 2 (different address spaces) @@     expected void volatile=
- [noderef] __iomem *mem @@     got void * @@
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:101:16: sparse:     expected void =
-volatile [noderef] __iomem *mem
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:101:16: sparse:     got void *
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:101:16: sparse: sparse: dereferenc=
-e of noderef expression
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:101:16: sparse: sparse: dereferenc=
-e of noderef expression
->> drivers/gpu/drm/msm/adreno/a6xx_gmu.h:101:16: sparse: sparse: incorrect =
-type in argument 2 (different address spaces) @@     expected void volatile=
- [noderef] __iomem *mem @@     got void * @@
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:101:16: sparse:     expected void =
-volatile [noderef] __iomem *mem
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:101:16: sparse:     got void *
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:101:16: sparse: sparse: dereferenc=
-e of noderef expression
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:101:16: sparse: sparse: dereferenc=
-e of noderef expression
->> drivers/gpu/drm/msm/adreno/a6xx_gmu.h:101:16: sparse: sparse: incorrect =
-type in argument 2 (different address spaces) @@     expected void volatile=
- [noderef] __iomem *mem @@     got void * @@
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:101:16: sparse:     expected void =
-volatile [noderef] __iomem *mem
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:101:16: sparse:     got void *
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:101:16: sparse: sparse: dereferenc=
-e of noderef expression
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:101:16: sparse: sparse: dereferenc=
-e of noderef expression
->> drivers/gpu/drm/msm/adreno/a6xx_gmu.h:96:16: sparse: sparse: incorrect t=
-ype in argument 1 (different address spaces) @@     expected void const vol=
-atile [noderef] __iomem *mem @@     got void * @@
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:96:16: sparse:     expected void c=
-onst volatile [noderef] __iomem *mem
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:96:16: sparse:     got void *
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:96:16: sparse: sparse: dereference=
- of noderef expression
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:96:16: sparse: sparse: dereference=
- of noderef expression
->> drivers/gpu/drm/msm/adreno/a6xx_gmu.h:96:16: sparse: sparse: incorrect t=
-ype in argument 1 (different address spaces) @@     expected void const vol=
-atile [noderef] __iomem *mem @@     got void * @@
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:96:16: sparse:     expected void c=
-onst volatile [noderef] __iomem *mem
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:96:16: sparse:     got void *
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:96:16: sparse: sparse: dereference=
- of noderef expression
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:96:16: sparse: sparse: dereference=
- of noderef expression
->> drivers/gpu/drm/msm/adreno/a6xx_gmu.h:96:16: sparse: sparse: incorrect t=
-ype in argument 1 (different address spaces) @@     expected void const vol=
-atile [noderef] __iomem *mem @@     got void * @@
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:96:16: sparse:     expected void c=
-onst volatile [noderef] __iomem *mem
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:96:16: sparse:     got void *
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:96:16: sparse: sparse: dereference=
- of noderef expression
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:96:16: sparse: sparse: dereference=
- of noderef expression
->> drivers/gpu/drm/msm/adreno/a6xx_gmu.h:101:16: sparse: sparse: incorrect =
-type in argument 2 (different address spaces) @@     expected void volatile=
- [noderef] __iomem *mem @@     got void * @@
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:101:16: sparse:     expected void =
-volatile [noderef] __iomem *mem
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:101:16: sparse:     got void *
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:101:16: sparse: sparse: dereferenc=
-e of noderef expression
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:101:16: sparse: sparse: dereferenc=
-e of noderef expression
->> drivers/gpu/drm/msm/adreno/a6xx_gmu.h:101:16: sparse: sparse: incorrect =
-type in argument 2 (different address spaces) @@     expected void volatile=
- [noderef] __iomem *mem @@     got void * @@
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:101:16: sparse:     expected void =
-volatile [noderef] __iomem *mem
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:101:16: sparse:     got void *
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:101:16: sparse: sparse: dereferenc=
-e of noderef expression
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:101:16: sparse: sparse: dereferenc=
-e of noderef expression
->> drivers/gpu/drm/msm/adreno/a6xx_gmu.h:101:16: sparse: sparse: incorrect =
-type in argument 2 (different address spaces) @@     expected void volatile=
- [noderef] __iomem *mem @@     got void * @@
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:101:16: sparse:     expected void =
-volatile [noderef] __iomem *mem
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:101:16: sparse:     got void *
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:101:16: sparse: sparse: dereferenc=
-e of noderef expression
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:101:16: sparse: sparse: dereferenc=
-e of noderef expression
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:224:15: sparse: sparse: dereferenc=
-e of noderef expression
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:224:15: sparse: sparse: dereferenc=
-e of noderef expression
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:224:15: sparse: sparse: dereferenc=
-e of noderef expression
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:224:15: sparse: sparse: dereferenc=
-e of noderef expression
->> drivers/gpu/drm/msm/adreno/a6xx_gmu.h:101:16: sparse: sparse: incorrect =
-type in argument 2 (different address spaces) @@     expected void volatile=
- [noderef] __iomem *mem @@     got void * @@
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:101:16: sparse:     expected void =
-volatile [noderef] __iomem *mem
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:101:16: sparse:     got void *
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:101:16: sparse: sparse: dereferenc=
-e of noderef expression
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:101:16: sparse: sparse: dereferenc=
-e of noderef expression
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:240:15: sparse: sparse: dereferenc=
-e of noderef expression
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:240:15: sparse: sparse: dereferenc=
-e of noderef expression
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:240:15: sparse: sparse: dereferenc=
-e of noderef expression
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:240:15: sparse: sparse: dereferenc=
-e of noderef expression
->> drivers/gpu/drm/msm/adreno/a6xx_gmu.h:101:16: sparse: sparse: incorrect =
-type in argument 2 (different address spaces) @@     expected void volatile=
- [noderef] __iomem *mem @@     got void * @@
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:101:16: sparse:     expected void =
-volatile [noderef] __iomem *mem
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:101:16: sparse:     got void *
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:101:16: sparse: sparse: dereferenc=
-e of noderef expression
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:101:16: sparse: sparse: dereferenc=
-e of noderef expression
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:322:15: sparse: sparse: dereferenc=
-e of noderef expression
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:322:15: sparse: sparse: dereferenc=
-e of noderef expression
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:322:15: sparse: sparse: dereferenc=
-e of noderef expression
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:322:15: sparse: sparse: too many w=
-arnings
---
-   drivers/gpu/drm/msm/adreno/a6xx_hfi.c:108:15: sparse: sparse: incorrect =
-type in argument 1 (different address spaces) @@     expected void const vo=
-latile [noderef] __iomem *mem @@     got void * @@
-   drivers/gpu/drm/msm/adreno/a6xx_hfi.c:108:15: sparse:     expected void =
-const volatile [noderef] __iomem *mem
-   drivers/gpu/drm/msm/adreno/a6xx_hfi.c:108:15: sparse:     got void *
-   drivers/gpu/drm/msm/adreno/a6xx_hfi.c:108:15: sparse: sparse: incorrect =
-type in argument 1 (different address spaces) @@     expected void const vo=
-latile [noderef] __iomem *mem @@     got void * @@
-   drivers/gpu/drm/msm/adreno/a6xx_hfi.c:108:15: sparse:     expected void =
-const volatile [noderef] __iomem *mem
-   drivers/gpu/drm/msm/adreno/a6xx_hfi.c:108:15: sparse:     got void *
-   drivers/gpu/drm/msm/adreno/a6xx_hfi.c: note: in included file:
->> drivers/gpu/drm/msm/adreno/a6xx_gmu.h:101:16: sparse: sparse: incorrect =
-type in argument 2 (different address spaces) @@     expected void volatile=
- [noderef] __iomem *mem @@     got void * @@
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:101:16: sparse:     expected void =
-volatile [noderef] __iomem *mem
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:101:16: sparse:     got void *
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:101:16: sparse: sparse: dereferenc=
-e of noderef expression
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:101:16: sparse: sparse: dereferenc=
-e of noderef expression
-   drivers/gpu/drm/msm/adreno/a6xx_hfi.c:108:15: sparse: sparse: dereferenc=
-e of noderef expression
-   drivers/gpu/drm/msm/adreno/a6xx_hfi.c:108:15: sparse: sparse: dereferenc=
-e of noderef expression
-   drivers/gpu/drm/msm/adreno/a6xx_hfi.c:108:15: sparse: sparse: dereferenc=
-e of noderef expression
-   drivers/gpu/drm/msm/adreno/a6xx_hfi.c:108:15: sparse: sparse: dereferenc=
-e of noderef expression
->> drivers/gpu/drm/msm/adreno/a6xx_gmu.h:101:16: sparse: sparse: incorrect =
-type in argument 2 (different address spaces) @@     expected void volatile=
- [noderef] __iomem *mem @@     got void * @@
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:101:16: sparse:     expected void =
-volatile [noderef] __iomem *mem
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:101:16: sparse:     got void *
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:101:16: sparse: sparse: dereferenc=
-e of noderef expression
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:101:16: sparse: sparse: dereferenc=
-e of noderef expression
---
-   drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c: note: in included file (thr=
-ough drivers/gpu/drm/msm/adreno/a6xx_gpu.h):
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:136:16: sparse: sparse: incorrect =
-type in argument 1 (different address spaces) @@     expected void const vo=
-latile [noderef] __iomem *mem @@     got void * @@
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:136:16: sparse:     expected void =
-const volatile [noderef] __iomem *mem
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:136:16: sparse:     got void *
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:136:16: sparse: sparse: dereferenc=
-e of noderef expression
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:136:16: sparse: sparse: dereferenc=
-e of noderef expression
->> drivers/gpu/drm/msm/adreno/a6xx_gmu.h:96:16: sparse: sparse: incorrect t=
-ype in argument 1 (different address spaces) @@     expected void const vol=
-atile [noderef] __iomem *mem @@     got void * @@
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:96:16: sparse:     expected void c=
-onst volatile [noderef] __iomem *mem
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:96:16: sparse:     got void *
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:96:16: sparse: sparse: dereference=
- of noderef expression
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:96:16: sparse: sparse: dereference=
- of noderef expression
+New smatch warnings:
+drivers/thunderbolt/nvm.c:107 asmedia_nvm_validate() warn: statement has no=
+ effect 3
 
-vim +96 drivers/gpu/drm/msm/adreno/a6xx_gmu.h
+Old smatch warnings:
+drivers/thunderbolt/nvm.c:160 tb_nvm_validate() warn: inconsistent indenting
 
-4b565ca5a2cbbb Jordan Crouse  2018-08-06   93  =
+vim +107 drivers/thunderbolt/nvm.c
 
-4b565ca5a2cbbb Jordan Crouse  2018-08-06   94  static inline u32 gmu_read(s=
-truct a6xx_gmu *gmu, u32 offset)
-4b565ca5a2cbbb Jordan Crouse  2018-08-06   95  {
-4b565ca5a2cbbb Jordan Crouse  2018-08-06  @96  	return msm_readl(gmu->mmio =
-+ (offset << 2));
-4b565ca5a2cbbb Jordan Crouse  2018-08-06   97  }
-4b565ca5a2cbbb Jordan Crouse  2018-08-06   98  =
+16b15f1135451c Szuying Chen 2022-08-16   61  =
 
-4b565ca5a2cbbb Jordan Crouse  2018-08-06   99  static inline void gmu_write=
-(struct a6xx_gmu *gmu, u32 offset, u32 value)
-4b565ca5a2cbbb Jordan Crouse  2018-08-06  100  {
-4b565ca5a2cbbb Jordan Crouse  2018-08-06 @101  	return msm_writel(value, gm=
-u->mmio + (offset << 2));
-4b565ca5a2cbbb Jordan Crouse  2018-08-06  102  }
-4b565ca5a2cbbb Jordan Crouse  2018-08-06  103  =
+16b15f1135451c Szuying Chen 2022-08-16   62  static int asmedia_nvm_validat=
+e(struct tb_switch *sw, unsigned int mode)
+16b15f1135451c Szuying Chen 2022-08-16   63  {
+16b15f1135451c Szuying Chen 2022-08-16   64  	struct tb_nvm *nvm;
+16b15f1135451c Szuying Chen 2022-08-16   65  	u32 val;
+16b15f1135451c Szuying Chen 2022-08-16   66  	u32 nvm_size;
+16b15f1135451c Szuying Chen 2022-08-16   67  	int ret =3D 0;
+16b15f1135451c Szuying Chen 2022-08-16   68  	unsigned int image_size;
+16b15f1135451c Szuying Chen 2022-08-16   69  =
 
-c6ed04f856a4eb Jonathan Marek 2020-04-23  104  static inline void
-c6ed04f856a4eb Jonathan Marek 2020-04-23  105  gmu_write_bulk(struct a6xx_g=
-mu *gmu, u32 offset, const u32 *data, u32 size)
-c6ed04f856a4eb Jonathan Marek 2020-04-23  106  {
-c6ed04f856a4eb Jonathan Marek 2020-04-23  107  	memcpy_toio(gmu->mmio + (of=
-fset << 2), data, size);
-c6ed04f856a4eb Jonathan Marek 2020-04-23  108  	wmb();
-c6ed04f856a4eb Jonathan Marek 2020-04-23  109  }
-c6ed04f856a4eb Jonathan Marek 2020-04-23  110  =
+16b15f1135451c Szuying Chen 2022-08-16   70  	switch (mode) {
+16b15f1135451c Szuying Chen 2022-08-16   71  	case NVM_UPGRADE:
+16b15f1135451c Szuying Chen 2022-08-16   72  		if (sw->no_nvm_upgrade)
+16b15f1135451c Szuying Chen 2022-08-16   73  			sw->no_nvm_upgrade =3D fals=
+e;
+16b15f1135451c Szuying Chen 2022-08-16   74  =
 
-4b565ca5a2cbbb Jordan Crouse  2018-08-06  111  static inline void gmu_rmw(s=
-truct a6xx_gmu *gmu, u32 reg, u32 mask, u32 or)
-4b565ca5a2cbbb Jordan Crouse  2018-08-06  112  {
-4b565ca5a2cbbb Jordan Crouse  2018-08-06  113  	u32 val =3D gmu_read(gmu, r=
-eg);
-4b565ca5a2cbbb Jordan Crouse  2018-08-06  114  =
+16b15f1135451c Szuying Chen 2022-08-16   75  		break;
+16b15f1135451c Szuying Chen 2022-08-16   76  =
 
-4b565ca5a2cbbb Jordan Crouse  2018-08-06  115  	val &=3D ~mask;
-4b565ca5a2cbbb Jordan Crouse  2018-08-06  116  =
+16b15f1135451c Szuying Chen 2022-08-16   77  	case NVM_ADD:
+16b15f1135451c Szuying Chen 2022-08-16   78  		nvm =3D tb_nvm_alloc(&sw->de=
+v);
+16b15f1135451c Szuying Chen 2022-08-16   79  		if (IS_ERR(nvm)) {
+16b15f1135451c Szuying Chen 2022-08-16   80  			ret =3D PTR_ERR(nvm);
+16b15f1135451c Szuying Chen 2022-08-16   81  			break;
+16b15f1135451c Szuying Chen 2022-08-16   82  		}
+16b15f1135451c Szuying Chen 2022-08-16   83  =
 
-4b565ca5a2cbbb Jordan Crouse  2018-08-06  117  	gmu_write(gmu, reg, val | o=
-r);
-4b565ca5a2cbbb Jordan Crouse  2018-08-06  118  }
-4b565ca5a2cbbb Jordan Crouse  2018-08-06  119  =
+16b15f1135451c Szuying Chen 2022-08-16   84  		ret =3D usb4_switch_nvm_read=
+(sw, ASMEDIA_NVM_VERSION, &val, sizeof(val));
+16b15f1135451c Szuying Chen 2022-08-16   85  		if (ret)
+16b15f1135451c Szuying Chen 2022-08-16   86  			break;
+16b15f1135451c Szuying Chen 2022-08-16   87  =
 
-c28aa2031f6470 Sharat Masetty 2018-10-04  120  static inline u64 gmu_read64=
-(struct a6xx_gmu *gmu, u32 lo, u32 hi)
-c28aa2031f6470 Sharat Masetty 2018-10-04  121  {
-c28aa2031f6470 Sharat Masetty 2018-10-04  122  	u64 val;
-c28aa2031f6470 Sharat Masetty 2018-10-04  123  =
+16b15f1135451c Szuying Chen 2022-08-16   88  		nvm->nvm_asm.major =3D (((u8=
+)val) << 0x10 | ((u8)(val >> 0x8)) << 0x8 | (u8)(val >> 0x10));
+16b15f1135451c Szuying Chen 2022-08-16   89  		ret =3D usb4_switch_nvm_read=
+(sw, ASMEDIA_NVM_DATE, &val, sizeof(val));
+16b15f1135451c Szuying Chen 2022-08-16   90  		if (ret)
+16b15f1135451c Szuying Chen 2022-08-16   91  			break;
+16b15f1135451c Szuying Chen 2022-08-16   92  =
 
-c28aa2031f6470 Sharat Masetty 2018-10-04  124  	val =3D (u64) msm_readl(gmu=
-->mmio + (lo << 2));
-c28aa2031f6470 Sharat Masetty 2018-10-04  125  	val |=3D ((u64) msm_readl(g=
-mu->mmio + (hi << 2)) << 32);
-c28aa2031f6470 Sharat Masetty 2018-10-04  126  =
+16b15f1135451c Szuying Chen 2022-08-16   93  		nvm->nvm_asm.minor =3D (((u8=
+)val) << 0x10 | ((u8)(val >> 0x8)) << 0x8 | (u8)(val >> 0x10));
+16b15f1135451c Szuying Chen 2022-08-16   94  		nvm_size =3D SZ_512K;
+16b15f1135451c Szuying Chen 2022-08-16   95  		ret =3D tb_nvm_add_active(nv=
+m, nvm_size, tb_switch_nvm_read);
+16b15f1135451c Szuying Chen 2022-08-16   96  		if (ret)
+16b15f1135451c Szuying Chen 2022-08-16   97  			break;
+16b15f1135451c Szuying Chen 2022-08-16   98  =
 
-c28aa2031f6470 Sharat Masetty 2018-10-04  127  	return val;
-c28aa2031f6470 Sharat Masetty 2018-10-04  128  }
-c28aa2031f6470 Sharat Masetty 2018-10-04  129  =
+16b15f1135451c Szuying Chen 2022-08-16   99  		ret =3D tb_nvm_add_non_activ=
+e(nvm, NVM_MAX_SIZE, tb_switch_nvm_write);
+16b15f1135451c Szuying Chen 2022-08-16  100  		if (ret)
+16b15f1135451c Szuying Chen 2022-08-16  101  			break;
+16b15f1135451c Szuying Chen 2022-08-16  102  =
 
-4b565ca5a2cbbb Jordan Crouse  2018-08-06  130  #define gmu_poll_timeout(gmu=
-, addr, val, cond, interval, timeout) \
-4b565ca5a2cbbb Jordan Crouse  2018-08-06  131  	readl_poll_timeout((gmu)->m=
-mio + ((addr) << 2), val, cond, \
-4b565ca5a2cbbb Jordan Crouse  2018-08-06  132  		interval, timeout)
-4b565ca5a2cbbb Jordan Crouse  2018-08-06  133  =
+16b15f1135451c Szuying Chen 2022-08-16  103  		sw->nvm =3D nvm;
+16b15f1135451c Szuying Chen 2022-08-16  104  		break;
+16b15f1135451c Szuying Chen 2022-08-16  105  =
 
-142639a52a01e9 Jonathan Marek 2020-06-29  134  static inline u32 gmu_read_r=
-scc(struct a6xx_gmu *gmu, u32 offset)
-142639a52a01e9 Jonathan Marek 2020-06-29  135  {
-142639a52a01e9 Jonathan Marek 2020-06-29 @136  	return msm_readl(gmu->rscc =
-+ (offset << 2));
-142639a52a01e9 Jonathan Marek 2020-06-29  137  }
-142639a52a01e9 Jonathan Marek 2020-06-29  138  =
+16b15f1135451c Szuying Chen 2022-08-16  106  	case NVM_WRITE:
+16b15f1135451c Szuying Chen 2022-08-16 @107  		const u8 *buf =3D sw->nvm->b=
+uf;
+16b15f1135451c Szuying Chen 2022-08-16  108  =
 
+16b15f1135451c Szuying Chen 2022-08-16  109  		if (!buf) {
+16b15f1135451c Szuying Chen 2022-08-16  110  			ret =3D -EINVAL;
+16b15f1135451c Szuying Chen 2022-08-16  111  			break;
+16b15f1135451c Szuying Chen 2022-08-16  112  		}
+16b15f1135451c Szuying Chen 2022-08-16  113  		image_size =3D sw->nvm->buf_=
+data_size;
+16b15f1135451c Szuying Chen 2022-08-16  114  		if (image_size < NVM_MIN_SIZ=
+E || image_size > NVM_MAX_SIZE) {
+16b15f1135451c Szuying Chen 2022-08-16  115  			ret =3D -EINVAL;
+16b15f1135451c Szuying Chen 2022-08-16  116  			break;
+16b15f1135451c Szuying Chen 2022-08-16  117  		}
+16b15f1135451c Szuying Chen 2022-08-16  118  		ret =3D usb4_switch_nvm_writ=
+e(sw, 0, buf, image_size);
+16b15f1135451c Szuying Chen 2022-08-16  119  		if (!ret)
+16b15f1135451c Szuying Chen 2022-08-16  120  			sw->nvm->flushed =3D true;
+16b15f1135451c Szuying Chen 2022-08-16  121  =
 
-:::::: The code@line 96 was first introduced by commit
-:::::: 4b565ca5a2cbbbb6345e8789da89c193b6b00e5a drm/msm: Add A6XX device su=
-pport
+16b15f1135451c Szuying Chen 2022-08-16  122  		break;
+16b15f1135451c Szuying Chen 2022-08-16  123  =
 
-:::::: TO: Jordan Crouse <jcrouse@codeaurora.org>
-:::::: CC: Rob Clark <robdclark@gmail.com>
+16b15f1135451c Szuying Chen 2022-08-16  124  	default:
+16b15f1135451c Szuying Chen 2022-08-16  125  		break;
+16b15f1135451c Szuying Chen 2022-08-16  126  	}
+16b15f1135451c Szuying Chen 2022-08-16  127  =
+
+16b15f1135451c Szuying Chen 2022-08-16  128  	if ((mode =3D=3D NVM_ADD) && =
+(ret !=3D 0))
+16b15f1135451c Szuying Chen 2022-08-16  129  		tb_nvm_free(sw->nvm);
+16b15f1135451c Szuying Chen 2022-08-16  130  =
+
+16b15f1135451c Szuying Chen 2022-08-16  131  	return ret;
+16b15f1135451c Szuying Chen 2022-08-16  132  }
+16b15f1135451c Szuying Chen 2022-08-16  133  =
+
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============3947549164474091088==--
+--===============9115279026190541242==--
 
