@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============0140038176373687620=="
+Content-Type: multipart/mixed; boundary="===============3791400984491021470=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/soundwire/qcom.c:1319 qcom_swrm_probe() warn: passing zero to 'PTR_ERR'
-Date: Sat, 20 Aug 2022 21:41:41 +0800
-Message-ID: <202208202132.gxUTdHmB-lkp@intel.com>
+Subject: drivers/gpu/drm/msm/adreno/a3xx_gpu.c:603 a3xx_gpu_init() warn: passing zero to 'ERR_PTR'
+Date: Sat, 20 Aug 2022 20:40:29 +0800
+Message-ID: <202208202056.qiNcnRei-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0140038176373687620==
+--===============3791400984491021470==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,308 +15,187 @@ Content-Transfer-Encoding: quoted-printable
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Srinivasa Rao Mandadapu <quic_srivasam@quicinc.com>
-CC: Vinod Koul <vkoul@kernel.org>
-CC: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+CC: Dave Airlie <airlied@redhat.com>
+
+Hi Dave,
+
+First bad commit (maybe !=3D root cause):
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   50cd95ac46548429e5bba7ca75cc97d11a697947
-commit: 1fd0d85affe4d64e54b81d04bf9577e57172a341 soundwire: qcom: Add flag =
-for software clock gating check
-date:   6 weeks ago
-:::::: branch date: 17 hours ago
-:::::: commit date: 6 weeks ago
-config: riscv-randconfig-m031-20220819 (https://download.01.org/0day-ci/arc=
-hive/20220820/202208202132.gxUTdHmB-lkp(a)intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 12.1.0
+commit: 970eae15600a883e4ad27dd0757b18871cc983ab BackMerge tag 'v5.15-rc7' =
+into drm-next
+date:   10 months ago
+:::::: branch date: 16 hours ago
+:::::: commit date: 10 months ago
+config: microblaze-randconfig-m041-20220820 (https://download.01.org/0day-c=
+i/archive/20220820/202208202056.qiNcnRei-lkp(a)intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-drivers/soundwire/qcom.c:1319 qcom_swrm_probe() warn: passing zero to 'PTR_=
-ERR'
+smatch warnings:
+drivers/gpu/drm/msm/adreno/a3xx_gpu.c:603 a3xx_gpu_init() warn: passing zer=
+o to 'ERR_PTR'
+drivers/gpu/drm/msm/adreno/a4xx_gpu.c:730 a4xx_gpu_init() warn: passing zer=
+o to 'ERR_PTR'
 
-Old smatch warnings:
-arch/riscv/include/asm/atomic.h:204 arch_atomic_fetch_add_unless() warn: in=
-consistent indenting
+vim +/ERR_PTR +603 drivers/gpu/drm/msm/adreno/a3xx_gpu.c
 
-vim +/PTR_ERR +1319 drivers/soundwire/qcom.c
+70c70f091b1ffd Rob Clark      2014-05-30  514  =
 
-abd9a6049bb59a Srinivas Kandagatla     2021-09-07  1279  =
+7198e6b03155f6 Rob Clark      2013-07-19  515  struct msm_gpu *a3xx_gpu_ini=
+t(struct drm_device *dev)
+7198e6b03155f6 Rob Clark      2013-07-19  516  {
+7198e6b03155f6 Rob Clark      2013-07-19  517  	struct a3xx_gpu *a3xx_gpu =
+=3D NULL;
+55459968176f13 Rob Clark      2013-12-05  518  	struct adreno_gpu *adreno_g=
+pu;
+7198e6b03155f6 Rob Clark      2013-07-19  519  	struct msm_gpu *gpu;
+060530f1ea6740 Rob Clark      2014-03-03  520  	struct msm_drm_private *pri=
+v =3D dev->dev_private;
+060530f1ea6740 Rob Clark      2014-03-03  521  	struct platform_device *pde=
+v =3D priv->gpu_pdev;
+5785dd7a8ef0de Akhil P Oommen 2020-10-28  522  	struct icc_path *ocmem_icc_=
+path;
+5785dd7a8ef0de Akhil P Oommen 2020-10-28  523  	struct icc_path *icc_path;
+7198e6b03155f6 Rob Clark      2013-07-19  524  	int ret;
+7198e6b03155f6 Rob Clark      2013-07-19  525  =
 
-02efb49aa805ce Srinivas Kandagatla     2020-01-13  1280  static int qcom_sw=
-rm_probe(struct platform_device *pdev)
-02efb49aa805ce Srinivas Kandagatla     2020-01-13  1281  {
-02efb49aa805ce Srinivas Kandagatla     2020-01-13  1282  	struct device *de=
-v =3D &pdev->dev;
-02efb49aa805ce Srinivas Kandagatla     2020-01-13  1283  	struct sdw_master=
-_prop *prop;
-02efb49aa805ce Srinivas Kandagatla     2020-01-13  1284  	struct sdw_bus_pa=
-rams *params;
-02efb49aa805ce Srinivas Kandagatla     2020-01-13  1285  	struct qcom_swrm_=
-ctrl *ctrl;
-8cb3b4e74cd810 Srinivas Kandagatla     2020-09-17  1286  	const struct qcom=
-_swrm_data *data;
-02efb49aa805ce Srinivas Kandagatla     2020-01-13  1287  	int ret;
-02efb49aa805ce Srinivas Kandagatla     2020-01-13  1288  	u32 val;
-02efb49aa805ce Srinivas Kandagatla     2020-01-13  1289  =
+7198e6b03155f6 Rob Clark      2013-07-19  526  	if (!pdev) {
+6a41da17e87dee Mamta Shukla   2018-10-20  527  		DRM_DEV_ERROR(dev->dev, "n=
+o a3xx device\n");
+7198e6b03155f6 Rob Clark      2013-07-19  528  		ret =3D -ENXIO;
+7198e6b03155f6 Rob Clark      2013-07-19  529  		goto fail;
+7198e6b03155f6 Rob Clark      2013-07-19  530  	}
+7198e6b03155f6 Rob Clark      2013-07-19  531  =
 
-02efb49aa805ce Srinivas Kandagatla     2020-01-13  1290  	ctrl =3D devm_kza=
-lloc(dev, sizeof(*ctrl), GFP_KERNEL);
-02efb49aa805ce Srinivas Kandagatla     2020-01-13  1291  	if (!ctrl)
-02efb49aa805ce Srinivas Kandagatla     2020-01-13  1292  		return -ENOMEM;
-02efb49aa805ce Srinivas Kandagatla     2020-01-13  1293  =
+7198e6b03155f6 Rob Clark      2013-07-19  532  	a3xx_gpu =3D kzalloc(sizeof=
+(*a3xx_gpu), GFP_KERNEL);
+7198e6b03155f6 Rob Clark      2013-07-19  533  	if (!a3xx_gpu) {
+7198e6b03155f6 Rob Clark      2013-07-19  534  		ret =3D -ENOMEM;
+7198e6b03155f6 Rob Clark      2013-07-19  535  		goto fail;
+7198e6b03155f6 Rob Clark      2013-07-19  536  	}
+7198e6b03155f6 Rob Clark      2013-07-19  537  =
 
-8cb3b4e74cd810 Srinivas Kandagatla     2020-09-17  1294  	data =3D of_devic=
-e_get_match_data(dev);
-8cb3b4e74cd810 Srinivas Kandagatla     2020-09-17  1295  	ctrl->rows_index =
-=3D sdw_find_row_index(data->default_rows);
-8cb3b4e74cd810 Srinivas Kandagatla     2020-09-17  1296  	ctrl->cols_index =
-=3D sdw_find_col_index(data->default_cols);
-47edc0104c61d6 Vinod Koul              2020-11-25  1297  #if IS_REACHABLE(C=
-ONFIG_SLIMBUS)
-02efb49aa805ce Srinivas Kandagatla     2020-01-13  1298  	if (dev->parent->=
-bus =3D=3D &slimbus_bus) {
-5bd773242f75da Jonathan Marek          2020-09-05  1299  #else
-5bd773242f75da Jonathan Marek          2020-09-05  1300  	if (false) {
-5bd773242f75da Jonathan Marek          2020-09-05  1301  #endif
-d1df23fe688b58 Jonathan Marek          2020-09-05  1302  		ctrl->reg_read =
-=3D qcom_swrm_ahb_reg_read;
-02efb49aa805ce Srinivas Kandagatla     2020-01-13  1303  		ctrl->reg_write =
-=3D qcom_swrm_ahb_reg_write;
-02efb49aa805ce Srinivas Kandagatla     2020-01-13  1304  		ctrl->regmap =3D=
- dev_get_regmap(dev->parent, NULL);
-02efb49aa805ce Srinivas Kandagatla     2020-01-13  1305  		if (!ctrl->regma=
-p)
-02efb49aa805ce Srinivas Kandagatla     2020-01-13  1306  			return -EINVAL;
-02efb49aa805ce Srinivas Kandagatla     2020-01-13  1307  	} else {
-82f5c70c26511b Jonathan Marek          2020-09-05  1308  		ctrl->reg_read =
-=3D qcom_swrm_cpu_reg_read;
-82f5c70c26511b Jonathan Marek          2020-09-05  1309  		ctrl->reg_write =
-=3D qcom_swrm_cpu_reg_write;
-82f5c70c26511b Jonathan Marek          2020-09-05  1310  		ctrl->mmio =3D d=
-evm_platform_ioremap_resource(pdev, 0);
-82f5c70c26511b Jonathan Marek          2020-09-05  1311  		if (IS_ERR(ctrl-=
->mmio))
-82f5c70c26511b Jonathan Marek          2020-09-05  1312  			return PTR_ERR(=
-ctrl->mmio);
-02efb49aa805ce Srinivas Kandagatla     2020-01-13  1313  	}
-02efb49aa805ce Srinivas Kandagatla     2020-01-13  1314  =
+55459968176f13 Rob Clark      2013-12-05  538  	adreno_gpu =3D &a3xx_gpu->b=
+ase;
+55459968176f13 Rob Clark      2013-12-05  539  	gpu =3D &adreno_gpu->base;
+7198e6b03155f6 Rob Clark      2013-07-19  540  =
 
-1fd0d85affe4d6 Srinivasa Rao Mandadapu 2022-07-01  1315  	if (data->sw_clk_=
-gate_required) {
-1fd0d85affe4d6 Srinivasa Rao Mandadapu 2022-07-01  1316  		ctrl->audio_cgcr=
- =3D devm_reset_control_get_exclusive(dev, "swr_audio_cgcr");
-1fd0d85affe4d6 Srinivasa Rao Mandadapu 2022-07-01  1317  		if (IS_ERR_OR_NU=
-LL(ctrl->audio_cgcr)) {
-1fd0d85affe4d6 Srinivasa Rao Mandadapu 2022-07-01  1318  			dev_err(dev, "F=
-ailed to get cgcr reset ctrl required for SW gating\n");
-1fd0d85affe4d6 Srinivasa Rao Mandadapu 2022-07-01 @1319  			ret =3D PTR_ERR=
-(ctrl->audio_cgcr);
-1fd0d85affe4d6 Srinivasa Rao Mandadapu 2022-07-01  1320  			goto err_init;
-1fd0d85affe4d6 Srinivasa Rao Mandadapu 2022-07-01  1321  		}
-1fd0d85affe4d6 Srinivasa Rao Mandadapu 2022-07-01  1322  	}
-1fd0d85affe4d6 Srinivasa Rao Mandadapu 2022-07-01  1323  =
+70c70f091b1ffd Rob Clark      2014-05-30  541  	gpu->perfcntrs =3D perfcntr=
+s;
+70c70f091b1ffd Rob Clark      2014-05-30  542  	gpu->num_perfcntrs =3D ARRA=
+Y_SIZE(perfcntrs);
+70c70f091b1ffd Rob Clark      2014-05-30  543  =
 
-02efb49aa805ce Srinivas Kandagatla     2020-01-13  1324  	ctrl->irq =3D of_=
-irq_get(dev->of_node, 0);
-91b5cfc0209b63 Pierre-Louis Bossart    2020-04-30  1325  	if (ctrl->irq < 0=
-) {
-91b5cfc0209b63 Pierre-Louis Bossart    2020-04-30  1326  		ret =3D ctrl->ir=
-q;
-91b5cfc0209b63 Pierre-Louis Bossart    2020-04-30  1327  		goto err_init;
-91b5cfc0209b63 Pierre-Louis Bossart    2020-04-30  1328  	}
-02efb49aa805ce Srinivas Kandagatla     2020-01-13  1329  =
+3bcefb0497f9fc Rob Clark      2014-09-05  544  	adreno_gpu->registers =3D a=
+3xx_registers;
+3bcefb0497f9fc Rob Clark      2014-09-05  545  =
 
-02efb49aa805ce Srinivas Kandagatla     2020-01-13  1330  	ctrl->hclk =3D de=
-vm_clk_get(dev, "iface");
-91b5cfc0209b63 Pierre-Louis Bossart    2020-04-30  1331  	if (IS_ERR(ctrl->=
-hclk)) {
-91b5cfc0209b63 Pierre-Louis Bossart    2020-04-30  1332  		ret =3D PTR_ERR(=
-ctrl->hclk);
-91b5cfc0209b63 Pierre-Louis Bossart    2020-04-30  1333  		goto err_init;
-91b5cfc0209b63 Pierre-Louis Bossart    2020-04-30  1334  	}
-02efb49aa805ce Srinivas Kandagatla     2020-01-13  1335  =
+f97decac5f4c2d Jordan Crouse  2017-10-20  546  	ret =3D adreno_gpu_init(dev=
+, pdev, adreno_gpu, &funcs, 1);
+7198e6b03155f6 Rob Clark      2013-07-19  547  	if (ret)
+7198e6b03155f6 Rob Clark      2013-07-19  548  		goto fail;
+7198e6b03155f6 Rob Clark      2013-07-19  549  =
 
-02efb49aa805ce Srinivas Kandagatla     2020-01-13  1336  	clk_prepare_enabl=
-e(ctrl->hclk);
-02efb49aa805ce Srinivas Kandagatla     2020-01-13  1337  =
+55459968176f13 Rob Clark      2013-12-05  550  	/* if needed, allocate gmem=
+: */
+55459968176f13 Rob Clark      2013-12-05  551  	if (adreno_is_a330(adreno_g=
+pu)) {
+26c0b26dcd005d Brian Masney   2019-08-23  552  		ret =3D adreno_gpu_ocmem_i=
+nit(&adreno_gpu->base.pdev->dev,
+26c0b26dcd005d Brian Masney   2019-08-23  553  					    adreno_gpu, &a3xx_g=
+pu->ocmem);
+26c0b26dcd005d Brian Masney   2019-08-23  554  		if (ret)
+26c0b26dcd005d Brian Masney   2019-08-23  555  			goto fail;
+55459968176f13 Rob Clark      2013-12-05  556  	}
+55459968176f13 Rob Clark      2013-12-05  557  =
 
-02efb49aa805ce Srinivas Kandagatla     2020-01-13  1338  	ctrl->dev =3D dev;
-02efb49aa805ce Srinivas Kandagatla     2020-01-13  1339  	dev_set_drvdata(&=
-pdev->dev, ctrl);
-02efb49aa805ce Srinivas Kandagatla     2020-01-13  1340  	mutex_init(&ctrl-=
->port_lock);
-ddea6cf7b619ec Srinivas Kandagatla     2021-03-30  1341  	init_completion(&=
-ctrl->broadcast);
-06dd96738d6183 Srinivas Kandagatla     2021-03-30  1342  	init_completion(&=
-ctrl->enumeration);
-02efb49aa805ce Srinivas Kandagatla     2020-01-13  1343  =
+667ce33e57d0de Rob Clark      2016-09-28  558  	if (!gpu->aspace) {
+871d812aa43e63 Rob Clark      2013-11-16  559  		/* TODO we think it is pos=
+sible to configure the GPU to
+871d812aa43e63 Rob Clark      2013-11-16  560  		 * restrict access to VRAM=
+ carveout.  But the required
+871d812aa43e63 Rob Clark      2013-11-16  561  		 * registers are unknown. =
+ For now just bail out and
+871d812aa43e63 Rob Clark      2013-11-16  562  		 * limp along with just mo=
+desetting.  If it turns out
+871d812aa43e63 Rob Clark      2013-11-16  563  		 * to not be possible to r=
+estrict access, then we must
+871d812aa43e63 Rob Clark      2013-11-16  564  		 * implement a cmdstream v=
+alidator.
+871d812aa43e63 Rob Clark      2013-11-16  565  		 */
+6a41da17e87dee Mamta Shukla   2018-10-20  566  		DRM_DEV_ERROR(dev->dev, "N=
+o memory protection without IOMMU\n");
+3f7759e7b7585a Iskren Chernev 2020-12-30  567  		if (!allow_vram_carveout) {
+871d812aa43e63 Rob Clark      2013-11-16  568  			ret =3D -ENXIO;
+871d812aa43e63 Rob Clark      2013-11-16  569  			goto fail;
+871d812aa43e63 Rob Clark      2013-11-16  570  		}
+3f7759e7b7585a Iskren Chernev 2020-12-30  571  	}
+871d812aa43e63 Rob Clark      2013-11-16  572  =
 
-02efb49aa805ce Srinivas Kandagatla     2020-01-13  1344  	ctrl->bus.ops =3D=
- &qcom_swrm_ops;
-02efb49aa805ce Srinivas Kandagatla     2020-01-13  1345  	ctrl->bus.port_op=
-s =3D &qcom_swrm_port_ops;
-02efb49aa805ce Srinivas Kandagatla     2020-01-13  1346  	ctrl->bus.compute=
-_params =3D &qcom_swrm_compute_params;
-74e79da9fd46a5 Srinivas Kandagatla     2022-02-28  1347  	ctrl->bus.clk_sto=
-p_timeout =3D 300;
-02efb49aa805ce Srinivas Kandagatla     2020-01-13  1348  =
+5785dd7a8ef0de Akhil P Oommen 2020-10-28  573  	icc_path =3D devm_of_icc_ge=
+t(&pdev->dev, "gfx-mem");
+3eda901995371d Dan Carpenter  2021-10-01  574  	if (IS_ERR(icc_path)) {
+3eda901995371d Dan Carpenter  2021-10-01  575  		ret =3D PTR_ERR(icc_path);
+5785dd7a8ef0de Akhil P Oommen 2020-10-28  576  		goto fail;
+3eda901995371d Dan Carpenter  2021-10-01  577  	}
+5785dd7a8ef0de Akhil P Oommen 2020-10-28  578  =
 
-33ba0178888966 Srinivasa Rao Mandadapu 2022-05-18  1349  	ctrl->audio_cgcr =
-=3D devm_reset_control_get_exclusive(dev, "swr_audio_cgcr");
-33ba0178888966 Srinivasa Rao Mandadapu 2022-05-18  1350  	if (IS_ERR(ctrl->=
-audio_cgcr))
-33ba0178888966 Srinivasa Rao Mandadapu 2022-05-18  1351  		dev_err(dev, "Fa=
-iled to get audio_cgcr reset required for soundwire-v1.6.0\n");
-33ba0178888966 Srinivasa Rao Mandadapu 2022-05-18  1352  =
+5785dd7a8ef0de Akhil P Oommen 2020-10-28  579  	ocmem_icc_path =3D devm_of_=
+icc_get(&pdev->dev, "ocmem");
+3eda901995371d Dan Carpenter  2021-10-01  580  	if (IS_ERR(ocmem_icc_path))=
+ {
+3eda901995371d Dan Carpenter  2021-10-01  581  		ret =3D PTR_ERR(ocmem_icc_=
+path);
+5785dd7a8ef0de Akhil P Oommen 2020-10-28  582  		/* allow -ENODATA, ocmem i=
+cc is optional */
+5785dd7a8ef0de Akhil P Oommen 2020-10-28  583  		if (ret !=3D -ENODATA)
+5785dd7a8ef0de Akhil P Oommen 2020-10-28  584  			goto fail;
+5785dd7a8ef0de Akhil P Oommen 2020-10-28  585  		ocmem_icc_path =3D NULL;
+5785dd7a8ef0de Akhil P Oommen 2020-10-28  586  	}
+5785dd7a8ef0de Akhil P Oommen 2020-10-28  587  =
 
-02efb49aa805ce Srinivas Kandagatla     2020-01-13  1353  	ret =3D qcom_swrm=
-_get_port_config(ctrl);
-02efb49aa805ce Srinivas Kandagatla     2020-01-13  1354  	if (ret)
-91b5cfc0209b63 Pierre-Louis Bossart    2020-04-30  1355  		goto err_clk;
-02efb49aa805ce Srinivas Kandagatla     2020-01-13  1356  =
+5785dd7a8ef0de Akhil P Oommen 2020-10-28  588  =
 
-02efb49aa805ce Srinivas Kandagatla     2020-01-13  1357  	params =3D &ctrl-=
->bus.params;
-02efb49aa805ce Srinivas Kandagatla     2020-01-13  1358  	params->max_dr_fr=
-eq =3D DEFAULT_CLK_FREQ;
-02efb49aa805ce Srinivas Kandagatla     2020-01-13  1359  	params->curr_dr_f=
-req =3D DEFAULT_CLK_FREQ;
-8cb3b4e74cd810 Srinivas Kandagatla     2020-09-17  1360  	params->col =3D d=
-ata->default_cols;
-8cb3b4e74cd810 Srinivas Kandagatla     2020-09-17  1361  	params->row =3D d=
-ata->default_rows;
-02efb49aa805ce Srinivas Kandagatla     2020-01-13  1362  	ctrl->reg_read(ct=
-rl, SWRM_MCP_STATUS, &val);
-02efb49aa805ce Srinivas Kandagatla     2020-01-13  1363  	params->curr_bank=
- =3D val & SWRM_MCP_STATUS_BANK_NUM_MASK;
-02efb49aa805ce Srinivas Kandagatla     2020-01-13  1364  	params->next_bank=
- =3D !params->curr_bank;
-02efb49aa805ce Srinivas Kandagatla     2020-01-13  1365  =
+d163ba0b65f2e4 Brian Masney   2019-11-21  589  	/*
+d163ba0b65f2e4 Brian Masney   2019-11-21  590  	 * Set the ICC path to maxi=
+mum speed for now by multiplying the fastest
+d163ba0b65f2e4 Brian Masney   2019-11-21  591  	 * frequency by the bus wid=
+th (8). We'll want to scale this later on to
+d163ba0b65f2e4 Brian Masney   2019-11-21  592  	 * improve battery life.
+d163ba0b65f2e4 Brian Masney   2019-11-21  593  	 */
+5785dd7a8ef0de Akhil P Oommen 2020-10-28  594  	icc_set_bw(icc_path, 0, Bps=
+_to_icc(gpu->fast_rate) * 8);
+5785dd7a8ef0de Akhil P Oommen 2020-10-28  595  	icc_set_bw(ocmem_icc_path, =
+0, Bps_to_icc(gpu->fast_rate) * 8);
+d163ba0b65f2e4 Brian Masney   2019-11-21  596  =
 
-02efb49aa805ce Srinivas Kandagatla     2020-01-13  1366  	prop =3D &ctrl->b=
-us.prop;
-02efb49aa805ce Srinivas Kandagatla     2020-01-13  1367  	prop->max_clk_fre=
-q =3D DEFAULT_CLK_FREQ;
-02efb49aa805ce Srinivas Kandagatla     2020-01-13  1368  	prop->num_clk_gea=
-rs =3D 0;
-02efb49aa805ce Srinivas Kandagatla     2020-01-13  1369  	prop->num_clk_fre=
-q =3D MAX_FREQ_NUM;
-02efb49aa805ce Srinivas Kandagatla     2020-01-13  1370  	prop->clk_freq =
-=3D &qcom_swrm_freq_tbl[0];
-8cb3b4e74cd810 Srinivas Kandagatla     2020-09-17  1371  	prop->default_col=
- =3D data->default_cols;
-8cb3b4e74cd810 Srinivas Kandagatla     2020-09-17  1372  	prop->default_row=
- =3D data->default_rows;
-02efb49aa805ce Srinivas Kandagatla     2020-01-13  1373  =
+871d812aa43e63 Rob Clark      2013-11-16  597  	return gpu;
+7198e6b03155f6 Rob Clark      2013-07-19  598  =
 
-02efb49aa805ce Srinivas Kandagatla     2020-01-13  1374  	ctrl->reg_read(ct=
-rl, SWRM_COMP_HW_VERSION, &ctrl->version);
-02efb49aa805ce Srinivas Kandagatla     2020-01-13  1375  =
+7198e6b03155f6 Rob Clark      2013-07-19  599  fail:
+7198e6b03155f6 Rob Clark      2013-07-19  600  	if (a3xx_gpu)
+7198e6b03155f6 Rob Clark      2013-07-19  601  		a3xx_destroy(&a3xx_gpu->ba=
+se.base);
+7198e6b03155f6 Rob Clark      2013-07-19  602  =
 
-02efb49aa805ce Srinivas Kandagatla     2020-01-13  1376  	ret =3D devm_requ=
-est_threaded_irq(dev, ctrl->irq, NULL,
-02efb49aa805ce Srinivas Kandagatla     2020-01-13  1377  					qcom_swrm_irq=
-_handler,
-4f1738f4c24b44 Samuel Zou              2020-05-06  1378  					IRQF_TRIGGER_=
-RISING |
-4f1738f4c24b44 Samuel Zou              2020-05-06  1379  					IRQF_ONESHOT,
-02efb49aa805ce Srinivas Kandagatla     2020-01-13  1380  					"soundwire", =
-ctrl);
-02efb49aa805ce Srinivas Kandagatla     2020-01-13  1381  	if (ret) {
-02efb49aa805ce Srinivas Kandagatla     2020-01-13  1382  		dev_err(dev, "Fa=
-iled to request soundwire irq\n");
-91b5cfc0209b63 Pierre-Louis Bossart    2020-04-30  1383  		goto err_clk;
-02efb49aa805ce Srinivas Kandagatla     2020-01-13  1384  	}
-02efb49aa805ce Srinivas Kandagatla     2020-01-13  1385  =
+7198e6b03155f6 Rob Clark      2013-07-19 @603  	return ERR_PTR(ret);
 
-04d46a7b38375a Srinivas Kandagatla     2022-02-28  1386  	ctrl->wake_irq =
-=3D of_irq_get(dev->of_node, 1);
-04d46a7b38375a Srinivas Kandagatla     2022-02-28  1387  	if (ctrl->wake_ir=
-q > 0) {
-04d46a7b38375a Srinivas Kandagatla     2022-02-28  1388  		ret =3D devm_req=
-uest_threaded_irq(dev, ctrl->wake_irq, NULL,
-04d46a7b38375a Srinivas Kandagatla     2022-02-28  1389  						qcom_swrm_wa=
-ke_irq_handler,
-04d46a7b38375a Srinivas Kandagatla     2022-02-28  1390  						IRQF_TRIGGER=
-_HIGH | IRQF_ONESHOT,
-04d46a7b38375a Srinivas Kandagatla     2022-02-28  1391  						"swr_wake_ir=
-q", ctrl);
-04d46a7b38375a Srinivas Kandagatla     2022-02-28  1392  		if (ret) {
-04d46a7b38375a Srinivas Kandagatla     2022-02-28  1393  			dev_err(dev, "F=
-ailed to request soundwire wake irq\n");
-04d46a7b38375a Srinivas Kandagatla     2022-02-28  1394  			goto err_init;
-04d46a7b38375a Srinivas Kandagatla     2022-02-28  1395  		}
-04d46a7b38375a Srinivas Kandagatla     2022-02-28  1396  	}
-04d46a7b38375a Srinivas Kandagatla     2022-02-28  1397  =
+:::::: The code at line 603 was first introduced by commit
+:::::: 7198e6b03155f6dadecadba004eb83b81a6ffe4c drm/msm: add a3xx gpu suppo=
+rt
 
-5cab3ff2489ede Pierre-Louis Bossart    2020-05-19  1398  	ret =3D sdw_bus_m=
-aster_add(&ctrl->bus, dev, dev->fwnode);
-02efb49aa805ce Srinivas Kandagatla     2020-01-13  1399  	if (ret) {
-02efb49aa805ce Srinivas Kandagatla     2020-01-13  1400  		dev_err(dev, "Fa=
-iled to register Soundwire controller (%d)\n",
-02efb49aa805ce Srinivas Kandagatla     2020-01-13  1401  			ret);
-91b5cfc0209b63 Pierre-Louis Bossart    2020-04-30  1402  		goto err_clk;
-02efb49aa805ce Srinivas Kandagatla     2020-01-13  1403  	}
-02efb49aa805ce Srinivas Kandagatla     2020-01-13  1404  =
-
-02efb49aa805ce Srinivas Kandagatla     2020-01-13  1405  	qcom_swrm_init(ct=
-rl);
-06dd96738d6183 Srinivas Kandagatla     2021-03-30  1406  	wait_for_completi=
-on_timeout(&ctrl->enumeration,
-06dd96738d6183 Srinivas Kandagatla     2021-03-30  1407  				    msecs_to_j=
-iffies(TIMEOUT_MS));
-02efb49aa805ce Srinivas Kandagatla     2020-01-13  1408  	ret =3D qcom_swrm=
-_register_dais(ctrl);
-02efb49aa805ce Srinivas Kandagatla     2020-01-13  1409  	if (ret)
-91b5cfc0209b63 Pierre-Louis Bossart    2020-04-30  1410  		goto err_master_=
-add;
-02efb49aa805ce Srinivas Kandagatla     2020-01-13  1411  =
-
-02efb49aa805ce Srinivas Kandagatla     2020-01-13  1412  	dev_info(dev, "Qu=
-alcomm Soundwire controller v%x.%x.%x Registered\n",
-02efb49aa805ce Srinivas Kandagatla     2020-01-13  1413  		 (ctrl->version =
->> 24) & 0xff, (ctrl->version >> 16) & 0xff,
-02efb49aa805ce Srinivas Kandagatla     2020-01-13  1414  		 ctrl->version &=
- 0xffff);
-02efb49aa805ce Srinivas Kandagatla     2020-01-13  1415  =
-
-74e79da9fd46a5 Srinivas Kandagatla     2022-02-28  1416  	pm_runtime_set_au=
-tosuspend_delay(dev, 3000);
-74e79da9fd46a5 Srinivas Kandagatla     2022-02-28  1417  	pm_runtime_use_au=
-tosuspend(dev);
-74e79da9fd46a5 Srinivas Kandagatla     2022-02-28  1418  	pm_runtime_mark_l=
-ast_busy(dev);
-74e79da9fd46a5 Srinivas Kandagatla     2022-02-28  1419  	pm_runtime_set_ac=
-tive(dev);
-74e79da9fd46a5 Srinivas Kandagatla     2022-02-28  1420  	pm_runtime_enable=
-(dev);
-74e79da9fd46a5 Srinivas Kandagatla     2022-02-28  1421  =
-
-74e79da9fd46a5 Srinivas Kandagatla     2022-02-28  1422  	/* Clk stop is no=
-t supported on WSA Soundwire masters */
-74e79da9fd46a5 Srinivas Kandagatla     2022-02-28  1423  	if (ctrl->version=
- <=3D 0x01030000) {
-74e79da9fd46a5 Srinivas Kandagatla     2022-02-28  1424  		ctrl->clock_stop=
-_not_supported =3D true;
-74e79da9fd46a5 Srinivas Kandagatla     2022-02-28  1425  	} else {
-74e79da9fd46a5 Srinivas Kandagatla     2022-02-28  1426  		ctrl->reg_read(c=
-trl, SWRM_COMP_MASTER_ID, &val);
-74e79da9fd46a5 Srinivas Kandagatla     2022-02-28  1427  		if (val =3D=3D M=
-ASTER_ID_WSA)
-74e79da9fd46a5 Srinivas Kandagatla     2022-02-28  1428  			ctrl->clock_sto=
-p_not_supported =3D true;
-74e79da9fd46a5 Srinivas Kandagatla     2022-02-28  1429  	}
-74e79da9fd46a5 Srinivas Kandagatla     2022-02-28  1430  =
-
+:::::: TO: Rob Clark <robdclark@gmail.com>
+:::::: CC: Rob Clark <robdclark@gmail.com>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============0140038176373687620==--
+--===============3791400984491021470==--
 
