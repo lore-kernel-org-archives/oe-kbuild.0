@@ -1,414 +1,231 @@
-Content-Type: multipart/mixed; boundary="===============9033355063467395638=="
+Content-Type: multipart/mixed; boundary="===============0778064126623017240=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/block/null_blk/main.c:2074:3: warning: %d in format string (no. 1) requires 'int' but the argument type is 'unsigned int'. [invalidPrintfArgType_sint]
-Date: Thu, 25 Aug 2022 15:43:50 +0800
-Message-ID: <202208251538.v7DVW8bg-lkp@intel.com>
+Subject: mm/damon/dbgfs.c:396 dbgfs_mk_context_write() warn: passing a valid pointer to 'PTR_ERR'
+Date: Sun, 21 Aug 2022 15:02:36 +0800
+Message-ID: <202208211443.TXmKZTg3-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============9033355063467395638==
+--===============0778064126623017240==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-:::::: =
-
-:::::: Manual check reason: "low confidence static check warning: drivers/b=
-lock/null_blk/main.c:2074:3: warning: %d in format string (no. 1) requires =
-'int' but the argument type is 'unsigned int'. [invalidPrintfArgType_sint]"
-:::::: =
-
-
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Damien Le Moal <damien.lemoal@opensource.wdc.com>
-CC: Jens Axboe <axboe@kernel.dk>
-CC: Johannes Thumshirn <johannes.thumshirn@wdc.com>
+TO: SeongJae Park <sjpark@amazon.de>
+CC: Fernand Sieber <sieberf@amazon.com>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
-head:   c40e8341e3b3bb27e3a65b06b5b454626234c4f0
-commit: 49c3b9266a718dbd73c42e004288b4bb2ea0ac0b block: null_blk: Improve d=
-evice creation with configfs
-date:   4 months ago
-:::::: branch date: 29 hours ago
-:::::: commit date: 4 months ago
-compiler: microblaze-linux-gcc (GCC) 12.1.0
-reproduce (cppcheck warning):
-        # apt-get install cppcheck
-        git checkout 49c3b9266a718dbd73c42e004288b4bb2ea0ac0b
-        cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
-e=3Dgcc FILE
+head:   15b3f48a4339e3c16acf18624e2b7f60bc5e9a2c
+commit: 75c1c2b53c78bf3b3188ebb7b3508dadbf98bba1 mm/damon/dbgfs: support mu=
+ltiple contexts
+date:   12 months ago
+:::::: branch date: 9 hours ago
+:::::: commit date: 12 months ago
+config: parisc-randconfig-m031-20220821 (https://download.01.org/0day-ci/ar=
+chive/20220821/202208211443.TXmKZTg3-lkp(a)intel.com/config)
+compiler: hppa-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+smatch warnings:
+mm/damon/dbgfs.c:396 dbgfs_mk_context_write() warn: passing a valid pointer=
+ to 'PTR_ERR'
+mm/damon/dbgfs.c:487 dbgfs_rm_context_write() warn: passing a valid pointer=
+ to 'PTR_ERR'
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+vim +/PTR_ERR +396 mm/damon/dbgfs.c
 
-   drivers/block/null_blk/main.c:1911:26: warning: The statement 'if (dev->=
-submit_queues!=3Dnr_online_nodes) dev->submit_queues=3Dnr_online_nodes' is =
-logically equivalent to 'dev->submit_queues=3Dnr_online_nodes'. [duplicateC=
-onditionalAssign]
-     if (dev->submit_queues !=3D nr_online_nodes)
-                            ^
-   drivers/block/null_blk/main.c:1912:23: note: Assignment 'dev->submit_que=
-ues=3Dnr_online_nodes'
-      dev->submit_queues =3D nr_online_nodes;
-                         ^
-   drivers/block/null_blk/main.c:1911:26: note: Condition 'dev->submit_queu=
-es!=3Dnr_online_nodes' is redundant
-     if (dev->submit_queues !=3D nr_online_nodes)
-                            ^
->> drivers/block/null_blk/main.c:2074:3: warning: %d in format string (no. =
-1) requires 'int' but the argument type is 'unsigned int'. [invalidPrintfAr=
-gType_sint]
-     sprintf(nullb->disk_name, "nullb%d", nullb->index);
-     ^
->> drivers/block/null_blk/main.c:2111:12: warning: Uninitialized variables:=
- nb.dev, nb.list, nb.index, nb.q, nb.disk, nb.tag_set, nb.__tag_set, nb.que=
-ue_depth, nb.cur_bytes, nb.bw_timer, nb.cache_flush_pos, nb.lock, nb.queues=
-, nb.nr_queues [uninitvar]
-      nullb =3D nb;
-              ^
+75c1c2b53c78bf SeongJae Park 2021-09-07  385  =
 
-vim +2074 drivers/block/null_blk/main.c
+75c1c2b53c78bf SeongJae Park 2021-09-07  386  static ssize_t dbgfs_mk_conte=
+xt_write(struct file *file,
+75c1c2b53c78bf SeongJae Park 2021-09-07  387  		const char __user *buf, siz=
+e_t count, loff_t *ppos)
+75c1c2b53c78bf SeongJae Park 2021-09-07  388  {
+75c1c2b53c78bf SeongJae Park 2021-09-07  389  	char *kbuf;
+75c1c2b53c78bf SeongJae Park 2021-09-07  390  	char *ctx_name;
+75c1c2b53c78bf SeongJae Park 2021-09-07  391  	ssize_t ret =3D count;
+75c1c2b53c78bf SeongJae Park 2021-09-07  392  	int err;
+75c1c2b53c78bf SeongJae Park 2021-09-07  393  =
 
-93b570464cce00 drivers/block/null_blk.c      Jens Axboe        2018-01-10  =
-1973  =
+75c1c2b53c78bf SeongJae Park 2021-09-07  394  	kbuf =3D user_input_str(buf,=
+ count, ppos);
+75c1c2b53c78bf SeongJae Park 2021-09-07  395  	if (IS_ERR(kbuf))
+75c1c2b53c78bf SeongJae Park 2021-09-07 @396  		return PTR_ERR(kbuf);
+75c1c2b53c78bf SeongJae Park 2021-09-07  397  	ctx_name =3D kmalloc(count +=
+ 1, GFP_KERNEL);
+75c1c2b53c78bf SeongJae Park 2021-09-07  398  	if (!ctx_name) {
+75c1c2b53c78bf SeongJae Park 2021-09-07  399  		kfree(kbuf);
+75c1c2b53c78bf SeongJae Park 2021-09-07  400  		return -ENOMEM;
+75c1c2b53c78bf SeongJae Park 2021-09-07  401  	}
+75c1c2b53c78bf SeongJae Park 2021-09-07  402  =
 
-2984c8684f962c drivers/block/null_blk.c      Shaohua Li        2017-08-14  =
-1974  static int null_add_dev(struct nullb_device *dev)
-9ae2d0aa5046c6 drivers/block/null_blk.c      Matias Bj=C3=B8rling   2016-09=
--16  1975  {
-9ae2d0aa5046c6 drivers/block/null_blk.c      Matias Bj=C3=B8rling   2016-09=
--16  1976  	struct nullb *nullb;
-dc501dc0d9dc9c drivers/block/null_blk.c      Robert Elliott    2014-09-02  =
-1977  	int rv;
-f2298c0403b0df drivers/block/null_blk.c      Jens Axboe        2013-10-25  =
-1978  =
+75c1c2b53c78bf SeongJae Park 2021-09-07  403  	/* Trim white space */
+75c1c2b53c78bf SeongJae Park 2021-09-07  404  	if (sscanf(kbuf, "%s", ctx_n=
+ame) !=3D 1) {
+75c1c2b53c78bf SeongJae Park 2021-09-07  405  		ret =3D -EINVAL;
+75c1c2b53c78bf SeongJae Park 2021-09-07  406  		goto out;
+75c1c2b53c78bf SeongJae Park 2021-09-07  407  	}
+75c1c2b53c78bf SeongJae Park 2021-09-07  408  =
 
-5c4bd1f40c23d0 drivers/block/null_blk_main.c Damien Le Moal    2019-12-03  =
-1979  	rv =3D null_validate_conf(dev);
-5c4bd1f40c23d0 drivers/block/null_blk_main.c Damien Le Moal    2019-12-03  =
-1980  	if (rv)
-5c4bd1f40c23d0 drivers/block/null_blk_main.c Damien Le Moal    2019-12-03  =
-1981  		return rv;
-cedcafad8277b3 drivers/block/null_blk.c      Shaohua Li        2017-08-14  =
-1982  =
+75c1c2b53c78bf SeongJae Park 2021-09-07  409  	mutex_lock(&damon_dbgfs_lock=
+);
+75c1c2b53c78bf SeongJae Park 2021-09-07  410  	err =3D dbgfs_mk_context(ctx=
+_name);
+75c1c2b53c78bf SeongJae Park 2021-09-07  411  	if (err)
+75c1c2b53c78bf SeongJae Park 2021-09-07  412  		ret =3D err;
+75c1c2b53c78bf SeongJae Park 2021-09-07  413  	mutex_unlock(&damon_dbgfs_lo=
+ck);
+75c1c2b53c78bf SeongJae Park 2021-09-07  414  =
 
-2984c8684f962c drivers/block/null_blk.c      Shaohua Li        2017-08-14  =
-1983  	nullb =3D kzalloc_node(sizeof(*nullb), GFP_KERNEL, dev->home_node);
-dc501dc0d9dc9c drivers/block/null_blk.c      Robert Elliott    2014-09-02  =
-1984  	if (!nullb) {
-dc501dc0d9dc9c drivers/block/null_blk.c      Robert Elliott    2014-09-02  =
-1985  		rv =3D -ENOMEM;
-24d2f90309b23f drivers/block/null_blk.c      Christoph Hellwig 2014-04-15  =
-1986  		goto out;
-dc501dc0d9dc9c drivers/block/null_blk.c      Robert Elliott    2014-09-02  =
-1987  	}
-2984c8684f962c drivers/block/null_blk.c      Shaohua Li        2017-08-14  =
-1988  	nullb->dev =3D dev;
-2984c8684f962c drivers/block/null_blk.c      Shaohua Li        2017-08-14  =
-1989  	dev->nullb =3D nullb;
-f2298c0403b0df drivers/block/null_blk.c      Jens Axboe        2013-10-25  =
-1990  =
+75c1c2b53c78bf SeongJae Park 2021-09-07  415  out:
+75c1c2b53c78bf SeongJae Park 2021-09-07  416  	kfree(kbuf);
+75c1c2b53c78bf SeongJae Park 2021-09-07  417  	kfree(ctx_name);
+75c1c2b53c78bf SeongJae Park 2021-09-07  418  	return ret;
+75c1c2b53c78bf SeongJae Park 2021-09-07  419  }
+75c1c2b53c78bf SeongJae Park 2021-09-07  420  =
 
-f2298c0403b0df drivers/block/null_blk.c      Jens Axboe        2013-10-25  =
-1991  	spin_lock_init(&nullb->lock);
-f2298c0403b0df drivers/block/null_blk.c      Jens Axboe        2013-10-25  =
-1992  =
+75c1c2b53c78bf SeongJae Park 2021-09-07  421  /*
+75c1c2b53c78bf SeongJae Park 2021-09-07  422   * Remove a context of @name =
+and its debugfs directory.
+75c1c2b53c78bf SeongJae Park 2021-09-07  423   *
+75c1c2b53c78bf SeongJae Park 2021-09-07  424   * This function should be ca=
+lled while holding damon_dbgfs_lock.
+75c1c2b53c78bf SeongJae Park 2021-09-07  425   *
+75c1c2b53c78bf SeongJae Park 2021-09-07  426   * Return 0 on success, negat=
+ive error code otherwise.
+75c1c2b53c78bf SeongJae Park 2021-09-07  427   */
+75c1c2b53c78bf SeongJae Park 2021-09-07  428  static int dbgfs_rm_context(c=
+har *name)
+75c1c2b53c78bf SeongJae Park 2021-09-07  429  {
+75c1c2b53c78bf SeongJae Park 2021-09-07  430  	struct dentry *root, *dir, *=
+*new_dirs;
+75c1c2b53c78bf SeongJae Park 2021-09-07  431  	struct damon_ctx **new_ctxs;
+75c1c2b53c78bf SeongJae Park 2021-09-07  432  	int i, j;
+75c1c2b53c78bf SeongJae Park 2021-09-07  433  =
 
-dc501dc0d9dc9c drivers/block/null_blk.c      Robert Elliott    2014-09-02  =
-1993  	rv =3D setup_queues(nullb);
-dc501dc0d9dc9c drivers/block/null_blk.c      Robert Elliott    2014-09-02  =
-1994  	if (rv)
-24d2f90309b23f drivers/block/null_blk.c      Christoph Hellwig 2014-04-15  =
-1995  		goto out_free_nullb;
-f2298c0403b0df drivers/block/null_blk.c      Jens Axboe        2013-10-25  =
-1996  =
+75c1c2b53c78bf SeongJae Park 2021-09-07  434  	if (damon_nr_running_ctxs())
+75c1c2b53c78bf SeongJae Park 2021-09-07  435  		return -EBUSY;
+75c1c2b53c78bf SeongJae Park 2021-09-07  436  =
 
-2984c8684f962c drivers/block/null_blk.c      Shaohua Li        2017-08-14  =
-1997  	if (dev->queue_mode =3D=3D NULL_Q_MQ) {
-82f402fefa50f1 drivers/block/null_blk.c      Jens Axboe        2017-06-20  =
-1998  		if (shared_tags) {
-82f402fefa50f1 drivers/block/null_blk.c      Jens Axboe        2017-06-20  =
-1999  			nullb->tag_set =3D &tag_set;
-82f402fefa50f1 drivers/block/null_blk.c      Jens Axboe        2017-06-20  =
-2000  			rv =3D 0;
-82f402fefa50f1 drivers/block/null_blk.c      Jens Axboe        2017-06-20  =
-2001  		} else {
-82f402fefa50f1 drivers/block/null_blk.c      Jens Axboe        2017-06-20  =
-2002  			nullb->tag_set =3D &nullb->__tag_set;
-2984c8684f962c drivers/block/null_blk.c      Shaohua Li        2017-08-14  =
-2003  			rv =3D null_init_tag_set(nullb, nullb->tag_set);
-82f402fefa50f1 drivers/block/null_blk.c      Jens Axboe        2017-06-20  =
-2004  		}
-db5bcf87bb9e85 drivers/block/null_blk.c      Jens Axboe        2017-03-30  =
-2005  =
+75c1c2b53c78bf SeongJae Park 2021-09-07  437  	root =3D dbgfs_dirs[0];
+75c1c2b53c78bf SeongJae Park 2021-09-07  438  	if (!root)
+75c1c2b53c78bf SeongJae Park 2021-09-07  439  		return -ENOENT;
+75c1c2b53c78bf SeongJae Park 2021-09-07  440  =
 
-dc501dc0d9dc9c drivers/block/null_blk.c      Robert Elliott    2014-09-02  =
-2006  		if (rv)
-24d2f90309b23f drivers/block/null_blk.c      Christoph Hellwig 2014-04-15  =
-2007  			goto out_cleanup_queues;
-24d2f90309b23f drivers/block/null_blk.c      Christoph Hellwig 2014-04-15  =
-2008  =
+75c1c2b53c78bf SeongJae Park 2021-09-07  441  	dir =3D debugfs_lookup(name,=
+ root);
+75c1c2b53c78bf SeongJae Park 2021-09-07  442  	if (!dir)
+75c1c2b53c78bf SeongJae Park 2021-09-07  443  		return -ENOENT;
+75c1c2b53c78bf SeongJae Park 2021-09-07  444  =
 
-93b570464cce00 drivers/block/null_blk.c      Jens Axboe        2018-01-10  =
-2009  		if (!null_setup_fault())
-132226b301b545 drivers/block/null_blk/main.c Christoph Hellwig 2021-05-21  =
-2010  			goto out_cleanup_tags;
-93b570464cce00 drivers/block/null_blk.c      Jens Axboe        2018-01-10  =
-2011  =
+75c1c2b53c78bf SeongJae Park 2021-09-07  445  	new_dirs =3D kmalloc_array(d=
+bgfs_nr_ctxs - 1, sizeof(*dbgfs_dirs),
+75c1c2b53c78bf SeongJae Park 2021-09-07  446  			GFP_KERNEL);
+75c1c2b53c78bf SeongJae Park 2021-09-07  447  	if (!new_dirs)
+75c1c2b53c78bf SeongJae Park 2021-09-07  448  		return -ENOMEM;
+75c1c2b53c78bf SeongJae Park 2021-09-07  449  =
 
-5448aca41cd58e drivers/block/null_blk.c      Jens Axboe        2018-01-09  =
-2012  		nullb->tag_set->timeout =3D 5 * HZ;
-6759b1a2013ba6 drivers/block/null_blk/main.c Christoph Hellwig 2021-06-02  =
-2013  		nullb->disk =3D blk_mq_alloc_disk(nullb->tag_set, nullb);
-6759b1a2013ba6 drivers/block/null_blk/main.c Christoph Hellwig 2021-06-02  =
-2014  		if (IS_ERR(nullb->disk)) {
-6759b1a2013ba6 drivers/block/null_blk/main.c Christoph Hellwig 2021-06-02  =
-2015  			rv =3D PTR_ERR(nullb->disk);
-24d2f90309b23f drivers/block/null_blk.c      Christoph Hellwig 2014-04-15  =
-2016  			goto out_cleanup_tags;
-6759b1a2013ba6 drivers/block/null_blk/main.c Christoph Hellwig 2021-06-02  =
-2017  		}
-6759b1a2013ba6 drivers/block/null_blk/main.c Christoph Hellwig 2021-06-02  =
-2018  		nullb->q =3D nullb->disk->queue;
-2984c8684f962c drivers/block/null_blk.c      Shaohua Li        2017-08-14  =
-2019  	} else if (dev->queue_mode =3D=3D NULL_Q_BIO) {
-dc501dc0d9dc9c drivers/block/null_blk.c      Robert Elliott    2014-09-02  =
-2020  		rv =3D -ENOMEM;
-132226b301b545 drivers/block/null_blk/main.c Christoph Hellwig 2021-05-21  =
-2021  		nullb->disk =3D blk_alloc_disk(nullb->dev->home_node);
-132226b301b545 drivers/block/null_blk/main.c Christoph Hellwig 2021-05-21  =
-2022  		if (!nullb->disk)
-24d2f90309b23f drivers/block/null_blk.c      Christoph Hellwig 2014-04-15  =
-2023  			goto out_cleanup_queues;
-132226b301b545 drivers/block/null_blk/main.c Christoph Hellwig 2021-05-21  =
-2024  =
+75c1c2b53c78bf SeongJae Park 2021-09-07  450  	new_ctxs =3D kmalloc_array(d=
+bgfs_nr_ctxs - 1, sizeof(*dbgfs_ctxs),
+75c1c2b53c78bf SeongJae Park 2021-09-07  451  			GFP_KERNEL);
+75c1c2b53c78bf SeongJae Park 2021-09-07  452  	if (!new_ctxs) {
+75c1c2b53c78bf SeongJae Park 2021-09-07  453  		kfree(new_dirs);
+75c1c2b53c78bf SeongJae Park 2021-09-07  454  		return -ENOMEM;
+75c1c2b53c78bf SeongJae Park 2021-09-07  455  	}
+75c1c2b53c78bf SeongJae Park 2021-09-07  456  =
 
-132226b301b545 drivers/block/null_blk/main.c Christoph Hellwig 2021-05-21  =
-2025  		nullb->q =3D nullb->disk->queue;
-31f9690e6eaf54 drivers/block/null_blk.c      Jan Kara          2014-10-22  =
-2026  		rv =3D init_driver_queues(nullb);
-31f9690e6eaf54 drivers/block/null_blk.c      Jan Kara          2014-10-22  =
-2027  		if (rv)
-132226b301b545 drivers/block/null_blk/main.c Christoph Hellwig 2021-05-21  =
-2028  			goto out_cleanup_disk;
-f2298c0403b0df drivers/block/null_blk.c      Jens Axboe        2013-10-25  =
-2029  	}
-f2298c0403b0df drivers/block/null_blk.c      Jens Axboe        2013-10-25  =
-2030  =
+75c1c2b53c78bf SeongJae Park 2021-09-07  457  	for (i =3D 0, j =3D 0; i < d=
+bgfs_nr_ctxs; i++) {
+75c1c2b53c78bf SeongJae Park 2021-09-07  458  		if (dbgfs_dirs[i] =3D=3D di=
+r) {
+75c1c2b53c78bf SeongJae Park 2021-09-07  459  			debugfs_remove(dbgfs_dirs[=
+i]);
+75c1c2b53c78bf SeongJae Park 2021-09-07  460  			dbgfs_destroy_ctx(dbgfs_ct=
+xs[i]);
+75c1c2b53c78bf SeongJae Park 2021-09-07  461  			continue;
+75c1c2b53c78bf SeongJae Park 2021-09-07  462  		}
+75c1c2b53c78bf SeongJae Park 2021-09-07  463  		new_dirs[j] =3D dbgfs_dirs[=
+i];
+75c1c2b53c78bf SeongJae Park 2021-09-07  464  		new_ctxs[j++] =3D dbgfs_ctx=
+s[i];
+75c1c2b53c78bf SeongJae Park 2021-09-07  465  	}
+75c1c2b53c78bf SeongJae Park 2021-09-07  466  =
 
-eff2c4f108735d drivers/block/null_blk.c      Shaohua Li        2017-08-14  =
-2031  	if (dev->mbps) {
-eff2c4f108735d drivers/block/null_blk.c      Shaohua Li        2017-08-14  =
-2032  		set_bit(NULLB_DEV_FL_THROTTLED, &dev->flags);
-eff2c4f108735d drivers/block/null_blk.c      Shaohua Li        2017-08-14  =
-2033  		nullb_setup_bwtimer(nullb);
-eff2c4f108735d drivers/block/null_blk.c      Shaohua Li        2017-08-14  =
-2034  	}
-eff2c4f108735d drivers/block/null_blk.c      Shaohua Li        2017-08-14  =
-2035  =
+75c1c2b53c78bf SeongJae Park 2021-09-07  467  	kfree(dbgfs_dirs);
+75c1c2b53c78bf SeongJae Park 2021-09-07  468  	kfree(dbgfs_ctxs);
+75c1c2b53c78bf SeongJae Park 2021-09-07  469  =
 
-deb78b419dfda3 drivers/block/null_blk.c      Shaohua Li        2017-08-14  =
-2036  	if (dev->cache_size > 0) {
-deb78b419dfda3 drivers/block/null_blk.c      Shaohua Li        2017-08-14  =
-2037  		set_bit(NULLB_DEV_FL_CACHE, &nullb->dev->flags);
-deb78b419dfda3 drivers/block/null_blk.c      Shaohua Li        2017-08-14  =
-2038  		blk_queue_write_cache(nullb->q, true, true);
-deb78b419dfda3 drivers/block/null_blk.c      Shaohua Li        2017-08-14  =
-2039  	}
-deb78b419dfda3 drivers/block/null_blk.c      Shaohua Li        2017-08-14  =
-2040  =
+75c1c2b53c78bf SeongJae Park 2021-09-07  470  	dbgfs_dirs =3D new_dirs;
+75c1c2b53c78bf SeongJae Park 2021-09-07  471  	dbgfs_ctxs =3D new_ctxs;
+75c1c2b53c78bf SeongJae Park 2021-09-07  472  	dbgfs_nr_ctxs--;
+75c1c2b53c78bf SeongJae Park 2021-09-07  473  =
 
-ca4b2a011948fa drivers/block/null_blk.c      Matias Bj=C3=B8rling   2018-07=
--06  2041  	if (dev->zoned) {
-d205bde78fa53e drivers/block/null_blk_main.c Damien Le Moal    2020-04-23  =
-2042  		rv =3D null_init_zoned_dev(dev, nullb->q);
-ca4b2a011948fa drivers/block/null_blk.c      Matias Bj=C3=B8rling   2018-07=
--06  2043  		if (rv)
-132226b301b545 drivers/block/null_blk/main.c Christoph Hellwig 2021-05-21  =
-2044  			goto out_cleanup_disk;
-ca4b2a011948fa drivers/block/null_blk.c      Matias Bj=C3=B8rling   2018-07=
--06  2045  	}
-ca4b2a011948fa drivers/block/null_blk.c      Matias Bj=C3=B8rling   2018-07=
--06  2046  =
+75c1c2b53c78bf SeongJae Park 2021-09-07  474  	return 0;
+75c1c2b53c78bf SeongJae Park 2021-09-07  475  }
+75c1c2b53c78bf SeongJae Park 2021-09-07  476  =
 
-f2298c0403b0df drivers/block/null_blk.c      Jens Axboe        2013-10-25  =
-2047  	nullb->q->queuedata =3D nullb;
-8b904b5b6b58b9 drivers/block/null_blk.c      Bart Van Assche   2018-03-07  =
-2048  	blk_queue_flag_set(QUEUE_FLAG_NONROT, nullb->q);
-8b904b5b6b58b9 drivers/block/null_blk.c      Bart Van Assche   2018-03-07  =
-2049  	blk_queue_flag_clear(QUEUE_FLAG_ADD_RANDOM, nullb->q);
-f2298c0403b0df drivers/block/null_blk.c      Jens Axboe        2013-10-25  =
-2050  =
+75c1c2b53c78bf SeongJae Park 2021-09-07  477  static ssize_t dbgfs_rm_conte=
+xt_write(struct file *file,
+75c1c2b53c78bf SeongJae Park 2021-09-07  478  		const char __user *buf, siz=
+e_t count, loff_t *ppos)
+75c1c2b53c78bf SeongJae Park 2021-09-07  479  {
+75c1c2b53c78bf SeongJae Park 2021-09-07  480  	char *kbuf;
+75c1c2b53c78bf SeongJae Park 2021-09-07  481  	ssize_t ret =3D count;
+75c1c2b53c78bf SeongJae Park 2021-09-07  482  	int err;
+75c1c2b53c78bf SeongJae Park 2021-09-07  483  	char *ctx_name;
+75c1c2b53c78bf SeongJae Park 2021-09-07  484  =
 
-f2298c0403b0df drivers/block/null_blk.c      Jens Axboe        2013-10-25  =
-2051  	mutex_lock(&lock);
-94bc02e30fb8d0 drivers/block/null_blk.c      Shaohua Li        2017-08-14  =
-2052  	nullb->index =3D ida_simple_get(&nullb_indexes, 0, 0, GFP_KERNEL);
-cedcafad8277b3 drivers/block/null_blk.c      Shaohua Li        2017-08-14  =
-2053  	dev->index =3D nullb->index;
-f2298c0403b0df drivers/block/null_blk.c      Jens Axboe        2013-10-25  =
-2054  	mutex_unlock(&lock);
-f2298c0403b0df drivers/block/null_blk.c      Jens Axboe        2013-10-25  =
-2055  =
+75c1c2b53c78bf SeongJae Park 2021-09-07  485  	kbuf =3D user_input_str(buf,=
+ count, ppos);
+75c1c2b53c78bf SeongJae Park 2021-09-07  486  	if (IS_ERR(kbuf))
+75c1c2b53c78bf SeongJae Park 2021-09-07 @487  		return PTR_ERR(kbuf);
+75c1c2b53c78bf SeongJae Park 2021-09-07  488  	ctx_name =3D kmalloc(count +=
+ 1, GFP_KERNEL);
+75c1c2b53c78bf SeongJae Park 2021-09-07  489  	if (!ctx_name) {
+75c1c2b53c78bf SeongJae Park 2021-09-07  490  		kfree(kbuf);
+75c1c2b53c78bf SeongJae Park 2021-09-07  491  		return -ENOMEM;
+75c1c2b53c78bf SeongJae Park 2021-09-07  492  	}
+75c1c2b53c78bf SeongJae Park 2021-09-07  493  =
 
-2984c8684f962c drivers/block/null_blk.c      Shaohua Li        2017-08-14  =
-2056  	blk_queue_logical_block_size(nullb->q, dev->blocksize);
-2984c8684f962c drivers/block/null_blk.c      Shaohua Li        2017-08-14  =
-2057  	blk_queue_physical_block_size(nullb->q, dev->blocksize);
-ea17fd354ca8af drivers/block/null_blk_main.c Damien Le Moal    2020-11-20  =
-2058  	if (!dev->max_sectors)
-ea17fd354ca8af drivers/block/null_blk_main.c Damien Le Moal    2020-11-20  =
-2059  		dev->max_sectors =3D queue_max_hw_sectors(nullb->q);
-ea17fd354ca8af drivers/block/null_blk_main.c Damien Le Moal    2020-11-20  =
-2060  	dev->max_sectors =3D min_t(unsigned int, dev->max_sectors,
-ea17fd354ca8af drivers/block/null_blk_main.c Damien Le Moal    2020-11-20  =
-2061  				 BLK_DEF_MAX_SECTORS);
-ea17fd354ca8af drivers/block/null_blk_main.c Damien Le Moal    2020-11-20  =
-2062  	blk_queue_max_hw_sectors(nullb->q, dev->max_sectors);
-f2298c0403b0df drivers/block/null_blk.c      Jens Axboe        2013-10-25  =
-2063  =
+75c1c2b53c78bf SeongJae Park 2021-09-07  494  	/* Trim white space */
+75c1c2b53c78bf SeongJae Park 2021-09-07  495  	if (sscanf(kbuf, "%s", ctx_n=
+ame) !=3D 1) {
+75c1c2b53c78bf SeongJae Park 2021-09-07  496  		ret =3D -EINVAL;
+75c1c2b53c78bf SeongJae Park 2021-09-07  497  		goto out;
+75c1c2b53c78bf SeongJae Park 2021-09-07  498  	}
+75c1c2b53c78bf SeongJae Park 2021-09-07  499  =
 
-cee1b21523495e drivers/block/null_blk/main.c Max Gurtovoy      2021-04-12  =
-2064  	if (dev->virt_boundary)
-cee1b21523495e drivers/block/null_blk/main.c Max Gurtovoy      2021-04-12  =
-2065  		blk_queue_virt_boundary(nullb->q, PAGE_SIZE - 1);
-cee1b21523495e drivers/block/null_blk/main.c Max Gurtovoy      2021-04-12  =
-2066  =
+75c1c2b53c78bf SeongJae Park 2021-09-07  500  	mutex_lock(&damon_dbgfs_lock=
+);
+75c1c2b53c78bf SeongJae Park 2021-09-07  501  	err =3D dbgfs_rm_context(ctx=
+_name);
+75c1c2b53c78bf SeongJae Park 2021-09-07  502  	if (err)
+75c1c2b53c78bf SeongJae Park 2021-09-07  503  		ret =3D err;
+75c1c2b53c78bf SeongJae Park 2021-09-07  504  	mutex_unlock(&damon_dbgfs_lo=
+ck);
+75c1c2b53c78bf SeongJae Park 2021-09-07  505  =
 
-306eb6b4ad4f2d drivers/block/null_blk.c      Shaohua Li        2017-08-14  =
-2067  	null_config_discard(nullb);
-f2298c0403b0df drivers/block/null_blk.c      Jens Axboe        2013-10-25  =
-2068  =
+75c1c2b53c78bf SeongJae Park 2021-09-07  506  out:
+75c1c2b53c78bf SeongJae Park 2021-09-07  507  	kfree(kbuf);
+75c1c2b53c78bf SeongJae Park 2021-09-07  508  	kfree(ctx_name);
+75c1c2b53c78bf SeongJae Park 2021-09-07  509  	return ret;
+75c1c2b53c78bf SeongJae Park 2021-09-07  510  }
+75c1c2b53c78bf SeongJae Park 2021-09-07  511  =
 
-49c3b9266a718d drivers/block/null_blk/main.c Damien Le Moal    2022-04-20  =
-2069  	if (config_item_name(&dev->item)) {
-49c3b9266a718d drivers/block/null_blk/main.c Damien Le Moal    2022-04-20  =
-2070  		/* Use configfs dir name as the device name */
-49c3b9266a718d drivers/block/null_blk/main.c Damien Le Moal    2022-04-20  =
-2071  		snprintf(nullb->disk_name, sizeof(nullb->disk_name),
-49c3b9266a718d drivers/block/null_blk/main.c Damien Le Moal    2022-04-20  =
-2072  			 "%s", config_item_name(&dev->item));
-49c3b9266a718d drivers/block/null_blk/main.c Damien Le Moal    2022-04-20  =
-2073  	} else {
-b2b7e00148a203 drivers/block/null_blk.c      Matias Bj=C3=B8rling   2015-11=
--12 @2074  		sprintf(nullb->disk_name, "nullb%d", nullb->index);
-49c3b9266a718d drivers/block/null_blk/main.c Damien Le Moal    2022-04-20  =
-2075  	}
-b2b7e00148a203 drivers/block/null_blk.c      Matias Bj=C3=B8rling   2015-11=
--12  2076  =
-
-9ae2d0aa5046c6 drivers/block/null_blk.c      Matias Bj=C3=B8rling   2016-09=
--16  2077  	rv =3D null_gendisk_register(nullb);
-b2b7e00148a203 drivers/block/null_blk.c      Matias Bj=C3=B8rling   2015-11=
--12  2078  	if (rv)
-ca4b2a011948fa drivers/block/null_blk.c      Matias Bj=C3=B8rling   2018-07=
--06  2079  		goto out_cleanup_zone;
-b2b7e00148a203 drivers/block/null_blk.c      Matias Bj=C3=B8rling   2015-11=
--12  2080  =
-
-a514379b0c7708 drivers/block/null_blk.c      Matias Bj=C3=B8rling   2016-02=
--11  2081  	mutex_lock(&lock);
-a514379b0c7708 drivers/block/null_blk.c      Matias Bj=C3=B8rling   2016-02=
--11  2082  	list_add_tail(&nullb->list, &nullb_list);
-a514379b0c7708 drivers/block/null_blk.c      Matias Bj=C3=B8rling   2016-02=
--11  2083  	mutex_unlock(&lock);
-3681c85dffda70 drivers/block/null_blk.c      Wenwei Tao        2016-03-05  =
-2084  =
-
-db060f54e0c53a drivers/block/null_blk/main.c Damien Le Moal    2022-04-20  =
-2085  	pr_info("disk %s created\n", nullb->disk_name);
-db060f54e0c53a drivers/block/null_blk/main.c Damien Le Moal    2022-04-20  =
-2086  =
-
-f2298c0403b0df drivers/block/null_blk.c      Jens Axboe        2013-10-25  =
-2087  	return 0;
-ca4b2a011948fa drivers/block/null_blk.c      Matias Bj=C3=B8rling   2018-07=
--06  2088  out_cleanup_zone:
-d205bde78fa53e drivers/block/null_blk_main.c Damien Le Moal    2020-04-23  =
-2089  	null_free_zoned_dev(dev);
-132226b301b545 drivers/block/null_blk/main.c Christoph Hellwig 2021-05-21  =
-2090  out_cleanup_disk:
-132226b301b545 drivers/block/null_blk/main.c Christoph Hellwig 2021-05-21  =
-2091  	blk_cleanup_disk(nullb->disk);
-24d2f90309b23f drivers/block/null_blk.c      Christoph Hellwig 2014-04-15  =
-2092  out_cleanup_tags:
-2984c8684f962c drivers/block/null_blk.c      Shaohua Li        2017-08-14  =
-2093  	if (dev->queue_mode =3D=3D NULL_Q_MQ && nullb->tag_set =3D=3D &nullb=
-->__tag_set)
-82f402fefa50f1 drivers/block/null_blk.c      Jens Axboe        2017-06-20  =
-2094  		blk_mq_free_tag_set(nullb->tag_set);
-24d2f90309b23f drivers/block/null_blk.c      Christoph Hellwig 2014-04-15  =
-2095  out_cleanup_queues:
-24d2f90309b23f drivers/block/null_blk.c      Christoph Hellwig 2014-04-15  =
-2096  	cleanup_queues(nullb);
-24d2f90309b23f drivers/block/null_blk.c      Christoph Hellwig 2014-04-15  =
-2097  out_free_nullb:
-24d2f90309b23f drivers/block/null_blk.c      Christoph Hellwig 2014-04-15  =
-2098  	kfree(nullb);
-2004bfdef945fe drivers/block/null_blk_main.c Bart Van Assche   2020-03-09  =
-2099  	dev->nullb =3D NULL;
-24d2f90309b23f drivers/block/null_blk.c      Christoph Hellwig 2014-04-15  =
-2100  out:
-dc501dc0d9dc9c drivers/block/null_blk.c      Robert Elliott    2014-09-02  =
-2101  	return rv;
-f2298c0403b0df drivers/block/null_blk.c      Jens Axboe        2013-10-25  =
-2102  }
-f2298c0403b0df drivers/block/null_blk.c      Jens Axboe        2013-10-25  =
-2103  =
-
-49c3b9266a718d drivers/block/null_blk/main.c Damien Le Moal    2022-04-20  =
-2104  static struct nullb *null_find_dev_by_name(const char *name)
-49c3b9266a718d drivers/block/null_blk/main.c Damien Le Moal    2022-04-20  =
-2105  {
-49c3b9266a718d drivers/block/null_blk/main.c Damien Le Moal    2022-04-20  =
-2106  	struct nullb *nullb =3D NULL, *nb;
-49c3b9266a718d drivers/block/null_blk/main.c Damien Le Moal    2022-04-20  =
-2107  =
-
-49c3b9266a718d drivers/block/null_blk/main.c Damien Le Moal    2022-04-20  =
-2108  	mutex_lock(&lock);
-49c3b9266a718d drivers/block/null_blk/main.c Damien Le Moal    2022-04-20  =
-2109  	list_for_each_entry(nb, &nullb_list, list) {
-49c3b9266a718d drivers/block/null_blk/main.c Damien Le Moal    2022-04-20  =
-2110  		if (strcmp(nb->disk_name, name) =3D=3D 0) {
-49c3b9266a718d drivers/block/null_blk/main.c Damien Le Moal    2022-04-20 @=
-2111  			nullb =3D nb;
-49c3b9266a718d drivers/block/null_blk/main.c Damien Le Moal    2022-04-20  =
-2112  			break;
-49c3b9266a718d drivers/block/null_blk/main.c Damien Le Moal    2022-04-20  =
-2113  		}
-49c3b9266a718d drivers/block/null_blk/main.c Damien Le Moal    2022-04-20  =
-2114  	}
-49c3b9266a718d drivers/block/null_blk/main.c Damien Le Moal    2022-04-20  =
-2115  	mutex_unlock(&lock);
-49c3b9266a718d drivers/block/null_blk/main.c Damien Le Moal    2022-04-20  =
-2116  =
-
-49c3b9266a718d drivers/block/null_blk/main.c Damien Le Moal    2022-04-20  =
-2117  	return nullb;
-49c3b9266a718d drivers/block/null_blk/main.c Damien Le Moal    2022-04-20  =
-2118  }
-49c3b9266a718d drivers/block/null_blk/main.c Damien Le Moal    2022-04-20  =
-2119  =
-
-
-:::::: The code at line 2074 was first introduced by commit
-:::::: b2b7e00148a203e9934bbd17aebffae3f447ade7 null_blk: register as a Lig=
-htNVM device
-
-:::::: TO: Matias Bj=C3=B8rling <m@bjorling.me>
-:::::: CC: Jens Axboe <axboe@fb.com>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============9033355063467395638==--
+--===============0778064126623017240==--
 
