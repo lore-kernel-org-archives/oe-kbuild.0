@@ -1,289 +1,201 @@
-Content-Type: multipart/mixed; boundary="===============7154551450065479312=="
+Content-Type: multipart/mixed; boundary="===============4445879221302702123=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [intel-lts:5.15/linux 1233/2399] include/linux/container_of.h:18:15: warning: use of uninitialized value '((struct page *)__mptr)[119304647].<U1260>.<Ucb48>.lru.next' [CWE-457]
-Date: Sun, 21 Aug 2022 10:44:37 +0800
-Message-ID: <202208211024.EZN8ye1p-lkp@intel.com>
+Subject: drivers/gpu/drm/msm/adreno/a3xx_gpu.c:603 a3xx_gpu_init() warn: passing zero to 'ERR_PTR'
+Date: Sun, 21 Aug 2022 10:44:35 +0800
+Message-ID: <202208211043.6QuCFxuO-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7154551450065479312==
+--===============4445879221302702123==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-:::::: =
-
-:::::: Manual check reason: "low confidence bisect report"
-:::::: Manual check reason: "low confidence static check warning: include/l=
-inux/container_of.h:18:15: warning: use of uninitialized value '((struct pa=
-ge *)__mptr)[119304647].<U1260>.<Ucb48>.lru.next' [CWE-457] [-Wanalyzer-use=
--of-uninitialized-value]"
-:::::: =
-
-
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
-TO: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-CC: Junxiao Chang <junxiao.chang@intel.com>
+CC: linux-kernel(a)vger.kernel.org
+CC: Dave Airlie <airlied@redhat.com>
 
-tree:   https://github.com/intel/linux-intel-lts.git 5.15/linux
-head:   d77aed5ba1ddebd8713d61d847de9710c9542036
-commit: 070294331b7ee740d41f8f40704693d2ebbf0821 [1233/2399] kernel.h: spli=
-t out container_of() and typeof_member() macros
-:::::: branch date: 6 days ago
-:::::: commit date: 6 months ago
-config: arm-randconfig-c002-20220820 (https://download.01.org/0day-ci/archi=
-ve/20220821/202208211024.EZN8ye1p-lkp(a)intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel/linux-intel-lts/commit/070294331b7ee740d=
-41f8f40704693d2ebbf0821
-        git remote add intel-lts https://github.com/intel/linux-intel-lts.g=
-it
-        git fetch --no-tags intel-lts 5.15/linux
-        git checkout 070294331b7ee740d41f8f40704693d2ebbf0821
-        # save the config file
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cross=
- ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
+Hi Dave,
 
+First bad commit (maybe !=3D root cause):
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   15b3f48a4339e3c16acf18624e2b7f60bc5e9a2c
+commit: 970eae15600a883e4ad27dd0757b18871cc983ab BackMerge tag 'v5.15-rc7' =
+into drm-next
+date:   10 months ago
+:::::: branch date: 5 hours ago
+:::::: commit date: 10 months ago
+config: microblaze-randconfig-m041-20220820 (https://download.01.org/0day-c=
+i/archive/20220821/202208211043.6QuCFxuO-lkp(a)intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-gcc-analyzer warnings: (new ones prefixed by >>)
-   drivers/virtio/virtio_balloon.c: In function 'tell_host':
-   drivers/virtio/virtio_balloon.c:155:22: warning: use of uninitialized va=
-lue '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-     155 |         unsigned int len;
-         |                      ^~~
-     'virtio_balloon_oom_notify': event 1
-       |
-       |  853 | static int virtio_balloon_oom_notify(struct notifier_block =
-*nb,
-       |      |            ^~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |            |
-       |      |            (1) entry to 'virtio_balloon_oom_notify'
-       |
-     'virtio_balloon_oom_notify': event 2
-       |
-       |  860 |         *freed +=3D leak_balloon(vb, VIRTIO_BALLOON_OOM_NR_=
-PAGES) /
-       |      |                                                            =
-     ^
-       |      |                                                            =
-     |
-       |      |                                                            =
-     (2) calling 'leak_balloon' from 'virtio_balloon_oom_notify'
-       |
-       +--> 'leak_balloon': events 3-6
-              |
-              |  275 | static unsigned leak_balloon(struct virtio_balloon *=
-vb, size_t num)
-              |      |                 ^~~~~~~~~~~~
-              |      |                 |
-              |      |                 (3) entry to 'leak_balloon'
-              |......
-              |  304 |         if (vb->num_pfns !=3D 0)
-              |      |            ~     =
+smatch warnings:
+drivers/gpu/drm/msm/adreno/a3xx_gpu.c:603 a3xx_gpu_init() warn: passing zer=
+o to 'ERR_PTR'
+drivers/gpu/drm/msm/adreno/a4xx_gpu.c:730 a4xx_gpu_init() warn: passing zer=
+o to 'ERR_PTR'
 
-              |      |            |
-              |      |            (4) following 'true' branch (when 'num_fr=
-eed_pages !=3D 0')...
-              |  305 |                 tell_host(vb, vb->deflate_vq);
-              |      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-              |      |                 |
-              |      |                 (5) ...to here
-              |      |                 (6) calling 'tell_host' from 'leak_b=
-alloon'
-              |
-              +--> 'tell_host': events 7-8
-                     |
-                     |  152 | static void tell_host(struct virtio_balloon *=
-vb, struct virtqueue *vq)
-                     |      |             ^~~~~~~~~
-                     |      |             |
-                     |      |             (7) entry to 'tell_host'
-                     |......
-                     |  155 |         unsigned int len;
-                     |      |                      ~~~
-                     |      |                      |
-                     |      |                      (8) use of uninitialized=
- value '<unknown>' here
-                     |
-   In file included from include/linux/kernel.h:12,
-                    from include/linux/list.h:9,
-                    from include/linux/preempt.h:11,
-                    from include/linux/spinlock.h:55,
-                    from include/linux/mmzone.h:8,
-                    from include/linux/gfp.h:6,
-                    from include/linux/mm.h:10,
-                    from include/linux/scatterlist.h:8,
-                    from include/linux/virtio.h:7,
-                    from drivers/virtio/virtio_balloon.c:9:
-   drivers/virtio/virtio_balloon.c: In function 'release_pages_balloon':
->> include/linux/container_of.h:18:15: warning: use of uninitialized value =
-'((struct page *)__mptr)[119304647].<U1260>.<Ucb48>.lru.next' [CWE-457] [-W=
-analyzer-use-of-uninitialized-value]
-      18 |         void *__mptr =3D (void *)(ptr);                         =
-          \
-         |               ^~~~~~
-   include/linux/list.h:511:9: note: in expansion of macro 'container_of'
-     511 |         container_of(ptr, type, member)
-         |         ^~~~~~~~~~~~
-   include/linux/list.h:555:9: note: in expansion of macro 'list_entry'
-     555 |         list_entry((pos)->member.next, typeof(*(pos)), member)
-         |         ^~~~~~~~~~
-   include/linux/list.h:716:21: note: in expansion of macro 'list_next_entr=
-y'
-     716 |                 n =3D list_next_entry(pos, member);             =
-          \
-         |                     ^~~~~~~~~~~~~~~
-   drivers/virtio/virtio_balloon.c:266:9: note: in expansion of macro 'list=
-_for_each_entry_safe'
-     266 |         list_for_each_entry_safe(page, next, pages, lru) {
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-     'remove_common': events 1-4
-       |
-       | 1047 | static void remove_common(struct virtio_balloon *vb)
-       |      |             ^~~~~~~~~~~~~
-       |      |             |
-       |      |             (1) entry to 'remove_common'
-       |......
-       | 1050 |         while (vb->num_pages)
-       |      |                ~~
-       |      |                |
-       |      |                (2) following 'true' branch...
-       | 1051 |                 leak_balloon(vb, vb->num_pages);
-       |      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |                 |
-       |      |                 (3) ...to here
-       |      |                 (4) calling 'leak_balloon' from 'remove_com=
-mon'
-       |
-       +--> 'leak_balloon': event 5
-              |
-              |  275 | static unsigned leak_balloon(struct virtio_balloon *=
-vb, size_t num)
-              |      |                 ^~~~~~~~~~~~
-              |      |                 |
-              |      |                 (5) entry to 'leak_balloon'
-              |
-            'leak_balloon': event 6
-              |
-              |  280 |         LIST_HEAD(pages);
-              |      |                   ^~~~~
-              |      |                   |
-              |      |                   (6) region created on stack here
-   include/linux/list.h:24:26: note: in definition of macro 'LIST_HEAD'
-              |   24 |         struct list_head name =3D LIST_HEAD_INIT(nam=
-e)
-              |      |                          ^~~~
-              |
-            'leak_balloon': events 7-11
-              |
-              |drivers/virtio/virtio_balloon.c:288:45:
-              |  288 |         for (vb->num_pfns =3D 0; vb->num_pfns < num;
-              |      |                                ~~~~~~~~~~~~~^~~~~
-              |      |                                             |
-              |      |                                             (7) foll=
-owing 'false' branch...
-              |......
-              |  298 |         num_freed_pages =3D vb->num_pfns;
-              |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~       =
+vim +/ERR_PTR +603 drivers/gpu/drm/msm/adreno/a3xx_gpu.c
 
-              |      |                         |
-              |      |                         (8) ...to here
-              |......
-              |  304 |         if (vb->num_pfns !=3D 0)
-              |      |            ~                                 =
+70c70f091b1ffd Rob Clark      2014-05-30  514  =
 
-              |      |            |
-              |      |            (9) following 'false' branch (when 'num_f=
-reed_pages =3D=3D 0')...
-              |  305 |                 tell_host(vb, vb->deflate_vq);
-              |  306 |         release_pages_balloon(vb, &pages);
-              |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~    =
+7198e6b03155f6 Rob Clark      2013-07-19  515  struct msm_gpu *a3xx_gpu_ini=
+t(struct drm_device *dev)
+7198e6b03155f6 Rob Clark      2013-07-19  516  {
+7198e6b03155f6 Rob Clark      2013-07-19  517  	struct a3xx_gpu *a3xx_gpu =
+=3D NULL;
+55459968176f13 Rob Clark      2013-12-05  518  	struct adreno_gpu *adreno_g=
+pu;
+7198e6b03155f6 Rob Clark      2013-07-19  519  	struct msm_gpu *gpu;
+060530f1ea6740 Rob Clark      2014-03-03  520  	struct msm_drm_private *pri=
+v =3D dev->dev_private;
+060530f1ea6740 Rob Clark      2014-03-03  521  	struct platform_device *pde=
+v =3D priv->gpu_pdev;
+5785dd7a8ef0de Akhil P Oommen 2020-10-28  522  	struct icc_path *ocmem_icc_=
+path;
+5785dd7a8ef0de Akhil P Oommen 2020-10-28  523  	struct icc_path *icc_path;
+7198e6b03155f6 Rob Clark      2013-07-19  524  	int ret;
+7198e6b03155f6 Rob Clark      2013-07-19  525  =
 
-              |      |         |
-              |      |         (10) ...to here
-              |      |         (11) calling 'release_pages_balloon' from 'l=
-eak_balloon'
-              |
-              +--> 'release_pages_balloon': event 12
-                     |
-                     |  261 | static void release_pages_balloon(struct virt=
-io_balloon *vb,
-                     |      |             ^~~~~~~~~~~~~~~~~~~~~
-                     |      |             |
-                     |      |             (12) entry to 'release_pages_ball=
-oon'
-                     |
-                   'release_pages_balloon': event 13
-                     |
-                     |include/linux/container_of.h:18:15:
-                     |   18 |         void *__mptr =3D (void *)(ptr);      =
-                             \
-                     |      |               ^~~~~~
-                     |      |               |
-                     |      |               (13) use of uninitialized value=
- '((struct page *)__mptr)[119304647].<U1260>.<Ucb48>.lru.next' here
-   include/linux/list.h:511:9: note: in expansion of macro 'container_of'
-                     |  511 |         container_of(ptr, type, member)
-                     |      |         ^~~~~~~~~~~~
-   include/linux/list.h:555:9: note: in expansion of macro 'list_entry'
-                     |  555 |         list_entry((pos)->member.next, typeof=
-(*(pos)), member)
-                     |      |         ^~~~~~~~~~
-   include/linux/list.h:716:21: note: in expansion of macro 'list_next_entr=
-y'
-                     |  716 |                 n =3D list_next_entry(pos, me=
-mber);                       \
-                     |      |                     ^~~~~~~~~~~~~~~
-   drivers/virtio/virtio_balloon.c:266:9: note: in expansion of macro 'list=
-_for_each_entry_safe'
-                     |  266 |         list_for_each_entry_safe(page, next, =
-pages, lru) {
-                     |      |         ^~~~~~~~~~~~~~~~~~~~~~~~
-                     |
-   In file included from include/uapi/linux/virtio_balloon.h:31,
+7198e6b03155f6 Rob Clark      2013-07-19  526  	if (!pdev) {
+6a41da17e87dee Mamta Shukla   2018-10-20  527  		DRM_DEV_ERROR(dev->dev, "n=
+o a3xx device\n");
+7198e6b03155f6 Rob Clark      2013-07-19  528  		ret =3D -ENXIO;
+7198e6b03155f6 Rob Clark      2013-07-19  529  		goto fail;
+7198e6b03155f6 Rob Clark      2013-07-19  530  	}
+7198e6b03155f6 Rob Clark      2013-07-19  531  =
 
-vim +18 include/linux/container_of.h
+7198e6b03155f6 Rob Clark      2013-07-19  532  	a3xx_gpu =3D kzalloc(sizeof=
+(*a3xx_gpu), GFP_KERNEL);
+7198e6b03155f6 Rob Clark      2013-07-19  533  	if (!a3xx_gpu) {
+7198e6b03155f6 Rob Clark      2013-07-19  534  		ret =3D -ENOMEM;
+7198e6b03155f6 Rob Clark      2013-07-19  535  		goto fail;
+7198e6b03155f6 Rob Clark      2013-07-19  536  	}
+7198e6b03155f6 Rob Clark      2013-07-19  537  =
 
-070294331b7ee74 Andy Shevchenko 2021-11-08   9  =
+55459968176f13 Rob Clark      2013-12-05  538  	adreno_gpu =3D &a3xx_gpu->b=
+ase;
+55459968176f13 Rob Clark      2013-12-05  539  	gpu =3D &adreno_gpu->base;
+7198e6b03155f6 Rob Clark      2013-07-19  540  =
 
-070294331b7ee74 Andy Shevchenko 2021-11-08  10  /**
-070294331b7ee74 Andy Shevchenko 2021-11-08  11   * container_of - cast a me=
-mber of a structure out to the containing structure
-070294331b7ee74 Andy Shevchenko 2021-11-08  12   * @ptr:	the pointer to the=
- member.
-070294331b7ee74 Andy Shevchenko 2021-11-08  13   * @type:	the type of the c=
-ontainer struct this is embedded in.
-070294331b7ee74 Andy Shevchenko 2021-11-08  14   * @member:	the name of the=
- member within the struct.
-070294331b7ee74 Andy Shevchenko 2021-11-08  15   *
-070294331b7ee74 Andy Shevchenko 2021-11-08  16   */
-070294331b7ee74 Andy Shevchenko 2021-11-08  17  #define container_of(ptr, t=
-ype, member) ({				\
-070294331b7ee74 Andy Shevchenko 2021-11-08 @18  	void *__mptr =3D (void *)(=
-ptr);					\
-070294331b7ee74 Andy Shevchenko 2021-11-08  19  	BUILD_BUG_ON_MSG(!__same_t=
-ype(*(ptr), ((type *)0)->member) &&	\
-070294331b7ee74 Andy Shevchenko 2021-11-08  20  			 !__same_type(*(ptr), vo=
-id),			\
-070294331b7ee74 Andy Shevchenko 2021-11-08  21  			 "pointer type mismatch =
-in container_of()");	\
-070294331b7ee74 Andy Shevchenko 2021-11-08  22  	((type *)(__mptr - offseto=
-f(type, member))); })
-070294331b7ee74 Andy Shevchenko 2021-11-08  23  =
+70c70f091b1ffd Rob Clark      2014-05-30  541  	gpu->perfcntrs =3D perfcntr=
+s;
+70c70f091b1ffd Rob Clark      2014-05-30  542  	gpu->num_perfcntrs =3D ARRA=
+Y_SIZE(perfcntrs);
+70c70f091b1ffd Rob Clark      2014-05-30  543  =
 
+3bcefb0497f9fc Rob Clark      2014-09-05  544  	adreno_gpu->registers =3D a=
+3xx_registers;
+3bcefb0497f9fc Rob Clark      2014-09-05  545  =
+
+f97decac5f4c2d Jordan Crouse  2017-10-20  546  	ret =3D adreno_gpu_init(dev=
+, pdev, adreno_gpu, &funcs, 1);
+7198e6b03155f6 Rob Clark      2013-07-19  547  	if (ret)
+7198e6b03155f6 Rob Clark      2013-07-19  548  		goto fail;
+7198e6b03155f6 Rob Clark      2013-07-19  549  =
+
+55459968176f13 Rob Clark      2013-12-05  550  	/* if needed, allocate gmem=
+: */
+55459968176f13 Rob Clark      2013-12-05  551  	if (adreno_is_a330(adreno_g=
+pu)) {
+26c0b26dcd005d Brian Masney   2019-08-23  552  		ret =3D adreno_gpu_ocmem_i=
+nit(&adreno_gpu->base.pdev->dev,
+26c0b26dcd005d Brian Masney   2019-08-23  553  					    adreno_gpu, &a3xx_g=
+pu->ocmem);
+26c0b26dcd005d Brian Masney   2019-08-23  554  		if (ret)
+26c0b26dcd005d Brian Masney   2019-08-23  555  			goto fail;
+55459968176f13 Rob Clark      2013-12-05  556  	}
+55459968176f13 Rob Clark      2013-12-05  557  =
+
+667ce33e57d0de Rob Clark      2016-09-28  558  	if (!gpu->aspace) {
+871d812aa43e63 Rob Clark      2013-11-16  559  		/* TODO we think it is pos=
+sible to configure the GPU to
+871d812aa43e63 Rob Clark      2013-11-16  560  		 * restrict access to VRAM=
+ carveout.  But the required
+871d812aa43e63 Rob Clark      2013-11-16  561  		 * registers are unknown. =
+ For now just bail out and
+871d812aa43e63 Rob Clark      2013-11-16  562  		 * limp along with just mo=
+desetting.  If it turns out
+871d812aa43e63 Rob Clark      2013-11-16  563  		 * to not be possible to r=
+estrict access, then we must
+871d812aa43e63 Rob Clark      2013-11-16  564  		 * implement a cmdstream v=
+alidator.
+871d812aa43e63 Rob Clark      2013-11-16  565  		 */
+6a41da17e87dee Mamta Shukla   2018-10-20  566  		DRM_DEV_ERROR(dev->dev, "N=
+o memory protection without IOMMU\n");
+3f7759e7b7585a Iskren Chernev 2020-12-30  567  		if (!allow_vram_carveout) {
+871d812aa43e63 Rob Clark      2013-11-16  568  			ret =3D -ENXIO;
+871d812aa43e63 Rob Clark      2013-11-16  569  			goto fail;
+871d812aa43e63 Rob Clark      2013-11-16  570  		}
+3f7759e7b7585a Iskren Chernev 2020-12-30  571  	}
+871d812aa43e63 Rob Clark      2013-11-16  572  =
+
+5785dd7a8ef0de Akhil P Oommen 2020-10-28  573  	icc_path =3D devm_of_icc_ge=
+t(&pdev->dev, "gfx-mem");
+3eda901995371d Dan Carpenter  2021-10-01  574  	if (IS_ERR(icc_path)) {
+3eda901995371d Dan Carpenter  2021-10-01  575  		ret =3D PTR_ERR(icc_path);
+5785dd7a8ef0de Akhil P Oommen 2020-10-28  576  		goto fail;
+3eda901995371d Dan Carpenter  2021-10-01  577  	}
+5785dd7a8ef0de Akhil P Oommen 2020-10-28  578  =
+
+5785dd7a8ef0de Akhil P Oommen 2020-10-28  579  	ocmem_icc_path =3D devm_of_=
+icc_get(&pdev->dev, "ocmem");
+3eda901995371d Dan Carpenter  2021-10-01  580  	if (IS_ERR(ocmem_icc_path))=
+ {
+3eda901995371d Dan Carpenter  2021-10-01  581  		ret =3D PTR_ERR(ocmem_icc_=
+path);
+5785dd7a8ef0de Akhil P Oommen 2020-10-28  582  		/* allow -ENODATA, ocmem i=
+cc is optional */
+5785dd7a8ef0de Akhil P Oommen 2020-10-28  583  		if (ret !=3D -ENODATA)
+5785dd7a8ef0de Akhil P Oommen 2020-10-28  584  			goto fail;
+5785dd7a8ef0de Akhil P Oommen 2020-10-28  585  		ocmem_icc_path =3D NULL;
+5785dd7a8ef0de Akhil P Oommen 2020-10-28  586  	}
+5785dd7a8ef0de Akhil P Oommen 2020-10-28  587  =
+
+5785dd7a8ef0de Akhil P Oommen 2020-10-28  588  =
+
+d163ba0b65f2e4 Brian Masney   2019-11-21  589  	/*
+d163ba0b65f2e4 Brian Masney   2019-11-21  590  	 * Set the ICC path to maxi=
+mum speed for now by multiplying the fastest
+d163ba0b65f2e4 Brian Masney   2019-11-21  591  	 * frequency by the bus wid=
+th (8). We'll want to scale this later on to
+d163ba0b65f2e4 Brian Masney   2019-11-21  592  	 * improve battery life.
+d163ba0b65f2e4 Brian Masney   2019-11-21  593  	 */
+5785dd7a8ef0de Akhil P Oommen 2020-10-28  594  	icc_set_bw(icc_path, 0, Bps=
+_to_icc(gpu->fast_rate) * 8);
+5785dd7a8ef0de Akhil P Oommen 2020-10-28  595  	icc_set_bw(ocmem_icc_path, =
+0, Bps_to_icc(gpu->fast_rate) * 8);
+d163ba0b65f2e4 Brian Masney   2019-11-21  596  =
+
+871d812aa43e63 Rob Clark      2013-11-16  597  	return gpu;
+7198e6b03155f6 Rob Clark      2013-07-19  598  =
+
+7198e6b03155f6 Rob Clark      2013-07-19  599  fail:
+7198e6b03155f6 Rob Clark      2013-07-19  600  	if (a3xx_gpu)
+7198e6b03155f6 Rob Clark      2013-07-19  601  		a3xx_destroy(&a3xx_gpu->ba=
+se.base);
+7198e6b03155f6 Rob Clark      2013-07-19  602  =
+
+7198e6b03155f6 Rob Clark      2013-07-19 @603  	return ERR_PTR(ret);
+
+:::::: The code at line 603 was first introduced by commit
+:::::: 7198e6b03155f6dadecadba004eb83b81a6ffe4c drm/msm: add a3xx gpu suppo=
+rt
+
+:::::: TO: Rob Clark <robdclark@gmail.com>
+:::::: CC: Rob Clark <robdclark@gmail.com>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============7154551450065479312==--
+--===============4445879221302702123==--
 
