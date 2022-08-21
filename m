@@ -1,191 +1,289 @@
-Content-Type: multipart/mixed; boundary="===============7539517377028105439=="
+Content-Type: multipart/mixed; boundary="===============7154551450065479312=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [rt-devel:linux-6.0.y-rt-rebase 40/59] kernel/trace/trace_output.c:485 trace_print_lat_fmt() warn: bitwise AND condition is false here
-Date: Sun, 21 Aug 2022 10:55:01 +0800
-Message-ID: <202208211040.KTcGpA9K-lkp@intel.com>
+Subject: [intel-lts:5.15/linux 1233/2399] include/linux/container_of.h:18:15: warning: use of uninitialized value '((struct page *)__mptr)[119304647].<U1260>.<Ucb48>.lru.next' [CWE-457]
+Date: Sun, 21 Aug 2022 10:44:37 +0800
+Message-ID: <202208211024.EZN8ye1p-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7539517377028105439==
+--===============7154551450065479312==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+:::::: =
+
+:::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "low confidence static check warning: include/l=
+inux/container_of.h:18:15: warning: use of uninitialized value '((struct pa=
+ge *)__mptr)[119304647].<U1260>.<Ucb48>.lru.next' [CWE-457] [-Wanalyzer-use=
+-of-uninitialized-value]"
+:::::: =
+
+
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
-CC: linux-kernel(a)vger.kernel.org
-TO: Thomas Gleixner <tglx@linutronix.de>
-CC: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+TO: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+CC: Junxiao Chang <junxiao.chang@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rt/linux-rt-devel.g=
-it linux-6.0.y-rt-rebase
-head:   e29a13b35f027385359191ab8a1b4ae82ce76d68
-commit: 0b1db90e5c45022e8f4124bdb57e077fbec1e76c [40/59] sched: Add support=
- for lazy preemption
-:::::: branch date: 35 hours ago
-:::::: commit date: 35 hours ago
-config: csky-randconfig-m041-20220821 (https://download.01.org/0day-ci/arch=
-ive/20220821/202208211040.KTcGpA9K-lkp(a)intel.com/config)
-compiler: csky-linux-gcc (GCC) 12.1.0
+tree:   https://github.com/intel/linux-intel-lts.git 5.15/linux
+head:   d77aed5ba1ddebd8713d61d847de9710c9542036
+commit: 070294331b7ee740d41f8f40704693d2ebbf0821 [1233/2399] kernel.h: spli=
+t out container_of() and typeof_member() macros
+:::::: branch date: 6 days ago
+:::::: commit date: 6 months ago
+config: arm-randconfig-c002-20220820 (https://download.01.org/0day-ci/archi=
+ve/20220821/202208211024.EZN8ye1p-lkp(a)intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel/linux-intel-lts/commit/070294331b7ee740d=
+41f8f40704693d2ebbf0821
+        git remote add intel-lts https://github.com/intel/linux-intel-lts.g=
+it
+        git fetch --no-tags intel-lts 5.15/linux
+        git checkout 070294331b7ee740d41f8f40704693d2ebbf0821
+        # save the config file
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cross=
+ ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
+
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-kernel/trace/trace_output.c:485 trace_print_lat_fmt() warn: bitwise AND con=
-dition is false here
+gcc-analyzer warnings: (new ones prefixed by >>)
+   drivers/virtio/virtio_balloon.c: In function 'tell_host':
+   drivers/virtio/virtio_balloon.c:155:22: warning: use of uninitialized va=
+lue '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+     155 |         unsigned int len;
+         |                      ^~~
+     'virtio_balloon_oom_notify': event 1
+       |
+       |  853 | static int virtio_balloon_oom_notify(struct notifier_block =
+*nb,
+       |      |            ^~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |            |
+       |      |            (1) entry to 'virtio_balloon_oom_notify'
+       |
+     'virtio_balloon_oom_notify': event 2
+       |
+       |  860 |         *freed +=3D leak_balloon(vb, VIRTIO_BALLOON_OOM_NR_=
+PAGES) /
+       |      |                                                            =
+     ^
+       |      |                                                            =
+     |
+       |      |                                                            =
+     (2) calling 'leak_balloon' from 'virtio_balloon_oom_notify'
+       |
+       +--> 'leak_balloon': events 3-6
+              |
+              |  275 | static unsigned leak_balloon(struct virtio_balloon *=
+vb, size_t num)
+              |      |                 ^~~~~~~~~~~~
+              |      |                 |
+              |      |                 (3) entry to 'leak_balloon'
+              |......
+              |  304 |         if (vb->num_pfns !=3D 0)
+              |      |            ~     =
 
-vim +485 kernel/trace/trace_output.c
+              |      |            |
+              |      |            (4) following 'true' branch (when 'num_fr=
+eed_pages !=3D 0')...
+              |  305 |                 tell_host(vb, vb->deflate_vq);
+              |      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |                 |
+              |      |                 (5) ...to here
+              |      |                 (6) calling 'tell_host' from 'leak_b=
+alloon'
+              |
+              +--> 'tell_host': events 7-8
+                     |
+                     |  152 | static void tell_host(struct virtio_balloon *=
+vb, struct virtqueue *vq)
+                     |      |             ^~~~~~~~~
+                     |      |             |
+                     |      |             (7) entry to 'tell_host'
+                     |......
+                     |  155 |         unsigned int len;
+                     |      |                      ~~~
+                     |      |                      |
+                     |      |                      (8) use of uninitialized=
+ value '<unknown>' here
+                     |
+   In file included from include/linux/kernel.h:12,
+                    from include/linux/list.h:9,
+                    from include/linux/preempt.h:11,
+                    from include/linux/spinlock.h:55,
+                    from include/linux/mmzone.h:8,
+                    from include/linux/gfp.h:6,
+                    from include/linux/mm.h:10,
+                    from include/linux/scatterlist.h:8,
+                    from include/linux/virtio.h:7,
+                    from drivers/virtio/virtio_balloon.c:9:
+   drivers/virtio/virtio_balloon.c: In function 'release_pages_balloon':
+>> include/linux/container_of.h:18:15: warning: use of uninitialized value =
+'((struct page *)__mptr)[119304647].<U1260>.<Ucb48>.lru.next' [CWE-457] [-W=
+analyzer-use-of-uninitialized-value]
+      18 |         void *__mptr =3D (void *)(ptr);                         =
+          \
+         |               ^~~~~~
+   include/linux/list.h:511:9: note: in expansion of macro 'container_of'
+     511 |         container_of(ptr, type, member)
+         |         ^~~~~~~~~~~~
+   include/linux/list.h:555:9: note: in expansion of macro 'list_entry'
+     555 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+         |         ^~~~~~~~~~
+   include/linux/list.h:716:21: note: in expansion of macro 'list_next_entr=
+y'
+     716 |                 n =3D list_next_entry(pos, member);             =
+          \
+         |                     ^~~~~~~~~~~~~~~
+   drivers/virtio/virtio_balloon.c:266:9: note: in expansion of macro 'list=
+_for_each_entry_safe'
+     266 |         list_for_each_entry_safe(page, next, pages, lru) {
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+     'remove_common': events 1-4
+       |
+       | 1047 | static void remove_common(struct virtio_balloon *vb)
+       |      |             ^~~~~~~~~~~~~
+       |      |             |
+       |      |             (1) entry to 'remove_common'
+       |......
+       | 1050 |         while (vb->num_pages)
+       |      |                ~~
+       |      |                |
+       |      |                (2) following 'true' branch...
+       | 1051 |                 leak_balloon(vb, vb->num_pages);
+       |      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |                 |
+       |      |                 (3) ...to here
+       |      |                 (4) calling 'leak_balloon' from 'remove_com=
+mon'
+       |
+       +--> 'leak_balloon': event 5
+              |
+              |  275 | static unsigned leak_balloon(struct virtio_balloon *=
+vb, size_t num)
+              |      |                 ^~~~~~~~~~~~
+              |      |                 |
+              |      |                 (5) entry to 'leak_balloon'
+              |
+            'leak_balloon': event 6
+              |
+              |  280 |         LIST_HEAD(pages);
+              |      |                   ^~~~~
+              |      |                   |
+              |      |                   (6) region created on stack here
+   include/linux/list.h:24:26: note: in definition of macro 'LIST_HEAD'
+              |   24 |         struct list_head name =3D LIST_HEAD_INIT(nam=
+e)
+              |      |                          ^~~~
+              |
+            'leak_balloon': events 7-11
+              |
+              |drivers/virtio/virtio_balloon.c:288:45:
+              |  288 |         for (vb->num_pfns =3D 0; vb->num_pfns < num;
+              |      |                                ~~~~~~~~~~~~~^~~~~
+              |      |                                             |
+              |      |                                             (7) foll=
+owing 'false' branch...
+              |......
+              |  298 |         num_freed_pages =3D vb->num_pfns;
+              |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~       =
 
-f0868d1e23a8ef Steven Rostedt            2008-12-23  432  =
+              |      |                         |
+              |      |                         (8) ...to here
+              |......
+              |  304 |         if (vb->num_pfns !=3D 0)
+              |      |            ~                                 =
 
-f81c972d27c367 Steven Rostedt            2009-09-11  433  /**
-f81c972d27c367 Steven Rostedt            2009-09-11  434   * trace_print_la=
-t_fmt - print the irq, preempt and lockdep fields
-f81c972d27c367 Steven Rostedt            2009-09-11  435   * @s: trace seq =
-struct to write to
-f81c972d27c367 Steven Rostedt            2009-09-11  436   * @entry: The tr=
-ace entry field from the ring buffer
-f81c972d27c367 Steven Rostedt            2009-09-11  437   *
-f81c972d27c367 Steven Rostedt            2009-09-11  438   * Prints the gen=
-eric fields of irqs off, in hard or softirq, preempt
-e6e1e2593592a8 Steven Rostedt            2011-03-09  439   * count.
-f81c972d27c367 Steven Rostedt            2009-09-11  440   */
-f81c972d27c367 Steven Rostedt            2009-09-11  441  int trace_print_l=
-at_fmt(struct trace_seq *s, struct trace_entry *entry)
-c4a8e8be2d43cc Frederic Weisbecker       2009-02-02  442  {
-10da37a645b5e9 David Sharp               2010-12-03  443  	char hardsoft_ir=
-q;
-10da37a645b5e9 David Sharp               2010-12-03  444  	char need_resche=
-d;
-0b1db90e5c4502 Thomas Gleixner           2012-10-26  445  	char need_resche=
-d_lazy;
-10da37a645b5e9 David Sharp               2010-12-03  446  	char irqs_off;
-10da37a645b5e9 David Sharp               2010-12-03  447  	int hardirq;
-10da37a645b5e9 David Sharp               2010-12-03  448  	int softirq;
-289e7b0f7eb47b Sebastian Andrzej Siewior 2021-12-13  449  	int bh_off;
-7e6867bf831c71 Peter Zijlstra            2016-03-18  450  	int nmi;
-c4a8e8be2d43cc Frederic Weisbecker       2009-02-02  451  =
+              |      |            |
+              |      |            (9) following 'false' branch (when 'num_f=
+reed_pages =3D=3D 0')...
+              |  305 |                 tell_host(vb, vb->deflate_vq);
+              |  306 |         release_pages_balloon(vb, &pages);
+              |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~    =
 
-7e6867bf831c71 Peter Zijlstra            2016-03-18  452  	nmi =3D entry->f=
-lags & TRACE_FLAG_NMI;
-c4a8e8be2d43cc Frederic Weisbecker       2009-02-02  453  	hardirq =3D entr=
-y->flags & TRACE_FLAG_HARDIRQ;
-c4a8e8be2d43cc Frederic Weisbecker       2009-02-02  454  	softirq =3D entr=
-y->flags & TRACE_FLAG_SOFTIRQ;
-289e7b0f7eb47b Sebastian Andrzej Siewior 2021-12-13  455  	bh_off =3D entry=
-->flags & TRACE_FLAG_BH_OFF;
-d9793bd8018f83 Arnaldo Carvalho de Melo  2009-02-03  456  =
+              |      |         |
+              |      |         (10) ...to here
+              |      |         (11) calling 'release_pages_balloon' from 'l=
+eak_balloon'
+              |
+              +--> 'release_pages_balloon': event 12
+                     |
+                     |  261 | static void release_pages_balloon(struct virt=
+io_balloon *vb,
+                     |      |             ^~~~~~~~~~~~~~~~~~~~~
+                     |      |             |
+                     |      |             (12) entry to 'release_pages_ball=
+oon'
+                     |
+                   'release_pages_balloon': event 13
+                     |
+                     |include/linux/container_of.h:18:15:
+                     |   18 |         void *__mptr =3D (void *)(ptr);      =
+                             \
+                     |      |               ^~~~~~
+                     |      |               |
+                     |      |               (13) use of uninitialized value=
+ '((struct page *)__mptr)[119304647].<U1260>.<Ucb48>.lru.next' here
+   include/linux/list.h:511:9: note: in expansion of macro 'container_of'
+                     |  511 |         container_of(ptr, type, member)
+                     |      |         ^~~~~~~~~~~~
+   include/linux/list.h:555:9: note: in expansion of macro 'list_entry'
+                     |  555 |         list_entry((pos)->member.next, typeof=
+(*(pos)), member)
+                     |      |         ^~~~~~~~~~
+   include/linux/list.h:716:21: note: in expansion of macro 'list_next_entr=
+y'
+                     |  716 |                 n =3D list_next_entry(pos, me=
+mber);                       \
+                     |      |                     ^~~~~~~~~~~~~~~
+   drivers/virtio/virtio_balloon.c:266:9: note: in expansion of macro 'list=
+_for_each_entry_safe'
+                     |  266 |         list_for_each_entry_safe(page, next, =
+pages, lru) {
+                     |      |         ^~~~~~~~~~~~~~~~~~~~~~~~
+                     |
+   In file included from include/uapi/linux/virtio_balloon.h:31,
 
-10da37a645b5e9 David Sharp               2010-12-03  457  	irqs_off =3D
-289e7b0f7eb47b Sebastian Andrzej Siewior 2021-12-13  458  		(entry->flags &=
- TRACE_FLAG_IRQS_OFF && bh_off) ? 'D' :
-d9793bd8018f83 Arnaldo Carvalho de Melo  2009-02-03  459  		(entry->flags &=
- TRACE_FLAG_IRQS_OFF) ? 'd' :
-289e7b0f7eb47b Sebastian Andrzej Siewior 2021-12-13  460  		bh_off ? 'b' :
-10da37a645b5e9 David Sharp               2010-12-03  461  		(entry->flags &=
- TRACE_FLAG_IRQS_NOSUPPORT) ? 'X' :
-10da37a645b5e9 David Sharp               2010-12-03  462  		'.';
-e5137b50a06400 Peter Zijlstra            2013-10-04  463  =
+vim +18 include/linux/container_of.h
 
-e5137b50a06400 Peter Zijlstra            2013-10-04  464  	switch (entry->f=
-lags & (TRACE_FLAG_NEED_RESCHED |
-e5137b50a06400 Peter Zijlstra            2013-10-04  465  				TRACE_FLAG_PR=
-EEMPT_RESCHED)) {
-0b1db90e5c4502 Thomas Gleixner           2012-10-26  466  #ifndef CONFIG_PR=
-EEMPT_LAZY
-e5137b50a06400 Peter Zijlstra            2013-10-04  467  	case TRACE_FLAG_=
-NEED_RESCHED | TRACE_FLAG_PREEMPT_RESCHED:
-e5137b50a06400 Peter Zijlstra            2013-10-04  468  		need_resched =
-=3D 'N';
-e5137b50a06400 Peter Zijlstra            2013-10-04  469  		break;
-0b1db90e5c4502 Thomas Gleixner           2012-10-26  470  #endif
-e5137b50a06400 Peter Zijlstra            2013-10-04  471  	case TRACE_FLAG_=
-NEED_RESCHED:
-e5137b50a06400 Peter Zijlstra            2013-10-04  472  		need_resched =
-=3D 'n';
-e5137b50a06400 Peter Zijlstra            2013-10-04  473  		break;
-0b1db90e5c4502 Thomas Gleixner           2012-10-26  474  #ifndef CONFIG_PR=
-EEMPT_LAZY
-e5137b50a06400 Peter Zijlstra            2013-10-04  475  	case TRACE_FLAG_=
-PREEMPT_RESCHED:
-e5137b50a06400 Peter Zijlstra            2013-10-04  476  		need_resched =
-=3D 'p';
-e5137b50a06400 Peter Zijlstra            2013-10-04  477  		break;
-0b1db90e5c4502 Thomas Gleixner           2012-10-26  478  #endif
-e5137b50a06400 Peter Zijlstra            2013-10-04  479  	default:
-e5137b50a06400 Peter Zijlstra            2013-10-04  480  		need_resched =
-=3D '.';
-e5137b50a06400 Peter Zijlstra            2013-10-04  481  		break;
-e5137b50a06400 Peter Zijlstra            2013-10-04  482  	}
-e5137b50a06400 Peter Zijlstra            2013-10-04  483  =
+070294331b7ee74 Andy Shevchenko 2021-11-08   9  =
 
-0b1db90e5c4502 Thomas Gleixner           2012-10-26  484  	need_resched_laz=
-y =3D
-0b1db90e5c4502 Thomas Gleixner           2012-10-26 @485  		(entry->flags &=
- TRACE_FLAG_NEED_RESCHED_LAZY) ? 'L' : '.';
-0b1db90e5c4502 Thomas Gleixner           2012-10-26  486  =
-
-10da37a645b5e9 David Sharp               2010-12-03  487  	hardsoft_irq =3D
-7e6867bf831c71 Peter Zijlstra            2016-03-18  488  		(nmi && hardirq=
-)     ? 'Z' :
-7e6867bf831c71 Peter Zijlstra            2016-03-18  489  		nmi            =
-      ? 'z' :
-d9793bd8018f83 Arnaldo Carvalho de Melo  2009-02-03  490  		(hardirq && sof=
-tirq) ? 'H' :
-10da37a645b5e9 David Sharp               2010-12-03  491  		hardirq        =
-      ? 'h' :
-10da37a645b5e9 David Sharp               2010-12-03  492  		softirq        =
-      ? 's' :
-10da37a645b5e9 David Sharp               2010-12-03  493  		               =
-        '.' ;
-10da37a645b5e9 David Sharp               2010-12-03  494  =
-
-0b1db90e5c4502 Thomas Gleixner           2012-10-26  495  	trace_seq_printf=
-(s, "%c%c%c%c",
-0b1db90e5c4502 Thomas Gleixner           2012-10-26  496  			 irqs_off, nee=
-d_resched, need_resched_lazy,
-0b1db90e5c4502 Thomas Gleixner           2012-10-26  497  			 hardsoft_irq);
-c4a8e8be2d43cc Frederic Weisbecker       2009-02-02  498  =
-
-54357f0c9149c8 Thomas Gleixner           2021-08-10  499  	if (entry->preem=
-pt_count & 0xf)
-54357f0c9149c8 Thomas Gleixner           2021-08-10  500  		trace_seq_print=
-f(s, "%x", entry->preempt_count & 0xf);
-54357f0c9149c8 Thomas Gleixner           2021-08-10  501  	else
-54357f0c9149c8 Thomas Gleixner           2021-08-10  502  		trace_seq_putc(=
-s, '.');
-54357f0c9149c8 Thomas Gleixner           2021-08-10  503  =
-
-0b1db90e5c4502 Thomas Gleixner           2012-10-26  504  	if (entry->preem=
-pt_lazy_count)
-0b1db90e5c4502 Thomas Gleixner           2012-10-26  505  		trace_seq_print=
-f(s, "%x", entry->preempt_lazy_count);
-0b1db90e5c4502 Thomas Gleixner           2012-10-26  506  	else
-0b1db90e5c4502 Thomas Gleixner           2012-10-26  507  		trace_seq_putc(=
-s, '.');
-0b1db90e5c4502 Thomas Gleixner           2012-10-26  508  =
-
-54357f0c9149c8 Thomas Gleixner           2021-08-10  509  	if (entry->preem=
-pt_count & 0xf0)
-54357f0c9149c8 Thomas Gleixner           2021-08-10  510  		trace_seq_print=
-f(s, "%x", entry->preempt_count >> 4);
-637e7e864103a7 Steven Rostedt            2009-09-11  511  	else
-19a7fe206232cc Steven Rostedt (Red Hat   2014-11-12  512) 		trace_seq_putc(=
-s, '.');
-829b876dfc94ea Steven Rostedt            2009-09-27  513  =
-
-19a7fe206232cc Steven Rostedt (Red Hat   2014-11-12  514) 	return !trace_se=
-q_has_overflowed(s);
-c4a8e8be2d43cc Frederic Weisbecker       2009-02-02  515  }
-c4a8e8be2d43cc Frederic Weisbecker       2009-02-02  516  =
+070294331b7ee74 Andy Shevchenko 2021-11-08  10  /**
+070294331b7ee74 Andy Shevchenko 2021-11-08  11   * container_of - cast a me=
+mber of a structure out to the containing structure
+070294331b7ee74 Andy Shevchenko 2021-11-08  12   * @ptr:	the pointer to the=
+ member.
+070294331b7ee74 Andy Shevchenko 2021-11-08  13   * @type:	the type of the c=
+ontainer struct this is embedded in.
+070294331b7ee74 Andy Shevchenko 2021-11-08  14   * @member:	the name of the=
+ member within the struct.
+070294331b7ee74 Andy Shevchenko 2021-11-08  15   *
+070294331b7ee74 Andy Shevchenko 2021-11-08  16   */
+070294331b7ee74 Andy Shevchenko 2021-11-08  17  #define container_of(ptr, t=
+ype, member) ({				\
+070294331b7ee74 Andy Shevchenko 2021-11-08 @18  	void *__mptr =3D (void *)(=
+ptr);					\
+070294331b7ee74 Andy Shevchenko 2021-11-08  19  	BUILD_BUG_ON_MSG(!__same_t=
+ype(*(ptr), ((type *)0)->member) &&	\
+070294331b7ee74 Andy Shevchenko 2021-11-08  20  			 !__same_type(*(ptr), vo=
+id),			\
+070294331b7ee74 Andy Shevchenko 2021-11-08  21  			 "pointer type mismatch =
+in container_of()");	\
+070294331b7ee74 Andy Shevchenko 2021-11-08  22  	((type *)(__mptr - offseto=
+f(type, member))); })
+070294331b7ee74 Andy Shevchenko 2021-11-08  23  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============7539517377028105439==--
+--===============7154551450065479312==--
 
