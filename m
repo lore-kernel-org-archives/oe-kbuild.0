@@ -1,82 +1,129 @@
-Content-Type: multipart/mixed; boundary="===============4662202580442714189=="
+Content-Type: multipart/mixed; boundary="===============7224237638230739136=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/pci/endpoint/functions/pci-epf-vntb.c:891 epf_ntb_mw1_store() warn: potential spectre issue 'ntb->mws_size' [w]
-Date: Sun, 21 Aug 2022 15:43:13 +0800
-Message-ID: <202208211553.oqHMwzdj-lkp@intel.com>
+Subject: drivers/net/wwan/t7xx/t7xx_pci.c:124:15: warning: Uninitialized variable: entity->id [uninitvar]
+Date: Sun, 21 Aug 2022 15:32:56 +0800
+Message-ID: <202208211508.azwHR7An-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4662202580442714189==
+--===============7224237638230739136==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+:::::: =
+
+:::::: Manual check reason: "low confidence static check warning: drivers/n=
+et/wwan/t7xx/t7xx_pci.c:124:15: warning: Uninitialized variable: entity->id=
+ [uninitvar]"
+:::::: =
+
+
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Frank Li <Frank.Li@nxp.com>
-CC: Jon Mason <jdmason@kudzu.us>
+TO: Haijun Liu <haijun.liu@mediatek.com>
+CC: Chandrashekar Devegowda <chandrashekar.devegowda@intel.com>
+CC: Ricardo Martinez <ricardo.martinez@linux.intel.com>
+CC: "Ilpo J=C3=A4rvinen" <ilpo.jarvinen@linux.intel.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   15b3f48a4339e3c16acf18624e2b7f60bc5e9a2c
-commit: e35f56bb03304abc92c928b641af41ca372966bb PCI: endpoint: Support NTB=
- transfer between RC and EP
-date:   11 days ago
+commit: 46e8f49ed7b3063f51e28f3ea2084b3da29c1503 net: wwan: t7xx: Introduce=
+ power management
+date:   3 months ago
 :::::: branch date: 10 hours ago
-:::::: commit date: 11 days ago
-config: arm64-randconfig-m031-20220821 (https://download.01.org/0day-ci/arc=
-hive/20220821/202208211553.oqHMwzdj-lkp(a)intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.1.0
+:::::: commit date: 3 months ago
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+reproduce (cppcheck warning):
+        # apt-get install cppcheck
+        git checkout 46e8f49ed7b3063f51e28f3ea2084b3da29c1503
+        cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
+e=3Dgcc FILE
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-drivers/pci/endpoint/functions/pci-epf-vntb.c:891 epf_ntb_mw1_store() warn:=
- potential spectre issue 'ntb->mws_size' [w]
-drivers/pci/endpoint/functions/pci-epf-vntb.c:893 epf_ntb_mw2_store() warn:=
- potential spectre issue 'ntb->mws_size' [w]
-drivers/pci/endpoint/functions/pci-epf-vntb.c:895 epf_ntb_mw3_store() warn:=
- potential spectre issue 'ntb->mws_size' [w]
-drivers/pci/endpoint/functions/pci-epf-vntb.c:897 epf_ntb_mw4_store() warn:=
- potential spectre issue 'ntb->mws_size' [w]
 
-Old smatch warnings:
-drivers/pci/endpoint/functions/pci-epf-vntb.c:1316 epf_ntb_bind() warn: mis=
-sing error code 'ret'
+cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
-vim +891 drivers/pci/endpoint/functions/pci-epf-vntb.c
+>> drivers/net/wwan/t7xx/t7xx_pci.c:124:15: warning: Uninitialized variable=
+: entity->id [uninitvar]
+     if (entity->id =3D=3D pm_entity->id) {
+                 ^
+   drivers/net/wwan/t7xx/t7xx_pci.c:141:15: warning: Uninitialized variable=
+: entity->id [uninitvar]
+     if (entity->id =3D=3D pm_entity->id) {
+                 ^
+>> drivers/net/wwan/t7xx/t7xx_pci.c:382:15: warning: Uninitialized variable=
+: entity->resume_early [uninitvar]
+     if (entity->resume_early)
+                 ^
+   drivers/net/wwan/t7xx/t7xx_pci.c:309:42: note: Assuming condition is fal=
+se
+    if (atomic_read(&t7xx_dev->md_pm_state) <=3D MTK_PM_INIT) {
+                                            ^
+   drivers/net/wwan/t7xx/t7xx_pci.c:382:15: note: Uninitialized variable: e=
+ntity->resume_early
+     if (entity->resume_early)
+                 ^
+--
+>> drivers/net/wwan/t7xx/t7xx_port_proxy.c:325:33: warning: Uninitialized v=
+ariable: port_conf [uninitvar]
+     if (queue->md_ctrl->hif_id =3D=3D port_conf->path_id &&
+                                   ^
+   drivers/net/wwan/t7xx/t7xx_port_proxy.c:323:48: note: Assignment 'port_c=
+onf=3Dport->port_conf', assigned value is <Uninit>
+     const struct t7xx_port_conf *port_conf =3D port->port_conf;
+                                                  ^
+   drivers/net/wwan/t7xx/t7xx_port_proxy.c:325:33: note: Uninitialized vari=
+able: port_conf
+     if (queue->md_ctrl->hif_id =3D=3D port_conf->path_id &&
+                                   ^
+>> drivers/net/wwan/t7xx/t7xx_port_proxy.c:327:11: warning: Uninitialized v=
+ariables: port.port_conf, port.wwan_port, port.t7xx_dev, port.dev, port.usa=
+ge_cnt, port.entry, port.queue_entry, port.rx_skb_list, port.port_update_lo=
+ck, port.rx_wq, port.rx_length_th, port.chan_enable, port.thread [uninitvar]
+      return port;
+             ^
 
-e35f56bb03304a Frank Li 2022-02-22  878  =
+vim +124 drivers/net/wwan/t7xx/t7xx_pci.c
 
-e35f56bb03304a Frank Li 2022-02-22  879  EPF_NTB_R(spad_count)
-e35f56bb03304a Frank Li 2022-02-22  880  EPF_NTB_W(spad_count)
-e35f56bb03304a Frank Li 2022-02-22  881  EPF_NTB_R(db_count)
-e35f56bb03304a Frank Li 2022-02-22  882  EPF_NTB_W(db_count)
-e35f56bb03304a Frank Li 2022-02-22  883  EPF_NTB_R(num_mws)
-e35f56bb03304a Frank Li 2022-02-22  884  EPF_NTB_R(vbus_number)
-e35f56bb03304a Frank Li 2022-02-22  885  EPF_NTB_W(vbus_number)
-e35f56bb03304a Frank Li 2022-02-22  886  EPF_NTB_R(vntb_pid)
-e35f56bb03304a Frank Li 2022-02-22  887  EPF_NTB_W(vntb_pid)
-e35f56bb03304a Frank Li 2022-02-22  888  EPF_NTB_R(vntb_vid)
-e35f56bb03304a Frank Li 2022-02-22  889  EPF_NTB_W(vntb_vid)
-e35f56bb03304a Frank Li 2022-02-22  890  EPF_NTB_MW_R(mw1)
-e35f56bb03304a Frank Li 2022-02-22 @891  EPF_NTB_MW_W(mw1)
-e35f56bb03304a Frank Li 2022-02-22  892  EPF_NTB_MW_R(mw2)
-e35f56bb03304a Frank Li 2022-02-22 @893  EPF_NTB_MW_W(mw2)
-e35f56bb03304a Frank Li 2022-02-22  894  EPF_NTB_MW_R(mw3)
-e35f56bb03304a Frank Li 2022-02-22 @895  EPF_NTB_MW_W(mw3)
-e35f56bb03304a Frank Li 2022-02-22  896  EPF_NTB_MW_R(mw4)
-e35f56bb03304a Frank Li 2022-02-22 @897  EPF_NTB_MW_W(mw4)
-e35f56bb03304a Frank Li 2022-02-22  898  =
+46e8f49ed7b306 Haijun Liu 2022-05-06  117  =
+
+46e8f49ed7b306 Haijun Liu 2022-05-06  118  int t7xx_pci_pm_entity_register(=
+struct t7xx_pci_dev *t7xx_dev, struct md_pm_entity *pm_entity)
+46e8f49ed7b306 Haijun Liu 2022-05-06  119  {
+46e8f49ed7b306 Haijun Liu 2022-05-06  120  	struct md_pm_entity *entity;
+46e8f49ed7b306 Haijun Liu 2022-05-06  121  =
+
+46e8f49ed7b306 Haijun Liu 2022-05-06  122  	mutex_lock(&t7xx_dev->md_pm_ent=
+ity_mtx);
+46e8f49ed7b306 Haijun Liu 2022-05-06  123  	list_for_each_entry(entity, &t7=
+xx_dev->md_pm_entities, entity) {
+46e8f49ed7b306 Haijun Liu 2022-05-06 @124  		if (entity->id =3D=3D pm_entit=
+y->id) {
+46e8f49ed7b306 Haijun Liu 2022-05-06  125  			mutex_unlock(&t7xx_dev->md_pm=
+_entity_mtx);
+46e8f49ed7b306 Haijun Liu 2022-05-06  126  			return -EEXIST;
+46e8f49ed7b306 Haijun Liu 2022-05-06  127  		}
+46e8f49ed7b306 Haijun Liu 2022-05-06  128  	}
+46e8f49ed7b306 Haijun Liu 2022-05-06  129  =
+
+46e8f49ed7b306 Haijun Liu 2022-05-06  130  	list_add_tail(&pm_entity->entit=
+y, &t7xx_dev->md_pm_entities);
+46e8f49ed7b306 Haijun Liu 2022-05-06  131  	mutex_unlock(&t7xx_dev->md_pm_e=
+ntity_mtx);
+46e8f49ed7b306 Haijun Liu 2022-05-06  132  	return 0;
+46e8f49ed7b306 Haijun Liu 2022-05-06  133  }
+46e8f49ed7b306 Haijun Liu 2022-05-06  134  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============4662202580442714189==--
+--===============7224237638230739136==--
 
