@@ -1,66 +1,94 @@
-Content-Type: multipart/mixed; boundary="===============1375465895315177300=="
+Content-Type: multipart/mixed; boundary="===============4015948445766649758=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH 2/4] riscv: Introduce support for defining instructions
-Date: Sun, 21 Aug 2022 12:37:50 +0800
-Message-ID: <202208211258.yJSqvQGj-lkp@intel.com>
+Subject: drivers/rtc/rtc-nct3018y.c:112 nct3018y_get_alarm_mode() error: we previously assumed 'alarm_enable' could be null (see line 96)
+Date: Sun, 21 Aug 2022 11:56:10 +0800
+Message-ID: <202208211110.jFk2KTL5-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1375465895315177300==
+--===============4015948445766649758==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-:::::: =
-
-:::::: Manual check reason: "low confidence bisect report"
-:::::: =
-
-
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <20220819140250.3892995-3-ajones@ventanamicro.com>
-References: <20220819140250.3892995-3-ajones@ventanamicro.com>
-TO: Andrew Jones <ajones@ventanamicro.com>
-TO: linux-riscv(a)lists.infradead.org
-TO: kvm-riscv(a)lists.infradead.org
 CC: linux-kernel(a)vger.kernel.org
-CC: paul.walmsley(a)sifive.com
-CC: palmer(a)dabbelt.com
-CC: aou(a)eecs.berkeley.edu
-CC: anup(a)brainfault.org
-CC: mchitale(a)ventanamicro.com
-CC: heiko(a)sntech.de
+TO: Mia Lin <mimi05633@gmail.com>
+CC: Alexandre Belloni <alexandre.belloni@bootlin.com>
 
-Hi Andrew,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.0-rc1 next-20220819]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Andrew-Jones/riscv-I=
-ntroduce-support-for-defining-instructions/20220819-220611
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-4c2d0b039c5cc0112206a5b22431b577cb1c57ad
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-compiler: gcc-11 (Debian 11.3.0-5) 11.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   15b3f48a4339e3c16acf18624e2b7f60bc5e9a2c
+commit: 5adbaed16cc63542057627642d2414f603f2db69 rtc: Add NCT3018Y real tim=
+e clock driver
+date:   4 weeks ago
+:::::: branch date: 6 hours ago
+:::::: commit date: 4 weeks ago
+config: arm64-randconfig-m031-20220821 (https://download.01.org/0day-ci/arc=
+hive/20220821/202208211110.jFk2KTL5-lkp(a)intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-includecheck warnings: (new ones prefixed by >>)
->> arch/riscv/include/asm/insn-def.h: asm/gpr-num.h is included more than o=
-nce.
+smatch warnings:
+drivers/rtc/rtc-nct3018y.c:112 nct3018y_get_alarm_mode() error: we previous=
+ly assumed 'alarm_enable' could be null (see line 96)
+drivers/rtc/rtc-nct3018y.c:112 nct3018y_get_alarm_mode() error: we previous=
+ly assumed 'alarm_flag' could be null (see line 104)
+
+vim +/alarm_enable +112 drivers/rtc/rtc-nct3018y.c
+
+5adbaed16cc635 Mia Lin 2022-07-13   90  =
+
+5adbaed16cc635 Mia Lin 2022-07-13   91  static int nct3018y_get_alarm_mode(=
+struct i2c_client *client, unsigned char *alarm_enable,
+5adbaed16cc635 Mia Lin 2022-07-13   92  				   unsigned char *alarm_flag)
+5adbaed16cc635 Mia Lin 2022-07-13   93  {
+5adbaed16cc635 Mia Lin 2022-07-13   94  	int flags;
+5adbaed16cc635 Mia Lin 2022-07-13   95  =
+
+5adbaed16cc635 Mia Lin 2022-07-13  @96  	if (alarm_enable) {
+5adbaed16cc635 Mia Lin 2022-07-13   97  		dev_dbg(&client->dev, "%s:NCT3018=
+Y_REG_CTRL\n", __func__);
+5adbaed16cc635 Mia Lin 2022-07-13   98  		flags =3D  i2c_smbus_read_byte_da=
+ta(client, NCT3018Y_REG_CTRL);
+5adbaed16cc635 Mia Lin 2022-07-13   99  		if (flags < 0)
+5adbaed16cc635 Mia Lin 2022-07-13  100  			return flags;
+5adbaed16cc635 Mia Lin 2022-07-13  101  		*alarm_enable =3D flags & NCT3018=
+Y_BIT_AIE;
+5adbaed16cc635 Mia Lin 2022-07-13  102  	}
+5adbaed16cc635 Mia Lin 2022-07-13  103  =
+
+5adbaed16cc635 Mia Lin 2022-07-13 @104  	if (alarm_flag) {
+5adbaed16cc635 Mia Lin 2022-07-13  105  		dev_dbg(&client->dev, "%s:NCT3018=
+Y_REG_ST\n", __func__);
+5adbaed16cc635 Mia Lin 2022-07-13  106  		flags =3D  i2c_smbus_read_byte_da=
+ta(client, NCT3018Y_REG_ST);
+5adbaed16cc635 Mia Lin 2022-07-13  107  		if (flags < 0)
+5adbaed16cc635 Mia Lin 2022-07-13  108  			return flags;
+5adbaed16cc635 Mia Lin 2022-07-13  109  		*alarm_flag =3D flags & NCT3018Y_=
+BIT_AF;
+5adbaed16cc635 Mia Lin 2022-07-13  110  	}
+5adbaed16cc635 Mia Lin 2022-07-13  111  =
+
+5adbaed16cc635 Mia Lin 2022-07-13 @112  	dev_dbg(&client->dev, "%s:alarm_en=
+able:%x alarm_flag:%x\n",
+5adbaed16cc635 Mia Lin 2022-07-13  113  		__func__, *alarm_enable, *alarm_f=
+lag);
+5adbaed16cc635 Mia Lin 2022-07-13  114  =
+
+5adbaed16cc635 Mia Lin 2022-07-13  115  	return 0;
+5adbaed16cc635 Mia Lin 2022-07-13  116  }
+5adbaed16cc635 Mia Lin 2022-07-13  117  =
+
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============1375465895315177300==--
+--===============4015948445766649758==--
 
