@@ -1,369 +1,211 @@
-Content-Type: multipart/mixed; boundary="===============2891361884091018779=="
+Content-Type: multipart/mixed; boundary="===============6936298756133170199=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: net/mctp/test/route-test.c:296:24: warning: use of uninitialized value '<unknown>' [CWE-457]
-Date: Sun, 21 Aug 2022 19:58:55 +0800
-Message-ID: <202208211931.8afMVuSF-lkp@intel.com>
+Subject: [jgunthorpe:vfio_iommufd 27/29] drivers/vfio/vfio_main.c:1497 vfio_pin_pages() warn: impossible condition '(iova > (~0)) => (0-u32max > u32max)'
+Date: Sun, 21 Aug 2022 19:07:55 +0800
+Message-ID: <202208211931.y3eGH3ei-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2891361884091018779==
+--===============6936298756133170199==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-:::::: =
-
-:::::: Manual check reason: "low confidence bisect report"
-:::::: Manual check reason: "low confidence static check warning: net/mctp/=
-test/route-test.c:296:24: warning: use of uninitialized value '<unknown>' [=
-CWE-457] [-Wanalyzer-use-of-uninitialized-value]"
-:::::: =
-
-
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Jeremy Kerr <jk@codeconstruct.com.au>
+TO: Jason Gunthorpe <jgg@nvidia.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   15b3f48a4339e3c16acf18624e2b7f60bc5e9a2c
-commit: 8892c0490779d6de921eb684e5504708fdbbcb68 mctp: Add route input to s=
-ocket tests
-date:   11 months ago
-:::::: branch date: 14 hours ago
-:::::: commit date: 11 months ago
-config: arm-randconfig-c002-20220820 (https://download.01.org/0day-ci/archi=
-ve/20220821/202208211931.8afMVuSF-lkp(a)intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D8892c0490779d6de921eb684e5504708fdbbcb68
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 8892c0490779d6de921eb684e5504708fdbbcb68
-        # save the config file
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cross=
- ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
-
+tree:   https://github.com/jgunthorpe/linux vfio_iommufd
+head:   d2ab4343c9f524e9404059830828188b0f8a15b6
+commit: 56e95c20bf11a9c515cc81a5a367bf7417459651 [27/29] vfio-iommufd: Supp=
+ort iommufd for emulated VFIO devices
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: openrisc-randconfig-m041-20220821 (https://download.01.org/0day-ci/=
+archive/20220821/202208211931.y3eGH3ei-lkp(a)intel.com/config)
+compiler: or1k-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-gcc-analyzer warnings: (new ones prefixed by >>)
-              |      |         ~~~~~~~~~~~~~~~
-              |      |         |
-              |      |         (22) calling 'skb_orphan' from 'mctp_route_i=
-nput'
-              |
-              +--> 'skb_orphan': events 23-25
-                     |
-                     |include/linux/skbuff.h:2781:20:
-                     | 2781 | static inline void skb_orphan(struct sk_buff =
-*skb)
-                     |      |                    ^~~~~~~~~~
-                     |      |                    |
-                     |      |                    (23) entry to 'skb_orphan'
-                     | 2782 | {
-                     | 2783 |         if (skb->destructor) {
-                     |      |            ~        =
+smatch warnings:
+drivers/vfio/vfio_main.c:1497 vfio_pin_pages() warn: impossible condition '=
+(iova > (~0)) =3D> (0-u32max > u32max)'
+drivers/vfio/vfio_main.c:1557 vfio_dma_rw() warn: impossible condition '(io=
+va > (~0)) =3D> (0-u32max > u32max)'
 
-                     |      |            |
-                     |      |            (24) following 'true' branch...
-                     | 2784 |                 skb->destructor(skb);
-                     |      |                 ~~~~~~~~~~~~~~~~~~~~
-                     |      |                 |
-                     |      |                 (25) ...to here
-                     |
-              <------+
-              |
-            'mctp_route_input': events 26-27
-              |
-              |net/mctp/route.c:278:9:
-              |  278 |         skb_orphan(skb);
-              |      |         ^~~~~~~~~~~~~~~
-              |      |         |
-              |      |         (26) returning to 'mctp_route_input' from 's=
-kb_orphan'
-              |......
-              |  281 |         if (skb->len < sizeof(struct mctp_hdr) + 1)
-              |      |             ~~~~~~~~
-              |      |                |
-              |      |                (27) dereference of NULL 'skb'
-              |
-   net/mctp/route.c: In function 'mctp_newroute':
-   net/mctp/route.c:1039:20: warning: use of uninitialized value '<unknown>=
-' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-    1039 |         mctp_eid_t daddr_start;
-         |                    ^~~~~~~~~~~
-     'mctp_newroute': event 1
-       |
-       | 1039 |         mctp_eid_t daddr_start;
-       |      |                    ^~~~~~~~~~~
-       |      |                    |
-       |      |                    (1) use of uninitialized value '<unknown=
->' here
-       |
-   net/mctp/route.c:1040:26: warning: use of uninitialized value '<unknown>=
-' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-    1040 |         struct mctp_dev *mdev;
-         |                          ^~~~
-     'mctp_newroute': event 1
-       |
-       | 1040 |         struct mctp_dev *mdev;
-       |      |                          ^~~~
-       |      |                          |
-       |      |                          (1) use of uninitialized value '<u=
-nknown>' here
-       |
-   net/mctp/route.c:1041:23: warning: use of uninitialized value '<unknown>=
-' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-    1041 |         struct rtmsg *rtm;
-         |                       ^~~
-     'mctp_newroute': event 1
-       |
-       | 1041 |         struct rtmsg *rtm;
-       |      |                       ^~~
-       |      |                       |
-       |      |                       (1) use of uninitialized value '<unkn=
-own>' here
-       |
-   net/mctp/route.c: In function 'mctp_delroute':
-   net/mctp/route.c:1077:20: warning: use of uninitialized value '<unknown>=
-' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-    1077 |         mctp_eid_t daddr_start;
-         |                    ^~~~~~~~~~~
-     'mctp_delroute': event 1
-       |
-       | 1077 |         mctp_eid_t daddr_start;
-       |      |                    ^~~~~~~~~~~
-       |      |                    |
-       |      |                    (1) use of uninitialized value '<unknown=
->' here
-       |
-   net/mctp/route.c:1078:26: warning: use of uninitialized value '<unknown>=
-' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-    1078 |         struct mctp_dev *mdev;
-         |                          ^~~~
-     'mctp_delroute': event 1
-       |
-       | 1078 |         struct mctp_dev *mdev;
-       |      |                          ^~~~
-       |      |                          |
-       |      |                          (1) use of uninitialized value '<u=
-nknown>' here
-       |
-   net/mctp/route.c:1079:23: warning: use of uninitialized value '<unknown>=
-' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-    1079 |         struct rtmsg *rtm;
-         |                       ^~~
-     'mctp_delroute': event 1
-       |
-       | 1079 |         struct rtmsg *rtm;
-       |      |                       ^~~
-       |      |                       |
-       |      |                       (1) use of uninitialized value '<unkn=
-own>' here
-       |
-   In file included from net/mctp/route.c:1234:
-   net/mctp/test/route-test.c: In function '__mctp_route_test_init':
->> net/mctp/test/route-test.c:296:24: warning: use of uninitialized value '=
-<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-     296 |         struct socket *sock;
-         |                        ^~~~
-     '__mctp_route_test_init': event 1
-       |
-       |  296 |         struct socket *sock;
-       |      |                        ^~~~
-       |      |                        |
-       |      |                        (1) use of uninitialized value '<unk=
-nown>' here
-       |
-   net/mctp/test/route-test.c: In function 'mctp_test_route_input_sk':
-   net/mctp/test/route-test.c:340:33: warning: use of uninitialized value '=
-<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-     340 |         struct mctp_test_route *rt;
-         |                                 ^~
-     'mctp_test_route_input_sk': event 1
-       |
-       |  340 |         struct mctp_test_route *rt;
-       |      |                                 ^~
-       |      |                                 |
-       |      |                                 (1) use of uninitialized va=
-lue '<unknown>' here
-       |
-   net/mctp/test/route-test.c:341:31: warning: use of uninitialized value '=
-<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-     341 |         struct mctp_test_dev *dev;
-         |                               ^~~
-     'mctp_test_route_input_sk': event 1
-       |
-       |  341 |         struct mctp_test_dev *dev;
-       |      |                               ^~~
-       |      |                               |
-       |      |                               (1) use of uninitialized valu=
-e '<unknown>' here
-       |
-   net/mctp/test/route-test.c:342:24: warning: use of uninitialized value '=
-<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-     342 |         struct socket *sock;
-         |                        ^~~~
-     'mctp_test_route_input_sk': event 1
-       |
-       |  342 |         struct socket *sock;
-       |      |                        ^~~~
-       |      |                        |
-       |      |                        (1) use of uninitialized value '<unk=
-nown>' here
-       |
-   net/mctp/test/route-test.c:343:13: warning: use of uninitialized value '=
-<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-     343 |         int rc;
-         |             ^~
-     'mctp_test_route_input_sk': event 1
-       |
-       |  343 |         int rc;
-       |      |             ^~
-       |      |             |
-       |      |             (1) use of uninitialized value '<unknown>' here
-       |
-   In file included from net/mctp/test/route-test.c:3:
-   include/kunit/test.h:866:22: warning: dereference of NULL 'skb' [CWE-476=
-] [-Wanalyzer-null-dereference]
-     866 |         typeof(left) __left =3D (left);                         =
-                 \
-         |                      ^~~~~~
-   include/kunit/test.h:891:9: note: in expansion of macro 'KUNIT_BASE_BINA=
-RY_ASSERTION'
-     891 |         KUNIT_BASE_BINARY_ASSERTION(test,                       =
-               \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/kunit/test.h:980:9: note: in expansion of macro 'KUNIT_BASE_EQ_M=
-SG_ASSERTION'
-     980 |         KUNIT_BASE_EQ_MSG_ASSERTION(test,                       =
-               \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/kunit/test.h:990:9: note: in expansion of macro 'KUNIT_BINARY_EQ=
-_MSG_ASSERTION'
-     990 |         KUNIT_BINARY_EQ_MSG_ASSERTION(test,                     =
-               \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/kunit/test.h:1353:9: note: in expansion of macro 'KUNIT_BINARY_E=
-Q_ASSERTION'
-    1353 |         KUNIT_BINARY_EQ_ASSERTION(test, KUNIT_EXPECTATION, left,=
- right)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
-   net/mctp/test/route-test.c:362:17: note: in expansion of macro 'KUNIT_EX=
-PECT_EQ'
-     362 |                 KUNIT_EXPECT_EQ(test, skb->len, 1);
-         |                 ^~~~~~~~~~~~~~~
-     'mctp_test_route_input_sk': events 1-2
-       |
-       |  336 | static void mctp_test_route_input_sk(struct kunit *test)
-       |      |             ^~~~~~~~~~~~~~~~~~~~~~~~
-       |      |             |
-       |      |             (1) entry to 'mctp_test_route_input_sk'
-       |......
-       |  347 |         __mctp_route_test_init(test, &dev, &rt, &sock);
-       |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |         |
-       |      |         (2) calling '__mctp_route_test_init' from 'mctp_tes=
-t_route_input_sk'
-       |
-       +--> '__mctp_route_test_init': events 3-4
-              |
-              |  288 | static void __mctp_route_test_init(struct kunit *tes=
-t,
-              |      |             ^~~~~~~~~~~~~~~~~~~~~~
-              |      |             |
-              |      |             (3) entry to '__mctp_route_test_init'
-              |......
-              |  302 |         rt =3D mctp_test_create_route(&init_net, dev=
-->mdev, 8, 68);
-              |      |              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~
-              |      |              |
-              |      |              (4) calling 'mctp_test_create_route' fr=
-om '__mctp_route_test_init'
-              |
-              +--> 'mctp_test_create_route': events 5-6
-                     |
-                     |   39 | static struct mctp_test_route *mctp_test_crea=
-te_route(struct net *net,
-                     |      |                                ^~~~~~~~~~~~~~=
-~~~~~~~~
-                     |      |                                |
-                     |      |                                (5) entry to '=
-mctp_test_create_route'
-                     |......
+vim +1497 drivers/vfio/vfio_main.c
 
-vim +296 net/mctp/test/route-test.c
+c747f08aea847c drivers/vfio/vfio.c      Kirti Wankhede  2016-11-17  1477  =
 
-b504db408c34e0 Jeremy Kerr 2021-10-03  283  =
+56e95c20bf11a9 drivers/vfio/vfio_main.c Jason Gunthorpe 2022-08-11  1478  /*
+56e95c20bf11a9 drivers/vfio/vfio_main.c Jason Gunthorpe 2022-08-11  1479   =
+* Pin contiguous user pages and return their associated host pages for local
+56e95c20bf11a9 drivers/vfio/vfio_main.c Jason Gunthorpe 2022-08-11  1480   =
+* domain only.
+56e95c20bf11a9 drivers/vfio/vfio_main.c Jason Gunthorpe 2022-08-11  1481   =
+* @device [in]  : device
+56e95c20bf11a9 drivers/vfio/vfio_main.c Jason Gunthorpe 2022-08-11  1482   =
+* @iova [in]    : starting IOVA of user pages to be pinned.
+56e95c20bf11a9 drivers/vfio/vfio_main.c Jason Gunthorpe 2022-08-11  1483   =
+* @npage [in]   : count of pages to be pinned.  This count should not
+56e95c20bf11a9 drivers/vfio/vfio_main.c Jason Gunthorpe 2022-08-11  1484   =
+*		   be greater than VFIO_PIN_PAGES_MAX_ENTRIES.
+56e95c20bf11a9 drivers/vfio/vfio_main.c Jason Gunthorpe 2022-08-11  1485   =
+* @prot [in]    : protection flags
+56e95c20bf11a9 drivers/vfio/vfio_main.c Jason Gunthorpe 2022-08-11  1486   =
+* @pages[out]   : array of host pages
+56e95c20bf11a9 drivers/vfio/vfio_main.c Jason Gunthorpe 2022-08-11  1487   =
+* Return error or number of pages pinned.
+56e95c20bf11a9 drivers/vfio/vfio_main.c Jason Gunthorpe 2022-08-11  1488   =
+*/
+56e95c20bf11a9 drivers/vfio/vfio_main.c Jason Gunthorpe 2022-08-11  1489  i=
+nt vfio_pin_pages(struct vfio_device *device, dma_addr_t iova,
+56e95c20bf11a9 drivers/vfio/vfio_main.c Jason Gunthorpe 2022-08-11  1490  	=
+	   int npage, int prot, struct page **pages)
+56e95c20bf11a9 drivers/vfio/vfio_main.c Jason Gunthorpe 2022-08-11  1491  {
+56e95c20bf11a9 drivers/vfio/vfio_main.c Jason Gunthorpe 2022-08-11  1492  	=
+if (!pages || !npage || !vfio_assert_device_open(device))
+56e95c20bf11a9 drivers/vfio/vfio_main.c Jason Gunthorpe 2022-08-11  1493  	=
+	return -EINVAL;
+56e95c20bf11a9 drivers/vfio/vfio_main.c Jason Gunthorpe 2022-08-11  1494  	=
+if (device->group->container)
+56e95c20bf11a9 drivers/vfio/vfio_main.c Jason Gunthorpe 2022-08-11  1495  	=
+	return vfio_container_pin_pages(device, iova, npage, prot, pages);
+56e95c20bf11a9 drivers/vfio/vfio_main.c Jason Gunthorpe 2022-08-11  1496  	=
+if (device->iommufd_access) {
+56e95c20bf11a9 drivers/vfio/vfio_main.c Jason Gunthorpe 2022-08-11 @1497  	=
+	if (iova > ULONG_MAX)
+56e95c20bf11a9 drivers/vfio/vfio_main.c Jason Gunthorpe 2022-08-11  1498  	=
+		return -EINVAL;
+56e95c20bf11a9 drivers/vfio/vfio_main.c Jason Gunthorpe 2022-08-11  1499  	=
+	return iommufd_access_pin_pages(device->iommufd_access, iova,
+56e95c20bf11a9 drivers/vfio/vfio_main.c Jason Gunthorpe 2022-08-11  1500  	=
+					npage * PAGE_SIZE, pages,
+56e95c20bf11a9 drivers/vfio/vfio_main.c Jason Gunthorpe 2022-08-11  1501  	=
+					prot & IOMMU_WRITE);
+56e95c20bf11a9 drivers/vfio/vfio_main.c Jason Gunthorpe 2022-08-11  1502  	}
+56e95c20bf11a9 drivers/vfio/vfio_main.c Jason Gunthorpe 2022-08-11  1503  	=
+return -EINVAL;
+56e95c20bf11a9 drivers/vfio/vfio_main.c Jason Gunthorpe 2022-08-11  1504  }
+56e95c20bf11a9 drivers/vfio/vfio_main.c Jason Gunthorpe 2022-08-11  1505  E=
+XPORT_SYMBOL(vfio_pin_pages);
+56e95c20bf11a9 drivers/vfio/vfio_main.c Jason Gunthorpe 2022-08-11  1506  =
 
-b504db408c34e0 Jeremy Kerr 2021-10-03  284  KUNIT_ARRAY_PARAM(mctp_rx_input=
-, mctp_rx_input_tests,
-b504db408c34e0 Jeremy Kerr 2021-10-03  285  		  mctp_rx_input_test_to_desc);
-b504db408c34e0 Jeremy Kerr 2021-10-03  286  =
+56e95c20bf11a9 drivers/vfio/vfio_main.c Jason Gunthorpe 2022-08-11  1507  /*
+56e95c20bf11a9 drivers/vfio/vfio_main.c Jason Gunthorpe 2022-08-11  1508   =
+* Unpin contiguous host pages for local domain only.
+56e95c20bf11a9 drivers/vfio/vfio_main.c Jason Gunthorpe 2022-08-11  1509   =
+* @device [in]  : device
+56e95c20bf11a9 drivers/vfio/vfio_main.c Jason Gunthorpe 2022-08-11  1510   =
+* @iova [in]    : starting address of user pages to be unpinned.
+56e95c20bf11a9 drivers/vfio/vfio_main.c Jason Gunthorpe 2022-08-11  1511   =
+* @npage [in]   : count of pages to be unpinned.  This count should not
+56e95c20bf11a9 drivers/vfio/vfio_main.c Jason Gunthorpe 2022-08-11  1512   =
+*                 be greater than VFIO_PIN_PAGES_MAX_ENTRIES.
+56e95c20bf11a9 drivers/vfio/vfio_main.c Jason Gunthorpe 2022-08-11  1513   =
+*/
+56e95c20bf11a9 drivers/vfio/vfio_main.c Jason Gunthorpe 2022-08-11  1514  v=
+oid vfio_unpin_pages(struct vfio_device *device, dma_addr_t iova, int npage)
+56e95c20bf11a9 drivers/vfio/vfio_main.c Jason Gunthorpe 2022-08-11  1515  {
+56e95c20bf11a9 drivers/vfio/vfio_main.c Jason Gunthorpe 2022-08-11  1516  	=
+if (WARN_ON(!vfio_assert_device_open(device)))
+56e95c20bf11a9 drivers/vfio/vfio_main.c Jason Gunthorpe 2022-08-11  1517  	=
+	return;
+56e95c20bf11a9 drivers/vfio/vfio_main.c Jason Gunthorpe 2022-08-11  1518  =
 
-8892c0490779d6 Jeremy Kerr 2021-10-03  287  /* set up a local dev, route on=
- EID 8, and a socket listening on type 0 */
-8892c0490779d6 Jeremy Kerr 2021-10-03  288  static void __mctp_route_test_i=
-nit(struct kunit *test,
-8892c0490779d6 Jeremy Kerr 2021-10-03  289  				   struct mctp_test_dev **d=
-evp,
-8892c0490779d6 Jeremy Kerr 2021-10-03  290  				   struct mctp_test_route *=
-*rtp,
-8892c0490779d6 Jeremy Kerr 2021-10-03  291  				   struct socket **sockp)
-8892c0490779d6 Jeremy Kerr 2021-10-03  292  {
-8892c0490779d6 Jeremy Kerr 2021-10-03  293  	struct sockaddr_mctp addr;
-8892c0490779d6 Jeremy Kerr 2021-10-03  294  	struct mctp_test_route *rt;
-8892c0490779d6 Jeremy Kerr 2021-10-03  295  	struct mctp_test_dev *dev;
-8892c0490779d6 Jeremy Kerr 2021-10-03 @296  	struct socket *sock;
-8892c0490779d6 Jeremy Kerr 2021-10-03  297  	int rc;
-8892c0490779d6 Jeremy Kerr 2021-10-03  298  =
+56e95c20bf11a9 drivers/vfio/vfio_main.c Jason Gunthorpe 2022-08-11  1519  	=
+if (device->group->container) {
+56e95c20bf11a9 drivers/vfio/vfio_main.c Jason Gunthorpe 2022-08-11  1520  	=
+	vfio_container_unpin_pages(device, iova, npage);
+56e95c20bf11a9 drivers/vfio/vfio_main.c Jason Gunthorpe 2022-08-11  1521  	=
+} else if (device->iommufd_access) {
+56e95c20bf11a9 drivers/vfio/vfio_main.c Jason Gunthorpe 2022-08-11  1522  	=
+	if (WARN_ON(iova > ULONG_MAX))
+56e95c20bf11a9 drivers/vfio/vfio_main.c Jason Gunthorpe 2022-08-11  1523  	=
+		return;
+56e95c20bf11a9 drivers/vfio/vfio_main.c Jason Gunthorpe 2022-08-11  1524  	=
+	iommufd_access_unpin_pages(device->iommufd_access, iova,
+56e95c20bf11a9 drivers/vfio/vfio_main.c Jason Gunthorpe 2022-08-11  1525  	=
+				   npage * PAGE_SIZE);
+56e95c20bf11a9 drivers/vfio/vfio_main.c Jason Gunthorpe 2022-08-11  1526  	}
+56e95c20bf11a9 drivers/vfio/vfio_main.c Jason Gunthorpe 2022-08-11  1527  }
+56e95c20bf11a9 drivers/vfio/vfio_main.c Jason Gunthorpe 2022-08-11  1528  E=
+XPORT_SYMBOL(vfio_unpin_pages);
+56e95c20bf11a9 drivers/vfio/vfio_main.c Jason Gunthorpe 2022-08-11  1529  =
 
-8892c0490779d6 Jeremy Kerr 2021-10-03  299  	dev =3D mctp_test_create_dev();
-8892c0490779d6 Jeremy Kerr 2021-10-03  300  	KUNIT_ASSERT_NOT_ERR_OR_NULL(t=
-est, dev);
-8892c0490779d6 Jeremy Kerr 2021-10-03  301  =
+56e95c20bf11a9 drivers/vfio/vfio_main.c Jason Gunthorpe 2022-08-11  1530  /*
+56e95c20bf11a9 drivers/vfio/vfio_main.c Jason Gunthorpe 2022-08-11  1531   =
+* This interface allows the CPUs to perform some sort of virtual DMA on
+56e95c20bf11a9 drivers/vfio/vfio_main.c Jason Gunthorpe 2022-08-11  1532   =
+* behalf of the device.
+56e95c20bf11a9 drivers/vfio/vfio_main.c Jason Gunthorpe 2022-08-11  1533   *
+56e95c20bf11a9 drivers/vfio/vfio_main.c Jason Gunthorpe 2022-08-11  1534   =
+* CPUs read/write from/into a range of IOVAs pointing to user space memory
+56e95c20bf11a9 drivers/vfio/vfio_main.c Jason Gunthorpe 2022-08-11  1535   =
+* into/from a kernel buffer.
+56e95c20bf11a9 drivers/vfio/vfio_main.c Jason Gunthorpe 2022-08-11  1536   *
+56e95c20bf11a9 drivers/vfio/vfio_main.c Jason Gunthorpe 2022-08-11  1537   =
+* As the read/write of user space memory is conducted via the CPUs and is
+56e95c20bf11a9 drivers/vfio/vfio_main.c Jason Gunthorpe 2022-08-11  1538   =
+* not a real device DMA, it is not necessary to pin the user space memory.
+56e95c20bf11a9 drivers/vfio/vfio_main.c Jason Gunthorpe 2022-08-11  1539   *
+56e95c20bf11a9 drivers/vfio/vfio_main.c Jason Gunthorpe 2022-08-11  1540   =
+* @device [in]		: VFIO device
+56e95c20bf11a9 drivers/vfio/vfio_main.c Jason Gunthorpe 2022-08-11  1541   =
+* @iova [in]		: base IOVA of a user space buffer
+56e95c20bf11a9 drivers/vfio/vfio_main.c Jason Gunthorpe 2022-08-11  1542   =
+* @data [in]		: pointer to kernel buffer
+56e95c20bf11a9 drivers/vfio/vfio_main.c Jason Gunthorpe 2022-08-11  1543   =
+* @len [in]		: kernel buffer length
+56e95c20bf11a9 drivers/vfio/vfio_main.c Jason Gunthorpe 2022-08-11  1544   =
+* @write		: indicate read or write
+56e95c20bf11a9 drivers/vfio/vfio_main.c Jason Gunthorpe 2022-08-11  1545   =
+* Return error code on failure or 0 on success.
+56e95c20bf11a9 drivers/vfio/vfio_main.c Jason Gunthorpe 2022-08-11  1546   =
+*/
+56e95c20bf11a9 drivers/vfio/vfio_main.c Jason Gunthorpe 2022-08-11  1547  i=
+nt vfio_dma_rw(struct vfio_device *device, dma_addr_t iova, void *data,
+56e95c20bf11a9 drivers/vfio/vfio_main.c Jason Gunthorpe 2022-08-11  1548  	=
+	size_t len, bool write)
+56e95c20bf11a9 drivers/vfio/vfio_main.c Jason Gunthorpe 2022-08-11  1549  {
+56e95c20bf11a9 drivers/vfio/vfio_main.c Jason Gunthorpe 2022-08-11  1550  	=
+if (!data || len <=3D 0 || !vfio_assert_device_open(device))
+56e95c20bf11a9 drivers/vfio/vfio_main.c Jason Gunthorpe 2022-08-11  1551  	=
+	return -EINVAL;
+56e95c20bf11a9 drivers/vfio/vfio_main.c Jason Gunthorpe 2022-08-11  1552  =
 
-8892c0490779d6 Jeremy Kerr 2021-10-03  302  	rt =3D mctp_test_create_route(=
-&init_net, dev->mdev, 8, 68);
-8892c0490779d6 Jeremy Kerr 2021-10-03  303  	KUNIT_ASSERT_NOT_ERR_OR_NULL(t=
-est, rt);
-8892c0490779d6 Jeremy Kerr 2021-10-03  304  =
+56e95c20bf11a9 drivers/vfio/vfio_main.c Jason Gunthorpe 2022-08-11  1553  	=
+if (device->group->container)
+56e95c20bf11a9 drivers/vfio/vfio_main.c Jason Gunthorpe 2022-08-11  1554  	=
+	return vfio_container_dma_rw(device, iova, data, len, write);
+56e95c20bf11a9 drivers/vfio/vfio_main.c Jason Gunthorpe 2022-08-11  1555  =
 
-8892c0490779d6 Jeremy Kerr 2021-10-03  305  	rc =3D sock_create_kern(&init_=
-net, AF_MCTP, SOCK_DGRAM, 0, &sock);
-8892c0490779d6 Jeremy Kerr 2021-10-03  306  	KUNIT_ASSERT_EQ(test, rc, 0);
-8892c0490779d6 Jeremy Kerr 2021-10-03  307  =
-
-8892c0490779d6 Jeremy Kerr 2021-10-03  308  	addr.smctp_family =3D AF_MCTP;
-8892c0490779d6 Jeremy Kerr 2021-10-03  309  	addr.smctp_network =3D MCTP_NE=
-T_ANY;
-8892c0490779d6 Jeremy Kerr 2021-10-03  310  	addr.smctp_addr.s_addr =3D 8;
-8892c0490779d6 Jeremy Kerr 2021-10-03  311  	addr.smctp_type =3D 0;
-8892c0490779d6 Jeremy Kerr 2021-10-03  312  	rc =3D kernel_bind(sock, (stru=
-ct sockaddr *)&addr, sizeof(addr));
-8892c0490779d6 Jeremy Kerr 2021-10-03  313  	KUNIT_ASSERT_EQ(test, rc, 0);
-8892c0490779d6 Jeremy Kerr 2021-10-03  314  =
-
-8892c0490779d6 Jeremy Kerr 2021-10-03  315  	*rtp =3D rt;
-8892c0490779d6 Jeremy Kerr 2021-10-03  316  	*devp =3D dev;
-8892c0490779d6 Jeremy Kerr 2021-10-03  317  	*sockp =3D sock;
-8892c0490779d6 Jeremy Kerr 2021-10-03  318  }
-8892c0490779d6 Jeremy Kerr 2021-10-03  319  =
+56e95c20bf11a9 drivers/vfio/vfio_main.c Jason Gunthorpe 2022-08-11  1556  	=
+if (device->iommufd_access) {
+56e95c20bf11a9 drivers/vfio/vfio_main.c Jason Gunthorpe 2022-08-11 @1557  	=
+	if (iova > ULONG_MAX)
+56e95c20bf11a9 drivers/vfio/vfio_main.c Jason Gunthorpe 2022-08-11  1558  	=
+		return -EINVAL;
+56e95c20bf11a9 drivers/vfio/vfio_main.c Jason Gunthorpe 2022-08-11  1559  	=
+	return iommufd_access_rw(device->iommufd_access, iova, data,
+56e95c20bf11a9 drivers/vfio/vfio_main.c Jason Gunthorpe 2022-08-11  1560  	=
+				 len, write);
+56e95c20bf11a9 drivers/vfio/vfio_main.c Jason Gunthorpe 2022-08-11  1561  	}
+56e95c20bf11a9 drivers/vfio/vfio_main.c Jason Gunthorpe 2022-08-11  1562  	=
+return -EINVAL;
+56e95c20bf11a9 drivers/vfio/vfio_main.c Jason Gunthorpe 2022-08-11  1563  }
+56e95c20bf11a9 drivers/vfio/vfio_main.c Jason Gunthorpe 2022-08-11  1564  E=
+XPORT_SYMBOL(vfio_dma_rw);
+56e95c20bf11a9 drivers/vfio/vfio_main.c Jason Gunthorpe 2022-08-11  1565  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============2891361884091018779==--
+--===============6936298756133170199==--
 
