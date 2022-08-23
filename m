@@ -1,234 +1,494 @@
-Content-Type: multipart/mixed; boundary="===============2633489782591702343=="
+Content-Type: multipart/mixed; boundary="===============5795103266035861234=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH 1/6] mm: pagewalk: make error checks more obvious
-Date: Tue, 23 Aug 2022 16:43:54 +0800
-Message-ID: <202208231649.7QKavhA3-lkp@intel.com>
+Subject: drivers/staging/media/rkvdec/rkvdec-h264.c:732:45: warning: Value stored to 'dec_params' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
+Date: Tue, 23 Aug 2022 14:30:02 +0800
+Message-ID: <202208231452.J1mE9tYi-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2633489782591702343==
+--===============5795103266035861234==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+:::::: =
+
+:::::: Manual check reason: "low confidence static check warning: drivers/s=
+taging/media/rkvdec/rkvdec-h264.c:732:45: warning: Value stored to 'dec_par=
+ams' during its initialization is never read [clang-analyzer-deadcode.DeadS=
+tores]"
+:::::: =
+
+
 BCC: lkp(a)intel.com
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <2203731.iZASKD2KPV@devpool047>
-References: <2203731.iZASKD2KPV@devpool047>
-TO: Rolf Eike Beer <eb@emlix.com>
+CC: linux-kernel(a)vger.kernel.org
+TO: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+CC: Mauro Carvalho Chehab <mchehab@kernel.org>
+CC: linux-media(a)vger.kernel.org
+CC: Sebastian Fricke <sebastian.fricke@collabora.com>
+CC: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+CC: Hans Verkuil <hverkuil@xs4all.nl>
 
-Hi Rolf,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   072e51356cd5a4a1c12c1020bc054c99b98333df
+commit: 7ab889f09dfa70e8097ec1b9186fd228124112cb media: rkvdec: h264: Fix d=
+pb_valid implementation
+date:   3 months ago
+:::::: branch date: 12 hours ago
+:::::: commit date: 3 months ago
+config: arm-randconfig-c002-20220819 (https://download.01.org/0day-ci/archi=
+ve/20220823/202208231452.J1mE9tYi-lkp(a)intel.com/config)
+compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 0ac597=
+f3cacf60479ffd36b03766fa7462dabd78)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3D7ab889f09dfa70e8097ec1b9186fd228124112cb
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 7ab889f09dfa70e8097ec1b9186fd228124112cb
+        # save the config file
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Darm clang-analyzer =
 
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on akpm-mm/mm-everything]
-[also build test WARNING on linus/master v6.0-rc2]
-[cannot apply to next-20220823]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Rolf-Eike-Beer/Minor=
--improvements-for-pagewalk-code/20220822-214107
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-ever=
-ything
-:::::: branch date: 19 hours ago
-:::::: commit date: 19 hours ago
-config: x86_64-randconfig-m001 (https://download.01.org/0day-ci/archive/202=
-20823/202208231649.7QKavhA3-lkp(a)intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-5) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-mm/pagewalk.c:248 walk_p4d_range() error: uninitialized symbol 'err'.
-mm/pagewalk.c:287 walk_pgd_range() error: uninitialized symbol 'err'.
-mm/pagewalk.c:324 walk_hugetlb_range() error: uninitialized symbol 'err'.
+clang-analyzer warnings: (new ones prefixed by >>)
+                           ^~~~~~
+   drivers/usb/misc/usbsevseg.c:261:4: note: Call to function 'strcat' is i=
+nsecure as it does not provide bounding of the memory buffer. Replace unbou=
+nded copy functions with analogous functions that support length arguments =
+such as 'strlcat'. CWE-119
+                           strcat(buf, " ");
+                           ^~~~~~
+   drivers/usb/misc/usbsevseg.c:264:2: warning: Call to function 'strcat' i=
+s insecure as it does not provide bounding of the memory buffer. Replace un=
+bounded copy functions with analogous functions that support length argumen=
+ts such as 'strlcat'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+           strcat(buf, "\n");
+           ^~~~~~
+   drivers/usb/misc/usbsevseg.c:264:2: note: Call to function 'strcat' is i=
+nsecure as it does not provide bounding of the memory buffer. Replace unbou=
+nded copy functions with analogous functions that support length arguments =
+such as 'strlcat'. CWE-119
+           strcat(buf, "\n");
+           ^~~~~~
+   drivers/usb/misc/usbsevseg.c:289:1: warning: Call to function 'sprintf' =
+is insecure as it does not provide security checks introduced in the C11 st=
+andard. Replace with analogous functions that support length arguments or p=
+rovides boundary checks such as 'sprintf_s' in case of C11 [clang-analyzer-=
+security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+   MYDEV_ATTR_SIMPLE_UNSIGNED(powered, update_display_powered);
+   ^
+   drivers/usb/misc/usbsevseg.c:148:9: note: expanded from macro 'MYDEV_ATT=
+R_SIMPLE_UNSIGNED'
+           return sprintf(buf, "%u\n", mydev->name);               \
+                  ^~~~~~~
+   drivers/usb/misc/usbsevseg.c:289:1: note: Call to function 'sprintf' is =
+insecure as it does not provide security checks introduced in the C11 stand=
+ard. Replace with analogous functions that support length arguments or prov=
+ides boundary checks such as 'sprintf_s' in case of C11
+   MYDEV_ATTR_SIMPLE_UNSIGNED(powered, update_display_powered);
+   ^
+   drivers/usb/misc/usbsevseg.c:148:9: note: expanded from macro 'MYDEV_ATT=
+R_SIMPLE_UNSIGNED'
+           return sprintf(buf, "%u\n", mydev->name);               \
+                  ^~~~~~~
+   drivers/usb/misc/usbsevseg.c:290:1: warning: Call to function 'sprintf' =
+is insecure as it does not provide security checks introduced in the C11 st=
+andard. Replace with analogous functions that support length arguments or p=
+rovides boundary checks such as 'sprintf_s' in case of C11 [clang-analyzer-=
+security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+   MYDEV_ATTR_SIMPLE_UNSIGNED(mode_msb, update_display_mode);
+   ^
+   drivers/usb/misc/usbsevseg.c:148:9: note: expanded from macro 'MYDEV_ATT=
+R_SIMPLE_UNSIGNED'
+           return sprintf(buf, "%u\n", mydev->name);               \
+                  ^~~~~~~
+   drivers/usb/misc/usbsevseg.c:290:1: note: Call to function 'sprintf' is =
+insecure as it does not provide security checks introduced in the C11 stand=
+ard. Replace with analogous functions that support length arguments or prov=
+ides boundary checks such as 'sprintf_s' in case of C11
+   MYDEV_ATTR_SIMPLE_UNSIGNED(mode_msb, update_display_mode);
+   ^
+   drivers/usb/misc/usbsevseg.c:148:9: note: expanded from macro 'MYDEV_ATT=
+R_SIMPLE_UNSIGNED'
+           return sprintf(buf, "%u\n", mydev->name);               \
+                  ^~~~~~~
+   drivers/usb/misc/usbsevseg.c:291:1: warning: Call to function 'sprintf' =
+is insecure as it does not provide security checks introduced in the C11 st=
+andard. Replace with analogous functions that support length arguments or p=
+rovides boundary checks such as 'sprintf_s' in case of C11 [clang-analyzer-=
+security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+   MYDEV_ATTR_SIMPLE_UNSIGNED(mode_lsb, update_display_mode);
+   ^
+   drivers/usb/misc/usbsevseg.c:148:9: note: expanded from macro 'MYDEV_ATT=
+R_SIMPLE_UNSIGNED'
+           return sprintf(buf, "%u\n", mydev->name);               \
+                  ^~~~~~~
+   drivers/usb/misc/usbsevseg.c:291:1: note: Call to function 'sprintf' is =
+insecure as it does not provide security checks introduced in the C11 stand=
+ard. Replace with analogous functions that support length arguments or prov=
+ides boundary checks such as 'sprintf_s' in case of C11
+   MYDEV_ATTR_SIMPLE_UNSIGNED(mode_lsb, update_display_mode);
+   ^
+   drivers/usb/misc/usbsevseg.c:148:9: note: expanded from macro 'MYDEV_ATT=
+R_SIMPLE_UNSIGNED'
+           return sprintf(buf, "%u\n", mydev->name);               \
+                  ^~~~~~~
+   Suppressed 31 warnings (31 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   43 warnings generated.
+   drivers/i2c/busses/i2c-iop3xx.c:481:2: warning: Call to function 'memcpy=
+' is insecure as it does not provide security checks introduced in the C11 =
+standard. Replace with analogous functions that support length arguments or=
+ provides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer=
+-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memcpy(new_adapter->name, pdev->name, strlen(pdev->name));
+           ^~~~~~
+   drivers/i2c/busses/i2c-iop3xx.c:481:2: note: Call to function 'memcpy' i=
+s insecure as it does not provide security checks introduced in the C11 sta=
+ndard. Replace with analogous functions that support length arguments or pr=
+ovides boundary checks such as 'memcpy_s' in case of C11
+           memcpy(new_adapter->name, pdev->name, strlen(pdev->name));
+           ^~~~~~
+   Suppressed 42 warnings (42 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   44 warnings generated.
+   drivers/i2c/busses/i2c-jz4780.c:573:2: warning: Call to function 'memset=
+' is insecure as it does not provide security checks introduced in the C11 =
+standard. Replace with analogous functions that support length arguments or=
+ provides boundary checks such as 'memset_s' in case of C11 [clang-analyzer=
+-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(buf, 0, len);
+           ^~~~~~
+   drivers/i2c/busses/i2c-jz4780.c:573:2: note: Call to function 'memset' i=
+s insecure as it does not provide security checks introduced in the C11 sta=
+ndard. Replace with analogous functions that support length arguments or pr=
+ovides boundary checks such as 'memset_s' in case of C11
+           memset(buf, 0, len);
+           ^~~~~~
+   drivers/i2c/busses/i2c-jz4780.c:784:2: warning: Call to function 'sprint=
+f' is insecure as it does not provide bounding of the memory buffer or secu=
+rity checks introduced in the C11 standard. Replace with analogous function=
+s that support length arguments or provides boundary checks such as 'sprint=
+f_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafe=
+BufferHandling]
+           sprintf(i2c->adap.name, "%s", pdev->name);
+           ^~~~~~~
+   drivers/i2c/busses/i2c-jz4780.c:784:2: note: Call to function 'sprintf' =
+is insecure as it does not provide bounding of the memory buffer or securit=
+y checks introduced in the C11 standard. Replace with analogous functions t=
+hat support length arguments or provides boundary checks such as 'sprintf_s=
+' in case of C11
+           sprintf(i2c->adap.name, "%s", pdev->name);
+           ^~~~~~~
+   Suppressed 42 warnings (42 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   52 warnings generated.
+   drivers/staging/media/rkvdec/rkvdec.c:175:2: warning: Call to function '=
+memset' is insecure as it does not provide security checks introduced in th=
+e C11 standard. Replace with analogous functions that support length argume=
+nts or provides boundary checks such as 'memset_s' in case of C11 [clang-an=
+alyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(f, 0, sizeof(*f));
+           ^~~~~~
+   drivers/staging/media/rkvdec/rkvdec.c:175:2: note: Call to function 'mem=
+set' is insecure as it does not provide security checks introduced in the C=
+11 standard. Replace with analogous functions that support length arguments=
+ or provides boundary checks such as 'memset_s' in case of C11
+           memset(f, 0, sizeof(*f));
+           ^~~~~~
+   drivers/staging/media/rkvdec/rkvdec.c:240:2: warning: Call to function '=
+snprintf' is insecure as it does not provide security checks introduced in =
+the C11 standard. Replace with analogous functions that support length argu=
+ments or provides boundary checks such as 'snprintf_s' in case of C11 [clan=
+g-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           snprintf(cap->bus_info, sizeof(cap->bus_info), "platform:%s",
+           ^~~~~~~~
+   drivers/staging/media/rkvdec/rkvdec.c:240:2: note: Call to function 'snp=
+rintf' is insecure as it does not provide security checks introduced in the=
+ C11 standard. Replace with analogous functions that support length argumen=
+ts or provides boundary checks such as 'snprintf_s' in case of C11
+           snprintf(cap->bus_info, sizeof(cap->bus_info), "platform:%s",
+           ^~~~~~~~
+   drivers/staging/media/rkvdec/rkvdec.c:673:2: warning: Call to function '=
+memset' is insecure as it does not provide security checks introduced in th=
+e C11 standard. Replace with analogous functions that support length argume=
+nts or provides boundary checks such as 'memset_s' in case of C11 [clang-an=
+alyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(run, 0, sizeof(*run));
+           ^~~~~~
+   drivers/staging/media/rkvdec/rkvdec.c:673:2: note: Call to function 'mem=
+set' is insecure as it does not provide security checks introduced in the C=
+11 standard. Replace with analogous functions that support length arguments=
+ or provides boundary checks such as 'memset_s' in case of C11
+           memset(run, 0, sizeof(*run));
+           ^~~~~~
+   Suppressed 49 warnings (48 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   55 warnings generated.
+   drivers/staging/media/rkvdec/rkvdec-h264.c:657:2: warning: Call to funct=
+ion 'memset' is insecure as it does not provide security checks introduced =
+in the C11 standard. Replace with analogous functions that support length a=
+rguments or provides boundary checks such as 'memset_s' in case of C11 [cla=
+ng-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(hw_ps, 0, sizeof(*hw_ps));
+           ^~~~~~
+   drivers/staging/media/rkvdec/rkvdec-h264.c:657:2: note: Call to function=
+ 'memset' is insecure as it does not provide security checks introduced in =
+the C11 standard. Replace with analogous functions that support length argu=
+ments or provides boundary checks such as 'memset_s' in case of C11
+           memset(hw_ps, 0, sizeof(*hw_ps));
+           ^~~~~~
+>> drivers/staging/media/rkvdec/rkvdec-h264.c:732:45: warning: Value stored=
+ to 'dec_params' during its initialization is never read [clang-analyzer-de=
+adcode.DeadStores]
+           const struct v4l2_ctrl_h264_decode_params *dec_params =3D run->d=
+ecode_params;
+                                                      ^~~~~~~~~~   ~~~~~~~~=
+~~~~~~~~~~
+   drivers/staging/media/rkvdec/rkvdec-h264.c:732:45: note: Value stored to=
+ 'dec_params' during its initialization is never read
+           const struct v4l2_ctrl_h264_decode_params *dec_params =3D run->d=
+ecode_params;
+                                                      ^~~~~~~~~~   ~~~~~~~~=
+~~~~~~~~~~
+   drivers/staging/media/rkvdec/rkvdec-h264.c:763:2: warning: Call to funct=
+ion 'memset' is insecure as it does not provide security checks introduced =
+in the C11 standard. Replace with analogous functions that support length a=
+rguments or provides boundary checks such as 'memset_s' in case of C11 [cla=
+ng-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(hw_rps, 0, sizeof(priv_tbl->rps));
+           ^~~~~~
+   drivers/staging/media/rkvdec/rkvdec-h264.c:763:2: note: Call to function=
+ 'memset' is insecure as it does not provide security checks introduced in =
+the C11 standard. Replace with analogous functions that support length argu=
+ments or provides boundary checks such as 'memset_s' in case of C11
+           memset(hw_rps, 0, sizeof(priv_tbl->rps));
+           ^~~~~~
+   drivers/staging/media/rkvdec/rkvdec-h264.c:826:2: warning: Call to funct=
+ion 'memcpy' is insecure as it does not provide security checks introduced =
+in the C11 standard. Replace with analogous functions that support length a=
+rguments or provides boundary checks such as 'memcpy_s' in case of C11 [cla=
+ng-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memcpy(tbl->scaling_list.scaling_list_4x4,
+           ^~~~~~
+   drivers/staging/media/rkvdec/rkvdec-h264.c:826:2: note: Call to function=
+ 'memcpy' is insecure as it does not provide security checks introduced in =
+the C11 standard. Replace with analogous functions that support length argu=
+ments or provides boundary checks such as 'memcpy_s' in case of C11
+           memcpy(tbl->scaling_list.scaling_list_4x4,
+           ^~~~~~
+   drivers/staging/media/rkvdec/rkvdec-h264.c:830:2: warning: Call to funct=
+ion 'memcpy' is insecure as it does not provide security checks introduced =
+in the C11 standard. Replace with analogous functions that support length a=
+rguments or provides boundary checks such as 'memcpy_s' in case of C11 [cla=
+ng-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memcpy(tbl->scaling_list.scaling_list_8x8,
+           ^~~~~~
+   drivers/staging/media/rkvdec/rkvdec-h264.c:830:2: note: Call to function=
+ 'memcpy' is insecure as it does not provide security checks introduced in =
+the C11 standard. Replace with analogous functions that support length argu=
+ments or provides boundary checks such as 'memcpy_s' in case of C11
+           memcpy(tbl->scaling_list.scaling_list_8x8,
+           ^~~~~~
+   drivers/staging/media/rkvdec/rkvdec-h264.c:1058:2: warning: Call to func=
+tion 'memcpy' is insecure as it does not provide security checks introduced=
+ in the C11 standard. Replace with analogous functions that support length =
+arguments or provides boundary checks such as 'memcpy_s' in case of C11 [cl=
+ang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memcpy(priv_tbl->cabac_table, rkvdec_h264_cabac_table,
+           ^~~~~~
+   drivers/staging/media/rkvdec/rkvdec-h264.c:1058:2: note: Call to functio=
+n 'memcpy' is insecure as it does not provide security checks introduced in=
+ the C11 standard. Replace with analogous functions that support length arg=
+uments or provides boundary checks such as 'memcpy_s' in case of C11
+           memcpy(priv_tbl->cabac_table, rkvdec_h264_cabac_table,
+           ^~~~~~
+   Suppressed 49 warnings (48 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   18 warnings generated.
+   Suppressed 18 warnings (18 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   33 warnings generated.
+   drivers/mtd/devices/slram.c:87:2: warning: Call to function 'memset' is =
+insecure as it does not provide security checks introduced in the C11 stand=
+ard. Replace with analogous functions that support length arguments or prov=
+ides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-secu=
+rity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(priv->start + instr->addr, 0xff, instr->len);
+           ^~~~~~
+   drivers/mtd/devices/slram.c:87:2: note: Call to function 'memset' is ins=
+ecure as it does not provide security checks introduced in the C11 standard=
+. Replace with analogous functions that support length arguments or provide=
+s boundary checks such as 'memset_s' in case of C11
+           memset(priv->start + instr->addr, 0xff, instr->len);
+           ^~~~~~
+   drivers/mtd/devices/slram.c:112:2: warning: Call to function 'memcpy' is=
+ insecure as it does not provide security checks introduced in the C11 stan=
+dard. Replace with analogous functions that support length arguments or pro=
+vides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-sec=
+urity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memcpy(buf, priv->start + from, len);
+           ^~~~~~
+   drivers/mtd/devices/slram.c:112:2: note: Call to function 'memcpy' is in=
+secure as it does not provide security checks introduced in the C11 standar=
+d. Replace with analogous functions that support length arguments or provid=
+es boundary checks such as 'memcpy_s' in case of C11
+           memcpy(buf, priv->start + from, len);
+           ^~~~~~
+   drivers/mtd/devices/slram.c:122:2: warning: Call to function 'memcpy' is=
+ insecure as it does not provide security checks introduced in the C11 stan=
+dard. Replace with analogous functions that support length arguments or pro=
+vides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-sec=
+urity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memcpy(priv->start + to, buf, len);
+           ^~~~~~
+   drivers/mtd/devices/slram.c:122:2: note: Call to function 'memcpy' is in=
+secure as it does not provide security checks introduced in the C11 standar=
+d. Replace with analogous functions that support length arguments or provid=
+es boundary checks such as 'memcpy_s' in case of C11
+           memcpy(priv->start + to, buf, len);
+           ^~~~~~
+   Suppressed 30 warnings (30 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   47 warnings generated.
+   drivers/media/i2c/s5c73m3/s5c73m3-spi.c:72:2: warning: Call to function =
+'memset' is insecure as it does not provide security checks introduced in t=
+he C11 standard. Replace with analogous functions that support length argum=
+ents or provides boundary checks such as 'memset_s' in case of C11 [clang-a=
+nalyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(padding, 0, sizeof(padding));
+           ^~~~~~
+   drivers/media/i2c/s5c73m3/s5c73m3-spi.c:72:2: note: Call to function 'me=
+mset' is insecure as it does not provide security checks introduced in the =
+C11 standard. Replace with analogous functions that support length argument=
+s or provides boundary checks such as 'memset_s' in case of C11
+           memset(padding, 0, sizeof(padding));
+           ^~~~~~
+   Suppressed 46 warnings (45 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   46 warnings generated.
+   Suppressed 46 warnings (45 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   48 warnings generated.
+   drivers/media/i2c/s5k5baf.c:1905:2: warning: Call to function 'snprintf'=
+ is insecure as it does not provide security checks introduced in the C11 s=
+tandard. Replace with analogous functions that support length arguments or =
+provides boundary checks such as 'snprintf_s' in case of C11 [clang-analyze=
+r-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           snprintf(sd->name, sizeof(sd->name), "S5K5BAF-CIS %d-%04x",
+           ^~~~~~~~
+   drivers/media/i2c/s5k5baf.c:1905:2: note: Call to function 'snprintf' is=
+ insecure as it does not provide security checks introduced in the C11 stan=
+dard. Replace with analogous functions that support length arguments or pro=
+vides boundary checks such as 'snprintf_s' in case of C11
+           snprintf(sd->name, sizeof(sd->name), "S5K5BAF-CIS %d-%04x",
+           ^~~~~~~~
+   drivers/media/i2c/s5k5baf.c:1919:2: warning: Call to function 'snprintf'=
+ is insecure as it does not provide security checks introduced in the C11 s=
+tandard. Replace with analogous functions that support length arguments or =
+provides boundary checks such as 'snprintf_s' in case of C11 [clang-analyze=
+r-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           snprintf(sd->name, sizeof(sd->name), "S5K5BAF-ISP %d-%04x",
+           ^~~~~~~~
+   drivers/media/i2c/s5k5baf.c:1919:2: note: Call to function 'snprintf' is=
+ insecure as it does not provide security checks introduced in the C11 stan=
+dard. Replace with analogous functions that support length arguments or pro=
+vides boundary checks such as 'snprintf_s' in case of C11
+           snprintf(sd->name, sizeof(sd->name), "S5K5BAF-ISP %d-%04x",
+           ^~~~~~~~
+   Suppressed 46 warnings (45 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   32 warnings generated.
+   drivers/rtc/rtc-rs5c348.c:78:2: warning: Value stored to 'txp' is never =
+read [clang-analyzer-deadcode.DeadStores]
+           txp =3D txbuf;
+           ^     ~~~~~
+   drivers/rtc/rtc-rs5c348.c:78:2: note: Value stored to 'txp' is never read
+           txp =3D txbuf;
+           ^     ~~~~~
+   Suppressed 31 warnings (31 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   43 warnings generated.
+   Suppressed 43 warnings (43 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   31 warnings generated.
+   Suppressed 31 warnings (31 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   44 warnings generated.
+   drivers/rtc/rtc-rx8025.c:197:3: warning: Value stored to 'status' is nev=
+er read [clang-analyzer-deadcode.DeadStores]
+                   status &=3D RX8025_BIT_CTRL2_DAFG;
 
-vim +/err +248 mm/pagewalk.c
+vim +/dec_params +732 drivers/staging/media/rkvdec/rkvdec-h264.c
 
-e6473092bd9116 Matt Mackall       2008-02-04  217  =
+cd33c830448baf7 Boris Brezillon  2020-04-04  728  =
 
-c2febafc67734a Kirill A. Shutemov 2017-03-09  218  static int walk_p4d_rang=
-e(pgd_t *pgd, unsigned long addr, unsigned long end,
-c2febafc67734a Kirill A. Shutemov 2017-03-09  219  			  struct mm_walk *wal=
-k)
-c2febafc67734a Kirill A. Shutemov 2017-03-09  220  {
-c2febafc67734a Kirill A. Shutemov 2017-03-09  221  	p4d_t *p4d;
-c2febafc67734a Kirill A. Shutemov 2017-03-09  222  	unsigned long next;
-7b86ac3371b70c Christoph Hellwig  2019-08-28  223  	const struct mm_walk_op=
-s *ops =3D walk->ops;
-b7a16c7ad790d0 Steven Price       2020-02-03  224  	int depth =3D real_dept=
-h(1);
-c2febafc67734a Kirill A. Shutemov 2017-03-09  225  =
+7ab889f09dfa70e Nicolas Dufresne 2022-05-13  729  static void lookup_ref_bu=
+f_idx(struct rkvdec_ctx *ctx,
+7ab889f09dfa70e Nicolas Dufresne 2022-05-13  730  			       struct rkvdec_h=
+264_run *run)
+7ab889f09dfa70e Nicolas Dufresne 2022-05-13  731  {
+7ab889f09dfa70e Nicolas Dufresne 2022-05-13 @732  	const struct v4l2_ctrl_h=
+264_decode_params *dec_params =3D run->decode_params;
+7ab889f09dfa70e Nicolas Dufresne 2022-05-13  733  	u32 i;
+7ab889f09dfa70e Nicolas Dufresne 2022-05-13  734  =
 
-c2febafc67734a Kirill A. Shutemov 2017-03-09  226  	p4d =3D p4d_offset(pgd,=
- addr);
-c2febafc67734a Kirill A. Shutemov 2017-03-09  227  	do {
-40d6cb9177b6a9 Rolf Eike Beer     2022-08-22  228  		int err;
-40d6cb9177b6a9 Rolf Eike Beer     2022-08-22  229  =
+7ab889f09dfa70e Nicolas Dufresne 2022-05-13  735  	for (i =3D 0; i < ARRAY_=
+SIZE(dec_params->dpb); i++) {
+7ab889f09dfa70e Nicolas Dufresne 2022-05-13  736  		struct v4l2_m2m_ctx *m2=
+m_ctx =3D ctx->fh.m2m_ctx;
+7ab889f09dfa70e Nicolas Dufresne 2022-05-13  737  		const struct v4l2_h264_=
+dpb_entry *dpb =3D run->decode_params->dpb;
+7ab889f09dfa70e Nicolas Dufresne 2022-05-13  738  		struct vb2_queue *cap_q=
+ =3D &m2m_ctx->cap_q_ctx.q;
+7ab889f09dfa70e Nicolas Dufresne 2022-05-13  739  		int buf_idx =3D -1;
+7ab889f09dfa70e Nicolas Dufresne 2022-05-13  740  =
 
-c2febafc67734a Kirill A. Shutemov 2017-03-09  230  		next =3D p4d_addr_end(=
-addr, end);
-c2febafc67734a Kirill A. Shutemov 2017-03-09  231  		if (p4d_none_or_clear_=
-bad(p4d)) {
-40d6cb9177b6a9 Rolf Eike Beer     2022-08-22  232  			if (ops->pte_hole) {
-b7a16c7ad790d0 Steven Price       2020-02-03  233  				err =3D ops->pte_hol=
-e(addr, next, depth, walk);
-c2febafc67734a Kirill A. Shutemov 2017-03-09  234  				if (err)
-40d6cb9177b6a9 Rolf Eike Beer     2022-08-22  235  					return err;
-40d6cb9177b6a9 Rolf Eike Beer     2022-08-22  236  			}
-c2febafc67734a Kirill A. Shutemov 2017-03-09  237  			continue;
-c2febafc67734a Kirill A. Shutemov 2017-03-09  238  		}
-3afc423632a194 Steven Price       2020-02-03  239  		if (ops->p4d_entry) {
-3afc423632a194 Steven Price       2020-02-03  240  			err =3D ops->p4d_entr=
-y(p4d, addr, next, walk);
-3afc423632a194 Steven Price       2020-02-03  241  			if (err)
-40d6cb9177b6a9 Rolf Eike Beer     2022-08-22  242  				return err;
-3afc423632a194 Steven Price       2020-02-03  243  		}
-e17eae2b839937 Christophe Leroy   2021-06-28  244  		if (is_hugepd(__hugepd=
-(p4d_val(*p4d))))
-e17eae2b839937 Christophe Leroy   2021-06-28  245  			err =3D walk_hugepd_r=
-ange((hugepd_t *)p4d, addr, next, walk, P4D_SHIFT);
-e17eae2b839937 Christophe Leroy   2021-06-28  246  		else if (ops->pud_entr=
-y || ops->pmd_entry || ops->pte_entry)
-c2febafc67734a Kirill A. Shutemov 2017-03-09  247  			err =3D walk_pud_rang=
-e(p4d, addr, next, walk);
-c2febafc67734a Kirill A. Shutemov 2017-03-09 @248  		if (err)
-40d6cb9177b6a9 Rolf Eike Beer     2022-08-22  249  			return err;
-c2febafc67734a Kirill A. Shutemov 2017-03-09  250  	} while (p4d++, addr =
-=3D next, addr !=3D end);
-c2febafc67734a Kirill A. Shutemov 2017-03-09  251  =
+7ab889f09dfa70e Nicolas Dufresne 2022-05-13  741  		if (dpb[i].flags & V4L2=
+_H264_DPB_ENTRY_FLAG_ACTIVE)
+7ab889f09dfa70e Nicolas Dufresne 2022-05-13  742  			buf_idx =3D vb2_find_t=
+imestamp(cap_q,
+7ab889f09dfa70e Nicolas Dufresne 2022-05-13  743  						     dpb[i].referen=
+ce_ts, 0);
+7ab889f09dfa70e Nicolas Dufresne 2022-05-13  744  =
 
-40d6cb9177b6a9 Rolf Eike Beer     2022-08-22  252  	return 0;
-c2febafc67734a Kirill A. Shutemov 2017-03-09  253  }
-c2febafc67734a Kirill A. Shutemov 2017-03-09  254  =
-
-fafaa4264eba49 Naoya Horiguchi    2015-02-11  255  static int walk_pgd_rang=
-e(unsigned long addr, unsigned long end,
-fafaa4264eba49 Naoya Horiguchi    2015-02-11  256  			  struct mm_walk *wal=
-k)
-fafaa4264eba49 Naoya Horiguchi    2015-02-11  257  {
-fafaa4264eba49 Naoya Horiguchi    2015-02-11  258  	pgd_t *pgd;
-fafaa4264eba49 Naoya Horiguchi    2015-02-11  259  	unsigned long next;
-7b86ac3371b70c Christoph Hellwig  2019-08-28  260  	const struct mm_walk_op=
-s *ops =3D walk->ops;
-fafaa4264eba49 Naoya Horiguchi    2015-02-11  261  =
-
-e47690d756a760 Steven Price       2020-02-03  262  	if (walk->pgd)
-e47690d756a760 Steven Price       2020-02-03  263  		pgd =3D walk->pgd + pg=
-d_index(addr);
-e47690d756a760 Steven Price       2020-02-03  264  	else
-fafaa4264eba49 Naoya Horiguchi    2015-02-11  265  		pgd =3D pgd_offset(wal=
-k->mm, addr);
-fafaa4264eba49 Naoya Horiguchi    2015-02-11  266  	do {
-40d6cb9177b6a9 Rolf Eike Beer     2022-08-22  267  		int err;
-40d6cb9177b6a9 Rolf Eike Beer     2022-08-22  268  =
-
-fafaa4264eba49 Naoya Horiguchi    2015-02-11  269  		next =3D pgd_addr_end(=
-addr, end);
-fafaa4264eba49 Naoya Horiguchi    2015-02-11  270  		if (pgd_none_or_clear_=
-bad(pgd)) {
-40d6cb9177b6a9 Rolf Eike Beer     2022-08-22  271  			if (ops->pte_hole) {
-b7a16c7ad790d0 Steven Price       2020-02-03  272  				err =3D ops->pte_hol=
-e(addr, next, 0, walk);
-fafaa4264eba49 Naoya Horiguchi    2015-02-11  273  				if (err)
-40d6cb9177b6a9 Rolf Eike Beer     2022-08-22  274  					return err;
-40d6cb9177b6a9 Rolf Eike Beer     2022-08-22  275  			}
-fafaa4264eba49 Naoya Horiguchi    2015-02-11  276  			continue;
-fafaa4264eba49 Naoya Horiguchi    2015-02-11  277  		}
-3afc423632a194 Steven Price       2020-02-03  278  		if (ops->pgd_entry) {
-3afc423632a194 Steven Price       2020-02-03  279  			err =3D ops->pgd_entr=
-y(pgd, addr, next, walk);
-3afc423632a194 Steven Price       2020-02-03  280  			if (err)
-40d6cb9177b6a9 Rolf Eike Beer     2022-08-22  281  				return err;
-3afc423632a194 Steven Price       2020-02-03  282  		}
-e17eae2b839937 Christophe Leroy   2021-06-28  283  		if (is_hugepd(__hugepd=
-(pgd_val(*pgd))))
-e17eae2b839937 Christophe Leroy   2021-06-28  284  			err =3D walk_hugepd_r=
-ange((hugepd_t *)pgd, addr, next, walk, PGDIR_SHIFT);
-e17eae2b839937 Christophe Leroy   2021-06-28  285  		else if (ops->p4d_entr=
-y || ops->pud_entry || ops->pmd_entry || ops->pte_entry)
-c2febafc67734a Kirill A. Shutemov 2017-03-09  286  			err =3D walk_p4d_rang=
-e(pgd, addr, next, walk);
-fafaa4264eba49 Naoya Horiguchi    2015-02-11 @287  		if (err)
-40d6cb9177b6a9 Rolf Eike Beer     2022-08-22  288  			return err;
-fafaa4264eba49 Naoya Horiguchi    2015-02-11  289  	} while (pgd++, addr =
-=3D next, addr !=3D end);
-fafaa4264eba49 Naoya Horiguchi    2015-02-11  290  =
-
-40d6cb9177b6a9 Rolf Eike Beer     2022-08-22  291  	return 0;
-fafaa4264eba49 Naoya Horiguchi    2015-02-11  292  }
-fafaa4264eba49 Naoya Horiguchi    2015-02-11  293  =
-
-116354d177ba2d Naoya Horiguchi    2010-04-06  294  #ifdef CONFIG_HUGETLB_PA=
-GE
-116354d177ba2d Naoya Horiguchi    2010-04-06  295  static unsigned long hug=
-etlb_entry_end(struct hstate *h, unsigned long addr,
-116354d177ba2d Naoya Horiguchi    2010-04-06  296  				       unsigned long=
- end)
-116354d177ba2d Naoya Horiguchi    2010-04-06  297  {
-116354d177ba2d Naoya Horiguchi    2010-04-06  298  	unsigned long boundary =
-=3D (addr & huge_page_mask(h)) + huge_page_size(h);
-116354d177ba2d Naoya Horiguchi    2010-04-06  299  	return boundary < end ?=
- boundary : end;
-116354d177ba2d Naoya Horiguchi    2010-04-06  300  }
-116354d177ba2d Naoya Horiguchi    2010-04-06  301  =
-
-fafaa4264eba49 Naoya Horiguchi    2015-02-11  302  static int walk_hugetlb_=
-range(unsigned long addr, unsigned long end,
-116354d177ba2d Naoya Horiguchi    2010-04-06  303  			      struct mm_walk =
-*walk)
-116354d177ba2d Naoya Horiguchi    2010-04-06  304  {
-fafaa4264eba49 Naoya Horiguchi    2015-02-11  305  	struct vm_area_struct *=
-vma =3D walk->vma;
-116354d177ba2d Naoya Horiguchi    2010-04-06  306  	struct hstate *h =3D hs=
-tate_vma(vma);
-116354d177ba2d Naoya Horiguchi    2010-04-06  307  	unsigned long next;
-116354d177ba2d Naoya Horiguchi    2010-04-06  308  	unsigned long hmask =3D=
- huge_page_mask(h);
-7868a2087ec13e Punit Agrawal      2017-07-06  309  	unsigned long sz =3D hu=
-ge_page_size(h);
-116354d177ba2d Naoya Horiguchi    2010-04-06  310  	pte_t *pte;
-7b86ac3371b70c Christoph Hellwig  2019-08-28  311  	const struct mm_walk_op=
-s *ops =3D walk->ops;
-116354d177ba2d Naoya Horiguchi    2010-04-06  312  =
-
-116354d177ba2d Naoya Horiguchi    2010-04-06  313  	do {
-40d6cb9177b6a9 Rolf Eike Beer     2022-08-22  314  		int err;
-40d6cb9177b6a9 Rolf Eike Beer     2022-08-22  315  =
-
-116354d177ba2d Naoya Horiguchi    2010-04-06  316  		next =3D hugetlb_entry=
-_end(h, addr, end);
-7868a2087ec13e Punit Agrawal      2017-07-06  317  		pte =3D huge_pte_offse=
-t(walk->mm, addr & hmask, sz);
-373c4557d2aa36 Jann Horn          2017-11-14  318  =
-
-373c4557d2aa36 Jann Horn          2017-11-14  319  		if (pte)
-7b86ac3371b70c Christoph Hellwig  2019-08-28  320  			err =3D ops->hugetlb_=
-entry(pte, hmask, addr, next, walk);
-7b86ac3371b70c Christoph Hellwig  2019-08-28  321  		else if (ops->pte_hole)
-b7a16c7ad790d0 Steven Price       2020-02-03  322  			err =3D ops->pte_hole=
-(addr, next, -1, walk);
-373c4557d2aa36 Jann Horn          2017-11-14  323  =
-
-116354d177ba2d Naoya Horiguchi    2010-04-06 @324  		if (err)
-40d6cb9177b6a9 Rolf Eike Beer     2022-08-22  325  			return err;
-116354d177ba2d Naoya Horiguchi    2010-04-06  326  	} while (addr =3D next,=
- addr !=3D end);
-116354d177ba2d Naoya Horiguchi    2010-04-06  327  =
-
-40d6cb9177b6a9 Rolf Eike Beer     2022-08-22  328  	return 0;
-116354d177ba2d Naoya Horiguchi    2010-04-06  329  }
-6c6d5280431544 KOSAKI Motohiro    2011-07-25  330  =
+7ab889f09dfa70e Nicolas Dufresne 2022-05-13  745  		run->ref_buf_idx[i] =3D=
+ buf_idx;
+7ab889f09dfa70e Nicolas Dufresne 2022-05-13  746  	}
+7ab889f09dfa70e Nicolas Dufresne 2022-05-13  747  }
+7ab889f09dfa70e Nicolas Dufresne 2022-05-13  748  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============2633489782591702343==--
+--===============5795103266035861234==--
 
