@@ -1,541 +1,234 @@
-Content-Type: multipart/mixed; boundary="===============8265123392795348561=="
+Content-Type: multipart/mixed; boundary="===============2633489782591702343=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [intel-tdx:kvm-upstream-workaround 142/314] arch/arm64/kvm/../../../virt/kvm/kvm_main.c:4971:1: sparse: sparse: unused label 'arch_vm_ioctl'
-Date: Tue, 23 Aug 2022 17:04:20 +0800
-Message-ID: <202208231619.lVCr5oIn-lkp@intel.com>
+Subject: Re: [PATCH 1/6] mm: pagewalk: make error checks more obvious
+Date: Tue, 23 Aug 2022 16:43:54 +0800
+Message-ID: <202208231649.7QKavhA3-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8265123392795348561==
+--===============2633489782591702343==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-:::::: =
-
-:::::: Manual check reason: "low confidence static check first_new_problem:=
- arch/arm64/kvm/../../../virt/kvm/kvm_main.c:4971:1: sparse: sparse: unused=
- label 'arch_vm_ioctl'"
-:::::: =
-
-
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
-CC: linux-kernel(a)vger.kernel.org
-TO: Chao Peng <chao.p.peng@linux.intel.com>
-CC: Isaku Yamahata <isaku.yamahata@intel.com>
+In-Reply-To: <2203731.iZASKD2KPV@devpool047>
+References: <2203731.iZASKD2KPV@devpool047>
+TO: Rolf Eike Beer <eb@emlix.com>
 
-tree:   https://github.com/intel/tdx.git kvm-upstream-workaround
-head:   552dd80c48f67ca01bcdd10667e0c11efd375177
-commit: 303b911206dd2a12b1a4fdee94044dc5a6fa36a3 [142/314] KVM: Register/un=
-register the guest private memory regions
-:::::: branch date: 9 hours ago
-:::::: commit date: 10 hours ago
-config: arm64-randconfig-s033-20220821 (https://download.01.org/0day-ci/arc=
-hive/20220823/202208231619.lVCr5oIn-lkp(a)intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.1.0
-reproduce:
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://github.com/intel/tdx/commit/303b911206dd2a12b1a4fdee94044=
-dc5a6fa36a3
-        git remote add intel-tdx https://github.com/intel/tdx.git
-        git fetch --no-tags intel-tdx kvm-upstream-workaround
-        git checkout 303b911206dd2a12b1a4fdee94044dc5a6fa36a3
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cross=
- C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3Dbuild_dir ARCH=3Da=
-rm64 SHELL=3D/bin/bash
+Hi Rolf,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on akpm-mm/mm-everything]
+[also build test WARNING on linus/master v6.0-rc2]
+[cannot apply to next-20220823]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Rolf-Eike-Beer/Minor=
+-improvements-for-pagewalk-code/20220822-214107
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-ever=
+ything
+:::::: branch date: 19 hours ago
+:::::: commit date: 19 hours ago
+config: x86_64-randconfig-m001 (https://download.01.org/0day-ci/archive/202=
+20823/202208231649.7QKavhA3-lkp(a)intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-5) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-sparse warnings: (new ones prefixed by >>)
->> arch/arm64/kvm/../../../virt/kvm/kvm_main.c:4971:1: sparse: sparse: unus=
-ed label 'arch_vm_ioctl'
-   arch/arm64/kvm/../../../virt/kvm/kvm_main.c: note: in included file:
-   include/linux/kvm_host.h:1952:54: sparse: sparse: array of flexible stru=
-ctures
-   include/linux/kvm_host.h:1954:56: sparse: sparse: array of flexible stru=
-ctures
-   arch/arm64/kvm/../../../virt/kvm/kvm_main.c:597:9: sparse: sparse: conte=
-xt imbalance in 'kvm_mmu_notifier_change_pte' - different lock contexts for=
- basic block
-   arch/arm64/kvm/../../../virt/kvm/kvm_main.c:597:9: sparse: sparse: conte=
-xt imbalance in 'kvm_mmu_notifier_invalidate_range_start' - different lock =
-contexts for basic block
-   arch/arm64/kvm/../../../virt/kvm/kvm_main.c:597:9: sparse: sparse: conte=
-xt imbalance in 'kvm_mmu_notifier_invalidate_range_end' - different lock co=
-ntexts for basic block
-   arch/arm64/kvm/../../../virt/kvm/kvm_main.c:597:9: sparse: sparse: conte=
-xt imbalance in 'kvm_mmu_notifier_clear_flush_young' - different lock conte=
-xts for basic block
-   arch/arm64/kvm/../../../virt/kvm/kvm_main.c:597:9: sparse: sparse: conte=
-xt imbalance in 'kvm_mmu_notifier_clear_young' - different lock contexts fo=
-r basic block
-   arch/arm64/kvm/../../../virt/kvm/kvm_main.c:597:9: sparse: sparse: conte=
-xt imbalance in 'kvm_mmu_notifier_test_young' - different lock contexts for=
- basic block
-   arch/arm64/kvm/../../../virt/kvm/kvm_main.c:2727:9: sparse: sparse: cont=
-ext imbalance in 'hva_to_pfn_remapped' - unexpected unlock
+smatch warnings:
+mm/pagewalk.c:248 walk_p4d_range() error: uninitialized symbol 'err'.
+mm/pagewalk.c:287 walk_pgd_range() error: uninitialized symbol 'err'.
+mm/pagewalk.c:324 walk_hugetlb_range() error: uninitialized symbol 'err'.
 
-vim +/arch_vm_ioctl +4971 arch/arm64/kvm/../../../virt/kvm/kvm_main.c
+vim +/err +248 mm/pagewalk.c
 
-a4ec3c29649907 virt/kvm/kvm_main.c    Chao Peng         2022-07-06  4747  =
+e6473092bd9116 Matt Mackall       2008-02-04  217  =
 
-bccf2150fe62dd drivers/kvm/kvm_main.c Avi Kivity        2007-02-21  4748  s=
-tatic long kvm_vm_ioctl(struct file *filp,
-bccf2150fe62dd drivers/kvm/kvm_main.c Avi Kivity        2007-02-21  4749  	=
-		   unsigned int ioctl, unsigned long arg)
-bccf2150fe62dd drivers/kvm/kvm_main.c Avi Kivity        2007-02-21  4750  {
-bccf2150fe62dd drivers/kvm/kvm_main.c Avi Kivity        2007-02-21  4751  	=
-struct kvm *kvm =3D filp->private_data;
-bccf2150fe62dd drivers/kvm/kvm_main.c Avi Kivity        2007-02-21  4752  	=
-void __user *argp =3D (void __user *)arg;
-1fe779f8eccd16 drivers/kvm/kvm_main.c Carsten Otte      2007-10-29  4753  	=
-int r;
-bccf2150fe62dd drivers/kvm/kvm_main.c Avi Kivity        2007-02-21  4754  =
+c2febafc67734a Kirill A. Shutemov 2017-03-09  218  static int walk_p4d_rang=
+e(pgd_t *pgd, unsigned long addr, unsigned long end,
+c2febafc67734a Kirill A. Shutemov 2017-03-09  219  			  struct mm_walk *wal=
+k)
+c2febafc67734a Kirill A. Shutemov 2017-03-09  220  {
+c2febafc67734a Kirill A. Shutemov 2017-03-09  221  	p4d_t *p4d;
+c2febafc67734a Kirill A. Shutemov 2017-03-09  222  	unsigned long next;
+7b86ac3371b70c Christoph Hellwig  2019-08-28  223  	const struct mm_walk_op=
+s *ops =3D walk->ops;
+b7a16c7ad790d0 Steven Price       2020-02-03  224  	int depth =3D real_dept=
+h(1);
+c2febafc67734a Kirill A. Shutemov 2017-03-09  225  =
 
-f4d316537059b2 virt/kvm/kvm_main.c    Paolo Bonzini     2021-11-11  4755  	=
-if (kvm->mm !=3D current->mm || kvm->vm_dead)
-6d4e4c4fca5be8 drivers/kvm/kvm_main.c Avi Kivity        2007-11-21  4756  	=
-	return -EIO;
-bccf2150fe62dd drivers/kvm/kvm_main.c Avi Kivity        2007-02-21  4757  	=
-switch (ioctl) {
-bccf2150fe62dd drivers/kvm/kvm_main.c Avi Kivity        2007-02-21  4758  	=
-case KVM_CREATE_VCPU:
-bccf2150fe62dd drivers/kvm/kvm_main.c Avi Kivity        2007-02-21  4759  	=
-	r =3D kvm_vm_ioctl_create_vcpu(kvm, arg);
-bccf2150fe62dd drivers/kvm/kvm_main.c Avi Kivity        2007-02-21  4760  	=
-	break;
-e5d83c74a5800c virt/kvm/kvm_main.c    Paolo Bonzini     2017-02-16  4761  	=
-case KVM_ENABLE_CAP: {
-e5d83c74a5800c virt/kvm/kvm_main.c    Paolo Bonzini     2017-02-16  4762  	=
-	struct kvm_enable_cap cap;
-e5d83c74a5800c virt/kvm/kvm_main.c    Paolo Bonzini     2017-02-16  4763  =
+c2febafc67734a Kirill A. Shutemov 2017-03-09  226  	p4d =3D p4d_offset(pgd,=
+ addr);
+c2febafc67734a Kirill A. Shutemov 2017-03-09  227  	do {
+40d6cb9177b6a9 Rolf Eike Beer     2022-08-22  228  		int err;
+40d6cb9177b6a9 Rolf Eike Beer     2022-08-22  229  =
 
-e5d83c74a5800c virt/kvm/kvm_main.c    Paolo Bonzini     2017-02-16  4764  	=
-	r =3D -EFAULT;
-e5d83c74a5800c virt/kvm/kvm_main.c    Paolo Bonzini     2017-02-16  4765  	=
-	if (copy_from_user(&cap, argp, sizeof(cap)))
-e5d83c74a5800c virt/kvm/kvm_main.c    Paolo Bonzini     2017-02-16  4766  	=
-		goto out;
-e5d83c74a5800c virt/kvm/kvm_main.c    Paolo Bonzini     2017-02-16  4767  	=
-	r =3D kvm_vm_ioctl_enable_cap_generic(kvm, &cap);
-e5d83c74a5800c virt/kvm/kvm_main.c    Paolo Bonzini     2017-02-16  4768  	=
-	break;
-e5d83c74a5800c virt/kvm/kvm_main.c    Paolo Bonzini     2017-02-16  4769  	}
-6fc138d2278078 drivers/kvm/kvm_main.c Izik Eidus        2007-10-09  4770  	=
-case KVM_SET_USER_MEMORY_REGION: {
-a4ec3c29649907 virt/kvm/kvm_main.c    Chao Peng         2022-07-06  4771  	=
-	struct kvm_user_mem_region mem;
-a4ec3c29649907 virt/kvm/kvm_main.c    Chao Peng         2022-07-06  4772  	=
-	unsigned long size;
-a4ec3c29649907 virt/kvm/kvm_main.c    Chao Peng         2022-07-06  4773  	=
-	u32 flags;
-a4ec3c29649907 virt/kvm/kvm_main.c    Chao Peng         2022-07-06  4774  =
+c2febafc67734a Kirill A. Shutemov 2017-03-09  230  		next =3D p4d_addr_end(=
+addr, end);
+c2febafc67734a Kirill A. Shutemov 2017-03-09  231  		if (p4d_none_or_clear_=
+bad(p4d)) {
+40d6cb9177b6a9 Rolf Eike Beer     2022-08-22  232  			if (ops->pte_hole) {
+b7a16c7ad790d0 Steven Price       2020-02-03  233  				err =3D ops->pte_hol=
+e(addr, next, depth, walk);
+c2febafc67734a Kirill A. Shutemov 2017-03-09  234  				if (err)
+40d6cb9177b6a9 Rolf Eike Beer     2022-08-22  235  					return err;
+40d6cb9177b6a9 Rolf Eike Beer     2022-08-22  236  			}
+c2febafc67734a Kirill A. Shutemov 2017-03-09  237  			continue;
+c2febafc67734a Kirill A. Shutemov 2017-03-09  238  		}
+3afc423632a194 Steven Price       2020-02-03  239  		if (ops->p4d_entry) {
+3afc423632a194 Steven Price       2020-02-03  240  			err =3D ops->p4d_entr=
+y(p4d, addr, next, walk);
+3afc423632a194 Steven Price       2020-02-03  241  			if (err)
+40d6cb9177b6a9 Rolf Eike Beer     2022-08-22  242  				return err;
+3afc423632a194 Steven Price       2020-02-03  243  		}
+e17eae2b839937 Christophe Leroy   2021-06-28  244  		if (is_hugepd(__hugepd=
+(p4d_val(*p4d))))
+e17eae2b839937 Christophe Leroy   2021-06-28  245  			err =3D walk_hugepd_r=
+ange((hugepd_t *)p4d, addr, next, walk, P4D_SHIFT);
+e17eae2b839937 Christophe Leroy   2021-06-28  246  		else if (ops->pud_entr=
+y || ops->pmd_entry || ops->pte_entry)
+c2febafc67734a Kirill A. Shutemov 2017-03-09  247  			err =3D walk_pud_rang=
+e(p4d, addr, next, walk);
+c2febafc67734a Kirill A. Shutemov 2017-03-09 @248  		if (err)
+40d6cb9177b6a9 Rolf Eike Beer     2022-08-22  249  			return err;
+c2febafc67734a Kirill A. Shutemov 2017-03-09  250  	} while (p4d++, addr =
+=3D next, addr !=3D end);
+c2febafc67734a Kirill A. Shutemov 2017-03-09  251  =
 
-a4ec3c29649907 virt/kvm/kvm_main.c    Chao Peng         2022-07-06  4775  	=
-	kvm_sanity_check_user_mem_region_alias();
-a4ec3c29649907 virt/kvm/kvm_main.c    Chao Peng         2022-07-06  4776  =
+40d6cb9177b6a9 Rolf Eike Beer     2022-08-22  252  	return 0;
+c2febafc67734a Kirill A. Shutemov 2017-03-09  253  }
+c2febafc67734a Kirill A. Shutemov 2017-03-09  254  =
 
-a4ec3c29649907 virt/kvm/kvm_main.c    Chao Peng         2022-07-06  4777  	=
-	memset(&mem, 0, sizeof(mem));
-6fc138d2278078 drivers/kvm/kvm_main.c Izik Eidus        2007-10-09  4778  =
+fafaa4264eba49 Naoya Horiguchi    2015-02-11  255  static int walk_pgd_rang=
+e(unsigned long addr, unsigned long end,
+fafaa4264eba49 Naoya Horiguchi    2015-02-11  256  			  struct mm_walk *wal=
+k)
+fafaa4264eba49 Naoya Horiguchi    2015-02-11  257  {
+fafaa4264eba49 Naoya Horiguchi    2015-02-11  258  	pgd_t *pgd;
+fafaa4264eba49 Naoya Horiguchi    2015-02-11  259  	unsigned long next;
+7b86ac3371b70c Christoph Hellwig  2019-08-28  260  	const struct mm_walk_op=
+s *ops =3D walk->ops;
+fafaa4264eba49 Naoya Horiguchi    2015-02-11  261  =
 
-6fc138d2278078 drivers/kvm/kvm_main.c Izik Eidus        2007-10-09  4779  	=
-	r =3D -EFAULT;
-a4ec3c29649907 virt/kvm/kvm_main.c    Chao Peng         2022-07-06  4780  =
+e47690d756a760 Steven Price       2020-02-03  262  	if (walk->pgd)
+e47690d756a760 Steven Price       2020-02-03  263  		pgd =3D walk->pgd + pg=
+d_index(addr);
+e47690d756a760 Steven Price       2020-02-03  264  	else
+fafaa4264eba49 Naoya Horiguchi    2015-02-11  265  		pgd =3D pgd_offset(wal=
+k->mm, addr);
+fafaa4264eba49 Naoya Horiguchi    2015-02-11  266  	do {
+40d6cb9177b6a9 Rolf Eike Beer     2022-08-22  267  		int err;
+40d6cb9177b6a9 Rolf Eike Beer     2022-08-22  268  =
 
-a4ec3c29649907 virt/kvm/kvm_main.c    Chao Peng         2022-07-06  4781  	=
-	if (get_user(flags,
-a4ec3c29649907 virt/kvm/kvm_main.c    Chao Peng         2022-07-06  4782  	=
-		(u32 __user *)(argp + offsetof(typeof(mem), flags))))
-a4ec3c29649907 virt/kvm/kvm_main.c    Chao Peng         2022-07-06  4783  	=
-		goto out;
-a4ec3c29649907 virt/kvm/kvm_main.c    Chao Peng         2022-07-06  4784  =
+fafaa4264eba49 Naoya Horiguchi    2015-02-11  269  		next =3D pgd_addr_end(=
+addr, end);
+fafaa4264eba49 Naoya Horiguchi    2015-02-11  270  		if (pgd_none_or_clear_=
+bad(pgd)) {
+40d6cb9177b6a9 Rolf Eike Beer     2022-08-22  271  			if (ops->pte_hole) {
+b7a16c7ad790d0 Steven Price       2020-02-03  272  				err =3D ops->pte_hol=
+e(addr, next, 0, walk);
+fafaa4264eba49 Naoya Horiguchi    2015-02-11  273  				if (err)
+40d6cb9177b6a9 Rolf Eike Beer     2022-08-22  274  					return err;
+40d6cb9177b6a9 Rolf Eike Beer     2022-08-22  275  			}
+fafaa4264eba49 Naoya Horiguchi    2015-02-11  276  			continue;
+fafaa4264eba49 Naoya Horiguchi    2015-02-11  277  		}
+3afc423632a194 Steven Price       2020-02-03  278  		if (ops->pgd_entry) {
+3afc423632a194 Steven Price       2020-02-03  279  			err =3D ops->pgd_entr=
+y(pgd, addr, next, walk);
+3afc423632a194 Steven Price       2020-02-03  280  			if (err)
+40d6cb9177b6a9 Rolf Eike Beer     2022-08-22  281  				return err;
+3afc423632a194 Steven Price       2020-02-03  282  		}
+e17eae2b839937 Christophe Leroy   2021-06-28  283  		if (is_hugepd(__hugepd=
+(pgd_val(*pgd))))
+e17eae2b839937 Christophe Leroy   2021-06-28  284  			err =3D walk_hugepd_r=
+ange((hugepd_t *)pgd, addr, next, walk, PGDIR_SHIFT);
+e17eae2b839937 Christophe Leroy   2021-06-28  285  		else if (ops->p4d_entr=
+y || ops->pud_entry || ops->pmd_entry || ops->pte_entry)
+c2febafc67734a Kirill A. Shutemov 2017-03-09  286  			err =3D walk_p4d_rang=
+e(pgd, addr, next, walk);
+fafaa4264eba49 Naoya Horiguchi    2015-02-11 @287  		if (err)
+40d6cb9177b6a9 Rolf Eike Beer     2022-08-22  288  			return err;
+fafaa4264eba49 Naoya Horiguchi    2015-02-11  289  	} while (pgd++, addr =
+=3D next, addr !=3D end);
+fafaa4264eba49 Naoya Horiguchi    2015-02-11  290  =
 
-a4ec3c29649907 virt/kvm/kvm_main.c    Chao Peng         2022-07-06  4785  	=
-	if (flags & KVM_MEM_PRIVATE) {
-a4ec3c29649907 virt/kvm/kvm_main.c    Chao Peng         2022-07-06  4786  	=
-		r =3D -EINVAL;
-a4ec3c29649907 virt/kvm/kvm_main.c    Chao Peng         2022-07-06  4787  	=
-		goto out;
-a4ec3c29649907 virt/kvm/kvm_main.c    Chao Peng         2022-07-06  4788  	=
-	}
-a4ec3c29649907 virt/kvm/kvm_main.c    Chao Peng         2022-07-06  4789  =
+40d6cb9177b6a9 Rolf Eike Beer     2022-08-22  291  	return 0;
+fafaa4264eba49 Naoya Horiguchi    2015-02-11  292  }
+fafaa4264eba49 Naoya Horiguchi    2015-02-11  293  =
 
-a4ec3c29649907 virt/kvm/kvm_main.c    Chao Peng         2022-07-06  4790  	=
-	size =3D sizeof(struct kvm_userspace_memory_region);
-a4ec3c29649907 virt/kvm/kvm_main.c    Chao Peng         2022-07-06  4791  =
+116354d177ba2d Naoya Horiguchi    2010-04-06  294  #ifdef CONFIG_HUGETLB_PA=
+GE
+116354d177ba2d Naoya Horiguchi    2010-04-06  295  static unsigned long hug=
+etlb_entry_end(struct hstate *h, unsigned long addr,
+116354d177ba2d Naoya Horiguchi    2010-04-06  296  				       unsigned long=
+ end)
+116354d177ba2d Naoya Horiguchi    2010-04-06  297  {
+116354d177ba2d Naoya Horiguchi    2010-04-06  298  	unsigned long boundary =
+=3D (addr & huge_page_mask(h)) + huge_page_size(h);
+116354d177ba2d Naoya Horiguchi    2010-04-06  299  	return boundary < end ?=
+ boundary : end;
+116354d177ba2d Naoya Horiguchi    2010-04-06  300  }
+116354d177ba2d Naoya Horiguchi    2010-04-06  301  =
 
-a4ec3c29649907 virt/kvm/kvm_main.c    Chao Peng         2022-07-06  4792  	=
-	if (copy_from_user(&mem, argp, size))
-a4ec3c29649907 virt/kvm/kvm_main.c    Chao Peng         2022-07-06  4793  	=
-		goto out;
-a4ec3c29649907 virt/kvm/kvm_main.c    Chao Peng         2022-07-06  4794  =
+fafaa4264eba49 Naoya Horiguchi    2015-02-11  302  static int walk_hugetlb_=
+range(unsigned long addr, unsigned long end,
+116354d177ba2d Naoya Horiguchi    2010-04-06  303  			      struct mm_walk =
+*walk)
+116354d177ba2d Naoya Horiguchi    2010-04-06  304  {
+fafaa4264eba49 Naoya Horiguchi    2015-02-11  305  	struct vm_area_struct *=
+vma =3D walk->vma;
+116354d177ba2d Naoya Horiguchi    2010-04-06  306  	struct hstate *h =3D hs=
+tate_vma(vma);
+116354d177ba2d Naoya Horiguchi    2010-04-06  307  	unsigned long next;
+116354d177ba2d Naoya Horiguchi    2010-04-06  308  	unsigned long hmask =3D=
+ huge_page_mask(h);
+7868a2087ec13e Punit Agrawal      2017-07-06  309  	unsigned long sz =3D hu=
+ge_page_size(h);
+116354d177ba2d Naoya Horiguchi    2010-04-06  310  	pte_t *pte;
+7b86ac3371b70c Christoph Hellwig  2019-08-28  311  	const struct mm_walk_op=
+s *ops =3D walk->ops;
+116354d177ba2d Naoya Horiguchi    2010-04-06  312  =
 
-a4ec3c29649907 virt/kvm/kvm_main.c    Chao Peng         2022-07-06  4795  	=
-	r =3D -EINVAL;
-a4ec3c29649907 virt/kvm/kvm_main.c    Chao Peng         2022-07-06  4796  	=
-	if ((flags ^ mem.flags) & KVM_MEM_PRIVATE)
-6fc138d2278078 drivers/kvm/kvm_main.c Izik Eidus        2007-10-09  4797  	=
-		goto out;
-6fc138d2278078 drivers/kvm/kvm_main.c Izik Eidus        2007-10-09  4798  =
+116354d177ba2d Naoya Horiguchi    2010-04-06  313  	do {
+40d6cb9177b6a9 Rolf Eike Beer     2022-08-22  314  		int err;
+40d6cb9177b6a9 Rolf Eike Beer     2022-08-22  315  =
 
-a4ec3c29649907 virt/kvm/kvm_main.c    Chao Peng         2022-07-06  4799  	=
-	r =3D kvm_vm_ioctl_set_memory_region(kvm, &mem);
-6aa8b732ca01c3 drivers/kvm/kvm_main.c Avi Kivity        2006-12-10  4800  	=
-	break;
-6aa8b732ca01c3 drivers/kvm/kvm_main.c Avi Kivity        2006-12-10  4801  	}
-303b911206dd2a virt/kvm/kvm_main.c    Chao Peng         2022-07-06  4802  #=
-ifdef CONFIG_HAVE_KVM_PRIVATE_MEM
-303b911206dd2a virt/kvm/kvm_main.c    Chao Peng         2022-07-06  4803  	=
-case KVM_MEMORY_ENCRYPT_REG_REGION:
-303b911206dd2a virt/kvm/kvm_main.c    Chao Peng         2022-07-06  4804  	=
-case KVM_MEMORY_ENCRYPT_UNREG_REGION: {
-303b911206dd2a virt/kvm/kvm_main.c    Chao Peng         2022-07-06  4805  	=
-	struct kvm_enc_region region;
-303b911206dd2a virt/kvm/kvm_main.c    Chao Peng         2022-07-06  4806  =
+116354d177ba2d Naoya Horiguchi    2010-04-06  316  		next =3D hugetlb_entry=
+_end(h, addr, end);
+7868a2087ec13e Punit Agrawal      2017-07-06  317  		pte =3D huge_pte_offse=
+t(walk->mm, addr & hmask, sz);
+373c4557d2aa36 Jann Horn          2017-11-14  318  =
 
-303b911206dd2a virt/kvm/kvm_main.c    Chao Peng         2022-07-06  4807  	=
-	if (!kvm_arch_private_mem_supported(kvm))
-303b911206dd2a virt/kvm/kvm_main.c    Chao Peng         2022-07-06  4808  	=
-		goto arch_vm_ioctl;
-303b911206dd2a virt/kvm/kvm_main.c    Chao Peng         2022-07-06  4809  =
+373c4557d2aa36 Jann Horn          2017-11-14  319  		if (pte)
+7b86ac3371b70c Christoph Hellwig  2019-08-28  320  			err =3D ops->hugetlb_=
+entry(pte, hmask, addr, next, walk);
+7b86ac3371b70c Christoph Hellwig  2019-08-28  321  		else if (ops->pte_hole)
+b7a16c7ad790d0 Steven Price       2020-02-03  322  			err =3D ops->pte_hole=
+(addr, next, -1, walk);
+373c4557d2aa36 Jann Horn          2017-11-14  323  =
 
-303b911206dd2a virt/kvm/kvm_main.c    Chao Peng         2022-07-06  4810  	=
-	r =3D -EFAULT;
-303b911206dd2a virt/kvm/kvm_main.c    Chao Peng         2022-07-06  4811  	=
-	if (copy_from_user(&region, argp, sizeof(region)))
-303b911206dd2a virt/kvm/kvm_main.c    Chao Peng         2022-07-06  4812  	=
-		goto out;
-303b911206dd2a virt/kvm/kvm_main.c    Chao Peng         2022-07-06  4813  =
+116354d177ba2d Naoya Horiguchi    2010-04-06 @324  		if (err)
+40d6cb9177b6a9 Rolf Eike Beer     2022-08-22  325  			return err;
+116354d177ba2d Naoya Horiguchi    2010-04-06  326  	} while (addr =3D next,=
+ addr !=3D end);
+116354d177ba2d Naoya Horiguchi    2010-04-06  327  =
 
-303b911206dd2a virt/kvm/kvm_main.c    Chao Peng         2022-07-06  4814  	=
-	r =3D kvm_vm_ioctl_set_encrypted_region(kvm, ioctl, &region);
-303b911206dd2a virt/kvm/kvm_main.c    Chao Peng         2022-07-06  4815  	=
-	break;
-303b911206dd2a virt/kvm/kvm_main.c    Chao Peng         2022-07-06  4816  	}
-303b911206dd2a virt/kvm/kvm_main.c    Chao Peng         2022-07-06  4817  #=
-endif
-6aa8b732ca01c3 drivers/kvm/kvm_main.c Avi Kivity        2006-12-10  4818  	=
-case KVM_GET_DIRTY_LOG: {
-6aa8b732ca01c3 drivers/kvm/kvm_main.c Avi Kivity        2006-12-10  4819  	=
-	struct kvm_dirty_log log;
-6aa8b732ca01c3 drivers/kvm/kvm_main.c Avi Kivity        2006-12-10  4820  =
-
-6aa8b732ca01c3 drivers/kvm/kvm_main.c Avi Kivity        2006-12-10  4821  	=
-	r =3D -EFAULT;
-893bdbf16574e7 virt/kvm/kvm_main.c    Xiubo Li          2015-02-26  4822  	=
-	if (copy_from_user(&log, argp, sizeof(log)))
-6aa8b732ca01c3 drivers/kvm/kvm_main.c Avi Kivity        2006-12-10  4823  	=
-		goto out;
-2c6f5df9793e6f drivers/kvm/kvm_main.c Avi Kivity        2007-02-20  4824  	=
-	r =3D kvm_vm_ioctl_get_dirty_log(kvm, &log);
-6aa8b732ca01c3 drivers/kvm/kvm_main.c Avi Kivity        2006-12-10  4825  	=
-	break;
-6aa8b732ca01c3 drivers/kvm/kvm_main.c Avi Kivity        2006-12-10  4826  	}
-2a31b9db153530 virt/kvm/kvm_main.c    Paolo Bonzini     2018-10-23  4827  #=
-ifdef CONFIG_KVM_GENERIC_DIRTYLOG_READ_PROTECT
-2a31b9db153530 virt/kvm/kvm_main.c    Paolo Bonzini     2018-10-23  4828  	=
-case KVM_CLEAR_DIRTY_LOG: {
-2a31b9db153530 virt/kvm/kvm_main.c    Paolo Bonzini     2018-10-23  4829  	=
-	struct kvm_clear_dirty_log log;
-2a31b9db153530 virt/kvm/kvm_main.c    Paolo Bonzini     2018-10-23  4830  =
-
-2a31b9db153530 virt/kvm/kvm_main.c    Paolo Bonzini     2018-10-23  4831  	=
-	r =3D -EFAULT;
-2a31b9db153530 virt/kvm/kvm_main.c    Paolo Bonzini     2018-10-23  4832  	=
-	if (copy_from_user(&log, argp, sizeof(log)))
-2a31b9db153530 virt/kvm/kvm_main.c    Paolo Bonzini     2018-10-23  4833  	=
-		goto out;
-2a31b9db153530 virt/kvm/kvm_main.c    Paolo Bonzini     2018-10-23  4834  	=
-	r =3D kvm_vm_ioctl_clear_dirty_log(kvm, &log);
-2a31b9db153530 virt/kvm/kvm_main.c    Paolo Bonzini     2018-10-23  4835  	=
-	break;
-2a31b9db153530 virt/kvm/kvm_main.c    Paolo Bonzini     2018-10-23  4836  	}
-2a31b9db153530 virt/kvm/kvm_main.c    Paolo Bonzini     2018-10-23  4837  #=
-endif
-4b4357e02523ec virt/kvm/kvm_main.c    Paolo Bonzini     2017-03-31  4838  #=
-ifdef CONFIG_KVM_MMIO
-5f94c1741bdc7a virt/kvm/kvm_main.c    Laurent Vivier    2008-05-30  4839  	=
-case KVM_REGISTER_COALESCED_MMIO: {
-5f94c1741bdc7a virt/kvm/kvm_main.c    Laurent Vivier    2008-05-30  4840  	=
-	struct kvm_coalesced_mmio_zone zone;
-f95ef0cd025785 virt/kvm/kvm_main.c    Xiubo Li          2015-02-26  4841  =
-
-5f94c1741bdc7a virt/kvm/kvm_main.c    Laurent Vivier    2008-05-30  4842  	=
-	r =3D -EFAULT;
-893bdbf16574e7 virt/kvm/kvm_main.c    Xiubo Li          2015-02-26  4843  	=
-	if (copy_from_user(&zone, argp, sizeof(zone)))
-5f94c1741bdc7a virt/kvm/kvm_main.c    Laurent Vivier    2008-05-30  4844  	=
-		goto out;
-5f94c1741bdc7a virt/kvm/kvm_main.c    Laurent Vivier    2008-05-30  4845  	=
-	r =3D kvm_vm_ioctl_register_coalesced_mmio(kvm, &zone);
-5f94c1741bdc7a virt/kvm/kvm_main.c    Laurent Vivier    2008-05-30  4846  	=
-	break;
-5f94c1741bdc7a virt/kvm/kvm_main.c    Laurent Vivier    2008-05-30  4847  	}
-5f94c1741bdc7a virt/kvm/kvm_main.c    Laurent Vivier    2008-05-30  4848  	=
-case KVM_UNREGISTER_COALESCED_MMIO: {
-5f94c1741bdc7a virt/kvm/kvm_main.c    Laurent Vivier    2008-05-30  4849  	=
-	struct kvm_coalesced_mmio_zone zone;
-f95ef0cd025785 virt/kvm/kvm_main.c    Xiubo Li          2015-02-26  4850  =
-
-5f94c1741bdc7a virt/kvm/kvm_main.c    Laurent Vivier    2008-05-30  4851  	=
-	r =3D -EFAULT;
-893bdbf16574e7 virt/kvm/kvm_main.c    Xiubo Li          2015-02-26  4852  	=
-	if (copy_from_user(&zone, argp, sizeof(zone)))
-5f94c1741bdc7a virt/kvm/kvm_main.c    Laurent Vivier    2008-05-30  4853  	=
-		goto out;
-5f94c1741bdc7a virt/kvm/kvm_main.c    Laurent Vivier    2008-05-30  4854  	=
-	r =3D kvm_vm_ioctl_unregister_coalesced_mmio(kvm, &zone);
-5f94c1741bdc7a virt/kvm/kvm_main.c    Laurent Vivier    2008-05-30  4855  	=
-	break;
-5f94c1741bdc7a virt/kvm/kvm_main.c    Laurent Vivier    2008-05-30  4856  	}
-5f94c1741bdc7a virt/kvm/kvm_main.c    Laurent Vivier    2008-05-30  4857  #=
-endif
-721eecbf4fe995 virt/kvm/kvm_main.c    Gregory Haskins   2009-05-20  4858  	=
-case KVM_IRQFD: {
-721eecbf4fe995 virt/kvm/kvm_main.c    Gregory Haskins   2009-05-20  4859  	=
-	struct kvm_irqfd data;
-721eecbf4fe995 virt/kvm/kvm_main.c    Gregory Haskins   2009-05-20  4860  =
-
-721eecbf4fe995 virt/kvm/kvm_main.c    Gregory Haskins   2009-05-20  4861  	=
-	r =3D -EFAULT;
-893bdbf16574e7 virt/kvm/kvm_main.c    Xiubo Li          2015-02-26  4862  	=
-	if (copy_from_user(&data, argp, sizeof(data)))
-721eecbf4fe995 virt/kvm/kvm_main.c    Gregory Haskins   2009-05-20  4863  	=
-		goto out;
-d4db2935e4fffe virt/kvm/kvm_main.c    Alex Williamson   2012-06-29  4864  	=
-	r =3D kvm_irqfd(kvm, &data);
-721eecbf4fe995 virt/kvm/kvm_main.c    Gregory Haskins   2009-05-20  4865  	=
-	break;
-721eecbf4fe995 virt/kvm/kvm_main.c    Gregory Haskins   2009-05-20  4866  	}
-d34e6b175e6182 virt/kvm/kvm_main.c    Gregory Haskins   2009-07-07  4867  	=
-case KVM_IOEVENTFD: {
-d34e6b175e6182 virt/kvm/kvm_main.c    Gregory Haskins   2009-07-07  4868  	=
-	struct kvm_ioeventfd data;
-d34e6b175e6182 virt/kvm/kvm_main.c    Gregory Haskins   2009-07-07  4869  =
-
-d34e6b175e6182 virt/kvm/kvm_main.c    Gregory Haskins   2009-07-07  4870  	=
-	r =3D -EFAULT;
-893bdbf16574e7 virt/kvm/kvm_main.c    Xiubo Li          2015-02-26  4871  	=
-	if (copy_from_user(&data, argp, sizeof(data)))
-d34e6b175e6182 virt/kvm/kvm_main.c    Gregory Haskins   2009-07-07  4872  	=
-		goto out;
-d34e6b175e6182 virt/kvm/kvm_main.c    Gregory Haskins   2009-07-07  4873  	=
-	r =3D kvm_ioeventfd(kvm, &data);
-d34e6b175e6182 virt/kvm/kvm_main.c    Gregory Haskins   2009-07-07  4874  	=
-	break;
-d34e6b175e6182 virt/kvm/kvm_main.c    Gregory Haskins   2009-07-07  4875  	}
-07975ad3b30579 virt/kvm/kvm_main.c    Jan Kiszka        2012-03-29  4876  #=
-ifdef CONFIG_HAVE_KVM_MSI
-07975ad3b30579 virt/kvm/kvm_main.c    Jan Kiszka        2012-03-29  4877  	=
-case KVM_SIGNAL_MSI: {
-07975ad3b30579 virt/kvm/kvm_main.c    Jan Kiszka        2012-03-29  4878  	=
-	struct kvm_msi msi;
-07975ad3b30579 virt/kvm/kvm_main.c    Jan Kiszka        2012-03-29  4879  =
-
-07975ad3b30579 virt/kvm/kvm_main.c    Jan Kiszka        2012-03-29  4880  	=
-	r =3D -EFAULT;
-893bdbf16574e7 virt/kvm/kvm_main.c    Xiubo Li          2015-02-26  4881  	=
-	if (copy_from_user(&msi, argp, sizeof(msi)))
-07975ad3b30579 virt/kvm/kvm_main.c    Jan Kiszka        2012-03-29  4882  	=
-		goto out;
-07975ad3b30579 virt/kvm/kvm_main.c    Jan Kiszka        2012-03-29  4883  	=
-	r =3D kvm_send_userspace_msi(kvm, &msi);
-07975ad3b30579 virt/kvm/kvm_main.c    Jan Kiszka        2012-03-29  4884  	=
-	break;
-07975ad3b30579 virt/kvm/kvm_main.c    Jan Kiszka        2012-03-29  4885  	}
-23d43cf998275b virt/kvm/kvm_main.c    Christoffer Dall  2012-07-24  4886  #=
-endif
-23d43cf998275b virt/kvm/kvm_main.c    Christoffer Dall  2012-07-24  4887  #=
-ifdef __KVM_HAVE_IRQ_LINE
-23d43cf998275b virt/kvm/kvm_main.c    Christoffer Dall  2012-07-24  4888  	=
-case KVM_IRQ_LINE_STATUS:
-23d43cf998275b virt/kvm/kvm_main.c    Christoffer Dall  2012-07-24  4889  	=
-case KVM_IRQ_LINE: {
-23d43cf998275b virt/kvm/kvm_main.c    Christoffer Dall  2012-07-24  4890  	=
-	struct kvm_irq_level irq_event;
-23d43cf998275b virt/kvm/kvm_main.c    Christoffer Dall  2012-07-24  4891  =
-
-23d43cf998275b virt/kvm/kvm_main.c    Christoffer Dall  2012-07-24  4892  	=
-	r =3D -EFAULT;
-893bdbf16574e7 virt/kvm/kvm_main.c    Xiubo Li          2015-02-26  4893  	=
-	if (copy_from_user(&irq_event, argp, sizeof(irq_event)))
-23d43cf998275b virt/kvm/kvm_main.c    Christoffer Dall  2012-07-24  4894  	=
-		goto out;
-23d43cf998275b virt/kvm/kvm_main.c    Christoffer Dall  2012-07-24  4895  =
-
-aa2fbe6d448920 virt/kvm/kvm_main.c    Yang Zhang        2013-04-11  4896  	=
-	r =3D kvm_vm_ioctl_irq_line(kvm, &irq_event,
-aa2fbe6d448920 virt/kvm/kvm_main.c    Yang Zhang        2013-04-11  4897  	=
-				ioctl =3D=3D KVM_IRQ_LINE_STATUS);
-23d43cf998275b virt/kvm/kvm_main.c    Christoffer Dall  2012-07-24  4898  	=
-	if (r)
-23d43cf998275b virt/kvm/kvm_main.c    Christoffer Dall  2012-07-24  4899  	=
-		goto out;
-23d43cf998275b virt/kvm/kvm_main.c    Christoffer Dall  2012-07-24  4900  =
-
-23d43cf998275b virt/kvm/kvm_main.c    Christoffer Dall  2012-07-24  4901  	=
-	r =3D -EFAULT;
-23d43cf998275b virt/kvm/kvm_main.c    Christoffer Dall  2012-07-24  4902  	=
-	if (ioctl =3D=3D KVM_IRQ_LINE_STATUS) {
-893bdbf16574e7 virt/kvm/kvm_main.c    Xiubo Li          2015-02-26  4903  	=
-		if (copy_to_user(argp, &irq_event, sizeof(irq_event)))
-23d43cf998275b virt/kvm/kvm_main.c    Christoffer Dall  2012-07-24  4904  	=
-			goto out;
-23d43cf998275b virt/kvm/kvm_main.c    Christoffer Dall  2012-07-24  4905  	=
-	}
-23d43cf998275b virt/kvm/kvm_main.c    Christoffer Dall  2012-07-24  4906  =
-
-23d43cf998275b virt/kvm/kvm_main.c    Christoffer Dall  2012-07-24  4907  	=
-	r =3D 0;
-23d43cf998275b virt/kvm/kvm_main.c    Christoffer Dall  2012-07-24  4908  	=
-	break;
-23d43cf998275b virt/kvm/kvm_main.c    Christoffer Dall  2012-07-24  4909  	}
-73880c80aa9c8d virt/kvm/kvm_main.c    Gleb Natapov      2009-06-09  4910  #=
-endif
-aa8d5944b8b280 virt/kvm/kvm_main.c    Alexander Graf    2013-04-15  4911  #=
-ifdef CONFIG_HAVE_KVM_IRQ_ROUTING
-aa8d5944b8b280 virt/kvm/kvm_main.c    Alexander Graf    2013-04-15  4912  	=
-case KVM_SET_GSI_ROUTING: {
-aa8d5944b8b280 virt/kvm/kvm_main.c    Alexander Graf    2013-04-15  4913  	=
-	struct kvm_irq_routing routing;
-aa8d5944b8b280 virt/kvm/kvm_main.c    Alexander Graf    2013-04-15  4914  	=
-	struct kvm_irq_routing __user *urouting;
-f8c1b85b2523da virt/kvm/kvm_main.c    Paolo Bonzini     2016-06-01  4915  	=
-	struct kvm_irq_routing_entry *entries =3D NULL;
-aa8d5944b8b280 virt/kvm/kvm_main.c    Alexander Graf    2013-04-15  4916  =
-
-aa8d5944b8b280 virt/kvm/kvm_main.c    Alexander Graf    2013-04-15  4917  	=
-	r =3D -EFAULT;
-aa8d5944b8b280 virt/kvm/kvm_main.c    Alexander Graf    2013-04-15  4918  	=
-	if (copy_from_user(&routing, argp, sizeof(routing)))
-aa8d5944b8b280 virt/kvm/kvm_main.c    Alexander Graf    2013-04-15  4919  	=
-		goto out;
-aa8d5944b8b280 virt/kvm/kvm_main.c    Alexander Graf    2013-04-15  4920  	=
-	r =3D -EINVAL;
-5c0aea0e8d98e3 virt/kvm/kvm_main.c    David Hildenbrand 2017-04-28  4921  	=
-	if (!kvm_arch_can_set_irq_routing(kvm))
-5c0aea0e8d98e3 virt/kvm/kvm_main.c    David Hildenbrand 2017-04-28  4922  	=
-		goto out;
-caf1ff26e1aa17 virt/kvm/kvm_main.c    Xiubo Li          2016-06-15  4923  	=
-	if (routing.nr > KVM_MAX_IRQ_ROUTES)
-aa8d5944b8b280 virt/kvm/kvm_main.c    Alexander Graf    2013-04-15  4924  	=
-		goto out;
-aa8d5944b8b280 virt/kvm/kvm_main.c    Alexander Graf    2013-04-15  4925  	=
-	if (routing.flags)
-aa8d5944b8b280 virt/kvm/kvm_main.c    Alexander Graf    2013-04-15  4926  	=
-		goto out;
-f8c1b85b2523da virt/kvm/kvm_main.c    Paolo Bonzini     2016-06-01  4927  	=
-	if (routing.nr) {
-7ec28e264f2e52 virt/kvm/kvm_main.c    Denis Efremov     2020-06-03  4928  	=
-		urouting =3D argp;
-7ec28e264f2e52 virt/kvm/kvm_main.c    Denis Efremov     2020-06-03  4929  	=
-		entries =3D vmemdup_user(urouting->entries,
-7ec28e264f2e52 virt/kvm/kvm_main.c    Denis Efremov     2020-06-03  4930  	=
-				       array_size(sizeof(*entries),
-42bc47b35320e0 virt/kvm/kvm_main.c    Kees Cook         2018-06-12  4931  	=
-						  routing.nr));
-7ec28e264f2e52 virt/kvm/kvm_main.c    Denis Efremov     2020-06-03  4932  	=
-		if (IS_ERR(entries)) {
-7ec28e264f2e52 virt/kvm/kvm_main.c    Denis Efremov     2020-06-03  4933  	=
-			r =3D PTR_ERR(entries);
-aa8d5944b8b280 virt/kvm/kvm_main.c    Alexander Graf    2013-04-15  4934  	=
-			goto out;
-7ec28e264f2e52 virt/kvm/kvm_main.c    Denis Efremov     2020-06-03  4935  	=
-		}
-f8c1b85b2523da virt/kvm/kvm_main.c    Paolo Bonzini     2016-06-01  4936  	=
-	}
-aa8d5944b8b280 virt/kvm/kvm_main.c    Alexander Graf    2013-04-15  4937  	=
-	r =3D kvm_set_irq_routing(kvm, entries, routing.nr,
-aa8d5944b8b280 virt/kvm/kvm_main.c    Alexander Graf    2013-04-15  4938  	=
-				routing.flags);
-7ec28e264f2e52 virt/kvm/kvm_main.c    Denis Efremov     2020-06-03  4939  	=
-	kvfree(entries);
-aa8d5944b8b280 virt/kvm/kvm_main.c    Alexander Graf    2013-04-15  4940  	=
-	break;
-aa8d5944b8b280 virt/kvm/kvm_main.c    Alexander Graf    2013-04-15  4941  	}
-aa8d5944b8b280 virt/kvm/kvm_main.c    Alexander Graf    2013-04-15  4942  #=
-endif /* CONFIG_HAVE_KVM_IRQ_ROUTING */
-852b6d57dc7fa3 virt/kvm/kvm_main.c    Scott Wood        2013-04-12  4943  	=
-case KVM_CREATE_DEVICE: {
-852b6d57dc7fa3 virt/kvm/kvm_main.c    Scott Wood        2013-04-12  4944  	=
-	struct kvm_create_device cd;
-852b6d57dc7fa3 virt/kvm/kvm_main.c    Scott Wood        2013-04-12  4945  =
-
-852b6d57dc7fa3 virt/kvm/kvm_main.c    Scott Wood        2013-04-12  4946  	=
-	r =3D -EFAULT;
-852b6d57dc7fa3 virt/kvm/kvm_main.c    Scott Wood        2013-04-12  4947  	=
-	if (copy_from_user(&cd, argp, sizeof(cd)))
-852b6d57dc7fa3 virt/kvm/kvm_main.c    Scott Wood        2013-04-12  4948  	=
-		goto out;
-852b6d57dc7fa3 virt/kvm/kvm_main.c    Scott Wood        2013-04-12  4949  =
-
-852b6d57dc7fa3 virt/kvm/kvm_main.c    Scott Wood        2013-04-12  4950  	=
-	r =3D kvm_ioctl_create_device(kvm, &cd);
-852b6d57dc7fa3 virt/kvm/kvm_main.c    Scott Wood        2013-04-12  4951  	=
-	if (r)
-852b6d57dc7fa3 virt/kvm/kvm_main.c    Scott Wood        2013-04-12  4952  	=
-		goto out;
-852b6d57dc7fa3 virt/kvm/kvm_main.c    Scott Wood        2013-04-12  4953  =
-
-852b6d57dc7fa3 virt/kvm/kvm_main.c    Scott Wood        2013-04-12  4954  	=
-	r =3D -EFAULT;
-852b6d57dc7fa3 virt/kvm/kvm_main.c    Scott Wood        2013-04-12  4955  	=
-	if (copy_to_user(argp, &cd, sizeof(cd)))
-852b6d57dc7fa3 virt/kvm/kvm_main.c    Scott Wood        2013-04-12  4956  	=
-		goto out;
-852b6d57dc7fa3 virt/kvm/kvm_main.c    Scott Wood        2013-04-12  4957  =
-
-852b6d57dc7fa3 virt/kvm/kvm_main.c    Scott Wood        2013-04-12  4958  	=
-	r =3D 0;
-852b6d57dc7fa3 virt/kvm/kvm_main.c    Scott Wood        2013-04-12  4959  	=
-	break;
-852b6d57dc7fa3 virt/kvm/kvm_main.c    Scott Wood        2013-04-12  4960  	}
-92b591a4c46b10 virt/kvm/kvm_main.c    Alexander Graf    2014-07-14  4961  	=
-case KVM_CHECK_EXTENSION:
-92b591a4c46b10 virt/kvm/kvm_main.c    Alexander Graf    2014-07-14  4962  	=
-	r =3D kvm_vm_ioctl_check_extension_generic(kvm, arg);
-92b591a4c46b10 virt/kvm/kvm_main.c    Alexander Graf    2014-07-14  4963  	=
-	break;
-fb04a1eddb1a65 virt/kvm/kvm_main.c    Peter Xu          2020-09-30  4964  	=
-case KVM_RESET_DIRTY_RINGS:
-fb04a1eddb1a65 virt/kvm/kvm_main.c    Peter Xu          2020-09-30  4965  	=
-	r =3D kvm_vm_ioctl_reset_dirty_pages(kvm);
-fb04a1eddb1a65 virt/kvm/kvm_main.c    Peter Xu          2020-09-30  4966  	=
-	break;
-fcfe1baeddbf1c virt/kvm/kvm_main.c    Jing Zhang        2021-06-18  4967  	=
-case KVM_GET_STATS_FD:
-fcfe1baeddbf1c virt/kvm/kvm_main.c    Jing Zhang        2021-06-18  4968  	=
-	r =3D kvm_vm_ioctl_get_stats_fd(kvm);
-fcfe1baeddbf1c virt/kvm/kvm_main.c    Jing Zhang        2021-06-18  4969  	=
-	break;
-f17abe9a44425f drivers/kvm/kvm_main.c Avi Kivity        2007-02-21  4970  	=
-default:
-303b911206dd2a virt/kvm/kvm_main.c    Chao Peng         2022-07-06 @4971  a=
-rch_vm_ioctl:
-1fe779f8eccd16 drivers/kvm/kvm_main.c Carsten Otte      2007-10-29  4972  	=
-	r =3D kvm_arch_vm_ioctl(filp, ioctl, arg);
-f17abe9a44425f drivers/kvm/kvm_main.c Avi Kivity        2007-02-21  4973  	}
-f17abe9a44425f drivers/kvm/kvm_main.c Avi Kivity        2007-02-21  4974  o=
-ut:
-f17abe9a44425f drivers/kvm/kvm_main.c Avi Kivity        2007-02-21  4975  	=
-return r;
-f17abe9a44425f drivers/kvm/kvm_main.c Avi Kivity        2007-02-21  4976  }
-f17abe9a44425f drivers/kvm/kvm_main.c Avi Kivity        2007-02-21  4977  =
+40d6cb9177b6a9 Rolf Eike Beer     2022-08-22  328  	return 0;
+116354d177ba2d Naoya Horiguchi    2010-04-06  329  }
+6c6d5280431544 KOSAKI Motohiro    2011-07-25  330  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============8265123392795348561==--
+--===============2633489782591702343==--
 
