@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============8043129361937243905=="
+Content-Type: multipart/mixed; boundary="===============8265123392795348561=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 Subject: [intel-tdx:kvm-upstream-workaround 142/314] arch/arm64/kvm/../../../virt/kvm/kvm_main.c:4971:1: sparse: sparse: unused label 'arch_vm_ioctl'
-Date: Thu, 25 Aug 2022 21:26:05 +0800
-Message-ID: <202208252138.llHFwxbW-lkp@intel.com>
+Date: Tue, 23 Aug 2022 17:04:20 +0800
+Message-ID: <202208231619.lVCr5oIn-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8043129361937243905==
+--===============8265123392795348561==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -30,10 +30,10 @@ tree:   https://github.com/intel/tdx.git kvm-upstream-workaround
 head:   552dd80c48f67ca01bcdd10667e0c11efd375177
 commit: 303b911206dd2a12b1a4fdee94044dc5a6fa36a3 [142/314] KVM: Register/un=
 register the guest private memory regions
-:::::: branch date: 3 days ago
-:::::: commit date: 3 days ago
-config: arm64-randconfig-s051-20220824 (https://download.01.org/0day-ci/arc=
-hive/20220825/202208252138.llHFwxbW-lkp(a)intel.com/config)
+:::::: branch date: 9 hours ago
+:::::: commit date: 10 hours ago
+config: arm64-randconfig-s033-20220821 (https://download.01.org/0day-ci/arc=
+hive/20220823/202208231619.lVCr5oIn-lkp(a)intel.com/config)
 compiler: aarch64-linux-gcc (GCC) 12.1.0
 reproduce:
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
@@ -537,5 +537,5 @@ f17abe9a44425f drivers/kvm/kvm_main.c Avi Kivity        2007-02-21  4977  =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============8043129361937243905==--
+--===============8265123392795348561==--
 
