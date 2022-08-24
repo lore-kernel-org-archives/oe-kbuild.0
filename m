@@ -1,146 +1,48 @@
-Content-Type: multipart/mixed; boundary="===============1942440749130767134=="
+Content-Type: multipart/mixed; boundary="===============5403048565094160543=="
 MIME-Version: 1.0
-From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v5, 5/8] media: mediatek: vcodec: Add venc power on/off function
-Date: Sun, 14 Aug 2022 07:20:08 +0800
-Message-ID: <202208140736.FET1DQOx-lkp@intel.com>
+From: Dan Carpenter <dan.carpenter@oracle.com>
+Subject: Re: [linux-next:master 2079/2594] fs/btrfs/volumes.c:6546 __btrfs_map_block() error: we previously assumed 'mirror_num_p' could be null (see line 6373)
+Date: Wed, 24 Aug 2022 09:21:55 +0300
+Message-ID: <20220824055446.GL2719@kadam>
+In-Reply-To: <20220824053527.GA18584@lst.de>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1942440749130767134==
+--===============5403048565094160543==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-BCC: lkp(a)intel.com
-CC: kbuild-all(a)lists.01.org
-In-Reply-To: <20220729035129.3634-6-irui.wang@mediatek.com>
-References: <20220729035129.3634-6-irui.wang@mediatek.com>
-TO: Irui Wang <irui.wang@mediatek.com>
-TO: Hans Verkuil <hverkuil@xs4all.nl>
-TO: angelogioacchino.delregno(a)collabora.com
-TO: Rob Herring <robh+dt@kernel.org>
-TO: Mauro Carvalho Chehab <mchehab@kernel.org>
-CC: linux-media(a)vger.kernel.org
-TO: Matthias Brugger <matthias.bgg@gmail.com>
-TO: Alexandre Courbot <acourbot@chromium.org>
-TO: Tiffany Lin <tiffany.lin@mediatek.com>
-TO: "Andrew-CT Chen" <andrew-ct.chen@mediatek.com>
-TO: "Tzung-Bi Shih" <tzungbi@chromium.org>
-TO: Tomasz Figa <tfiga@google.com>
-TO: nicolas.dufresne(a)collabora.com
-CC: Maoguang Meng <maoguang.meng@mediatek.com>
-CC: Longfei Wang <longfei.wang@mediatek.com>
-CC: Yunfei Dong <yunfei.dong@mediatek.com>
-CC: Irui Wang <irui.wang@mediatek.com>
-CC: devicetree(a)vger.kernel.org
-CC: linux-kernel(a)vger.kernel.org
-CC: linux-arm-kernel(a)lists.infradead.org
-CC: linux-mediatek(a)lists.infradead.org
-CC: Project_Global_Chrome_Upstream_Group(a)mediatek.com
+On Wed, Aug 24, 2022 at 07:35:27AM +0200, Christoph Hellwig wrote:
+> On Wed, Aug 24, 2022 at 08:28:26AM +0300, Dan Carpenter wrote:
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next=
+.git   master
+> > head:   05477f3653b82d8b3bcf39d2937d9893124976db
+> > commit: 51bf2819055847ce90006a368f8d2c07f408dd33 [2079/2594] btrfs: mak=
+e the btrfs_io_context allocation in __btrfs_map_block optional
+> > config: nios2-randconfig-m031-20220824 (https://download.01.org/0day-ci=
+/archive/20220824/202208240734.u4Y7Q6sW-lkp(a)intel.com/config  )
+> > compiler: nios2-linux-gcc (GCC) 12.1.0
+> > =
 
-Hi Irui,
+> > If you fix the issue, kindly add following tag where applicable
+> > Reported-by: kernel test robot <lkp@intel.com>
+> > Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+> > =
 
-Thank you for the patch! Perhaps something to improve:
+> > New smatch warnings:
+> =
 
-[auto build test WARNING on media-tree/master]
-[also build test WARNING on linus/master next-20220812]
-[cannot apply to v5.19]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> The calling convention implies that either smap and mirror_num_p are both
+> NULL or neither.  We could add an extra check to shut up the validator
+> if this really helps.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Irui-Wang/Support-H2=
-64-multi-core-encoder-on-MT8195/20220729-115415
-base:   git://linuxtv.org/media_tree.git master
-:::::: branch date: 2 weeks ago
-:::::: commit date: 2 weeks ago
-config: arm-randconfig-m041-20220812 (https://download.01.org/0day-ci/archi=
-ve/20220814/202208140736.FET1DQOx-lkp(a)intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+No need.  That's a simple relationship and the warning should be
+silenced if you have the cross function DB information.  (It's just not
+possible to build the cross function DB for the number of builds that
+the kbuild-bot does).
 
-If you fix the issue, kindly add following tag where applicable
-Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-
-smatch warnings:
-drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc_pm.c:77 mtk_enc_core_=
-power_on() error: uninitialized symbol 'ret'.
-
-vim +/ret +77 drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc_pm.c
-
-4e855a6efa5470d8 drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_pm.c     =
- Tiffany Lin 2016-05-03  59  =
-
-1fd72375b4f44395 drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc_pm.c=
- Irui Wang   2022-07-29  60  static int mtk_enc_core_power_on(struct mtk_vc=
-odec_ctx *ctx)
-1fd72375b4f44395 drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc_pm.c=
- Irui Wang   2022-07-29  61  {
-1fd72375b4f44395 drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc_pm.c=
- Irui Wang   2022-07-29  62  	struct mtk_venc_hw_dev *sub_core;
-1fd72375b4f44395 drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc_pm.c=
- Irui Wang   2022-07-29  63  	int ret, i;
-1fd72375b4f44395 drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc_pm.c=
- Irui Wang   2022-07-29  64  =
-
-1fd72375b4f44395 drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc_pm.c=
- Irui Wang   2022-07-29  65  	/* multi-core encoding need power on all avai=
-lable cores */
-1fd72375b4f44395 drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc_pm.c=
- Irui Wang   2022-07-29  66  	for (i =3D 0; i < MTK_VENC_HW_MAX; i++) {
-1fd72375b4f44395 drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc_pm.c=
- Irui Wang   2022-07-29  67  		sub_core =3D (struct mtk_venc_hw_dev *)ctx->=
-dev->enc_hw_dev[i];
-1fd72375b4f44395 drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc_pm.c=
- Irui Wang   2022-07-29  68  		if (!sub_core)
-1fd72375b4f44395 drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc_pm.c=
- Irui Wang   2022-07-29  69  			continue;
-1fd72375b4f44395 drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc_pm.c=
- Irui Wang   2022-07-29  70  =
-
-1fd72375b4f44395 drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc_pm.c=
- Irui Wang   2022-07-29  71  		ret =3D pm_runtime_resume_and_get(&sub_core-=
->plat_dev->dev);
-1fd72375b4f44395 drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc_pm.c=
- Irui Wang   2022-07-29  72  		if (ret) {
-1fd72375b4f44395 drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc_pm.c=
- Irui Wang   2022-07-29  73  			mtk_v4l2_err("power on sub_core[%d] fail %d=
-", i, ret);
-1fd72375b4f44395 drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc_pm.c=
- Irui Wang   2022-07-29  74  			goto pm_on_fail;
-1fd72375b4f44395 drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc_pm.c=
- Irui Wang   2022-07-29  75  		}
-1fd72375b4f44395 drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc_pm.c=
- Irui Wang   2022-07-29  76  	}
-1fd72375b4f44395 drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc_pm.c=
- Irui Wang   2022-07-29 @77  	return ret;
-1fd72375b4f44395 drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc_pm.c=
- Irui Wang   2022-07-29  78  =
-
-1fd72375b4f44395 drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc_pm.c=
- Irui Wang   2022-07-29  79  pm_on_fail:
-1fd72375b4f44395 drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc_pm.c=
- Irui Wang   2022-07-29  80  	for (i -=3D 1; i >=3D 0; i--) {
-1fd72375b4f44395 drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc_pm.c=
- Irui Wang   2022-07-29  81  		sub_core =3D (struct mtk_venc_hw_dev *)ctx->=
-dev->enc_hw_dev[i];
-1fd72375b4f44395 drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc_pm.c=
- Irui Wang   2022-07-29  82  		pm_runtime_put_sync(&sub_core->plat_dev->dev=
-);
-1fd72375b4f44395 drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc_pm.c=
- Irui Wang   2022-07-29  83  	}
-1fd72375b4f44395 drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc_pm.c=
- Irui Wang   2022-07-29  84  	return ret;
-1fd72375b4f44395 drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc_pm.c=
- Irui Wang   2022-07-29  85  }
-1fd72375b4f44395 drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc_pm.c=
- Irui Wang   2022-07-29  86  =
-
-
--- =
-
-0-DAY CI Kernel Test Service
-https://01.org/lkp
---===============1942440749130767134==--
+regards,
+dan carpenter
+--===============5403048565094160543==--
 
