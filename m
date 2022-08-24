@@ -1,193 +1,116 @@
-Content-Type: multipart/mixed; boundary="===============0739175026334416060=="
+Content-Type: multipart/mixed; boundary="===============8997082810478465228=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/gpu/drm/tegra/nvdec.c:180:20: warning: use of uninitialized value '<unknown>' [CWE-457]
-Date: Sun, 14 Aug 2022 12:08:02 +0800
-Message-ID: <202208141240.hEJPKfba-lkp@intel.com>
+Subject: net/dsa/tag_sja1105.c:168 sja1105_xmit_tpid() error: uninitialized symbol 'proto'.
+Date: Wed, 24 Aug 2022 17:34:30 +0800
+Message-ID: <202208241748.PLMhoGIy-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0739175026334416060==
+--===============8997082810478465228==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-:::::: =
-
-:::::: Manual check reason: "low confidence bisect report"
-:::::: Manual check reason: "low confidence static check warning: drivers/g=
-pu/drm/tegra/nvdec.c:180:20: warning: use of uninitialized value '<unknown>=
-' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]"
-:::::: =
-
-
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Mikko Perttunen <mperttunen@nvidia.com>
-CC: Thierry Reding <treding@nvidia.com>
+TO: Vladimir Oltean <vladimir.oltean@nxp.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
-head:   aea23e7c464bfdec04b52cf61edb62030e9e0d0a
-commit: 46f226c93d35b936aeec6eb31da932dc2e86f413 drm/tegra: Add NVDEC driver
-date:   8 months ago
-:::::: branch date: 3 hours ago
-:::::: commit date: 8 months ago
-config: arm-randconfig-c002-20220808 (https://download.01.org/0day-ci/archi=
-ve/20220814/202208141240.hEJPKfba-lkp(a)intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D46f226c93d35b936aeec6eb31da932dc2e86f413
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 46f226c93d35b936aeec6eb31da932dc2e86f413
-        # save the config file
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cross=
- ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
-
+head:   c40e8341e3b3bb27e3a65b06b5b454626234c4f0
+commit: 8ded9160928e545c2e694b77a87263fa078ff4c6 net: dsa: tag_sja1105: sto=
+p asking the sja1105 driver in sja1105_xmit_tpid
+date:   12 months ago
+:::::: branch date: 7 hours ago
+:::::: commit date: 12 months ago
+config: openrisc-randconfig-m031-20220824 (https://download.01.org/0day-ci/=
+archive/20220824/202208241748.PLMhoGIy-lkp(a)intel.com/config)
+compiler: or1k-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-gcc-analyzer warnings: (new ones prefixed by >>)
-   drivers/gpu/drm/tegra/nvdec.c: In function 'nvdec_load_firmware':
->> drivers/gpu/drm/tegra/nvdec.c:180:20: warning: use of uninitialized valu=
-e '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-     180 |         dma_addr_t iova;
-         |                    ^~~~
-     'nvdec_load_firmware': event 1
-       |
-       |  180 |         dma_addr_t iova;
-       |      |                    ^~~~
-       |      |                    |
-       |      |                    (1) use of uninitialized value '<unknown=
->' here
-       |
-   drivers/gpu/drm/tegra/nvdec.c: In function 'nvdec_probe':
-   drivers/gpu/drm/tegra/nvdec.c:347:13: warning: use of uninitialized valu=
-e '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-     347 |         u32 host_class;
-         |             ^~~~~~~~~~
-     'nvdec_probe': event 1
-       |
-       |  347 |         u32 host_class;
-       |      |             ^~~~~~~~~~
-       |      |             |
-       |      |             (1) use of uninitialized value '<unknown>' here
-       |
+New smatch warnings:
+net/dsa/tag_sja1105.c:168 sja1105_xmit_tpid() error: uninitialized symbol '=
+proto'.
 
-vim +180 drivers/gpu/drm/tegra/nvdec.c
+Old smatch warnings:
+net/dsa/tag_sja1105.c:508 sja1105_rcv() error: uninitialized symbol 'vid'.
 
-46f226c93d35b9 Mikko Perttunen 2021-09-16  175  =
+vim +/proto +168 net/dsa/tag_sja1105.c
 
-46f226c93d35b9 Mikko Perttunen 2021-09-16  176  static int nvdec_load_firmw=
-are(struct nvdec *nvdec)
-46f226c93d35b9 Mikko Perttunen 2021-09-16  177  {
-46f226c93d35b9 Mikko Perttunen 2021-09-16  178  	struct host1x_client *clie=
-nt =3D &nvdec->client.base;
-46f226c93d35b9 Mikko Perttunen 2021-09-16  179  	struct tegra_drm *tegra =
-=3D nvdec->client.drm;
-46f226c93d35b9 Mikko Perttunen 2021-09-16 @180  	dma_addr_t iova;
-46f226c93d35b9 Mikko Perttunen 2021-09-16  181  	size_t size;
-46f226c93d35b9 Mikko Perttunen 2021-09-16  182  	void *virt;
-46f226c93d35b9 Mikko Perttunen 2021-09-16  183  	int err;
-46f226c93d35b9 Mikko Perttunen 2021-09-16  184  =
+a68578c20a9667 Vladimir Oltean 2020-01-04  135  =
 
-46f226c93d35b9 Mikko Perttunen 2021-09-16  185  	if (nvdec->falcon.firmware=
-.virt)
-46f226c93d35b9 Mikko Perttunen 2021-09-16  186  		return 0;
-46f226c93d35b9 Mikko Perttunen 2021-09-16  187  =
+8ded9160928e54 Vladimir Oltean 2021-08-24  136  /* Send VLAN tags with a TP=
+ID that blends in with whatever VLAN protocol a
+8ded9160928e54 Vladimir Oltean 2021-08-24  137   * bridge spanning ports of=
+ this switch might have.
+8ded9160928e54 Vladimir Oltean 2021-08-24  138   */
+994d2cbb08ca05 Vladimir Oltean 2021-08-17  139  static u16 sja1105_xmit_tpi=
+d(struct dsa_port *dp)
+38b5beeae7a4cd Vladimir Oltean 2020-05-12  140  {
+8ded9160928e54 Vladimir Oltean 2021-08-24  141  	struct dsa_switch *ds =3D =
+dp->ds;
+8ded9160928e54 Vladimir Oltean 2021-08-24  142  	struct dsa_port *other_dp;
+8ded9160928e54 Vladimir Oltean 2021-08-24  143  	u16 proto;
+8ded9160928e54 Vladimir Oltean 2021-08-24  144  =
 
-46f226c93d35b9 Mikko Perttunen 2021-09-16  188  	err =3D falcon_read_firmwa=
-re(&nvdec->falcon, nvdec->config->firmware);
-46f226c93d35b9 Mikko Perttunen 2021-09-16  189  	if (err < 0)
-46f226c93d35b9 Mikko Perttunen 2021-09-16  190  		return err;
-46f226c93d35b9 Mikko Perttunen 2021-09-16  191  =
+8ded9160928e54 Vladimir Oltean 2021-08-24  145  	/* Since VLAN awareness is=
+ global, then if this port is VLAN-unaware,
+8ded9160928e54 Vladimir Oltean 2021-08-24  146  	 * all ports are. Use the =
+VLAN-unaware TPID used for tag_8021q.
+8ded9160928e54 Vladimir Oltean 2021-08-24  147  	 */
+8ded9160928e54 Vladimir Oltean 2021-08-24  148  	if (!dsa_port_is_vlan_filt=
+ering(dp))
+8ded9160928e54 Vladimir Oltean 2021-08-24  149  		return ETH_P_SJA1105;
+8ded9160928e54 Vladimir Oltean 2021-08-24  150  =
 
-46f226c93d35b9 Mikko Perttunen 2021-09-16  192  	size =3D nvdec->falcon.fir=
-mware.size;
-46f226c93d35b9 Mikko Perttunen 2021-09-16  193  =
+8ded9160928e54 Vladimir Oltean 2021-08-24  151  	/* Port is VLAN-aware, so =
+there is a bridge somewhere (a single one,
+8ded9160928e54 Vladimir Oltean 2021-08-24  152  	 * we're sure about that).=
+ It may not be on this port though, so we
+8ded9160928e54 Vladimir Oltean 2021-08-24  153  	 * need to find it.
+8ded9160928e54 Vladimir Oltean 2021-08-24  154  	 */
+8ded9160928e54 Vladimir Oltean 2021-08-24  155  	list_for_each_entry(other_=
+dp, &ds->dst->ports, list) {
+8ded9160928e54 Vladimir Oltean 2021-08-24  156  		if (other_dp->ds !=3D ds)
+8ded9160928e54 Vladimir Oltean 2021-08-24  157  			continue;
+8ded9160928e54 Vladimir Oltean 2021-08-24  158  =
 
-46f226c93d35b9 Mikko Perttunen 2021-09-16  194  	if (!client->group) {
-46f226c93d35b9 Mikko Perttunen 2021-09-16  195  		virt =3D dma_alloc_cohere=
-nt(nvdec->dev, size, &iova, GFP_KERNEL);
-46f226c93d35b9 Mikko Perttunen 2021-09-16  196  =
+8ded9160928e54 Vladimir Oltean 2021-08-24  159  		if (!other_dp->bridge_dev)
+8ded9160928e54 Vladimir Oltean 2021-08-24  160  			continue;
+8ded9160928e54 Vladimir Oltean 2021-08-24  161  =
 
-46f226c93d35b9 Mikko Perttunen 2021-09-16  197  		err =3D dma_mapping_error=
-(nvdec->dev, iova);
-46f226c93d35b9 Mikko Perttunen 2021-09-16  198  		if (err < 0)
-46f226c93d35b9 Mikko Perttunen 2021-09-16  199  			return err;
-46f226c93d35b9 Mikko Perttunen 2021-09-16  200  	} else {
-46f226c93d35b9 Mikko Perttunen 2021-09-16  201  		virt =3D tegra_drm_alloc(=
-tegra, size, &iova);
-46f226c93d35b9 Mikko Perttunen 2021-09-16  202  	}
-46f226c93d35b9 Mikko Perttunen 2021-09-16  203  =
+8ded9160928e54 Vladimir Oltean 2021-08-24  162  		/* Error is returned only=
+ if CONFIG_BRIDGE_VLAN_FILTERING,
+8ded9160928e54 Vladimir Oltean 2021-08-24  163  		 * which seems pointless =
+to handle, as our port cannot become
+8ded9160928e54 Vladimir Oltean 2021-08-24  164  		 * VLAN-aware in that cas=
+e.
+8ded9160928e54 Vladimir Oltean 2021-08-24  165  		 */
+8ded9160928e54 Vladimir Oltean 2021-08-24  166  		br_vlan_get_proto(other_d=
+p->bridge_dev, &proto);
+8ded9160928e54 Vladimir Oltean 2021-08-24  167  =
 
-46f226c93d35b9 Mikko Perttunen 2021-09-16  204  	nvdec->falcon.firmware.vir=
-t =3D virt;
-46f226c93d35b9 Mikko Perttunen 2021-09-16  205  	nvdec->falcon.firmware.iov=
-a =3D iova;
-46f226c93d35b9 Mikko Perttunen 2021-09-16  206  =
+8ded9160928e54 Vladimir Oltean 2021-08-24 @168  		return proto;
+8ded9160928e54 Vladimir Oltean 2021-08-24  169  	}
+994d2cbb08ca05 Vladimir Oltean 2021-08-17  170  =
 
-46f226c93d35b9 Mikko Perttunen 2021-09-16  207  	err =3D falcon_load_firmwa=
-re(&nvdec->falcon);
-46f226c93d35b9 Mikko Perttunen 2021-09-16  208  	if (err < 0)
-46f226c93d35b9 Mikko Perttunen 2021-09-16  209  		goto cleanup;
-46f226c93d35b9 Mikko Perttunen 2021-09-16  210  =
+8ded9160928e54 Vladimir Oltean 2021-08-24  171  	WARN_ONCE(1, "Port is VLAN=
+-aware but cannot find associated bridge!\n");
+994d2cbb08ca05 Vladimir Oltean 2021-08-17  172  =
 
-46f226c93d35b9 Mikko Perttunen 2021-09-16  211  	/*
-46f226c93d35b9 Mikko Perttunen 2021-09-16  212  	 * In this case we have re=
-ceived an IOVA from the shared domain, so we
-46f226c93d35b9 Mikko Perttunen 2021-09-16  213  	 * need to make sure to ge=
-t the physical address so that the DMA API
-46f226c93d35b9 Mikko Perttunen 2021-09-16  214  	 * knows what memory pages=
- to flush the cache for.
-46f226c93d35b9 Mikko Perttunen 2021-09-16  215  	 */
-46f226c93d35b9 Mikko Perttunen 2021-09-16  216  	if (client->group) {
-46f226c93d35b9 Mikko Perttunen 2021-09-16  217  		dma_addr_t phys;
-46f226c93d35b9 Mikko Perttunen 2021-09-16  218  =
-
-46f226c93d35b9 Mikko Perttunen 2021-09-16  219  		phys =3D dma_map_single(n=
-vdec->dev, virt, size, DMA_TO_DEVICE);
-46f226c93d35b9 Mikko Perttunen 2021-09-16  220  =
-
-46f226c93d35b9 Mikko Perttunen 2021-09-16  221  		err =3D dma_mapping_error=
-(nvdec->dev, phys);
-46f226c93d35b9 Mikko Perttunen 2021-09-16  222  		if (err < 0)
-46f226c93d35b9 Mikko Perttunen 2021-09-16  223  			goto cleanup;
-46f226c93d35b9 Mikko Perttunen 2021-09-16  224  =
-
-46f226c93d35b9 Mikko Perttunen 2021-09-16  225  		nvdec->falcon.firmware.ph=
-ys =3D phys;
-46f226c93d35b9 Mikko Perttunen 2021-09-16  226  	}
-46f226c93d35b9 Mikko Perttunen 2021-09-16  227  =
-
-46f226c93d35b9 Mikko Perttunen 2021-09-16  228  	return 0;
-46f226c93d35b9 Mikko Perttunen 2021-09-16  229  =
-
-46f226c93d35b9 Mikko Perttunen 2021-09-16  230  cleanup:
-46f226c93d35b9 Mikko Perttunen 2021-09-16  231  	if (!client->group)
-46f226c93d35b9 Mikko Perttunen 2021-09-16  232  		dma_free_coherent(nvdec->=
-dev, size, virt, iova);
-46f226c93d35b9 Mikko Perttunen 2021-09-16  233  	else
-46f226c93d35b9 Mikko Perttunen 2021-09-16  234  		tegra_drm_free(tegra, siz=
-e, virt, iova);
-46f226c93d35b9 Mikko Perttunen 2021-09-16  235  =
-
-46f226c93d35b9 Mikko Perttunen 2021-09-16  236  	return err;
-46f226c93d35b9 Mikko Perttunen 2021-09-16  237  }
-46f226c93d35b9 Mikko Perttunen 2021-09-16  238  =
+8ded9160928e54 Vladimir Oltean 2021-08-24  173  	return ETH_P_SJA1105;
+38b5beeae7a4cd Vladimir Oltean 2020-05-12  174  }
+38b5beeae7a4cd Vladimir Oltean 2020-05-12  175  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============0739175026334416060==--
+--===============8997082810478465228==--
 
