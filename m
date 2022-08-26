@@ -1,104 +1,125 @@
-Content-Type: multipart/mixed; boundary="===============5570013365371827847=="
+Content-Type: multipart/mixed; boundary="===============8096126910066440343=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [zanussi-trace:ftrace/masami-hitcount-v0 1/3] kernel/trace/trace_events_hist.c:4354 create_val_fields() error: uninitialized symbol 'n_hitcount'.
-Date: Fri, 26 Aug 2022 13:30:51 +0800
-Message-ID: <202208261355.j5zhO4zb-lkp@intel.com>
+Subject: [broonie-spi:for-6.1 19/19] drivers/spi/spi-amd.c:253 amd_set_spi_freq() error: buffer overflow 'amd_spi_freq' 9 <= 9 (assuming for loop doesn't break)
+Date: Fri, 26 Aug 2022 12:30:03 +0800
+Message-ID: <202208261256.gtRY1l0p-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5570013365371827847==
+--===============8096126910066440343==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
-CC: linux-kernel(a)vger.kernel.org
-TO: Tom Zanussi <zanussi@kernel.org>
+CC: linux-spi(a)vger.kernel.org
+TO: Lucas Tanure <tanureal@opensource.cirrus.com>
+CC: Mark Brown <broonie@kernel.org>
+CC: Shreeya Patel <shreeya.patel@collabora.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/zanussi/linux-trace=
-.git ftrace/masami-hitcount-v0
-head:   886fe9b6098eddb9d298e8a3f07bbea61acdac16
-commit: 2b0a73549f8fb4115c06639c75a4b7abd7825aaa [1/3] tracing: Allow multi=
-ple hitcount values in histograms
-:::::: branch date: 9 hours ago
-:::::: commit date: 9 hours ago
-config: i386-randconfig-m021 (https://download.01.org/0day-ci/archive/20220=
-826/202208261355.j5zhO4zb-lkp(a)intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-5) 11.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for=
+-6.1
+head:   3fe26121dc3a9bf64e18fe0075cd9a92c9cd1b1a
+commit: 3fe26121dc3a9bf64e18fe0075cd9a92c9cd1b1a [19/19] spi: amd: Configur=
+e device speed
+:::::: branch date: 13 hours ago
+:::::: commit date: 13 hours ago
+config: arm64-randconfig-m041-20220824 (https://download.01.org/0day-ci/arc=
+hive/20220826/202208261256.gtRY1l0p-lkp(a)intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-kernel/trace/trace_events_hist.c:4354 create_val_fields() error: uninitiali=
-zed symbol 'n_hitcount'.
+New smatch warnings:
+drivers/spi/spi-amd.c:253 amd_set_spi_freq() error: buffer overflow 'amd_sp=
+i_freq' 9 <=3D 9 (assuming for loop doesn't break)
 
-vim +/n_hitcount +4354 kernel/trace/trace_events_hist.c
+Old smatch warnings:
+drivers/spi/spi-amd.c:256 amd_set_spi_freq() error: buffer overflow 'amd_sp=
+i_freq' 9 <=3D 9 (assuming for loop doesn't break)
+drivers/spi/spi-amd.c:258 amd_set_spi_freq() error: buffer overflow 'amd_sp=
+i_freq' 9 <=3D 9 (assuming for loop doesn't break)
+drivers/spi/spi-amd.c:267 amd_set_spi_freq() error: buffer overflow 'amd_sp=
+i_freq' 9 <=3D 9 (assuming for loop doesn't break)
+drivers/spi/spi-amd.c:268 amd_set_spi_freq() error: buffer overflow 'amd_sp=
+i_freq' 9 <=3D 9 (assuming for loop doesn't break)
 
-30350d65ac5676 Tom Zanussi 2018-01-15  4331  =
+vim +253 drivers/spi/spi-amd.c
 
-7ef224d1d0e3a1 Tom Zanussi 2016-03-03  4332  static int create_val_fields(s=
-truct hist_trigger_data *hist_data,
-7ef224d1d0e3a1 Tom Zanussi 2016-03-03  4333  			     struct trace_event_fil=
-e *file)
-7ef224d1d0e3a1 Tom Zanussi 2016-03-03  4334  {
-2b0a73549f8fb4 Tom Zanussi 2022-08-24  4335  	unsigned int i, j =3D 1, n_hi=
-tcount;
-f2606835d70d2a Tom Zanussi 2016-03-03  4336  	char *fields_str, *field_str;
-7ef224d1d0e3a1 Tom Zanussi 2016-03-03  4337  	int ret;
-7ef224d1d0e3a1 Tom Zanussi 2016-03-03  4338  =
+3fe26121dc3a9b Lucas Tanure 2022-08-25  238  =
 
-7ef224d1d0e3a1 Tom Zanussi 2016-03-03  4339  	ret =3D create_hitcount_val(h=
-ist_data);
-f2606835d70d2a Tom Zanussi 2016-03-03  4340  	if (ret)
-f2606835d70d2a Tom Zanussi 2016-03-03  4341  		goto out;
-7ef224d1d0e3a1 Tom Zanussi 2016-03-03  4342  =
+3fe26121dc3a9b Lucas Tanure 2022-08-25  239  static int amd_set_spi_freq(st=
+ruct amd_spi *amd_spi, u32 speed_hz)
+3fe26121dc3a9b Lucas Tanure 2022-08-25  240  {
+3fe26121dc3a9b Lucas Tanure 2022-08-25  241  	unsigned int i, spd7_val, alt=
+_spd;
+3fe26121dc3a9b Lucas Tanure 2022-08-25  242  =
 
-f2606835d70d2a Tom Zanussi 2016-03-03  4343  	fields_str =3D hist_data->att=
-rs->vals_str;
-f2606835d70d2a Tom Zanussi 2016-03-03  4344  	if (!fields_str)
-f2606835d70d2a Tom Zanussi 2016-03-03  4345  		goto out;
-f2606835d70d2a Tom Zanussi 2016-03-03  4346  =
+3fe26121dc3a9b Lucas Tanure 2022-08-25  243  	if (speed_hz =3D=3D amd_spi->=
+speed_hz)
+3fe26121dc3a9b Lucas Tanure 2022-08-25  244  		return 0;
+3fe26121dc3a9b Lucas Tanure 2022-08-25  245  =
 
-f2606835d70d2a Tom Zanussi 2016-03-03  4347  	for (i =3D 0, j =3D 1; i < TR=
-ACING_MAP_VALS_MAX &&
-f2606835d70d2a Tom Zanussi 2016-03-03  4348  		     j < TRACING_MAP_VALS_MA=
-X; i++) {
-f2606835d70d2a Tom Zanussi 2016-03-03  4349  		field_str =3D strsep(&fields=
-_str, ",");
-f2606835d70d2a Tom Zanussi 2016-03-03  4350  		if (!field_str)
-f2606835d70d2a Tom Zanussi 2016-03-03  4351  			break;
-30350d65ac5676 Tom Zanussi 2018-01-15  4352  =
+3fe26121dc3a9b Lucas Tanure 2022-08-25  246  	if (speed_hz < AMD_SPI_MIN_HZ)
+3fe26121dc3a9b Lucas Tanure 2022-08-25  247  		return -EINVAL;
+3fe26121dc3a9b Lucas Tanure 2022-08-25  248  =
 
-2b0a73549f8fb4 Tom Zanussi 2022-08-24  4353  		if (strcmp(field_str, "hitco=
-unt") =3D=3D 0) {
-2b0a73549f8fb4 Tom Zanussi 2022-08-24 @4354  			if (!n_hitcount++)
-f2606835d70d2a Tom Zanussi 2016-03-03  4355  				continue;
-2b0a73549f8fb4 Tom Zanussi 2022-08-24  4356  		}
-30350d65ac5676 Tom Zanussi 2018-01-15  4357  =
+3fe26121dc3a9b Lucas Tanure 2022-08-25  249  	for (i =3D 0; i < ARRAY_SIZE(=
+amd_spi_freq); i++)
+3fe26121dc3a9b Lucas Tanure 2022-08-25  250  		if (speed_hz >=3D amd_spi_fr=
+eq[i].speed_hz)
+3fe26121dc3a9b Lucas Tanure 2022-08-25  251  			break;
+3fe26121dc3a9b Lucas Tanure 2022-08-25  252  =
 
-f2606835d70d2a Tom Zanussi 2016-03-03  4358  		ret =3D create_val_field(his=
-t_data, j++, file, field_str);
-f2606835d70d2a Tom Zanussi 2016-03-03  4359  		if (ret)
-f2606835d70d2a Tom Zanussi 2016-03-03  4360  			goto out;
-f2606835d70d2a Tom Zanussi 2016-03-03  4361  	}
-30350d65ac5676 Tom Zanussi 2018-01-15  4362  =
+3fe26121dc3a9b Lucas Tanure 2022-08-25 @253  	if (speed_hz =3D=3D amd_spi_f=
+req[i].speed_hz)
+3fe26121dc3a9b Lucas Tanure 2022-08-25  254  		return 0;
+3fe26121dc3a9b Lucas Tanure 2022-08-25  255  =
 
-f2606835d70d2a Tom Zanussi 2016-03-03  4363  	if (fields_str && (strcmp(fie=
-lds_str, "hitcount") !=3D 0))
-f2606835d70d2a Tom Zanussi 2016-03-03  4364  		ret =3D -EINVAL;
-f2606835d70d2a Tom Zanussi 2016-03-03  4365   out:
-7ef224d1d0e3a1 Tom Zanussi 2016-03-03  4366  	return ret;
-7ef224d1d0e3a1 Tom Zanussi 2016-03-03  4367  }
-7ef224d1d0e3a1 Tom Zanussi 2016-03-03  4368  =
+3fe26121dc3a9b Lucas Tanure 2022-08-25  256  	amd_spi->speed_hz =3D amd_spi=
+_freq[i].speed_hz;
+3fe26121dc3a9b Lucas Tanure 2022-08-25  257  =
+
+3fe26121dc3a9b Lucas Tanure 2022-08-25  258  	alt_spd =3D (amd_spi_freq[i].=
+enable_val << AMD_SPI_ALT_SPD_SHIFT)
+3fe26121dc3a9b Lucas Tanure 2022-08-25  259  		   & AMD_SPI_ALT_SPD_MASK;
+3fe26121dc3a9b Lucas Tanure 2022-08-25  260  	amd_spi_setclear_reg32(amd_sp=
+i, AMD_SPI_ENA_REG, alt_spd,
+3fe26121dc3a9b Lucas Tanure 2022-08-25  261  			       AMD_SPI_ALT_SPD_MASK=
+);
+3fe26121dc3a9b Lucas Tanure 2022-08-25  262  =
+
+3fe26121dc3a9b Lucas Tanure 2022-08-25  263  	if (amd_spi->speed_hz =3D=3D =
+AMD_SPI_MAX_HZ)
+3fe26121dc3a9b Lucas Tanure 2022-08-25  264  		amd_spi_setclear_reg32(amd_s=
+pi, AMD_SPI_ENA_REG, 1,
+3fe26121dc3a9b Lucas Tanure 2022-08-25  265  				       AMD_SPI_SPI100_MASK=
+);
+3fe26121dc3a9b Lucas Tanure 2022-08-25  266  =
+
+3fe26121dc3a9b Lucas Tanure 2022-08-25  267  	if (amd_spi_freq[i].spd7_val)=
+ {
+3fe26121dc3a9b Lucas Tanure 2022-08-25  268  		spd7_val =3D (amd_spi_freq[i=
+].spd7_val << AMD_SPI_SPD7_SHIFT)
+3fe26121dc3a9b Lucas Tanure 2022-08-25  269  			    & AMD_SPI_SPD7_MASK;
+3fe26121dc3a9b Lucas Tanure 2022-08-25  270  		amd_spi_setclear_reg32(amd_s=
+pi, AMD_SPI_SPEED_REG, spd7_val,
+3fe26121dc3a9b Lucas Tanure 2022-08-25  271  				       AMD_SPI_SPD7_MASK);
+3fe26121dc3a9b Lucas Tanure 2022-08-25  272  	}
+3fe26121dc3a9b Lucas Tanure 2022-08-25  273  =
+
+3fe26121dc3a9b Lucas Tanure 2022-08-25  274  	return 0;
+3fe26121dc3a9b Lucas Tanure 2022-08-25  275  }
+3fe26121dc3a9b Lucas Tanure 2022-08-25  276  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============5570013365371827847==--
+--===============8096126910066440343==--
 
