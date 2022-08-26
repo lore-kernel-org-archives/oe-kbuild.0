@@ -1,122 +1,257 @@
-Content-Type: multipart/mixed; boundary="===============4339186697365333522=="
+Content-Type: multipart/mixed; boundary="===============7948860785665343223=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [linux-next:master 363/3682] drivers/gpu/drm/via/via_dri1.c:353:50: warning: Shifting signed 32-bit value by 31 bits is implementation-defined behaviour [shiftTooManyBitsSigned]
-Date: Sat, 27 Aug 2022 04:32:59 +0800
-Message-ID: <202208270436.shCkhgik-lkp@intel.com>
+Subject: drivers/spi/spi-cadence-xspi.c:488:22: warning: use of uninitialized value '<unknown>' [CWE-457]
+Date: Fri, 26 Aug 2022 20:26:39 +0800
+Message-ID: <202208262048.iLs2uHQo-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4339186697365333522==
+--===============7948860785665343223==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 :::::: =
 
-:::::: Manual check reason: "low confidence static check warning: drivers/g=
-pu/drm/via/via_dri1.c:353:50: warning: Shifting signed 32-bit value by 31 b=
-its is implementation-defined behaviour [shiftTooManyBitsSigned]"
+:::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "low confidence static check warning: drivers/s=
+pi/spi-cadence-xspi.c:488:22: warning: use of uninitialized value '<unknown=
+>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]"
 :::::: =
 
 
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Sam Ravnborg <sam@ravnborg.org>
+CC: linux-kernel(a)vger.kernel.org
+TO: Parshuram Thombare <pthombar@cadence.com>
+CC: Mark Brown <broonie@kernel.org>
+CC: Konrad Kociolek <konrad@cadence.com>
+CC: Jayshri Pawar <jpawar@cadence.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
- master
-head:   8d0c42c9e80791e8baba2932d2cbd2dcead50d47
-commit: b0b3a879258ef43cf15b0bac30b92e7c1c4ebbae [363/3682] drm/via: Embed =
-via_irq in via_dri1
-:::::: branch date: 13 hours ago
-:::::: commit date: 6 weeks ago
-compiler: mipsel-linux-gcc (GCC) 12.1.0
-reproduce (cppcheck warning):
-        # apt-get install cppcheck
-        git checkout b0b3a879258ef43cf15b0bac30b92e7c1c4ebbae
-        cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
-e=3Dgcc FILE
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   4c612826bec1441214816827979b62f84a097e91
+commit: a16cc807762730a6291762d4bedd7b00624a6426 spi: cadence: add support =
+for Cadence XSPI controller
+date:   11 months ago
+:::::: branch date: 15 hours ago
+:::::: commit date: 11 months ago
+config: arm-randconfig-c002-20220820 (https://download.01.org/0day-ci/archi=
+ve/20220826/202208262048.iLs2uHQo-lkp(a)intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3Da16cc807762730a6291762d4bedd7b00624a6426
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout a16cc807762730a6291762d4bedd7b00624a6426
+        # save the config file
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cross=
+ ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
+
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 
+gcc-analyzer warnings: (new ones prefixed by >>)
+   arch/arm/include/asm/io.h:92:22: warning: use of uninitialized value 'cm=
+d_regs[5]' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+      92 | #define __raw_writel __raw_writel
+         |                      ^
+   arch/arm/include/asm/io.h:299:33: note: in expansion of macro '__raw_wri=
+tel'
+     299 | #define writel_relaxed(v,c)     __raw_writel((__force u32) cpu_t=
+o_le32(v),c)
+         |                                 ^~~~~~~~~~~~
+   arch/arm/include/asm/io.h:307:47: note: in expansion of macro 'writel_re=
+laxed'
+     307 | #define writel(v,c)             ({ __iowmb(); writel_relaxed(v,c=
+); })
+         |                                               ^~~~~~~~~~~~~~
+   drivers/spi/spi-cadence-xspi.c:244:9: note: in expansion of macro 'write=
+l'
+     244 |         writel(cmd_regs[5], cdns_xspi->iobase + CDNS_XSPI_CMD_RE=
+G_5);
+         |         ^~~~~~
+     'cdns_xspi_mem_op_execute': events 1-2
+       |
+       |  416 | static int cdns_xspi_mem_op_execute(struct spi_mem *mem,
+       |      |            ^~~~~~~~~~~~~~~~~~~~~~~~
+       |      |            |
+       |      |            (1) entry to 'cdns_xspi_mem_op_execute'
+       |......
+       |  423 |         ret =3D cdns_xspi_mem_op(cdns_xspi, mem, op);
+       |      |               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |               |
+       |      |               (2) calling 'cdns_xspi_mem_op' from 'cdns_xsp=
+i_mem_op_execute'
+       |
+       +--> 'cdns_xspi_mem_op': events 3-4
+              |
+              |  403 | static int cdns_xspi_mem_op(struct cdns_xspi_dev *cd=
+ns_xspi,
+              |      |            ^~~~~~~~~~~~~~~~
+              |      |            |
+              |      |            (3) entry to 'cdns_xspi_mem_op'
+              |......
+              |  412 |         return cdns_xspi_send_stig_command(cdns_xspi=
+, op,
+              |      |                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~
+              |      |                |
+              |      |                (4) calling 'cdns_xspi_send_stig_comm=
+and' from 'cdns_xspi_mem_op'
+              |  413 |                                            (dir !=3D=
+ SPI_MEM_NO_DATA));
+              |      |                                            ~~~~~~~~~=
+~~~~~~~~~~~~~~~~
+              |
+              +--> 'cdns_xspi_send_stig_command': events 5-7
+                     |
+                     |  345 | static int cdns_xspi_send_stig_command(struct=
+ cdns_xspi_dev *cdns_xspi,
+                     |      |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+                     |      |            |
+                     |      |            (5) entry to 'cdns_xspi_send_stig_=
+command'
+                     |......
+                     |  349 |         u32 cmd_regs[5];
+                     |      |             ~~~~~~~~
+                     |      |             |
+                     |      |             (6) region created on stack here
+                     |......
+                     |  354 |         if (ret < 0)
+                     |      |            ~
+                     |      |            |
+                     |      |            (7) following 'false' branch (when=
+ 'ret >=3D 0')...
+                     |
+                   'cdns_xspi_send_stig_command': event 8
+                     |
+                     |  358 |                cdns_xspi->iobase + CDNS_XSPI_=
+CTRL_CONFIG_REG);
+                     |      |                ~~~~~~~~~^~~~~~~~
+                     |      |                         |
+                     |      |                         (8) ...to here
+   arch/arm/include/asm/io.h:299:75: note: in definition of macro 'writel_r=
+elaxed'
+                     |  299 | #define writel_relaxed(v,c)     __raw_writel(=
+(__force u32) cpu_to_le32(v),c)
+                     |      |                                              =
+                             ^
+   drivers/spi/spi-cadence-xspi.c:357:9: note: in expansion of macro 'write=
+l'
+                     |  357 |         writel(FIELD_PREP(CDNS_XSPI_CTRL_WORK=
+_MODE, CDNS_XSPI_WORK_MODE_STIG),
+                     |      |         ^~~~~~
+                     |
+                   'cdns_xspi_send_stig_command': event 9
+                     |
+                     |  370 |         cdns_xspi_trigger_command(cdns_xspi, =
+cmd_regs);
+                     |      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~
+                     |      |         |
+                     |      |         (9) calling 'cdns_xspi_trigger_comman=
+d' from 'cdns_xspi_send_stig_command'
+                     |
+                     +--> 'cdns_xspi_trigger_command': event 10
+                            |
+                            |  241 | static void cdns_xspi_trigger_command(=
+struct cdns_xspi_dev *cdns_xspi,
+                            |      |             ^~~~~~~~~~~~~~~~~~~~~~~~~
+                            |      |             |
+                            |      |             (10) entry to 'cdns_xspi_t=
+rigger_command'
+                            |
+                          'cdns_xspi_trigger_command': event 11
+                            |
+                            |arch/arm/include/asm/io.h:92:22:
+                            |   92 | #define __raw_writel __raw_writel
+                            |      |                      ^
+                            |      |                      |
+                            |      |                      (11) use of unini=
+tialized value 'cmd_regs[5]' here
+   arch/arm/include/asm/io.h:299:33: note: in expansion of macro '__raw_wri=
+tel'
+                            |  299 | #define writel_relaxed(v,c)     __raw_=
+writel((__force u32) cpu_to_le32(v),c)
+                            |      |                                 ^~~~~~=
+~~~~~~
+   arch/arm/include/asm/io.h:307:47: note: in expansion of macro 'writel_re=
+laxed'
+                            |  307 | #define writel(v,c)             ({ __i=
+owmb(); writel_relaxed(v,c); })
+                            |      |                                       =
+        ^~~~~~~~~~~~~~
+   drivers/spi/spi-cadence-xspi.c:244:9: note: in expansion of macro 'write=
+l'
+                            |  244 |         writel(cmd_regs[5], cdns_xspi-=
+>iobase + CDNS_XSPI_CMD_REG_5);
+                            |      |         ^~~~~~
+                            |
+   drivers/spi/spi-cadence-xspi.c: In function 'cdns_xspi_of_get_plat_data':
+>> drivers/spi/spi-cadence-xspi.c:488:22: warning: use of uninitialized val=
+ue '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+     488 |         unsigned int cs;
+         |                      ^~
+     'cdns_xspi_of_get_plat_data': event 1
+       |
+       |  488 |         unsigned int cs;
+       |      |                      ^~
+       |      |                      |
+       |      |                      (1) use of uninitialized value '<unkno=
+wn>' here
+       |
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+vim +488 drivers/spi/spi-cadence-xspi.c
 
->> drivers/gpu/drm/via/via_dri1.c:353:50: warning: Shifting signed 32-bit v=
-alue by 31 bits is implementation-defined behaviour [shiftTooManyBitsSigned]
-    via_write(dev_priv, VIA_REG_INTERRUPT, status | VIA_IRQ_GLOBAL
-                                                    ^
->> drivers/gpu/drm/via/via_dri1.c:353:50: warning: Signed integer overflow =
-for expression '1<<31'. [integerOverflow]
-    via_write(dev_priv, VIA_REG_INTERRUPT, status | VIA_IRQ_GLOBAL
-                                                    ^
->> drivers/hwmon/hwmon.c:1065:66: warning: Parameter 'data' can be declared=
- with const [constParameter]
-   static int devm_hwmon_match(struct device *dev, void *res, void *data)
-                                                                    ^
->> drivers/hwmon/hwmon.c:288:15: warning: Uninitialized variable: tzdata->i=
-ndex [uninitvar]
-     if (tzdata->index =3D=3D index) {
-                 ^
---
->> drivers/hwmon/pmbus/pmbus_core.c:165:24: warning: Either the condition '=
-page<0' is redundant or the array 'data->info->func[32]' is accessed at ind=
-ex 32, which is out of bounds. [arrayIndexOutOfBoundsCond]
-    if (!(data->info->func[page] & PMBUS_PAGE_VIRTUAL) &&
-                          ^
-   drivers/hwmon/pmbus/pmbus_core.c:162:11: note: Assuming that condition '=
-page<0' is not redundant
-    if (page < 0)
-             ^
-   drivers/hwmon/pmbus/pmbus_core.c:165:24: note: Array index out of bounds
-    if (!(data->info->func[page] & PMBUS_PAGE_VIRTUAL) &&
-                          ^
+a16cc807762730 Parshuram Thombare 2021-09-19  483  =
 
-vim +353 drivers/gpu/drm/via/via_dri1.c
+a16cc807762730 Parshuram Thombare 2021-09-19  484  static int cdns_xspi_of_=
+get_plat_data(struct platform_device *pdev)
+a16cc807762730 Parshuram Thombare 2021-09-19  485  {
+a16cc807762730 Parshuram Thombare 2021-09-19  486  	struct device_node *nod=
+e_prop =3D pdev->dev.of_node;
+a16cc807762730 Parshuram Thombare 2021-09-19  487  	struct device_node *nod=
+e_child;
+a16cc807762730 Parshuram Thombare 2021-09-19 @488  	unsigned int cs;
+a16cc807762730 Parshuram Thombare 2021-09-19  489  =
 
-b0b3a879258ef4 Sam Ravnborg 2022-07-13  342  =
+a16cc807762730 Parshuram Thombare 2021-09-19  490  	for_each_child_of_node(=
+node_prop, node_child) {
+a16cc807762730 Parshuram Thombare 2021-09-19  491  		if (!of_device_is_avai=
+lable(node_child))
+a16cc807762730 Parshuram Thombare 2021-09-19  492  			continue;
+a16cc807762730 Parshuram Thombare 2021-09-19  493  =
 
-b0b3a879258ef4 Sam Ravnborg 2022-07-13  343  static int via_driver_irq_post=
-install(struct drm_device *dev)
-b0b3a879258ef4 Sam Ravnborg 2022-07-13  344  {
-b0b3a879258ef4 Sam Ravnborg 2022-07-13  345  	drm_via_private_t *dev_priv =
-=3D (drm_via_private_t *) dev->dev_private;
-b0b3a879258ef4 Sam Ravnborg 2022-07-13  346  	u32 status;
-b0b3a879258ef4 Sam Ravnborg 2022-07-13  347  =
+a16cc807762730 Parshuram Thombare 2021-09-19  494  		if (of_property_read_u=
+32(node_child, "reg", &cs)) {
+a16cc807762730 Parshuram Thombare 2021-09-19  495  			dev_err(&pdev->dev, "=
+Couldn't get memory chip select\n");
+a16cc807762730 Parshuram Thombare 2021-09-19  496  			return -ENXIO;
+a16cc807762730 Parshuram Thombare 2021-09-19  497  		} else if (cs >=3D CDN=
+S_XSPI_MAX_BANKS) {
+a16cc807762730 Parshuram Thombare 2021-09-19  498  			dev_err(&pdev->dev, "=
+reg (cs) parameter value too large\n");
+a16cc807762730 Parshuram Thombare 2021-09-19  499  			return -ENXIO;
+a16cc807762730 Parshuram Thombare 2021-09-19  500  		}
+a16cc807762730 Parshuram Thombare 2021-09-19  501  	}
+a16cc807762730 Parshuram Thombare 2021-09-19  502  =
 
-b0b3a879258ef4 Sam Ravnborg 2022-07-13  348  	DRM_DEBUG("fun: %s\n", __func=
-__);
-b0b3a879258ef4 Sam Ravnborg 2022-07-13  349  	if (!dev_priv)
-b0b3a879258ef4 Sam Ravnborg 2022-07-13  350  		return -EINVAL;
-b0b3a879258ef4 Sam Ravnborg 2022-07-13  351  =
-
-b0b3a879258ef4 Sam Ravnborg 2022-07-13  352  	status =3D via_read(dev_priv,=
- VIA_REG_INTERRUPT);
-b0b3a879258ef4 Sam Ravnborg 2022-07-13 @353  	via_write(dev_priv, VIA_REG_I=
-NTERRUPT, status | VIA_IRQ_GLOBAL
-b0b3a879258ef4 Sam Ravnborg 2022-07-13  354  		  | dev_priv->irq_enable_mas=
-k);
-b0b3a879258ef4 Sam Ravnborg 2022-07-13  355  =
-
-b0b3a879258ef4 Sam Ravnborg 2022-07-13  356  	/* Some magic, oh for some da=
-ta sheets ! */
-b0b3a879258ef4 Sam Ravnborg 2022-07-13  357  	via_write8(dev_priv, 0x83d4, =
-0x11);
-b0b3a879258ef4 Sam Ravnborg 2022-07-13  358  	via_write8_mask(dev_priv, 0x8=
-3d5, 0x30, 0x30);
-b0b3a879258ef4 Sam Ravnborg 2022-07-13  359  =
-
-b0b3a879258ef4 Sam Ravnborg 2022-07-13  360  	return 0;
-b0b3a879258ef4 Sam Ravnborg 2022-07-13  361  }
-b0b3a879258ef4 Sam Ravnborg 2022-07-13  362  =
+a16cc807762730 Parshuram Thombare 2021-09-19  503  	return 0;
+a16cc807762730 Parshuram Thombare 2021-09-19  504  }
+a16cc807762730 Parshuram Thombare 2021-09-19  505  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============4339186697365333522==--
+--===============7948860785665343223==--
 
