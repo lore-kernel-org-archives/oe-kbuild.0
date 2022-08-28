@@ -1,376 +1,478 @@
-Content-Type: multipart/mixed; boundary="===============7369686185485795979=="
+Content-Type: multipart/mixed; boundary="===============1844628816771618737=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: net/netfilter/nf_tables_api.c:2879:8: warning: Access to field 'type' results in a dereference of an undefined pointer value (loaded from field 'ops') [clang-analyzer-core.NullDereference]
-Date: Mon, 29 Aug 2022 10:00:17 +0800
-Message-ID: <202208290955.vpaU8fL4-lkp@intel.com>
+Subject: drivers/media/platform/st/sti/bdisp/bdisp-v4l2.c:725 bdisp_g_fmt() warn: passing a valid pointer to 'PTR_ERR'
+Date: Mon, 29 Aug 2022 05:24:49 +0800
+Message-ID: <202208290516.qhVlGFTJ-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7369686185485795979==
+--===============1844628816771618737==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-:::::: =
-
-:::::: Manual check reason: "low confidence static check warning: net/netfi=
-lter/nf_tables_api.c:2879:8: warning: Access to field 'type' results in a d=
-ereference of an undefined pointer value (loaded from field 'ops') [clang-a=
-nalyzer-core.NullDereference]"
-:::::: =
-
-
 BCC: lkp(a)intel.com
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Pablo Neira Ayuso <pablo@netfilter.org>
+TO: Mauro Carvalho Chehab <mchehab@kernel.org>
+CC: linux-media(a)vger.kernel.org
+
+Hi Mauro,
+
+First bad commit (maybe !=3D root cause):
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
-head:   b90cb1053190353cc30f0fef0ef1f378ccc063c5
-commit: 520778042ccca019f3ffa136dd0ca565c486cedd netfilter: nf_tables: disa=
-llow non-stateful expression in sets earlier
-date:   3 months ago
+head:   8379c0b31fbc5d20946f617f8e2fe4791e6f58c1
+commit: e7b8153e2a4f0c9c8d1450aa7328d54ea64fe8b2 media: platform: place stm=
+32/ and sti/ under st/ dir
+date:   5 months ago
 :::::: branch date: 4 hours ago
-:::::: commit date: 3 months ago
-config: s390-randconfig-c005-20220827 (https://download.01.org/0day-ci/arch=
-ive/20220829/202208290955.vpaU8fL4-lkp(a)intel.com/config)
-compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project a2100d=
-af12fb980a29fd1a9c85ccf8eaaaf79730)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install s390 cross compiling tool for clang build
-        # apt-get install binutils-s390x-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D520778042ccca019f3ffa136dd0ca565c486cedd
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 520778042ccca019f3ffa136dd0ca565c486cedd
-        # save the config file
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Ds390 clang-analyzer =
-
+:::::: commit date: 5 months ago
+config: microblaze-randconfig-m031-20220828 (https://download.01.org/0day-c=
+i/archive/20220829/202208290516.qhVlGFTJ-lkp(a)intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-clang-analyzer warnings: (new ones prefixed by >>)
-   net/netfilter/nf_tables_api.c:2013:2: note: Taking false branch
-           lockdep_assert_held(&nft_net->commit_mutex);
-           ^
-   include/linux/lockdep.h:316:2: note: expanded from macro 'lockdep_assert=
-_held'
-           lockdep_assert(lockdep_is_held(l) !=3D LOCK_STATE_NOT_HELD)
-           ^
-   include/linux/lockdep.h:310:7: note: expanded from macro 'lockdep_assert'
-           do { WARN_ON(debug_locks && !(cond)); } while (0)
-                ^
-   arch/s390/include/asm/bug.h:59:3: note: expanded from macro 'WARN_ON'
-                   if (unlikely(__ret_warn_on))            \
-                   ^
-   net/netfilter/nf_tables_api.c:2013:2: note: Loop condition is false.  Ex=
-iting loop
-           lockdep_assert_held(&nft_net->commit_mutex);
-           ^
-   include/linux/lockdep.h:316:2: note: expanded from macro 'lockdep_assert=
-_held'
-           lockdep_assert(lockdep_is_held(l) !=3D LOCK_STATE_NOT_HELD)
-           ^
-   include/linux/lockdep.h:310:2: note: expanded from macro 'lockdep_assert'
-           do { WARN_ON(debug_locks && !(cond)); } while (0)
-           ^
-   net/netfilter/nf_tables_api.c:2019:6: note: Assuming 'err' is >=3D 0
-           if (err < 0)
-               ^~~~~~~
-   net/netfilter/nf_tables_api.c:2019:2: note: Taking false branch
-           if (err < 0)
-           ^
-   net/netfilter/nf_tables_api.c:2022:6: note: Assuming the condition is fa=
-lse
-           if (ha[NFTA_HOOK_HOOKNUM] =3D=3D NULL ||
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/netfilter/nf_tables_api.c:2022:6: note: Left side of '||' is false
-   net/netfilter/nf_tables_api.c:2023:6: note: Assuming the condition is fa=
-lse
-               ha[NFTA_HOOK_PRIORITY] =3D=3D NULL)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/netfilter/nf_tables_api.c:2022:2: note: Taking false branch
-           if (ha[NFTA_HOOK_HOOKNUM] =3D=3D NULL ||
-           ^
-   net/netfilter/nf_tables_api.c:2030:6: note: Assuming 'type' is non-null
-           if (!type)
-               ^~~~~
-   net/netfilter/nf_tables_api.c:2030:2: note: Taking false branch
-           if (!type)
-           ^
-   net/netfilter/nf_tables_api.c:2033:6: note: Assuming the condition is tr=
-ue
-           if (nla[NFTA_CHAIN_TYPE]) {
-               ^~~~~~~~~~~~~~~~~~~~
-   net/netfilter/nf_tables_api.c:2033:2: note: Taking true branch
-           if (nla[NFTA_CHAIN_TYPE]) {
-           ^
-   net/netfilter/nf_tables_api.c:2036:3: note: Taking true branch
-                   if (IS_ERR(type)) {
-                   ^
-   net/netfilter/nf_tables_api.c:2037:4: note: Assuming 'extack' is null
-                           NL_SET_BAD_ATTR(extack, nla[NFTA_CHAIN_TYPE]);
-                           ^
-   include/linux/netlink.h:111:39: note: expanded from macro 'NL_SET_BAD_AT=
-TR'
-   #define NL_SET_BAD_ATTR(extack, attr) NL_SET_BAD_ATTR_POLICY(extack, att=
-r, NULL)
-                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~
-   include/linux/netlink.h:105:6: note: expanded from macro 'NL_SET_BAD_ATT=
-R_POLICY'
-           if ((extack)) {                                 \
-               ^~~~~~~~
-   net/netfilter/nf_tables_api.c:2037:4: note: Taking false branch
-                           NL_SET_BAD_ATTR(extack, nla[NFTA_CHAIN_TYPE]);
-                           ^
-   include/linux/netlink.h:111:39: note: expanded from macro 'NL_SET_BAD_AT=
-TR'
-   #define NL_SET_BAD_ATTR(extack, attr) NL_SET_BAD_ATTR_POLICY(extack, att=
-r, NULL)
-                                         ^
-   include/linux/netlink.h:105:2: note: expanded from macro 'NL_SET_BAD_ATT=
-R_POLICY'
-           if ((extack)) {                                 \
-           ^
-   net/netfilter/nf_tables_api.c:2037:4: note: Loop condition is false.  Ex=
-iting loop
-                           NL_SET_BAD_ATTR(extack, nla[NFTA_CHAIN_TYPE]);
-                           ^
-   include/linux/netlink.h:111:39: note: expanded from macro 'NL_SET_BAD_AT=
-TR'
-   #define NL_SET_BAD_ATTR(extack, attr) NL_SET_BAD_ATTR_POLICY(extack, att=
-r, NULL)
-                                         ^
-   include/linux/netlink.h:104:51: note: expanded from macro 'NL_SET_BAD_AT=
-TR_POLICY'
-   #define NL_SET_BAD_ATTR_POLICY(extack, attr, pol) do {  \
-                                                     ^
-   net/netfilter/nf_tables_api.c:2038:4: note: Returning without writing to=
- 'hook->type'
-                           return PTR_ERR(type);
-                           ^
-   net/netfilter/nf_tables_api.c:2358:9: note: Returning from 'nft_chain_pa=
-rse_hook'
-                   err =3D nft_chain_parse_hook(ctx->net, nla, &hook, ctx->=
-family,
-                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~
-   net/netfilter/nf_tables_api.c:2360:7: note: Assuming 'err' is >=3D 0
-                   if (err < 0)
-                       ^~~~~~~
-   net/netfilter/nf_tables_api.c:2360:3: note: Taking false branch
-                   if (err < 0)
-                   ^
-   net/netfilter/nf_tables_api.c:2364:23: note: The right operand of '!=3D'=
- is a garbage value
-                   if (basechain->type !=3D hook.type) {
-                                       ^  ~~~~~~~~~
-   net/netfilter/nf_tables_api.c:2807:3: warning: Call to function 'memset'=
- is insecure as it does not provide security checks introduced in the C11 s=
-tandard. Replace with analogous functions that support length arguments or =
-provides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-=
-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   memset(info->tb, 0, sizeof(info->tb[0]) * (type->maxattr=
- + 1));
-                   ^~~~~~
-   net/netfilter/nf_tables_api.c:2807:3: note: Call to function 'memset' is=
- insecure as it does not provide security checks introduced in the C11 stan=
-dard. Replace with analogous functions that support length arguments or pro=
-vides boundary checks such as 'memset_s' in case of C11
-                   memset(info->tb, 0, sizeof(info->tb[0]) * (type->maxattr=
- + 1));
-                   ^~~~~~
->> net/netfilter/nf_tables_api.c:2879:8: warning: Access to field 'type' re=
-sults in a dereference of an undefined pointer value (loaded from field 'op=
-s') [clang-analyzer-core.NullDereference]
-           if (!(expr_info.ops->type->flags & NFT_EXPR_STATEFUL))
-                 ^
-   net/netfilter/nf_tables_api.c:5791:6: note: Assuming 'err' is >=3D 0
-           if (err < 0)
-               ^~~~~~~
-   net/netfilter/nf_tables_api.c:5791:2: note: Taking false branch
-           if (err < 0)
-           ^
-   net/netfilter/nf_tables_api.c:5797:6: note: 'err' is >=3D 0
-           if (err < 0)
-               ^~~
-   net/netfilter/nf_tables_api.c:5797:2: note: Taking false branch
-           if (err < 0)
-           ^
-   net/netfilter/nf_tables_api.c:5800:6: note: Assuming the condition is fa=
-lse
-           if (!nla[NFTA_SET_ELEM_KEY] && !(flags & NFT_SET_ELEM_CATCHALL))
-               ^~~~~~~~~~~~~~~~~~~~~~~
-   net/netfilter/nf_tables_api.c:5800:30: note: Left side of '&&' is false
-           if (!nla[NFTA_SET_ELEM_KEY] && !(flags & NFT_SET_ELEM_CATCHALL))
-                                       ^
-   net/netfilter/nf_tables_api.c:5803:6: note: Assuming 'flags' is equal to=
- 0
-           if (flags !=3D 0)
-               ^~~~~~~~~~
-   net/netfilter/nf_tables_api.c:5803:2: note: Taking false branch
-           if (flags !=3D 0)
-           ^
-   net/netfilter/nf_tables_api.c:5806:6: note: Assuming the condition is fa=
-lse
-           if (set->flags & NFT_SET_MAP) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~
-   net/netfilter/nf_tables_api.c:5806:2: note: Taking false branch
-           if (set->flags & NFT_SET_MAP) {
-           ^
-   net/netfilter/nf_tables_api.c:5811:7: note: Assuming the condition is fa=
-lse
-                   if (nla[NFTA_SET_ELEM_DATA] !=3D NULL)
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/netfilter/nf_tables_api.c:5811:3: note: Taking false branch
-                   if (nla[NFTA_SET_ELEM_DATA] !=3D NULL)
-                   ^
-   net/netfilter/nf_tables_api.c:5815:42: note: Left side of '&&' is false
-           if ((flags & NFT_SET_ELEM_INTERVAL_END) &&
-                                                   ^
-   net/netfilter/nf_tables_api.c:5826:6: note: Assuming the condition is fa=
-lse
-           if (nla[NFTA_SET_ELEM_TIMEOUT] !=3D NULL) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/netfilter/nf_tables_api.c:5826:2: note: Taking false branch
-           if (nla[NFTA_SET_ELEM_TIMEOUT] !=3D NULL) {
-           ^
-   net/netfilter/nf_tables_api.c:5833:13: note: Assuming the condition is f=
-alse
-           } else if (set->flags & NFT_SET_TIMEOUT) {
-                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/netfilter/nf_tables_api.c:5833:9: note: Taking false branch
-           } else if (set->flags & NFT_SET_TIMEOUT) {
-                  ^
-   net/netfilter/nf_tables_api.c:5838:6: note: Assuming the condition is fa=
-lse
-           if (nla[NFTA_SET_ELEM_EXPIRATION] !=3D NULL) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/netfilter/nf_tables_api.c:5838:2: note: Taking false branch
-           if (nla[NFTA_SET_ELEM_EXPIRATION] !=3D NULL) {
-           ^
-   net/netfilter/nf_tables_api.c:5847:6: note: Assuming the condition is tr=
-ue
-           if (nla[NFTA_SET_ELEM_EXPR]) {
-               ^~~~~~~~~~~~~~~~~~~~~~~
-   net/netfilter/nf_tables_api.c:5847:2: note: Taking true branch
-           if (nla[NFTA_SET_ELEM_EXPR]) {
-           ^
-   net/netfilter/nf_tables_api.c:5850:7: note: Assuming field 'num_exprs' i=
-s 0
-                   if (set->num_exprs && set->num_exprs !=3D 1)
-                       ^~~~~~~~~~~~~~
-   net/netfilter/nf_tables_api.c:5850:22: note: Left side of '&&' is false
-                   if (set->num_exprs && set->num_exprs !=3D 1)
-                                      ^
-   net/netfilter/nf_tables_api.c:5853:10: note: Calling 'nft_set_elem_expr_=
-alloc'
-                   expr =3D nft_set_elem_expr_alloc(ctx, set,
-                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/netfilter/nf_tables_api.c:5415:9: note: Calling 'nft_expr_init'
-           expr =3D nft_expr_init(ctx, attr);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~
-   net/netfilter/nf_tables_api.c:2874:8: note: Calling 'nf_tables_expr_pars=
-e'
-           err =3D nf_tables_expr_parse(ctx, nla, &expr_info);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/netfilter/nf_tables_api.c:2793:6: note: Assuming 'err' is >=3D 0
-           if (err < 0)
-               ^~~~~~~
-   net/netfilter/nf_tables_api.c:2793:2: note: Taking false branch
-           if (err < 0)
-           ^
-   net/netfilter/nf_tables_api.c:2797:2: note: Taking true branch
-           if (IS_ERR(type))
-           ^
-   net/netfilter/nf_tables_api.c:2798:3: note: Returning without writing to=
- 'info->ops'
-                   return PTR_ERR(type);
-                   ^
-   net/netfilter/nf_tables_api.c:2874:8: note: Returning from 'nf_tables_ex=
-pr_parse'
-           err =3D nf_tables_expr_parse(ctx, nla, &expr_info);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/netfilter/nf_tables_api.c:2875:6: note: Assuming 'err' is >=3D 0
-           if (err < 0)
-               ^~~~~~~
-   net/netfilter/nf_tables_api.c:2875:2: note: Taking false branch
-           if (err < 0)
+smatch warnings:
+drivers/media/platform/st/sti/bdisp/bdisp-v4l2.c:725 bdisp_g_fmt() warn: pa=
+ssing a valid pointer to 'PTR_ERR'
+drivers/media/platform/st/sti/bdisp/bdisp-v4l2.c:852 bdisp_g_selection() wa=
+rn: passing a valid pointer to 'PTR_ERR'
 
-vim +2879 net/netfilter/nf_tables_api.c
+vim +/PTR_ERR +725 drivers/media/platform/st/sti/bdisp/bdisp-v4l2.c
 
-96518518cc417b Patrick McHardy   2013-10-14  2865  =
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  716  =
 
-795a6d6b42244d Pablo Neira Ayuso 2020-03-11  2866  static struct nft_expr *=
-nft_expr_init(const struct nft_ctx *ctx,
-0b2d8a7b638b50 Patrick McHardy   2015-04-11  2867  				      const struct n=
-lattr *nla)
-0b2d8a7b638b50 Patrick McHardy   2015-04-11  2868  {
-7dab8ee3b6e7ec Pablo Neira Ayuso 2021-04-23  2869  	struct nft_expr_info ex=
-pr_info;
-0b2d8a7b638b50 Patrick McHardy   2015-04-11  2870  	struct nft_expr *expr;
-b8e204006340b7 Pablo Neira Ayuso 2019-02-13  2871  	struct module *owner;
-0b2d8a7b638b50 Patrick McHardy   2015-04-11  2872  	int err;
-0b2d8a7b638b50 Patrick McHardy   2015-04-11  2873  =
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  717  static int bdisp_g_fmt(struct file *file, void *fh, stru=
+ct v4l2_format *f)
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  718  {
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  719  	struct bdisp_ctx *ctx =3D fh_to_ctx(fh);
+bf3881707b6f63 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Colin Ian King=
+  2017-10-29  720  	struct v4l2_pix_format *pix;
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  721  	struct bdisp_frame *frame  =3D ctx_get_frame(ctx, f->ty=
+pe);
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  722  =
 
-7dab8ee3b6e7ec Pablo Neira Ayuso 2021-04-23  2874  	err =3D nf_tables_expr_=
-parse(ctx, nla, &expr_info);
-0b2d8a7b638b50 Patrick McHardy   2015-04-11  2875  	if (err < 0)
-520778042ccca0 Pablo Neira Ayuso 2022-05-25  2876  		goto err_expr_parse;
-520778042ccca0 Pablo Neira Ayuso 2022-05-25  2877  =
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  723  	if (IS_ERR(frame)) {
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  724  		dev_err(ctx->bdisp_dev->dev, "Invalid frame (%p)\n", f=
+rame);
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12 @725  		return PTR_ERR(frame);
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  726  	}
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  727  =
 
-520778042ccca0 Pablo Neira Ayuso 2022-05-25  2878  	err =3D -EOPNOTSUPP;
-520778042ccca0 Pablo Neira Ayuso 2022-05-25 @2879  	if (!(expr_info.ops->ty=
-pe->flags & NFT_EXPR_STATEFUL))
-520778042ccca0 Pablo Neira Ayuso 2022-05-25  2880  		goto err_expr_stateful;
-0b2d8a7b638b50 Patrick McHardy   2015-04-11  2881  =
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  728  	pix =3D &f->fmt.pix;
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  729  	pix->width =3D frame->width;
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  730  	pix->height =3D frame->height;
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  731  	pix->pixelformat =3D frame->fmt->pixelformat;
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  732  	pix->field =3D frame->field;
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  733  	pix->bytesperline =3D frame->bytesperline;
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  734  	pix->sizeimage =3D frame->sizeimage;
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  735  	pix->colorspace =3D (f->type =3D=3D V4L2_BUF_TYPE_VIDEO=
+_OUTPUT) ?
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  736  				frame->colorspace : bdisp_dflt_fmt.colorspace;
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  737  =
 
-0b2d8a7b638b50 Patrick McHardy   2015-04-11  2882  	err =3D -ENOMEM;
-33758c891479ea Vasily Averin     2022-03-24  2883  	expr =3D kzalloc(expr_i=
-nfo.ops->size, GFP_KERNEL_ACCOUNT);
-0b2d8a7b638b50 Patrick McHardy   2015-04-11  2884  	if (expr =3D=3D NULL)
-520778042ccca0 Pablo Neira Ayuso 2022-05-25  2885  		goto err_expr_stateful;
-0b2d8a7b638b50 Patrick McHardy   2015-04-11  2886  =
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  738  	return 0;
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  739  }
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  740  =
 
-7dab8ee3b6e7ec Pablo Neira Ayuso 2021-04-23  2887  	err =3D nf_tables_newex=
-pr(ctx, &expr_info, expr);
-0b2d8a7b638b50 Patrick McHardy   2015-04-11  2888  	if (err < 0)
-520778042ccca0 Pablo Neira Ayuso 2022-05-25  2889  		goto err_expr_new;
-0b2d8a7b638b50 Patrick McHardy   2015-04-11  2890  =
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  741  static int bdisp_try_fmt(struct file *file, void *fh, st=
+ruct v4l2_format *f)
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  742  {
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  743  	struct bdisp_ctx *ctx =3D fh_to_ctx(fh);
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  744  	struct v4l2_pix_format *pix =3D &f->fmt.pix;
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  745  	const struct bdisp_fmt *format;
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  746  	u32 in_w, in_h;
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  747  =
 
-0b2d8a7b638b50 Patrick McHardy   2015-04-11  2891  	return expr;
-520778042ccca0 Pablo Neira Ayuso 2022-05-25  2892  err_expr_new:
-6cafaf4764a325 Liping Zhang      2016-06-20  2893  	kfree(expr);
-520778042ccca0 Pablo Neira Ayuso 2022-05-25  2894  err_expr_stateful:
-7dab8ee3b6e7ec Pablo Neira Ayuso 2021-04-23  2895  	owner =3D expr_info.ops=
-->type->owner;
-7dab8ee3b6e7ec Pablo Neira Ayuso 2021-04-23  2896  	if (expr_info.ops->type=
-->release_ops)
-7dab8ee3b6e7ec Pablo Neira Ayuso 2021-04-23  2897  		expr_info.ops->type->r=
-elease_ops(expr_info.ops);
-b8e204006340b7 Pablo Neira Ayuso 2019-02-13  2898  =
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  748  	format =3D bdisp_find_fmt(pix->pixelformat);
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  749  	if (!format) {
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  750  		dev_dbg(ctx->bdisp_dev->dev, "Unknown format 0x%x\n",
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  751  			pix->pixelformat);
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  752  		return -EINVAL;
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  753  	}
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  754  =
 
-b8e204006340b7 Pablo Neira Ayuso 2019-02-13  2899  	module_put(owner);
-520778042ccca0 Pablo Neira Ayuso 2022-05-25  2900  err_expr_parse:
-0b2d8a7b638b50 Patrick McHardy   2015-04-11  2901  	return ERR_PTR(err);
-0b2d8a7b638b50 Patrick McHardy   2015-04-11  2902  }
-0b2d8a7b638b50 Patrick McHardy   2015-04-11  2903  =
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  755  	/* YUV420P only supported for VIDEO_OUTPUT */
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  756  	if ((format->pixelformat =3D=3D V4L2_PIX_FMT_YUV420) &&
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  757  	    (f->type =3D=3D V4L2_BUF_TYPE_VIDEO_CAPTURE)) {
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  758  		dev_dbg(ctx->bdisp_dev->dev, "No YU12 on capture\n");
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  759  		return -EINVAL;
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  760  	}
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  761  =
 
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  762  	/* Field (interlaced only supported on OUTPUT) */
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  763  	if ((f->type =3D=3D V4L2_BUF_TYPE_VIDEO_CAPTURE) ||
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  764  	    (pix->field !=3D V4L2_FIELD_INTERLACED))
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  765  		pix->field =3D V4L2_FIELD_NONE;
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  766  =
+
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  767  	/* Adjust width & height */
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  768  	in_w =3D pix->width;
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  769  	in_h =3D pix->height;
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  770  	v4l_bound_align_image(&pix->width,
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  771  			      BDISP_MIN_W, BDISP_MAX_W,
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  772  			      ffs(format->w_align) - 1,
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  773  			      &pix->height,
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  774  			      BDISP_MIN_H, BDISP_MAX_H,
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  775  			      ffs(format->h_align) - 1,
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  776  			      0);
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  777  	if ((pix->width !=3D in_w) || (pix->height !=3D in_h))
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  778  		dev_dbg(ctx->bdisp_dev->dev,
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  779  			"%s size updated: %dx%d -> %dx%d\n", __func__,
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  780  			in_w, in_h, pix->width, pix->height);
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  781  =
+
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  782  	pix->bytesperline =3D (pix->width * format->bpp_plane0)=
+ / 8;
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  783  	pix->sizeimage =3D (pix->width * pix->height * format->=
+bpp) / 8;
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  784  =
+
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  785  	if (f->type =3D=3D V4L2_BUF_TYPE_VIDEO_CAPTURE)
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  786  		pix->colorspace =3D bdisp_dflt_fmt.colorspace;
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  787  =
+
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  788  	return 0;
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  789  }
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  790  =
+
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  791  static int bdisp_s_fmt(struct file *file, void *fh, stru=
+ct v4l2_format *f)
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  792  {
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  793  	struct bdisp_ctx *ctx =3D fh_to_ctx(fh);
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  794  	struct vb2_queue *vq;
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  795  	struct bdisp_frame *frame;
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  796  	struct v4l2_pix_format *pix;
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  797  	int ret;
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  798  	u32 state;
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  799  =
+
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  800  	ret =3D bdisp_try_fmt(file, fh, f);
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  801  	if (ret) {
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  802  		dev_err(ctx->bdisp_dev->dev, "Cannot set format\n");
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  803  		return ret;
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  804  	}
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  805  =
+
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  806  	vq =3D v4l2_m2m_get_vq(ctx->fh.m2m_ctx, f->type);
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  807  	if (vb2_is_streaming(vq)) {
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  808  		dev_err(ctx->bdisp_dev->dev, "queue (%d) busy\n", f->t=
+ype);
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  809  		return -EBUSY;
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  810  	}
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  811  =
+
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  812  	frame =3D (f->type =3D=3D V4L2_BUF_TYPE_VIDEO_OUTPUT) ?
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  813  			&ctx->src : &ctx->dst;
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  814  	pix =3D &f->fmt.pix;
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  815  	frame->fmt =3D bdisp_find_fmt(pix->pixelformat);
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  816  	if (!frame->fmt) {
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  817  		dev_err(ctx->bdisp_dev->dev, "Unknown format 0x%x\n",
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  818  			pix->pixelformat);
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  819  		return -EINVAL;
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  820  	}
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  821  =
+
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  822  	frame->width =3D pix->width;
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  823  	frame->height =3D pix->height;
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  824  	frame->bytesperline =3D pix->bytesperline;
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  825  	frame->sizeimage =3D pix->sizeimage;
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  826  	frame->field =3D pix->field;
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  827  	if (f->type =3D=3D V4L2_BUF_TYPE_VIDEO_OUTPUT)
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  828  		frame->colorspace =3D pix->colorspace;
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  829  =
+
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  830  	frame->crop.width =3D frame->width;
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  831  	frame->crop.height =3D frame->height;
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  832  	frame->crop.left =3D 0;
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  833  	frame->crop.top =3D 0;
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  834  =
+
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  835  	state =3D BDISP_PARAMS;
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  836  	state |=3D (f->type =3D=3D V4L2_BUF_TYPE_VIDEO_CAPTURE)=
+ ?
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  837  			BDISP_DST_FMT : BDISP_SRC_FMT;
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  838  	bdisp_ctx_state_lock_set(state, ctx);
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  839  =
+
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  840  	return 0;
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  841  }
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  842  =
+
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  843  static int bdisp_g_selection(struct file *file, void *fh,
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  844  			     struct v4l2_selection *s)
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  845  {
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  846  	struct bdisp_frame *frame;
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  847  	struct bdisp_ctx *ctx =3D fh_to_ctx(fh);
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  848  =
+
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  849  	frame =3D ctx_get_frame(ctx, s->type);
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  850  	if (IS_ERR(frame)) {
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  851  		dev_err(ctx->bdisp_dev->dev, "Invalid frame (%p)\n", f=
+rame);
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12 @852  		return PTR_ERR(frame);
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  853  	}
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  854  =
+
+3d8bffe88316c0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-07-10  855  	switch (s->type) {
+3d8bffe88316c0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-07-10  856  	case V4L2_BUF_TYPE_VIDEO_OUTPUT:
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  857  		switch (s->target) {
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  858  		case V4L2_SEL_TGT_CROP:
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  859  			/* cropped frame */
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  860  			s->r =3D frame->crop;
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  861  			break;
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  862  		case V4L2_SEL_TGT_CROP_DEFAULT:
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  863  		case V4L2_SEL_TGT_CROP_BOUNDS:
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  864  			/* complete frame */
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  865  			s->r.left =3D 0;
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  866  			s->r.top =3D 0;
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  867  			s->r.width =3D frame->width;
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  868  			s->r.height =3D frame->height;
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  869  			break;
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  870  		default:
+3d8bffe88316c0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-07-10  871  			dev_err(ctx->bdisp_dev->dev, "Invalid target\n");
+3d8bffe88316c0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-07-10  872  			return -EINVAL;
+3d8bffe88316c0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-07-10  873  		}
+3d8bffe88316c0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-07-10  874  		break;
+3d8bffe88316c0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-07-10  875  =
+
+3d8bffe88316c0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-07-10  876  	case V4L2_BUF_TYPE_VIDEO_CAPTURE:
+3d8bffe88316c0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-07-10  877  		switch (s->target) {
+3d8bffe88316c0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-07-10  878  		case V4L2_SEL_TGT_COMPOSE:
+3d8bffe88316c0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-07-10  879  		case V4L2_SEL_TGT_COMPOSE_PADDED:
+3d8bffe88316c0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-07-10  880  			/* composed (cropped) frame */
+3d8bffe88316c0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-07-10  881  			s->r =3D frame->crop;
+3d8bffe88316c0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-07-10  882  			break;
+3d8bffe88316c0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-07-10  883  		case V4L2_SEL_TGT_COMPOSE_DEFAULT:
+3d8bffe88316c0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-07-10  884  		case V4L2_SEL_TGT_COMPOSE_BOUNDS:
+3d8bffe88316c0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-07-10  885  			/* complete frame */
+3d8bffe88316c0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-07-10  886  			s->r.left =3D 0;
+3d8bffe88316c0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-07-10  887  			s->r.top =3D 0;
+3d8bffe88316c0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-07-10  888  			s->r.width =3D frame->width;
+3d8bffe88316c0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-07-10  889  			s->r.height =3D frame->height;
+3d8bffe88316c0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-07-10  890  			break;
+3d8bffe88316c0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-07-10  891  		default:
+3d8bffe88316c0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-07-10  892  			dev_err(ctx->bdisp_dev->dev, "Invalid target\n");
+3d8bffe88316c0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-07-10  893  			return -EINVAL;
+3d8bffe88316c0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-07-10  894  		}
+3d8bffe88316c0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-07-10  895  		break;
+3d8bffe88316c0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-07-10  896  =
+
+3d8bffe88316c0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-07-10  897  	default:
+3d8bffe88316c0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-07-10  898  		dev_err(ctx->bdisp_dev->dev, "Invalid type\n");
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  899  		return -EINVAL;
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  900  	}
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  901  =
+
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  902  	return 0;
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  903  }
+28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
+e 2015-05-12  904  =
+
+
+:::::: The code at line 725 was first introduced by commit
+:::::: 28ffeebbb7bdc0dd7899286b63f3c359d43d0a1a [media] bdisp: 2D blitter d=
+river using v4l2 mem2mem framework
+
+:::::: TO: Fabien Dessenne <fabien.dessenne@st.com>
+:::::: CC: Mauro Carvalho Chehab <mchehab@osg.samsung.com>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============7369686185485795979==--
+--===============1844628816771618737==--
 
