@@ -1,458 +1,376 @@
-Content-Type: multipart/mixed; boundary="===============0809701210624728465=="
+Content-Type: multipart/mixed; boundary="===============7369686185485795979=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: include/linux/container_of.h:18:15: warning: use of uninitialized value '*input.list.next' [CWE-457]
-Date: Mon, 29 Aug 2022 10:41:08 +0800
-Message-ID: <202208291011.eaRx0Xwe-lkp@intel.com>
+Subject: net/netfilter/nf_tables_api.c:2879:8: warning: Access to field 'type' results in a dereference of an undefined pointer value (loaded from field 'ops') [clang-analyzer-core.NullDereference]
+Date: Mon, 29 Aug 2022 10:00:17 +0800
+Message-ID: <202208290955.vpaU8fL4-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0809701210624728465==
+--===============7369686185485795979==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 :::::: =
 
-:::::: Manual check reason: "low confidence bisect report"
-:::::: Manual check reason: "low confidence static check warning: include/l=
-inux/container_of.h:18:15: warning: use of uninitialized value '*input.list=
-.next' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]"
+:::::: Manual check reason: "low confidence static check warning: net/netfi=
+lter/nf_tables_api.c:2879:8: warning: Access to field 'type' results in a d=
+ereference of an undefined pointer value (loaded from field 'ops') [clang-a=
+nalyzer-core.NullDereference]"
 :::::: =
 
 
 BCC: lkp(a)intel.com
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Pablo Neira Ayuso <pablo@netfilter.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   b90cb1053190353cc30f0fef0ef1f378ccc063c5
-commit: d2a8ebbf8192b84b11f1b204c4f7c602df32aeac kernel.h: split out contai=
-ner_of() and typeof_member() macros
-date:   10 months ago
+commit: 520778042ccca019f3ffa136dd0ca565c486cedd netfilter: nf_tables: disa=
+llow non-stateful expression in sets earlier
+date:   3 months ago
 :::::: branch date: 4 hours ago
-:::::: commit date: 10 months ago
-config: arm-randconfig-c002-20220828 (https://download.01.org/0day-ci/archi=
-ve/20220829/202208291011.eaRx0Xwe-lkp(a)intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+:::::: commit date: 3 months ago
+config: s390-randconfig-c005-20220827 (https://download.01.org/0day-ci/arch=
+ive/20220829/202208290955.vpaU8fL4-lkp(a)intel.com/config)
+compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project a2100d=
+af12fb980a29fd1a9c85ccf8eaaaf79730)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
+        # install s390 cross compiling tool for clang build
+        # apt-get install binutils-s390x-linux-gnu
         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3Dd2a8ebbf8192b84b11f1b204c4f7c602df32aeac
+t/commit/?id=3D520778042ccca019f3ffa136dd0ca565c486cedd
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
 t/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout d2a8ebbf8192b84b11f1b204c4f7c602df32aeac
+        git checkout 520778042ccca019f3ffa136dd0ca565c486cedd
         # save the config file
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cross=
- ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Ds390 clang-analyzer =
 
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 
-gcc-analyzer warnings: (new ones prefixed by >>)
-   In file included from include/linux/kernel.h:12,
-                    from include/linux/random.h:11,
-                    from include/crypto/drbg.h:43,
-                    from crypto/drbg.c:100:
-   crypto/drbg.c: In function 'drbg_kcapi_hash':
->> include/linux/container_of.h:18:15: warning: use of uninitialized value =
-'*input.list.next' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-      18 |         void *__mptr =3D (void *)(ptr);                         =
-          \
-         |               ^~~~~~
-   include/linux/list.h:511:9: note: in expansion of macro 'container_of'
-     511 |         container_of(ptr, type, member)
-         |         ^~~~~~~~~~~~
-   include/linux/list.h:555:9: note: in expansion of macro 'list_entry'
-     555 |         list_entry((pos)->member.next, typeof(*(pos)), member)
-         |         ^~~~~~~~~~
-   include/linux/list.h:630:20: note: in expansion of macro 'list_next_entr=
-y'
-     630 |              pos =3D list_next_entry(pos, member))
-         |                    ^~~~~~~~~~~~~~~
-   crypto/drbg.c:1726:9: note: in expansion of macro 'list_for_each_entry'
-    1726 |         list_for_each_entry(input, in, list)
-         |         ^~~~~~~~~~~~~~~~~~~
-     'drbg_hmac_generate': events 1-2
-       |
-       |  706 | static int drbg_hmac_generate(struct drbg_state *drbg,
-       |      |            ^~~~~~~~~~~~~~~~~~
-       |      |            |
-       |      |            (1) entry to 'drbg_hmac_generate'
-       |......
-       |  713 |         struct drbg_string data;
-       |      |                            ~~~~
-       |      |                            |
-       |      |                            (2) region created on stack here
-       |
-     'drbg_hmac_generate': events 3-4
-       |
-       |include/crypto/drbg.h:144:12:
-       |  144 |         if (drbg && drbg->core)
-       |      |            ^        ~~~~~~~~~~
-       |      |            |            |
-       |      |            |            (4) ...to here
-       |      |            (3) following 'true' branch (when 'drbg' is non-=
-NULL)...
-       |
-     'drbg_hmac_generate': events 5-7
-       |
-       |crypto/drbg.c:725:20:
-       |  725 |         while (len < buflen) {
-       |      |                ~~~~^~~~~~~~
-       |      |                    |
-       |      |                    (5) following 'true' branch...
-       |......
-       |  728 |                 ret =3D drbg_kcapi_hash(drbg, drbg->V, &dat=
-alist);
-       |      |                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~
-       |      |                       |
-       |      |                       (6) ...to here
-       |      |                       (7) calling 'drbg_kcapi_hash' from 'd=
-rbg_hmac_generate'
-       |
-       +--> 'drbg_kcapi_hash': event 8
-              |
-              | 1719 | static int drbg_kcapi_hash(struct drbg_state *drbg, =
-unsigned char *outval,
-              |      |            ^~~~~~~~~~~~~~~
-              |      |            |
-              |      |            (8) entry to 'drbg_kcapi_hash'
-              |
-            'drbg_kcapi_hash': event 9
-              |
-              |include/linux/list.h:629:14:
-              |  629 |              !list_entry_is_head(pos, head, member);=
-                    \
-              |      |              ^
-              |      |              |
-              |      |              (9) following 'true' branch...
-   crypto/drbg.c:1726:9: note: in expansion of macro 'list_for_each_entry'
-              | 1726 |         list_for_each_entry(input, in, list)
-              |      |         ^~~~~~~~~~~~~~~~~~~
-              |
-            'drbg_kcapi_hash': event 10
-              |
-              | 1727 |                 crypto_shash_update(&sdesc->shash, i=
-nput->buf, input->len);
-              |      |                                                    ~=
-~~~~^~~~~
-              |      |                                                     =
-    |
-              |      |                                                     =
-    (10) ...to here
-              |
-            'drbg_kcapi_hash': event 11
-              |
-              |include/linux/container_of.h:18:15:
-              |   18 |         void *__mptr =3D (void *)(ptr);             =
-                      \
-              |      |               ^~~~~~
-              |      |               |
-              |      |               (11) use of uninitialized value '*inpu=
-t.list.next' here
-   include/linux/list.h:511:9: note: in expansion of macro 'container_of'
-              |  511 |         container_of(ptr, type, member)
-              |      |         ^~~~~~~~~~~~
-   include/linux/list.h:555:9: note: in expansion of macro 'list_entry'
-              |  555 |         list_entry((pos)->member.next, typeof(*(pos)=
-), member)
-              |      |         ^~~~~~~~~~
-   include/linux/list.h:630:20: note: in expansion of macro 'list_next_entr=
-y'
-              |  630 |              pos =3D list_next_entry(pos, member))
-              |      |                    ^~~~~~~~~~~~~~~
-   crypto/drbg.c:1726:9: note: in expansion of macro 'list_for_each_entry'
-              | 1726 |         list_for_each_entry(input, in, list)
-              |      |         ^~~~~~~~~~~~~~~~~~~
-              |
->> include/linux/container_of.h:18:15: warning: use of uninitialized value =
-'*input.list.next' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-      18 |         void *__mptr =3D (void *)(ptr);                         =
-          \
-         |               ^~~~~~
-   include/linux/list.h:511:9: note: in expansion of macro 'container_of'
-     511 |         container_of(ptr, type, member)
-         |         ^~~~~~~~~~~~
-   include/linux/list.h:555:9: note: in expansion of macro 'list_entry'
-     555 |         list_entry((pos)->member.next, typeof(*(pos)), member)
-         |         ^~~~~~~~~~
-   include/linux/list.h:630:20: note: in expansion of macro 'list_next_entr=
-y'
-     630 |              pos =3D list_next_entry(pos, member))
-         |                    ^~~~~~~~~~~~~~~
-   crypto/drbg.c:1726:9: note: in expansion of macro 'list_for_each_entry'
-    1726 |         list_for_each_entry(input, in, list)
-         |         ^~~~~~~~~~~~~~~~~~~
-     'drbg_hmac_update': events 1-2
-       |
-       |  654 | static int drbg_hmac_update(struct drbg_state *drbg, struct=
- list_head *seed,
-       |      |            ^~~~~~~~~~~~~~~~
-       |      |            |
-       |      |            (1) entry to 'drbg_hmac_update'
-       |......
-       |  659 |         struct drbg_string seed1, seed2, vdata;
-       |      |                            ~~~~~
-       |      |                            |
-       |      |                            (2) region created on stack here
-       |
-     'drbg_hmac_update': events 3-4
-       |
-       |include/crypto/drbg.h:144:12:
-       |  144 |         if (drbg && drbg->core)
-       |      |            ^        ~~~~~~~~~~
-       |      |            |            |
-       |      |            |            (4) ...to here
-       |      |            (3) following 'true' branch...
-       |
-     'drbg_hmac_update': events 5-9
-       |
-       |crypto/drbg.c:680:23:
-       |  680 |         for (i =3D 2; 0 < i; i--) {
-       |      |                     ~~^~~
-       |      |                       |
-       |      |                       (5) following 'true' branch (when 'i =
-!=3D 0')...
-       |  681 |                 /* first round uses 0x0, second 0x1 */
-       |  682 |                 unsigned char prefix =3D DRBG_PREFIX0;
-       |      |                               ~~~~~~
-       |      |                               |
-       |      |                               (6) ...to here
-       |  683 |                 if (1 =3D=3D i)
-       |      |                    ~   =
+clang-analyzer warnings: (new ones prefixed by >>)
+   net/netfilter/nf_tables_api.c:2013:2: note: Taking false branch
+           lockdep_assert_held(&nft_net->commit_mutex);
+           ^
+   include/linux/lockdep.h:316:2: note: expanded from macro 'lockdep_assert=
+_held'
+           lockdep_assert(lockdep_is_held(l) !=3D LOCK_STATE_NOT_HELD)
+           ^
+   include/linux/lockdep.h:310:7: note: expanded from macro 'lockdep_assert'
+           do { WARN_ON(debug_locks && !(cond)); } while (0)
+                ^
+   arch/s390/include/asm/bug.h:59:3: note: expanded from macro 'WARN_ON'
+                   if (unlikely(__ret_warn_on))            \
+                   ^
+   net/netfilter/nf_tables_api.c:2013:2: note: Loop condition is false.  Ex=
+iting loop
+           lockdep_assert_held(&nft_net->commit_mutex);
+           ^
+   include/linux/lockdep.h:316:2: note: expanded from macro 'lockdep_assert=
+_held'
+           lockdep_assert(lockdep_is_held(l) !=3D LOCK_STATE_NOT_HELD)
+           ^
+   include/linux/lockdep.h:310:2: note: expanded from macro 'lockdep_assert'
+           do { WARN_ON(debug_locks && !(cond)); } while (0)
+           ^
+   net/netfilter/nf_tables_api.c:2019:6: note: Assuming 'err' is >=3D 0
+           if (err < 0)
+               ^~~~~~~
+   net/netfilter/nf_tables_api.c:2019:2: note: Taking false branch
+           if (err < 0)
+           ^
+   net/netfilter/nf_tables_api.c:2022:6: note: Assuming the condition is fa=
+lse
+           if (ha[NFTA_HOOK_HOOKNUM] =3D=3D NULL ||
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/netfilter/nf_tables_api.c:2022:6: note: Left side of '||' is false
+   net/netfilter/nf_tables_api.c:2023:6: note: Assuming the condition is fa=
+lse
+               ha[NFTA_HOOK_PRIORITY] =3D=3D NULL)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/netfilter/nf_tables_api.c:2022:2: note: Taking false branch
+           if (ha[NFTA_HOOK_HOOKNUM] =3D=3D NULL ||
+           ^
+   net/netfilter/nf_tables_api.c:2030:6: note: Assuming 'type' is non-null
+           if (!type)
+               ^~~~~
+   net/netfilter/nf_tables_api.c:2030:2: note: Taking false branch
+           if (!type)
+           ^
+   net/netfilter/nf_tables_api.c:2033:6: note: Assuming the condition is tr=
+ue
+           if (nla[NFTA_CHAIN_TYPE]) {
+               ^~~~~~~~~~~~~~~~~~~~
+   net/netfilter/nf_tables_api.c:2033:2: note: Taking true branch
+           if (nla[NFTA_CHAIN_TYPE]) {
+           ^
+   net/netfilter/nf_tables_api.c:2036:3: note: Taking true branch
+                   if (IS_ERR(type)) {
+                   ^
+   net/netfilter/nf_tables_api.c:2037:4: note: Assuming 'extack' is null
+                           NL_SET_BAD_ATTR(extack, nla[NFTA_CHAIN_TYPE]);
+                           ^
+   include/linux/netlink.h:111:39: note: expanded from macro 'NL_SET_BAD_AT=
+TR'
+   #define NL_SET_BAD_ATTR(extack, attr) NL_SET_BAD_ATTR_POLICY(extack, att=
+r, NULL)
+                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~
+   include/linux/netlink.h:105:6: note: expanded from macro 'NL_SET_BAD_ATT=
+R_POLICY'
+           if ((extack)) {                                 \
+               ^~~~~~~~
+   net/netfilter/nf_tables_api.c:2037:4: note: Taking false branch
+                           NL_SET_BAD_ATTR(extack, nla[NFTA_CHAIN_TYPE]);
+                           ^
+   include/linux/netlink.h:111:39: note: expanded from macro 'NL_SET_BAD_AT=
+TR'
+   #define NL_SET_BAD_ATTR(extack, attr) NL_SET_BAD_ATTR_POLICY(extack, att=
+r, NULL)
+                                         ^
+   include/linux/netlink.h:105:2: note: expanded from macro 'NL_SET_BAD_ATT=
+R_POLICY'
+           if ((extack)) {                                 \
+           ^
+   net/netfilter/nf_tables_api.c:2037:4: note: Loop condition is false.  Ex=
+iting loop
+                           NL_SET_BAD_ATTR(extack, nla[NFTA_CHAIN_TYPE]);
+                           ^
+   include/linux/netlink.h:111:39: note: expanded from macro 'NL_SET_BAD_AT=
+TR'
+   #define NL_SET_BAD_ATTR(extack, attr) NL_SET_BAD_ATTR_POLICY(extack, att=
+r, NULL)
+                                         ^
+   include/linux/netlink.h:104:51: note: expanded from macro 'NL_SET_BAD_AT=
+TR_POLICY'
+   #define NL_SET_BAD_ATTR_POLICY(extack, attr, pol) do {  \
+                                                     ^
+   net/netfilter/nf_tables_api.c:2038:4: note: Returning without writing to=
+ 'hook->type'
+                           return PTR_ERR(type);
+                           ^
+   net/netfilter/nf_tables_api.c:2358:9: note: Returning from 'nft_chain_pa=
+rse_hook'
+                   err =3D nft_chain_parse_hook(ctx->net, nla, &hook, ctx->=
+family,
+                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~
+   net/netfilter/nf_tables_api.c:2360:7: note: Assuming 'err' is >=3D 0
+                   if (err < 0)
+                       ^~~~~~~
+   net/netfilter/nf_tables_api.c:2360:3: note: Taking false branch
+                   if (err < 0)
+                   ^
+   net/netfilter/nf_tables_api.c:2364:23: note: The right operand of '!=3D'=
+ is a garbage value
+                   if (basechain->type !=3D hook.type) {
+                                       ^  ~~~~~~~~~
+   net/netfilter/nf_tables_api.c:2807:3: warning: Call to function 'memset'=
+ is insecure as it does not provide security checks introduced in the C11 s=
+tandard. Replace with analogous functions that support length arguments or =
+provides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-=
+security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   memset(info->tb, 0, sizeof(info->tb[0]) * (type->maxattr=
+ + 1));
+                   ^~~~~~
+   net/netfilter/nf_tables_api.c:2807:3: note: Call to function 'memset' is=
+ insecure as it does not provide security checks introduced in the C11 stan=
+dard. Replace with analogous functions that support length arguments or pro=
+vides boundary checks such as 'memset_s' in case of C11
+                   memset(info->tb, 0, sizeof(info->tb[0]) * (type->maxattr=
+ + 1));
+                   ^~~~~~
+>> net/netfilter/nf_tables_api.c:2879:8: warning: Access to field 'type' re=
+sults in a dereference of an undefined pointer value (loaded from field 'op=
+s') [clang-analyzer-core.NullDereference]
+           if (!(expr_info.ops->type->flags & NFT_EXPR_STATEFUL))
+                 ^
+   net/netfilter/nf_tables_api.c:5791:6: note: Assuming 'err' is >=3D 0
+           if (err < 0)
+               ^~~~~~~
+   net/netfilter/nf_tables_api.c:5791:2: note: Taking false branch
+           if (err < 0)
+           ^
+   net/netfilter/nf_tables_api.c:5797:6: note: 'err' is >=3D 0
+           if (err < 0)
+               ^~~
+   net/netfilter/nf_tables_api.c:5797:2: note: Taking false branch
+           if (err < 0)
+           ^
+   net/netfilter/nf_tables_api.c:5800:6: note: Assuming the condition is fa=
+lse
+           if (!nla[NFTA_SET_ELEM_KEY] && !(flags & NFT_SET_ELEM_CATCHALL))
+               ^~~~~~~~~~~~~~~~~~~~~~~
+   net/netfilter/nf_tables_api.c:5800:30: note: Left side of '&&' is false
+           if (!nla[NFTA_SET_ELEM_KEY] && !(flags & NFT_SET_ELEM_CATCHALL))
+                                       ^
+   net/netfilter/nf_tables_api.c:5803:6: note: Assuming 'flags' is equal to=
+ 0
+           if (flags !=3D 0)
+               ^~~~~~~~~~
+   net/netfilter/nf_tables_api.c:5803:2: note: Taking false branch
+           if (flags !=3D 0)
+           ^
+   net/netfilter/nf_tables_api.c:5806:6: note: Assuming the condition is fa=
+lse
+           if (set->flags & NFT_SET_MAP) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~
+   net/netfilter/nf_tables_api.c:5806:2: note: Taking false branch
+           if (set->flags & NFT_SET_MAP) {
+           ^
+   net/netfilter/nf_tables_api.c:5811:7: note: Assuming the condition is fa=
+lse
+                   if (nla[NFTA_SET_ELEM_DATA] !=3D NULL)
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/netfilter/nf_tables_api.c:5811:3: note: Taking false branch
+                   if (nla[NFTA_SET_ELEM_DATA] !=3D NULL)
+                   ^
+   net/netfilter/nf_tables_api.c:5815:42: note: Left side of '&&' is false
+           if ((flags & NFT_SET_ELEM_INTERVAL_END) &&
+                                                   ^
+   net/netfilter/nf_tables_api.c:5826:6: note: Assuming the condition is fa=
+lse
+           if (nla[NFTA_SET_ELEM_TIMEOUT] !=3D NULL) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/netfilter/nf_tables_api.c:5826:2: note: Taking false branch
+           if (nla[NFTA_SET_ELEM_TIMEOUT] !=3D NULL) {
+           ^
+   net/netfilter/nf_tables_api.c:5833:13: note: Assuming the condition is f=
+alse
+           } else if (set->flags & NFT_SET_TIMEOUT) {
+                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/netfilter/nf_tables_api.c:5833:9: note: Taking false branch
+           } else if (set->flags & NFT_SET_TIMEOUT) {
+                  ^
+   net/netfilter/nf_tables_api.c:5838:6: note: Assuming the condition is fa=
+lse
+           if (nla[NFTA_SET_ELEM_EXPIRATION] !=3D NULL) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/netfilter/nf_tables_api.c:5838:2: note: Taking false branch
+           if (nla[NFTA_SET_ELEM_EXPIRATION] !=3D NULL) {
+           ^
+   net/netfilter/nf_tables_api.c:5847:6: note: Assuming the condition is tr=
+ue
+           if (nla[NFTA_SET_ELEM_EXPR]) {
+               ^~~~~~~~~~~~~~~~~~~~~~~
+   net/netfilter/nf_tables_api.c:5847:2: note: Taking true branch
+           if (nla[NFTA_SET_ELEM_EXPR]) {
+           ^
+   net/netfilter/nf_tables_api.c:5850:7: note: Assuming field 'num_exprs' i=
+s 0
+                   if (set->num_exprs && set->num_exprs !=3D 1)
+                       ^~~~~~~~~~~~~~
+   net/netfilter/nf_tables_api.c:5850:22: note: Left side of '&&' is false
+                   if (set->num_exprs && set->num_exprs !=3D 1)
+                                      ^
+   net/netfilter/nf_tables_api.c:5853:10: note: Calling 'nft_set_elem_expr_=
+alloc'
+                   expr =3D nft_set_elem_expr_alloc(ctx, set,
+                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/netfilter/nf_tables_api.c:5415:9: note: Calling 'nft_expr_init'
+           expr =3D nft_expr_init(ctx, attr);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~
+   net/netfilter/nf_tables_api.c:2874:8: note: Calling 'nf_tables_expr_pars=
+e'
+           err =3D nf_tables_expr_parse(ctx, nla, &expr_info);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/netfilter/nf_tables_api.c:2793:6: note: Assuming 'err' is >=3D 0
+           if (err < 0)
+               ^~~~~~~
+   net/netfilter/nf_tables_api.c:2793:2: note: Taking false branch
+           if (err < 0)
+           ^
+   net/netfilter/nf_tables_api.c:2797:2: note: Taking true branch
+           if (IS_ERR(type))
+           ^
+   net/netfilter/nf_tables_api.c:2798:3: note: Returning without writing to=
+ 'info->ops'
+                   return PTR_ERR(type);
+                   ^
+   net/netfilter/nf_tables_api.c:2874:8: note: Returning from 'nf_tables_ex=
+pr_parse'
+           err =3D nf_tables_expr_parse(ctx, nla, &expr_info);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/netfilter/nf_tables_api.c:2875:6: note: Assuming 'err' is >=3D 0
+           if (err < 0)
+               ^~~~~~~
+   net/netfilter/nf_tables_api.c:2875:2: note: Taking false branch
+           if (err < 0)
 
-       |      |                    |
-       |      |                    (7) following 'false' branch (when 'i !=
-=3D 1')...
-       |......
-       |  686 |                 seed2.buf =3D &prefix;
-       |      |                 ~~~~~~~~~~~~~~~~~~~
-       |      |                           |
-       |      |                           (8) ...to here
-       |  687 |                 ret =3D drbg_kcapi_hash(drbg, drbg->C, &see=
-dlist);
-       |      |                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~
-       |      |                       |
-       |      |                       (9) calling 'drbg_kcapi_hash' from 'd=
-rbg_hmac_update'
-       |
-       +--> 'drbg_kcapi_hash': event 10
-              |
-              | 1719 | static int drbg_kcapi_hash(struct drbg_state *drbg, =
-unsigned char *outval,
-              |      |            ^~~~~~~~~~~~~~~
-              |      |            |
-              |      |            (10) entry to 'drbg_kcapi_hash'
-              |
-            'drbg_kcapi_hash': event 11
-              |
-              |include/linux/list.h:629:14:
-              |  629 |              !list_entry_is_head(pos, head, member);=
-                    \
-              |      |              ^
-              |      |              |
-              |      |              (11) following 'true' branch...
-   crypto/drbg.c:1726:9: note: in expansion of macro 'list_for_each_entry'
-              | 1726 |         list_for_each_entry(input, in, list)
-              |      |         ^~~~~~~~~~~~~~~~~~~
-              |
-            'drbg_kcapi_hash': event 12
-              |
-              | 1727 |                 crypto_shash_update(&sdesc->shash, i=
-nput->buf, input->len);
-              |      |                                                    ~=
-~~~~^~~~~
-              |      |                                                     =
-    |
-              |      |                                                     =
-    (12) ...to here
-              |
-            'drbg_kcapi_hash': event 13
-              |
-              |include/linux/container_of.h:18:15:
-              |   18 |         void *__mptr =3D (void *)(ptr);             =
-                      \
-              |      |               ^~~~~~
-              |      |               |
-              |      |               (13) use of uninitialized value '*inpu=
-t.list.next' here
-   include/linux/list.h:511:9: note: in expansion of macro 'container_of'
-              |  511 |         container_of(ptr, type, member)
-              |      |         ^~~~~~~~~~~~
-   include/linux/list.h:555:9: note: in expansion of macro 'list_entry'
-              |  555 |         list_entry((pos)->member.next, typeof(*(pos)=
-), member)
-              |      |         ^~~~~~~~~~
-   include/linux/list.h:630:20: note: in expansion of macro 'list_next_entr=
-y'
-              |  630 |              pos =3D list_next_entry(pos, member))
-              |      |                    ^~~~~~~~~~~~~~~
-   crypto/drbg.c:1726:9: note: in expansion of macro 'list_for_each_entry'
-              | 1726 |         list_for_each_entry(input, in, list)
-              |      |         ^~~~~~~~~~~~~~~~~~~
-              |
->> include/linux/container_of.h:18:15: warning: use of uninitialized value =
-'*input.list.next' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-      18 |         void *__mptr =3D (void *)(ptr);                         =
-          \
-         |               ^~~~~~
-   include/linux/list.h:511:9: note: in expansion of macro 'container_of'
-     511 |         container_of(ptr, type, member)
-         |         ^~~~~~~~~~~~
-   include/linux/list.h:555:9: note: in expansion of macro 'list_entry'
-     555 |         list_entry((pos)->member.next, typeof(*(pos)), member)
-         |         ^~~~~~~~~~
-   include/linux/list.h:630:20: note: in expansion of macro 'list_next_entr=
-y'
-     630 |              pos =3D list_next_entry(pos, member))
-         |                    ^~~~~~~~~~~~~~~
-   crypto/drbg.c:1726:9: note: in expansion of macro 'list_for_each_entry'
-    1726 |         list_for_each_entry(input, in, list)
-         |         ^~~~~~~~~~~~~~~~~~~
-     'drbg_hmac_generate': event 1
-       |
-       |  706 | static int drbg_hmac_generate(struct drbg_state *drbg,
-       |      |            ^~~~~~~~~~~~~~~~~~
-       |      |            |
-       |      |            (1) entry to 'drbg_hmac_generate'
-       |
-     'drbg_hmac_generate': events 2-3
-       |
-       |include/crypto/drbg.h:144:12:
-       |  144 |         if (drbg && drbg->core)
-       |      |            ^        ~~~~~~~~~~
-       |      |            |            |
-       |      |            |            (3) ...to here
-       |      |            (2) following 'true' branch (when 'drbg' is non-=
-NULL)...
-       |
-     'drbg_hmac_generate': event 4
-       |
-       |crypto/drbg.c:743:23:
-       |  743 |                 ret =3D drbg_hmac_update(drbg, NULL, 1);
-       |      |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |                       |
-       |      |                       (4) calling 'drbg_hmac_update' from '=
-drbg_hmac_generate'
-       |
-       +--> 'drbg_hmac_update': events 5-8
-              |
-              |  654 | static int drbg_hmac_update(struct drbg_state *drbg,=
- struct list_head *seed,
-              |      |            ^~~~~~~~~~~~~~~~
-              |      |            |
-              |      |            (5) entry to 'drbg_hmac_update'
-              |......
-              |  659 |         struct drbg_string seed1, seed2, vdata;
-              |      |                            ~~~~~
-              |      |                            |
-              |      |                            (6) region created on sta=
-ck here
-              |......
-              |  663 |         if (!reseed) {
-              |      |            ~
-              |      |            |
-              |      |            (7) following 'false' branch (when 'resee=
-d !=3D 0')...
-              |......
-              |  669 |         drbg_string_fill(&seed1, drbg->V, drbg_state=
-len(drbg));
-              |      |                                  ~~~~~~~
-              |      |                                      |
-              |      |                                      (8) ...to here
-              |
-            'drbg_hmac_update': events 9-10
-              |
-              |include/crypto/drbg.h:144:12:
-              |  144 |         if (drbg && drbg->core)
-              |      |            ^        ~~~~~~~~~~
-              |      |            |            |
-              |      |            |            (10) ...to here
-              |      |            (9) following 'true' branch (when 'drbg' =
-is non-NULL)...
-              |
-            'drbg_hmac_update': events 11-12
-              |
-              |crypto/drbg.c:675:12:
-              |  675 |         if (seed)
-              |      |            ^
-              |      |            |
-              |      |            (11) following 'false' branch (when 'seed=
-' is NULL)...
-              |......
-              |  678 |         drbg_string_fill(&vdata, drbg->V, drbg_state=
-len(drbg));
-              |      |                                  ~~~~~~~
-              |      |                                      |
-              |      |                                      (12) ...to here
-              |
-            'drbg_hmac_update': events 13-14
-              |
-              |include/crypto/drbg.h:144:12:
-              |  144 |         if (drbg && drbg->core)
-              |      |            ^        ~~~~~~~~~~
-              |      |            |            |
-              |      |            |            (14) ...to here
-              |      |            (13) following 'true' branch (when 'drbg'=
- is non-NULL)...
-              |
-            'drbg_hmac_update': events 15-19
-              |
-              |crypto/drbg.c:680:23:
-              |  680 |         for (i =3D 2; 0 < i; i--) {
-              |      |                     ~~^~~
-              |      |                       |
-              |      |                       (15) following 'true' branch (=
-when 'i !=3D 0')...
-              |  681 |                 /* first round uses 0x0, second 0x1 =
-*/
-              |  682 |                 unsigned char prefix =3D DRBG_PREFIX=
-0;
+vim +2879 net/netfilter/nf_tables_api.c
 
-vim +18 include/linux/container_of.h
+96518518cc417b Patrick McHardy   2013-10-14  2865  =
 
-d2a8ebbf8192b8 Andy Shevchenko 2021-11-08   9  =
+795a6d6b42244d Pablo Neira Ayuso 2020-03-11  2866  static struct nft_expr *=
+nft_expr_init(const struct nft_ctx *ctx,
+0b2d8a7b638b50 Patrick McHardy   2015-04-11  2867  				      const struct n=
+lattr *nla)
+0b2d8a7b638b50 Patrick McHardy   2015-04-11  2868  {
+7dab8ee3b6e7ec Pablo Neira Ayuso 2021-04-23  2869  	struct nft_expr_info ex=
+pr_info;
+0b2d8a7b638b50 Patrick McHardy   2015-04-11  2870  	struct nft_expr *expr;
+b8e204006340b7 Pablo Neira Ayuso 2019-02-13  2871  	struct module *owner;
+0b2d8a7b638b50 Patrick McHardy   2015-04-11  2872  	int err;
+0b2d8a7b638b50 Patrick McHardy   2015-04-11  2873  =
 
-d2a8ebbf8192b8 Andy Shevchenko 2021-11-08  10  /**
-d2a8ebbf8192b8 Andy Shevchenko 2021-11-08  11   * container_of - cast a mem=
-ber of a structure out to the containing structure
-d2a8ebbf8192b8 Andy Shevchenko 2021-11-08  12   * @ptr:	the pointer to the =
-member.
-d2a8ebbf8192b8 Andy Shevchenko 2021-11-08  13   * @type:	the type of the co=
-ntainer struct this is embedded in.
-d2a8ebbf8192b8 Andy Shevchenko 2021-11-08  14   * @member:	the name of the =
-member within the struct.
-d2a8ebbf8192b8 Andy Shevchenko 2021-11-08  15   *
-d2a8ebbf8192b8 Andy Shevchenko 2021-11-08  16   */
-d2a8ebbf8192b8 Andy Shevchenko 2021-11-08  17  #define container_of(ptr, ty=
-pe, member) ({				\
-d2a8ebbf8192b8 Andy Shevchenko 2021-11-08 @18  	void *__mptr =3D (void *)(p=
-tr);					\
-d2a8ebbf8192b8 Andy Shevchenko 2021-11-08  19  	BUILD_BUG_ON_MSG(!__same_ty=
-pe(*(ptr), ((type *)0)->member) &&	\
-d2a8ebbf8192b8 Andy Shevchenko 2021-11-08  20  			 !__same_type(*(ptr), voi=
-d),			\
-d2a8ebbf8192b8 Andy Shevchenko 2021-11-08  21  			 "pointer type mismatch i=
-n container_of()");	\
-d2a8ebbf8192b8 Andy Shevchenko 2021-11-08  22  	((type *)(__mptr - offsetof=
-(type, member))); })
-d2a8ebbf8192b8 Andy Shevchenko 2021-11-08  23  =
+7dab8ee3b6e7ec Pablo Neira Ayuso 2021-04-23  2874  	err =3D nf_tables_expr_=
+parse(ctx, nla, &expr_info);
+0b2d8a7b638b50 Patrick McHardy   2015-04-11  2875  	if (err < 0)
+520778042ccca0 Pablo Neira Ayuso 2022-05-25  2876  		goto err_expr_parse;
+520778042ccca0 Pablo Neira Ayuso 2022-05-25  2877  =
+
+520778042ccca0 Pablo Neira Ayuso 2022-05-25  2878  	err =3D -EOPNOTSUPP;
+520778042ccca0 Pablo Neira Ayuso 2022-05-25 @2879  	if (!(expr_info.ops->ty=
+pe->flags & NFT_EXPR_STATEFUL))
+520778042ccca0 Pablo Neira Ayuso 2022-05-25  2880  		goto err_expr_stateful;
+0b2d8a7b638b50 Patrick McHardy   2015-04-11  2881  =
+
+0b2d8a7b638b50 Patrick McHardy   2015-04-11  2882  	err =3D -ENOMEM;
+33758c891479ea Vasily Averin     2022-03-24  2883  	expr =3D kzalloc(expr_i=
+nfo.ops->size, GFP_KERNEL_ACCOUNT);
+0b2d8a7b638b50 Patrick McHardy   2015-04-11  2884  	if (expr =3D=3D NULL)
+520778042ccca0 Pablo Neira Ayuso 2022-05-25  2885  		goto err_expr_stateful;
+0b2d8a7b638b50 Patrick McHardy   2015-04-11  2886  =
+
+7dab8ee3b6e7ec Pablo Neira Ayuso 2021-04-23  2887  	err =3D nf_tables_newex=
+pr(ctx, &expr_info, expr);
+0b2d8a7b638b50 Patrick McHardy   2015-04-11  2888  	if (err < 0)
+520778042ccca0 Pablo Neira Ayuso 2022-05-25  2889  		goto err_expr_new;
+0b2d8a7b638b50 Patrick McHardy   2015-04-11  2890  =
+
+0b2d8a7b638b50 Patrick McHardy   2015-04-11  2891  	return expr;
+520778042ccca0 Pablo Neira Ayuso 2022-05-25  2892  err_expr_new:
+6cafaf4764a325 Liping Zhang      2016-06-20  2893  	kfree(expr);
+520778042ccca0 Pablo Neira Ayuso 2022-05-25  2894  err_expr_stateful:
+7dab8ee3b6e7ec Pablo Neira Ayuso 2021-04-23  2895  	owner =3D expr_info.ops=
+->type->owner;
+7dab8ee3b6e7ec Pablo Neira Ayuso 2021-04-23  2896  	if (expr_info.ops->type=
+->release_ops)
+7dab8ee3b6e7ec Pablo Neira Ayuso 2021-04-23  2897  		expr_info.ops->type->r=
+elease_ops(expr_info.ops);
+b8e204006340b7 Pablo Neira Ayuso 2019-02-13  2898  =
+
+b8e204006340b7 Pablo Neira Ayuso 2019-02-13  2899  	module_put(owner);
+520778042ccca0 Pablo Neira Ayuso 2022-05-25  2900  err_expr_parse:
+0b2d8a7b638b50 Patrick McHardy   2015-04-11  2901  	return ERR_PTR(err);
+0b2d8a7b638b50 Patrick McHardy   2015-04-11  2902  }
+0b2d8a7b638b50 Patrick McHardy   2015-04-11  2903  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============0809701210624728465==--
+--===============7369686185485795979==--
 
