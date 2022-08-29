@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============4614548714768615071=="
+Content-Type: multipart/mixed; boundary="===============0809701210624728465=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v4] fs/ufs: Replace kmap() with kmap_local_page()
-Date: Mon, 29 Aug 2022 15:55:17 +0800
-Message-ID: <202208291547.BmAKnrgu-lkp@intel.com>
+Subject: include/linux/container_of.h:18:15: warning: use of uninitialized value '*input.list.next' [CWE-457]
+Date: Mon, 29 Aug 2022 10:41:08 +0800
+Message-ID: <202208291011.eaRx0Xwe-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4614548714768615071==
+--===============0809701210624728465==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,52 +15,40 @@ Content-Transfer-Encoding: quoted-printable
 :::::: =
 
 :::::: Manual check reason: "low confidence bisect report"
-:::::: Manual check reason: "low confidence static check warning: fs/ufs/di=
-r.c:475:23: warning: use of uninitialized value '<unknown>' [CWE-457] [-Wan=
-alyzer-use-of-uninitialized-value]"
+:::::: Manual check reason: "low confidence static check warning: include/l=
+inux/container_of.h:18:15: warning: use of uninitialized value '*input.list=
+.next' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]"
 :::::: =
 
 
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <20220822144420.7442-1-fmdefrancesco@gmail.com>
-References: <20220822144420.7442-1-fmdefrancesco@gmail.com>
-TO: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-TO: Evgeniy Dushistov <dushistov@mail.ru>
-TO: linux-kernel(a)vger.kernel.org
-CC: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-CC: "Venkataramanan, Anirudh" <anirudh.venkataramanan@intel.com>
-CC: Ira Weiny <ira.weiny@intel.com>
+CC: linux-kernel(a)vger.kernel.org
+TO: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
 
-Hi "Fabio,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.0-rc2 next-20220826]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Fabio-M-De-Francesco=
-/fs-ufs-Replace-kmap-with-kmap_local_page/20220822-224554
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-1c23f9e627a7b412978b4e852793c5e3c3efc555
-:::::: branch date: 7 days ago
-:::::: commit date: 7 days ago
-config: arm-randconfig-c002-20220824 (https://download.01.org/0day-ci/archi=
-ve/20220829/202208291547.BmAKnrgu-lkp(a)intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   b90cb1053190353cc30f0fef0ef1f378ccc063c5
+commit: d2a8ebbf8192b84b11f1b204c4f7c602df32aeac kernel.h: split out contai=
+ner_of() and typeof_member() macros
+date:   10 months ago
+:::::: branch date: 4 hours ago
+:::::: commit date: 10 months ago
+config: arm-randconfig-c002-20220828 (https://download.01.org/0day-ci/archi=
+ve/20220829/202208291011.eaRx0Xwe-lkp(a)intel.com/config)
 compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/763327c2d5b03a56937=
-b79cd2e8e9e44843c5de8
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Fabio-M-De-Francesco/fs-ufs-Replac=
-e-kmap-with-kmap_local_page/20220822-224554
-        git checkout 763327c2d5b03a56937b79cd2e8e9e44843c5de8
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3Dd2a8ebbf8192b84b11f1b204c4f7c602df32aeac
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout d2a8ebbf8192b84b11f1b204c4f7c602df32aeac
         # save the config file
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cross=
  ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
@@ -70,177 +58,401 @@ If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 
 gcc-analyzer warnings: (new ones prefixed by >>)
-   fs/ufs/dir.c: In function 'ufs_readdir':
->> fs/ufs/dir.c:475:23: warning: use of uninitialized value '<unknown>' [CW=
-E-457] [-Wanalyzer-use-of-uninitialized-value]
-     475 |                 char *kaddr, *limit;
-         |                       ^~~~~
-     'ufs_readdir': event 1
+   In file included from include/linux/kernel.h:12,
+                    from include/linux/random.h:11,
+                    from include/crypto/drbg.h:43,
+                    from crypto/drbg.c:100:
+   crypto/drbg.c: In function 'drbg_kcapi_hash':
+>> include/linux/container_of.h:18:15: warning: use of uninitialized value =
+'*input.list.next' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+      18 |         void *__mptr =3D (void *)(ptr);                         =
+          \
+         |               ^~~~~~
+   include/linux/list.h:511:9: note: in expansion of macro 'container_of'
+     511 |         container_of(ptr, type, member)
+         |         ^~~~~~~~~~~~
+   include/linux/list.h:555:9: note: in expansion of macro 'list_entry'
+     555 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+         |         ^~~~~~~~~~
+   include/linux/list.h:630:20: note: in expansion of macro 'list_next_entr=
+y'
+     630 |              pos =3D list_next_entry(pos, member))
+         |                    ^~~~~~~~~~~~~~~
+   crypto/drbg.c:1726:9: note: in expansion of macro 'list_for_each_entry'
+    1726 |         list_for_each_entry(input, in, list)
+         |         ^~~~~~~~~~~~~~~~~~~
+     'drbg_hmac_generate': events 1-2
        |
-       |  471 |         if (pos > inode->i_size - UFS_DIR_REC_LEN(1))
-       |      |            ^
+       |  706 | static int drbg_hmac_generate(struct drbg_state *drbg,
+       |      |            ^~~~~~~~~~~~~~~~~~
        |      |            |
-       |      |            (1) following 'false' branch...
+       |      |            (1) entry to 'drbg_hmac_generate'
+       |......
+       |  713 |         struct drbg_string data;
+       |      |                            ~~~~
+       |      |                            |
+       |      |                            (2) region created on stack here
        |
-     'ufs_readdir': event 2
+     'drbg_hmac_generate': events 3-4
        |
-       |cc1:
-       | (2): ...to here
+       |include/crypto/drbg.h:144:12:
+       |  144 |         if (drbg && drbg->core)
+       |      |            ^        ~~~~~~~~~~
+       |      |            |            |
+       |      |            |            (4) ...to here
+       |      |            (3) following 'true' branch (when 'drbg' is non-=
+NULL)...
        |
-     'ufs_readdir': events 3-5
+     'drbg_hmac_generate': events 5-7
        |
-       |  474 |         for ( ; n < npages; n++, offset =3D 0) {
-       |      |                 ~~^~~~~~~~
-       |      |                   |
-       |      |                   (3) following 'true' branch...
-       |  475 |                 char *kaddr, *limit;
-       |      |                 ~~~~  ~~~~~
-       |      |                 |     |
-       |      |                 |     (5) use of uninitialized value '<unkn=
-own>' here
-       |      |                 (4) ...to here
+       |crypto/drbg.c:725:20:
+       |  725 |         while (len < buflen) {
+       |      |                ~~~~^~~~~~~~
+       |      |                    |
+       |      |                    (5) following 'true' branch...
+       |......
+       |  728 |                 ret =3D drbg_kcapi_hash(drbg, drbg->V, &dat=
+alist);
+       |      |                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~
+       |      |                       |
+       |      |                       (6) ...to here
+       |      |                       (7) calling 'drbg_kcapi_hash' from 'd=
+rbg_hmac_generate'
        |
-   fs/ufs/dir.c: In function 'ufs_empty_dir':
-   fs/ufs/dir.c:626:15: warning: use of uninitialized value '<unknown>' [CW=
-E-457] [-Wanalyzer-use-of-uninitialized-value]
-     626 |         void *page_addr;
-         |               ^~~~~~~~~
-     'ufs_empty_dir': event 1
+       +--> 'drbg_kcapi_hash': event 8
+              |
+              | 1719 | static int drbg_kcapi_hash(struct drbg_state *drbg, =
+unsigned char *outval,
+              |      |            ^~~~~~~~~~~~~~~
+              |      |            |
+              |      |            (8) entry to 'drbg_kcapi_hash'
+              |
+            'drbg_kcapi_hash': event 9
+              |
+              |include/linux/list.h:629:14:
+              |  629 |              !list_entry_is_head(pos, head, member);=
+                    \
+              |      |              ^
+              |      |              |
+              |      |              (9) following 'true' branch...
+   crypto/drbg.c:1726:9: note: in expansion of macro 'list_for_each_entry'
+              | 1726 |         list_for_each_entry(input, in, list)
+              |      |         ^~~~~~~~~~~~~~~~~~~
+              |
+            'drbg_kcapi_hash': event 10
+              |
+              | 1727 |                 crypto_shash_update(&sdesc->shash, i=
+nput->buf, input->len);
+              |      |                                                    ~=
+~~~~^~~~~
+              |      |                                                     =
+    |
+              |      |                                                     =
+    (10) ...to here
+              |
+            'drbg_kcapi_hash': event 11
+              |
+              |include/linux/container_of.h:18:15:
+              |   18 |         void *__mptr =3D (void *)(ptr);             =
+                      \
+              |      |               ^~~~~~
+              |      |               |
+              |      |               (11) use of uninitialized value '*inpu=
+t.list.next' here
+   include/linux/list.h:511:9: note: in expansion of macro 'container_of'
+              |  511 |         container_of(ptr, type, member)
+              |      |         ^~~~~~~~~~~~
+   include/linux/list.h:555:9: note: in expansion of macro 'list_entry'
+              |  555 |         list_entry((pos)->member.next, typeof(*(pos)=
+), member)
+              |      |         ^~~~~~~~~~
+   include/linux/list.h:630:20: note: in expansion of macro 'list_next_entr=
+y'
+              |  630 |              pos =3D list_next_entry(pos, member))
+              |      |                    ^~~~~~~~~~~~~~~
+   crypto/drbg.c:1726:9: note: in expansion of macro 'list_for_each_entry'
+              | 1726 |         list_for_each_entry(input, in, list)
+              |      |         ^~~~~~~~~~~~~~~~~~~
+              |
+>> include/linux/container_of.h:18:15: warning: use of uninitialized value =
+'*input.list.next' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+      18 |         void *__mptr =3D (void *)(ptr);                         =
+          \
+         |               ^~~~~~
+   include/linux/list.h:511:9: note: in expansion of macro 'container_of'
+     511 |         container_of(ptr, type, member)
+         |         ^~~~~~~~~~~~
+   include/linux/list.h:555:9: note: in expansion of macro 'list_entry'
+     555 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+         |         ^~~~~~~~~~
+   include/linux/list.h:630:20: note: in expansion of macro 'list_next_entr=
+y'
+     630 |              pos =3D list_next_entry(pos, member))
+         |                    ^~~~~~~~~~~~~~~
+   crypto/drbg.c:1726:9: note: in expansion of macro 'list_for_each_entry'
+    1726 |         list_for_each_entry(input, in, list)
+         |         ^~~~~~~~~~~~~~~~~~~
+     'drbg_hmac_update': events 1-2
        |
-       |  626 |         void *page_addr;
-       |      |               ^~~~~~~~~
-       |      |               |
-       |      |               (1) use of uninitialized value '<unknown>' he=
-re
+       |  654 | static int drbg_hmac_update(struct drbg_state *drbg, struct=
+ list_head *seed,
+       |      |            ^~~~~~~~~~~~~~~~
+       |      |            |
+       |      |            (1) entry to 'drbg_hmac_update'
+       |......
+       |  659 |         struct drbg_string seed1, seed2, vdata;
+       |      |                            ~~~~~
+       |      |                            |
+       |      |                            (2) region created on stack here
        |
+     'drbg_hmac_update': events 3-4
+       |
+       |include/crypto/drbg.h:144:12:
+       |  144 |         if (drbg && drbg->core)
+       |      |            ^        ~~~~~~~~~~
+       |      |            |            |
+       |      |            |            (4) ...to here
+       |      |            (3) following 'true' branch...
+       |
+     'drbg_hmac_update': events 5-9
+       |
+       |crypto/drbg.c:680:23:
+       |  680 |         for (i =3D 2; 0 < i; i--) {
+       |      |                     ~~^~~
+       |      |                       |
+       |      |                       (5) following 'true' branch (when 'i =
+!=3D 0')...
+       |  681 |                 /* first round uses 0x0, second 0x1 */
+       |  682 |                 unsigned char prefix =3D DRBG_PREFIX0;
+       |      |                               ~~~~~~
+       |      |                               |
+       |      |                               (6) ...to here
+       |  683 |                 if (1 =3D=3D i)
+       |      |                    ~   =
 
-vim +475 fs/ufs/dir.c
+       |      |                    |
+       |      |                    (7) following 'false' branch (when 'i !=
+=3D 1')...
+       |......
+       |  686 |                 seed2.buf =3D &prefix;
+       |      |                 ~~~~~~~~~~~~~~~~~~~
+       |      |                           |
+       |      |                           (8) ...to here
+       |  687 |                 ret =3D drbg_kcapi_hash(drbg, drbg->C, &see=
+dlist);
+       |      |                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~
+       |      |                       |
+       |      |                       (9) calling 'drbg_kcapi_hash' from 'd=
+rbg_hmac_update'
+       |
+       +--> 'drbg_kcapi_hash': event 10
+              |
+              | 1719 | static int drbg_kcapi_hash(struct drbg_state *drbg, =
+unsigned char *outval,
+              |      |            ^~~~~~~~~~~~~~~
+              |      |            |
+              |      |            (10) entry to 'drbg_kcapi_hash'
+              |
+            'drbg_kcapi_hash': event 11
+              |
+              |include/linux/list.h:629:14:
+              |  629 |              !list_entry_is_head(pos, head, member);=
+                    \
+              |      |              ^
+              |      |              |
+              |      |              (11) following 'true' branch...
+   crypto/drbg.c:1726:9: note: in expansion of macro 'list_for_each_entry'
+              | 1726 |         list_for_each_entry(input, in, list)
+              |      |         ^~~~~~~~~~~~~~~~~~~
+              |
+            'drbg_kcapi_hash': event 12
+              |
+              | 1727 |                 crypto_shash_update(&sdesc->shash, i=
+nput->buf, input->len);
+              |      |                                                    ~=
+~~~~^~~~~
+              |      |                                                     =
+    |
+              |      |                                                     =
+    (12) ...to here
+              |
+            'drbg_kcapi_hash': event 13
+              |
+              |include/linux/container_of.h:18:15:
+              |   18 |         void *__mptr =3D (void *)(ptr);             =
+                      \
+              |      |               ^~~~~~
+              |      |               |
+              |      |               (13) use of uninitialized value '*inpu=
+t.list.next' here
+   include/linux/list.h:511:9: note: in expansion of macro 'container_of'
+              |  511 |         container_of(ptr, type, member)
+              |      |         ^~~~~~~~~~~~
+   include/linux/list.h:555:9: note: in expansion of macro 'list_entry'
+              |  555 |         list_entry((pos)->member.next, typeof(*(pos)=
+), member)
+              |      |         ^~~~~~~~~~
+   include/linux/list.h:630:20: note: in expansion of macro 'list_next_entr=
+y'
+              |  630 |              pos =3D list_next_entry(pos, member))
+              |      |                    ^~~~~~~~~~~~~~~
+   crypto/drbg.c:1726:9: note: in expansion of macro 'list_for_each_entry'
+              | 1726 |         list_for_each_entry(input, in, list)
+              |      |         ^~~~~~~~~~~~~~~~~~~
+              |
+>> include/linux/container_of.h:18:15: warning: use of uninitialized value =
+'*input.list.next' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+      18 |         void *__mptr =3D (void *)(ptr);                         =
+          \
+         |               ^~~~~~
+   include/linux/list.h:511:9: note: in expansion of macro 'container_of'
+     511 |         container_of(ptr, type, member)
+         |         ^~~~~~~~~~~~
+   include/linux/list.h:555:9: note: in expansion of macro 'list_entry'
+     555 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+         |         ^~~~~~~~~~
+   include/linux/list.h:630:20: note: in expansion of macro 'list_next_entr=
+y'
+     630 |              pos =3D list_next_entry(pos, member))
+         |                    ^~~~~~~~~~~~~~~
+   crypto/drbg.c:1726:9: note: in expansion of macro 'list_for_each_entry'
+    1726 |         list_for_each_entry(input, in, list)
+         |         ^~~~~~~~~~~~~~~~~~~
+     'drbg_hmac_generate': event 1
+       |
+       |  706 | static int drbg_hmac_generate(struct drbg_state *drbg,
+       |      |            ^~~~~~~~~~~~~~~~~~
+       |      |            |
+       |      |            (1) entry to 'drbg_hmac_generate'
+       |
+     'drbg_hmac_generate': events 2-3
+       |
+       |include/crypto/drbg.h:144:12:
+       |  144 |         if (drbg && drbg->core)
+       |      |            ^        ~~~~~~~~~~
+       |      |            |            |
+       |      |            |            (3) ...to here
+       |      |            (2) following 'true' branch (when 'drbg' is non-=
+NULL)...
+       |
+     'drbg_hmac_generate': event 4
+       |
+       |crypto/drbg.c:743:23:
+       |  743 |                 ret =3D drbg_hmac_update(drbg, NULL, 1);
+       |      |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |                       |
+       |      |                       (4) calling 'drbg_hmac_update' from '=
+drbg_hmac_generate'
+       |
+       +--> 'drbg_hmac_update': events 5-8
+              |
+              |  654 | static int drbg_hmac_update(struct drbg_state *drbg,=
+ struct list_head *seed,
+              |      |            ^~~~~~~~~~~~~~~~
+              |      |            |
+              |      |            (5) entry to 'drbg_hmac_update'
+              |......
+              |  659 |         struct drbg_string seed1, seed2, vdata;
+              |      |                            ~~~~~
+              |      |                            |
+              |      |                            (6) region created on sta=
+ck here
+              |......
+              |  663 |         if (!reseed) {
+              |      |            ~
+              |      |            |
+              |      |            (7) following 'false' branch (when 'resee=
+d !=3D 0')...
+              |......
+              |  669 |         drbg_string_fill(&seed1, drbg->V, drbg_state=
+len(drbg));
+              |      |                                  ~~~~~~~
+              |      |                                      |
+              |      |                                      (8) ...to here
+              |
+            'drbg_hmac_update': events 9-10
+              |
+              |include/crypto/drbg.h:144:12:
+              |  144 |         if (drbg && drbg->core)
+              |      |            ^        ~~~~~~~~~~
+              |      |            |            |
+              |      |            |            (10) ...to here
+              |      |            (9) following 'true' branch (when 'drbg' =
+is non-NULL)...
+              |
+            'drbg_hmac_update': events 11-12
+              |
+              |crypto/drbg.c:675:12:
+              |  675 |         if (seed)
+              |      |            ^
+              |      |            |
+              |      |            (11) following 'false' branch (when 'seed=
+' is NULL)...
+              |......
+              |  678 |         drbg_string_fill(&vdata, drbg->V, drbg_state=
+len(drbg));
+              |      |                                  ~~~~~~~
+              |      |                                      |
+              |      |                                      (12) ...to here
+              |
+            'drbg_hmac_update': events 13-14
+              |
+              |include/crypto/drbg.h:144:12:
+              |  144 |         if (drbg && drbg->core)
+              |      |            ^        ~~~~~~~~~~
+              |      |            |            |
+              |      |            |            (14) ...to here
+              |      |            (13) following 'true' branch (when 'drbg'=
+ is non-NULL)...
+              |
+            'drbg_hmac_update': events 15-19
+              |
+              |crypto/drbg.c:680:23:
+              |  680 |         for (i =3D 2; 0 < i; i--) {
+              |      |                     ~~^~~
+              |      |                       |
+              |      |                       (15) following 'true' branch (=
+when 'i !=3D 0')...
+              |  681 |                 /* first round uses 0x0, second 0x1 =
+*/
+              |  682 |                 unsigned char prefix =3D DRBG_PREFIX=
+0;
 
-b71034e5e67d15 Evgeniy Dushistov     2006-06-25  451  =
+vim +18 include/linux/container_of.h
 
-b71034e5e67d15 Evgeniy Dushistov     2006-06-25  452  =
+d2a8ebbf8192b8 Andy Shevchenko 2021-11-08   9  =
 
-b71034e5e67d15 Evgeniy Dushistov     2006-06-25  453  /*
-b71034e5e67d15 Evgeniy Dushistov     2006-06-25  454   * This is blatantly =
-stolen from ext2fs
-b71034e5e67d15 Evgeniy Dushistov     2006-06-25  455   */
-b71034e5e67d15 Evgeniy Dushistov     2006-06-25  456  static int
-80886298c07234 Al Viro               2013-05-15  457  ufs_readdir(struct fi=
-le *file, struct dir_context *ctx)
-b71034e5e67d15 Evgeniy Dushistov     2006-06-25  458  {
-80886298c07234 Al Viro               2013-05-15  459  	loff_t pos =3D ctx->=
-pos;
-80886298c07234 Al Viro               2013-05-15  460  	struct inode *inode =
-=3D file_inode(file);
-b71034e5e67d15 Evgeniy Dushistov     2006-06-25  461  	struct super_block *=
-sb =3D inode->i_sb;
-09cbfeaf1a5a67 Kirill A. Shutemov    2016-04-01  462  	unsigned int offset =
-=3D pos & ~PAGE_MASK;
-09cbfeaf1a5a67 Kirill A. Shutemov    2016-04-01  463  	unsigned long n =3D =
-pos >> PAGE_SHIFT;
-5d754ced150e39 Fabian Frederick      2015-05-24  464  	unsigned long npages=
- =3D dir_pages(inode);
-f336953bfdee8d Evgeniy Dushistov     2007-02-08  465  	unsigned chunk_mask =
-=3D ~(UFS_SB(sb)->s_uspi->s_dirblksize - 1);
-c472c07bfed9c8 Goffredo Baroncelli   2018-02-01  466  	bool need_revalidate=
- =3D !inode_eq_iversion(inode, file->f_version);
-b71034e5e67d15 Evgeniy Dushistov     2006-06-25  467  	unsigned flags =3D U=
-FS_SB(sb)->s_flags;
-b71034e5e67d15 Evgeniy Dushistov     2006-06-25  468  =
-
-abf5d15fd2e525 Evgeniy Dushistov     2006-06-25  469  	UFSD("BEGIN\n");
-b71034e5e67d15 Evgeniy Dushistov     2006-06-25  470  =
-
-b71034e5e67d15 Evgeniy Dushistov     2006-06-25  471  	if (pos > inode->i_s=
-ize - UFS_DIR_REC_LEN(1))
-b71034e5e67d15 Evgeniy Dushistov     2006-06-25  472  		return 0;
-b71034e5e67d15 Evgeniy Dushistov     2006-06-25  473  =
-
-b71034e5e67d15 Evgeniy Dushistov     2006-06-25  474  	for ( ; n < npages; =
-n++, offset =3D 0) {
-b71034e5e67d15 Evgeniy Dushistov     2006-06-25 @475  		char *kaddr, *limit;
-b71034e5e67d15 Evgeniy Dushistov     2006-06-25  476  		struct ufs_dir_entr=
-y *de;
-b71034e5e67d15 Evgeniy Dushistov     2006-06-25  477  =
-
-763327c2d5b03a Fabio M. De Francesco 2022-08-22  478  		struct page *page =
-=3D ufs_get_page(inode, n, (void **)&kaddr);
-b71034e5e67d15 Evgeniy Dushistov     2006-06-25  479  =
-
-b71034e5e67d15 Evgeniy Dushistov     2006-06-25  480  		if (IS_ERR(page)) {
-9746077a71d01b Harvey Harrison       2008-04-28  481  			ufs_error(sb, __fu=
-nc__,
-b71034e5e67d15 Evgeniy Dushistov     2006-06-25  482  				  "bad page in #%=
-lu",
-b71034e5e67d15 Evgeniy Dushistov     2006-06-25  483  				  inode->i_ino);
-09cbfeaf1a5a67 Kirill A. Shutemov    2016-04-01  484  			ctx->pos +=3D PAGE=
-_SIZE - offset;
-b71034e5e67d15 Evgeniy Dushistov     2006-06-25  485  			return -EIO;
-b71034e5e67d15 Evgeniy Dushistov     2006-06-25  486  		}
-b71034e5e67d15 Evgeniy Dushistov     2006-06-25  487  		if (unlikely(need_r=
-evalidate)) {
-b71034e5e67d15 Evgeniy Dushistov     2006-06-25  488  			if (offset) {
-b71034e5e67d15 Evgeniy Dushistov     2006-06-25  489  				offset =3D ufs_va=
-lidate_entry(sb, kaddr, offset, chunk_mask);
-09cbfeaf1a5a67 Kirill A. Shutemov    2016-04-01  490  				ctx->pos =3D (n<<=
-PAGE_SHIFT) + offset;
-b71034e5e67d15 Evgeniy Dushistov     2006-06-25  491  			}
-bb8c2d66bc6f7d Jeff Layton           2017-12-11  492  			file->f_version =
-=3D inode_query_iversion(inode);
-bb8c2d66bc6f7d Jeff Layton           2017-12-11  493  			need_revalidate =
-=3D false;
-b71034e5e67d15 Evgeniy Dushistov     2006-06-25  494  		}
-b71034e5e67d15 Evgeniy Dushistov     2006-06-25  495  		de =3D (struct ufs_=
-dir_entry *)(kaddr+offset);
-b71034e5e67d15 Evgeniy Dushistov     2006-06-25  496  		limit =3D kaddr + u=
-fs_last_byte(inode, n) - UFS_DIR_REC_LEN(1);
-b71034e5e67d15 Evgeniy Dushistov     2006-06-25  497  		for ( ;(char*)de <=
-=3D limit; de =3D ufs_next_entry(sb, de)) {
-b71034e5e67d15 Evgeniy Dushistov     2006-06-25  498  			if (de->d_ino) {
-b71034e5e67d15 Evgeniy Dushistov     2006-06-25  499  				unsigned char d_t=
-ype =3D DT_UNKNOWN;
-^1da177e4c3f41 Linus Torvalds        2005-04-16  500  =
-
-abf5d15fd2e525 Evgeniy Dushistov     2006-06-25  501  				UFSD("filldir(%s,=
-%u)\n", de->d_name,
-abf5d15fd2e525 Evgeniy Dushistov     2006-06-25  502  				      fs32_to_cpu=
-(sb, de->d_ino));
-abf5d15fd2e525 Evgeniy Dushistov     2006-06-25  503  				UFSD("namlen %u\n=
-", ufs_get_de_namlen(sb, de));
-b71034e5e67d15 Evgeniy Dushistov     2006-06-25  504  =
-
-b71034e5e67d15 Evgeniy Dushistov     2006-06-25  505  				if ((flags & UFS_=
-DE_MASK) =3D=3D UFS_DE_44BSD)
-b71034e5e67d15 Evgeniy Dushistov     2006-06-25  506  					d_type =3D de->d=
-_u.d_44.d_type;
-b71034e5e67d15 Evgeniy Dushistov     2006-06-25  507  =
-
-80886298c07234 Al Viro               2013-05-15  508  				if (!dir_emit(ctx=
-, de->d_name,
-b71034e5e67d15 Evgeniy Dushistov     2006-06-25  509  					       ufs_get_d=
-e_namlen(sb, de),
-80886298c07234 Al Viro               2013-05-15  510  					       fs32_to_c=
-pu(sb, de->d_ino),
-80886298c07234 Al Viro               2013-05-15  511  					       d_type)) {
-763327c2d5b03a Fabio M. De Francesco 2022-08-22  512  					ufs_put_page(pag=
-e, kaddr);
-^1da177e4c3f41 Linus Torvalds        2005-04-16  513  					return 0;
-^1da177e4c3f41 Linus Torvalds        2005-04-16  514  				}
-b71034e5e67d15 Evgeniy Dushistov     2006-06-25  515  			}
-80886298c07234 Al Viro               2013-05-15  516  			ctx->pos +=3D fs16=
-_to_cpu(sb, de->d_reclen);
-b71034e5e67d15 Evgeniy Dushistov     2006-06-25  517  		}
-763327c2d5b03a Fabio M. De Francesco 2022-08-22  518  		ufs_put_page(page, =
-kaddr);
-b71034e5e67d15 Evgeniy Dushistov     2006-06-25  519  	}
-b71034e5e67d15 Evgeniy Dushistov     2006-06-25  520  	return 0;
-b71034e5e67d15 Evgeniy Dushistov     2006-06-25  521  }
-b71034e5e67d15 Evgeniy Dushistov     2006-06-25  522  =
+d2a8ebbf8192b8 Andy Shevchenko 2021-11-08  10  /**
+d2a8ebbf8192b8 Andy Shevchenko 2021-11-08  11   * container_of - cast a mem=
+ber of a structure out to the containing structure
+d2a8ebbf8192b8 Andy Shevchenko 2021-11-08  12   * @ptr:	the pointer to the =
+member.
+d2a8ebbf8192b8 Andy Shevchenko 2021-11-08  13   * @type:	the type of the co=
+ntainer struct this is embedded in.
+d2a8ebbf8192b8 Andy Shevchenko 2021-11-08  14   * @member:	the name of the =
+member within the struct.
+d2a8ebbf8192b8 Andy Shevchenko 2021-11-08  15   *
+d2a8ebbf8192b8 Andy Shevchenko 2021-11-08  16   */
+d2a8ebbf8192b8 Andy Shevchenko 2021-11-08  17  #define container_of(ptr, ty=
+pe, member) ({				\
+d2a8ebbf8192b8 Andy Shevchenko 2021-11-08 @18  	void *__mptr =3D (void *)(p=
+tr);					\
+d2a8ebbf8192b8 Andy Shevchenko 2021-11-08  19  	BUILD_BUG_ON_MSG(!__same_ty=
+pe(*(ptr), ((type *)0)->member) &&	\
+d2a8ebbf8192b8 Andy Shevchenko 2021-11-08  20  			 !__same_type(*(ptr), voi=
+d),			\
+d2a8ebbf8192b8 Andy Shevchenko 2021-11-08  21  			 "pointer type mismatch i=
+n container_of()");	\
+d2a8ebbf8192b8 Andy Shevchenko 2021-11-08  22  	((type *)(__mptr - offsetof=
+(type, member))); })
+d2a8ebbf8192b8 Andy Shevchenko 2021-11-08  23  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============4614548714768615071==--
+--===============0809701210624728465==--
 
