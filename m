@@ -1,32 +1,34 @@
-Content-Type: multipart/mixed; boundary="===============8683091478284628456=="
+Content-Type: multipart/mixed; boundary="===============7055159738149911261=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [drm-intel:for-linux-next-gt 1/1] drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c:497 intel_guc_slpc_set_min_freq() warn: inconsistent returns '&slpc->lock'.
-Date: Tue, 30 Aug 2022 19:48:28 +0800
-Message-ID: <202208301957.uLAOt2oy-lkp@intel.com>
+Subject: drivers/net/ethernet/marvell/prestera/prestera_main.c:421 prestera_port_sfp_bind() error: uninitialized symbol 'err'.
+Date: Tue, 30 Aug 2022 19:37:57 +0800
+Message-ID: <202208301906.jvI7qhSR-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8683091478284628456==
+--===============7055159738149911261==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
-CC: intel-gfx(a)lists.freedesktop.org
-CC: dri-devel(a)lists.freedesktop.org
-TO: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
-CC: Rodrigo Vivi <rodrigo.vivi@intel.com>
+CC: linux-kernel(a)vger.kernel.org
+TO: Oleksandr Mazur <oleksandr.mazur@plvision.eu>
+CC: Yevhen Orlov <yevhen.orlov@plvision.eu>
+CC: Taras Chornyi <taras.chornyi@plvision.eu>
 
-tree:   git://anongit.freedesktop.org/drm-intel for-linux-next-gt
-head:   f54e515c91806288126f64b37da0c78baa2d8c1f
-commit: 95ccf312a1e4f5a1150dd1a0a2d81c1043e33fb6 [1/1] drm/i915/guc/slpc: A=
-llow SLPC to use efficient frequency
-:::::: branch date: 24 hours ago
-:::::: commit date: 6 days ago
-config: i386-randconfig-m021-20220829 (https://download.01.org/0day-ci/arch=
-ive/20220830/202208301957.uLAOt2oy-lkp(a)intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   dcf8e5633e2e69ad60b730ab5905608b756a032f
+commit: 52323ef75414d60b17f683076833eb55a6bffa2b net: marvell: prestera: ad=
+d phylink support
+date:   6 weeks ago
+:::::: branch date: 15 hours ago
+:::::: commit date: 6 weeks ago
+config: x86_64-randconfig-m041-20220829 (https://download.01.org/0day-ci/ar=
+chive/20220830/202208301906.jvI7qhSR-lkp(a)intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-5) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
@@ -34,113 +36,126 @@ Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 New smatch warnings:
-drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c:497 intel_guc_slpc_set_min_freq=
-() warn: inconsistent returns '&slpc->lock'.
+drivers/net/ethernet/marvell/prestera/prestera_main.c:421 prestera_port_sfp=
+_bind() error: uninitialized symbol 'err'.
 
 Old smatch warnings:
-drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c:414 intel_guc_slpc_set_max_freq=
-() error: uninitialized symbol 'ret'.
-drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c:492 intel_guc_slpc_set_min_freq=
-() error: uninitialized symbol 'ret'.
+drivers/net/ethernet/marvell/prestera/prestera_main.c:860 prestera_switch_s=
+et_base_mac_addr() error: uninitialized symbol 'ret'.
 
-vim +497 drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
+vim +/err +421 drivers/net/ethernet/marvell/prestera/prestera_main.c
 
-c279bec18e9773 Vinay Belgaumkar 2021-07-30  446  =
+52323ef75414d6 Oleksandr Mazur 2022-07-19  359  =
 
-d41f6f82d319ca Vinay Belgaumkar 2021-07-30  447  /**
-d41f6f82d319ca Vinay Belgaumkar 2021-07-30  448   * intel_guc_slpc_set_min_=
-freq() - Set min frequency limit for SLPC.
-d41f6f82d319ca Vinay Belgaumkar 2021-07-30  449   * @slpc: pointer to intel=
-_guc_slpc.
-d41f6f82d319ca Vinay Belgaumkar 2021-07-30  450   * @val: frequency (MHz)
-d41f6f82d319ca Vinay Belgaumkar 2021-07-30  451   *
-d41f6f82d319ca Vinay Belgaumkar 2021-07-30  452   * This function will invo=
-ke GuC SLPC action to update the min unslice
-d41f6f82d319ca Vinay Belgaumkar 2021-07-30  453   * frequency.
-d41f6f82d319ca Vinay Belgaumkar 2021-07-30  454   *
-d41f6f82d319ca Vinay Belgaumkar 2021-07-30  455   * Return: 0 on success, n=
-on-zero error code on failure.
-d41f6f82d319ca Vinay Belgaumkar 2021-07-30  456   */
-d41f6f82d319ca Vinay Belgaumkar 2021-07-30  457  int intel_guc_slpc_set_min=
-_freq(struct intel_guc_slpc *slpc, u32 val)
-d41f6f82d319ca Vinay Belgaumkar 2021-07-30  458  {
-d41f6f82d319ca Vinay Belgaumkar 2021-07-30  459  	struct drm_i915_private *=
-i915 =3D slpc_to_i915(slpc);
-d41f6f82d319ca Vinay Belgaumkar 2021-07-30  460  	intel_wakeref_t wakeref;
-d41f6f82d319ca Vinay Belgaumkar 2021-07-30  461  	int ret;
-d41f6f82d319ca Vinay Belgaumkar 2021-07-30  462  =
+52323ef75414d6 Oleksandr Mazur 2022-07-19  360  static int prestera_port_sf=
+p_bind(struct prestera_port *port)
+52323ef75414d6 Oleksandr Mazur 2022-07-19  361  {
+52323ef75414d6 Oleksandr Mazur 2022-07-19  362  	struct prestera_switch *sw=
+ =3D port->sw;
+52323ef75414d6 Oleksandr Mazur 2022-07-19  363  	struct device_node *ports,=
+ *node;
+52323ef75414d6 Oleksandr Mazur 2022-07-19  364  	struct fwnode_handle *fwno=
+de;
+52323ef75414d6 Oleksandr Mazur 2022-07-19  365  	struct phylink *phy_link;
+52323ef75414d6 Oleksandr Mazur 2022-07-19  366  	int err;
+52323ef75414d6 Oleksandr Mazur 2022-07-19  367  =
 
-025cb07bebfaf9 Vinay Belgaumkar 2021-07-30  463  	if (val < slpc->min_freq =
-||
-025cb07bebfaf9 Vinay Belgaumkar 2021-07-30  464  	    val > slpc->rp0_freq =
-||
-025cb07bebfaf9 Vinay Belgaumkar 2021-07-30  465  	    val > slpc->max_freq_=
-softlimit)
-025cb07bebfaf9 Vinay Belgaumkar 2021-07-30  466  		return -EINVAL;
-025cb07bebfaf9 Vinay Belgaumkar 2021-07-30  467  =
+52323ef75414d6 Oleksandr Mazur 2022-07-19  368  	if (!sw->np)
+52323ef75414d6 Oleksandr Mazur 2022-07-19  369  		return 0;
+52323ef75414d6 Oleksandr Mazur 2022-07-19  370  =
 
-493043feed006f Vinay Belgaumkar 2021-11-01  468  	/* Need a lock now since =
-waitboost can be modifying min as well */
-493043feed006f Vinay Belgaumkar 2021-11-01  469  	mutex_lock(&slpc->lock);
-493043feed006f Vinay Belgaumkar 2021-11-01  470  =
+52323ef75414d6 Oleksandr Mazur 2022-07-19  371  	ports =3D of_find_node_by_=
+name(sw->np, "ports");
+52323ef75414d6 Oleksandr Mazur 2022-07-19  372  =
 
-d41f6f82d319ca Vinay Belgaumkar 2021-07-30  471  	with_intel_runtime_pm(&i9=
-15->runtime_pm, wakeref) {
-493043feed006f Vinay Belgaumkar 2021-11-01  472  =
+52323ef75414d6 Oleksandr Mazur 2022-07-19  373  	for_each_child_of_node(por=
+ts, node) {
+52323ef75414d6 Oleksandr Mazur 2022-07-19  374  		int num;
+52323ef75414d6 Oleksandr Mazur 2022-07-19  375  =
 
-95ccf312a1e4f5 Vinay Belgaumkar 2022-08-19  473  		/* Ignore efficient freq=
- if lower min freq is requested */
-95ccf312a1e4f5 Vinay Belgaumkar 2022-08-19  474  		ret =3D slpc_set_param(s=
-lpc,
-95ccf312a1e4f5 Vinay Belgaumkar 2022-08-19  475  				     SLPC_PARAM_IGNORE=
-_EFFICIENT_FREQUENCY,
-95ccf312a1e4f5 Vinay Belgaumkar 2022-08-19  476  				     val < slpc->rp1_f=
-req);
-95ccf312a1e4f5 Vinay Belgaumkar 2022-08-19  477  		if (unlikely(ret)) {
-95ccf312a1e4f5 Vinay Belgaumkar 2022-08-19  478  			i915_probe_error(i915, =
-"Failed to toggle efficient freq (%pe)\n",
-95ccf312a1e4f5 Vinay Belgaumkar 2022-08-19  479  					 ERR_PTR(ret));
-95ccf312a1e4f5 Vinay Belgaumkar 2022-08-19  480  			return ret;
-95ccf312a1e4f5 Vinay Belgaumkar 2022-08-19  481  		}
-95ccf312a1e4f5 Vinay Belgaumkar 2022-08-19  482  =
+52323ef75414d6 Oleksandr Mazur 2022-07-19  376  		err =3D of_property_read_=
+u32(node, "prestera,port-num", &num);
+52323ef75414d6 Oleksandr Mazur 2022-07-19  377  		if (err) {
+52323ef75414d6 Oleksandr Mazur 2022-07-19  378  			dev_err(sw->dev->dev,
+52323ef75414d6 Oleksandr Mazur 2022-07-19  379  				"device node %pOF has n=
+o valid reg property: %d\n",
+52323ef75414d6 Oleksandr Mazur 2022-07-19  380  				node, err);
+52323ef75414d6 Oleksandr Mazur 2022-07-19  381  			goto out;
+52323ef75414d6 Oleksandr Mazur 2022-07-19  382  		}
+52323ef75414d6 Oleksandr Mazur 2022-07-19  383  =
 
-d41f6f82d319ca Vinay Belgaumkar 2021-07-30  483  		ret =3D slpc_set_param(s=
-lpc,
-d41f6f82d319ca Vinay Belgaumkar 2021-07-30  484  				     SLPC_PARAM_GLOBAL=
-_MIN_GT_UNSLICE_FREQ_MHZ,
-d41f6f82d319ca Vinay Belgaumkar 2021-07-30  485  				     val);
-d41f6f82d319ca Vinay Belgaumkar 2021-07-30  486  =
+52323ef75414d6 Oleksandr Mazur 2022-07-19  384  		if (port->fp_id !=3D num)
+52323ef75414d6 Oleksandr Mazur 2022-07-19  385  			continue;
+52323ef75414d6 Oleksandr Mazur 2022-07-19  386  =
 
-d41f6f82d319ca Vinay Belgaumkar 2021-07-30  487  		/* Return standardized e=
-rr code for sysfs calls */
-d41f6f82d319ca Vinay Belgaumkar 2021-07-30  488  		if (ret)
-d41f6f82d319ca Vinay Belgaumkar 2021-07-30  489  			ret =3D -EIO;
-d41f6f82d319ca Vinay Belgaumkar 2021-07-30  490  	}
-d41f6f82d319ca Vinay Belgaumkar 2021-07-30  491  =
+52323ef75414d6 Oleksandr Mazur 2022-07-19  387  		port->phylink_pcs.ops =3D=
+ &prestera_pcs_ops;
+52323ef75414d6 Oleksandr Mazur 2022-07-19  388  =
 
-025cb07bebfaf9 Vinay Belgaumkar 2021-07-30  492  	if (!ret)
-025cb07bebfaf9 Vinay Belgaumkar 2021-07-30  493  		slpc->min_freq_softlimit=
- =3D val;
-025cb07bebfaf9 Vinay Belgaumkar 2021-07-30  494  =
+52323ef75414d6 Oleksandr Mazur 2022-07-19  389  		port->phy_config.dev =3D =
+&port->dev->dev;
+52323ef75414d6 Oleksandr Mazur 2022-07-19  390  		port->phy_config.type =3D=
+ PHYLINK_NETDEV;
+52323ef75414d6 Oleksandr Mazur 2022-07-19  391  =
 
-493043feed006f Vinay Belgaumkar 2021-11-01  495  	mutex_unlock(&slpc->lock);
-493043feed006f Vinay Belgaumkar 2021-11-01  496  =
+52323ef75414d6 Oleksandr Mazur 2022-07-19  392  		fwnode =3D of_fwnode_hand=
+le(node);
+52323ef75414d6 Oleksandr Mazur 2022-07-19  393  =
 
-d41f6f82d319ca Vinay Belgaumkar 2021-07-30 @497  	return ret;
-d41f6f82d319ca Vinay Belgaumkar 2021-07-30  498  }
-d41f6f82d319ca Vinay Belgaumkar 2021-07-30  499  =
+52323ef75414d6 Oleksandr Mazur 2022-07-19  394  		__set_bit(PHY_INTERFACE_M=
+ODE_10GBASER,
+52323ef75414d6 Oleksandr Mazur 2022-07-19  395  			  port->phy_config.suppo=
+rted_interfaces);
+52323ef75414d6 Oleksandr Mazur 2022-07-19  396  		__set_bit(PHY_INTERFACE_M=
+ODE_2500BASEX,
+52323ef75414d6 Oleksandr Mazur 2022-07-19  397  			  port->phy_config.suppo=
+rted_interfaces);
+52323ef75414d6 Oleksandr Mazur 2022-07-19  398  		__set_bit(PHY_INTERFACE_M=
+ODE_SGMII,
+52323ef75414d6 Oleksandr Mazur 2022-07-19  399  			  port->phy_config.suppo=
+rted_interfaces);
+52323ef75414d6 Oleksandr Mazur 2022-07-19  400  		__set_bit(PHY_INTERFACE_M=
+ODE_1000BASEX,
+52323ef75414d6 Oleksandr Mazur 2022-07-19  401  			  port->phy_config.suppo=
+rted_interfaces);
+52323ef75414d6 Oleksandr Mazur 2022-07-19  402  =
 
+52323ef75414d6 Oleksandr Mazur 2022-07-19  403  		port->phy_config.mac_capa=
+bilities =3D
+52323ef75414d6 Oleksandr Mazur 2022-07-19  404  			MAC_1000 | MAC_2500FD | =
+MAC_10000FD;
+52323ef75414d6 Oleksandr Mazur 2022-07-19  405  =
 
-:::::: The code at line 497 was first introduced by commit
-:::::: d41f6f82d319ca0effae840553cac74425328ddf drm/i915/guc/slpc: Add meth=
-ods to set min/max frequency
+52323ef75414d6 Oleksandr Mazur 2022-07-19  406  		phy_link =3D phylink_crea=
+te(&port->phy_config, fwnode,
+52323ef75414d6 Oleksandr Mazur 2022-07-19  407  					  PHY_INTERFACE_MODE_I=
+NTERNAL,
+52323ef75414d6 Oleksandr Mazur 2022-07-19  408  					  &prestera_mac_ops);
+52323ef75414d6 Oleksandr Mazur 2022-07-19  409  		if (IS_ERR(phy_link)) {
+52323ef75414d6 Oleksandr Mazur 2022-07-19  410  			netdev_err(port->dev, "f=
+ailed to create phylink\n");
+52323ef75414d6 Oleksandr Mazur 2022-07-19  411  			err =3D PTR_ERR(phy_link=
+);
+52323ef75414d6 Oleksandr Mazur 2022-07-19  412  			goto out;
+52323ef75414d6 Oleksandr Mazur 2022-07-19  413  		}
+52323ef75414d6 Oleksandr Mazur 2022-07-19  414  =
 
-:::::: TO: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
-:::::: CC: John Harrison <John.C.Harrison@Intel.com>
+52323ef75414d6 Oleksandr Mazur 2022-07-19  415  		port->phy_link =3D phy_li=
+nk;
+52323ef75414d6 Oleksandr Mazur 2022-07-19  416  		break;
+52323ef75414d6 Oleksandr Mazur 2022-07-19  417  	}
+52323ef75414d6 Oleksandr Mazur 2022-07-19  418  =
+
+52323ef75414d6 Oleksandr Mazur 2022-07-19  419  out:
+52323ef75414d6 Oleksandr Mazur 2022-07-19  420  	of_node_put(ports);
+52323ef75414d6 Oleksandr Mazur 2022-07-19 @421  	return err;
+52323ef75414d6 Oleksandr Mazur 2022-07-19  422  }
+52323ef75414d6 Oleksandr Mazur 2022-07-19  423  =
+
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============8683091478284628456==--
+--===============7055159738149911261==--
 
