@@ -1,232 +1,190 @@
-Content-Type: multipart/mixed; boundary="===============0309462980476090978=="
+Content-Type: multipart/mixed; boundary="===============0751840869059850687=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: kernel/sched/fair.c:4049:30: sparse: sparse: cast to non-scalar
-Date: Wed, 31 Aug 2022 00:10:39 +0800
-Message-ID: <202208310052.V3sMbnGx-lkp@intel.com>
+Subject: drivers/net/ethernet/freescale/fman/fman_port.c:841:48: warning: Parameter 'cfg' can be declared with const [constParameter]
+Date: Tue, 30 Aug 2022 23:34:41 +0800
+Message-ID: <202208302358.dCAsZlfu-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0309462980476090978==
+--===============0751840869059850687==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 :::::: =
 
-:::::: Manual check reason: "low confidence static check warning: kernel/sc=
-hed/fair.c:4049:30: sparse: sparse: cast to non-scalar"
+:::::: Manual check reason: "low confidence static check first_new_problem:=
+ drivers/net/ethernet/freescale/fman/fman_port.c:841:48: warning: Parameter=
+ 'cfg' can be declared with const [constParameter]"
 :::::: =
 
 
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Chengming Zhou <zhouchengming@bytedance.com>
-CC: Peter Zijlstra <peterz@infradead.org>
-CC: Vincent Guittot <vincent.guittot@linaro.org>
+TO: Huacai Chen <chenhuacai@loongson.cn>
+CC: WANG Xuerui <git@xen0n.name>
+CC: Jianmin Lv <lvjianmin@loongson.cn>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   dcf8e5633e2e69ad60b730ab5905608b756a032f
-commit: 51bf903b64bdde4e4c9009a9e2b4a589845d9d81 sched/fair: Optimize and s=
-implify rq leaf_cfs_rq_list
-date:   3 months ago
-:::::: branch date: 20 hours ago
-:::::: commit date: 3 months ago
-config: alpha-randconfig-s032-20220830 (https://download.01.org/0day-ci/arc=
-hive/20220831/202208310052.V3sMbnGx-lkp(a)intel.com/config)
-compiler: alpha-linux-gcc (GCC) 12.1.0
-reproduce:
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D51bf903b64bdde4e4c9009a9e2b4a589845d9d81
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 51bf903b64bdde4e4c9009a9e2b4a589845d9d81
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cross=
- C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3Dbuild_dir ARCH=3Da=
-lpha SHELL=3D/bin/bash kernel/sched/
+commit: 57fc7323a8e7c2e7c1d5795ab63cb3ffea3cfdfb LoongArch: Add PCI control=
+ler support
+date:   3 weeks ago
+:::::: branch date: 19 hours ago
+:::::: commit date: 3 weeks ago
+compiler: loongarch64-linux-gcc (GCC) 12.1.0
+reproduce (cppcheck warning):
+        # apt-get install cppcheck
+        git checkout 57fc7323a8e7c2e7c1d5795ab63cb3ffea3cfdfb
+        cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
+e=3Dgcc FILE
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 
-sparse warnings: (new ones prefixed by >>)
-   kernel/sched/fair.c:930:34: sparse: sparse: incorrect type in argument 1=
- (different address spaces) @@     expected struct sched_entity *se @@     =
-got struct sched_entity [noderef] __rcu * @@
-   kernel/sched/fair.c:930:34: sparse:     expected struct sched_entity *se
-   kernel/sched/fair.c:930:34: sparse:     got struct sched_entity [noderef=
-] __rcu *
-   kernel/sched/fair.c:10918:9: sparse: sparse: incorrect type in assignmen=
-t (different address spaces) @@     expected struct sched_domain *[assigned=
-] sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/fair.c:10918:9: sparse:     expected struct sched_domain *[=
-assigned] sd
-   kernel/sched/fair.c:10918:9: sparse:     got struct sched_domain [nodere=
-f] __rcu *parent
-   kernel/sched/fair.c:5083:22: sparse: sparse: incompatible types in compa=
-rison expression (different address spaces):
-   kernel/sched/fair.c:5083:22: sparse:    struct task_struct [noderef] __r=
-cu *
-   kernel/sched/fair.c:5083:22: sparse:    struct task_struct *
-   kernel/sched/fair.c:5842:1: sparse: sparse: symbol '__pcpu_scope_load_ba=
-lance_mask' was not declared. Should it be static?
-   kernel/sched/fair.c:5843:1: sparse: sparse: symbol '__pcpu_scope_select_=
-idle_mask' was not declared. Should it be static?
-   kernel/sched/fair.c:6770:20: sparse: sparse: incorrect type in assignmen=
-t (different address spaces) @@     expected struct sched_domain *[assigned=
-] sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/fair.c:6770:20: sparse:     expected struct sched_domain *[=
-assigned] sd
-   kernel/sched/fair.c:6770:20: sparse:     got struct sched_domain [nodere=
-f] __rcu *parent
-   kernel/sched/fair.c:6904:9: sparse: sparse: incorrect type in assignment=
- (different address spaces) @@     expected struct sched_domain *[assigned]=
- tmp @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/fair.c:6904:9: sparse:     expected struct sched_domain *[a=
-ssigned] tmp
-   kernel/sched/fair.c:6904:9: sparse:     got struct sched_domain [noderef=
-] __rcu *parent
-   kernel/sched/fair.c:7102:38: sparse: sparse: incorrect type in initializ=
-er (different address spaces) @@     expected struct task_struct *curr @@  =
-   got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/fair.c:7102:38: sparse:     expected struct task_struct *cu=
-rr
-   kernel/sched/fair.c:7102:38: sparse:     got struct task_struct [noderef=
-] __rcu *curr
-   kernel/sched/fair.c:7400:38: sparse: sparse: incorrect type in initializ=
-er (different address spaces) @@     expected struct task_struct *curr @@  =
-   got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/fair.c:7400:38: sparse:     expected struct task_struct *cu=
-rr
-   kernel/sched/fair.c:7400:38: sparse:     got struct task_struct [noderef=
-] __rcu *curr
-   kernel/sched/fair.c:8385:40: sparse: sparse: incorrect type in initializ=
-er (different address spaces) @@     expected struct sched_domain *child @@=
-     got struct sched_domain [noderef] __rcu *child @@
-   kernel/sched/fair.c:8385:40: sparse:     expected struct sched_domain *c=
-hild
-   kernel/sched/fair.c:8385:40: sparse:     got struct sched_domain [nodere=
-f] __rcu *child
-   kernel/sched/fair.c:8929:22: sparse: sparse: incompatible types in compa=
-rison expression (different address spaces):
-   kernel/sched/fair.c:8929:22: sparse:    struct task_struct [noderef] __r=
-cu *
-   kernel/sched/fair.c:8929:22: sparse:    struct task_struct *
-   kernel/sched/fair.c:10193:9: sparse: sparse: incorrect type in assignmen=
-t (different address spaces) @@     expected struct sched_domain *[assigned=
-] sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/fair.c:10193:9: sparse:     expected struct sched_domain *[=
-assigned] sd
-   kernel/sched/fair.c:10193:9: sparse:     got struct sched_domain [nodere=
-f] __rcu *parent
-   kernel/sched/fair.c:9853:44: sparse: sparse: incorrect type in initializ=
-er (different address spaces) @@     expected struct sched_domain *sd_paren=
-t @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/fair.c:9853:44: sparse:     expected struct sched_domain *s=
-d_parent
-   kernel/sched/fair.c:9853:44: sparse:     got struct sched_domain [nodere=
-f] __rcu *parent
-   kernel/sched/fair.c:10289:9: sparse: sparse: incorrect type in assignmen=
-t (different address spaces) @@     expected struct sched_domain *[assigned=
-] sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/fair.c:10289:9: sparse:     expected struct sched_domain *[=
-assigned] sd
-   kernel/sched/fair.c:10289:9: sparse:     got struct sched_domain [nodere=
-f] __rcu *parent
->> kernel/sched/fair.c:4049:30: sparse: sparse: cast to non-scalar
->> kernel/sched/fair.c:4049:30: sparse: sparse: cast from non-scalar
->> kernel/sched/fair.c:4049:30: sparse: sparse: cast to non-scalar
->> kernel/sched/fair.c:4049:30: sparse: sparse: cast from non-scalar
->> kernel/sched/fair.c:4049:30: sparse: sparse: cast to non-scalar
->> kernel/sched/fair.c:4049:30: sparse: sparse: cast from non-scalar
->> kernel/sched/fair.c:4049:30: sparse: sparse: cast to non-scalar
->> kernel/sched/fair.c:4049:30: sparse: sparse: cast from non-scalar
->> kernel/sched/fair.c:4049:30: sparse: sparse: cast to non-scalar
->> kernel/sched/fair.c:4049:30: sparse: sparse: cast from non-scalar
->> kernel/sched/fair.c:4049:30: sparse: sparse: cast to non-scalar
->> kernel/sched/fair.c:4049:30: sparse: sparse: cast from non-scalar
->> kernel/sched/fair.c:4049:30: sparse: sparse: cast to non-scalar
->> kernel/sched/fair.c:4049:30: sparse: sparse: cast from non-scalar
->> kernel/sched/fair.c:4049:30: sparse: sparse: cast to non-scalar
->> kernel/sched/fair.c:4049:30: sparse: sparse: cast from non-scalar
-   kernel/sched/fair.c:6155:28: sparse: sparse: incorrect type in assignmen=
-t (different address spaces) @@     expected struct sched_domain *sd @@    =
- got struct sched_domain [noderef] __rcu *child @@
-   kernel/sched/fair.c:6155:28: sparse:     expected struct sched_domain *sd
-   kernel/sched/fair.c:6155:28: sparse:     got struct sched_domain [nodere=
-f] __rcu *child
-   kernel/sched/fair.c:6161:28: sparse: sparse: incorrect type in assignmen=
-t (different address spaces) @@     expected struct sched_domain *sd @@    =
- got struct sched_domain [noderef] __rcu *child @@
-   kernel/sched/fair.c:6161:28: sparse:     expected struct sched_domain *sd
-   kernel/sched/fair.c:6161:28: sparse:     got struct sched_domain [nodere=
-f] __rcu *child
-   kernel/sched/fair.c:6168:28: sparse: sparse: incorrect type in assignmen=
-t (different address spaces) @@     expected struct sched_domain *sd @@    =
- got struct sched_domain [noderef] __rcu *child @@
-   kernel/sched/fair.c:6168:28: sparse:     expected struct sched_domain *sd
-   kernel/sched/fair.c:6168:28: sparse:     got struct sched_domain [nodere=
-f] __rcu *child
-   kernel/sched/fair.c:6176:17: sparse: sparse: incorrect type in assignmen=
-t (different address spaces) @@     expected struct sched_domain *[assigned=
-] tmp @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/fair.c:6176:17: sparse:     expected struct sched_domain *[=
-assigned] tmp
-   kernel/sched/fair.c:6176:17: sparse:     got struct sched_domain [nodere=
-f] __rcu *parent
-   kernel/sched/fair.c: note: in included file:
-   kernel/sched/sched.h:2171:9: sparse: sparse: incompatible types in compa=
-rison expression (different address spaces):
-   kernel/sched/sched.h:2171:9: sparse:    struct task_struct [noderef] __r=
-cu *
-   kernel/sched/sched.h:2171:9: sparse:    struct task_struct *
-   kernel/sched/sched.h:2013:25: sparse: sparse: incompatible types in comp=
-arison expression (different address spaces):
-   kernel/sched/sched.h:2013:25: sparse:    struct task_struct [noderef] __=
-rcu *
-   kernel/sched/sched.h:2013:25: sparse:    struct task_struct *
-   kernel/sched/sched.h:2013:25: sparse: sparse: incompatible types in comp=
-arison expression (different address spaces):
-   kernel/sched/sched.h:2013:25: sparse:    struct task_struct [noderef] __=
-rcu *
-   kernel/sched/sched.h:2013:25: sparse:    struct task_struct *
 
-vim +4049 kernel/sched/fair.c
+cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
-7f65ea42eb00bc9 Patrick Bellasi  2018-03-09  4046  =
+>> drivers/net/ethernet/freescale/fman/fman_port.c:841:48: warning: Paramet=
+er 'cfg' can be declared with const [constParameter]
+   static bool is_init_done(struct fman_port_cfg *cfg)
+                                                  ^
+>> drivers/net/ethernet/freescale/fman/fman.c:1208:43: warning: Parameter '=
+cfg' can be declared with const [constParameter]
+   static bool is_init_done(struct fman_cfg *cfg)
+                                             ^
+>> drivers/net/ethernet/freescale/fman/fman.c:1551:65: warning: Parameter '=
+size_of_fifo' can be declared with const [constParameter]
+   static int set_size_of_fifo(struct fman *fman, u8 port_id, u32 *size_of_=
+fifo,
+                                                                   ^
+>> drivers/net/ethernet/freescale/fman/fman.c:1552:13: warning: Parameter '=
+extra_size_of_fifo' can be declared with const [constParameter]
+          u32 *extra_size_of_fifo)
+               ^
+>> drivers/net/ethernet/freescale/fman/fman.c:1591:64: warning: Parameter '=
+num_of_tasks' can be declared with const [constParameter]
+   static int set_num_of_tasks(struct fman *fman, u8 port_id, u8 *num_of_ta=
+sks,
+                                                                  ^
+>> drivers/net/ethernet/freescale/fman/fman.c:1592:12: warning: Parameter '=
+num_of_extra_tasks' can be declared with const [constParameter]
+          u8 *num_of_extra_tasks)
+              ^
+--
+   In file included from drivers/net/ethernet/freescale/fman/fman_tgec.c:
+>> drivers/net/ethernet/freescale/fman/fman_tgec.c:413:43: warning: Paramet=
+er 'cfg' can be declared with const [constParameter]
+   static bool is_init_done(struct tgec_cfg *cfg)
+                                             ^
+>> drivers/net/ethernet/freescale/fman/fman_dtsec.c:659:44: warning: Parame=
+ter 'dtsec_drv_params' can be declared with const [constParameter]
+   static bool is_init_done(struct dtsec_cfg *dtsec_drv_params)
+                                              ^
+>> drivers/net/ethernet/freescale/fman/mac.c:102:30: warning: Syntax Error:=
+ AST broken, 'params' doesn't have a parent. [internalAstError]
+    params->base_addr =3D (typeof(params->base_addr))
+                                ^
+--
+>> drivers/net/ethernet/intel/ice/ice_lag.c:219:72: warning: Parameter 'net=
+dev' can be declared with const [constParameter]
+   static void ice_lag_unregister(struct ice_lag *lag, struct net_device *n=
+etdev)
+                                                                          ^
+--
+   In file included from drivers/net/ethernet/freescale/fman/fman_memac.c:
+>> drivers/net/ethernet/freescale/fman/fman_memac.c:706:44: warning: Parame=
+ter 'memac_drv_params' can be declared with const [constParameter]
+   static bool is_init_done(struct memac_cfg *memac_drv_params)
+                                              ^
+>> drivers/net/ethernet/intel/ice/ice_base.c:204:18: warning: Signed intege=
+r overflow for expression '0xF<<28'. [integerOverflow]
+        (((regval & GLINT_CTL_ITR_GRAN_25_M) >>
+                    ^
+   drivers/net/ethernet/intel/ice/ice_base.c:215:5: warning: Signed integer=
+ overflow for expression '0xF<<28'. [integerOverflow]
+       GLINT_CTL_ITR_GRAN_25_M);
+       ^
+--
+>> drivers/net/ethernet/intel/ice/ice_nvm.c:710:34: warning: Signed integer=
+ overflow for expression '0xff<<24'. [integerOverflow]
+    orom->major =3D (u8)((combo_ver & ICE_OROM_VER_MASK) >> ICE_OROM_VER_SH=
+IFT);
+                                    ^
+--
+>> drivers/net/ethernet/intel/ice/ice_tc_lib.c:1489:29: warning: Uninitiali=
+zed variable: fltr->src_vsi [uninitvar]
+     ice_add_switch_fltr(fltr->src_vsi, fltr);
+                               ^
+--
+>> drivers/net/ethernet/intel/ice/ice_common.c:3296:48: warning: Parameter =
+'pi' can be declared with const [constParameter]
+   ice_copy_phy_caps_to_cfg(struct ice_port_info *pi,
+                                                  ^
+>> drivers/net/ethernet/intel/ice/ice_common.c:885:5: warning: Signed integ=
+er overflow for expression '0x3<<30'. [integerOverflow]
+       GL_PWR_MODE_CTL_CAR_MAX_BW_M) >>
+       ^
+--
+>> drivers/net/ethernet/intel/ice/ice_ethtool.c:573:40: warning: Parameter =
+'frame' can be declared with const [constParameter]
+   static bool ice_lbtest_check_frame(u8 *frame)
+                                          ^
+--
+>> drivers/net/ethernet/broadcom/tg3.c:9697:43: warning: Parameter 'buf' ca=
+n be declared with const [constParameter]
+   static inline u32 calc_crc(unsigned char *buf, int len)
+                                             ^
+>> drivers/net/ethernet/broadcom/tg3.c:6207:3: warning: Shifting signed 32-=
+bit value by 31 bits is implementation-defined behaviour [shiftTooManyBitsS=
+igned]
+     tw32(TG3_EAV_REF_CLK_CORRECT_CTL,
+     ^
+   drivers/net/ethernet/broadcom/tg3.c:6302:4: warning: Shifting signed 32-=
+bit value by 31 bits is implementation-defined behaviour [shiftTooManyBitsS=
+igned]
+      tw32(TG3_EAV_WATCHDOG0_MSB,
+      ^
+>> drivers/net/ethernet/broadcom/tg3.c:6207:3: warning: Signed integer over=
+flow for expression '1<<31'. [integerOverflow]
+     tw32(TG3_EAV_REF_CLK_CORRECT_CTL,
+     ^
+   drivers/net/ethernet/broadcom/tg3.c:6302:4: warning: Signed integer over=
+flow for expression '1<<31'. [integerOverflow]
+      tw32(TG3_EAV_WATCHDOG0_MSB,
+      ^
 
-7f65ea42eb00bc9 Patrick Bellasi  2018-03-09  4047  static inline unsigned l=
-ong _task_util_est(struct task_struct *p)
-7f65ea42eb00bc9 Patrick Bellasi  2018-03-09  4048  {
-7f65ea42eb00bc9 Patrick Bellasi  2018-03-09 @4049  	struct util_est ue =3D =
-READ_ONCE(p->se.avg.util_est);
-7f65ea42eb00bc9 Patrick Bellasi  2018-03-09  4050  =
+vim +/cfg +841 drivers/net/ethernet/freescale/fman/fman_port.c
 
-68d7a190682aa4e Dietmar Eggemann 2021-06-02  4051  	return max(ue.ewma, (ue=
-.enqueued & ~UTIL_AVG_UNCHANGED));
-7f65ea42eb00bc9 Patrick Bellasi  2018-03-09  4052  }
-7f65ea42eb00bc9 Patrick Bellasi  2018-03-09  4053  =
+18a6c85fcc78ddb Igal Liberman 2015-12-21  840  =
+
+18a6c85fcc78ddb Igal Liberman 2015-12-21 @841  static bool is_init_done(str=
+uct fman_port_cfg *cfg)
+18a6c85fcc78ddb Igal Liberman 2015-12-21  842  {
+18a6c85fcc78ddb Igal Liberman 2015-12-21  843  	/* Checks if FMan port driv=
+er parameters were initialized */
+18a6c85fcc78ddb Igal Liberman 2015-12-21  844  	if (!cfg)
+18a6c85fcc78ddb Igal Liberman 2015-12-21  845  		return true;
+18a6c85fcc78ddb Igal Liberman 2015-12-21  846  =
+
+18a6c85fcc78ddb Igal Liberman 2015-12-21  847  	return false;
+18a6c85fcc78ddb Igal Liberman 2015-12-21  848  }
+18a6c85fcc78ddb Igal Liberman 2015-12-21  849  =
 
 
-:::::: The code at line 4049 was first introduced by commit
-:::::: 7f65ea42eb00bc902f1c37a71e984e4f4064cfa9 sched/fair: Add util_est on=
- top of PELT
+:::::: The code@line 841 was first introduced by commit
+:::::: 18a6c85fcc78ddb63b0646a302e5ec8d6a9e29d6 fsl/fman: Add FMan Port Sup=
+port
 
-:::::: TO: Patrick Bellasi <patrick.bellasi@arm.com>
-:::::: CC: Ingo Molnar <mingo@kernel.org>
+:::::: TO: Igal Liberman <igal.liberman@freescale.com>
+:::::: CC: David S. Miller <davem@davemloft.net>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============0309462980476090978==--
+--===============0751840869059850687==--
 
