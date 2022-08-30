@@ -1,170 +1,232 @@
-Content-Type: multipart/mixed; boundary="===============7445907747817651764=="
+Content-Type: multipart/mixed; boundary="===============0309462980476090978=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: mm/slab_common.c:443:24: warning: Uninitialized variables: s.object_size, s.size, s.align, s.flags, s.useroffset, s.usersize, s.name, s.refcount, s.ctor, s.list [uninitvar]
-Date: Wed, 31 Aug 2022 03:55:54 +0800
-Message-ID: <202208310352.rUnVMxsn-lkp@intel.com>
+Subject: kernel/sched/fair.c:4049:30: sparse: sparse: cast to non-scalar
+Date: Wed, 31 Aug 2022 00:10:39 +0800
+Message-ID: <202208310052.V3sMbnGx-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7445907747817651764==
+--===============0309462980476090978==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 :::::: =
 
-:::::: Manual check reason: "low confidence static check first_new_problem:=
- mm/slab_common.c:443:24: warning: Uninitialized variables: s.object_size, =
-s.size, s.align, s.flags, s.useroffset, s.usersize, s.name, s.refcount, s.c=
-tor, s.list [uninitvar]"
+:::::: Manual check reason: "low confidence static check warning: kernel/sc=
+hed/fair.c:4049:30: sparse: sparse: cast to non-scalar"
 :::::: =
 
 
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Vlastimil Babka <vbabka@suse.cz>
-CC: Roman Gushchin <guro@fb.com>
-CC: Hyeonggon Yoo <42.hyeyoo@gmail.com>
+TO: Chengming Zhou <zhouchengming@bytedance.com>
+CC: Peter Zijlstra <peterz@infradead.org>
+CC: Vincent Guittot <vincent.guittot@linaro.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   dcf8e5633e2e69ad60b730ab5905608b756a032f
-commit: 401fb12c68c257b9c9116b1475c0ac26b646fcc0 mm/sl*b: Differentiate str=
-uct slab fields by sl*b implementations
-date:   8 months ago
-:::::: branch date: 23 hours ago
-:::::: commit date: 8 months ago
-compiler: or1k-linux-gcc (GCC) 12.1.0
-reproduce (cppcheck warning):
-        # apt-get install cppcheck
-        git checkout 401fb12c68c257b9c9116b1475c0ac26b646fcc0
-        cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
-e=3Dgcc FILE
+commit: 51bf903b64bdde4e4c9009a9e2b4a589845d9d81 sched/fair: Optimize and s=
+implify rq leaf_cfs_rq_list
+date:   3 months ago
+:::::: branch date: 20 hours ago
+:::::: commit date: 3 months ago
+config: alpha-randconfig-s032-20220830 (https://download.01.org/0day-ci/arc=
+hive/20220831/202208310052.V3sMbnGx-lkp(a)intel.com/config)
+compiler: alpha-linux-gcc (GCC) 12.1.0
+reproduce:
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3D51bf903b64bdde4e4c9009a9e2b4a589845d9d81
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 51bf903b64bdde4e4c9009a9e2b4a589845d9d81
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cross=
+ C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3Dbuild_dir ARCH=3Da=
+lpha SHELL=3D/bin/bash kernel/sched/
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 
+sparse warnings: (new ones prefixed by >>)
+   kernel/sched/fair.c:930:34: sparse: sparse: incorrect type in argument 1=
+ (different address spaces) @@     expected struct sched_entity *se @@     =
+got struct sched_entity [noderef] __rcu * @@
+   kernel/sched/fair.c:930:34: sparse:     expected struct sched_entity *se
+   kernel/sched/fair.c:930:34: sparse:     got struct sched_entity [noderef=
+] __rcu *
+   kernel/sched/fair.c:10918:9: sparse: sparse: incorrect type in assignmen=
+t (different address spaces) @@     expected struct sched_domain *[assigned=
+] sd @@     got struct sched_domain [noderef] __rcu *parent @@
+   kernel/sched/fair.c:10918:9: sparse:     expected struct sched_domain *[=
+assigned] sd
+   kernel/sched/fair.c:10918:9: sparse:     got struct sched_domain [nodere=
+f] __rcu *parent
+   kernel/sched/fair.c:5083:22: sparse: sparse: incompatible types in compa=
+rison expression (different address spaces):
+   kernel/sched/fair.c:5083:22: sparse:    struct task_struct [noderef] __r=
+cu *
+   kernel/sched/fair.c:5083:22: sparse:    struct task_struct *
+   kernel/sched/fair.c:5842:1: sparse: sparse: symbol '__pcpu_scope_load_ba=
+lance_mask' was not declared. Should it be static?
+   kernel/sched/fair.c:5843:1: sparse: sparse: symbol '__pcpu_scope_select_=
+idle_mask' was not declared. Should it be static?
+   kernel/sched/fair.c:6770:20: sparse: sparse: incorrect type in assignmen=
+t (different address spaces) @@     expected struct sched_domain *[assigned=
+] sd @@     got struct sched_domain [noderef] __rcu *parent @@
+   kernel/sched/fair.c:6770:20: sparse:     expected struct sched_domain *[=
+assigned] sd
+   kernel/sched/fair.c:6770:20: sparse:     got struct sched_domain [nodere=
+f] __rcu *parent
+   kernel/sched/fair.c:6904:9: sparse: sparse: incorrect type in assignment=
+ (different address spaces) @@     expected struct sched_domain *[assigned]=
+ tmp @@     got struct sched_domain [noderef] __rcu *parent @@
+   kernel/sched/fair.c:6904:9: sparse:     expected struct sched_domain *[a=
+ssigned] tmp
+   kernel/sched/fair.c:6904:9: sparse:     got struct sched_domain [noderef=
+] __rcu *parent
+   kernel/sched/fair.c:7102:38: sparse: sparse: incorrect type in initializ=
+er (different address spaces) @@     expected struct task_struct *curr @@  =
+   got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/fair.c:7102:38: sparse:     expected struct task_struct *cu=
+rr
+   kernel/sched/fair.c:7102:38: sparse:     got struct task_struct [noderef=
+] __rcu *curr
+   kernel/sched/fair.c:7400:38: sparse: sparse: incorrect type in initializ=
+er (different address spaces) @@     expected struct task_struct *curr @@  =
+   got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/fair.c:7400:38: sparse:     expected struct task_struct *cu=
+rr
+   kernel/sched/fair.c:7400:38: sparse:     got struct task_struct [noderef=
+] __rcu *curr
+   kernel/sched/fair.c:8385:40: sparse: sparse: incorrect type in initializ=
+er (different address spaces) @@     expected struct sched_domain *child @@=
+     got struct sched_domain [noderef] __rcu *child @@
+   kernel/sched/fair.c:8385:40: sparse:     expected struct sched_domain *c=
+hild
+   kernel/sched/fair.c:8385:40: sparse:     got struct sched_domain [nodere=
+f] __rcu *child
+   kernel/sched/fair.c:8929:22: sparse: sparse: incompatible types in compa=
+rison expression (different address spaces):
+   kernel/sched/fair.c:8929:22: sparse:    struct task_struct [noderef] __r=
+cu *
+   kernel/sched/fair.c:8929:22: sparse:    struct task_struct *
+   kernel/sched/fair.c:10193:9: sparse: sparse: incorrect type in assignmen=
+t (different address spaces) @@     expected struct sched_domain *[assigned=
+] sd @@     got struct sched_domain [noderef] __rcu *parent @@
+   kernel/sched/fair.c:10193:9: sparse:     expected struct sched_domain *[=
+assigned] sd
+   kernel/sched/fair.c:10193:9: sparse:     got struct sched_domain [nodere=
+f] __rcu *parent
+   kernel/sched/fair.c:9853:44: sparse: sparse: incorrect type in initializ=
+er (different address spaces) @@     expected struct sched_domain *sd_paren=
+t @@     got struct sched_domain [noderef] __rcu *parent @@
+   kernel/sched/fair.c:9853:44: sparse:     expected struct sched_domain *s=
+d_parent
+   kernel/sched/fair.c:9853:44: sparse:     got struct sched_domain [nodere=
+f] __rcu *parent
+   kernel/sched/fair.c:10289:9: sparse: sparse: incorrect type in assignmen=
+t (different address spaces) @@     expected struct sched_domain *[assigned=
+] sd @@     got struct sched_domain [noderef] __rcu *parent @@
+   kernel/sched/fair.c:10289:9: sparse:     expected struct sched_domain *[=
+assigned] sd
+   kernel/sched/fair.c:10289:9: sparse:     got struct sched_domain [nodere=
+f] __rcu *parent
+>> kernel/sched/fair.c:4049:30: sparse: sparse: cast to non-scalar
+>> kernel/sched/fair.c:4049:30: sparse: sparse: cast from non-scalar
+>> kernel/sched/fair.c:4049:30: sparse: sparse: cast to non-scalar
+>> kernel/sched/fair.c:4049:30: sparse: sparse: cast from non-scalar
+>> kernel/sched/fair.c:4049:30: sparse: sparse: cast to non-scalar
+>> kernel/sched/fair.c:4049:30: sparse: sparse: cast from non-scalar
+>> kernel/sched/fair.c:4049:30: sparse: sparse: cast to non-scalar
+>> kernel/sched/fair.c:4049:30: sparse: sparse: cast from non-scalar
+>> kernel/sched/fair.c:4049:30: sparse: sparse: cast to non-scalar
+>> kernel/sched/fair.c:4049:30: sparse: sparse: cast from non-scalar
+>> kernel/sched/fair.c:4049:30: sparse: sparse: cast to non-scalar
+>> kernel/sched/fair.c:4049:30: sparse: sparse: cast from non-scalar
+>> kernel/sched/fair.c:4049:30: sparse: sparse: cast to non-scalar
+>> kernel/sched/fair.c:4049:30: sparse: sparse: cast from non-scalar
+>> kernel/sched/fair.c:4049:30: sparse: sparse: cast to non-scalar
+>> kernel/sched/fair.c:4049:30: sparse: sparse: cast from non-scalar
+   kernel/sched/fair.c:6155:28: sparse: sparse: incorrect type in assignmen=
+t (different address spaces) @@     expected struct sched_domain *sd @@    =
+ got struct sched_domain [noderef] __rcu *child @@
+   kernel/sched/fair.c:6155:28: sparse:     expected struct sched_domain *sd
+   kernel/sched/fair.c:6155:28: sparse:     got struct sched_domain [nodere=
+f] __rcu *child
+   kernel/sched/fair.c:6161:28: sparse: sparse: incorrect type in assignmen=
+t (different address spaces) @@     expected struct sched_domain *sd @@    =
+ got struct sched_domain [noderef] __rcu *child @@
+   kernel/sched/fair.c:6161:28: sparse:     expected struct sched_domain *sd
+   kernel/sched/fair.c:6161:28: sparse:     got struct sched_domain [nodere=
+f] __rcu *child
+   kernel/sched/fair.c:6168:28: sparse: sparse: incorrect type in assignmen=
+t (different address spaces) @@     expected struct sched_domain *sd @@    =
+ got struct sched_domain [noderef] __rcu *child @@
+   kernel/sched/fair.c:6168:28: sparse:     expected struct sched_domain *sd
+   kernel/sched/fair.c:6168:28: sparse:     got struct sched_domain [nodere=
+f] __rcu *child
+   kernel/sched/fair.c:6176:17: sparse: sparse: incorrect type in assignmen=
+t (different address spaces) @@     expected struct sched_domain *[assigned=
+] tmp @@     got struct sched_domain [noderef] __rcu *parent @@
+   kernel/sched/fair.c:6176:17: sparse:     expected struct sched_domain *[=
+assigned] tmp
+   kernel/sched/fair.c:6176:17: sparse:     got struct sched_domain [nodere=
+f] __rcu *parent
+   kernel/sched/fair.c: note: in included file:
+   kernel/sched/sched.h:2171:9: sparse: sparse: incompatible types in compa=
+rison expression (different address spaces):
+   kernel/sched/sched.h:2171:9: sparse:    struct task_struct [noderef] __r=
+cu *
+   kernel/sched/sched.h:2171:9: sparse:    struct task_struct *
+   kernel/sched/sched.h:2013:25: sparse: sparse: incompatible types in comp=
+arison expression (different address spaces):
+   kernel/sched/sched.h:2013:25: sparse:    struct task_struct [noderef] __=
+rcu *
+   kernel/sched/sched.h:2013:25: sparse:    struct task_struct *
+   kernel/sched/sched.h:2013:25: sparse: sparse: incompatible types in comp=
+arison expression (different address spaces):
+   kernel/sched/sched.h:2013:25: sparse:    struct task_struct [noderef] __=
+rcu *
+   kernel/sched/sched.h:2013:25: sparse:    struct task_struct *
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+vim +4049 kernel/sched/fair.c
 
-   mm/slab_common.c:187:48: warning: Parameter 'ctor' can be declared with =
-const [constParameter]
-     slab_flags_t flags, const char *name, void (*ctor)(void *))
-                                                  ^
->> mm/slab_common.c:443:24: warning: Uninitialized variables: s.object_size=
-, s.size, s.align, s.flags, s.useroffset, s.usersize, s.name, s.refcount, s=
-.ctor, s.list [uninitvar]
-     debugfs_slab_release(s);
-                          ^
-   mm/slab_common.c:437:16: note: Assuming condition is false
-    if (list_empty(&to_destroy))
-                  ^
-   mm/slab_common.c:437:16: note: Assuming condition is false
-    if (list_empty(&to_destroy))
-                  ^
-   mm/slab_common.c:437:16: note: Assuming condition is false
-    if (list_empty(&to_destroy))
-                  ^
-   mm/slab_common.c:437:16: note: Assuming condition is false
-    if (list_empty(&to_destroy))
-                  ^
-   mm/slab_common.c:437:16: note: Assuming condition is false
-    if (list_empty(&to_destroy))
-                  ^
-   mm/slab_common.c:437:16: note: Assuming condition is false
-    if (list_empty(&to_destroy))
-                  ^
-   mm/slab_common.c:437:16: note: Assuming condition is false
-    if (list_empty(&to_destroy))
-                  ^
-   mm/slab_common.c:437:16: note: Assuming condition is false
-    if (list_empty(&to_destroy))
-                  ^
-   mm/slab_common.c:437:16: note: Assuming condition is false
-    if (list_empty(&to_destroy))
-                  ^
-   mm/slab_common.c:437:16: note: Assuming condition is false
-    if (list_empty(&to_destroy))
-                  ^
-   mm/slab_common.c:443:24: note: Uninitialized variables: s.object_size, s=
-.size, s.align, s.flags, s.useroffset, s.usersize, s.name, s.refcount, s.ct=
-or, s.list
-     debugfs_slab_release(s);
-                          ^
+7f65ea42eb00bc9 Patrick Bellasi  2018-03-09  4046  =
 
-vim +443 mm/slab_common.c
+7f65ea42eb00bc9 Patrick Bellasi  2018-03-09  4047  static inline unsigned l=
+ong _task_util_est(struct task_struct *p)
+7f65ea42eb00bc9 Patrick Bellasi  2018-03-09  4048  {
+7f65ea42eb00bc9 Patrick Bellasi  2018-03-09 @4049  	struct util_est ue =3D =
+READ_ONCE(p->se.avg.util_est);
+7f65ea42eb00bc9 Patrick Bellasi  2018-03-09  4050  =
 
-3965fc36522446 Vladimir Davydov    2014-01-23  418  =
-
-657dc2f9722092 Tejun Heo           2017-02-22  419  static void slab_caches=
-_to_rcu_destroy_workfn(struct work_struct *work)
-d5b3cf7139b877 Vladimir Davydov    2015-02-10  420  {
-657dc2f9722092 Tejun Heo           2017-02-22  421  	LIST_HEAD(to_destroy);
-657dc2f9722092 Tejun Heo           2017-02-22  422  	struct kmem_cache *s, =
-*s2;
-d5b3cf7139b877 Vladimir Davydov    2015-02-10  423  =
-
-657dc2f9722092 Tejun Heo           2017-02-22  424  	/*
-5f0d5a3ae7cff0 Paul E. McKenney    2017-01-18  425  	 * On destruction, SLA=
-B_TYPESAFE_BY_RCU kmem_caches are put on the
-657dc2f9722092 Tejun Heo           2017-02-22  426  	 * @slab_caches_to_rcu=
-_destroy list.  The slab pages are freed
-081a06fa299066 Randy Dunlap        2020-08-11  427  	 * through RCU and the=
- associated kmem_cache are dereferenced
-657dc2f9722092 Tejun Heo           2017-02-22  428  	 * while freeing the p=
-ages, so the kmem_caches should be freed only
-657dc2f9722092 Tejun Heo           2017-02-22  429  	 * after the pending R=
-CU operations are finished.  As rcu_barrier()
-657dc2f9722092 Tejun Heo           2017-02-22  430  	 * is a pretty slow op=
-eration, we batch all pending destructions
-657dc2f9722092 Tejun Heo           2017-02-22  431  	 * asynchronously.
-657dc2f9722092 Tejun Heo           2017-02-22  432  	 */
-657dc2f9722092 Tejun Heo           2017-02-22  433  	mutex_lock(&slab_mutex=
-);
-657dc2f9722092 Tejun Heo           2017-02-22  434  	list_splice_init(&slab=
-_caches_to_rcu_destroy, &to_destroy);
-657dc2f9722092 Tejun Heo           2017-02-22  435  	mutex_unlock(&slab_mut=
-ex);
-d5b3cf7139b877 Vladimir Davydov    2015-02-10  436  =
-
-657dc2f9722092 Tejun Heo           2017-02-22  437  	if (list_empty(&to_des=
-troy))
-657dc2f9722092 Tejun Heo           2017-02-22  438  		return;
-657dc2f9722092 Tejun Heo           2017-02-22  439  =
-
-657dc2f9722092 Tejun Heo           2017-02-22  440  	rcu_barrier();
-657dc2f9722092 Tejun Heo           2017-02-22  441  =
-
-657dc2f9722092 Tejun Heo           2017-02-22  442  	list_for_each_entry_sa=
-fe(s, s2, &to_destroy, list) {
-64dd68497be76a Faiyaz Mohammed     2021-06-28 @443  		debugfs_slab_release(=
-s);
-d3fb45f370d927 Alexander Potapenko 2021-02-25  444  		kfence_shutdown_cache=
-(s);
-657dc2f9722092 Tejun Heo           2017-02-22  445  #ifdef SLAB_SUPPORTS_SY=
-SFS
-657dc2f9722092 Tejun Heo           2017-02-22  446  		sysfs_slab_release(s);
-657dc2f9722092 Tejun Heo           2017-02-22  447  #else
-657dc2f9722092 Tejun Heo           2017-02-22  448  		slab_kmem_cache_relea=
-se(s);
-657dc2f9722092 Tejun Heo           2017-02-22  449  #endif
-657dc2f9722092 Tejun Heo           2017-02-22  450  	}
-d5b3cf7139b877 Vladimir Davydov    2015-02-10  451  }
-d5b3cf7139b877 Vladimir Davydov    2015-02-10  452  =
+68d7a190682aa4e Dietmar Eggemann 2021-06-02  4051  	return max(ue.ewma, (ue=
+.enqueued & ~UTIL_AVG_UNCHANGED));
+7f65ea42eb00bc9 Patrick Bellasi  2018-03-09  4052  }
+7f65ea42eb00bc9 Patrick Bellasi  2018-03-09  4053  =
 
 
-:::::: The code at line 443 was first introduced by commit
-:::::: 64dd68497be76ab4e237cca06f5324e220d0f050 mm: slub: move sysfs slab a=
-lloc/free interfaces to debugfs
+:::::: The code at line 4049 was first introduced by commit
+:::::: 7f65ea42eb00bc902f1c37a71e984e4f4064cfa9 sched/fair: Add util_est on=
+ top of PELT
 
-:::::: TO: Faiyaz Mohammed <faiyazm@codeaurora.org>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+:::::: TO: Patrick Bellasi <patrick.bellasi@arm.com>
+:::::: CC: Ingo Molnar <mingo@kernel.org>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============7445907747817651764==--
+--===============0309462980476090978==--
 
