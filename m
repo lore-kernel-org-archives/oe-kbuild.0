@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============9028455905719730286=="
+Content-Type: multipart/mixed; boundary="===============6952642377267723502=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/hid/intel-ish-hid/ishtp-fw-loader.c:714 ish_fw_xfer_direct_dma() error: uninitialized symbol 'rv'.
-Date: Wed, 31 Aug 2022 11:26:56 +0800
-Message-ID: <202208311107.VDaPShK2-lkp@intel.com>
+Subject: drivers/ata/libahci_platform.c:552 ahci_platform_get_resources() warn: passing zero to 'ERR_PTR'
+Date: Wed, 31 Aug 2022 09:54:38 +0800
+Message-ID: <202208310913.Hjkorbae-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============9028455905719730286==
+--===============6952642377267723502==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,215 +15,111 @@ Content-Transfer-Encoding: quoted-printable
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Gwendal Grignou <gwendal@chromium.org>
-CC: Jiri Kosina <jkosina@suse.cz>
+TO: Wang Hai <wanghai38@huawei.com>
+CC: Damien Le Moal <damien.lemoal@wdc.com>
+CC: Hans de Goede <hdegoede@redhat.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   dcf8e5633e2e69ad60b730ab5905608b756a032f
-commit: f97ec5d75e9261a5da78dc28a8955b7cc0c4468b HID: intel-ish-hid: Use dm=
-a_alloc_coherent for firmware update
-date:   6 months ago
-:::::: branch date: 31 hours ago
-:::::: commit date: 6 months ago
-config: x86_64-randconfig-m031-20220829 (https://download.01.org/0day-ci/ar=
-chive/20220831/202208311107.VDaPShK2-lkp(a)intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-5) 11.3.0
+commit: 776c75010803849c1cc4f11031a2b3960ab05202 ata: ahci_platform: fix nu=
+ll-ptr-deref in ahci_platform_enable_regulators()
+date:   11 months ago
+:::::: branch date: 29 hours ago
+:::::: commit date: 11 months ago
+config: xtensa-randconfig-m031-20220830 (https://download.01.org/0day-ci/ar=
+chive/20220831/202208310913.Hjkorbae-lkp(a)intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 smatch warnings:
-drivers/hid/intel-ish-hid/ishtp-fw-loader.c:714 ish_fw_xfer_direct_dma() er=
-ror: uninitialized symbol 'rv'.
+drivers/ata/libahci_platform.c:552 ahci_platform_get_resources() warn: pass=
+ing zero to 'ERR_PTR'
 
-vim +/rv +714 drivers/hid/intel-ish-hid/ishtp-fw-loader.c
+vim +/ERR_PTR +552 drivers/ata/libahci_platform.c
 
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  618  =
+b1a9edbda040a4 Antoine Tenart            2014-07-30  513  =
 
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  619  /**
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  620   * ish_fw_xfer_direct_dma=
-() - Loads ISH firmware using direct dma
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  621   * @client_data:	Client d=
-ata instance
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  622   * @fw:			Pointer to firm=
-ware data struct in host memory
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  623   * @fw_info:		Loader firm=
-ware properties
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  624   *
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  625   * Host firmware load is =
-a unique case where we need to download
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  626   * a large firmware image=
- (200+ Kb). This function implements
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  627   * direct DMA transfer in=
- kernel and ISH firmware. This allows
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  628   * us to overcome the ISH=
--TP 4 Kb limit, and allows us to DMA
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  629   * directly to ISH UMA at=
- location of choice.
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  630   * Function depends on co=
-rresponding support in ISH firmware.
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  631   *
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  632   * Return: 0 for success,=
- negative error code for failure.
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  633   */
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  634  static int ish_fw_xfer_di=
-rect_dma(struct ishtp_cl_data *client_data,
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  635  				  const struct firmwa=
-re *fw,
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  636  				  const struct shim_f=
-w_info fw_info)
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  637  {
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  638  	int rv;
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  639  	void *dma_buf;
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  640  	dma_addr_t dma_buf_phy;
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  641  	u32 fragment_offset, fra=
-gment_size, payload_max_size;
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  642  	struct loader_msg_hdr ld=
-r_xfer_dma_frag_ack;
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  643  	struct loader_xfer_dma_f=
-ragment ldr_xfer_dma_frag;
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  644  	struct device *devc =3D =
-ishtp_get_pci_device(client_data->cl_device);
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  645  	u32 shim_fw_buf_size =3D
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  646  		fw_info.ldr_capability.=
-max_dma_buf_size;
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  647  =
+c7d7ddee7e24ee Gregory CLEMENT           2015-01-15  514  			rc =3D ahci_pl=
+atform_get_phy(hpriv, port, dev, child);
+d7f76f36a8b4dc Nishka Dasgupta           2019-08-15  515  			if (rc) {
+d7f76f36a8b4dc Nishka Dasgupta           2019-08-15  516  				of_node_put(c=
+hild);
+c7d7ddee7e24ee Gregory CLEMENT           2015-01-15  517  				goto err_out;
+d7f76f36a8b4dc Nishka Dasgupta           2019-08-15  518  			}
+c7d7ddee7e24ee Gregory CLEMENT           2015-01-15  519  =
 
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  648  	/*
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  649  	 * payload_max_size shou=
-ld be set to minimum of
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  650  	 *  (1) Size of firmware=
- to be loaded,
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  651  	 *  (2) Max DMA buffer s=
-ize supported by Shim firmware,
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  652  	 *  (3) DMA buffer size =
-limit set by boot_param dma_buf_size_limit.
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  653  	 */
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  654  	payload_max_size =3D min=
-3(fw->size,
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  655  				(size_t)shim_fw_buf_s=
-ize,
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  656  				(size_t)dma_buf_size_=
-limit);
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  657  =
+b1a9edbda040a4 Antoine Tenart            2014-07-30  520  			enabled_ports+=
++;
+b1a9edbda040a4 Antoine Tenart            2014-07-30  521  		}
+b1a9edbda040a4 Antoine Tenart            2014-07-30  522  		if (!enabled_po=
+rts) {
+b1a9edbda040a4 Antoine Tenart            2014-07-30  523  			dev_warn(dev, =
+"No port enabled\n");
+b1a9edbda040a4 Antoine Tenart            2014-07-30  524  			rc =3D -ENODEV;
+b1a9edbda040a4 Antoine Tenart            2014-07-30  525  			goto err_out;
+b1a9edbda040a4 Antoine Tenart            2014-07-30  526  		}
+b1a9edbda040a4 Antoine Tenart            2014-07-30  527  =
 
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  658  	/*
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  659  	 * Buffer size should be=
- multiple of cacheline size
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  660  	 * if it's not, select t=
-he previous cacheline boundary.
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  661  	 */
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  662  	payload_max_size &=3D ~(=
-L1_CACHE_BYTES - 1);
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  663  =
+b1a9edbda040a4 Antoine Tenart            2014-07-30  528  		if (!hpriv->mas=
+k_port_map)
+b1a9edbda040a4 Antoine Tenart            2014-07-30  529  			hpriv->mask_po=
+rt_map =3D mask_port_map;
+b1a9edbda040a4 Antoine Tenart            2014-07-30  530  	} else {
+b1a9edbda040a4 Antoine Tenart            2014-07-30  531  		/*
+b1a9edbda040a4 Antoine Tenart            2014-07-30  532  		 * If no sub-no=
+de was found, keep this for device tree
+b1a9edbda040a4 Antoine Tenart            2014-07-30  533  		 * compatibility
+b1a9edbda040a4 Antoine Tenart            2014-07-30  534  		 */
+c7d7ddee7e24ee Gregory CLEMENT           2015-01-15  535  		rc =3D ahci_pla=
+tform_get_phy(hpriv, 0, dev, dev->of_node);
+c7d7ddee7e24ee Gregory CLEMENT           2015-01-15  536  		if (rc)
+acbd573354bb7b Mikko Perttunen           2014-06-17  537  			goto err_out;
+fd990556f0fa25 Bartlomiej Zolnierkiewicz 2014-03-25  538  =
 
-f97ec5d75e9261 Gwendal Grignou   2022-02-08  664  	dma_buf =3D dma_alloc_co=
-herent(devc, payload_max_size, &dma_buf_phy, GFP_KERNEL);
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  665  	if (!dma_buf) {
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  666  		client_data->flag_retry=
- =3D true;
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  667  		return -ENOMEM;
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  668  	}
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  669  =
+c7d7ddee7e24ee Gregory CLEMENT           2015-01-15  539  		rc =3D ahci_pla=
+tform_get_regulator(hpriv, 0, dev);
+c7d7ddee7e24ee Gregory CLEMENT           2015-01-15  540  		if (rc =3D=3D -=
+EPROBE_DEFER)
+fd990556f0fa25 Bartlomiej Zolnierkiewicz 2014-03-25  541  			goto err_out;
+b1a9edbda040a4 Antoine Tenart            2014-07-30  542  	}
+fd990556f0fa25 Bartlomiej Zolnierkiewicz 2014-03-25  543  	pm_runtime_enabl=
+e(dev);
+eac7e072d7e99f Tejun Heo                 2018-08-06  544  	pm_runtime_get_s=
+ync(dev);
+fd990556f0fa25 Bartlomiej Zolnierkiewicz 2014-03-25  545  	hpriv->got_runti=
+me_pm =3D true;
+fd990556f0fa25 Bartlomiej Zolnierkiewicz 2014-03-25  546  =
 
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  670  	ldr_xfer_dma_frag.fragme=
-nt.hdr.command =3D LOADER_CMD_XFER_FRAGMENT;
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  671  	ldr_xfer_dma_frag.fragme=
-nt.xfer_mode =3D LOADER_XFER_MODE_DIRECT_DMA;
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  672  	ldr_xfer_dma_frag.ddr_ph=
-ys_addr =3D (u64)dma_buf_phy;
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  673  =
+fd990556f0fa25 Bartlomiej Zolnierkiewicz 2014-03-25  547  	devres_remove_gr=
+oup(dev, NULL);
+fd990556f0fa25 Bartlomiej Zolnierkiewicz 2014-03-25  548  	return hpriv;
+fd990556f0fa25 Bartlomiej Zolnierkiewicz 2014-03-25  549  =
 
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  674  	/* Send the firmware ima=
-ge in chucks of payload_max_size */
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  675  	fragment_offset =3D 0;
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  676  	while (fragment_offset <=
- fw->size) {
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  677  		if (fragment_offset + p=
-ayload_max_size < fw->size) {
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  678  			fragment_size =3D payl=
-oad_max_size;
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  679  			ldr_xfer_dma_frag.frag=
-ment.is_last =3D 0;
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  680  		} else {
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  681  			fragment_size =3D fw->=
-size - fragment_offset;
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  682  			ldr_xfer_dma_frag.frag=
-ment.is_last =3D 1;
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  683  		}
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  684  =
-
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  685  		ldr_xfer_dma_frag.fragm=
-ent.offset =3D fragment_offset;
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  686  		ldr_xfer_dma_frag.fragm=
-ent.size =3D fragment_size;
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  687  		memcpy(dma_buf, &fw->da=
-ta[fragment_offset], fragment_size);
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  688  =
-
-f97ec5d75e9261 Gwendal Grignou   2022-02-08  689  		/* Flush cache to be su=
-re the data is in main memory. */
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  690  		clflush_cache_range(dma=
-_buf, payload_max_size);
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  691  =
-
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  692  		dev_dbg(cl_data_to_dev(=
-client_data),
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  693  			"xfer_mode=3Ddma offse=
-t=3D0x%08x size=3D0x%x is_last=3D%d ddr_phys_addr=3D0x%016llx\n",
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  694  			ldr_xfer_dma_frag.frag=
-ment.offset,
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  695  			ldr_xfer_dma_frag.frag=
-ment.size,
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  696  			ldr_xfer_dma_frag.frag=
-ment.is_last,
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  697  			ldr_xfer_dma_frag.ddr_=
-phys_addr);
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  698  =
-
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  699  		rv =3D loader_cl_send(c=
-lient_data,
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  700  				    (u8 *)&ldr_xfer_d=
-ma_frag,
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  701  				    sizeof(ldr_xfer_d=
-ma_frag),
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  702  				    (u8 *)&ldr_xfer_d=
-ma_frag_ack,
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  703  				    sizeof(ldr_xfer_d=
-ma_frag_ack));
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  704  		if (rv < 0) {
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  705  			client_data->flag_retr=
-y =3D true;
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  706  			goto end_err_resp_buf_=
-release;
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  707  		}
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  708  =
-
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  709  		fragment_offset +=3D fr=
-agment_size;
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  710  	}
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  711  =
-
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  712  end_err_resp_buf_release:
-f97ec5d75e9261 Gwendal Grignou   2022-02-08  713  	dma_free_coherent(devc, =
-payload_max_size, dma_buf, dma_buf_phy);
-91b228107da3e4 Rushikesh S Kadam 2019-04-02 @714  	return rv;
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  715  }
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  716  =
+fd990556f0fa25 Bartlomiej Zolnierkiewicz 2014-03-25  550  err_out:
+fd990556f0fa25 Bartlomiej Zolnierkiewicz 2014-03-25  551  	devres_release_g=
+roup(dev, NULL);
+fd990556f0fa25 Bartlomiej Zolnierkiewicz 2014-03-25 @552  	return ERR_PTR(r=
+c);
+fd990556f0fa25 Bartlomiej Zolnierkiewicz 2014-03-25  553  }
+fd990556f0fa25 Bartlomiej Zolnierkiewicz 2014-03-25  554  EXPORT_SYMBOL_GPL=
+(ahci_platform_get_resources);
+fd990556f0fa25 Bartlomiej Zolnierkiewicz 2014-03-25  555  =
 
 
-:::::: The code at line 714 was first introduced by commit
-:::::: 91b228107da3e41558449a62cd93816b47b3b4b5 HID: intel-ish-hid: ISH fir=
-mware loader client driver
+:::::: The code at line 552 was first introduced by commit
+:::::: fd990556f0fa25446c6bfa9cf4c9e49d387d4472 ata: move library code from=
+ ahci_platform.c to libahci_platform.c
 
-:::::: TO: Rushikesh S Kadam <rushikesh.s.kadam@intel.com>
-:::::: CC: Jiri Kosina <jkosina@suse.cz>
+:::::: TO: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+:::::: CC: Tejun Heo <tj@kernel.org>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============9028455905719730286==--
+--===============6952642377267723502==--
 
