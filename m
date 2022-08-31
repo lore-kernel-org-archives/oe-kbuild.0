@@ -1,188 +1,183 @@
-Content-Type: multipart/mixed; boundary="===============1400183770742443414=="
+Content-Type: multipart/mixed; boundary="===============5274561112376248030=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH RESEND v10 7/7] clk: baikal-t1: Convert to platform device driver
-Date: Thu, 01 Sep 2022 07:35:26 +0800
-Message-ID: <202209010719.UobFpx0N-lkp@intel.com>
+Subject: Re: [PATCH 5/6] rtc: isl12022: switch to using regmap API
+Date: Thu, 01 Sep 2022 00:26:47 +0800
+Message-ID: <202209010045.ydX5wKUS-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1400183770742443414==
+--===============5274561112376248030==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 :::::: =
 
-:::::: Manual check reason: "low confidence static check warning: drivers/c=
-lk/baikal-t1/clk-ccu-div.c:354:42: warning: Boolean result is used in bitwi=
-se operation. Clarify expression with parentheses. [clarifyCondition]"
+:::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "low confidence static check warning: drivers/r=
+tc/rtc-isl12022.c:119:22: warning: use of uninitialized value '<unknown>' [=
+CWE-457] [-Wanalyzer-use-of-uninitialized-value]"
 :::::: =
 
 
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <20220822182934.23734-8-Sergey.Semin@baikalelectronics.ru>
-References: <20220822182934.23734-8-Sergey.Semin@baikalelectronics.ru>
-TO: Serge Semin <Sergey.Semin@baikalelectronics.ru>
-TO: Stephen Boyd <sboyd@kernel.org>
-TO: Michael Turquette <mturquette@baylibre.com>
-CC: Serge Semin <Sergey.Semin@baikalelectronics.ru>
-CC: Alexey Malahov <Alexey.Malahov@baikalelectronics.ru>
-CC: Pavel Parkhomenko <Pavel.Parkhomenko@baikalelectronics.ru>
-CC: Philipp Zabel <p.zabel@pengutronix.de>
-CC: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-CC: linux-clk(a)vger.kernel.org
-CC: linux-mips(a)vger.kernel.org
+In-Reply-To: <20220830100152.698506-6-linux@rasmusvillemoes.dk>
+References: <20220830100152.698506-6-linux@rasmusvillemoes.dk>
+TO: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+TO: Alessandro Zummo <a.zummo@towertech.it>
+TO: Alexandre Belloni <alexandre.belloni@bootlin.com>
+CC: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+CC: linux-rtc(a)vger.kernel.org
 CC: linux-kernel(a)vger.kernel.org
 
-Hi Serge,
+Hi Rasmus,
 
 I love your patch! Perhaps something to improve:
 
-[auto build test WARNING on clk/clk-next]
-[also build test WARNING on pza/reset/next linus/master v6.0-rc3 next-20220=
-831]
+[auto build test WARNING on abelloni/rtc-next]
+[also build test WARNING on linus/master v6.0-rc3 next-20220831]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Serge-Semin/clk-rese=
-ts-baikal-t1-Add-DDR-PCIe-resets-and-xGMAC-SATA-fixes/20220823-023308
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git clk-n=
-ext
-:::::: branch date: 9 days ago
-:::::: commit date: 9 days ago
-compiler: or1k-linux-gcc (GCC) 12.1.0
-reproduce (cppcheck warning):
-        # apt-get install cppcheck
-        git checkout 8adbd3c7fa1d8cf71c65ccbd315727a3cebf67e4
-        cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
-e=3Dgcc FILE
+url:    https://github.com/intel-lab-lkp/linux/commits/Rasmus-Villemoes/rtc=
+-isl12022-cleanups-and-hwmon-support/20220830-180614
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/abelloni/linux.git =
+rtc-next
+:::::: branch date: 30 hours ago
+:::::: commit date: 30 hours ago
+config: arm-randconfig-c002-20220830 (https://download.01.org/0day-ci/archi=
+ve/20220901/202209010045.ydX5wKUS-lkp(a)intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/7e7902b5b5d2b150860=
+2203d0632a4f5390fcc35
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Rasmus-Villemoes/rtc-isl12022-clea=
+nups-and-hwmon-support/20220830-180614
+        git checkout 7e7902b5b5d2b1508602203d0632a4f5390fcc35
+        # save the config file
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cross=
+ ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
+
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 
+gcc_analyzer warnings: (new ones prefixed by >>)
+   drivers/rtc/rtc-isl12022.c: In function 'isl12022_rtc_set_time':
+>> drivers/rtc/rtc-isl12022.c:119:22: warning: use of uninitialized value '=
+<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+     119 |                 bool change;
+         |                      ^~~~~~
+     'isl12022_rtc_set_time': events 1-3
+       |
+       |  118 |         if (!isl12022->write_enabled) {
+       |      |            ^
+       |      |            |
+       |      |            (1) following 'false' branch...
+       |  119 |                 bool change;
+       |      |                      ~~~~~~
+       |      |                      |
+       |      |                      (2) ...to here
+       |      |                      (3) use of uninitialized value '<unkno=
+wn>' here
+       |
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+vim +119 drivers/rtc/rtc-isl12022.c
 
->> drivers/clk/baikal-t1/clk-ccu-div.c:354:42: warning: Boolean result is u=
-sed in bitwise operation. Clarify expression with parentheses. [clarifyCond=
-ition]
-     if (!!(info->features & CCU_DIV_BASIC) ^ defer) {
-                                            ^
-   drivers/clk/baikal-t1/clk-ccu-div.c:397:57: warning: Boolean result is u=
-sed in bitwise operation. Clarify expression with parentheses. [clarifyCond=
-ition]
-     if (!!(data->divs_info[idx].features & CCU_DIV_BASIC) ^ defer)
-                                                           ^
-   drivers/clk/baikal-t1/clk-ccu-div.c:412:57: warning: Boolean result is u=
-sed in bitwise operation. Clarify expression with parentheses. [clarifyCond=
-ition]
-     if (!!(data->divs_info[idx].features & CCU_DIV_BASIC) ^ defer)
-                                                           ^
+d6c7428f9c2b1d Roman Fietze        2010-08-10  104  =
 
-vim +354 drivers/clk/baikal-t1/clk-ccu-div.c
+143d92bea3dcda Alexandre Belloni   2018-02-20  105  static int isl12022_rtc=
+_set_time(struct device *dev, struct rtc_time *tm)
+d6c7428f9c2b1d Roman Fietze        2010-08-10  106  {
+e66895fce1795b Rasmus Villemoes    2022-08-30  107  	struct isl12022 *isl12=
+022 =3D dev_get_drvdata(dev);
+7e7902b5b5d2b1 Rasmus Villemoes    2022-08-30  108  	struct regmap *regmap =
+=3D isl12022->regmap;
+d6c7428f9c2b1d Roman Fietze        2010-08-10  109  	int ret;
+d6c7428f9c2b1d Roman Fietze        2010-08-10  110  	uint8_t buf[ISL12022_R=
+EG_DW + 1];
+d6c7428f9c2b1d Roman Fietze        2010-08-10  111  =
 
-353afa3a8d2ef4 Serge Semin 2020-05-27  345  =
+e1ee69e8c1cc7f Rasmus Villemoes    2022-08-30  112  	dev_dbg(dev, "%s: secs=
+=3D%d, mins=3D%d, hours=3D%d, "
+d6c7428f9c2b1d Roman Fietze        2010-08-10  113  		"mday=3D%d, mon=3D%d,=
+ year=3D%d, wday=3D%d\n",
+d6c7428f9c2b1d Roman Fietze        2010-08-10  114  		__func__,
+d6c7428f9c2b1d Roman Fietze        2010-08-10  115  		tm->tm_sec, tm->tm_mi=
+n, tm->tm_hour,
+d6c7428f9c2b1d Roman Fietze        2010-08-10  116  		tm->tm_mday, tm->tm_m=
+on, tm->tm_year, tm->tm_wday);
+d6c7428f9c2b1d Roman Fietze        2010-08-10  117  =
 
-8adbd3c7fa1d8c Serge Semin 2022-08-22  346  static int ccu_div_clk_register=
-(struct ccu_div_data *data, bool defer)
-353afa3a8d2ef4 Serge Semin 2020-05-27  347  {
-353afa3a8d2ef4 Serge Semin 2020-05-27  348  	int idx, ret;
-353afa3a8d2ef4 Serge Semin 2020-05-27  349  =
+d6c7428f9c2b1d Roman Fietze        2010-08-10  118  	if (!isl12022->write_e=
+nabled) {
+7e7902b5b5d2b1 Rasmus Villemoes    2022-08-30 @119  		bool change;
+d6c7428f9c2b1d Roman Fietze        2010-08-10  120  =
 
-353afa3a8d2ef4 Serge Semin 2020-05-27  350  	for (idx =3D 0; idx < data->di=
-vs_num; ++idx) {
-353afa3a8d2ef4 Serge Semin 2020-05-27  351  		const struct ccu_div_info *in=
-fo =3D &data->divs_info[idx];
-353afa3a8d2ef4 Serge Semin 2020-05-27  352  		struct ccu_div_init_data init=
- =3D {0};
-353afa3a8d2ef4 Serge Semin 2020-05-27  353  =
+7e7902b5b5d2b1 Rasmus Villemoes    2022-08-30  121  		ret =3D regmap_update=
+_bits_check(regmap, ISL12022_REG_INT,
+7e7902b5b5d2b1 Rasmus Villemoes    2022-08-30  122  					       ISL12022_IN=
+T_WRTC, ISL12022_INT_WRTC,
+7e7902b5b5d2b1 Rasmus Villemoes    2022-08-30  123  					       &change);
+d6c7428f9c2b1d Roman Fietze        2010-08-10  124  		if (ret)
+d6c7428f9c2b1d Roman Fietze        2010-08-10  125  			return ret;
+d6c7428f9c2b1d Roman Fietze        2010-08-10  126  =
 
-8adbd3c7fa1d8c Serge Semin 2022-08-22 @354  		if (!!(info->features & CCU_D=
-IV_BASIC) ^ defer) {
-8adbd3c7fa1d8c Serge Semin 2022-08-22  355  			if (!data->divs[idx])
-8adbd3c7fa1d8c Serge Semin 2022-08-22  356  				data->divs[idx] =3D ERR_PTR=
-(-EPROBE_DEFER);
-8adbd3c7fa1d8c Serge Semin 2022-08-22  357  =
+7e7902b5b5d2b1 Rasmus Villemoes    2022-08-30  127  		if (change)
+037a6cc3a5e084 Rasmus Villemoes    2022-08-30  128  			dev_info(dev, "init =
+write enable\n");
+d6c7428f9c2b1d Roman Fietze        2010-08-10  129  =
 
-8adbd3c7fa1d8c Serge Semin 2022-08-22  358  			continue;
-8adbd3c7fa1d8c Serge Semin 2022-08-22  359  		}
-8adbd3c7fa1d8c Serge Semin 2022-08-22  360  =
+c1f5f0549d62c5 Gustavo A. R. Silva 2018-03-22  130  		isl12022->write_enabl=
+ed =3D true;
+d6c7428f9c2b1d Roman Fietze        2010-08-10  131  	}
+d6c7428f9c2b1d Roman Fietze        2010-08-10  132  =
 
-353afa3a8d2ef4 Serge Semin 2020-05-27  361  		init.id =3D info->id;
-353afa3a8d2ef4 Serge Semin 2020-05-27  362  		init.name =3D info->name;
-353afa3a8d2ef4 Serge Semin 2020-05-27  363  		init.parent_name =3D info->pa=
-rent_name;
-353afa3a8d2ef4 Serge Semin 2020-05-27  364  		init.np =3D data->np;
-353afa3a8d2ef4 Serge Semin 2020-05-27  365  		init.type =3D info->type;
-353afa3a8d2ef4 Serge Semin 2020-05-27  366  		init.flags =3D info->flags;
-353afa3a8d2ef4 Serge Semin 2020-05-27  367  		init.features =3D info->featu=
-res;
-353afa3a8d2ef4 Serge Semin 2020-05-27  368  =
+d6c7428f9c2b1d Roman Fietze        2010-08-10  133  	/* hours, minutes and =
+seconds */
+d6c7428f9c2b1d Roman Fietze        2010-08-10  134  	buf[ISL12022_REG_SC] =
+=3D bin2bcd(tm->tm_sec);
+d6c7428f9c2b1d Roman Fietze        2010-08-10  135  	buf[ISL12022_REG_MN] =
+=3D bin2bcd(tm->tm_min);
+6d23b2582fd0bc Roman Fietze        2010-08-10  136  	buf[ISL12022_REG_HR] =
+=3D bin2bcd(tm->tm_hour) | ISL12022_HR_MIL;
+d6c7428f9c2b1d Roman Fietze        2010-08-10  137  =
 
-353afa3a8d2ef4 Serge Semin 2020-05-27  369  		if (init.type =3D=3D CCU_DIV_=
-VAR) {
-353afa3a8d2ef4 Serge Semin 2020-05-27  370  			init.base =3D info->base;
-353afa3a8d2ef4 Serge Semin 2020-05-27  371  			init.sys_regs =3D data->sys_=
-regs;
-353afa3a8d2ef4 Serge Semin 2020-05-27  372  			init.width =3D info->width;
-353afa3a8d2ef4 Serge Semin 2020-05-27  373  		} else if (init.type =3D=3D C=
-CU_DIV_GATE) {
-353afa3a8d2ef4 Serge Semin 2020-05-27  374  			init.base =3D info->base;
-353afa3a8d2ef4 Serge Semin 2020-05-27  375  			init.sys_regs =3D data->sys_=
-regs;
-353afa3a8d2ef4 Serge Semin 2020-05-27  376  			init.divider =3D info->divid=
-er;
-989712dc656f8e Serge Semin 2022-08-22  377  		} else if (init.type =3D=3D C=
-CU_DIV_BUF) {
-989712dc656f8e Serge Semin 2022-08-22  378  			init.base =3D info->base;
-989712dc656f8e Serge Semin 2022-08-22  379  			init.sys_regs =3D data->sys_=
-regs;
-353afa3a8d2ef4 Serge Semin 2020-05-27  380  		} else {
-353afa3a8d2ef4 Serge Semin 2020-05-27  381  			init.divider =3D info->divid=
-er;
-353afa3a8d2ef4 Serge Semin 2020-05-27  382  		}
-353afa3a8d2ef4 Serge Semin 2020-05-27  383  =
+d6c7428f9c2b1d Roman Fietze        2010-08-10  138  	buf[ISL12022_REG_DT] =
+=3D bin2bcd(tm->tm_mday);
+d6c7428f9c2b1d Roman Fietze        2010-08-10  139  =
 
-353afa3a8d2ef4 Serge Semin 2020-05-27  384  		data->divs[idx] =3D ccu_div_h=
-w_register(&init);
-353afa3a8d2ef4 Serge Semin 2020-05-27  385  		if (IS_ERR(data->divs[idx])) {
-353afa3a8d2ef4 Serge Semin 2020-05-27  386  			ret =3D PTR_ERR(data->divs[i=
-dx]);
-353afa3a8d2ef4 Serge Semin 2020-05-27  387  			pr_err("Couldn't register di=
-vider '%s' hw\n",
-353afa3a8d2ef4 Serge Semin 2020-05-27  388  				init.name);
-353afa3a8d2ef4 Serge Semin 2020-05-27  389  			goto err_hw_unregister;
-353afa3a8d2ef4 Serge Semin 2020-05-27  390  		}
-353afa3a8d2ef4 Serge Semin 2020-05-27  391  	}
-353afa3a8d2ef4 Serge Semin 2020-05-27  392  =
+d6c7428f9c2b1d Roman Fietze        2010-08-10  140  	/* month, 1 - 12 */
+d6c7428f9c2b1d Roman Fietze        2010-08-10  141  	buf[ISL12022_REG_MO] =
+=3D bin2bcd(tm->tm_mon + 1);
+d6c7428f9c2b1d Roman Fietze        2010-08-10  142  =
 
-353afa3a8d2ef4 Serge Semin 2020-05-27  393  	return 0;
-353afa3a8d2ef4 Serge Semin 2020-05-27  394  =
+d6c7428f9c2b1d Roman Fietze        2010-08-10  143  	/* year and century */
+d6c7428f9c2b1d Roman Fietze        2010-08-10  144  	buf[ISL12022_REG_YR] =
+=3D bin2bcd(tm->tm_year % 100);
+d6c7428f9c2b1d Roman Fietze        2010-08-10  145  =
 
-353afa3a8d2ef4 Serge Semin 2020-05-27  395  err_hw_unregister:
-8adbd3c7fa1d8c Serge Semin 2022-08-22  396  	for (--idx; idx >=3D 0; --idx)=
- {
-8adbd3c7fa1d8c Serge Semin 2022-08-22  397  		if (!!(data->divs_info[idx].f=
-eatures & CCU_DIV_BASIC) ^ defer)
-8adbd3c7fa1d8c Serge Semin 2022-08-22  398  			continue;
-8adbd3c7fa1d8c Serge Semin 2022-08-22  399  =
+d6c7428f9c2b1d Roman Fietze        2010-08-10  146  	buf[ISL12022_REG_DW] =
+=3D tm->tm_wday & 0x07;
+d6c7428f9c2b1d Roman Fietze        2010-08-10  147  =
 
-353afa3a8d2ef4 Serge Semin 2020-05-27  400  		ccu_div_hw_unregister(data->d=
-ivs[idx]);
-8adbd3c7fa1d8c Serge Semin 2022-08-22  401  	}
-353afa3a8d2ef4 Serge Semin 2020-05-27  402  =
-
-353afa3a8d2ef4 Serge Semin 2020-05-27  403  	return ret;
-353afa3a8d2ef4 Serge Semin 2020-05-27  404  }
-353afa3a8d2ef4 Serge Semin 2020-05-27  405  =
+7e7902b5b5d2b1 Rasmus Villemoes    2022-08-30  148  	return regmap_bulk_wri=
+te(isl12022->regmap, ISL12022_REG_SC,
+7e7902b5b5d2b1 Rasmus Villemoes    2022-08-30  149  				 buf, sizeof(buf));
+d6c7428f9c2b1d Roman Fietze        2010-08-10  150  }
+d6c7428f9c2b1d Roman Fietze        2010-08-10  151  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============1400183770742443414==--
+--===============5274561112376248030==--
 
