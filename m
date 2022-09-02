@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============5548327433089161363=="
+Content-Type: multipart/mixed; boundary="===============7893686582397317518=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v2 2/3] tty: serial: use DEFINE_UART_PORT_TX_HELPER()
-Date: Fri, 02 Sep 2022 09:17:04 +0800
-Message-ID: <202209020944.CIvhlMgf-lkp@intel.com>
+Subject: Re: [PATCH v2 3/3] tty: serial: use DEFINE_UART_PORT_TX_HELPER_LIMITED()
+Date: Fri, 02 Sep 2022 08:56:28 +0800
+Message-ID: <202209020826.7xkUk5YM-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5548327433089161363==
+--===============7893686582397317518==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,15 +15,15 @@ Content-Transfer-Encoding: quoted-printable
 :::::: =
 
 :::::: Manual check reason: "low confidence static check warning: drivers/t=
-ty/serial/lpc32xx_hs.c:286:8: sparse: sparse: Trying to use reserved word '=
-for' as identifier"
+ty/serial/altera_jtaguart.c:137:8: sparse:    int static [signed] [toplevel=
+] writel_relaxed( ... )"
 :::::: =
 
 
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <20220901110657.3305-3-jslaby@suse.cz>
-References: <20220901110657.3305-3-jslaby@suse.cz>
+In-Reply-To: <20220901110657.3305-4-jslaby@suse.cz>
+References: <20220901110657.3305-4-jslaby@suse.cz>
 TO: Jiri Slaby <jslaby@suse.cz>
 
 Hi Jiri,
@@ -43,270 +43,484 @@ base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-=
 testing
 :::::: branch date: 14 hours ago
 :::::: commit date: 14 hours ago
-config: xtensa-randconfig-s033-20220901 (https://download.01.org/0day-ci/ar=
-chive/20220902/202209020944.CIvhlMgf-lkp(a)intel.com/config)
-compiler: xtensa-linux-gcc (GCC) 12.1.0
+config: csky-randconfig-s032-20220901 (https://download.01.org/0day-ci/arch=
+ive/20220902/202209020826.7xkUk5YM-lkp(a)intel.com/config)
+compiler: csky-linux-gcc (GCC) 12.1.0
 reproduce:
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
         # apt-get install sparse
         # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://github.com/intel-lab-lkp/linux/commit/393b592949b2c633992=
-ae9bdf00d3cffdd9a85d7
+        # https://github.com/intel-lab-lkp/linux/commit/f6f99189d77ea45bc72=
+efe7393bb91f4eb46a2fb
         git remote add linux-review https://github.com/intel-lab-lkp/linux
         git fetch --no-tags linux-review Jiri-Slaby/tty-TX-helpers/20220901=
 -190806
-        git checkout 393b592949b2c633992ae9bdf00d3cffdd9a85d7
+        git checkout f6f99189d77ea45bc72efe7393bb91f4eb46a2fb
         # save the config file
         mkdir build_dir && cp config build_dir/.config
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cross=
- C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3Dbuild_dir ARCH=3Dx=
-tensa SHELL=3D/bin/bash drivers/tty/serial/
+ C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3Dbuild_dir ARCH=3Dc=
+sky SHELL=3D/bin/bash drivers/tty/serial/
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 
 sparse warnings: (new ones prefixed by >>)
-   drivers/tty/serial/lpc32xx_hs.c: note: in included file (through arch/xt=
-ensa/include/asm/bitops.h, include/linux/bitops.h, include/linux/log2.h, ..=
-.):
-   arch/xtensa/include/asm/processor.h:103:2: sparse: sparse: Unsupported x=
-tensa ABI
-   arch/xtensa/include/asm/processor.h:133:2: sparse: sparse: Unsupported X=
-tensa ABI
-   drivers/tty/serial/lpc32xx_hs.c:286:8: sparse: sparse: Expected ) in fun=
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: Expected ) i=
+n function declarator
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: got __VA_OPT=
+__
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: Expected ) i=
+n function declarator
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: got ;
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: Trying to us=
+e reserved word 'for' as identifier
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: Expected ; a=
+t end of declaration
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: got &&
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: Expected ) i=
+n nested declarator
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: got --
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: Expected ) i=
+n nested declarator
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: got {
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: Expected ) i=
+n function declarator
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: got (
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: Expected ; a=
+t the end of type declaration
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: got }
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: Expected ; a=
+t end of declaration
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: got ->
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: Trying to us=
+e reserved word 'continue' as identifier
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: Expected ; a=
+t the end of type declaration
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: got }
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: Expected ) i=
+n nested declarator
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: got {
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: Expected ) i=
+n function declarator
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: got (
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: Expected ; a=
+t the end of type declaration
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: got }
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: Expected ; a=
+t end of declaration
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: got ->
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: Expected ; a=
+t the end of type declaration
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: got }
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: Expected ) i=
+n function declarator
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: got <
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: Trying to us=
+e reserved word 'if' as identifier
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: Expected ) i=
+n function declarator
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: got =3D=3D
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: Trying to us=
+e reserved word 'if' as identifier
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: Expected ; a=
+t the end of type declaration
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: got }
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: Expected ; a=
+t the end of type declaration
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: got }
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: symbol 'writ=
+el_relaxed' redeclared with different type (different argument counts):
+>> drivers/tty/serial/altera_jtaguart.c:137:8: sparse:    int static [signe=
+d] [toplevel] writel_relaxed( ... )
+   drivers/tty/serial/altera_jtaguart.c: note: in included file (through ar=
+ch/csky/include/asm/io.h, include/linux/io.h, include/linux/irq.h, ...):
+   include/asm-generic/io.h:376:20: sparse: note: previously declared as:
+>> include/asm-generic/io.h:376:20: sparse:    void static inline [gnu_inli=
+ne] [toplevel] writel_relaxed( ... )
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: undefined id=
+entifier 'xmit'
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: undefined id=
+entifier 'xmit'
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: symbol 'ch' =
+redeclared with different type (different type sizes):
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse:    int [addressable]=
+ [toplevel] ch
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: note: previously dec=
+lared as:
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse:    unsigned char [ad=
+dressable] [toplevel] [usertype] ch
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: symbol 'writ=
+el_relaxed' redeclared with different type (different argument counts):
+>> drivers/tty/serial/altera_jtaguart.c:137:8: sparse:    int static [signe=
+d] [toplevel] writel_relaxed( ... )
+   include/asm-generic/io.h:376:20: sparse: note: previously declared as:
+>> include/asm-generic/io.h:376:20: sparse:    void static inline [gnu_inli=
+ne] [toplevel] writel_relaxed( ... )
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: cannot deref=
+erence this type
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: cannot deref=
+erence this type
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: symbol 'pend=
+ing' redeclared with different type (different signedness):
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse:    int [addressable]=
+ [toplevel] pending
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: note: previously dec=
+lared as:
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse:    unsigned int [add=
+ressable] [toplevel] pending
+   drivers/tty/serial/altera_jtaguart.c:150:36: sparse: sparse: too many ar=
+guments for function altera_jtaguart_do_tx_chars
+>> drivers/tty/serial/altera_jtaguart.c:180:9: sparse: sparse: too many arg=
+uments for function writel_relaxed
+   drivers/tty/serial/altera_jtaguart.c:202:9: sparse: sparse: too many arg=
+uments for function writel_relaxed
+   drivers/tty/serial/altera_jtaguart.c:219:9: sparse: sparse: too many arg=
+uments for function writel_relaxed
+--
+   drivers/tty/serial/mvebu-uart.c:336:8: sparse: sparse: Expected ) in fun=
 ction declarator
-   drivers/tty/serial/lpc32xx_hs.c:286:8: sparse: sparse: got __VA_OPT__
-   drivers/tty/serial/lpc32xx_hs.c:286:8: sparse: sparse: Expected ) in fun=
+   drivers/tty/serial/mvebu-uart.c:336:8: sparse: sparse: got __VA_OPT__
+   drivers/tty/serial/mvebu-uart.c:336:8: sparse: sparse: Expected ) in fun=
 ction declarator
-   drivers/tty/serial/lpc32xx_hs.c:286:8: sparse: sparse: got ;
->> drivers/tty/serial/lpc32xx_hs.c:286:8: sparse: sparse: Trying to use res=
+   drivers/tty/serial/mvebu-uart.c:336:8: sparse: sparse: got ;
+>> drivers/tty/serial/mvebu-uart.c:336:8: sparse: sparse: Trying to use res=
 erved word 'for' as identifier
-   drivers/tty/serial/lpc32xx_hs.c:286:8: sparse: sparse: Expected ; at end=
+   drivers/tty/serial/mvebu-uart.c:336:8: sparse: sparse: Expected ; at end=
  of declaration
-   drivers/tty/serial/lpc32xx_hs.c:286:8: sparse: sparse: got &&
-   drivers/tty/serial/lpc32xx_hs.c:286:8: sparse: sparse: Expected ) in nes=
+   drivers/tty/serial/mvebu-uart.c:336:8: sparse: sparse: got &&
+   drivers/tty/serial/mvebu-uart.c:336:8: sparse: sparse: Expected ; at the=
+ end of type declaration
+   drivers/tty/serial/mvebu-uart.c:336:8: sparse: sparse: got }
+   drivers/tty/serial/mvebu-uart.c:336:8: sparse: sparse: Expected ) in nes=
 ted declarator
-   drivers/tty/serial/lpc32xx_hs.c:286:8: sparse: sparse: got {
-   drivers/tty/serial/lpc32xx_hs.c:286:8: sparse: sparse: Expected ) in fun=
+   drivers/tty/serial/mvebu-uart.c:336:8: sparse: sparse: got --
+   drivers/tty/serial/mvebu-uart.c:336:8: sparse: sparse: Expected ) in nes=
+ted declarator
+   drivers/tty/serial/mvebu-uart.c:336:8: sparse: sparse: got {
+   drivers/tty/serial/mvebu-uart.c:336:8: sparse: sparse: Expected ) in fun=
 ction declarator
-   drivers/tty/serial/lpc32xx_hs.c:286:8: sparse: sparse: got ,
-   drivers/tty/serial/lpc32xx_hs.c:286:8: sparse: sparse: Expected ; at end=
+   drivers/tty/serial/mvebu-uart.c:336:8: sparse: sparse: got (
+   drivers/tty/serial/mvebu-uart.c:336:8: sparse: sparse: Expected ; at the=
+ end of type declaration
+   drivers/tty/serial/mvebu-uart.c:336:8: sparse: sparse: got }
+   drivers/tty/serial/mvebu-uart.c:336:8: sparse: sparse: Expected ; at end=
  of declaration
-   drivers/tty/serial/lpc32xx_hs.c:286:8: sparse: sparse: got ->
->> drivers/tty/serial/lpc32xx_hs.c:286:8: sparse: sparse: Trying to use res=
+   drivers/tty/serial/mvebu-uart.c:336:8: sparse: sparse: got ->
+>> drivers/tty/serial/mvebu-uart.c:336:8: sparse: sparse: Trying to use res=
 erved word 'continue' as identifier
-   drivers/tty/serial/lpc32xx_hs.c:286:8: sparse: sparse: Expected ; at the=
+   drivers/tty/serial/mvebu-uart.c:336:8: sparse: sparse: Expected ; at the=
  end of type declaration
-   drivers/tty/serial/lpc32xx_hs.c:286:8: sparse: sparse: got }
-   drivers/tty/serial/lpc32xx_hs.c:286:8: sparse: sparse: Expected ) in fun=
+   drivers/tty/serial/mvebu-uart.c:336:8: sparse: sparse: got }
+   drivers/tty/serial/mvebu-uart.c:336:8: sparse: sparse: Expected ) in nes=
+ted declarator
+   drivers/tty/serial/mvebu-uart.c:336:8: sparse: sparse: got {
+   drivers/tty/serial/mvebu-uart.c:336:8: sparse: sparse: Expected ) in fun=
 ction declarator
-   drivers/tty/serial/lpc32xx_hs.c:286:8: sparse: sparse: got ,
-   drivers/tty/serial/lpc32xx_hs.c:286:8: sparse: sparse: Expected ; at end=
+   drivers/tty/serial/mvebu-uart.c:336:8: sparse: sparse: got (
+   drivers/tty/serial/mvebu-uart.c:336:8: sparse: sparse: Expected ; at the=
+ end of type declaration
+   drivers/tty/serial/mvebu-uart.c:336:8: sparse: sparse: got }
+   drivers/tty/serial/mvebu-uart.c:336:8: sparse: sparse: Expected ; at end=
  of declaration
-   drivers/tty/serial/lpc32xx_hs.c:286:8: sparse: sparse: got ->
-   drivers/tty/serial/lpc32xx_hs.c:286:8: sparse: sparse: Expected ; at the=
+   drivers/tty/serial/mvebu-uart.c:336:8: sparse: sparse: got ->
+   drivers/tty/serial/mvebu-uart.c:336:8: sparse: sparse: Expected ; at the=
  end of type declaration
-   drivers/tty/serial/lpc32xx_hs.c:286:8: sparse: sparse: got }
-   drivers/tty/serial/lpc32xx_hs.c:286:8: sparse: sparse: Expected ) in fun=
+   drivers/tty/serial/mvebu-uart.c:336:8: sparse: sparse: got }
+   drivers/tty/serial/mvebu-uart.c:336:8: sparse: sparse: Expected ) in fun=
 ction declarator
-   drivers/tty/serial/lpc32xx_hs.c:286:8: sparse: sparse: got <
->> drivers/tty/serial/lpc32xx_hs.c:286:8: sparse: sparse: Trying to use res=
+   drivers/tty/serial/mvebu-uart.c:336:8: sparse: sparse: got <
+>> drivers/tty/serial/mvebu-uart.c:336:8: sparse: sparse: Trying to use res=
 erved word 'if' as identifier
-   drivers/tty/serial/lpc32xx_hs.c:286:8: sparse: sparse: Expected ) in fun=
+   drivers/tty/serial/mvebu-uart.c:336:8: sparse: sparse: Expected ) in fun=
 ction declarator
-   drivers/tty/serial/lpc32xx_hs.c:286:8: sparse: sparse: got =3D=3D
->> drivers/tty/serial/lpc32xx_hs.c:286:8: sparse: sparse: Trying to use res=
+   drivers/tty/serial/mvebu-uart.c:336:8: sparse: sparse: got =3D=3D
+>> drivers/tty/serial/mvebu-uart.c:336:8: sparse: sparse: Trying to use res=
 erved word 'if' as identifier
-   drivers/tty/serial/lpc32xx_hs.c:286:8: sparse: sparse: Expected ; at the=
+   drivers/tty/serial/mvebu-uart.c:336:8: sparse: sparse: Expected ; at the=
  end of type declaration
-   drivers/tty/serial/lpc32xx_hs.c:286:8: sparse: sparse: got }
-   drivers/tty/serial/lpc32xx_hs.c:286:8: sparse: sparse: Expected ; at the=
+   drivers/tty/serial/mvebu-uart.c:336:8: sparse: sparse: got }
+   drivers/tty/serial/mvebu-uart.c:336:8: sparse: sparse: Expected ; at the=
  end of type declaration
-   drivers/tty/serial/lpc32xx_hs.c:286:8: sparse: sparse: got }
-   drivers/tty/serial/lpc32xx_hs.c:286:8: sparse: sparse: symbol 'true' red=
-eclared with different type (different signedness):
->> drivers/tty/serial/lpc32xx_hs.c:286:8: sparse:    int [addressable] [top=
-level] true
-   drivers/tty/serial/lpc32xx_hs.c: note: in included file (through include=
-/uapi/linux/posix_types.h, include/uapi/linux/types.h, include/linux/types.=
-h, ...):
-   include/linux/stddef.h:12:9: sparse: note: previously declared as:
-   include/linux/stddef.h:12:9: sparse:    unsigned int enum <noident> [top=
-level] true
-   drivers/tty/serial/lpc32xx_hs.c:286:8: sparse: sparse: symbol 'writel' r=
-edeclared with different type (incompatible argument 1 (different base type=
-s)):
->> drivers/tty/serial/lpc32xx_hs.c:286:8: sparse:    int static [signed] [t=
-oplevel] writel( ... )
-   drivers/tty/serial/lpc32xx_hs.c: note: in included file (through arch/xt=
-ensa/include/asm/io.h, include/linux/scatterlist.h, include/linux/kfifo.h, =
-...):
-   include/asm-generic/io.h:273:20: sparse: note: previously declared as:
-   include/asm-generic/io.h:273:20: sparse:    void static inline [gnu_inli=
-ne] [toplevel] writel( ... )
-   drivers/tty/serial/lpc32xx_hs.c:286:8: sparse: sparse: undefined identif=
+   drivers/tty/serial/mvebu-uart.c:336:8: sparse: sparse: got }
+   drivers/tty/serial/mvebu-uart.c:336:8: sparse: sparse: symbol 'writel_re=
+laxed' redeclared with different type (different argument counts):
+>> drivers/tty/serial/mvebu-uart.c:336:8: sparse:    int static [signed] [t=
+oplevel] writel_relaxed( ... )
+   drivers/tty/serial/mvebu-uart.c: note: in included file (through arch/cs=
+ky/include/asm/io.h, include/linux/io.h):
+   include/asm-generic/io.h:376:20: sparse: note: previously declared as:
+>> include/asm-generic/io.h:376:20: sparse:    void static inline [gnu_inli=
+ne] [toplevel] writel_relaxed( ... )
+   drivers/tty/serial/mvebu-uart.c:336:8: sparse: sparse: undefined identif=
 ier 'xmit'
-   drivers/tty/serial/lpc32xx_hs.c:286:8: sparse: sparse: undefined identif=
+   drivers/tty/serial/mvebu-uart.c:336:8: sparse: sparse: undefined identif=
 ier 'xmit'
-   drivers/tty/serial/lpc32xx_hs.c:286:8: sparse: sparse: symbol 'ch' redec=
+   drivers/tty/serial/mvebu-uart.c:336:8: sparse: sparse: symbol 'ch' redec=
 lared with different type (different type sizes):
->> drivers/tty/serial/lpc32xx_hs.c:286:8: sparse:    int [addressable] [top=
+>> drivers/tty/serial/mvebu-uart.c:336:8: sparse:    int [addressable] [top=
 level] ch
-   drivers/tty/serial/lpc32xx_hs.c:286:8: sparse: note: previously declared=
+   drivers/tty/serial/mvebu-uart.c:336:8: sparse: note: previously declared=
  as:
->> drivers/tty/serial/lpc32xx_hs.c:286:8: sparse:    unsigned char [address=
+>> drivers/tty/serial/mvebu-uart.c:336:8: sparse:    unsigned char [address=
 able] [toplevel] [usertype] ch
-   drivers/tty/serial/lpc32xx_hs.c:286:8: sparse: sparse: symbol 'writel' r=
-edeclared with different type (incompatible argument 1 (different base type=
-s)):
->> drivers/tty/serial/lpc32xx_hs.c:286:8: sparse:    int static [signed] [t=
-oplevel] writel( ... )
-   include/asm-generic/io.h:273:20: sparse: note: previously declared as:
-   include/asm-generic/io.h:273:20: sparse:    void static inline [gnu_inli=
-ne] [toplevel] writel( ... )
->> drivers/tty/serial/lpc32xx_hs.c:286:8: sparse: sparse: cannot dereferenc=
+   drivers/tty/serial/mvebu-uart.c:336:8: sparse: sparse: symbol 'writel_re=
+laxed' redeclared with different type (different argument counts):
+>> drivers/tty/serial/mvebu-uart.c:336:8: sparse:    int static [signed] [t=
+oplevel] writel_relaxed( ... )
+   include/asm-generic/io.h:376:20: sparse: note: previously declared as:
+>> include/asm-generic/io.h:376:20: sparse:    void static inline [gnu_inli=
+ne] [toplevel] writel_relaxed( ... )
+>> drivers/tty/serial/mvebu-uart.c:336:8: sparse: sparse: cannot dereferenc=
 e this type
->> drivers/tty/serial/lpc32xx_hs.c:286:8: sparse: sparse: cannot dereferenc=
+>> drivers/tty/serial/mvebu-uart.c:336:8: sparse: sparse: cannot dereferenc=
 e this type
-   drivers/tty/serial/lpc32xx_hs.c:286:8: sparse: sparse: symbol 'pending' =
+   drivers/tty/serial/mvebu-uart.c:336:8: sparse: sparse: symbol 'pending' =
 redeclared with different type (different signedness):
->> drivers/tty/serial/lpc32xx_hs.c:286:8: sparse:    int [addressable] [top=
+>> drivers/tty/serial/mvebu-uart.c:336:8: sparse:    int [addressable] [top=
 level] pending
-   drivers/tty/serial/lpc32xx_hs.c:286:8: sparse: note: previously declared=
+   drivers/tty/serial/mvebu-uart.c:336:8: sparse: note: previously declared=
  as:
->> drivers/tty/serial/lpc32xx_hs.c:286:8: sparse:    unsigned int [addressa=
+>> drivers/tty/serial/mvebu-uart.c:336:8: sparse:    unsigned int [addressa=
 ble] [toplevel] pending
->> drivers/tty/serial/lpc32xx_hs.c:303:23: sparse: sparse: too many argumen=
-ts for function writel
-   drivers/tty/serial/lpc32xx_hs.c:310:23: sparse: sparse: too many argumen=
-ts for function writel
-   drivers/tty/serial/lpc32xx_hs.c:314:23: sparse: sparse: too many argumen=
-ts for function writel
-   drivers/tty/serial/lpc32xx_hs.c:327:23: sparse: sparse: too many argumen=
-ts for function writel
-   drivers/tty/serial/lpc32xx_hs.c:368:15: sparse: sparse: too many argumen=
-ts for function writel
-   drivers/tty/serial/lpc32xx_hs.c:379:15: sparse: sparse: too many argumen=
-ts for function writel
-   drivers/tty/serial/lpc32xx_hs.c:389:15: sparse: sparse: too many argumen=
-ts for function writel
-   drivers/tty/serial/lpc32xx_hs.c:391:15: sparse: sparse: too many argumen=
-ts for function writel
-   drivers/tty/serial/lpc32xx_hs.c:408:15: sparse: sparse: too many argumen=
-ts for function writel
-   drivers/tty/serial/lpc32xx_hs.c:423:15: sparse: sparse: too many argumen=
-ts for function writel
-   drivers/tty/serial/lpc32xx_hs.c:427:15: sparse: sparse: too many argumen=
-ts for function writel
-   drivers/tty/serial/lpc32xx_hs.c:435:15: sparse: sparse: too many argumen=
-ts for function writel
-   drivers/tty/serial/lpc32xx_hs.c:444:23: sparse: sparse: too many argumen=
-ts for function writel
-   drivers/tty/serial/lpc32xx_hs.c:460:15: sparse: sparse: too many argumen=
-ts for function writel
-   drivers/tty/serial/lpc32xx_hs.c:497:15: sparse: sparse: too many argumen=
-ts for function writel
-   drivers/tty/serial/lpc32xx_hs.c:499:15: sparse: sparse: too many argumen=
-ts for function writel
-   drivers/tty/serial/lpc32xx_hs.c:560:15: sparse: sparse: too many argumen=
-ts for function writel
-   drivers/tty/serial/lpc32xx_hs.c:564:15: sparse: sparse: too many argumen=
-ts for function writel
-   drivers/tty/serial/lpc32xx_hs.c:568:15: sparse: sparse: too many argumen=
-ts for function writel
+>> drivers/tty/serial/mvebu-uart.c:343:31: sparse: sparse: too many argumen=
+ts for function mvebu_uart_do_tx_chars
+>> drivers/tty/serial/mvebu-uart.c:390:9: sparse: sparse: too many argument=
+s for function writel_relaxed
+   drivers/tty/serial/mvebu-uart.c:397:9: sparse: sparse: too many argument=
+s for function writel_relaxed
+   drivers/tty/serial/mvebu-uart.c:399:9: sparse: sparse: too many argument=
+s for function writel_relaxed
+   drivers/tty/serial/mvebu-uart.c:403:9: sparse: sparse: too many argument=
+s for function writel_relaxed
+   drivers/tty/serial/mvebu-uart.c:446:9: sparse: sparse: too many argument=
+s for function writel_relaxed
+   drivers/tty/serial/mvebu-uart.c:524:9: sparse: sparse: too many argument=
+s for function writel_relaxed
+   drivers/tty/serial/mvebu-uart.c:532:9: sparse: sparse: too many argument=
+s for function writel_relaxed
+   drivers/tty/serial/mvebu-uart.c:987:9: sparse: sparse: too many argument=
+s for function writel_relaxed
+   drivers/tty/serial/mvebu-uart.c:989:9: sparse: sparse: too many argument=
+s for function writel_relaxed
+   drivers/tty/serial/mvebu-uart.c:1153:9: sparse: sparse: too many argumen=
+ts for function writel_relaxed
+   drivers/tty/serial/mvebu-uart.c:1166:17: sparse: sparse: too many argume=
+nts for function writel_relaxed
+   drivers/tty/serial/mvebu-uart.c:1193:9: sparse: sparse: too many argumen=
+ts for function writel_relaxed
+   drivers/tty/serial/mvebu-uart.c:1217:9: sparse: sparse: too many argumen=
+ts for function writel_relaxed
+   drivers/tty/serial/mvebu-uart.c:1260:9: sparse: sparse: too many argumen=
+ts for function writel_relaxed
+   drivers/tty/serial/mvebu-uart.c:1261:9: sparse: sparse: too many argumen=
+ts for function writel_relaxed
+--
+   drivers/tty/serial/omap-serial.c:351:8: sparse: sparse: Expected ) in fu=
+nction declarator
+   drivers/tty/serial/omap-serial.c:351:8: sparse: sparse: got __VA_OPT__
+   drivers/tty/serial/omap-serial.c:351:8: sparse: sparse: Expected ) in fu=
+nction declarator
+   drivers/tty/serial/omap-serial.c:351:8: sparse: sparse: got ;
+>> drivers/tty/serial/omap-serial.c:351:8: sparse: sparse: Trying to use re=
+served word 'for' as identifier
+   drivers/tty/serial/omap-serial.c:351:8: sparse: sparse: Expected ; at en=
+d of declaration
+   drivers/tty/serial/omap-serial.c:351:8: sparse: sparse: got &&
+   drivers/tty/serial/omap-serial.c:351:8: sparse: sparse: Expected ) in ne=
+sted declarator
+   drivers/tty/serial/omap-serial.c:351:8: sparse: sparse: got --
+   drivers/tty/serial/omap-serial.c:351:8: sparse: sparse: Expected ; at en=
+d of declaration
+   drivers/tty/serial/omap-serial.c:351:8: sparse: sparse: got ->
+>> drivers/tty/serial/omap-serial.c:351:8: sparse: sparse: Trying to use re=
+served word 'continue' as identifier
+   drivers/tty/serial/omap-serial.c:351:8: sparse: sparse: Expected ; at th=
+e end of type declaration
+   drivers/tty/serial/omap-serial.c:351:8: sparse: sparse: got }
+   drivers/tty/serial/omap-serial.c:351:8: sparse: sparse: Expected ; at en=
+d of declaration
+   drivers/tty/serial/omap-serial.c:351:8: sparse: sparse: got ->
+   drivers/tty/serial/omap-serial.c:351:8: sparse: sparse: Expected ; at th=
+e end of type declaration
+   drivers/tty/serial/omap-serial.c:351:8: sparse: sparse: got }
+   drivers/tty/serial/omap-serial.c:351:8: sparse: sparse: Expected ) in fu=
+nction declarator
+   drivers/tty/serial/omap-serial.c:351:8: sparse: sparse: got <
+>> drivers/tty/serial/omap-serial.c:351:8: sparse: sparse: Trying to use re=
+served word 'if' as identifier
+   drivers/tty/serial/omap-serial.c:351:8: sparse: sparse: Expected ) in fu=
+nction declarator
+   drivers/tty/serial/omap-serial.c:351:8: sparse: sparse: got =3D=3D
+>> drivers/tty/serial/omap-serial.c:351:8: sparse: sparse: Trying to use re=
+served word 'if' as identifier
+   drivers/tty/serial/omap-serial.c:351:8: sparse: sparse: Expected ; at th=
+e end of type declaration
+   drivers/tty/serial/omap-serial.c:351:8: sparse: sparse: got }
+   drivers/tty/serial/omap-serial.c:351:8: sparse: sparse: Expected ; at th=
+e end of type declaration
+   drivers/tty/serial/omap-serial.c:351:8: sparse: sparse: got }
+   drivers/tty/serial/omap-serial.c:351:8: sparse: sparse: symbol 'serial_o=
+map_put_char' redeclared with different type (incompatible argument 1 (diff=
+erent base types)):
+>> drivers/tty/serial/omap-serial.c:351:8: sparse:    int static [signed] [=
+toplevel] serial_omap_put_char( ... )
+   drivers/tty/serial/omap-serial.c:340:13: sparse: note: previously declar=
+ed as:
+>> drivers/tty/serial/omap-serial.c:340:13: sparse:    void static [topleve=
+l] serial_omap_put_char( ... )
+   drivers/tty/serial/omap-serial.c:351:8: sparse: sparse: undefined identi=
+fier 'xmit'
+   drivers/tty/serial/omap-serial.c:351:8: sparse: sparse: undefined identi=
+fier 'xmit'
+   drivers/tty/serial/omap-serial.c:351:8: sparse: sparse: symbol 'ch' rede=
+clared with different type (different type sizes):
+>> drivers/tty/serial/omap-serial.c:351:8: sparse:    int [addressable] [to=
+plevel] ch
+   drivers/tty/serial/omap-serial.c:351:8: sparse: note: previously declare=
+d as:
+>> drivers/tty/serial/omap-serial.c:351:8: sparse:    unsigned char [addres=
+sable] [toplevel] [usertype] ch
+   drivers/tty/serial/omap-serial.c:351:8: sparse: sparse: symbol 'serial_o=
+map_put_char' redeclared with different type (incompatible argument 1 (diff=
+erent base types)):
+>> drivers/tty/serial/omap-serial.c:351:8: sparse:    int static [signed] [=
+toplevel] serial_omap_put_char( ... )
+   drivers/tty/serial/omap-serial.c:340:13: sparse: note: previously declar=
+ed as:
+>> drivers/tty/serial/omap-serial.c:340:13: sparse:    void static [topleve=
+l] serial_omap_put_char( ... )
+>> drivers/tty/serial/omap-serial.c:351:8: sparse: sparse: cannot dereferen=
+ce this type
+>> drivers/tty/serial/omap-serial.c:351:8: sparse: sparse: cannot dereferen=
+ce this type
+   drivers/tty/serial/omap-serial.c:351:8: sparse: sparse: symbol 'pending'=
+ redeclared with different type (different signedness):
+>> drivers/tty/serial/omap-serial.c:351:8: sparse:    int [addressable] [to=
+plevel] pending
+   drivers/tty/serial/omap-serial.c:351:8: sparse: note: previously declare=
+d as:
+>> drivers/tty/serial/omap-serial.c:351:8: sparse:    unsigned int [address=
+able] [toplevel] pending
+>> drivers/tty/serial/omap-serial.c:553:39: sparse: sparse: too many argume=
+nts for function transmit_chars
 
-vim +/for +286 drivers/tty/serial/lpc32xx_hs.c
+vim +137 drivers/tty/serial/altera_jtaguart.c
 
-596f93f50e2d1a9 Roland Stigge  2012-06-11  285  =
+5bcd601049c6b2 drivers/serial/altera_jtaguart.c     Tobias Klauser 2010-05-=
+05  136  =
 
-393b592949b2c63 Jiri Slaby     2022-09-01 @286  static DEFINE_UART_PORT_TX_=
-HELPER(__serial_lpc32xx_tx, port, ch,
-393b592949b2c63 Jiri Slaby     2022-09-01  287  		serial_lpc32xx_tx_ready(p=
-ort),
-393b592949b2c63 Jiri Slaby     2022-09-01  288  		writel(ch, LPC32XX_HSUART=
-_FIFO(port->membase)));
-596f93f50e2d1a9 Roland Stigge  2012-06-11  289  =
+f6f99189d77ea4 drivers/tty/serial/altera_jtaguart.c Jiri Slaby     2022-09-=
+01 @137  static DEFINE_UART_PORT_TX_HELPER_LIMITED(altera_jtaguart_do_tx_ch=
+ars, port, ch,
+f6f99189d77ea4 drivers/tty/serial/altera_jtaguart.c Jiri Slaby     2022-09-=
+01  138  		true,
+f6f99189d77ea4 drivers/tty/serial/altera_jtaguart.c Jiri Slaby     2022-09-=
+01  139  		writel(ch, port->membase + ALTERA_JTAGUART_DATA_REG),
+f6f99189d77ea4 drivers/tty/serial/altera_jtaguart.c Jiri Slaby     2022-09-=
+01  140  		({}));
+f6f99189d77ea4 drivers/tty/serial/altera_jtaguart.c Jiri Slaby     2022-09-=
+01  141  =
 
-596f93f50e2d1a9 Roland Stigge  2012-06-11  290  static irqreturn_t serial_l=
-pc32xx_interrupt(int irq, void *dev_id)
-596f93f50e2d1a9 Roland Stigge  2012-06-11  291  {
-596f93f50e2d1a9 Roland Stigge  2012-06-11  292  	struct uart_port *port =3D=
- dev_id;
-33aeb9da1b5248c Thierry Reding 2013-01-18  293  	struct tty_port *tport =3D=
- &port->state->port;
-596f93f50e2d1a9 Roland Stigge  2012-06-11  294  	u32 status;
-596f93f50e2d1a9 Roland Stigge  2012-06-11  295  =
+5bcd601049c6b2 drivers/serial/altera_jtaguart.c     Tobias Klauser 2010-05-=
+05  142  static void altera_jtaguart_tx_chars(struct altera_jtaguart *pp)
+5bcd601049c6b2 drivers/serial/altera_jtaguart.c     Tobias Klauser 2010-05-=
+05  143  {
+5bcd601049c6b2 drivers/serial/altera_jtaguart.c     Tobias Klauser 2010-05-=
+05  144  	struct uart_port *port =3D &pp->port;
+f6f99189d77ea4 drivers/tty/serial/altera_jtaguart.c Jiri Slaby     2022-09-=
+01  145  	unsigned int space;
+5bcd601049c6b2 drivers/serial/altera_jtaguart.c     Tobias Klauser 2010-05-=
+05  146  =
 
-596f93f50e2d1a9 Roland Stigge  2012-06-11  296  	spin_lock(&port->lock);
-596f93f50e2d1a9 Roland Stigge  2012-06-11  297  =
+f6f99189d77ea4 drivers/tty/serial/altera_jtaguart.c Jiri Slaby     2022-09-=
+01  147  	space =3D (readl(port->membase + ALTERA_JTAGUART_CONTROL_REG) &
+5bcd601049c6b2 drivers/serial/altera_jtaguart.c     Tobias Klauser 2010-05-=
+05  148  			ALTERA_JTAGUART_CONTROL_WSPACE_MSK) >>
+5bcd601049c6b2 drivers/serial/altera_jtaguart.c     Tobias Klauser 2010-05-=
+05  149  		ALTERA_JTAGUART_CONTROL_WSPACE_OFF;
+f6f99189d77ea4 drivers/tty/serial/altera_jtaguart.c Jiri Slaby     2022-09-=
+01  150  	altera_jtaguart_do_tx_chars(port, space);
+5bcd601049c6b2 drivers/serial/altera_jtaguart.c     Tobias Klauser 2010-05-=
+05  151  }
+5bcd601049c6b2 drivers/serial/altera_jtaguart.c     Tobias Klauser 2010-05-=
+05  152  =
 
-596f93f50e2d1a9 Roland Stigge  2012-06-11  298  	/* Read UART status and cl=
-ear latched interrupts */
-596f93f50e2d1a9 Roland Stigge  2012-06-11  299  	status =3D readl(LPC32XX_H=
-SUART_IIR(port->membase));
-596f93f50e2d1a9 Roland Stigge  2012-06-11  300  =
+5bcd601049c6b2 drivers/serial/altera_jtaguart.c     Tobias Klauser 2010-05-=
+05  153  static irqreturn_t altera_jtaguart_interrupt(int irq, void *data)
+5bcd601049c6b2 drivers/serial/altera_jtaguart.c     Tobias Klauser 2010-05-=
+05  154  {
+5bcd601049c6b2 drivers/serial/altera_jtaguart.c     Tobias Klauser 2010-05-=
+05  155  	struct uart_port *port =3D data;
+5bcd601049c6b2 drivers/serial/altera_jtaguart.c     Tobias Klauser 2010-05-=
+05  156  	struct altera_jtaguart *pp =3D
+5bcd601049c6b2 drivers/serial/altera_jtaguart.c     Tobias Klauser 2010-05-=
+05  157  	    container_of(port, struct altera_jtaguart, port);
+5bcd601049c6b2 drivers/serial/altera_jtaguart.c     Tobias Klauser 2010-05-=
+05  158  	unsigned int isr;
+5bcd601049c6b2 drivers/serial/altera_jtaguart.c     Tobias Klauser 2010-05-=
+05  159  =
 
-596f93f50e2d1a9 Roland Stigge  2012-06-11  301  	if (status & LPC32XX_HSU_B=
-RK_INT) {
-596f93f50e2d1a9 Roland Stigge  2012-06-11  302  		/* Break received */
-596f93f50e2d1a9 Roland Stigge  2012-06-11 @303  		writel(LPC32XX_HSU_BRK_IN=
-T, LPC32XX_HSUART_IIR(port->membase));
-596f93f50e2d1a9 Roland Stigge  2012-06-11  304  		port->icount.brk++;
-596f93f50e2d1a9 Roland Stigge  2012-06-11  305  		uart_handle_break(port);
-596f93f50e2d1a9 Roland Stigge  2012-06-11  306  	}
-596f93f50e2d1a9 Roland Stigge  2012-06-11  307  =
+5bcd601049c6b2 drivers/serial/altera_jtaguart.c     Tobias Klauser 2010-05-=
+05  160  	isr =3D (readl(port->membase + ALTERA_JTAGUART_CONTROL_REG) >>
+5bcd601049c6b2 drivers/serial/altera_jtaguart.c     Tobias Klauser 2010-05-=
+05  161  	       ALTERA_JTAGUART_CONTROL_RI_OFF) & pp->imr;
+5bcd601049c6b2 drivers/serial/altera_jtaguart.c     Tobias Klauser 2010-05-=
+05  162  =
 
-596f93f50e2d1a9 Roland Stigge  2012-06-11  308  	/* Framing error */
-596f93f50e2d1a9 Roland Stigge  2012-06-11  309  	if (status & LPC32XX_HSU_F=
-E_INT)
-596f93f50e2d1a9 Roland Stigge  2012-06-11  310  		writel(LPC32XX_HSU_FE_INT=
-, LPC32XX_HSUART_IIR(port->membase));
-596f93f50e2d1a9 Roland Stigge  2012-06-11  311  =
+5bcd601049c6b2 drivers/serial/altera_jtaguart.c     Tobias Klauser 2010-05-=
+05  163  	spin_lock(&port->lock);
+5bcd601049c6b2 drivers/serial/altera_jtaguart.c     Tobias Klauser 2010-05-=
+05  164  =
 
-596f93f50e2d1a9 Roland Stigge  2012-06-11  312  	if (status & LPC32XX_HSU_R=
-X_OE_INT) {
-596f93f50e2d1a9 Roland Stigge  2012-06-11  313  		/* Receive FIFO overrun */
-596f93f50e2d1a9 Roland Stigge  2012-06-11  314  		writel(LPC32XX_HSU_RX_OE_=
-INT,
-596f93f50e2d1a9 Roland Stigge  2012-06-11  315  		       LPC32XX_HSUART_IIR=
-(port->membase));
-596f93f50e2d1a9 Roland Stigge  2012-06-11  316  		port->icount.overrun++;
-92a19f9cec9a80a Jiri Slaby     2013-01-03  317  		tty_insert_flip_char(tpor=
-t, 0, TTY_OVERRUN);
-5f6a85158ccacc3 Jiri Slaby     2021-11-22  318  		tty_flip_buffer_push(tpor=
-t);
-596f93f50e2d1a9 Roland Stigge  2012-06-11  319  	}
-596f93f50e2d1a9 Roland Stigge  2012-06-11  320  =
+5bcd601049c6b2 drivers/serial/altera_jtaguart.c     Tobias Klauser 2010-05-=
+05  165  	if (isr & ALTERA_JTAGUART_CONTROL_RE_MSK)
+5bcd601049c6b2 drivers/serial/altera_jtaguart.c     Tobias Klauser 2010-05-=
+05  166  		altera_jtaguart_rx_chars(pp);
+5bcd601049c6b2 drivers/serial/altera_jtaguart.c     Tobias Klauser 2010-05-=
+05  167  	if (isr & ALTERA_JTAGUART_CONTROL_WE_MSK)
+5bcd601049c6b2 drivers/serial/altera_jtaguart.c     Tobias Klauser 2010-05-=
+05  168  		altera_jtaguart_tx_chars(pp);
+5bcd601049c6b2 drivers/serial/altera_jtaguart.c     Tobias Klauser 2010-05-=
+05  169  =
 
-596f93f50e2d1a9 Roland Stigge  2012-06-11  321  	/* Data received? */
-97f2c4289c591c2 Viresh Kumar   2013-08-19  322  	if (status & (LPC32XX_HSU_=
-RX_TIMEOUT_INT | LPC32XX_HSU_RX_TRIG_INT))
-596f93f50e2d1a9 Roland Stigge  2012-06-11  323  		__serial_lpc32xx_rx(port);
-596f93f50e2d1a9 Roland Stigge  2012-06-11  324  =
+5bcd601049c6b2 drivers/serial/altera_jtaguart.c     Tobias Klauser 2010-05-=
+05  170  	spin_unlock(&port->lock);
+5bcd601049c6b2 drivers/serial/altera_jtaguart.c     Tobias Klauser 2010-05-=
+05  171  =
 
-596f93f50e2d1a9 Roland Stigge  2012-06-11  325  	/* Transmit data request? =
-*/
-596f93f50e2d1a9 Roland Stigge  2012-06-11  326  	if ((status & LPC32XX_HSU_=
-TX_INT) && (!uart_tx_stopped(port))) {
-596f93f50e2d1a9 Roland Stigge  2012-06-11  327  		writel(LPC32XX_HSU_TX_INT=
-, LPC32XX_HSUART_IIR(port->membase));
-596f93f50e2d1a9 Roland Stigge  2012-06-11  328  		__serial_lpc32xx_tx(port);
-596f93f50e2d1a9 Roland Stigge  2012-06-11  329  	}
-596f93f50e2d1a9 Roland Stigge  2012-06-11  330  =
+5bcd601049c6b2 drivers/serial/altera_jtaguart.c     Tobias Klauser 2010-05-=
+05  172  	return IRQ_RETVAL(isr);
+5bcd601049c6b2 drivers/serial/altera_jtaguart.c     Tobias Klauser 2010-05-=
+05  173  }
+5bcd601049c6b2 drivers/serial/altera_jtaguart.c     Tobias Klauser 2010-05-=
+05  174  =
 
-596f93f50e2d1a9 Roland Stigge  2012-06-11  331  	spin_unlock(&port->lock);
-596f93f50e2d1a9 Roland Stigge  2012-06-11  332  =
+5bcd601049c6b2 drivers/serial/altera_jtaguart.c     Tobias Klauser 2010-05-=
+05  175  static void altera_jtaguart_config_port(struct uart_port *port, in=
+t flags)
+5bcd601049c6b2 drivers/serial/altera_jtaguart.c     Tobias Klauser 2010-05-=
+05  176  {
+5bcd601049c6b2 drivers/serial/altera_jtaguart.c     Tobias Klauser 2010-05-=
+05  177  	port->type =3D PORT_ALTERA_JTAGUART;
+5bcd601049c6b2 drivers/serial/altera_jtaguart.c     Tobias Klauser 2010-05-=
+05  178  =
 
-596f93f50e2d1a9 Roland Stigge  2012-06-11  333  	return IRQ_HANDLED;
-596f93f50e2d1a9 Roland Stigge  2012-06-11  334  }
-596f93f50e2d1a9 Roland Stigge  2012-06-11  335  =
+5bcd601049c6b2 drivers/serial/altera_jtaguart.c     Tobias Klauser 2010-05-=
+05  179  	/* Clear mask, so no surprise interrupts. */
+5bcd601049c6b2 drivers/serial/altera_jtaguart.c     Tobias Klauser 2010-05-=
+05 @180  	writel(0, port->membase + ALTERA_JTAGUART_CONTROL_REG);
+5bcd601049c6b2 drivers/serial/altera_jtaguart.c     Tobias Klauser 2010-05-=
+05  181  }
+5bcd601049c6b2 drivers/serial/altera_jtaguart.c     Tobias Klauser 2010-05-=
+05  182  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============5548327433089161363==--
+--===============7893686582397317518==--
 
