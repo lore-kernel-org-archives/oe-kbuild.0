@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============5408077832073672900=="
+Content-Type: multipart/mixed; boundary="===============7947751640307292343=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [RFC PATCH 5/5] erofs: support fscache based shared domain
-Date: Sat, 03 Sep 2022 05:49:46 +0800
-Message-ID: <202209030545.uaa0w6kC-lkp@intel.com>
+Subject: Re: [PATCH v3 1/2] lib/string_helpers: Introduce tokenize_user_input()
+Date: Sat, 03 Sep 2022 04:28:24 +0800
+Message-ID: <202209030411.0HeReNTd-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5408077832073672900==
+--===============7947751640307292343==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,46 +15,63 @@ Content-Transfer-Encoding: quoted-printable
 :::::: =
 
 :::::: Manual check reason: "low confidence bisect report"
-:::::: Manual check reason: "low confidence static check warning: fs/erofs/=
-domain.c:21:31: warning: use of uninitialized value '<unknown>' [CWE-457] [=
--Wanalyzer-use-of-uninitialized-value]"
+:::::: Manual check reason: "low confidence static check warning: lib/strin=
+g_helpers.c:150:20: warning: use of uninitialized value '<unknown>' [CWE-45=
+7] [-Wanalyzer-use-of-uninitialized-value]"
 :::::: =
 
 
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <20220831123125.68693-6-zhujia.zj@bytedance.com>
-References: <20220831123125.68693-6-zhujia.zj@bytedance.com>
-TO: Jia Zhu <zhujia.zj@bytedance.com>
+In-Reply-To: <20220901175022.334824-2-cezary.rojewski@intel.com>
+References: <20220901175022.334824-2-cezary.rojewski@intel.com>
+TO: Cezary Rojewski <cezary.rojewski@intel.com>
+TO: alsa-devel(a)alsa-project.org
+TO: broonie(a)kernel.org
+CC: andy(a)kernel.org
+CC: Cezary Rojewski <cezary.rojewski@intel.com>
+CC: kai.vehmanen(a)linux.intel.com
+CC: yung-chuan.liao(a)linux.intel.com
+CC: tiwai(a)suse.com
+CC: pierre-louis.bossart(a)linux.intel.com
+CC: willy(a)infradead.org
+CC: lgirdwood(a)gmail.com
+CC: hdegoede(a)redhat.com
+CC: Andy Shevchenko <andy.shevchenko@gmail.com>
+CC: ranjani.sridharan(a)linux.intel.com
+CC: amadeuszx.slawinski(a)linux.intel.com
+CC: peter.ujfalusi(a)linux.intel.com
+CC: linux-kernel(a)vger.kernel.org
 
-Hi Jia,
+Hi Cezary,
 
-[FYI, it's a private test report for your RFC patch.]
-[auto build test WARNING on xiang-erofs/dev-test]
-[also build test WARNING on linus/master v6.0-rc3 next-20220901]
+I love your patch! Perhaps something to improve:
+
+[auto build test WARNING on broonie-sound/for-next]
+[also build test WARNING on linus/master v6.0-rc3]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jia-Zhu/Introduce-er=
-ofs-shared-domain/20220831-203418
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/xiang/erofs.git dev=
--test
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: arm-randconfig-c002-20220831 (https://download.01.org/0day-ci/archi=
-ve/20220903/202209030545.uaa0w6kC-lkp(a)intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Cezary-Rojewski/lib-=
+string_helpers-Introduce-tokenize_user_input/20220902-014254
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git f=
+or-next
+:::::: branch date: 27 hours ago
+:::::: commit date: 27 hours ago
+config: arm-randconfig-c002-20220901 (https://download.01.org/0day-ci/archi=
+ve/20220903/202209030411.0HeReNTd-lkp(a)intel.com/config)
 compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/6168c6777c77781e6e9=
-2c528281e511dc91a856b
+        # https://github.com/intel-lab-lkp/linux/commit/53e2025c60da991b4e8=
+79aaf336a6635c0b87b07
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Jia-Zhu/Introduce-erofs-shared-dom=
-ain/20220831-203418
-        git checkout 6168c6777c77781e6e92c528281e511dc91a856b
+        git fetch --no-tags linux-review Cezary-Rojewski/lib-string_helpers=
+-Introduce-tokenize_user_input/20220902-014254
+        git checkout 53e2025c60da991b4e879aaf336a6635c0b87b07
         # save the config file
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cross=
  ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
@@ -64,72 +81,94 @@ If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 
 gcc_analyzer warnings: (new ones prefixed by >>)
-   fs/erofs/domain.c: In function 'erofs_fscache_domain_init_cookie':
->> fs/erofs/domain.c:21:31: warning: use of uninitialized value '<unknown>'=
- [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-      21 |         struct erofs_fscache *ctx;
-         |                               ^~~
-     'erofs_fscache_domain_init_cookie': event 1
+   lib/string_helpers.c: In function 'tokenize_user_input':
+>> lib/string_helpers.c:150:20: warning: use of uninitialized value '<unkno=
+wn>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+     150 |         int *ints, nints;
+         |                    ^~~~~
+     'tokenize_user_input': event 1
        |
-       |   21 |         struct erofs_fscache *ctx;
-       |      |                               ^~~
-       |      |                               |
-       |      |                               (1) use of uninitialized valu=
-e '<unknown>' here
+       |  150 |         int *ints, nints;
+       |      |                    ^~~~~
+       |      |                    |
+       |      |                    (1) use of uninitialized value '<unknown=
+>' here
        |
 
-vim +21 fs/erofs/domain.c
+vim +150 lib/string_helpers.c
 
-21884d3f0a1fa2 Jia Zhu 2022-08-31  15  =
+16c7fa05829e8b9 Andy Shevchenko 2013-04-30  133  =
 
-6168c6777c7778 Jia Zhu 2022-08-31  16  static int erofs_fscache_domain_init=
-_cookie(struct super_block *sb,
-6168c6777c7778 Jia Zhu 2022-08-31  17  		struct erofs_fscache **fscache, ch=
-ar *name, bool need_inode)
-6168c6777c7778 Jia Zhu 2022-08-31  18  {
-6168c6777c7778 Jia Zhu 2022-08-31  19  	int ret;
-6168c6777c7778 Jia Zhu 2022-08-31  20  	struct inode *inode;
-6168c6777c7778 Jia Zhu 2022-08-31 @21  	struct erofs_fscache *ctx;
-6168c6777c7778 Jia Zhu 2022-08-31  22  	struct erofs_sb_info *sbi =3D EROFS=
-_SB(sb);
-6168c6777c7778 Jia Zhu 2022-08-31  23  	struct erofs_domain *domain =3D sbi=
-->domain;
-6168c6777c7778 Jia Zhu 2022-08-31  24  =
+53e2025c60da991 Cezary Rojewski 2022-09-01  134  /**
+53e2025c60da991 Cezary Rojewski 2022-09-01  135   * tokenize_user_input - S=
+plit string into a sequence of integers
+53e2025c60da991 Cezary Rojewski 2022-09-01  136   * @from:	The user space b=
+uffer to read from
+53e2025c60da991 Cezary Rojewski 2022-09-01  137   * @ppos:	The current posi=
+tion in the buffer
+53e2025c60da991 Cezary Rojewski 2022-09-01  138   * @count:	The maximum num=
+ber of bytes to read
+53e2025c60da991 Cezary Rojewski 2022-09-01  139   * @tkns:	Returned pointer=
+ to sequence of integers
+53e2025c60da991 Cezary Rojewski 2022-09-01  140   *
+53e2025c60da991 Cezary Rojewski 2022-09-01  141   * On success @tkns is all=
+ocated and initialized with a sequence of
+53e2025c60da991 Cezary Rojewski 2022-09-01  142   * integers extracted from=
+ the @from plus an additional element that
+53e2025c60da991 Cezary Rojewski 2022-09-01  143   * begins the sequence and=
+ specifies the integers count.
+53e2025c60da991 Cezary Rojewski 2022-09-01  144   *
+53e2025c60da991 Cezary Rojewski 2022-09-01  145   * Caller takes responsibi=
+lity for freeing @tkns when it is no longer
+53e2025c60da991 Cezary Rojewski 2022-09-01  146   * needed.
+53e2025c60da991 Cezary Rojewski 2022-09-01  147   */
+53e2025c60da991 Cezary Rojewski 2022-09-01  148  int tokenize_user_input(co=
+nst char __user *from, size_t count, int **tkns)
+53e2025c60da991 Cezary Rojewski 2022-09-01  149  {
+53e2025c60da991 Cezary Rojewski 2022-09-01 @150  	int *ints, nints;
+53e2025c60da991 Cezary Rojewski 2022-09-01  151  	char *buf;
+53e2025c60da991 Cezary Rojewski 2022-09-01  152  	int ret =3D 0;
+53e2025c60da991 Cezary Rojewski 2022-09-01  153  =
 
-6168c6777c7778 Jia Zhu 2022-08-31  25  	ret =3D erofs_fscache_register_cook=
-ie(sb, &ctx, name, need_inode);
-6168c6777c7778 Jia Zhu 2022-08-31  26  	if (ret)
-6168c6777c7778 Jia Zhu 2022-08-31  27  		return ret;
-6168c6777c7778 Jia Zhu 2022-08-31  28  =
+53e2025c60da991 Cezary Rojewski 2022-09-01  154  	buf =3D memdup_user_nul(f=
+rom, count);
+53e2025c60da991 Cezary Rojewski 2022-09-01  155  	if (IS_ERR(buf))
+53e2025c60da991 Cezary Rojewski 2022-09-01  156  		return PTR_ERR(buf);
+53e2025c60da991 Cezary Rojewski 2022-09-01  157  =
 
-6168c6777c7778 Jia Zhu 2022-08-31  29  	ctx->name =3D kstrdup(name, GFP_KER=
-NEL);
-6168c6777c7778 Jia Zhu 2022-08-31  30  	if (!ctx->name)
-6168c6777c7778 Jia Zhu 2022-08-31  31  		return -ENOMEM;
-6168c6777c7778 Jia Zhu 2022-08-31  32  =
+53e2025c60da991 Cezary Rojewski 2022-09-01  158  	get_options(buf, 0, &nint=
+s);
+53e2025c60da991 Cezary Rojewski 2022-09-01  159  	if (!nints) {
+53e2025c60da991 Cezary Rojewski 2022-09-01  160  		ret =3D -ENOENT;
+53e2025c60da991 Cezary Rojewski 2022-09-01  161  		goto free_buf;
+53e2025c60da991 Cezary Rojewski 2022-09-01  162  	}
+53e2025c60da991 Cezary Rojewski 2022-09-01  163  =
 
-6168c6777c7778 Jia Zhu 2022-08-31  33  	inode =3D new_inode(domain->mnt->mn=
-t_sb);
-6168c6777c7778 Jia Zhu 2022-08-31  34  	if (!inode) {
-6168c6777c7778 Jia Zhu 2022-08-31  35  		kfree(ctx->name);
-6168c6777c7778 Jia Zhu 2022-08-31  36  		return -ENOMEM;
-6168c6777c7778 Jia Zhu 2022-08-31  37  	}
-6168c6777c7778 Jia Zhu 2022-08-31  38  =
+53e2025c60da991 Cezary Rojewski 2022-09-01  164  	ints =3D kcalloc(nints + =
+1, sizeof(*ints), GFP_KERNEL);
+53e2025c60da991 Cezary Rojewski 2022-09-01  165  	if (!ints) {
+53e2025c60da991 Cezary Rojewski 2022-09-01  166  		ret =3D -ENOMEM;
+53e2025c60da991 Cezary Rojewski 2022-09-01  167  		goto free_buf;
+53e2025c60da991 Cezary Rojewski 2022-09-01  168  	}
+53e2025c60da991 Cezary Rojewski 2022-09-01  169  =
 
-6168c6777c7778 Jia Zhu 2022-08-31  39  	ctx->domain =3D domain;
-6168c6777c7778 Jia Zhu 2022-08-31  40  	ctx->anon_inode =3D inode;
-6168c6777c7778 Jia Zhu 2022-08-31  41  	inode->i_private =3D ctx;
-6168c6777c7778 Jia Zhu 2022-08-31  42  	refcount_set(&ctx->ref, 1);
-6168c6777c7778 Jia Zhu 2022-08-31  43  	erofs_fscache_domain_get(domain);
-6168c6777c7778 Jia Zhu 2022-08-31  44  	*fscache =3D ctx;
-6168c6777c7778 Jia Zhu 2022-08-31  45  	return 0;
-6168c6777c7778 Jia Zhu 2022-08-31  46  }
-6168c6777c7778 Jia Zhu 2022-08-31  47  =
+53e2025c60da991 Cezary Rojewski 2022-09-01  170  	get_options(buf, nints + =
+1, ints);
+53e2025c60da991 Cezary Rojewski 2022-09-01  171  	*tkns =3D ints;
+53e2025c60da991 Cezary Rojewski 2022-09-01  172  =
+
+53e2025c60da991 Cezary Rojewski 2022-09-01  173  free_buf:
+53e2025c60da991 Cezary Rojewski 2022-09-01  174  	kfree(buf);
+53e2025c60da991 Cezary Rojewski 2022-09-01  175  	return ret;
+53e2025c60da991 Cezary Rojewski 2022-09-01  176  }
+53e2025c60da991 Cezary Rojewski 2022-09-01  177  EXPORT_SYMBOL(tokenize_use=
+r_input);
+53e2025c60da991 Cezary Rojewski 2022-09-01  178  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============5408077832073672900==--
+--===============7947751640307292343==--
 
