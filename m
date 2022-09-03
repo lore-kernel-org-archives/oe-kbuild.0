@@ -1,518 +1,485 @@
-Content-Type: multipart/mixed; boundary="===============7366204404986697716=="
+Content-Type: multipart/mixed; boundary="===============5471906191788643441=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v2 3/3] tty: serial: use DEFINE_UART_PORT_TX_HELPER_LIMITED()
-Date: Sat, 03 Sep 2022 10:15:54 +0800
-Message-ID: <202209031027.KQvRt9IN-lkp@intel.com>
+Subject: [broonie-ci:v3_20220816_patrice_chotard_spi_stm32_qspi_use_qspi_bus_as_8_lines_communication_channel 13/13] drivers/spi/spi-stm32-qspi.c:633:14: warning: Assigned value is garbage or undefined [clang-analyzer-core.uninitialized.Assign]
+Date: Sat, 03 Sep 2022 09:34:34 +0800
+Message-ID: <202209030908.2qKSQRix-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7366204404986697716==
+--===============5471906191788643441==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 :::::: =
 
-:::::: Manual check reason: "low confidence static check warning: drivers/t=
-ty/serial/mux.c:181:8: sparse: sparse: Trying to use reserved word 'for' as=
- identifier"
+:::::: Manual check reason: "low confidence static check warning: drivers/s=
+pi/spi-stm32-qspi.c:633:14: warning: Assigned value is garbage or undefined=
+ [clang-analyzer-core.uninitialized.Assign]"
 :::::: =
 
 
 BCC: lkp(a)intel.com
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <20220901110657.3305-4-jslaby@suse.cz>
-References: <20220901110657.3305-4-jslaby@suse.cz>
-TO: Jiri Slaby <jslaby@suse.cz>
+CC: linux-kernel(a)vger.kernel.org
+TO: Patrice Chotard <patrice.chotard@foss.st.com>
+CC: Mark Brown <broonie@kernel.org>
 
-Hi Jiri,
-
-I love your patch! Perhaps something to improve:
-
-[auto build test WARNING on tty/tty-testing]
-[also build test WARNING on usb/usb-testing shawnguo/for-next linus/master =
-v6.0-rc3 next-20220901]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jiri-Slaby/tty-TX-he=
-lpers/20220901-190806
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-=
-testing
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: parisc-randconfig-s031-20220901 (https://download.01.org/0day-ci/ar=
-chive/20220903/202209031027.KQvRt9IN-lkp(a)intel.com/config)
-compiler: hppa-linux-gcc (GCC) 12.1.0
-reproduce:
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/ci.git v3_2=
+0220816_patrice_chotard_spi_stm32_qspi_use_qspi_bus_as_8_lines_communicatio=
+n_channel
+head:   b051161f44d414e736fa2b011245441bae9babd7
+commit: b051161f44d414e736fa2b011245441bae9babd7 [13/13] spi: stm32_qspi: A=
+dd transfer_one_message() spi callback
+:::::: branch date: 12 days ago
+:::::: commit date: 12 days ago
+config: riscv-randconfig-c006-20220901 (https://download.01.org/0day-ci/arc=
+hive/20220903/202209030908.2qKSQRix-lkp(a)intel.com/config)
+compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project c55b41=
+d5199d2394dd6cdb8f52180d8b81d809d4)
+reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://github.com/intel-lab-lkp/linux/commit/f6f99189d77ea45bc72=
-efe7393bb91f4eb46a2fb
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Jiri-Slaby/tty-TX-helpers/20220901=
--190806
-        git checkout f6f99189d77ea45bc72efe7393bb91f4eb46a2fb
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/broonie/ci.git/co=
+mmit/?id=3Db051161f44d414e736fa2b011245441bae9babd7
+        git remote add broonie-ci https://git.kernel.org/pub/scm/linux/kern=
+el/git/broonie/ci.git
+        git fetch --no-tags broonie-ci v3_20220816_patrice_chotard_spi_stm3=
+2_qspi_use_qspi_bus_as_8_lines_communication_channel
+        git checkout b051161f44d414e736fa2b011245441bae9babd7
         # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cross=
- C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3Dbuild_dir ARCH=3Dp=
-arisc SHELL=3D/bin/bash drivers/tty/serial/
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Driscv clang-analyzer =
+
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/tty/serial/mux.c:181:8: sparse: sparse: Expected ) in function d=
-eclarator
-   drivers/tty/serial/mux.c:181:8: sparse: sparse: got __VA_OPT__
-   drivers/tty/serial/mux.c:181:8: sparse: sparse: Expected ) in function d=
-eclarator
-   drivers/tty/serial/mux.c:181:8: sparse: sparse: got ;
->> drivers/tty/serial/mux.c:181:8: sparse: sparse: Trying to use reserved w=
-ord 'for' as identifier
-   drivers/tty/serial/mux.c:181:8: sparse: sparse: Expected ; at end of dec=
-laration
-   drivers/tty/serial/mux.c:181:8: sparse: sparse: got &&
-   drivers/tty/serial/mux.c:181:8: sparse: sparse: Expected ) in nested dec=
-larator
-   drivers/tty/serial/mux.c:181:8: sparse: sparse: got --
-   drivers/tty/serial/mux.c:181:8: sparse: sparse: Expected ) in function d=
-eclarator
-   drivers/tty/serial/mux.c:181:8: sparse: sparse: got (
-   drivers/tty/serial/mux.c:181:8: sparse: sparse: Expected ; at end of dec=
-laration
-   drivers/tty/serial/mux.c:181:8: sparse: sparse: got ->
->> drivers/tty/serial/mux.c:181:8: sparse: sparse: Trying to use reserved w=
-ord 'continue' as identifier
-   drivers/tty/serial/mux.c:181:8: sparse: sparse: Expected ; at the end of=
- type declaration
-   drivers/tty/serial/mux.c:181:8: sparse: sparse: got }
-   drivers/tty/serial/mux.c:181:8: sparse: sparse: Expected ) in function d=
-eclarator
-   drivers/tty/serial/mux.c:181:8: sparse: sparse: got (
-   drivers/tty/serial/mux.c:181:8: sparse: sparse: Expected ; at end of dec=
-laration
-   drivers/tty/serial/mux.c:181:8: sparse: sparse: got ->
-   drivers/tty/serial/mux.c:181:8: sparse: sparse: Expected ; at the end of=
- type declaration
-   drivers/tty/serial/mux.c:181:8: sparse: sparse: got }
-   drivers/tty/serial/mux.c:181:8: sparse: sparse: Expected ) in function d=
-eclarator
-   drivers/tty/serial/mux.c:181:8: sparse: sparse: got <
->> drivers/tty/serial/mux.c:181:8: sparse: sparse: Trying to use reserved w=
-ord 'if' as identifier
-   drivers/tty/serial/mux.c:181:8: sparse: sparse: Expected ) in function d=
-eclarator
-   drivers/tty/serial/mux.c:181:8: sparse: sparse: got =3D=3D
->> drivers/tty/serial/mux.c:181:8: sparse: sparse: Trying to use reserved w=
-ord 'if' as identifier
-   drivers/tty/serial/mux.c:181:8: sparse: sparse: Expected ; at the end of=
- type declaration
-   drivers/tty/serial/mux.c:181:8: sparse: sparse: got }
-   drivers/tty/serial/mux.c:181:8: sparse: sparse: Expected ; at the end of=
- type declaration
-   drivers/tty/serial/mux.c:181:8: sparse: sparse: got }
-   drivers/tty/serial/mux.c:181:8: sparse: sparse: symbol '__raw_writel' re=
-declared with different type (different argument counts):
->> drivers/tty/serial/mux.c:181:8: sparse:    int static [signed] [toplevel=
-] __raw_writel( ... )
-   drivers/tty/serial/mux.c: note: in included file (through include/linux/=
-scatterlist.h, include/linux/kfifo.h, include/linux/tty_port.h, ...):
-   arch/parisc/include/asm/io.h:159:20: sparse: note: previously declared a=
-s:
->> arch/parisc/include/asm/io.h:159:20: sparse:    void static inline [gnu_=
-inline] [toplevel] __raw_writel( ... )
-   drivers/tty/serial/mux.c:181:8: sparse: sparse: undefined identifier 'xm=
-it'
-   drivers/tty/serial/mux.c:181:8: sparse: sparse: undefined identifier 'xm=
-it'
-   drivers/tty/serial/mux.c:181:8: sparse: sparse: symbol 'ch' redeclared w=
-ith different type (different type sizes):
->> drivers/tty/serial/mux.c:181:8: sparse:    int [addressable] [toplevel] =
-ch
-   drivers/tty/serial/mux.c:181:8: sparse: note: previously declared as:
->> drivers/tty/serial/mux.c:181:8: sparse:    unsigned char [addressable] [=
-toplevel] [usertype] ch
-   drivers/tty/serial/mux.c:181:8: sparse: sparse: symbol '__raw_writel' re=
-declared with different type (different argument counts):
->> drivers/tty/serial/mux.c:181:8: sparse:    int static [signed] [toplevel=
-] __raw_writel( ... )
-   arch/parisc/include/asm/io.h:159:20: sparse: note: previously declared a=
-s:
->> arch/parisc/include/asm/io.h:159:20: sparse:    void static inline [gnu_=
-inline] [toplevel] __raw_writel( ... )
->> drivers/tty/serial/mux.c:181:8: sparse: sparse: cannot dereference this =
-type
->> drivers/tty/serial/mux.c:181:8: sparse: sparse: cannot dereference this =
-type
-   drivers/tty/serial/mux.c:181:8: sparse: sparse: symbol 'pending' redecla=
-red with different type (different signedness):
->> drivers/tty/serial/mux.c:181:8: sparse:    int [addressable] [toplevel] =
-pending
-   drivers/tty/serial/mux.c:181:8: sparse: note: previously declared as:
->> drivers/tty/serial/mux.c:181:8: sparse:    unsigned int [addressable] [t=
-oplevel] pending
->> drivers/tty/serial/mux.c:195:21: sparse: sparse: too many arguments for =
-function mux_transmit
->> drivers/tty/serial/mux.c:375:25: sparse: sparse: too many arguments for =
-function __raw_writel
-   drivers/tty/serial/mux.c:377:17: sparse: sparse: too many arguments for =
-function __raw_writel
+clang_analyzer warnings: (new ones prefixed by >>)
+   #define __underlying_memcpy     __builtin_memcpy
+                                   ^~~~~~~~~~~~~~~~
+   drivers/mtd/nand/raw/mxic_nand.c:409:11: warning: The result of the left=
+ shift is undefined because the left operand is negative [clang-analyzer-co=
+re.UndefinedBinaryOperatorResult]
+                                  OP_CMD_BYTES(0), nfc->regs + SS_CTRL(0));
+                                  ^
+   drivers/mtd/nand/raw/mxic_nand.c:73:37: note: expanded from macro 'OP_CM=
+D_BYTES'
+   #define OP_CMD_BYTES(x)         (((x) - 1) << 13)
+                                              ^
+   arch/riscv/include/asm/mmio.h:144:48: note: expanded from macro 'writel'
+   #define writel(v, c)    ({ __io_bw(); writel_cpu((v), (c)); __io_aw(); })
+                                         ~~~~~~~~~~~~^~~~~~~~
+   arch/riscv/include/asm/mmio.h:93:71: note: expanded from macro 'writel_c=
+pu'
+   #define writel_cpu(v, c)        ((void)__raw_writel((__force u32)cpu_to_=
+le32(v), (c)))
+                                                                    ~~~~~~~=
+~~~~~^~
+   include/uapi/linux/byteorder/little_endian.h:34:51: note: expanded from =
+macro '__cpu_to_le32'
+   #define __cpu_to_le32(x) ((__force __le32)(__u32)(x))
+                                                     ^
+   drivers/mtd/nand/raw/mxic_nand.c:396:6: note: Assuming 'check_only' is f=
+alse
+           if (check_only)
+               ^~~~~~~~~~
+   drivers/mtd/nand/raw/mxic_nand.c:396:2: note: Taking false branch
+           if (check_only)
+           ^
+   drivers/mtd/nand/raw/mxic_nand.c:401:18: note: Assuming 'op_id' is < fie=
+ld 'ninstrs'
+           for (op_id =3D 0; op_id < op->ninstrs; op_id++) {
+                           ^~~~~~~~~~~~~~~~~~~
+   drivers/mtd/nand/raw/mxic_nand.c:401:2: note: Loop condition is true.  E=
+ntering loop body
+           for (op_id =3D 0; op_id < op->ninstrs; op_id++) {
+           ^
+   drivers/mtd/nand/raw/mxic_nand.c:404:3: note: Control jumps to 'case NAN=
+D_OP_CMD_INSTR:'  at line 405
+                   switch (instr->type) {
+                   ^
+   drivers/mtd/nand/raw/mxic_nand.c:409:11: note: The result of the left sh=
+ift is undefined because the left operand is negative
+                                  OP_CMD_BYTES(0), nfc->regs + SS_CTRL(0));
+                                  ^
+   drivers/mtd/nand/raw/mxic_nand.c:73:37: note: expanded from macro 'OP_CM=
+D_BYTES'
+   #define OP_CMD_BYTES(x)         (((x) - 1) << 13)
+                                              ^
+   arch/riscv/include/asm/mmio.h:144:48: note: expanded from macro 'writel'
+   #define writel(v, c)    ({ __io_bw(); writel_cpu((v), (c)); __io_aw(); })
+                                         ~~~~~~~~~~~~^~~~~~~~
+   arch/riscv/include/asm/mmio.h:93:71: note: expanded from macro 'writel_c=
+pu'
+   #define writel_cpu(v, c)        ((void)__raw_writel((__force u32)cpu_to_=
+le32(v), (c)))
+                                                                    ~~~~~~~=
+~~~~~^~
+   include/uapi/linux/byteorder/little_endian.h:34:51: note: expanded from =
+macro '__cpu_to_le32'
+   #define __cpu_to_le32(x) ((__force __le32)(__u32)(x))
+                                                     ^
+   Suppressed 39 warnings (39 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   45 warnings generated.
+   drivers/spi/spi-stm32-qspi.c:537:2: warning: Call to function 'memcpy' i=
+s insecure as it does not provide security checks introduced in the C11 sta=
+ndard. Replace with analogous functions that support length arguments or pr=
+ovides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-se=
+curity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memcpy(&op, &desc->info.op_tmpl, sizeof(struct spi_mem_op));
+           ^
+   include/linux/fortify-string.h:385:26: note: expanded from macro 'memcpy'
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:378:2: note: expanded from macro '__forti=
+fy_memcpy_chk'
+           __underlying_##op(p, q, __fortify_size);                        \
+           ^~~~~~~~~~~~~~~~~
+   note: expanded from here
+   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
+lying_memcpy'
+   #define __underlying_memcpy     __builtin_memcpy
+                                   ^~~~~~~~~~~~~~~~
+   drivers/spi/spi-stm32-qspi.c:537:2: note: Call to function 'memcpy' is i=
+nsecure as it does not provide security checks introduced in the C11 standa=
+rd. Replace with analogous functions that support length arguments or provi=
+des boundary checks such as 'memcpy_s' in case of C11
+           memcpy(&op, &desc->info.op_tmpl, sizeof(struct spi_mem_op));
+           ^
+   include/linux/fortify-string.h:385:26: note: expanded from macro 'memcpy'
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:378:2: note: expanded from macro '__forti=
+fy_memcpy_chk'
+           __underlying_##op(p, q, __fortify_size);                        \
+           ^~~~~~~~~~~~~~~~~
+   note: expanded from here
+   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
+lying_memcpy'
+   #define __underlying_memcpy     __builtin_memcpy
+                                   ^~~~~~~~~~~~~~~~
+   drivers/spi/spi-stm32-qspi.c:583:3: warning: Call to function 'memset' i=
+s insecure as it does not provide security checks introduced in the C11 sta=
+ndard. Replace with analogous functions that support length arguments or pr=
+ovides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-se=
+curity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   memset(&op, 0, sizeof(op));
+                   ^
+   include/linux/fortify-string.h:288:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:281:2: note: expanded from macro '__forti=
+fy_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
+lying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+   drivers/spi/spi-stm32-qspi.c:583:3: note: Call to function 'memset' is i=
+nsecure as it does not provide security checks introduced in the C11 standa=
+rd. Replace with analogous functions that support length arguments or provi=
+des boundary checks such as 'memset_s' in case of C11
+                   memset(&op, 0, sizeof(op));
+                   ^
+   include/linux/fortify-string.h:288:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:281:2: note: expanded from macro '__forti=
+fy_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
+lying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+>> drivers/spi/spi-stm32-qspi.c:633:14: warning: Assigned value is garbage =
+or undefined [clang-analyzer-core.uninitialized.Assign]
+           msg->status =3D ret;
+                       ^ ~~~
+   drivers/spi/spi-stm32-qspi.c:571:2: note: 'ret' declared without an init=
+ial value
+           int ret;
+           ^~~~~~~
+   drivers/spi/spi-stm32-qspi.c:573:6: note: Assuming field 'cs_gpiod' is n=
+on-null
+           if (!spi->cs_gpiod)
+               ^~~~~~~~~~~~~~
+   drivers/spi/spi-stm32-qspi.c:573:2: note: Taking false branch
+           if (!spi->cs_gpiod)
+           ^
+   drivers/spi/spi-stm32-qspi.c:580:2: note: Loop condition is false. Execu=
+tion continues on line 629
+           list_for_each_entry(transfer, &msg->transfers, transfer_list) {
+           ^
+   include/linux/list.h:674:2: note: expanded from macro 'list_for_each_ent=
+ry'
+           for (pos =3D list_first_entry(head, typeof(*pos), member);      =
+  \
+           ^
+   drivers/spi/spi-stm32-qspi.c:633:14: note: Assigned value is garbage or =
+undefined
+           msg->status =3D ret;
+                       ^ ~~~
+   drivers/spi/spi-stm32-qspi.c:705:2: warning: Call to function 'memset' i=
+s insecure as it does not provide security checks introduced in the C11 sta=
+ndard. Replace with analogous functions that support length arguments or pr=
+ovides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-se=
+curity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(&dma_cfg, 0, sizeof(dma_cfg));
+           ^
+   include/linux/fortify-string.h:288:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:281:2: note: expanded from macro '__forti=
+fy_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
+lying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+   drivers/spi/spi-stm32-qspi.c:705:2: note: Call to function 'memset' is i=
+nsecure as it does not provide security checks introduced in the C11 standa=
+rd. Replace with analogous functions that support length arguments or provi=
+des boundary checks such as 'memset_s' in case of C11
+           memset(&dma_cfg, 0, sizeof(dma_cfg));
+           ^
+   include/linux/fortify-string.h:288:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:281:2: note: expanded from macro '__forti=
+fy_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
+lying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+   Suppressed 41 warnings (41 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   42 warnings generated.
+   drivers/input/touchscreen/cyttsp4_core.c:806:17: warning: Value stored t=
+o 'dev' during its initialization is never read [clang-analyzer-deadcode.De=
+adStores]
+           struct device *dev =3D &md->input->dev;
+                          ^~~   ~~~~~~~~~~~~~~~
+   drivers/input/touchscreen/cyttsp4_core.c:806:17: note: Value stored to '=
+dev' during its initialization is never read
+           struct device *dev =3D &md->input->dev;
+                          ^~~   ~~~~~~~~~~~~~~~
+   drivers/input/touchscreen/cyttsp4_core.c:876:2: warning: Call to functio=
+n 'memset' is insecure as it does not provide security checks introduced in=
+ the C11 standard. Replace with analogous functions that support length arg=
+uments or provides boundary checks such as 'memset_s' in case of C11 [clang=
+-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(ids, 0, si->si_ofs.tch_abs[CY_TCH_T].max * sizeof(int));
+           ^
+   include/linux/fortify-string.h:288:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:281:2: note: expanded from macro '__forti=
+fy_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
+lying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+   drivers/input/touchscreen/cyttsp4_core.c:876:2: note: Call to function '=
+memset' is insecure as it does not provide security checks introduced in th=
+e C11 standard. Replace with analogous functions that support length argume=
+nts or provides boundary checks such as 'memset_s' in case of C11
+           memset(ids, 0, si->si_ofs.tch_abs[CY_TCH_T].max * sizeof(int));
+           ^
+   include/linux/fortify-string.h:288:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:281:2: note: expanded from macro '__forti=
+fy_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
+lying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+   drivers/input/touchscreen/cyttsp4_core.c:990:2: warning: Value stored to=
+ 'hst_mode' is never read [clang-analyzer-deadcode.DeadStores]
+           hst_mode =3D si->xy_mode[CY_REG_BASE];
+           ^          ~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/input/touchscreen/cyttsp4_core.c:990:2: note: Value stored to 'h=
+st_mode' is never read
+           hst_mode =3D si->xy_mode[CY_REG_BASE];
+           ^          ~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 39 warnings (39 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   50 warnings generated.
+   Suppressed 50 warnings (50 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   50 warnings generated.
+   Suppressed 50 warnings (50 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   39 warnings generated.
+   Suppressed 39 warnings (39 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   50 warnings generated.
+   Suppressed 50 warnings (50 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   50 warnings generated.
+   Suppressed 50 warnings (50 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
 
-vim +/for +181 drivers/tty/serial/mux.c
+vim +633 drivers/spi/spi-stm32-qspi.c
 
-f6f99189d77ea4 drivers/tty/serial/mux.c Jiri Slaby     2022-09-01  180  =
+b051161f44d414 Patrice Chotard 2022-08-16  563  =
 
-f6f99189d77ea4 drivers/tty/serial/mux.c Jiri Slaby     2022-09-01 @181  sta=
-tic DEFINE_UART_PORT_TX_HELPER_LIMITED(mux_transmit, port, ch,
-f6f99189d77ea4 drivers/tty/serial/mux.c Jiri Slaby     2022-09-01  182  		t=
-rue,
-f6f99189d77ea4 drivers/tty/serial/mux.c Jiri Slaby     2022-09-01  183  		U=
-ART_PUT_CHAR(port, ch),
-f6f99189d77ea4 drivers/tty/serial/mux.c Jiri Slaby     2022-09-01  184  		m=
-ux_tx_done(port));
-f6f99189d77ea4 drivers/tty/serial/mux.c Jiri Slaby     2022-09-01  185  =
+b051161f44d414 Patrice Chotard 2022-08-16  564  static int stm32_qspi_trans=
+fer_one_message(struct spi_controller *ctrl,
+b051161f44d414 Patrice Chotard 2022-08-16  565  					   struct spi_message =
+*msg)
+b051161f44d414 Patrice Chotard 2022-08-16  566  {
+b051161f44d414 Patrice Chotard 2022-08-16  567  	struct stm32_qspi *qspi =
+=3D spi_controller_get_devdata(ctrl);
+b051161f44d414 Patrice Chotard 2022-08-16  568  	struct spi_transfer *trans=
+fer;
+b051161f44d414 Patrice Chotard 2022-08-16  569  	struct spi_device *spi =3D=
+ msg->spi;
+b051161f44d414 Patrice Chotard 2022-08-16  570  	struct spi_mem_op op;
+b051161f44d414 Patrice Chotard 2022-08-16  571  	int ret;
+b051161f44d414 Patrice Chotard 2022-08-16  572  =
 
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  186  /**
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  187   * =
-mux_write - Write chars to the mux fifo.
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  188   * =
-@port: Ptr to the uart_port.
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  189   *
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  190   * =
-This function writes all the data from the uart buffer to
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  191   * =
-the mux fifo.
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  192   */
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  193  sta=
-tic void mux_write(struct uart_port *port)
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  194  {
-f6f99189d77ea4 drivers/tty/serial/mux.c Jiri Slaby     2022-09-01 @195  	mu=
-x_transmit(port, port->fifosize - UART_GET_FIFO_CNT(port));
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  196  }
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  197  =
+b051161f44d414 Patrice Chotard 2022-08-16  573  	if (!spi->cs_gpiod)
+b051161f44d414 Patrice Chotard 2022-08-16  574  		return -EOPNOTSUPP;
+b051161f44d414 Patrice Chotard 2022-08-16  575  =
 
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  198  /**
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  199   * =
-mux_read - Read chars from the mux fifo.
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  200   * =
-@port: Ptr to the uart_port.
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  201   *
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  202   * =
-This reads all available data from the mux's fifo and pushes
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  203   * =
-the data to the tty layer.
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  204   */
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  205  sta=
-tic void mux_read(struct uart_port *port)
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  206  {
-92a19f9cec9a80 drivers/tty/serial/mux.c Jiri Slaby     2013-01-03  207  	st=
-ruct tty_port *tport =3D &port->state->port;
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  208  	in=
-t data;
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  209  	__=
-u32 start_count =3D port->icount.rx;
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  210  =
+b051161f44d414 Patrice Chotard 2022-08-16  576  	mutex_lock(&qspi->lock);
+b051161f44d414 Patrice Chotard 2022-08-16  577  =
 
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  211  	wh=
-ile(1) {
-92495c0ebc99ee drivers/serial/mux.c     Ryan Bradetich 2005-11-17  212  		d=
-ata =3D __raw_readl(port->membase + IO_DATA_REG_OFFSET);
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  213  =
+b051161f44d414 Patrice Chotard 2022-08-16  578  	gpiod_set_value_cansleep(s=
+pi->cs_gpiod, true);
+b051161f44d414 Patrice Chotard 2022-08-16  579  =
 
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  214  		i=
-f (MUX_STATUS(data))
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  215  			=
-continue;
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  216  =
+b051161f44d414 Patrice Chotard 2022-08-16  580  	list_for_each_entry(transf=
+er, &msg->transfers, transfer_list) {
+b051161f44d414 Patrice Chotard 2022-08-16  581  		u8 dummy_bytes =3D 0;
+b051161f44d414 Patrice Chotard 2022-08-16  582  =
 
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  217  		i=
-f (MUX_EOFIFO(data))
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  218  			=
-break;
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  219  =
+b051161f44d414 Patrice Chotard 2022-08-16  583  		memset(&op, 0, sizeof(op)=
+);
+b051161f44d414 Patrice Chotard 2022-08-16  584  =
 
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  220  		p=
-ort->icount.rx++;
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  221  =
+b051161f44d414 Patrice Chotard 2022-08-16  585  		dev_dbg(qspi->dev, "tx_bu=
+f:%p tx_nbits:%d rx_buf:%p rx_nbits:%d len:%d dummy_data:%d\n",
+b051161f44d414 Patrice Chotard 2022-08-16  586  			transfer->tx_buf, transf=
+er->tx_nbits,
+b051161f44d414 Patrice Chotard 2022-08-16  587  			transfer->rx_buf, transf=
+er->rx_nbits,
+b051161f44d414 Patrice Chotard 2022-08-16  588  			transfer->len, transfer-=
+>dummy_data);
+b051161f44d414 Patrice Chotard 2022-08-16  589  =
 
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  222  		i=
-f (MUX_BREAK(data)) {
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  223  			=
-port->icount.brk++;
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  224  			=
-if(uart_handle_break(port))
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  225  			=
-	continue;
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  226  		}
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  227  =
+b051161f44d414 Patrice Chotard 2022-08-16  590  		/*
+b051161f44d414 Patrice Chotard 2022-08-16  591  		 * QSPI hardware supports=
+ dummy bytes transfer.
+b051161f44d414 Patrice Chotard 2022-08-16  592  		 * If current transfer is=
+ dummy byte, merge it with the next
+b051161f44d414 Patrice Chotard 2022-08-16  593  		 * transfer in order to t=
+ake into account QSPI block constraint
+b051161f44d414 Patrice Chotard 2022-08-16  594  		 */
+b051161f44d414 Patrice Chotard 2022-08-16  595  		if (transfer->dummy_data)=
+ {
+b051161f44d414 Patrice Chotard 2022-08-16  596  			op.dummy.buswidth =3D tr=
+ansfer->tx_nbits;
+b051161f44d414 Patrice Chotard 2022-08-16  597  			op.dummy.nbytes =3D tran=
+sfer->len;
+b051161f44d414 Patrice Chotard 2022-08-16  598  			dummy_bytes =3D transfer=
+->len;
+b051161f44d414 Patrice Chotard 2022-08-16  599  =
 
-be577a5220b25e drivers/serial/mux.c     Matthew Wilcox 2006-10-06  228  		i=
-f (uart_handle_sysrq_char(port, data & 0xffu))
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  229  			=
-continue;
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  230  =
+b051161f44d414 Patrice Chotard 2022-08-16  600  			/* if happens, means tha=
+t message is not correctly built */
+b051161f44d414 Patrice Chotard 2022-08-16  601  			if (list_is_last(&transf=
+er->transfer_list, &msg->transfers))
+b051161f44d414 Patrice Chotard 2022-08-16  602  				goto end_of_transfer;
+b051161f44d414 Patrice Chotard 2022-08-16  603  =
 
-92a19f9cec9a80 drivers/tty/serial/mux.c Jiri Slaby     2013-01-03  231  		t=
-ty_insert_flip_char(tport, data & 0xFF, TTY_NORMAL);
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  232  	}
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  233  	=
+b051161f44d414 Patrice Chotard 2022-08-16  604  			transfer =3D list_next_e=
+ntry(transfer, transfer_list);
+b051161f44d414 Patrice Chotard 2022-08-16  605  		}
+b051161f44d414 Patrice Chotard 2022-08-16  606  =
 
-2e124b4a390ca8 drivers/tty/serial/mux.c Jiri Slaby     2013-01-03  234  	if=
- (start_count !=3D port->icount.rx)
-2e124b4a390ca8 drivers/tty/serial/mux.c Jiri Slaby     2013-01-03  235  		t=
-ty_flip_buffer_push(tport);
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  236  }
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  237  =
+b051161f44d414 Patrice Chotard 2022-08-16  607  		op.data.nbytes =3D transf=
+er->len;
+b051161f44d414 Patrice Chotard 2022-08-16  608  =
 
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  238  /**
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  239   * =
-mux_startup - Initialize the port.
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  240   * =
-@port: Ptr to the uart_port.
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  241   *
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  242   * =
-Grab any resources needed for this port and start the
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  243   * =
-mux timer.
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  244   */
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  245  sta=
-tic int mux_startup(struct uart_port *port)
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  246  {
-4bd5d82779466a drivers/serial/mux.c     Ryan Bradetich 2006-11-03  247  	mu=
-x_ports[port->line].enabled =3D 1;
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  248  	re=
-turn 0;
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  249  }
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  250  =
+b051161f44d414 Patrice Chotard 2022-08-16  609  		if (transfer->rx_buf) {
+b051161f44d414 Patrice Chotard 2022-08-16  610  			qspi->fmode =3D CCR_FMOD=
+E_INDR;
+b051161f44d414 Patrice Chotard 2022-08-16  611  			op.data.buswidth =3D tra=
+nsfer->rx_nbits;
+b051161f44d414 Patrice Chotard 2022-08-16  612  			op.data.dir =3D SPI_MEM_=
+DATA_IN;
+b051161f44d414 Patrice Chotard 2022-08-16  613  			op.data.buf.in =3D trans=
+fer->rx_buf;
+b051161f44d414 Patrice Chotard 2022-08-16  614  		} else {
+b051161f44d414 Patrice Chotard 2022-08-16  615  			qspi->fmode =3D CCR_FMOD=
+E_INDW;
+b051161f44d414 Patrice Chotard 2022-08-16  616  			op.data.buswidth =3D tra=
+nsfer->tx_nbits;
+b051161f44d414 Patrice Chotard 2022-08-16  617  			op.data.dir =3D SPI_MEM_=
+DATA_OUT;
+b051161f44d414 Patrice Chotard 2022-08-16  618  			op.data.buf.out =3D tran=
+sfer->tx_buf;
+b051161f44d414 Patrice Chotard 2022-08-16  619  		}
+b051161f44d414 Patrice Chotard 2022-08-16  620  =
 
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  251  /**
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  252   * =
-mux_shutdown - Disable the port.
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  253   * =
-@port: Ptr to the uart_port.
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  254   *
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  255   * =
-Release any resources needed for the port.
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  256   */
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  257  sta=
-tic void mux_shutdown(struct uart_port *port)
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  258  {
-4bd5d82779466a drivers/serial/mux.c     Ryan Bradetich 2006-11-03  259  	mu=
-x_ports[port->line].enabled =3D 0;
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  260  }
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  261  =
+b051161f44d414 Patrice Chotard 2022-08-16  621  		ret =3D stm32_qspi_send(s=
+pi, &op);
+b051161f44d414 Patrice Chotard 2022-08-16  622  		if (ret)
+b051161f44d414 Patrice Chotard 2022-08-16  623  			goto end_of_transfer;
+b051161f44d414 Patrice Chotard 2022-08-16  624  =
 
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  262  /**
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  263   * =
-mux_set_termios - Chane port parameters.
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  264   * =
-@port: Ptr to the uart_port.
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  265   * =
-@termios: new termios settings.
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  266   * =
-@old: old termios settings.
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  267   *
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  268   * =
-The Serial Mux does not support this function.
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  269   */
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  270  sta=
-tic void
-606d099cdd1080 drivers/serial/mux.c     Alan Cox       2006-12-08  271  mux=
-_set_termios(struct uart_port *port, struct ktermios *termios,
-bec5b814d46c2a drivers/tty/serial/mux.c Ilpo J=C3=A4rvinen  2022-08-16  272=
-  	        const struct ktermios *old)
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  273  {
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  274  }
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  275  =
+b051161f44d414 Patrice Chotard 2022-08-16  625  		msg->actual_length +=3D t=
+ransfer->len + dummy_bytes;
+b051161f44d414 Patrice Chotard 2022-08-16  626  	}
+b051161f44d414 Patrice Chotard 2022-08-16  627  =
 
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  276  /**
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  277   * =
-mux_type - Describe the port.
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  278   * =
-@port: Ptr to the uart_port.
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  279   *
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  280   * =
-Return a pointer to a string constant describing the
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  281   * =
-specified port.
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  282   */
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  283  sta=
-tic const char *mux_type(struct uart_port *port)
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  284  {
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  285  	re=
-turn "Mux";
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  286  }
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  287  =
+b051161f44d414 Patrice Chotard 2022-08-16  628  end_of_transfer:
+b051161f44d414 Patrice Chotard 2022-08-16  629  	gpiod_set_value_cansleep(s=
+pi->cs_gpiod, false);
+b051161f44d414 Patrice Chotard 2022-08-16  630  =
 
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  288  /**
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  289   * =
-mux_release_port - Release memory and IO regions.
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  290   * =
-@port: Ptr to the uart_port.
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  291   * =
+b051161f44d414 Patrice Chotard 2022-08-16  631  	mutex_unlock(&qspi->lock);
+b051161f44d414 Patrice Chotard 2022-08-16  632  =
 
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  292   * =
-Release any memory and IO region resources currently in use by
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  293   * =
-the port.
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  294   */
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  295  sta=
-tic void mux_release_port(struct uart_port *port)
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  296  {
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  297  }
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  298  =
+b051161f44d414 Patrice Chotard 2022-08-16 @633  	msg->status =3D ret;
+b051161f44d414 Patrice Chotard 2022-08-16  634  	spi_finalize_current_messa=
+ge(ctrl);
+b051161f44d414 Patrice Chotard 2022-08-16  635  =
 
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  299  /**
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  300   * =
-mux_request_port - Request memory and IO regions.
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  301   * =
-@port: Ptr to the uart_port.
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  302   *
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  303   * =
-Request any memory and IO region resources required by the port.
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  304   * =
-If any fail, no resources should be registered when this function
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  305   * =
-returns, and it should return -EBUSY on failure.
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  306   */
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  307  sta=
-tic int mux_request_port(struct uart_port *port)
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  308  {
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  309  	re=
-turn 0;
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  310  }
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  311  =
-
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  312  /**
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  313   * =
-mux_config_port - Perform port autoconfiguration.
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  314   * =
-@port: Ptr to the uart_port.
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  315   * =
-@type: Bitmask of required configurations.
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  316   *
-4bd5d82779466a drivers/serial/mux.c     Ryan Bradetich 2006-11-03  317   * =
-Perform any autoconfiguration steps for the port.  This function is
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  318   * =
-called if the UPF_BOOT_AUTOCONF flag is specified for the port.
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  319   * =
-[Note: This is required for now because of a bug in the Serial core.
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  320   * =
- rmk has already submitted a patch to linus, should be available for
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  321   * =
- 2.5.47.]
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  322   */
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  323  sta=
-tic void mux_config_port(struct uart_port *port, int type)
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  324  {
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  325  	po=
-rt->type =3D PORT_MUX;
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  326  }
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  327  =
-
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  328  /**
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  329   * =
-mux_verify_port - Verify the port information.
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  330   * =
-@port: Ptr to the uart_port.
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  331   * =
-@ser: Ptr to the serial information.
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  332   *
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  333   * =
-Verify the new serial port information contained within serinfo is
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  334   * =
-suitable for this port type.
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  335   */
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  336  sta=
-tic int mux_verify_port(struct uart_port *port, struct serial_struct *ser)
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  337  {
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  338  	if=
-(port->membase =3D=3D NULL)
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  339  		r=
-eturn -EINVAL;
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  340  =
-
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  341  	re=
-turn 0;
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  342  }
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  343  =
-
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  344  /**
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  345   * =
-mux_drv_poll - Mux poll function.
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  346   * =
-@unused: Unused variable
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  347   *
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  348   * =
-This function periodically polls the Serial MUX to check for new data.
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  349   */
-e99e88a9d2b067 drivers/tty/serial/mux.c Kees Cook      2017-10-16  350  sta=
-tic void mux_poll(struct timer_list *unused)
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  351  {  =
-
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  352  	in=
-t i;
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  353  =
-
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  354  	fo=
-r(i =3D 0; i < port_cnt; ++i) {
-4bd5d82779466a drivers/serial/mux.c     Ryan Bradetich 2006-11-03  355  		i=
-f(!mux_ports[i].enabled)
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  356  			=
-continue;
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  357  =
-
-4bd5d82779466a drivers/serial/mux.c     Ryan Bradetich 2006-11-03  358  		m=
-ux_read(&mux_ports[i].port);
-4bd5d82779466a drivers/serial/mux.c     Ryan Bradetich 2006-11-03  359  		m=
-ux_write(&mux_ports[i].port);
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  360  	}
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  361  =
-
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  362  	mo=
-d_timer(&mux_timer, jiffies + MUX_POLL_DELAY);
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  363  }
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  364  =
-
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  365  =
-
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  366  #if=
-def CONFIG_SERIAL_MUX_CONSOLE
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  367  sta=
-tic void mux_console_write(struct console *co, const char *s, unsigned coun=
-t)
-^1da177e4c3f41 drivers/serial/mux.c     Linus Torvalds 2005-04-16  368  {
-3de7b6482b4e9a drivers/serial/mux.c     Ryan Bradetich 2006-11-03  369  	/*=
- Wait until the FIFO drains. */
-3de7b6482b4e9a drivers/serial/mux.c     Ryan Bradetich 2006-11-03  370  	wh=
-ile(UART_GET_FIFO_CNT(&mux_ports[0].port))
-3de7b6482b4e9a drivers/serial/mux.c     Ryan Bradetich 2006-11-03  371  		u=
-delay(1);
-3de7b6482b4e9a drivers/serial/mux.c     Ryan Bradetich 2006-11-03  372  =
-
-3de7b6482b4e9a drivers/serial/mux.c     Ryan Bradetich 2006-11-03  373  	wh=
-ile(count--) {
-3de7b6482b4e9a drivers/serial/mux.c     Ryan Bradetich 2006-11-03  374  		i=
-f(*s =3D=3D '\n') {
-3de7b6482b4e9a drivers/serial/mux.c     Ryan Bradetich 2006-11-03 @375  			=
-UART_PUT_CHAR(&mux_ports[0].port, '\r');
-3de7b6482b4e9a drivers/serial/mux.c     Ryan Bradetich 2006-11-03  376  		}
-3de7b6482b4e9a drivers/serial/mux.c     Ryan Bradetich 2006-11-03  377  		U=
-ART_PUT_CHAR(&mux_ports[0].port, *s++);
-3de7b6482b4e9a drivers/serial/mux.c     Ryan Bradetich 2006-11-03  378  	}
-3de7b6482b4e9a drivers/serial/mux.c     Ryan Bradetich 2006-11-03  379  =
+b051161f44d414 Patrice Chotard 2022-08-16  636  	return ret;
+b051161f44d414 Patrice Chotard 2022-08-16  637  }
+b051161f44d414 Patrice Chotard 2022-08-16  638  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============7366204404986697716==--
+--===============5471906191788643441==--
 
