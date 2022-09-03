@@ -1,249 +1,195 @@
-Content-Type: multipart/mixed; boundary="===============8420935305339259329=="
+Content-Type: multipart/mixed; boundary="===============6064220136278608128=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/gpu/drm/ingenic/ingenic-drm-drv.c:697:11: warning: Signed integer overflow for expression '0xff<<24'. [integerOverflow]
-Date: Tue, 06 Sep 2022 01:33:12 +0800
-Message-ID: <202209060103.YPvoskqc-lkp@intel.com>
+Subject: drivers/nvme/common/auth.c:301:12: warning: use of uninitialized value '<unknown>' [CWE-457]
+Date: Sat, 03 Sep 2022 13:50:50 +0800
+Message-ID: <202209031323.yNDah032-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8420935305339259329==
+--===============6064220136278608128==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 :::::: =
 
-:::::: Manual check reason: "low confidence static check warning: drivers/g=
-pu/drm/ingenic/ingenic-drm-drv.c:697:11: warning: Signed integer overflow f=
-or expression '0xff<<24'. [integerOverflow]"
+:::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "low confidence static check warning: drivers/n=
+vme/common/auth.c:301:12: warning: use of uninitialized value '<unknown>' [=
+CWE-457] [-Wanalyzer-use-of-uninitialized-value]"
 :::::: =
 
 
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Paul Boddie <paul@boddie.org.uk>
-CC: Paul Cercueil <paul@crapouillou.net>
-CC: Ezequiel Garcia <ezequiel@collabora.com>
-CC: "H. Nikolaus Schaller" <hns@goldelico.com>
+TO: Hannes Reinecke <hare@suse.de>
+CC: Jens Axboe <axboe@kernel.dk>
+CC: Sagi Grimberg <sagi@grimberg.me>
+CC: Christoph Hellwig <hch@lst.de>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
-head:   7e18e42e4b280c85b76967a9106a13ca61c16179
-commit: b807fd2c43fe008eb6f4083e196ea38dadad9680 drm/ingenic: Add support f=
-or JZ4780 and HDMI output
-date:   9 months ago
-:::::: branch date: 21 hours ago
-:::::: commit date: 9 months ago
-compiler: riscv32-linux-gcc (GCC) 12.1.0
-reproduce (cppcheck warning):
-        # apt-get install cppcheck
-        git checkout b807fd2c43fe008eb6f4083e196ea38dadad9680
-        cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
-e=3Dgcc FILE
+head:   d895ec7938c431fe61a731939da76a6461bc6133
+commit: f50fff73d620cd6e8f48bc58d4f1c944615a3fea nvme: implement In-Band au=
+thentication
+date:   4 weeks ago
+:::::: branch date: 6 hours ago
+:::::: commit date: 4 weeks ago
+config: arm-randconfig-c002-20220830 (https://download.01.org/0day-ci/archi=
+ve/20220903/202209031323.yNDah032-lkp(a)intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3Df50fff73d620cd6e8f48bc58d4f1c944615a3fea
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout f50fff73d620cd6e8f48bc58d4f1c944615a3fea
+        # save the config file
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cross=
+ ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
+
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 
+gcc_analyzer warnings: (new ones prefixed by >>)
+   drivers/nvme/common/auth.c: In function 'nvme_auth_transform_key':
+   drivers/nvme/common/auth.c:291:17: warning: use of uninitialized value '=
+transformed_key' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+     291 |                 kfree_sensitive(transformed_key);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     'nvme_auth_transform_key': events 1-8
+       |
+       |  113 |         if (hmac_id > ARRAY_SIZE(hash_map))
+       |      |            ~ =
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+       |      |            |
+       |      |            (5) ...to here
+       |      |            (6) following 'false' branch...
+       |  114 |                 return NULL;
+       |  115 |         return hash_map[hmac_id].hmac;
+       |      |                ~~~~~~~~~~~~~~~~~~~~~~
+       |      |                                 |
+       |      |                                 (7) ...to here
+       |......
+       |  237 |         u8 *transformed_key;
+       |      |             ^~~~~~~~~~~~~~~
+       |      |             |
+       |      |             (1) region created on stack here
+       |......
+       |  240 |         if (!key || !key->key) {
+       |      |            ~ =
 
-   drivers/gpu/drm/ingenic/ingenic-drm-drv.c:523:70: warning: Parameter 'pl=
-ane' can be declared with const [constParameter]
-   void ingenic_drm_plane_disable(struct device *dev, struct drm_plane *pla=
-ne)
-                                                                        ^
-   drivers/gpu/drm/ingenic/ingenic-drm-drv.c:509:28: warning: Parameter 'pl=
-ane' can be declared with const [constParameter]
-            struct drm_plane *plane)
-                              ^
-   drivers/gpu/drm/ingenic/ingenic-drm-drv.c:1368:49: warning: Parameter 'd=
-ata' can be declared with const [constParameter]
-   static int compare_of(struct device *dev, void *data)
-                                                   ^
->> drivers/gpu/drm/ingenic/ingenic-drm-drv.c:697:11: warning: Signed intege=
-r overflow for expression '0xff<<24'. [integerOverflow]
-       (0xff << JZ_LCD_DESSIZE_ALPHA_OFFSET) |
-             ^
+       |      |            |
+       |      |            (2) following 'false' branch...
+       |......
+       |  244 |         if (key->hash =3D=3D 0) {
+       |      |            ~~~~~~~~~~
+       |      |            |   |
+       |      |            |   (3) ...to here
+       |      |            (4) following 'false' branch...
+       |......
+       |  255 |         if (IS_ERR(key_tfm))
+       |      |            ~ =
 
-vim +697 drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+       |      |            |
+       |      |            (8) following 'false' branch...
+       |
+     'nvme_auth_transform_key': event 9
+       |
+       |include/crypto/hash.h:830:19:
+       |  830 |         return tfm->descsize;
+       |      |                ~~~^~~~~~~~~~
+       |      |                   |
+       |      |                   (9) ...to here
+       |
+     'nvme_auth_transform_key': events 10-14
+       |
+       |drivers/nvme/common/auth.c:261:12:
+       |  261 |         if (!shash) {
+       |      |            ^
+       |      |            |
+       |      |            (10) following 'true' branch...
+       |  262 |                 ret =3D -ENOMEM;
+       |  263 |                 goto out_free_key;
+       |      |                 ~~~~
+       |      |                 |
+       |      |                 (11) ...to here
+       |......
+       |  290 |         if (ret < 0) {
+       |      |            ~
+       |      |            |
+       |      |            (12) following 'true' branch (when 'ret < 0')...
+       |  291 |                 kfree_sensitive(transformed_key);
+       |      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |                 |
+       |      |                 (13) ...to here
+       |      |                 (14) use of uninitialized value 'transforme=
+d_key' here
+       |
+   drivers/nvme/common/auth.c: In function 'nvme_auth_generate_key':
+>> drivers/nvme/common/auth.c:301:12: warning: use of uninitialized value '=
+<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+     301 |         u8 key_hash;
+         |            ^~~~~~~~
+     'nvme_auth_generate_key': event 1
+       |
+       |  301 |         u8 key_hash;
+       |      |            ^~~~~~~~
+       |      |            |
+       |      |            (1) use of uninitialized value '<unknown>' here
+       |
 
-686d4b4b99afe7 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 2020=
--09-27  641  =
+vim +301 drivers/nvme/common/auth.c
 
-90b86fcc47b4d1 drivers/gpu/drm/ingenic/ingenic-drm.c     Paul Cercueil 2019=
--06-03  642  static void ingenic_drm_plane_atomic_update(struct drm_plane *=
-plane,
-977697e20b3d75 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Maxime Ripard 2021=
--02-19  643  					    struct drm_atomic_state *state)
-90b86fcc47b4d1 drivers/gpu/drm/ingenic/ingenic-drm.c     Paul Cercueil 2019=
--06-03  644  {
-3c9bea4ef32bdc drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 2020=
--07-16  645  	struct ingenic_drm *priv =3D drm_device_get_priv(plane->dev);
-4a791cb6d34f42 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 2021=
--05-23  646  	struct drm_plane_state *newstate =3D drm_atomic_get_new_plane=
-_state(state, plane);
-4a791cb6d34f42 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 2021=
--05-23  647  	struct drm_plane_state *oldstate =3D drm_atomic_get_old_plane=
-_state(state, plane);
-1bdb542da736e2 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 2021=
--10-26  648  	unsigned int width, height, cpp, next_id, plane_id;
-6055466203df46 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 2021=
--10-26  649  	struct ingenic_drm_private_state *priv_state;
-686d4b4b99afe7 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 2020=
--09-27  650  	struct drm_crtc_state *crtc_state;
-3c9bea4ef32bdc drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 2020=
--07-16  651  	struct ingenic_dma_hwdesc *hwdesc;
-354b051c5dcbeb drivers/gpu/drm/ingenic/ingenic-drm.c     Paul Cercueil 2019=
--12-10  652  	dma_addr_t addr;
-686d4b4b99afe7 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 2020=
--09-27  653  	u32 fourcc;
-90b86fcc47b4d1 drivers/gpu/drm/ingenic/ingenic-drm.c     Paul Cercueil 2019=
--06-03  654  =
+f50fff73d620cd Hannes Reinecke 2022-06-27  297  =
 
-41016fe1028e4b drivers/gpu/drm/ingenic/ingenic-drm-drv.c Maxime Ripard 2021=
--02-19  655  	if (newstate && newstate->fb) {
-4a791cb6d34f42 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 2021=
--05-23  656  		if (priv->soc_info->map_noncoherent)
-4a791cb6d34f42 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 2021=
--05-23  657  			drm_fb_cma_sync_non_coherent(&priv->drm, oldstate, newstate=
-);
-4a791cb6d34f42 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 2021=
--05-23  658  =
+f50fff73d620cd Hannes Reinecke 2022-06-27  298  int nvme_auth_generate_key(=
+u8 *secret, struct nvme_dhchap_key **ret_key)
+f50fff73d620cd Hannes Reinecke 2022-06-27  299  {
+f50fff73d620cd Hannes Reinecke 2022-06-27  300  	struct nvme_dhchap_key *ke=
+y;
+f50fff73d620cd Hannes Reinecke 2022-06-27 @301  	u8 key_hash;
+f50fff73d620cd Hannes Reinecke 2022-06-27  302  =
 
-41016fe1028e4b drivers/gpu/drm/ingenic/ingenic-drm-drv.c Maxime Ripard 2021=
--02-19  659  		crtc_state =3D newstate->crtc->state;
-1bdb542da736e2 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 2021=
--10-26  660  		plane_id =3D !!(priv->soc_info->has_osd && plane !=3D &priv-=
->f0);
-686d4b4b99afe7 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 2020=
--09-27  661  =
+f50fff73d620cd Hannes Reinecke 2022-06-27  303  	if (!secret) {
+f50fff73d620cd Hannes Reinecke 2022-06-27  304  		*ret_key =3D NULL;
+f50fff73d620cd Hannes Reinecke 2022-06-27  305  		return 0;
+f50fff73d620cd Hannes Reinecke 2022-06-27  306  	}
+f50fff73d620cd Hannes Reinecke 2022-06-27  307  =
 
-41016fe1028e4b drivers/gpu/drm/ingenic/ingenic-drm-drv.c Maxime Ripard 2021=
--02-19  662  		addr =3D drm_fb_cma_get_gem_addr(newstate->fb, newstate, 0);
-41016fe1028e4b drivers/gpu/drm/ingenic/ingenic-drm-drv.c Maxime Ripard 2021=
--02-19  663  		width =3D newstate->src_w >> 16;
-41016fe1028e4b drivers/gpu/drm/ingenic/ingenic-drm-drv.c Maxime Ripard 2021=
--02-19  664  		height =3D newstate->src_h >> 16;
-41016fe1028e4b drivers/gpu/drm/ingenic/ingenic-drm-drv.c Maxime Ripard 2021=
--02-19  665  		cpp =3D newstate->fb->format->cpp[0];
-90b86fcc47b4d1 drivers/gpu/drm/ingenic/ingenic-drm.c     Paul Cercueil 2019=
--06-03  666  =
+f50fff73d620cd Hannes Reinecke 2022-06-27  308  	if (sscanf(secret, "DHHC-1=
+:%hhd:%*s:", &key_hash) !=3D 1)
+f50fff73d620cd Hannes Reinecke 2022-06-27  309  		return -EINVAL;
+f50fff73d620cd Hannes Reinecke 2022-06-27  310  =
 
-6055466203df46 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 2021=
--10-26  667  		priv_state =3D ingenic_drm_get_new_priv_state(priv, state);
-6055466203df46 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 2021=
--10-26  668  		next_id =3D (priv_state && priv_state->use_palette) ? HWDESC=
-_PALETTE : plane_id;
-3c9bea4ef32bdc drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 2020=
--07-16  669  =
+f50fff73d620cd Hannes Reinecke 2022-06-27  311  	/* Pass in the secret with=
+out the 'DHHC-1:XX:' prefix */
+f50fff73d620cd Hannes Reinecke 2022-06-27  312  	key =3D nvme_auth_extract_=
+key(secret + 10, key_hash);
+f50fff73d620cd Hannes Reinecke 2022-06-27  313  	if (IS_ERR(key)) {
+f50fff73d620cd Hannes Reinecke 2022-06-27  314  		*ret_key =3D NULL;
+f50fff73d620cd Hannes Reinecke 2022-06-27  315  		return PTR_ERR(key);
+f50fff73d620cd Hannes Reinecke 2022-06-27  316  	}
+f50fff73d620cd Hannes Reinecke 2022-06-27  317  =
 
-6055466203df46 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 2021=
--10-26  670  		hwdesc =3D &priv->dma_hwdescs->hwdesc[plane_id];
-3c9bea4ef32bdc drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 2020=
--07-16  671  		hwdesc->addr =3D addr;
-3c9bea4ef32bdc drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 2020=
--07-16  672  		hwdesc->cmd =3D JZ_LCD_CMD_EOF_IRQ | (width * height * cpp /=
- 4);
-6055466203df46 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 2021=
--10-26  673  		hwdesc->next =3D dma_hwdesc_addr(priv, next_id);
-3c9bea4ef32bdc drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 2020=
--07-16  674  =
-
-b807fd2c43fe00 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Boddie   2021=
--12-02  675  		if (priv->soc_info->use_extended_hwdesc) {
-b807fd2c43fe00 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Boddie   2021=
--12-02  676  			hwdesc->cmd |=3D JZ_LCD_CMD_FRM_ENABLE;
-b807fd2c43fe00 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Boddie   2021=
--12-02  677  =
-
-b807fd2c43fe00 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Boddie   2021=
--12-02  678  			/* Extended 8-byte descriptor */
-b807fd2c43fe00 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Boddie   2021=
--12-02  679  			hwdesc->cpos =3D 0;
-b807fd2c43fe00 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Boddie   2021=
--12-02  680  			hwdesc->offsize =3D 0;
-b807fd2c43fe00 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Boddie   2021=
--12-02  681  			hwdesc->pagewidth =3D 0;
-b807fd2c43fe00 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Boddie   2021=
--12-02  682  =
-
-b807fd2c43fe00 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Boddie   2021=
--12-02  683  			switch (newstate->fb->format->format) {
-b807fd2c43fe00 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Boddie   2021=
--12-02  684  			case DRM_FORMAT_XRGB1555:
-b807fd2c43fe00 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Boddie   2021=
--12-02  685  				hwdesc->cpos |=3D JZ_LCD_CPOS_RGB555;
-b807fd2c43fe00 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Boddie   2021=
--12-02  686  				fallthrough;
-b807fd2c43fe00 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Boddie   2021=
--12-02  687  			case DRM_FORMAT_RGB565:
-b807fd2c43fe00 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Boddie   2021=
--12-02  688  				hwdesc->cpos |=3D JZ_LCD_CPOS_BPP_15_16;
-b807fd2c43fe00 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Boddie   2021=
--12-02  689  				break;
-b807fd2c43fe00 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Boddie   2021=
--12-02  690  			case DRM_FORMAT_XRGB8888:
-b807fd2c43fe00 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Boddie   2021=
--12-02  691  				hwdesc->cpos |=3D JZ_LCD_CPOS_BPP_18_24;
-b807fd2c43fe00 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Boddie   2021=
--12-02  692  				break;
-b807fd2c43fe00 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Boddie   2021=
--12-02  693  			}
-b807fd2c43fe00 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Boddie   2021=
--12-02  694  			hwdesc->cpos |=3D (JZ_LCD_CPOS_COEFFICIENT_1 <<
-b807fd2c43fe00 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Boddie   2021=
--12-02  695  					 JZ_LCD_CPOS_COEFFICIENT_OFFSET);
-b807fd2c43fe00 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Boddie   2021=
--12-02  696  			hwdesc->dessize =3D
-b807fd2c43fe00 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Boddie   2021=
--12-02 @697  				(0xff << JZ_LCD_DESSIZE_ALPHA_OFFSET) |
-b807fd2c43fe00 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Boddie   2021=
--12-02  698  				FIELD_PREP(JZ_LCD_DESSIZE_HEIGHT_MASK, height - 1) |
-b807fd2c43fe00 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Boddie   2021=
--12-02  699  				FIELD_PREP(JZ_LCD_DESSIZE_WIDTH_MASK, width - 1);
-b807fd2c43fe00 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Boddie   2021=
--12-02  700  		}
-b807fd2c43fe00 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Boddie   2021=
--12-02  701  =
-
-686d4b4b99afe7 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 2020=
--09-27  702  		if (drm_atomic_crtc_needs_modeset(crtc_state)) {
-41016fe1028e4b drivers/gpu/drm/ingenic/ingenic-drm-drv.c Maxime Ripard 2021=
--02-19  703  			fourcc =3D newstate->fb->format->format;
-686d4b4b99afe7 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 2020=
--09-27  704  =
-
-686d4b4b99afe7 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 2020=
--09-27  705  			ingenic_drm_plane_config(priv->dev, plane, fourcc);
-686d4b4b99afe7 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 2020=
--09-27  706  =
-
-686d4b4b99afe7 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 2020=
--09-27  707  			crtc_state->color_mgmt_changed =3D fourcc =3D=3D DRM_FORMAT=
-_C8;
-686d4b4b99afe7 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 2020=
--09-27  708  		}
-686d4b4b99afe7 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 2020=
--09-27  709  =
-
-686d4b4b99afe7 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 2020=
--09-27  710  		if (crtc_state->color_mgmt_changed)
-686d4b4b99afe7 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 2020=
--09-27  711  			ingenic_drm_update_palette(priv, crtc_state->gamma_lut->dat=
-a);
-90b86fcc47b4d1 drivers/gpu/drm/ingenic/ingenic-drm.c     Paul Cercueil 2019=
--06-03  712  	}
-354b051c5dcbeb drivers/gpu/drm/ingenic/ingenic-drm.c     Paul Cercueil 2019=
--12-10  713  }
-90b86fcc47b4d1 drivers/gpu/drm/ingenic/ingenic-drm.c     Paul Cercueil 2019=
--06-03  714  =
+f50fff73d620cd Hannes Reinecke 2022-06-27  318  	*ret_key =3D key;
+f50fff73d620cd Hannes Reinecke 2022-06-27  319  	return 0;
+f50fff73d620cd Hannes Reinecke 2022-06-27  320  }
+f50fff73d620cd Hannes Reinecke 2022-06-27  321  EXPORT_SYMBOL_GPL(nvme_auth=
+_generate_key);
+f50fff73d620cd Hannes Reinecke 2022-06-27  322  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============8420935305339259329==--
+--===============6064220136278608128==--
 
