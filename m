@@ -1,458 +1,108 @@
-Content-Type: multipart/mixed; boundary="===============3704516226458727787=="
+Content-Type: multipart/mixed; boundary="===============8424427349401989977=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/scsi/scsi_error.c:1008:30: warning: use of uninitialized value '*scmd.resid_len' [CWE-457]
-Date: Sat, 03 Sep 2022 12:18:57 +0800
-Message-ID: <202209031226.2Y38146k-lkp@intel.com>
+Subject: drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c:636 media_freq_factor_show() error: uninitialized symbol 'mode'.
+Date: Sat, 03 Sep 2022 12:07:20 +0800
+Message-ID: <202209031128.I7cMZf8L-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3704516226458727787==
+--===============8424427349401989977==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-:::::: =
-
-:::::: Manual check reason: "low confidence bisect report"
-:::::: Manual check reason: "low confidence static check warning: drivers/s=
-csi/scsi_error.c:1008:30: warning: use of uninitialized value '*scmd.resid_=
-len' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]"
-:::::: =
-
-
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Christoph Hellwig <hch@lst.de>
-CC: "Martin K. Petersen" <martin.petersen@oracle.com>
-CC: Bart Van Assche <bvanassche@acm.org>
-CC: John Garry <john.garry@huawei.com>
+TO: Ashutosh Dixit <ashutosh.dixit@intel.com>
+CC: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+CC: Dale B Stimson <dale.b.stimson@intel.com>
+CC: Andi Shyti <andi.shyti@linux.intel.com>
+CC: Rodrigo Vivi <rodrigo.vivi@intel.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   d895ec7938c431fe61a731939da76a6461bc6133
-commit: a9a4ea1166d640d1b397f24afc1cd7e96c46cd03 scsi: core: Move the resid=
-_len field from struct scsi_request to struct scsi_cmnd
-date:   6 months ago
-:::::: branch date: 5 hours ago
-:::::: commit date: 6 months ago
-config: arm-randconfig-c002-20220830 (https://download.01.org/0day-ci/archi=
-ve/20220903/202209031226.2Y38146k-lkp(a)intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3Da9a4ea1166d640d1b397f24afc1cd7e96c46cd03
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout a9a4ea1166d640d1b397f24afc1cd7e96c46cd03
-        # save the config file
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cross=
- ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
-
+commit: 26be7cd8aacdd3f0429834e78e3166286779f083 drm/i915/gt: Add media fre=
+q factor to per-gt sysfs
+date:   3 months ago
+:::::: branch date: 4 hours ago
+:::::: commit date: 3 months ago
+config: i386-randconfig-m021-20220829 (https://download.01.org/0day-ci/arch=
+ive/20220903/202209031128.I7cMZf8L-lkp(a)intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-5) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-gcc_analyzer warnings: (new ones prefixed by >>)
-                   'scsi_eh_get_sense': events 14-15
-                     |
-                     | 1268 |                 if ((scmd->eh_eflags & SCSI_E=
-H_ABORT_SCHEDULED) ||
-                     |      |                    ~ ~~~~^~~~~~~~~~~
-                     |      |                    |     |
-                     |      |                    |     (14) ...to here
-                     |      |                    (15) following 'false' bra=
-nch...
-                     |
-                   'scsi_eh_get_sense': event 16
-                     |
-                     |drivers/scsi/scsi_priv.h:27:17:
-                     |   27 |         (((scmd)->sense_buffer[0] & 0x70) =3D=
-=3D 0x70)
-                     |      |           ~~~~~~^~~~~~~~~~~~~~
-                     |      |                 |
-                     |      |                 (16) ...to here
-   drivers/scsi/scsi_error.c:1269:21: note: in expansion of macro 'SCSI_SEN=
-SE_VALID'
-                     | 1269 |                     SCSI_SENSE_VALID(scmd))
-                     |      |                     ^~~~~~~~~~~~~~~~
-                     |
-                   'scsi_eh_get_sense': events 17-20
-                     |
-                     | 1268 |                 if ((scmd->eh_eflags & SCSI_E=
-H_ABORT_SCHEDULED) ||
-                     |......
-                     | 1272 |                 shost =3D scmd->device->host;
-                     |      |                         ~~~~~~~~~~~~         =
-                    =
+New smatch warnings:
+drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c:636 media_freq_factor_show() er=
+ror: uninitialized symbol 'mode'.
 
-                     |      |                             |
-                     |      |                             (18) ...to here
-                     | 1273 |                 if (scsi_host_eh_past_deadlin=
-e(shost)) {
-                     |      |                    ~                         =
-                    =
+Old smatch warnings:
+drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c:46 sysfs_gt_attribute_w_func() =
+error: uninitialized symbol 'ret'.
 
-                     |      |                    |
-                     |      |                    (19) following 'false' bra=
-nch...
-                     |......
-                     | 1280 |                 if (!scsi_status_is_check_con=
-dition(scmd->result))
-                     |      |                      ~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~~~~~~~
-                     |      |                      |
-                     |      |                      (20) ...to here
-                     |
-                   'scsi_eh_get_sense': events 21-22
-                     |
-                     |include/scsi/scsi.h:76:12:
-                     |   76 |         if (status < 0)
-                     |      |            ^
-                     |      |            |
-                     |      |            (21) following 'false' branch...
-                     |   77 |                 return false;
-                     |   78 |         status &=3D 0xfe;
-                     |      |         ~~~~~~~~~~~~~~
-                     |      |                |
-                     |      |                (22) ...to here
-                     |
-                   'scsi_eh_get_sense': events 23-25
-                     |
-                     |drivers/scsi/scsi_error.c:1280:20:
-                     | 1280 |                 if (!scsi_status_is_check_con=
-dition(scmd->result))
-                     |      |                    ^
-                     |      |                    |
-                     |      |                    (23) following 'false' bra=
-nch...
-                     |......
-                     | 1292 |                 rtn =3D scsi_request_sense(sc=
-md);
-                     |      |                       ~~~~~~~~~~~~~~~~~~~~~~~~
-                     |      |                       |
-                     |      |                       (24) ...to here
-                     |      |                       (25) calling 'scsi_requ=
-est_sense' from 'scsi_eh_get_sense'
-                     |
-                     +--> 'scsi_request_sense': events 26-27
-                            |
-                            | 1202 | static enum scsi_disposition scsi_requ=
-est_sense(struct scsi_cmnd *scmd)
-                            |      |                              ^~~~~~~~~=
-~~~~~~~~~
-                            |      |                              |
-                            |      |                              (26) entr=
-y to 'scsi_request_sense'
-                            | 1203 | {
-                            | 1204 |         return scsi_send_eh_cmnd(scmd,=
- NULL, 0, scmd->device->eh_timeout, ~0);
-                            |      |                ~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                            |      |                |
-                            |      |                (27) calling 'scsi_send=
-_eh_cmnd' from 'scsi_request_sense'
-                            |
-                            +--> 'scsi_send_eh_cmnd': events 28-29
-                                   |
-                                   | 1093 | static enum scsi_disposition sc=
-si_send_eh_cmnd(struct scsi_cmnd *scmd,
-                                   |      |                              ^~=
-~~~~~~~~~~~~~~~
-                                   |      |                              |
-                                   |      |                              (2=
-8) entry to 'scsi_send_eh_cmnd'
-                                   |......
-                                   | 1105 |         scsi_eh_prep_cmnd(scmd,=
- &ses, cmnd, cmnd_size, sense_bytes);
-                                   |      |         ~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                                   |      |         |
-                                   |      |         (29) calling 'scsi_eh_p=
-rep_cmnd' from 'scsi_send_eh_cmnd'
-                                   |
-                                   +--> 'scsi_eh_prep_cmnd': events 30-31
-                                          |
-                                          |  992 | void scsi_eh_prep_cmnd(s=
-truct scsi_cmnd *scmd, struct scsi_eh_save *ses,
-                                          |      |      ^~~~~~~~~~~~~~~~~
-                                          |      |      |
-                                          |      |      (30) entry to 'scsi=
-_eh_prep_cmnd'
-                                          |......
-                                          | 1007 |         ses->result =3D =
-scmd->result;
-                                          |      |                       ~~=
-~~~~~~~~~~
-                                          |      |                         =
-  |
-                                          |      |                         =
-  (31) use of uninitialized value '*scmd.result' here
-                                          |
->> drivers/scsi/scsi_error.c:1008:30: warning: use of uninitialized value '=
-*scmd.resid_len' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-    1008 |         ses->resid_len =3D scmd->resid_len;
-         |                          ~~~~^~~~~~~~~~~
-     'scsi_error_handler': events 1-6
-       |
-       | 2222 | int scsi_error_handler(void *data)
-       |      |     ^~~~~~~~~~~~~~~~~~
-       |      |     |
-       |      |     (1) entry to 'scsi_error_handler'
-       |......
-       | 2240 |                 if (kthread_should_stop())
-       |      |                    ~
-       |      |                    |
-       |      |                    (2) following 'false' branch...
-       |......
-       | 2243 |                 if ((shost->host_failed =3D=3D 0 && shost->=
-host_eh_scheduled =3D=3D 0) ||
-       |      |                      ~~~~~~~~~~~~~~~~~~
-       |      |                           |
-       |      |                           (3) ...to here
-       |......
-       | 2274 |                 if (shost->transportt->eh_strategy_handler)
-       |      |                    ~
-       |      |                    |
-       |      |                    (4) following 'false' branch...
-       |......
-       | 2277 |                         scsi_unjam_host(shost);
-       |      |                         ~~~~~~~~~~~~~~~~~~~~~~
-       |      |                         |
-       |      |                         (5) ...to here
-       |      |                         (6) calling 'scsi_unjam_host' from =
-'scsi_error_handler'
-       |
-       +--> 'scsi_unjam_host': event 7
-              |
-              | 2192 | static void scsi_unjam_host(struct Scsi_Host *shost)
-              |      |             ^~~~~~~~~~~~~~~
-              |      |             |
-              |      |             (7) entry to 'scsi_unjam_host'
-              |
-            'scsi_unjam_host': event 8
-              |
-              | 2195 |         LIST_HEAD(eh_work_q);
-              |      |                   ^~~~~~~~~
-              |      |                   |
-              |      |                   (8) region created on stack here
-   include/linux/list.h:26:26: note: in definition of macro 'LIST_HEAD'
-              |   26 |         struct list_head name =3D LIST_HEAD_INIT(nam=
-e)
-              |      |                          ^~~~
-              |
-            'scsi_unjam_host': event 9
-              |
-              |  490 |         if (!list_empty(list)) {
-              |      |            ^
-              |      |            |
-              |      |            (9) following 'false' branch...
-              |
-            'scsi_unjam_host': events 10-11
-              |
-              |drivers/scsi/scsi_error.c:2200:9:
-              | 2200 |         spin_unlock_irqrestore(shost->host_lock, fla=
-gs);
-              |      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~
-              |      |         |
-              |      |         (10) ...to here
-              |......
-              | 2204 |         if (!scsi_eh_get_sense(&eh_work_q, &eh_done_=
-q))
-              |      |              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~
-              |      |              |
-              |      |              (11) calling 'scsi_eh_get_sense' from '=
-scsi_unjam_host'
-              |
-              +--> 'scsi_eh_get_sense': event 12
-                     |
-                     | 1256 | int scsi_eh_get_sense(struct list_head *work_=
-q,
-                     |      |     ^~~~~~~~~~~~~~~~~
-                     |      |     |
-                     |      |     (12) entry to 'scsi_eh_get_sense'
-                     |
-                   'scsi_eh_get_sense': event 13
-                     |
-                     |include/linux/list.h:727:14:
-                     |  727 |              !list_entry_is_head(pos, head, m=
-ember);                    \
-                     |      |              ^
-                     |      |              |
-                     |      |              (13) following 'true' branch...
-   drivers/scsi/scsi_error.c:1267:9: note: in expansion of macro 'list_for_=
-each_entry_safe'
-                     | 1267 |         list_for_each_entry_safe(scmd, next, =
-work_q, eh_entry) {
-                     |      |         ^~~~~~~~~~~~~~~~~~~~~~~~
-                     |
-                   'scsi_eh_get_sense': events 14-15
-                     |
-                     | 1268 |                 if ((scmd->eh_eflags & SCSI_E=
-H_ABORT_SCHEDULED) ||
-                     |      |                    ~ ~~~~^~~~~~~~~~~
-                     |      |                    |     |
-                     |      |                    |     (14) ...to here
-                     |      |                    (15) following 'false' bra=
-nch...
-                     |
-                   'scsi_eh_get_sense': event 16
-                     |
-                     |drivers/scsi/scsi_priv.h:27:17:
-                     |   27 |         (((scmd)->sense_buffer[0] & 0x70) =3D=
-=3D 0x70)
-                     |      |           ~~~~~~^~~~~~~~~~~~~~
-                     |      |                 |
-                     |      |                 (16) ...to here
+vim +/mode +636 drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c
 
-vim +1008 drivers/scsi/scsi_error.c
+26be7cd8aacdd3f Ashutosh Dixit 2022-05-25  612  =
 
-292148f8bb2b5d Brian King         2007-01-30   977  =
+26be7cd8aacdd3f Ashutosh Dixit 2022-05-25  613  static ssize_t media_freq_f=
+actor_show(struct device *dev,
+26be7cd8aacdd3f Ashutosh Dixit 2022-05-25  614  				      struct device_att=
+ribute *attr,
+26be7cd8aacdd3f Ashutosh Dixit 2022-05-25  615  				      char *buff)
+26be7cd8aacdd3f Ashutosh Dixit 2022-05-25  616  {
+26be7cd8aacdd3f Ashutosh Dixit 2022-05-25  617  	struct intel_gt *gt =3D in=
+tel_gt_sysfs_get_drvdata(dev, attr->attr.name);
+26be7cd8aacdd3f Ashutosh Dixit 2022-05-25  618  	struct intel_guc_slpc *slp=
+c =3D &gt->uc.guc.slpc;
+26be7cd8aacdd3f Ashutosh Dixit 2022-05-25  619  	intel_wakeref_t wakeref;
+26be7cd8aacdd3f Ashutosh Dixit 2022-05-25  620  	u32 mode;
+26be7cd8aacdd3f Ashutosh Dixit 2022-05-25  621  =
 
-^1da177e4c3f41 Linus Torvalds     2005-04-16   978  /**
-3b729f76478756 Santosh Y          2012-04-08   979   * scsi_eh_prep_cmnd  -=
- Save a scsi command info as part of error recovery
-2dc611de5a3fd9 Christoph Hellwig  2006-11-04   980   * @scmd:       SCSI co=
-mmand structure to hijack
-e1c234685c5080 Boaz Harrosh       2007-10-08   981   * @ses:        structu=
-re to save restore information
-55db6c1b8ed52b Boaz Harrosh       2007-10-08   982   * @cmnd:       CDB to =
-send. Can be NULL if no new cmnd is needed
-ce70fd9a551af7 Christoph Hellwig  2022-02-24   983   * @cmnd_size:  size in=
- bytes of @cmnd (must be <=3D MAX_COMMAND_SIZE)
-55db6c1b8ed52b Boaz Harrosh       2007-10-08   984   * @sense_bytes: size o=
-f sense data to copy. or 0 (if !=3D 0 @cmnd is ignored)
-2dc611de5a3fd9 Christoph Hellwig  2006-11-04   985   *
-e1c234685c5080 Boaz Harrosh       2007-10-08   986   * This function is use=
-d to save a scsi command information before re-execution
-55db6c1b8ed52b Boaz Harrosh       2007-10-08   987   * as part of the error=
- recovery process.  If @sense_bytes is 0 the command
-55db6c1b8ed52b Boaz Harrosh       2007-10-08   988   * sent must be one tha=
-t does not transfer any data.  If @sense_bytes !=3D 0
-55db6c1b8ed52b Boaz Harrosh       2007-10-08   989   * @cmnd is ignored and=
- this functions sets up a REQUEST_SENSE command
-55db6c1b8ed52b Boaz Harrosh       2007-10-08   990   * and cmnd buffers to =
-read @sense_bytes into @scmd->sense_buffer.
-dc8875e1078961 Randy Dunlap       2007-11-15   991   */
-e1c234685c5080 Boaz Harrosh       2007-10-08   992  void scsi_eh_prep_cmnd(=
-struct scsi_cmnd *scmd, struct scsi_eh_save *ses,
-e1c234685c5080 Boaz Harrosh       2007-10-08   993  			unsigned char *cmnd,=
- int cmnd_size, unsigned sense_bytes)
-^1da177e4c3f41 Linus Torvalds     2005-04-16   994  {
-f59114b7b5dc67 Tejun Heo          2005-04-17   995  	struct scsi_device *sd=
-ev =3D scmd->device;
-^1da177e4c3f41 Linus Torvalds     2005-04-16   996  =
+26be7cd8aacdd3f Ashutosh Dixit 2022-05-25  622  	/*
+26be7cd8aacdd3f Ashutosh Dixit 2022-05-25  623  	 * Retrieve media_ratio_mo=
+de from GEN6_RPNSWREQ bit 13 set by
+26be7cd8aacdd3f Ashutosh Dixit 2022-05-25  624  	 * GuC. GEN6_RPNSWREQ:13 v=
+alue 0 represents 1:2 and 1 represents 1:1
+26be7cd8aacdd3f Ashutosh Dixit 2022-05-25  625  	 */
+26be7cd8aacdd3f Ashutosh Dixit 2022-05-25  626  	if (IS_XEHPSDV(gt->i915) &&
+26be7cd8aacdd3f Ashutosh Dixit 2022-05-25  627  	    slpc->media_ratio_mode=
+ =3D=3D SLPC_MEDIA_RATIO_MODE_DYNAMIC_CONTROL) {
+26be7cd8aacdd3f Ashutosh Dixit 2022-05-25  628  		/*
+26be7cd8aacdd3f Ashutosh Dixit 2022-05-25  629  		 * For XEHPSDV dynamic mo=
+de GEN6_RPNSWREQ:13 does not contain
+26be7cd8aacdd3f Ashutosh Dixit 2022-05-25  630  		 * the media_ratio_mode, =
+just return the cached media ratio
+26be7cd8aacdd3f Ashutosh Dixit 2022-05-25  631  		 */
+26be7cd8aacdd3f Ashutosh Dixit 2022-05-25  632  		mode =3D slpc->media_rati=
+o_mode;
+26be7cd8aacdd3f Ashutosh Dixit 2022-05-25  633  	} else {
+26be7cd8aacdd3f Ashutosh Dixit 2022-05-25  634  		with_intel_runtime_pm(gt-=
+>uncore->rpm, wakeref)
+26be7cd8aacdd3f Ashutosh Dixit 2022-05-25  635  			mode =3D intel_uncore_re=
+ad(gt->uncore, GEN6_RPNSWREQ);
+26be7cd8aacdd3f Ashutosh Dixit 2022-05-25 @636  		mode =3D REG_FIELD_GET(GE=
+N12_MEDIA_FREQ_RATIO, mode) ?
+26be7cd8aacdd3f Ashutosh Dixit 2022-05-25  637  			SLPC_MEDIA_RATIO_MODE_FI=
+XED_ONE_TO_ONE :
+26be7cd8aacdd3f Ashutosh Dixit 2022-05-25  638  			SLPC_MEDIA_RATIO_MODE_FI=
+XED_ONE_TO_TWO;
+26be7cd8aacdd3f Ashutosh Dixit 2022-05-25  639  	}
+26be7cd8aacdd3f Ashutosh Dixit 2022-05-25  640  =
 
-631c228cd09bd5 Christoph Hellwig  2006-07-08   997  	/*
-631c228cd09bd5 Christoph Hellwig  2006-07-08   998  	 * We need saved copie=
-s of a number of fields - this is because
-631c228cd09bd5 Christoph Hellwig  2006-07-08   999  	 * error handling may =
-need to overwrite these with different values
-631c228cd09bd5 Christoph Hellwig  2006-07-08  1000  	 * to run different co=
-mmands, and once error handling is complete,
-631c228cd09bd5 Christoph Hellwig  2006-07-08  1001  	 * we will need to res=
-tore these values prior to running the actual
-631c228cd09bd5 Christoph Hellwig  2006-07-08  1002  	 * command.
-631c228cd09bd5 Christoph Hellwig  2006-07-08  1003  	 */
-e1c234685c5080 Boaz Harrosh       2007-10-08  1004  	ses->cmd_len =3D scmd-=
->cmd_len;
-e1c234685c5080 Boaz Harrosh       2007-10-08  1005  	ses->data_direction =
-=3D scmd->sc_data_direction;
-30b0c37b27485a Boaz Harrosh       2007-12-13  1006  	ses->sdb =3D scmd->sdb;
-e1c234685c5080 Boaz Harrosh       2007-10-08  1007  	ses->result =3D scmd->=
-result;
-a9a4ea1166d640 Christoph Hellwig  2022-02-24 @1008  	ses->resid_len =3D scm=
-d->resid_len;
-12265709ac6e19 Alan Stern         2008-07-21  1009  	ses->underflow =3D scm=
-d->underflow;
-db007fc5e20c00 Martin K. Petersen 2008-07-17  1010  	ses->prot_op =3D scmd-=
->prot_op;
-8e8c9d01c5ea33 Hannes Reinecke    2017-04-06  1011  	ses->eh_eflags =3D scm=
-d->eh_eflags;
-631c228cd09bd5 Christoph Hellwig  2006-07-08  1012  =
-
-db007fc5e20c00 Martin K. Petersen 2008-07-17  1013  	scmd->prot_op =3D SCSI=
-_PROT_NORMAL;
-c69e6f812bab0d James Bottomley    2014-04-10  1014  	scmd->eh_eflags =3D 0;
-ce70fd9a551af7 Christoph Hellwig  2022-02-24  1015  	memcpy(ses->cmnd, scmd=
-->cmnd, sizeof(ses->cmnd));
-ce70fd9a551af7 Christoph Hellwig  2022-02-24  1016  	memset(scmd->cmnd, 0, =
-sizeof(scmd->cmnd));
-30b0c37b27485a Boaz Harrosh       2007-12-13  1017  	memset(&scmd->sdb, 0, =
-sizeof(scmd->sdb));
-644373a4219add Alan Stern         2014-03-28  1018  	scmd->result =3D 0;
-a9a4ea1166d640 Christoph Hellwig  2022-02-24  1019  	scmd->resid_len =3D 0;
-30b0c37b27485a Boaz Harrosh       2007-12-13  1020  =
-
-55db6c1b8ed52b Boaz Harrosh       2007-10-08  1021  	if (sense_bytes) {
-30b0c37b27485a Boaz Harrosh       2007-12-13  1022  		scmd->sdb.length =3D =
-min_t(unsigned, SCSI_SENSE_BUFFERSIZE,
-30b0c37b27485a Boaz Harrosh       2007-12-13  1023  					 sense_bytes);
-e1c234685c5080 Boaz Harrosh       2007-10-08  1024  		sg_init_one(&ses->sen=
-se_sgl, scmd->sense_buffer,
-30b0c37b27485a Boaz Harrosh       2007-12-13  1025  			    scmd->sdb.length=
-);
-30b0c37b27485a Boaz Harrosh       2007-12-13  1026  		scmd->sdb.table.sgl =
-=3D &ses->sense_sgl;
-55db6c1b8ed52b Boaz Harrosh       2007-10-08  1027  		scmd->sc_data_directi=
-on =3D DMA_FROM_DEVICE;
-0c958ecc69c277 Tony Battersby     2015-07-16  1028  		scmd->sdb.table.nents=
- =3D scmd->sdb.table.orig_nents =3D 1;
-55db6c1b8ed52b Boaz Harrosh       2007-10-08  1029  		scmd->cmnd[0] =3D REQ=
-UEST_SENSE;
-30b0c37b27485a Boaz Harrosh       2007-12-13  1030  		scmd->cmnd[4] =3D scm=
-d->sdb.length;
-55db6c1b8ed52b Boaz Harrosh       2007-10-08  1031  		scmd->cmd_len =3D COM=
-MAND_SIZE(scmd->cmnd[0]);
-631c228cd09bd5 Christoph Hellwig  2006-07-08  1032  	} else {
-631c228cd09bd5 Christoph Hellwig  2006-07-08  1033  		scmd->sc_data_directi=
-on =3D DMA_NONE;
-55db6c1b8ed52b Boaz Harrosh       2007-10-08  1034  		if (cmnd) {
-ce70fd9a551af7 Christoph Hellwig  2022-02-24  1035  			BUG_ON(cmnd_size > s=
-izeof(scmd->cmnd));
-55db6c1b8ed52b Boaz Harrosh       2007-10-08  1036  			memcpy(scmd->cmnd, c=
-mnd, cmnd_size);
-55db6c1b8ed52b Boaz Harrosh       2007-10-08  1037  			scmd->cmd_len =3D CO=
-MMAND_SIZE(scmd->cmnd[0]);
-55db6c1b8ed52b Boaz Harrosh       2007-10-08  1038  		}
-631c228cd09bd5 Christoph Hellwig  2006-07-08  1039  	}
-631c228cd09bd5 Christoph Hellwig  2006-07-08  1040  =
-
-631c228cd09bd5 Christoph Hellwig  2006-07-08  1041  	scmd->underflow =3D 0;
-631c228cd09bd5 Christoph Hellwig  2006-07-08  1042  =
-
-55db6c1b8ed52b Boaz Harrosh       2007-10-08  1043  	if (sdev->scsi_level <=
-=3D SCSI_2 && sdev->scsi_level !=3D SCSI_UNKNOWN)
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1044  		scmd->cmnd[1] =3D (sc=
-md->cmnd[1] & 0x1f) |
-f59114b7b5dc67 Tejun Heo          2005-04-17  1045  			(sdev->lun << 5 & 0x=
-e0);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1046  =
-
-631c228cd09bd5 Christoph Hellwig  2006-07-08  1047  	/*
-631c228cd09bd5 Christoph Hellwig  2006-07-08  1048  	 * Zero the sense buff=
-er.  The scsi spec mandates that any
-631c228cd09bd5 Christoph Hellwig  2006-07-08  1049  	 * untransferred sense=
- data should be interpreted as being zero.
-631c228cd09bd5 Christoph Hellwig  2006-07-08  1050  	 */
-b80ca4f7ee36c2 FUJITA Tomonori    2008-01-13  1051  	memset(scmd->sense_buf=
-fer, 0, SCSI_SENSE_BUFFERSIZE);
-e1c234685c5080 Boaz Harrosh       2007-10-08  1052  }
-e1c234685c5080 Boaz Harrosh       2007-10-08  1053  EXPORT_SYMBOL(scsi_eh_p=
-rep_cmnd);
-e1c234685c5080 Boaz Harrosh       2007-10-08  1054  =
+26be7cd8aacdd3f Ashutosh Dixit 2022-05-25  641  	return sysfs_emit(buff, "%=
+u\n", media_ratio_mode_to_factor(mode));
+26be7cd8aacdd3f Ashutosh Dixit 2022-05-25  642  }
+26be7cd8aacdd3f Ashutosh Dixit 2022-05-25  643  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============3704516226458727787==--
+--===============8424427349401989977==--
 
