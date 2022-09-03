@@ -1,114 +1,217 @@
-Content-Type: multipart/mixed; boundary="===============5691030901641496293=="
+Content-Type: multipart/mixed; boundary="===============0946200872873339945=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/fpga/intel-m10-bmc-sec-update.c:103 flash_count_show() warn: possible memory leak of 'flash_buf'
-Date: Tue, 06 Sep 2022 07:37:26 +0800
-Message-ID: <202209060707.0aHHXixA-lkp@intel.com>
+Subject: drivers/gpu/drm/panel/panel-edp.c:673:13: warning: use of uninitialized value '<unknown>' [CWE-457]
+Date: Sun, 04 Sep 2022 00:57:25 +0800
+Message-ID: <202209040050.HrjrOesS-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5691030901641496293==
+--===============0946200872873339945==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+:::::: =
+
+:::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "low confidence static check warning: drivers/g=
+pu/drm/panel/panel-edp.c:673:13: warning: use of uninitialized value '<unkn=
+own>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]"
+:::::: =
+
+
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Russ Weight <russell.h.weight@intel.com>
-CC: Xu Yilun <yilun.xu@intel.com>
-CC: Tom Rix <trix@redhat.com>
+TO: Douglas Anderson <dianders@chromium.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
-head:   7e18e42e4b280c85b76967a9106a13ca61c16179
-commit: 154afa5c31cd2de5e6c2c4f35eee390993ee345a fpga: m10bmc-sec: expose m=
-ax10 flash update count
-date:   3 months ago
-:::::: branch date: 27 hours ago
-:::::: commit date: 3 months ago
-config: x86_64-randconfig-m031-20220905 (https://download.01.org/0day-ci/ar=
-chive/20220906/202209060707.0aHHXixA-lkp(a)intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-5) 11.3.0
+head:   d895ec7938c431fe61a731939da76a6461bc6133
+commit: 5540cf8f3e8dac7ef2de28edcf2623c1516fbe45 drm/panel-edp: Implement g=
+eneric "edp-panel"s probed by EDID
+date:   12 months ago
+:::::: branch date: 17 hours ago
+:::::: commit date: 12 months ago
+config: arm-randconfig-c002-20220829 (https://download.01.org/0day-ci/archi=
+ve/20220904/202209040050.HrjrOesS-lkp(a)intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3D5540cf8f3e8dac7ef2de28edcf2623c1516fbe45
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 5540cf8f3e8dac7ef2de28edcf2623c1516fbe45
+        # save the config file
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cross=
+ ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
+
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-drivers/fpga/intel-m10-bmc-sec-update.c:103 flash_count_show() warn: possib=
-le memory leak of 'flash_buf'
+gcc_analyzer warnings: (new ones prefixed by >>)
+   drivers/gpu/drm/panel/panel-edp.c: In function 'generic_edp_panel_probe':
+>> drivers/gpu/drm/panel/panel-edp.c:673:13: warning: use of uninitialized =
+value '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+     673 |         u16 product_id;
+         |             ^~~~~~~~~~
+     'generic_edp_panel_probe': event 1
+       |
+       |  673 |         u16 product_id;
+       |      |             ^~~~~~~~~~
+       |      |             |
+       |      |             (1) use of uninitialized value '<unknown>' here
+       |
 
-vim +/flash_buf +103 drivers/fpga/intel-m10-bmc-sec-update.c
+vim +673 drivers/gpu/drm/panel/panel-edp.c
 
-154afa5c31cd2de Russ Weight 2022-06-06   82  =
+5540cf8f3e8dac Douglas Anderson 2021-09-14  666  =
 
-154afa5c31cd2de Russ Weight 2022-06-06   83  static ssize_t flash_count_sho=
-w(struct device *dev,
-154afa5c31cd2de Russ Weight 2022-06-06   84  				struct device_attribute *a=
-ttr, char *buf)
-154afa5c31cd2de Russ Weight 2022-06-06   85  {
-154afa5c31cd2de Russ Weight 2022-06-06   86  	struct m10bmc_sec *sec =3D de=
-v_get_drvdata(dev);
-154afa5c31cd2de Russ Weight 2022-06-06   87  	unsigned int stride, num_bits;
-154afa5c31cd2de Russ Weight 2022-06-06   88  	u8 *flash_buf;
-154afa5c31cd2de Russ Weight 2022-06-06   89  	int cnt, ret;
-154afa5c31cd2de Russ Weight 2022-06-06   90  =
+5540cf8f3e8dac Douglas Anderson 2021-09-14  667  static int generic_edp_pan=
+el_probe(struct device *dev, struct panel_edp *panel)
+5540cf8f3e8dac Douglas Anderson 2021-09-14  668  {
+5540cf8f3e8dac Douglas Anderson 2021-09-14  669  	const struct edp_panel_en=
+try *edp_panel;
+5540cf8f3e8dac Douglas Anderson 2021-09-14  670  	struct panel_desc *desc;
+5540cf8f3e8dac Douglas Anderson 2021-09-14  671  	u32 panel_id;
+5540cf8f3e8dac Douglas Anderson 2021-09-14  672  	char vend[4];
+5540cf8f3e8dac Douglas Anderson 2021-09-14 @673  	u16 product_id;
+5540cf8f3e8dac Douglas Anderson 2021-09-14  674  	u32 reliable_ms =3D 0;
+5540cf8f3e8dac Douglas Anderson 2021-09-14  675  	u32 absent_ms =3D 0;
+5540cf8f3e8dac Douglas Anderson 2021-09-14  676  	int ret;
+5540cf8f3e8dac Douglas Anderson 2021-09-14  677  =
 
-154afa5c31cd2de Russ Weight 2022-06-06   91  	stride =3D regmap_get_reg_str=
-ide(sec->m10bmc->regmap);
-154afa5c31cd2de Russ Weight 2022-06-06   92  	num_bits =3D FLASH_COUNT_SIZE=
- * 8;
-154afa5c31cd2de Russ Weight 2022-06-06   93  =
+5540cf8f3e8dac Douglas Anderson 2021-09-14  678  	desc =3D devm_kzalloc(dev=
+, sizeof(*desc), GFP_KERNEL);
+5540cf8f3e8dac Douglas Anderson 2021-09-14  679  	if (!desc)
+5540cf8f3e8dac Douglas Anderson 2021-09-14  680  		return -ENOMEM;
+5540cf8f3e8dac Douglas Anderson 2021-09-14  681  	panel->desc =3D desc;
+5540cf8f3e8dac Douglas Anderson 2021-09-14  682  =
 
-154afa5c31cd2de Russ Weight 2022-06-06   94  	flash_buf =3D kmalloc(FLASH_C=
-OUNT_SIZE, GFP_KERNEL);
-154afa5c31cd2de Russ Weight 2022-06-06   95  	if (!flash_buf)
-154afa5c31cd2de Russ Weight 2022-06-06   96  		return -ENOMEM;
-154afa5c31cd2de Russ Weight 2022-06-06   97  =
+5540cf8f3e8dac Douglas Anderson 2021-09-14  683  	/*
+5540cf8f3e8dac Douglas Anderson 2021-09-14  684  	 * Read the dts propertie=
+s for the initial probe. These are used by
+5540cf8f3e8dac Douglas Anderson 2021-09-14  685  	 * the runtime resume cod=
+e which will get called by the
+5540cf8f3e8dac Douglas Anderson 2021-09-14  686  	 * pm_runtime_get_sync() =
+call below.
+5540cf8f3e8dac Douglas Anderson 2021-09-14  687  	 */
+5540cf8f3e8dac Douglas Anderson 2021-09-14  688  	of_property_read_u32(dev-=
+>of_node, "hpd-reliable-delay-ms", &reliable_ms);
+5540cf8f3e8dac Douglas Anderson 2021-09-14  689  	desc->delay.hpd_reliable =
+=3D reliable_ms;
+5540cf8f3e8dac Douglas Anderson 2021-09-14  690  	of_property_read_u32(dev-=
+>of_node, "hpd-absent-delay-ms", &absent_ms);
+5540cf8f3e8dac Douglas Anderson 2021-09-14  691  	desc->delay.hpd_reliable =
+=3D absent_ms;
+5540cf8f3e8dac Douglas Anderson 2021-09-14  692  =
 
-154afa5c31cd2de Russ Weight 2022-06-06   98  	if (FLASH_COUNT_SIZE % stride=
-) {
-154afa5c31cd2de Russ Weight 2022-06-06   99  		dev_err(sec->dev,
-154afa5c31cd2de Russ Weight 2022-06-06  100  			"FLASH_COUNT_SIZE (0x%x) no=
-t aligned to stride (0x%x)\n",
-154afa5c31cd2de Russ Weight 2022-06-06  101  			FLASH_COUNT_SIZE, stride);
-154afa5c31cd2de Russ Weight 2022-06-06  102  		WARN_ON_ONCE(1);
-154afa5c31cd2de Russ Weight 2022-06-06 @103  		return -EINVAL;
-154afa5c31cd2de Russ Weight 2022-06-06  104  	}
-154afa5c31cd2de Russ Weight 2022-06-06  105  =
+5540cf8f3e8dac Douglas Anderson 2021-09-14  693  	/* Power the panel on so =
+we can read the EDID */
+5540cf8f3e8dac Douglas Anderson 2021-09-14  694  	ret =3D pm_runtime_get_sy=
+nc(dev);
+5540cf8f3e8dac Douglas Anderson 2021-09-14  695  	if (ret < 0) {
+5540cf8f3e8dac Douglas Anderson 2021-09-14  696  		dev_err(dev, "Couldn't p=
+ower on panel to read EDID: %d\n", ret);
+5540cf8f3e8dac Douglas Anderson 2021-09-14  697  		goto exit;
+5540cf8f3e8dac Douglas Anderson 2021-09-14  698  	}
+5540cf8f3e8dac Douglas Anderson 2021-09-14  699  =
 
-154afa5c31cd2de Russ Weight 2022-06-06  106  	ret =3D regmap_bulk_read(sec-=
->m10bmc->regmap, STAGING_FLASH_COUNT,
-154afa5c31cd2de Russ Weight 2022-06-06  107  			       flash_buf, FLASH_COU=
-NT_SIZE / stride);
-154afa5c31cd2de Russ Weight 2022-06-06  108  	if (ret) {
-154afa5c31cd2de Russ Weight 2022-06-06  109  		dev_err(sec->dev,
-154afa5c31cd2de Russ Weight 2022-06-06  110  			"failed to read flash count=
-: %x cnt %x: %d\n",
-154afa5c31cd2de Russ Weight 2022-06-06  111  			STAGING_FLASH_COUNT, FLASH_=
-COUNT_SIZE / stride, ret);
-154afa5c31cd2de Russ Weight 2022-06-06  112  		goto exit_free;
-154afa5c31cd2de Russ Weight 2022-06-06  113  	}
-154afa5c31cd2de Russ Weight 2022-06-06  114  	cnt =3D num_bits - bitmap_wei=
-ght((unsigned long *)flash_buf, num_bits);
-154afa5c31cd2de Russ Weight 2022-06-06  115  =
+5540cf8f3e8dac Douglas Anderson 2021-09-14  700  	panel_id =3D drm_edid_get=
+_panel_id(panel->ddc);
+5540cf8f3e8dac Douglas Anderson 2021-09-14  701  	if (!panel_id) {
+5540cf8f3e8dac Douglas Anderson 2021-09-14  702  		dev_err(dev, "Couldn't i=
+dentify panel via EDID\n");
+5540cf8f3e8dac Douglas Anderson 2021-09-14  703  		ret =3D -EIO;
+5540cf8f3e8dac Douglas Anderson 2021-09-14  704  		goto exit;
+5540cf8f3e8dac Douglas Anderson 2021-09-14  705  	}
+5540cf8f3e8dac Douglas Anderson 2021-09-14  706  	drm_edid_decode_panel_id(=
+panel_id, vend, &product_id);
+5540cf8f3e8dac Douglas Anderson 2021-09-14  707  =
 
-154afa5c31cd2de Russ Weight 2022-06-06  116  exit_free:
-154afa5c31cd2de Russ Weight 2022-06-06  117  	kfree(flash_buf);
-154afa5c31cd2de Russ Weight 2022-06-06  118  =
+5540cf8f3e8dac Douglas Anderson 2021-09-14  708  	edp_panel =3D find_edp_pa=
+nel(panel_id);
+5540cf8f3e8dac Douglas Anderson 2021-09-14  709  =
 
-154afa5c31cd2de Russ Weight 2022-06-06  119  	return ret ? : sysfs_emit(buf=
-, "%u\n", cnt);
-154afa5c31cd2de Russ Weight 2022-06-06  120  }
-154afa5c31cd2de Russ Weight 2022-06-06  121  static DEVICE_ATTR_RO(flash_co=
-unt);
-154afa5c31cd2de Russ Weight 2022-06-06  122  =
+5540cf8f3e8dac Douglas Anderson 2021-09-14  710  	/*
+5540cf8f3e8dac Douglas Anderson 2021-09-14  711  	 * We're using non-optimi=
+zed timings and want it really obvious that
+5540cf8f3e8dac Douglas Anderson 2021-09-14  712  	 * someone needs to add a=
+n entry to the table, so we'll do a WARN_ON
+5540cf8f3e8dac Douglas Anderson 2021-09-14  713  	 * splat.
+5540cf8f3e8dac Douglas Anderson 2021-09-14  714  	 */
+5540cf8f3e8dac Douglas Anderson 2021-09-14  715  	if (WARN_ON(!edp_panel)) {
+5540cf8f3e8dac Douglas Anderson 2021-09-14  716  		dev_warn(dev,
+5540cf8f3e8dac Douglas Anderson 2021-09-14  717  			 "Unknown panel %s %#06=
+x, using conservative timings\n",
+5540cf8f3e8dac Douglas Anderson 2021-09-14  718  			 vend, product_id);
+5540cf8f3e8dac Douglas Anderson 2021-09-14  719  =
+
+5540cf8f3e8dac Douglas Anderson 2021-09-14  720  		/*
+5540cf8f3e8dac Douglas Anderson 2021-09-14  721  		 * It's highly likely th=
+at the panel will work if we use very
+5540cf8f3e8dac Douglas Anderson 2021-09-14  722  		 * conservative timings,=
+ so let's do that. We already know that
+5540cf8f3e8dac Douglas Anderson 2021-09-14  723  		 * the HPD-related delay=
+s must have worked since we got this
+5540cf8f3e8dac Douglas Anderson 2021-09-14  724  		 * far, so we really jus=
+t need the "unprepare" / "enable"
+5540cf8f3e8dac Douglas Anderson 2021-09-14  725  		 * delays. We don't need=
+ "prepare_to_enable" since that
+5540cf8f3e8dac Douglas Anderson 2021-09-14  726  		 * overlaps the "enable"=
+ delay anyway.
+5540cf8f3e8dac Douglas Anderson 2021-09-14  727  		 *
+5540cf8f3e8dac Douglas Anderson 2021-09-14  728  		 * Nearly all panels hav=
+e a "unprepare" delay of 500 ms though
+5540cf8f3e8dac Douglas Anderson 2021-09-14  729  		 * there are a few with =
+1000. Let's stick 2000 in just to be
+5540cf8f3e8dac Douglas Anderson 2021-09-14  730  		 * super conservative.
+5540cf8f3e8dac Douglas Anderson 2021-09-14  731  		 *
+5540cf8f3e8dac Douglas Anderson 2021-09-14  732  		 * An "enable" delay of =
+80 ms seems the most common, but we'll
+5540cf8f3e8dac Douglas Anderson 2021-09-14  733  		 * throw in 200 ms to be=
+ safe.
+5540cf8f3e8dac Douglas Anderson 2021-09-14  734  		 */
+5540cf8f3e8dac Douglas Anderson 2021-09-14  735  		desc->delay.unprepare =
+=3D 2000;
+5540cf8f3e8dac Douglas Anderson 2021-09-14  736  		desc->delay.enable =3D 2=
+00;
+5540cf8f3e8dac Douglas Anderson 2021-09-14  737  	} else {
+5540cf8f3e8dac Douglas Anderson 2021-09-14  738  		dev_info(dev, "Detected =
+%s %s (%#06x)\n",
+5540cf8f3e8dac Douglas Anderson 2021-09-14  739  			 vend, edp_panel->name,=
+ product_id);
+5540cf8f3e8dac Douglas Anderson 2021-09-14  740  =
+
+5540cf8f3e8dac Douglas Anderson 2021-09-14  741  		/* Update the delay; eve=
+rything else comes from EDID */
+5540cf8f3e8dac Douglas Anderson 2021-09-14  742  		desc->delay =3D *edp_pan=
+el->delay;
+5540cf8f3e8dac Douglas Anderson 2021-09-14  743  	}
+5540cf8f3e8dac Douglas Anderson 2021-09-14  744  =
+
+5540cf8f3e8dac Douglas Anderson 2021-09-14  745  	ret =3D 0;
+5540cf8f3e8dac Douglas Anderson 2021-09-14  746  exit:
+5540cf8f3e8dac Douglas Anderson 2021-09-14  747  	pm_runtime_mark_last_busy=
+(dev);
+5540cf8f3e8dac Douglas Anderson 2021-09-14  748  	pm_runtime_put_autosuspen=
+d(dev);
+5540cf8f3e8dac Douglas Anderson 2021-09-14  749  =
+
+5540cf8f3e8dac Douglas Anderson 2021-09-14  750  	return ret;
+5540cf8f3e8dac Douglas Anderson 2021-09-14  751  }
+5540cf8f3e8dac Douglas Anderson 2021-09-14  752  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============5691030901641496293==--
+--===============0946200872873339945==--
 
