@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============8529196943259847016=="
+Content-Type: multipart/mixed; boundary="===============6305294294516709929=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH 3/4] clk: mediatek: Add new clock driver to handle FHCTL hardware
-Date: Mon, 05 Sep 2022 09:33:51 +0800
-Message-ID: <202209050918.rCRzJ3kr-lkp@intel.com>
+Subject: fs/namespace.c:4039:12: warning: use of uninitialized value 'err' [CWE-457]
+Date: Mon, 05 Sep 2022 06:57:53 +0800
+Message-ID: <202209050654.XcGcJ51Z-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8529196943259847016==
+--===============6305294294516709929==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,60 +15,38 @@ Content-Transfer-Encoding: quoted-printable
 :::::: =
 
 :::::: Manual check reason: "low confidence bisect report"
-:::::: Manual check reason: "low confidence static check warning: drivers/c=
-lk/mediatek/clk-fhctl.c:60:36: warning: shift by negative count ('-1') [-Wa=
-nalyzer-shift-count-negative]"
+:::::: Manual check reason: "low confidence static check warning: fs/namesp=
+ace.c:4039:12: warning: use of uninitialized value 'err' [CWE-457] [-Wanaly=
+zer-use-of-uninitialized-value]"
 :::::: =
 
 
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <20220831124850.7748-4-johnson.wang@mediatek.com>
-References: <20220831124850.7748-4-johnson.wang@mediatek.com>
-TO: Johnson Wang <johnson.wang@mediatek.com>
-TO: robh+dt(a)kernel.org
-TO: krzysztof.kozlowski+dt(a)linaro.org
-TO: angelogioacchino.delregno(a)collabora.com
-TO: sboyd(a)kernel.org
-CC: linux-clk(a)vger.kernel.org
 CC: linux-kernel(a)vger.kernel.org
-CC: devicetree(a)vger.kernel.org
-CC: linux-arm-kernel(a)lists.infradead.org
-CC: linux-mediatek(a)lists.infradead.org
-CC: Project_Global_Chrome_Upstream_Group(a)mediatek.com
-CC: Johnson Wang <johnson.wang@mediatek.com>
-CC: "Edward-JW Yang" <edward-jw.yang@mediatek.com>
+TO: Al Viro <viro@zeniv.linux.org.uk>
 
-Hi Johnson,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on clk/clk-next]
-[also build test WARNING on robh/for-next linus/master v6.0-rc4 next-202209=
-01]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Johnson-Wang/Introdu=
-ce-MediaTek-frequency-hopping-driver/20220831-205023
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git clk-n=
-ext
-:::::: branch date: 5 days ago
-:::::: commit date: 5 days ago
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   7e18e42e4b280c85b76967a9106a13ca61c16179
+commit: e257039f0fc7da36ac3a522ef9a5cb4ae7852e67 mount_setattr(): clean the=
+ control flow and calling conventions
+date:   6 months ago
+:::::: branch date: 3 hours ago
+:::::: commit date: 6 months ago
 config: arm-randconfig-c002-20220904 (https://download.01.org/0day-ci/archi=
-ve/20220905/202209050918.rCRzJ3kr-lkp(a)intel.com/config)
+ve/20220905/202209050654.XcGcJ51Z-lkp(a)intel.com/config)
 compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/85fd747a5f938792929=
-2c6a031dcab4922d35f62
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Johnson-Wang/Introduce-MediaTek-fr=
-equency-hopping-driver/20220831-205023
-        git checkout 85fd747a5f9387929292c6a031dcab4922d35f62
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3De257039f0fc7da36ac3a522ef9a5cb4ae7852e67
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout e257039f0fc7da36ac3a522ef9a5cb4ae7852e67
         # save the config file
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cross=
  ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
@@ -78,136 +56,222 @@ If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 
 gcc_analyzer warnings: (new ones prefixed by >>)
-   drivers/clk/mediatek/clk-fhctl.c: In function 'fhctl_set_ssc_regs':
->> drivers/clk/mediatek/clk-fhctl.c:60:36: warning: shift by negative count=
- ('-1') [-Wanalyzer-shift-count-negative]
-      60 |                 r |=3D (data->df_val << (ffs(data->msk_frddsx_dy=
-s) - 1));
-         |                      ~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~
-     'fhctl_set_ssc_regs': event 1
+   In function 'mount_setattr_prepare':
+   cc1: warning: use of uninitialized value '<unknown>' [CWE-457] [-Wanalyz=
+er-use-of-uninitialized-value]
+     'do_mount_setattr': events 1-4
        |
-       |   56 |         if (rate > 0) {
+       |fs/namespace.c:4099:12:
+       | 4099 | static int do_mount_setattr(struct path *path, struct mount=
+_kattr *kattr)
+       |      |            ^~~~~~~~~~~~~~~~
+       |      |            |
+       |      |            (1) entry to 'do_mount_setattr'
+       |......
+       | 4104 |         if (path->dentry !=3D mnt->mnt.mnt_root)
+       |      |            ~
+       |      |            |
+       |      |            (2) following 'false' branch...
+       |......
+       | 4107 |         if (kattr->propagation) {
+       |      |             ~~~~~~~~~~~~~~~~~~
+       |      |                  |
+       |      |                  (3) ...to here
+       |......
+       | 4126 |         if (!is_mounted(&mnt->mnt))
+       |      |            ~
+       |      |            |
+       |      |            (4) following 'true' branch...
+       |
+     'do_mount_setattr': event 5
+       |
+       |fs/mount.h:91:26:
+       |   91 |         return mnt !=3D mnt->mnt_parent;
+       |      |                       ~~~^~~~~~~~~~~~
+       |      |                          |
+       |      |                          (5) ...to here
+       |
+     'do_mount_setattr': events 6-8
+       |
+       |fs/namespace.c:4135:12:
+       | 4135 |         if (!(mnt_has_parent(mnt) ? check_mnt(mnt) : is_ano=
+n_ns(mnt->mnt_ns)))
        |      |            ^
        |      |            |
-       |      |            (1) following 'true' branch (when 'rate !=3D 0')=
-...
+       |      |            (6) following 'false' branch...
+       |......
+       | 4143 |         err =3D mount_setattr_prepare(kattr, mnt);
+       |      |               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |               |
+       |      |               (7) ...to here
+       |      |               (8) calling 'mount_setattr_prepare' from 'do_=
+mount_setattr'
        |
-     'fhctl_set_ssc_regs': event 2
+       +--> 'mount_setattr_prepare': events 9-11
+              |
+              | 4014 | static int mount_setattr_prepare(struct mount_kattr =
+*kattr, struct mount *mnt)
+              |      |            ^~~~~~~~~~~~~~~~~~~~~
+              |      |            |
+              |      |            (9) entry to 'mount_setattr_prepare'
+              |......
+              | 4019 |         for (m =3D mnt; m; m =3D next_mnt(m, mnt)) {
+              |      |                       ~
+              |      |                       |
+              |      |                       (10) following 'false' branch =
+(when 'm' is NULL)...
+              |......
+              | 4039 |         if (err) {
+              |      |            ~
+              |      |            |
+              |      |            (11) ...to here
+              |
+            'mount_setattr_prepare': event 12
+              |
+              |cc1:
+              | (12): use of uninitialized value '=1B[01m=1B[K<unknown>=1B[=
+m=1B[K' here
+              |
+>> fs/namespace.c:4039:12: warning: use of uninitialized value 'err' [CWE-4=
+57] [-Wanalyzer-use-of-uninitialized-value]
+    4039 |         if (err) {
+         |            ^
+     'do_mount_setattr': events 1-4
        |
-       |arch/arm/include/asm/io.h:113:9:
-       |  113 |         asm volatile("ldr %0, %1"
-       |      |         ^~~
-       |      |         |
-       |      |         (2) ...to here
+       | 4099 | static int do_mount_setattr(struct path *path, struct mount=
+_kattr *kattr)
+       |      |            ^~~~~~~~~~~~~~~~
+       |      |            |
+       |      |            (1) entry to 'do_mount_setattr'
+       |......
+       | 4104 |         if (path->dentry !=3D mnt->mnt.mnt_root)
+       |      |            ~
+       |      |            |
+       |      |            (2) following 'false' branch...
+       |......
+       | 4107 |         if (kattr->propagation) {
+       |      |             ~~~~~~~~~~~~~~~~~~
+       |      |                  |
+       |      |                  (3) ...to here
+       |......
+       | 4126 |         if (!is_mounted(&mnt->mnt))
+       |      |            ~
+       |      |            |
+       |      |            (4) following 'true' branch...
        |
-     'fhctl_set_ssc_regs': event 3
+     'do_mount_setattr': event 5
        |
-       |include/asm-generic/bitops/ffs.h:17:12:
-       |   17 |         if (!x)
+       |fs/mount.h:91:26:
+       |   91 |         return mnt !=3D mnt->mnt_parent;
+       |      |                       ~~~^~~~~~~~~~~~
+       |      |                          |
+       |      |                          (5) ...to here
+       |
+     'do_mount_setattr': events 6-8
+       |
+       |fs/namespace.c:4135:12:
+       | 4135 |         if (!(mnt_has_parent(mnt) ? check_mnt(mnt) : is_ano=
+n_ns(mnt->mnt_ns)))
        |      |            ^
        |      |            |
-       |      |            (3) following 'true' branch...
+       |      |            (6) following 'false' branch...
+       |......
+       | 4143 |         err =3D mount_setattr_prepare(kattr, mnt);
+       |      |               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |               |
+       |      |               (7) ...to here
+       |      |               (8) calling 'mount_setattr_prepare' from 'do_=
+mount_setattr'
        |
-     'fhctl_set_ssc_regs': events 4-5
-       |
-       |drivers/clk/mediatek/clk-fhctl.c:60:66:
-       |   60 |                 r |=3D (data->df_val << (ffs(data->msk_frdd=
-sx_dys) - 1));
-       |      |                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~^~~~~
-       |      |                                    |                       =
-      |
-       |      |                                    |                       =
-      (4) ...to here
-       |      |                                    (5) shift by negative am=
-ount here ('-1')
-       |
+       +--> 'mount_setattr_prepare': events 9-13
+              |
+              | 4014 | static int mount_setattr_prepare(struct mount_kattr =
+*kattr, struct mount *mnt)
+              |      |            ^~~~~~~~~~~~~~~~~~~~~
+              |      |            |
+              |      |            (9) entry to 'mount_setattr_prepare'
+              |......
+              | 4017 |         int err;
+              |      |             ~~~
+              |      |             |
+              |      |             (10) region created on stack here
+              | 4018 | =
 
-vim +60 drivers/clk/mediatek/clk-fhctl.c
+              | 4019 |         for (m =3D mnt; m; m =3D next_mnt(m, mnt)) {
+              |      |                       ~
+              |      |                       |
+              |      |                       (11) following 'false' branch =
+(when 'm' is NULL)...
+              |......
+              | 4039 |         if (err) {
+              |      |            ~
+              |      |            |
+              |      |            (12) ...to here
+              |      |            (13) use of uninitialized value 'err' here
+              |
 
-85fd747a5f9387 Johnson Wang 2022-08-31  46  =
+vim +/err +4039 fs/namespace.c
 
-85fd747a5f9387 Johnson Wang 2022-08-31  47  static int fhctl_set_ssc_regs(s=
-truct mtk_clk_pll *pll, struct fh_pll_regs *regs,
-85fd747a5f9387 Johnson Wang 2022-08-31  48  			      const struct fh_pll_da=
-ta *data, u32 rate)
-85fd747a5f9387 Johnson Wang 2022-08-31  49  {
-85fd747a5f9387 Johnson Wang 2022-08-31  50  	u32 updnlmt_val, r;
-85fd747a5f9387 Johnson Wang 2022-08-31  51  =
+a26f788b6e7a10 Christian Brauner 2022-02-03  4013  =
 
-85fd747a5f9387 Johnson Wang 2022-08-31  52  	writel((readl(regs->reg_cfg) &=
- ~(data->frddsx_en)), regs->reg_cfg);
-85fd747a5f9387 Johnson Wang 2022-08-31  53  	writel((readl(regs->reg_cfg) &=
- ~(data->sfstrx_en)), regs->reg_cfg);
-85fd747a5f9387 Johnson Wang 2022-08-31  54  	writel((readl(regs->reg_cfg) &=
- ~(data->fhctlx_en)), regs->reg_cfg);
-85fd747a5f9387 Johnson Wang 2022-08-31  55  =
+87bb5b60019c60 Christian Brauner 2022-02-03  4014  static int mount_setattr=
+_prepare(struct mount_kattr *kattr, struct mount *mnt)
+2a1867219c7b27 Christian Brauner 2021-01-21  4015  {
+e257039f0fc7da Al Viro           2022-02-28  4016  	struct mount *m;
+e257039f0fc7da Al Viro           2022-02-28  4017  	int err;
+2a1867219c7b27 Christian Brauner 2021-01-21  4018  =
 
-85fd747a5f9387 Johnson Wang 2022-08-31  56  	if (rate > 0) {
-85fd747a5f9387 Johnson Wang 2022-08-31  57  		/* Set the relative parameter=
- registers (dt/df/upbnd/downbnd) */
-85fd747a5f9387 Johnson Wang 2022-08-31  58  		r =3D readl(regs->reg_cfg);
-85fd747a5f9387 Johnson Wang 2022-08-31  59  		r &=3D ~(data->msk_frddsx_dys=
+e257039f0fc7da Al Viro           2022-02-28  4019  	for (m =3D mnt; m; m =
+=3D next_mnt(m, mnt)) {
+e257039f0fc7da Al Viro           2022-02-28  4020  		if (!can_change_locked=
+_flags(m, recalc_flags(kattr, m))) {
+e257039f0fc7da Al Viro           2022-02-28  4021  			err =3D -EPERM;
+e257039f0fc7da Al Viro           2022-02-28  4022  			break;
+e257039f0fc7da Al Viro           2022-02-28  4023  		}
+9caccd41541a6f Christian Brauner 2021-01-21  4024  =
+
+87bb5b60019c60 Christian Brauner 2022-02-03  4025  		err =3D can_idmap_moun=
+t(kattr, m);
+87bb5b60019c60 Christian Brauner 2022-02-03  4026  		if (err)
+e257039f0fc7da Al Viro           2022-02-28  4027  			break;
+a26f788b6e7a10 Christian Brauner 2022-02-03  4028  =
+
+e257039f0fc7da Al Viro           2022-02-28  4029  		if (!mnt_allow_writers=
+(kattr, m)) {
+87bb5b60019c60 Christian Brauner 2022-02-03  4030  			err =3D mnt_hold_writ=
+ers(m);
+87bb5b60019c60 Christian Brauner 2022-02-03  4031  			if (err)
+e257039f0fc7da Al Viro           2022-02-28  4032  				break;
+e257039f0fc7da Al Viro           2022-02-28  4033  		}
+2a1867219c7b27 Christian Brauner 2021-01-21  4034  =
+
+e257039f0fc7da Al Viro           2022-02-28  4035  		if (!kattr->recurse)
+87bb5b60019c60 Christian Brauner 2022-02-03  4036  			return 0;
+2a1867219c7b27 Christian Brauner 2021-01-21  4037  	}
+2a1867219c7b27 Christian Brauner 2021-01-21  4038  =
+
+e257039f0fc7da Al Viro           2022-02-28 @4039  	if (err) {
+e257039f0fc7da Al Viro           2022-02-28  4040  		struct mount *p;
+e257039f0fc7da Al Viro           2022-02-28  4041  =
+
+e257039f0fc7da Al Viro           2022-02-28  4042  		for (p =3D mnt; p !=3D=
+ m; p =3D next_mnt(p, mnt)) {
+e257039f0fc7da Al Viro           2022-02-28  4043  			/* If we had to hold =
+writers unblock them. */
+e257039f0fc7da Al Viro           2022-02-28  4044  			if (p->mnt.mnt_flags =
+& MNT_WRITE_HOLD)
+e257039f0fc7da Al Viro           2022-02-28  4045  				mnt_unhold_writers(p=
 );
-85fd747a5f9387 Johnson Wang 2022-08-31 @60  		r |=3D (data->df_val << (ffs(=
-data->msk_frddsx_dys) - 1));
-85fd747a5f9387 Johnson Wang 2022-08-31  61  		writel(r, regs->reg_cfg);
-85fd747a5f9387 Johnson Wang 2022-08-31  62  =
-
-85fd747a5f9387 Johnson Wang 2022-08-31  63  		r =3D readl(regs->reg_cfg);
-85fd747a5f9387 Johnson Wang 2022-08-31  64  		r &=3D ~(data->msk_frddsx_dts=
-);
-85fd747a5f9387 Johnson Wang 2022-08-31  65  		r |=3D (data->dt_val << (ffs(=
-data->msk_frddsx_dts) - 1));
-85fd747a5f9387 Johnson Wang 2022-08-31  66  		writel(r, regs->reg_cfg);
-85fd747a5f9387 Johnson Wang 2022-08-31  67  =
-
-85fd747a5f9387 Johnson Wang 2022-08-31  68  		writel((readl(pll->pcw_addr) =
-& data->dds_mask) | data->tgl_org,
-85fd747a5f9387 Johnson Wang 2022-08-31  69  			regs->reg_dds);
-85fd747a5f9387 Johnson Wang 2022-08-31  70  =
-
-85fd747a5f9387 Johnson Wang 2022-08-31  71  		/* Calculate UPDNLMT */
-85fd747a5f9387 Johnson Wang 2022-08-31  72  		updnlmt_val =3D PERCENT_TO_DD=
-SLMT((readl(regs->reg_dds) &
-85fd747a5f9387 Johnson Wang 2022-08-31  73  						 data->dds_mask), rate) <<
-85fd747a5f9387 Johnson Wang 2022-08-31  74  						 data->updnlmt_shft;
-85fd747a5f9387 Johnson Wang 2022-08-31  75  =
-
-85fd747a5f9387 Johnson Wang 2022-08-31  76  		writel(updnlmt_val, regs->reg=
-_updnlmt);
-85fd747a5f9387 Johnson Wang 2022-08-31  77  		writel(readl(regs->reg_hp_en)=
- | BIT(data->fh_id),
-85fd747a5f9387 Johnson Wang 2022-08-31  78  		       regs->reg_hp_en);
-85fd747a5f9387 Johnson Wang 2022-08-31  79  		/* Enable SSC */
-85fd747a5f9387 Johnson Wang 2022-08-31  80  		writel(readl(regs->reg_cfg) |=
- data->frddsx_en, regs->reg_cfg);
-85fd747a5f9387 Johnson Wang 2022-08-31  81  		/* Enable Hopping control */
-85fd747a5f9387 Johnson Wang 2022-08-31  82  		writel(readl(regs->reg_cfg) |=
- data->fhctlx_en, regs->reg_cfg);
-85fd747a5f9387 Johnson Wang 2022-08-31  83  =
-
-85fd747a5f9387 Johnson Wang 2022-08-31  84  	} else {
-85fd747a5f9387 Johnson Wang 2022-08-31  85  		/* Switch to APMIXEDSYS contr=
-ol */
-85fd747a5f9387 Johnson Wang 2022-08-31  86  		writel(readl(regs->reg_hp_en)=
- & ~BIT(data->fh_id),
-85fd747a5f9387 Johnson Wang 2022-08-31  87  		       regs->reg_hp_en);
-85fd747a5f9387 Johnson Wang 2022-08-31  88  		/* Wait for DDS to be stable =
-*/
-85fd747a5f9387 Johnson Wang 2022-08-31  89  		udelay(30);
-85fd747a5f9387 Johnson Wang 2022-08-31  90  	}
-85fd747a5f9387 Johnson Wang 2022-08-31  91  =
-
-85fd747a5f9387 Johnson Wang 2022-08-31  92  	return 0;
-85fd747a5f9387 Johnson Wang 2022-08-31  93  }
-85fd747a5f9387 Johnson Wang 2022-08-31  94  =
+e257039f0fc7da Al Viro           2022-02-28  4046  		}
+e257039f0fc7da Al Viro           2022-02-28  4047  	}
+e257039f0fc7da Al Viro           2022-02-28  4048  	return err;
+e257039f0fc7da Al Viro           2022-02-28  4049  }
+e257039f0fc7da Al Viro           2022-02-28  4050  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============8529196943259847016==--
+--===============6305294294516709929==--
 
