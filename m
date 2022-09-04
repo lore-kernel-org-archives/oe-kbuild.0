@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============8523219059312742692=="
+Content-Type: multipart/mixed; boundary="===============0791164311419891627=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/iio/frequency/adrf6780.c:153:22: warning: use of uninitialized value '<unknown>' [CWE-457]
-Date: Sun, 04 Sep 2022 12:02:01 +0800
-Message-ID: <202209041140.6EuvF1p9-lkp@intel.com>
+Subject: include/asm-generic/bitops/generic-non-atomic.h:127:27: warning: use of uninitialized value 'cgrp_flags' [CWE-457]
+Date: Sun, 04 Sep 2022 10:47:38 +0800
+Message-ID: <202209041027.FQ4SkGyX-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8523219059312742692==
+--===============0791164311419891627==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,39 +15,41 @@ Content-Transfer-Encoding: quoted-printable
 :::::: =
 
 :::::: Manual check reason: "low confidence bisect report"
-:::::: Manual check reason: "low confidence static check warning: drivers/i=
-io/frequency/adrf6780.c:153:22: warning: use of uninitialized value '<unkno=
-wn>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]"
+:::::: Manual check reason: "low confidence static check first_new_problem:=
+ include/asm-generic/bitops/generic-non-atomic.h:127:27: warning: use of un=
+initialized value 'cgrp_flags' [CWE-457] [-Wanalyzer-use-of-uninitialized-v=
+alue]"
 :::::: =
 
 
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Antoniu Miclaus <antoniu.miclaus@analog.com>
-CC: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+TO: Alexander Lobakin <alexandr.lobakin@intel.com>
+CC: Yury Norov <yury.norov@gmail.com>
+CC: Marco Elver <elver@google.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   65eea2c060aee3bf6d27ea365360059fbd4eeff4
-commit: 63aaf6d06d87866dd6b58265711a979ed4968420 iio: frequency: adrf6780: =
-add support for ADRF6780
-date:   11 months ago
-:::::: branch date: 7 hours ago
-:::::: commit date: 11 months ago
-config: arm-randconfig-c002-20220901 (https://download.01.org/0day-ci/archi=
-ve/20220904/202209041140.6EuvF1p9-lkp(a)intel.com/config)
+commit: b03fc1173c0c2bb8fad61902a862985cecdc4b1b bitops: let optimize out n=
+on-atomic bitops on compile-time constants
+date:   9 weeks ago
+:::::: branch date: 6 hours ago
+:::::: commit date: 9 weeks ago
+config: arm-randconfig-c002-20220830 (https://download.01.org/0day-ci/archi=
+ve/20220904/202209041027.FQ4SkGyX-lkp(a)intel.com/config)
 compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D63aaf6d06d87866dd6b58265711a979ed4968420
+t/commit/?id=3Db03fc1173c0c2bb8fad61902a862985cecdc4b1b
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
 t/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout 63aaf6d06d87866dd6b58265711a979ed4968420
+        git checkout b03fc1173c0c2bb8fad61902a862985cecdc4b1b
         # save the config file
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cross=
  ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
@@ -57,162 +59,269 @@ If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 
 gcc_analyzer warnings: (new ones prefixed by >>)
-   drivers/iio/frequency/adrf6780.c: In function 'adrf6780_spi_write':
-   drivers/iio/frequency/adrf6780.c:136:12: warning: infinite recursion det=
-ected [-Winfinite-recursion]
-     136 | static int adrf6780_spi_write(struct adrf6780_state *st, unsigne=
-d int reg,
-         |            ^~~~~~~~~~~~~~~~~~
-   drivers/iio/frequency/adrf6780.c:142:15: note: recursive call
-     142 |         ret =3D adrf6780_spi_write(st, reg, val);
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iio/frequency/adrf6780.c: In function 'adrf6780_spi_read':
-   drivers/iio/frequency/adrf6780.c:115:12: warning: infinite recursion det=
-ected [-Winfinite-recursion]
-     115 | static int adrf6780_spi_read(struct adrf6780_state *st, unsigned=
- int reg,
-         |            ^~~~~~~~~~~~~~~~~
-   drivers/iio/frequency/adrf6780.c:121:15: note: recursive call
-     121 |         ret =3D adrf6780_spi_read(st, reg, val);
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iio/frequency/adrf6780.c: In function '__adrf6780_spi_update_bit=
-s':
->> drivers/iio/frequency/adrf6780.c:153:22: warning: use of uninitialized v=
-alue '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-     153 |         unsigned int data, temp;
-         |                      ^~~~
-     'adrf6780_reset': events 1-2
+   In file included from include/linux/bitops.h:34,
+                    from include/linux/log2.h:12,
+                    from include/asm-generic/div64.h:55,
+                    from arch/arm/include/asm/div64.h:107,
+                    from include/linux/math.h:6,
+                    from include/linux/math64.h:6,
+                    from include/linux/time64.h:5,
+                    from include/linux/restart_block.h:10,
+                    from include/linux/thread_info.h:14,
+                    from include/asm-generic/preempt.h:5,
+                    from ./arch/arm/include/generated/asm/preempt.h:1,
+                    from include/linux/preempt.h:78,
+                    from include/linux/rcupdate.h:27,
+                    from include/linux/rculist.h:11,
+                    from include/linux/pid.h:5,
+                    from include/linux/sched.h:14,
+                    from include/linux/cgroup.h:12,
+                    from kernel/cgroup/cgroup-internal.h:5,
+                    from kernel/cgroup/cgroup.c:31:
+   In function 'generic_test_bit',
+       inlined from 'cgroup_post_fork' at kernel/cgroup/cgroup.c:6345:7:
+>> include/asm-generic/bitops/generic-non-atomic.h:127:27: warning: use of =
+uninitialized value 'cgrp_flags' [CWE-457] [-Wanalyzer-use-of-uninitialized=
+-value]
+     127 |         return 1UL & (addr[BIT_WORD(nr)] >> (nr & (BITS_PER_LONG=
+-1)));
+         |                       ~~~~^~~~~~~~~~~~~~
+     'cgroup_post_fork': events 1-4
        |
-       |  347 | static int adrf6780_reset(struct adrf6780_state *st)
-       |      |            ^~~~~~~~~~~~~~
-       |      |            |
-       |      |            (1) entry to 'adrf6780_reset'
+       |kernel/cgroup/cgroup.c:6318:23:
+       | 6318 |         unsigned long cgrp_flags =3D 0;
+       |      |                       ^~~~~~~~~~
+       |      |                       |
+       |      |                       (1) region created on stack here
        |......
-       |  352 |         ret =3D __adrf6780_spi_update_bits(st, ADRF6780_REG=
-_CONTROL,
-       |      |               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~
-       |      |               |
-       |      |               (2) calling '__adrf6780_spi_update_bits' from=
- 'adrf6780_reset'
-       |  353 |                                          ADRF6780_SOFT_RESE=
-T_MSK,
-       |      |                                          ~~~~~~~~~~~~~~~~~~=
-~~~~~~
-       |  354 |                                          FIELD_PREP(ADRF678=
-0_SOFT_RESET_MSK, 1));
-       |      |                                          ~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~~~~~~~~
+       | 6330 |         if (likely(child->pid)) {
+       |      |            ~           =
+
+       |      |            |
+       |      |            (2) following 'false' branch...
+       |......
+       | 6340 |                 put_css_set(cset);
+       |      |                 ~~~~~~~~~~~~~~~~~
+       |      |                 |
+       |      |                 (3) ...to here
+       |......
+       | 6344 |         if (!(child->flags & PF_KTHREAD)) {
+       |      |            ~           =
+
+       |      |            |
+       |      |            (4) following 'true' branch...
        |
-       +--> '__adrf6780_spi_update_bits': events 3-4
-              |
-              |  148 | static int __adrf6780_spi_update_bits(struct adrf678=
-0_state *st,
-              |      |            ^~~~~~~~~~~~~~~~~~~~~~~~~~
-              |      |            |
-              |      |            (3) entry to '__adrf6780_spi_update_bits'
-              |......
-              |  153 |         unsigned int data, temp;
-              |      |                      ~~~~
-              |      |                      |
-              |      |                      (4) use of uninitialized value =
-'<unknown>' here
-              |
-   drivers/iio/frequency/adrf6780.c: In function 'adrf6780_init':
-   drivers/iio/frequency/adrf6780.c:374:22: warning: use of uninitialized v=
-alue '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-     374 |         unsigned int chip_id, enable_reg, enable_reg_msk;
-         |                      ^~~~~~~
-     'adrf6780_init': event 1
+     'cgroup_post_fork': event 5
        |
-       |  374 |         unsigned int chip_id, enable_reg, enable_reg_msk;
-       |      |                      ^~~~~~~
-       |      |                      |
-       |      |                      (1) use of uninitialized value '<unkno=
-wn>' here
+       |include/linux/bitops.h:52:11:
+       |   52 |           __builtin_constant_p(*(const unsigned long *)(add=
+r))) ?       \
+       |      |           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~
+       |      |           |
+       |      |           (5) ...to here
+   include/linux/compiler.h:78:45: note: in definition of macro 'unlikely'
+       |   78 | # define unlikely(x)    __builtin_expect(!!(x), 0)
+       |      |                                             ^
+   include/linux/bitops.h:61:41: note: in expansion of macro 'bitop'
+       |   61 | #define test_bit(nr, addr)              bitop(_test_bit, nr=
+, addr)
+       |      |                                         ^~~~~
+   kernel/cgroup/cgroup.c:6345:30: note: in expansion of macro 'test_bit'
+       | 6345 |                 if (unlikely(test_bit(CGRP_FREEZE, &cgrp_fl=
+ags))) {
+       |      |                              ^~~~~~~~
        |
+     'cgroup_post_fork': event 6
+       |
+       |include/linux/compiler.h:78:25:
+       |   78 | # define unlikely(x)    __builtin_expect(!!(x), 0)
+       |      |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |                         |
+       |      |                         (6) following 'false' branch...
+   kernel/cgroup/cgroup.c:6345:21: note: in expansion of macro 'unlikely'
+       | 6345 |                 if (unlikely(test_bit(CGRP_FREEZE, &cgrp_fl=
+ags))) {
+       |      |                     ^~~~~~~~
+       |
+     'cgroup_post_fork': events 7-8
+       |
+       |include/asm-generic/bitops/generic-non-atomic.h:127:27:
+       |  127 |         return 1UL & (addr[BIT_WORD(nr)] >> (nr & (BITS_PER=
+_LONG-1)));
+       |      |                       ~~~~^~~~~~~~~~~~~~
+       |      |                           |
+       |      |                           (7) ...to here
+       |      |                           (8) use of uninitialized value 'c=
+grp_flags' here
+       |
+   In function 'generic_test_bit',
+       inlined from 'cgroup_post_fork' at kernel/cgroup/cgroup.c:6369:10:
+>> include/asm-generic/bitops/generic-non-atomic.h:127:27: warning: use of =
+uninitialized value 'cgrp_flags' [CWE-457] [-Wanalyzer-use-of-uninitialized=
+-value]
+     127 |         return 1UL & (addr[BIT_WORD(nr)] >> (nr & (BITS_PER_LONG=
+-1)));
+         |                       ~~~~^~~~~~~~~~~~~~
+     'cgroup_post_fork': events 1-4
+       |
+       |kernel/cgroup/cgroup.c:6318:23:
+       | 6318 |         unsigned long cgrp_flags =3D 0;
+       |      |                       ^~~~~~~~~~
+       |      |                       |
+       |      |                       (1) region created on stack here
+       |......
+       | 6330 |         if (likely(child->pid)) {
+       |      |            ~           =
 
-vim +153 drivers/iio/frequency/adrf6780.c
+       |      |            |
+       |      |            (2) following 'false' branch...
+       |......
+       | 6340 |                 put_css_set(cset);
+       |      |                 ~~~~~~~~~~~~~~~~~
+       |      |                 |
+       |      |                 (3) ...to here
+       |......
+       | 6344 |         if (!(child->flags & PF_KTHREAD)) {
+       |      |            ~           =
 
-63aaf6d06d8786 Antoniu Miclaus 2021-10-21  114  =
+       |      |            |
+       |      |            (4) following 'true' branch...
+       |
+     'cgroup_post_fork': event 5
+       |
+       |include/linux/bitops.h:52:11:
+       |   52 |           __builtin_constant_p(*(const unsigned long *)(add=
+r))) ?       \
+       |      |           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~
+       |      |           |
+       |      |           (5) ...to here
+   include/linux/compiler.h:78:45: note: in definition of macro 'unlikely'
+       |   78 | # define unlikely(x)    __builtin_expect(!!(x), 0)
+       |      |                                             ^
+   include/linux/bitops.h:61:41: note: in expansion of macro 'bitop'
+       |   61 | #define test_bit(nr, addr)              bitop(_test_bit, nr=
+, addr)
+       |      |                                         ^~~~~
+   kernel/cgroup/cgroup.c:6345:30: note: in expansion of macro 'test_bit'
+       | 6345 |                 if (unlikely(test_bit(CGRP_FREEZE, &cgrp_fl=
+ags))) {
+       |      |                              ^~~~~~~~
+       |
+     'cgroup_post_fork': event 6
+       |
+       |include/linux/bitops.h:53:30:
+       |   49 |         ((__builtin_constant_p(nr) &&                      =
+             \
+       |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~
+       |   50 |           __builtin_constant_p((uintptr_t)(addr) !=3D (uint=
+ptr_t)NULL) && \
+       |      |           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~
+       |   51 |           (uintptr_t)(addr) !=3D (uintptr_t)NULL &&        =
+               \
+       |      |           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~
+       |   52 |           __builtin_constant_p(*(const unsigned long *)(add=
+r))) ?       \
+       |      |           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~
+       |   53 |          const##op(nr, addr) : op(nr, addr))
+       |      |          ~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~
+       |      |                              |
+       |      |                              (6) following 'false' branch...
+   include/linux/bitops.h:61:41: note: in expansion of macro 'bitop'
+       |   61 | #define test_bit(nr, addr)              bitop(_test_bit, nr=
+, addr)
+       |      |                                         ^~~~~
+   kernel/cgroup/cgroup.c:6369:24: note: in expansion of macro 'test_bit'
+       | 6369 |                 kill =3D test_bit(CGRP_KILL, &cgrp_flags);
+       |      |                        ^~~~~~~~
+       |
+     'cgroup_post_fork': events 7-8
+       |
+       |include/asm-generic/bitops/generic-non-atomic.h:127:27:
+       |  127 |         return 1UL & (addr[BIT_WORD(nr)] >> (nr & (BITS_PER=
+_LONG-1)));
+       |      |                       ~~~~^~~~~~~~~~~~~~
+       |      |                           |
+       |      |                           (7) ...to here
+       |      |                           (8) use of uninitialized value 'c=
+grp_flags' here
+       |
+   In file included from include/linux/irqflags.h:15,
+                    from arch/arm/include/asm/atomic.h:14,
+                    from include/linux/atomic.h:7,
+                    from include/linux/rcupdate.h:25:
+   kernel/cgroup/cgroup.c: In function 'cgroup_file_notify':
+   include/linux/typecheck.h:11:19: warning: use of uninitialized value '<u=
+nknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+      11 |         typeof(x) __dummy2; \
+         |                   ^~~~~~~~
+   include/linux/jiffies.h:111:10: note: in expansion of macro 'typecheck'
+     111 |         (typecheck(unsigned long, a) && \
+         |          ^~~~~~~~~
+   include/linux/jiffies.h:120:10: note: in expansion of macro 'time_after_=
+eq'
+     120 |         (time_after_eq(a,b) && \
+         |          ^~~~~~~~~~~~~
+   kernel/cgroup/cgroup.c:4284:21: note: in expansion of macro 'time_in_ran=
+ge'
+    4284 |                 if (time_in_range(jiffies, last, next)) {
+         |                     ^~~~~~~~~~~~~
+     'cgroup_post_fork': events 1-4
+       |
+       | 6314 | void cgroup_post_fork(struct task_struct *child,
+       |      |      ^~~~~~~~~~~~~~~~
+       |      |      |
+       |      |      (1) entry to 'cgroup_post_fork'
+       |......
+       | 6330 |         if (likely(child->pid)) {
+       |      |            ~
+       |      |            |
 
-63aaf6d06d8786 Antoniu Miclaus 2021-10-21 @115  static int adrf6780_spi_rea=
-d(struct adrf6780_state *st, unsigned int reg,
-63aaf6d06d8786 Antoniu Miclaus 2021-10-21  116  			     unsigned int *val)
-63aaf6d06d8786 Antoniu Miclaus 2021-10-21  117  {
-63aaf6d06d8786 Antoniu Miclaus 2021-10-21  118  	int ret;
-63aaf6d06d8786 Antoniu Miclaus 2021-10-21  119  =
+vim +/cgrp_flags +127 include/asm-generic/bitops/generic-non-atomic.h
 
-63aaf6d06d8786 Antoniu Miclaus 2021-10-21  120  	mutex_lock(&st->lock);
-63aaf6d06d8786 Antoniu Miclaus 2021-10-21  121  	ret =3D adrf6780_spi_read(=
-st, reg, val);
-63aaf6d06d8786 Antoniu Miclaus 2021-10-21  122  	mutex_unlock(&st->lock);
-63aaf6d06d8786 Antoniu Miclaus 2021-10-21  123  =
+21bb8af513d35c Alexander Lobakin 2022-06-24  113  =
 
-63aaf6d06d8786 Antoniu Miclaus 2021-10-21  124  	return ret;
-63aaf6d06d8786 Antoniu Miclaus 2021-10-21  125  }
-63aaf6d06d8786 Antoniu Miclaus 2021-10-21  126  =
+21bb8af513d35c Alexander Lobakin 2022-06-24  114  /**
+21bb8af513d35c Alexander Lobakin 2022-06-24  115   * generic_test_bit - Det=
+ermine whether a bit is set
+21bb8af513d35c Alexander Lobakin 2022-06-24  116   * @nr: bit number to test
+21bb8af513d35c Alexander Lobakin 2022-06-24  117   * @addr: Address to star=
+t counting from
+21bb8af513d35c Alexander Lobakin 2022-06-24  118   */
+0e862838f29014 Alexander Lobakin 2022-06-24  119  static __always_inline bo=
+ol
+0e862838f29014 Alexander Lobakin 2022-06-24  120  generic_test_bit(unsigned=
+ long nr, const volatile unsigned long *addr)
+21bb8af513d35c Alexander Lobakin 2022-06-24  121  {
+21bb8af513d35c Alexander Lobakin 2022-06-24  122  	/*
+21bb8af513d35c Alexander Lobakin 2022-06-24  123  	 * Unlike the bitops wit=
+h the '__' prefix above, this one *is* atomic,
+21bb8af513d35c Alexander Lobakin 2022-06-24  124  	 * so `volatile` must al=
+ways stay here with no cast-aways. See
+21bb8af513d35c Alexander Lobakin 2022-06-24  125  	 * `Documentation/atomic=
+_bitops.txt` for the details.
+21bb8af513d35c Alexander Lobakin 2022-06-24  126  	 */
+21bb8af513d35c Alexander Lobakin 2022-06-24 @127  	return 1UL & (addr[BIT_W=
+ORD(nr)] >> (nr & (BITS_PER_LONG-1)));
+21bb8af513d35c Alexander Lobakin 2022-06-24  128  }
+21bb8af513d35c Alexander Lobakin 2022-06-24  129  =
 
-63aaf6d06d8786 Antoniu Miclaus 2021-10-21  127  static int __adrf6780_spi_w=
-rite(struct adrf6780_state *st,
-63aaf6d06d8786 Antoniu Miclaus 2021-10-21  128  				unsigned int reg,
-63aaf6d06d8786 Antoniu Miclaus 2021-10-21  129  				unsigned int val)
-63aaf6d06d8786 Antoniu Miclaus 2021-10-21  130  {
-63aaf6d06d8786 Antoniu Miclaus 2021-10-21  131  	put_unaligned_be24((val <<=
- 1) | (reg << 17), &st->data[0]);
-63aaf6d06d8786 Antoniu Miclaus 2021-10-21  132  =
 
-63aaf6d06d8786 Antoniu Miclaus 2021-10-21  133  	return spi_write(st->spi, =
-&st->data[0], 3);
-63aaf6d06d8786 Antoniu Miclaus 2021-10-21  134  }
-63aaf6d06d8786 Antoniu Miclaus 2021-10-21  135  =
+:::::: The code at line 127 was first introduced by commit
+:::::: 21bb8af513d35c005c401706030f4eb469538d1d bitops: always define asm-g=
+eneric non-atomic bitops
 
-63aaf6d06d8786 Antoniu Miclaus 2021-10-21  136  static int adrf6780_spi_wri=
-te(struct adrf6780_state *st, unsigned int reg,
-63aaf6d06d8786 Antoniu Miclaus 2021-10-21  137  			      unsigned int val)
-63aaf6d06d8786 Antoniu Miclaus 2021-10-21  138  {
-63aaf6d06d8786 Antoniu Miclaus 2021-10-21  139  	int ret;
-63aaf6d06d8786 Antoniu Miclaus 2021-10-21  140  =
-
-63aaf6d06d8786 Antoniu Miclaus 2021-10-21  141  	mutex_lock(&st->lock);
-63aaf6d06d8786 Antoniu Miclaus 2021-10-21  142  	ret =3D adrf6780_spi_write=
-(st, reg, val);
-63aaf6d06d8786 Antoniu Miclaus 2021-10-21  143  	mutex_unlock(&st->lock);
-63aaf6d06d8786 Antoniu Miclaus 2021-10-21  144  =
-
-63aaf6d06d8786 Antoniu Miclaus 2021-10-21  145  	return ret;
-63aaf6d06d8786 Antoniu Miclaus 2021-10-21  146  }
-63aaf6d06d8786 Antoniu Miclaus 2021-10-21  147  =
-
-63aaf6d06d8786 Antoniu Miclaus 2021-10-21  148  static int __adrf6780_spi_u=
-pdate_bits(struct adrf6780_state *st,
-63aaf6d06d8786 Antoniu Miclaus 2021-10-21  149  				      unsigned int reg,=
- unsigned int mask,
-63aaf6d06d8786 Antoniu Miclaus 2021-10-21  150  				      unsigned int val)
-63aaf6d06d8786 Antoniu Miclaus 2021-10-21  151  {
-63aaf6d06d8786 Antoniu Miclaus 2021-10-21  152  	int ret;
-63aaf6d06d8786 Antoniu Miclaus 2021-10-21 @153  	unsigned int data, temp;
-63aaf6d06d8786 Antoniu Miclaus 2021-10-21  154  =
-
-63aaf6d06d8786 Antoniu Miclaus 2021-10-21  155  	ret =3D __adrf6780_spi_rea=
-d(st, reg, &data);
-63aaf6d06d8786 Antoniu Miclaus 2021-10-21  156  	if (ret)
-63aaf6d06d8786 Antoniu Miclaus 2021-10-21  157  		return ret;
-63aaf6d06d8786 Antoniu Miclaus 2021-10-21  158  =
-
-63aaf6d06d8786 Antoniu Miclaus 2021-10-21  159  	temp =3D (data & ~mask) | =
-(val & mask);
-63aaf6d06d8786 Antoniu Miclaus 2021-10-21  160  =
-
-63aaf6d06d8786 Antoniu Miclaus 2021-10-21  161  	return __adrf6780_spi_writ=
-e(st, reg, temp);
-63aaf6d06d8786 Antoniu Miclaus 2021-10-21  162  }
-63aaf6d06d8786 Antoniu Miclaus 2021-10-21  163  =
-
+:::::: TO: Alexander Lobakin <alexandr.lobakin@intel.com>
+:::::: CC: Yury Norov <yury.norov@gmail.com>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============8523219059312742692==--
+--===============0791164311419891627==--
 
