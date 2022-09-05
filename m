@@ -1,333 +1,249 @@
-Content-Type: multipart/mixed; boundary="===============0621528005305593571=="
+Content-Type: multipart/mixed; boundary="===============8420935305339259329=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [hch-misc:btrfs-bio-split 5/17] fs/btrfs/disk-io.c:648:2: warning: Undefined or garbage value returned to caller [clang-analyzer-core.uninitialized.UndefReturn]
-Date: Sat, 03 Sep 2022 15:25:36 +0800
-Message-ID: <202209031511.OHEgJ9Ak-lkp@intel.com>
+Subject: drivers/gpu/drm/ingenic/ingenic-drm-drv.c:697:11: warning: Signed integer overflow for expression '0xff<<24'. [integerOverflow]
+Date: Tue, 06 Sep 2022 01:33:12 +0800
+Message-ID: <202209060103.YPvoskqc-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0621528005305593571==
+--===============8420935305339259329==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 :::::: =
 
-:::::: Manual check reason: "low confidence static check warning: fs/btrfs/=
-disk-io.c:648:2: warning: Undefined or garbage value returned to caller [cl=
-ang-analyzer-core.uninitialized.UndefReturn]"
+:::::: Manual check reason: "low confidence static check warning: drivers/g=
+pu/drm/ingenic/ingenic-drm-drv.c:697:11: warning: Signed integer overflow f=
+or expression '0xff<<24'. [integerOverflow]"
 :::::: =
 
 
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
-TO: Christoph Hellwig <hch@lst.de>
+CC: linux-kernel(a)vger.kernel.org
+TO: Paul Boddie <paul@boddie.org.uk>
+CC: Paul Cercueil <paul@crapouillou.net>
+CC: Ezequiel Garcia <ezequiel@collabora.com>
+CC: "H. Nikolaus Schaller" <hns@goldelico.com>
 
-tree:   git://git.infradead.org/users/hch/misc.git btrfs-bio-split
-head:   557db0fac4ee6917f81d59f65bb1cd1fd4059d06
-commit: 444caad1964c7ec3745a152e10afb1ea1e36c6b5 [5/17] btrfs: handle check=
-sum generation in the storage layer
-:::::: branch date: 2 days ago
-:::::: commit date: 3 days ago
-config: s390-randconfig-c005-20220901 (https://download.01.org/0day-ci/arch=
-ive/20220903/202209031511.OHEgJ9Ak-lkp(a)intel.com/config)
-compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project c55b41=
-d5199d2394dd6cdb8f52180d8b81d809d4)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install s390 cross compiling tool for clang build
-        # apt-get install binutils-s390x-linux-gnu
-        git remote add hch-misc git://git.infradead.org/users/hch/misc.git
-        git fetch --no-tags hch-misc btrfs-bio-split
-        git checkout 444caad1964c7ec3745a152e10afb1ea1e36c6b5
-        # save the config file
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Ds390 clang-analyzer =
-
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   7e18e42e4b280c85b76967a9106a13ca61c16179
+commit: b807fd2c43fe008eb6f4083e196ea38dadad9680 drm/ingenic: Add support f=
+or JZ4780 and HDMI output
+date:   9 months ago
+:::::: branch date: 21 hours ago
+:::::: commit date: 9 months ago
+compiler: riscv32-linux-gcc (GCC) 12.1.0
+reproduce (cppcheck warning):
+        # apt-get install cppcheck
+        git checkout b807fd2c43fe008eb6f4083e196ea38dadad9680
+        cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
+e=3Dgcc FILE
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 
-clang_analyzer warnings: (new ones prefixed by >>)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/target/target_core_transport.c:1492:2: note: Taking false branch
-           if (scsi_command_size(cdb) > sizeof(cmd->__t_task_cdb)) {
-           ^
-   drivers/target/target_core_transport.c:1508:2: note: Calling 'trace_targ=
-et_sequencer_start'
-           trace_target_sequencer_start(cmd);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/trace/events/target.h:132:1: note: Taking true branch
-   TRACE_EVENT(target_sequencer_start,
-   ^
-   include/linux/tracepoint.h:553:2: note: expanded from macro 'TRACE_EVENT'
-           DECLARE_TRACE(name, PARAMS(proto), PARAMS(args))
-           ^
-   include/linux/tracepoint.h:419:2: note: expanded from macro 'DECLARE_TRA=
-CE'
-           __DECLARE_TRACE(name, PARAMS(proto), PARAMS(args),              \
-           ^
-   include/linux/tracepoint.h:247:3: note: expanded from macro '__DECLARE_T=
-RACE'
-                   if (static_key_false(&__tracepoint_##name.key))         \
-                   ^
-   include/trace/events/target.h:132:1: note: Dereference of null pointer
-   TRACE_EVENT(target_sequencer_start,
-   ^
-   include/linux/tracepoint.h:553:2: note: expanded from macro 'TRACE_EVENT'
-           DECLARE_TRACE(name, PARAMS(proto), PARAMS(args))
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/tracepoint.h:420:15: note: expanded from macro 'DECLARE_TR=
-ACE'
-                           cpu_online(raw_smp_processor_id()),             \
-   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/s390/include/asm/smp.h:14:32: note: expanded from macro 'raw_smp_pr=
-ocessor_id'
-   #define raw_smp_processor_id()  (S390_lowcore.cpu_nr)
-                                   ^
-   include/linux/tracepoint.h:250:18: note: expanded from macro '__DECLARE_=
-TRACE'
-                                   TP_CONDITION(cond), 0);                 \
-   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~
-   include/linux/tracepoint.h:149:31: note: expanded from macro 'TP_CONDITI=
-ON'
-   #define TP_CONDITION(args...)   args
-                                   ^
-   include/linux/tracepoint.h:188:9: note: expanded from macro '__DO_TRACE'
-                   if (!(cond))                                            \
-                         ^~~~
-   include/trace/events/target.h:169:1: warning: Dereference of null pointe=
-r [clang-analyzer-core.NullDereference]
-   TRACE_EVENT(target_cmd_complete,
-   ^
-   include/linux/tracepoint.h:553:2: note: expanded from macro 'TRACE_EVENT'
-           DECLARE_TRACE(name, PARAMS(proto), PARAMS(args))
-           ^
-   include/linux/tracepoint.h:420:15: note: expanded from macro 'DECLARE_TR=
-ACE'
-                           cpu_online(raw_smp_processor_id()),             \
-                                      ^
-   arch/s390/include/asm/smp.h:14:32: note: expanded from macro 'raw_smp_pr=
-ocessor_id'
-   #define raw_smp_processor_id()  (S390_lowcore.cpu_nr)
-                                   ^
-   drivers/target/target_core_transport.c:3502:2: note: Assuming the condit=
-ion is false
-           WARN_ON_ONCE(cmd->se_cmd_flags & SCF_SCSI_TMR_CDB);
-           ^
-   include/asm-generic/bug.h:180:33: note: expanded from macro 'WARN_ON_ONC=
-E'
-   #define WARN_ON_ONCE(condition) WARN_ON(condition)
-                                   ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/bug.h:167:23: note: expanded from macro 'WARN_ON'
-           int __ret_warn_on =3D !!(condition);                            =
-  \
-                                ^~~~~~~~~~~~
-   drivers/target/target_core_transport.c:3505:2: note: Calling 'trace_targ=
-et_cmd_complete'
-           trace_target_cmd_complete(cmd);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/trace/events/target.h:169:1: note: Taking true branch
-   TRACE_EVENT(target_cmd_complete,
-   ^
-   include/linux/tracepoint.h:553:2: note: expanded from macro 'TRACE_EVENT'
-           DECLARE_TRACE(name, PARAMS(proto), PARAMS(args))
-           ^
-   include/linux/tracepoint.h:419:2: note: expanded from macro 'DECLARE_TRA=
-CE'
-           __DECLARE_TRACE(name, PARAMS(proto), PARAMS(args),              \
-           ^
-   include/linux/tracepoint.h:247:3: note: expanded from macro '__DECLARE_T=
-RACE'
-                   if (static_key_false(&__tracepoint_##name.key))         \
-                   ^
-   include/trace/events/target.h:169:1: note: Dereference of null pointer
-   TRACE_EVENT(target_cmd_complete,
-   ^
-   include/linux/tracepoint.h:553:2: note: expanded from macro 'TRACE_EVENT'
-           DECLARE_TRACE(name, PARAMS(proto), PARAMS(args))
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/tracepoint.h:420:15: note: expanded from macro 'DECLARE_TR=
-ACE'
-                           cpu_online(raw_smp_processor_id()),             \
-   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/s390/include/asm/smp.h:14:32: note: expanded from macro 'raw_smp_pr=
-ocessor_id'
-   #define raw_smp_processor_id()  (S390_lowcore.cpu_nr)
-                                   ^
-   include/linux/tracepoint.h:250:18: note: expanded from macro '__DECLARE_=
-TRACE'
-                                   TP_CONDITION(cond), 0);                 \
-   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~
-   include/linux/tracepoint.h:149:31: note: expanded from macro 'TP_CONDITI=
-ON'
-   #define TP_CONDITION(args...)   args
-                                   ^
-   include/linux/tracepoint.h:188:9: note: expanded from macro '__DO_TRACE'
-                   if (!(cond))                                            \
-                         ^~~~
-   Suppressed 28 warnings (16 in non-user code, 12 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   14 warnings generated.
->> fs/btrfs/disk-io.c:648:2: warning: Undefined or garbage value returned t=
-o caller [clang-analyzer-core.uninitialized.UndefReturn]
-           return ret;
-           ^      ~~~
-   fs/btrfs/disk-io.c:640:2: note: 'ret' declared without an initial value
-           int ret;
-           ^~~~~~~
-   fs/btrfs/disk-io.c:642:2: note: Assuming field 'bi_size' is 0
-           bio_for_each_segment(bvec, &bbio->bio, iter) {
-           ^
-   include/linux/bio.h:152:2: note: expanded from macro 'bio_for_each_segme=
-nt'
-           __bio_for_each_segment(bvl, bio, iter, (bio)->bi_iter)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/bio.h:147:7: note: expanded from macro '__bio_for_each_seg=
-ment'
-                (iter).bi_size &&                                          \
-                ^~~~~~~~~~~~~~
-   fs/btrfs/disk-io.c:642:2: note: Left side of '&&' is false
-           bio_for_each_segment(bvec, &bbio->bio, iter) {
-           ^
-   include/linux/bio.h:152:2: note: expanded from macro 'bio_for_each_segme=
-nt'
-           __bio_for_each_segment(bvl, bio, iter, (bio)->bi_iter)
-           ^
-   include/linux/bio.h:147:22: note: expanded from macro '__bio_for_each_se=
-gment'
-                (iter).bi_size &&                                          \
-                               ^
-   fs/btrfs/disk-io.c:648:2: note: Undefined or garbage value returned to c=
-aller
-           return ret;
-           ^      ~~~
-   fs/btrfs/disk-io.c:1725:4: warning: Dereference of null pointer [clang-a=
-nalyzer-core.NullDereference]
-                           set_current_state(TASK_INTERRUPTIBLE);
-                           ^
-   include/linux/sched.h:209:3: note: expanded from macro 'set_current_stat=
-e'
-                   debug_normal_state_change((state_value));               \
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/sched.h:137:3: note: expanded from macro 'debug_normal_sta=
-te_change'
-                   current->task_state_change =3D _THIS_IP_;               =
-  \
-                   ^~~~~~~
-   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'curren=
-t'
-   #define current ((struct task_struct *const)S390_lowcore.current_task)
-                                               ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/s390/include/asm/lowcore.h:213:22: note: expanded from macro 'S390_=
-lowcore'
-   #define S390_lowcore (*((struct lowcore *) 0))
-                        ^
-   fs/btrfs/disk-io.c:1663:2: note: Loop condition is true.  Entering loop =
-body
-           while (1) {
-           ^
-   fs/btrfs/disk-io.c:1669:3: note: Taking true branch
-                   if (btrfs_need_cleaner_sleep(fs_info))
-                   ^
-   fs/btrfs/disk-io.c:1670:4: note: Control jumps to line 1719
-                           goto sleep;
-                           ^
-   fs/btrfs/disk-io.c:1720:7: note: Assuming the condition is false
-                   if (kthread_should_park())
-                       ^~~~~~~~~~~~~~~~~~~~~
-   fs/btrfs/disk-io.c:1720:3: note: Taking false branch
-                   if (kthread_should_park())
-                   ^
-   fs/btrfs/disk-io.c:1722:7: note: Assuming the condition is false
-                   if (kthread_should_stop())
-                       ^~~~~~~~~~~~~~~~~~~~~
-   fs/btrfs/disk-io.c:1722:3: note: Taking false branch
-                   if (kthread_should_stop())
-                   ^
-   fs/btrfs/disk-io.c:1724:8: note: 'again' is 0
-                   if (!again) {
-                        ^~~~~
-   fs/btrfs/disk-io.c:1724:3: note: Taking true branch
-                   if (!again) {
-                   ^
-   fs/btrfs/disk-io.c:1725:4: note: Dereference of null pointer
-                           set_current_state(TASK_INTERRUPTIBLE);
-                           ^
-   include/linux/sched.h:209:3: note: expanded from macro 'set_current_stat=
-e'
-                   debug_normal_state_change((state_value));               \
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/sched.h:137:3: note: expanded from macro 'debug_normal_sta=
-te_change'
-                   current->task_state_change =3D _THIS_IP_;               =
-  \
-                   ^~~~~~~
-   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'curren=
-t'
-   #define current ((struct task_struct *const)S390_lowcore.current_task)
-                                               ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/s390/include/asm/lowcore.h:213:22: note: expanded from macro 'S390_=
-lowcore'
-   #define S390_lowcore (*((struct lowcore *) 0))
-                        ^
-   fs/btrfs/disk-io.c:4568:6: warning: Dereference of null pointer [clang-a=
-nalyzer-core.NullDereference]
-           if (current->flags & PF_MEMALLOC)
-               ^
-   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'curren=
-t'
-   #define current ((struct task_struct *const)S390_lowcore.current_task)
-                                               ^
-   arch/s390/include/asm/lowcore.h:213:22: note: expanded from macro 'S390_=
-lowcore'
-   #define S390_lowcore (*((struct lowcore *) 0))
-                        ^
-   fs/btrfs/disk-io.c:4589:2: note: Calling '__btrfs_btree_balance_dirty'
-           __btrfs_btree_balance_dirty(fs_info, 0);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/btrfs/disk-io.c:4568:6: note: Dereference of null pointer
-           if (current->flags & PF_MEMALLOC)
-               ^
-   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'curren=
-t'
-   #define current ((struct task_struct *const)S390_lowcore.current_task)
 
-vim +648 fs/btrfs/disk-io.c
+cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
-ce9adaa5a792c2 Chris Mason       2008-04-09  634  =
+   drivers/gpu/drm/ingenic/ingenic-drm-drv.c:523:70: warning: Parameter 'pl=
+ane' can be declared with const [constParameter]
+   void ingenic_drm_plane_disable(struct device *dev, struct drm_plane *pla=
+ne)
+                                                                        ^
+   drivers/gpu/drm/ingenic/ingenic-drm-drv.c:509:28: warning: Parameter 'pl=
+ane' can be declared with const [constParameter]
+            struct drm_plane *plane)
+                              ^
+   drivers/gpu/drm/ingenic/ingenic-drm-drv.c:1368:49: warning: Parameter 'd=
+ata' can be declared with const [constParameter]
+   static int compare_of(struct device *dev, void *data)
+                                                   ^
+>> drivers/gpu/drm/ingenic/ingenic-drm-drv.c:697:11: warning: Signed intege=
+r overflow for expression '0xff<<24'. [integerOverflow]
+       (0xff << JZ_LCD_DESSIZE_ALPHA_OFFSET) |
+             ^
 
-444caad1964c7e Christoph Hellwig 2022-08-24  635  int btree_csum_one_bio(st=
-ruct btrfs_bio *bbio)
-44b8bd7edda4f6 Chris Mason       2008-04-16  636  {
-444caad1964c7e Christoph Hellwig 2022-08-24  637  	struct btrfs_fs_info *fs=
-_info =3D btrfs_sb(bbio->inode->i_sb);
-444caad1964c7e Christoph Hellwig 2022-08-24  638  	struct bvec_iter iter;
-444caad1964c7e Christoph Hellwig 2022-08-24  639  	struct bio_vec bvec;
-444caad1964c7e Christoph Hellwig 2022-08-24  640  	int ret;
-ce3ed71a580945 Chris Mason       2008-09-23  641  =
+vim +697 drivers/gpu/drm/ingenic/ingenic-drm-drv.c
 
-444caad1964c7e Christoph Hellwig 2022-08-24  642  	bio_for_each_segment(bve=
-c, &bbio->bio, iter) {
-444caad1964c7e Christoph Hellwig 2022-08-24  643  		ret =3D csum_dirty_buff=
-er(fs_info, &bvec);
-79787eaab46121 Jeff Mahoney      2012-03-12  644  		if (ret)
-79787eaab46121 Jeff Mahoney      2012-03-12  645  			break;
-ce3ed71a580945 Chris Mason       2008-09-23  646  	}
-2c30c71bd653af Kent Overstreet   2013-11-07  647  =
+686d4b4b99afe7 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 2020=
+-09-27  641  =
 
-444caad1964c7e Christoph Hellwig 2022-08-24 @648  	return ret;
-de0022b9da616b Josef Bacik       2012-09-25  649  }
-de0022b9da616b Josef Bacik       2012-09-25  650  =
+90b86fcc47b4d1 drivers/gpu/drm/ingenic/ingenic-drm.c     Paul Cercueil 2019=
+-06-03  642  static void ingenic_drm_plane_atomic_update(struct drm_plane *=
+plane,
+977697e20b3d75 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Maxime Ripard 2021=
+-02-19  643  					    struct drm_atomic_state *state)
+90b86fcc47b4d1 drivers/gpu/drm/ingenic/ingenic-drm.c     Paul Cercueil 2019=
+-06-03  644  {
+3c9bea4ef32bdc drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 2020=
+-07-16  645  	struct ingenic_drm *priv =3D drm_device_get_priv(plane->dev);
+4a791cb6d34f42 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 2021=
+-05-23  646  	struct drm_plane_state *newstate =3D drm_atomic_get_new_plane=
+_state(state, plane);
+4a791cb6d34f42 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 2021=
+-05-23  647  	struct drm_plane_state *oldstate =3D drm_atomic_get_old_plane=
+_state(state, plane);
+1bdb542da736e2 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 2021=
+-10-26  648  	unsigned int width, height, cpp, next_id, plane_id;
+6055466203df46 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 2021=
+-10-26  649  	struct ingenic_drm_private_state *priv_state;
+686d4b4b99afe7 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 2020=
+-09-27  650  	struct drm_crtc_state *crtc_state;
+3c9bea4ef32bdc drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 2020=
+-07-16  651  	struct ingenic_dma_hwdesc *hwdesc;
+354b051c5dcbeb drivers/gpu/drm/ingenic/ingenic-drm.c     Paul Cercueil 2019=
+-12-10  652  	dma_addr_t addr;
+686d4b4b99afe7 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 2020=
+-09-27  653  	u32 fourcc;
+90b86fcc47b4d1 drivers/gpu/drm/ingenic/ingenic-drm.c     Paul Cercueil 2019=
+-06-03  654  =
+
+41016fe1028e4b drivers/gpu/drm/ingenic/ingenic-drm-drv.c Maxime Ripard 2021=
+-02-19  655  	if (newstate && newstate->fb) {
+4a791cb6d34f42 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 2021=
+-05-23  656  		if (priv->soc_info->map_noncoherent)
+4a791cb6d34f42 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 2021=
+-05-23  657  			drm_fb_cma_sync_non_coherent(&priv->drm, oldstate, newstate=
+);
+4a791cb6d34f42 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 2021=
+-05-23  658  =
+
+41016fe1028e4b drivers/gpu/drm/ingenic/ingenic-drm-drv.c Maxime Ripard 2021=
+-02-19  659  		crtc_state =3D newstate->crtc->state;
+1bdb542da736e2 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 2021=
+-10-26  660  		plane_id =3D !!(priv->soc_info->has_osd && plane !=3D &priv-=
+>f0);
+686d4b4b99afe7 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 2020=
+-09-27  661  =
+
+41016fe1028e4b drivers/gpu/drm/ingenic/ingenic-drm-drv.c Maxime Ripard 2021=
+-02-19  662  		addr =3D drm_fb_cma_get_gem_addr(newstate->fb, newstate, 0);
+41016fe1028e4b drivers/gpu/drm/ingenic/ingenic-drm-drv.c Maxime Ripard 2021=
+-02-19  663  		width =3D newstate->src_w >> 16;
+41016fe1028e4b drivers/gpu/drm/ingenic/ingenic-drm-drv.c Maxime Ripard 2021=
+-02-19  664  		height =3D newstate->src_h >> 16;
+41016fe1028e4b drivers/gpu/drm/ingenic/ingenic-drm-drv.c Maxime Ripard 2021=
+-02-19  665  		cpp =3D newstate->fb->format->cpp[0];
+90b86fcc47b4d1 drivers/gpu/drm/ingenic/ingenic-drm.c     Paul Cercueil 2019=
+-06-03  666  =
+
+6055466203df46 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 2021=
+-10-26  667  		priv_state =3D ingenic_drm_get_new_priv_state(priv, state);
+6055466203df46 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 2021=
+-10-26  668  		next_id =3D (priv_state && priv_state->use_palette) ? HWDESC=
+_PALETTE : plane_id;
+3c9bea4ef32bdc drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 2020=
+-07-16  669  =
+
+6055466203df46 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 2021=
+-10-26  670  		hwdesc =3D &priv->dma_hwdescs->hwdesc[plane_id];
+3c9bea4ef32bdc drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 2020=
+-07-16  671  		hwdesc->addr =3D addr;
+3c9bea4ef32bdc drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 2020=
+-07-16  672  		hwdesc->cmd =3D JZ_LCD_CMD_EOF_IRQ | (width * height * cpp /=
+ 4);
+6055466203df46 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 2021=
+-10-26  673  		hwdesc->next =3D dma_hwdesc_addr(priv, next_id);
+3c9bea4ef32bdc drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 2020=
+-07-16  674  =
+
+b807fd2c43fe00 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Boddie   2021=
+-12-02  675  		if (priv->soc_info->use_extended_hwdesc) {
+b807fd2c43fe00 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Boddie   2021=
+-12-02  676  			hwdesc->cmd |=3D JZ_LCD_CMD_FRM_ENABLE;
+b807fd2c43fe00 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Boddie   2021=
+-12-02  677  =
+
+b807fd2c43fe00 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Boddie   2021=
+-12-02  678  			/* Extended 8-byte descriptor */
+b807fd2c43fe00 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Boddie   2021=
+-12-02  679  			hwdesc->cpos =3D 0;
+b807fd2c43fe00 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Boddie   2021=
+-12-02  680  			hwdesc->offsize =3D 0;
+b807fd2c43fe00 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Boddie   2021=
+-12-02  681  			hwdesc->pagewidth =3D 0;
+b807fd2c43fe00 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Boddie   2021=
+-12-02  682  =
+
+b807fd2c43fe00 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Boddie   2021=
+-12-02  683  			switch (newstate->fb->format->format) {
+b807fd2c43fe00 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Boddie   2021=
+-12-02  684  			case DRM_FORMAT_XRGB1555:
+b807fd2c43fe00 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Boddie   2021=
+-12-02  685  				hwdesc->cpos |=3D JZ_LCD_CPOS_RGB555;
+b807fd2c43fe00 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Boddie   2021=
+-12-02  686  				fallthrough;
+b807fd2c43fe00 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Boddie   2021=
+-12-02  687  			case DRM_FORMAT_RGB565:
+b807fd2c43fe00 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Boddie   2021=
+-12-02  688  				hwdesc->cpos |=3D JZ_LCD_CPOS_BPP_15_16;
+b807fd2c43fe00 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Boddie   2021=
+-12-02  689  				break;
+b807fd2c43fe00 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Boddie   2021=
+-12-02  690  			case DRM_FORMAT_XRGB8888:
+b807fd2c43fe00 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Boddie   2021=
+-12-02  691  				hwdesc->cpos |=3D JZ_LCD_CPOS_BPP_18_24;
+b807fd2c43fe00 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Boddie   2021=
+-12-02  692  				break;
+b807fd2c43fe00 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Boddie   2021=
+-12-02  693  			}
+b807fd2c43fe00 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Boddie   2021=
+-12-02  694  			hwdesc->cpos |=3D (JZ_LCD_CPOS_COEFFICIENT_1 <<
+b807fd2c43fe00 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Boddie   2021=
+-12-02  695  					 JZ_LCD_CPOS_COEFFICIENT_OFFSET);
+b807fd2c43fe00 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Boddie   2021=
+-12-02  696  			hwdesc->dessize =3D
+b807fd2c43fe00 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Boddie   2021=
+-12-02 @697  				(0xff << JZ_LCD_DESSIZE_ALPHA_OFFSET) |
+b807fd2c43fe00 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Boddie   2021=
+-12-02  698  				FIELD_PREP(JZ_LCD_DESSIZE_HEIGHT_MASK, height - 1) |
+b807fd2c43fe00 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Boddie   2021=
+-12-02  699  				FIELD_PREP(JZ_LCD_DESSIZE_WIDTH_MASK, width - 1);
+b807fd2c43fe00 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Boddie   2021=
+-12-02  700  		}
+b807fd2c43fe00 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Boddie   2021=
+-12-02  701  =
+
+686d4b4b99afe7 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 2020=
+-09-27  702  		if (drm_atomic_crtc_needs_modeset(crtc_state)) {
+41016fe1028e4b drivers/gpu/drm/ingenic/ingenic-drm-drv.c Maxime Ripard 2021=
+-02-19  703  			fourcc =3D newstate->fb->format->format;
+686d4b4b99afe7 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 2020=
+-09-27  704  =
+
+686d4b4b99afe7 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 2020=
+-09-27  705  			ingenic_drm_plane_config(priv->dev, plane, fourcc);
+686d4b4b99afe7 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 2020=
+-09-27  706  =
+
+686d4b4b99afe7 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 2020=
+-09-27  707  			crtc_state->color_mgmt_changed =3D fourcc =3D=3D DRM_FORMAT=
+_C8;
+686d4b4b99afe7 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 2020=
+-09-27  708  		}
+686d4b4b99afe7 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 2020=
+-09-27  709  =
+
+686d4b4b99afe7 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 2020=
+-09-27  710  		if (crtc_state->color_mgmt_changed)
+686d4b4b99afe7 drivers/gpu/drm/ingenic/ingenic-drm-drv.c Paul Cercueil 2020=
+-09-27  711  			ingenic_drm_update_palette(priv, crtc_state->gamma_lut->dat=
+a);
+90b86fcc47b4d1 drivers/gpu/drm/ingenic/ingenic-drm.c     Paul Cercueil 2019=
+-06-03  712  	}
+354b051c5dcbeb drivers/gpu/drm/ingenic/ingenic-drm.c     Paul Cercueil 2019=
+-12-10  713  }
+90b86fcc47b4d1 drivers/gpu/drm/ingenic/ingenic-drm.c     Paul Cercueil 2019=
+-06-03  714  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============0621528005305593571==--
+--===============8420935305339259329==--
 
