@@ -1,229 +1,147 @@
-Content-Type: multipart/mixed; boundary="===============0947960332351336176=="
+Content-Type: multipart/mixed; boundary="===============4025378705440040546=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/hid/intel-ish-hid/ishtp-fw-loader.c:714 ish_fw_xfer_direct_dma() error: uninitialized symbol 'rv'.
-Date: Fri, 02 Sep 2022 02:38:36 +0800
-Message-ID: <202209020212.qpvdpPvp-lkp@intel.com>
+Subject: [linux-next:master 4630/4736] arch/ia64/kernel/sys_ia64.c:188:25: sparse: sparse: typename in expression
+Date: Tue, 06 Sep 2022 05:03:23 +0800
+Message-ID: <202209060537.4pAkboIA-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0947960332351336176==
+--===============4025378705440040546==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+:::::: =
+
+:::::: Manual check reason: "low confidence static check warning: arch/ia64=
+/kernel/sys_ia64.c:188:25: sparse: sparse: typename in expression"
+:::::: =
+
+
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
-CC: linux-kernel(a)vger.kernel.org
-TO: Gwendal Grignou <gwendal@chromium.org>
-CC: Jiri Kosina <jkosina@suse.cz>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Sergei Trofimovich <slyich@gmail.com>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   2880e1a175b9f31798f9d9482ee49187f61b5539
-commit: f97ec5d75e9261a5da78dc28a8955b7cc0c4468b HID: intel-ish-hid: Use dm=
-a_alloc_coherent for firmware update
-date:   6 months ago
-:::::: branch date: 2 hours ago
-:::::: commit date: 6 months ago
-config: x86_64-randconfig-m031-20220829 (https://download.01.org/0day-ci/ar=
-chive/20220902/202209020212.qpvdpPvp-lkp(a)intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-5) 11.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
+ master
+head:   e47eb90a0a9ae20b82635b9b99a8d0979b757ad8
+commit: 8b3fbb74a31e9abe49854c0e7815bc2337076cb4 [4630/4736] ia64: fix cloc=
+k_getres(CLOCK_MONOTONIC) to report ITC frequency
+:::::: branch date: 5 days ago
+:::::: commit date: 5 days ago
+config: ia64-randconfig-s043-20220905 (https://download.01.org/0day-ci/arch=
+ive/20220906/202209060537.4pAkboIA-lkp(a)intel.com/config)
+compiler: ia64-linux-gcc (GCC) 12.1.0
+reproduce:
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
+it/commit/?id=3D8b3fbb74a31e9abe49854c0e7815bc2337076cb4
+        git remote add linux-next https://git.kernel.org/pub/scm/linux/kern=
+el/git/next/linux-next.git
+        git fetch --no-tags linux-next master
+        git checkout 8b3fbb74a31e9abe49854c0e7815bc2337076cb4
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cross=
+ C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3Dbuild_dir ARCH=3Di=
+a64 SHELL=3D/bin/bash arch/ia64/kernel/
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-drivers/hid/intel-ish-hid/ishtp-fw-loader.c:714 ish_fw_xfer_direct_dma() er=
-ror: uninitialized symbol 'rv'.
+sparse warnings: (new ones prefixed by >>)
+>> arch/ia64/kernel/sys_ia64.c:188:25: sparse: sparse: typename in expressi=
+on
+   arch/ia64/kernel/sys_ia64.c:188:29: sparse: sparse: Expected ; at end of=
+ statement
+   arch/ia64/kernel/sys_ia64.c:188:29: sparse: sparse: got tick_ns
+   arch/ia64/kernel/sys_ia64.c:188:39: sparse: sparse: Expected ; at the en=
+d of type declaration
+   arch/ia64/kernel/sys_ia64.c:188:39: sparse: sparse: got )
+>> arch/ia64/kernel/sys_ia64.c:188:39: sparse: sparse: Trying to use reserv=
+ed word 'void' as identifier
+   arch/ia64/kernel/sys_ia64.c:188:39: sparse: sparse: Expected ; at end of=
+ declaration
+   arch/ia64/kernel/sys_ia64.c:188:39: sparse: sparse: got __vpp_verify
+   arch/ia64/kernel/sys_ia64.c:188:39: sparse: sparse: Expected ; at the en=
+d of type declaration
+   arch/ia64/kernel/sys_ia64.c:188:39: sparse: sparse: got }
+   arch/ia64/kernel/sys_ia64.c:188:39: sparse: sparse: Expected ) in nested=
+ declarator
+   arch/ia64/kernel/sys_ia64.c:188:39: sparse: sparse: got __attribute__
+>> arch/ia64/kernel/sys_ia64.c:188:39: sparse: sparse: Trying to use reserv=
+ed word 'typeof' as identifier
+   arch/ia64/kernel/sys_ia64.c:188:39: sparse: sparse: Expected ; at the en=
+d of type declaration
+   arch/ia64/kernel/sys_ia64.c:188:39: sparse: sparse: got }
+>> arch/ia64/kernel/sys_ia64.c:190:25: sparse: sparse: Trying to use reserv=
+ed word 'return' as identifier
+   arch/ia64/kernel/sys_ia64.c:190:32: sparse: sparse: Expected ; at end of=
+ declaration
+   arch/ia64/kernel/sys_ia64.c:190:32: sparse: sparse: got put_timespec64
+   arch/ia64/kernel/sys_ia64.c:191:9: sparse: sparse: Expected ; at the end=
+ of type declaration
+   arch/ia64/kernel/sys_ia64.c:191:9: sparse: sparse: got }
+   arch/ia64/kernel/sys_ia64.c:194:1: sparse: sparse: Expected ; at the end=
+ of type declaration
+   arch/ia64/kernel/sys_ia64.c:194:1: sparse: sparse: got }
+   arch/ia64/kernel/sys_ia64.c:188:25: sparse: sparse: undefined identifier=
+ 's64'
+   arch/ia64/kernel/sys_ia64.c:188:39: sparse: sparse: undefined identifier=
+ '__vpp_verify'
+   arch/ia64/kernel/sys_ia64.c:189:69: sparse: sparse: undefined identifier=
+ 'tick_ns'
+>> arch/ia64/kernel/sys_ia64.c:189:68: sparse: sparse: invalid initializer
 
-vim +/rv +714 drivers/hid/intel-ish-hid/ishtp-fw-loader.c
+vim +188 arch/ia64/kernel/sys_ia64.c
 
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  618  =
+8b3fbb74a31e9a Sergei Trofimovich 2022-08-20  169  =
 
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  619  /**
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  620   * ish_fw_xfer_direct_dma=
-() - Loads ISH firmware using direct dma
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  621   * @client_data:	Client d=
-ata instance
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  622   * @fw:			Pointer to firm=
-ware data struct in host memory
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  623   * @fw_info:		Loader firm=
-ware properties
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  624   *
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  625   * Host firmware load is =
-a unique case where we need to download
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  626   * a large firmware image=
- (200+ Kb). This function implements
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  627   * direct DMA transfer in=
- kernel and ISH firmware. This allows
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  628   * us to overcome the ISH=
--TP 4 Kb limit, and allows us to DMA
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  629   * directly to ISH UMA at=
- location of choice.
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  630   * Function depends on co=
-rresponding support in ISH firmware.
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  631   *
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  632   * Return: 0 for success,=
- negative error code for failure.
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  633   */
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  634  static int ish_fw_xfer_di=
-rect_dma(struct ishtp_cl_data *client_data,
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  635  				  const struct firmwa=
-re *fw,
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  636  				  const struct shim_f=
-w_info fw_info)
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  637  {
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  638  	int rv;
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  639  	void *dma_buf;
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  640  	dma_addr_t dma_buf_phy;
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  641  	u32 fragment_offset, fra=
-gment_size, payload_max_size;
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  642  	struct loader_msg_hdr ld=
-r_xfer_dma_frag_ack;
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  643  	struct loader_xfer_dma_f=
-ragment ldr_xfer_dma_frag;
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  644  	struct device *devc =3D =
-ishtp_get_pci_device(client_data->cl_device);
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  645  	u32 shim_fw_buf_size =3D
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  646  		fw_info.ldr_capability.=
-max_dma_buf_size;
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  647  =
-
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  648  	/*
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  649  	 * payload_max_size shou=
-ld be set to minimum of
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  650  	 *  (1) Size of firmware=
- to be loaded,
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  651  	 *  (2) Max DMA buffer s=
-ize supported by Shim firmware,
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  652  	 *  (3) DMA buffer size =
-limit set by boot_param dma_buf_size_limit.
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  653  	 */
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  654  	payload_max_size =3D min=
-3(fw->size,
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  655  				(size_t)shim_fw_buf_s=
-ize,
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  656  				(size_t)dma_buf_size_=
-limit);
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  657  =
-
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  658  	/*
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  659  	 * Buffer size should be=
- multiple of cacheline size
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  660  	 * if it's not, select t=
-he previous cacheline boundary.
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  661  	 */
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  662  	payload_max_size &=3D ~(=
-L1_CACHE_BYTES - 1);
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  663  =
-
-f97ec5d75e9261 Gwendal Grignou   2022-02-08  664  	dma_buf =3D dma_alloc_co=
-herent(devc, payload_max_size, &dma_buf_phy, GFP_KERNEL);
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  665  	if (!dma_buf) {
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  666  		client_data->flag_retry=
- =3D true;
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  667  		return -ENOMEM;
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  668  	}
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  669  =
-
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  670  	ldr_xfer_dma_frag.fragme=
-nt.hdr.command =3D LOADER_CMD_XFER_FRAGMENT;
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  671  	ldr_xfer_dma_frag.fragme=
-nt.xfer_mode =3D LOADER_XFER_MODE_DIRECT_DMA;
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  672  	ldr_xfer_dma_frag.ddr_ph=
-ys_addr =3D (u64)dma_buf_phy;
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  673  =
-
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  674  	/* Send the firmware ima=
-ge in chucks of payload_max_size */
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  675  	fragment_offset =3D 0;
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  676  	while (fragment_offset <=
- fw->size) {
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  677  		if (fragment_offset + p=
-ayload_max_size < fw->size) {
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  678  			fragment_size =3D payl=
-oad_max_size;
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  679  			ldr_xfer_dma_frag.frag=
-ment.is_last =3D 0;
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  680  		} else {
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  681  			fragment_size =3D fw->=
-size - fragment_offset;
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  682  			ldr_xfer_dma_frag.frag=
-ment.is_last =3D 1;
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  683  		}
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  684  =
-
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  685  		ldr_xfer_dma_frag.fragm=
-ent.offset =3D fragment_offset;
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  686  		ldr_xfer_dma_frag.fragm=
-ent.size =3D fragment_size;
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  687  		memcpy(dma_buf, &fw->da=
-ta[fragment_offset], fragment_size);
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  688  =
-
-f97ec5d75e9261 Gwendal Grignou   2022-02-08  689  		/* Flush cache to be su=
-re the data is in main memory. */
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  690  		clflush_cache_range(dma=
-_buf, payload_max_size);
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  691  =
-
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  692  		dev_dbg(cl_data_to_dev(=
-client_data),
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  693  			"xfer_mode=3Ddma offse=
-t=3D0x%08x size=3D0x%x is_last=3D%d ddr_phys_addr=3D0x%016llx\n",
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  694  			ldr_xfer_dma_frag.frag=
-ment.offset,
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  695  			ldr_xfer_dma_frag.frag=
-ment.size,
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  696  			ldr_xfer_dma_frag.frag=
-ment.is_last,
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  697  			ldr_xfer_dma_frag.ddr_=
-phys_addr);
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  698  =
-
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  699  		rv =3D loader_cl_send(c=
-lient_data,
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  700  				    (u8 *)&ldr_xfer_d=
-ma_frag,
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  701  				    sizeof(ldr_xfer_d=
-ma_frag),
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  702  				    (u8 *)&ldr_xfer_d=
-ma_frag_ack,
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  703  				    sizeof(ldr_xfer_d=
-ma_frag_ack));
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  704  		if (rv < 0) {
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  705  			client_data->flag_retr=
-y =3D true;
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  706  			goto end_err_resp_buf_=
-release;
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  707  		}
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  708  =
-
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  709  		fragment_offset +=3D fr=
-agment_size;
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  710  	}
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  711  =
-
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  712  end_err_resp_buf_release:
-f97ec5d75e9261 Gwendal Grignou   2022-02-08  713  	dma_free_coherent(devc, =
-payload_max_size, dma_buf, dma_buf_phy);
-91b228107da3e4 Rushikesh S Kadam 2019-04-02 @714  	return rv;
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  715  }
-91b228107da3e4 Rushikesh S Kadam 2019-04-02  716  =
-
-
-:::::: The code at line 714 was first introduced by commit
-:::::: 91b228107da3e41558449a62cd93816b47b3b4b5 HID: intel-ish-hid: ISH fir=
-mware loader client driver
-
-:::::: TO: Rushikesh S Kadam <rushikesh.s.kadam@intel.com>
-:::::: CC: Jiri Kosina <jkosina@suse.cz>
+8b3fbb74a31e9a Sergei Trofimovich 2022-08-20  170  asmlinkage long
+8b3fbb74a31e9a Sergei Trofimovich 2022-08-20  171  ia64_clock_getres(const =
+clockid_t which_clock, struct __kernel_timespec __user *tp)
+8b3fbb74a31e9a Sergei Trofimovich 2022-08-20  172  {
+8b3fbb74a31e9a Sergei Trofimovich 2022-08-20  173  	/*
+8b3fbb74a31e9a Sergei Trofimovich 2022-08-20  174  	 * ia64's clock_gettime=
+() syscall is implemented as a vdso call
+8b3fbb74a31e9a Sergei Trofimovich 2022-08-20  175  	 * fsys_clock_gettime()=
+. Currently it handles only
+8b3fbb74a31e9a Sergei Trofimovich 2022-08-20  176  	 * CLOCK_REALTIME and C=
+LOCK_MONOTONIC. Both are based on
+8b3fbb74a31e9a Sergei Trofimovich 2022-08-20  177  	 * 'ar.itc' counter whi=
+ch gets incremented at a constant
+8b3fbb74a31e9a Sergei Trofimovich 2022-08-20  178  	 * frequency. It's usua=
+lly 400MHz, ~2.5x times slower than CPU
+8b3fbb74a31e9a Sergei Trofimovich 2022-08-20  179  	 * clock frequency. Whi=
+ch is almost a 1ns hrtimer, but not quite.
+8b3fbb74a31e9a Sergei Trofimovich 2022-08-20  180  	 *
+8b3fbb74a31e9a Sergei Trofimovich 2022-08-20  181  	 * Let's special-case t=
+hese timers to report correct precision
+8b3fbb74a31e9a Sergei Trofimovich 2022-08-20  182  	 * based on ITC frequen=
+cy and not HZ frequency for supported
+8b3fbb74a31e9a Sergei Trofimovich 2022-08-20  183  	 * clocks.
+8b3fbb74a31e9a Sergei Trofimovich 2022-08-20  184  	 */
+8b3fbb74a31e9a Sergei Trofimovich 2022-08-20  185  	switch (which_clock) {
+8b3fbb74a31e9a Sergei Trofimovich 2022-08-20  186  		case CLOCK_REALTIME:
+8b3fbb74a31e9a Sergei Trofimovich 2022-08-20  187  		case CLOCK_MONOTONIC:
+8b3fbb74a31e9a Sergei Trofimovich 2022-08-20 @188  			s64 tick_ns =3D DIV_R=
+OUND_UP(NSEC_PER_SEC, local_cpu_data->itc_freq);
+8b3fbb74a31e9a Sergei Trofimovich 2022-08-20 @189  			struct timespec64 rtn=
+_tp =3D ns_to_timespec64(tick_ns);
+8b3fbb74a31e9a Sergei Trofimovich 2022-08-20 @190  			return put_timespec64=
+(&rtn_tp, tp);
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============0947960332351336176==--
+--===============4025378705440040546==--
 
