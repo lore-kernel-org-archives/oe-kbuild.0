@@ -1,110 +1,351 @@
-Content-Type: multipart/mixed; boundary="===============1512307580365634949=="
+Content-Type: multipart/mixed; boundary="===============8687313838003845031=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [linux-next:master 4878/5667] drivers/gpu/drm/vkms/vkms_plane.c:105 vkms_plane_atomic_update() warn: variable dereferenced before check 'fb' (see line 103)
-Date: Wed, 07 Sep 2022 06:03:40 +0800
-Message-ID: <202209070630.keeEK7fw-lkp@intel.com>
+Subject: Re: [PATCH 1/8] memory: tegra: Add API for retrieving carveout bounds
+Date: Wed, 07 Sep 2022 05:21:58 +0800
+Message-ID: <202209070510.K0JvnX0n-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1512307580365634949==
+--===============8687313838003845031==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+:::::: =
+
+:::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "low confidence static check warning: drivers/m=
+emory/tegra/mc.c:124:86: sparse: sparse: shift too big (32) for type unsign=
+ed int"
+:::::: =
+
+
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Igor Torrente <igormtorrente@gmail.com>
-CC: Melissa Wen <melissa.srw@gmail.com>
+In-Reply-To: <20220906132823.2390953-2-cyndis@kapsi.fi>
+References: <20220906132823.2390953-2-cyndis@kapsi.fi>
+TO: Mikko Perttunen <cyndis@kapsi.fi>
+TO: Thierry Reding <thierry.reding@gmail.com>
+TO: David Airlie <airlied@linux.ie>
+TO: Daniel Vetter <daniel@ffwll.ch>
+TO: Rob Herring <robh+dt@kernel.org>
+TO: Krzysztof Kozlowski <krzk@kernel.org>
+TO: Jonathan Hunter <jonathanh@nvidia.com>
+CC: devicetree(a)vger.kernel.org
+CC: Sameer Pujar <spujar@nvidia.com>
+CC: linux-kernel(a)vger.kernel.org
+CC: dri-devel(a)lists.freedesktop.org
+CC: Mikko Perttunen <mperttunen@nvidia.com>
+CC: linux-tegra(a)vger.kernel.org
+CC: Ashish Mhetre <amhetre@nvidia.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
- master
-head:   840126e36e8ff272cb63158646433fa1324533d9
-commit: 8ba1648567e289c90fa4f65b4204d0f160e22ac3 [4878/5667] drm: vkms: Ref=
-actor the plane composer to accept new formats
-:::::: branch date: 10 hours ago
-:::::: commit date: 25 hours ago
-config: x86_64-randconfig-m001 (https://download.01.org/0day-ci/archive/202=
-20907/202209070630.keeEK7fw-lkp(a)intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-5) 11.3.0
+Hi Mikko,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on robh/for-next]
+[also build test WARNING on clk/clk-next krzk-mem-ctrl/for-next pza/reset/n=
+ext linus/master v6.0-rc4 next-20220906]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Mikko-Perttunen/Supp=
+ort-for-NVDEC-on-Tegra234/20220906-215151
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-=
+next
+:::::: branch date: 7 hours ago
+:::::: commit date: 7 hours ago
+config: openrisc-randconfig-s041-20220906 (https://download.01.org/0day-ci/=
+archive/20220907/202209070510.K0JvnX0n-lkp(a)intel.com/config)
+compiler: or1k-linux-gcc (GCC) 12.1.0
+reproduce:
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://github.com/intel-lab-lkp/linux/commit/7e2bd1173420c8e09ec=
+90e3322e059a7350482e3
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Mikko-Perttunen/Support-for-NVDEC-=
+on-Tegra234/20220906-215151
+        git checkout 7e2bd1173420c8e09ec90e3322e059a7350482e3
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cross=
+ C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3Dbuild_dir ARCH=3Do=
+penrisc SHELL=3D/bin/bash drivers/memory/tegra/
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-drivers/gpu/drm/vkms/vkms_plane.c:105 vkms_plane_atomic_update() warn: vari=
-able dereferenced before check 'fb' (see line 103)
+sparse warnings: (new ones prefixed by >>)
+   drivers/memory/tegra/mc.c: note: in included file (through arch/openrisc=
+/include/asm/io.h, include/linux/scatterlist.h, include/linux/dma-mapping.h=
+):
+   include/asm-generic/io.h:335:15: sparse: sparse: cast to restricted __le=
+32
+   include/asm-generic/io.h:335:15: sparse: sparse: cast to restricted __le=
+32
+   include/asm-generic/io.h:335:15: sparse: sparse: cast to restricted __le=
+32
+   include/asm-generic/io.h:335:15: sparse: sparse: cast to restricted __le=
+32
+   include/asm-generic/io.h:335:15: sparse: sparse: cast to restricted __le=
+32
+   include/asm-generic/io.h:335:15: sparse: sparse: cast to restricted __le=
+32
+   include/asm-generic/io.h:335:15: sparse: sparse: cast to restricted __le=
+32
+   include/asm-generic/io.h:335:15: sparse: sparse: cast to restricted __le=
+32
+   include/asm-generic/io.h:335:15: sparse: sparse: cast to restricted __le=
+32
+   include/asm-generic/io.h:335:15: sparse: sparse: cast to restricted __le=
+32
+   include/asm-generic/io.h:335:15: sparse: sparse: cast to restricted __le=
+32
+   include/asm-generic/io.h:335:15: sparse: sparse: cast to restricted __le=
+32
+   include/asm-generic/io.h:335:15: sparse: sparse: cast to restricted __le=
+32
+   include/asm-generic/io.h:335:15: sparse: sparse: cast to restricted __le=
+32
+   include/asm-generic/io.h:335:15: sparse: sparse: cast to restricted __le=
+32
+   include/asm-generic/io.h:335:15: sparse: sparse: cast to restricted __le=
+32
+   include/asm-generic/io.h:335:15: sparse: sparse: cast to restricted __le=
+32
+   include/asm-generic/io.h:335:15: sparse: sparse: cast to restricted __le=
+32
+   include/asm-generic/io.h:335:15: sparse: sparse: cast to restricted __le=
+32
+   include/asm-generic/io.h:335:15: sparse: sparse: cast to restricted __le=
+32
+   include/asm-generic/io.h:335:15: sparse: sparse: cast to restricted __le=
+32
+   include/asm-generic/io.h:335:15: sparse: sparse: cast to restricted __le=
+32
+   include/asm-generic/io.h:335:15: sparse: sparse: cast to restricted __le=
+32
+   include/asm-generic/io.h:335:15: sparse: sparse: cast to restricted __le=
+32
+   include/asm-generic/io.h:335:15: sparse: sparse: cast to restricted __le=
+32
+   include/asm-generic/io.h:335:15: sparse: sparse: cast to restricted __le=
+32
+   include/asm-generic/io.h:335:15: sparse: sparse: cast to restricted __le=
+32
+   include/asm-generic/io.h:335:15: sparse: sparse: cast to restricted __le=
+32
+   include/asm-generic/io.h:335:15: sparse: sparse: cast to restricted __le=
+32
+   include/asm-generic/io.h:335:15: sparse: sparse: cast to restricted __le=
+32
+   include/asm-generic/io.h:335:15: sparse: sparse: cast to restricted __le=
+32
+   include/asm-generic/io.h:335:15: sparse: sparse: cast to restricted __le=
+32
+   include/asm-generic/io.h:335:15: sparse: sparse: cast to restricted __le=
+32
+   include/asm-generic/io.h:335:15: sparse: sparse: cast to restricted __le=
+32
+   include/asm-generic/io.h:335:15: sparse: sparse: cast to restricted __le=
+32
+   include/asm-generic/io.h:335:15: sparse: sparse: cast to restricted __le=
+32
+>> drivers/memory/tegra/mc.c:124:86: sparse: sparse: shift too big (32) for=
+ type unsigned int
+   include/asm-generic/io.h:335:15: sparse: sparse: cast to restricted __le=
+32
+   include/asm-generic/io.h:335:15: sparse: sparse: cast to restricted __le=
+32
+   include/asm-generic/io.h:335:15: sparse: sparse: cast to restricted __le=
+32
+   include/asm-generic/io.h:335:15: sparse: sparse: cast to restricted __le=
+32
+   include/asm-generic/io.h:335:15: sparse: sparse: cast to restricted __le=
+32
+   include/asm-generic/io.h:335:15: sparse: sparse: cast to restricted __le=
+32
+   include/asm-generic/io.h:379:22: sparse: sparse: incorrect type in argum=
+ent 1 (different base types) @@     expected unsigned int [usertype] value =
+@@     got restricted __le32 [usertype] @@
+   include/asm-generic/io.h:379:22: sparse:     expected unsigned int [user=
+type] value
+   include/asm-generic/io.h:379:22: sparse:     got restricted __le32 [user=
+type]
+   include/asm-generic/io.h:335:15: sparse: sparse: cast to restricted __le=
+32
+   include/asm-generic/io.h:335:15: sparse: sparse: cast to restricted __le=
+32
+   include/asm-generic/io.h:335:15: sparse: sparse: cast to restricted __le=
+32
+   include/asm-generic/io.h:335:15: sparse: sparse: cast to restricted __le=
+32
+   include/asm-generic/io.h:335:15: sparse: sparse: cast to restricted __le=
+32
+   include/asm-generic/io.h:335:15: sparse: sparse: cast to restricted __le=
+32
+   include/asm-generic/io.h:335:15: sparse: sparse: cast to restricted __le=
+32
+   include/asm-generic/io.h:335:15: sparse: sparse: cast to restricted __le=
+32
+   include/asm-generic/io.h:335:15: sparse: sparse: cast to restricted __le=
+32
+   include/asm-generic/io.h:335:15: sparse: sparse: cast to restricted __le=
+32
+   include/asm-generic/io.h:335:15: sparse: sparse: cast to restricted __le=
+32
+   include/asm-generic/io.h:335:15: sparse: sparse: cast to restricted __le=
+32
+   include/asm-generic/io.h:379:22: sparse: sparse: incorrect type in argum=
+ent 1 (different base types) @@     expected unsigned int [usertype] value =
+@@     got restricted __le32 [usertype] @@
+   include/asm-generic/io.h:379:22: sparse:     expected unsigned int [user=
+type] value
+   include/asm-generic/io.h:379:22: sparse:     got restricted __le32 [user=
+type]
+   include/asm-generic/io.h:335:15: sparse: sparse: cast to restricted __le=
+32
+   include/asm-generic/io.h:335:15: sparse: sparse: cast to restricted __le=
+32
+   include/asm-generic/io.h:335:15: sparse: sparse: cast to restricted __le=
+32
+   include/asm-generic/io.h:335:15: sparse: sparse: cast to restricted __le=
+32
+   include/asm-generic/io.h:335:15: sparse: sparse: cast to restricted __le=
+32
+   include/asm-generic/io.h:335:15: sparse: sparse: cast to restricted __le=
+32
+   include/asm-generic/io.h:379:22: sparse: sparse: incorrect type in argum=
+ent 1 (different base types) @@     expected unsigned int [usertype] value =
+@@     got restricted __le32 [usertype] @@
+   include/asm-generic/io.h:379:22: sparse:     expected unsigned int [user=
+type] value
+   include/asm-generic/io.h:379:22: sparse:     got restricted __le32 [user=
+type]
+   include/asm-generic/io.h:335:15: sparse: sparse: cast to restricted __le=
+32
+   include/asm-generic/io.h:335:15: sparse: sparse: cast to restricted __le=
+32
+   include/asm-generic/io.h:335:15: sparse: sparse: cast to restricted __le=
+32
+   include/asm-generic/io.h:335:15: sparse: sparse: cast to restricted __le=
+32
+   include/asm-generic/io.h:335:15: sparse: sparse: cast to restricted __le=
+32
+   include/asm-generic/io.h:335:15: sparse: sparse: cast to restricted __le=
+32
+   include/asm-generic/io.h:335:15: sparse: sparse: cast to restricted __le=
+32
+   include/asm-generic/io.h:335:15: sparse: sparse: cast to restricted __le=
+32
+   include/asm-generic/io.h:335:15: sparse: sparse: cast to restricted __le=
+32
+   include/asm-generic/io.h:335:15: sparse: sparse: cast to restricted __le=
+32
+   include/asm-generic/io.h:335:15: sparse: sparse: cast to restricted __le=
+32
+   include/asm-generic/io.h:335:15: sparse: sparse: cast to restricted __le=
+32
+   include/asm-generic/io.h:335:15: sparse: sparse: cast to restricted __le=
+32
+   include/asm-generic/io.h:335:15: sparse: sparse: cast to restricted __le=
+32
+   include/asm-generic/io.h:335:15: sparse: sparse: cast to restricted __le=
+32
+   include/asm-generic/io.h:335:15: sparse: sparse: cast to restricted __le=
+32
+   include/asm-generic/io.h:335:15: sparse: sparse: cast to restricted __le=
+32
+   include/asm-generic/io.h:335:15: sparse: sparse: cast to restricted __le=
+32
+   include/asm-generic/io.h:335:15: sparse: sparse: cast to restricted __le=
+32
+   include/asm-generic/io.h:335:15: sparse: sparse: cast to restricted __le=
+32
+   include/asm-generic/io.h:335:15: sparse: sparse: cast to restricted __le=
+32
+   include/asm-generic/io.h:335:15: sparse: sparse: cast to restricted __le=
+32
+   include/asm-generic/io.h:335:15: sparse: sparse: cast to restricted __le=
+32
+   include/asm-generic/io.h:335:15: sparse: sparse: cast to restricted __le=
+32
+   include/asm-generic/io.h:335:15: sparse: sparse: cast to restricted __le=
+32
+   include/asm-generic/io.h:335:15: sparse: sparse: cast to restricted __le=
+32
+   include/asm-generic/io.h:335:15: sparse: sparse: cast to restricted __le=
+32
+   include/asm-generic/io.h:335:15: sparse: sparse: cast to restricted __le=
+32
+   include/asm-generic/io.h:335:15: sparse: sparse: cast to restricted __le=
+32
+   include/asm-generic/io.h:335:15: sparse: sparse: cast to restricted __le=
+32
+   include/asm-generic/io.h:335:15: sparse: sparse: cast to restricted __le=
+32
+   include/asm-generic/io.h:335:15: sparse: sparse: cast to restricted __le=
+32
+   include/asm-generic/io.h:335:15: sparse: sparse: cast to restricted __le=
+32
+   include/asm-generic/io.h:335:15: sparse: sparse: cast to restricted __le=
+32
+   include/asm-generic/io.h:335:15: sparse: sparse: cast to restricted __le=
+32
+   include/asm-generic/io.h:335:15: sparse: sparse: too many warnings
 
-vim +/fb +105 drivers/gpu/drm/vkms/vkms_plane.c
+vim +124 drivers/memory/tegra/mc.c
 
-854502fa0a38dc Rodrigo Siqueira  2018-05-16   93  =
+393d66fd2cacba Thierry Reding  2021-06-03  109  =
 
-c27d931d402b51 Haneen Mohammed   2018-09-06   94  static void vkms_plane_at=
-omic_update(struct drm_plane *plane,
-977697e20b3d75 Maxime Ripard     2021-02-19   95  				     struct drm_atomi=
-c_state *state)
-42ac03213b7f10 Rodrigo Siqueira  2018-07-12   96  {
-37418bf14c1392 Maxime Ripard     2021-02-19   97  	struct drm_plane_state *=
-new_state =3D drm_atomic_get_new_plane_state(state,
-37418bf14c1392 Maxime Ripard     2021-02-19   98  									   plane);
-6c234fe37c5762 Haneen Mohammed   2018-08-02   99  	struct vkms_plane_state =
-*vkms_plane_state;
-bbeb7461c7eed2 Thomas Zimmermann 2021-07-05  100  	struct drm_shadow_plane_=
-state *shadow_plane_state;
-e05162c017e2e1 Maxime Ripard     2021-02-19  101  	struct drm_framebuffer *=
-fb =3D new_state->fb;
-1645e7b9667f14 Igor Torrente     2022-09-05  102  	struct vkms_frame_info *=
-frame_info;
-8ba1648567e289 Igor Torrente     2022-09-05 @103  	u32 fmt =3D fb->format->=
-format;
-6c234fe37c5762 Haneen Mohammed   2018-08-02  104  =
+7e2bd1173420c8 Mikko Perttunen 2022-09-06  110  int tegra_mc_get_carveout_i=
+nfo(struct tegra_mc *mc, unsigned int id,
+7e2bd1173420c8 Mikko Perttunen 2022-09-06  111                             =
+    phys_addr_t *base, u64 *size)
+7e2bd1173420c8 Mikko Perttunen 2022-09-06  112  {
+7e2bd1173420c8 Mikko Perttunen 2022-09-06  113  	u32 offset;
+7e2bd1173420c8 Mikko Perttunen 2022-09-06  114  =
 
-e05162c017e2e1 Maxime Ripard     2021-02-19 @105  	if (!new_state->crtc || =
-!fb)
-6c234fe37c5762 Haneen Mohammed   2018-08-02  106  		return;
-6c234fe37c5762 Haneen Mohammed   2018-08-02  107  =
+7e2bd1173420c8 Mikko Perttunen 2022-09-06  115  	if (id < 1 || id >=3D mc->=
+soc->num_carveouts)
+7e2bd1173420c8 Mikko Perttunen 2022-09-06  116  		return -EINVAL;
+7e2bd1173420c8 Mikko Perttunen 2022-09-06  117  =
 
-e05162c017e2e1 Maxime Ripard     2021-02-19  108  	vkms_plane_state =3D to_=
-vkms_plane_state(new_state);
-bbeb7461c7eed2 Thomas Zimmermann 2021-07-05  109  	shadow_plane_state =3D &=
-vkms_plane_state->base;
-db7f419c06d7cc Haneen Mohammed   2018-09-06  110  =
+7e2bd1173420c8 Mikko Perttunen 2022-09-06  118  	if (id < 6)
+7e2bd1173420c8 Mikko Perttunen 2022-09-06  119  		offset =3D 0xc0c + 0x50 *=
+ (id - 1);
+7e2bd1173420c8 Mikko Perttunen 2022-09-06  120  	else
+7e2bd1173420c8 Mikko Perttunen 2022-09-06  121  		offset =3D 0x2004 + 0x50 =
+* (id - 6);
+7e2bd1173420c8 Mikko Perttunen 2022-09-06  122  =
 
-1645e7b9667f14 Igor Torrente     2022-09-05  111  	frame_info =3D vkms_plan=
-e_state->frame_info;
-1645e7b9667f14 Igor Torrente     2022-09-05  112  	memcpy(&frame_info->src,=
- &new_state->src, sizeof(struct drm_rect));
-1645e7b9667f14 Igor Torrente     2022-09-05  113  	memcpy(&frame_info->dst,=
- &new_state->dst, sizeof(struct drm_rect));
-2eef1ef6e22b24 Igor Torrente     2022-09-05  114  	frame_info->fb =3D fb;
-1645e7b9667f14 Igor Torrente     2022-09-05  115  	memcpy(&frame_info->map,=
- &shadow_plane_state->data, sizeof(frame_info->map));
-2eef1ef6e22b24 Igor Torrente     2022-09-05  116  	drm_framebuffer_get(fram=
-e_info->fb);
-1645e7b9667f14 Igor Torrente     2022-09-05  117  	frame_info->offset =3D f=
-b->offsets[0];
-1645e7b9667f14 Igor Torrente     2022-09-05  118  	frame_info->pitch =3D fb=
-->pitches[0];
-1645e7b9667f14 Igor Torrente     2022-09-05  119  	frame_info->cpp =3D fb->=
-format->cpp[0];
-8ba1648567e289 Igor Torrente     2022-09-05  120  	vkms_plane_state->plane_=
-read =3D get_frame_to_line_function(fmt);
-42ac03213b7f10 Rodrigo Siqueira  2018-07-12  121  }
-42ac03213b7f10 Rodrigo Siqueira  2018-07-12  122  =
+7e2bd1173420c8 Mikko Perttunen 2022-09-06  123  	*base =3D mc_ch_readl(mc, =
+MC_BROADCAST_CHANNEL, offset + 0x0);
+7e2bd1173420c8 Mikko Perttunen 2022-09-06 @124  	*base |=3D (phys_addr_t)mc=
+_ch_readl(mc, MC_BROADCAST_CHANNEL, offset + 0x4) << 32;
+7e2bd1173420c8 Mikko Perttunen 2022-09-06  125  =
 
+7e2bd1173420c8 Mikko Perttunen 2022-09-06  126  	if (size)
+7e2bd1173420c8 Mikko Perttunen 2022-09-06  127  		*size =3D mc_ch_readl(mc,=
+ MC_BROADCAST_CHANNEL, offset + 0x8) << 17;
+7e2bd1173420c8 Mikko Perttunen 2022-09-06  128  =
 
-:::::: The code at line 105 was first introduced by commit
-:::::: e05162c017e2e14b94dfd4e55d2f006a9a642c6d drm: Store new plane state =
-in a variable for atomic_update and disable
+7e2bd1173420c8 Mikko Perttunen 2022-09-06  129  	return 0;
+7e2bd1173420c8 Mikko Perttunen 2022-09-06  130  }
+7e2bd1173420c8 Mikko Perttunen 2022-09-06  131  EXPORT_SYMBOL_GPL(tegra_mc_=
+get_carveout_info);
+7e2bd1173420c8 Mikko Perttunen 2022-09-06  132  =
 
-:::::: TO: Maxime Ripard <maxime@cerno.tech>
-:::::: CC: Maxime Ripard <maxime@cerno.tech>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============1512307580365634949==--
+--===============8687313838003845031==--
 
