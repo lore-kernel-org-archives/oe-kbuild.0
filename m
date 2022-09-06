@@ -1,149 +1,97 @@
-Content-Type: multipart/mixed; boundary="===============2383135111483765223=="
+Content-Type: multipart/mixed; boundary="===============2292512797100097162=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: arch/m68k/include/asm/bitops.h:216 arch___test_and_set_bit() warn: signedness bug returning '(-128)'
-Date: Fri, 16 Sep 2022 08:53:55 +0800
-Message-ID: <202209160805.aLeocSni-lkp@intel.com>
+Subject: [linux-next:master 4799/5667] kernel/bpf/memalloc.c:344 bpf_mem_alloc_destroy() error: potentially dereferencing uninitialized 'c'.
+Date: Wed, 07 Sep 2022 03:38:02 +0800
+Message-ID: <202209070305.VxmSXfFv-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2383135111483765223==
+--===============2292512797100097162==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
-CC: linux-kernel(a)vger.kernel.org
-TO: Alexander Lobakin <alexandr.lobakin@intel.com>
-CC: Yury Norov <yury.norov@gmail.com>
-CC: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Alexei Starovoitov <ast@kernel.org>
+CC: Daniel Borkmann <daniel@iogearbox.net>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   3245cb65fd91cd514801bf91f5a3066d562f0ac4
-commit: 0e862838f290147ea9c16db852d8d494b552d38d bitops: unify non-atomic b=
-itops prototypes across architectures
-date:   3 months ago
-:::::: branch date: 2 days ago
-:::::: commit date: 3 months ago
-config: m68k-randconfig-m031-20220914 (https://download.01.org/0day-ci/arch=
-ive/20220916/202209160805.aLeocSni-lkp(a)intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
+ master
+head:   840126e36e8ff272cb63158646433fa1324533d9
+commit: 7c8199e24fa09d2344ae0204527d55d7803e8409 [4799/5667] bpf: Introduce=
+ any context BPF specific memory allocator.
+:::::: branch date: 8 hours ago
+:::::: commit date: 30 hours ago
+config: i386-randconfig-m021 (https://download.01.org/0day-ci/archive/20220=
+907/202209070305.VxmSXfFv-lkp(a)intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-5) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 smatch warnings:
-arch/m68k/include/asm/bitops.h:216 arch___test_and_set_bit() warn: signedne=
-ss bug returning '(-128)'
-arch/m68k/include/asm/bitops.h:269 arch___test_and_clear_bit() warn: signed=
-ness bug returning '(-128)'
+kernel/bpf/memalloc.c:344 bpf_mem_alloc_destroy() error: potentially derefe=
+rencing uninitialized 'c'.
 
-vim +216 arch/m68k/include/asm/bitops.h
+vim +/c +344 kernel/bpf/memalloc.c
 
-171d809df1896c1 Greg Ungerer      2011-05-17  212  =
+7c8199e24fa09d Alexei Starovoitov 2022-09-02  331  =
 
-0e862838f290147 Alexander Lobakin 2022-06-24  213  static __always_inline b=
-ool
-0e862838f290147 Alexander Lobakin 2022-06-24  214  arch___test_and_set_bit(=
-unsigned long nr, volatile unsigned long *addr)
-0e862838f290147 Alexander Lobakin 2022-06-24  215  {
-0e862838f290147 Alexander Lobakin 2022-06-24 @216  	return test_and_set_bit=
-(nr, addr);
-0e862838f290147 Alexander Lobakin 2022-06-24  217  }
-171d809df1896c1 Greg Ungerer      2011-05-17  218  =
+7c8199e24fa09d Alexei Starovoitov 2022-09-02  332  void bpf_mem_alloc_destr=
+oy(struct bpf_mem_alloc *ma)
+7c8199e24fa09d Alexei Starovoitov 2022-09-02  333  {
+7c8199e24fa09d Alexei Starovoitov 2022-09-02  334  	struct bpf_mem_caches *=
+cc;
+7c8199e24fa09d Alexei Starovoitov 2022-09-02  335  	struct bpf_mem_cache *c;
+7c8199e24fa09d Alexei Starovoitov 2022-09-02  336  	int cpu, i;
+7c8199e24fa09d Alexei Starovoitov 2022-09-02  337  =
 
-171d809df1896c1 Greg Ungerer      2011-05-17  219  static inline int bclr_r=
-eg_test_and_clear_bit(int nr,
-171d809df1896c1 Greg Ungerer      2011-05-17  220  					      volatile unsi=
-gned long *vaddr)
-171d809df1896c1 Greg Ungerer      2011-05-17  221  {
-171d809df1896c1 Greg Ungerer      2011-05-17  222  	char *p =3D (char *)vad=
-dr + (nr ^ 31) / 8;
-171d809df1896c1 Greg Ungerer      2011-05-17  223  	char retval;
-171d809df1896c1 Greg Ungerer      2011-05-17  224  =
-
-171d809df1896c1 Greg Ungerer      2011-05-17  225  	__asm__ __volatile__ ("=
-bclr %2,(%1); sne %0"
-171d809df1896c1 Greg Ungerer      2011-05-17  226  		: "=3Dd" (retval)
-171d809df1896c1 Greg Ungerer      2011-05-17  227  		: "a" (p), "di" (nr & =
-7)
-171d809df1896c1 Greg Ungerer      2011-05-17  228  		: "memory");
-171d809df1896c1 Greg Ungerer      2011-05-17  229  	return retval;
-171d809df1896c1 Greg Ungerer      2011-05-17  230  }
-171d809df1896c1 Greg Ungerer      2011-05-17  231  =
-
-171d809df1896c1 Greg Ungerer      2011-05-17  232  static inline int bclr_m=
-em_test_and_clear_bit(int nr,
-171d809df1896c1 Greg Ungerer      2011-05-17  233  					      volatile unsi=
-gned long *vaddr)
-171d809df1896c1 Greg Ungerer      2011-05-17  234  {
-171d809df1896c1 Greg Ungerer      2011-05-17  235  	char *p =3D (char *)vad=
-dr + (nr ^ 31) / 8;
-171d809df1896c1 Greg Ungerer      2011-05-17  236  	char retval;
-171d809df1896c1 Greg Ungerer      2011-05-17  237  =
-
-171d809df1896c1 Greg Ungerer      2011-05-17  238  	__asm__ __volatile__ ("=
-bclr %2,%1; sne %0"
-171d809df1896c1 Greg Ungerer      2011-05-17  239  		: "=3Dd" (retval), "+m=
-" (*p)
-171d809df1896c1 Greg Ungerer      2011-05-17  240  		: "di" (nr & 7));
-171d809df1896c1 Greg Ungerer      2011-05-17  241  	return retval;
-171d809df1896c1 Greg Ungerer      2011-05-17  242  }
-171d809df1896c1 Greg Ungerer      2011-05-17  243  =
-
-171d809df1896c1 Greg Ungerer      2011-05-17  244  static inline int bfclr_=
-mem_test_and_clear_bit(int nr,
-171d809df1896c1 Greg Ungerer      2011-05-17  245  					       volatile uns=
-igned long *vaddr)
-171d809df1896c1 Greg Ungerer      2011-05-17  246  {
-171d809df1896c1 Greg Ungerer      2011-05-17  247  	char retval;
-171d809df1896c1 Greg Ungerer      2011-05-17  248  =
-
-171d809df1896c1 Greg Ungerer      2011-05-17  249  	__asm__ __volatile__ ("=
-bfclr %2{%1:#1}; sne %0"
-171d809df1896c1 Greg Ungerer      2011-05-17  250  		: "=3Dd" (retval)
-171d809df1896c1 Greg Ungerer      2011-05-17  251  		: "d" (nr ^ 31), "o" (=
-*vaddr)
-171d809df1896c1 Greg Ungerer      2011-05-17  252  		: "memory");
-171d809df1896c1 Greg Ungerer      2011-05-17  253  	return retval;
-171d809df1896c1 Greg Ungerer      2011-05-17  254  }
-171d809df1896c1 Greg Ungerer      2011-05-17  255  =
-
-171d809df1896c1 Greg Ungerer      2011-05-17  256  #if defined(CONFIG_COLDF=
-IRE)
-171d809df1896c1 Greg Ungerer      2011-05-17  257  #define	test_and_clear_b=
-it(nr, vaddr)	bclr_reg_test_and_clear_bit(nr, vaddr)
-171d809df1896c1 Greg Ungerer      2011-05-17  258  #elif defined(CONFIG_CPU=
-_HAS_NO_BITFIELDS)
-171d809df1896c1 Greg Ungerer      2011-05-17  259  #define	test_and_clear_b=
-it(nr, vaddr)	bclr_mem_test_and_clear_bit(nr, vaddr)
-171d809df1896c1 Greg Ungerer      2011-05-17  260  #else
-171d809df1896c1 Greg Ungerer      2011-05-17  261  #define test_and_clear_b=
-it(nr, vaddr)	(__builtin_constant_p(nr) ? \
-171d809df1896c1 Greg Ungerer      2011-05-17  262  					bclr_mem_test_and_c=
-lear_bit(nr, vaddr) : \
-171d809df1896c1 Greg Ungerer      2011-05-17  263  					bfclr_mem_test_and_=
-clear_bit(nr, vaddr))
-171d809df1896c1 Greg Ungerer      2011-05-17  264  #endif
-171d809df1896c1 Greg Ungerer      2011-05-17  265  =
-
-0e862838f290147 Alexander Lobakin 2022-06-24  266  static __always_inline b=
-ool
-0e862838f290147 Alexander Lobakin 2022-06-24  267  arch___test_and_clear_bi=
-t(unsigned long nr, volatile unsigned long *addr)
-0e862838f290147 Alexander Lobakin 2022-06-24  268  {
-0e862838f290147 Alexander Lobakin 2022-06-24 @269  	return test_and_clear_b=
-it(nr, addr);
-0e862838f290147 Alexander Lobakin 2022-06-24  270  }
-171d809df1896c1 Greg Ungerer      2011-05-17  271  =
+7c8199e24fa09d Alexei Starovoitov 2022-09-02  338  	if (ma->cache) {
+7c8199e24fa09d Alexei Starovoitov 2022-09-02  339  		for_each_possible_cpu(=
+cpu) {
+7c8199e24fa09d Alexei Starovoitov 2022-09-02  340  			c =3D per_cpu_ptr(ma-=
+>cache, cpu);
+7c8199e24fa09d Alexei Starovoitov 2022-09-02  341  			drain_mem_cache(c);
+7c8199e24fa09d Alexei Starovoitov 2022-09-02  342  		}
+7c8199e24fa09d Alexei Starovoitov 2022-09-02  343  		/* kmem_cache and memc=
+g are the same across cpus */
+7c8199e24fa09d Alexei Starovoitov 2022-09-02 @344  		kmem_cache_destroy(c->=
+kmem_cache);
+7c8199e24fa09d Alexei Starovoitov 2022-09-02  345  		if (c->objcg)
+7c8199e24fa09d Alexei Starovoitov 2022-09-02  346  			obj_cgroup_put(c->obj=
+cg);
+7c8199e24fa09d Alexei Starovoitov 2022-09-02  347  		free_percpu(ma->cache);
+7c8199e24fa09d Alexei Starovoitov 2022-09-02  348  		ma->cache =3D NULL;
+7c8199e24fa09d Alexei Starovoitov 2022-09-02  349  	}
+7c8199e24fa09d Alexei Starovoitov 2022-09-02  350  	if (ma->caches) {
+7c8199e24fa09d Alexei Starovoitov 2022-09-02  351  		for_each_possible_cpu(=
+cpu) {
+7c8199e24fa09d Alexei Starovoitov 2022-09-02  352  			cc =3D per_cpu_ptr(ma=
+->caches, cpu);
+7c8199e24fa09d Alexei Starovoitov 2022-09-02  353  			for (i =3D 0; i < NUM=
+_CACHES; i++) {
+7c8199e24fa09d Alexei Starovoitov 2022-09-02  354  				c =3D &cc->cache[i];
+7c8199e24fa09d Alexei Starovoitov 2022-09-02  355  				drain_mem_cache(c);
+7c8199e24fa09d Alexei Starovoitov 2022-09-02  356  			}
+7c8199e24fa09d Alexei Starovoitov 2022-09-02  357  		}
+7c8199e24fa09d Alexei Starovoitov 2022-09-02  358  		if (c->objcg)
+7c8199e24fa09d Alexei Starovoitov 2022-09-02  359  			obj_cgroup_put(c->obj=
+cg);
+7c8199e24fa09d Alexei Starovoitov 2022-09-02  360  		free_percpu(ma->caches=
+);
+7c8199e24fa09d Alexei Starovoitov 2022-09-02  361  		ma->caches =3D NULL;
+7c8199e24fa09d Alexei Starovoitov 2022-09-02  362  	}
+7c8199e24fa09d Alexei Starovoitov 2022-09-02  363  }
+7c8199e24fa09d Alexei Starovoitov 2022-09-02  364  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============2383135111483765223==--
+--===============2292512797100097162==--
 
