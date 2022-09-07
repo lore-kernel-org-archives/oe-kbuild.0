@@ -1,130 +1,356 @@
-Content-Type: multipart/mixed; boundary="===============4213333072133571112=="
+Content-Type: multipart/mixed; boundary="===============4192429774786486901=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: block/bdev.c:543:11: warning: Parameter 'holder' can be declared with const [constParameter]
-Date: Thu, 08 Sep 2022 06:07:13 +0800
-Message-ID: <202209080605.bMoPAFFE-lkp@intel.com>
+Subject: Re: [PATCH v3 3/4] tty: serial: use DEFINE_UART_PORT_TX_HELPER()
+Date: Thu, 08 Sep 2022 05:35:56 +0800
+Message-ID: <202209080556.PuNVET73-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4213333072133571112==
+--===============4192429774786486901==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 :::::: =
 
-:::::: Manual check reason: "low confidence static check first_new_problem:=
- block/bdev.c:543:11: warning: Parameter 'holder' can be declared with cons=
-t [constParameter]"
+:::::: Manual check reason: "low confidence static check warning: drivers/t=
+ty/serial/vt8500_serial.c:197:8: sparse:    int static [signed] [toplevel] =
+writeb_relaxed( ... )"
 :::::: =
 
 
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
-CC: linux-kernel(a)vger.kernel.org
-TO: Christoph Hellwig <hch@lst.de>
-CC: Jens Axboe <axboe@kernel.dk>
+In-Reply-To: <20220906104805.23211-4-jslaby@suse.cz>
+References: <20220906104805.23211-4-jslaby@suse.cz>
+TO: Jiri Slaby <jslaby@suse.cz>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   0066f1b0e27556381402db3ff31f85d2a2265858
-commit: e4a19f7289f3fa9b2a4e65d0f4b3a7816e8e445b block: don't include blk-m=
-q.h in blk.h
-date:   9 months ago
-:::::: branch date: 21 hours ago
-:::::: commit date: 9 months ago
-compiler: mipsel-linux-gcc (GCC) 12.1.0
-reproduce (cppcheck warning):
-        # apt-get install cppcheck
-        git checkout e4a19f7289f3fa9b2a4e65d0f4b3a7816e8e445b
-        cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
-e=3Dgcc FILE
+Hi Jiri,
+
+I love your patch! Perhaps something to improve:
+
+[auto build test WARNING on tty/tty-testing]
+[also build test WARNING on usb/usb-testing shawnguo/for-next linus/master =
+v6.0-rc4 next-20220907]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jiri-Slaby/tty-TX-he=
+lpers/20220906-185236
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-=
+testing
+:::::: branch date: 35 hours ago
+:::::: commit date: 35 hours ago
+config: csky-randconfig-s041-20220907 (https://download.01.org/0day-ci/arch=
+ive/20220908/202209080556.PuNVET73-lkp(a)intel.com/config)
+compiler: csky-linux-gcc (GCC) 12.1.0
+reproduce:
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://github.com/intel-lab-lkp/linux/commit/7a2fb33f6cabf44f85f=
+fba57d6487529ce598d13
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Jiri-Slaby/tty-TX-helpers/20220906=
+-185236
+        git checkout 7a2fb33f6cabf44f85ffba57d6487529ce598d13
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cross=
+ C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3Dbuild_dir ARCH=3Dc=
+sky SHELL=3D/bin/bash drivers/tty/serial/
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 
+sparse warnings: (new ones prefixed by >>)
+   drivers/tty/serial/vt8500_serial.c:197:8: sparse: sparse: Expected ) in =
+function declarator
+   drivers/tty/serial/vt8500_serial.c:197:8: sparse: sparse: got __VA_OPT__
+   drivers/tty/serial/vt8500_serial.c:197:8: sparse: sparse: Expected ) in =
+function declarator
+   drivers/tty/serial/vt8500_serial.c:197:8: sparse: sparse: got ;
+   drivers/tty/serial/vt8500_serial.c:197:8: sparse: sparse: Trying to use =
+reserved word 'for' as identifier
+   drivers/tty/serial/vt8500_serial.c:197:8: sparse: sparse: Expected ; at =
+end of declaration
+   drivers/tty/serial/vt8500_serial.c:197:8: sparse: sparse: got &&
+   drivers/tty/serial/vt8500_serial.c:197:8: sparse: sparse: Expected ) in =
+nested declarator
+   drivers/tty/serial/vt8500_serial.c:197:8: sparse: sparse: got {
+   drivers/tty/serial/vt8500_serial.c:197:8: sparse: sparse: Expected ) in =
+nested declarator
+   drivers/tty/serial/vt8500_serial.c:197:8: sparse: sparse: got {
+   drivers/tty/serial/vt8500_serial.c:197:8: sparse: sparse: Expected ) in =
+function declarator
+   drivers/tty/serial/vt8500_serial.c:197:8: sparse: sparse: got (
+   drivers/tty/serial/vt8500_serial.c:197:8: sparse: sparse: Expected ; at =
+the end of type declaration
+   drivers/tty/serial/vt8500_serial.c:197:8: sparse: sparse: got }
+   drivers/tty/serial/vt8500_serial.c:197:8: sparse: sparse: Expected ; at =
+end of declaration
+   drivers/tty/serial/vt8500_serial.c:197:8: sparse: sparse: got ->
+   drivers/tty/serial/vt8500_serial.c:197:8: sparse: sparse: Trying to use =
+reserved word 'continue' as identifier
+   drivers/tty/serial/vt8500_serial.c:197:8: sparse: sparse: Expected ; at =
+the end of type declaration
+   drivers/tty/serial/vt8500_serial.c:197:8: sparse: sparse: got }
+   drivers/tty/serial/vt8500_serial.c:197:8: sparse: sparse: Expected ) in =
+nested declarator
+   drivers/tty/serial/vt8500_serial.c:197:8: sparse: sparse: got {
+   drivers/tty/serial/vt8500_serial.c:197:8: sparse: sparse: Expected ) in =
+function declarator
+   drivers/tty/serial/vt8500_serial.c:197:8: sparse: sparse: got (
+   drivers/tty/serial/vt8500_serial.c:197:8: sparse: sparse: Expected ; at =
+the end of type declaration
+   drivers/tty/serial/vt8500_serial.c:197:8: sparse: sparse: got }
+   drivers/tty/serial/vt8500_serial.c:197:8: sparse: sparse: Expected ; at =
+end of declaration
+   drivers/tty/serial/vt8500_serial.c:197:8: sparse: sparse: got ->
+   drivers/tty/serial/vt8500_serial.c:197:8: sparse: sparse: Expected ; at =
+the end of type declaration
+   drivers/tty/serial/vt8500_serial.c:197:8: sparse: sparse: got }
+   drivers/tty/serial/vt8500_serial.c:197:8: sparse: sparse: Expected ) in =
+function declarator
+   drivers/tty/serial/vt8500_serial.c:197:8: sparse: sparse: got <
+   drivers/tty/serial/vt8500_serial.c:197:8: sparse: sparse: Trying to use =
+reserved word 'if' as identifier
+   drivers/tty/serial/vt8500_serial.c:197:8: sparse: sparse: Expected ) in =
+function declarator
+   drivers/tty/serial/vt8500_serial.c:197:8: sparse: sparse: got =3D=3D
+   drivers/tty/serial/vt8500_serial.c:197:8: sparse: sparse: Trying to use =
+reserved word 'if' as identifier
+   drivers/tty/serial/vt8500_serial.c:197:8: sparse: sparse: Expected ; at =
+the end of type declaration
+   drivers/tty/serial/vt8500_serial.c:197:8: sparse: sparse: got }
+   drivers/tty/serial/vt8500_serial.c:197:8: sparse: sparse: Expected ;@=
+the end of type declaration
+   drivers/tty/serial/vt8500_serial.c:197:8: sparse: sparse: got }
+   drivers/tty/serial/vt8500_serial.c:197:8: sparse: sparse: symbol 'true' =
+redeclared with different type (different signedness):
+   drivers/tty/serial/vt8500_serial.c:197:8: sparse:    int [addressable] [=
+toplevel] true
+   drivers/tty/serial/vt8500_serial.c: note: in included file (through incl=
+ude/uapi/linux/posix_types.h, include/uapi/linux/types.h, include/linux/typ=
+es.h, ...):
+   include/linux/stddef.h:12:9: sparse: note: previously declared as:
+   include/linux/stddef.h:12:9: sparse:    unsigned int enum <noident> [top=
+level] true
+   drivers/tty/serial/vt8500_serial.c:197:8: sparse: sparse: symbol 'writeb=
+_relaxed' redeclared with different type (different argument counts):
+>> drivers/tty/serial/vt8500_serial.c:197:8: sparse:    int static [signed]=
+ [toplevel] writeb_relaxed( ... )
+   drivers/tty/serial/vt8500_serial.c: note: in included file (through arch=
+/csky/include/asm/io.h, include/linux/io.h):
+   include/asm-generic/io.h:356:20: sparse: note: previously declared as:
+   include/asm-generic/io.h:356:20: sparse:    void static inline [gnu_inli=
+ne] [toplevel] writeb_relaxed( ... )
+   drivers/tty/serial/vt8500_serial.c:197:8: sparse: sparse: undefined iden=
+tifier 'xmit'
+   drivers/tty/serial/vt8500_serial.c:197:8: sparse: sparse: undefined iden=
+tifier 'xmit'
+   drivers/tty/serial/vt8500_serial.c:197:8: sparse: sparse: symbol 'ch' re=
+declared with different type (different type sizes):
+   drivers/tty/serial/vt8500_serial.c:197:8: sparse:    int [addressable] [=
+toplevel] ch
+   drivers/tty/serial/vt8500_serial.c:197:8: sparse: note: previously decla=
+red as:
+   drivers/tty/serial/vt8500_serial.c:197:8: sparse:    unsigned char [addr=
+essable] [toplevel] [usertype] ch
+   drivers/tty/serial/vt8500_serial.c:197:8: sparse: sparse: symbol 'writeb=
+_relaxed' redeclared with different type (different argument counts):
+>> drivers/tty/serial/vt8500_serial.c:197:8: sparse:    int static [signed]=
+ [toplevel] writeb_relaxed( ... )
+   include/asm-generic/io.h:356:20: sparse: note: previously declared as:
+   include/asm-generic/io.h:356:20: sparse:    void static inline [gnu_inli=
+ne] [toplevel] writeb_relaxed( ... )
+   drivers/tty/serial/vt8500_serial.c:197:8: sparse: sparse: cannot derefer=
+ence this type
+   drivers/tty/serial/vt8500_serial.c:197:8: sparse: sparse: cannot derefer=
+ence this type
+   drivers/tty/serial/vt8500_serial.c:197:8: sparse: sparse: symbol 'pendin=
+g' redeclared with different type (different signedness):
+   drivers/tty/serial/vt8500_serial.c:197:8: sparse:    int [addressable] [=
+toplevel] pending
+   drivers/tty/serial/vt8500_serial.c:197:8: sparse: note: previously decla=
+red as:
+   drivers/tty/serial/vt8500_serial.c:197:8: sparse:    unsigned int [addre=
+ssable] [toplevel] pending
+--
+   drivers/tty/serial/lpc32xx_hs.c:286:8: sparse: sparse: Expected ) in fun=
+ction declarator
+   drivers/tty/serial/lpc32xx_hs.c:286:8: sparse: sparse: got __VA_OPT__
+   drivers/tty/serial/lpc32xx_hs.c:286:8: sparse: sparse: Expected ) in fun=
+ction declarator
+   drivers/tty/serial/lpc32xx_hs.c:286:8: sparse: sparse: got ;
+   drivers/tty/serial/lpc32xx_hs.c:286:8: sparse: sparse: Trying to use res=
+erved word 'for' as identifier
+   drivers/tty/serial/lpc32xx_hs.c:286:8: sparse: sparse: Expected ; at end=
+ of declaration
+   drivers/tty/serial/lpc32xx_hs.c:286:8: sparse: sparse: got &&
+   drivers/tty/serial/lpc32xx_hs.c:286:8: sparse: sparse: Expected ) in nes=
+ted declarator
+   drivers/tty/serial/lpc32xx_hs.c:286:8: sparse: sparse: got {
+   drivers/tty/serial/lpc32xx_hs.c:286:8: sparse: sparse: Expected ) in nes=
+ted declarator
+   drivers/tty/serial/lpc32xx_hs.c:286:8: sparse: sparse: got {
+   drivers/tty/serial/lpc32xx_hs.c:286:8: sparse: sparse: Expected ) in fun=
+ction declarator
+   drivers/tty/serial/lpc32xx_hs.c:286:8: sparse: sparse: got (
+   drivers/tty/serial/lpc32xx_hs.c:286:8: sparse: sparse: Expected ; at the=
+ end of type declaration
+   drivers/tty/serial/lpc32xx_hs.c:286:8: sparse: sparse: got }
+   drivers/tty/serial/lpc32xx_hs.c:286:8: sparse: sparse: Expected ; at end=
+ of declaration
+   drivers/tty/serial/lpc32xx_hs.c:286:8: sparse: sparse: got ->
+   drivers/tty/serial/lpc32xx_hs.c:286:8: sparse: sparse: Trying to use res=
+erved word 'continue' as identifier
+   drivers/tty/serial/lpc32xx_hs.c:286:8: sparse: sparse: Expected ; at the=
+ end of type declaration
+   drivers/tty/serial/lpc32xx_hs.c:286:8: sparse: sparse: got }
+   drivers/tty/serial/lpc32xx_hs.c:286:8: sparse: sparse: Expected ) in nes=
+ted declarator
+   drivers/tty/serial/lpc32xx_hs.c:286:8: sparse: sparse: got {
+   drivers/tty/serial/lpc32xx_hs.c:286:8: sparse: sparse: Expected ) in fun=
+ction declarator
+   drivers/tty/serial/lpc32xx_hs.c:286:8: sparse: sparse: got (
+   drivers/tty/serial/lpc32xx_hs.c:286:8: sparse: sparse: Expected ; at the=
+ end of type declaration
+   drivers/tty/serial/lpc32xx_hs.c:286:8: sparse: sparse: got }
+   drivers/tty/serial/lpc32xx_hs.c:286:8: sparse: sparse: Expected ; at end=
+ of declaration
+   drivers/tty/serial/lpc32xx_hs.c:286:8: sparse: sparse: got ->
+   drivers/tty/serial/lpc32xx_hs.c:286:8: sparse: sparse: Expected ; at the=
+ end of type declaration
+   drivers/tty/serial/lpc32xx_hs.c:286:8: sparse: sparse: got }
+   drivers/tty/serial/lpc32xx_hs.c:286:8: sparse: sparse: Expected ) in fun=
+ction declarator
+   drivers/tty/serial/lpc32xx_hs.c:286:8: sparse: sparse: got <
+   drivers/tty/serial/lpc32xx_hs.c:286:8: sparse: sparse: Trying to use res=
+erved word 'if' as identifier
+   drivers/tty/serial/lpc32xx_hs.c:286:8: sparse: sparse: Expected ) in fun=
+ction declarator
+   drivers/tty/serial/lpc32xx_hs.c:286:8: sparse: sparse: got =3D=3D
+   drivers/tty/serial/lpc32xx_hs.c:286:8: sparse: sparse: Trying to use res=
+erved word 'if' as identifier
+   drivers/tty/serial/lpc32xx_hs.c:286:8: sparse: sparse: Expected ; at the=
+ end of type declaration
+   drivers/tty/serial/lpc32xx_hs.c:286:8: sparse: sparse: got }
+   drivers/tty/serial/lpc32xx_hs.c:286:8: sparse: sparse: Expected ;@the=
+ end of type declaration
+   drivers/tty/serial/lpc32xx_hs.c:286:8: sparse: sparse: got }
+   drivers/tty/serial/lpc32xx_hs.c:286:8: sparse: sparse: symbol 'true' red=
+eclared with different type (different signedness):
+   drivers/tty/serial/lpc32xx_hs.c:286:8: sparse:    int [addressable] [top=
+level] true
+   drivers/tty/serial/lpc32xx_hs.c: note: in included file (through include=
+/uapi/linux/posix_types.h, include/uapi/linux/types.h, include/linux/types.=
+h, ...):
+   include/linux/stddef.h:12:9: sparse: note: previously declared as:
+   include/linux/stddef.h:12:9: sparse:    unsigned int enum <noident> [top=
+level] true
+   drivers/tty/serial/lpc32xx_hs.c:286:8: sparse: sparse: symbol 'writel_re=
+laxed' redeclared with different type (different argument counts):
+>> drivers/tty/serial/lpc32xx_hs.c:286:8: sparse:    int static [signed] [t=
+oplevel] writel_relaxed( ... )
+   drivers/tty/serial/lpc32xx_hs.c: note: in included file (through arch/cs=
+ky/include/asm/io.h, include/linux/scatterlist.h, include/linux/kfifo.h, ..=
+.):
+   include/asm-generic/io.h:376:20: sparse: note: previously declared as:
+   include/asm-generic/io.h:376:20: sparse:    void static inline [gnu_inli=
+ne] [toplevel] writel_relaxed( ... )
+   drivers/tty/serial/lpc32xx_hs.c:286:8: sparse: sparse: undefined identif=
+ier 'xmit'
+   drivers/tty/serial/lpc32xx_hs.c:286:8: sparse: sparse: undefined identif=
+ier 'xmit'
+   drivers/tty/serial/lpc32xx_hs.c:286:8: sparse: sparse: symbol 'ch' redec=
+lared with different type (different type sizes):
+   drivers/tty/serial/lpc32xx_hs.c:286:8: sparse:    int [addressable] [top=
+level] ch
+   drivers/tty/serial/lpc32xx_hs.c:286:8: sparse: note: previously declared=
+ as:
+   drivers/tty/serial/lpc32xx_hs.c:286:8: sparse:    unsigned char [address=
+able] [toplevel] [usertype] ch
+   drivers/tty/serial/lpc32xx_hs.c:286:8: sparse: sparse: symbol 'writel_re=
+laxed' redeclared with different type (different argument counts):
+>> drivers/tty/serial/lpc32xx_hs.c:286:8: sparse:    int static [signed] [t=
+oplevel] writel_relaxed( ... )
+   include/asm-generic/io.h:376:20: sparse: note: previously declared as:
+   include/asm-generic/io.h:376:20: sparse:    void static inline [gnu_inli=
+ne] [toplevel] writel_relaxed( ... )
+   drivers/tty/serial/lpc32xx_hs.c:286:8: sparse: sparse: cannot dereferenc=
+e this type
+   drivers/tty/serial/lpc32xx_hs.c:286:8: sparse: sparse: cannot dereferenc=
+e this type
+   drivers/tty/serial/lpc32xx_hs.c:286:8: sparse: sparse: symbol 'pending' =
+redeclared with different type (different signedness):
+   drivers/tty/serial/lpc32xx_hs.c:286:8: sparse:    int [addressable] [top=
+level] pending
+   drivers/tty/serial/lpc32xx_hs.c:286:8: sparse: note: previously declared=
+ as:
+   drivers/tty/serial/lpc32xx_hs.c:286:8: sparse:    unsigned int [addressa=
+ble] [toplevel] pending
+>> drivers/tty/serial/lpc32xx_hs.c:303:17: sparse: sparse: too many argumen=
+ts for function writel_relaxed
+   drivers/tty/serial/lpc32xx_hs.c:310:17: sparse: sparse: too many argumen=
+ts for function writel_relaxed
+   drivers/tty/serial/lpc32xx_hs.c:314:17: sparse: sparse: too many argumen=
+ts for function writel_relaxed
+   drivers/tty/serial/lpc32xx_hs.c:327:17: sparse: sparse: too many argumen=
+ts for function writel_relaxed
+   drivers/tty/serial/lpc32xx_hs.c:368:9: sparse: sparse: too many argument=
+s for function writel_relaxed
+   drivers/tty/serial/lpc32xx_hs.c:379:9: sparse: sparse: too many argument=
+s for function writel_relaxed
+   drivers/tty/serial/lpc32xx_hs.c:389:9: sparse: sparse: too many argument=
+s for function writel_relaxed
+   drivers/tty/serial/lpc32xx_hs.c:391:9: sparse: sparse: too many argument=
+s for function writel_relaxed
+   drivers/tty/serial/lpc32xx_hs.c:408:9: sparse: sparse: too many argument=
+s for function writel_relaxed
+   drivers/tty/serial/lpc32xx_hs.c:423:9: sparse: sparse: too many argument=
+s for function writel_relaxed
+   drivers/tty/serial/lpc32xx_hs.c:427:9: sparse: sparse: too many argument=
+s for function writel_relaxed
+   drivers/tty/serial/lpc32xx_hs.c:435:9: sparse: sparse: too many argument=
+s for function writel_relaxed
+   drivers/tty/serial/lpc32xx_hs.c:444:17: sparse: sparse: too many argumen=
+ts for function writel_relaxed
+   drivers/tty/serial/lpc32xx_hs.c:460:9: sparse: sparse: too many argument=
+s for function writel_relaxed
+   drivers/tty/serial/lpc32xx_hs.c:497:9: sparse: sparse: too many argument=
+s for function writel_relaxed
+   drivers/tty/serial/lpc32xx_hs.c:499:9: sparse: sparse: too many argument=
+s for function writel_relaxed
+   drivers/tty/serial/lpc32xx_hs.c:560:9: sparse: sparse: too many argument=
+s for function writel_relaxed
+   drivers/tty/serial/lpc32xx_hs.c:564:9: sparse: sparse: too many argument=
+s for function writel_relaxed
+   drivers/tty/serial/lpc32xx_hs.c:568:9: sparse: sparse: too many argument=
+s for function writel_relaxed
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+vim +197 drivers/tty/serial/vt8500_serial.c
 
->> block/bdev.c:543:11: warning: Parameter 'holder' can be declared with co=
-nst [constParameter]
-       void *holder)
-             ^
-   block/bdev.c:605:65: warning: Parameter 'holder' can be declared with co=
-nst [constParameter]
-   static void bd_clear_claiming(struct block_device *whole, void *holder)
-                                                                   ^
+662e1513d700cc drivers/tty/serial/vt8500_serial.c Jiri Slaby     2022-09-06=
+  196  =
 
-vim +/holder +543 block/bdev.c
+7a2fb33f6cabf4 drivers/tty/serial/vt8500_serial.c Jiri Slaby     2022-09-06=
+ @197  static DEFINE_UART_PORT_TX_HELPER(handle_tx,
+7a2fb33f6cabf4 drivers/tty/serial/vt8500_serial.c Jiri Slaby     2022-09-06=
+  198  		vt8500_tx_empty(port),
+7a2fb33f6cabf4 drivers/tty/serial/vt8500_serial.c Jiri Slaby     2022-09-06=
+  199  		writeb(ch, port->membase + VT8500_TXFIFO));
+304e12665a4a7b drivers/serial/vt8500_serial.c     Alexey Charkov 2010-11-08=
+  200  =
 
-^1da177e4c3f41 fs/block_dev.c Linus Torvalds  2005-04-16  527  =
-
-1a3cbbc5a5e8a6 fs/block_dev.c Tejun Heo       2010-04-07  528  /**
-1a3cbbc5a5e8a6 fs/block_dev.c Tejun Heo       2010-04-07  529   * bd_may_cl=
-aim - test whether a block device can be claimed
-1a3cbbc5a5e8a6 fs/block_dev.c Tejun Heo       2010-04-07  530   * @bdev: bl=
-ock device of interest
-1a3cbbc5a5e8a6 fs/block_dev.c Tejun Heo       2010-04-07  531   * @whole: w=
-hole block device containing @bdev, may equal @bdev
-1a3cbbc5a5e8a6 fs/block_dev.c Tejun Heo       2010-04-07  532   * @holder: =
-holder trying to claim @bdev
-1a3cbbc5a5e8a6 fs/block_dev.c Tejun Heo       2010-04-07  533   *
-25985edcedea63 fs/block_dev.c Lucas De Marchi 2011-03-30  534   * Test whet=
-her @bdev can be claimed by @holder.
-1a3cbbc5a5e8a6 fs/block_dev.c Tejun Heo       2010-04-07  535   *
-1a3cbbc5a5e8a6 fs/block_dev.c Tejun Heo       2010-04-07  536   * CONTEXT:
-1a3cbbc5a5e8a6 fs/block_dev.c Tejun Heo       2010-04-07  537   * spin_lock=
-(&bdev_lock).
-1a3cbbc5a5e8a6 fs/block_dev.c Tejun Heo       2010-04-07  538   *
-1a3cbbc5a5e8a6 fs/block_dev.c Tejun Heo       2010-04-07  539   * RETURNS:
-1a3cbbc5a5e8a6 fs/block_dev.c Tejun Heo       2010-04-07  540   * %true if =
-@bdev can be claimed, %false otherwise.
-1a3cbbc5a5e8a6 fs/block_dev.c Tejun Heo       2010-04-07  541   */
-1a3cbbc5a5e8a6 fs/block_dev.c Tejun Heo       2010-04-07  542  static bool =
-bd_may_claim(struct block_device *bdev, struct block_device *whole,
-1a3cbbc5a5e8a6 fs/block_dev.c Tejun Heo       2010-04-07 @543  			 void *ho=
-lder)
-^1da177e4c3f41 fs/block_dev.c Linus Torvalds  2005-04-16  544  {
-^1da177e4c3f41 fs/block_dev.c Linus Torvalds  2005-04-16  545  	if (bdev->b=
-d_holder =3D=3D holder)
-1a3cbbc5a5e8a6 fs/block_dev.c Tejun Heo       2010-04-07  546  		return tru=
-e;	 /* already a holder */
-^1da177e4c3f41 fs/block_dev.c Linus Torvalds  2005-04-16  547  	else if (bd=
-ev->bd_holder !=3D NULL)
-1a3cbbc5a5e8a6 fs/block_dev.c Tejun Heo       2010-04-07  548  		return fal=
-se; 	 /* held by someone else */
-bcc7f5b4bee8e3 fs/block_dev.c NeilBrown       2016-12-12  549  	else if (wh=
-ole =3D=3D bdev)
-1a3cbbc5a5e8a6 fs/block_dev.c Tejun Heo       2010-04-07  550  		return tru=
-e;  	 /* is a whole device which isn't held */
-^1da177e4c3f41 fs/block_dev.c Linus Torvalds  2005-04-16  551  =
-
-e525fd89d380c4 fs/block_dev.c Tejun Heo       2010-11-13  552  	else if (wh=
-ole->bd_holder =3D=3D bd_may_claim)
-1a3cbbc5a5e8a6 fs/block_dev.c Tejun Heo       2010-04-07  553  		return tru=
-e; 	 /* is a partition of a device that is being partitioned */
-1a3cbbc5a5e8a6 fs/block_dev.c Tejun Heo       2010-04-07  554  	else if (wh=
-ole->bd_holder !=3D NULL)
-1a3cbbc5a5e8a6 fs/block_dev.c Tejun Heo       2010-04-07  555  		return fal=
-se;	 /* is a partition of a held device */
-^1da177e4c3f41 fs/block_dev.c Linus Torvalds  2005-04-16  556  	else
-1a3cbbc5a5e8a6 fs/block_dev.c Tejun Heo       2010-04-07  557  		return tru=
-e;	 /* is a partition of an un-held device */
-1a3cbbc5a5e8a6 fs/block_dev.c Tejun Heo       2010-04-07  558  }
-1a3cbbc5a5e8a6 fs/block_dev.c Tejun Heo       2010-04-07  559  =
-
-
-:::::: The code at line 543 was first introduced by commit
-:::::: 1a3cbbc5a5e8a66934aa0947896a4aca6fd77298 block: factor out bd_may_cl=
-aim()
-
-:::::: TO: Tejun Heo <tj@kernel.org>
-:::::: CC: Jens Axboe <jens.axboe@oracle.com>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============4213333072133571112==--
+--===============4192429774786486901==--
 
