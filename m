@@ -1,114 +1,115 @@
-Content-Type: multipart/mixed; boundary="===============4084832010402472050=="
+Content-Type: multipart/mixed; boundary="===============5290101393472838080=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [RFC PATCH v3 2/7] bus/cdx: add the cdx bus driver
-Date: Wed, 07 Sep 2022 16:55:18 +0800
-Message-ID: <202209071635.ieqyLzSg-lkp@intel.com>
+Subject: drivers/cxl/core/port.c:534 cxl_decoder_add() warn: passing zero to 'PTR_ERR'
+Date: Wed, 07 Sep 2022 16:34:28 +0800
+Message-ID: <202209071629.XklrhalE-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4084832010402472050==
+--===============5290101393472838080==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <20220906134801.4079497-3-nipun.gupta@amd.com>
-References: <20220906134801.4079497-3-nipun.gupta@amd.com>
-TO: Nipun Gupta <nipun.gupta@amd.com>
+CC: linux-kernel(a)vger.kernel.org
+TO: Dan Williams <dan.j.williams@intel.com>
+CC: Ben Widawsky <ben.widawsky@intel.com>
 
-Hi Nipun,
+Hi Dan,
 
-[FYI, it's a private test report for your RFC patch.]
-[auto build test WARNING on robh/for-next]
-[also build test WARNING on masahiroy-kbuild/for-next linus/master v6.0-rc4=
- next-20220906]
-[cannot apply to awilliam-vfio/next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+First bad commit (maybe !=3D root cause):
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Nipun-Gupta/dt-bindi=
-ngs-bus-add-CDX-bus-device-tree-bindings/20220906-224815
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-=
-next
-:::::: branch date: 18 hours ago
-:::::: commit date: 18 hours ago
-config: csky-randconfig-c024-20220907 (https://download.01.org/0day-ci/arch=
-ive/20220907/202209071635.ieqyLzSg-lkp(a)intel.com/config)
-compiler: csky-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   0066f1b0e27556381402db3ff31f85d2a2265858
+commit: 0ff0af18216436d0151af4e410400c7a19ca9437 cxl/core/port: Rename bus.=
+c to port.c
+date:   7 months ago
+:::::: branch date: 7 hours ago
+:::::: commit date: 7 months ago
+config: powerpc-randconfig-m031-20220906 (https://download.01.org/0day-ci/a=
+rchive/20220907/202209071629.XklrhalE-lkp(a)intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Julia Lawall <julia.lawall@lip6.fr>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/bus/cdx/cdx.c:375:17-25: ERROR: reference preceded by free on li=
-ne 373
+smatch warnings:
+drivers/cxl/core/port.c:534 cxl_decoder_add() warn: passing zero to 'PTR_ER=
+R'
 
-vim +375 drivers/bus/cdx/cdx.c
+vim +/PTR_ERR +534 drivers/cxl/core/port.c
 
-fd1f6db9b17721 Nipun Gupta 2022-09-06  342  =
+40ba17afdfabb0 drivers/cxl/core.c     Dan Williams 2021-06-09  523  =
 
-fd1f6db9b17721 Nipun Gupta 2022-09-06  343  static int cdx_bus_probe(struct=
- platform_device *pdev)
-fd1f6db9b17721 Nipun Gupta 2022-09-06  344  {
-fd1f6db9b17721 Nipun Gupta 2022-09-06  345  	struct cdx_mcdi_t *cdx_mcdi;
-fd1f6db9b17721 Nipun Gupta 2022-09-06  346  	int ret;
-fd1f6db9b17721 Nipun Gupta 2022-09-06  347  =
+48667f676189ec drivers/cxl/core/bus.c Dan Williams 2021-09-21  524  int cxl=
+_decoder_add(struct cxl_decoder *cxld, int *target_map)
+40ba17afdfabb0 drivers/cxl/core.c     Dan Williams 2021-06-09  525  {
+48667f676189ec drivers/cxl/core/bus.c Dan Williams 2021-09-21  526  	struct=
+ cxl_port *port;
+40ba17afdfabb0 drivers/cxl/core.c     Dan Williams 2021-06-09  527  	struct=
+ device *dev;
+40ba17afdfabb0 drivers/cxl/core.c     Dan Williams 2021-06-09  528  	int rc;
+40ba17afdfabb0 drivers/cxl/core.c     Dan Williams 2021-06-09  529  =
 
-fd1f6db9b17721 Nipun Gupta 2022-09-06  348  	cdx_mcdi =3D kzalloc(sizeof(*c=
-dx_mcdi), GFP_KERNEL);
-fd1f6db9b17721 Nipun Gupta 2022-09-06  349  	if (!cdx_mcdi) {
-fd1f6db9b17721 Nipun Gupta 2022-09-06  350  		dev_err(&pdev->dev, "Failed t=
-o allocate memory for cdx_mcdi\n");
-fd1f6db9b17721 Nipun Gupta 2022-09-06  351  		return -ENOMEM;
-fd1f6db9b17721 Nipun Gupta 2022-09-06  352  	}
-fd1f6db9b17721 Nipun Gupta 2022-09-06  353  =
+48667f676189ec drivers/cxl/core/bus.c Dan Williams 2021-09-21  530  	if (WA=
+RN_ON_ONCE(!cxld))
+48667f676189ec drivers/cxl/core/bus.c Dan Williams 2021-09-21  531  		retur=
+n -EINVAL;
+a5c25802168993 drivers/cxl/core/bus.c Dan Williams 2021-09-08  532  =
 
-fd1f6db9b17721 Nipun Gupta 2022-09-06  354  	/* MCDI FW: Initialize the FW =
-path */
-fd1f6db9b17721 Nipun Gupta 2022-09-06  355  	ret =3D cdx_mcdi_init(cdx_mcdi=
-);
-fd1f6db9b17721 Nipun Gupta 2022-09-06  356  	if (ret) {
-fd1f6db9b17721 Nipun Gupta 2022-09-06  357  		dev_err(&pdev->dev, "MCDI Ini=
-tialization failed: %d\n", ret);
-fd1f6db9b17721 Nipun Gupta 2022-09-06  358  		goto mcdi_init_fail;
-fd1f6db9b17721 Nipun Gupta 2022-09-06  359  	}
-fd1f6db9b17721 Nipun Gupta 2022-09-06  360  	platform_set_drvdata(pdev, cdx=
-_mcdi);
-fd1f6db9b17721 Nipun Gupta 2022-09-06  361  =
+48667f676189ec drivers/cxl/core/bus.c Dan Williams 2021-09-21  533  	if (WA=
+RN_ON_ONCE(IS_ERR(cxld)))
+48667f676189ec drivers/cxl/core/bus.c Dan Williams 2021-09-21 @534  		retur=
+n PTR_ERR(cxld);
+40ba17afdfabb0 drivers/cxl/core.c     Dan Williams 2021-06-09  535  =
 
-fd1f6db9b17721 Nipun Gupta 2022-09-06  362  	/* Discover all the devices on=
- the bus */
-fd1f6db9b17721 Nipun Gupta 2022-09-06  363  	ret =3D cdx_bus_device_discove=
-ry(pdev);
-fd1f6db9b17721 Nipun Gupta 2022-09-06  364  	if (ret) {
-fd1f6db9b17721 Nipun Gupta 2022-09-06  365  		dev_err(&pdev->dev,
-fd1f6db9b17721 Nipun Gupta 2022-09-06  366  			"CDX bus device discovery fa=
-iled: %d\n", ret);
-fd1f6db9b17721 Nipun Gupta 2022-09-06  367  		goto device_discovery_fail;
-fd1f6db9b17721 Nipun Gupta 2022-09-06  368  	}
-fd1f6db9b17721 Nipun Gupta 2022-09-06  369  =
+48667f676189ec drivers/cxl/core/bus.c Dan Williams 2021-09-21  536  	if (cx=
+ld->interleave_ways < 1)
+48667f676189ec drivers/cxl/core/bus.c Dan Williams 2021-09-21  537  		retur=
+n -EINVAL;
+40ba17afdfabb0 drivers/cxl/core.c     Dan Williams 2021-06-09  538  =
 
-fd1f6db9b17721 Nipun Gupta 2022-09-06  370  	return 0;
-fd1f6db9b17721 Nipun Gupta 2022-09-06  371  =
+48667f676189ec drivers/cxl/core/bus.c Dan Williams 2021-09-21  539  	port =
+=3D to_cxl_port(cxld->dev.parent);
+48667f676189ec drivers/cxl/core/bus.c Dan Williams 2021-09-21  540  	rc =3D=
+ decoder_populate_targets(cxld, port, target_map);
+40ba17afdfabb0 drivers/cxl/core.c     Dan Williams 2021-06-09  541  	if (rc)
+48667f676189ec drivers/cxl/core/bus.c Dan Williams 2021-09-21  542  		retur=
+n rc;
+40ba17afdfabb0 drivers/cxl/core.c     Dan Williams 2021-06-09  543  =
 
-fd1f6db9b17721 Nipun Gupta 2022-09-06  372  mcdi_init_fail:
-fd1f6db9b17721 Nipun Gupta 2022-09-06 @373  	kfree(cdx_mcdi);
-fd1f6db9b17721 Nipun Gupta 2022-09-06  374  device_discovery_fail:
-fd1f6db9b17721 Nipun Gupta 2022-09-06 @375  	cdx_mcdi_finish(cdx_mcdi);
-fd1f6db9b17721 Nipun Gupta 2022-09-06  376  =
+48667f676189ec drivers/cxl/core/bus.c Dan Williams 2021-09-21  544  	dev =
+=3D &cxld->dev;
+48667f676189ec drivers/cxl/core/bus.c Dan Williams 2021-09-21  545  	rc =3D=
+ dev_set_name(dev, "decoder%d.%d", port->id, cxld->id);
+40ba17afdfabb0 drivers/cxl/core.c     Dan Williams 2021-06-09  546  	if (rc)
+48667f676189ec drivers/cxl/core/bus.c Dan Williams 2021-09-21  547  		retur=
+n rc;
+40ba17afdfabb0 drivers/cxl/core.c     Dan Williams 2021-06-09  548  =
 
-fd1f6db9b17721 Nipun Gupta 2022-09-06  377  	return ret;
-fd1f6db9b17721 Nipun Gupta 2022-09-06  378  }
-fd1f6db9b17721 Nipun Gupta 2022-09-06  379  =
+48667f676189ec drivers/cxl/core/bus.c Dan Williams 2021-09-21  549  	return=
+ device_add(dev);
+40ba17afdfabb0 drivers/cxl/core.c     Dan Williams 2021-06-09  550  }
+affec782742e08 drivers/cxl/core/bus.c Dan Williams 2021-11-12  551  EXPORT_=
+SYMBOL_NS_GPL(cxl_decoder_add, CXL);
+40ba17afdfabb0 drivers/cxl/core.c     Dan Williams 2021-06-09  552  =
 
+
+:::::: The code at line 534 was first introduced by commit
+:::::: 48667f676189eccfe9b7ac3a31772d55d6da40e5 cxl/core: Split decoder set=
+up into alloc + add
+
+:::::: TO: Dan Williams <dan.j.williams@intel.com>
+:::::: CC: Dan Williams <dan.j.williams@intel.com>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============4084832010402472050==--
+--===============5290101393472838080==--
 
