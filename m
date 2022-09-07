@@ -1,280 +1,130 @@
-Content-Type: multipart/mixed; boundary="===============1496990785897099166=="
+Content-Type: multipart/mixed; boundary="===============4213333072133571112=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v3 4/4] tty: serial: use DEFINE_UART_PORT_TX_HELPER_LIMITED()
-Date: Thu, 08 Sep 2022 08:56:38 +0800
-Message-ID: <202209080807.sMjI4CqQ-lkp@intel.com>
+Subject: block/bdev.c:543:11: warning: Parameter 'holder' can be declared with const [constParameter]
+Date: Thu, 08 Sep 2022 06:07:13 +0800
+Message-ID: <202209080605.bMoPAFFE-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1496990785897099166==
+--===============4213333072133571112==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 :::::: =
 
-:::::: Manual check reason: "low confidence static check warning: drivers/t=
-ty/serial/amba-pl010.c:165:8: sparse:    int static [signed] [toplevel] wri=
-tel_relaxed( ... )"
+:::::: Manual check reason: "low confidence static check first_new_problem:=
+ block/bdev.c:543:11: warning: Parameter 'holder' can be declared with cons=
+t [constParameter]"
 :::::: =
 
 
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <20220906104805.23211-5-jslaby@suse.cz>
-References: <20220906104805.23211-5-jslaby@suse.cz>
-TO: Jiri Slaby <jslaby@suse.cz>
+CC: linux-kernel(a)vger.kernel.org
+TO: Christoph Hellwig <hch@lst.de>
+CC: Jens Axboe <axboe@kernel.dk>
 
-Hi Jiri,
-
-I love your patch! Perhaps something to improve:
-
-[auto build test WARNING on tty/tty-testing]
-[also build test WARNING on usb/usb-testing shawnguo/for-next linus/master =
-v6.0-rc4 next-20220907]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jiri-Slaby/tty-TX-he=
-lpers/20220906-185236
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-=
-testing
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: csky-randconfig-s041-20220907 (https://download.01.org/0day-ci/arch=
-ive/20220908/202209080807.sMjI4CqQ-lkp(a)intel.com/config)
-compiler: csky-linux-gcc (GCC) 12.1.0
-reproduce:
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://github.com/intel-lab-lkp/linux/commit/acf6bd027deb5adff25=
-97e7c592b10a5822a5975
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Jiri-Slaby/tty-TX-helpers/20220906=
--185236
-        git checkout acf6bd027deb5adff2597e7c592b10a5822a5975
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cross=
- C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3Dbuild_dir ARCH=3Dc=
-sky SHELL=3D/bin/bash drivers/tty/serial/
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   0066f1b0e27556381402db3ff31f85d2a2265858
+commit: e4a19f7289f3fa9b2a4e65d0f4b3a7816e8e445b block: don't include blk-m=
+q.h in blk.h
+date:   9 months ago
+:::::: branch date: 21 hours ago
+:::::: commit date: 9 months ago
+compiler: mipsel-linux-gcc (GCC) 12.1.0
+reproduce (cppcheck warning):
+        # apt-get install cppcheck
+        git checkout e4a19f7289f3fa9b2a4e65d0f4b3a7816e8e445b
+        cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
+e=3Dgcc FILE
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/tty/serial/amba-pl010.c:165:8: sparse: sparse: Expected ) in fun=
-ction declarator
-   drivers/tty/serial/amba-pl010.c:165:8: sparse: sparse: got __VA_OPT__
-   drivers/tty/serial/amba-pl010.c:165:8: sparse: sparse: Expected ) in fun=
-ction declarator
-   drivers/tty/serial/amba-pl010.c:165:8: sparse: sparse: got ;
-   drivers/tty/serial/amba-pl010.c:165:8: sparse: sparse: Trying to use res=
-erved word 'for' as identifier
-   drivers/tty/serial/amba-pl010.c:165:8: sparse: sparse: Expected ; at end=
- of declaration
-   drivers/tty/serial/amba-pl010.c:165:8: sparse: sparse: got &&
-   drivers/tty/serial/amba-pl010.c:165:8: sparse: sparse: Expected ) in nes=
-ted declarator
-   drivers/tty/serial/amba-pl010.c:165:8: sparse: sparse: got --
-   drivers/tty/serial/amba-pl010.c:165:8: sparse: sparse: Expected ) in nes=
-ted declarator
-   drivers/tty/serial/amba-pl010.c:165:8: sparse: sparse: got {
-   drivers/tty/serial/amba-pl010.c:165:8: sparse: sparse: Expected ) in fun=
-ction declarator
-   drivers/tty/serial/amba-pl010.c:165:8: sparse: sparse: got (
-   drivers/tty/serial/amba-pl010.c:165:8: sparse: sparse: Expected ; at the=
- end of type declaration
-   drivers/tty/serial/amba-pl010.c:165:8: sparse: sparse: got }
-   drivers/tty/serial/amba-pl010.c:165:8: sparse: sparse: Expected ; at end=
- of declaration
-   drivers/tty/serial/amba-pl010.c:165:8: sparse: sparse: got ->
-   drivers/tty/serial/amba-pl010.c:165:8: sparse: sparse: Trying to use res=
-erved word 'continue' as identifier
-   drivers/tty/serial/amba-pl010.c:165:8: sparse: sparse: Expected ; at the=
- end of type declaration
-   drivers/tty/serial/amba-pl010.c:165:8: sparse: sparse: got }
-   drivers/tty/serial/amba-pl010.c:165:8: sparse: sparse: Expected ) in nes=
-ted declarator
-   drivers/tty/serial/amba-pl010.c:165:8: sparse: sparse: got {
-   drivers/tty/serial/amba-pl010.c:165:8: sparse: sparse: Expected ) in fun=
-ction declarator
-   drivers/tty/serial/amba-pl010.c:165:8: sparse: sparse: got (
-   drivers/tty/serial/amba-pl010.c:165:8: sparse: sparse: Expected ; at the=
- end of type declaration
-   drivers/tty/serial/amba-pl010.c:165:8: sparse: sparse: got }
-   drivers/tty/serial/amba-pl010.c:165:8: sparse: sparse: Expected ; at end=
- of declaration
-   drivers/tty/serial/amba-pl010.c:165:8: sparse: sparse: got ->
-   drivers/tty/serial/amba-pl010.c:165:8: sparse: sparse: Expected ; at the=
- end of type declaration
-   drivers/tty/serial/amba-pl010.c:165:8: sparse: sparse: got }
-   drivers/tty/serial/amba-pl010.c:165:8: sparse: sparse: Expected ) in fun=
-ction declarator
-   drivers/tty/serial/amba-pl010.c:165:8: sparse: sparse: got <
-   drivers/tty/serial/amba-pl010.c:165:8: sparse: sparse: Trying to use res=
-erved word 'if' as identifier
-   drivers/tty/serial/amba-pl010.c:165:8: sparse: sparse: Expected ) in fun=
-ction declarator
-   drivers/tty/serial/amba-pl010.c:165:8: sparse: sparse: got =3D=3D
-   drivers/tty/serial/amba-pl010.c:165:8: sparse: sparse: Trying to use res=
-erved word 'if' as identifier
-   drivers/tty/serial/amba-pl010.c:165:8: sparse: sparse: Expected ; at the=
- end of type declaration
-   drivers/tty/serial/amba-pl010.c:165:8: sparse: sparse: got }
-   drivers/tty/serial/amba-pl010.c:165:8: sparse: sparse: Expected ;@the=
- end of type declaration
-   drivers/tty/serial/amba-pl010.c:165:8: sparse: sparse: got }
-   drivers/tty/serial/amba-pl010.c:165:8: sparse: sparse: symbol 'writel_re=
-laxed' redeclared with different type (different argument counts):
->> drivers/tty/serial/amba-pl010.c:165:8: sparse:    int static [signed] [t=
-oplevel] writel_relaxed( ... )
-   drivers/tty/serial/amba-pl010.c: note: in included file (through arch/cs=
-ky/include/asm/io.h, include/linux/scatterlist.h, include/linux/kfifo.h, ..=
-.):
-   include/asm-generic/io.h:376:20: sparse: note: previously declared as:
-   include/asm-generic/io.h:376:20: sparse:    void static inline [gnu_inli=
-ne] [toplevel] writel_relaxed( ... )
-   drivers/tty/serial/amba-pl010.c:165:8: sparse: sparse: undefined identif=
-ier 'xmit'
-   drivers/tty/serial/amba-pl010.c:165:8: sparse: sparse: undefined identif=
-ier 'xmit'
-   drivers/tty/serial/amba-pl010.c:165:8: sparse: sparse: symbol 'ch' redec=
-lared with different type (different type sizes):
-   drivers/tty/serial/amba-pl010.c:165:8: sparse:    int [addressable] [top=
-level] ch
-   drivers/tty/serial/amba-pl010.c:165:8: sparse: note: previously declared=
- as:
-   drivers/tty/serial/amba-pl010.c:165:8: sparse:    unsigned char [address=
-able] [toplevel] [usertype] ch
-   drivers/tty/serial/amba-pl010.c:165:8: sparse: sparse: symbol 'writel_re=
-laxed' redeclared with different type (different argument counts):
->> drivers/tty/serial/amba-pl010.c:165:8: sparse:    int static [signed] [t=
-oplevel] writel_relaxed( ... )
-   include/asm-generic/io.h:376:20: sparse: note: previously declared as:
-   include/asm-generic/io.h:376:20: sparse:    void static inline [gnu_inli=
-ne] [toplevel] writel_relaxed( ... )
-   drivers/tty/serial/amba-pl010.c:165:8: sparse: sparse: cannot dereferenc=
-e this type
-   drivers/tty/serial/amba-pl010.c:165:8: sparse: sparse: cannot dereferenc=
-e this type
-   drivers/tty/serial/amba-pl010.c:165:8: sparse: sparse: symbol 'pending' =
-redeclared with different type (different signedness):
-   drivers/tty/serial/amba-pl010.c:165:8: sparse:    int [addressable] [top=
-level] pending
-   drivers/tty/serial/amba-pl010.c:165:8: sparse: note: previously declared=
- as:
-   drivers/tty/serial/amba-pl010.c:165:8: sparse:    unsigned int [addressa=
-ble] [toplevel] pending
->> drivers/tty/serial/amba-pl010.c:175:9: sparse: sparse: too many argument=
-s for function writel_relaxed
-   drivers/tty/serial/amba-pl010.c:214:47: sparse: sparse: too many argumen=
-ts for function pl010_tx_chars
-   drivers/tty/serial/amba-pl010.c:273:9: sparse: sparse: too many argument=
-s for function writel_relaxed
-   drivers/tty/serial/amba-pl010.c:307:9: sparse: sparse: too many argument=
-s for function writel_relaxed
-   drivers/tty/serial/amba-pl010.c:331:9: sparse: sparse: too many argument=
-s for function writel_relaxed
-   drivers/tty/serial/amba-pl010.c:334:9: sparse: sparse: too many argument=
-s for function writel_relaxed
-   drivers/tty/serial/amba-pl010.c:424:9: sparse: sparse: too many argument=
-s for function writel_relaxed
-   drivers/tty/serial/amba-pl010.c:425:9: sparse: sparse: too many argument=
-s for function writel_relaxed
-   drivers/tty/serial/amba-pl010.c:432:9: sparse: sparse: too many argument=
-s for function writel_relaxed
-   drivers/tty/serial/amba-pl010.c:433:9: sparse: sparse: too many argument=
-s for function writel_relaxed
 
-vim +165 drivers/tty/serial/amba-pl010.c
+cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
-^1da177e4c3f415 drivers/serial/amba-pl010.c     Linus Torvalds 2005-04-16  =
-164  =
+>> block/bdev.c:543:11: warning: Parameter 'holder' can be declared with co=
+nst [constParameter]
+       void *holder)
+             ^
+   block/bdev.c:605:65: warning: Parameter 'holder' can be declared with co=
+nst [constParameter]
+   static void bd_clear_claiming(struct block_device *whole, void *holder)
+                                                                   ^
 
-acf6bd027deb5ad drivers/tty/serial/amba-pl010.c Jiri Slaby     2022-09-06 @=
-165  static DEFINE_UART_PORT_TX_HELPER_LIMITED(pl010_tx_chars,
-acf6bd027deb5ad drivers/tty/serial/amba-pl010.c Jiri Slaby     2022-09-06  =
-166  		true,
-acf6bd027deb5ad drivers/tty/serial/amba-pl010.c Jiri Slaby     2022-09-06  =
-167  		writel(ch, port->membase + UART01x_DR),
-acf6bd027deb5ad drivers/tty/serial/amba-pl010.c Jiri Slaby     2022-09-06  =
-168  		({}));
-^1da177e4c3f415 drivers/serial/amba-pl010.c     Linus Torvalds 2005-04-16  =
-169  =
+vim +/holder +543 block/bdev.c
 
-1b0646a033c370d drivers/serial/amba-pl010.c     Russell King   2007-04-22  =
-170  static void pl010_modem_status(struct uart_amba_port *uap)
-^1da177e4c3f415 drivers/serial/amba-pl010.c     Linus Torvalds 2005-04-16  =
-171  {
-f166d19f9e82431 drivers/tty/serial/amba-pl010.c Jiri Slaby     2022-02-24  =
-172  	struct uart_port *port =3D &uap->port;
-^1da177e4c3f415 drivers/serial/amba-pl010.c     Linus Torvalds 2005-04-16  =
-173  	unsigned int status, delta;
-^1da177e4c3f415 drivers/serial/amba-pl010.c     Linus Torvalds 2005-04-16  =
-174  =
+^1da177e4c3f41 fs/block_dev.c Linus Torvalds  2005-04-16  527  =
 
-f166d19f9e82431 drivers/tty/serial/amba-pl010.c Jiri Slaby     2022-02-24 @=
-175  	writel(0, port->membase + UART010_ICR);
-^1da177e4c3f415 drivers/serial/amba-pl010.c     Linus Torvalds 2005-04-16  =
-176  =
+1a3cbbc5a5e8a6 fs/block_dev.c Tejun Heo       2010-04-07  528  /**
+1a3cbbc5a5e8a6 fs/block_dev.c Tejun Heo       2010-04-07  529   * bd_may_cl=
+aim - test whether a block device can be claimed
+1a3cbbc5a5e8a6 fs/block_dev.c Tejun Heo       2010-04-07  530   * @bdev: bl=
+ock device of interest
+1a3cbbc5a5e8a6 fs/block_dev.c Tejun Heo       2010-04-07  531   * @whole: w=
+hole block device containing @bdev, may equal @bdev
+1a3cbbc5a5e8a6 fs/block_dev.c Tejun Heo       2010-04-07  532   * @holder: =
+holder trying to claim @bdev
+1a3cbbc5a5e8a6 fs/block_dev.c Tejun Heo       2010-04-07  533   *
+25985edcedea63 fs/block_dev.c Lucas De Marchi 2011-03-30  534   * Test whet=
+her @bdev can be claimed by @holder.
+1a3cbbc5a5e8a6 fs/block_dev.c Tejun Heo       2010-04-07  535   *
+1a3cbbc5a5e8a6 fs/block_dev.c Tejun Heo       2010-04-07  536   * CONTEXT:
+1a3cbbc5a5e8a6 fs/block_dev.c Tejun Heo       2010-04-07  537   * spin_lock=
+(&bdev_lock).
+1a3cbbc5a5e8a6 fs/block_dev.c Tejun Heo       2010-04-07  538   *
+1a3cbbc5a5e8a6 fs/block_dev.c Tejun Heo       2010-04-07  539   * RETURNS:
+1a3cbbc5a5e8a6 fs/block_dev.c Tejun Heo       2010-04-07  540   * %true if =
+@bdev can be claimed, %false otherwise.
+1a3cbbc5a5e8a6 fs/block_dev.c Tejun Heo       2010-04-07  541   */
+1a3cbbc5a5e8a6 fs/block_dev.c Tejun Heo       2010-04-07  542  static bool =
+bd_may_claim(struct block_device *bdev, struct block_device *whole,
+1a3cbbc5a5e8a6 fs/block_dev.c Tejun Heo       2010-04-07 @543  			 void *ho=
+lder)
+^1da177e4c3f41 fs/block_dev.c Linus Torvalds  2005-04-16  544  {
+^1da177e4c3f41 fs/block_dev.c Linus Torvalds  2005-04-16  545  	if (bdev->b=
+d_holder =3D=3D holder)
+1a3cbbc5a5e8a6 fs/block_dev.c Tejun Heo       2010-04-07  546  		return tru=
+e;	 /* already a holder */
+^1da177e4c3f41 fs/block_dev.c Linus Torvalds  2005-04-16  547  	else if (bd=
+ev->bd_holder !=3D NULL)
+1a3cbbc5a5e8a6 fs/block_dev.c Tejun Heo       2010-04-07  548  		return fal=
+se; 	 /* held by someone else */
+bcc7f5b4bee8e3 fs/block_dev.c NeilBrown       2016-12-12  549  	else if (wh=
+ole =3D=3D bdev)
+1a3cbbc5a5e8a6 fs/block_dev.c Tejun Heo       2010-04-07  550  		return tru=
+e;  	 /* is a whole device which isn't held */
+^1da177e4c3f41 fs/block_dev.c Linus Torvalds  2005-04-16  551  =
 
-f166d19f9e82431 drivers/tty/serial/amba-pl010.c Jiri Slaby     2022-02-24  =
-177  	status =3D readb(port->membase + UART01x_FR) & UART01x_FR_MODEM_ANY;
-^1da177e4c3f415 drivers/serial/amba-pl010.c     Linus Torvalds 2005-04-16  =
-178  =
+e525fd89d380c4 fs/block_dev.c Tejun Heo       2010-11-13  552  	else if (wh=
+ole->bd_holder =3D=3D bd_may_claim)
+1a3cbbc5a5e8a6 fs/block_dev.c Tejun Heo       2010-04-07  553  		return tru=
+e; 	 /* is a partition of a device that is being partitioned */
+1a3cbbc5a5e8a6 fs/block_dev.c Tejun Heo       2010-04-07  554  	else if (wh=
+ole->bd_holder !=3D NULL)
+1a3cbbc5a5e8a6 fs/block_dev.c Tejun Heo       2010-04-07  555  		return fal=
+se;	 /* is a partition of a held device */
+^1da177e4c3f41 fs/block_dev.c Linus Torvalds  2005-04-16  556  	else
+1a3cbbc5a5e8a6 fs/block_dev.c Tejun Heo       2010-04-07  557  		return tru=
+e;	 /* is a partition of an un-held device */
+1a3cbbc5a5e8a6 fs/block_dev.c Tejun Heo       2010-04-07  558  }
+1a3cbbc5a5e8a6 fs/block_dev.c Tejun Heo       2010-04-07  559  =
 
-^1da177e4c3f415 drivers/serial/amba-pl010.c     Linus Torvalds 2005-04-16  =
-179  	delta =3D status ^ uap->old_status;
-^1da177e4c3f415 drivers/serial/amba-pl010.c     Linus Torvalds 2005-04-16  =
-180  	uap->old_status =3D status;
-^1da177e4c3f415 drivers/serial/amba-pl010.c     Linus Torvalds 2005-04-16  =
-181  =
 
-^1da177e4c3f415 drivers/serial/amba-pl010.c     Linus Torvalds 2005-04-16  =
-182  	if (!delta)
-^1da177e4c3f415 drivers/serial/amba-pl010.c     Linus Torvalds 2005-04-16  =
-183  		return;
-^1da177e4c3f415 drivers/serial/amba-pl010.c     Linus Torvalds 2005-04-16  =
-184  =
+:::::: The code at line 543 was first introduced by commit
+:::::: 1a3cbbc5a5e8a66934aa0947896a4aca6fd77298 block: factor out bd_may_cl=
+aim()
 
-^1da177e4c3f415 drivers/serial/amba-pl010.c     Linus Torvalds 2005-04-16  =
-185  	if (delta & UART01x_FR_DCD)
-f166d19f9e82431 drivers/tty/serial/amba-pl010.c Jiri Slaby     2022-02-24  =
-186  		uart_handle_dcd_change(port, status & UART01x_FR_DCD);
-^1da177e4c3f415 drivers/serial/amba-pl010.c     Linus Torvalds 2005-04-16  =
-187  =
-
-^1da177e4c3f415 drivers/serial/amba-pl010.c     Linus Torvalds 2005-04-16  =
-188  	if (delta & UART01x_FR_DSR)
-f166d19f9e82431 drivers/tty/serial/amba-pl010.c Jiri Slaby     2022-02-24  =
-189  		port->icount.dsr++;
-^1da177e4c3f415 drivers/serial/amba-pl010.c     Linus Torvalds 2005-04-16  =
-190  =
-
-^1da177e4c3f415 drivers/serial/amba-pl010.c     Linus Torvalds 2005-04-16  =
-191  	if (delta & UART01x_FR_CTS)
-f166d19f9e82431 drivers/tty/serial/amba-pl010.c Jiri Slaby     2022-02-24  =
-192  		uart_handle_cts_change(port, status & UART01x_FR_CTS);
-^1da177e4c3f415 drivers/serial/amba-pl010.c     Linus Torvalds 2005-04-16  =
-193  =
-
-f166d19f9e82431 drivers/tty/serial/amba-pl010.c Jiri Slaby     2022-02-24  =
-194  	wake_up_interruptible(&port->state->port.delta_msr_wait);
-^1da177e4c3f415 drivers/serial/amba-pl010.c     Linus Torvalds 2005-04-16  =
-195  }
-^1da177e4c3f415 drivers/serial/amba-pl010.c     Linus Torvalds 2005-04-16  =
-196  =
-
+:::::: TO: Tejun Heo <tj@kernel.org>
+:::::: CC: Jens Axboe <jens.axboe@oracle.com>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============1496990785897099166==--
+--===============4213333072133571112==--
 
