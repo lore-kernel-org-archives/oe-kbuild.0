@@ -1,210 +1,159 @@
-Content-Type: multipart/mixed; boundary="===============3861839352540490947=="
+Content-Type: multipart/mixed; boundary="===============5432393468346192767=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: mm/slob.c:331:11: warning: Uninitialized variable: sp->units [uninitvar]
-Date: Fri, 09 Sep 2022 06:50:16 +0800
-Message-ID: <202209090621.WAI0o9pr-lkp@intel.com>
+Subject: Re: [PATCH] tty: vt: add a bounds checking in vt_do_kdgkb_ioctl()
+Date: Fri, 09 Sep 2022 02:45:40 +0800
+Message-ID: <202209090239.LlWhQWyG-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3861839352540490947==
+--===============5432393468346192767==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-:::::: =
-
-:::::: Manual check reason: "low confidence static check first_new_problem:=
- mm/slob.c:331:11: warning: Uninitialized variable: sp->units [uninitvar]"
-:::::: =
-
-
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
+In-Reply-To: <20220908075403.27930-1-hbh25y@gmail.com>
+References: <20220908075403.27930-1-hbh25y@gmail.com>
+TO: Hangyu Hua <hbh25y@gmail.com>
+TO: gregkh(a)linuxfoundation.org
+TO: jirislaby(a)kernel.org
+TO: changlianzhi(a)uniontech.com
+TO: dmitry.torokhov(a)gmail.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Vlastimil Babka <vbabka@suse.cz>
-CC: Roman Gushchin <guro@fb.com>
-CC: Hyeonggon Yoo <42.hyeyoo@gmail.com>
+CC: Hangyu Hua <hbh25y@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   506357871c18e06565840d71c2ef9f818e19f460
-commit: 401fb12c68c257b9c9116b1475c0ac26b646fcc0 mm/sl*b: Differentiate str=
-uct slab fields by sl*b implementations
-date:   8 months ago
-:::::: branch date: 5 hours ago
-:::::: commit date: 8 months ago
-compiler: mipsel-linux-gcc (GCC) 12.1.0
-reproduce (cppcheck warning):
-        # apt-get install cppcheck
-        git checkout 401fb12c68c257b9c9116b1475c0ac26b646fcc0
-        cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
-e=3Dgcc FILE
+Hi Hangyu,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on tty/tty-testing]
+[also build test WARNING on linus/master v6.0-rc4 next-20220908]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Hangyu-Hua/tty-vt-ad=
+d-a-bounds-checking-in-vt_do_kdgkb_ioctl/20220908-155511
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-=
+testing
+:::::: branch date: 11 hours ago
+:::::: commit date: 11 hours ago
+config: microblaze-randconfig-m031-20220907 (https://download.01.org/0day-c=
+i/archive/20220909/202209090239.LlWhQWyG-lkp(a)intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+New smatch warnings:
+drivers/tty/vt/keyboard.c:2070 vt_do_kdgkb_ioctl() warn: impossible conditi=
+on '(kb_func >=3D 256) =3D> (0-255 >=3D 256)'
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+Old smatch warnings:
+drivers/tty/vt/keyboard.c:2088 vt_do_kdgkb_ioctl() warn: possible info leak=
+ 'kbs'
+drivers/tty/vt/keyboard.c:2110 vt_do_kdgkb_ioctl() error: uninitialized sym=
+bol 'kbs'.
+drivers/tty/vt/keyboard.c:2112 vt_do_kdgkb_ioctl() error: uninitialized sym=
+bol 'ret'.
 
-   mm/slob.c:146:57: warning: Parameter 'next' can be declared with const [=
-constParameter]
-   static void set_slob(slob_t *s, slobidx_t size, slob_t *next)
-                                                           ^
->> mm/slob.c:331:11: warning: Uninitialized variable: sp->units [uninitvar]
-     if (sp->units < SLOB_UNITS(size))
-             ^
+vim +2070 drivers/tty/vt/keyboard.c
 
-vim +331 mm/slob.c
+4e1404a5cd0436 Jiri Slaby         2020-10-29  2059  =
 
-10cef602950291 Matt Mackall            2006-01-08  297  =
+079c9534a96da9 Alan Cox           2012-02-28  2060  int vt_do_kdgkb_ioctl(i=
+nt cmd, struct kbsentry __user *user_kdgkb, int perm)
+079c9534a96da9 Alan Cox           2012-02-28  2061  {
+4e1404a5cd0436 Jiri Slaby         2020-10-29  2062  	unsigned char kb_func;
+4e1404a5cd0436 Jiri Slaby         2020-10-29  2063  	unsigned long flags;
+07edff9265204e Jiri Slaby         2020-10-29  2064  	char *kbs;
+079c9534a96da9 Alan Cox           2012-02-28  2065  	int ret;
+079c9534a96da9 Alan Cox           2012-02-28  2066  =
 
-95b35127f13661 Nicholas Piggin         2007-07-15  298  /*
-95b35127f13661 Nicholas Piggin         2007-07-15  299   * slob_alloc: entr=
-y point into the slob allocator.
-95b35127f13661 Nicholas Piggin         2007-07-15  300   */
-59bb47985c1db2 Vlastimil Babka         2019-10-06  301  static void *slob_a=
-lloc(size_t size, gfp_t gfp, int align, int node,
-59bb47985c1db2 Vlastimil Babka         2019-10-06  302  							int align_of=
-fset)
-95b35127f13661 Nicholas Piggin         2007-07-15  303  {
-50757018b4c9b0 Matthew Wilcox (Oracle  2021-10-04  304) 	struct folio *foli=
-o;
-50757018b4c9b0 Matthew Wilcox (Oracle  2021-10-04  305) 	struct slab *sp;
-20cecbae44528d Matt Mackall            2008-02-04  306  	struct list_head *=
-slob_list;
-95b35127f13661 Nicholas Piggin         2007-07-15  307  	slob_t *b =3D NULL;
-95b35127f13661 Nicholas Piggin         2007-07-15  308  	unsigned long flag=
-s;
-130e8e09e2675b Tobin C. Harding        2019-05-13  309  	bool _unused;
-95b35127f13661 Nicholas Piggin         2007-07-15  310  =
+07edff9265204e Jiri Slaby         2020-10-29  2067  	if (get_user(kb_func, =
+&user_kdgkb->kb_func))
+07edff9265204e Jiri Slaby         2020-10-29  2068  		return -EFAULT;
+079c9534a96da9 Alan Cox           2012-02-28  2069  =
 
-20cecbae44528d Matt Mackall            2008-02-04  311  	if (size < SLOB_BR=
-EAK1)
-20cecbae44528d Matt Mackall            2008-02-04  312  		slob_list =3D &fr=
-ee_slob_small;
-20cecbae44528d Matt Mackall            2008-02-04  313  	else if (size < SL=
-OB_BREAK2)
-20cecbae44528d Matt Mackall            2008-02-04  314  		slob_list =3D &fr=
-ee_slob_medium;
-20cecbae44528d Matt Mackall            2008-02-04  315  	else
-20cecbae44528d Matt Mackall            2008-02-04  316  		slob_list =3D &fr=
-ee_slob_large;
-20cecbae44528d Matt Mackall            2008-02-04  317  =
+9878c90ddacf7a Hangyu Hua         2022-09-08 @2070  	if (kb_func >=3D MAX_N=
+R_FUNC)
+9878c90ddacf7a Hangyu Hua         2022-09-08  2071  		return -EFAULT;
+9878c90ddacf7a Hangyu Hua         2022-09-08  2072  =
 
-95b35127f13661 Nicholas Piggin         2007-07-15  318  	spin_lock_irqsave(=
-&slob_lock, flags);
-95b35127f13661 Nicholas Piggin         2007-07-15  319  	/* Iterate through=
- each partially free page, try to find room */
-adab7b68189d14 Tobin C. Harding        2019-05-13  320  	list_for_each_entr=
-y(sp, slob_list, slab_list) {
-130e8e09e2675b Tobin C. Harding        2019-05-13  321  		bool page_removed=
-_from_list =3D false;
-6193a2ff180920 Paul Mundt              2007-07-15  322  #ifdef CONFIG_NUMA
-6193a2ff180920 Paul Mundt              2007-07-15  323  		/*
-6193a2ff180920 Paul Mundt              2007-07-15  324  		 * If there's a n=
-ode specification, search for a partial
-6193a2ff180920 Paul Mundt              2007-07-15  325  		 * page with a ma=
-tching node id in the freelist.
-6193a2ff180920 Paul Mundt              2007-07-15  326  		 */
-50757018b4c9b0 Matthew Wilcox (Oracle  2021-10-04  327) 		if (node !=3D NUM=
-A_NO_NODE && slab_nid(sp) !=3D node)
-6193a2ff180920 Paul Mundt              2007-07-15  328  			continue;
-6193a2ff180920 Paul Mundt              2007-07-15  329  #endif
-d6269543ef24aa Matt Mackall            2007-07-21  330  		/* Enough room on=
- this page? */
-d6269543ef24aa Matt Mackall            2007-07-21 @331  		if (sp->units < S=
-LOB_UNITS(size))
-d6269543ef24aa Matt Mackall            2007-07-21  332  			continue;
-6193a2ff180920 Paul Mundt              2007-07-15  333  =
+07edff9265204e Jiri Slaby         2020-10-29  2073  	kb_func =3D array_inde=
+x_nospec(kb_func, MAX_NR_FUNC);
+079c9534a96da9 Alan Cox           2012-02-28  2074  =
 
-59bb47985c1db2 Vlastimil Babka         2019-10-06  334  		b =3D slob_page_a=
-lloc(sp, size, align, align_offset, &page_removed_from_list);
-d6269543ef24aa Matt Mackall            2007-07-21  335  		if (!b)
-d6269543ef24aa Matt Mackall            2007-07-21  336  			continue;
-d6269543ef24aa Matt Mackall            2007-07-21  337  =
+079c9534a96da9 Alan Cox           2012-02-28  2075  	switch (cmd) {
+6ca03f90527e49 Jiri Slaby         2020-10-19  2076  	case KDGKBSENT: {
+6ca03f90527e49 Jiri Slaby         2020-10-19  2077  		/* size should have b=
+een a struct member */
+82e61c3909db51 Jiri Slaby         2020-10-19  2078  		ssize_t len =3D sizeo=
+f(user_kdgkb->kb_string);
+82e61c3909db51 Jiri Slaby         2020-10-19  2079  =
 
-130e8e09e2675b Tobin C. Harding        2019-05-13  338  		/*
-130e8e09e2675b Tobin C. Harding        2019-05-13  339  		 * If slob_page_a=
-lloc() removed sp from the list then we
-130e8e09e2675b Tobin C. Harding        2019-05-13  340  		 * cannot call li=
-st functions on sp.  If so allocation
-130e8e09e2675b Tobin C. Harding        2019-05-13  341  		 * did not fragme=
-nt the page anyway so optimisation is
-130e8e09e2675b Tobin C. Harding        2019-05-13  342  		 * unnecessary.
-130e8e09e2675b Tobin C. Harding        2019-05-13  343  		 */
-130e8e09e2675b Tobin C. Harding        2019-05-13  344  		if (!page_removed=
-_from_list) {
-130e8e09e2675b Tobin C. Harding        2019-05-13  345  			/*
-130e8e09e2675b Tobin C. Harding        2019-05-13  346  			 * Improve fragm=
-ent distribution and reduce our average
-d6269543ef24aa Matt Mackall            2007-07-21  347  			 * search time b=
-y starting our next search here. (see
-130e8e09e2675b Tobin C. Harding        2019-05-13  348  			 * Knuth vol 1, =
-sec 2.5, pg 449)
-130e8e09e2675b Tobin C. Harding        2019-05-13  349  			 */
-adab7b68189d14 Tobin C. Harding        2019-05-13  350  			if (!list_is_fir=
-st(&sp->slab_list, slob_list))
-adab7b68189d14 Tobin C. Harding        2019-05-13  351  				list_rotate_to_=
-front(&sp->slab_list, slob_list);
-130e8e09e2675b Tobin C. Harding        2019-05-13  352  		}
-95b35127f13661 Nicholas Piggin         2007-07-15  353  		break;
-95b35127f13661 Nicholas Piggin         2007-07-15  354  	}
-95b35127f13661 Nicholas Piggin         2007-07-15  355  	spin_unlock_irqres=
-tore(&slob_lock, flags);
-10cef602950291 Matt Mackall            2006-01-08  356  =
+07edff9265204e Jiri Slaby         2020-10-29  2080  		kbs =3D kmalloc(len, =
+GFP_KERNEL);
+07edff9265204e Jiri Slaby         2020-10-29  2081  		if (!kbs)
+07edff9265204e Jiri Slaby         2020-10-29  2082  			return -ENOMEM;
+07edff9265204e Jiri Slaby         2020-10-29  2083  =
 
-95b35127f13661 Nicholas Piggin         2007-07-15  357  	/* Not enough spac=
-e: must allocate a new page */
-95b35127f13661 Nicholas Piggin         2007-07-15  358  	if (!b) {
-6e9ed0cc4b963f Am=C3=A9rico Wang            2009-01-19  359  		b =3D slob_n=
-ew_pages(gfp & ~__GFP_ZERO, 0, node);
-95b35127f13661 Nicholas Piggin         2007-07-15  360  		if (!b)
-6e9ed0cc4b963f Am=C3=A9rico Wang            2009-01-19  361  			return NULL;
-50757018b4c9b0 Matthew Wilcox (Oracle  2021-10-04  362) 		folio =3D virt_to=
-_folio(b);
-50757018b4c9b0 Matthew Wilcox (Oracle  2021-10-04  363) 		__folio_set_slab(=
-folio);
-50757018b4c9b0 Matthew Wilcox (Oracle  2021-10-04  364) 		sp =3D folio_slab=
-(folio);
-10cef602950291 Matt Mackall            2006-01-08  365  =
+82e61c3909db51 Jiri Slaby         2020-10-19  2084  		spin_lock_irqsave(&fu=
+nc_buf_lock, flags);
+07edff9265204e Jiri Slaby         2020-10-29  2085  		len =3D strlcpy(kbs, =
+func_table[kb_func] ? : "", len);
+82e61c3909db51 Jiri Slaby         2020-10-19  2086  		spin_unlock_irqrestor=
+e(&func_buf_lock, flags);
+6ca03f90527e49 Jiri Slaby         2020-10-19  2087  =
 
-10cef602950291 Matt Mackall            2006-01-08  366  		spin_lock_irqsave=
-(&slob_lock, flags);
-95b35127f13661 Nicholas Piggin         2007-07-15  367  		sp->units =3D SLO=
-B_UNITS(PAGE_SIZE);
-b8c24c4aef94b1 Christoph Lameter       2012-06-13  368  		sp->freelist =3D =
-b;
-adab7b68189d14 Tobin C. Harding        2019-05-13  369  		INIT_LIST_HEAD(&s=
-p->slab_list);
-95b35127f13661 Nicholas Piggin         2007-07-15  370  		set_slob(b, SLOB_=
-UNITS(PAGE_SIZE), b + SLOB_UNITS(PAGE_SIZE));
-20cecbae44528d Matt Mackall            2008-02-04  371  		set_slob_page_fre=
-e(sp, slob_list);
-59bb47985c1db2 Vlastimil Babka         2019-10-06  372  		b =3D slob_page_a=
-lloc(sp, size, align, align_offset, &_unused);
-95b35127f13661 Nicholas Piggin         2007-07-15  373  		BUG_ON(!b);
-95b35127f13661 Nicholas Piggin         2007-07-15  374  		spin_unlock_irqre=
-store(&slob_lock, flags);
-10cef602950291 Matt Mackall            2006-01-08  375  	}
-9f88faee3ff7d6 Miles Chen              2017-11-15  376  	if (unlikely(gfp &=
- __GFP_ZERO))
-d07dbea46405b3 Christoph Lameter       2007-07-17  377  		memset(b, 0, size=
-);
-95b35127f13661 Nicholas Piggin         2007-07-15  378  	return b;
-10cef602950291 Matt Mackall            2006-01-08  379  }
-10cef602950291 Matt Mackall            2006-01-08  380  =
+07edff9265204e Jiri Slaby         2020-10-29  2088  		ret =3D copy_to_user(=
+user_kdgkb->kb_string, kbs, len + 1) ?
+07edff9265204e Jiri Slaby         2020-10-29  2089  			-EFAULT : 0;
+6ca03f90527e49 Jiri Slaby         2020-10-19  2090  =
 
+4e1404a5cd0436 Jiri Slaby         2020-10-29  2091  		break;
+079c9534a96da9 Alan Cox           2012-02-28  2092  	}
+079c9534a96da9 Alan Cox           2012-02-28  2093  	case KDSKBSENT:
+cb58a5046095c0 Jiri Slaby         2020-10-29  2094  		if (!perm || !capable=
+(CAP_SYS_TTY_CONFIG))
+07edff9265204e Jiri Slaby         2020-10-29  2095  			return -EPERM;
+07edff9265204e Jiri Slaby         2020-10-29  2096  =
 
-:::::: The code at line 331 was first introduced by commit
-:::::: d6269543ef24aa012aa228c27af3adb074f7b36b slob: reduce list scanning
+07edff9265204e Jiri Slaby         2020-10-29  2097  		kbs =3D strndup_user(=
+user_kdgkb->kb_string,
+07edff9265204e Jiri Slaby         2020-10-29  2098  				sizeof(user_kdgkb->=
+kb_string));
+07edff9265204e Jiri Slaby         2020-10-29  2099  		if (IS_ERR(kbs))
+07edff9265204e Jiri Slaby         2020-10-29  2100  			return PTR_ERR(kbs);
+079c9534a96da9 Alan Cox           2012-02-28  2101  =
 
-:::::: TO: Matt Mackall <mpm@selenic.com>
-:::::: CC: Linus Torvalds <torvalds@woody.linux-foundation.org>
+46ca3f735f345c Sergei Trofimovich 2019-03-10  2102  		spin_lock_irqsave(&fu=
+nc_buf_lock, flags);
+4e1404a5cd0436 Jiri Slaby         2020-10-29  2103  		kbs =3D vt_kdskbsent(=
+kbs, kb_func);
+46ca3f735f345c Sergei Trofimovich 2019-03-10  2104  		spin_unlock_irqrestor=
+e(&func_buf_lock, flags);
+4e1404a5cd0436 Jiri Slaby         2020-10-29  2105  =
+
+4e1404a5cd0436 Jiri Slaby         2020-10-29  2106  		ret =3D 0;
+079c9534a96da9 Alan Cox           2012-02-28  2107  		break;
+079c9534a96da9 Alan Cox           2012-02-28  2108  	}
+4e1404a5cd0436 Jiri Slaby         2020-10-29  2109  =
+
+079c9534a96da9 Alan Cox           2012-02-28  2110  	kfree(kbs);
+4e1404a5cd0436 Jiri Slaby         2020-10-29  2111  =
+
+079c9534a96da9 Alan Cox           2012-02-28  2112  	return ret;
+079c9534a96da9 Alan Cox           2012-02-28  2113  }
+079c9534a96da9 Alan Cox           2012-02-28  2114  =
+
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============3861839352540490947==--
+--===============5432393468346192767==--
 
