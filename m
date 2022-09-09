@@ -1,114 +1,208 @@
-Content-Type: multipart/mixed; boundary="===============7812053128406016508=="
+Content-Type: multipart/mixed; boundary="===============1250393850115148969=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/fpga/intel-m10-bmc-sec-update.c:103 flash_count_show() warn: possible memory leak of 'flash_buf'
-Date: Fri, 16 Sep 2022 18:54:50 +0800
-Message-ID: <202209161807.tkd9EO6v-lkp@intel.com>
+Subject: Re: [PATCH v3 4/4] tty: serial: use DEFINE_UART_PORT_TX_HELPER_LIMITED()
+Date: Sat, 10 Sep 2022 01:37:50 +0800
+Message-ID: <202209100152.g9BlC4Ke-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7812053128406016508==
+--===============1250393850115148969==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+:::::: =
+
+:::::: Manual check reason: "low confidence static check warning: drivers/t=
+ty/serial/altera_jtaguart.c:137:8: sparse:    int static [signed] [toplevel=
+] mmiowb_set_pending( ... )"
+:::::: =
+
+
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
-CC: linux-kernel(a)vger.kernel.org
-TO: Russ Weight <russell.h.weight@intel.com>
-CC: Xu Yilun <yilun.xu@intel.com>
-CC: Tom Rix <trix@redhat.com>
+In-Reply-To: <20220906104805.23211-5-jslaby@suse.cz>
+References: <20220906104805.23211-5-jslaby@suse.cz>
+TO: Jiri Slaby <jslaby@suse.cz>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   3245cb65fd91cd514801bf91f5a3066d562f0ac4
-commit: 154afa5c31cd2de5e6c2c4f35eee390993ee345a fpga: m10bmc-sec: expose m=
-ax10 flash update count
-date:   3 months ago
-:::::: branch date: 2 days ago
-:::::: commit date: 3 months ago
-config: m68k-randconfig-m031-20220914 (https://download.01.org/0day-ci/arch=
-ive/20220916/202209161807.tkd9EO6v-lkp(a)intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.1.0
+Hi Jiri,
+
+I love your patch! Perhaps something to improve:
+
+[auto build test WARNING on tty/tty-testing]
+[also build test WARNING on usb/usb-testing shawnguo/for-next linus/master =
+v6.0-rc4 next-20220909]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jiri-Slaby/tty-TX-he=
+lpers/20220906-185236
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-=
+testing
+:::::: branch date: 3 days ago
+:::::: commit date: 3 days ago
+config: riscv-randconfig-s033-20220909 (https://download.01.org/0day-ci/arc=
+hive/20220910/202209100152.g9BlC4Ke-lkp(a)intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 12.1.0
+reproduce:
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://github.com/intel-lab-lkp/linux/commit/acf6bd027deb5adff25=
+97e7c592b10a5822a5975
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Jiri-Slaby/tty-TX-helpers/20220906=
+-185236
+        git checkout acf6bd027deb5adff2597e7c592b10a5822a5975
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cross=
+ C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3Dbuild_dir ARCH=3Dr=
+iscv SHELL=3D/bin/bash drivers/tty/serial/
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-drivers/fpga/intel-m10-bmc-sec-update.c:103 flash_count_show() warn: possib=
-le memory leak of 'flash_buf'
+sparse warnings: (new ones prefixed by >>)
+   WARNING: invalid argument to '-march': '_zihintpause'
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: Expected ) i=
+n function declarator
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: got __VA_OPT=
+__
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: Expected ) i=
+n function declarator
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: got ;
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: Trying to us=
+e reserved word 'for' as identifier
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: Expected ; a=
+t end of declaration
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: got &&
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: Expected ) i=
+n nested declarator
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: got --
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: Expected ) i=
+n nested declarator
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: got {
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: Expected ) i=
+n nested declarator
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: got __raw_wr=
+itel
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: Trying to us=
+e reserved word 'void' as identifier
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: Expected ; a=
+t the end of type declaration
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: got }
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: Expected ; a=
+t end of declaration
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: got ->
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: Trying to us=
+e reserved word 'continue' as identifier
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: Expected ; a=
+t the end of type declaration
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: got }
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: Expected ) i=
+n nested declarator
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: got {
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: Expected ) i=
+n nested declarator
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: got __raw_wr=
+itel
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: Trying to us=
+e reserved word 'void' as identifier
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: Expected ; a=
+t the end of type declaration
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: got }
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: Expected ; a=
+t end of declaration
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: got ->
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: Expected ; a=
+t the end of type declaration
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: got }
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: Expected ) i=
+n function declarator
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: got <
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: Trying to us=
+e reserved word 'if' as identifier
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: Expected ) i=
+n function declarator
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: got =3D=3D
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: Trying to us=
+e reserved word 'if' as identifier
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: Expected ; a=
+t the end of type declaration
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: got }
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: Expected ; a=
+t the end of type declaration
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: got }
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: symbol 'mmio=
+wb_set_pending' redeclared with different type (different base types):
+>> drivers/tty/serial/altera_jtaguart.c:137:8: sparse:    int static [signe=
+d] [toplevel] mmiowb_set_pending( ... )
+   drivers/tty/serial/altera_jtaguart.c: note: in included file (through ar=
+ch/riscv/include/asm/mmiowb.h, include/linux/spinlock.h, include/linux/wait=
+.h, ...):
+   include/asm-generic/mmiowb.h:35:20: sparse: note: previously declared as:
+   include/asm-generic/mmiowb.h:35:20: sparse:    void static inline [gnu_i=
+nline] [toplevel] mmiowb_set_pending( ... )
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: undefined id=
+entifier 'xmit'
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: undefined id=
+entifier 'xmit'
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: symbol 'ch' =
+redeclared with different type (different type sizes):
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse:    int [addressable]=
+ [toplevel] ch
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: note: previously dec=
+lared as:
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse:    unsigned char [ad=
+dressable] [toplevel] [usertype] ch
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: symbol 'mmio=
+wb_set_pending' redeclared with different type (different base types):
+>> drivers/tty/serial/altera_jtaguart.c:137:8: sparse:    int static [signe=
+d] [toplevel] mmiowb_set_pending( ... )
+   include/asm-generic/mmiowb.h:35:20: sparse: note: previously declared as:
+   include/asm-generic/mmiowb.h:35:20: sparse:    void static inline [gnu_i=
+nline] [toplevel] mmiowb_set_pending( ... )
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: cannot deref=
+erence this type
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: cannot deref=
+erence this type
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: symbol 'pend=
+ing' redeclared with different type (different signedness):
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse:    int [addressable]=
+ [toplevel] pending
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: note: previously dec=
+lared as:
+   drivers/tty/serial/altera_jtaguart.c:137:8: sparse:    unsigned int [add=
+ressable] [toplevel] pending
+   drivers/tty/serial/altera_jtaguart.c:150:36: sparse: sparse: too many ar=
+guments for function altera_jtaguart_do_tx_chars
 
-vim +/flash_buf +103 drivers/fpga/intel-m10-bmc-sec-update.c
+vim +137 drivers/tty/serial/altera_jtaguart.c
 
-154afa5c31cd2d Russ Weight 2022-06-06   82  =
+5bcd601049c6b2 drivers/serial/altera_jtaguart.c     Tobias Klauser 2010-05-=
+05  136  =
 
-154afa5c31cd2d Russ Weight 2022-06-06   83  static ssize_t flash_count_show=
-(struct device *dev,
-154afa5c31cd2d Russ Weight 2022-06-06   84  				struct device_attribute *at=
-tr, char *buf)
-154afa5c31cd2d Russ Weight 2022-06-06   85  {
-154afa5c31cd2d Russ Weight 2022-06-06   86  	struct m10bmc_sec *sec =3D dev=
-_get_drvdata(dev);
-154afa5c31cd2d Russ Weight 2022-06-06   87  	unsigned int stride, num_bits;
-154afa5c31cd2d Russ Weight 2022-06-06   88  	u8 *flash_buf;
-154afa5c31cd2d Russ Weight 2022-06-06   89  	int cnt, ret;
-154afa5c31cd2d Russ Weight 2022-06-06   90  =
-
-154afa5c31cd2d Russ Weight 2022-06-06   91  	stride =3D regmap_get_reg_stri=
-de(sec->m10bmc->regmap);
-154afa5c31cd2d Russ Weight 2022-06-06   92  	num_bits =3D FLASH_COUNT_SIZE =
-* 8;
-154afa5c31cd2d Russ Weight 2022-06-06   93  =
-
-154afa5c31cd2d Russ Weight 2022-06-06   94  	flash_buf =3D kmalloc(FLASH_CO=
-UNT_SIZE, GFP_KERNEL);
-154afa5c31cd2d Russ Weight 2022-06-06   95  	if (!flash_buf)
-154afa5c31cd2d Russ Weight 2022-06-06   96  		return -ENOMEM;
-154afa5c31cd2d Russ Weight 2022-06-06   97  =
-
-154afa5c31cd2d Russ Weight 2022-06-06   98  	if (FLASH_COUNT_SIZE % stride)=
- {
-154afa5c31cd2d Russ Weight 2022-06-06   99  		dev_err(sec->dev,
-154afa5c31cd2d Russ Weight 2022-06-06  100  			"FLASH_COUNT_SIZE (0x%x) not=
- aligned to stride (0x%x)\n",
-154afa5c31cd2d Russ Weight 2022-06-06  101  			FLASH_COUNT_SIZE, stride);
-154afa5c31cd2d Russ Weight 2022-06-06  102  		WARN_ON_ONCE(1);
-154afa5c31cd2d Russ Weight 2022-06-06 @103  		return -EINVAL;
-154afa5c31cd2d Russ Weight 2022-06-06  104  	}
-154afa5c31cd2d Russ Weight 2022-06-06  105  =
-
-154afa5c31cd2d Russ Weight 2022-06-06  106  	ret =3D regmap_bulk_read(sec->=
-m10bmc->regmap, STAGING_FLASH_COUNT,
-154afa5c31cd2d Russ Weight 2022-06-06  107  			       flash_buf, FLASH_COUN=
-T_SIZE / stride);
-154afa5c31cd2d Russ Weight 2022-06-06  108  	if (ret) {
-154afa5c31cd2d Russ Weight 2022-06-06  109  		dev_err(sec->dev,
-154afa5c31cd2d Russ Weight 2022-06-06  110  			"failed to read flash count:=
- %x cnt %x: %d\n",
-154afa5c31cd2d Russ Weight 2022-06-06  111  			STAGING_FLASH_COUNT, FLASH_C=
-OUNT_SIZE / stride, ret);
-154afa5c31cd2d Russ Weight 2022-06-06  112  		goto exit_free;
-154afa5c31cd2d Russ Weight 2022-06-06  113  	}
-154afa5c31cd2d Russ Weight 2022-06-06  114  	cnt =3D num_bits - bitmap_weig=
-ht((unsigned long *)flash_buf, num_bits);
-154afa5c31cd2d Russ Weight 2022-06-06  115  =
-
-154afa5c31cd2d Russ Weight 2022-06-06  116  exit_free:
-154afa5c31cd2d Russ Weight 2022-06-06  117  	kfree(flash_buf);
-154afa5c31cd2d Russ Weight 2022-06-06  118  =
-
-154afa5c31cd2d Russ Weight 2022-06-06  119  	return ret ? : sysfs_emit(buf,=
- "%u\n", cnt);
-154afa5c31cd2d Russ Weight 2022-06-06  120  }
-154afa5c31cd2d Russ Weight 2022-06-06  121  static DEVICE_ATTR_RO(flash_cou=
-nt);
-154afa5c31cd2d Russ Weight 2022-06-06  122  =
+acf6bd027deb5a drivers/tty/serial/altera_jtaguart.c Jiri Slaby     2022-09-=
+06 @137  static DEFINE_UART_PORT_TX_HELPER_LIMITED(altera_jtaguart_do_tx_ch=
+ars,
+acf6bd027deb5a drivers/tty/serial/altera_jtaguart.c Jiri Slaby     2022-09-=
+06  138  		true,
+acf6bd027deb5a drivers/tty/serial/altera_jtaguart.c Jiri Slaby     2022-09-=
+06  139  		writel(ch, port->membase + ALTERA_JTAGUART_DATA_REG),
+acf6bd027deb5a drivers/tty/serial/altera_jtaguart.c Jiri Slaby     2022-09-=
+06  140  		({}));
+acf6bd027deb5a drivers/tty/serial/altera_jtaguart.c Jiri Slaby     2022-09-=
+06  141  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============7812053128406016508==--
+--===============1250393850115148969==--
 
