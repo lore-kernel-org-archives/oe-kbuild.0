@@ -1,305 +1,112 @@
-Content-Type: multipart/mixed; boundary="===============6632445426495474804=="
+Content-Type: multipart/mixed; boundary="===============8809499817709524638=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v3 4/4] tty: serial: use DEFINE_UART_PORT_TX_HELPER_LIMITED()
-Date: Sat, 10 Sep 2022 02:59:25 +0800
-Message-ID: <202209100212.toZoBjk2-lkp@intel.com>
+Subject: [vfs-idmapping:fs.posix_acl.vfsuid 12/37] fs/cifs/cifsacl.c:1703:9: sparse: sparse: switch with no cases
+Date: Sat, 10 Sep 2022 02:59:24 +0800
+Message-ID: <202209100250.pDyZkjMF-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6632445426495474804==
+--===============8809499817709524638==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 :::::: =
 
-:::::: Manual check reason: "low confidence static check warning: drivers/t=
-ty/serial/altera_jtaguart.c:137:8: sparse: sparse: Trying to use reserved w=
-ord 'do' as identifier"
+:::::: Manual check reason: "low confidence static check warning: fs/cifs/c=
+ifsacl.c:1703:9: sparse: sparse: switch with no cases"
 :::::: =
 
 
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <20220906104805.23211-5-jslaby@suse.cz>
-References: <20220906104805.23211-5-jslaby@suse.cz>
-TO: Jiri Slaby <jslaby@suse.cz>
+CC: linux-kernel(a)vger.kernel.org
+TO: Christian Brauner <brauner@kernel.org>
 
-Hi Jiri,
-
-I love your patch! Perhaps something to improve:
-
-[auto build test WARNING on tty/tty-testing]
-[also build test WARNING on usb/usb-testing shawnguo/for-next linus/master =
-v6.0-rc4 next-20220909]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jiri-Slaby/tty-TX-he=
-lpers/20220906-185236
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-=
-testing
-:::::: branch date: 3 days ago
-:::::: commit date: 3 days ago
-config: riscv-randconfig-s051-20220909 (https://download.01.org/0day-ci/arc=
-hive/20220910/202209100212.toZoBjk2-lkp(a)intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/idmapping.git f=
+s.posix_acl.vfsuid
+head:   d37e11d9b40fc35810217121aa3205b7975fd4c6
+commit: fa37058424f3ca8becc99200b11a3690537f134e [12/37] cifs: add ->get_de=
+ntry_acl() method
+:::::: branch date: 27 hours ago
+:::::: commit date: 27 hours ago
+config: x86_64-randconfig-s021 (https://download.01.org/0day-ci/archive/202=
+20910/202209100250.pDyZkjMF-lkp(a)intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-5) 11.3.0
 reproduce:
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
         # apt-get install sparse
         # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://github.com/intel-lab-lkp/linux/commit/acf6bd027deb5adff25=
-97e7c592b10a5822a5975
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Jiri-Slaby/tty-TX-helpers/20220906=
--185236
-        git checkout acf6bd027deb5adff2597e7c592b10a5822a5975
+        # https://git.kernel.org/pub/scm/linux/kernel/git/vfs/idmapping.git=
+/commit/?id=3Dfa37058424f3ca8becc99200b11a3690537f134e
+        git remote add vfs-idmapping https://git.kernel.org/pub/scm/linux/k=
+ernel/git/vfs/idmapping.git
+        git fetch --no-tags vfs-idmapping fs.posix_acl.vfsuid
+        git checkout fa37058424f3ca8becc99200b11a3690537f134e
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cross=
- C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3Dbuild_dir ARCH=3Dr=
-iscv SHELL=3D/bin/bash drivers/tty/serial/
+        make W=3D1 C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3D=
+build_dir ARCH=3Dx86_64 SHELL=3D/bin/bash fs/cifs/
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 
 sparse warnings: (new ones prefixed by >>)
-   WARNING: invalid argument to '-march': '_zihintpause'
-   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: Expected ) i=
-n function declarator
-   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: got __VA_OPT=
-__
-   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: Expected ) i=
-n function declarator
-   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: got ;
-   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: Trying to us=
-e reserved word 'for' as identifier
-   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: Expected ; a=
-t end of declaration
-   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: got &&
-   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: Expected ) i=
-n nested declarator
-   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: got --
-   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: Expected ) i=
-n nested declarator
-   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: got {
-   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: Expected ) i=
-n nested declarator
-   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: got __raw_wr=
-itel
-   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: Trying to us=
-e reserved word 'void' as identifier
->> drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: Trying to us=
-e reserved word 'do' as identifier
-   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: Expected ; a=
-t end of declaration
-   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: got {
-   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: Expected ; a=
-t the end of type declaration
-   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: got }
-   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: Expected ; a=
-t end of declaration
-   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: got ->
-   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: Trying to us=
-e reserved word 'continue' as identifier
-   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: Expected ; a=
-t the end of type declaration
-   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: got }
-   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: Expected ) i=
-n nested declarator
-   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: got {
-   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: Expected ) i=
-n nested declarator
-   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: got __raw_wr=
-itel
-   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: Trying to us=
-e reserved word 'void' as identifier
->> drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: Trying to us=
-e reserved word 'do' as identifier
-   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: Expected ; a=
-t end of declaration
-   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: got {
-   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: Expected ; a=
-t the end of type declaration
-   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: got }
-   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: Expected ; a=
-t end of declaration
-   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: got ->
-   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: Expected ; a=
-t the end of type declaration
-   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: got }
-   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: Expected ) i=
-n function declarator
-   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: got <
-   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: Trying to us=
-e reserved word 'if' as identifier
-   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: Expected ) i=
-n function declarator
-   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: got =3D=3D
-   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: Trying to us=
-e reserved word 'if' as identifier
-   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: Expected ; a=
-t the end of type declaration
-   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: got }
-   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: Expected ; a=
-t the end of type declaration
-   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: got }
-   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: undefined id=
-entifier 'xmit'
-   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: undefined id=
-entifier 'xmit'
-   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: symbol 'ch' =
-redeclared with different type (different type sizes):
-   drivers/tty/serial/altera_jtaguart.c:137:8: sparse:    int [addressable]=
- [toplevel] ch
-   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: note: previously dec=
-lared as:
-   drivers/tty/serial/altera_jtaguart.c:137:8: sparse:    unsigned char [ad=
-dressable] [toplevel] [usertype] ch
-   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: cannot deref=
-erence this type
-   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: cannot deref=
-erence this type
-   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: sparse: symbol 'pend=
-ing' redeclared with different type (different signedness):
-   drivers/tty/serial/altera_jtaguart.c:137:8: sparse:    int [addressable]=
- [toplevel] pending
-   drivers/tty/serial/altera_jtaguart.c:137:8: sparse: note: previously dec=
-lared as:
-   drivers/tty/serial/altera_jtaguart.c:137:8: sparse:    unsigned int [add=
-ressable] [toplevel] pending
-   drivers/tty/serial/altera_jtaguart.c:150:36: sparse: sparse: too many ar=
-guments for function altera_jtaguart_do_tx_chars
---
-   WARNING: invalid argument to '-march': '_zihintpause'
-   drivers/tty/serial/amba-pl010.c:165:8: sparse: sparse: Expected ) in fun=
-ction declarator
-   drivers/tty/serial/amba-pl010.c:165:8: sparse: sparse: got __VA_OPT__
-   drivers/tty/serial/amba-pl010.c:165:8: sparse: sparse: Expected ) in fun=
-ction declarator
-   drivers/tty/serial/amba-pl010.c:165:8: sparse: sparse: got ;
-   drivers/tty/serial/amba-pl010.c:165:8: sparse: sparse: Trying to use res=
-erved word 'for' as identifier
-   drivers/tty/serial/amba-pl010.c:165:8: sparse: sparse: Expected ;@end=
- of declaration
-   drivers/tty/serial/amba-pl010.c:165:8: sparse: sparse: got &&
-   drivers/tty/serial/amba-pl010.c:165:8: sparse: sparse: Expected ) in nes=
-ted declarator
-   drivers/tty/serial/amba-pl010.c:165:8: sparse: sparse: got --
-   drivers/tty/serial/amba-pl010.c:165:8: sparse: sparse: Expected ) in nes=
-ted declarator
-   drivers/tty/serial/amba-pl010.c:165:8: sparse: sparse: got {
-   drivers/tty/serial/amba-pl010.c:165:8: sparse: sparse: Expected ) in nes=
-ted declarator
-   drivers/tty/serial/amba-pl010.c:165:8: sparse: sparse: got __raw_writel
-   drivers/tty/serial/amba-pl010.c:165:8: sparse: sparse: Trying to use res=
-erved word 'void' as identifier
->> drivers/tty/serial/amba-pl010.c:165:8: sparse: sparse: Trying to use res=
-erved word 'do' as identifier
-   drivers/tty/serial/amba-pl010.c:165:8: sparse: sparse: Expected ; at end=
- of declaration
-   drivers/tty/serial/amba-pl010.c:165:8: sparse: sparse: got {
-   drivers/tty/serial/amba-pl010.c:165:8: sparse: sparse: Expected ; at the=
- end of type declaration
-   drivers/tty/serial/amba-pl010.c:165:8: sparse: sparse: got }
-   drivers/tty/serial/amba-pl010.c:165:8: sparse: sparse: Expected ; at end=
- of declaration
-   drivers/tty/serial/amba-pl010.c:165:8: sparse: sparse: got ->
-   drivers/tty/serial/amba-pl010.c:165:8: sparse: sparse: Trying to use res=
-erved word 'continue' as identifier
-   drivers/tty/serial/amba-pl010.c:165:8: sparse: sparse: Expected ; at the=
- end of type declaration
-   drivers/tty/serial/amba-pl010.c:165:8: sparse: sparse: got }
-   drivers/tty/serial/amba-pl010.c:165:8: sparse: sparse: Expected ) in nes=
-ted declarator
-   drivers/tty/serial/amba-pl010.c:165:8: sparse: sparse: got {
-   drivers/tty/serial/amba-pl010.c:165:8: sparse: sparse: Expected ) in nes=
-ted declarator
-   drivers/tty/serial/amba-pl010.c:165:8: sparse: sparse: got __raw_writel
-   drivers/tty/serial/amba-pl010.c:165:8: sparse: sparse: Trying to use res=
-erved word 'void' as identifier
->> drivers/tty/serial/amba-pl010.c:165:8: sparse: sparse: Trying to use res=
-erved word 'do' as identifier
-   drivers/tty/serial/amba-pl010.c:165:8: sparse: sparse: Expected ; at end=
- of declaration
-   drivers/tty/serial/amba-pl010.c:165:8: sparse: sparse: got {
-   drivers/tty/serial/amba-pl010.c:165:8: sparse: sparse: Expected ; at the=
- end of type declaration
-   drivers/tty/serial/amba-pl010.c:165:8: sparse: sparse: got }
-   drivers/tty/serial/amba-pl010.c:165:8: sparse: sparse: Expected ; at end=
- of declaration
-   drivers/tty/serial/amba-pl010.c:165:8: sparse: sparse: got ->
-   drivers/tty/serial/amba-pl010.c:165:8: sparse: sparse: Expected ; at the=
- end of type declaration
-   drivers/tty/serial/amba-pl010.c:165:8: sparse: sparse: got }
-   drivers/tty/serial/amba-pl010.c:165:8: sparse: sparse: Expected ) in fun=
-ction declarator
-   drivers/tty/serial/amba-pl010.c:165:8: sparse: sparse: got <
-   drivers/tty/serial/amba-pl010.c:165:8: sparse: sparse: Trying to use res=
-erved word 'if' as identifier
-   drivers/tty/serial/amba-pl010.c:165:8: sparse: sparse: Expected ) in fun=
-ction declarator
-   drivers/tty/serial/amba-pl010.c:165:8: sparse: sparse: got =3D=3D
-   drivers/tty/serial/amba-pl010.c:165:8: sparse: sparse: Trying to use res=
-erved word 'if' as identifier
-   drivers/tty/serial/amba-pl010.c:165:8: sparse: sparse: Expected ; at the=
- end of type declaration
-   drivers/tty/serial/amba-pl010.c:165:8: sparse: sparse: got }
-   drivers/tty/serial/amba-pl010.c:165:8: sparse: sparse: Expected ;@the=
- end of type declaration
-   drivers/tty/serial/amba-pl010.c:165:8: sparse: sparse: got }
-   drivers/tty/serial/amba-pl010.c:165:8: sparse: sparse: undefined identif=
-ier 'xmit'
-   drivers/tty/serial/amba-pl010.c:165:8: sparse: sparse: undefined identif=
-ier 'xmit'
-   drivers/tty/serial/amba-pl010.c:165:8: sparse: sparse: symbol 'ch' redec=
-lared with different type (different type sizes):
-   drivers/tty/serial/amba-pl010.c:165:8: sparse:    int [addressable] [top=
-level] ch
-   drivers/tty/serial/amba-pl010.c:165:8: sparse: note: previously declared=
- as:
-   drivers/tty/serial/amba-pl010.c:165:8: sparse:    unsigned char [address=
-able] [toplevel] [usertype] ch
-   drivers/tty/serial/amba-pl010.c:165:8: sparse: sparse: cannot dereferenc=
-e this type
-   drivers/tty/serial/amba-pl010.c:165:8: sparse: sparse: cannot dereferenc=
-e this type
-   drivers/tty/serial/amba-pl010.c:165:8: sparse: sparse: symbol 'pending' =
-redeclared with different type (different signedness):
-   drivers/tty/serial/amba-pl010.c:165:8: sparse:    int [addressable] [top=
-level] pending
-   drivers/tty/serial/amba-pl010.c:165:8: sparse: note: previously declared=
- as:
-   drivers/tty/serial/amba-pl010.c:165:8: sparse:    unsigned int [addressa=
-ble] [toplevel] pending
-   drivers/tty/serial/amba-pl010.c:214:47: sparse: sparse: too many argumen=
-ts for function pl010_tx_chars
+>> fs/cifs/cifsacl.c:1703:9: sparse: sparse: switch with no cases
 
-vim +/do +137 drivers/tty/serial/altera_jtaguart.c
+vim +1703 fs/cifs/cifsacl.c
 
-5bcd601049c6b2 drivers/serial/altera_jtaguart.c     Tobias Klauser 2010-05-=
-05  136  =
+fa37058424f3ca Christian Brauner 2022-09-06  1674  =
 
-acf6bd027deb5a drivers/tty/serial/altera_jtaguart.c Jiri Slaby     2022-09-=
-06 @137  static DEFINE_UART_PORT_TX_HELPER_LIMITED(altera_jtaguart_do_tx_ch=
-ars,
-acf6bd027deb5a drivers/tty/serial/altera_jtaguart.c Jiri Slaby     2022-09-=
-06  138  		true,
-acf6bd027deb5a drivers/tty/serial/altera_jtaguart.c Jiri Slaby     2022-09-=
-06  139  		writel(ch, port->membase + ALTERA_JTAGUART_DATA_REG),
-acf6bd027deb5a drivers/tty/serial/altera_jtaguart.c Jiri Slaby     2022-09-=
-06  140  		({}));
-acf6bd027deb5a drivers/tty/serial/altera_jtaguart.c Jiri Slaby     2022-09-=
-06  141  =
+fa37058424f3ca Christian Brauner 2022-09-06  1675  struct posix_acl *cifs_g=
+et_dentry_acl(struct user_namespace *mnt_userns,
+fa37058424f3ca Christian Brauner 2022-09-06  1676  				      struct dentry =
+*dentry, int type)
+fa37058424f3ca Christian Brauner 2022-09-06  1677  {
+fa37058424f3ca Christian Brauner 2022-09-06  1678  	struct posix_acl *acl =
+=3D NULL;
+fa37058424f3ca Christian Brauner 2022-09-06  1679  	ssize_t rc =3D -EOPNOTS=
+UPP;
+fa37058424f3ca Christian Brauner 2022-09-06  1680  	unsigned int xid;
+fa37058424f3ca Christian Brauner 2022-09-06  1681  	struct super_block *sb =
+=3D dentry->d_sb;
+fa37058424f3ca Christian Brauner 2022-09-06  1682  	struct cifs_sb_info *ci=
+fs_sb =3D CIFS_SB(sb);
+fa37058424f3ca Christian Brauner 2022-09-06  1683  	struct tcon_link *tlink;
+fa37058424f3ca Christian Brauner 2022-09-06  1684  	struct cifs_tcon *pTcon;
+fa37058424f3ca Christian Brauner 2022-09-06  1685  	const char *full_path;
+fa37058424f3ca Christian Brauner 2022-09-06  1686  	void *page;
+fa37058424f3ca Christian Brauner 2022-09-06  1687  =
 
+fa37058424f3ca Christian Brauner 2022-09-06  1688  	tlink =3D cifs_sb_tlink=
+(cifs_sb);
+fa37058424f3ca Christian Brauner 2022-09-06  1689  	if (IS_ERR(tlink))
+fa37058424f3ca Christian Brauner 2022-09-06  1690  		return ERR_CAST(tlink);
+fa37058424f3ca Christian Brauner 2022-09-06  1691  	pTcon =3D tlink_tcon(tl=
+ink);
+fa37058424f3ca Christian Brauner 2022-09-06  1692  =
+
+fa37058424f3ca Christian Brauner 2022-09-06  1693  	xid =3D get_xid();
+fa37058424f3ca Christian Brauner 2022-09-06  1694  	page =3D alloc_dentry_p=
+ath();
+fa37058424f3ca Christian Brauner 2022-09-06  1695  =
+
+fa37058424f3ca Christian Brauner 2022-09-06  1696  	full_path =3D build_pat=
+h_from_dentry(dentry, page);
+fa37058424f3ca Christian Brauner 2022-09-06  1697  	if (IS_ERR(full_path)) {
+fa37058424f3ca Christian Brauner 2022-09-06  1698  		acl =3D ERR_CAST(full_=
+path);
+fa37058424f3ca Christian Brauner 2022-09-06  1699  		goto out;
+fa37058424f3ca Christian Brauner 2022-09-06  1700  	}
+fa37058424f3ca Christian Brauner 2022-09-06  1701  =
+
+fa37058424f3ca Christian Brauner 2022-09-06  1702  	/* return alt name if a=
+vailable as pseudo attr */
+fa37058424f3ca Christian Brauner 2022-09-06 @1703  	switch (type) {
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============6632445426495474804==--
+--===============8809499817709524638==--
 
