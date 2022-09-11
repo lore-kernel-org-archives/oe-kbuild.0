@@ -1,198 +1,254 @@
-Content-Type: multipart/mixed; boundary="===============0527874199170362944=="
+Content-Type: multipart/mixed; boundary="===============1980092863062466239=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/gnss/usb.c:120:41: warning: use of uninitialized value '<unknown>' [CWE-457]
-Date: Mon, 12 Sep 2022 07:02:39 +0800
-Message-ID: <202209120618.Yi3jFKZV-lkp@intel.com>
+Subject: [ammarfaizi2-block:google/android/kernel/common/android13-5.10 1030/9999] phylink.c:undefined reference to `linkmode_resolve_pause'
+Date: Mon, 12 Sep 2022 04:18:58 +0800
+Message-ID: <202209120417.vVjrhw69-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0527874199170362944==
+--===============1980092863062466239==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 :::::: =
 
-:::::: Manual check reason: "low confidence bisect report"
-:::::: Manual check reason: "low confidence static check warning: drivers/g=
-nss/usb.c:120:41: warning: use of uninitialized value '<unknown>' [CWE-457]=
- [-Wanalyzer-use-of-uninitialized-value]"
+:::::: Manual check reason: "low confidence static check first_new_problem:=
+ phylink.c:(.text+0x2e4): undefined reference to `linkmode_resolve_pause'"
 :::::: =
 
 
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
-CC: linux-kernel(a)vger.kernel.org
-TO: Johan Hovold <johan@kernel.org>
-CC: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+TO: Ammar Faizi <ammarfaizi2@gnuweeb.org>
+TO: "GNU/Weeb Mailing List" <gwml@vger.gnuweeb.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   b96fbd602d35739b5cdb49baa02048f2c41fdab1
-commit: ee4736e50ba261944ddae75469b3eb47a9e2847d gnss: add USB support
-date:   9 months ago
-:::::: branch date: 30 hours ago
-:::::: commit date: 9 months ago
-config: arm-randconfig-c002-20220906 (https://download.01.org/0day-ci/archi=
-ve/20220912/202209120618.Yi3jFKZV-lkp(a)intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
-reproduce (this is a W=3D1 build):
+tree:   https://github.com/ammarfaizi2/linux-block google/android/kernel/co=
+mmon/android13-5.10
+head:   aadf7ad9db2f7d93ecfb34d0e4f328519460c94e
+commit: 36ab8cea47b0d4a3c5067577430c147a903b5261 [1030/9999] ANDROID: GKI: =
+Kconfig.gki: Add GKI_HIDDEN_ETHERNET_CONFIGS
+:::::: branch date: 5 months ago
+:::::: commit date: 1 year, 3 months ago
+config: arm64-randconfig-s032-20220911 (https://download.01.org/0day-ci/arc=
+hive/20220912/202209120417.vVjrhw69-lkp(a)intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.1.0
+reproduce:
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3Dee4736e50ba261944ddae75469b3eb47a9e2847d
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout ee4736e50ba261944ddae75469b3eb47a9e2847d
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://github.com/ammarfaizi2/linux-block/commit/36ab8cea47b0d4a=
+3c5067577430c147a903b5261
+        git remote add ammarfaizi2-block https://github.com/ammarfaizi2/lin=
+ux-block
+        git fetch --no-tags ammarfaizi2-block google/android/kernel/common/=
+android13-5.10
+        git checkout 36ab8cea47b0d4a3c5067577430c147a903b5261
         # save the config file
+        mkdir build_dir && cp config build_dir/.config
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cross=
- ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
-
+ C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3Dbuild_dir ARCH=3Da=
+rm64 SHELL=3D/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 
-gcc_analyzer warnings: (new ones prefixed by >>)
-   drivers/gnss/usb.c: In function 'gnss_usb_probe':
->> drivers/gnss/usb.c:120:41: warning: use of uninitialized value '<unknown=
->' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-     120 |         struct usb_endpoint_descriptor *in, *out;
-         |                                         ^~
-     'gnss_usb_probe': event 1
-       |
-       |  120 |         struct usb_endpoint_descriptor *in, *out;
-       |      |                                         ^~
-       |      |                                         |
-       |      |                                         (1) use of uninitia=
-lized value '<unknown>' here
-       |
-   drivers/gnss/usb.c:120:46: warning: use of uninitialized value '<unknown=
->' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-     120 |         struct usb_endpoint_descriptor *in, *out;
-         |                                              ^~~
-     'gnss_usb_probe': event 1
-       |
-       |  120 |         struct usb_endpoint_descriptor *in, *out;
-       |      |                                              ^~~
-       |      |                                              |
-       |      |                                              (1) use of uni=
-nitialized value '<unknown>' here
-       |
+All errors (new ones prefixed by >>):
 
-vim +120 drivers/gnss/usb.c
+   aarch64-linux-ld: Unexpected GOT/PLT entries detected!
+   aarch64-linux-ld: Unexpected run-time procedure linkages detected!
+   aarch64-linux-ld: drivers/net/phy/phylink.o: in function `phylink_get_fi=
+xed_state':
+>> phylink.c:(.text+0x2e4): undefined reference to `linkmode_resolve_pause'
+   aarch64-linux-ld: drivers/net/phy/phylink.o: in function `phylink_decode=
+_c37_word':
+   phylink.c:(.text+0x410): undefined reference to `linkmode_resolve_pause'
+   aarch64-linux-ld: drivers/net/phy/phylink.o: in function `phylink_major_=
+config':
+>> phylink.c:(.text+0x56c): undefined reference to `netdev_printk'
+>> aarch64-linux-ld: phylink.c:(.text+0x61c): undefined reference to `netde=
+v_printk'
+   aarch64-linux-ld: drivers/net/phy/phylink.o: in function `phylink_link_d=
+own':
+>> phylink.c:(.text+0x698): undefined reference to `netif_carrier_off'
+   aarch64-linux-ld: phylink.c:(.text+0x6dc): undefined reference to `netde=
+v_printk'
+   aarch64-linux-ld: drivers/net/phy/phylink.o: in function `phylink_mii_em=
+ul_read':
+>> phylink.c:(.text+0x778): undefined reference to `swphy_read_reg'
+   aarch64-linux-ld: drivers/net/phy/phylink.o: in function `phylink_phy_ch=
+ange':
+>> phylink.c:(.text+0xb2c): undefined reference to `phy_get_pause'
+   aarch64-linux-ld: drivers/net/phy/phylink.o: in function `phylink_resolv=
+e':
+>> phylink.c:(.text+0xe54): undefined reference to `netif_carrier_on'
+>> aarch64-linux-ld: phylink.c:(.text+0xe78): undefined reference to `phy_s=
+peed_to_str'
+>> aarch64-linux-ld: phylink.c:(.text+0xe88): undefined reference to `phy_d=
+uplex_to_str'
+   aarch64-linux-ld: phylink.c:(.text+0xedc): undefined reference to `netde=
+v_printk'
+   aarch64-linux-ld: phylink.c:(.text+0xf00): undefined reference to `phy_s=
+peed_to_str'
+   aarch64-linux-ld: phylink.c:(.text+0xf10): undefined reference to `phy_d=
+uplex_to_str'
+   aarch64-linux-ld: drivers/net/phy/phylink.o: in function `phylink_parse_=
+mode':
+   phylink.c:(.text+0x1544): undefined reference to `netdev_printk'
+   aarch64-linux-ld: phylink.c:(.text+0x15d8): undefined reference to `netd=
+ev_printk'
+   aarch64-linux-ld: drivers/net/phy/phylink.o: in function `phylink_parse_=
+fixedlink':
+   phylink.c:(.text+0x17e8): undefined reference to `netdev_printk'
+   aarch64-linux-ld: phylink.c:(.text+0x18e0): undefined reference to `netd=
+ev_printk'
+>> aarch64-linux-ld: phylink.c:(.text+0x1950): undefined reference to `phy_=
+lookup_setting'
+   aarch64-linux-ld: phylink.c:(.text+0x1a08): undefined reference to `netd=
+ev_printk'
+   aarch64-linux-ld: drivers/net/phy/phylink.o: in function `phylink_bringu=
+p_phy':
+>> phylink.c:(.text+0x1aec): undefined reference to `phy_support_asym_pause'
+   aarch64-linux-ld: phylink.c:(.text+0x1bbc): undefined reference to `netd=
+ev_printk'
+>> aarch64-linux-ld: phylink.c:(.text+0x1c2c): undefined reference to `phy_=
+attached_info_irq'
+   aarch64-linux-ld: phylink.c:(.text+0x1c80): undefined reference to `netd=
+ev_printk'
+>> aarch64-linux-ld: phylink.c:(.text+0x1d5c): undefined reference to `phy_=
+request_interrupt'
+   aarch64-linux-ld: drivers/net/phy/phylink.o: in function `phylink_connec=
+t_phy':
+>> phylink.c:(.text+0x2154): undefined reference to `phy_attach_direct'
+>> aarch64-linux-ld: phylink.c:(.text+0x2184): undefined reference to `phy_=
+detach'
+   aarch64-linux-ld: drivers/net/phy/phylink.o: in function `phylink_discon=
+nect_phy':
+>> phylink.c:(.text+0x22ac): undefined reference to `rtnl_is_locked'
+>> aarch64-linux-ld: phylink.c:(.text+0x2334): undefined reference to `phy_=
+disconnect'
+   aarch64-linux-ld: drivers/net/phy/phylink.o: in function `phylink_start':
+   phylink.c:(.text+0x23bc): undefined reference to `rtnl_is_locked'
+   aarch64-linux-ld: phylink.c:(.text+0x246c): undefined reference to `netd=
+ev_printk'
+>> aarch64-linux-ld: phylink.c:(.text+0x24f4): undefined reference to `neti=
+f_carrier_off'
+>> aarch64-linux-ld: phylink.c:(.text+0x26e4): undefined reference to `phy_=
+start'
+   aarch64-linux-ld: drivers/net/phy/phylink.o: in function `phylink_stop':
+   phylink.c:(.text+0x271c): undefined reference to `rtnl_is_locked'
+>> aarch64-linux-ld: phylink.c:(.text+0x2774): undefined reference to `phy_=
+stop'
+   aarch64-linux-ld: drivers/net/phy/phylink.o: in function `phylink_ethtoo=
+l_get_wol':
+   phylink.c:(.text+0x281c): undefined reference to `rtnl_is_locked'
+   aarch64-linux-ld: phylink.c:(.text+0x287c): undefined reference to `phy_=
+ethtool_get_wol'
+   aarch64-linux-ld: drivers/net/phy/phylink.o: in function `phylink_ethtoo=
+l_set_wol':
+   phylink.c:(.text+0x28bc): undefined reference to `rtnl_is_locked'
+   aarch64-linux-ld: phylink.c:(.text+0x2918): undefined reference to `phy_=
+ethtool_set_wol'
+   aarch64-linux-ld: drivers/net/phy/phylink.o: in function `phylink_ethtoo=
+l_ksettings_get':
+   phylink.c:(.text+0x2968): undefined reference to `rtnl_is_locked'
+   aarch64-linux-ld: phylink.c:(.text+0x29c4): undefined reference to `phy_=
+ethtool_ksettings_get'
+   aarch64-linux-ld: drivers/net/phy/phylink.o: in function `phylink_ethtoo=
+l_ksettings_set':
+   phylink.c:(.text+0x2a7c): undefined reference to `rtnl_is_locked'
+   aarch64-linux-ld: phylink.c:(.text+0x2ad8): undefined reference to `phy_=
+ethtool_ksettings_set'
+   aarch64-linux-ld: phylink.c:(.text+0x2b6c): undefined reference to `phy_=
+lookup_setting'
+   aarch64-linux-ld: drivers/net/phy/phylink.o: in function `phylink_ethtoo=
+l_nway_reset':
+   phylink.c:(.text+0x2d5c): undefined reference to `rtnl_is_locked'
+   aarch64-linux-ld: phylink.c:(.text+0x2db4): undefined reference to `phy_=
+restart_aneg'
+   aarch64-linux-ld: drivers/net/phy/phylink.o: in function `phylink_ethtoo=
+l_get_pauseparam':
+   phylink.c:(.text+0x2e08): undefined reference to `rtnl_is_locked'
+   aarch64-linux-ld: drivers/net/phy/phylink.o: in function `phylink_ethtoo=
+l_set_pauseparam':
+   phylink.c:(.text+0x2eb4): undefined reference to `rtnl_is_locked'
+   aarch64-linux-ld: phylink.c:(.text+0x2fb8): undefined reference to `link=
+mode_set_pause'
+   aarch64-linux-ld: phylink.c:(.text+0x3038): undefined reference to `phy_=
+set_asym_pause'
+   aarch64-linux-ld: drivers/net/phy/phylink.o: in function `phylink_get_ee=
+e_err':
+   phylink.c:(.text+0x30a4): undefined reference to `rtnl_is_locked'
+   aarch64-linux-ld: phylink.c:(.text+0x30fc): undefined reference to `phy_=
+get_eee_err'
+   aarch64-linux-ld: drivers/net/phy/phylink.o: in function `phylink_init_e=
+ee':
+   phylink.c:(.text+0x3158): undefined reference to `phy_init_eee'
+   aarch64-linux-ld: drivers/net/phy/phylink.o: in function `phylink_ethtoo=
+l_get_eee':
+   phylink.c:(.text+0x31a4): undefined reference to `rtnl_is_locked'
+   aarch64-linux-ld: phylink.c:(.text+0x3200): undefined reference to `phy_=
+ethtool_get_eee'
+   aarch64-linux-ld: drivers/net/phy/phylink.o: in function `phylink_ethtoo=
+l_set_eee':
+   phylink.c:(.text+0x3250): undefined reference to `rtnl_is_locked'
+   aarch64-linux-ld: phylink.c:(.text+0x32ac): undefined reference to `phy_=
+ethtool_set_eee'
+   aarch64-linux-ld: drivers/net/phy/phylink.o: in function `phylink_mii_io=
+ctl':
+   phylink.c:(.text+0x3304): undefined reference to `rtnl_is_locked'
+   aarch64-linux-ld: phylink.c:(.text+0x344c): undefined reference to `mdio=
+bus_read'
+   aarch64-linux-ld: phylink.c:(.text+0x3520): undefined reference to `mdio=
+bus_write'
+   aarch64-linux-ld: phylink.c:(.text+0x3538): undefined reference to `phy_=
+mii_ioctl'
+   aarch64-linux-ld: drivers/net/phy/phylink.o: in function `phylink_speed_=
+down':
+   phylink.c:(.text+0x3650): undefined reference to `rtnl_is_locked'
+   aarch64-linux-ld: phylink.c:(.text+0x36c0): undefined reference to `phy_=
+speed_down'
+   aarch64-linux-ld: drivers/net/phy/phylink.o: in function `phylink_speed_=
+up':
+   phylink.c:(.text+0x3700): undefined reference to `rtnl_is_locked'
+   aarch64-linux-ld: phylink.c:(.text+0x376c): undefined reference to `phy_=
+speed_up'
+   aarch64-linux-ld: drivers/net/phy/phylink.o: in function `phylink_mii_c2=
+2_pcs_get_state':
+   phylink.c:(.text+0x3934): undefined reference to `mdiobus_read'
+   aarch64-linux-ld: phylink.c:(.text+0x3948): undefined reference to `mdio=
+bus_read'
+   aarch64-linux-ld: drivers/net/phy/phylink.o: in function `phylink_mii_c2=
+2_pcs_set_advertisement':
+   phylink.c:(.text+0x3af8): undefined reference to `mdiobus_read'
+   aarch64-linux-ld: phylink.c:(.text+0x3b24): undefined reference to `mdio=
+bus_write'
+   aarch64-linux-ld: phylink.c:(.text+0x3b48): undefined reference to `mdio=
+bus_read'
+   aarch64-linux-ld: drivers/net/phy/phylink.o: in function `phylink_mii_c2=
+2_pcs_config':
+   phylink.c:(.text+0x3bec): undefined reference to `mdiobus_modify'
+   aarch64-linux-ld: drivers/net/phy/phylink.o: in function `phylink_mii_c2=
+2_pcs_an_restart':
+   phylink.c:(.text+0x3c58): undefined reference to `mdiobus_read'
+   aarch64-linux-ld: phylink.c:(.text+0x3c78): undefined reference to `mdio=
+bus_write'
+   aarch64-linux-ld: drivers/net/phy/phylink.o: in function `phylink_mii_c4=
+5_pcs_get_state':
+   phylink.c:(.text+0x3cc4): undefined reference to `mdiobus_read'
 
-ee4736e50ba261 Johan Hovold 2021-12-20  116  =
-
-ee4736e50ba261 Johan Hovold 2021-12-20  117  static int gnss_usb_probe(stru=
-ct usb_interface *intf, const struct usb_device_id *id)
-ee4736e50ba261 Johan Hovold 2021-12-20  118  {
-ee4736e50ba261 Johan Hovold 2021-12-20  119  	struct usb_device *udev =3D i=
-nterface_to_usbdev(intf);
-ee4736e50ba261 Johan Hovold 2021-12-20 @120  	struct usb_endpoint_descripto=
-r *in, *out;
-ee4736e50ba261 Johan Hovold 2021-12-20  121  	struct gnss_device *gdev;
-ee4736e50ba261 Johan Hovold 2021-12-20  122  	struct gnss_usb *gusb;
-ee4736e50ba261 Johan Hovold 2021-12-20  123  	struct urb *urb;
-ee4736e50ba261 Johan Hovold 2021-12-20  124  	size_t buf_len;
-ee4736e50ba261 Johan Hovold 2021-12-20  125  	void *buf;
-ee4736e50ba261 Johan Hovold 2021-12-20  126  	int ret;
-ee4736e50ba261 Johan Hovold 2021-12-20  127  =
-
-ee4736e50ba261 Johan Hovold 2021-12-20  128  	ret =3D usb_find_common_endpo=
-ints(intf->cur_altsetting, &in, &out, NULL,
-ee4736e50ba261 Johan Hovold 2021-12-20  129  			NULL);
-ee4736e50ba261 Johan Hovold 2021-12-20  130  	if (ret)
-ee4736e50ba261 Johan Hovold 2021-12-20  131  		return ret;
-ee4736e50ba261 Johan Hovold 2021-12-20  132  =
-
-ee4736e50ba261 Johan Hovold 2021-12-20  133  	gusb =3D kzalloc(sizeof(*gusb=
-), GFP_KERNEL);
-ee4736e50ba261 Johan Hovold 2021-12-20  134  	if (!gusb)
-ee4736e50ba261 Johan Hovold 2021-12-20  135  		return -ENOMEM;
-ee4736e50ba261 Johan Hovold 2021-12-20  136  =
-
-ee4736e50ba261 Johan Hovold 2021-12-20  137  	gdev =3D gnss_allocate_device=
-(&intf->dev);
-ee4736e50ba261 Johan Hovold 2021-12-20  138  	if (!gdev) {
-ee4736e50ba261 Johan Hovold 2021-12-20  139  		ret =3D -ENOMEM;
-ee4736e50ba261 Johan Hovold 2021-12-20  140  		goto err_free_gusb;
-ee4736e50ba261 Johan Hovold 2021-12-20  141  	}
-ee4736e50ba261 Johan Hovold 2021-12-20  142  =
-
-ee4736e50ba261 Johan Hovold 2021-12-20  143  	gdev->ops =3D &gnss_usb_gnss_=
-ops;
-ee4736e50ba261 Johan Hovold 2021-12-20  144  	gdev->type =3D GNSS_TYPE_NMEA;
-ee4736e50ba261 Johan Hovold 2021-12-20  145  	gnss_set_drvdata(gdev, gusb);
-ee4736e50ba261 Johan Hovold 2021-12-20  146  =
-
-ee4736e50ba261 Johan Hovold 2021-12-20  147  	urb =3D usb_alloc_urb(0, GFP_=
-KERNEL);
-ee4736e50ba261 Johan Hovold 2021-12-20  148  	if (!urb) {
-ee4736e50ba261 Johan Hovold 2021-12-20  149  		ret =3D -ENOMEM;
-ee4736e50ba261 Johan Hovold 2021-12-20  150  		goto err_put_gdev;
-ee4736e50ba261 Johan Hovold 2021-12-20  151  	}
-ee4736e50ba261 Johan Hovold 2021-12-20  152  =
-
-ee4736e50ba261 Johan Hovold 2021-12-20  153  	buf_len =3D max(usb_endpoint_=
-maxp(in), GNSS_USB_READ_BUF_LEN);
-ee4736e50ba261 Johan Hovold 2021-12-20  154  =
-
-ee4736e50ba261 Johan Hovold 2021-12-20  155  	buf =3D kzalloc(buf_len, GFP_=
-KERNEL);
-ee4736e50ba261 Johan Hovold 2021-12-20  156  	if (!buf) {
-ee4736e50ba261 Johan Hovold 2021-12-20  157  		ret =3D -ENOMEM;
-ee4736e50ba261 Johan Hovold 2021-12-20  158  		goto err_free_urb;
-ee4736e50ba261 Johan Hovold 2021-12-20  159  	}
-ee4736e50ba261 Johan Hovold 2021-12-20  160  =
-
-ee4736e50ba261 Johan Hovold 2021-12-20  161  	usb_fill_bulk_urb(urb, udev,
-ee4736e50ba261 Johan Hovold 2021-12-20  162  			usb_rcvbulkpipe(udev, usb_e=
-ndpoint_num(in)),
-ee4736e50ba261 Johan Hovold 2021-12-20  163  			buf, buf_len, gnss_usb_rx_c=
-omplete, gusb);
-ee4736e50ba261 Johan Hovold 2021-12-20  164  =
-
-ee4736e50ba261 Johan Hovold 2021-12-20  165  	gusb->intf =3D intf;
-ee4736e50ba261 Johan Hovold 2021-12-20  166  	gusb->udev =3D udev;
-ee4736e50ba261 Johan Hovold 2021-12-20  167  	gusb->gdev =3D gdev;
-ee4736e50ba261 Johan Hovold 2021-12-20  168  	gusb->read_urb =3D urb;
-ee4736e50ba261 Johan Hovold 2021-12-20  169  	gusb->write_pipe =3D usb_sndb=
-ulkpipe(udev, usb_endpoint_num(out));
-ee4736e50ba261 Johan Hovold 2021-12-20  170  =
-
-ee4736e50ba261 Johan Hovold 2021-12-20  171  	ret =3D gnss_register_device(=
-gdev);
-ee4736e50ba261 Johan Hovold 2021-12-20  172  	if (ret)
-ee4736e50ba261 Johan Hovold 2021-12-20  173  		goto err_free_buf;
-ee4736e50ba261 Johan Hovold 2021-12-20  174  =
-
-ee4736e50ba261 Johan Hovold 2021-12-20  175  	usb_set_intfdata(intf, gusb);
-ee4736e50ba261 Johan Hovold 2021-12-20  176  =
-
-ee4736e50ba261 Johan Hovold 2021-12-20  177  	return 0;
-ee4736e50ba261 Johan Hovold 2021-12-20  178  =
-
-ee4736e50ba261 Johan Hovold 2021-12-20  179  err_free_buf:
-ee4736e50ba261 Johan Hovold 2021-12-20  180  	kfree(buf);
-ee4736e50ba261 Johan Hovold 2021-12-20  181  err_free_urb:
-ee4736e50ba261 Johan Hovold 2021-12-20  182  	usb_free_urb(urb);
-ee4736e50ba261 Johan Hovold 2021-12-20  183  err_put_gdev:
-ee4736e50ba261 Johan Hovold 2021-12-20  184  	gnss_put_device(gdev);
-ee4736e50ba261 Johan Hovold 2021-12-20  185  err_free_gusb:
-ee4736e50ba261 Johan Hovold 2021-12-20  186  	kfree(gusb);
-ee4736e50ba261 Johan Hovold 2021-12-20  187  =
-
-ee4736e50ba261 Johan Hovold 2021-12-20  188  	return ret;
-ee4736e50ba261 Johan Hovold 2021-12-20  189  }
-ee4736e50ba261 Johan Hovold 2021-12-20  190  =
-
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for PHYLINK
+   Depends on [n]: NETDEVICES [=3Dn]
+   Selected by [y]:
+   - GKI_HIDDEN_ETHERNET_CONFIGS [=3Dy]
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============0527874199170362944==--
+--===============1980092863062466239==--
 
