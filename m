@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============9060540881646524785=="
+Content-Type: multipart/mixed; boundary="===============6911856938721275664=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 Subject: kernel/bpf/core.c:1054:13: warning: use of uninitialized value '<unknown>' [CWE-457]
-Date: Mon, 12 Sep 2022 17:19:39 +0800
-Message-ID: <202209121733.YBuebwyl-lkp@intel.com>
+Date: Mon, 12 Sep 2022 14:05:43 +0800
+Message-ID: <202209121306.rN28NgzW-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============9060540881646524785==
+--===============6911856938721275664==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -33,10 +33,10 @@ head:   80e78fcce86de0288793a0ef0f6acf37656ee4cf
 commit: d24d2a2b0a81dd5e9bb99aeb4559ec9734e1416f bpf: bpf_prog_pack: Set pr=
 oper size before freeing ro_header
 date:   7 months ago
-:::::: branch date: 13 hours ago
+:::::: branch date: 10 hours ago
 :::::: commit date: 7 months ago
 config: arm-randconfig-c002-20220911 (https://download.01.org/0day-ci/archi=
-ve/20220912/202209121733.YBuebwyl-lkp(a)intel.com/config)
+ve/20220912/202209121306.rN28NgzW-lkp(a)intel.com/config)
 compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
@@ -296,5 +296,5 @@ ry_pack_[alloc|finalize|free]
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============9060540881646524785==--
+--===============6911856938721275664==--
 
