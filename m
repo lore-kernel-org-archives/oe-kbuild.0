@@ -1,504 +1,300 @@
-Content-Type: multipart/mixed; boundary="===============8667719644966590728=="
+Content-Type: multipart/mixed; boundary="===============9060540881646524785=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: arch/powerpc/lib/sstep.c:1635:9: warning: Shifting a negative value is technically undefined behaviour [shiftNegativeLHS]
-Date: Mon, 12 Sep 2022 19:14:29 +0800
-Message-ID: <202209121943.cZrH2zQ8-lkp@intel.com>
+Subject: kernel/bpf/core.c:1054:13: warning: use of uninitialized value '<unknown>' [CWE-457]
+Date: Mon, 12 Sep 2022 17:19:39 +0800
+Message-ID: <202209121733.YBuebwyl-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8667719644966590728==
+--===============9060540881646524785==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 :::::: =
 
-:::::: Manual check reason: "low confidence static check warning: arch/powe=
-rpc/lib/sstep.c:1635:9: warning: Shifting a negative value is technically u=
-ndefined behaviour [shiftNegativeLHS]"
+:::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "low confidence static check warning: kernel/bp=
+f/core.c:1054:13: warning: use of uninitialized value '<unknown>' [CWE-457]=
+ [-Wanalyzer-use-of-uninitialized-value]"
 :::::: =
 
 
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Anders Roxell <anders.roxell@linaro.org>
-CC: Michael Ellerman <mpe@ellerman.id.au>
+TO: Song Liu <song@kernel.org>
+CC: Alexei Starovoitov <ast@kernel.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   80e78fcce86de0288793a0ef0f6acf37656ee4cf
-commit: fe663df7825811358531dc2e8a52d9eaa5e3515e powerpc/lib/sstep: fix 'pt=
-esync' build error
+commit: d24d2a2b0a81dd5e9bb99aeb4559ec9734e1416f bpf: bpf_prog_pack: Set pr=
+oper size before freeing ro_header
 date:   7 months ago
-:::::: branch date: 15 hours ago
+:::::: branch date: 13 hours ago
 :::::: commit date: 7 months ago
-compiler: powerpc-linux-gcc (GCC) 12.1.0
-reproduce (cppcheck warning):
-        # apt-get install cppcheck
-        git checkout fe663df7825811358531dc2e8a52d9eaa5e3515e
-        cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
-e=3Dgcc FILE
+config: arm-randconfig-c002-20220911 (https://download.01.org/0day-ci/archi=
+ve/20220912/202209121733.YBuebwyl-lkp(a)intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3Dd24d2a2b0a81dd5e9bb99aeb4559ec9734e1416f
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout d24d2a2b0a81dd5e9bb99aeb4559ec9734e1416f
+        # save the config file
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cross=
+ ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
+
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 
+gcc_analyzer warnings: (new ones prefixed by >>)
+   kernel/bpf/core.c:1601:12: warning: no previous prototype for 'bpf_probe=
+_read_kernel' [-Wmissing-prototypes]
+    1601 | u64 __weak bpf_probe_read_kernel(void *dst, u32 size, const void=
+ *unsafe_ptr)
+         |            ^~~~~~~~~~~~~~~~~~~~~
+   kernel/bpf/core.c: In function 'bpf_jit_binary_pack_alloc':
+>> kernel/bpf/core.c:1054:13: warning: use of uninitialized value '<unknown=
+>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+    1054 |         u32 size, hole, start;
+         |             ^~~~
+     'bpf_jit_binary_pack_alloc': event 1
+       |
+       | 1054 |         u32 size, hole, start;
+       |      |             ^~~~
+       |      |             |
+       |      |             (1) use of uninitialized value '<unknown>' here
+       |
+   In file included from kernel/bpf/core.c:21:
+   kernel/bpf/core.c: In function 'bpf_jit_blind_insn':
+   kernel/bpf/core.c:1306:76: warning: use of uninitialized value 'aux[1].i=
+mm' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+    1306 |                 *to++ =3D BPF_ALU64_IMM(BPF_MOV, BPF_REG_AX, imm=
+_rnd ^ aux[1].imm);
+         |                                                                 =
+     ~~~~~~^~~~
+   include/linux/filter.h:116:26: note: in definition of macro 'BPF_ALU64_I=
+MM'
+     116 |                 .imm   =3D IMM })
+         |                          ^~~
+     'bpf_jit_blind_constants': events 1-7
+       |
+       |kernel/bpf/core.c:1374:18:
+       | 1374 | struct bpf_prog *bpf_jit_blind_constants(struct bpf_prog *p=
+rog)
+       |      |                  ^~~~~~~~~~~~~~~~~~~~~~~
+       |      |                  |
+       |      |                  (1) entry to 'bpf_jit_blind_constants'
+       | 1375 | {
+       | 1376 |         struct bpf_insn insn_buff[16], aux[2];
+       |      |                                        ~~~
+       |      |                                        |
+       |      |                                        (2) region created o=
+n stack here
+       |......
+       | 1382 |         if (!bpf_jit_blinding_enabled(prog) || prog->blinde=
+d)
+       |      |            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |            |                                |
+       |      |            |                                (4) ...to here
+       |      |            (3) following 'true' branch...   (5) following '=
+false' branch...
+       |......
+       | 1385 |         clone =3D bpf_prog_clone_create(prog, GFP_USER);
+       |      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |                 |
+       |      |                 (6) ...to here
+       |      |                 (7) calling 'bpf_prog_clone_create' from 'b=
+pf_jit_blind_constants'
+       |
+       +--> 'bpf_prog_clone_create': event 8
+              |
+              | 1332 | static struct bpf_prog *bpf_prog_clone_create(struct=
+ bpf_prog *fp_other,
+              |      |                         ^~~~~~~~~~~~~~~~~~~~~
+              |      |                         |
+              |      |                         (8) entry to 'bpf_prog_clone=
+_create'
+              |
+            'bpf_prog_clone_create': event 9
+              |
+              |include/linux/fortify-string.h:223:12:
+              |  223 |         if (p_size < size || q_size < size)
+              |      |            ^
+              |      |            |
+              |      |            (9) following 'false' branch...
+              |
+            'bpf_prog_clone_create': event 10
+              |
+              |   41 | #define __underlying_memcpy     __builtin_memcpy
+              |      |                                 ^
+              |      |                                 |
+              |      |                                 (10) ...to here
+   include/linux/fortify-string.h:225:16: note: in expansion of macro '__un=
+derlying_memcpy'
+              |  225 |         return __underlying_memcpy(p, q, size);
+              |      |                ^~~~~~~~~~~~~~~~~~~
+              |
+       <------+
+       |
+     'bpf_jit_blind_constants': events 11-16
+       |
+       |kernel/bpf/core.c:1385:17:
+       | 1385 |         clone =3D bpf_prog_clone_create(prog, GFP_USER);
+       |      |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |                 |
+       |      |                 (11) returning to 'bpf_jit_blind_constants'=
+ from 'bpf_prog_clone_create'
+       | 1386 |         if (!clone)
+       |      |            ~     =
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+       |      |            |
+       |      |            (12) following 'false' branch (when 'clone' is n=
+on-NULL)...
+       |......
+       | 1389 |         insn_cnt =3D clone->len;
+       |      |                    ~~~~~~~~~~
+       |      |                         |
+       |      |                         (13) ...to here
+       |......
+       | 1392 |         for (i =3D 0; i < insn_cnt; i++, insn++) {
+       |      |                     ~~~~~~~~~~~~
+       |      |                       |
+       |      |                       (14) following 'true' branch (when 'i=
+nsn_cnt > i')...
+       |......
+       | 1397 |                 if (insn[0].code =3D=3D (BPF_LD | BPF_IMM |=
+ BPF_DW) &&
+       |      |                     ~~~~~~~~~~~~
+       |      |                            |
+       |      |                            (15) ...to here
+       |......
+       | 1401 |                 rewritten =3D bpf_jit_blind_insn(insn, aux,=
+ insn_buff,
+       |      |                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~
+       |      |                             |
+       |      |                             (16) calling 'bpf_jit_blind_ins=
+n' from 'bpf_jit_blind_constants'
 
->> arch/powerpc/mm/book3s32/mmu.c:406:12: warning: The if condition is the =
-same as the previous if condition [duplicateCondition]
-    if (ppc_md.progress)
-              ^
-   arch/powerpc/mm/book3s32/mmu.c:404:12: note: First condition
-    if (ppc_md.progress)
-              ^
-   arch/powerpc/mm/book3s32/mmu.c:406:12: note: Second condition
-    if (ppc_md.progress)
-              ^
->> arch/powerpc/mm/book3s32/mmu.c:226:27: warning: Signed integer overflow =
-for expression 'i<<28'. [integerOverflow]
-     if (is_module_segment(i << 28))
-                             ^
-   arch/powerpc/mm/book3s32/mmu.c:224:30: note: Assuming that condition 'i<=
-16' is not redundant
-    for (i =3D TASK_SIZE >> 28; i < 16; i++) {
-                                ^
-   arch/powerpc/mm/book3s32/mmu.c:226:27: note: Integer overflow
-     if (is_module_segment(i << 28))
-                             ^
---
->> arch/powerpc/platforms/powermac/low_i2c.c:1036:66: warning: Parameter 'a=
-dapter' can be declared with const [constParameter]
-   struct pmac_i2c_bus *pmac_i2c_adapter_to_bus(struct i2c_adapter *adapter)
-                                                                    ^
-   arch/powerpc/platforms/powermac/low_i2c.c:1047:73: warning: Parameter 'a=
-dapter' can be declared with const [constParameter]
-   int pmac_i2c_match_adapter(struct device_node *dev, struct i2c_adapter *=
-adapter)
-                                                                           ^
->> arch/powerpc/platforms/powermac/low_i2c.c:1057:43: warning: Parameter 'n=
-p' can be declared with const [constParameter]
-   int pmac_low_i2c_lock(struct device_node *np)
-                                             ^
-   arch/powerpc/platforms/powermac/low_i2c.c:1073:45: warning: Parameter 'n=
-p' can be declared with const [constParameter]
-   int pmac_low_i2c_unlock(struct device_node *np)
-                                               ^
->> arch/powerpc/platforms/powermac/low_i2c.c:965:18: warning: Uninitialized=
- variable: bus->busnode [uninitvar]
-      if (p =3D=3D bus->busnode) {
-                    ^
->> arch/powerpc/platforms/powermac/low_i2c.c:1062:18: warning: Uninitialize=
-d variable: bus->controller [uninitvar]
-     if (np =3D=3D bus->controller) {
-                    ^
-   arch/powerpc/platforms/powermac/low_i2c.c:1078:18: warning: Uninitialize=
-d variable: bus->controller [uninitvar]
-     if (np =3D=3D bus->controller) {
-                    ^
-   arch/powerpc/platforms/powermac/low_i2c.c:1198:31: warning: Uninitialize=
-d variable: bus->busnode [uninitvar]
-     for_each_child_of_node(bus->busnode, np) {
-                                 ^
->> arch/powerpc/platforms/powermac/low_i2c.c:1503:42: warning: Uninitialize=
-d variables: bus.link, bus.controller, bus.busnode, bus.type, bus.flags, bu=
-s.adapter, bus.hostdata, bus.channel, bus.mode, bus.mutex, bus.opened, bus.=
-polled, bus.lock_key, bus.open, bus.close, bus.xfer [uninitvar]
-     bus->platform_dev->dev.platform_data =3D bus;
-                                            ^
-   arch/powerpc/platforms/powermac/low_i2c.c:1501:25: note: Assuming condit=
-ion is false
-     if (bus->platform_dev =3D=3D NULL)
-                           ^
-   arch/powerpc/platforms/powermac/low_i2c.c:1501:25: note: Assuming condit=
-ion is false
-     if (bus->platform_dev =3D=3D NULL)
-                           ^
-   arch/powerpc/platforms/powermac/low_i2c.c:1501:25: note: Assuming condit=
-ion is false
-     if (bus->platform_dev =3D=3D NULL)
-                           ^
-   arch/powerpc/platforms/powermac/low_i2c.c:1501:25: note: Assuming condit=
-ion is false
-     if (bus->platform_dev =3D=3D NULL)
-                           ^
-   arch/powerpc/platforms/powermac/low_i2c.c:1501:25: note: Assuming condit=
-ion is false
-     if (bus->platform_dev =3D=3D NULL)
-                           ^
-   arch/powerpc/platforms/powermac/low_i2c.c:1501:25: note: Assuming condit=
-ion is false
-     if (bus->platform_dev =3D=3D NULL)
-                           ^
-   arch/powerpc/platforms/powermac/low_i2c.c:1501:25: note: Assuming condit=
-ion is false
-     if (bus->platform_dev =3D=3D NULL)
-                           ^
-   arch/powerpc/platforms/powermac/low_i2c.c:1501:25: note: Assuming condit=
-ion is false
-     if (bus->platform_dev =3D=3D NULL)
-                           ^
-   arch/powerpc/platforms/powermac/low_i2c.c:1501:25: note: Assuming condit=
-ion is false
-     if (bus->platform_dev =3D=3D NULL)
-                           ^
-   arch/powerpc/platforms/powermac/low_i2c.c:1501:25: note: Assuming condit=
-ion is false
-     if (bus->platform_dev =3D=3D NULL)
-                           ^
-   arch/powerpc/platforms/powermac/low_i2c.c:1501:25: note: Assuming condit=
-ion is false
-     if (bus->platform_dev =3D=3D NULL)
-                           ^
-   arch/powerpc/platforms/powermac/low_i2c.c:1501:25: note: Assuming condit=
-ion is false
-     if (bus->platform_dev =3D=3D NULL)
-                           ^
-   arch/powerpc/platforms/powermac/low_i2c.c:1501:25: note: Assuming condit=
-ion is false
-     if (bus->platform_dev =3D=3D NULL)
-                           ^
-   arch/powerpc/platforms/powermac/low_i2c.c:1501:25: note: Assuming condit=
-ion is false
-     if (bus->platform_dev =3D=3D NULL)
-                           ^
-   arch/powerpc/platforms/powermac/low_i2c.c:1501:25: note: Assuming condit=
-ion is false
-     if (bus->platform_dev =3D=3D NULL)
-                           ^
-   arch/powerpc/platforms/powermac/low_i2c.c:1501:25: note: Assuming condit=
-ion is false
-     if (bus->platform_dev =3D=3D NULL)
-                           ^
-   arch/powerpc/platforms/powermac/low_i2c.c:1503:42: note: Uninitialized v=
-ariables: bus.link, bus.controller, bus.busnode, bus.type, bus.flags, bus.a=
-dapter, bus.hostdata, bus.channel, bus.mode, bus.mutex, bus.opened, bus.pol=
-led, bus.lock_key, bus.open, bus.close, bus.xfer
-     bus->platform_dev->dev.platform_data =3D bus;
-                                            ^
->> arch/powerpc/perf/core-book3s.c:2485:10: warning: Using pointer that is =
-a temporary. [danglingTemporaryLifetime]
-     memset(cpuhw, 0, sizeof(*cpuhw));
-            ^
-   arch/powerpc/perf/core-book3s.c:2482:32: note: Address of variable taken=
- here.
-    struct cpu_hw_events *cpuhw =3D &per_cpu(cpu_hw_events, cpu);
-                                  ^
-   arch/powerpc/perf/core-book3s.c:2482:40: note: Temporary created here.
-    struct cpu_hw_events *cpuhw =3D &per_cpu(cpu_hw_events, cpu);
-                                          ^
-   arch/powerpc/perf/core-book3s.c:2485:10: note: Using pointer that is a t=
-emporary.
-     memset(cpuhw, 0, sizeof(*cpuhw));
-            ^
-   arch/powerpc/perf/core-book3s.c:2486:3: warning: Using pointer that is a=
- temporary. [danglingTemporaryLifetime]
-     cpuhw->mmcr.mmcr0 =3D MMCR0_FC;
-     ^
-   arch/powerpc/perf/core-book3s.c:2482:32: note: Address of variable taken=
- here.
-    struct cpu_hw_events *cpuhw =3D &per_cpu(cpu_hw_events, cpu);
-                                  ^
-   arch/powerpc/perf/core-book3s.c:2482:40: note: Temporary created here.
-    struct cpu_hw_events *cpuhw =3D &per_cpu(cpu_hw_events, cpu);
-                                          ^
-   arch/powerpc/perf/core-book3s.c:2486:3: note: Using pointer that is a te=
-mporary.
-     cpuhw->mmcr.mmcr0 =3D MMCR0_FC;
-     ^
->> arch/powerpc/perf/core-book3s.c:1092:47: warning: Parameter 'ctrs' can b=
-e declared with const [constParameter]
-   static int check_excludes(struct perf_event **ctrs, unsigned int cflags[=
-],
-                                                 ^
---
->> arch/powerpc/lib/sstep.c:1635:9: warning: Shifting a negative value is t=
-echnically undefined behaviour [shiftNegativeLHS]
-     imm =3D MASK32(mb, me);
-           ^
-   arch/powerpc/lib/sstep.c:1643:31: warning: Shifting a negative value is =
-technically undefined behaviour [shiftNegativeLHS]
-     op->val =3D ROTATE(val, rb) & MASK32(mb, me);
-                                 ^
-   arch/powerpc/lib/sstep.c:1651:31: warning: Shifting a negative value is =
-technically undefined behaviour [shiftNegativeLHS]
-     op->val =3D ROTATE(val, rb) & MASK32(mb, me);
-                                 ^
->> arch/powerpc/lib/sstep.c:329:1: warning: Label 'Efault' is not used. The=
-re is #if in function body so the label might be used in code that is remov=
-ed by the preprocessor. [unusedLabelConfiguration]
-   Efault:
-   ^
-   arch/powerpc/lib/sstep.c:386:1: warning: Label 'Efault' is not used. The=
-re is #if in function body so the label might be used in code that is remov=
-ed by the preprocessor. [unusedLabelConfiguration]
-   Efault:
-   ^
-   arch/powerpc/lib/sstep.c:465:1: warning: Label 'Efault' is not used. The=
-re is #if in function body so the label might be used in code that is remov=
-ed by the preprocessor. [unusedLabelConfiguration]
-   Efault:
-   ^
-   arch/powerpc/lib/sstep.c:522:1: warning: Label 'Efault' is not used. The=
-re is #if in function body so the label might be used in code that is remov=
-ed by the preprocessor. [unusedLabelConfiguration]
-   Efault:
-   ^
->> arch/powerpc/lib/sstep.c:656:8: warning: Overlapping read/write of union=
- is undefined behavior [overlappingWriteUnion]
-      u.u =3D u.l[0];
-          ^
->> arch/powerpc/lib/sstep.c:2232:33: warning: Unsigned expression '63-sh' c=
-an't be negative so it is unnecessary to test it. [unsignedPositive]
-       op->val =3D ROTATE(val, sh) & MASK64(0, 63 - sh);
-                                   ^
->> arch/powerpc/lib/sstep.c:2201:19: warning: Shifting signed 64-bit value =
-by 63 bits is implementation-defined behaviour [shiftTooManyBitsSigned]
-      op->val =3D ival >> (sh < 64 ? sh : 63);
-                     ^
+vim +1054 kernel/bpf/core.c
 
-vim +1635 arch/powerpc/lib/sstep.c
+4f3446bb809f20 Daniel Borkmann 2016-05-13  1037  =
 
-930d6288a26787 Sandipan Das               2019-02-22  1563  =
+33c9805860e584 Song Liu        2022-02-04  1038  /* Allocate jit binary fro=
+m bpf_prog_pack allocator.
+33c9805860e584 Song Liu        2022-02-04  1039   * Since the allocated mem=
+ory is RO+X, the JIT engine cannot write directly
+33c9805860e584 Song Liu        2022-02-04  1040   * to the memory. To solve=
+ this problem, a RW buffer is also allocated at
+33c9805860e584 Song Liu        2022-02-04  1041   * as the same time. The J=
+IT engine should calculate offsets based on the
+33c9805860e584 Song Liu        2022-02-04  1042   * RO memory address, but =
+write JITed program to the RW buffer. Once the
+33c9805860e584 Song Liu        2022-02-04  1043   * JIT engine finishes, it=
+ calls bpf_jit_binary_pack_finalize, which copies
+33c9805860e584 Song Liu        2022-02-04  1044   * the JITed program to th=
+e RO memory.
+33c9805860e584 Song Liu        2022-02-04  1045   */
+33c9805860e584 Song Liu        2022-02-04  1046  struct bpf_binary_header *
+33c9805860e584 Song Liu        2022-02-04  1047  bpf_jit_binary_pack_alloc(=
+unsigned int proglen, u8 **image_ptr,
+33c9805860e584 Song Liu        2022-02-04  1048  			  unsigned int alignmen=
+t,
+33c9805860e584 Song Liu        2022-02-04  1049  			  struct bpf_binary_hea=
+der **rw_header,
+33c9805860e584 Song Liu        2022-02-04  1050  			  u8 **rw_image,
+33c9805860e584 Song Liu        2022-02-04  1051  			  bpf_jit_fill_hole_t b=
+pf_fill_ill_insns)
+33c9805860e584 Song Liu        2022-02-04  1052  {
+33c9805860e584 Song Liu        2022-02-04  1053  	struct bpf_binary_header =
+*ro_header;
+33c9805860e584 Song Liu        2022-02-04 @1054  	u32 size, hole, start;
+33c9805860e584 Song Liu        2022-02-04  1055  =
 
-0016a4cf558241 Paul Mackerras             2010-06-15  1564  	case 7:		/* mu=
-lli */
-777e26f0edf8da Jordan Niethe              2020-05-06  1565  		op->val =3D r=
-egs->gpr[ra] * (short) word;
-3cdfcbfd32b9d1 Paul Mackerras             2017-08-30  1566  		goto compute_=
-done;
-0016a4cf558241 Paul Mackerras             2010-06-15  1567  =
+33c9805860e584 Song Liu        2022-02-04  1056  	WARN_ON_ONCE(!is_power_of=
+_2(alignment) ||
+33c9805860e584 Song Liu        2022-02-04  1057  		     alignment > BPF_IMA=
+GE_ALIGNMENT);
+33c9805860e584 Song Liu        2022-02-04  1058  =
 
-0016a4cf558241 Paul Mackerras             2010-06-15  1568  	case 8:		/* su=
-bfic */
-777e26f0edf8da Jordan Niethe              2020-05-06  1569  		imm =3D (shor=
-t) word;
-3cdfcbfd32b9d1 Paul Mackerras             2017-08-30  1570  		add_with_carr=
-y(regs, op, rd, ~regs->gpr[ra], imm, 1);
-3cdfcbfd32b9d1 Paul Mackerras             2017-08-30  1571  		return 1;
-0016a4cf558241 Paul Mackerras             2010-06-15  1572  =
+33c9805860e584 Song Liu        2022-02-04  1059  	/* add 16 bytes for a ran=
+dom section of illegal instructions */
+33c9805860e584 Song Liu        2022-02-04  1060  	size =3D round_up(proglen=
+ + sizeof(*ro_header) + 16, BPF_PROG_CHUNK_SIZE);
+33c9805860e584 Song Liu        2022-02-04  1061  =
 
-0016a4cf558241 Paul Mackerras             2010-06-15  1573  	case 10:	/* cm=
-pli */
-777e26f0edf8da Jordan Niethe              2020-05-06  1574  		imm =3D (unsi=
-gned short) word;
-0016a4cf558241 Paul Mackerras             2010-06-15  1575  		val =3D regs-=
->gpr[ra];
-0016a4cf558241 Paul Mackerras             2010-06-15  1576  #ifdef __powerp=
-c64__
-0016a4cf558241 Paul Mackerras             2010-06-15  1577  		if ((rd & 1) =
-=3D=3D 0)
-0016a4cf558241 Paul Mackerras             2010-06-15  1578  			val =3D (uns=
-igned int) val;
-0016a4cf558241 Paul Mackerras             2010-06-15  1579  #endif
-3cdfcbfd32b9d1 Paul Mackerras             2017-08-30  1580  		do_cmp_unsign=
-ed(regs, op, val, imm, rd >> 2);
-3cdfcbfd32b9d1 Paul Mackerras             2017-08-30  1581  		return 1;
-0016a4cf558241 Paul Mackerras             2010-06-15  1582  =
+33c9805860e584 Song Liu        2022-02-04  1062  	if (bpf_jit_charge_modmem=
+(size))
+33c9805860e584 Song Liu        2022-02-04  1063  		return NULL;
+33c9805860e584 Song Liu        2022-02-04  1064  	ro_header =3D bpf_prog_pa=
+ck_alloc(size);
+33c9805860e584 Song Liu        2022-02-04  1065  	if (!ro_header) {
+33c9805860e584 Song Liu        2022-02-04  1066  		bpf_jit_uncharge_modmem(=
+size);
+33c9805860e584 Song Liu        2022-02-04  1067  		return NULL;
+33c9805860e584 Song Liu        2022-02-04  1068  	}
+33c9805860e584 Song Liu        2022-02-04  1069  =
 
-0016a4cf558241 Paul Mackerras             2010-06-15  1583  	case 11:	/* cm=
-pi */
-777e26f0edf8da Jordan Niethe              2020-05-06  1584  		imm =3D (shor=
-t) word;
-0016a4cf558241 Paul Mackerras             2010-06-15  1585  		val =3D regs-=
->gpr[ra];
-0016a4cf558241 Paul Mackerras             2010-06-15  1586  #ifdef __powerp=
-c64__
-0016a4cf558241 Paul Mackerras             2010-06-15  1587  		if ((rd & 1) =
-=3D=3D 0)
-0016a4cf558241 Paul Mackerras             2010-06-15  1588  			val =3D (int=
-) val;
-0016a4cf558241 Paul Mackerras             2010-06-15  1589  #endif
-3cdfcbfd32b9d1 Paul Mackerras             2017-08-30  1590  		do_cmp_signed=
-(regs, op, val, imm, rd >> 2);
-3cdfcbfd32b9d1 Paul Mackerras             2017-08-30  1591  		return 1;
-0016a4cf558241 Paul Mackerras             2010-06-15  1592  =
+33c9805860e584 Song Liu        2022-02-04  1070  	*rw_header =3D kvmalloc(s=
+ize, GFP_KERNEL);
+33c9805860e584 Song Liu        2022-02-04  1071  	if (!*rw_header) {
+d24d2a2b0a81dd Song Liu        2022-02-17  1072  		bpf_arch_text_copy(&ro_h=
+eader->size, &size, sizeof(size));
+33c9805860e584 Song Liu        2022-02-04  1073  		bpf_prog_pack_free(ro_he=
+ader);
+33c9805860e584 Song Liu        2022-02-04  1074  		bpf_jit_uncharge_modmem(=
+size);
+33c9805860e584 Song Liu        2022-02-04  1075  		return NULL;
+33c9805860e584 Song Liu        2022-02-04  1076  	}
+33c9805860e584 Song Liu        2022-02-04  1077  =
 
-0016a4cf558241 Paul Mackerras             2010-06-15  1593  	case 12:	/* ad=
-dic */
-777e26f0edf8da Jordan Niethe              2020-05-06  1594  		imm =3D (shor=
-t) word;
-3cdfcbfd32b9d1 Paul Mackerras             2017-08-30  1595  		add_with_carr=
-y(regs, op, rd, regs->gpr[ra], imm, 0);
-3cdfcbfd32b9d1 Paul Mackerras             2017-08-30  1596  		return 1;
-0016a4cf558241 Paul Mackerras             2010-06-15  1597  =
+33c9805860e584 Song Liu        2022-02-04  1078  	/* Fill space with illega=
+l/arch-dep instructions. */
+33c9805860e584 Song Liu        2022-02-04  1079  	bpf_fill_ill_insns(*rw_he=
+ader, size);
+33c9805860e584 Song Liu        2022-02-04  1080  	(*rw_header)->size =3D si=
+ze;
+33c9805860e584 Song Liu        2022-02-04  1081  =
 
-0016a4cf558241 Paul Mackerras             2010-06-15  1598  	case 13:	/* ad=
-dic. */
-777e26f0edf8da Jordan Niethe              2020-05-06  1599  		imm =3D (shor=
-t) word;
-3cdfcbfd32b9d1 Paul Mackerras             2017-08-30  1600  		add_with_carr=
-y(regs, op, rd, regs->gpr[ra], imm, 0);
-ad47ff3e33503e Anton Blanchard            2017-09-19  1601  		set_cr0(regs,=
- op);
-3cdfcbfd32b9d1 Paul Mackerras             2017-08-30  1602  		return 1;
-0016a4cf558241 Paul Mackerras             2010-06-15  1603  =
+33c9805860e584 Song Liu        2022-02-04  1082  	hole =3D min_t(unsigned i=
+nt, size - (proglen + sizeof(*ro_header)),
+33c9805860e584 Song Liu        2022-02-04  1083  		     BPF_PROG_CHUNK_SIZE=
+ - sizeof(*ro_header));
+33c9805860e584 Song Liu        2022-02-04  1084  	start =3D (get_random_int=
+() % hole) & ~(alignment - 1);
+33c9805860e584 Song Liu        2022-02-04  1085  =
 
-0016a4cf558241 Paul Mackerras             2010-06-15  1604  	case 14:	/* ad=
-di */
-777e26f0edf8da Jordan Niethe              2020-05-06  1605  		imm =3D (shor=
-t) word;
-0016a4cf558241 Paul Mackerras             2010-06-15  1606  		if (ra)
-0016a4cf558241 Paul Mackerras             2010-06-15  1607  			imm +=3D reg=
-s->gpr[ra];
-3cdfcbfd32b9d1 Paul Mackerras             2017-08-30  1608  		op->val =3D i=
-mm;
-3cdfcbfd32b9d1 Paul Mackerras             2017-08-30  1609  		goto compute_=
-done;
-0016a4cf558241 Paul Mackerras             2010-06-15  1610  =
+33c9805860e584 Song Liu        2022-02-04  1086  	*image_ptr =3D &ro_header=
+->image[start];
+33c9805860e584 Song Liu        2022-02-04  1087  	*rw_image =3D &(*rw_heade=
+r)->image[start];
+33c9805860e584 Song Liu        2022-02-04  1088  =
 
-0016a4cf558241 Paul Mackerras             2010-06-15  1611  	case 15:	/* ad=
-dis */
-777e26f0edf8da Jordan Niethe              2020-05-06  1612  		imm =3D ((sho=
-rt) word) << 16;
-0016a4cf558241 Paul Mackerras             2010-06-15  1613  		if (ra)
-0016a4cf558241 Paul Mackerras             2010-06-15  1614  			imm +=3D reg=
-s->gpr[ra];
-3cdfcbfd32b9d1 Paul Mackerras             2017-08-30  1615  		op->val =3D i=
-mm;
-3cdfcbfd32b9d1 Paul Mackerras             2017-08-30  1616  		goto compute_=
-done;
-0016a4cf558241 Paul Mackerras             2010-06-15  1617  =
-
-958465ee5407dc Paul Mackerras             2017-08-30  1618  	case 19:
-777e26f0edf8da Jordan Niethe              2020-05-06  1619  		if (((word >>=
- 1) & 0x1f) =3D=3D 2) {
-958465ee5407dc Paul Mackerras             2017-08-30  1620  			/* addpcis */
-8813ff49607eab Ananth N Mavinakayanahalli 2021-01-25  1621  			if (!cpu_has=
-_feature(CPU_FTR_ARCH_300))
-8813ff49607eab Ananth N Mavinakayanahalli 2021-01-25  1622  				goto unknow=
-n_opcode;
-777e26f0edf8da Jordan Niethe              2020-05-06  1623  			imm =3D (sho=
-rt) (word & 0xffc1);	/* d0 + d2 fields */
-777e26f0edf8da Jordan Niethe              2020-05-06  1624  			imm |=3D (wo=
-rd >> 15) & 0x3e;	/* d1 field */
-958465ee5407dc Paul Mackerras             2017-08-30  1625  			op->val =3D =
-regs->nip + (imm << 16) + 4;
-958465ee5407dc Paul Mackerras             2017-08-30  1626  			goto compute=
-_done;
-958465ee5407dc Paul Mackerras             2017-08-30  1627  		}
-958465ee5407dc Paul Mackerras             2017-08-30  1628  		op->type =3D =
-UNKNOWN;
-958465ee5407dc Paul Mackerras             2017-08-30  1629  		return 0;
-958465ee5407dc Paul Mackerras             2017-08-30  1630  =
-
-0016a4cf558241 Paul Mackerras             2010-06-15  1631  	case 20:	/* rl=
-wimi */
-777e26f0edf8da Jordan Niethe              2020-05-06  1632  		mb =3D (word =
->> 6) & 0x1f;
-777e26f0edf8da Jordan Niethe              2020-05-06  1633  		me =3D (word =
->> 1) & 0x1f;
-0016a4cf558241 Paul Mackerras             2010-06-15  1634  		val =3D DATA3=
-2(regs->gpr[rd]);
-0016a4cf558241 Paul Mackerras             2010-06-15 @1635  		imm =3D MASK3=
-2(mb, me);
-3cdfcbfd32b9d1 Paul Mackerras             2017-08-30  1636  		op->val =3D (=
-regs->gpr[ra] & ~imm) | (ROTATE(val, rb) & imm);
-0016a4cf558241 Paul Mackerras             2010-06-15  1637  		goto logical_=
-done;
-0016a4cf558241 Paul Mackerras             2010-06-15  1638  =
-
-0016a4cf558241 Paul Mackerras             2010-06-15  1639  	case 21:	/* rl=
-winm */
-777e26f0edf8da Jordan Niethe              2020-05-06  1640  		mb =3D (word =
->> 6) & 0x1f;
-777e26f0edf8da Jordan Niethe              2020-05-06  1641  		me =3D (word =
->> 1) & 0x1f;
-0016a4cf558241 Paul Mackerras             2010-06-15  1642  		val =3D DATA3=
-2(regs->gpr[rd]);
-3cdfcbfd32b9d1 Paul Mackerras             2017-08-30  1643  		op->val =3D R=
-OTATE(val, rb) & MASK32(mb, me);
-0016a4cf558241 Paul Mackerras             2010-06-15  1644  		goto logical_=
-done;
-0016a4cf558241 Paul Mackerras             2010-06-15  1645  =
-
-0016a4cf558241 Paul Mackerras             2010-06-15  1646  	case 23:	/* rl=
-wnm */
-777e26f0edf8da Jordan Niethe              2020-05-06  1647  		mb =3D (word =
->> 6) & 0x1f;
-777e26f0edf8da Jordan Niethe              2020-05-06  1648  		me =3D (word =
->> 1) & 0x1f;
-0016a4cf558241 Paul Mackerras             2010-06-15  1649  		rb =3D regs->=
-gpr[rb] & 0x1f;
-0016a4cf558241 Paul Mackerras             2010-06-15  1650  		val =3D DATA3=
-2(regs->gpr[rd]);
-3cdfcbfd32b9d1 Paul Mackerras             2017-08-30  1651  		op->val =3D R=
-OTATE(val, rb) & MASK32(mb, me);
-0016a4cf558241 Paul Mackerras             2010-06-15  1652  		goto logical_=
-done;
-0016a4cf558241 Paul Mackerras             2010-06-15  1653  =
-
-0016a4cf558241 Paul Mackerras             2010-06-15  1654  	case 24:	/* or=
-i */
-777e26f0edf8da Jordan Niethe              2020-05-06  1655  		op->val =3D r=
-egs->gpr[rd] | (unsigned short) word;
-3cdfcbfd32b9d1 Paul Mackerras             2017-08-30  1656  		goto logical_=
-done_nocc;
-0016a4cf558241 Paul Mackerras             2010-06-15  1657  =
-
-0016a4cf558241 Paul Mackerras             2010-06-15  1658  	case 25:	/* or=
-is */
-777e26f0edf8da Jordan Niethe              2020-05-06  1659  		imm =3D (unsi=
-gned short) word;
-3cdfcbfd32b9d1 Paul Mackerras             2017-08-30  1660  		op->val =3D r=
-egs->gpr[rd] | (imm << 16);
-3cdfcbfd32b9d1 Paul Mackerras             2017-08-30  1661  		goto logical_=
-done_nocc;
-0016a4cf558241 Paul Mackerras             2010-06-15  1662  =
-
-0016a4cf558241 Paul Mackerras             2010-06-15  1663  	case 26:	/* xo=
-ri */
-777e26f0edf8da Jordan Niethe              2020-05-06  1664  		op->val =3D r=
-egs->gpr[rd] ^ (unsigned short) word;
-3cdfcbfd32b9d1 Paul Mackerras             2017-08-30  1665  		goto logical_=
-done_nocc;
-0016a4cf558241 Paul Mackerras             2010-06-15  1666  =
-
-0016a4cf558241 Paul Mackerras             2010-06-15  1667  	case 27:	/* xo=
-ris */
-777e26f0edf8da Jordan Niethe              2020-05-06  1668  		imm =3D (unsi=
-gned short) word;
-3cdfcbfd32b9d1 Paul Mackerras             2017-08-30  1669  		op->val =3D r=
-egs->gpr[rd] ^ (imm << 16);
-3cdfcbfd32b9d1 Paul Mackerras             2017-08-30  1670  		goto logical_=
-done_nocc;
-0016a4cf558241 Paul Mackerras             2010-06-15  1671  =
-
-0016a4cf558241 Paul Mackerras             2010-06-15  1672  	case 28:	/* an=
-di. */
-777e26f0edf8da Jordan Niethe              2020-05-06  1673  		op->val =3D r=
-egs->gpr[rd] & (unsigned short) word;
-ad47ff3e33503e Anton Blanchard            2017-09-19  1674  		set_cr0(regs,=
- op);
-3cdfcbfd32b9d1 Paul Mackerras             2017-08-30  1675  		goto logical_=
-done_nocc;
-0016a4cf558241 Paul Mackerras             2010-06-15  1676  =
-
-0016a4cf558241 Paul Mackerras             2010-06-15  1677  	case 29:	/* an=
-dis. */
-777e26f0edf8da Jordan Niethe              2020-05-06  1678  		imm =3D (unsi=
-gned short) word;
-3cdfcbfd32b9d1 Paul Mackerras             2017-08-30  1679  		op->val =3D r=
-egs->gpr[rd] & (imm << 16);
-ad47ff3e33503e Anton Blanchard            2017-09-19  1680  		set_cr0(regs,=
- op);
-3cdfcbfd32b9d1 Paul Mackerras             2017-08-30  1681  		goto logical_=
-done_nocc;
-0016a4cf558241 Paul Mackerras             2010-06-15  1682  =
+33c9805860e584 Song Liu        2022-02-04  1089  	return ro_header;
+33c9805860e584 Song Liu        2022-02-04  1090  }
+33c9805860e584 Song Liu        2022-02-04  1091  =
 
 
-:::::: The code@line 1635 was first introduced by commit
-:::::: 0016a4cf5582415849fafbf9f019dd9530824789 powerpc: Emulate most Book =
-I instructions in emulate_step()
+:::::: The code at line 1054 was first introduced by commit
+:::::: 33c9805860e584b194199cab1a1e81f4e6395408 bpf: Introduce bpf_jit_bina=
+ry_pack_[alloc|finalize|free]
 
-:::::: TO: Paul Mackerras <paulus@samba.org>
-:::::: CC: Paul Mackerras <paulus@samba.org>
+:::::: TO: Song Liu <songliubraving@fb.com>
+:::::: CC: Alexei Starovoitov <ast@kernel.org>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============8667719644966590728==--
+--===============9060540881646524785==--
 
