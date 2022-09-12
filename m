@@ -1,145 +1,83 @@
-Content-Type: multipart/mixed; boundary="===============1641712257731918494=="
+Content-Type: multipart/mixed; boundary="===============6804340614208840104=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/net/can/spi/mcp251xfd/mcp251xfd-ring.c:26:16: warning: use of uninitialized value '<unknown>' [CWE-457]
-Date: Sat, 17 Sep 2022 13:48:48 +0800
-Message-ID: <202209171319.x5ZywRMh-lkp@intel.com>
+Subject: [rt-devel:linux-6.0.y-rt-rebase 40/70] kernel/printk/printk.c:2471 __alloc_atomic_data() warn: returning -1 instead of -ENOMEM is sloppy
+Date: Mon, 12 Sep 2022 19:25:22 +0800
+Message-ID: <202209121953.WOW5sqcg-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1641712257731918494==
+--===============6804340614208840104==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-:::::: =
-
-:::::: Manual check reason: "low confidence bisect report"
-:::::: Manual check reason: "low confidence static check warning: drivers/n=
-et/can/spi/mcp251xfd/mcp251xfd-ring.c:26:16: warning: use of uninitialized =
-value '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]"
-:::::: =
-
-
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: "Marc Kleine-Budde" <mkl@pengutronix.de>
+TO: John Ogness <john.ogness@linutronix.de>
+CC: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   a335366bad1364a07f49df9da1fdfa6d411a5f39
-commit: 55bc37c85587d0c53a666a685a49752e28a31396 can: mcp251xfd: move ring =
-init into separate function
-date:   8 months ago
-:::::: branch date: 10 hours ago
-:::::: commit date: 8 months ago
-config: arm-randconfig-c002-20220915 (https://download.01.org/0day-ci/archi=
-ve/20220917/202209171319.x5ZywRMh-lkp(a)intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D55bc37c85587d0c53a666a685a49752e28a31396
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 55bc37c85587d0c53a666a685a49752e28a31396
-        # save the config file
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cross=
- ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
-
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rt/linux-rt-devel.g=
+it linux-6.0.y-rt-rebase
+head:   376548593b4d47763e838b8bcd1f91051f918dab
+commit: 7bb39d2b7c7a6c79458113dbdb360340267c7a52 [40/70] serial: 8250: impl=
+ement write_atomic
+:::::: branch date: 7 days ago
+:::::: commit date: 7 days ago
+config: x86_64-randconfig-m001 (https://download.01.org/0day-ci/archive/202=
+20912/202209121953.WOW5sqcg-lkp(a)intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-5) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-gcc_analyzer warnings: (new ones prefixed by >>)
-   drivers/net/can/spi/mcp251xfd/mcp251xfd-ring.c: In function 'mcp251xfd_c=
-md_prepare_write_reg':
->> drivers/net/can/spi/mcp251xfd/mcp251xfd-ring.c:26:16: warning: use of un=
-initialized value '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-va=
-lue]
-      26 |         __le32 val_le32;
-         |                ^~~~~~~~
-     'mcp251xfd_cmd_prepare_write_reg': event 1
-       |
-       |   26 |         __le32 val_le32;
-       |      |                ^~~~~~~~
-       |      |                |
-       |      |                (1) use of uninitialized value '<unknown>' h=
-ere
-       |
+smatch warnings:
+kernel/printk/printk.c:2471 __alloc_atomic_data() warn: returning -1 instea=
+d of -ENOMEM is sloppy
 
-vim +26 drivers/net/can/spi/mcp251xfd/mcp251xfd-ring.c
+vim +2471 kernel/printk/printk.c
 
-55bc37c85587d0 Marc Kleine-Budde 2021-05-21  18  =
+f86a98cb01f5b3 John Ogness 2022-02-04  2466  =
 
-55bc37c85587d0 Marc Kleine-Budde 2021-05-21  19  static inline u8
-55bc37c85587d0 Marc Kleine-Budde 2021-05-21  20  mcp251xfd_cmd_prepare_writ=
-e_reg(const struct mcp251xfd_priv *priv,
-55bc37c85587d0 Marc Kleine-Budde 2021-05-21  21  				union mcp251xfd_write_=
-reg_buf *write_reg_buf,
-55bc37c85587d0 Marc Kleine-Budde 2021-05-21  22  				const u16 reg, const u=
-32 mask, const u32 val)
-55bc37c85587d0 Marc Kleine-Budde 2021-05-21  23  {
-55bc37c85587d0 Marc Kleine-Budde 2021-05-21  24  	u8 first_byte, last_byte,=
- len;
-55bc37c85587d0 Marc Kleine-Budde 2021-05-21  25  	u8 *data;
-55bc37c85587d0 Marc Kleine-Budde 2021-05-21 @26  	__le32 val_le32;
-55bc37c85587d0 Marc Kleine-Budde 2021-05-21  27  =
+f86a98cb01f5b3 John Ogness 2022-02-04  2467  static int __alloc_atomic_data=
+(struct console_atomic_data *d, short flags)
+f86a98cb01f5b3 John Ogness 2022-02-04  2468  {
+f86a98cb01f5b3 John Ogness 2022-02-04  2469  	d->text =3D kmalloc(CONSOLE_L=
+OG_MAX, GFP_KERNEL);
+f86a98cb01f5b3 John Ogness 2022-02-04  2470  	if (!d->text)
+f86a98cb01f5b3 John Ogness 2022-02-04 @2471  		return -1;
+f86a98cb01f5b3 John Ogness 2022-02-04  2472  =
 
-55bc37c85587d0 Marc Kleine-Budde 2021-05-21  28  	first_byte =3D mcp251xfd_=
-first_byte_set(mask);
-55bc37c85587d0 Marc Kleine-Budde 2021-05-21  29  	last_byte =3D mcp251xfd_l=
-ast_byte_set(mask);
-55bc37c85587d0 Marc Kleine-Budde 2021-05-21  30  	len =3D last_byte - first=
-_byte + 1;
-55bc37c85587d0 Marc Kleine-Budde 2021-05-21  31  =
+f86a98cb01f5b3 John Ogness 2022-02-04  2473  	if (flags & CON_EXTENDED) {
+f86a98cb01f5b3 John Ogness 2022-02-04  2474  		d->ext_text =3D kmalloc(CONS=
+OLE_EXT_LOG_MAX, GFP_KERNEL);
+f86a98cb01f5b3 John Ogness 2022-02-04  2475  		if (!d->ext_text)
+f86a98cb01f5b3 John Ogness 2022-02-04  2476  			return -1;
+f86a98cb01f5b3 John Ogness 2022-02-04  2477  	} else {
+f86a98cb01f5b3 John Ogness 2022-02-04  2478  		d->dropped_text =3D kmalloc(=
+DROPPED_TEXT_MAX, GFP_KERNEL);
+f86a98cb01f5b3 John Ogness 2022-02-04  2479  		if (!d->dropped_text)
+f86a98cb01f5b3 John Ogness 2022-02-04  2480  			return -1;
+f86a98cb01f5b3 John Ogness 2022-02-04  2481  	}
+f86a98cb01f5b3 John Ogness 2022-02-04  2482  =
 
-55bc37c85587d0 Marc Kleine-Budde 2021-05-21  32  	data =3D mcp251xfd_spi_cm=
-d_write(priv, write_reg_buf, reg + first_byte);
-55bc37c85587d0 Marc Kleine-Budde 2021-05-21  33  	val_le32 =3D cpu_to_le32(=
-val >> BITS_PER_BYTE * first_byte);
-55bc37c85587d0 Marc Kleine-Budde 2021-05-21  34  	memcpy(data, &val_le32, l=
-en);
-55bc37c85587d0 Marc Kleine-Budde 2021-05-21  35  =
+f86a98cb01f5b3 John Ogness 2022-02-04  2483  	return 0;
+f86a98cb01f5b3 John Ogness 2022-02-04  2484  }
+f86a98cb01f5b3 John Ogness 2022-02-04  2485  =
 
-55bc37c85587d0 Marc Kleine-Budde 2021-05-21  36  	if (priv->devtype_data.qu=
-irks & MCP251XFD_QUIRK_CRC_REG) {
-55bc37c85587d0 Marc Kleine-Budde 2021-05-21  37  		u16 crc;
-55bc37c85587d0 Marc Kleine-Budde 2021-05-21  38  =
 
-55bc37c85587d0 Marc Kleine-Budde 2021-05-21  39  		mcp251xfd_spi_cmd_crc_se=
-t_len_in_reg(&write_reg_buf->crc.cmd,
-55bc37c85587d0 Marc Kleine-Budde 2021-05-21  40  						     len);
-55bc37c85587d0 Marc Kleine-Budde 2021-05-21  41  		/* CRC */
-55bc37c85587d0 Marc Kleine-Budde 2021-05-21  42  		len +=3D sizeof(write_re=
-g_buf->crc.cmd);
-55bc37c85587d0 Marc Kleine-Budde 2021-05-21  43  		crc =3D mcp251xfd_crc16_=
-compute(&write_reg_buf->crc, len);
-55bc37c85587d0 Marc Kleine-Budde 2021-05-21  44  		put_unaligned_be16(crc, =
-(void *)write_reg_buf + len);
-55bc37c85587d0 Marc Kleine-Budde 2021-05-21  45  =
+:::::: The code at line 2471 was first introduced by commit
+:::::: f86a98cb01f5b33ebd4f84b258982e408ff6defe printk: add infrastucture f=
+or atomic consoles
 
-55bc37c85587d0 Marc Kleine-Budde 2021-05-21  46  		/* Total length */
-55bc37c85587d0 Marc Kleine-Budde 2021-05-21  47  		len +=3D sizeof(write_re=
-g_buf->crc.crc);
-55bc37c85587d0 Marc Kleine-Budde 2021-05-21  48  	} else {
-55bc37c85587d0 Marc Kleine-Budde 2021-05-21  49  		len +=3D sizeof(write_re=
-g_buf->nocrc.cmd);
-55bc37c85587d0 Marc Kleine-Budde 2021-05-21  50  	}
-55bc37c85587d0 Marc Kleine-Budde 2021-05-21  51  =
-
-55bc37c85587d0 Marc Kleine-Budde 2021-05-21  52  	return len;
-55bc37c85587d0 Marc Kleine-Budde 2021-05-21  53  }
-55bc37c85587d0 Marc Kleine-Budde 2021-05-21  54  =
-
+:::::: TO: John Ogness <john.ogness@linutronix.de>
+:::::: CC: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============1641712257731918494==--
+--===============6804340614208840104==--
 
