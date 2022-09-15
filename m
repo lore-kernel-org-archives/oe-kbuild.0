@@ -1,341 +1,355 @@
-Content-Type: multipart/mixed; boundary="===============6245643299602772995=="
+Content-Type: multipart/mixed; boundary="===============5322181365428261403=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/media/platform/st/sti/bdisp/bdisp-v4l2.c:1305 bdisp_probe() warn: assigning (-38) to unsigned variable 'bdisp->id'
-Date: Thu, 15 Sep 2022 20:49:31 +0800
-Message-ID: <202209152022.1agLmb9K-lkp@intel.com>
+Subject: [linux-next:master 6241/7172] fs/f2fs/f2fs.h:2376:9: warning: use of uninitialized value 'ino' [CWE-457]
+Date: Thu, 15 Sep 2022 08:55:55 +0800
+Message-ID: <202209150827.Ldph2OJT-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6245643299602772995==
+--===============5322181365428261403==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+:::::: =
+
+:::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "low confidence static check first_new_problem:=
+ fs/f2fs/f2fs.h:2376:9: warning: use of uninitialized value 'ino' [CWE-457]=
+ [-Wanalyzer-use-of-uninitialized-value]"
+:::::: =
+
+
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
-CC: linux-kernel(a)vger.kernel.org
-TO: Mauro Carvalho Chehab <mchehab@kernel.org>
-CC: linux-media(a)vger.kernel.org
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Chao Yu <yuchao0@huawei.com>, Chao Yu <chao@kernel.org>
+CC: Jaegeuk Kim <jaegeuk@kernel.org>
 
-Hi Mauro,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
+ master
+head:   f117c01187301a087412bd6697fcf5463cb427d8
+commit: 64c11570d64d143fa212c2739bf743e8e8b9095c [6241/7172] f2fs: fix to d=
+o sanity check on summary info
+:::::: branch date: 18 hours ago
+:::::: commit date: 2 days ago
+config: arm-randconfig-c002-20220911 (https://download.01.org/0day-ci/archi=
+ve/20220915/202209150827.Ldph2OJT-lkp(a)intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
+it/commit/?id=3D64c11570d64d143fa212c2739bf743e8e8b9095c
+        git remote add linux-next https://git.kernel.org/pub/scm/linux/kern=
+el/git/next/linux-next.git
+        git fetch --no-tags linux-next master
+        git checkout 64c11570d64d143fa212c2739bf743e8e8b9095c
+        # save the config file
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cross=
+ ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
 
-First bad commit (maybe !=3D root cause):
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   3245cb65fd91cd514801bf91f5a3066d562f0ac4
-commit: e7b8153e2a4f0c9c8d1450aa7328d54ea64fe8b2 media: platform: place stm=
-32/ and sti/ under st/ dir
-date:   6 months ago
-:::::: branch date: 27 hours ago
-:::::: commit date: 6 months ago
-config: m68k-randconfig-m031-20220914 (https://download.01.org/0day-ci/arch=
-ive/20220915/202209152022.1agLmb9K-lkp(a)intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-drivers/media/platform/st/sti/bdisp/bdisp-v4l2.c:1305 bdisp_probe() warn: a=
-ssigning (-38) to unsigned variable 'bdisp->id'
+gcc_analyzer warnings: (new ones prefixed by >>)
+              |      |                    ~
+              |      |                    |
+              |      |                    (34) following 'false' branch...
+              |......
+              |  763 |                 if (!is_recoverable_dnode(page)) {
+              |      |                    ~ ~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |                    | |
+              |      |                    | (35) ...to here
+              |      |                    (36) following 'true' branch...
+              |
+            'recover_data': event 37
+              |
+              |include/asm-generic/memory_model.h:19:57:
+              |   19 | #define __page_to_pfn(page)     ((unsigned long)((pa=
+ge) - mem_map) + \
+              |      |                                                     =
+    ^
+              |      |                                                     =
+    |
+              |      |                                                     =
+    (37) ...to here
+   arch/arm/include/asm/memory.h:328:71: note: in definition of macro '__va'
+              |  328 | #define __va(x)                 ((void *)__phys_to_v=
+irt((phys_addr_t)(x)))
+              |      |                                                     =
+                  ^
+   include/linux/mm.h:114:30: note: in expansion of macro 'PFN_PHYS'
+              |  114 | #define page_to_virt(x) __va(PFN_PHYS(page_to_pfn(x)=
+))
+              |      |                              ^~~~~~~~
+   include/asm-generic/memory_model.h:52:21: note: in expansion of macro '_=
+_page_to_pfn'
+              |   52 | #define page_to_pfn __page_to_pfn
+              |      |                     ^~~~~~~~~~~~~
+   include/linux/mm.h:114:39: note: in expansion of macro 'page_to_pfn'
+              |  114 | #define page_to_virt(x) __va(PFN_PHYS(page_to_pfn(x)=
+))
+              |      |                                       ^~~~~~~~~~~
+   include/linux/mm.h:1682:16: note: in expansion of macro 'page_to_virt'
+              | 1682 |         return page_to_virt(page);
+              |      |                ^~~~~~~~~~~~
+              |
+            'recover_data': event 38
+              |
+              |include/linux/list.h:675:14:
+              |  675 |              !list_entry_is_head(pos, head, member);=
+                    \
+              |      |              ^
+              |      |              |
+              |      |              (38) following 'true' branch...
+   fs/f2fs/recovery.c:71:9: note: in expansion of macro 'list_for_each_entr=
+y'
+              |   71 |         list_for_each_entry(entry, head, list)
+              |      |         ^~~~~~~~~~~~~~~~~~~
+              |
+            'recover_data': events 39-40
+              |
+              |   72 |                 if (entry->inode->i_ino =3D=3D ino)
+              |      |                     ~~~~~^~~~~~~
+              |      |                          |
+              |      |                          (39) ...to here
+              |......
+              |  769 |                 if (!entry)
+              |      |                    ~      =
 
-Old smatch warnings:
-drivers/media/platform/st/sti/bdisp/bdisp-v4l2.c:725 bdisp_g_fmt() warn: pa=
-ssing a valid pointer to 'PTR_ERR'
-drivers/media/platform/st/sti/bdisp/bdisp-v4l2.c:852 bdisp_g_selection() wa=
-rn: passing a valid pointer to 'PTR_ERR'
+              |      |                    |
+              |      |                    (40) following 'false' branch...
+              |
+            'recover_data': event 41
+              |
+              |fs/f2fs/f2fs.h:2847:37:
+              | 2847 | #define RAW_IS_INODE(p) ((p)->footer.nid =3D=3D (p)-=
+>footer.ino)
+              |      |                          ~~~~~~~~~~~^~~~
+              |      |                                     |
+              |      |                                     (41) ...to here
+   fs/f2fs/f2fs.h:2853:16: note: in expansion of macro 'RAW_IS_INODE'
+              | 2853 |         return RAW_IS_INODE(p);
+              |      |                ^~~~~~~~~~~~
+              |
+            'recover_data': events 42-46
+              |
+              |fs/f2fs/recovery.c:776:20:
+              |  776 |                 if (IS_INODE(page)) {
+              |      |                    ^
+              |      |                    |
+              |      |                    (42) following 'false' branch...
+              |......
+              |  783 |                 if (entry->last_dentry =3D=3D blkadd=
+r) {
+              |      |                    ~~~~~~~~~~~~~~~~~~~
+              |      |                    |     |
+              |      |                    |     (43) ...to here
+              |      |                    (44) following 'true' branch...
+              |  784 |                         err =3D recover_dentry(entry=
+->inode, page, dir_list);
+              |      |                               ~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~~~~~~~~
+              |      |                               |
+              |      |                               (45) ...to here
+              |      |                               (46) calling 'recover_=
+dentry' from 'recover_data'
+              |
+              +--> 'recover_dentry': events 47-48
+                     |
+                     |  167 | static int recover_dentry(struct inode *inode=
+, struct page *ipage,
+                     |      |            ^~~~~~~~~~~~~~
+                     |      |            |
+                     |      |            (47) entry to 'recover_dentry'
+                     |......
+                     |  175 |         struct page *page;
+                     |      |                      ~~~~
+                     |      |                      |
+                     |      |                      (48) use of uninitialize=
+d value '<unknown>' here
+                     |
+   In file included from fs/f2fs/recovery.c:12:
+   fs/f2fs/recovery.c: In function 'check_index_in_prev_nodes':
+>> fs/f2fs/f2fs.h:2376:9: warning: use of uninitialized value 'ino' [CWE-45=
+7] [-Wanalyzer-use-of-uninitialized-value]
+    2376 |         f2fs_printk(sbi, KERN_ERR fmt, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/f2fs/recovery.c:508:17: note: in expansion of macro 'f2fs_err'
+     508 |                 f2fs_err(sbi, "Inconsistent ofs_in_node:%u in su=
+mmary, ino:%u, nid:%u, max:%u",
+         |                 ^~~~~~~~
+     'f2fs_recover_fsync_data': events 1-2
+       |
+       |  813 | int f2fs_recover_fsync_data(struct f2fs_sb_info *sbi, bool =
+check_only)
+       |      |     ^~~~~~~~~~~~~~~~~~~~~~~
+       |      |     |
+       |      |     (1) entry to 'f2fs_recover_fsync_data'
+       |......
+       |  844 |         err =3D find_fsync_dnodes(sbi, &inode_list, check_o=
+nly);
+       |      |               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~
+       |      |               |
+       |      |               (2) calling 'find_fsync_dnodes' from 'f2fs_re=
+cover_fsync_data'
+       |
+       +--> 'find_fsync_dnodes': event 3
+              |
+              |  363 | static int find_fsync_dnodes(struct f2fs_sb_info *sb=
+i, struct list_head *head,
+              |      |            ^~~~~~~~~~~~~~~~~
+              |      |            |
+              |      |            (3) entry to 'find_fsync_dnodes'
+              |
+            'find_fsync_dnodes': event 4
+              |
+              |fs/f2fs/segment.h:71:46:
+              |   71 |         (SM_I(sbi) ? SM_I(sbi)->seg0_blkaddr :      =
+                    \
+              |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~=
+~~~~~~~~~~~~~~~~~~~~~
+              |      |                                              |
+              |      |                                              (4) fol=
+lowing 'true' branch...
+              |   72 |                 le32_to_cpu(F2FS_RAW_SUPER(sbi)->seg=
+ment0_blkaddr))
+              |      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~
+   fs/f2fs/segment.h:86:34: note: in expansion of macro 'SEG0_BLKADDR'
+              |   86 | #define START_BLOCK(sbi, segno) (SEG0_BLKADDR(sbi) +=
+                    \
+              |      |                                  ^~~~~~~~~~~~
+   fs/f2fs/segment.h:90:10: note: in expansion of macro 'START_BLOCK'
+              |   90 |         (START_BLOCK(sbi, (curseg)->segno) + (curseg=
+)->next_blkoff)
+              |      |          ^~~~~~~~~~~
+   fs/f2fs/recovery.c:377:19: note: in expansion of macro 'NEXT_FREE_BLKADD=
+R'
+              |  377 |         blkaddr =3D NEXT_FREE_BLKADDR(sbi, curseg);
+              |      |                   ^~~~~~~~~~~~~~~~~
+              |
+            'find_fsync_dnodes': event 5
+              |
+              |fs/f2fs/segment.h:71:46:
+              |   71 |         (SM_I(sbi) ? SM_I(sbi)->seg0_blkaddr :      =
+                    \
+              |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~=
+~~~~~~~~~~~~~~~~~~~~~
+              |      |                                              |
+              |      |                                              (5) ...=
+to here
+              |   72 |                 le32_to_cpu(F2FS_RAW_SUPER(sbi)->seg=
+ment0_blkaddr))
+              |      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~
+   fs/f2fs/segment.h:86:34: note: in expansion of macro 'SEG0_BLKADDR'
+              |   86 | #define START_BLOCK(sbi, segno) (SEG0_BLKADDR(sbi) +=
+                    \
+              |      |                                  ^~~~~~~~~~~~
+   fs/f2fs/segment.h:90:10: note: in expansion of macro 'START_BLOCK'
+              |   90 |         (START_BLOCK(sbi, (curseg)->segno) + (curseg=
+)->next_blkoff)
+              |      |          ^~~~~~~~~~~
+   fs/f2fs/recovery.c:377:19: note: in expansion of macro 'NEXT_FREE_BLKADD=
+R'
+              |  377 |         blkaddr =3D NEXT_FREE_BLKADDR(sbi, curseg);
+              |      |                   ^~~~~~~~~~~~~~~~~
+              |
+            'find_fsync_dnodes': event 6
+              |
+              |  392 |                         f2fs_put_page(page, 1);
+              |      |                         ^~~~~~~~~~~~~~~~~~~~~~
+              |      |                         |
+              |      |                         (6) calling 'f2fs_put_page' =
+from 'find_fsync_dnodes'
+              |
+              +--> 'f2fs_put_page': events 7-10
+                     |
+                     |fs/f2fs/f2fs.h:2750:20:
+                     | 2750 | static inline void f2fs_put_page(struct page =
+*page, int unlock)
+                     |      |                    ^~~~~~~~~~~~~
+                     |      |                    |
+                     |      |                    (7) entry to 'f2fs_put_pag=
+e'
+                     | 2751 | {
+                     | 2752 |         if (!page)
+                     |      |            ~        =
 
-vim +1305 drivers/media/platform/st/sti/bdisp/bdisp-v4l2.c
+                     |      |            |
+                     |      |            (8) following 'false' branch (when=
+ 'page' is non-NULL)...
+                     |......
+                     | 2755 |         if (unlock) {
+                     |      |            ~        =
 
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e       2015-05-12  1283  =
+                     |      |            |
+                     |      |            (9) ...to here
+                     |      |            (10) following 'true' branch (when=
+ 'unlock !=3D 0')...
+                     |
+                   'f2fs_put_page': event 11
+                     |
+                     |include/asm-generic/rwonce.h:44:26:
+                     |   44 | #define __READ_ONCE(x)  (*(const volatile __u=
+nqual_scalar_typeof(x) *)&(x))
+                     |      |                         ~^~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                     |      |                          |
+                     |      |                          (11) ...to here
+   include/asm-generic/rwonce.h:50:9: note: in expansion of macro '__READ_O=
+NCE'
+                     |   50 |         __READ_ONCE(x);                      =
+                           \
+                     |      |         ^~~~~~~~~~~
+   include/linux/page-flags.h:253:30: note: in expansion of macro 'READ_ONC=
+E'
+                     |  253 |         unsigned long head =3D READ_ONCE(page=
+->compound_head);
 
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e       2015-05-12  1284  static int bdisp_probe(struct platform_device *pd=
-ev)
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e       2015-05-12  1285  {
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e       2015-05-12  1286  	struct bdisp_dev *bdisp;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e       2015-05-12  1287  	struct device *dev =3D &pdev->dev;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e       2015-05-12  1288  	int ret;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e       2015-05-12  1289  =
+vim +/ino +2376 fs/f2fs/f2fs.h
 
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e       2015-05-12  1290  	dev_dbg(dev, "%s\n", __func__);
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e       2015-05-12  1291  =
+dcbb4c10e6d9693 Joe Perches 2019-06-18  2374  =
 
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e       2015-05-12  1292  	bdisp =3D devm_kzalloc(dev, sizeof(struct bdisp_=
-dev), GFP_KERNEL);
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e       2015-05-12  1293  	if (!bdisp)
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e       2015-05-12  1294  		return -ENOMEM;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e       2015-05-12  1295  =
-
-2732bb765f14eb drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e       2018-05-15  1296  	ret =3D dma_coerce_mask_and_coherent(dev, DMA_BI=
-T_MASK(32));
-2732bb765f14eb drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e       2018-05-15  1297  	if (ret)
-2732bb765f14eb drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e       2018-05-15  1298  		return ret;
-2732bb765f14eb drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e       2018-05-15  1299  =
-
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e       2015-05-12  1300  	bdisp->pdev =3D pdev;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e       2015-05-12  1301  	bdisp->dev =3D dev;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e       2015-05-12  1302  	platform_set_drvdata(pdev, bdisp);
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e       2015-05-12  1303  =
-
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e       2015-05-12  1304  	if (dev->of_node)
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e       2015-05-12 @1305  		bdisp->id =3D of_alias_get_id(pdev->dev.of_node=
-, BDISP_NAME);
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e       2015-05-12  1306  	else
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e       2015-05-12  1307  		bdisp->id =3D pdev->id;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e       2015-05-12  1308  =
-
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e       2015-05-12  1309  	init_waitqueue_head(&bdisp->irq_queue);
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e       2015-05-12  1310  	INIT_DELAYED_WORK(&bdisp->timeout_work, bdisp_ir=
-q_timeout);
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e       2015-05-12  1311  	bdisp->work_queue =3D create_workqueue(BDISP_NAM=
-E);
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e       2015-05-12  1312  =
-
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e       2015-05-12  1313  	spin_lock_init(&bdisp->slock);
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e       2015-05-12  1314  	mutex_init(&bdisp->lock);
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e       2015-05-12  1315  =
-
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e       2015-05-12  1316  	/* get resources */
-6394c2d95399e5 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Cai Huoqing   =
-        2021-09-01  1317  	bdisp->regs =3D devm_platform_ioremap_resource(p=
-dev, 0);
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e       2015-05-12  1318  	if (IS_ERR(bdisp->regs)) {
-8ea1c5af489a76 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Chuhong Yuan  =
-        2019-11-13  1319  		ret =3D PTR_ERR(bdisp->regs);
-8ea1c5af489a76 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Chuhong Yuan  =
-        2019-11-13  1320  		goto err_wq;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e       2015-05-12  1321  	}
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e       2015-05-12  1322  =
-
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e       2015-05-12  1323  	bdisp->clock =3D devm_clk_get(dev, BDISP_NAME);
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e       2015-05-12  1324  	if (IS_ERR(bdisp->clock)) {
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e       2015-05-12  1325  		dev_err(dev, "failed to get clock\n");
-8ea1c5af489a76 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Chuhong Yuan  =
-        2019-11-13  1326  		ret =3D PTR_ERR(bdisp->clock);
-8ea1c5af489a76 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Chuhong Yuan  =
-        2019-11-13  1327  		goto err_wq;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e       2015-05-12  1328  	}
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e       2015-05-12  1329  =
-
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e       2015-05-12  1330  	ret =3D clk_prepare(bdisp->clock);
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e       2015-05-12  1331  	if (ret < 0) {
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e       2015-05-12  1332  		dev_err(dev, "clock prepare failed\n");
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e       2015-05-12  1333  		bdisp->clock =3D ERR_PTR(-EINVAL);
-8ea1c5af489a76 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Chuhong Yuan  =
-        2019-11-13  1334  		goto err_wq;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e       2015-05-12  1335  	}
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e       2015-05-12  1336  =
-
-9fcb700420c90c drivers/media/platform/sti/bdisp/bdisp-v4l2.c Lad Prabhakar =
-        2022-01-11  1337  	ret =3D platform_get_irq(pdev, 0);
-9fcb700420c90c drivers/media/platform/sti/bdisp/bdisp-v4l2.c Lad Prabhakar =
-        2022-01-11  1338  	if (ret < 0)
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e       2015-05-12  1339  		goto err_clk;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e       2015-05-12  1340  =
-
-9fcb700420c90c drivers/media/platform/sti/bdisp/bdisp-v4l2.c Lad Prabhakar =
-        2022-01-11  1341  	ret =3D devm_request_threaded_irq(dev, ret, bdis=
-p_irq_handler,
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e       2015-05-12  1342  					bdisp_irq_thread, IRQF_ONESHOT,
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e       2015-05-12  1343  					pdev->name, bdisp);
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e       2015-05-12  1344  	if (ret) {
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e       2015-05-12  1345  		dev_err(dev, "failed to install irq\n");
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e       2015-05-12  1346  		goto err_clk;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e       2015-05-12  1347  	}
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e       2015-05-12  1348  =
-
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e       2015-05-12  1349  	/* v4l2 register */
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e       2015-05-12  1350  	ret =3D v4l2_device_register(dev, &bdisp->v4l2_d=
-ev);
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e       2015-05-12  1351  	if (ret) {
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e       2015-05-12  1352  		dev_err(dev, "failed to register\n");
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e       2015-05-12  1353  		goto err_clk;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e       2015-05-12  1354  	}
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e       2015-05-12  1355  =
-
-34b6beb65beb7f drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e       2015-05-12  1356  	/* Debug */
-8c23f411296e54 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Greg Kroah-Har=
-tman    2020-08-18  1357  	bdisp_debugfs_create(bdisp);
-34b6beb65beb7f drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e       2015-05-12  1358  =
-
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e       2015-05-12  1359  	/* Power management */
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e       2015-05-12  1360  	pm_runtime_enable(dev);
-c44eac5b72e23c drivers/media/platform/sti/bdisp/bdisp-v4l2.c Mauro Carvalho=
- Chehab 2021-04-23  1361  	ret =3D pm_runtime_resume_and_get(dev);
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e       2015-05-12  1362  	if (ret < 0) {
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e       2015-05-12  1363  		dev_err(dev, "failed to set PM\n");
-c44eac5b72e23c drivers/media/platform/sti/bdisp/bdisp-v4l2.c Mauro Carvalho=
- Chehab 2021-04-23  1364  		goto err_remove;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e       2015-05-12  1365  	}
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e       2015-05-12  1366  =
-
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e       2015-05-12  1367  	/* Filters */
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e       2015-05-12  1368  	if (bdisp_hw_alloc_filters(bdisp->dev)) {
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e       2015-05-12  1369  		dev_err(bdisp->dev, "no memory for filters\n");
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e       2015-05-12  1370  		ret =3D -ENOMEM;
-dce57314b53760 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Hans Verkuil  =
-        2016-02-15  1371  		goto err_pm;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e       2015-05-12  1372  	}
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e       2015-05-12  1373  =
-
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e       2015-05-12  1374  	/* Register */
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e       2015-05-12  1375  	ret =3D bdisp_register_device(bdisp);
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e       2015-05-12  1376  	if (ret) {
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e       2015-05-12  1377  		dev_err(dev, "failed to register\n");
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e       2015-05-12  1378  		goto err_filter;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e       2015-05-12  1379  	}
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e       2015-05-12  1380  =
-
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e       2015-05-12  1381  	dev_info(dev, "%s%d registered as /dev/video%d\n=
-", BDISP_NAME,
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e       2015-05-12  1382  		 bdisp->id, bdisp->vdev.num);
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e       2015-05-12  1383  =
-
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e       2015-05-12  1384  	pm_runtime_put(dev);
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e       2015-05-12  1385  =
-
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e       2015-05-12  1386  	return 0;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e       2015-05-12  1387  =
-
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e       2015-05-12  1388  err_filter:
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e       2015-05-12  1389  	bdisp_hw_free_filters(bdisp->dev);
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e       2015-05-12  1390  err_pm:
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e       2015-05-12  1391  	pm_runtime_put(dev);
-c44eac5b72e23c drivers/media/platform/sti/bdisp/bdisp-v4l2.c Mauro Carvalho=
- Chehab 2021-04-23  1392  err_remove:
-0529c0f55da87a drivers/media/platform/sti/bdisp/bdisp-v4l2.c Dongliang Mu  =
-        2021-10-19  1393  	pm_runtime_disable(dev);
-34b6beb65beb7f drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e       2015-05-12  1394  	bdisp_debugfs_remove(bdisp);
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e       2015-05-12  1395  	v4l2_device_unregister(&bdisp->v4l2_dev);
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e       2015-05-12  1396  err_clk:
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e       2015-05-12  1397  	if (!IS_ERR(bdisp->clock))
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e       2015-05-12  1398  		clk_unprepare(bdisp->clock);
-8ea1c5af489a76 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Chuhong Yuan  =
-        2019-11-13  1399  err_wq:
-8ea1c5af489a76 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Chuhong Yuan  =
-        2019-11-13  1400  	destroy_workqueue(bdisp->work_queue);
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e       2015-05-12  1401  	return ret;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e       2015-05-12  1402  }
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e       2015-05-12  1403  =
+dcbb4c10e6d9693 Joe Perches 2019-06-18  2375  #define f2fs_err(sbi, fmt, ..=
+.)						\
+dcbb4c10e6d9693 Joe Perches 2019-06-18 @2376  	f2fs_printk(sbi, KERN_ERR fm=
+t, ##__VA_ARGS__)
+dcbb4c10e6d9693 Joe Perches 2019-06-18  2377  #define f2fs_warn(sbi, fmt, .=
+..)					\
+dcbb4c10e6d9693 Joe Perches 2019-06-18  2378  	f2fs_printk(sbi, KERN_WARNIN=
+G fmt, ##__VA_ARGS__)
+dcbb4c10e6d9693 Joe Perches 2019-06-18  2379  #define f2fs_notice(sbi, fmt,=
+ ...)					\
+dcbb4c10e6d9693 Joe Perches 2019-06-18  2380  	f2fs_printk(sbi, KERN_NOTICE=
+ fmt, ##__VA_ARGS__)
+dcbb4c10e6d9693 Joe Perches 2019-06-18  2381  #define f2fs_info(sbi, fmt, .=
+..)					\
+dcbb4c10e6d9693 Joe Perches 2019-06-18  2382  	f2fs_printk(sbi, KERN_INFO f=
+mt, ##__VA_ARGS__)
+dcbb4c10e6d9693 Joe Perches 2019-06-18  2383  #define f2fs_debug(sbi, fmt, =
+...)					\
+dcbb4c10e6d9693 Joe Perches 2019-06-18  2384  	f2fs_printk(sbi, KERN_DEBUG =
+fmt, ##__VA_ARGS__)
+dcbb4c10e6d9693 Joe Perches 2019-06-18  2385  =
 
 
-:::::: The code at line 1305 was first introduced by commit
-:::::: 28ffeebbb7bdc0dd7899286b63f3c359d43d0a1a [media] bdisp: 2D blitter d=
-river using v4l2 mem2mem framework
+:::::: The code at line 2376 was first introduced by commit
+:::::: dcbb4c10e6d9693cc9d6fa493b4d130b66a60c7d f2fs: introduce f2fs_<level=
+> macros to wrap f2fs_printk()
 
-:::::: TO: Fabien Dessenne <fabien.dessenne@st.com>
-:::::: CC: Mauro Carvalho Chehab <mchehab@osg.samsung.com>
+:::::: TO: Joe Perches <joe@perches.com>
+:::::: CC: Jaegeuk Kim <jaegeuk@kernel.org>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============6245643299602772995==--
+--===============5322181365428261403==--
 
