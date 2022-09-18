@@ -1,336 +1,147 @@
-Content-Type: multipart/mixed; boundary="===============8729880505835560877=="
+Content-Type: multipart/mixed; boundary="===============3777984783619828185=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [norov:fns 8/11] lib/find_bit.c:90:40: warning: use of uninitialized value 'tmp' [CWE-457]
-Date: Sun, 18 Sep 2022 12:32:41 +0800
-Message-ID: <202209181251.AmGVOM3Y-lkp@intel.com>
+Subject: drivers/cpufreq/qcom-cpufreq-hw.c:333 qcom_lmh_dcvs_notify() error: uninitialized symbol 'throttled_freq'.
+Date: Sun, 18 Sep 2022 10:40:26 +0800
+Message-ID: <202209181024.rhoJMAL1-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8729880505835560877==
+--===============3777984783619828185==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-:::::: =
-
-:::::: Manual check reason: "low confidence bisect report"
-:::::: Manual check reason: "low confidence static check warning: lib/find_=
-bit.c:90:40: warning: use of uninitialized value 'tmp' [CWE-457] [-Wanalyze=
-r-use-of-uninitialized-value]"
-:::::: =
-
-
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
-TO: Yury Norov <yury.norov@gmail.com>
+CC: linux-kernel(a)vger.kernel.org
+TO: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+CC: Viresh Kumar <viresh.kumar@linaro.org>
+CC: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+CC: Bjorn Andersson <bjorn.andersson@linaro.org>
 
-tree:   https://github.com/norov/linux fns
-head:   585dc3f17d3cbd1636e7ff44b3908bf9c1f41797
-commit: d720f1934c9d2d5fedb2f71791903bcaf6efc6ff [8/11] lib: add find_nth(,=
-and,andnot)_bit()
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: arm-randconfig-c002-20220917 (https://download.01.org/0day-ci/archi=
-ve/20220918/202209181251.AmGVOM3Y-lkp(a)intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   a335366bad1364a07f49df9da1fdfa6d411a5f39
+commit: 6240aaad75e1a623872a830d13393d7aabf1052c cpufreq: qcom-hw: fix the =
+opp entries refcounting
+date:   6 months ago
+:::::: branch date: 31 hours ago
+:::::: commit date: 6 months ago
+config: arm-randconfig-m041-20220918 (https://download.01.org/0day-ci/archi=
+ve/20220918/202209181024.rhoJMAL1-lkp(a)intel.com/config)
 compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/norov/linux/commit/d720f1934c9d2d5fedb2f717919=
-03bcaf6efc6ff
-        git remote add norov https://github.com/norov/linux
-        git fetch --no-tags norov fns
-        git checkout d720f1934c9d2d5fedb2f71791903bcaf6efc6ff
-        # save the config file
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cross=
- ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
-
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-gcc_analyzer warnings: (new ones prefixed by >>)
-   In file included from lib/find_bit.c:19:
-   lib/find_bit.c: In function '__find_nth_bit':
->> lib/find_bit.c:90:40: warning: use of uninitialized value 'tmp' [CWE-457=
-] [-Wanalyzer-use-of-uninitialized-value]
-      90 |         sz =3D min(idx * BITS_PER_LONG + fns(tmp, __n), sz);    =
-                  \
-         |                                        ^~~~~~~~~~~~~
-   include/linux/minmax.h:31:39: note: in definition of macro '__cmp_once'
-      31 |                 typeof(x) unique_x =3D (x);               \
-         |                                       ^
-   include/linux/minmax.h:45:25: note: in expansion of macro '__careful_cmp'
-      45 | #define min(x, y)       __careful_cmp(x, y, <)
-         |                         ^~~~~~~~~~~~~
-   lib/find_bit.c:90:14: note: in expansion of macro 'min'
-      90 |         sz =3D min(idx * BITS_PER_LONG + fns(tmp, __n), sz);    =
-                  \
-         |              ^~~
-   lib/find_bit.c:140:16: note: in expansion of macro 'FIND_NTH_BIT'
-     140 |         return FIND_NTH_BIT(addr[idx], size, n);
-         |                ^~~~~~~~~~~~
-     '__find_nth_bit': event 1
-       |
-       |   73 |         unsigned long sz =3D (size), __n =3D (n), idx, w, t=
-mp;                      \
-       |      |                                                       ^~~
-       |      |                                                       |
-       |      |                                                       (1) r=
-egion created on stack here
-   lib/find_bit.c:140:16: note: in expansion of macro 'FIND_NTH_BIT'
-       |  140 |         return FIND_NTH_BIT(addr[idx], size, n);
-       |      |                ^~~~~~~~~~~~
-       |
-     '__find_nth_bit': event 2
-       |
-       |   75 |         for (idx =3D 0; (idx + 1) * BITS_PER_LONG <=3D sz; =
-idx++) {                 \
-       |      |                       ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~
-       |      |                                                 |
-       |      |                                                 (2) followi=
-ng 'false' branch...
-   lib/find_bit.c:140:16: note: in expansion of macro 'FIND_NTH_BIT'
-       |  140 |         return FIND_NTH_BIT(addr[idx], size, n);
-       |      |                ^~~~~~~~~~~~
-       |
-     '__find_nth_bit': event 3
-       |
-       |   89 | found:                                                     =
-                     \
-       |      | ^~~~~
-       |      | |
-       |      | (3) ...to here
-   lib/find_bit.c:140:16: note: in expansion of macro 'FIND_NTH_BIT'
-       |  140 |         return FIND_NTH_BIT(addr[idx], size, n);
-       |      |                ^~~~~~~~~~~~
-       |
-     '__find_nth_bit': event 4
-       |
-       |   90 |         sz =3D min(idx * BITS_PER_LONG + fns(tmp, __n), sz)=
-;                      \
-       |      |                                        ^~~~~~~~~~~~~
-       |      |                                        |
-       |      |                                        (4) use of uninitial=
-ized value 'tmp' here
-   include/linux/minmax.h:31:39: note: in definition of macro '__cmp_once'
-       |   31 |                 typeof(x) unique_x =3D (x);               \
-       |      |                                       ^
-   include/linux/minmax.h:45:25: note: in expansion of macro '__careful_cmp'
-       |   45 | #define min(x, y)       __careful_cmp(x, y, <)
-       |      |                         ^~~~~~~~~~~~~
-   lib/find_bit.c:90:14: note: in expansion of macro 'min'
-       |   90 |         sz =3D min(idx * BITS_PER_LONG + fns(tmp, __n), sz)=
-;                      \
-       |      |              ^~~
-   lib/find_bit.c:140:16: note: in expansion of macro 'FIND_NTH_BIT'
-       |  140 |         return FIND_NTH_BIT(addr[idx], size, n);
-       |      |                ^~~~~~~~~~~~
-       |
-   lib/find_bit.c: In function '__find_nth_and_bit':
->> lib/find_bit.c:90:40: warning: use of uninitialized value 'tmp' [CWE-457=
-] [-Wanalyzer-use-of-uninitialized-value]
-      90 |         sz =3D min(idx * BITS_PER_LONG + fns(tmp, __n), sz);    =
-                  \
-         |                                        ^~~~~~~~~~~~~
-   include/linux/minmax.h:31:39: note: in definition of macro '__cmp_once'
-      31 |                 typeof(x) unique_x =3D (x);               \
-         |                                       ^
-   include/linux/minmax.h:45:25: note: in expansion of macro '__careful_cmp'
-      45 | #define min(x, y)       __careful_cmp(x, y, <)
-         |                         ^~~~~~~~~~~~~
-   lib/find_bit.c:90:14: note: in expansion of macro 'min'
-      90 |         sz =3D min(idx * BITS_PER_LONG + fns(tmp, __n), sz);    =
-                  \
-         |              ^~~
-   lib/find_bit.c:147:16: note: in expansion of macro 'FIND_NTH_BIT'
-     147 |         return FIND_NTH_BIT(addr1[idx] & addr2[idx], size, n);
-         |                ^~~~~~~~~~~~
-     '__find_nth_and_bit': event 1
-       |
-       |   73 |         unsigned long sz =3D (size), __n =3D (n), idx, w, t=
-mp;                      \
-       |      |                                                       ^~~
-       |      |                                                       |
-       |      |                                                       (1) r=
-egion created on stack here
-   lib/find_bit.c:147:16: note: in expansion of macro 'FIND_NTH_BIT'
-       |  147 |         return FIND_NTH_BIT(addr1[idx] & addr2[idx], size, =
-n);
-       |      |                ^~~~~~~~~~~~
-       |
-     '__find_nth_and_bit': event 2
-       |
-       |   75 |         for (idx =3D 0; (idx + 1) * BITS_PER_LONG <=3D sz; =
-idx++) {                 \
-       |      |                       ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~
-       |      |                                                 |
-       |      |                                                 (2) followi=
-ng 'false' branch...
-   lib/find_bit.c:147:16: note: in expansion of macro 'FIND_NTH_BIT'
-       |  147 |         return FIND_NTH_BIT(addr1[idx] & addr2[idx], size, =
-n);
-       |      |                ^~~~~~~~~~~~
-       |
-     '__find_nth_and_bit': event 3
-       |
-       |   89 | found:                                                     =
-                     \
-       |      | ^~~~~
-       |      | |
-       |      | (3) ...to here
-   lib/find_bit.c:147:16: note: in expansion of macro 'FIND_NTH_BIT'
-       |  147 |         return FIND_NTH_BIT(addr1[idx] & addr2[idx], size, =
-n);
-       |      |                ^~~~~~~~~~~~
-       |
-     '__find_nth_and_bit': event 4
-       |
-       |   90 |         sz =3D min(idx * BITS_PER_LONG + fns(tmp, __n), sz)=
-;                      \
-       |      |                                        ^~~~~~~~~~~~~
-       |      |                                        |
-       |      |                                        (4) use of uninitial=
-ized value 'tmp' here
-   include/linux/minmax.h:31:39: note: in definition of macro '__cmp_once'
-       |   31 |                 typeof(x) unique_x =3D (x);               \
-       |      |                                       ^
-   include/linux/minmax.h:45:25: note: in expansion of macro '__careful_cmp'
-       |   45 | #define min(x, y)       __careful_cmp(x, y, <)
-       |      |                         ^~~~~~~~~~~~~
-   lib/find_bit.c:90:14: note: in expansion of macro 'min'
-       |   90 |         sz =3D min(idx * BITS_PER_LONG + fns(tmp, __n), sz)=
-;                      \
-       |      |              ^~~
-   lib/find_bit.c:147:16: note: in expansion of macro 'FIND_NTH_BIT'
-       |  147 |         return FIND_NTH_BIT(addr1[idx] & addr2[idx], size, =
-n);
-       |      |                ^~~~~~~~~~~~
-       |
-   lib/find_bit.c: In function '__find_nth_andnot_bit':
->> lib/find_bit.c:90:40: warning: use of uninitialized value 'tmp' [CWE-457=
-] [-Wanalyzer-use-of-uninitialized-value]
-      90 |         sz =3D min(idx * BITS_PER_LONG + fns(tmp, __n), sz);    =
-                  \
-         |                                        ^~~~~~~~~~~~~
-   include/linux/minmax.h:31:39: note: in definition of macro '__cmp_once'
-      31 |                 typeof(x) unique_x =3D (x);               \
-         |                                       ^
-   include/linux/minmax.h:45:25: note: in expansion of macro '__careful_cmp'
-      45 | #define min(x, y)       __careful_cmp(x, y, <)
-         |                         ^~~~~~~~~~~~~
-   lib/find_bit.c:90:14: note: in expansion of macro 'min'
-      90 |         sz =3D min(idx * BITS_PER_LONG + fns(tmp, __n), sz);    =
-                  \
-         |              ^~~
-   lib/find_bit.c:154:16: note: in expansion of macro 'FIND_NTH_BIT'
-     154 |         return FIND_NTH_BIT(addr1[idx] & ~addr2[idx], size, n);
-         |                ^~~~~~~~~~~~
-     '__find_nth_andnot_bit': event 1
-       |
-       |   73 |         unsigned long sz =3D (size), __n =3D (n), idx, w, t=
-mp;                      \
-       |      |                                                       ^~~
-       |      |                                                       |
-       |      |                                                       (1) r=
-egion created on stack here
-   lib/find_bit.c:154:16: note: in expansion of macro 'FIND_NTH_BIT'
-       |  154 |         return FIND_NTH_BIT(addr1[idx] & ~addr2[idx], size,=
- n);
-       |      |                ^~~~~~~~~~~~
-       |
-     '__find_nth_andnot_bit': event 2
-       |
-       |   75 |         for (idx =3D 0; (idx + 1) * BITS_PER_LONG <=3D sz; =
-idx++) {                 \
-       |      |                       ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~
-       |      |                                                 |
-       |      |                                                 (2) followi=
-ng 'false' branch...
-   lib/find_bit.c:154:16: note: in expansion of macro 'FIND_NTH_BIT'
-       |  154 |         return FIND_NTH_BIT(addr1[idx] & ~addr2[idx], size,=
- n);
-       |      |                ^~~~~~~~~~~~
-       |
-     '__find_nth_andnot_bit': event 3
-       |
-       |   89 | found:                                                     =
-                     \
-       |      | ^~~~~
-       |      | |
-       |      | (3) ...to here
-   lib/find_bit.c:154:16: note: in expansion of macro 'FIND_NTH_BIT'
-       |  154 |         return FIND_NTH_BIT(addr1[idx] & ~addr2[idx], size,=
- n);
-       |      |                ^~~~~~~~~~~~
-       |
-     '__find_nth_andnot_bit': event 4
-       |
-       |   90 |         sz =3D min(idx * BITS_PER_LONG + fns(tmp, __n), sz)=
-;                      \
-       |      |                                        ^~~~~~~~~~~~~
-       |      |                                        |
-       |      |                                        (4) use of uninitial=
-ized value 'tmp' here
-   include/linux/minmax.h:31:39: note: in definition of macro '__cmp_once'
-       |   31 |                 typeof(x) unique_x =3D (x);               \
-       |      |                                       ^
-   include/linux/minmax.h:45:25: note: in expansion of macro '__careful_cmp'
-       |   45 | #define min(x, y)       __careful_cmp(x, y, <)
-       |      |                         ^~~~~~~~~~~~~
-   lib/find_bit.c:90:14: note: in expansion of macro 'min'
-       |   90 |         sz =3D min(idx * BITS_PER_LONG + fns(tmp, __n), sz)=
-;                      \
-       |      |              ^~~
-   lib/find_bit.c:154:16: note: in expansion of macro 'FIND_NTH_BIT'
-       |  154 |         return FIND_NTH_BIT(addr1[idx] & ~addr2[idx], size,=
- n);
-       |      |                ^~~~~~~~~~~~
-       |
+smatch warnings:
+drivers/cpufreq/qcom-cpufreq-hw.c:333 qcom_lmh_dcvs_notify() error: uniniti=
+alized symbol 'throttled_freq'.
 
-vim +/tmp +90 lib/find_bit.c
+vim +/throttled_freq +333 drivers/cpufreq/qcom-cpufreq-hw.c
 
-0ade34c37012ea Clement Courbet 2018-02-06  70  =
+275157b367f479 Thara Gopinath   2021-08-09  289  =
 
-d720f1934c9d2d Yury Norov      2022-07-10  71  #define FIND_NTH_BIT(FETCH, =
-size, n)						\
-d720f1934c9d2d Yury Norov      2022-07-10  72  ({										\
-d720f1934c9d2d Yury Norov      2022-07-10  73  	unsigned long sz =3D (size)=
-, __n =3D (n), idx, w, tmp;			\
-d720f1934c9d2d Yury Norov      2022-07-10  74  										\
-d720f1934c9d2d Yury Norov      2022-07-10  75  	for (idx =3D 0; (idx + 1) *=
- BITS_PER_LONG <=3D sz; idx++) {			\
-d720f1934c9d2d Yury Norov      2022-07-10  76  		if (idx * BITS_PER_LONG + =
-__n >=3D sz)				\
-d720f1934c9d2d Yury Norov      2022-07-10  77  			goto out;						\
-d720f1934c9d2d Yury Norov      2022-07-10  78  										\
-d720f1934c9d2d Yury Norov      2022-07-10  79  		tmp =3D (FETCH);							\
-d720f1934c9d2d Yury Norov      2022-07-10  80  		w =3D hweight_long(tmp);		=
-				\
-d720f1934c9d2d Yury Norov      2022-07-10  81  		if (w > __n)							\
-d720f1934c9d2d Yury Norov      2022-07-10  82  			goto found;						\
-d720f1934c9d2d Yury Norov      2022-07-10  83  										\
-d720f1934c9d2d Yury Norov      2022-07-10  84  		__n -=3D w;							\
-d720f1934c9d2d Yury Norov      2022-07-10  85  	}									\
-d720f1934c9d2d Yury Norov      2022-07-10  86  										\
-d720f1934c9d2d Yury Norov      2022-07-10  87  	if (sz % BITS_PER_LONG)				=
-			\
-d720f1934c9d2d Yury Norov      2022-07-10  88  		tmp =3D (FETCH) & BITMAP_L=
-AST_WORD_MASK(sz);			\
-d720f1934c9d2d Yury Norov      2022-07-10  89  found:										\
-d720f1934c9d2d Yury Norov      2022-07-10 @90  	sz =3D min(idx * BITS_PER_L=
-ONG + fns(tmp, __n), sz);			\
-d720f1934c9d2d Yury Norov      2022-07-10  91  out:										\
-d720f1934c9d2d Yury Norov      2022-07-10  92  	sz;									\
-d720f1934c9d2d Yury Norov      2022-07-10  93  })
-d720f1934c9d2d Yury Norov      2022-07-10  94  =
+275157b367f479 Thara Gopinath   2021-08-09  290  static void qcom_lmh_dcvs_=
+notify(struct qcom_cpufreq_data *data)
+275157b367f479 Thara Gopinath   2021-08-09  291  {
+275157b367f479 Thara Gopinath   2021-08-09  292  	struct cpufreq_policy *po=
+licy =3D data->policy;
+5e4f009da6be56 Dmitry Baryshkov 2022-03-26  293  	int cpu =3D cpumask_first=
+(policy->related_cpus);
+275157b367f479 Thara Gopinath   2021-08-09  294  	struct device *dev =3D ge=
+t_cpu_device(cpu);
+0258cb19c77deb Lukasz Luba      2021-11-09  295  	unsigned long freq_hz, th=
+rottled_freq;
+275157b367f479 Thara Gopinath   2021-08-09  296  	struct dev_pm_opp *opp;
+275157b367f479 Thara Gopinath   2021-08-09  297  	unsigned int freq;
+275157b367f479 Thara Gopinath   2021-08-09  298  =
 
+275157b367f479 Thara Gopinath   2021-08-09  299  	/*
+275157b367f479 Thara Gopinath   2021-08-09  300  	 * Get the h/w throttled =
+frequency, normalize it using the
+275157b367f479 Thara Gopinath   2021-08-09  301  	 * registered opp table a=
+nd use it to calculate thermal pressure.
+275157b367f479 Thara Gopinath   2021-08-09  302  	 */
+275157b367f479 Thara Gopinath   2021-08-09  303  	freq =3D qcom_lmh_get_thr=
+ottle_freq(data);
+275157b367f479 Thara Gopinath   2021-08-09  304  	freq_hz =3D freq * HZ_PER=
+_KHZ;
+275157b367f479 Thara Gopinath   2021-08-09  305  =
+
+275157b367f479 Thara Gopinath   2021-08-09  306  	opp =3D dev_pm_opp_find_f=
+req_floor(dev, &freq_hz);
+275157b367f479 Thara Gopinath   2021-08-09  307  	if (IS_ERR(opp) && PTR_ER=
+R(opp) =3D=3D -ERANGE)
+6240aaad75e1a6 Dmitry Baryshkov 2022-03-26  308  		opp =3D dev_pm_opp_find_=
+freq_ceil(dev, &freq_hz);
+275157b367f479 Thara Gopinath   2021-08-09  309  =
+
+6240aaad75e1a6 Dmitry Baryshkov 2022-03-26  310  	if (IS_ERR(opp)) {
+6240aaad75e1a6 Dmitry Baryshkov 2022-03-26  311  		dev_warn(dev, "Can't fin=
+d the OPP for throttling: %pe!\n", opp);
+6240aaad75e1a6 Dmitry Baryshkov 2022-03-26  312  	} else {
+275157b367f479 Thara Gopinath   2021-08-09  313  		throttled_freq =3D freq_=
+hz / HZ_PER_KHZ;
+275157b367f479 Thara Gopinath   2021-08-09  314  =
+
+0258cb19c77deb Lukasz Luba      2021-11-09  315  		/* Update thermal pressu=
+re (the boost frequencies are accepted) */
+0258cb19c77deb Lukasz Luba      2021-11-09  316  		arch_update_thermal_pres=
+sure(policy->related_cpus, throttled_freq);
+275157b367f479 Thara Gopinath   2021-08-09  317  =
+
+6240aaad75e1a6 Dmitry Baryshkov 2022-03-26  318  		dev_pm_opp_put(opp);
+6240aaad75e1a6 Dmitry Baryshkov 2022-03-26  319  	}
+6240aaad75e1a6 Dmitry Baryshkov 2022-03-26  320  =
+
+275157b367f479 Thara Gopinath   2021-08-09  321  	/*
+275157b367f479 Thara Gopinath   2021-08-09  322  	 * In the unlikely case p=
+olicy is unregistered do not enable
+275157b367f479 Thara Gopinath   2021-08-09  323  	 * polling or h/w interru=
+pt
+275157b367f479 Thara Gopinath   2021-08-09  324  	 */
+275157b367f479 Thara Gopinath   2021-08-09  325  	mutex_lock(&data->throttl=
+e_lock);
+275157b367f479 Thara Gopinath   2021-08-09  326  	if (data->cancel_throttle)
+275157b367f479 Thara Gopinath   2021-08-09  327  		goto out;
+275157b367f479 Thara Gopinath   2021-08-09  328  =
+
+275157b367f479 Thara Gopinath   2021-08-09  329  	/*
+275157b367f479 Thara Gopinath   2021-08-09  330  	 * If h/w throttled frequ=
+ency is higher than what cpufreq has requested
+275157b367f479 Thara Gopinath   2021-08-09  331  	 * for, then stop polling=
+ and switch back to interrupt mechanism.
+275157b367f479 Thara Gopinath   2021-08-09  332  	 */
+275157b367f479 Thara Gopinath   2021-08-09 @333  	if (throttled_freq >=3D q=
+com_cpufreq_hw_get(cpu))
+275157b367f479 Thara Gopinath   2021-08-09  334  		enable_irq(data->throttl=
+e_irq);
+275157b367f479 Thara Gopinath   2021-08-09  335  	else
+275157b367f479 Thara Gopinath   2021-08-09  336  		mod_delayed_work(system_=
+highpri_wq, &data->throttle_work,
+275157b367f479 Thara Gopinath   2021-08-09  337  				 msecs_to_jiffies(10));
+275157b367f479 Thara Gopinath   2021-08-09  338  =
+
+275157b367f479 Thara Gopinath   2021-08-09  339  out:
+275157b367f479 Thara Gopinath   2021-08-09  340  	mutex_unlock(&data->throt=
+tle_lock);
+275157b367f479 Thara Gopinath   2021-08-09  341  }
+275157b367f479 Thara Gopinath   2021-08-09  342  =
+
+
+:::::: The code at line 333 was first introduced by commit
+:::::: 275157b367f479334f3e2df7be93a3dd772f359c cpufreq: qcom-cpufreq-hw: A=
+dd dcvs interrupt support
+
+:::::: TO: Thara Gopinath <thara.gopinath@linaro.org>
+:::::: CC: Viresh Kumar <viresh.kumar@linaro.org>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============8729880505835560877==--
+--===============3777984783619828185==--
 
