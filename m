@@ -1,205 +1,147 @@
-Content-Type: multipart/mixed; boundary="===============2084535940226429728=="
+Content-Type: multipart/mixed; boundary="===============0168427822724580088=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/net/ethernet/qlogic/qed/qed_debug.c:7955 format_feature() error: uninitialized symbol 'txt_size_bytes'.
-Date: Mon, 19 Sep 2022 05:36:52 +0800
-Message-ID: <202209190557.heYEkHPc-lkp@intel.com>
+Subject: [linux-next:master 194/7639] drivers/gpu/drm/tests/drm_buddy_test.c:197:26-31: ERROR: invalid reference to the index variable of the iterator on line 152
+Date: Mon, 19 Sep 2022 05:16:28 +0800
+Message-ID: <202209190520.eHVvA86s-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2084535940226429728==
+--===============0168427822724580088==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
-CC: linux-kernel(a)vger.kernel.org
-TO: Prabhakar Kushwaha <pkushwaha@marvell.com>
-CC: Ariel Elior <aelior@marvell.com>
-CC: Shai Malin <smalin@marvell.com>
-CC: Omkar Kulkarni <okulkarni@marvell.com>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: "Ma=C3=ADra Canal" <maira.canal@usp.br>
+CC: Javier Martinez Canillas <javierm@redhat.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   38eddeedbbeac33f26845c29e7414b9313ea70db
-commit: 6c95dd8f0aa1d983e857a755fca7001677d1dcb5 qed: Update debug related =
-changes
-date:   12 months ago
-:::::: branch date: 5 hours ago
-:::::: commit date: 12 months ago
-config: csky-randconfig-m041-20220918 (https://download.01.org/0day-ci/arch=
-ive/20220919/202209190557.heYEkHPc-lkp(a)intel.com/config)
-compiler: csky-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
+ master
+head:   d5538ab91d3a9a237805be6f8c6c272af2987995
+commit: 932da861956ac425ba4e65f7696458f96d833883 [194/7639] drm: selftest: =
+convert drm_buddy selftest to KUnit
+:::::: branch date: 3 days ago
+:::::: commit date: 10 weeks ago
+config: arm-randconfig-c041-20220918 (https://download.01.org/0day-ci/archi=
+ve/20220919/202209190520.eHVvA86s-lkp(a)intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+Reported-by: Julia Lawall <julia.lawall@lip6.fr>
 
-New smatch warnings:
-drivers/net/ethernet/qlogic/qed/qed_debug.c:7955 format_feature() error: un=
-initialized symbol 'txt_size_bytes'.
+cocci warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/tests/drm_buddy_test.c:197:26-31: ERROR: invalid referen=
+ce to the index variable of the iterator on line 152
 
-Old smatch warnings:
-drivers/net/ethernet/qlogic/qed/qed_debug.c:5262 qed_dbg_grc_config() warn:=
- unsigned 'grc_param' is never less than zero.
-drivers/net/ethernet/qlogic/qed/qed_debug.c:8043 qed_dbg_dump() error: unin=
-itialized symbol 'buf_size_dwords'.
-drivers/net/ethernet/qlogic/qed/qed_debug.c:8637 qed_dbg_feature_size() err=
-or: uninitialized symbol 'buf_size_dwords'.
+vim +197 drivers/gpu/drm/tests/drm_buddy_test.c
 
-vim +/txt_size_bytes +7955 drivers/net/ethernet/qlogic/qed/qed_debug.c
+932da861956ac4 Ma=C3=ADra Canal 2022-07-08  139  =
 
-c965db44462919 Tomer Tayar        2016-09-07  7924  =
+932da861956ac4 Ma=C3=ADra Canal 2022-07-08  140  static int igt_check_block=
+s(struct kunit *test, struct drm_buddy *mm,
+932da861956ac4 Ma=C3=ADra Canal 2022-07-08  141  			    struct list_head *b=
+locks, u64 expected_size, bool is_contiguous)
+932da861956ac4 Ma=C3=ADra Canal 2022-07-08  142  {
+932da861956ac4 Ma=C3=ADra Canal 2022-07-08  143  	struct drm_buddy_block *b=
+lock;
+932da861956ac4 Ma=C3=ADra Canal 2022-07-08  144  	struct drm_buddy_block *p=
+rev;
+932da861956ac4 Ma=C3=ADra Canal 2022-07-08  145  	u64 total;
+932da861956ac4 Ma=C3=ADra Canal 2022-07-08  146  	int err =3D 0;
+932da861956ac4 Ma=C3=ADra Canal 2022-07-08  147  =
 
-c965db44462919 Tomer Tayar        2016-09-07  7925  #define QED_RESULTS_BUF=
-_MIN_SIZE 16
-c965db44462919 Tomer Tayar        2016-09-07  7926  /* Generic function for=
- decoding debug feature info */
-8c93beaf5714b9 Yuval Mintz        2016-10-13  7927  static enum dbg_status =
-format_feature(struct qed_hwfn *p_hwfn,
-c965db44462919 Tomer Tayar        2016-09-07  7928  				      enum qed_dbg_=
-features feature_idx)
-c965db44462919 Tomer Tayar        2016-09-07  7929  {
-c965db44462919 Tomer Tayar        2016-09-07  7930  	struct qed_dbg_feature=
- *feature =3D
-ca352f00756e7b Igor Russkikh      2020-05-14  7931  	    &p_hwfn->cdev->dbg=
-_features[feature_idx];
-6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7932  	u32 txt_size_bytes, nu=
-ll_char_pos, i;
-6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7933  	u32 *dbuf, dwords;
-c965db44462919 Tomer Tayar        2016-09-07  7934  	enum dbg_status rc;
-c965db44462919 Tomer Tayar        2016-09-07  7935  	char *text_buf;
-c965db44462919 Tomer Tayar        2016-09-07  7936  =
+932da861956ac4 Ma=C3=ADra Canal 2022-07-08  148  	block =3D NULL;
+932da861956ac4 Ma=C3=ADra Canal 2022-07-08  149  	prev =3D NULL;
+932da861956ac4 Ma=C3=ADra Canal 2022-07-08  150  	total =3D 0;
+932da861956ac4 Ma=C3=ADra Canal 2022-07-08  151  =
 
-c965db44462919 Tomer Tayar        2016-09-07  7937  	/* Check if feature su=
-pports formatting capability */
-c965db44462919 Tomer Tayar        2016-09-07  7938  	if (!qed_features_look=
-up[feature_idx].results_buf_size)
-c965db44462919 Tomer Tayar        2016-09-07  7939  		return DBG_STATUS_OK;
-c965db44462919 Tomer Tayar        2016-09-07  7940  =
+932da861956ac4 Ma=C3=ADra Canal 2022-07-08 @152  	list_for_each_entry(block=
+, blocks, link) {
+932da861956ac4 Ma=C3=ADra Canal 2022-07-08  153  		err =3D igt_check_block(=
+test, mm, block);
+932da861956ac4 Ma=C3=ADra Canal 2022-07-08  154  =
 
-6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7941  	dbuf =3D (u32 *)featur=
-e->dump_buf;
-6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7942  	dwords =3D feature->du=
-mped_dwords;
-6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7943  =
+932da861956ac4 Ma=C3=ADra Canal 2022-07-08  155  		if (!drm_buddy_block_is_=
+allocated(block)) {
+932da861956ac4 Ma=C3=ADra Canal 2022-07-08  156  			kunit_err(test, "block =
+not allocated\n");
+932da861956ac4 Ma=C3=ADra Canal 2022-07-08  157  			err =3D -EINVAL;
+932da861956ac4 Ma=C3=ADra Canal 2022-07-08  158  		}
+932da861956ac4 Ma=C3=ADra Canal 2022-07-08  159  =
 
-c965db44462919 Tomer Tayar        2016-09-07  7944  	/* Obtain size of form=
-atted output */
-6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7945  	rc =3D qed_features_lo=
-okup[feature_idx].results_buf_size(p_hwfn,
-6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7946  							       dbuf,
-6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7947  							       dwords,
-6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7948  							       &txt_size=
-_bytes);
-c965db44462919 Tomer Tayar        2016-09-07  7949  	if (rc !=3D DBG_STATUS=
-_OK)
-c965db44462919 Tomer Tayar        2016-09-07  7950  		return rc;
-c965db44462919 Tomer Tayar        2016-09-07  7951  =
+932da861956ac4 Ma=C3=ADra Canal 2022-07-08  160  		if (is_contiguous && pre=
+v) {
+932da861956ac4 Ma=C3=ADra Canal 2022-07-08  161  			u64 prev_block_size;
+932da861956ac4 Ma=C3=ADra Canal 2022-07-08  162  			u64 prev_offset;
+932da861956ac4 Ma=C3=ADra Canal 2022-07-08  163  			u64 offset;
+932da861956ac4 Ma=C3=ADra Canal 2022-07-08  164  =
 
-6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7952  	/* Make sure that the =
-allocated size is a multiple of dword
-6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7953  	 * (4 bytes).
-6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7954  	 */
-6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04 @7955  	null_char_pos =3D txt_=
-size_bytes - 1;
-6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7956  	txt_size_bytes =3D (tx=
-t_size_bytes + 3) & ~0x3;
-c965db44462919 Tomer Tayar        2016-09-07  7957  =
+932da861956ac4 Ma=C3=ADra Canal 2022-07-08  165  			prev_offset =3D drm_bud=
+dy_block_offset(prev);
+932da861956ac4 Ma=C3=ADra Canal 2022-07-08  166  			prev_block_size =3D drm=
+_buddy_block_size(mm, prev);
+932da861956ac4 Ma=C3=ADra Canal 2022-07-08  167  			offset =3D drm_buddy_bl=
+ock_offset(block);
+932da861956ac4 Ma=C3=ADra Canal 2022-07-08  168  =
 
-6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7958  	if (txt_size_bytes < Q=
-ED_RESULTS_BUF_MIN_SIZE) {
-c965db44462919 Tomer Tayar        2016-09-07  7959  		DP_NOTICE(p_hwfn->cde=
-v,
-c965db44462919 Tomer Tayar        2016-09-07  7960  			  "formatted size of=
- feature was too small %d. Aborting\n",
-6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7961  			  txt_size_bytes);
-c965db44462919 Tomer Tayar        2016-09-07  7962  		return DBG_STATUS_INV=
-ALID_ARGS;
-c965db44462919 Tomer Tayar        2016-09-07  7963  	}
-c965db44462919 Tomer Tayar        2016-09-07  7964  =
+932da861956ac4 Ma=C3=ADra Canal 2022-07-08  169  			if (offset !=3D (prev_o=
+ffset + prev_block_size)) {
+932da861956ac4 Ma=C3=ADra Canal 2022-07-08  170  				kunit_err(test, "block=
+ offset mismatch\n");
+932da861956ac4 Ma=C3=ADra Canal 2022-07-08  171  				err =3D -EINVAL;
+932da861956ac4 Ma=C3=ADra Canal 2022-07-08  172  			}
+932da861956ac4 Ma=C3=ADra Canal 2022-07-08  173  		}
+932da861956ac4 Ma=C3=ADra Canal 2022-07-08  174  =
 
-6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7965  	/* allocate temp text =
-buf */
-6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7966  	text_buf =3D vzalloc(t=
-xt_size_bytes);
-6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7967  	if (!text_buf) {
-6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7968  		DP_NOTICE(p_hwfn->cde=
-v,
-6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7969  			  "failed to allocat=
-e text buffer. Aborting\n");
-c965db44462919 Tomer Tayar        2016-09-07  7970  		return DBG_STATUS_VIR=
-T_MEM_ALLOC_FAILED;
-6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7971  	}
-c965db44462919 Tomer Tayar        2016-09-07  7972  =
+932da861956ac4 Ma=C3=ADra Canal 2022-07-08  175  		if (err)
+932da861956ac4 Ma=C3=ADra Canal 2022-07-08  176  			break;
+932da861956ac4 Ma=C3=ADra Canal 2022-07-08  177  =
 
-c965db44462919 Tomer Tayar        2016-09-07  7973  	/* Decode feature opco=
-des to string on temp buf */
-6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7974  	rc =3D qed_features_lo=
-okup[feature_idx].print_results(p_hwfn,
-6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7975  							    dbuf,
-6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7976  							    dwords,
-6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7977  							    text_buf);
-c965db44462919 Tomer Tayar        2016-09-07  7978  	if (rc !=3D DBG_STATUS=
-_OK) {
-c965db44462919 Tomer Tayar        2016-09-07  7979  		vfree(text_buf);
-c965db44462919 Tomer Tayar        2016-09-07  7980  		return rc;
-c965db44462919 Tomer Tayar        2016-09-07  7981  	}
-c965db44462919 Tomer Tayar        2016-09-07  7982  =
+932da861956ac4 Ma=C3=ADra Canal 2022-07-08  178  		total +=3D drm_buddy_blo=
+ck_size(mm, block);
+932da861956ac4 Ma=C3=ADra Canal 2022-07-08  179  		prev =3D block;
+932da861956ac4 Ma=C3=ADra Canal 2022-07-08  180  	}
+932da861956ac4 Ma=C3=ADra Canal 2022-07-08  181  =
 
-c965db44462919 Tomer Tayar        2016-09-07  7983  	/* Replace the origina=
-l null character with a '\n' character.
-c965db44462919 Tomer Tayar        2016-09-07  7984  	 * The bytes that were=
- added as a result of the dword alignment are also
-c965db44462919 Tomer Tayar        2016-09-07  7985  	 * padded with '\n' ch=
-aracters.
-c965db44462919 Tomer Tayar        2016-09-07  7986  	 */
-6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7987  	for (i =3D null_char_p=
-os; i < txt_size_bytes; i++)
-c965db44462919 Tomer Tayar        2016-09-07  7988  		text_buf[i] =3D '\n';
-c965db44462919 Tomer Tayar        2016-09-07  7989  =
+932da861956ac4 Ma=C3=ADra Canal 2022-07-08  182  	if (!err) {
+932da861956ac4 Ma=C3=ADra Canal 2022-07-08  183  		if (total !=3D expected_=
+size) {
+932da861956ac4 Ma=C3=ADra Canal 2022-07-08  184  			kunit_err(test, "size m=
+ismatch, expected=3D%llx, found=3D%llx\n",
+932da861956ac4 Ma=C3=ADra Canal 2022-07-08  185  				  expected_size, total=
+);
+932da861956ac4 Ma=C3=ADra Canal 2022-07-08  186  			err =3D -EINVAL;
+932da861956ac4 Ma=C3=ADra Canal 2022-07-08  187  		}
+932da861956ac4 Ma=C3=ADra Canal 2022-07-08  188  		return err;
+932da861956ac4 Ma=C3=ADra Canal 2022-07-08  189  	}
+932da861956ac4 Ma=C3=ADra Canal 2022-07-08  190  =
 
-c965db44462919 Tomer Tayar        2016-09-07  7990  	/* Dump printable feat=
-ure to log */
-ca352f00756e7b Igor Russkikh      2020-05-14  7991  	if (p_hwfn->cdev->prin=
-t_dbg_data)
-6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7992  		qed_dbg_print_feature=
-(text_buf, txt_size_bytes);
-c965db44462919 Tomer Tayar        2016-09-07  7993  =
+932da861956ac4 Ma=C3=ADra Canal 2022-07-08  191  	if (prev) {
+932da861956ac4 Ma=C3=ADra Canal 2022-07-08  192  		kunit_err(test, "prev bl=
+ock, dump:\n");
+932da861956ac4 Ma=C3=ADra Canal 2022-07-08  193  		igt_dump_block(test, mm,=
+ prev);
+932da861956ac4 Ma=C3=ADra Canal 2022-07-08  194  	}
+932da861956ac4 Ma=C3=ADra Canal 2022-07-08  195  =
 
-6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7994  	/* Dump binary data as=
- is to the output file */
-da3287111ab43b Alexander Lobakin  2020-07-06  7995  	if (p_hwfn->cdev->dbg_=
-bin_dump) {
-da3287111ab43b Alexander Lobakin  2020-07-06  7996  		vfree(text_buf);
-6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7997  		return rc;
-da3287111ab43b Alexander Lobakin  2020-07-06  7998  	}
-da3287111ab43b Alexander Lobakin  2020-07-06  7999  =
+932da861956ac4 Ma=C3=ADra Canal 2022-07-08  196  	kunit_err(test, "bad bloc=
+k, dump:\n");
+932da861956ac4 Ma=C3=ADra Canal 2022-07-08 @197  	igt_dump_block(test, mm, =
+block);
+932da861956ac4 Ma=C3=ADra Canal 2022-07-08  198  =
 
-6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  8000  	/* Free the old dump_b=
-uf and point the dump_buf to the newly allocated
-c965db44462919 Tomer Tayar        2016-09-07  8001  	 * and formatted text =
-buffer.
-c965db44462919 Tomer Tayar        2016-09-07  8002  	 */
-c965db44462919 Tomer Tayar        2016-09-07  8003  	vfree(feature->dump_bu=
-f);
-c965db44462919 Tomer Tayar        2016-09-07  8004  	feature->dump_buf =3D =
-text_buf;
-6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  8005  	feature->buf_size =3D =
-txt_size_bytes;
-6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  8006  	feature->dumped_dwords=
- =3D txt_size_bytes / 4;
-6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  8007  =
-
-c965db44462919 Tomer Tayar        2016-09-07  8008  	return rc;
-c965db44462919 Tomer Tayar        2016-09-07  8009  }
-c965db44462919 Tomer Tayar        2016-09-07  8010  =
+932da861956ac4 Ma=C3=ADra Canal 2022-07-08  199  	return err;
+932da861956ac4 Ma=C3=ADra Canal 2022-07-08  200  }
+932da861956ac4 Ma=C3=ADra Canal 2022-07-08  201  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============2084535940226429728==--
+--===============0168427822724580088==--
 
