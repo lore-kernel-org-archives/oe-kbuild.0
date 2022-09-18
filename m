@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============5073864452530266301=="
+Content-Type: multipart/mixed; boundary="===============2084535940226429728=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: fs/cifs/dfs_cache.c:1382 __refresh_tcon() warn: passing a valid pointer to 'PTR_ERR'
-Date: Mon, 19 Sep 2022 10:45:54 +0800
-Message-ID: <202209191006.aMlXMZTV-lkp@intel.com>
+Subject: drivers/net/ethernet/qlogic/qed/qed_debug.c:7955 format_feature() error: uninitialized symbol 'txt_size_bytes'.
+Date: Mon, 19 Sep 2022 05:36:52 +0800
+Message-ID: <202209190557.heYEkHPc-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5073864452530266301==
+--===============2084535940226429728==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,19 +15,21 @@ Content-Transfer-Encoding: quoted-printable
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Paulo Alcantara <pc@cjr.nz>
-CC: Steve French <stfrench@microsoft.com>
+TO: Prabhakar Kushwaha <pkushwaha@marvell.com>
+CC: Ariel Elior <aelior@marvell.com>
+CC: Shai Malin <smalin@marvell.com>
+CC: Omkar Kulkarni <okulkarni@marvell.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
-head:   521a547ced6477c54b4b0cc206000406c221b4d6
-commit: c88f7dcd6d6429197fc2fd87b54a894ffcd48e8e cifs: support nested dfs l=
-inks over reconnect
-date:   10 months ago
-:::::: branch date: 6 hours ago
-:::::: commit date: 10 months ago
+head:   38eddeedbbeac33f26845c29e7414b9313ea70db
+commit: 6c95dd8f0aa1d983e857a755fca7001677d1dcb5 qed: Update debug related =
+changes
+date:   12 months ago
+:::::: branch date: 5 hours ago
+:::::: commit date: 12 months ago
 config: csky-randconfig-m041-20220918 (https://download.01.org/0day-ci/arch=
-ive/20220919/202209191006.aMlXMZTV-lkp(a)intel.com/config)
+ive/20220919/202209190557.heYEkHPc-lkp(a)intel.com/config)
 compiler: csky-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
@@ -35,128 +37,169 @@ Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 New smatch warnings:
-fs/cifs/dfs_cache.c:1382 __refresh_tcon() warn: passing a valid pointer to =
-'PTR_ERR'
+drivers/net/ethernet/qlogic/qed/qed_debug.c:7955 format_feature() error: un=
+initialized symbol 'txt_size_bytes'.
 
 Old smatch warnings:
-arch/csky/include/asm/uaccess.h:202 __get_user_fn() error: uninitialized sy=
-mbol 'retval'.
-fs/cifs/dfs_cache.c:509 copy_ref_data() warn: passing a valid pointer to 'P=
-TR_ERR'
+drivers/net/ethernet/qlogic/qed/qed_debug.c:5262 qed_dbg_grc_config() warn:=
+ unsigned 'grc_param' is never less than zero.
+drivers/net/ethernet/qlogic/qed/qed_debug.c:8043 qed_dbg_dump() error: unin=
+itialized symbol 'buf_size_dwords'.
+drivers/net/ethernet/qlogic/qed/qed_debug.c:8637 qed_dbg_feature_size() err=
+or: uninitialized symbol 'buf_size_dwords'.
 
-vim +/PTR_ERR +1382 fs/cifs/dfs_cache.c
+vim +/txt_size_bytes +7955 drivers/net/ethernet/qlogic/qed/qed_debug.c
 
-5072010ccf0592 Paulo Alcantara (SUSE  2019-03-19  1365) =
+c965db44462919 Tomer Tayar        2016-09-07  7924  =
 
-b62366181a5e94 Paulo Alcantara        2021-07-16  1366  /* Refresh dfs refe=
-rral of tcon and mark it for reconnect if needed */
-c88f7dcd6d6429 Paulo Alcantara        2021-11-03  1367  static int __refres=
-h_tcon(const char *path, struct cifs_ses **sessions, struct cifs_tcon *tcon,
-c88f7dcd6d6429 Paulo Alcantara        2021-11-03  1368  			  bool force_ref=
-resh)
-b62366181a5e94 Paulo Alcantara        2021-07-16  1369  {
-b62366181a5e94 Paulo Alcantara        2021-07-16  1370  	struct cifs_ses *s=
-es;
-1023e90b733acd Paulo Alcantara        2021-06-08  1371  	struct cache_entry=
- *ce;
-1023e90b733acd Paulo Alcantara        2021-06-08  1372  	struct dfs_info3_p=
-aram *refs =3D NULL;
-1023e90b733acd Paulo Alcantara        2021-06-08  1373  	int numrefs =3D 0;
-1023e90b733acd Paulo Alcantara        2021-06-08  1374  	bool needs_refresh=
- =3D false;
-b62366181a5e94 Paulo Alcantara        2021-07-16  1375  	struct dfs_cache_t=
-gt_list tl =3D DFS_CACHE_TGT_LIST_INIT(tl);
-c9f71103990591 Paulo Alcantara        2021-06-04  1376  	int rc =3D 0;
-b62366181a5e94 Paulo Alcantara        2021-07-16  1377  	unsigned int xid;
-1023e90b733acd Paulo Alcantara        2021-06-08  1378  =
+c965db44462919 Tomer Tayar        2016-09-07  7925  #define QED_RESULTS_BUF=
+_MIN_SIZE 16
+c965db44462919 Tomer Tayar        2016-09-07  7926  /* Generic function for=
+ decoding debug feature info */
+8c93beaf5714b9 Yuval Mintz        2016-10-13  7927  static enum dbg_status =
+format_feature(struct qed_hwfn *p_hwfn,
+c965db44462919 Tomer Tayar        2016-09-07  7928  				      enum qed_dbg_=
+features feature_idx)
+c965db44462919 Tomer Tayar        2016-09-07  7929  {
+c965db44462919 Tomer Tayar        2016-09-07  7930  	struct qed_dbg_feature=
+ *feature =3D
+ca352f00756e7b Igor Russkikh      2020-05-14  7931  	    &p_hwfn->cdev->dbg=
+_features[feature_idx];
+6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7932  	u32 txt_size_bytes, nu=
+ll_char_pos, i;
+6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7933  	u32 *dbuf, dwords;
+c965db44462919 Tomer Tayar        2016-09-07  7934  	enum dbg_status rc;
+c965db44462919 Tomer Tayar        2016-09-07  7935  	char *text_buf;
+c965db44462919 Tomer Tayar        2016-09-07  7936  =
 
-c9f71103990591 Paulo Alcantara        2021-06-04  1379  	ses =3D find_ipc_f=
-rom_server_path(sessions, path);
-b62366181a5e94 Paulo Alcantara        2021-07-16  1380  	if (IS_ERR(ses)) {
-b62366181a5e94 Paulo Alcantara        2021-07-16  1381  		cifs_dbg(FYI, "%s=
-: could not find ipc session\n", __func__);
-b62366181a5e94 Paulo Alcantara        2021-07-16 @1382  		return PTR_ERR(se=
-s);
-b62366181a5e94 Paulo Alcantara        2021-07-16  1383  	}
-1023e90b733acd Paulo Alcantara        2021-06-08  1384  =
+c965db44462919 Tomer Tayar        2016-09-07  7937  	/* Check if feature su=
+pports formatting capability */
+c965db44462919 Tomer Tayar        2016-09-07  7938  	if (!qed_features_look=
+up[feature_idx].results_buf_size)
+c965db44462919 Tomer Tayar        2016-09-07  7939  		return DBG_STATUS_OK;
+c965db44462919 Tomer Tayar        2016-09-07  7940  =
 
-1023e90b733acd Paulo Alcantara        2021-06-08  1385  	down_read(&htable_=
-rw_lock);
-1023e90b733acd Paulo Alcantara        2021-06-08  1386  	ce =3D lookup_cach=
-e_entry(path);
-b62366181a5e94 Paulo Alcantara        2021-07-16  1387  	needs_refresh =3D =
-force_refresh || IS_ERR(ce) || cache_entry_expired(ce);
-b62366181a5e94 Paulo Alcantara        2021-07-16  1388  	if (!IS_ERR(ce)) {
-b62366181a5e94 Paulo Alcantara        2021-07-16  1389  		rc =3D get_target=
-s(ce, &tl);
-b62366181a5e94 Paulo Alcantara        2021-07-16  1390  		if (rc)
-b62366181a5e94 Paulo Alcantara        2021-07-16  1391  			cifs_dbg(FYI, "%=
-s: could not get dfs targets: %d\n", __func__, rc);
-b62366181a5e94 Paulo Alcantara        2021-07-16  1392  	}
-1023e90b733acd Paulo Alcantara        2021-06-08  1393  	up_read(&htable_rw=
-_lock);
-1023e90b733acd Paulo Alcantara        2021-06-08  1394  =
+6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7941  	dbuf =3D (u32 *)featur=
+e->dump_buf;
+6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7942  	dwords =3D feature->du=
+mped_dwords;
+6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7943  =
 
-b62366181a5e94 Paulo Alcantara        2021-07-16  1395  	if (!needs_refresh=
-) {
-b62366181a5e94 Paulo Alcantara        2021-07-16  1396  		rc =3D 0;
-b62366181a5e94 Paulo Alcantara        2021-07-16  1397  		goto out;
-b62366181a5e94 Paulo Alcantara        2021-07-16  1398  	}
-1023e90b733acd Paulo Alcantara        2021-06-08  1399  =
+c965db44462919 Tomer Tayar        2016-09-07  7944  	/* Obtain size of form=
+atted output */
+6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7945  	rc =3D qed_features_lo=
+okup[feature_idx].results_buf_size(p_hwfn,
+6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7946  							       dbuf,
+6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7947  							       dwords,
+6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7948  							       &txt_size=
+_bytes);
+c965db44462919 Tomer Tayar        2016-09-07  7949  	if (rc !=3D DBG_STATUS=
+_OK)
+c965db44462919 Tomer Tayar        2016-09-07  7950  		return rc;
+c965db44462919 Tomer Tayar        2016-09-07  7951  =
 
-c9f71103990591 Paulo Alcantara        2021-06-04  1400  	xid =3D get_xid();
-1023e90b733acd Paulo Alcantara        2021-06-08  1401  	rc =3D get_dfs_ref=
-erral(xid, ses, path, &refs, &numrefs);
-c9f71103990591 Paulo Alcantara        2021-06-04  1402  	free_xid(xid);
-1023e90b733acd Paulo Alcantara        2021-06-08  1403  =
+6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7952  	/* Make sure that the =
+allocated size is a multiple of dword
+6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7953  	 * (4 bytes).
+6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7954  	 */
+6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04 @7955  	null_char_pos =3D txt_=
+size_bytes - 1;
+6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7956  	txt_size_bytes =3D (tx=
+t_size_bytes + 3) & ~0x3;
+c965db44462919 Tomer Tayar        2016-09-07  7957  =
 
-1023e90b733acd Paulo Alcantara        2021-06-08  1404  	/* Create or updat=
-e a cache entry with the new referral */
-1023e90b733acd Paulo Alcantara        2021-06-08  1405  	if (!rc) {
-b62366181a5e94 Paulo Alcantara        2021-07-16  1406  		dump_refs(refs, n=
-umrefs);
-b62366181a5e94 Paulo Alcantara        2021-07-16  1407  =
+6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7958  	if (txt_size_bytes < Q=
+ED_RESULTS_BUF_MIN_SIZE) {
+c965db44462919 Tomer Tayar        2016-09-07  7959  		DP_NOTICE(p_hwfn->cde=
+v,
+c965db44462919 Tomer Tayar        2016-09-07  7960  			  "formatted size of=
+ feature was too small %d. Aborting\n",
+6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7961  			  txt_size_bytes);
+c965db44462919 Tomer Tayar        2016-09-07  7962  		return DBG_STATUS_INV=
+ALID_ARGS;
+c965db44462919 Tomer Tayar        2016-09-07  7963  	}
+c965db44462919 Tomer Tayar        2016-09-07  7964  =
 
-1023e90b733acd Paulo Alcantara        2021-06-08  1408  		down_write(&htabl=
-e_rw_lock);
-1023e90b733acd Paulo Alcantara        2021-06-08  1409  		ce =3D lookup_cac=
-he_entry(path);
-1023e90b733acd Paulo Alcantara        2021-06-08  1410  		if (IS_ERR(ce))
-1023e90b733acd Paulo Alcantara        2021-06-08  1411  			add_cache_entry_=
-locked(refs, numrefs);
-b62366181a5e94 Paulo Alcantara        2021-07-16  1412  		else if (force_re=
-fresh || cache_entry_expired(ce))
-1023e90b733acd Paulo Alcantara        2021-06-08  1413  			update_cache_ent=
-ry_locked(ce, refs, numrefs);
-1023e90b733acd Paulo Alcantara        2021-06-08  1414  		up_write(&htable_=
-rw_lock);
-b62366181a5e94 Paulo Alcantara        2021-07-16  1415  =
+6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7965  	/* allocate temp text =
+buf */
+6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7966  	text_buf =3D vzalloc(t=
+xt_size_bytes);
+6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7967  	if (!text_buf) {
+6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7968  		DP_NOTICE(p_hwfn->cde=
+v,
+6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7969  			  "failed to allocat=
+e text buffer. Aborting\n");
+c965db44462919 Tomer Tayar        2016-09-07  7970  		return DBG_STATUS_VIR=
+T_MEM_ALLOC_FAILED;
+6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7971  	}
+c965db44462919 Tomer Tayar        2016-09-07  7972  =
 
-b62366181a5e94 Paulo Alcantara        2021-07-16  1416  		mark_for_reconnec=
-t_if_needed(tcon, &tl, refs, numrefs);
-345c1a4a9e09dc Paulo Alcantara (SUSE  2019-12-04  1417) 	}
-1023e90b733acd Paulo Alcantara        2021-06-08  1418  =
+c965db44462919 Tomer Tayar        2016-09-07  7973  	/* Decode feature opco=
+des to string on temp buf */
+6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7974  	rc =3D qed_features_lo=
+okup[feature_idx].print_results(p_hwfn,
+6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7975  							    dbuf,
+6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7976  							    dwords,
+6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7977  							    text_buf);
+c965db44462919 Tomer Tayar        2016-09-07  7978  	if (rc !=3D DBG_STATUS=
+_OK) {
+c965db44462919 Tomer Tayar        2016-09-07  7979  		vfree(text_buf);
+c965db44462919 Tomer Tayar        2016-09-07  7980  		return rc;
+c965db44462919 Tomer Tayar        2016-09-07  7981  	}
+c965db44462919 Tomer Tayar        2016-09-07  7982  =
 
-b62366181a5e94 Paulo Alcantara        2021-07-16  1419  out:
-b62366181a5e94 Paulo Alcantara        2021-07-16  1420  	dfs_cache_free_tgt=
-s(&tl);
-1023e90b733acd Paulo Alcantara        2021-06-08  1421  	free_dfs_info_arra=
-y(refs, numrefs);
-b62366181a5e94 Paulo Alcantara        2021-07-16  1422  	return rc;
-b62366181a5e94 Paulo Alcantara        2021-07-16  1423  }
-b62366181a5e94 Paulo Alcantara        2021-07-16  1424  =
+c965db44462919 Tomer Tayar        2016-09-07  7983  	/* Replace the origina=
+l null character with a '\n' character.
+c965db44462919 Tomer Tayar        2016-09-07  7984  	 * The bytes that were=
+ added as a result of the dword alignment are also
+c965db44462919 Tomer Tayar        2016-09-07  7985  	 * padded with '\n' ch=
+aracters.
+c965db44462919 Tomer Tayar        2016-09-07  7986  	 */
+6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7987  	for (i =3D null_char_p=
+os; i < txt_size_bytes; i++)
+c965db44462919 Tomer Tayar        2016-09-07  7988  		text_buf[i] =3D '\n';
+c965db44462919 Tomer Tayar        2016-09-07  7989  =
 
+c965db44462919 Tomer Tayar        2016-09-07  7990  	/* Dump printable feat=
+ure to log */
+ca352f00756e7b Igor Russkikh      2020-05-14  7991  	if (p_hwfn->cdev->prin=
+t_dbg_data)
+6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7992  		qed_dbg_print_feature=
+(text_buf, txt_size_bytes);
+c965db44462919 Tomer Tayar        2016-09-07  7993  =
 
-:::::: The code at line 1382 was first introduced by commit
-:::::: b62366181a5e9473e9c10e98f400049491c55876 cifs: support share failove=
-r when remounting
+6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7994  	/* Dump binary data as=
+ is to the output file */
+da3287111ab43b Alexander Lobakin  2020-07-06  7995  	if (p_hwfn->cdev->dbg_=
+bin_dump) {
+da3287111ab43b Alexander Lobakin  2020-07-06  7996  		vfree(text_buf);
+6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  7997  		return rc;
+da3287111ab43b Alexander Lobakin  2020-07-06  7998  	}
+da3287111ab43b Alexander Lobakin  2020-07-06  7999  =
 
-:::::: TO: Paulo Alcantara <pc@cjr.nz>
-:::::: CC: Steve French <stfrench@microsoft.com>
+6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  8000  	/* Free the old dump_b=
+uf and point the dump_buf to the newly allocated
+c965db44462919 Tomer Tayar        2016-09-07  8001  	 * and formatted text =
+buffer.
+c965db44462919 Tomer Tayar        2016-09-07  8002  	 */
+c965db44462919 Tomer Tayar        2016-09-07  8003  	vfree(feature->dump_bu=
+f);
+c965db44462919 Tomer Tayar        2016-09-07  8004  	feature->dump_buf =3D =
+text_buf;
+6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  8005  	feature->buf_size =3D =
+txt_size_bytes;
+6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  8006  	feature->dumped_dwords=
+ =3D txt_size_bytes / 4;
+6c95dd8f0aa1d9 Prabhakar Kushwaha 2021-10-04  8007  =
+
+c965db44462919 Tomer Tayar        2016-09-07  8008  	return rc;
+c965db44462919 Tomer Tayar        2016-09-07  8009  }
+c965db44462919 Tomer Tayar        2016-09-07  8010  =
+
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============5073864452530266301==--
+--===============2084535940226429728==--
 
