@@ -1,147 +1,253 @@
-Content-Type: multipart/mixed; boundary="===============3777984783619828185=="
+Content-Type: multipart/mixed; boundary="===============5743436238091245790=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/cpufreq/qcom-cpufreq-hw.c:333 qcom_lmh_dcvs_notify() error: uninitialized symbol 'throttled_freq'.
-Date: Sun, 18 Sep 2022 10:40:26 +0800
-Message-ID: <202209181024.rhoJMAL1-lkp@intel.com>
+Subject: drivers/spi/spi-cadence-xspi.c:488:22: warning: use of uninitialized value '<unknown>' [CWE-457]
+Date: Sun, 18 Sep 2022 10:19:56 +0800
+Message-ID: <202209181027.g7tKkCyL-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3777984783619828185==
+--===============5743436238091245790==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+:::::: =
+
+:::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "low confidence static check warning: drivers/s=
+pi/spi-cadence-xspi.c:488:22: warning: use of uninitialized value '<unknown=
+>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]"
+:::::: =
+
+
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-CC: Viresh Kumar <viresh.kumar@linaro.org>
-CC: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-CC: Bjorn Andersson <bjorn.andersson@linaro.org>
+TO: Parshuram Thombare <pthombar@cadence.com>
+CC: Mark Brown <broonie@kernel.org>
+CC: Konrad Kociolek <konrad@cadence.com>
+CC: Jayshri Pawar <jpawar@cadence.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   a335366bad1364a07f49df9da1fdfa6d411a5f39
-commit: 6240aaad75e1a623872a830d13393d7aabf1052c cpufreq: qcom-hw: fix the =
-opp entries refcounting
-date:   6 months ago
-:::::: branch date: 31 hours ago
-:::::: commit date: 6 months ago
-config: arm-randconfig-m041-20220918 (https://download.01.org/0day-ci/archi=
-ve/20220918/202209181024.rhoJMAL1-lkp(a)intel.com/config)
+commit: a16cc807762730a6291762d4bedd7b00624a6426 spi: cadence: add support =
+for Cadence XSPI controller
+date:   12 months ago
+:::::: branch date: 30 hours ago
+:::::: commit date: 12 months ago
+config: arm-randconfig-c002-20220915 (https://download.01.org/0day-ci/archi=
+ve/20220918/202209181027.g7tKkCyL-lkp(a)intel.com/config)
 compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3Da16cc807762730a6291762d4bedd7b00624a6426
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout a16cc807762730a6291762d4bedd7b00624a6426
+        # save the config file
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cross=
+ ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
+
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-drivers/cpufreq/qcom-cpufreq-hw.c:333 qcom_lmh_dcvs_notify() error: uniniti=
-alized symbol 'throttled_freq'.
+gcc_analyzer warnings: (new ones prefixed by >>)
+                     |      |            (5) entry to 'cdns_xspi_send_stig_=
+command'
+                     |......
+                     |  349 |         u32 cmd_regs[5];
+                     |      |             ~~~~~~~~
+                     |      |             |
+                     |      |             (6) region created on stack here
+                     |......
+                     |  354 |         if (ret < 0)
+                     |      |            ~
+                     |      |            |
+                     |      |            (7) following 'false' branch (when=
+ 'ret >=3D 0')...
+                     |
+                   'cdns_xspi_send_stig_command': event 8
+                     |
+                     |arch/arm/include/asm/barrier.h:20:21:
+                     |   20 | #define dsb(option) __asm__ __volatile__ ("ds=
+b " #option : : : "memory")
+                     |      |                     ^~~~~~~
+                     |      |                     |
+                     |      |                     (8) ...to here
+   arch/arm/include/asm/barrier.h:60:30: note: in expansion of macro 'dsb'
+                     |   60 | #define __arm_heavy_mb(x...) dsb(x)
+                     |      |                              ^~~
+   arch/arm/include/asm/barrier.h:66:25: note: in expansion of macro '__arm=
+_heavy_mb'
+                     |   66 | #define wmb()           __arm_heavy_mb(st)
+                     |      |                         ^~~~~~~~~~~~~~
+   arch/arm/include/asm/io.h:166:33: note: in expansion of macro 'wmb'
+                     |  166 | #define __iowmb()               wmb()
+                     |      |                                 ^~~
+   arch/arm/include/asm/io.h:307:36: note: in expansion of macro '__iowmb'
+                     |  307 | #define writel(v,c)             ({ __iowmb();=
+ writel_relaxed(v,c); })
+                     |      |                                    ^~~~~~~
+   drivers/spi/spi-cadence-xspi.c:357:9: note: in expansion of macro 'write=
+l'
+                     |  357 |         writel(FIELD_PREP(CDNS_XSPI_CTRL_WORK=
+_MODE, CDNS_XSPI_WORK_MODE_STIG),
+                     |      |         ^~~~~~
+                     |
+                   'cdns_xspi_send_stig_command': event 9
+                     |
+                     |  360 |         cdns_xspi_set_interrupts(cdns_xspi, t=
+rue);
+                     |      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~
+                     |      |         |
+                     |      |         (9) calling 'cdns_xspi_set_interrupts=
+' from 'cdns_xspi_send_stig_command'
+                     |
+                     +--> 'cdns_xspi_set_interrupts': events 10-11
+                            |
+                            |  288 | static void cdns_xspi_set_interrupts(s=
+truct cdns_xspi_dev *cdns_xspi,
+                            |      |             ^~~~~~~~~~~~~~~~~~~~~~~~
+                            |      |             |
+                            |      |             (10) entry to 'cdns_xspi_s=
+et_interrupts'
+                            |......
+                            |  294 |         if (enabled)
+                            |      |            ~ =
 
-vim +/throttled_freq +333 drivers/cpufreq/qcom-cpufreq-hw.c
+                            |      |            |
+                            |      |            (11) following 'true' branc=
+h (when 'enabled !=3D 0')...
+                            |
+                          'cdns_xspi_set_interrupts': event 12
+                            |
+                            |  295 |                 intr_enable |=3D CDNS_=
+XSPI_INTR_MASK;
+                            |      |                             ^
+                            |      |                             |
+                            |      |                             (12) ...to=
+ here
+                            |
+                     <------+
+                     |
+                   'cdns_xspi_send_stig_command': events 13-14
+                     |
+                     |  360 |         cdns_xspi_set_interrupts(cdns_xspi, t=
+rue);
+                     |      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~
+                     |      |         |
+                     |      |         (13) returning to 'cdns_xspi_send_sti=
+g_command' from 'cdns_xspi_set_interrupts'
+                     |......
+                     |  370 |         cdns_xspi_trigger_command(cdns_xspi, =
+cmd_regs);
+                     |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~
+                     |      |         |
+                     |      |         (14) calling 'cdns_xspi_trigger_comma=
+nd' from 'cdns_xspi_send_stig_command'
+                     |
+                     +--> 'cdns_xspi_trigger_command': event 15
+                            |
+                            |  241 | static void cdns_xspi_trigger_command(=
+struct cdns_xspi_dev *cdns_xspi,
+                            |      |             ^~~~~~~~~~~~~~~~~~~~~~~~~
+                            |      |             |
+                            |      |             (15) entry to 'cdns_xspi_t=
+rigger_command'
+                            |
+                          'cdns_xspi_trigger_command': event 16
+                            |
+                            |arch/arm/include/asm/io.h:92:22:
+                            |   92 | #define __raw_writel __raw_writel
+                            |      |                      ^
+                            |      |                      |
+                            |      |                      (16) use of unini=
+tialized value 'cmd_regs[5]' here
+   arch/arm/include/asm/io.h:299:33: note: in expansion of macro '__raw_wri=
+tel'
+                            |  299 | #define writel_relaxed(v,c)     __raw_=
+writel((__force u32) cpu_to_le32(v),c)
+                            |      |                                 ^~~~~~=
+~~~~~~
+   arch/arm/include/asm/io.h:307:47: note: in expansion of macro 'writel_re=
+laxed'
+                            |  307 | #define writel(v,c)             ({ __i=
+owmb(); writel_relaxed(v,c); })
+                            |      |                                       =
+        ^~~~~~~~~~~~~~
+   drivers/spi/spi-cadence-xspi.c:244:9: note: in expansion of macro 'write=
+l'
+                            |  244 |         writel(cmd_regs[5], cdns_xspi-=
+>iobase + CDNS_XSPI_CMD_REG_5);
+                            |      |         ^~~~~~
+                            |
+   drivers/spi/spi-cadence-xspi.c: In function 'cdns_xspi_of_get_plat_data':
+>> drivers/spi/spi-cadence-xspi.c:488:22: warning: use of uninitialized val=
+ue '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+     488 |         unsigned int cs;
+         |                      ^~
+     'cdns_xspi_of_get_plat_data': event 1
+       |
+       |  488 |         unsigned int cs;
+       |      |                      ^~
+       |      |                      |
+       |      |                      (1) use of uninitialized value '<unkno=
+wn>' here
+       |
 
-275157b367f479 Thara Gopinath   2021-08-09  289  =
+vim +488 drivers/spi/spi-cadence-xspi.c
 
-275157b367f479 Thara Gopinath   2021-08-09  290  static void qcom_lmh_dcvs_=
-notify(struct qcom_cpufreq_data *data)
-275157b367f479 Thara Gopinath   2021-08-09  291  {
-275157b367f479 Thara Gopinath   2021-08-09  292  	struct cpufreq_policy *po=
-licy =3D data->policy;
-5e4f009da6be56 Dmitry Baryshkov 2022-03-26  293  	int cpu =3D cpumask_first=
-(policy->related_cpus);
-275157b367f479 Thara Gopinath   2021-08-09  294  	struct device *dev =3D ge=
-t_cpu_device(cpu);
-0258cb19c77deb Lukasz Luba      2021-11-09  295  	unsigned long freq_hz, th=
-rottled_freq;
-275157b367f479 Thara Gopinath   2021-08-09  296  	struct dev_pm_opp *opp;
-275157b367f479 Thara Gopinath   2021-08-09  297  	unsigned int freq;
-275157b367f479 Thara Gopinath   2021-08-09  298  =
+a16cc807762730 Parshuram Thombare 2021-09-19  483  =
 
-275157b367f479 Thara Gopinath   2021-08-09  299  	/*
-275157b367f479 Thara Gopinath   2021-08-09  300  	 * Get the h/w throttled =
-frequency, normalize it using the
-275157b367f479 Thara Gopinath   2021-08-09  301  	 * registered opp table a=
-nd use it to calculate thermal pressure.
-275157b367f479 Thara Gopinath   2021-08-09  302  	 */
-275157b367f479 Thara Gopinath   2021-08-09  303  	freq =3D qcom_lmh_get_thr=
-ottle_freq(data);
-275157b367f479 Thara Gopinath   2021-08-09  304  	freq_hz =3D freq * HZ_PER=
-_KHZ;
-275157b367f479 Thara Gopinath   2021-08-09  305  =
+a16cc807762730 Parshuram Thombare 2021-09-19  484  static int cdns_xspi_of_=
+get_plat_data(struct platform_device *pdev)
+a16cc807762730 Parshuram Thombare 2021-09-19  485  {
+a16cc807762730 Parshuram Thombare 2021-09-19  486  	struct device_node *nod=
+e_prop =3D pdev->dev.of_node;
+a16cc807762730 Parshuram Thombare 2021-09-19  487  	struct device_node *nod=
+e_child;
+a16cc807762730 Parshuram Thombare 2021-09-19 @488  	unsigned int cs;
+a16cc807762730 Parshuram Thombare 2021-09-19  489  =
 
-275157b367f479 Thara Gopinath   2021-08-09  306  	opp =3D dev_pm_opp_find_f=
-req_floor(dev, &freq_hz);
-275157b367f479 Thara Gopinath   2021-08-09  307  	if (IS_ERR(opp) && PTR_ER=
-R(opp) =3D=3D -ERANGE)
-6240aaad75e1a6 Dmitry Baryshkov 2022-03-26  308  		opp =3D dev_pm_opp_find_=
-freq_ceil(dev, &freq_hz);
-275157b367f479 Thara Gopinath   2021-08-09  309  =
+a16cc807762730 Parshuram Thombare 2021-09-19  490  	for_each_child_of_node(=
+node_prop, node_child) {
+a16cc807762730 Parshuram Thombare 2021-09-19  491  		if (!of_device_is_avai=
+lable(node_child))
+a16cc807762730 Parshuram Thombare 2021-09-19  492  			continue;
+a16cc807762730 Parshuram Thombare 2021-09-19  493  =
 
-6240aaad75e1a6 Dmitry Baryshkov 2022-03-26  310  	if (IS_ERR(opp)) {
-6240aaad75e1a6 Dmitry Baryshkov 2022-03-26  311  		dev_warn(dev, "Can't fin=
-d the OPP for throttling: %pe!\n", opp);
-6240aaad75e1a6 Dmitry Baryshkov 2022-03-26  312  	} else {
-275157b367f479 Thara Gopinath   2021-08-09  313  		throttled_freq =3D freq_=
-hz / HZ_PER_KHZ;
-275157b367f479 Thara Gopinath   2021-08-09  314  =
+a16cc807762730 Parshuram Thombare 2021-09-19  494  		if (of_property_read_u=
+32(node_child, "reg", &cs)) {
+a16cc807762730 Parshuram Thombare 2021-09-19  495  			dev_err(&pdev->dev, "=
+Couldn't get memory chip select\n");
+a16cc807762730 Parshuram Thombare 2021-09-19  496  			return -ENXIO;
+a16cc807762730 Parshuram Thombare 2021-09-19  497  		} else if (cs >=3D CDN=
+S_XSPI_MAX_BANKS) {
+a16cc807762730 Parshuram Thombare 2021-09-19  498  			dev_err(&pdev->dev, "=
+reg (cs) parameter value too large\n");
+a16cc807762730 Parshuram Thombare 2021-09-19  499  			return -ENXIO;
+a16cc807762730 Parshuram Thombare 2021-09-19  500  		}
+a16cc807762730 Parshuram Thombare 2021-09-19  501  	}
+a16cc807762730 Parshuram Thombare 2021-09-19  502  =
 
-0258cb19c77deb Lukasz Luba      2021-11-09  315  		/* Update thermal pressu=
-re (the boost frequencies are accepted) */
-0258cb19c77deb Lukasz Luba      2021-11-09  316  		arch_update_thermal_pres=
-sure(policy->related_cpus, throttled_freq);
-275157b367f479 Thara Gopinath   2021-08-09  317  =
+a16cc807762730 Parshuram Thombare 2021-09-19  503  	return 0;
+a16cc807762730 Parshuram Thombare 2021-09-19  504  }
+a16cc807762730 Parshuram Thombare 2021-09-19  505  =
 
-6240aaad75e1a6 Dmitry Baryshkov 2022-03-26  318  		dev_pm_opp_put(opp);
-6240aaad75e1a6 Dmitry Baryshkov 2022-03-26  319  	}
-6240aaad75e1a6 Dmitry Baryshkov 2022-03-26  320  =
-
-275157b367f479 Thara Gopinath   2021-08-09  321  	/*
-275157b367f479 Thara Gopinath   2021-08-09  322  	 * In the unlikely case p=
-olicy is unregistered do not enable
-275157b367f479 Thara Gopinath   2021-08-09  323  	 * polling or h/w interru=
-pt
-275157b367f479 Thara Gopinath   2021-08-09  324  	 */
-275157b367f479 Thara Gopinath   2021-08-09  325  	mutex_lock(&data->throttl=
-e_lock);
-275157b367f479 Thara Gopinath   2021-08-09  326  	if (data->cancel_throttle)
-275157b367f479 Thara Gopinath   2021-08-09  327  		goto out;
-275157b367f479 Thara Gopinath   2021-08-09  328  =
-
-275157b367f479 Thara Gopinath   2021-08-09  329  	/*
-275157b367f479 Thara Gopinath   2021-08-09  330  	 * If h/w throttled frequ=
-ency is higher than what cpufreq has requested
-275157b367f479 Thara Gopinath   2021-08-09  331  	 * for, then stop polling=
- and switch back to interrupt mechanism.
-275157b367f479 Thara Gopinath   2021-08-09  332  	 */
-275157b367f479 Thara Gopinath   2021-08-09 @333  	if (throttled_freq >=3D q=
-com_cpufreq_hw_get(cpu))
-275157b367f479 Thara Gopinath   2021-08-09  334  		enable_irq(data->throttl=
-e_irq);
-275157b367f479 Thara Gopinath   2021-08-09  335  	else
-275157b367f479 Thara Gopinath   2021-08-09  336  		mod_delayed_work(system_=
-highpri_wq, &data->throttle_work,
-275157b367f479 Thara Gopinath   2021-08-09  337  				 msecs_to_jiffies(10));
-275157b367f479 Thara Gopinath   2021-08-09  338  =
-
-275157b367f479 Thara Gopinath   2021-08-09  339  out:
-275157b367f479 Thara Gopinath   2021-08-09  340  	mutex_unlock(&data->throt=
-tle_lock);
-275157b367f479 Thara Gopinath   2021-08-09  341  }
-275157b367f479 Thara Gopinath   2021-08-09  342  =
-
-
-:::::: The code at line 333 was first introduced by commit
-:::::: 275157b367f479334f3e2df7be93a3dd772f359c cpufreq: qcom-cpufreq-hw: A=
-dd dcvs interrupt support
-
-:::::: TO: Thara Gopinath <thara.gopinath@linaro.org>
-:::::: CC: Viresh Kumar <viresh.kumar@linaro.org>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============3777984783619828185==--
+--===============5743436238091245790==--
 
