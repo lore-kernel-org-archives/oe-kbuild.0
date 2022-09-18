@@ -1,147 +1,369 @@
-Content-Type: multipart/mixed; boundary="===============0168427822724580088=="
+Content-Type: multipart/mixed; boundary="===============1503175344594211231=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [linux-next:master 194/7639] drivers/gpu/drm/tests/drm_buddy_test.c:197:26-31: ERROR: invalid reference to the index variable of the iterator on line 152
-Date: Mon, 19 Sep 2022 05:16:28 +0800
-Message-ID: <202209190520.eHVvA86s-lkp@intel.com>
+Subject: net/mctp/test/route-test.c:296:24: warning: use of uninitialized value '<unknown>' [CWE-457]
+Date: Mon, 19 Sep 2022 05:06:11 +0800
+Message-ID: <202209190559.LWdQ4f6Z-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0168427822724580088==
+--===============1503175344594211231==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+:::::: =
+
+:::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "low confidence static check warning: net/mctp/=
+test/route-test.c:296:24: warning: use of uninitialized value '<unknown>' [=
+CWE-457] [-Wanalyzer-use-of-uninitialized-value]"
+:::::: =
+
+
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: "Ma=C3=ADra Canal" <maira.canal@usp.br>
-CC: Javier Martinez Canillas <javierm@redhat.com>
+CC: linux-kernel(a)vger.kernel.org
+TO: Jeremy Kerr <jk@codeconstruct.com.au>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
- master
-head:   d5538ab91d3a9a237805be6f8c6c272af2987995
-commit: 932da861956ac425ba4e65f7696458f96d833883 [194/7639] drm: selftest: =
-convert drm_buddy selftest to KUnit
-:::::: branch date: 3 days ago
-:::::: commit date: 10 weeks ago
-config: arm-randconfig-c041-20220918 (https://download.01.org/0day-ci/archi=
-ve/20220919/202209190520.eHVvA86s-lkp(a)intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   38eddeedbbeac33f26845c29e7414b9313ea70db
+commit: 8892c0490779d6de921eb684e5504708fdbbcb68 mctp: Add route input to s=
+ocket tests
+date:   12 months ago
+:::::: branch date: 5 hours ago
+:::::: commit date: 12 months ago
+config: arm-randconfig-c002-20220916 (https://download.01.org/0day-ci/archi=
+ve/20220919/202209190559.LWdQ4f6Z-lkp(a)intel.com/config)
 compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3D8892c0490779d6de921eb684e5504708fdbbcb68
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 8892c0490779d6de921eb684e5504708fdbbcb68
+        # save the config file
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cross=
+ ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
+
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Julia Lawall <julia.lawall@lip6.fr>
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/tests/drm_buddy_test.c:197:26-31: ERROR: invalid referen=
-ce to the index variable of the iterator on line 152
+gcc_analyzer warnings: (new ones prefixed by >>)
+              |      |         ~~~~~~~~~~~~~~~
+              |      |         |
+              |      |         (22) calling 'skb_orphan' from 'mctp_route_i=
+nput'
+              |
+              +--> 'skb_orphan': events 23-25
+                     |
+                     |include/linux/skbuff.h:2781:20:
+                     | 2781 | static inline void skb_orphan(struct sk_buff =
+*skb)
+                     |      |                    ^~~~~~~~~~
+                     |      |                    |
+                     |      |                    (23) entry to 'skb_orphan'
+                     | 2782 | {
+                     | 2783 |         if (skb->destructor) {
+                     |      |            ~        =
 
-vim +197 drivers/gpu/drm/tests/drm_buddy_test.c
+                     |      |            |
+                     |      |            (24) following 'true' branch...
+                     | 2784 |                 skb->destructor(skb);
+                     |      |                 ~~~~~~~~~~~~~~~~~~~~
+                     |      |                 |
+                     |      |                 (25) ...to here
+                     |
+              <------+
+              |
+            'mctp_route_input': events 26-27
+              |
+              |net/mctp/route.c:278:9:
+              |  278 |         skb_orphan(skb);
+              |      |         ^~~~~~~~~~~~~~~
+              |      |         |
+              |      |         (26) returning to 'mctp_route_input' from 's=
+kb_orphan'
+              |......
+              |  281 |         if (skb->len < sizeof(struct mctp_hdr) + 1)
+              |      |             ~~~~~~~~
+              |      |                |
+              |      |                (27) dereference of NULL 'skb'
+              |
+   net/mctp/route.c: In function 'mctp_newroute':
+   net/mctp/route.c:1039:20: warning: use of uninitialized value '<unknown>=
+' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+    1039 |         mctp_eid_t daddr_start;
+         |                    ^~~~~~~~~~~
+     'mctp_newroute': event 1
+       |
+       | 1039 |         mctp_eid_t daddr_start;
+       |      |                    ^~~~~~~~~~~
+       |      |                    |
+       |      |                    (1) use of uninitialized value '<unknown=
+>' here
+       |
+   net/mctp/route.c:1040:26: warning: use of uninitialized value '<unknown>=
+' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+    1040 |         struct mctp_dev *mdev;
+         |                          ^~~~
+     'mctp_newroute': event 1
+       |
+       | 1040 |         struct mctp_dev *mdev;
+       |      |                          ^~~~
+       |      |                          |
+       |      |                          (1) use of uninitialized value '<u=
+nknown>' here
+       |
+   net/mctp/route.c:1041:23: warning: use of uninitialized value '<unknown>=
+' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+    1041 |         struct rtmsg *rtm;
+         |                       ^~~
+     'mctp_newroute': event 1
+       |
+       | 1041 |         struct rtmsg *rtm;
+       |      |                       ^~~
+       |      |                       |
+       |      |                       (1) use of uninitialized value '<unkn=
+own>' here
+       |
+   net/mctp/route.c: In function 'mctp_delroute':
+   net/mctp/route.c:1077:20: warning: use of uninitialized value '<unknown>=
+' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+    1077 |         mctp_eid_t daddr_start;
+         |                    ^~~~~~~~~~~
+     'mctp_delroute': event 1
+       |
+       | 1077 |         mctp_eid_t daddr_start;
+       |      |                    ^~~~~~~~~~~
+       |      |                    |
+       |      |                    (1) use of uninitialized value '<unknown=
+>' here
+       |
+   net/mctp/route.c:1078:26: warning: use of uninitialized value '<unknown>=
+' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+    1078 |         struct mctp_dev *mdev;
+         |                          ^~~~
+     'mctp_delroute': event 1
+       |
+       | 1078 |         struct mctp_dev *mdev;
+       |      |                          ^~~~
+       |      |                          |
+       |      |                          (1) use of uninitialized value '<u=
+nknown>' here
+       |
+   net/mctp/route.c:1079:23: warning: use of uninitialized value '<unknown>=
+' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+    1079 |         struct rtmsg *rtm;
+         |                       ^~~
+     'mctp_delroute': event 1
+       |
+       | 1079 |         struct rtmsg *rtm;
+       |      |                       ^~~
+       |      |                       |
+       |      |                       (1) use of uninitialized value '<unkn=
+own>' here
+       |
+   In file included from net/mctp/route.c:1234:
+   net/mctp/test/route-test.c: In function '__mctp_route_test_init':
+>> net/mctp/test/route-test.c:296:24: warning: use of uninitialized value '=
+<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+     296 |         struct socket *sock;
+         |                        ^~~~
+     '__mctp_route_test_init': event 1
+       |
+       |  296 |         struct socket *sock;
+       |      |                        ^~~~
+       |      |                        |
+       |      |                        (1) use of uninitialized value '<unk=
+nown>' here
+       |
+   net/mctp/test/route-test.c: In function 'mctp_test_route_input_sk':
+   net/mctp/test/route-test.c:340:33: warning: use of uninitialized value '=
+<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+     340 |         struct mctp_test_route *rt;
+         |                                 ^~
+     'mctp_test_route_input_sk': event 1
+       |
+       |  340 |         struct mctp_test_route *rt;
+       |      |                                 ^~
+       |      |                                 |
+       |      |                                 (1) use of uninitialized va=
+lue '<unknown>' here
+       |
+   net/mctp/test/route-test.c:341:31: warning: use of uninitialized value '=
+<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+     341 |         struct mctp_test_dev *dev;
+         |                               ^~~
+     'mctp_test_route_input_sk': event 1
+       |
+       |  341 |         struct mctp_test_dev *dev;
+       |      |                               ^~~
+       |      |                               |
+       |      |                               (1) use of uninitialized valu=
+e '<unknown>' here
+       |
+   net/mctp/test/route-test.c:342:24: warning: use of uninitialized value '=
+<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+     342 |         struct socket *sock;
+         |                        ^~~~
+     'mctp_test_route_input_sk': event 1
+       |
+       |  342 |         struct socket *sock;
+       |      |                        ^~~~
+       |      |                        |
+       |      |                        (1) use of uninitialized value '<unk=
+nown>' here
+       |
+   net/mctp/test/route-test.c:343:13: warning: use of uninitialized value '=
+<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+     343 |         int rc;
+         |             ^~
+     'mctp_test_route_input_sk': event 1
+       |
+       |  343 |         int rc;
+       |      |             ^~
+       |      |             |
+       |      |             (1) use of uninitialized value '<unknown>' here
+       |
+   In file included from net/mctp/test/route-test.c:3:
+   include/kunit/test.h:866:22: warning: dereference of NULL 'skb' [CWE-476=
+] [-Wanalyzer-null-dereference]
+     866 |         typeof(left) __left =3D (left);                         =
+                 \
+         |                      ^~~~~~
+   include/kunit/test.h:891:9: note: in expansion of macro 'KUNIT_BASE_BINA=
+RY_ASSERTION'
+     891 |         KUNIT_BASE_BINARY_ASSERTION(test,                       =
+               \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:980:9: note: in expansion of macro 'KUNIT_BASE_EQ_M=
+SG_ASSERTION'
+     980 |         KUNIT_BASE_EQ_MSG_ASSERTION(test,                       =
+               \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:990:9: note: in expansion of macro 'KUNIT_BINARY_EQ=
+_MSG_ASSERTION'
+     990 |         KUNIT_BINARY_EQ_MSG_ASSERTION(test,                     =
+               \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:1353:9: note: in expansion of macro 'KUNIT_BINARY_E=
+Q_ASSERTION'
+    1353 |         KUNIT_BINARY_EQ_ASSERTION(test, KUNIT_EXPECTATION, left,=
+ right)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
+   net/mctp/test/route-test.c:362:17: note: in expansion of macro 'KUNIT_EX=
+PECT_EQ'
+     362 |                 KUNIT_EXPECT_EQ(test, skb->len, 1);
+         |                 ^~~~~~~~~~~~~~~
+     'mctp_test_route_input_sk': events 1-2
+       |
+       |  336 | static void mctp_test_route_input_sk(struct kunit *test)
+       |      |             ^~~~~~~~~~~~~~~~~~~~~~~~
+       |      |             |
+       |      |             (1) entry to 'mctp_test_route_input_sk'
+       |......
+       |  347 |         __mctp_route_test_init(test, &dev, &rt, &sock);
+       |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |         |
+       |      |         (2) calling '__mctp_route_test_init' from 'mctp_tes=
+t_route_input_sk'
+       |
+       +--> '__mctp_route_test_init': events 3-4
+              |
+              |  288 | static void __mctp_route_test_init(struct kunit *tes=
+t,
+              |      |             ^~~~~~~~~~~~~~~~~~~~~~
+              |      |             |
+              |      |             (3) entry to '__mctp_route_test_init'
+              |......
+              |  302 |         rt =3D mctp_test_create_route(&init_net, dev=
+->mdev, 8, 68);
+              |      |              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~
+              |      |              |
+              |      |              (4) calling 'mctp_test_create_route' fr=
+om '__mctp_route_test_init'
+              |
+              +--> 'mctp_test_create_route': events 5-6
+                     |
+                     |   39 | static struct mctp_test_route *mctp_test_crea=
+te_route(struct net *net,
+                     |      |                                ^~~~~~~~~~~~~~=
+~~~~~~~~
+                     |      |                                |
+                     |      |                                (5) entry to '=
+mctp_test_create_route'
+                     |......
 
-932da861956ac4 Ma=C3=ADra Canal 2022-07-08  139  =
+vim +296 net/mctp/test/route-test.c
 
-932da861956ac4 Ma=C3=ADra Canal 2022-07-08  140  static int igt_check_block=
-s(struct kunit *test, struct drm_buddy *mm,
-932da861956ac4 Ma=C3=ADra Canal 2022-07-08  141  			    struct list_head *b=
-locks, u64 expected_size, bool is_contiguous)
-932da861956ac4 Ma=C3=ADra Canal 2022-07-08  142  {
-932da861956ac4 Ma=C3=ADra Canal 2022-07-08  143  	struct drm_buddy_block *b=
-lock;
-932da861956ac4 Ma=C3=ADra Canal 2022-07-08  144  	struct drm_buddy_block *p=
-rev;
-932da861956ac4 Ma=C3=ADra Canal 2022-07-08  145  	u64 total;
-932da861956ac4 Ma=C3=ADra Canal 2022-07-08  146  	int err =3D 0;
-932da861956ac4 Ma=C3=ADra Canal 2022-07-08  147  =
+b504db408c34e0 Jeremy Kerr 2021-10-03  283  =
 
-932da861956ac4 Ma=C3=ADra Canal 2022-07-08  148  	block =3D NULL;
-932da861956ac4 Ma=C3=ADra Canal 2022-07-08  149  	prev =3D NULL;
-932da861956ac4 Ma=C3=ADra Canal 2022-07-08  150  	total =3D 0;
-932da861956ac4 Ma=C3=ADra Canal 2022-07-08  151  =
+b504db408c34e0 Jeremy Kerr 2021-10-03  284  KUNIT_ARRAY_PARAM(mctp_rx_input=
+, mctp_rx_input_tests,
+b504db408c34e0 Jeremy Kerr 2021-10-03  285  		  mctp_rx_input_test_to_desc);
+b504db408c34e0 Jeremy Kerr 2021-10-03  286  =
 
-932da861956ac4 Ma=C3=ADra Canal 2022-07-08 @152  	list_for_each_entry(block=
-, blocks, link) {
-932da861956ac4 Ma=C3=ADra Canal 2022-07-08  153  		err =3D igt_check_block(=
-test, mm, block);
-932da861956ac4 Ma=C3=ADra Canal 2022-07-08  154  =
+8892c0490779d6 Jeremy Kerr 2021-10-03  287  /* set up a local dev, route on=
+ EID 8, and a socket listening on type 0 */
+8892c0490779d6 Jeremy Kerr 2021-10-03  288  static void __mctp_route_test_i=
+nit(struct kunit *test,
+8892c0490779d6 Jeremy Kerr 2021-10-03  289  				   struct mctp_test_dev **d=
+evp,
+8892c0490779d6 Jeremy Kerr 2021-10-03  290  				   struct mctp_test_route *=
+*rtp,
+8892c0490779d6 Jeremy Kerr 2021-10-03  291  				   struct socket **sockp)
+8892c0490779d6 Jeremy Kerr 2021-10-03  292  {
+8892c0490779d6 Jeremy Kerr 2021-10-03  293  	struct sockaddr_mctp addr;
+8892c0490779d6 Jeremy Kerr 2021-10-03  294  	struct mctp_test_route *rt;
+8892c0490779d6 Jeremy Kerr 2021-10-03  295  	struct mctp_test_dev *dev;
+8892c0490779d6 Jeremy Kerr 2021-10-03 @296  	struct socket *sock;
+8892c0490779d6 Jeremy Kerr 2021-10-03  297  	int rc;
+8892c0490779d6 Jeremy Kerr 2021-10-03  298  =
 
-932da861956ac4 Ma=C3=ADra Canal 2022-07-08  155  		if (!drm_buddy_block_is_=
-allocated(block)) {
-932da861956ac4 Ma=C3=ADra Canal 2022-07-08  156  			kunit_err(test, "block =
-not allocated\n");
-932da861956ac4 Ma=C3=ADra Canal 2022-07-08  157  			err =3D -EINVAL;
-932da861956ac4 Ma=C3=ADra Canal 2022-07-08  158  		}
-932da861956ac4 Ma=C3=ADra Canal 2022-07-08  159  =
+8892c0490779d6 Jeremy Kerr 2021-10-03  299  	dev =3D mctp_test_create_dev();
+8892c0490779d6 Jeremy Kerr 2021-10-03  300  	KUNIT_ASSERT_NOT_ERR_OR_NULL(t=
+est, dev);
+8892c0490779d6 Jeremy Kerr 2021-10-03  301  =
 
-932da861956ac4 Ma=C3=ADra Canal 2022-07-08  160  		if (is_contiguous && pre=
-v) {
-932da861956ac4 Ma=C3=ADra Canal 2022-07-08  161  			u64 prev_block_size;
-932da861956ac4 Ma=C3=ADra Canal 2022-07-08  162  			u64 prev_offset;
-932da861956ac4 Ma=C3=ADra Canal 2022-07-08  163  			u64 offset;
-932da861956ac4 Ma=C3=ADra Canal 2022-07-08  164  =
+8892c0490779d6 Jeremy Kerr 2021-10-03  302  	rt =3D mctp_test_create_route(=
+&init_net, dev->mdev, 8, 68);
+8892c0490779d6 Jeremy Kerr 2021-10-03  303  	KUNIT_ASSERT_NOT_ERR_OR_NULL(t=
+est, rt);
+8892c0490779d6 Jeremy Kerr 2021-10-03  304  =
 
-932da861956ac4 Ma=C3=ADra Canal 2022-07-08  165  			prev_offset =3D drm_bud=
-dy_block_offset(prev);
-932da861956ac4 Ma=C3=ADra Canal 2022-07-08  166  			prev_block_size =3D drm=
-_buddy_block_size(mm, prev);
-932da861956ac4 Ma=C3=ADra Canal 2022-07-08  167  			offset =3D drm_buddy_bl=
-ock_offset(block);
-932da861956ac4 Ma=C3=ADra Canal 2022-07-08  168  =
+8892c0490779d6 Jeremy Kerr 2021-10-03  305  	rc =3D sock_create_kern(&init_=
+net, AF_MCTP, SOCK_DGRAM, 0, &sock);
+8892c0490779d6 Jeremy Kerr 2021-10-03  306  	KUNIT_ASSERT_EQ(test, rc, 0);
+8892c0490779d6 Jeremy Kerr 2021-10-03  307  =
 
-932da861956ac4 Ma=C3=ADra Canal 2022-07-08  169  			if (offset !=3D (prev_o=
-ffset + prev_block_size)) {
-932da861956ac4 Ma=C3=ADra Canal 2022-07-08  170  				kunit_err(test, "block=
- offset mismatch\n");
-932da861956ac4 Ma=C3=ADra Canal 2022-07-08  171  				err =3D -EINVAL;
-932da861956ac4 Ma=C3=ADra Canal 2022-07-08  172  			}
-932da861956ac4 Ma=C3=ADra Canal 2022-07-08  173  		}
-932da861956ac4 Ma=C3=ADra Canal 2022-07-08  174  =
+8892c0490779d6 Jeremy Kerr 2021-10-03  308  	addr.smctp_family =3D AF_MCTP;
+8892c0490779d6 Jeremy Kerr 2021-10-03  309  	addr.smctp_network =3D MCTP_NE=
+T_ANY;
+8892c0490779d6 Jeremy Kerr 2021-10-03  310  	addr.smctp_addr.s_addr =3D 8;
+8892c0490779d6 Jeremy Kerr 2021-10-03  311  	addr.smctp_type =3D 0;
+8892c0490779d6 Jeremy Kerr 2021-10-03  312  	rc =3D kernel_bind(sock, (stru=
+ct sockaddr *)&addr, sizeof(addr));
+8892c0490779d6 Jeremy Kerr 2021-10-03  313  	KUNIT_ASSERT_EQ(test, rc, 0);
+8892c0490779d6 Jeremy Kerr 2021-10-03  314  =
 
-932da861956ac4 Ma=C3=ADra Canal 2022-07-08  175  		if (err)
-932da861956ac4 Ma=C3=ADra Canal 2022-07-08  176  			break;
-932da861956ac4 Ma=C3=ADra Canal 2022-07-08  177  =
-
-932da861956ac4 Ma=C3=ADra Canal 2022-07-08  178  		total +=3D drm_buddy_blo=
-ck_size(mm, block);
-932da861956ac4 Ma=C3=ADra Canal 2022-07-08  179  		prev =3D block;
-932da861956ac4 Ma=C3=ADra Canal 2022-07-08  180  	}
-932da861956ac4 Ma=C3=ADra Canal 2022-07-08  181  =
-
-932da861956ac4 Ma=C3=ADra Canal 2022-07-08  182  	if (!err) {
-932da861956ac4 Ma=C3=ADra Canal 2022-07-08  183  		if (total !=3D expected_=
-size) {
-932da861956ac4 Ma=C3=ADra Canal 2022-07-08  184  			kunit_err(test, "size m=
-ismatch, expected=3D%llx, found=3D%llx\n",
-932da861956ac4 Ma=C3=ADra Canal 2022-07-08  185  				  expected_size, total=
-);
-932da861956ac4 Ma=C3=ADra Canal 2022-07-08  186  			err =3D -EINVAL;
-932da861956ac4 Ma=C3=ADra Canal 2022-07-08  187  		}
-932da861956ac4 Ma=C3=ADra Canal 2022-07-08  188  		return err;
-932da861956ac4 Ma=C3=ADra Canal 2022-07-08  189  	}
-932da861956ac4 Ma=C3=ADra Canal 2022-07-08  190  =
-
-932da861956ac4 Ma=C3=ADra Canal 2022-07-08  191  	if (prev) {
-932da861956ac4 Ma=C3=ADra Canal 2022-07-08  192  		kunit_err(test, "prev bl=
-ock, dump:\n");
-932da861956ac4 Ma=C3=ADra Canal 2022-07-08  193  		igt_dump_block(test, mm,=
- prev);
-932da861956ac4 Ma=C3=ADra Canal 2022-07-08  194  	}
-932da861956ac4 Ma=C3=ADra Canal 2022-07-08  195  =
-
-932da861956ac4 Ma=C3=ADra Canal 2022-07-08  196  	kunit_err(test, "bad bloc=
-k, dump:\n");
-932da861956ac4 Ma=C3=ADra Canal 2022-07-08 @197  	igt_dump_block(test, mm, =
-block);
-932da861956ac4 Ma=C3=ADra Canal 2022-07-08  198  =
-
-932da861956ac4 Ma=C3=ADra Canal 2022-07-08  199  	return err;
-932da861956ac4 Ma=C3=ADra Canal 2022-07-08  200  }
-932da861956ac4 Ma=C3=ADra Canal 2022-07-08  201  =
+8892c0490779d6 Jeremy Kerr 2021-10-03  315  	*rtp =3D rt;
+8892c0490779d6 Jeremy Kerr 2021-10-03  316  	*devp =3D dev;
+8892c0490779d6 Jeremy Kerr 2021-10-03  317  	*sockp =3D sock;
+8892c0490779d6 Jeremy Kerr 2021-10-03  318  }
+8892c0490779d6 Jeremy Kerr 2021-10-03  319  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============0168427822724580088==--
+--===============1503175344594211231==--
 
