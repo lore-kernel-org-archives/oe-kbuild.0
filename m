@@ -1,179 +1,162 @@
-Content-Type: multipart/mixed; boundary="===============3364589273998786563=="
+Content-Type: multipart/mixed; boundary="===============5073864452530266301=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: fs/9p/vfs_dir.c:211:16: warning: use of uninitialized value '<unknown>' [CWE-457]
-Date: Mon, 19 Sep 2022 11:36:45 +0800
-Message-ID: <202209191101.P6CJtb56-lkp@intel.com>
+Subject: fs/cifs/dfs_cache.c:1382 __refresh_tcon() warn: passing a valid pointer to 'PTR_ERR'
+Date: Mon, 19 Sep 2022 10:45:54 +0800
+Message-ID: <202209191006.aMlXMZTV-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3364589273998786563==
+--===============5073864452530266301==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-:::::: =
-
-:::::: Manual check reason: "low confidence bisect report"
-:::::: Manual check reason: "low confidence static check warning: fs/9p/vfs=
-_dir.c:211:16: warning: use of uninitialized value '<unknown>' [CWE-457] [-=
-Wanalyzer-use-of-uninitialized-value]"
-:::::: =
-
-
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: David Howells <dhowells@redhat.com>
+TO: Paulo Alcantara <pc@cjr.nz>
+CC: Steve French <stfrench@microsoft.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   521a547ced6477c54b4b0cc206000406c221b4d6
-commit: 24e42e32d347f0787a6f99aeb590f3aaa7221093 9p: Use fscache indexing r=
-ewrite and reenable caching
-date:   8 months ago
-:::::: branch date: 7 hours ago
-:::::: commit date: 8 months ago
-config: arm-randconfig-c002-20220917 (https://download.01.org/0day-ci/archi=
-ve/20220919/202209191101.P6CJtb56-lkp(a)intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D24e42e32d347f0787a6f99aeb590f3aaa7221093
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 24e42e32d347f0787a6f99aeb590f3aaa7221093
-        # save the config file
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cross=
- ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
-
+commit: c88f7dcd6d6429197fc2fd87b54a894ffcd48e8e cifs: support nested dfs l=
+inks over reconnect
+date:   10 months ago
+:::::: branch date: 6 hours ago
+:::::: commit date: 10 months ago
+config: csky-randconfig-m041-20220918 (https://download.01.org/0day-ci/arch=
+ive/20220919/202209191006.aMlXMZTV-lkp(a)intel.com/config)
+compiler: csky-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-gcc_analyzer warnings: (new ones prefixed by >>)
-   fs/9p/vfs_dir.c: In function 'v9fs_dir_release':
->> fs/9p/vfs_dir.c:211:16: warning: use of uninitialized value '<unknown>' =
-[CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-     211 |         __le32 version;
-         |                ^~~~~~~
-     'v9fs_dir_release': event 1
-       |
-       |  211 |         __le32 version;
-       |      |                ^~~~~~~
-       |      |                |
-       |      |                (1) use of uninitialized value '<unknown>' h=
-ere
-       |
-   fs/9p/vfs_dir.c:212:16: warning: use of uninitialized value '<unknown>' =
-[CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-     212 |         loff_t i_size;
-         |                ^~~~~~
-     'v9fs_dir_release': event 1
-       |
-       |  212 |         loff_t i_size;
-       |      |                ^~~~~~
-       |      |                |
-       |      |                (1) use of uninitialized value '<unknown>' h=
-ere
-       |
---
-   fs/9p/cache.c: In function 'v9fs_cache_inode_get_cookie':
->> fs/9p/cache.c:54:16: warning: use of uninitialized value '<unknown>' [CW=
-E-457] [-Wanalyzer-use-of-uninitialized-value]
-      54 |         __le32 version;
-         |                ^~~~~~~
-     'v9fs_cache_inode_get_cookie': event 1
-       |
-       |   54 |         __le32 version;
-       |      |                ^~~~~~~
-       |      |                |
-       |      |                (1) use of uninitialized value '<unknown>' h=
-ere
-       |
-   fs/9p/cache.c:55:16: warning: use of uninitialized value '<unknown>' [CW=
-E-457] [-Wanalyzer-use-of-uninitialized-value]
-      55 |         __le64 path;
-         |                ^~~~
-     'v9fs_cache_inode_get_cookie': event 1
-       |
-       |   55 |         __le64 path;
-       |      |                ^~~~
-       |      |                |
-       |      |                (1) use of uninitialized value '<unknown>' h=
-ere
-       |
+New smatch warnings:
+fs/cifs/dfs_cache.c:1382 __refresh_tcon() warn: passing a valid pointer to =
+'PTR_ERR'
 
-vim +211 fs/9p/vfs_dir.c
+Old smatch warnings:
+arch/csky/include/asm/uaccess.h:202 __get_user_fn() error: uninitialized sy=
+mbol 'retval'.
+fs/cifs/dfs_cache.c:509 copy_ref_data() warn: passing a valid pointer to 'P=
+TR_ERR'
 
-7751bdb3a095ad Sripathi Kodi       2010-06-04  198  =
+vim +/PTR_ERR +1382 fs/cifs/dfs_cache.c
 
-e69e7fe5b0c86b Eric Van Hensbergen 2005-09-09  199  =
+5072010ccf0592 Paulo Alcantara (SUSE  2019-03-19  1365) =
 
-e69e7fe5b0c86b Eric Van Hensbergen 2005-09-09  200  /**
-e69e7fe5b0c86b Eric Van Hensbergen 2005-09-09  201   * v9fs_dir_release - c=
-lose a directory
-e69e7fe5b0c86b Eric Van Hensbergen 2005-09-09  202   * @inode: inode of the=
- directory
-e69e7fe5b0c86b Eric Van Hensbergen 2005-09-09  203   * @filp: file pointer =
-to a directory
-e69e7fe5b0c86b Eric Van Hensbergen 2005-09-09  204   *
-e69e7fe5b0c86b Eric Van Hensbergen 2005-09-09  205   */
-e69e7fe5b0c86b Eric Van Hensbergen 2005-09-09  206  =
+b62366181a5e94 Paulo Alcantara        2021-07-16  1366  /* Refresh dfs refe=
+rral of tcon and mark it for reconnect if needed */
+c88f7dcd6d6429 Paulo Alcantara        2021-11-03  1367  static int __refres=
+h_tcon(const char *path, struct cifs_ses **sessions, struct cifs_tcon *tcon,
+c88f7dcd6d6429 Paulo Alcantara        2021-11-03  1368  			  bool force_ref=
+resh)
+b62366181a5e94 Paulo Alcantara        2021-07-16  1369  {
+b62366181a5e94 Paulo Alcantara        2021-07-16  1370  	struct cifs_ses *s=
+es;
+1023e90b733acd Paulo Alcantara        2021-06-08  1371  	struct cache_entry=
+ *ce;
+1023e90b733acd Paulo Alcantara        2021-06-08  1372  	struct dfs_info3_p=
+aram *refs =3D NULL;
+1023e90b733acd Paulo Alcantara        2021-06-08  1373  	int numrefs =3D 0;
+1023e90b733acd Paulo Alcantara        2021-06-08  1374  	bool needs_refresh=
+ =3D false;
+b62366181a5e94 Paulo Alcantara        2021-07-16  1375  	struct dfs_cache_t=
+gt_list tl =3D DFS_CACHE_TGT_LIST_INIT(tl);
+c9f71103990591 Paulo Alcantara        2021-06-04  1376  	int rc =3D 0;
+b62366181a5e94 Paulo Alcantara        2021-07-16  1377  	unsigned int xid;
+1023e90b733acd Paulo Alcantara        2021-06-08  1378  =
 
-e69e7fe5b0c86b Eric Van Hensbergen 2005-09-09  207  int v9fs_dir_release(st=
-ruct inode *inode, struct file *filp)
-e69e7fe5b0c86b Eric Van Hensbergen 2005-09-09  208  {
-24e42e32d347f0 David Howells       2020-11-18  209  	struct v9fs_inode *v9i=
-node =3D V9FS_I(inode);
-bd238fb431f319 Latchesar Ionkov    2007-07-10  210  	struct p9_fid *fid;
-24e42e32d347f0 David Howells       2020-11-18 @211  	__le32 version;
-24e42e32d347f0 David Howells       2020-11-18  212  	loff_t i_size;
-e69e7fe5b0c86b Eric Van Hensbergen 2005-09-09  213  =
+c9f71103990591 Paulo Alcantara        2021-06-04  1379  	ses =3D find_ipc_f=
+rom_server_path(sessions, path);
+b62366181a5e94 Paulo Alcantara        2021-07-16  1380  	if (IS_ERR(ses)) {
+b62366181a5e94 Paulo Alcantara        2021-07-16  1381  		cifs_dbg(FYI, "%s=
+: could not find ipc session\n", __func__);
+b62366181a5e94 Paulo Alcantara        2021-07-16 @1382  		return PTR_ERR(se=
+s);
+b62366181a5e94 Paulo Alcantara        2021-07-16  1383  	}
+1023e90b733acd Paulo Alcantara        2021-06-08  1384  =
 
-bd238fb431f319 Latchesar Ionkov    2007-07-10  214  	fid =3D filp->private_=
-data;
-5d3851530d6d68 Joe Perches         2011-11-28  215  	p9_debug(P9_DEBUG_VFS,=
- "inode: %p filp: %p fid: %d\n",
-62726a7ab3a6a3 jvrao               2010-08-25  216  		 inode, filp, fid ? f=
-id->fid : -1);
-6636b6dcc3db22 Jianyong Wu         2020-09-23  217  	if (fid) {
-987a64850996db Greg Kurz           2020-09-23  218  		spin_lock(&inode->i_l=
-ock);
-987a64850996db Greg Kurz           2020-09-23  219  		hlist_del(&fid->ilist=
-);
-987a64850996db Greg Kurz           2020-09-23  220  		spin_unlock(&inode->i=
+1023e90b733acd Paulo Alcantara        2021-06-08  1385  	down_read(&htable_=
+rw_lock);
+1023e90b733acd Paulo Alcantara        2021-06-08  1386  	ce =3D lookup_cach=
+e_entry(path);
+b62366181a5e94 Paulo Alcantara        2021-07-16  1387  	needs_refresh =3D =
+force_refresh || IS_ERR(ce) || cache_entry_expired(ce);
+b62366181a5e94 Paulo Alcantara        2021-07-16  1388  	if (!IS_ERR(ce)) {
+b62366181a5e94 Paulo Alcantara        2021-07-16  1389  		rc =3D get_target=
+s(ce, &tl);
+b62366181a5e94 Paulo Alcantara        2021-07-16  1390  		if (rc)
+b62366181a5e94 Paulo Alcantara        2021-07-16  1391  			cifs_dbg(FYI, "%=
+s: could not get dfs targets: %d\n", __func__, rc);
+b62366181a5e94 Paulo Alcantara        2021-07-16  1392  	}
+1023e90b733acd Paulo Alcantara        2021-06-08  1393  	up_read(&htable_rw=
 _lock);
-bd238fb431f319 Latchesar Ionkov    2007-07-10  221  		p9_client_clunk(fid);
-6636b6dcc3db22 Jianyong Wu         2020-09-23  222  	}
-24e42e32d347f0 David Howells       2020-11-18  223  =
+1023e90b733acd Paulo Alcantara        2021-06-08  1394  =
 
-24e42e32d347f0 David Howells       2020-11-18  224  	if ((filp->f_mode & FM=
-ODE_WRITE)) {
-24e42e32d347f0 David Howells       2020-11-18  225  		version =3D cpu_to_le=
-32(v9inode->qid.version);
-24e42e32d347f0 David Howells       2020-11-18  226  		i_size =3D i_size_rea=
-d(inode);
-24e42e32d347f0 David Howells       2020-11-18  227  		fscache_unuse_cookie(=
-v9fs_inode_cookie(v9inode),
-24e42e32d347f0 David Howells       2020-11-18  228  				     &version, &i_s=
-ize);
-24e42e32d347f0 David Howells       2020-11-18  229  	} else {
-24e42e32d347f0 David Howells       2020-11-18  230  		fscache_unuse_cookie(=
-v9fs_inode_cookie(v9inode), NULL, NULL);
-24e42e32d347f0 David Howells       2020-11-18  231  	}
-e69e7fe5b0c86b Eric Van Hensbergen 2005-09-09  232  	return 0;
-e69e7fe5b0c86b Eric Van Hensbergen 2005-09-09  233  }
-e69e7fe5b0c86b Eric Van Hensbergen 2005-09-09  234  =
+b62366181a5e94 Paulo Alcantara        2021-07-16  1395  	if (!needs_refresh=
+) {
+b62366181a5e94 Paulo Alcantara        2021-07-16  1396  		rc =3D 0;
+b62366181a5e94 Paulo Alcantara        2021-07-16  1397  		goto out;
+b62366181a5e94 Paulo Alcantara        2021-07-16  1398  	}
+1023e90b733acd Paulo Alcantara        2021-06-08  1399  =
 
+c9f71103990591 Paulo Alcantara        2021-06-04  1400  	xid =3D get_xid();
+1023e90b733acd Paulo Alcantara        2021-06-08  1401  	rc =3D get_dfs_ref=
+erral(xid, ses, path, &refs, &numrefs);
+c9f71103990591 Paulo Alcantara        2021-06-04  1402  	free_xid(xid);
+1023e90b733acd Paulo Alcantara        2021-06-08  1403  =
+
+1023e90b733acd Paulo Alcantara        2021-06-08  1404  	/* Create or updat=
+e a cache entry with the new referral */
+1023e90b733acd Paulo Alcantara        2021-06-08  1405  	if (!rc) {
+b62366181a5e94 Paulo Alcantara        2021-07-16  1406  		dump_refs(refs, n=
+umrefs);
+b62366181a5e94 Paulo Alcantara        2021-07-16  1407  =
+
+1023e90b733acd Paulo Alcantara        2021-06-08  1408  		down_write(&htabl=
+e_rw_lock);
+1023e90b733acd Paulo Alcantara        2021-06-08  1409  		ce =3D lookup_cac=
+he_entry(path);
+1023e90b733acd Paulo Alcantara        2021-06-08  1410  		if (IS_ERR(ce))
+1023e90b733acd Paulo Alcantara        2021-06-08  1411  			add_cache_entry_=
+locked(refs, numrefs);
+b62366181a5e94 Paulo Alcantara        2021-07-16  1412  		else if (force_re=
+fresh || cache_entry_expired(ce))
+1023e90b733acd Paulo Alcantara        2021-06-08  1413  			update_cache_ent=
+ry_locked(ce, refs, numrefs);
+1023e90b733acd Paulo Alcantara        2021-06-08  1414  		up_write(&htable_=
+rw_lock);
+b62366181a5e94 Paulo Alcantara        2021-07-16  1415  =
+
+b62366181a5e94 Paulo Alcantara        2021-07-16  1416  		mark_for_reconnec=
+t_if_needed(tcon, &tl, refs, numrefs);
+345c1a4a9e09dc Paulo Alcantara (SUSE  2019-12-04  1417) 	}
+1023e90b733acd Paulo Alcantara        2021-06-08  1418  =
+
+b62366181a5e94 Paulo Alcantara        2021-07-16  1419  out:
+b62366181a5e94 Paulo Alcantara        2021-07-16  1420  	dfs_cache_free_tgt=
+s(&tl);
+1023e90b733acd Paulo Alcantara        2021-06-08  1421  	free_dfs_info_arra=
+y(refs, numrefs);
+b62366181a5e94 Paulo Alcantara        2021-07-16  1422  	return rc;
+b62366181a5e94 Paulo Alcantara        2021-07-16  1423  }
+b62366181a5e94 Paulo Alcantara        2021-07-16  1424  =
+
+
+:::::: The code at line 1382 was first introduced by commit
+:::::: b62366181a5e9473e9c10e98f400049491c55876 cifs: support share failove=
+r when remounting
+
+:::::: TO: Paulo Alcantara <pc@cjr.nz>
+:::::: CC: Steve French <stfrench@microsoft.com>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============3364589273998786563==--
+--===============5073864452530266301==--
 
