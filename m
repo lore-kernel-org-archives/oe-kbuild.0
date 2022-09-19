@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============4796150415755697783=="
+Content-Type: multipart/mixed; boundary="===============8759547315118750524=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/net/wwan/t7xx/t7xx_hif_dpmaif_tx.c:127 t7xx_dpmaif_release_tx_buffer() error: potentially dereferencing uninitialized 'cur_drb'.
-Date: Tue, 20 Sep 2022 06:10:21 +0800
-Message-ID: <202209200605.Y8qwyI2x-lkp@intel.com>
+Subject: drivers/net/ethernet/sfc/siena/efx_common.c:767 efx_siena_reset_up() warn: missing error code 'rc'
+Date: Tue, 20 Sep 2022 03:46:41 +0800
+Message-ID: <202209200345.EsbfkOKJ-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4796150415755697783==
+--===============8759547315118750524==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,133 +15,104 @@ Content-Transfer-Encoding: quoted-printable
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Haijun Liu <haijun.liu@mediatek.com>
-CC: Chandrashekar Devegowda <chandrashekar.devegowda@intel.com>
-CC: Ricardo Martinez <ricardo.martinez@linux.intel.com>
-CC: Loic Poulain <loic.poulain@linaro.org>
-CC: Sergey Ryazanov <ryazanov.s.a@gmail.com>
-CC: "Ilpo J=C3=A4rvinen" <ilpo.jarvinen@linux.intel.com>
+TO: Martin Habets <habetsm.xilinx@gmail.com>
+CC: Jakub Kicinski <kuba@kernel.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   521a547ced6477c54b4b0cc206000406c221b4d6
-commit: d642b012df70a76dd5723f2d426b40bffe83ac49 net: wwan: t7xx: Add data =
-path interface
+commit: c5a13c319e10e795850b61bc7e3447b08024be2e sfc: Add a basic Siena mod=
+ule
 date:   4 months ago
-:::::: branch date: 25 hours ago
+:::::: branch date: 23 hours ago
 :::::: commit date: 4 months ago
-config: s390-randconfig-m031-20220919 (https://download.01.org/0day-ci/arch=
-ive/20220920/202209200605.Y8qwyI2x-lkp(a)intel.com/config)
-compiler: s390-linux-gcc (GCC) 12.1.0
+config: csky-randconfig-m041-20220918 (https://download.01.org/0day-ci/arch=
+ive/20220920/202209200345.EsbfkOKJ-lkp(a)intel.com/config)
+compiler: csky-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 smatch warnings:
-drivers/net/wwan/t7xx/t7xx_hif_dpmaif_tx.c:127 t7xx_dpmaif_release_tx_buffe=
-r() error: potentially dereferencing uninitialized 'cur_drb'.
+drivers/net/ethernet/sfc/siena/efx_common.c:767 efx_siena_reset_up() warn: =
+missing error code 'rc'
 
-vim +/cur_drb +127 drivers/net/wwan/t7xx/t7xx_hif_dpmaif_tx.c
+vim +/rc +767 drivers/net/ethernet/sfc/siena/efx_common.c
 
-d642b012df70a7 Haijun Liu 2022-05-06   78  =
+6e173d3b4af9e88 Martin Habets 2022-05-09  743  =
 
-d642b012df70a7 Haijun Liu 2022-05-06   79  static unsigned int t7xx_dpmaif_=
-release_tx_buffer(struct dpmaif_ctrl *dpmaif_ctrl,
-d642b012df70a7 Haijun Liu 2022-05-06   80  						  unsigned int q_num, unsi=
-gned int release_cnt)
-d642b012df70a7 Haijun Liu 2022-05-06   81  {
-d642b012df70a7 Haijun Liu 2022-05-06   82  	struct dpmaif_tx_queue *txq =3D=
- &dpmaif_ctrl->txq[q_num];
-d642b012df70a7 Haijun Liu 2022-05-06   83  	struct dpmaif_callbacks *cb =3D=
- dpmaif_ctrl->callbacks;
-d642b012df70a7 Haijun Liu 2022-05-06   84  	struct dpmaif_drb_skb *cur_drb_=
-skb, *drb_skb_base;
-d642b012df70a7 Haijun Liu 2022-05-06   85  	struct dpmaif_drb *cur_drb, *dr=
-b_base;
-d642b012df70a7 Haijun Liu 2022-05-06   86  	unsigned int drb_cnt, i, cur_id=
-x;
-d642b012df70a7 Haijun Liu 2022-05-06   87  	unsigned long flags;
-d642b012df70a7 Haijun Liu 2022-05-06   88  =
+6e173d3b4af9e88 Martin Habets 2022-05-09  744  /* This function will always=
+ ensure that the locks acquired in
+71ad88f661253f5 Martin Habets 2022-05-09  745   * efx_siena_reset_down() ar=
+e released. A failure return code indicates
+6e173d3b4af9e88 Martin Habets 2022-05-09  746   * that we were unable to re=
+initialise the hardware, and the
+6e173d3b4af9e88 Martin Habets 2022-05-09  747   * driver should be disabled=
+. If ok is false, then the rx and tx
+6e173d3b4af9e88 Martin Habets 2022-05-09  748   * engines are not restarted=
+, pending a RESET_DISABLE.
+6e173d3b4af9e88 Martin Habets 2022-05-09  749   */
+71ad88f661253f5 Martin Habets 2022-05-09  750  int efx_siena_reset_up(struc=
+t efx_nic *efx, enum reset_type method, bool ok)
+6e173d3b4af9e88 Martin Habets 2022-05-09  751  {
+6e173d3b4af9e88 Martin Habets 2022-05-09  752  	int rc;
+6e173d3b4af9e88 Martin Habets 2022-05-09  753  =
 
-d642b012df70a7 Haijun Liu 2022-05-06   89  	drb_skb_base =3D txq->drb_skb_b=
-ase;
-d642b012df70a7 Haijun Liu 2022-05-06   90  	drb_base =3D txq->drb_base;
-d642b012df70a7 Haijun Liu 2022-05-06   91  =
+6e173d3b4af9e88 Martin Habets 2022-05-09  754  	EFX_ASSERT_RESET_SERIALISED=
+(efx);
+6e173d3b4af9e88 Martin Habets 2022-05-09  755  =
 
-d642b012df70a7 Haijun Liu 2022-05-06   92  	spin_lock_irqsave(&txq->tx_lock=
-, flags);
-d642b012df70a7 Haijun Liu 2022-05-06   93  	drb_cnt =3D txq->drb_size_cnt;
-d642b012df70a7 Haijun Liu 2022-05-06   94  	cur_idx =3D txq->drb_release_rd=
-_idx;
-d642b012df70a7 Haijun Liu 2022-05-06   95  	spin_unlock_irqrestore(&txq->tx=
-_lock, flags);
-d642b012df70a7 Haijun Liu 2022-05-06   96  =
+6e173d3b4af9e88 Martin Habets 2022-05-09  756  	if (method =3D=3D RESET_TYP=
+E_MCDI_TIMEOUT)
+6e173d3b4af9e88 Martin Habets 2022-05-09  757  		efx->type->finish_flr(efx);
+6e173d3b4af9e88 Martin Habets 2022-05-09  758  =
 
-d642b012df70a7 Haijun Liu 2022-05-06   97  	for (i =3D 0; i < release_cnt; =
-i++) {
-d642b012df70a7 Haijun Liu 2022-05-06   98  		cur_drb =3D drb_base + cur_idx;
-d642b012df70a7 Haijun Liu 2022-05-06   99  		if (FIELD_GET(DRB_HDR_DTYP, le=
-32_to_cpu(cur_drb->header)) =3D=3D DES_DTYP_PD) {
-d642b012df70a7 Haijun Liu 2022-05-06  100  			cur_drb_skb =3D drb_skb_base =
-+ cur_idx;
-d642b012df70a7 Haijun Liu 2022-05-06  101  			if (!cur_drb_skb->is_msg)
-d642b012df70a7 Haijun Liu 2022-05-06  102  				dma_unmap_single(dpmaif_ctrl=
-->dev, cur_drb_skb->bus_addr,
-d642b012df70a7 Haijun Liu 2022-05-06  103  						 cur_drb_skb->data_len, DM=
-A_TO_DEVICE);
-d642b012df70a7 Haijun Liu 2022-05-06  104  =
+6e173d3b4af9e88 Martin Habets 2022-05-09  759  	/* Ensure that SRAM is init=
+ialised even if we're disabling the device */
+6e173d3b4af9e88 Martin Habets 2022-05-09  760  	rc =3D efx->type->init(efx);
+6e173d3b4af9e88 Martin Habets 2022-05-09  761  	if (rc) {
+6e173d3b4af9e88 Martin Habets 2022-05-09  762  		netif_err(efx, drv, efx->n=
+et_dev, "failed to initialise NIC\n");
+6e173d3b4af9e88 Martin Habets 2022-05-09  763  		goto fail;
+6e173d3b4af9e88 Martin Habets 2022-05-09  764  	}
+6e173d3b4af9e88 Martin Habets 2022-05-09  765  =
 
-d642b012df70a7 Haijun Liu 2022-05-06  105  			if (!FIELD_GET(DRB_HDR_CONT, =
-le32_to_cpu(cur_drb->header))) {
-d642b012df70a7 Haijun Liu 2022-05-06  106  				if (!cur_drb_skb->skb) {
-d642b012df70a7 Haijun Liu 2022-05-06  107  					dev_err(dpmaif_ctrl->dev,
-d642b012df70a7 Haijun Liu 2022-05-06  108  						"txq%u: DRB check fail, in=
-valid skb\n", q_num);
-d642b012df70a7 Haijun Liu 2022-05-06  109  					continue;
-d642b012df70a7 Haijun Liu 2022-05-06  110  				}
-d642b012df70a7 Haijun Liu 2022-05-06  111  =
+6e173d3b4af9e88 Martin Habets 2022-05-09  766  	if (!ok)
+6e173d3b4af9e88 Martin Habets 2022-05-09 @767  		goto fail;
+6e173d3b4af9e88 Martin Habets 2022-05-09  768  =
 
-d642b012df70a7 Haijun Liu 2022-05-06  112  				dev_kfree_skb_any(cur_drb_sk=
-b->skb);
-d642b012df70a7 Haijun Liu 2022-05-06  113  			}
-d642b012df70a7 Haijun Liu 2022-05-06  114  =
+6e173d3b4af9e88 Martin Habets 2022-05-09  769  	if (efx->port_initialized &=
+& method !=3D RESET_TYPE_INVISIBLE &&
+6e173d3b4af9e88 Martin Habets 2022-05-09  770  	    method !=3D RESET_TYPE_=
+DATAPATH) {
+4d49e5cd4b095cd Martin Habets 2022-05-09  771  		rc =3D efx_siena_mcdi_port=
+_reconfigure(efx);
+6e173d3b4af9e88 Martin Habets 2022-05-09  772  		if (rc && rc !=3D -EPERM)
+6e173d3b4af9e88 Martin Habets 2022-05-09  773  			netif_err(efx, drv, efx->=
+net_dev,
+6e173d3b4af9e88 Martin Habets 2022-05-09  774  				  "could not restore PHY=
+ settings\n");
+6e173d3b4af9e88 Martin Habets 2022-05-09  775  	}
+6e173d3b4af9e88 Martin Habets 2022-05-09  776  =
 
-d642b012df70a7 Haijun Liu 2022-05-06  115  			cur_drb_skb->skb =3D NULL;
-d642b012df70a7 Haijun Liu 2022-05-06  116  		}
-d642b012df70a7 Haijun Liu 2022-05-06  117  =
+71ad88f661253f5 Martin Habets 2022-05-09  777  	rc =3D efx_siena_enable_int=
+errupts(efx);
+6e173d3b4af9e88 Martin Habets 2022-05-09  778  	if (rc)
+6e173d3b4af9e88 Martin Habets 2022-05-09  779  		goto fail;
+6e173d3b4af9e88 Martin Habets 2022-05-09  780  =
 
-d642b012df70a7 Haijun Liu 2022-05-06  118  		spin_lock_irqsave(&txq->tx_loc=
-k, flags);
-d642b012df70a7 Haijun Liu 2022-05-06  119  		cur_idx =3D t7xx_ring_buf_get_=
-next_wr_idx(drb_cnt, cur_idx);
-d642b012df70a7 Haijun Liu 2022-05-06  120  		txq->drb_release_rd_idx =3D cu=
-r_idx;
-d642b012df70a7 Haijun Liu 2022-05-06  121  		spin_unlock_irqrestore(&txq->t=
-x_lock, flags);
-d642b012df70a7 Haijun Liu 2022-05-06  122  =
 
-d642b012df70a7 Haijun Liu 2022-05-06  123  		if (atomic_inc_return(&txq->tx=
-_budget) > txq->drb_size_cnt / 8)
-d642b012df70a7 Haijun Liu 2022-05-06  124  			cb->state_notify(dpmaif_ctrl-=
->t7xx_dev, DMPAIF_TXQ_STATE_IRQ, txq->index);
-d642b012df70a7 Haijun Liu 2022-05-06  125  	}
-d642b012df70a7 Haijun Liu 2022-05-06  126  =
+:::::: The code at line 767 was first introduced by commit
+:::::: 6e173d3b4af9e8804ebdbdb7a4afd7ed8f96220b sfc: Copy shared files need=
+ed for Siena (part 1)
 
-d642b012df70a7 Haijun Liu 2022-05-06 @127  	if (FIELD_GET(DRB_HDR_CONT, le3=
-2_to_cpu(cur_drb->header)))
-d642b012df70a7 Haijun Liu 2022-05-06  128  		dev_err(dpmaif_ctrl->dev, "txq=
-%u: DRB not marked as the last one\n", q_num);
-d642b012df70a7 Haijun Liu 2022-05-06  129  =
-
-d642b012df70a7 Haijun Liu 2022-05-06  130  	return i;
-d642b012df70a7 Haijun Liu 2022-05-06  131  }
-d642b012df70a7 Haijun Liu 2022-05-06  132  =
-
+:::::: TO: Martin Habets <habetsm.xilinx@gmail.com>
+:::::: CC: Jakub Kicinski <kuba@kernel.org>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============4796150415755697783==--
+--===============8759547315118750524==--
 
