@@ -1,421 +1,262 @@
-Content-Type: multipart/mixed; boundary="===============0429303211629526429=="
+Content-Type: multipart/mixed; boundary="===============3418785855291464665=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: fs/cifs/cached_dir.c:25:32: warning: use of uninitialized value '*(short int *)((char *)&oparms + offsetof(struct cifs_open_parms, reconnect))' [CWE-457]
-Date: Tue, 20 Sep 2022 17:54:46 +0800
-Message-ID: <202209201745.rqbZGKNA-lkp@intel.com>
+Subject: drivers/net/dsa/microchip/ksz_common.c:1308 ksz_switch_register() warn: potentially one past the end of array 'dev->ports[port_num]'
+Date: Tue, 20 Sep 2022 14:28:23 +0800
+Message-ID: <202209201432.sI8ai1Lv-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0429303211629526429==
+--===============3418785855291464665==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-:::::: =
-
-:::::: Manual check reason: "low confidence bisect report"
-:::::: Manual check reason: "low confidence static check warning: fs/cifs/c=
-ached_dir.c:25:32: warning: use of uninitialized value '*(short int *)((cha=
-r *)&oparms + offsetof(struct cifs_open_parms, reconnect))' [CWE-457] [-Wan=
-alyzer-use-of-uninitialized-value]"
-:::::: =
-
-
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Ronnie Sahlberg <lsahlber@redhat.com>
-CC: Steve French <stfrench@microsoft.com>
-CC: "Paulo Alcantara (SUSE)" <pc@cjr.nz>
+TO: Arun Ramadoss <arun.ramadoss@microchip.com>
+
+Hi Arun,
+
+First bad commit (maybe !=3D root cause):
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   521a547ced6477c54b4b0cc206000406c221b4d6
-commit: 05b98fd2da6bdf241d3b9ba40582d60a84a89d70 cifs: Move cached-dir func=
-tions into a separate file
-date:   6 weeks ago
-:::::: branch date: 2 days ago
-:::::: commit date: 6 weeks ago
-config: arm-randconfig-c002-20220917 (https://download.01.org/0day-ci/archi=
-ve/20220920/202209201745.rqbZGKNA-lkp(a)intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D05b98fd2da6bdf241d3b9ba40582d60a84a89d70
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 05b98fd2da6bdf241d3b9ba40582d60a84a89d70
-        # save the config file
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cross=
- ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
-
+commit: 07bca160469b4d19ca0a35bc83b26ed18fcbd96d net: dsa: microchip: commo=
+n menuconfig for ksz series switch
+date:   3 months ago
+:::::: branch date: 33 hours ago
+:::::: commit date: 3 months ago
+config: csky-randconfig-m041-20220918 (https://download.01.org/0day-ci/arch=
+ive/20220920/202209201432.sI8ai1Lv-lkp(a)intel.com/config)
+compiler: csky-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-gcc_analyzer warnings: (new ones prefixed by >>)
-   fs/cifs/cached_dir.c: In function 'open_cached_dir':
->> fs/cifs/cached_dir.c:25:32: warning: use of uninitialized value '*(short=
- int *)((char *)&oparms + offsetof(struct cifs_open_parms, reconnect))' [CW=
-E-457] [-Wanalyzer-use-of-uninitialized-value]
-      25 |         struct cifs_open_parms oparms;
-         |                                ^~~~~~
-     'open_cached_dir': events 1-2
-       |
-       |   25 |         struct cifs_open_parms oparms;
-       |      |                                ^~~~~~
-       |      |                                |
-       |      |                                (1) region created on stack =
-here
-       |      |                                (2) use of uninitialized val=
-ue '*(short int *)((char *)&oparms + offsetof(struct cifs_open_parms, recon=
-nect))' here
-       |
+smatch warnings:
+drivers/net/dsa/microchip/ksz_common.c:1308 ksz_switch_register() warn: pot=
+entially one past the end of array 'dev->ports[port_num]'
 
-vim +25 fs/cifs/cached_dir.c
+vim +1308 drivers/net/dsa/microchip/ksz_common.c
 
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10   13  =
+b987e98e50ab90 Woojung Huh       2017-05-31  1211  =
 
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10   14  /*
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10   15   * Open the and cache a dir=
-ectory handle.
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10   16   * If error then *cfid is n=
-ot initialized.
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10   17   */
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10   18  int open_cached_dir(unsigne=
-d int xid, struct cifs_tcon *tcon,
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10   19  		const char *path,
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10   20  		struct cifs_sb_info *cifs=
-_sb,
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10   21  		struct cached_fid **cfid)
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10   22  {
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10   23  	struct cifs_ses *ses;
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10   24  	struct TCP_Server_Info *se=
-rver;
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  @25  	struct cifs_open_parms opa=
-rms;
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10   26  	struct smb2_create_rsp *o_=
-rsp =3D NULL;
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10   27  	struct smb2_query_info_rsp=
- *qi_rsp =3D NULL;
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10   28  	int resp_buftype[2];
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10   29  	struct smb_rqst rqst[2];
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10   30  	struct kvec rsp_iov[2];
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10   31  	struct kvec open_iov[SMB2_=
-CREATE_IOV_SIZE];
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10   32  	struct kvec qi_iov[1];
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10   33  	int rc, flags =3D 0;
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10   34  	__le16 utf16_path =3D 0; /=
-* Null - since an open of top of share */
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10   35  	u8 oplock =3D SMB2_OPLOCK_=
-LEVEL_II;
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10   36  	struct cifs_fid *pfid;
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10   37  	struct dentry *dentry;
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10   38  =
+c2e866911e2540 Tristram Ha       2018-11-20  1212  int ksz_switch_register(=
+struct ksz_device *dev,
+c2e866911e2540 Tristram Ha       2018-11-20  1213  			const struct ksz_dev_=
+ops *ops)
+b987e98e50ab90 Woojung Huh       2017-05-31  1214  {
+462d525018f068 Arun Ramadoss     2022-05-17  1215  	const struct ksz_chip_d=
+ata *info;
+912aae27c6af66 Helmut Grohne     2020-09-24  1216  	struct device_node *por=
+t, *ports;
+0c65b2b90d13c1 Andrew Lunn       2019-11-04  1217  	phy_interface_t interfa=
+ce;
+edecfa98f602a5 Helmut Grohne     2020-09-08  1218  	unsigned int port_num;
+b987e98e50ab90 Woojung Huh       2017-05-31  1219  	int ret;
+198b34783ab10d Arun Ramadoss     2022-05-17  1220  	int i;
+b987e98e50ab90 Woojung Huh       2017-05-31  1221  =
 
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10   39  	if (tcon =3D=3D NULL || tc=
-on->nohandlecache ||
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10   40  	    is_smb1_server(tcon->s=
-es->server))
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10   41  		return -EOPNOTSUPP;
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10   42  =
+b987e98e50ab90 Woojung Huh       2017-05-31  1222  	if (dev->pdata)
+b987e98e50ab90 Woojung Huh       2017-05-31  1223  		dev->chip_id =3D dev->=
+pdata->chip_id;
+b987e98e50ab90 Woojung Huh       2017-05-31  1224  =
 
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10   43  	ses =3D tcon->ses;
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10   44  	server =3D ses->server;
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10   45  =
+924352c3d6347d Marek Vasut       2018-12-10  1225  	dev->reset_gpio =3D dev=
+m_gpiod_get_optional(dev->dev, "reset",
+924352c3d6347d Marek Vasut       2018-12-10  1226  						  GPIOD_OUT_LOW);
+924352c3d6347d Marek Vasut       2018-12-10  1227  	if (IS_ERR(dev->reset_g=
+pio))
+924352c3d6347d Marek Vasut       2018-12-10  1228  		return PTR_ERR(dev->re=
+set_gpio);
+924352c3d6347d Marek Vasut       2018-12-10  1229  =
 
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10   46  	if (cifs_sb->root =3D=3D N=
-ULL)
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10   47  		return -ENOENT;
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10   48  =
+924352c3d6347d Marek Vasut       2018-12-10  1230  	if (dev->reset_gpio) {
+22e72b5e049b95 Marek Vasut       2019-06-23  1231  		gpiod_set_value_cansle=
+ep(dev->reset_gpio, 1);
+5b797980908ac8 Paul Barker       2020-09-09  1232  		usleep_range(10000, 12=
+000);
+22e72b5e049b95 Marek Vasut       2019-06-23  1233  		gpiod_set_value_cansle=
+ep(dev->reset_gpio, 0);
+1c45ba93d34cd6 Marek Vasut       2021-01-20  1234  		msleep(100);
+924352c3d6347d Marek Vasut       2018-12-10  1235  	}
+924352c3d6347d Marek Vasut       2018-12-10  1236  =
 
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10   49  	if (strlen(path))
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10   50  		return -ENOENT;
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10   51  =
-
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10   52  	dentry =3D cifs_sb->root;
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10   53  =
-
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10   54  	mutex_lock(&tcon->cfid.fid=
+7049f9b5d0529a Tristram Ha       2019-02-22  1237  	mutex_init(&dev->dev_mu=
+tex);
+013572a236ef53 Marek Vasut       2019-10-16  1238  	mutex_init(&dev->regmap=
 _mutex);
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10   55  	if (tcon->cfid.is_valid) {
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10   56  		cifs_dbg(FYI, "found a ca=
-ched root file handle\n");
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10   57  		*cfid =3D &tcon->cfid;
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10   58  		kref_get(&tcon->cfid.refc=
-ount);
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10   59  		mutex_unlock(&tcon->cfid.=
-fid_mutex);
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10   60  		return 0;
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10   61  	}
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10   62  =
+284fb78ed75721 Tristram Ha       2018-11-02  1239  	mutex_init(&dev->alu_mu=
+tex);
+284fb78ed75721 Tristram Ha       2018-11-02  1240  	mutex_init(&dev->vlan_m=
+utex);
+284fb78ed75721 Tristram Ha       2018-11-02  1241  =
 
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10   63  	/*
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10   64  	 * We do not hold the lock=
- for the open because in case
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10   65  	 * SMB2_open needs to reco=
-nnect, it will end up calling
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10   66  	 * cifs_mark_open_files_in=
-valid() which takes the lock again
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10   67  	 * thus causing a deadlock
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10   68  	 */
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10   69  =
+91a98917a88399 Arun Ramadoss     2022-06-17  1242  	ret =3D ksz_switch_dete=
+ct(dev);
+91a98917a88399 Arun Ramadoss     2022-06-17  1243  	if (ret)
+91a98917a88399 Arun Ramadoss     2022-06-17  1244  		return ret;
+b987e98e50ab90 Woojung Huh       2017-05-31  1245  =
 
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10   70  	mutex_unlock(&tcon->cfid.f=
-id_mutex);
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10   71  =
+462d525018f068 Arun Ramadoss     2022-05-17  1246  	info =3D ksz_lookup_inf=
+o(dev->chip_id);
+462d525018f068 Arun Ramadoss     2022-05-17  1247  	if (!info)
+462d525018f068 Arun Ramadoss     2022-05-17  1248  		return -ENODEV;
+462d525018f068 Arun Ramadoss     2022-05-17  1249  =
 
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10   72  	if (smb3_encryption_requir=
-ed(tcon))
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10   73  		flags |=3D CIFS_TRANSFORM=
-_REQ;
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10   74  =
+462d525018f068 Arun Ramadoss     2022-05-17  1250  	/* Update the compatibl=
+e info with the probed one */
+462d525018f068 Arun Ramadoss     2022-05-17  1251  	dev->info =3D info;
+462d525018f068 Arun Ramadoss     2022-05-17  1252  =
 
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10   75  	if (!server->ops->new_leas=
-e_key)
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10   76  		return -EIO;
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10   77  =
+91a98917a88399 Arun Ramadoss     2022-06-17  1253  	dev_info(dev->dev, "fou=
+nd switch: %s, rev %i\n",
+91a98917a88399 Arun Ramadoss     2022-06-17  1254  		 dev->info->dev_name, =
+dev->chip_rev);
+91a98917a88399 Arun Ramadoss     2022-06-17  1255  =
 
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10   78  	pfid =3D tcon->cfid.fid;
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10   79  	server->ops->new_lease_key=
-(pfid);
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10   80  =
+eee16b147121ce Arun Ramadoss     2022-05-17  1256  	ret =3D ksz_check_devic=
+e_id(dev);
+eee16b147121ce Arun Ramadoss     2022-05-17  1257  	if (ret)
+eee16b147121ce Arun Ramadoss     2022-05-17  1258  		return ret;
+eee16b147121ce Arun Ramadoss     2022-05-17  1259  =
 
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10   81  	memset(rqst, 0, sizeof(rqs=
-t));
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10   82  	resp_buftype[0] =3D resp_b=
-uftype[1] =3D CIFS_NO_BUFFER;
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10   83  	memset(rsp_iov, 0, sizeof(=
-rsp_iov));
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10   84  =
+91a98917a88399 Arun Ramadoss     2022-06-17  1260  	dev->dev_ops =3D ops;
+91a98917a88399 Arun Ramadoss     2022-06-17  1261  =
 
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10   85  	/* Open */
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10   86  	memset(&open_iov, 0, sizeo=
-f(open_iov));
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10   87  	rqst[0].rq_iov =3D open_io=
-v;
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10   88  	rqst[0].rq_nvec =3D SMB2_C=
-REATE_IOV_SIZE;
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10   89  =
+c2e866911e2540 Tristram Ha       2018-11-20  1262  	ret =3D dev->dev_ops->i=
+nit(dev);
+b987e98e50ab90 Woojung Huh       2017-05-31  1263  	if (ret)
+b987e98e50ab90 Woojung Huh       2017-05-31  1264  		return ret;
+b987e98e50ab90 Woojung Huh       2017-05-31  1265  =
 
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10   90  	oparms.tcon =3D tcon;
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10   91  	oparms.create_options =3D =
-cifs_create_options(cifs_sb, CREATE_NOT_FILE);
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10   92  	oparms.desired_access =3D =
-FILE_READ_ATTRIBUTES;
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10   93  	oparms.disposition =3D FIL=
-E_OPEN;
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10   94  	oparms.fid =3D pfid;
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10   95  	oparms.reconnect =3D false;
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10   96  =
+198b34783ab10d Arun Ramadoss     2022-05-17  1266  	dev->ports =3D devm_kza=
+lloc(dev->dev,
+198b34783ab10d Arun Ramadoss     2022-05-17  1267  				  dev->info->port_cn=
+t * sizeof(struct ksz_port),
+198b34783ab10d Arun Ramadoss     2022-05-17  1268  				  GFP_KERNEL);
+198b34783ab10d Arun Ramadoss     2022-05-17  1269  	if (!dev->ports)
+198b34783ab10d Arun Ramadoss     2022-05-17  1270  		return -ENOMEM;
+198b34783ab10d Arun Ramadoss     2022-05-17  1271  =
 
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10   97  	rc =3D SMB2_open_init(tcon=
-, server,
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10   98  			    &rqst[0], &oplock, &=
-oparms, &utf16_path);
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10   99  	if (rc)
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  100  		goto oshr_free;
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  101  	smb2_set_next_command(tcon=
-, &rqst[0]);
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  102  =
+198b34783ab10d Arun Ramadoss     2022-05-17  1272  	for (i =3D 0; i < dev->=
+info->port_cnt; i++) {
+198b34783ab10d Arun Ramadoss     2022-05-17  1273  		spin_lock_init(&dev->p=
+orts[i].mib.stats64_lock);
+198b34783ab10d Arun Ramadoss     2022-05-17  1274  		mutex_init(&dev->ports=
+[i].mib.cnt_mutex);
+198b34783ab10d Arun Ramadoss     2022-05-17  1275  		dev->ports[i].mib.coun=
+ters =3D
+198b34783ab10d Arun Ramadoss     2022-05-17  1276  			devm_kzalloc(dev->dev,
+198b34783ab10d Arun Ramadoss     2022-05-17  1277  				     sizeof(u64) * (=
+dev->info->mib_cnt + 1),
+198b34783ab10d Arun Ramadoss     2022-05-17  1278  				     GFP_KERNEL);
+198b34783ab10d Arun Ramadoss     2022-05-17  1279  		if (!dev->ports[i].mib=
+.counters)
+198b34783ab10d Arun Ramadoss     2022-05-17  1280  			return -ENOMEM;
+198b34783ab10d Arun Ramadoss     2022-05-17  1281  	}
+198b34783ab10d Arun Ramadoss     2022-05-17  1282  =
 
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  103  	memset(&qi_iov, 0, sizeof(=
-qi_iov));
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  104  	rqst[1].rq_iov =3D qi_iov;
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  105  	rqst[1].rq_nvec =3D 1;
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  106  =
+198b34783ab10d Arun Ramadoss     2022-05-17  1283  	/* set the real number =
+of ports */
+198b34783ab10d Arun Ramadoss     2022-05-17  1284  	dev->ds->num_ports =3D =
+dev->info->port_cnt;
+198b34783ab10d Arun Ramadoss     2022-05-17  1285  =
 
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  107  	rc =3D SMB2_query_info_ini=
-t(tcon, server,
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  108  				  &rqst[1], COMPOUND_FI=
-D,
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  109  				  COMPOUND_FID, FILE_AL=
-L_INFORMATION,
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  110  				  SMB2_O_INFO_FILE, 0,
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  111  				  sizeof(struct smb2_fi=
-le_all_info) +
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  112  				  PATH_MAX * 2, 0, NULL=
+8c29bebb1f8a68 Tristram Ha       2019-02-28  1286  	/* Host port interface =
+will be self detected, or specifically set in
+8c29bebb1f8a68 Tristram Ha       2019-02-28  1287  	 * device tree.
+8c29bebb1f8a68 Tristram Ha       2019-02-28  1288  	 */
+462d525018f068 Arun Ramadoss     2022-05-17  1289  	for (port_num =3D 0; po=
+rt_num < dev->info->port_cnt; ++port_num)
+edecfa98f602a5 Helmut Grohne     2020-09-08  1290  		dev->ports[port_num].i=
+nterface =3D PHY_INTERFACE_MODE_NA;
+c2e866911e2540 Tristram Ha       2018-11-20  1291  	if (dev->dev->of_node) {
+0c65b2b90d13c1 Andrew Lunn       2019-11-04  1292  		ret =3D of_get_phy_mod=
+e(dev->dev->of_node, &interface);
+0c65b2b90d13c1 Andrew Lunn       2019-11-04  1293  		if (ret =3D=3D 0)
+edecfa98f602a5 Helmut Grohne     2020-09-08  1294  			dev->compat_interface=
+ =3D interface;
+44e53c88828f2b Christian Eggers  2020-11-20  1295  		ports =3D of_get_child=
+_by_name(dev->dev->of_node, "ethernet-ports");
+44e53c88828f2b Christian Eggers  2020-11-20  1296  		if (!ports)
+912aae27c6af66 Helmut Grohne     2020-09-24  1297  			ports =3D of_get_chil=
+d_by_name(dev->dev->of_node, "ports");
+912aae27c6af66 Helmut Grohne     2020-09-24  1298  		if (ports)
+912aae27c6af66 Helmut Grohne     2020-09-24  1299  			for_each_available_ch=
+ild_of_node(ports, port) {
+912aae27c6af66 Helmut Grohne     2020-09-24  1300  				if (of_property_read=
+_u32(port, "reg",
+912aae27c6af66 Helmut Grohne     2020-09-24  1301  							 &port_num))
+edecfa98f602a5 Helmut Grohne     2020-09-08  1302  					continue;
+84f7e0bb4809f4 kernel test robot 2021-07-11  1303  				if (!(dev->port_mask=
+ & BIT(port_num))) {
+84f7e0bb4809f4 kernel test robot 2021-07-11  1304  					of_node_put(port);
+edecfa98f602a5 Helmut Grohne     2020-09-08  1305  					return -EINVAL;
+84f7e0bb4809f4 kernel test robot 2021-07-11  1306  				}
+912aae27c6af66 Helmut Grohne     2020-09-24  1307  				of_get_phy_mode(port,
+912aae27c6af66 Helmut Grohne     2020-09-24 @1308  						&dev->ports[port_n=
+um].interface);
+edecfa98f602a5 Helmut Grohne     2020-09-08  1309  			}
+79c8bd15b61eca Robert Hancock    2019-06-12  1310  		dev->synclko_125 =3D o=
+f_property_read_bool(dev->dev->of_node,
+79c8bd15b61eca Robert Hancock    2019-06-12  1311  							 "microchip,syncl=
+ko-125");
+48bf8b8a04c9cd Robert Hancock    2022-01-27  1312  		dev->synclko_disable =
+=3D of_property_read_bool(dev->dev->of_node,
+48bf8b8a04c9cd Robert Hancock    2022-01-27  1313  							     "microchip,s=
+ynclko-disable");
+48bf8b8a04c9cd Robert Hancock    2022-01-27  1314  		if (dev->synclko_125 &=
+& dev->synclko_disable) {
+48bf8b8a04c9cd Robert Hancock    2022-01-27  1315  			dev_err(dev->dev, "in=
+consistent synclko settings\n");
+48bf8b8a04c9cd Robert Hancock    2022-01-27  1316  			return -EINVAL;
+48bf8b8a04c9cd Robert Hancock    2022-01-27  1317  		}
+c2e866911e2540 Tristram Ha       2018-11-20  1318  	}
+c2e866911e2540 Tristram Ha       2018-11-20  1319  =
+
+c2e866911e2540 Tristram Ha       2018-11-20  1320  	ret =3D dsa_register_sw=
+itch(dev->ds);
+c2e866911e2540 Tristram Ha       2018-11-20  1321  	if (ret) {
+c2e866911e2540 Tristram Ha       2018-11-20  1322  		dev->dev_ops->exit(dev=
 );
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  113  	if (rc)
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  114  		goto oshr_free;
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  115  =
+c2e866911e2540 Tristram Ha       2018-11-20  1323  		return ret;
+c2e866911e2540 Tristram Ha       2018-11-20  1324  	}
+c2e866911e2540 Tristram Ha       2018-11-20  1325  =
 
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  116  	smb2_set_related(&rqst[1]);
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  117  =
+8098bd69bc4e92 Christian Eggers  2020-10-12  1326  	/* Read MIB counters ev=
+ery 30 seconds to avoid overflow. */
+12c740c8683fed Oleksij Rempel    2022-02-21  1327  	dev->mib_read_interval =
+=3D msecs_to_jiffies(5000);
+8098bd69bc4e92 Christian Eggers  2020-10-12  1328  =
 
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  118  	rc =3D compound_send_recv(=
-xid, ses, server,
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  119  				flags, 2, rqst,
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  120  				resp_buftype, rsp_iov);
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  121  	mutex_lock(&tcon->cfid.fid=
-_mutex);
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  122  =
+8098bd69bc4e92 Christian Eggers  2020-10-12  1329  	/* Start the MIB timer.=
+ */
+8098bd69bc4e92 Christian Eggers  2020-10-12  1330  	schedule_delayed_work(&=
+dev->mib_read, 0);
+8098bd69bc4e92 Christian Eggers  2020-10-12  1331  =
 
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  123  	/*
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  124  	 * Now we need to check ag=
-ain as the cached root might have
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  125  	 * been successfully re-op=
-ened from a concurrent process
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  126  	 */
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  127  =
+7a8988a17c48bc Arun Ramadoss     2022-06-22  1332  	return ret;
+b987e98e50ab90 Woojung Huh       2017-05-31  1333  }
+b987e98e50ab90 Woojung Huh       2017-05-31  1334  EXPORT_SYMBOL(ksz_switch=
+_register);
+b987e98e50ab90 Woojung Huh       2017-05-31  1335  =
 
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  128  	if (tcon->cfid.is_valid) {
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  129  		/* work was already done =
-*/
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  130  =
 
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  131  		/* stash fids for close()=
- later */
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  132  		struct cifs_fid fid =3D {
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  133  			.persistent_fid =3D pfid=
-->persistent_fid,
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  134  			.volatile_fid =3D pfid->=
-volatile_fid,
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  135  		};
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  136  =
+:::::: The code at line 1308 was first introduced by commit
+:::::: 912aae27c6af6605eae967ab540c5e26bd76d421 net: dsa: microchip: really=
+ look for phy-mode in port nodes
 
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  137  		/*
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  138  		 * caller expects this fu=
-nc to set the fid in cfid to valid
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  139  		 * cached root, so increm=
-ent the refcount.
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  140  		 */
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  141  		kref_get(&tcon->cfid.refc=
-ount);
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  142  =
-
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  143  		mutex_unlock(&tcon->cfid.=
-fid_mutex);
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  144  =
-
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  145  		if (rc =3D=3D 0) {
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  146  			/* close extra handle ou=
-tside of crit sec */
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  147  			SMB2_close(xid, tcon, fi=
-d.persistent_fid, fid.volatile_fid);
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  148  		}
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  149  		rc =3D 0;
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  150  		goto oshr_free;
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  151  	}
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  152  =
-
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  153  	/* Cached root is still in=
-valid, continue normaly */
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  154  =
-
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  155  	if (rc) {
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  156  		if (rc =3D=3D -EREMCHG) {
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  157  			tcon->need_reconnect =3D=
- true;
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  158  			pr_warn_once("server sha=
-re %s deleted\n",
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  159  				     tcon->treeName);
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  160  		}
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  161  		goto oshr_exit;
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  162  	}
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  163  =
-
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  164  	atomic_inc(&tcon->num_remo=
-te_opens);
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  165  =
-
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  166  	o_rsp =3D (struct smb2_cre=
-ate_rsp *)rsp_iov[0].iov_base;
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  167  	oparms.fid->persistent_fid=
- =3D o_rsp->PersistentFileId;
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  168  	oparms.fid->volatile_fid =
-=3D o_rsp->VolatileFileId;
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  169  #ifdef CONFIG_CIFS_DEBUG2
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  170  	oparms.fid->mid =3D le64_t=
-o_cpu(o_rsp->hdr.MessageId);
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  171  #endif /* CIFS_DEBUG2 */
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  172  =
-
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  173  	tcon->cfid.tcon =3D tcon;
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  174  	tcon->cfid.is_valid =3D tr=
-ue;
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  175  	tcon->cfid.dentry =3D dent=
-ry;
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  176  	dget(dentry);
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  177  	kref_init(&tcon->cfid.refc=
-ount);
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  178  =
-
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  179  	/* BB TBD check to see if =
-oplock level check can be removed below */
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  180  	if (o_rsp->OplockLevel =3D=
-=3D SMB2_OPLOCK_LEVEL_LEASE) {
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  181  		/*
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  182  		 * See commit 2f94a3125b8=
-7. Increment the refcount when we
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  183  		 * get a lease for root, =
-release it if lease break occurs
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  184  		 */
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  185  		kref_get(&tcon->cfid.refc=
-ount);
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  186  		tcon->cfid.has_lease =3D =
-true;
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  187  		smb2_parse_contexts(serve=
-r, o_rsp,
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  188  				&oparms.fid->epoch,
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  189  				    oparms.fid->lease_k=
-ey, &oplock,
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  190  				    NULL, NULL);
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  191  	} else
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  192  		goto oshr_exit;
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  193  =
-
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  194  	qi_rsp =3D (struct smb2_qu=
-ery_info_rsp *)rsp_iov[1].iov_base;
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  195  	if (le32_to_cpu(qi_rsp->Ou=
-tputBufferLength) < sizeof(struct smb2_file_all_info))
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  196  		goto oshr_exit;
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  197  	if (!smb2_validate_and_cop=
-y_iov(
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  198  				le16_to_cpu(qi_rsp->Out=
-putBufferOffset),
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  199  				sizeof(struct smb2_file=
-_all_info),
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  200  				&rsp_iov[1], sizeof(str=
-uct smb2_file_all_info),
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  201  				(char *)&tcon->cfid.fil=
-e_all_info))
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  202  		tcon->cfid.file_all_info_=
-is_valid =3D true;
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  203  	tcon->cfid.time =3D jiffie=
-s;
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  204  =
-
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  205  =
-
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  206  oshr_exit:
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  207  	mutex_unlock(&tcon->cfid.f=
-id_mutex);
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  208  oshr_free:
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  209  	SMB2_open_free(&rqst[0]);
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  210  	SMB2_query_info_free(&rqst=
-[1]);
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  211  	free_rsp_buf(resp_buftype[=
-0], rsp_iov[0].iov_base);
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  212  	free_rsp_buf(resp_buftype[=
-1], rsp_iov[1].iov_base);
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  213  	if (rc =3D=3D 0)
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  214  		*cfid =3D &tcon->cfid;
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  215  =
-
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  216  	return rc;
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  217  }
-05b98fd2da6bdf Ronnie Sahlberg 2022-08-10  218  =
-
+:::::: TO: Helmut Grohne <helmut.grohne@intenta.de>
+:::::: CC: David S. Miller <davem@davemloft.net>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============0429303211629526429==--
+--===============3418785855291464665==--
 
