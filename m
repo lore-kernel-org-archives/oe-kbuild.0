@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============8028584865667142998=="
+Content-Type: multipart/mixed; boundary="===============2865819530452192164=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [djwong-xfs:vectorized-scrub 427/464] fs/xfs/libxfs/xfs_refcount.c:1870 xfs_refcount_recover_group_cow_leftovers() error: we previously assumed 'pag' could be null (see line 1810)
-Date: Mon, 26 Sep 2022 14:02:02 +0800
-Message-ID: <202209260910.q0rUSQsR-lkp@intel.com>
+Subject: [djwong-xfs:vectorized-scrub 322/464] fs/xfs/libxfs/xfs_sb.c:347 xfs_validate_sb_rtgroups() warn: impossible condition '(sbp->sb_rgcount > ((-1))) => (0-u32max > u32max)'
+Date: Mon, 26 Sep 2022 07:52:36 +0800
+Message-ID: <202209260746.PxcREbXh-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8028584865667142998==
+--===============2865819530452192164==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -19,10 +19,10 @@ TO: "Darrick J. Wong" <darrick.wong@oracle.com>
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.gi=
 t vectorized-scrub
 head:   6adc9cdec392841f5a90a88f46e3ccb0844de1dd
-commit: d4ddda63eb0e2aa75c31788ad8d5831e34e044da [427/464] xfs: refcover Co=
-W leftovers in the realtime volume
-:::::: branch date: 33 hours ago
-:::::: commit date: 33 hours ago
+commit: c97c92a65767a5b0e1f9a30f06089b1578f26f6f [322/464] xfs: define the =
+format of rt groups
+:::::: branch date: 31 hours ago
+:::::: commit date: 31 hours ago
 config: parisc-randconfig-m031-20220925
 compiler: hppa64-linux-gcc (GCC) 12.1.0
 
@@ -30,197 +30,106 @@ If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-fs/xfs/libxfs/xfs_refcount.c:1870 xfs_refcount_recover_group_cow_leftovers(=
-) error: we previously assumed 'pag' could be null (see line 1810)
+smatch warnings:
+fs/xfs/libxfs/xfs_sb.c:347 xfs_validate_sb_rtgroups() warn: impossible cond=
+ition '(sbp->sb_rgcount > ((-1))) =3D> (0-u32max > u32max)'
 
-Old smatch warnings:
-fs/xfs/libxfs/xfs_refcount.c:144 xfs_refcount_get_rec() warn: impossible co=
-ndition '(irec->rc_blockcount > (~0)) =3D> (0-u32max > u32max)'
-fs/xfs/libxfs/xfs_refcount.c:175 xfs_refcount_get_rec() warn: impossible co=
-ndition '(irec->rc_refcount > (~0)) =3D> (0-u32max > u32max)'
+vim +347 fs/xfs/libxfs/xfs_sb.c
 
-vim +/pag +1870 fs/xfs/libxfs/xfs_refcount.c
+eca383fcd63b45 Darrick J. Wong 2018-07-29  306  =
 
-174edb0e46e520 Darrick J. Wong 2016-10-03  1791  =
+c97c92a65767a5 Darrick J. Wong 2022-08-11  307  static int
+c97c92a65767a5 Darrick J. Wong 2022-08-11  308  xfs_validate_sb_rtgroups(
+c97c92a65767a5 Darrick J. Wong 2022-08-11  309  	struct xfs_mount	*mp,
+c97c92a65767a5 Darrick J. Wong 2022-08-11  310  	struct xfs_sb		*sbp)
+c97c92a65767a5 Darrick J. Wong 2022-08-11  311  {
+c97c92a65767a5 Darrick J. Wong 2022-08-11  312  	uint64_t		groups;
+c97c92a65767a5 Darrick J. Wong 2022-08-11  313  =
 
-174edb0e46e520 Darrick J. Wong 2016-10-03  1792  /* Find and remove leftove=
-r CoW reservations. */
-d4ddda63eb0e2a Darrick J. Wong 2022-07-14  1793  static int
-d4ddda63eb0e2a Darrick J. Wong 2022-07-14  1794  xfs_refcount_recover_group=
-_cow_leftovers(
-174edb0e46e520 Darrick J. Wong 2016-10-03  1795  	struct xfs_mount		*mp,
-d4ddda63eb0e2a Darrick J. Wong 2022-07-14  1796  	struct xfs_perag		*pag,
-d4ddda63eb0e2a Darrick J. Wong 2022-07-14  1797  	struct xfs_rtgroup		*rtg)
-174edb0e46e520 Darrick J. Wong 2016-10-03  1798  {
-174edb0e46e520 Darrick J. Wong 2016-10-03  1799  	struct xfs_trans		*tp;
-174edb0e46e520 Darrick J. Wong 2016-10-03  1800  	struct xfs_btree_cur		*cu=
-r;
-d4ddda63eb0e2a Darrick J. Wong 2022-07-14  1801  	struct xfs_buf			*agbp =
-=3D NULL;
-174edb0e46e520 Darrick J. Wong 2016-10-03  1802  	struct xfs_refcount_recov=
-ery	*rr, *n;
-174edb0e46e520 Darrick J. Wong 2016-10-03  1803  	struct list_head		debris;
-174edb0e46e520 Darrick J. Wong 2016-10-03  1804  	union xfs_btree_irec		low;
-174edb0e46e520 Darrick J. Wong 2016-10-03  1805  	union xfs_btree_irec		hig=
-h;
-174edb0e46e520 Darrick J. Wong 2016-10-03  1806  	xfs_fsblock_t			fsb;
-174edb0e46e520 Darrick J. Wong 2016-10-03  1807  	xfs_agblock_t			agbno;
-174edb0e46e520 Darrick J. Wong 2016-10-03  1808  	int				error;
-174edb0e46e520 Darrick J. Wong 2016-10-03  1809  =
+c97c92a65767a5 Darrick J. Wong 2022-08-11  314  	if (!(sbp->sb_features_inc=
+ompat & XFS_SB_FEAT_INCOMPAT_METADIR)) {
+c97c92a65767a5 Darrick J. Wong 2022-08-11  315  		xfs_warn(mp,
+c97c92a65767a5 Darrick J. Wong 2022-08-11  316  "Realtime groups require me=
+tadata directory tree.");
+c97c92a65767a5 Darrick J. Wong 2022-08-11  317  		return -EINVAL;
+c97c92a65767a5 Darrick J. Wong 2022-08-11  318  	}
+c97c92a65767a5 Darrick J. Wong 2022-08-11  319  =
 
-d4ddda63eb0e2a Darrick J. Wong 2022-07-14 @1810  	if (pag && mp->m_sb.sb_ag=
-blocks >=3D XFS_REFC_COW_START)
-d4ddda63eb0e2a Darrick J. Wong 2022-07-14  1811  		return -EOPNOTSUPP;
-d4ddda63eb0e2a Darrick J. Wong 2022-07-14  1812  	if (rtg && mp->m_sb.sb_rg=
-blocks >=3D XFS_REFC_COW_START)
-174edb0e46e520 Darrick J. Wong 2016-10-03  1813  		return -EOPNOTSUPP;
-174edb0e46e520 Darrick J. Wong 2016-10-03  1814  =
+c97c92a65767a5 Darrick J. Wong 2022-08-11  320  	if (sbp->sb_rgblocks > XFS=
+_MAX_RGBLOCKS) {
+c97c92a65767a5 Darrick J. Wong 2022-08-11  321  		xfs_warn(mp,
+c97c92a65767a5 Darrick J. Wong 2022-08-11  322  "Realtime group size (%u) m=
+ust be less than %u.",
+c97c92a65767a5 Darrick J. Wong 2022-08-11  323  			 sbp->sb_rgblocks, XFS_M=
+AX_RGBLOCKS);
+c97c92a65767a5 Darrick J. Wong 2022-08-11  324  		return -EINVAL;
+c97c92a65767a5 Darrick J. Wong 2022-08-11  325  	}
+c97c92a65767a5 Darrick J. Wong 2022-08-11  326  =
 
-3ecb3ac7b950ff Darrick J. Wong 2017-05-15  1815  	INIT_LIST_HEAD(&debris);
-3ecb3ac7b950ff Darrick J. Wong 2017-05-15  1816  =
+c97c92a65767a5 Darrick J. Wong 2022-08-11  327  	if (sbp->sb_rextsize =3D=
+=3D 0) {
+c97c92a65767a5 Darrick J. Wong 2022-08-11  328  		xfs_warn(mp,
+c97c92a65767a5 Darrick J. Wong 2022-08-11  329  "Realtime extent size must =
+not be zero.");
+c97c92a65767a5 Darrick J. Wong 2022-08-11  330  		return -EINVAL;
+c97c92a65767a5 Darrick J. Wong 2022-08-11  331  	}
+c97c92a65767a5 Darrick J. Wong 2022-08-11  332  =
 
-3ecb3ac7b950ff Darrick J. Wong 2017-05-15  1817  	/*
-3ecb3ac7b950ff Darrick J. Wong 2017-05-15  1818  	 * In this first part, we=
- use an empty transaction to gather up
-3ecb3ac7b950ff Darrick J. Wong 2017-05-15  1819  	 * all the leftover CoW e=
-xtents so that we can subsequently
-3ecb3ac7b950ff Darrick J. Wong 2017-05-15  1820  	 * delete them.  The empt=
-y transaction is used to avoid
-3ecb3ac7b950ff Darrick J. Wong 2017-05-15  1821  	 * a buffer lock deadlock=
- if there happens to be a loop in the
-3ecb3ac7b950ff Darrick J. Wong 2017-05-15  1822  	 * refcountbt because we'=
-re allowed to re-grab a buffer that is
-3ecb3ac7b950ff Darrick J. Wong 2017-05-15  1823  	 * already attached to ou=
-r transaction.  When we're done
-3ecb3ac7b950ff Darrick J. Wong 2017-05-15  1824  	 * recording the CoW debr=
-is we cancel the (empty) transaction
-3ecb3ac7b950ff Darrick J. Wong 2017-05-15  1825  	 * and everything goes aw=
-ay cleanly.
-3ecb3ac7b950ff Darrick J. Wong 2017-05-15  1826  	 */
-3ecb3ac7b950ff Darrick J. Wong 2017-05-15  1827  	error =3D xfs_trans_alloc=
-_empty(mp, &tp);
-174edb0e46e520 Darrick J. Wong 2016-10-03  1828  	if (error)
-174edb0e46e520 Darrick J. Wong 2016-10-03  1829  		return error;
-3ecb3ac7b950ff Darrick J. Wong 2017-05-15  1830  =
+c97c92a65767a5 Darrick J. Wong 2022-08-11  333  	if (sbp->sb_rgblocks % sbp=
+->sb_rextsize !=3D 0) {
+c97c92a65767a5 Darrick J. Wong 2022-08-11  334  		xfs_warn(mp,
+c97c92a65767a5 Darrick J. Wong 2022-08-11  335  "Realtime group size (%u) m=
+ust be an even multiple of extent size (%u).",
+c97c92a65767a5 Darrick J. Wong 2022-08-11  336  			 sbp->sb_rgblocks, sbp->=
+sb_rextsize);
+c97c92a65767a5 Darrick J. Wong 2022-08-11  337  		return -EINVAL;
+c97c92a65767a5 Darrick J. Wong 2022-08-11  338  	}
+c97c92a65767a5 Darrick J. Wong 2022-08-11  339  =
 
-d4ddda63eb0e2a Darrick J. Wong 2022-07-14  1831  	if (rtg) {
-d4ddda63eb0e2a Darrick J. Wong 2022-07-14  1832  		xfs_rtgroup_lock(NULL, r=
-tg, XFS_RTGLOCK_REFCOUNT);
-d4ddda63eb0e2a Darrick J. Wong 2022-07-14  1833  		cur =3D xfs_rtrefcountbt=
-_init_cursor(mp, tp, rtg,
-d4ddda63eb0e2a Darrick J. Wong 2022-07-14  1834  				rtg->rtg_refcountip);
-d4ddda63eb0e2a Darrick J. Wong 2022-07-14  1835  	} else {
-08d3e84feeb8cb Dave Chinner    2022-07-07  1836  		error =3D xfs_alloc_read=
-_agf(pag, tp, 0, &agbp);
-3ecb3ac7b950ff Darrick J. Wong 2017-05-15  1837  		if (error)
-3ecb3ac7b950ff Darrick J. Wong 2017-05-15  1838  			goto out_trans;
-a81a06211fb43d Dave Chinner    2021-06-02  1839  		cur =3D xfs_refcountbt_i=
-nit_cursor(mp, tp, agbp, pag);
-d4ddda63eb0e2a Darrick J. Wong 2022-07-14  1840  	}
-174edb0e46e520 Darrick J. Wong 2016-10-03  1841  =
+c97c92a65767a5 Darrick J. Wong 2022-08-11  340  	if (sbp->sb_rgblocks < (sb=
+p->sb_rextsize << 1)) {
+c97c92a65767a5 Darrick J. Wong 2022-08-11  341  		xfs_warn(mp,
+c97c92a65767a5 Darrick J. Wong 2022-08-11  342  "Realtime group size (%u) m=
+ust be greater than 1 rt extent.",
+c97c92a65767a5 Darrick J. Wong 2022-08-11  343  			 sbp->sb_rgblocks);
+c97c92a65767a5 Darrick J. Wong 2022-08-11  344  		return -EINVAL;
+c97c92a65767a5 Darrick J. Wong 2022-08-11  345  	}
+c97c92a65767a5 Darrick J. Wong 2022-08-11  346  =
 
-174edb0e46e520 Darrick J. Wong 2016-10-03  1842  	/* Find all the leftover =
-CoW staging extents. */
-174edb0e46e520 Darrick J. Wong 2016-10-03  1843  	memset(&low, 0, sizeof(lo=
-w));
-174edb0e46e520 Darrick J. Wong 2016-10-03  1844  	memset(&high, 0, sizeof(h=
-igh));
-174edb0e46e520 Darrick J. Wong 2016-10-03  1845  	low.rc.rc_startblock =3D =
-XFS_REFC_COW_START;
-174edb0e46e520 Darrick J. Wong 2016-10-03  1846  	high.rc.rc_startblock =3D=
- -1U;
-174edb0e46e520 Darrick J. Wong 2016-10-03  1847  	error =3D xfs_btree_query=
-_range(cur, &low, &high,
-174edb0e46e520 Darrick J. Wong 2016-10-03  1848  			xfs_refcount_recover_ex=
-tent, &debris);
-ef97ef26d263fb Darrick J. Wong 2018-07-19  1849  	xfs_btree_del_cursor(cur,=
- error);
-d4ddda63eb0e2a Darrick J. Wong 2022-07-14  1850  	if (agbp)
-3ecb3ac7b950ff Darrick J. Wong 2017-05-15  1851  		xfs_trans_brelse(tp, agb=
-p);
-d4ddda63eb0e2a Darrick J. Wong 2022-07-14  1852  	else
-d4ddda63eb0e2a Darrick J. Wong 2022-07-14  1853  		xfs_rtgroup_unlock(rtg, =
-XFS_RTGLOCK_REFCOUNT);
-3ecb3ac7b950ff Darrick J. Wong 2017-05-15  1854  	xfs_trans_cancel(tp);
-ef97ef26d263fb Darrick J. Wong 2018-07-19  1855  	if (error)
-ef97ef26d263fb Darrick J. Wong 2018-07-19  1856  		goto out_free;
-174edb0e46e520 Darrick J. Wong 2016-10-03  1857  =
+c97c92a65767a5 Darrick J. Wong 2022-08-11 @347  	if (sbp->sb_rgcount > XFS_=
+MAX_RGNUMBER) {
+c97c92a65767a5 Darrick J. Wong 2022-08-11  348  		xfs_warn(mp,
+c97c92a65767a5 Darrick J. Wong 2022-08-11  349  "Realtime groups (%u) must =
+be less than %u.",
+c97c92a65767a5 Darrick J. Wong 2022-08-11  350  			 sbp->sb_rgcount, XFS_MA=
+X_RGNUMBER);
+c97c92a65767a5 Darrick J. Wong 2022-08-11  351  		return -EINVAL;
+c97c92a65767a5 Darrick J. Wong 2022-08-11  352  	}
+c97c92a65767a5 Darrick J. Wong 2022-08-11  353  =
 
-174edb0e46e520 Darrick J. Wong 2016-10-03  1858  	/* Now iterate the list t=
-o free the leftovers */
-3ecb3ac7b950ff Darrick J. Wong 2017-05-15  1859  	list_for_each_entry_safe(=
-rr, n, &debris, rr_list) {
-174edb0e46e520 Darrick J. Wong 2016-10-03  1860  		/* Set up transaction. */
-174edb0e46e520 Darrick J. Wong 2016-10-03  1861  		error =3D xfs_trans_allo=
-c(mp, &M_RES(mp)->tr_write, 0, 0, 0, &tp);
-174edb0e46e520 Darrick J. Wong 2016-10-03  1862  		if (error)
-174edb0e46e520 Darrick J. Wong 2016-10-03  1863  			goto out_free;
-174edb0e46e520 Darrick J. Wong 2016-10-03  1864  =
+c97c92a65767a5 Darrick J. Wong 2022-08-11  354  	groups =3D howmany_64(sbp-=
+>sb_rblocks, sbp->sb_rgblocks);
+c97c92a65767a5 Darrick J. Wong 2022-08-11  355  	if (groups !=3D sbp->sb_rg=
+count) {
+c97c92a65767a5 Darrick J. Wong 2022-08-11  356  		xfs_warn(mp,
+c97c92a65767a5 Darrick J. Wong 2022-08-11  357  "Realtime groups (%u) do no=
+t cover the entire rt section; need (%llu) groups.",
+c97c92a65767a5 Darrick J. Wong 2022-08-11  358  			sbp->sb_rgcount, groups);
+c97c92a65767a5 Darrick J. Wong 2022-08-11  359  		return -EINVAL;
+c97c92a65767a5 Darrick J. Wong 2022-08-11  360  	}
+c97c92a65767a5 Darrick J. Wong 2022-08-11  361  =
 
-174edb0e46e520 Darrick J. Wong 2016-10-03  1865  		/* Free the orphan recor=
-d */
-174edb0e46e520 Darrick J. Wong 2016-10-03  1866  		agbno =3D rr->rr_rrec.rc=
-_startblock - XFS_REFC_COW_START;
-d4ddda63eb0e2a Darrick J. Wong 2022-07-14  1867  		if (rtg)
-d4ddda63eb0e2a Darrick J. Wong 2022-07-14  1868  			fsb =3D xfs_rgbno_to_rt=
-b(mp, rtg->rtg_rgno, agbno);
-d4ddda63eb0e2a Darrick J. Wong 2022-07-14  1869  		else
-a81a06211fb43d Dave Chinner    2021-06-02 @1870  			fsb =3D XFS_AGB_TO_FSB(=
-mp, pag->pag_agno, agbno);
-d4ddda63eb0e2a Darrick J. Wong 2022-07-14  1871  		xfs_refcount_free_cow_ex=
-tent(tp, rtg !=3D NULL, fsb,
-174edb0e46e520 Darrick J. Wong 2016-10-03  1872  				rr->rr_rrec.rc_blockco=
-unt);
-174edb0e46e520 Darrick J. Wong 2016-10-03  1873  =
+c97c92a65767a5 Darrick J. Wong 2022-08-11  362  	return 0;
+c97c92a65767a5 Darrick J. Wong 2022-08-11  363  }
+c97c92a65767a5 Darrick J. Wong 2022-08-11  364  =
 
-174edb0e46e520 Darrick J. Wong 2016-10-03  1874  		/* Free the block. */
-f69e793537320c Darrick J. Wong 2022-07-14  1875  		xfs_free_extent_later(tp=
-, fsb, rr->rr_rrec.rc_blockcount, NULL,
-d4ddda63eb0e2a Darrick J. Wong 2022-07-14  1876  				rtg !=3D NULL ? XFS_FR=
-EE_EXTENT_REALTIME : 0);
-174edb0e46e520 Darrick J. Wong 2016-10-03  1877  =
-
-174edb0e46e520 Darrick J. Wong 2016-10-03  1878  		error =3D xfs_trans_comm=
-it(tp);
-174edb0e46e520 Darrick J. Wong 2016-10-03  1879  		if (error)
-174edb0e46e520 Darrick J. Wong 2016-10-03  1880  			goto out_free;
-3ecb3ac7b950ff Darrick J. Wong 2017-05-15  1881  =
-
-3ecb3ac7b950ff Darrick J. Wong 2017-05-15  1882  		list_del(&rr->rr_list);
-3ecb3ac7b950ff Darrick J. Wong 2017-05-15  1883  		kmem_free(rr);
-6f97077ff6ef28 Darrick J. Wong 2016-10-10  1884  	}
-174edb0e46e520 Darrick J. Wong 2016-10-03  1885  =
-
-3ecb3ac7b950ff Darrick J. Wong 2017-05-15  1886  	return error;
-3ecb3ac7b950ff Darrick J. Wong 2017-05-15  1887  out_trans:
-3ecb3ac7b950ff Darrick J. Wong 2017-05-15  1888  	xfs_trans_cancel(tp);
-174edb0e46e520 Darrick J. Wong 2016-10-03  1889  out_free:
-174edb0e46e520 Darrick J. Wong 2016-10-03  1890  	/* Free the leftover list=
- */
-174edb0e46e520 Darrick J. Wong 2016-10-03  1891  	list_for_each_entry_safe(=
-rr, n, &debris, rr_list) {
-174edb0e46e520 Darrick J. Wong 2016-10-03  1892  		list_del(&rr->rr_list);
-174edb0e46e520 Darrick J. Wong 2016-10-03  1893  		kmem_free(rr);
-174edb0e46e520 Darrick J. Wong 2016-10-03  1894  	}
-174edb0e46e520 Darrick J. Wong 2016-10-03  1895  	return error;
-174edb0e46e520 Darrick J. Wong 2016-10-03  1896  }
-49db55eca5665e Darrick J. Wong 2018-01-16  1897  =
-
-
-:::::: The code at line 1870 was first introduced by commit
-:::::: a81a06211fb43d80ee746e7a40a32ed812002f8e xfs: convert refcount btree=
- cursor to use perags
-
-:::::: TO: Dave Chinner <dchinner@redhat.com>
-:::::: CC: Dave Chinner <david@fromorbit.com>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
 
---===============8028584865667142998==
+--===============2865819530452192164==
 Content-Type: text/plain
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -2477,5 +2386,5 @@ RVNUX01FTUlOSVQ9eQpDT05GSUdfVEVTVF9GUkVFX1BBR0VTPXkKIyBlbmQgb2YgS2VybmVsIFRl
 c3RpbmcgYW5kIENvdmVyYWdlCgojIENPTkZJR19XQVJOX01JU1NJTkdfRE9DVU1FTlRTIGlzIG5v
 dCBzZXQKQ09ORklHX1dBUk5fQUJJX0VSUk9SUz15CiMgZW5kIG9mIEtlcm5lbCBoYWNraW5nCg==
 
---===============8028584865667142998==--
+--===============2865819530452192164==--
 
