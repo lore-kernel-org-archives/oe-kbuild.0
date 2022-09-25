@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============2865819530452192164=="
+Content-Type: multipart/mixed; boundary="===============1657918512292543954=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [djwong-xfs:vectorized-scrub 322/464] fs/xfs/libxfs/xfs_sb.c:347 xfs_validate_sb_rtgroups() warn: impossible condition '(sbp->sb_rgcount > ((-1))) => (0-u32max > u32max)'
-Date: Mon, 26 Sep 2022 07:52:36 +0800
-Message-ID: <202209260746.PxcREbXh-lkp@intel.com>
+Subject: [djwong-xfs:vectorized-scrub 194/464] fs/xfs/xfs_xchgrange.c:266 xfs_xchg_range_grab_log_assist() warn: missing error code 'error'
+Date: Mon, 26 Sep 2022 06:25:14 +0800
+Message-ID: <202209260639.ME0nUvad-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2865819530452192164==
+--===============1657918512292543954==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -19,10 +19,10 @@ TO: "Darrick J. Wong" <darrick.wong@oracle.com>
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.gi=
 t vectorized-scrub
 head:   6adc9cdec392841f5a90a88f46e3ccb0844de1dd
-commit: c97c92a65767a5b0e1f9a30f06089b1578f26f6f [322/464] xfs: define the =
-format of rt groups
-:::::: branch date: 31 hours ago
-:::::: commit date: 31 hours ago
+commit: e25ac5a5c26d19b86510a1e3253dc6c17544f3d1 [194/464] xfs: add a ->xch=
+g_file_range handler
+:::::: branch date: 30 hours ago
+:::::: commit date: 30 hours ago
 config: parisc-randconfig-m031-20220925
 compiler: hppa64-linux-gcc (GCC) 12.1.0
 
@@ -31,97 +31,104 @@ If you fix the issue, kindly add following tag where applicable
 | Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 smatch warnings:
-fs/xfs/libxfs/xfs_sb.c:347 xfs_validate_sb_rtgroups() warn: impossible cond=
-ition '(sbp->sb_rgcount > ((-1))) =3D> (0-u32max > u32max)'
+fs/xfs/xfs_xchgrange.c:266 xfs_xchg_range_grab_log_assist() warn: missing e=
+rror code 'error'
 
-vim +347 fs/xfs/libxfs/xfs_sb.c
+vim +/error +266 fs/xfs/xfs_xchgrange.c
 
-eca383fcd63b45 Darrick J. Wong 2018-07-29  306  =
+e25ac5a5c26d19 Darrick J. Wong 2022-07-14  229  =
 
-c97c92a65767a5 Darrick J. Wong 2022-08-11  307  static int
-c97c92a65767a5 Darrick J. Wong 2022-08-11  308  xfs_validate_sb_rtgroups(
-c97c92a65767a5 Darrick J. Wong 2022-08-11  309  	struct xfs_mount	*mp,
-c97c92a65767a5 Darrick J. Wong 2022-08-11  310  	struct xfs_sb		*sbp)
-c97c92a65767a5 Darrick J. Wong 2022-08-11  311  {
-c97c92a65767a5 Darrick J. Wong 2022-08-11  312  	uint64_t		groups;
-c97c92a65767a5 Darrick J. Wong 2022-08-11  313  =
+e25ac5a5c26d19 Darrick J. Wong 2022-07-14  230  /*
+e25ac5a5c26d19 Darrick J. Wong 2022-07-14  231   * Get permission to use lo=
+g-assisted atomic exchange of file extents.
+e25ac5a5c26d19 Darrick J. Wong 2022-07-14  232   *
+e25ac5a5c26d19 Darrick J. Wong 2022-07-14  233   * Callers must hold the IO=
+LOCK and MMAPLOCK of both files.  They must not be
+e25ac5a5c26d19 Darrick J. Wong 2022-07-14  234   * running any transactions=
+ or hold any ILOCKS.  If @use_logging is set after a
+e25ac5a5c26d19 Darrick J. Wong 2022-07-14  235   * successful return, calle=
+rs must call xfs_xchg_range_rele_log_assist after
+e25ac5a5c26d19 Darrick J. Wong 2022-07-14  236   * the exchange is complete=
+d.
+e25ac5a5c26d19 Darrick J. Wong 2022-07-14  237   */
+e25ac5a5c26d19 Darrick J. Wong 2022-07-14  238  int
+e25ac5a5c26d19 Darrick J. Wong 2022-07-14  239  xfs_xchg_range_grab_log_ass=
+ist(
+e25ac5a5c26d19 Darrick J. Wong 2022-07-14  240  	struct xfs_mount	*mp,
+e25ac5a5c26d19 Darrick J. Wong 2022-07-14  241  	bool			force,
+e25ac5a5c26d19 Darrick J. Wong 2022-07-14  242  	bool			*use_logging)
+e25ac5a5c26d19 Darrick J. Wong 2022-07-14  243  {
+e25ac5a5c26d19 Darrick J. Wong 2022-07-14  244  	int			error =3D 0;
+e25ac5a5c26d19 Darrick J. Wong 2022-07-14  245  =
 
-c97c92a65767a5 Darrick J. Wong 2022-08-11  314  	if (!(sbp->sb_features_inc=
-ompat & XFS_SB_FEAT_INCOMPAT_METADIR)) {
-c97c92a65767a5 Darrick J. Wong 2022-08-11  315  		xfs_warn(mp,
-c97c92a65767a5 Darrick J. Wong 2022-08-11  316  "Realtime groups require me=
-tadata directory tree.");
-c97c92a65767a5 Darrick J. Wong 2022-08-11  317  		return -EINVAL;
-c97c92a65767a5 Darrick J. Wong 2022-08-11  318  	}
-c97c92a65767a5 Darrick J. Wong 2022-08-11  319  =
+e25ac5a5c26d19 Darrick J. Wong 2022-07-14  246  	/*
+e25ac5a5c26d19 Darrick J. Wong 2022-07-14  247  	 * Protect ourselves from =
+an idle log clearing the atomic swapext
+e25ac5a5c26d19 Darrick J. Wong 2022-07-14  248  	 * log incompat feature bi=
+t.
+e25ac5a5c26d19 Darrick J. Wong 2022-07-14  249  	 */
+e25ac5a5c26d19 Darrick J. Wong 2022-07-14  250  	xlog_use_incompat_feat(mp-=
+>m_log, XLOG_INCOMPAT_FEAT_SWAPEXT);
+e25ac5a5c26d19 Darrick J. Wong 2022-07-14  251  	*use_logging =3D true;
+e25ac5a5c26d19 Darrick J. Wong 2022-07-14  252  =
 
-c97c92a65767a5 Darrick J. Wong 2022-08-11  320  	if (sbp->sb_rgblocks > XFS=
-_MAX_RGBLOCKS) {
-c97c92a65767a5 Darrick J. Wong 2022-08-11  321  		xfs_warn(mp,
-c97c92a65767a5 Darrick J. Wong 2022-08-11  322  "Realtime group size (%u) m=
-ust be less than %u.",
-c97c92a65767a5 Darrick J. Wong 2022-08-11  323  			 sbp->sb_rgblocks, XFS_M=
-AX_RGBLOCKS);
-c97c92a65767a5 Darrick J. Wong 2022-08-11  324  		return -EINVAL;
-c97c92a65767a5 Darrick J. Wong 2022-08-11  325  	}
-c97c92a65767a5 Darrick J. Wong 2022-08-11  326  =
+e25ac5a5c26d19 Darrick J. Wong 2022-07-14  253  	/*
+e25ac5a5c26d19 Darrick J. Wong 2022-07-14  254  	 * If log-assisted swappin=
+g is already enabled, the caller can use the
+e25ac5a5c26d19 Darrick J. Wong 2022-07-14  255  	 * log assisted swap funct=
+ions with the log-incompat reference we got.
+e25ac5a5c26d19 Darrick J. Wong 2022-07-14  256  	 */
+e25ac5a5c26d19 Darrick J. Wong 2022-07-14  257  	if (xfs_sb_version_haslogs=
+wapext(&mp->m_sb))
+e25ac5a5c26d19 Darrick J. Wong 2022-07-14  258  		return 0;
+e25ac5a5c26d19 Darrick J. Wong 2022-07-14  259  =
 
-c97c92a65767a5 Darrick J. Wong 2022-08-11  327  	if (sbp->sb_rextsize =3D=
-=3D 0) {
-c97c92a65767a5 Darrick J. Wong 2022-08-11  328  		xfs_warn(mp,
-c97c92a65767a5 Darrick J. Wong 2022-08-11  329  "Realtime extent size must =
-not be zero.");
-c97c92a65767a5 Darrick J. Wong 2022-08-11  330  		return -EINVAL;
-c97c92a65767a5 Darrick J. Wong 2022-08-11  331  	}
-c97c92a65767a5 Darrick J. Wong 2022-08-11  332  =
+e25ac5a5c26d19 Darrick J. Wong 2022-07-14  260  	/*
+e25ac5a5c26d19 Darrick J. Wong 2022-07-14  261  	 * If the caller doesn't /=
+require/ log-assisted swapping, drop the
+e25ac5a5c26d19 Darrick J. Wong 2022-07-14  262  	 * log-incompat feature pr=
+otection and exit.  The caller cannot use
+e25ac5a5c26d19 Darrick J. Wong 2022-07-14  263  	 * log assisted swapping.
+e25ac5a5c26d19 Darrick J. Wong 2022-07-14  264  	 */
+e25ac5a5c26d19 Darrick J. Wong 2022-07-14  265  	if (!force)
+e25ac5a5c26d19 Darrick J. Wong 2022-07-14 @266  		goto drop_incompat;
+e25ac5a5c26d19 Darrick J. Wong 2022-07-14  267  =
 
-c97c92a65767a5 Darrick J. Wong 2022-08-11  333  	if (sbp->sb_rgblocks % sbp=
-->sb_rextsize !=3D 0) {
-c97c92a65767a5 Darrick J. Wong 2022-08-11  334  		xfs_warn(mp,
-c97c92a65767a5 Darrick J. Wong 2022-08-11  335  "Realtime group size (%u) m=
-ust be an even multiple of extent size (%u).",
-c97c92a65767a5 Darrick J. Wong 2022-08-11  336  			 sbp->sb_rgblocks, sbp->=
-sb_rextsize);
-c97c92a65767a5 Darrick J. Wong 2022-08-11  337  		return -EINVAL;
-c97c92a65767a5 Darrick J. Wong 2022-08-11  338  	}
-c97c92a65767a5 Darrick J. Wong 2022-08-11  339  =
+e25ac5a5c26d19 Darrick J. Wong 2022-07-14  268  	/*
+e25ac5a5c26d19 Darrick J. Wong 2022-07-14  269  	 * Caller requires log-ass=
+isted swapping but the fs feature set isn't
+e25ac5a5c26d19 Darrick J. Wong 2022-07-14  270  	 * rich enough to support =
+it.  Bail out.
+e25ac5a5c26d19 Darrick J. Wong 2022-07-14  271  	 */
+e25ac5a5c26d19 Darrick J. Wong 2022-07-14  272  	if (!xfs_swapext_supported=
+(mp)) {
+e25ac5a5c26d19 Darrick J. Wong 2022-07-14  273  		error =3D -EOPNOTSUPP;
+e25ac5a5c26d19 Darrick J. Wong 2022-07-14  274  		goto drop_incompat;
+e25ac5a5c26d19 Darrick J. Wong 2022-07-14  275  	}
+e25ac5a5c26d19 Darrick J. Wong 2022-07-14  276  =
 
-c97c92a65767a5 Darrick J. Wong 2022-08-11  340  	if (sbp->sb_rgblocks < (sb=
-p->sb_rextsize << 1)) {
-c97c92a65767a5 Darrick J. Wong 2022-08-11  341  		xfs_warn(mp,
-c97c92a65767a5 Darrick J. Wong 2022-08-11  342  "Realtime group size (%u) m=
-ust be greater than 1 rt extent.",
-c97c92a65767a5 Darrick J. Wong 2022-08-11  343  			 sbp->sb_rgblocks);
-c97c92a65767a5 Darrick J. Wong 2022-08-11  344  		return -EINVAL;
-c97c92a65767a5 Darrick J. Wong 2022-08-11  345  	}
-c97c92a65767a5 Darrick J. Wong 2022-08-11  346  =
+e25ac5a5c26d19 Darrick J. Wong 2022-07-14  277  	error =3D xfs_add_incompat=
+_log_feature(mp,
+e25ac5a5c26d19 Darrick J. Wong 2022-07-14  278  			XFS_SB_FEAT_INCOMPAT_LOG=
+_SWAPEXT);
+e25ac5a5c26d19 Darrick J. Wong 2022-07-14  279  	if (error)
+e25ac5a5c26d19 Darrick J. Wong 2022-07-14  280  		goto drop_incompat;
+e25ac5a5c26d19 Darrick J. Wong 2022-07-14  281  =
 
-c97c92a65767a5 Darrick J. Wong 2022-08-11 @347  	if (sbp->sb_rgcount > XFS_=
-MAX_RGNUMBER) {
-c97c92a65767a5 Darrick J. Wong 2022-08-11  348  		xfs_warn(mp,
-c97c92a65767a5 Darrick J. Wong 2022-08-11  349  "Realtime groups (%u) must =
-be less than %u.",
-c97c92a65767a5 Darrick J. Wong 2022-08-11  350  			 sbp->sb_rgcount, XFS_MA=
-X_RGNUMBER);
-c97c92a65767a5 Darrick J. Wong 2022-08-11  351  		return -EINVAL;
-c97c92a65767a5 Darrick J. Wong 2022-08-11  352  	}
-c97c92a65767a5 Darrick J. Wong 2022-08-11  353  =
+e25ac5a5c26d19 Darrick J. Wong 2022-07-14  282  	xfs_warn_mount(mp, XFS_OPS=
+TATE_WARNED_SWAPEXT,
+e25ac5a5c26d19 Darrick J. Wong 2022-07-14  283   "EXPERIMENTAL atomic file =
+range swap feature in use. Use at your own risk!");
+e25ac5a5c26d19 Darrick J. Wong 2022-07-14  284  =
 
-c97c92a65767a5 Darrick J. Wong 2022-08-11  354  	groups =3D howmany_64(sbp-=
->sb_rblocks, sbp->sb_rgblocks);
-c97c92a65767a5 Darrick J. Wong 2022-08-11  355  	if (groups !=3D sbp->sb_rg=
-count) {
-c97c92a65767a5 Darrick J. Wong 2022-08-11  356  		xfs_warn(mp,
-c97c92a65767a5 Darrick J. Wong 2022-08-11  357  "Realtime groups (%u) do no=
-t cover the entire rt section; need (%llu) groups.",
-c97c92a65767a5 Darrick J. Wong 2022-08-11  358  			sbp->sb_rgcount, groups);
-c97c92a65767a5 Darrick J. Wong 2022-08-11  359  		return -EINVAL;
-c97c92a65767a5 Darrick J. Wong 2022-08-11  360  	}
-c97c92a65767a5 Darrick J. Wong 2022-08-11  361  =
-
-c97c92a65767a5 Darrick J. Wong 2022-08-11  362  	return 0;
-c97c92a65767a5 Darrick J. Wong 2022-08-11  363  }
-c97c92a65767a5 Darrick J. Wong 2022-08-11  364  =
+e25ac5a5c26d19 Darrick J. Wong 2022-07-14  285  	return 0;
+e25ac5a5c26d19 Darrick J. Wong 2022-07-14  286  drop_incompat:
+e25ac5a5c26d19 Darrick J. Wong 2022-07-14  287  	xlog_drop_incompat_feat(mp=
+->m_log, XLOG_INCOMPAT_FEAT_SWAPEXT);
+e25ac5a5c26d19 Darrick J. Wong 2022-07-14  288  	*use_logging =3D false;
+e25ac5a5c26d19 Darrick J. Wong 2022-07-14  289  	return error;
+e25ac5a5c26d19 Darrick J. Wong 2022-07-14  290  }
+e25ac5a5c26d19 Darrick J. Wong 2022-07-14  291  =
 
 
 -- =
@@ -129,7 +136,7 @@ c97c92a65767a5 Darrick J. Wong 2022-08-11  364  =
 0-DAY CI Kernel Test Service
 https://01.org/lkp
 
---===============2865819530452192164==
+--===============1657918512292543954==
 Content-Type: text/plain
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -2386,5 +2393,5 @@ RVNUX01FTUlOSVQ9eQpDT05GSUdfVEVTVF9GUkVFX1BBR0VTPXkKIyBlbmQgb2YgS2VybmVsIFRl
 c3RpbmcgYW5kIENvdmVyYWdlCgojIENPTkZJR19XQVJOX01JU1NJTkdfRE9DVU1FTlRTIGlzIG5v
 dCBzZXQKQ09ORklHX1dBUk5fQUJJX0VSUk9SUz15CiMgZW5kIG9mIEtlcm5lbCBoYWNraW5nCg==
 
---===============2865819530452192164==--
+--===============1657918512292543954==--
 
