@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============1657918512292543954=="
+Content-Type: multipart/mixed; boundary="===============6980556648734181779=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [djwong-xfs:vectorized-scrub 194/464] fs/xfs/xfs_xchgrange.c:266 xfs_xchg_range_grab_log_assist() warn: missing error code 'error'
-Date: Mon, 26 Sep 2022 06:25:14 +0800
-Message-ID: <202209260639.ME0nUvad-lkp@intel.com>
+Subject: [djwong-xfs:vectorized-scrub 169/464] fs/xfs/libxfs/xfs_rmap.c:244 xfs_rmap_get_rec() warn: bitwise AND condition is false here
+Date: Mon, 26 Sep 2022 05:04:01 +0800
+Message-ID: <202209260440.18UptuOO-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1657918512292543954==
+--===============6980556648734181779==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -19,10 +19,10 @@ TO: "Darrick J. Wong" <darrick.wong@oracle.com>
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.gi=
 t vectorized-scrub
 head:   6adc9cdec392841f5a90a88f46e3ccb0844de1dd
-commit: e25ac5a5c26d19b86510a1e3253dc6c17544f3d1 [194/464] xfs: add a ->xch=
-g_file_range handler
-:::::: branch date: 30 hours ago
-:::::: commit date: 30 hours ago
+commit: 39080235870b5fe96e2d290a68c0c0da91e67123 [169/464] xfs: create a sh=
+adow rmap btree during rmap repair
+:::::: branch date: 29 hours ago
+:::::: commit date: 29 hours ago
 config: parisc-randconfig-m031-20220925
 compiler: hppa64-linux-gcc (GCC) 12.1.0
 
@@ -30,105 +30,111 @@ If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-fs/xfs/xfs_xchgrange.c:266 xfs_xchg_range_grab_log_assist() warn: missing e=
-rror code 'error'
+New smatch warnings:
+fs/xfs/libxfs/xfs_rmap.c:244 xfs_rmap_get_rec() warn: bitwise AND condition=
+ is false here
 
-vim +/error +266 fs/xfs/xfs_xchgrange.c
+Old smatch warnings:
+fs/xfs/libxfs/xfs_rmap.c:271 xfs_rmap_get_rec() warn: bitwise AND condition=
+ is false here
 
-e25ac5a5c26d19 Darrick J. Wong 2022-07-14  229  =
+vim +244 fs/xfs/libxfs/xfs_rmap.c
 
-e25ac5a5c26d19 Darrick J. Wong 2022-07-14  230  /*
-e25ac5a5c26d19 Darrick J. Wong 2022-07-14  231   * Get permission to use lo=
-g-assisted atomic exchange of file extents.
-e25ac5a5c26d19 Darrick J. Wong 2022-07-14  232   *
-e25ac5a5c26d19 Darrick J. Wong 2022-07-14  233   * Callers must hold the IO=
-LOCK and MMAPLOCK of both files.  They must not be
-e25ac5a5c26d19 Darrick J. Wong 2022-07-14  234   * running any transactions=
- or hold any ILOCKS.  If @use_logging is set after a
-e25ac5a5c26d19 Darrick J. Wong 2022-07-14  235   * successful return, calle=
-rs must call xfs_xchg_range_rele_log_assist after
-e25ac5a5c26d19 Darrick J. Wong 2022-07-14  236   * the exchange is complete=
-d.
-e25ac5a5c26d19 Darrick J. Wong 2022-07-14  237   */
-e25ac5a5c26d19 Darrick J. Wong 2022-07-14  238  int
-e25ac5a5c26d19 Darrick J. Wong 2022-07-14  239  xfs_xchg_range_grab_log_ass=
-ist(
-e25ac5a5c26d19 Darrick J. Wong 2022-07-14  240  	struct xfs_mount	*mp,
-e25ac5a5c26d19 Darrick J. Wong 2022-07-14  241  	bool			force,
-e25ac5a5c26d19 Darrick J. Wong 2022-07-14  242  	bool			*use_logging)
-e25ac5a5c26d19 Darrick J. Wong 2022-07-14  243  {
-e25ac5a5c26d19 Darrick J. Wong 2022-07-14  244  	int			error =3D 0;
-e25ac5a5c26d19 Darrick J. Wong 2022-07-14  245  =
+4b8ed67794fe57 Darrick J. Wong 2016-08-03  220  =
 
-e25ac5a5c26d19 Darrick J. Wong 2022-07-14  246  	/*
-e25ac5a5c26d19 Darrick J. Wong 2022-07-14  247  	 * Protect ourselves from =
-an idle log clearing the atomic swapext
-e25ac5a5c26d19 Darrick J. Wong 2022-07-14  248  	 * log incompat feature bi=
-t.
-e25ac5a5c26d19 Darrick J. Wong 2022-07-14  249  	 */
-e25ac5a5c26d19 Darrick J. Wong 2022-07-14  250  	xlog_use_incompat_feat(mp-=
->m_log, XLOG_INCOMPAT_FEAT_SWAPEXT);
-e25ac5a5c26d19 Darrick J. Wong 2022-07-14  251  	*use_logging =3D true;
-e25ac5a5c26d19 Darrick J. Wong 2022-07-14  252  =
+4b8ed67794fe57 Darrick J. Wong 2016-08-03  221  /*
+4b8ed67794fe57 Darrick J. Wong 2016-08-03  222   * Get the data from the po=
+inted-to record.
+4b8ed67794fe57 Darrick J. Wong 2016-08-03  223   */
+4b8ed67794fe57 Darrick J. Wong 2016-08-03  224  int
+4b8ed67794fe57 Darrick J. Wong 2016-08-03  225  xfs_rmap_get_rec(
+4b8ed67794fe57 Darrick J. Wong 2016-08-03  226  	struct xfs_btree_cur	*cur,
+4b8ed67794fe57 Darrick J. Wong 2016-08-03  227  	struct xfs_rmap_irec	*irec,
+4b8ed67794fe57 Darrick J. Wong 2016-08-03  228  	int			*stat)
+4b8ed67794fe57 Darrick J. Wong 2016-08-03  229  {
+9e6c08d4a8fc21 Dave Chinner    2018-06-05  230  	struct xfs_mount	*mp =3D c=
+ur->bc_mp;
+0800169e3e2c97 Dave Chinner    2022-07-07  231  	struct xfs_perag	*pag =3D =
+cur->bc_ag.pag;
+4b8ed67794fe57 Darrick J. Wong 2016-08-03  232  	union xfs_btree_rec	*rec;
+4b8ed67794fe57 Darrick J. Wong 2016-08-03  233  	int			error;
+4b8ed67794fe57 Darrick J. Wong 2016-08-03  234  =
 
-e25ac5a5c26d19 Darrick J. Wong 2022-07-14  253  	/*
-e25ac5a5c26d19 Darrick J. Wong 2022-07-14  254  	 * If log-assisted swappin=
-g is already enabled, the caller can use the
-e25ac5a5c26d19 Darrick J. Wong 2022-07-14  255  	 * log assisted swap funct=
-ions with the log-incompat reference we got.
-e25ac5a5c26d19 Darrick J. Wong 2022-07-14  256  	 */
-e25ac5a5c26d19 Darrick J. Wong 2022-07-14  257  	if (xfs_sb_version_haslogs=
-wapext(&mp->m_sb))
-e25ac5a5c26d19 Darrick J. Wong 2022-07-14  258  		return 0;
-e25ac5a5c26d19 Darrick J. Wong 2022-07-14  259  =
+4b8ed67794fe57 Darrick J. Wong 2016-08-03  235  	error =3D xfs_btree_get_re=
+c(cur, &rec, stat);
+4b8ed67794fe57 Darrick J. Wong 2016-08-03  236  	if (error || !*stat)
+4b8ed67794fe57 Darrick J. Wong 2016-08-03  237  		return error;
+4b8ed67794fe57 Darrick J. Wong 2016-08-03  238  =
 
-e25ac5a5c26d19 Darrick J. Wong 2022-07-14  260  	/*
-e25ac5a5c26d19 Darrick J. Wong 2022-07-14  261  	 * If the caller doesn't /=
-require/ log-assisted swapping, drop the
-e25ac5a5c26d19 Darrick J. Wong 2022-07-14  262  	 * log-incompat feature pr=
-otection and exit.  The caller cannot use
-e25ac5a5c26d19 Darrick J. Wong 2022-07-14  263  	 * log assisted swapping.
-e25ac5a5c26d19 Darrick J. Wong 2022-07-14  264  	 */
-e25ac5a5c26d19 Darrick J. Wong 2022-07-14  265  	if (!force)
-e25ac5a5c26d19 Darrick J. Wong 2022-07-14 @266  		goto drop_incompat;
-e25ac5a5c26d19 Darrick J. Wong 2022-07-14  267  =
+6e51532f740921 Darrick J. Wong 2022-07-14  239  	if (xfs_rmap_btrec_to_irec=
+(cur, rec, irec))
+9e6c08d4a8fc21 Dave Chinner    2018-06-05  240  		goto out_bad_rec;
+9e6c08d4a8fc21 Dave Chinner    2018-06-05  241  =
 
-e25ac5a5c26d19 Darrick J. Wong 2022-07-14  268  	/*
-e25ac5a5c26d19 Darrick J. Wong 2022-07-14  269  	 * Caller requires log-ass=
-isted swapping but the fs feature set isn't
-e25ac5a5c26d19 Darrick J. Wong 2022-07-14  270  	 * rich enough to support =
-it.  Bail out.
-e25ac5a5c26d19 Darrick J. Wong 2022-07-14  271  	 */
-e25ac5a5c26d19 Darrick J. Wong 2022-07-14  272  	if (!xfs_swapext_supported=
-(mp)) {
-e25ac5a5c26d19 Darrick J. Wong 2022-07-14  273  		error =3D -EOPNOTSUPP;
-e25ac5a5c26d19 Darrick J. Wong 2022-07-14  274  		goto drop_incompat;
-e25ac5a5c26d19 Darrick J. Wong 2022-07-14  275  	}
-e25ac5a5c26d19 Darrick J. Wong 2022-07-14  276  =
+9e6c08d4a8fc21 Dave Chinner    2018-06-05  242  	if (irec->rm_blockcount =
+=3D=3D 0)
+9e6c08d4a8fc21 Dave Chinner    2018-06-05  243  		goto out_bad_rec;
+39080235870b5f Darrick J. Wong 2022-07-14 @244  	if (cur->bc_flags & XFS_BT=
+REE_IN_MEMORY) {
+39080235870b5f Darrick J. Wong 2022-07-14  245  		if (!xfs_rmapbt_mem_verif=
+y_rec(cur, irec))
+39080235870b5f Darrick J. Wong 2022-07-14  246  			goto out_bad_rec;
+39080235870b5f Darrick J. Wong 2022-07-14  247  	} else if (irec->rm_startb=
+lock <=3D XFS_AGFL_BLOCK(mp)) {
+9e6c08d4a8fc21 Dave Chinner    2018-06-05  248  		if (irec->rm_owner !=3D X=
+FS_RMAP_OWN_FS)
+9e6c08d4a8fc21 Dave Chinner    2018-06-05  249  			goto out_bad_rec;
+9e6c08d4a8fc21 Dave Chinner    2018-06-05  250  		if (irec->rm_blockcount !=
+=3D XFS_AGFL_BLOCK(mp) + 1)
+9e6c08d4a8fc21 Dave Chinner    2018-06-05  251  			goto out_bad_rec;
+9e6c08d4a8fc21 Dave Chinner    2018-06-05  252  	} else {
+9e6c08d4a8fc21 Dave Chinner    2018-06-05  253  		/* check for valid extent=
+ range, including overflow */
+0800169e3e2c97 Dave Chinner    2022-07-07  254  		if (!xfs_verify_agbno(pag=
+, irec->rm_startblock))
+9e6c08d4a8fc21 Dave Chinner    2018-06-05  255  			goto out_bad_rec;
+9e6c08d4a8fc21 Dave Chinner    2018-06-05  256  		if (irec->rm_startblock >
+9e6c08d4a8fc21 Dave Chinner    2018-06-05  257  				irec->rm_startblock + i=
+rec->rm_blockcount)
+9e6c08d4a8fc21 Dave Chinner    2018-06-05  258  			goto out_bad_rec;
+0800169e3e2c97 Dave Chinner    2022-07-07  259  		if (!xfs_verify_agbno(pag,
+9e6c08d4a8fc21 Dave Chinner    2018-06-05  260  				irec->rm_startblock + i=
+rec->rm_blockcount - 1))
+9e6c08d4a8fc21 Dave Chinner    2018-06-05  261  			goto out_bad_rec;
+9e6c08d4a8fc21 Dave Chinner    2018-06-05  262  	}
+9e6c08d4a8fc21 Dave Chinner    2018-06-05  263  =
 
-e25ac5a5c26d19 Darrick J. Wong 2022-07-14  277  	error =3D xfs_add_incompat=
-_log_feature(mp,
-e25ac5a5c26d19 Darrick J. Wong 2022-07-14  278  			XFS_SB_FEAT_INCOMPAT_LOG=
-_SWAPEXT);
-e25ac5a5c26d19 Darrick J. Wong 2022-07-14  279  	if (error)
-e25ac5a5c26d19 Darrick J. Wong 2022-07-14  280  		goto drop_incompat;
-e25ac5a5c26d19 Darrick J. Wong 2022-07-14  281  =
+9e6c08d4a8fc21 Dave Chinner    2018-06-05  264  	if (!(xfs_verify_ino(mp, i=
+rec->rm_owner) ||
+9e6c08d4a8fc21 Dave Chinner    2018-06-05  265  	      (irec->rm_owner <=3D=
+ XFS_RMAP_OWN_FS &&
+9e6c08d4a8fc21 Dave Chinner    2018-06-05  266  	       irec->rm_owner >=3D=
+ XFS_RMAP_OWN_MIN)))
+9e6c08d4a8fc21 Dave Chinner    2018-06-05  267  		goto out_bad_rec;
+9e6c08d4a8fc21 Dave Chinner    2018-06-05  268  =
 
-e25ac5a5c26d19 Darrick J. Wong 2022-07-14  282  	xfs_warn_mount(mp, XFS_OPS=
-TATE_WARNED_SWAPEXT,
-e25ac5a5c26d19 Darrick J. Wong 2022-07-14  283   "EXPERIMENTAL atomic file =
-range swap feature in use. Use at your own risk!");
-e25ac5a5c26d19 Darrick J. Wong 2022-07-14  284  =
-
-e25ac5a5c26d19 Darrick J. Wong 2022-07-14  285  	return 0;
-e25ac5a5c26d19 Darrick J. Wong 2022-07-14  286  drop_incompat:
-e25ac5a5c26d19 Darrick J. Wong 2022-07-14  287  	xlog_drop_incompat_feat(mp=
-->m_log, XLOG_INCOMPAT_FEAT_SWAPEXT);
-e25ac5a5c26d19 Darrick J. Wong 2022-07-14  288  	*use_logging =3D false;
-e25ac5a5c26d19 Darrick J. Wong 2022-07-14  289  	return error;
-e25ac5a5c26d19 Darrick J. Wong 2022-07-14  290  }
-e25ac5a5c26d19 Darrick J. Wong 2022-07-14  291  =
+9e6c08d4a8fc21 Dave Chinner    2018-06-05  269  	return 0;
+9e6c08d4a8fc21 Dave Chinner    2018-06-05  270  out_bad_rec:
+39080235870b5f Darrick J. Wong 2022-07-14  271  	if (cur->bc_flags & XFS_BT=
+REE_IN_MEMORY)
+39080235870b5f Darrick J. Wong 2022-07-14  272  		xfs_warn(mp,
+39080235870b5f Darrick J. Wong 2022-07-14  273   "In-Memory Reverse Mapping=
+ BTree record corruption detected!");
+39080235870b5f Darrick J. Wong 2022-07-14  274  	else
+9e6c08d4a8fc21 Dave Chinner    2018-06-05  275  		xfs_warn(mp,
+9e6c08d4a8fc21 Dave Chinner    2018-06-05  276   "Reverse Mapping BTree rec=
+ord corruption in AG %d detected!",
+0800169e3e2c97 Dave Chinner    2022-07-07  277  				pag->pag_agno);
+9e6c08d4a8fc21 Dave Chinner    2018-06-05  278  	xfs_warn(mp,
+9e6c08d4a8fc21 Dave Chinner    2018-06-05  279  		"Owner 0x%llx, flags 0x%x=
+, start block 0x%x block count 0x%x",
+9e6c08d4a8fc21 Dave Chinner    2018-06-05  280  		irec->rm_owner, irec->rm_=
+flags, irec->rm_startblock,
+9e6c08d4a8fc21 Dave Chinner    2018-06-05  281  		irec->rm_blockcount);
+6e51532f740921 Darrick J. Wong 2022-07-14  282  	xfs_btree_mark_sick(cur);
+9e6c08d4a8fc21 Dave Chinner    2018-06-05  283  	return -EFSCORRUPTED;
+4b8ed67794fe57 Darrick J. Wong 2016-08-03  284  }
+4b8ed67794fe57 Darrick J. Wong 2016-08-03  285  =
 
 
 -- =
@@ -136,7 +142,7 @@ e25ac5a5c26d19 Darrick J. Wong 2022-07-14  291  =
 0-DAY CI Kernel Test Service
 https://01.org/lkp
 
---===============1657918512292543954==
+--===============6980556648734181779==
 Content-Type: text/plain
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -2393,5 +2399,5 @@ RVNUX01FTUlOSVQ9eQpDT05GSUdfVEVTVF9GUkVFX1BBR0VTPXkKIyBlbmQgb2YgS2VybmVsIFRl
 c3RpbmcgYW5kIENvdmVyYWdlCgojIENPTkZJR19XQVJOX01JU1NJTkdfRE9DVU1FTlRTIGlzIG5v
 dCBzZXQKQ09ORklHX1dBUk5fQUJJX0VSUk9SUz15CiMgZW5kIG9mIEtlcm5lbCBoYWNraW5nCg==
 
---===============1657918512292543954==--
+--===============6980556648734181779==--
 
