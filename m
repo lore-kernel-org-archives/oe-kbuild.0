@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============8134961971279376723=="
+Content-Type: multipart/mixed; boundary="===============4553097369009940490=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [djwong-xfs:vectorized-scrub 191/464] fs/xfs/xfs_swapext_item.c:57:5-24: atomic_dec_and_test variation before object free at line 58.
-Date: Fri, 30 Sep 2022 04:40:00 +0000
-Message-ID: <202209281730.IOYxEvWu-lkp@intel.com>
+Subject: [djwong-xfs:vectorized-scrub 194/464] fs/xfs/xfs_xchgrange.c:186:11-12: WARNING opportunity for max()
+Date: Fri, 30 Sep 2022 04:39:33 +0000
+Message-ID: <202209281819.Q9Ts6VA2-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8134961971279376723==
+--===============4553097369009940490==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -19,8 +19,8 @@ TO: "Darrick J. Wong" <darrick.wong@oracle.com>
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.gi=
 t vectorized-scrub
 head:   6adc9cdec392841f5a90a88f46e3ccb0844de1dd
-commit: dcc319e004a412155974b6134136889825717c3f [191/464] xfs: introduce a=
- swap-extent log intent item
+commit: e25ac5a5c26d19b86510a1e3253dc6c17544f3d1 [194/464] xfs: add a ->xch=
+g_file_range handler
 :::::: branch date: 4 days ago
 :::::: commit date: 4 days ago
 config: nios2-randconfig-c44-20220925
@@ -31,48 +31,15 @@ If you fix the issue, kindly add following tag where applicable
 | Reported-by: Julia Lawall <julia.lawall@lip6.fr>
 
 cocci warnings: (new ones prefixed by >>)
->> fs/xfs/xfs_swapext_item.c:57:5-24: atomic_dec_and_test variation before =
-object free at line 58.
-
-vim +57 fs/xfs/xfs_swapext_item.c
-
-dcc319e004a412 Darrick J. Wong 2022-07-14  44  =
-
-dcc319e004a412 Darrick J. Wong 2022-07-14  45  /*
-dcc319e004a412 Darrick J. Wong 2022-07-14  46   * Freeing the SXI requires =
-that we remove it from the AIL if it has already
-dcc319e004a412 Darrick J. Wong 2022-07-14  47   * been placed there. Howeve=
-r, the SXI may not yet have been placed in the AIL
-dcc319e004a412 Darrick J. Wong 2022-07-14  48   * when called by xfs_sxi_re=
-lease() from SXD processing due to the ordering of
-dcc319e004a412 Darrick J. Wong 2022-07-14  49   * committed vs unpin operat=
-ions in bulk insert operations. Hence the reference
-dcc319e004a412 Darrick J. Wong 2022-07-14  50   * count to ensure only the =
-last caller frees the SXI.
-dcc319e004a412 Darrick J. Wong 2022-07-14  51   */
-dcc319e004a412 Darrick J. Wong 2022-07-14  52  STATIC void
-dcc319e004a412 Darrick J. Wong 2022-07-14  53  xfs_sxi_release(
-dcc319e004a412 Darrick J. Wong 2022-07-14  54  	struct xfs_sxi_log_item	*sx=
-i_lip)
-dcc319e004a412 Darrick J. Wong 2022-07-14  55  {
-dcc319e004a412 Darrick J. Wong 2022-07-14  56  	ASSERT(atomic_read(&sxi_lip=
-->sxi_refcount) > 0);
-dcc319e004a412 Darrick J. Wong 2022-07-14 @57  	if (atomic_dec_and_test(&sx=
-i_lip->sxi_refcount)) {
-dcc319e004a412 Darrick J. Wong 2022-07-14 @58  		xfs_trans_ail_delete(&sxi_=
-lip->sxi_item, SHUTDOWN_LOG_IO_ERROR);
-dcc319e004a412 Darrick J. Wong 2022-07-14  59  		xfs_sxi_item_free(sxi_lip);
-dcc319e004a412 Darrick J. Wong 2022-07-14  60  	}
-dcc319e004a412 Darrick J. Wong 2022-07-14  61  }
-dcc319e004a412 Darrick J. Wong 2022-07-14  62  =
-
+>> fs/xfs/xfs_xchgrange.c:186:11-12: WARNING opportunity for max()
+   fs/xfs/xfs_xchgrange.c:187:11-12: WARNING opportunity for max()
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
 
---===============8134961971279376723==
+--===============4553097369009940490==
 Content-Type: text/plain
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -2431,5 +2398,5 @@ c2V0CiMgZW5kIG9mIEtlcm5lbCBUZXN0aW5nIGFuZCBDb3ZlcmFnZQoKIyBDT05GSUdfV0FSTl9N
 SVNTSU5HX0RPQ1VNRU5UUyBpcyBub3Qgc2V0CiMgQ09ORklHX1dBUk5fQUJJX0VSUk9SUyBpcyBu
 b3Qgc2V0CiMgZW5kIG9mIEtlcm5lbCBoYWNraW5nCg==
 
---===============8134961971279376723==--
+--===============4553097369009940490==--
 
