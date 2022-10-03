@@ -1,21 +1,21 @@
-Content-Type: multipart/mixed; boundary="===============6589388803512646567=="
+Content-Type: multipart/mixed; boundary="===============4476620975426922337=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v8 09/10] media: uvcvideo: support V4L2_CTRL_WHICH_MIN/MAX_VAL
-Date: Mon, 03 Oct 2022 10:37:43 +0800
-Message-ID: <202210031026.7WyTMP63-lkp@intel.com>
+Subject: Re: [PATCH v8 05/10] media: uvcvideo: Add support for compound controls
+Date: Mon, 03 Oct 2022 09:56:07 +0800
+Message-ID: <202210030948.QABksVhe-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6589388803512646567==
+--===============4476620975426922337==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <20220930064059.3633710-10-yunkec@google.com>
-References: <20220930064059.3633710-10-yunkec@google.com>
+In-Reply-To: <20220930064059.3633710-6-yunkec@google.com>
+References: <20220930064059.3633710-6-yunkec@google.com>
 TO: Yunke Cao <yunkec@google.com>
 TO: Hans Verkuil <hverkuil@xs4all.nl>
 TO: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
@@ -50,67 +50,56 @@ If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-drivers/media/usb/uvc/uvc_ctrl.c:2027 __uvc_ctrl_get_boundary_compound() er=
-ror: uninitialized symbol 'flag'.
-drivers/media/usb/uvc/uvc_ctrl.c:2036 __uvc_ctrl_get_boundary_compound() er=
-ror: uninitialized symbol 'id'.
-
-Old smatch warnings:
-drivers/media/usb/uvc/uvc_ctrl.c:2093 __uvc_ctrl_set_compound() warn: maybe=
+smatch warnings:
+drivers/media/usb/uvc/uvc_ctrl.c:1934 __uvc_ctrl_set_compound() warn: maybe=
  return -EFAULT instead of the bytes remaining?
 
-vim +/flag +2027 drivers/media/usb/uvc/uvc_ctrl.c
+vim +1934 drivers/media/usb/uvc/uvc_ctrl.c
 
-ec2432e36e0ba1 Yunke Cao 2022-09-30  2002  =
+ec2432e36e0ba1 Yunke Cao 2022-09-30  1908  =
 
-2f3439f034d65c Yunke Cao 2022-09-30  2003  static int __uvc_ctrl_get_bounda=
-ry_compound(struct uvc_video_chain *chain,
-2f3439f034d65c Yunke Cao 2022-09-30  2004  					    struct uvc_control *ctr=
-l,
-2f3439f034d65c Yunke Cao 2022-09-30  2005  					    struct uvc_control_mapp=
-ing *mapping,
-589411df68ca63 Yunke Cao 2022-09-30  2006  					    u32 v4l2_which,
-2f3439f034d65c Yunke Cao 2022-09-30  2007  					    struct v4l2_ext_control=
- *xctrl)
-2f3439f034d65c Yunke Cao 2022-09-30  2008  {
-589411df68ca63 Yunke Cao 2022-09-30  2009  	u32 flag, id;
-2f3439f034d65c Yunke Cao 2022-09-30  2010  	int ret;
-2f3439f034d65c Yunke Cao 2022-09-30  2011  =
+2f3439f034d65c Yunke Cao 2022-09-30  1909  int __uvc_ctrl_set_compound(stru=
+ct uvc_control_mapping *mapping,
+2f3439f034d65c Yunke Cao 2022-09-30  1910  			    struct v4l2_ext_control *=
+xctrl,
+2f3439f034d65c Yunke Cao 2022-09-30  1911  			    struct uvc_control *ctrl)
+2f3439f034d65c Yunke Cao 2022-09-30  1912  {
+2f3439f034d65c Yunke Cao 2022-09-30  1913  	u8 *data;
+2f3439f034d65c Yunke Cao 2022-09-30  1914  	int ret;
+2f3439f034d65c Yunke Cao 2022-09-30  1915  =
 
-589411df68ca63 Yunke Cao 2022-09-30  2012  	switch (v4l2_which) {
-589411df68ca63 Yunke Cao 2022-09-30  2013  	case V4L2_CTRL_WHICH_DEF_VAL:
-589411df68ca63 Yunke Cao 2022-09-30  2014  		flag =3D UVC_CTRL_FLAG_GET_DEF;
-589411df68ca63 Yunke Cao 2022-09-30  2015  		id =3D UVC_CTRL_DATA_DEF;
-589411df68ca63 Yunke Cao 2022-09-30  2016  		break;
-589411df68ca63 Yunke Cao 2022-09-30  2017  	case V4L2_CTRL_WHICH_MIN_VAL:
-589411df68ca63 Yunke Cao 2022-09-30  2018  		flag =3D UVC_CTRL_FLAG_GET_MIN;
-589411df68ca63 Yunke Cao 2022-09-30  2019  		id =3D UVC_CTRL_DATA_MIN;
-589411df68ca63 Yunke Cao 2022-09-30  2020  		break;
-589411df68ca63 Yunke Cao 2022-09-30  2021  	case V4L2_CTRL_WHICH_MAX_VAL:
-589411df68ca63 Yunke Cao 2022-09-30  2022  		flag =3D UVC_CTRL_FLAG_GET_MAX;
-589411df68ca63 Yunke Cao 2022-09-30  2023  		id =3D UVC_CTRL_DATA_MAX;
-589411df68ca63 Yunke Cao 2022-09-30  2024  		break;
-589411df68ca63 Yunke Cao 2022-09-30  2025  	}
-589411df68ca63 Yunke Cao 2022-09-30  2026  =
+2f3439f034d65c Yunke Cao 2022-09-30  1916  	if (xctrl->size !=3D mapping->v=
+4l2_size / 8)
+2f3439f034d65c Yunke Cao 2022-09-30  1917  		return -EINVAL;
+2f3439f034d65c Yunke Cao 2022-09-30  1918  =
 
-589411df68ca63 Yunke Cao 2022-09-30 @2027  	if (!(ctrl->info.flags & flag) =
-&& flag !=3D UVC_CTRL_FLAG_GET_DEF)
-589411df68ca63 Yunke Cao 2022-09-30  2028  		return -EACCES;
-2f3439f034d65c Yunke Cao 2022-09-30  2029  =
+2f3439f034d65c Yunke Cao 2022-09-30  1919  	data =3D kmalloc(xctrl->size, G=
+FP_KERNEL);
+2f3439f034d65c Yunke Cao 2022-09-30  1920  	if (!data)
+2f3439f034d65c Yunke Cao 2022-09-30  1921  		return -ENOMEM;
+2f3439f034d65c Yunke Cao 2022-09-30  1922  =
 
-2f3439f034d65c Yunke Cao 2022-09-30  2030  	if (!ctrl->cached) {
-2f3439f034d65c Yunke Cao 2022-09-30  2031  		ret =3D uvc_ctrl_populate_cach=
-e(chain, ctrl);
-2f3439f034d65c Yunke Cao 2022-09-30  2032  		if (ret < 0)
-2f3439f034d65c Yunke Cao 2022-09-30  2033  			return ret;
-2f3439f034d65c Yunke Cao 2022-09-30  2034  	}
-2f3439f034d65c Yunke Cao 2022-09-30  2035  =
+2f3439f034d65c Yunke Cao 2022-09-30  1923  	ret =3D copy_from_user(data, xc=
+trl->ptr, xctrl->size);
+2f3439f034d65c Yunke Cao 2022-09-30  1924  	if (ret < 0)
+2f3439f034d65c Yunke Cao 2022-09-30  1925  		goto out;
+2f3439f034d65c Yunke Cao 2022-09-30  1926  =
 
-589411df68ca63 Yunke Cao 2022-09-30 @2036  	return __uvc_ctrl_get_compound(=
-mapping, ctrl, id, xctrl);
-2f3439f034d65c Yunke Cao 2022-09-30  2037  }
-2f3439f034d65c Yunke Cao 2022-09-30  2038  =
+2f3439f034d65c Yunke Cao 2022-09-30  1927  	ret =3D mapping->set_compound(m=
+apping, data,
+2f3439f034d65c Yunke Cao 2022-09-30  1928  			uvc_ctrl_data(ctrl, UVC_CTRL_=
+DATA_CURRENT));
+2f3439f034d65c Yunke Cao 2022-09-30  1929  =
+
+2f3439f034d65c Yunke Cao 2022-09-30  1930  	__uvc_ctrl_get_compound(mapping=
+, ctrl, UVC_CTRL_DATA_CURRENT, xctrl);
+2f3439f034d65c Yunke Cao 2022-09-30  1931  =
+
+2f3439f034d65c Yunke Cao 2022-09-30  1932  out:
+2f3439f034d65c Yunke Cao 2022-09-30  1933  	kfree(data);
+2f3439f034d65c Yunke Cao 2022-09-30 @1934  	return ret;
+2f3439f034d65c Yunke Cao 2022-09-30  1935  }
+2f3439f034d65c Yunke Cao 2022-09-30  1936  =
 
 
 -- =
@@ -118,7 +107,7 @@ mapping, ctrl, id, xctrl);
 0-DAY CI Kernel Test Service
 https://01.org/lkp
 
---===============6589388803512646567==
+--===============4476620975426922337==
 Content-Type: text/plain
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -3263,5 +3252,5 @@ ZQoKIwojIFJ1c3QgaGFja2luZwojCiMgZW5kIG9mIFJ1c3QgaGFja2luZwoKQ09ORklHX1dBUk5f
 TUlTU0lOR19ET0NVTUVOVFM9eQpDT05GSUdfV0FSTl9BQklfRVJST1JTPXkKIyBlbmQgb2YgS2Vy
 bmVsIGhhY2tpbmcK
 
---===============6589388803512646567==--
+--===============4476620975426922337==--
 
