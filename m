@@ -1,30 +1,31 @@
-Content-Type: multipart/mixed; boundary="===============1090683320720012710=="
+Content-Type: multipart/mixed; boundary="===============0841050252998425181=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: net/ipv4/ip_options.c:154 __ip_options_echo() warn: potential spectre issue 'start' [r]
-Date: Thu, 06 Oct 2022 12:50:04 +0800
-Message-ID: <202210061213.NNX586v4-lkp@intel.com>
+Subject: [linux-next:master 3576/12581] drivers/vfio/pci/vfio_pci_core.c:775 vfio_pci_ioctl_get_region_info() warn: potential spectre issue 'pdev->resource' [w]
+Date: Thu, 06 Oct 2022 03:25:08 +0800
+Message-ID: <202210060322.9IMLPdB9-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1090683320720012710==
+--===============0841050252998425181==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
-CC: linux-kernel(a)vger.kernel.org
-TO: Kees Cook <keescook@chromium.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Jason Gunthorpe <jgg@nvidia.com>
+CC: Alex Williamson <alex.williamson@redhat.com>
+CC: Kevin Tian <kevin.tian@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   833477fce7a14d43ae4c07f8ddc32fa5119471a2
-commit: 54d9469bc515dc5fcbc20eecbe19cea868b70d68 fortify: Add run-time WARN=
- for cross-field memcpy()
-date:   4 weeks ago
-:::::: branch date: 10 hours ago
-:::::: commit date: 4 weeks ago
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
+ master
+head:   67ae4f7434cee86ee318d46fb10b8a9840ad2e81
+commit: 2ecf3b58ed7bc52ad58e02bb1596130fa6e6da53 [3576/12581] vfio-pci: Bre=
+ak up vfio_pci_core_ioctl() into one function per ioctl
+:::::: branch date: 12 hours ago
+:::::: commit date: 5 weeks ago
 config: i386-randconfig-m021-20221003
 compiler: gcc-11 (Debian 11.3.0-5) 11.3.0
 
@@ -33,248 +34,369 @@ If you fix the issue, kindly add following tag where applicable
 | Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 New smatch warnings:
-net/ipv4/ip_options.c:154 __ip_options_echo() warn: potential spectre issue=
- 'start' [r]
-net/ipv4/ip_options.c:616 ip_options_rcv_srr() warn: potential spectre issu=
-e 'optptr' [r]
-net/ncsi/ncsi-rsp.c:471 ncsi_rsp_handler_sma() warn: potential spectre issu=
-e 'ncf->addrs' [r]
+drivers/vfio/pci/vfio_pci_core.c:775 vfio_pci_ioctl_get_region_info() warn:=
+ potential spectre issue 'pdev->resource' [w]
+drivers/vfio/pci/vfio_pci_core.c:855 vfio_pci_ioctl_get_region_info() warn:=
+ potential spectre issue 'vdev->region' [r]
 
 Old smatch warnings:
-net/ipv4/ip_options.c:547 ip_forward_options() warn: potential spectre issu=
-e 'optptr' [w]
-net/ipv4/ip_options.c:556 ip_forward_options() warn: possible spectre secon=
-d half.  'srrptr'
-net/ipv4/ip_options.c:556 ip_forward_options() warn: possible spectre secon=
-d half.  'srrspace'
-net/ncsi/ncsi-rsp.c:373 ncsi_rsp_handler_svf() warn: potential spectre issu=
-e 'ncf->vids' [w]
+drivers/vfio/pci/vfio_pci_core.c:696 vfio_pci_ioctl_get_info() warn: incons=
+istent indenting
+drivers/vfio/pci/vfio_pci_core.c:755 vfio_pci_ioctl_get_region_info() warn:=
+ inconsistent indenting
+drivers/vfio/pci/vfio_pci_core.c:902 vfio_pci_ioctl_get_irq_info() warn: in=
+consistent indenting
+drivers/vfio/pci/vfio_pci_core.c:940 vfio_pci_ioctl_set_irqs() warn: incons=
+istent indenting
+drivers/vfio/pci/vfio_pci_core.c:1007 vfio_pci_ioctl_get_pci_hot_reset_info=
+() warn: inconsistent indenting
+drivers/vfio/pci/vfio_pci_core.c:1082 vfio_pci_ioctl_pci_hot_reset() warn: =
+inconsistent indenting
+drivers/vfio/pci/vfio_pci_core.c:1178 vfio_pci_ioctl_ioeventfd() warn: inco=
+nsistent indenting
 
-vim +/start +154 net/ipv4/ip_options.c
+vim +775 drivers/vfio/pci/vfio_pci_core.c
 
-^1da177e4c3f41 Linus Torvalds           2005-04-16   67  =
+89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2012-0=
+7-31  750  =
 
-^1da177e4c3f41 Linus Torvalds           2005-04-16   68  /*
-^1da177e4c3f41 Linus Torvalds           2005-04-16   69   * Provided (sopt,=
- skb) points to received options,
-^1da177e4c3f41 Linus Torvalds           2005-04-16   70   * build in dopt c=
-ompiled option set appropriate for answering.
-^1da177e4c3f41 Linus Torvalds           2005-04-16   71   * i.e. invert SRR=
- option, copy anothers,
-^1da177e4c3f41 Linus Torvalds           2005-04-16   72   * and grab room i=
-n RR/TS options.
-^1da177e4c3f41 Linus Torvalds           2005-04-16   73   *
-^1da177e4c3f41 Linus Torvalds           2005-04-16   74   * NOTE: dopt cann=
-ot point to skb.
-^1da177e4c3f41 Linus Torvalds           2005-04-16   75   */
-^1da177e4c3f41 Linus Torvalds           2005-04-16   76  =
+2ecf3b58ed7bc5 drivers/vfio/pci/vfio_pci_core.c Jason Gunthorpe      2022-0=
+8-31  751  static int vfio_pci_ioctl_get_region_info(struct vfio_pci_core_d=
+evice *vdev,
+2ecf3b58ed7bc5 drivers/vfio/pci/vfio_pci_core.c Jason Gunthorpe      2022-0=
+8-31  752  					  void __user *arg)
+2ecf3b58ed7bc5 drivers/vfio/pci/vfio_pci_core.c Jason Gunthorpe      2022-0=
+8-31  753  {
+2ecf3b58ed7bc5 drivers/vfio/pci/vfio_pci_core.c Jason Gunthorpe      2022-0=
+8-31  754  	unsigned long minsz =3D offsetofend(struct vfio_region_info, of=
+fset);
+89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2012-0=
+7-31  755  		struct pci_dev *pdev =3D vdev->pdev;
+89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2012-0=
+7-31  756  		struct vfio_region_info info;
+188ad9d6cbbce4 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2016-0=
+2-22  757  		struct vfio_info_cap caps =3D { .buf =3D NULL, .size =3D 0 };
+28541d41c9e04c drivers/vfio/pci/vfio_pci.c      Alex Williamson      2016-0=
+2-22  758  		int i, ret;
+89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2012-0=
+7-31  759  =
 
-91ed1e666a4ea2 Paolo Abeni              2017-08-03   77  int __ip_options_e=
-cho(struct net *net, struct ip_options *dopt,
-91ed1e666a4ea2 Paolo Abeni              2017-08-03   78  		      struct sk_=
-buff *skb, const struct ip_options *sopt)
-^1da177e4c3f41 Linus Torvalds           2005-04-16   79  {
-^1da177e4c3f41 Linus Torvalds           2005-04-16   80  	unsigned char *sp=
-tr, *dptr;
-^1da177e4c3f41 Linus Torvalds           2005-04-16   81  	int soffset, doff=
-set;
-^1da177e4c3f41 Linus Torvalds           2005-04-16   82  	int	optlen;
-^1da177e4c3f41 Linus Torvalds           2005-04-16   83  =
+89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2012-0=
+7-31  760  		if (copy_from_user(&info, (void __user *)arg, minsz))
+89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2012-0=
+7-31  761  			return -EFAULT;
+89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2012-0=
+7-31  762  =
 
-^1da177e4c3f41 Linus Torvalds           2005-04-16   84  	memset(dopt, 0, s=
-izeof(struct ip_options));
-^1da177e4c3f41 Linus Torvalds           2005-04-16   85  =
+89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2012-0=
+7-31  763  		if (info.argsz < minsz)
+89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2012-0=
+7-31  764  			return -EINVAL;
+89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2012-0=
+7-31  765  =
 
-f6d8bd051c391c Eric Dumazet             2011-04-21   86  	if (sopt->optlen =
-=3D=3D 0)
-^1da177e4c3f41 Linus Torvalds           2005-04-16   87  		return 0;
-^1da177e4c3f41 Linus Torvalds           2005-04-16   88  =
+89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2012-0=
+7-31  766  		switch (info.index) {
+89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2012-0=
+7-31  767  		case VFIO_PCI_CONFIG_REGION_INDEX:
+89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2012-0=
+7-31  768  			info.offset =3D VFIO_PCI_INDEX_TO_OFFSET(info.index);
+89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2012-0=
+7-31  769  			info.size =3D pdev->cfg_size;
+89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2012-0=
+7-31  770  			info.flags =3D VFIO_REGION_INFO_FLAG_READ |
+89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2012-0=
+7-31  771  				     VFIO_REGION_INFO_FLAG_WRITE;
+89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2012-0=
+7-31  772  			break;
+89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2012-0=
+7-31  773  		case VFIO_PCI_BAR0_REGION_INDEX ... VFIO_PCI_BAR5_REGION_INDEX:
+89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2012-0=
+7-31  774  			info.offset =3D VFIO_PCI_INDEX_TO_OFFSET(info.index);
+89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2012-0=
+7-31 @775  			info.size =3D pci_resource_len(pdev, info.index);
+89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2012-0=
+7-31  776  			if (!info.size) {
+89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2012-0=
+7-31  777  				info.flags =3D 0;
+89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2012-0=
+7-31  778  				break;
+89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2012-0=
+7-31  779  			}
+89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2012-0=
+7-31  780  =
 
-d56f90a7c96da5 Arnaldo Carvalho de Melo 2007-04-10   89  	sptr =3D skb_netw=
-ork_header(skb);
-^1da177e4c3f41 Linus Torvalds           2005-04-16   90  	dptr =3D dopt->__=
-data;
-^1da177e4c3f41 Linus Torvalds           2005-04-16   91  =
+89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2012-0=
+7-31  781  			info.flags =3D VFIO_REGION_INFO_FLAG_READ |
+89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2012-0=
+7-31  782  				     VFIO_REGION_INFO_FLAG_WRITE;
+05f0c03fbac181 drivers/vfio/pci/vfio_pci.c      Yongji Xie           2016-0=
+6-30  783  			if (vdev->bar_mmap_supported[info.index]) {
+89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2012-0=
+7-31  784  				info.flags |=3D VFIO_REGION_INFO_FLAG_MMAP;
+188ad9d6cbbce4 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2016-0=
+2-22  785  				if (info.index =3D=3D vdev->msix_bar) {
+a32295c612c579 drivers/vfio/pci/vfio_pci.c      Alexey Kardashevskiy 2017-1=
+2-13  786  					ret =3D msix_mmappable_cap(vdev, &caps);
+188ad9d6cbbce4 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2016-0=
+2-22  787  					if (ret)
+188ad9d6cbbce4 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2016-0=
+2-22  788  						return ret;
+188ad9d6cbbce4 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2016-0=
+2-22  789  				}
+188ad9d6cbbce4 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2016-0=
+2-22  790  			}
+188ad9d6cbbce4 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2016-0=
+2-22  791  =
 
-^1da177e4c3f41 Linus Torvalds           2005-04-16   92  	if (sopt->rr) {
-^1da177e4c3f41 Linus Torvalds           2005-04-16   93  		optlen  =3D sptr=
-[sopt->rr+1];
-^1da177e4c3f41 Linus Torvalds           2005-04-16   94  		soffset =3D sptr=
-[sopt->rr+2];
-^1da177e4c3f41 Linus Torvalds           2005-04-16   95  		dopt->rr =3D dop=
-t->optlen + sizeof(struct iphdr);
-^1da177e4c3f41 Linus Torvalds           2005-04-16   96  		memcpy(dptr, spt=
-r+sopt->rr, optlen);
-^1da177e4c3f41 Linus Torvalds           2005-04-16   97  		if (sopt->rr_nee=
-daddr && soffset <=3D optlen) {
-^1da177e4c3f41 Linus Torvalds           2005-04-16   98  			if (soffset + 3=
- > optlen)
-^1da177e4c3f41 Linus Torvalds           2005-04-16   99  				return -EINVAL;
-^1da177e4c3f41 Linus Torvalds           2005-04-16  100  			dptr[2] =3D sof=
-fset + 4;
-^1da177e4c3f41 Linus Torvalds           2005-04-16  101  			dopt->rr_needad=
-dr =3D 1;
-^1da177e4c3f41 Linus Torvalds           2005-04-16  102  		}
-^1da177e4c3f41 Linus Torvalds           2005-04-16  103  		dptr +=3D optlen;
-^1da177e4c3f41 Linus Torvalds           2005-04-16  104  		dopt->optlen +=
-=3D optlen;
-^1da177e4c3f41 Linus Torvalds           2005-04-16  105  	}
-^1da177e4c3f41 Linus Torvalds           2005-04-16  106  	if (sopt->ts) {
-^1da177e4c3f41 Linus Torvalds           2005-04-16  107  		optlen =3D sptr[=
-sopt->ts+1];
-^1da177e4c3f41 Linus Torvalds           2005-04-16  108  		soffset =3D sptr=
-[sopt->ts+2];
-^1da177e4c3f41 Linus Torvalds           2005-04-16  109  		dopt->ts =3D dop=
-t->optlen + sizeof(struct iphdr);
-^1da177e4c3f41 Linus Torvalds           2005-04-16  110  		memcpy(dptr, spt=
-r+sopt->ts, optlen);
-^1da177e4c3f41 Linus Torvalds           2005-04-16  111  		if (soffset <=3D=
- optlen) {
-^1da177e4c3f41 Linus Torvalds           2005-04-16  112  			if (sopt->ts_ne=
-edaddr) {
-^1da177e4c3f41 Linus Torvalds           2005-04-16  113  				if (soffset + =
-3 > optlen)
-^1da177e4c3f41 Linus Torvalds           2005-04-16  114  					return -EINVA=
-L;
-^1da177e4c3f41 Linus Torvalds           2005-04-16  115  				dopt->ts_needa=
-ddr =3D 1;
-^1da177e4c3f41 Linus Torvalds           2005-04-16  116  				soffset +=3D 4;
-^1da177e4c3f41 Linus Torvalds           2005-04-16  117  			}
-^1da177e4c3f41 Linus Torvalds           2005-04-16  118  			if (sopt->ts_ne=
-edtime) {
-^1da177e4c3f41 Linus Torvalds           2005-04-16  119  				if (soffset + =
-3 > optlen)
-^1da177e4c3f41 Linus Torvalds           2005-04-16  120  					return -EINVA=
-L;
-^1da177e4c3f41 Linus Torvalds           2005-04-16  121  				if ((dptr[3]&0=
-xF) !=3D IPOPT_TS_PRESPEC) {
-^1da177e4c3f41 Linus Torvalds           2005-04-16  122  					dopt->ts_need=
-time =3D 1;
-^1da177e4c3f41 Linus Torvalds           2005-04-16  123  					soffset +=3D =
-4;
-^1da177e4c3f41 Linus Torvalds           2005-04-16  124  				} else {
-^1da177e4c3f41 Linus Torvalds           2005-04-16  125  					dopt->ts_need=
-time =3D 0;
-^1da177e4c3f41 Linus Torvalds           2005-04-16  126  =
+89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2012-0=
+7-31  792  			break;
+89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2012-0=
+7-31  793  		case VFIO_PCI_ROM_REGION_INDEX:
+89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2012-0=
+7-31  794  		{
+89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2012-0=
+7-31  795  			void __iomem *io;
+89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2012-0=
+7-31  796  			size_t size;
+abafbc551fdded drivers/vfio/pci/vfio_pci.c      Alex Williamson      2020-0=
+4-22  797  			u16 cmd;
+89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2012-0=
+7-31  798  =
 
-8628bd8af7c4c1 Jan Luebbe               2011-03-24  127  					if (soffset +=
- 7 <=3D optlen) {
-fd683222097480 Al Viro                  2006-09-26  128  						__be32 addr;
-^1da177e4c3f41 Linus Torvalds           2005-04-16  129  =
+89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2012-0=
+7-31  799  			info.offset =3D VFIO_PCI_INDEX_TO_OFFSET(info.index);
+89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2012-0=
+7-31  800  			info.flags =3D 0;
+89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2012-0=
+7-31  801  =
 
-8628bd8af7c4c1 Jan Luebbe               2011-03-24  130  						memcpy(&addr=
-, dptr+soffset-1, 4);
-91ed1e666a4ea2 Paolo Abeni              2017-08-03  131  						if (inet_add=
-r_type(net, addr) !=3D RTN_UNICAST) {
-^1da177e4c3f41 Linus Torvalds           2005-04-16  132  							dopt->ts_ne=
-edtime =3D 1;
-^1da177e4c3f41 Linus Torvalds           2005-04-16  133  							soffset +=
-=3D 8;
-^1da177e4c3f41 Linus Torvalds           2005-04-16  134  						}
-^1da177e4c3f41 Linus Torvalds           2005-04-16  135  					}
-^1da177e4c3f41 Linus Torvalds           2005-04-16  136  				}
-^1da177e4c3f41 Linus Torvalds           2005-04-16  137  			}
-^1da177e4c3f41 Linus Torvalds           2005-04-16  138  			dptr[2] =3D sof=
-fset;
-^1da177e4c3f41 Linus Torvalds           2005-04-16  139  		}
-^1da177e4c3f41 Linus Torvalds           2005-04-16  140  		dptr +=3D optlen;
-^1da177e4c3f41 Linus Torvalds           2005-04-16  141  		dopt->optlen +=
-=3D optlen;
-^1da177e4c3f41 Linus Torvalds           2005-04-16  142  	}
-^1da177e4c3f41 Linus Torvalds           2005-04-16  143  	if (sopt->srr) {
-^1da177e4c3f41 Linus Torvalds           2005-04-16  144  		unsigned char *s=
-tart =3D sptr+sopt->srr;
-3ca3c68e76686b Al Viro                  2006-09-27  145  		__be32 faddr;
-^1da177e4c3f41 Linus Torvalds           2005-04-16  146  =
+89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2012-0=
+7-31  802  			/* Report the BAR size, not the ROM size */
+89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2012-0=
+7-31  803  			info.size =3D pci_resource_len(pdev, info.index);
+a13b64591747e8 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2016-0=
+2-22  804  			if (!info.size) {
+a13b64591747e8 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2016-0=
+2-22  805  				/* Shadow ROMs appear as PCI option ROMs */
+a13b64591747e8 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2016-0=
+2-22  806  				if (pdev->resource[PCI_ROM_RESOURCE].flags &
+a13b64591747e8 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2016-0=
+2-22  807  							IORESOURCE_ROM_SHADOW)
+a13b64591747e8 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2016-0=
+2-22  808  					info.size =3D 0x20000;
+a13b64591747e8 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2016-0=
+2-22  809  				else
+89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2012-0=
+7-31  810  					break;
+a13b64591747e8 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2016-0=
+2-22  811  			}
+89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2012-0=
+7-31  812  =
 
-^1da177e4c3f41 Linus Torvalds           2005-04-16  147  		optlen  =3D star=
-t[1];
-^1da177e4c3f41 Linus Torvalds           2005-04-16  148  		soffset =3D star=
-t[2];
-^1da177e4c3f41 Linus Torvalds           2005-04-16  149  		doffset =3D 0;
-^1da177e4c3f41 Linus Torvalds           2005-04-16  150  		if (soffset > op=
-tlen)
-^1da177e4c3f41 Linus Torvalds           2005-04-16  151  			soffset =3D opt=
-len + 1;
-^1da177e4c3f41 Linus Torvalds           2005-04-16  152  		soffset -=3D 4;
-^1da177e4c3f41 Linus Torvalds           2005-04-16  153  		if (soffset > 3)=
- {
-^1da177e4c3f41 Linus Torvalds           2005-04-16 @154  			memcpy(&faddr, =
-&start[soffset-1], 4);
-^1da177e4c3f41 Linus Torvalds           2005-04-16  155  			for (soffset -=
-=3D 4, doffset =3D 4; soffset > 3; soffset -=3D 4, doffset +=3D 4)
-^1da177e4c3f41 Linus Torvalds           2005-04-16  156  				memcpy(&dptr[d=
-offset-1], &start[soffset-1], 4);
-^1da177e4c3f41 Linus Torvalds           2005-04-16  157  			/*
-^1da177e4c3f41 Linus Torvalds           2005-04-16  158  			 * RFC1812 requ=
-ires to fix illegal source routes.
-^1da177e4c3f41 Linus Torvalds           2005-04-16  159  			 */
-eddc9ec53be2ec Arnaldo Carvalho de Melo 2007-04-20  160  			if (memcmp(&ip_=
-hdr(skb)->saddr,
-eddc9ec53be2ec Arnaldo Carvalho de Melo 2007-04-20  161  				   &start[soff=
-set + 3], 4) =3D=3D 0)
-^1da177e4c3f41 Linus Torvalds           2005-04-16  162  				doffset -=3D 4;
-^1da177e4c3f41 Linus Torvalds           2005-04-16  163  		}
-^1da177e4c3f41 Linus Torvalds           2005-04-16  164  		if (doffset > 3)=
- {
-^1da177e4c3f41 Linus Torvalds           2005-04-16  165  			dopt->faddr =3D=
- faddr;
-^1da177e4c3f41 Linus Torvalds           2005-04-16  166  			dptr[0] =3D sta=
-rt[0];
-^1da177e4c3f41 Linus Torvalds           2005-04-16  167  			dptr[1] =3D dof=
-fset+3;
-^1da177e4c3f41 Linus Torvalds           2005-04-16  168  			dptr[2] =3D 4;
-^1da177e4c3f41 Linus Torvalds           2005-04-16  169  			dptr +=3D doffs=
-et+3;
-^1da177e4c3f41 Linus Torvalds           2005-04-16  170  			dopt->srr =3D d=
-opt->optlen + sizeof(struct iphdr);
-^1da177e4c3f41 Linus Torvalds           2005-04-16  171  			dopt->optlen +=
-=3D doffset+3;
-^1da177e4c3f41 Linus Torvalds           2005-04-16  172  			dopt->is_strict=
-route =3D sopt->is_strictroute;
-^1da177e4c3f41 Linus Torvalds           2005-04-16  173  		}
-^1da177e4c3f41 Linus Torvalds           2005-04-16  174  	}
-11a03f78fbf15a Paul Moore               2006-08-03  175  	if (sopt->cipso) {
-11a03f78fbf15a Paul Moore               2006-08-03  176  		optlen  =3D sptr=
-[sopt->cipso+1];
-11a03f78fbf15a Paul Moore               2006-08-03  177  		dopt->cipso =3D =
-dopt->optlen+sizeof(struct iphdr);
-11a03f78fbf15a Paul Moore               2006-08-03  178  		memcpy(dptr, spt=
-r+sopt->cipso, optlen);
-11a03f78fbf15a Paul Moore               2006-08-03  179  		dptr +=3D optlen;
-11a03f78fbf15a Paul Moore               2006-08-03  180  		dopt->optlen +=
-=3D optlen;
-11a03f78fbf15a Paul Moore               2006-08-03  181  	}
-^1da177e4c3f41 Linus Torvalds           2005-04-16  182  	while (dopt->optl=
-en & 3) {
-^1da177e4c3f41 Linus Torvalds           2005-04-16  183  		*dptr++ =3D IPOP=
-T_END;
-^1da177e4c3f41 Linus Torvalds           2005-04-16  184  		dopt->optlen++;
-^1da177e4c3f41 Linus Torvalds           2005-04-16  185  	}
-^1da177e4c3f41 Linus Torvalds           2005-04-16  186  	return 0;
-^1da177e4c3f41 Linus Torvalds           2005-04-16  187  }
-^1da177e4c3f41 Linus Torvalds           2005-04-16  188  =
+0cfd027be1d6de drivers/vfio/pci/vfio_pci.c      Eric Auger           2019-0=
+2-15  813  			/*
+0cfd027be1d6de drivers/vfio/pci/vfio_pci.c      Eric Auger           2019-0=
+2-15  814  			 * Is it really there?  Enable memory decode for
+0cfd027be1d6de drivers/vfio/pci/vfio_pci.c      Eric Auger           2019-0=
+2-15  815  			 * implicit access in pci_map_rom().
+0cfd027be1d6de drivers/vfio/pci/vfio_pci.c      Eric Auger           2019-0=
+2-15  816  			 */
+abafbc551fdded drivers/vfio/pci/vfio_pci.c      Alex Williamson      2020-0=
+4-22  817  			cmd =3D vfio_pci_memory_lock_and_enable(vdev);
+89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2012-0=
+7-31  818  			io =3D pci_map_rom(pdev, &size);
+0cfd027be1d6de drivers/vfio/pci/vfio_pci.c      Eric Auger           2019-0=
+2-15  819  			if (io) {
+0cfd027be1d6de drivers/vfio/pci/vfio_pci.c      Eric Auger           2019-0=
+2-15  820  				info.flags =3D VFIO_REGION_INFO_FLAG_READ;
+0cfd027be1d6de drivers/vfio/pci/vfio_pci.c      Eric Auger           2019-0=
+2-15  821  				pci_unmap_rom(pdev, io);
+0cfd027be1d6de drivers/vfio/pci/vfio_pci.c      Eric Auger           2019-0=
+2-15  822  			} else {
+89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2012-0=
+7-31  823  				info.size =3D 0;
+89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2012-0=
+7-31  824  			}
+abafbc551fdded drivers/vfio/pci/vfio_pci.c      Alex Williamson      2020-0=
+4-22  825  			vfio_pci_memory_unlock_and_restore(vdev, cmd);
+89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2012-0=
+7-31  826  =
+
+89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2012-0=
+7-31  827  			break;
+89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2012-0=
+7-31  828  		}
+84237a826b261d drivers/vfio/pci/vfio_pci.c      Alex Williamson      2013-0=
+2-18  829  		case VFIO_PCI_VGA_REGION_INDEX:
+84237a826b261d drivers/vfio/pci/vfio_pci.c      Alex Williamson      2013-0=
+2-18  830  			if (!vdev->has_vga)
+84237a826b261d drivers/vfio/pci/vfio_pci.c      Alex Williamson      2013-0=
+2-18  831  				return -EINVAL;
+84237a826b261d drivers/vfio/pci/vfio_pci.c      Alex Williamson      2013-0=
+2-18  832  =
+
+84237a826b261d drivers/vfio/pci/vfio_pci.c      Alex Williamson      2013-0=
+2-18  833  			info.offset =3D VFIO_PCI_INDEX_TO_OFFSET(info.index);
+84237a826b261d drivers/vfio/pci/vfio_pci.c      Alex Williamson      2013-0=
+2-18  834  			info.size =3D 0xc0000;
+84237a826b261d drivers/vfio/pci/vfio_pci.c      Alex Williamson      2013-0=
+2-18  835  			info.flags =3D VFIO_REGION_INFO_FLAG_READ |
+84237a826b261d drivers/vfio/pci/vfio_pci.c      Alex Williamson      2013-0=
+2-18  836  				     VFIO_REGION_INFO_FLAG_WRITE;
+84237a826b261d drivers/vfio/pci/vfio_pci.c      Alex Williamson      2013-0=
+2-18  837  =
+
+84237a826b261d drivers/vfio/pci/vfio_pci.c      Alex Williamson      2013-0=
+2-18  838  			break;
+89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2012-0=
+7-31  839  		default:
+c535d34569bbc6 drivers/vfio/pci/vfio_pci.c      Kirti Wankhede       2016-1=
+1-17  840  		{
+dda01f787df9f9 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2017-1=
+2-12  841  			struct vfio_region_info_cap_type cap_type =3D {
+dda01f787df9f9 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2017-1=
+2-12  842  					.header.id =3D VFIO_REGION_INFO_CAP_TYPE,
+dda01f787df9f9 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2017-1=
+2-12  843  					.header.version =3D 1 };
+c535d34569bbc6 drivers/vfio/pci/vfio_pci.c      Kirti Wankhede       2016-1=
+1-17  844  =
+
+28541d41c9e04c drivers/vfio/pci/vfio_pci.c      Alex Williamson      2016-0=
+2-22  845  			if (info.index >=3D
+28541d41c9e04c drivers/vfio/pci/vfio_pci.c      Alex Williamson      2016-0=
+2-22  846  			    VFIO_PCI_NUM_REGIONS + vdev->num_regions)
+89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2012-0=
+7-31  847  				return -EINVAL;
+0e714d27786ce1 drivers/vfio/pci/vfio_pci.c      Gustavo A. R. Silva  2018-0=
+7-17  848  			info.index =3D array_index_nospec(info.index,
+0e714d27786ce1 drivers/vfio/pci/vfio_pci.c      Gustavo A. R. Silva  2018-0=
+7-17  849  							VFIO_PCI_NUM_REGIONS +
+0e714d27786ce1 drivers/vfio/pci/vfio_pci.c      Gustavo A. R. Silva  2018-0=
+7-17  850  							vdev->num_regions);
+28541d41c9e04c drivers/vfio/pci/vfio_pci.c      Alex Williamson      2016-0=
+2-22  851  =
+
+28541d41c9e04c drivers/vfio/pci/vfio_pci.c      Alex Williamson      2016-0=
+2-22  852  			i =3D info.index - VFIO_PCI_NUM_REGIONS;
+28541d41c9e04c drivers/vfio/pci/vfio_pci.c      Alex Williamson      2016-0=
+2-22  853  =
+
+28541d41c9e04c drivers/vfio/pci/vfio_pci.c      Alex Williamson      2016-0=
+2-22  854  			info.offset =3D VFIO_PCI_INDEX_TO_OFFSET(info.index);
+28541d41c9e04c drivers/vfio/pci/vfio_pci.c      Alex Williamson      2016-0=
+2-22 @855  			info.size =3D vdev->region[i].size;
+28541d41c9e04c drivers/vfio/pci/vfio_pci.c      Alex Williamson      2016-0=
+2-22  856  			info.flags =3D vdev->region[i].flags;
+28541d41c9e04c drivers/vfio/pci/vfio_pci.c      Alex Williamson      2016-0=
+2-22  857  =
+
+c535d34569bbc6 drivers/vfio/pci/vfio_pci.c      Kirti Wankhede       2016-1=
+1-17  858  			cap_type.type =3D vdev->region[i].type;
+c535d34569bbc6 drivers/vfio/pci/vfio_pci.c      Kirti Wankhede       2016-1=
+1-17  859  			cap_type.subtype =3D vdev->region[i].subtype;
+c535d34569bbc6 drivers/vfio/pci/vfio_pci.c      Kirti Wankhede       2016-1=
+1-17  860  =
+
+dda01f787df9f9 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2017-1=
+2-12  861  			ret =3D vfio_info_add_capability(&caps, &cap_type.header,
+dda01f787df9f9 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2017-1=
+2-12  862  						       sizeof(cap_type));
+28541d41c9e04c drivers/vfio/pci/vfio_pci.c      Alex Williamson      2016-0=
+2-22  863  			if (ret)
+28541d41c9e04c drivers/vfio/pci/vfio_pci.c      Alex Williamson      2016-0=
+2-22  864  				return ret;
+c535d34569bbc6 drivers/vfio/pci/vfio_pci.c      Kirti Wankhede       2016-1=
+1-17  865  =
+
+c2c0f1cde0ef56 drivers/vfio/pci/vfio_pci.c      Alexey Kardashevskiy 2018-1=
+2-19  866  			if (vdev->region[i].ops->add_capability) {
+c2c0f1cde0ef56 drivers/vfio/pci/vfio_pci.c      Alexey Kardashevskiy 2018-1=
+2-19  867  				ret =3D vdev->region[i].ops->add_capability(vdev,
+c2c0f1cde0ef56 drivers/vfio/pci/vfio_pci.c      Alexey Kardashevskiy 2018-1=
+2-19  868  						&vdev->region[i], &caps);
+c2c0f1cde0ef56 drivers/vfio/pci/vfio_pci.c      Alexey Kardashevskiy 2018-1=
+2-19  869  				if (ret)
+c2c0f1cde0ef56 drivers/vfio/pci/vfio_pci.c      Alexey Kardashevskiy 2018-1=
+2-19  870  					return ret;
+c2c0f1cde0ef56 drivers/vfio/pci/vfio_pci.c      Alexey Kardashevskiy 2018-1=
+2-19  871  			}
+c535d34569bbc6 drivers/vfio/pci/vfio_pci.c      Kirti Wankhede       2016-1=
+1-17  872  		}
+89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2012-0=
+7-31  873  		}
+89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2012-0=
+7-31  874  =
+
+188ad9d6cbbce4 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2016-0=
+2-22  875  		if (caps.size) {
+188ad9d6cbbce4 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2016-0=
+2-22  876  			info.flags |=3D VFIO_REGION_INFO_FLAG_CAPS;
+188ad9d6cbbce4 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2016-0=
+2-22  877  			if (info.argsz < sizeof(info) + caps.size) {
+188ad9d6cbbce4 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2016-0=
+2-22  878  				info.argsz =3D sizeof(info) + caps.size;
+188ad9d6cbbce4 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2016-0=
+2-22  879  				info.cap_offset =3D 0;
+188ad9d6cbbce4 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2016-0=
+2-22  880  			} else {
+188ad9d6cbbce4 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2016-0=
+2-22  881  				vfio_info_cap_shift(&caps, sizeof(info));
+c4aec3101319f8 drivers/vfio/pci/vfio_pci.c      Dan Carpenter        2016-0=
+2-25  882  				if (copy_to_user((void __user *)arg +
+188ad9d6cbbce4 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2016-0=
+2-22  883  						  sizeof(info), caps.buf,
+c4aec3101319f8 drivers/vfio/pci/vfio_pci.c      Dan Carpenter        2016-0=
+2-25  884  						  caps.size)) {
+188ad9d6cbbce4 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2016-0=
+2-22  885  					kfree(caps.buf);
+c4aec3101319f8 drivers/vfio/pci/vfio_pci.c      Dan Carpenter        2016-0=
+2-25  886  					return -EFAULT;
+188ad9d6cbbce4 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2016-0=
+2-22  887  				}
+188ad9d6cbbce4 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2016-0=
+2-22  888  				info.cap_offset =3D sizeof(info);
+188ad9d6cbbce4 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2016-0=
+2-22  889  			}
+188ad9d6cbbce4 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2016-0=
+2-22  890  =
+
+188ad9d6cbbce4 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2016-0=
+2-22  891  			kfree(caps.buf);
+89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2012-0=
+7-31  892  		}
+89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2012-0=
+7-31  893  =
+
+8160c4e455820d drivers/vfio/pci/vfio_pci.c      Michael S. Tsirkin   2016-0=
+2-28  894  		return copy_to_user((void __user *)arg, &info, minsz) ?
+8160c4e455820d drivers/vfio/pci/vfio_pci.c      Michael S. Tsirkin   2016-0=
+2-28  895  			-EFAULT : 0;
+2ecf3b58ed7bc5 drivers/vfio/pci/vfio_pci_core.c Jason Gunthorpe      2022-0=
+8-31  896  }
+89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson      2012-0=
+7-31  897  =
 
 
-:::::: The code at line 154 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+:::::: The code@line 775 was first introduced by commit
+:::::: 89e1f7d4c66d85f42c3d52ea3866eb10cadf6153 vfio: Add PCI device driver
 
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: TO: Alex Williamson <alex.williamson@redhat.com>
+:::::: CC: Alex Williamson <alex.williamson@redhat.com>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
 
---===============1090683320720012710==
+--===============0841050252998425181==
 Content-Type: text/plain
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.ksh"
 
 IwojIEF1dG9tYXRpY2FsbHkgZ2VuZXJhdGVkIGZpbGU7IERPIE5PVCBFRElULgojIExpbnV4L2kz
-ODYgNi4wLjAtcmMyIEtlcm5lbCBDb25maWd1cmF0aW9uCiMKQ09ORklHX0NDX1ZFUlNJT05fVEVY
+ODYgNi4wLjAtcmMzIEtlcm5lbCBDb25maWd1cmF0aW9uCiMKQ09ORklHX0NDX1ZFUlNJT05fVEVY
 VD0iZ2NjLTExIChEZWJpYW4gMTEuMy4wLTUpIDExLjMuMCIKQ09ORklHX0NDX0lTX0dDQz15CkNP
 TkZJR19HQ0NfVkVSU0lPTj0xMTAzMDAKQ09ORklHX0NMQU5HX1ZFUlNJT049MApDT05GSUdfQVNf
 SVNfR05VPXkKQ09ORklHX0FTX1ZFUlNJT049MjM4OTAKQ09ORklHX0xEX0lTX0JGRD15CkNPTkZJ
@@ -3468,5 +3590,5 @@ VENIRE9HIGlzIG5vdCBzZXQKQ09ORklHX0FSQ0hfVVNFX01FTVRFU1Q9eQojIENPTkZJR19NRU1U
 RVNUIGlzIG5vdCBzZXQKIyBlbmQgb2YgS2VybmVsIFRlc3RpbmcgYW5kIENvdmVyYWdlCiMgZW5k
 IG9mIEtlcm5lbCBoYWNraW5nCg==
 
---===============1090683320720012710==--
+--===============0841050252998425181==--
 
