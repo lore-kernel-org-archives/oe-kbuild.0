@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============0841087003909777720=="
+Content-Type: multipart/mixed; boundary="===============7448325142817528186=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [ammarfaizi2-block:dhowells/linux-fs/rxrpc-ringless-3 30/31] net/rxrpc/rxkad.c:1165 rxkad_verify_response() warn: if statement not indented
-Date: Fri, 07 Oct 2022 06:39:23 +0800
-Message-ID: <202210070615.RU0LJkOC-lkp@intel.com>
+Subject: [ammarfaizi2-block:dhowells/linux-fs/rxrpc-ringless-3 23/31] net/rxrpc/receive.c:630 rxrpc_receive_data() warn: passing freed memory 'skb'
+Date: Fri, 07 Oct 2022 05:27:32 +0800
+Message-ID: <202210070523.POVXE8At-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0841087003909777720==
+--===============7448325142817528186==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -22,10 +22,10 @@ TO: David Howells <dhowells@redhat.com>
 tree:   https://github.com/ammarfaizi2/linux-block dhowells/linux-fs/rxrpc-=
 ringless-3
 head:   f0c7607acc5c754f280833c1d30759843b6e1f64
-commit: c760736d5fae79aa8b3807772c1fadcd329bcff3 [30/31] rxrpc: Clone jumbo=
- subpackets
-:::::: branch date: 10 hours ago
-:::::: commit date: 24 hours ago
+commit: 2db1f2aa32c5f444e0667345f8e70704de8e2794 [23/31] rxrpc: Use a queue=
+ for received call packets rather than the ring
+:::::: branch date: 8 hours ago
+:::::: commit date: 2 days ago
 config: openrisc-randconfig-m031-20221002
 compiler: or1k-linux-gcc (GCC) 12.1.0
 
@@ -34,319 +34,167 @@ If you fix the issue, kindly add following tag where applicable
 | Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 smatch warnings:
-net/rxrpc/rxkad.c:1165 rxkad_verify_response() warn: if statement not inden=
-ted
+net/rxrpc/receive.c:630 rxrpc_receive_data() warn: passing freed memory 'sk=
+b'
 
-vim +1165 net/rxrpc/rxkad.c
+vim +/skb +630 net/rxrpc/receive.c
 
-17926a79320afa David Howells 2007-04-26  1084  =
+2e69784af4e1929 David Howells 2020-01-23  599  =
 
-17926a79320afa David Howells 2007-04-26  1085  /*
-17926a79320afa David Howells 2007-04-26  1086   * verify a response
-17926a79320afa David Howells 2007-04-26  1087   */
-17926a79320afa David Howells 2007-04-26  1088  static int rxkad_verify_resp=
-onse(struct rxrpc_connection *conn,
-17926a79320afa David Howells 2007-04-26  1089  				 struct sk_buff *skb,
-17926a79320afa David Howells 2007-04-26  1090  				 u32 *_abort_code)
-17926a79320afa David Howells 2007-04-26  1091  {
-8c2f826dc36314 David Howells 2018-02-08  1092  	struct rxkad_response *resp=
-onse;
-248f219cb8bcbf David Howells 2016-09-08  1093  	struct rxrpc_skb_priv *sp =
+2e69784af4e1929 David Howells 2020-01-23  600  /*
+2e69784af4e1929 David Howells 2020-01-23  601   * Process a DATA packet, ad=
+ding the packet to the Rx ring.  The caller's
+2e69784af4e1929 David Howells 2020-01-23  602   * packet ref must be passed=
+ on or discarded.
+2e69784af4e1929 David Howells 2020-01-23  603   */
+fc483993367c19b David Howells 2020-01-23  604  static void rxrpc_receive_da=
+ta(struct rxrpc_call *call, struct sk_buff *skb)
+2e69784af4e1929 David Howells 2020-01-23  605  {
+2e69784af4e1929 David Howells 2020-01-23  606  	struct rxrpc_skb_priv *sp =
 =3D rxrpc_skb(skb);
-17926a79320afa David Howells 2007-04-26  1094  	struct rxrpc_crypt session_=
-key;
-ec832bd06d6fdf David Howells 2020-09-16  1095  	struct key *server_key;
-fb46f6ee10e787 David Howells 2017-04-06  1096  	const char *eproto;
-10674a03c63337 Baolin Wang   2017-08-29  1097  	time64_t expiry;
-17926a79320afa David Howells 2007-04-26  1098  	void *ticket;
-91e916cffec7c0 Al Viro       2008-03-29  1099  	u32 abort_code, version, kv=
-no, ticket_len, level;
-91e916cffec7c0 Al Viro       2008-03-29  1100  	__be32 csum;
-a1399f8bb0331a David Howells 2016-06-27  1101  	int ret, i;
-17926a79320afa David Howells 2007-04-26  1102  =
+2e69784af4e1929 David Howells 2020-01-23  607  	enum rxrpc_call_state state;
+2e69784af4e1929 David Howells 2020-01-23  608  	rxrpc_serial_t serial =3D s=
+p->hdr.serial;
+2e69784af4e1929 David Howells 2020-01-23  609  	rxrpc_seq_t seq0 =3D sp->hd=
+r.seq;
+2e69784af4e1929 David Howells 2020-01-23  610  =
 
-ec832bd06d6fdf David Howells 2020-09-16  1103  	_enter("{%d}", conn->debug_=
-id);
-ec832bd06d6fdf David Howells 2020-09-16  1104  =
+2e69784af4e1929 David Howells 2020-01-23  611  	_enter("{%llx,%x},{%u,%x}",
+2e69784af4e1929 David Howells 2020-01-23  612  	       atomic64_read(&call-=
+>ackr_window), call->rx_highest_seq,
+2e69784af4e1929 David Howells 2020-01-23  613  	       skb->len, seq0);
+2e69784af4e1929 David Howells 2020-01-23  614  =
 
-ec832bd06d6fdf David Howells 2020-09-16  1105  	server_key =3D rxrpc_look_u=
-p_server_security(conn, skb, 0, 0);
-ec832bd06d6fdf David Howells 2020-09-16  1106  	if (IS_ERR(server_key)) {
-ec832bd06d6fdf David Howells 2020-09-16  1107  		switch (PTR_ERR(server_key=
-)) {
-ec832bd06d6fdf David Howells 2020-09-16  1108  		case -ENOKEY:
-ec832bd06d6fdf David Howells 2020-09-16  1109  			abort_code =3D RXKADUNKNO=
-WNKEY;
-ec832bd06d6fdf David Howells 2020-09-16  1110  			break;
-ec832bd06d6fdf David Howells 2020-09-16  1111  		case -EKEYEXPIRED:
-ec832bd06d6fdf David Howells 2020-09-16  1112  			abort_code =3D RXKADEXPIR=
-ED;
-ec832bd06d6fdf David Howells 2020-09-16  1113  			break;
-ec832bd06d6fdf David Howells 2020-09-16  1114  		default:
-ec832bd06d6fdf David Howells 2020-09-16  1115  			abort_code =3D RXKADNOAUT=
-H;
-ec832bd06d6fdf David Howells 2020-09-16  1116  			break;
-ec832bd06d6fdf David Howells 2020-09-16  1117  		}
-ec832bd06d6fdf David Howells 2020-09-16  1118  		trace_rxrpc_abort(0, "SVK",
-ec832bd06d6fdf David Howells 2020-09-16  1119  				  sp->hdr.cid, sp->hdr.c=
-allNumber, sp->hdr.seq,
-ec832bd06d6fdf David Howells 2020-09-16  1120  				  abort_code, PTR_ERR(se=
-rver_key));
-ec832bd06d6fdf David Howells 2020-09-16  1121  		*_abort_code =3D abort_cod=
-e;
-ec832bd06d6fdf David Howells 2020-09-16  1122  		return -EPROTO;
-ec832bd06d6fdf David Howells 2020-09-16  1123  	}
-17926a79320afa David Howells 2007-04-26  1124  =
+2e69784af4e1929 David Howells 2020-01-23  615  	_proto("Rx DATA %%%u { #%u =
+f=3D%02x n=3D%u }",
+2e69784af4e1929 David Howells 2020-01-23  616  	       sp->hdr.serial, seq0=
+, sp->hdr.flags, sp->nr_subpackets);
+2e69784af4e1929 David Howells 2020-01-23  617  =
 
-8c2f826dc36314 David Howells 2018-02-08  1125  	ret =3D -ENOMEM;
-8c2f826dc36314 David Howells 2018-02-08  1126  	response =3D kzalloc(sizeof=
-(struct rxkad_response), GFP_NOFS);
-8c2f826dc36314 David Howells 2018-02-08  1127  	if (!response)
-8c2f826dc36314 David Howells 2018-02-08  1128  		goto temporary_error;
-8c2f826dc36314 David Howells 2018-02-08  1129  =
+2e69784af4e1929 David Howells 2020-01-23  618  	state =3D READ_ONCE(call->s=
+tate);
+2e69784af4e1929 David Howells 2020-01-23  619  	if (state >=3D RXRPC_CALL_C=
+OMPLETE) {
+2e69784af4e1929 David Howells 2020-01-23  620  		rxrpc_free_skb(skb, rxrpc_=
+skb_freed);
+2e69784af4e1929 David Howells 2020-01-23  621  		return;
+2e69784af4e1929 David Howells 2020-01-23  622  	}
+2e69784af4e1929 David Howells 2020-01-23  623  =
 
-fb46f6ee10e787 David Howells 2017-04-06  1130  	eproto =3D tracepoint_strin=
-g("rxkad_rsp_short");
-17926a79320afa David Howells 2007-04-26  1131  	abort_code =3D RXKADPACKETS=
-HORT;
-775e5b71db6aca David Howells 2016-09-30  1132  	if (skb_copy_bits(skb, size=
-of(struct rxrpc_wire_header),
-8c2f826dc36314 David Howells 2018-02-08  1133  			  response, sizeof(*respo=
-nse)) < 0)
-17926a79320afa David Howells 2007-04-26  1134  		goto protocol_error;
-17926a79320afa David Howells 2007-04-26  1135  =
+2db1f2aa32c5f44 David Howells 2020-01-23  624  	/* Unshare the packet so th=
+at it can be modified for in-place
+2db1f2aa32c5f44 David Howells 2020-01-23  625  	 * decryption.
+2db1f2aa32c5f44 David Howells 2020-01-23  626  	 */
+2db1f2aa32c5f44 David Howells 2020-01-23  627  	if (sp->hdr.securityIndex !=
+=3D 0) {
+2db1f2aa32c5f44 David Howells 2020-01-23  628  		struct sk_buff *nskb =3D s=
+kb_unshare(skb, GFP_NOFS);
+2db1f2aa32c5f44 David Howells 2020-01-23  629  		if (!nskb) {
+2db1f2aa32c5f44 David Howells 2020-01-23 @630  			rxrpc_eaten_skb(skb, rxrp=
+c_skb_unshared_nomem);
+2db1f2aa32c5f44 David Howells 2020-01-23  631  			return;
+2db1f2aa32c5f44 David Howells 2020-01-23  632  		}
+2db1f2aa32c5f44 David Howells 2020-01-23  633  =
 
-8c2f826dc36314 David Howells 2018-02-08  1136  	version =3D ntohl(response-=
->version);
-8c2f826dc36314 David Howells 2018-02-08  1137  	ticket_len =3D ntohl(respon=
-se->ticket_len);
-8c2f826dc36314 David Howells 2018-02-08  1138  	kvno =3D ntohl(response->kv=
-no);
-17926a79320afa David Howells 2007-04-26  1139  	_proto("Rx RESPONSE %%%u { =
-v=3D%u kv=3D%u tl=3D%u }",
-0d12f8a4027d02 David Howells 2016-03-04  1140  	       sp->hdr.serial, vers=
-ion, kvno, ticket_len);
-17926a79320afa David Howells 2007-04-26  1141  =
+2db1f2aa32c5f44 David Howells 2020-01-23  634  		if (nskb !=3D skb) {
+2db1f2aa32c5f44 David Howells 2020-01-23  635  			rxrpc_eaten_skb(skb, rxrp=
+c_skb_received);
+2db1f2aa32c5f44 David Howells 2020-01-23  636  			skb =3D nskb;
+2db1f2aa32c5f44 David Howells 2020-01-23  637  			rxrpc_new_skb(skb, rxrpc_=
+skb_unshared);
+2db1f2aa32c5f44 David Howells 2020-01-23  638  			sp =3D rxrpc_skb(skb);
+2db1f2aa32c5f44 David Howells 2020-01-23  639  		}
+2db1f2aa32c5f44 David Howells 2020-01-23  640  	}
+2db1f2aa32c5f44 David Howells 2020-01-23  641  =
 
-fb46f6ee10e787 David Howells 2017-04-06  1142  	eproto =3D tracepoint_strin=
-g("rxkad_rsp_ver");
-17926a79320afa David Howells 2007-04-26  1143  	abort_code =3D RXKADINCONSI=
-STENCY;
-17926a79320afa David Howells 2007-04-26  1144  	if (version !=3D RXKAD_VERS=
-ION)
-4aa9cb320e8081 David Howells 2007-12-07  1145  		goto protocol_error;
-17926a79320afa David Howells 2007-04-26  1146  =
+2db1f2aa32c5f44 David Howells 2020-01-23  642  	if (!rxrpc_validate_data(sk=
+b)) {
+2db1f2aa32c5f44 David Howells 2020-01-23  643  		rxrpc_proto_abort("VLD", c=
+all, sp->hdr.seq);
+2db1f2aa32c5f44 David Howells 2020-01-23  644  		rxrpc_free_skb(skb, rxrpc_=
+skb_freed);
+2db1f2aa32c5f44 David Howells 2020-01-23  645  		return;
+2db1f2aa32c5f44 David Howells 2020-01-23  646  	}
+2db1f2aa32c5f44 David Howells 2020-01-23  647  =
 
-fb46f6ee10e787 David Howells 2017-04-06  1147  	eproto =3D tracepoint_strin=
-g("rxkad_rsp_tktlen");
-17926a79320afa David Howells 2007-04-26  1148  	abort_code =3D RXKADTICKETL=
-EN;
-17926a79320afa David Howells 2007-04-26  1149  	if (ticket_len < 4 || ticke=
-t_len > MAXKRB5TICKETLEN)
-17926a79320afa David Howells 2007-04-26  1150  		goto protocol_error;
-17926a79320afa David Howells 2007-04-26  1151  =
+2e69784af4e1929 David Howells 2020-01-23  648  	if (state =3D=3D RXRPC_CALL=
+_SERVER_RECV_REQUEST) {
+2e69784af4e1929 David Howells 2020-01-23  649  		unsigned long timo =3D REA=
+D_ONCE(call->next_req_timo);
+2e69784af4e1929 David Howells 2020-01-23  650  		unsigned long now, expect_=
+req_by;
+2e69784af4e1929 David Howells 2020-01-23  651  =
 
-fb46f6ee10e787 David Howells 2017-04-06  1152  	eproto =3D tracepoint_strin=
-g("rxkad_rsp_unkkey");
-17926a79320afa David Howells 2007-04-26  1153  	abort_code =3D RXKADUNKNOWN=
-KEY;
-17926a79320afa David Howells 2007-04-26  1154  	if (kvno >=3D RXKAD_TKT_TYP=
-E_KERBEROS_V5)
-17926a79320afa David Howells 2007-04-26  1155  		goto protocol_error;
-17926a79320afa David Howells 2007-04-26  1156  =
+2e69784af4e1929 David Howells 2020-01-23  652  		if (timo) {
+2e69784af4e1929 David Howells 2020-01-23  653  			now =3D jiffies;
+2e69784af4e1929 David Howells 2020-01-23  654  			expect_req_by =3D now + t=
+imo;
+2e69784af4e1929 David Howells 2020-01-23  655  			WRITE_ONCE(call->expect_r=
+eq_by, expect_req_by);
+2e69784af4e1929 David Howells 2020-01-23  656  			rxrpc_reduce_call_timer(c=
+all, expect_req_by, now,
+2e69784af4e1929 David Howells 2020-01-23  657  						rxrpc_timer_set_for_id=
+le);
+2e69784af4e1929 David Howells 2020-01-23  658  		}
+2e69784af4e1929 David Howells 2020-01-23  659  	}
+2e69784af4e1929 David Howells 2020-01-23  660  =
 
-17926a79320afa David Howells 2007-04-26  1157  	/* extract the kerberos tic=
-ket and decrypt and decode it */
-ef68622da9cc0c David Howells 2017-04-06  1158  	ret =3D -ENOMEM;
-17926a79320afa David Howells 2007-04-26  1159  	ticket =3D kmalloc(ticket_l=
-en, GFP_NOFS);
-17926a79320afa David Howells 2007-04-26  1160  	if (!ticket)
-b43c75abfd084b Dinghao Liu   2020-08-27  1161  		goto temporary_error_free_=
-resp;
-17926a79320afa David Howells 2007-04-26  1162  =
+2e69784af4e1929 David Howells 2020-01-23  661  	rxrpc_inc_stat(call->rxnet,=
+ stat_rx_data);
+2e69784af4e1929 David Howells 2020-01-23  662  	if (sp->hdr.flags & RXRPC_R=
+EQUEST_ACK)
+2e69784af4e1929 David Howells 2020-01-23  663  		rxrpc_inc_stat(call->rxnet=
+, stat_rx_data_reqack);
+2e69784af4e1929 David Howells 2020-01-23  664  	if (sp->hdr.flags & RXRPC_J=
+UMBO_PACKET)
+2e69784af4e1929 David Howells 2020-01-23  665  		rxrpc_inc_stat(call->rxnet=
+, stat_rx_data_jumbo);
+2e69784af4e1929 David Howells 2020-01-23  666  =
 
-fb46f6ee10e787 David Howells 2017-04-06  1163  	eproto =3D tracepoint_strin=
-g("rxkad_tkt_short");
-17926a79320afa David Howells 2007-04-26  1164  	abort_code =3D RXKADPACKETS=
-HORT;
-ceff522db2cc29 David Howells 2020-09-29 @1165  	if (skb_copy_bits(skb, size=
-of(struct rxrpc_wire_header) + sizeof(*response),
-775e5b71db6aca David Howells 2016-09-30  1166  			  ticket, ticket_len) < 0)
-17926a79320afa David Howells 2007-04-26  1167  =
+2e69784af4e1929 David Howells 2020-01-23  667  	spin_lock(&call->input_lock=
+);
+2e69784af4e1929 David Howells 2020-01-23  668  =
 
-ec832bd06d6fdf David Howells 2020-09-16  1168  	ret =3D rxkad_decrypt_ticke=
-t(conn, server_key, skb, ticket, ticket_len,
-ec832bd06d6fdf David Howells 2020-09-16  1169  				   &session_key, &expiry=
-, _abort_code);
-ef68622da9cc0c David Howells 2017-04-06  1170  	if (ret < 0)
-f45d01f4f30b53 Qiushi Wu     2020-05-22  1171  		goto temporary_error_free_=
-ticket;
-17926a79320afa David Howells 2007-04-26  1172  =
+2e69784af4e1929 David Howells 2020-01-23  669  	/* Received data implicitly=
+ ACKs all of the request packets we sent
+2e69784af4e1929 David Howells 2020-01-23  670  	 * when we're acting as a c=
+lient.
+2e69784af4e1929 David Howells 2020-01-23  671  	 */
+2e69784af4e1929 David Howells 2020-01-23  672  	if ((state =3D=3D RXRPC_CAL=
+L_CLIENT_SEND_REQUEST ||
+2e69784af4e1929 David Howells 2020-01-23  673  	     state =3D=3D RXRPC_CAL=
+L_CLIENT_AWAIT_REPLY) &&
+2e69784af4e1929 David Howells 2020-01-23  674  	    !rxrpc_receiving_reply(=
+call))
+2e69784af4e1929 David Howells 2020-01-23  675  		goto unlock;
+2e69784af4e1929 David Howells 2020-01-23  676  =
 
-17926a79320afa David Howells 2007-04-26  1173  	/* use the session key from=
- inside the ticket to decrypt the
-17926a79320afa David Howells 2007-04-26  1174  	 * response */
-8c2f826dc36314 David Howells 2018-02-08  1175  	rxkad_decrypt_response(conn=
-, response, &session_key);
-17926a79320afa David Howells 2007-04-26  1176  =
+fc483993367c19b David Howells 2020-01-23  677  	rxrpc_receive_data_sub(call=
+, skb);
+2e69784af4e1929 David Howells 2020-01-23  678  	skb =3D NULL;
+2e69784af4e1929 David Howells 2020-01-23  679  =
 
-fb46f6ee10e787 David Howells 2017-04-06  1177  	eproto =3D tracepoint_strin=
-g("rxkad_rsp_param");
-17926a79320afa David Howells 2007-04-26  1178  	abort_code =3D RXKADSEALEDI=
-NCON;
-8c2f826dc36314 David Howells 2018-02-08  1179  	if (ntohl(response->encrypt=
-ed.epoch) !=3D conn->proto.epoch)
-17926a79320afa David Howells 2007-04-26  1180  		goto protocol_error_free;
-8c2f826dc36314 David Howells 2018-02-08  1181  	if (ntohl(response->encrypt=
-ed.cid) !=3D conn->proto.cid)
-17926a79320afa David Howells 2007-04-26  1182  		goto protocol_error_free;
-8c2f826dc36314 David Howells 2018-02-08  1183  	if (ntohl(response->encrypt=
-ed.securityIndex) !=3D conn->security_ix)
-17926a79320afa David Howells 2007-04-26  1184  		goto protocol_error_free;
-8c2f826dc36314 David Howells 2018-02-08  1185  	csum =3D response->encrypte=
-d.checksum;
-8c2f826dc36314 David Howells 2018-02-08  1186  	response->encrypted.checksu=
-m =3D 0;
-8c2f826dc36314 David Howells 2018-02-08  1187  	rxkad_calc_response_checksu=
-m(response);
-fb46f6ee10e787 David Howells 2017-04-06  1188  	eproto =3D tracepoint_strin=
-g("rxkad_rsp_csum");
-8c2f826dc36314 David Howells 2018-02-08  1189  	if (response->encrypted.che=
-cksum !=3D csum)
-17926a79320afa David Howells 2007-04-26  1190  		goto protocol_error_free;
-17926a79320afa David Howells 2007-04-26  1191  =
+2e69784af4e1929 David Howells 2020-01-23  680  unlock:
+2e69784af4e1929 David Howells 2020-01-23  681  	trace_rxrpc_notify_socket(c=
+all->debug_id, serial);
+2e69784af4e1929 David Howells 2020-01-23  682  	rxrpc_notify_socket(call);
+2e69784af4e1929 David Howells 2020-01-23  683  =
 
-245500d853e9f2 David Howells 2020-07-01  1192  	spin_lock(&conn->bundle->ch=
-annel_lock);
-a1399f8bb0331a David Howells 2016-06-27  1193  	for (i =3D 0; i < RXRPC_MAX=
-CALLS; i++) {
-a1399f8bb0331a David Howells 2016-06-27  1194  		struct rxrpc_call *call;
-8c2f826dc36314 David Howells 2018-02-08  1195  		u32 call_id =3D ntohl(resp=
-onse->encrypted.call_id[i]);
-a1399f8bb0331a David Howells 2016-06-27  1196  =
+2e69784af4e1929 David Howells 2020-01-23  684  	spin_unlock(&call->input_lo=
+ck);
+2e69784af4e1929 David Howells 2020-01-23  685  	rxrpc_free_skb(skb, rxrpc_s=
+kb_freed);
+2e69784af4e1929 David Howells 2020-01-23  686  	_leave(" [queued]");
+2e69784af4e1929 David Howells 2020-01-23  687  }
+2e69784af4e1929 David Howells 2020-01-23  688  =
 
-fb46f6ee10e787 David Howells 2017-04-06  1197  		eproto =3D tracepoint_stri=
-ng("rxkad_rsp_callid");
-a1399f8bb0331a David Howells 2016-06-27  1198  		if (call_id > INT_MAX)
-a1399f8bb0331a David Howells 2016-06-27  1199  			goto protocol_error_unloc=
-k;
-a1399f8bb0331a David Howells 2016-06-27  1200  =
-
-fb46f6ee10e787 David Howells 2017-04-06  1201  		eproto =3D tracepoint_stri=
-ng("rxkad_rsp_callctr");
-a1399f8bb0331a David Howells 2016-06-27  1202  		if (call_id < conn->channe=
-ls[i].call_counter)
-a1399f8bb0331a David Howells 2016-06-27  1203  			goto protocol_error_unloc=
-k;
-fb46f6ee10e787 David Howells 2017-04-06  1204  =
-
-fb46f6ee10e787 David Howells 2017-04-06  1205  		eproto =3D tracepoint_stri=
-ng("rxkad_rsp_callst");
-a1399f8bb0331a David Howells 2016-06-27  1206  		if (call_id > conn->channe=
-ls[i].call_counter) {
-a1399f8bb0331a David Howells 2016-06-27  1207  			call =3D rcu_dereference_=
-protected(
-a1399f8bb0331a David Howells 2016-06-27  1208  				conn->channels[i].call,
-245500d853e9f2 David Howells 2020-07-01  1209  				lockdep_is_held(&conn->b=
-undle->channel_lock));
-a1399f8bb0331a David Howells 2016-06-27  1210  			if (call && call->state <=
- RXRPC_CALL_COMPLETE)
-a1399f8bb0331a David Howells 2016-06-27  1211  				goto protocol_error_unlo=
-ck;
-a1399f8bb0331a David Howells 2016-06-27  1212  			conn->channels[i].call_co=
-unter =3D call_id;
-a1399f8bb0331a David Howells 2016-06-27  1213  		}
-a1399f8bb0331a David Howells 2016-06-27  1214  	}
-245500d853e9f2 David Howells 2020-07-01  1215  	spin_unlock(&conn->bundle->=
-channel_lock);
-17926a79320afa David Howells 2007-04-26  1216  =
-
-fb46f6ee10e787 David Howells 2017-04-06  1217  	eproto =3D tracepoint_strin=
-g("rxkad_rsp_seq");
-17926a79320afa David Howells 2007-04-26  1218  	abort_code =3D RXKADOUTOFSE=
-QUENCE;
-521bb3049c4df0 David Howells 2020-09-22  1219  	if (ntohl(response->encrypt=
-ed.inc_nonce) !=3D conn->rxkad.nonce + 1)
-17926a79320afa David Howells 2007-04-26  1220  		goto protocol_error_free;
-17926a79320afa David Howells 2007-04-26  1221  =
-
-fb46f6ee10e787 David Howells 2017-04-06  1222  	eproto =3D tracepoint_strin=
-g("rxkad_rsp_level");
-17926a79320afa David Howells 2007-04-26  1223  	abort_code =3D RXKADLEVELFA=
-IL;
-8c2f826dc36314 David Howells 2018-02-08  1224  	level =3D ntohl(response->e=
-ncrypted.level);
-17926a79320afa David Howells 2007-04-26  1225  	if (level > RXRPC_SECURITY_=
-ENCRYPT)
-17926a79320afa David Howells 2007-04-26  1226  		goto protocol_error_free;
-19ffa01c9c4586 David Howells 2016-04-04  1227  	conn->params.security_level=
- =3D level;
-17926a79320afa David Howells 2007-04-26  1228  =
-
-17926a79320afa David Howells 2007-04-26  1229  	/* create a key to hold the=
- security data and expiration time - after
-17926a79320afa David Howells 2007-04-26  1230  	 * this the connection secu=
-rity can be handled in exactly the same way
-17926a79320afa David Howells 2007-04-26  1231  	 * as for a client connecti=
-on */
-17926a79320afa David Howells 2007-04-26  1232  	ret =3D rxrpc_get_server_da=
-ta_key(conn, &session_key, expiry, kvno);
-ef68622da9cc0c David Howells 2017-04-06  1233  	if (ret < 0)
-8c2f826dc36314 David Howells 2018-02-08  1234  		goto temporary_error_free_=
-ticket;
-17926a79320afa David Howells 2007-04-26  1235  =
-
-17926a79320afa David Howells 2007-04-26  1236  	kfree(ticket);
-8c2f826dc36314 David Howells 2018-02-08  1237  	kfree(response);
-17926a79320afa David Howells 2007-04-26  1238  	_leave(" =3D 0");
-17926a79320afa David Howells 2007-04-26  1239  	return 0;
-17926a79320afa David Howells 2007-04-26  1240  =
-
-a1399f8bb0331a David Howells 2016-06-27  1241  protocol_error_unlock:
-245500d853e9f2 David Howells 2020-07-01  1242  	spin_unlock(&conn->bundle->=
-channel_lock);
-17926a79320afa David Howells 2007-04-26  1243  protocol_error_free:
-17926a79320afa David Howells 2007-04-26  1244  	kfree(ticket);
-17926a79320afa David Howells 2007-04-26  1245  protocol_error:
-8c2f826dc36314 David Howells 2018-02-08  1246  	kfree(response);
-fb46f6ee10e787 David Howells 2017-04-06  1247  	trace_rxrpc_rx_eproto(NULL,=
- sp->hdr.serial, eproto);
-ec832bd06d6fdf David Howells 2020-09-16  1248  	key_put(server_key);
-17926a79320afa David Howells 2007-04-26  1249  	*_abort_code =3D abort_code;
-17926a79320afa David Howells 2007-04-26  1250  	return -EPROTO;
-ef68622da9cc0c David Howells 2017-04-06  1251  =
-
-8c2f826dc36314 David Howells 2018-02-08  1252  temporary_error_free_ticket:
-ef68622da9cc0c David Howells 2017-04-06  1253  	kfree(ticket);
-b43c75abfd084b Dinghao Liu   2020-08-27  1254  temporary_error_free_resp:
-8c2f826dc36314 David Howells 2018-02-08  1255  	kfree(response);
-ef68622da9cc0c David Howells 2017-04-06  1256  temporary_error:
-ef68622da9cc0c David Howells 2017-04-06  1257  	/* Ignore the response pack=
-et if we got a temporary error such as
-ef68622da9cc0c David Howells 2017-04-06  1258  	 * ENOMEM.  We just want to=
- send the challenge again.  Note that we
-ef68622da9cc0c David Howells 2017-04-06  1259  	 * also come out this way i=
-f the ticket decryption fails.
-ef68622da9cc0c David Howells 2017-04-06  1260  	 */
-ec832bd06d6fdf David Howells 2020-09-16  1261  	key_put(server_key);
-ef68622da9cc0c David Howells 2017-04-06  1262  	return ret;
-17926a79320afa David Howells 2007-04-26  1263  }
-17926a79320afa David Howells 2007-04-26  1264  =
-
-
-:::::: The code at line 1165 was first introduced by commit
-:::::: ceff522db2cc2915d50ca7f019df1cc8b19c871c rxrpc: rxkad: Don't use psk=
-b_pull() to advance through the response packet
-
-:::::: TO: David Howells <dhowells@redhat.com>
-:::::: CC: David Howells <dhowells@redhat.com>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
 
---===============0841087003909777720==
+--===============7448325142817528186==
 Content-Type: text/plain
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -2979,5 +2827,5 @@ bmVsIFRlc3RpbmcgYW5kIENvdmVyYWdlCgojIENPTkZJR19XQVJOX01JU1NJTkdfRE9DVU1FTlRT
 IGlzIG5vdCBzZXQKIyBDT05GSUdfV0FSTl9BQklfRVJST1JTIGlzIG5vdCBzZXQKIyBlbmQgb2Yg
 S2VybmVsIGhhY2tpbmcK
 
---===============0841087003909777720==--
+--===============7448325142817528186==--
 
