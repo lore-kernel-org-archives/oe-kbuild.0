@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============4957649405334796894=="
+Content-Type: multipart/mixed; boundary="===============7994755287024986987=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/net/wireless/ralink/rt2x00/rt2800lib.c:9650 rt2800_loft_iq_calibration() warn: impossible condition '(vga_gain[ch_idx] < 0) => (0-255 < 0)'
-Date: Fri, 07 Oct 2022 18:58:43 +0800
-Message-ID: <202210071817.Juj4ah3V-lkp@intel.com>
+Subject: net/mac80211/rx.c:4110 ieee80211_release_reorder_timeout() error: buffer overflow 'sta->link' 15 <= 15
+Date: Fri, 07 Oct 2022 16:50:10 +0800
+Message-ID: <202210071612.rdvmAHN1-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4957649405334796894==
+--===============7994755287024986987==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,18 +15,16 @@ Content-Transfer-Encoding: quoted-printable
 BCC: lkp(a)intel.com
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: "Tomislav Po=C5=BEega" <pozega.tomislav@gmail.com>
-CC: Kalle Valo <kvalo@kernel.org>
-CC: Daniel Golle <daniel@makrotopia.org>
+TO: Johannes Berg <johannes.berg@intel.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   4c86114194e644b6da9107d75910635c9e87179e
-commit: dab902fe1d29dc0fa1dccc8d13dc89ffbf633881 wifi: rt2x00: add TX LOFT =
-calibration for MT7620
-date:   13 days ago
-:::::: branch date: 10 hours ago
-:::::: commit date: 13 days ago
+commit: e95a7f3ddc1b47838e5c131f77eb9525724c3e73 wifi: mac80211: set link_s=
+ta in reorder timeout
+date:   4 weeks ago
+:::::: branch date: 8 hours ago
+:::::: commit date: 4 weeks ago
 config: loongarch-randconfig-m031-20221003
 compiler: loongarch64-linux-gcc (GCC) 12.1.0
 
@@ -34,825 +32,111 @@ If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-drivers/net/wireless/ralink/rt2x00/rt2800lib.c:9650 rt2800_loft_iq_calibrat=
-ion() warn: impossible condition '(vga_gain[ch_idx] < 0) =3D> (0-255 < 0)'
-
-vim +9650 drivers/net/wireless/ralink/rt2x00/rt2800lib.c
-
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9508  =
-
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9509  static void rt2800_lo=
-ft_iq_calibration(struct rt2x00_dev *rt2x00dev)
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9510  {
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9511  	struct rf_reg_pair r=
-f_store[CHAIN_NUM][13];
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9512  	u32 macorg1 =3D 0;
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9513  	u32 macorg2 =3D 0;
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9514  	u32 macorg3 =3D 0;
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9515  	u32 macorg4 =3D 0;
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9516  	u32 macorg5 =3D 0;
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9517  	u32 orig528 =3D 0;
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9518  	u32 orig52c =3D 0;
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9519  =
-
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9520  	u32 savemacsysctrl =
-=3D 0;
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9521  	u32 macvalue =3D 0;
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9522  	u32 mac13b8 =3D 0;
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9523  	u32 p0 =3D 0, p1 =3D=
- 0;
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9524  	u32 p0_idx10 =3D 0, =
-p1_idx10 =3D 0;
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9525  =
-
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9526  	u8 rfvalue;
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9527  	u8 loft_dc_search_re=
-sult[CHAIN_NUM][RF_ALC_NUM][2];
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9528  	u8 ger[CHAIN_NUM], p=
-er[CHAIN_NUM];
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9529  =
-
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9530  	u8 vga_gain[] =3D {1=
-4, 14};
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9531  	u8 bbp =3D 0, ch_idx=
- =3D 0, rf_alc_idx =3D 0, idx =3D 0;
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9532  	u8 bbpr30, rfb0r39, =
-rfb0r42;
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9533  	u8 bbpr1;
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9534  	u8 bbpr4;
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9535  	u8 bbpr241, bbpr242;
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9536  	u8 count_step;
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9537  =
-
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9538  	static const u8 rf_g=
-ain[] =3D {0x00, 0x01, 0x02, 0x04, 0x08, 0x0c};
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9539  	static const u8 rfvg=
-a_gain_table[] =3D {0x24, 0x25, 0x26, 0x27, 0x28, 0x2c, 0x2d, 0x2e, 0x2f, 0=
-x30,
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9540  					      0x31, 0x38=
-, 0x39, 0x3a, 0x3b, 0x3c, 0x3d, 0x3e, 0x3F};
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9541  	static const u8 bbp_=
-2324gain[] =3D {0x16, 0x14, 0x12, 0x10, 0x0c, 0x08};
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9542  =
-
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9543  	savemacsysctrl =3D r=
-t2800_register_read(rt2x00dev, MAC_SYS_CTRL);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9544  	macorg1 =3D rt2800_r=
-egister_read(rt2x00dev, TX_PIN_CFG);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9545  	macorg2 =3D rt2800_r=
-egister_read(rt2x00dev, RF_CONTROL0);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9546  	macorg3 =3D rt2800_r=
-egister_read(rt2x00dev, RF_BYPASS0);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9547  	macorg4 =3D rt2800_r=
-egister_read(rt2x00dev, RF_CONTROL3);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9548  	macorg5 =3D rt2800_r=
-egister_read(rt2x00dev, RF_BYPASS3);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9549  	mac13b8 =3D rt2800_r=
-egister_read(rt2x00dev, 0x13b8);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9550  	orig528 =3D rt2800_r=
-egister_read(rt2x00dev, RF_CONTROL2);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9551  	orig52c =3D rt2800_r=
-egister_read(rt2x00dev, RF_BYPASS2);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9552  =
-
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9553  	macvalue =3D rt2800_=
-register_read(rt2x00dev, MAC_SYS_CTRL);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9554  	macvalue &=3D (~0x04=
-);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9555  	rt2800_register_writ=
-e(rt2x00dev, MAC_SYS_CTRL, macvalue);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9556  =
-
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9557  	if (unlikely(rt2800_=
-wait_bbp_rf_ready(rt2x00dev, MAC_STATUS_CFG_BBP_RF_BUSY_TX)))
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9558  		rt2x00_warn(rt2x00d=
-ev, "RF TX busy in LOFT IQ calibration\n");
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9559  =
-
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9560  	macvalue =3D rt2800_=
-register_read(rt2x00dev, MAC_SYS_CTRL);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9561  	macvalue &=3D (~0x08=
-);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9562  	rt2800_register_writ=
-e(rt2x00dev, MAC_SYS_CTRL, macvalue);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9563  =
-
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9564  	if (unlikely(rt2800_=
-wait_bbp_rf_ready(rt2x00dev, MAC_STATUS_CFG_BBP_RF_BUSY_RX)))
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9565  		rt2x00_warn(rt2x00d=
-ev, "RF RX busy in LOFT IQ calibration\n");
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9566  =
-
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9567  	for (ch_idx =3D 0; c=
-h_idx < 2; ch_idx++)
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9568  		rt2800_rf_configsto=
-re(rt2x00dev, rf_store, ch_idx);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9569  =
-
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9570  	bbpr30 =3D rt2800_bb=
-p_read(rt2x00dev, 30);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9571  	rfb0r39 =3D rt2800_r=
-fcsr_read_bank(rt2x00dev, 0, 39);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9572  	rfb0r42 =3D rt2800_r=
-fcsr_read_bank(rt2x00dev, 0, 42);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9573  =
-
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9574  	rt2800_bbp_write(rt2=
-x00dev, 30, 0x1F);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9575  	rt2800_rfcsr_write_b=
-ank(rt2x00dev, 0, 39, 0x80);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9576  	rt2800_rfcsr_write_b=
-ank(rt2x00dev, 0, 42, 0x5B);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9577  =
-
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9578  	rt2800_bbp_write(rt2=
-x00dev, 23, 0x00);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9579  	rt2800_bbp_write(rt2=
-x00dev, 24, 0x00);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9580  =
-
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9581  	rt2800_setbbptonegen=
-erator(rt2x00dev);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9582  =
-
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9583  	for (ch_idx =3D 0; c=
-h_idx < 2; ch_idx++) {
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9584  		rt2800_bbp_write(rt=
-2x00dev, 23, 0x00);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9585  		rt2800_bbp_write(rt=
-2x00dev, 24, 0x00);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9586  		rt2800_register_wri=
-te(rt2x00dev, MAC_SYS_CTRL, 0x00);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9587  		rt2800_register_wri=
-te(rt2x00dev, TX_PIN_CFG, 0x0000000F);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9588  		rt2800_register_wri=
-te(rt2x00dev, RF_CONTROL0, 0x00000004);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9589  		rt2800_register_wri=
-te(rt2x00dev, RF_BYPASS0, 0x00003306);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9590  		rt2800_register_wri=
-te(rt2x00dev, 0x13b8, 0x10);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9591  		udelay(1);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9592  =
-
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9593  		if (ch_idx =3D=3D 0)
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9594  			rt2800_rf_aux_tx0_=
-loopback(rt2x00dev);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9595  		else
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9596  			rt2800_rf_aux_tx1_=
-loopback(rt2x00dev);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9597  =
-
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9598  		udelay(1);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9599  =
-
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9600  		if (ch_idx =3D=3D 0)
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9601  			rt2800_register_wr=
-ite(rt2x00dev, RF_CONTROL0, 0x00001004);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9602  		else
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9603  			rt2800_register_wr=
-ite(rt2x00dev, RF_CONTROL0, 0x00002004);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9604  =
-
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9605  		rt2800_bbp_write(rt=
-2x00dev, 158, 0x05);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9606  		rt2800_bbp_write(rt=
-2x00dev, 159, 0x00);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9607  =
-
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9608  		rt2800_bbp_write(rt=
-2x00dev, 158, 0x01);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9609  		if (ch_idx =3D=3D 0)
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9610  			rt2800_bbp_write(r=
-t2x00dev, 159, 0x00);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9611  		else
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9612  			rt2800_bbp_write(r=
-t2x00dev, 159, 0x01);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9613  =
-
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9614  		vga_gain[ch_idx] =
-=3D 18;
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9615  		for (rf_alc_idx =3D=
- 0; rf_alc_idx < 3; rf_alc_idx++) {
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9616  			rt2800_bbp_write(r=
-t2x00dev, 23, bbp_2324gain[rf_alc_idx]);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9617  			rt2800_bbp_write(r=
-t2x00dev, 24, bbp_2324gain[rf_alc_idx]);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9618  =
-
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9619  			macvalue =3D rt280=
-0_register_read(rt2x00dev, RF_CONTROL3);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9620  			macvalue &=3D (~0x=
-0000F1F1);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9621  			macvalue |=3D (rf_=
-gain[rf_alc_idx] << 4);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9622  			macvalue |=3D (rf_=
-gain[rf_alc_idx] << 12);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9623  			rt2800_register_wr=
-ite(rt2x00dev, RF_CONTROL3, macvalue);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9624  			macvalue =3D (0x00=
-00F1F1);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9625  			rt2800_register_wr=
-ite(rt2x00dev, RF_BYPASS3, macvalue);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9626  =
-
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9627  			if (rf_alc_idx =3D=
-=3D 0) {
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9628  				rt2800_write_dc(r=
-t2x00dev, ch_idx, 0, 1, 0x21);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9629  				for (; vga_gain[c=
-h_idx] > 0;
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9630  				     vga_gain[ch_=
-idx] =3D vga_gain[ch_idx] - 2) {
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9631  					rfvalue =3D rfvg=
-a_gain_table[vga_gain[ch_idx]];
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9632  					rt2800_rfcsr_wri=
-te_dccal(rt2x00dev, 3, rfvalue);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9633  					rt2800_rfcsr_wri=
-te_dccal(rt2x00dev, 4, rfvalue);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9634  					rt2800_write_dc(=
-rt2x00dev, ch_idx, 0, 1, 0x00);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9635  					rt2800_write_dc(=
-rt2x00dev, ch_idx, 0, 0, 0x00);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9636  					p0 =3D rt2800_do=
-_fft_accumulation(rt2x00dev, 0x0A, 0);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9637  					rt2800_write_dc(=
-rt2x00dev, ch_idx, 0, 0, 0x21);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9638  					p1 =3D rt2800_do=
-_fft_accumulation(rt2x00dev, 0x0A, 0);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9639  					rt2x00_dbg(rt2x0=
-0dev, "LOFT AGC %d %d\n", p0, p1);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9640  					if ((p0 < 7000 *=
- 7000) && (p1 < (7000 * 7000)))
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9641  						break;
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9642  				}
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9643  =
-
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9644  				rt2800_write_dc(r=
-t2x00dev, ch_idx, 0, 0, 0x00);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9645  				rt2800_write_dc(r=
-t2x00dev, ch_idx, 0, 1, 0x00);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9646  =
-
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9647  				rt2x00_dbg(rt2x00=
-dev, "Used VGA %d %x\n", vga_gain[ch_idx],
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9648  					   rfvga_gain_ta=
-ble[vga_gain[ch_idx]]);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9649  =
-
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17 @9650  				if (vga_gain[ch_i=
-dx] < 0)
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9651  					vga_gain[ch_idx]=
- =3D 0;
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9652  			}
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9653  =
-
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9654  			rfvalue =3D rfvga_=
-gain_table[vga_gain[ch_idx]];
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9655  =
-
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9656  			rt2800_rfcsr_write=
-_dccal(rt2x00dev, 3, rfvalue);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9657  			rt2800_rfcsr_write=
-_dccal(rt2x00dev, 4, rfvalue);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9658  =
-
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9659  			rt2800_loft_search=
-(rt2x00dev, ch_idx, rf_alc_idx, loft_dc_search_result);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9660  		}
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9661  	}
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9662  =
-
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9663  	for (rf_alc_idx =3D =
-0; rf_alc_idx < 3; rf_alc_idx++) {
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9664  		for (idx =3D 0; idx=
- < 4; idx++) {
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9665  			rt2800_bbp_write(r=
-t2x00dev, 158, 0xB0);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9666  			bbp =3D (idx << 2)=
- + rf_alc_idx;
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9667  			rt2800_bbp_write(r=
-t2x00dev, 159, bbp);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9668  			rt2x00_dbg(rt2x00d=
-ev, " ALC %2x,", bbp);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9669  =
-
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9670  			rt2800_bbp_write(r=
-t2x00dev, 158, 0xb1);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9671  			bbp =3D loft_dc_se=
-arch_result[CHAIN_0][rf_alc_idx][0x00];
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9672  			bbp =3D bbp & 0x3F;
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9673  			rt2800_bbp_write(r=
-t2x00dev, 159, bbp);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9674  			rt2x00_dbg(rt2x00d=
-ev, " I0 %2x,", bbp);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9675  =
-
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9676  			rt2800_bbp_write(r=
-t2x00dev, 158, 0xb2);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9677  			bbp =3D loft_dc_se=
-arch_result[CHAIN_0][rf_alc_idx][0x01];
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9678  			bbp =3D bbp & 0x3F;
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9679  			rt2800_bbp_write(r=
-t2x00dev, 159, bbp);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9680  			rt2x00_dbg(rt2x00d=
-ev, " Q0 %2x,", bbp);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9681  =
-
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9682  			rt2800_bbp_write(r=
-t2x00dev, 158, 0xb8);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9683  			bbp =3D loft_dc_se=
-arch_result[CHAIN_1][rf_alc_idx][0x00];
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9684  			bbp =3D bbp & 0x3F;
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9685  			rt2800_bbp_write(r=
-t2x00dev, 159, bbp);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9686  			rt2x00_dbg(rt2x00d=
-ev, " I1 %2x,", bbp);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9687  =
-
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9688  			rt2800_bbp_write(r=
-t2x00dev, 158, 0xb9);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9689  			bbp =3D loft_dc_se=
-arch_result[CHAIN_1][rf_alc_idx][0x01];
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9690  			bbp =3D bbp & 0x3F;
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9691  			rt2800_bbp_write(r=
-t2x00dev, 159, bbp);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9692  			rt2x00_dbg(rt2x00d=
-ev, " Q1 %2x\n", bbp);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9693  		}
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9694  	}
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9695  =
-
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9696  	rt2800_bbp_write(rt2=
-x00dev, 23, 0x00);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9697  	rt2800_bbp_write(rt2=
-x00dev, 24, 0x00);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9698  =
-
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9699  	rt2800_register_writ=
-e(rt2x00dev, RF_CONTROL0, 0x04);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9700  =
-
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9701  	rt2800_bbp_write(rt2=
-x00dev, 158, 0x00);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9702  	rt2800_bbp_write(rt2=
-x00dev, 159, 0x00);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9703  =
-
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9704  	bbp =3D 0x00;
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9705  	rt2800_bbp_write(rt2=
-x00dev, 244, 0x00);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9706  =
-
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9707  	rt2800_bbp_write(rt2=
-x00dev, 21, 0x01);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9708  	udelay(1);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9709  	rt2800_bbp_write(rt2=
-x00dev, 21, 0x00);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9710  =
-
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9711  	rt2800_rf_configreco=
-ver(rt2x00dev, rf_store);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9712  =
-
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9713  	rt2800_register_writ=
-e(rt2x00dev, TX_PIN_CFG, macorg1);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9714  	rt2800_register_writ=
-e(rt2x00dev, RF_CONTROL0, 0x04);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9715  	rt2800_register_writ=
-e(rt2x00dev, RF_CONTROL0, 0x00);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9716  	rt2800_register_writ=
-e(rt2x00dev, RF_BYPASS0, 0x00);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9717  	rt2800_register_writ=
-e(rt2x00dev, RF_CONTROL0, macorg2);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9718  	udelay(1);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9719  	rt2800_register_writ=
-e(rt2x00dev, RF_BYPASS0, macorg3);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9720  	rt2800_register_writ=
-e(rt2x00dev, RF_CONTROL3, macorg4);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9721  	rt2800_register_writ=
-e(rt2x00dev, RF_BYPASS3, macorg5);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9722  	rt2800_register_writ=
-e(rt2x00dev, MAC_SYS_CTRL, savemacsysctrl);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9723  	rt2800_register_writ=
-e(rt2x00dev, RF_CONTROL2, orig528);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9724  	rt2800_register_writ=
-e(rt2x00dev, RF_BYPASS2, orig52c);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9725  	rt2800_register_writ=
-e(rt2x00dev, 0x13b8, mac13b8);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9726  =
-
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9727  	savemacsysctrl =3D r=
-t2800_register_read(rt2x00dev, MAC_SYS_CTRL);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9728  	macorg1 =3D rt2800_r=
-egister_read(rt2x00dev, TX_PIN_CFG);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9729  	macorg2 =3D rt2800_r=
-egister_read(rt2x00dev, RF_CONTROL0);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9730  	macorg3 =3D rt2800_r=
-egister_read(rt2x00dev, RF_BYPASS0);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9731  	macorg4 =3D rt2800_r=
-egister_read(rt2x00dev, RF_CONTROL3);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9732  	macorg5 =3D rt2800_r=
-egister_read(rt2x00dev, RF_BYPASS3);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9733  =
-
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9734  	bbpr1 =3D rt2800_bbp=
-_read(rt2x00dev, 1);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9735  	bbpr4 =3D rt2800_bbp=
-_read(rt2x00dev, 4);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9736  	bbpr241 =3D rt2800_b=
-bp_read(rt2x00dev, 241);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9737  	bbpr242 =3D rt2800_b=
-bp_read(rt2x00dev, 242);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9738  	mac13b8 =3D rt2800_r=
-egister_read(rt2x00dev, 0x13b8);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9739  =
-
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9740  	macvalue =3D rt2800_=
-register_read(rt2x00dev, MAC_SYS_CTRL);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9741  	macvalue &=3D (~0x04=
-);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9742  	rt2800_register_writ=
-e(rt2x00dev, MAC_SYS_CTRL, macvalue);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9743  =
-
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9744  	if (unlikely(rt2800_=
-wait_bbp_rf_ready(rt2x00dev, MAC_STATUS_CFG_BBP_RF_BUSY_TX)))
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9745  		rt2x00_warn(rt2x00d=
-ev, "RF TX busy in LOFT IQ calibration\n");
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9746  =
-
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9747  	macvalue =3D rt2800_=
-register_read(rt2x00dev, MAC_SYS_CTRL);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9748  	macvalue &=3D (~0x08=
-);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9749  	rt2800_register_writ=
-e(rt2x00dev, MAC_SYS_CTRL, macvalue);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9750  =
-
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9751  	if (unlikely(rt2800_=
-wait_bbp_rf_ready(rt2x00dev, MAC_STATUS_CFG_BBP_RF_BUSY_RX)))
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9752  		rt2x00_warn(rt2x00d=
-ev, "RF RX busy in LOFT IQ calibration\n");
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9753  =
-
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9754  	if (test_bit(CAPABIL=
-ITY_EXTERNAL_PA_TX0, &rt2x00dev->cap_flags)) {
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9755  		rt2800_register_wri=
-te(rt2x00dev, RF_CONTROL3, 0x00000101);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9756  		rt2800_register_wri=
-te(rt2x00dev, RF_BYPASS3, 0x0000F1F1);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9757  	}
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9758  =
-
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9759  	rt2800_bbp_write(rt2=
-x00dev, 23, 0x00);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9760  	rt2800_bbp_write(rt2=
-x00dev, 24, 0x00);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9761  =
-
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9762  	if (test_bit(CAPABIL=
-ITY_EXTERNAL_PA_TX0, &rt2x00dev->cap_flags)) {
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9763  		rt2800_bbp_write(rt=
-2x00dev, 4, bbpr4 & (~0x18));
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9764  		rt2800_bbp_write(rt=
-2x00dev, 21, 0x01);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9765  		udelay(1);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9766  		rt2800_bbp_write(rt=
-2x00dev, 21, 0x00);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9767  =
-
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9768  		rt2800_bbp_write(rt=
-2x00dev, 241, 0x14);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9769  		rt2800_bbp_write(rt=
-2x00dev, 242, 0x80);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9770  		rt2800_bbp_write(rt=
-2x00dev, 244, 0x31);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9771  	} else {
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9772  		rt2800_setbbptonege=
-nerator(rt2x00dev);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9773  	}
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9774  =
-
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9775  	rt2800_register_writ=
-e(rt2x00dev, RF_CONTROL0, 0x00000004);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9776  	rt2800_register_writ=
-e(rt2x00dev, RF_BYPASS0, 0x00003306);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9777  	udelay(1);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9778  =
-
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9779  	rt2800_register_writ=
-e(rt2x00dev, TX_PIN_CFG, 0x0000000F);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9780  =
-
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9781  	if (!test_bit(CAPABI=
-LITY_EXTERNAL_PA_TX0, &rt2x00dev->cap_flags)) {
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9782  		rt2800_register_wri=
-te(rt2x00dev, RF_CONTROL3, 0x00000000);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9783  		rt2800_register_wri=
-te(rt2x00dev, RF_BYPASS3, 0x0000F1F1);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9784  	}
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9785  =
-
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9786  	rt2800_register_writ=
-e(rt2x00dev, 0x13b8, 0x00000010);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9787  =
-
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9788  	for (ch_idx =3D 0; c=
-h_idx < 2; ch_idx++)
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9789  		rt2800_rf_configsto=
-re(rt2x00dev, rf_store, ch_idx);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9790  =
-
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9791  	rt2800_rfcsr_write_d=
-ccal(rt2x00dev, 3, 0x3B);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9792  	rt2800_rfcsr_write_d=
-ccal(rt2x00dev, 4, 0x3B);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9793  =
-
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9794  	rt2800_bbp_write(rt2=
-x00dev, 158, 0x03);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9795  	rt2800_bbp_write(rt2=
-x00dev, 159, 0x60);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9796  	rt2800_bbp_write(rt2=
-x00dev, 158, 0xB0);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9797  	rt2800_bbp_write(rt2=
-x00dev, 159, 0x80);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9798  =
-
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9799  	for (ch_idx =3D 0; c=
-h_idx < 2; ch_idx++) {
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9800  		rt2800_bbp_write(rt=
-2x00dev, 23, 0x00);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9801  		rt2800_bbp_write(rt=
-2x00dev, 24, 0x00);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9802  =
-
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9803  		if (ch_idx =3D=3D 0=
-) {
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9804  			rt2800_bbp_write(r=
-t2x00dev, 158, 0x01);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9805  			rt2800_bbp_write(r=
-t2x00dev, 159, 0x00);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9806  			if (test_bit(CAPAB=
-ILITY_EXTERNAL_PA_TX0, &rt2x00dev->cap_flags)) {
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9807  				bbp =3D bbpr1 & (=
-~0x18);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9808  				bbp =3D bbp | 0x0=
-0;
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9809  				rt2800_bbp_write(=
-rt2x00dev, 1, bbp);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9810  			}
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9811  			rt2800_rf_aux_tx0_=
-loopback(rt2x00dev);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9812  			rt2800_register_wr=
-ite(rt2x00dev, RF_CONTROL0, 0x00001004);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9813  		} else {
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9814  			rt2800_bbp_write(r=
-t2x00dev, 158, 0x01);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9815  			rt2800_bbp_write(r=
-t2x00dev, 159, 0x01);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9816  			if (test_bit(CAPAB=
-ILITY_EXTERNAL_PA_TX1, &rt2x00dev->cap_flags)) {
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9817  				bbp =3D bbpr1 & (=
-~0x18);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9818  				bbp =3D bbp | 0x0=
-8;
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9819  				rt2800_bbp_write(=
-rt2x00dev, 1, bbp);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9820  			}
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9821  			rt2800_rf_aux_tx1_=
-loopback(rt2x00dev);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9822  			rt2800_register_wr=
-ite(rt2x00dev, RF_CONTROL0, 0x00002004);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9823  		}
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9824  =
-
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9825  		rt2800_bbp_write(rt=
-2x00dev, 158, 0x05);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9826  		rt2800_bbp_write(rt=
-2x00dev, 159, 0x04);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9827  =
-
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9828  		bbp =3D (ch_idx =3D=
-=3D 0) ? 0x28 : 0x46;
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9829  		rt2800_bbp_write(rt=
-2x00dev, 158, bbp);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9830  		rt2800_bbp_write(rt=
-2x00dev, 159, 0x00);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9831  =
-
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9832  		if (test_bit(CAPABI=
-LITY_EXTERNAL_PA_TX0, &rt2x00dev->cap_flags)) {
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9833  			rt2800_bbp_write(r=
-t2x00dev, 23, 0x06);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9834  			rt2800_bbp_write(r=
-t2x00dev, 24, 0x06);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9835  			count_step =3D 1;
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9836  		} else {
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9837  			rt2800_bbp_write(r=
-t2x00dev, 23, 0x1F);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9838  			rt2800_bbp_write(r=
-t2x00dev, 24, 0x1F);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9839  			count_step =3D 2;
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9840  		}
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9841  =
-
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9842  		for (; vga_gain[ch_=
-idx] < 19; vga_gain[ch_idx] =3D (vga_gain[ch_idx] + count_step)) {
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9843  			rfvalue =3D rfvga_=
-gain_table[vga_gain[ch_idx]];
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9844  			rt2800_rfcsr_write=
-_dccal(rt2x00dev, 3, rfvalue);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9845  			rt2800_rfcsr_write=
-_dccal(rt2x00dev, 4, rfvalue);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9846  =
-
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9847  			bbp =3D (ch_idx =
-=3D=3D 0) ? 0x29 : 0x47;
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9848  			rt2800_bbp_write(r=
-t2x00dev, 158, bbp);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9849  			rt2800_bbp_write(r=
-t2x00dev, 159, 0x00);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9850  			p0 =3D rt2800_do_f=
-ft_accumulation(rt2x00dev, 0x14, 0);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9851  			if (test_bit(CAPAB=
-ILITY_EXTERNAL_PA_TX0, &rt2x00dev->cap_flags))
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9852  				p0_idx10 =3D rt28=
-00_read_fft_accumulation(rt2x00dev, 0x0A);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9853  =
-
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9854  			bbp =3D (ch_idx =
-=3D=3D 0) ? 0x29 : 0x47;
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9855  			rt2800_bbp_write(r=
-t2x00dev, 158, bbp);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9856  			rt2800_bbp_write(r=
-t2x00dev, 159, 0x21);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9857  			p1 =3D rt2800_do_f=
-ft_accumulation(rt2x00dev, 0x14, 0);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9858  			if (test_bit(CAPAB=
-ILITY_EXTERNAL_PA_TX1, &rt2x00dev->cap_flags))
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9859  				p1_idx10 =3D rt28=
-00_read_fft_accumulation(rt2x00dev, 0x0A);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9860  =
-
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9861  			rt2x00_dbg(rt2x00d=
-ev, "IQ AGC %d %d\n", p0, p1);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9862  =
-
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9863  			if (test_bit(CAPAB=
-ILITY_EXTERNAL_PA_TX0, &rt2x00dev->cap_flags)) {
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9864  				rt2x00_dbg(rt2x00=
-dev, "IQ AGC IDX 10 %d %d\n", p0_idx10, p1_idx10);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9865  				if ((p0_idx10 > 7=
-000 * 7000) || (p1_idx10 > 7000 * 7000)) {
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9866  					if (vga_gain[ch_=
-idx] !=3D 0)
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9867  						vga_gain[ch_idx=
-] =3D vga_gain[ch_idx] - 1;
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9868  					break;
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9869  				}
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9870  			}
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9871  =
-
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9872  			if ((p0 > 2500 * 2=
-500) || (p1 > 2500 * 2500))
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9873  				break;
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9874  		}
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9875  =
-
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9876  		if (vga_gain[ch_idx=
-] > 18)
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9877  			vga_gain[ch_idx] =
-=3D 18;
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9878  		rt2x00_dbg(rt2x00de=
-v, "Used VGA %d %x\n", vga_gain[ch_idx],
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9879  			   rfvga_gain_tabl=
-e[vga_gain[ch_idx]]);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9880  =
-
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9881  		bbp =3D (ch_idx =3D=
-=3D 0) ? 0x29 : 0x47;
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9882  		rt2800_bbp_write(rt=
-2x00dev, 158, bbp);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9883  		rt2800_bbp_write(rt=
-2x00dev, 159, 0x00);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9884  =
-
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9885  		rt2800_iq_search(rt=
-2x00dev, ch_idx, ger, per);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9886  	}
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9887  =
-
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9888  	rt2800_bbp_write(rt2=
-x00dev, 23, 0x00);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9889  	rt2800_bbp_write(rt2=
-x00dev, 24, 0x00);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9890  	rt2800_register_writ=
-e(rt2x00dev, RF_CONTROL0, 0x04);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9891  =
-
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9892  	rt2800_bbp_write(rt2=
-x00dev, 158, 0x28);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9893  	bbp =3D ger[CHAIN_0]=
- & 0x0F;
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9894  	rt2800_bbp_write(rt2=
-x00dev, 159, bbp);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9895  =
-
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9896  	rt2800_bbp_write(rt2=
-x00dev, 158, 0x29);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9897  	bbp =3D per[CHAIN_0]=
- & 0x3F;
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9898  	rt2800_bbp_write(rt2=
-x00dev, 159, bbp);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9899  =
-
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9900  	rt2800_bbp_write(rt2=
-x00dev, 158, 0x46);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9901  	bbp =3D ger[CHAIN_1]=
- & 0x0F;
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9902  	rt2800_bbp_write(rt2=
-x00dev, 159, bbp);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9903  =
-
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9904  	rt2800_bbp_write(rt2=
-x00dev, 158, 0x47);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9905  	bbp =3D per[CHAIN_1]=
- & 0x3F;
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9906  	rt2800_bbp_write(rt2=
-x00dev, 159, bbp);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9907  =
-
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9908  	if (test_bit(CAPABIL=
-ITY_EXTERNAL_PA_TX0, &rt2x00dev->cap_flags)) {
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9909  		rt2800_bbp_write(rt=
-2x00dev, 1, bbpr1);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9910  		rt2800_bbp_write(rt=
-2x00dev, 241, bbpr241);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9911  		rt2800_bbp_write(rt=
-2x00dev, 242, bbpr242);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9912  	}
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9913  	rt2800_bbp_write(rt2=
-x00dev, 244, 0x00);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9914  =
-
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9915  	rt2800_bbp_write(rt2=
-x00dev, 158, 0x00);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9916  	rt2800_bbp_write(rt2=
-x00dev, 159, 0x00);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9917  	rt2800_bbp_write(rt2=
-x00dev, 158, 0xB0);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9918  	rt2800_bbp_write(rt2=
-x00dev, 159, 0x00);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9919  =
-
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9920  	rt2800_bbp_write(rt2=
-x00dev, 30, bbpr30);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9921  	rt2800_rfcsr_write_b=
-ank(rt2x00dev, 0, 39, rfb0r39);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9922  	rt2800_rfcsr_write_b=
-ank(rt2x00dev, 0, 42, rfb0r42);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9923  =
-
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9924  	if (test_bit(CAPABIL=
-ITY_EXTERNAL_PA_TX0, &rt2x00dev->cap_flags))
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9925  		rt2800_bbp_write(rt=
-2x00dev, 4, bbpr4);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9926  =
-
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9927  	rt2800_bbp_write(rt2=
-x00dev, 21, 0x01);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9928  	udelay(1);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9929  	rt2800_bbp_write(rt2=
-x00dev, 21, 0x00);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9930  =
-
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9931  	rt2800_rf_configreco=
-ver(rt2x00dev, rf_store);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9932  =
-
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9933  	rt2800_register_writ=
-e(rt2x00dev, TX_PIN_CFG, macorg1);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9934  	rt2800_register_writ=
-e(rt2x00dev, RF_CONTROL0, 0x00);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9935  	rt2800_register_writ=
-e(rt2x00dev, RF_BYPASS0, 0x00);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9936  	rt2800_register_writ=
-e(rt2x00dev, RF_CONTROL0, macorg2);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9937  	udelay(1);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9938  	rt2800_register_writ=
-e(rt2x00dev, RF_BYPASS0, macorg3);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9939  	rt2800_register_writ=
-e(rt2x00dev, RF_CONTROL3, macorg4);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9940  	rt2800_register_writ=
-e(rt2x00dev, RF_BYPASS3, macorg5);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9941  	rt2800_register_writ=
-e(rt2x00dev, MAC_SYS_CTRL, savemacsysctrl);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9942  	rt2800_register_writ=
-e(rt2x00dev, 0x13b8, mac13b8);
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9943  }
-dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9944  =
+New smatch warnings:
+net/mac80211/rx.c:4110 ieee80211_release_reorder_timeout() error: buffer ov=
+erflow 'sta->link' 15 <=3D 15
+net/mac80211/rx.c:4110 ieee80211_release_reorder_timeout() error: buffer ov=
+erflow 'sta->link' 15 <=3D 15
+net/mac80211/rx.c:4110 ieee80211_release_reorder_timeout() error: buffer ov=
+erflow 'sta->link' 15 <=3D 15
+net/mac80211/rx.c:4110 ieee80211_release_reorder_timeout() error: buffer ov=
+erflow 'sta->link' 15 <=3D 15
+net/mac80211/rx.c:4110 ieee80211_release_reorder_timeout() error: buffer ov=
+erflow 'sta->link' 15 <=3D 15
+
+Old smatch warnings:
+net/mac80211/rx.c:888 ieee80211_rx_monitor() warn: variable dereferenced be=
+fore check 'origskb' (see line 781)
+net/mac80211/rx.c:4109 ieee80211_release_reorder_timeout() error: buffer ov=
+erflow 'sta->sdata->link' 15 <=3D 15
+net/mac80211/rx.c:4109 ieee80211_release_reorder_timeout() error: buffer ov=
+erflow 'sta->sdata->link' 15 <=3D 15
+net/mac80211/rx.c:4109 ieee80211_release_reorder_timeout() error: buffer ov=
+erflow 'sta->sdata->link' 15 <=3D 15
+net/mac80211/rx.c:4109 ieee80211_release_reorder_timeout() error: buffer ov=
+erflow 'sta->sdata->link' 15 <=3D 15
+net/mac80211/rx.c:4109 ieee80211_release_reorder_timeout() error: buffer ov=
+erflow 'sta->sdata->link' 15 <=3D 15
+
+vim +4110 net/mac80211/rx.c
+
+589052904a60f0 Johannes Berg       2008-01-31  4069  =
+
+2bff8ebf32a7c5 Christian Lamparter 2010-08-05  4070  /*
+dd318575ff0aae Johannes Berg       2010-11-29  4071   * This function makes=
+ calls into the RX path, therefore
+dd318575ff0aae Johannes Berg       2010-11-29  4072   * it has to be invoke=
+d under RCU read lock.
+2bff8ebf32a7c5 Christian Lamparter 2010-08-05  4073   */
+2bff8ebf32a7c5 Christian Lamparter 2010-08-05  4074  void ieee80211_release=
+_reorder_timeout(struct sta_info *sta, int tid)
+2bff8ebf32a7c5 Christian Lamparter 2010-08-05  4075  {
+f9e124fbd8cbea Christian Lamparter 2013-02-04  4076  	struct sk_buff_head f=
+rames;
+554891e63a29af Johannes Berg       2010-09-24  4077  	struct ieee80211_rx_d=
+ata rx =3D {
+554891e63a29af Johannes Berg       2010-09-24  4078  		.sta =3D sta,
+554891e63a29af Johannes Berg       2010-09-24  4079  		.sdata =3D sta->sdat=
+a,
+554891e63a29af Johannes Berg       2010-09-24  4080  		.local =3D sta->loca=
+l,
+9e26297a564533 Johannes Berg       2011-07-07  4081  		/* This is OK -- mus=
+t be QoS data frame */
+9e26297a564533 Johannes Berg       2011-07-07  4082  		.security_idx =3D ti=
+d,
+9e26297a564533 Johannes Berg       2011-07-07  4083  		.seqno_idx =3D tid,
+892b3bceb0b534 Johannes Berg       2022-06-14  4084  		.link_id =3D -1,
+554891e63a29af Johannes Berg       2010-09-24  4085  	};
+2c15a0cf27a742 Christian Lamparter 2010-08-24  4086  	struct tid_ampdu_rx *=
+tid_agg_rx;
+4a86c5462616e0 Mukesh Sisodiya     2022-09-02  4087  	u8 link_id;
+2c15a0cf27a742 Christian Lamparter 2010-08-24  4088  =
+
+2c15a0cf27a742 Christian Lamparter 2010-08-24  4089  	tid_agg_rx =3D rcu_de=
+reference(sta->ampdu_mlme.tid_rx[tid]);
+2c15a0cf27a742 Christian Lamparter 2010-08-24  4090  	if (!tid_agg_rx)
+2c15a0cf27a742 Christian Lamparter 2010-08-24  4091  		return;
+2bff8ebf32a7c5 Christian Lamparter 2010-08-05  4092  =
+
+f9e124fbd8cbea Christian Lamparter 2013-02-04  4093  	__skb_queue_head_init=
+(&frames);
+f9e124fbd8cbea Christian Lamparter 2013-02-04  4094  =
+
+2c15a0cf27a742 Christian Lamparter 2010-08-24  4095  	spin_lock(&tid_agg_rx=
+->reorder_lock);
+f9e124fbd8cbea Christian Lamparter 2013-02-04  4096  	ieee80211_sta_reorder=
+_release(sta->sdata, tid_agg_rx, &frames);
+2c15a0cf27a742 Christian Lamparter 2010-08-24  4097  	spin_unlock(&tid_agg_=
+rx->reorder_lock);
+2bff8ebf32a7c5 Christian Lamparter 2010-08-05  4098  =
+
+b497de63ad5dcd Emmanuel Grumbach   2015-04-20  4099  	if (!skb_queue_empty(=
+&frames)) {
+b497de63ad5dcd Emmanuel Grumbach   2015-04-20  4100  		struct ieee80211_eve=
+nt event =3D {
+b497de63ad5dcd Emmanuel Grumbach   2015-04-20  4101  			.type =3D BA_FRAME_=
+TIMEOUT,
+b497de63ad5dcd Emmanuel Grumbach   2015-04-20  4102  			.u.ba.tid =3D tid,
+b497de63ad5dcd Emmanuel Grumbach   2015-04-20  4103  			.u.ba.sta =3D &sta-=
+>sta,
+b497de63ad5dcd Emmanuel Grumbach   2015-04-20  4104  		};
+b497de63ad5dcd Emmanuel Grumbach   2015-04-20  4105  		drv_event_callback(r=
+x.local, rx.sdata, &event);
+b497de63ad5dcd Emmanuel Grumbach   2015-04-20  4106  	}
+4a86c5462616e0 Mukesh Sisodiya     2022-09-02  4107  	/* FIXME: statistics =
+won't be right with this */
+4a86c5462616e0 Mukesh Sisodiya     2022-09-02  4108  	link_id =3D sta->sta.=
+valid_links ? ffs(sta->sta.valid_links) - 1 : 0;
+4a86c5462616e0 Mukesh Sisodiya     2022-09-02  4109  	rx.link =3D rcu_deref=
+erence(sta->sdata->link[link_id]);
+e95a7f3ddc1b47 Johannes Berg       2022-09-06 @4110  	rx.link_sta =3D rcu_d=
+ereference(sta->link[link_id]);
+b497de63ad5dcd Emmanuel Grumbach   2015-04-20  4111  =
+
+f9e124fbd8cbea Christian Lamparter 2013-02-04  4112  	ieee80211_rx_handlers=
+(&rx, &frames);
+2bff8ebf32a7c5 Christian Lamparter 2010-08-05  4113  }
+2bff8ebf32a7c5 Christian Lamparter 2010-08-05  4114  =
 
 
 -- =
@@ -860,7 +144,7 @@ dab902fe1d29dc Tomislav Po=C5=BEega 2022-09-17  9944  =
 0-DAY CI Kernel Test Service
 https://01.org/lkp
 
---===============4957649405334796894==
+--===============7994755287024986987==
 Content-Type: text/plain
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -4648,5 +3932,5 @@ RVNUX0ZSRUVfUEFHRVMgaXMgbm90IHNldAojIGVuZCBvZiBLZXJuZWwgVGVzdGluZyBhbmQgQ292
 ZXJhZ2UKCiMgQ09ORklHX1dBUk5fTUlTU0lOR19ET0NVTUVOVFMgaXMgbm90IHNldAojIENPTkZJ
 R19XQVJOX0FCSV9FUlJPUlMgaXMgbm90IHNldAojIGVuZCBvZiBLZXJuZWwgaGFja2luZwo=
 
---===============4957649405334796894==--
+--===============7994755287024986987==--
 
