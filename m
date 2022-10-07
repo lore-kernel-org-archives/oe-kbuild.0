@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============7408088628548115066=="
+Content-Type: multipart/mixed; boundary="===============3199761089410375737=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [linux-next:master 7696/12775] drivers/iio/adc/mcp3911.c:252 mcp3911_write_raw() error: buffer overflow 'mcp3911_osr_table' 8 <= 31
-Date: Fri, 07 Oct 2022 21:15:23 +0800
-Message-ID: <202210072023.tmg5K4O3-lkp@intel.com>
+Subject: [linux-next:master 7692/12775] drivers/iio/adc/mcp3911.c:441 mcp3911_probe() warn: passing zero to 'PTR_ERR'
+Date: Fri, 07 Oct 2022 20:15:03 +0800
+Message-ID: <202210072002.9U2lqjBY-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7408088628548115066==
+--===============3199761089410375737==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -22,9 +22,9 @@ CC: Andy Shevchenko <andy.shevchenko@gmail.com>
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
  master
 head:   082fce125e57cff60687181c97f3a8ee620c38f5
-commit: 6d965885f4ea82f916d31f17f67b2ad771bdabac [7696/12775] iio: adc: mcp=
-3911: add support for oversampling ratio
-:::::: branch date: 6 hours ago
+commit: 08a65f61db69ae4850c3c15e8fbe6293a09a998d [7692/12775] iio: adc: mcp=
+3911: add support for interrupts
+:::::: branch date: 5 hours ago
 :::::: commit date: 2 weeks ago
 config: loongarch-randconfig-m031-20221003
 compiler: loongarch64-linux-gcc (GCC) 12.1.0
@@ -33,79 +33,174 @@ If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-drivers/iio/adc/mcp3911.c:252 mcp3911_write_raw() error: buffer overflow 'm=
-cp3911_osr_table' 8 <=3D 31
-
-Old smatch warnings:
-drivers/iio/adc/mcp3911.c:499 mcp3911_probe() warn: passing zero to 'PTR_ER=
+smatch warnings:
+drivers/iio/adc/mcp3911.c:441 mcp3911_probe() warn: passing zero to 'PTR_ER=
 R'
 
-vim +/mcp3911_osr_table +252 drivers/iio/adc/mcp3911.c
+vim +/PTR_ERR +441 drivers/iio/adc/mcp3911.c
 
-3a89b289df5df4 Marcus Folkesson 2018-08-08  222  =
+08a65f61db69ae Marcus Folkesson 2022-08-15  365  =
 
-3a89b289df5df4 Marcus Folkesson 2018-08-08  223  static int mcp3911_write_r=
-aw(struct iio_dev *indio_dev,
-3a89b289df5df4 Marcus Folkesson 2018-08-08  224  			    struct iio_chan_spe=
-c const *channel, int val,
-3a89b289df5df4 Marcus Folkesson 2018-08-08  225  			    int val2, long mask)
-3a89b289df5df4 Marcus Folkesson 2018-08-08  226  {
-3a89b289df5df4 Marcus Folkesson 2018-08-08  227  	struct mcp3911 *adc =3D i=
-io_priv(indio_dev);
-3a89b289df5df4 Marcus Folkesson 2018-08-08  228  	int ret =3D -EINVAL;
-3a89b289df5df4 Marcus Folkesson 2018-08-08  229  =
+3a89b289df5df4 Marcus Folkesson 2018-08-08  366  static int mcp3911_probe(s=
+truct spi_device *spi)
+3a89b289df5df4 Marcus Folkesson 2018-08-08  367  {
+3a89b289df5df4 Marcus Folkesson 2018-08-08  368  	struct iio_dev *indio_dev;
+3a89b289df5df4 Marcus Folkesson 2018-08-08  369  	struct mcp3911 *adc;
+3a89b289df5df4 Marcus Folkesson 2018-08-08  370  	int ret;
+3a89b289df5df4 Marcus Folkesson 2018-08-08  371  =
 
-3a89b289df5df4 Marcus Folkesson 2018-08-08  230  	mutex_lock(&adc->lock);
-3a89b289df5df4 Marcus Folkesson 2018-08-08  231  	switch (mask) {
-3a89b289df5df4 Marcus Folkesson 2018-08-08  232  	case IIO_CHAN_INFO_OFFSET:
-3a89b289df5df4 Marcus Folkesson 2018-08-08  233  		if (val2 !=3D 0) {
-3a89b289df5df4 Marcus Folkesson 2018-08-08  234  			ret =3D -EINVAL;
-3a89b289df5df4 Marcus Folkesson 2018-08-08  235  			goto out;
-3a89b289df5df4 Marcus Folkesson 2018-08-08  236  		}
-3a89b289df5df4 Marcus Folkesson 2018-08-08  237  =
+3a89b289df5df4 Marcus Folkesson 2018-08-08  372  	indio_dev =3D devm_iio_de=
+vice_alloc(&spi->dev, sizeof(*adc));
+3a89b289df5df4 Marcus Folkesson 2018-08-08  373  	if (!indio_dev)
+3a89b289df5df4 Marcus Folkesson 2018-08-08  374  		return -ENOMEM;
+3a89b289df5df4 Marcus Folkesson 2018-08-08  375  =
 
-3a89b289df5df4 Marcus Folkesson 2018-08-08  238  		/* Write offset */
-3a89b289df5df4 Marcus Folkesson 2018-08-08  239  		ret =3D mcp3911_write(ad=
-c, MCP3911_OFFCAL(channel->channel), val,
-3a89b289df5df4 Marcus Folkesson 2018-08-08  240  				    3);
-3a89b289df5df4 Marcus Folkesson 2018-08-08  241  		if (ret)
-3a89b289df5df4 Marcus Folkesson 2018-08-08  242  			goto out;
-3a89b289df5df4 Marcus Folkesson 2018-08-08  243  =
+3a89b289df5df4 Marcus Folkesson 2018-08-08  376  	adc =3D iio_priv(indio_de=
+v);
+3a89b289df5df4 Marcus Folkesson 2018-08-08  377  	adc->spi =3D spi;
+3a89b289df5df4 Marcus Folkesson 2018-08-08  378  =
 
-3a89b289df5df4 Marcus Folkesson 2018-08-08  244  		/* Enable offset*/
-3a89b289df5df4 Marcus Folkesson 2018-08-08  245  		ret =3D mcp3911_update(a=
-dc, MCP3911_REG_STATUSCOM,
-3a89b289df5df4 Marcus Folkesson 2018-08-08  246  				MCP3911_STATUSCOM_EN_O=
-FFCAL,
-3a89b289df5df4 Marcus Folkesson 2018-08-08  247  				MCP3911_STATUSCOM_EN_O=
-FFCAL, 2);
-3a89b289df5df4 Marcus Folkesson 2018-08-08  248  		break;
-6d965885f4ea82 Marcus Folkesson 2022-08-15  249  =
+3a89b289df5df4 Marcus Folkesson 2018-08-08  379  	adc->vref =3D devm_regula=
+tor_get_optional(&adc->spi->dev, "vref");
+3a89b289df5df4 Marcus Folkesson 2018-08-08  380  	if (IS_ERR(adc->vref)) {
+3a89b289df5df4 Marcus Folkesson 2018-08-08  381  		if (PTR_ERR(adc->vref) =
+=3D=3D -ENODEV) {
+3a89b289df5df4 Marcus Folkesson 2018-08-08  382  			adc->vref =3D NULL;
+3a89b289df5df4 Marcus Folkesson 2018-08-08  383  		} else {
+3a89b289df5df4 Marcus Folkesson 2018-08-08  384  			dev_err(&adc->spi->dev,
+3a89b289df5df4 Marcus Folkesson 2018-08-08  385  				"failed to get regulat=
+or (%ld)\n",
+3a89b289df5df4 Marcus Folkesson 2018-08-08  386  				PTR_ERR(adc->vref));
+3a89b289df5df4 Marcus Folkesson 2018-08-08  387  			return PTR_ERR(adc->vre=
+f);
+3a89b289df5df4 Marcus Folkesson 2018-08-08  388  		}
+3a89b289df5df4 Marcus Folkesson 2018-08-08  389  =
 
-6d965885f4ea82 Marcus Folkesson 2022-08-15  250  	case IIO_CHAN_INFO_OVERSA=
-MPLING_RATIO:
-6d965885f4ea82 Marcus Folkesson 2022-08-15  251  		for (int i =3D 0; i < si=
-zeof(mcp3911_osr_table); i++) {
-6d965885f4ea82 Marcus Folkesson 2022-08-15 @252  			if (val =3D=3D mcp3911_=
-osr_table[i]) {
-6d965885f4ea82 Marcus Folkesson 2022-08-15  253  				val =3D FIELD_PREP(MCP=
-3911_CONFIG_OSR, i);
-6d965885f4ea82 Marcus Folkesson 2022-08-15  254  				ret =3D mcp3911_update=
-(adc, MCP3911_REG_CONFIG, MCP3911_CONFIG_OSR,
-6d965885f4ea82 Marcus Folkesson 2022-08-15  255  						val, 2);
-6d965885f4ea82 Marcus Folkesson 2022-08-15  256  				break;
-6d965885f4ea82 Marcus Folkesson 2022-08-15  257  			}
-6d965885f4ea82 Marcus Folkesson 2022-08-15  258  		}
-6d965885f4ea82 Marcus Folkesson 2022-08-15  259  		break;
-3a89b289df5df4 Marcus Folkesson 2018-08-08  260  	}
-3a89b289df5df4 Marcus Folkesson 2018-08-08  261  =
+3a89b289df5df4 Marcus Folkesson 2018-08-08  390  	} else {
+3a89b289df5df4 Marcus Folkesson 2018-08-08  391  		ret =3D regulator_enable=
+(adc->vref);
+3a89b289df5df4 Marcus Folkesson 2018-08-08  392  		if (ret)
+3a89b289df5df4 Marcus Folkesson 2018-08-08  393  			return ret;
+0e0a07adaff971 Marcus Folkesson 2022-08-15  394  =
 
-3a89b289df5df4 Marcus Folkesson 2018-08-08  262  out:
-3a89b289df5df4 Marcus Folkesson 2018-08-08  263  	mutex_unlock(&adc->lock);
-3a89b289df5df4 Marcus Folkesson 2018-08-08  264  	return ret;
-3a89b289df5df4 Marcus Folkesson 2018-08-08  265  }
-3a89b289df5df4 Marcus Folkesson 2018-08-08  266  =
+0e0a07adaff971 Marcus Folkesson 2022-08-15  395  		ret =3D devm_add_action_=
+or_reset(&spi->dev,
+0e0a07adaff971 Marcus Folkesson 2022-08-15  396  				mcp3911_cleanup_regula=
+tor, adc->vref);
+0e0a07adaff971 Marcus Folkesson 2022-08-15  397  		if (ret)
+0e0a07adaff971 Marcus Folkesson 2022-08-15  398  			return ret;
+3a89b289df5df4 Marcus Folkesson 2018-08-08  399  	}
+3a89b289df5df4 Marcus Folkesson 2018-08-08  400  =
+
+0e0a07adaff971 Marcus Folkesson 2022-08-15  401  	adc->clki =3D devm_clk_ge=
+t_enabled(&adc->spi->dev, NULL);
+3a89b289df5df4 Marcus Folkesson 2018-08-08  402  	if (IS_ERR(adc->clki)) {
+3a89b289df5df4 Marcus Folkesson 2018-08-08  403  		if (PTR_ERR(adc->clki) =
+=3D=3D -ENOENT) {
+3a89b289df5df4 Marcus Folkesson 2018-08-08  404  			adc->clki =3D NULL;
+3a89b289df5df4 Marcus Folkesson 2018-08-08  405  		} else {
+3a89b289df5df4 Marcus Folkesson 2018-08-08  406  			dev_err(&adc->spi->dev,
+3a89b289df5df4 Marcus Folkesson 2018-08-08  407  				"failed to get adc clk=
+ (%ld)\n",
+3a89b289df5df4 Marcus Folkesson 2018-08-08  408  				PTR_ERR(adc->clki));
+0e0a07adaff971 Marcus Folkesson 2022-08-15  409  			return PTR_ERR(adc->clk=
+i);
+3a89b289df5df4 Marcus Folkesson 2018-08-08  410  		}
+3a89b289df5df4 Marcus Folkesson 2018-08-08  411  	}
+3a89b289df5df4 Marcus Folkesson 2018-08-08  412  =
+
+4efc1c614d3348 Jonathan Cameron 2021-12-05  413  	ret =3D mcp3911_config(ad=
+c);
+3a89b289df5df4 Marcus Folkesson 2018-08-08  414  	if (ret)
+0e0a07adaff971 Marcus Folkesson 2022-08-15  415  		return ret;
+3a89b289df5df4 Marcus Folkesson 2018-08-08  416  =
+
+08a65f61db69ae Marcus Folkesson 2022-08-15  417  	if (device_property_read_=
+bool(&adc->spi->dev, "microchip,data-ready-hiz"))
+08a65f61db69ae Marcus Folkesson 2022-08-15  418  		ret =3D mcp3911_update(a=
+dc, MCP3911_REG_STATUSCOM, MCP3911_STATUSCOM_DRHIZ,
+08a65f61db69ae Marcus Folkesson 2022-08-15  419  				0, 2);
+08a65f61db69ae Marcus Folkesson 2022-08-15  420  	else
+08a65f61db69ae Marcus Folkesson 2022-08-15  421  		ret =3D mcp3911_update(a=
+dc, MCP3911_REG_STATUSCOM, MCP3911_STATUSCOM_DRHIZ,
+08a65f61db69ae Marcus Folkesson 2022-08-15  422  				MCP3911_STATUSCOM_DRHI=
+Z, 2);
+08a65f61db69ae Marcus Folkesson 2022-08-15  423  	if (ret)
+08a65f61db69ae Marcus Folkesson 2022-08-15  424  		return ret;
+08a65f61db69ae Marcus Folkesson 2022-08-15  425  =
+
+3a89b289df5df4 Marcus Folkesson 2018-08-08  426  	indio_dev->name =3D spi_g=
+et_device_id(spi)->name;
+3a89b289df5df4 Marcus Folkesson 2018-08-08  427  	indio_dev->modes =3D INDI=
+O_DIRECT_MODE;
+3a89b289df5df4 Marcus Folkesson 2018-08-08  428  	indio_dev->info =3D &mcp3=
+911_info;
+3a89b289df5df4 Marcus Folkesson 2018-08-08  429  	spi_set_drvdata(spi, indi=
+o_dev);
+3a89b289df5df4 Marcus Folkesson 2018-08-08  430  =
+
+3a89b289df5df4 Marcus Folkesson 2018-08-08  431  	indio_dev->channels =3D m=
+cp3911_channels;
+3a89b289df5df4 Marcus Folkesson 2018-08-08  432  	indio_dev->num_channels =
+=3D ARRAY_SIZE(mcp3911_channels);
+3a89b289df5df4 Marcus Folkesson 2018-08-08  433  =
+
+3a89b289df5df4 Marcus Folkesson 2018-08-08  434  	mutex_init(&adc->lock);
+3a89b289df5df4 Marcus Folkesson 2018-08-08  435  =
+
+08a65f61db69ae Marcus Folkesson 2022-08-15  436  	if (spi->irq > 0) {
+08a65f61db69ae Marcus Folkesson 2022-08-15  437  		adc->trig =3D devm_iio_t=
+rigger_alloc(&spi->dev, "%s-dev%d",
+08a65f61db69ae Marcus Folkesson 2022-08-15  438  				indio_dev->name,
+08a65f61db69ae Marcus Folkesson 2022-08-15  439  				iio_device_id(indio_de=
+v));
+08a65f61db69ae Marcus Folkesson 2022-08-15  440  		if (!adc->trig)
+08a65f61db69ae Marcus Folkesson 2022-08-15 @441  			return PTR_ERR(adc->tri=
+g);
+08a65f61db69ae Marcus Folkesson 2022-08-15  442  =
+
+08a65f61db69ae Marcus Folkesson 2022-08-15  443  		adc->trig->ops =3D &mcp3=
+911_trigger_ops;
+08a65f61db69ae Marcus Folkesson 2022-08-15  444  		iio_trigger_set_drvdata(=
+adc->trig, adc);
+08a65f61db69ae Marcus Folkesson 2022-08-15  445  		ret =3D devm_iio_trigger=
+_register(&spi->dev, adc->trig);
+08a65f61db69ae Marcus Folkesson 2022-08-15  446  		if (ret)
+08a65f61db69ae Marcus Folkesson 2022-08-15  447  			return ret;
+08a65f61db69ae Marcus Folkesson 2022-08-15  448  =
+
+08a65f61db69ae Marcus Folkesson 2022-08-15  449  		/*
+08a65f61db69ae Marcus Folkesson 2022-08-15  450  		 * The device generates =
+interrupts as long as it is powered up.
+08a65f61db69ae Marcus Folkesson 2022-08-15  451  		 * Some platforms might =
+not allow the option to power it down so
+08a65f61db69ae Marcus Folkesson 2022-08-15  452  		 * don't enable the inte=
+rrupt to avoid extra load on the system.
+08a65f61db69ae Marcus Folkesson 2022-08-15  453  		 */
+08a65f61db69ae Marcus Folkesson 2022-08-15  454  		ret =3D devm_request_irq=
+(&spi->dev, spi->irq,
+08a65f61db69ae Marcus Folkesson 2022-08-15  455  				&iio_trigger_generic_d=
+ata_rdy_poll, IRQF_NO_AUTOEN | IRQF_ONESHOT,
+08a65f61db69ae Marcus Folkesson 2022-08-15  456  				indio_dev->name, adc->=
+trig);
+08a65f61db69ae Marcus Folkesson 2022-08-15  457  		if (ret)
+08a65f61db69ae Marcus Folkesson 2022-08-15  458  			return ret;
+08a65f61db69ae Marcus Folkesson 2022-08-15  459  	}
+08a65f61db69ae Marcus Folkesson 2022-08-15  460  =
+
+5db9f38d394f12 Marcus Folkesson 2022-08-15  461  	ret =3D devm_iio_triggere=
+d_buffer_setup(&spi->dev, indio_dev,
+5db9f38d394f12 Marcus Folkesson 2022-08-15  462  			NULL,
+5db9f38d394f12 Marcus Folkesson 2022-08-15  463  			mcp3911_trigger_handler=
+, NULL);
+5db9f38d394f12 Marcus Folkesson 2022-08-15  464  	if (ret)
+5db9f38d394f12 Marcus Folkesson 2022-08-15  465  		return ret;
+5db9f38d394f12 Marcus Folkesson 2022-08-15  466  =
+
+0e0a07adaff971 Marcus Folkesson 2022-08-15  467  	return devm_iio_device_re=
+gister(&adc->spi->dev, indio_dev);
+3a89b289df5df4 Marcus Folkesson 2018-08-08  468  }
+3a89b289df5df4 Marcus Folkesson 2018-08-08  469  =
 
 
 -- =
@@ -113,7 +208,7 @@ osr_table[i]) {
 0-DAY CI Kernel Test Service
 https://01.org/lkp
 
---===============7408088628548115066==
+--===============3199761089410375737==
 Content-Type: text/plain
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -3908,5 +4003,5 @@ IG9mIEtlcm5lbCBUZXN0aW5nIGFuZCBDb3ZlcmFnZQoKIyBDT05GSUdfV0FSTl9NSVNTSU5HX0RP
 Q1VNRU5UUyBpcyBub3Qgc2V0CiMgQ09ORklHX1dBUk5fQUJJX0VSUk9SUyBpcyBub3Qgc2V0CiMg
 ZW5kIG9mIEtlcm5lbCBoYWNraW5nCg==
 
---===============7408088628548115066==--
+--===============3199761089410375737==--
 
