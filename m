@@ -1,55 +1,55 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E157EBE
-	for <oe-kbuild@lists.linux.dev>; Tue, 25 Oct 2022 12:24:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EBCE7B
+	for <oe-kbuild@lists.linux.dev>; Tue, 25 Oct 2022 14:35:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1666700654; x=1698236654;
+  t=1666708544; x=1698244544;
   h=date:from:to:cc:subject:message-id:mime-version:
    content-transfer-encoding;
-  bh=WKeRpAgGqQu2psmmwW/5gmmzafB1PBQHdbi9+v0tlOA=;
-  b=U7fKxgEmr2w+u2Bd1VW/+3DyhdgLNRN6vcNWivwGBdS6d/oDW9SYX7r/
-   NNqmfyrZev4kBWaM73F43U2K0p7Jx0mYy6CORLNSE1XV1dFMX16otUAtF
-   Oh8ek4cGoNHzVtZt5QgmN+p5WERVGg11cqy9xXxz2D2lkRDfhf2TmDMoY
-   zIfBRdEx+6gObBBnHyyoKS/76QULXkUf2VnruKzF9pcZUy4LSUfGuoPw1
-   453KFTBruouk6Iy11v7giiaO5ST3D2aia4TY6Kpb+msLYh7ksyQZuv3R6
-   ubZtsNkgSr74jyWD/m6rGWf55c3dDqmDia/0qIw3XsVTDjMKWSDbavLt/
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10510"; a="393973937"
+  bh=6pK8He0rZqWVB5IkuzirAQWMnCdQuRPGEtd+LbRr6Lw=;
+  b=S/8ad+kEbqJdLHY3bAB8aEDtfaXv1d/190pueFkk5pp0JmgT+0XcgjvB
+   kRQnlPpr5uipW+CwqAvCzHg4Iz9dXA3mphqfG/WDeBINR9Iko2hrIwgbi
+   pEkjPCqhylECPUE0co8q8SO+k9+vqxGYrU1PrWkE/qb3K63wWUKrdGBi9
+   VQMaUL4rwueZnDwaJUihhUQfZsktgnycKzcOSf27dZf6vB0vixuNRLZnM
+   ycUfEu3PkKc74RD3xcCIaWgJafzN7YV8Hy857VkcpbZJPn3KtoNgvhI3O
+   U0gxOrfKAnApojB7VumnLYDWusphBuLWJi+PNfooBsAC5Ss+dK7Bd1vrb
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10510"; a="287411162"
 X-IronPort-AV: E=Sophos;i="5.95,212,1661842800"; 
-   d="scan'208";a="393973937"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2022 05:24:13 -0700
+   d="scan'208";a="287411162"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2022 07:35:15 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10510"; a="582753492"
+X-IronPort-AV: E=McAfee;i="6500,9779,10510"; a="694976423"
 X-IronPort-AV: E=Sophos;i="5.95,212,1661842800"; 
-   d="scan'208";a="582753492"
+   d="scan'208";a="694976423"
 Received: from lkp-server02.sh.intel.com (HELO b6d29c1a0365) ([10.239.97.151])
-  by orsmga003.jf.intel.com with ESMTP; 25 Oct 2022 05:24:11 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 25 Oct 2022 07:35:13 -0700
 Received: from kbuild by b6d29c1a0365 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1onIyY-0006G4-1Y;
-	Tue, 25 Oct 2022 12:24:10 +0000
-Date: Tue, 25 Oct 2022 20:23:43 +0800
+	id 1onL1N-0006Lc-0h;
+	Tue, 25 Oct 2022 14:35:13 +0000
+Date: Tue, 25 Oct 2022 22:35:00 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: sound/soc/intel/avs/boards/rt286.c:177 avs_create_dapm_routes()
+Subject: sound/soc/intel/avs/boards/rt298.c:177 avs_create_dapm_routes()
  warn: potentially one past the end of array 'dr[idx]'
-Message-ID: <202210252045.dLDFYgmh-lkp@intel.com>
+Message-ID: <202210252258.JSCuzGNY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="Z0uRwXQk6zRC39C6"
+Content-Type: multipart/mixed; boundary="PpjYb3ONI95F+FIt"
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 
 
---Z0uRwXQk6zRC39C6
+--PpjYb3ONI95F+FIt
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
@@ -63,9 +63,9 @@ CC: "Amadeusz Sławiński" <amadeuszx.slawinski@linux.intel.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   1a2dcbdde82e3a5f1db9b2f4c48aa1aeba534fb2
-commit: 1d395ee2e19b33a1008acfc7af186f2851b63d01 ASoC: Intel: avs: Add rt286 machine board
+commit: 88429ab16df4cd4a1a77d45b90ec95cf62cc22d1 ASoC: Intel: avs: Add rt298 machine board
 date:   5 months ago
-:::::: branch date: 5 hours ago
+:::::: branch date: 7 hours ago
 :::::: commit date: 5 months ago
 config: riscv-randconfig-m031-20221024
 compiler: riscv64-linux-gcc (GCC) 12.1.0
@@ -75,54 +75,54 @@ If you fix the issue, kindly add following tag where applicable
 | Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 New smatch warnings:
-sound/soc/intel/avs/boards/rt286.c:177 avs_create_dapm_routes() warn: potentially one past the end of array 'dr[idx]'
+sound/soc/intel/avs/boards/rt298.c:177 avs_create_dapm_routes() warn: potentially one past the end of array 'dr[idx]'
 
 Old smatch warnings:
-sound/soc/intel/avs/boards/rt286.c:178 avs_create_dapm_routes() warn: potentially one past the end of array 'dr[idx]'
-sound/soc/intel/avs/boards/rt286.c:179 avs_create_dapm_routes() warn: potentially one past the end of array 'dr[idx]'
-sound/soc/intel/avs/boards/rt286.c:179 avs_create_dapm_routes() warn: potentially one past the end of array 'dr[idx]'
+sound/soc/intel/avs/boards/rt298.c:178 avs_create_dapm_routes() warn: potentially one past the end of array 'dr[idx]'
+sound/soc/intel/avs/boards/rt298.c:179 avs_create_dapm_routes() warn: potentially one past the end of array 'dr[idx]'
+sound/soc/intel/avs/boards/rt298.c:179 avs_create_dapm_routes() warn: potentially one past the end of array 'dr[idx]'
 
-vim +177 sound/soc/intel/avs/boards/rt286.c
+vim +177 sound/soc/intel/avs/boards/rt298.c
 
-1d395ee2e19b33 Cezary Rojewski 2022-05-11  155  
-1d395ee2e19b33 Cezary Rojewski 2022-05-11  156  static int avs_create_dapm_routes(struct device *dev, int ssp_port,
-1d395ee2e19b33 Cezary Rojewski 2022-05-11  157  				  struct snd_soc_dapm_route **routes, int *num_routes)
-1d395ee2e19b33 Cezary Rojewski 2022-05-11  158  {
-1d395ee2e19b33 Cezary Rojewski 2022-05-11  159  	struct snd_soc_dapm_route *dr;
-1d395ee2e19b33 Cezary Rojewski 2022-05-11  160  	const int num_base = ARRAY_SIZE(card_base_routes);
-1d395ee2e19b33 Cezary Rojewski 2022-05-11  161  	const int num_dr = num_base + 2;
-1d395ee2e19b33 Cezary Rojewski 2022-05-11  162  	int idx;
-1d395ee2e19b33 Cezary Rojewski 2022-05-11  163  
-1d395ee2e19b33 Cezary Rojewski 2022-05-11  164  	dr = devm_kcalloc(dev, num_dr, sizeof(*dr), GFP_KERNEL);
-1d395ee2e19b33 Cezary Rojewski 2022-05-11  165  	if (!dr)
-1d395ee2e19b33 Cezary Rojewski 2022-05-11  166  		return -ENOMEM;
-1d395ee2e19b33 Cezary Rojewski 2022-05-11  167  
-1d395ee2e19b33 Cezary Rojewski 2022-05-11  168  	memcpy(dr, card_base_routes, num_base * sizeof(*dr));
-1d395ee2e19b33 Cezary Rojewski 2022-05-11  169  
-1d395ee2e19b33 Cezary Rojewski 2022-05-11  170  	idx = num_base;
-1d395ee2e19b33 Cezary Rojewski 2022-05-11  171  	dr[idx].sink = devm_kasprintf(dev, GFP_KERNEL, "AIF1 Playback");
-1d395ee2e19b33 Cezary Rojewski 2022-05-11  172  	dr[idx].source = devm_kasprintf(dev, GFP_KERNEL, "ssp%d Tx", ssp_port);
-1d395ee2e19b33 Cezary Rojewski 2022-05-11  173  	if (!dr[idx].sink || !dr[idx].source)
-1d395ee2e19b33 Cezary Rojewski 2022-05-11  174  		return -ENOMEM;
-1d395ee2e19b33 Cezary Rojewski 2022-05-11  175  
-1d395ee2e19b33 Cezary Rojewski 2022-05-11  176  	idx++;
-1d395ee2e19b33 Cezary Rojewski 2022-05-11 @177  	dr[idx].sink = devm_kasprintf(dev, GFP_KERNEL, "ssp%d Rx", ssp_port);
-1d395ee2e19b33 Cezary Rojewski 2022-05-11  178  	dr[idx].source = devm_kasprintf(dev, GFP_KERNEL, "AIF1 Capture");
-1d395ee2e19b33 Cezary Rojewski 2022-05-11  179  	if (!dr[idx].sink || !dr[idx].source)
-1d395ee2e19b33 Cezary Rojewski 2022-05-11  180  		return -ENOMEM;
-1d395ee2e19b33 Cezary Rojewski 2022-05-11  181  
-1d395ee2e19b33 Cezary Rojewski 2022-05-11  182  	*routes = dr;
-1d395ee2e19b33 Cezary Rojewski 2022-05-11  183  	*num_routes = num_dr;
-1d395ee2e19b33 Cezary Rojewski 2022-05-11  184  
-1d395ee2e19b33 Cezary Rojewski 2022-05-11  185  	return 0;
-1d395ee2e19b33 Cezary Rojewski 2022-05-11  186  }
-1d395ee2e19b33 Cezary Rojewski 2022-05-11  187  
+88429ab16df4cd Cezary Rojewski 2022-05-11  155  
+88429ab16df4cd Cezary Rojewski 2022-05-11  156  static int avs_create_dapm_routes(struct device *dev, int ssp_port,
+88429ab16df4cd Cezary Rojewski 2022-05-11  157  				  struct snd_soc_dapm_route **routes, int *num_routes)
+88429ab16df4cd Cezary Rojewski 2022-05-11  158  {
+88429ab16df4cd Cezary Rojewski 2022-05-11  159  	struct snd_soc_dapm_route *dr;
+88429ab16df4cd Cezary Rojewski 2022-05-11  160  	const int num_base = ARRAY_SIZE(card_base_routes);
+88429ab16df4cd Cezary Rojewski 2022-05-11  161  	const int num_dr = num_base + 2;
+88429ab16df4cd Cezary Rojewski 2022-05-11  162  	int idx;
+88429ab16df4cd Cezary Rojewski 2022-05-11  163  
+88429ab16df4cd Cezary Rojewski 2022-05-11  164  	dr = devm_kcalloc(dev, num_dr, sizeof(*dr), GFP_KERNEL);
+88429ab16df4cd Cezary Rojewski 2022-05-11  165  	if (!dr)
+88429ab16df4cd Cezary Rojewski 2022-05-11  166  		return -ENOMEM;
+88429ab16df4cd Cezary Rojewski 2022-05-11  167  
+88429ab16df4cd Cezary Rojewski 2022-05-11  168  	memcpy(dr, card_base_routes, num_base * sizeof(*dr));
+88429ab16df4cd Cezary Rojewski 2022-05-11  169  
+88429ab16df4cd Cezary Rojewski 2022-05-11  170  	idx = num_base;
+88429ab16df4cd Cezary Rojewski 2022-05-11  171  	dr[idx].sink = devm_kasprintf(dev, GFP_KERNEL, "AIF1 Playback");
+88429ab16df4cd Cezary Rojewski 2022-05-11  172  	dr[idx].source = devm_kasprintf(dev, GFP_KERNEL, "ssp%d Tx", ssp_port);
+88429ab16df4cd Cezary Rojewski 2022-05-11  173  	if (!dr[idx].sink || !dr[idx].source)
+88429ab16df4cd Cezary Rojewski 2022-05-11  174  		return -ENOMEM;
+88429ab16df4cd Cezary Rojewski 2022-05-11  175  
+88429ab16df4cd Cezary Rojewski 2022-05-11  176  	idx++;
+88429ab16df4cd Cezary Rojewski 2022-05-11 @177  	dr[idx].sink = devm_kasprintf(dev, GFP_KERNEL, "ssp%d Rx", ssp_port);
+88429ab16df4cd Cezary Rojewski 2022-05-11  178  	dr[idx].source = devm_kasprintf(dev, GFP_KERNEL, "AIF1 Capture");
+88429ab16df4cd Cezary Rojewski 2022-05-11  179  	if (!dr[idx].sink || !dr[idx].source)
+88429ab16df4cd Cezary Rojewski 2022-05-11  180  		return -ENOMEM;
+88429ab16df4cd Cezary Rojewski 2022-05-11  181  
+88429ab16df4cd Cezary Rojewski 2022-05-11  182  	*routes = dr;
+88429ab16df4cd Cezary Rojewski 2022-05-11  183  	*num_routes = num_dr;
+88429ab16df4cd Cezary Rojewski 2022-05-11  184  
+88429ab16df4cd Cezary Rojewski 2022-05-11  185  	return 0;
+88429ab16df4cd Cezary Rojewski 2022-05-11  186  }
+88429ab16df4cd Cezary Rojewski 2022-05-11  187  
 
 -- 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
 
---Z0uRwXQk6zRC39C6
+--PpjYb3ONI95F+FIt
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename=config
 
@@ -2667,6 +2667,7 @@ CONFIG_SND_SOC_INTEL_AVS_MACH_HDAUDIO=m
 CONFIG_SND_SOC_INTEL_AVS_MACH_I2S_TEST=m
 # CONFIG_SND_SOC_INTEL_AVS_MACH_RT274 is not set
 CONFIG_SND_SOC_INTEL_AVS_MACH_RT286=m
+CONFIG_SND_SOC_INTEL_AVS_MACH_RT298=m
 # end of Intel AVS Machine drivers
 
 CONFIG_SND_SOC_MEDIATEK=m
@@ -5787,4 +5788,4 @@ CONFIG_MEMTEST=y
 CONFIG_WARN_ABI_ERRORS=y
 # end of Kernel hacking
 
---Z0uRwXQk6zRC39C6--
+--PpjYb3ONI95F+FIt--
