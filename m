@@ -1,105 +1,83 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0F732570
-	for <oe-kbuild@lists.linux.dev>; Thu, 27 Oct 2022 22:31:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76B81E804
+	for <oe-kbuild@lists.linux.dev>; Thu, 27 Oct 2022 23:31:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1666909915; x=1698445915;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=TkfsSnqfLkWaH+CydJbTzCpEMAXh9xH3mcQAc4taKOw=;
-  b=lEqlO1Wbw5vidrqD1+ViwJ6pzgOY3YatmpmvWXhKU4LNnxOuHdYWVQq8
-   OVtBqqWFtzMqe66gha55BsMrg6tDGK+yrl88O3mwrooVZPexteM1wA4Lm
-   tuo9sLTgE6jq70garGy+TGN9Ie8aperpFHNNhqfl+91CPtx3tKQdwzVql
-   eRrKhtL2AfWjpcgnOrL/fwjNjp5eCHSp2TaQArrSZPxkTFYlgSZ+uBy6a
-   aC80uMDfD3eZ2PMoMIrfJfpOmZvYTYGs+A1MyP5p3/mzotzeFKStKD2d5
-   c5juDdMsA2RSDuRtqERoxOUIP2TVRGVEoAM9w28RrpzvHPMWCEktp3O64
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10513"; a="295765726"
+  t=1666913516; x=1698449516;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=G3ERGJc0TeNAv/n1ScoJhIkvfV8IjlN6ChQuTRdZdvA=;
+  b=LFVbP31+W4ULsE6pjp1yAlTMIyNVkh7ZErmVi/Ur1Vyn1dio2mJ8j1+m
+   12+qOfwQZYz5PnJi2nVfnR/V6EF3d/BL4hLbbrGQ2r7crjPw5IJwqMGrN
+   mM8h6tPx8NYSjD9Ba0dds/aOaX/Ga72B6vPqDu0RM7xqOs6OAzDt8HbR6
+   CQL15UPG2oDFWD2dMOKCsdczWQY1AzhpI9vOB9L7M/LPhQOHVDWO2sQoo
+   xUQnWPOLF8ykb8mp2XXAPvfYrkFtAi6AHpT92julOL4gjO5ZRBYQqQCRq
+   azYnXMk4MUiz44bTvRHAPZFUjKSeBrdsks+RtGVPqZOh4LV3FYttYVIgD
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10513"; a="307093193"
 X-IronPort-AV: E=Sophos;i="5.95,219,1661842800"; 
-   d="scan'208";a="295765726"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2022 15:31:54 -0700
+   d="scan'208";a="307093193"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2022 16:31:55 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10513"; a="961795902"
+X-IronPort-AV: E=McAfee;i="6500,9779,10513"; a="775174902"
 X-IronPort-AV: E=Sophos;i="5.95,219,1661842800"; 
-   d="scan'208";a="961795902"
+   d="scan'208";a="775174902"
 Received: from lkp-server02.sh.intel.com (HELO b6d29c1a0365) ([10.239.97.151])
-  by fmsmga005.fm.intel.com with ESMTP; 27 Oct 2022 15:31:52 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 27 Oct 2022 16:31:53 -0700
 Received: from kbuild by b6d29c1a0365 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ooBPj-0009Dn-32;
-	Thu, 27 Oct 2022 22:31:51 +0000
-Date: Fri, 28 Oct 2022 06:31:01 +0800
+	id 1ooCLp-0009GL-15;
+	Thu, 27 Oct 2022 23:31:53 +0000
+Date: Fri, 28 Oct 2022 07:31:38 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH v2 1/6] gpio: pca953x: Convert PCA_TYPE from bits to
- number
-Message-ID: <202210280657.gRXwSCYx-lkp@intel.com>
+Subject: [linux-next:master 2731/3827]
+ drivers/gpu/drm/amd/amdgpu/mmhub_v2_0.c:584:22: warning: use of
+ uninitialized value 'def' [CWE-457]
+Message-ID: <202210280729.veLa6lrG-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="NBcAxs0Ggn1xvQPo"
+Content-Type: multipart/mixed; boundary="OB1XWMLIsZLYLNwx"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
 
---NBcAxs0Ggn1xvQPo
-Content-Type: text/plain; charset=iso-8859-1
+--OB1XWMLIsZLYLNwx
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
 :::::: 
 :::::: Manual check reason: "low confidence bisect report"
-:::::: Manual check reason: "low confidence static check warning: drivers/gpio/gpio-pca953x.c:366:22: warning: use of uninitialized value 'bank' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]"
+:::::: Manual check reason: "low confidence static check warning: drivers/gpu/drm/amd/amdgpu/mmhub_v2_0.c:584:22: warning: use of uninitialized value 'def' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <0de783a2-d35c-6f20-4c22-86d6cd8dbc41@eilabs.com>
-References: <0de783a2-d35c-6f20-4c22-86d6cd8dbc41@eilabs.com>
-TO: "Levente Révész" <levente.revesz@eilabs.com>
-TO: Linus Walleij <linus.walleij@linaro.org>
-TO: Bartosz Golaszewski <brgl@bgdev.pl>
-TO: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-TO: Martyn Welch <martyn.welch@collabora.com>
-TO: Haibo Chen <haibo.chen@nxp.com>
-TO: Puyou Lu <puyou.lu@gmail.com>
-TO: Justin Chen <justinpopo6@gmail.com>
-TO: Andrey Gusakov <andrey.gusakov@cogentembedded.com>
-TO: "Peter Robinson <pbrobinson"@gmail.com
-CC: linux-gpio@vger.kernel.org
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Lijo Lazar <lijo.lazar@amd.com>
+CC: Alex Deucher <alexander.deucher@amd.com>
+CC: Guchun Chen <guchun.chen@amd.com>
 
-Hi Levente,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on brgl/gpio/for-next]
-[also build test WARNING on linus/master v6.1-rc2 next-20221027]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Levente-R-v-sz/gpio-pca953x-Add-interrupt-mask-support-for-pca953x-chips/20221026-192816
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git gpio/for-next
-patch link:    https://lore.kernel.org/r/0de783a2-d35c-6f20-4c22-86d6cd8dbc41%40eilabs.com
-patch subject: [PATCH v2 1/6] gpio: pca953x: Convert PCA_TYPE from bits to number
-:::::: branch date: 35 hours ago
-:::::: commit date: 35 hours ago
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   ecc4eeb2208ab537a3f3744984cd7f30ac971db8
+commit: 20293269d81779a0d0c0865f5877b240c3335c97 [2731/3827] drm/amdgpu: Remove ATC L2 access for MMHUB 2.1.x
+:::::: branch date: 20 hours ago
+:::::: commit date: 3 days ago
 config: arm-randconfig-c002-20221026
 compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/b44962c98781263d927ce84be557a86bd44636f7
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Levente-R-v-sz/gpio-pca953x-Add-interrupt-mask-support-for-pca953x-chips/20221026-192816
-        git checkout b44962c98781263d927ce84be557a86bd44636f7
+        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=20293269d81779a0d0c0865f5877b240c3335c97
+        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+        git fetch --no-tags linux-next master
+        git checkout 20293269d81779a0d0c0865f5877b240c3335c97
         # save the config file
         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross ARCH=arm KBUILD_USERCFLAGS='-fanalyzer -Wno-error' 
 
@@ -107,244 +85,273 @@ If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
 gcc_analyzer warnings: (new ones prefixed by >>)
-     'device_pca957x_init': event 3
+   drivers/gpu/drm/amd/amdgpu/mmhub_v2_0.c: In function 'mmhub_v2_0_update_medium_grain_clock_gating':
+>> drivers/gpu/drm/amd/amdgpu/mmhub_v2_0.c:584:22: warning: use of uninitialized value 'def' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+     584 |                 data |= MM_ATC_L2_MISC_CG__ENABLE_MASK;
+     'mmhub_v2_0_update_medium_grain_clock_gating': events 1-7
        |
-       |drivers/gpio/gpio-pca953x.c:1048:15:
-       | 1048 |         ret = device_pca95xx_init(chip, invert);
-       |      |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |               |
-       |      |               (3) calling 'device_pca95xx_init' from 'device_pca957x_init'
-       |
-       +--> 'device_pca95xx_init': events 4-5
-              |
-              | 1013 | static int device_pca95xx_init(struct pca953x_chip *chip, u32 invert)
-              |      |            ^~~~~~~~~~~~~~~~~~~
-              |      |            |
-              |      |            (4) entry to 'device_pca95xx_init'
-              |......
-              | 1033 |                 bitmap_fill(val, MAX_LINE);
-              |      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~
-              |      |                 |
-              |      |                 (5) calling 'bitmap_fill' from 'device_pca95xx_init'
-              |
-              +--> 'bitmap_fill': event 6
-                     |
-                     |include/linux/bitmap.h:250:20:
-                     |  250 | static inline void bitmap_fill(unsigned long *dst, unsigned int nbits)
-                     |      |                    ^~~~~~~~~~~
-                     |      |                    |
-                     |      |                    (6) entry to 'bitmap_fill'
-                     |
-                   'bitmap_fill': event 7
-                     |
-                     |include/linux/fortify-string.h:317:12:
-                     |  317 |         if (p_size != SIZE_MAX && p_size < size)
-                     |      |            ^
-                     |      |            |
-                     |      |            (7) following 'false' branch...
-                     |
-                   'bitmap_fill': event 8
-                     |
-                     |  323 |         fortify_memset_chk(__fortify_size, p_size, p_size_field),       \
-                     |      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                     |      |         |
-                     |      |         (8) ...to here
-   include/linux/fortify-string.h:332:25: note: in expansion of macro '__fortify_memset_chk'
-                     |  332 | #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
-                     |      |                         ^~~~~~~~~~~~~~~~~~~~
-   include/linux/bitmap.h:257:17: note: in expansion of macro 'memset'
-                     |  257 |                 memset(dst, 0xff, len);
-                     |      |                 ^~~~~~
-                     |
-              <------+
-              |
-            'device_pca95xx_init': event 9
-              |
-              |drivers/gpio/gpio-pca953x.c:1033:17:
-              | 1033 |                 bitmap_fill(val, MAX_LINE);
-              |      |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~
-              |      |                 |
-              |      |                 (9) returning to 'device_pca95xx_init' from 'bitmap_fill'
-              |
-       <------+
-       |
-     'device_pca957x_init': events 10-11
-       |
-       | 1048 |         ret = device_pca95xx_init(chip, invert);
-       |      |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |               |
-       |      |               (10) returning to 'device_pca957x_init' from 'device_pca95xx_init'
-       | 1049 |         if (ret)
-       |      |            ~   
+       |  566 |         uint32_t def, data, def1, data1;
+       |      |                  ^~~
+       |      |                  |
+       |      |                  (1) region created on stack here
+       |  567 | 
+       |  568 |         if (!(adev->cg_flags & AMD_CG_SUPPORT_MC_MGCG))
+       |      |            ~      
        |      |            |
-       |      |            (11) following 'false' branch (when 'ret == 0')...
-       |
-     'device_pca957x_init': event 12
-       |
-       |cc1:
-       | (12): ...to here
-       |
-     'device_pca957x_init': events 13-15
-       |
-       | 1053 |         for (i = 0; i < NBANK(chip); i++)
-       | 1054 |                 bitmap_set_value8(val, 0x02, i * BANK_SZ);
-       |      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |                 |
-       |      |                 (14) ...to here
-       |      |                 (15) calling 'bitmap_set_value8' from 'device_pca957x_init'
-       |
-       +--> 'bitmap_set_value8': events 16-17
-              |
-              |include/linux/bitmap.h:594:20:
-              |  594 | static inline void bitmap_set_value8(unsigned long *map, unsigned long value,
-              |      |                    ^~~~~~~~~~~~~~~~~
-              |      |                    |
-              |      |                    (16) entry to 'bitmap_set_value8'
-              |......
-              |  600 |         map[index] &= ~(0xFFUL << offset);
-              |      |         ~~~~~~~~~~  
-              |      |            |
-              |      |            (17) use of uninitialized value '*map_12(D) + _1' here
-              |
-   drivers/gpio/gpio-pca953x.c: In function 'pca953x_readable_register':
->> drivers/gpio/gpio-pca953x.c:366:22: warning: use of uninitialized value 'bank' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-     366 |                 bank |= PCAL9xxx_BANK_IN_LATCH | PCAL9xxx_BANK_PULL_EN |
-     'pca953x_readable_register': events 1-5
-       |
-       |  350 |         u32 bank;
-       |      |             ^~~~
-       |      |             |
-       |      |             (1) region created on stack here
-       |  351 | 
-       |  352 |         switch (PCA_CHIP_TYPE(chip->driver_data)) {
-       |      |         ~~~~~~
-       |      |         |
-       |      |         (2) following 'default:' branch...
+       |      |            (2) following 'false' branch...
        |......
-       |  365 |         if (chip->driver_data & PCA_PCAL) {
-       |      |         ~~ ~ 
-       |      |         |  |
-       |      |         |  (4) following 'true' branch...
+       |  571 |         switch (adev->ip_versions[MMHUB_HWIP][0]) {
+       |      |         ~~~~~~    
+       |      |         |
        |      |         (3) ...to here
-       |  366 |                 bank |= PCAL9xxx_BANK_IN_LATCH | PCAL9xxx_BANK_PULL_EN |
+       |      |         (4) following 'true' branch...
+       |  572 |         case IP_VERSION(2, 1, 0):
+       |      |         ~~~~      
+       |      |         |
+       |      |         (5) ...to here
+       |......
+       |  583 |         if (enable) {
+       |      |            ~      
+       |      |            |
+       |      |            (6) following 'true' branch (when 'enable != 0')...
+       |  584 |                 data |= MM_ATC_L2_MISC_CG__ENABLE_MASK;
        |      |                 ~~~~
        |      |                 |
-       |      |                 (5) ...to here
+       |      |                 (7) ...to here
        |
-     'pca953x_readable_register': event 6
+     'mmhub_v2_0_update_medium_grain_clock_gating': event 8
        |
-       |  366 |                 bank |= PCAL9xxx_BANK_IN_LATCH | PCAL9xxx_BANK_PULL_EN |
+       |  584 |                 data |= MM_ATC_L2_MISC_CG__ENABLE_MASK;
        |
-   drivers/gpio/gpio-pca953x.c:371:16: warning: use of uninitialized value 'bank' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-     371 |         return chip->check_reg(chip, reg, bank);
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     'pca953x_readable_register': events 1-6
+>> drivers/gpu/drm/amd/amdgpu/mmhub_v2_0.c:584:22: warning: use of uninitialized value 'def' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+     'mmhub_v2_0_set_clockgating.part.0': events 1-2
        |
-       |  350 |         u32 bank;
-       |      |             ^~~~
-       |      |             |
-       |      |             (1) region created on stack here
-       |  351 | 
-       |  352 |         switch (PCA_CHIP_TYPE(chip->driver_data)) {
+       |  648 | static int mmhub_v2_0_set_clockgating(struct amdgpu_device *adev,
+       |      |            ^~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |            |
+       |      |            (1) entry to 'mmhub_v2_0_set_clockgating.part.0'
+       |......
+       |  660 |                 mmhub_v2_0_update_medium_grain_clock_gating(adev,
+       |      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |                 |
+       |      |                 (2) calling 'mmhub_v2_0_update_medium_grain_clock_gating' from 'mmhub_v2_0_set_clockgating.part.0'
+       |  661 |                                 state == AMD_CG_STATE_GATE);
+       |      |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |
+       +--> 'mmhub_v2_0_update_medium_grain_clock_gating': events 3-10
+              |
+              |  563 | static void mmhub_v2_0_update_medium_grain_clock_gating(struct amdgpu_device *adev,
+              |      |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |             |
+              |      |             (3) entry to 'mmhub_v2_0_update_medium_grain_clock_gating'
+              |......
+              |  566 |         uint32_t def, data, def1, data1;
+              |      |                  ~~~
+              |      |                  |
+              |      |                  (4) region created on stack here
+              |  567 | 
+              |  568 |         if (!(adev->cg_flags & AMD_CG_SUPPORT_MC_MGCG))
+              |      |            ~ 
+              |      |            |
+              |      |            (5) following 'false' branch...
+              |......
+              |  571 |         switch (adev->ip_versions[MMHUB_HWIP][0]) {
+              |      |         ~~~~~~
+              |      |         |
+              |      |         (6) ...to here
+              |      |         (7) following 'true' branch...
+              |  572 |         case IP_VERSION(2, 1, 0):
+              |      |         ~~~~ 
+              |      |         |
+              |      |         (8) ...to here
+              |......
+              |  583 |         if (enable) {
+              |      |            ~ 
+              |      |            |
+              |      |            (9) following 'true' branch (when 'enable != 0')...
+              |  584 |                 data |= MM_ATC_L2_MISC_CG__ENABLE_MASK;
+              |      |                 ~~~~
+              |      |                 |
+              |      |                 (10) ...to here
+              |
+            'mmhub_v2_0_update_medium_grain_clock_gating': event 11
+              |
+              |  584 |                 data |= MM_ATC_L2_MISC_CG__ENABLE_MASK;
+              |
+>> drivers/gpu/drm/amd/amdgpu/mmhub_v2_0.c:584:22: warning: use of uninitialized value 'def' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+     'mmhub_v2_0_set_clockgating': events 1-5
+       |
+       |  648 | static int mmhub_v2_0_set_clockgating(struct amdgpu_device *adev,
+       |      |            ^~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |            |
+       |      |            (1) entry to 'mmhub_v2_0_set_clockgating'
+       |......
+       |  651 |         if (amdgpu_sriov_vf(adev))
+       |      |            ~
+       |      |            |
+       |      |            (2) following 'false' branch...
+       |......
+       |  654 |         switch (adev->ip_versions[MMHUB_HWIP][0]) {
        |      |         ~~~~~~
        |      |         |
-       |      |         (2) following 'default:' branch...
-       |......
-       |  365 |         if (chip->driver_data & PCA_PCAL) {
-       |      |         ~~ ~ 
-       |      |         |  |
-       |      |         |  (4) following 'false' branch...
        |      |         (3) ...to here
-       |......
-       |  371 |         return chip->check_reg(chip, reg, bank);
-       |      |         ~~~~~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |         |      |
-       |      |         |      (6) use of uninitialized value 'bank' here
+       |      |         (4) following 'case 131072:, case 131074:, case 131328 ... 131330:' branch...
+       |  655 |         case IP_VERSION(2, 0, 0):
+       |      |         ~~~~
+       |      |         |
        |      |         (5) ...to here
        |
-   drivers/gpio/gpio-pca953x.c: In function 'pca953x_writeable_register':
-   drivers/gpio/gpio-pca953x.c:392:22: warning: use of uninitialized value 'bank' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-     392 |                 bank |= PCAL9xxx_BANK_IN_LATCH | PCAL9xxx_BANK_PULL_EN |
-     'pca953x_writeable_register': events 1-5
+     'mmhub_v2_0_set_clockgating': event 6
        |
-       |  377 |         u32 bank;
-       |      |             ^~~~
-       |      |             |
-       |      |             (1) region created on stack here
-       |  378 | 
-       |  379 |         switch (PCA_CHIP_TYPE(chip->driver_data)) {
-       |      |         ~~~~~~
-       |      |         |
-       |      |         (2) following 'default:' branch...
-       |......
-       |  391 |         if (chip->driver_data & PCA_PCAL)
-       |      |         ~~ ~ 
-       |      |         |  |
-       |      |         |  (4) following 'true' branch...
-       |      |         (3) ...to here
-       |  392 |                 bank |= PCAL9xxx_BANK_IN_LATCH | PCAL9xxx_BANK_PULL_EN |
-       |      |                 ~~~~
-       |      |                 |
-       |      |                 (5) ...to here
+       |cc1:
+       | (6): calling 'mmhub_v2_0_set_clockgating.part.0' from 'mmhub_v2_0_set_clockgating'
        |
-     'pca953x_writeable_register': event 6
-       |
-       |  392 |                 bank |= PCAL9xxx_BANK_IN_LATCH | PCAL9xxx_BANK_PULL_EN |
-       |
-   drivers/gpio/gpio-pca953x.c:395:16: warning: use of uninitialized value 'bank' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-     395 |         return chip->check_reg(chip, reg, bank);
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     'pca953x_writeable_register': events 1-6
-       |
-       |  377 |         u32 bank;
-       |      |             ^~~~
-       |      |             |
-       |      |             (1) region created on stack here
-       |  378 | 
-       |  379 |         switch (PCA_CHIP_TYPE(chip->driver_data)) {
-       |      |         ~~~~~~
-       |      |         |
-       |      |         (2) following 'default:' branch...
-       |......
-       |  391 |         if (chip->driver_data & PCA_PCAL)
-       |      |         ~~ ~ 
+       +--> 'mmhub_v2_0_set_clockgating.part.0': events 7-8
+              |
+              |  648 | static int mmhub_v2_0_set_clockgating(struct amdgpu_device *adev,
+              |      |            ^~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |            |
+              |      |            (7) entry to 'mmhub_v2_0_set_clockgating.part.0'
+              |......
+              |  660 |                 mmhub_v2_0_update_medium_grain_clock_gating(adev,
+              |      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |                 |
+              |      |                 (8) calling 'mmhub_v2_0_update_medium_grain_clock_gating' from 'mmhub_v2_0_set_clockgating.part.0'
+              |  661 |                                 state == AMD_CG_STATE_GATE);
+              |      |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |
+              +--> 'mmhub_v2_0_update_medium_grain_clock_gating': events 9-14
+                     |
+                     |  563 | static void mmhub_v2_0_update_medium_grain_clock_gating(struct amdgpu_device *adev,
+                     |      |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                     |      |             |
+                     |      |             (9) entry to 'mmhub_v2_0_update_medium_grain_clock_gating'
+                     |......
+                     |  566 |         uint32_t def, data, def1, data1;
+                     |      |                  ~~~
+                     |      |                  |
+                     |      |                  (10) region created on stack here
+                     |  567 | 
+                     |  568 |         if (!(adev->cg_flags & AMD_CG_SUPPORT_MC_MGCG))
+                     |      |            ~ 
+                     |      |            |
+                     |      |            (11) following 'false' branch...
+                     |......
+                     |  571 |         switch (adev->ip_versions[MMHUB_HWIP][0]) {
+                     |      |         ~~~~~~
+                     |      |         |
+                     |      |         (12) ...to here
+                     |      |         (13) following 'true' branch...
+                     |  572 |         case IP_VERSION(2, 1, 0):
+                     |      |         ~~~~ 
+                     |      |         |
+                     |      |         (14) ...to here
+                     |
+                   'mmhub_v2_0_update_medium_grain_clock_gating': event 15
+                     |
+                     |drivers/gpu/drm/amd/amdgpu/soc15_common.h:37:51:
+                     |   36 |         ((amdgpu_sriov_vf(adev) && adev->gfx.rlc.funcs && adev->gfx.rlc.rlcg_reg_access_supported) ? \
+                     |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                     |   37 |          amdgpu_sriov_rreg(adev, reg, flag, hwip) : \
+                     |      |          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~
+                     |      |                                                   |
+                     |      |                                                   (15) following 'false' branch...
+                     |   38 |          RREG32(reg))
+                     |      |          ~~~~~~~~~~~~                              
+   drivers/gpu/drm/amd/amdgpu/soc15_common.h:57:9: note: in expansion of macro '__RREG32_SOC15_RLC__'
+                     |   57 |         __RREG32_SOC15_RLC__(adev->reg_offset[ip##_HWIP][inst][reg##_BASE_IDX] + reg, \
+                     |      |         ^~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/mmhub_v2_0.c:575:32: note: in expansion of macro 'RREG32_SOC15'
+                     |  575 |                 def1 = data1 = RREG32_SOC15(MMHUB, 0, mmDAGB0_CNTL_MISC2_Sienna_Cichlid);
+                     |      |                                ^~~~~~~~~~~~
+                     |
+                   'mmhub_v2_0_update_medium_grain_clock_gating': event 16
+                     |
+                     |drivers/gpu/drm/amd/amdgpu/soc15_common.h:57:57:
+                     |   57 |         __RREG32_SOC15_RLC__(adev->reg_offset[ip##_HWIP][inst][reg##_BASE_IDX] + reg, \
+                     |      |                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+                     |      |                                                         |
+                     |      |                                                         (16) ...to here
+   drivers/gpu/drm/amd/amdgpu/amdgpu.h:1146:47: note: in definition of macro 'RREG32'
+                     | 1146 | #define RREG32(reg) amdgpu_device_rreg(adev, (reg), 0)
+                     |      |                                               ^~~
+   drivers/gpu/drm/amd/amdgpu/soc15_common.h:57:9: note: in expansion of macro '__RREG32_SOC15_RLC__'
+                     |   57 |         __RREG32_SOC15_RLC__(adev->reg_offset[ip##_HWIP][inst][reg##_BASE_IDX] + reg, \
+                     |      |         ^~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/mmhub_v2_0.c:575:32: note: in expansion of macro 'RREG32_SOC15'
 
-vim +/bank +366 drivers/gpio/gpio-pca953x.c
+vim +/def +584 drivers/gpu/drm/amd/amdgpu/mmhub_v2_0.c
 
-13c5d4ce806026 drivers/gpio/gpio-pca953x.c Martyn Welch          2022-09-14  346  
-49427232764d62 drivers/gpio/gpio-pca953x.c Marek Vasut           2018-12-12  347  static bool pca953x_readable_register(struct device *dev, unsigned int reg)
-9e60fdcf0c2905 drivers/gpio/pca9539.c      eric miao             2008-02-04  348  {
-49427232764d62 drivers/gpio/gpio-pca953x.c Marek Vasut           2018-12-12  349  	struct pca953x_chip *chip = dev_get_drvdata(dev);
-49427232764d62 drivers/gpio/gpio-pca953x.c Marek Vasut           2018-12-12  350  	u32 bank;
-49427232764d62 drivers/gpio/gpio-pca953x.c Marek Vasut           2018-12-12  351  
-b44962c9878126 drivers/gpio/gpio-pca953x.c Levente Révész        2022-10-26  352  	switch (PCA_CHIP_TYPE(chip->driver_data)) {
-b44962c9878126 drivers/gpio/gpio-pca953x.c Levente Révész        2022-10-26  353  	case PCA953X_TYPE:
-b44962c9878126 drivers/gpio/gpio-pca953x.c Levente Révész        2022-10-26  354  	case PCAL653X_TYPE:
-b44962c9878126 drivers/gpio/gpio-pca953x.c Levente Révész        2022-10-26  355  		bank = PCA953x_BANK_INPUT | PCA953x_BANK_OUTPUT |
-b44962c9878126 drivers/gpio/gpio-pca953x.c Levente Révész        2022-10-26  356  		       PCA953x_BANK_POLARITY | PCA953x_BANK_CONFIG;
-b44962c9878126 drivers/gpio/gpio-pca953x.c Levente Révész        2022-10-26  357  		break;
-b44962c9878126 drivers/gpio/gpio-pca953x.c Levente Révész        2022-10-26  358  	case PCA957X_TYPE:
-49427232764d62 drivers/gpio/gpio-pca953x.c Marek Vasut           2018-12-12  359  		bank = PCA957x_BANK_INPUT | PCA957x_BANK_OUTPUT |
-49427232764d62 drivers/gpio/gpio-pca953x.c Marek Vasut           2018-12-12  360  		       PCA957x_BANK_POLARITY | PCA957x_BANK_CONFIG |
-49427232764d62 drivers/gpio/gpio-pca953x.c Marek Vasut           2018-12-12  361  		       PCA957x_BANK_BUSHOLD;
-b44962c9878126 drivers/gpio/gpio-pca953x.c Levente Révész        2022-10-26  362  		break;
-7acc66e3711b00 drivers/gpio/gpio-pca953x.c Bartosz Golaszewski   2016-09-09  363  	}
-f5e8ff483266e2 drivers/gpio/pca953x.c      Guennadi Liakhovetski 2008-02-06  364  
-49427232764d62 drivers/gpio/gpio-pca953x.c Marek Vasut           2018-12-12  365  	if (chip->driver_data & PCA_PCAL) {
-15add06841a3b0 drivers/gpio/gpio-pca953x.c Thomas Petazzoni      2019-02-07 @366  		bank |= PCAL9xxx_BANK_IN_LATCH | PCAL9xxx_BANK_PULL_EN |
-15add06841a3b0 drivers/gpio/gpio-pca953x.c Thomas Petazzoni      2019-02-07  367  			PCAL9xxx_BANK_PULL_SEL | PCAL9xxx_BANK_IRQ_MASK |
-49427232764d62 drivers/gpio/gpio-pca953x.c Marek Vasut           2018-12-12  368  			PCAL9xxx_BANK_IRQ_STAT;
-49427232764d62 drivers/gpio/gpio-pca953x.c Marek Vasut           2018-12-12  369  	}
-c4d1cbd7cf4dba drivers/gpio/gpio-pca953x.c Andy Shevchenko       2016-05-31  370  
-13c5d4ce806026 drivers/gpio/gpio-pca953x.c Martyn Welch          2022-09-14  371  	return chip->check_reg(chip, reg, bank);
-c4d1cbd7cf4dba drivers/gpio/gpio-pca953x.c Andy Shevchenko       2016-05-31  372  }
-7acc66e3711b00 drivers/gpio/gpio-pca953x.c Bartosz Golaszewski   2016-09-09  373  
+adc43c1b5e4785 Hawking Zhang 2019-03-04  562  
+adc43c1b5e4785 Hawking Zhang 2019-03-04  563  static void mmhub_v2_0_update_medium_grain_clock_gating(struct amdgpu_device *adev,
+adc43c1b5e4785 Hawking Zhang 2019-03-04  564  							bool enable)
+adc43c1b5e4785 Hawking Zhang 2019-03-04  565  {
+adc43c1b5e4785 Hawking Zhang 2019-03-04  566  	uint32_t def, data, def1, data1;
+adc43c1b5e4785 Hawking Zhang 2019-03-04  567  
+754e9883d48c2e Evan Quan     2021-05-25  568  	if (!(adev->cg_flags & AMD_CG_SUPPORT_MC_MGCG))
+754e9883d48c2e Evan Quan     2021-05-25  569  		return;
+754e9883d48c2e Evan Quan     2021-05-25  570  
+1d789535a03679 Alex Deucher  2021-10-04  571  	switch (adev->ip_versions[MMHUB_HWIP][0]) {
+ce2d99a84f99cb Alex Deucher  2021-07-27  572  	case IP_VERSION(2, 1, 0):
+ce2d99a84f99cb Alex Deucher  2021-07-27  573  	case IP_VERSION(2, 1, 1):
+ce2d99a84f99cb Alex Deucher  2021-07-27  574  	case IP_VERSION(2, 1, 2):
+ffffb96d1165e8 Likun Gao     2019-06-16  575  		def1 = data1 = RREG32_SOC15(MMHUB, 0, mmDAGB0_CNTL_MISC2_Sienna_Cichlid);
+ffffb96d1165e8 Likun Gao     2019-06-16  576  		break;
+ffffb96d1165e8 Likun Gao     2019-06-16  577  	default:
+adc43c1b5e4785 Hawking Zhang 2019-03-04  578  		def  = data  = RREG32_SOC15(MMHUB, 0, mmMM_ATC_L2_MISC_CG);
+adc43c1b5e4785 Hawking Zhang 2019-03-04  579  		def1 = data1 = RREG32_SOC15(MMHUB, 0, mmDAGB0_CNTL_MISC2);
+ffffb96d1165e8 Likun Gao     2019-06-16  580  		break;
+ffffb96d1165e8 Likun Gao     2019-06-16  581  	}
+adc43c1b5e4785 Hawking Zhang 2019-03-04  582  
+754e9883d48c2e Evan Quan     2021-05-25  583  	if (enable) {
+adc43c1b5e4785 Hawking Zhang 2019-03-04 @584  		data |= MM_ATC_L2_MISC_CG__ENABLE_MASK;
+adc43c1b5e4785 Hawking Zhang 2019-03-04  585  
+adc43c1b5e4785 Hawking Zhang 2019-03-04  586  		data1 &= ~(DAGB0_CNTL_MISC2__DISABLE_WRREQ_CG_MASK |
+adc43c1b5e4785 Hawking Zhang 2019-03-04  587  		           DAGB0_CNTL_MISC2__DISABLE_WRRET_CG_MASK |
+adc43c1b5e4785 Hawking Zhang 2019-03-04  588  		           DAGB0_CNTL_MISC2__DISABLE_RDREQ_CG_MASK |
+adc43c1b5e4785 Hawking Zhang 2019-03-04  589  		           DAGB0_CNTL_MISC2__DISABLE_RDRET_CG_MASK |
+adc43c1b5e4785 Hawking Zhang 2019-03-04  590  		           DAGB0_CNTL_MISC2__DISABLE_TLBWR_CG_MASK |
+adc43c1b5e4785 Hawking Zhang 2019-03-04  591  		           DAGB0_CNTL_MISC2__DISABLE_TLBRD_CG_MASK);
+adc43c1b5e4785 Hawking Zhang 2019-03-04  592  
+adc43c1b5e4785 Hawking Zhang 2019-03-04  593  	} else {
+adc43c1b5e4785 Hawking Zhang 2019-03-04  594  		data &= ~MM_ATC_L2_MISC_CG__ENABLE_MASK;
+adc43c1b5e4785 Hawking Zhang 2019-03-04  595  
+adc43c1b5e4785 Hawking Zhang 2019-03-04  596  		data1 |= (DAGB0_CNTL_MISC2__DISABLE_WRREQ_CG_MASK |
+adc43c1b5e4785 Hawking Zhang 2019-03-04  597  			  DAGB0_CNTL_MISC2__DISABLE_WRRET_CG_MASK |
+adc43c1b5e4785 Hawking Zhang 2019-03-04  598  			  DAGB0_CNTL_MISC2__DISABLE_RDREQ_CG_MASK |
+adc43c1b5e4785 Hawking Zhang 2019-03-04  599  			  DAGB0_CNTL_MISC2__DISABLE_RDRET_CG_MASK |
+adc43c1b5e4785 Hawking Zhang 2019-03-04  600  			  DAGB0_CNTL_MISC2__DISABLE_TLBWR_CG_MASK |
+adc43c1b5e4785 Hawking Zhang 2019-03-04  601  			  DAGB0_CNTL_MISC2__DISABLE_TLBRD_CG_MASK);
+adc43c1b5e4785 Hawking Zhang 2019-03-04  602  	}
+adc43c1b5e4785 Hawking Zhang 2019-03-04  603  
+1d789535a03679 Alex Deucher  2021-10-04  604  	switch (adev->ip_versions[MMHUB_HWIP][0]) {
+ce2d99a84f99cb Alex Deucher  2021-07-27  605  	case IP_VERSION(2, 1, 0):
+ce2d99a84f99cb Alex Deucher  2021-07-27  606  	case IP_VERSION(2, 1, 1):
+ce2d99a84f99cb Alex Deucher  2021-07-27  607  	case IP_VERSION(2, 1, 2):
+ffffb96d1165e8 Likun Gao     2019-06-16  608  		if (def1 != data1)
+ffffb96d1165e8 Likun Gao     2019-06-16  609  			WREG32_SOC15(MMHUB, 0, mmDAGB0_CNTL_MISC2_Sienna_Cichlid, data1);
+ffffb96d1165e8 Likun Gao     2019-06-16  610  		break;
+ffffb96d1165e8 Likun Gao     2019-06-16  611  	default:
+adc43c1b5e4785 Hawking Zhang 2019-03-04  612  		if (def != data)
+adc43c1b5e4785 Hawking Zhang 2019-03-04  613  			WREG32_SOC15(MMHUB, 0, mmMM_ATC_L2_MISC_CG, data);
+adc43c1b5e4785 Hawking Zhang 2019-03-04  614  		if (def1 != data1)
+adc43c1b5e4785 Hawking Zhang 2019-03-04  615  			WREG32_SOC15(MMHUB, 0, mmDAGB0_CNTL_MISC2, data1);
+ffffb96d1165e8 Likun Gao     2019-06-16  616  		break;
+ffffb96d1165e8 Likun Gao     2019-06-16  617  	}
+adc43c1b5e4785 Hawking Zhang 2019-03-04  618  }
+adc43c1b5e4785 Hawking Zhang 2019-03-04  619  
+
+:::::: The code at line 584 was first introduced by commit
+:::::: adc43c1b5e47856b6348c14b93a7ae5f44d670b3 drm/amdgpu: add mmhub v2 block for navi10 (v4)
+
+:::::: TO: Hawking Zhang <Hawking.Zhang@amd.com>
+:::::: CC: Alex Deucher <alexander.deucher@amd.com>
 
 -- 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
 
---NBcAxs0Ggn1xvQPo
+--OB1XWMLIsZLYLNwx
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename=config
 
@@ -879,6 +886,7 @@ CONFIG_KASAN_SHADOW_OFFSET=0x9f000000
 CONFIG_NR_CPUS=4
 CONFIG_HOTPLUG_CPU=y
 CONFIG_ARM_PSCI=y
+CONFIG_ARCH_NR_GPIO=1024
 CONFIG_HZ_FIXED=0
 # CONFIG_HZ_100 is not set
 # CONFIG_HZ_200 is not set
@@ -2536,7 +2544,6 @@ CONFIG_GPIOLIB_IRQCHIP=y
 # CONFIG_GPIO_CDEV is not set
 CONFIG_GPIO_GENERIC=y
 CONFIG_GPIO_MAX730X=y
-CONFIG_GPIO_IDIO_16=m
 
 #
 # Memory mapped GPIO drivers
@@ -2664,7 +2671,6 @@ CONFIG_GPIO_VIPERBOARD=m
 # Virtual GPIO drivers
 #
 CONFIG_GPIO_AGGREGATOR=y
-# CONFIG_GPIO_LATCH is not set
 CONFIG_GPIO_MOCKUP=y
 CONFIG_GPIO_VIRTIO=m
 CONFIG_GPIO_SIM=m
@@ -7765,4 +7771,4 @@ CONFIG_MEMTEST=y
 # CONFIG_WARN_ABI_ERRORS is not set
 # end of Kernel hacking
 
---NBcAxs0Ggn1xvQPo--
+--OB1XWMLIsZLYLNwx--
