@@ -1,83 +1,98 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FCD215CAA
-	for <oe-kbuild@lists.linux.dev>; Sat, 29 Oct 2022 09:23:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5BBD15CAB
+	for <oe-kbuild@lists.linux.dev>; Sat, 29 Oct 2022 09:53:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1667035411; x=1698571411;
+  t=1667037209; x=1698573209;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=3RdHJGl232jm0cq8kKIsrjL5ySa0kzwPdIJk6ZFJhIU=;
-  b=UTQhwF4gyvDCW/oP/ZDbrhpo7eK1+nSrn8MHIx/0ct71efezAlA+Dah8
-   NVpGAiHDOgCLrY5WOD3nhM5+yCdWk0+1tBfkRwETdIW4YYbZrCojV6v9g
-   mAwKBvSqT5jN7w8yl0YFrGBdPesKc3QNgX5MLikjgY2IvEUoaxYRB5Sk5
-   xfk4Lu3kSjHB53+ZwSdBwcUKC4f2EaBSe6hmu3jphk9Fz1mAZQr7ed2HK
-   JL5arEaf+CCZWOl3NqVPX5wso3W1y53HhLIG6DgAVpTJwzPxzz1mN+q5w
-   mevyBBbTJ4LDhroKteiU8At30RSqC3f30BwrghICUDnyHh/7kXuDtpKzD
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10514"; a="335301225"
+  bh=KTBnE2z5zbkvWXNufvhnkb7WT0xlTLYNoLtgRw9Nce0=;
+  b=APGC1nTLNAmU2tY7DmHYAvRKJo/fmssrVTBnuBJIchEAcZ2d809WyHhb
+   YQ8tVsf3dDP+xeALJTSEEkO3nmBKlmp6QoWo61cP4YH4titmUAD3PtOPb
+   zuo4yY20ORJiUwp+U3eZgF84KlmDUAIMitfagB4oje27RlKSoYa2GlZat
+   3V4OvPfRHrNPRIhkCuwTU31glbQyzCZQmPNF2m3qj3X4O51ZdM0YmFalM
+   rEdbimOHWPW4eHhv99H6TlGq240xJ5j1S1r4KT5wMZkW4dSiQTW/ZBfvq
+   SyjiNhK9h+KHRKCccvIX8WmhcHjKxmT7Mz6quoxJoYQicVseNyMV2jx27
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10514"; a="394969659"
 X-IronPort-AV: E=Sophos;i="5.95,223,1661842800"; 
-   d="scan'208";a="335301225"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2022 02:23:23 -0700
+   d="scan'208";a="394969659"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2022 02:53:28 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10514"; a="666338494"
+X-IronPort-AV: E=McAfee;i="6500,9779,10514"; a="584181011"
 X-IronPort-AV: E=Sophos;i="5.95,223,1661842800"; 
-   d="scan'208";a="666338494"
+   d="scan'208";a="584181011"
 Received: from lkp-server02.sh.intel.com (HELO b6d29c1a0365) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 29 Oct 2022 02:23:21 -0700
+  by orsmga003.jf.intel.com with ESMTP; 29 Oct 2022 02:53:26 -0700
 Received: from kbuild by b6d29c1a0365 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ooi3k-000Arz-1v;
-	Sat, 29 Oct 2022 09:23:20 +0000
-Date: Sat, 29 Oct 2022 17:22:22 +0800
+	id 1ooiWr-000Ato-2B;
+	Sat, 29 Oct 2022 09:53:25 +0000
+Date: Sat, 29 Oct 2022 17:52:40 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [linux-next:master 2705/4127]
- drivers/gpu/drm/amd/amdgpu/mmhub_v2_0.c:584:22: warning: use of
- uninitialized value 'def' [CWE-457]
-Message-ID: <202210291749.P1rDVWi8-lkp@intel.com>
+Subject: Re: [PATCH] Debug buffer_head lock
+Message-ID: <202210291757.NRXc4LJh-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="pr8F3Qwr/n0jJ+2e"
+Content-Type: multipart/mixed; boundary="FFj88TiXp4IA/fES"
 Content-Disposition: inline
 
 
---pr8F3Qwr/n0jJ+2e
+--FFj88TiXp4IA/fES
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
 :::::: Manual check reason: "low confidence bisect report"
-:::::: Manual check reason: "low confidence static check warning: drivers/gpu/drm/amd/amdgpu/mmhub_v2_0.c:584:22: warning: use of uninitialized value 'def' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]"
+:::::: Manual check reason: "low confidence static check first_new_problem: fs/fat/dir.c:1255:19: warning: use of uninitialized value 'bhs[n]' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Lijo Lazar <lijo.lazar@amd.com>
-CC: Alex Deucher <alexander.deucher@amd.com>
-CC: Guchun Chen <guchun.chen@amd.com>
+In-Reply-To: <20221026101854.k6qgunxexhxthw64@quack3>
+References: <20221026101854.k6qgunxexhxthw64@quack3>
+TO: Jan Kara <jack@suse.cz>
+TO: Thilo Fromm <t-lo@linux.microsoft.com>
+CC: Jan Kara <jack@suse.cz>
+CC: Ye Bin <yebin10@huawei.com>
+CC: jack@suse.com
+CC: tytso@mit.edu
+CC: linux-ext4@vger.kernel.org
+CC: regressions@lists.linux.dev
+CC: Jeremi Piotrowski <jpiotrowski@linux.microsoft.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   fd8dab197cca2746e1fcd399a218eec5164726d4
-commit: 20293269d81779a0d0c0865f5877b240c3335c97 [2705/4127] drm/amdgpu: Remove ATC L2 access for MMHUB 2.1.x
-:::::: branch date: 29 hours ago
-:::::: commit date: 5 days ago
+Hi Jan,
+
+I love your patch! Perhaps something to improve:
+
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.1-rc2 next-20221028]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jan-Kara/Debug-buffer_head-lock/20221026-181903
+patch link:    https://lore.kernel.org/r/20221026101854.k6qgunxexhxthw64%40quack3
+patch subject: [PATCH] Debug buffer_head lock
+:::::: branch date: 3 days ago
+:::::: commit date: 3 days ago
 config: arm-randconfig-c002-20221026
 compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=20293269d81779a0d0c0865f5877b240c3335c97
-        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
-        git fetch --no-tags linux-next master
-        git checkout 20293269d81779a0d0c0865f5877b240c3335c97
+        # https://github.com/intel-lab-lkp/linux/commit/23ede6b4c27cd61f439c17533ec277cf067b4a9d
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Jan-Kara/Debug-buffer_head-lock/20221026-181903
+        git checkout 23ede6b4c27cd61f439c17533ec277cf067b4a9d
         # save the config file
         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross ARCH=arm KBUILD_USERCFLAGS='-fanalyzer -Wno-error' 
 
@@ -85,279 +100,506 @@ If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
 gcc_analyzer warnings: (new ones prefixed by >>)
-   drivers/gpu/drm/amd/amdgpu/mmhub_v2_0.c: In function 'mmhub_v2_0_update_medium_grain_clock_gating':
->> drivers/gpu/drm/amd/amdgpu/mmhub_v2_0.c:584:22: warning: use of uninitialized value 'def' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-     584 |                 data |= MM_ATC_L2_MISC_CG__ENABLE_MASK;
-     'mmhub_v2_0_update_medium_grain_clock_gating': events 1-7
-       |
-       |  566 |         uint32_t def, data, def1, data1;
-       |      |                  ^~~
-       |      |                  |
-       |      |                  (1) region created on stack here
-       |  567 | 
-       |  568 |         if (!(adev->cg_flags & AMD_CG_SUPPORT_MC_MGCG))
-       |      |            ~      
-       |      |            |
-       |      |            (2) following 'false' branch...
-       |......
-       |  571 |         switch (adev->ip_versions[MMHUB_HWIP][0]) {
-       |      |         ~~~~~~    
-       |      |         |
-       |      |         (3) ...to here
-       |      |         (4) following 'true' branch...
-       |  572 |         case IP_VERSION(2, 1, 0):
-       |      |         ~~~~      
-       |      |         |
-       |      |         (5) ...to here
-       |......
-       |  583 |         if (enable) {
-       |      |            ~      
-       |      |            |
-       |      |            (6) following 'true' branch (when 'enable != 0')...
-       |  584 |                 data |= MM_ATC_L2_MISC_CG__ENABLE_MASK;
-       |      |                 ~~~~
-       |      |                 |
-       |      |                 (7) ...to here
-       |
-     'mmhub_v2_0_update_medium_grain_clock_gating': event 8
-       |
-       |  584 |                 data |= MM_ATC_L2_MISC_CG__ENABLE_MASK;
-       |
->> drivers/gpu/drm/amd/amdgpu/mmhub_v2_0.c:584:22: warning: use of uninitialized value 'def' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-     'mmhub_v2_0_set_clockgating.part.0': events 1-2
-       |
-       |  648 | static int mmhub_v2_0_set_clockgating(struct amdgpu_device *adev,
-       |      |            ^~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |            |
-       |      |            (1) entry to 'mmhub_v2_0_set_clockgating.part.0'
-       |......
-       |  660 |                 mmhub_v2_0_update_medium_grain_clock_gating(adev,
-       |      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |                 |
-       |      |                 (2) calling 'mmhub_v2_0_update_medium_grain_clock_gating' from 'mmhub_v2_0_set_clockgating.part.0'
-       |  661 |                                 state == AMD_CG_STATE_GATE);
-       |      |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |
-       +--> 'mmhub_v2_0_update_medium_grain_clock_gating': events 3-10
+              |  778 |                                     short_only, both ? &buf : NULL);
+              |      |                                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
               |
-              |  563 | static void mmhub_v2_0_update_medium_grain_clock_gating(struct amdgpu_device *adev,
-              |      |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-              |      |             |
-              |      |             (3) entry to 'mmhub_v2_0_update_medium_grain_clock_gating'
-              |......
-              |  566 |         uint32_t def, data, def1, data1;
-              |      |                  ~~~
-              |      |                  |
-              |      |                  (4) region created on stack here
-              |  567 | 
-              |  568 |         if (!(adev->cg_flags & AMD_CG_SUPPORT_MC_MGCG))
-              |      |            ~ 
-              |      |            |
-              |      |            (5) following 'false' branch...
-              |......
-              |  571 |         switch (adev->ip_versions[MMHUB_HWIP][0]) {
-              |      |         ~~~~~~
-              |      |         |
-              |      |         (6) ...to here
-              |      |         (7) following 'true' branch...
-              |  572 |         case IP_VERSION(2, 1, 0):
-              |      |         ~~~~ 
-              |      |         |
-              |      |         (8) ...to here
-              |......
-              |  583 |         if (enable) {
-              |      |            ~ 
-              |      |            |
-              |      |            (9) following 'true' branch (when 'enable != 0')...
-              |  584 |                 data |= MM_ATC_L2_MISC_CG__ENABLE_MASK;
-              |      |                 ~~~~
-              |      |                 |
-              |      |                 (10) ...to here
-              |
-            'mmhub_v2_0_update_medium_grain_clock_gating': event 11
-              |
-              |  584 |                 data |= MM_ATC_L2_MISC_CG__ENABLE_MASK;
-              |
->> drivers/gpu/drm/amd/amdgpu/mmhub_v2_0.c:584:22: warning: use of uninitialized value 'def' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-     'mmhub_v2_0_set_clockgating': events 1-5
-       |
-       |  648 | static int mmhub_v2_0_set_clockgating(struct amdgpu_device *adev,
-       |      |            ^~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |            |
-       |      |            (1) entry to 'mmhub_v2_0_set_clockgating'
-       |......
-       |  651 |         if (amdgpu_sriov_vf(adev))
-       |      |            ~
-       |      |            |
-       |      |            (2) following 'false' branch...
-       |......
-       |  654 |         switch (adev->ip_versions[MMHUB_HWIP][0]) {
-       |      |         ~~~~~~
-       |      |         |
-       |      |         (3) ...to here
-       |      |         (4) following 'case 131072:, case 131074:, case 131328 ... 131330:' branch...
-       |  655 |         case IP_VERSION(2, 0, 0):
-       |      |         ~~~~
-       |      |         |
-       |      |         (5) ...to here
-       |
-     'mmhub_v2_0_set_clockgating': event 6
-       |
-       |cc1:
-       | (6): calling 'mmhub_v2_0_set_clockgating.part.0' from 'mmhub_v2_0_set_clockgating'
-       |
-       +--> 'mmhub_v2_0_set_clockgating.part.0': events 7-8
-              |
-              |  648 | static int mmhub_v2_0_set_clockgating(struct amdgpu_device *adev,
-              |      |            ^~~~~~~~~~~~~~~~~~~~~~~~~~
-              |      |            |
-              |      |            (7) entry to 'mmhub_v2_0_set_clockgating.part.0'
-              |......
-              |  660 |                 mmhub_v2_0_update_medium_grain_clock_gating(adev,
-              |      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-              |      |                 |
-              |      |                 (8) calling 'mmhub_v2_0_update_medium_grain_clock_gating' from 'mmhub_v2_0_set_clockgating.part.0'
-              |  661 |                                 state == AMD_CG_STATE_GATE);
-              |      |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-              |
-              +--> 'mmhub_v2_0_update_medium_grain_clock_gating': events 9-14
+              +--> '__fat_readdir': events 11-12
                      |
-                     |  563 | static void mmhub_v2_0_update_medium_grain_clock_gating(struct amdgpu_device *adev,
-                     |      |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                     |      |             |
-                     |      |             (9) entry to 'mmhub_v2_0_update_medium_grain_clock_gating'
-                     |......
-                     |  566 |         uint32_t def, data, def1, data1;
-                     |      |                  ~~~
-                     |      |                  |
-                     |      |                  (10) region created on stack here
-                     |  567 | 
-                     |  568 |         if (!(adev->cg_flags & AMD_CG_SUPPORT_MC_MGCG))
-                     |      |            ~ 
+                     |  553 | static int __fat_readdir(struct inode *inode, struct file *file,
+                     |      |            ^~~~~~~~~~~~~
                      |      |            |
-                     |      |            (11) following 'false' branch...
+                     |      |            (11) entry to '__fat_readdir'
                      |......
-                     |  571 |         switch (adev->ip_versions[MMHUB_HWIP][0]) {
-                     |      |         ~~~~~~
+                     |  559 |         struct buffer_head *bh;
+                     |      |                             ~~
+                     |      |                             |
+                     |      |                             (12) use of uninitialized value '<unknown>' here
+                     |
+   fs/fat/dir.c: In function 'fat_dir_empty':
+   fs/fat/dir.c:908:33: warning: use of uninitialized value '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+     908 |         struct msdos_dir_entry *de;
+         |                                 ^~
+     'fat_dir_empty': event 1
+       |
+       |  908 |         struct msdos_dir_entry *de;
+       |      |                                 ^~
+       |      |                                 |
+       |      |                                 (1) use of uninitialized value '<unknown>' here
+       |
+   fs/fat/dir.c: In function 'fat_subdirs':
+   fs/fat/dir.c:933:33: warning: use of uninitialized value '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+     933 |         struct msdos_dir_entry *de;
+         |                                 ^~
+     'fat_subdirs': event 1
+       |
+       |  933 |         struct msdos_dir_entry *de;
+       |      |                                 ^~
+       |      |                                 |
+       |      |                                 (1) use of uninitialized value '<unknown>' here
+       |
+   fs/fat/dir.c: In function '__fat_remove_entries':
+   fs/fat/dir.c:998:33: warning: use of uninitialized value '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+     998 |         struct msdos_dir_entry *de, *endp;
+         |                                 ^~
+     '__fat_remove_entries': event 1
+       |
+       |  998 |         struct msdos_dir_entry *de, *endp;
+       |      |                                 ^~
+       |      |                                 |
+       |      |                                 (1) use of uninitialized value '<unknown>' here
+       |
+   fs/fat/dir.c: In function 'fat_alloc_new_dir':
+   fs/fat/dir.c:1140:16: warning: use of uninitialized value '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+    1140 |         __le16 date, time;
+         |                ^~~~
+     'fat_alloc_new_dir': event 1
+       |
+       | 1140 |         __le16 date, time;
+       |      |                ^~~~
+       |      |                |
+       |      |                (1) use of uninitialized value '<unknown>' here
+       |
+   fs/fat/dir.c:1140:22: warning: use of uninitialized value '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+    1140 |         __le16 date, time;
+         |                      ^~~~
+     'fat_alloc_new_dir': event 1
+       |
+       | 1140 |         __le16 date, time;
+       |      |                      ^~~~
+       |      |                      |
+       |      |                      (1) use of uninitialized value '<unknown>' here
+       |
+   fs/fat/dir.c:1141:12: warning: use of uninitialized value '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+    1141 |         u8 time_cs;
+         |            ^~~~~~~
+     'fat_alloc_new_dir': event 1
+       |
+       | 1141 |         u8 time_cs;
+       |      |            ^~~~~~~
+       |      |            |
+       |      |            (1) use of uninitialized value '<unknown>' here
+       |
+   fs/fat/dir.c:1142:18: warning: use of uninitialized value '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+    1142 |         int err, cluster;
+         |                  ^~~~~~~
+     'fat_alloc_new_dir': event 1
+       |
+       | 1142 |         int err, cluster;
+       |      |                  ^~~~~~~
+       |      |                  |
+       |      |                  (1) use of uninitialized value '<unknown>' here
+       |
+   In file included from include/linux/string.h:253,
+                    from include/linux/bitmap.h:11,
+                    from include/linux/cpumask.h:12,
+                    from include/linux/smp.h:13,
+                    from include/linux/lockdep.h:14,
+                    from include/linux/spinlock.h:63,
+                    from include/linux/mmzone.h:8,
+                    from include/linux/gfp.h:7,
+                    from include/linux/slab.h:15,
+                    from fs/fat/dir.c:17:
+   fs/fat/dir.c: In function 'fat_add_new_entries':
+>> fs/fat/dir.c:1255:19: warning: use of uninitialized value 'bhs[n]' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+    1255 |         memset(bhs[n]->b_data + copy, 0, sb->s_blocksize - copy);
+         |                ~~~^~~
+   include/linux/fortify-string.h:323:44: note: in definition of macro '__fortify_memset_chk'
+     323 |         fortify_memset_chk(__fortify_size, p_size, p_size_field),       \
+         |                                            ^~~~~~
+   include/linux/fortify-string.h:333:17: note: in expansion of macro '__struct_size'
+     333 |                 __struct_size(p), __member_size(p))
+         |                 ^~~~~~~~~~~~~
+   fs/fat/dir.c:1255:9: note: in expansion of macro 'memset'
+    1255 |         memset(bhs[n]->b_data + copy, 0, sb->s_blocksize - copy);
+         |         ^~~~~~
+     'fat_add_entries': events 1-2
+       |
+       | 1281 | int fat_add_entries(struct inode *dir, void *slots, int nr_slots,
+       |      |     ^~~~~~~~~~~~~~~
+       |      |     |
+       |      |     (1) entry to 'fat_add_entries'
+       |......
+       | 1298 |         while (fat_get_entry(dir, &pos, &bh, &de) > -1) {
+       |      |                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |                |
+       |      |                (2) calling 'fat_get_entry' from 'fat_add_entries'
+       |
+       +--> 'fat_get_entry': events 3-6
+              |
+              |  116 | static inline int fat_get_entry(struct inode *dir, loff_t *pos,
+              |      |                   ^~~~~~~~~~~~~
+              |      |                   |
+              |      |                   (3) entry to 'fat_get_entry'
+              |......
+              |  121 |         if (*bh && *de &&
+              |      |            ~       
+              |      |            |
+              |      |            (4) following 'false' branch...
+              |......
+              |  128 |         return fat__get_entry(dir, pos, bh, de);
+              |      |         ~~~~~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |         |      |
+              |      |         |      (6) calling 'fat__get_entry' from 'fat_get_entry'
+              |      |         (5) ...to here
+              |
+              +--> 'fat__get_entry': event 7
+                     |
+                     |   82 | static int fat__get_entry(struct inode *dir, loff_t *pos,
+                     |      |            ^~~~~~~~~~~~~~
+                     |      |            |
+                     |      |            (7) entry to 'fat__get_entry'
+                     |
+                   'fat__get_entry': event 8
+                     |
+                     |include/linux/buffer_head.h:328:12:
+                     |  328 |         if (bh)
+                     |      |            ^
+                     |      |            |
+                     |      |            (8) following 'false' branch...
+                     |
+                   'fat__get_entry': event 9
+                     |
+                     |fs/fat/dir.c:91:9:
+                     |   91 |         brelse(*bh);
+                     |      |         ^~~~~~~~~~~
                      |      |         |
-                     |      |         (12) ...to here
-                     |      |         (13) following 'true' branch...
-                     |  572 |         case IP_VERSION(2, 1, 0):
-                     |      |         ~~~~ 
+                     |      |         (9) ...to here
+                     |
+              <------+
+              |
+            'fat_get_entry': event 10
+              |
+              |  128 |         return fat__get_entry(dir, pos, bh, de);
+              |      |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |                |
+              |      |                (10) returning to 'fat_get_entry' from 'fat__get_entry'
+              |
+       <------+
+       |
+     'fat_add_entries': events 11-18
+       |
+       | 1298 |         while (fat_get_entry(dir, &pos, &bh, &de) > -1) {
+       |      |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |                |                                  |
+       |      |                |                                  (12) following 'false' branch...
+       |      |                (11) returning to 'fat_add_entries' from 'fat_get_entry'
+       |......
+       | 1319 |         if (dir->i_ino == MSDOS_ROOT_INO) {
+       |      |         ~~      
+       |      |         |
+       |      |         (13) ...to here
+       | 1320 |                 if (!is_fat32(sbi))
+       |      |                    ~
+       |      |                    |
+       |      |                    (14) following 'false' branch...
+       |......
+       | 1329 | found:
+       |      | ~~~~~           
+       |      | |
+       |      | (15) ...to here
+       |......
+       | 1368 |         if (nr_slots) {
+       |      |            ~    
+       |      |            |
+       |      |            (16) following 'true' branch (when 'nr_slots != 0')...
+       | 1369 |                 int cluster, nr_cluster;
+       |      |                 ~~~
+       |      |                 |
+       |      |                 (17) ...to here
+       |......
+       | 1376 |                 cluster = fat_add_new_entries(dir, slots, nr_slots, &nr_cluster,
+       |      |                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |                           |
+       |      |                           (18) calling 'fat_add_new_entries' from 'fat_add_entries'
+       | 1377 |                                               &de, &bh, &i_pos);
+       |      |                                               ~~~~~~~~~~~~~~~~~
+       |
+       +--> 'fat_add_new_entries': events 19-20
+              |
+              | 1198 | static int fat_add_new_entries(struct inode *dir, void *slots, int nr_slots,
+              |      |            ^~~~~~~~~~~~~~~~~~~
+              |      |            |
+              |      |            (19) entry to 'fat_add_new_entries'
+              |......
+              | 1204 |         struct buffer_head *bhs[MAX_BUF_PER_PAGE];
+              |      |                             ~~~
+              |      |                             |
+              |      |                             (20) region created on stack here
+              |
+            'fat_add_new_entries': event 21
+              |
+              |include/asm-generic/bug.h:71:35:
+              |   71 | #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (0)
+              |      |                                   ^
+              |      |                                   |
+              |      |                                   (21) following 'false' branch...
+   fs/fat/dir.c:1216:9: note: in expansion of macro 'BUG_ON'
+              | 1216 |         BUG_ON(*nr_cluster > 2);
+              |      |         ^~~~~~
+              |
+            'fat_add_new_entries': event 22
+              |
+              |include/linux/compiler-gcc.h:63:12:
+              |   63 |         do {                                    \
+              |      |            ^
+              |      |            |
+              |      |            (22) ...to here
+   arch/arm/include/asm/bug.h:46:9: note: in expansion of macro 'unreachable'
+              |   46 |         unreachable();                                          \
+              |      |         ^~~~~~~~~~~
+   arch/arm/include/asm/bug.h:24:33: note: in expansion of macro '__BUG'
+              |   24 | #define _BUG(file, line, value) __BUG(file, line, value)
+              |      |                                 ^~~~~
+   arch/arm/include/asm/bug.h:23:15: note: in expansion of macro '_BUG'
+              |   23 | #define BUG() _BUG(__FILE__, __LINE__, BUG_INSTR_VALUE)
+              |      |               ^~~~
+   include/asm-generic/bug.h:71:57: note: in expansion of macro 'BUG'
+              |   71 | #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (0)
+              |      |                                                         ^~~
+   fs/fat/dir.c:1216:9: note: in expansion of macro 'BUG_ON'
+              | 1216 |         BUG_ON(*nr_cluster > 2);
+              |      |         ^~~~~~
+              |
+            'fat_add_new_entries': event 23
+              |
+              | 1219 |         if (err)
+              |      |            ^
+              |      |            |
+              |      |            (23) following 'false' branch (when 'err == 0')...
+              |
+            'fat_add_new_entries': event 24
+              |
+              |cc1:
+              | (24): ...to here
+              |
+            'fat_add_new_entries': events 25-26
+              |
+              | 1231 |                 while (blknr < last_blknr) {
+              |      |                        ~~~~~~^~~~~~~~~~~~
+              |      |                              |
+              |      |                              (25) following 'false' branch (when 'blknr >= last_blknr')...
+              |......
+              | 1253 |         } while (++i < *nr_cluster);
+              |      |                  ~~~~~~~~~~~~~~~~~
+              |      |                      |
+              |      |                      (26) ...to here
+              |
+            'fat_add_new_entries': event 27
+              |
+              | 1255 |         memset(bhs[n]->b_data + copy, 0, sb->s_blocksize - copy);
+              |      |                ~~~^~~
+              |      |                   |
+              |      |                   (27) use of uninitialized value 'bhs[n]' here
+   include/linux/fortify-string.h:323:44: note: in definition of macro '__fortify_memset_chk'
+              |  323 |         fortify_memset_chk(__fortify_size, p_size, p_size_field),       \
+              |      |                                            ^~~~~~
+   include/linux/fortify-string.h:333:17: note: in expansion of macro '__struct_size'
+              |  333 |                 __struct_size(p), __member_size(p))
+              |      |                 ^~~~~~~~~~~~~
+   fs/fat/dir.c:1255:9: note: in expansion of macro 'memset'
+              | 1255 |         memset(bhs[n]->b_data + copy, 0, sb->s_blocksize - copy);
+              |      |         ^~~~~~
+              |
+>> fs/fat/dir.c:1255:19: warning: use of uninitialized value 'bhs[n]' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+    1255 |         memset(bhs[n]->b_data + copy, 0, sb->s_blocksize - copy);
+         |                ~~~^~~
+   include/linux/fortify-string.h:324:29: note: in definition of macro '__fortify_memset_chk'
+     324 |         __underlying_memset(p, c, __fortify_size);                      \
+         |                             ^
+   fs/fat/dir.c:1255:9: note: in expansion of macro 'memset'
+    1255 |         memset(bhs[n]->b_data + copy, 0, sb->s_blocksize - copy);
+         |         ^~~~~~
+     'fat_add_entries': events 1-2
+       |
+       | 1281 | int fat_add_entries(struct inode *dir, void *slots, int nr_slots,
+       |      |     ^~~~~~~~~~~~~~~
+       |      |     |
+       |      |     (1) entry to 'fat_add_entries'
+       |......
+       | 1298 |         while (fat_get_entry(dir, &pos, &bh, &de) > -1) {
+       |      |                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |                |
+       |      |                (2) calling 'fat_get_entry' from 'fat_add_entries'
+       |
+       +--> 'fat_get_entry': events 3-6
+              |
+              |  116 | static inline int fat_get_entry(struct inode *dir, loff_t *pos,
+              |      |                   ^~~~~~~~~~~~~
+              |      |                   |
+              |      |                   (3) entry to 'fat_get_entry'
+              |......
+              |  121 |         if (*bh && *de &&
+              |      |            ~       
+              |      |            |
+              |      |            (4) following 'false' branch...
+              |......
+              |  128 |         return fat__get_entry(dir, pos, bh, de);
+              |      |         ~~~~~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |         |      |
+              |      |         |      (6) calling 'fat__get_entry' from 'fat_get_entry'
+              |      |         (5) ...to here
+              |
+              +--> 'fat__get_entry': event 7
+                     |
+                     |   82 | static int fat__get_entry(struct inode *dir, loff_t *pos,
+                     |      |            ^~~~~~~~~~~~~~
+                     |      |            |
+                     |      |            (7) entry to 'fat__get_entry'
+                     |
+                   'fat__get_entry': event 8
+                     |
+                     |include/linux/buffer_head.h:328:12:
+                     |  328 |         if (bh)
+                     |      |            ^
+                     |      |            |
+                     |      |            (8) following 'false' branch...
+                     |
+                   'fat__get_entry': event 9
+                     |
+                     |fs/fat/dir.c:91:9:
+                     |   91 |         brelse(*bh);
+                     |      |         ^~~~~~~~~~~
                      |      |         |
-                     |      |         (14) ...to here
+                     |      |         (9) ...to here
                      |
-                   'mmhub_v2_0_update_medium_grain_clock_gating': event 15
-                     |
-                     |drivers/gpu/drm/amd/amdgpu/soc15_common.h:37:51:
-                     |   36 |         ((amdgpu_sriov_vf(adev) && adev->gfx.rlc.funcs && adev->gfx.rlc.rlcg_reg_access_supported) ? \
-                     |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                     |   37 |          amdgpu_sriov_rreg(adev, reg, flag, hwip) : \
-                     |      |          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~
-                     |      |                                                   |
-                     |      |                                                   (15) following 'false' branch...
-                     |   38 |          RREG32(reg))
-                     |      |          ~~~~~~~~~~~~                              
-   drivers/gpu/drm/amd/amdgpu/soc15_common.h:57:9: note: in expansion of macro '__RREG32_SOC15_RLC__'
-                     |   57 |         __RREG32_SOC15_RLC__(adev->reg_offset[ip##_HWIP][inst][reg##_BASE_IDX] + reg, \
-                     |      |         ^~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/mmhub_v2_0.c:575:32: note: in expansion of macro 'RREG32_SOC15'
-                     |  575 |                 def1 = data1 = RREG32_SOC15(MMHUB, 0, mmDAGB0_CNTL_MISC2_Sienna_Cichlid);
-                     |      |                                ^~~~~~~~~~~~
-                     |
-                   'mmhub_v2_0_update_medium_grain_clock_gating': event 16
-                     |
-                     |drivers/gpu/drm/amd/amdgpu/soc15_common.h:57:57:
-                     |   57 |         __RREG32_SOC15_RLC__(adev->reg_offset[ip##_HWIP][inst][reg##_BASE_IDX] + reg, \
-                     |      |                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
-                     |      |                                                         |
-                     |      |                                                         (16) ...to here
-   drivers/gpu/drm/amd/amdgpu/amdgpu.h:1146:47: note: in definition of macro 'RREG32'
-                     | 1146 | #define RREG32(reg) amdgpu_device_rreg(adev, (reg), 0)
-                     |      |                                               ^~~
-   drivers/gpu/drm/amd/amdgpu/soc15_common.h:57:9: note: in expansion of macro '__RREG32_SOC15_RLC__'
-                     |   57 |         __RREG32_SOC15_RLC__(adev->reg_offset[ip##_HWIP][inst][reg##_BASE_IDX] + reg, \
-                     |      |         ^~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/mmhub_v2_0.c:575:32: note: in expansion of macro 'RREG32_SOC15'
+              <------+
+              |
+            'fat_get_entry': event 10
+              |
+              |  128 |         return fat__get_entry(dir, pos, bh, de);
+              |      |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |                |
+              |      |                (10) returning to 'fat_get_entry' from 'fat__get_entry'
+              |
+       <------+
+       |
+     'fat_add_entries': events 11-18
+       |
+       | 1298 |         while (fat_get_entry(dir, &pos, &bh, &de) > -1) {
+       |      |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |                |                                  |
+       |      |                |                                  (12) following 'false' branch...
+       |      |                (11) returning to 'fat_add_entries' from 'fat_get_entry'
+       |......
+       | 1319 |         if (dir->i_ino == MSDOS_ROOT_INO) {
+       |      |         ~~      
+       |      |         |
+       |      |         (13) ...to here
+       | 1320 |                 if (!is_fat32(sbi))
+       |      |                    ~
+       |      |                    |
+       |      |                    (14) following 'false' branch...
+       |......
+       | 1329 | found:
+       |      | ~~~~~           
+       |      | |
+       |      | (15) ...to here
+       |......
+       | 1368 |         if (nr_slots) {
+       |      |            ~    
+       |      |            |
+       |      |            (16) following 'true' branch (when 'nr_slots != 0')...
+       | 1369 |                 int cluster, nr_cluster;
+       |      |                 ~~~
 
-vim +/def +584 drivers/gpu/drm/amd/amdgpu/mmhub_v2_0.c
+vim +1255 fs/fat/dir.c
 
-adc43c1b5e4785 Hawking Zhang 2019-03-04  562  
-adc43c1b5e4785 Hawking Zhang 2019-03-04  563  static void mmhub_v2_0_update_medium_grain_clock_gating(struct amdgpu_device *adev,
-adc43c1b5e4785 Hawking Zhang 2019-03-04  564  							bool enable)
-adc43c1b5e4785 Hawking Zhang 2019-03-04  565  {
-adc43c1b5e4785 Hawking Zhang 2019-03-04  566  	uint32_t def, data, def1, data1;
-adc43c1b5e4785 Hawking Zhang 2019-03-04  567  
-754e9883d48c2e Evan Quan     2021-05-25  568  	if (!(adev->cg_flags & AMD_CG_SUPPORT_MC_MGCG))
-754e9883d48c2e Evan Quan     2021-05-25  569  		return;
-754e9883d48c2e Evan Quan     2021-05-25  570  
-1d789535a03679 Alex Deucher  2021-10-04  571  	switch (adev->ip_versions[MMHUB_HWIP][0]) {
-ce2d99a84f99cb Alex Deucher  2021-07-27  572  	case IP_VERSION(2, 1, 0):
-ce2d99a84f99cb Alex Deucher  2021-07-27  573  	case IP_VERSION(2, 1, 1):
-ce2d99a84f99cb Alex Deucher  2021-07-27  574  	case IP_VERSION(2, 1, 2):
-ffffb96d1165e8 Likun Gao     2019-06-16  575  		def1 = data1 = RREG32_SOC15(MMHUB, 0, mmDAGB0_CNTL_MISC2_Sienna_Cichlid);
-ffffb96d1165e8 Likun Gao     2019-06-16  576  		break;
-ffffb96d1165e8 Likun Gao     2019-06-16  577  	default:
-adc43c1b5e4785 Hawking Zhang 2019-03-04  578  		def  = data  = RREG32_SOC15(MMHUB, 0, mmMM_ATC_L2_MISC_CG);
-adc43c1b5e4785 Hawking Zhang 2019-03-04  579  		def1 = data1 = RREG32_SOC15(MMHUB, 0, mmDAGB0_CNTL_MISC2);
-ffffb96d1165e8 Likun Gao     2019-06-16  580  		break;
-ffffb96d1165e8 Likun Gao     2019-06-16  581  	}
-adc43c1b5e4785 Hawking Zhang 2019-03-04  582  
-754e9883d48c2e Evan Quan     2021-05-25  583  	if (enable) {
-adc43c1b5e4785 Hawking Zhang 2019-03-04 @584  		data |= MM_ATC_L2_MISC_CG__ENABLE_MASK;
-adc43c1b5e4785 Hawking Zhang 2019-03-04  585  
-adc43c1b5e4785 Hawking Zhang 2019-03-04  586  		data1 &= ~(DAGB0_CNTL_MISC2__DISABLE_WRREQ_CG_MASK |
-adc43c1b5e4785 Hawking Zhang 2019-03-04  587  		           DAGB0_CNTL_MISC2__DISABLE_WRRET_CG_MASK |
-adc43c1b5e4785 Hawking Zhang 2019-03-04  588  		           DAGB0_CNTL_MISC2__DISABLE_RDREQ_CG_MASK |
-adc43c1b5e4785 Hawking Zhang 2019-03-04  589  		           DAGB0_CNTL_MISC2__DISABLE_RDRET_CG_MASK |
-adc43c1b5e4785 Hawking Zhang 2019-03-04  590  		           DAGB0_CNTL_MISC2__DISABLE_TLBWR_CG_MASK |
-adc43c1b5e4785 Hawking Zhang 2019-03-04  591  		           DAGB0_CNTL_MISC2__DISABLE_TLBRD_CG_MASK);
-adc43c1b5e4785 Hawking Zhang 2019-03-04  592  
-adc43c1b5e4785 Hawking Zhang 2019-03-04  593  	} else {
-adc43c1b5e4785 Hawking Zhang 2019-03-04  594  		data &= ~MM_ATC_L2_MISC_CG__ENABLE_MASK;
-adc43c1b5e4785 Hawking Zhang 2019-03-04  595  
-adc43c1b5e4785 Hawking Zhang 2019-03-04  596  		data1 |= (DAGB0_CNTL_MISC2__DISABLE_WRREQ_CG_MASK |
-adc43c1b5e4785 Hawking Zhang 2019-03-04  597  			  DAGB0_CNTL_MISC2__DISABLE_WRRET_CG_MASK |
-adc43c1b5e4785 Hawking Zhang 2019-03-04  598  			  DAGB0_CNTL_MISC2__DISABLE_RDREQ_CG_MASK |
-adc43c1b5e4785 Hawking Zhang 2019-03-04  599  			  DAGB0_CNTL_MISC2__DISABLE_RDRET_CG_MASK |
-adc43c1b5e4785 Hawking Zhang 2019-03-04  600  			  DAGB0_CNTL_MISC2__DISABLE_TLBWR_CG_MASK |
-adc43c1b5e4785 Hawking Zhang 2019-03-04  601  			  DAGB0_CNTL_MISC2__DISABLE_TLBRD_CG_MASK);
-adc43c1b5e4785 Hawking Zhang 2019-03-04  602  	}
-adc43c1b5e4785 Hawking Zhang 2019-03-04  603  
-1d789535a03679 Alex Deucher  2021-10-04  604  	switch (adev->ip_versions[MMHUB_HWIP][0]) {
-ce2d99a84f99cb Alex Deucher  2021-07-27  605  	case IP_VERSION(2, 1, 0):
-ce2d99a84f99cb Alex Deucher  2021-07-27  606  	case IP_VERSION(2, 1, 1):
-ce2d99a84f99cb Alex Deucher  2021-07-27  607  	case IP_VERSION(2, 1, 2):
-ffffb96d1165e8 Likun Gao     2019-06-16  608  		if (def1 != data1)
-ffffb96d1165e8 Likun Gao     2019-06-16  609  			WREG32_SOC15(MMHUB, 0, mmDAGB0_CNTL_MISC2_Sienna_Cichlid, data1);
-ffffb96d1165e8 Likun Gao     2019-06-16  610  		break;
-ffffb96d1165e8 Likun Gao     2019-06-16  611  	default:
-adc43c1b5e4785 Hawking Zhang 2019-03-04  612  		if (def != data)
-adc43c1b5e4785 Hawking Zhang 2019-03-04  613  			WREG32_SOC15(MMHUB, 0, mmMM_ATC_L2_MISC_CG, data);
-adc43c1b5e4785 Hawking Zhang 2019-03-04  614  		if (def1 != data1)
-adc43c1b5e4785 Hawking Zhang 2019-03-04  615  			WREG32_SOC15(MMHUB, 0, mmDAGB0_CNTL_MISC2, data1);
-ffffb96d1165e8 Likun Gao     2019-06-16  616  		break;
-ffffb96d1165e8 Likun Gao     2019-06-16  617  	}
-adc43c1b5e4785 Hawking Zhang 2019-03-04  618  }
-adc43c1b5e4785 Hawking Zhang 2019-03-04  619  
-
-:::::: The code at line 584 was first introduced by commit
-:::::: adc43c1b5e47856b6348c14b93a7ae5f44d670b3 drm/amdgpu: add mmhub v2 block for navi10 (v4)
-
-:::::: TO: Hawking Zhang <Hawking.Zhang@amd.com>
-:::::: CC: Alex Deucher <alexander.deucher@amd.com>
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1197  
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1198  static int fat_add_new_entries(struct inode *dir, void *slots, int nr_slots,
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1199  			       int *nr_cluster, struct msdos_dir_entry **de,
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1200  			       struct buffer_head **bh, loff_t *i_pos)
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1201  {
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1202  	struct super_block *sb = dir->i_sb;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1203  	struct msdos_sb_info *sbi = MSDOS_SB(sb);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1204  	struct buffer_head *bhs[MAX_BUF_PER_PAGE];
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1205  	sector_t blknr, start_blknr, last_blknr;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1206  	unsigned long size, copy;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1207  	int err, i, n, offset, cluster[2];
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1208  
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1209  	/*
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1210  	 * The minimum cluster size is 512bytes, and maximum entry
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1211  	 * size is 32*slots (672bytes).  So, iff the cluster size is
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1212  	 * 512bytes, we may need two clusters.
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1213  	 */
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1214  	size = nr_slots * sizeof(struct msdos_dir_entry);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1215  	*nr_cluster = (size + (sbi->cluster_size - 1)) >> sbi->cluster_bits;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1216  	BUG_ON(*nr_cluster > 2);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1217  
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1218  	err = fat_alloc_clusters(dir, cluster, *nr_cluster);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1219  	if (err)
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1220  		goto error;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1221  
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1222  	/*
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1223  	 * First stage: Fill the directory entry.  NOTE: This cluster
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1224  	 * is not referenced from any inode yet, so updates order is
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1225  	 * not important.
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1226  	 */
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1227  	i = n = copy = 0;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1228  	do {
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1229  		start_blknr = blknr = fat_clus_to_blknr(sbi, cluster[i]);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1230  		last_blknr = start_blknr + sbi->sec_per_clus;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1231  		while (blknr < last_blknr) {
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1232  			bhs[n] = sb_getblk(sb, blknr);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1233  			if (!bhs[n]) {
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1234  				err = -ENOMEM;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1235  				goto error_nomem;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1236  			}
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1237  
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1238  			/* fill the directory entry */
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1239  			copy = min(size, sb->s_blocksize);
+07bfa4415ab607 OGAWA Hirofumi 2019-09-23  1240  			/* Avoid race with userspace read via bdev */
+07bfa4415ab607 OGAWA Hirofumi 2019-09-23  1241  			lock_buffer(bhs[n]);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1242  			memcpy(bhs[n]->b_data, slots, copy);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1243  			set_buffer_uptodate(bhs[n]);
+07bfa4415ab607 OGAWA Hirofumi 2019-09-23  1244  			unlock_buffer(bhs[n]);
+b522412aeabadb Al Viro        2009-06-07  1245  			mark_buffer_dirty_inode(bhs[n], dir);
+07bfa4415ab607 OGAWA Hirofumi 2019-09-23  1246  			slots += copy;
+07bfa4415ab607 OGAWA Hirofumi 2019-09-23  1247  			size -= copy;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1248  			if (!size)
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1249  				break;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1250  			n++;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1251  			blknr++;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1252  		}
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1253  	} while (++i < *nr_cluster);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1254  
+^1da177e4c3f41 Linus Torvalds 2005-04-16 @1255  	memset(bhs[n]->b_data + copy, 0, sb->s_blocksize - copy);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1256  	offset = copy - sizeof(struct msdos_dir_entry);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1257  	get_bh(bhs[n]);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1258  	*bh = bhs[n];
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1259  	*de = (struct msdos_dir_entry *)((*bh)->b_data + offset);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1260  	*i_pos = fat_make_i_pos(sb, *bh, *de);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1261  
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1262  	/* Second stage: clear the rest of cluster, and write outs */
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1263  	err = fat_zeroed_cluster(dir, start_blknr, ++n, bhs, MAX_BUF_PER_PAGE);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1264  	if (err)
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1265  		goto error_free;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1266  
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1267  	return cluster[0];
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1268  
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1269  error_free:
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1270  	brelse(*bh);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1271  	*bh = NULL;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1272  	n = 0;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1273  error_nomem:
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1274  	for (i = 0; i < n; i++)
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1275  		bforget(bhs[i]);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1276  	fat_free_clusters(dir, cluster[0]);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1277  error:
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1278  	return err;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1279  }
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1280  
 
 -- 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
 
---pr8F3Qwr/n0jJ+2e
+--FFj88TiXp4IA/fES
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename=config
 
 #
 # Automatically generated file; DO NOT EDIT.
-# Linux/arm 6.1.0-rc1 Kernel Configuration
+# Linux/arm 6.1.0-rc2 Kernel Configuration
 #
 CONFIG_CC_VERSION_TEXT="arm-linux-gnueabi-gcc (GCC) 12.1.0"
 CONFIG_CC_IS_GCC=y
@@ -7771,4 +8013,4 @@ CONFIG_MEMTEST=y
 # CONFIG_WARN_ABI_ERRORS is not set
 # end of Kernel hacking
 
---pr8F3Qwr/n0jJ+2e--
+--FFj88TiXp4IA/fES--
