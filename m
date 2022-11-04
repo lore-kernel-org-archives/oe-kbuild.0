@@ -1,67 +1,70 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C292E849D
-	for <oe-kbuild@lists.linux.dev>; Fri,  4 Nov 2022 19:10:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FEFA2F3C
+	for <oe-kbuild@lists.linux.dev>; Fri,  4 Nov 2022 23:32:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1667589002; x=1699125002;
+  t=1667604776; x=1699140776;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=IXPmHopVd3ac+9NI8dlWaVhWKriOn7CeftWu6xbdnIk=;
-  b=E4dWLdwkbpPnUDzl08z6y6DxmalDR0Nv/glEsZfVyLE5wAuPJqv9zDuK
-   rr1cS7geHbruag90wDJQJ88qWDTIHrCXqrW5Spn8mWqIgClzamaafO3SG
-   vATqOZajv/PbjoGmuEAjRab5VYcH7ar6FslkLR4y1AoHfnvzbSZ9ROe0S
-   A9PvAka+tm9baados8WMHY33WviAXiUwKlfbIWbiVnb7bY+hhyY6scqFR
-   7GlVjtss63wDiQwg69aatQUlmX6BIEhzPCADtryRGVccbH4tV5TWwwe6X
-   qE9VXwaPlMULjxuyi8k5++IlDcYqORyj7QVuqs4iAy4nkCvCJEf40AaBE
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10521"; a="396347741"
-X-IronPort-AV: E=Sophos;i="5.96,138,1665471600"; 
-   d="scan'208";a="396347741"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2022 12:09:38 -0700
+  bh=5YAjolc+61aLSS6XDam84Q5Xy8XwDFKQRjlviorxyTg=;
+  b=bv0TL9JxktAiVqPBfltpfB2KKsPI4GYYdzTDiMJ6s+CoCL5iZL78zPeY
+   dTxzGapRaTxkA1xnX0fR4mQ7xrbyTCSl1k+bq9LFu+w+Lqs3i25eeKwxN
+   cth+TyWuvT94RDJOwedFlafWoxb5On0Uh4iXZgxyowc9Xki0fQZrE7m8n
+   JM2K2GRk0++yMHTMa7xfig2wDwdW9rBlwgDX5fb67/PjiIL4DAgaJ+QHX
+   oo1rRzvkIBWyHL821Kh2Lw59wGMWmvIdyyDghbOgrMKWF9O6B44KToJ40
+   EaCPgRMVROlKIOO5jU3M8n67Dmf/Nk1kqtYeulOrUUQsWVx0c5NETf+rL
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10521"; a="336804724"
+X-IronPort-AV: E=Sophos;i="5.96,139,1665471600"; 
+   d="scan'208";a="336804724"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2022 16:32:48 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10521"; a="724453948"
-X-IronPort-AV: E=Sophos;i="5.96,138,1665471600"; 
-   d="scan'208";a="724453948"
+X-IronPort-AV: E=McAfee;i="6500,9779,10521"; a="666542122"
+X-IronPort-AV: E=Sophos;i="5.96,139,1665471600"; 
+   d="scan'208";a="666542122"
 Received: from lkp-server02.sh.intel.com (HELO b6d29c1a0365) ([10.239.97.151])
-  by FMSMGA003.fm.intel.com with ESMTP; 04 Nov 2022 12:09:36 -0700
+  by orsmga008.jf.intel.com with ESMTP; 04 Nov 2022 16:32:45 -0700
 Received: from kbuild by b6d29c1a0365 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1or24N-000HFi-1X;
-	Fri, 04 Nov 2022 19:09:35 +0000
-Date: Sat, 5 Nov 2022 03:09:14 +0800
+	id 1or6B2-000HRH-2g;
+	Fri, 04 Nov 2022 23:32:44 +0000
+Date: Sat, 5 Nov 2022 07:31:50 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/net/ethernet/davicom/dm9051.c:610 dm9051_get_eeprom() error:
- uninitialized symbol 'ret'.
-Message-ID: <202211050331.WquatYyb-lkp@intel.com>
+Subject: fs/ocfs2/super.c:1809 ocfs2_mount_volume() warn: missing error code
+ 'status'
+Message-ID: <202211050722.8YGvtPaR-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="akCteT9Hf5u/O3w3"
+Content-Type: multipart/mixed; boundary="QcIrx/io+l/83XnY"
 Content-Disposition: inline
 
 
---akCteT9Hf5u/O3w3
+--QcIrx/io+l/83XnY
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Joseph CHAMG <josright123@gmail.com>
+TO: "Heming Zhao via Ocfs2-devel" <ocfs2-devel@oss.oracle.com>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+CC: Joseph Qi <joseph.qi@linux.alibaba.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   ee6050c8af96bba2f81e8b0793a1fc2f998fcd20
-commit: 2dc95a4d30eddac9679f295ba4304a7ab0e4ae02 net: Add dm9051 driver
-date:   9 months ago
-:::::: branch date: 19 hours ago
-:::::: commit date: 9 months ago
+head:   10d916c86ecafeccaed89175ebf9b832dddde380
+commit: 0737e01de9c411e4db87dcedf4a9789d41b1c5c1 ocfs2: ocfs2_mount_volume does cleanup job before return error
+date:   6 months ago
+:::::: branch date: 2 hours ago
+:::::: commit date: 6 months ago
 config: alpha-randconfig-m041-20221030
 compiler: alpha-linux-gcc (GCC) 12.1.0
 
@@ -69,72 +72,93 @@ If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-drivers/net/ethernet/davicom/dm9051.c:610 dm9051_get_eeprom() error: uninitialized symbol 'ret'.
-drivers/net/ethernet/davicom/dm9051.c:632 dm9051_set_eeprom() error: uninitialized symbol 'ret'.
+smatch warnings:
+fs/ocfs2/super.c:1809 ocfs2_mount_volume() warn: missing error code 'status'
 
-Old smatch warnings:
-drivers/net/ethernet/davicom/dm9051.c:527 dm9051_map_chipid() warn: unsigned 'ret' is never less than zero.
-drivers/net/ethernet/davicom/dm9051.c:858 dm9051_loop_tx() error: dereferencing freed memory 'skb'
+vim +/status +1809 fs/ocfs2/super.c
 
-vim +/ret +610 drivers/net/ethernet/davicom/dm9051.c
-
-2dc95a4d30edda Joseph CHAMG 2022-02-11  591  
-2dc95a4d30edda Joseph CHAMG 2022-02-11  592  static int dm9051_get_eeprom(struct net_device *ndev,
-2dc95a4d30edda Joseph CHAMG 2022-02-11  593  			     struct ethtool_eeprom *ee, u8 *data)
-2dc95a4d30edda Joseph CHAMG 2022-02-11  594  {
-2dc95a4d30edda Joseph CHAMG 2022-02-11  595  	struct board_info *db = to_dm9051_board(ndev);
-2dc95a4d30edda Joseph CHAMG 2022-02-11  596  	int offset = ee->offset;
-2dc95a4d30edda Joseph CHAMG 2022-02-11  597  	int len = ee->len;
-2dc95a4d30edda Joseph CHAMG 2022-02-11  598  	int i, ret;
-2dc95a4d30edda Joseph CHAMG 2022-02-11  599  
-2dc95a4d30edda Joseph CHAMG 2022-02-11  600  	if ((len | offset) & 1)
-2dc95a4d30edda Joseph CHAMG 2022-02-11  601  		return -EINVAL;
-2dc95a4d30edda Joseph CHAMG 2022-02-11  602  
-2dc95a4d30edda Joseph CHAMG 2022-02-11  603  	ee->magic = DM_EEPROM_MAGIC;
-2dc95a4d30edda Joseph CHAMG 2022-02-11  604  
-2dc95a4d30edda Joseph CHAMG 2022-02-11  605  	for (i = 0; i < len; i += 2) {
-2dc95a4d30edda Joseph CHAMG 2022-02-11  606  		ret = dm9051_eeprom_read(db, (offset + i) / 2, data + i);
-2dc95a4d30edda Joseph CHAMG 2022-02-11  607  		if (ret)
-2dc95a4d30edda Joseph CHAMG 2022-02-11  608  			break;
-2dc95a4d30edda Joseph CHAMG 2022-02-11  609  	}
-2dc95a4d30edda Joseph CHAMG 2022-02-11 @610  	return ret;
-2dc95a4d30edda Joseph CHAMG 2022-02-11  611  }
-2dc95a4d30edda Joseph CHAMG 2022-02-11  612  
-2dc95a4d30edda Joseph CHAMG 2022-02-11  613  static int dm9051_set_eeprom(struct net_device *ndev,
-2dc95a4d30edda Joseph CHAMG 2022-02-11  614  			     struct ethtool_eeprom *ee, u8 *data)
-2dc95a4d30edda Joseph CHAMG 2022-02-11  615  {
-2dc95a4d30edda Joseph CHAMG 2022-02-11  616  	struct board_info *db = to_dm9051_board(ndev);
-2dc95a4d30edda Joseph CHAMG 2022-02-11  617  	int offset = ee->offset;
-2dc95a4d30edda Joseph CHAMG 2022-02-11  618  	int len = ee->len;
-2dc95a4d30edda Joseph CHAMG 2022-02-11  619  	int i, ret;
-2dc95a4d30edda Joseph CHAMG 2022-02-11  620  
-2dc95a4d30edda Joseph CHAMG 2022-02-11  621  	if ((len | offset) & 1)
-2dc95a4d30edda Joseph CHAMG 2022-02-11  622  		return -EINVAL;
-2dc95a4d30edda Joseph CHAMG 2022-02-11  623  
-2dc95a4d30edda Joseph CHAMG 2022-02-11  624  	if (ee->magic != DM_EEPROM_MAGIC)
-2dc95a4d30edda Joseph CHAMG 2022-02-11  625  		return -EINVAL;
-2dc95a4d30edda Joseph CHAMG 2022-02-11  626  
-2dc95a4d30edda Joseph CHAMG 2022-02-11  627  	for (i = 0; i < len; i += 2) {
-2dc95a4d30edda Joseph CHAMG 2022-02-11  628  		ret = dm9051_eeprom_write(db, (offset + i) / 2, data + i);
-2dc95a4d30edda Joseph CHAMG 2022-02-11  629  		if (ret)
-2dc95a4d30edda Joseph CHAMG 2022-02-11  630  			break;
-2dc95a4d30edda Joseph CHAMG 2022-02-11  631  	}
-2dc95a4d30edda Joseph CHAMG 2022-02-11 @632  	return ret;
-2dc95a4d30edda Joseph CHAMG 2022-02-11  633  }
-2dc95a4d30edda Joseph CHAMG 2022-02-11  634  
+ccd979bdbce9fba Mark Fasheh                 2005-12-15  1802  
+ccd979bdbce9fba Mark Fasheh                 2005-12-15  1803  static int ocfs2_mount_volume(struct super_block *sb)
+ccd979bdbce9fba Mark Fasheh                 2005-12-15  1804  {
+ccd979bdbce9fba Mark Fasheh                 2005-12-15  1805  	int status = 0;
+ccd979bdbce9fba Mark Fasheh                 2005-12-15  1806  	struct ocfs2_super *osb = OCFS2_SB(sb);
+ccd979bdbce9fba Mark Fasheh                 2005-12-15  1807  
+ccd979bdbce9fba Mark Fasheh                 2005-12-15  1808  	if (ocfs2_is_hard_readonly(osb))
+0737e01de9c411e Heming Zhao via Ocfs2-devel 2022-04-29 @1809  		goto out;
+ccd979bdbce9fba Mark Fasheh                 2005-12-15  1810  
+5500ab4ed3b8f07 Gang He                     2019-03-05  1811  	mutex_init(&osb->obs_trim_fs_mutex);
+5500ab4ed3b8f07 Gang He                     2019-03-05  1812  
+ccd979bdbce9fba Mark Fasheh                 2005-12-15  1813  	status = ocfs2_dlm_init(osb);
+ccd979bdbce9fba Mark Fasheh                 2005-12-15  1814  	if (status < 0) {
+ccd979bdbce9fba Mark Fasheh                 2005-12-15  1815  		mlog_errno(status);
+a52370b3b182f79 Gang He                     2018-01-31  1816  		if (status == -EBADR && ocfs2_userspace_stack(osb))
+a52370b3b182f79 Gang He                     2018-01-31  1817  			mlog(ML_ERROR, "couldn't mount because cluster name on"
+a52370b3b182f79 Gang He                     2018-01-31  1818  			" disk does not match the running cluster name.\n");
+0737e01de9c411e Heming Zhao via Ocfs2-devel 2022-04-29  1819  		goto out;
+ccd979bdbce9fba Mark Fasheh                 2005-12-15  1820  	}
+ccd979bdbce9fba Mark Fasheh                 2005-12-15  1821  
+ccd979bdbce9fba Mark Fasheh                 2005-12-15  1822  	status = ocfs2_super_lock(osb, 1);
+ccd979bdbce9fba Mark Fasheh                 2005-12-15  1823  	if (status < 0) {
+ccd979bdbce9fba Mark Fasheh                 2005-12-15  1824  		mlog_errno(status);
+0737e01de9c411e Heming Zhao via Ocfs2-devel 2022-04-29  1825  		goto out_dlm;
+ccd979bdbce9fba Mark Fasheh                 2005-12-15  1826  	}
+ccd979bdbce9fba Mark Fasheh                 2005-12-15  1827  
+ccd979bdbce9fba Mark Fasheh                 2005-12-15  1828  	/* This will load up the node map and add ourselves to it. */
+ccd979bdbce9fba Mark Fasheh                 2005-12-15  1829  	status = ocfs2_find_slot(osb);
+ccd979bdbce9fba Mark Fasheh                 2005-12-15  1830  	if (status < 0) {
+ccd979bdbce9fba Mark Fasheh                 2005-12-15  1831  		mlog_errno(status);
+0737e01de9c411e Heming Zhao via Ocfs2-devel 2022-04-29  1832  		goto out_super_lock;
+ccd979bdbce9fba Mark Fasheh                 2005-12-15  1833  	}
+ccd979bdbce9fba Mark Fasheh                 2005-12-15  1834  
+ccd979bdbce9fba Mark Fasheh                 2005-12-15  1835  	/* load all node-local system inodes */
+ccd979bdbce9fba Mark Fasheh                 2005-12-15  1836  	status = ocfs2_init_local_system_inodes(osb);
+ccd979bdbce9fba Mark Fasheh                 2005-12-15  1837  	if (status < 0) {
+ccd979bdbce9fba Mark Fasheh                 2005-12-15  1838  		mlog_errno(status);
+0737e01de9c411e Heming Zhao via Ocfs2-devel 2022-04-29  1839  		goto out_super_lock;
+ccd979bdbce9fba Mark Fasheh                 2005-12-15  1840  	}
+ccd979bdbce9fba Mark Fasheh                 2005-12-15  1841  
+ccd979bdbce9fba Mark Fasheh                 2005-12-15  1842  	status = ocfs2_check_volume(osb);
+ccd979bdbce9fba Mark Fasheh                 2005-12-15  1843  	if (status < 0) {
+ccd979bdbce9fba Mark Fasheh                 2005-12-15  1844  		mlog_errno(status);
+0737e01de9c411e Heming Zhao via Ocfs2-devel 2022-04-29  1845  		goto out_system_inodes;
+ccd979bdbce9fba Mark Fasheh                 2005-12-15  1846  	}
+ccd979bdbce9fba Mark Fasheh                 2005-12-15  1847  
+ccd979bdbce9fba Mark Fasheh                 2005-12-15  1848  	status = ocfs2_truncate_log_init(osb);
+0737e01de9c411e Heming Zhao via Ocfs2-devel 2022-04-29  1849  	if (status < 0) {
+ccd979bdbce9fba Mark Fasheh                 2005-12-15  1850  		mlog_errno(status);
+0737e01de9c411e Heming Zhao via Ocfs2-devel 2022-04-29  1851  		goto out_system_inodes;
+0737e01de9c411e Heming Zhao via Ocfs2-devel 2022-04-29  1852  	}
+c271c5c22b0a7ca Sunil Mushran               2006-12-05  1853  
+ccd979bdbce9fba Mark Fasheh                 2005-12-15  1854  	ocfs2_super_unlock(osb, 1);
+0737e01de9c411e Heming Zhao via Ocfs2-devel 2022-04-29  1855  	return 0;
+ccd979bdbce9fba Mark Fasheh                 2005-12-15  1856  
+0737e01de9c411e Heming Zhao via Ocfs2-devel 2022-04-29  1857  out_system_inodes:
+0737e01de9c411e Heming Zhao via Ocfs2-devel 2022-04-29  1858  	if (osb->local_alloc_state == OCFS2_LA_ENABLED)
+0737e01de9c411e Heming Zhao via Ocfs2-devel 2022-04-29  1859  		ocfs2_shutdown_local_alloc(osb);
+0737e01de9c411e Heming Zhao via Ocfs2-devel 2022-04-29  1860  	ocfs2_release_system_inodes(osb);
+0737e01de9c411e Heming Zhao via Ocfs2-devel 2022-04-29  1861  	/* before journal shutdown, we should release slot_info */
+0737e01de9c411e Heming Zhao via Ocfs2-devel 2022-04-29  1862  	ocfs2_free_slot_info(osb);
+0737e01de9c411e Heming Zhao via Ocfs2-devel 2022-04-29  1863  	ocfs2_journal_shutdown(osb);
+0737e01de9c411e Heming Zhao via Ocfs2-devel 2022-04-29  1864  out_super_lock:
+0737e01de9c411e Heming Zhao via Ocfs2-devel 2022-04-29  1865  	ocfs2_super_unlock(osb, 1);
+0737e01de9c411e Heming Zhao via Ocfs2-devel 2022-04-29  1866  out_dlm:
+0737e01de9c411e Heming Zhao via Ocfs2-devel 2022-04-29  1867  	ocfs2_dlm_shutdown(osb, 0);
+0737e01de9c411e Heming Zhao via Ocfs2-devel 2022-04-29  1868  out:
+ccd979bdbce9fba Mark Fasheh                 2005-12-15  1869  	return status;
+ccd979bdbce9fba Mark Fasheh                 2005-12-15  1870  }
+ccd979bdbce9fba Mark Fasheh                 2005-12-15  1871  
 
 -- 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
 
---akCteT9Hf5u/O3w3
+--QcIrx/io+l/83XnY
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename=config
 
 #
 # Automatically generated file; DO NOT EDIT.
-# Linux/alpha 5.17.0-rc3 Kernel Configuration
+# Linux/alpha 5.18.0-rc4 Kernel Configuration
 #
 CONFIG_CC_VERSION_TEXT="alpha-linux-gcc (GCC) 12.1.0"
 CONFIG_CC_IS_GCC=y
@@ -399,7 +423,6 @@ CONFIG_DUMMY_CONSOLE=y
 # General architecture-dependent options
 #
 CONFIG_CRASH_CORE=y
-CONFIG_SET_FS=y
 CONFIG_HAVE_64BIT_ALIGNED_ACCESS=y
 CONFIG_GENERIC_SMP_IDLE_THREAD=y
 CONFIG_ARCH_32BIT_USTAT_F_TINODE=y
@@ -443,6 +466,7 @@ CONFIG_MODULE_COMPRESS_NONE=y
 CONFIG_MODULE_ALLOW_MISSING_NAMESPACE_IMPORTS=y
 CONFIG_MODPROBE_PATH="/sbin/modprobe"
 CONFIG_BLOCK=y
+# CONFIG_BLOCK_LEGACY_AUTOLOAD is not set
 CONFIG_BLK_DEV_BSG_COMMON=y
 CONFIG_BLK_DEV_BSGLIB=y
 CONFIG_BLK_DEV_INTEGRITY=y
@@ -496,11 +520,10 @@ CONFIG_FREEZER=y
 # Executable file formats
 #
 CONFIG_BINFMT_ELF=y
+CONFIG_BINFMT_ELF_KUNIT_TEST=y
 CONFIG_ELFCORE=y
 CONFIG_CORE_DUMP_DEFAULT_ELF_HEADERS=y
 CONFIG_BINFMT_SCRIPT=y
-CONFIG_HAVE_AOUT=y
-# CONFIG_BINFMT_AOUT is not set
 CONFIG_BINFMT_MISC=y
 CONFIG_COREDUMP=y
 # end of Executable file formats
@@ -555,6 +578,7 @@ CONFIG_DAMON=y
 CONFIG_DAMON_KUNIT_TEST=y
 # CONFIG_DAMON_VADDR is not set
 # CONFIG_DAMON_PADDR is not set
+CONFIG_DAMON_SYSFS=y
 # end of Data Access Monitoring
 # end of Memory Management options
 
@@ -1019,6 +1043,7 @@ CONFIG_AF_KCM=y
 CONFIG_STREAM_PARSER=y
 CONFIG_MCTP=y
 CONFIG_MCTP_TEST=y
+CONFIG_MCTP_FLOWS=y
 CONFIG_WIRELESS=y
 CONFIG_WIRELESS_EXT=y
 CONFIG_WEXT_CORE=y
@@ -1096,6 +1121,7 @@ CONFIG_NET_SELFTESTS=y
 CONFIG_NET_SOCK_MSG=y
 CONFIG_NET_DEVLINK=y
 CONFIG_PAGE_POOL=y
+# CONFIG_PAGE_POOL_STATS is not set
 CONFIG_FAILOVER=y
 # CONFIG_ETHTOOL_NETLINK is not set
 CONFIG_NETDEV_ADDR_LIST_TEST=y
@@ -1126,6 +1152,8 @@ CONFIG_PCI_ATS=y
 CONFIG_PCI_IOV=y
 CONFIG_PCI_PRI=y
 CONFIG_PCI_PASID=y
+CONFIG_VGA_ARB=y
+CONFIG_VGA_ARB_MAX_GPUS=16
 # CONFIG_HOTPLUG_PCI is not set
 
 #
@@ -1175,8 +1203,11 @@ CONFIG_PCI_SW_SWITCHTEC=m
 # end of PCI switch controller drivers
 
 CONFIG_CXL_BUS=y
-# CONFIG_CXL_MEM is not set
+CONFIG_CXL_PCI=m
+# CONFIG_CXL_MEM_RAW_COMMANDS is not set
 CONFIG_CXL_PMEM=m
+# CONFIG_CXL_MEM is not set
+CONFIG_CXL_PORT=y
 CONFIG_PCCARD=m
 CONFIG_PCMCIA=m
 CONFIG_PCMCIA_LOAD_CIS=y
@@ -1197,6 +1228,7 @@ CONFIG_PCCARD_NONSTATIC=y
 #
 # Generic Driver Options
 #
+CONFIG_AUXILIARY_BUS=y
 CONFIG_UEVENT_HELPER=y
 CONFIG_UEVENT_HELPER_PATH=""
 CONFIG_DEVTMPFS=y
@@ -1403,7 +1435,6 @@ CONFIG_MTD_RAW_NAND=m
 CONFIG_MTD_NAND_DENALI=m
 CONFIG_MTD_NAND_DENALI_PCI=m
 CONFIG_MTD_NAND_AMS_DELTA=m
-# CONFIG_MTD_NAND_OMAP2 is not set
 # CONFIG_MTD_NAND_SHARPSL is not set
 # CONFIG_MTD_NAND_CAFE is not set
 CONFIG_MTD_NAND_ATMEL=m
@@ -1451,6 +1482,7 @@ CONFIG_MTD_NAND_ECC=y
 CONFIG_MTD_NAND_ECC_SW_HAMMING=y
 CONFIG_MTD_NAND_ECC_SW_HAMMING_SMC=y
 CONFIG_MTD_NAND_ECC_SW_BCH=y
+CONFIG_MTD_NAND_ECC_MXIC=y
 # end of ECC engine support
 # end of NAND
 
@@ -1487,6 +1519,7 @@ CONFIG_PNP_DEBUG_MESSAGES=y
 CONFIG_BLK_DEV=y
 # CONFIG_BLK_DEV_NULL_BLK is not set
 CONFIG_BLK_DEV_FD=y
+# CONFIG_BLK_DEV_FD_RAWCMD is not set
 CONFIG_CDROM=m
 # CONFIG_BLK_DEV_PCIESSD_MTIP32XX is not set
 CONFIG_ZRAM=y
@@ -1517,6 +1550,7 @@ CONFIG_BLK_DEV_RBD=m
 CONFIG_NVME_CORE=m
 CONFIG_BLK_DEV_NVME=m
 # CONFIG_NVME_MULTIPATH is not set
+# CONFIG_NVME_VERBOSE_ERRORS is not set
 # CONFIG_NVME_HWMON is not set
 CONFIG_NVME_FABRICS=m
 # CONFIG_NVME_FC is not set
@@ -1769,7 +1803,6 @@ CONFIG_AHCI_SUNXI=m
 # CONFIG_AHCI_TEGRA is not set
 CONFIG_AHCI_XGENE=m
 # CONFIG_SATA_FSL is not set
-# CONFIG_SATA_GEMINI is not set
 CONFIG_SATA_AHCI_SEATTLE=m
 CONFIG_SATA_INIC162X=m
 CONFIG_SATA_ACARD_AHCI=m
@@ -1832,6 +1865,8 @@ CONFIG_NET_DSA_XRS700X_MDIO=m
 CONFIG_NET_DSA_REALTEK=m
 # CONFIG_NET_DSA_REALTEK_MDIO is not set
 # CONFIG_NET_DSA_REALTEK_SMI is not set
+CONFIG_NET_DSA_REALTEK_RTL8365MB=m
+CONFIG_NET_DSA_REALTEK_RTL8366RB=m
 # CONFIG_NET_DSA_SMSC_LAN9303_I2C is not set
 # CONFIG_NET_DSA_SMSC_LAN9303_MDIO is not set
 CONFIG_NET_DSA_VITESSE_VSC73XX=m
@@ -1866,6 +1901,7 @@ CONFIG_ATL1=y
 CONFIG_ATL1E=m
 CONFIG_ATL1C=m
 # CONFIG_ALX is not set
+# CONFIG_CX_ECAT is not set
 CONFIG_NET_VENDOR_BROADCOM=y
 # CONFIG_B44 is not set
 CONFIG_BCM4908_ENET=m
@@ -1884,7 +1920,6 @@ CONFIG_BNXT=m
 # CONFIG_BNXT_SRIOV is not set
 # CONFIG_BNXT_FLOWER_OFFLOAD is not set
 # CONFIG_BNXT_HWMON is not set
-# CONFIG_NET_VENDOR_BROCADE is not set
 # CONFIG_NET_VENDOR_CADENCE is not set
 # CONFIG_NET_CALXEDA_XGMAC is not set
 # CONFIG_NET_VENDOR_CAVIUM is not set
@@ -1901,7 +1936,6 @@ CONFIG_NET_VENDOR_CIRRUS=y
 CONFIG_EP93XX_ETH=y
 # CONFIG_NET_VENDOR_CISCO is not set
 # CONFIG_NET_VENDOR_CORTINA is not set
-# CONFIG_CX_ECAT is not set
 CONFIG_NET_VENDOR_DAVICOM=y
 CONFIG_DM9000=m
 CONFIG_DM9000_FORCE_SIMPLE_PHY_POLL=y
@@ -1934,10 +1968,10 @@ CONFIG_FSL_DPAA2_SWITCH=m
 CONFIG_FSL_ENETC_MDIO=m
 CONFIG_NET_VENDOR_FUJITSU=y
 CONFIG_PCMCIA_FMVJ18X=m
+# CONFIG_NET_VENDOR_FUNGIBLE is not set
 # CONFIG_NET_VENDOR_GOOGLE is not set
 # CONFIG_NET_VENDOR_HUAWEI is not set
 # CONFIG_NET_VENDOR_INTEL is not set
-CONFIG_NET_VENDOR_MICROSOFT=y
 CONFIG_JME=m
 # CONFIG_KORINA is not set
 CONFIG_NET_VENDOR_LITEX=y
@@ -1982,16 +2016,17 @@ CONFIG_ENC28J60=m
 CONFIG_ENCX24J600=y
 CONFIG_LAN743X=m
 # CONFIG_NET_VENDOR_MICROSEMI is not set
+CONFIG_NET_VENDOR_MICROSOFT=y
 CONFIG_NET_VENDOR_MYRI=y
 # CONFIG_MYRI10GE is not set
 # CONFIG_FEALNX is not set
+CONFIG_NET_VENDOR_NI=y
+# CONFIG_NI_XGE_MANAGEMENT_ENET is not set
 # CONFIG_NET_VENDOR_NATSEMI is not set
 CONFIG_NET_VENDOR_NETERION=y
 CONFIG_S2IO=y
 # CONFIG_VXGE is not set
 CONFIG_NET_VENDOR_NETRONOME=y
-CONFIG_NET_VENDOR_NI=y
-# CONFIG_NI_XGE_MANAGEMENT_ENET is not set
 # CONFIG_NET_VENDOR_NVIDIA is not set
 CONFIG_LPC_ENET=m
 # CONFIG_NET_VENDOR_OKI is not set
@@ -1999,6 +2034,7 @@ CONFIG_LPC_ENET=m
 # CONFIG_NET_VENDOR_PACKET_ENGINES is not set
 # CONFIG_NET_VENDOR_PENSANDO is not set
 # CONFIG_NET_VENDOR_QLOGIC is not set
+# CONFIG_NET_VENDOR_BROCADE is not set
 CONFIG_NET_VENDOR_QUALCOMM=y
 CONFIG_QCOM_EMAC=m
 # CONFIG_RMNET is not set
@@ -2016,10 +2052,10 @@ CONFIG_NET_VENDOR_ROCKER=y
 CONFIG_NET_VENDOR_SAMSUNG=y
 # CONFIG_SXGBE_ETH is not set
 # CONFIG_NET_VENDOR_SEEQ is not set
-# CONFIG_NET_VENDOR_SOLARFLARE is not set
 CONFIG_NET_VENDOR_SILAN=y
 CONFIG_SC92031=y
 # CONFIG_NET_VENDOR_SIS is not set
+# CONFIG_NET_VENDOR_SOLARFLARE is not set
 # CONFIG_NET_VENDOR_SMSC is not set
 CONFIG_NET_VENDOR_SOCIONEXT=y
 CONFIG_NET_VENDOR_STMICRO=y
@@ -2122,6 +2158,7 @@ CONFIG_VITESSE_PHY=m
 # MCTP Device Drivers
 #
 CONFIG_MCTP_SERIAL=m
+CONFIG_MCTP_TRANSPORT_I2C=m
 # end of MCTP Device Drivers
 
 CONFIG_MDIO_DEVICE=y
@@ -2261,6 +2298,7 @@ CONFIG_INPUT_LEDS=y
 CONFIG_INPUT_FF_MEMLESS=y
 # CONFIG_INPUT_SPARSEKMAP is not set
 CONFIG_INPUT_MATRIXKMAP=y
+CONFIG_INPUT_VIVALDIFMAP=m
 
 #
 # Userland interfaces
@@ -2311,6 +2349,7 @@ CONFIG_KEYBOARD_SH_KEYSC=m
 CONFIG_KEYBOARD_TM2_TOUCHKEY=y
 CONFIG_KEYBOARD_TWL4030=m
 # CONFIG_KEYBOARD_XTKBD is not set
+CONFIG_KEYBOARD_MT6779=m
 # CONFIG_KEYBOARD_MTK_PMIC is not set
 CONFIG_KEYBOARD_CYPRESS_SF=y
 # CONFIG_INPUT_MOUSE is not set
@@ -2539,6 +2578,8 @@ CONFIG_SERIAL_MVEBU_CONSOLE=y
 CONFIG_SERIAL_OWL=m
 # CONFIG_SERIAL_RDA is not set
 # CONFIG_SERIAL_LITEUART is not set
+CONFIG_SERIAL_SUNPLUS=y
+# CONFIG_SERIAL_SUNPLUS_CONSOLE is not set
 # end of Serial drivers
 
 CONFIG_SERIAL_MCTRL_GPIO=y
@@ -2620,6 +2661,7 @@ CONFIG_I2C_ALGOPCA=y
 #
 # PC SMBus host controller drivers
 #
+CONFIG_I2C_CCGX_UCSI=m
 # CONFIG_I2C_ALI1535 is not set
 CONFIG_I2C_ALI1563=m
 CONFIG_I2C_ALI15X3=m
@@ -2648,6 +2690,7 @@ CONFIG_I2C_BCM2835=y
 CONFIG_I2C_BCM_IPROC=m
 CONFIG_I2C_BCM_KONA=m
 CONFIG_I2C_BRCMSTB=y
+CONFIG_I2C_CADENCE=m
 CONFIG_I2C_CBUS_GPIO=m
 # CONFIG_I2C_DAVINCI is not set
 CONFIG_I2C_DESIGNWARE_CORE=y
@@ -2662,6 +2705,7 @@ CONFIG_I2C_GPIO=y
 # CONFIG_I2C_HIGHLANDER is not set
 CONFIG_I2C_HISI=y
 CONFIG_I2C_IMG=y
+# CONFIG_I2C_IMX is not set
 # CONFIG_I2C_IMX_LPI2C is not set
 CONFIG_I2C_IOP3XX=m
 # CONFIG_I2C_JZ4780 is not set
@@ -2681,6 +2725,7 @@ CONFIG_I2C_PXA=m
 CONFIG_I2C_PXA_SLAVE=y
 CONFIG_I2C_QCOM_CCI=y
 # CONFIG_I2C_QCOM_GENI is not set
+CONFIG_I2C_QUP=y
 # CONFIG_I2C_RIIC is not set
 # CONFIG_I2C_S3C2410 is not set
 CONFIG_I2C_SH_MOBILE=m
@@ -2765,6 +2810,8 @@ CONFIG_SPI_GPIO=m
 # CONFIG_SPI_IMG_SPFI is not set
 CONFIG_SPI_IMX=m
 # CONFIG_SPI_INGENIC is not set
+# CONFIG_SPI_INTEL_PCI is not set
+# CONFIG_SPI_INTEL_PLATFORM is not set
 # CONFIG_SPI_LP8841_RTC is not set
 CONFIG_SPI_FSL_DSPI=y
 # CONFIG_SPI_MESON_SPICC is not set
@@ -2801,6 +2848,7 @@ CONFIG_SPI_STM32=y
 # CONFIG_SPI_ST_SSC4 is not set
 CONFIG_SPI_SUN4I=y
 CONFIG_SPI_SUN6I=y
+CONFIG_SPI_SUNPLUS_SP7021=y
 CONFIG_SPI_SYNQUACER=m
 # CONFIG_SPI_MXIC is not set
 CONFIG_SPI_TEGRA210_QUAD=y
@@ -2910,6 +2958,7 @@ CONFIG_PINCTRL_PFC_R8A7791=y
 # CONFIG_PINCTRL_PFC_R8A77965 is not set
 # CONFIG_PINCTRL_PFC_R8A77960 is not set
 # CONFIG_PINCTRL_PFC_R8A77961 is not set
+# CONFIG_PINCTRL_PFC_R8A779F0 is not set
 CONFIG_PINCTRL_PFC_R8A7792=y
 CONFIG_PINCTRL_PFC_R8A77980=y
 # CONFIG_PINCTRL_PFC_R8A77970 is not set
@@ -3099,6 +3148,7 @@ CONFIG_POWER_SUPPLY=y
 CONFIG_POWER_SUPPLY_HWMON=y
 CONFIG_PDA_POWER=m
 CONFIG_GENERIC_ADC_BATTERY=m
+# CONFIG_IP5XXX_POWER is not set
 CONFIG_WM831X_BACKUP=m
 # CONFIG_WM831X_POWER is not set
 CONFIG_TEST_POWER=m
@@ -3109,6 +3159,7 @@ CONFIG_BATTERY_DS2760=m
 CONFIG_BATTERY_DS2780=y
 CONFIG_BATTERY_DS2781=m
 CONFIG_BATTERY_DS2782=m
+# CONFIG_BATTERY_SAMSUNG_SDI is not set
 CONFIG_BATTERY_INGENIC=m
 # CONFIG_BATTERY_SBS is not set
 # CONFIG_CHARGER_SBS is not set
@@ -3155,6 +3206,7 @@ CONFIG_BATTERY_RT5033=m
 CONFIG_CHARGER_SC2731=y
 # CONFIG_FUEL_GAUGE_SC27XX is not set
 CONFIG_CHARGER_BD99954=y
+# CONFIG_BATTERY_UG3105 is not set
 CONFIG_HWMON=y
 CONFIG_HWMON_VID=y
 CONFIG_HWMON_DEBUG_CHIP=y
@@ -3271,6 +3323,9 @@ CONFIG_SENSORS_NPCM7XX=m
 CONFIG_SENSORS_OCC_P8_I2C=y
 CONFIG_SENSORS_OCC=y
 CONFIG_SENSORS_PCF8591=m
+CONFIG_SENSORS_PECI_CPUTEMP=m
+CONFIG_SENSORS_PECI_DIMMTEMP=m
+CONFIG_SENSORS_PECI=m
 # CONFIG_PMBUS is not set
 CONFIG_SENSORS_PWM_FAN=y
 CONFIG_SENSORS_RASPBERRYPI_HWMON=y
@@ -3283,6 +3338,7 @@ CONFIG_SENSORS_SHT3x=m
 # CONFIG_SENSORS_SHT4x is not set
 # CONFIG_SENSORS_SHTC1 is not set
 CONFIG_SENSORS_SIS5595=y
+CONFIG_SENSORS_SY7636A=y
 CONFIG_SENSORS_DME1737=m
 CONFIG_SENSORS_EMC1403=y
 CONFIG_SENSORS_EMC2103=m
@@ -3310,6 +3366,7 @@ CONFIG_SENSORS_TMP102=m
 # CONFIG_SENSORS_TMP108 is not set
 CONFIG_SENSORS_TMP401=m
 CONFIG_SENSORS_TMP421=y
+CONFIG_SENSORS_TMP464=y
 CONFIG_SENSORS_TMP513=m
 CONFIG_SENSORS_VIA686A=y
 # CONFIG_SENSORS_VT1211 is not set
@@ -3564,6 +3621,7 @@ CONFIG_MFD_MAX77620=y
 CONFIG_MFD_MAX77650=m
 # CONFIG_MFD_MAX77686 is not set
 CONFIG_MFD_MAX77693=m
+CONFIG_MFD_MAX77714=m
 CONFIG_MFD_MAX77843=y
 CONFIG_MFD_MAX8907=m
 # CONFIG_MFD_MAX8925 is not set
@@ -3584,6 +3642,7 @@ CONFIG_MFD_RT5033=y
 CONFIG_MFD_RC5T583=y
 # CONFIG_MFD_SEC_CORE is not set
 # CONFIG_MFD_SI476X_CORE is not set
+CONFIG_MFD_SIMPLE_MFD_I2C=y
 # CONFIG_MFD_SL28CPLD is not set
 CONFIG_MFD_SM501=y
 CONFIG_MFD_SM501_GPIO=y
@@ -3709,11 +3768,11 @@ CONFIG_REGULATOR_QCOM_RPMH=m
 CONFIG_REGULATOR_QCOM_SMD_RPM=m
 CONFIG_REGULATOR_QCOM_SPMI=m
 # CONFIG_REGULATOR_QCOM_USB_VBUS is not set
-# CONFIG_REGULATOR_RASPBERRYPI_TOUCHSCREEN_ATTINY is not set
 CONFIG_REGULATOR_RC5T583=y
 CONFIG_REGULATOR_RT4801=m
 # CONFIG_REGULATOR_RT4831 is not set
 CONFIG_REGULATOR_RT5033=m
+CONFIG_REGULATOR_RT5190A=m
 CONFIG_REGULATOR_RT6160=m
 CONFIG_REGULATOR_RT6245=y
 CONFIG_REGULATOR_RTQ2134=m
@@ -3730,6 +3789,7 @@ CONFIG_REGULATOR_STM32_BOOSTER=y
 # CONFIG_REGULATOR_STM32_PWR is not set
 CONFIG_REGULATOR_TI_ABB=y
 # CONFIG_REGULATOR_STW481X_VMMC is not set
+# CONFIG_REGULATOR_SY7636A is not set
 CONFIG_REGULATOR_SY8106A=m
 # CONFIG_REGULATOR_SY8824X is not set
 # CONFIG_REGULATOR_SY8827N is not set
@@ -3748,8 +3808,8 @@ CONFIG_REGULATOR_TWL4030=m
 # CONFIG_REGULATOR_WM8994 is not set
 # CONFIG_REGULATOR_QCOM_LABIBB is not set
 CONFIG_RC_CORE=y
-CONFIG_RC_MAP=m
 # CONFIG_LIRC is not set
+CONFIG_RC_MAP=m
 # CONFIG_RC_DECODERS is not set
 # CONFIG_RC_DEVICES is not set
 CONFIG_CEC_CORE=y
@@ -3799,6 +3859,10 @@ CONFIG_DVB_ULE_DEBUG=y
 #
 # Media drivers
 #
+
+#
+# Media drivers
+#
 CONFIG_MEDIA_PCI_SUPPORT=y
 
 #
@@ -3816,24 +3880,20 @@ CONFIG_MEDIA_PCI_SUPPORT=y
 #
 # Media digital TV PCI Adapters
 #
-# CONFIG_DVB_BUDGET_CORE is not set
 CONFIG_DVB_B2C2_FLEXCOP_PCI=m
 CONFIG_DVB_B2C2_FLEXCOP_PCI_DEBUG=y
-CONFIG_DVB_PLUTO2=m
+CONFIG_DVB_DDBRIDGE=m
 # CONFIG_DVB_DM1105 is not set
-# CONFIG_DVB_PT1 is not set
-CONFIG_DVB_PT3=m
 CONFIG_MANTIS_CORE=m
 # CONFIG_DVB_MANTIS is not set
 # CONFIG_DVB_HOPPER is not set
 CONFIG_DVB_NGENE=m
-CONFIG_DVB_DDBRIDGE=m
+CONFIG_DVB_PLUTO2=m
+# CONFIG_DVB_PT1 is not set
+CONFIG_DVB_PT3=m
 CONFIG_DVB_SMIPCIE=m
-CONFIG_DVB_B2C2_FLEXCOP=m
-CONFIG_DVB_B2C2_FLEXCOP_DEBUG=y
-# CONFIG_V4L_PLATFORM_DRIVERS is not set
-# CONFIG_DVB_PLATFORM_DRIVERS is not set
-# CONFIG_SDR_PLATFORM_DRIVERS is not set
+# CONFIG_DVB_BUDGET_CORE is not set
+# CONFIG_MEDIA_PLATFORM_DRIVERS is not set
 
 #
 # MMC/SDIO DVB adapters
@@ -3847,58 +3907,53 @@ CONFIG_DVB_VIDTV=m
 #
 CONFIG_DVB_FIREDTV=m
 CONFIG_DVB_FIREDTV_INPUT=y
+CONFIG_DVB_B2C2_FLEXCOP=m
+CONFIG_DVB_B2C2_FLEXCOP_DEBUG=y
 # end of Media drivers
 
 #
 # Media ancillary drivers
 #
 CONFIG_MEDIA_ATTACH=y
-
-#
-# Media SPI Adapters
-#
-# CONFIG_CXD2880_SPI_DRV is not set
-# end of Media SPI Adapters
-
 CONFIG_MEDIA_TUNER=m
 
 #
 # Customize TV tuners
 #
-CONFIG_MEDIA_TUNER_SIMPLE=m
-CONFIG_MEDIA_TUNER_TDA18250=m
-CONFIG_MEDIA_TUNER_TDA8290=m
-CONFIG_MEDIA_TUNER_TDA827X=m
-CONFIG_MEDIA_TUNER_TDA18271=m
-CONFIG_MEDIA_TUNER_TDA9887=m
-CONFIG_MEDIA_TUNER_TEA5761=m
-CONFIG_MEDIA_TUNER_TEA5767=m
-CONFIG_MEDIA_TUNER_MT20XX=m
-CONFIG_MEDIA_TUNER_MT2060=m
-CONFIG_MEDIA_TUNER_MT2063=m
-# CONFIG_MEDIA_TUNER_MT2266 is not set
-CONFIG_MEDIA_TUNER_MT2131=m
-CONFIG_MEDIA_TUNER_QT1010=m
-CONFIG_MEDIA_TUNER_XC2028=m
-CONFIG_MEDIA_TUNER_XC5000=m
-CONFIG_MEDIA_TUNER_XC4000=m
-CONFIG_MEDIA_TUNER_MXL5005S=m
-# CONFIG_MEDIA_TUNER_MXL5007T is not set
-CONFIG_MEDIA_TUNER_MC44S803=m
-CONFIG_MEDIA_TUNER_MAX2165=m
-CONFIG_MEDIA_TUNER_TDA18218=m
 CONFIG_MEDIA_TUNER_FC0011=m
 CONFIG_MEDIA_TUNER_FC0012=m
 CONFIG_MEDIA_TUNER_FC0013=m
-CONFIG_MEDIA_TUNER_TDA18212=m
-CONFIG_MEDIA_TUNER_M88RS6000T=m
-CONFIG_MEDIA_TUNER_TUA9001=m
-CONFIG_MEDIA_TUNER_SI2157=m
 CONFIG_MEDIA_TUNER_IT913X=m
-# CONFIG_MEDIA_TUNER_R820T is not set
+CONFIG_MEDIA_TUNER_M88RS6000T=m
+CONFIG_MEDIA_TUNER_MAX2165=m
+CONFIG_MEDIA_TUNER_MC44S803=m
+CONFIG_MEDIA_TUNER_MT2060=m
+CONFIG_MEDIA_TUNER_MT2063=m
+CONFIG_MEDIA_TUNER_MT20XX=m
+CONFIG_MEDIA_TUNER_MT2131=m
+# CONFIG_MEDIA_TUNER_MT2266 is not set
 CONFIG_MEDIA_TUNER_MXL301RF=m
-CONFIG_MEDIA_TUNER_QM1D1C0042=m
+CONFIG_MEDIA_TUNER_MXL5005S=m
+# CONFIG_MEDIA_TUNER_MXL5007T is not set
 CONFIG_MEDIA_TUNER_QM1D1B0004=m
+CONFIG_MEDIA_TUNER_QM1D1C0042=m
+CONFIG_MEDIA_TUNER_QT1010=m
+# CONFIG_MEDIA_TUNER_R820T is not set
+CONFIG_MEDIA_TUNER_SI2157=m
+CONFIG_MEDIA_TUNER_SIMPLE=m
+CONFIG_MEDIA_TUNER_TDA18212=m
+CONFIG_MEDIA_TUNER_TDA18218=m
+CONFIG_MEDIA_TUNER_TDA18250=m
+CONFIG_MEDIA_TUNER_TDA18271=m
+CONFIG_MEDIA_TUNER_TDA827X=m
+CONFIG_MEDIA_TUNER_TDA8290=m
+CONFIG_MEDIA_TUNER_TDA9887=m
+CONFIG_MEDIA_TUNER_TEA5761=m
+CONFIG_MEDIA_TUNER_TEA5767=m
+CONFIG_MEDIA_TUNER_TUA9001=m
+CONFIG_MEDIA_TUNER_XC2028=m
+CONFIG_MEDIA_TUNER_XC4000=m
+CONFIG_MEDIA_TUNER_XC5000=m
 # end of Customize TV tuners
 
 #
@@ -3908,122 +3963,122 @@ CONFIG_MEDIA_TUNER_QM1D1B0004=m
 #
 # Multistandard (satellite) frontends
 #
+CONFIG_DVB_M88DS3103=m
+CONFIG_DVB_MXL5XX=m
 CONFIG_DVB_STB0899=m
 # CONFIG_DVB_STB6100 is not set
 CONFIG_DVB_STV090x=m
 CONFIG_DVB_STV0910=m
 CONFIG_DVB_STV6110x=m
 CONFIG_DVB_STV6111=m
-CONFIG_DVB_MXL5XX=m
-CONFIG_DVB_M88DS3103=m
 
 #
 # Multistandard (cable + terrestrial) frontends
 #
 CONFIG_DVB_DRXK=m
-CONFIG_DVB_TDA18271C2DD=m
-# CONFIG_DVB_SI2165 is not set
 CONFIG_DVB_MN88472=m
 CONFIG_DVB_MN88473=m
+# CONFIG_DVB_SI2165 is not set
+CONFIG_DVB_TDA18271C2DD=m
 
 #
 # DVB-S (satellite) frontends
 #
 CONFIG_DVB_CX24110=m
-CONFIG_DVB_CX24123=m
-CONFIG_DVB_MT312=m
-CONFIG_DVB_ZL10036=m
-CONFIG_DVB_ZL10039=m
-CONFIG_DVB_S5H1420=m
-# CONFIG_DVB_STV0288 is not set
-# CONFIG_DVB_STB6000 is not set
-CONFIG_DVB_STV0299=m
-CONFIG_DVB_STV6110=m
-# CONFIG_DVB_STV0900 is not set
-# CONFIG_DVB_TDA8083 is not set
-CONFIG_DVB_TDA10086=m
-# CONFIG_DVB_TDA8261 is not set
-# CONFIG_DVB_VES1X93 is not set
-CONFIG_DVB_TUNER_ITD1000=m
-CONFIG_DVB_TUNER_CX24113=m
-# CONFIG_DVB_TDA826X is not set
-CONFIG_DVB_TUA6100=m
 # CONFIG_DVB_CX24116 is not set
 CONFIG_DVB_CX24117=m
 CONFIG_DVB_CX24120=m
-CONFIG_DVB_SI21XX=m
-CONFIG_DVB_TS2020=m
+CONFIG_DVB_CX24123=m
 # CONFIG_DVB_DS3000 is not set
 CONFIG_DVB_MB86A16=m
+CONFIG_DVB_MT312=m
+CONFIG_DVB_S5H1420=m
+CONFIG_DVB_SI21XX=m
+# CONFIG_DVB_STB6000 is not set
+# CONFIG_DVB_STV0288 is not set
+CONFIG_DVB_STV0299=m
+# CONFIG_DVB_STV0900 is not set
+CONFIG_DVB_STV6110=m
 CONFIG_DVB_TDA10071=m
+CONFIG_DVB_TDA10086=m
+# CONFIG_DVB_TDA8083 is not set
+# CONFIG_DVB_TDA8261 is not set
+# CONFIG_DVB_TDA826X is not set
+CONFIG_DVB_TS2020=m
+CONFIG_DVB_TUA6100=m
+CONFIG_DVB_TUNER_CX24113=m
+CONFIG_DVB_TUNER_ITD1000=m
+# CONFIG_DVB_VES1X93 is not set
+CONFIG_DVB_ZL10036=m
+CONFIG_DVB_ZL10039=m
 
 #
 # DVB-T (terrestrial) frontends
 #
-CONFIG_DVB_SP887X=m
+# CONFIG_DVB_AF9013 is not set
 # CONFIG_DVB_CX22700 is not set
 CONFIG_DVB_CX22702=m
-# CONFIG_DVB_S5H1432 is not set
-# CONFIG_DVB_DRXD is not set
-CONFIG_DVB_L64781=m
-CONFIG_DVB_TDA1004X=m
-CONFIG_DVB_NXT6000=m
-CONFIG_DVB_MT352=m
-CONFIG_DVB_ZL10353=m
+# CONFIG_DVB_CXD2820R is not set
+CONFIG_DVB_CXD2841ER=m
 CONFIG_DVB_DIB3000MB=m
 CONFIG_DVB_DIB3000MC=m
 CONFIG_DVB_DIB7000M=m
 CONFIG_DVB_DIB7000P=m
 CONFIG_DVB_DIB9000=m
-# CONFIG_DVB_TDA10048 is not set
-# CONFIG_DVB_AF9013 is not set
+# CONFIG_DVB_DRXD is not set
 # CONFIG_DVB_EC100 is not set
-CONFIG_DVB_STV0367=m
-# CONFIG_DVB_CXD2820R is not set
-CONFIG_DVB_CXD2841ER=m
+CONFIG_DVB_L64781=m
+CONFIG_DVB_MT352=m
+CONFIG_DVB_NXT6000=m
 CONFIG_DVB_RTL2830=m
 # CONFIG_DVB_RTL2832 is not set
+# CONFIG_DVB_S5H1432 is not set
 CONFIG_DVB_SI2168=m
+CONFIG_DVB_SP887X=m
+CONFIG_DVB_STV0367=m
+# CONFIG_DVB_TDA10048 is not set
+CONFIG_DVB_TDA1004X=m
 CONFIG_DVB_ZD1301_DEMOD=m
+CONFIG_DVB_ZL10353=m
 CONFIG_DVB_CXD2880=m
 
 #
 # DVB-C (cable) frontends
 #
-CONFIG_DVB_VES1820=m
+CONFIG_DVB_STV0297=m
 CONFIG_DVB_TDA10021=m
 CONFIG_DVB_TDA10023=m
-CONFIG_DVB_STV0297=m
+CONFIG_DVB_VES1820=m
 
 #
 # ATSC (North American/Korean Terrestrial/Cable DTV) frontends
 #
-CONFIG_DVB_NXT200X=m
-CONFIG_DVB_OR51211=m
-CONFIG_DVB_OR51132=m
-CONFIG_DVB_BCM3510=m
-CONFIG_DVB_LGDT330X=m
-CONFIG_DVB_LGDT3305=m
-CONFIG_DVB_LGDT3306A=m
-# CONFIG_DVB_LG2160 is not set
-CONFIG_DVB_S5H1409=m
 CONFIG_DVB_AU8522=m
 CONFIG_DVB_AU8522_DTV=m
-CONFIG_DVB_S5H1411=m
+CONFIG_DVB_BCM3510=m
+# CONFIG_DVB_LG2160 is not set
+CONFIG_DVB_LGDT3305=m
+CONFIG_DVB_LGDT3306A=m
+CONFIG_DVB_LGDT330X=m
 CONFIG_DVB_MXL692=m
+CONFIG_DVB_NXT200X=m
+CONFIG_DVB_OR51132=m
+CONFIG_DVB_OR51211=m
+CONFIG_DVB_S5H1409=m
+CONFIG_DVB_S5H1411=m
 
 #
 # ISDB-T (terrestrial) frontends
 #
-CONFIG_DVB_S921=m
 CONFIG_DVB_DIB8000=m
 CONFIG_DVB_MB86A20S=m
+CONFIG_DVB_S921=m
 
 #
 # ISDB-S (satellite) & ISDB-T (terrestrial) frontends
 #
-CONFIG_DVB_TC90522=m
 # CONFIG_DVB_MN88443X is not set
+CONFIG_DVB_TC90522=m
 
 #
 # Digital terrestrial only tuners/PLL
@@ -4035,25 +4090,25 @@ CONFIG_DVB_TUNER_DIB0090=m
 #
 # SEC control devices for DVB-S
 #
-CONFIG_DVB_DRX39XYJ=m
+# CONFIG_DVB_A8293 is not set
+# CONFIG_DVB_AF9033 is not set
+CONFIG_DVB_ASCOT2E=m
+CONFIG_DVB_ATBM8830=m
+CONFIG_DVB_HELENE=m
+CONFIG_DVB_HORUS3A=m
+CONFIG_DVB_ISL6405=m
+CONFIG_DVB_ISL6421=m
+CONFIG_DVB_ISL6423=m
+CONFIG_DVB_IX2505V=m
+CONFIG_DVB_LGS8GL5=m
+# CONFIG_DVB_LGS8GXX is not set
 CONFIG_DVB_LNBH25=m
 # CONFIG_DVB_LNBH29 is not set
 CONFIG_DVB_LNBP21=m
 # CONFIG_DVB_LNBP22 is not set
-CONFIG_DVB_ISL6405=m
-CONFIG_DVB_ISL6421=m
-CONFIG_DVB_ISL6423=m
-# CONFIG_DVB_A8293 is not set
-CONFIG_DVB_LGS8GL5=m
-# CONFIG_DVB_LGS8GXX is not set
-CONFIG_DVB_ATBM8830=m
-CONFIG_DVB_TDA665x=m
-CONFIG_DVB_IX2505V=m
 # CONFIG_DVB_M88RS2000 is not set
-# CONFIG_DVB_AF9033 is not set
-CONFIG_DVB_HORUS3A=m
-CONFIG_DVB_ASCOT2E=m
-CONFIG_DVB_HELENE=m
+CONFIG_DVB_TDA665x=m
+CONFIG_DVB_DRX39XYJ=m
 
 #
 # Common Interface (EN50221) controller drivers
@@ -4073,13 +4128,12 @@ CONFIG_DVB_SP2=m
 #
 CONFIG_AGP=y
 CONFIG_AGP_ALPHA_CORE=y
-CONFIG_VGA_ARB=y
-CONFIG_VGA_ARB_MAX_GPUS=16
 CONFIG_IMX_IPUV3_CORE=m
 CONFIG_DRM=y
 CONFIG_DRM_MIPI_DBI=y
 CONFIG_DRM_DP_AUX_CHARDEV=y
 # CONFIG_DRM_DEBUG_SELFTEST is not set
+CONFIG_DRM_DP_HELPER=y
 CONFIG_DRM_KMS_HELPER=y
 # CONFIG_DRM_LOAD_EDID_FIRMWARE is not set
 # CONFIG_DRM_DP_CEC is not set
@@ -4140,7 +4194,6 @@ CONFIG_DRM_MGAG200=m
 CONFIG_DRM_QXL=m
 CONFIG_DRM_MSM=m
 CONFIG_DRM_MSM_GPU_STATE=y
-# CONFIG_DRM_MSM_REGISTER_LOGGING is not set
 # CONFIG_DRM_MSM_HDMI_HDCP is not set
 # CONFIG_DRM_MSM_DP is not set
 # CONFIG_DRM_MSM_DSI is not set
@@ -4168,8 +4221,10 @@ CONFIG_DRM_IMX_TVE=m
 # CONFIG_DRM_V3D is not set
 CONFIG_DRM_ETNAVIV=m
 CONFIG_DRM_ETNAVIV_THERMAL=y
+CONFIG_DRM_HISI_HIBMC=m
 # CONFIG_DRM_BOCHS is not set
 # CONFIG_DRM_CIRRUS_QEMU is not set
+CONFIG_DRM_PANEL_MIPI_DBI=y
 CONFIG_DRM_SIMPLEDRM=m
 # CONFIG_TINYDRM_HX8357D is not set
 CONFIG_TINYDRM_ILI9163=m
@@ -4182,6 +4237,7 @@ CONFIG_TINYDRM_ST7586=m
 # CONFIG_TINYDRM_ST7735R is not set
 CONFIG_DRM_PL111=m
 # CONFIG_DRM_PANFROST is not set
+# CONFIG_DRM_SSD130X is not set
 CONFIG_DRM_LEGACY=y
 CONFIG_DRM_TDFX=y
 # CONFIG_DRM_R128 is not set
@@ -4393,6 +4449,7 @@ CONFIG_HID_ELECOM=m
 CONFIG_HID_GEMBIRD=m
 CONFIG_HID_GFRM=m
 # CONFIG_HID_GLORIOUS is not set
+CONFIG_HID_VIVALDI_COMMON=m
 CONFIG_HID_VIVALDI=m
 CONFIG_HID_KEYTOUCH=m
 CONFIG_HID_KYE=m
@@ -4424,6 +4481,7 @@ CONFIG_HID_PANTHERLORD=m
 # CONFIG_HID_PETALYNX is not set
 # CONFIG_HID_PICOLCD is not set
 CONFIG_HID_PLANTRONICS=m
+# CONFIG_HID_RAZER is not set
 CONFIG_HID_PRIMAX=m
 # CONFIG_HID_SAITEK is not set
 CONFIG_HID_SEMITEK=m
@@ -4525,6 +4583,7 @@ CONFIG_MMC_BCM2835=m
 # CONFIG_MMC_MTK is not set
 CONFIG_MMC_SDHCI_XENON=m
 # CONFIG_MMC_OWL is not set
+# CONFIG_MMC_LITEX is not set
 CONFIG_MEMSTICK=m
 # CONFIG_MEMSTICK_DEBUG is not set
 
@@ -4972,7 +5031,6 @@ CONFIG_ADIS16203=m
 # Analog to digital converters
 #
 CONFIG_AD7816=m
-CONFIG_AD7280=m
 # end of Analog to digital converters
 
 #
@@ -5019,14 +5077,7 @@ CONFIG_AD2S1210=m
 
 CONFIG_FB_SM750=m
 # CONFIG_STAGING_MEDIA is not set
-
-#
-# Android
-#
-# end of Android
-
 # CONFIG_FIREWIRE_SERIAL is not set
-# CONFIG_GS_FPGABOOT is not set
 # CONFIG_UNISYSSPAR is not set
 CONFIG_FB_TFT=m
 # CONFIG_FB_TFT_AGM1264K_FL is not set
@@ -5084,6 +5135,7 @@ CONFIG_CLK_ICST=y
 
 # CONFIG_CLK_HSDK is not set
 CONFIG_LMK04832=m
+# CONFIG_COMMON_CLK_APPLE_NCO is not set
 CONFIG_COMMON_CLK_MAX77686=y
 # CONFIG_COMMON_CLK_MAX9485 is not set
 CONFIG_COMMON_CLK_SCMI=y
@@ -5098,7 +5150,6 @@ CONFIG_COMMON_CLK_CS2000_CP=y
 # CONFIG_COMMON_CLK_FSL_FLEXSPI is not set
 CONFIG_COMMON_CLK_FSL_SAI=y
 # CONFIG_COMMON_CLK_GEMINI is not set
-# CONFIG_COMMON_CLK_LAN966X is not set
 # CONFIG_COMMON_CLK_ASPEED is not set
 CONFIG_COMMON_CLK_S2MPS11=m
 CONFIG_CLK_TWL6040=m
@@ -5140,6 +5191,7 @@ CONFIG_CLK_IMX8MN=m
 CONFIG_CLK_IMX8MP=y
 # CONFIG_CLK_IMX8MQ is not set
 # CONFIG_CLK_IMX8ULP is not set
+CONFIG_CLK_IMX93=m
 
 #
 # Ingenic SoCs drivers
@@ -5228,6 +5280,7 @@ CONFIG_COMMON_CLK_MT8516=y
 # end of Clock support for Amlogic platforms
 
 CONFIG_MSTAR_MSC313_MPLL=y
+CONFIG_MCHP_CLK_MPFS=y
 # CONFIG_COMMON_CLK_PISTACHIO is not set
 CONFIG_CLK_MT7621=y
 # CONFIG_CLK_RENESAS is not set
@@ -5246,6 +5299,7 @@ CONFIG_EXYNOS_AUDSS_CLK_CON=m
 # CONFIG_S3C2410_COMMON_CLK is not set
 CONFIG_S3C2412_COMMON_CLK=y
 # CONFIG_S3C2443_COMMON_CLK is not set
+# CONFIG_TESLA_FSD_COMMON_CLK is not set
 # CONFIG_CLK_SIFIVE is not set
 # CONFIG_CLK_INTEL_SOCFPGA is not set
 # CONFIG_SPRD_COMMON_CLK is not set
@@ -5264,6 +5318,7 @@ CONFIG_SUN50I_H6_R_CCU=y
 # CONFIG_SUN4I_A10_CCU is not set
 # CONFIG_SUN5I_CCU is not set
 # CONFIG_SUN6I_A31_CCU is not set
+CONFIG_SUN6I_RTC_CCU=y
 CONFIG_SUN8I_A23_CCU=y
 CONFIG_SUN8I_A33_CCU=y
 CONFIG_SUN8I_A83T_CCU=y
@@ -5277,6 +5332,8 @@ CONFIG_COMMON_CLK_TI_ADPLL=m
 # CONFIG_COMMON_CLK_VISCONTI is not set
 CONFIG_XILINX_VCU=m
 CONFIG_COMMON_CLK_ZYNQMP=y
+CONFIG_CLK_KUNIT_TEST=y
+CONFIG_CLK_GATE_KUNIT_TEST=y
 # CONFIG_HWSPINLOCK is not set
 
 #
@@ -5329,7 +5386,6 @@ CONFIG_SH_TIMER_TMU=y
 # CONFIG_H8300_TPU is not set
 # CONFIG_TIMER_IMX_SYS_CTR is not set
 CONFIG_CLKSRC_ST_LPC=y
-# CONFIG_ATCPIT100_TIMER is not set
 # CONFIG_MSC313E_TIMER is not set
 CONFIG_INGENIC_TIMER=y
 CONFIG_INGENIC_SYSOST=y
@@ -5345,6 +5401,7 @@ CONFIG_ALTERA_MBOX=m
 # CONFIG_QCOM_APCS_IPC is not set
 CONFIG_BCM_PDC_MBOX=m
 CONFIG_STM32_IPCC=m
+CONFIG_MTK_ADSP_MBOX=y
 CONFIG_MTK_CMDQ_MBOX=y
 CONFIG_SUN6I_MSGBOX=y
 CONFIG_SPRD_MBOX=m
@@ -5396,6 +5453,7 @@ CONFIG_MESON_MX_AO_ARC_REMOTEPROC=y
 #
 CONFIG_RPMSG=y
 # CONFIG_RPMSG_CHAR is not set
+CONFIG_RPMSG_CTRL=m
 CONFIG_RPMSG_NS=y
 CONFIG_RPMSG_MTK_SCP=y
 CONFIG_RPMSG_QCOM_GLINK=m
@@ -5615,6 +5673,9 @@ CONFIG_ADXL313_I2C=m
 CONFIG_ADXL355=m
 CONFIG_ADXL355_I2C=m
 CONFIG_ADXL355_SPI=m
+CONFIG_ADXL367=m
+CONFIG_ADXL367_SPI=m
+# CONFIG_ADXL367_I2C is not set
 CONFIG_ADXL372=m
 CONFIG_ADXL372_SPI=m
 # CONFIG_ADXL372_I2C is not set
@@ -5666,6 +5727,7 @@ CONFIG_AD7091R5=m
 CONFIG_AD7124=m
 # CONFIG_AD7192 is not set
 CONFIG_AD7266=m
+CONFIG_AD7280=m
 CONFIG_AD7291=m
 # CONFIG_AD7292 is not set
 # CONFIG_AD7298 is not set
@@ -5766,6 +5828,7 @@ CONFIG_XILINX_AMS=m
 # Amplifiers
 #
 CONFIG_AD8366=m
+CONFIG_ADA4250=m
 CONFIG_HMC425=m
 # end of Amplifiers
 
@@ -5834,6 +5897,7 @@ CONFIG_AD5592R=m
 # CONFIG_AD5593R is not set
 # CONFIG_AD5504 is not set
 # CONFIG_AD5624R_SPI is not set
+# CONFIG_LTC2688 is not set
 CONFIG_AD5686=m
 CONFIG_AD5686_SPI=m
 CONFIG_AD5696_I2C=m
@@ -5891,6 +5955,8 @@ CONFIG_AD9523=m
 # CONFIG_ADF4350 is not set
 # CONFIG_ADF4371 is not set
 # CONFIG_ADMV1013 is not set
+CONFIG_ADMV1014=m
+# CONFIG_ADMV4420 is not set
 CONFIG_ADRF6780=m
 # end of Phase-Locked Loop (PLL) frequency synthesizers
 # end of Frequency Synthesizers DDS/PLL
@@ -6063,6 +6129,7 @@ CONFIG_IIO_MUX=m
 # CONFIG_HID_SENSOR_DEVICE_ROTATION is not set
 # end of Inclinometer sensors
 
+CONFIG_IIO_RESCALE_KUNIT_TEST=y
 # CONFIG_IIO_TEST_FORMAT is not set
 
 #
@@ -6148,7 +6215,10 @@ CONFIG_MB1232=m
 CONFIG_PING=m
 # CONFIG_RFD77402 is not set
 # CONFIG_SRF04 is not set
+CONFIG_SX_COMMON=m
 CONFIG_SX9310=m
+# CONFIG_SX9324 is not set
+# CONFIG_SX9360 is not set
 CONFIG_SX9500=m
 # CONFIG_SRF08 is not set
 # CONFIG_VCNL3020 is not set
@@ -6307,6 +6377,7 @@ CONFIG_RESET_SOCFPGA=y
 CONFIG_RESET_STARFIVE_JH7100=y
 CONFIG_RESET_SUNXI=y
 CONFIG_RESET_TI_SYSCON=m
+CONFIG_RESET_TN48M_CPLD=m
 CONFIG_RESET_ZYNQ=y
 # CONFIG_COMMON_RESET_HI3660 is not set
 # CONFIG_COMMON_RESET_HI6220 is not set
@@ -6381,7 +6452,6 @@ CONFIG_USB4_KUNIT_TEST=y
 
 CONFIG_LIBNVDIMM=y
 CONFIG_BLK_DEV_PMEM=y
-CONFIG_ND_BLK=y
 CONFIG_ND_CLAIM=y
 CONFIG_ND_BTT=y
 CONFIG_BTT=y
@@ -6410,6 +6480,8 @@ CONFIG_NVMEM_SNVS_LPGPR=m
 # CONFIG_SPRD_EFUSE is not set
 # CONFIG_NVMEM_RMEM is not set
 CONFIG_NVMEM_BRCM_NVRAM=y
+CONFIG_NVMEM_LAYERSCAPE_SFP=y
+# CONFIG_NVMEM_SUNPLUS_OCOTP is not set
 
 #
 # HW tracing support
@@ -6475,6 +6547,7 @@ CONFIG_INTERCONNECT=y
 CONFIG_INTERCONNECT_QCOM_OSM_L3=m
 # CONFIG_INTERCONNECT_SAMSUNG is not set
 CONFIG_COUNTER=y
+CONFIG_104_QUAD_8=m
 CONFIG_INTERRUPT_CNT=y
 CONFIG_STM32_TIMER_CNT=m
 # CONFIG_STM32_LPTIMER_CNT is not set
@@ -6482,6 +6555,8 @@ CONFIG_TI_EQEP=m
 CONFIG_INTEL_QEP=m
 CONFIG_MOST=m
 # CONFIG_MOST_CDEV is not set
+CONFIG_PECI=m
+CONFIG_PECI_CPU=m
 # end of Device Drivers
 
 #
@@ -6533,7 +6608,6 @@ CONFIG_F2FS_FS_COMPRESSION=y
 # CONFIG_F2FS_FS_LZ4 is not set
 CONFIG_F2FS_FS_ZSTD=y
 CONFIG_F2FS_IOSTAT=y
-# CONFIG_FS_DAX is not set
 CONFIG_FS_POSIX_ACL=y
 CONFIG_EXPORTFS=y
 CONFIG_EXPORTFS_BLOCK_OPS=y
@@ -6694,7 +6768,6 @@ CONFIG_NFS_SWAP=y
 CONFIG_NFS_DISABLE_UDP_SUPPORT=y
 CONFIG_NFSD=y
 CONFIG_NFSD_V2_ACL=y
-CONFIG_NFSD_V3=y
 CONFIG_NFSD_V3_ACL=y
 CONFIG_NFSD_V4=y
 CONFIG_NFSD_PNFS=y
@@ -6800,6 +6873,7 @@ CONFIG_KEYS_REQUEST_CACHE=y
 CONFIG_PERSISTENT_KEYRINGS=y
 CONFIG_BIG_KEYS=y
 CONFIG_ENCRYPTED_KEYS=m
+CONFIG_USER_DECRYPTED_DATA=y
 # CONFIG_KEY_DH_OPERATIONS is not set
 # CONFIG_SECURITY_DMESG_RESTRICT is not set
 # CONFIG_SECURITY is not set
@@ -6870,6 +6944,7 @@ CONFIG_CRYPTO_TEST=m
 #
 CONFIG_CRYPTO_RSA=y
 CONFIG_CRYPTO_DH=y
+CONFIG_CRYPTO_DH_RFC7919_GROUPS=y
 CONFIG_CRYPTO_ECC=y
 CONFIG_CRYPTO_ECDH=y
 # CONFIG_CRYPTO_ECDSA is not set
@@ -6920,6 +6995,7 @@ CONFIG_CRYPTO_XXHASH=y
 CONFIG_CRYPTO_BLAKE2B=y
 # CONFIG_CRYPTO_BLAKE2S is not set
 CONFIG_CRYPTO_CRCT10DIF=y
+CONFIG_CRYPTO_CRC64_ROCKSOFT=y
 CONFIG_CRYPTO_GHASH=y
 CONFIG_CRYPTO_POLY1305=y
 CONFIG_CRYPTO_MD4=m
@@ -7042,11 +7118,13 @@ CONFIG_CRYPTO_LIB_POLY1305_GENERIC=y
 CONFIG_CRYPTO_LIB_POLY1305=y
 CONFIG_CRYPTO_LIB_CHACHA20POLY1305=y
 CONFIG_CRYPTO_LIB_SHA256=y
+CONFIG_CRYPTO_LIB_SM3=m
 # end of Crypto library routines
 
 CONFIG_CRC_CCITT=m
 CONFIG_CRC16=y
 CONFIG_CRC_T10DIF=y
+CONFIG_CRC64_ROCKSOFT=y
 CONFIG_CRC_ITU_T=y
 CONFIG_CRC32=y
 CONFIG_CRC32_SELFTEST=y
@@ -7135,9 +7213,22 @@ CONFIG_MESSAGE_LOGLEVEL_DEFAULT=4
 CONFIG_SYMBOLIC_ERRNAME=y
 # end of printk and dmesg options
 
+CONFIG_DEBUG_KERNEL=y
+# CONFIG_DEBUG_MISC is not set
+
 #
 # Compile-time checks and compiler options
 #
+CONFIG_DEBUG_INFO=y
+# CONFIG_DEBUG_INFO_NONE is not set
+# CONFIG_DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT is not set
+CONFIG_DEBUG_INFO_DWARF4=y
+# CONFIG_DEBUG_INFO_DWARF5 is not set
+CONFIG_DEBUG_INFO_REDUCED=y
+CONFIG_DEBUG_INFO_COMPRESSED=y
+CONFIG_DEBUG_INFO_SPLIT=y
+CONFIG_PAHOLE_HAS_SPLIT_BTF=y
+# CONFIG_GDB_SCRIPTS is not set
 CONFIG_FRAME_WARN=2048
 # CONFIG_STRIP_ASM_SYMS is not set
 CONFIG_READABLE_ASM=y
@@ -7160,9 +7251,6 @@ CONFIG_DEBUG_FS_ALLOW_NONE=y
 # CONFIG_UBSAN is not set
 CONFIG_HAVE_KCSAN_COMPILER=y
 # end of Generic Kernel Debugging Instruments
-
-CONFIG_DEBUG_KERNEL=y
-# CONFIG_DEBUG_MISC is not set
 
 #
 # Networking Debugging
@@ -7302,7 +7390,6 @@ CONFIG_TEST_STRING_HELPERS=m
 # CONFIG_TEST_BITMAP is not set
 CONFIG_TEST_UUID=m
 CONFIG_TEST_XARRAY=y
-# CONFIG_TEST_OVERFLOW is not set
 CONFIG_TEST_RHASHTABLE=y
 # CONFIG_TEST_SIPHASH is not set
 # CONFIG_TEST_IDA is not set
@@ -7325,11 +7412,12 @@ CONFIG_CMDLINE_KUNIT_TEST=y
 CONFIG_BITS_TEST=y
 CONFIG_RATIONAL_KUNIT_TEST=y
 CONFIG_MEMCPY_KUNIT_TEST=y
+CONFIG_OVERFLOW_KUNIT_TEST=y
+CONFIG_STACKINIT_KUNIT_TEST=y
 # CONFIG_TEST_UDELAY is not set
 # CONFIG_TEST_STATIC_KEYS is not set
 # CONFIG_TEST_MEMCAT_P is not set
 CONFIG_TEST_OBJAGG=m
-# CONFIG_TEST_STACKINIT is not set
 # CONFIG_TEST_MEMINIT is not set
 # CONFIG_TEST_FREE_PAGES is not set
 # end of Kernel Testing and Coverage
@@ -7338,4 +7426,4 @@ CONFIG_WARN_MISSING_DOCUMENTS=y
 CONFIG_WARN_ABI_ERRORS=y
 # end of Kernel hacking
 
---akCteT9Hf5u/O3w3--
+--QcIrx/io+l/83XnY--
