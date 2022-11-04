@@ -1,336 +1,233 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8394B1C3F
-	for <oe-kbuild@lists.linux.dev>; Fri,  4 Nov 2022 15:38:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E3991C3F
+	for <oe-kbuild@lists.linux.dev>; Fri,  4 Nov 2022 15:47:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1667576284; x=1699112284;
+  t=1667576848; x=1699112848;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=peZbagIgYrOhc7n3yPY86Hj/V+x6B/nBxi6keFPkWiI=;
-  b=YET2TIp33cN9wYkGT4jGG2MudQtpsFGscEiKuPhPE8AQbpk7AHK9ELBv
-   TD3XwkD/qaa8swa2Izk63TNize9owST36fRyCSPciyHZg8/V/kM+nsyFd
-   KviaUvb91/p6L4MF+DEIoRFR3ZMV5ZQOMqM6I4UJ/2XjrSZa1zV0F+GNv
-   uBpd/Ui42pGHWdGyWK4ZQJo1KTbkOo3S8QBAlJNMX4GuKvHeI8yTHhhNZ
-   EoDb3Up+IzgED5bhz9yFQQAm6npLD7TuuwJGgq8PgxmXOurHd8VRJNVrP
-   WJB6kUcwk84MY0dbSWRykCHYPcMwEKpkk0/uSD6NlmJbOsEEuvhE2Udw8
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10521"; a="309986339"
+  bh=1I1iChR/6sdbWtC0m+7PFeGcrOkwfUQbhbe/1WNYVRg=;
+  b=LHGrLM05reTJdyL5jPRsxM8UiIJLIk06HHoMAEWuxDAfj25iE/swY3xv
+   z81QeeH6R7S0yw2DSpW3AynwNzPtnqf1Cb2evMicl+fyTkgXQKsFZHViX
+   KSjabNBs+xrArk+sbXQnzg5Xr5u1aus1rx/xofP1/GGJDgnE4XF7VAY01
+   A4agSjrpMUEWnDKKeurAt+7jKf4hsaRBgiS6gYrfhz1TZD949uhRdnWNx
+   xO7o4wR/Zq27jxeGzoPglM7G8n17zu+KOn0MhFuo3nxhgy2I5yimJIRXA
+   1GSgQv67QJBDI93ml82kMQQjAJfBUcGDoi6H8WdWgTHQkBsZZfMH7IP4Q
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10521"; a="374237025"
 X-IronPort-AV: E=Sophos;i="5.96,137,1665471600"; 
-   d="scan'208";a="309986339"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2022 08:37:28 -0700
+   d="scan'208";a="374237025"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2022 08:47:27 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10521"; a="668391863"
+X-IronPort-AV: E=McAfee;i="6500,9779,10521"; a="964386170"
 X-IronPort-AV: E=Sophos;i="5.96,137,1665471600"; 
-   d="scan'208";a="668391863"
+   d="scan'208";a="964386170"
 Received: from lkp-server02.sh.intel.com (HELO b6d29c1a0365) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 04 Nov 2022 08:37:25 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 04 Nov 2022 08:47:25 -0700
 Received: from kbuild by b6d29c1a0365 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1oqyl3-000H64-08;
-	Fri, 04 Nov 2022 15:37:25 +0000
-Date: Fri, 4 Nov 2022 23:36:46 +0800
+	id 1oqyuj-000H6D-0H;
+	Fri, 04 Nov 2022 15:47:25 +0000
+Date: Fri, 4 Nov 2022 23:46:53 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH] zonefs: add sanity check for aggregated conventional
- zones
-Message-ID: <202211042316.s6KmrIV8-lkp@intel.com>
+Subject: drivers/gpio/gpio-crystalcove.c:157:22: warning: use of
+ uninitialized value '<unknown>' [CWE-457]
+Message-ID: <202211042314.dIXSxL2A-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="2KWVSjzT9hpfHpR1"
+Content-Type: multipart/mixed; boundary="PtUyvrTzP6RZRJC7"
 Content-Disposition: inline
 
 
---2KWVSjzT9hpfHpR1
+--PtUyvrTzP6RZRJC7
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-::::::=20
+:::::: 
 :::::: Manual check reason: "low confidence bisect report"
-:::::: Manual check reason: "low confidence static check first_new_problem:=
- include/linux/err.h:26:16: warning: use of uninitialized value 'ret' [CWE-=
-457] [-Wanalyzer-use-of-uninitialized-value]"
-::::::=20
+:::::: Manual check reason: "low confidence static check first_new_problem: drivers/gpio/gpio-crystalcove.c:157:22: warning: use of uninitialized value '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]"
+:::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <f7e4afaca0eb337bf18231358b7e764d4cdf5c5a.1667471410.git.johan=
-nes.thumshirn@wdc.com>
-References: <f7e4afaca0eb337bf18231358b7e764d4cdf5c5a.1667471410.git.johann=
-es.thumshirn@wdc.com>
-TO: Johannes Thumshirn <johannes.thumshirn@wdc.com>
-TO: Damien Le Moal <Damien.LeMoal@opensource.wdc.com>
-CC: linux-fsdevel@vger.kernel.org
-CC: Johannes Thumshirn <johannes.thumshirn@wdc.com>
+CC: linux-kernel@vger.kernel.org
+TO: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+CC: Lee Jones <lee@kernel.org>
 
-Hi Johannes,
-
-I love your patch! Perhaps something to improve:
-
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.1-rc3 next-20221104]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Johannes-Thumshirn/z=
-onefs-add-sanity-check-for-aggregated-conventional-zones/20221103-183404
-patch link:    https://lore.kernel.org/r/f7e4afaca0eb337bf18231358b7e764d4c=
-df5c5a.1667471410.git.johannes.thumshirn%40wdc.com
-patch subject: [PATCH] zonefs: add sanity check for aggregated conventional=
- zones
-:::::: branch date: 29 hours ago
-:::::: commit date: 29 hours ago
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   ee6050c8af96bba2f81e8b0793a1fc2f998fcd20
+commit: 09c4e702bc9dbd3e8a1d93144571c31f977eb866 mfd: intel_soc_pmic_crc: Drop redundant ACPI_PTR() and ifdeffery
+date:   5 weeks ago
+:::::: branch date: 16 hours ago
+:::::: commit date: 5 weeks ago
 config: arm-randconfig-c002-20221102
 compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/4113036e1dcbb06a886=
-18608ed71471dcdeb2d7c
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Johannes-Thumshirn/zonefs-add-sani=
-ty-check-for-aggregated-conventional-zones/20221103-183404
-        git checkout 4113036e1dcbb06a88618608ed71471dcdeb2d7c
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=09c4e702bc9dbd3e8a1d93144571c31f977eb866
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 09c4e702bc9dbd3e8a1d93144571c31f977eb866
         # save the config file
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cross=
- ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error'=20
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross ARCH=arm KBUILD_USERCFLAGS='-fanalyzer -Wno-error' 
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
 gcc_analyzer warnings: (new ones prefixed by >>)
-   In function 'zonefs_file_dio_append':
-   cc1: warning: use of uninitialized value '<unknown>' [CWE-457] [-Wanalyz=
-er-use-of-uninitialized-value]
-     'zonefs_file_dio_append': events 1-6
+   In file included from include/linux/gpio/driver.h:8,
+                    from drivers/gpio/gpio-crystalcove.c:11:
+   include/linux/irqdomain.h: In function 'irq_find_mapping':
+   include/linux/irqdomain.h:437:22: warning: use of uninitialized value '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+     437 |         unsigned int irq;
+         |                      ^~~
+     'irq_find_mapping': event 1
        |
-       |fs/zonefs/super.c:767:12:
-       |  767 |         if (!nr_pages)
-       |      |            ^
-       |      |            |
-       |      |            (1) following 'false' branch (when 'nr_pages !=
-=3D 0')...
-       |......
-       |  770 |         bio =3D bio_alloc(bdev, nr_pages,
-       |      |         ~~~=20
-       |      |         |
-       |      |         (2) ...to here
-       |......
-       |  778 |         if (unlikely(ret))
-       |      |            ~
-       |      |            |
-       |      |            (3) following 'true' branch...
-       |  779 |                 goto out_release;
-       |      |                 ~~~~
-       |      |                 |
-       |      |                 (4) ...to here
-       |......
-       |  796 |         if (ret >=3D 0) {
-       |      |            ~
-       |      |            |
-       |      |            (5) following 'true' branch (when 'ret >=3D 0').=
-=2E.
-       |  797 |                 iocb->ki_pos +=3D size;
-       |      |                 ~~~~
-       |      |                 |
-       |      |                 (6) ...to here
+       |  437 |         unsigned int irq;
+       |      |                      ^~~
+       |      |                      |
+       |      |                      (1) use of uninitialized value '<unknown>' here
        |
-     'zonefs_file_dio_append': event 7
+   drivers/gpio/gpio-crystalcove.c: In function 'crystalcove_gpio_get':
+>> drivers/gpio/gpio-crystalcove.c:157:22: warning: use of uninitialized value '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+     157 |         unsigned int val;
+         |                      ^~~
+     'crystalcove_gpio_get': event 1
        |
-       |cc1:
-       | (7): use of uninitialized value '=1B[01m=1B[K<unknown>=1B[m=1B[K' =
-here
+       |  157 |         unsigned int val;
+       |      |                      ^~~
+       |      |                      |
+       |      |                      (1) use of uninitialized value '<unknown>' here
        |
-   In file included from include/linux/container_of.h:6,
-                    from include/linux/list.h:5,
-                    from include/linux/module.h:12,
-                    from fs/zonefs/super.c:7:
-   In function 'ERR_PTR',
-       inlined from 'zonefs_create_inode' at fs/zonefs/super.c:1496:9:
->> include/linux/err.h:26:16: warning: use of uninitialized value 'ret' [CW=
-E-457] [-Wanalyzer-use-of-uninitialized-value]
-      26 |         return (void *) error;
-         |                ^~~~~~~~~~~~~~
-     'zonefs_create_inode': events 1-5
+   drivers/gpio/gpio-crystalcove.c: In function 'crystalcove_gpio_irq_handler':
+   drivers/gpio/gpio-crystalcove.c:279:23: warning: use of uninitialized value '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+     279 |         unsigned long pending;
+         |                       ^~~~~~~
+     'crystalcove_gpio_irq_handler': event 1
        |
-       |fs/zonefs/super.c:1467:13:
-       | 1467 |         int ret;
-       |      |             ^~~
-       |      |             |
-       |      |             (1) region created on stack here
-       |......
-       | 1470 |         if (!dentry)
-       |      |            ~=20
-       |      |            |
-       |      |            (2) following 'false' branch (when 'dentry' is n=
-on-NULL)...
-       |......
-       | 1473 |         inode =3D new_inode(parent->d_sb);
-       |      |         ~~~~~
-       |      |         |
-       |      |         (3) ...to here
-       | 1474 |         if (!inode)
-       |      |            ~=20
-       |      |            |
-       |      |            (4) following 'true' branch (when 'inode' is NUL=
-L)...
-       | 1475 |                 goto dput;
-       |      |                 ~~~~
-       |      |                 |
-       |      |                 (5) ...to here
+       |  279 |         unsigned long pending;
+       |      |                       ^~~~~~~
+       |      |                       |
+       |      |                       (1) use of uninitialized value '<unknown>' here
        |
-     'zonefs_create_inode': event 6
+   drivers/gpio/gpio-crystalcove.c:280:22: warning: use of uninitialized value '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+     280 |         unsigned int p0, p1;
+         |                      ^~
+     'crystalcove_gpio_irq_handler': event 1
        |
-       |include/linux/err.h:26:16:
-       |   26 |         return (void *) error;
-       |      |                ^~~~~~~~~~~~~~
-       |      |                |
-       |      |                (6) use of uninitialized value 'ret' here
+       |  280 |         unsigned int p0, p1;
+       |      |                      ^~
+       |      |                      |
+       |      |                      (1) use of uninitialized value '<unknown>' here
        |
->> include/linux/err.h:26:16: warning: use of uninitialized value 'ret' [CW=
-E-457] [-Wanalyzer-use-of-uninitialized-value]
-     'zonefs_create_zgroup': events 1-6
+   drivers/gpio/gpio-crystalcove.c:280:26: warning: use of uninitialized value '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+     280 |         unsigned int p0, p1;
+         |                          ^~
+     'crystalcove_gpio_irq_handler': event 1
        |
-       |fs/zonefs/super.c:1508:12:
-       | 1508 | static int zonefs_create_zgroup(struct zonefs_zone_data *zd,
-       |      |            ^~~~~~~~~~~~~~~~~~~~
-       |      |            |
-       |      |            (1) entry to 'zonefs_create_zgroup'
-       |......
-       | 1521 |         if (!zd->nr_zones[type])
-       |      |            ~
-       |      |            |
-       |      |            (2) following 'false' branch...
-       |......
-       | 1524 |         file_name =3D kmalloc(ZONEFS_NAME_MAX, GFP_KERNEL);
-       |      |         ~~~~~~~~~
-       |      |         |
-       |      |         (3) ...to here
-       | 1525 |         if (!file_name)
-       |      |            ~
-       |      |            |
-       |      |            (4) following 'false' branch (when 'ret' is non-=
-NULL)...
-       |......
-       | 1528 |         if (type =3D=3D ZONEFS_ZTYPE_CNV)
-       |      |         ~~ =20
-       |      |         |
-       |      |         (5) ...to here
-       |......
-       | 1533 |         dir =3D zonefs_create_inode(sb->s_root, zgroup_name=
-, NULL, type);
-       |      |               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~
-       |      |               |
-       |      |               (6) calling 'zonefs_create_inode' from 'zonef=
-s_create_zgroup'
+       |  280 |         unsigned int p0, p1;
+       |      |                          ^~
+       |      |                          |
+       |      |                          (1) use of uninitialized value '<unknown>' here
        |
-       +--> 'zonefs_create_inode': events 7-12
-              |
-              | 1460 | static struct dentry *zonefs_create_inode(struct den=
-try *parent,
-              |      |                       ^~~~~~~~~~~~~~~~~~~
-              |      |                       |
-              |      |                       (7) entry to 'zonefs_create_in=
-ode'
-              |......
-              | 1467 |         int ret;
-              |      |             ~~~       =20
-              |      |             |
-              |      |             (8) region created on stack here
-              |......
-              | 1470 |         if (!dentry)
-              |      |            ~          =20
-              |      |            |
-              |      |            (9) following 'false' branch (when 'dentr=
-y' is non-NULL)...
-              |......
-              | 1473 |         inode =3D new_inode(parent->d_sb);
-              |      |         ~~~~~         =20
-              |      |         |
-              |      |         (10) ...to here
-              | 1474 |         if (!inode)
-              |      |            ~          =20
-              |      |            |
-              |      |            (11) following 'true' branch (when 'inode=
-' is NULL)...
-              | 1475 |                 goto dput;
-              |      |                 ~~~~  =20
-              |      |                 |
-              |      |                 (12) ...to here
-              |
-            'zonefs_create_inode': event 13
-              |
-              |include/linux/err.h:26:16:
-              |   26 |         return (void *) error;
-              |      |                ^~~~~~~~~~~~~~
-              |      |                |
-              |      |                (13) use of uninitialized value 'ret'=
- here
-              |
-   fs/zonefs/super.c: In function 'zonefs_file_dio_append':
-   fs/zonefs/super.c:797:30: warning: use of uninitialized value 'size' [CW=
-E-457] [-Wanalyzer-use-of-uninitialized-value]
-     797 |                 iocb->ki_pos +=3D size;
-         |                              ^~
-     'zonefs_file_dio_append': events 1-8
+   drivers/gpio/gpio-crystalcove.c: In function 'crystalcove_gpio_dbg_show':
+   drivers/gpio/gpio-crystalcove.c:305:22: warning: use of uninitialized value '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+     305 |         unsigned int ctlo, ctli, mirqs0, mirqsx, irq;
+         |                      ^~~~
+     'crystalcove_gpio_dbg_show': event 1
        |
-       |  759 |         ssize_t size;
-       |      |                 ^~~~
-       |      |                 |
-       |      |                 (1) region created on stack here
-       |......
-       |  767 |         if (!nr_pages)
-       |      |            ~    =20
-       |      |            |
-       |      |            (2) following 'false' branch (when 'nr_pages !=
-=3D 0')...
-       |......
-       |  770 |         bio =3D bio_alloc(bdev, nr_pages,
-       |      |         ~~~     =20
-       |      |         |
-       |      |         (3) ...to here
-       |......
-       |  778 |         if (unlikely(ret))
-       |      |            ~    =20
-       |      |            |
-       |      |            (4) following 'true' branch...
-       |  779 |                 goto out_release;
-       |      |                 ~~~~
-       |      |                 |
-       |      |                 (5) ...to here
-       |......
+       |  305 |         unsigned int ctlo, ctli, mirqs0, mirqsx, irq;
+       |      |                      ^~~~
+       |      |                      |
+       |      |                      (1) use of uninitialized value '<unknown>' here
+       |
+   drivers/gpio/gpio-crystalcove.c:305:28: warning: use of uninitialized value '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+     305 |         unsigned int ctlo, ctli, mirqs0, mirqsx, irq;
+         |                            ^~~~
+     'crystalcove_gpio_dbg_show': event 1
+       |
+       |  305 |         unsigned int ctlo, ctli, mirqs0, mirqsx, irq;
+       |      |                            ^~~~
+       |      |                            |
+       |      |                            (1) use of uninitialized value '<unknown>' here
+       |
+   drivers/gpio/gpio-crystalcove.c:305:34: warning: use of uninitialized value '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+     305 |         unsigned int ctlo, ctli, mirqs0, mirqsx, irq;
+         |                                  ^~~~~~
+     'crystalcove_gpio_dbg_show': event 1
+       |
+       |  305 |         unsigned int ctlo, ctli, mirqs0, mirqsx, irq;
+       |      |                                  ^~~~~~
+       |      |                                  |
+       |      |                                  (1) use of uninitialized value '<unknown>' here
+       |
+   drivers/gpio/gpio-crystalcove.c:305:42: warning: use of uninitialized value '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+     305 |         unsigned int ctlo, ctli, mirqs0, mirqsx, irq;
+         |                                          ^~~~~~
+     'crystalcove_gpio_dbg_show': event 1
+       |
+       |  305 |         unsigned int ctlo, ctli, mirqs0, mirqsx, irq;
+       |      |                                          ^~~~~~
+       |      |                                          |
+       |      |                                          (1) use of uninitialized value '<unknown>' here
+       |
+   drivers/gpio/gpio-crystalcove.c:305:50: warning: use of uninitialized value '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+     305 |         unsigned int ctlo, ctli, mirqs0, mirqsx, irq;
+         |                                                  ^~~
+     'crystalcove_gpio_dbg_show': event 1
+       |
+       |  305 |         unsigned int ctlo, ctli, mirqs0, mirqsx, irq;
+       |      |                                                  ^~~
+       |      |                                                  |
+       |      |                                                  (1) use of uninitialized value '<unknown>' here
+       |
 
-vim +/ret +26 include/linux/err.h
+vim +157 drivers/gpio/gpio-crystalcove.c
 
-07ab67c8d0d7c1 Linus Torvalds 2005-05-19  23 =20
-e47103b1af5df5 Jani Nikula    2010-05-24  24  static inline void * __must_c=
-heck ERR_PTR(long error)
-^1da177e4c3f41 Linus Torvalds 2005-04-16  25  {
-^1da177e4c3f41 Linus Torvalds 2005-04-16 @26  	return (void *) error;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  27  }
-^1da177e4c3f41 Linus Torvalds 2005-04-16  28 =20
+104fb1d5153c56 Zhu, Lejun    2014-06-03  153  
+3abbdbe3dcd395 Abanoub Sameh 2020-07-21  154  static int crystalcove_gpio_get(struct gpio_chip *chip, unsigned int gpio)
+104fb1d5153c56 Zhu, Lejun    2014-06-03  155  {
+435cc3d4286566 Linus Walleij 2015-12-04  156  	struct crystalcove_gpio *cg = gpiochip_get_data(chip);
+104fb1d5153c56 Zhu, Lejun    2014-06-03 @157  	unsigned int val;
+9a752b4c9ab924 Hans de Goede 2017-05-13  158  	int ret, reg = to_reg(gpio, CTRL_IN);
+104fb1d5153c56 Zhu, Lejun    2014-06-03  159  
+9a752b4c9ab924 Hans de Goede 2017-05-13  160  	if (reg < 0)
+dcdc3018d6357c Aaron Lu      2014-09-25  161  		return 0;
+dcdc3018d6357c Aaron Lu      2014-09-25  162  
+9a752b4c9ab924 Hans de Goede 2017-05-13  163  	ret = regmap_read(cg->regmap, reg, &val);
+104fb1d5153c56 Zhu, Lejun    2014-06-03  164  	if (ret)
+104fb1d5153c56 Zhu, Lejun    2014-06-03  165  		return ret;
+104fb1d5153c56 Zhu, Lejun    2014-06-03  166  
+104fb1d5153c56 Zhu, Lejun    2014-06-03  167  	return val & 0x1;
+104fb1d5153c56 Zhu, Lejun    2014-06-03  168  }
+104fb1d5153c56 Zhu, Lejun    2014-06-03  169  
 
---=20
+:::::: The code at line 157 was first introduced by commit
+:::::: 104fb1d5153c563f453cb9c048fa0a17318a2348 gpio: Add support for Intel Crystal Cove PMIC
+
+:::::: TO: Zhu, Lejun <lejun.zhu@linux.intel.com>
+:::::: CC: Lee Jones <lee.jones@linaro.org>
+
+-- 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
 
---2KWVSjzT9hpfHpR1
+--PtUyvrTzP6RZRJC7
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename=config
 
 #
 # Automatically generated file; DO NOT EDIT.
-# Linux/arm 6.1.0-rc3 Kernel Configuration
+# Linux/arm 6.0.0-rc1 Kernel Configuration
 #
 CONFIG_CC_VERSION_TEXT="arm-linux-gnueabi-gcc (GCC) 12.1.0"
 CONFIG_CC_IS_GCC=y
@@ -341,6 +238,7 @@ CONFIG_AS_VERSION=23800
 CONFIG_LD_IS_BFD=y
 CONFIG_LD_VERSION=23800
 CONFIG_LLD_VERSION=0
+CONFIG_CC_HAS_ASM_GOTO=y
 CONFIG_CC_HAS_ASM_GOTO_OUTPUT=y
 CONFIG_CC_HAS_ASM_INLINE=y
 CONFIG_CC_HAS_NO_PROFILE_FN_ATTR=y
@@ -387,8 +285,6 @@ CONFIG_IRQ_DOMAIN=y
 CONFIG_IRQ_SIM=y
 CONFIG_IRQ_DOMAIN_HIERARCHY=y
 CONFIG_IRQ_FASTEOI_HIERARCHY_HANDLERS=y
-CONFIG_GENERIC_MSI_IRQ=y
-CONFIG_GENERIC_MSI_IRQ_DOMAIN=y
 CONFIG_IRQ_FORCED_THREADING=y
 CONFIG_SPARSE_IRQ=y
 CONFIG_GENERIC_IRQ_DEBUGFS=y
@@ -485,6 +381,7 @@ CONFIG_CGROUP_DEVICE=y
 # CONFIG_CGROUP_MISC is not set
 # CONFIG_CGROUP_DEBUG is not set
 # CONFIG_NAMESPACES is not set
+# CONFIG_CHECKPOINT_RESTORE is not set
 CONFIG_SCHED_AUTOGROUP=y
 # CONFIG_SYSFS_DEPRECATED is not set
 # CONFIG_RELAY is not set
@@ -621,10 +518,7 @@ CONFIG_HZ_200=y
 CONFIG_HZ=200
 CONFIG_THUMB2_KERNEL=y
 CONFIG_AEABI=y
-CONFIG_ARCH_SELECT_MEMORY_MODEL=y
-CONFIG_ARCH_FLATMEM_ENABLE=y
-CONFIG_ARCH_SPARSEMEM_ENABLE=y
-CONFIG_ARCH_FORCE_MAX_ORDER=11
+CONFIG_FORCE_MAX_ZONEORDER=11
 CONFIG_PARAVIRT=y
 # CONFIG_PARAVIRT_TIME_ACCOUNTING is not set
 CONFIG_CC_HAVE_STACKPROTECTOR_TLS=y
@@ -644,7 +538,7 @@ CONFIG_ARM_ATAG_DTB_COMPAT_CMDLINE_FROM_BOOTLOADER=y
 CONFIG_CMDLINE=""
 # CONFIG_XIP_KERNEL is not set
 # CONFIG_CRASH_DUMP is not set
-# CONFIG_AUTO_ZRELADDR is not set
+CONFIG_AUTO_ZRELADDR=y
 # end of Boot options
 
 #
@@ -699,6 +593,7 @@ CONFIG_ARCH_SUSPEND_POSSIBLE=y
 CONFIG_ARM_CPU_SUSPEND=y
 # end of Power management options
 
+# CONFIG_ARM_CRYPTO is not set
 CONFIG_AS_VFP_VMRS_FPINST=y
 
 #
@@ -734,7 +629,6 @@ CONFIG_HAVE_MOD_ARCH_SPECIFIC=y
 CONFIG_MODULES_USE_ELF_REL=y
 CONFIG_HAVE_IRQ_EXIT_ON_IRQ_STACK=y
 CONFIG_HAVE_SOFTIRQ_ON_OWN_STACK=y
-CONFIG_SOFTIRQ_ON_OWN_STACK=y
 CONFIG_ARCH_HAS_ELF_RANDOMIZE=y
 CONFIG_HAVE_EXIT_THREAD=y
 CONFIG_PAGE_SIZE_LESS_THAN_64KB=y
@@ -858,9 +752,6 @@ CONFIG_SLUB_STATS=y
 CONFIG_SHUFFLE_PAGE_ALLOCATOR=y
 CONFIG_COMPAT_BRK=y
 # CONFIG_MMAP_ALLOW_UNINITIALIZED is not set
-CONFIG_SELECT_MEMORY_MODEL=y
-CONFIG_FLATMEM_MANUAL=y
-# CONFIG_SPARSEMEM_MANUAL is not set
 CONFIG_FLATMEM=y
 CONFIG_ARCH_KEEP_MEMBLOCK=y
 CONFIG_EXCLUSIVE_SYSTEM_RAM=y
@@ -900,7 +791,6 @@ CONFIG_PCMCIA_LOAD_CIS=y
 #
 # Generic Driver Options
 #
-CONFIG_AUXILIARY_BUS=y
 CONFIG_UEVENT_HELPER=y
 CONFIG_UEVENT_HELPER_PATH=""
 CONFIG_DEVTMPFS=y
@@ -1248,7 +1138,6 @@ CONFIG_KEYBOARD_SNVS_PWRKEY=y
 # CONFIG_KEYBOARD_IMX is not set
 CONFIG_KEYBOARD_NEWTON=y
 # CONFIG_KEYBOARD_OPENCORES is not set
-CONFIG_KEYBOARD_PINEPHONE=y
 CONFIG_KEYBOARD_PMIC8XXX=y
 CONFIG_KEYBOARD_SAMSUNG=y
 # CONFIG_KEYBOARD_GOLDFISH_EVENTS is not set
@@ -1688,7 +1577,6 @@ CONFIG_SPI_FSL_DSPI=y
 CONFIG_SPI_MESON_SPICC=y
 CONFIG_SPI_MESON_SPIFC=y
 # CONFIG_SPI_MICROCHIP_CORE is not set
-CONFIG_SPI_MICROCHIP_CORE_QSPI=y
 # CONFIG_SPI_MT65XX is not set
 # CONFIG_SPI_MT7621 is not set
 CONFIG_SPI_MTK_NOR=y
@@ -1791,7 +1679,6 @@ CONFIG_PINCTRL_AT91=y
 CONFIG_PINCTRL_AT91PIO4=y
 # CONFIG_PINCTRL_AXP209 is not set
 CONFIG_PINCTRL_BM1880=y
-# CONFIG_PINCTRL_CY8C95X0 is not set
 CONFIG_PINCTRL_DA850_PUPD=y
 CONFIG_PINCTRL_EQUILIBRIUM=y
 # CONFIG_PINCTRL_INGENIC is not set
@@ -1803,6 +1690,7 @@ CONFIG_PINCTRL_OCELOT=y
 CONFIG_PINCTRL_RK805=y
 # CONFIG_PINCTRL_ROCKCHIP is not set
 # CONFIG_PINCTRL_SINGLE is not set
+# CONFIG_PINCTRL_STARFIVE is not set
 CONFIG_PINCTRL_STMFX=y
 CONFIG_PINCTRL_SX150X=y
 CONFIG_PINCTRL_OWL=y
@@ -1837,11 +1725,6 @@ CONFIG_PINCTRL_MADERA=y
 CONFIG_PINCTRL_CS47L15=y
 CONFIG_PINCTRL_CS47L35=y
 CONFIG_PINCTRL_CS47L92=y
-CONFIG_PINCTRL_IMX=y
-# CONFIG_PINCTRL_IMX8MM is not set
-CONFIG_PINCTRL_IMX8MN=y
-CONFIG_PINCTRL_IMX8MP=y
-CONFIG_PINCTRL_IMX8MQ=y
 
 #
 # Intel pinctrl drivers
@@ -1872,7 +1755,6 @@ CONFIG_PINCTRL_MT6779=y
 CONFIG_PINCTRL_MT8173=y
 CONFIG_PINCTRL_MT8183=y
 CONFIG_PINCTRL_MT8186=y
-CONFIG_PINCTRL_MT8188=y
 # CONFIG_PINCTRL_MT8192 is not set
 CONFIG_PINCTRL_MT8195=y
 CONFIG_PINCTRL_MT8365=y
@@ -1997,7 +1879,6 @@ CONFIG_PINCTRL_EXYNOS_ARM64=y
 # CONFIG_PINCTRL_S3C64XX is not set
 CONFIG_PINCTRL_SPRD=y
 CONFIG_PINCTRL_SPRD_SC9860=y
-# CONFIG_PINCTRL_STARFIVE_JH7100 is not set
 CONFIG_PINCTRL_STM32=y
 CONFIG_PINCTRL_STM32F429=y
 CONFIG_PINCTRL_STM32F469=y
@@ -2094,6 +1975,7 @@ CONFIG_GPIO_IDT3243X=y
 #
 # I2C GPIO expanders
 #
+# CONFIG_GPIO_ADP5588 is not set
 CONFIG_GPIO_ADNP=y
 # CONFIG_GPIO_GW_PLD is not set
 # CONFIG_GPIO_MAX7300 is not set
@@ -2216,7 +2098,6 @@ CONFIG_CHARGER_BQ24257=y
 # CONFIG_CHARGER_BQ25890 is not set
 # CONFIG_CHARGER_BQ25980 is not set
 # CONFIG_CHARGER_BQ256XX is not set
-# CONFIG_CHARGER_RK817 is not set
 CONFIG_CHARGER_SMB347=y
 # CONFIG_BATTERY_GAUGE_LTC2941 is not set
 CONFIG_BATTERY_GOLDFISH=y
@@ -2310,7 +2191,6 @@ CONFIG_SENSORS_MAX1668=y
 CONFIG_SENSORS_MAX197=y
 # CONFIG_SENSORS_MAX31722 is not set
 CONFIG_SENSORS_MAX31730=y
-CONFIG_SENSORS_MAX31760=y
 CONFIG_SENSORS_MAX6620=y
 CONFIG_SENSORS_MAX6621=y
 CONFIG_SENSORS_MAX6639=y
@@ -2398,7 +2278,6 @@ CONFIG_SENSORS_Q54SJ108A2=y
 CONFIG_SENSORS_STPDDC60=y
 CONFIG_SENSORS_TPS40422=y
 CONFIG_SENSORS_TPS53679=y
-CONFIG_SENSORS_TPS546D24=y
 CONFIG_SENSORS_UCD9000=y
 CONFIG_SENSORS_UCD9200=y
 # CONFIG_SENSORS_XDPE152 is not set
@@ -2419,7 +2298,6 @@ CONFIG_SENSORS_SHTC1=y
 CONFIG_SENSORS_DME1737=y
 # CONFIG_SENSORS_EMC1403 is not set
 # CONFIG_SENSORS_EMC2103 is not set
-CONFIG_SENSORS_EMC2305=y
 # CONFIG_SENSORS_EMC6W201 is not set
 CONFIG_SENSORS_SMSC47M1=y
 CONFIG_SENSORS_SMSC47M192=y
@@ -2537,7 +2415,6 @@ CONFIG_TEGRA30_TSENSOR=y
 #
 # Qualcomm thermal drivers
 #
-CONFIG_QCOM_TSENS=y
 # CONFIG_QCOM_SPMI_ADC_TM5 is not set
 # CONFIG_QCOM_SPMI_TEMP_ALARM is not set
 # end of Qualcomm thermal drivers
@@ -2721,7 +2598,6 @@ CONFIG_MFD_MAX8925=y
 # CONFIG_MFD_MAX8997 is not set
 # CONFIG_MFD_MAX8998 is not set
 # CONFIG_MFD_MT6360 is not set
-# CONFIG_MFD_MT6370 is not set
 CONFIG_MFD_MT6397=y
 CONFIG_MFD_MENF21BMC=y
 CONFIG_MFD_OCELOT=y
@@ -2736,10 +2612,8 @@ CONFIG_PCF50633_GPIO=y
 # CONFIG_UCB1400_CORE is not set
 CONFIG_MFD_PM8XXX=y
 CONFIG_MFD_SPMI_PMIC=y
-CONFIG_MFD_SY7636A=y
 # CONFIG_MFD_RT4831 is not set
 CONFIG_MFD_RT5033=y
-# CONFIG_MFD_RT5120 is not set
 CONFIG_MFD_RC5T583=y
 CONFIG_MFD_RK808=y
 # CONFIG_MFD_RN5T618 is not set
@@ -2889,8 +2763,6 @@ CONFIG_REGULATOR_MPQ7920=y
 CONFIG_REGULATOR_MT6311=y
 # CONFIG_REGULATOR_MT6315 is not set
 # CONFIG_REGULATOR_MT6323 is not set
-# CONFIG_REGULATOR_MT6331 is not set
-# CONFIG_REGULATOR_MT6332 is not set
 # CONFIG_REGULATOR_MT6358 is not set
 CONFIG_REGULATOR_MT6359=y
 CONFIG_REGULATOR_MT6397=y
@@ -3136,7 +3008,6 @@ CONFIG_SND_SOC_ADI_AXI_SPDIF=y
 CONFIG_SND_SOC_AMD_ACP=y
 CONFIG_SND_SOC_AMD_CZ_RT5645_MACH=y
 # CONFIG_SND_AMD_ACP_CONFIG is not set
-CONFIG_SND_SOC_APPLE_MCA=y
 CONFIG_SND_ATMEL_SOC=y
 CONFIG_SND_ATMEL_SOC_PDC=y
 CONFIG_SND_ATMEL_SOC_DMA=y
@@ -3307,7 +3178,6 @@ CONFIG_SND_SUN8I_CODEC_ANALOG=y
 CONFIG_SND_SUN50I_CODEC_ANALOG=y
 CONFIG_SND_SUN4I_I2S=y
 CONFIG_SND_SUN4I_SPDIF=y
-CONFIG_SND_SUN50I_DMIC=y
 CONFIG_SND_SUN8I_ADDA_PR_REGMAP=y
 # end of Allwinner SoC Audio support
 
@@ -3410,7 +3280,6 @@ CONFIG_SND_SOC_ALC5632=y
 CONFIG_SND_SOC_AW8738=y
 CONFIG_SND_SOC_BD28623=y
 CONFIG_SND_SOC_BT_SCO=y
-CONFIG_SND_SOC_CPCAP=y
 CONFIG_SND_SOC_CROS_EC_CODEC=y
 # CONFIG_SND_SOC_CS35L32 is not set
 CONFIG_SND_SOC_CS35L33=y
@@ -3425,14 +3294,12 @@ CONFIG_SND_SOC_CS35L45_TABLES=y
 CONFIG_SND_SOC_CS35L45=y
 CONFIG_SND_SOC_CS35L45_SPI=y
 # CONFIG_SND_SOC_CS35L45_I2C is not set
-CONFIG_SND_SOC_CS42L42_CORE=y
 CONFIG_SND_SOC_CS42L42=y
 CONFIG_SND_SOC_CS42L51=y
 CONFIG_SND_SOC_CS42L51_I2C=y
 # CONFIG_SND_SOC_CS42L52 is not set
 CONFIG_SND_SOC_CS42L56=y
 # CONFIG_SND_SOC_CS42L73 is not set
-CONFIG_SND_SOC_CS42L83=y
 CONFIG_SND_SOC_CS4234=y
 CONFIG_SND_SOC_CS4265=y
 CONFIG_SND_SOC_CS4270=y
@@ -3457,7 +3324,6 @@ CONFIG_SND_SOC_HDMI_CODEC=y
 CONFIG_SND_SOC_ES7134=y
 CONFIG_SND_SOC_ES7241=y
 # CONFIG_SND_SOC_ES8316 is not set
-CONFIG_SND_SOC_ES8326=y
 CONFIG_SND_SOC_ES8328=y
 CONFIG_SND_SOC_ES8328_I2C=y
 CONFIG_SND_SOC_ES8328_SPI=y
@@ -3523,8 +3389,6 @@ CONFIG_SND_SOC_SGTL5000=y
 CONFIG_SND_SOC_SIMPLE_AMPLIFIER=y
 CONFIG_SND_SOC_SIMPLE_MUX=y
 CONFIG_SND_SOC_SPDIF=y
-CONFIG_SND_SOC_SRC4XXX_I2C=y
-CONFIG_SND_SOC_SRC4XXX=y
 CONFIG_SND_SOC_SSM2305=y
 CONFIG_SND_SOC_SSM2518=y
 CONFIG_SND_SOC_SSM2602=y
@@ -3682,7 +3546,6 @@ CONFIG_HID_KYE=y
 CONFIG_HID_UCLOGIC=y
 # CONFIG_HID_WALTOP is not set
 # CONFIG_HID_VIEWSONIC is not set
-CONFIG_HID_VRC2=y
 CONFIG_HID_XIAOMI=y
 # CONFIG_HID_GYRATION is not set
 CONFIG_HID_ICADE=y
@@ -3722,7 +3585,6 @@ CONFIG_HID_PICOLCD_LEDS=y
 CONFIG_HID_PICOLCD_CIR=y
 # CONFIG_HID_PLANTRONICS is not set
 # CONFIG_HID_PLAYSTATION is not set
-CONFIG_HID_PXRC=y
 CONFIG_HID_RAZER=y
 CONFIG_HID_PRIMAX=y
 CONFIG_HID_RETRODE=y
@@ -3743,7 +3605,6 @@ CONFIG_HID_SMARTJOYPLUS=y
 # CONFIG_SMARTJOYPLUS_FF is not set
 CONFIG_HID_TIVO=y
 CONFIG_HID_TOPSEED=y
-# CONFIG_HID_TOPRE is not set
 CONFIG_HID_THINGM=y
 CONFIG_HID_THRUSTMASTER=y
 # CONFIG_THRUSTMASTER_FF is not set
@@ -4564,7 +4425,6 @@ CONFIG_COMMON_CLK_XGENE=y
 # CONFIG_COMMON_CLK_OXNAS is not set
 CONFIG_COMMON_CLK_RS9_PCIE=y
 CONFIG_COMMON_CLK_VC5=y
-# CONFIG_COMMON_CLK_VC7 is not set
 CONFIG_COMMON_CLK_MMP2_AUDIO=y
 # CONFIG_COMMON_CLK_BD718XX is not set
 # CONFIG_COMMON_CLK_FIXED_MMIO is not set
@@ -4572,7 +4432,6 @@ CONFIG_COMMON_CLK_MMP2_AUDIO=y
 CONFIG_CLK_BAIKAL_T1=y
 CONFIG_CLK_BT1_CCU_PLL=y
 # CONFIG_CLK_BT1_CCU_DIV is not set
-# CONFIG_CLK_BT1_CCU_RST is not set
 CONFIG_CLK_BCM2711_DVP=y
 # CONFIG_CLK_BCM2835 is not set
 CONFIG_CLK_BCM_63XX=y
@@ -4642,11 +4501,6 @@ CONFIG_COMMON_CLK_MT2712_JPGDECSYS=y
 # CONFIG_COMMON_CLK_MT2712_VENCSYS is not set
 # CONFIG_COMMON_CLK_MT6765 is not set
 # CONFIG_COMMON_CLK_MT6779 is not set
-CONFIG_COMMON_CLK_MT6795=y
-CONFIG_COMMON_CLK_MT6795_MFGCFG=y
-# CONFIG_COMMON_CLK_MT6795_MMSYS is not set
-# CONFIG_COMMON_CLK_MT6795_VDECSYS is not set
-CONFIG_COMMON_CLK_MT6795_VENCSYS=y
 CONFIG_COMMON_CLK_MT6797=y
 # CONFIG_COMMON_CLK_MT6797_MMSYS is not set
 CONFIG_COMMON_CLK_MT6797_IMGSYS=y
@@ -4670,13 +4524,6 @@ CONFIG_COMMON_CLK_MT8173_MMSYS=y
 # CONFIG_COMMON_CLK_MT8186 is not set
 # CONFIG_COMMON_CLK_MT8192 is not set
 # CONFIG_COMMON_CLK_MT8195 is not set
-CONFIG_COMMON_CLK_MT8365=y
-CONFIG_COMMON_CLK_MT8365_APU=y
-CONFIG_COMMON_CLK_MT8365_CAM=y
-CONFIG_COMMON_CLK_MT8365_MFG=y
-CONFIG_COMMON_CLK_MT8365_MMSYS=y
-CONFIG_COMMON_CLK_MT8365_VDEC=y
-CONFIG_COMMON_CLK_MT8365_VENC=y
 CONFIG_COMMON_CLK_MT8516=y
 CONFIG_COMMON_CLK_MT8516_AUDSYS=y
 # end of Clock driver for MediaTek SoC
@@ -4711,7 +4558,6 @@ CONFIG_IPQ_GCC_806X=y
 # CONFIG_IPQ_LCC_806X is not set
 CONFIG_IPQ_GCC_8074=y
 # CONFIG_MSM_GCC_8660 is not set
-CONFIG_MSM_GCC_8909=y
 CONFIG_MSM_GCC_8916=y
 # CONFIG_MSM_GCC_8939 is not set
 CONFIG_MSM_GCC_8960=y
@@ -4744,7 +4590,6 @@ CONFIG_SC_GCC_7280=y
 CONFIG_SC_GCC_8280XP=y
 CONFIG_SC_GPUCC_7180=y
 CONFIG_SC_GPUCC_7280=y
-CONFIG_SC_GPUCC_8280XP=y
 CONFIG_SC_LPASSCC_7280=y
 CONFIG_SC_LPASS_CORECC_7180=y
 # CONFIG_SC_LPASS_CORECC_7280 is not set
@@ -4766,15 +4611,12 @@ CONFIG_SDX_GCC_55=y
 CONFIG_SDX_GCC_65=y
 # CONFIG_SM_CAMCC_8250 is not set
 CONFIG_SM_CAMCC_8450=y
-CONFIG_SM_DISPCC_6115=y
 CONFIG_SM_DISPCC_6125=y
 CONFIG_SM_DISPCC_8250=y
 CONFIG_SM_DISPCC_6350=y
-CONFIG_SM_DISPCC_8450=y
 CONFIG_SM_GCC_6115=y
 CONFIG_SM_GCC_6125=y
 CONFIG_SM_GCC_6350=y
-CONFIG_SM_GCC_6375=y
 CONFIG_SM_GCC_8150=y
 CONFIG_SM_GCC_8250=y
 CONFIG_SM_GCC_8350=y
@@ -4848,7 +4690,6 @@ CONFIG_SUN8I_R_CCU=y
 CONFIG_COMMON_CLK_VISCONTI=y
 CONFIG_CLK_LGM_CGU=y
 # CONFIG_XILINX_VCU is not set
-CONFIG_COMMON_CLK_XLNX_CLKWZRD=y
 # CONFIG_COMMON_CLK_ZYNQMP is not set
 CONFIG_CLK_KUNIT_TEST=y
 CONFIG_CLK_GATE_KUNIT_TEST=y
@@ -5019,7 +4860,6 @@ CONFIG_DPAA2_CONSOLE=y
 #
 # CONFIG_IMX_GPCV2_PM_DOMAINS is not set
 CONFIG_SOC_IMX8M=y
-# CONFIG_SOC_IMX9 is not set
 # end of i.MX SoC drivers
 
 #
@@ -5046,7 +4886,6 @@ CONFIG_MTK_DEVAPC=y
 # CONFIG_MTK_SCPSYS is not set
 CONFIG_MTK_SCPSYS_PM_DOMAINS=y
 # CONFIG_MTK_MMSYS is not set
-# CONFIG_MTK_SVS is not set
 # end of MediaTek SoC drivers
 
 #
@@ -5126,6 +4965,7 @@ CONFIG_EXTCON_RT8973A=y
 CONFIG_EXTCON_SM5502=y
 # CONFIG_EXTCON_USB_GPIO is not set
 # CONFIG_EXTCON_USBC_CROS_EC is not set
+# CONFIG_EXTCON_USBC_TUSB320 is not set
 # CONFIG_MEMORY is not set
 CONFIG_IIO=y
 CONFIG_IIO_BUFFER=y
@@ -5192,7 +5032,6 @@ CONFIG_MMA8452=y
 CONFIG_MMA9551_CORE=y
 # CONFIG_MMA9551 is not set
 CONFIG_MMA9553=y
-CONFIG_MSA311=y
 CONFIG_MXC4005=y
 CONFIG_MXC6255=y
 CONFIG_SCA3000=y
@@ -5255,7 +5094,6 @@ CONFIG_LTC2497=y
 CONFIG_MAX1027=y
 CONFIG_MAX11100=y
 CONFIG_MAX1118=y
-# CONFIG_MAX11205 is not set
 # CONFIG_MAX1241 is not set
 # CONFIG_MAX1363 is not set
 CONFIG_MAX9611=y
@@ -5276,7 +5114,6 @@ CONFIG_QCOM_SPMI_IADC=y
 CONFIG_QCOM_SPMI_ADC5=y
 # CONFIG_RCAR_GYRO_ADC is not set
 CONFIG_ROCKCHIP_SARADC=y
-# CONFIG_RICHTEK_RTQ6056 is not set
 # CONFIG_RZG2L_ADC is not set
 CONFIG_SC27XX_ADC=y
 CONFIG_SPEAR_ADC=y
@@ -5333,7 +5170,6 @@ CONFIG_HMC425=y
 # Capacitance to digital converters
 #
 # CONFIG_AD7150 is not set
-# CONFIG_AD7746 is not set
 # end of Capacitance to digital converters
 
 #
@@ -5524,9 +5360,6 @@ CONFIG_ADIS16480=y
 CONFIG_BMI160=y
 # CONFIG_BMI160_I2C is not set
 CONFIG_BMI160_SPI=y
-CONFIG_BOSCH_BNO055=y
-CONFIG_BOSCH_BNO055_SERIAL=y
-CONFIG_BOSCH_BNO055_I2C=y
 CONFIG_FXOS8700=y
 CONFIG_FXOS8700_I2C=y
 CONFIG_FXOS8700_SPI=y
@@ -5573,7 +5406,6 @@ CONFIG_ISL29125=y
 # CONFIG_JSA1212 is not set
 CONFIG_RPR0521=y
 CONFIG_LTR501=y
-CONFIG_LTRF216A=y
 CONFIG_LV0104CS=y
 CONFIG_MAX44000=y
 # CONFIG_MAX44009 is not set
@@ -5834,7 +5666,6 @@ CONFIG_RENESAS_RZG2L_IRQC=y
 # CONFIG_MESON_IRQ_GPIO is not set
 CONFIG_IMX_IRQSTEER=y
 CONFIG_IMX_INTMUX=y
-CONFIG_IMX_MU_MSI=y
 CONFIG_EXYNOS_IRQ_COMBINER=y
 # CONFIG_MST_IRQ is not set
 # CONFIG_MCHP_EIC is not set
@@ -5862,7 +5693,6 @@ CONFIG_RESET_MESON=y
 # CONFIG_RESET_MESON_AUDIO_ARB is not set
 # CONFIG_RESET_NPCM is not set
 CONFIG_RESET_PISTACHIO=y
-CONFIG_RESET_POLARFIRE_SOC=y
 CONFIG_RESET_QCOM_AOSS=y
 CONFIG_RESET_QCOM_PDC=y
 CONFIG_RESET_RASPBERRYPI=y
@@ -5984,7 +5814,6 @@ CONFIG_PHY_ROCKCHIP_INNO_USB2=y
 CONFIG_PHY_ROCKCHIP_INNO_CSIDPHY=y
 CONFIG_PHY_ROCKCHIP_INNO_DSIDPHY=y
 # CONFIG_PHY_ROCKCHIP_PCIE is not set
-# CONFIG_PHY_ROCKCHIP_SNPS_PCIE3 is not set
 CONFIG_PHY_ROCKCHIP_TYPEC=y
 # CONFIG_PHY_EXYNOS_DP_VIDEO is not set
 CONFIG_PHY_EXYNOS_MIPI_VIDEO=y
@@ -6000,7 +5829,6 @@ CONFIG_PHY_ST_SPEAR1310_MIPHY=y
 # CONFIG_PHY_ST_SPEAR1340_MIPHY is not set
 CONFIG_PHY_STIH407_USB=y
 CONFIG_PHY_STM32_USBPHYC=y
-CONFIG_PHY_SUNPLUS_USB=y
 # CONFIG_PHY_TEGRA194_P2U is not set
 CONFIG_PHY_DA8XX_USB=y
 CONFIG_PHY_DM816X_USB=y
@@ -6031,34 +5859,33 @@ CONFIG_MCB_LPC=y
 # CONFIG_DAX is not set
 CONFIG_NVMEM=y
 CONFIG_NVMEM_SYSFS=y
-# CONFIG_NVMEM_APPLE_EFUSES is not set
-CONFIG_NVMEM_BCM_OCOTP=y
-CONFIG_NVMEM_BRCM_NVRAM=y
 CONFIG_NVMEM_IMX_IIM=y
 CONFIG_NVMEM_IMX_OCOTP=y
-CONFIG_NVMEM_JZ4780_EFUSE=y
-CONFIG_NVMEM_LAN9662_OTPC=y
-CONFIG_NVMEM_LAYERSCAPE_SFP=y
+# CONFIG_JZ4780_EFUSE is not set
 CONFIG_NVMEM_LPC18XX_EEPROM=y
 CONFIG_NVMEM_LPC18XX_OTP=y
-CONFIG_NVMEM_MESON_MX_EFUSE=y
-# CONFIG_NVMEM_MICROCHIP_OTPC is not set
-CONFIG_NVMEM_MTK_EFUSE=y
 CONFIG_NVMEM_MXS_OCOTP=y
+# CONFIG_MTK_EFUSE is not set
+# CONFIG_MICROCHIP_OTPC is not set
 CONFIG_NVMEM_NINTENDO_OTP=y
-CONFIG_NVMEM_QCOM_QFPROM=y
-CONFIG_NVMEM_RAVE_SP_EEPROM=y
-# CONFIG_NVMEM_RMEM is not set
-CONFIG_NVMEM_ROCKCHIP_EFUSE=y
-CONFIG_NVMEM_ROCKCHIP_OTP=y
-# CONFIG_NVMEM_SC27XX_EFUSE is not set
-CONFIG_NVMEM_SNVS_LPGPR=y
+# CONFIG_QCOM_QFPROM is not set
 # CONFIG_NVMEM_SPMI_SDAM is not set
-CONFIG_NVMEM_SPRD_EFUSE=y
+# CONFIG_ROCKCHIP_EFUSE is not set
+# CONFIG_ROCKCHIP_OTP is not set
+CONFIG_NVMEM_BCM_OCOTP=y
 CONFIG_NVMEM_STM32_ROMEM=y
-CONFIG_NVMEM_SUNPLUS_OCOTP=y
-# CONFIG_NVMEM_UNIPHIER_EFUSE is not set
+# CONFIG_UNIPHIER_EFUSE is not set
 CONFIG_NVMEM_VF610_OCOTP=y
+# CONFIG_MESON_MX_EFUSE is not set
+CONFIG_NVMEM_SNVS_LPGPR=y
+# CONFIG_RAVE_SP_EEPROM is not set
+# CONFIG_SC27XX_EFUSE is not set
+# CONFIG_SPRD_EFUSE is not set
+# CONFIG_NVMEM_RMEM is not set
+CONFIG_NVMEM_BRCM_NVRAM=y
+CONFIG_NVMEM_LAYERSCAPE_SFP=y
+CONFIG_NVMEM_SUNPLUS_OCOTP=y
+# CONFIG_NVMEM_APPLE_EFUSES is not set
 
 #
 # HW tracing support
@@ -6224,6 +6051,7 @@ CONFIG_NTFS3_FS_POSIX_ACL=y
 # Pseudo filesystems
 #
 # CONFIG_PROC_FS is not set
+# CONFIG_PROC_CHILDREN is not set
 CONFIG_KERNFS=y
 CONFIG_SYSFS=y
 CONFIG_CONFIGFS_FS=y
@@ -6331,7 +6159,6 @@ CONFIG_LSM="landlock,lockdown,yama,loadpin,safesetid,integrity,bpf"
 # Memory initialization
 #
 CONFIG_CC_HAS_AUTO_VAR_INIT_PATTERN=y
-CONFIG_CC_HAS_AUTO_VAR_INIT_ZERO_BARE=y
 CONFIG_CC_HAS_AUTO_VAR_INIT_ZERO=y
 # CONFIG_INIT_STACK_NONE is not set
 CONFIG_INIT_STACK_ALL_PATTERN=y
@@ -6387,7 +6214,6 @@ CONFIG_CRYPTO_NULL2=y
 CONFIG_CRYPTO_AUTHENC=y
 # CONFIG_CRYPTO_TEST is not set
 CONFIG_CRYPTO_ENGINE=y
-# end of Crypto core or helper
 
 #
 # Public-key cryptography
@@ -6401,72 +6227,59 @@ CONFIG_CRYPTO_ECDSA=y
 CONFIG_CRYPTO_ECRDSA=y
 CONFIG_CRYPTO_SM2=y
 CONFIG_CRYPTO_CURVE25519=y
-# end of Public-key cryptography
 
 #
-# Block ciphers
+# Authenticated Encryption with Associated Data
 #
-CONFIG_CRYPTO_AES=y
-CONFIG_CRYPTO_AES_TI=y
-# CONFIG_CRYPTO_ARIA is not set
-CONFIG_CRYPTO_BLOWFISH=y
-CONFIG_CRYPTO_BLOWFISH_COMMON=y
-CONFIG_CRYPTO_CAMELLIA=y
-CONFIG_CRYPTO_CAST_COMMON=y
-# CONFIG_CRYPTO_CAST5 is not set
-CONFIG_CRYPTO_CAST6=y
-CONFIG_CRYPTO_DES=y
-# CONFIG_CRYPTO_FCRYPT is not set
-CONFIG_CRYPTO_SERPENT=y
-# CONFIG_CRYPTO_SM4_GENERIC is not set
-CONFIG_CRYPTO_TWOFISH=y
-CONFIG_CRYPTO_TWOFISH_COMMON=y
-# end of Block ciphers
+CONFIG_CRYPTO_CCM=y
+# CONFIG_CRYPTO_GCM is not set
+CONFIG_CRYPTO_CHACHA20POLY1305=y
+CONFIG_CRYPTO_AEGIS128=y
+CONFIG_CRYPTO_SEQIV=y
+CONFIG_CRYPTO_ECHAINIV=y
 
 #
-# Length-preserving ciphers and modes
+# Block modes
 #
-CONFIG_CRYPTO_ADIANTUM=y
-CONFIG_CRYPTO_CHACHA20=y
 CONFIG_CRYPTO_CBC=y
 CONFIG_CRYPTO_CFB=y
 CONFIG_CRYPTO_CTR=y
 CONFIG_CRYPTO_CTS=y
 CONFIG_CRYPTO_ECB=y
-CONFIG_CRYPTO_HCTR2=y
-CONFIG_CRYPTO_KEYWRAP=y
 CONFIG_CRYPTO_LRW=y
 CONFIG_CRYPTO_OFB=y
 CONFIG_CRYPTO_PCBC=y
 CONFIG_CRYPTO_XCTR=y
 CONFIG_CRYPTO_XTS=y
+CONFIG_CRYPTO_KEYWRAP=y
 CONFIG_CRYPTO_NHPOLY1305=y
-# end of Length-preserving ciphers and modes
-
-#
-# AEAD (authenticated encryption with associated data) ciphers
-#
-CONFIG_CRYPTO_AEGIS128=y
-CONFIG_CRYPTO_CHACHA20POLY1305=y
-CONFIG_CRYPTO_CCM=y
-# CONFIG_CRYPTO_GCM is not set
-CONFIG_CRYPTO_SEQIV=y
-CONFIG_CRYPTO_ECHAINIV=y
+CONFIG_CRYPTO_ADIANTUM=y
+CONFIG_CRYPTO_HCTR2=y
 CONFIG_CRYPTO_ESSIV=y
-# end of AEAD (authenticated encryption with associated data) ciphers
 
 #
-# Hashes, digests, and MACs
+# Hash modes
 #
-CONFIG_CRYPTO_BLAKE2B=y
 # CONFIG_CRYPTO_CMAC is not set
-# CONFIG_CRYPTO_GHASH is not set
 CONFIG_CRYPTO_HMAC=y
+CONFIG_CRYPTO_XCBC=y
+CONFIG_CRYPTO_VMAC=y
+
+#
+# Digest
+#
+CONFIG_CRYPTO_CRC32C=y
+CONFIG_CRYPTO_CRC32=y
+# CONFIG_CRYPTO_XXHASH is not set
+CONFIG_CRYPTO_BLAKE2B=y
+CONFIG_CRYPTO_CRCT10DIF=y
+CONFIG_CRYPTO_CRC64_ROCKSOFT=y
+# CONFIG_CRYPTO_GHASH is not set
+CONFIG_CRYPTO_POLYVAL=y
+CONFIG_CRYPTO_POLY1305=y
 # CONFIG_CRYPTO_MD4 is not set
 CONFIG_CRYPTO_MD5=y
 CONFIG_CRYPTO_MICHAEL_MIC=y
-CONFIG_CRYPTO_POLYVAL=y
-CONFIG_CRYPTO_POLY1305=y
 # CONFIG_CRYPTO_RMD160 is not set
 CONFIG_CRYPTO_SHA1=y
 CONFIG_CRYPTO_SHA256=y
@@ -6475,20 +6288,27 @@ CONFIG_CRYPTO_SHA3=y
 CONFIG_CRYPTO_SM3=y
 CONFIG_CRYPTO_SM3_GENERIC=y
 CONFIG_CRYPTO_STREEBOG=y
-CONFIG_CRYPTO_VMAC=y
 CONFIG_CRYPTO_WP512=y
-CONFIG_CRYPTO_XCBC=y
-# CONFIG_CRYPTO_XXHASH is not set
-# end of Hashes, digests, and MACs
 
 #
-# CRCs (cyclic redundancy checks)
+# Ciphers
 #
-CONFIG_CRYPTO_CRC32C=y
-CONFIG_CRYPTO_CRC32=y
-CONFIG_CRYPTO_CRCT10DIF=y
-CONFIG_CRYPTO_CRC64_ROCKSOFT=y
-# end of CRCs (cyclic redundancy checks)
+CONFIG_CRYPTO_AES=y
+CONFIG_CRYPTO_AES_TI=y
+CONFIG_CRYPTO_BLOWFISH=y
+CONFIG_CRYPTO_BLOWFISH_COMMON=y
+CONFIG_CRYPTO_CAMELLIA=y
+CONFIG_CRYPTO_CAST_COMMON=y
+# CONFIG_CRYPTO_CAST5 is not set
+CONFIG_CRYPTO_CAST6=y
+CONFIG_CRYPTO_DES=y
+# CONFIG_CRYPTO_FCRYPT is not set
+CONFIG_CRYPTO_CHACHA20=y
+# CONFIG_CRYPTO_ARIA is not set
+CONFIG_CRYPTO_SERPENT=y
+# CONFIG_CRYPTO_SM4_GENERIC is not set
+CONFIG_CRYPTO_TWOFISH=y
+CONFIG_CRYPTO_TWOFISH_COMMON=y
 
 #
 # Compression
@@ -6499,10 +6319,9 @@ CONFIG_CRYPTO_842=y
 CONFIG_CRYPTO_LZ4=y
 CONFIG_CRYPTO_LZ4HC=y
 CONFIG_CRYPTO_ZSTD=y
-# end of Compression
 
 #
-# Random number generation
+# Random Number Generation
 #
 CONFIG_CRYPTO_ANSI_CPRNG=y
 CONFIG_CRYPTO_DRBG_MENU=y
@@ -6512,25 +6331,7 @@ CONFIG_CRYPTO_DRBG_CTR=y
 CONFIG_CRYPTO_DRBG=y
 CONFIG_CRYPTO_JITTERENTROPY=y
 CONFIG_CRYPTO_KDF800108_CTR=y
-# end of Random number generation
-
-#
-# Userspace interface
-#
-# end of Userspace interface
-
 CONFIG_CRYPTO_HASH_INFO=y
-
-#
-# Accelerated Cryptographic Algorithms for CPU (arm)
-#
-# CONFIG_CRYPTO_POLY1305_ARM is not set
-# CONFIG_CRYPTO_BLAKE2S_ARM is not set
-CONFIG_CRYPTO_SHA1_ARM=y
-CONFIG_CRYPTO_AES_ARM=y
-CONFIG_CRYPTO_CHACHA20_NEON=y
-# end of Accelerated Cryptographic Algorithms for CPU (arm)
-
 CONFIG_CRYPTO_HW=y
 CONFIG_CRYPTO_DEV_ALLWINNER=y
 CONFIG_CRYPTO_DEV_SUN8I_CE=y
@@ -6579,10 +6380,6 @@ CONFIG_CRYPTO_DEV_KEEMBAY_OCS_AES_SM4_ECB=y
 # CONFIG_CRYPTO_DEV_KEEMBAY_OCS_AES_SM4_CTS is not set
 CONFIG_CRYPTO_DEV_KEEMBAY_OCS_ECC=y
 # CONFIG_CRYPTO_DEV_KEEMBAY_OCS_HCU is not set
-CONFIG_CRYPTO_DEV_ASPEED=y
-# CONFIG_CRYPTO_DEV_ASPEED_DEBUG is not set
-# CONFIG_CRYPTO_DEV_ASPEED_HACE_HASH is not set
-CONFIG_CRYPTO_DEV_ASPEED_HACE_CRYPTO=y
 CONFIG_ASYMMETRIC_KEY_TYPE=y
 CONFIG_ASYMMETRIC_PUBLIC_KEY_SUBTYPE=y
 CONFIG_X509_CERTIFICATE_PARSER=y
@@ -6626,10 +6423,8 @@ CONFIG_ARCH_USE_CMPXCHG_LOCKREF=y
 #
 # Crypto library routines
 #
-CONFIG_CRYPTO_LIB_UTILS=y
 CONFIG_CRYPTO_LIB_AES=y
 CONFIG_CRYPTO_LIB_BLAKE2S_GENERIC=y
-CONFIG_CRYPTO_ARCH_HAVE_LIB_CHACHA=y
 CONFIG_CRYPTO_LIB_CHACHA_GENERIC=y
 CONFIG_CRYPTO_LIB_CHACHA=y
 CONFIG_CRYPTO_LIB_CURVE25519_GENERIC=y
@@ -6643,6 +6438,7 @@ CONFIG_CRYPTO_LIB_SHA1=y
 CONFIG_CRYPTO_LIB_SHA256=y
 # end of Crypto library routines
 
+CONFIG_LIB_MEMNEQ=y
 CONFIG_CRC_CCITT=y
 CONFIG_CRC16=y
 CONFIG_CRC_T10DIF=y
@@ -6670,7 +6466,6 @@ CONFIG_LZO_DECOMPRESS=y
 CONFIG_LZ4_COMPRESS=y
 CONFIG_LZ4HC_COMPRESS=y
 CONFIG_LZ4_DECOMPRESS=y
-CONFIG_ZSTD_COMMON=y
 CONFIG_ZSTD_COMPRESS=y
 CONFIG_ZSTD_DECOMPRESS=y
 CONFIG_XZ_DEC=y
@@ -6711,6 +6506,7 @@ CONFIG_LIBFDT=y
 CONFIG_OID_REGISTRY=y
 CONFIG_SG_SPLIT=y
 CONFIG_SG_POOL=y
+CONFIG_ARCH_NO_SG_CHAIN=y
 CONFIG_STACKDEPOT=y
 CONFIG_SBITMAP=y
 # CONFIG_PARMAN is not set
@@ -6747,7 +6543,6 @@ CONFIG_DEBUG_KERNEL=y
 # Compile-time checks and compiler options
 #
 CONFIG_DEBUG_INFO=y
-CONFIG_AS_HAS_NON_CONST_LEB128=y
 # CONFIG_DEBUG_INFO_NONE is not set
 # CONFIG_DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT is not set
 CONFIG_DEBUG_INFO_DWARF4=y
@@ -6789,6 +6584,8 @@ CONFIG_HAVE_KCSAN_COMPILER=y
 #
 # Networking Debugging
 #
+# CONFIG_NET_DEV_REFCNT_TRACKER is not set
+# CONFIG_NET_NS_REFCNT_TRACKER is not set
 # end of Networking Debugging
 
 #
@@ -6864,7 +6661,6 @@ CONFIG_DEBUG_PLIST=y
 # CONFIG_DEBUG_SG is not set
 CONFIG_DEBUG_NOTIFIERS=y
 CONFIG_BUG_ON_DATA_CORRUPTION=y
-CONFIG_DEBUG_MAPLE_TREE=y
 # end of Debug kernel data structures
 
 CONFIG_DEBUG_CREDENTIALS=y
@@ -6911,7 +6707,6 @@ CONFIG_KUNIT_DEBUGFS=y
 CONFIG_KUNIT_TEST=y
 CONFIG_KUNIT_EXAMPLE_TEST=y
 CONFIG_KUNIT_ALL_TESTS=y
-CONFIG_KUNIT_DEFAULT_ENABLED=y
 # CONFIG_NOTIFIER_ERROR_INJECTION is not set
 # CONFIG_FAULT_INJECTION is not set
 CONFIG_ARCH_HAS_KCOV=y
@@ -6925,13 +6720,8 @@ CONFIG_ARCH_USE_MEMTEST=y
 CONFIG_MEMTEST=y
 # end of Kernel Testing and Coverage
 
-#
-# Rust hacking
-#
-# end of Rust hacking
-
 # CONFIG_WARN_MISSING_DOCUMENTS is not set
 # CONFIG_WARN_ABI_ERRORS is not set
 # end of Kernel hacking
 
---2KWVSjzT9hpfHpR1--
+--PtUyvrTzP6RZRJC7--
