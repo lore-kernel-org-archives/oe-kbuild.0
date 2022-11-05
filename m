@@ -1,68 +1,84 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB9F41FBE
-	for <oe-kbuild@lists.linux.dev>; Sat,  5 Nov 2022 12:09:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF61F7C
+	for <oe-kbuild@lists.linux.dev>; Sat,  5 Nov 2022 13:00:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1667650170; x=1699186170;
+  t=1667653232; x=1699189232;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=S0gKpIJPE9Wsoy+uluREBeAEupV3TaPZFCFyErXVeHQ=;
-  b=E6kY7zMz+WCtCsjdwOCfasY7F1xYdvKoS0VAaHEoCEprEek3QE4Fe2Ye
-   yzDU4QfEn0LHezFuWBlYc1/IX1UWqSnKAMfyvLAIprqOSxCuzHUG8Xves
-   +faEmySD2WH/l9HoIPPlNxQXdt6W0MZfWOhMxFJuXHFYmycnaVPJwUbg7
-   mMTO8FzaCrhao0Nae+bm2qPA+boHfvFujWnfTe9daRz0YtMrpE3VOUs35
-   fEv//yUCmIz9DvG9+YuZUf+7/VOgpZSL4eYpr5RkDB5aCv0KdovxREaZG
-   lefC4axarT9sJErt5fqUB3CrUEkWNx9gwmQwFH0BgcViU7kJH1OdapXUK
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10521"; a="336878559"
+  bh=ypXoUJft/EHdW0UfnI10nN/SaFSSq3vaP8ethtm96Us=;
+  b=g2aKiXMftKxRrInR1ulBEiRZLUacrWiyrED9yiiJ6R0iqJQbDMjMo4/I
+   uEZx2vXFe53GY2thiGrtELfnq/sBFSB2Od/GXoon0qYTyYja/qpQV3lbU
+   nJayzhvuYEymkEFy164dz9WNaXqEUUX0nRfKGtaRimtj3fsFCw/eC0Vhr
+   a9hM1AYJQSYYI2IUQAg/ROy6DtDbKczSBMJUl1qovNiMPOFBzGjG21uZl
+   FghMqi/VmaXkU3Bh1gI9vQzXmLJGXDCESohNE6EQxGVkxcxZn5Hg8TM5V
+   BlPzyYmT98l2Ia7haZilXBPJ8l8CO55yUJ23Gpu8eSKEhpmXLWTf8CCHR
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10521"; a="374410955"
 X-IronPort-AV: E=Sophos;i="5.96,140,1665471600"; 
-   d="scan'208";a="336878559"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2022 05:09:30 -0700
+   d="scan'208";a="374410955"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2022 06:00:32 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10521"; a="698961945"
+X-IronPort-AV: E=McAfee;i="6500,9779,10521"; a="586478704"
 X-IronPort-AV: E=Sophos;i="5.96,140,1665471600"; 
-   d="scan'208";a="698961945"
+   d="scan'208";a="586478704"
 Received: from lkp-server02.sh.intel.com (HELO b6d29c1a0365) ([10.239.97.151])
-  by fmsmga008.fm.intel.com with ESMTP; 05 Nov 2022 05:09:28 -0700
+  by orsmga003.jf.intel.com with ESMTP; 05 Nov 2022 06:00:29 -0700
 Received: from kbuild by b6d29c1a0365 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1orHzL-000Hyb-2k;
-	Sat, 05 Nov 2022 12:09:27 +0000
-Date: Sat, 5 Nov 2022 20:09:20 +0800
+	id 1orImj-000I0v-0X;
+	Sat, 05 Nov 2022 13:00:29 +0000
+Date: Sat, 5 Nov 2022 20:59:49 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [linux-next:master 3607/5429]
- drivers/input/touchscreen/hynitron_cstxxx.c:238 cst3xx_bootloader_enter()
- error: uninitialized symbol 'tmp'.
-Message-ID: <202211052019.pSOxVpLn-lkp@intel.com>
+Subject: Re: [PATCH v6 03/35] scsi: Add struct for args to execution functions
+Message-ID: <202211052038.yIecsAqS-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="EMOKi9gTuHIcwxVO"
+Content-Type: multipart/mixed; boundary="QADyb35tpgyEZSR+"
 Content-Disposition: inline
 
 
---EMOKi9gTuHIcwxVO
+--QADyb35tpgyEZSR+
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Chris Morgan <macromorgan@hotmail.com>
-CC: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+In-Reply-To: <20221104231927.9613-4-michael.christie@oracle.com>
+References: <20221104231927.9613-4-michael.christie@oracle.com>
+TO: Mike Christie <michael.christie@oracle.com>
+TO: bvanassche@acm.org
+TO: mwilck@suse.com
+TO: hch@lst.de
+TO: martin.petersen@oracle.com
+TO: linux-scsi@vger.kernel.org
+TO: james.bottomley@hansenpartnership.com
+CC: Mike Christie <michael.christie@oracle.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   0cdb3579f1ee4c1e55acf8dfb0697b660067b1f8
-commit: 66603243f5283f7f28c795f09e7c2167233df0bd [3607/5429] Input: add driver for Hynitron cstxxx touchscreens
-:::::: branch date: 31 hours ago
-:::::: commit date: 6 days ago
+Hi Mike,
+
+I love your patch! Perhaps something to improve:
+
+[auto build test WARNING on mkp-scsi/for-next]
+[also build test WARNING on jejb-scsi/for-next groeck-staging/hwmon-next linus/master v6.1-rc3 next-20221104]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Mike-Christie/Allow-scsi_execute-users-to-control-retries/20221105-072653
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/mkp/scsi.git for-next
+patch link:    https://lore.kernel.org/r/20221104231927.9613-4-michael.christie%40oracle.com
+patch subject: [PATCH v6 03/35] scsi: Add struct for args to execution functions
+:::::: branch date: 13 hours ago
+:::::: commit date: 13 hours ago
 config: ia64-randconfig-m031-20221104
 compiler: ia64-linux-gcc (GCC) 12.1.0
 
@@ -71,57 +87,230 @@ If you fix the issue, kindly add following tag where applicable
 | Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 smatch warnings:
-drivers/input/touchscreen/hynitron_cstxxx.c:238 cst3xx_bootloader_enter() error: uninitialized symbol 'tmp'.
+drivers/scsi/scsi_scan.c:707 scsi_probe_lun() error: uninitialized symbol 'resid'.
 
-vim +/tmp +238 drivers/input/touchscreen/hynitron_cstxxx.c
+vim +/resid +707 drivers/scsi/scsi_scan.c
 
-66603243f5283f Chris Morgan 2022-10-28  208  
-66603243f5283f Chris Morgan 2022-10-28  209  static int cst3xx_bootloader_enter(struct i2c_client *client)
-66603243f5283f Chris Morgan 2022-10-28  210  {
-66603243f5283f Chris Morgan 2022-10-28  211  	int err;
-66603243f5283f Chris Morgan 2022-10-28  212  	u8 retry;
-66603243f5283f Chris Morgan 2022-10-28  213  	u32 tmp;
-66603243f5283f Chris Morgan 2022-10-28  214  	unsigned char buf[3];
-66603243f5283f Chris Morgan 2022-10-28  215  
-66603243f5283f Chris Morgan 2022-10-28  216  	for (retry = 0; retry < 5; retry++) {
-66603243f5283f Chris Morgan 2022-10-28  217  		hyn_reset_proc(client, (7 + retry));
-66603243f5283f Chris Morgan 2022-10-28  218  		/* set cmd to enter program mode */
-66603243f5283f Chris Morgan 2022-10-28  219  		put_unaligned_le24(CST3XX_BOOTLDR_PROG_CMD, buf);
-66603243f5283f Chris Morgan 2022-10-28  220  		err = cst3xx_i2c_write(client, buf, 3);
-66603243f5283f Chris Morgan 2022-10-28  221  		if (err)
-66603243f5283f Chris Morgan 2022-10-28  222  			continue;
-66603243f5283f Chris Morgan 2022-10-28  223  
-66603243f5283f Chris Morgan 2022-10-28  224  		usleep_range(2000, 2500);
-66603243f5283f Chris Morgan 2022-10-28  225  
-66603243f5283f Chris Morgan 2022-10-28  226  		/* check whether in program mode */
-66603243f5283f Chris Morgan 2022-10-28  227  		err = cst3xx_i2c_read_register(client,
-66603243f5283f Chris Morgan 2022-10-28  228  					       CST3XX_BOOTLDR_PROG_CHK_REG,
-66603243f5283f Chris Morgan 2022-10-28  229  					       buf, 1);
-66603243f5283f Chris Morgan 2022-10-28  230  		if (err)
-66603243f5283f Chris Morgan 2022-10-28  231  			continue;
-66603243f5283f Chris Morgan 2022-10-28  232  
-66603243f5283f Chris Morgan 2022-10-28  233  		tmp = get_unaligned(buf);
-66603243f5283f Chris Morgan 2022-10-28  234  		if (tmp == CST3XX_BOOTLDR_CHK_VAL)
-66603243f5283f Chris Morgan 2022-10-28  235  			break;
-66603243f5283f Chris Morgan 2022-10-28  236  	}
-66603243f5283f Chris Morgan 2022-10-28  237  
-66603243f5283f Chris Morgan 2022-10-28 @238  	if (tmp != CST3XX_BOOTLDR_CHK_VAL) {
-66603243f5283f Chris Morgan 2022-10-28  239  		dev_err(&client->dev, "%s unable to enter bootloader mode\n",
-66603243f5283f Chris Morgan 2022-10-28  240  			__func__);
-66603243f5283f Chris Morgan 2022-10-28  241  		return -ENODEV;
-66603243f5283f Chris Morgan 2022-10-28  242  	}
-66603243f5283f Chris Morgan 2022-10-28  243  
-66603243f5283f Chris Morgan 2022-10-28  244  	hyn_reset_proc(client, 40);
-66603243f5283f Chris Morgan 2022-10-28  245  
-66603243f5283f Chris Morgan 2022-10-28  246  	return 0;
-66603243f5283f Chris Morgan 2022-10-28  247  }
-66603243f5283f Chris Morgan 2022-10-28  248  
+e5b3cd42960a10 Alan Stern         2006-08-21  629  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  630  /**
+^1da177e4c3f41 Linus Torvalds     2005-04-16  631   * scsi_probe_lun - probe a single LUN using a SCSI INQUIRY
+392160335c798b James Bottomley    2005-06-15  632   * @sdev:	scsi_device to probe
+^1da177e4c3f41 Linus Torvalds     2005-04-16  633   * @inq_result:	area to store the INQUIRY result
+392160335c798b James Bottomley    2005-06-15  634   * @result_len: len of inq_result
+^1da177e4c3f41 Linus Torvalds     2005-04-16  635   * @bflags:	store any bflags found here
+^1da177e4c3f41 Linus Torvalds     2005-04-16  636   *
+^1da177e4c3f41 Linus Torvalds     2005-04-16  637   * Description:
+392160335c798b James Bottomley    2005-06-15  638   *     Probe the lun associated with @req using a standard SCSI INQUIRY;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  639   *
+392160335c798b James Bottomley    2005-06-15  640   *     If the INQUIRY is successful, zero is returned and the
+^1da177e4c3f41 Linus Torvalds     2005-04-16  641   *     INQUIRY data is in @inq_result; the scsi_level and INQUIRY length
+f64a181d898e05 Christoph Hellwig  2005-10-31  642   *     are copied to the scsi_device any flags value is stored in *@bflags.
+^1da177e4c3f41 Linus Torvalds     2005-04-16  643   **/
+e5b3cd42960a10 Alan Stern         2006-08-21  644  static int scsi_probe_lun(struct scsi_device *sdev, unsigned char *inq_result,
+5ebde4694e3b57 Hannes Reinecke    2017-11-15  645  			  int result_len, blist_flags_t *bflags)
+^1da177e4c3f41 Linus Torvalds     2005-04-16  646  {
+^1da177e4c3f41 Linus Torvalds     2005-04-16  647  	unsigned char scsi_cmd[MAX_COMMAND_SIZE];
+^1da177e4c3f41 Linus Torvalds     2005-04-16  648  	int first_inquiry_len, try_inquiry_len, next_inquiry_len;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  649  	int response_len = 0;
+392160335c798b James Bottomley    2005-06-15  650  	int pass, count, result;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  651  	struct scsi_sense_hdr sshdr;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  652  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  653  	*bflags = 0;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  654  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  655  	/* Perform up to 3 passes.  The first pass uses a conservative
+^1da177e4c3f41 Linus Torvalds     2005-04-16  656  	 * transfer length of 36 unless sdev->inquiry_len specifies a
+^1da177e4c3f41 Linus Torvalds     2005-04-16  657  	 * different value. */
+^1da177e4c3f41 Linus Torvalds     2005-04-16  658  	first_inquiry_len = sdev->inquiry_len ? sdev->inquiry_len : 36;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  659  	try_inquiry_len = first_inquiry_len;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  660  	pass = 1;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  661  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  662   next_pass:
+9ccfc756a70d45 James Bottomley    2005-10-02  663  	SCSI_LOG_SCAN_BUS(3, sdev_printk(KERN_INFO, sdev,
+9ccfc756a70d45 James Bottomley    2005-10-02  664  				"scsi scan: INQUIRY pass %d length %d\n",
+9ccfc756a70d45 James Bottomley    2005-10-02  665  				pass, try_inquiry_len));
+^1da177e4c3f41 Linus Torvalds     2005-04-16  666  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  667  	/* Each pass gets up to three chances to ignore Unit Attention */
+^1da177e4c3f41 Linus Torvalds     2005-04-16  668  	for (count = 0; count < 3; ++count) {
+5cd3bbfad088f8 FUJITA Tomonori    2008-12-05  669  		int resid;
+5cd3bbfad088f8 FUJITA Tomonori    2008-12-05  670  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  671  		memset(scsi_cmd, 0, 6);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  672  		scsi_cmd[0] = INQUIRY;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  673  		scsi_cmd[4] = (unsigned char) try_inquiry_len;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  674  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  675  		memset(inq_result, 0, try_inquiry_len);
+392160335c798b James Bottomley    2005-06-15  676  
+392160335c798b James Bottomley    2005-06-15  677  		result = scsi_execute_req(sdev,  scsi_cmd, DMA_FROM_DEVICE,
+ea73a9f23906c3 James Bottomley    2005-08-28  678  					  inq_result, try_inquiry_len, &sshdr,
+f4f4e47e4af6b0 FUJITA Tomonori    2008-12-04  679  					  HZ / 2 + HZ * scsi_inq_timeout, 3,
+5cd3bbfad088f8 FUJITA Tomonori    2008-12-05  680  					  &resid);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  681  
+91921e016a2199 Hannes Reinecke    2014-06-25  682  		SCSI_LOG_SCAN_BUS(3, sdev_printk(KERN_INFO, sdev,
+91921e016a2199 Hannes Reinecke    2014-06-25  683  				"scsi scan: INQUIRY %s with code 0x%x\n",
+392160335c798b James Bottomley    2005-06-15  684  				result ? "failed" : "successful", result));
+^1da177e4c3f41 Linus Torvalds     2005-04-16  685  
+ced202f7bd78eb Hannes Reinecke    2021-04-27  686  		if (result > 0) {
+^1da177e4c3f41 Linus Torvalds     2005-04-16  687  			/*
+^1da177e4c3f41 Linus Torvalds     2005-04-16  688  			 * not-ready to ready transition [asc/ascq=0x28/0x0]
+^1da177e4c3f41 Linus Torvalds     2005-04-16  689  			 * or power-on, reset [asc/ascq=0x29/0x0], continue.
+^1da177e4c3f41 Linus Torvalds     2005-04-16  690  			 * INQUIRY should not yield UNIT_ATTENTION
+^1da177e4c3f41 Linus Torvalds     2005-04-16  691  			 * but many buggy devices do so anyway. 
+^1da177e4c3f41 Linus Torvalds     2005-04-16  692  			 */
+464a00c9e0ad45 Hannes Reinecke    2021-04-27  693  			if (scsi_status_is_check_condition(result) &&
+ea73a9f23906c3 James Bottomley    2005-08-28  694  			    scsi_sense_valid(&sshdr)) {
+^1da177e4c3f41 Linus Torvalds     2005-04-16  695  				if ((sshdr.sense_key == UNIT_ATTENTION) &&
+^1da177e4c3f41 Linus Torvalds     2005-04-16  696  				    ((sshdr.asc == 0x28) ||
+^1da177e4c3f41 Linus Torvalds     2005-04-16  697  				     (sshdr.asc == 0x29)) &&
+^1da177e4c3f41 Linus Torvalds     2005-04-16  698  				    (sshdr.ascq == 0))
+^1da177e4c3f41 Linus Torvalds     2005-04-16  699  					continue;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  700  			}
+ced202f7bd78eb Hannes Reinecke    2021-04-27  701  		} else if (result == 0) {
+5cd3bbfad088f8 FUJITA Tomonori    2008-12-05  702  			/*
+5cd3bbfad088f8 FUJITA Tomonori    2008-12-05  703  			 * if nothing was transferred, we try
+5cd3bbfad088f8 FUJITA Tomonori    2008-12-05  704  			 * again. It's a workaround for some USB
+5cd3bbfad088f8 FUJITA Tomonori    2008-12-05  705  			 * devices.
+5cd3bbfad088f8 FUJITA Tomonori    2008-12-05  706  			 */
+5cd3bbfad088f8 FUJITA Tomonori    2008-12-05 @707  			if (resid == try_inquiry_len)
+5cd3bbfad088f8 FUJITA Tomonori    2008-12-05  708  				continue;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  709  		}
+^1da177e4c3f41 Linus Torvalds     2005-04-16  710  		break;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  711  	}
+^1da177e4c3f41 Linus Torvalds     2005-04-16  712  
+392160335c798b James Bottomley    2005-06-15  713  	if (result == 0) {
+3846470a1bd4ea Don Brace          2016-01-27  714  		scsi_sanitize_inquiry_string(&inq_result[8], 8);
+3846470a1bd4ea Don Brace          2016-01-27  715  		scsi_sanitize_inquiry_string(&inq_result[16], 16);
+3846470a1bd4ea Don Brace          2016-01-27  716  		scsi_sanitize_inquiry_string(&inq_result[32], 4);
+e5b3cd42960a10 Alan Stern         2006-08-21  717  
+e5b3cd42960a10 Alan Stern         2006-08-21  718  		response_len = inq_result[4] + 5;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  719  		if (response_len > 255)
+^1da177e4c3f41 Linus Torvalds     2005-04-16  720  			response_len = first_inquiry_len;	/* sanity */
+^1da177e4c3f41 Linus Torvalds     2005-04-16  721  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  722  		/*
+^1da177e4c3f41 Linus Torvalds     2005-04-16  723  		 * Get any flags for this device.
+^1da177e4c3f41 Linus Torvalds     2005-04-16  724  		 *
+f64a181d898e05 Christoph Hellwig  2005-10-31  725  		 * XXX add a bflags to scsi_device, and replace the
+f64a181d898e05 Christoph Hellwig  2005-10-31  726  		 * corresponding bit fields in scsi_device, so bflags
+^1da177e4c3f41 Linus Torvalds     2005-04-16  727  		 * need not be passed as an argument.
+^1da177e4c3f41 Linus Torvalds     2005-04-16  728  		 */
+^1da177e4c3f41 Linus Torvalds     2005-04-16  729  		*bflags = scsi_get_device_flags(sdev, &inq_result[8],
+^1da177e4c3f41 Linus Torvalds     2005-04-16  730  				&inq_result[16]);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  731  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  732  		/* When the first pass succeeds we gain information about
+^1da177e4c3f41 Linus Torvalds     2005-04-16  733  		 * what larger transfer lengths might work. */
+^1da177e4c3f41 Linus Torvalds     2005-04-16  734  		if (pass == 1) {
+^1da177e4c3f41 Linus Torvalds     2005-04-16  735  			if (BLIST_INQUIRY_36 & *bflags)
+^1da177e4c3f41 Linus Torvalds     2005-04-16  736  				next_inquiry_len = 36;
+d657700ccac71d Martin K. Petersen 2022-03-02  737  			/*
+d657700ccac71d Martin K. Petersen 2022-03-02  738  			 * LLD specified a maximum sdev->inquiry_len
+d657700ccac71d Martin K. Petersen 2022-03-02  739  			 * but device claims it has more data. Capping
+d657700ccac71d Martin K. Petersen 2022-03-02  740  			 * the length only makes sense for legacy
+d657700ccac71d Martin K. Petersen 2022-03-02  741  			 * devices. If a device supports SPC-4 (2014)
+d657700ccac71d Martin K. Petersen 2022-03-02  742  			 * or newer, assume that it is safe to ask for
+d657700ccac71d Martin K. Petersen 2022-03-02  743  			 * as much as the device says it supports.
+d657700ccac71d Martin K. Petersen 2022-03-02  744  			 */
+d657700ccac71d Martin K. Petersen 2022-03-02  745  			else if (sdev->inquiry_len &&
+d657700ccac71d Martin K. Petersen 2022-03-02  746  				 response_len > sdev->inquiry_len &&
+d657700ccac71d Martin K. Petersen 2022-03-02  747  				 (inq_result[2] & 0x7) < 6) /* SPC-4 */
+^1da177e4c3f41 Linus Torvalds     2005-04-16  748  				next_inquiry_len = sdev->inquiry_len;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  749  			else
+^1da177e4c3f41 Linus Torvalds     2005-04-16  750  				next_inquiry_len = response_len;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  751  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  752  			/* If more data is available perform the second pass */
+^1da177e4c3f41 Linus Torvalds     2005-04-16  753  			if (next_inquiry_len > try_inquiry_len) {
+^1da177e4c3f41 Linus Torvalds     2005-04-16  754  				try_inquiry_len = next_inquiry_len;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  755  				pass = 2;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  756  				goto next_pass;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  757  			}
+^1da177e4c3f41 Linus Torvalds     2005-04-16  758  		}
+^1da177e4c3f41 Linus Torvalds     2005-04-16  759  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  760  	} else if (pass == 2) {
+91921e016a2199 Hannes Reinecke    2014-06-25  761  		sdev_printk(KERN_INFO, sdev,
+91921e016a2199 Hannes Reinecke    2014-06-25  762  			    "scsi scan: %d byte inquiry failed.  "
+^1da177e4c3f41 Linus Torvalds     2005-04-16  763  			    "Consider BLIST_INQUIRY_36 for this device\n",
+^1da177e4c3f41 Linus Torvalds     2005-04-16  764  			    try_inquiry_len);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  765  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  766  		/* If this pass failed, the third pass goes back and transfers
+^1da177e4c3f41 Linus Torvalds     2005-04-16  767  		 * the same amount as we successfully got in the first pass. */
+^1da177e4c3f41 Linus Torvalds     2005-04-16  768  		try_inquiry_len = first_inquiry_len;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  769  		pass = 3;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  770  		goto next_pass;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  771  	}
+^1da177e4c3f41 Linus Torvalds     2005-04-16  772  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  773  	/* If the last transfer attempt got an error, assume the
+^1da177e4c3f41 Linus Torvalds     2005-04-16  774  	 * peripheral doesn't exist or is dead. */
+392160335c798b James Bottomley    2005-06-15  775  	if (result)
+392160335c798b James Bottomley    2005-06-15  776  		return -EIO;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  777  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  778  	/* Don't report any more data than the device says is valid */
+^1da177e4c3f41 Linus Torvalds     2005-04-16  779  	sdev->inquiry_len = min(try_inquiry_len, response_len);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  780  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  781  	/*
+^1da177e4c3f41 Linus Torvalds     2005-04-16  782  	 * XXX Abort if the response length is less than 36? If less than
+^1da177e4c3f41 Linus Torvalds     2005-04-16  783  	 * 32, the lookup of the device flags (above) could be invalid,
+^1da177e4c3f41 Linus Torvalds     2005-04-16  784  	 * and it would be possible to take an incorrect action - we do
+^1da177e4c3f41 Linus Torvalds     2005-04-16  785  	 * not want to hang because of a short INQUIRY. On the flip side,
+^1da177e4c3f41 Linus Torvalds     2005-04-16  786  	 * if the device is spun down or becoming ready (and so it gives a
+^1da177e4c3f41 Linus Torvalds     2005-04-16  787  	 * short INQUIRY), an abort here prevents any further use of the
+^1da177e4c3f41 Linus Torvalds     2005-04-16  788  	 * device, including spin up.
+^1da177e4c3f41 Linus Torvalds     2005-04-16  789  	 *
+e423ee31db92d4 Alan Stern         2007-02-16  790  	 * On the whole, the best approach seems to be to assume the first
+e423ee31db92d4 Alan Stern         2007-02-16  791  	 * 36 bytes are valid no matter what the device says.  That's
+e423ee31db92d4 Alan Stern         2007-02-16  792  	 * better than copying < 36 bytes to the inquiry-result buffer
+e423ee31db92d4 Alan Stern         2007-02-16  793  	 * and displaying garbage for the Vendor, Product, or Revision
+e423ee31db92d4 Alan Stern         2007-02-16  794  	 * strings.
+e423ee31db92d4 Alan Stern         2007-02-16  795  	 */
+e423ee31db92d4 Alan Stern         2007-02-16  796  	if (sdev->inquiry_len < 36) {
+a35bb4458e5e5c Vitaly Kuznetsov   2015-11-19  797  		if (!sdev->host->short_inquiry) {
+a35bb4458e5e5c Vitaly Kuznetsov   2015-11-19  798  			shost_printk(KERN_INFO, sdev->host,
+91921e016a2199 Hannes Reinecke    2014-06-25  799  				    "scsi scan: INQUIRY result too short (%d),"
+e423ee31db92d4 Alan Stern         2007-02-16  800  				    " using 36\n", sdev->inquiry_len);
+a35bb4458e5e5c Vitaly Kuznetsov   2015-11-19  801  			sdev->host->short_inquiry = 1;
+a35bb4458e5e5c Vitaly Kuznetsov   2015-11-19  802  		}
+e423ee31db92d4 Alan Stern         2007-02-16  803  		sdev->inquiry_len = 36;
+e423ee31db92d4 Alan Stern         2007-02-16  804  	}
+e423ee31db92d4 Alan Stern         2007-02-16  805  
+e423ee31db92d4 Alan Stern         2007-02-16  806  	/*
+^1da177e4c3f41 Linus Torvalds     2005-04-16  807  	 * Related to the above issue:
+^1da177e4c3f41 Linus Torvalds     2005-04-16  808  	 *
+^1da177e4c3f41 Linus Torvalds     2005-04-16  809  	 * XXX Devices (disk or all?) should be sent a TEST UNIT READY,
+^1da177e4c3f41 Linus Torvalds     2005-04-16  810  	 * and if not ready, sent a START_STOP to start (maybe spin up) and
+^1da177e4c3f41 Linus Torvalds     2005-04-16  811  	 * then send the INQUIRY again, since the INQUIRY can change after
+^1da177e4c3f41 Linus Torvalds     2005-04-16  812  	 * a device is initialized.
+^1da177e4c3f41 Linus Torvalds     2005-04-16  813  	 *
+^1da177e4c3f41 Linus Torvalds     2005-04-16  814  	 * Ideally, start a device if explicitly asked to do so.  This
+^1da177e4c3f41 Linus Torvalds     2005-04-16  815  	 * assumes that a device is spun up on power on, spun down on
+^1da177e4c3f41 Linus Torvalds     2005-04-16  816  	 * request, and then spun up on request.
+^1da177e4c3f41 Linus Torvalds     2005-04-16  817  	 */
+^1da177e4c3f41 Linus Torvalds     2005-04-16  818  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  819  	/*
+^1da177e4c3f41 Linus Torvalds     2005-04-16  820  	 * The scanning code needs to know the scsi_level, even if no
+^1da177e4c3f41 Linus Torvalds     2005-04-16  821  	 * device is attached at LUN 0 (SCSI_SCAN_TARGET_PRESENT) so
+^1da177e4c3f41 Linus Torvalds     2005-04-16  822  	 * non-zero LUNs can be scanned.
+^1da177e4c3f41 Linus Torvalds     2005-04-16  823  	 */
+^1da177e4c3f41 Linus Torvalds     2005-04-16  824  	sdev->scsi_level = inq_result[2] & 0x07;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  825  	if (sdev->scsi_level >= 2 ||
+^1da177e4c3f41 Linus Torvalds     2005-04-16  826  	    (sdev->scsi_level == 1 && (inq_result[3] & 0x0f) == 1))
+^1da177e4c3f41 Linus Torvalds     2005-04-16  827  		sdev->scsi_level++;
+6f3a20242db259 James Bottomley    2005-09-22  828  	sdev->sdev_target->scsi_level = sdev->scsi_level;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  829  
+50c4e96411a6cd Alan Stern         2014-09-02  830  	/*
+50c4e96411a6cd Alan Stern         2014-09-02  831  	 * If SCSI-2 or lower, and if the transport requires it,
+50c4e96411a6cd Alan Stern         2014-09-02  832  	 * store the LUN value in CDB[1].
+50c4e96411a6cd Alan Stern         2014-09-02  833  	 */
+50c4e96411a6cd Alan Stern         2014-09-02  834  	sdev->lun_in_cdb = 0;
+50c4e96411a6cd Alan Stern         2014-09-02  835  	if (sdev->scsi_level <= SCSI_2 &&
+50c4e96411a6cd Alan Stern         2014-09-02  836  	    sdev->scsi_level != SCSI_UNKNOWN &&
+50c4e96411a6cd Alan Stern         2014-09-02  837  	    !sdev->host->no_scsi2_lun_in_cdb)
+50c4e96411a6cd Alan Stern         2014-09-02  838  		sdev->lun_in_cdb = 1;
+50c4e96411a6cd Alan Stern         2014-09-02  839  
+392160335c798b James Bottomley    2005-06-15  840  	return 0;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  841  }
+^1da177e4c3f41 Linus Torvalds     2005-04-16  842  
 
 -- 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
 
---EMOKi9gTuHIcwxVO
+--QADyb35tpgyEZSR+
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename=config
 
@@ -1381,7 +1570,6 @@ CONFIG_TOUCHSCREEN_FUJITSU=y
 CONFIG_TOUCHSCREEN_GOODIX=m
 # CONFIG_TOUCHSCREEN_HIDEEP is not set
 # CONFIG_TOUCHSCREEN_HYCON_HY46XX is not set
-CONFIG_TOUCHSCREEN_HYNITRON_CSTXXX=m
 # CONFIG_TOUCHSCREEN_ILI210X is not set
 CONFIG_TOUCHSCREEN_ILITEK=y
 # CONFIG_TOUCHSCREEN_IPROC is not set
@@ -1446,6 +1634,7 @@ CONFIG_INPUT_AD714X=m
 CONFIG_INPUT_AD714X_I2C=m
 CONFIG_INPUT_AD714X_SPI=m
 # CONFIG_INPUT_ARIEL_PWRBUTTON is not set
+# CONFIG_INPUT_ATMEL_CAPTOUCH is not set
 # CONFIG_INPUT_BMA150 is not set
 CONFIG_INPUT_E3X0_BUTTON=y
 CONFIG_INPUT_MAX77693_HAPTIC=y
@@ -5603,4 +5792,4 @@ CONFIG_CC_HAS_SANCOV_TRACE_PC=y
 # CONFIG_WARN_ABI_ERRORS is not set
 # end of Kernel hacking
 
---EMOKi9gTuHIcwxVO--
+--QADyb35tpgyEZSR+--
