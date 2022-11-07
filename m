@@ -1,42 +1,43 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9479DBA41
-	for <oe-kbuild@lists.linux.dev>; Mon,  7 Nov 2022 13:28:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8AE2BA55
+	for <oe-kbuild@lists.linux.dev>; Mon,  7 Nov 2022 13:38:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1667827729; x=1699363729;
+  t=1667828329; x=1699364329;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Pt6EXU1MZ/z7k9PKBGLDIhagrx+NvWBN4B55zcx65yw=;
-  b=nFtaYQ7bzonxVbXSoJtF8jr1cZfqfQu/T56S9gySOonIuFzAe6Sw0Lpj
-   6wDAB80WgUPVo0NsjD3/g4nvLZyv++n6mrAQaw0+NKAMLIXflmPuTQ6gM
-   vvcorO0PDkwwK321RCKOdKJolfpffIDK1I5mfDcOCmcAqLv7YecttexCf
-   Kez9+hbtz60sSvkE7xL7TkqX0E9u57Q4pFKqiKor5fIyCcDnaOh6nzEPi
-   eSUmwc4rIpHaWN7oSwrKRzKoqhIckmpXKlffZnCvDpL7nhK68m2vpYFAk
-   WWGDuMHltJftOZF5Lg0BS1OXyWytNwpPHclciAjvBuUmurXN6xGaPYZ+7
+  bh=kWfQ+ybnNR+M8JH5rscavX4Y1aeSL+DwN0HoEEte2jo=;
+  b=k5KGGVInJgogIPI/ThrnIYm/1aBQGAorNGwYimYhZgD9RPV+QGCXgeu+
+   dbjPFdH57HG//SUVz24Zf2pclX25VK/AZI/LIRV9Wf8jSiwJgKGHKv+9f
+   x7Ce2Nq8LCeY4zCN4SUY4hT3WGPYXZvZvaz32Iqez2MhHp5aWRIb8L4o3
+   bU6s2MFvk+dsdTkt6zo/IhVwtLD5x6a2DD/G0seGRtHeZMgTA2P6OPNwU
+   9pYng57yfM0fpGivC4s/VPuwLq6L9fFAoJC6dngaUDXUSNjfoD3KPdP4/
+   Lhf4gf8hR0iHayMEe7FOsOd+1S/I+2hU9bWf05fXCXAZI0hUFufwSxoVB
    w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10523"; a="308030448"
+X-IronPort-AV: E=McAfee;i="6500,9779,10523"; a="312174526"
 X-IronPort-AV: E=Sophos;i="5.96,145,1665471600"; 
-   d="scan'208";a="308030448"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2022 05:28:49 -0800
+   d="scan'208";a="312174526"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2022 05:38:49 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10523"; a="635909064"
+X-IronPort-AV: E=McAfee;i="6500,9779,10523"; a="965152071"
 X-IronPort-AV: E=Sophos;i="5.96,145,1665471600"; 
-   d="scan'208";a="635909064"
+   d="scan'208";a="965152071"
 Received: from lkp-server01.sh.intel.com (HELO 462403710aa9) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 07 Nov 2022 05:28:47 -0800
+  by fmsmga005.fm.intel.com with ESMTP; 07 Nov 2022 05:38:48 -0800
 Received: from kbuild by 462403710aa9 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1os2BC-0000ib-3B;
-	Mon, 07 Nov 2022 13:28:46 +0000
-Date: Mon, 7 Nov 2022 21:28:16 +0800
+	id 1os2Kt-0000jE-1n;
+	Mon, 07 Nov 2022 13:38:47 +0000
+Date: Mon, 7 Nov 2022 21:38:23 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: kernel/sched/core.c:5714:2: warning: Comparing pointers that point
- to different objects [comparePointers]
-Message-ID: <202211072157.Da3VQjhI-lkp@intel.com>
+Subject: arch/arm/kernel/stacktrace.c:163:1: warning: Label 'here' is not
+ used. There is #if in function body so the label might be used in code that
+ is removed by the preprocessor. [unusedLabelConfiguration]
+Message-ID: <202211072117.hIn5C87k-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -47,25 +48,25 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "low confidence static check warning: kernel/sched/core.c:5714:2: warning: Comparing pointers that point to different objects [comparePointers]"
+:::::: Manual check reason: "low confidence static check warning: arch/arm/kernel/stacktrace.c:163:1: warning: Label 'here' is not used. There is #if in function body so the label might be used in code that is removed by the preprocessor. [unusedLabelConfiguration]"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Peter Zijlstra <peterz@infradead.org>
-CC: Kees Cook <keescook@chromium.org>
+TO: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
+CC: Ard Biesheuvel <ardb@kernel.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   f0c4d9fc9cc9462659728d168387191387e903cc
-commit: 546a3fee174969ff323d70ff27b1ef181f0d7ceb sched: Reverse sched_class layout
-date:   6 months ago
+commit: c46c2c9b43f4f08f20dc06417fbf7091e4ca6d34 ARM: unwind: set frame.pc correctly for current-thread unwinding
+date:   8 months ago
 :::::: branch date: 14 hours ago
-:::::: commit date: 6 months ago
-compiler: microblaze-linux-gcc (GCC) 12.1.0
+:::::: commit date: 8 months ago
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
 reproduce (cppcheck warning):
         # apt-get install cppcheck
-        git checkout 546a3fee174969ff323d70ff27b1ef181f0d7ceb
+        git checkout c46c2c9b43f4f08f20dc06417fbf7091e4ca6d34
         cppcheck --quiet --enable=style,performance,portability --template=gcc FILE
 
 If you fix the issue, kindly add following tag where applicable
@@ -74,128 +75,81 @@ If you fix the issue, kindly add following tag where applicable
 
 cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
->> kernel/sched/core.c:5714:2: warning: Comparing pointers that point to different objects [comparePointers]
-    for_each_class(class) {
-    ^
-   kernel/sched/sched.h:2190:27: note: Variable declared here.
-   extern struct sched_class __sched_class_highest[];
-                             ^
-   kernel/sched/core.c:5714:2: note: Array decayed to pointer here.
-    for_each_class(class) {
-    ^
-   kernel/sched/sched.h:2191:27: note: Variable declared here.
-   extern struct sched_class __sched_class_lowest[];
-                             ^
-   kernel/sched/core.c:5714:2: note: Array decayed to pointer here.
-    for_each_class(class) {
-    ^
-   kernel/sched/core.c:5714:2: note: Comparing pointers that point to different objects
-    for_each_class(class) {
-    ^
-   kernel/sched/sched.h:2004:67: warning: Parameter 'p' can be declared as pointer to const [constParameter]
-   static inline int task_current(struct rq *rq, struct task_struct *p)
-                                                                     ^
-   kernel/sched/core.c:5355:34: warning: Uninitialized variable: resched_latency [uninitvar]
-    if (sched_feat(LATENCY_WARN) && resched_latency)
-                                    ^
-   kernel/sched/core.c:5348:6: note: Assuming condition is false
-    if (sched_feat(LATENCY_WARN))
-        ^
-   kernel/sched/core.c:5355:34: note: Uninitialized variable: resched_latency
-    if (sched_feat(LATENCY_WARN) && resched_latency)
-                                    ^
-   kernel/sched/core.c:2760:4: warning: Address of local auto-variable assigned to a function parameter. [autoVariables]
-      p->migration_pending = &my_pending;
-      ^
-   kernel/sched/core.c:9130:3: warning: Comparing pointers that point to different objects [comparePointers]
-     for_each_class(class) {
-     ^
-   kernel/sched/sched.h:2190:27: note: Variable declared here.
-   extern struct sched_class __sched_class_highest[];
-                             ^
-   kernel/sched/core.c:9130:3: note: Array decayed to pointer here.
-     for_each_class(class) {
-     ^
-   kernel/sched/sched.h:2191:27: note: Variable declared here.
-   extern struct sched_class __sched_class_lowest[];
-                             ^
-   kernel/sched/core.c:9130:3: note: Array decayed to pointer here.
-     for_each_class(class) {
-     ^
-   kernel/sched/core.c:9130:3: note: Comparing pointers that point to different objects
-     for_each_class(class) {
-     ^
-   kernel/sched/core.c:9142:3: warning: Comparing pointers that point to different objects [comparePointers]
-     for_each_class(class) {
-     ^
-   kernel/sched/sched.h:2190:27: note: Variable declared here.
-   extern struct sched_class __sched_class_highest[];
-                             ^
-   kernel/sched/core.c:9142:3: note: Array decayed to pointer here.
-     for_each_class(class) {
-     ^
-   kernel/sched/sched.h:2191:27: note: Variable declared here.
-   extern struct sched_class __sched_class_lowest[];
-                             ^
-   kernel/sched/core.c:9142:3: note: Array decayed to pointer here.
-     for_each_class(class) {
-     ^
-   kernel/sched/core.c:9142:3: note: Comparing pointers that point to different objects
-     for_each_class(class) {
-     ^
+>> arch/arm/mm/fault.c:529:28: warning: Shifting signed 32-bit value by 31 bits is implementation-defined behaviour [shiftTooManyBitsSigned]
+    if (!inf->fn(addr, fsr & ~FSR_LNX_PF, regs))
+                              ^
+   arch/arm/mm/fault.c:559:28: warning: Shifting signed 32-bit value by 31 bits is implementation-defined behaviour [shiftTooManyBitsSigned]
+    if (!inf->fn(addr, ifsr | FSR_LNX_PF, regs))
+                              ^
+>> arch/arm/mm/fault.c:529:28: warning: Signed integer overflow for expression '1<<31'. [integerOverflow]
+    if (!inf->fn(addr, fsr & ~FSR_LNX_PF, regs))
+                              ^
+   arch/arm/mm/fault.c:559:28: warning: Signed integer overflow for expression '1<<31'. [integerOverflow]
+    if (!inf->fn(addr, ifsr | FSR_LNX_PF, regs))
+                              ^
+   arch/arm/mm/fault.c:269:12: warning: Shifting signed 32-bit value by 31 bits is implementation-defined behaviour [shiftTooManyBitsSigned]
+    if (fsr & FSR_LNX_PF) {
+              ^
+   arch/arm/mm/fault.c:269:12: warning: Signed integer overflow for expression '1<<31'. [integerOverflow]
+    if (fsr & FSR_LNX_PF) {
+              ^
+--
+>> arch/arm/kernel/stacktrace.c:163:1: warning: Label 'here' is not used. There is #if in function body so the label might be used in code that is removed by the preprocessor. [unusedLabelConfiguration]
+   here:
+   ^
+   arch/arm/kernel/stacktrace.c:133:61: warning: Parameter 'tsk' can be declared as pointer to const [constParameter]
+   static noinline void __save_stack_trace(struct task_struct *tsk,
+                                                               ^
+--
+>> arch/arm/kernel/return_address.c:44:1: warning: Label 'here' is not used. There is #if in function body so the label might be used in code that is removed by the preprocessor. [unusedLabelConfiguration]
+   here:
+   ^
 
-vim +5714 kernel/sched/core.c
+vim +/here +163 arch/arm/kernel/stacktrace.c
 
-457d1f465778cc kernel/sched/core.c Chen Yu         2020-04-21  5679  
-^1da177e4c3f41 kernel/sched.c      Linus Torvalds  2005-04-16  5680  /*
-dd41f596cda0d7 kernel/sched.c      Ingo Molnar     2007-07-09  5681   * Pick up the highest-prio task:
-^1da177e4c3f41 kernel/sched.c      Linus Torvalds  2005-04-16  5682   */
-dd41f596cda0d7 kernel/sched.c      Ingo Molnar     2007-07-09  5683  static inline struct task_struct *
-539f65125d20aa kernel/sched/core.c Peter Zijlstra  2020-11-17  5684  __pick_next_task(struct rq *rq, struct task_struct *prev, struct rq_flags *rf)
-dd41f596cda0d7 kernel/sched.c      Ingo Molnar     2007-07-09  5685  {
-49ee576809d837 kernel/sched/core.c Peter Zijlstra  2017-01-19  5686  	const struct sched_class *class;
-dd41f596cda0d7 kernel/sched.c      Ingo Molnar     2007-07-09  5687  	struct task_struct *p;
-dd41f596cda0d7 kernel/sched.c      Ingo Molnar     2007-07-09  5688  
-dd41f596cda0d7 kernel/sched.c      Ingo Molnar     2007-07-09  5689  	/*
-0ba87bb27d66b7 kernel/sched/core.c Peter Zijlstra  2017-03-01  5690  	 * Optimization: we know that if all tasks are in the fair class we can
-0ba87bb27d66b7 kernel/sched/core.c Peter Zijlstra  2017-03-01  5691  	 * call that function directly, but only if the @prev task wasn't of a
-b19a888c1e9bdf kernel/sched/core.c Tal Zussman     2020-11-12  5692  	 * higher scheduling class, because otherwise those lose the
-0ba87bb27d66b7 kernel/sched/core.c Peter Zijlstra  2017-03-01  5693  	 * opportunity to pull in more work from other CPUs.
-dd41f596cda0d7 kernel/sched.c      Ingo Molnar     2007-07-09  5694  	 */
-546a3fee174969 kernel/sched/core.c Peter Zijlstra  2022-05-17  5695  	if (likely(!sched_class_above(prev->sched_class, &fair_sched_class) &&
-0ba87bb27d66b7 kernel/sched/core.c Peter Zijlstra  2017-03-01  5696  		   rq->nr_running == rq->cfs.h_nr_running)) {
-0ba87bb27d66b7 kernel/sched/core.c Peter Zijlstra  2017-03-01  5697  
-5d7d605642b28a kernel/sched/core.c Peter Zijlstra  2019-11-08  5698  		p = pick_next_task_fair(rq, prev, rf);
-6ccdc84b81a0a6 kernel/sched/core.c Peter Zijlstra  2014-04-24  5699  		if (unlikely(p == RETRY_TASK))
-67692435c411e5 kernel/sched/core.c Peter Zijlstra  2019-05-29  5700  			goto restart;
-6ccdc84b81a0a6 kernel/sched/core.c Peter Zijlstra  2014-04-24  5701  
-1699949d3314e5 kernel/sched/core.c Masahiro Yamada 2021-05-19  5702  		/* Assume the next prioritized class is idle_sched_class */
-5d7d605642b28a kernel/sched/core.c Peter Zijlstra  2019-11-08  5703  		if (!p) {
-f488e1057bb97b kernel/sched/core.c Peter Zijlstra  2019-11-08  5704  			put_prev_task(rq, prev);
-98c2f700edb413 kernel/sched/core.c Peter Zijlstra  2019-11-08  5705  			p = pick_next_task_idle(rq);
-f488e1057bb97b kernel/sched/core.c Peter Zijlstra  2019-11-08  5706  		}
-6ccdc84b81a0a6 kernel/sched/core.c Peter Zijlstra  2014-04-24  5707  
-dd41f596cda0d7 kernel/sched.c      Ingo Molnar     2007-07-09  5708  		return p;
-^1da177e4c3f41 kernel/sched.c      Linus Torvalds  2005-04-16  5709  	}
-^1da177e4c3f41 kernel/sched.c      Linus Torvalds  2005-04-16  5710  
-67692435c411e5 kernel/sched/core.c Peter Zijlstra  2019-05-29  5711  restart:
-457d1f465778cc kernel/sched/core.c Chen Yu         2020-04-21  5712  	put_prev_task_balance(rq, prev, rf);
-67692435c411e5 kernel/sched/core.c Peter Zijlstra  2019-05-29  5713  
-34f971f6f7988b kernel/sched.c      Peter Zijlstra  2010-09-22 @5714  	for_each_class(class) {
-98c2f700edb413 kernel/sched/core.c Peter Zijlstra  2019-11-08  5715  		p = class->pick_next_task(rq);
-67692435c411e5 kernel/sched/core.c Peter Zijlstra  2019-05-29  5716  		if (p)
-dd41f596cda0d7 kernel/sched.c      Ingo Molnar     2007-07-09  5717  			return p;
-dd41f596cda0d7 kernel/sched.c      Ingo Molnar     2007-07-09  5718  	}
-34f971f6f7988b kernel/sched.c      Peter Zijlstra  2010-09-22  5719  
-bc9ffef31bf598 kernel/sched/core.c Peter Zijlstra  2021-08-24  5720  	BUG(); /* The idle class should always have a runnable task. */
-dd41f596cda0d7 kernel/sched.c      Ingo Molnar     2007-07-09  5721  }
-^1da177e4c3f41 kernel/sched.c      Linus Torvalds  2005-04-16  5722  
-
-:::::: The code at line 5714 was first introduced by commit
-:::::: 34f971f6f7988be4d014eec3e3526bee6d007ffa sched: Create special class for stop/migrate work
-
-:::::: TO: Peter Zijlstra <a.p.zijlstra@chello.nl>
-:::::: CC: Ingo Molnar <mingo@elte.hu>
+f16fb1ecc5a1cb Russell King          2007-04-28  131  
+3683f44c42e991 Russell King          2014-05-03  132  /* This must be noinline to so that our skip calculation works correctly */
+3683f44c42e991 Russell King          2014-05-03  133  static noinline void __save_stack_trace(struct task_struct *tsk,
+3683f44c42e991 Russell King          2014-05-03  134  	struct stack_trace *trace, unsigned int nosched)
+f16fb1ecc5a1cb Russell King          2007-04-28  135  {
+f16fb1ecc5a1cb Russell King          2007-04-28  136  	struct stack_trace_data data;
+2d7c11bfc91637 Catalin Marinas       2009-02-11  137  	struct stackframe frame;
+f16fb1ecc5a1cb Russell King          2007-04-28  138  
+f16fb1ecc5a1cb Russell King          2007-04-28  139  	data.trace = trace;
+f16fb1ecc5a1cb Russell King          2007-04-28  140  	data.skip = trace->skip;
+3683f44c42e991 Russell King          2014-05-03  141  	data.no_sched_functions = nosched;
+f76e9154736e9a Nicolas Pitre         2008-04-24  142  
+f76e9154736e9a Nicolas Pitre         2008-04-24  143  	if (tsk != current) {
+f76e9154736e9a Nicolas Pitre         2008-04-24  144  #ifdef CONFIG_SMP
+f76e9154736e9a Nicolas Pitre         2008-04-24  145  		/*
+d5996b2ff0e26c Russell King          2011-01-15  146  		 * What guarantees do we have here that 'tsk' is not
+d5996b2ff0e26c Russell King          2011-01-15  147  		 * running on another CPU?  For now, ignore it as we
+d5996b2ff0e26c Russell King          2011-01-15  148  		 * can't guarantee we won't explode.
+f76e9154736e9a Nicolas Pitre         2008-04-24  149  		 */
+d5996b2ff0e26c Russell King          2011-01-15  150  		return;
+f76e9154736e9a Nicolas Pitre         2008-04-24  151  #else
+2d7c11bfc91637 Catalin Marinas       2009-02-11  152  		frame.fp = thread_saved_fp(tsk);
+2d7c11bfc91637 Catalin Marinas       2009-02-11  153  		frame.sp = thread_saved_sp(tsk);
+2d7c11bfc91637 Catalin Marinas       2009-02-11  154  		frame.lr = 0;		/* recovered from the stack */
+2d7c11bfc91637 Catalin Marinas       2009-02-11  155  		frame.pc = thread_saved_pc(tsk);
+f76e9154736e9a Nicolas Pitre         2008-04-24  156  #endif
+f76e9154736e9a Nicolas Pitre         2008-04-24  157  	} else {
+3683f44c42e991 Russell King          2014-05-03  158  		/* We don't want this function nor the caller */
+3683f44c42e991 Russell King          2014-05-03  159  		data.skip += 2;
+2d7c11bfc91637 Catalin Marinas       2009-02-11  160  		frame.fp = (unsigned long)__builtin_frame_address(0);
+74dbeee0fcded9 Behan Webster         2014-09-27  161  		frame.sp = current_stack_pointer;
+2d7c11bfc91637 Catalin Marinas       2009-02-11  162  		frame.lr = (unsigned long)__builtin_return_address(0);
+c46c2c9b43f4f0 Russell King (Oracle  2022-03-09 @163) here:
+c46c2c9b43f4f0 Russell King (Oracle  2022-03-09  164) 		frame.pc = (unsigned long)&&here;
+f76e9154736e9a Nicolas Pitre         2008-04-24  165  	}
+fed240d9c97438 Masami Hiramatsu      2021-10-21  166  #ifdef CONFIG_KRETPROBES
+fed240d9c97438 Masami Hiramatsu      2021-10-21  167  	frame.kr_cur = NULL;
+fed240d9c97438 Masami Hiramatsu      2021-10-21  168  	frame.tsk = tsk;
+fed240d9c97438 Masami Hiramatsu      2021-10-21  169  #endif
+f16fb1ecc5a1cb Russell King          2007-04-28  170  
+2d7c11bfc91637 Catalin Marinas       2009-02-11  171  	walk_stackframe(&frame, save_trace, &data);
+f76e9154736e9a Nicolas Pitre         2008-04-24  172  }
+f76e9154736e9a Nicolas Pitre         2008-04-24  173  
 
 -- 
 0-DAY CI Kernel Test Service
