@@ -1,43 +1,52 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8AE2BA55
-	for <oe-kbuild@lists.linux.dev>; Mon,  7 Nov 2022 13:38:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1667828329; x=1699364329;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=kWfQ+ybnNR+M8JH5rscavX4Y1aeSL+DwN0HoEEte2jo=;
-  b=k5KGGVInJgogIPI/ThrnIYm/1aBQGAorNGwYimYhZgD9RPV+QGCXgeu+
-   dbjPFdH57HG//SUVz24Zf2pclX25VK/AZI/LIRV9Wf8jSiwJgKGHKv+9f
-   x7Ce2Nq8LCeY4zCN4SUY4hT3WGPYXZvZvaz32Iqez2MhHp5aWRIb8L4o3
-   bU6s2MFvk+dsdTkt6zo/IhVwtLD5x6a2DD/G0seGRtHeZMgTA2P6OPNwU
-   9pYng57yfM0fpGivC4s/VPuwLq6L9fFAoJC6dngaUDXUSNjfoD3KPdP4/
-   Lhf4gf8hR0iHayMEe7FOsOd+1S/I+2hU9bWf05fXCXAZI0hUFufwSxoVB
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10523"; a="312174526"
-X-IronPort-AV: E=Sophos;i="5.96,145,1665471600"; 
-   d="scan'208";a="312174526"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2022 05:38:49 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10523"; a="965152071"
-X-IronPort-AV: E=Sophos;i="5.96,145,1665471600"; 
-   d="scan'208";a="965152071"
-Received: from lkp-server01.sh.intel.com (HELO 462403710aa9) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 07 Nov 2022 05:38:48 -0800
-Received: from kbuild by 462403710aa9 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1os2Kt-0000jE-1n;
-	Mon, 07 Nov 2022 13:38:47 +0000
-Date: Mon, 7 Nov 2022 21:38:23 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: arch/arm/kernel/stacktrace.c:163:1: warning: Label 'here' is not
- used. There is #if in function body so the label might be used in code that
- is removed by the preprocessor. [unusedLabelConfiguration]
-Message-ID: <202211072117.hIn5C87k-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DC92BA55;
+	Mon,  7 Nov 2022 13:59:47 +0000 (UTC)
+Received: by mail-wr1-f54.google.com with SMTP id v1so16307941wrt.11;
+        Mon, 07 Nov 2022 05:59:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=WLRE2IBTL6tXQElQll3pK2nkKzxcUu8aFfReYTDtJOA=;
+        b=FERxbpSxvJWObig+KC/olDuIrKt66020ifjSl9RS1RTy8qNPia6NSLrMFFn9sCtm8w
+         kqcgOm287QqXZ8NhD5QBi09/SagXXxcspAI0N77LpkwD4YthSbEFBLUrS58VF0tBEjst
+         1AE+o5nuPNdL7zUPAodJSvaLrAjK/cA53eWCc5LGEcrBEh3JIPTEeXMB5CqT4q2dUPB8
+         Q/bgOTj4Vd4nJjjTAR4rgqN9QmDWwP05zHFXLiCc/A+v1QPMeuxb0hXlmGtbVCg6OcYN
+         Ql+NhKNOmY4Ol61xwpIh9FUrWgop5s3tIQwmTfGJ/2mINF+u00orQQw6xz03AY5NwUKq
+         zmhg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=WLRE2IBTL6tXQElQll3pK2nkKzxcUu8aFfReYTDtJOA=;
+        b=dZi3ItKPUl1p0ZvgfkoI1h097CkeyKRQqvcn4Xz9UrllSYNJ6uSpnB7yobzpQO7AuH
+         8It/YgNwLk76Dvqam/qy1qF6bT9G1knHKNVfx83WJJVmX9qBdb+UFvnn3G3/nZzERvIs
+         OhkuKAuD74yOiWNLZs5L6AQrS/cQGrrRSMRls7xec82ui3WverF63gHivzVmU6d72yWc
+         W0cwSloCveMtBEJQpb73OK7WHxC4V7VfN5+/rvqi8KZSWQ9mE1srDeGdlSfsNfQ3eTO9
+         LRty0s+Vy7SZljvt4A1VfYJX9QtdaL4yhGLTFPjs6kcafJRaTkuZqkWb5JWd92l2d2pW
+         zNag==
+X-Gm-Message-State: ACrzQf2XNkUJzBLUeEnO0v9M1u8tQOF3mwxSia0PC1jCdxMXFRmrztZl
+	Hy4kKAyaC3NwRca9XskB3bMKmPRq40uPfQ==
+X-Google-Smtp-Source: AMsMyM5meQNZVUELxa5jjGDahXbbpyEf8m2laiYNEGWKezJ6ex4ZxyyDXhvWeEf+mbYds/VWKUSD0Q==
+X-Received: by 2002:a5d:49d0:0:b0:236:ba53:ec39 with SMTP id t16-20020a5d49d0000000b00236ba53ec39mr30217611wrs.412.1667829586269;
+        Mon, 07 Nov 2022 05:59:46 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id s25-20020adfa299000000b00236b2804d79sm7809977wra.2.2022.11.07.05.59.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 07 Nov 2022 05:59:45 -0800 (PST)
+Date: Mon, 7 Nov 2022 16:59:26 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Alexander Wetzel <alexander@wetzel-home.de>
+Cc: oe-kbuild@lists.linux.dev, linux-wireless@vger.kernel.org,
+	lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Johannes Berg <johannes@sipsolutions.net>
+Subject: Re: [PATCH] wifi: mac80211: convert PS buffering into iTXQ
+Message-ID: <Y2kPPn7qmao4VL5y@kadam>
+References: <202211060817.mqDPz8T7-lkp@intel.com>
+ <08af0517-fb5f-cfd1-e92b-18306603144f@wetzel-home.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -46,111 +55,50 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <08af0517-fb5f-cfd1-e92b-18306603144f@wetzel-home.de>
 
-:::::: 
-:::::: Manual check reason: "low confidence static check warning: arch/arm/kernel/stacktrace.c:163:1: warning: Label 'here' is not used. There is #if in function body so the label might be used in code that is removed by the preprocessor. [unusedLabelConfiguration]"
-:::::: 
+On Mon, Nov 07, 2022 at 02:52:55PM +0100, Alexander Wetzel wrote:
+> Hi,
+> 
+> On 07.11.22 09:00, Dan Carpenter wrote:
+> > Hi Alexander,
+> > 
+> > https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> > 
+> > url:    https://github.com/intel-lab-lkp/linux/commits/Alexander-Wetzel/wifi-mac80211-convert-PS-buffering-into-iTXQ/20221101-100832
+> > base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
+> > patch link:    https://lore.kernel.org/r/20221031211815.6666-1-alexander%40wetzel-home.de
+> > patch subject: [PATCH] wifi: mac80211: convert PS buffering into iTXQ
+> > config: openrisc-randconfig-m041-20221106
+> > compiler: or1k-linux-gcc (GCC) 12.1.0
+> > 
+> > If you fix the issue, kindly add following tag where applicable
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Reported-by: Dan Carpenter <error27@gmail.com>
+> > 
+> > New smatch warnings:
+> > net/mac80211/tx.c:1145 ieee80211_get_txq() warn: variable dereferenced before check 'vif' (see line 1112)
+> 
+> vif can't be null here, the existing null check is not needed.
+> 
+> ieee80211_get_txq() is only used in ieee80211_queue_skb(). Which already
+> access sdata->vif.type and sets vif to &sdata->vif prior of calling
+> ieee80211_get_txq();
+> 
+> Would dropping the null check in line 1145 be an acceptable solution to get
+> rid of this warning?
+> 
+> I'll then would do that in the next revision (v3) of the patch and send that
+> out after either Johannes has reviewed v2 or serious issues are discovered
+> by anyone.
+> 
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
-CC: Ard Biesheuvel <ardb@kernel.org>
+You should probably delete the NULL check in a separate patch (I say
+without looking at any of your patches).
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   f0c4d9fc9cc9462659728d168387191387e903cc
-commit: c46c2c9b43f4f08f20dc06417fbf7091e4ca6d34 ARM: unwind: set frame.pc correctly for current-thread unwinding
-date:   8 months ago
-:::::: branch date: 14 hours ago
-:::::: commit date: 8 months ago
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
-reproduce (cppcheck warning):
-        # apt-get install cppcheck
-        git checkout c46c2c9b43f4f08f20dc06417fbf7091e4ca6d34
-        cppcheck --quiet --enable=style,performance,portability --template=gcc FILE
+This is a Smatch warning and not a GCC warning so it's not like the NULL
+check hurts anything besides readability.
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
+regards,
+dan carpenter
 
-
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
-
->> arch/arm/mm/fault.c:529:28: warning: Shifting signed 32-bit value by 31 bits is implementation-defined behaviour [shiftTooManyBitsSigned]
-    if (!inf->fn(addr, fsr & ~FSR_LNX_PF, regs))
-                              ^
-   arch/arm/mm/fault.c:559:28: warning: Shifting signed 32-bit value by 31 bits is implementation-defined behaviour [shiftTooManyBitsSigned]
-    if (!inf->fn(addr, ifsr | FSR_LNX_PF, regs))
-                              ^
->> arch/arm/mm/fault.c:529:28: warning: Signed integer overflow for expression '1<<31'. [integerOverflow]
-    if (!inf->fn(addr, fsr & ~FSR_LNX_PF, regs))
-                              ^
-   arch/arm/mm/fault.c:559:28: warning: Signed integer overflow for expression '1<<31'. [integerOverflow]
-    if (!inf->fn(addr, ifsr | FSR_LNX_PF, regs))
-                              ^
-   arch/arm/mm/fault.c:269:12: warning: Shifting signed 32-bit value by 31 bits is implementation-defined behaviour [shiftTooManyBitsSigned]
-    if (fsr & FSR_LNX_PF) {
-              ^
-   arch/arm/mm/fault.c:269:12: warning: Signed integer overflow for expression '1<<31'. [integerOverflow]
-    if (fsr & FSR_LNX_PF) {
-              ^
---
->> arch/arm/kernel/stacktrace.c:163:1: warning: Label 'here' is not used. There is #if in function body so the label might be used in code that is removed by the preprocessor. [unusedLabelConfiguration]
-   here:
-   ^
-   arch/arm/kernel/stacktrace.c:133:61: warning: Parameter 'tsk' can be declared as pointer to const [constParameter]
-   static noinline void __save_stack_trace(struct task_struct *tsk,
-                                                               ^
---
->> arch/arm/kernel/return_address.c:44:1: warning: Label 'here' is not used. There is #if in function body so the label might be used in code that is removed by the preprocessor. [unusedLabelConfiguration]
-   here:
-   ^
-
-vim +/here +163 arch/arm/kernel/stacktrace.c
-
-f16fb1ecc5a1cb Russell King          2007-04-28  131  
-3683f44c42e991 Russell King          2014-05-03  132  /* This must be noinline to so that our skip calculation works correctly */
-3683f44c42e991 Russell King          2014-05-03  133  static noinline void __save_stack_trace(struct task_struct *tsk,
-3683f44c42e991 Russell King          2014-05-03  134  	struct stack_trace *trace, unsigned int nosched)
-f16fb1ecc5a1cb Russell King          2007-04-28  135  {
-f16fb1ecc5a1cb Russell King          2007-04-28  136  	struct stack_trace_data data;
-2d7c11bfc91637 Catalin Marinas       2009-02-11  137  	struct stackframe frame;
-f16fb1ecc5a1cb Russell King          2007-04-28  138  
-f16fb1ecc5a1cb Russell King          2007-04-28  139  	data.trace = trace;
-f16fb1ecc5a1cb Russell King          2007-04-28  140  	data.skip = trace->skip;
-3683f44c42e991 Russell King          2014-05-03  141  	data.no_sched_functions = nosched;
-f76e9154736e9a Nicolas Pitre         2008-04-24  142  
-f76e9154736e9a Nicolas Pitre         2008-04-24  143  	if (tsk != current) {
-f76e9154736e9a Nicolas Pitre         2008-04-24  144  #ifdef CONFIG_SMP
-f76e9154736e9a Nicolas Pitre         2008-04-24  145  		/*
-d5996b2ff0e26c Russell King          2011-01-15  146  		 * What guarantees do we have here that 'tsk' is not
-d5996b2ff0e26c Russell King          2011-01-15  147  		 * running on another CPU?  For now, ignore it as we
-d5996b2ff0e26c Russell King          2011-01-15  148  		 * can't guarantee we won't explode.
-f76e9154736e9a Nicolas Pitre         2008-04-24  149  		 */
-d5996b2ff0e26c Russell King          2011-01-15  150  		return;
-f76e9154736e9a Nicolas Pitre         2008-04-24  151  #else
-2d7c11bfc91637 Catalin Marinas       2009-02-11  152  		frame.fp = thread_saved_fp(tsk);
-2d7c11bfc91637 Catalin Marinas       2009-02-11  153  		frame.sp = thread_saved_sp(tsk);
-2d7c11bfc91637 Catalin Marinas       2009-02-11  154  		frame.lr = 0;		/* recovered from the stack */
-2d7c11bfc91637 Catalin Marinas       2009-02-11  155  		frame.pc = thread_saved_pc(tsk);
-f76e9154736e9a Nicolas Pitre         2008-04-24  156  #endif
-f76e9154736e9a Nicolas Pitre         2008-04-24  157  	} else {
-3683f44c42e991 Russell King          2014-05-03  158  		/* We don't want this function nor the caller */
-3683f44c42e991 Russell King          2014-05-03  159  		data.skip += 2;
-2d7c11bfc91637 Catalin Marinas       2009-02-11  160  		frame.fp = (unsigned long)__builtin_frame_address(0);
-74dbeee0fcded9 Behan Webster         2014-09-27  161  		frame.sp = current_stack_pointer;
-2d7c11bfc91637 Catalin Marinas       2009-02-11  162  		frame.lr = (unsigned long)__builtin_return_address(0);
-c46c2c9b43f4f0 Russell King (Oracle  2022-03-09 @163) here:
-c46c2c9b43f4f0 Russell King (Oracle  2022-03-09  164) 		frame.pc = (unsigned long)&&here;
-f76e9154736e9a Nicolas Pitre         2008-04-24  165  	}
-fed240d9c97438 Masami Hiramatsu      2021-10-21  166  #ifdef CONFIG_KRETPROBES
-fed240d9c97438 Masami Hiramatsu      2021-10-21  167  	frame.kr_cur = NULL;
-fed240d9c97438 Masami Hiramatsu      2021-10-21  168  	frame.tsk = tsk;
-fed240d9c97438 Masami Hiramatsu      2021-10-21  169  #endif
-f16fb1ecc5a1cb Russell King          2007-04-28  170  
-2d7c11bfc91637 Catalin Marinas       2009-02-11  171  	walk_stackframe(&frame, save_trace, &data);
-f76e9154736e9a Nicolas Pitre         2008-04-24  172  }
-f76e9154736e9a Nicolas Pitre         2008-04-24  173  
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
