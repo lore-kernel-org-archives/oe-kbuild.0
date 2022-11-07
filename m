@@ -1,104 +1,135 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DC92BA55;
-	Mon,  7 Nov 2022 13:59:47 +0000 (UTC)
-Received: by mail-wr1-f54.google.com with SMTP id v1so16307941wrt.11;
-        Mon, 07 Nov 2022 05:59:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=WLRE2IBTL6tXQElQll3pK2nkKzxcUu8aFfReYTDtJOA=;
-        b=FERxbpSxvJWObig+KC/olDuIrKt66020ifjSl9RS1RTy8qNPia6NSLrMFFn9sCtm8w
-         kqcgOm287QqXZ8NhD5QBi09/SagXXxcspAI0N77LpkwD4YthSbEFBLUrS58VF0tBEjst
-         1AE+o5nuPNdL7zUPAodJSvaLrAjK/cA53eWCc5LGEcrBEh3JIPTEeXMB5CqT4q2dUPB8
-         Q/bgOTj4Vd4nJjjTAR4rgqN9QmDWwP05zHFXLiCc/A+v1QPMeuxb0hXlmGtbVCg6OcYN
-         Ql+NhKNOmY4Ol61xwpIh9FUrWgop5s3tIQwmTfGJ/2mINF+u00orQQw6xz03AY5NwUKq
-         zmhg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=WLRE2IBTL6tXQElQll3pK2nkKzxcUu8aFfReYTDtJOA=;
-        b=dZi3ItKPUl1p0ZvgfkoI1h097CkeyKRQqvcn4Xz9UrllSYNJ6uSpnB7yobzpQO7AuH
-         8It/YgNwLk76Dvqam/qy1qF6bT9G1knHKNVfx83WJJVmX9qBdb+UFvnn3G3/nZzERvIs
-         OhkuKAuD74yOiWNLZs5L6AQrS/cQGrrRSMRls7xec82ui3WverF63gHivzVmU6d72yWc
-         W0cwSloCveMtBEJQpb73OK7WHxC4V7VfN5+/rvqi8KZSWQ9mE1srDeGdlSfsNfQ3eTO9
-         LRty0s+Vy7SZljvt4A1VfYJX9QtdaL4yhGLTFPjs6kcafJRaTkuZqkWb5JWd92l2d2pW
-         zNag==
-X-Gm-Message-State: ACrzQf2XNkUJzBLUeEnO0v9M1u8tQOF3mwxSia0PC1jCdxMXFRmrztZl
-	Hy4kKAyaC3NwRca9XskB3bMKmPRq40uPfQ==
-X-Google-Smtp-Source: AMsMyM5meQNZVUELxa5jjGDahXbbpyEf8m2laiYNEGWKezJ6ex4ZxyyDXhvWeEf+mbYds/VWKUSD0Q==
-X-Received: by 2002:a5d:49d0:0:b0:236:ba53:ec39 with SMTP id t16-20020a5d49d0000000b00236ba53ec39mr30217611wrs.412.1667829586269;
-        Mon, 07 Nov 2022 05:59:46 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id s25-20020adfa299000000b00236b2804d79sm7809977wra.2.2022.11.07.05.59.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Nov 2022 05:59:45 -0800 (PST)
-Date: Mon, 7 Nov 2022 16:59:26 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Alexander Wetzel <alexander@wetzel-home.de>
-Cc: oe-kbuild@lists.linux.dev, linux-wireless@vger.kernel.org,
-	lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Johannes Berg <johannes@sipsolutions.net>
-Subject: Re: [PATCH] wifi: mac80211: convert PS buffering into iTXQ
-Message-ID: <Y2kPPn7qmao4VL5y@kadam>
-References: <202211060817.mqDPz8T7-lkp@intel.com>
- <08af0517-fb5f-cfd1-e92b-18306603144f@wetzel-home.de>
+Received: from ns2.wdyn.eu (ns2.wdyn.eu [5.252.227.236])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 619D4BA55;
+	Mon,  7 Nov 2022 14:03:04 +0000 (UTC)
+Message-ID: <08af0517-fb5f-cfd1-e92b-18306603144f@wetzel-home.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=wetzel-home.de;
+	s=wetzel-home; t=1667829178;
+	bh=DqhiDqC0SeNOdJoq5zZEAP3UkWiuq5VMB4IQoi+eH7M=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=vFCuwkMNhFQsEFUp9ux6mcfaJKTIOW2aCCTyiArGQ+nIwTCLBEUYBrmreL3NiPZZ0
+	 lm4ZnVidvHrR+XbWoUKY/vvmLYNWW+4G7nw8ON4kxYm9BT7kOWJhM5V5H4ZuSzotP1
+	 dQjZ4QGIUAQPCp0Q8XthhOUFbdsglWANEm5iKyig=
+Date: Mon, 7 Nov 2022 14:52:55 +0100
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <08af0517-fb5f-cfd1-e92b-18306603144f@wetzel-home.de>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH] wifi: mac80211: convert PS buffering into iTXQ
+To: Dan Carpenter <error27@gmail.com>, oe-kbuild@lists.linux.dev,
+ linux-wireless@vger.kernel.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+ Johannes Berg <johannes@sipsolutions.net>
+References: <202211060817.mqDPz8T7-lkp@intel.com>
+Content-Language: en-US
+From: Alexander Wetzel <alexander@wetzel-home.de>
+In-Reply-To: <202211060817.mqDPz8T7-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Nov 07, 2022 at 02:52:55PM +0100, Alexander Wetzel wrote:
-> Hi,
-> 
-> On 07.11.22 09:00, Dan Carpenter wrote:
-> > Hi Alexander,
-> > 
-> > https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> > 
-> > url:    https://github.com/intel-lab-lkp/linux/commits/Alexander-Wetzel/wifi-mac80211-convert-PS-buffering-into-iTXQ/20221101-100832
-> > base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
-> > patch link:    https://lore.kernel.org/r/20221031211815.6666-1-alexander%40wetzel-home.de
-> > patch subject: [PATCH] wifi: mac80211: convert PS buffering into iTXQ
-> > config: openrisc-randconfig-m041-20221106
-> > compiler: or1k-linux-gcc (GCC) 12.1.0
-> > 
-> > If you fix the issue, kindly add following tag where applicable
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Reported-by: Dan Carpenter <error27@gmail.com>
-> > 
-> > New smatch warnings:
-> > net/mac80211/tx.c:1145 ieee80211_get_txq() warn: variable dereferenced before check 'vif' (see line 1112)
-> 
-> vif can't be null here, the existing null check is not needed.
-> 
-> ieee80211_get_txq() is only used in ieee80211_queue_skb(). Which already
-> access sdata->vif.type and sets vif to &sdata->vif prior of calling
-> ieee80211_get_txq();
-> 
-> Would dropping the null check in line 1145 be an acceptable solution to get
-> rid of this warning?
-> 
-> I'll then would do that in the next revision (v3) of the patch and send that
-> out after either Johannes has reviewed v2 or serious issues are discovered
-> by anyone.
-> 
+Hi,
 
-You should probably delete the NULL check in a separate patch (I say
-without looking at any of your patches).
+On 07.11.22 09:00, Dan Carpenter wrote:
+> Hi Alexander,
+> 
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Alexander-Wetzel/wifi-mac80211-convert-PS-buffering-into-iTXQ/20221101-100832
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
+> patch link:    https://lore.kernel.org/r/20221031211815.6666-1-alexander%40wetzel-home.de
+> patch subject: [PATCH] wifi: mac80211: convert PS buffering into iTXQ
+> config: openrisc-randconfig-m041-20221106
+> compiler: or1k-linux-gcc (GCC) 12.1.0
+> 
+> If you fix the issue, kindly add following tag where applicable
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <error27@gmail.com>
+> 
+> New smatch warnings:
+> net/mac80211/tx.c:1145 ieee80211_get_txq() warn: variable dereferenced before check 'vif' (see line 1112)
 
-This is a Smatch warning and not a GCC warning so it's not like the NULL
-check hurts anything besides readability.
+vif can't be null here, the existing null check is not needed.
 
-regards,
-dan carpenter
+ieee80211_get_txq() is only used in ieee80211_queue_skb(). Which already 
+access sdata->vif.type and sets vif to &sdata->vif prior of calling 
+ieee80211_get_txq();
+
+Would dropping the null check in line 1145 be an acceptable solution to 
+get rid of this warning?
+
+I'll then would do that in the next revision (v3) of the patch and send 
+that out after either Johannes has reviewed v2 or serious issues are 
+discovered by anyone.
+
+
+> 
+> Old smatch warnings:
+> net/mac80211/tx.c:1689 invoke_tx_handlers_late() warn: variable dereferenced before check 'tx->skb' (see line 1664)
+> net/mac80211/tx.c:3365 ieee80211_xmit_fast_finish() error: we previously assumed 'key' could be null (see line 3333)
+> 
+> vim +/vif +1145 net/mac80211/tx.c
+> 
+> 80a83cfc434b1e Michal Kazior    2016-05-19  1104  static struct txq_info *ieee80211_get_txq(struct ieee80211_local *local,
+> ba8c3d6f16a1f9 Felix Fietkau    2015-03-27  1105  					  struct ieee80211_vif *vif,
+> dbef5362111647 Michal Kazior    2017-01-13  1106  					  struct sta_info *sta,
+> ba8c3d6f16a1f9 Felix Fietkau    2015-03-27  1107  					  struct sk_buff *skb)
+> ba8c3d6f16a1f9 Felix Fietkau    2015-03-27  1108  {
+> ba8c3d6f16a1f9 Felix Fietkau    2015-03-27  1109  	struct ieee80211_hdr *hdr = (struct ieee80211_hdr *) skb->data;
+> ba8c3d6f16a1f9 Felix Fietkau    2015-03-27  1110  	struct ieee80211_tx_info *info = IEEE80211_SKB_CB(skb);
+> ba8c3d6f16a1f9 Felix Fietkau    2015-03-27  1111  	struct ieee80211_txq *txq = NULL;
+> df0e3c1e66212b Alexander Wetzel 2022-10-31 @1112  	bool is_ap_or_mesh = (vif->type == NL80211_IFTYPE_AP ||
+>                                                                                ^^^^^^^^^
+> New unchecked dereference.
+> 
+> df0e3c1e66212b Alexander Wetzel 2022-10-31  1113  			      ieee80211_vif_is_mesh(vif));
+> df0e3c1e66212b Alexander Wetzel 2022-10-31  1114
+> df0e3c1e66212b Alexander Wetzel 2022-10-31  1115  	if (unlikely(is_ap_or_mesh &&
+> df0e3c1e66212b Alexander Wetzel 2022-10-31  1116  		     ieee80211_is_mgmt(hdr->frame_control) &&
+> df0e3c1e66212b Alexander Wetzel 2022-10-31  1117  		     !ieee80211_is_bufferable_mmpdu(hdr->frame_control)))
+> df0e3c1e66212b Alexander Wetzel 2022-10-31  1118  		info->flags |= IEEE80211_TX_CTL_NO_PS_BUFFER;
+> ba8c3d6f16a1f9 Felix Fietkau    2015-03-27  1119
+> df0e3c1e66212b Alexander Wetzel 2022-10-31  1120  	if (unlikely((info->flags & IEEE80211_TX_CTL_NO_PS_BUFFER) ||
+> df0e3c1e66212b Alexander Wetzel 2022-10-31  1121  		     info->control.flags & IEEE80211_TX_CTRL_PS_RESPONSE ||
+> df0e3c1e66212b Alexander Wetzel 2022-10-31  1122  		     ieee80211_has_order(hdr->frame_control) ||
+> df0e3c1e66212b Alexander Wetzel 2022-10-31  1123  		     ieee80211_is_probe_req(hdr->frame_control)))
+> 80a83cfc434b1e Michal Kazior    2016-05-19  1124  		return NULL;
+> ba8c3d6f16a1f9 Felix Fietkau    2015-03-27  1125
+> cc20ff2c6b5d3e Felix Fietkau    2020-09-08  1126  	if (!(info->flags & IEEE80211_TX_CTL_HW_80211_ENCAP) &&
+> 50ff477a8639fa John Crispin     2019-11-25  1127  	    unlikely(!ieee80211_is_data_present(hdr->frame_control))) {
+> adf8ed01e4fdd2 Johannes Berg    2018-08-31  1128  		if ((!ieee80211_is_mgmt(hdr->frame_control) ||
+> 0eeb2b674f05cc Sara Sharon      2018-09-05  1129  		     ieee80211_is_bufferable_mmpdu(hdr->frame_control) ||
+> 0eeb2b674f05cc Sara Sharon      2018-09-05  1130  		     vif->type == NL80211_IFTYPE_STATION) &&
+> adf8ed01e4fdd2 Johannes Berg    2018-08-31  1131  		    sta && sta->uploaded) {
+> adf8ed01e4fdd2 Johannes Berg    2018-08-31  1132  			/*
+> adf8ed01e4fdd2 Johannes Berg    2018-08-31  1133  			 * This will be NULL if the driver didn't set the
+> adf8ed01e4fdd2 Johannes Berg    2018-08-31  1134  			 * opt-in hardware flag.
+> adf8ed01e4fdd2 Johannes Berg    2018-08-31  1135  			 */
+> adf8ed01e4fdd2 Johannes Berg    2018-08-31  1136  			txq = sta->sta.txq[IEEE80211_NUM_TIDS];
+> adf8ed01e4fdd2 Johannes Berg    2018-08-31  1137  		}
+> adf8ed01e4fdd2 Johannes Berg    2018-08-31  1138  	} else if (sta) {
+> ba8c3d6f16a1f9 Felix Fietkau    2015-03-27  1139  		u8 tid = skb->priority & IEEE80211_QOS_CTL_TID_MASK;
+> ba8c3d6f16a1f9 Felix Fietkau    2015-03-27  1140
+> dbef5362111647 Michal Kazior    2017-01-13  1141  		if (!sta->uploaded)
+> dbef5362111647 Michal Kazior    2017-01-13  1142  			return NULL;
+> dbef5362111647 Michal Kazior    2017-01-13  1143
+> dbef5362111647 Michal Kazior    2017-01-13  1144  		txq = sta->sta.txq[tid];
+> ba8c3d6f16a1f9 Felix Fietkau    2015-03-27 @1145  	} else if (vif) {
+> 
+> Old code checked for NULL.
+> 
+> df0e3c1e66212b Alexander Wetzel 2022-10-31  1146  		if (is_ap_or_mesh &&
+> df0e3c1e66212b Alexander Wetzel 2022-10-31  1147  		    ieee80211_hw_check(&local->hw, QUEUE_CONTROL))
+> df0e3c1e66212b Alexander Wetzel 2022-10-31  1148  			info->hw_queue = vif->cab_queue;
+> ba8c3d6f16a1f9 Felix Fietkau    2015-03-27  1149  		txq = vif->txq;
+> ba8c3d6f16a1f9 Felix Fietkau    2015-03-27  1150  	}
+> ba8c3d6f16a1f9 Felix Fietkau    2015-03-27  1151
+> ba8c3d6f16a1f9 Felix Fietkau    2015-03-27  1152  	if (!txq)
+> 80a83cfc434b1e Michal Kazior    2016-05-19  1153  		return NULL;
+> ba8c3d6f16a1f9 Felix Fietkau    2015-03-27  1154
+> 80a83cfc434b1e Michal Kazior    2016-05-19  1155  	return to_txq_info(txq);
+> 80a83cfc434b1e Michal Kazior    2016-05-19  1156  }
+> 
 
