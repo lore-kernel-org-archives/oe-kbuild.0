@@ -1,43 +1,51 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B55CA7F
-	for <oe-kbuild@lists.linux.dev>; Mon,  7 Nov 2022 09:56:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1667815019; x=1699351019;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=yPhCIwE6jKsuVCXeAN4XX4wks/TsrhP7+IkZSuTAB5U=;
-  b=jjX4GxG6/FzFBiKkDN4FdxZmwiYPg4pAqEtljUxNJ2ciZFRUjdOgHQ3p
-   rbqlQ24ts6VA5HmEN75usuorIRO5+/XI1XZqfKU0+YWjqkuXLBJ/JV3XB
-   BAUpyekwX/zJS78mKT+67eEvvHYbeIBm2kBAKdPSZGWrQGDAzSw6qRuio
-   hbMLJxG5TgkSuFPZC2+9RnAm8v364S8c89naplu/svjNPWumzulxrIqo6
-   N3Rm0/8a4EvU+5djEe3+3UJi4doWmA9mbU9jCv4Rx7PCgM5uMZJaI6M+/
-   mK+9riOaNWHk+weyTMkFtIUICGuy/HNSJH5N56OGqotBVzJ4K3EtahIr5
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10523"; a="337090490"
-X-IronPort-AV: E=Sophos;i="5.96,143,1665471600"; 
-   d="scan'208";a="337090490"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2022 01:56:39 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10523"; a="704813976"
-X-IronPort-AV: E=Sophos;i="5.96,143,1665471600"; 
-   d="scan'208";a="704813976"
-Received: from lkp-server01.sh.intel.com (HELO 462403710aa9) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 07 Nov 2022 01:56:38 -0800
-Received: from kbuild by 462403710aa9 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1oryrt-0000Wi-1x;
-	Mon, 07 Nov 2022 09:56:37 +0000
-Date: Mon, 7 Nov 2022 17:56:08 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: drivers/clk/clk-fixed-rate.c:89:7: warning: Redundant initialization
- for 'ret'. The initialized value is overwritten before it is read.
- [redundantInitialization]
-Message-ID: <202211071728.PjrCbu7v-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E733915B0;
+	Mon,  7 Nov 2022 12:39:28 +0000 (UTC)
+Received: by mail-wr1-f53.google.com with SMTP id z14so16010428wrn.7;
+        Mon, 07 Nov 2022 04:39:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=tF3AVDlvfgwFbRPAbroPXg4c2lRQTcLkG8VSQHRXx54=;
+        b=pQizRBL+xXM0sLYTqNl+V+hDG+9nSDnn/SqtSyk06JN1Ca4bo/51Mnde0MbCp3iDgV
+         5D453+OLnLjSWBz9F/bgCU3ioFdeeah9EkAa7uamZEG2elQV/mbxFoEai3uIWuAguDSK
+         Rn2UgG7dlH8JdOXihG/7/9nNZ3Z6ZGybTEyLTangRHOc5WgrcV4RKb/qnZYMOeY6VThk
+         23WIvTLeeXT3ikUVRJJlM8oBHTNK2U4syg6/fEvDwGHv+jGECu6+enoNAduCusQ4qle3
+         U3rnMWRhY9lPopYNFAfp7H7+wTcz1RF7ub3jopPYU0Qg4blvvdOzShfB2mSbzs1q2gE5
+         lT1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=tF3AVDlvfgwFbRPAbroPXg4c2lRQTcLkG8VSQHRXx54=;
+        b=DG9ewA5U+eKv+OMPp+ivrVrn0XlZvNmDSiIi9UkkcAh30lv4cJZC51vite3Yjl31Yc
+         2+9SQ0Sib3RMnMzQHCUwnSHidAbFuXSXdFaxo2cNyxB4CsINcUP9cSfF+lSIzCYjNXtO
+         sgM3rMEFUqjl8McignTUhdWpNJKpmliSa+HKHPLRLchvkctKRI3isXMrMti6pI2pxylN
+         T2xkiGUrSTc7m1Yv9t6eiGvZlWVIIQbIynd0/VGnfBDanET6Fh/DG1g8yMyV5q48pmPT
+         dwyilH2ZeKKXmFW81bvnRS1j8JoMfSpKfNZN87jzG/oXbUERR0suasuQN01/E1LRBiod
+         4aGA==
+X-Gm-Message-State: ANoB5pnergbNDN8c3f8G0X9VhrBACo3F0lK4LMl0MShhwsaeVPyqUGhe
+	eTMQtiC6djK9SR5eOKAyD/kUcOpzPxw=
+X-Google-Smtp-Source: AA0mqf7nXuOPjnpMaFiuRGqHP7OKbe1G+nuIZBxEC2rASluOrnG4IJOUIcgBO6IddMO9bAoa3j3zgw==
+X-Received: by 2002:a5d:6392:0:b0:23b:4b0d:4591 with SMTP id p18-20020a5d6392000000b0023b4b0d4591mr10444642wru.635.1667824766518;
+        Mon, 07 Nov 2022 04:39:26 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id y15-20020a1c4b0f000000b003b31c560a0csm7957230wma.12.2022.11.07.04.39.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 07 Nov 2022 04:39:26 -0800 (PST)
+Date: Mon, 7 Nov 2022 15:39:23 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev, "Ahmed S. Darwish" <darwi@linutronix.de>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Ammar Faizi <ammarfaizi2@gnuweeb.org>,
+	GNU/Weeb Mailing List <gwml@vger.gnuweeb.org>,
+	Thomas Gleixner <tglx@linutronix.de>
+Subject: [ammarfaizi2-block:tglx/devel/devmsi 46/86] kernel/irq/msi.c:399
+ msi_domain_get_virq() warn: inconsistent returns '&dev->msi.data->mutex'.
+Message-ID: <202211070346.0vaondmd-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -46,104 +54,68 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+Message-ID: <20221107123923.zzAPHAtpeuxYI2cVP7jn-RNjlavWkyLPBvA0_5j8h9E@z>
 
-:::::: 
-:::::: Manual check reason: "low confidence static check warning: drivers/clk/clk-fixed-rate.c:89:7: warning: Redundant initialization for 'ret'. The initialized value is overwritten before it is read. [redundantInitialization]"
-:::::: 
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Li Zhengyu <lizhengyu3@huawei.com>
-CC: Stephen Boyd <sboyd@kernel.org>
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   f0c4d9fc9cc9462659728d168387191387e903cc
-commit: b69b0adc71637d436883c5ed9bfadbfbb7e02fda clk: fixed-rate: Remove redundant if statement
-date:   6 months ago
-:::::: branch date: 11 hours ago
-:::::: commit date: 6 months ago
-compiler: nios2-linux-gcc (GCC) 12.1.0
-reproduce (cppcheck warning):
-        # apt-get install cppcheck
-        git checkout b69b0adc71637d436883c5ed9bfadbfbb7e02fda
-        cppcheck --quiet --enable=style,performance,portability --template=gcc FILE
+tree:   https://github.com/ammarfaizi2/linux-block tglx/devel/devmsi
+head:   ba77f809fa66b636222f6677ec7cf8faa1562fe7
+commit: 022573e1aaf0745ab002f898c5d4aa0f0ae5ec09 [46/86] genirq/msi: Make msi_get_virq() device domain aware
+config: openrisc-randconfig-m031-20221106
+compiler: or1k-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
 
+smatch warnings:
+kernel/irq/msi.c:399 msi_domain_get_virq() warn: inconsistent returns '&dev->msi.data->mutex'.
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+vim +399 kernel/irq/msi.c
 
->> drivers/clk/clk-fixed-rate.c:89:7: warning: Redundant initialization for 'ret'. The initialized value is overwritten before it is read. [redundantInitialization]
-     ret = clk_hw_register(dev, hw);
-         ^
-   drivers/clk/clk-fixed-rate.c:62:10: note: ret is initialized
-    int ret = -EINVAL;
-            ^
-   drivers/clk/clk-fixed-rate.c:89:7: note: ret is overwritten
-     ret = clk_hw_register(dev, hw);
-         ^
+022573e1aaf074 Ahmed S. Darwish 2022-11-03  361  unsigned int msi_domain_get_virq(struct device *dev, unsigned int domid, unsigned int index)
+cf15f43acaad31 Thomas Gleixner  2021-12-10  362  {
+cf15f43acaad31 Thomas Gleixner  2021-12-10  363  	struct msi_desc *desc;
+495c66aca3da70 Thomas Gleixner  2021-12-06  364  	unsigned int ret = 0;
+022573e1aaf074 Ahmed S. Darwish 2022-11-03  365  	bool pcimsi = false;
+022573e1aaf074 Ahmed S. Darwish 2022-11-03  366  	int base;
+cf15f43acaad31 Thomas Gleixner  2021-12-10  367  
+cf15f43acaad31 Thomas Gleixner  2021-12-10  368  	if (!dev->msi.data)
+cf15f43acaad31 Thomas Gleixner  2021-12-10  369  		return 0;
+cf15f43acaad31 Thomas Gleixner  2021-12-10  370  
+022573e1aaf074 Ahmed S. Darwish 2022-11-03  371  	if (WARN_ON_ONCE(index >= MSI_MAX_INDEX))
+022573e1aaf074 Ahmed S. Darwish 2022-11-03  372  		return 0;
+022573e1aaf074 Ahmed S. Darwish 2022-11-03  373  
+022573e1aaf074 Ahmed S. Darwish 2022-11-03  374  	/* This check is only valid for the PCI default MSI domain */
+022573e1aaf074 Ahmed S. Darwish 2022-11-03  375  	if (dev_is_pci(dev) && domid == MSI_DEFAULT_DOMAIN)
+022573e1aaf074 Ahmed S. Darwish 2022-11-03  376  		pcimsi = to_pci_dev(dev)->msi_enabled;
+cf15f43acaad31 Thomas Gleixner  2021-12-10  377  
+495c66aca3da70 Thomas Gleixner  2021-12-06  378  	msi_lock_descs(dev);
+022573e1aaf074 Ahmed S. Darwish 2022-11-03  379  
+022573e1aaf074 Ahmed S. Darwish 2022-11-03  380  	base = msi_get_domain_base_index(dev, domid);
+022573e1aaf074 Ahmed S. Darwish 2022-11-03  381  	if (base < 0)
+022573e1aaf074 Ahmed S. Darwish 2022-11-03  382  		return 0;
 
-vim +/ret +89 drivers/clk/clk-fixed-rate.c
+msi_unlock_descs();?
 
-9d9f78ed9af0e4 Mike Turquette        2012-03-15   51  
-2d34f09e79c9e9 Stephen Boyd          2019-08-30   52  struct clk_hw *__clk_hw_register_fixed_rate(struct device *dev,
-2d34f09e79c9e9 Stephen Boyd          2019-08-30   53  		struct device_node *np, const char *name,
-2d34f09e79c9e9 Stephen Boyd          2019-08-30   54  		const char *parent_name, const struct clk_hw *parent_hw,
-2d34f09e79c9e9 Stephen Boyd          2019-08-30   55  		const struct clk_parent_data *parent_data, unsigned long flags,
-2d34f09e79c9e9 Stephen Boyd          2019-08-30   56  		unsigned long fixed_rate, unsigned long fixed_accuracy,
-2d34f09e79c9e9 Stephen Boyd          2019-08-30   57  		unsigned long clk_fixed_flags)
-9d9f78ed9af0e4 Mike Turquette        2012-03-15   58  {
-9d9f78ed9af0e4 Mike Turquette        2012-03-15   59  	struct clk_fixed_rate *fixed;
-26ef56be9e0944 Stephen Boyd          2016-02-07   60  	struct clk_hw *hw;
-cc819cf8d4760f Manivannan Sadhasivam 2019-11-15   61  	struct clk_init_data init = {};
-2d34f09e79c9e9 Stephen Boyd          2019-08-30   62  	int ret = -EINVAL;
-9d9f78ed9af0e4 Mike Turquette        2012-03-15   63  
-27d545915fd49c Mike Turquette        2012-03-26   64  	/* allocate fixed-rate clock */
-d122db7e866692 Stephen Boyd          2015-05-14   65  	fixed = kzalloc(sizeof(*fixed), GFP_KERNEL);
-d122db7e866692 Stephen Boyd          2015-05-14   66  	if (!fixed)
-9d9f78ed9af0e4 Mike Turquette        2012-03-15   67  		return ERR_PTR(-ENOMEM);
-9d9f78ed9af0e4 Mike Turquette        2012-03-15   68  
-0197b3ea0f66cd Saravana Kannan       2012-04-25   69  	init.name = name;
-0197b3ea0f66cd Saravana Kannan       2012-04-25   70  	init.ops = &clk_fixed_rate_ops;
-90b6c5c73c6904 Stephen Boyd          2019-04-25   71  	init.flags = flags;
-2d34f09e79c9e9 Stephen Boyd          2019-08-30   72  	init.parent_names = parent_name ? &parent_name : NULL;
-2d34f09e79c9e9 Stephen Boyd          2019-08-30   73  	init.parent_hws = parent_hw ? &parent_hw : NULL;
-2d34f09e79c9e9 Stephen Boyd          2019-08-30   74  	init.parent_data = parent_data;
-2d34f09e79c9e9 Stephen Boyd          2019-08-30   75  	if (parent_name || parent_hw || parent_data)
-2d34f09e79c9e9 Stephen Boyd          2019-08-30   76  		init.num_parents = 1;
-2d34f09e79c9e9 Stephen Boyd          2019-08-30   77  	else
-2d34f09e79c9e9 Stephen Boyd          2019-08-30   78  		init.num_parents = 0;
-0197b3ea0f66cd Saravana Kannan       2012-04-25   79  
-9d9f78ed9af0e4 Mike Turquette        2012-03-15   80  	/* struct clk_fixed_rate assignments */
-2d34f09e79c9e9 Stephen Boyd          2019-08-30   81  	fixed->flags = clk_fixed_flags;
-9d9f78ed9af0e4 Mike Turquette        2012-03-15   82  	fixed->fixed_rate = fixed_rate;
-0903ea60173fab Boris Brezillon       2013-12-21   83  	fixed->fixed_accuracy = fixed_accuracy;
-0197b3ea0f66cd Saravana Kannan       2012-04-25   84  	fixed->hw.init = &init;
-9d9f78ed9af0e4 Mike Turquette        2012-03-15   85  
-27d545915fd49c Mike Turquette        2012-03-26   86  	/* register the clock */
-26ef56be9e0944 Stephen Boyd          2016-02-07   87  	hw = &fixed->hw;
-2d34f09e79c9e9 Stephen Boyd          2019-08-30   88  	if (dev || !np)
-26ef56be9e0944 Stephen Boyd          2016-02-07  @89  		ret = clk_hw_register(dev, hw);
-b69b0adc71637d Li Zhengyu            2022-05-09   90  	else
-2d34f09e79c9e9 Stephen Boyd          2019-08-30   91  		ret = of_clk_hw_register(np, hw);
-26ef56be9e0944 Stephen Boyd          2016-02-07   92  	if (ret) {
-27d545915fd49c Mike Turquette        2012-03-26   93  		kfree(fixed);
-26ef56be9e0944 Stephen Boyd          2016-02-07   94  		hw = ERR_PTR(ret);
-26ef56be9e0944 Stephen Boyd          2016-02-07   95  	}
-26ef56be9e0944 Stephen Boyd          2016-02-07   96  
-26ef56be9e0944 Stephen Boyd          2016-02-07   97  	return hw;
-26ef56be9e0944 Stephen Boyd          2016-02-07   98  }
-2d34f09e79c9e9 Stephen Boyd          2019-08-30   99  EXPORT_SYMBOL_GPL(__clk_hw_register_fixed_rate);
-26ef56be9e0944 Stephen Boyd          2016-02-07  100  
-
-:::::: The code at line 89 was first introduced by commit
-:::::: 26ef56be9e0944a9b136169eb47140f309ce745b clk: fixed-rate: Add hw based registration APIs
-
-:::::: TO: Stephen Boyd <sboyd@codeaurora.org>
-:::::: CC: Stephen Boyd <sboyd@codeaurora.org>
+022573e1aaf074 Ahmed S. Darwish 2022-11-03  383  
+022573e1aaf074 Ahmed S. Darwish 2022-11-03  384  	desc = xa_load(&dev->msi.data->__store, base + pcimsi ? 0 : index);
+cd6cf06590b979 Thomas Gleixner  2021-12-06  385  	if (desc && desc->irq) {
+cf15f43acaad31 Thomas Gleixner  2021-12-10  386  		/*
+cd6cf06590b979 Thomas Gleixner  2021-12-06  387  		 * PCI-MSI has only one descriptor for multiple interrupts.
+cf15f43acaad31 Thomas Gleixner  2021-12-10  388  		 * PCI-MSIX and platform MSI use a descriptor per
+cf15f43acaad31 Thomas Gleixner  2021-12-10  389  		 * interrupt.
+cf15f43acaad31 Thomas Gleixner  2021-12-10  390  		 */
+cd6cf06590b979 Thomas Gleixner  2021-12-06  391  		if (pcimsi) {
+cd6cf06590b979 Thomas Gleixner  2021-12-06  392  			if (index < desc->nvec_used)
+cd6cf06590b979 Thomas Gleixner  2021-12-06  393  				ret = desc->irq + index;
+cd6cf06590b979 Thomas Gleixner  2021-12-06  394  		} else {
+495c66aca3da70 Thomas Gleixner  2021-12-06  395  			ret = desc->irq;
+cf15f43acaad31 Thomas Gleixner  2021-12-10  396  		}
+495c66aca3da70 Thomas Gleixner  2021-12-06  397  	}
+495c66aca3da70 Thomas Gleixner  2021-12-06  398  	msi_unlock_descs(dev);
+495c66aca3da70 Thomas Gleixner  2021-12-06 @399  	return ret;
+cf15f43acaad31 Thomas Gleixner  2021-12-10  400  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
+
