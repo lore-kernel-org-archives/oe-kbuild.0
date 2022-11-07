@@ -1,53 +1,51 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32FED2565;
-	Mon,  7 Nov 2022 07:59:03 +0000 (UTC)
-Received: by mail-wr1-f44.google.com with SMTP id cl5so14879909wrb.9;
-        Sun, 06 Nov 2022 23:59:02 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 416F42565;
+	Mon,  7 Nov 2022 08:00:22 +0000 (UTC)
+Received: by mail-wm1-f49.google.com with SMTP id fn7-20020a05600c688700b003b4fb113b86so6639630wmb.0;
+        Mon, 07 Nov 2022 00:00:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
          :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=+WjK9SpWGMh8WElKi6opABGutXyz9IghTvanr4w4CrU=;
-        b=gBSicX4VGZDMAIYMIEGgDF97asRz0tAKTrhQMeO8ZGB5tzFegEKTW4cizEwer/sWfW
-         kHeJYPkrEOKa6wtReBSA89sJ/EZFdX3REn0cy3SQaxmuW/x2LyzyafjQlvFl0s4Brw+3
-         5qv6SHRhMuBR5soqelB7kKxGlxh4qModxTIqxUsSO0O5zn7tpY+cvwLbpWocGGJ7EU6c
-         3sXxJZulfVuvYNTKBh552rpiNOfEsIqLXuBpOxeB3wx7ljWw8YZt/UIrRweiVh1FJO/C
-         MOslM6x8NZxzyDkWr4XYA/nyzaGGtK3B+1SpPIQQva1Hst97Ce0L7e54llSZXAUzFRx7
-         8jhQ==
+        bh=6VU351BXvMWXjq2K/i0yKp41Rbk0oveSHyI5Ky9W+js=;
+        b=MN0wf+iHEhP9uo6/TWbXRu2l2hTq+Hljh4m1YsgarQwlLg95IzNFl5EET8uAVfYVzq
+         9VsXmEyGE1vXh9fpKQIKk3DGecy6hxsnGWs8luO0rKKgLOcFeRa+RCVx3riZVzrQctVy
+         LpArVGb9jfPCICqjlqntAS5F0Ol32En6cpm/sEAZH1g3EDtQBPpAhVBAWEMFAtdQgsuK
+         OZnHt/zcsOMFUeV1OQCmAaryD52ybjZTRutRAXyzjbt3pIadEWbDeZKAiEqQ/x4e4YIh
+         KgoKUBieY7SOfgJCXRP+DL4rNje+Z6H9IzqFbm+1ucDIgo+oReVLMWdhxz8g/bvb58+X
+         Yu1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
          :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=+WjK9SpWGMh8WElKi6opABGutXyz9IghTvanr4w4CrU=;
-        b=AKDExEgZboYKimZG7LOvh4h1PO2ebT+Eg0hu7f1+6TYVV+xmUu2R1QHy4KVasdJLxl
-         siuHPsW3OVWVjRmk672QPsJk9NcwE5MjY6n+yeYS27EQVQeoHnMDPcV9DeGZwNEpzrbJ
-         804FUGVJkmBhxR5azi8C6j5VeOXza7pZ3ypYRBA5SUHL7p2ccajECD+LlW0oq84BfkR2
-         3HRym1NMW8Jlj5Lbc1NKCTbpzpYrOq0JGuVdEHgQBqMzJBMoKA6TAt3O25OCwDNnKp6X
-         aqCheUfo9mxDO8EnjAFd4nYRHz6j5Plbl2DWQ7hpYV8JI3QwQK99k8Rr58pq9FgoNBF+
-         KRpw==
-X-Gm-Message-State: ACrzQf1SX6prdYPtWgxdflKY9zoTZ3dcrzV3sth51IKjmMrEQlVs34Tu
-	/AvIrGcpdtJYPKthrFzFhsfHH3tSUcg=
-X-Google-Smtp-Source: AMsMyM63jbiD5kIdmk/KMHvaXEV64M3jubr2bt0LVb+dNa78RGvg943UvAb0Mb2cWKrd99xymGV7jg==
-X-Received: by 2002:a05:6000:2c3:b0:236:dd92:16d1 with SMTP id o3-20020a05600002c300b00236dd9216d1mr24013119wry.50.1667807940928;
-        Sun, 06 Nov 2022 23:59:00 -0800 (PST)
+        bh=6VU351BXvMWXjq2K/i0yKp41Rbk0oveSHyI5Ky9W+js=;
+        b=eojzhnHChTm7klvYv71GizYjSNefoVxN2uTNaUCPEPS9JYIj15H3BySrkqW7zevnRP
+         Hg8SsCb2eGOTHmg9Zvnx4AgatD1bA/5NXnVQVkoWWik4FZ/uvV4iFwMu0BGJQ4J8Mha5
+         hIkzARD6cxpheQvuNwfBSmc8JESjqce22Ed7DuEJBZFJRq8sbIlhRU2K6lvj3AFU2kkJ
+         1b0Ml13H6ffg21qaumFCRFJywnD+7YTiIIpUGp6OAxfWQNAQ/uN3g4ehEFBuQtWG7aUS
+         d4He7Crbzax84SfkFWPeFnczN5gjX5SZr7hFaSOzd1OanVTFKHl+Cs1gfCtPT7TbVx1R
+         5HOw==
+X-Gm-Message-State: ACrzQf0wJDDS1wjNraKoBoUubulL8ms6U2MVYmvrYUidJ2DtaauUwfUm
+	kgdYKQ714veKo/SAIrzEilXORJ395WQ=
+X-Google-Smtp-Source: AMsMyM5N9wxfPSmBomZPgyoXFFqQP1wCcgaoDis+wplwT7/rsf4xHskXNSqN0784GCxu4BIPRIPxcA==
+X-Received: by 2002:a05:600c:4313:b0:3cf:894d:1d05 with SMTP id p19-20020a05600c431300b003cf894d1d05mr17047692wme.32.1667808020103;
+        Mon, 07 Nov 2022 00:00:20 -0800 (PST)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id z3-20020adff1c3000000b00236e834f050sm6435580wro.35.2022.11.06.23.58.59
+        by smtp.gmail.com with ESMTPSA id h8-20020a05600c2ca800b003b4a699ce8esm11365925wmc.6.2022.11.07.00.00.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 06 Nov 2022 23:59:00 -0800 (PST)
-Date: Mon, 7 Nov 2022 10:58:57 +0300
+        Mon, 07 Nov 2022 00:00:19 -0800 (PST)
+Date: Mon, 7 Nov 2022 11:00:17 +0300
 From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev,
-	Johannes Thumshirn <johannes.thumshirn@wdc.com>,
-	Damien Le Moal <Damien.LeMoal@opensource.wdc.com>
+To: oe-kbuild@lists.linux.dev, Alexander Wetzel <alexander@wetzel-home.de>,
+	linux-wireless@vger.kernel.org
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org,
-	Johannes Thumshirn <johannes.thumshirn@wdc.com>
-Subject: Re: [PATCH] zonefs: add sanity check for aggregated conventional
- zones
-Message-ID: <202211060620.c1JmfU3k-lkp@intel.com>
+	Johannes Berg <johannes@sipsolutions.net>,
+	Alexander Wetzel <alexander@wetzel-home.de>
+Subject: Re: [PATCH] wifi: mac80211: convert PS buffering into iTXQ
+Message-ID: <202211060817.mqDPz8T7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -56,142 +54,92 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <f7e4afaca0eb337bf18231358b7e764d4cdf5c5a.1667471410.git.johannes.thumshirn@wdc.com>
-Message-ID: <20221107075857.TxDUQjO-r5peAGJ7eTKTE98DTD-d4-PKc043p79hNgU@z>
+In-Reply-To: <20221031211815.6666-1-alexander@wetzel-home.de>
+Message-ID: <20221107080017.52w5BLeoFSwIXUrpi2YVpLJMe-efuZLcKu1_Hp_HHAE@z>
 
-Hi Johannes,
+Hi Alexander,
 
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Johannes-Thumshirn/zonefs-add-sanity-check-for-aggregated-conventional-zones/20221103-183404
-patch link:    https://lore.kernel.org/r/f7e4afaca0eb337bf18231358b7e764d4cdf5c5a.1667471410.git.johannes.thumshirn%40wdc.com
-patch subject: [PATCH] zonefs: add sanity check for aggregated conventional zones
-config: ia64-randconfig-m031-20221104
-compiler: ia64-linux-gcc (GCC) 12.1.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Alexander-Wetzel/wifi-mac80211-convert-PS-buffering-into-iTXQ/20221101-100832
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
+patch link:    https://lore.kernel.org/r/20221031211815.6666-1-alexander%40wetzel-home.de
+patch subject: [PATCH] wifi: mac80211: convert PS buffering into iTXQ
+config: openrisc-randconfig-m041-20221106
+compiler: or1k-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
 
 New smatch warnings:
-fs/zonefs/super.c:1411 zonefs_init_file_inode() warn: add some parenthesis here?
-fs/zonefs/super.c:1411 zonefs_init_file_inode() warn: maybe use && instead of &
-fs/zonefs/super.c:1496 zonefs_create_inode() error: uninitialized symbol 'ret'.
+net/mac80211/tx.c:1145 ieee80211_get_txq() warn: variable dereferenced before check 'vif' (see line 1112)
 
 Old smatch warnings:
-fs/zonefs/super.c:797 zonefs_file_dio_append() error: uninitialized symbol 'size'.
+net/mac80211/tx.c:1689 invoke_tx_handlers_late() warn: variable dereferenced before check 'tx->skb' (see line 1664)
+net/mac80211/tx.c:3365 ieee80211_xmit_fast_finish() error: we previously assumed 'key' could be null (see line 3333)
 
-vim +1411 fs/zonefs/super.c
+vim +/vif +1145 net/mac80211/tx.c
 
-8dcc1a9d90c10f Damien Le Moal     2019-12-25  1395  
-1da18a296f5ba4 Damien Le Moal     2022-04-12  1396  static int zonefs_init_file_inode(struct inode *inode, struct blk_zone *zone,
-8dcc1a9d90c10f Damien Le Moal     2019-12-25  1397  				  enum zonefs_ztype type)
-8dcc1a9d90c10f Damien Le Moal     2019-12-25  1398  {
-8dcc1a9d90c10f Damien Le Moal     2019-12-25  1399  	struct super_block *sb = inode->i_sb;
-8dcc1a9d90c10f Damien Le Moal     2019-12-25  1400  	struct zonefs_sb_info *sbi = ZONEFS_SB(sb);
-8dcc1a9d90c10f Damien Le Moal     2019-12-25  1401  	struct zonefs_inode_info *zi = ZONEFS_I(inode);
-14bdb047a54d7a Damien Le Moal     2022-05-24  1402  	int ret = 0;
-8dcc1a9d90c10f Damien Le Moal     2019-12-25  1403  
-8dcc1a9d90c10f Damien Le Moal     2019-12-25  1404  	inode->i_ino = zone->start >> sbi->s_zone_sectors_shift;
-8dcc1a9d90c10f Damien Le Moal     2019-12-25  1405  	inode->i_mode = S_IFREG | sbi->s_perm;
-8dcc1a9d90c10f Damien Le Moal     2019-12-25  1406  
-8dcc1a9d90c10f Damien Le Moal     2019-12-25  1407  	zi->i_ztype = type;
-8dcc1a9d90c10f Damien Le Moal     2019-12-25  1408  	zi->i_zsector = zone->start;
-e3c3155bc95ab6 Johannes Thumshirn 2020-07-21  1409  	zi->i_zone_size = zone->len << SECTOR_SHIFT;
-4113036e1dcbb0 Johannes Thumshirn 2022-11-03  1410  	if (zi->i_zone_size > bdev_zone_sectors(sb->s_bdev) << SECTOR_SHIFT &&
-4113036e1dcbb0 Johannes Thumshirn 2022-11-03 @1411  	    !sbi->s_features & ZONEFS_F_AGGRCNV) {
+80a83cfc434b1e Michal Kazior    2016-05-19  1104  static struct txq_info *ieee80211_get_txq(struct ieee80211_local *local,
+ba8c3d6f16a1f9 Felix Fietkau    2015-03-27  1105  					  struct ieee80211_vif *vif,
+dbef5362111647 Michal Kazior    2017-01-13  1106  					  struct sta_info *sta,
+ba8c3d6f16a1f9 Felix Fietkau    2015-03-27  1107  					  struct sk_buff *skb)
+ba8c3d6f16a1f9 Felix Fietkau    2015-03-27  1108  {
+ba8c3d6f16a1f9 Felix Fietkau    2015-03-27  1109  	struct ieee80211_hdr *hdr = (struct ieee80211_hdr *) skb->data;
+ba8c3d6f16a1f9 Felix Fietkau    2015-03-27  1110  	struct ieee80211_tx_info *info = IEEE80211_SKB_CB(skb);
+ba8c3d6f16a1f9 Felix Fietkau    2015-03-27  1111  	struct ieee80211_txq *txq = NULL;
+df0e3c1e66212b Alexander Wetzel 2022-10-31 @1112  	bool is_ap_or_mesh = (vif->type == NL80211_IFTYPE_AP ||
+                                                                              ^^^^^^^^^
+New unchecked dereference.
 
-Needs to be !(sbi->s_features & ZONEFS_F_AGGRCNV)) {
+df0e3c1e66212b Alexander Wetzel 2022-10-31  1113  			      ieee80211_vif_is_mesh(vif));
+df0e3c1e66212b Alexander Wetzel 2022-10-31  1114  
+df0e3c1e66212b Alexander Wetzel 2022-10-31  1115  	if (unlikely(is_ap_or_mesh &&
+df0e3c1e66212b Alexander Wetzel 2022-10-31  1116  		     ieee80211_is_mgmt(hdr->frame_control) &&
+df0e3c1e66212b Alexander Wetzel 2022-10-31  1117  		     !ieee80211_is_bufferable_mmpdu(hdr->frame_control)))
+df0e3c1e66212b Alexander Wetzel 2022-10-31  1118  		info->flags |= IEEE80211_TX_CTL_NO_PS_BUFFER;
+ba8c3d6f16a1f9 Felix Fietkau    2015-03-27  1119  
+df0e3c1e66212b Alexander Wetzel 2022-10-31  1120  	if (unlikely((info->flags & IEEE80211_TX_CTL_NO_PS_BUFFER) ||
+df0e3c1e66212b Alexander Wetzel 2022-10-31  1121  		     info->control.flags & IEEE80211_TX_CTRL_PS_RESPONSE ||
+df0e3c1e66212b Alexander Wetzel 2022-10-31  1122  		     ieee80211_has_order(hdr->frame_control) ||
+df0e3c1e66212b Alexander Wetzel 2022-10-31  1123  		     ieee80211_is_probe_req(hdr->frame_control)))
+80a83cfc434b1e Michal Kazior    2016-05-19  1124  		return NULL;
+ba8c3d6f16a1f9 Felix Fietkau    2015-03-27  1125  
+cc20ff2c6b5d3e Felix Fietkau    2020-09-08  1126  	if (!(info->flags & IEEE80211_TX_CTL_HW_80211_ENCAP) &&
+50ff477a8639fa John Crispin     2019-11-25  1127  	    unlikely(!ieee80211_is_data_present(hdr->frame_control))) {
+adf8ed01e4fdd2 Johannes Berg    2018-08-31  1128  		if ((!ieee80211_is_mgmt(hdr->frame_control) ||
+0eeb2b674f05cc Sara Sharon      2018-09-05  1129  		     ieee80211_is_bufferable_mmpdu(hdr->frame_control) ||
+0eeb2b674f05cc Sara Sharon      2018-09-05  1130  		     vif->type == NL80211_IFTYPE_STATION) &&
+adf8ed01e4fdd2 Johannes Berg    2018-08-31  1131  		    sta && sta->uploaded) {
+adf8ed01e4fdd2 Johannes Berg    2018-08-31  1132  			/*
+adf8ed01e4fdd2 Johannes Berg    2018-08-31  1133  			 * This will be NULL if the driver didn't set the
+adf8ed01e4fdd2 Johannes Berg    2018-08-31  1134  			 * opt-in hardware flag.
+adf8ed01e4fdd2 Johannes Berg    2018-08-31  1135  			 */
+adf8ed01e4fdd2 Johannes Berg    2018-08-31  1136  			txq = sta->sta.txq[IEEE80211_NUM_TIDS];
+adf8ed01e4fdd2 Johannes Berg    2018-08-31  1137  		}
+adf8ed01e4fdd2 Johannes Berg    2018-08-31  1138  	} else if (sta) {
+ba8c3d6f16a1f9 Felix Fietkau    2015-03-27  1139  		u8 tid = skb->priority & IEEE80211_QOS_CTL_TID_MASK;
+ba8c3d6f16a1f9 Felix Fietkau    2015-03-27  1140  
+dbef5362111647 Michal Kazior    2017-01-13  1141  		if (!sta->uploaded)
+dbef5362111647 Michal Kazior    2017-01-13  1142  			return NULL;
+dbef5362111647 Michal Kazior    2017-01-13  1143  
+dbef5362111647 Michal Kazior    2017-01-13  1144  		txq = sta->sta.txq[tid];
+ba8c3d6f16a1f9 Felix Fietkau    2015-03-27 @1145  	} else if (vif) {
 
-4113036e1dcbb0 Johannes Thumshirn 2022-11-03  1412  		zonefs_err(sb,
-4113036e1dcbb0 Johannes Thumshirn 2022-11-03  1413  			   "zone size %llu doesn't match device's zone sectors %llu\n",
-4113036e1dcbb0 Johannes Thumshirn 2022-11-03  1414  			   zi->i_zone_size,
-4113036e1dcbb0 Johannes Thumshirn 2022-11-03  1415  			   bdev_zone_sectors(sb->s_bdev) << SECTOR_SHIFT);
-4113036e1dcbb0 Johannes Thumshirn 2022-11-03  1416  		return -EINVAL;
-4113036e1dcbb0 Johannes Thumshirn 2022-11-03  1417  	}
-e3c3155bc95ab6 Johannes Thumshirn 2020-07-21  1418  
-8dcc1a9d90c10f Damien Le Moal     2019-12-25  1419  	zi->i_max_size = min_t(loff_t, MAX_LFS_FILESIZE,
-e3c3155bc95ab6 Johannes Thumshirn 2020-07-21  1420  			       zone->capacity << SECTOR_SHIFT);
-ccf4ad7da0d9c3 Damien Le Moal     2020-03-20  1421  	zi->i_wpoffset = zonefs_check_zone_condition(inode, zone, true, true);
-8dcc1a9d90c10f Damien Le Moal     2019-12-25  1422  
-8dcc1a9d90c10f Damien Le Moal     2019-12-25  1423  	inode->i_uid = sbi->s_uid;
-8dcc1a9d90c10f Damien Le Moal     2019-12-25  1424  	inode->i_gid = sbi->s_gid;
-8dcc1a9d90c10f Damien Le Moal     2019-12-25  1425  	inode->i_size = zi->i_wpoffset;
-e3c3155bc95ab6 Johannes Thumshirn 2020-07-21  1426  	inode->i_blocks = zi->i_max_size >> SECTOR_SHIFT;
-8dcc1a9d90c10f Damien Le Moal     2019-12-25  1427  
-8dcc1a9d90c10f Damien Le Moal     2019-12-25  1428  	inode->i_op = &zonefs_file_inode_operations;
-8dcc1a9d90c10f Damien Le Moal     2019-12-25  1429  	inode->i_fop = &zonefs_file_operations;
-8dcc1a9d90c10f Damien Le Moal     2019-12-25  1430  	inode->i_mapping->a_ops = &zonefs_file_aops;
-8dcc1a9d90c10f Damien Le Moal     2019-12-25  1431  
-8dcc1a9d90c10f Damien Le Moal     2019-12-25  1432  	sb->s_maxbytes = max(zi->i_max_size, sb->s_maxbytes);
-8dcc1a9d90c10f Damien Le Moal     2019-12-25  1433  	sbi->s_blocks += zi->i_max_size >> sb->s_blocksize_bits;
-8dcc1a9d90c10f Damien Le Moal     2019-12-25  1434  	sbi->s_used_blocks += zi->i_wpoffset >> sb->s_blocksize_bits;
-1da18a296f5ba4 Damien Le Moal     2022-04-12  1435  
-87c9ce3ffec906 Damien Le Moal     2022-04-12  1436  	mutex_lock(&zi->i_truncate_mutex);
-87c9ce3ffec906 Damien Le Moal     2022-04-12  1437  
-1da18a296f5ba4 Damien Le Moal     2022-04-12  1438  	/*
-1da18a296f5ba4 Damien Le Moal     2022-04-12  1439  	 * For sequential zones, make sure that any open zone is closed first
-1da18a296f5ba4 Damien Le Moal     2022-04-12  1440  	 * to ensure that the initial number of open zones is 0, in sync with
-1da18a296f5ba4 Damien Le Moal     2022-04-12  1441  	 * the open zone accounting done when the mount option
-1da18a296f5ba4 Damien Le Moal     2022-04-12  1442  	 * ZONEFS_MNTOPT_EXPLICIT_OPEN is used.
-1da18a296f5ba4 Damien Le Moal     2022-04-12  1443  	 */
-1da18a296f5ba4 Damien Le Moal     2022-04-12  1444  	if (type == ZONEFS_ZTYPE_SEQ &&
-1da18a296f5ba4 Damien Le Moal     2022-04-12  1445  	    (zone->cond == BLK_ZONE_COND_IMP_OPEN ||
-1da18a296f5ba4 Damien Le Moal     2022-04-12  1446  	     zone->cond == BLK_ZONE_COND_EXP_OPEN)) {
-1da18a296f5ba4 Damien Le Moal     2022-04-12  1447  		ret = zonefs_zone_mgmt(inode, REQ_OP_ZONE_CLOSE);
-87c9ce3ffec906 Damien Le Moal     2022-04-12  1448  		if (ret)
-87c9ce3ffec906 Damien Le Moal     2022-04-12  1449  			goto unlock;
-1da18a296f5ba4 Damien Le Moal     2022-04-12  1450  	}
-1da18a296f5ba4 Damien Le Moal     2022-04-12  1451  
-87c9ce3ffec906 Damien Le Moal     2022-04-12  1452  	zonefs_account_active(inode);
-87c9ce3ffec906 Damien Le Moal     2022-04-12  1453  
-87c9ce3ffec906 Damien Le Moal     2022-04-12  1454  unlock:
-87c9ce3ffec906 Damien Le Moal     2022-04-12  1455  	mutex_unlock(&zi->i_truncate_mutex);
-87c9ce3ffec906 Damien Le Moal     2022-04-12  1456  
-14bdb047a54d7a Damien Le Moal     2022-05-24  1457  	return ret;
-8dcc1a9d90c10f Damien Le Moal     2019-12-25  1458  }
-8dcc1a9d90c10f Damien Le Moal     2019-12-25  1459  
-8dcc1a9d90c10f Damien Le Moal     2019-12-25  1460  static struct dentry *zonefs_create_inode(struct dentry *parent,
-8dcc1a9d90c10f Damien Le Moal     2019-12-25  1461  					const char *name, struct blk_zone *zone,
-8dcc1a9d90c10f Damien Le Moal     2019-12-25  1462  					enum zonefs_ztype type)
-8dcc1a9d90c10f Damien Le Moal     2019-12-25  1463  {
-8dcc1a9d90c10f Damien Le Moal     2019-12-25  1464  	struct inode *dir = d_inode(parent);
-8dcc1a9d90c10f Damien Le Moal     2019-12-25  1465  	struct dentry *dentry;
-8dcc1a9d90c10f Damien Le Moal     2019-12-25  1466  	struct inode *inode;
-1da18a296f5ba4 Damien Le Moal     2022-04-12  1467  	int ret;
-8dcc1a9d90c10f Damien Le Moal     2019-12-25  1468  
-8dcc1a9d90c10f Damien Le Moal     2019-12-25  1469  	dentry = d_alloc_name(parent, name);
-8dcc1a9d90c10f Damien Le Moal     2019-12-25  1470  	if (!dentry)
-8dcc1a9d90c10f Damien Le Moal     2019-12-25  1471  		return NULL;
-8dcc1a9d90c10f Damien Le Moal     2019-12-25  1472  
-8dcc1a9d90c10f Damien Le Moal     2019-12-25  1473  	inode = new_inode(parent->d_sb);
-8dcc1a9d90c10f Damien Le Moal     2019-12-25  1474  	if (!inode)
-8dcc1a9d90c10f Damien Le Moal     2019-12-25  1475  		goto dput;
+Old code checked for NULL.
 
-"ret" not initialized on this path.
-
-8dcc1a9d90c10f Damien Le Moal     2019-12-25  1476  
-8dcc1a9d90c10f Damien Le Moal     2019-12-25  1477  	inode->i_ctime = inode->i_mtime = inode->i_atime = dir->i_ctime;
-1da18a296f5ba4 Damien Le Moal     2022-04-12  1478  	if (zone) {
-1da18a296f5ba4 Damien Le Moal     2022-04-12  1479  		ret = zonefs_init_file_inode(inode, zone, type);
-1da18a296f5ba4 Damien Le Moal     2022-04-12  1480  		if (ret) {
-1da18a296f5ba4 Damien Le Moal     2022-04-12  1481  			iput(inode);
-1da18a296f5ba4 Damien Le Moal     2022-04-12  1482  			goto dput;
-1da18a296f5ba4 Damien Le Moal     2022-04-12  1483  		}
-1da18a296f5ba4 Damien Le Moal     2022-04-12  1484  	} else {
-8dcc1a9d90c10f Damien Le Moal     2019-12-25  1485  		zonefs_init_dir_inode(dir, inode, type);
-1da18a296f5ba4 Damien Le Moal     2022-04-12  1486  	}
-1da18a296f5ba4 Damien Le Moal     2022-04-12  1487  
-8dcc1a9d90c10f Damien Le Moal     2019-12-25  1488  	d_add(dentry, inode);
-8dcc1a9d90c10f Damien Le Moal     2019-12-25  1489  	dir->i_size++;
-8dcc1a9d90c10f Damien Le Moal     2019-12-25  1490  
-8dcc1a9d90c10f Damien Le Moal     2019-12-25  1491  	return dentry;
-8dcc1a9d90c10f Damien Le Moal     2019-12-25  1492  
-8dcc1a9d90c10f Damien Le Moal     2019-12-25  1493  dput:
-8dcc1a9d90c10f Damien Le Moal     2019-12-25  1494  	dput(dentry);
-8dcc1a9d90c10f Damien Le Moal     2019-12-25  1495  
-4113036e1dcbb0 Johannes Thumshirn 2022-11-03 @1496  	return ERR_PTR(ret);
-8dcc1a9d90c10f Damien Le Moal     2019-12-25  1497  }
+df0e3c1e66212b Alexander Wetzel 2022-10-31  1146  		if (is_ap_or_mesh &&
+df0e3c1e66212b Alexander Wetzel 2022-10-31  1147  		    ieee80211_hw_check(&local->hw, QUEUE_CONTROL))
+df0e3c1e66212b Alexander Wetzel 2022-10-31  1148  			info->hw_queue = vif->cab_queue;
+ba8c3d6f16a1f9 Felix Fietkau    2015-03-27  1149  		txq = vif->txq;
+ba8c3d6f16a1f9 Felix Fietkau    2015-03-27  1150  	}
+ba8c3d6f16a1f9 Felix Fietkau    2015-03-27  1151  
+ba8c3d6f16a1f9 Felix Fietkau    2015-03-27  1152  	if (!txq)
+80a83cfc434b1e Michal Kazior    2016-05-19  1153  		return NULL;
+ba8c3d6f16a1f9 Felix Fietkau    2015-03-27  1154  
+80a83cfc434b1e Michal Kazior    2016-05-19  1155  	return to_txq_info(txq);
+80a83cfc434b1e Michal Kazior    2016-05-19  1156  }
 
 -- 
 0-DAY CI Kernel Test Service
