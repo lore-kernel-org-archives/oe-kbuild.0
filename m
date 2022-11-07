@@ -1,42 +1,43 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFEBA184F
-	for <oe-kbuild@lists.linux.dev>; Mon,  7 Nov 2022 07:05:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E099228E2
+	for <oe-kbuild@lists.linux.dev>; Mon,  7 Nov 2022 07:25:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1667804745; x=1699340745;
+  t=1667805932; x=1699341932;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Nj9wp1baZJmwPnTXAUI45jLBrWaM3OSBX0H1qDXCK/Q=;
-  b=fUvVUMUqaFldGl8t9LX2qG9MAegzKbcdb0mn6bZawh0BlaabU1lanlIt
-   RT7/QIDstjNTCuRBv5znN6ws604yajgGuappRcW8bCQVpuBvaCS/Mh8Cc
-   Fpz/s8djQYx8AUw5s5BSYUoZNVj+HwEYezyrLtsT+TrO0ZbFbNNELedPn
-   BR9sr401SSkw5l2Lrmf5WKLbZ43QSPEMU4YyVr82RSKYn5+FWyNC4WeGs
-   oBMi4UDlWykUMYV/jgezl/I6+RVZpygA1TU0lWMRZT7F+Pi1i6cuA/VkP
-   6ZyzlAV6o4c+TgEsDWV2M6xjeUPL5QmCLckNHjbRVBmJtaeHFh8+cUAvG
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10523"; a="290730459"
+  bh=iM9i0DtdCGFrrI7MtkxjghocFaiS4FtLjjUAUCmGrp8=;
+  b=bTdm3vhoF8KI5NkgVRHiZA3x9fwFNzClEAxKwgqi3YLOsjudVzIXV+tr
+   +7jLTpXaBOOS4ADrBmQPjA6zaJQHrUlU7JFDOR+XMqzS22i8OqsSHBCaS
+   OURSToJnG9L+yDrLmfGHwSl2G2y9Tv3L+BIe4oIYgwCac0JxV8OjDUvJo
+   MFL74A1ENVeDpVNylbbQApEgPjd215peDMFT6eqTphUCmC8sAweRsIH8m
+   9qNhMx6cfZb7RlvHF7y/CB7sRB9ciIm7D6A8G5EjPHx9p6CR+kAz0iN/C
+   sYNyXLad7n2/B5Qa6AX7OLPpbxvqsEJEuTSaOj+qBLjpgoVqTtpBAy03J
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10523"; a="297836888"
 X-IronPort-AV: E=Sophos;i="5.96,143,1665471600"; 
-   d="scan'208";a="290730459"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2022 23:05:32 -0800
+   d="scan'208";a="297836888"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2022 23:25:32 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10523"; a="704763840"
+X-IronPort-AV: E=McAfee;i="6500,9779,10523"; a="613767299"
 X-IronPort-AV: E=Sophos;i="5.96,143,1665471600"; 
-   d="scan'208";a="704763840"
+   d="scan'208";a="613767299"
 Received: from lkp-server01.sh.intel.com (HELO 462403710aa9) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 06 Nov 2022 23:05:31 -0800
+  by orsmga006.jf.intel.com with ESMTP; 06 Nov 2022 23:25:31 -0800
 Received: from kbuild by 462403710aa9 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1orwCI-0000Po-1q;
-	Mon, 07 Nov 2022 07:05:30 +0000
-Date: Mon, 7 Nov 2022 15:04:29 +0800
+	id 1orwVe-0000QK-2r;
+	Mon, 07 Nov 2022 07:25:30 +0000
+Date: Mon, 7 Nov 2022 15:24:41 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: drivers/gpu/drm/drm_format_helper.c:150:38: warning: Parameter 'dst'
- can be declared as pointer to const [constParameter]
-Message-ID: <202211071508.0TbCxRt4-lkp@intel.com>
+Subject: arch/arm/kernel/stacktrace.c:163:1: warning: Label 'here' is not
+ used. There is #if in function body so the label might be used in code that
+ is removed by the preprocessor. [unusedLabelConfiguration]
+Message-ID: <202211071531.om5DP1OP-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -47,25 +48,25 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "low confidence static check warning: drivers/gpu/drm/drm_format_helper.c:150:38: warning: Parameter 'dst' can be declared as pointer to const [constParameter]"
+:::::: Manual check reason: "low confidence static check warning: arch/arm/kernel/stacktrace.c:163:1: warning: Label 'here' is not used. There is #if in function body so the label might be used in code that is removed by the preprocessor. [unusedLabelConfiguration]"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Thomas Zimmermann <tzimmermann@suse.de>
-CC: Sam Ravnborg <sam@ravnborg.org>
+TO: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
+CC: Ard Biesheuvel <ardb@kernel.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   f0c4d9fc9cc9462659728d168387191387e903cc
-commit: edbe262acf92c986ad9a1f594ae3b4f3d3373133 drm/format-helper: Merge drm_fb_memcpy() and drm_fb_memcpy_toio()
-date:   3 months ago
+commit: c46c2c9b43f4f08f20dc06417fbf7091e4ca6d34 ARM: unwind: set frame.pc correctly for current-thread unwinding
+date:   8 months ago
 :::::: branch date: 8 hours ago
-:::::: commit date: 3 months ago
-compiler: sh4-linux-gcc (GCC) 12.1.0
+:::::: commit date: 8 months ago
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
 reproduce (cppcheck warning):
         # apt-get install cppcheck
-        git checkout edbe262acf92c986ad9a1f594ae3b4f3d3373133
+        git checkout c46c2c9b43f4f08f20dc06417fbf7091e4ca6d34
         cppcheck --quiet --enable=style,performance,portability --template=gcc FILE
 
 If you fix the issue, kindly add following tag where applicable
@@ -74,67 +75,81 @@ If you fix the issue, kindly add following tag where applicable
 
 cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
->> drivers/gpu/drm/drm_format_helper.c:150:38: warning: Parameter 'dst' can be declared as pointer to const [constParameter]
-   void drm_fb_memcpy(struct iosys_map *dst, const unsigned int *dst_pitch,
-                                        ^
+>> arch/arm/mm/fault.c:529:28: warning: Shifting signed 32-bit value by 31 bits is implementation-defined behaviour [shiftTooManyBitsSigned]
+    if (!inf->fn(addr, fsr & ~FSR_LNX_PF, regs))
+                              ^
+   arch/arm/mm/fault.c:559:28: warning: Shifting signed 32-bit value by 31 bits is implementation-defined behaviour [shiftTooManyBitsSigned]
+    if (!inf->fn(addr, ifsr | FSR_LNX_PF, regs))
+                              ^
+>> arch/arm/mm/fault.c:529:28: warning: Signed integer overflow for expression '1<<31'. [integerOverflow]
+    if (!inf->fn(addr, fsr & ~FSR_LNX_PF, regs))
+                              ^
+   arch/arm/mm/fault.c:559:28: warning: Signed integer overflow for expression '1<<31'. [integerOverflow]
+    if (!inf->fn(addr, ifsr | FSR_LNX_PF, regs))
+                              ^
+   arch/arm/mm/fault.c:269:12: warning: Shifting signed 32-bit value by 31 bits is implementation-defined behaviour [shiftTooManyBitsSigned]
+    if (fsr & FSR_LNX_PF) {
+              ^
+   arch/arm/mm/fault.c:269:12: warning: Signed integer overflow for expression '1<<31'. [integerOverflow]
+    if (fsr & FSR_LNX_PF) {
+              ^
+--
+>> arch/arm/kernel/stacktrace.c:163:1: warning: Label 'here' is not used. There is #if in function body so the label might be used in code that is removed by the preprocessor. [unusedLabelConfiguration]
+   here:
+   ^
+   arch/arm/kernel/stacktrace.c:133:61: warning: Parameter 'tsk' can be declared as pointer to const [constParameter]
+   static noinline void __save_stack_trace(struct task_struct *tsk,
+                                                               ^
+--
+>> arch/arm/kernel/return_address.c:44:1: warning: Label 'here' is not used. There is #if in function body so the label might be used in code that is removed by the preprocessor. [unusedLabelConfiguration]
+   here:
+   ^
 
-vim +/dst +150 drivers/gpu/drm/drm_format_helper.c
+vim +/here +163 arch/arm/kernel/stacktrace.c
 
-cce6bedb38ed08 Thomas Zimmermann 2022-04-27  131  
-7415287e1f3675 Gerd Hoffmann     2019-04-05  132  /**
-7415287e1f3675 Gerd Hoffmann     2019-04-05  133   * drm_fb_memcpy - Copy clip buffer
-edbe262acf92c9 Thomas Zimmermann 2022-08-08  134   * @dst: Array of destination buffers
-edbe262acf92c9 Thomas Zimmermann 2022-08-08  135   * @dst_pitch: Array of numbers of bytes between the start of two consecutive scanlines
-edbe262acf92c9 Thomas Zimmermann 2022-08-08  136   *             within @dst; can be NULL if scanlines are stored next to each other.
-edbe262acf92c9 Thomas Zimmermann 2022-08-08  137   * @vmap: Array of source buffers
-7415287e1f3675 Gerd Hoffmann     2019-04-05  138   * @fb: DRM framebuffer
-7415287e1f3675 Gerd Hoffmann     2019-04-05  139   * @clip: Clip rectangle area to copy
-26f024f54ab69a Gerd Hoffmann     2019-04-05  140   *
-edbe262acf92c9 Thomas Zimmermann 2022-08-08  141   * This function copies parts of a framebuffer to display memory. Destination and
-edbe262acf92c9 Thomas Zimmermann 2022-08-08  142   * framebuffer formats must match. No conversion takes place. The parameters @dst,
-edbe262acf92c9 Thomas Zimmermann 2022-08-08  143   * @dst_pitch and @vmap refer to arrays. Each array must have at least as many entries
-edbe262acf92c9 Thomas Zimmermann 2022-08-08  144   * as there are planes in @fb's format. Each entry stores the value for the format's
-edbe262acf92c9 Thomas Zimmermann 2022-08-08  145   * respective color plane at the same index.
-edbe262acf92c9 Thomas Zimmermann 2022-08-08  146   *
-edbe262acf92c9 Thomas Zimmermann 2022-08-08  147   * This function does not apply clipping on @dst (i.e. the destination is at the
-edbe262acf92c9 Thomas Zimmermann 2022-08-08  148   * top-left corner).
-7415287e1f3675 Gerd Hoffmann     2019-04-05  149   */
-edbe262acf92c9 Thomas Zimmermann 2022-08-08 @150  void drm_fb_memcpy(struct iosys_map *dst, const unsigned int *dst_pitch,
-edbe262acf92c9 Thomas Zimmermann 2022-08-08  151  		   const struct iosys_map *vmap, const struct drm_framebuffer *fb,
-edbe262acf92c9 Thomas Zimmermann 2022-08-08  152  		   const struct drm_rect *clip)
-7415287e1f3675 Gerd Hoffmann     2019-04-05  153  {
-edbe262acf92c9 Thomas Zimmermann 2022-08-08  154  	static const unsigned int default_dst_pitch[DRM_FORMAT_MAX_PLANES] = {
-edbe262acf92c9 Thomas Zimmermann 2022-08-08  155  		0, 0, 0, 0
-edbe262acf92c9 Thomas Zimmermann 2022-08-08  156  	};
-7415287e1f3675 Gerd Hoffmann     2019-04-05  157  
-edbe262acf92c9 Thomas Zimmermann 2022-08-08  158  	const struct drm_format_info *format = fb->format;
-edbe262acf92c9 Thomas Zimmermann 2022-08-08  159  	unsigned int i, y, lines = drm_rect_height(clip);
-27bd66dd6419c4 Thomas Zimmermann 2021-11-10  160  
-edbe262acf92c9 Thomas Zimmermann 2022-08-08  161  	if (!dst_pitch)
-edbe262acf92c9 Thomas Zimmermann 2022-08-08  162  		dst_pitch = default_dst_pitch;
-7415287e1f3675 Gerd Hoffmann     2019-04-05  163  
-edbe262acf92c9 Thomas Zimmermann 2022-08-08  164  	for (i = 0; i < format->num_planes; ++i) {
-edbe262acf92c9 Thomas Zimmermann 2022-08-08  165  		unsigned int bpp_i = drm_format_info_bpp(format, i);
-edbe262acf92c9 Thomas Zimmermann 2022-08-08  166  		unsigned int cpp_i = DIV_ROUND_UP(bpp_i, 8);
-edbe262acf92c9 Thomas Zimmermann 2022-08-08  167  		size_t len_i = DIV_ROUND_UP(drm_rect_width(clip) * bpp_i, 8);
-edbe262acf92c9 Thomas Zimmermann 2022-08-08  168  		unsigned int dst_pitch_i = dst_pitch[i];
-edbe262acf92c9 Thomas Zimmermann 2022-08-08  169  		struct iosys_map dst_i = dst[i];
-edbe262acf92c9 Thomas Zimmermann 2022-08-08  170  		struct iosys_map vmap_i = vmap[i];
-26f024f54ab69a Gerd Hoffmann     2019-04-05  171  
-edbe262acf92c9 Thomas Zimmermann 2022-08-08  172  		if (!dst_pitch_i)
-edbe262acf92c9 Thomas Zimmermann 2022-08-08  173  			dst_pitch_i = len_i;
-27bd66dd6419c4 Thomas Zimmermann 2021-11-10  174  
-edbe262acf92c9 Thomas Zimmermann 2022-08-08  175  		iosys_map_incr(&vmap_i, clip_offset(clip, fb->pitches[i], cpp_i));
-bf4f6d16c89466 Gerd Hoffmann     2019-04-10  176  		for (y = 0; y < lines; y++) {
-edbe262acf92c9 Thomas Zimmermann 2022-08-08  177  			/* TODO: handle vmap_i in I/O memory here */
-edbe262acf92c9 Thomas Zimmermann 2022-08-08  178  			iosys_map_memcpy_to(&dst_i, 0, vmap_i.vaddr, len_i);
-edbe262acf92c9 Thomas Zimmermann 2022-08-08  179  			iosys_map_incr(&vmap_i, fb->pitches[i]);
-edbe262acf92c9 Thomas Zimmermann 2022-08-08  180  			iosys_map_incr(&dst_i, dst_pitch_i);
-bf4f6d16c89466 Gerd Hoffmann     2019-04-10  181  		}
-26f024f54ab69a Gerd Hoffmann     2019-04-05  182  	}
-edbe262acf92c9 Thomas Zimmermann 2022-08-08  183  }
-edbe262acf92c9 Thomas Zimmermann 2022-08-08  184  EXPORT_SYMBOL(drm_fb_memcpy);
-26f024f54ab69a Gerd Hoffmann     2019-04-05  185  
+f16fb1ecc5a1cb Russell King          2007-04-28  131  
+3683f44c42e991 Russell King          2014-05-03  132  /* This must be noinline to so that our skip calculation works correctly */
+3683f44c42e991 Russell King          2014-05-03  133  static noinline void __save_stack_trace(struct task_struct *tsk,
+3683f44c42e991 Russell King          2014-05-03  134  	struct stack_trace *trace, unsigned int nosched)
+f16fb1ecc5a1cb Russell King          2007-04-28  135  {
+f16fb1ecc5a1cb Russell King          2007-04-28  136  	struct stack_trace_data data;
+2d7c11bfc91637 Catalin Marinas       2009-02-11  137  	struct stackframe frame;
+f16fb1ecc5a1cb Russell King          2007-04-28  138  
+f16fb1ecc5a1cb Russell King          2007-04-28  139  	data.trace = trace;
+f16fb1ecc5a1cb Russell King          2007-04-28  140  	data.skip = trace->skip;
+3683f44c42e991 Russell King          2014-05-03  141  	data.no_sched_functions = nosched;
+f76e9154736e9a Nicolas Pitre         2008-04-24  142  
+f76e9154736e9a Nicolas Pitre         2008-04-24  143  	if (tsk != current) {
+f76e9154736e9a Nicolas Pitre         2008-04-24  144  #ifdef CONFIG_SMP
+f76e9154736e9a Nicolas Pitre         2008-04-24  145  		/*
+d5996b2ff0e26c Russell King          2011-01-15  146  		 * What guarantees do we have here that 'tsk' is not
+d5996b2ff0e26c Russell King          2011-01-15  147  		 * running on another CPU?  For now, ignore it as we
+d5996b2ff0e26c Russell King          2011-01-15  148  		 * can't guarantee we won't explode.
+f76e9154736e9a Nicolas Pitre         2008-04-24  149  		 */
+d5996b2ff0e26c Russell King          2011-01-15  150  		return;
+f76e9154736e9a Nicolas Pitre         2008-04-24  151  #else
+2d7c11bfc91637 Catalin Marinas       2009-02-11  152  		frame.fp = thread_saved_fp(tsk);
+2d7c11bfc91637 Catalin Marinas       2009-02-11  153  		frame.sp = thread_saved_sp(tsk);
+2d7c11bfc91637 Catalin Marinas       2009-02-11  154  		frame.lr = 0;		/* recovered from the stack */
+2d7c11bfc91637 Catalin Marinas       2009-02-11  155  		frame.pc = thread_saved_pc(tsk);
+f76e9154736e9a Nicolas Pitre         2008-04-24  156  #endif
+f76e9154736e9a Nicolas Pitre         2008-04-24  157  	} else {
+3683f44c42e991 Russell King          2014-05-03  158  		/* We don't want this function nor the caller */
+3683f44c42e991 Russell King          2014-05-03  159  		data.skip += 2;
+2d7c11bfc91637 Catalin Marinas       2009-02-11  160  		frame.fp = (unsigned long)__builtin_frame_address(0);
+74dbeee0fcded9 Behan Webster         2014-09-27  161  		frame.sp = current_stack_pointer;
+2d7c11bfc91637 Catalin Marinas       2009-02-11  162  		frame.lr = (unsigned long)__builtin_return_address(0);
+c46c2c9b43f4f0 Russell King (Oracle  2022-03-09 @163) here:
+c46c2c9b43f4f0 Russell King (Oracle  2022-03-09  164) 		frame.pc = (unsigned long)&&here;
+f76e9154736e9a Nicolas Pitre         2008-04-24  165  	}
+fed240d9c97438 Masami Hiramatsu      2021-10-21  166  #ifdef CONFIG_KRETPROBES
+fed240d9c97438 Masami Hiramatsu      2021-10-21  167  	frame.kr_cur = NULL;
+fed240d9c97438 Masami Hiramatsu      2021-10-21  168  	frame.tsk = tsk;
+fed240d9c97438 Masami Hiramatsu      2021-10-21  169  #endif
+f16fb1ecc5a1cb Russell King          2007-04-28  170  
+2d7c11bfc91637 Catalin Marinas       2009-02-11  171  	walk_stackframe(&frame, save_trace, &data);
+f76e9154736e9a Nicolas Pitre         2008-04-24  172  }
+f76e9154736e9a Nicolas Pitre         2008-04-24  173  
 
 -- 
 0-DAY CI Kernel Test Service
