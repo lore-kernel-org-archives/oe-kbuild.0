@@ -1,51 +1,52 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 416F42565;
-	Mon,  7 Nov 2022 08:00:22 +0000 (UTC)
-Received: by mail-wm1-f49.google.com with SMTP id fn7-20020a05600c688700b003b4fb113b86so6639630wmb.0;
-        Mon, 07 Nov 2022 00:00:22 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C85F42565;
+	Mon,  7 Nov 2022 08:01:39 +0000 (UTC)
+Received: by mail-wr1-f44.google.com with SMTP id v1so14868478wrt.11;
+        Mon, 07 Nov 2022 00:01:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
          :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=6VU351BXvMWXjq2K/i0yKp41Rbk0oveSHyI5Ky9W+js=;
-        b=MN0wf+iHEhP9uo6/TWbXRu2l2hTq+Hljh4m1YsgarQwlLg95IzNFl5EET8uAVfYVzq
-         9VsXmEyGE1vXh9fpKQIKk3DGecy6hxsnGWs8luO0rKKgLOcFeRa+RCVx3riZVzrQctVy
-         LpArVGb9jfPCICqjlqntAS5F0Ol32En6cpm/sEAZH1g3EDtQBPpAhVBAWEMFAtdQgsuK
-         OZnHt/zcsOMFUeV1OQCmAaryD52ybjZTRutRAXyzjbt3pIadEWbDeZKAiEqQ/x4e4YIh
-         KgoKUBieY7SOfgJCXRP+DL4rNje+Z6H9IzqFbm+1ucDIgo+oReVLMWdhxz8g/bvb58+X
-         Yu1w==
+        bh=Ch+LE7gstKBIpXh5IG3QGfhZroQjP8LDQYrbKVWPxqM=;
+        b=oyEMtbJtCLFX5lMBDr/DgCQ/ltvexBJSZjdn0g3qYi5319dOvFreFV3dHnxGAg8bW+
+         uZAeLfEYIs6fWT9zNCyvoBBEu6nrxxb8GbFpjxjfJn8WiPx2wfq7V80N/HA7PnQW6PR3
+         Mil5xtnJf4mIbF59o/llgBpcmn8VJY7efi4vKk+1kX2Yidfk4rPFLJc2AlYQ1WU4T/sy
+         G5uf4kMltYDwpL4bcu9mGcENjyCF6hk7XQtq6/0am5Mh/oDJ7PhgjX+7p8wWLwtW1vLq
+         oBjvtUyHOzub+gsehYfE/7S01gQgYS/dABK0pisBF6cGCbE3tH8qTKN9QZXYyNpUTiyR
+         dLzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
          :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=6VU351BXvMWXjq2K/i0yKp41Rbk0oveSHyI5Ky9W+js=;
-        b=eojzhnHChTm7klvYv71GizYjSNefoVxN2uTNaUCPEPS9JYIj15H3BySrkqW7zevnRP
-         Hg8SsCb2eGOTHmg9Zvnx4AgatD1bA/5NXnVQVkoWWik4FZ/uvV4iFwMu0BGJQ4J8Mha5
-         hIkzARD6cxpheQvuNwfBSmc8JESjqce22Ed7DuEJBZFJRq8sbIlhRU2K6lvj3AFU2kkJ
-         1b0Ml13H6ffg21qaumFCRFJywnD+7YTiIIpUGp6OAxfWQNAQ/uN3g4ehEFBuQtWG7aUS
-         d4He7Crbzax84SfkFWPeFnczN5gjX5SZr7hFaSOzd1OanVTFKHl+Cs1gfCtPT7TbVx1R
-         5HOw==
-X-Gm-Message-State: ACrzQf0wJDDS1wjNraKoBoUubulL8ms6U2MVYmvrYUidJ2DtaauUwfUm
-	kgdYKQ714veKo/SAIrzEilXORJ395WQ=
-X-Google-Smtp-Source: AMsMyM5N9wxfPSmBomZPgyoXFFqQP1wCcgaoDis+wplwT7/rsf4xHskXNSqN0784GCxu4BIPRIPxcA==
-X-Received: by 2002:a05:600c:4313:b0:3cf:894d:1d05 with SMTP id p19-20020a05600c431300b003cf894d1d05mr17047692wme.32.1667808020103;
-        Mon, 07 Nov 2022 00:00:20 -0800 (PST)
+        bh=Ch+LE7gstKBIpXh5IG3QGfhZroQjP8LDQYrbKVWPxqM=;
+        b=dPGOkzHNUF30wMGk6fGDdcQkRuw8WSPYJG8r8hmM1xkwC+bCBYrCugOd8Vshv4rxZO
+         mrbrqRbsYtVXUrWWE/Eq6Ov1lfliHIPXjbULyMCTSIxihejKeDxbkG1gc3ybDd9JY+E8
+         OulLsYOjmZ1/teluUvYYZCoM9UEHmzDni7B9WDdbUbfJpOIenVokXwyMNK7NRe6DuUyM
+         H8Vg7zJCuaiWdPptSPftIU2Ulg8CVPq9Br//m2QDU5d0HBk5nZcDRzIzA0ZjSoWPRVwe
+         QiM0wfdAtb1RSbP7vk4z9KGF76j+pLTFfN+5Is1YjcOoBvIgg0BF0JqSmFNPgPTBZyNx
+         g+gg==
+X-Gm-Message-State: ACrzQf2YHozDl46A3tbMIXXgkMo1MLCVWVXhcjaL/UaRLOqOL9x5FSEC
+	Sjc23jhAu6hcGd/cd208HzUdQceagds=
+X-Google-Smtp-Source: AMsMyM7HG+n2Rpteeu6Z33tXXS6tw3mSI72ThMGxOBanegLmm+tIcl/KHFv9O36f7Bg3pUzuSgDZzg==
+X-Received: by 2002:adf:ee4a:0:b0:236:77fe:5a5a with SMTP id w10-20020adfee4a000000b0023677fe5a5amr548922wro.117.1667808097798;
+        Mon, 07 Nov 2022 00:01:37 -0800 (PST)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id h8-20020a05600c2ca800b003b4a699ce8esm11365925wmc.6.2022.11.07.00.00.19
+        by smtp.gmail.com with ESMTPSA id k8-20020a05600c168800b003cf47fdead5sm7290060wmn.30.2022.11.07.00.01.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Nov 2022 00:00:19 -0800 (PST)
-Date: Mon, 7 Nov 2022 11:00:17 +0300
+        Mon, 07 Nov 2022 00:01:37 -0800 (PST)
+Date: Mon, 7 Nov 2022 11:01:30 +0300
 From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, Alexander Wetzel <alexander@wetzel-home.de>,
-	linux-wireless@vger.kernel.org
+To: oe-kbuild@lists.linux.dev, 'Guanjun' <guanjun@linux.alibaba.com>,
+	herbert@gondor.apana.org.au, elliott@hpe.com
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Johannes Berg <johannes@sipsolutions.net>,
-	Alexander Wetzel <alexander@wetzel-home.de>
-Subject: Re: [PATCH] wifi: mac80211: convert PS buffering into iTXQ
-Message-ID: <202211060817.mqDPz8T7-lkp@intel.com>
+	zelin.deng@linux.alibaba.com, artie.ding@linux.alibaba.com,
+	guanjun@linux.alibaba.com, linux-crypto@vger.kernel.org,
+	linux-kernel@vger.kernel.org, xuchun.shang@linux.alibaba.com
+Subject: Re: [PATCH v3 RESEND 8/9] crypto/ycc: Add sm2 algorithm support
+Message-ID: <202211060420.IwtCMD76-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -54,93 +55,50 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221031211815.6666-1-alexander@wetzel-home.de>
-Message-ID: <20221107080017.52w5BLeoFSwIXUrpi2YVpLJMe-efuZLcKu1_Hp_HHAE@z>
+In-Reply-To: <1667461243-48652-9-git-send-email-guanjun@linux.alibaba.com>
+Message-ID: <20221107080130.Phdm_v70upmUQkuh3w9Neu_CoH5EUhW-0ojHTfUpczU@z>
 
-Hi Alexander,
+Hi 'Guanjun',
 
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Alexander-Wetzel/wifi-mac80211-convert-PS-buffering-into-iTXQ/20221101-100832
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
-patch link:    https://lore.kernel.org/r/20221031211815.6666-1-alexander%40wetzel-home.de
-patch subject: [PATCH] wifi: mac80211: convert PS buffering into iTXQ
-config: openrisc-randconfig-m041-20221106
-compiler: or1k-linux-gcc (GCC) 12.1.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Guanjun/Drivers-for-Alibaba-YCC-Yitian-Cryptography-Complex-cryptographic-accelerator/20221103-154448
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git master
+patch link:    https://lore.kernel.org/r/1667461243-48652-9-git-send-email-guanjun%40linux.alibaba.com
+patch subject: [PATCH v3 RESEND 8/9] crypto/ycc: Add sm2 algorithm support
+config: ia64-randconfig-m031-20221104
+compiler: ia64-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
 
-New smatch warnings:
-net/mac80211/tx.c:1145 ieee80211_get_txq() warn: variable dereferenced before check 'vif' (see line 1112)
+smatch warnings:
+drivers/crypto/ycc/ycc_pke.c:880 ycc_sm2_exit() warn: variable dereferenced before check 'ctx->ring' (see line 878)
 
-Old smatch warnings:
-net/mac80211/tx.c:1689 invoke_tx_handlers_late() warn: variable dereferenced before check 'tx->skb' (see line 1664)
-net/mac80211/tx.c:3365 ieee80211_xmit_fast_finish() error: we previously assumed 'key' could be null (see line 3333)
+vim +880 drivers/crypto/ycc/ycc_pke.c
 
-vim +/vif +1145 net/mac80211/tx.c
+eb2973011f26b6 Xuchun Shang 2022-11-03  875  static void ycc_sm2_exit(struct crypto_akcipher *tfm)
+eb2973011f26b6 Xuchun Shang 2022-11-03  876  {
+eb2973011f26b6 Xuchun Shang 2022-11-03  877  	struct ycc_pke_ctx *ctx = akcipher_tfm_ctx(tfm);
+eb2973011f26b6 Xuchun Shang 2022-11-03 @878  	struct device *dev = YCC_DEV(ctx);
 
-80a83cfc434b1e Michal Kazior    2016-05-19  1104  static struct txq_info *ieee80211_get_txq(struct ieee80211_local *local,
-ba8c3d6f16a1f9 Felix Fietkau    2015-03-27  1105  					  struct ieee80211_vif *vif,
-dbef5362111647 Michal Kazior    2017-01-13  1106  					  struct sta_info *sta,
-ba8c3d6f16a1f9 Felix Fietkau    2015-03-27  1107  					  struct sk_buff *skb)
-ba8c3d6f16a1f9 Felix Fietkau    2015-03-27  1108  {
-ba8c3d6f16a1f9 Felix Fietkau    2015-03-27  1109  	struct ieee80211_hdr *hdr = (struct ieee80211_hdr *) skb->data;
-ba8c3d6f16a1f9 Felix Fietkau    2015-03-27  1110  	struct ieee80211_tx_info *info = IEEE80211_SKB_CB(skb);
-ba8c3d6f16a1f9 Felix Fietkau    2015-03-27  1111  	struct ieee80211_txq *txq = NULL;
-df0e3c1e66212b Alexander Wetzel 2022-10-31 @1112  	bool is_ap_or_mesh = (vif->type == NL80211_IFTYPE_AP ||
-                                                                              ^^^^^^^^^
-New unchecked dereference.
+ctx->ring dereferenced inside YCC_DEV() (says the checker).
 
-df0e3c1e66212b Alexander Wetzel 2022-10-31  1113  			      ieee80211_vif_is_mesh(vif));
-df0e3c1e66212b Alexander Wetzel 2022-10-31  1114  
-df0e3c1e66212b Alexander Wetzel 2022-10-31  1115  	if (unlikely(is_ap_or_mesh &&
-df0e3c1e66212b Alexander Wetzel 2022-10-31  1116  		     ieee80211_is_mgmt(hdr->frame_control) &&
-df0e3c1e66212b Alexander Wetzel 2022-10-31  1117  		     !ieee80211_is_bufferable_mmpdu(hdr->frame_control)))
-df0e3c1e66212b Alexander Wetzel 2022-10-31  1118  		info->flags |= IEEE80211_TX_CTL_NO_PS_BUFFER;
-ba8c3d6f16a1f9 Felix Fietkau    2015-03-27  1119  
-df0e3c1e66212b Alexander Wetzel 2022-10-31  1120  	if (unlikely((info->flags & IEEE80211_TX_CTL_NO_PS_BUFFER) ||
-df0e3c1e66212b Alexander Wetzel 2022-10-31  1121  		     info->control.flags & IEEE80211_TX_CTRL_PS_RESPONSE ||
-df0e3c1e66212b Alexander Wetzel 2022-10-31  1122  		     ieee80211_has_order(hdr->frame_control) ||
-df0e3c1e66212b Alexander Wetzel 2022-10-31  1123  		     ieee80211_is_probe_req(hdr->frame_control)))
-80a83cfc434b1e Michal Kazior    2016-05-19  1124  		return NULL;
-ba8c3d6f16a1f9 Felix Fietkau    2015-03-27  1125  
-cc20ff2c6b5d3e Felix Fietkau    2020-09-08  1126  	if (!(info->flags & IEEE80211_TX_CTL_HW_80211_ENCAP) &&
-50ff477a8639fa John Crispin     2019-11-25  1127  	    unlikely(!ieee80211_is_data_present(hdr->frame_control))) {
-adf8ed01e4fdd2 Johannes Berg    2018-08-31  1128  		if ((!ieee80211_is_mgmt(hdr->frame_control) ||
-0eeb2b674f05cc Sara Sharon      2018-09-05  1129  		     ieee80211_is_bufferable_mmpdu(hdr->frame_control) ||
-0eeb2b674f05cc Sara Sharon      2018-09-05  1130  		     vif->type == NL80211_IFTYPE_STATION) &&
-adf8ed01e4fdd2 Johannes Berg    2018-08-31  1131  		    sta && sta->uploaded) {
-adf8ed01e4fdd2 Johannes Berg    2018-08-31  1132  			/*
-adf8ed01e4fdd2 Johannes Berg    2018-08-31  1133  			 * This will be NULL if the driver didn't set the
-adf8ed01e4fdd2 Johannes Berg    2018-08-31  1134  			 * opt-in hardware flag.
-adf8ed01e4fdd2 Johannes Berg    2018-08-31  1135  			 */
-adf8ed01e4fdd2 Johannes Berg    2018-08-31  1136  			txq = sta->sta.txq[IEEE80211_NUM_TIDS];
-adf8ed01e4fdd2 Johannes Berg    2018-08-31  1137  		}
-adf8ed01e4fdd2 Johannes Berg    2018-08-31  1138  	} else if (sta) {
-ba8c3d6f16a1f9 Felix Fietkau    2015-03-27  1139  		u8 tid = skb->priority & IEEE80211_QOS_CTL_TID_MASK;
-ba8c3d6f16a1f9 Felix Fietkau    2015-03-27  1140  
-dbef5362111647 Michal Kazior    2017-01-13  1141  		if (!sta->uploaded)
-dbef5362111647 Michal Kazior    2017-01-13  1142  			return NULL;
-dbef5362111647 Michal Kazior    2017-01-13  1143  
-dbef5362111647 Michal Kazior    2017-01-13  1144  		txq = sta->sta.txq[tid];
-ba8c3d6f16a1f9 Felix Fietkau    2015-03-27 @1145  	} else if (vif) {
+eb2973011f26b6 Xuchun Shang 2022-11-03  879  
+eb2973011f26b6 Xuchun Shang 2022-11-03 @880  	if (ctx->ring)
+                                                    ^^^^^^^^^
+Checked too late.
 
-Old code checked for NULL.
-
-df0e3c1e66212b Alexander Wetzel 2022-10-31  1146  		if (is_ap_or_mesh &&
-df0e3c1e66212b Alexander Wetzel 2022-10-31  1147  		    ieee80211_hw_check(&local->hw, QUEUE_CONTROL))
-df0e3c1e66212b Alexander Wetzel 2022-10-31  1148  			info->hw_queue = vif->cab_queue;
-ba8c3d6f16a1f9 Felix Fietkau    2015-03-27  1149  		txq = vif->txq;
-ba8c3d6f16a1f9 Felix Fietkau    2015-03-27  1150  	}
-ba8c3d6f16a1f9 Felix Fietkau    2015-03-27  1151  
-ba8c3d6f16a1f9 Felix Fietkau    2015-03-27  1152  	if (!txq)
-80a83cfc434b1e Michal Kazior    2016-05-19  1153  		return NULL;
-ba8c3d6f16a1f9 Felix Fietkau    2015-03-27  1154  
-80a83cfc434b1e Michal Kazior    2016-05-19  1155  	return to_txq_info(txq);
-80a83cfc434b1e Michal Kazior    2016-05-19  1156  }
+eb2973011f26b6 Xuchun Shang 2022-11-03  881  		ycc_crypto_free_ring(ctx->ring);
+eb2973011f26b6 Xuchun Shang 2022-11-03  882  
+eb2973011f26b6 Xuchun Shang 2022-11-03  883  	if (ctx->pub_key_vaddr)
+eb2973011f26b6 Xuchun Shang 2022-11-03  884  		dma_free_coherent(dev, 64, ctx->pub_key_vaddr, ctx->pub_key_paddr);
+eb2973011f26b6 Xuchun Shang 2022-11-03  885  
+eb2973011f26b6 Xuchun Shang 2022-11-03  886  	crypto_free_akcipher(ctx->soft_tfm);
+eb2973011f26b6 Xuchun Shang 2022-11-03  887  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
+
