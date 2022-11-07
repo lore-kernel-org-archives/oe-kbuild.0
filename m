@@ -1,43 +1,42 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E099228E2
-	for <oe-kbuild@lists.linux.dev>; Mon,  7 Nov 2022 07:25:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F5332565
+	for <oe-kbuild@lists.linux.dev>; Mon,  7 Nov 2022 07:45:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1667805932; x=1699341932;
+  t=1667807134; x=1699343134;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=iM9i0DtdCGFrrI7MtkxjghocFaiS4FtLjjUAUCmGrp8=;
-  b=bTdm3vhoF8KI5NkgVRHiZA3x9fwFNzClEAxKwgqi3YLOsjudVzIXV+tr
-   +7jLTpXaBOOS4ADrBmQPjA6zaJQHrUlU7JFDOR+XMqzS22i8OqsSHBCaS
-   OURSToJnG9L+yDrLmfGHwSl2G2y9Tv3L+BIe4oIYgwCac0JxV8OjDUvJo
-   MFL74A1ENVeDpVNylbbQApEgPjd215peDMFT6eqTphUCmC8sAweRsIH8m
-   9qNhMx6cfZb7RlvHF7y/CB7sRB9ciIm7D6A8G5EjPHx9p6CR+kAz0iN/C
-   sYNyXLad7n2/B5Qa6AX7OLPpbxvqsEJEuTSaOj+qBLjpgoVqTtpBAy03J
+  bh=aX+Nl9smcFrLWPPbYnUu2nwC6D72oJVI49RKM2GiaRg=;
+  b=m+iZSUnpa+xT5t35+sBXh4DOj0Kd9hwaMwH9L5Ww73nHST9TOlMxTVtG
+   0ykT5QCDkzg4SBmU/gHQXxwZDGosZyBL+Aqr5iBKqNVMG+fkfgO1zOdpM
+   2L6v2ozXJEPzKJZHgNprBODVlAh6eBqggQ4IY2Ku9OfT4rOOpKsNGu/8x
+   6nmRJjVcgZzZhf14YLmb9QrZHcVG3hjjEXP0KEl0BkeCobg9AdKw+kAua
+   gKFipGMS0hBmJGAG3LdG9o0vaNgiWXaSFqYFZnFUiVWma8OEwOewpaGEM
+   Qi/gIfryUByZmFi4oULejpaJVbQcnDHs7Be4lljDtHRLuwUxoUWOCtab0
    A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10523"; a="297836888"
+X-IronPort-AV: E=McAfee;i="6500,9779,10523"; a="310348888"
 X-IronPort-AV: E=Sophos;i="5.96,143,1665471600"; 
-   d="scan'208";a="297836888"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2022 23:25:32 -0800
+   d="scan'208";a="310348888"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2022 23:45:33 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10523"; a="613767299"
+X-IronPort-AV: E=McAfee;i="6500,9779,10523"; a="965053547"
 X-IronPort-AV: E=Sophos;i="5.96,143,1665471600"; 
-   d="scan'208";a="613767299"
+   d="scan'208";a="965053547"
 Received: from lkp-server01.sh.intel.com (HELO 462403710aa9) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 06 Nov 2022 23:25:31 -0800
+  by fmsmga005.fm.intel.com with ESMTP; 06 Nov 2022 23:45:32 -0800
 Received: from kbuild by 462403710aa9 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1orwVe-0000QK-2r;
-	Mon, 07 Nov 2022 07:25:30 +0000
-Date: Mon, 7 Nov 2022 15:24:41 +0800
+	id 1orwp1-0000R6-1O;
+	Mon, 07 Nov 2022 07:45:31 +0000
+Date: Mon, 7 Nov 2022 15:44:55 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: arch/arm/kernel/stacktrace.c:163:1: warning: Label 'here' is not
- used. There is #if in function body so the label might be used in code that
- is removed by the preprocessor. [unusedLabelConfiguration]
-Message-ID: <202211071531.om5DP1OP-lkp@intel.com>
+Subject: mm/slab.c:3310:7: warning: Redundant assignment of 'objp' to itself.
+ [selfAssignment]
+Message-ID: <202211071541.Wf4NvuYg-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -48,108 +47,153 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "low confidence static check warning: arch/arm/kernel/stacktrace.c:163:1: warning: Label 'here' is not used. There is #if in function body so the label might be used in code that is removed by the preprocessor. [unusedLabelConfiguration]"
+:::::: Manual check reason: "low confidence static check warning: mm/slab.c:3310:7: warning: Redundant assignment of 'objp' to itself. [selfAssignment]"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
-CC: Ard Biesheuvel <ardb@kernel.org>
+TO: Vlastimil Babka <vbabka@suse.cz>
+CC: Roman Gushchin <guro@fb.com>
+
+Hi Vlastimil,
+
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   f0c4d9fc9cc9462659728d168387191387e903cc
-commit: c46c2c9b43f4f08f20dc06417fbf7091e4ca6d34 ARM: unwind: set frame.pc correctly for current-thread unwinding
-date:   8 months ago
-:::::: branch date: 8 hours ago
-:::::: commit date: 8 months ago
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+commit: 7981e67efb85908d9c4924c8e6669c5d5fe365b7 mm/slab: Convert most struct page to struct slab by spatch
+date:   10 months ago
+:::::: branch date: 9 hours ago
+:::::: commit date: 10 months ago
+compiler: nios2-linux-gcc (GCC) 12.1.0
 reproduce (cppcheck warning):
         # apt-get install cppcheck
-        git checkout c46c2c9b43f4f08f20dc06417fbf7091e4ca6d34
+        git checkout 7981e67efb85908d9c4924c8e6669c5d5fe365b7
         cppcheck --quiet --enable=style,performance,portability --template=gcc FILE
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
+cppcheck warnings: (new ones prefixed by >>)
+>> mm/slab.c:3334:16: warning: Local variable 'slab' shadows outer variable [shadowVariable]
+     struct slab *slab;
+                  ^
+   mm/slab.c:3328:15: note: Shadowed declaration
+    struct slab *slab;
+                 ^
+   mm/slab.c:3334:16: note: Shadow variable
+     struct slab *slab;
+                  ^
 
 cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
->> arch/arm/mm/fault.c:529:28: warning: Shifting signed 32-bit value by 31 bits is implementation-defined behaviour [shiftTooManyBitsSigned]
-    if (!inf->fn(addr, fsr & ~FSR_LNX_PF, regs))
-                              ^
-   arch/arm/mm/fault.c:559:28: warning: Shifting signed 32-bit value by 31 bits is implementation-defined behaviour [shiftTooManyBitsSigned]
-    if (!inf->fn(addr, ifsr | FSR_LNX_PF, regs))
-                              ^
->> arch/arm/mm/fault.c:529:28: warning: Signed integer overflow for expression '1<<31'. [integerOverflow]
-    if (!inf->fn(addr, fsr & ~FSR_LNX_PF, regs))
-                              ^
-   arch/arm/mm/fault.c:559:28: warning: Signed integer overflow for expression '1<<31'. [integerOverflow]
-    if (!inf->fn(addr, ifsr | FSR_LNX_PF, regs))
-                              ^
-   arch/arm/mm/fault.c:269:12: warning: Shifting signed 32-bit value by 31 bits is implementation-defined behaviour [shiftTooManyBitsSigned]
-    if (fsr & FSR_LNX_PF) {
-              ^
-   arch/arm/mm/fault.c:269:12: warning: Signed integer overflow for expression '1<<31'. [integerOverflow]
-    if (fsr & FSR_LNX_PF) {
-              ^
---
->> arch/arm/kernel/stacktrace.c:163:1: warning: Label 'here' is not used. There is #if in function body so the label might be used in code that is removed by the preprocessor. [unusedLabelConfiguration]
-   here:
-   ^
-   arch/arm/kernel/stacktrace.c:133:61: warning: Parameter 'tsk' can be declared as pointer to const [constParameter]
-   static noinline void __save_stack_trace(struct task_struct *tsk,
-                                                               ^
---
->> arch/arm/kernel/return_address.c:44:1: warning: Label 'here' is not used. There is #if in function body so the label might be used in code that is removed by the preprocessor. [unusedLabelConfiguration]
-   here:
-   ^
+>> mm/slab.c:3310:7: warning: Redundant assignment of 'objp' to itself. [selfAssignment]
+    objp = cache_alloc_debugcheck_after(cachep, flags, objp, caller);
+         ^
+   mm/slab.c:3455:7: warning: Redundant assignment of 'objp' to itself. [selfAssignment]
+    objp = cache_free_debugcheck(cachep, objp, caller);
+         ^
+>> mm/slab.c:3515:8: warning: Redundant assignment of 'p[i]' to itself. [selfAssignment]
+     p[i] = cache_alloc_debugcheck_after(s, flags, p[i], caller);
+          ^
+>> mm/slab.c:405:9: warning: Local variable 'slab_size' shadows outer function [shadowFunction]
+    size_t slab_size = PAGE_SIZE << gfporder;
+           ^
+   mm/slab.h:170:22: note: Shadowed declaration
+   static inline size_t slab_size(const struct slab *slab)
+                        ^
+   mm/slab.c:405:9: note: Shadow variable
+    size_t slab_size = PAGE_SIZE << gfporder;
+           ^
 
-vim +/here +163 arch/arm/kernel/stacktrace.c
+vim +/objp +3310 mm/slab.c
 
-f16fb1ecc5a1cb Russell King          2007-04-28  131  
-3683f44c42e991 Russell King          2014-05-03  132  /* This must be noinline to so that our skip calculation works correctly */
-3683f44c42e991 Russell King          2014-05-03  133  static noinline void __save_stack_trace(struct task_struct *tsk,
-3683f44c42e991 Russell King          2014-05-03  134  	struct stack_trace *trace, unsigned int nosched)
-f16fb1ecc5a1cb Russell King          2007-04-28  135  {
-f16fb1ecc5a1cb Russell King          2007-04-28  136  	struct stack_trace_data data;
-2d7c11bfc91637 Catalin Marinas       2009-02-11  137  	struct stackframe frame;
-f16fb1ecc5a1cb Russell King          2007-04-28  138  
-f16fb1ecc5a1cb Russell King          2007-04-28  139  	data.trace = trace;
-f16fb1ecc5a1cb Russell King          2007-04-28  140  	data.skip = trace->skip;
-3683f44c42e991 Russell King          2014-05-03  141  	data.no_sched_functions = nosched;
-f76e9154736e9a Nicolas Pitre         2008-04-24  142  
-f76e9154736e9a Nicolas Pitre         2008-04-24  143  	if (tsk != current) {
-f76e9154736e9a Nicolas Pitre         2008-04-24  144  #ifdef CONFIG_SMP
-f76e9154736e9a Nicolas Pitre         2008-04-24  145  		/*
-d5996b2ff0e26c Russell King          2011-01-15  146  		 * What guarantees do we have here that 'tsk' is not
-d5996b2ff0e26c Russell King          2011-01-15  147  		 * running on another CPU?  For now, ignore it as we
-d5996b2ff0e26c Russell King          2011-01-15  148  		 * can't guarantee we won't explode.
-f76e9154736e9a Nicolas Pitre         2008-04-24  149  		 */
-d5996b2ff0e26c Russell King          2011-01-15  150  		return;
-f76e9154736e9a Nicolas Pitre         2008-04-24  151  #else
-2d7c11bfc91637 Catalin Marinas       2009-02-11  152  		frame.fp = thread_saved_fp(tsk);
-2d7c11bfc91637 Catalin Marinas       2009-02-11  153  		frame.sp = thread_saved_sp(tsk);
-2d7c11bfc91637 Catalin Marinas       2009-02-11  154  		frame.lr = 0;		/* recovered from the stack */
-2d7c11bfc91637 Catalin Marinas       2009-02-11  155  		frame.pc = thread_saved_pc(tsk);
-f76e9154736e9a Nicolas Pitre         2008-04-24  156  #endif
-f76e9154736e9a Nicolas Pitre         2008-04-24  157  	} else {
-3683f44c42e991 Russell King          2014-05-03  158  		/* We don't want this function nor the caller */
-3683f44c42e991 Russell King          2014-05-03  159  		data.skip += 2;
-2d7c11bfc91637 Catalin Marinas       2009-02-11  160  		frame.fp = (unsigned long)__builtin_frame_address(0);
-74dbeee0fcded9 Behan Webster         2014-09-27  161  		frame.sp = current_stack_pointer;
-2d7c11bfc91637 Catalin Marinas       2009-02-11  162  		frame.lr = (unsigned long)__builtin_return_address(0);
-c46c2c9b43f4f0 Russell King (Oracle  2022-03-09 @163) here:
-c46c2c9b43f4f0 Russell King (Oracle  2022-03-09  164) 		frame.pc = (unsigned long)&&here;
-f76e9154736e9a Nicolas Pitre         2008-04-24  165  	}
-fed240d9c97438 Masami Hiramatsu      2021-10-21  166  #ifdef CONFIG_KRETPROBES
-fed240d9c97438 Masami Hiramatsu      2021-10-21  167  	frame.kr_cur = NULL;
-fed240d9c97438 Masami Hiramatsu      2021-10-21  168  	frame.tsk = tsk;
-fed240d9c97438 Masami Hiramatsu      2021-10-21  169  #endif
-f16fb1ecc5a1cb Russell King          2007-04-28  170  
-2d7c11bfc91637 Catalin Marinas       2009-02-11  171  	walk_stackframe(&frame, save_trace, &data);
-f76e9154736e9a Nicolas Pitre         2008-04-24  172  }
-f76e9154736e9a Nicolas Pitre         2008-04-24  173  
+8c8cc2c10c2194 Pekka Enberg           2007-02-10  3288  
+8c8cc2c10c2194 Pekka Enberg           2007-02-10  3289  static __always_inline void *
+d3fb45f370d927 Alexander Potapenko    2021-02-25  3290  slab_alloc(struct kmem_cache *cachep, gfp_t flags, size_t orig_size, unsigned long caller)
+8c8cc2c10c2194 Pekka Enberg           2007-02-10  3291  {
+8c8cc2c10c2194 Pekka Enberg           2007-02-10  3292  	unsigned long save_flags;
+8c8cc2c10c2194 Pekka Enberg           2007-02-10  3293  	void *objp;
+964d4bd370d559 Roman Gushchin         2020-08-06  3294  	struct obj_cgroup *objcg = NULL;
+da844b78724519 Andrey Konovalov       2021-04-29  3295  	bool init = false;
+8c8cc2c10c2194 Pekka Enberg           2007-02-10  3296  
+dcce284a259373 Benjamin Herrenschmidt 2009-06-18  3297  	flags &= gfp_allowed_mask;
+964d4bd370d559 Roman Gushchin         2020-08-06  3298  	cachep = slab_pre_alloc_hook(cachep, &objcg, 1, flags);
+011eceaf0ad54e Jesper Dangaard Brouer 2016-03-15  3299  	if (unlikely(!cachep))
+824ebef122153a Akinobu Mita           2007-05-06  3300  		return NULL;
+824ebef122153a Akinobu Mita           2007-05-06  3301  
+d3fb45f370d927 Alexander Potapenko    2021-02-25  3302  	objp = kfence_alloc(cachep, orig_size, flags);
+d3fb45f370d927 Alexander Potapenko    2021-02-25  3303  	if (unlikely(objp))
+d3fb45f370d927 Alexander Potapenko    2021-02-25  3304  		goto out;
+d3fb45f370d927 Alexander Potapenko    2021-02-25  3305  
+8c8cc2c10c2194 Pekka Enberg           2007-02-10  3306  	cache_alloc_debugcheck_before(cachep, flags);
+8c8cc2c10c2194 Pekka Enberg           2007-02-10  3307  	local_irq_save(save_flags);
+8c8cc2c10c2194 Pekka Enberg           2007-02-10  3308  	objp = __do_cache_alloc(cachep, flags);
+8c8cc2c10c2194 Pekka Enberg           2007-02-10  3309  	local_irq_restore(save_flags);
+8c8cc2c10c2194 Pekka Enberg           2007-02-10 @3310  	objp = cache_alloc_debugcheck_after(cachep, flags, objp, caller);
+8c8cc2c10c2194 Pekka Enberg           2007-02-10  3311  	prefetchw(objp);
+da844b78724519 Andrey Konovalov       2021-04-29  3312  	init = slab_want_init_on_alloc(flags, cachep);
+d07dbea46405b3 Christoph Lameter      2007-07-17  3313  
+d3fb45f370d927 Alexander Potapenko    2021-02-25  3314  out:
+da844b78724519 Andrey Konovalov       2021-04-29  3315  	slab_post_alloc_hook(cachep, objcg, flags, 1, &objp, init);
+8c8cc2c10c2194 Pekka Enberg           2007-02-10  3316  	return objp;
+8c8cc2c10c2194 Pekka Enberg           2007-02-10  3317  }
+e498be7dafd72f Christoph Lameter      2005-09-09  3318  
+e498be7dafd72f Christoph Lameter      2005-09-09  3319  /*
+5f0985bb1123b4 Jianyu Zhan            2014-03-30  3320   * Caller needs to acquire correct kmem_cache_node's list_lock
+97654dfa20caa5 Joonsoo Kim            2014-08-06  3321   * @list: List of detached free slabs should be freed by caller
+e498be7dafd72f Christoph Lameter      2005-09-09  3322   */
+97654dfa20caa5 Joonsoo Kim            2014-08-06  3323  static void free_block(struct kmem_cache *cachep, void **objpp,
+97654dfa20caa5 Joonsoo Kim            2014-08-06  3324  			int nr_objects, int node, struct list_head *list)
+^1da177e4c3f41 Linus Torvalds         2005-04-16  3325  {
+^1da177e4c3f41 Linus Torvalds         2005-04-16  3326  	int i;
+25c063fbd5512e Joonsoo Kim            2014-08-06  3327  	struct kmem_cache_node *n = get_node(cachep, node);
+7981e67efb8590 Vlastimil Babka        2021-11-02  3328  	struct slab *slab;
+6052b7880a9555 Joonsoo Kim            2016-05-19  3329  
+6052b7880a9555 Joonsoo Kim            2016-05-19  3330  	n->free_objects += nr_objects;
+^1da177e4c3f41 Linus Torvalds         2005-04-16  3331  
+^1da177e4c3f41 Linus Torvalds         2005-04-16  3332  	for (i = 0; i < nr_objects; i++) {
+072bb0aa5e0629 Mel Gorman             2012-07-31  3333  		void *objp;
+7981e67efb8590 Vlastimil Babka        2021-11-02 @3334  		struct slab *slab;
+^1da177e4c3f41 Linus Torvalds         2005-04-16  3335  
+072bb0aa5e0629 Mel Gorman             2012-07-31  3336  		objp = objpp[i];
+072bb0aa5e0629 Mel Gorman             2012-07-31  3337  
+7981e67efb8590 Vlastimil Babka        2021-11-02  3338  		slab = virt_to_slab(objp);
+7981e67efb8590 Vlastimil Babka        2021-11-02  3339  		list_del(&slab->slab_list);
+ff69416e6323fe Christoph Lameter      2005-09-22  3340  		check_spinlock_acquired_node(cachep, node);
+7981e67efb8590 Vlastimil Babka        2021-11-02  3341  		slab_put_obj(cachep, slab, objp);
+^1da177e4c3f41 Linus Torvalds         2005-04-16  3342  		STATS_DEC_ACTIVE(cachep);
+^1da177e4c3f41 Linus Torvalds         2005-04-16  3343  
+^1da177e4c3f41 Linus Torvalds         2005-04-16  3344  		/* fixup slab chains */
+7981e67efb8590 Vlastimil Babka        2021-11-02  3345  		if (slab->active == 0) {
+7981e67efb8590 Vlastimil Babka        2021-11-02  3346  			list_add(&slab->slab_list, &n->slabs_free);
+f728b0a5d72ae9 Greg Thelen            2016-12-12  3347  			n->free_slabs++;
+f728b0a5d72ae9 Greg Thelen            2016-12-12  3348  		} else {
+^1da177e4c3f41 Linus Torvalds         2005-04-16  3349  			/* Unconditionally move a slab to the end of the
+^1da177e4c3f41 Linus Torvalds         2005-04-16  3350  			 * partial list on free - maximum time for the
+^1da177e4c3f41 Linus Torvalds         2005-04-16  3351  			 * other objects to be freed, too.
+^1da177e4c3f41 Linus Torvalds         2005-04-16  3352  			 */
+7981e67efb8590 Vlastimil Babka        2021-11-02  3353  			list_add_tail(&slab->slab_list, &n->slabs_partial);
+^1da177e4c3f41 Linus Torvalds         2005-04-16  3354  		}
+^1da177e4c3f41 Linus Torvalds         2005-04-16  3355  	}
+6052b7880a9555 Joonsoo Kim            2016-05-19  3356  
+6052b7880a9555 Joonsoo Kim            2016-05-19  3357  	while (n->free_objects > n->free_limit && !list_empty(&n->slabs_free)) {
+6052b7880a9555 Joonsoo Kim            2016-05-19  3358  		n->free_objects -= cachep->num;
+6052b7880a9555 Joonsoo Kim            2016-05-19  3359  
+7981e67efb8590 Vlastimil Babka        2021-11-02  3360  		slab = list_last_entry(&n->slabs_free, struct slab, slab_list);
+7981e67efb8590 Vlastimil Babka        2021-11-02  3361  		list_move(&slab->slab_list, list);
+f728b0a5d72ae9 Greg Thelen            2016-12-12  3362  		n->free_slabs--;
+bf00bd3458041c David Rientjes         2016-12-12  3363  		n->total_slabs--;
+6052b7880a9555 Joonsoo Kim            2016-05-19  3364  	}
+^1da177e4c3f41 Linus Torvalds         2005-04-16  3365  }
+^1da177e4c3f41 Linus Torvalds         2005-04-16  3366  
+
+:::::: The code at line 3310 was first introduced by commit
+:::::: 8c8cc2c10c21943dd3499a2df7aac835093b37f3 [PATCH] slab: cache alloc cleanups
+
+:::::: TO: Pekka Enberg <penberg@cs.helsinki.fi>
+:::::: CC: Linus Torvalds <torvalds@woody.linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
