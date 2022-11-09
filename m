@@ -1,56 +1,52 @@
 Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F41D617F3;
-	Wed,  9 Nov 2022 05:08:37 +0000 (UTC)
-Received: by mail-wr1-f46.google.com with SMTP id bk15so23993184wrb.13;
-        Tue, 08 Nov 2022 21:08:37 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E14E01840;
+	Wed,  9 Nov 2022 05:19:18 +0000 (UTC)
+Received: by mail-wr1-f46.google.com with SMTP id a14so24085699wru.5;
+        Tue, 08 Nov 2022 21:19:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=v3jmOsDYD3eDGL/HXAFuu3q5wn5DTfdd7ABqci8j+7Y=;
-        b=B8PJ9mjrG1f6p+hcfIm1hl3TORjKvJrBgzgSzoWH0E/sTqBNSgCEFnPDl1Zyf3OSet
-         Fdz7067cjgBDhn9eBmrB4yGHWF2yCUeXNA6TfYtRcGBcerdDMZ6HOGLl/W/KAGa84Keg
-         C56rxiNLaSbFwNpMomPnVm3urdSNb+t9vQFXesyPMFiEi11D7WA4aTqpBVyKV9FB4Sui
-         Pqp3VO93yyUwiM4BxICHT4d1P59Z0RS1zYkQ+VlKbDyubn0/JbAMrtoSzbTYTfJw9ZJ4
-         1KpMjHuWsIlgJULBFoAjRwZDMu7EFMmHYq62IUecXdHkI+vZh9TCU0dEN9pIeHBOt9Et
-         KHhA==
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=yf30BpryT+aS/cO6Z46FMmaLYwBfAG4ODCyJfHccgC8=;
+        b=niT2g2fR3SN4QduqgXz3P1f5C+Uevt5JO3PASuuK93APLuOVusMiVefWOu5jsZRMaw
+         HZNPcqpmwsB0IDS0rMQt87SMZxCitFIsXhPxwlbTkBvVf+KR8BGGaLBPSL7PNnXvebme
+         ehEFokt/BDCZtn+YzYMn2eivKIfECDYym5kZKxil1TyItRr5q2DAF/DvNNIdfU3+X2JG
+         MB9QuNL71GW/Jdsw7s3lrmSumG7et+4TXEUheG/moW/igE9uR1h2QPZXqfIIRwfaxW5s
+         SUnG+0GK5j6afcNMh7B1R6DwaS6l25BMusFj5DsP/4akDR3fCilmd2OGELjHY45COz7V
+         jsfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=v3jmOsDYD3eDGL/HXAFuu3q5wn5DTfdd7ABqci8j+7Y=;
-        b=7LRuvvZaSg7QnGOaDT8ESv1bwjl4mRTDw5emYOi51jvoDEqfyffgX/EQJhcqPDAZEa
-         MGw8HMN5FSj62mLrRO2vzTk8osneJoyLj8Tl7zUqvtsqJyR/4HObTXxyg03iPg490Wfh
-         B8zD81wre61XmPB90OPI71SXsdSHsp7oF6NpcrUiEYXST8dpD6omO6nl6bhO+mT6avMY
-         Sa5TryY5lW+aY0PKEukDRrLF7FJQgdcrXpR/lJ2FinpajjMo68O7dVzjEvlQKRb3SLfv
-         CRZE7MoWpx5NfAgtFOfGPqLygf6m/2Z5az10wEtmxO65lMhPlrdbbvgpHquBN2aqn/EN
-         zHKQ==
-X-Gm-Message-State: ACrzQf1vUsCgrOdZRUFt7U3NKRY1w1ITtaOEvDYcjLRFkwQgN0AxpZUV
-	gowCQeE1uXAM3eB8zwmB7xFU9VJBost+2A==
-X-Google-Smtp-Source: AMsMyM6IhiQGc9h4+6b5XsGBvBAxgexMWtYjzt9k9qAu3tpLlIDLGnz5Uu5ITn/T7WlkbKlaPzsyNw==
-X-Received: by 2002:adf:b353:0:b0:236:5814:f4dc with SMTP id k19-20020adfb353000000b002365814f4dcmr35860498wrd.189.1667970515291;
-        Tue, 08 Nov 2022 21:08:35 -0800 (PST)
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=yf30BpryT+aS/cO6Z46FMmaLYwBfAG4ODCyJfHccgC8=;
+        b=wPGg+EkoR5/plFU1Ay8nOERm0tbhD2+LSqt0s2a1bC+VSPjBuCPfT61zhfHORZj6qO
+         pgE6CJ3oYHClVpxntE9MBqSwAjVxtmLLASJPJloe/xyNTBU45I7TLiiVd7v31msnq+Mv
+         rhfmRcjUZcslQ2CrsmkFvfx/ZUANOx4ISkB97aVH/ZTZ+0BPsLSyc4KCKzNZs5KwGOwt
+         N1GiYFxEzKuX6+RKLveRpQiMIa0Vzlnx4OmDlCBVVde4hWrXdyDORg1naY/EbCY+Q1LH
+         EXmyQVtEjPoaPezLIBMmvovU8QN9aXGJp4NXSR4GBV9skI7g6Wr2rkaCey/gyfVR2ZZw
+         lmYA==
+X-Gm-Message-State: ACrzQf3mR0sykIBz1R2mhiIM52LDtXYyEavWncZzzRf5JhQPjUFFCmqJ
+	ik9Z6pCLFpn10XhqqV0CJQTfD22/gr8=
+X-Google-Smtp-Source: AMsMyM4FpOpgJZR8eGdF13ie33t5PgSnW9dgRrRvLNFRwGNxq1Q0TxUkgbHZP7ciX8bfSWkjcnVclQ==
+X-Received: by 2002:a05:6000:1287:b0:236:712d:2545 with SMTP id f7-20020a056000128700b00236712d2545mr38398519wrx.52.1667971156939;
+        Tue, 08 Nov 2022 21:19:16 -0800 (PST)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id b9-20020a05600010c900b002368424f89esm12041478wrx.67.2022.11.08.21.08.33
+        by smtp.gmail.com with ESMTPSA id z3-20020adfe543000000b0023538fb27c1sm11792486wrm.85.2022.11.08.21.19.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Nov 2022 21:08:34 -0800 (PST)
-Date: Wed, 9 Nov 2022 08:08:30 +0300
+        Tue, 08 Nov 2022 21:19:16 -0800 (PST)
+Date: Wed, 9 Nov 2022 08:19:12 +0300
 From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, Wenchao Hao <haowenchao@huawei.com>,
-	Lee Duncan <lduncan@suse.com>, Chris Leech <cleech@redhat.com>,
-	Mike Christie <michael.christie@oracle.com>,
-	"Martin K . Petersen" <martin.petersen@oracle.com>,
-	"James E . J . Bottomley" <jejb@linux.ibm.com>
+To: oe-kbuild@lists.linux.dev,
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	open-iscsi@googlegroups.com, linux-scsi@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linfeilong@huawei.com,
-	Wenchao Hao <haowenchao@huawei.com>
-Subject: Re: [PATCH v6] scsi:iscsi: Fix multiple iscsi session unbind event
- sent to userspace
-Message-ID: <202211090606.r22uKz8I-lkp@intel.com>
+	linux-media@vger.kernel.org,
+	Sakari Ailus <sakari.ailus@linux.intel.com>
+Subject: [sailus-media-tree:master 17/47] drivers/media/i2c/st-vgxy61.c:891
+ vgxy61_apply_gpiox_strobe_mode() warn: impossible condition '(reg < 0) =>
+ (0-u16max < 0)'
+Message-ID: <202211091255.jCcREh11-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -59,39 +55,125 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221108014414.3510940-1-haowenchao@huawei.com>
-Message-ID: <20221109050830.FEiCusOCLU0GYL0BVFScOwjHpB2kJyWVIoPqZsiGAJ0@z>
+Message-ID: <20221109051912.5XNiXjwR-Jm9h9AadVOS6Phydsme7of-1L7OrRloTqA@z>
 
-Hi Wenchao,
-
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Wenchao-Hao/scsi-iscsi-Fix-multiple-iscsi-session-unbind-event-sent-to-userspace/20221107-202840
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/mkp/scsi.git for-next
-patch link:    https://lore.kernel.org/r/20221108014414.3510940-1-haowenchao%40huawei.com
-patch subject: [PATCH v6] scsi:iscsi: Fix multiple iscsi session unbind event sent to userspace
-config: m68k-randconfig-m031-20221108
-compiler: m68k-linux-gcc (GCC) 12.1.0
+tree:   git://linuxtv.org/sailus/media_tree.git master
+head:   7336c54a562b479866d2de2abc61487a4e07b0b9
+commit: 153e4ad44d605cbff3530013b393c01462c54cef [17/47] media: i2c: Add driver for ST VGXY61 camera sensor
+config: microblaze-randconfig-m041-20221109
+compiler: microblaze-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
 
 smatch warnings:
-drivers/scsi/scsi_transport_iscsi.c:1691 iscsi_session_target_state_name() error: buffer overflow 'iscsi_session_target_state_names' 4 <= 4
+drivers/media/i2c/st-vgxy61.c:891 vgxy61_apply_gpiox_strobe_mode() warn: impossible condition '(reg < 0) => (0-u16max < 0)'
+drivers/media/i2c/st-vgxy61.c:1037 vgxy61_update_exposure() error: uninitialized symbol 'expo_long_max'.
+drivers/media/i2c/st-vgxy61.c:1190 vgxy61_stream_enable() warn: pm_runtime_get_sync() also returns 1 on success
+drivers/media/i2c/st-vgxy61.c:1579 vgxy61_configure() warn: impossible condition '(line_length < 0) => (0-u16max < 0)'
+drivers/media/i2c/st-vgxy61.c:1626 vgxy61_patch() warn: impossible condition '(patch < 0) => (0-u16max < 0)'
+drivers/media/i2c/st-vgxy61.c:1651 vgxy61_detect_cut_version() warn: impossible condition '(device_rev < 0) => (0-u16max < 0)'
+drivers/media/i2c/st-vgxy61.c:1679 vgxy61_detect() warn: impossible condition '(id < 0) => (0-u16max < 0)'
+drivers/media/i2c/st-vgxy61.c:1694 vgxy61_detect() warn: impossible condition '(st < 0) => (0-255 < 0)'
 
-vim +/iscsi_session_target_state_names +1691 drivers/scsi/scsi_transport_iscsi.c
+vim +891 drivers/media/i2c/st-vgxy61.c
 
-3aa534a2c8b080 Wenchao Hao 2022-11-07  1686  static const char *iscsi_session_target_state_name(int state)
-3aa534a2c8b080 Wenchao Hao 2022-11-07  1687  {
-3aa534a2c8b080 Wenchao Hao 2022-11-07  1688  	if (state > ISCSI_SESSION_TARGET_MAX)
+153e4ad44d605c Benjamin Mugnier 2022-10-11   883  static int vgxy61_apply_gpiox_strobe_mode(struct vgxy61_dev *sensor,
+153e4ad44d605c Benjamin Mugnier 2022-10-11   884  					  enum vgxy61_strobe_mode mode,
+153e4ad44d605c Benjamin Mugnier 2022-10-11   885  					  unsigned int idx)
+153e4ad44d605c Benjamin Mugnier 2022-10-11   886  {
+153e4ad44d605c Benjamin Mugnier 2022-10-11   887  	static const u8 index2val[] = {0x0, 0x1, 0x3};
+153e4ad44d605c Benjamin Mugnier 2022-10-11   888  	u16 reg;
+153e4ad44d605c Benjamin Mugnier 2022-10-11   889  
+153e4ad44d605c Benjamin Mugnier 2022-10-11   890  	reg = vgxy61_read_reg(sensor, VGXY61_REG_SIGNALS_CTRL);
+153e4ad44d605c Benjamin Mugnier 2022-10-11  @891  	if (reg < 0)
+153e4ad44d605c Benjamin Mugnier 2022-10-11   892  		return reg;
 
-Should be >=
+"reg" should be an int.
 
-3aa534a2c8b080 Wenchao Hao 2022-11-07  1689  		return NULL;
-3aa534a2c8b080 Wenchao Hao 2022-11-07  1690  
-3aa534a2c8b080 Wenchao Hao 2022-11-07 @1691  	return iscsi_session_target_state_names[state];
-3aa534a2c8b080 Wenchao Hao 2022-11-07  1692  }
+153e4ad44d605c Benjamin Mugnier 2022-10-11   893  	reg &= ~(0xf << (idx * VGXY61_SIGNALS_GPIO_ID_SHIFT));
+153e4ad44d605c Benjamin Mugnier 2022-10-11   894  	reg |= index2val[mode] << (idx * VGXY61_SIGNALS_GPIO_ID_SHIFT);
+153e4ad44d605c Benjamin Mugnier 2022-10-11   895  
+153e4ad44d605c Benjamin Mugnier 2022-10-11   896  	return vgxy61_write_reg(sensor, VGXY61_REG_SIGNALS_CTRL, reg, NULL);
+153e4ad44d605c Benjamin Mugnier 2022-10-11   897  }
+
+[ snip ]
+
+153e4ad44d605c Benjamin Mugnier 2022-10-11   984  static int vgxy61_update_exposure(struct vgxy61_dev *sensor, u16 new_expo_long,
+153e4ad44d605c Benjamin Mugnier 2022-10-11   985  				  enum vgxy61_hdr_mode hdr)
+153e4ad44d605c Benjamin Mugnier 2022-10-11   986  {
+153e4ad44d605c Benjamin Mugnier 2022-10-11   987  	struct i2c_client *client = sensor->i2c_client;
+153e4ad44d605c Benjamin Mugnier 2022-10-11   988  	u16 new_expo_short = 0;
+153e4ad44d605c Benjamin Mugnier 2022-10-11   989  	u16 expo_short_max = 0;
+153e4ad44d605c Benjamin Mugnier 2022-10-11   990  	u16 expo_long_min = VGXY61_MIN_EXPOSURE;
+153e4ad44d605c Benjamin Mugnier 2022-10-11   991  	u16 expo_long_max;
+153e4ad44d605c Benjamin Mugnier 2022-10-11   992  
+153e4ad44d605c Benjamin Mugnier 2022-10-11   993  	/* Compute short exposure according to hdr mode and long exposure */
+153e4ad44d605c Benjamin Mugnier 2022-10-11   994  	switch (hdr) {
+153e4ad44d605c Benjamin Mugnier 2022-10-11   995  	case VGXY61_HDR_LINEAR:
+153e4ad44d605c Benjamin Mugnier 2022-10-11   996  		/*
+153e4ad44d605c Benjamin Mugnier 2022-10-11   997  		 * Take ratio into account for minimal exposures in
+153e4ad44d605c Benjamin Mugnier 2022-10-11   998  		 * VGXY61_HDR_LINEAR
+153e4ad44d605c Benjamin Mugnier 2022-10-11   999  		 */
+153e4ad44d605c Benjamin Mugnier 2022-10-11  1000  		expo_long_min = VGXY61_MIN_EXPOSURE * VGXY61_HDR_LINEAR_RATIO;
+153e4ad44d605c Benjamin Mugnier 2022-10-11  1001  		new_expo_long = max(expo_long_min, new_expo_long);
+153e4ad44d605c Benjamin Mugnier 2022-10-11  1002  
+153e4ad44d605c Benjamin Mugnier 2022-10-11  1003  		expo_long_max =
+153e4ad44d605c Benjamin Mugnier 2022-10-11  1004  			vgxy61_get_expo_long_max(sensor,
+153e4ad44d605c Benjamin Mugnier 2022-10-11  1005  						 VGXY61_HDR_LINEAR_RATIO);
+153e4ad44d605c Benjamin Mugnier 2022-10-11  1006  		expo_short_max = (expo_long_max +
+153e4ad44d605c Benjamin Mugnier 2022-10-11  1007  				 (VGXY61_HDR_LINEAR_RATIO / 2)) /
+153e4ad44d605c Benjamin Mugnier 2022-10-11  1008  				 VGXY61_HDR_LINEAR_RATIO;
+153e4ad44d605c Benjamin Mugnier 2022-10-11  1009  		new_expo_short = (new_expo_long +
+153e4ad44d605c Benjamin Mugnier 2022-10-11  1010  				 (VGXY61_HDR_LINEAR_RATIO / 2)) /
+153e4ad44d605c Benjamin Mugnier 2022-10-11  1011  				 VGXY61_HDR_LINEAR_RATIO;
+153e4ad44d605c Benjamin Mugnier 2022-10-11  1012  		break;
+153e4ad44d605c Benjamin Mugnier 2022-10-11  1013  	case VGXY61_HDR_SUB:
+153e4ad44d605c Benjamin Mugnier 2022-10-11  1014  		new_expo_long = max(expo_long_min, new_expo_long);
+153e4ad44d605c Benjamin Mugnier 2022-10-11  1015  
+153e4ad44d605c Benjamin Mugnier 2022-10-11  1016  		expo_long_max = vgxy61_get_expo_long_max(sensor, 1);
+153e4ad44d605c Benjamin Mugnier 2022-10-11  1017  		/* Short and long are the same in VGXY61_HDR_SUB */
+153e4ad44d605c Benjamin Mugnier 2022-10-11  1018  		expo_short_max = expo_long_max;
+153e4ad44d605c Benjamin Mugnier 2022-10-11  1019  		new_expo_short = new_expo_long;
+153e4ad44d605c Benjamin Mugnier 2022-10-11  1020  		break;
+153e4ad44d605c Benjamin Mugnier 2022-10-11  1021  	case VGXY61_NO_HDR:
+153e4ad44d605c Benjamin Mugnier 2022-10-11  1022  		new_expo_long = max(expo_long_min, new_expo_long);
+153e4ad44d605c Benjamin Mugnier 2022-10-11  1023  
+153e4ad44d605c Benjamin Mugnier 2022-10-11  1024  		/*
+153e4ad44d605c Benjamin Mugnier 2022-10-11  1025  		 * As short expo is 0 here, only the second rule of thumb
+153e4ad44d605c Benjamin Mugnier 2022-10-11  1026  		 * applies, see vgxy61_get_expo_long_max for more
+153e4ad44d605c Benjamin Mugnier 2022-10-11  1027  		 */
+153e4ad44d605c Benjamin Mugnier 2022-10-11  1028  		expo_long_max = sensor->frame_length - VGXY61_EXPOS_ROT_TERM;
+153e4ad44d605c Benjamin Mugnier 2022-10-11  1029  		break;
+153e4ad44d605c Benjamin Mugnier 2022-10-11  1030  	default:
+153e4ad44d605c Benjamin Mugnier 2022-10-11  1031  		/* Should never happen */
+153e4ad44d605c Benjamin Mugnier 2022-10-11  1032  		WARN_ON(true);
+153e4ad44d605c Benjamin Mugnier 2022-10-11  1033  		break;
+
+This is what upsets the static checker.
+
+153e4ad44d605c Benjamin Mugnier 2022-10-11  1034  	}
+153e4ad44d605c Benjamin Mugnier 2022-10-11  1035  
+153e4ad44d605c Benjamin Mugnier 2022-10-11  1036  	/* If this happens, something is wrong with formulas */
+153e4ad44d605c Benjamin Mugnier 2022-10-11 @1037  	WARN_ON(expo_long_min > expo_long_max);
+153e4ad44d605c Benjamin Mugnier 2022-10-11  1038  
+153e4ad44d605c Benjamin Mugnier 2022-10-11  1039  	if (new_expo_long > expo_long_max) {
+153e4ad44d605c Benjamin Mugnier 2022-10-11  1040  		dev_warn(&client->dev, "Exposure %d too high, clamping to %d\n",
+153e4ad44d605c Benjamin Mugnier 2022-10-11  1041  			 new_expo_long, expo_long_max);
+153e4ad44d605c Benjamin Mugnier 2022-10-11  1042  		new_expo_long = expo_long_max;
+153e4ad44d605c Benjamin Mugnier 2022-10-11  1043  		new_expo_short = expo_short_max;
+153e4ad44d605c Benjamin Mugnier 2022-10-11  1044  	}
+153e4ad44d605c Benjamin Mugnier 2022-10-11  1045  
+153e4ad44d605c Benjamin Mugnier 2022-10-11  1046  	sensor->expo_long = new_expo_long;
+153e4ad44d605c Benjamin Mugnier 2022-10-11  1047  	sensor->expo_short = new_expo_short;
+153e4ad44d605c Benjamin Mugnier 2022-10-11  1048  	sensor->expo_max = expo_long_max;
+153e4ad44d605c Benjamin Mugnier 2022-10-11  1049  	sensor->expo_min = expo_long_min;
+153e4ad44d605c Benjamin Mugnier 2022-10-11  1050  
+153e4ad44d605c Benjamin Mugnier 2022-10-11  1051  	if (sensor->streaming)
+153e4ad44d605c Benjamin Mugnier 2022-10-11  1052  		return vgxy61_apply_exposure(sensor);
+153e4ad44d605c Benjamin Mugnier 2022-10-11  1053  	return 0;
+153e4ad44d605c Benjamin Mugnier 2022-10-11  1054  }
 
 -- 
 0-DAY CI Kernel Test Service
