@@ -1,81 +1,85 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A92D2101
-	for <oe-kbuild@lists.linux.dev>; Wed,  9 Nov 2022 19:14:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DB81290F
+	for <oe-kbuild@lists.linux.dev>; Wed,  9 Nov 2022 20:36:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1668021298; x=1699557298;
+  t=1668026161; x=1699562161;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=YgbcisqNrIqOo8Ne+6eVVaL+Gf8XNrP3p/2iirPaTUo=;
-  b=SWFTFBUvUHP2T1+JDKgJxO7S3UbyUBPtrHQZxAiEYfsoLwTwWbFlkZxF
-   NxnylGkDTRJEVeroiybBQDRj/Y3UhcN1LJH2FEC1r+TSnkI6uJuACOynR
-   YiqqXK985ByiaWoqA6Zk/QSrnGoMGtTGi3zzuq7VfwWYL43wfx3oGhKHs
-   ulSk7riQQ3NuOCP8u+W4jF08+AJouwmg4rz3BjDB30N0aIHJkg9qwO1J3
-   BjJ1CYfZoJPcndCgp8gTuMTPEaPnitKH8MI9l74Z00ZJFL5b1iD6V+Mpb
-   gKqOtoSr3xJIKJ4GnN7eZP+8VrbRGUAfLCYzMsMBBvVFf4V+sDVCBnl5D
+  bh=GRNKCPj2dPp6mNI05RBsf3pf2m9xuy7cdhVZF/JBEU8=;
+  b=BNxDwFiZeGTNYLgpdlAwKkzZlkdTAUBDl3PcQzF+tD6pfqOaPK9Jjo8x
+   bxtLROwyUAaj7XUzNP4kyHv7+CFa2lnmXOIUWtmZQ/yFCHvymVHB1R7qx
+   ZE7EfeAf0Wo4MVURwNkESOxcr9qzUTVJA8pnTO99dgkAn63JxJLHEN1+h
+   49ecuhwlOQs6+aq+8ooKevAiE8hPjTQYf6J8rYblVwjD6TmVNzIGOxLJO
+   +4GX68kO7/kJYBUtdsN2NBRxmfDzXvQschbSE3yVNXwoTArlApTKgd4vR
+   P//hU/C702pxtf1HbOyWecPLsmcJM2QZLpnBXL0mdCDZW6a7uO2FxyJjh
    w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10526"; a="308694567"
+X-IronPort-AV: E=McAfee;i="6500,9779,10526"; a="375374285"
 X-IronPort-AV: E=Sophos;i="5.96,151,1665471600"; 
-   d="scan'208";a="308694567"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2022 11:14:57 -0800
+   d="scan'208";a="375374285"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2022 12:35:59 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10526"; a="668107193"
+X-IronPort-AV: E=McAfee;i="6500,9779,10526"; a="636887008"
 X-IronPort-AV: E=Sophos;i="5.96,151,1665471600"; 
-   d="scan'208";a="668107193"
+   d="scan'208";a="636887008"
 Received: from lkp-server01.sh.intel.com (HELO e783503266e8) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 09 Nov 2022 11:14:54 -0800
+  by orsmga002.jf.intel.com with ESMTP; 09 Nov 2022 12:35:57 -0800
 Received: from kbuild by e783503266e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1osqXG-00023K-0x;
-	Wed, 09 Nov 2022 19:14:54 +0000
-Date: Thu, 10 Nov 2022 03:14:33 +0800
+	id 1osrng-00027o-31;
+	Wed, 09 Nov 2022 20:35:56 +0000
+Date: Thu, 10 Nov 2022 04:35:26 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [akpm-mm:mm-unstable 92/206] mm/truncate.c:337:25: warning: use of
- uninitialized value '<unknown>' [CWE-457]
-Message-ID: <202211100320.8EeBWqia-lkp@intel.com>
+Subject: [yiliu1765-iommufd:wip/iommufd-v6.1-rc3-nesting 19/32]
+ drivers/vfio/group.c:402:21: warning: use of uninitialized value '<unknown>'
+ [CWE-457]
+Message-ID: <202211100442.wxYFbuOR-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="F1L3HdKZnnmPCml5"
+Content-Type: multipart/mixed; boundary="KXqzalnWhgD+DJBX"
 Content-Disposition: inline
 
 
---F1L3HdKZnnmPCml5
+--KXqzalnWhgD+DJBX
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
 :::::: Manual check reason: "low confidence bisect report"
-:::::: Manual check reason: "low confidence static check warning: mm/truncate.c:337:25: warning: use of uninitialized value '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]"
+:::::: Manual check reason: "low confidence static check first_new_problem: drivers/vfio/group.c:402:21: warning: use of uninitialized value '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: "Vishal Moola (Oracle)" <vishal.moola@gmail.com>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Yi Liu <yi.l.liu@intel.com>
+TO: Kevin Tian <kevin.tian@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-unstable
-head:   5fd2a489ba5e0c23748ff8a961ffd4247db8422a
-commit: 624682fdddddffdbc53ed9d9fd6e776481f0bb24 [92/206] filemap: find_lock_entries() now updates start offset
-:::::: branch date: 14 hours ago
-:::::: commit date: 2 weeks ago
+Hi Yi,
+
+First bad commit (maybe != root cause):
+
+tree:   https://github.com/yiliu1765/iommufd.git wip/iommufd-v6.1-rc3-nesting
+head:   61dd0a22fa9bb238ccaff0bd79b6bbdafb5eb6e5
+commit: deb347f04fae5f4d67fc202aa94dcdb91aad60ff [19/32] vfio: Compile group optionally
+:::::: branch date: 7 hours ago
+:::::: commit date: 31 hours ago
 config: arm-randconfig-c002-20221109
 compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git/commit/?id=624682fdddddffdbc53ed9d9fd6e776481f0bb24
-        git remote add akpm-mm https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git
-        git fetch --no-tags akpm-mm mm-unstable
-        git checkout 624682fdddddffdbc53ed9d9fd6e776481f0bb24
+        # https://github.com/yiliu1765/iommufd/commit/deb347f04fae5f4d67fc202aa94dcdb91aad60ff
+        git remote add yiliu1765-iommufd https://github.com/yiliu1765/iommufd.git
+        git fetch --no-tags yiliu1765-iommufd wip/iommufd-v6.1-rc3-nesting
+        git checkout deb347f04fae5f4d67fc202aa94dcdb91aad60ff
         # save the config file
         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross ARCH=arm KBUILD_USERCFLAGS='-fanalyzer -Wno-error' 
 
@@ -83,186 +87,864 @@ If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
 gcc_analyzer warnings: (new ones prefixed by >>)
-   mm/truncate.c: In function 'truncate_inode_pages_range':
->> mm/truncate.c:337:25: warning: use of uninitialized value '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-     337 |         pgoff_t         index;
-         |                         ^~~~~
-     'truncate_pagecache_range': events 1-2
+   drivers/vfio/group.c: In function 'vfio_group_ioctl_set_container':
+>> drivers/vfio/group.c:402:21: warning: use of uninitialized value '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+     402 |                 u32 ioas_id;
+         |                     ^~~~~~~
+     'vfio_group_ioctl_set_container': events 1-13
        |
-       |  841 | void truncate_pagecache_range(struct inode *inode, loff_t lstart, loff_t lend)
-       |      |      ^~~~~~~~~~~~~~~~~~~~~~~~
-       |      |      |
-       |      |      (1) entry to 'truncate_pagecache_range'
+       |  377 |         if (get_user(fd, arg))
+       |      |            ^
+       |      |            |
+       |      |            (1) following 'false' branch (when '__gu_err == 0')...
        |......
-       |  862 |         truncate_inode_pages_range(mapping, lstart, lend);
-       |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |  380 |         f = fdget(fd);
+       |      |             ~~~~~~~~~
+       |      |             |
+       |      |             (2) ...to here
+       |  381 |         if (!f.file)
+       |      |            ~
+       |      |            |
+       |      |            (3) following 'false' branch (when '<unknown>' is non-NULL)...
+       |......
+       |  384 |         mutex_lock(&group->group_lock);
+       |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
        |      |         |
-       |      |         (2) calling 'truncate_inode_pages_range' from 'truncate_pagecache_range'
+       |      |         (4) ...to here
+       |  385 |         if (vfio_group_has_iommu(group)) {
+       |      |            ~
+       |      |            |
+       |      |            (5) following 'false' branch...
+       |......
+       |  389 |         if (!group->iommu_group) {
+       |      |            ~ ~~~~~~~~~~~~~~~~~~
+       |      |            |      |
+       |      |            |      (6) ...to here
+       |      |            (7) following 'false' branch...
+       |......
+       |  394 |         container = vfio_container_from_file(f.file);
+       |      |                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |                     |
+       |      |                     (8) ...to here
+       |  395 |         if (container) {
+       |      |            ~
+       |      |            |
+       |      |            (9) following 'false' branch (when 'container' is NULL)...
+       |......
+       |  400 |         iommufd = iommufd_ctx_from_file(f.file);
+       |      |                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |                   |
+       |      |                   (10) ...to here
+       |  401 |         if (!IS_ERR(iommufd)) {
+       |      |            ~
+       |      |            |
+       |      |            (11) following 'true' branch...
+       |  402 |                 u32 ioas_id;
+       |      |                     ~~~~~~~
+       |      |                     |
+       |      |                     (12) ...to here
+       |      |                     (13) use of uninitialized value '<unknown>' here
        |
-       +--> 'truncate_inode_pages_range': events 3-4
+--
+                            |   31 |                 if (interval_tree_span_iter_done(&iter->spans[i])) {
+                            |      |                    ^
+                            |      |                    |
+                            |      |                    (23) following 'false' branch...
+                            |......
+                            |   36 |                 if (iter->spans[i].is_hole) {
+                            |      |                    ~
+                            |      |                    |
+                            |      |                    (24) ...to here
+                            |
+                     <------+
+                     |
+                   'interval_tree_double_span_iter_first': event 25
+                     |
+                     |   65 |         interval_tree_double_span_iter_update(iter);
+                     |      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                     |      |         |
+                     |      |         (25) returning to 'interval_tree_double_span_iter_first' from 'interval_tree_double_span_iter_update'
+                     |
+              <------+
               |
-              |  330 | void truncate_inode_pages_range(struct address_space *mapping,
-              |      |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
-              |      |      |
-              |      |      (3) entry to 'truncate_inode_pages_range'
-              |......
-              |  337 |         pgoff_t         index;
-              |      |                         ~~~~~
+            '__iopt_area_unfill_domain': event 26
+              |
+              |   93 |         for (interval_tree_double_span_iter_first(span, itree1, itree2,       \
+              |      |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |              |
+              |      |              (26) returning to '__iopt_area_unfill_domain' from 'interval_tree_double_span_iter_first'
+              |   94 |                                                   first_index, last_index);   \
+              |      |                                                   ~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iommu/iommufd/double_span.h:93:14: note: in definition of macro 'interval_tree_for_each_double_span'
+              |   93 |         for (interval_tree_double_span_iter_first(span, itree1, itree2,       \
+              |      |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |
+            '__iopt_area_unfill_domain': event 27
+              |
+              |   95 |              !interval_tree_double_span_iter_done(span);                      \
+              |      |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |              |
+              |      |              (27) following 'true' branch...
+   drivers/iommu/iommufd/pages.c:1193:9: note: in expansion of macro 'interval_tree_for_each_double_span'
+              | 1193 |         interval_tree_for_each_double_span(&span, &pages->domains_itree,
+              |      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |
+            '__iopt_area_unfill_domain': events 28-31
+              |
+              | 1196 |                 if (span.is_used) {
+              |      |                    ^
+              |      |                    |
+              |      |                    (28) ...to here
+              |      |                    (29) following 'true' branch...
+              | 1197 |                         batch_skip_carry(&batch,
+              |      |                         ~~~~~~~~~~~~~~~~~~~~~~~~
               |      |                         |
-              |      |                         (4) use of uninitialized value '<unknown>' here
+              |      |                         (31) calling 'batch_skip_carry' from '__iopt_area_unfill_domain'
+              | 1198 |                                          span.last_used - span.start_used + 1);
+              |      |                                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |                                              |
+              |      |                                              (30) ...to here
               |
+              +--> 'batch_skip_carry': events 32-33
+                     |
+                     |  238 | static void batch_skip_carry(struct pfn_batch *batch, unsigned int skip_pfns)
+                     |      |             ^~~~~~~~~~~~~~~~
+                     |      |             |
+                     |      |             (32) entry to 'batch_skip_carry'
+                     |  239 | {
+                     |  240 |         if (!batch->total_pfns)
+                     |      |            ~ 
+                     |      |            |
+                     |      |            (33) following 'false' branch...
+                     |
+                   'batch_skip_carry': event 34
+                     |
+                     |include/linux/minmax.h:28:43:
+                     |   28 | #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
+                     |      |                         ~~~~~~~~~~~~~~~~~~^~~~~~
+                     |      |                                           |
+                     |      |                                           (34) ...to here
+   include/linux/minmax.h:33:17: note: in expansion of macro '__cmp'
+                     |   33 |                 __cmp(unique_x, unique_y, op); })
+                     |      |                 ^~~~~
+   include/linux/minmax.h:38:17: note: in expansion of macro '__cmp_once'
+                     |   38 |                 __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
+                     |      |                 ^~~~~~~~~~
+   include/linux/minmax.h:45:25: note: in expansion of macro '__careful_cmp'
+                     |   45 | #define min(x, y)       __careful_cmp(x, y, <)
+                     |      |                         ^~~~~~~~~~~~~
+   drivers/iommu/iommufd/pages.c:242:21: note: in expansion of macro 'min'
+                     |  242 |         skip_pfns = min(batch->total_pfns, skip_pfns);
+                     |      |                     ^~~
+                     |
+                   'batch_skip_carry': events 35-36
+                     |
+                     |  243 |         batch->pfns[0] += skip_pfns;
+                     |      |         ~~~~~^~~~~~~~~
+                     |      |              |     |
+                     |      |              |     (36) dereference of NULL '*batch.pfns'
+                     |      |              (35) 'batch.pfns' is NULL
+                     |
+   drivers/iommu/iommufd/pages.c: In function 'batch_add_pfn':
+>> drivers/iommu/iommufd/pages.c:287:18: warning: use of uninitialized value '*batch.end' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+     287 |         if (batch->end &&
+         |             ~~~~~^~~~~
+     'iopt_area_unfill_partial_domain.part.0': events 1-2
+       |
+       | 1213 | static void iopt_area_unfill_partial_domain(struct iopt_area *area,
+       |      |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |             |
+       |      |             (1) entry to 'iopt_area_unfill_partial_domain.part.0'
+       |......
+       | 1219 |                 __iopt_area_unfill_domain(area, pages, domain, end_index - 1);
+       |      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |                 |
+       |      |                 (2) calling '__iopt_area_unfill_domain' from 'iopt_area_unfill_partial_domain.part.0'
+       |
+       +--> '__iopt_area_unfill_domain': events 3-5
+              |
+              |  273 |         __batch_init(batch, max_pages, backup, backup_len);
+              |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |         |
+              |      |         (5) calling '__batch_init' from '__iopt_area_unfill_domain'
+              |......
+              | 1179 | static void __iopt_area_unfill_domain(struct iopt_area *area,
+              |      |             ^~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |             |
+              |      |             (3) entry to '__iopt_area_unfill_domain'
+              |......
+              | 1188 |         struct pfn_batch batch;
+              |      |                          ~~~~~
+              |      |                          |
+              |      |                          (4) region created on stack here
+              |
+              +--> '__batch_init': events 6-7
+                     |
+                     |  248 | static int __batch_init(struct pfn_batch *batch, size_t max_pages, void *backup,
+                     |      |            ^~~~~~~~~~~~
+                     |      |            |
+                     |      |            (6) entry to '__batch_init'
+                     |......
+                     |  254 |         batch->pfns = temp_kmalloc(&size, backup, backup_len);
+                     |      |                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                     |      |                       |
+                     |      |                       (7) calling 'temp_kmalloc' from '__batch_init'
+                     |
+                     +--> 'temp_kmalloc': events 8-9
+                            |
+                            |   74 | static void *temp_kmalloc(size_t *size, void *backup, size_t backup_len)
+                            |      |              ^~~~~~~~~~~~
+                            |      |              |
+                            |      |              (8) entry to 'temp_kmalloc'
+                            |......
+                            |   78 |         if (WARN_ON(*size == 0))
+                            |      |            ~  
+                            |      |            |
+                            |      |            (9) following 'true' branch...
+                            |
+                          'temp_kmalloc': event 10
+                            |
+                            |cc1:
+                            | (10): ...to here
+                            |
+                     <------+
+                     |
+                   '__batch_init': events 11-12
+                     |
+                     |  254 |         batch->pfns = temp_kmalloc(&size, backup, backup_len);
+                     |      |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                     |      |                       |
+                     |      |                       (11) returning to '__batch_init' from 'temp_kmalloc'
+                     |  255 |         if (!batch->pfns)
+                     |      |            ~           
+                     |      |            |
+                     |      |            (12) following 'true' branch...
+                     |
+                   '__batch_init': event 13
+                     |
+                     |cc1:
+                     | (13): ...to here
+                     |
+              <------+
+              |
+            '__iopt_area_unfill_domain': event 14
+              |
+              |  273 |         __batch_init(batch, max_pages, backup, backup_len);
+              |      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |         |
+              |      |         (14) returning to '__iopt_area_unfill_domain' from '__batch_init'
+              |
+            '__iopt_area_unfill_domain': event 15
+              |
+              |drivers/iommu/iommufd/double_span.h:93:14:
+              |   93 |         for (interval_tree_double_span_iter_first(span, itree1, itree2,       \
+              |      |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |              |
+              |      |              (15) calling 'interval_tree_double_span_iter_first' from '__iopt_area_unfill_domain'
+              |   94 |                                                   first_index, last_index);   \
+              |      |                                                   ~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iommu/iommufd/double_span.h:93:14: note: in definition of macro 'interval_tree_for_each_double_span'
+              |   93 |         for (interval_tree_double_span_iter_first(span, itree1, itree2,       \
+              |      |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |
+--
+              |      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |
+            '__iopt_area_unfill_domain': events 32-35
+              |
+              | 1196 |                 if (span.is_used) {
+              |      |                    ^
+              |      |                    |
+              |      |                    (32) ...to here
+              |      |                    (33) following 'false' branch...
+              |......
+              | 1201 |                 iopt_area_unpin_domain(&batch, area, pages, domain,
+              |      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |                 |
+              |      |                 (34) ...to here
+              |      |                 (35) calling 'iopt_area_unpin_domain' from '__iopt_area_unfill_domain'
+              | 1202 |                                        span.start_hole, span.last_hole,
+              |      |                                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              | 1203 |                                        &unmapped_end_index, last_index);
+              |      |                                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |
+              +--> 'iopt_area_unpin_domain': events 36-39
+                     |
+                     | 1127 | iopt_area_unpin_domain(struct pfn_batch *batch, struct iopt_area *area,
+                     |      | ^~~~~~~~~~~~~~~~~~~~~~
+                     |      | |
+                     |      | (36) entry to 'iopt_area_unpin_domain'
+                     |......
+                     | 1133 |         while (start_index <= last_index) {
+                     |      |                ~~~~~~~~~~~~~~~~~~~~~~~~~
+                     |      |                            |
+                     |      |                            (37) following 'true' branch (when 'start_index <= last_index')...
+                     |......
+                     | 1136 |                 if (*unmapped_end_index <= last_index) {
+                     |      |                    ~~~~~~~~~~~~~~~~~~~~
+                     |      |                    ||
+                     |      |                    |(38) ...to here
+                     |      |                    (39) following 'true' branch...
+                     |
+                   'iopt_area_unpin_domain': event 40
+                     |
+                     |include/linux/minmax.h:28:43:
+                     |   28 | #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
+                     |      |                         ~~~~~~~~~~~~~~~~~~^~~~~~
+                     |      |                                           |
+                     |      |                                           (40) ...to here
+   include/linux/minmax.h:33:17: note: in expansion of macro '__cmp'
+                     |   33 |                 __cmp(unique_x, unique_y, op); })
+                     |      |                 ^~~~~
+   include/linux/minmax.h:38:17: note: in expansion of macro '__cmp_once'
+                     |   38 |                 __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
+                     |      |                 ^~~~~~~~~~
+   include/linux/minmax.h:52:25: note: in expansion of macro '__careful_cmp'
+                     |   52 | #define max(x, y)       __careful_cmp(x, y, >)
+                     |      |                         ^~~~~~~~~~~~~
+   drivers/iommu/iommufd/pages.c:1138:33: note: in expansion of macro 'max'
+                     | 1138 |                                 max(start_index, *unmapped_end_index);
+                     |      |                                 ^~~
+                     |
+                   'iopt_area_unpin_domain': event 41
+                     |
+                     | 1140 |                         batch_from_domain(batch, domain, area, start,
+                     |      |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                     |      |                         |
+                     |      |                         (41) calling 'batch_from_domain' from 'iopt_area_unpin_domain'
+                     | 1141 |                                           last_index);
+                     |      |                                           ~~~~~~~~~~~
+                     |
+                     +--> 'batch_from_domain': events 42-45
+                            |
+                            |  308 | static void batch_from_domain(struct pfn_batch *batch,
+                            |      |             ^~~~~~~~~~~~~~~~~
+                            |      |             |
+                            |      |             (42) entry to 'batch_from_domain'
+                            |......
+                            |  320 |         while (start_index <= last_index) {
+                            |      |                ~~~~~~~~~~~~~~~~~~~~~~~~~
+                            |      |                            |
+                            |      |                            (43) following 'true' branch (when 'start_index <= last_index')...
+                            |......
+                            |  326 |                 phys = iommu_iova_to_phys(domain, iova) - page_offset;
+                            |      |                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                            |      |                        |
+                            |      |                        (44) ...to here
+                            |  327 |                 if (!batch_add_pfn(batch, PHYS_PFN(phys)))
+                            |      |                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                            |      |                      |
+                            |      |                      (45) calling 'batch_add_pfn' from 'batch_from_domain'
+                            |
+                            +--> 'batch_add_pfn': events 46-47
+                                   |
+                                   |  283 | static bool batch_add_pfn(struct pfn_batch *batch, unsigned long pfn)
+                                   |      |             ^~~~~~~~~~~~~
+                                   |      |             |
+                                   |      |             (46) entry to 'batch_add_pfn'
+                                   |......
+                                   |  287 |         if (batch->end &&
+                                   |      |             ~~~~~~~~~~
+                                   |      |                  |
+                                   |      |                  (47) use of uninitialized value '*batch.end' here
+                                   |
+>> drivers/iommu/iommufd/pages.c:288:55: warning: use of uninitialized value '*batch.npfns' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+     288 |             pfn == batch->pfns[batch->end - 1] + batch->npfns[batch->end - 1] &&
+         |                                                  ~~~~~^~~~~~~
+     'iopt_area_unfill_partial_domain.part.0': events 1-2
+       |
+       | 1213 | static void iopt_area_unfill_partial_domain(struct iopt_area *area,
+       |      |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |             |
+       |      |             (1) entry to 'iopt_area_unfill_partial_domain.part.0'
+       |......
+       | 1219 |                 __iopt_area_unfill_domain(area, pages, domain, end_index - 1);
+       |      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |                 |
+       |      |                 (2) calling '__iopt_area_unfill_domain' from 'iopt_area_unfill_partial_domain.part.0'
+       |
+       +--> '__iopt_area_unfill_domain': events 3-5
+              |
+              |  273 |         __batch_init(batch, max_pages, backup, backup_len);
+              |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |         |
+              |      |         (5) calling '__batch_init' from '__iopt_area_unfill_domain'
+              |......
+              | 1179 | static void __iopt_area_unfill_domain(struct iopt_area *area,
+              |      |             ^~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |             |
+              |      |             (3) entry to '__iopt_area_unfill_domain'
+              |......
+              | 1188 |         struct pfn_batch batch;
+              |      |                          ~~~~~
+              |      |                          |
+              |      |                          (4) region created on stack here
+              |
+              +--> '__batch_init': events 6-7
+                     |
+                     |  248 | static int __batch_init(struct pfn_batch *batch, size_t max_pages, void *backup,
+                     |      |            ^~~~~~~~~~~~
+                     |      |            |
+                     |      |            (6) entry to '__batch_init'
+                     |......
+                     |  254 |         batch->pfns = temp_kmalloc(&size, backup, backup_len);
+                     |      |                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                     |      |                       |
+                     |      |                       (7) calling 'temp_kmalloc' from '__batch_init'
+                     |
+                     +--> 'temp_kmalloc': events 8-9
+                            |
+                            |   74 | static void *temp_kmalloc(size_t *size, void *backup, size_t backup_len)
+                            |      |              ^~~~~~~~~~~~
+                            |      |              |
+                            |      |              (8) entry to 'temp_kmalloc'
+                            |......
+                            |   78 |         if (WARN_ON(*size == 0))
+                            |      |            ~  
+                            |      |            |
+                            |      |            (9) following 'true' branch...
+                            |
+                          'temp_kmalloc': event 10
+                            |
+                            |cc1:
+                            | (10): ...to here
+                            |
+                     <------+
+                     |
+                   '__batch_init': events 11-12
+                     |
+                     |  254 |         batch->pfns = temp_kmalloc(&size, backup, backup_len);
+                     |      |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                     |      |                       |
+                     |      |                       (11) returning to '__batch_init' from 'temp_kmalloc'
+                     |  255 |         if (!batch->pfns)
+                     |      |            ~           
+                     |      |            |
+                     |      |            (12) following 'true' branch...
+                     |
+                   '__batch_init': event 13
+                     |
+                     |cc1:
+                     | (13): ...to here
+                     |
+              <------+
+              |
+            '__iopt_area_unfill_domain': event 14
+              |
+              |  273 |         __batch_init(batch, max_pages, backup, backup_len);
+              |      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |         |
+              |      |         (14) returning to '__iopt_area_unfill_domain' from '__batch_init'
+              |
+            '__iopt_area_unfill_domain': event 15
+              |
+              |drivers/iommu/iommufd/double_span.h:93:14:
+              |   93 |         for (interval_tree_double_span_iter_first(span, itree1, itree2,       \
+              |      |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |              |
+              |      |              (15) calling 'interval_tree_double_span_iter_first' from '__iopt_area_unfill_domain'
+              |   94 |                                                   first_index, last_index);   \
+              |      |                                                   ~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iommu/iommufd/double_span.h:93:14: note: in definition of macro 'interval_tree_for_each_double_span'
+              |   93 |         for (interval_tree_double_span_iter_first(span, itree1, itree2,       \
+              |      |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |
+--
+              | 1196 |                 if (span.is_used) {
+              |      |                    ^
+              |      |                    |
+              |      |                    (32) ...to here
+              |      |                    (33) following 'false' branch...
+              |......
+              | 1201 |                 iopt_area_unpin_domain(&batch, area, pages, domain,
+              |      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |                 |
+              |      |                 (34) ...to here
+              |      |                 (35) calling 'iopt_area_unpin_domain' from '__iopt_area_unfill_domain'
+              | 1202 |                                        span.start_hole, span.last_hole,
+              |      |                                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              | 1203 |                                        &unmapped_end_index, last_index);
+              |      |                                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |
+              +--> 'iopt_area_unpin_domain': events 36-39
+                     |
+                     | 1127 | iopt_area_unpin_domain(struct pfn_batch *batch, struct iopt_area *area,
+                     |      | ^~~~~~~~~~~~~~~~~~~~~~
+                     |      | |
+                     |      | (36) entry to 'iopt_area_unpin_domain'
+                     |......
+                     | 1133 |         while (start_index <= last_index) {
+                     |      |                ~~~~~~~~~~~~~~~~~~~~~~~~~
+                     |      |                            |
+                     |      |                            (37) following 'true' branch (when 'start_index <= last_index')...
+                     |......
+                     | 1136 |                 if (*unmapped_end_index <= last_index) {
+                     |      |                    ~~~~~~~~~~~~~~~~~~~~
+                     |      |                    ||
+                     |      |                    |(38) ...to here
+                     |      |                    (39) following 'true' branch...
+                     |
+                   'iopt_area_unpin_domain': event 40
+                     |
+                     |include/linux/minmax.h:28:43:
+                     |   28 | #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
+                     |      |                         ~~~~~~~~~~~~~~~~~~^~~~~~
+                     |      |                                           |
+                     |      |                                           (40) ...to here
+   include/linux/minmax.h:33:17: note: in expansion of macro '__cmp'
+                     |   33 |                 __cmp(unique_x, unique_y, op); })
+                     |      |                 ^~~~~
+   include/linux/minmax.h:38:17: note: in expansion of macro '__cmp_once'
+                     |   38 |                 __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
+                     |      |                 ^~~~~~~~~~
+   include/linux/minmax.h:52:25: note: in expansion of macro '__careful_cmp'
+                     |   52 | #define max(x, y)       __careful_cmp(x, y, >)
+                     |      |                         ^~~~~~~~~~~~~
+   drivers/iommu/iommufd/pages.c:1138:33: note: in expansion of macro 'max'
+                     | 1138 |                                 max(start_index, *unmapped_end_index);
+                     |      |                                 ^~~
+                     |
+                   'iopt_area_unpin_domain': event 41
+                     |
+                     | 1140 |                         batch_from_domain(batch, domain, area, start,
+                     |      |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                     |      |                         |
+                     |      |                         (41) calling 'batch_from_domain' from 'iopt_area_unpin_domain'
+                     | 1141 |                                           last_index);
+                     |      |                                           ~~~~~~~~~~~
+                     |
+                     +--> 'batch_from_domain': events 42-45
+                            |
+                            |  308 | static void batch_from_domain(struct pfn_batch *batch,
+                            |      |             ^~~~~~~~~~~~~~~~~
+                            |      |             |
+                            |      |             (42) entry to 'batch_from_domain'
+                            |......
+                            |  320 |         while (start_index <= last_index) {
+                            |      |                ~~~~~~~~~~~~~~~~~~~~~~~~~
+                            |      |                            |
+                            |      |                            (43) following 'true' branch (when 'start_index <= last_index')...
+                            |......
+                            |  326 |                 phys = iommu_iova_to_phys(domain, iova) - page_offset;
+                            |      |                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                            |      |                        |
+                            |      |                        (44) ...to here
+                            |  327 |                 if (!batch_add_pfn(batch, PHYS_PFN(phys)))
+                            |      |                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                            |      |                      |
+                            |      |                      (45) calling 'batch_add_pfn' from 'batch_from_domain'
+                            |
+                            +--> 'batch_add_pfn': events 46-49
+                                   |
+                                   |  283 | static bool batch_add_pfn(struct pfn_batch *batch, unsigned long pfn)
+                                   |      |             ^~~~~~~~~~~~~
+                                   |      |             |
+                                   |      |             (46) entry to 'batch_add_pfn'
+                                   |......
+                                   |  287 |         if (batch->end &&
+                                   |      |            ~ 
+                                   |      |            |
+                                   |      |            (47) following 'true' branch...
+                                   |  288 |             pfn == batch->pfns[batch->end - 1] + batch->npfns[batch->end - 1] &&
+                                   |      |                    ~~~~~~~~~~~                   ~~~~~~~~~~~~
+                                   |      |                         |                             |
+                                   |      |                         (48) ...to here               (49) use of uninitialized value '*batch.npfns' here
+                                   |
+>> drivers/iommu/iommufd/pages.c:294:32: warning: use of uninitialized value '*batch.array_size' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+     294 |         if (batch->end == batch->array_size)
+         |                           ~~~~~^~~~~~~~~~~~
+     'iopt_area_unfill_partial_domain.part.0': events 1-2
+       |
+       | 1213 | static void iopt_area_unfill_partial_domain(struct iopt_area *area,
+       |      |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |             |
+       |      |             (1) entry to 'iopt_area_unfill_partial_domain.part.0'
+       |......
+       | 1219 |                 __iopt_area_unfill_domain(area, pages, domain, end_index - 1);
+       |      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |                 |
+       |      |                 (2) calling '__iopt_area_unfill_domain' from 'iopt_area_unfill_partial_domain.part.0'
+       |
+       +--> '__iopt_area_unfill_domain': events 3-5
+              |
+              |  273 |         __batch_init(batch, max_pages, backup, backup_len);
+              |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |         |
+              |      |         (5) calling '__batch_init' from '__iopt_area_unfill_domain'
+              |......
+              | 1179 | static void __iopt_area_unfill_domain(struct iopt_area *area,
+              |      |             ^~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |             |
+              |      |             (3) entry to '__iopt_area_unfill_domain'
+              |......
+              | 1188 |         struct pfn_batch batch;
+              |      |                          ~~~~~
+              |      |                          |
+              |      |                          (4) region created on stack here
+              |
+              +--> '__batch_init': events 6-7
+                     |
+                     |  248 | static int __batch_init(struct pfn_batch *batch, size_t max_pages, void *backup,
+                     |      |            ^~~~~~~~~~~~
+                     |      |            |
+                     |      |            (6) entry to '__batch_init'
+                     |......
+                     |  254 |         batch->pfns = temp_kmalloc(&size, backup, backup_len);
+                     |      |                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                     |      |                       |
+                     |      |                       (7) calling 'temp_kmalloc' from '__batch_init'
+                     |
+                     +--> 'temp_kmalloc': events 8-9
+                            |
+                            |   74 | static void *temp_kmalloc(size_t *size, void *backup, size_t backup_len)
+                            |      |              ^~~~~~~~~~~~
+                            |      |              |
+                            |      |              (8) entry to 'temp_kmalloc'
+                            |......
+                            |   78 |         if (WARN_ON(*size == 0))
+                            |      |            ~  
+                            |      |            |
+                            |      |            (9) following 'true' branch...
+                            |
+                          'temp_kmalloc': event 10
+                            |
+                            |cc1:
+                            | (10): ...to here
+                            |
+                     <------+
+                     |
+                   '__batch_init': events 11-12
+                     |
+                     |  254 |         batch->pfns = temp_kmalloc(&size, backup, backup_len);
+                     |      |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                     |      |                       |
+                     |      |                       (11) returning to '__batch_init' from 'temp_kmalloc'
+                     |  255 |         if (!batch->pfns)
+                     |      |            ~           
+                     |      |            |
+                     |      |            (12) following 'true' branch...
+                     |
+                   '__batch_init': event 13
+                     |
+                     |cc1:
+                     | (13): ...to here
+                     |
+              <------+
+              |
+            '__iopt_area_unfill_domain': event 14
+              |
+              |  273 |         __batch_init(batch, max_pages, backup, backup_len);
+              |      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |         |
+              |      |         (14) returning to '__iopt_area_unfill_domain' from '__batch_init'
+              |
+            '__iopt_area_unfill_domain': event 15
+              |
+              |drivers/iommu/iommufd/double_span.h:93:14:
+              |   93 |         for (interval_tree_double_span_iter_first(span, itree1, itree2,       \
+              |      |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |              |
+              |      |              (15) calling 'interval_tree_double_span_iter_first' from '__iopt_area_unfill_domain'
+              |   94 |                                                   first_index, last_index);   \
+              |      |                                                   ~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iommu/iommufd/double_span.h:93:14: note: in definition of macro 'interval_tree_for_each_double_span'
+              |   93 |         for (interval_tree_double_span_iter_first(span, itree1, itree2,       \
+              |      |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |
+--
+   In file included from include/linux/uaccess.h:11,
+                    from include/linux/sched/task.h:11,
+                    from include/linux/sched/signal.h:9,
+                    from include/linux/rcuwait.h:6,
+                    from include/linux/percpu-rwsem.h:7,
+                    from include/linux/fs.h:33,
+                    from include/linux/huge_mm.h:8,
+                    from include/linux/mm.h:737,
+                    from include/linux/scatterlist.h:8,
+                    from include/linux/iommu.h:10,
+                    from drivers/iommu/iommufd/vfio_compat.c:6:
+   In function 'raw_copy_to_user',
+       inlined from '_copy_to_user' at include/linux/uaccess.h:148:7,
+       inlined from 'copy_to_user' at include/linux/uaccess.h:169:7,
+       inlined from 'iommufd_fill_cap_iova' at drivers/iommu/iommufd/vfio_compat.c:328:6:
+>> arch/arm/include/asm/uaccess.h:566:9: warning: use of NULL 'cur' where non-null expected [CWE-476] [-Wanalyzer-null-argument]
+     566 |         memcpy((void __force *)to, from, n);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     'iommufd_vfio_iommu_get_info': events 1-2
+       |
+       |drivers/iommu/iommufd/vfio_compat.c:352:12:
+       |  352 | static int iommufd_vfio_iommu_get_info(struct iommufd_ctx *ictx,
+       |      |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |            |
+       |      |            (1) entry to 'iommufd_vfio_iommu_get_info'
+       |......
+       |  373 |         if (info.argsz < minsz)
+       |      |            ~
+       |      |            |
+       |      |            (2) following 'false' branch...
+       |
+     'iommufd_vfio_iommu_get_info': event 3
+       |
+       |include/linux/minmax.h:28:43:
+       |   28 | #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
+       |      |                         ~~~~~~~~~~~~~~~~~~^~~~~~
+       |      |                                           |
+       |      |                                           (3) ...to here
+   include/linux/minmax.h:33:17: note: in expansion of macro '__cmp'
+       |   33 |                 __cmp(unique_x, unique_y, op); })
+       |      |                 ^~~~~
+   include/linux/minmax.h:38:17: note: in expansion of macro '__cmp_once'
+       |   38 |                 __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
+       |      |                 ^~~~~~~~~~
+   include/linux/minmax.h:104:33: note: in expansion of macro '__careful_cmp'
+       |  104 | #define min_t(type, x, y)       __careful_cmp((type)(x), (type)(y), <)
+       |      |                                 ^~~~~~~~~~~~~
+   drivers/iommu/iommufd/vfio_compat.c:375:17: note: in expansion of macro 'min_t'
+       |  375 |         minsz = min_t(size_t, info.argsz, sizeof(info));
+       |      |                 ^~~~~
+       |
+     'iommufd_vfio_iommu_get_info': event 4
+       |
+       |  377 |         ioas = get_compat_ioas(ictx);
+       |      |                ^~~~~~~~~~~~~~~~~~~~~
+       |      |                |
+       |      |                (4) calling 'get_compat_ioas' from 'iommufd_vfio_iommu_get_info'
+       |
+       +--> 'get_compat_ioas': events 5-8
+              |
+              |   15 | static struct iommufd_ioas *get_compat_ioas(struct iommufd_ctx *ictx)
+              |      |                             ^~~~~~~~~~~~~~~
+              |      |                             |
+              |      |                             (5) entry to 'get_compat_ioas'
+              |......
+              |   20 |         if (!ictx->vfio_ioas || !iommufd_lock_obj(&ictx->vfio_ioas->obj))
+              |      |            ~                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |            |                     |
+              |      |            |                     (7) ...to here
+              |      |            |                     (8) calling 'iommufd_lock_obj' from 'get_compat_ioas'
+              |      |            (6) following 'false' branch...
+              |
+              +--> 'iommufd_lock_obj': events 9-12
+                     |
+                     |drivers/iommu/iommufd/iommufd_private.h:129:20:
+                     |  129 | static inline bool iommufd_lock_obj(struct iommufd_object *obj)
+                     |      |                    ^~~~~~~~~~~~~~~~
+                     |      |                    |
+                     |      |                    (9) entry to 'iommufd_lock_obj'
+                     |  130 | {
+                     |  131 |         if (!down_read_trylock(&obj->destroy_rwsem))
+                     |      |            ~        
+                     |      |            |
+                     |      |            (10) following 'false' branch...
+                     |  132 |                 return false;
+                     |  133 |         if (!refcount_inc_not_zero(&obj->users)) {
+                     |      |              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                     |      |              |
+                     |      |              (11) ...to here
+                     |      |              (12) calling 'refcount_inc_not_zero' from 'iommufd_lock_obj'
+                     |
+                     +--> 'refcount_inc_not_zero': events 13-14
+                            |
+                            |include/linux/refcount.h:243:33:
+                            |  243 | static inline __must_check bool refcount_inc_not_zero(refcount_t *r)
+                            |      |                                 ^~~~~~~~~~~~~~~~~~~~~
+                            |      |                                 |
+                            |      |                                 (13) entry to 'refcount_inc_not_zero'
+                            |  244 | {
+                            |  245 |         return __refcount_inc_not_zero(r, NULL);
+                            |      |                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                            |      |                |
+                            |      |                (14) calling '__refcount_inc_not_zero' from 'refcount_inc_not_zero'
+                            |
+                            +--> '__refcount_inc_not_zero': events 15-16
+                                   |
+                                   |  225 | static inline __must_check bool __refcount_inc_not_zero(refcount_t *r, int *oldp)
+                                   |      |                                 ^~~~~~~~~~~~~~~~~~~~~~~
+                                   |      |                                 |
+                                   |      |                                 (15) entry to '__refcount_inc_not_zero'
+                                   |  226 | {
+                                   |  227 |         return __refcount_add_not_zero(1, r, oldp);
+                                   |      |                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                                   |      |                |
+                                   |      |                (16) calling '__refcount_add_not_zero' from '__refcount_inc_not_zero'
+                                   |
 
-vim +337 mm/truncate.c
+vim +402 drivers/vfio/group.c
 
-d6c75dc22c755c Matthew Wilcox (Oracle  2022-02-13  305) 
-^1da177e4c3f41 Linus Torvalds          2005-04-16  306  /**
-73c1e20430cbb9 Liu Bo                  2012-02-21  307   * truncate_inode_pages_range - truncate range of pages specified by start & end byte offsets
-^1da177e4c3f41 Linus Torvalds          2005-04-16  308   * @mapping: mapping to truncate
-^1da177e4c3f41 Linus Torvalds          2005-04-16  309   * @lstart: offset from which to truncate
-5a7203947a1d9b Lukas Czerner           2013-05-27  310   * @lend: offset to which to truncate (inclusive)
-^1da177e4c3f41 Linus Torvalds          2005-04-16  311   *
-d7339071f6a8b5 Hans Reiser             2006-01-06  312   * Truncate the page cache, removing the pages that are between
-5a7203947a1d9b Lukas Czerner           2013-05-27  313   * specified offsets (and zeroing out partial pages
-5a7203947a1d9b Lukas Czerner           2013-05-27  314   * if lstart or lend + 1 is not page aligned).
-^1da177e4c3f41 Linus Torvalds          2005-04-16  315   *
-^1da177e4c3f41 Linus Torvalds          2005-04-16  316   * Truncate takes two passes - the first pass is nonblocking.  It will not
-^1da177e4c3f41 Linus Torvalds          2005-04-16  317   * block on page locks and it will not block on writeback.  The second pass
-^1da177e4c3f41 Linus Torvalds          2005-04-16  318   * will wait.  This is to prevent as much IO as possible in the affected region.
-^1da177e4c3f41 Linus Torvalds          2005-04-16  319   * The first pass will remove most pages, so the search cost of the second pass
-^1da177e4c3f41 Linus Torvalds          2005-04-16  320   * is low.
-^1da177e4c3f41 Linus Torvalds          2005-04-16  321   *
-^1da177e4c3f41 Linus Torvalds          2005-04-16  322   * We pass down the cache-hot hint to the page freeing code.  Even if the
-^1da177e4c3f41 Linus Torvalds          2005-04-16  323   * mapping is large, it is probably the case that the final pages are the most
-^1da177e4c3f41 Linus Torvalds          2005-04-16  324   * recently touched, and freeing happens in ascending file offset order.
-5a7203947a1d9b Lukas Czerner           2013-05-27  325   *
-f50015a596fa10 Matthew Wilcox (Oracle  2022-02-09  326)  * Note that since ->invalidate_folio() accepts range to invalidate
-5a7203947a1d9b Lukas Czerner           2013-05-27  327   * truncate_inode_pages_range is able to handle cases where lend + 1 is not
-5a7203947a1d9b Lukas Czerner           2013-05-27  328   * page aligned properly.
-^1da177e4c3f41 Linus Torvalds          2005-04-16  329   */
-d7339071f6a8b5 Hans Reiser             2006-01-06  330  void truncate_inode_pages_range(struct address_space *mapping,
-d7339071f6a8b5 Hans Reiser             2006-01-06  331  				loff_t lstart, loff_t lend)
-^1da177e4c3f41 Linus Torvalds          2005-04-16  332  {
-5a7203947a1d9b Lukas Czerner           2013-05-27  333  	pgoff_t		start;		/* inclusive */
-5a7203947a1d9b Lukas Czerner           2013-05-27  334  	pgoff_t		end;		/* exclusive */
-0e499ed3d7a216 Matthew Wilcox (Oracle  2020-09-01  335) 	struct folio_batch fbatch;
-0cd6144aadd2af Johannes Weiner         2014-04-03  336  	pgoff_t		indices[PAGEVEC_SIZE];
-b85e0effd3dcbf Hugh Dickins            2011-07-25 @337  	pgoff_t		index;
-^1da177e4c3f41 Linus Torvalds          2005-04-16  338  	int		i;
-b9a8a4195c7d3a Matthew Wilcox (Oracle  2020-05-27  339) 	struct folio	*folio;
-b9a8a4195c7d3a Matthew Wilcox (Oracle  2020-05-27  340) 	bool		same_folio;
-^1da177e4c3f41 Linus Torvalds          2005-04-16  341  
-7716506adac466 Matthew Wilcox (Oracle  2021-05-04  342) 	if (mapping_empty(mapping))
-0a4ee518185e90 Christoph Hellwig       2022-01-21  343  		return;
-^1da177e4c3f41 Linus Torvalds          2005-04-16  344  
-5a7203947a1d9b Lukas Czerner           2013-05-27  345  	/*
-5a7203947a1d9b Lukas Czerner           2013-05-27  346  	 * 'start' and 'end' always covers the range of pages to be fully
-5a7203947a1d9b Lukas Czerner           2013-05-27  347  	 * truncated. Partial pages are covered with 'partial_start' at the
-5a7203947a1d9b Lukas Czerner           2013-05-27  348  	 * start of the range and 'partial_end' at the end of the range.
-5a7203947a1d9b Lukas Czerner           2013-05-27  349  	 * Note that 'end' is exclusive while 'lend' is inclusive.
-5a7203947a1d9b Lukas Czerner           2013-05-27  350  	 */
-09cbfeaf1a5a67 Kirill A. Shutemov      2016-04-01  351  	start = (lstart + PAGE_SIZE - 1) >> PAGE_SHIFT;
-5a7203947a1d9b Lukas Czerner           2013-05-27  352  	if (lend == -1)
-5a7203947a1d9b Lukas Czerner           2013-05-27  353  		/*
-5a7203947a1d9b Lukas Czerner           2013-05-27  354  		 * lend == -1 indicates end-of-file so we have to set 'end'
-5a7203947a1d9b Lukas Czerner           2013-05-27  355  		 * to the highest possible pgoff_t and since the type is
-5a7203947a1d9b Lukas Czerner           2013-05-27  356  		 * unsigned we're using -1.
-5a7203947a1d9b Lukas Czerner           2013-05-27  357  		 */
-5a7203947a1d9b Lukas Czerner           2013-05-27  358  		end = -1;
-5a7203947a1d9b Lukas Czerner           2013-05-27  359  	else
-09cbfeaf1a5a67 Kirill A. Shutemov      2016-04-01  360  		end = (lend + 1) >> PAGE_SHIFT;
-d7339071f6a8b5 Hans Reiser             2006-01-06  361  
-51dcbdac28d4dd Matthew Wilcox (Oracle  2021-12-07  362) 	folio_batch_init(&fbatch);
-b85e0effd3dcbf Hugh Dickins            2011-07-25  363  	index = start;
-624682fdddddff Vishal Moola (Oracle    2022-10-17  364) 	while (index < end && find_lock_entries(mapping, &index, end - 1,
-51dcbdac28d4dd Matthew Wilcox (Oracle  2021-12-07  365) 			&fbatch, indices)) {
-51dcbdac28d4dd Matthew Wilcox (Oracle  2021-12-07  366) 		truncate_folio_batch_exceptionals(mapping, &fbatch, indices);
-51dcbdac28d4dd Matthew Wilcox (Oracle  2021-12-07  367) 		for (i = 0; i < folio_batch_count(&fbatch); i++)
-51dcbdac28d4dd Matthew Wilcox (Oracle  2021-12-07  368) 			truncate_cleanup_folio(fbatch.folios[i]);
-51dcbdac28d4dd Matthew Wilcox (Oracle  2021-12-07  369) 		delete_from_page_cache_batch(mapping, &fbatch);
-51dcbdac28d4dd Matthew Wilcox (Oracle  2021-12-07  370) 		for (i = 0; i < folio_batch_count(&fbatch); i++)
-51dcbdac28d4dd Matthew Wilcox (Oracle  2021-12-07  371) 			folio_unlock(fbatch.folios[i]);
-51dcbdac28d4dd Matthew Wilcox (Oracle  2021-12-07  372) 		folio_batch_release(&fbatch);
-^1da177e4c3f41 Linus Torvalds          2005-04-16  373  		cond_resched();
-^1da177e4c3f41 Linus Torvalds          2005-04-16  374  	}
-5c211ba29deb84 Matthew Wilcox (Oracle  2021-02-25  375) 
-b9a8a4195c7d3a Matthew Wilcox (Oracle  2020-05-27  376) 	same_folio = (lstart >> PAGE_SHIFT) == (lend >> PAGE_SHIFT);
-b9a8a4195c7d3a Matthew Wilcox (Oracle  2020-05-27  377) 	folio = __filemap_get_folio(mapping, lstart >> PAGE_SHIFT, FGP_LOCK, 0);
-b9a8a4195c7d3a Matthew Wilcox (Oracle  2020-05-27  378) 	if (folio) {
-b9a8a4195c7d3a Matthew Wilcox (Oracle  2020-05-27  379) 		same_folio = lend < folio_pos(folio) + folio_size(folio);
-b9a8a4195c7d3a Matthew Wilcox (Oracle  2020-05-27  380) 		if (!truncate_inode_partial_folio(folio, lstart, lend)) {
-b9a8a4195c7d3a Matthew Wilcox (Oracle  2020-05-27  381) 			start = folio->index + folio_nr_pages(folio);
-b9a8a4195c7d3a Matthew Wilcox (Oracle  2020-05-27  382) 			if (same_folio)
-b9a8a4195c7d3a Matthew Wilcox (Oracle  2020-05-27  383) 				end = folio->index;
-^1da177e4c3f41 Linus Torvalds          2005-04-16  384  		}
-b9a8a4195c7d3a Matthew Wilcox (Oracle  2020-05-27  385) 		folio_unlock(folio);
-b9a8a4195c7d3a Matthew Wilcox (Oracle  2020-05-27  386) 		folio_put(folio);
-b9a8a4195c7d3a Matthew Wilcox (Oracle  2020-05-27  387) 		folio = NULL;
-5a7203947a1d9b Lukas Czerner           2013-05-27  388  	}
-b9a8a4195c7d3a Matthew Wilcox (Oracle  2020-05-27  389) 
-b9a8a4195c7d3a Matthew Wilcox (Oracle  2020-05-27  390) 	if (!same_folio)
-b9a8a4195c7d3a Matthew Wilcox (Oracle  2020-05-27  391) 		folio = __filemap_get_folio(mapping, lend >> PAGE_SHIFT,
-b9a8a4195c7d3a Matthew Wilcox (Oracle  2020-05-27  392) 						FGP_LOCK, 0);
-b9a8a4195c7d3a Matthew Wilcox (Oracle  2020-05-27  393) 	if (folio) {
-b9a8a4195c7d3a Matthew Wilcox (Oracle  2020-05-27  394) 		if (!truncate_inode_partial_folio(folio, lstart, lend))
-b9a8a4195c7d3a Matthew Wilcox (Oracle  2020-05-27  395) 			end = folio->index;
-b9a8a4195c7d3a Matthew Wilcox (Oracle  2020-05-27  396) 		folio_unlock(folio);
-b9a8a4195c7d3a Matthew Wilcox (Oracle  2020-05-27  397) 		folio_put(folio);
-5a7203947a1d9b Lukas Czerner           2013-05-27  398  	}
-^1da177e4c3f41 Linus Torvalds          2005-04-16  399  
-b85e0effd3dcbf Hugh Dickins            2011-07-25  400  	index = start;
-b9a8a4195c7d3a Matthew Wilcox (Oracle  2020-05-27  401) 	while (index < end) {
-^1da177e4c3f41 Linus Torvalds          2005-04-16  402  		cond_resched();
-0e499ed3d7a216 Matthew Wilcox (Oracle  2020-09-01  403) 		if (!find_get_entries(mapping, index, end - 1, &fbatch,
-38cefeb3374999 Matthew Wilcox (Oracle  2021-02-25  404) 				indices)) {
-792ceaefe62189 Hugh Dickins            2014-07-23  405  			/* If all gone from start onwards, we're done */
-b85e0effd3dcbf Hugh Dickins            2011-07-25  406  			if (index == start)
-^1da177e4c3f41 Linus Torvalds          2005-04-16  407  				break;
-792ceaefe62189 Hugh Dickins            2014-07-23  408  			/* Otherwise restart to make sure all gone */
-b85e0effd3dcbf Hugh Dickins            2011-07-25  409  			index = start;
-^1da177e4c3f41 Linus Torvalds          2005-04-16  410  			continue;
-^1da177e4c3f41 Linus Torvalds          2005-04-16  411  		}
-f2187599189d94 Mel Gorman              2017-11-15  412  
-0e499ed3d7a216 Matthew Wilcox (Oracle  2020-09-01  413) 		for (i = 0; i < folio_batch_count(&fbatch); i++) {
-0e499ed3d7a216 Matthew Wilcox (Oracle  2020-09-01  414) 			struct folio *folio = fbatch.folios[i];
-^1da177e4c3f41 Linus Torvalds          2005-04-16  415  
-b85e0effd3dcbf Hugh Dickins            2011-07-25  416  			/* We rely upon deletion not changing page->index */
-0cd6144aadd2af Johannes Weiner         2014-04-03  417  			index = indices[i];
-b85e0effd3dcbf Hugh Dickins            2011-07-25  418  
-0e499ed3d7a216 Matthew Wilcox (Oracle  2020-09-01  419) 			if (xa_is_value(folio))
-0cd6144aadd2af Johannes Weiner         2014-04-03  420  				continue;
-0cd6144aadd2af Johannes Weiner         2014-04-03  421  
-1e84a3d997b74c Matthew Wilcox (Oracle  2021-12-02  422) 			folio_lock(folio);
-1e84a3d997b74c Matthew Wilcox (Oracle  2021-12-02  423) 			VM_BUG_ON_FOLIO(!folio_contains(folio, index), folio);
-1e84a3d997b74c Matthew Wilcox (Oracle  2021-12-02  424) 			folio_wait_writeback(folio);
-1e84a3d997b74c Matthew Wilcox (Oracle  2021-12-02  425) 			truncate_inode_folio(mapping, folio);
-1e84a3d997b74c Matthew Wilcox (Oracle  2021-12-02  426) 			folio_unlock(folio);
-ccbbf761d440b0 Matthew Wilcox (Oracle  2021-11-26  427) 			index = folio_index(folio) + folio_nr_pages(folio) - 1;
-^1da177e4c3f41 Linus Torvalds          2005-04-16  428  		}
-0e499ed3d7a216 Matthew Wilcox (Oracle  2020-09-01  429) 		truncate_folio_batch_exceptionals(mapping, &fbatch, indices);
-0e499ed3d7a216 Matthew Wilcox (Oracle  2020-09-01  430) 		folio_batch_release(&fbatch);
-b85e0effd3dcbf Hugh Dickins            2011-07-25  431  		index++;
-^1da177e4c3f41 Linus Torvalds          2005-04-16  432  	}
-^1da177e4c3f41 Linus Torvalds          2005-04-16  433  }
-d7339071f6a8b5 Hans Reiser             2006-01-06  434  EXPORT_SYMBOL(truncate_inode_pages_range);
-^1da177e4c3f41 Linus Torvalds          2005-04-16  435  
+4a833540950820 Yi Liu 2022-11-02  367  
+4a833540950820 Yi Liu 2022-11-02  368  static int vfio_group_ioctl_set_container(struct vfio_group *group,
+4a833540950820 Yi Liu 2022-11-02  369  					  int __user *arg)
+4a833540950820 Yi Liu 2022-11-02  370  {
+4a833540950820 Yi Liu 2022-11-02  371  	struct vfio_container *container;
+4a833540950820 Yi Liu 2022-11-02  372  	struct iommufd_ctx *iommufd;
+4a833540950820 Yi Liu 2022-11-02  373  	struct fd f;
+4a833540950820 Yi Liu 2022-11-02  374  	int ret;
+4a833540950820 Yi Liu 2022-11-02  375  	int fd;
+4a833540950820 Yi Liu 2022-11-02  376  
+4a833540950820 Yi Liu 2022-11-02  377  	if (get_user(fd, arg))
+4a833540950820 Yi Liu 2022-11-02  378  		return -EFAULT;
+4a833540950820 Yi Liu 2022-11-02  379  
+4a833540950820 Yi Liu 2022-11-02  380  	f = fdget(fd);
+4a833540950820 Yi Liu 2022-11-02  381  	if (!f.file)
+4a833540950820 Yi Liu 2022-11-02  382  		return -EBADF;
+4a833540950820 Yi Liu 2022-11-02  383  
+4a833540950820 Yi Liu 2022-11-02  384  	mutex_lock(&group->group_lock);
+4a833540950820 Yi Liu 2022-11-02  385  	if (vfio_group_has_iommu(group)) {
+4a833540950820 Yi Liu 2022-11-02  386  		ret = -EINVAL;
+4a833540950820 Yi Liu 2022-11-02  387  		goto out_unlock;
+4a833540950820 Yi Liu 2022-11-02  388  	}
+4a833540950820 Yi Liu 2022-11-02  389  	if (!group->iommu_group) {
+4a833540950820 Yi Liu 2022-11-02  390  		ret = -ENODEV;
+4a833540950820 Yi Liu 2022-11-02  391  		goto out_unlock;
+4a833540950820 Yi Liu 2022-11-02  392  	}
+4a833540950820 Yi Liu 2022-11-02  393  
+4a833540950820 Yi Liu 2022-11-02  394  	container = vfio_container_from_file(f.file);
+4a833540950820 Yi Liu 2022-11-02  395  	if (container) {
+4a833540950820 Yi Liu 2022-11-02  396  		ret = vfio_container_attach_group(container, group);
+4a833540950820 Yi Liu 2022-11-02  397  		goto out_unlock;
+4a833540950820 Yi Liu 2022-11-02  398  	}
+4a833540950820 Yi Liu 2022-11-02  399  
+4a833540950820 Yi Liu 2022-11-02  400  	iommufd = iommufd_ctx_from_file(f.file);
+4a833540950820 Yi Liu 2022-11-02  401  	if (!IS_ERR(iommufd)) {
+4a833540950820 Yi Liu 2022-11-02 @402  		u32 ioas_id;
+4a833540950820 Yi Liu 2022-11-02  403  
+4a833540950820 Yi Liu 2022-11-02  404  		ret = iommufd_vfio_compat_ioas_id(iommufd, &ioas_id);
+4a833540950820 Yi Liu 2022-11-02  405  		if (ret) {
+4a833540950820 Yi Liu 2022-11-02  406  			iommufd_ctx_put(group->iommufd);
+4a833540950820 Yi Liu 2022-11-02  407  			goto out_unlock;
+4a833540950820 Yi Liu 2022-11-02  408  		}
+4a833540950820 Yi Liu 2022-11-02  409  
+4a833540950820 Yi Liu 2022-11-02  410  		group->iommufd = iommufd;
+4a833540950820 Yi Liu 2022-11-02  411  		goto out_unlock;
+4a833540950820 Yi Liu 2022-11-02  412  	}
+4a833540950820 Yi Liu 2022-11-02  413  
+4a833540950820 Yi Liu 2022-11-02  414  	/* The FD passed is not recognized. */
+4a833540950820 Yi Liu 2022-11-02  415  	ret = -EBADFD;
+4a833540950820 Yi Liu 2022-11-02  416  
+4a833540950820 Yi Liu 2022-11-02  417  out_unlock:
+4a833540950820 Yi Liu 2022-11-02  418  	mutex_unlock(&group->group_lock);
+4a833540950820 Yi Liu 2022-11-02  419  	fdput(f);
+4a833540950820 Yi Liu 2022-11-02  420  	return ret;
+4a833540950820 Yi Liu 2022-11-02  421  }
+4a833540950820 Yi Liu 2022-11-02  422  
 
-:::::: The code at line 337 was first introduced by commit
-:::::: b85e0effd3dcbf9118b896232f59526ab1a39a74 mm: consistent truncate and invalidate loops
+:::::: The code at line 402 was first introduced by commit
+:::::: 4a83354095082041c79b42ecf3ea333625004810 vfio: Move vfio group specific code into group.c
 
-:::::: TO: Hugh Dickins <hughd@google.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+:::::: TO: Yi Liu <yi.l.liu@intel.com>
+:::::: CC: Yi Liu <yi.l.liu@intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
 
---F1L3HdKZnnmPCml5
+--KXqzalnWhgD+DJBX
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename=config
 
 #
 # Automatically generated file; DO NOT EDIT.
-# Linux/arm 6.1.0-rc1 Kernel Configuration
+# Linux/arm 6.1.0-rc3 Kernel Configuration
 #
 CONFIG_CC_VERSION_TEXT="arm-linux-gnueabi-gcc (GCC) 12.1.0"
 CONFIG_CC_IS_GCC=y
@@ -1705,7 +2387,7 @@ CONFIG_DEVMEM=y
 # CONFIG_TCG_TPM is not set
 # CONFIG_XILLYBUS is not set
 # CONFIG_XILLYUSB is not set
-# CONFIG_RANDOM_TRUST_CPU is not set
+CONFIG_RANDOM_TRUST_CPU=y
 CONFIG_RANDOM_TRUST_BOOTLOADER=y
 # end of Character devices
 
@@ -3667,7 +4349,7 @@ CONFIG_KEYSTONE_USB_PHY=m
 CONFIG_NOP_USB_XCEIV=m
 CONFIG_AM335X_CONTROL_USB=m
 CONFIG_AM335X_PHY_USB=m
-CONFIG_USB_GPIO_VBUS=m
+# CONFIG_USB_GPIO_VBUS is not set
 CONFIG_TAHVO_USB=m
 # CONFIG_TAHVO_USB_HOST_BY_DEFAULT is not set
 # CONFIG_USB_ISP1301 is not set
@@ -3954,7 +4636,7 @@ CONFIG_IMG_MDC_DMA=m
 # CONFIG_IMX_DMA is not set
 CONFIG_IMX_SDMA=y
 CONFIG_INTEL_IDMA64=m
-CONFIG_INTEL_IOP_ADMA=m
+# CONFIG_INTEL_IOP_ADMA is not set
 CONFIG_K3_DMA=y
 CONFIG_MCF_EDMA=y
 CONFIG_MILBEAUT_HDMAC=m
@@ -4040,8 +4722,10 @@ CONFIG_CHARLCD_BL_ON=y
 # CONFIG_CHARLCD_BL_FLASH is not set
 # CONFIG_PANEL is not set
 CONFIG_VFIO=m
-CONFIG_VFIO_VIRQFD=m
+CONFIG_VFIO_GROUP=y
+CONFIG_VFIO_CONTAINER=y
 # CONFIG_VFIO_NOIOMMU is not set
+CONFIG_VFIO_VIRQFD=m
 CONFIG_VFIO_PLATFORM=m
 CONFIG_VFIO_AMBA=m
 # CONFIG_VFIO_PLATFORM_CALXEDAXGMAC_RESET is not set
@@ -4657,6 +5341,7 @@ CONFIG_SPRD_MBOX=y
 CONFIG_QCOM_IPCC=m
 CONFIG_IOMMU_IOVA=y
 CONFIG_IOMMU_API=y
+CONFIG_IOMMUFD=m
 
 #
 # Remoteproc drivers
@@ -5579,6 +6264,7 @@ CONFIG_RAS=y
 #
 # end of Android
 
+# CONFIG_DAX is not set
 CONFIG_NVMEM=y
 CONFIG_NVMEM_SYSFS=y
 CONFIG_NVMEM_APPLE_EFUSES=y
@@ -6457,4 +7143,4 @@ CONFIG_WARN_MISSING_DOCUMENTS=y
 CONFIG_WARN_ABI_ERRORS=y
 # end of Kernel hacking
 
---F1L3HdKZnnmPCml5--
+--KXqzalnWhgD+DJBX--
