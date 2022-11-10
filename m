@@ -1,50 +1,48 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 513B039F;
-	Thu, 10 Nov 2022 07:06:28 +0000 (UTC)
-Received: by mail-wm1-f45.google.com with SMTP id ja4-20020a05600c556400b003cf6e77f89cso3728062wmb.0;
-        Wed, 09 Nov 2022 23:06:28 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C04E626;
+	Thu, 10 Nov 2022 07:08:01 +0000 (UTC)
+Received: by mail-wm1-f48.google.com with SMTP id l39-20020a05600c1d2700b003cf93c8156dso513909wms.4;
+        Wed, 09 Nov 2022 23:08:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=8hS2mzb0ymVFYyLFUNvvdonlye8wUvYJ1UYA7lGOiOk=;
-        b=iWr92FmAGVG1Pj7oxGQjxxehnGtp8REhwjMv87ioep45GpNYW1x/Nu5+d4Svkf9OC0
-         e8CIntISQKYqbJrEFVq6nafhBMaqFVPEXNcgcy1tqbmreicRPzXLWdf1CEf4lIFX7eOL
-         ZUSaBop1li8vDOlaB78TnGsAEVX28Ff2kk6Vt6bz248yUz8GCPJFPOY46eJRtSRINf6t
-         ESc4c9bR/cV1NWJvXlzkAkzFN2C4qXus+XZ3v9pzGpUgGjTDZOWUCEqbpFsjZysLkZoI
-         w324lbLre0qF0d7uO36wv232MTwBNWgMBvIk4y5+1q4zKTmQFGsNUIfhjQi1u0ky57bB
-         aohg==
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=e/LTRFRXEyx8/WU63WF8jgZ3/L8lS60LosTSaOGyJno=;
+        b=dT9bxPCbAjHsJ6L6IUjgJu33XX1b0PndvpH1XfJzPgQUMTLgI52/VoiEcJ2v0wMM4p
+         XeEwj9I7wFzcy1xaf/m/JXsxSnXbV+F+X1JFSB33symPjM70dwWJgrDM9fbH+aQ3zKmg
+         oJ6/W++lW2CMKDtcfdTfgrmZUX3vWzrrSW5T4pfC+BbcVuFk6Pky7+8iDnhAUtCWg6mK
+         Yk36xZosWszBUj/ANbCANXicMqPMlMp3SiNW9TXV84D/7xELy89zk6wBMNQxBJhLETY5
+         TEjedxbAaoo6J1sEMjF8FLvkRqGJ1/gq5uTF8qSt9HoUwCPmLgXPEa6qQxjjfVv81Bbj
+         qkRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=8hS2mzb0ymVFYyLFUNvvdonlye8wUvYJ1UYA7lGOiOk=;
-        b=DTB+sjJ1iEzKJfd+admyCUUoNPNQQoPa9J1zRcst8f2JH+05Me00NkDkJPoR+LAfSK
-         DaqpsVQdK+7Cd4iM2MJUyJHIfi2U0TQNPVUXVLCDYJMLjVpPxlzSoi4tzBK64r9XgMnU
-         B3j/FRulIPcwH9lZUcKvtUVfXwuxMw5TGaRFevXK9sNz93ffCR6vvHkGvtRiokn9Ig5/
-         ZwmRKKiwongnuHlGoMob2IGBerOT91hc51lodpr1/c8ae6O3q5zLU2kPWZIo0DXQKHNR
-         o0DAkzvHQBAXD6DA7nq6aGDvXzzDxJ6FIUHYwHzHcaRzwH7lk8QQAm5BEgI8P1e1NBM2
-         WqQQ==
-X-Gm-Message-State: ACrzQf2dQN1R+ZSdbFlYN+xBL1kGRxJEb2pJySGzepW7aPXvVcY2IckN
-	IrlqKdQ83J+5IJSn3iLKrNR3YbuKAXYg4Q==
-X-Google-Smtp-Source: AMsMyM6uL9XftXUMhqDhK+Qp6WMtryOMFhn7tQgsZXbqKPBCW9MWCvY3JYQ1vKUXYaquy8YdIQiDcA==
-X-Received: by 2002:a1c:7206:0:b0:3cf:76c4:ae9d with SMTP id n6-20020a1c7206000000b003cf76c4ae9dmr34677161wmc.204.1668063986046;
-        Wed, 09 Nov 2022 23:06:26 -0800 (PST)
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=e/LTRFRXEyx8/WU63WF8jgZ3/L8lS60LosTSaOGyJno=;
+        b=uY+38bbO5V84pkst2Wb1Q8D0tU/mVWG90P0epWVdLPv3+bpeLIPhqfwuyiLkOQR6Iz
+         bLyofdkgGycdXa9E9R+fbQwRZi5140VQ9Yq3TgdHlqva90CPvmeGCt+OnPSkA3XhU31o
+         jLHR8w6EQzAKyfixg+8n/YIWnNVruhajEA7eR4xRjGafmsVqcRNsMFPeVk35/bwxyrNn
+         v8N1Z+JPumadvdIZJvqr11YWHV+CCOdF+NEkgURfbZ27ODoVadl71xC4G8H9K2raswTw
+         dG3v1y6TSlNzJQbOxxHxE1YVHz84ixx4sSCFYQvH6AMlU7YVKmqIf1D4qwN3AY1vY9EV
+         KFmg==
+X-Gm-Message-State: ANoB5pkgrGSzKM8oexTTfsz3YPghksAz8r2/zRP19IR3f62rfrlBj1vK
+	pHDF9WcO6I93vLUMYYE1JMzKMtsuR0h1Pg==
+X-Google-Smtp-Source: AA0mqf4tvD1XJMFzFRq3Rk6eHaCtsabNMKxCKJtkdvgg0p4LJS9P3xYzTiMljDwdnoiaNRsd3971zw==
+X-Received: by 2002:a05:600c:2942:b0:3cf:b1c1:336a with SMTP id n2-20020a05600c294200b003cfb1c1336amr10356587wmd.95.1668064079111;
+        Wed, 09 Nov 2022 23:07:59 -0800 (PST)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id i5-20020adffc05000000b0023660f6cecfsm15032367wrr.80.2022.11.09.23.06.24
+        by smtp.gmail.com with ESMTPSA id i3-20020a05600011c300b0022cdeba3f83sm14799986wrx.84.2022.11.09.23.07.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Nov 2022 23:06:25 -0800 (PST)
-Date: Thu, 10 Nov 2022 10:06:22 +0300
+        Wed, 09 Nov 2022 23:07:58 -0800 (PST)
+Date: Thu, 10 Nov 2022 10:07:55 +0300
 From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, David Howells <dhowells@redhat.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Ammar Faizi <ammarfaizi2@gnuweeb.org>,
-	GNU/Weeb Mailing List <gwml@vger.gnuweeb.org>
-Subject: [ammarfaizi2-block:dhowells/linux-fs/rxrpc-ringless-5 19/77]
- net/rxrpc/input.c:519 rxrpc_input_data() warn: passing freed memory 'skb'
-Message-ID: <202211100616.HvYb1VNT-lkp@intel.com>
+To: oe-kbuild@lists.linux.dev, allison.henderson@oracle.com
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v5 24/26] xfs: Add parent pointer ioctl
+Message-ID: <202211101335.In65kF9P-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -53,73 +51,121 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Message-ID: <20221110070622.Z_pEhK34yC_EPan3SRTID1zbuCiAg0CzNM_iWxaavII@z>
+In-Reply-To: <20221107090156.299319-25-allison.henderson@oracle.com>
+Message-ID: <20221110070755.HPlwSLTnkD5pjK0x46nKzO_VH59GjshJ2_s5t21TCiE@z>
 
-tree:   https://github.com/ammarfaizi2/linux-block dhowells/linux-fs/rxrpc-ringless-5
-head:   30d95efe06e18bd55691902bb4ec873e4b21a754
-commit: dad511288b61094b347de3baa13077e648a40dec [19/77] rxrpc: Clone received jumbo subpackets and queue separately
-config: openrisc-randconfig-m031-20221106
-compiler: or1k-linux-gcc (GCC) 12.1.0
+Hi,
+
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/allison-henderson-oracle-com/Parent-Pointers/20221107-170748
+base:   https://git.kernel.org/pub/scm/fs/xfs/xfs-linux.git for-next
+patch link:    https://lore.kernel.org/r/20221107090156.299319-25-allison.henderson%40oracle.com
+patch subject: [PATCH v5 24/26] xfs: Add parent pointer ioctl
+config: arc-randconfig-m041-20221107
+compiler: arc-elf-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
 
-New smatch warnings:
-net/rxrpc/input.c:519 rxrpc_input_data() warn: passing freed memory 'skb'
+smatch warnings:
+fs/xfs/xfs_parent_utils.c:119 xfs_attr_get_parent_pointer() error: uninitialized symbol 'lock_mode'.
 
-Old smatch warnings:
-net/rxrpc/input.c:1269 rxrpc_input_packet() warn: passing freed memory 'skb'
+vim +/lock_mode +119 fs/xfs/xfs_parent_utils.c
 
-vim +/skb +519 net/rxrpc/input.c
+5297ea33edfa17 Allison Henderson 2022-11-07   35  
+5297ea33edfa17 Allison Henderson 2022-11-07   36  	struct xfs_attrlist		*alist;
+5297ea33edfa17 Allison Henderson 2022-11-07   37  	struct xfs_attrlist_ent		*aent;
+5297ea33edfa17 Allison Henderson 2022-11-07   38  	struct xfs_parent_ptr		*xpp;
+5297ea33edfa17 Allison Henderson 2022-11-07   39  	struct xfs_parent_name_rec	*xpnr;
+5297ea33edfa17 Allison Henderson 2022-11-07   40  	char				*namebuf;
+5297ea33edfa17 Allison Henderson 2022-11-07   41  	unsigned int			namebuf_size;
+5297ea33edfa17 Allison Henderson 2022-11-07   42  	int				name_len, i, error = 0;
+5297ea33edfa17 Allison Henderson 2022-11-07   43  	unsigned int			lock_mode, flags = XFS_ATTR_PARENT;
+5297ea33edfa17 Allison Henderson 2022-11-07   44  	struct xfs_attr_list_context	context;
+5297ea33edfa17 Allison Henderson 2022-11-07   45  
+5297ea33edfa17 Allison Henderson 2022-11-07   46  	/* Allocate a buffer to store the attribute names */
+5297ea33edfa17 Allison Henderson 2022-11-07   47  	namebuf_size = sizeof(struct xfs_attrlist) +
+5297ea33edfa17 Allison Henderson 2022-11-07   48  		       (ppi->pi_ptrs_size) * sizeof(struct xfs_attrlist_ent);
+5297ea33edfa17 Allison Henderson 2022-11-07   49  	namebuf = kvzalloc(namebuf_size, GFP_KERNEL);
+5297ea33edfa17 Allison Henderson 2022-11-07   50  	if (!namebuf)
+5297ea33edfa17 Allison Henderson 2022-11-07   51  		return -ENOMEM;
+5297ea33edfa17 Allison Henderson 2022-11-07   52  
+5297ea33edfa17 Allison Henderson 2022-11-07   53  	memset(&context, 0, sizeof(struct xfs_attr_list_context));
+5297ea33edfa17 Allison Henderson 2022-11-07   54  	error = xfs_ioc_attr_list_context_init(ip, namebuf, namebuf_size, 0,
+5297ea33edfa17 Allison Henderson 2022-11-07   55  			&context);
+5297ea33edfa17 Allison Henderson 2022-11-07   56  	if (error)
+5297ea33edfa17 Allison Henderson 2022-11-07   57  		goto out_kfree;
 
-dad511288b6109 net/rxrpc/input.c    David Howells 2022-10-07  494  static void rxrpc_input_data(struct rxrpc_call *call, struct sk_buff *skb)
-dad511288b6109 net/rxrpc/input.c    David Howells 2022-10-07  495  {
-dad511288b6109 net/rxrpc/input.c    David Howells 2022-10-07  496  	struct rxrpc_skb_priv *sp = rxrpc_skb(skb);
-dad511288b6109 net/rxrpc/input.c    David Howells 2022-10-07  497  	enum rxrpc_call_state state;
-dad511288b6109 net/rxrpc/input.c    David Howells 2022-10-07  498  	rxrpc_serial_t serial = sp->hdr.serial;
-dad511288b6109 net/rxrpc/input.c    David Howells 2022-10-07  499  	rxrpc_seq_t seq0 = sp->hdr.seq;
-dad511288b6109 net/rxrpc/input.c    David Howells 2022-10-07  500  
-dad511288b6109 net/rxrpc/input.c    David Howells 2022-10-07  501  	_enter("{%u,%u},{%u,%u}",
-dad511288b6109 net/rxrpc/input.c    David Howells 2022-10-07  502  	       call->rx_hard_ack, call->rx_top, skb->len, seq0);
-dad511288b6109 net/rxrpc/input.c    David Howells 2022-10-07  503  
-dad511288b6109 net/rxrpc/input.c    David Howells 2022-10-07  504  	_proto("Rx DATA %%%u { #%u f=%02x }",
-dad511288b6109 net/rxrpc/input.c    David Howells 2022-10-07  505  	       sp->hdr.serial, seq0, sp->hdr.flags);
-dad511288b6109 net/rxrpc/input.c    David Howells 2022-10-07  506  
-dad511288b6109 net/rxrpc/input.c    David Howells 2022-10-07  507  	state = READ_ONCE(call->state);
-dad511288b6109 net/rxrpc/input.c    David Howells 2022-10-07  508  	if (state >= RXRPC_CALL_COMPLETE) {
-dad511288b6109 net/rxrpc/input.c    David Howells 2022-10-07  509  		rxrpc_free_skb(skb, rxrpc_skb_freed);
-dad511288b6109 net/rxrpc/input.c    David Howells 2022-10-07  510  		goto out;
-dad511288b6109 net/rxrpc/input.c    David Howells 2022-10-07  511  	}
-dad511288b6109 net/rxrpc/input.c    David Howells 2022-10-07  512  
-dad511288b6109 net/rxrpc/input.c    David Howells 2022-10-07  513  	/* Unshare the packet so that it can be modified for in-place
-dad511288b6109 net/rxrpc/input.c    David Howells 2022-10-07  514  	 * decryption.
-dad511288b6109 net/rxrpc/input.c    David Howells 2022-10-07  515  	 */
-dad511288b6109 net/rxrpc/input.c    David Howells 2022-10-07  516  	if (sp->hdr.securityIndex != 0) {
-dad511288b6109 net/rxrpc/input.c    David Howells 2022-10-07  517  		struct sk_buff *nskb = skb_unshare(skb, GFP_NOFS);
-dad511288b6109 net/rxrpc/input.c    David Howells 2022-10-07  518  		if (!nskb) {
-dad511288b6109 net/rxrpc/input.c    David Howells 2022-10-07 @519  			rxrpc_eaten_skb(skb, rxrpc_skb_unshared_nomem);
+lock_mode is uninitialized on this path.
 
-We can't use "skb" after skb_unshare().  It means we dropped our
-reference to the skb.  The other reference holder probably holds a
-reference so it will probably work, but it could also race and lead to
-a use after free.
-
-This only affects tracing code and not regular runtime but it's still a
-bug.
-
-dad511288b6109 net/rxrpc/input.c    David Howells 2022-10-07  520  			return;
-dad511288b6109 net/rxrpc/input.c    David Howells 2022-10-07  521  		}
-dad511288b6109 net/rxrpc/input.c    David Howells 2022-10-07  522  
-dad511288b6109 net/rxrpc/input.c    David Howells 2022-10-07  523  		if (nskb != skb) {
-dad511288b6109 net/rxrpc/input.c    David Howells 2022-10-07  524  			rxrpc_eaten_skb(skb, rxrpc_skb_received);
-dad511288b6109 net/rxrpc/input.c    David Howells 2022-10-07  525  			skb = nskb;
-dad511288b6109 net/rxrpc/input.c    David Howells 2022-10-07  526  			rxrpc_new_skb(skb, rxrpc_skb_unshared);
-dad511288b6109 net/rxrpc/input.c    David Howells 2022-10-07  527  			sp = rxrpc_skb(skb);
-dad511288b6109 net/rxrpc/input.c    David Howells 2022-10-07  528  		}
-dad511288b6109 net/rxrpc/input.c    David Howells 2022-10-07  529  	}
-dad511288b6109 net/rxrpc/input.c    David Howells 2022-10-07  530  
-dad511288b6109 net/rxrpc/input.c    David Howells 2022-10-07  531  	if (state == RXRPC_CALL_SERVER_RECV_REQUEST) {
+5297ea33edfa17 Allison Henderson 2022-11-07   58  
+5297ea33edfa17 Allison Henderson 2022-11-07   59  	/* Copy the cursor provided by caller */
+5297ea33edfa17 Allison Henderson 2022-11-07   60  	memcpy(&context.cursor, &ppi->pi_cursor,
+5297ea33edfa17 Allison Henderson 2022-11-07   61  		sizeof(struct xfs_attrlist_cursor));
+5297ea33edfa17 Allison Henderson 2022-11-07   62  	context.attr_filter = XFS_ATTR_PARENT;
+5297ea33edfa17 Allison Henderson 2022-11-07   63  
+5297ea33edfa17 Allison Henderson 2022-11-07   64  	lock_mode = xfs_ilock_attr_map_shared(ip);
+5297ea33edfa17 Allison Henderson 2022-11-07   65  
+5297ea33edfa17 Allison Henderson 2022-11-07   66  	error = xfs_attr_list_ilocked(&context);
+5297ea33edfa17 Allison Henderson 2022-11-07   67  	if (error)
+5297ea33edfa17 Allison Henderson 2022-11-07   68  		goto out_kfree;
+5297ea33edfa17 Allison Henderson 2022-11-07   69  
+5297ea33edfa17 Allison Henderson 2022-11-07   70  	alist = (struct xfs_attrlist *)namebuf;
+5297ea33edfa17 Allison Henderson 2022-11-07   71  	for (i = 0; i < alist->al_count; i++) {
+5297ea33edfa17 Allison Henderson 2022-11-07   72  		struct xfs_da_args args = {
+5297ea33edfa17 Allison Henderson 2022-11-07   73  			.geo = ip->i_mount->m_attr_geo,
+5297ea33edfa17 Allison Henderson 2022-11-07   74  			.whichfork = XFS_ATTR_FORK,
+5297ea33edfa17 Allison Henderson 2022-11-07   75  			.dp = ip,
+5297ea33edfa17 Allison Henderson 2022-11-07   76  			.namelen = sizeof(struct xfs_parent_name_rec),
+5297ea33edfa17 Allison Henderson 2022-11-07   77  			.attr_filter = flags,
+5297ea33edfa17 Allison Henderson 2022-11-07   78  		};
+5297ea33edfa17 Allison Henderson 2022-11-07   79  
+5297ea33edfa17 Allison Henderson 2022-11-07   80  		xpp = xfs_ppinfo_to_pp(ppi, i);
+5297ea33edfa17 Allison Henderson 2022-11-07   81  		memset(xpp, 0, sizeof(struct xfs_parent_ptr));
+5297ea33edfa17 Allison Henderson 2022-11-07   82  		aent = (struct xfs_attrlist_ent *)
+5297ea33edfa17 Allison Henderson 2022-11-07   83  			&namebuf[alist->al_offset[i]];
+5297ea33edfa17 Allison Henderson 2022-11-07   84  		xpnr = (struct xfs_parent_name_rec *)(aent->a_name);
+5297ea33edfa17 Allison Henderson 2022-11-07   85  
+5297ea33edfa17 Allison Henderson 2022-11-07   86  		if (aent->a_valuelen > XFS_PPTR_MAXNAMELEN) {
+5297ea33edfa17 Allison Henderson 2022-11-07   87  			error = -EFSCORRUPTED;
+5297ea33edfa17 Allison Henderson 2022-11-07   88  			goto out_kfree;
+5297ea33edfa17 Allison Henderson 2022-11-07   89  		}
+5297ea33edfa17 Allison Henderson 2022-11-07   90  		name_len = aent->a_valuelen;
+5297ea33edfa17 Allison Henderson 2022-11-07   91  
+5297ea33edfa17 Allison Henderson 2022-11-07   92  		args.name = (char *)xpnr;
+5297ea33edfa17 Allison Henderson 2022-11-07   93  		args.hashval = xfs_da_hashname(args.name, args.namelen),
+5297ea33edfa17 Allison Henderson 2022-11-07   94  		args.value = (unsigned char *)(xpp->xpp_name);
+5297ea33edfa17 Allison Henderson 2022-11-07   95  		args.valuelen = name_len;
+5297ea33edfa17 Allison Henderson 2022-11-07   96  
+5297ea33edfa17 Allison Henderson 2022-11-07   97  		error = xfs_attr_get_ilocked(&args);
+5297ea33edfa17 Allison Henderson 2022-11-07   98  		error = (error == -EEXIST ? 0 : error);
+5297ea33edfa17 Allison Henderson 2022-11-07   99  		if (error) {
+5297ea33edfa17 Allison Henderson 2022-11-07  100  			error = -EFSCORRUPTED;
+5297ea33edfa17 Allison Henderson 2022-11-07  101  			goto out_kfree;
+5297ea33edfa17 Allison Henderson 2022-11-07  102  		}
+5297ea33edfa17 Allison Henderson 2022-11-07  103  
+5297ea33edfa17 Allison Henderson 2022-11-07  104  		xfs_init_parent_ptr(xpp, xpnr);
+5297ea33edfa17 Allison Henderson 2022-11-07  105  		if (!xfs_verify_ino(args.dp->i_mount, xpp->xpp_ino)) {
+5297ea33edfa17 Allison Henderson 2022-11-07  106  			error = -EFSCORRUPTED;
+5297ea33edfa17 Allison Henderson 2022-11-07  107  			goto out_kfree;
+5297ea33edfa17 Allison Henderson 2022-11-07  108  		}
+5297ea33edfa17 Allison Henderson 2022-11-07  109  	}
+5297ea33edfa17 Allison Henderson 2022-11-07  110  	ppi->pi_ptrs_used = alist->al_count;
+5297ea33edfa17 Allison Henderson 2022-11-07  111  	if (!alist->al_more)
+5297ea33edfa17 Allison Henderson 2022-11-07  112  		ppi->pi_flags |= XFS_PPTR_OFLAG_DONE;
+5297ea33edfa17 Allison Henderson 2022-11-07  113  
+5297ea33edfa17 Allison Henderson 2022-11-07  114  	/* Update the caller with the current cursor position */
+5297ea33edfa17 Allison Henderson 2022-11-07  115  	memcpy(&ppi->pi_cursor, &context.cursor,
+5297ea33edfa17 Allison Henderson 2022-11-07  116  			sizeof(struct xfs_attrlist_cursor));
+5297ea33edfa17 Allison Henderson 2022-11-07  117  
+5297ea33edfa17 Allison Henderson 2022-11-07  118  out_kfree:
+5297ea33edfa17 Allison Henderson 2022-11-07 @119  	xfs_iunlock(ip, lock_mode);
+5297ea33edfa17 Allison Henderson 2022-11-07  120  	kvfree(namebuf);
+5297ea33edfa17 Allison Henderson 2022-11-07  121  
+5297ea33edfa17 Allison Henderson 2022-11-07  122  	return error;
+5297ea33edfa17 Allison Henderson 2022-11-07  123  }
 
 -- 
 0-DAY CI Kernel Test Service
