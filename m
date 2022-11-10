@@ -1,54 +1,42 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCD3612DBC;
-	Thu, 10 Nov 2022 13:12:04 +0000 (UTC)
-Received: by mail-wr1-f46.google.com with SMTP id h9so2250310wrt.0;
-        Thu, 10 Nov 2022 05:12:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=9gzQD/nB7pytCjPRd5v0oHLZIjUx2Pl77ICo7gyFLio=;
-        b=FnQuZLP6/Y0/kZnGX+x9d7xOoL+xZVjqi3rG5QdmFVQY1qSFUlVbBHJtyVATjrs64D
-         NUKw+a3wIX6gBaxd6T7O0qY701ooP3JLE06tUuGlr1XF7/p/YvADLZF21atWC1GMBscq
-         P2UrX5VR9he54f34ypkC4JswBI+Gnvwqnjxoov7iK3YWstR3pK18R/crS+YkOeyLAO/3
-         9YVg8yhYkAHQ/XlXP3MPxvYumEGprz6EI564YTHKhEownZzYKbkXw0xq/uakb+tcnHn7
-         cRQFF/HEjts9dhNvC6e0TJFeBCMc7/LRny+nbcol1eymO4v577Nox6rDp8oMnAAx20+3
-         hlkg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=9gzQD/nB7pytCjPRd5v0oHLZIjUx2Pl77ICo7gyFLio=;
-        b=QU068ZEhqaYl+yAQkGLqfTw/QzAq8KN9djekQkholwvlD+ZKZSKsHw5Zg3f69DA9XE
-         WvbvAf5W9Wjba15XyrvJcq5WRc5zfnguUc6x7Uop2J0l8zhiOD90DaFl/wv7j2F9FjuP
-         Qx3pW4mvUBpHP6OnvV63GGMQyf0yLD+ewz+YaYgpjnU6I08KCJm01/imrivAGpRcQcwW
-         wmy6yW63BDoEFrGSgp/Crhkm41G8yBxcFYBqi4ZhFh+IBdq4UHiHuhyuubknmemHOu/i
-         qV2mRiI/t+ZoPKqMAGmAyDabPUqgfEvWA0MU3fwedaC2PGxA8yk7zwChJKGp4akpQPkD
-         3hkg==
-X-Gm-Message-State: ACrzQf1p9XaLWnD5tQV9WIFMKvF3kFUZXmyJZ8gWS8/K0TbzVMF4AiE2
-	EiemXyAX5DOyndXsqrJ76MU=
-X-Google-Smtp-Source: AMsMyM7If/NzZx2mLB7PSCZAXXfKZCWkXopFMkdY6l5bKktHJH55S8hPf9Ayj7wqmMZltAHjmG4vKw==
-X-Received: by 2002:adf:efd0:0:b0:22e:382d:b06 with SMTP id i16-20020adfefd0000000b0022e382d0b06mr968459wrp.265.1668085922983;
-        Thu, 10 Nov 2022 05:12:02 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id m20-20020a05600c4f5400b003cf894dbc4fsm5813512wmq.25.2022.11.10.05.12.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Nov 2022 05:12:02 -0800 (PST)
-Date: Thu, 10 Nov 2022 16:11:59 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Benjamin MUGNIER <benjamin.mugnier@foss.st.com>
-Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-media@vger.kernel.org,
-	Sakari Ailus <sakari.ailus@linux.intel.com>
-Subject: Re: [sailus-media-tree:master 17/47]
- drivers/media/i2c/st-vgxy61.c:891 vgxy61_apply_gpiox_strobe_mode() warn:
- impossible condition '(reg < 0) => (0-u16max < 0)'
-Message-ID: <Y2z4n8b+tEtzNR/4@kadam>
-References: <202211091255.jCcREh11-lkp@intel.com>
- <fcb1fc9c-df59-aefd-93f7-9acd2df44f91@foss.st.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94193185E
+	for <oe-kbuild@lists.linux.dev>; Thu, 10 Nov 2022 13:26:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1668086787; x=1699622787;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=t/wpf0eqzKhy5yyx2KAu421jgKduuPSm7kt6Z2vBnig=;
+  b=GpV/gimSZhjE6uTpt34EgCDXibLH6v9nBcDCH/fAWqFiSzXgk3hQDz5I
+   Y/oUVM4jT5NYGoBwSAxLGje3RrttEW1dhXc2sTYbeI1//7PVwRdNj/Itg
+   krH6BGiFw7kQyJI4VsK9UejkxJRF1kR+aqu7psmPxmxbjkeqrDBSH5D7n
+   2xZJ1yUJOieMCtnNYIqBXLrst1GFMXdrCd0uUl5W3a5JVY1pIb1acFlSA
+   YiiROEgMYiUqCCZ06YzlxCDbePD/SkqpIXgZ4fi3MZXZvelu8il3KfvOK
+   7Y55QESNhwMSaPteDdXlyV9CDrk8WbvxX2/6tGGU0eGTnKq8WWKwELIiA
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10526"; a="375551867"
+X-IronPort-AV: E=Sophos;i="5.96,153,1665471600"; 
+   d="scan'208";a="375551867"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2022 05:26:26 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10526"; a="668405848"
+X-IronPort-AV: E=Sophos;i="5.96,153,1665471600"; 
+   d="scan'208";a="668405848"
+Received: from lkp-server01.sh.intel.com (HELO e783503266e8) ([10.239.97.150])
+  by orsmga008.jf.intel.com with ESMTP; 10 Nov 2022 05:26:25 -0800
+Received: from kbuild by e783503266e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1ot7ZZ-0002rL-0f;
+	Thu, 10 Nov 2022 13:26:25 +0000
+Date: Thu, 10 Nov 2022 21:25:46 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: arch/powerpc/perf/core-book3s.c:2474:10: warning: Using pointer that
+ is a temporary. [danglingTemporaryLifetime]
+Message-ID: <202211102101.7uiwpepc-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -57,49 +45,89 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <fcb1fc9c-df59-aefd-93f7-9acd2df44f91@foss.st.com>
 
-On Thu, Nov 10, 2022 at 12:43:30PM +0100, Benjamin MUGNIER wrote:
-> After running smatch on my tree I couldn't reproduce this warning:
->   warn: pm_runtime_get_sync() also returns 1 on success
-> I'm using the latest smatch cloned from github. Do you append some
-> options to kchecker to get this output ?
+:::::: 
+:::::: Manual check reason: "low confidence static check warning: arch/powerpc/perf/core-book3s.c:2474:10: warning: Using pointer that is a temporary. [danglingTemporaryLifetime]"
+:::::: 
 
-TL;DR: Thanks for the report!  I will fix it later this week.
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+TO: Athira Rajeev <atrajeev@linux.vnet.ibm.com>
+CC: Michael Ellerman <mpe@ellerman.id.au>
+CC: Nicholas Piggin <npiggin@gmail.com>
 
-It's not really supposed to warn at all...  The pm_runtime_get_sync()
-returns negatives on error so testing for "if (ret < 0) {" is correct
-as a general case.  In this case it is wrong but normally it would be
-the correct check.
+Hi Athira,
 
-This is an interaction with the check for uninitialized variables,
-check_uninitialized.c.  A common false positive was caused by mismatches
-where a function checks for if (ret) but the caller checks for
-if (ret < 0) {.
+First bad commit (maybe != root cause):
 
-int function(...)
-{
-	ret = frob();
-	if (ret)
-        ^^^^^^^^
-		return ret;
-	return 0;
-}
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   f67dd6ce0723ad013395f20a3f79d8a437d3f455
+commit: 429a64f6e91fbfe4912d17247c27d0d66767b1c2 powerpc/perf: Only define power_pmu_wants_prompt_pmi() for CONFIG_PPC64
+date:   10 months ago
+:::::: branch date: 16 hours ago
+:::::: commit date: 10 months ago
+compiler: powerpc-linux-gcc (GCC) 12.1.0
+reproduce (cppcheck warning):
+        # apt-get install cppcheck
+        git checkout 429a64f6e91fbfe4912d17247c27d0d66767b1c2
+        cppcheck --quiet --enable=style,performance,portability --template=gcc FILE
 
-int caller(...)
-{
-	ret = function();
-	if (ret < 0) {
-        ^^^^^^^^^^^^
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
 
-How should positives be treated?  So what the check_uninitialized.c
-check does is that it says, "let's assume that "ret >= 0" and "!ret"
-are equivalent".  It creates a fake environment to test what !ret means
-for uninitialized variables.  The check_pm_runtime_get_sync.c check sees
-the "!ret" condition and says, "Nope.  That's supposed to be "ret < 0"".
 
-Smatch shouldn't be printing warnings from inside the fake environment.
+cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
-regards,
-dan carpenter
+>> arch/powerpc/perf/core-book3s.c:2474:10: warning: Using pointer that is a temporary. [danglingTemporaryLifetime]
+     memset(cpuhw, 0, sizeof(*cpuhw));
+            ^
+   arch/powerpc/perf/core-book3s.c:2471:32: note: Address of variable taken here.
+    struct cpu_hw_events *cpuhw = &per_cpu(cpu_hw_events, cpu);
+                                  ^
+   arch/powerpc/perf/core-book3s.c:2471:40: note: Temporary created here.
+    struct cpu_hw_events *cpuhw = &per_cpu(cpu_hw_events, cpu);
+                                          ^
+   arch/powerpc/perf/core-book3s.c:2474:10: note: Using pointer that is a temporary.
+     memset(cpuhw, 0, sizeof(*cpuhw));
+            ^
+   arch/powerpc/perf/core-book3s.c:2475:3: warning: Using pointer that is a temporary. [danglingTemporaryLifetime]
+     cpuhw->mmcr.mmcr0 = MMCR0_FC;
+     ^
+   arch/powerpc/perf/core-book3s.c:2471:32: note: Address of variable taken here.
+    struct cpu_hw_events *cpuhw = &per_cpu(cpu_hw_events, cpu);
+                                  ^
+   arch/powerpc/perf/core-book3s.c:2471:40: note: Temporary created here.
+    struct cpu_hw_events *cpuhw = &per_cpu(cpu_hw_events, cpu);
+                                          ^
+   arch/powerpc/perf/core-book3s.c:2475:3: note: Using pointer that is a temporary.
+     cpuhw->mmcr.mmcr0 = MMCR0_FC;
+     ^
+>> arch/powerpc/perf/core-book3s.c:1331:62: warning: Operator '|' with one operand equal to zero is redundant. [badBitmaskCheck]
+     val &= ~(MMCR0_EBE | MMCR0_BHRBA | MMCR0_PMCC | MMCR0_PMAO |
+                                                                ^
 
+vim +2474 arch/powerpc/perf/core-book3s.c
+
+0c9108b0837063 arch/powerpc/perf/core-book3s.c    Ravi Bangoria   2018-11-21  2468  
+7c98bd72081c44 arch/powerpc/perf/core-book3s.c    Daniel Axtens   2016-09-06  2469  static int power_pmu_prepare_cpu(unsigned int cpu)
+01d0287f068de2 arch/powerpc/kernel/perf_counter.c Paul Mackerras  2009-01-14  2470  {
+cdd6c482c9ff9c arch/powerpc/kernel/perf_event.c   Ingo Molnar     2009-09-21  2471  	struct cpu_hw_events *cpuhw = &per_cpu(cpu_hw_events, cpu);
+01d0287f068de2 arch/powerpc/kernel/perf_counter.c Paul Mackerras  2009-01-14  2472  
+57ecde42cc7493 arch/powerpc/perf/core-book3s.c    Thomas Gleixner 2016-07-13  2473  	if (ppmu) {
+01d0287f068de2 arch/powerpc/kernel/perf_counter.c Paul Mackerras  2009-01-14 @2474  		memset(cpuhw, 0, sizeof(*cpuhw));
+78d76819e6f046 arch/powerpc/perf/core-book3s.c    Athira Rajeev   2020-07-17  2475  		cpuhw->mmcr.mmcr0 = MMCR0_FC;
+01d0287f068de2 arch/powerpc/kernel/perf_counter.c Paul Mackerras  2009-01-14  2476  	}
+57ecde42cc7493 arch/powerpc/perf/core-book3s.c    Thomas Gleixner 2016-07-13  2477  	return 0;
+3f6da390539882 arch/powerpc/kernel/perf_event.c   Peter Zijlstra  2010-03-05  2478  }
+3f6da390539882 arch/powerpc/kernel/perf_event.c   Peter Zijlstra  2010-03-05  2479  
+
+:::::: The code at line 2474 was first introduced by commit
+:::::: 01d0287f068de2934109ba9b989d8807526cccc2 powerpc/perf_counter: Make sure PMU gets enabled properly
+
+:::::: TO: Paul Mackerras <paulus@samba.org>
+:::::: CC: Paul Mackerras <paulus@samba.org>
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
