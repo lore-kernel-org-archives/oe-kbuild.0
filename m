@@ -1,59 +1,126 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9027729A8;
-	Sat, 12 Nov 2022 17:41:14 +0000 (UTC)
-From: Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1668274867;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=TcoyRNAdDGi2GFtPX5lXyeqindlf/1rXODkCe/Mq7m8=;
-	b=J+I06WlmZx3TZaRprCPcfUdFK9PZTmWViLEOn5G8Jxs01npQJqfqTTtX5/oUCkF5Gedsjt
-	51ALTmN7Bsz2RTqQoT7fbqOntfjInE5zrpoF9Urww7paCOmhsKCrtx4xg3pxZBNsJvUKEP
-	E5PS+9rxUA+KV/ueBCthDzsNnKmiLrVB4f/hbovWCUaWD+oNUhsWB3xIYmExT5iRB7qSlQ
-	8pQmu0+FvufxnoRhB/0b+3rpL6ctd4AcQCKMvfF7mGIg8ON31CpzUiaKWozEE2DvPVFzO7
-	yopS7bF6Q1iCbNGmDM5jsohrqKFionhbXX5LY8WCYH+gjc0XhOewTnpdVutD1A==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1668274867;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=TcoyRNAdDGi2GFtPX5lXyeqindlf/1rXODkCe/Mq7m8=;
-	b=O1RZFG3z+xLK3eDulsXE3zVDpB50SAxHrh9aUh+ej81/NWzxcz4Ng/iQ/6KujdRKDWcvJb
-	G6jJ0KUi+zv0AvBQ==
-To: Dan Carpenter <error27@gmail.com>, oe-kbuild@lists.linux.dev, "Ahmed S.
- Darwish" <darwi@linutronix.de>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, Ammar Faizi
- <ammarfaizi2@gnuweeb.org>, GNU/Weeb Mailing List <gwml@vger.gnuweeb.org>
-Subject: Re: [ammarfaizi2-block:tglx/devel/devmsi 46/86]
- kernel/irq/msi.c:399 msi_domain_get_virq() warn: inconsistent returns
- '&dev->msi.data->mutex'.
-In-Reply-To: <202211070346.0vaondmd-lkp@intel.com>
-References: <202211070346.0vaondmd-lkp@intel.com>
-Date: Sat, 12 Nov 2022 18:41:06 +0100
-Message-ID: <87a64wcbpp.ffs@tglx>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BA1C29A8
+	for <oe-kbuild@lists.linux.dev>; Sat, 12 Nov 2022 17:47:11 +0000 (UTC)
+Received: by mail-wr1-f53.google.com with SMTP id g12so10417176wrs.10
+        for <oe-kbuild@lists.linux.dev>; Sat, 12 Nov 2022 09:47:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=layalina-io.20210112.gappssmtp.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=yeWm7GyGHtOmeOmHiUe2AeKpEt0z3x9o6ccodPf45EQ=;
+        b=zkocUwzIaTggBmbQU9Yj7IHmLRx08cuYh1tfWjrm5GSy/lQmcT/0jLjDDzIq8oCbS2
+         4sALrb3q7/yKJfTyXlOtpyyi52l8kOq5zlWw4jF4mZBIeV74Jjs3X66VQteoUKv0fiaS
+         AoRKqKSy62T4HmTLnXHmq0Gul6gjxJxttHAXTp3DR8MMtmvcv6Cfk5WT41nfETScV8HT
+         z6qK49MjZcRfPNBf/7oDjAwdPrdIKUaNOljNuNW1/xFYxoSXSGT1jHBRf006b2LTma6l
+         M2pxiuOuJGcYBzSfI63uxuU3W5RJBrjXhyX1PDnFnvs26nM4aBdZv0rEXb3wbY1Wx25i
+         cmbw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yeWm7GyGHtOmeOmHiUe2AeKpEt0z3x9o6ccodPf45EQ=;
+        b=s0lhAT4mG68RBeyQ7P6yS8KUxL/Fs5OddnwYpUNHe8cFWBGJe/r3G1i19urZy0HIwq
+         2PW7en/vMfpvctTq+9vO6iTdytwXbtHK5oLXWJVs/yiINxNRmSnbvJ/joTvBSjTMORBa
+         iFOFXgIQEEnILpGQSRRzBzP95vitbTLDbVx/fo6nkxkGZCdzyIcs/rZwwnB3Ww6KAgOG
+         waGqJWx5cQ9hE0saxESVigxUpcdFRvBFQ8FT1wwmW9OyUql4NcVHO7dXwiTLwQf3t/C4
+         ICh8SiiUBKYOVE3WU0qyW72ttiS9YmLUDdEEK+IPs8klyyD+utvRFoAdVdTr0Dlir7Td
+         HkKw==
+X-Gm-Message-State: ANoB5pm79q0odEsGRNGge333spn0/wxmQ7kw/D7o7kmPgUR8DH8hzJfA
+	BujUW4e7Uznsmmu9X4peR+xygA==
+X-Google-Smtp-Source: AA0mqf4bdfZkRQ3PAjHyK9onZAhJYX6G5Kl2izXQ4cjWY6Dox/ldzh5wFXJ+ngneeyTK1KmWPGuhtQ==
+X-Received: by 2002:a5d:67c4:0:b0:236:2f7f:4c42 with SMTP id n4-20020a5d67c4000000b002362f7f4c42mr3804174wrw.479.1668275229790;
+        Sat, 12 Nov 2022 09:47:09 -0800 (PST)
+Received: from airbuntu (host86-130-134-87.range86-130.btcentralplus.com. [86.130.134.87])
+        by smtp.gmail.com with ESMTPSA id g9-20020a05600c4ec900b003cfd10a33afsm6773819wmq.11.2022.11.12.09.47.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 12 Nov 2022 09:47:09 -0800 (PST)
+Date: Sat, 12 Nov 2022 17:47:05 +0000
+From: Qais Yousef <qyousef@layalina.io>
+To: Dan Carpenter <error27@gmail.com>
+Cc: oe-kbuild@lists.linux.dev, Qais Yousef <qais.yousef@arm.com>,
+	lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, x86@kernel.org,
+	Peter Zijlstra <peterz@infradead.org>
+Subject: Re: [tip:sched/core 3/19] kernel/sched/fair.c:7263
+ find_energy_efficient_cpu() error: uninitialized symbol 'util_min'.
+Message-ID: <20221112174705.pymjyzr4nqhkqfoc@airbuntu>
+References: <202211121723.P4V3w801-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <202211121723.P4V3w801-lkp@intel.com>
 
-On Mon, Nov 07 2022 at 15:39, Dan Carpenter wrote:
+On 11/12/22 13:16, Dan Carpenter wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git sched/core
+> head:   52b33d87b9197c51e8ffdc61873739d90dd0a16f
+> commit: 244226035a1f9b2b6c326e55ae5188fab4f428cb [3/19] sched/uclamp: Fix fits_capacity() check in feec()
+> config: riscv-randconfig-m031-20221111
+> compiler: riscv64-linux-gcc (GCC) 12.1.0
+> 
+> If you fix the issue, kindly add following tag where applicable
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <error27@gmail.com>
+> 
 > smatch warnings:
-> kernel/irq/msi.c:399 msi_domain_get_virq() warn: inconsistent returns '&dev->msi.data->mutex'.
->
-> vim +399 kernel/irq/msi.c
->
-> 495c66aca3da70 Thomas Gleixner  2021-12-06  378  	msi_lock_descs(dev);
-> 022573e1aaf074 Ahmed S. Darwish 2022-11-03  379  
-> 022573e1aaf074 Ahmed S. Darwish 2022-11-03  380  	base = msi_get_domain_base_index(dev, domid);
-> 022573e1aaf074 Ahmed S. Darwish 2022-11-03  381  	if (base < 0)
-> 022573e1aaf074 Ahmed S. Darwish 2022-11-03  382  		return 0;
->
-> msi_unlock_descs();?
+> kernel/sched/fair.c:7263 find_energy_efficient_cpu() error: uninitialized symbol 'util_min'.
+> kernel/sched/fair.c:7263 find_energy_efficient_cpu() error: uninitialized symbol 'util_max'.
+> 
+> vim +/util_min +7263 kernel/sched/fair.c
 
-Indeed.
+[...]
+
+> util_min/max not initialized if uclamp_is_used() is false.  (I thought
+> I had reported this earlier but I don't see it on vger).
+
+Thanks Dan!
+
+It's harmless since util_min/max are ignored in util_fits_cpu() too;
+uclamp_is_used() is checked there as well.
+
+I couldn't reproduce, I need to get GCC 12.1.0, but the below ought to cure it.
+Let me test it a bit more and send a patch.
+
+Thanks
+
+--
+Qais Yousef
+
+--->8---
+
+idiff --git a/kernel/sched/fair.c b/kernel/sched/fair.c
+index 4cc56c91e06e..89dadaafc1ec 100644
+--- a/kernel/sched/fair.c
++++ b/kernel/sched/fair.c
+@@ -7217,10 +7217,10 @@ static int find_energy_efficient_cpu(struct task_struct *p, int prev_cpu)
+        eenv_task_busy_time(&eenv, p, prev_cpu);
+ 
+        for (; pd; pd = pd->next) {
++               unsigned long util_min = p_util_min, util_max = p_util_max;
+                unsigned long cpu_cap, cpu_thermal_cap, util;
+                unsigned long cur_delta, max_spare_cap = 0;
+                unsigned long rq_util_min, rq_util_max;
+-               unsigned long util_min, util_max;
+                unsigned long prev_spare_cap = 0;
+                int max_spare_cap_cpu = -1;
+                unsigned long base_energy;
+@@ -7258,10 +7258,7 @@ static int find_energy_efficient_cpu(struct task_struct *p, int prev_cpu)
+                         * aligned with sched_cpu_util().
+                         */
+                        if (uclamp_is_used()) {
+-                               if (uclamp_rq_is_idle(cpu_rq(cpu))) {
+-                                       util_min = p_util_min;
+-                                       util_max = p_util_max;
+-                               } else {
++                               if (!uclamp_rq_is_idle(cpu_rq(cpu))) {
+                                        /*
+                                         * Open code uclamp_rq_util_with() except for
+                                         * the clamp() part. Ie: apply max aggregation
+
