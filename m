@@ -1,49 +1,50 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE26F1867;
-	Tue, 15 Nov 2022 06:37:42 +0000 (UTC)
-Received: by mail-wr1-f47.google.com with SMTP id cl5so22524940wrb.9;
-        Mon, 14 Nov 2022 22:37:42 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 450911867;
+	Tue, 15 Nov 2022 06:40:27 +0000 (UTC)
+Received: by mail-wr1-f46.google.com with SMTP id z14so22391556wrn.7;
+        Mon, 14 Nov 2022 22:40:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=0UuKsrtaUQJeoL6SglHIU57kxBsjCPLAPtRrqxxSJak=;
-        b=aDYn8xC4iZwLEHcvbYuBDXyg+6vze6cdda5CscjPQGhfWiBZwtVH5WEQej6YAUhqtU
-         xI8tqaBQJbBndJU2wfh+yigIjD7dgu6GcqduM5t0T2gH1IuEEkvZmXqCC+hOxYhJIuIz
-         ge3DIKFr6esYlHA3ROwk7+kJ/UYNjQLpXoryYYPjLLzo4w475MJlbU12k9QUCijC6BU7
-         NIzJmZ8A7SWz2R4vnzpjO7yJ7HpAsNFfdHJ63N5QxFbjn5rlu06Xiu1m3T/0rrr4TQZs
-         YmUQ7Ha25qMBEH8hUEo83S0G9DUCuYJTXLEUdkS7R0M9zV2+K0YZmAj94L0jzklUbc6L
-         ZbqQ==
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=nZnGjJvIILG+DoLiF1ROFGu0Lb1DIJYuAEJ0FSfWlaM=;
+        b=Hc+ae2ZW/5sZNciLK5Zk0SZhorn89jzA1KCUFAKeNso0SAB4j6wE5k7eO5Bs/YkReO
+         IoOlFI2qwZhfyrnc7mxESxsdsgyY7kCrM/5om/3Z+WC5ibnZVtMkFmUFJfZtKgAz6gpG
+         Gbd7zljJ3NmykDN/X3Sg31qjZpQk0V86lWoYBsIhMXS/Pc33WYkAiERG4eFfp5Zg97k+
+         8iipBLCcPlzDcORK3LlsgrOAM/s2TqnsN7jU+96CGAvXAza1BctH6DgGICGYN9KXcSJM
+         1379JvB/htKXy1e2JfVatWqkxma9ydH7mVBHrnefK9I3aqGfsY5YuRM9o1fHlcPMTjOV
+         amsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=0UuKsrtaUQJeoL6SglHIU57kxBsjCPLAPtRrqxxSJak=;
-        b=OaH5+dD90ukQ5l/WkYvuT4lw8XLwcekXs1kPfOfROrqwfiIeVWa06uUoMuixQ904W/
-         5vG5/wv5oNxfHXds6OICZ39KQzGVJ7V7bDhQWDhUCcHfAlGaJD+OXA9RV6p4HWwJcSGy
-         BG81WM1ZqWAvU6qM0gGVDHVChoVAGKED3jPbZlw7nKK4hkVszKsV3+tooVFhTUlAIx+Y
-         klKV/hD9Mu/K+oDHLtKS08eq4+whtAjpCc33vQ7uUrmKySX2hPgoMNA54R15POBOd3Z6
-         8ZbfrDmwc7mO/+2WomMc9qo/ppgPJ6lr63AnZvj0P+pWjf97psaqT4Dhuw+JBLURkaJ+
-         x+5A==
-X-Gm-Message-State: ANoB5pm2LVsc1sT8kRSmXwBCMb2cAFsbXLAOzs0uhtzjv36OUQGg5rq9
-	RJ5OR8jqb1otWhURV/zGMXTkpybXkSY=
-X-Google-Smtp-Source: AA0mqf7TM9Xx4ma8nFWt9AmCGjecDJFIXIL4bv9HkOXZFPxhJUnhGX+sbI19rjp3Rim2FlQlLI60sA==
-X-Received: by 2002:adf:e812:0:b0:241:7277:990b with SMTP id o18-20020adfe812000000b002417277990bmr9711630wrm.672.1668494260564;
-        Mon, 14 Nov 2022 22:37:40 -0800 (PST)
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=nZnGjJvIILG+DoLiF1ROFGu0Lb1DIJYuAEJ0FSfWlaM=;
+        b=gUPeKj//xFmFeOdlwxfvzXMuMASWFnQok0gK4Ewa8q6bvg45pZoTxH9YmXW/q8iPit
+         1fSFf1ZzcRJkOk/VEvtOe4IedXz7e6vlxavKk15Mpf0szw0fRCiIBQhirLVoC7SFcb1M
+         A7KZNf/C0EgIgEUGd0CNGLEK2AgLgUXw/mNPnjt8XpkxIM7W+pQTZ5ssKgeIjhQySn8z
+         9HUSeYCzOJkqf32iYDCy9WOZgVS5TR7cSNOYFRWNmsknyA+TF2CVWFL7VS8VB/nK/Xnq
+         c4F3Cf+M6UfVLiCzj1lvvFOqZ3PavwpsKXqJ5FggOlD5paS39BGNt5QbYiPOz7mNQ1yE
+         QeLA==
+X-Gm-Message-State: ANoB5pnNZHG1lS+ZIjLhzQsp3nRsyF+SGnMjvDvPEhjyi8+5iAJGvdEW
+	3TMw3lSKbtOatvQmoA4BNs5GOI/mX5c=
+X-Google-Smtp-Source: AA0mqf5cKshHZoW8bnQ+Ly2zUXrh9BrjBmuoNSz/QvOs0x6bSdcG7ACCuARUVwuNHEcmdjG/3ZMfAQ==
+X-Received: by 2002:a5d:4384:0:b0:231:20a2:21f4 with SMTP id i4-20020a5d4384000000b0023120a221f4mr9726477wrq.398.1668494425159;
+        Mon, 14 Nov 2022 22:40:25 -0800 (PST)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id l9-20020a05600c1d0900b003cf878c4468sm22411983wms.5.2022.11.14.22.37.39
+        by smtp.gmail.com with ESMTPSA id j5-20020a5d5645000000b0022da3977ec5sm11355123wrw.113.2022.11.14.22.40.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Nov 2022 22:37:40 -0800 (PST)
-Date: Tue, 15 Nov 2022 09:37:37 +0300
+        Mon, 14 Nov 2022 22:40:24 -0800 (PST)
+Date: Tue, 15 Nov 2022 09:40:22 +0300
 From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, Youling Tang <tangyouling@loongson.cn>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Huacai Chen <chenhuacai@kernel.org>
-Subject: arch/loongarch/kernel/traps.c:250 die() warn: variable dereferenced
- before check 'regs' (see line 244)
-Message-ID: <202211150324.eLx8WYhx-lkp@intel.com>
+To: oe-kbuild@lists.linux.dev, Qu Wenruo <wqu@suse.com>,
+	linux-btrfs@vger.kernel.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 4/5] btrfs: raid56: prepare data checksums for later RMW
+ data csum  verification
+Message-ID: <202211150946.Z76SnBqp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -52,62 +53,97 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Message-ID: <20221115063737.E5gbXXBAN_8aHEjzjE9hkPmUCG-4NdaQ9qP1_sGYyJc@z>
+In-Reply-To: <6620c738ea5f959085bfad0c0c843880f4c4e6e2.1668384746.git.wqu@suse.com>
+Message-ID: <20221115064022.kLp8UthEyCU0VNB670uJFNe4I4TOR9pOKBq3JS4z1pI@z>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   094226ad94f471a9f19e8f8e7140a09c2625abaa
-commit: 4e62d1d86585e1b62b4f96ee586881dd45a443dc LoongArch: Add kdump support
-config: loongarch-randconfig-m031-20221114
-compiler: loongarch64-linux-gcc (GCC) 12.1.0
+Hi Qu,
+
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Qu-Wenruo/btrfs-raid56-destructive-RMW-fix-for-RAID5-data-profiles/20221114-082910
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux.git for-next
+patch link:    https://lore.kernel.org/r/6620c738ea5f959085bfad0c0c843880f4c4e6e2.1668384746.git.wqu%40suse.com
+patch subject: [PATCH 4/5] btrfs: raid56: prepare data checksums for later RMW data csum  verification
+config: x86_64-randconfig-m001-20221114
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
 
 New smatch warnings:
-arch/loongarch/kernel/traps.c:250 die() warn: variable dereferenced before check 'regs' (see line 244)
+fs/btrfs/raid56.c:2108 fill_data_csums() error: uninitialized symbol 'ret'.
 
-vim +/regs +250 arch/loongarch/kernel/traps.c
+Old smatch warnings:
+fs/btrfs/raid56.c:1017 get_rbio_veritical_errors() error: we previously assumed 'faila' could be null (see line 1011)
 
-0603839b18f4fb Huacai Chen  2022-05-31  228  void __noreturn die(const char *str, struct pt_regs *regs)
-0603839b18f4fb Huacai Chen  2022-05-31  229  {
-0603839b18f4fb Huacai Chen  2022-05-31  230  	static int die_counter;
-0603839b18f4fb Huacai Chen  2022-05-31  231  	int sig = SIGSEGV;
-0603839b18f4fb Huacai Chen  2022-05-31  232  
-0603839b18f4fb Huacai Chen  2022-05-31  233  	oops_enter();
-0603839b18f4fb Huacai Chen  2022-05-31  234  
-0603839b18f4fb Huacai Chen  2022-05-31  235  	if (notify_die(DIE_OOPS, str, regs, 0, current->thread.trap_nr,
-0603839b18f4fb Huacai Chen  2022-05-31  236  		       SIGSEGV) == NOTIFY_STOP)
-0603839b18f4fb Huacai Chen  2022-05-31  237  		sig = 0;
-0603839b18f4fb Huacai Chen  2022-05-31  238  
-0603839b18f4fb Huacai Chen  2022-05-31  239  	console_verbose();
-0603839b18f4fb Huacai Chen  2022-05-31  240  	raw_spin_lock_irq(&die_lock);
-0603839b18f4fb Huacai Chen  2022-05-31  241  	bust_spinlocks(1);
-0603839b18f4fb Huacai Chen  2022-05-31  242  
-0603839b18f4fb Huacai Chen  2022-05-31  243  	printk("%s[#%d]:\n", str, ++die_counter);
-0603839b18f4fb Huacai Chen  2022-05-31 @244  	show_registers(regs);
-                                                               ^^^^
-Dereferenced without checking.
+vim +/ret +2108 fs/btrfs/raid56.c
 
-0603839b18f4fb Huacai Chen  2022-05-31  245  	add_taint(TAINT_DIE, LOCKDEP_NOW_UNRELIABLE);
-0603839b18f4fb Huacai Chen  2022-05-31  246  	raw_spin_unlock_irq(&die_lock);
-0603839b18f4fb Huacai Chen  2022-05-31  247  
-0603839b18f4fb Huacai Chen  2022-05-31  248  	oops_exit();
-0603839b18f4fb Huacai Chen  2022-05-31  249  
-4e62d1d86585e1 Youling Tang 2022-10-12 @250  	if (regs && kexec_should_crash(current))
-                                                    ^^^^
-Too late.
+f24e7de3761574 Qu Wenruo       2022-11-14  2057  static void fill_data_csums(struct btrfs_raid_bio *rbio)
+f24e7de3761574 Qu Wenruo       2022-11-14  2058  {
+f24e7de3761574 Qu Wenruo       2022-11-14  2059  	struct btrfs_fs_info *fs_info = rbio->bioc->fs_info;
+f24e7de3761574 Qu Wenruo       2022-11-14  2060  	struct btrfs_root *csum_root = btrfs_csum_root(fs_info,
+f24e7de3761574 Qu Wenruo       2022-11-14  2061  						       rbio->bioc->raid_map[0]);
+f24e7de3761574 Qu Wenruo       2022-11-14  2062  	const u64 start = rbio->bioc->raid_map[0];
+f24e7de3761574 Qu Wenruo       2022-11-14  2063  	const u32 len = (rbio->nr_data * rbio->stripe_nsectors) <<
+f24e7de3761574 Qu Wenruo       2022-11-14  2064  			fs_info->sectorsize_bits;
+f24e7de3761574 Qu Wenruo       2022-11-14  2065  	int ret;
+f24e7de3761574 Qu Wenruo       2022-11-14  2066  
+f24e7de3761574 Qu Wenruo       2022-11-14  2067  	/* The rbio should not has its csum buffer initialized. */
+f24e7de3761574 Qu Wenruo       2022-11-14  2068  	ASSERT(!rbio->csum_buf && !rbio->csum_bitmap);
+f24e7de3761574 Qu Wenruo       2022-11-14  2069  
+f24e7de3761574 Qu Wenruo       2022-11-14  2070  	/*
+f24e7de3761574 Qu Wenruo       2022-11-14  2071  	 * Skip the csum search if:
+f24e7de3761574 Qu Wenruo       2022-11-14  2072  	 *
+f24e7de3761574 Qu Wenruo       2022-11-14  2073  	 * - The rbio doesn't belongs to data block groups
+f24e7de3761574 Qu Wenruo       2022-11-14  2074  	 *   Then we are doing IO for tree blocks, no need to
+f24e7de3761574 Qu Wenruo       2022-11-14  2075  	 *   search csums.
+f24e7de3761574 Qu Wenruo       2022-11-14  2076  	 *
+f24e7de3761574 Qu Wenruo       2022-11-14  2077  	 * - The rbio belongs to mixed block groups
+f24e7de3761574 Qu Wenruo       2022-11-14  2078  	 *   This is to avoid deadlock, as we're already holding
+f24e7de3761574 Qu Wenruo       2022-11-14  2079  	 *   the full stripe lock, if we trigger a metadata read, and
+f24e7de3761574 Qu Wenruo       2022-11-14  2080  	 *   it needs to do raid56 recovery, we will deadlock.
+f24e7de3761574 Qu Wenruo       2022-11-14  2081  	 */
+f24e7de3761574 Qu Wenruo       2022-11-14  2082  	if (!(rbio->bioc->map_type & BTRFS_BLOCK_GROUP_DATA) ||
+f24e7de3761574 Qu Wenruo       2022-11-14  2083  	    rbio->bioc->map_type & BTRFS_BLOCK_GROUP_METADATA)
+f24e7de3761574 Qu Wenruo       2022-11-14  2084  		return;
+f24e7de3761574 Qu Wenruo       2022-11-14  2085  
+f24e7de3761574 Qu Wenruo       2022-11-14  2086  	rbio->csum_buf = kzalloc(rbio->nr_data * rbio->stripe_nsectors *
+f24e7de3761574 Qu Wenruo       2022-11-14  2087  				 fs_info->csum_size, GFP_NOFS);
+f24e7de3761574 Qu Wenruo       2022-11-14  2088  	rbio->csum_bitmap = bitmap_zalloc(rbio->nr_data * rbio->stripe_nsectors,
+f24e7de3761574 Qu Wenruo       2022-11-14  2089  				 GFP_NOFS);
+f24e7de3761574 Qu Wenruo       2022-11-14  2090  	if (!rbio->csum_buf || !rbio->csum_bitmap)
+f24e7de3761574 Qu Wenruo       2022-11-14  2091  		goto error;
 
-4e62d1d86585e1 Youling Tang 2022-10-12  251  		crash_kexec(regs);
-4e62d1d86585e1 Youling Tang 2022-10-12  252  
-0603839b18f4fb Huacai Chen  2022-05-31  253  	if (in_interrupt())
-0603839b18f4fb Huacai Chen  2022-05-31  254  		panic("Fatal exception in interrupt");
-0603839b18f4fb Huacai Chen  2022-05-31  255  
-0603839b18f4fb Huacai Chen  2022-05-31  256  	if (panic_on_oops)
-0603839b18f4fb Huacai Chen  2022-05-31  257  		panic("Fatal exception");
-0603839b18f4fb Huacai Chen  2022-05-31  258  
-0603839b18f4fb Huacai Chen  2022-05-31  259  	make_task_dead(sig);
-0603839b18f4fb Huacai Chen  2022-05-31  260  }
+"ret" uninitialized on this path.
+
+f24e7de3761574 Qu Wenruo       2022-11-14  2092  
+f24e7de3761574 Qu Wenruo       2022-11-14  2093  	ret = btrfs_lookup_csums_bitmap(csum_root, start, start + len - 1,
+f24e7de3761574 Qu Wenruo       2022-11-14  2094  					rbio->csum_buf, rbio->csum_bitmap);
+f24e7de3761574 Qu Wenruo       2022-11-14  2095  	if (ret < 0)
+f24e7de3761574 Qu Wenruo       2022-11-14  2096  		goto error;
+f24e7de3761574 Qu Wenruo       2022-11-14  2097  	if (bitmap_empty(rbio->csum_bitmap, len >> fs_info->sectorsize_bits))
+f24e7de3761574 Qu Wenruo       2022-11-14  2098  		goto no_csum;
+f24e7de3761574 Qu Wenruo       2022-11-14  2099  	return;
+f24e7de3761574 Qu Wenruo       2022-11-14  2100  
+f24e7de3761574 Qu Wenruo       2022-11-14  2101  error:
+f24e7de3761574 Qu Wenruo       2022-11-14  2102  	/*
+f24e7de3761574 Qu Wenruo       2022-11-14  2103  	 * We failed to allocate memory or grab the csum,
+f24e7de3761574 Qu Wenruo       2022-11-14  2104  	 * but it's not the end of day, we can still continue.
+f24e7de3761574 Qu Wenruo       2022-11-14  2105  	 * But better to warn users that RMW is no longer safe for this
+f24e7de3761574 Qu Wenruo       2022-11-14  2106  	 * particular sub-stripe write.
+f24e7de3761574 Qu Wenruo       2022-11-14  2107  	 */
+f24e7de3761574 Qu Wenruo       2022-11-14 @2108  	btrfs_warn_rl(fs_info,
+f24e7de3761574 Qu Wenruo       2022-11-14  2109  "sub-stripe write for full stripe %llu is not safe, failed to get csum: %d",
+f24e7de3761574 Qu Wenruo       2022-11-14  2110  			rbio->bioc->raid_map[0], ret);
+                                                                                                 ^^^
+
+f24e7de3761574 Qu Wenruo       2022-11-14  2111  no_csum:
+f24e7de3761574 Qu Wenruo       2022-11-14  2112  	kfree(rbio->csum_buf);
+f24e7de3761574 Qu Wenruo       2022-11-14  2113  	bitmap_free(rbio->csum_bitmap);
+f24e7de3761574 Qu Wenruo       2022-11-14  2114  	rbio->csum_buf = NULL;
+f24e7de3761574 Qu Wenruo       2022-11-14  2115  	rbio->csum_bitmap = NULL;
+f24e7de3761574 Qu Wenruo       2022-11-14  2116  }
 
 -- 
 0-DAY CI Kernel Test Service
