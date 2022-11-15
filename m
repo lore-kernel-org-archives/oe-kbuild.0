@@ -1,67 +1,80 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE83F1110
-	for <oe-kbuild@lists.linux.dev>; Mon, 14 Nov 2022 20:51:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 992647C
+	for <oe-kbuild@lists.linux.dev>; Tue, 15 Nov 2022 01:14:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1668459105; x=1699995105;
+  t=1668474893; x=1700010893;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Or92nHHexo1qZPcUWYgtva9RUoIeqrPk/7i2HNRcnUQ=;
-  b=RRQLvbHn6vrymXMuO0ds6fL1nleYemTr92BJXtDYs4ovn9d5ob2DpKMA
-   f5bG1MbU+j8gH7In1qyIwZZfaCC9w9+mt08uUi5kCXfCKQgVt+eaouvge
-   v7eTKRVa122NZW2ez9Y0Xa4Jhd+BiZmPL4FSBkox5lSoGvJ/TKPlj5o++
-   kNCFJ99PVZi5nB1n9i3k0XgkQ5hLwezAOtKzwXPu//J1kcsdOIblu76X8
-   V2oMQATueoYVWxVAtTFiFvo9y3z7fv2a97xOCr+zckPuiLddP6JNVOyAM
-   3vDgqoj3WmmFnAwSEdVbyyOLYxpjdgBOTkEzlGCXHsml9jaYx4z+7F7Bc
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10531"; a="376346703"
+  bh=fEkP9cl9VbHutaPjs1XBw52qnfeoAG/fyaoeMMo9mXE=;
+  b=CDQ+pBhe5oMpU+Tq5cqunVqOiuzx1iF1m7xFlL4l2Pmr/AQtr6xG40o9
+   x01dEQMs/jt2CqSNshrzs+k62bHkW2M5izQ6keg7G5vbCth0iPFDiYbm6
+   2duUI4ghgptFIYmlFR+Lr7tX+wwMyk0F53+xmCj2VpSKkbYP+HS4WE/94
+   v3cZyrnvdpoDTZMvCjIB2QSOzM9S2MUybDgybgfFAClfSGjfnCELNvXPQ
+   yXziUiBbfn8Edz2X2roRjmWlgdnKMcbiZpNiGA9VuZveHnf6oOswsBPAk
+   1+2Kk+Ty8E3TByWFh17ysJdeOn5vRMDlKvn+mJpuQW8Feu1ZHIeaGGgq8
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10531"; a="310836095"
 X-IronPort-AV: E=Sophos;i="5.96,164,1665471600"; 
-   d="scan'208";a="376346703"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2022 12:51:45 -0800
+   d="scan'208";a="310836095"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2022 17:14:52 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10531"; a="638650142"
+X-IronPort-AV: E=McAfee;i="6500,9779,10531"; a="671798443"
 X-IronPort-AV: E=Sophos;i="5.96,164,1665471600"; 
-   d="scan'208";a="638650142"
+   d="scan'208";a="671798443"
 Received: from lkp-server01.sh.intel.com (HELO ebd99836cbe0) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 14 Nov 2022 12:51:43 -0800
+  by orsmga001.jf.intel.com with ESMTP; 14 Nov 2022 17:14:50 -0800
 Received: from kbuild by ebd99836cbe0 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ougQg-0000jr-2B;
-	Mon, 14 Nov 2022 20:51:42 +0000
-Date: Tue, 15 Nov 2022 04:51:12 +0800
+	id 1oukXJ-0000uZ-2B;
+	Tue, 15 Nov 2022 01:14:49 +0000
+Date: Tue, 15 Nov 2022 09:13:52 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [linux-next:master 4407/7594] drivers/cpufreq/acpi-cpufreq.c:970
- acpi_cpufreq_boost_init() error: uninitialized symbol 'ret'.
-Message-ID: <202211150405.KjJtLgPs-lkp@intel.com>
+Subject: Re: [PATCH 4/5] btrfs: raid56: prepare data checksums for later RMW
+ data csum  verification
+Message-ID: <202211150946.Z76SnBqp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="VDetZsrgX6UP84Xr"
+Content-Type: multipart/mixed; boundary="0jYpLhWh2UCp2NQx"
 Content-Disposition: inline
 
 
---VDetZsrgX6UP84Xr
+--0jYpLhWh2UCp2NQx
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Stuart Hayes <stuart.w.hayes@gmail.com>
-CC: "Rafael J. Wysocki" <rjw@rjwysocki.net>
+In-Reply-To: <6620c738ea5f959085bfad0c0c843880f4c4e6e2.1668384746.git.wqu@suse.com>
+References: <6620c738ea5f959085bfad0c0c843880f4c4e6e2.1668384746.git.wqu@suse.com>
+TO: Qu Wenruo <wqu@suse.com>
+TO: linux-btrfs@vger.kernel.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   5c92ddca1053df02387e8006d06094e18cc8538a
-commit: 13fdbc8b8da6a2325cad3359c9a70504b0ff2f93 [4407/7594] cpufreq: ACPI: Defer setting boost MSRs
-:::::: branch date: 13 hours ago
-:::::: commit date: 11 days ago
+Hi Qu,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on kdave/for-next]
+[also build test WARNING on next-20221114]
+[cannot apply to linus/master v6.1-rc5]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Qu-Wenruo/btrfs-raid56-destructive-RMW-fix-for-RAID5-data-profiles/20221114-082910
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux.git for-next
+patch link:    https://lore.kernel.org/r/6620c738ea5f959085bfad0c0c843880f4c4e6e2.1668384746.git.wqu%40suse.com
+patch subject: [PATCH 4/5] btrfs: raid56: prepare data checksums for later RMW data csum  verification
+:::::: branch date: 25 hours ago
+:::::: commit date: 25 hours ago
 config: x86_64-randconfig-m001-20221114
 compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 
@@ -69,45 +82,89 @@ If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
 
-smatch warnings:
-drivers/cpufreq/acpi-cpufreq.c:970 acpi_cpufreq_boost_init() error: uninitialized symbol 'ret'.
+New smatch warnings:
+fs/btrfs/raid56.c:2108 fill_data_csums() error: uninitialized symbol 'ret'.
 
-vim +/ret +970 drivers/cpufreq/acpi-cpufreq.c
+Old smatch warnings:
+fs/btrfs/raid56.c:1017 get_rbio_veritical_errors() error: we previously assumed 'faila' could be null (see line 1011)
+fs/btrfs/raid56.c:2620 recover_scrub_rbio() error: uninitialized symbol 'ret'.
 
-4d66ddf28dd6e0 Sebastian Andrzej Siewior 2016-11-28  957  
-615b7300717b9a Andre Przywara            2012-09-04  958  static void __init acpi_cpufreq_boost_init(void)
-615b7300717b9a Andre Przywara            2012-09-04  959  {
-4d66ddf28dd6e0 Sebastian Andrzej Siewior 2016-11-28  960  	int ret;
-4d66ddf28dd6e0 Sebastian Andrzej Siewior 2016-11-28  961  
-1222d527f314c8 Erwan Velu                2019-02-20  962  	if (!(boot_cpu_has(X86_FEATURE_CPB) || boot_cpu_has(X86_FEATURE_IDA))) {
-1222d527f314c8 Erwan Velu                2019-02-20  963  		pr_debug("Boost capabilities not present in the processor\n");
-4d66ddf28dd6e0 Sebastian Andrzej Siewior 2016-11-28  964  		return;
-1222d527f314c8 Erwan Velu                2019-02-20  965  	}
-4d66ddf28dd6e0 Sebastian Andrzej Siewior 2016-11-28  966  
-7a6c79f2fe53da Rafael J. Wysocki         2015-12-27  967  	acpi_cpufreq_driver.set_boost = set_boost;
-cfc9c8ed03e4d9 Lukasz Majewski           2013-12-20  968  	acpi_cpufreq_driver.boost_enabled = boost_state(0);
-0197fbd212461f Srivatsa S. Bhat          2014-03-11  969  
-4d66ddf28dd6e0 Sebastian Andrzej Siewior 2016-11-28 @970  	acpi_cpufreq_online = ret;
-615b7300717b9a Andre Przywara            2012-09-04  971  }
-615b7300717b9a Andre Przywara            2012-09-04  972  
+vim +/ret +2108 fs/btrfs/raid56.c
 
-:::::: The code at line 970 was first introduced by commit
-:::::: 4d66ddf28dd6e0582eeca0266651d1f5f5db431e cpufreq: acpi-cpufreq: Convert to hotplug state machine
-
-:::::: TO: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-:::::: CC: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+53b381b3abeb86 David Woodhouse 2013-01-29  2056  
+f24e7de3761574 Qu Wenruo       2022-11-14  2057  static void fill_data_csums(struct btrfs_raid_bio *rbio)
+f24e7de3761574 Qu Wenruo       2022-11-14  2058  {
+f24e7de3761574 Qu Wenruo       2022-11-14  2059  	struct btrfs_fs_info *fs_info = rbio->bioc->fs_info;
+f24e7de3761574 Qu Wenruo       2022-11-14  2060  	struct btrfs_root *csum_root = btrfs_csum_root(fs_info,
+f24e7de3761574 Qu Wenruo       2022-11-14  2061  						       rbio->bioc->raid_map[0]);
+f24e7de3761574 Qu Wenruo       2022-11-14  2062  	const u64 start = rbio->bioc->raid_map[0];
+f24e7de3761574 Qu Wenruo       2022-11-14  2063  	const u32 len = (rbio->nr_data * rbio->stripe_nsectors) <<
+f24e7de3761574 Qu Wenruo       2022-11-14  2064  			fs_info->sectorsize_bits;
+f24e7de3761574 Qu Wenruo       2022-11-14  2065  	int ret;
+f24e7de3761574 Qu Wenruo       2022-11-14  2066  
+f24e7de3761574 Qu Wenruo       2022-11-14  2067  	/* The rbio should not has its csum buffer initialized. */
+f24e7de3761574 Qu Wenruo       2022-11-14  2068  	ASSERT(!rbio->csum_buf && !rbio->csum_bitmap);
+f24e7de3761574 Qu Wenruo       2022-11-14  2069  
+f24e7de3761574 Qu Wenruo       2022-11-14  2070  	/*
+f24e7de3761574 Qu Wenruo       2022-11-14  2071  	 * Skip the csum search if:
+f24e7de3761574 Qu Wenruo       2022-11-14  2072  	 *
+f24e7de3761574 Qu Wenruo       2022-11-14  2073  	 * - The rbio doesn't belongs to data block groups
+f24e7de3761574 Qu Wenruo       2022-11-14  2074  	 *   Then we are doing IO for tree blocks, no need to
+f24e7de3761574 Qu Wenruo       2022-11-14  2075  	 *   search csums.
+f24e7de3761574 Qu Wenruo       2022-11-14  2076  	 *
+f24e7de3761574 Qu Wenruo       2022-11-14  2077  	 * - The rbio belongs to mixed block groups
+f24e7de3761574 Qu Wenruo       2022-11-14  2078  	 *   This is to avoid deadlock, as we're already holding
+f24e7de3761574 Qu Wenruo       2022-11-14  2079  	 *   the full stripe lock, if we trigger a metadata read, and
+f24e7de3761574 Qu Wenruo       2022-11-14  2080  	 *   it needs to do raid56 recovery, we will deadlock.
+f24e7de3761574 Qu Wenruo       2022-11-14  2081  	 */
+f24e7de3761574 Qu Wenruo       2022-11-14  2082  	if (!(rbio->bioc->map_type & BTRFS_BLOCK_GROUP_DATA) ||
+f24e7de3761574 Qu Wenruo       2022-11-14  2083  	    rbio->bioc->map_type & BTRFS_BLOCK_GROUP_METADATA)
+f24e7de3761574 Qu Wenruo       2022-11-14  2084  		return;
+f24e7de3761574 Qu Wenruo       2022-11-14  2085  
+f24e7de3761574 Qu Wenruo       2022-11-14  2086  	rbio->csum_buf = kzalloc(rbio->nr_data * rbio->stripe_nsectors *
+f24e7de3761574 Qu Wenruo       2022-11-14  2087  				 fs_info->csum_size, GFP_NOFS);
+f24e7de3761574 Qu Wenruo       2022-11-14  2088  	rbio->csum_bitmap = bitmap_zalloc(rbio->nr_data * rbio->stripe_nsectors,
+f24e7de3761574 Qu Wenruo       2022-11-14  2089  				 GFP_NOFS);
+f24e7de3761574 Qu Wenruo       2022-11-14  2090  	if (!rbio->csum_buf || !rbio->csum_bitmap)
+f24e7de3761574 Qu Wenruo       2022-11-14  2091  		goto error;
+f24e7de3761574 Qu Wenruo       2022-11-14  2092  
+f24e7de3761574 Qu Wenruo       2022-11-14  2093  	ret = btrfs_lookup_csums_bitmap(csum_root, start, start + len - 1,
+f24e7de3761574 Qu Wenruo       2022-11-14  2094  					rbio->csum_buf, rbio->csum_bitmap);
+f24e7de3761574 Qu Wenruo       2022-11-14  2095  	if (ret < 0)
+f24e7de3761574 Qu Wenruo       2022-11-14  2096  		goto error;
+f24e7de3761574 Qu Wenruo       2022-11-14  2097  	if (bitmap_empty(rbio->csum_bitmap, len >> fs_info->sectorsize_bits))
+f24e7de3761574 Qu Wenruo       2022-11-14  2098  		goto no_csum;
+f24e7de3761574 Qu Wenruo       2022-11-14  2099  	return;
+f24e7de3761574 Qu Wenruo       2022-11-14  2100  
+f24e7de3761574 Qu Wenruo       2022-11-14  2101  error:
+f24e7de3761574 Qu Wenruo       2022-11-14  2102  	/*
+f24e7de3761574 Qu Wenruo       2022-11-14  2103  	 * We failed to allocate memory or grab the csum,
+f24e7de3761574 Qu Wenruo       2022-11-14  2104  	 * but it's not the end of day, we can still continue.
+f24e7de3761574 Qu Wenruo       2022-11-14  2105  	 * But better to warn users that RMW is no longer safe for this
+f24e7de3761574 Qu Wenruo       2022-11-14  2106  	 * particular sub-stripe write.
+f24e7de3761574 Qu Wenruo       2022-11-14  2107  	 */
+f24e7de3761574 Qu Wenruo       2022-11-14 @2108  	btrfs_warn_rl(fs_info,
+f24e7de3761574 Qu Wenruo       2022-11-14  2109  "sub-stripe write for full stripe %llu is not safe, failed to get csum: %d",
+f24e7de3761574 Qu Wenruo       2022-11-14  2110  			rbio->bioc->raid_map[0], ret);
+f24e7de3761574 Qu Wenruo       2022-11-14  2111  no_csum:
+f24e7de3761574 Qu Wenruo       2022-11-14  2112  	kfree(rbio->csum_buf);
+f24e7de3761574 Qu Wenruo       2022-11-14  2113  	bitmap_free(rbio->csum_bitmap);
+f24e7de3761574 Qu Wenruo       2022-11-14  2114  	rbio->csum_buf = NULL;
+f24e7de3761574 Qu Wenruo       2022-11-14  2115  	rbio->csum_bitmap = NULL;
+f24e7de3761574 Qu Wenruo       2022-11-14  2116  }
+f24e7de3761574 Qu Wenruo       2022-11-14  2117  
 
 -- 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
 
---VDetZsrgX6UP84Xr
+--0jYpLhWh2UCp2NQx
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename=config
 
 #
 # Automatically generated file; DO NOT EDIT.
-# Linux/x86_64 6.1.0-rc3 Kernel Configuration
+# Linux/x86_64 6.1.0-rc4 Kernel Configuration
 #
 CONFIG_CC_VERSION_TEXT="gcc-11 (Debian 11.3.0-8) 11.3.0"
 CONFIG_CC_IS_GCC=y
@@ -1009,6 +1066,7 @@ CONFIG_DAMON=y
 # end of Memory Management options
 
 CONFIG_NET=y
+CONFIG_SKB_EXTENSIONS=y
 
 #
 # Networking options
@@ -1069,7 +1127,9 @@ CONFIG_IPV6_NDISC_NODETYPE=y
 # CONFIG_IPV6_RPL_LWTUNNEL is not set
 # CONFIG_IPV6_IOAM6_LWTUNNEL is not set
 # CONFIG_NETLABEL is not set
-# CONFIG_MPTCP is not set
+CONFIG_MPTCP=y
+CONFIG_INET_MPTCP_DIAG=y
+CONFIG_MPTCP_IPV6=y
 # CONFIG_NETWORK_SECMARK is not set
 CONFIG_NET_PTP_CLASSIFY=y
 # CONFIG_NETWORK_PHY_TIMESTAMPING is not set
@@ -3918,7 +3978,7 @@ CONFIG_EDAC_I3200=m
 CONFIG_EDAC_X38=m
 # CONFIG_EDAC_I5400 is not set
 CONFIG_EDAC_I7CORE=m
-# CONFIG_EDAC_I5000 is not set
+CONFIG_EDAC_I5000=m
 CONFIG_EDAC_I5100=m
 CONFIG_EDAC_I7300=m
 CONFIG_EDAC_SBRIDGE=m
@@ -6182,4 +6242,4 @@ CONFIG_MEMTEST=y
 # end of Rust hacking
 # end of Kernel hacking
 
---VDetZsrgX6UP84Xr--
+--0jYpLhWh2UCp2NQx--
