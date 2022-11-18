@@ -1,69 +1,94 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8AAFA473
-	for <oe-kbuild@lists.linux.dev>; Fri, 18 Nov 2022 20:14:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84A56A486
+	for <oe-kbuild@lists.linux.dev>; Fri, 18 Nov 2022 20:44:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1668802449; x=1700338449;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=EmCioXW4rNlJlXMF1OFtjPjxzg5nqQUVnzRP65FJmoA=;
-  b=ajAwe6jrvCRccaldsqI0eX8hgMZqoHoyrei8Ztdt61oiEovvL4Ytf6D2
-   tKvnv8uZjRqWCMyO+ty05pIedpshv+XqePdcv/oDAFrlHY/LJBbyO76Tw
-   Ot88XVL/ZykEhjbjvmftLbwurmV+AsLJSt3rkBKK9+ETjbapOlTGDV7Vm
-   vpbhkKZ7hthNoA0Ac9UX9Y5aGPytUf3Sm9d306BE6Mae/hG++GQt83d9p
-   HGGpuKth8JlK8dfXqNoiB7hFn0Pcn8nqu3vghkUfZpu0mtLpalJD/f/Q9
-   TRXVZcX/uUmfKIDRwbvDj2/hoW953iK34N7qCIE+qQS3CuE9mKqRj2eOW
+  t=1668804251; x=1700340251;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=tmvh6aMwGIBhBtuBx/qtyYQYf4YJ1j9aow/L1fuaCoE=;
+  b=hqjmShVjnHa1v0NMUlKs1ieUmn5vfHTBCE6YkVgF+Xk7iRlhHSTv3J88
+   XVuckpx9+oX3m7ZUEgK2wgDulGZ/lDAiXJSrjg4IOIWesMCSEUVHbMmSg
+   c/B162WKP0QF3ekwpN/HpovxuZwB+faRnuwkhdW5pK8dYqXyaP3Gc7FAm
+   kMrVjCRrL6W6GA85pHBYyOIm4E1obSYMkbJsw7NdRD/Y0sy0t7LYqNiOf
+   IrPQfqRFsZ3zwJiUEpmepiItaVaWpg4WnRKUHZGfo9pVgUm4hwMfpcW9E
+   L723Suk24TUOrqZV5xoV5yeMstuzMxq89Bqf2eYcVT9bLLLjZMp2CIaZD
    g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10535"; a="296585986"
+X-IronPort-AV: E=McAfee;i="6500,9779,10535"; a="314382053"
 X-IronPort-AV: E=Sophos;i="5.96,175,1665471600"; 
-   d="scan'208";a="296585986"
+   d="scan'208";a="314382053"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2022 12:14:09 -0800
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2022 12:44:10 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10535"; a="671436986"
+X-IronPort-AV: E=McAfee;i="6500,9779,10535"; a="671444714"
 X-IronPort-AV: E=Sophos;i="5.96,175,1665471600"; 
-   d="scan'208";a="671436986"
+   d="scan'208";a="671444714"
 Received: from lkp-server01.sh.intel.com (HELO 55744f5052f8) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 18 Nov 2022 12:14:07 -0800
+  by orsmga008.jf.intel.com with ESMTP; 18 Nov 2022 12:44:08 -0800
 Received: from kbuild by 55744f5052f8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ow7kU-0001kD-1i;
-	Fri, 18 Nov 2022 20:14:06 +0000
-Date: Sat, 19 Nov 2022 04:13:16 +0800
+	id 1ow8DY-0001mR-00;
+	Fri, 18 Nov 2022 20:44:08 +0000
+Date: Sat, 19 Nov 2022 04:43:37 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [linux-next:master 5476/8929]
- drivers/gpu/drm/nouveau/nvkm/engine/disp/uoutp.c:205
- nvkm_uoutp_mthd_acquire() error: we previously assumed 'outp->ior' could be
- null (see line 172)
-Message-ID: <202211190444.UyfHubNm-lkp@intel.com>
+Subject: Re: [PATCH 1/2] PCI: loongson: add skip-scan property for child DT
+ node
+Message-ID: <202211190410.K0rtSrDQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="GCWoZ4LrdQsUkWE1"
+Content-Type: multipart/mixed; boundary="Yh2+bbq/3DTSt9cU"
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
 
---GCWoZ4LrdQsUkWE1
-Content-Type: text/plain; charset=us-ascii
+--Yh2+bbq/3DTSt9cU
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Ben Skeggs <bskeggs@redhat.com>
-CC: Lyude Paul <lyude@redhat.com>
+In-Reply-To: <20221103090040.836-1-liupeibao@loongson.cn>
+References: <20221103090040.836-1-liupeibao@loongson.cn>
+TO: Liu Peibao <liupeibao@loongson.cn>
+TO: Bjorn Helgaas <helgaas@kernel.org>
+TO: Rob Herring <robh+dt@kernel.org>
+TO: Krzysztof Kozlowski <krzk@kernel.org>
+TO: Lorenzo Pieralisi <lpieralisi@kernel.org>
+TO: "Krzysztof Wilczyński" <kw@linux.com>
+TO: Jiaxun Yang <jiaxun.yang@flygoat.com>
+CC: chenhuacai@loongson.cn
+CC: lvjianmin@loongson.cn
+CC: zhuyinbo@loongson.cn
+CC: liupeibao@loongson.cn
+CC: linux-pci@vger.kernel.org
+CC: devicetree@vger.kernel.org
+CC: linux-kernel@vger.kernel.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   147307c69ba4441ee90c1f8ce8edf5df4ea60f67
-commit: 8134437213316a58d1844b87e2042ebf1fd9962c [5476/8929] drm/nouveau/disp: move DP link config into acquire
-:::::: branch date: 13 hours ago
-:::::: commit date: 10 days ago
+Hi Liu,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on helgaas-pci/next]
+[also build test WARNING on robh/for-next krzk-dt/for-next linus/master v6.1-rc5 next-20221118]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Liu-Peibao/PCI-loongson-add-skip-scan-property-for-child-DT-node/20221103-170125
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/helgaas/pci.git next
+patch link:    https://lore.kernel.org/r/20221103090040.836-1-liupeibao%40loongson.cn
+patch subject: [PATCH 1/2] PCI: loongson: add skip-scan property for child DT node
+:::::: branch date: 2 weeks ago
+:::::: commit date: 2 weeks ago
 config: loongarch-randconfig-m041-20221114
 compiler: loongarch64-linux-gcc (GCC) 12.1.0
 
@@ -71,79 +96,61 @@ If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
 
-New smatch warnings:
-drivers/gpu/drm/nouveau/nvkm/engine/disp/uoutp.c:205 nvkm_uoutp_mthd_acquire() error: we previously assumed 'outp->ior' could be null (see line 172)
+smatch warnings:
+drivers/pci/controller/pci-loongson.c:257 setup_masklist() error: not allocating enough for = 'entry' 24 vs 8
 
-Old smatch warnings:
-drivers/gpu/drm/nouveau/nvkm/engine/disp/uoutp.c:71 nvkm_uoutp_mthd_infoframe() error: we previously assumed 'ior->func->hdmi' could be null (see line 69)
+vim +/entry +257 drivers/pci/controller/pci-loongson.c
 
-vim +205 drivers/gpu/drm/nouveau/nvkm/engine/disp/uoutp.c
-
-9793083f1dd9da Ben Skeggs 2022-06-01  163  
-ea6143a86c6711 Ben Skeggs 2022-06-01  164  static int
-ea6143a86c6711 Ben Skeggs 2022-06-01  165  nvkm_uoutp_mthd_acquire(struct nvkm_outp *outp, void *argv, u32 argc)
-ea6143a86c6711 Ben Skeggs 2022-06-01  166  {
-ea6143a86c6711 Ben Skeggs 2022-06-01  167  	union nvif_outp_acquire_args *args = argv;
-ea6143a86c6711 Ben Skeggs 2022-06-01  168  	int ret;
-ea6143a86c6711 Ben Skeggs 2022-06-01  169  
-ea6143a86c6711 Ben Skeggs 2022-06-01  170  	if (argc != sizeof(args->v0) || args->v0.version != 0)
-ea6143a86c6711 Ben Skeggs 2022-06-01  171  		return -ENOSYS;
-8134437213316a Ben Skeggs 2022-06-01 @172  	if (outp->ior)
-8134437213316a Ben Skeggs 2022-06-01  173  		return -EBUSY;
-ea6143a86c6711 Ben Skeggs 2022-06-01  174  
-ea6143a86c6711 Ben Skeggs 2022-06-01  175  	switch (args->v0.proto) {
-ea6143a86c6711 Ben Skeggs 2022-06-01  176  	case NVIF_OUTP_ACQUIRE_V0_RGB_CRT:
-ea6143a86c6711 Ben Skeggs 2022-06-01  177  		ret = nvkm_outp_acquire(outp, NVKM_OUTP_USER, false);
-ea6143a86c6711 Ben Skeggs 2022-06-01  178  		break;
-ea6143a86c6711 Ben Skeggs 2022-06-01  179  	case NVIF_OUTP_ACQUIRE_V0_TMDS:
-f530bc60a30bee Ben Skeggs 2022-06-01  180  		ret = nvkm_uoutp_mthd_acquire_tmds(outp, args->v0.tmds.head,
-f530bc60a30bee Ben Skeggs 2022-06-01  181  							 args->v0.tmds.hdmi,
-f530bc60a30bee Ben Skeggs 2022-06-01  182  							 args->v0.tmds.hdmi_max_ac_packet,
-f530bc60a30bee Ben Skeggs 2022-06-01  183  							 args->v0.tmds.hdmi_rekey,
-f530bc60a30bee Ben Skeggs 2022-06-01  184  							 args->v0.tmds.hdmi_scdc,
-f530bc60a30bee Ben Skeggs 2022-06-01  185  							 args->v0.tmds.hdmi_hda);
-f530bc60a30bee Ben Skeggs 2022-06-01  186  		break;
-9793083f1dd9da Ben Skeggs 2022-06-01  187  	case NVIF_OUTP_ACQUIRE_V0_LVDS:
-9793083f1dd9da Ben Skeggs 2022-06-01  188  		ret = nvkm_uoutp_mthd_acquire_lvds(outp, args->v0.lvds.dual, args->v0.lvds.bpc8);
-9793083f1dd9da Ben Skeggs 2022-06-01  189  		break;
-8134437213316a Ben Skeggs 2022-06-01  190  	case NVIF_OUTP_ACQUIRE_V0_DP:
-8134437213316a Ben Skeggs 2022-06-01  191  		ret = nvkm_uoutp_mthd_acquire_dp(outp, args->v0.dp.dpcd,
-8134437213316a Ben Skeggs 2022-06-01  192  						       args->v0.dp.link_nr,
-8134437213316a Ben Skeggs 2022-06-01  193  						       args->v0.dp.link_bw,
-8134437213316a Ben Skeggs 2022-06-01  194  						       args->v0.dp.hda != 0,
-8134437213316a Ben Skeggs 2022-06-01  195  						       args->v0.dp.mst != 0);
-8134437213316a Ben Skeggs 2022-06-01  196  		break;
-ea6143a86c6711 Ben Skeggs 2022-06-01  197  	default:
-ea6143a86c6711 Ben Skeggs 2022-06-01  198  		ret = -EINVAL;
-ea6143a86c6711 Ben Skeggs 2022-06-01  199  		break;
-ea6143a86c6711 Ben Skeggs 2022-06-01  200  	}
-ea6143a86c6711 Ben Skeggs 2022-06-01  201  
-ea6143a86c6711 Ben Skeggs 2022-06-01  202  	if (ret)
-ea6143a86c6711 Ben Skeggs 2022-06-01  203  		return ret;
-ea6143a86c6711 Ben Skeggs 2022-06-01  204  
-ea6143a86c6711 Ben Skeggs 2022-06-01 @205  	args->v0.or = outp->ior->id;
-ea6143a86c6711 Ben Skeggs 2022-06-01  206  	args->v0.link = outp->ior->asy.link;
-ea6143a86c6711 Ben Skeggs 2022-06-01  207  	return 0;
-ea6143a86c6711 Ben Skeggs 2022-06-01  208  }
-ea6143a86c6711 Ben Skeggs 2022-06-01  209  
-
-:::::: The code at line 205 was first introduced by commit
-:::::: ea6143a86c67110a2c62deaf70d0b7b92e4f865f drm/nouveau/disp: move and extend the role of outp acquire/release methods
-
-:::::: TO: Ben Skeggs <bskeggs@redhat.com>
-:::::: CC: Ben Skeggs <bskeggs@redhat.com>
+1f58cca5cf2ba2 Jiaxun Yang 2020-05-26  231  
+cd89edda4002b7 Huacai Chen 2022-07-14  232  #ifdef CONFIG_OF
+f93e71fb8e65ba Liu Peibao  2022-11-03  233  /*
+f93e71fb8e65ba Liu Peibao  2022-11-03  234   * The PCI Controller of 2k1000 could not mask devices by
+f93e71fb8e65ba Liu Peibao  2022-11-03  235   * setting vender id & device id in configuration space
+f93e71fb8e65ba Liu Peibao  2022-11-03  236   * header as invalid values. When there are pins shareble
+f93e71fb8e65ba Liu Peibao  2022-11-03  237   * between the platform device and PCI device, if the
+f93e71fb8e65ba Liu Peibao  2022-11-03  238   * platform device is preferred, we should not scan this
+f93e71fb8e65ba Liu Peibao  2022-11-03  239   * PCI device. In the above scene, add "skip-scan" property
+f93e71fb8e65ba Liu Peibao  2022-11-03  240   * in the device tree node of this PCI device.
+f93e71fb8e65ba Liu Peibao  2022-11-03  241   */
+f93e71fb8e65ba Liu Peibao  2022-11-03  242  static int setup_masklist(struct loongson_pci *priv)
+f93e71fb8e65ba Liu Peibao  2022-11-03  243  {
+f93e71fb8e65ba Liu Peibao  2022-11-03  244  	struct device *dev = &priv->pdev->dev;
+f93e71fb8e65ba Liu Peibao  2022-11-03  245  	struct device_node *dn, *parent = dev->of_node;
+f93e71fb8e65ba Liu Peibao  2022-11-03  246  	struct mask_entry *entry;
+f93e71fb8e65ba Liu Peibao  2022-11-03  247  	int devfn;
+f93e71fb8e65ba Liu Peibao  2022-11-03  248  
+f93e71fb8e65ba Liu Peibao  2022-11-03  249  	INIT_LIST_HEAD(&priv->masklist);
+f93e71fb8e65ba Liu Peibao  2022-11-03  250  
+f93e71fb8e65ba Liu Peibao  2022-11-03  251  	for_each_child_of_node(parent, dn) {
+f93e71fb8e65ba Liu Peibao  2022-11-03  252  		if (of_property_read_bool(dn, "skip-scan")) {
+f93e71fb8e65ba Liu Peibao  2022-11-03  253  			devfn = of_pci_get_devfn(dn);
+f93e71fb8e65ba Liu Peibao  2022-11-03  254  			if (devfn < 0)
+f93e71fb8e65ba Liu Peibao  2022-11-03  255  				continue;
+f93e71fb8e65ba Liu Peibao  2022-11-03  256  
+f93e71fb8e65ba Liu Peibao  2022-11-03 @257  			entry = devm_kzalloc(dev, sizeof(entry), GFP_KERNEL);
+f93e71fb8e65ba Liu Peibao  2022-11-03  258  			if (!entry)
+f93e71fb8e65ba Liu Peibao  2022-11-03  259  				return -ENOMEM;
+f93e71fb8e65ba Liu Peibao  2022-11-03  260  
+f93e71fb8e65ba Liu Peibao  2022-11-03  261  			entry->devfn = devfn;
+f93e71fb8e65ba Liu Peibao  2022-11-03  262  			list_add_tail(&entry->entry, &priv->masklist);
+f93e71fb8e65ba Liu Peibao  2022-11-03  263  		}
+f93e71fb8e65ba Liu Peibao  2022-11-03  264  	}
+f93e71fb8e65ba Liu Peibao  2022-11-03  265  
+f93e71fb8e65ba Liu Peibao  2022-11-03  266  	return 0;
+f93e71fb8e65ba Liu Peibao  2022-11-03  267  }
+cd89edda4002b7 Huacai Chen 2022-07-14  268  
 
 -- 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
 
---GCWoZ4LrdQsUkWE1
+--Yh2+bbq/3DTSt9cU
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename=config
 
 #
 # Automatically generated file; DO NOT EDIT.
-# Linux/loongarch 6.1.0-rc2 Kernel Configuration
+# Linux/loongarch 6.1.0-rc1 Kernel Configuration
 #
 CONFIG_CC_VERSION_TEXT="loongarch64-linux-gcc (GCC) 12.1.0"
 CONFIG_CC_IS_GCC=y
@@ -184,6 +191,7 @@ CONFIG_HAVE_ARCH_AUDITSYSCALL=y
 CONFIG_GENERIC_IRQ_PROBE=y
 CONFIG_GENERIC_IRQ_SHOW=y
 CONFIG_GENERIC_IRQ_EFFECTIVE_AFF_MASK=y
+CONFIG_GENERIC_IRQ_MIGRATION=y
 CONFIG_GENERIC_IRQ_INJECTION=y
 CONFIG_GENERIC_IRQ_CHIP=y
 CONFIG_IRQ_DOMAIN=y
@@ -389,7 +397,7 @@ CONFIG_CMDLINE_FORCE=y
 CONFIG_EFI=y
 # CONFIG_EFI_STUB is not set
 CONFIG_SMP=y
-# CONFIG_HOTPLUG_CPU is not set
+CONFIG_HOTPLUG_CPU=y
 CONFIG_NR_CPUS=64
 CONFIG_NUMA=y
 CONFIG_NODES_SHIFT=6
@@ -2639,7 +2647,7 @@ CONFIG_MFD_MX25_TSADC=y
 CONFIG_MFD_HI6421_SPMI=m
 CONFIG_MFD_HI655X_PMIC=y
 CONFIG_HTC_PASIC3=y
-CONFIG_HTC_I2CPLD=y
+# CONFIG_HTC_I2CPLD is not set
 CONFIG_LPC_ICH=m
 CONFIG_LPC_SCH=y
 # CONFIG_INTEL_SOC_PMIC is not set
@@ -3162,7 +3170,6 @@ CONFIG_DRM_HISI_HIBMC=m
 CONFIG_DRM_ARCPGU=m
 # CONFIG_DRM_BOCHS is not set
 # CONFIG_DRM_CIRRUS_QEMU is not set
-# CONFIG_DRM_OFDRM is not set
 # CONFIG_DRM_PANEL_MIPI_DBI is not set
 CONFIG_DRM_SIMPLEDRM=m
 # CONFIG_TINYDRM_HX8357D is not set
@@ -6544,6 +6551,7 @@ CONFIG_RCU_EQS_DEBUG=y
 # end of RCU Debugging
 
 CONFIG_DEBUG_WQ_FORCE_RR_CPU=y
+# CONFIG_CPU_HOTPLUG_STATE_CONTROL is not set
 CONFIG_USER_STACKTRACE_SUPPORT=y
 CONFIG_NOP_TRACER=y
 CONFIG_HAVE_SYSCALL_TRACEPOINTS=y
@@ -6625,4 +6633,4 @@ CONFIG_TEST_MEMCAT_P=m
 # CONFIG_WARN_ABI_ERRORS is not set
 # end of Kernel hacking
 
---GCWoZ4LrdQsUkWE1--
+--Yh2+bbq/3DTSt9cU--
