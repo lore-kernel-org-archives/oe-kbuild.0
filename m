@@ -1,66 +1,70 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8E398F65
-	for <oe-kbuild@lists.linux.dev>; Fri, 18 Nov 2022 17:12:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED7CB8F65
+	for <oe-kbuild@lists.linux.dev>; Fri, 18 Nov 2022 17:52:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1668791522; x=1700327522;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=4/XKsp77yBIGQh8awQAHR6QHogS+P2NSqciMSZvcGrE=;
-  b=haoCT/jWdbM1ObOKiE8Xqs+ul8eD1cmqn8oFRBOjxx4y5KWdcMilHUpQ
-   QZQHFa0xj4PbvYkQ3Z+Qp6QNCFpgW2JDm3Sxgw2j95Tj3AOfXA04qIsmh
-   rZ9kf3jyq7SU7Gz6DBN6Wggju5cNL0saz9yZJUkumImgvIzIViDD8tRdL
-   d77xjHo5D7ceNvWTXL/Huid40iUSC/pftvykMym6GrPGkh6p+QHrkvqeA
-   AvEpM6JCAyoxpxmQcahQWiaBKavKwQpqA2j034In1jhnvRhzdlYmYMqFK
-   6Ln4Gs37SCHGB2kbO24AO7i5ED29QhJc5CpfZsMSLJ/d6+4gxO3L3kLSA
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10535"; a="313196110"
-X-IronPort-AV: E=Sophos;i="5.96,174,1665471600"; 
-   d="scan'208";a="313196110"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2022 09:12:02 -0800
+  t=1668793924; x=1700329924;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=ubFekoO5l9/7YpN7TpE+pI8Pt+g4GwoSsktbcPkVmjs=;
+  b=Q09kRZ7+Jck39tQH3+qty6uEadBeT175zAWPp/PJmwvr2v16WnOuRzRo
+   +tIyukQsJqo73OZ2xq6c5gASxqJWNjPcBqIisPNWKxGvV0NI2qjfFQQLa
+   ubSWrq3jQBqoAycjK58tyTSZNfN7Rvc4Mdz0HUahkYyHBONNz5i9Lg5u2
+   SM7RpOZ0cDHWCfXdzb0mipIIe9FU6u3By2mPEi5OedNeausrfmVE1cap1
+   lrStizM3W2Ixb5uJyBMAfsychPgeEctb78Qeh66ndBFGcFKHVSaFtB+OA
+   8k7S9yWNgLhxOWydBJVc8TUbPox5RlkIeuynDgceZ1XEEJLYB/KeoVbam
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10535"; a="340036164"
+X-IronPort-AV: E=Sophos;i="5.96,175,1665471600"; 
+   d="scan'208";a="340036164"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2022 09:52:04 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10535"; a="642578569"
-X-IronPort-AV: E=Sophos;i="5.96,174,1665471600"; 
-   d="scan'208";a="642578569"
+X-IronPort-AV: E=McAfee;i="6500,9779,10535"; a="746082962"
+X-IronPort-AV: E=Sophos;i="5.96,175,1665471600"; 
+   d="scan'208";a="746082962"
 Received: from lkp-server01.sh.intel.com (HELO 55744f5052f8) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 18 Nov 2022 09:12:00 -0800
+  by fmsmga002.fm.intel.com with ESMTP; 18 Nov 2022 09:52:02 -0800
 Received: from kbuild by 55744f5052f8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ow4uF-0001dL-1q;
-	Fri, 18 Nov 2022 17:11:59 +0000
-Date: Sat, 19 Nov 2022 01:11:33 +0800
+	id 1ow5Wz-0001fF-1Z;
+	Fri, 18 Nov 2022 17:52:01 +0000
+Date: Sat, 19 Nov 2022 01:51:55 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Julia Lawall <julia.lawall@lip6.fr>
-Subject: [linux-next:master 4420/8929] drivers/iio/adc/max11410.c:373:5-32:
- duplicated argument to & or |
-Message-ID: <202211190114.enw2HEXO-lkp@intel.com>
+Subject: [linux-next:master 4428/8929]
+ drivers/iio/industrialio-core.c:2102:2-8: preceding lock on line 2099
+Message-ID: <202211190153.Rm2A4l9W-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="BoSQmzIgC5BUHcpD"
+Content-Type: multipart/mixed; boundary="yIgUnQlbgNyI3g69"
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
 
---BoSQmzIgC5BUHcpD
-Content-Type: text/plain; charset=us-ascii
+--yIgUnQlbgNyI3g69
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Ibrahim Tilki <Ibrahim.Tilki@analog.com>
+TO: "Nuno Sá" <nuno.sa@analog.com>
 CC: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+CC: Andy Shevchenko <andy.shevchenko@gmail.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
 head:   147307c69ba4441ee90c1f8ce8edf5df4ea60f67
-commit: 15b258dc79f8cc891c255505361b3226b10d6663 [4420/8929] iio: adc: add max11410 adc driver
-:::::: branch date: 10 hours ago
+commit: e6dad5edfb8c00027d3ce004e0dab76f70bb9132 [4428/8929] iio: core: introduce iio_device_{claim|release}_buffer_mode() APIs
+:::::: branch date: 11 hours ago
 :::::: commit date: 2 weeks ago
 config: parisc-randconfig-c004-20221118
 compiler: hppa-linux-gcc (GCC) 12.1.0
@@ -70,57 +74,40 @@ If you fix the issue, kindly add following tag where applicable
 | Reported-by: Julia Lawall <julia.lawall@lip6.fr>
 
 cocci warnings: (new ones prefixed by >>)
->> drivers/iio/adc/max11410.c:373:5-32: duplicated argument to & or |
+>> drivers/iio/industrialio-core.c:2102:2-8: preceding lock on line 2099
 
-vim +373 drivers/iio/adc/max11410.c
+vim +2102 drivers/iio/industrialio-core.c
 
-15b258dc79f8cc Ibrahim Tilki 2022-10-03  350  
-15b258dc79f8cc Ibrahim Tilki 2022-10-03  351  static int max11410_configure_channel(struct max11410_state *st,
-15b258dc79f8cc Ibrahim Tilki 2022-10-03  352  				      struct iio_chan_spec const *chan)
-15b258dc79f8cc Ibrahim Tilki 2022-10-03  353  {
-15b258dc79f8cc Ibrahim Tilki 2022-10-03  354  	struct max11410_channel_config cfg = st->channels[chan->address];
-15b258dc79f8cc Ibrahim Tilki 2022-10-03  355  	unsigned int regval;
-15b258dc79f8cc Ibrahim Tilki 2022-10-03  356  	int ret;
-15b258dc79f8cc Ibrahim Tilki 2022-10-03  357  
-15b258dc79f8cc Ibrahim Tilki 2022-10-03  358  	if (chan->differential)
-15b258dc79f8cc Ibrahim Tilki 2022-10-03  359  		ret = max11410_set_input_mux(st, chan->channel, chan->channel2);
-15b258dc79f8cc Ibrahim Tilki 2022-10-03  360  	else
-15b258dc79f8cc Ibrahim Tilki 2022-10-03  361  		ret = max11410_set_input_mux(st, chan->channel,
-15b258dc79f8cc Ibrahim Tilki 2022-10-03  362  					     MAX11410_AINN_GND);
-15b258dc79f8cc Ibrahim Tilki 2022-10-03  363  
-15b258dc79f8cc Ibrahim Tilki 2022-10-03  364  	if (ret)
-15b258dc79f8cc Ibrahim Tilki 2022-10-03  365  		return ret;
-15b258dc79f8cc Ibrahim Tilki 2022-10-03  366  
-15b258dc79f8cc Ibrahim Tilki 2022-10-03  367  	regval = FIELD_PREP(MAX11410_CTRL_VREFP_BUF_BIT, cfg.buffered_vrefp) |
-15b258dc79f8cc Ibrahim Tilki 2022-10-03  368  		 FIELD_PREP(MAX11410_CTRL_VREFN_BUF_BIT, cfg.buffered_vrefn) |
-15b258dc79f8cc Ibrahim Tilki 2022-10-03  369  		 FIELD_PREP(MAX11410_CTRL_REFSEL_MASK, cfg.refsel) |
-15b258dc79f8cc Ibrahim Tilki 2022-10-03  370  		 FIELD_PREP(MAX11410_CTRL_UNIPOLAR_BIT, cfg.bipolar ? 0 : 1);
-15b258dc79f8cc Ibrahim Tilki 2022-10-03  371  	ret = regmap_update_bits(st->regmap, MAX11410_REG_CTRL,
-15b258dc79f8cc Ibrahim Tilki 2022-10-03  372  				 MAX11410_CTRL_REFSEL_MASK |
-15b258dc79f8cc Ibrahim Tilki 2022-10-03 @373  				 MAX11410_CTRL_VREFN_BUF_BIT |
-15b258dc79f8cc Ibrahim Tilki 2022-10-03  374  				 MAX11410_CTRL_VREFN_BUF_BIT |
-15b258dc79f8cc Ibrahim Tilki 2022-10-03  375  				 MAX11410_CTRL_UNIPOLAR_BIT, regval);
-15b258dc79f8cc Ibrahim Tilki 2022-10-03  376  	if (ret)
-15b258dc79f8cc Ibrahim Tilki 2022-10-03  377  		return ret;
-15b258dc79f8cc Ibrahim Tilki 2022-10-03  378  
-15b258dc79f8cc Ibrahim Tilki 2022-10-03  379  	regval = FIELD_PREP(MAX11410_PGA_SIG_PATH_MASK, cfg.sig_path) |
-15b258dc79f8cc Ibrahim Tilki 2022-10-03  380  		 FIELD_PREP(MAX11410_PGA_GAIN_MASK, cfg.gain);
-15b258dc79f8cc Ibrahim Tilki 2022-10-03  381  	ret = regmap_write(st->regmap, MAX11410_REG_PGA, regval);
-15b258dc79f8cc Ibrahim Tilki 2022-10-03  382  	if (ret)
-15b258dc79f8cc Ibrahim Tilki 2022-10-03  383  		return ret;
-15b258dc79f8cc Ibrahim Tilki 2022-10-03  384  
-15b258dc79f8cc Ibrahim Tilki 2022-10-03  385  	if (cfg.settling_time_us)
-15b258dc79f8cc Ibrahim Tilki 2022-10-03  386  		fsleep(cfg.settling_time_us);
-15b258dc79f8cc Ibrahim Tilki 2022-10-03  387  
-15b258dc79f8cc Ibrahim Tilki 2022-10-03  388  	return 0;
-15b258dc79f8cc Ibrahim Tilki 2022-10-03  389  }
-15b258dc79f8cc Ibrahim Tilki 2022-10-03  390  
+08a33805518e78 Alison Schofield 2016-03-09  2085  
+e6dad5edfb8c00 Nuno Sá          2022-10-12  2086  /**
+e6dad5edfb8c00 Nuno Sá          2022-10-12  2087   * iio_device_claim_buffer_mode - Keep device in buffer mode
+e6dad5edfb8c00 Nuno Sá          2022-10-12  2088   * @indio_dev:	the iio_dev associated with the device
+e6dad5edfb8c00 Nuno Sá          2022-10-12  2089   *
+e6dad5edfb8c00 Nuno Sá          2022-10-12  2090   * If the device is in buffer mode it is guaranteed to stay
+e6dad5edfb8c00 Nuno Sá          2022-10-12  2091   * that way until iio_device_release_buffer_mode() is called.
+e6dad5edfb8c00 Nuno Sá          2022-10-12  2092   *
+e6dad5edfb8c00 Nuno Sá          2022-10-12  2093   * Use with iio_device_release_buffer_mode().
+e6dad5edfb8c00 Nuno Sá          2022-10-12  2094   *
+e6dad5edfb8c00 Nuno Sá          2022-10-12  2095   * Returns: 0 on success, -EBUSY on failure.
+e6dad5edfb8c00 Nuno Sá          2022-10-12  2096   */
+e6dad5edfb8c00 Nuno Sá          2022-10-12  2097  int iio_device_claim_buffer_mode(struct iio_dev *indio_dev)
+e6dad5edfb8c00 Nuno Sá          2022-10-12  2098  {
+e6dad5edfb8c00 Nuno Sá          2022-10-12 @2099  	mutex_lock(&indio_dev->mlock);
+e6dad5edfb8c00 Nuno Sá          2022-10-12  2100  
+e6dad5edfb8c00 Nuno Sá          2022-10-12  2101  	if (iio_buffer_enabled(indio_dev))
+e6dad5edfb8c00 Nuno Sá          2022-10-12 @2102  		return 0;
+e6dad5edfb8c00 Nuno Sá          2022-10-12  2103  
+e6dad5edfb8c00 Nuno Sá          2022-10-12  2104  	mutex_unlock(&indio_dev->mlock);
+e6dad5edfb8c00 Nuno Sá          2022-10-12  2105  	return -EBUSY;
+e6dad5edfb8c00 Nuno Sá          2022-10-12  2106  }
+e6dad5edfb8c00 Nuno Sá          2022-10-12  2107  EXPORT_SYMBOL_GPL(iio_device_claim_buffer_mode);
+e6dad5edfb8c00 Nuno Sá          2022-10-12  2108  
 
 -- 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
 
---BoSQmzIgC5BUHcpD
+--yIgUnQlbgNyI3g69
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename=config
 
@@ -5594,4 +5581,4 @@ CONFIG_TEST_MEMCAT_P=y
 # CONFIG_WARN_ABI_ERRORS is not set
 # end of Kernel hacking
 
---BoSQmzIgC5BUHcpD--
+--yIgUnQlbgNyI3g69--
