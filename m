@@ -1,53 +1,53 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57D643C36
-	for <oe-kbuild@lists.linux.dev>; Sat, 19 Nov 2022 17:55:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 080BE2F4A
+	for <oe-kbuild@lists.linux.dev>; Sat, 19 Nov 2022 20:27:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1668880535; x=1700416535;
+  t=1668889658; x=1700425658;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=P4xkzjNOi1HAM1OvnHAwGBr9jNspUZTz9+D/o/Z9uOo=;
-  b=P142oi4ECAu7VegsKZJm+puFuqsmcMVSy2qEjpqpHxvrFmMWLdMoViny
-   X5JfmNSJ7OqVm/+bID3pVMMQgGliHVRwgD551PeBBb9x5Zh35Nv3cNQ+y
-   8ZVLQqQL1i7yQRBiNl0GzSvjpe2H/o9+wh2667VVaisJyaBHOMTSaTHK9
-   hgNXYsROUZ9kKTiHDMFdaVtwvCBQLCGQo+J/GSmbtRcGQ6xIJLxIBd93H
-   lWtJdIXzPic4gcsyd6i62tY604zgDZDcWsHbFBvzPnuDPta0HGzOOlVHp
-   tTWHyQ1a7RdG/n9zz6g3oQoUtKh4S2GXsdjHol9yNzDMn4gTYBAQ7AV77
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10536"; a="315154608"
-X-IronPort-AV: E=Sophos;i="5.96,176,1665471600"; 
-   d="scan'208";a="315154608"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2022 09:55:34 -0800
+  bh=AxMjgxD2C3B4lR5AwsTRhf3TyIlqVnhil9VCJ+nkBbk=;
+  b=iCQWW4ooXVUs3IOt2Yyav7kusalbyEEy7/iTvjOVfTTxI085TV0SiPww
+   yVa8Ebv0O98IFOnhL5S8abZog8NVJHeFVElYhSBH9NPJXsQbVFziIxOz6
+   y/yyhErbknhcYRwlnFjTwIGAIAkEc9J9YaFRqn3luXYwkX+1lN73+gH/G
+   P5G22CF5ExW88E5BrpCP1rNVaJy+iIHDLBojv12aafXo4JGjvHUkgmlxQ
+   LLUjrpL0D4/QgDtCWYitsW+rNiygM+0cvAAy2LrpmkXtQ7f/p7M2whKDj
+   tllOSkZuxetf/XfXls1JMH2OG42fUR1+l9J0J3orKhqvhQFSoZDHSCFgh
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10536"; a="310977457"
+X-IronPort-AV: E=Sophos;i="5.96,178,1665471600"; 
+   d="scan'208";a="310977457"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2022 12:27:36 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10536"; a="815260748"
-X-IronPort-AV: E=Sophos;i="5.96,176,1665471600"; 
-   d="scan'208";a="815260748"
+X-IronPort-AV: E=McAfee;i="6500,9779,10536"; a="885680215"
+X-IronPort-AV: E=Sophos;i="5.96,178,1665471600"; 
+   d="scan'208";a="885680215"
 Received: from lkp-server01.sh.intel.com (HELO 55744f5052f8) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 19 Nov 2022 09:55:32 -0800
+  by fmsmga006.fm.intel.com with ESMTP; 19 Nov 2022 12:27:34 -0800
 Received: from kbuild by 55744f5052f8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1owS3v-0002NN-2o;
-	Sat, 19 Nov 2022 17:55:31 +0000
-Date: Sun, 20 Nov 2022 01:55:26 +0800
+	id 1owUR4-0002Qb-01;
+	Sat, 19 Nov 2022 20:27:34 +0000
+Date: Sun, 20 Nov 2022 04:26:46 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [ammarfaizi2-block:akpm/mm/mm-unstable 160/254] mm/rmap.c:1325
- page_add_anon_rmap() error: uninitialized symbol 'first'.
-Message-ID: <202211200135.BVP3jPRS-lkp@intel.com>
+Subject: [ammarfaizi2-block:akpm/mm/mm-unstable 247/254] mm/page_alloc.c:3558
+ free_unref_page_list() error: uninitialized symbol 'migratetype'.
+Message-ID: <202211200417.crwAIoJx-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8KXXGxAXCUq/cp2y"
+Content-Type: multipart/mixed; boundary="8/kh0UIOJVAXSko1"
 Content-Disposition: inline
 
 
---8KXXGxAXCUq/cp2y
+--8/kh0UIOJVAXSko1
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
@@ -55,15 +55,16 @@ BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: Ammar Faizi <ammarfaizi2@gnuweeb.org>
 CC: "GNU/Weeb Mailing List" <gwml@vger.gnuweeb.org>
-TO: Hugh Dickins <hughd@google.com>
+TO: Mel Gorman <mgorman@suse.de>
 CC: Andrew Morton <akpm@linux-foundation.org>
 CC: Linux Memory Management List <linux-mm@kvack.org>
+CC: Vlastimil Babka <vbabka@suse.cz>
 
 tree:   https://github.com/ammarfaizi2/linux-block akpm/mm/mm-unstable
 head:   a8da2493d983a10242e6c9d71c6e828aafa5baf8
-commit: d68dde0dc6f8b8d09357a32473db8881173b10b0 [160/254] mm,thp,rmap: subpages_mapcount of PTE-mapped subpages
-:::::: branch date: 19 hours ago
-:::::: commit date: 19 hours ago
+commit: d0075ddffac31f2e30355d83fdb1f404d86f455c [247/254] mm/page_alloc: leave IRQs enabled for per-cpu page allocations
+:::::: branch date: 21 hours ago
+:::::: commit date: 21 hours ago
 config: i386-randconfig-m021
 compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 
@@ -72,91 +73,109 @@ If you fix the issue, kindly add following tag where applicable
 | Reported-by: Dan Carpenter <error27@gmail.com>
 
 smatch warnings:
-mm/rmap.c:1325 page_add_anon_rmap() error: uninitialized symbol 'first'.
+mm/page_alloc.c:3558 free_unref_page_list() error: uninitialized symbol 'migratetype'.
 
-vim +/first +1325 mm/rmap.c
+vim +/migratetype +3558 mm/page_alloc.c
 
-c97a9e10eaee32 Nicholas Piggin    2007-05-16  1265  
-9617d95e6e9ffd Nicholas Piggin    2006-01-06  1266  /**
-9617d95e6e9ffd Nicholas Piggin    2006-01-06  1267   * page_add_anon_rmap - add pte mapping to an anonymous page
-9617d95e6e9ffd Nicholas Piggin    2006-01-06  1268   * @page:	the page to add the mapping to
-9617d95e6e9ffd Nicholas Piggin    2006-01-06  1269   * @vma:	the vm area in which the mapping is added
-9617d95e6e9ffd Nicholas Piggin    2006-01-06  1270   * @address:	the user virtual address mapped
-f1e2db12e45baa David Hildenbrand  2022-05-09  1271   * @flags:	the rmap flags
-9617d95e6e9ffd Nicholas Piggin    2006-01-06  1272   *
-5ad6468801d28c Hugh Dickins       2009-12-14  1273   * The caller needs to hold the pte lock, and the page must be locked in
-80e14822602825 Hugh Dickins       2009-12-14  1274   * the anon_vma case: to serialize mapping,index checking after setting,
-80e14822602825 Hugh Dickins       2009-12-14  1275   * and to ensure that PageAnon is not being upgraded racily to PageKsm
-80e14822602825 Hugh Dickins       2009-12-14  1276   * (but PageKsm is never downgraded to PageAnon).
-9617d95e6e9ffd Nicholas Piggin    2006-01-06  1277   */
-9617d95e6e9ffd Nicholas Piggin    2006-01-06  1278  void page_add_anon_rmap(struct page *page,
-14f9135d547060 David Hildenbrand  2022-05-09  1279  	struct vm_area_struct *vma, unsigned long address, rmap_t flags)
-9617d95e6e9ffd Nicholas Piggin    2006-01-06  1280  {
-5b3276bc4a2e01 Hugh Dickins       2022-11-02  1281  	struct compound_mapcounts mapcounts;
-5b3276bc4a2e01 Hugh Dickins       2022-11-02  1282  	int nr = 0, nr_pmdmapped = 0;
-d281ee61451835 Kirill A. Shutemov 2016-01-15  1283  	bool compound = flags & RMAP_COMPOUND;
-53f9263baba69f Kirill A. Shutemov 2016-01-15  1284  	bool first;
-53f9263baba69f Kirill A. Shutemov 2016-01-15  1285  
-be5d0a74c62d8d Johannes Weiner    2020-06-03  1286  	if (unlikely(PageKsm(page)))
-be5d0a74c62d8d Johannes Weiner    2020-06-03  1287  		lock_page_memcg(page);
-be5d0a74c62d8d Johannes Weiner    2020-06-03  1288  
-d68dde0dc6f8b8 Hugh Dickins       2022-11-18  1289  	if (likely(!compound /* page is mapped by PTE */)) {
-84e6cb5a201a85 Hugh Dickins       2022-11-09  1290  		first = atomic_inc_and_test(&page->_mapcount);
-84e6cb5a201a85 Hugh Dickins       2022-11-09  1291  		nr = first;
-d68dde0dc6f8b8 Hugh Dickins       2022-11-18  1292  		if (first && PageCompound(page)) {
-d68dde0dc6f8b8 Hugh Dickins       2022-11-18  1293  			struct page *head = compound_head(page);
-d68dde0dc6f8b8 Hugh Dickins       2022-11-18  1294  
-d68dde0dc6f8b8 Hugh Dickins       2022-11-18  1295  			lock_compound_mapcounts(head, &mapcounts);
-d68dde0dc6f8b8 Hugh Dickins       2022-11-18  1296  			mapcounts.subpages_mapcount++;
-d68dde0dc6f8b8 Hugh Dickins       2022-11-18  1297  			nr = !mapcounts.compound_mapcount;
-d68dde0dc6f8b8 Hugh Dickins       2022-11-18  1298  			unlock_compound_mapcounts(head, &mapcounts);
-d68dde0dc6f8b8 Hugh Dickins       2022-11-18  1299  		}
-d68dde0dc6f8b8 Hugh Dickins       2022-11-18  1300  	} else if (PageTransHuge(page)) {
-d68dde0dc6f8b8 Hugh Dickins       2022-11-18  1301  		/* That test is redundant: it's for safety or to optimize out */
-84e6cb5a201a85 Hugh Dickins       2022-11-09  1302  
-5b3276bc4a2e01 Hugh Dickins       2022-11-02  1303  		lock_compound_mapcounts(page, &mapcounts);
-5b3276bc4a2e01 Hugh Dickins       2022-11-02  1304  		first = !mapcounts.compound_mapcount;
-5b3276bc4a2e01 Hugh Dickins       2022-11-02  1305  		mapcounts.compound_mapcount++;
-5b3276bc4a2e01 Hugh Dickins       2022-11-02  1306  		if (first) {
-d68dde0dc6f8b8 Hugh Dickins       2022-11-18  1307  			nr_pmdmapped = thp_nr_pages(page);
-d68dde0dc6f8b8 Hugh Dickins       2022-11-18  1308  			nr = nr_pmdmapped - mapcounts.subpages_mapcount;
-5b3276bc4a2e01 Hugh Dickins       2022-11-02  1309  		}
-5b3276bc4a2e01 Hugh Dickins       2022-11-02  1310  		unlock_compound_mapcounts(page, &mapcounts);
-53f9263baba69f Kirill A. Shutemov 2016-01-15  1311  	}
-bde3d57e6cec9c Hugh Dickins       2022-11-02  1312  
-6c287605fd5646 David Hildenbrand  2022-05-09  1313  	VM_BUG_ON_PAGE(!first && (flags & RMAP_EXCLUSIVE), page);
-6c287605fd5646 David Hildenbrand  2022-05-09  1314  	VM_BUG_ON_PAGE(!first && PageAnonExclusive(page), page);
-53f9263baba69f Kirill A. Shutemov 2016-01-15  1315  
-5b3276bc4a2e01 Hugh Dickins       2022-11-02  1316  	if (nr_pmdmapped)
-5b3276bc4a2e01 Hugh Dickins       2022-11-02  1317  		__mod_lruvec_page_state(page, NR_ANON_THPS, nr_pmdmapped);
-5b3276bc4a2e01 Hugh Dickins       2022-11-02  1318  	if (nr)
-be5d0a74c62d8d Johannes Weiner    2020-06-03  1319  		__mod_lruvec_page_state(page, NR_ANON_MAPPED, nr);
-5ad6468801d28c Hugh Dickins       2009-12-14  1320  
-cea86fe246b694 Hugh Dickins       2022-02-14  1321  	if (unlikely(PageKsm(page)))
-be5d0a74c62d8d Johannes Weiner    2020-06-03  1322  		unlock_page_memcg(page);
-53f9263baba69f Kirill A. Shutemov 2016-01-15  1323  
-5dbe0af47f8a8f Hugh Dickins       2011-05-28  1324  	/* address might be in next vma when migration races vma_adjust */
-cea86fe246b694 Hugh Dickins       2022-02-14 @1325  	else if (first)
-d281ee61451835 Kirill A. Shutemov 2016-01-15  1326  		__page_set_anon_rmap(page, vma, address,
-14f9135d547060 David Hildenbrand  2022-05-09  1327  				     !!(flags & RMAP_EXCLUSIVE));
-69029cd550284e KAMEZAWA Hiroyuki  2008-07-25  1328  	else
-c97a9e10eaee32 Nicholas Piggin    2007-05-16  1329  		__page_check_anon_rmap(page, vma, address);
-cea86fe246b694 Hugh Dickins       2022-02-14  1330  
-cea86fe246b694 Hugh Dickins       2022-02-14  1331  	mlock_vma_page(page, vma, compound);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1332  }
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1333  
-
-:::::: The code at line 1325 was first introduced by commit
-:::::: cea86fe246b694a191804b47378eb9d77aefabec mm/munlock: rmap call mlock_vma_page() munlock_vma_page()
-
-:::::: TO: Hugh Dickins <hughd@google.com>
-:::::: CC: Matthew Wilcox (Oracle) <willy@infradead.org>
+^1da177e4c3f41 Linus Torvalds         2005-04-16  3504  
+cc59850ef940e4 Konstantin Khlebnikov  2012-01-10  3505  /*
+cc59850ef940e4 Konstantin Khlebnikov  2012-01-10  3506   * Free a list of 0-order pages
+cc59850ef940e4 Konstantin Khlebnikov  2012-01-10  3507   */
+2d4894b5d2ae0f Mel Gorman             2017-11-15  3508  void free_unref_page_list(struct list_head *list)
+cc59850ef940e4 Konstantin Khlebnikov  2012-01-10  3509  {
+d0075ddffac31f Mel Gorman             2022-11-18  3510  	unsigned long __maybe_unused UP_flags;
+cc59850ef940e4 Konstantin Khlebnikov  2012-01-10  3511  	struct page *page, *next;
+4b23a68f953628 Mel Gorman             2022-06-24  3512  	struct per_cpu_pages *pcp = NULL;
+4b23a68f953628 Mel Gorman             2022-06-24  3513  	struct zone *locked_zone = NULL;
+c24ad77d962c31 Lucas Stach            2017-12-14  3514  	int batch_count = 0;
+df1acc856923c0 Mel Gorman             2021-06-28  3515  	int migratetype;
+cc59850ef940e4 Konstantin Khlebnikov  2012-01-10  3516  
+9cca35d42eb61b Mel Gorman             2017-11-15  3517  	/* Prepare pages for freeing */
+cc59850ef940e4 Konstantin Khlebnikov  2012-01-10  3518  	list_for_each_entry_safe(page, next, list, lru) {
+566513775dca7f Nicolas Saenz Julienne 2022-03-22  3519  		unsigned long pfn = page_to_pfn(page);
+053cfda102306a Miaohe Lin             2021-09-08  3520  		if (!free_unref_page_prepare(page, pfn, 0)) {
+9cca35d42eb61b Mel Gorman             2017-11-15  3521  			list_del(&page->lru);
+053cfda102306a Miaohe Lin             2021-09-08  3522  			continue;
+053cfda102306a Miaohe Lin             2021-09-08  3523  		}
+df1acc856923c0 Mel Gorman             2021-06-28  3524  
+df1acc856923c0 Mel Gorman             2021-06-28  3525  		/*
+df1acc856923c0 Mel Gorman             2021-06-28  3526  		 * Free isolated pages directly to the allocator, see
+df1acc856923c0 Mel Gorman             2021-06-28  3527  		 * comment in free_unref_page.
+df1acc856923c0 Mel Gorman             2021-06-28  3528  		 */
+df1acc856923c0 Mel Gorman             2021-06-28  3529  		migratetype = get_pcppage_migratetype(page);
+df1acc856923c0 Mel Gorman             2021-06-28  3530  		if (unlikely(is_migrate_isolate(migratetype))) {
+9cca35d42eb61b Mel Gorman             2017-11-15  3531  			list_del(&page->lru);
+47aef6010b8376 Doug Berger            2021-08-19  3532  			free_one_page(page_zone(page), page, pfn, 0, migratetype, FPI_NONE);
+df1acc856923c0 Mel Gorman             2021-06-28  3533  			continue;
+df1acc856923c0 Mel Gorman             2021-06-28  3534  		}
+9cca35d42eb61b Mel Gorman             2017-11-15  3535  	}
+9cca35d42eb61b Mel Gorman             2017-11-15  3536  
+9cca35d42eb61b Mel Gorman             2017-11-15  3537  	list_for_each_entry_safe(page, next, list, lru) {
+4b23a68f953628 Mel Gorman             2022-06-24  3538  		struct zone *zone = page_zone(page);
+4b23a68f953628 Mel Gorman             2022-06-24  3539  
+cd6f0907b7b936 Mel Gorman             2022-11-18  3540  		list_del(&page->lru);
+cd6f0907b7b936 Mel Gorman             2022-11-18  3541  
+4b23a68f953628 Mel Gorman             2022-06-24  3542  		/* Different zone, different pcp lock. */
+4b23a68f953628 Mel Gorman             2022-06-24  3543  		if (zone != locked_zone) {
+d0075ddffac31f Mel Gorman             2022-11-18  3544  			if (pcp) {
+d0075ddffac31f Mel Gorman             2022-11-18  3545  				pcp_spin_unlock(pcp);
+d0075ddffac31f Mel Gorman             2022-11-18  3546  				pcp_trylock_finish(UP_flags);
+d0075ddffac31f Mel Gorman             2022-11-18  3547  			}
+01b44456a7aa7c Mel Gorman             2022-06-24  3548  
+d0075ddffac31f Mel Gorman             2022-11-18  3549  			/*
+d0075ddffac31f Mel Gorman             2022-11-18  3550  			 * trylock is necessary as pages may be getting freed
+d0075ddffac31f Mel Gorman             2022-11-18  3551  			 * from IRQ or SoftIRQ context after an IO completion.
+d0075ddffac31f Mel Gorman             2022-11-18  3552  			 */
+d0075ddffac31f Mel Gorman             2022-11-18  3553  			pcp_trylock_prepare(UP_flags);
+d0075ddffac31f Mel Gorman             2022-11-18  3554  			pcp = pcp_spin_trylock(zone->per_cpu_pageset);
+d0075ddffac31f Mel Gorman             2022-11-18  3555  			if (!pcp) {
+d0075ddffac31f Mel Gorman             2022-11-18  3556  				pcp_trylock_finish(UP_flags);
+d0075ddffac31f Mel Gorman             2022-11-18  3557  				free_one_page(zone, page, page_to_pfn(page),
+d0075ddffac31f Mel Gorman             2022-11-18 @3558  					      0, migratetype, FPI_NONE);
+d0075ddffac31f Mel Gorman             2022-11-18  3559  				locked_zone = NULL;
+d0075ddffac31f Mel Gorman             2022-11-18  3560  				continue;
+d0075ddffac31f Mel Gorman             2022-11-18  3561  			}
+4b23a68f953628 Mel Gorman             2022-06-24  3562  			locked_zone = zone;
+d0075ddffac31f Mel Gorman             2022-11-18  3563  			batch_count = 0;
+4b23a68f953628 Mel Gorman             2022-06-24  3564  		}
+4b23a68f953628 Mel Gorman             2022-06-24  3565  
+47aef6010b8376 Doug Berger            2021-08-19  3566  		/*
+47aef6010b8376 Doug Berger            2021-08-19  3567  		 * Non-isolated types over MIGRATE_PCPTYPES get added
+47aef6010b8376 Doug Berger            2021-08-19  3568  		 * to the MIGRATE_MOVABLE pcp list.
+47aef6010b8376 Doug Berger            2021-08-19  3569  		 */
+df1acc856923c0 Mel Gorman             2021-06-28  3570  		migratetype = get_pcppage_migratetype(page);
+47aef6010b8376 Doug Berger            2021-08-19  3571  		if (unlikely(migratetype >= MIGRATE_PCPTYPES))
+47aef6010b8376 Doug Berger            2021-08-19  3572  			migratetype = MIGRATE_MOVABLE;
+47aef6010b8376 Doug Berger            2021-08-19  3573  
+2d4894b5d2ae0f Mel Gorman             2017-11-15  3574  		trace_mm_page_free_batched(page);
+4b23a68f953628 Mel Gorman             2022-06-24  3575  		free_unref_page_commit(zone, pcp, page, migratetype, 0);
+c24ad77d962c31 Lucas Stach            2017-12-14  3576  
+c24ad77d962c31 Lucas Stach            2017-12-14  3577  		/*
+d0075ddffac31f Mel Gorman             2022-11-18  3578  		 * Guard against excessive lock hold times when freeing
+d0075ddffac31f Mel Gorman             2022-11-18  3579  		 * a large list of pages. Lock will be reacquired if
+d0075ddffac31f Mel Gorman             2022-11-18  3580  		 * necessary on the next iteration.
+c24ad77d962c31 Lucas Stach            2017-12-14  3581  		 */
+c24ad77d962c31 Lucas Stach            2017-12-14  3582  		if (++batch_count == SWAP_CLUSTER_MAX) {
+d0075ddffac31f Mel Gorman             2022-11-18  3583  			pcp_spin_unlock(pcp);
+d0075ddffac31f Mel Gorman             2022-11-18  3584  			pcp_trylock_finish(UP_flags);
+c24ad77d962c31 Lucas Stach            2017-12-14  3585  			batch_count = 0;
+d0075ddffac31f Mel Gorman             2022-11-18  3586  			pcp = NULL;
+d0075ddffac31f Mel Gorman             2022-11-18  3587  			locked_zone = NULL;
+c24ad77d962c31 Lucas Stach            2017-12-14  3588  		}
+cc59850ef940e4 Konstantin Khlebnikov  2012-01-10  3589  	}
+4b23a68f953628 Mel Gorman             2022-06-24  3590  
+d0075ddffac31f Mel Gorman             2022-11-18  3591  	if (pcp) {
+d0075ddffac31f Mel Gorman             2022-11-18  3592  		pcp_spin_unlock(pcp);
+d0075ddffac31f Mel Gorman             2022-11-18  3593  		pcp_trylock_finish(UP_flags);
+d0075ddffac31f Mel Gorman             2022-11-18  3594  	}
+cc59850ef940e4 Konstantin Khlebnikov  2012-01-10  3595  }
+cc59850ef940e4 Konstantin Khlebnikov  2012-01-10  3596  
 
 -- 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
 
---8KXXGxAXCUq/cp2y
+--8/kh0UIOJVAXSko1
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename=config
 
@@ -933,6 +952,7 @@ CONFIG_ZONE_DMA=y
 CONFIG_ARCH_HAS_PTE_SPECIAL=y
 CONFIG_MAPPING_DIRTY_HELPERS=y
 CONFIG_KMAP_LOCAL=y
+CONFIG_SECRETMEM=y
 # CONFIG_USERFAULTFD is not set
 # CONFIG_LRU_GEN is not set
 
@@ -5696,4 +5716,4 @@ CONFIG_ARCH_USE_MEMTEST=y
 # end of Rust hacking
 # end of Kernel hacking
 
---8KXXGxAXCUq/cp2y--
+--8/kh0UIOJVAXSko1--
