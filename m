@@ -1,80 +1,79 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82FC617E
-	for <oe-kbuild@lists.linux.dev>; Sat, 19 Nov 2022 02:07:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C851936C
+	for <oe-kbuild@lists.linux.dev>; Sat, 19 Nov 2022 03:38:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1668823637; x=1700359637;
+  t=1668829098; x=1700365098;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=6dqoUHWN37SBa7atTfxSPudGZnyHCuLftWP2i2mVl+0=;
-  b=RSLDBK/kKvdGvOf/qacJWapB8APqjVQqPh/LxnMnpQJJ2uxsddhBeSBL
-   f3j8/fgupp5lcPDWtK2/sdyT2bQ2ZOK99BVscHbccdFwvqvkcYmQU/kCs
-   lnxIXxloRSLRjngQ0ySaQKZMQIEdMa8GDS5QrJrwmhKri/wROwETu2dI+
-   cWMs++489tiY4fQQZD1G+2z6+fUPzrtWzNA3rK93+R16MIOpQZ+K1mmeW
-   7VS/YMsveZY5lGs2sIre5e0CVMcjtACmuSzsyqfsPvV1PE5u49LIRwZGc
-   G3IYqcfpzQLosp5iC6LWSoYARGY/uzVt9xkYYElc4hTSvEfB2vP1yw/5t
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10535"; a="310912281"
+  bh=utwmt5EQwQVQqON+xuosmJFvqtqoSbcA+X2gfZsDWQw=;
+  b=gfMYUOKDFAOXU3sT9PAn7lOjL0K8uXsNlFVJ7P5X3XRyRWEj+qo35SPq
+   /Xz7r04hBdZcfHqH2VaAr9JNdenKAUSwQv0PtvW7UQKZ0OS+m0M0zQ/ii
+   kDI/iHiURA+TX62bl5KWi48X8ePTHaChPsPqE5waWQI2jbOUYmWA9a06O
+   UhUkDX1ud9nHkW4iwDuDrIhIDkSKGd0M4La+N+sMGNwRj6KTGCLI3Zhnk
+   i8vM6PRmjZvOR/s6ylu5Ljj43h5o3pcLVR+e7G6P8A/1uKJeF0qMX1tGd
+   VTuWvqn7Y0SYRd4I/e+itjBvW6hnqY2eApMm3p6F5stLfvsxkqFsls1qK
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10535"; a="292997586"
 X-IronPort-AV: E=Sophos;i="5.96,175,1665471600"; 
-   d="scan'208";a="310912281"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2022 18:07:16 -0800
+   d="scan'208";a="292997586"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2022 19:38:17 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10535"; a="640425703"
+X-IronPort-AV: E=McAfee;i="6500,9779,10535"; a="815142020"
 X-IronPort-AV: E=Sophos;i="5.96,175,1665471600"; 
-   d="scan'208";a="640425703"
+   d="scan'208";a="815142020"
 Received: from lkp-server01.sh.intel.com (HELO 55744f5052f8) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 18 Nov 2022 18:07:14 -0800
+  by orsmga005.jf.intel.com with ESMTP; 18 Nov 2022 19:38:15 -0800
 Received: from kbuild by 55744f5052f8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1owDGD-0001vb-2b;
-	Sat, 19 Nov 2022 02:07:13 +0000
-Date: Sat, 19 Nov 2022 10:06:40 +0800
+	id 1owEgI-0001xd-34;
+	Sat, 19 Nov 2022 03:38:14 +0000
+Date: Sat, 19 Nov 2022 11:37:29 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [linux-next:master 5421/8929] net/rxrpc/txbuf.c:61:13: warning: use
- of uninitialized value '<unknown>' [CWE-457]
-Message-ID: <202211191031.IZlapKcY-lkp@intel.com>
+Subject: [djwong-xfs:vectorized-scrub 229/498] fs/xfs/xfs_xchgrange.c:317:42:
+ warning: use of uninitialized value '<unknown>' [CWE-457]
+Message-ID: <202211191103.oBfRZ0gp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="hqK69QA27ZtdJ46p"
+Content-Type: multipart/mixed; boundary="UizOmD8scL1ExcS/"
 Content-Disposition: inline
 
 
---hqK69QA27ZtdJ46p
+--UizOmD8scL1ExcS/
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
 :::::: Manual check reason: "low confidence bisect report"
-:::::: Manual check reason: "low confidence static check warning: net/rxrpc/txbuf.c:61:13: warning: use of uninitialized value '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]"
+:::::: Manual check reason: "low confidence static check warning: fs/xfs/xfs_xchgrange.c:317:42: warning: use of uninitialized value '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: David Howells <dhowells@redhat.com>
+TO: "Darrick J. Wong" <darrick.wong@oracle.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   147307c69ba4441ee90c1f8ce8edf5df4ea60f67
-commit: 02a1935640f8f8539b8f2dbd6eeb539de93b2ce4 [5421/8929] rxrpc: Define rxrpc_txbuf struct to carry data to be transmitted
-:::::: branch date: 19 hours ago
-:::::: commit date: 10 days ago
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git vectorized-scrub
+head:   37fb90fd6eb0a30eb7133a2ca9ead780b574ed69
+commit: d8850969ccefd805e2f1f26f5b2ef5afbd57a20b [229/498] xfs: add a ->xchg_file_range handler
+:::::: branch date: 9 days ago
+:::::: commit date: 9 days ago
 config: arm-randconfig-c002-20221117
 compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=02a1935640f8f8539b8f2dbd6eeb539de93b2ce4
-        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
-        git fetch --no-tags linux-next master
-        git checkout 02a1935640f8f8539b8f2dbd6eeb539de93b2ce4
+        # https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git/commit/?id=d8850969ccefd805e2f1f26f5b2ef5afbd57a20b
+        git remote add djwong-xfs https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git
+        git fetch --no-tags djwong-xfs vectorized-scrub
+        git checkout d8850969ccefd805e2f1f26f5b2ef5afbd57a20b
         # save the config file
         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross ARCH=arm KBUILD_USERCFLAGS='-fanalyzer -Wno-error' 
 
@@ -82,52 +81,61 @@ If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
 gcc_analyzer warnings: (new ones prefixed by >>)
-   net/rxrpc/txbuf.c: In function 'rxrpc_get_txbuf':
->> net/rxrpc/txbuf.c:61:13: warning: use of uninitialized value '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-      61 |         int r;
-         |             ^
-     'rxrpc_get_txbuf': event 1
+   fs/xfs/xfs_xchgrange.c: In function 'xfs_xchg_range':
+>> fs/xfs/xfs_xchgrange.c:317:42: warning: use of uninitialized value '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+     317 |         struct xfs_trans                *tp;
+         |                                          ^~
+     'xfs_xchg_range': event 1
        |
-       |   61 |         int r;
-       |      |             ^
-       |      |             |
-       |      |             (1) use of uninitialized value '<unknown>' here
+       |  317 |         struct xfs_trans                *tp;
+       |      |                                          ^~
+       |      |                                          |
+       |      |                                          (1) use of uninitialized value '<unknown>' here
        |
-   net/rxrpc/txbuf.c: In function 'rxrpc_put_txbuf':
-   net/rxrpc/txbuf.c:89:13: warning: use of uninitialized value '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-      89 |         int r;
-         |             ^
-     'rxrpc_put_txbuf': event 1
+   fs/xfs/xfs_xchgrange.c:318:41: warning: use of uninitialized value '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+     318 |         unsigned int                    qretry;
+         |                                         ^~~~~~
+     'xfs_xchg_range': event 1
        |
-       |   89 |         int r;
-       |      |             ^
-       |      |             |
-       |      |             (1) use of uninitialized value '<unknown>' here
+       |  318 |         unsigned int                    qretry;
+       |      |                                         ^~~~~~
+       |      |                                         |
+       |      |                                         (1) use of uninitialized value '<unknown>' here
        |
 
-vim +61 net/rxrpc/txbuf.c
+vim +317 fs/xfs/xfs_xchgrange.c
 
-02a1935640f8f8 David Howells 2022-04-05  58  
-02a1935640f8f8 David Howells 2022-04-05  59  void rxrpc_get_txbuf(struct rxrpc_txbuf *txb, enum rxrpc_txbuf_trace what)
-02a1935640f8f8 David Howells 2022-04-05  60  {
-02a1935640f8f8 David Howells 2022-04-05 @61  	int r;
-02a1935640f8f8 David Howells 2022-04-05  62  
-02a1935640f8f8 David Howells 2022-04-05  63  	__refcount_inc(&txb->ref, &r);
-02a1935640f8f8 David Howells 2022-04-05  64  	trace_rxrpc_txbuf(txb->debug_id, txb->call_debug_id, txb->seq, r + 1, what);
-02a1935640f8f8 David Howells 2022-04-05  65  }
-02a1935640f8f8 David Howells 2022-04-05  66  
+d8850969ccefd8 Darrick J. Wong 2022-07-14  299  
+d8850969ccefd8 Darrick J. Wong 2022-07-14  300  /* Exchange the contents of two files. */
+d8850969ccefd8 Darrick J. Wong 2022-07-14  301  int
+d8850969ccefd8 Darrick J. Wong 2022-07-14  302  xfs_xchg_range(
+d8850969ccefd8 Darrick J. Wong 2022-07-14  303  	struct xfs_inode		*ip1,
+d8850969ccefd8 Darrick J. Wong 2022-07-14  304  	struct xfs_inode		*ip2,
+d8850969ccefd8 Darrick J. Wong 2022-07-14  305  	const struct file_xchg_range	*fxr,
+d8850969ccefd8 Darrick J. Wong 2022-07-14  306  	unsigned int			xchg_flags)
+d8850969ccefd8 Darrick J. Wong 2022-07-14  307  {
+d8850969ccefd8 Darrick J. Wong 2022-07-14  308  	struct xfs_mount		*mp = ip1->i_mount;
+d8850969ccefd8 Darrick J. Wong 2022-07-14  309  	struct xfs_swapext_req		req = {
+d8850969ccefd8 Darrick J. Wong 2022-07-14  310  		.ip1			= ip1,
+d8850969ccefd8 Darrick J. Wong 2022-07-14  311  		.ip2			= ip2,
+d8850969ccefd8 Darrick J. Wong 2022-07-14  312  		.whichfork		= XFS_DATA_FORK,
+d8850969ccefd8 Darrick J. Wong 2022-07-14  313  		.startoff1		= XFS_B_TO_FSBT(mp, fxr->file1_offset),
+d8850969ccefd8 Darrick J. Wong 2022-07-14  314  		.startoff2		= XFS_B_TO_FSBT(mp, fxr->file2_offset),
+d8850969ccefd8 Darrick J. Wong 2022-07-14  315  		.blockcount		= XFS_B_TO_FSB(mp, fxr->length),
+d8850969ccefd8 Darrick J. Wong 2022-07-14  316  	};
+d8850969ccefd8 Darrick J. Wong 2022-07-14 @317  	struct xfs_trans		*tp;
 
 -- 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
 
---hqK69QA27ZtdJ46p
+--UizOmD8scL1ExcS/
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename=config
 
 #
 # Automatically generated file; DO NOT EDIT.
-# Linux/arm 6.1.0-rc2 Kernel Configuration
+# Linux/arm 6.1.0-rc4 Kernel Configuration
 #
 CONFIG_CC_VERSION_TEXT="arm-linux-gnueabi-gcc (GCC) 12.1.0"
 CONFIG_CC_IS_GCC=y
@@ -4188,7 +4196,7 @@ CONFIG_USB_EHCI_HCD_PLATFORM=y
 # CONFIG_USB_OXU210HP_HCD is not set
 # CONFIG_USB_ISP116X_HCD is not set
 # CONFIG_USB_ISP1362_HCD is not set
-# CONFIG_USB_FOTG210_HCD is not set
+CONFIG_USB_FOTG210_HCD=y
 CONFIG_USB_MAX3421_HCD=y
 CONFIG_USB_OHCI_HCD=y
 # CONFIG_USB_OHCI_HCD_SPEAR is not set
@@ -6181,7 +6189,6 @@ CONFIG_XFS_FS=y
 # CONFIG_XFS_QUOTA is not set
 # CONFIG_XFS_POSIX_ACL is not set
 # CONFIG_XFS_RT is not set
-# CONFIG_XFS_ONLINE_SCRUB is not set
 # CONFIG_XFS_WARN is not set
 # CONFIG_XFS_DEBUG is not set
 # CONFIG_GFS2_FS is not set
@@ -7084,4 +7091,4 @@ CONFIG_MEMTEST=y
 # CONFIG_WARN_ABI_ERRORS is not set
 # end of Kernel hacking
 
---hqK69QA27ZtdJ46p--
+--UizOmD8scL1ExcS/--
