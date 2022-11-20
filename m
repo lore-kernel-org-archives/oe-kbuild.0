@@ -1,394 +1,230 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CA88623
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBAE3627
 	for <oe-kbuild@lists.linux.dev>; Sun, 20 Nov 2022 01:50:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1668909042; x=1700445042;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=rAxon7XHdhV+BRRvAVgHqXCc5+afqVQh69rkhelbzPA=;
-  b=ToU1sFOhRD3I+LegzH4amTNi9NaYSKRJy5F81GFrCCxP2nQWNzhBEyQ0
-   npoqFyYzxPnaaG1CB/Cz+94WgB1r1Onf2ctCdaVNo3LJCY06hk6EuZgSZ
-   f/qgppHm51ngR4rqnoHM+4QcNtEmsSrzufYN0YtFXviFu9Z5y3uc5seh7
-   GhvY34Txk9F4tNoYxz/iAuIibAtEnPVUL88ojQBxRuljQgppO4cW+Mm8g
-   Cg05Y2zuT6P/PXOC0ZbEHZ9Ks47qNP4ivYFytu8oIxdh/t7iYDPYBcL5I
-   JtiCjVB8q11/GmaGaewqiiug8OW3NGNpEtCGf3LjCfnLifkCj4Y39eF4p
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10536"; a="315179730"
+  bh=S+uzAPVQC6V3VBcqgLYvP8+gWKQ0FrQx0Dj5zdIogfE=;
+  b=CviT0NvShxFEXk9Tpx1YkVEDQ1etdqG/RRnRuQpfs1tubgaHpxqYl2ot
+   dat1zBVtZEJ35k8zDEtNePdVhr4b60eR1zoncvd8GJbB5ClL/qy80c/F/
+   gr+MJXHZdRdTuOGL9TNoGt/sOxKW82iV1ZPZXCkM5rZzUhXJggjUORSn7
+   UWE7LeSh4wZgoF65e166j65wy0QKcpderQtya/GLwiy9pUA5q46CnJseJ
+   WY2BbV9w2BsLfAQCaTGVpjfC/9dXeNal8Ire4+XR2aeRigU5egjIsrPVf
+   VN9MQE+JQ2TW+rTd47AOubXkd+iHwiheyHlxGvQyaPP3r+ymxgttyrvDt
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10536"; a="314509813"
 X-IronPort-AV: E=Sophos;i="5.96,178,1665471600"; 
-   d="scan'208";a="315179730"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2022 17:50:42 -0800
+   d="scan'208";a="314509813"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2022 17:50:42 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10536"; a="815323110"
+X-IronPort-AV: E=McAfee;i="6500,9779,10536"; a="783058926"
 X-IronPort-AV: E=Sophos;i="5.96,178,1665471600"; 
-   d="scan'208";a="815323110"
+   d="scan'208";a="783058926"
 Received: from lkp-server01.sh.intel.com (HELO 55744f5052f8) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 19 Nov 2022 17:50:40 -0800
+  by fmsmga001.fm.intel.com with ESMTP; 19 Nov 2022 17:50:40 -0800
 Received: from kbuild by 55744f5052f8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1owZTj-0002Xx-1v;
+	id 1owZTj-0002Y2-27;
 	Sun, 20 Nov 2022 01:50:39 +0000
-Date: Sun, 20 Nov 2022 09:49:43 +0800
+Date: Sun, 20 Nov 2022 09:49:46 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [tip:perf/core 1/6] kernel/events/core.c:4232:2: warning: Value
- stored to 'task_ctx' is never read [clang-analyzer-deadcode.DeadStores]
-Message-ID: <202211200937.EqnRtiPv-lkp@intel.com>
+Subject: kernel/sysctl.c:1256:48: warning: use of uninitialized value 'tmp'
+ [CWE-457]
+Message-ID: <202211200940.UOtb4Rtz-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8xQB89fgtW/qkYZC"
+Content-Type: multipart/mixed; boundary="YEtuokLpyrqglY+o"
 Content-Disposition: inline
 
 
---8xQB89fgtW/qkYZC
+--YEtuokLpyrqglY+o
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "low confidence static check warning: kernel/events/core.c:4232:2: warning: Value stored to 'task_ctx' is never read [clang-analyzer-deadcode.DeadStores]"
+:::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "low confidence static check warning: kernel/sysctl.c:1256:48: warning: use of uninitialized value 'tmp' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]"
 :::::: 
 
 BCC: lkp@intel.com
-CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-CC: x86@kernel.org
-TO: Peter Zijlstra <peterz@infradead.org>
-CC: Ravi Bangoria <ravi.bangoria@amd.com>
+TO: Yuwei Wang <wangyuweihx@gmail.com>
+CC: Paolo Abeni <pabeni@redhat.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git perf/core
-head:   e8d7a90c08ce963c592fb49845f2ccc606a2ac21
-commit: bd27568117664b8b3e259721393df420ed51f57b [1/6] perf: Rewrite core context handling
-:::::: branch date: 4 days ago
-:::::: commit date: 3 weeks ago
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   b6e7fdfd6f6a8bf88fcdb4a45da52c42ba238c25
+commit: c381d02b2fd5f82d2207db1b9b25ff60d0d9c27c sysctl: add proc_dointvec_ms_jiffies_minmax
+date:   5 months ago
+:::::: branch date: 9 hours ago
+:::::: commit date: 5 months ago
 config: arm-randconfig-c002-20221118
-compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project bbe6bd724a6335e497c7edaed191d37a828d0390)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        # https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git/commit/?id=bd27568117664b8b3e259721393df420ed51f57b
-        git remote add tip https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git
-        git fetch --no-tags tip perf/core
-        git checkout bd27568117664b8b3e259721393df420ed51f57b
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=c381d02b2fd5f82d2207db1b9b25ff60d0d9c27c
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout c381d02b2fd5f82d2207db1b9b25ff60d0d9c27c
         # save the config file
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=arm clang-analyzer 
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross ARCH=arm KBUILD_USERCFLAGS='-fanalyzer -Wno-error' 
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-clang_analyzer warnings: (new ones prefixed by >>)
-           ^
-   lib/maple_tree.c:4016:15: note: Field 'entry' is non-null
-           if (!wr_mas->entry) {
-                        ^
-   lib/maple_tree.c:4016:2: note: Taking false branch
-           if (!wr_mas->entry) {
-           ^
-   lib/maple_tree.c:4024:6: note: Assuming field 'index' is not equal to 0
-           if (!l_mas.index && r_mas.last == ULONG_MAX) {
-               ^~~~~~~~~~~~
-   lib/maple_tree.c:4024:19: note: Left side of '&&' is false
-           if (!l_mas.index && r_mas.last == ULONG_MAX) {
-                            ^
-   lib/maple_tree.c:4033:6: note: Assuming field 'offset' is > field 'node_end'
-           if (r_mas.offset <= r_wr_mas.node_end)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/maple_tree.c:4033:2: note: Taking false branch
-           if (r_mas.offset <= r_wr_mas.node_end)
-           ^
-   lib/maple_tree.c:4046:9: note: Calling 'mas_spanning_rebalance'
-           return mas_spanning_rebalance(mas, &mast, height + 1);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/maple_tree.c:2997:8: note: Assuming field 'min' is 0
-           if (!(mast->orig_l->min && mast->orig_r->max == ULONG_MAX) &&
-                 ^~~~~~~~~~~~~~~~~
-   lib/maple_tree.c:2997:26: note: Left side of '&&' is false
-           if (!(mast->orig_l->min && mast->orig_r->max == ULONG_MAX) &&
-                                   ^
-   lib/maple_tree.c:2997:6: note: Left side of '&&' is true
-           if (!(mast->orig_l->min && mast->orig_r->max == ULONG_MAX) &&
-               ^
-   lib/maple_tree.c:2998:6: note: Assuming the condition is false
-               unlikely(mast->bn->b_end <= mt_min_slots[mast->bn->type]))
-               ^
-   include/linux/compiler.h:78:22: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/maple_tree.c:2997:2: note: Taking false branch
-           if (!(mast->orig_l->min && mast->orig_r->max == ULONG_MAX) &&
-           ^
-   lib/maple_tree.c:3014:2: note: Loop condition is false. Execution continues on line 3064
-           while (count--) {
-           ^
-   lib/maple_tree.c:3069:6: note: 'middle' is null
-           if (middle)
-               ^~~~~~
-   lib/maple_tree.c:3069:2: note: Taking false branch
-           if (middle)
-           ^
-   lib/maple_tree.c:3072:6: note: 'right' is null
-           if (right)
-               ^~~~~
-   lib/maple_tree.c:3072:2: note: Taking false branch
-           if (right)
-           ^
-   lib/maple_tree.c:3075:6: note: Assuming the condition is false
-           if (mas_is_root_limits(mast->l)) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/maple_tree.c:3075:2: note: Taking false branch
-           if (mas_is_root_limits(mast->l)) {
-           ^
-   lib/maple_tree.c:3082:2: note: Taking false branch
-           if (!mte_dead_node(mast->orig_l->node))
-           ^
-   lib/maple_tree.c:3095:2: note: Address of stack memory associated with local variable 'r_mas' is still referred to by the stack variable 'mast' upon returning to the caller.  This will be a dangling reference
-           return mast->bn->b_end;
-           ^
-   lib/maple_tree.c:5014:5: warning: Value stored to 'count' is never read [clang-analyzer-deadcode.DeadStores]
-                                   count = mt_slots[type];
-                                   ^       ~~~~~~~~~~~~~~
-   lib/maple_tree.c:5014:5: note: Value stored to 'count' is never read
-                                   count = mt_slots[type];
-                                   ^       ~~~~~~~~~~~~~~
-   Suppressed 18 warnings (16 in non-user code, 2 with check filters).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   16 warnings generated.
-   Suppressed 16 warnings (16 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   16 warnings generated.
-   Suppressed 16 warnings (16 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   16 warnings generated.
-   Suppressed 16 warnings (16 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   18 warnings generated.
-   tools/lib/bpf/relo_core.c:1554:2: warning: Value stored to 'local_t' is never read [clang-analyzer-deadcode.DeadStores]
-           local_t = btf_type_by_id(local_btf, local_id);
-           ^         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   tools/lib/bpf/relo_core.c:1554:2: note: Value stored to 'local_t' is never read
-           local_t = btf_type_by_id(local_btf, local_id);
-           ^         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   tools/lib/bpf/relo_core.c:1555:2: warning: Value stored to 'targ_t' is never read [clang-analyzer-deadcode.DeadStores]
-           targ_t = btf_type_by_id(targ_btf, targ_id);
-           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   tools/lib/bpf/relo_core.c:1555:2: note: Value stored to 'targ_t' is never read
-           targ_t = btf_type_by_id(targ_btf, targ_id);
-           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 16 warnings (16 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   22 warnings generated.
->> kernel/events/core.c:4232:2: warning: Value stored to 'task_ctx' is never read [clang-analyzer-deadcode.DeadStores]
-           task_ctx = cpuctx->task_ctx;
-           ^          ~~~~~~~~~~~~~~~~
-   kernel/events/core.c:4232:2: note: Value stored to 'task_ctx' is never read
-           task_ctx = cpuctx->task_ctx;
-           ^          ~~~~~~~~~~~~~~~~
->> kernel/events/core.c:4738:2: warning: Value stored to 'err' is never read [clang-analyzer-deadcode.DeadStores]
-           err = -EINVAL;
-           ^     ~~~~~~~
-   kernel/events/core.c:4738:2: note: Value stored to 'err' is never read
-           err = -EINVAL;
-           ^     ~~~~~~~
-   kernel/events/core.c:9481:23: warning: Assigned value is garbage or undefined [clang-analyzer-core.uninitialized.Assign]
-                   event->pending_addr = data->addr;
-                                       ^
-   kernel/events/core.c:10443:2: note: Calling 'perf_sample_data_init'
-           perf_sample_data_init(&sample, bp->attr.bp_addr, 0);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/perf_event.h:1158:6: note: Assuming 'addr' is 0
-           if (addr) {
-               ^~~~
-   include/linux/perf_event.h:1158:2: note: Taking false branch
-           if (addr) {
-           ^
-   include/linux/perf_event.h:1162:1: note: Returning without writing to 'data->addr'
-   }
-   ^
-   kernel/events/core.c:10443:2: note: Returning from 'perf_sample_data_init'
-           perf_sample_data_init(&sample, bp->attr.bp_addr, 0);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/events/core.c:10445:6: note: Assuming field 'state' is 0
-           if (!bp->hw.state && !perf_exclude_event(bp, regs))
-               ^~~~~~~~~~~~~
-   kernel/events/core.c:10445:6: note: Left side of '&&' is true
-   kernel/events/core.c:10445:2: note: Taking true branch
-           if (!bp->hw.state && !perf_exclude_event(bp, regs))
-           ^
-   kernel/events/core.c:10446:3: note: Calling 'perf_swevent_event'
-                   perf_swevent_event(bp, 1, &sample, regs);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/events/core.c:9581:7: note: 'regs' is non-null
-           if (!regs)
-                ^~~~
-   kernel/events/core.c:9581:2: note: Taking false branch
-           if (!regs)
-           ^
-   kernel/events/core.c:9584:2: note: Taking false branch
-           if (!is_sampling_event(event))
-           ^
-   kernel/events/core.c:9587:7: note: Assuming the condition is true
-           if ((event->attr.sample_type & PERF_SAMPLE_PERIOD) && !event->attr.freq) {
-                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/events/core.c:9587:6: note: Left side of '&&' is true
-           if ((event->attr.sample_type & PERF_SAMPLE_PERIOD) && !event->attr.freq) {
-               ^
-   kernel/events/core.c:9587:56: note: Assuming field 'freq' is 0
-           if ((event->attr.sample_type & PERF_SAMPLE_PERIOD) && !event->attr.freq) {
-                                                                 ^~~~~~~~~~~~~~~~~
-   kernel/events/core.c:9587:2: note: Taking true branch
-           if ((event->attr.sample_type & PERF_SAMPLE_PERIOD) && !event->attr.freq) {
-           ^
-   kernel/events/core.c:9589:10: note: Calling 'perf_swevent_overflow'
-                   return perf_swevent_overflow(event, 1, data, regs);
-                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/events/core.c:9554:7: note: 'overflow' is 1
-           if (!overflow)
-                ^~~~~~~~
-   kernel/events/core.c:9554:2: note: Taking false branch
-           if (!overflow)
-           ^
-   kernel/events/core.c:9557:6: note: Assuming the condition is false
-           if (hwc->interrupts == MAX_INTERRUPTS)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/events/core.c:9557:2: note: Taking false branch
-           if (hwc->interrupts == MAX_INTERRUPTS)
-           ^
-   kernel/events/core.c:9560:2: note: Loop condition is true.  Entering loop body
-           for (; overflow; overflow--) {
-           ^
-   kernel/events/core.c:9561:7: note: Calling '__perf_event_overflow'
-                   if (__perf_event_overflow(event, throttle,
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/events/core.c:9454:2: note: Taking false branch
-           if (unlikely(!is_sampling_event(event)))
-           ^
-   kernel/events/core.c:9465:6: note: Assuming 'events' is 0
-           if (events && atomic_dec_and_test(&event->event_limit)) {
-               ^~~~~~
-   kernel/events/core.c:9465:13: note: Left side of '&&' is false
-           if (events && atomic_dec_and_test(&event->event_limit)) {
-                      ^
-   kernel/events/core.c:9471:6: note: Assuming field 'sigtrap' is not equal to 0
-           if (event->attr.sigtrap) {
-               ^~~~~~~~~~~~~~~~~~~
-   kernel/events/core.c:9471:2: note: Taking true branch
-           if (event->attr.sigtrap) {
-           ^
-   kernel/events/core.c:9476:16: note: Assuming field 'pending_sigtrap' is not equal to 0
-                   WARN_ON_ONCE(event->pending_sigtrap && event->attr.exclude_kernel);
-                                ^
-   include/asm-generic/bug.h:180:41: note: expanded from macro 'WARN_ON_ONCE'
-   #define WARN_ON_ONCE(condition) WARN_ON(condition)
-                                           ^~~~~~~~~
-   include/asm-generic/bug.h:167:25: note: expanded from macro 'WARN_ON'
-           int __ret_warn_on = !!(condition);                              \
-                                  ^~~~~~~~~
-   kernel/events/core.c:9476:16: note: Left side of '&&' is true
+gcc_analyzer warnings: (new ones prefixed by >>)
+   kernel/sysctl.c: In function 'do_proc_dointvec_ms_jiffies_minmax_conv':
+>> kernel/sysctl.c:1256:48: warning: use of uninitialized value 'tmp' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+    1256 |                 if ((param->min && *param->min > tmp) ||
+         |                                    ~~~~~~~~~~~~^~~~~
+     'do_proc_dointvec_ms_jiffies_minmax_conv': events 1-8
+       |
+       | 1243 |         int tmp, ret;
+       |      |             ^~~
+       |      |             |
+       |      |             (1) region created on stack here
+       |......
+       | 1252 |         if (ret)
+       |      |            ~ 
+       |      |            |
+       |      |            (2) following 'false' branch (when 'ret == 0')...
+       |......
+       | 1255 |         if (write) {
+       |      |         ~~ ~ 
+       |      |         |  |
+       |      |         |  (4) following 'true' branch (when 'write != 0')...
+       |      |         (3) ...to here
+       | 1256 |                 if ((param->min && *param->min > tmp) ||
+       |      |                 ~~ ~               ~~~~~~~~~~~~~~~~~
+       |      |                 |  |               |           |
+       |      |                 |  |               |           (8) use of uninitialized value 'tmp' here
+       |      |                 |  |               (7) ...to here
+       |      |                 |  (6) following 'true' branch...
+       |      |                 (5) ...to here
+       |
+   kernel/sysctl.c:1257:60: warning: use of uninitialized value 'tmp' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+    1257 |                                 (param->max && *param->max < tmp))
+         |                                                ~~~~~~~~~~~~^~~~~
+     'do_proc_dointvec_ms_jiffies_minmax_conv': events 1-8
+       |
+       | 1243 |         int tmp, ret;
+       |      |             ^~~
+       |      |             |
+       |      |             (1) region created on stack here
+       |......
+       | 1252 |         if (ret)
+       |      |            ~ 
+       |      |            |
+       |      |            (2) following 'false' branch (when 'ret == 0')...
+       |......
+       | 1255 |         if (write) {
+       |      |         ~~ ~ 
+       |      |         |  |
+       |      |         |  (4) following 'true' branch (when 'write != 0')...
+       |      |         (3) ...to here
+       | 1256 |                 if ((param->min && *param->min > tmp) ||
+       |      |                 ~~  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |                 |                                     |
+       |      |                 (5) ...to here                        (6) following 'true' branch...
+       | 1257 |                                 (param->max && *param->max < tmp))
+       |      |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |                                                |           |
+       |      |                                                |           (8) use of uninitialized value 'tmp' here
+       |      |                                                (7) ...to here
+       |
+   kernel/sysctl.c:1259:23: warning: use of uninitialized value 'tmp' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+    1259 |                 *valp = tmp;
+         |                 ~~~~~~^~~~~
+     'do_proc_dointvec_ms_jiffies_minmax_conv': events 1-6
+       |
+       | 1243 |         int tmp, ret;
+       |      |             ^~~
+       |      |             |
+       |      |             (1) region created on stack here
+       |......
+       | 1252 |         if (ret)
+       |      |            ~ 
+       |      |            |
+       |      |            (2) following 'false' branch (when 'ret == 0')...
+       |......
+       | 1255 |         if (write) {
+       |      |         ~~ ~ 
+       |      |         |  |
+       |      |         |  (4) following 'true' branch (when 'write != 0')...
+       |      |         (3) ...to here
+       | 1256 |                 if ((param->min && *param->min > tmp) ||
+       |      |                 ~~
+       |      |                 |
+       |      |                 (5) ...to here
+       |......
+       | 1259 |                 *valp = tmp;
+       |      |                 ~~~~~~~~~~~
+       |      |                       |
+       |      |                       (6) use of uninitialized value 'tmp' here
+       |
 
-vim +/task_ctx +4232 kernel/events/core.c
+vim +/tmp +1256 kernel/sysctl.c
 
-8d5bce0c37fa10 kernel/events/core.c  Peter Zijlstra   2018-03-09  4212  
-bd27568117664b kernel/events/core.c  Peter Zijlstra   2022-10-08  4213  static bool perf_rotate_context(struct perf_cpu_pmu_context *cpc)
-8d5bce0c37fa10 kernel/events/core.c  Peter Zijlstra   2018-03-09  4214  {
-bd27568117664b kernel/events/core.c  Peter Zijlstra   2022-10-08  4215  	struct perf_cpu_context *cpuctx = this_cpu_ptr(&perf_cpu_context);
-bd27568117664b kernel/events/core.c  Peter Zijlstra   2022-10-08  4216  	struct perf_event_pmu_context *cpu_epc, *task_epc = NULL;
-8d5bce0c37fa10 kernel/events/core.c  Peter Zijlstra   2018-03-09  4217  	struct perf_event *cpu_event = NULL, *task_event = NULL;
-fd7d55172d1e2e kernel/events/core.c  Ian Rogers       2019-06-01  4218  	struct perf_event_context *task_ctx = NULL;
-fd7d55172d1e2e kernel/events/core.c  Ian Rogers       2019-06-01  4219  	int cpu_rotate, task_rotate;
-bd27568117664b kernel/events/core.c  Peter Zijlstra   2022-10-08  4220  	struct pmu *pmu;
-8d5bce0c37fa10 kernel/events/core.c  Peter Zijlstra   2018-03-09  4221  
-8d5bce0c37fa10 kernel/events/core.c  Peter Zijlstra   2018-03-09  4222  	/*
-8d5bce0c37fa10 kernel/events/core.c  Peter Zijlstra   2018-03-09  4223  	 * Since we run this from IRQ context, nobody can install new
-8d5bce0c37fa10 kernel/events/core.c  Peter Zijlstra   2018-03-09  4224  	 * events, thus the event count values are stable.
-8d5bce0c37fa10 kernel/events/core.c  Peter Zijlstra   2018-03-09  4225  	 */
-7fc23a53807970 kernel/perf_counter.c Peter Zijlstra   2009-05-08  4226  
-bd27568117664b kernel/events/core.c  Peter Zijlstra   2022-10-08  4227  	cpu_epc = &cpc->epc;
-bd27568117664b kernel/events/core.c  Peter Zijlstra   2022-10-08  4228  	pmu = cpu_epc->pmu;
-bd27568117664b kernel/events/core.c  Peter Zijlstra   2022-10-08  4229  	task_epc = cpc->task_epc;
-bd27568117664b kernel/events/core.c  Peter Zijlstra   2022-10-08  4230  
-bd27568117664b kernel/events/core.c  Peter Zijlstra   2022-10-08  4231  	cpu_rotate = cpu_epc->rotate_necessary;
-fd7d55172d1e2e kernel/events/core.c  Ian Rogers       2019-06-01 @4232  	task_ctx = cpuctx->task_ctx;
-bd27568117664b kernel/events/core.c  Peter Zijlstra   2022-10-08  4233  	task_rotate = task_epc ? task_epc->rotate_necessary : 0;
-9717e6cd3db22e kernel/perf_event.c   Peter Zijlstra   2010-01-28  4234  
-8d5bce0c37fa10 kernel/events/core.c  Peter Zijlstra   2018-03-09  4235  	if (!(cpu_rotate || task_rotate))
-8d5bce0c37fa10 kernel/events/core.c  Peter Zijlstra   2018-03-09  4236  		return false;
-0f5a2601284237 kernel/events/core.c  Peter Zijlstra   2011-11-16  4237  
-facc43071cc0d4 kernel/events/core.c  Peter Zijlstra   2011-04-09  4238  	perf_ctx_lock(cpuctx, cpuctx->task_ctx);
-bd27568117664b kernel/events/core.c  Peter Zijlstra   2022-10-08  4239  	perf_pmu_disable(pmu);
-0f5a2601284237 kernel/events/core.c  Peter Zijlstra   2011-11-16  4240  
-8d5bce0c37fa10 kernel/events/core.c  Peter Zijlstra   2018-03-09  4241  	if (task_rotate)
-bd27568117664b kernel/events/core.c  Peter Zijlstra   2022-10-08  4242  		task_event = ctx_event_to_rotate(task_epc);
-8d5bce0c37fa10 kernel/events/core.c  Peter Zijlstra   2018-03-09  4243  	if (cpu_rotate)
-bd27568117664b kernel/events/core.c  Peter Zijlstra   2022-10-08  4244  		cpu_event = ctx_event_to_rotate(cpu_epc);
-8703a7cfe148f7 kernel/events/core.c  Peter Zijlstra   2017-11-13  4245  
-8d5bce0c37fa10 kernel/events/core.c  Peter Zijlstra   2018-03-09  4246  	/*
-8d5bce0c37fa10 kernel/events/core.c  Peter Zijlstra   2018-03-09  4247  	 * As per the order given at ctx_resched() first 'pop' task flexible
-8d5bce0c37fa10 kernel/events/core.c  Peter Zijlstra   2018-03-09  4248  	 * and then, if needed CPU flexible.
-8d5bce0c37fa10 kernel/events/core.c  Peter Zijlstra   2018-03-09  4249  	 */
-bd27568117664b kernel/events/core.c  Peter Zijlstra   2022-10-08  4250  	if (task_event || (task_epc && cpu_event)) {
-bd27568117664b kernel/events/core.c  Peter Zijlstra   2022-10-08  4251  		update_context_time(task_epc->ctx);
-bd27568117664b kernel/events/core.c  Peter Zijlstra   2022-10-08  4252  		__pmu_ctx_sched_out(task_epc, EVENT_FLEXIBLE);
-bd27568117664b kernel/events/core.c  Peter Zijlstra   2022-10-08  4253  	}
-235c7fc7c500e4 kernel/perf_counter.c Ingo Molnar      2008-12-21  4254  
-bd27568117664b kernel/events/core.c  Peter Zijlstra   2022-10-08  4255  	if (cpu_event) {
-bd27568117664b kernel/events/core.c  Peter Zijlstra   2022-10-08  4256  		update_context_time(&cpuctx->ctx);
-bd27568117664b kernel/events/core.c  Peter Zijlstra   2022-10-08  4257  		__pmu_ctx_sched_out(cpu_epc, EVENT_FLEXIBLE);
-8d5bce0c37fa10 kernel/events/core.c  Peter Zijlstra   2018-03-09  4258  		rotate_ctx(&cpuctx->ctx, cpu_event);
-bd27568117664b kernel/events/core.c  Peter Zijlstra   2022-10-08  4259  		__pmu_ctx_sched_in(&cpuctx->ctx, pmu);
-bd27568117664b kernel/events/core.c  Peter Zijlstra   2022-10-08  4260  	}
-0793a61d4df8da kernel/perf_counter.c Thomas Gleixner  2008-12-04  4261  
-bd27568117664b kernel/events/core.c  Peter Zijlstra   2022-10-08  4262  	if (task_event)
-bd27568117664b kernel/events/core.c  Peter Zijlstra   2022-10-08  4263  		rotate_ctx(task_epc->ctx, task_event);
-0f5a2601284237 kernel/events/core.c  Peter Zijlstra   2011-11-16  4264  
-bd27568117664b kernel/events/core.c  Peter Zijlstra   2022-10-08  4265  	if (task_event || (task_epc && cpu_event))
-bd27568117664b kernel/events/core.c  Peter Zijlstra   2022-10-08  4266  		__pmu_ctx_sched_in(task_epc->ctx, pmu);
-bd27568117664b kernel/events/core.c  Peter Zijlstra   2022-10-08  4267  
-bd27568117664b kernel/events/core.c  Peter Zijlstra   2022-10-08  4268  	perf_pmu_enable(pmu);
-0f5a2601284237 kernel/events/core.c  Peter Zijlstra   2011-11-16  4269  	perf_ctx_unlock(cpuctx, cpuctx->task_ctx);
-9e6302056f8029 kernel/events/core.c  Stephane Eranian 2013-04-03  4270  
-8d5bce0c37fa10 kernel/events/core.c  Peter Zijlstra   2018-03-09  4271  	return true;
-e9d2b064149ff7 kernel/perf_event.c   Peter Zijlstra   2010-09-17  4272  }
-e9d2b064149ff7 kernel/perf_event.c   Peter Zijlstra   2010-09-17  4273  
-
-:::::: The code at line 4232 was first introduced by commit
-:::::: fd7d55172d1e2e501e6da0a5c1de25f06612dc2e perf/cgroups: Don't rotate events for cgroups unnecessarily
-
-:::::: TO: Ian Rogers <irogers@google.com>
-:::::: CC: Ingo Molnar <mingo@kernel.org>
+f461d2dcd511c0 Christoph Hellwig 2020-04-24  1239  
+c381d02b2fd5f8 Yuwei Wang        2022-06-29  1240  static int do_proc_dointvec_ms_jiffies_minmax_conv(bool *negp, unsigned long *lvalp,
+c381d02b2fd5f8 Yuwei Wang        2022-06-29  1241  						int *valp, int write, void *data)
+c381d02b2fd5f8 Yuwei Wang        2022-06-29  1242  {
+c381d02b2fd5f8 Yuwei Wang        2022-06-29  1243  	int tmp, ret;
+c381d02b2fd5f8 Yuwei Wang        2022-06-29  1244  	struct do_proc_dointvec_minmax_conv_param *param = data;
+c381d02b2fd5f8 Yuwei Wang        2022-06-29  1245  	/*
+c381d02b2fd5f8 Yuwei Wang        2022-06-29  1246  	 * If writing, first do so via a temporary local int so we can
+c381d02b2fd5f8 Yuwei Wang        2022-06-29  1247  	 * bounds-check it before touching *valp.
+c381d02b2fd5f8 Yuwei Wang        2022-06-29  1248  	 */
+c381d02b2fd5f8 Yuwei Wang        2022-06-29  1249  	int *ip = write ? &tmp : valp;
+c381d02b2fd5f8 Yuwei Wang        2022-06-29  1250  
+c381d02b2fd5f8 Yuwei Wang        2022-06-29  1251  	ret = do_proc_dointvec_ms_jiffies_conv(negp, lvalp, ip, write, data);
+c381d02b2fd5f8 Yuwei Wang        2022-06-29  1252  	if (ret)
+c381d02b2fd5f8 Yuwei Wang        2022-06-29  1253  		return ret;
+c381d02b2fd5f8 Yuwei Wang        2022-06-29  1254  
+c381d02b2fd5f8 Yuwei Wang        2022-06-29  1255  	if (write) {
+c381d02b2fd5f8 Yuwei Wang        2022-06-29 @1256  		if ((param->min && *param->min > tmp) ||
+c381d02b2fd5f8 Yuwei Wang        2022-06-29  1257  				(param->max && *param->max < tmp))
+c381d02b2fd5f8 Yuwei Wang        2022-06-29  1258  			return -EINVAL;
+c381d02b2fd5f8 Yuwei Wang        2022-06-29  1259  		*valp = tmp;
+c381d02b2fd5f8 Yuwei Wang        2022-06-29  1260  	}
+c381d02b2fd5f8 Yuwei Wang        2022-06-29  1261  	return 0;
+c381d02b2fd5f8 Yuwei Wang        2022-06-29  1262  }
+c381d02b2fd5f8 Yuwei Wang        2022-06-29  1263  
 
 -- 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
 
---8xQB89fgtW/qkYZC
+--YEtuokLpyrqglY+o
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename=config
 
 #
 # Automatically generated file; DO NOT EDIT.
-# Linux/arm 6.1.0-rc2 Kernel Configuration
+# Linux/arm 5.19.0-rc3 Kernel Configuration
 #
-CONFIG_CC_VERSION_TEXT="clang version 16.0.0 (git://gitmirror/llvm_project bbe6bd724a6335e497c7edaed191d37a828d0390)"
-CONFIG_GCC_VERSION=0
-CONFIG_CC_IS_CLANG=y
-CONFIG_CLANG_VERSION=160000
-CONFIG_AS_IS_LLVM=y
-CONFIG_AS_VERSION=160000
-CONFIG_LD_VERSION=0
-CONFIG_LD_IS_LLD=y
-CONFIG_LLD_VERSION=160000
-CONFIG_RUST_IS_AVAILABLE=y
+CONFIG_CC_VERSION_TEXT="arm-linux-gnueabi-gcc (GCC) 12.1.0"
+CONFIG_CC_IS_GCC=y
+CONFIG_GCC_VERSION=120100
+CONFIG_CLANG_VERSION=0
+CONFIG_AS_IS_GNU=y
+CONFIG_AS_VERSION=23800
+CONFIG_LD_IS_BFD=y
+CONFIG_LD_VERSION=23800
+CONFIG_LLD_VERSION=0
+CONFIG_CC_HAS_ASM_GOTO=y
 CONFIG_CC_HAS_ASM_GOTO_OUTPUT=y
-CONFIG_TOOLS_SUPPORT_RELR=y
 CONFIG_CC_HAS_ASM_INLINE=y
 CONFIG_CC_HAS_NO_PROFILE_FN_ATTR=y
 CONFIG_PAHOLE_VERSION=123
@@ -444,8 +280,6 @@ CONFIG_SPARSE_IRQ=y
 
 CONFIG_GENERIC_IRQ_MULTI_HANDLER=y
 CONFIG_GENERIC_CLOCKEVENTS=y
-CONFIG_CONTEXT_TRACKING=y
-CONFIG_CONTEXT_TRACKING_IDLE=y
 
 #
 # Timers subsystem
@@ -506,8 +340,6 @@ CONFIG_RCU_BOOST=y
 CONFIG_RCU_BOOST_DELAY=500
 CONFIG_RCU_EXP_KTHREAD=y
 CONFIG_RCU_NOCB_CPU=y
-# CONFIG_RCU_NOCB_CPU_DEFAULT_ALL is not set
-# CONFIG_RCU_NOCB_CPU_CB_BOOST is not set
 # CONFIG_TASKS_TRACE_RCU_READ_MB is not set
 # end of RCU Subsystem
 
@@ -521,11 +353,11 @@ CONFIG_GENERIC_SCHED_CLOCK=y
 #
 # end of Scheduler features
 
-CONFIG_CC_IMPLICIT_FALLTHROUGH="-Wimplicit-fallthrough"
+CONFIG_CC_IMPLICIT_FALLTHROUGH="-Wimplicit-fallthrough=5"
 CONFIG_GCC12_NO_ARRAY_BOUNDS=y
+CONFIG_CC_NO_ARRAY_BOUNDS=y
 CONFIG_CGROUPS=y
 CONFIG_PAGE_COUNTER=y
-# CONFIG_CGROUP_FAVOR_DYNMODS is not set
 CONFIG_MEMCG=y
 CONFIG_MEMCG_KMEM=y
 CONFIG_CGROUP_SCHED=y
@@ -607,6 +439,7 @@ CONFIG_TRACEPOINTS=y
 # end of General setup
 
 CONFIG_ARM=y
+CONFIG_ARM_HAS_SG_CHAIN=y
 CONFIG_ARM_DMA_USE_IOMMU=y
 CONFIG_ARM_DMA_IOMMU_ALIGNMENT=8
 CONFIG_SYS_SUPPORTS_APM_EMULATION=y
@@ -617,8 +450,7 @@ CONFIG_FIX_EARLYCON_MEM=y
 CONFIG_GENERIC_HWEIGHT=y
 CONFIG_GENERIC_CALIBRATE_DELAY=y
 CONFIG_ARCH_SUPPORTS_UPROBES=y
-# CONFIG_ARM_PATCH_PHYS_VIRT is not set
-CONFIG_PHYS_OFFSET=0
+CONFIG_ARM_PATCH_PHYS_VIRT=y
 CONFIG_PGTABLE_LEVELS=2
 
 #
@@ -627,10 +459,12 @@ CONFIG_PGTABLE_LEVELS=2
 CONFIG_MMU=y
 CONFIG_ARCH_MMAP_RND_BITS_MIN=8
 CONFIG_ARCH_MMAP_RND_BITS_MAX=15
-# CONFIG_ARCH_MULTIPLATFORM is not set
+CONFIG_ARCH_MULTIPLATFORM=y
+# CONFIG_ARCH_FOOTBRIDGE is not set
+# CONFIG_ARCH_SA1100 is not set
 
 #
-# Platform selection
+# Multiple platform selection
 #
 
 #
@@ -639,7 +473,7 @@ CONFIG_ARCH_MMAP_RND_BITS_MAX=15
 # CONFIG_ARCH_MULTI_V6 is not set
 CONFIG_ARCH_MULTI_V7=y
 CONFIG_ARCH_MULTI_V6_V7=y
-# end of Platform selection
+# end of Multiple platform selection
 
 # CONFIG_ARCH_VIRT is not set
 # CONFIG_ARCH_AIROHA is not set
@@ -651,6 +485,7 @@ CONFIG_ARCH_MULTI_V6_V7=y
 # CONFIG_ARCH_BCM is not set
 # CONFIG_ARCH_BERLIN is not set
 # CONFIG_ARCH_DIGICOLOR is not set
+# CONFIG_ARCH_DOVE is not set
 # CONFIG_ARCH_EXYNOS is not set
 # CONFIG_ARCH_HIGHBANK is not set
 # CONFIG_ARCH_HISI is not set
@@ -686,7 +521,6 @@ CONFIG_ARCH_MULTI_V6_V7=y
 # CONFIG_PLAT_SPEAR is not set
 # CONFIG_ARCH_STI is not set
 # CONFIG_ARCH_STM32 is not set
-# CONFIG_ARCH_SUNPLUS is not set
 # CONFIG_ARCH_SUNXI is not set
 # CONFIG_ARCH_TEGRA is not set
 # CONFIG_ARCH_UNIPHIER is not set
@@ -722,6 +556,7 @@ CONFIG_ARM_THUMB=y
 CONFIG_ARM_VIRT_EXT=y
 # CONFIG_SWP_EMULATE is not set
 CONFIG_CPU_LITTLE_ENDIAN=y
+# CONFIG_CPU_BIG_ENDIAN is not set
 # CONFIG_CPU_ICACHE_DISABLE is not set
 # CONFIG_CPU_DCACHE_DISABLE is not set
 # CONFIG_CPU_BPREDICT_DISABLE is not set
@@ -744,11 +579,7 @@ CONFIG_ARM_L1_CACHE_SHIFT=6
 CONFIG_ARM_DMA_MEM_BUFFERABLE=y
 CONFIG_ARM_HEAVY_MB=y
 # CONFIG_ARM_ERRATA_430973 is not set
-# CONFIG_ARM_ERRATA_458693 is not set
-# CONFIG_ARM_ERRATA_460075 is not set
 # CONFIG_ARM_ERRATA_720789 is not set
-# CONFIG_ARM_ERRATA_743622 is not set
-# CONFIG_ARM_ERRATA_751472 is not set
 # CONFIG_ARM_ERRATA_754322 is not set
 # CONFIG_ARM_ERRATA_764319 is not set
 # CONFIG_ARM_ERRATA_775420 is not set
@@ -801,7 +632,7 @@ CONFIG_ARCH_SPARSEMEM_ENABLE=y
 CONFIG_HIGHMEM=y
 # CONFIG_HIGHPTE is not set
 CONFIG_CPU_SW_DOMAIN_PAN=y
-CONFIG_ARCH_FORCE_MAX_ORDER=11
+CONFIG_FORCE_MAX_ZONEORDER=11
 CONFIG_ALIGNMENT_TRAP=y
 # CONFIG_UACCESS_WITH_MEMCPY is not set
 CONFIG_PARAVIRT=y
@@ -905,6 +736,7 @@ CONFIG_ARCH_SUSPEND_POSSIBLE=y
 CONFIG_ARCH_HIBERNATION_POSSIBLE=y
 # end of Power management options
 
+# CONFIG_ARM_CRYPTO is not set
 CONFIG_AS_VFP_VMRS_FPINST=y
 
 #
@@ -945,14 +777,13 @@ CONFIG_HAVE_STACKPROTECTOR=y
 CONFIG_STACKPROTECTOR=y
 CONFIG_STACKPROTECTOR_STRONG=y
 CONFIG_LTO_NONE=y
-CONFIG_HAVE_CONTEXT_TRACKING_USER=y
+CONFIG_HAVE_CONTEXT_TRACKING=y
 CONFIG_HAVE_VIRT_CPU_ACCOUNTING_GEN=y
 CONFIG_HAVE_IRQ_TIME_ACCOUNTING=y
 CONFIG_HAVE_MOD_ARCH_SPECIFIC=y
 CONFIG_MODULES_USE_ELF_REL=y
 CONFIG_HAVE_IRQ_EXIT_ON_IRQ_STACK=y
 CONFIG_HAVE_SOFTIRQ_ON_OWN_STACK=y
-CONFIG_SOFTIRQ_ON_OWN_STACK=y
 CONFIG_ARCH_HAS_ELF_RANDOMIZE=y
 CONFIG_HAVE_ARCH_MMAP_RND_BITS=y
 CONFIG_HAVE_EXIT_THREAD=y
@@ -969,6 +800,7 @@ CONFIG_ARCH_OPTIONAL_KERNEL_RWX_DEFAULT=y
 CONFIG_ARCH_HAS_STRICT_KERNEL_RWX=y
 # CONFIG_STRICT_KERNEL_RWX is not set
 CONFIG_ARCH_HAS_STRICT_MODULE_RWX=y
+CONFIG_ARCH_HAS_PHYS_TO_DMA=y
 CONFIG_LOCK_EVENT_COUNTS=y
 CONFIG_ARCH_WANT_LD_ORPHAN_WARN=y
 CONFIG_HAVE_ARCH_PFN_VALID=y
@@ -981,11 +813,14 @@ CONFIG_ARCH_HAS_GCOV_PROFILE_ALL=y
 # end of GCOV-based kernel profiling
 
 CONFIG_HAVE_GCC_PLUGINS=y
+CONFIG_GCC_PLUGINS=y
+# CONFIG_GCC_PLUGIN_LATENT_ENTROPY is not set
 # end of General architecture-dependent options
 
 CONFIG_RT_MUTEXES=y
 CONFIG_BASE_SMALL=0
 # CONFIG_MODULES is not set
+CONFIG_MODULES_TREE_LOOKUP=y
 # CONFIG_BLOCK is not set
 CONFIG_ASN1=y
 CONFIG_UNINLINE_SPIN_UNLOCK=y
@@ -1058,7 +893,6 @@ CONFIG_KMAP_LOCAL=y
 CONFIG_KMAP_LOCAL_NON_LINEAR_PTE_ARRAY=y
 # CONFIG_ANON_VMA_NAME is not set
 CONFIG_USERFAULTFD=y
-# CONFIG_LRU_GEN is not set
 
 #
 # Data Access Monitoring
@@ -1210,7 +1044,6 @@ CONFIG_PCI_ENDPOINT=y
 CONFIG_PCI_ENDPOINT_CONFIGFS=y
 # CONFIG_PCI_EPF_TEST is not set
 # CONFIG_PCI_EPF_NTB is not set
-# CONFIG_PCI_EPF_VNTB is not set
 # end of PCI Endpoint
 
 #
@@ -1321,7 +1154,6 @@ CONFIG_ARM_SCMI_HAVE_SHMEM=y
 CONFIG_ARM_SCMI_TRANSPORT_MAILBOX=y
 # CONFIG_ARM_SCMI_TRANSPORT_VIRTIO is not set
 CONFIG_ARM_SCMI_POWER_DOMAIN=y
-# CONFIG_ARM_SCMI_POWER_CONTROL is not set
 # end of ARM System Control and Management Interface Protocol
 
 # CONFIG_ARM_SCPI_PROTOCOL is not set
@@ -1427,7 +1259,6 @@ CONFIG_SRAM_EXEC=y
 CONFIG_PCI_ENDPOINT_TEST=y
 # CONFIG_XILINX_SDFEC is not set
 # CONFIG_OPEN_DICE is not set
-# CONFIG_VCPU_STALL_DETECTOR is not set
 CONFIG_C2PORT=y
 
 #
@@ -1462,12 +1293,12 @@ CONFIG_UACCE=y
 CONFIG_PVPANIC=y
 # CONFIG_PVPANIC_MMIO is not set
 # CONFIG_PVPANIC_PCI is not set
-# CONFIG_GP_PCI1XXXX is not set
 # end of Misc devices
 
 #
 # SCSI device support
 #
+CONFIG_SCSI_MOD=y
 # end of SCSI device support
 
 CONFIG_FUSION=y
@@ -1651,7 +1482,6 @@ CONFIG_TCG_TIS_CORE=y
 CONFIG_TCG_TIS=y
 CONFIG_TCG_TIS_SPI=y
 # CONFIG_TCG_TIS_SPI_CR50 is not set
-# CONFIG_TCG_TIS_I2C is not set
 # CONFIG_TCG_TIS_SYNQUACER is not set
 # CONFIG_TCG_TIS_I2C_CR50 is not set
 CONFIG_TCG_TIS_I2C_ATMEL=y
@@ -1666,7 +1496,6 @@ CONFIG_XILLYBUS_CLASS=y
 CONFIG_XILLYBUS=y
 CONFIG_XILLYBUS_PCIE=y
 CONFIG_XILLYBUS_OF=y
-CONFIG_RANDOM_TRUST_CPU=y
 CONFIG_RANDOM_TRUST_BOOTLOADER=y
 # end of Character devices
 
@@ -1763,13 +1592,12 @@ CONFIG_I2C_GPIO=y
 # CONFIG_I2C_JZ4780 is not set
 # CONFIG_I2C_LPC2K is not set
 # CONFIG_I2C_MESON is not set
-# CONFIG_I2C_MICROCHIP_CORE is not set
 # CONFIG_I2C_MT65XX is not set
 # CONFIG_I2C_MT7621 is not set
 # CONFIG_I2C_MV64XXX is not set
 # CONFIG_I2C_MXS is not set
 CONFIG_I2C_NOMADIK=y
-# CONFIG_I2C_NPCM is not set
+# CONFIG_I2C_NPCM7XX is not set
 CONFIG_I2C_OCORES=y
 # CONFIG_I2C_OMAP is not set
 # CONFIG_I2C_OWL is not set
@@ -1781,7 +1609,6 @@ CONFIG_I2C_OCORES=y
 # CONFIG_I2C_QUP is not set
 # CONFIG_I2C_RIIC is not set
 # CONFIG_I2C_RK3X is not set
-# CONFIG_I2C_RZV2M is not set
 # CONFIG_I2C_S3C2410 is not set
 # CONFIG_I2C_SH_MOBILE is not set
 # CONFIG_I2C_SIMTEC is not set
@@ -1805,7 +1632,6 @@ CONFIG_I2C_OCORES=y
 # External I2C/SMBus adapter drivers
 #
 CONFIG_I2C_PARPORT=y
-# CONFIG_I2C_PCI1XXXX is not set
 CONFIG_I2C_TAOS_EVM=y
 
 #
@@ -1861,7 +1687,6 @@ CONFIG_SPI_CADENCE_QUADSPI=y
 # CONFIG_SPI_EP93XX is not set
 # CONFIG_SPI_FSL_LPSPI is not set
 # CONFIG_SPI_FSL_QUADSPI is not set
-# CONFIG_SPI_GXP is not set
 # CONFIG_SPI_HISI_KUNPENG is not set
 # CONFIG_SPI_HISI_SFC_V3XX is not set
 # CONFIG_SPI_NXP_FLEXSPI is not set
@@ -1877,8 +1702,6 @@ CONFIG_SPI_FSL_SPI=y
 # CONFIG_SPI_FSL_DSPI is not set
 # CONFIG_SPI_MESON_SPICC is not set
 # CONFIG_SPI_MESON_SPIFC is not set
-# CONFIG_SPI_MICROCHIP_CORE is not set
-# CONFIG_SPI_MICROCHIP_CORE_QSPI is not set
 # CONFIG_SPI_MT65XX is not set
 # CONFIG_SPI_MT7621 is not set
 # CONFIG_SPI_MTK_NOR is not set
@@ -1980,7 +1803,6 @@ CONFIG_GENERIC_PINCONF=y
 # CONFIG_PINCTRL_AS3722 is not set
 # CONFIG_PINCTRL_AT91PIO4 is not set
 # CONFIG_PINCTRL_BM1880 is not set
-# CONFIG_PINCTRL_CY8C95X0 is not set
 # CONFIG_PINCTRL_DA850_PUPD is not set
 CONFIG_PINCTRL_DA9062=y
 # CONFIG_PINCTRL_EQUILIBRIUM is not set
@@ -1996,6 +1818,7 @@ CONFIG_PINCTRL_MCP23S08=y
 CONFIG_PINCTRL_RK805=y
 # CONFIG_PINCTRL_ROCKCHIP is not set
 # CONFIG_PINCTRL_SINGLE is not set
+# CONFIG_PINCTRL_STARFIVE is not set
 CONFIG_PINCTRL_STMFX=y
 # CONFIG_PINCTRL_SX150X is not set
 # CONFIG_PINCTRL_OWL is not set
@@ -2050,7 +1873,6 @@ CONFIG_PINCTRL_MTK=y
 # CONFIG_PINCTRL_MT8173 is not set
 # CONFIG_PINCTRL_MT8183 is not set
 # CONFIG_PINCTRL_MT8186 is not set
-# CONFIG_PINCTRL_MT8188 is not set
 # CONFIG_PINCTRL_MT8192 is not set
 # CONFIG_PINCTRL_MT8195 is not set
 # CONFIG_PINCTRL_MT8365 is not set
@@ -2069,6 +1891,7 @@ CONFIG_PINCTRL_MESON8_PMX=y
 # CONFIG_PINCTRL_MSM is not set
 # CONFIG_PINCTRL_QCOM_SPMI_PMIC is not set
 # CONFIG_PINCTRL_QCOM_SSBI_PMIC is not set
+# CONFIG_PINCTRL_SM8450 is not set
 # CONFIG_PINCTRL_LPASS_LPI is not set
 
 #
@@ -2094,7 +1917,6 @@ CONFIG_PINCTRL_MESON8_PMX=y
 # CONFIG_PINCTRL_PFC_R8A77980 is not set
 # CONFIG_PINCTRL_PFC_R8A77970 is not set
 # CONFIG_PINCTRL_PFC_R8A779A0 is not set
-# CONFIG_PINCTRL_PFC_R8A779G0 is not set
 # CONFIG_PINCTRL_PFC_R8A7740 is not set
 # CONFIG_PINCTRL_PFC_R8A73A4 is not set
 # CONFIG_PINCTRL_RZA1 is not set
@@ -2110,7 +1932,6 @@ CONFIG_PINCTRL_MESON8_PMX=y
 # CONFIG_PINCTRL_PFC_R8A774A1 is not set
 # CONFIG_PINCTRL_PFC_R8A774B1 is not set
 # CONFIG_PINCTRL_RZN1 is not set
-# CONFIG_PINCTRL_RZV2M is not set
 # CONFIG_PINCTRL_PFC_SH7203 is not set
 # CONFIG_PINCTRL_PFC_SH7264 is not set
 # CONFIG_PINCTRL_PFC_SH7269 is not set
@@ -2130,7 +1951,6 @@ CONFIG_PINCTRL_MESON8_PMX=y
 # CONFIG_PINCTRL_S3C24XX is not set
 # CONFIG_PINCTRL_S3C64XX is not set
 # CONFIG_PINCTRL_SPRD_SC9860 is not set
-# CONFIG_PINCTRL_STARFIVE_JH7100 is not set
 # CONFIG_PINCTRL_STM32F429 is not set
 # CONFIG_PINCTRL_STM32F469 is not set
 # CONFIG_PINCTRL_STM32F746 is not set
@@ -2226,6 +2046,7 @@ CONFIG_GPIO_ZEVIO=y
 #
 # I2C GPIO expanders
 #
+# CONFIG_GPIO_ADP5588 is not set
 CONFIG_GPIO_ADNP=y
 # CONFIG_GPIO_GW_PLD is not set
 # CONFIG_GPIO_MAX7300 is not set
@@ -2349,7 +2170,6 @@ CONFIG_SENSORS_AS370=y
 CONFIG_SENSORS_ASC7621=y
 CONFIG_SENSORS_AXI_FAN_CONTROL=y
 CONFIG_SENSORS_ARM_SCMI=y
-# CONFIG_SENSORS_ASB100 is not set
 CONFIG_SENSORS_ASPEED=y
 # CONFIG_SENSORS_ATXP1 is not set
 # CONFIG_SENSORS_BT1_PVT is not set
@@ -2362,7 +2182,6 @@ CONFIG_SENSORS_I5K_AMB=y
 # CONFIG_SENSORS_F71882FG is not set
 CONFIG_SENSORS_F75375S=y
 CONFIG_SENSORS_MC13783_ADC=y
-# CONFIG_SENSORS_FSCHMD is not set
 CONFIG_SENSORS_GL518SM=y
 CONFIG_SENSORS_GL520SM=y
 CONFIG_SENSORS_G760A=y
@@ -2396,7 +2215,6 @@ CONFIG_SENSORS_MAX1668=y
 CONFIG_SENSORS_MAX197=y
 CONFIG_SENSORS_MAX31722=y
 # CONFIG_SENSORS_MAX31730 is not set
-# CONFIG_SENSORS_MAX31760 is not set
 # CONFIG_SENSORS_MAX6620 is not set
 # CONFIG_SENSORS_MAX6621 is not set
 # CONFIG_SENSORS_MAX6639 is not set
@@ -2457,7 +2275,6 @@ CONFIG_SENSORS_IRPS5401=y
 CONFIG_SENSORS_ISL68137=y
 CONFIG_SENSORS_LM25066=y
 # CONFIG_SENSORS_LM25066_REGULATOR is not set
-# CONFIG_SENSORS_LT7182S is not set
 # CONFIG_SENSORS_LTC2978 is not set
 CONFIG_SENSORS_LTC3815=y
 # CONFIG_SENSORS_MAX15301 is not set
@@ -2479,7 +2296,6 @@ CONFIG_SENSORS_PXE1610=y
 # CONFIG_SENSORS_STPDDC60 is not set
 CONFIG_SENSORS_TPS40422=y
 # CONFIG_SENSORS_TPS53679 is not set
-# CONFIG_SENSORS_TPS546D24 is not set
 CONFIG_SENSORS_UCD9000=y
 # CONFIG_SENSORS_UCD9200 is not set
 # CONFIG_SENSORS_XDPE152 is not set
@@ -2496,10 +2312,10 @@ CONFIG_SENSORS_SHT21=y
 # CONFIG_SENSORS_SHT4x is not set
 # CONFIG_SENSORS_SHTC1 is not set
 # CONFIG_SENSORS_SIS5595 is not set
+# CONFIG_SENSORS_SY7636A is not set
 CONFIG_SENSORS_DME1737=y
 CONFIG_SENSORS_EMC1403=y
 # CONFIG_SENSORS_EMC2103 is not set
-# CONFIG_SENSORS_EMC2305 is not set
 # CONFIG_SENSORS_EMC6W201 is not set
 CONFIG_SENSORS_SMSC47M1=y
 # CONFIG_SENSORS_SMSC47M192 is not set
@@ -2684,7 +2500,6 @@ CONFIG_MFD_HI6421_PMIC=y
 # CONFIG_HTC_I2CPLD is not set
 CONFIG_LPC_ICH=y
 CONFIG_LPC_SCH=y
-# CONFIG_INTEL_SOC_PMIC is not set
 CONFIG_MFD_IQS62X=y
 # CONFIG_MFD_JANZ_CMODIO is not set
 # CONFIG_MFD_KEMPLD is not set
@@ -2703,10 +2518,8 @@ CONFIG_MFD_MAX8907=y
 CONFIG_MFD_MAX8997=y
 CONFIG_MFD_MAX8998=y
 CONFIG_MFD_MT6360=y
-# CONFIG_MFD_MT6370 is not set
 CONFIG_MFD_MT6397=y
 # CONFIG_MFD_MENF21BMC is not set
-# CONFIG_MFD_OCELOT is not set
 CONFIG_EZX_PCAP=y
 CONFIG_MFD_CPCAP=y
 # CONFIG_MFD_NTXEC is not set
@@ -2716,16 +2529,15 @@ CONFIG_PCF50633_ADC=y
 CONFIG_PCF50633_GPIO=y
 CONFIG_MFD_PM8XXX=y
 # CONFIG_MFD_SPMI_PMIC is not set
-# CONFIG_MFD_SY7636A is not set
 CONFIG_MFD_RDC321X=y
 # CONFIG_MFD_RT4831 is not set
 # CONFIG_MFD_RT5033 is not set
-# CONFIG_MFD_RT5120 is not set
 CONFIG_MFD_RC5T583=y
 CONFIG_MFD_RK808=y
 CONFIG_MFD_RN5T618=y
 # CONFIG_MFD_SEC_CORE is not set
 # CONFIG_MFD_SI476X_CORE is not set
+# CONFIG_MFD_SIMPLE_MFD_I2C is not set
 # CONFIG_MFD_SL28CPLD is not set
 # CONFIG_MFD_SM501 is not set
 CONFIG_MFD_SKY81452=y
@@ -2740,7 +2552,7 @@ CONFIG_STMPE_I2C=y
 # CONFIG_STMPE_SPI is not set
 # end of STMicroelectronics STMPE Interface Drivers
 
-# CONFIG_MFD_SUN6I_PRCM is not set
+CONFIG_MFD_SUN6I_PRCM=y
 CONFIG_MFD_SYSCON=y
 CONFIG_MFD_TI_AM335X_TSCADC=y
 # CONFIG_MFD_LP3943 is not set
@@ -2825,6 +2637,7 @@ CONFIG_REGULATOR_BCM590XX=y
 CONFIG_REGULATOR_BD718XX=y
 CONFIG_REGULATOR_CPCAP=y
 # CONFIG_REGULATOR_CROS_EC is not set
+# CONFIG_REGULATOR_DA903X is not set
 CONFIG_REGULATOR_DA9052=y
 CONFIG_REGULATOR_DA9062=y
 CONFIG_REGULATOR_DA9063=y
@@ -2875,8 +2688,6 @@ CONFIG_REGULATOR_MPQ7920=y
 # CONFIG_REGULATOR_MT6311 is not set
 # CONFIG_REGULATOR_MT6315 is not set
 # CONFIG_REGULATOR_MT6323 is not set
-# CONFIG_REGULATOR_MT6331 is not set
-# CONFIG_REGULATOR_MT6332 is not set
 # CONFIG_REGULATOR_MT6358 is not set
 # CONFIG_REGULATOR_MT6359 is not set
 # CONFIG_REGULATOR_MT6360 is not set
@@ -2919,6 +2730,7 @@ CONFIG_REGULATOR_SLG51000=y
 CONFIG_REGULATOR_STPMIC1=y
 # CONFIG_REGULATOR_TI_ABB is not set
 # CONFIG_REGULATOR_STW481X_VMMC is not set
+# CONFIG_REGULATOR_SY7636A is not set
 CONFIG_REGULATOR_SY8106A=y
 # CONFIG_REGULATOR_SY8824X is not set
 CONFIG_REGULATOR_SY8827N=y
@@ -3028,15 +2840,16 @@ CONFIG_MEDIA_PCI_SUPPORT=y
 #
 # Media capture support
 #
-# CONFIG_STA2X11_VIP is not set
 # CONFIG_VIDEO_TW5864 is not set
 # CONFIG_VIDEO_TW68 is not set
-# CONFIG_VIDEO_ZORAN is not set
 
 #
 # Media capture/analog TV support
 #
 # CONFIG_VIDEO_DT3155 is not set
+# CONFIG_VIDEO_HEXIUM_GEMINI is not set
+# CONFIG_VIDEO_HEXIUM_ORION is not set
+# CONFIG_VIDEO_MXB is not set
 
 #
 # Media capture/analog/hybrid TV support
@@ -3058,6 +2871,7 @@ CONFIG_DVB_DDBRIDGE=y
 CONFIG_DVB_PLUTO2=y
 # CONFIG_DVB_PT1 is not set
 # CONFIG_DVB_PT3 is not set
+# CONFIG_DVB_BUDGET_CORE is not set
 # CONFIG_RADIO_ADAPTERS is not set
 CONFIG_MEDIA_PLATFORM_DRIVERS=y
 # CONFIG_V4L_PLATFORM_DRIVERS is not set
@@ -3126,7 +2940,6 @@ CONFIG_V4L_MEM2MEM_DRIVERS=y
 # CONFIG_VIDEO_IMX_MIPI_CSIS is not set
 # CONFIG_VIDEO_IMX_PXP is not set
 # CONFIG_VIDEO_MX2_EMMAPRP is not set
-# CONFIG_VIDEO_DW100 is not set
 # CONFIG_VIDEO_IMX8_JPEG is not set
 
 #
@@ -3173,11 +2986,6 @@ CONFIG_V4L_MEM2MEM_DRIVERS=y
 # CONFIG_VIDEO_TI_VPE is not set
 
 #
-# Verisilicon media platform drivers
-#
-# CONFIG_VIDEO_HANTRO is not set
-
-#
 # VIA media platform drivers
 #
 
@@ -3210,7 +3018,6 @@ CONFIG_VIDEOBUF2_DVB=y
 # Camera sensor devices
 #
 CONFIG_VIDEO_APTINA_PLL=y
-# CONFIG_VIDEO_AR0521 is not set
 CONFIG_VIDEO_HI556=y
 # CONFIG_VIDEO_HI846 is not set
 # CONFIG_VIDEO_HI847 is not set
@@ -3626,7 +3433,6 @@ CONFIG_DVB_DUMMY_FE=y
 #
 # Graphics support
 #
-CONFIG_APERTURE_HELPERS=y
 # CONFIG_TEGRA_HOST1X is not set
 # CONFIG_IMX_IPUV3_CORE is not set
 # CONFIG_DRM is not set
@@ -3859,7 +3665,6 @@ CONFIG_LEDS_TI_LMU_COMMON=y
 CONFIG_LEDS_LM36274=y
 # CONFIG_LEDS_TPS6105X is not set
 # CONFIG_LEDS_IP30 is not set
-# CONFIG_LEDS_BCM63138 is not set
 # CONFIG_LEDS_LGM is not set
 
 #
@@ -3916,7 +3721,6 @@ CONFIG_DMA_VIRTUAL_CHANNELS=y
 CONFIG_DMA_OF=y
 # CONFIG_ALTERA_MSGDMA is not set
 CONFIG_AMBA_PL08X=y
-# CONFIG_APPLE_ADMAC is not set
 # CONFIG_AXI_DMAC is not set
 # CONFIG_DMA_JZ4780 is not set
 # CONFIG_DMA_SA11X0 is not set
@@ -4028,7 +3832,6 @@ CONFIG_UIO_MF624=y
 # CONFIG_UIO_DFL is not set
 # CONFIG_VFIO is not set
 # CONFIG_VIRT_DRIVERS is not set
-CONFIG_VIRTIO_ANCHOR=y
 CONFIG_VIRTIO=y
 CONFIG_VIRTIO_MENU=y
 # CONFIG_VIRTIO_PCI is not set
@@ -4053,7 +3856,6 @@ CONFIG_CROS_EC_I2C=y
 CONFIG_CROS_EC_RPMSG=y
 CONFIG_CROS_EC_SPI=y
 CONFIG_CROS_EC_PROTO=y
-# CONFIG_CROS_KBD_LED_BACKLIGHT is not set
 # CONFIG_CROS_EC_CHARDEV is not set
 # CONFIG_CROS_EC_LIGHTBAR is not set
 # CONFIG_CROS_EC_VBC is not set
@@ -4113,7 +3915,6 @@ CONFIG_COMMON_CLK=y
 # CONFIG_COMMON_CLK_OXNAS is not set
 # CONFIG_COMMON_CLK_RS9_PCIE is not set
 # CONFIG_COMMON_CLK_VC5 is not set
-# CONFIG_COMMON_CLK_VC7 is not set
 # CONFIG_COMMON_CLK_MMP2_AUDIO is not set
 # CONFIG_COMMON_CLK_BD718XX is not set
 # CONFIG_COMMON_CLK_FIXED_MMIO is not set
@@ -4172,7 +3973,6 @@ CONFIG_COMMON_CLK=y
 # CONFIG_COMMON_CLK_MT2712 is not set
 # CONFIG_COMMON_CLK_MT6765 is not set
 # CONFIG_COMMON_CLK_MT6779 is not set
-# CONFIG_COMMON_CLK_MT6795 is not set
 # CONFIG_COMMON_CLK_MT6797 is not set
 # CONFIG_COMMON_CLK_MT7622 is not set
 # CONFIG_COMMON_CLK_MT7629 is not set
@@ -4184,7 +3984,6 @@ CONFIG_COMMON_CLK=y
 # CONFIG_COMMON_CLK_MT8186 is not set
 # CONFIG_COMMON_CLK_MT8192 is not set
 # CONFIG_COMMON_CLK_MT8195 is not set
-# CONFIG_COMMON_CLK_MT8365 is not set
 # CONFIG_COMMON_CLK_MT8516 is not set
 # end of Clock driver for MediaTek SoC
 
@@ -4222,7 +4021,6 @@ CONFIG_CLK_SUNXI_PRCM_SUN9I=y
 # CONFIG_COMMON_CLK_VISCONTI is not set
 # CONFIG_CLK_LGM_CGU is not set
 # CONFIG_XILINX_VCU is not set
-# CONFIG_COMMON_CLK_XLNX_CLKWZRD is not set
 # CONFIG_COMMON_CLK_ZYNQMP is not set
 CONFIG_HWSPINLOCK=y
 # CONFIG_HWSPINLOCK_OMAP is not set
@@ -4241,7 +4039,6 @@ CONFIG_TIMER_PROBE=y
 # CONFIG_BCM_KONA_TIMER is not set
 # CONFIG_DAVINCI_TIMER is not set
 # CONFIG_DIGICOLOR_TIMER is not set
-# CONFIG_OMAP_DM_TIMER is not set
 # CONFIG_DW_APB_TIMER is not set
 # CONFIG_FTTMR010_TIMER is not set
 # CONFIG_IXP4XX_TIMER is not set
@@ -4338,7 +4135,6 @@ CONFIG_IOMMU_IO_PGTABLE_LPAE=y
 CONFIG_IOMMU_IO_PGTABLE_LPAE_SELFTEST=y
 CONFIG_IOMMU_IO_PGTABLE_ARMV7S=y
 # CONFIG_IOMMU_IO_PGTABLE_ARMV7S_SELFTEST is not set
-# CONFIG_IOMMU_IO_PGTABLE_DART is not set
 # end of Generic IOMMU Pagetable Support
 
 # CONFIG_IOMMU_DEBUGFS is not set
@@ -4431,15 +4227,9 @@ CONFIG_DPAA2_CONSOLE=y
 # end of NXP/Freescale QorIQ SoC drivers
 
 #
-# fujitsu SoC drivers
-#
-# end of fujitsu SoC drivers
-
-#
 # i.MX SoC drivers
 #
 # CONFIG_SOC_IMX8M is not set
-# CONFIG_SOC_IMX9 is not set
 # end of i.MX SoC drivers
 
 #
@@ -4478,7 +4268,6 @@ CONFIG_DPAA2_CONSOLE=y
 # CONFIG_QCOM_SMD_RPM is not set
 # CONFIG_QCOM_SPM is not set
 # CONFIG_QCOM_WCNSS_CTRL is not set
-# CONFIG_QCOM_ICC_BWMON is not set
 # end of Qualcomm SoC drivers
 
 # CONFIG_SOC_RENESAS is not set
@@ -4514,7 +4303,6 @@ CONFIG_DEVFREQ_GOV_PASSIVE=y
 # CONFIG_ARM_IMX_BUS_DEVFREQ is not set
 # CONFIG_ARM_IMX8M_DDRC_DEVFREQ is not set
 # CONFIG_ARM_TEGRA_DEVFREQ is not set
-# CONFIG_ARM_MEDIATEK_CCI_DEVFREQ is not set
 # CONFIG_ARM_RK3399_DMC_DEVFREQ is not set
 # CONFIG_ARM_SUN8I_A33_MBUS_DEVFREQ is not set
 CONFIG_PM_DEVFREQ_EVENT=y
@@ -4528,7 +4316,6 @@ CONFIG_ARM_PL172_MPMC=y
 # CONFIG_ATMEL_SDRAMC is not set
 # CONFIG_ATMEL_EBI is not set
 # CONFIG_BRCMSTB_DPFE is not set
-# CONFIG_BRCMSTB_MEMC is not set
 # CONFIG_BT1_L2_CTL is not set
 # CONFIG_TI_AEMIF is not set
 # CONFIG_TI_EMIF is not set
@@ -4612,7 +4399,6 @@ CONFIG_MMA8452=y
 CONFIG_MMA9551_CORE=y
 # CONFIG_MMA9551 is not set
 CONFIG_MMA9553=y
-# CONFIG_MSA311 is not set
 CONFIG_MXC4005=y
 CONFIG_MXC6255=y
 CONFIG_SCA3000=y
@@ -4671,7 +4457,6 @@ CONFIG_LTC2497=y
 CONFIG_MAX1027=y
 # CONFIG_MAX11100 is not set
 CONFIG_MAX1118=y
-# CONFIG_MAX11205 is not set
 CONFIG_MAX1241=y
 # CONFIG_MAX1363 is not set
 CONFIG_MAX9611=y
@@ -4694,7 +4479,6 @@ CONFIG_QCOM_SPMI_ADC5=y
 # CONFIG_RCAR_GYRO_ADC is not set
 CONFIG_RN5T618_ADC=y
 # CONFIG_ROCKCHIP_SARADC is not set
-# CONFIG_RICHTEK_RTQ6056 is not set
 # CONFIG_RZG2L_ADC is not set
 # CONFIG_SC27XX_ADC is not set
 # CONFIG_SPEAR_ADC is not set
@@ -4750,7 +4534,6 @@ CONFIG_AD8366=y
 # Capacitance to digital converters
 #
 # CONFIG_AD7150 is not set
-# CONFIG_AD7746 is not set
 # end of Capacitance to digital converters
 
 #
@@ -4936,7 +4719,6 @@ CONFIG_ADIS16475=y
 CONFIG_BMI160=y
 CONFIG_BMI160_I2C=y
 CONFIG_BMI160_SPI=y
-# CONFIG_BOSCH_BNO055_I2C is not set
 CONFIG_FXOS8700=y
 # CONFIG_FXOS8700_I2C is not set
 CONFIG_FXOS8700_SPI=y
@@ -4982,7 +4764,6 @@ CONFIG_SENSORS_ISL29028=y
 CONFIG_JSA1212=y
 # CONFIG_RPR0521 is not set
 CONFIG_LTR501=y
-# CONFIG_LTRF216A is not set
 # CONFIG_LV0104CS is not set
 CONFIG_MAX44000=y
 CONFIG_MAX44009=y
@@ -5162,6 +4943,7 @@ CONFIG_NTB_PINGPONG=y
 CONFIG_NTB_TOOL=y
 CONFIG_NTB_PERF=y
 CONFIG_NTB_TRANSPORT=y
+# CONFIG_VME_BUS is not set
 # CONFIG_PWM is not set
 
 #
@@ -5174,7 +4956,6 @@ CONFIG_MADERA_IRQ=y
 # CONFIG_RENESAS_INTC_IRQPIN is not set
 # CONFIG_RENESAS_IRQC is not set
 # CONFIG_RENESAS_RZA1_IRQC is not set
-# CONFIG_RENESAS_RZG2L_IRQC is not set
 # CONFIG_SL28CPLD_INTC is not set
 # CONFIG_TS4800_IRQ is not set
 # CONFIG_XILINX_INTC is not set
@@ -5183,16 +4964,15 @@ CONFIG_MADERA_IRQ=y
 # CONFIG_MESON_IRQ_GPIO is not set
 # CONFIG_IMX_IRQSTEER is not set
 # CONFIG_IMX_INTMUX is not set
-# CONFIG_IMX_MU_MSI is not set
 # CONFIG_EXYNOS_IRQ_COMBINER is not set
+# CONFIG_LOONGSON_PCH_PIC is not set
+# CONFIG_LOONGSON_PCH_MSI is not set
 # CONFIG_MST_IRQ is not set
 # CONFIG_MCHP_EIC is not set
-# CONFIG_SUNPLUS_SP7021_INTC is not set
 # end of IRQ chip support
 
 # CONFIG_IPACK_BUS is not set
 CONFIG_RESET_CONTROLLER=y
-# CONFIG_RESET_A10SR is not set
 # CONFIG_RESET_ATH79 is not set
 # CONFIG_RESET_AXS10X is not set
 # CONFIG_RESET_BCM6345 is not set
@@ -5218,11 +4998,9 @@ CONFIG_RESET_SCMI=y
 # CONFIG_RESET_SIMPLE is not set
 # CONFIG_RESET_SOCFPGA is not set
 # CONFIG_RESET_STARFIVE_JH7100 is not set
-# CONFIG_RESET_SUNPLUS is not set
 # CONFIG_RESET_SUNXI is not set
 # CONFIG_RESET_TI_SCI is not set
 # CONFIG_RESET_TI_SYSCON is not set
-# CONFIG_RESET_TI_TPS380X is not set
 # CONFIG_RESET_TN48M_CPLD is not set
 # CONFIG_RESET_UNIPHIER is not set
 # CONFIG_RESET_UNIPHIER_GLUE is not set
@@ -5242,7 +5020,6 @@ CONFIG_GENERIC_PHY_MIPI_DPHY=y
 # CONFIG_PHY_SUN6I_MIPI_DPHY is not set
 # CONFIG_PHY_SUN50I_USB3 is not set
 # CONFIG_PHY_MESON8_HDMI_TX is not set
-# CONFIG_PHY_MESON_G12A_MIPI_DPHY_ANALOG is not set
 # CONFIG_PHY_MESON_G12A_USB2 is not set
 # CONFIG_PHY_MESON_G12A_USB3_PCIE is not set
 # CONFIG_PHY_MESON_AXG_PCIE is not set
@@ -5269,7 +5046,6 @@ CONFIG_PHY_CADENCE_DPHY=y
 # CONFIG_PHY_CADENCE_SIERRA is not set
 CONFIG_PHY_CADENCE_SALVO=y
 CONFIG_PHY_FSL_IMX8MQ_USB=y
-# CONFIG_PHY_MIXEL_LVDS_PHY is not set
 # CONFIG_PHY_MIXEL_MIPI_DPHY is not set
 # CONFIG_PHY_FSL_IMX8M_PCIE is not set
 # CONFIG_PHY_FSL_LYNX_28G is not set
@@ -5293,13 +5069,11 @@ CONFIG_PHY_PXA_28NM_USB2=y
 # CONFIG_PHY_PXA_USB is not set
 # CONFIG_PHY_MMP3_USB is not set
 # CONFIG_PHY_MMP3_HSIC is not set
-# CONFIG_PHY_MTK_PCIE is not set
 # CONFIG_PHY_MTK_TPHY is not set
 # CONFIG_PHY_MTK_UFS is not set
 # CONFIG_PHY_MTK_XSPHY is not set
 # CONFIG_PHY_MTK_HDMI is not set
 # CONFIG_PHY_MTK_MIPI_DSI is not set
-# CONFIG_PHY_MTK_DP is not set
 # CONFIG_PHY_SPARX5_SERDES is not set
 # CONFIG_PHY_LAN966X_SERDES is not set
 CONFIG_PHY_OCELOT_SERDES=y
@@ -5321,7 +5095,6 @@ CONFIG_PHY_OCELOT_SERDES=y
 # CONFIG_PHY_ROCKCHIP_INNO_CSIDPHY is not set
 # CONFIG_PHY_ROCKCHIP_INNO_DSIDPHY is not set
 # CONFIG_PHY_ROCKCHIP_PCIE is not set
-# CONFIG_PHY_ROCKCHIP_SNPS_PCIE3 is not set
 # CONFIG_PHY_ROCKCHIP_TYPEC is not set
 # CONFIG_PHY_EXYNOS_DP_VIDEO is not set
 # CONFIG_PHY_EXYNOS_MIPI_VIDEO is not set
@@ -5336,7 +5109,6 @@ CONFIG_PHY_OCELOT_SERDES=y
 # CONFIG_PHY_ST_SPEAR1340_MIPHY is not set
 # CONFIG_PHY_STIH407_USB is not set
 # CONFIG_PHY_STM32_USBPHYC is not set
-# CONFIG_PHY_SUNPLUS_USB is not set
 # CONFIG_PHY_TEGRA194_P2U is not set
 # CONFIG_PHY_DA8XX_USB is not set
 # CONFIG_PHY_AM654_SERDES is not set
@@ -5367,8 +5139,6 @@ CONFIG_MCB_LPC=y
 # CONFIG_ARM_PMU is not set
 # CONFIG_FSL_IMX8_DDR_PMU is not set
 # CONFIG_ARM_DMC620_PMU is not set
-# CONFIG_ALIBABA_UNCORE_DRW_PMU is not set
-# CONFIG_HNS3_PMU is not set
 # end of Performance monitor support
 
 CONFIG_RAS=y
@@ -5377,39 +5147,37 @@ CONFIG_RAS=y
 #
 # Android
 #
-# CONFIG_ANDROID_BINDER_IPC is not set
+# CONFIG_ANDROID is not set
 # end of Android
 
 CONFIG_DAX=y
 CONFIG_NVMEM=y
 CONFIG_NVMEM_SYSFS=y
-# CONFIG_NVMEM_APPLE_EFUSES is not set
-# CONFIG_NVMEM_BCM_OCOTP is not set
-# CONFIG_NVMEM_BRCM_NVRAM is not set
 # CONFIG_NVMEM_IMX_IIM is not set
 # CONFIG_NVMEM_IMX_OCOTP is not set
-# CONFIG_NVMEM_JZ4780_EFUSE is not set
-# CONFIG_NVMEM_LAN9662_OTPC is not set
-# CONFIG_NVMEM_LAYERSCAPE_SFP is not set
+# CONFIG_JZ4780_EFUSE is not set
 # CONFIG_NVMEM_LPC18XX_EEPROM is not set
 # CONFIG_NVMEM_LPC18XX_OTP is not set
-# CONFIG_NVMEM_MESON_MX_EFUSE is not set
-# CONFIG_NVMEM_MICROCHIP_OTPC is not set
-# CONFIG_NVMEM_MTK_EFUSE is not set
 # CONFIG_NVMEM_MXS_OCOTP is not set
+# CONFIG_MTK_EFUSE is not set
 # CONFIG_NVMEM_NINTENDO_OTP is not set
-# CONFIG_NVMEM_QCOM_QFPROM is not set
-# CONFIG_NVMEM_RMEM is not set
-# CONFIG_NVMEM_ROCKCHIP_EFUSE is not set
-# CONFIG_NVMEM_ROCKCHIP_OTP is not set
-# CONFIG_NVMEM_SC27XX_EFUSE is not set
-# CONFIG_NVMEM_SNVS_LPGPR is not set
+# CONFIG_QCOM_QFPROM is not set
 CONFIG_NVMEM_SPMI_SDAM=y
-# CONFIG_NVMEM_SPRD_EFUSE is not set
+# CONFIG_ROCKCHIP_EFUSE is not set
+# CONFIG_ROCKCHIP_OTP is not set
+# CONFIG_NVMEM_BCM_OCOTP is not set
 # CONFIG_NVMEM_STM32_ROMEM is not set
-# CONFIG_NVMEM_SUNPLUS_OCOTP is not set
-# CONFIG_NVMEM_UNIPHIER_EFUSE is not set
+# CONFIG_UNIPHIER_EFUSE is not set
 # CONFIG_NVMEM_VF610_OCOTP is not set
+# CONFIG_MESON_MX_EFUSE is not set
+# CONFIG_NVMEM_SNVS_LPGPR is not set
+# CONFIG_SC27XX_EFUSE is not set
+# CONFIG_SPRD_EFUSE is not set
+# CONFIG_NVMEM_RMEM is not set
+# CONFIG_NVMEM_BRCM_NVRAM is not set
+# CONFIG_NVMEM_LAYERSCAPE_SFP is not set
+# CONFIG_NVMEM_SUNPLUS_OCOTP is not set
+# CONFIG_NVMEM_APPLE_EFUSES is not set
 
 #
 # HW tracing support
@@ -5453,7 +5221,6 @@ CONFIG_FPGA_DFL_AFU=y
 CONFIG_FPGA_DFL_PCI=y
 # CONFIG_FPGA_MGR_ZYNQMP_FPGA is not set
 # CONFIG_FPGA_MGR_VERSAL_FPGA is not set
-# CONFIG_FPGA_MGR_MICROCHIP_SPI is not set
 # CONFIG_FSI is not set
 # CONFIG_TEE is not set
 CONFIG_MULTIPLEXER=y
@@ -5485,7 +5252,6 @@ CONFIG_COUNTER=y
 CONFIG_FTM_QUADDEC=y
 CONFIG_MICROCHIP_TCB_CAPTURE=y
 # CONFIG_INTEL_QEP is not set
-# CONFIG_TI_ECAP_CAPTURE is not set
 CONFIG_MOST=y
 CONFIG_MOST_CDEV=y
 # CONFIG_PECI is not set
@@ -5641,22 +5407,25 @@ CONFIG_LSM="lockdown,yama,loadpin,safesetid,integrity,bpf"
 # Memory initialization
 #
 CONFIG_CC_HAS_AUTO_VAR_INIT_PATTERN=y
-CONFIG_CC_HAS_AUTO_VAR_INIT_ZERO_BARE=y
 CONFIG_CC_HAS_AUTO_VAR_INIT_ZERO=y
 CONFIG_INIT_STACK_NONE=y
 # CONFIG_INIT_STACK_ALL_PATTERN is not set
 # CONFIG_INIT_STACK_ALL_ZERO is not set
 # CONFIG_INIT_ON_ALLOC_DEFAULT_ON is not set
 CONFIG_INIT_ON_FREE_DEFAULT_ON=y
+CONFIG_CC_HAS_ZERO_CALL_USED_REGS=y
+# CONFIG_ZERO_CALL_USED_REGS is not set
 # end of Memory initialization
 
-CONFIG_CC_HAS_RANDSTRUCT=y
 # CONFIG_RANDSTRUCT_NONE is not set
 CONFIG_RANDSTRUCT_FULL=y
+# CONFIG_RANDSTRUCT_PERFORMANCE is not set
 CONFIG_RANDSTRUCT=y
+CONFIG_GCC_PLUGIN_RANDSTRUCT=y
 # end of Kernel hardening options
 # end of Security options
 
+CONFIG_XOR_BLOCKS=y
 CONFIG_CRYPTO=y
 
 #
@@ -5687,7 +5456,6 @@ CONFIG_CRYPTO_NULL2=y
 CONFIG_CRYPTO_CRYPTD=y
 CONFIG_CRYPTO_AUTHENC=y
 # CONFIG_CRYPTO_TEST is not set
-# end of Crypto core or helper
 
 #
 # Public-key cryptography
@@ -5700,68 +5468,56 @@ CONFIG_CRYPTO_ECDH=y
 CONFIG_CRYPTO_ECRDSA=y
 CONFIG_CRYPTO_SM2=y
 CONFIG_CRYPTO_CURVE25519=y
-# end of Public-key cryptography
 
 #
-# Block ciphers
+# Authenticated Encryption with Associated Data
 #
-CONFIG_CRYPTO_AES=y
-CONFIG_CRYPTO_AES_TI=y
-# CONFIG_CRYPTO_ARIA is not set
-CONFIG_CRYPTO_BLOWFISH=y
-CONFIG_CRYPTO_BLOWFISH_COMMON=y
-CONFIG_CRYPTO_CAMELLIA=y
-CONFIG_CRYPTO_CAST_COMMON=y
-# CONFIG_CRYPTO_CAST5 is not set
-CONFIG_CRYPTO_CAST6=y
-# CONFIG_CRYPTO_DES is not set
-# CONFIG_CRYPTO_FCRYPT is not set
-CONFIG_CRYPTO_SERPENT=y
-# CONFIG_CRYPTO_SM4_GENERIC is not set
-# CONFIG_CRYPTO_TWOFISH is not set
-# end of Block ciphers
+CONFIG_CRYPTO_CCM=y
+CONFIG_CRYPTO_GCM=y
+# CONFIG_CRYPTO_CHACHA20POLY1305 is not set
+CONFIG_CRYPTO_AEGIS128=y
+CONFIG_CRYPTO_SEQIV=y
+# CONFIG_CRYPTO_ECHAINIV is not set
 
 #
-# Length-preserving ciphers and modes
+# Block modes
 #
-# CONFIG_CRYPTO_ADIANTUM is not set
-CONFIG_CRYPTO_CHACHA20=y
 CONFIG_CRYPTO_CBC=y
 CONFIG_CRYPTO_CFB=y
 CONFIG_CRYPTO_CTR=y
 CONFIG_CRYPTO_CTS=y
 CONFIG_CRYPTO_ECB=y
-# CONFIG_CRYPTO_HCTR2 is not set
-CONFIG_CRYPTO_KEYWRAP=y
 CONFIG_CRYPTO_LRW=y
 # CONFIG_CRYPTO_OFB is not set
 CONFIG_CRYPTO_PCBC=y
 CONFIG_CRYPTO_XTS=y
-# end of Length-preserving ciphers and modes
-
-#
-# AEAD (authenticated encryption with associated data) ciphers
-#
-CONFIG_CRYPTO_AEGIS128=y
-# CONFIG_CRYPTO_CHACHA20POLY1305 is not set
-CONFIG_CRYPTO_CCM=y
-CONFIG_CRYPTO_GCM=y
-CONFIG_CRYPTO_SEQIV=y
-# CONFIG_CRYPTO_ECHAINIV is not set
+CONFIG_CRYPTO_KEYWRAP=y
+# CONFIG_CRYPTO_ADIANTUM is not set
 CONFIG_CRYPTO_ESSIV=y
-# end of AEAD (authenticated encryption with associated data) ciphers
 
 #
-# Hashes, digests, and MACs
+# Hash modes
 #
-CONFIG_CRYPTO_BLAKE2B=y
 CONFIG_CRYPTO_CMAC=y
-CONFIG_CRYPTO_GHASH=y
 CONFIG_CRYPTO_HMAC=y
+# CONFIG_CRYPTO_XCBC is not set
+CONFIG_CRYPTO_VMAC=y
+
+#
+# Digest
+#
+CONFIG_CRYPTO_CRC32C=y
+CONFIG_CRYPTO_CRC32=y
+CONFIG_CRYPTO_XXHASH=y
+CONFIG_CRYPTO_BLAKE2B=y
+# CONFIG_CRYPTO_BLAKE2S is not set
+CONFIG_CRYPTO_CRCT10DIF=y
+# CONFIG_CRYPTO_CRC64_ROCKSOFT is not set
+CONFIG_CRYPTO_GHASH=y
+CONFIG_CRYPTO_POLY1305=y
 CONFIG_CRYPTO_MD4=y
 CONFIG_CRYPTO_MD5=y
 CONFIG_CRYPTO_MICHAEL_MIC=y
-CONFIG_CRYPTO_POLY1305=y
 # CONFIG_CRYPTO_RMD160 is not set
 CONFIG_CRYPTO_SHA1=y
 CONFIG_CRYPTO_SHA256=y
@@ -5770,20 +5526,25 @@ CONFIG_CRYPTO_SHA512=y
 CONFIG_CRYPTO_SM3=y
 # CONFIG_CRYPTO_SM3_GENERIC is not set
 CONFIG_CRYPTO_STREEBOG=y
-CONFIG_CRYPTO_VMAC=y
 CONFIG_CRYPTO_WP512=y
-# CONFIG_CRYPTO_XCBC is not set
-CONFIG_CRYPTO_XXHASH=y
-# end of Hashes, digests, and MACs
 
 #
-# CRCs (cyclic redundancy checks)
+# Ciphers
 #
-CONFIG_CRYPTO_CRC32C=y
-CONFIG_CRYPTO_CRC32=y
-CONFIG_CRYPTO_CRCT10DIF=y
-# CONFIG_CRYPTO_CRC64_ROCKSOFT is not set
-# end of CRCs (cyclic redundancy checks)
+CONFIG_CRYPTO_AES=y
+CONFIG_CRYPTO_AES_TI=y
+CONFIG_CRYPTO_BLOWFISH=y
+CONFIG_CRYPTO_BLOWFISH_COMMON=y
+CONFIG_CRYPTO_CAMELLIA=y
+CONFIG_CRYPTO_CAST_COMMON=y
+# CONFIG_CRYPTO_CAST5 is not set
+CONFIG_CRYPTO_CAST6=y
+# CONFIG_CRYPTO_DES is not set
+# CONFIG_CRYPTO_FCRYPT is not set
+CONFIG_CRYPTO_CHACHA20=y
+CONFIG_CRYPTO_SERPENT=y
+# CONFIG_CRYPTO_SM4_GENERIC is not set
+# CONFIG_CRYPTO_TWOFISH is not set
 
 #
 # Compression
@@ -5794,10 +5555,9 @@ CONFIG_CRYPTO_842=y
 CONFIG_CRYPTO_LZ4=y
 CONFIG_CRYPTO_LZ4HC=y
 CONFIG_CRYPTO_ZSTD=y
-# end of Compression
 
 #
-# Random number generation
+# Random Number Generation
 #
 CONFIG_CRYPTO_ANSI_CPRNG=y
 CONFIG_CRYPTO_DRBG_MENU=y
@@ -5806,27 +5566,7 @@ CONFIG_CRYPTO_DRBG_HASH=y
 # CONFIG_CRYPTO_DRBG_CTR is not set
 CONFIG_CRYPTO_DRBG=y
 CONFIG_CRYPTO_JITTERENTROPY=y
-# end of Random number generation
-
-#
-# Userspace interface
-#
-# end of Userspace interface
-
 CONFIG_CRYPTO_HASH_INFO=y
-
-#
-# Accelerated Cryptographic Algorithms for CPU (arm)
-#
-# CONFIG_CRYPTO_POLY1305_ARM is not set
-# CONFIG_CRYPTO_BLAKE2S_ARM is not set
-# CONFIG_CRYPTO_SHA1_ARM is not set
-# CONFIG_CRYPTO_SHA256_ARM is not set
-# CONFIG_CRYPTO_SHA512_ARM is not set
-# CONFIG_CRYPTO_AES_ARM is not set
-# CONFIG_CRYPTO_CHACHA20_NEON is not set
-# end of Accelerated Cryptographic Algorithms for CPU (arm)
-
 # CONFIG_CRYPTO_HW is not set
 
 #
@@ -5854,7 +5594,6 @@ CONFIG_ARCH_USE_CMPXCHG_LOCKREF=y
 #
 # Crypto library routines
 #
-CONFIG_CRYPTO_LIB_UTILS=y
 CONFIG_CRYPTO_LIB_AES=y
 CONFIG_CRYPTO_LIB_BLAKE2S_GENERIC=y
 CONFIG_CRYPTO_LIB_CHACHA_GENERIC=y
@@ -5865,10 +5604,10 @@ CONFIG_CRYPTO_LIB_POLY1305_RSIZE=9
 CONFIG_CRYPTO_LIB_POLY1305_GENERIC=y
 CONFIG_CRYPTO_LIB_POLY1305=y
 CONFIG_CRYPTO_LIB_CHACHA20POLY1305=y
-CONFIG_CRYPTO_LIB_SHA1=y
 CONFIG_CRYPTO_LIB_SHA256=y
 # end of Crypto library routines
 
+CONFIG_LIB_MEMNEQ=y
 CONFIG_CRC_CCITT=y
 CONFIG_CRC16=y
 # CONFIG_CRC_T10DIF is not set
@@ -5896,7 +5635,6 @@ CONFIG_LZO_DECOMPRESS=y
 CONFIG_LZ4_COMPRESS=y
 CONFIG_LZ4HC_COMPRESS=y
 CONFIG_LZ4_DECOMPRESS=y
-CONFIG_ZSTD_COMMON=y
 CONFIG_ZSTD_COMPRESS=y
 CONFIG_ZSTD_DECOMPRESS=y
 # CONFIG_XZ_DEC is not set
@@ -5918,8 +5656,6 @@ CONFIG_NEED_DMA_MAP_STATE=y
 CONFIG_DMA_DECLARE_COHERENT=y
 CONFIG_ARCH_HAS_SETUP_DMA_OPS=y
 CONFIG_ARCH_HAS_TEARDOWN_DMA_OPS=y
-CONFIG_ARCH_HAS_SYNC_DMA_FOR_DEVICE=y
-CONFIG_ARCH_HAS_SYNC_DMA_FOR_CPU=y
 CONFIG_DMA_NONCOHERENT_MMAP=y
 CONFIG_DMA_CMA=y
 CONFIG_DMA_PERNUMA_CMA=y
@@ -5946,6 +5682,7 @@ CONFIG_LIBFDT=y
 CONFIG_OID_REGISTRY=y
 CONFIG_UCS2_STRING=y
 CONFIG_STACKDEPOT=y
+CONFIG_STACK_HASH_ORDER=20
 # CONFIG_PARMAN is not set
 # CONFIG_OBJAGG is not set
 # end of Library routines
@@ -5972,20 +5709,20 @@ CONFIG_DEBUG_MISC=y
 # Compile-time checks and compiler options
 #
 CONFIG_DEBUG_INFO=y
-CONFIG_AS_HAS_NON_CONST_LEB128=y
 # CONFIG_DEBUG_INFO_NONE is not set
 # CONFIG_DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT is not set
 CONFIG_DEBUG_INFO_DWARF4=y
 # CONFIG_DEBUG_INFO_DWARF5 is not set
 # CONFIG_DEBUG_INFO_REDUCED is not set
-CONFIG_DEBUG_INFO_COMPRESSED=y
+# CONFIG_DEBUG_INFO_COMPRESSED is not set
 CONFIG_DEBUG_INFO_SPLIT=y
 CONFIG_PAHOLE_HAS_SPLIT_BTF=y
-CONFIG_PAHOLE_HAS_BTF_TAG=y
 CONFIG_GDB_SCRIPTS=y
 CONFIG_FRAME_WARN=1024
 CONFIG_STRIP_ASM_SYMS=y
+CONFIG_READABLE_ASM=y
 # CONFIG_HEADERS_INSTALL is not set
+CONFIG_DEBUG_SECTION_MISMATCH=y
 CONFIG_SECTION_MISMATCH_WARN_ONLY=y
 # CONFIG_VMLINUX_MAP is not set
 # CONFIG_DEBUG_FORCE_WEAK_PER_CPU is not set
@@ -6005,11 +5742,14 @@ CONFIG_KGDB_TESTS=y
 # CONFIG_KGDB_TESTS_ON_BOOT is not set
 # CONFIG_KGDB_KDB is not set
 # CONFIG_UBSAN is not set
+CONFIG_HAVE_KCSAN_COMPILER=y
 # end of Generic Kernel Debugging Instruments
 
 #
 # Networking Debugging
 #
+# CONFIG_NET_DEV_REFCNT_TRACKER is not set
+# CONFIG_NET_NS_REFCNT_TRACKER is not set
 # end of Networking Debugging
 
 #
@@ -6024,7 +5764,6 @@ CONFIG_PAGE_POISONING=y
 CONFIG_DEBUG_PAGE_REF=y
 CONFIG_DEBUG_WX=y
 # CONFIG_DEBUG_OBJECTS is not set
-# CONFIG_SHRINKER_DEBUG is not set
 CONFIG_HAVE_DEBUG_KMEMLEAK=y
 CONFIG_DEBUG_KMEMLEAK=y
 CONFIG_DEBUG_KMEMLEAK_MEM_POOL_SIZE=16000
@@ -6039,7 +5778,6 @@ CONFIG_DEBUG_MEMORY_INIT=y
 # CONFIG_DEBUG_KMAP_LOCAL is not set
 # CONFIG_DEBUG_HIGHMEM is not set
 CONFIG_HAVE_ARCH_KASAN=y
-CONFIG_HAVE_ARCH_KASAN_VMALLOC=y
 CONFIG_CC_HAS_KASAN_GENERIC=y
 CONFIG_CC_HAS_WORKING_NOSANITIZE_ADDRESS=y
 # CONFIG_KASAN is not set
@@ -6112,7 +5850,6 @@ CONFIG_DEBUG_PLIST=y
 # CONFIG_DEBUG_SG is not set
 CONFIG_DEBUG_NOTIFIERS=y
 CONFIG_BUG_ON_DATA_CORRUPTION=y
-# CONFIG_DEBUG_MAPLE_TREE is not set
 # end of Debug kernel data structures
 
 # CONFIG_DEBUG_CREDENTIALS is not set
@@ -6198,13 +5935,8 @@ CONFIG_ARCH_USE_MEMTEST=y
 # CONFIG_MEMTEST is not set
 # end of Kernel Testing and Coverage
 
-#
-# Rust hacking
-#
-# end of Rust hacking
-
 # CONFIG_WARN_MISSING_DOCUMENTS is not set
 # CONFIG_WARN_ABI_ERRORS is not set
 # end of Kernel hacking
 
---8xQB89fgtW/qkYZC--
+--YEtuokLpyrqglY+o--
