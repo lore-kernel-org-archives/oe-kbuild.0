@@ -1,52 +1,53 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29BC5EC0;
-	Mon, 21 Nov 2022 10:47:08 +0000 (UTC)
-Received: by mail-wm1-f51.google.com with SMTP id 5so8163454wmo.1;
-        Mon, 21 Nov 2022 02:47:07 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A33EEC0;
+	Mon, 21 Nov 2022 10:51:01 +0000 (UTC)
+Received: by mail-wr1-f45.google.com with SMTP id x17so5773215wrn.6;
+        Mon, 21 Nov 2022 02:51:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=LsGRg8d9uN/3NzXR36oOukdXSWUiGi4UapisH6qXjmI=;
-        b=VlmpCZSmz6pfcNI/v2LFpRCxJQNQNInZQMhm9lA4VyeZi35byDXlE1Hnp7GYsjtMZr
-         /zeVTLg+b/NRcDir6BndkjMM7FCjFFM5sx/JXmWD0hC0P+z/isrDVuwkC9/Z6DQbanPz
-         ivfryjnGaGjRe3zoBvgeKoX96CXNYossgUjMCewrZ1gU6wRIKW4V1lHqwANqxCDHZvg9
-         paGXZyGQuogYGbwu1ZuLJzHj24gFb/xD2Tdgw4gDyvQAhONwbIOG8xgUDbiEHw+9Ufat
-         4ooMnECuRfhS7ZxJzvoMyIYnPPuGMAuBZniRet+D/uirHohXWqKcGE6hYTVbj0iAGcN6
-         4R0w==
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=4FGldqynRCiqXRUo4xNSPtxVlcysCrx4pWfhhlBwkcw=;
+        b=Lmmmq7sHpH5fpbXVqwOinjSKvQwU40CB7/b7UDWZeq26oGx8H5ju4XMfg8yBET+9Fk
+         UWpdIzUP8Nbg8jZiBPEbAD7sa15jhANGfUF3zHt6NKVPGPArbSr21MdUdW1BVZjjjXPJ
+         djsjpEpj9msJdhzGyZTlFqFzqlKm2SuYKEWlS3fcpxbfcAApBhrMwShe6w/KgN/AAk+D
+         Nqs7VtSON4b4Syv3ZJR9ApCr1bRFZHHEHPMInGuOOonhueXi+7qhxyvUAP/fncAZj6PO
+         OjrzerBN7EPFwlH/LjknVnvzFtWAOnIbgPoZaFykRZEOZTKKg/Aw5tVI0l8sdeGPvxQ9
+         7NAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=LsGRg8d9uN/3NzXR36oOukdXSWUiGi4UapisH6qXjmI=;
-        b=FVXP2ognGMeqKk7lnSWxjeF92ikY4EzQeVSzxskfWLIQSkbeaLdgt3wkGRp4dJ2o6D
-         mMpyKjtjTbq5fFCa0v/GbTUhERn/paDXHw8KvR78ye9lOJwV+03CDqMVvaLxXfhCvEw8
-         mW37lFWloblyg2nR+jc8x3jxUelxkB9okJuuxlRGjcP0/ThU9R0nUIq+p394mDZ/TGY8
-         ydUb+wl+gKHiNZDSPXsTReIQD/2pcyWku8yQ2cWkLvLjO+LVDykVqVBqzlTrUSnqYl0m
-         qvBhib6C/xzqFwmxdV2r7fkO17oZvAl6cp2gakXlqn11hyeTZTxCFNIvmaPBFasenM5H
-         Q1lQ==
-X-Gm-Message-State: ANoB5pmW4uNajvL+5DPVOTzk9TJltcq5yI7rDr6/JzU+btAx3abaQ4Pq
-	QVVJ49d5bNIVbaMkqi/FXVsEER+1MFlYxQ==
-X-Google-Smtp-Source: AA0mqf41a5tc2MSdYiVViTsBd45HBSiTE7R7RPOP5YEG9TKAWhNNWpCyyRR7W0cbfieTyMYkxKuLBQ==
-X-Received: by 2002:a05:600c:4e13:b0:3cf:86b8:71f7 with SMTP id b19-20020a05600c4e1300b003cf86b871f7mr16258275wmq.76.1669027626051;
-        Mon, 21 Nov 2022 02:47:06 -0800 (PST)
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=4FGldqynRCiqXRUo4xNSPtxVlcysCrx4pWfhhlBwkcw=;
+        b=XGeMbRsT+4pHjLy+0wZMmnj280lEmmj24DgvSdHLbnnuKyhGXbBBTlCnKdZ9fpkHYF
+         BcK6nxj0swC2DzXDLsASHqNqwwIB1S5EKaY0EjUj6nTO1hQFavCChum/gxgEZONwaAnu
+         azY4BJeME9a4asOwAveETWjIK3dJAflLp8hDA2SxeQ3ruPkha39Es5Z6N1GAl+UliQQ4
+         RtqcrLAv75/w+V9apBt/7VZKbhIjTwxMM0+wmgp1/5ggFeQV3BQe6jYuGlNmM0JHbSuC
+         VdIk8qJlyiznGKxfdBp7+DMBd4p5fhdSn9AGgBMOOM641B0oe9G3dExnb5Rn6enL3QlB
+         AVhA==
+X-Gm-Message-State: ANoB5pnvSmBIgd4juesv76HOXQZtE3GKpzPg0iFBy1gmEDfthtyW/A0q
+	FyNgcqlTKnCIfmUWvazU2XTkrQAO5JK6zg==
+X-Google-Smtp-Source: AA0mqf4C+pAcZgGuV/YeJodklufdO1mng9kRRGeXzP1Fn5ejgXJLOQWDHOXEgm/ccmziqim/r9ZFdw==
+X-Received: by 2002:adf:e50f:0:b0:22c:cc75:5aab with SMTP id j15-20020adfe50f000000b0022ccc755aabmr10301515wrm.143.1669027859075;
+        Mon, 21 Nov 2022 02:50:59 -0800 (PST)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id c3-20020adffb43000000b00225307f43fbsm10818856wrs.44.2022.11.21.02.47.04
+        by smtp.gmail.com with ESMTPSA id dn12-20020a05600c654c00b003cf6c2f9513sm13659737wmb.2.2022.11.21.02.50.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Nov 2022 02:47:05 -0800 (PST)
-Date: Mon, 21 Nov 2022 13:47:02 +0300
+        Mon, 21 Nov 2022 02:50:58 -0800 (PST)
+Date: Mon, 21 Nov 2022 13:50:55 +0300
 From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, Hugh Dickins <hughd@google.com>
+To: oe-kbuild@lists.linux.dev,
+	Charles Keepax <ckeepax@opensource.cirrus.com>, vkoul@kernel.org
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Ammar Faizi <ammarfaizi2@gnuweeb.org>,
-	GNU/Weeb Mailing List <gwml@vger.gnuweeb.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: [ammarfaizi2-block:akpm/mm/mm-unstable 160/254] mm/rmap.c:1325
- page_add_anon_rmap() error: uninitialized symbol 'first'.
-Message-ID: <202211200135.BVP3jPRS-lkp@intel.com>
+	yung-chuan.liao@linux.intel.com,
+	pierre-louis.bossart@linux.intel.com, sanyog.r.kale@intel.com,
+	alsa-devel@alsa-project.org, linux-kernel@vger.kernel.org,
+	patches@opensource.cirrus.com
+Subject: Re: [PATCH 3/4] soundwire: debugfs: Switch to sdw_read_no_pm
+Message-ID: <202211210539.6lHevRnx-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -55,86 +56,112 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Message-ID: <20221121104702.KJ02KwtfDlRznJPGqEwWNtrIHZCmk2JrVAvO5rhmKtM@z>
+In-Reply-To: <20221114102956.914468-4-ckeepax@opensource.cirrus.com>
+Message-ID: <20221121105055.JxIlYwqY0aZ21He57U463Pr-q3GKmfwiLfxYVXwWvIw@z>
 
-tree:   https://github.com/ammarfaizi2/linux-block akpm/mm/mm-unstable
-head:   a8da2493d983a10242e6c9d71c6e828aafa5baf8
-commit: d68dde0dc6f8b8d09357a32473db8881173b10b0 [160/254] mm,thp,rmap: subpages_mapcount of PTE-mapped subpages
-config: i386-randconfig-m021
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+Hi Charles,
+
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Charles-Keepax/Minor-SoundWire-clean-ups/20221114-183333
+patch link:    https://lore.kernel.org/r/20221114102956.914468-4-ckeepax%40opensource.cirrus.com
+patch subject: [PATCH 3/4] soundwire: debugfs: Switch to sdw_read_no_pm
+config: loongarch-randconfig-m041-20221114
+compiler: loongarch64-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
 
 smatch warnings:
-mm/rmap.c:1325 page_add_anon_rmap() error: uninitialized symbol 'first'.
+drivers/soundwire/debugfs.c:61 sdw_slave_reg_show() warn: possible memory leak of 'buf'
 
-vim +/first +1325 mm/rmap.c
+vim +/buf +61 drivers/soundwire/debugfs.c
 
-9617d95e6e9ffd Nicholas Piggin    2006-01-06  1278  void page_add_anon_rmap(struct page *page,
-14f9135d547060 David Hildenbrand  2022-05-09  1279  	struct vm_area_struct *vma, unsigned long address, rmap_t flags)
-9617d95e6e9ffd Nicholas Piggin    2006-01-06  1280  {
-5b3276bc4a2e01 Hugh Dickins       2022-11-02  1281  	struct compound_mapcounts mapcounts;
-5b3276bc4a2e01 Hugh Dickins       2022-11-02  1282  	int nr = 0, nr_pmdmapped = 0;
-d281ee61451835 Kirill A. Shutemov 2016-01-15  1283  	bool compound = flags & RMAP_COMPOUND;
-53f9263baba69f Kirill A. Shutemov 2016-01-15  1284  	bool first;
-                                                        ^^^^^^^^^^
-53f9263baba69f Kirill A. Shutemov 2016-01-15  1285  
-be5d0a74c62d8d Johannes Weiner    2020-06-03  1286  	if (unlikely(PageKsm(page)))
-be5d0a74c62d8d Johannes Weiner    2020-06-03  1287  		lock_page_memcg(page);
-be5d0a74c62d8d Johannes Weiner    2020-06-03  1288  
-d68dde0dc6f8b8 Hugh Dickins       2022-11-18  1289  	if (likely(!compound /* page is mapped by PTE */)) {
-84e6cb5a201a85 Hugh Dickins       2022-11-09  1290  		first = atomic_inc_and_test(&page->_mapcount);
-84e6cb5a201a85 Hugh Dickins       2022-11-09  1291  		nr = first;
-d68dde0dc6f8b8 Hugh Dickins       2022-11-18  1292  		if (first && PageCompound(page)) {
-d68dde0dc6f8b8 Hugh Dickins       2022-11-18  1293  			struct page *head = compound_head(page);
-d68dde0dc6f8b8 Hugh Dickins       2022-11-18  1294  
-d68dde0dc6f8b8 Hugh Dickins       2022-11-18  1295  			lock_compound_mapcounts(head, &mapcounts);
-d68dde0dc6f8b8 Hugh Dickins       2022-11-18  1296  			mapcounts.subpages_mapcount++;
-d68dde0dc6f8b8 Hugh Dickins       2022-11-18  1297  			nr = !mapcounts.compound_mapcount;
-d68dde0dc6f8b8 Hugh Dickins       2022-11-18  1298  			unlock_compound_mapcounts(head, &mapcounts);
-d68dde0dc6f8b8 Hugh Dickins       2022-11-18  1299  		}
-d68dde0dc6f8b8 Hugh Dickins       2022-11-18  1300  	} else if (PageTransHuge(page)) {
-d68dde0dc6f8b8 Hugh Dickins       2022-11-18  1301  		/* That test is redundant: it's for safety or to optimize out */
-84e6cb5a201a85 Hugh Dickins       2022-11-09  1302  
-5b3276bc4a2e01 Hugh Dickins       2022-11-02  1303  		lock_compound_mapcounts(page, &mapcounts);
-5b3276bc4a2e01 Hugh Dickins       2022-11-02  1304  		first = !mapcounts.compound_mapcount;
-5b3276bc4a2e01 Hugh Dickins       2022-11-02  1305  		mapcounts.compound_mapcount++;
-5b3276bc4a2e01 Hugh Dickins       2022-11-02  1306  		if (first) {
-d68dde0dc6f8b8 Hugh Dickins       2022-11-18  1307  			nr_pmdmapped = thp_nr_pages(page);
-d68dde0dc6f8b8 Hugh Dickins       2022-11-18  1308  			nr = nr_pmdmapped - mapcounts.subpages_mapcount;
-5b3276bc4a2e01 Hugh Dickins       2022-11-02  1309  		}
-5b3276bc4a2e01 Hugh Dickins       2022-11-02  1310  		unlock_compound_mapcounts(page, &mapcounts);
-53f9263baba69f Kirill A. Shutemov 2016-01-15  1311  	}
+bf03473d5bcc85 Pierre-Louis Bossart 2019-08-21   48  static int sdw_slave_reg_show(struct seq_file *s_file, void *data)
+bf03473d5bcc85 Pierre-Louis Bossart 2019-08-21   49  {
+bf03473d5bcc85 Pierre-Louis Bossart 2019-08-21   50  	struct sdw_slave *slave = s_file->private;
+bf03473d5bcc85 Pierre-Louis Bossart 2019-08-21   51  	char *buf;
+bf03473d5bcc85 Pierre-Louis Bossart 2019-08-21   52  	ssize_t ret;
+bf03473d5bcc85 Pierre-Louis Bossart 2019-08-21   53  	int i, j;
+bf03473d5bcc85 Pierre-Louis Bossart 2019-08-21   54  
+bf03473d5bcc85 Pierre-Louis Bossart 2019-08-21   55  	buf = kzalloc(RD_BUF, GFP_KERNEL);
+bf03473d5bcc85 Pierre-Louis Bossart 2019-08-21   56  	if (!buf)
+bf03473d5bcc85 Pierre-Louis Bossart 2019-08-21   57  		return -ENOMEM;
+bf03473d5bcc85 Pierre-Louis Bossart 2019-08-21   58  
+f3345eda607ecc Charles Keepax       2022-11-14   59  	ret = pm_runtime_resume_and_get(&slave->dev);
+f3345eda607ecc Charles Keepax       2022-11-14   60  	if (ret < 0 && ret != -EACCES)
+f3345eda607ecc Charles Keepax       2022-11-14  @61  		return ret;
 
-No else path.
+kfree(buf);
 
-bde3d57e6cec9c Hugh Dickins       2022-11-02  1312  
-6c287605fd5646 David Hildenbrand  2022-05-09  1313  	VM_BUG_ON_PAGE(!first && (flags & RMAP_EXCLUSIVE), page);
-                                                                        ^^^^^
-Uninitialized.
-
-
-6c287605fd5646 David Hildenbrand  2022-05-09  1314  	VM_BUG_ON_PAGE(!first && PageAnonExclusive(page), page);
-53f9263baba69f Kirill A. Shutemov 2016-01-15  1315  
-5b3276bc4a2e01 Hugh Dickins       2022-11-02  1316  	if (nr_pmdmapped)
-5b3276bc4a2e01 Hugh Dickins       2022-11-02  1317  		__mod_lruvec_page_state(page, NR_ANON_THPS, nr_pmdmapped);
-5b3276bc4a2e01 Hugh Dickins       2022-11-02  1318  	if (nr)
-be5d0a74c62d8d Johannes Weiner    2020-06-03  1319  		__mod_lruvec_page_state(page, NR_ANON_MAPPED, nr);
-5ad6468801d28c Hugh Dickins       2009-12-14  1320  
-cea86fe246b694 Hugh Dickins       2022-02-14  1321  	if (unlikely(PageKsm(page)))
-be5d0a74c62d8d Johannes Weiner    2020-06-03  1322  		unlock_page_memcg(page);
-53f9263baba69f Kirill A. Shutemov 2016-01-15  1323  
-5dbe0af47f8a8f Hugh Dickins       2011-05-28  1324  	/* address might be in next vma when migration races vma_adjust */
-cea86fe246b694 Hugh Dickins       2022-02-14 @1325  	else if (first)
-d281ee61451835 Kirill A. Shutemov 2016-01-15  1326  		__page_set_anon_rmap(page, vma, address,
-14f9135d547060 David Hildenbrand  2022-05-09  1327  				     !!(flags & RMAP_EXCLUSIVE));
-69029cd550284e KAMEZAWA Hiroyuki  2008-07-25  1328  	else
-c97a9e10eaee32 Nicholas Piggin    2007-05-16  1329  		__page_check_anon_rmap(page, vma, address);
-cea86fe246b694 Hugh Dickins       2022-02-14  1330  
-cea86fe246b694 Hugh Dickins       2022-02-14  1331  	mlock_vma_page(page, vma, compound);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1332  }
+f3345eda607ecc Charles Keepax       2022-11-14   62  
+bf03473d5bcc85 Pierre-Louis Bossart 2019-08-21   63  	ret = scnprintf(buf, RD_BUF, "Register  Value\n");
+bf03473d5bcc85 Pierre-Louis Bossart 2019-08-21   64  
+bf03473d5bcc85 Pierre-Louis Bossart 2019-08-21   65  	/* DP0 non-banked registers */
+bf03473d5bcc85 Pierre-Louis Bossart 2019-08-21   66  	ret += scnprintf(buf + ret, RD_BUF - ret, "\nDP0\n");
+bf03473d5bcc85 Pierre-Louis Bossart 2019-08-21   67  	for (i = SDW_DP0_INT; i <= SDW_DP0_PREPARECTRL; i++)
+bf03473d5bcc85 Pierre-Louis Bossart 2019-08-21   68  		ret += sdw_sprintf(slave, buf, ret, i);
+bf03473d5bcc85 Pierre-Louis Bossart 2019-08-21   69  
+bf03473d5bcc85 Pierre-Louis Bossart 2019-08-21   70  	/* DP0 Bank 0 registers */
+bf03473d5bcc85 Pierre-Louis Bossart 2019-08-21   71  	ret += scnprintf(buf + ret, RD_BUF - ret, "Bank0\n");
+bf03473d5bcc85 Pierre-Louis Bossart 2019-08-21   72  	ret += sdw_sprintf(slave, buf, ret, SDW_DP0_CHANNELEN);
+bf03473d5bcc85 Pierre-Louis Bossart 2019-08-21   73  	for (i = SDW_DP0_SAMPLECTRL1; i <= SDW_DP0_LANECTRL; i++)
+bf03473d5bcc85 Pierre-Louis Bossart 2019-08-21   74  		ret += sdw_sprintf(slave, buf, ret, i);
+bf03473d5bcc85 Pierre-Louis Bossart 2019-08-21   75  
+bf03473d5bcc85 Pierre-Louis Bossart 2019-08-21   76  	/* DP0 Bank 1 registers */
+bf03473d5bcc85 Pierre-Louis Bossart 2019-08-21   77  	ret += scnprintf(buf + ret, RD_BUF - ret, "Bank1\n");
+bf03473d5bcc85 Pierre-Louis Bossart 2019-08-21   78  	ret += sdw_sprintf(slave, buf, ret,
+bf03473d5bcc85 Pierre-Louis Bossart 2019-08-21   79  			SDW_DP0_CHANNELEN + SDW_BANK1_OFFSET);
+bf03473d5bcc85 Pierre-Louis Bossart 2019-08-21   80  	for (i = SDW_DP0_SAMPLECTRL1 + SDW_BANK1_OFFSET;
+bf03473d5bcc85 Pierre-Louis Bossart 2019-08-21   81  			i <= SDW_DP0_LANECTRL + SDW_BANK1_OFFSET; i++)
+bf03473d5bcc85 Pierre-Louis Bossart 2019-08-21   82  		ret += sdw_sprintf(slave, buf, ret, i);
+bf03473d5bcc85 Pierre-Louis Bossart 2019-08-21   83  
+bf03473d5bcc85 Pierre-Louis Bossart 2019-08-21   84  	/* SCP registers */
+bf03473d5bcc85 Pierre-Louis Bossart 2019-08-21   85  	ret += scnprintf(buf + ret, RD_BUF - ret, "\nSCP\n");
+bf03473d5bcc85 Pierre-Louis Bossart 2019-08-21   86  	for (i = SDW_SCP_INT1; i <= SDW_SCP_BANKDELAY; i++)
+bf03473d5bcc85 Pierre-Louis Bossart 2019-08-21   87  		ret += sdw_sprintf(slave, buf, ret, i);
+bf03473d5bcc85 Pierre-Louis Bossart 2019-08-21   88  	for (i = SDW_SCP_DEVID_0; i <= SDW_SCP_DEVID_5; i++)
+bf03473d5bcc85 Pierre-Louis Bossart 2019-08-21   89  		ret += sdw_sprintf(slave, buf, ret, i);
+bf03473d5bcc85 Pierre-Louis Bossart 2019-08-21   90  
+bf03473d5bcc85 Pierre-Louis Bossart 2019-08-21   91  	/*
+bf03473d5bcc85 Pierre-Louis Bossart 2019-08-21   92  	 * SCP Bank 0/1 registers are read-only and cannot be
+bf03473d5bcc85 Pierre-Louis Bossart 2019-08-21   93  	 * retrieved from the Slave. The Master typically keeps track
+bf03473d5bcc85 Pierre-Louis Bossart 2019-08-21   94  	 * of the current frame size so the information can be found
+bf03473d5bcc85 Pierre-Louis Bossart 2019-08-21   95  	 * in other places
+bf03473d5bcc85 Pierre-Louis Bossart 2019-08-21   96  	 */
+bf03473d5bcc85 Pierre-Louis Bossart 2019-08-21   97  
+bf03473d5bcc85 Pierre-Louis Bossart 2019-08-21   98  	/* DP1..14 registers */
+bf03473d5bcc85 Pierre-Louis Bossart 2019-08-21   99  	for (i = 1; SDW_VALID_PORT_RANGE(i); i++) {
+bf03473d5bcc85 Pierre-Louis Bossart 2019-08-21  100  
+bf03473d5bcc85 Pierre-Louis Bossart 2019-08-21  101  		/* DPi registers */
+bf03473d5bcc85 Pierre-Louis Bossart 2019-08-21  102  		ret += scnprintf(buf + ret, RD_BUF - ret, "\nDP%d\n", i);
+bf03473d5bcc85 Pierre-Louis Bossart 2019-08-21  103  		for (j = SDW_DPN_INT(i); j <= SDW_DPN_PREPARECTRL(i); j++)
+bf03473d5bcc85 Pierre-Louis Bossart 2019-08-21  104  			ret += sdw_sprintf(slave, buf, ret, j);
+bf03473d5bcc85 Pierre-Louis Bossart 2019-08-21  105  
+bf03473d5bcc85 Pierre-Louis Bossart 2019-08-21  106  		/* DPi Bank0 registers */
+bf03473d5bcc85 Pierre-Louis Bossart 2019-08-21  107  		ret += scnprintf(buf + ret, RD_BUF - ret, "Bank0\n");
+bf03473d5bcc85 Pierre-Louis Bossart 2019-08-21  108  		for (j = SDW_DPN_CHANNELEN_B0(i);
+bf03473d5bcc85 Pierre-Louis Bossart 2019-08-21  109  		     j <= SDW_DPN_LANECTRL_B0(i); j++)
+bf03473d5bcc85 Pierre-Louis Bossart 2019-08-21  110  			ret += sdw_sprintf(slave, buf, ret, j);
+bf03473d5bcc85 Pierre-Louis Bossart 2019-08-21  111  
+bf03473d5bcc85 Pierre-Louis Bossart 2019-08-21  112  		/* DPi Bank1 registers */
+bf03473d5bcc85 Pierre-Louis Bossart 2019-08-21  113  		ret += scnprintf(buf + ret, RD_BUF - ret, "Bank1\n");
+bf03473d5bcc85 Pierre-Louis Bossart 2019-08-21  114  		for (j = SDW_DPN_CHANNELEN_B1(i);
+bf03473d5bcc85 Pierre-Louis Bossart 2019-08-21  115  		     j <= SDW_DPN_LANECTRL_B1(i); j++)
+bf03473d5bcc85 Pierre-Louis Bossart 2019-08-21  116  			ret += sdw_sprintf(slave, buf, ret, j);
+bf03473d5bcc85 Pierre-Louis Bossart 2019-08-21  117  	}
+bf03473d5bcc85 Pierre-Louis Bossart 2019-08-21  118  
+bf03473d5bcc85 Pierre-Louis Bossart 2019-08-21  119  	seq_printf(s_file, "%s", buf);
+f3345eda607ecc Charles Keepax       2022-11-14  120  
+f3345eda607ecc Charles Keepax       2022-11-14  121  	pm_runtime_mark_last_busy(&slave->dev);
+f3345eda607ecc Charles Keepax       2022-11-14  122  	pm_runtime_put(&slave->dev);
+f3345eda607ecc Charles Keepax       2022-11-14  123  
+bf03473d5bcc85 Pierre-Louis Bossart 2019-08-21  124  	kfree(buf);
+bf03473d5bcc85 Pierre-Louis Bossart 2019-08-21  125  
+bf03473d5bcc85 Pierre-Louis Bossart 2019-08-21  126  	return 0;
+bf03473d5bcc85 Pierre-Louis Bossart 2019-08-21  127  }
+bf03473d5bcc85 Pierre-Louis Bossart 2019-08-21  128  DEFINE_SHOW_ATTRIBUTE(sdw_slave_reg);
 
 -- 
 0-DAY CI Kernel Test Service
