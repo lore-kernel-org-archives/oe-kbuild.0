@@ -1,50 +1,49 @@
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8BD910E8;
-	Tue, 22 Nov 2022 07:11:10 +0000 (UTC)
-Received: by mail-ej1-f41.google.com with SMTP id vv4so24388040ejc.2;
-        Mon, 21 Nov 2022 23:11:10 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4936710E8;
+	Tue, 22 Nov 2022 07:15:48 +0000 (UTC)
+Received: by mail-ej1-f53.google.com with SMTP id ft34so33604121ejc.12;
+        Mon, 21 Nov 2022 23:15:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=+YQZ2hTVZG//Smv0UAJil8HcNjDm9fqYOaWpiHV3raQ=;
-        b=RIUIkfrIA9DeE/cXt6YCUZ14WVUaMQTT10RshgDoBVM0bqyZhY99kvEX1J8x0Trsit
-         V/N+2Sn3MZuIEBmwrzUYlfSA+7hF+zw0eEZbW5rsidZnFIiFV43ym5oNIoKwvwzbSrDz
-         0GRG8b3K7Rw0umPsICLDwJKfgMJmZYx5Yx4+VSFJOS+EPZG1uuvzDWCeTPhackYoGC1e
-         2KzqByEDOt96I19cl5znJ0yGBUgnns7qJ7bODtMLLJJnSaf/OHyU1sg285qNfiaviy7A
-         /Y2aqvMBmdCxTtVbTX7SJ0phTYROtGb4Nk9bVjn+l9UhrmT8i3C3+59AfZAYGP0g7FTI
-         V9lQ==
+        bh=aPBOnq4MV/RdGaWML7PRDRza9Xxp38iF/6zbFkVySgQ=;
+        b=XX8ziX+YjfmKOJxT7i71FLz24K+pKc8qQZzFCKWTQ4cyVG1FOzQckq6m9nWgcMo9+b
+         v7bxz5/CxkHLNsliL8OCG/hNQWUwNZEq4b8TecZNjFrwC2VqPYNBuOUTff7dkkV3SFDd
+         RBsN7GVEnTNLyJlmKgUcpRayxLERqJEcBgi1+e/s8G/uWYuG33ywfZF+d63yigQ3Vmvn
+         c2P5ZOIMpb/1W0kteEJ1kWAh0AMOEBhlV72ItmscCpuKEn+Z0R8cRRLpB1gOz2o+Lm6D
+         RvzXfQU9b7Yti8mQ/LRmShCZRsv1LS337D30jmCThUUvoVCThen/IFzHrXeKCCAva3d2
+         XUGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=+YQZ2hTVZG//Smv0UAJil8HcNjDm9fqYOaWpiHV3raQ=;
-        b=6jJR4jcu/HbBI266zkR6KB1+/sU7cTYpYo89h9xO6YyQxwNy/WeroFPGGQLp8/6tIP
-         TH1JDVxPt2YaeUS37E9QiS+4faXUP4oh9DXtZ5tQj1znuZ1v91zeKUTuQyDUO5z3peM9
-         ETjWUMm5fbyaxciv/xnxd4eCTk2Y9rj8kpDoCfe+C4CJFUiVK+htsoRgif4ntTItOniw
-         jjSkPSrD7BAeDNxA+wFLkfX9a0lJLtiGP7ZanBc7gEQYbFQqtUpIGSHf/sZMJX82WOa6
-         1nIwQdlyttOo4qX7VxandGXURv4SnsAEIP2CJgASGbrn2lCbLv0oTuhIjj0kX6nu5nRT
-         YC8Q==
-X-Gm-Message-State: ANoB5pmuwB8PzxHJ7cpi1nFxHsU2E9DzOfc7PsUlz8rkvnJsswxn/vzT
-	1z2I9oaWQLDP3IbAon44H5Q35R7szuA=
-X-Google-Smtp-Source: AA0mqf7wO9QHpkg9aMg6mqgapaLMG0G1cFWqGX1z0bJ8RWlMKLSg7ZGmwTP6HdXSPNhDDLLyazCFPQ==
-X-Received: by 2002:a17:906:945a:b0:7a8:3597:34a8 with SMTP id z26-20020a170906945a00b007a8359734a8mr2136771ejx.628.1669101068857;
-        Mon, 21 Nov 2022 23:11:08 -0800 (PST)
+        bh=aPBOnq4MV/RdGaWML7PRDRza9Xxp38iF/6zbFkVySgQ=;
+        b=j+ogEbsfInaHIeq1W+FpUvy/7WDRVeNZqOS0Osz/7AuxufsYBdRT2yxbLh4TonDEw7
+         QB10GBRRnqNhUVSXflMsSD25yJDo8Uikyw3skmXolJW+T+jKPuLQOf3GBm7Q4Q8ay7Uj
+         Hct8vhQ6CWP6d32m2HYtcbhLpOoUCNOzPR7zs+5MC27qaVjUh0+J1BeSZf0qiPkBMW+4
+         mY0J99T7T+wQoTcF7UOBVBFWYatM8n0CmyS36XtFpnJ8gCr8Ue0B27KvOocP0ym5opJ3
+         knzye3+Cm0X7qIt33uXRbyRTnKJwdEqZFOVK++jgke0IYry5iX8d05VCBhaO4CWReE1y
+         PXug==
+X-Gm-Message-State: ANoB5pnBbOLs9f5YGLWzCjWlH3z5EYUy0au6phTuKUbbIdCqPk49lIqW
+	Lt5bT5OAd2JyiioEoFbOtg/AAtWATo4=
+X-Google-Smtp-Source: AA0mqf5unCjHuqdcJSjeP1V5neGbUuDTfChH3gpaM4/PwGVXIraGDY+33eTqW3BgS5s+8Hg/UkItmw==
+X-Received: by 2002:a17:906:706:b0:7ac:2e16:eb05 with SMTP id y6-20020a170906070600b007ac2e16eb05mr19494203ejb.26.1669101346255;
+        Mon, 21 Nov 2022 23:15:46 -0800 (PST)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id q16-20020a17090676d000b0077d37a5d401sm5758693ejn.33.2022.11.21.23.11.07
+        by smtp.gmail.com with ESMTPSA id x9-20020a170906b08900b007aef930360asm5817871ejy.59.2022.11.21.23.15.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Nov 2022 23:11:08 -0800 (PST)
-Date: Tue, 22 Nov 2022 10:11:05 +0300
+        Mon, 21 Nov 2022 23:15:45 -0800 (PST)
+Date: Tue, 22 Nov 2022 10:15:43 +0300
 From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, Randy Dunlap <rdunlap@infradead.org>
+To: oe-kbuild@lists.linux.dev, Divya Koppera <Divya.Koppera@microchip.com>
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Palmer Dabbelt <palmer@rivosinc.com>,
-	Anup Patel <anup@brainfault.org>
-Subject: drivers/cpuidle/cpuidle-riscv-sbi.c:506 sbi_genpd_probe() warn:
- missing error code 'ret'
-Message-ID: <202211220541.Ck9NkitJ-lkp@intel.com>
+	linux-kernel@vger.kernel.org
+Subject: drivers/net/phy/micrel.c:2613 lan8814_ptp_probe_once() warn: passing
+ zero to 'PTR_ERR'
+Message-ID: <202211220844.eKHGXYnF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -53,69 +52,77 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Message-ID: <20221122071105.Hi6UUUPXBtaAS9nD9srMD2ojOvFc6Fbh1yTsmMbuPLc@z>
+Message-ID: <20221122071543.J9OuRKJoerPtCbRu4V_zSmbj0l-OLB1Ik_qhTPQ7RL8@z>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   eb7081409f94a9a8608593d0fb63a1aa3d6f95d8
-commit: f81f7861ee2aaa6f652f18e8f622547bdd379724 cpuidle: riscv: support non-SMP config
-date:   7 months ago
-config: riscv-randconfig-m031-20221121
-compiler: riscv64-linux-gcc (GCC) 12.1.0
+commit: ece19502834d84ece2e056db28257ca2aa6e4d48 net: phy: micrel: 1588 support for LAN8814 phy
+config: openrisc-randconfig-m041-20221121
+compiler: or1k-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
 
-smatch warnings:
-drivers/cpuidle/cpuidle-riscv-sbi.c:506 sbi_genpd_probe() warn: missing error code 'ret'
+New smatch warnings:
+drivers/net/phy/micrel.c:2613 lan8814_ptp_probe_once() warn: passing zero to 'PTR_ERR'
 
-vim +/ret +506 drivers/cpuidle/cpuidle-riscv-sbi.c
+Old smatch warnings:
+drivers/net/phy/micrel.c:1750 ksz886x_cable_test_get_status() error: uninitialized symbol 'ret'.
 
-6abf32f1d9c500 Anup Patel 2022-02-10  481  static int sbi_genpd_probe(struct device_node *np)
-6abf32f1d9c500 Anup Patel 2022-02-10  482  {
-6abf32f1d9c500 Anup Patel 2022-02-10  483  	struct device_node *node;
-6abf32f1d9c500 Anup Patel 2022-02-10  484  	int ret = 0, pd_count = 0;
-6abf32f1d9c500 Anup Patel 2022-02-10  485  
-6abf32f1d9c500 Anup Patel 2022-02-10  486  	if (!np)
-6abf32f1d9c500 Anup Patel 2022-02-10  487  		return -ENODEV;
-6abf32f1d9c500 Anup Patel 2022-02-10  488  
-6abf32f1d9c500 Anup Patel 2022-02-10  489  	/*
-6abf32f1d9c500 Anup Patel 2022-02-10  490  	 * Parse child nodes for the "#power-domain-cells" property and
-6abf32f1d9c500 Anup Patel 2022-02-10  491  	 * initialize a genpd/genpd-of-provider pair when it's found.
-6abf32f1d9c500 Anup Patel 2022-02-10  492  	 */
-6abf32f1d9c500 Anup Patel 2022-02-10  493  	for_each_child_of_node(np, node) {
-6abf32f1d9c500 Anup Patel 2022-02-10  494  		if (!of_find_property(node, "#power-domain-cells", NULL))
-6abf32f1d9c500 Anup Patel 2022-02-10  495  			continue;
-6abf32f1d9c500 Anup Patel 2022-02-10  496  
-6abf32f1d9c500 Anup Patel 2022-02-10  497  		ret = sbi_pd_init(node);
-6abf32f1d9c500 Anup Patel 2022-02-10  498  		if (ret)
-6abf32f1d9c500 Anup Patel 2022-02-10  499  			goto put_node;
-6abf32f1d9c500 Anup Patel 2022-02-10  500  
-6abf32f1d9c500 Anup Patel 2022-02-10  501  		pd_count++;
-6abf32f1d9c500 Anup Patel 2022-02-10  502  	}
-6abf32f1d9c500 Anup Patel 2022-02-10  503  
-6abf32f1d9c500 Anup Patel 2022-02-10  504  	/* Bail out if not using the hierarchical CPU topology. */
-6abf32f1d9c500 Anup Patel 2022-02-10  505  	if (!pd_count)
-6abf32f1d9c500 Anup Patel 2022-02-10 @506  		goto no_pd;
+vim +/PTR_ERR +2613 drivers/net/phy/micrel.c
 
-Error code?
+ece19502834d84e Divya Koppera 2022-03-04  2589  static int lan8814_ptp_probe_once(struct phy_device *phydev)
+ece19502834d84e Divya Koppera 2022-03-04  2590  {
+ece19502834d84e Divya Koppera 2022-03-04  2591  	struct lan8814_shared_priv *shared = phydev->shared->priv;
+ece19502834d84e Divya Koppera 2022-03-04  2592  
+ece19502834d84e Divya Koppera 2022-03-04  2593  	/* Initialise shared lock for clock*/
+ece19502834d84e Divya Koppera 2022-03-04  2594  	mutex_init(&shared->shared_lock);
+ece19502834d84e Divya Koppera 2022-03-04  2595  
+ece19502834d84e Divya Koppera 2022-03-04  2596  	shared->ptp_clock_info.owner = THIS_MODULE;
+ece19502834d84e Divya Koppera 2022-03-04  2597  	snprintf(shared->ptp_clock_info.name, 30, "%s", phydev->drv->name);
+ece19502834d84e Divya Koppera 2022-03-04  2598  	shared->ptp_clock_info.max_adj = 31249999;
+ece19502834d84e Divya Koppera 2022-03-04  2599  	shared->ptp_clock_info.n_alarm = 0;
+ece19502834d84e Divya Koppera 2022-03-04  2600  	shared->ptp_clock_info.n_ext_ts = 0;
+ece19502834d84e Divya Koppera 2022-03-04  2601  	shared->ptp_clock_info.n_pins = 0;
+ece19502834d84e Divya Koppera 2022-03-04  2602  	shared->ptp_clock_info.pps = 0;
+ece19502834d84e Divya Koppera 2022-03-04  2603  	shared->ptp_clock_info.pin_config = NULL;
+ece19502834d84e Divya Koppera 2022-03-04  2604  	shared->ptp_clock_info.adjfine = lan8814_ptpci_adjfine;
+ece19502834d84e Divya Koppera 2022-03-04  2605  	shared->ptp_clock_info.adjtime = lan8814_ptpci_adjtime;
+ece19502834d84e Divya Koppera 2022-03-04  2606  	shared->ptp_clock_info.gettime64 = lan8814_ptpci_gettime64;
+ece19502834d84e Divya Koppera 2022-03-04  2607  	shared->ptp_clock_info.settime64 = lan8814_ptpci_settime64;
+ece19502834d84e Divya Koppera 2022-03-04  2608  	shared->ptp_clock_info.getcrosststamp = NULL;
+ece19502834d84e Divya Koppera 2022-03-04  2609  
+ece19502834d84e Divya Koppera 2022-03-04  2610  	shared->ptp_clock = ptp_clock_register(&shared->ptp_clock_info,
+ece19502834d84e Divya Koppera 2022-03-04  2611  					       &phydev->mdio.dev);
+ece19502834d84e Divya Koppera 2022-03-04  2612  	if (IS_ERR_OR_NULL(shared->ptp_clock)) {
 
-6abf32f1d9c500 Anup Patel 2022-02-10  507  
-6abf32f1d9c500 Anup Patel 2022-02-10  508  	/* Link genpd masters/subdomains to model the CPU topology. */
-6abf32f1d9c500 Anup Patel 2022-02-10  509  	ret = dt_idle_pd_init_topology(np);
-6abf32f1d9c500 Anup Patel 2022-02-10  510  	if (ret)
-6abf32f1d9c500 Anup Patel 2022-02-10  511  		goto remove_pd;
-6abf32f1d9c500 Anup Patel 2022-02-10  512  
-6abf32f1d9c500 Anup Patel 2022-02-10  513  	return 0;
-6abf32f1d9c500 Anup Patel 2022-02-10  514  
-6abf32f1d9c500 Anup Patel 2022-02-10  515  put_node:
-6abf32f1d9c500 Anup Patel 2022-02-10  516  	of_node_put(node);
-6abf32f1d9c500 Anup Patel 2022-02-10  517  remove_pd:
-6abf32f1d9c500 Anup Patel 2022-02-10  518  	sbi_pd_remove();
-6abf32f1d9c500 Anup Patel 2022-02-10  519  	pr_err("failed to create CPU PM domains ret=%d\n", ret);
-6abf32f1d9c500 Anup Patel 2022-02-10  520  no_pd:
-6abf32f1d9c500 Anup Patel 2022-02-10  521  	return ret;
-6abf32f1d9c500 Anup Patel 2022-02-10  522  }
+This should be if (IS_ERR(shared->ptp_clock)) {
+
+The ptp_clock_register() will only return NULL if it has been disabled
+in the .config.  Ideally the driver would just add checks for NULL where
+necessary and continue without the clock.  But if it's not possible then
+the driver should add a depend in the Kconfig.  Otherwise the driver
+will be built in a way that it can never be used.
+
+ece19502834d84e Divya Koppera 2022-03-04 @2613  		phydev_err(phydev, "ptp_clock_register failed %lu\n",
+ece19502834d84e Divya Koppera 2022-03-04  2614  			   PTR_ERR(shared->ptp_clock));
+ece19502834d84e Divya Koppera 2022-03-04  2615  		return -EINVAL;
+ece19502834d84e Divya Koppera 2022-03-04  2616  	}
+ece19502834d84e Divya Koppera 2022-03-04  2617  
+ece19502834d84e Divya Koppera 2022-03-04  2618  	phydev_dbg(phydev, "successfully registered ptp clock\n");
+ece19502834d84e Divya Koppera 2022-03-04  2619  
+ece19502834d84e Divya Koppera 2022-03-04  2620  	shared->phydev = phydev;
+ece19502834d84e Divya Koppera 2022-03-04  2621  
+ece19502834d84e Divya Koppera 2022-03-04  2622  	/* The EP.4 is shared between all the PHYs in the package and also it
+ece19502834d84e Divya Koppera 2022-03-04  2623  	 * can be accessed by any of the PHYs
+ece19502834d84e Divya Koppera 2022-03-04  2624  	 */
+ece19502834d84e Divya Koppera 2022-03-04  2625  	lanphy_write_page_reg(phydev, 4, LTC_HARD_RESET, LTC_HARD_RESET_);
+ece19502834d84e Divya Koppera 2022-03-04  2626  	lanphy_write_page_reg(phydev, 4, PTP_OPERATING_MODE,
+ece19502834d84e Divya Koppera 2022-03-04  2627  			      PTP_OPERATING_MODE_STANDALONE_);
+ece19502834d84e Divya Koppera 2022-03-04  2628  
+ece19502834d84e Divya Koppera 2022-03-04  2629  	return 0;
+ece19502834d84e Divya Koppera 2022-03-04  2630  }
 
 -- 
 0-DAY CI Kernel Test Service
