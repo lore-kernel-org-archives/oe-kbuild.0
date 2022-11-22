@@ -1,132 +1,70 @@
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 494D910E8
-	for <oe-kbuild@lists.linux.dev>; Tue, 22 Nov 2022 08:13:52 +0000 (UTC)
-Received: by mail-ed1-f52.google.com with SMTP id f7so19542797edc.6
-        for <oe-kbuild@lists.linux.dev>; Tue, 22 Nov 2022 00:13:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=brainfault-org.20210112.gappssmtp.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=jQICzlheAAJXiVyIpE/mb4oDRCrhQaDe9qfSWHDoY4c=;
-        b=wz55pvCOHcKo3Ydsz7KbvWqiVmanGdbUYH39S+u752LtXh6Ehv/fxAvANJoP125bEF
-         q6rivoE7QH6RCVq8QhOVp36aq5uIfiP1fFhjVYBQpdsanbEDG0FV3knZxrut+ffOdGp2
-         ACZpjCPX5dGLX090pzHBLgOBmtVL48ffY2CK8ZGGjKTsJyRszU8T/FHvzKM3Q6W/VBRt
-         SzMuRnONOu6rubz7ORuBS+Ajp4L1OE9j7ADEIEbTQMUKdJvq1HSBekv8c/9x4ffe8g09
-         w8d1mCCk0RVWoAXH0QixZ+bfIFZXvLhCaxd1H9AAb9LbYy03baQV3uQvF8yqKt+zXMDW
-         OtJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=jQICzlheAAJXiVyIpE/mb4oDRCrhQaDe9qfSWHDoY4c=;
-        b=R1UsIwDPQz4/V/Np4APAmghfvpSMU7E2imEE9Rl97+kdn6Q4Q4rBKjUPqcd8KQreei
-         /tuexEzNBIG0sin0BVc7M+1EPlfHZ4l89kY1V3X5fOgd7ItX650wTSVW0MtSomsLQLgt
-         qEAtiykps8qp5X8aYVr4It8nUF9n0vwkPRYSc4oIXljlhLomuzT0WCMmtL20qa/+XPYf
-         sB7ShzIZBYY1U8wQrtSjiZOMmkt8k9smjeLlCiVeXnsgk5TULMzal9CeJQbzrN+VIBp7
-         tkocmYxvZ1Ok0G9IrwrigZxseNeKpyT5fWWT51Ir21BTZ1V7VlG0jIl5F4214Pxnsb7Y
-         3Hyw==
-X-Gm-Message-State: ANoB5pn2LCQTDqTJKm/bdFLGYEr42Y6mwCKIIC1kt8tE5kwpaT75S8F1
-	Tgp9AW1eWG0HPIEqzkevU+ccs6ivgHoiGJnhGIGMlWjPlZZP3w==
-X-Google-Smtp-Source: AA0mqf6e6HWakcq7ZmwxZYx08ECN0U0eeqU9a4JOyyCP1R4QqQKEbR1IXoqe2bQ0vwxUoX5Vk80o8MLps4SkNsYRbP0=
-X-Received: by 2002:aa7:c859:0:b0:461:17e9:4ea3 with SMTP id
- g25-20020aa7c859000000b0046117e94ea3mr20140503edt.49.1669104830253; Tue, 22
- Nov 2022 00:13:50 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E7C810FC
+	for <oe-kbuild@lists.linux.dev>; Tue, 22 Nov 2022 08:42:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+	date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:in-reply-to; s=k1; bh=53i08yR3LPrkTPNVM14C8/vkyZB/
+	BrnmKD0QHFVvf/I=; b=Z+zftOPTuivrufyN6t+KAEh4fDfg/dGKe831HY77SLRs
+	lVKDTvhJzvS+Mz7wTvBXwc23kPt3Ty+C5xkkOqx3xj5mwkbm/Ms/QaB1GQV2B+6U
+	mPC2rIPJcEFInPsYCIL6MTDYoStAgjtMO22Qu/ocGiG2Ufibim63qpajxcwCNng=
+Received: (qmail 177683 invoked from network); 22 Nov 2022 09:42:35 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 22 Nov 2022 09:42:35 +0100
+X-UD-Smtp-Session: l3s3148p1@FP5OJwvuWKFehh99
+Date: Tue, 22 Nov 2022 09:42:34 +0100
+From: Wolfram Sang <wsa-dev@sang-engineering.com>
+To: Dan Carpenter <error27@gmail.com>
+Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Ulf Hansson <ulf.hansson@linaro.org>
+Subject: Re: [linux-next:master 8444/9537]
+ drivers/mmc/host/renesas_sdhi_internal_dmac.c:327
+ renesas_sdhi_internal_dmac_dma_irq() warn: set_bit() takes a bit number
+Message-ID: <Y3yLerDI33CAgEUe@ninjato>
+References: <202211220405.lg7LeBgb-lkp@intel.com>
+ <Y3x3RvDIviaKvni/@shikoro>
+ <Y3yETLzmBhjVeOr/@kadam>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202211220541.Ck9NkitJ-lkp@intel.com>
-In-Reply-To: <202211220541.Ck9NkitJ-lkp@intel.com>
-From: Anup Patel <anup@brainfault.org>
-Date: Tue, 22 Nov 2022 13:43:38 +0530
-Message-ID: <CAAhSdy2A26U5gF_WSfzcdT7v-Fg9aaKXLyT4M=4ba_=WboupzA@mail.gmail.com>
-Subject: Re: drivers/cpuidle/cpuidle-riscv-sbi.c:506 sbi_genpd_probe() warn:
- missing error code 'ret'
-To: Dan Carpenter <error27@gmail.com>
-Cc: oe-kbuild@lists.linux.dev, Randy Dunlap <rdunlap@infradead.org>, lkp@intel.com, 
-	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	Palmer Dabbelt <palmer@rivosinc.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="U1Orkc0/N1qVe7Pd"
+Content-Disposition: inline
+In-Reply-To: <Y3yETLzmBhjVeOr/@kadam>
 
-On Tue, Nov 22, 2022 at 12:41 PM Dan Carpenter <error27@gmail.com> wrote:
->
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   eb7081409f94a9a8608593d0fb63a1aa3d6f95d8
-> commit: f81f7861ee2aaa6f652f18e8f622547bdd379724 cpuidle: riscv: support non-SMP config
-> date:   7 months ago
-> config: riscv-randconfig-m031-20221121
-> compiler: riscv64-linux-gcc (GCC) 12.1.0
->
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <error27@gmail.com>
->
-> smatch warnings:
-> drivers/cpuidle/cpuidle-riscv-sbi.c:506 sbi_genpd_probe() warn: missing error code 'ret'
->
-> vim +/ret +506 drivers/cpuidle/cpuidle-riscv-sbi.c
->
-> 6abf32f1d9c500 Anup Patel 2022-02-10  481  static int sbi_genpd_probe(struct device_node *np)
-> 6abf32f1d9c500 Anup Patel 2022-02-10  482  {
-> 6abf32f1d9c500 Anup Patel 2022-02-10  483       struct device_node *node;
-> 6abf32f1d9c500 Anup Patel 2022-02-10  484       int ret = 0, pd_count = 0;
-> 6abf32f1d9c500 Anup Patel 2022-02-10  485
-> 6abf32f1d9c500 Anup Patel 2022-02-10  486       if (!np)
-> 6abf32f1d9c500 Anup Patel 2022-02-10  487               return -ENODEV;
-> 6abf32f1d9c500 Anup Patel 2022-02-10  488
-> 6abf32f1d9c500 Anup Patel 2022-02-10  489       /*
-> 6abf32f1d9c500 Anup Patel 2022-02-10  490        * Parse child nodes for the "#power-domain-cells" property and
-> 6abf32f1d9c500 Anup Patel 2022-02-10  491        * initialize a genpd/genpd-of-provider pair when it's found.
-> 6abf32f1d9c500 Anup Patel 2022-02-10  492        */
-> 6abf32f1d9c500 Anup Patel 2022-02-10  493       for_each_child_of_node(np, node) {
-> 6abf32f1d9c500 Anup Patel 2022-02-10  494               if (!of_find_property(node, "#power-domain-cells", NULL))
-> 6abf32f1d9c500 Anup Patel 2022-02-10  495                       continue;
-> 6abf32f1d9c500 Anup Patel 2022-02-10  496
-> 6abf32f1d9c500 Anup Patel 2022-02-10  497               ret = sbi_pd_init(node);
-> 6abf32f1d9c500 Anup Patel 2022-02-10  498               if (ret)
-> 6abf32f1d9c500 Anup Patel 2022-02-10  499                       goto put_node;
-> 6abf32f1d9c500 Anup Patel 2022-02-10  500
-> 6abf32f1d9c500 Anup Patel 2022-02-10  501               pd_count++;
-> 6abf32f1d9c500 Anup Patel 2022-02-10  502       }
-> 6abf32f1d9c500 Anup Patel 2022-02-10  503
-> 6abf32f1d9c500 Anup Patel 2022-02-10  504       /* Bail out if not using the hierarchical CPU topology. */
-> 6abf32f1d9c500 Anup Patel 2022-02-10  505       if (!pd_count)
-> 6abf32f1d9c500 Anup Patel 2022-02-10 @506               goto no_pd;
->
-> Error code?
 
-Yes, we intentionally "return 0" when there are no
-generic power-domains defined for the CPUs, the
-sbi_cpuidle_probe() continue further and try traditional
-DT cpuidle states.
+--U1Orkc0/N1qVe7Pd
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Regards,
-Anup
 
->
-> 6abf32f1d9c500 Anup Patel 2022-02-10  507
-> 6abf32f1d9c500 Anup Patel 2022-02-10  508       /* Link genpd masters/subdomains to model the CPU topology. */
-> 6abf32f1d9c500 Anup Patel 2022-02-10  509       ret = dt_idle_pd_init_topology(np);
-> 6abf32f1d9c500 Anup Patel 2022-02-10  510       if (ret)
-> 6abf32f1d9c500 Anup Patel 2022-02-10  511               goto remove_pd;
-> 6abf32f1d9c500 Anup Patel 2022-02-10  512
-> 6abf32f1d9c500 Anup Patel 2022-02-10  513       return 0;
-> 6abf32f1d9c500 Anup Patel 2022-02-10  514
-> 6abf32f1d9c500 Anup Patel 2022-02-10  515  put_node:
-> 6abf32f1d9c500 Anup Patel 2022-02-10  516       of_node_put(node);
-> 6abf32f1d9c500 Anup Patel 2022-02-10  517  remove_pd:
-> 6abf32f1d9c500 Anup Patel 2022-02-10  518       sbi_pd_remove();
-> 6abf32f1d9c500 Anup Patel 2022-02-10  519       pr_err("failed to create CPU PM domains ret=%d\n", ret);
-> 6abf32f1d9c500 Anup Patel 2022-02-10  520  no_pd:
-> 6abf32f1d9c500 Anup Patel 2022-02-10  521       return ret;
-> 6abf32f1d9c500 Anup Patel 2022-02-10  522  }
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://01.org/lkp
->
+> These warnings are normally harmless because people write consistent
+
+Yes, the code still works. Using APIs not correctly doesn't look good,
+though...
+
+
+--U1Orkc0/N1qVe7Pd
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmN8i3cACgkQFA3kzBSg
+Kbac8Q/8CoK310SBUomk7RYD5WIiPp09Y2FUp2vfQ8xijylMQ4sTx3HusKHTje0j
+4ewVPervcYFKiCRSbplWzbmsyuvpCJn5GZ6cAiESY501xAdSa68PHRCwo5WVIzEl
+oc+yVIgAKttb8hi29delmJ2JM/AxHm/TBBJQwaxeX5N0Bm6t04SHQnNWbnFr4tY1
+XQNhWdghk5SlY3e3Qo21rzLgFgTr4Pm8R7p3WR0oE2+cVWV+ntApaZXSy44JNgN8
+Ih67KB4/3CqiSmgFdXfPVPwoYSQ4W/ACHh5G3yJTHtxTDzqEw39wvZMXkL7/CDQ+
+ufRtyVX+PxXcQBbfwT6UUg1SPYUF6Nni0XRk+LXqIbS3pihPyx5iasIF/sUk8Mdy
+JWKOn90fd+7Yv84mTsk/+rls2W7jGjLtam2UTvtSx19oT0LHizdXESH4vX2tm5qb
+/1dVJIaKNPJtJtO4kC42LdmmOxUatzp3aFKIHDdMXVyygDqNw/be/dftHhUiuD1J
+HKdy0vw0KrWNbZYR+KUTv5VkKGmQUuYNJOm48c9FHyry3I4W+Sm0iADb17IBzwys
+fAZ7AvH6bWUJMq/dMo7ORkaiSEK1OReB9UEArZpmMNTrgwev2PLXRYH46cgJnPHw
+0oEt1MKhHw6yK0DMlTUYBxEqgU1JKW7ICzYxrc70T53M5b5yz/w=
+=GLhW
+-----END PGP SIGNATURE-----
+
+--U1Orkc0/N1qVe7Pd--
