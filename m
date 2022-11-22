@@ -1,50 +1,50 @@
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78EF610E8;
-	Tue, 22 Nov 2022 07:10:23 +0000 (UTC)
-Received: by mail-ej1-f50.google.com with SMTP id ft34so33580048ejc.12;
-        Mon, 21 Nov 2022 23:10:23 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8BD910E8;
+	Tue, 22 Nov 2022 07:11:10 +0000 (UTC)
+Received: by mail-ej1-f41.google.com with SMTP id vv4so24388040ejc.2;
+        Mon, 21 Nov 2022 23:11:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=ACtYEnj+ZxSHoXW9eVnJn/GgOlvVWeqHjTJrz+/eEmc=;
-        b=N+Z7YboQpZljw/hHzPvWAqAGB/Opfsb7RiJ48hirAJwugQ0oP2ZpkW/V9Z7j1adR2d
-         7kL+U8P07WjBsTPDUVAxPuO6lsbFC0FICOiu6zQBuTA9rrsg36Rz0XgcGR5SqBg4Kzmr
-         kmQcYmW8ivfvU7ZrLCjSTYRD9c4yL3Qrfw2X+SLgRM/8oQ531NPqK+WWxFTLS51rHQN1
-         sVBkeUGn2txFSnOs0tlNWxY1cUxWIBydTOpKPVK/ui23fjARnCAyx0f3MwZEEco1ehLW
-         O5fEwWfcF5zssI4bbbr8/ZvU0LB4RoWjJ3CAzYjywFw7MKxUd9Hl6JUDtsqHbtlnF4pz
-         Vw6g==
+        bh=+YQZ2hTVZG//Smv0UAJil8HcNjDm9fqYOaWpiHV3raQ=;
+        b=RIUIkfrIA9DeE/cXt6YCUZ14WVUaMQTT10RshgDoBVM0bqyZhY99kvEX1J8x0Trsit
+         V/N+2Sn3MZuIEBmwrzUYlfSA+7hF+zw0eEZbW5rsidZnFIiFV43ym5oNIoKwvwzbSrDz
+         0GRG8b3K7Rw0umPsICLDwJKfgMJmZYx5Yx4+VSFJOS+EPZG1uuvzDWCeTPhackYoGC1e
+         2KzqByEDOt96I19cl5znJ0yGBUgnns7qJ7bODtMLLJJnSaf/OHyU1sg285qNfiaviy7A
+         /Y2aqvMBmdCxTtVbTX7SJ0phTYROtGb4Nk9bVjn+l9UhrmT8i3C3+59AfZAYGP0g7FTI
+         V9lQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ACtYEnj+ZxSHoXW9eVnJn/GgOlvVWeqHjTJrz+/eEmc=;
-        b=xBNJdzvX61jD9Tbfgqj9xtxeaO9gWCSsBV8S8aQR+DbMvjOpPE/CC/BKSYO0jEcFQq
-         meSoMRiZRAqcLq/Zx/ANawtKV/afX7Da98hgPJkOiRkquvS4FoG62WwXuvqcDVN7oWTX
-         MdD/oUzMkf/p60kVaoi2V+v484ggcjOuo+8rM3aMtTVbF5aHioDoexCxYLSy6bcR6wdu
-         YIMOXlGd+8tqisw2k8QS2zU4NwPBTjMmhIVamy7RRONMLYfAQP4H9sUcgMQJFW9Me2U0
-         WsnY4og6p0G0SEkqIYsPAntRJb1tvcxJMC9gQcRsrAs1OWM279uRtKCOPfoTrREYVJ7A
-         gRQg==
-X-Gm-Message-State: ANoB5pljhlF9eaJzTZ8LeKXfte4QxKQLfjZ/Xv4rL3Zr24oQtUw/OJsm
-	hLoK2tbno9BmhMp1qepVxw8sn2sTWWs=
-X-Google-Smtp-Source: AA0mqf7UQa4URz4H9d4lg4FffLi7ntDtRhZdC7v4x7zaBeNSnxIzUYZhtL2IfdaXA8FDgM2pa6jnxQ==
-X-Received: by 2002:a17:906:84a:b0:7ae:1e53:3f97 with SMTP id f10-20020a170906084a00b007ae1e533f97mr18847827ejd.169.1669101021080;
-        Mon, 21 Nov 2022 23:10:21 -0800 (PST)
+        bh=+YQZ2hTVZG//Smv0UAJil8HcNjDm9fqYOaWpiHV3raQ=;
+        b=6jJR4jcu/HbBI266zkR6KB1+/sU7cTYpYo89h9xO6YyQxwNy/WeroFPGGQLp8/6tIP
+         TH1JDVxPt2YaeUS37E9QiS+4faXUP4oh9DXtZ5tQj1znuZ1v91zeKUTuQyDUO5z3peM9
+         ETjWUMm5fbyaxciv/xnxd4eCTk2Y9rj8kpDoCfe+C4CJFUiVK+htsoRgif4ntTItOniw
+         jjSkPSrD7BAeDNxA+wFLkfX9a0lJLtiGP7ZanBc7gEQYbFQqtUpIGSHf/sZMJX82WOa6
+         1nIwQdlyttOo4qX7VxandGXURv4SnsAEIP2CJgASGbrn2lCbLv0oTuhIjj0kX6nu5nRT
+         YC8Q==
+X-Gm-Message-State: ANoB5pmuwB8PzxHJ7cpi1nFxHsU2E9DzOfc7PsUlz8rkvnJsswxn/vzT
+	1z2I9oaWQLDP3IbAon44H5Q35R7szuA=
+X-Google-Smtp-Source: AA0mqf7wO9QHpkg9aMg6mqgapaLMG0G1cFWqGX1z0bJ8RWlMKLSg7ZGmwTP6HdXSPNhDDLLyazCFPQ==
+X-Received: by 2002:a17:906:945a:b0:7a8:3597:34a8 with SMTP id z26-20020a170906945a00b007a8359734a8mr2136771ejx.628.1669101068857;
+        Mon, 21 Nov 2022 23:11:08 -0800 (PST)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id gt22-20020a170906f21600b0073c10031dc9sm5724477ejb.80.2022.11.21.23.10.19
+        by smtp.gmail.com with ESMTPSA id q16-20020a17090676d000b0077d37a5d401sm5758693ejn.33.2022.11.21.23.11.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Nov 2022 23:10:20 -0800 (PST)
-Date: Tue, 22 Nov 2022 10:10:15 +0300
+        Mon, 21 Nov 2022 23:11:08 -0800 (PST)
+Date: Tue, 22 Nov 2022 10:11:05 +0300
 From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, Wolfram Sang <wsa-dev@sang-engineering.com>
+To: oe-kbuild@lists.linux.dev, Randy Dunlap <rdunlap@infradead.org>
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Ulf Hansson <ulf.hansson@linaro.org>
-Subject: [linux-next:master 8444/9537]
- drivers/mmc/host/renesas_sdhi_internal_dmac.c:327
- renesas_sdhi_internal_dmac_dma_irq() warn: set_bit() takes a bit number
-Message-ID: <202211220405.lg7LeBgb-lkp@intel.com>
+	linux-kernel@vger.kernel.org, Palmer Dabbelt <palmer@rivosinc.com>,
+	Anup Patel <anup@brainfault.org>
+Subject: drivers/cpuidle/cpuidle-riscv-sbi.c:506 sbi_genpd_probe() warn:
+ missing error code 'ret'
+Message-ID: <202211220541.Ck9NkitJ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -53,162 +53,69 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Message-ID: <20221122071015.uV0cykEEma85PsjmmSO7EHxYflyAp0gN9opPhnjVulw@z>
+Message-ID: <20221122071105.Hi6UUUPXBtaAS9nD9srMD2ojOvFc6Fbh1yTsmMbuPLc@z>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   e4cd8d3ff7f9efeb97330e5e9b99eeb2a68f5cf9
-commit: 8d901e2ba5667ea48b99b27a8d9c7faec37e6bb6 [8444/9537] mmc: renesas_sdhi: take DMA end interrupts into account
-config: microblaze-randconfig-m041-20221121
-compiler: microblaze-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   eb7081409f94a9a8608593d0fb63a1aa3d6f95d8
+commit: f81f7861ee2aaa6f652f18e8f622547bdd379724 cpuidle: riscv: support non-SMP config
+date:   7 months ago
+config: riscv-randconfig-m031-20221121
+compiler: riscv64-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
 
 smatch warnings:
-drivers/mmc/host/renesas_sdhi_internal_dmac.c:327 renesas_sdhi_internal_dmac_dma_irq() warn: set_bit() takes a bit number
-drivers/mmc/host/renesas_sdhi_internal_dmac.c:341 renesas_sdhi_internal_dmac_dataend_dma() warn: set_bit() takes a bit number
-drivers/mmc/host/renesas_sdhi_internal_dmac.c:444 renesas_sdhi_internal_dmac_issue_tasklet_fn() warn: set_bit() takes a bit number
+drivers/cpuidle/cpuidle-riscv-sbi.c:506 sbi_genpd_probe() warn: missing error code 'ret'
 
-vim +327 drivers/mmc/host/renesas_sdhi_internal_dmac.c
+vim +/ret +506 drivers/cpuidle/cpuidle-riscv-sbi.c
 
-8d901e2ba5667ea Wolfram Sang       2022-10-06  315  static bool renesas_sdhi_internal_dmac_dma_irq(struct tmio_mmc_host *host)
-8d901e2ba5667ea Wolfram Sang       2022-10-06  316  {
-8d901e2ba5667ea Wolfram Sang       2022-10-06  317  	struct renesas_sdhi *priv = host_to_priv(host);
-8d901e2ba5667ea Wolfram Sang       2022-10-06  318  	struct renesas_sdhi_dma *dma_priv = &priv->dma_priv;
-8d901e2ba5667ea Wolfram Sang       2022-10-06  319  
-8d901e2ba5667ea Wolfram Sang       2022-10-06  320  	u32 dma_irqs = INFO1_DTRANEND0 |
-8d901e2ba5667ea Wolfram Sang       2022-10-06  321  			(priv->quirks && priv->quirks->old_info1_layout ?
-8d901e2ba5667ea Wolfram Sang       2022-10-06  322  			INFO1_DTRANEND1_OLD : INFO1_DTRANEND1);
-8d901e2ba5667ea Wolfram Sang       2022-10-06  323  	u32 status = readl(host->ctl + DM_CM_INFO1);
-8d901e2ba5667ea Wolfram Sang       2022-10-06  324  
-8d901e2ba5667ea Wolfram Sang       2022-10-06  325  	if (status & dma_irqs) {
-8d901e2ba5667ea Wolfram Sang       2022-10-06  326  		writel(status ^ dma_irqs, host->ctl + DM_CM_INFO1);
-8d901e2ba5667ea Wolfram Sang       2022-10-06 @327  		set_bit(SDHI_DMA_END_FLAG_DMA, &dma_priv->end_flags);
+6abf32f1d9c500 Anup Patel 2022-02-10  481  static int sbi_genpd_probe(struct device_node *np)
+6abf32f1d9c500 Anup Patel 2022-02-10  482  {
+6abf32f1d9c500 Anup Patel 2022-02-10  483  	struct device_node *node;
+6abf32f1d9c500 Anup Patel 2022-02-10  484  	int ret = 0, pd_count = 0;
+6abf32f1d9c500 Anup Patel 2022-02-10  485  
+6abf32f1d9c500 Anup Patel 2022-02-10  486  	if (!np)
+6abf32f1d9c500 Anup Patel 2022-02-10  487  		return -ENODEV;
+6abf32f1d9c500 Anup Patel 2022-02-10  488  
+6abf32f1d9c500 Anup Patel 2022-02-10  489  	/*
+6abf32f1d9c500 Anup Patel 2022-02-10  490  	 * Parse child nodes for the "#power-domain-cells" property and
+6abf32f1d9c500 Anup Patel 2022-02-10  491  	 * initialize a genpd/genpd-of-provider pair when it's found.
+6abf32f1d9c500 Anup Patel 2022-02-10  492  	 */
+6abf32f1d9c500 Anup Patel 2022-02-10  493  	for_each_child_of_node(np, node) {
+6abf32f1d9c500 Anup Patel 2022-02-10  494  		if (!of_find_property(node, "#power-domain-cells", NULL))
+6abf32f1d9c500 Anup Patel 2022-02-10  495  			continue;
+6abf32f1d9c500 Anup Patel 2022-02-10  496  
+6abf32f1d9c500 Anup Patel 2022-02-10  497  		ret = sbi_pd_init(node);
+6abf32f1d9c500 Anup Patel 2022-02-10  498  		if (ret)
+6abf32f1d9c500 Anup Patel 2022-02-10  499  			goto put_node;
+6abf32f1d9c500 Anup Patel 2022-02-10  500  
+6abf32f1d9c500 Anup Patel 2022-02-10  501  		pd_count++;
+6abf32f1d9c500 Anup Patel 2022-02-10  502  	}
+6abf32f1d9c500 Anup Patel 2022-02-10  503  
+6abf32f1d9c500 Anup Patel 2022-02-10  504  	/* Bail out if not using the hierarchical CPU topology. */
+6abf32f1d9c500 Anup Patel 2022-02-10  505  	if (!pd_count)
+6abf32f1d9c500 Anup Patel 2022-02-10 @506  		goto no_pd;
 
-This is like doing dma_priv->end_flags = BIT(BIT(x));  Double BIT().
+Error code?
 
-8d901e2ba5667ea Wolfram Sang       2022-10-06  328  		if (test_bit(SDHI_DMA_END_FLAG_ACCESS, &dma_priv->end_flags))
-8d901e2ba5667ea Wolfram Sang       2022-10-06  329  			tasklet_schedule(&dma_priv->dma_complete);
-8d901e2ba5667ea Wolfram Sang       2022-10-06  330  	}
-8d901e2ba5667ea Wolfram Sang       2022-10-06  331  
-8d901e2ba5667ea Wolfram Sang       2022-10-06  332  	return status & dma_irqs;
-8d901e2ba5667ea Wolfram Sang       2022-10-06  333  }
-8d901e2ba5667ea Wolfram Sang       2022-10-06  334  
-2a68ea7896e3277 Simon Horman       2017-06-21  335  static void
-ed9ab884987bf80 Wolfram Sang       2022-03-20  336  renesas_sdhi_internal_dmac_dataend_dma(struct tmio_mmc_host *host)
-ed9ab884987bf80 Wolfram Sang       2022-03-20  337  {
-90d951064576540 Masahiro Yamada    2017-11-25  338  	struct renesas_sdhi *priv = host_to_priv(host);
-8d901e2ba5667ea Wolfram Sang       2022-10-06  339  	struct renesas_sdhi_dma *dma_priv = &priv->dma_priv;
-90d951064576540 Masahiro Yamada    2017-11-25  340  
-8d901e2ba5667ea Wolfram Sang       2022-10-06 @341  	set_bit(SDHI_DMA_END_FLAG_ACCESS, &dma_priv->end_flags);
-8d901e2ba5667ea Wolfram Sang       2022-10-06  342  	if (test_bit(SDHI_DMA_END_FLAG_DMA, &dma_priv->end_flags) ||
-8d901e2ba5667ea Wolfram Sang       2022-10-06  343  	    host->data->error)
-8d901e2ba5667ea Wolfram Sang       2022-10-06  344  		tasklet_schedule(&dma_priv->dma_complete);
-2a68ea7896e3277 Simon Horman       2017-06-21  345  }
-2a68ea7896e3277 Simon Horman       2017-06-21  346  
-69e7d76afdb5424 Yoshihiro Shimoda  2020-12-16  347  /*
-088604048b24846 Lad Prabhakar      2022-06-24  348   * renesas_sdhi_internal_dmac_map() will be called with two different
-69e7d76afdb5424 Yoshihiro Shimoda  2020-12-16  349   * sg pointers in two mmc_data by .pre_req(), but tmio host can have a single
-69e7d76afdb5424 Yoshihiro Shimoda  2020-12-16  350   * sg_ptr only. So, renesas_sdhi_internal_dmac_{un}map() should use a sg
-69e7d76afdb5424 Yoshihiro Shimoda  2020-12-16  351   * pointer in a mmc_data instead of host->sg_ptr.
-69e7d76afdb5424 Yoshihiro Shimoda  2020-12-16  352   */
-69e7d76afdb5424 Yoshihiro Shimoda  2020-12-16  353  static void
-69e7d76afdb5424 Yoshihiro Shimoda  2020-12-16  354  renesas_sdhi_internal_dmac_unmap(struct tmio_mmc_host *host,
-69e7d76afdb5424 Yoshihiro Shimoda  2020-12-16  355  				 struct mmc_data *data,
-69e7d76afdb5424 Yoshihiro Shimoda  2020-12-16  356  				 enum renesas_sdhi_dma_cookie cookie)
-69e7d76afdb5424 Yoshihiro Shimoda  2020-12-16  357  {
-69e7d76afdb5424 Yoshihiro Shimoda  2020-12-16  358  	bool unmap = cookie == COOKIE_UNMAPPED ? (data->host_cookie != cookie) :
-69e7d76afdb5424 Yoshihiro Shimoda  2020-12-16  359  						 (data->host_cookie == cookie);
-69e7d76afdb5424 Yoshihiro Shimoda  2020-12-16  360  
-69e7d76afdb5424 Yoshihiro Shimoda  2020-12-16  361  	if (unmap) {
-69e7d76afdb5424 Yoshihiro Shimoda  2020-12-16  362  		dma_unmap_sg(&host->pdev->dev, data->sg, data->sg_len,
-69e7d76afdb5424 Yoshihiro Shimoda  2020-12-16  363  			     mmc_get_dma_dir(data));
-69e7d76afdb5424 Yoshihiro Shimoda  2020-12-16  364  		data->host_cookie = COOKIE_UNMAPPED;
-69e7d76afdb5424 Yoshihiro Shimoda  2020-12-16  365  	}
-69e7d76afdb5424 Yoshihiro Shimoda  2020-12-16  366  }
-69e7d76afdb5424 Yoshihiro Shimoda  2020-12-16  367  
-69e7d76afdb5424 Yoshihiro Shimoda  2020-12-16  368  static bool
-69e7d76afdb5424 Yoshihiro Shimoda  2020-12-16  369  renesas_sdhi_internal_dmac_map(struct tmio_mmc_host *host,
-69e7d76afdb5424 Yoshihiro Shimoda  2020-12-16  370  			       struct mmc_data *data,
-69e7d76afdb5424 Yoshihiro Shimoda  2020-12-16  371  			       enum renesas_sdhi_dma_cookie cookie)
-69e7d76afdb5424 Yoshihiro Shimoda  2020-12-16  372  {
-69e7d76afdb5424 Yoshihiro Shimoda  2020-12-16  373  	if (data->host_cookie == COOKIE_PRE_MAPPED)
-69e7d76afdb5424 Yoshihiro Shimoda  2020-12-16  374  		return true;
-69e7d76afdb5424 Yoshihiro Shimoda  2020-12-16  375  
-69e7d76afdb5424 Yoshihiro Shimoda  2020-12-16  376  	if (!dma_map_sg(&host->pdev->dev, data->sg, data->sg_len,
-69e7d76afdb5424 Yoshihiro Shimoda  2020-12-16  377  			    mmc_get_dma_dir(data)))
-69e7d76afdb5424 Yoshihiro Shimoda  2020-12-16  378  		return false;
-69e7d76afdb5424 Yoshihiro Shimoda  2020-12-16  379  
-69e7d76afdb5424 Yoshihiro Shimoda  2020-12-16  380  	data->host_cookie = cookie;
-69e7d76afdb5424 Yoshihiro Shimoda  2020-12-16  381  
-088604048b24846 Lad Prabhakar      2022-06-24  382  	/* This DMAC needs buffers to be 128-byte aligned */
-69e7d76afdb5424 Yoshihiro Shimoda  2020-12-16  383  	if (!IS_ALIGNED(sg_dma_address(data->sg), 128)) {
-69e7d76afdb5424 Yoshihiro Shimoda  2020-12-16  384  		renesas_sdhi_internal_dmac_unmap(host, data, cookie);
-69e7d76afdb5424 Yoshihiro Shimoda  2020-12-16  385  		return false;
-69e7d76afdb5424 Yoshihiro Shimoda  2020-12-16  386  	}
-69e7d76afdb5424 Yoshihiro Shimoda  2020-12-16  387  
-69e7d76afdb5424 Yoshihiro Shimoda  2020-12-16  388  	return true;
-69e7d76afdb5424 Yoshihiro Shimoda  2020-12-16  389  }
-69e7d76afdb5424 Yoshihiro Shimoda  2020-12-16  390  
-2a68ea7896e3277 Simon Horman       2017-06-21  391  static void
-2a68ea7896e3277 Simon Horman       2017-06-21  392  renesas_sdhi_internal_dmac_start_dma(struct tmio_mmc_host *host,
-2a68ea7896e3277 Simon Horman       2017-06-21  393  				     struct mmc_data *data)
-2a68ea7896e3277 Simon Horman       2017-06-21  394  {
-c0a43968be5609c Wolfram Sang       2022-03-20  395  	struct renesas_sdhi *priv = host_to_priv(host);
-2a68ea7896e3277 Simon Horman       2017-06-21  396  	struct scatterlist *sg = host->sg_ptr;
-9706b4722e120f2 Chris Brandt       2018-10-24  397  	u32 dtran_mode = DTRAN_MODE_BUS_WIDTH;
-9706b4722e120f2 Chris Brandt       2018-10-24  398  
-139bbdba494b0ba Geert Uytterhoeven 2022-04-01  399  	if (!(priv->quirks && priv->quirks->fixed_addr_mode))
-9706b4722e120f2 Chris Brandt       2018-10-24  400  		dtran_mode |= DTRAN_MODE_ADDR_MODE;
-2a68ea7896e3277 Simon Horman       2017-06-21  401  
-69e7d76afdb5424 Yoshihiro Shimoda  2020-12-16  402  	if (!renesas_sdhi_internal_dmac_map(host, data, COOKIE_MAPPED))
-ae275b9d606f922 Masaharu Hayakawa  2018-04-18  403  		goto force_pio;
-ae275b9d606f922 Masaharu Hayakawa  2018-04-18  404  
-2a68ea7896e3277 Simon Horman       2017-06-21  405  	if (data->flags & MMC_DATA_READ) {
-2a68ea7896e3277 Simon Horman       2017-06-21  406  		dtran_mode |= DTRAN_MODE_CH_NUM_CH1;
-139bbdba494b0ba Geert Uytterhoeven 2022-04-01  407  		if (priv->quirks && priv->quirks->dma_one_rx_only &&
-0cbc94daa55441c Wolfram Sang       2018-04-18  408  		    test_and_set_bit(SDHI_INTERNAL_DMAC_RX_IN_USE, &global_flags))
-fe6e04941aa1247 Yoshihiro Shimoda  2018-06-29  409  			goto force_pio_with_unmap;
-2a68ea7896e3277 Simon Horman       2017-06-21  410  	} else {
-2a68ea7896e3277 Simon Horman       2017-06-21  411  		dtran_mode |= DTRAN_MODE_CH_NUM_CH0;
-2a68ea7896e3277 Simon Horman       2017-06-21  412  	}
-2a68ea7896e3277 Simon Horman       2017-06-21  413  
-8d901e2ba5667ea Wolfram Sang       2022-10-06  414  	priv->dma_priv.end_flags = 0;
-2a68ea7896e3277 Simon Horman       2017-06-21  415  	renesas_sdhi_internal_dmac_enable_dma(host, true);
-2a68ea7896e3277 Simon Horman       2017-06-21  416  
-2a68ea7896e3277 Simon Horman       2017-06-21  417  	/* set dma parameters */
-f33261c369ba5b7 Wolfram Sang       2022-10-06  418  	writel(dtran_mode, host->ctl + DM_CM_DTRAN_MODE);
-f33261c369ba5b7 Wolfram Sang       2022-10-06  419  	writel(sg_dma_address(sg), host->ctl + DM_DTRAN_ADDR);
-48e1dc10a944087 Yoshihiro Shimoda  2017-10-20  420  
-d3dd5db0c1b904e Masahiro Yamada    2018-10-13  421  	host->dma_on = true;
-d3dd5db0c1b904e Masahiro Yamada    2018-10-13  422  
-48e1dc10a944087 Yoshihiro Shimoda  2017-10-20  423  	return;
-48e1dc10a944087 Yoshihiro Shimoda  2017-10-20  424  
-fe6e04941aa1247 Yoshihiro Shimoda  2018-06-29  425  force_pio_with_unmap:
-69e7d76afdb5424 Yoshihiro Shimoda  2020-12-16  426  	renesas_sdhi_internal_dmac_unmap(host, data, COOKIE_UNMAPPED);
-fe6e04941aa1247 Yoshihiro Shimoda  2018-06-29  427  
-48e1dc10a944087 Yoshihiro Shimoda  2017-10-20  428  force_pio:
-48e1dc10a944087 Yoshihiro Shimoda  2017-10-20  429  	renesas_sdhi_internal_dmac_enable_dma(host, false);
-2a68ea7896e3277 Simon Horman       2017-06-21  430  }
-2a68ea7896e3277 Simon Horman       2017-06-21  431  
-2a68ea7896e3277 Simon Horman       2017-06-21  432  static void renesas_sdhi_internal_dmac_issue_tasklet_fn(unsigned long arg)
-2a68ea7896e3277 Simon Horman       2017-06-21  433  {
-2a68ea7896e3277 Simon Horman       2017-06-21  434  	struct tmio_mmc_host *host = (struct tmio_mmc_host *)arg;
-8d901e2ba5667ea Wolfram Sang       2022-10-06  435  	struct renesas_sdhi *priv = host_to_priv(host);
-2a68ea7896e3277 Simon Horman       2017-06-21  436  
-2a68ea7896e3277 Simon Horman       2017-06-21  437  	tmio_mmc_enable_mmc_irqs(host, TMIO_STAT_DATAEND);
-2a68ea7896e3277 Simon Horman       2017-06-21  438  
-8d901e2ba5667ea Wolfram Sang       2022-10-06  439  	if (!host->cmd->error) {
-2a68ea7896e3277 Simon Horman       2017-06-21  440  		/* start the DMAC */
-f33261c369ba5b7 Wolfram Sang       2022-10-06  441  		writel(DTRAN_CTRL_DM_START, host->ctl + DM_CM_DTRAN_CTRL);
-8d901e2ba5667ea Wolfram Sang       2022-10-06  442  	} else {
-8d901e2ba5667ea Wolfram Sang       2022-10-06  443  		/* on CMD errors, simulate DMA end immediately */
-8d901e2ba5667ea Wolfram Sang       2022-10-06 @444  		set_bit(SDHI_DMA_END_FLAG_DMA, &priv->dma_priv.end_flags);
-8d901e2ba5667ea Wolfram Sang       2022-10-06  445  		if (test_bit(SDHI_DMA_END_FLAG_ACCESS, &priv->dma_priv.end_flags))
-8d901e2ba5667ea Wolfram Sang       2022-10-06  446  			tasklet_schedule(&priv->dma_priv.dma_complete);
-8d901e2ba5667ea Wolfram Sang       2022-10-06  447  	}
-2a68ea7896e3277 Simon Horman       2017-06-21  448  }
+6abf32f1d9c500 Anup Patel 2022-02-10  507  
+6abf32f1d9c500 Anup Patel 2022-02-10  508  	/* Link genpd masters/subdomains to model the CPU topology. */
+6abf32f1d9c500 Anup Patel 2022-02-10  509  	ret = dt_idle_pd_init_topology(np);
+6abf32f1d9c500 Anup Patel 2022-02-10  510  	if (ret)
+6abf32f1d9c500 Anup Patel 2022-02-10  511  		goto remove_pd;
+6abf32f1d9c500 Anup Patel 2022-02-10  512  
+6abf32f1d9c500 Anup Patel 2022-02-10  513  	return 0;
+6abf32f1d9c500 Anup Patel 2022-02-10  514  
+6abf32f1d9c500 Anup Patel 2022-02-10  515  put_node:
+6abf32f1d9c500 Anup Patel 2022-02-10  516  	of_node_put(node);
+6abf32f1d9c500 Anup Patel 2022-02-10  517  remove_pd:
+6abf32f1d9c500 Anup Patel 2022-02-10  518  	sbi_pd_remove();
+6abf32f1d9c500 Anup Patel 2022-02-10  519  	pr_err("failed to create CPU PM domains ret=%d\n", ret);
+6abf32f1d9c500 Anup Patel 2022-02-10  520  no_pd:
+6abf32f1d9c500 Anup Patel 2022-02-10  521  	return ret;
+6abf32f1d9c500 Anup Patel 2022-02-10  522  }
 
 -- 
 0-DAY CI Kernel Test Service
