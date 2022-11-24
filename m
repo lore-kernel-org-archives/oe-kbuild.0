@@ -1,157 +1,116 @@
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EA682597;
-	Thu, 24 Nov 2022 13:37:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B547428EF
+	for <oe-kbuild@lists.linux.dev>; Thu, 24 Nov 2022 14:00:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1669297031; x=1700833031;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=jQQPQduFTRGPE6LuYI/cCbmJH48WxAJL8qGvr7aICxI=;
-  b=P5YsjxYElbV0M/pdpn+ktO3z5N6g9Nz0+A0HUSG8IjShN5oJ+s44QF0Q
-   JR9e0LrfxaRfhk2BpRTXBbwQDv6IzLdnLV/osRbZ0lt95YYl1hfXhT0XO
-   G2Znz5Sk0vGs2e6rwCVmkdO7B1aNQxMQAJ7nUJmX+QfYN/CYFfSHEF979
-   hHqlWGVKAzhFaxLHEBwaXy7bvLrp2fT/ko0c0zOU5ch4LAEv2aTtLceUu
-   aMhPXAfF4JJsWlTVU55ewgW0cqWZqrOJ1dHYOXtdIQ/x1zlj5FNEQFxui
-   5ipGUNcwYkcME6ycOFaHzKyjHqeh2BE9AyF3zLJh4yn2C7sCk2fdiIYPm
-   A==;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1669298419; x=1700834419;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=pdjy9kEs1o0xSwtcx5Dk4HQQpslDpjt5Q6zYOXdsA9s=;
+  b=L/gum1pVTz2+m+GRy9wO0mX3YzY0pAkG+XUVFMeFl4Pp13h/SNhUDgMA
+   xEhTtJp/P6sTDydu+0jSLStR5I8rl3HNsXQ2bI8l3CUfaiGLlLdTBeDv+
+   hbGziE/UWrzV1rkbRhbbQ54hkG+h/9I3YzR7j7vM1iTGKXYhCPol5uNCj
+   uD0jG++SLK1SLT13a1HPmdVyyBgoZj1XNLEBo/Rc4Ova817y0+e79I2N5
+   OKMWeOO+pLXWJ1lA3oPZh2IBh6lliiLrPmU2/7DQZ9mRIV+X3TgQhBmq5
+   5II65bQo1bLU4oY1ca02v7BtSbB+SRg05BjIvvubtQduTZUMsxuJ2ey8x
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10541"; a="301869005"
 X-IronPort-AV: E=Sophos;i="5.96,190,1665471600"; 
-   d="scan'208";a="124960126"
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa6.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 24 Nov 2022 06:36:00 -0700
-Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
- chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.12; Thu, 24 Nov 2022 06:35:53 -0700
-Received: from wendy (10.10.115.15) by chn-vm-ex03.mchp-main.com
- (10.10.85.151) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.12 via Frontend
- Transport; Thu, 24 Nov 2022 06:35:51 -0700
-Date: Thu, 24 Nov 2022 13:35:33 +0000
-From: Conor Dooley <conor.dooley@microchip.com>
-To: Anup Patel <anup@brainfault.org>
-CC: Dan Carpenter <error27@gmail.com>, <oe-kbuild@lists.linux.dev>, Randy
- Dunlap <rdunlap@infradead.org>, <lkp@intel.com>,
-	<oe-kbuild-all@lists.linux.dev>, <linux-kernel@vger.kernel.org>, Palmer
- Dabbelt <palmer@rivosinc.com>
-Subject: Re: drivers/cpuidle/cpuidle-riscv-sbi.c:506 sbi_genpd_probe() warn:
- missing error code 'ret'
-Message-ID: <Y39zJaTMWQk376zN@wendy>
-References: <202211220541.Ck9NkitJ-lkp@intel.com>
- <CAAhSdy2A26U5gF_WSfzcdT7v-Fg9aaKXLyT4M=4ba_=WboupzA@mail.gmail.com>
+   d="scan'208";a="301869005"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2022 06:00:19 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10541"; a="644501885"
+X-IronPort-AV: E=Sophos;i="5.96,190,1665471600"; 
+   d="scan'208";a="644501885"
+Received: from lkp-server01.sh.intel.com (HELO 64a2d449c951) ([10.239.97.150])
+  by fmsmga007.fm.intel.com with ESMTP; 24 Nov 2022 06:00:17 -0800
+Received: from kbuild by 64a2d449c951 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1oyCm0-0003xp-20;
+	Thu, 24 Nov 2022 14:00:16 +0000
+Date: Thu, 24 Nov 2022 22:00:10 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: arch/arm/kernel/return_address.c:44:1: warning: Label 'here' is not
+ used. There is #if in function body so the label might be used in code that
+ is removed by the preprocessor. [unusedLabelConfiguration]
+Message-ID: <202211242153.PUWD8Mwu-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <CAAhSdy2A26U5gF_WSfzcdT7v-Fg9aaKXLyT4M=4ba_=WboupzA@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 
-Hey Anup,
+:::::: 
+:::::: Manual check reason: "low confidence static check warning: arch/arm/kernel/return_address.c:44:1: warning: Label 'here' is not used. There is #if in function body so the label might be used in code that is removed by the preprocessor. [unusedLabelConfiguration]"
+:::::: 
 
-On Tue, Nov 22, 2022 at 01:43:38PM +0530, Anup Patel wrote:
-> On Tue, Nov 22, 2022 at 12:41 PM Dan Carpenter <error27@gmail.com> wrote:
-> >
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> > head:   eb7081409f94a9a8608593d0fb63a1aa3d6f95d8
-> > commit: f81f7861ee2aaa6f652f18e8f622547bdd379724 cpuidle: riscv: support non-SMP config
-> > date:   7 months ago
-> > config: riscv-randconfig-m031-20221121
-> > compiler: riscv64-linux-gcc (GCC) 12.1.0
-> >
-> > If you fix the issue, kindly add following tag where applicable
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Reported-by: Dan Carpenter <error27@gmail.com>
-> >
-> > smatch warnings:
-> > drivers/cpuidle/cpuidle-riscv-sbi.c:506 sbi_genpd_probe() warn: missing error code 'ret'
-> >
-> > vim +/ret +506 drivers/cpuidle/cpuidle-riscv-sbi.c
-> >
-> > 6abf32f1d9c500 Anup Patel 2022-02-10  481  static int sbi_genpd_probe(struct device_node *np)
-> > 6abf32f1d9c500 Anup Patel 2022-02-10  482  {
-> > 6abf32f1d9c500 Anup Patel 2022-02-10  483       struct device_node *node;
-> > 6abf32f1d9c500 Anup Patel 2022-02-10  484       int ret = 0, pd_count = 0;
-> > 6abf32f1d9c500 Anup Patel 2022-02-10  485
-> > 6abf32f1d9c500 Anup Patel 2022-02-10  486       if (!np)
-> > 6abf32f1d9c500 Anup Patel 2022-02-10  487               return -ENODEV;
-> > 6abf32f1d9c500 Anup Patel 2022-02-10  488
-> > 6abf32f1d9c500 Anup Patel 2022-02-10  489       /*
-> > 6abf32f1d9c500 Anup Patel 2022-02-10  490        * Parse child nodes for the "#power-domain-cells" property and
-> > 6abf32f1d9c500 Anup Patel 2022-02-10  491        * initialize a genpd/genpd-of-provider pair when it's found.
-> > 6abf32f1d9c500 Anup Patel 2022-02-10  492        */
-> > 6abf32f1d9c500 Anup Patel 2022-02-10  493       for_each_child_of_node(np, node) {
-> > 6abf32f1d9c500 Anup Patel 2022-02-10  494               if (!of_find_property(node, "#power-domain-cells", NULL))
-> > 6abf32f1d9c500 Anup Patel 2022-02-10  495                       continue;
-> > 6abf32f1d9c500 Anup Patel 2022-02-10  496
-> > 6abf32f1d9c500 Anup Patel 2022-02-10  497               ret = sbi_pd_init(node);
-> > 6abf32f1d9c500 Anup Patel 2022-02-10  498               if (ret)
-> > 6abf32f1d9c500 Anup Patel 2022-02-10  499                       goto put_node;
-> > 6abf32f1d9c500 Anup Patel 2022-02-10  500
-> > 6abf32f1d9c500 Anup Patel 2022-02-10  501               pd_count++;
-> > 6abf32f1d9c500 Anup Patel 2022-02-10  502       }
-> > 6abf32f1d9c500 Anup Patel 2022-02-10  503
-> > 6abf32f1d9c500 Anup Patel 2022-02-10  504       /* Bail out if not using the hierarchical CPU topology. */
-> > 6abf32f1d9c500 Anup Patel 2022-02-10  505       if (!pd_count)
-> > 6abf32f1d9c500 Anup Patel 2022-02-10 @506               goto no_pd;
-> >
-> > Error code?
-> 
-> Yes, we intentionally "return 0" when there are no
-> generic power-domains defined for the CPUs, the
-> sbi_cpuidle_probe() continue further and try traditional
-> DT cpuidle states.
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+TO: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
+CC: Ard Biesheuvel <ardb@kernel.org>
 
-Happened upon this when looking for our other cpuidle conversation on
-lore earlier, would it not make more sense from a readability PoV to
-just return zero here?
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   c3eb11fbb826879be773c137f281569efce67aa8
+commit: c46c2c9b43f4f08f20dc06417fbf7091e4ca6d34 ARM: unwind: set frame.pc correctly for current-thread unwinding
+date:   9 months ago
+:::::: branch date: 15 hours ago
+:::::: commit date: 9 months ago
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+reproduce (cppcheck warning):
+        # apt-get install cppcheck
+        git checkout c46c2c9b43f4f08f20dc06417fbf7091e4ca6d34
+        cppcheck --quiet --enable=style,performance,portability --template=gcc FILE
 
-ret has to be zero at this point since:
-	ret = sbi_pd_init(node);
-	if (ret)
-		goto put_node;
-and the `goto no_pd` does not do any cleanup.
-
-Certainly, it'd look more intentional that way, no?
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
 
 
-> > 6abf32f1d9c500 Anup Patel 2022-02-10  507
-> > 6abf32f1d9c500 Anup Patel 2022-02-10  508       /* Link genpd masters/subdomains to model the CPU topology. */
-> > 6abf32f1d9c500 Anup Patel 2022-02-10  509       ret = dt_idle_pd_init_topology(np);
-> > 6abf32f1d9c500 Anup Patel 2022-02-10  510       if (ret)
-> > 6abf32f1d9c500 Anup Patel 2022-02-10  511               goto remove_pd;
-> > 6abf32f1d9c500 Anup Patel 2022-02-10  512
-> > 6abf32f1d9c500 Anup Patel 2022-02-10  513       return 0;
-> > 6abf32f1d9c500 Anup Patel 2022-02-10  514
-> > 6abf32f1d9c500 Anup Patel 2022-02-10  515  put_node:
-> > 6abf32f1d9c500 Anup Patel 2022-02-10  516       of_node_put(node);
-> > 6abf32f1d9c500 Anup Patel 2022-02-10  517  remove_pd:
-> > 6abf32f1d9c500 Anup Patel 2022-02-10  518       sbi_pd_remove();
-> > 6abf32f1d9c500 Anup Patel 2022-02-10  519       pr_err("failed to create CPU PM domains ret=%d\n", ret);
+cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
-I do find this cleanup a bit confusing though.
-It's probably just me not following, but I'd usually expect the teardown
-to get more complicated the later you leave the function, not simpler.
+>> arch/arm/kernel/return_address.c:44:1: warning: Label 'here' is not used. There is #if in function body so the label might be used in code that is removed by the preprocessor. [unusedLabelConfiguration]
+   here:
+   ^
 
-How come, if sbi_od_init() fails, you need to call sbi_pd_remove()?
-Does it not clean up after itself, or is calling sbi_pd_remove() always
-a safe thing to do, even if, say, dt_idle_pd_alloc() failed?
+vim +/here +44 arch/arm/kernel/return_address.c
 
-Similarly, how come the of_node_put() in the later failure cases?
-IIUC for_each_child_of_node() will leave us with a dangling of_node
-reference except if sbi_pd_init() fails.
+4bf1fa5a34aa2d Uwe Kleine-König      2009-07-21  32  
+4bf1fa5a34aa2d Uwe Kleine-König      2009-07-21  33  void *return_address(unsigned int level)
+4bf1fa5a34aa2d Uwe Kleine-König      2009-07-21  34  {
+4bf1fa5a34aa2d Uwe Kleine-König      2009-07-21  35  	struct return_address_data data;
+4bf1fa5a34aa2d Uwe Kleine-König      2009-07-21  36  	struct stackframe frame;
+4bf1fa5a34aa2d Uwe Kleine-König      2009-07-21  37  
+01223f365074d6 Keun-O Park           2013-03-18  38  	data.level = level + 2;
+01223f365074d6 Keun-O Park           2013-03-18  39  	data.addr = NULL;
+4bf1fa5a34aa2d Uwe Kleine-König      2009-07-21  40  
+4bf1fa5a34aa2d Uwe Kleine-König      2009-07-21  41  	frame.fp = (unsigned long)__builtin_frame_address(0);
+a556ee1247b997 Behan Webster         2014-09-27  42  	frame.sp = current_stack_pointer;
+4bf1fa5a34aa2d Uwe Kleine-König      2009-07-21  43  	frame.lr = (unsigned long)__builtin_return_address(0);
+c46c2c9b43f4f0 Russell King (Oracle  2022-03-09 @44) here:
+c46c2c9b43f4f0 Russell King (Oracle  2022-03-09  45) 	frame.pc = (unsigned long)&&here;
+fed240d9c97438 Masami Hiramatsu      2021-10-21  46  #ifdef CONFIG_KRETPROBES
+fed240d9c97438 Masami Hiramatsu      2021-10-21  47  	frame.kr_cur = NULL;
+fed240d9c97438 Masami Hiramatsu      2021-10-21  48  	frame.tsk = current;
+fed240d9c97438 Masami Hiramatsu      2021-10-21  49  #endif
+4bf1fa5a34aa2d Uwe Kleine-König      2009-07-21  50  
+4bf1fa5a34aa2d Uwe Kleine-König      2009-07-21  51  	walk_stackframe(&frame, save_return_addr, &data);
+4bf1fa5a34aa2d Uwe Kleine-König      2009-07-21  52  
+4bf1fa5a34aa2d Uwe Kleine-König      2009-07-21  53  	if (!data.level)
+4bf1fa5a34aa2d Uwe Kleine-König      2009-07-21  54  		return data.addr;
+4bf1fa5a34aa2d Uwe Kleine-König      2009-07-21  55  	else
+4bf1fa5a34aa2d Uwe Kleine-König      2009-07-21  56  		return NULL;
+4bf1fa5a34aa2d Uwe Kleine-König      2009-07-21  57  }
+4bf1fa5a34aa2d Uwe Kleine-König      2009-07-21  58  
 
-I'm probably missing something here, but it was at least non-obvious
-from the code. If I have missing something, and I probably have, please
-let me know what it is, I'd appreciate it!
-
-Thanks,
-Conor.
-
-> > 6abf32f1d9c500 Anup Patel 2022-02-10  520  no_pd:
-> > 6abf32f1d9c500 Anup Patel 2022-02-10  521       return ret;
-> > 6abf32f1d9c500 Anup Patel 2022-02-10  522  }
-
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
