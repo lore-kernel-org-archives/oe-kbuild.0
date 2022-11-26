@@ -1,83 +1,82 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7474717CB
-	for <oe-kbuild@lists.linux.dev>; Sat, 26 Nov 2022 09:16:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7697EB22
+	for <oe-kbuild@lists.linux.dev>; Sat, 26 Nov 2022 09:26:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1669454181; x=1700990181;
+  t=1669454781; x=1700990781;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=te+qhi6R2VxUU4F2ZWg7qwPNJDzRd6dTOCic5JD4w0M=;
-  b=QxCSeXiIoRpXljF/bfMDxma+UHw0PPiSfnUD1HECEgW13SjltKBB7Tuy
-   MJ8RL1XVYmB9wE5umY/TgWoTZ1FhKYd/BC/xRd3gB+Kasf5wFz0I1Z3G/
-   7JL0ktlnGZ/3sxkI3E9TdGO7TOvKamv44cOADm0/EpXpNW3DfJEiknh6W
-   qMH974qZtF3nQPQ5U2KJEF1IZEpBo6m+jxD2Cu8JVTSk71PzyhNIYyAZX
-   jyS7VZj8Ttol2PLkAKCeLHBbS1IvZiMJy/mflxOdQom5OyBNRzjlXyEEz
-   0KovQOeI7T73KbCj630Af3VvfeBGA39GvMAwSZbP0nxSjo742OVX8mD+a
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10542"; a="302157545"
+  bh=yFzhT8Fcj8UGbFz8gvDEHmjWSpt2ryzdDN50SpOZ3eY=;
+  b=ILIDBVPn6rLbS7XG8dh9gSC7IzEfJuZOz810HCvlan1dBtSF8Vdv/i3Z
+   EYvcGXUiBEun4vcy61C5sM3NvdEgDwN27DdxooLOVqTQesvtaIQ81ZZ6w
+   xswhwK7uRalSQV2J6iKNElv62KQSDVFgUchW+Nhix+TftxpEVj93ijTRJ
+   lTx5jsvRdWJbl1D4GTLs7JVy6rorhRfs88ZSLI2aUf0MkFIwjgH0+s8bh
+   rThdimFXEiTV9memFCTKubD+gJDXyg00IiPSwG7A+HqK2ziaPUacjfrSC
+   Qc8JBsohlM+4WJ81zO2k7wWYP9btb8Aypjfli2Ic5bMCLN1DrvmMi5vIf
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10542"; a="294288254"
 X-IronPort-AV: E=Sophos;i="5.96,194,1665471600"; 
-   d="scan'208";a="302157545"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2022 01:16:20 -0800
+   d="scan'208";a="294288254"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2022 01:26:20 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10542"; a="887888561"
+X-IronPort-AV: E=McAfee;i="6500,9779,10542"; a="748807438"
 X-IronPort-AV: E=Sophos;i="5.96,194,1665471600"; 
-   d="scan'208";a="887888561"
+   d="scan'208";a="748807438"
 Received: from lkp-server01.sh.intel.com (HELO 64a2d449c951) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 26 Nov 2022 01:16:18 -0800
+  by fmsmga002.fm.intel.com with ESMTP; 26 Nov 2022 01:26:19 -0800
 Received: from kbuild by 64a2d449c951 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1oyrIH-000697-3B;
-	Sat, 26 Nov 2022 09:16:17 +0000
-Date: Sat, 26 Nov 2022 17:15:44 +0800
+	id 1oyrRy-00069n-1k;
+	Sat, 26 Nov 2022 09:26:18 +0000
+Date: Sat, 26 Nov 2022 17:25:51 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [tnguy-next-queue:dev-queue 49/55]
- drivers/net/ethernet/intel/ice/ice_tc_lib.c:909:55: warning: use of
- uninitialized value 'dest_vsi' [CWE-457]
-Message-ID: <202211261739.6hQ34MGR-lkp@intel.com>
+Subject: [linux-next:master 2969/10877] drivers/media/i2c/tc358746.c:347:18:
+ warning: use of uninitialized value '<unknown>' [CWE-457]
+Message-ID: <202211261701.xbCSWePM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="iK/Pn5QB/kgGJ9wH"
+Content-Type: multipart/mixed; boundary="XEn0JZPKrwVu232d"
 Content-Disposition: inline
 
 
---iK/Pn5QB/kgGJ9wH
+--XEn0JZPKrwVu232d
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
 :::::: Manual check reason: "low confidence bisect report"
-:::::: Manual check reason: "low confidence static check warning: drivers/net/ethernet/intel/ice/ice_tc_lib.c:909:55: warning: use of uninitialized value 'dest_vsi' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]"
+:::::: Manual check reason: "low confidence static check warning: drivers/media/i2c/tc358746.c:347:18: warning: use of uninitialized value '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: Intel Wired LAN <intel-wired-lan@lists.osuosl.org>
-TO: Amritha Nambiar <amritha.nambiar@intel.com>
-CC: Tony Nguyen <anthony.l.nguyen@intel.com>
-CC: Sridhar Samudrala <sridhar.samudrala@intel.com>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Marco Felsch <m.felsch@pengutronix.de>
+CC: Sakari Ailus <sakari.ailus@linux.intel.com>
+CC: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tnguy/next-queue.git dev-queue
-head:   7dff4fe746d006c797aed3224835de168762d412
-commit: 37fa1bed5d4287974dc2227676e99a81b12411fa [49/55] ice: Support drop action
-:::::: branch date: 3 days ago
-:::::: commit date: 10 days ago
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   9e46a79967326efb03c481ddfd58902475bd920d
+commit: 80a21da360516fa602f3a50eb9792f9dfbfb5fdb [2969/10877] media: tc358746: add Toshiba TC358746 Parallel to CSI-2 bridge driver
+:::::: branch date: 30 hours ago
+:::::: commit date: 4 weeks ago
 config: arm-randconfig-c002-20221124
 compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/tnguy/next-queue.git/commit/?id=37fa1bed5d4287974dc2227676e99a81b12411fa
-        git remote add tnguy-next-queue https://git.kernel.org/pub/scm/linux/kernel/git/tnguy/next-queue.git
-        git fetch --no-tags tnguy-next-queue dev-queue
-        git checkout 37fa1bed5d4287974dc2227676e99a81b12411fa
+        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=80a21da360516fa602f3a50eb9792f9dfbfb5fdb
+        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+        git fetch --no-tags linux-next master
+        git checkout 80a21da360516fa602f3a50eb9792f9dfbfb5fdb
         # save the config file
         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross ARCH=arm KBUILD_USERCFLAGS='-fanalyzer -Wno-error' 
 
@@ -85,276 +84,140 @@ If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
 gcc_analyzer warnings: (new ones prefixed by >>)
-   drivers/net/ethernet/intel/ice/ice_tc_lib.c: In function 'ice_add_tc_flower_adv_fltr':
->> drivers/net/ethernet/intel/ice/ice_tc_lib.c:909:55: warning: use of uninitialized value 'dest_vsi' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-     909 |                 rule_info.sw_act.vsi_handle = dest_vsi->idx;
-         |                                               ~~~~~~~~^~~~~
-     'ice_replay_tc_fltrs': event 1
+   drivers/media/i2c/tc358746.c: In function 'tc358746_update_bits':
+>> drivers/media/i2c/tc358746.c:347:18: warning: use of uninitialized value '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+     347 |         u32 tmp, orig;
+         |                  ^~~~
+     'tc358746_enable_csi_lanes': events 1-2
        |
-       | 1972 | void ice_replay_tc_fltrs(struct ice_pf *pf)
-       |      |      ^~~~~~~~~~~~~~~~~~~
-       |      |      |
-       |      |      (1) entry to 'ice_replay_tc_fltrs'
+       |  566 | static int tc358746_enable_csi_lanes(struct tc358746 *tc358746, int enable)
+       |      |            ^~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |            |
+       |      |            (1) entry to 'tc358746_enable_csi_lanes'
+       |......
+       |  573 |         err = tc358746_update_bits(tc358746, CONFCTL_REG, DATALANE_MASK,
+       |      |               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |               |
+       |      |               (2) calling 'tc358746_update_bits' from 'tc358746_enable_csi_lanes'
+       |  574 |                                    lanes - 1);
+       |      |                                    ~~~~~~~~~~
        |
-     'ice_replay_tc_fltrs': event 2
-       |
-       |include/linux/list.h:1071:18:
-       | 1071 |              pos && ({ n = pos->member.next; 1; });                     \
-   drivers/net/ethernet/intel/ice/ice_tc_lib.c:1977:9: note: in expansion of macro 'hlist_for_each_entry_safe'
-       | 1977 |         hlist_for_each_entry_safe(fltr, node,
-       |      |         ^~~~~~~~~~~~~~~~~~~~~~~~~
-       |
-     'ice_replay_tc_fltrs': event 3
-       |
-       | 1977 |         hlist_for_each_entry_safe(fltr, node,
-       |      |                                         ^~~~
-       |      |                                         |
-       |      |                                         (3) ...to here
-   include/linux/list.h:1071:24: note: in definition of macro 'hlist_for_each_entry_safe'
-       | 1071 |              pos && ({ n = pos->member.next; 1; });                     \
-       |      |                        ^
-       |
-     'ice_replay_tc_fltrs': event 4
-       |
-       |drivers/net/ethernet/intel/ice/ice_tc_lib.c:1981:17:
-       | 1981 |                 ice_add_switch_fltr(fltr->src_vsi, fltr);
-       |      |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |                 |
-       |      |                 (4) calling 'ice_add_switch_fltr' from 'ice_replay_tc_fltrs'
-       |
-       +--> 'ice_add_switch_fltr': events 5-10
+       +--> 'tc358746_update_bits': events 3-4
               |
-              | 1579 | ice_add_switch_fltr(struct ice_vsi *vsi, struct ice_tc_flower_fltr *fltr)
-              |      | ^~~~~~~~~~~~~~~~~~~
+              |  345 | tc358746_update_bits(struct tc358746 *tc358746, u32 reg, u32 mask, u32 val)
+              |      | ^~~~~~~~~~~~~~~~~~~~
               |      | |
-              |      | (5) entry to 'ice_add_switch_fltr'
-              | 1580 | {
-              | 1581 |         if (fltr->action.fltr_act == ICE_FWD_TO_QGRP)
-              |      |            ~
-              |      |            |
-              |      |            (6) following 'false' branch...
-              |......
-              | 1584 |         if (ice_is_eswitch_mode_switchdev(vsi->back))
-              |      |         ~~ ~
-              |      |         |  |
-              |      |         |  (8) following 'false' branch...
-              |      |         (7) ...to here
-              |......
-              | 1587 |         return ice_add_tc_flower_adv_fltr(vsi, fltr);
-              |      |         ~~~~~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-              |      |         |      |
-              |      |         |      (10) calling 'ice_add_tc_flower_adv_fltr' from 'ice_add_switch_fltr'
-              |      |         (9) ...to here
+              |      | (3) entry to 'tc358746_update_bits'
+              |  346 | {
+              |  347 |         u32 tmp, orig;
+              |      |                  ~~~~
+              |      |                  |
+              |      |                  (4) use of uninitialized value '<unknown>' here
               |
-              +--> 'ice_add_tc_flower_adv_fltr': events 11-16
-                     |
-                     |  853 | ice_add_tc_flower_adv_fltr(struct ice_vsi *vsi,
-                     |      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
-                     |      | |
-                     |      | (11) entry to 'ice_add_tc_flower_adv_fltr'
-                     |......
-                     |  863 |         struct ice_vsi *dest_vsi;
-                     |      |                         ~~~~~~~~
-                     |      |                         |
-                     |      |                         (12) region created on stack here
-                     |......
-                     |  871 |         if (ice_is_safe_mode(pf)) {
-                     |      |            ~
-                     |      |            |
-                     |      |            (13) following 'false' branch...
-                     |......
-                     |  876 |         if (!flags || (flags & (ICE_TC_FLWR_FIELD_ENC_DEST_IPV4 |
-                     |      |         ~~ ~
-                     |      |         |  |
-                     |      |         |  (15) following 'false' branch...
-                     |      |         (14) ...to here
-                     |......
-                     |  886 |         if (ice_is_forward_action(tc_fltr->action.fltr_act)) {
-                     |      |         ~~
-                     |      |         |
-                     |      |         (16) ...to here
-                     |
-                   'ice_add_tc_flower_adv_fltr': event 17
-                     |
-                     |drivers/net/ethernet/intel/ice/ice_tc_lib.h:216:9:
-                     |  216 |         switch (fltr_act) {
-                     |      |         ^~~~~~
-                     |      |         |
-                     |      |         (17) following 'default:' branch...
-                     |
-                   'ice_add_tc_flower_adv_fltr': event 18
-                     |
-                     |drivers/net/ethernet/intel/ice/ice_tc_lib.c:886:13:
-                     |  886 |         if (ice_is_forward_action(tc_fltr->action.fltr_act)) {
-                     |      |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/i2c/tc358746.c: In function 'tc358746_apply_pll_config':
+   drivers/media/i2c/tc358746.c:389:13: warning: use of uninitialized value '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+     389 |         u32 val, mask;
+         |             ^~~
+     'tc358746_resume': events 1-6
+       |
+       | 1629 | static int tc358746_resume(struct device *dev)
+       |      |            ^~~~~~~~~~~~~~~
+       |      |            |
+       |      |            (1) entry to 'tc358746_resume'
+       |......
+       | 1638 |         if (err)
+       |      |            ~
+       |      |            |
+       |      |            (2) following 'false' branch (when 'err == 0')...
+       |......
+       | 1642 |         usleep_range(10, 20);
+       |      |         ~~~~~~~~~~~~
+       |      |         |
+       |      |         (3) ...to here
+       |......
+       | 1647 |         if (err)
+       |      |            ~
+       |      |            |
+       |      |            (4) following 'false' branch (when 'err == 0')...
+       |......
+       | 1651 |         usleep_range(1000, 1500);
+       |      |         ~~~~~~~~~~~~
+       |      |         |
+       |      |         (5) ...to here
+       |......
+       | 1657 |         err = tc358746_apply_pll_config(tc358746);
+       |      |               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |               |
+       |      |               (6) calling 'tc358746_apply_pll_config' from 'tc358746_resume'
+       |
+       +--> 'tc358746_apply_pll_config': events 7-8
+              |
+              |  384 | tc358746_apply_pll_config(struct tc358746 *tc358746)
+              |      | ^~~~~~~~~~~~~~~~~~~~~~~~~
+              |      | |
+              |      | (7) entry to 'tc358746_apply_pll_config'
+              |......
+              |  389 |         u32 val, mask;
+              |      |             ~~~
+              |      |             |
+              |      |             (8) use of uninitialized value '<unknown>' here
+              |
+   drivers/media/i2c/tc358746.c: In function 'tc358746_init_cfg':
+   drivers/media/i2c/tc358746.c:749:14: warning: dereference of NULL '0' [CWE-476] [-Wanalyzer-null-dereference]
+     749 |         *fmt = tc358746_def_fmt;
+         |         ~~~~~^~~~~~~~~~~~~~~~~~
+     'tc358746_init_cfg': event 1
+       |
+       |include/media/v4l2-subdev.h:1058:12:
+       | 1058 |         if (WARN_ON(!state))
+       |      |            ^
+       |      |            |
+       |      |            (1) following 'true' branch...
+       |
+     'tc358746_init_cfg': events 2-3
+       |
+       |drivers/media/i2c/tc358746.c:748:15:
+       |  748 |         fmt = v4l2_subdev_get_pad_format(sd, state, TC358746_SINK);
+       |      |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |               |
+       |      |               (2) ...to here
+       |  749 |         *fmt = tc358746_def_fmt;
+       |      |         ~~~~~~~~~~~~~~~~~~~~~~~
+       |      |              |
+       |      |              (3) dereference of NULL '<unknown>'
+       |
 
-vim +/dest_vsi +909 drivers/net/ethernet/intel/ice/ice_tc_lib.c
+vim +347 drivers/media/i2c/tc358746.c
 
-143b86f346c709 Amritha Nambiar 2022-10-21  843  
-9fea749856d14c Kiran Patil     2021-10-15  844  /**
-9fea749856d14c Kiran Patil     2021-10-15  845   * ice_add_tc_flower_adv_fltr - add appropriate filter rules
-9fea749856d14c Kiran Patil     2021-10-15  846   * @vsi: Pointer to VSI
-9fea749856d14c Kiran Patil     2021-10-15  847   * @tc_fltr: Pointer to TC flower filter structure
-9fea749856d14c Kiran Patil     2021-10-15  848   *
-9fea749856d14c Kiran Patil     2021-10-15  849   * based on filter parameters using Advance recipes supported
-9fea749856d14c Kiran Patil     2021-10-15  850   * by OS package.
-9fea749856d14c Kiran Patil     2021-10-15  851   */
-9fea749856d14c Kiran Patil     2021-10-15  852  static int
-9fea749856d14c Kiran Patil     2021-10-15  853  ice_add_tc_flower_adv_fltr(struct ice_vsi *vsi,
-9fea749856d14c Kiran Patil     2021-10-15  854  			   struct ice_tc_flower_fltr *tc_fltr)
-9fea749856d14c Kiran Patil     2021-10-15  855  {
-9fea749856d14c Kiran Patil     2021-10-15  856  	struct ice_tc_flower_lyr_2_4_hdrs *headers = &tc_fltr->outer_headers;
-9fea749856d14c Kiran Patil     2021-10-15  857  	struct ice_adv_rule_info rule_info = {0};
-9fea749856d14c Kiran Patil     2021-10-15  858  	struct ice_rule_query_data rule_added;
-9fea749856d14c Kiran Patil     2021-10-15  859  	struct ice_adv_lkup_elem *list;
-9fea749856d14c Kiran Patil     2021-10-15  860  	struct ice_pf *pf = vsi->back;
-9fea749856d14c Kiran Patil     2021-10-15  861  	struct ice_hw *hw = &pf->hw;
-9fea749856d14c Kiran Patil     2021-10-15  862  	u32 flags = tc_fltr->flags;
-37fa1bed5d4287 Amritha Nambiar 2022-11-08  863  	struct ice_vsi *dest_vsi;
-9fea749856d14c Kiran Patil     2021-10-15  864  	struct device *dev;
-9fea749856d14c Kiran Patil     2021-10-15  865  	u16 lkups_cnt = 0;
-9fea749856d14c Kiran Patil     2021-10-15  866  	u16 l4_proto = 0;
-9fea749856d14c Kiran Patil     2021-10-15  867  	int ret = 0;
-9fea749856d14c Kiran Patil     2021-10-15  868  	u16 i = 0;
-9fea749856d14c Kiran Patil     2021-10-15  869  
-9fea749856d14c Kiran Patil     2021-10-15  870  	dev = ice_pf_to_dev(pf);
-9fea749856d14c Kiran Patil     2021-10-15  871  	if (ice_is_safe_mode(pf)) {
-9fea749856d14c Kiran Patil     2021-10-15  872  		NL_SET_ERR_MSG_MOD(tc_fltr->extack, "Unable to add filter because driver is in safe mode");
-9fea749856d14c Kiran Patil     2021-10-15  873  		return -EOPNOTSUPP;
-9fea749856d14c Kiran Patil     2021-10-15  874  	}
-9fea749856d14c Kiran Patil     2021-10-15  875  
-9fea749856d14c Kiran Patil     2021-10-15  876  	if (!flags || (flags & (ICE_TC_FLWR_FIELD_ENC_DEST_IPV4 |
-9fea749856d14c Kiran Patil     2021-10-15  877  				ICE_TC_FLWR_FIELD_ENC_SRC_IPV4 |
-9fea749856d14c Kiran Patil     2021-10-15  878  				ICE_TC_FLWR_FIELD_ENC_DEST_IPV6 |
-9fea749856d14c Kiran Patil     2021-10-15  879  				ICE_TC_FLWR_FIELD_ENC_SRC_IPV6 |
-9fea749856d14c Kiran Patil     2021-10-15  880  				ICE_TC_FLWR_FIELD_ENC_SRC_L4_PORT))) {
-9fea749856d14c Kiran Patil     2021-10-15  881  		NL_SET_ERR_MSG_MOD(tc_fltr->extack, "Unsupported encap field(s)");
-9fea749856d14c Kiran Patil     2021-10-15  882  		return -EOPNOTSUPP;
-9fea749856d14c Kiran Patil     2021-10-15  883  	}
-9fea749856d14c Kiran Patil     2021-10-15  884  
-143b86f346c709 Amritha Nambiar 2022-10-21  885  	/* validate forwarding action VSI and queue */
-37fa1bed5d4287 Amritha Nambiar 2022-11-08  886  	if (ice_is_forward_action(tc_fltr->action.fltr_act)) {
-37fa1bed5d4287 Amritha Nambiar 2022-11-08  887  		dest_vsi = ice_tc_forward_action(vsi, tc_fltr);
-37fa1bed5d4287 Amritha Nambiar 2022-11-08  888  		if (IS_ERR(dest_vsi))
-37fa1bed5d4287 Amritha Nambiar 2022-11-08  889  			return PTR_ERR(dest_vsi);
-37fa1bed5d4287 Amritha Nambiar 2022-11-08  890  	}
-9fea749856d14c Kiran Patil     2021-10-15  891  
-9fea749856d14c Kiran Patil     2021-10-15  892  	lkups_cnt = ice_tc_count_lkups(flags, headers, tc_fltr);
-9fea749856d14c Kiran Patil     2021-10-15  893  	list = kcalloc(lkups_cnt, sizeof(*list), GFP_ATOMIC);
-9fea749856d14c Kiran Patil     2021-10-15  894  	if (!list)
-9fea749856d14c Kiran Patil     2021-10-15  895  		return -ENOMEM;
-9fea749856d14c Kiran Patil     2021-10-15  896  
-9fea749856d14c Kiran Patil     2021-10-15  897  	i = ice_tc_fill_rules(hw, flags, tc_fltr, list, &rule_info, &l4_proto);
-9fea749856d14c Kiran Patil     2021-10-15  898  	if (i != lkups_cnt) {
-9fea749856d14c Kiran Patil     2021-10-15  899  		ret = -EINVAL;
-9fea749856d14c Kiran Patil     2021-10-15  900  		goto exit;
-9fea749856d14c Kiran Patil     2021-10-15  901  	}
-9fea749856d14c Kiran Patil     2021-10-15  902  
-9fea749856d14c Kiran Patil     2021-10-15  903  	rule_info.sw_act.fltr_act = tc_fltr->action.fltr_act;
-143b86f346c709 Amritha Nambiar 2022-10-21  904  	/* specify the cookie as filter_rule_id */
-143b86f346c709 Amritha Nambiar 2022-10-21  905  	rule_info.fltr_rule_id = tc_fltr->cookie;
-9fea749856d14c Kiran Patil     2021-10-15  906  
-143b86f346c709 Amritha Nambiar 2022-10-21  907  	switch (tc_fltr->action.fltr_act) {
-143b86f346c709 Amritha Nambiar 2022-10-21  908  	case ICE_FWD_TO_VSI:
-37fa1bed5d4287 Amritha Nambiar 2022-11-08 @909  		rule_info.sw_act.vsi_handle = dest_vsi->idx;
-143b86f346c709 Amritha Nambiar 2022-10-21  910  		rule_info.priority = ICE_SWITCH_FLTR_PRIO_VSI;
-9fea749856d14c Kiran Patil     2021-10-15  911  		rule_info.sw_act.src = hw->pf_id;
-9fea749856d14c Kiran Patil     2021-10-15  912  		rule_info.rx = true;
-9fea749856d14c Kiran Patil     2021-10-15  913  		dev_dbg(dev, "add switch rule for TC:%u vsi_idx:%u, lkups_cnt:%u\n",
-143b86f346c709 Amritha Nambiar 2022-10-21  914  			tc_fltr->action.fwd.tc.tc_class,
-9fea749856d14c Kiran Patil     2021-10-15  915  			rule_info.sw_act.vsi_handle, lkups_cnt);
-143b86f346c709 Amritha Nambiar 2022-10-21  916  		break;
-143b86f346c709 Amritha Nambiar 2022-10-21  917  	case ICE_FWD_TO_Q:
-143b86f346c709 Amritha Nambiar 2022-10-21  918  		/* HW queue number in global space */
-143b86f346c709 Amritha Nambiar 2022-10-21  919  		rule_info.sw_act.fwd_id.q_id = tc_fltr->action.fwd.q.hw_queue;
-37fa1bed5d4287 Amritha Nambiar 2022-11-08  920  		rule_info.sw_act.vsi_handle = dest_vsi->idx;
-143b86f346c709 Amritha Nambiar 2022-10-21  921  		rule_info.priority = ICE_SWITCH_FLTR_PRIO_QUEUE;
-143b86f346c709 Amritha Nambiar 2022-10-21  922  		rule_info.sw_act.src = hw->pf_id;
-143b86f346c709 Amritha Nambiar 2022-10-21  923  		rule_info.rx = true;
-143b86f346c709 Amritha Nambiar 2022-10-21  924  		dev_dbg(dev, "add switch rule action to forward to queue:%u (HW queue %u), lkups_cnt:%u\n",
-143b86f346c709 Amritha Nambiar 2022-10-21  925  			tc_fltr->action.fwd.q.queue,
-143b86f346c709 Amritha Nambiar 2022-10-21  926  			tc_fltr->action.fwd.q.hw_queue, lkups_cnt);
-143b86f346c709 Amritha Nambiar 2022-10-21  927  		break;
-37fa1bed5d4287 Amritha Nambiar 2022-11-08  928  	case ICE_DROP_PACKET:
-37fa1bed5d4287 Amritha Nambiar 2022-11-08  929  		rule_info.sw_act.flag |= ICE_FLTR_RX;
-37fa1bed5d4287 Amritha Nambiar 2022-11-08  930  		rule_info.sw_act.src = hw->pf_id;
-37fa1bed5d4287 Amritha Nambiar 2022-11-08  931  		rule_info.rx = true;
-143b86f346c709 Amritha Nambiar 2022-10-21  932  		rule_info.priority = ICE_SWITCH_FLTR_PRIO_VSI;
-143b86f346c709 Amritha Nambiar 2022-10-21  933  		break;
-37fa1bed5d4287 Amritha Nambiar 2022-11-08  934  	default:
-37fa1bed5d4287 Amritha Nambiar 2022-11-08  935  		ret = -EOPNOTSUPP;
-37fa1bed5d4287 Amritha Nambiar 2022-11-08  936  		goto exit;
-9fea749856d14c Kiran Patil     2021-10-15  937  	}
-9fea749856d14c Kiran Patil     2021-10-15  938  
-9fea749856d14c Kiran Patil     2021-10-15  939  	ret = ice_add_adv_rule(hw, list, lkups_cnt, &rule_info, &rule_added);
-9fea749856d14c Kiran Patil     2021-10-15  940  	if (ret == -EEXIST) {
-9fea749856d14c Kiran Patil     2021-10-15  941  		NL_SET_ERR_MSG_MOD(tc_fltr->extack,
-9fea749856d14c Kiran Patil     2021-10-15  942  				   "Unable to add filter because it already exist");
-9fea749856d14c Kiran Patil     2021-10-15  943  		ret = -EINVAL;
-9fea749856d14c Kiran Patil     2021-10-15  944  		goto exit;
-9fea749856d14c Kiran Patil     2021-10-15  945  	} else if (ret) {
-9fea749856d14c Kiran Patil     2021-10-15  946  		NL_SET_ERR_MSG_MOD(tc_fltr->extack,
-9fea749856d14c Kiran Patil     2021-10-15  947  				   "Unable to add filter due to error");
-9fea749856d14c Kiran Patil     2021-10-15  948  		goto exit;
-9fea749856d14c Kiran Patil     2021-10-15  949  	}
-9fea749856d14c Kiran Patil     2021-10-15  950  
-9fea749856d14c Kiran Patil     2021-10-15  951  	/* store the output params, which are needed later for removing
-9fea749856d14c Kiran Patil     2021-10-15  952  	 * advanced switch filter
-9fea749856d14c Kiran Patil     2021-10-15  953  	 */
-9fea749856d14c Kiran Patil     2021-10-15  954  	tc_fltr->rid = rule_added.rid;
-9fea749856d14c Kiran Patil     2021-10-15  955  	tc_fltr->rule_id = rule_added.rule_id;
-143b86f346c709 Amritha Nambiar 2022-10-21  956  	tc_fltr->dest_vsi_handle = rule_added.vsi_handle;
-143b86f346c709 Amritha Nambiar 2022-10-21  957  	if (tc_fltr->action.fltr_act == ICE_FWD_TO_VSI ||
-143b86f346c709 Amritha Nambiar 2022-10-21  958  	    tc_fltr->action.fltr_act == ICE_FWD_TO_Q) {
-37fa1bed5d4287 Amritha Nambiar 2022-11-08  959  		tc_fltr->dest_vsi = dest_vsi;
-9fea749856d14c Kiran Patil     2021-10-15  960  		/* keep track of advanced switch filter for
-143b86f346c709 Amritha Nambiar 2022-10-21  961  		 * destination VSI
-9fea749856d14c Kiran Patil     2021-10-15  962  		 */
-37fa1bed5d4287 Amritha Nambiar 2022-11-08  963  		dest_vsi->num_chnl_fltr++;
-9fea749856d14c Kiran Patil     2021-10-15  964  
-9fea749856d14c Kiran Patil     2021-10-15  965  		/* keeps track of channel filters for PF VSI */
-9fea749856d14c Kiran Patil     2021-10-15  966  		if (vsi->type == ICE_VSI_PF &&
-9fea749856d14c Kiran Patil     2021-10-15  967  		    (flags & (ICE_TC_FLWR_FIELD_DST_MAC |
-9fea749856d14c Kiran Patil     2021-10-15  968  			      ICE_TC_FLWR_FIELD_ENC_DST_MAC)))
-9fea749856d14c Kiran Patil     2021-10-15  969  			pf->num_dmac_chnl_fltrs++;
-9fea749856d14c Kiran Patil     2021-10-15  970  	}
-143b86f346c709 Amritha Nambiar 2022-10-21  971  	switch (tc_fltr->action.fltr_act) {
-143b86f346c709 Amritha Nambiar 2022-10-21  972  	case ICE_FWD_TO_VSI:
-143b86f346c709 Amritha Nambiar 2022-10-21  973  		dev_dbg(dev, "added switch rule (lkups_cnt %u, flags 0x%x), action is forward to TC %u, rid %u, rule_id %u, vsi_idx %u\n",
-9fea749856d14c Kiran Patil     2021-10-15  974  			lkups_cnt, flags,
-143b86f346c709 Amritha Nambiar 2022-10-21  975  			tc_fltr->action.fwd.tc.tc_class, rule_added.rid,
-9fea749856d14c Kiran Patil     2021-10-15  976  			rule_added.rule_id, rule_added.vsi_handle);
-143b86f346c709 Amritha Nambiar 2022-10-21  977  		break;
-143b86f346c709 Amritha Nambiar 2022-10-21  978  	case ICE_FWD_TO_Q:
-143b86f346c709 Amritha Nambiar 2022-10-21  979  		dev_dbg(dev, "added switch rule (lkups_cnt %u, flags 0x%x), action is forward to queue: %u (HW queue %u)     , rid %u, rule_id %u\n",
-143b86f346c709 Amritha Nambiar 2022-10-21  980  			lkups_cnt, flags, tc_fltr->action.fwd.q.queue,
-143b86f346c709 Amritha Nambiar 2022-10-21  981  			tc_fltr->action.fwd.q.hw_queue, rule_added.rid,
-143b86f346c709 Amritha Nambiar 2022-10-21  982  			rule_added.rule_id);
-143b86f346c709 Amritha Nambiar 2022-10-21  983  		break;
-37fa1bed5d4287 Amritha Nambiar 2022-11-08  984  	case ICE_DROP_PACKET:
-37fa1bed5d4287 Amritha Nambiar 2022-11-08  985  		dev_dbg(dev, "added switch rule (lkups_cnt %u, flags 0x%x), action is drop, rid %u, rule_id %u\n",
-37fa1bed5d4287 Amritha Nambiar 2022-11-08  986  			lkups_cnt, flags, rule_added.rid, rule_added.rule_id);
-37fa1bed5d4287 Amritha Nambiar 2022-11-08  987  		break;
-143b86f346c709 Amritha Nambiar 2022-10-21  988  	default:
-143b86f346c709 Amritha Nambiar 2022-10-21  989  		break;
-143b86f346c709 Amritha Nambiar 2022-10-21  990  	}
-9fea749856d14c Kiran Patil     2021-10-15  991  exit:
-9fea749856d14c Kiran Patil     2021-10-15  992  	kfree(list);
-9fea749856d14c Kiran Patil     2021-10-15  993  	return ret;
-9fea749856d14c Kiran Patil     2021-10-15  994  }
-9fea749856d14c Kiran Patil     2021-10-15  995  
+80a21da360516f Marco Felsch 2022-09-30  343  
+80a21da360516f Marco Felsch 2022-09-30  344  static int
+80a21da360516f Marco Felsch 2022-09-30  345  tc358746_update_bits(struct tc358746 *tc358746, u32 reg, u32 mask, u32 val)
+80a21da360516f Marco Felsch 2022-09-30  346  {
+80a21da360516f Marco Felsch 2022-09-30 @347  	u32 tmp, orig;
+80a21da360516f Marco Felsch 2022-09-30  348  	int err;
+80a21da360516f Marco Felsch 2022-09-30  349  
+80a21da360516f Marco Felsch 2022-09-30  350  	err = tc358746_read(tc358746, reg, &orig);
+80a21da360516f Marco Felsch 2022-09-30  351  	if (err)
+80a21da360516f Marco Felsch 2022-09-30  352  		return err;
+80a21da360516f Marco Felsch 2022-09-30  353  
+80a21da360516f Marco Felsch 2022-09-30  354  	tmp = orig & ~mask;
+80a21da360516f Marco Felsch 2022-09-30  355  	tmp |= val & mask;
+80a21da360516f Marco Felsch 2022-09-30  356  
+80a21da360516f Marco Felsch 2022-09-30  357  	return tc358746_write(tc358746, reg, tmp);
+80a21da360516f Marco Felsch 2022-09-30  358  }
+80a21da360516f Marco Felsch 2022-09-30  359  
 
 -- 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
 
---iK/Pn5QB/kgGJ9wH
+--XEn0JZPKrwVu232d
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename=config
 
 #
 # Automatically generated file; DO NOT EDIT.
-# Linux/arm 6.1.0-rc4 Kernel Configuration
+# Linux/arm 6.1.0-rc2 Kernel Configuration
 #
 CONFIG_CC_VERSION_TEXT="arm-linux-gnueabi-gcc (GCC) 12.1.0"
 CONFIG_CC_IS_GCC=y
@@ -2228,6 +2091,7 @@ CONFIG_MSCC_OCELOT_SWITCH_LIB=y
 CONFIG_MSCC_OCELOT_SWITCH=y
 # CONFIG_NET_VENDOR_MICROSOFT is not set
 # CONFIG_NET_VENDOR_MYRI is not set
+# CONFIG_FEALNX is not set
 # CONFIG_NET_VENDOR_NI is not set
 # CONFIG_NET_VENDOR_NATSEMI is not set
 # CONFIG_NET_VENDOR_NETERION is not set
@@ -2267,7 +2131,6 @@ CONFIG_R8169=y
 CONFIG_NET_VENDOR_RENESAS=y
 # CONFIG_SH_ETH is not set
 # CONFIG_RAVB is not set
-# CONFIG_RENESAS_ETHER_SWITCH is not set
 CONFIG_NET_VENDOR_ROCKER=y
 # CONFIG_NET_VENDOR_SAMSUNG is not set
 # CONFIG_NET_VENDOR_SEEQ is not set
@@ -4336,6 +4199,7 @@ CONFIG_VIDEO_SAA7110=y
 CONFIG_VIDEO_SAA711X=y
 CONFIG_VIDEO_TC358743=y
 # CONFIG_VIDEO_TC358743_CEC is not set
+CONFIG_VIDEO_TC358746=y
 CONFIG_VIDEO_TVP514X=y
 # CONFIG_VIDEO_TVP5150 is not set
 CONFIG_VIDEO_TVP7002=y
@@ -7806,4 +7670,4 @@ CONFIG_MEMTEST=y
 # CONFIG_WARN_ABI_ERRORS is not set
 # end of Kernel hacking
 
---iK/Pn5QB/kgGJ9wH--
+--XEn0JZPKrwVu232d--
