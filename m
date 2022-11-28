@@ -1,98 +1,85 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DB422CA2
-	for <oe-kbuild@lists.linux.dev>; Sun, 27 Nov 2022 17:45:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DEB67E
+	for <oe-kbuild@lists.linux.dev>; Mon, 28 Nov 2022 01:20:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1669571142; x=1701107142;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=pMYmqK0Xj4ylsgKJZr7HfdpLpOru6wzgk+8GedYW6nU=;
-  b=AV/DhtDCd+Ow2t9Qf7UIV6KagnhnDXW+7jRjEQk/6kDBRlBIXVZ4VpIf
-   3jjeoEg/Pg/x2sprg5vlr6I3ZChUM8RLOGcIln7350s0GelkPAoH1cK/i
-   lh5LWBZXBCHMElSfarXAVoDrVpQ/uzeKtbDAmX61h75OHYNtn74V9hPGR
-   wyrmXWc4VXXKL3mCfbTm/qwSUYFUkopqLKbLexPRG+fmJzs+rGBoQzJgo
-   WSSKgYxtC/I+RIz2x4F8vtDFUFgudeZdPlflIwuGUjDdGQbpD7ncSfSGS
-   GGobPp/aHzYdreFLEAggGk3BdbeqSH793byA8v6zUBLU0AeKchAM3eeM1
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10544"; a="315847298"
-X-IronPort-AV: E=Sophos;i="5.96,198,1665471600"; 
-   d="scan'208";a="315847298"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2022 09:45:41 -0800
+  t=1669598402; x=1701134402;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=FYLb1GwYpsYEMXL1vowvLXolQixaWva5cc19W4FCkWw=;
+  b=CAWQyf2PI77SKDLJuEhyzzdB0Uk3iqBTWHK4YMG1I8ITseE+BjHjGZmS
+   dAoQP+kKqlS5YeOuCFyChXouLELpxUsd6XNFnL+Dhow3kSL0exfUfodTC
+   WLQBJgZNG40xuY6hbiGZaWgc7bXhteakK9Rb28neSE7m+jFSnsPa3i2JJ
+   t1UcDTqGqCNPjVZJ0M8NRPuVm8EAxzj5swSQXasts4g6lkolNzfWAcC0w
+   x3ZY/yCe1Y3w1srKhhWFbHAmHbb019+YS96np0M7yeKJCcyY9TdS/K+16
+   0UiGHokMJ8ptI/TrTgYNQG6vnY9/KOm87pAH5ahqbcv0xTJwqkPY94Lbr
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10544"; a="302300411"
+X-IronPort-AV: E=Sophos;i="5.96,199,1665471600"; 
+   d="scan'208";a="302300411"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2022 17:20:01 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10544"; a="637003725"
-X-IronPort-AV: E=Sophos;i="5.96,198,1665471600"; 
-   d="scan'208";a="637003725"
+X-IronPort-AV: E=McAfee;i="6500,9779,10544"; a="620878180"
+X-IronPort-AV: E=Sophos;i="5.96,199,1665471600"; 
+   d="scan'208";a="620878180"
 Received: from lkp-server01.sh.intel.com (HELO 64a2d449c951) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 27 Nov 2022 09:45:39 -0800
+  by orsmga006.jf.intel.com with ESMTP; 27 Nov 2022 17:19:59 -0800
 Received: from kbuild by 64a2d449c951 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ozLik-0007A1-33;
-	Sun, 27 Nov 2022 17:45:38 +0000
-Date: Mon, 28 Nov 2022 01:44:42 +0800
+	id 1ozSoQ-0007ZD-2t;
+	Mon, 28 Nov 2022 01:19:58 +0000
+Date: Mon, 28 Nov 2022 09:19:22 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATH v2 8/8] vdpa/mlx5: Add RX counters to debugfs
-Message-ID: <202211280131.CzonjD2G-lkp@intel.com>
+Subject: [linux-next:master 9229/10877] net/dsa/dsa.c:1250:13: warning: use
+ of uninitialized value '<unknown>' [CWE-457]
+Message-ID: <202211280913.aUEqkSqF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="qxKE+qIZvh11ISLC"
+Content-Type: multipart/mixed; boundary="pKLI/QchSWECaTIi"
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
 
---qxKE+qIZvh11ISLC
-Content-Type: text/plain; charset=us-ascii
+--pKLI/QchSWECaTIi
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
 :::::: 
 :::::: Manual check reason: "low confidence bisect report"
-:::::: Manual check reason: "low confidence static check warning: drivers/vdpa/mlx5/net/debug.c:56:13: warning: use of uninitialized value '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]"
+:::::: Manual check reason: "low confidence static check warning: net/dsa/dsa.c:1250:13: warning: use of uninitialized value '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20221114131759.57883-9-elic@nvidia.com>
-References: <20221114131759.57883-9-elic@nvidia.com>
-TO: Eli Cohen <elic@nvidia.com>
-TO: mst@redhat.com
-TO: jasowang@redhat.com
-TO: linux-kernel@vger.kernel.org
-TO: virtualization@lists.linux-foundation.org
-CC: si-wei.liu@oracle.com
-CC: eperezma@redhat.com
-CC: lulu@redhat.com
-CC: Eli Cohen <elic@nvidia.com>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Vladimir Oltean <vladimir.oltean@nxp.com>
+CC: Jakub Kicinski <kuba@kernel.org>
+CC: Florian Fainelli <f.fainelli@gmail.com>
 
-Hi Eli,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.1-rc6 next-20221125]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Eli-Cohen/vdpa-mlx5-Add-debugfs-subtree-and-fixes/20221114-212001
-patch link:    https://lore.kernel.org/r/20221114131759.57883-9-elic%40nvidia.com
-patch subject: [PATH v2 8/8] vdpa/mlx5: Add RX counters to debugfs
-:::::: branch date: 13 days ago
-:::::: commit date: 13 days ago
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   9e46a79967326efb03c481ddfd58902475bd920d
+commit: 47d2ce03dcfb6b7f0373aac6c667715d94caba78 [9229/10877] net: dsa: rename dsa2.c back into dsa.c and create its header
+:::::: branch date: 3 days ago
+:::::: commit date: 5 days ago
 config: arm-randconfig-c002-20221124
 compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/88e3ab0b788a5732fc35fe18cdbfd86e88170c0f
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Eli-Cohen/vdpa-mlx5-Add-debugfs-subtree-and-fixes/20221114-212001
-        git checkout 88e3ab0b788a5732fc35fe18cdbfd86e88170c0f
+        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=47d2ce03dcfb6b7f0373aac6c667715d94caba78
+        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+        git fetch --no-tags linux-next master
+        git checkout 47d2ce03dcfb6b7f0373aac6c667715d94caba78
         # save the config file
         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross ARCH=arm KBUILD_USERCFLAGS='-fanalyzer -Wno-error' 
 
@@ -100,74 +87,157 @@ If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
 gcc_analyzer warnings: (new ones prefixed by >>)
-   drivers/vdpa/mlx5/net/debug.c: In function 'packets_show':
->> drivers/vdpa/mlx5/net/debug.c:56:13: warning: use of uninitialized value '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-      56 |         u64 packets;
-         |             ^~~~~~~
-     'packets_show': event 1
+   net/dsa/dsa.c: In function 'dsa_switch_parse_ports_of':
+>> net/dsa/dsa.c:1250:13: warning: use of uninitialized value '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
+    1250 |         u32 reg;
+         |             ^~~
+     'dsa_register_switch': events 1-2
        |
-       |   56 |         u64 packets;
-       |      |             ^~~~~~~
-       |      |             |
-       |      |             (1) use of uninitialized value '<unknown>' here
+       | 1514 | int dsa_register_switch(struct dsa_switch *ds)
+       |      |     ^~~~~~~~~~~~~~~~~~~
+       |      |     |
+       |      |     (1) entry to 'dsa_register_switch'
+       |......
+       | 1519 |         err = dsa_switch_probe(ds);
+       |      |               ~~~~~~~~~~~~~~~~~~~~
+       |      |               |
+       |      |               (2) calling 'dsa_switch_probe' from 'dsa_register_switch'
        |
-   drivers/vdpa/mlx5/net/debug.c:57:13: warning: use of uninitialized value '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-      57 |         u64 bytes;
-         |             ^~~~~
-     'packets_show': event 1
-       |
-       |   57 |         u64 bytes;
-       |      |             ^~~~~
-       |      |             |
-       |      |             (1) use of uninitialized value '<unknown>' here
-       |
-   drivers/vdpa/mlx5/net/debug.c: In function 'bytes_show':
-   drivers/vdpa/mlx5/net/debug.c:71:13: warning: use of uninitialized value '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-      71 |         u64 packets;
-         |             ^~~~~~~
-     'bytes_show': event 1
-       |
-       |   71 |         u64 packets;
-       |      |             ^~~~~~~
-       |      |             |
-       |      |             (1) use of uninitialized value '<unknown>' here
-       |
-   drivers/vdpa/mlx5/net/debug.c:72:13: warning: use of uninitialized value '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-      72 |         u64 bytes;
-         |             ^~~~~
-     'bytes_show': event 1
-       |
-       |   72 |         u64 bytes;
-       |      |             ^~~~~
-       |      |             |
-       |      |             (1) use of uninitialized value '<unknown>' here
-       |
+       +--> 'dsa_switch_probe': events 3-10
+              |
+              | 1472 | static int dsa_switch_probe(struct dsa_switch *ds)
+              |      |            ^~~~~~~~~~~~~~~~
+              |      |            |
+              |      |            (3) entry to 'dsa_switch_probe'
+              |......
+              | 1479 |         if (!ds->dev)
+              |      |            ~
+              |      |            |
+              |      |            (4) following 'false' branch...
+              |......
+              | 1482 |         pdata = ds->dev->platform_data;
+              |      |         ~~~~~
+              |      |         |
+              |      |         (5) ...to here
+              |......
+              | 1485 |         if (!ds->num_ports)
+              |      |            ~
+              |      |            |
+              |      |            (6) following 'false' branch...
+              |......
+              | 1488 |         if (np) {
+              |      |         ~~ ~
+              |      |         |  |
+              |      |         |  (8) following 'true' branch (when 'np' is non-NULL)...
+              |      |         (7) ...to here
+              | 1489 |                 err = dsa_switch_parse_of(ds, np);
+              |      |                 ~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |                 |     |
+              |      |                 |     (10) calling 'dsa_switch_parse_of' from 'dsa_switch_probe'
+              |      |                 (9) ...to here
+              |
+              +--> 'dsa_switch_parse_of': events 11-16
+                     |
+                     | 1335 | static int dsa_switch_parse_of(struct dsa_switch *ds, struct device_node *dn)
+                     |      |            ^~~~~~~~~~~~~~~~~~~
+                     |      |            |
+                     |      |            (11) entry to 'dsa_switch_parse_of'
+                     |......
+                     | 1340 |         if (err)
+                     |      |            ~
+                     |      |            |
+                     |      |            (12) following 'false' branch (when 'err == 0')...
+                     |......
+                     | 1343 |         err = dsa_switch_touch_ports(ds);
+                     |      |         ~~~ 
+                     |      |         |
+                     |      |         (13) ...to here
+                     | 1344 |         if (err)
+                     |      |            ~
+                     |      |            |
+                     |      |            (14) following 'false' branch (when 'err == 0')...
+                     |......
+                     | 1347 |         return dsa_switch_parse_ports_of(ds, dn);
+                     |      |         ~~~~~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                     |      |         |      |
+                     |      |         |      (16) calling 'dsa_switch_parse_ports_of' from 'dsa_switch_parse_of'
+                     |      |         (15) ...to here
+                     |
+                     +--> 'dsa_switch_parse_ports_of': events 17-18
+                            |
+                            | 1244 | static int dsa_switch_parse_ports_of(struct dsa_switch *ds,
+                            |      |            ^~~~~~~~~~~~~~~~~~~~~~~~~
+                            |      |            |
+                            |      |            (17) entry to 'dsa_switch_parse_ports_of'
+                            |......
+                            | 1250 |         u32 reg;
+                            |      |             ~~~
+                            |      |             |
+                            |      |             (18) use of uninitialized value '<unknown>' here
+                            |
 
-vim +56 drivers/vdpa/mlx5/net/debug.c
+vim +1250 net/dsa/dsa.c
 
-8a4e4223ff4478 Eli Cohen 2022-11-14  51  
-88e3ab0b788a57 Eli Cohen 2022-11-14  52  #if defined(CONFIG_MLX5_VDPA_STEERING_DEBUG)
-88e3ab0b788a57 Eli Cohen 2022-11-14  53  static int packets_show(struct seq_file *file, void *priv)
-88e3ab0b788a57 Eli Cohen 2022-11-14  54  {
-88e3ab0b788a57 Eli Cohen 2022-11-14  55  	struct mlx5_vdpa_counter *counter = file->private;
-88e3ab0b788a57 Eli Cohen 2022-11-14 @56  	u64 packets;
-88e3ab0b788a57 Eli Cohen 2022-11-14  57  	u64 bytes;
-88e3ab0b788a57 Eli Cohen 2022-11-14  58  	int err;
-88e3ab0b788a57 Eli Cohen 2022-11-14  59  
-88e3ab0b788a57 Eli Cohen 2022-11-14  60  	err = mlx5_fc_query(counter->mdev, counter->counter, &packets, &bytes);
-88e3ab0b788a57 Eli Cohen 2022-11-14  61  	if (err)
-88e3ab0b788a57 Eli Cohen 2022-11-14  62  		return err;
-88e3ab0b788a57 Eli Cohen 2022-11-14  63  
-88e3ab0b788a57 Eli Cohen 2022-11-14  64  	seq_printf(file, "0x%llx\n", packets);
-88e3ab0b788a57 Eli Cohen 2022-11-14  65  	return 0;
-88e3ab0b788a57 Eli Cohen 2022-11-14  66  }
-88e3ab0b788a57 Eli Cohen 2022-11-14  67  
+fd223e2e66eb07 net/dsa/dsa2.c Vivien Didelot     2017-10-27  1243  
+975e6e32215e6c net/dsa/dsa2.c Vivien Didelot     2017-11-03  1244  static int dsa_switch_parse_ports_of(struct dsa_switch *ds,
+975e6e32215e6c net/dsa/dsa2.c Vivien Didelot     2017-11-03  1245  				     struct device_node *dn)
+83c0afaec7b730 net/dsa/dsa2.c Andrew Lunn        2016-06-04  1246  {
+5b32fe070c2ddf net/dsa/dsa2.c Vivien Didelot     2017-10-27  1247  	struct device_node *ports, *port;
+fd223e2e66eb07 net/dsa/dsa2.c Vivien Didelot     2017-10-27  1248  	struct dsa_port *dp;
+9919a363a5cb57 net/dsa/dsa2.c Wen Yang           2019-02-25  1249  	int err = 0;
+83c0afaec7b730 net/dsa/dsa2.c Andrew Lunn        2016-06-04 @1250  	u32 reg;
+5b32fe070c2ddf net/dsa/dsa2.c Vivien Didelot     2017-10-27  1251  
+5b32fe070c2ddf net/dsa/dsa2.c Vivien Didelot     2017-10-27  1252  	ports = of_get_child_by_name(dn, "ports");
+85e05d263ed2d5 net/dsa/dsa2.c Kurt Kanzenbach    2020-07-20  1253  	if (!ports) {
+85e05d263ed2d5 net/dsa/dsa2.c Kurt Kanzenbach    2020-07-20  1254  		/* The second possibility is "ethernet-ports" */
+85e05d263ed2d5 net/dsa/dsa2.c Kurt Kanzenbach    2020-07-20  1255  		ports = of_get_child_by_name(dn, "ethernet-ports");
+5b32fe070c2ddf net/dsa/dsa2.c Vivien Didelot     2017-10-27  1256  		if (!ports) {
+5b32fe070c2ddf net/dsa/dsa2.c Vivien Didelot     2017-10-27  1257  			dev_err(ds->dev, "no ports child node found\n");
+5b32fe070c2ddf net/dsa/dsa2.c Vivien Didelot     2017-10-27  1258  			return -EINVAL;
+5b32fe070c2ddf net/dsa/dsa2.c Vivien Didelot     2017-10-27  1259  		}
+85e05d263ed2d5 net/dsa/dsa2.c Kurt Kanzenbach    2020-07-20  1260  	}
+83c0afaec7b730 net/dsa/dsa2.c Andrew Lunn        2016-06-04  1261  
+83c0afaec7b730 net/dsa/dsa2.c Andrew Lunn        2016-06-04  1262  	for_each_available_child_of_node(ports, port) {
+83c0afaec7b730 net/dsa/dsa2.c Andrew Lunn        2016-06-04  1263  		err = of_property_read_u32(port, "reg", &reg);
+ba69fd9101f20a net/dsa/dsa2.c Christophe JAILLET 2021-10-18  1264  		if (err) {
+ba69fd9101f20a net/dsa/dsa2.c Christophe JAILLET 2021-10-18  1265  			of_node_put(port);
+9919a363a5cb57 net/dsa/dsa2.c Wen Yang           2019-02-25  1266  			goto out_put_node;
+ba69fd9101f20a net/dsa/dsa2.c Christophe JAILLET 2021-10-18  1267  		}
+83c0afaec7b730 net/dsa/dsa2.c Andrew Lunn        2016-06-04  1268  
+9919a363a5cb57 net/dsa/dsa2.c Wen Yang           2019-02-25  1269  		if (reg >= ds->num_ports) {
+258030acc93b45 net/dsa/dsa2.c Vladimir Oltean    2022-01-05  1270  			dev_err(ds->dev, "port %pOF index %u exceeds num_ports (%u)\n",
+8209f5bc3b6729 net/dsa/dsa2.c Rafał Miłecki      2021-01-06  1271  				port, reg, ds->num_ports);
+ba69fd9101f20a net/dsa/dsa2.c Christophe JAILLET 2021-10-18  1272  			of_node_put(port);
+9919a363a5cb57 net/dsa/dsa2.c Wen Yang           2019-02-25  1273  			err = -EINVAL;
+9919a363a5cb57 net/dsa/dsa2.c Wen Yang           2019-02-25  1274  			goto out_put_node;
+9919a363a5cb57 net/dsa/dsa2.c Wen Yang           2019-02-25  1275  		}
+83c0afaec7b730 net/dsa/dsa2.c Andrew Lunn        2016-06-04  1276  
+68bb8ea8ad0d49 net/dsa/dsa2.c Vivien Didelot     2019-10-21  1277  		dp = dsa_to_port(ds, reg);
+fd223e2e66eb07 net/dsa/dsa2.c Vivien Didelot     2017-10-27  1278  
+fd223e2e66eb07 net/dsa/dsa2.c Vivien Didelot     2017-10-27  1279  		err = dsa_port_parse_of(dp, port);
+ba69fd9101f20a net/dsa/dsa2.c Christophe JAILLET 2021-10-18  1280  		if (err) {
+ba69fd9101f20a net/dsa/dsa2.c Christophe JAILLET 2021-10-18  1281  			of_node_put(port);
+9919a363a5cb57 net/dsa/dsa2.c Wen Yang           2019-02-25  1282  			goto out_put_node;
+83c0afaec7b730 net/dsa/dsa2.c Andrew Lunn        2016-06-04  1283  		}
+ba69fd9101f20a net/dsa/dsa2.c Christophe JAILLET 2021-10-18  1284  	}
+83c0afaec7b730 net/dsa/dsa2.c Andrew Lunn        2016-06-04  1285  
+9919a363a5cb57 net/dsa/dsa2.c Wen Yang           2019-02-25  1286  out_put_node:
+9919a363a5cb57 net/dsa/dsa2.c Wen Yang           2019-02-25  1287  	of_node_put(ports);
+9919a363a5cb57 net/dsa/dsa2.c Wen Yang           2019-02-25  1288  	return err;
+83c0afaec7b730 net/dsa/dsa2.c Andrew Lunn        2016-06-04  1289  }
+83c0afaec7b730 net/dsa/dsa2.c Andrew Lunn        2016-06-04  1290  
+
+:::::: The code at line 1250 was first introduced by commit
+:::::: 83c0afaec7b730b16c518aecc8e6246ec91b265e net: dsa: Add new binding implementation
+
+:::::: TO: Andrew Lunn <andrew@lunn.ch>
+:::::: CC: David S. Miller <davem@davemloft.net>
 
 -- 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
 
---qxKE+qIZvh11ISLC
+--pKLI/QchSWECaTIi
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename=config
 
@@ -865,6 +935,7 @@ CONFIG_INET_ESP=y
 # CONFIG_INET_ESP_OFFLOAD is not set
 CONFIG_INET_ESPINTCP=y
 CONFIG_INET_IPCOMP=y
+CONFIG_INET_TABLE_PERTURB_ORDER=16
 CONFIG_INET_XFRM_TUNNEL=y
 CONFIG_INET_TUNNEL=y
 CONFIG_INET_DIAG=y
@@ -938,6 +1009,7 @@ CONFIG_L2TP_IP=y
 CONFIG_MRP=y
 # CONFIG_BRIDGE is not set
 CONFIG_NET_DSA=y
+CONFIG_NET_DSA_TAG_NONE=y
 # CONFIG_NET_DSA_TAG_AR9331 is not set
 CONFIG_NET_DSA_TAG_BRCM_COMMON=y
 CONFIG_NET_DSA_TAG_BRCM=y
@@ -1512,7 +1584,6 @@ CONFIG_MTD_NAND_CORE=y
 CONFIG_MTD_ONENAND=y
 # CONFIG_MTD_ONENAND_VERIFY_WRITE is not set
 CONFIG_MTD_ONENAND_GENERIC=y
-# CONFIG_MTD_ONENAND_OMAP2 is not set
 # CONFIG_MTD_ONENAND_SAMSUNG is not set
 CONFIG_MTD_ONENAND_OTP=y
 # CONFIG_MTD_ONENAND_2X_PROGRAM is not set
@@ -2047,7 +2118,6 @@ CONFIG_MSCC_OCELOT_SWITCH_LIB=y
 CONFIG_MSCC_OCELOT_SWITCH=y
 # CONFIG_NET_VENDOR_MICROSOFT is not set
 # CONFIG_NET_VENDOR_MYRI is not set
-# CONFIG_FEALNX is not set
 # CONFIG_NET_VENDOR_NI is not set
 # CONFIG_NET_VENDOR_NATSEMI is not set
 # CONFIG_NET_VENDOR_NETERION is not set
@@ -2087,6 +2157,7 @@ CONFIG_R8169=y
 CONFIG_NET_VENDOR_RENESAS=y
 # CONFIG_SH_ETH is not set
 # CONFIG_RAVB is not set
+# CONFIG_RENESAS_ETHER_SWITCH is not set
 CONFIG_NET_VENDOR_ROCKER=y
 # CONFIG_NET_VENDOR_SAMSUNG is not set
 # CONFIG_NET_VENDOR_SEEQ is not set
@@ -5247,7 +5318,6 @@ CONFIG_VDPA_USER=y
 # CONFIG_IFCVF is not set
 CONFIG_MLX5_VDPA=y
 CONFIG_MLX5_VDPA_NET=y
-CONFIG_MLX5_VDPA_STEERING_DEBUG=y
 CONFIG_VP_VDPA=y
 CONFIG_VHOST_IOTLB=y
 CONFIG_VHOST_RING=y
@@ -7627,4 +7697,4 @@ CONFIG_MEMTEST=y
 # CONFIG_WARN_ABI_ERRORS is not set
 # end of Kernel hacking
 
---qxKE+qIZvh11ISLC--
+--pKLI/QchSWECaTIi--
