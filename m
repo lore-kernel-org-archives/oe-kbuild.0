@@ -1,66 +1,71 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 177CCEBE
-	for <oe-kbuild@lists.linux.dev>; Wed, 30 Nov 2022 11:13:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0175963A6
+	for <oe-kbuild@lists.linux.dev>; Wed, 30 Nov 2022 13:54:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1669806789; x=1701342789;
+  t=1669816459; x=1701352459;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=1G77xLsbBlD5b0x+65Utj95ZbJTpGV4jZta9VaT19a8=;
-  b=FTqHWZCi0LBcnRKABFH0fO2pBt/cK3XC7ovKKjEnUYghTB7rLX1fnB4l
-   Vv8Z0dF5ZrrAXllIuQOtTw+vDH/J8PRQHJvBCNyFxVqZK0K7Sv36++gmD
-   1hr1lL7y2Kyx1yBDCTb0dcTyK+ZH85Hdxz6Mu8Jb+OVyizo32IhR1lzVk
-   ukyfr0j5pLR6nHrhlaeZCo+qt+oBNZrvqEEPkZNWiw1YcAF60eTdCay6i
-   Zb8GETNiYRborx9xPfy3U+TejnQzQl9if0sjYleJyxHYLd96L+p4GEhUy
-   0/WuHLT7QYHgcWM6FKbor7mHmG2b2hv0HxsY6No+eSBTAKrDoSvswxjsR
+  bh=iAy6AakiDRzaSs6szdw8O7tRUJsstkKd2NHA3r5Pfco=;
+  b=H6zYbPP7F5hSC503r7yu4Abyu0/z6j/H17ElZmB7eZG30ECo9jMBrD8E
+   gl0MfQcGIKgdfHqepDgsWGnA7LwiVlRLAhLRRUF4V3p1f0bSumCauxl5D
+   LZSbdJl5lVI0m59s0ug7GrxBV9Vt83RaEVU/Eo0850yqu9WLvl+P3LvX3
+   rgX9zGqmIO7Xe9bA88nCHLGxCc/9SsR/4uX+yC/2aXvcwc7sTPqhjHx/2
+   o/cZptJ/WSzaIn9C8x44zbXTNCw2jMs/MMHSv9KVKPn5bXzAQ259CHhsJ
+   4HYMOhw87ac+akLynAHwglVOF1r2OJPpNO1Eq1/x+TGh5vXK4mrtTXNJW
    g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10546"; a="315399583"
+X-IronPort-AV: E=McAfee;i="6500,9779,10547"; a="313019366"
 X-IronPort-AV: E=Sophos;i="5.96,206,1665471600"; 
-   d="scan'208";a="315399583"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2022 03:13:07 -0800
+   d="scan'208";a="313019366"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2022 05:54:17 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10546"; a="818592633"
+X-IronPort-AV: E=McAfee;i="6500,9779,10547"; a="637997471"
 X-IronPort-AV: E=Sophos;i="5.96,206,1665471600"; 
-   d="scan'208";a="818592633"
+   d="scan'208";a="637997471"
 Received: from lkp-server01.sh.intel.com (HELO 64a2d449c951) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 30 Nov 2022 03:13:05 -0800
+  by orsmga007.jf.intel.com with ESMTP; 30 Nov 2022 05:54:15 -0800
 Received: from kbuild by 64a2d449c951 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1p0L1U-000B3P-0k;
-	Wed, 30 Nov 2022 11:13:04 +0000
-Date: Wed, 30 Nov 2022 19:12:24 +0800
+	id 1p0NXS-000BE9-23;
+	Wed, 30 Nov 2022 13:54:14 +0000
+Date: Wed, 30 Nov 2022 21:53:59 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: net/mac80211/rx.c:4110 ieee80211_release_reorder_timeout() error:
- buffer overflow 'sta->link' 15 <= 15
-Message-ID: <202211301936.ojArAzIx-lkp@intel.com>
+Subject: drivers/media/platform/mediatek/mdp3/mtk-mdp3-vpu.c:270
+ mdp_vpu_ctx_init() warn: passing a valid pointer to 'PTR_ERR'
+Message-ID: <202211302123.sYqj2Dg8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="fmtvcfLPU7Iotu1p"
+Content-Type: multipart/mixed; boundary="hmNavH7s0dXSQqJn"
 Content-Disposition: inline
 
 
---fmtvcfLPU7Iotu1p
+--hmNavH7s0dXSQqJn
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Johannes Berg <johannes.berg@intel.com>
+TO: Moudy Ho <moudy.ho@mediatek.com>
+CC: Mauro Carvalho Chehab <mchehab@kernel.org>
+CC: linux-media@vger.kernel.org
+CC: "Ping-Hsun Wu" <ping-hsun.wu@mediatek.com>
+CC: daoyuan huang <daoyuan.huang@mediatek.com>
+CC: Hans Verkuil <hverkuil@xs4all.nl>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   01f856ae6d0ca5ad0505b79bf2d22d7ca439b2a1
-commit: e95a7f3ddc1b47838e5c131f77eb9525724c3e73 wifi: mac80211: set link_sta in reorder timeout
+commit: 61890ccaefaff89f5babd2c8412fd222c3f5fe38 media: platform: mtk-mdp3: add MediaTek MDP3 driver
 date:   3 months ago
-:::::: branch date: 17 hours ago
+:::::: branch date: 20 hours ago
 :::::: commit date: 3 months ago
 config: powerpc-randconfig-m041-20221128
 compiler: powerpc-linux-gcc (GCC) 12.1.0
@@ -69,81 +74,39 @@ If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
 
-New smatch warnings:
-net/mac80211/rx.c:4110 ieee80211_release_reorder_timeout() error: buffer overflow 'sta->link' 15 <= 15
-net/mac80211/rx.c:4110 ieee80211_release_reorder_timeout() error: buffer overflow 'sta->link' 15 <= 15
-net/mac80211/rx.c:4110 ieee80211_release_reorder_timeout() error: buffer overflow 'sta->link' 15 <= 15
-net/mac80211/rx.c:4110 ieee80211_release_reorder_timeout() error: buffer overflow 'sta->link' 15 <= 15
-net/mac80211/rx.c:4110 ieee80211_release_reorder_timeout() error: buffer overflow 'sta->link' 15 <= 15
+smatch warnings:
+drivers/media/platform/mediatek/mdp3/mtk-mdp3-vpu.c:270 mdp_vpu_ctx_init() warn: passing a valid pointer to 'PTR_ERR'
 
-Old smatch warnings:
-net/mac80211/rx.c:888 ieee80211_rx_monitor() warn: variable dereferenced before check 'origskb' (see line 781)
-net/mac80211/rx.c:4109 ieee80211_release_reorder_timeout() error: buffer overflow 'sta->sdata->link' 15 <= 15
-net/mac80211/rx.c:4109 ieee80211_release_reorder_timeout() error: buffer overflow 'sta->sdata->link' 15 <= 15
-net/mac80211/rx.c:4109 ieee80211_release_reorder_timeout() error: buffer overflow 'sta->sdata->link' 15 <= 15
-net/mac80211/rx.c:4109 ieee80211_release_reorder_timeout() error: buffer overflow 'sta->sdata->link' 15 <= 15
-net/mac80211/rx.c:4109 ieee80211_release_reorder_timeout() error: buffer overflow 'sta->sdata->link' 15 <= 15
+vim +/PTR_ERR +270 drivers/media/platform/mediatek/mdp3/mtk-mdp3-vpu.c
 
-vim +4110 net/mac80211/rx.c
-
-589052904a60f0 Johannes Berg       2008-01-31  4069  
-2bff8ebf32a7c5 Christian Lamparter 2010-08-05  4070  /*
-dd318575ff0aae Johannes Berg       2010-11-29  4071   * This function makes calls into the RX path, therefore
-dd318575ff0aae Johannes Berg       2010-11-29  4072   * it has to be invoked under RCU read lock.
-2bff8ebf32a7c5 Christian Lamparter 2010-08-05  4073   */
-2bff8ebf32a7c5 Christian Lamparter 2010-08-05  4074  void ieee80211_release_reorder_timeout(struct sta_info *sta, int tid)
-2bff8ebf32a7c5 Christian Lamparter 2010-08-05  4075  {
-f9e124fbd8cbea Christian Lamparter 2013-02-04  4076  	struct sk_buff_head frames;
-554891e63a29af Johannes Berg       2010-09-24  4077  	struct ieee80211_rx_data rx = {
-554891e63a29af Johannes Berg       2010-09-24  4078  		.sta = sta,
-554891e63a29af Johannes Berg       2010-09-24  4079  		.sdata = sta->sdata,
-554891e63a29af Johannes Berg       2010-09-24  4080  		.local = sta->local,
-9e26297a564533 Johannes Berg       2011-07-07  4081  		/* This is OK -- must be QoS data frame */
-9e26297a564533 Johannes Berg       2011-07-07  4082  		.security_idx = tid,
-9e26297a564533 Johannes Berg       2011-07-07  4083  		.seqno_idx = tid,
-892b3bceb0b534 Johannes Berg       2022-06-14  4084  		.link_id = -1,
-554891e63a29af Johannes Berg       2010-09-24  4085  	};
-2c15a0cf27a742 Christian Lamparter 2010-08-24  4086  	struct tid_ampdu_rx *tid_agg_rx;
-4a86c5462616e0 Mukesh Sisodiya     2022-09-02  4087  	u8 link_id;
-2c15a0cf27a742 Christian Lamparter 2010-08-24  4088  
-2c15a0cf27a742 Christian Lamparter 2010-08-24  4089  	tid_agg_rx = rcu_dereference(sta->ampdu_mlme.tid_rx[tid]);
-2c15a0cf27a742 Christian Lamparter 2010-08-24  4090  	if (!tid_agg_rx)
-2c15a0cf27a742 Christian Lamparter 2010-08-24  4091  		return;
-2bff8ebf32a7c5 Christian Lamparter 2010-08-05  4092  
-f9e124fbd8cbea Christian Lamparter 2013-02-04  4093  	__skb_queue_head_init(&frames);
-f9e124fbd8cbea Christian Lamparter 2013-02-04  4094  
-2c15a0cf27a742 Christian Lamparter 2010-08-24  4095  	spin_lock(&tid_agg_rx->reorder_lock);
-f9e124fbd8cbea Christian Lamparter 2013-02-04  4096  	ieee80211_sta_reorder_release(sta->sdata, tid_agg_rx, &frames);
-2c15a0cf27a742 Christian Lamparter 2010-08-24  4097  	spin_unlock(&tid_agg_rx->reorder_lock);
-2bff8ebf32a7c5 Christian Lamparter 2010-08-05  4098  
-b497de63ad5dcd Emmanuel Grumbach   2015-04-20  4099  	if (!skb_queue_empty(&frames)) {
-b497de63ad5dcd Emmanuel Grumbach   2015-04-20  4100  		struct ieee80211_event event = {
-b497de63ad5dcd Emmanuel Grumbach   2015-04-20  4101  			.type = BA_FRAME_TIMEOUT,
-b497de63ad5dcd Emmanuel Grumbach   2015-04-20  4102  			.u.ba.tid = tid,
-b497de63ad5dcd Emmanuel Grumbach   2015-04-20  4103  			.u.ba.sta = &sta->sta,
-b497de63ad5dcd Emmanuel Grumbach   2015-04-20  4104  		};
-b497de63ad5dcd Emmanuel Grumbach   2015-04-20  4105  		drv_event_callback(rx.local, rx.sdata, &event);
-b497de63ad5dcd Emmanuel Grumbach   2015-04-20  4106  	}
-4a86c5462616e0 Mukesh Sisodiya     2022-09-02  4107  	/* FIXME: statistics won't be right with this */
-4a86c5462616e0 Mukesh Sisodiya     2022-09-02  4108  	link_id = sta->sta.valid_links ? ffs(sta->sta.valid_links) - 1 : 0;
-4a86c5462616e0 Mukesh Sisodiya     2022-09-02  4109  	rx.link = rcu_dereference(sta->sdata->link[link_id]);
-e95a7f3ddc1b47 Johannes Berg       2022-09-06 @4110  	rx.link_sta = rcu_dereference(sta->link[link_id]);
-b497de63ad5dcd Emmanuel Grumbach   2015-04-20  4111  
-f9e124fbd8cbea Christian Lamparter 2013-02-04  4112  	ieee80211_rx_handlers(&rx, &frames);
-2bff8ebf32a7c5 Christian Lamparter 2010-08-05  4113  }
-2bff8ebf32a7c5 Christian Lamparter 2010-08-05  4114  
+61890ccaefaff8 Moudy Ho 2022-08-23  264  
+61890ccaefaff8 Moudy Ho 2022-08-23  265  int mdp_vpu_ctx_init(struct mdp_vpu_ctx *ctx, struct mdp_vpu_dev *vpu,
+61890ccaefaff8 Moudy Ho 2022-08-23  266  		     enum mdp_config_id id)
+61890ccaefaff8 Moudy Ho 2022-08-23  267  {
+61890ccaefaff8 Moudy Ho 2022-08-23  268  	ctx->config = mdp_config_get(vpu, id, &ctx->inst_addr);
+61890ccaefaff8 Moudy Ho 2022-08-23  269  	if (IS_ERR(ctx->config)) {
+61890ccaefaff8 Moudy Ho 2022-08-23 @270  		int err = PTR_ERR(ctx->config);
+61890ccaefaff8 Moudy Ho 2022-08-23  271  
+61890ccaefaff8 Moudy Ho 2022-08-23  272  		ctx->config = NULL;
+61890ccaefaff8 Moudy Ho 2022-08-23  273  		return err;
+61890ccaefaff8 Moudy Ho 2022-08-23  274  	}
+61890ccaefaff8 Moudy Ho 2022-08-23  275  	ctx->config_id = id;
+61890ccaefaff8 Moudy Ho 2022-08-23  276  	ctx->vpu_dev = vpu;
+61890ccaefaff8 Moudy Ho 2022-08-23  277  	return 0;
+61890ccaefaff8 Moudy Ho 2022-08-23  278  }
+61890ccaefaff8 Moudy Ho 2022-08-23  279  
 
 -- 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
 
---fmtvcfLPU7Iotu1p
+--hmNavH7s0dXSQqJn
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename=config
 
 #
 # Automatically generated file; DO NOT EDIT.
-# Linux/powerpc 6.0.0-rc3 Kernel Configuration
+# Linux/powerpc 6.0.0-rc1 Kernel Configuration
 #
 CONFIG_CC_VERSION_TEXT="powerpc-linux-gcc (GCC) 12.1.0"
 CONFIG_CC_IS_GCC=y
@@ -154,6 +117,7 @@ CONFIG_AS_VERSION=23800
 CONFIG_LD_IS_BFD=y
 CONFIG_LD_VERSION=23800
 CONFIG_LLD_VERSION=0
+CONFIG_CC_HAS_ASM_GOTO=y
 CONFIG_CC_HAS_ASM_GOTO_OUTPUT=y
 CONFIG_CC_HAS_ASM_INLINE=y
 CONFIG_CC_HAS_NO_PROFILE_FN_ATTR=y
@@ -1025,6 +989,7 @@ CONFIG_NET_DSA_TAG_XRS700X=y
 CONFIG_VLAN_8021Q=y
 # CONFIG_VLAN_8021Q_GVRP is not set
 CONFIG_VLAN_8021Q_MVRP=y
+# CONFIG_DECNET is not set
 CONFIG_LLC=y
 CONFIG_LLC2=y
 CONFIG_ATALK=y
@@ -3797,6 +3762,7 @@ CONFIG_VIDEO_MEDIATEK_JPEG=y
 CONFIG_VIDEO_MEDIATEK_MDP=y
 # CONFIG_VIDEO_MEDIATEK_VCODEC is not set
 CONFIG_VIDEO_MEDIATEK_VPU=y
+CONFIG_VIDEO_MEDIATEK_MDP3=y
 
 #
 # NVidia media platform drivers
@@ -3809,6 +3775,7 @@ CONFIG_VIDEO_TEGRA_VDE=y
 CONFIG_VIDEO_IMX_MIPI_CSIS=y
 CONFIG_VIDEO_IMX_PXP=y
 # CONFIG_VIDEO_MX2_EMMAPRP is not set
+CONFIG_VIDEO_DW100=y
 CONFIG_VIDEO_IMX8_JPEG=y
 
 #
@@ -7217,4 +7184,4 @@ CONFIG_MEMTEST=y
 # CONFIG_WARN_ABI_ERRORS is not set
 # end of Kernel hacking
 
---fmtvcfLPU7Iotu1p--
+--hmNavH7s0dXSQqJn--
