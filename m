@@ -1,54 +1,53 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F41E97C
-	for <oe-kbuild@lists.linux.dev>; Mon,  5 Dec 2022 21:24:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C1CD15CAE
+	for <oe-kbuild@lists.linux.dev>; Mon,  5 Dec 2022 23:56:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1670275464; x=1701811464;
+  t=1670284588; x=1701820588;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=bcW/ECVMpAckNS8vx2sx8qKBdzOTAGfpsOuLBtZk708=;
-  b=m4FAcHlkO4XmvXgDZHr7UgdSW9mpxs+wiefUrLhkXk8puc8L4TOq2vGd
-   Zp/dM6bsaBmmTu3xnC8/GloOgIBJ1xyaum8PG6F9kmTG3n8ouGgJBi0DU
-   PYH6OkeBgmn28e9lBtUjgt3gUfZKQ5F900QXYlsQIaKh3BZUSs7nwQwUV
-   HfHc2jxWtgjjT9Tkf6CJQZEsCMhUrQPzqFQxh1gZz2tIQz0ev0RJ2kfFY
-   HaSFLQML3znWUlX1RtWdNKZ/a1H8RWWQJgcpvm9aSYWSW4ebblaQFB7GD
-   gwluIWYtpiccDkn6MC4sFoujDuehIWeUVm/Aso42ZuBlK6tc38n4nbhN9
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10552"; a="402744545"
+  bh=CnA1XvPdTG5NWX36tuFqOme9nq2nflwVyU93pTVrhQ8=;
+  b=VMC3Wd7yd/SXzfDJW4HvBH4qEUK9Wv4RGj8YZlMgdZk1fX0pYSSALelp
+   0uz9vGBXgJEsa63Gff3BGV676zA3g0nDaK8g3mUvx5FQSlMKDH7iFolYf
+   Y0Jguep3iQmOd0ZO+IehvS/zt9DPIALEIl+CRKwbFpy7U8O/DVTQt5UI3
+   judng9hxrUFfLcFsmaTatpgy8L3OBUwyzilNrM6AJqQHsEV0qREV+qCgr
+   yQFjcYE0msKTLLbzXjqp8IDHZ1IhaRuhgA4I+xbBZphu5npVYfen95MEq
+   oAAQHzVCqdk7cRho73ZSNtSv/sSFwELBbobOXcvagBYRYtHqPpqOWRVo2
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10552"; a="296849879"
 X-IronPort-AV: E=Sophos;i="5.96,220,1665471600"; 
-   d="scan'208";a="402744545"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2022 13:24:22 -0800
+   d="scan'208";a="296849879"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2022 15:56:27 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10552"; a="639636602"
+X-IronPort-AV: E=McAfee;i="6500,9779,10552"; a="891166399"
 X-IronPort-AV: E=Sophos;i="5.96,220,1665471600"; 
-   d="scan'208";a="639636602"
+   d="scan'208";a="891166399"
 Received: from lkp-server01.sh.intel.com (HELO b3c45e08cbc1) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 05 Dec 2022 13:24:19 -0800
+  by fmsmga006.fm.intel.com with ESMTP; 05 Dec 2022 15:56:25 -0800
 Received: from kbuild by b3c45e08cbc1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1p2Iwl-0000Lw-0H;
-	Mon, 05 Dec 2022 21:24:19 +0000
-Date: Tue, 6 Dec 2022 05:24:12 +0800
+	id 1p2LJw-0000Qx-1H;
+	Mon, 05 Dec 2022 23:56:24 +0000
+Date: Tue, 6 Dec 2022 07:55:49 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [cel:topic-the-not-so-distant-future 41/82]
- net/sunrpc/auth_gss/svcauth_gss.c:1165 gss_read_proxy_verf() warn: potential
- spectre issue 'in_token->pages' [r]
-Message-ID: <202212060510.5jNAtGRU-lkp@intel.com>
+Subject: [cel:topic-the-not-so-distant-future 55/82] net/sunrpc/svc.c:1466
+ svc_process() error: we previously assumed 'p' could be null (see line 1454)
+Message-ID: <202212060740.k4dCGCg8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="/D+NgR9p3F96KkE+"
+Content-Type: multipart/mixed; boundary="rJe0czCSX+Mv1cmM"
 Content-Disposition: inline
 
 
---/D+NgR9p3F96KkE+
+--rJe0czCSX+Mv1cmM
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
@@ -58,7 +57,7 @@ TO: Chuck Lever <chuck.lever@oracle.com>
 
 tree:   git://git.kernel.org/pub/scm/linux/kernel/git/cel/linux topic-the-not-so-distant-future
 head:   f8e9d79160e851ed451ae369605a41aa7e8eb41d
-commit: c4864c401b4d205243e4e710f515f1f072ca3d97 [41/82] SUNRPC: Convert server-side GSS upcall helpers to use xdr_stream
+commit: 3dde04ad0247bb28b707b6f2cfeec67ed229da03 [55/82] SUNRPC: Hoist svcxdr_init_decode() into svc_process()
 :::::: branch date: 6 days ago
 :::::: commit date: 7 days ago
 config: i386-randconfig-m021-20221205
@@ -69,93 +68,54 @@ If you fix the issue, kindly add following tag where applicable
 | Reported-by: Dan Carpenter <error27@gmail.com>
 
 smatch warnings:
-net/sunrpc/auth_gss/svcauth_gss.c:1165 gss_read_proxy_verf() warn: potential spectre issue 'in_token->pages' [r]
+net/sunrpc/svc.c:1466 svc_process() error: we previously assumed 'p' could be null (see line 1454)
 
-vim +1165 net/sunrpc/auth_gss/svcauth_gss.c
+vim +/p +1466 net/sunrpc/svc.c
 
-5866efa8cbfbad Chuck Lever     2019-10-24  1109  
-5866efa8cbfbad Chuck Lever     2019-10-24  1110  static int gss_read_proxy_verf(struct svc_rqst *rqstp,
-438623a06bacd6 Chuck Lever     2021-07-15  1111  			       struct rpc_gss_wire_cred *gc,
-030d794bf49855 Simo Sorce      2012-05-25  1112  			       struct xdr_netobj *in_handle,
-030d794bf49855 Simo Sorce      2012-05-25  1113  			       struct gssp_in_token *in_token)
-030d794bf49855 Simo Sorce      2012-05-25  1114  {
-c4864c401b4d20 Chuck Lever     2022-11-07  1115  	struct xdr_stream *xdr = &rqstp->rq_arg_stream;
-d48c8124749c9a Martijn de Gouw 2020-10-19  1116  	unsigned int length, pgto_offs, pgfrom_offs;
-12841830a5cda5 Chuck Lever     2022-11-16  1117  	int pages, i, pgto, pgfrom;
-c4864c401b4d20 Chuck Lever     2022-11-07  1118  	size_t to_offs, from_offs;
-c4864c401b4d20 Chuck Lever     2022-11-07  1119  	u32 inlen;
-030d794bf49855 Simo Sorce      2012-05-25  1120  
-12841830a5cda5 Chuck Lever     2022-11-16  1121  	if (dup_netobj(in_handle, &gc->gc_ctx))
-12841830a5cda5 Chuck Lever     2022-11-16  1122  		return SVC_CLOSE;
-030d794bf49855 Simo Sorce      2012-05-25  1123  
-c4864c401b4d20 Chuck Lever     2022-11-07  1124  	/*
-c4864c401b4d20 Chuck Lever     2022-11-07  1125  	 *  RFC 2203 Section 5.2.2
-c4864c401b4d20 Chuck Lever     2022-11-07  1126  	 *
-c4864c401b4d20 Chuck Lever     2022-11-07  1127  	 *	struct rpc_gss_init_arg {
-c4864c401b4d20 Chuck Lever     2022-11-07  1128  	 *		opaque gss_token<>;
-c4864c401b4d20 Chuck Lever     2022-11-07  1129  	 *	};
-c4864c401b4d20 Chuck Lever     2022-11-07  1130  	 */
-c4864c401b4d20 Chuck Lever     2022-11-07  1131  	if (xdr_stream_decode_u32(xdr, &inlen) < 0)
-c4864c401b4d20 Chuck Lever     2022-11-07  1132  		goto out_denied_free;
-c4864c401b4d20 Chuck Lever     2022-11-07  1133  	if (inlen > xdr_stream_remaining(xdr))
-c4864c401b4d20 Chuck Lever     2022-11-07  1134  		goto out_denied_free;
-030d794bf49855 Simo Sorce      2012-05-25  1135  
-5866efa8cbfbad Chuck Lever     2019-10-24  1136  	pages = DIV_ROUND_UP(inlen, PAGE_SIZE);
-5866efa8cbfbad Chuck Lever     2019-10-24  1137  	in_token->pages = kcalloc(pages, sizeof(struct page *), GFP_KERNEL);
-c4864c401b4d20 Chuck Lever     2022-11-07  1138  	if (!in_token->pages)
-c4864c401b4d20 Chuck Lever     2022-11-07  1139  		goto out_denied_free;
-5866efa8cbfbad Chuck Lever     2019-10-24  1140  	in_token->page_base = 0;
-030d794bf49855 Simo Sorce      2012-05-25  1141  	in_token->page_len = inlen;
-5866efa8cbfbad Chuck Lever     2019-10-24  1142  	for (i = 0; i < pages; i++) {
-5866efa8cbfbad Chuck Lever     2019-10-24  1143  		in_token->pages[i] = alloc_page(GFP_KERNEL);
-5866efa8cbfbad Chuck Lever     2019-10-24  1144  		if (!in_token->pages[i]) {
-5866efa8cbfbad Chuck Lever     2019-10-24  1145  			gss_free_in_token_pages(in_token);
-c4864c401b4d20 Chuck Lever     2022-11-07  1146  			goto out_denied_free;
-5866efa8cbfbad Chuck Lever     2019-10-24  1147  		}
-5866efa8cbfbad Chuck Lever     2019-10-24  1148  	}
-5866efa8cbfbad Chuck Lever     2019-10-24  1149  
-c4864c401b4d20 Chuck Lever     2022-11-07  1150  	length = min_t(unsigned int, inlen, (char *)xdr->end - (char *)xdr->p);
-c4864c401b4d20 Chuck Lever     2022-11-07  1151  	memcpy(page_address(in_token->pages[0]), xdr->p, length);
-5866efa8cbfbad Chuck Lever     2019-10-24  1152  	inlen -= length;
-5866efa8cbfbad Chuck Lever     2019-10-24  1153  
-d48c8124749c9a Martijn de Gouw 2020-10-19  1154  	to_offs = length;
-d48c8124749c9a Martijn de Gouw 2020-10-19  1155  	from_offs = rqstp->rq_arg.page_base;
-5866efa8cbfbad Chuck Lever     2019-10-24  1156  	while (inlen) {
-d48c8124749c9a Martijn de Gouw 2020-10-19  1157  		pgto = to_offs >> PAGE_SHIFT;
-d48c8124749c9a Martijn de Gouw 2020-10-19  1158  		pgfrom = from_offs >> PAGE_SHIFT;
-d48c8124749c9a Martijn de Gouw 2020-10-19  1159  		pgto_offs = to_offs & ~PAGE_MASK;
-d48c8124749c9a Martijn de Gouw 2020-10-19  1160  		pgfrom_offs = from_offs & ~PAGE_MASK;
-d48c8124749c9a Martijn de Gouw 2020-10-19  1161  
-d48c8124749c9a Martijn de Gouw 2020-10-19  1162  		length = min_t(unsigned int, inlen,
-d48c8124749c9a Martijn de Gouw 2020-10-19  1163  			 min_t(unsigned int, PAGE_SIZE - pgto_offs,
-d48c8124749c9a Martijn de Gouw 2020-10-19  1164  			       PAGE_SIZE - pgfrom_offs));
-d48c8124749c9a Martijn de Gouw 2020-10-19 @1165  		memcpy(page_address(in_token->pages[pgto]) + pgto_offs,
-d48c8124749c9a Martijn de Gouw 2020-10-19  1166  		       page_address(rqstp->rq_arg.pages[pgfrom]) + pgfrom_offs,
-5866efa8cbfbad Chuck Lever     2019-10-24  1167  		       length);
-030d794bf49855 Simo Sorce      2012-05-25  1168  
-d48c8124749c9a Martijn de Gouw 2020-10-19  1169  		to_offs += length;
-d48c8124749c9a Martijn de Gouw 2020-10-19  1170  		from_offs += length;
-5866efa8cbfbad Chuck Lever     2019-10-24  1171  		inlen -= length;
-5866efa8cbfbad Chuck Lever     2019-10-24  1172  	}
-030d794bf49855 Simo Sorce      2012-05-25  1173  	return 0;
-c4864c401b4d20 Chuck Lever     2022-11-07  1174  
-c4864c401b4d20 Chuck Lever     2022-11-07  1175  out_denied_free:
-c4864c401b4d20 Chuck Lever     2022-11-07  1176  	kfree(in_handle->data);
-c4864c401b4d20 Chuck Lever     2022-11-07  1177  	return SVC_DENIED;
-030d794bf49855 Simo Sorce      2012-05-25  1178  }
-030d794bf49855 Simo Sorce      2012-05-25  1179  
-
-:::::: The code at line 1165 was first introduced by commit
-:::::: d48c8124749c9a5081fe68680f83605e272c984b SUNRPC: fix copying of multiple pages in gss_read_proxy_verf()
-
-:::::: TO: Martijn de Gouw <martijn.de.gouw@prodrive-technologies.com>
-:::::: CC: J. Bruce Fields <bfields@redhat.com>
+3a1261805940d0 Chuck Lever     2021-08-03  1436  
+1cad7ea6fe98dc Ricardo Labiaga 2009-04-01  1437  	/*
+1cad7ea6fe98dc Ricardo Labiaga 2009-04-01  1438  	 * Setup response xdr_buf.
+1cad7ea6fe98dc Ricardo Labiaga 2009-04-01  1439  	 * Initially it has just one page
+1cad7ea6fe98dc Ricardo Labiaga 2009-04-01  1440  	 */
+afc59400d6c65b J. Bruce Fields 2012-12-10  1441  	rqstp->rq_next_page = &rqstp->rq_respages[1];
+1cad7ea6fe98dc Ricardo Labiaga 2009-04-01  1442  	resv->iov_base = page_address(rqstp->rq_respages[0]);
+1cad7ea6fe98dc Ricardo Labiaga 2009-04-01  1443  	resv->iov_len = 0;
+81593c4dff3226 Chuck Lever     2022-09-12  1444  	rqstp->rq_res.pages = rqstp->rq_next_page;
+1cad7ea6fe98dc Ricardo Labiaga 2009-04-01  1445  	rqstp->rq_res.len = 0;
+1cad7ea6fe98dc Ricardo Labiaga 2009-04-01  1446  	rqstp->rq_res.page_base = 0;
+1cad7ea6fe98dc Ricardo Labiaga 2009-04-01  1447  	rqstp->rq_res.page_len = 0;
+1cad7ea6fe98dc Ricardo Labiaga 2009-04-01  1448  	rqstp->rq_res.buflen = PAGE_SIZE;
+1cad7ea6fe98dc Ricardo Labiaga 2009-04-01  1449  	rqstp->rq_res.tail[0].iov_base = NULL;
+1cad7ea6fe98dc Ricardo Labiaga 2009-04-01  1450  	rqstp->rq_res.tail[0].iov_len = 0;
+1cad7ea6fe98dc Ricardo Labiaga 2009-04-01  1451  
+3dde04ad0247bb Chuck Lever     2022-11-06  1452  	svcxdr_init_decode(rqstp);
+3dde04ad0247bb Chuck Lever     2022-11-06  1453  	p = xdr_inline_decode(&rqstp->rq_arg_stream, XDR_UNIT * 2);
+3dde04ad0247bb Chuck Lever     2022-11-06 @1454  	if (unlikely(!p))
+81593c4dff3226 Chuck Lever     2022-09-12  1455  		goto out_baddir;
+3dde04ad0247bb Chuck Lever     2022-11-06  1456  	rqstp->rq_xid = *p++;
+3dde04ad0247bb Chuck Lever     2022-11-06  1457  	if (unlikely(*p != rpc_call))
+3dde04ad0247bb Chuck Lever     2022-11-06  1458  		goto out_baddir;
+3dde04ad0247bb Chuck Lever     2022-11-06  1459  
+d9ca78fb91eb62 Chuck Lever     2022-11-06  1460  	if (!svc_process_common(rqstp, resv))
+860a0d9e511f27 Jeff Layton     2014-10-28  1461  		goto out_drop;
+0b9547bf6b9431 Chuck Lever     2018-03-27  1462  	return svc_send(rqstp);
+860a0d9e511f27 Jeff Layton     2014-10-28  1463  
+81593c4dff3226 Chuck Lever     2022-09-12  1464  out_baddir:
+81593c4dff3226 Chuck Lever     2022-09-12  1465  	svc_printk(rqstp, "bad direction 0x%08x, dropping request\n",
+3dde04ad0247bb Chuck Lever     2022-11-06 @1466  		   be32_to_cpu(*p));
+81593c4dff3226 Chuck Lever     2022-09-12  1467  	rqstp->rq_server->sv_stats->rpcbadfmt++;
+860a0d9e511f27 Jeff Layton     2014-10-28  1468  out_drop:
+4b5b3ba16be1b1 Andy Adamson    2011-01-06  1469  	svc_drop(rqstp);
+4b5b3ba16be1b1 Andy Adamson    2011-01-06  1470  	return 0;
+4b5b3ba16be1b1 Andy Adamson    2011-01-06  1471  }
+3f87d5d6ace6c4 Chuck Lever     2015-05-26  1472  EXPORT_SYMBOL_GPL(svc_process);
+1cad7ea6fe98dc Ricardo Labiaga 2009-04-01  1473  
 
 -- 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
 
---/D+NgR9p3F96KkE+
+--rJe0czCSX+Mv1cmM
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename=config
 
@@ -6009,4 +5969,4 @@ CONFIG_HYPERV_TESTING=y
 # end of Rust hacking
 # end of Kernel hacking
 
---/D+NgR9p3F96KkE+--
+--rJe0czCSX+Mv1cmM--
