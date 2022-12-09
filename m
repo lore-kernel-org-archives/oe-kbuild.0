@@ -1,71 +1,69 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B80A63C5
-	for <oe-kbuild@lists.linux.dev>; Fri,  9 Dec 2022 17:51:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 326BD3214
+	for <oe-kbuild@lists.linux.dev>; Fri,  9 Dec 2022 21:03:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1670608281; x=1702144281;
+  t=1670619815; x=1702155815;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=hPQgxvHdvYMMJ0NSAl0DJM4oJ8AqUZ5JgiPmG5QCow4=;
-  b=Aw3UoEtWjue4s4SQjY0xoSucpSQqnWUv9qn+eMxW9ctCGNpG+MEz2Cy4
-   bmKq9GmLy/IsKKZyDviIRtOobQWP4O74b2nfmqS5hk/E9TzNaPh2prwIj
-   UGybk4W5e5e774j0A63UcsoWlJV9LPqmm3DXpEniE2Ue5i5eXXz0AEvOc
-   TSxugzJj3cMzLfeiXlG6wPK4debLiAGpBU3a0c2W0wjgIouNN49MMJvLz
-   /0pVuhkTRaMMSFpE4I2oT2ez0ntta75CyUpFVt+Hx3vpdg28KpdLAd6GO
-   FXNoUaawbi8w+ckpzg0eIQvMmshUrSzwtNeHze2YXavh5XzZ4OkFRfGXM
+  bh=xDLSL/uRPZ3gaPrYI2QgfKfROuvUPXtgN19IHNe/kRs=;
+  b=ffA2gN60IiYk2LOpUI0Qp3NQqxd/nRWAMiB6Ac8F3kH6C0N38xKsx38H
+   iadPgdU8mDCOlRs9lTlQqitb9iB15ge6+eJ1KXYZiBrQmJgBkr52jdeCO
+   zQQT6a5CPT7RuzXWEKPCQK6n2Htl2cf9FszpLTE2Olg2v5BwGdfY0Sa16
+   of8DUOBTwkLcSx1AaGqgQ8idyeKJRLWNZSTskYOBjtz2r1iMM57BlI9ob
+   Eeulpmt+YvGkAbnTclAe3/wPkrjJq4B3XpyxawxF5zHK/Wrnub0avp4an
+   /ioMU6hexlNQKqKParChnOSMrO8uuAMCZXO6ifKCgll4J2d5ll0ntRtp9
    g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10556"; a="344550874"
-X-IronPort-AV: E=Sophos;i="5.96,230,1665471600"; 
-   d="scan'208";a="344550874"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2022 09:51:20 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10556"; a="300970484"
+X-IronPort-AV: E=Sophos;i="5.96,232,1665471600"; 
+   d="scan'208";a="300970484"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2022 13:03:34 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10556"; a="710964969"
-X-IronPort-AV: E=Sophos;i="5.96,230,1665471600"; 
-   d="scan'208";a="710964969"
+X-IronPort-AV: E=McAfee;i="6500,9779,10556"; a="754169675"
+X-IronPort-AV: E=Sophos;i="5.96,232,1665471600"; 
+   d="scan'208";a="754169675"
 Received: from lkp-server01.sh.intel.com (HELO b5d47979f3ad) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 09 Dec 2022 09:51:18 -0800
+  by fmsmga002.fm.intel.com with ESMTP; 09 Dec 2022 13:03:31 -0800
 Received: from kbuild by b5d47979f3ad with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1p3hWn-0001zh-1P;
-	Fri, 09 Dec 2022 17:51:17 +0000
-Date: Sat, 10 Dec 2022 01:51:08 +0800
+	id 1p3kWp-00025P-0s;
+	Fri, 09 Dec 2022 21:03:31 +0000
+Date: Sat, 10 Dec 2022 05:03:06 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [linux-next:master 2355/14039]
- drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_resource.c:2621
- planes_changed_for_existing_stream() error: we previously assumed
- 'stream_status' could be null (see line 2611)
-Message-ID: <202212100153.grMee17l-lkp@intel.com>
+Subject: [linux-next:master 5108/14039]
+ drivers/gpu/drm/nouveau/nvkm/engine/disp/uoutp.c:42
+ nvkm_uoutp_mthd_infoframe() error: we previously assumed 'ior->func->hdmi'
+ could be null (see line 40)
+Message-ID: <202212100448.KhewSlpp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="X//bdAUvwhOOa1Tg"
+Content-Type: multipart/mixed; boundary="m0SIatfWdgWSpnvh"
 Content-Disposition: inline
 
 
---X//bdAUvwhOOa1Tg
+--m0SIatfWdgWSpnvh
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
-CC: Alex Deucher <alexander.deucher@amd.com>
-CC: Harry Wentland <harry.wentland@amd.com>
-CC: Aurabindo Pillai <aurabindo.pillai@amd.com>
+TO: Ben Skeggs <bskeggs@redhat.com>
+CC: Lyude Paul <lyude@redhat.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
 head:   f925116b24c0c42dc6d5ab5111c55fd7f74e8dc7
-commit: a5e39ae27c3a305c6aafc0e423b0cb2c677facde [2355/14039] drm/amd/display: Add function for validate and update new stream
+commit: f530bc60a30bee47ff51b7fb71511fdd058b774a [5108/14039] drm/nouveau/disp: move HDMI config into acquire + infoframe methods
 :::::: branch date: 2 days ago
-:::::: commit date: 7 weeks ago
+:::::: commit date: 4 weeks ago
 config: ia64-randconfig-m041-20221207
 compiler: ia64-linux-gcc (GCC) 12.1.0
 
@@ -74,58 +72,48 @@ If you fix the issue, kindly add following tag where applicable
 | Reported-by: Dan Carpenter <error27@gmail.com>
 
 smatch warnings:
-drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_resource.c:2621 planes_changed_for_existing_stream() error: we previously assumed 'stream_status' could be null (see line 2611)
+drivers/gpu/drm/nouveau/nvkm/engine/disp/uoutp.c:42 nvkm_uoutp_mthd_infoframe() error: we previously assumed 'ior->func->hdmi' could be null (see line 40)
 
-vim +/stream_status +2621 drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_resource.c
+vim +42 drivers/gpu/drm/nouveau/nvkm/engine/disp/uoutp.c
 
-6d822156d0b6f5 Nikola Cornij    2019-12-09  2595  
-a5e39ae27c3a30 Rodrigo Siqueira 2022-10-18  2596  static bool planes_changed_for_existing_stream(struct dc_state *context,
-a5e39ae27c3a30 Rodrigo Siqueira 2022-10-18  2597  					       struct dc_stream_state *stream,
-a5e39ae27c3a30 Rodrigo Siqueira 2022-10-18  2598  					       const struct dc_validation_set set[],
-a5e39ae27c3a30 Rodrigo Siqueira 2022-10-18  2599  					       int set_count)
-a5e39ae27c3a30 Rodrigo Siqueira 2022-10-18  2600  {
-a5e39ae27c3a30 Rodrigo Siqueira 2022-10-18  2601  	int i, j;
-a5e39ae27c3a30 Rodrigo Siqueira 2022-10-18  2602  	struct dc_stream_status *stream_status = NULL;
-a5e39ae27c3a30 Rodrigo Siqueira 2022-10-18  2603  
-a5e39ae27c3a30 Rodrigo Siqueira 2022-10-18  2604  	for (i = 0; i < context->stream_count; i++) {
-a5e39ae27c3a30 Rodrigo Siqueira 2022-10-18  2605  		if (context->streams[i] == stream) {
-a5e39ae27c3a30 Rodrigo Siqueira 2022-10-18  2606  			stream_status = &context->stream_status[i];
-a5e39ae27c3a30 Rodrigo Siqueira 2022-10-18  2607  			break;
-a5e39ae27c3a30 Rodrigo Siqueira 2022-10-18  2608  		}
-a5e39ae27c3a30 Rodrigo Siqueira 2022-10-18  2609  	}
-a5e39ae27c3a30 Rodrigo Siqueira 2022-10-18  2610  
-a5e39ae27c3a30 Rodrigo Siqueira 2022-10-18 @2611  	if (!stream_status)
-a5e39ae27c3a30 Rodrigo Siqueira 2022-10-18  2612  		ASSERT(0);
-a5e39ae27c3a30 Rodrigo Siqueira 2022-10-18  2613  
-a5e39ae27c3a30 Rodrigo Siqueira 2022-10-18  2614  	for (i = 0; i < set_count; i++)
-a5e39ae27c3a30 Rodrigo Siqueira 2022-10-18  2615  		if (set[i].stream == stream)
-a5e39ae27c3a30 Rodrigo Siqueira 2022-10-18  2616  			break;
-a5e39ae27c3a30 Rodrigo Siqueira 2022-10-18  2617  
-a5e39ae27c3a30 Rodrigo Siqueira 2022-10-18  2618  	if (i == set_count)
-a5e39ae27c3a30 Rodrigo Siqueira 2022-10-18  2619  		ASSERT(0);
-a5e39ae27c3a30 Rodrigo Siqueira 2022-10-18  2620  
-a5e39ae27c3a30 Rodrigo Siqueira 2022-10-18 @2621  	if (set[i].plane_count != stream_status->plane_count)
-a5e39ae27c3a30 Rodrigo Siqueira 2022-10-18  2622  		return true;
-a5e39ae27c3a30 Rodrigo Siqueira 2022-10-18  2623  
-a5e39ae27c3a30 Rodrigo Siqueira 2022-10-18  2624  	for (j = 0; j < set[i].plane_count; j++)
-a5e39ae27c3a30 Rodrigo Siqueira 2022-10-18  2625  		if (set[i].plane_states[j] != stream_status->plane_states[j])
-a5e39ae27c3a30 Rodrigo Siqueira 2022-10-18  2626  			return true;
-a5e39ae27c3a30 Rodrigo Siqueira 2022-10-18  2627  
-a5e39ae27c3a30 Rodrigo Siqueira 2022-10-18  2628  	return false;
-a5e39ae27c3a30 Rodrigo Siqueira 2022-10-18  2629  }
-6d822156d0b6f5 Nikola Cornij    2019-12-09  2630  
+1b255f1ccc8832 Ben Skeggs 2022-06-01  28  
+f530bc60a30bee Ben Skeggs 2022-06-01  29  static int
+f530bc60a30bee Ben Skeggs 2022-06-01  30  nvkm_uoutp_mthd_infoframe(struct nvkm_outp *outp, void *argv, u32 argc)
+f530bc60a30bee Ben Skeggs 2022-06-01  31  {
+f530bc60a30bee Ben Skeggs 2022-06-01  32  	struct nvkm_ior *ior = outp->ior;
+f530bc60a30bee Ben Skeggs 2022-06-01  33  	union nvif_outp_infoframe_args *args = argv;
+f530bc60a30bee Ben Skeggs 2022-06-01  34  
+f530bc60a30bee Ben Skeggs 2022-06-01  35  	if (argc < sizeof(args->v0) || args->v0.version != 0)
+f530bc60a30bee Ben Skeggs 2022-06-01  36  		return -ENOSYS;
+f530bc60a30bee Ben Skeggs 2022-06-01  37  	if (!nvkm_head_find(outp->disp, args->v0.head))
+f530bc60a30bee Ben Skeggs 2022-06-01  38  		return -EINVAL;
+f530bc60a30bee Ben Skeggs 2022-06-01  39  
+f530bc60a30bee Ben Skeggs 2022-06-01 @40  	switch (ior->func->hdmi ? args->v0.type : 0xff) {
+f530bc60a30bee Ben Skeggs 2022-06-01  41  	case NVIF_OUTP_INFOFRAME_V0_AVI:
+f530bc60a30bee Ben Skeggs 2022-06-01 @42  		ior->func->hdmi->infoframe_avi(ior, args->v0.head, argv, argc);
+f530bc60a30bee Ben Skeggs 2022-06-01  43  		return 0;
+f530bc60a30bee Ben Skeggs 2022-06-01  44  	case NVIF_OUTP_INFOFRAME_V0_VSI:
+f530bc60a30bee Ben Skeggs 2022-06-01  45  		ior->func->hdmi->infoframe_vsi(ior, args->v0.head, argv, argc);
+f530bc60a30bee Ben Skeggs 2022-06-01  46  		return 0;
+f530bc60a30bee Ben Skeggs 2022-06-01  47  	default:
+f530bc60a30bee Ben Skeggs 2022-06-01  48  		break;
+f530bc60a30bee Ben Skeggs 2022-06-01  49  	}
+f530bc60a30bee Ben Skeggs 2022-06-01  50  
+f530bc60a30bee Ben Skeggs 2022-06-01  51  	return -EINVAL;
+f530bc60a30bee Ben Skeggs 2022-06-01  52  }
+f530bc60a30bee Ben Skeggs 2022-06-01  53  
 
 -- 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
 
---X//bdAUvwhOOa1Tg
+--m0SIatfWdgWSpnvh
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename=config
 
 #
 # Automatically generated file; DO NOT EDIT.
-# Linux/ia64 6.1.0-rc1 Kernel Configuration
+# Linux/ia64 6.1.0-rc2 Kernel Configuration
 #
 CONFIG_CC_VERSION_TEXT="ia64-linux-gcc (GCC) 12.1.0"
 CONFIG_CC_IS_GCC=y
@@ -2475,6 +2463,7 @@ CONFIG_DRM_I2C_ADV7511_CEC=y
 # CONFIG_DRM_ARCPGU is not set
 CONFIG_DRM_BOCHS=y
 # CONFIG_DRM_CIRRUS_QEMU is not set
+# CONFIG_DRM_OFDRM is not set
 # CONFIG_DRM_SIMPLEDRM is not set
 # CONFIG_DRM_PANFROST is not set
 # CONFIG_DRM_ASPEED_GFX is not set
@@ -4789,4 +4778,4 @@ CONFIG_TEST_STATIC_KEYS=m
 # CONFIG_WARN_ABI_ERRORS is not set
 # end of Kernel hacking
 
---X//bdAUvwhOOa1Tg--
+--m0SIatfWdgWSpnvh--
