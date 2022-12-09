@@ -1,85 +1,84 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A304FA460
-	for <oe-kbuild@lists.linux.dev>; Thu,  8 Dec 2022 21:39:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DBAD7E
+	for <oe-kbuild@lists.linux.dev>; Fri,  9 Dec 2022 00:32:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1670535599; x=1702071599;
+  t=1670545922; x=1702081922;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Do8JErTi+3fE6M9E3JA1zGUCa7xzQNJdCSNOBMgdwTg=;
-  b=Vqm7827ZqWTY3+4uindJKYQbUIiTgpm+b/v+crEP5rUkRi7cjEiaYPAP
-   Fo2EaYZ7kFW6yPyXujJiOXRmPMmN1nMYqCmlNuhDlfae7HYqOyDOfE4xQ
-   QFMYtXBbvd6khVUPamSgVF99u5q/ESGu5a3MmZfy9NHZZysOVKZtWWh+e
-   LBB2of5OC7V7kHoku6QHAR46tqIWToYig+M3iKHH9uWI7b4nBnSiCmqK4
-   HwF8dScD0koEd95zNJr8LeqEX80/IwYOociOm+5FKCduVddlUzwToq67d
-   hQtcqBxK6gOR8o/ZpUirAgvqAovPGWCVQlvSBcWlJbRj1Qx1eftugjseX
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10555"; a="304953078"
+  bh=W1xvU3ULD5zlQsMnSW/wY9ZOYPOlJe/ZwQsOj7gSaXU=;
+  b=IGaTeOfUyLQ+XaStH1QUT0+KyHfDhV20KCfQUr7BKN7wt89eaa3Etgfl
+   hr1vGLSvtoaCFx2z21AysDRVqm1oLsyDg4OjN73DwJk8heh6X3lUCQMOC
+   42vI/sCjL4xYWUasGB02oj/y6AN4Xms0hbCK2pp+WVJqcFVkeHUewWbg1
+   CF3Q1z9HQERkRuervjGFY1E4bA4418iFoP4jOrMeBsB06nNcUcJMrJ8CI
+   QDjvA2Y7sySWN+0o1gCk65t496amdA/tOVjij/Fyk0w+kXlmdQIeP2L7Q
+   J/mjyk2WHCmX0gS3MAydCeaIFEMxRejwqU8E4oELN+v6aDz4dp0YWxrb5
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10555"; a="317365315"
 X-IronPort-AV: E=Sophos;i="5.96,228,1665471600"; 
-   d="scan'208";a="304953078"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2022 13:39:58 -0800
+   d="scan'208";a="317365315"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2022 16:32:00 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10555"; a="892413945"
+X-IronPort-AV: E=McAfee;i="6500,9779,10555"; a="789535337"
 X-IronPort-AV: E=Sophos;i="5.96,228,1665471600"; 
-   d="scan'208";a="892413945"
+   d="scan'208";a="789535337"
 Received: from lkp-server01.sh.intel.com (HELO b5d47979f3ad) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 08 Dec 2022 13:39:56 -0800
+  by fmsmga001.fm.intel.com with ESMTP; 08 Dec 2022 16:31:58 -0800
 Received: from kbuild by b5d47979f3ad with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1p3OcV-0001RX-1s;
-	Thu, 08 Dec 2022 21:39:55 +0000
-Date: Fri, 9 Dec 2022 05:39:25 +0800
+	id 1p3RJ0-0001W5-0P;
+	Fri, 09 Dec 2022 00:31:58 +0000
+Date: Fri, 9 Dec 2022 08:31:05 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH net-next v2 8/9] octeon_ep: add PF-VF mailbox
- communication
-Message-ID: <202212090526.fK0Eqrfp-lkp@intel.com>
+Subject: Re: [PATCH 2/2] mac80211_hwsim: handle RTT requests with virtio
+Message-ID: <202212090854.IADKAyXy-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="E9+EOYQDJDU0v4w8"
+Content-Type: multipart/mixed; boundary="De9qrgEt6NZPPHZ5"
 Content-Disposition: inline
 
 
---E9+EOYQDJDU0v4w8
+--De9qrgEt6NZPPHZ5
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20221129130933.25231-9-vburru@marvell.com>
-References: <20221129130933.25231-9-vburru@marvell.com>
-TO: Veerasenareddy Burru <vburru@marvell.com>
+In-Reply-To: <20221205171851.2811239-2-jaewan@google.com>
+References: <20221205171851.2811239-2-jaewan@google.com>
+TO: Jaewan Kim <jaewan@google.com>
+TO: johannes@sipsolutions.net
+TO: linux-wireless@vger.kernel.org
 TO: netdev@vger.kernel.org
-TO: linux-kernel@vger.kernel.org
-TO: lironh@marvell.com
-TO: aayarekar@marvell.com
-TO: sedara@marvell.com
-TO: sburla@marvell.com
-CC: linux-doc@vger.kernel.org
-CC: Veerasenareddy Burru <vburru@marvell.com>
-CC: Eric Dumazet <edumazet@google.com>
-CC: Jakub Kicinski <kuba@kernel.org>
-CC: Paolo Abeni <pabeni@redhat.com>
+CC: kernel-team@android.com
+CC: adelva@google.com
+CC: Jaewan Kim <jaewan@google.com>
 
-Hi Veerasenareddy,
+Hi Jaewan,
 
-I love your patch! Perhaps something to improve:
+Thank you for the patch! Perhaps something to improve:
 
-[auto build test WARNING on 7a168f560e3c3829b74a893d3655caab14a7aef8]
+[auto build test WARNING on wireless/main]
+[also build test WARNING on linus/master v6.1-rc8 next-20221208]
+[cannot apply to wireless-next/main]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Veerasenareddy-Burru/octeon_ep-Update-PF-mailbox-for-VF/20221130-110134
-base:   7a168f560e3c3829b74a893d3655caab14a7aef8
-patch link:    https://lore.kernel.org/r/20221129130933.25231-9-vburru%40marvell.com
-patch subject: [PATCH net-next v2 8/9] octeon_ep: add PF-VF mailbox communication
-:::::: branch date: 9 days ago
-:::::: commit date: 9 days ago
+url:    https://github.com/intel-lab-lkp/linux/commits/Jaewan-Kim/mac80211_hwsim-add-PMSR-capability-support/20221206-012111
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless.git main
+patch link:    https://lore.kernel.org/r/20221205171851.2811239-2-jaewan%40google.com
+patch subject: [PATCH 2/2] mac80211_hwsim: handle RTT requests with virtio
+:::::: branch date: 3 days ago
+:::::: commit date: 3 days ago
 config: ia64-randconfig-m041-20221204
 compiler: ia64-linux-gcc (GCC) 12.1.0
 
@@ -87,144 +86,99 @@ If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
 
-New smatch warnings:
-drivers/net/ethernet/marvell/octeon_ep/octep_main.c:1105 octep_probe() warn: missing unwind goto?
+smatch warnings:
+drivers/net/wireless/mac80211_hwsim.c:3239 mac80211_hwsim_send_pmsr_ftm_request_peer() warn: variable dereferenced before check 'request' (see line 3235)
+drivers/net/wireless/mac80211_hwsim.c:3504 mac80211_hwsim_abort_pmsr() warn: inconsistent returns '&data->mutex'.
+drivers/net/wireless/mac80211_hwsim.c:3800 hwsim_pmsr_report_nl() error: uninitialized symbol 'err'.
 
-Old smatch warnings:
-drivers/net/ethernet/marvell/octeon_ep/octep_main.c:279 octep_request_irqs() warn: 'msix_entry->vector' from request_irq() not released on lines: 279.
+vim +/request +3239 drivers/net/wireless/mac80211_hwsim.c
 
-vim +1105 drivers/net/ethernet/marvell/octeon_ep/octep_main.c
-
-a36869e03997c0 Veerasenareddy Burru 2022-11-29  1036  
-862cd659a6fbac Veerasenareddy Burru 2022-04-12  1037  /**
-862cd659a6fbac Veerasenareddy Burru 2022-04-12  1038   * octep_probe() - Octeon PCI device probe handler.
-862cd659a6fbac Veerasenareddy Burru 2022-04-12  1039   *
-862cd659a6fbac Veerasenareddy Burru 2022-04-12  1040   * @pdev: PCI device structure.
-862cd659a6fbac Veerasenareddy Burru 2022-04-12  1041   * @ent: entry in Octeon PCI device ID table.
-862cd659a6fbac Veerasenareddy Burru 2022-04-12  1042   *
-862cd659a6fbac Veerasenareddy Burru 2022-04-12  1043   * Initializes and enables the Octeon PCI device for network operations.
-862cd659a6fbac Veerasenareddy Burru 2022-04-12  1044   * Initializes Octeon private data structure and registers a network device.
-862cd659a6fbac Veerasenareddy Burru 2022-04-12  1045   */
-862cd659a6fbac Veerasenareddy Burru 2022-04-12  1046  static int octep_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
-862cd659a6fbac Veerasenareddy Burru 2022-04-12  1047  {
-862cd659a6fbac Veerasenareddy Burru 2022-04-12  1048  	struct octep_device *octep_dev = NULL;
-862cd659a6fbac Veerasenareddy Burru 2022-04-12  1049  	struct net_device *netdev;
-862cd659a6fbac Veerasenareddy Burru 2022-04-12  1050  	int err;
-862cd659a6fbac Veerasenareddy Burru 2022-04-12  1051  
-862cd659a6fbac Veerasenareddy Burru 2022-04-12  1052  	err = pci_enable_device(pdev);
-862cd659a6fbac Veerasenareddy Burru 2022-04-12  1053  	if (err) {
-862cd659a6fbac Veerasenareddy Burru 2022-04-12  1054  		dev_err(&pdev->dev, "Failed to enable PCI device\n");
-862cd659a6fbac Veerasenareddy Burru 2022-04-12  1055  		return  err;
-862cd659a6fbac Veerasenareddy Burru 2022-04-12  1056  	}
-862cd659a6fbac Veerasenareddy Burru 2022-04-12  1057  
-862cd659a6fbac Veerasenareddy Burru 2022-04-12  1058  	err = dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(64));
-862cd659a6fbac Veerasenareddy Burru 2022-04-12  1059  	if (err) {
-862cd659a6fbac Veerasenareddy Burru 2022-04-12  1060  		dev_err(&pdev->dev, "Failed to set DMA mask !!\n");
-862cd659a6fbac Veerasenareddy Burru 2022-04-12  1061  		goto err_dma_mask;
-862cd659a6fbac Veerasenareddy Burru 2022-04-12  1062  	}
-862cd659a6fbac Veerasenareddy Burru 2022-04-12  1063  
-862cd659a6fbac Veerasenareddy Burru 2022-04-12  1064  	err = pci_request_mem_regions(pdev, OCTEP_DRV_NAME);
-862cd659a6fbac Veerasenareddy Burru 2022-04-12  1065  	if (err) {
-862cd659a6fbac Veerasenareddy Burru 2022-04-12  1066  		dev_err(&pdev->dev, "Failed to map PCI memory regions\n");
-862cd659a6fbac Veerasenareddy Burru 2022-04-12  1067  		goto err_pci_regions;
-862cd659a6fbac Veerasenareddy Burru 2022-04-12  1068  	}
-862cd659a6fbac Veerasenareddy Burru 2022-04-12  1069  
-862cd659a6fbac Veerasenareddy Burru 2022-04-12  1070  	pci_enable_pcie_error_reporting(pdev);
-862cd659a6fbac Veerasenareddy Burru 2022-04-12  1071  	pci_set_master(pdev);
-862cd659a6fbac Veerasenareddy Burru 2022-04-12  1072  
-a36869e03997c0 Veerasenareddy Burru 2022-11-29  1073  #define FW_STATUS_READY    1
-a36869e03997c0 Veerasenareddy Burru 2022-11-29  1074  	if (get_fw_ready_status(pdev) != FW_STATUS_READY) {
-a36869e03997c0 Veerasenareddy Burru 2022-11-29  1075  		dev_notice(&pdev->dev, "Firmware not ready; defer probe.\n");
-a36869e03997c0 Veerasenareddy Burru 2022-11-29  1076  		err = -EPROBE_DEFER;
-a36869e03997c0 Veerasenareddy Burru 2022-11-29  1077  		goto err_alloc_netdev;
-a36869e03997c0 Veerasenareddy Burru 2022-11-29  1078  	}
-a36869e03997c0 Veerasenareddy Burru 2022-11-29  1079  
-862cd659a6fbac Veerasenareddy Burru 2022-04-12  1080  	netdev = alloc_etherdev_mq(sizeof(struct octep_device),
-862cd659a6fbac Veerasenareddy Burru 2022-04-12  1081  				   OCTEP_MAX_QUEUES);
-862cd659a6fbac Veerasenareddy Burru 2022-04-12  1082  	if (!netdev) {
-862cd659a6fbac Veerasenareddy Burru 2022-04-12  1083  		dev_err(&pdev->dev, "Failed to allocate netdev\n");
-862cd659a6fbac Veerasenareddy Burru 2022-04-12  1084  		err = -ENOMEM;
-862cd659a6fbac Veerasenareddy Burru 2022-04-12  1085  		goto err_alloc_netdev;
-862cd659a6fbac Veerasenareddy Burru 2022-04-12  1086  	}
-862cd659a6fbac Veerasenareddy Burru 2022-04-12  1087  	SET_NETDEV_DEV(netdev, &pdev->dev);
-862cd659a6fbac Veerasenareddy Burru 2022-04-12  1088  
-862cd659a6fbac Veerasenareddy Burru 2022-04-12  1089  	octep_dev = netdev_priv(netdev);
-862cd659a6fbac Veerasenareddy Burru 2022-04-12  1090  	octep_dev->netdev = netdev;
-862cd659a6fbac Veerasenareddy Burru 2022-04-12  1091  	octep_dev->pdev = pdev;
-862cd659a6fbac Veerasenareddy Burru 2022-04-12  1092  	octep_dev->dev = &pdev->dev;
-862cd659a6fbac Veerasenareddy Burru 2022-04-12  1093  	pci_set_drvdata(pdev, octep_dev);
-862cd659a6fbac Veerasenareddy Burru 2022-04-12  1094  
-862cd659a6fbac Veerasenareddy Burru 2022-04-12  1095  	err = octep_device_setup(octep_dev);
-862cd659a6fbac Veerasenareddy Burru 2022-04-12  1096  	if (err) {
-862cd659a6fbac Veerasenareddy Burru 2022-04-12  1097  		dev_err(&pdev->dev, "Device setup failed\n");
-862cd659a6fbac Veerasenareddy Burru 2022-04-12  1098  		goto err_octep_config;
-862cd659a6fbac Veerasenareddy Burru 2022-04-12  1099  	}
-f13f1764c1708a Veerasenareddy Burru 2022-11-29  1100  
-f13f1764c1708a Veerasenareddy Burru 2022-11-29  1101  	err = octep_setup_pfvf_mbox(octep_dev);
-f13f1764c1708a Veerasenareddy Burru 2022-11-29  1102  	if (err) {
-f13f1764c1708a Veerasenareddy Burru 2022-11-29  1103  		dev_err(&pdev->dev, " pfvf mailbox setup failed\n");
-f13f1764c1708a Veerasenareddy Burru 2022-11-29  1104  		octep_ctrl_net_uninit(octep_dev);
-f13f1764c1708a Veerasenareddy Burru 2022-11-29 @1105  		return err;
-f13f1764c1708a Veerasenareddy Burru 2022-11-29  1106  	}
-f13f1764c1708a Veerasenareddy Burru 2022-11-29  1107  
-862cd659a6fbac Veerasenareddy Burru 2022-04-12  1108  	INIT_WORK(&octep_dev->tx_timeout_task, octep_tx_timeout_task);
-862cd659a6fbac Veerasenareddy Burru 2022-04-12  1109  	INIT_WORK(&octep_dev->ctrl_mbox_task, octep_ctrl_mbox_task);
-c310a95e2434e5 Veerasenareddy Burru 2022-11-29  1110  	INIT_DELAYED_WORK(&octep_dev->intr_poll_task, octep_intr_poll_task);
-c310a95e2434e5 Veerasenareddy Burru 2022-11-29  1111  	octep_dev->poll_non_ioq_intr = true;
-c310a95e2434e5 Veerasenareddy Burru 2022-11-29  1112  	queue_delayed_work(octep_wq, &octep_dev->intr_poll_task,
-c310a95e2434e5 Veerasenareddy Burru 2022-11-29  1113  			   msecs_to_jiffies(OCTEP_INTR_POLL_TIME_MSECS));
-862cd659a6fbac Veerasenareddy Burru 2022-04-12  1114  
-862cd659a6fbac Veerasenareddy Burru 2022-04-12  1115  	netdev->netdev_ops = &octep_netdev_ops;
-5cc256e79bff06 Veerasenareddy Burru 2022-04-12  1116  	octep_set_ethtool_ops(netdev);
-862cd659a6fbac Veerasenareddy Burru 2022-04-12  1117  	netif_carrier_off(netdev);
-862cd659a6fbac Veerasenareddy Burru 2022-04-12  1118  
-862cd659a6fbac Veerasenareddy Burru 2022-04-12  1119  	netdev->hw_features = NETIF_F_SG;
-862cd659a6fbac Veerasenareddy Burru 2022-04-12  1120  	netdev->features |= netdev->hw_features;
-862cd659a6fbac Veerasenareddy Burru 2022-04-12  1121  	netdev->min_mtu = OCTEP_MIN_MTU;
-862cd659a6fbac Veerasenareddy Burru 2022-04-12  1122  	netdev->max_mtu = OCTEP_MAX_MTU;
-862cd659a6fbac Veerasenareddy Burru 2022-04-12  1123  	netdev->mtu = OCTEP_DEFAULT_MTU;
-862cd659a6fbac Veerasenareddy Burru 2022-04-12  1124  
-6494f39ec1f4be Veerasenareddy Burru 2022-11-29  1125  	err = octep_ctrl_net_get_mac_addr(octep_dev, OCTEP_CTRL_NET_INVALID_VFID,
-6494f39ec1f4be Veerasenareddy Burru 2022-11-29  1126  					  octep_dev->mac_addr);
-848ffce2f0c93f Ziyang Xuan          2022-11-11  1127  	if (err) {
-848ffce2f0c93f Ziyang Xuan          2022-11-11  1128  		dev_err(&pdev->dev, "Failed to get mac address\n");
-848ffce2f0c93f Ziyang Xuan          2022-11-11  1129  		goto register_dev_err;
-848ffce2f0c93f Ziyang Xuan          2022-11-11  1130  	}
-862cd659a6fbac Veerasenareddy Burru 2022-04-12  1131  	eth_hw_addr_set(netdev, octep_dev->mac_addr);
-862cd659a6fbac Veerasenareddy Burru 2022-04-12  1132  
-0a03f3c511f57d Yang Yingliang       2022-04-15  1133  	err = register_netdev(netdev);
-0a03f3c511f57d Yang Yingliang       2022-04-15  1134  	if (err) {
-862cd659a6fbac Veerasenareddy Burru 2022-04-12  1135  		dev_err(&pdev->dev, "Failed to register netdev\n");
-862cd659a6fbac Veerasenareddy Burru 2022-04-12  1136  		goto register_dev_err;
-862cd659a6fbac Veerasenareddy Burru 2022-04-12  1137  	}
-862cd659a6fbac Veerasenareddy Burru 2022-04-12  1138  	dev_info(&pdev->dev, "Device probe successful\n");
-862cd659a6fbac Veerasenareddy Burru 2022-04-12  1139  	return 0;
-862cd659a6fbac Veerasenareddy Burru 2022-04-12  1140  
-862cd659a6fbac Veerasenareddy Burru 2022-04-12  1141  register_dev_err:
-862cd659a6fbac Veerasenareddy Burru 2022-04-12  1142  	octep_device_cleanup(octep_dev);
-862cd659a6fbac Veerasenareddy Burru 2022-04-12  1143  err_octep_config:
-862cd659a6fbac Veerasenareddy Burru 2022-04-12  1144  	free_netdev(netdev);
-862cd659a6fbac Veerasenareddy Burru 2022-04-12  1145  err_alloc_netdev:
-862cd659a6fbac Veerasenareddy Burru 2022-04-12  1146  	pci_disable_pcie_error_reporting(pdev);
-862cd659a6fbac Veerasenareddy Burru 2022-04-12  1147  	pci_release_mem_regions(pdev);
-862cd659a6fbac Veerasenareddy Burru 2022-04-12  1148  err_pci_regions:
-862cd659a6fbac Veerasenareddy Burru 2022-04-12  1149  err_dma_mask:
-862cd659a6fbac Veerasenareddy Burru 2022-04-12  1150  	pci_disable_device(pdev);
-862cd659a6fbac Veerasenareddy Burru 2022-04-12  1151  	return err;
-862cd659a6fbac Veerasenareddy Burru 2022-04-12  1152  }
-862cd659a6fbac Veerasenareddy Burru 2022-04-12  1153  
+2fd0c671ece408 Johannes Berg 2022-06-08  3229  
+8027b096313ab2 Jaewan Kim    2022-12-06  3230  static int mac80211_hwsim_send_pmsr_ftm_request_peer(struct sk_buff *msg,
+8027b096313ab2 Jaewan Kim    2022-12-06  3231  						     struct cfg80211_pmsr_ftm_request_peer *request)
+8027b096313ab2 Jaewan Kim    2022-12-06  3232  {
+8027b096313ab2 Jaewan Kim    2022-12-06  3233  	void *ftm;
+8027b096313ab2 Jaewan Kim    2022-12-06  3234  
+8027b096313ab2 Jaewan Kim    2022-12-06 @3235  	if (!request->requested)
+8027b096313ab2 Jaewan Kim    2022-12-06  3236  		return -EINVAL;
+8027b096313ab2 Jaewan Kim    2022-12-06  3237  
+8027b096313ab2 Jaewan Kim    2022-12-06  3238  	ftm = nla_nest_start(msg, NL80211_PMSR_TYPE_FTM);
+8027b096313ab2 Jaewan Kim    2022-12-06 @3239  	if (!request)
+8027b096313ab2 Jaewan Kim    2022-12-06  3240  		return -ENOBUFS;
+8027b096313ab2 Jaewan Kim    2022-12-06  3241  
+8027b096313ab2 Jaewan Kim    2022-12-06  3242  	if (nla_put_u32(msg, NL80211_PMSR_FTM_REQ_ATTR_PREAMBLE,
+8027b096313ab2 Jaewan Kim    2022-12-06  3243  			request->preamble))
+8027b096313ab2 Jaewan Kim    2022-12-06  3244  		return -ENOBUFS;
+8027b096313ab2 Jaewan Kim    2022-12-06  3245  
+8027b096313ab2 Jaewan Kim    2022-12-06  3246  	if (nla_put_u16(msg, NL80211_PMSR_FTM_REQ_ATTR_BURST_PERIOD,
+8027b096313ab2 Jaewan Kim    2022-12-06  3247  			request->burst_period))
+8027b096313ab2 Jaewan Kim    2022-12-06  3248  		return -ENOBUFS;
+8027b096313ab2 Jaewan Kim    2022-12-06  3249  
+8027b096313ab2 Jaewan Kim    2022-12-06  3250  	if (request->asap &&
+8027b096313ab2 Jaewan Kim    2022-12-06  3251  	    nla_put_flag(msg, NL80211_PMSR_FTM_REQ_ATTR_ASAP))
+8027b096313ab2 Jaewan Kim    2022-12-06  3252  		return -ENOBUFS;
+8027b096313ab2 Jaewan Kim    2022-12-06  3253  
+8027b096313ab2 Jaewan Kim    2022-12-06  3254  	if (request->request_lci &&
+8027b096313ab2 Jaewan Kim    2022-12-06  3255  	    nla_put_flag(msg, NL80211_PMSR_FTM_REQ_ATTR_REQUEST_LCI))
+8027b096313ab2 Jaewan Kim    2022-12-06  3256  		return -ENOBUFS;
+8027b096313ab2 Jaewan Kim    2022-12-06  3257  
+8027b096313ab2 Jaewan Kim    2022-12-06  3258  	if (request->request_civicloc &&
+8027b096313ab2 Jaewan Kim    2022-12-06  3259  	    nla_put_flag(msg, NL80211_PMSR_FTM_REQ_ATTR_REQUEST_CIVICLOC))
+8027b096313ab2 Jaewan Kim    2022-12-06  3260  		return -ENOBUFS;
+8027b096313ab2 Jaewan Kim    2022-12-06  3261  
+8027b096313ab2 Jaewan Kim    2022-12-06  3262  	if (request->trigger_based &&
+8027b096313ab2 Jaewan Kim    2022-12-06  3263  	    nla_put_flag(msg, NL80211_PMSR_FTM_REQ_ATTR_TRIGGER_BASED))
+8027b096313ab2 Jaewan Kim    2022-12-06  3264  		return -ENOBUFS;
+8027b096313ab2 Jaewan Kim    2022-12-06  3265  
+8027b096313ab2 Jaewan Kim    2022-12-06  3266  	if (request->non_trigger_based &&
+8027b096313ab2 Jaewan Kim    2022-12-06  3267  	    nla_put_flag(msg, NL80211_PMSR_FTM_REQ_ATTR_NON_TRIGGER_BASED))
+8027b096313ab2 Jaewan Kim    2022-12-06  3268  		return -ENOBUFS;
+8027b096313ab2 Jaewan Kim    2022-12-06  3269  
+8027b096313ab2 Jaewan Kim    2022-12-06  3270  	if (request->lmr_feedback &&
+8027b096313ab2 Jaewan Kim    2022-12-06  3271  	    nla_put_flag(msg, NL80211_PMSR_FTM_REQ_ATTR_LMR_FEEDBACK))
+8027b096313ab2 Jaewan Kim    2022-12-06  3272  		return -ENOBUFS;
+8027b096313ab2 Jaewan Kim    2022-12-06  3273  
+8027b096313ab2 Jaewan Kim    2022-12-06  3274  	if (nla_put_u8(msg, NL80211_PMSR_FTM_REQ_ATTR_NUM_BURSTS_EXP,
+8027b096313ab2 Jaewan Kim    2022-12-06  3275  		       request->num_bursts_exp))
+8027b096313ab2 Jaewan Kim    2022-12-06  3276  		return -ENOBUFS;
+8027b096313ab2 Jaewan Kim    2022-12-06  3277  
+8027b096313ab2 Jaewan Kim    2022-12-06  3278  	if (nla_put_u8(msg, NL80211_PMSR_FTM_REQ_ATTR_BURST_DURATION,
+8027b096313ab2 Jaewan Kim    2022-12-06  3279  		       request->burst_duration))
+8027b096313ab2 Jaewan Kim    2022-12-06  3280  		return -ENOBUFS;
+8027b096313ab2 Jaewan Kim    2022-12-06  3281  
+8027b096313ab2 Jaewan Kim    2022-12-06  3282  	if (nla_put_u8(msg, NL80211_PMSR_FTM_REQ_ATTR_FTMS_PER_BURST,
+8027b096313ab2 Jaewan Kim    2022-12-06  3283  		       request->ftms_per_burst))
+8027b096313ab2 Jaewan Kim    2022-12-06  3284  		return -ENOBUFS;
+8027b096313ab2 Jaewan Kim    2022-12-06  3285  
+8027b096313ab2 Jaewan Kim    2022-12-06  3286  	if (nla_put_u8(msg, NL80211_PMSR_FTM_REQ_ATTR_NUM_FTMR_RETRIES,
+8027b096313ab2 Jaewan Kim    2022-12-06  3287  		       request->ftmr_retries))
+8027b096313ab2 Jaewan Kim    2022-12-06  3288  		return -ENOBUFS;
+8027b096313ab2 Jaewan Kim    2022-12-06  3289  
+8027b096313ab2 Jaewan Kim    2022-12-06  3290  	if (nla_put_u8(msg, NL80211_PMSR_FTM_REQ_ATTR_BURST_DURATION,
+8027b096313ab2 Jaewan Kim    2022-12-06  3291  		       request->burst_duration))
+8027b096313ab2 Jaewan Kim    2022-12-06  3292  		return -ENOBUFS;
+8027b096313ab2 Jaewan Kim    2022-12-06  3293  
+8027b096313ab2 Jaewan Kim    2022-12-06  3294  	if (nla_put_u8(msg, NL80211_PMSR_FTM_REQ_ATTR_BSS_COLOR,
+8027b096313ab2 Jaewan Kim    2022-12-06  3295  		       request->bss_color))
+8027b096313ab2 Jaewan Kim    2022-12-06  3296  		return -ENOBUFS;
+8027b096313ab2 Jaewan Kim    2022-12-06  3297  
+8027b096313ab2 Jaewan Kim    2022-12-06  3298  	nla_nest_end(msg, ftm);
+8027b096313ab2 Jaewan Kim    2022-12-06  3299  
+8027b096313ab2 Jaewan Kim    2022-12-06  3300  	return 0;
+8027b096313ab2 Jaewan Kim    2022-12-06  3301  }
+8027b096313ab2 Jaewan Kim    2022-12-06  3302  
 
 -- 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
 
---E9+EOYQDJDU0v4w8
+--De9qrgEt6NZPPHZ5
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename=config
 
 #
 # Automatically generated file; DO NOT EDIT.
-# Linux/ia64 6.1.0-rc5 Kernel Configuration
+# Linux/ia64 6.1.0-rc3 Kernel Configuration
 #
 CONFIG_CC_VERSION_TEXT="ia64-linux-gcc (GCC) 12.1.0"
 CONFIG_CC_IS_GCC=y
@@ -1775,10 +1729,9 @@ CONFIG_MLXBF_GIGE=y
 # CONFIG_NET_VENDOR_MICREL is not set
 CONFIG_NET_VENDOR_MICROCHIP=y
 CONFIG_LAN743X=y
-CONFIG_VCAP=y
-# CONFIG_VCAP_KUNIT_TEST is not set
 CONFIG_NET_VENDOR_MICROSEMI=y
 # CONFIG_NET_VENDOR_MICROSOFT is not set
+# CONFIG_FEALNX is not set
 CONFIG_NET_VENDOR_NI=y
 CONFIG_NI_XGE_MANAGEMENT_ENET=y
 CONFIG_NET_VENDOR_NATSEMI=y
@@ -1815,7 +1768,6 @@ CONFIG_RMNET=y
 CONFIG_NET_VENDOR_RENESAS=y
 # CONFIG_SH_ETH is not set
 CONFIG_RAVB=y
-CONFIG_RENESAS_ETHER_SWITCH=y
 # CONFIG_NET_VENDOR_ROCKER is not set
 # CONFIG_NET_VENDOR_SAMSUNG is not set
 # CONFIG_NET_VENDOR_SEEQ is not set
@@ -1831,6 +1783,7 @@ CONFIG_SFC_FALCON_MTD=y
 CONFIG_NET_VENDOR_SMSC=y
 CONFIG_SMC91X=y
 CONFIG_EPIC100=y
+# CONFIG_SMC911X is not set
 CONFIG_SMSC911X=y
 CONFIG_SMSC9420=y
 CONFIG_NET_VENDOR_SOCIONEXT=y
@@ -2088,7 +2041,6 @@ CONFIG_WWAN_DEBUGFS=y
 CONFIG_WWAN_HWSIM=y
 # CONFIG_QCOM_BAM_DMUX is not set
 CONFIG_RPMSG_WWAN_CTRL=y
-CONFIG_IOSM=y
 CONFIG_MTK_T7XX=y
 # end of Wireless WAN
 
@@ -7361,4 +7313,4 @@ CONFIG_CC_HAS_SANCOV_TRACE_PC=y
 # CONFIG_WARN_ABI_ERRORS is not set
 # end of Kernel hacking
 
---E9+EOYQDJDU0v4w8--
+--De9qrgEt6NZPPHZ5--
