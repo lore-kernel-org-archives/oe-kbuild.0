@@ -1,54 +1,54 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C90E0A31
-	for <oe-kbuild@lists.linux.dev>; Sat, 10 Dec 2022 09:10:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5D6B1109
+	for <oe-kbuild@lists.linux.dev>; Sat, 10 Dec 2022 11:51:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1670663446; x=1702199446;
+  t=1670673109; x=1702209109;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Gc6fEXYUaTPUV3f5bDSWpx139F05pNy/46qQ0VRsJGY=;
-  b=AAMtKCaMmRxWNirKzauxaiuVEezs76ppSRbeRLYqhcaMN2ml7yWrn+79
-   Lf3g/UEF+tErjIMJLad3pSsfAxkrSUSUdpo49zjD3ExSz9uXrA93FOU5f
-   5phwvpbao5pl6JG++i3WWiIRng2H7pQJ2Qony3mvMA6TVeeGNo07G9Cab
-   cMOg2B2rXitagF3OmtXNRhaqEsfN3DRYg0zjdrx96MoiXsbvQ2v3pIzT5
-   vHFS+R3P98z2jHFhJPio6qKoPRLaqlDvC3UiQNDybQ7eRN9ojIcn/iszF
-   9bTK1Ehx/azWOlKLdA+NQIzBAIq5J7esfzV5RuwuHJe8pm0PgfbU6Nax4
+  bh=KHxhqNtN5EQtnAnHbGc1ARvexRmEgGx5ZKXT9er2mT8=;
+  b=R5oQCMPioPQ8LbRaBHo0Xh0Ucv1fcQZVMADd1YdB6AUWukVbHayrgLdK
+   U+0bfAVbUlUEtFRMJXQg6TYXlGDKFJ5cEIGLd5CkWRwwnwMKknsl6/cwU
+   1mgr0bFp99nGJaNgcE2c7xkHI3wHDTXcUk10RgMjbrzUY2lPSh37qwWxy
+   tkLNKhj5lR7Lvsg+WQ8/x3VAY3byDG4ZvqNA6+18UJj2yv/ix767vRCFB
+   EMi+EO8UEednrEUxhzcnOfWqwPsOY9LZnykUJYGl/hVCm+v9dBKMlbXbM
+   grldfwVZzL2aWtqIoPjovzQEnZkcvZZNR2oWJLcGt8TA8OOidBqKJ6s/n
    Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10556"; a="317634839"
+X-IronPort-AV: E=McAfee;i="6500,9779,10556"; a="316314060"
 X-IronPort-AV: E=Sophos;i="5.96,232,1665471600"; 
-   d="scan'208";a="317634839"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2022 01:10:45 -0800
+   d="scan'208";a="316314060"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2022 03:51:48 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10556"; a="754318115"
+X-IronPort-AV: E=McAfee;i="6500,9779,10556"; a="647668187"
 X-IronPort-AV: E=Sophos;i="5.96,232,1665471600"; 
-   d="scan'208";a="754318115"
+   d="scan'208";a="647668187"
 Received: from lkp-server01.sh.intel.com (HELO b5d47979f3ad) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 10 Dec 2022 01:10:43 -0800
+  by orsmga002.jf.intel.com with ESMTP; 10 Dec 2022 03:51:46 -0800
 Received: from kbuild by b5d47979f3ad with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1p3vsY-0002Ln-2y;
-	Sat, 10 Dec 2022 09:10:42 +0000
-Date: Sat, 10 Dec 2022 17:10:03 +0800
+	id 1p3yOP-0002QP-20;
+	Sat, 10 Dec 2022 11:51:45 +0000
+Date: Sat, 10 Dec 2022 19:51:36 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [linux-next:master 5219/14039]
- drivers/gpu/drm/nouveau/nvkm/engine/gr/gv100.c:263 gv100_gr_oneinit_sm_id()
- warn: potentially one past the end of array 'gpc_tpc_mask[gpc_table[gtpc]]'
-Message-ID: <202212101735.GrtrQAQV-lkp@intel.com>
+Subject: [linux-next:master 5231/14039]
+ drivers/gpu/drm/nouveau/nvkm/subdev/acr/lsfw.c:350
+ nvkm_acr_lsfw_load_bl_sig_net() warn: passing zero to 'PTR_ERR'
+Message-ID: <202212101954.pLSsZX5D-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="Vsq7mLDk71b8s4qh"
+Content-Type: multipart/mixed; boundary="X/VRzctIZGhxr+An"
 Content-Disposition: inline
 
 
---Vsq7mLDk71b8s4qh
+--X/VRzctIZGhxr+An
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
@@ -56,11 +56,11 @@ BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: Linux Memory Management List <linux-mm@kvack.org>
 TO: Ben Skeggs <bskeggs@redhat.com>
-CC: Lyude Paul <lyude@redhat.com>
+CC: Gourav Samaiya <gsamaiya@nvidia.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
 head:   f925116b24c0c42dc6d5ab5111c55fd7f74e8dc7
-commit: 3ffa6f329b610029b44ebd7bc2320a92468a0e42 [5219/14039] drm/nouveau/gr/gv100-: port smid mapping code from nvgpu
+commit: c4bdac754ca0bb21bad598b47dd8c2c86eee1cc1 [5231/14039] drm/nouveau/gr/ga102: initial support
 :::::: branch date: 2 days ago
 :::::: commit date: 4 weeks ago
 config: ia64-randconfig-m041-20221207
@@ -70,73 +70,47 @@ If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
 
-smatch warnings:
-drivers/gpu/drm/nouveau/nvkm/engine/gr/gv100.c:263 gv100_gr_oneinit_sm_id() warn: potentially one past the end of array 'gpc_tpc_mask[gpc_table[gtpc]]'
-drivers/gpu/drm/nouveau/nvkm/engine/gr/gv100.c:263 gv100_gr_oneinit_sm_id() warn: potentially one past the end of array 'gpc_tpc_mask[gpc_table[gtpc]]'
+New smatch warnings:
+drivers/gpu/drm/nouveau/nvkm/subdev/acr/lsfw.c:350 nvkm_acr_lsfw_load_bl_sig_net() warn: passing zero to 'PTR_ERR'
 
-vim +263 drivers/gpu/drm/nouveau/nvkm/engine/gr/gv100.c
+Old smatch warnings:
+drivers/gpu/drm/nouveau/nvkm/subdev/acr/lsfw.c:265 nvkm_acr_lsfw_load_bl_inst_data_sig() warn: passing zero to 'PTR_ERR'
 
-3ffa6f329b6100 Ben Skeggs 2022-06-01  225  
-3ffa6f329b6100 Ben Skeggs 2022-06-01  226  int
-3ffa6f329b6100 Ben Skeggs 2022-06-01  227  gv100_gr_oneinit_sm_id(struct gf100_gr *gr)
-3ffa6f329b6100 Ben Skeggs 2022-06-01  228  {
-3ffa6f329b6100 Ben Skeggs 2022-06-01  229  	unsigned long *gpc_tpc_mask;
-3ffa6f329b6100 Ben Skeggs 2022-06-01  230  	u32 *tpc_table, *gpc_table;
-3ffa6f329b6100 Ben Skeggs 2022-06-01  231  	u32 gpc, tpc, pes, gtpc;
-3ffa6f329b6100 Ben Skeggs 2022-06-01  232  	int perf, maxperf, ret = 0;
-3ffa6f329b6100 Ben Skeggs 2022-06-01  233  
-3ffa6f329b6100 Ben Skeggs 2022-06-01  234  	gpc_tpc_mask = kcalloc(gr->gpc_nr, sizeof(*gpc_tpc_mask), GFP_KERNEL);
-3ffa6f329b6100 Ben Skeggs 2022-06-01  235  	gpc_table = kcalloc(gr->tpc_total, sizeof(*gpc_table), GFP_KERNEL);
-3ffa6f329b6100 Ben Skeggs 2022-06-01  236  	tpc_table = kcalloc(gr->tpc_total, sizeof(*tpc_table), GFP_KERNEL);
-3ffa6f329b6100 Ben Skeggs 2022-06-01  237  	if (!gpc_table || !tpc_table || !gpc_tpc_mask) {
-3ffa6f329b6100 Ben Skeggs 2022-06-01  238  		ret = -ENOMEM;
-3ffa6f329b6100 Ben Skeggs 2022-06-01  239  		goto done;
-3ffa6f329b6100 Ben Skeggs 2022-06-01  240  	}
-3ffa6f329b6100 Ben Skeggs 2022-06-01  241  
-3ffa6f329b6100 Ben Skeggs 2022-06-01  242  	for (gpc = 0; gpc < gr->gpc_nr; gpc++) {
-3ffa6f329b6100 Ben Skeggs 2022-06-01  243  		for (pes = 0; pes < gr->ppc_nr[gpc]; pes++)
-3ffa6f329b6100 Ben Skeggs 2022-06-01  244  			gpc_tpc_mask[gpc] |= gr->ppc_tpc_mask[gpc][pes];
-3ffa6f329b6100 Ben Skeggs 2022-06-01  245  	}
-3ffa6f329b6100 Ben Skeggs 2022-06-01  246  
-3ffa6f329b6100 Ben Skeggs 2022-06-01  247  	for (gtpc = 0; gtpc < gr->tpc_total; gtpc++) {
-3ffa6f329b6100 Ben Skeggs 2022-06-01  248  		for (maxperf = -1, gpc = 0; gpc < gr->gpc_nr; gpc++) {
-3ffa6f329b6100 Ben Skeggs 2022-06-01  249  			for_each_set_bit(tpc, &gpc_tpc_mask[gpc], gr->tpc_nr[gpc]) {
-3ffa6f329b6100 Ben Skeggs 2022-06-01  250  				ret = gv100_gr_scg_estimate_perf(gr, gpc_tpc_mask, gpc, tpc, &perf);
-3ffa6f329b6100 Ben Skeggs 2022-06-01  251  				if (ret)
-3ffa6f329b6100 Ben Skeggs 2022-06-01  252  					goto done;
-3ffa6f329b6100 Ben Skeggs 2022-06-01  253  
-3ffa6f329b6100 Ben Skeggs 2022-06-01  254  				/* nvgpu does ">=" here, but this gets us RM's numbers. */
-3ffa6f329b6100 Ben Skeggs 2022-06-01  255  				if (perf > maxperf) {
-3ffa6f329b6100 Ben Skeggs 2022-06-01  256  					maxperf = perf;
-3ffa6f329b6100 Ben Skeggs 2022-06-01  257  					gpc_table[gtpc] = gpc;
-3ffa6f329b6100 Ben Skeggs 2022-06-01  258  					tpc_table[gtpc] = tpc;
-3ffa6f329b6100 Ben Skeggs 2022-06-01  259  				}
-3ffa6f329b6100 Ben Skeggs 2022-06-01  260  			}
-3ffa6f329b6100 Ben Skeggs 2022-06-01  261  		}
-3ffa6f329b6100 Ben Skeggs 2022-06-01  262  
-3ffa6f329b6100 Ben Skeggs 2022-06-01 @263  		gpc_tpc_mask[gpc_table[gtpc]] &= ~BIT(tpc_table[gtpc]);
-3ffa6f329b6100 Ben Skeggs 2022-06-01  264  	}
-3ffa6f329b6100 Ben Skeggs 2022-06-01  265  
-3ffa6f329b6100 Ben Skeggs 2022-06-01  266  	/*TODO: build table for sm_per_tpc != 1, don't use yet, but might need later? */
-3ffa6f329b6100 Ben Skeggs 2022-06-01  267  	for (gtpc = 0; gtpc < gr->tpc_total; gtpc++) {
-3ffa6f329b6100 Ben Skeggs 2022-06-01  268  		gr->sm[gtpc].gpc = gpc_table[gtpc];
-3ffa6f329b6100 Ben Skeggs 2022-06-01  269  		gr->sm[gtpc].tpc = tpc_table[gtpc];
-3ffa6f329b6100 Ben Skeggs 2022-06-01  270  		gr->sm_nr++;
-3ffa6f329b6100 Ben Skeggs 2022-06-01  271  	}
-3ffa6f329b6100 Ben Skeggs 2022-06-01  272  
-3ffa6f329b6100 Ben Skeggs 2022-06-01  273  done:
-3ffa6f329b6100 Ben Skeggs 2022-06-01  274  	kfree(gpc_table);
-3ffa6f329b6100 Ben Skeggs 2022-06-01  275  	kfree(tpc_table);
-3ffa6f329b6100 Ben Skeggs 2022-06-01  276  	kfree(gpc_tpc_mask);
-3ffa6f329b6100 Ben Skeggs 2022-06-01  277  	return ret;
-3ffa6f329b6100 Ben Skeggs 2022-06-01  278  }
-3ffa6f329b6100 Ben Skeggs 2022-06-01  279  
+vim +/PTR_ERR +350 drivers/gpu/drm/nouveau/nvkm/subdev/acr/lsfw.c
+
+c4bdac754ca0bb Ben Skeggs 2022-06-01  324  
+c4bdac754ca0bb Ben Skeggs 2022-06-01  325  int
+c4bdac754ca0bb Ben Skeggs 2022-06-01  326  nvkm_acr_lsfw_load_bl_sig_net(struct nvkm_subdev *subdev,
+c4bdac754ca0bb Ben Skeggs 2022-06-01  327  			      struct nvkm_falcon *falcon,
+c4bdac754ca0bb Ben Skeggs 2022-06-01  328  			      enum nvkm_acr_lsf_id id,
+c4bdac754ca0bb Ben Skeggs 2022-06-01  329  			      const char *path, int ver,
+c4bdac754ca0bb Ben Skeggs 2022-06-01  330  			      const struct nvkm_acr_lsf_func *func,
+c4bdac754ca0bb Ben Skeggs 2022-06-01  331  			      const void *inst_data, u32 inst_size,
+c4bdac754ca0bb Ben Skeggs 2022-06-01  332  			      const void *data_data, u32 data_size)
+c4bdac754ca0bb Ben Skeggs 2022-06-01  333  {
+c4bdac754ca0bb Ben Skeggs 2022-06-01  334  	struct nvkm_acr *acr = subdev->device->acr;
+c4bdac754ca0bb Ben Skeggs 2022-06-01  335  	struct nvkm_acr_lsfw *lsfw;
+c4bdac754ca0bb Ben Skeggs 2022-06-01  336  	const struct firmware _inst = { .data = inst_data, .size = inst_size };
+c4bdac754ca0bb Ben Skeggs 2022-06-01  337  	const struct firmware _data = { .data = data_data, .size = data_size };
+c4bdac754ca0bb Ben Skeggs 2022-06-01  338  	const struct firmware *bl = NULL, *inst = &_inst, *data = &_data;
+c4bdac754ca0bb Ben Skeggs 2022-06-01  339  	const struct {
+c4bdac754ca0bb Ben Skeggs 2022-06-01  340  	    int bin_magic;
+c4bdac754ca0bb Ben Skeggs 2022-06-01  341  	    int bin_version;
+c4bdac754ca0bb Ben Skeggs 2022-06-01  342  	    int bin_size;
+c4bdac754ca0bb Ben Skeggs 2022-06-01  343  	    int header_offset;
+c4bdac754ca0bb Ben Skeggs 2022-06-01  344  	    int header_size;
+c4bdac754ca0bb Ben Skeggs 2022-06-01  345  	} *hdr;
+c4bdac754ca0bb Ben Skeggs 2022-06-01  346  	u32 *bldata;
+c4bdac754ca0bb Ben Skeggs 2022-06-01  347  	int ret;
+c4bdac754ca0bb Ben Skeggs 2022-06-01  348  
+c4bdac754ca0bb Ben Skeggs 2022-06-01  349  	if (IS_ERR((lsfw = nvkm_acr_lsfw_add(func, acr, falcon, id))))
+c4bdac754ca0bb Ben Skeggs 2022-06-01 @350  		return PTR_ERR(lsfw);
 
 -- 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
 
---Vsq7mLDk71b8s4qh
+--X/VRzctIZGhxr+An
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename=config
 
@@ -4807,4 +4781,4 @@ CONFIG_TEST_STATIC_KEYS=m
 # CONFIG_WARN_ABI_ERRORS is not set
 # end of Kernel hacking
 
---Vsq7mLDk71b8s4qh--
+--X/VRzctIZGhxr+An--
