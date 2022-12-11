@@ -1,77 +1,74 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1517D1857
-	for <oe-kbuild@lists.linux.dev>; Sun, 11 Dec 2022 10:25:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE0C81C16
+	for <oe-kbuild@lists.linux.dev>; Sun, 11 Dec 2022 14:07:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1670754318; x=1702290318;
+  t=1670767642; x=1702303642;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=EAZUi0Mtu+9zpucKKaoXbL7Y9O++3YXPfT5Npw6UnyA=;
-  b=OAniA3ucb0/KzvImcM1WvmXdL06wlmCyfpHtta3HkFa6n/Bmanv53xHZ
-   qauF4d/ue8hWdsgj6ef1filx0f/+4phrwk9H4K6QLGmHa9Ujj+98WZSNf
-   92OnfT5DuX+g1GjLQvz6cpr+Tigh5R+yqLOexwyABpb/MdZ9dJUX+pp7I
-   vM0kffIx5rwszxN+OL0u+IZbE9TzaTA/vWonW5nbDcJ9N8+qzp4N0LVnB
-   27ihS98tlnrPiDPeheGww9GuWKtikHd6/5gbarwQHS0u7fZCmHuhPsOdq
-   l7o+cMJ27u6xZipp8/KZhmPSmd2lXAK3r2IbHQKhxZqoQiTqFZ+h5ntb/
+  bh=ScYgT14E7Gb/14/iIQsyvVopk0Qgqrwc6qnl1edrZgk=;
+  b=JuBZGXyilSs1TMaR0Cm1+KHNGMG+A8cJrtCD5wa1F2X4jKV3+sQIzNnn
+   fLDRN+peyEjxV59zlO439g87ekhvzOGPpGcg42gDcA42NwdfZDWjifImz
+   GwBrVCh7SzdHjycQ7xbfSCGkq/Rwa32Q6walTUDfugIW3nQyyMFDBDkBZ
+   tMsHb4PAEeS9xi2XXzvrXrNZ+/s/NFIwnTJqRT/P0sf5g4DwA/rIKRxPz
+   20M/fiEAJoOdX2hLfu+IfW39xEZSTXl2kN03w53OmPT90T9KnpGEYkmW+
+   7hTAM8eOldlpqps/TTHfYg85BZ2qQWHBQFtAupI+97NR4A1fXGygPzlBZ
    A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10557"; a="379898884"
+X-IronPort-AV: E=McAfee;i="6500,9779,10558"; a="315339730"
 X-IronPort-AV: E=Sophos;i="5.96,236,1665471600"; 
-   d="scan'208";a="379898884"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2022 02:25:17 -0800
+   d="scan'208";a="315339730"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2022 06:07:21 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10557"; a="647853016"
+X-IronPort-AV: E=McAfee;i="6500,9779,10558"; a="625610456"
 X-IronPort-AV: E=Sophos;i="5.96,236,1665471600"; 
-   d="scan'208";a="647853016"
+   d="scan'208";a="625610456"
 Received: from lkp-server01.sh.intel.com (HELO b5d47979f3ad) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 11 Dec 2022 02:25:15 -0800
+  by orsmga006.jf.intel.com with ESMTP; 11 Dec 2022 06:07:20 -0800
 Received: from kbuild by b5d47979f3ad with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1p4JWE-0002zH-30;
-	Sun, 11 Dec 2022 10:25:14 +0000
-Date: Sun, 11 Dec 2022 18:24:32 +0800
+	id 1p4Mz9-00035b-14;
+	Sun, 11 Dec 2022 14:07:19 +0000
+Date: Sun, 11 Dec 2022 22:06:46 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [jgg-iommufd:for-next 44/48] drivers/vfio/group.c:216:18: warning:
+Subject: [linux-next:master 3141/14039] net/ipv4/tcp_plb.c:83:2: warning:
  Dereference of null pointer [clang-analyzer-core.NullDereference]
-Message-ID: <202212111804.tHT4woRK-lkp@intel.com>
+Message-ID: <202212112115.MIZ7hy1S-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="MdnV2c004q5FRFTL"
+Content-Type: multipart/mixed; boundary="+oVcbH4+nTs4UD+s"
 Content-Disposition: inline
 
 
---MdnV2c004q5FRFTL
+--+oVcbH4+nTs4UD+s
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "low confidence static check warning: drivers/vfio/group.c:216:18: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]"
+:::::: Manual check reason: "low confidence static check warning: net/ipv4/tcp_plb.c:83:2: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]"
 :::::: 
 
 BCC: lkp@intel.com
 CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-TO: Yi Liu <yi.l.liu@intel.com>
-CC: Jason Gunthorpe <jgg@ziepe.ca>
-CC: Kevin Tian <kevin.tian@intel.com>
-CC: Alex Williamson <alex.williamson@redhat.com>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Mubashir Adnan Qureshi <mubashirq@google.com>
+CC: Yuchung Cheng <ycheng@google.com>
+CC: Neal Cardwell <ncardwell@google.com>
+CC: Eric Dumazet <edumazet@google.com>
 
-Hi Yi,
-
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
-
-tree:   git://git.kernel.org/pub/scm/linux/kernel/git/jgg/iommufd.git for-next
-head:   d6c55c0a20e5059abdde81713ddf6324a946eb3c
-commit: 9eefba8002c27d65ab52a533fd0611b099b73591 [44/48] vfio: Move vfio group specific code into group.c
-:::::: branch date: 2 days ago
-:::::: commit date: 6 days ago
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   f925116b24c0c42dc6d5ab5111c55fd7f74e8dc7
+commit: 29c1c44646aec5d5134f2365259a84becc1ee7d3 [3141/14039] tcp: add u32 counter in tcp_sock and an SNMP counter for PLB
+:::::: branch date: 3 days ago
+:::::: commit date: 6 weeks ago
 config: s390-randconfig-c005-20221209
 compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 6e4cea55f0d1104408b26ac574566a0e4de48036)
 reproduce (this is a W=1 build):
@@ -79,10 +76,10 @@ reproduce (this is a W=1 build):
         chmod +x ~/bin/make.cross
         # install s390 cross compiling tool for clang build
         # apt-get install binutils-s390x-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/jgg/iommufd.git/commit/?id=9eefba8002c27d65ab52a533fd0611b099b73591
-        git remote add jgg-iommufd git://git.kernel.org/pub/scm/linux/kernel/git/jgg/iommufd.git
-        git fetch --no-tags jgg-iommufd for-next
-        git checkout 9eefba8002c27d65ab52a533fd0611b099b73591
+        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=29c1c44646aec5d5134f2365259a84becc1ee7d3
+        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+        git fetch --no-tags linux-next master
+        git checkout 29c1c44646aec5d5134f2365259a84becc1ee7d3
         # save the config file
         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=s390 clang-analyzer 
 
@@ -90,23 +87,12 @@ If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
 clang_analyzer warnings: (new ones prefixed by >>)
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_var'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
-                                                      ^~~~
-   net/core/scm.c:110:2: note: '?' condition is false
-           if (!fpl->user)
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_var'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
-                                 ^
-   net/core/scm.c:110:12: note: Field 'user' is null
-           if (!fpl->user)
-                     ^
-   net/core/scm.c:110:2: note: '?' condition is true
-           if (!fpl->user)
+                                                                                        ^~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_value'
+           (cond) ?                                        \
+            ^~~~
+   drivers/s390/crypto/ap_bus.c:2227:2: note: '?' condition is false
+           if (rc)
            ^
    include/linux/compiler.h:56:28: note: expanded from macro 'if'
    #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
@@ -117,90 +103,14 @@ clang_analyzer warnings: (new ones prefixed by >>)
    include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_value'
            (cond) ?                                        \
            ^
-   net/core/scm.c:110:2: note: Taking true branch
-           if (!fpl->user)
+   drivers/s390/crypto/ap_bus.c:2227:2: note: Taking false branch
+           if (rc)
            ^
    include/linux/compiler.h:56:23: note: expanded from macro 'if'
    #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
                          ^
-   net/core/scm.c:111:23: note: Left side of '&&' is false
-                   fpl->user = get_uid(current_user());
-                                       ^
-   include/linux/cred.h:390:26: note: expanded from macro 'current_user'
-   #define current_user()          (current_cred_xxx(user))
-                                    ^
-   include/linux/cred.h:378:2: note: expanded from macro 'current_cred_xxx'
-           current_cred()->xxx;                    \
-           ^
-   include/linux/cred.h:299:2: note: expanded from macro 'current_cred'
-           rcu_dereference_protected(current->cred, 1)
-           ^
-   include/linux/rcupdate.h:638:2: note: expanded from macro 'rcu_dereference_protected'
-           __rcu_dereference_protected((p), __UNIQUE_ID(rcu), (c), __rcu)
-           ^
-   include/linux/rcupdate.h:434:2: note: expanded from macro '__rcu_dereference_protected'
-           RCU_LOCKDEP_WARN(!(c), "suspicious rcu_dereference_protected() usage"); \
-           ^
-   include/linux/rcupdate.h:383:48: note: expanded from macro 'RCU_LOCKDEP_WARN'
-   #define RCU_LOCKDEP_WARN(c, s) do { } while (0 && (c))
-                                                  ^
-   net/core/scm.c:111:23: note: Loop condition is false.  Exiting loop
-                   fpl->user = get_uid(current_user());
-                                       ^
-   include/linux/cred.h:390:26: note: expanded from macro 'current_user'
-   #define current_user()          (current_cred_xxx(user))
-                                    ^
-   include/linux/cred.h:378:2: note: expanded from macro 'current_cred_xxx'
-           current_cred()->xxx;                    \
-           ^
-   include/linux/cred.h:299:2: note: expanded from macro 'current_cred'
-           rcu_dereference_protected(current->cred, 1)
-           ^
-   include/linux/rcupdate.h:638:2: note: expanded from macro 'rcu_dereference_protected'
-           __rcu_dereference_protected((p), __UNIQUE_ID(rcu), (c), __rcu)
-           ^
-   include/linux/rcupdate.h:434:2: note: expanded from macro '__rcu_dereference_protected'
-           RCU_LOCKDEP_WARN(!(c), "suspicious rcu_dereference_protected() usage"); \
-           ^
-   include/linux/rcupdate.h:383:32: note: expanded from macro 'RCU_LOCKDEP_WARN'
-   #define RCU_LOCKDEP_WARN(c, s) do { } while (0 && (c))
-                                  ^
-   net/core/scm.c:111:23: note: Dereference of null pointer
-                   fpl->user = get_uid(current_user());
-                                       ^
-   include/linux/cred.h:390:26: note: expanded from macro 'current_user'
-   #define current_user()          (current_cred_xxx(user))
-                                    ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/cred.h:378:2: note: expanded from macro 'current_cred_xxx'
-           current_cred()->xxx;                    \
-           ^~~~~~~~~~~~~~
-   include/linux/cred.h:299:28: note: expanded from macro 'current_cred'
-           rcu_dereference_protected(current->cred, 1)
-           ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~
-   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   arch/s390/include/asm/lowcore.h:215:22: note: expanded from macro 'S390_lowcore'
-   #define S390_lowcore (*((struct lowcore *) 0))
-                        ^
-   include/linux/rcupdate.h:638:31: note: expanded from macro 'rcu_dereference_protected'
-           __rcu_dereference_protected((p), __UNIQUE_ID(rcu), (c), __rcu)
-           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/rcupdate.h:436:35: note: expanded from macro '__rcu_dereference_protected'
-           ((typeof(*p) __force __kernel *)(p)); \
-                                            ^
-   Suppressed 28 warnings (16 in non-user code, 12 with check filters).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   21 warnings generated.
->> drivers/vfio/group.c:216:18: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]
-                            "(%s:%d)\n", current->comm, task_pid_nr(current));
-                                         ^
-   drivers/vfio/group.c:314:2: note: Control jumps to 'case 15210:'  at line 315
-           switch (cmd) {
-           ^
-   drivers/vfio/group.c:316:10: note: Calling 'vfio_group_ioctl_get_device_fd'
-                   return vfio_group_ioctl_get_device_fd(group, uarg);
-                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/vfio/group.c:239:2: note: '?' condition is false
-           if (IS_ERR(buf))
+   drivers/s390/crypto/ap_bus.c:2233:2: note: '?' condition is false
+           if (rc)
            ^
    include/linux/compiler.h:56:28: note: expanded from macro 'if'
    #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
@@ -208,71 +118,8 @@ clang_analyzer warnings: (new ones prefixed by >>)
    include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_var'
    #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
                                  ^
-   drivers/vfio/group.c:239:2: note: '?' condition is false
-           if (IS_ERR(buf))
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_var'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_value'
-           (cond) ?                                        \
-           ^
-   drivers/vfio/group.c:239:2: note: Taking false branch
-           if (IS_ERR(buf))
-           ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   drivers/vfio/group.c:244:2: note: '?' condition is false
-           if (IS_ERR(device))
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_var'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
-                                 ^
-   drivers/vfio/group.c:244:2: note: '?' condition is false
-           if (IS_ERR(device))
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_var'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_value'
-           (cond) ?                                        \
-           ^
-   drivers/vfio/group.c:244:2: note: Taking false branch
-           if (IS_ERR(device))
-           ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   drivers/vfio/group.c:248:6: note: Assuming 'fdno' is >= 0
-           if (fdno < 0) {
-               ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_var'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
-                                                      ^~~~
-   drivers/vfio/group.c:248:2: note: '?' condition is false
-           if (fdno < 0) {
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_var'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
-                                 ^
-   drivers/vfio/group.c:248:6: note: 'fdno' is >= 0
-           if (fdno < 0) {
+   drivers/s390/crypto/ap_bus.c:2233:6: note: 'rc' is 0
+           if (rc)
                ^
    include/linux/compiler.h:56:47: note: expanded from macro 'if'
    #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
@@ -283,72 +130,224 @@ clang_analyzer warnings: (new ones prefixed by >>)
    include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_value'
            (cond) ?                                        \
             ^~~~
-   drivers/vfio/group.c:248:2: note: '?' condition is false
-           if (fdno < 0) {
+   drivers/s390/crypto/ap_bus.c:2233:2: note: '?' condition is false
+           if (rc)
            ^
    include/linux/compiler.h:56:28: note: expanded from macro 'if'
    #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
                               ^
    include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_var'
    #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_value'
+           (cond) ?                                        \
+           ^
+   drivers/s390/crypto/ap_bus.c:2233:2: note: Taking false branch
+           if (rc)
+           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   drivers/s390/crypto/ap_bus.c:2238:2: note: Loop condition is false.  Exiting loop
+           timer_setup(&ap_config_timer, ap_config_timeout, 0);
+           ^
+   include/linux/timer.h:142:2: note: expanded from macro 'timer_setup'
+           __init_timer((timer), (callback), (flags))
+           ^
+   include/linux/timer.h:113:2: note: expanded from macro '__init_timer'
+           do {                                                            \
+           ^
+   drivers/s390/crypto/ap_bus.c:2244:6: note: Dereference of null pointer
+           if (MACHINE_IS_VM)
+               ^
+   arch/s390/include/asm/setup.h:80:25: note: expanded from macro 'MACHINE_IS_VM'
+   #define MACHINE_IS_VM           (S390_lowcore.machine_flags & MACHINE_FLAG_VM)
+                                    ^
+   arch/s390/include/asm/lowcore.h:215:22: note: expanded from macro 'S390_lowcore'
+   #define S390_lowcore (*((struct lowcore *) 0))
+                        ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_var'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+                                                      ^~~~
+   Suppressed 19 warnings (7 in non-user code, 12 with check filters).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   28 warnings generated.
+   Suppressed 28 warnings (16 in non-user code, 12 with check filters).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   28 warnings generated.
+   Suppressed 28 warnings (16 in non-user code, 12 with check filters).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   28 warnings generated.
+   Suppressed 28 warnings (16 in non-user code, 12 with check filters).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   28 warnings generated.
+   Suppressed 28 warnings (16 in non-user code, 12 with check filters).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   29 warnings generated.
+>> net/ipv4/tcp_plb.c:83:2: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]
+           NET_INC_STATS(sock_net(sk), LINUX_MIB_TCPPLBREHASH);
+           ^
+   include/net/ip.h:291:35: note: expanded from macro 'NET_INC_STATS'
+   #define NET_INC_STATS(net, field)       SNMP_INC_STATS((net)->mib.net_statistics, field)
+                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/net/snmp.h:134:4: note: expanded from macro 'SNMP_INC_STATS'
+                           this_cpu_inc(mib->mibs[field])
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/percpu-defs.h:520:28: note: expanded from macro 'this_cpu_inc'
+   #define this_cpu_inc(pcp)               this_cpu_add(pcp, 1)
+                                           ^~~~~~~~~~~~~~~~~~~~
+   note: (skipping 6 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/asm-generic/percpu.h:44:31: note: expanded from macro 'arch_raw_cpu_ptr'
+   #define arch_raw_cpu_ptr(ptr) SHIFT_PERCPU_PTR(ptr, __my_cpu_offset)
+                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/percpu-defs.h:231:2: note: expanded from macro 'SHIFT_PERCPU_PTR'
+           RELOC_HIDE((typeof(*(__p)) __kernel __force *)(__p), (__offset))
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:170:28: note: expanded from macro 'RELOC_HIDE'
+       (typeof(ptr)) (__ptr + (off)); })
+                              ^~~~~
+   net/ipv4/tcp_plb.c:52:7: note: Left side of '||' is true
+           if (!READ_ONCE(net->ipv4.sysctl_tcp_plb_enabled))
+                ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compiletime_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+                              ^
+   include/linux/compiler_types.h:324:29: note: expanded from macro '__native_word'
+           (sizeof(t) == sizeof(char) || sizeof(t) == sizeof(short) || \
+                                      ^
+   net/ipv4/tcp_plb.c:52:7: note: '?' condition is true
+           if (!READ_ONCE(net->ipv4.sysctl_tcp_plb_enabled))
+                ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:2: note: expanded from macro 'compiletime_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+           ^
+   include/linux/compiler_types.h:357:2: note: expanded from macro 'compiletime_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+           ^
+   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/compiler_types.h:337:3: note: expanded from macro '__compiletime_assert'
+                   if (!(condition))                                       \
+                   ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_var'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+                                 ^
+   net/ipv4/tcp_plb.c:52:7: note: Left side of '||' is true
+           if (!READ_ONCE(net->ipv4.sysctl_tcp_plb_enabled))
+                ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compiletime_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+                              ^
+   include/linux/compiler_types.h:324:29: note: expanded from macro '__native_word'
+           (sizeof(t) == sizeof(char) || sizeof(t) == sizeof(short) || \
+                                      ^
+   net/ipv4/tcp_plb.c:52:7: note: Taking false branch
+           if (!READ_ONCE(net->ipv4.sysctl_tcp_plb_enabled))
+                ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:2: note: expanded from macro 'compiletime_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+           ^
+   include/linux/compiler_types.h:357:2: note: expanded from macro 'compiletime_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+           ^
+   include/linux/compiler_types.h:345:2: note: expanded from macro '_compiletime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:337:3: note: expanded from macro '__compiletime_assert'
+                   if (!(condition))                                       \
+                   ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   net/ipv4/tcp_plb.c:52:7: note: Loop condition is false.  Exiting loop
+           if (!READ_ONCE(net->ipv4.sysctl_tcp_plb_enabled))
+                ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:2: note: expanded from macro 'compiletime_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+           ^
+   include/linux/compiler_types.h:357:2: note: expanded from macro 'compiletime_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+           ^
 
-vim +216 drivers/vfio/group.c
+vim +83 net/ipv4/tcp_plb.c
 
-9eefba8002c27d Yi Liu 2022-11-25  186  
-9eefba8002c27d Yi Liu 2022-11-25  187  static struct file *vfio_device_open_file(struct vfio_device *device)
-9eefba8002c27d Yi Liu 2022-11-25  188  {
-9eefba8002c27d Yi Liu 2022-11-25  189  	struct file *filep;
-9eefba8002c27d Yi Liu 2022-11-25  190  	int ret;
-9eefba8002c27d Yi Liu 2022-11-25  191  
-9eefba8002c27d Yi Liu 2022-11-25  192  	ret = vfio_device_group_open(device);
-9eefba8002c27d Yi Liu 2022-11-25  193  	if (ret)
-9eefba8002c27d Yi Liu 2022-11-25  194  		goto err_out;
-9eefba8002c27d Yi Liu 2022-11-25  195  
-9eefba8002c27d Yi Liu 2022-11-25  196  	/*
-9eefba8002c27d Yi Liu 2022-11-25  197  	 * We can't use anon_inode_getfd() because we need to modify
-9eefba8002c27d Yi Liu 2022-11-25  198  	 * the f_mode flags directly to allow more than just ioctls
-9eefba8002c27d Yi Liu 2022-11-25  199  	 */
-9eefba8002c27d Yi Liu 2022-11-25  200  	filep = anon_inode_getfile("[vfio-device]", &vfio_device_fops,
-9eefba8002c27d Yi Liu 2022-11-25  201  				   device, O_RDWR);
-9eefba8002c27d Yi Liu 2022-11-25  202  	if (IS_ERR(filep)) {
-9eefba8002c27d Yi Liu 2022-11-25  203  		ret = PTR_ERR(filep);
-9eefba8002c27d Yi Liu 2022-11-25  204  		goto err_close_device;
-9eefba8002c27d Yi Liu 2022-11-25  205  	}
-9eefba8002c27d Yi Liu 2022-11-25  206  
-9eefba8002c27d Yi Liu 2022-11-25  207  	/*
-9eefba8002c27d Yi Liu 2022-11-25  208  	 * TODO: add an anon_inode interface to do this.
-9eefba8002c27d Yi Liu 2022-11-25  209  	 * Appears to be missing by lack of need rather than
-9eefba8002c27d Yi Liu 2022-11-25  210  	 * explicitly prevented.  Now there's need.
-9eefba8002c27d Yi Liu 2022-11-25  211  	 */
-9eefba8002c27d Yi Liu 2022-11-25  212  	filep->f_mode |= (FMODE_PREAD | FMODE_PWRITE);
-9eefba8002c27d Yi Liu 2022-11-25  213  
-9eefba8002c27d Yi Liu 2022-11-25  214  	if (device->group->type == VFIO_NO_IOMMU)
-9eefba8002c27d Yi Liu 2022-11-25  215  		dev_warn(device->dev, "vfio-noiommu device opened by user "
-9eefba8002c27d Yi Liu 2022-11-25 @216  			 "(%s:%d)\n", current->comm, task_pid_nr(current));
-9eefba8002c27d Yi Liu 2022-11-25  217  	/*
-9eefba8002c27d Yi Liu 2022-11-25  218  	 * On success the ref of device is moved to the file and
-9eefba8002c27d Yi Liu 2022-11-25  219  	 * put in vfio_device_fops_release()
-9eefba8002c27d Yi Liu 2022-11-25  220  	 */
-9eefba8002c27d Yi Liu 2022-11-25  221  	return filep;
-9eefba8002c27d Yi Liu 2022-11-25  222  
-9eefba8002c27d Yi Liu 2022-11-25  223  err_close_device:
-9eefba8002c27d Yi Liu 2022-11-25  224  	vfio_device_group_close(device);
-9eefba8002c27d Yi Liu 2022-11-25  225  err_out:
-9eefba8002c27d Yi Liu 2022-11-25  226  	return ERR_PTR(ret);
-9eefba8002c27d Yi Liu 2022-11-25  227  }
-9eefba8002c27d Yi Liu 2022-11-25  228  
+1a91bb7c3ebf95 Mubashir Adnan Qureshi 2022-10-26  42  
+1a91bb7c3ebf95 Mubashir Adnan Qureshi 2022-10-26  43  /* Check whether recent congestion has been persistent enough to warrant
+1a91bb7c3ebf95 Mubashir Adnan Qureshi 2022-10-26  44   * a load balancing decision that switches the connection to another path.
+1a91bb7c3ebf95 Mubashir Adnan Qureshi 2022-10-26  45   */
+1a91bb7c3ebf95 Mubashir Adnan Qureshi 2022-10-26  46  void tcp_plb_check_rehash(struct sock *sk, struct tcp_plb_state *plb)
+1a91bb7c3ebf95 Mubashir Adnan Qureshi 2022-10-26  47  {
+1a91bb7c3ebf95 Mubashir Adnan Qureshi 2022-10-26  48  	struct net *net = sock_net(sk);
+1a91bb7c3ebf95 Mubashir Adnan Qureshi 2022-10-26  49  	u32 max_suspend;
+1a91bb7c3ebf95 Mubashir Adnan Qureshi 2022-10-26  50  	bool forced_rehash = false, idle_rehash = false;
+1a91bb7c3ebf95 Mubashir Adnan Qureshi 2022-10-26  51  
+1a91bb7c3ebf95 Mubashir Adnan Qureshi 2022-10-26  52  	if (!READ_ONCE(net->ipv4.sysctl_tcp_plb_enabled))
+1a91bb7c3ebf95 Mubashir Adnan Qureshi 2022-10-26  53  		return;
+1a91bb7c3ebf95 Mubashir Adnan Qureshi 2022-10-26  54  
+1a91bb7c3ebf95 Mubashir Adnan Qureshi 2022-10-26  55  	forced_rehash = plb->consec_cong_rounds >=
+1a91bb7c3ebf95 Mubashir Adnan Qureshi 2022-10-26  56  			READ_ONCE(net->ipv4.sysctl_tcp_plb_rehash_rounds);
+1a91bb7c3ebf95 Mubashir Adnan Qureshi 2022-10-26  57  	/* If sender goes idle then we check whether to rehash. */
+1a91bb7c3ebf95 Mubashir Adnan Qureshi 2022-10-26  58  	idle_rehash = READ_ONCE(net->ipv4.sysctl_tcp_plb_idle_rehash_rounds) &&
+1a91bb7c3ebf95 Mubashir Adnan Qureshi 2022-10-26  59  		      !tcp_sk(sk)->packets_out &&
+1a91bb7c3ebf95 Mubashir Adnan Qureshi 2022-10-26  60  		      plb->consec_cong_rounds >=
+1a91bb7c3ebf95 Mubashir Adnan Qureshi 2022-10-26  61  		      READ_ONCE(net->ipv4.sysctl_tcp_plb_idle_rehash_rounds);
+1a91bb7c3ebf95 Mubashir Adnan Qureshi 2022-10-26  62  
+1a91bb7c3ebf95 Mubashir Adnan Qureshi 2022-10-26  63  	if (!forced_rehash && !idle_rehash)
+1a91bb7c3ebf95 Mubashir Adnan Qureshi 2022-10-26  64  		return;
+1a91bb7c3ebf95 Mubashir Adnan Qureshi 2022-10-26  65  
+1a91bb7c3ebf95 Mubashir Adnan Qureshi 2022-10-26  66  	/* Note that tcp_jiffies32 can wrap; we detect wraps by checking for
+1a91bb7c3ebf95 Mubashir Adnan Qureshi 2022-10-26  67  	 * cases where the max suspension end is before the actual suspension
+1a91bb7c3ebf95 Mubashir Adnan Qureshi 2022-10-26  68  	 * end. We clear pause_until to 0 to indicate there is no recent
+1a91bb7c3ebf95 Mubashir Adnan Qureshi 2022-10-26  69  	 * RTO event that constrains PLB rehashing.
+1a91bb7c3ebf95 Mubashir Adnan Qureshi 2022-10-26  70  	 */
+1a91bb7c3ebf95 Mubashir Adnan Qureshi 2022-10-26  71  	max_suspend = 2 * READ_ONCE(net->ipv4.sysctl_tcp_plb_suspend_rto_sec) * HZ;
+1a91bb7c3ebf95 Mubashir Adnan Qureshi 2022-10-26  72  	if (plb->pause_until &&
+1a91bb7c3ebf95 Mubashir Adnan Qureshi 2022-10-26  73  	    (!before(tcp_jiffies32, plb->pause_until) ||
+1a91bb7c3ebf95 Mubashir Adnan Qureshi 2022-10-26  74  	     before(tcp_jiffies32 + max_suspend, plb->pause_until)))
+1a91bb7c3ebf95 Mubashir Adnan Qureshi 2022-10-26  75  		plb->pause_until = 0;
+1a91bb7c3ebf95 Mubashir Adnan Qureshi 2022-10-26  76  
+1a91bb7c3ebf95 Mubashir Adnan Qureshi 2022-10-26  77  	if (plb->pause_until)
+1a91bb7c3ebf95 Mubashir Adnan Qureshi 2022-10-26  78  		return;
+1a91bb7c3ebf95 Mubashir Adnan Qureshi 2022-10-26  79  
+1a91bb7c3ebf95 Mubashir Adnan Qureshi 2022-10-26  80  	sk_rethink_txhash(sk);
+1a91bb7c3ebf95 Mubashir Adnan Qureshi 2022-10-26  81  	plb->consec_cong_rounds = 0;
+29c1c44646aec5 Mubashir Adnan Qureshi 2022-10-26  82  	tcp_sk(sk)->plb_rehash++;
+29c1c44646aec5 Mubashir Adnan Qureshi 2022-10-26 @83  	NET_INC_STATS(sock_net(sk), LINUX_MIB_TCPPLBREHASH);
+1a91bb7c3ebf95 Mubashir Adnan Qureshi 2022-10-26  84  }
+1a91bb7c3ebf95 Mubashir Adnan Qureshi 2022-10-26  85  EXPORT_SYMBOL_GPL(tcp_plb_check_rehash);
+1a91bb7c3ebf95 Mubashir Adnan Qureshi 2022-10-26  86  
 
 -- 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
 
---MdnV2c004q5FRFTL
+--+oVcbH4+nTs4UD+s
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename=config
 
 #
 # Automatically generated file; DO NOT EDIT.
-# Linux/s390 6.1.0-rc7 Kernel Configuration
+# Linux/s390 6.1.0-rc2 Kernel Configuration
 #
 CONFIG_CC_VERSION_TEXT="clang version 16.0.0 (git://gitmirror/llvm_project 6e4cea55f0d1104408b26ac574566a0e4de48036)"
 CONFIG_GCC_VERSION=0
@@ -361,7 +360,6 @@ CONFIG_LD_VERSION=23800
 CONFIG_LLD_VERSION=0
 CONFIG_RUST_IS_AVAILABLE=y
 CONFIG_CC_HAS_ASM_GOTO_OUTPUT=y
-CONFIG_CC_HAS_ASM_GOTO_TIED_OUTPUT=y
 CONFIG_CC_HAS_ASM_INLINE=y
 CONFIG_CC_HAS_NO_PROFILE_FN_ATTR=y
 CONFIG_PAHOLE_VERSION=123
@@ -958,7 +956,6 @@ CONFIG_INET_ESP=y
 CONFIG_INET_ESP_OFFLOAD=m
 CONFIG_INET_ESPINTCP=y
 # CONFIG_INET_IPCOMP is not set
-CONFIG_INET_TABLE_PERTURB_ORDER=16
 CONFIG_INET_TUNNEL=y
 CONFIG_INET_DIAG=y
 CONFIG_INET_TCP_DIAG=y
@@ -2016,7 +2013,6 @@ CONFIG_UIO=y
 # CONFIG_UIO_PDRV_GENIRQ is not set
 CONFIG_UIO_DMEM_GENIRQ=m
 CONFIG_VFIO=m
-CONFIG_VFIO_CONTAINER=y
 CONFIG_VFIO_IOMMU_TYPE1=m
 # CONFIG_VFIO_NOIOMMU is not set
 CONFIG_VFIO_MDEV=m
@@ -3452,4 +3448,4 @@ CONFIG_CC_HAS_SANCOV_TRACE_PC=y
 # end of Rust hacking
 # end of Kernel hacking
 
---MdnV2c004q5FRFTL--
+--+oVcbH4+nTs4UD+s--
