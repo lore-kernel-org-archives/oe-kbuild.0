@@ -1,53 +1,53 @@
 Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52D1B7E
-	for <oe-kbuild@lists.linux.dev>; Sun, 18 Dec 2022 08:47:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 681967E
+	for <oe-kbuild@lists.linux.dev>; Sun, 18 Dec 2022 10:08:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1671353238; x=1702889238;
+  t=1671358099; x=1702894099;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=4qIRWWPB3Nb2OFAYF+K3qr6YP0xZquUF4l2TZ2elbzI=;
-  b=Y8GRm416Hl/2v+UDbHwXxmkVIyUAb2Ar/fHjT+c1U7iSGuX19sqq5FK5
-   K1BRSyS48dLfn329cZS371MSy+zLjWePDkZdmxW2VYXWbfZ+Hxf1E9QBd
-   TsZ9bno2O5M+ENw/gUpnxkr3IZR0DNHK4/anGvn1h5zAMMbo1iVGOMgjz
-   cKGcsMTd72k1HsXC+tVlCOxIQbi5FT03Lv+Cw5SLtzCJaKcHty3QSCau8
-   Xfl6hDSQfCY1ktlY3O9VhdI94VbgwTiBIiXF+f6PUzqPUFWPQvF5rSX5O
-   UZpoemZ4DZlWWw6C715cz63Ih6U65sj9ZC9u4TCWlN2jg3I3c4b1jaKNF
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10564"; a="299518636"
+  bh=n8/T9qeAMEXB42jgnmdStwsFMS8aw2MDx1DwDhom3Kw=;
+  b=DaJWO/DuJzk0ckCBxJMmjuVC6Mgv7BySqQp02birDRCJq2/9jXrt4Zb6
+   VJfc4/qWMkxOo9Z83ej4nnIZ/h+bA306UJDb2h1V8iZ/068xM6mfkUz0z
+   06lhjA/F/ZBlDL1na3b2UbOBTA+tCm04rMJjl4T/2T3+XVlnQPNA32Zw+
+   5srwdl98bVoDfN6EhVTGW7cHj9kAxTOmWvSJUmCd9c7DlxBHGQs6o4X9x
+   r8nRuR+iBLwptx87l1jwOVBVBAaCbxAc2UafzkJXJyoxtpQlFHUEscno0
+   B5QQb7g9emCyaxoIN77EziWXSXkT0dx4z9ggmeSZNjDd0lKmG/zrjMKMn
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10564"; a="299522893"
 X-IronPort-AV: E=Sophos;i="5.96,254,1665471600"; 
-   d="scan'208";a="299518636"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2022 00:47:17 -0800
+   d="scan'208";a="299522893"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2022 02:08:18 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10564"; a="650241175"
+X-IronPort-AV: E=McAfee;i="6500,9779,10564"; a="718814661"
 X-IronPort-AV: E=Sophos;i="5.96,254,1665471600"; 
-   d="scan'208";a="650241175"
+   d="scan'208";a="718814661"
 Received: from lkp-server01.sh.intel.com (HELO b5d47979f3ad) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 18 Dec 2022 00:47:14 -0800
+  by fmsmga004.fm.intel.com with ESMTP; 18 Dec 2022 02:08:16 -0800
 Received: from kbuild by b5d47979f3ad with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1p6pKD-0008Be-1X;
-	Sun, 18 Dec 2022 08:47:13 +0000
-Date: Sun, 18 Dec 2022 16:46:58 +0800
+	id 1p6qad-0008FG-2D;
+	Sun, 18 Dec 2022 10:08:15 +0000
+Date: Sun, 18 Dec 2022 18:07:41 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/net/ethernet/sfc/tc_bindings.c:90 efx_tc_setup_block() warn:
- passing a valid pointer to 'PTR_ERR'
-Message-ID: <202212181642.wtQUaTtO-lkp@intel.com>
+Subject: drivers/net/ethernet/sfc/tc_bindings.c:171 efx_tc_indr_setup_cb()
+ warn: passing a valid pointer to 'PTR_ERR'
+Message-ID: <202212181817.g4Rf5nfq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="GhgnJrHTCK3/NfBA"
+Content-Type: multipart/mixed; boundary="C67ooUGU76FXoV+W"
 Content-Disposition: inline
 
 
---GhgnJrHTCK3/NfBA
+--C67ooUGU76FXoV+W
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
@@ -58,9 +58,9 @@ TO: Edward Cree <ecree.xilinx@gmail.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   f9ff5644bcc04221bae56f922122f2b7f5d24d62
-commit: 9dc0cad203ab57efac34e6bcb67635edf3b62ebf sfc: bind blocks for TC offload on EF100
+commit: 5b2e12d51bd8efaf0be8309d5b2c716ad848cb37 sfc: bind indirect blocks for TC offload on EF100
 date:   3 months ago
-:::::: branch date: 18 hours ago
+:::::: branch date: 19 hours ago
 :::::: commit date: 3 months ago
 config: microblaze-randconfig-m041-20221218
 compiler: microblaze-linux-gcc (GCC) 12.1.0
@@ -69,83 +69,92 @@ If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
 
-smatch warnings:
+New smatch warnings:
+drivers/net/ethernet/sfc/tc_bindings.c:171 efx_tc_indr_setup_cb() warn: passing a valid pointer to 'PTR_ERR'
+
+Old smatch warnings:
 drivers/net/ethernet/sfc/tc_bindings.c:90 efx_tc_setup_block() warn: passing a valid pointer to 'PTR_ERR'
 
-vim +/PTR_ERR +90 drivers/net/ethernet/sfc/tc_bindings.c
+vim +/PTR_ERR +171 drivers/net/ethernet/sfc/tc_bindings.c
 
-9dc0cad203ab57 Edward Cree 2022-09-26   72  
-9dc0cad203ab57 Edward Cree 2022-09-26   73  int efx_tc_setup_block(struct net_device *net_dev, struct efx_nic *efx,
-9dc0cad203ab57 Edward Cree 2022-09-26   74  		       struct flow_block_offload *tcb, struct efx_rep *efv)
-9dc0cad203ab57 Edward Cree 2022-09-26   75  {
-9dc0cad203ab57 Edward Cree 2022-09-26   76  	struct efx_tc_block_binding *binding;
-9dc0cad203ab57 Edward Cree 2022-09-26   77  	struct flow_block_cb *block_cb;
-9dc0cad203ab57 Edward Cree 2022-09-26   78  	int rc;
-9dc0cad203ab57 Edward Cree 2022-09-26   79  
-9dc0cad203ab57 Edward Cree 2022-09-26   80  	if (tcb->binder_type != FLOW_BLOCK_BINDER_TYPE_CLSACT_INGRESS)
-9dc0cad203ab57 Edward Cree 2022-09-26   81  		return -EOPNOTSUPP;
-9dc0cad203ab57 Edward Cree 2022-09-26   82  
-9dc0cad203ab57 Edward Cree 2022-09-26   83  	if (WARN_ON(!efx->tc))
-9dc0cad203ab57 Edward Cree 2022-09-26   84  		return -ENETDOWN;
-9dc0cad203ab57 Edward Cree 2022-09-26   85  
-9dc0cad203ab57 Edward Cree 2022-09-26   86  	switch (tcb->command) {
-9dc0cad203ab57 Edward Cree 2022-09-26   87  	case FLOW_BLOCK_BIND:
-9dc0cad203ab57 Edward Cree 2022-09-26   88  		binding = efx_tc_create_binding(efx, efv, net_dev, tcb->block);
-9dc0cad203ab57 Edward Cree 2022-09-26   89  		if (IS_ERR(binding))
-9dc0cad203ab57 Edward Cree 2022-09-26  @90  			return PTR_ERR(binding);
-9dc0cad203ab57 Edward Cree 2022-09-26   91  		block_cb = flow_block_cb_alloc(efx_tc_block_cb, binding,
-9dc0cad203ab57 Edward Cree 2022-09-26   92  					       binding, efx_tc_block_unbind);
-9dc0cad203ab57 Edward Cree 2022-09-26   93  		rc = PTR_ERR_OR_ZERO(block_cb);
-9dc0cad203ab57 Edward Cree 2022-09-26   94  		netif_dbg(efx, drv, efx->net_dev,
-9dc0cad203ab57 Edward Cree 2022-09-26   95  			  "bind %sdirect block for device %s, rc %d\n",
-9dc0cad203ab57 Edward Cree 2022-09-26   96  			  net_dev == efx->net_dev ? "" :
-9dc0cad203ab57 Edward Cree 2022-09-26   97  			  efv ? "semi" : "in",
-9dc0cad203ab57 Edward Cree 2022-09-26   98  			  net_dev ? net_dev->name : NULL, rc);
-9dc0cad203ab57 Edward Cree 2022-09-26   99  		if (rc) {
-9dc0cad203ab57 Edward Cree 2022-09-26  100  			list_del(&binding->list);
-9dc0cad203ab57 Edward Cree 2022-09-26  101  			kfree(binding);
-9dc0cad203ab57 Edward Cree 2022-09-26  102  		} else {
-9dc0cad203ab57 Edward Cree 2022-09-26  103  			flow_block_cb_add(block_cb, tcb);
-9dc0cad203ab57 Edward Cree 2022-09-26  104  		}
-9dc0cad203ab57 Edward Cree 2022-09-26  105  		return rc;
-9dc0cad203ab57 Edward Cree 2022-09-26  106  	case FLOW_BLOCK_UNBIND:
-9dc0cad203ab57 Edward Cree 2022-09-26  107  		binding = efx_tc_find_binding(efx, net_dev);
-9dc0cad203ab57 Edward Cree 2022-09-26  108  		if (binding) {
-9dc0cad203ab57 Edward Cree 2022-09-26  109  			block_cb = flow_block_cb_lookup(tcb->block,
-9dc0cad203ab57 Edward Cree 2022-09-26  110  							efx_tc_block_cb,
-9dc0cad203ab57 Edward Cree 2022-09-26  111  							binding);
-9dc0cad203ab57 Edward Cree 2022-09-26  112  			if (block_cb) {
-9dc0cad203ab57 Edward Cree 2022-09-26  113  				flow_block_cb_remove(block_cb, tcb);
-9dc0cad203ab57 Edward Cree 2022-09-26  114  				netif_dbg(efx, drv, efx->net_dev,
-9dc0cad203ab57 Edward Cree 2022-09-26  115  					  "unbound %sdirect block for device %s\n",
-9dc0cad203ab57 Edward Cree 2022-09-26  116  					  net_dev == efx->net_dev ? "" :
-9dc0cad203ab57 Edward Cree 2022-09-26  117  					  binding->efv ? "semi" : "in",
-9dc0cad203ab57 Edward Cree 2022-09-26  118  					  net_dev ? net_dev->name : NULL);
-9dc0cad203ab57 Edward Cree 2022-09-26  119  				return 0;
-9dc0cad203ab57 Edward Cree 2022-09-26  120  			}
-9dc0cad203ab57 Edward Cree 2022-09-26  121  		}
-9dc0cad203ab57 Edward Cree 2022-09-26  122  		/* If we're in driver teardown, then we expect to have
-9dc0cad203ab57 Edward Cree 2022-09-26  123  		 * already unbound all our blocks (we did it early while
-9dc0cad203ab57 Edward Cree 2022-09-26  124  		 * we still had MCDI to remove the filters), so getting
-9dc0cad203ab57 Edward Cree 2022-09-26  125  		 * unbind callbacks now isn't a problem.
-9dc0cad203ab57 Edward Cree 2022-09-26  126  		 */
-9dc0cad203ab57 Edward Cree 2022-09-26  127  		netif_cond_dbg(efx, drv, efx->net_dev,
-9dc0cad203ab57 Edward Cree 2022-09-26  128  			       !efx->tc->up, warn,
-9dc0cad203ab57 Edward Cree 2022-09-26  129  			       "%sdirect block unbind for device %s, was never bound\n",
-9dc0cad203ab57 Edward Cree 2022-09-26  130  			       net_dev == efx->net_dev ? "" : "in",
-9dc0cad203ab57 Edward Cree 2022-09-26  131  			       net_dev ? net_dev->name : NULL);
-9dc0cad203ab57 Edward Cree 2022-09-26  132  		return -ENOENT;
-9dc0cad203ab57 Edward Cree 2022-09-26  133  	default:
-9dc0cad203ab57 Edward Cree 2022-09-26  134  		return -EOPNOTSUPP;
-9dc0cad203ab57 Edward Cree 2022-09-26  135  	}
-9dc0cad203ab57 Edward Cree 2022-09-26  136  }
 9dc0cad203ab57 Edward Cree 2022-09-26  137  
+5b2e12d51bd8ef Edward Cree 2022-09-26  138  int efx_tc_indr_setup_cb(struct net_device *net_dev, struct Qdisc *sch,
+5b2e12d51bd8ef Edward Cree 2022-09-26  139  			 void *cb_priv, enum tc_setup_type type,
+5b2e12d51bd8ef Edward Cree 2022-09-26  140  			 void *type_data, void *data,
+5b2e12d51bd8ef Edward Cree 2022-09-26  141  			 void (*cleanup)(struct flow_block_cb *block_cb))
+5b2e12d51bd8ef Edward Cree 2022-09-26  142  {
+5b2e12d51bd8ef Edward Cree 2022-09-26  143  	struct flow_block_offload *tcb = type_data;
+5b2e12d51bd8ef Edward Cree 2022-09-26  144  	struct efx_tc_block_binding *binding;
+5b2e12d51bd8ef Edward Cree 2022-09-26  145  	struct flow_block_cb *block_cb;
+5b2e12d51bd8ef Edward Cree 2022-09-26  146  	struct efx_nic *efx = cb_priv;
+5b2e12d51bd8ef Edward Cree 2022-09-26  147  	bool is_ovs_int_port;
+5b2e12d51bd8ef Edward Cree 2022-09-26  148  	int rc;
+5b2e12d51bd8ef Edward Cree 2022-09-26  149  
+5b2e12d51bd8ef Edward Cree 2022-09-26  150  	if (!net_dev)
+5b2e12d51bd8ef Edward Cree 2022-09-26  151  		return -EOPNOTSUPP;
+5b2e12d51bd8ef Edward Cree 2022-09-26  152  
+5b2e12d51bd8ef Edward Cree 2022-09-26  153  	if (tcb->binder_type != FLOW_BLOCK_BINDER_TYPE_CLSACT_INGRESS &&
+5b2e12d51bd8ef Edward Cree 2022-09-26  154  	    tcb->binder_type != FLOW_BLOCK_BINDER_TYPE_CLSACT_EGRESS)
+5b2e12d51bd8ef Edward Cree 2022-09-26  155  		return -EOPNOTSUPP;
+5b2e12d51bd8ef Edward Cree 2022-09-26  156  
+5b2e12d51bd8ef Edward Cree 2022-09-26  157  	is_ovs_int_port = netif_is_ovs_master(net_dev);
+5b2e12d51bd8ef Edward Cree 2022-09-26  158  	if (tcb->binder_type == FLOW_BLOCK_BINDER_TYPE_CLSACT_EGRESS &&
+5b2e12d51bd8ef Edward Cree 2022-09-26  159  	    !is_ovs_int_port)
+5b2e12d51bd8ef Edward Cree 2022-09-26  160  		return -EOPNOTSUPP;
+5b2e12d51bd8ef Edward Cree 2022-09-26  161  
+5b2e12d51bd8ef Edward Cree 2022-09-26  162  	if (is_ovs_int_port)
+5b2e12d51bd8ef Edward Cree 2022-09-26  163  		return -EOPNOTSUPP;
+5b2e12d51bd8ef Edward Cree 2022-09-26  164  
+5b2e12d51bd8ef Edward Cree 2022-09-26  165  	switch (type) {
+5b2e12d51bd8ef Edward Cree 2022-09-26  166  	case TC_SETUP_BLOCK:
+5b2e12d51bd8ef Edward Cree 2022-09-26  167  		switch (tcb->command) {
+5b2e12d51bd8ef Edward Cree 2022-09-26  168  		case FLOW_BLOCK_BIND:
+5b2e12d51bd8ef Edward Cree 2022-09-26  169  			binding = efx_tc_create_binding(efx, NULL, net_dev, tcb->block);
+5b2e12d51bd8ef Edward Cree 2022-09-26  170  			if (IS_ERR(binding))
+5b2e12d51bd8ef Edward Cree 2022-09-26 @171  				return PTR_ERR(binding);
+5b2e12d51bd8ef Edward Cree 2022-09-26  172  			block_cb = flow_indr_block_cb_alloc(efx_tc_block_cb, binding,
+5b2e12d51bd8ef Edward Cree 2022-09-26  173  							    binding, efx_tc_block_unbind,
+5b2e12d51bd8ef Edward Cree 2022-09-26  174  							    tcb, net_dev, sch, data, binding,
+5b2e12d51bd8ef Edward Cree 2022-09-26  175  							    cleanup);
+5b2e12d51bd8ef Edward Cree 2022-09-26  176  			rc = PTR_ERR_OR_ZERO(block_cb);
+5b2e12d51bd8ef Edward Cree 2022-09-26  177  			netif_dbg(efx, drv, efx->net_dev,
+5b2e12d51bd8ef Edward Cree 2022-09-26  178  				  "bind indr block for device %s, rc %d\n",
+5b2e12d51bd8ef Edward Cree 2022-09-26  179  				  net_dev ? net_dev->name : NULL, rc);
+5b2e12d51bd8ef Edward Cree 2022-09-26  180  			if (rc) {
+5b2e12d51bd8ef Edward Cree 2022-09-26  181  				list_del(&binding->list);
+5b2e12d51bd8ef Edward Cree 2022-09-26  182  				kfree(binding);
+5b2e12d51bd8ef Edward Cree 2022-09-26  183  			} else {
+5b2e12d51bd8ef Edward Cree 2022-09-26  184  				flow_block_cb_add(block_cb, tcb);
+5b2e12d51bd8ef Edward Cree 2022-09-26  185  			}
+5b2e12d51bd8ef Edward Cree 2022-09-26  186  			return rc;
+5b2e12d51bd8ef Edward Cree 2022-09-26  187  		case FLOW_BLOCK_UNBIND:
+5b2e12d51bd8ef Edward Cree 2022-09-26  188  			binding = efx_tc_find_binding(efx, net_dev);
+5b2e12d51bd8ef Edward Cree 2022-09-26  189  			if (!binding)
+5b2e12d51bd8ef Edward Cree 2022-09-26  190  				return -ENOENT;
+5b2e12d51bd8ef Edward Cree 2022-09-26  191  			block_cb = flow_block_cb_lookup(tcb->block,
+5b2e12d51bd8ef Edward Cree 2022-09-26  192  							efx_tc_block_cb,
+5b2e12d51bd8ef Edward Cree 2022-09-26  193  							binding);
+5b2e12d51bd8ef Edward Cree 2022-09-26  194  			if (!block_cb)
+5b2e12d51bd8ef Edward Cree 2022-09-26  195  				return -ENOENT;
+5b2e12d51bd8ef Edward Cree 2022-09-26  196  			flow_indr_block_cb_remove(block_cb, tcb);
+5b2e12d51bd8ef Edward Cree 2022-09-26  197  			netif_dbg(efx, drv, efx->net_dev,
+5b2e12d51bd8ef Edward Cree 2022-09-26  198  				  "unbind indr block for device %s\n",
+5b2e12d51bd8ef Edward Cree 2022-09-26  199  				  net_dev ? net_dev->name : NULL);
+5b2e12d51bd8ef Edward Cree 2022-09-26  200  			return 0;
+5b2e12d51bd8ef Edward Cree 2022-09-26  201  		default:
+5b2e12d51bd8ef Edward Cree 2022-09-26  202  			return -EOPNOTSUPP;
+5b2e12d51bd8ef Edward Cree 2022-09-26  203  		}
+5b2e12d51bd8ef Edward Cree 2022-09-26  204  	default:
+5b2e12d51bd8ef Edward Cree 2022-09-26  205  		return -EOPNOTSUPP;
+5b2e12d51bd8ef Edward Cree 2022-09-26  206  	}
+5b2e12d51bd8ef Edward Cree 2022-09-26  207  }
+5b2e12d51bd8ef Edward Cree 2022-09-26  208  
 
 -- 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
 
---GhgnJrHTCK3/NfBA
+--C67ooUGU76FXoV+W
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename=config
 
@@ -7746,4 +7755,4 @@ CONFIG_WARN_MISSING_DOCUMENTS=y
 # CONFIG_WARN_ABI_ERRORS is not set
 # end of Kernel hacking
 
---GhgnJrHTCK3/NfBA--
+--C67ooUGU76FXoV+W--
