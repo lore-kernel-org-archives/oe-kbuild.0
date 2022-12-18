@@ -1,53 +1,53 @@
 Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 681967E
-	for <oe-kbuild@lists.linux.dev>; Sun, 18 Dec 2022 10:08:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33D31EA5
+	for <oe-kbuild@lists.linux.dev>; Sun, 18 Dec 2022 11:29:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1671358099; x=1702894099;
+  t=1671362961; x=1702898961;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=n8/T9qeAMEXB42jgnmdStwsFMS8aw2MDx1DwDhom3Kw=;
-  b=DaJWO/DuJzk0ckCBxJMmjuVC6Mgv7BySqQp02birDRCJq2/9jXrt4Zb6
-   VJfc4/qWMkxOo9Z83ej4nnIZ/h+bA306UJDb2h1V8iZ/068xM6mfkUz0z
-   06lhjA/F/ZBlDL1na3b2UbOBTA+tCm04rMJjl4T/2T3+XVlnQPNA32Zw+
-   5srwdl98bVoDfN6EhVTGW7cHj9kAxTOmWvSJUmCd9c7DlxBHGQs6o4X9x
-   r8nRuR+iBLwptx87l1jwOVBVBAaCbxAc2UafzkJXJyoxtpQlFHUEscno0
-   B5QQb7g9emCyaxoIN77EziWXSXkT0dx4z9ggmeSZNjDd0lKmG/zrjMKMn
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10564"; a="299522893"
+  bh=pg3YzRiVimu9uLpmY7jWWcuGF5LsfA0NXrAOusmxqtE=;
+  b=gwmF4dQHxBC8aWPyh8hY7H2+62pY+olj0JNuxNRfEYT5hv8qBlwG5ylR
+   HI/4WqnpndlaLUSO2fhhWMfE+i00GiGGkkVE1w6mCw+K99a/LoI71W8cn
+   19ZmYs/elKn6XEbqj2C5dt7kvYa8fHOytm+Pw4bUKyuVuawl6Mm7IBHjY
+   1ybjtx3bUUOHHkzNO41/8oMUJt8V3tjFgMKMfmAnFpL29/hDdDrjC+ZyB
+   QnAzDrtZLoTcTlxertfd2MoxF4oRqZnnNb+bo44iOWFVYKE5lYPH8N7VK
+   tLcfXaBMkp38dSQM/5Zbyn9LDGwlNPmmJjsNB6OElWjGFuWsx7b4LsOdq
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10564"; a="299528469"
 X-IronPort-AV: E=Sophos;i="5.96,254,1665471600"; 
-   d="scan'208";a="299522893"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2022 02:08:18 -0800
+   d="scan'208";a="299528469"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2022 03:29:19 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10564"; a="718814661"
+X-IronPort-AV: E=McAfee;i="6500,9779,10564"; a="643716996"
 X-IronPort-AV: E=Sophos;i="5.96,254,1665471600"; 
-   d="scan'208";a="718814661"
+   d="scan'208";a="643716996"
 Received: from lkp-server01.sh.intel.com (HELO b5d47979f3ad) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 18 Dec 2022 02:08:16 -0800
+  by orsmga007.jf.intel.com with ESMTP; 18 Dec 2022 03:29:17 -0800
 Received: from kbuild by b5d47979f3ad with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1p6qad-0008FG-2D;
-	Sun, 18 Dec 2022 10:08:15 +0000
-Date: Sun, 18 Dec 2022 18:07:41 +0800
+	id 1p6rr2-0008Gs-2z;
+	Sun, 18 Dec 2022 11:29:16 +0000
+Date: Sun, 18 Dec 2022 19:28:24 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/net/ethernet/sfc/tc_bindings.c:171 efx_tc_indr_setup_cb()
- warn: passing a valid pointer to 'PTR_ERR'
-Message-ID: <202212181817.g4Rf5nfq-lkp@intel.com>
+Subject: drivers/net/ethernet/sfc/tc.c:285 efx_tc_flower_replace() warn:
+ passing a valid pointer to 'PTR_ERR'
+Message-ID: <202212181939.algT80q3-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="C67ooUGU76FXoV+W"
+Content-Type: multipart/mixed; boundary="nazePA8iUjK9XSIh"
 Content-Disposition: inline
 
 
---C67ooUGU76FXoV+W
+--nazePA8iUjK9XSIh
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
@@ -58,9 +58,9 @@ TO: Edward Cree <ecree.xilinx@gmail.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   f9ff5644bcc04221bae56f922122f2b7f5d24d62
-commit: 5b2e12d51bd8efaf0be8309d5b2c716ad848cb37 sfc: bind indirect blocks for TC offload on EF100
+commit: d902e1a737d44e678eeb981df11c842c2cc1db74 sfc: bare bones TC offload on EF100
 date:   3 months ago
-:::::: branch date: 19 hours ago
+:::::: branch date: 21 hours ago
 :::::: commit date: 3 months ago
 config: microblaze-randconfig-m041-20221218
 compiler: microblaze-linux-gcc (GCC) 12.1.0
@@ -70,91 +70,230 @@ If you fix the issue, kindly add following tag where applicable
 | Reported-by: Dan Carpenter <error27@gmail.com>
 
 New smatch warnings:
-drivers/net/ethernet/sfc/tc_bindings.c:171 efx_tc_indr_setup_cb() warn: passing a valid pointer to 'PTR_ERR'
+drivers/net/ethernet/sfc/tc.c:285 efx_tc_flower_replace() warn: passing a valid pointer to 'PTR_ERR'
 
 Old smatch warnings:
-drivers/net/ethernet/sfc/tc_bindings.c:90 efx_tc_setup_block() warn: passing a valid pointer to 'PTR_ERR'
+arch/microblaze/include/asm/thread_info.h:85 current_thread_info() error: uninitialized symbol 'sp'.
 
-vim +/PTR_ERR +171 drivers/net/ethernet/sfc/tc_bindings.c
+vim +/PTR_ERR +285 drivers/net/ethernet/sfc/tc.c
 
-9dc0cad203ab57 Edward Cree 2022-09-26  137  
-5b2e12d51bd8ef Edward Cree 2022-09-26  138  int efx_tc_indr_setup_cb(struct net_device *net_dev, struct Qdisc *sch,
-5b2e12d51bd8ef Edward Cree 2022-09-26  139  			 void *cb_priv, enum tc_setup_type type,
-5b2e12d51bd8ef Edward Cree 2022-09-26  140  			 void *type_data, void *data,
-5b2e12d51bd8ef Edward Cree 2022-09-26  141  			 void (*cleanup)(struct flow_block_cb *block_cb))
-5b2e12d51bd8ef Edward Cree 2022-09-26  142  {
-5b2e12d51bd8ef Edward Cree 2022-09-26  143  	struct flow_block_offload *tcb = type_data;
-5b2e12d51bd8ef Edward Cree 2022-09-26  144  	struct efx_tc_block_binding *binding;
-5b2e12d51bd8ef Edward Cree 2022-09-26  145  	struct flow_block_cb *block_cb;
-5b2e12d51bd8ef Edward Cree 2022-09-26  146  	struct efx_nic *efx = cb_priv;
-5b2e12d51bd8ef Edward Cree 2022-09-26  147  	bool is_ovs_int_port;
-5b2e12d51bd8ef Edward Cree 2022-09-26  148  	int rc;
-5b2e12d51bd8ef Edward Cree 2022-09-26  149  
-5b2e12d51bd8ef Edward Cree 2022-09-26  150  	if (!net_dev)
-5b2e12d51bd8ef Edward Cree 2022-09-26  151  		return -EOPNOTSUPP;
-5b2e12d51bd8ef Edward Cree 2022-09-26  152  
-5b2e12d51bd8ef Edward Cree 2022-09-26  153  	if (tcb->binder_type != FLOW_BLOCK_BINDER_TYPE_CLSACT_INGRESS &&
-5b2e12d51bd8ef Edward Cree 2022-09-26  154  	    tcb->binder_type != FLOW_BLOCK_BINDER_TYPE_CLSACT_EGRESS)
-5b2e12d51bd8ef Edward Cree 2022-09-26  155  		return -EOPNOTSUPP;
-5b2e12d51bd8ef Edward Cree 2022-09-26  156  
-5b2e12d51bd8ef Edward Cree 2022-09-26  157  	is_ovs_int_port = netif_is_ovs_master(net_dev);
-5b2e12d51bd8ef Edward Cree 2022-09-26  158  	if (tcb->binder_type == FLOW_BLOCK_BINDER_TYPE_CLSACT_EGRESS &&
-5b2e12d51bd8ef Edward Cree 2022-09-26  159  	    !is_ovs_int_port)
-5b2e12d51bd8ef Edward Cree 2022-09-26  160  		return -EOPNOTSUPP;
-5b2e12d51bd8ef Edward Cree 2022-09-26  161  
-5b2e12d51bd8ef Edward Cree 2022-09-26  162  	if (is_ovs_int_port)
-5b2e12d51bd8ef Edward Cree 2022-09-26  163  		return -EOPNOTSUPP;
-5b2e12d51bd8ef Edward Cree 2022-09-26  164  
-5b2e12d51bd8ef Edward Cree 2022-09-26  165  	switch (type) {
-5b2e12d51bd8ef Edward Cree 2022-09-26  166  	case TC_SETUP_BLOCK:
-5b2e12d51bd8ef Edward Cree 2022-09-26  167  		switch (tcb->command) {
-5b2e12d51bd8ef Edward Cree 2022-09-26  168  		case FLOW_BLOCK_BIND:
-5b2e12d51bd8ef Edward Cree 2022-09-26  169  			binding = efx_tc_create_binding(efx, NULL, net_dev, tcb->block);
-5b2e12d51bd8ef Edward Cree 2022-09-26  170  			if (IS_ERR(binding))
-5b2e12d51bd8ef Edward Cree 2022-09-26 @171  				return PTR_ERR(binding);
-5b2e12d51bd8ef Edward Cree 2022-09-26  172  			block_cb = flow_indr_block_cb_alloc(efx_tc_block_cb, binding,
-5b2e12d51bd8ef Edward Cree 2022-09-26  173  							    binding, efx_tc_block_unbind,
-5b2e12d51bd8ef Edward Cree 2022-09-26  174  							    tcb, net_dev, sch, data, binding,
-5b2e12d51bd8ef Edward Cree 2022-09-26  175  							    cleanup);
-5b2e12d51bd8ef Edward Cree 2022-09-26  176  			rc = PTR_ERR_OR_ZERO(block_cb);
-5b2e12d51bd8ef Edward Cree 2022-09-26  177  			netif_dbg(efx, drv, efx->net_dev,
-5b2e12d51bd8ef Edward Cree 2022-09-26  178  				  "bind indr block for device %s, rc %d\n",
-5b2e12d51bd8ef Edward Cree 2022-09-26  179  				  net_dev ? net_dev->name : NULL, rc);
-5b2e12d51bd8ef Edward Cree 2022-09-26  180  			if (rc) {
-5b2e12d51bd8ef Edward Cree 2022-09-26  181  				list_del(&binding->list);
-5b2e12d51bd8ef Edward Cree 2022-09-26  182  				kfree(binding);
-5b2e12d51bd8ef Edward Cree 2022-09-26  183  			} else {
-5b2e12d51bd8ef Edward Cree 2022-09-26  184  				flow_block_cb_add(block_cb, tcb);
-5b2e12d51bd8ef Edward Cree 2022-09-26  185  			}
-5b2e12d51bd8ef Edward Cree 2022-09-26  186  			return rc;
-5b2e12d51bd8ef Edward Cree 2022-09-26  187  		case FLOW_BLOCK_UNBIND:
-5b2e12d51bd8ef Edward Cree 2022-09-26  188  			binding = efx_tc_find_binding(efx, net_dev);
-5b2e12d51bd8ef Edward Cree 2022-09-26  189  			if (!binding)
-5b2e12d51bd8ef Edward Cree 2022-09-26  190  				return -ENOENT;
-5b2e12d51bd8ef Edward Cree 2022-09-26  191  			block_cb = flow_block_cb_lookup(tcb->block,
-5b2e12d51bd8ef Edward Cree 2022-09-26  192  							efx_tc_block_cb,
-5b2e12d51bd8ef Edward Cree 2022-09-26  193  							binding);
-5b2e12d51bd8ef Edward Cree 2022-09-26  194  			if (!block_cb)
-5b2e12d51bd8ef Edward Cree 2022-09-26  195  				return -ENOENT;
-5b2e12d51bd8ef Edward Cree 2022-09-26  196  			flow_indr_block_cb_remove(block_cb, tcb);
-5b2e12d51bd8ef Edward Cree 2022-09-26  197  			netif_dbg(efx, drv, efx->net_dev,
-5b2e12d51bd8ef Edward Cree 2022-09-26  198  				  "unbind indr block for device %s\n",
-5b2e12d51bd8ef Edward Cree 2022-09-26  199  				  net_dev ? net_dev->name : NULL);
-5b2e12d51bd8ef Edward Cree 2022-09-26  200  			return 0;
-5b2e12d51bd8ef Edward Cree 2022-09-26  201  		default:
-5b2e12d51bd8ef Edward Cree 2022-09-26  202  			return -EOPNOTSUPP;
-5b2e12d51bd8ef Edward Cree 2022-09-26  203  		}
-5b2e12d51bd8ef Edward Cree 2022-09-26  204  	default:
-5b2e12d51bd8ef Edward Cree 2022-09-26  205  		return -EOPNOTSUPP;
-5b2e12d51bd8ef Edward Cree 2022-09-26  206  	}
-5b2e12d51bd8ef Edward Cree 2022-09-26  207  }
-5b2e12d51bd8ef Edward Cree 2022-09-26  208  
+d902e1a737d44e Edward Cree 2022-09-26  170  
+d902e1a737d44e Edward Cree 2022-09-26  171  static int efx_tc_flower_replace(struct efx_nic *efx,
+d902e1a737d44e Edward Cree 2022-09-26  172  				 struct net_device *net_dev,
+d902e1a737d44e Edward Cree 2022-09-26  173  				 struct flow_cls_offload *tc,
+d902e1a737d44e Edward Cree 2022-09-26  174  				 struct efx_rep *efv)
+d902e1a737d44e Edward Cree 2022-09-26  175  {
+d902e1a737d44e Edward Cree 2022-09-26  176  	struct flow_rule *fr = flow_cls_offload_flow_rule(tc);
+d902e1a737d44e Edward Cree 2022-09-26  177  	struct netlink_ext_ack *extack = tc->common.extack;
+d902e1a737d44e Edward Cree 2022-09-26  178  	struct efx_tc_flow_rule *rule = NULL, *old;
+d902e1a737d44e Edward Cree 2022-09-26  179  	struct efx_tc_action_set *act = NULL;
+d902e1a737d44e Edward Cree 2022-09-26  180  	const struct flow_action_entry *fa;
+d902e1a737d44e Edward Cree 2022-09-26  181  	struct efx_rep *from_efv, *to_efv;
+d902e1a737d44e Edward Cree 2022-09-26  182  	struct efx_tc_match match;
+d902e1a737d44e Edward Cree 2022-09-26  183  	s64 rc;
+d902e1a737d44e Edward Cree 2022-09-26  184  	int i;
+d902e1a737d44e Edward Cree 2022-09-26  185  
+d902e1a737d44e Edward Cree 2022-09-26  186  	if (!tc_can_offload_extack(efx->net_dev, extack))
+d902e1a737d44e Edward Cree 2022-09-26  187  		return -EOPNOTSUPP;
+d902e1a737d44e Edward Cree 2022-09-26  188  	if (WARN_ON(!efx->tc))
+d902e1a737d44e Edward Cree 2022-09-26  189  		return -ENETDOWN;
+d902e1a737d44e Edward Cree 2022-09-26  190  	if (WARN_ON(!efx->tc->up))
+d902e1a737d44e Edward Cree 2022-09-26  191  		return -ENETDOWN;
+d902e1a737d44e Edward Cree 2022-09-26  192  
+d902e1a737d44e Edward Cree 2022-09-26  193  	from_efv = efx_tc_flower_lookup_efv(efx, net_dev);
+d902e1a737d44e Edward Cree 2022-09-26  194  	if (IS_ERR(from_efv)) {
+d902e1a737d44e Edward Cree 2022-09-26  195  		/* Might be a tunnel decap rule from an indirect block.
+d902e1a737d44e Edward Cree 2022-09-26  196  		 * Support for those not implemented yet.
+d902e1a737d44e Edward Cree 2022-09-26  197  		 */
+d902e1a737d44e Edward Cree 2022-09-26  198  		return -EOPNOTSUPP;
+d902e1a737d44e Edward Cree 2022-09-26  199  	}
+d902e1a737d44e Edward Cree 2022-09-26  200  
+d902e1a737d44e Edward Cree 2022-09-26  201  	if (efv != from_efv) {
+d902e1a737d44e Edward Cree 2022-09-26  202  		/* can't happen */
+d902e1a737d44e Edward Cree 2022-09-26  203  		efx_tc_err(efx, "for %s efv is %snull but from_efv is %snull\n",
+d902e1a737d44e Edward Cree 2022-09-26  204  			   netdev_name(net_dev), efv ? "non-" : "",
+d902e1a737d44e Edward Cree 2022-09-26  205  			   from_efv ? "non-" : "");
+d902e1a737d44e Edward Cree 2022-09-26  206  		if (efv)
+d902e1a737d44e Edward Cree 2022-09-26  207  			NL_SET_ERR_MSG_MOD(extack, "vfrep filter has PF net_dev (can't happen)");
+d902e1a737d44e Edward Cree 2022-09-26  208  		else
+d902e1a737d44e Edward Cree 2022-09-26  209  			NL_SET_ERR_MSG_MOD(extack, "PF filter has vfrep net_dev (can't happen)");
+d902e1a737d44e Edward Cree 2022-09-26  210  		return -EINVAL;
+d902e1a737d44e Edward Cree 2022-09-26  211  	}
+d902e1a737d44e Edward Cree 2022-09-26  212  
+d902e1a737d44e Edward Cree 2022-09-26  213  	/* Parse match */
+d902e1a737d44e Edward Cree 2022-09-26  214  	memset(&match, 0, sizeof(match));
+d902e1a737d44e Edward Cree 2022-09-26  215  	rc = efx_tc_flower_external_mport(efx, from_efv);
+d902e1a737d44e Edward Cree 2022-09-26  216  	if (rc < 0) {
+d902e1a737d44e Edward Cree 2022-09-26  217  		EFX_TC_ERR_MSG(efx, extack, "Failed to identify ingress m-port");
+d902e1a737d44e Edward Cree 2022-09-26  218  		return rc;
+d902e1a737d44e Edward Cree 2022-09-26  219  	}
+d902e1a737d44e Edward Cree 2022-09-26  220  	match.value.ingress_port = rc;
+d902e1a737d44e Edward Cree 2022-09-26  221  	match.mask.ingress_port = ~0;
+d902e1a737d44e Edward Cree 2022-09-26  222  	rc = efx_tc_flower_parse_match(efx, fr, &match, extack);
+d902e1a737d44e Edward Cree 2022-09-26  223  	if (rc)
+d902e1a737d44e Edward Cree 2022-09-26  224  		return rc;
+d902e1a737d44e Edward Cree 2022-09-26  225  
+d902e1a737d44e Edward Cree 2022-09-26  226  	if (tc->common.chain_index) {
+d902e1a737d44e Edward Cree 2022-09-26  227  		EFX_TC_ERR_MSG(efx, extack, "No support for nonzero chain_index");
+d902e1a737d44e Edward Cree 2022-09-26  228  		return -EOPNOTSUPP;
+d902e1a737d44e Edward Cree 2022-09-26  229  	}
+d902e1a737d44e Edward Cree 2022-09-26  230  	match.mask.recirc_id = 0xff;
+d902e1a737d44e Edward Cree 2022-09-26  231  
+d902e1a737d44e Edward Cree 2022-09-26  232  	rc = efx_mae_match_check_caps(efx, &match.mask, extack);
+d902e1a737d44e Edward Cree 2022-09-26  233  	if (rc)
+d902e1a737d44e Edward Cree 2022-09-26  234  		return rc;
+d902e1a737d44e Edward Cree 2022-09-26  235  
+d902e1a737d44e Edward Cree 2022-09-26  236  	rule = kzalloc(sizeof(*rule), GFP_USER);
+d902e1a737d44e Edward Cree 2022-09-26  237  	if (!rule)
+d902e1a737d44e Edward Cree 2022-09-26  238  		return -ENOMEM;
+d902e1a737d44e Edward Cree 2022-09-26  239  	INIT_LIST_HEAD(&rule->acts.list);
+d902e1a737d44e Edward Cree 2022-09-26  240  	rule->cookie = tc->cookie;
+d902e1a737d44e Edward Cree 2022-09-26  241  	old = rhashtable_lookup_get_insert_fast(&efx->tc->match_action_ht,
+d902e1a737d44e Edward Cree 2022-09-26  242  						&rule->linkage,
+d902e1a737d44e Edward Cree 2022-09-26  243  						efx_tc_match_action_ht_params);
+d902e1a737d44e Edward Cree 2022-09-26  244  	if (old) {
+d902e1a737d44e Edward Cree 2022-09-26  245  		netif_dbg(efx, drv, efx->net_dev,
+d902e1a737d44e Edward Cree 2022-09-26  246  			  "Already offloaded rule (cookie %lx)\n", tc->cookie);
+d902e1a737d44e Edward Cree 2022-09-26  247  		rc = -EEXIST;
+d902e1a737d44e Edward Cree 2022-09-26  248  		NL_SET_ERR_MSG_MOD(extack, "Rule already offloaded");
+d902e1a737d44e Edward Cree 2022-09-26  249  		goto release;
+d902e1a737d44e Edward Cree 2022-09-26  250  	}
+d902e1a737d44e Edward Cree 2022-09-26  251  
+d902e1a737d44e Edward Cree 2022-09-26  252  	/* Parse actions */
+d902e1a737d44e Edward Cree 2022-09-26  253  	act = kzalloc(sizeof(*act), GFP_USER);
+d902e1a737d44e Edward Cree 2022-09-26  254  	if (!act) {
+d902e1a737d44e Edward Cree 2022-09-26  255  		rc = -ENOMEM;
+d902e1a737d44e Edward Cree 2022-09-26  256  		goto release;
+d902e1a737d44e Edward Cree 2022-09-26  257  	}
+d902e1a737d44e Edward Cree 2022-09-26  258  
+d902e1a737d44e Edward Cree 2022-09-26  259  	flow_action_for_each(i, fa, &fr->action) {
+d902e1a737d44e Edward Cree 2022-09-26  260  		struct efx_tc_action_set save;
+d902e1a737d44e Edward Cree 2022-09-26  261  
+d902e1a737d44e Edward Cree 2022-09-26  262  		if (!act) {
+d902e1a737d44e Edward Cree 2022-09-26  263  			/* more actions after a non-pipe action */
+d902e1a737d44e Edward Cree 2022-09-26  264  			EFX_TC_ERR_MSG(efx, extack, "Action follows non-pipe action");
+d902e1a737d44e Edward Cree 2022-09-26  265  			rc = -EINVAL;
+d902e1a737d44e Edward Cree 2022-09-26  266  			goto release;
+d902e1a737d44e Edward Cree 2022-09-26  267  		}
+d902e1a737d44e Edward Cree 2022-09-26  268  
+d902e1a737d44e Edward Cree 2022-09-26  269  		switch (fa->id) {
+d902e1a737d44e Edward Cree 2022-09-26  270  		case FLOW_ACTION_DROP:
+d902e1a737d44e Edward Cree 2022-09-26  271  			rc = efx_mae_alloc_action_set(efx, act);
+d902e1a737d44e Edward Cree 2022-09-26  272  			if (rc) {
+d902e1a737d44e Edward Cree 2022-09-26  273  				EFX_TC_ERR_MSG(efx, extack, "Failed to write action set to hw (drop)");
+d902e1a737d44e Edward Cree 2022-09-26  274  				goto release;
+d902e1a737d44e Edward Cree 2022-09-26  275  			}
+d902e1a737d44e Edward Cree 2022-09-26  276  			list_add_tail(&act->list, &rule->acts.list);
+d902e1a737d44e Edward Cree 2022-09-26  277  			act = NULL; /* end of the line */
+d902e1a737d44e Edward Cree 2022-09-26  278  			break;
+d902e1a737d44e Edward Cree 2022-09-26  279  		case FLOW_ACTION_REDIRECT:
+d902e1a737d44e Edward Cree 2022-09-26  280  		case FLOW_ACTION_MIRRED:
+d902e1a737d44e Edward Cree 2022-09-26  281  			save = *act;
+d902e1a737d44e Edward Cree 2022-09-26  282  			to_efv = efx_tc_flower_lookup_efv(efx, fa->dev);
+d902e1a737d44e Edward Cree 2022-09-26  283  			if (IS_ERR(to_efv)) {
+d902e1a737d44e Edward Cree 2022-09-26  284  				EFX_TC_ERR_MSG(efx, extack, "Mirred egress device not on switch");
+d902e1a737d44e Edward Cree 2022-09-26 @285  				rc = PTR_ERR(to_efv);
+d902e1a737d44e Edward Cree 2022-09-26  286  				goto release;
+d902e1a737d44e Edward Cree 2022-09-26  287  			}
+d902e1a737d44e Edward Cree 2022-09-26  288  			rc = efx_tc_flower_external_mport(efx, to_efv);
+d902e1a737d44e Edward Cree 2022-09-26  289  			if (rc < 0) {
+d902e1a737d44e Edward Cree 2022-09-26  290  				EFX_TC_ERR_MSG(efx, extack, "Failed to identify egress m-port");
+d902e1a737d44e Edward Cree 2022-09-26  291  				goto release;
+d902e1a737d44e Edward Cree 2022-09-26  292  			}
+d902e1a737d44e Edward Cree 2022-09-26  293  			act->dest_mport = rc;
+d902e1a737d44e Edward Cree 2022-09-26  294  			act->deliver = 1;
+d902e1a737d44e Edward Cree 2022-09-26  295  			rc = efx_mae_alloc_action_set(efx, act);
+d902e1a737d44e Edward Cree 2022-09-26  296  			if (rc) {
+d902e1a737d44e Edward Cree 2022-09-26  297  				EFX_TC_ERR_MSG(efx, extack, "Failed to write action set to hw (mirred)");
+d902e1a737d44e Edward Cree 2022-09-26  298  				goto release;
+d902e1a737d44e Edward Cree 2022-09-26  299  			}
+d902e1a737d44e Edward Cree 2022-09-26  300  			list_add_tail(&act->list, &rule->acts.list);
+d902e1a737d44e Edward Cree 2022-09-26  301  			act = NULL;
+d902e1a737d44e Edward Cree 2022-09-26  302  			if (fa->id == FLOW_ACTION_REDIRECT)
+d902e1a737d44e Edward Cree 2022-09-26  303  				break; /* end of the line */
+d902e1a737d44e Edward Cree 2022-09-26  304  			/* Mirror, so continue on with saved act */
+d902e1a737d44e Edward Cree 2022-09-26  305  			act = kzalloc(sizeof(*act), GFP_USER);
+d902e1a737d44e Edward Cree 2022-09-26  306  			if (!act) {
+d902e1a737d44e Edward Cree 2022-09-26  307  				rc = -ENOMEM;
+d902e1a737d44e Edward Cree 2022-09-26  308  				goto release;
+d902e1a737d44e Edward Cree 2022-09-26  309  			}
+d902e1a737d44e Edward Cree 2022-09-26  310  			*act = save;
+d902e1a737d44e Edward Cree 2022-09-26  311  			break;
+d902e1a737d44e Edward Cree 2022-09-26  312  		default:
+d902e1a737d44e Edward Cree 2022-09-26  313  			efx_tc_err(efx, "Unhandled action %u\n", fa->id);
+d902e1a737d44e Edward Cree 2022-09-26  314  			rc = -EOPNOTSUPP;
+d902e1a737d44e Edward Cree 2022-09-26  315  			NL_SET_ERR_MSG_MOD(extack, "Unsupported action");
+d902e1a737d44e Edward Cree 2022-09-26  316  			goto release;
+d902e1a737d44e Edward Cree 2022-09-26  317  		}
+d902e1a737d44e Edward Cree 2022-09-26  318  	}
+d902e1a737d44e Edward Cree 2022-09-26  319  
+d902e1a737d44e Edward Cree 2022-09-26  320  	if (act) {
+d902e1a737d44e Edward Cree 2022-09-26  321  		/* Not shot/redirected, so deliver to default dest */
+d902e1a737d44e Edward Cree 2022-09-26  322  		if (from_efv == EFX_EFV_PF)
+d902e1a737d44e Edward Cree 2022-09-26  323  			/* Rule applies to traffic from the wire,
+d902e1a737d44e Edward Cree 2022-09-26  324  			 * and default dest is thus the PF
+d902e1a737d44e Edward Cree 2022-09-26  325  			 */
+d902e1a737d44e Edward Cree 2022-09-26  326  			efx_mae_mport_uplink(efx, &act->dest_mport);
+d902e1a737d44e Edward Cree 2022-09-26  327  		else
+d902e1a737d44e Edward Cree 2022-09-26  328  			/* Representor, so rule applies to traffic from
+d902e1a737d44e Edward Cree 2022-09-26  329  			 * representee, and default dest is thus the rep.
+d902e1a737d44e Edward Cree 2022-09-26  330  			 * All reps use the same mport for delivery
+d902e1a737d44e Edward Cree 2022-09-26  331  			 */
+d902e1a737d44e Edward Cree 2022-09-26  332  			efx_mae_mport_mport(efx, efx->tc->reps_mport_id,
+d902e1a737d44e Edward Cree 2022-09-26  333  					    &act->dest_mport);
+d902e1a737d44e Edward Cree 2022-09-26  334  		act->deliver = 1;
+d902e1a737d44e Edward Cree 2022-09-26  335  		rc = efx_mae_alloc_action_set(efx, act);
+d902e1a737d44e Edward Cree 2022-09-26  336  		if (rc) {
+d902e1a737d44e Edward Cree 2022-09-26  337  			EFX_TC_ERR_MSG(efx, extack, "Failed to write action set to hw (deliver)");
+d902e1a737d44e Edward Cree 2022-09-26  338  			goto release;
+d902e1a737d44e Edward Cree 2022-09-26  339  		}
+d902e1a737d44e Edward Cree 2022-09-26  340  		list_add_tail(&act->list, &rule->acts.list);
+d902e1a737d44e Edward Cree 2022-09-26  341  		act = NULL; /* Prevent double-free in error path */
+d902e1a737d44e Edward Cree 2022-09-26  342  	}
+d902e1a737d44e Edward Cree 2022-09-26  343  
+d902e1a737d44e Edward Cree 2022-09-26  344  	netif_dbg(efx, drv, efx->net_dev,
+d902e1a737d44e Edward Cree 2022-09-26  345  		  "Successfully parsed filter (cookie %lx)\n",
+d902e1a737d44e Edward Cree 2022-09-26  346  		  tc->cookie);
+d902e1a737d44e Edward Cree 2022-09-26  347  
+d902e1a737d44e Edward Cree 2022-09-26  348  	rule->match = match;
+d902e1a737d44e Edward Cree 2022-09-26  349  
+d902e1a737d44e Edward Cree 2022-09-26  350  	rc = efx_mae_alloc_action_set_list(efx, &rule->acts);
+d902e1a737d44e Edward Cree 2022-09-26  351  	if (rc) {
+d902e1a737d44e Edward Cree 2022-09-26  352  		EFX_TC_ERR_MSG(efx, extack, "Failed to write action set list to hw");
+d902e1a737d44e Edward Cree 2022-09-26  353  		goto release;
+d902e1a737d44e Edward Cree 2022-09-26  354  	}
+d902e1a737d44e Edward Cree 2022-09-26  355  	rc = efx_mae_insert_rule(efx, &rule->match, EFX_TC_PRIO_TC,
+d902e1a737d44e Edward Cree 2022-09-26  356  				 rule->acts.fw_id, &rule->fw_id);
+d902e1a737d44e Edward Cree 2022-09-26  357  	if (rc) {
+d902e1a737d44e Edward Cree 2022-09-26  358  		EFX_TC_ERR_MSG(efx, extack, "Failed to insert rule in hw");
+d902e1a737d44e Edward Cree 2022-09-26  359  		goto release_acts;
+d902e1a737d44e Edward Cree 2022-09-26  360  	}
+d902e1a737d44e Edward Cree 2022-09-26  361  	return 0;
+d902e1a737d44e Edward Cree 2022-09-26  362  
+d902e1a737d44e Edward Cree 2022-09-26  363  release_acts:
+d902e1a737d44e Edward Cree 2022-09-26  364  	efx_mae_free_action_set_list(efx, &rule->acts);
+d902e1a737d44e Edward Cree 2022-09-26  365  release:
+d902e1a737d44e Edward Cree 2022-09-26  366  	/* We failed to insert the rule, so free up any entries we created in
+d902e1a737d44e Edward Cree 2022-09-26  367  	 * subsidiary tables.
+d902e1a737d44e Edward Cree 2022-09-26  368  	 */
+d902e1a737d44e Edward Cree 2022-09-26  369  	if (act)
+d902e1a737d44e Edward Cree 2022-09-26  370  		efx_tc_free_action_set(efx, act, false);
+d902e1a737d44e Edward Cree 2022-09-26  371  	if (rule) {
+d902e1a737d44e Edward Cree 2022-09-26  372  		rhashtable_remove_fast(&efx->tc->match_action_ht,
+d902e1a737d44e Edward Cree 2022-09-26  373  				       &rule->linkage,
+d902e1a737d44e Edward Cree 2022-09-26  374  				       efx_tc_match_action_ht_params);
+d902e1a737d44e Edward Cree 2022-09-26  375  		efx_tc_free_action_set_list(efx, &rule->acts, false);
+d902e1a737d44e Edward Cree 2022-09-26  376  	}
+d902e1a737d44e Edward Cree 2022-09-26  377  	kfree(rule);
+d902e1a737d44e Edward Cree 2022-09-26  378  	return rc;
+d902e1a737d44e Edward Cree 2022-09-26  379  }
+d902e1a737d44e Edward Cree 2022-09-26  380  
 
 -- 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
 
---C67ooUGU76FXoV+W
+--nazePA8iUjK9XSIh
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename=config
 
@@ -7755,4 +7894,4 @@ CONFIG_WARN_MISSING_DOCUMENTS=y
 # CONFIG_WARN_ABI_ERRORS is not set
 # end of Kernel hacking
 
---C67ooUGU76FXoV+W--
+--nazePA8iUjK9XSIh--
