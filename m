@@ -1,66 +1,65 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66A3510EC
-	for <oe-kbuild@lists.linux.dev>; Mon, 19 Dec 2022 23:23:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E380EA0
+	for <oe-kbuild@lists.linux.dev>; Tue, 20 Dec 2022 00:20:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1671492229; x=1703028229;
+  t=1671495628; x=1703031628;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=pfSqL3gLlPmKQ3GD9Qx6kVjYE6qfCzHVMSbVgI4dclY=;
-  b=jxXhSk2bkYQ9Srf4kSYy+db7D6vLmAGkBuLj1Zsl0BYDk4Klu3vJ7dQD
-   q3pi4O2RRqVUK2/KLLZChE+2iBoJ6ktzy5EKKS/286ypbK02ZehKQP5+4
-   WVVwX5aPE+nS0Wf/hZA+tq5jGQw0xQW8noX97T8JmiVoyZY3eRKnmKlQo
-   dKotk4pFMbC+q28XpEfZbbC3YJZEel59jRkUcH56uyjmN44I9HQ1o9McB
-   +k9uOsiM7KIY0TSCvOyLGK/Q0Dqt4WyO0959SlGG/hpVj0KbCOl+GfBk2
-   mZVt78Up0p2FWzZqbnJRRmVfFlsL0h3b+12FR/bUdswVusYQXYzxTIHLs
+  bh=F2AUVIWZ0eOuhdZ6BgLmUzscZPrqgYFJE1avM2vPtAs=;
+  b=Z9PQ32xqOnAjfQsDnqjZ9YrGIW5VQYH+Y+AkB7RoF/YPOYaJ+UH1wpNP
+   cBvtEmcNCeP1MxuqP4cEEVEKpOJoSm1noO9/P8U8qMPy21xvdPimPxQrh
+   nyt8BIVxS425++wm+uFXuqxfw8GeCYWLNwa6tjCWlZz0P2K0si6LVPXXR
+   OIuB00il/rvFahHI7U/Clydk0RWElf/rE+hReNOCawgcd67S/RBGgcxF8
+   5WCoQvru6qeZH25CMXL7QpwIZWTERQXqUd6OOuAPoKe7cKNOy3BLRWPU9
+   5QGkG1t35VN3geNfdGW5miO6CrzcIhHDBmbysJCQUtuIDJE1Tza6jDwm6
    g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10566"; a="346578169"
+X-IronPort-AV: E=McAfee;i="6500,9779,10566"; a="299166115"
 X-IronPort-AV: E=Sophos;i="5.96,257,1665471600"; 
-   d="scan'208";a="346578169"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Dec 2022 15:19:05 -0800
+   d="scan'208";a="299166115"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Dec 2022 16:20:15 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10566"; a="757824235"
+X-IronPort-AV: E=McAfee;i="6500,9779,10566"; a="793083268"
 X-IronPort-AV: E=Sophos;i="5.96,257,1665471600"; 
-   d="scan'208";a="757824235"
+   d="scan'208";a="793083268"
 Received: from lkp-server01.sh.intel.com (HELO b5d47979f3ad) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 19 Dec 2022 15:19:03 -0800
+  by fmsmga001.fm.intel.com with ESMTP; 19 Dec 2022 16:20:13 -0800
 Received: from kbuild by b5d47979f3ad with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1p7PPT-00093U-0F;
-	Mon, 19 Dec 2022 23:19:03 +0000
-Date: Tue, 20 Dec 2022 07:18:56 +0800
+	id 1p7QMe-00096C-2s;
+	Tue, 20 Dec 2022 00:20:12 +0000
+Date: Tue, 20 Dec 2022 08:19:31 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [krzk-github:wip/qcom-rt 20/58] kernel/printk/printk.c:2468
- __alloc_atomic_data() warn: returning -1 instead of -ENOMEM is sloppy
-Message-ID: <202212200734.kY6XXguO-lkp@intel.com>
+Subject: [krzk-github:wip/qcom-rt 31/58] kernel/trace/trace_output.c:485
+ trace_print_lat_fmt() warn: bitwise AND condition is false here
+Message-ID: <202212200806.Utsf5Ggm-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="LIqKPGuozGH7yTsX"
+Content-Type: multipart/mixed; boundary="dNzztd0bVhFpAfND"
 Content-Disposition: inline
 
 
---LIqKPGuozGH7yTsX
+--dNzztd0bVhFpAfND
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: John Ogness <john.ogness@linutronix.de>
+TO: Thomas Gleixner <tglx@linutronix.de>
 CC: Krzysztof Kozlowski <krzk@kernel.org>
-CC: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 
 tree:   https://github.com/krzk/linux wip/qcom-rt
 head:   54bbeb89ed2100426d22d53917c0825bb7c60b29
-commit: fe155df9740b019098ee2bfe0f7210c072f2cf80 [20/58] serial: 8250: implement write_atomic
-:::::: branch date: 8 hours ago
+commit: 2cf270505c1a7be3478e19dd76f7e0c8778bec62 [31/58] sched: Add support for lazy preemption
+:::::: branch date: 9 hours ago
 :::::: commit date: 4 days ago
 config: x86_64-randconfig-m001
 compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
@@ -70,42 +69,101 @@ If you fix the issue, kindly add following tag where applicable
 | Reported-by: Dan Carpenter <error27@gmail.com>
 
 smatch warnings:
-kernel/printk/printk.c:2468 __alloc_atomic_data() warn: returning -1 instead of -ENOMEM is sloppy
+kernel/trace/trace_output.c:485 trace_print_lat_fmt() warn: bitwise AND condition is false here
 
-vim +2468 kernel/printk/printk.c
+vim +485 kernel/trace/trace_output.c
 
-c9dcb0caa58d65 John Ogness 2022-02-04  2463  
-c9dcb0caa58d65 John Ogness 2022-02-04  2464  static int __alloc_atomic_data(struct console_atomic_data *d, short flags)
-c9dcb0caa58d65 John Ogness 2022-02-04  2465  {
-c9dcb0caa58d65 John Ogness 2022-02-04  2466  	d->text = kmalloc(CONSOLE_LOG_MAX, GFP_KERNEL);
-c9dcb0caa58d65 John Ogness 2022-02-04  2467  	if (!d->text)
-c9dcb0caa58d65 John Ogness 2022-02-04 @2468  		return -1;
-c9dcb0caa58d65 John Ogness 2022-02-04  2469  
-c9dcb0caa58d65 John Ogness 2022-02-04  2470  	if (flags & CON_EXTENDED) {
-c9dcb0caa58d65 John Ogness 2022-02-04  2471  		d->ext_text = kmalloc(CONSOLE_EXT_LOG_MAX, GFP_KERNEL);
-c9dcb0caa58d65 John Ogness 2022-02-04  2472  		if (!d->ext_text)
-c9dcb0caa58d65 John Ogness 2022-02-04  2473  			return -1;
-c9dcb0caa58d65 John Ogness 2022-02-04  2474  	} else {
-c9dcb0caa58d65 John Ogness 2022-02-04  2475  		d->dropped_text = kmalloc(DROPPED_TEXT_MAX, GFP_KERNEL);
-c9dcb0caa58d65 John Ogness 2022-02-04  2476  		if (!d->dropped_text)
-c9dcb0caa58d65 John Ogness 2022-02-04  2477  			return -1;
-c9dcb0caa58d65 John Ogness 2022-02-04  2478  	}
-c9dcb0caa58d65 John Ogness 2022-02-04  2479  
-c9dcb0caa58d65 John Ogness 2022-02-04  2480  	return 0;
-c9dcb0caa58d65 John Ogness 2022-02-04  2481  }
-c9dcb0caa58d65 John Ogness 2022-02-04  2482  
-
-:::::: The code at line 2468 was first introduced by commit
-:::::: c9dcb0caa58d657753fcc90bcd28d2f601c7f3f9 printk: add infrastucture for atomic consoles
-
-:::::: TO: John Ogness <john.ogness@linutronix.de>
-:::::: CC: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+f0868d1e23a8ef Steven Rostedt            2008-12-23  432  
+f81c972d27c367 Steven Rostedt            2009-09-11  433  /**
+f81c972d27c367 Steven Rostedt            2009-09-11  434   * trace_print_lat_fmt - print the irq, preempt and lockdep fields
+f81c972d27c367 Steven Rostedt            2009-09-11  435   * @s: trace seq struct to write to
+f81c972d27c367 Steven Rostedt            2009-09-11  436   * @entry: The trace entry field from the ring buffer
+f81c972d27c367 Steven Rostedt            2009-09-11  437   *
+f81c972d27c367 Steven Rostedt            2009-09-11  438   * Prints the generic fields of irqs off, in hard or softirq, preempt
+e6e1e2593592a8 Steven Rostedt            2011-03-09  439   * count.
+f81c972d27c367 Steven Rostedt            2009-09-11  440   */
+f81c972d27c367 Steven Rostedt            2009-09-11  441  int trace_print_lat_fmt(struct trace_seq *s, struct trace_entry *entry)
+c4a8e8be2d43cc Frederic Weisbecker       2009-02-02  442  {
+10da37a645b5e9 David Sharp               2010-12-03  443  	char hardsoft_irq;
+10da37a645b5e9 David Sharp               2010-12-03  444  	char need_resched;
+2cf270505c1a7b Thomas Gleixner           2012-10-26  445  	char need_resched_lazy;
+10da37a645b5e9 David Sharp               2010-12-03  446  	char irqs_off;
+10da37a645b5e9 David Sharp               2010-12-03  447  	int hardirq;
+10da37a645b5e9 David Sharp               2010-12-03  448  	int softirq;
+289e7b0f7eb47b Sebastian Andrzej Siewior 2021-12-13  449  	int bh_off;
+7e6867bf831c71 Peter Zijlstra            2016-03-18  450  	int nmi;
+c4a8e8be2d43cc Frederic Weisbecker       2009-02-02  451  
+7e6867bf831c71 Peter Zijlstra            2016-03-18  452  	nmi = entry->flags & TRACE_FLAG_NMI;
+c4a8e8be2d43cc Frederic Weisbecker       2009-02-02  453  	hardirq = entry->flags & TRACE_FLAG_HARDIRQ;
+c4a8e8be2d43cc Frederic Weisbecker       2009-02-02  454  	softirq = entry->flags & TRACE_FLAG_SOFTIRQ;
+289e7b0f7eb47b Sebastian Andrzej Siewior 2021-12-13  455  	bh_off = entry->flags & TRACE_FLAG_BH_OFF;
+d9793bd8018f83 Arnaldo Carvalho de Melo  2009-02-03  456  
+10da37a645b5e9 David Sharp               2010-12-03  457  	irqs_off =
+289e7b0f7eb47b Sebastian Andrzej Siewior 2021-12-13  458  		(entry->flags & TRACE_FLAG_IRQS_OFF && bh_off) ? 'D' :
+d9793bd8018f83 Arnaldo Carvalho de Melo  2009-02-03  459  		(entry->flags & TRACE_FLAG_IRQS_OFF) ? 'd' :
+289e7b0f7eb47b Sebastian Andrzej Siewior 2021-12-13  460  		bh_off ? 'b' :
+10da37a645b5e9 David Sharp               2010-12-03  461  		(entry->flags & TRACE_FLAG_IRQS_NOSUPPORT) ? 'X' :
+10da37a645b5e9 David Sharp               2010-12-03  462  		'.';
+e5137b50a06400 Peter Zijlstra            2013-10-04  463  
+e5137b50a06400 Peter Zijlstra            2013-10-04  464  	switch (entry->flags & (TRACE_FLAG_NEED_RESCHED |
+e5137b50a06400 Peter Zijlstra            2013-10-04  465  				TRACE_FLAG_PREEMPT_RESCHED)) {
+2cf270505c1a7b Thomas Gleixner           2012-10-26  466  #ifndef CONFIG_PREEMPT_LAZY
+e5137b50a06400 Peter Zijlstra            2013-10-04  467  	case TRACE_FLAG_NEED_RESCHED | TRACE_FLAG_PREEMPT_RESCHED:
+e5137b50a06400 Peter Zijlstra            2013-10-04  468  		need_resched = 'N';
+e5137b50a06400 Peter Zijlstra            2013-10-04  469  		break;
+2cf270505c1a7b Thomas Gleixner           2012-10-26  470  #endif
+e5137b50a06400 Peter Zijlstra            2013-10-04  471  	case TRACE_FLAG_NEED_RESCHED:
+e5137b50a06400 Peter Zijlstra            2013-10-04  472  		need_resched = 'n';
+e5137b50a06400 Peter Zijlstra            2013-10-04  473  		break;
+2cf270505c1a7b Thomas Gleixner           2012-10-26  474  #ifndef CONFIG_PREEMPT_LAZY
+e5137b50a06400 Peter Zijlstra            2013-10-04  475  	case TRACE_FLAG_PREEMPT_RESCHED:
+e5137b50a06400 Peter Zijlstra            2013-10-04  476  		need_resched = 'p';
+e5137b50a06400 Peter Zijlstra            2013-10-04  477  		break;
+2cf270505c1a7b Thomas Gleixner           2012-10-26  478  #endif
+e5137b50a06400 Peter Zijlstra            2013-10-04  479  	default:
+e5137b50a06400 Peter Zijlstra            2013-10-04  480  		need_resched = '.';
+e5137b50a06400 Peter Zijlstra            2013-10-04  481  		break;
+e5137b50a06400 Peter Zijlstra            2013-10-04  482  	}
+e5137b50a06400 Peter Zijlstra            2013-10-04  483  
+2cf270505c1a7b Thomas Gleixner           2012-10-26  484  	need_resched_lazy =
+2cf270505c1a7b Thomas Gleixner           2012-10-26 @485  		(entry->flags & TRACE_FLAG_NEED_RESCHED_LAZY) ? 'L' : '.';
+2cf270505c1a7b Thomas Gleixner           2012-10-26  486  
+10da37a645b5e9 David Sharp               2010-12-03  487  	hardsoft_irq =
+7e6867bf831c71 Peter Zijlstra            2016-03-18  488  		(nmi && hardirq)     ? 'Z' :
+7e6867bf831c71 Peter Zijlstra            2016-03-18  489  		nmi                  ? 'z' :
+d9793bd8018f83 Arnaldo Carvalho de Melo  2009-02-03  490  		(hardirq && softirq) ? 'H' :
+10da37a645b5e9 David Sharp               2010-12-03  491  		hardirq              ? 'h' :
+10da37a645b5e9 David Sharp               2010-12-03  492  		softirq              ? 's' :
+10da37a645b5e9 David Sharp               2010-12-03  493  		                       '.' ;
+10da37a645b5e9 David Sharp               2010-12-03  494  
+2cf270505c1a7b Thomas Gleixner           2012-10-26  495  	trace_seq_printf(s, "%c%c%c%c",
+2cf270505c1a7b Thomas Gleixner           2012-10-26  496  			 irqs_off, need_resched, need_resched_lazy,
+2cf270505c1a7b Thomas Gleixner           2012-10-26  497  			 hardsoft_irq);
+c4a8e8be2d43cc Frederic Weisbecker       2009-02-02  498  
+54357f0c9149c8 Thomas Gleixner           2021-08-10  499  	if (entry->preempt_count & 0xf)
+54357f0c9149c8 Thomas Gleixner           2021-08-10  500  		trace_seq_printf(s, "%x", entry->preempt_count & 0xf);
+54357f0c9149c8 Thomas Gleixner           2021-08-10  501  	else
+54357f0c9149c8 Thomas Gleixner           2021-08-10  502  		trace_seq_putc(s, '.');
+54357f0c9149c8 Thomas Gleixner           2021-08-10  503  
+2cf270505c1a7b Thomas Gleixner           2012-10-26  504  	if (entry->preempt_lazy_count)
+2cf270505c1a7b Thomas Gleixner           2012-10-26  505  		trace_seq_printf(s, "%x", entry->preempt_lazy_count);
+2cf270505c1a7b Thomas Gleixner           2012-10-26  506  	else
+2cf270505c1a7b Thomas Gleixner           2012-10-26  507  		trace_seq_putc(s, '.');
+2cf270505c1a7b Thomas Gleixner           2012-10-26  508  
+54357f0c9149c8 Thomas Gleixner           2021-08-10  509  	if (entry->preempt_count & 0xf0)
+54357f0c9149c8 Thomas Gleixner           2021-08-10  510  		trace_seq_printf(s, "%x", entry->preempt_count >> 4);
+637e7e864103a7 Steven Rostedt            2009-09-11  511  	else
+19a7fe206232cc Steven Rostedt (Red Hat   2014-11-12  512) 		trace_seq_putc(s, '.');
+829b876dfc94ea Steven Rostedt            2009-09-27  513  
+19a7fe206232cc Steven Rostedt (Red Hat   2014-11-12  514) 	return !trace_seq_has_overflowed(s);
+c4a8e8be2d43cc Frederic Weisbecker       2009-02-02  515  }
+c4a8e8be2d43cc Frederic Weisbecker       2009-02-02  516  
 
 -- 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
 
---LIqKPGuozGH7yTsX
+--dNzztd0bVhFpAfND
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename=config
 
@@ -5227,4 +5285,4 @@ CONFIG_MEMTEST=y
 # end of Rust hacking
 # end of Kernel hacking
 
---LIqKPGuozGH7yTsX--
+--dNzztd0bVhFpAfND--
