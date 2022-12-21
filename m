@@ -1,68 +1,68 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67BC52F22
-	for <oe-kbuild@lists.linux.dev>; Wed, 21 Dec 2022 19:43:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9303133C1
+	for <oe-kbuild@lists.linux.dev>; Wed, 21 Dec 2022 21:54:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1671651783; x=1703187783;
+  t=1671659667; x=1703195667;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=NieikcbN/sMT+34zeMavDr/MhtaIRCwM4r/J1YmX4ro=;
-  b=ndiulOMbV6LfsGVJaGFonPMZlNjgvyZLpakWSWDiy3c3eT3quWC6N8bp
-   2py1JVLcQn7OI7EOECR/GOKBBUwOvo7envOqEghK6j94d/ZaDMjv12omu
-   8Z2rreBwX0tRl+MOTh/bQrOruqIVoPCCuFDk+vNf4858uTXhrDmkWLXG0
-   df/T4UC5kEsrLLe2IWMDXwGqteFB5/ZxMPQjWaTAQqrh5t0O00TWJi0SJ
-   la+3GgD1G0/p38kD3j1Hnc4pnaXIJjBO4xST3JEb5QiquSyHzfITKiUNw
-   uxNgIbIA1qCHsn4oNGRJ2xwfdar2ipmBahfkoslAtRa3rMoC5v2FeWn/J
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10568"; a="321138114"
+  bh=QkkT9VBvqv1yK/XVSUOsITl65LAo6UA6Ona1GTo39wU=;
+  b=fGq2bcooYVOXFDIxU3+TsYm9PDzGvywxxEe6j+/cxemE9jML8cvkmCRo
+   CbSyX3kFm2Sw5zMgBB9EjYc9hmDUiFGER5z+nCU0616F9HJopv21+pDzu
+   tyGRFadLwYJnUimh6uSmS178KlWLMaubRHznpXmQnvWlQ4Nk0BrTL66Oh
+   AbOmUb1hzxXeaEz7hVqWnblv5CgrmH2eB17KtK5Cg2HXRP/EYe76yIi/n
+   InpRIv/vhtzZvG1FjEEATmA5RvjEuoLR5DBZTD9yDe9fWJTmYy7HgND0G
+   FPabuNDcWLbZ9chkZKDdCAGUAyRD0F0qxjgicfy7+kE6xxdovFlL+bNfq
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10568"; a="347116360"
 X-IronPort-AV: E=Sophos;i="5.96,263,1665471600"; 
-   d="scan'208";a="321138114"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2022 11:43:02 -0800
+   d="scan'208";a="347116360"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2022 13:54:25 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10568"; a="793821948"
+X-IronPort-AV: E=McAfee;i="6500,9779,10568"; a="740316437"
 X-IronPort-AV: E=Sophos;i="5.96,263,1665471600"; 
-   d="scan'208";a="793821948"
+   d="scan'208";a="740316437"
 Received: from lkp-server01.sh.intel.com (HELO b5d47979f3ad) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 21 Dec 2022 11:43:00 -0800
+  by FMSMGA003.fm.intel.com with ESMTP; 21 Dec 2022 13:54:16 -0800
 Received: from kbuild by b5d47979f3ad with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1p84zT-000Aig-24;
-	Wed, 21 Dec 2022 19:42:59 +0000
-Date: Thu, 22 Dec 2022 03:42:07 +0800
+	id 1p872W-000ArE-0X;
+	Wed, 21 Dec 2022 21:54:16 +0000
+Date: Thu, 22 Dec 2022 05:53:26 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [linux-next:pending-fixes 11433/14043] sound/hda/hdac_stream.c:544
- snd_hdac_stream_setup_periods() error: uninitialized symbol 'dmab'.
-Message-ID: <202212220331.QYeOSiXI-lkp@intel.com>
+Subject: [linux-next:master 15350/15568] drivers/block/virtio_blk.c:706
+ virtblk_probe_zoned_device() error: uninitialized symbol 'virtio_cread_v'.
+Message-ID: <202212220520.lnRv3dCU-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="VvrKKdSz5jC1fC35"
+Content-Type: multipart/mixed; boundary="XVlv1CywMtJv7jLE"
 Content-Disposition: inline
 
 
---VvrKKdSz5jC1fC35
+--XVlv1CywMtJv7jLE
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Cezary Rojewski <cezary.rojewski@intel.com>
-CC: Mark Brown <broonie@kernel.org>
-CC: Divya Prakash <divya1.prakash@intel.com>
+TO: Dmitry Fomichev <dmitry.fomichev@wdc.com>
+CC: "Michael S. Tsirkin" <mst@redhat.com>
+CC: Stefan Hajnoczi <stefanha@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git pending-fixes
-head:   c28c7d2a33a85439d90c17712b71ec6907033d5f
-commit: 3e9582267e3a06bfd9622dbd2304a8cfac977b43 [11433/14043] ALSA: hda: Interrupt servicing and BDL setup for compress streams
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   e45fb347b630ee76482fe938ba76cf8eab811290
+commit: 0562d7bf160402c59dd08547d56e63afaefaaec9 [15350/15568] virtio-blk: add support for zoned block devices
 :::::: branch date: 2 days ago
-:::::: commit date: 2 weeks ago
+:::::: commit date: 2 days ago
 config: csky-randconfig-m041-20221218
 compiler: csky-linux-gcc (GCC) 12.1.0
 
@@ -70,109 +70,135 @@ If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
 
-smatch warnings:
-sound/hda/hdac_stream.c:544 snd_hdac_stream_setup_periods() error: uninitialized symbol 'dmab'.
+New smatch warnings:
+drivers/block/virtio_blk.c:706 virtblk_probe_zoned_device() error: uninitialized symbol 'virtio_cread_v'.
 
-vim +/dmab +544 sound/hda/hdac_stream.c
+Old smatch warnings:
+drivers/block/virtio_blk.c:712 virtblk_probe_zoned_device() error: uninitialized symbol 'virtio_cread_v'.
+drivers/block/virtio_blk.c:717 virtblk_probe_zoned_device() error: uninitialized symbol 'virtio_cread_v'.
+drivers/block/virtio_blk.c:732 virtblk_probe_zoned_device() error: uninitialized symbol 'virtio_cread_v'.
+drivers/block/virtio_blk.c:750 virtblk_probe_zoned_device() error: uninitialized symbol 'virtio_cread_v'.
+drivers/block/virtio_blk.c:825 virtblk_getgeo() error: uninitialized symbol 'virtio_cread_v'.
+drivers/block/virtio_blk.c:900 virtblk_update_capacity() error: uninitialized symbol 'virtio_cread_v'.
+drivers/block/virtio_blk.c:949 init_vq() error: uninitialized symbol 'virtio_cread_v'.
+drivers/block/virtio_blk.c:1245 virtblk_probe() error: uninitialized symbol 'virtio_cread_v'.
+drivers/block/virtio_blk.c:1333 virtblk_probe() error: uninitialized symbol 'virtio_cread_v'.
+drivers/block/virtio_blk.c:1341 virtblk_probe() error: uninitialized symbol 'virtio_cread_v'.
+drivers/block/virtio_blk.c:1371 virtblk_probe() error: uninitialized symbol 'virtio_cread_v'.
+drivers/block/virtio_blk.c:1377 virtblk_probe() error: uninitialized symbol 'virtio_cread_v'.
+drivers/block/virtio_blk.c:1384 virtblk_probe() error: uninitialized symbol 'virtio_cread_v'.
+drivers/block/virtio_blk.c:1387 virtblk_probe() error: uninitialized symbol 'virtio_cread_v'.
+drivers/block/virtio_blk.c:1391 virtblk_probe() error: uninitialized symbol 'virtio_cread_v'.
+drivers/block/virtio_blk.c:1396 virtblk_probe() error: uninitialized symbol 'virtio_cread_v'.
+drivers/block/virtio_blk.c:1415 virtblk_probe() error: uninitialized symbol 'virtio_cread_v'.
+drivers/block/virtio_blk.c:1430 virtblk_probe() error: uninitialized symbol 'virtio_cread_v'.
+drivers/block/virtio_blk.c:1445 virtblk_probe() error: uninitialized symbol 'virtio_cread_v'.
 
-14752412721c61 Takashi Iwai       2015-04-14  479  
-14752412721c61 Takashi Iwai       2015-04-14  480  /**
-14752412721c61 Takashi Iwai       2015-04-14  481   * snd_hdac_stream_setup_periods - set up BDL entries
-14752412721c61 Takashi Iwai       2015-04-14  482   * @azx_dev: HD-audio core stream to set up
-14752412721c61 Takashi Iwai       2015-04-14  483   *
-14752412721c61 Takashi Iwai       2015-04-14  484   * Set up the buffer descriptor table of the given stream based on the
-14752412721c61 Takashi Iwai       2015-04-14  485   * period and buffer sizes of the assigned PCM substream.
-14752412721c61 Takashi Iwai       2015-04-14  486   */
-14752412721c61 Takashi Iwai       2015-04-14  487  int snd_hdac_stream_setup_periods(struct hdac_stream *azx_dev)
-14752412721c61 Takashi Iwai       2015-04-14  488  {
-14752412721c61 Takashi Iwai       2015-04-14  489  	struct hdac_bus *bus = azx_dev->bus;
-14752412721c61 Takashi Iwai       2015-04-14  490  	struct snd_pcm_substream *substream = azx_dev->substream;
-3e9582267e3a06 Cezary Rojewski    2022-12-02  491  	struct snd_compr_stream *cstream = azx_dev->cstream;
-3e9582267e3a06 Cezary Rojewski    2022-12-02  492  	struct snd_pcm_runtime *runtime = NULL;
-f6b1254664a0a1 Cezary Rojewski    2022-12-02  493  	struct snd_dma_buffer *dmab;
-14752412721c61 Takashi Iwai       2015-04-14  494  	__le32 *bdl;
-14752412721c61 Takashi Iwai       2015-04-14  495  	int i, ofs, periods, period_bytes;
-14752412721c61 Takashi Iwai       2015-04-14  496  	int pos_adj, pos_align;
-14752412721c61 Takashi Iwai       2015-04-14  497  
-3e9582267e3a06 Cezary Rojewski    2022-12-02  498  	if (substream) {
-f6b1254664a0a1 Cezary Rojewski    2022-12-02  499  		runtime = substream->runtime;
-f6b1254664a0a1 Cezary Rojewski    2022-12-02  500  		dmab = snd_pcm_get_dma_buf(substream);
-3e9582267e3a06 Cezary Rojewski    2022-12-02  501  	} else if (cstream) {
-3e9582267e3a06 Cezary Rojewski    2022-12-02  502  		dmab = snd_pcm_get_dma_buf(cstream);
-3e9582267e3a06 Cezary Rojewski    2022-12-02  503  	}
-f6b1254664a0a1 Cezary Rojewski    2022-12-02  504  
-14752412721c61 Takashi Iwai       2015-04-14  505  	/* reset BDL address */
-14752412721c61 Takashi Iwai       2015-04-14  506  	snd_hdac_stream_writel(azx_dev, SD_BDLPL, 0);
-14752412721c61 Takashi Iwai       2015-04-14  507  	snd_hdac_stream_writel(azx_dev, SD_BDLPU, 0);
-14752412721c61 Takashi Iwai       2015-04-14  508  
-14752412721c61 Takashi Iwai       2015-04-14  509  	period_bytes = azx_dev->period_bytes;
-14752412721c61 Takashi Iwai       2015-04-14  510  	periods = azx_dev->bufsize / period_bytes;
-14752412721c61 Takashi Iwai       2015-04-14  511  
-14752412721c61 Takashi Iwai       2015-04-14  512  	/* program the initial BDL entries */
-14752412721c61 Takashi Iwai       2015-04-14  513  	bdl = (__le32 *)azx_dev->bdl.area;
-14752412721c61 Takashi Iwai       2015-04-14  514  	ofs = 0;
-14752412721c61 Takashi Iwai       2015-04-14  515  	azx_dev->frags = 0;
-14752412721c61 Takashi Iwai       2015-04-14  516  
-14752412721c61 Takashi Iwai       2015-04-14  517  	pos_adj = bus->bdl_pos_adj;
-f6b1254664a0a1 Cezary Rojewski    2022-12-02  518  	if (runtime && !azx_dev->no_period_wakeup && pos_adj > 0) {
-14752412721c61 Takashi Iwai       2015-04-14  519  		pos_align = pos_adj;
-81d0ec4349ec53 Lars-Peter Clausen 2020-12-23  520  		pos_adj = DIV_ROUND_UP(pos_adj * runtime->rate, 48000);
-14752412721c61 Takashi Iwai       2015-04-14  521  		if (!pos_adj)
-14752412721c61 Takashi Iwai       2015-04-14  522  			pos_adj = pos_align;
-14752412721c61 Takashi Iwai       2015-04-14  523  		else
-81d0ec4349ec53 Lars-Peter Clausen 2020-12-23  524  			pos_adj = roundup(pos_adj, pos_align);
-14752412721c61 Takashi Iwai       2015-04-14  525  		pos_adj = frames_to_bytes(runtime, pos_adj);
-14752412721c61 Takashi Iwai       2015-04-14  526  		if (pos_adj >= period_bytes) {
-14752412721c61 Takashi Iwai       2015-04-14  527  			dev_warn(bus->dev, "Too big adjustment %d\n",
-14752412721c61 Takashi Iwai       2015-04-14  528  				 pos_adj);
-14752412721c61 Takashi Iwai       2015-04-14  529  			pos_adj = 0;
-14752412721c61 Takashi Iwai       2015-04-14  530  		} else {
-f6b1254664a0a1 Cezary Rojewski    2022-12-02  531  			ofs = setup_bdle(bus, dmab, azx_dev,
-14752412721c61 Takashi Iwai       2015-04-14  532  					 &bdl, ofs, pos_adj, true);
-14752412721c61 Takashi Iwai       2015-04-14  533  			if (ofs < 0)
-14752412721c61 Takashi Iwai       2015-04-14  534  				goto error;
-14752412721c61 Takashi Iwai       2015-04-14  535  		}
-14752412721c61 Takashi Iwai       2015-04-14  536  	} else
-14752412721c61 Takashi Iwai       2015-04-14  537  		pos_adj = 0;
-14752412721c61 Takashi Iwai       2015-04-14  538  
-14752412721c61 Takashi Iwai       2015-04-14  539  	for (i = 0; i < periods; i++) {
-14752412721c61 Takashi Iwai       2015-04-14  540  		if (i == periods - 1 && pos_adj)
-f6b1254664a0a1 Cezary Rojewski    2022-12-02  541  			ofs = setup_bdle(bus, dmab, azx_dev,
-f6b1254664a0a1 Cezary Rojewski    2022-12-02  542  					 &bdl, ofs, period_bytes - pos_adj, 0);
-14752412721c61 Takashi Iwai       2015-04-14  543  		else
-f6b1254664a0a1 Cezary Rojewski    2022-12-02 @544  			ofs = setup_bdle(bus, dmab, azx_dev,
-f6b1254664a0a1 Cezary Rojewski    2022-12-02  545  					 &bdl, ofs, period_bytes,
-14752412721c61 Takashi Iwai       2015-04-14  546  					 !azx_dev->no_period_wakeup);
-14752412721c61 Takashi Iwai       2015-04-14  547  		if (ofs < 0)
-14752412721c61 Takashi Iwai       2015-04-14  548  			goto error;
-14752412721c61 Takashi Iwai       2015-04-14  549  	}
-14752412721c61 Takashi Iwai       2015-04-14  550  	return 0;
-14752412721c61 Takashi Iwai       2015-04-14  551  
-14752412721c61 Takashi Iwai       2015-04-14  552   error:
-14752412721c61 Takashi Iwai       2015-04-14  553  	dev_err(bus->dev, "Too many BDL entries: buffer=%d, period=%d\n",
-14752412721c61 Takashi Iwai       2015-04-14  554  		azx_dev->bufsize, period_bytes);
-14752412721c61 Takashi Iwai       2015-04-14  555  	return -EINVAL;
-14752412721c61 Takashi Iwai       2015-04-14  556  }
-14752412721c61 Takashi Iwai       2015-04-14  557  EXPORT_SYMBOL_GPL(snd_hdac_stream_setup_periods);
-14752412721c61 Takashi Iwai       2015-04-14  558  
+vim +/virtio_cread_v +706 drivers/block/virtio_blk.c
 
-:::::: The code at line 544 was first introduced by commit
-:::::: f6b1254664a0a15c8bbe0a17b2c86840aa38d3d7 ALSA: hda: Prepare for compress stream support
-
-:::::: TO: Cezary Rojewski <cezary.rojewski@intel.com>
-:::::: CC: Mark Brown <broonie@kernel.org>
+0562d7bf160402 Dmitry Fomichev 2022-10-15  672  
+0562d7bf160402 Dmitry Fomichev 2022-10-15  673  static int virtblk_probe_zoned_device(struct virtio_device *vdev,
+0562d7bf160402 Dmitry Fomichev 2022-10-15  674  				       struct virtio_blk *vblk,
+0562d7bf160402 Dmitry Fomichev 2022-10-15  675  				       struct request_queue *q)
+0562d7bf160402 Dmitry Fomichev 2022-10-15  676  {
+0562d7bf160402 Dmitry Fomichev 2022-10-15  677  	u32 v;
+0562d7bf160402 Dmitry Fomichev 2022-10-15  678  	u8 model;
+0562d7bf160402 Dmitry Fomichev 2022-10-15  679  	int ret;
+0562d7bf160402 Dmitry Fomichev 2022-10-15  680  
+0562d7bf160402 Dmitry Fomichev 2022-10-15  681  	virtio_cread(vdev, struct virtio_blk_config,
+0562d7bf160402 Dmitry Fomichev 2022-10-15  682  		     zoned.model, &model);
+0562d7bf160402 Dmitry Fomichev 2022-10-15  683  
+0562d7bf160402 Dmitry Fomichev 2022-10-15  684  	switch (model) {
+0562d7bf160402 Dmitry Fomichev 2022-10-15  685  	case VIRTIO_BLK_Z_NONE:
+0562d7bf160402 Dmitry Fomichev 2022-10-15  686  		return 0;
+0562d7bf160402 Dmitry Fomichev 2022-10-15  687  	case VIRTIO_BLK_Z_HM:
+0562d7bf160402 Dmitry Fomichev 2022-10-15  688  		break;
+0562d7bf160402 Dmitry Fomichev 2022-10-15  689  	case VIRTIO_BLK_Z_HA:
+0562d7bf160402 Dmitry Fomichev 2022-10-15  690  		/*
+0562d7bf160402 Dmitry Fomichev 2022-10-15  691  		 * Present the host-aware device as a regular drive.
+0562d7bf160402 Dmitry Fomichev 2022-10-15  692  		 * TODO It is possible to add an option to make it appear
+0562d7bf160402 Dmitry Fomichev 2022-10-15  693  		 * in the system as a zoned drive.
+0562d7bf160402 Dmitry Fomichev 2022-10-15  694  		 */
+0562d7bf160402 Dmitry Fomichev 2022-10-15  695  		return 0;
+0562d7bf160402 Dmitry Fomichev 2022-10-15  696  	default:
+0562d7bf160402 Dmitry Fomichev 2022-10-15  697  		dev_err(&vdev->dev, "unsupported zone model %d\n", model);
+0562d7bf160402 Dmitry Fomichev 2022-10-15  698  		return -EINVAL;
+0562d7bf160402 Dmitry Fomichev 2022-10-15  699  	}
+0562d7bf160402 Dmitry Fomichev 2022-10-15  700  
+0562d7bf160402 Dmitry Fomichev 2022-10-15  701  	dev_dbg(&vdev->dev, "probing host-managed zoned device\n");
+0562d7bf160402 Dmitry Fomichev 2022-10-15  702  
+0562d7bf160402 Dmitry Fomichev 2022-10-15  703  	disk_set_zoned(vblk->disk, BLK_ZONED_HM);
+0562d7bf160402 Dmitry Fomichev 2022-10-15  704  	blk_queue_flag_set(QUEUE_FLAG_ZONE_RESETALL, q);
+0562d7bf160402 Dmitry Fomichev 2022-10-15  705  
+0562d7bf160402 Dmitry Fomichev 2022-10-15 @706  	virtio_cread(vdev, struct virtio_blk_config,
+0562d7bf160402 Dmitry Fomichev 2022-10-15  707  		     zoned.max_open_zones, &v);
+0562d7bf160402 Dmitry Fomichev 2022-10-15  708  	disk_set_max_open_zones(vblk->disk, le32_to_cpu(v));
+0562d7bf160402 Dmitry Fomichev 2022-10-15  709  
+0562d7bf160402 Dmitry Fomichev 2022-10-15  710  	dev_dbg(&vdev->dev, "max open zones = %u\n", le32_to_cpu(v));
+0562d7bf160402 Dmitry Fomichev 2022-10-15  711  
+0562d7bf160402 Dmitry Fomichev 2022-10-15  712  	virtio_cread(vdev, struct virtio_blk_config,
+0562d7bf160402 Dmitry Fomichev 2022-10-15  713  		     zoned.max_active_zones, &v);
+0562d7bf160402 Dmitry Fomichev 2022-10-15  714  	disk_set_max_active_zones(vblk->disk, le32_to_cpu(v));
+0562d7bf160402 Dmitry Fomichev 2022-10-15  715  	dev_dbg(&vdev->dev, "max active zones = %u\n", le32_to_cpu(v));
+0562d7bf160402 Dmitry Fomichev 2022-10-15  716  
+0562d7bf160402 Dmitry Fomichev 2022-10-15  717  	virtio_cread(vdev, struct virtio_blk_config,
+0562d7bf160402 Dmitry Fomichev 2022-10-15  718  		     zoned.write_granularity, &v);
+0562d7bf160402 Dmitry Fomichev 2022-10-15  719  	if (!v) {
+0562d7bf160402 Dmitry Fomichev 2022-10-15  720  		dev_warn(&vdev->dev, "zero write granularity reported\n");
+0562d7bf160402 Dmitry Fomichev 2022-10-15  721  		return -ENODEV;
+0562d7bf160402 Dmitry Fomichev 2022-10-15  722  	}
+0562d7bf160402 Dmitry Fomichev 2022-10-15  723  	blk_queue_physical_block_size(q, le32_to_cpu(v));
+0562d7bf160402 Dmitry Fomichev 2022-10-15  724  	blk_queue_io_min(q, le32_to_cpu(v));
+0562d7bf160402 Dmitry Fomichev 2022-10-15  725  
+0562d7bf160402 Dmitry Fomichev 2022-10-15  726  	dev_dbg(&vdev->dev, "write granularity = %u\n", le32_to_cpu(v));
+0562d7bf160402 Dmitry Fomichev 2022-10-15  727  
+0562d7bf160402 Dmitry Fomichev 2022-10-15  728  	/*
+0562d7bf160402 Dmitry Fomichev 2022-10-15  729  	 * virtio ZBD specification doesn't require zones to be a power of
+0562d7bf160402 Dmitry Fomichev 2022-10-15  730  	 * two sectors in size, but the code in this driver expects that.
+0562d7bf160402 Dmitry Fomichev 2022-10-15  731  	 */
+0562d7bf160402 Dmitry Fomichev 2022-10-15  732  	virtio_cread(vdev, struct virtio_blk_config, zoned.zone_sectors, &v);
+0562d7bf160402 Dmitry Fomichev 2022-10-15  733  	vblk->zone_sectors = le32_to_cpu(v);
+0562d7bf160402 Dmitry Fomichev 2022-10-15  734  	if (vblk->zone_sectors == 0 || !is_power_of_2(vblk->zone_sectors)) {
+0562d7bf160402 Dmitry Fomichev 2022-10-15  735  		dev_err(&vdev->dev,
+0562d7bf160402 Dmitry Fomichev 2022-10-15  736  			"zoned device with non power of two zone size %u\n",
+0562d7bf160402 Dmitry Fomichev 2022-10-15  737  			vblk->zone_sectors);
+0562d7bf160402 Dmitry Fomichev 2022-10-15  738  		return -ENODEV;
+0562d7bf160402 Dmitry Fomichev 2022-10-15  739  	}
+0562d7bf160402 Dmitry Fomichev 2022-10-15  740  	dev_dbg(&vdev->dev, "zone sectors = %u\n", vblk->zone_sectors);
+0562d7bf160402 Dmitry Fomichev 2022-10-15  741  
+0562d7bf160402 Dmitry Fomichev 2022-10-15  742  	if (virtio_has_feature(vdev, VIRTIO_BLK_F_DISCARD)) {
+0562d7bf160402 Dmitry Fomichev 2022-10-15  743  		dev_warn(&vblk->vdev->dev,
+0562d7bf160402 Dmitry Fomichev 2022-10-15  744  			 "ignoring negotiated F_DISCARD for zoned device\n");
+0562d7bf160402 Dmitry Fomichev 2022-10-15  745  		blk_queue_max_discard_sectors(q, 0);
+0562d7bf160402 Dmitry Fomichev 2022-10-15  746  	}
+0562d7bf160402 Dmitry Fomichev 2022-10-15  747  
+0562d7bf160402 Dmitry Fomichev 2022-10-15  748  	ret = blk_revalidate_disk_zones(vblk->disk, NULL);
+0562d7bf160402 Dmitry Fomichev 2022-10-15  749  	if (!ret) {
+0562d7bf160402 Dmitry Fomichev 2022-10-15  750  		virtio_cread(vdev, struct virtio_blk_config,
+0562d7bf160402 Dmitry Fomichev 2022-10-15  751  			     zoned.max_append_sectors, &v);
+0562d7bf160402 Dmitry Fomichev 2022-10-15  752  		if (!v) {
+0562d7bf160402 Dmitry Fomichev 2022-10-15  753  			dev_warn(&vdev->dev, "zero max_append_sectors reported\n");
+0562d7bf160402 Dmitry Fomichev 2022-10-15  754  			return -ENODEV;
+0562d7bf160402 Dmitry Fomichev 2022-10-15  755  		}
+0562d7bf160402 Dmitry Fomichev 2022-10-15  756  		blk_queue_max_zone_append_sectors(q, le32_to_cpu(v));
+0562d7bf160402 Dmitry Fomichev 2022-10-15  757  		dev_dbg(&vdev->dev, "max append sectors = %u\n", le32_to_cpu(v));
+0562d7bf160402 Dmitry Fomichev 2022-10-15  758  	}
+0562d7bf160402 Dmitry Fomichev 2022-10-15  759  
+0562d7bf160402 Dmitry Fomichev 2022-10-15  760  	return ret;
+0562d7bf160402 Dmitry Fomichev 2022-10-15  761  }
+0562d7bf160402 Dmitry Fomichev 2022-10-15  762  
 
 -- 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
 
---VvrKKdSz5jC1fC35
+--XVlv1CywMtJv7jLE
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename=config
 
 #
 # Automatically generated file; DO NOT EDIT.
-# Linux/csky 6.1.0-rc6 Kernel Configuration
+# Linux/csky 6.1.0 Kernel Configuration
 #
 CONFIG_CC_VERSION_TEXT="csky-linux-gcc (GCC) 12.1.0"
 CONFIG_CC_IS_GCC=y
@@ -184,6 +210,7 @@ CONFIG_LD_IS_BFD=y
 CONFIG_LD_VERSION=23800
 CONFIG_LLD_VERSION=0
 CONFIG_CC_HAS_ASM_GOTO_OUTPUT=y
+CONFIG_CC_HAS_ASM_GOTO_TIED_OUTPUT=y
 CONFIG_CC_HAS_ASM_INLINE=y
 CONFIG_CC_HAS_NO_PROFILE_FN_ATTR=y
 CONFIG_PAHOLE_VERSION=123
@@ -5854,4 +5881,4 @@ CONFIG_TEST_MEMCAT_P=y
 # CONFIG_WARN_ABI_ERRORS is not set
 # end of Kernel hacking
 
---VvrKKdSz5jC1fC35--
+--XVlv1CywMtJv7jLE--
