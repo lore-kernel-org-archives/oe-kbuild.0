@@ -1,56 +1,48 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B5C717CD;
-	Fri, 23 Dec 2022 10:51:30 +0000 (UTC)
-Received: by mail-wr1-f41.google.com with SMTP id h7so4229225wrs.6;
-        Fri, 23 Dec 2022 02:51:30 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A29F217CD;
+	Fri, 23 Dec 2022 10:53:41 +0000 (UTC)
+Received: by mail-wm1-f44.google.com with SMTP id k22-20020a05600c1c9600b003d1ee3a6289so3277098wms.2;
+        Fri, 23 Dec 2022 02:53:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=KUWOtdUH/FK6dlyyQTRzoX4Sh0nW9DKrQ5zYKQvxpFU=;
-        b=elDT9SSTCYJwpX1IJbgt/hKt2N+JNOnJpDRWNMTjq1U8+baoAy730MHcB5CbB9xic+
-         Iz2DOM3t9JF4HzVv9A9zOY6WX/BmOUNGaTaSvM6SoXHgxC2qcHlpzdLM4Xmj/xKPAWSi
-         JF9jFZNRAlAYGQ4NpUuj8WdJIzsyZM6ZdvrvRDzybqajyY/14AFsytT2WZZMWK4xO5Sn
-         AWXZCiniLxYWuUQJqVZjiuboBFOA7qN3+i+s13Q0aopecvHJH9xVOlUHFwr4uE/Bz0d4
-         5VpDIflUG54W5MXZjHDD4KkEenR7SOz2sioQl8xh6UxnpsFZJ9/IVcJ2nJneiA/pT0Qn
-         EvfQ==
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=X2/KBeOm5WvTRrZMcgOXpdegb3AFX1I4OlQWMmak0Hw=;
+        b=lG6cuL5FI/ZSBZ4WwnoRPM8Y2GCZSpH/7ly5QCJjmrLdFafkFJFiDc1y/rYGoEC2G5
+         hfCmbMMjpav4C57wio+QMecbiLYwUQfQJGv2n+HzSWo1cNZGx0K04NwZV9YBgrbol4/q
+         x68K06KUOjvnRCCNV9AUBicVI2OviOVfK8MI9dg7yauO49kU7Xl4xjJsRrB9eFe4OEKd
+         H2g563za4Tn6qXIObjAXmCfiZfR9EYUVqq6Fvp03ugeOu4GIGf5D3nE5QYhBeMx+ot/W
+         g5zQC6psCtxJ+95ESCsB+v4XtQU1J0u90c2+v/oykf9P/mvYUOs8hNbpGk2s55klvAxI
+         AhNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=KUWOtdUH/FK6dlyyQTRzoX4Sh0nW9DKrQ5zYKQvxpFU=;
-        b=CqyL1RBBOfeFxieVVyTysbJ8wvj7bgBt6sNRaOteCqzykzazUn8gghzr5loZzrVbcD
-         QuxFXaeUkBSwN/6e0FNIVnlth0GC4Q1AoVii4l3BPA/RGvr8LAWF/70DkH8UVMySMd9e
-         saXhyodk/dyPR+Mca50yVtUYBC72GjVHlvNUaQoM7TaRvcw7wmn2Bmrgf+sg6jqovaEb
-         jj7N8cYh5hMhNT6tBWXcCUky8S5UJtQ9VAvEzMmUfkSL1WIAU7Z624cFbOK2SLWPGEb/
-         dblGgYeylXoW543lVsPMis7b1j1Jwk35D7BawPr+UWrvi/4fjvKuLmEHMl0UWn4xbr+3
-         clwQ==
-X-Gm-Message-State: AFqh2korysnybbO/jO+6M5Y4SzDOBmU5I9PSKL7Pmpr+ZQ+HfdaiTnN1
-	hvj5rdOb57tzRGg04Tpi09sEpJKPTRVZTA==
-X-Google-Smtp-Source: AMrXdXvKT4FLelieQBXnujk8dewb7kPihUuwPzrNoDmQ3unvPeeIhL6nvRz8OCPTP10D9os/xGrVgQ==
-X-Received: by 2002:a5d:6a4c:0:b0:242:5878:291e with SMTP id t12-20020a5d6a4c000000b002425878291emr6192106wrw.51.1671792688652;
-        Fri, 23 Dec 2022 02:51:28 -0800 (PST)
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=X2/KBeOm5WvTRrZMcgOXpdegb3AFX1I4OlQWMmak0Hw=;
+        b=hGP6lDW3Fa3YsIaKscvGyhhNn0BDBpV4U+r6dTCwE5rYzmCWPBlKm53ClP1nLmWAZU
+         tCd+kyZBUEU3CE7lTjYUQJ0aApkMW8yil5pMmoPjOmFJhePHd0dClY4f/kjwPxX2Lhvd
+         voX6xK9fOuDQoLLl85mVx7v63NsId+NTkJraNd0wCKs80u3xz3/d0c23qlOzpFA9m/8f
+         g/JwHLkKv+mcUl4wN1w7e6cbNVIad3McN9HYOpK0OBGDYWenG6vCZpcl2Oo/rYhAUAxf
+         Hmg+YU5zBr9gUlLKtabrZx6hkjzdE7WnzNXk0zeIIIXvkXQnnArbENdm/WKYBBngJYbC
+         Oiyw==
+X-Gm-Message-State: AFqh2krUuzlP+PE/xpOrUvct9mAzPjdNjTuBQTohzlbsmf0or5nAdt8F
+	+vB3eCgkH9W5g2PsviUu0XKg18QTgUpvnw==
+X-Google-Smtp-Source: AMrXdXuAj5867ALnN79KMy8nBqV5bAl323GGJlfhZ6eMH+F5ie5gBbtr8PniGhgPu7K7+hIGy792lw==
+X-Received: by 2002:a05:600c:34c4:b0:3d1:bf7c:391c with SMTP id d4-20020a05600c34c400b003d1bf7c391cmr9696299wmq.4.1671792819768;
+        Fri, 23 Dec 2022 02:53:39 -0800 (PST)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id b10-20020adfe64a000000b00242271fd2besm2873217wrn.89.2022.12.23.02.51.27
+        by smtp.gmail.com with ESMTPSA id t6-20020a05600c198600b003d07de1698asm9596250wmq.46.2022.12.23.02.53.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Dec 2022 02:51:28 -0800 (PST)
-Date: Fri, 23 Dec 2022 13:51:25 +0300
+        Fri, 23 Dec 2022 02:53:39 -0800 (PST)
+Date: Fri, 23 Dec 2022 13:53:31 +0300
 From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, Dave Marchevsky <davemarchevsky@fb.com>,
-	bpf@vger.kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Kernel Team <kernel-team@fb.com>,
-	Kumar Kartikeya Dwivedi <memxor@gmail.com>,
-	Tejun Heo <tj@kernel.org>, Dave Marchevsky <davemarchevsky@fb.com>
-Subject: Re: [PATCH v2 bpf-next 02/13] bpf: Migrate release_on_unlock logic
- to non-owning ref semantics
-Message-ID: <202212171800.H94NtsOB-lkp@intel.com>
+To: oe-kbuild@lists.linux.dev, steven@liquorix.net
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [zen:6.1/ksm 3/5] mm/madvise.c:1598 __do_sys_pmadv_ksm() error:
+ uninitialized symbol 'ret'.
+Message-ID: <202212180655.CtZfq7S6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -59,15 +51,11 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221217082506.1570898-3-davemarchevsky@fb.com>
-Message-ID: <20221223105125.hJ6oZSeoy49XM_Dp4qI6-ig5SxtmRiCGjagfcWBlUk8@z>
+Message-ID: <20221223105331._c7qnLWZQRRDqApZYixLjhA5kTG4_5LsDWpihanRYF0@z>
 
-Hi Dave,
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Dave-Marchevsky/BPF-rbtree-next-gen-datastructure/20221217-162646
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20221217082506.1570898-3-davemarchevsky%40fb.com
-patch subject: [PATCH v2 bpf-next 02/13] bpf: Migrate release_on_unlock logic to non-owning ref semantics
+tree:   https://github.com/zen-kernel/zen-kernel 6.1/ksm
+head:   0631dfe8ed582b8e764ae7ec123ecea913b5cd2f
+commit: 4cebef89a624559aeb3037128995ba2eab545757 [3/5] mm: introduce pmadv_ksm system call
 config: x86_64-randconfig-m001
 compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 
@@ -76,29 +64,97 @@ If you fix the issue, kindly add following tag where applicable
 | Reported-by: Dan Carpenter <error27@gmail.com>
 
 smatch warnings:
-kernel/bpf/verifier.c:6275 reg_find_field_offset() warn: variable dereferenced before check 'reg' (see line 6274)
+mm/madvise.c:1598 __do_sys_pmadv_ksm() error: uninitialized symbol 'ret'.
+mm/madvise.c:1598 __do_sys_pmadv_ksm() error: uninitialized symbol 'ret'.
 
-vim +/reg +6275 kernel/bpf/verifier.c
+vim +/ret +1598 mm/madvise.c
 
-4ed17b8d6842ba Dave Marchevsky 2022-12-17  6268  static struct btf_field *
-4ed17b8d6842ba Dave Marchevsky 2022-12-17  6269  reg_find_field_offset(const struct bpf_reg_state *reg, s32 off, u32 fields)
-4ed17b8d6842ba Dave Marchevsky 2022-12-17  6270  {
-4ed17b8d6842ba Dave Marchevsky 2022-12-17  6271  	struct btf_field *field;
-4ed17b8d6842ba Dave Marchevsky 2022-12-17  6272  	struct btf_record *rec;
-4ed17b8d6842ba Dave Marchevsky 2022-12-17  6273  
-4ed17b8d6842ba Dave Marchevsky 2022-12-17 @6274  	rec = reg_btf_record(reg);
-4ed17b8d6842ba Dave Marchevsky 2022-12-17 @6275  	if (!reg)
+4cebef89a62455 Oleksandr Natalenko 2021-10-04  1516  SYSCALL_DEFINE3(pmadv_ksm, int, pidfd, int, behaviour, unsigned int, flags)
+4cebef89a62455 Oleksandr Natalenko 2021-10-04  1517  {
+4cebef89a62455 Oleksandr Natalenko 2021-10-04  1518  #ifdef CONFIG_KSM
+4cebef89a62455 Oleksandr Natalenko 2021-10-04  1519  	ssize_t ret;
+4cebef89a62455 Oleksandr Natalenko 2021-10-04  1520  	struct pid *pid;
+4cebef89a62455 Oleksandr Natalenko 2021-10-04  1521  	struct task_struct *task;
+4cebef89a62455 Oleksandr Natalenko 2021-10-04  1522  	struct mm_struct *mm;
+4cebef89a62455 Oleksandr Natalenko 2021-10-04  1523  	unsigned int f_flags;
+4cebef89a62455 Oleksandr Natalenko 2021-10-04  1524  	struct vm_area_struct *vma;
+4cebef89a62455 Oleksandr Natalenko 2021-10-04  1525  	struct vma_iterator vmi;
+4cebef89a62455 Oleksandr Natalenko 2021-10-04  1526  
+4cebef89a62455 Oleksandr Natalenko 2021-10-04  1527  	if (flags != 0) {
+4cebef89a62455 Oleksandr Natalenko 2021-10-04  1528  		ret = -EINVAL;
+4cebef89a62455 Oleksandr Natalenko 2021-10-04  1529  		goto out;
+4cebef89a62455 Oleksandr Natalenko 2021-10-04  1530  	}
+4cebef89a62455 Oleksandr Natalenko 2021-10-04  1531  
+4cebef89a62455 Oleksandr Natalenko 2021-10-04  1532  	switch (behaviour) {
+4cebef89a62455 Oleksandr Natalenko 2021-10-04  1533  		case MADV_MERGEABLE:
+4cebef89a62455 Oleksandr Natalenko 2021-10-04  1534  		case MADV_UNMERGEABLE:
+4cebef89a62455 Oleksandr Natalenko 2021-10-04  1535  			break;
+4cebef89a62455 Oleksandr Natalenko 2021-10-04  1536  		default:
+4cebef89a62455 Oleksandr Natalenko 2021-10-04  1537  			ret = -EINVAL;
+4cebef89a62455 Oleksandr Natalenko 2021-10-04  1538  			goto out;
+4cebef89a62455 Oleksandr Natalenko 2021-10-04  1539  			break;
+4cebef89a62455 Oleksandr Natalenko 2021-10-04  1540  	}
+4cebef89a62455 Oleksandr Natalenko 2021-10-04  1541  
+4cebef89a62455 Oleksandr Natalenko 2021-10-04  1542  	pid = pidfd_get_pid(pidfd, &f_flags);
+4cebef89a62455 Oleksandr Natalenko 2021-10-04  1543  	if (IS_ERR(pid)) {
+4cebef89a62455 Oleksandr Natalenko 2021-10-04  1544  		ret = PTR_ERR(pid);
+4cebef89a62455 Oleksandr Natalenko 2021-10-04  1545  		goto out;
+4cebef89a62455 Oleksandr Natalenko 2021-10-04  1546  	}
+4cebef89a62455 Oleksandr Natalenko 2021-10-04  1547  
+4cebef89a62455 Oleksandr Natalenko 2021-10-04  1548  	task = get_pid_task(pid, PIDTYPE_PID);
+4cebef89a62455 Oleksandr Natalenko 2021-10-04  1549  	if (!task) {
+4cebef89a62455 Oleksandr Natalenko 2021-10-04  1550  		ret = -ESRCH;
+4cebef89a62455 Oleksandr Natalenko 2021-10-04  1551  		goto put_pid;
+4cebef89a62455 Oleksandr Natalenko 2021-10-04  1552  	}
+4cebef89a62455 Oleksandr Natalenko 2021-10-04  1553  
+4cebef89a62455 Oleksandr Natalenko 2021-10-04  1554  	/* Require PTRACE_MODE_READ to avoid leaking ASLR metadata. */
+4cebef89a62455 Oleksandr Natalenko 2021-10-04  1555  	mm = mm_access(task, PTRACE_MODE_READ_FSCREDS);
+4cebef89a62455 Oleksandr Natalenko 2021-10-04  1556  	if (IS_ERR_OR_NULL(mm)) {
+4cebef89a62455 Oleksandr Natalenko 2021-10-04  1557  		ret = IS_ERR(mm) ? PTR_ERR(mm) : -ESRCH;
+4cebef89a62455 Oleksandr Natalenko 2021-10-04  1558  		goto release_task;
+4cebef89a62455 Oleksandr Natalenko 2021-10-04  1559  	}
+4cebef89a62455 Oleksandr Natalenko 2021-10-04  1560  
+4cebef89a62455 Oleksandr Natalenko 2021-10-04  1561  	/* Require CAP_SYS_NICE for influencing process performance. */
+4cebef89a62455 Oleksandr Natalenko 2021-10-04  1562  	if (!capable(CAP_SYS_NICE)) {
+4cebef89a62455 Oleksandr Natalenko 2021-10-04  1563  		ret = -EPERM;
+4cebef89a62455 Oleksandr Natalenko 2021-10-04  1564  		goto release_mm;
+4cebef89a62455 Oleksandr Natalenko 2021-10-04  1565  	}
+4cebef89a62455 Oleksandr Natalenko 2021-10-04  1566  
+4cebef89a62455 Oleksandr Natalenko 2021-10-04  1567  	if (mmap_write_lock_killable(mm)) {
+4cebef89a62455 Oleksandr Natalenko 2021-10-04  1568  		ret = -EINTR;
+4cebef89a62455 Oleksandr Natalenko 2021-10-04  1569  		goto release_mm;
+4cebef89a62455 Oleksandr Natalenko 2021-10-04  1570  	}
+4cebef89a62455 Oleksandr Natalenko 2021-10-04  1571  
+4cebef89a62455 Oleksandr Natalenko 2021-10-04  1572  	vma_iter_init(&vmi, mm, 0);
+4cebef89a62455 Oleksandr Natalenko 2021-10-04  1573  	for_each_vma(vmi, vma) {
+4cebef89a62455 Oleksandr Natalenko 2021-10-04  1574  		switch (behaviour) {
+4cebef89a62455 Oleksandr Natalenko 2021-10-04  1575  			case MADV_MERGEABLE:
+4cebef89a62455 Oleksandr Natalenko 2021-10-04  1576  				ret = ksm_madvise_merge(vma->vm_mm, vma, &vma->vm_flags);
+4cebef89a62455 Oleksandr Natalenko 2021-10-04  1577  				break;
+4cebef89a62455 Oleksandr Natalenko 2021-10-04  1578  			case MADV_UNMERGEABLE:
+4cebef89a62455 Oleksandr Natalenko 2021-10-04  1579  				ret = ksm_madvise_unmerge(vma, vma->vm_start, vma->vm_end, &vma->vm_flags);
+4cebef89a62455 Oleksandr Natalenko 2021-10-04  1580  				break;
+4cebef89a62455 Oleksandr Natalenko 2021-10-04  1581  			default:
+4cebef89a62455 Oleksandr Natalenko 2021-10-04  1582  				/* look, ma, no brain */
 
-Is this supposed to test rec instead of reg?
+no error code.
 
-4ed17b8d6842ba Dave Marchevsky 2022-12-17  6276  		return NULL;
-4ed17b8d6842ba Dave Marchevsky 2022-12-17  6277  
-4ed17b8d6842ba Dave Marchevsky 2022-12-17  6278  	field = btf_record_find(rec, off, fields);
-4ed17b8d6842ba Dave Marchevsky 2022-12-17  6279  	if (!field)
-4ed17b8d6842ba Dave Marchevsky 2022-12-17  6280  		return NULL;
-4ed17b8d6842ba Dave Marchevsky 2022-12-17  6281  
-4ed17b8d6842ba Dave Marchevsky 2022-12-17  6282  	return field;
-4ed17b8d6842ba Dave Marchevsky 2022-12-17  6283  }
+4cebef89a62455 Oleksandr Natalenko 2021-10-04  1583  				break;
+4cebef89a62455 Oleksandr Natalenko 2021-10-04  1584  		}
+4cebef89a62455 Oleksandr Natalenko 2021-10-04  1585  		if (ret)
+4cebef89a62455 Oleksandr Natalenko 2021-10-04  1586  			break;
+4cebef89a62455 Oleksandr Natalenko 2021-10-04  1587  	}
+4cebef89a62455 Oleksandr Natalenko 2021-10-04  1588  
+4cebef89a62455 Oleksandr Natalenko 2021-10-04  1589  	mmap_write_unlock(mm);
+4cebef89a62455 Oleksandr Natalenko 2021-10-04  1590  
+4cebef89a62455 Oleksandr Natalenko 2021-10-04  1591  release_mm:
+4cebef89a62455 Oleksandr Natalenko 2021-10-04  1592  	mmput(mm);
+4cebef89a62455 Oleksandr Natalenko 2021-10-04  1593  release_task:
+4cebef89a62455 Oleksandr Natalenko 2021-10-04  1594  	put_task_struct(task);
+4cebef89a62455 Oleksandr Natalenko 2021-10-04  1595  put_pid:
+4cebef89a62455 Oleksandr Natalenko 2021-10-04  1596  	put_pid(pid);
+4cebef89a62455 Oleksandr Natalenko 2021-10-04  1597  out:
+4cebef89a62455 Oleksandr Natalenko 2021-10-04 @1598  	return ret;
 
 -- 
 0-DAY CI Kernel Test Service
