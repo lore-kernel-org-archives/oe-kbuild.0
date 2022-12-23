@@ -1,79 +1,89 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B421118E
-	for <oe-kbuild@lists.linux.dev>; Fri, 23 Dec 2022 06:46:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9091E23A2
+	for <oe-kbuild@lists.linux.dev>; Fri, 23 Dec 2022 08:07:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1671777968; x=1703313968;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=YfB6c+w0HqyNb9MRt1jjALo+EccKtYe3/v6u0LSWUB0=;
-  b=QC2SRLxk225lMPAe+zwUV7EqYYYysC4w/y+Kh6tzTbuW8AJxr8zLYX16
-   d1GCkrv6DSbZ5rNCQUa5V7YKqrjGFjpJhWpbWJ/BMMCiihyeMUKsxnVRq
-   c09nqTcc/Dkwiakwq31Wy+CU2P0jHVGI1IpVIGX01sfMT4PIVapVGSWli
-   /BH/6ONt5PHcLAR26ItHsND90VaaR7fDnADnNNmsCBPTbg/iaxSAEV84e
-   MUvphzE8mxMCImJQ/UpLdupHNb2+h9vprpNJUxWcXHVGdnATZbBHH8FL4
-   j+MzA5rW+Ask62cE6dLte4oFZdkCIpzA4RJP/5gL4MXKAviRpeULDKwsz
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10569"; a="299958621"
+  t=1671782829; x=1703318829;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=hEeBgnA5pqesCAycI6/8Ybgg8qp3gq5iVRW5t3LRjnc=;
+  b=IgH+ELwT9pYJR/6+iBnOaS6M3VK2iKLXTB/ypShAqsfowWl/4C6Ed0Tv
+   +bV/6u0TBpSia+ZCho8ujczwu18onND9tJrz7tkLRKYMkEQ1iRW6UNRAq
+   93OjoesOOhw1c4G7+1JpWjjcpgpTpOBrXLbbafkOHx53Emd/h/5ipDi+n
+   GcRwIqrPiOTdgsrCxI3s515RUjd9O01VQJtEhUkB0XbWAHr/ZoM3K+NsW
+   NkSqNb0A657Mz4ACyLkH7EqRKk9j6Qu5OR4ryw7GH6kSDOMiFk/SEnRAO
+   SqKrS5bj+caG08UXqmY/sKxy0m5hD0oiubFYlBxvO9q1wsbQvHC+1boaY
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10569"; a="347449797"
 X-IronPort-AV: E=Sophos;i="5.96,267,1665471600"; 
-   d="scan'208";a="299958621"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2022 22:46:07 -0800
+   d="scan'208";a="347449797"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2022 00:07:08 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10569"; a="826220864"
+X-IronPort-AV: E=McAfee;i="6500,9779,10569"; a="629763398"
 X-IronPort-AV: E=Sophos;i="5.96,267,1665471600"; 
-   d="scan'208";a="826220864"
+   d="scan'208";a="629763398"
 Received: from lkp-server01.sh.intel.com (HELO b5d47979f3ad) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 22 Dec 2022 22:46:04 -0800
+  by orsmga006.jf.intel.com with ESMTP; 23 Dec 2022 00:07:06 -0800
 Received: from kbuild by b5d47979f3ad with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1p8boh-000CUd-2p;
-	Fri, 23 Dec 2022 06:46:03 +0000
-Date: Fri, 23 Dec 2022 14:45:31 +0800
+	id 1p8d57-000CXT-1A;
+	Fri, 23 Dec 2022 08:07:05 +0000
+Date: Fri, 23 Dec 2022 16:06:19 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [RFC PATCH v2 2/3] drm: Adjust atomic checks for solid fill color
-Message-ID: <202212231429.0dkIeJCg-lkp@intel.com>
+Subject: Re: [PATCH 1/5] drivers: mmc: sdhci-cadence: SD6 controller support
+Message-ID: <202212231541.7pOKEnhI-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="JaTsiX9TGUGP1iuq"
+Content-Type: multipart/mixed; boundary="hUEmoGsf2QTCEsWs"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
 
---JaTsiX9TGUGP1iuq
-Content-Type: text/plain; charset=iso-8859-1
+--hUEmoGsf2QTCEsWs
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20221222221441.6980-3-quic_jesszhan@quicinc.com>
-References: <20221222221441.6980-3-quic_jesszhan@quicinc.com>
-TO: Jessica Zhang <quic_jesszhan@quicinc.com>
+In-Reply-To: <20221219142418.27949-2-pmalgujar@marvell.com>
+References: <20221219142418.27949-2-pmalgujar@marvell.com>
+TO: Piyush Malgujar <pmalgujar@marvell.com>
+TO: linux-mmc@vger.kernel.org
+TO: linux-kernel@vger.kernel.org
+TO: adrian.hunter@intel.com
+TO: ulf.hansson@linaro.org
+TO: robh+dt@kernel.org
+TO: krzysztof.kozlowski+dt@linaro.org
+TO: yamada.masahiro@socionext.com
+TO: devicetree@vger.kernel.org
+CC: jannadurai@marvell.com
+CC: cchavva@marvell.com
+CC: Dhananjay Kangude <dkangude@cadence.com>
+CC: Piyush Malgujar <pmalgujar@marvell.com>
 
-Hi Jessica,
+Hi Piyush,
 
-[FYI, it's a private test report for your RFC patch.]
-[auto build test WARNING on drm-misc/drm-misc-next]
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on robh/for-next]
 [also build test WARNING on linus/master v6.1 next-20221220]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jessica-Zhang/drm-Introduce-solid-fill-property-for-drm-plane/20221223-061634
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20221222221441.6980-3-quic_jesszhan%40quicinc.com
-patch subject: [RFC PATCH v2 2/3] drm: Adjust atomic checks for solid fill color
-:::::: branch date: 8 hours ago
-:::::: commit date: 8 hours ago
+url:    https://github.com/intel-lab-lkp/linux/commits/Piyush-Malgujar/drivers-mmc-sdhci-cadence-SD6-controller-support/20221219-222703
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20221219142418.27949-2-pmalgujar%40marvell.com
+patch subject: [PATCH 1/5] drivers: mmc: sdhci-cadence: SD6 controller support
+:::::: branch date: 4 days ago
+:::::: commit date: 4 days ago
 config: m68k-randconfig-m041-20221218
 compiler: m68k-linux-gcc (GCC) 12.1.0
 
@@ -82,155 +92,98 @@ If you fix the issue, kindly add following tag where applicable
 | Reported-by: Dan Carpenter <error27@gmail.com>
 
 smatch warnings:
-drivers/gpu/drm/drm_atomic.c:692 drm_atomic_plane_check() error: uninitialized symbol 'fb_width'.
-drivers/gpu/drm/drm_atomic.c:693 drm_atomic_plane_check() error: uninitialized symbol 'fb_height'.
+drivers/mmc/host/sdhci-cadence.c:1663 sdhci_cdns_probe() warn: passing zero to 'PTR_ERR'
+drivers/mmc/host/sdhci-cadence.c:1664 sdhci_cdns_probe() warn: ignoring unreachable code.
 
-vim +/fb_width +692 drivers/gpu/drm/drm_atomic.c
+vim +/PTR_ERR +1663 drivers/mmc/host/sdhci-cadence.c
 
-f8aeb41c4b7e9d Daniel Vetter    2015-08-26  582  
-5e743737421fe9 Rob Clark        2014-12-18  583  /**
-5e743737421fe9 Rob Clark        2014-12-18  584   * drm_atomic_plane_check - check plane state
-d9be05b784225e Ville Syrjälä    2018-11-06  585   * @old_plane_state: old plane state to check
-d9be05b784225e Ville Syrjälä    2018-11-06  586   * @new_plane_state: new plane state to check
-5e743737421fe9 Rob Clark        2014-12-18  587   *
-5e743737421fe9 Rob Clark        2014-12-18  588   * Provides core sanity checks for plane state.
-5e743737421fe9 Rob Clark        2014-12-18  589   *
-5e743737421fe9 Rob Clark        2014-12-18  590   * RETURNS:
-5e743737421fe9 Rob Clark        2014-12-18  591   * Zero on success, error code on failure
-5e743737421fe9 Rob Clark        2014-12-18  592   */
-d9be05b784225e Ville Syrjälä    2018-11-06  593  static int drm_atomic_plane_check(const struct drm_plane_state *old_plane_state,
-d9be05b784225e Ville Syrjälä    2018-11-06  594  				  const struct drm_plane_state *new_plane_state)
-5e743737421fe9 Rob Clark        2014-12-18  595  {
-d9be05b784225e Ville Syrjälä    2018-11-06  596  	struct drm_plane *plane = new_plane_state->plane;
-d9be05b784225e Ville Syrjälä    2018-11-06  597  	struct drm_crtc *crtc = new_plane_state->crtc;
-d9be05b784225e Ville Syrjälä    2018-11-06  598  	const struct drm_framebuffer *fb = new_plane_state->fb;
-5e743737421fe9 Rob Clark        2014-12-18  599  	unsigned int fb_width, fb_height;
-d3b21767821ed3 Lukasz Spintzyk  2018-05-23  600  	struct drm_mode_rect *clips;
-d3b21767821ed3 Lukasz Spintzyk  2018-05-23  601  	uint32_t num_clips;
-ead8610d42105a Laurent Pinchart 2015-03-05  602  	int ret;
-5e743737421fe9 Rob Clark        2014-12-18  603  
-1d73dbcfc1c7f9 Jessica Zhang    2022-12-22  604  	/* When solid_fill is disabled,
-1d73dbcfc1c7f9 Jessica Zhang    2022-12-22  605  	 * either *both* CRTC and FB must be set, or neither
-1d73dbcfc1c7f9 Jessica Zhang    2022-12-22  606  	 */
-1d73dbcfc1c7f9 Jessica Zhang    2022-12-22  607  	if (crtc && !fb && !new_plane_state->solid_fill_blob) {
-6e22dc35837790 Claudio Suarez   2021-11-26  608  		drm_dbg_atomic(plane->dev, "[PLANE:%d:%s] CRTC set but no FB\n",
-b6f690ab237d80 Ville Syrjälä    2018-06-11  609  			       plane->base.id, plane->name);
-5e743737421fe9 Rob Clark        2014-12-18  610  		return -EINVAL;
-d9be05b784225e Ville Syrjälä    2018-11-06  611  	} else if (fb && !crtc) {
-6e22dc35837790 Claudio Suarez   2021-11-26  612  		drm_dbg_atomic(plane->dev, "[PLANE:%d:%s] FB set but no CRTC\n",
-b6f690ab237d80 Ville Syrjälä    2018-06-11  613  			       plane->base.id, plane->name);
-5e743737421fe9 Rob Clark        2014-12-18  614  		return -EINVAL;
-5e743737421fe9 Rob Clark        2014-12-18  615  	}
-5e743737421fe9 Rob Clark        2014-12-18  616  
-5e743737421fe9 Rob Clark        2014-12-18  617  	/* if disabled, we don't care about the rest of the state: */
-d9be05b784225e Ville Syrjälä    2018-11-06  618  	if (!crtc)
-5e743737421fe9 Rob Clark        2014-12-18  619  		return 0;
-5e743737421fe9 Rob Clark        2014-12-18  620  
-5e743737421fe9 Rob Clark        2014-12-18  621  	/* Check whether this plane is usable on this CRTC */
-d9be05b784225e Ville Syrjälä    2018-11-06  622  	if (!(plane->possible_crtcs & drm_crtc_mask(crtc))) {
-6e22dc35837790 Claudio Suarez   2021-11-26  623  		drm_dbg_atomic(plane->dev,
-6e22dc35837790 Claudio Suarez   2021-11-26  624  			       "Invalid [CRTC:%d:%s] for [PLANE:%d:%s]\n",
-d9be05b784225e Ville Syrjälä    2018-11-06  625  			       crtc->base.id, crtc->name,
-b6f690ab237d80 Ville Syrjälä    2018-06-11  626  			       plane->base.id, plane->name);
-5e743737421fe9 Rob Clark        2014-12-18  627  		return -EINVAL;
-5e743737421fe9 Rob Clark        2014-12-18  628  	}
-5e743737421fe9 Rob Clark        2014-12-18  629  
-5e743737421fe9 Rob Clark        2014-12-18  630  	/* Check whether this plane supports the fb pixel format. */
-1d73dbcfc1c7f9 Jessica Zhang    2022-12-22  631  	if (fb) {
-d9be05b784225e Ville Syrjälä    2018-11-06  632  		ret = drm_plane_check_pixel_format(plane, fb->format->format,
-d9be05b784225e Ville Syrjälä    2018-11-06  633  						   fb->modifier);
-1d73dbcfc1c7f9 Jessica Zhang    2022-12-22  634  
-ead8610d42105a Laurent Pinchart 2015-03-05  635  		if (ret) {
-6e22dc35837790 Claudio Suarez   2021-11-26  636  			drm_dbg_atomic(plane->dev,
-6e22dc35837790 Claudio Suarez   2021-11-26  637  				       "[PLANE:%d:%s] invalid pixel format %p4cc, modifier 0x%llx\n",
-b6f690ab237d80 Ville Syrjälä    2018-06-11  638  				       plane->base.id, plane->name,
-92f1d09ca4ed4a Sakari Ailus     2021-02-16  639  				       &fb->format->format, fb->modifier);
-ead8610d42105a Laurent Pinchart 2015-03-05  640  			return ret;
-5e743737421fe9 Rob Clark        2014-12-18  641  		}
-1d73dbcfc1c7f9 Jessica Zhang    2022-12-22  642  	}
-5e743737421fe9 Rob Clark        2014-12-18  643  
-5e743737421fe9 Rob Clark        2014-12-18  644  	/* Give drivers some help against integer overflows */
-d9be05b784225e Ville Syrjälä    2018-11-06  645  	if (new_plane_state->crtc_w > INT_MAX ||
-d9be05b784225e Ville Syrjälä    2018-11-06  646  	    new_plane_state->crtc_x > INT_MAX - (int32_t) new_plane_state->crtc_w ||
-d9be05b784225e Ville Syrjälä    2018-11-06  647  	    new_plane_state->crtc_h > INT_MAX ||
-d9be05b784225e Ville Syrjälä    2018-11-06  648  	    new_plane_state->crtc_y > INT_MAX - (int32_t) new_plane_state->crtc_h) {
-6e22dc35837790 Claudio Suarez   2021-11-26  649  		drm_dbg_atomic(plane->dev,
-6e22dc35837790 Claudio Suarez   2021-11-26  650  			       "[PLANE:%d:%s] invalid CRTC coordinates %ux%u+%d+%d\n",
-b6f690ab237d80 Ville Syrjälä    2018-06-11  651  			       plane->base.id, plane->name,
-d9be05b784225e Ville Syrjälä    2018-11-06  652  			       new_plane_state->crtc_w, new_plane_state->crtc_h,
-d9be05b784225e Ville Syrjälä    2018-11-06  653  			       new_plane_state->crtc_x, new_plane_state->crtc_y);
-5e743737421fe9 Rob Clark        2014-12-18  654  		return -ERANGE;
-5e743737421fe9 Rob Clark        2014-12-18  655  	}
-5e743737421fe9 Rob Clark        2014-12-18  656  
-1d73dbcfc1c7f9 Jessica Zhang    2022-12-22  657  	if (fb) {
-d9be05b784225e Ville Syrjälä    2018-11-06  658  		fb_width = fb->width << 16;
-d9be05b784225e Ville Syrjälä    2018-11-06  659  		fb_height = fb->height << 16;
-5e743737421fe9 Rob Clark        2014-12-18  660  
-5e743737421fe9 Rob Clark        2014-12-18  661  		/* Make sure source coordinates are inside the fb. */
-d9be05b784225e Ville Syrjälä    2018-11-06  662  		if (new_plane_state->src_w > fb_width ||
-d9be05b784225e Ville Syrjälä    2018-11-06  663  		    new_plane_state->src_x > fb_width - new_plane_state->src_w ||
-d9be05b784225e Ville Syrjälä    2018-11-06  664  		    new_plane_state->src_h > fb_height ||
-d9be05b784225e Ville Syrjälä    2018-11-06  665  		    new_plane_state->src_y > fb_height - new_plane_state->src_h) {
-6e22dc35837790 Claudio Suarez   2021-11-26  666  			drm_dbg_atomic(plane->dev,
-6e22dc35837790 Claudio Suarez   2021-11-26  667  				       "[PLANE:%d:%s] invalid source coordinates "
-0338f0d0d70a26 Ville Syrjälä    2017-11-01  668  				       "%u.%06ux%u.%06u+%u.%06u+%u.%06u (fb %ux%u)\n",
-b6f690ab237d80 Ville Syrjälä    2018-06-11  669  				       plane->base.id, plane->name,
-d9be05b784225e Ville Syrjälä    2018-11-06  670  				       new_plane_state->src_w >> 16,
-d9be05b784225e Ville Syrjälä    2018-11-06  671  				       ((new_plane_state->src_w & 0xffff) * 15625) >> 10,
-d9be05b784225e Ville Syrjälä    2018-11-06  672  				       new_plane_state->src_h >> 16,
-d9be05b784225e Ville Syrjälä    2018-11-06  673  				       ((new_plane_state->src_h & 0xffff) * 15625) >> 10,
-d9be05b784225e Ville Syrjälä    2018-11-06  674  				       new_plane_state->src_x >> 16,
-d9be05b784225e Ville Syrjälä    2018-11-06  675  				       ((new_plane_state->src_x & 0xffff) * 15625) >> 10,
-d9be05b784225e Ville Syrjälä    2018-11-06  676  				       new_plane_state->src_y >> 16,
-d9be05b784225e Ville Syrjälä    2018-11-06  677  				       ((new_plane_state->src_y & 0xffff) * 15625) >> 10,
-d9be05b784225e Ville Syrjälä    2018-11-06  678  				       fb->width, fb->height);
-5e743737421fe9 Rob Clark        2014-12-18  679  			return -ENOSPC;
-5e743737421fe9 Rob Clark        2014-12-18  680  		}
-1d73dbcfc1c7f9 Jessica Zhang    2022-12-22  681  	}
-5e743737421fe9 Rob Clark        2014-12-18  682  
-c7fcbf25139732 Daniel Vetter    2021-07-23  683  	clips = __drm_plane_get_damage_clips(new_plane_state);
-d3b21767821ed3 Lukasz Spintzyk  2018-05-23  684  	num_clips = drm_plane_get_damage_clips_count(new_plane_state);
-d3b21767821ed3 Lukasz Spintzyk  2018-05-23  685  
-d3b21767821ed3 Lukasz Spintzyk  2018-05-23  686  	/* Make sure damage clips are valid and inside the fb. */
-d3b21767821ed3 Lukasz Spintzyk  2018-05-23  687  	while (num_clips > 0) {
-d3b21767821ed3 Lukasz Spintzyk  2018-05-23  688  		if (clips->x1 >= clips->x2 ||
-d3b21767821ed3 Lukasz Spintzyk  2018-05-23  689  		    clips->y1 >= clips->y2 ||
-d3b21767821ed3 Lukasz Spintzyk  2018-05-23  690  		    clips->x1 < 0 ||
-d3b21767821ed3 Lukasz Spintzyk  2018-05-23  691  		    clips->y1 < 0 ||
-d3b21767821ed3 Lukasz Spintzyk  2018-05-23 @692  		    clips->x2 > fb_width ||
-d3b21767821ed3 Lukasz Spintzyk  2018-05-23 @693  		    clips->y2 > fb_height) {
-6e22dc35837790 Claudio Suarez   2021-11-26  694  			drm_dbg_atomic(plane->dev,
-6e22dc35837790 Claudio Suarez   2021-11-26  695  				       "[PLANE:%d:%s] invalid damage clip %d %d %d %d\n",
-d3b21767821ed3 Lukasz Spintzyk  2018-05-23  696  				       plane->base.id, plane->name, clips->x1,
-d3b21767821ed3 Lukasz Spintzyk  2018-05-23  697  				       clips->y1, clips->x2, clips->y2);
-d3b21767821ed3 Lukasz Spintzyk  2018-05-23  698  			return -EINVAL;
-d3b21767821ed3 Lukasz Spintzyk  2018-05-23  699  		}
-d3b21767821ed3 Lukasz Spintzyk  2018-05-23  700  		clips++;
-d3b21767821ed3 Lukasz Spintzyk  2018-05-23  701  		num_clips--;
-d3b21767821ed3 Lukasz Spintzyk  2018-05-23  702  	}
-d3b21767821ed3 Lukasz Spintzyk  2018-05-23  703  
-d9be05b784225e Ville Syrjälä    2018-11-06  704  	if (plane_switching_crtc(old_plane_state, new_plane_state)) {
-6e22dc35837790 Claudio Suarez   2021-11-26  705  		drm_dbg_atomic(plane->dev,
-6e22dc35837790 Claudio Suarez   2021-11-26  706  			       "[PLANE:%d:%s] switching CRTC directly\n",
-9f4c97a236d35b Ville Syrjälä    2015-12-08  707  			       plane->base.id, plane->name);
-f8aeb41c4b7e9d Daniel Vetter    2015-08-26  708  		return -EINVAL;
-f8aeb41c4b7e9d Daniel Vetter    2015-08-26  709  	}
-f8aeb41c4b7e9d Daniel Vetter    2015-08-26  710  
-5e743737421fe9 Rob Clark        2014-12-18  711  	return 0;
-5e743737421fe9 Rob Clark        2014-12-18  712  }
-5e743737421fe9 Rob Clark        2014-12-18  713  
+d12990f9900f49 Piotr Sroka       2017-03-06  1642  
+ff6af28faff53a Masahiro Yamada   2016-12-08  1643  static int sdhci_cdns_probe(struct platform_device *pdev)
+ff6af28faff53a Masahiro Yamada   2016-12-08  1644  {
+ff6af28faff53a Masahiro Yamada   2016-12-08  1645  	struct sdhci_host *host;
+8bcfc23a884699 Dhananjay Kangude 2022-12-19  1646  	const struct sdhci_cdns_of_data *data;
+ff6af28faff53a Masahiro Yamada   2016-12-08  1647  	struct sdhci_pltfm_host *pltfm_host;
+ff6af28faff53a Masahiro Yamada   2016-12-08  1648  	struct sdhci_cdns_priv *priv;
+ff6af28faff53a Masahiro Yamada   2016-12-08  1649  	struct clk *clk;
+ff6af28faff53a Masahiro Yamada   2016-12-08  1650  	int ret;
+a89c472d8b55c5 Piotr Sroka       2017-03-21  1651  	struct device *dev = &pdev->dev;
+ff6af28faff53a Masahiro Yamada   2016-12-08  1652  
+edf98579065950 Piotr Sroka       2017-03-21  1653  	clk = devm_clk_get(dev, NULL);
+ff6af28faff53a Masahiro Yamada   2016-12-08  1654  	if (IS_ERR(clk))
+ff6af28faff53a Masahiro Yamada   2016-12-08  1655  		return PTR_ERR(clk);
+ff6af28faff53a Masahiro Yamada   2016-12-08  1656  
+ff6af28faff53a Masahiro Yamada   2016-12-08  1657  	ret = clk_prepare_enable(clk);
+ff6af28faff53a Masahiro Yamada   2016-12-08  1658  	if (ret)
+ff6af28faff53a Masahiro Yamada   2016-12-08  1659  		return ret;
+ff6af28faff53a Masahiro Yamada   2016-12-08  1660  
+18b587b45c13bb Masahiro Yamada   2020-03-12  1661  	data = of_device_get_match_data(dev);
+8bcfc23a884699 Dhananjay Kangude 2022-12-19  1662  	if (!data) {
+8bcfc23a884699 Dhananjay Kangude 2022-12-19 @1663  		return PTR_ERR(clk);
+8bcfc23a884699 Dhananjay Kangude 2022-12-19 @1664  		goto disable_clk;
+8bcfc23a884699 Dhananjay Kangude 2022-12-19  1665  	}
+18b587b45c13bb Masahiro Yamada   2020-03-12  1666  
+8bcfc23a884699 Dhananjay Kangude 2022-12-19  1667  	host = sdhci_pltfm_init(pdev, data->pltfm_data, sizeof(*priv));
+ff6af28faff53a Masahiro Yamada   2016-12-08  1668  	if (IS_ERR(host)) {
+ff6af28faff53a Masahiro Yamada   2016-12-08  1669  		ret = PTR_ERR(host);
+ff6af28faff53a Masahiro Yamada   2016-12-08  1670  		goto disable_clk;
+ff6af28faff53a Masahiro Yamada   2016-12-08  1671  	}
+ff6af28faff53a Masahiro Yamada   2016-12-08  1672  
+ff6af28faff53a Masahiro Yamada   2016-12-08  1673  	pltfm_host = sdhci_priv(host);
+ff6af28faff53a Masahiro Yamada   2016-12-08  1674  	pltfm_host->clk = clk;
+ff6af28faff53a Masahiro Yamada   2016-12-08  1675  
+8bcfc23a884699 Dhananjay Kangude 2022-12-19  1676  	host->clk_mul = 0;
+8bcfc23a884699 Dhananjay Kangude 2022-12-19  1677  	host->max_clk = SDMCLK_MAX_FREQ;
+8bcfc23a884699 Dhananjay Kangude 2022-12-19  1678  	host->quirks |=  SDHCI_QUIRK_CAP_CLOCK_BASE_BROKEN;
+8bcfc23a884699 Dhananjay Kangude 2022-12-19  1679  	host->quirks2 |= SDHCI_QUIRK2_PRESET_VALUE_BROKEN;
+a232a8f2d10750 Masahiro Yamada   2017-08-23  1680  	priv = sdhci_pltfm_priv(pltfm_host);
+ff6af28faff53a Masahiro Yamada   2016-12-08  1681  	priv->hrs_addr = host->ioaddr;
+d12990f9900f49 Piotr Sroka       2017-03-06  1682  	priv->enhanced_strobe = false;
+8bcfc23a884699 Dhananjay Kangude 2022-12-19  1683  	priv->cdns_data = data->cdns_data;
+ff6af28faff53a Masahiro Yamada   2016-12-08  1684  	host->ioaddr += SDHCI_CDNS_SRS_BASE;
+d12990f9900f49 Piotr Sroka       2017-03-06  1685  	host->mmc_host_ops.hs400_enhanced_strobe =
+d12990f9900f49 Piotr Sroka       2017-03-06  1686  				sdhci_cdns_hs400_enhanced_strobe;
+ff6af28faff53a Masahiro Yamada   2016-12-08  1687  
+861183f115cd80 Piotr Sroka       2017-04-11  1688  	sdhci_get_of_property(pdev);
+861183f115cd80 Piotr Sroka       2017-04-11  1689  
+ff6af28faff53a Masahiro Yamada   2016-12-08  1690  	ret = mmc_of_parse(host->mmc);
+ff6af28faff53a Masahiro Yamada   2016-12-08  1691  	if (ret)
+ff6af28faff53a Masahiro Yamada   2016-12-08  1692  		goto free;
+ff6af28faff53a Masahiro Yamada   2016-12-08  1693  
+8bcfc23a884699 Dhananjay Kangude 2022-12-19  1694  	ret = data->phy_probe(pdev, priv);
+8bcfc23a884699 Dhananjay Kangude 2022-12-19  1695  	if (ret)
+8bcfc23a884699 Dhananjay Kangude 2022-12-19  1696  		goto free;
+a232a8f2d10750 Masahiro Yamada   2017-08-23  1697  
+8bcfc23a884699 Dhananjay Kangude 2022-12-19  1698  	ret = priv->cdns_data->phy_init(priv);
+a89c472d8b55c5 Piotr Sroka       2017-03-21  1699  	if (ret)
+a89c472d8b55c5 Piotr Sroka       2017-03-21  1700  		goto free;
+ff6af28faff53a Masahiro Yamada   2016-12-08  1701  
+8bcfc23a884699 Dhananjay Kangude 2022-12-19  1702  	sdhci_enable_v4_mode(host);
+8bcfc23a884699 Dhananjay Kangude 2022-12-19  1703  	__sdhci_read_caps(host, NULL, NULL, NULL);
+ff6af28faff53a Masahiro Yamada   2016-12-08  1704  	ret = sdhci_add_host(host);
+ff6af28faff53a Masahiro Yamada   2016-12-08  1705  	if (ret)
+ff6af28faff53a Masahiro Yamada   2016-12-08  1706  		goto free;
+ff6af28faff53a Masahiro Yamada   2016-12-08  1707  
+ff6af28faff53a Masahiro Yamada   2016-12-08  1708  	return 0;
+ff6af28faff53a Masahiro Yamada   2016-12-08  1709  free:
+ff6af28faff53a Masahiro Yamada   2016-12-08  1710  	sdhci_pltfm_free(pdev);
+ff6af28faff53a Masahiro Yamada   2016-12-08  1711  disable_clk:
+ff6af28faff53a Masahiro Yamada   2016-12-08  1712  	clk_disable_unprepare(clk);
+ff6af28faff53a Masahiro Yamada   2016-12-08  1713  
+ff6af28faff53a Masahiro Yamada   2016-12-08  1714  	return ret;
+ff6af28faff53a Masahiro Yamada   2016-12-08  1715  }
+ff6af28faff53a Masahiro Yamada   2016-12-08  1716  
 
 -- 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
 
---JaTsiX9TGUGP1iuq
+--hUEmoGsf2QTCEsWs
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename=config
 
 #
 # Automatically generated file; DO NOT EDIT.
-# Linux/m68k 6.1.0-rc6 Kernel Configuration
+# Linux/m68k 6.1.0-rc1 Kernel Configuration
 #
 CONFIG_CC_VERSION_TEXT="m68k-linux-gcc (GCC) 12.1.0"
 CONFIG_CC_IS_GCC=y
@@ -2484,7 +2437,6 @@ CONFIG_CEC_CH7322=y
 #
 # Graphics support
 #
-CONFIG_VIDEO_NOMODESET=y
 # CONFIG_IMX_IPUV3_CORE is not set
 CONFIG_DRM=y
 CONFIG_DRM_MIPI_DSI=y
@@ -2515,8 +2467,7 @@ CONFIG_DRM_I2C_NXP_TDA9950=y
 # CONFIG_DRM_KMB_DISPLAY is not set
 # CONFIG_DRM_RCAR_DW_HDMI is not set
 CONFIG_DRM_RCAR_USE_LVDS=y
-CONFIG_DRM_RCAR_USE_MIPI_DSI=y
-# CONFIG_DRM_RZG2L_MIPI_DSI is not set
+# CONFIG_DRM_RCAR_MIPI_DSI is not set
 CONFIG_DRM_PANEL=y
 
 #
@@ -2535,14 +2486,12 @@ CONFIG_DRM_PANEL_LVDS=y
 # CONFIG_DRM_PANEL_FEIYANG_FY07024DI26A30D is not set
 # CONFIG_DRM_PANEL_ILITEK_ILI9881C is not set
 CONFIG_DRM_PANEL_INNOLUX_P079ZCA=y
-# CONFIG_DRM_PANEL_JADARD_JD9365DA_H3 is not set
 CONFIG_DRM_PANEL_JDI_LT070ME05000=y
 CONFIG_DRM_PANEL_JDI_R63452=y
 CONFIG_DRM_PANEL_KHADAS_TS050=y
 CONFIG_DRM_PANEL_KINGDISPLAY_KD097D04=y
 CONFIG_DRM_PANEL_LEADTEK_LTK050H3146W=y
 # CONFIG_DRM_PANEL_LEADTEK_LTK500HD1829 is not set
-CONFIG_DRM_PANEL_NEWVISION_NV3051D=y
 CONFIG_DRM_PANEL_NOVATEK_NT35510=y
 # CONFIG_DRM_PANEL_NOVATEK_NT35560 is not set
 CONFIG_DRM_PANEL_NOVATEK_NT35950=y
@@ -2631,6 +2580,7 @@ CONFIG_DRM_I2C_ADV7511=y
 # CONFIG_DRM_TIDSS is not set
 # CONFIG_DRM_SPRD is not set
 CONFIG_DRM_PANEL_ORIENTATION_QUIRKS=y
+CONFIG_DRM_NOMODESET=y
 
 #
 # Frame buffer Devices
@@ -4744,7 +4694,6 @@ CONFIG_TEST_SCANF=y
 # CONFIG_TEST_BITMAP is not set
 # CONFIG_TEST_UUID is not set
 CONFIG_TEST_XARRAY=y
-CONFIG_TEST_MAPLE_TREE=y
 CONFIG_TEST_RHASHTABLE=y
 # CONFIG_TEST_SIPHASH is not set
 CONFIG_TEST_IDA=y
@@ -4777,4 +4726,4 @@ CONFIG_TEST_MEMINIT=y
 # CONFIG_WARN_ABI_ERRORS is not set
 # end of Kernel hacking
 
---JaTsiX9TGUGP1iuq--
+--hUEmoGsf2QTCEsWs--
