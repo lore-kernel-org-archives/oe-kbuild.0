@@ -1,53 +1,53 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AD2D17E8
-	for <oe-kbuild@lists.linux.dev>; Sat, 24 Dec 2022 04:29:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E56BD20E1
+	for <oe-kbuild@lists.linux.dev>; Sat, 24 Dec 2022 06:10:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1671856172; x=1703392172;
+  t=1671862234; x=1703398234;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=iqRSjt9Uvw9boC/wmrborey2n1H2ZmQt+hWLEQdGnm8=;
-  b=SAzZYkuJzblYCXEBjc5H7MyIUH22N8Qlw/MuWPdtV3LBY5tnM6UPnN5K
-   OXziNTzHUzVFE9J7Spr0RjgZ0zhQTZ7raovtGXGVZi2EHpLCvaUedHNTn
-   BuSfAgy13AdhwAdNS5XjUNHwE7MNRuW4+ytDjz/Mb3Cm1I+80asulQ2O5
-   WXwKfExsGVhng8g6rVldnEqQid0FgDwNFvbZkpkBKBIAr/WqKU38v6Y1X
-   Xy+Kr5BjMzItQdeeSuAteNtVjhPK3GiEh6M9Qki1IV9Lfby6gMDjrknSk
-   V0n+9WVMuD55OvMBUBmJF3BU9K18OHFUxCZeVcTuMMt4Klgmf+NSZxmQQ
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10570"; a="303879253"
+  bh=/+YQK28c7mw2hKtUwJpJlldFypXxkl08sTezsYOizt0=;
+  b=DgXJaX1OcV2Ds4uapduZZyazo9hpvZaSJRW6iAPJ6FjPwze/aNaCJYoc
+   0MklFePB/Luaf9cRzh+xIuA1o4tOdXl3LaMC4LbxAK4o+jth5+HzDHUUe
+   Hj07p6V4bEw+nYtvro5Yhjopp5fiNysIQtIJVQ940IMtal4BRWUaErOBq
+   crZ+TzYnWHrBflDRtnmBHTUpqkdqE+J/fEDTPjcdWM4bDpF/BSJ1/WFe0
+   6M4MwaS//3jM4JXsQJU0TZNSsI2A3epr+cvHaBTh/+Q2HEjlBF5Wq1xeb
+   2vN2YSpqC2sFSo15vHBOn/IUgnwCd9FMSZJ3LleO7e7cK3DOG7tWbupfm
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10570"; a="318053057"
 X-IronPort-AV: E=Sophos;i="5.96,270,1665471600"; 
-   d="scan'208";a="303879253"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2022 20:29:31 -0800
+   d="scan'208";a="318053057"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2022 22:10:34 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10570"; a="741012490"
+X-IronPort-AV: E=McAfee;i="6500,9779,10570"; a="794636742"
 X-IronPort-AV: E=Sophos;i="5.96,270,1665471600"; 
-   d="scan'208";a="741012490"
+   d="scan'208";a="794636742"
 Received: from lkp-server01.sh.intel.com (HELO b5d47979f3ad) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 23 Dec 2022 20:29:29 -0800
+  by fmsmga001.fm.intel.com with ESMTP; 23 Dec 2022 22:10:32 -0800
 Received: from kbuild by b5d47979f3ad with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1p8wA4-000D6R-2P;
-	Sat, 24 Dec 2022 04:29:28 +0000
-Date: Sat, 24 Dec 2022 12:28:54 +0800
+	id 1p8xjr-000D9j-1d;
+	Sat, 24 Dec 2022 06:10:31 +0000
+Date: Sat, 24 Dec 2022 14:09:50 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [jolsa-perf:bpf/tracing_multi_ng_2 8/23] kernel/bpf/btf.c:8332
- btf_bitmap_funcs_read() error: uninitialized symbol 'err'.
-Message-ID: <202212241233.JSU4ZiL6-lkp@intel.com>
+Subject: [jolsa-perf:bpf/tracing_multi_ng_2 9/23] kernel/bpf/btf.c:8458
+ btf_bitmap_funcs_resolve() error: uninitialized symbol 'err'.
+Message-ID: <202212241412.ws2atGo2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="nyK1pPopIzJLBvMa"
+Content-Type: multipart/mixed; boundary="bRWzE0XxKH2qHujO"
 Content-Disposition: inline
 
 
---nyK1pPopIzJLBvMa
+--bRWzE0XxKH2qHujO
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
@@ -57,9 +57,9 @@ TO: Jiri Olsa <jolsa@kernel.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git bpf/tracing_multi_ng_2
 head:   1d05e5fe0fc4ec5ff53db6c6ea0bdf93b00c708f
-commit: becc9f8b25473feb2f95a4e0724b03f685c7e9d5 [8/23] bpf: Add bpf_bitmap object
-:::::: branch date: 9 hours ago
-:::::: commit date: 9 hours ago
+commit: 0b5c8f05fa46714bf0bd0ad80ed36a268f9b25d2 [9/23] bpf: Add btf_bitmap_funcs_resolve function
+:::::: branch date: 11 hours ago
+:::::: commit date: 11 hours ago
 config: i386-randconfig-m021
 compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 
@@ -68,83 +68,78 @@ If you fix the issue, kindly add following tag where applicable
 | Reported-by: Dan Carpenter <error27@gmail.com>
 
 smatch warnings:
-kernel/bpf/btf.c:8332 btf_bitmap_funcs_read() error: uninitialized symbol 'err'.
-kernel/bpf/btf.c:8343 btf_bitmap_funcs_test_bit() warn: signedness bug returning '(-4095)'
+kernel/bpf/btf.c:8458 btf_bitmap_funcs_resolve() error: uninitialized symbol 'err'.
+kernel/bpf/btf.c:8458 btf_bitmap_funcs_resolve() warn: possible memory leak of 'addrs'
 
-vim +/err +8332 kernel/bpf/btf.c
+vim +/err +8458 kernel/bpf/btf.c
 
-becc9f8b25473f Jiri Olsa 2022-10-10  8289  
-becc9f8b25473f Jiri Olsa 2022-10-10  8290  struct btf_bitmap *btf_bitmap_funcs_read(u32 __user *uids, u32 uids_cnt)
-becc9f8b25473f Jiri Olsa 2022-10-10  8291  {
-becc9f8b25473f Jiri Olsa 2022-10-10  8292  	struct btf_bitmap *bm;
-becc9f8b25473f Jiri Olsa 2022-10-10  8293  	u32 id, i, *func;
-becc9f8b25473f Jiri Olsa 2022-10-10  8294  	struct btf *btf;
-becc9f8b25473f Jiri Olsa 2022-10-10  8295  	int err;
-becc9f8b25473f Jiri Olsa 2022-10-10  8296  
-becc9f8b25473f Jiri Olsa 2022-10-10  8297  	btf = bpf_get_btf_vmlinux();
-becc9f8b25473f Jiri Olsa 2022-10-10  8298  	if (IS_ERR(btf))
-becc9f8b25473f Jiri Olsa 2022-10-10  8299  		return ERR_CAST(btf);
-becc9f8b25473f Jiri Olsa 2022-10-10  8300  
-becc9f8b25473f Jiri Olsa 2022-10-10  8301  	bm = __btf_bitmap_funcs_alloc(btf);
-becc9f8b25473f Jiri Olsa 2022-10-10  8302  	if (IS_ERR(bm))
-becc9f8b25473f Jiri Olsa 2022-10-10  8303  		return bm;
-becc9f8b25473f Jiri Olsa 2022-10-10  8304  
-becc9f8b25473f Jiri Olsa 2022-10-10  8305  	if (uids_cnt >= bm->size)
-becc9f8b25473f Jiri Olsa 2022-10-10  8306  		goto error;
-becc9f8b25473f Jiri Olsa 2022-10-10  8307  
-becc9f8b25473f Jiri Olsa 2022-10-10  8308  	for (i = 0; i < uids_cnt; i++) {
-becc9f8b25473f Jiri Olsa 2022-10-10  8309  		if (__get_user(id, uids + i)) {
-becc9f8b25473f Jiri Olsa 2022-10-10  8310  			err = -EFAULT;
-becc9f8b25473f Jiri Olsa 2022-10-10  8311  			goto error;
-becc9f8b25473f Jiri Olsa 2022-10-10  8312  		}
-becc9f8b25473f Jiri Olsa 2022-10-10  8313  		func = bsearch(&id, btf->funcs_ids, btf->funcs_size,
-becc9f8b25473f Jiri Olsa 2022-10-10  8314  			      sizeof(*btf->funcs_ids), funcs_ids_cmp);
-becc9f8b25473f Jiri Olsa 2022-10-10  8315  		if (!func) {
-becc9f8b25473f Jiri Olsa 2022-10-10  8316  			err = -EINVAL;
-becc9f8b25473f Jiri Olsa 2022-10-10  8317  			goto error;
-becc9f8b25473f Jiri Olsa 2022-10-10  8318  		}
-becc9f8b25473f Jiri Olsa 2022-10-10  8319  		id = func - btf->funcs_ids;
-becc9f8b25473f Jiri Olsa 2022-10-10  8320  		if (WARN_ON_ONCE(id >= bm->size)) {
-becc9f8b25473f Jiri Olsa 2022-10-10  8321  			err = -EINVAL;
-becc9f8b25473f Jiri Olsa 2022-10-10  8322  			goto error;
-becc9f8b25473f Jiri Olsa 2022-10-10  8323  		}
-becc9f8b25473f Jiri Olsa 2022-10-10  8324  		bitmap_set(bm->bm, id, 1);
-becc9f8b25473f Jiri Olsa 2022-10-10  8325  	}
-becc9f8b25473f Jiri Olsa 2022-10-10  8326  
-becc9f8b25473f Jiri Olsa 2022-10-10  8327  	bm->cnt = uids_cnt;
-becc9f8b25473f Jiri Olsa 2022-10-10  8328  	return bm;
-becc9f8b25473f Jiri Olsa 2022-10-10  8329  
-becc9f8b25473f Jiri Olsa 2022-10-10  8330  error:
-becc9f8b25473f Jiri Olsa 2022-10-10  8331  	kvfree(bm);
-becc9f8b25473f Jiri Olsa 2022-10-10 @8332  	return ERR_PTR(err);
-becc9f8b25473f Jiri Olsa 2022-10-10  8333  }
-becc9f8b25473f Jiri Olsa 2022-10-10  8334  
-becc9f8b25473f Jiri Olsa 2022-10-10  8335  bool btf_bitmap_funcs_test_bit(struct btf_bitmap *bmap, u32 id, bool clear)
-becc9f8b25473f Jiri Olsa 2022-10-10  8336  {
-becc9f8b25473f Jiri Olsa 2022-10-10  8337  	struct btf *btf;
-becc9f8b25473f Jiri Olsa 2022-10-10  8338  	u32 *func;
-becc9f8b25473f Jiri Olsa 2022-10-10  8339  	bool set;
-becc9f8b25473f Jiri Olsa 2022-10-10  8340  
-becc9f8b25473f Jiri Olsa 2022-10-10  8341  	btf = bpf_get_btf_vmlinux();
-becc9f8b25473f Jiri Olsa 2022-10-10  8342  	if (IS_ERR(btf))
-becc9f8b25473f Jiri Olsa 2022-10-10 @8343  		return PTR_ERR(btf);
-becc9f8b25473f Jiri Olsa 2022-10-10  8344  	func = bsearch(&id, btf->funcs_ids, btf->funcs_size,
-becc9f8b25473f Jiri Olsa 2022-10-10  8345  		      sizeof(*btf->funcs_ids), funcs_ids_cmp);
-becc9f8b25473f Jiri Olsa 2022-10-10  8346  	if (!func)
-becc9f8b25473f Jiri Olsa 2022-10-10  8347  		return -EINVAL;
-becc9f8b25473f Jiri Olsa 2022-10-10  8348  	id = func - btf->funcs_ids;
-becc9f8b25473f Jiri Olsa 2022-10-10  8349  	set = test_bit(id, bmap->bm);
-becc9f8b25473f Jiri Olsa 2022-10-10  8350  	if (set && clear)
-becc9f8b25473f Jiri Olsa 2022-10-10  8351  		clear_bit(id, bmap->bm);
-becc9f8b25473f Jiri Olsa 2022-10-10  8352  	return set;
-becc9f8b25473f Jiri Olsa 2022-10-10  8353  }
-becc9f8b25473f Jiri Olsa 2022-10-10  8354  
+0b5c8f05fa4671 Jiri Olsa 2022-12-20  8400  
+0b5c8f05fa4671 Jiri Olsa 2022-12-20  8401  int btf_bitmap_funcs_resolve(struct btf_bitmap *bmap, unsigned long **paddrs)
+0b5c8f05fa4671 Jiri Olsa 2022-12-20  8402  {
+0b5c8f05fa4671 Jiri Olsa 2022-12-20  8403  	struct kallsyms_data args;
+0b5c8f05fa4671 Jiri Olsa 2022-12-20  8404  	unsigned long bit, *addrs;
+0b5c8f05fa4671 Jiri Olsa 2022-12-20  8405  	const struct btf_type *t;
+0b5c8f05fa4671 Jiri Olsa 2022-12-20  8406  	struct resolve_id *rid;
+0b5c8f05fa4671 Jiri Olsa 2022-12-20  8407  	const char *name;
+0b5c8f05fa4671 Jiri Olsa 2022-12-20  8408  	struct btf *btf;
+0b5c8f05fa4671 Jiri Olsa 2022-12-20  8409  	int i = 0, err;
+0b5c8f05fa4671 Jiri Olsa 2022-12-20  8410  	u32 id;
+0b5c8f05fa4671 Jiri Olsa 2022-12-20  8411  
+0b5c8f05fa4671 Jiri Olsa 2022-12-20  8412  	btf = bpf_get_btf_vmlinux();
+0b5c8f05fa4671 Jiri Olsa 2022-12-20  8413  	if (IS_ERR(btf))
+0b5c8f05fa4671 Jiri Olsa 2022-12-20  8414  		return PTR_ERR(btf);
+0b5c8f05fa4671 Jiri Olsa 2022-12-20  8415  
+0b5c8f05fa4671 Jiri Olsa 2022-12-20  8416  	rid = kzalloc(bmap->cnt * sizeof(*rid), GFP_KERNEL);
+0b5c8f05fa4671 Jiri Olsa 2022-12-20  8417  	addrs = kzalloc(bmap->cnt * sizeof(*addrs), GFP_KERNEL);
+0b5c8f05fa4671 Jiri Olsa 2022-12-20  8418  	if (!rid || !addrs) {
+0b5c8f05fa4671 Jiri Olsa 2022-12-20  8419  		kfree(rid);
+0b5c8f05fa4671 Jiri Olsa 2022-12-20  8420  		kfree(addrs);
+0b5c8f05fa4671 Jiri Olsa 2022-12-20  8421  		return -ENOMEM;
+0b5c8f05fa4671 Jiri Olsa 2022-12-20  8422  	}
+0b5c8f05fa4671 Jiri Olsa 2022-12-20  8423  
+0b5c8f05fa4671 Jiri Olsa 2022-12-20  8424  	for_each_set_bit(bit, bmap->bm, bmap->size) {
+0b5c8f05fa4671 Jiri Olsa 2022-12-20  8425  		id = btf->funcs_ids[bit];
+0b5c8f05fa4671 Jiri Olsa 2022-12-20  8426  
+0b5c8f05fa4671 Jiri Olsa 2022-12-20  8427  		t = btf_type_by_id(btf, id);
+0b5c8f05fa4671 Jiri Olsa 2022-12-20  8428  		if (!t)
+0b5c8f05fa4671 Jiri Olsa 2022-12-20  8429  			goto out_free;
+0b5c8f05fa4671 Jiri Olsa 2022-12-20  8430  		name = btf_name_by_offset(btf, t->name_off);
+0b5c8f05fa4671 Jiri Olsa 2022-12-20  8431  		if (!name)
+0b5c8f05fa4671 Jiri Olsa 2022-12-20  8432  			goto out_free;
+0b5c8f05fa4671 Jiri Olsa 2022-12-20  8433  		rid[i].name = name;
+0b5c8f05fa4671 Jiri Olsa 2022-12-20  8434  		rid[i].id = id;
+0b5c8f05fa4671 Jiri Olsa 2022-12-20  8435  		i++;
+0b5c8f05fa4671 Jiri Olsa 2022-12-20  8436  	}
+0b5c8f05fa4671 Jiri Olsa 2022-12-20  8437  
+0b5c8f05fa4671 Jiri Olsa 2022-12-20  8438  	sort(rid, bmap->cnt, sizeof(*rid), rid_name_cmp, NULL);
+0b5c8f05fa4671 Jiri Olsa 2022-12-20  8439  
+0b5c8f05fa4671 Jiri Olsa 2022-12-20  8440  	args.rid = rid;
+0b5c8f05fa4671 Jiri Olsa 2022-12-20  8441  	args.cnt = bmap->cnt;
+0b5c8f05fa4671 Jiri Olsa 2022-12-20  8442  	args.found = 0;
+0b5c8f05fa4671 Jiri Olsa 2022-12-20  8443  	kallsyms_on_each_symbol(kallsyms_callback, &args);
+0b5c8f05fa4671 Jiri Olsa 2022-12-20  8444  
+0b5c8f05fa4671 Jiri Olsa 2022-12-20  8445  	sort(rid, bmap->cnt, sizeof(*rid), rid_id_cmp, NULL);
+0b5c8f05fa4671 Jiri Olsa 2022-12-20  8446  
+0b5c8f05fa4671 Jiri Olsa 2022-12-20  8447  	for (i = 0; i < bmap->cnt; i++) {
+0b5c8f05fa4671 Jiri Olsa 2022-12-20  8448  		if (!rid[i].addr) {
+0b5c8f05fa4671 Jiri Olsa 2022-12-20  8449  			err = -EINVAL;
+0b5c8f05fa4671 Jiri Olsa 2022-12-20  8450  			goto out_free;
+0b5c8f05fa4671 Jiri Olsa 2022-12-20  8451  		}
+0b5c8f05fa4671 Jiri Olsa 2022-12-20  8452  		addrs[i] = rid[i].addr;
+0b5c8f05fa4671 Jiri Olsa 2022-12-20  8453  	}
+0b5c8f05fa4671 Jiri Olsa 2022-12-20  8454  	*paddrs = addrs;
+0b5c8f05fa4671 Jiri Olsa 2022-12-20  8455  	err = 0;
+0b5c8f05fa4671 Jiri Olsa 2022-12-20  8456  out_free:
+0b5c8f05fa4671 Jiri Olsa 2022-12-20  8457  	kfree(rid);
+0b5c8f05fa4671 Jiri Olsa 2022-12-20 @8458  	return err;
+0b5c8f05fa4671 Jiri Olsa 2022-12-20  8459  }
+0b5c8f05fa4671 Jiri Olsa 2022-12-20  8460  
 
 -- 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
 
---nyK1pPopIzJLBvMa
+--bRWzE0XxKH2qHujO
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename=config
 
@@ -5710,4 +5705,4 @@ CONFIG_ARCH_USE_MEMTEST=y
 # end of Rust hacking
 # end of Kernel hacking
 
---nyK1pPopIzJLBvMa--
+--bRWzE0XxKH2qHujO--
