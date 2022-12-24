@@ -1,70 +1,74 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD725182
-	for <oe-kbuild@lists.linux.dev>; Sat, 24 Dec 2022 02:38:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6439417E8
+	for <oe-kbuild@lists.linux.dev>; Sat, 24 Dec 2022 03:28:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1671849509; x=1703385509;
+  t=1671852511; x=1703388511;
   h=date:from:to:cc:subject:message-id:mime-version:
    content-transfer-encoding;
-  bh=YTpJf/EXn4uQmr/BteEwGX1fgFRpSXp8tR+Ecd0ebqI=;
-  b=Buj4Sd3KPOcM4/ZKtO2csiWdT9Rqa2zcJnMgBkxUd5lkmQ6pr7Jr+1Hb
-   pmX2wv+l+MTFLj44VZ68LPyZ1yp8j3v/H8pC0O0AqxQ9p3fZOI5oT/z9J
-   9DD8mkqWS/ofl+zuG4ySz3Dfzjvp2ENmjHKWcNF2HFo3nW5aTnS2EwDSw
-   U8pzlKqpmr6imtC9h5StXCrz2yUGzu/tyMYuqfmHJ/KPZ/IFPh8cjUaHS
-   4PzymZOBhsZwif61wUIpliImpNDXXtHldFOqKCg5tvCJ11yoHhw5C6ZRa
-   pg7bD2mcl+bpcwpAq+FGx2fnmDKe0QC2Xw1KA5fyH6U2HVMEFiaqJnu+b
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10570"; a="318042777"
+  bh=d5pN4YUK1+gau+5ODSUdWuhBvbQkodE11TqsmrbDfLY=;
+  b=OQv3RhWwktR4ORdoF0VRAw8WtnC2jGyd8uAIl61qIPqvsMTYw6Kc5ZDQ
+   jtldpIe030g5GZtyD3BsqV/kPbpgR2CvWN4SIH9+NyjKaFALPHY3YaXt7
+   JJ7AQIsqA5zob3+uPhUrcUur+xijgz4bsEAPGaMzGUOzJWoiS0/9oDnnT
+   koFoZAOL9oxAChkRAevu9Wb+cqzKtPA+FxhWtz2kqHKyhhWFoIWoEvtLN
+   hsVWKiu/zkYzU1j6vPN7aO9YazUCHuCdNhvQj8lyvxhGo0Zi88cHOhq1V
+   yVJExylOf4H6q3YRPZq/hAtbL4uRnxfxJ4SQyC72JvfFPprFNzl8NZySL
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10570"; a="300077001"
 X-IronPort-AV: E=Sophos;i="5.96,270,1665471600"; 
-   d="scan'208";a="318042777"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2022 18:38:29 -0800
+   d="scan'208";a="300077001"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2022 19:28:30 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10570"; a="720783153"
+X-IronPort-AV: E=McAfee;i="6500,9779,10570"; a="897670414"
 X-IronPort-AV: E=Sophos;i="5.96,270,1665471600"; 
-   d="scan'208";a="720783153"
+   d="scan'208";a="897670414"
 Received: from lkp-server01.sh.intel.com (HELO b5d47979f3ad) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 23 Dec 2022 18:38:27 -0800
+  by fmsmga006.fm.intel.com with ESMTP; 23 Dec 2022 19:28:28 -0800
 Received: from kbuild by b5d47979f3ad with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1p8uQc-000D2l-1s;
-	Sat, 24 Dec 2022 02:38:26 +0000
-Date: Sat, 24 Dec 2022 10:37:48 +0800
+	id 1p8vD1-000D4N-1c;
+	Sat, 24 Dec 2022 03:28:27 +0000
+Date: Sat, 24 Dec 2022 11:28:17 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [xilinx-xlnx:xlnx_rebase_v5.15_LTS 72/1346]
- drivers/mtd/spi-nor/core.c:1891 spi_nor_read_id() error: we previously
- assumed 'nor->spimem' could be null (see line 1873)
-Message-ID: <202212241022.TAtlUM9B-lkp@intel.com>
+Subject: [xilinx-xlnx:xlnx_rebase_v5.15_LTS 861/1346]
+ drivers/spi/spi-xilinx.c:848 xilinx_spi_probe() error: uninitialized symbol
+ 'cs_num'.
+Message-ID: <202212241129.O6jpco3V-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="WwaSqNJuPuxNzzhR"
+Content-Type: multipart/mixed; boundary="UDfdNZUUNOPXdTuh"
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 
 
---WwaSqNJuPuxNzzhR
-Content-Type: text/plain; charset=utf-8
+--UDfdNZUUNOPXdTuh
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-arm-kernel@lists.infradead.org
-TO: Sai Krishna Potthuri <lakshmi.sai.krishna.potthuri@xilinx.com>
+TO: Amit Kumar Mahapatra <amit.kumar-mahapatra@xilinx.com>
 CC: Michal Simek <monstr@monstr.eu>
-CC: Radhey Shyam Pandey <radhey.shyam.pandey@xilinx.com>
+CC: Sai Krishna Potthuri <lakshmi.sai.krishna.potthuri@xilinx.com>
+CC: Tejas Prajapati Rameshchandra <tejaspra@xilinx.com>
+CC: Naga Sureshkumar Relli <nagasure@xilinx.com>
+CC: Shubhrajyoti Datta <shubhrajyoti.datta@xilinx.com>
+CC: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
 
 tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v5.15_LTS
 head:   b9b26dcfcb221a7465b71e124f9ec0f4f4be988d
-commit: 87a0aa695a2dbabc2d1a24acbb421529ea53c59e [72/1346] spi: spi-cadence-quadspi: Add support for DDR PHY mode
+commit: 3973536c456079bf3d09e9a97bf33d29422b183f [861/1346] spi: spi-xilinx: Updated axi-qspi controller driver
 :::::: branch date: 3 days ago
 :::::: commit date: 11 months ago
 config: arm-randconfig-m041-20221218
@@ -74,64 +78,282 @@ If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
 
-New smatch warnings:
-drivers/mtd/spi-nor/core.c:1891 spi_nor_read_id() error: we previously assumed 'nor->spimem' could be null (see line 1873)
+smatch warnings:
+drivers/spi/spi-xilinx.c:848 xilinx_spi_probe() error: uninitialized symbol 'cs_num'.
 
-Old smatch warnings:
-drivers/mtd/spi-nor/core.c:1544 spi_nor_init_erase_cmd_list() warn: passing a valid pointer to 'PTR_ERR'
-drivers/mtd/spi-nor/core.c:1558 spi_nor_init_erase_cmd_list() warn: passing a valid pointer to 'PTR_ERR'
+vim +/cs_num +848 drivers/spi/spi-xilinx.c
 
-vim +1891 drivers/mtd/spi-nor/core.c
-
-9ec4bbcb2044ea drivers/mtd/spi-nor/core.c    Boris Brezillon      2020-03-13  1865  
-06bb6f5a69dfc5 drivers/mtd/spi-nor/spi-nor.c Rafa≈Ç Mi≈Çecki        2015-08-10  1866  static const struct flash_info *spi_nor_read_id(struct spi_nor *nor)
-b199489d37b21c drivers/mtd/spi-nor/spi-nor.c Huang Shijie         2014-02-24  1867  {
-9ec4bbcb2044ea drivers/mtd/spi-nor/core.c    Boris Brezillon      2020-03-13  1868  	const struct flash_info *info;
-f173f26a4d543f drivers/mtd/spi-nor/spi-nor.c Vignesh Raghavendra  2019-08-06  1869  	u8 *id = nor->bouncebuf;
-2dcbfe365b1303 drivers/mtd/spi-nor/spi-nor.c Jonathan Neusch√§fer  2020-02-23  1870  	unsigned int i;
-2dcbfe365b1303 drivers/mtd/spi-nor/spi-nor.c Jonathan Neusch√§fer  2020-02-23  1871  	int ret;
-b199489d37b21c drivers/mtd/spi-nor/spi-nor.c Huang Shijie         2014-02-24  1872  
-b35b9a10362d20 drivers/mtd/spi-nor/spi-nor.c Boris Brezillon      2019-08-06 @1873  	if (nor->spimem) {
-b35b9a10362d20 drivers/mtd/spi-nor/spi-nor.c Boris Brezillon      2019-08-06  1874  		struct spi_mem_op op =
-b35b9a10362d20 drivers/mtd/spi-nor/spi-nor.c Boris Brezillon      2019-08-06  1875  			SPI_MEM_OP(SPI_MEM_OP_CMD(SPINOR_OP_RDID, 1),
-b35b9a10362d20 drivers/mtd/spi-nor/spi-nor.c Boris Brezillon      2019-08-06  1876  				   SPI_MEM_OP_NO_ADDR,
-b35b9a10362d20 drivers/mtd/spi-nor/spi-nor.c Boris Brezillon      2019-08-06  1877  				   SPI_MEM_OP_NO_DUMMY,
-b35b9a10362d20 drivers/mtd/spi-nor/spi-nor.c Boris Brezillon      2019-08-06  1878  				   SPI_MEM_OP_DATA_IN(SPI_NOR_MAX_ID_LEN, id, 1));
-b35b9a10362d20 drivers/mtd/spi-nor/spi-nor.c Boris Brezillon      2019-08-06  1879  
-2dcbfe365b1303 drivers/mtd/spi-nor/spi-nor.c Jonathan Neusch√§fer  2020-02-23  1880  		ret = spi_mem_exec_op(nor->spimem, &op);
-b35b9a10362d20 drivers/mtd/spi-nor/spi-nor.c Boris Brezillon      2019-08-06  1881  	} else {
-2dcbfe365b1303 drivers/mtd/spi-nor/spi-nor.c Jonathan Neusch√§fer  2020-02-23  1882  		ret = nor->controller_ops->read_reg(nor, SPINOR_OP_RDID, id,
-b35b9a10362d20 drivers/mtd/spi-nor/spi-nor.c Boris Brezillon      2019-08-06  1883  						    SPI_NOR_MAX_ID_LEN);
-b35b9a10362d20 drivers/mtd/spi-nor/spi-nor.c Boris Brezillon      2019-08-06  1884  	}
-2dcbfe365b1303 drivers/mtd/spi-nor/spi-nor.c Jonathan Neusch√§fer  2020-02-23  1885  	if (ret) {
-2dcbfe365b1303 drivers/mtd/spi-nor/spi-nor.c Jonathan Neusch√§fer  2020-02-23  1886  		dev_dbg(nor->dev, "error %d reading JEDEC ID\n", ret);
-2dcbfe365b1303 drivers/mtd/spi-nor/spi-nor.c Jonathan Neusch√§fer  2020-02-23  1887  		return ERR_PTR(ret);
-b199489d37b21c drivers/mtd/spi-nor/spi-nor.c Huang Shijie         2014-02-24  1888  	}
-b199489d37b21c drivers/mtd/spi-nor/spi-nor.c Huang Shijie         2014-02-24  1889  
-87a0aa695a2dba drivers/mtd/spi-nor/core.c    Sai Krishna Potthuri 2021-12-09  1890  	for (i = 0; i < SPI_NOR_MAX_ID_LEN; i++)
-87a0aa695a2dba drivers/mtd/spi-nor/core.c    Sai Krishna Potthuri 2021-12-09 @1891  		nor->spimem->device_id[i] = id[i];
-87a0aa695a2dba drivers/mtd/spi-nor/core.c    Sai Krishna Potthuri 2021-12-09  1892  
-9ec4bbcb2044ea drivers/mtd/spi-nor/core.c    Boris Brezillon      2020-03-13  1893  	for (i = 0; i < ARRAY_SIZE(manufacturers); i++) {
-9ec4bbcb2044ea drivers/mtd/spi-nor/core.c    Boris Brezillon      2020-03-13  1894  		info = spi_nor_search_part_by_id(manufacturers[i]->parts,
-9ec4bbcb2044ea drivers/mtd/spi-nor/core.c    Boris Brezillon      2020-03-13  1895  						 manufacturers[i]->nparts,
-9ec4bbcb2044ea drivers/mtd/spi-nor/core.c    Boris Brezillon      2020-03-13  1896  						 id);
-9ec4bbcb2044ea drivers/mtd/spi-nor/core.c    Boris Brezillon      2020-03-13  1897  		if (info) {
-9ec4bbcb2044ea drivers/mtd/spi-nor/core.c    Boris Brezillon      2020-03-13  1898  			nor->manufacturer = manufacturers[i];
-9ec4bbcb2044ea drivers/mtd/spi-nor/core.c    Boris Brezillon      2020-03-13  1899  			return info;
-b199489d37b21c drivers/mtd/spi-nor/spi-nor.c Huang Shijie         2014-02-24  1900  		}
-9ec4bbcb2044ea drivers/mtd/spi-nor/core.c    Boris Brezillon      2020-03-13  1901  	}
-9ec4bbcb2044ea drivers/mtd/spi-nor/core.c    Boris Brezillon      2020-03-13  1902  
-3ddc8adbbc7683 drivers/mtd/spi-nor/spi-nor.c Geert Uytterhoeven   2019-03-12  1903  	dev_err(nor->dev, "unrecognized JEDEC id bytes: %*ph\n",
-3ddc8adbbc7683 drivers/mtd/spi-nor/spi-nor.c Geert Uytterhoeven   2019-03-12  1904  		SPI_NOR_MAX_ID_LEN, id);
-b199489d37b21c drivers/mtd/spi-nor/spi-nor.c Huang Shijie         2014-02-24  1905  	return ERR_PTR(-ENODEV);
-b199489d37b21c drivers/mtd/spi-nor/spi-nor.c Huang Shijie         2014-02-24  1906  }
-b199489d37b21c drivers/mtd/spi-nor/spi-nor.c Huang Shijie         2014-02-24  1907  
+ae918c02d365c8 drivers/spi/xilinx_spi.c Andrei Konovalov     2007-07-17  607  
+ae918c02d365c8 drivers/spi/xilinx_spi.c Andrei Konovalov     2007-07-17  608  /* This driver supports single master mode only. Hence Tx FIFO Empty
+ae918c02d365c8 drivers/spi/xilinx_spi.c Andrei Konovalov     2007-07-17  609   * is the only interrupt we care about.
+ae918c02d365c8 drivers/spi/xilinx_spi.c Andrei Konovalov     2007-07-17  610   * Receive FIFO Overrun, Transmit FIFO Underrun, Mode Fault, and Slave Mode
+ae918c02d365c8 drivers/spi/xilinx_spi.c Andrei Konovalov     2007-07-17  611   * Fault are not to happen.
+ae918c02d365c8 drivers/spi/xilinx_spi.c Andrei Konovalov     2007-07-17  612   */
+ae918c02d365c8 drivers/spi/xilinx_spi.c Andrei Konovalov     2007-07-17  613  static irqreturn_t xilinx_spi_irq(int irq, void *dev_id)
+ae918c02d365c8 drivers/spi/xilinx_spi.c Andrei Konovalov     2007-07-17  614  {
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  615  	struct spi_master *master = dev_id;
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  616  	struct xilinx_spi *xspi = spi_master_get_devdata(dev_id);
+ae918c02d365c8 drivers/spi/xilinx_spi.c Andrei Konovalov     2007-07-17  617  	u32 ipif_isr;
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  618  	irqreturn_t status = IRQ_NONE;
+ae918c02d365c8 drivers/spi/xilinx_spi.c Andrei Konovalov     2007-07-17  619  
+ae918c02d365c8 drivers/spi/xilinx_spi.c Andrei Konovalov     2007-07-17  620  	/* Get the IPIF interrupts, and clear them immediately */
+86fc593599c11b drivers/spi/xilinx_spi.c Richard Rˆjfors      2009-11-13  621  	ipif_isr = xspi->read_fn(xspi->regs + XIPIF_V123B_IISR_OFFSET);
+86fc593599c11b drivers/spi/xilinx_spi.c Richard Rˆjfors      2009-11-13  622  	xspi->write_fn(ipif_isr, xspi->regs + XIPIF_V123B_IISR_OFFSET);
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  623  	if (ipif_isr & XSPI_INTR_TX_EMPTY)  {
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  624  		/* Transmission completed */
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  625  		xspi->rx_fifo(xspi);
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  626  		if (xspi->bytes_to_transfer) {
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  627  			/* There is more data to send */
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  628  			xspi->tx_fifo(xspi);
+ae918c02d365c8 drivers/spi/xilinx_spi.c Andrei Konovalov     2007-07-17  629  		}
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  630  		status = IRQ_HANDLED;
+ae918c02d365c8 drivers/spi/xilinx_spi.c Andrei Konovalov     2007-07-17  631  	}
+ae918c02d365c8 drivers/spi/xilinx_spi.c Andrei Konovalov     2007-07-17  632  
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  633  	if (!xspi->bytes_to_receive && !xspi->bytes_to_transfer) {
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  634  		spi_finalize_current_transfer(master);
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  635  		/* Disable the interrupts here. */
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  636  		xspi->write_fn(0x0, xspi->regs + XIPIF_V123B_DGIER_OFFSET);
+4c9a761402d780 drivers/spi/spi-xilinx.c Ricardo Ribalda      2015-01-28  637  	}
+4c9a761402d780 drivers/spi/spi-xilinx.c Ricardo Ribalda      2015-01-28  638  
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  639  	return status;
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  640  }
+7cb2abd05fe1f9 drivers/spi/spi-xilinx.c Mark Brown           2013-07-05  641  static int xilinx_spi_probe(struct platform_device *pdev)
+ae918c02d365c8 drivers/spi/xilinx_spi.c Andrei Konovalov     2007-07-17  642  {
+ae918c02d365c8 drivers/spi/xilinx_spi.c Andrei Konovalov     2007-07-17  643  	struct xilinx_spi *xspi;
+ad3fdbcaf98dc1 drivers/spi/spi-xilinx.c Michal Simek         2013-07-08  644  	struct resource *res;
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  645  	int ret;
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  646  	u32 num_cs = 0, bits_per_word = 8;
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  647  	u32 cs_num;
+d81c0bbbf84086 drivers/spi/spi-xilinx.c Mark Brown           2013-07-03  648  	struct spi_master *master;
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  649  	struct device_node *nc;
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  650  	u32 tmp, rx_bus_width, fifo_size;
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  651  	bool startup_block;
+d81c0bbbf84086 drivers/spi/spi-xilinx.c Mark Brown           2013-07-03  652  
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  653  	if (of_property_read_u32(pdev->dev.of_node, "num-cs", &num_cs))
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  654  		dev_info(&pdev->dev,
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  655  			 "Missing num-cs optional property, assuming default as <1>\n");
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  656  	if (!num_cs)
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  657  		num_cs = 1;
+d81c0bbbf84086 drivers/spi/spi-xilinx.c Mark Brown           2013-07-03  658  
+eb25f16c6f4469 drivers/spi/spi-xilinx.c Ricardo Ribalda      2015-01-28  659  	if (num_cs > XILINX_SPI_MAX_CS) {
+eb25f16c6f4469 drivers/spi/spi-xilinx.c Ricardo Ribalda      2015-01-28  660  		dev_err(&pdev->dev, "Invalid number of spi slaves\n");
+eb25f16c6f4469 drivers/spi/spi-xilinx.c Ricardo Ribalda      2015-01-28  661  		return -EINVAL;
+eb25f16c6f4469 drivers/spi/spi-xilinx.c Ricardo Ribalda      2015-01-28  662  	}
+eb25f16c6f4469 drivers/spi/spi-xilinx.c Ricardo Ribalda      2015-01-28  663  
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  664  	startup_block = of_property_read_bool(pdev->dev.of_node,
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  665  					      "xlnx,startup-block");
+7cb2abd05fe1f9 drivers/spi/spi-xilinx.c Mark Brown           2013-07-05  666  	master = spi_alloc_master(&pdev->dev, sizeof(struct xilinx_spi));
+d5af91a1faca68 drivers/spi/xilinx_spi.c Richard Rˆjfors      2009-11-13  667  	if (!master)
+d81c0bbbf84086 drivers/spi/spi-xilinx.c Mark Brown           2013-07-03  668  		return -ENODEV;
+ae918c02d365c8 drivers/spi/xilinx_spi.c Andrei Konovalov     2007-07-17  669  
+ae918c02d365c8 drivers/spi/xilinx_spi.c Andrei Konovalov     2007-07-17  670  	xspi = spi_master_get_devdata(master);
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  671  	master->dev.of_node = pdev->dev.of_node;
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  672  	platform_set_drvdata(pdev, master);
+ad3fdbcaf98dc1 drivers/spi/spi-xilinx.c Michal Simek         2013-07-08  673  	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+ad3fdbcaf98dc1 drivers/spi/spi-xilinx.c Michal Simek         2013-07-08  674  	xspi->regs = devm_ioremap_resource(&pdev->dev, res);
+c40537d008ab1b drivers/spi/spi-xilinx.c Mark Brown           2013-07-01  675  	if (IS_ERR(xspi->regs)) {
+c40537d008ab1b drivers/spi/spi-xilinx.c Mark Brown           2013-07-01  676  		ret = PTR_ERR(xspi->regs);
+ae918c02d365c8 drivers/spi/xilinx_spi.c Andrei Konovalov     2007-07-17  677  		goto put_master;
+ae918c02d365c8 drivers/spi/xilinx_spi.c Andrei Konovalov     2007-07-17  678  	}
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  679  	ret = of_property_read_u32(pdev->dev.of_node, "fifo-size",
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  680  				   &fifo_size);
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  681  	if (ret < 0) {
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  682  		dev_err(&pdev->dev,
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  683  			"Missing fifo size\n");
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  684  		return -EINVAL;
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  685  	}
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  686  	if (of_property_read_u32(pdev->dev.of_node, "bits-per-word",
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  687  				 &bits_per_word))
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  688  		dev_info(&pdev->dev,
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  689  			 "Missing bits-per-word optional property, assuming default as <8>\n");
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  690  
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  691  	xspi->rx_bus_width = XSPI_ONE_BITS_PER_WORD;
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  692  	for_each_available_child_of_node(pdev->dev.of_node, nc) {
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  693  		if (startup_block) {
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  694  			ret = of_property_read_u32(nc, "reg",
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  695  						   &cs_num);
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  696  			if (ret < 0)
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  697  				return -EINVAL;
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  698  		}
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  699  		ret = of_property_read_u32(nc, "spi-rx-bus-width",
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  700  					   &rx_bus_width);
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  701  		if (!ret) {
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  702  			xspi->rx_bus_width = rx_bus_width;
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  703  			break;
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  704  		}
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  705  	}
+ae918c02d365c8 drivers/spi/xilinx_spi.c Andrei Konovalov     2007-07-17  706  
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  707  	xspi->axi_clk = devm_clk_get(&pdev->dev, "axi_clk");
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  708  	if (IS_ERR(xspi->axi_clk)) {
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  709  		if (PTR_ERR(xspi->axi_clk) != -ENOENT) {
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  710  			ret = PTR_ERR(xspi->axi_clk);
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  711  			goto put_master;
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  712  		}
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  713  
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  714  		/*
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  715  		 * Clock framework support is optional, continue on,
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  716  		 * anyways if we don't find a matching clock
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  717  		 */
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  718  		xspi->axi_clk = NULL;
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  719  	}
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  720  
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  721  	ret = clk_prepare(xspi->axi_clk);
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  722  	if (ret) {
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  723  		dev_err(&pdev->dev, "Failed to prepare AXI clock\n");
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  724  		goto put_master;
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  725  	}
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  726  
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  727  	xspi->axi4_clk = devm_clk_get(&pdev->dev, "axi4_clk");
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  728  	if (IS_ERR(xspi->axi4_clk)) {
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  729  		if (PTR_ERR(xspi->axi4_clk) != -ENOENT) {
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  730  			ret = PTR_ERR(xspi->axi4_clk);
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  731  			goto clk_unprepare_axi_clk;
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  732  		}
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  733  
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  734  		/*
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  735  		 * Clock framework support is optional, continue on,
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  736  		 * anyways if we don't find a matching clock
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  737  		 */
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  738  		xspi->axi4_clk = NULL;
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  739  	}
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  740  
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  741  	ret = clk_prepare(xspi->axi4_clk);
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  742  	if (ret) {
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  743  		dev_err(&pdev->dev, "Failed to prepare AXI4 clock\n");
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  744  		goto clk_unprepare_axi_clk;
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  745  	}
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  746  
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  747  	xspi->spi_clk = devm_clk_get(&pdev->dev, "spi_clk");
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  748  	if (IS_ERR(xspi->spi_clk)) {
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  749  		if (PTR_ERR(xspi->spi_clk) != -ENOENT) {
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  750  			ret = PTR_ERR(xspi->spi_clk);
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  751  			goto clk_unprepare_axi4_clk;
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  752  		}
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  753  
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  754  		/*
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  755  		 * Clock framework support is optional, continue on,
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  756  		 * anyways if we don't find a matching clock
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  757  		 */
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  758  		xspi->spi_clk = NULL;
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  759  	}
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  760  
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  761  	ret = clk_prepare(xspi->spi_clk);
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  762  	if (ret) {
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  763  		dev_err(&pdev->dev, "Failed to prepare SPI clock\n");
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  764  		goto clk_unprepare_axi4_clk;
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  765  	}
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  766  
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  767  	pm_runtime_set_autosuspend_delay(&pdev->dev, SPI_AUTOSUSPEND_TIMEOUT);
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  768  	pm_runtime_use_autosuspend(&pdev->dev);
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  769  	pm_runtime_enable(&pdev->dev);
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  770  	ret = pm_runtime_get_sync(&pdev->dev);
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  771  	if (ret < 0)
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  772  		goto clk_unprepare_all;
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  773  
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  774  	xspi->dev = &pdev->dev;
+082339bc63cccf drivers/spi/spi-xilinx.c Michal Simek         2013-06-04  775  
+082339bc63cccf drivers/spi/spi-xilinx.c Michal Simek         2013-06-04  776  	/*
+082339bc63cccf drivers/spi/spi-xilinx.c Michal Simek         2013-06-04  777  	 * Detect endianess on the IP via loop bit in CR. Detection
+082339bc63cccf drivers/spi/spi-xilinx.c Michal Simek         2013-06-04  778  	 * must be done before reset is sent because incorrect reset
+082339bc63cccf drivers/spi/spi-xilinx.c Michal Simek         2013-06-04  779  	 * value generates error interrupt.
+082339bc63cccf drivers/spi/spi-xilinx.c Michal Simek         2013-06-04  780  	 * Setup little endian helper functions first and try to use them
+082339bc63cccf drivers/spi/spi-xilinx.c Michal Simek         2013-06-04  781  	 * and check if bit was correctly setup or not.
+082339bc63cccf drivers/spi/spi-xilinx.c Michal Simek         2013-06-04  782  	 */
+0635287a308d38 drivers/spi/spi-xilinx.c Mark Brown           2015-01-30  783  	xspi->read_fn = xspi_read32;
+0635287a308d38 drivers/spi/spi-xilinx.c Mark Brown           2015-01-30  784  	xspi->write_fn = xspi_write32;
+082339bc63cccf drivers/spi/spi-xilinx.c Michal Simek         2013-06-04  785  
+082339bc63cccf drivers/spi/spi-xilinx.c Michal Simek         2013-06-04  786  	xspi->write_fn(XSPI_CR_LOOP, xspi->regs + XSPI_CR_OFFSET);
+082339bc63cccf drivers/spi/spi-xilinx.c Michal Simek         2013-06-04  787  	tmp = xspi->read_fn(xspi->regs + XSPI_CR_OFFSET);
+082339bc63cccf drivers/spi/spi-xilinx.c Michal Simek         2013-06-04  788  	tmp &= XSPI_CR_LOOP;
+082339bc63cccf drivers/spi/spi-xilinx.c Michal Simek         2013-06-04  789  	if (tmp != XSPI_CR_LOOP) {
+0635287a308d38 drivers/spi/spi-xilinx.c Mark Brown           2015-01-30  790  		xspi->read_fn = xspi_read32_be;
+0635287a308d38 drivers/spi/spi-xilinx.c Mark Brown           2015-01-30  791  		xspi->write_fn = xspi_write32_be;
+86fc593599c11b drivers/spi/xilinx_spi.c Richard Rˆjfors      2009-11-13  792  	}
+082339bc63cccf drivers/spi/spi-xilinx.c Michal Simek         2013-06-04  793  
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  794  	xspi->buffer_size = fifo_size;
+7b3b7432ae7848 drivers/spi/spi-xilinx.c Michal Simek         2013-07-09  795  	xspi->irq = platform_get_irq(pdev, 0);
+4db9bf548bb00d drivers/spi/spi-xilinx.c Lars-Peter Clausen   2016-07-15  796  	if (xspi->irq < 0 && xspi->irq != -ENXIO) {
+4db9bf548bb00d drivers/spi/spi-xilinx.c Lars-Peter Clausen   2016-07-15  797  		ret = xspi->irq;
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  798  		goto clk_unprepare_all;
+4db9bf548bb00d drivers/spi/spi-xilinx.c Lars-Peter Clausen   2016-07-15  799  	} else if (xspi->irq >= 0) {
+ae918c02d365c8 drivers/spi/xilinx_spi.c Andrei Konovalov     2007-07-17  800  		/* Register for SPI Interrupt */
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  801  		ret = devm_request_irq(&pdev->dev, xspi->irq, xilinx_spi_irq,
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  802  				       0, dev_name(&pdev->dev), master);
+d5af91a1faca68 drivers/spi/xilinx_spi.c Richard Rˆjfors      2009-11-13  803  		if (ret)
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  804  			goto clk_unprepare_all;
+5fe11cc09ce81b drivers/spi/spi-xilinx.c Ricardo Ribalda      2015-01-28  805  	}
+5fe11cc09ce81b drivers/spi/spi-xilinx.c Ricardo Ribalda      2015-01-28  806  
+5fe11cc09ce81b drivers/spi/spi-xilinx.c Ricardo Ribalda      2015-01-28  807  	/* SPI controller initializations */
+5fe11cc09ce81b drivers/spi/spi-xilinx.c Ricardo Ribalda      2015-01-28  808  	xspi_init_hw(xspi);
+ae918c02d365c8 drivers/spi/xilinx_spi.c Andrei Konovalov     2007-07-17  809  
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  810  	pm_runtime_put(&pdev->dev);
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  811  
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  812  	master->bus_num = pdev->id;
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  813  	master->num_chipselect = num_cs;
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  814  	master->setup = xspi_setup;
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  815  	master->set_cs = xspi_chipselect;
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  816  	master->transfer_one = xspi_start_transfer;
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  817  	master->prepare_transfer_hardware = xspi_prepare_transfer_hardware;
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  818  	master->unprepare_transfer_hardware = xspi_unprepare_transfer_hardware;
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  819  	master->bits_per_word_mask = SPI_BPW_MASK(8);
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  820  	master->mode_bits = SPI_CPOL | SPI_CPHA | SPI_CS_HIGH;
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  821  
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  822  	xspi->bytes_per_word = bits_per_word / 8;
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  823  	xspi->tx_fifo = xspi_fill_tx_fifo_8;
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  824  	xspi->rx_fifo = xspi_read_rx_fifo_8;
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  825  	if (xspi->rx_bus_width == XSPI_RX_ONE_WIRE) {
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  826  		if (xspi->bytes_per_word == XSPI_TWO_BITS_PER_WORD) {
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  827  			xspi->tx_fifo = xspi_fill_tx_fifo_16;
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  828  			xspi->rx_fifo = xspi_read_rx_fifo_16;
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  829  		} else if (xspi->bytes_per_word == XSPI_FOUR_BITS_PER_WORD) {
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  830  			xspi->tx_fifo = xspi_fill_tx_fifo_32;
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  831  			xspi->rx_fifo = xspi_read_rx_fifo_32;
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  832  		}
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  833  	} else if (xspi->rx_bus_width == XSPI_RX_FOUR_WIRE) {
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  834  		master->mode_bits |= SPI_TX_QUAD | SPI_RX_QUAD;
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  835  	} else {
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  836  		dev_err(&pdev->dev, "Dual Mode not supported\n");
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  837  		goto clk_unprepare_all;
+ae918c02d365c8 drivers/spi/xilinx_spi.c Andrei Konovalov     2007-07-17  838  	}
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  839  	xspi->cs_inactive = 0xffffffff;
+ae918c02d365c8 drivers/spi/xilinx_spi.c Andrei Konovalov     2007-07-17  840  
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  841  	/*
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  842  	 * This is the work around for the startup block issue in
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  843  	 * the spi controller. SPI clock is passing through STARTUP
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  844  	 * block to FLASH. STARTUP block don't provide clock as soon
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  845  	 * as QSPI provides command. So first command fails.
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  846  	 */
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  847  	if (startup_block)
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26 @848  		xilinx_spi_startup_block(xspi, cs_num);
+8fd8821b62397f drivers/spi/xilinx_spi.c Grant Likely         2010-10-14  849  
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  850  	ret = spi_register_master(master);
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  851  	if (ret) {
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  852  		dev_err(&pdev->dev, "spi_register_master failed\n");
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  853  		goto clk_unprepare_all;
+eae6cb31d890e2 drivers/spi/xilinx_spi.c Grant Likely         2010-10-14  854  	}
+eae6cb31d890e2 drivers/spi/xilinx_spi.c Grant Likely         2010-10-14  855  
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  856  	return ret;
+eae6cb31d890e2 drivers/spi/xilinx_spi.c Grant Likely         2010-10-14  857  
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  858  clk_unprepare_all:
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  859  	pm_runtime_disable(&pdev->dev);
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  860  	pm_runtime_set_suspended(&pdev->dev);
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  861  	clk_unprepare(xspi->spi_clk);
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  862  clk_unprepare_axi4_clk:
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  863  	clk_unprepare(xspi->axi4_clk);
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  864  clk_unprepare_axi_clk:
+3973536c456079 drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  865  	clk_unprepare(xspi->axi_clk);
+ae918c02d365c8 drivers/spi/xilinx_spi.c Andrei Konovalov     2007-07-17  866  put_master:
+ae918c02d365c8 drivers/spi/xilinx_spi.c Andrei Konovalov     2007-07-17  867  	spi_master_put(master);
+eae6cb31d890e2 drivers/spi/xilinx_spi.c Grant Likely         2010-10-14  868  
+d81c0bbbf84086 drivers/spi/spi-xilinx.c Mark Brown           2013-07-03  869  	return ret;
+eae6cb31d890e2 drivers/spi/xilinx_spi.c Grant Likely         2010-10-14  870  }
+eae6cb31d890e2 drivers/spi/xilinx_spi.c Grant Likely         2010-10-14  871  
 
 -- 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
 
---WwaSqNJuPuxNzzhR
+--UDfdNZUUNOPXdTuh
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename=config
 
@@ -864,6 +1086,7 @@ CONFIG_OF_IRQ=y
 CONFIG_OF_RESERVED_MEM=y
 CONFIG_OF_RESOLVE=y
 CONFIG_OF_OVERLAY=y
+# CONFIG_OF_CONFIGFS is not set
 CONFIG_ARCH_MIGHT_HAVE_PC_PARPORT=y
 # CONFIG_PARPORT is not set
 
@@ -898,6 +1121,9 @@ CONFIG_HMC6352=y
 CONFIG_LATTICE_ECP3_CONFIG=y
 # CONFIG_SRAM is not set
 CONFIG_XILINX_SDFEC=y
+# CONFIG_XILINX_FLEX_PM is not set
+# CONFIG_XILINX_TRAFGEN is not set
+# CONFIG_XILINX_JESD204B is not set
 CONFIG_C2PORT=y
 
 #
@@ -1982,6 +2208,7 @@ CONFIG_SENSORS_Q54SJ108A2=y
 CONFIG_SENSORS_STPDDC60=y
 CONFIG_SENSORS_TPS40422=y
 # CONFIG_SENSORS_TPS53679 is not set
+# CONFIG_SENSORS_TPS544 is not set
 CONFIG_SENSORS_UCD9000=y
 # CONFIG_SENSORS_UCD9200 is not set
 CONFIG_SENSORS_XDPE122=y
@@ -2617,6 +2844,7 @@ CONFIG_TINYDRM_MI0283QT=y
 CONFIG_TINYDRM_ST7735R=y
 CONFIG_DRM_PL111=y
 CONFIG_DRM_TIDSS=y
+# CONFIG_DRM_XLNX is not set
 CONFIG_DRM_PANEL_ORIENTATION_QUIRKS=y
 
 #
@@ -2998,6 +3226,8 @@ CONFIG_COMMON_CLK_SI514=y
 CONFIG_COMMON_CLK_SI544=y
 CONFIG_COMMON_CLK_SI570=y
 # CONFIG_COMMON_CLK_BM1880 is not set
+# CONFIG_COMMON_CLK_SI5324 is not set
+# CONFIG_COMMON_CLK_IDT8T49N24X is not set
 CONFIG_COMMON_CLK_CDCE706=y
 CONFIG_COMMON_CLK_CDCE925=y
 CONFIG_COMMON_CLK_CS2000_CP=y
@@ -3019,6 +3249,8 @@ CONFIG_COMMON_CLK_STM32H7=y
 # CONFIG_COMMON_CLK_MMP2_AUDIO is not set
 CONFIG_COMMON_CLK_BD718XX=y
 CONFIG_COMMON_CLK_FIXED_MMIO=y
+# CONFIG_COMMON_CLK_XLNX_CLKWZRD is not set
+# CONFIG_COMMON_CLK_XLNX_CLKWZRD_V is not set
 # CONFIG_CLK_ACTIONS is not set
 # CONFIG_CLK_BAIKAL_T1 is not set
 # CONFIG_CLK_BCM2711_DVP is not set
@@ -3461,6 +3693,7 @@ CONFIG_ENVELOPE_DETECTOR=y
 CONFIG_HI8435=y
 CONFIG_HX711=y
 CONFIG_INA2XX_ADC=y
+# CONFIG_INA260_ADC is not set
 # CONFIG_INGENIC_ADC is not set
 # CONFIG_IMX7D_ADC is not set
 CONFIG_LP8788_ADC=y
@@ -3518,6 +3751,8 @@ CONFIG_TI_AM335X_ADC=y
 CONFIG_TI_TSC2046=y
 CONFIG_VF610_ADC=y
 CONFIG_XILINX_XADC=y
+# CONFIG_XILINX_AMS is not set
+# CONFIG_VERSAL_SYSMON is not set
 # end of Analog to digital converters
 
 #
@@ -4149,6 +4384,7 @@ CONFIG_STM_DUMMY=y
 # end of HW tracing support
 
 CONFIG_FPGA=y
+# CONFIG_FPGA_MGR_DEBUG_FS is not set
 # CONFIG_FPGA_MGR_SOCFPGA is not set
 # CONFIG_FPGA_MGR_SOCFPGA_A10 is not set
 # CONFIG_ALTERA_PR_IP_CORE is not set
@@ -4157,6 +4393,7 @@ CONFIG_FPGA=y
 # CONFIG_FPGA_MGR_XILINX_SPI is not set
 # CONFIG_FPGA_MGR_ICE40_SPI is not set
 CONFIG_FPGA_MGR_MACHXO2_SPI=y
+# CONFIG_XILINX_AFI_FPGA is not set
 CONFIG_FPGA_BRIDGE=y
 # CONFIG_ALTERA_FREEZE_BRIDGE is not set
 CONFIG_XILINX_PR_DECOUPLER=y
@@ -4531,7 +4768,9 @@ CONFIG_CRYPTO_DEV_ATMEL_SHA204A=y
 # CONFIG_CRYPTO_DEV_QCE is not set
 # CONFIG_CRYPTO_DEV_QCOM_RNG is not set
 # CONFIG_CRYPTO_DEV_IMGTEC_HASH is not set
+# CONFIG_CRYPTO_DEV_XILINX_RSA is not set
 # CONFIG_CRYPTO_DEV_ZYNQMP_AES is not set
+# CONFIG_CRYPTO_DEV_ZYNQMP_AES_SKCIPHER is not set
 CONFIG_CRYPTO_DEV_VIRTIO=y
 CONFIG_CRYPTO_DEV_STM32_CRC=y
 CONFIG_CRYPTO_DEV_STM32_HASH=y
@@ -4853,4 +5092,4 @@ CONFIG_ARCH_USE_MEMTEST=y
 # CONFIG_WARN_ABI_ERRORS is not set
 # end of Kernel hacking
 
---WwaSqNJuPuxNzzhR--
+--UDfdNZUUNOPXdTuh--
