@@ -1,73 +1,132 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CC503D61
-	for <oe-kbuild@lists.linux.dev>; Sat, 24 Dec 2022 19:18:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1671909529; x=1703445529;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=d6NFLCqwIV6MiI0HrCmJG3AR0Lc7cgRQi3W1S/2iHwc=;
-  b=DdnDnzorzKik3KMx/2HpF8xszJAx+Ldwf4wVCNjlxjdBosP7C+ijgjrr
-   ZLQbeUl0JLGPR42aooOaOE72NSrS6ygEQT0mPaHhdKFoobk38Me765R/c
-   msbq9Tav81QWJnzO5zxhVOrq7Ibbyr3l500y8b2nm95vK9wcfznTCWK+P
-   Gy/slB4E0hdTOSVuBM6QkdXRkd9wvESkqFOvvSZx8GZZn3hWJHio+uyMM
-   Y+decM7+3pvN8tshrCmFtDfrHGjoL+fkvGYEJa1wrhv3CS9g9j6YIvUGL
-   p4FEwkHBR47HgNL3+nEZJHUhgZbJ8/tH9g6lho5qrMgNMmnCaogIGvOXT
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10571"; a="300122161"
-X-IronPort-AV: E=Sophos;i="5.96,271,1665471600"; 
-   d="scan'208";a="300122161"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Dec 2022 11:18:49 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10571"; a="715740778"
-X-IronPort-AV: E=Sophos;i="5.96,271,1665471600"; 
-   d="scan'208";a="715740778"
-Received: from lkp-server01.sh.intel.com (HELO b5d47979f3ad) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 24 Dec 2022 11:18:48 -0800
-Received: from kbuild by b5d47979f3ad with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1p9A2h-000DYB-2G;
-	Sat, 24 Dec 2022 19:18:47 +0000
-Date: Sun, 25 Dec 2022 03:18:31 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [frank-w-bpi-r2-4.14:6.1-cryptodev 74/77]
- utils/cryptodev/cryptodev-linux/lib/benchmark.h: sys/time.h is included more
- than once.
-Message-ID: <202212250337.g35HVMpd-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4ABAC3D61;
+	Sat, 24 Dec 2022 19:30:45 +0000 (UTC)
+Received: by mail-wm1-f48.google.com with SMTP id ay40so5587284wmb.2;
+        Sat, 24 Dec 2022 11:30:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=mofTUi3driuT1Kc5x++iqfijA+ZbuXFDPh6ffwSeT3U=;
+        b=ECnyAIn4LF/xDizUZxrueyG4ejveMXeG0yUrU2qIMfTH7uMHMr8LCfPaZWWixbyU76
+         t9yS14da4MpyzXREt7TIBw5BFOEHvMWbLmbT59MHob0t1MIV0uWXoU6J0DtPW7jHf+8O
+         wrDO9VBOLhqfmNXmAO2KyCkDmv2rYGaV8yir8Yw0gR+kXaMPrShyRJw9O3P7LYHg8jeZ
+         lVy/0Irr5CgZ3ohdBCMBfW4nCTt2dW53Hg2EacFCh6owLMBxEXrI0wd9mByW76IKaJE2
+         MK+IszJOMcM5gZDpvO5fAQFW1fXpElO6XzJiM0m2IZqNidMqSC/ngEoeDbcp1nLybEZg
+         yaLw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=mofTUi3driuT1Kc5x++iqfijA+ZbuXFDPh6ffwSeT3U=;
+        b=QrBE5a9RQHvEDOXvTFLbYrRA2CnQJvw/m5rNogv+68DOA3xs+pflMrT8jXEDeQ859R
+         SRvVKmfUfB5jJMa9ASGeyFiHZGXRkz9awR9+9c5LNTLZPhIyKi6Mly1SF0bh7s/iMaAF
+         /8owyRI8M/FdwI0ORJhWLIXopvdg69IkotfrsUlJ0Vz78v7DALNc0ix0EfsGkWUDd51v
+         /nxUt4C0VmNTiszzKkLhtqDuovrTBGTfapRC06rzseVB6nuW623rSanZG62T4J7uTBdx
+         PhGsuNkoL8S0qu9qpUdRsQnuhqydZxBgzuRis1D5W+mnVJwT5k4luOj3Yc0AuLDqC1S9
+         Yrfw==
+X-Gm-Message-State: AFqh2kqtbyIOHnouVK2p5u/EftntzpiNJ5jhoDoIpE/e49I1Btstuciz
+	3Y7N40VwFXwYF6UornfpaQA=
+X-Google-Smtp-Source: AMrXdXtjGKOzguoqURnHPzeA9K8hiZkkssjg4+BjvabqjFnsLtb1JwLeRcbswH/6c6GTd6s+6O9C/A==
+X-Received: by 2002:a05:600c:1e11:b0:3d2:26e1:bd45 with SMTP id ay17-20020a05600c1e1100b003d226e1bd45mr11787321wmb.29.1671910243474;
+        Sat, 24 Dec 2022 11:30:43 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id n36-20020a05600c3ba400b003b49bd61b19sm14075726wms.15.2022.12.24.11.30.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 24 Dec 2022 11:30:42 -0800 (PST)
+Date: Sat, 24 Dec 2022 22:30:39 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc: oe-kbuild@lists.linux.dev, Qingtao Cao <qingtao.cao.au@gmail.com>,
+	lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Bartosz Golaszewski <brgl@bgdev.pl>
+Subject: Re: drivers/gpio/gpio-exar.c:52 exar_offset_to_sel_addr() warn:
+ replace divide condition 'pin / 8' with 'pin >= 8'
+Message-ID: <Y6dTX2wx/SXlswGC@kadam>
+References: <202212181140.EAWl7FKx-lkp@intel.com>
+ <3D147284-AF8C-4414-9BE1-C83032B6C15D@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <3D147284-AF8C-4414-9BE1-C83032B6C15D@gmail.com>
 
-:::::: 
-:::::: Manual check reason: "low confidence bisect report"
-:::::: 
+On Sat, Dec 24, 2022 at 05:19:27PM +0100, Andy Shevchenko wrote:
+> 
+> 
+> Lähetetty iPhonesta
+> 
+> > Dan Carpenter <error27@gmail.com> kirjoitti 23.12.2022 kello 11.54:
+> > 
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> > head:   f9ff5644bcc04221bae56f922122f2b7f5d24d62
+> > commit: 5134272f9f3f71d4e1f3aa15cb09321af49b3646 gpio: exar: access MPIO registers on cascaded chips
+> > config: ia64-randconfig-m031-20221218
+> > compiler: ia64-linux-gcc (GCC) 12.1.0
+> > 
+> > If you fix the issue, kindly add following tag where applicable
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Reported-by: Dan Carpenter <error27@gmail.com>
+> > 
+> > smatch warnings:
+> > drivers/gpio/gpio-exar.c:52 exar_offset_to_sel_addr() warn: replace divide condition 'pin / 8' with 'pin >= 8'
+> > drivers/gpio/gpio-exar.c:62 exar_offset_to_lvl_addr() warn: replace divide condition 'pin / 8' with 'pin >= 8'
+> > 
+> 
+> 
+> 
+> I don’t think this is a good advice. If we want to limit that, we need
+> to check also upper limit. But. The GPIO framework does that. So,
+> changing / to >= is bogus.
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: Frank Wunderlich <frank-w@public-files.de>
 
-tree:   https://github.com/frank-w/BPI-R2-4.14 6.1-cryptodev
-head:   43fc63239ed935f098937cf8243ea65fb95d88bd
-commit: e84976bd6acce5a628ab878542556557ea1232b9 [74/77] cryptodev: add latest cryptodev-master from jan 7th 2022
-:::::: branch date: 10 hours ago
-:::::: commit date: 10 hours ago
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+How is checking pin / 8 not mathematically equivalent to pin >= 8?
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
+I don't understand this code at all.  The divide is inscrutable  Is it
+storing something in in the lower 3 bits and something in bit 4?  In
+that case it might be nicer to just check (pin & BIT(4)).
 
-includecheck warnings: (new ones prefixed by >>)
->> utils/cryptodev/cryptodev-linux/lib/benchmark.h: sys/time.h is included more than once.
+regards,
+dan carpenter
 
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+> 
+> 
+> > vim +52 drivers/gpio/gpio-exar.c
+> > 
+> > 696868d0a79c21 Bartosz Golaszewski 2020-09-30  47  static unsigned int
+> > 696868d0a79c21 Bartosz Golaszewski 2020-09-30  48  exar_offset_to_sel_addr(struct exar_gpio_chip *exar_gpio, unsigned int offset)
+> > 696868d0a79c21 Bartosz Golaszewski 2020-09-30  49  {
+> > 5134272f9f3f71 Qingtao Cao         2022-09-02  50      unsigned int pin = exar_gpio->first_pin + (offset % 16);
+> > 5134272f9f3f71 Qingtao Cao         2022-09-02  51      unsigned int cascaded = offset / 16;
+> > 5134272f9f3f71 Qingtao Cao         2022-09-02 @52      unsigned int addr = pin / 8 ? EXAR_OFFSET_MPIOSEL_HI : EXAR_OFFSET_MPIOSEL_LO;
+> > 
+> > Why not change this to pin > 8 instead.  Comparisons are faster than
+> > divide ops.  Way more readable too.
+> > 
+> > 5134272f9f3f71 Qingtao Cao         2022-09-02  53  
+> > 5134272f9f3f71 Qingtao Cao         2022-09-02  54      return addr + (cascaded ? exar_gpio->cascaded_offset : 0);
+> > 696868d0a79c21 Bartosz Golaszewski 2020-09-30  55  }
+> > 696868d0a79c21 Bartosz Golaszewski 2020-09-30  56  
+> > 696868d0a79c21 Bartosz Golaszewski 2020-09-30  57  static unsigned int
+> > 696868d0a79c21 Bartosz Golaszewski 2020-09-30  58  exar_offset_to_lvl_addr(struct exar_gpio_chip *exar_gpio, unsigned int offset)
+> > 696868d0a79c21 Bartosz Golaszewski 2020-09-30  59  {
+> > 5134272f9f3f71 Qingtao Cao         2022-09-02  60      unsigned int pin = exar_gpio->first_pin + (offset % 16);
+> > 5134272f9f3f71 Qingtao Cao         2022-09-02  61      unsigned int cascaded = offset / 16;
+> > 5134272f9f3f71 Qingtao Cao         2022-09-02 @62      unsigned int addr = pin / 8 ? EXAR_OFFSET_MPIOLVL_HI : EXAR_OFFSET_MPIOLVL_LO;
+> > 5134272f9f3f71 Qingtao Cao         2022-09-02  63  
+> > 5134272f9f3f71 Qingtao Cao         2022-09-02  64      return addr + (cascaded ? exar_gpio->cascaded_offset : 0);
+> > 696868d0a79c21 Bartosz Golaszewski 2020-09-30  65  }
+> > 
+> > -- 
+> > 0-DAY CI Kernel Test Service
+> > https://01.org/lkp
+> > 
