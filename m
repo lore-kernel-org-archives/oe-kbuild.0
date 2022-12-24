@@ -1,115 +1,132 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F5DF7B;
-	Sat, 24 Dec 2022 07:17:01 +0000 (UTC)
-Received: by mail-wr1-f52.google.com with SMTP id o5so6306683wrm.1;
-        Fri, 23 Dec 2022 23:17:01 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98DA47B;
+	Sat, 24 Dec 2022 07:18:33 +0000 (UTC)
+Received: by mail-wm1-f54.google.com with SMTP id fm16-20020a05600c0c1000b003d96fb976efso2329754wmb.3;
+        Fri, 23 Dec 2022 23:18:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=XYdZuRzobQmIoU+GUW5xOEJnXoxJQHcF7omPb4wLhQE=;
-        b=eq72v+3LBcvOBON4Ls8rGWFwmCnNJ9OoeCpYt2shZ7Ig+ysrUxOmn9O11XkB6/zY5s
-         aMC049QaZskHhQ4SRo08bepBWyFG+c2jdBMUY/oO5LFX+2EWeK6heXXIzUJnRRbwLbqk
-         r0JM+zP3L++NEEyKLOnrWzxnv4/etWfrwRAkW4bueLz7YXb5SO9WLJVTYOcIwpGFNrfa
-         qmBtdsPFf1+iKGbNt4PEWFZTMPkARWda5C8Rv1VvK08SobuZGHuPwoi9h2iIrBaGcbPL
-         uqU68dwGSxGevUWA9iiqaotddgjnh38XJohEa0VW+yfW6hm0ptId0uRHXrJtY09ItW9u
-         ZfrQ==
+        h=content-transfer-encoding:content-disposition:mime-version
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=vUx9cpZcYERslapw+heGtHbym4VjLEOm9qKWOBsoDho=;
+        b=YJXMrFBmbuGFRSBlOeoYqKmz9+A5rB47cUsWdc6C53vfWkYPTcbLawFP/tb00OQL69
+         SDKA6o4pX8FAHRvb6za2UEuVHKwozryv0SC/gHO4cMtl8x0FLZfLki3qrzJNJx8xpBMg
+         R4w0lzOdqLVaTteG4UYVmn9yrRBuB5+W79Hv2yBX29JLoYLszZ3e3nchh3MMNqRcomsi
+         j1D8kg0x1NRTBFy4NAoB9MPJonM/3MWrRqVCOvTZHDsPOTLRj9k2ulX2gqQTh6JlFWCY
+         2KGAzD1UkzrKG8aIP5ihTIgHzvudenT59Besz6UjCkT8leuszeaY44pnIUDPbmCwgX4E
+         /6cg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=XYdZuRzobQmIoU+GUW5xOEJnXoxJQHcF7omPb4wLhQE=;
-        b=KniMDddxCrEAHvD/apbxfKprPFrFiTlU3W9I+UEofYymn1C1cdT9a/zpZUiq02csIC
-         A1qyF/WWlxWWdUUkb3fOsqsYnFTDn1qKXf8PAYRiKOd5eTFwpDmgLE93xLzqd8sWt91k
-         GqtSMgqmRp20VoulNO2ExKyJmsDaGG7YByigrN9zsjaZGaheiXpYSmjkYKXDmJwEiIZm
-         HUkKdTDzdoak4tQ+Q8X+qjjSGaPuKicusMmyASM67QLZB341uYoQHLAihN4FQAyovsjg
-         N1oEloeaC+gj3NNkKS7S9TWCLNe8pLr19rYfKHZe3KWSwjQxBfowiiOdXlUjZ2CXx7QE
-         s4Kw==
-X-Gm-Message-State: AFqh2kpq5CbvZoGeJ6tuzNA7KAB0sOet7FS3W7Ikuk6B0FNTxUGs/XUn
-	cLMn9CsMdA8SpFH9/2KyFqH+zZNMfrtyYcxb
-X-Google-Smtp-Source: AMrXdXsBK3+3LWL4MW0/QLZP0R0349A+rn33at/1vXHt8anZlbc/DKK8ciK4wp9oBd2h+g0CELjmww==
-X-Received: by 2002:adf:ec88:0:b0:242:52b6:9054 with SMTP id z8-20020adfec88000000b0024252b69054mr8030764wrn.58.1671866219446;
-        Fri, 23 Dec 2022 23:16:59 -0800 (PST)
+        h=content-transfer-encoding:content-disposition:mime-version
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=vUx9cpZcYERslapw+heGtHbym4VjLEOm9qKWOBsoDho=;
+        b=rTh8zEvY1+pbY4b+7a0HkK498z3gxv9eQfQiRTTvx08r6ycMxZ06MHk/0kY2UhBS+f
+         3sHjejwDd0o7mjJNXmh49Nu5lPecmMVccj6JwhHpxDaNge7NBIrIC375XkFvVUGIhZxF
+         Ear/28asMM9jUzWirCTxBNcZYQwVwAmEglXSz/UDbZ6vg/VO8C9QGfdifG9qj0RcLEYn
+         n6ApFwf5BnA/+rAq7ueinDuPwgESiZ+xbbKELjRU2dJwcPhsLEmKuDPCFl2FmMsT9ZEo
+         JOMuyMBgXBYgXXrPgwXbbn6qF/xVsXD05bD6uxADf1aIcumYvx22WPx5EnA7GVZJtlx+
+         MtRg==
+X-Gm-Message-State: AFqh2kqFzWIdL6lEAnD6WfaH15DlBnY2sKzWLTriFGzOK+jQO+qeF+Xy
+	ETQoxSGrQBT/E2R38p5FluW+9dZmje3vLqQy
+X-Google-Smtp-Source: AMrXdXtS22tBWvj5h2ZriP3m1qOtlPHaplB1jO66/J65du0supZUcRESOdIhtmtawlTlWR/TntUwMQ==
+X-Received: by 2002:a05:600c:1da3:b0:3d3:4dbc:75ef with SMTP id p35-20020a05600c1da300b003d34dbc75efmr8709253wms.17.1671866311642;
+        Fri, 23 Dec 2022 23:18:31 -0800 (PST)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id k16-20020a056000005000b002258235bda3sm4865843wrx.61.2022.12.23.23.16.58
+        by smtp.gmail.com with ESMTPSA id h12-20020a05600c350c00b003d355ad9bb7sm12801789wmq.20.2022.12.23.23.18.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Dec 2022 23:16:59 -0800 (PST)
-Date: Sat, 24 Dec 2022 10:16:56 +0300
+        Fri, 23 Dec 2022 23:18:31 -0800 (PST)
+Date: Sat, 24 Dec 2022 10:18:28 +0300
 From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, wenyang.linux@foxmail.com,
-	Alexander Viro <viro@zeniv.linux.org.uk>
+To: oe-kbuild@lists.linux.dev,
+	Sai Krishna Potthuri <lakshmi.sai.krishna.potthuri@xilinx.com>
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Wen Yang <wenyang.linux@foxmail.com>, linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] eventfd: use a generic helper instead of an open coded
- wait_event
-Message-ID: <202212240819.6KA20geM-lkp@intel.com>
+	linux-arm-kernel@lists.infradead.org,
+	Michal Simek <monstr@monstr.eu>,
+	Radhey Shyam Pandey <radhey.shyam.pandey@xilinx.com>
+Subject: [xilinx-xlnx:xlnx_rebase_v5.15_LTS 72/1346]
+ drivers/mtd/spi-nor/core.c:1891 spi_nor_read_id() error: we previously
+ assumed 'nor->spimem' could be null (see line 1873)
+Message-ID: <202212241022.TAtlUM9B-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <tencent_B38979DE0FF3B9B3EA887A37487B123BBD05@qq.com>
-Message-ID: <20221224071656.Hh34roGnGtdBkLHj-KOyRsmUZ_uayhyZK1LjsKVVb2A@z>
+Content-Transfer-Encoding: 8bit
+Message-ID: <20221224071828.8Gcg-SgkHB4M8reOPPPSBODAfbF3T9h3JjByn81dPiw@z>
 
-Hi,
-
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/wenyang-linux-foxmail-com/eventfd-use-a-generic-helper-instead-of-an-open-coded-wait_event/20221222-234947
-patch link:    https://lore.kernel.org/r/tencent_B38979DE0FF3B9B3EA887A37487B123BBD05%40qq.com
-patch subject: [PATCH] eventfd: use a generic helper instead of an open coded wait_event
-config: i386-randconfig-m021
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v5.15_LTS
+head:   b9b26dcfcb221a7465b71e124f9ec0f4f4be988d
+commit: 87a0aa695a2dbabc2d1a24acbb421529ea53c59e [72/1346] spi: spi-cadence-quadspi: Add support for DDR PHY mode
+config: arm-randconfig-m041-20221218
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
 
-smatch warnings:
-fs/eventfd.c:254 eventfd_read() warn: inconsistent returns '&ctx->wqh.lock'.
+New smatch warnings:
+drivers/mtd/spi-nor/core.c:1891 spi_nor_read_id() error: we previously assumed 'nor->spimem' could be null (see line 1873)
 
-vim +254 fs/eventfd.c
+Old smatch warnings:
+drivers/mtd/spi-nor/core.c:1544 spi_nor_init_erase_cmd_list() warn: passing a valid pointer to 'PTR_ERR'
+drivers/mtd/spi-nor/core.c:1558 spi_nor_init_erase_cmd_list() warn: passing a valid pointer to 'PTR_ERR'
 
-12aceb89b0bce1 Jens Axboe     2020-05-01  226  static ssize_t eventfd_read(struct kiocb *iocb, struct iov_iter *to)
-e1ad7468c77ddb Davide Libenzi 2007-05-10  227  {
-12aceb89b0bce1 Jens Axboe     2020-05-01  228  	struct file *file = iocb->ki_filp;
-b6364572d641c8 Eric Biggers   2018-01-06  229  	struct eventfd_ctx *ctx = file->private_data;
-b6364572d641c8 Eric Biggers   2018-01-06  230  	__u64 ucnt = 0;
-e1ad7468c77ddb Davide Libenzi 2007-05-10  231  
-12aceb89b0bce1 Jens Axboe     2020-05-01  232  	if (iov_iter_count(to) < sizeof(ucnt))
-b6364572d641c8 Eric Biggers   2018-01-06  233  		return -EINVAL;
-d48eb233159522 Davide Libenzi 2007-05-18  234  	spin_lock_irq(&ctx->wqh.lock);
-12aceb89b0bce1 Jens Axboe     2020-05-01  235  	if (!ctx->count) {
-12aceb89b0bce1 Jens Axboe     2020-05-01  236  		if ((file->f_flags & O_NONBLOCK) ||
-12aceb89b0bce1 Jens Axboe     2020-05-01  237  		    (iocb->ki_flags & IOCB_NOWAIT)) {
-12aceb89b0bce1 Jens Axboe     2020-05-01  238  			spin_unlock_irq(&ctx->wqh.lock);
-12aceb89b0bce1 Jens Axboe     2020-05-01  239  			return -EAGAIN;
-12aceb89b0bce1 Jens Axboe     2020-05-01  240  		}
-c908f8e6a3a1eb Wen Yang       2022-12-22  241  
-c908f8e6a3a1eb Wen Yang       2022-12-22  242  		if (wait_event_interruptible_locked_irq(ctx->wqh, ctx->count))
-12aceb89b0bce1 Jens Axboe     2020-05-01  243  			return -ERESTARTSYS;
+vim +1891 drivers/mtd/spi-nor/core.c
 
-spin_unlock_irq(&ctx->wqh.lock);
+06bb6f5a69dfc5 drivers/mtd/spi-nor/spi-nor.c Rafał Miłecki        2015-08-10  1866  static const struct flash_info *spi_nor_read_id(struct spi_nor *nor)
+b199489d37b21c drivers/mtd/spi-nor/spi-nor.c Huang Shijie         2014-02-24  1867  {
+9ec4bbcb2044ea drivers/mtd/spi-nor/core.c    Boris Brezillon      2020-03-13  1868  	const struct flash_info *info;
+f173f26a4d543f drivers/mtd/spi-nor/spi-nor.c Vignesh Raghavendra  2019-08-06  1869  	u8 *id = nor->bouncebuf;
+2dcbfe365b1303 drivers/mtd/spi-nor/spi-nor.c Jonathan Neuschäfer  2020-02-23  1870  	unsigned int i;
+2dcbfe365b1303 drivers/mtd/spi-nor/spi-nor.c Jonathan Neuschäfer  2020-02-23  1871  	int ret;
+b199489d37b21c drivers/mtd/spi-nor/spi-nor.c Huang Shijie         2014-02-24  1872  
+b35b9a10362d20 drivers/mtd/spi-nor/spi-nor.c Boris Brezillon      2019-08-06 @1873  	if (nor->spimem) {
+                                                                                            ^^^^^^^^^^^
+Check for NULL
 
-e1ad7468c77ddb Davide Libenzi 2007-05-10  244  	}
-b6364572d641c8 Eric Biggers   2018-01-06  245  	eventfd_ctx_do_read(ctx, &ucnt);
-9f0deaa12d832f Dylan Yudaken  2022-08-16  246  	current->in_eventfd = 1;
-e1ad7468c77ddb Davide Libenzi 2007-05-10  247  	if (waitqueue_active(&ctx->wqh))
-a9a08845e9acbd Linus Torvalds 2018-02-11  248  		wake_up_locked_poll(&ctx->wqh, EPOLLOUT);
-9f0deaa12d832f Dylan Yudaken  2022-08-16  249  	current->in_eventfd = 0;
-d48eb233159522 Davide Libenzi 2007-05-18  250  	spin_unlock_irq(&ctx->wqh.lock);
-12aceb89b0bce1 Jens Axboe     2020-05-01  251  	if (unlikely(copy_to_iter(&ucnt, sizeof(ucnt), to) != sizeof(ucnt)))
-b6364572d641c8 Eric Biggers   2018-01-06  252  		return -EFAULT;
-cb289d6244a37c Davide Libenzi 2010-01-13  253  
-12aceb89b0bce1 Jens Axboe     2020-05-01 @254  	return sizeof(ucnt);
-cb289d6244a37c Davide Libenzi 2010-01-13  255  }
+b35b9a10362d20 drivers/mtd/spi-nor/spi-nor.c Boris Brezillon      2019-08-06  1874  		struct spi_mem_op op =
+b35b9a10362d20 drivers/mtd/spi-nor/spi-nor.c Boris Brezillon      2019-08-06  1875  			SPI_MEM_OP(SPI_MEM_OP_CMD(SPINOR_OP_RDID, 1),
+b35b9a10362d20 drivers/mtd/spi-nor/spi-nor.c Boris Brezillon      2019-08-06  1876  				   SPI_MEM_OP_NO_ADDR,
+b35b9a10362d20 drivers/mtd/spi-nor/spi-nor.c Boris Brezillon      2019-08-06  1877  				   SPI_MEM_OP_NO_DUMMY,
+b35b9a10362d20 drivers/mtd/spi-nor/spi-nor.c Boris Brezillon      2019-08-06  1878  				   SPI_MEM_OP_DATA_IN(SPI_NOR_MAX_ID_LEN, id, 1));
+b35b9a10362d20 drivers/mtd/spi-nor/spi-nor.c Boris Brezillon      2019-08-06  1879  
+2dcbfe365b1303 drivers/mtd/spi-nor/spi-nor.c Jonathan Neuschäfer  2020-02-23  1880  		ret = spi_mem_exec_op(nor->spimem, &op);
+b35b9a10362d20 drivers/mtd/spi-nor/spi-nor.c Boris Brezillon      2019-08-06  1881  	} else {
+2dcbfe365b1303 drivers/mtd/spi-nor/spi-nor.c Jonathan Neuschäfer  2020-02-23  1882  		ret = nor->controller_ops->read_reg(nor, SPINOR_OP_RDID, id,
+b35b9a10362d20 drivers/mtd/spi-nor/spi-nor.c Boris Brezillon      2019-08-06  1883  						    SPI_NOR_MAX_ID_LEN);
+b35b9a10362d20 drivers/mtd/spi-nor/spi-nor.c Boris Brezillon      2019-08-06  1884  	}
+2dcbfe365b1303 drivers/mtd/spi-nor/spi-nor.c Jonathan Neuschäfer  2020-02-23  1885  	if (ret) {
+2dcbfe365b1303 drivers/mtd/spi-nor/spi-nor.c Jonathan Neuschäfer  2020-02-23  1886  		dev_dbg(nor->dev, "error %d reading JEDEC ID\n", ret);
+2dcbfe365b1303 drivers/mtd/spi-nor/spi-nor.c Jonathan Neuschäfer  2020-02-23  1887  		return ERR_PTR(ret);
+b199489d37b21c drivers/mtd/spi-nor/spi-nor.c Huang Shijie         2014-02-24  1888  	}
+b199489d37b21c drivers/mtd/spi-nor/spi-nor.c Huang Shijie         2014-02-24  1889  
+87a0aa695a2dba drivers/mtd/spi-nor/core.c    Sai Krishna Potthuri 2021-12-09  1890  	for (i = 0; i < SPI_NOR_MAX_ID_LEN; i++)
+87a0aa695a2dba drivers/mtd/spi-nor/core.c    Sai Krishna Potthuri 2021-12-09 @1891  		nor->spimem->device_id[i] = id[i];
+                                                                                                ^^^^^^^^^^^
+Unchecked dereference.
+
+87a0aa695a2dba drivers/mtd/spi-nor/core.c    Sai Krishna Potthuri 2021-12-09  1892  
+9ec4bbcb2044ea drivers/mtd/spi-nor/core.c    Boris Brezillon      2020-03-13  1893  	for (i = 0; i < ARRAY_SIZE(manufacturers); i++) {
+9ec4bbcb2044ea drivers/mtd/spi-nor/core.c    Boris Brezillon      2020-03-13  1894  		info = spi_nor_search_part_by_id(manufacturers[i]->parts,
+9ec4bbcb2044ea drivers/mtd/spi-nor/core.c    Boris Brezillon      2020-03-13  1895  						 manufacturers[i]->nparts,
+9ec4bbcb2044ea drivers/mtd/spi-nor/core.c    Boris Brezillon      2020-03-13  1896  						 id);
+9ec4bbcb2044ea drivers/mtd/spi-nor/core.c    Boris Brezillon      2020-03-13  1897  		if (info) {
+9ec4bbcb2044ea drivers/mtd/spi-nor/core.c    Boris Brezillon      2020-03-13  1898  			nor->manufacturer = manufacturers[i];
+9ec4bbcb2044ea drivers/mtd/spi-nor/core.c    Boris Brezillon      2020-03-13  1899  			return info;
+b199489d37b21c drivers/mtd/spi-nor/spi-nor.c Huang Shijie         2014-02-24  1900  		}
+9ec4bbcb2044ea drivers/mtd/spi-nor/core.c    Boris Brezillon      2020-03-13  1901  	}
+9ec4bbcb2044ea drivers/mtd/spi-nor/core.c    Boris Brezillon      2020-03-13  1902  
+3ddc8adbbc7683 drivers/mtd/spi-nor/spi-nor.c Geert Uytterhoeven   2019-03-12  1903  	dev_err(nor->dev, "unrecognized JEDEC id bytes: %*ph\n",
+3ddc8adbbc7683 drivers/mtd/spi-nor/spi-nor.c Geert Uytterhoeven   2019-03-12  1904  		SPI_NOR_MAX_ID_LEN, id);
+b199489d37b21c drivers/mtd/spi-nor/spi-nor.c Huang Shijie         2014-02-24  1905  	return ERR_PTR(-ENODEV);
+b199489d37b21c drivers/mtd/spi-nor/spi-nor.c Huang Shijie         2014-02-24  1906  }
 
 -- 
 0-DAY CI Kernel Test Service
