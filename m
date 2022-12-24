@@ -1,53 +1,52 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC0D77B;
-	Sat, 24 Dec 2022 07:16:13 +0000 (UTC)
-Received: by mail-wm1-f52.google.com with SMTP id ja17so4871752wmb.3;
-        Fri, 23 Dec 2022 23:16:13 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F5DF7B;
+	Sat, 24 Dec 2022 07:17:01 +0000 (UTC)
+Received: by mail-wr1-f52.google.com with SMTP id o5so6306683wrm.1;
+        Fri, 23 Dec 2022 23:17:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
          :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=V0xEaWb1QFqz30tR9hsZPX6l+DNnz+1joNCdgOk1pog=;
-        b=UH5i0oxkeGlU0ZE/vb5tfYeOuPbWJzNSgYvMEEMe+bzpoD7xrczI1FUyvSVIUSz0u1
-         X6mEe+u+CmWfdYE42QG4V1v+8NM/UE1K2HBCwuEOeyl90WYeIhV+tdAQBRu7POVp1IBO
-         6sCDwk9u4+BXSA4jTNE9rE2u/9rXjHA2/iUmPcdo2w3Jpuzs4n71e4wK9jkNzQ6jC5Dr
-         /QTmM+wQsnyGioCL0zee8Rh11MAo0yytpolqjYURwHXSQ45p+SDm5CmiH090RWofT63q
-         F9EBpuO5F3zn2Cs8c8KGNFkFZCEim6eNJXU4t1TvlTFTxWSjqb6CDsirNg2DLkfkRe8b
-         QBWw==
+        bh=XYdZuRzobQmIoU+GUW5xOEJnXoxJQHcF7omPb4wLhQE=;
+        b=eq72v+3LBcvOBON4Ls8rGWFwmCnNJ9OoeCpYt2shZ7Ig+ysrUxOmn9O11XkB6/zY5s
+         aMC049QaZskHhQ4SRo08bepBWyFG+c2jdBMUY/oO5LFX+2EWeK6heXXIzUJnRRbwLbqk
+         r0JM+zP3L++NEEyKLOnrWzxnv4/etWfrwRAkW4bueLz7YXb5SO9WLJVTYOcIwpGFNrfa
+         qmBtdsPFf1+iKGbNt4PEWFZTMPkARWda5C8Rv1VvK08SobuZGHuPwoi9h2iIrBaGcbPL
+         uqU68dwGSxGevUWA9iiqaotddgjnh38XJohEa0VW+yfW6hm0ptId0uRHXrJtY09ItW9u
+         ZfrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
          :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=V0xEaWb1QFqz30tR9hsZPX6l+DNnz+1joNCdgOk1pog=;
-        b=imA7hUiIXFACwULl9DNWnSe+9qVjvOhaeLc/ofykc08STnNkW84Ex1cID7+0ZxYi2i
-         xBIeWvcFg/tI87kJqocM/Zwc3wjU1BEmAnhHUFCBsMMZabElxjco4QuXdzO3KitZ2YqH
-         yP+aq44B1I0u8k9Z6ttwOq8aj3F6TXIwbdDSbIf1tp8oFMDgsjD7aA9Pr3a0WUKMfA4O
-         mITCDgHYL/ZMSMoYVGAokMVhDcpyatgFtxBJDfMehjAAHdddC0rdYtvtWMX72LT+QLM3
-         czAoqrZSwLfkGvsdtA76XrLAJ6CjaBb+ufds6ZicA7j4y1MkfzbI7DYlTiXa/IBYx5p2
-         vf7g==
-X-Gm-Message-State: AFqh2kpUqz8G62NheE1Q+Bwd4+3WDJ2Q+4rYkPAD47KA96Ld5bs1FvGs
-	yFKrUWWGErFewS1AeJvbZ8BMdTqL+Lkn75A+
-X-Google-Smtp-Source: AMrXdXuNYK66ATjSvdIDZHbYxPCE412gXGNQorJFHPaaAHb0SWbSzkK0Qm0TAxBCnEiX0XBWupV0rA==
-X-Received: by 2002:a05:600c:601b:b0:3d3:56ce:5693 with SMTP id az27-20020a05600c601b00b003d356ce5693mr8796372wmb.17.1671866171895;
-        Fri, 23 Dec 2022 23:16:11 -0800 (PST)
+        bh=XYdZuRzobQmIoU+GUW5xOEJnXoxJQHcF7omPb4wLhQE=;
+        b=KniMDddxCrEAHvD/apbxfKprPFrFiTlU3W9I+UEofYymn1C1cdT9a/zpZUiq02csIC
+         A1qyF/WWlxWWdUUkb3fOsqsYnFTDn1qKXf8PAYRiKOd5eTFwpDmgLE93xLzqd8sWt91k
+         GqtSMgqmRp20VoulNO2ExKyJmsDaGG7YByigrN9zsjaZGaheiXpYSmjkYKXDmJwEiIZm
+         HUkKdTDzdoak4tQ+Q8X+qjjSGaPuKicusMmyASM67QLZB341uYoQHLAihN4FQAyovsjg
+         N1oEloeaC+gj3NNkKS7S9TWCLNe8pLr19rYfKHZe3KWSwjQxBfowiiOdXlUjZ2CXx7QE
+         s4Kw==
+X-Gm-Message-State: AFqh2kpq5CbvZoGeJ6tuzNA7KAB0sOet7FS3W7Ikuk6B0FNTxUGs/XUn
+	cLMn9CsMdA8SpFH9/2KyFqH+zZNMfrtyYcxb
+X-Google-Smtp-Source: AMrXdXsBK3+3LWL4MW0/QLZP0R0349A+rn33at/1vXHt8anZlbc/DKK8ciK4wp9oBd2h+g0CELjmww==
+X-Received: by 2002:adf:ec88:0:b0:242:52b6:9054 with SMTP id z8-20020adfec88000000b0024252b69054mr8030764wrn.58.1671866219446;
+        Fri, 23 Dec 2022 23:16:59 -0800 (PST)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id l27-20020a05600c1d1b00b003cfd4e6400csm7277105wms.19.2022.12.23.23.16.10
+        by smtp.gmail.com with ESMTPSA id k16-20020a056000005000b002258235bda3sm4865843wrx.61.2022.12.23.23.16.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Dec 2022 23:16:11 -0800 (PST)
-Date: Sat, 24 Dec 2022 10:16:08 +0300
+        Fri, 23 Dec 2022 23:16:59 -0800 (PST)
+Date: Sat, 24 Dec 2022 10:16:56 +0300
 From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, Mike Leach <mike.leach@linaro.org>,
-	linux-arm-kernel@lists.infradead.org, coresight@lists.linaro.org,
-	linux-kernel@vger.kernel.org
+To: oe-kbuild@lists.linux.dev, wenyang.linux@foxmail.com,
+	Alexander Viro <viro@zeniv.linux.org.uk>
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	mathieu.poirier@linaro.org, suzuki.poulose@arm.com, acme@kernel.org,
-	james.clark@arm.com, Mike Leach <mike.leach@linaro.org>
-Subject: Re: [PATCH v5 3/6] coresight: configfs: Add in binary attributes to
- load files
-Message-ID: <202212240621.sgsPYIdK-lkp@intel.com>
+	Wen Yang <wenyang.linux@foxmail.com>, linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] eventfd: use a generic helper instead of an open coded
+ wait_event
+Message-ID: <202212240819.6KA20geM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -56,86 +55,61 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221219234638.3661-4-mike.leach@linaro.org>
-Message-ID: <20221224071608.ViOycY1j637NALJDnqmVGiZ2rvalXWB2WFnUV4MOzmU@z>
+In-Reply-To: <tencent_B38979DE0FF3B9B3EA887A37487B123BBD05@qq.com>
+Message-ID: <20221224071656.Hh34roGnGtdBkLHj-KOyRsmUZ_uayhyZK1LjsKVVb2A@z>
 
-Hi Mike,
+Hi,
 
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Mike-Leach/coresight-syscfg-Extend-configfs-for-config-load/20221220-074850
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git for-next
-patch link:    https://lore.kernel.org/r/20221219234638.3661-4-mike.leach%40linaro.org
-patch subject: [PATCH v5 3/6] coresight: configfs: Add in binary attributes to load files
-config: arm-randconfig-m041-20221218
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+url:    https://github.com/intel-lab-lkp/linux/commits/wenyang-linux-foxmail-com/eventfd-use-a-generic-helper-instead-of-an-open-coded-wait_event/20221222-234947
+patch link:    https://lore.kernel.org/r/tencent_B38979DE0FF3B9B3EA887A37487B123BBD05%40qq.com
+patch subject: [PATCH] eventfd: use a generic helper instead of an open coded wait_event
+config: i386-randconfig-m021
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
 
 smatch warnings:
-drivers/hwtracing/coresight/coresight-syscfg-configfs.c:595 cscfg_cfg_load_write() warn: possible memory leak of 'load_descs'
+fs/eventfd.c:254 eventfd_read() warn: inconsistent returns '&ctx->wqh.lock'.
 
-vim +/load_descs +595 drivers/hwtracing/coresight/coresight-syscfg-configfs.c
+vim +254 fs/eventfd.c
 
-97b8fd654556b1 Mike Leach 2022-12-19  543  static ssize_t cscfg_cfg_load_write(struct config_item *item, const void *buffer, size_t size)
-97b8fd654556b1 Mike Leach 2022-12-19  544  {
-97b8fd654556b1 Mike Leach 2022-12-19  545  	struct cscfg_fs_load_descs *load_descs = 0;
-97b8fd654556b1 Mike Leach 2022-12-19  546  	struct cscfg_load_owner_info *owner_info = 0;
-97b8fd654556b1 Mike Leach 2022-12-19  547  	int err = 0;
-97b8fd654556b1 Mike Leach 2022-12-19  548  
-97b8fd654556b1 Mike Leach 2022-12-19  549  	/* ensure we cannot simultaneously load and unload */
-97b8fd654556b1 Mike Leach 2022-12-19  550  	if (!mutex_trylock(&cfs_mutex))
-97b8fd654556b1 Mike Leach 2022-12-19  551  		return -EBUSY;
-97b8fd654556b1 Mike Leach 2022-12-19  552  
-97b8fd654556b1 Mike Leach 2022-12-19  553  	/* check configfs load / unload ops are permitted */
-97b8fd654556b1 Mike Leach 2022-12-19  554  	if (!cscfg_fs_load_enabled || unload_owner_info) {
-97b8fd654556b1 Mike Leach 2022-12-19  555  		err = -EBUSY;
-97b8fd654556b1 Mike Leach 2022-12-19  556  		goto exit_unlock;
-97b8fd654556b1 Mike Leach 2022-12-19  557  	}
-97b8fd654556b1 Mike Leach 2022-12-19  558  
-97b8fd654556b1 Mike Leach 2022-12-19  559  	if (size > CSCFG_FILE_MAXSIZE) {
-97b8fd654556b1 Mike Leach 2022-12-19  560  		pr_err("cscfg: Load error - Input file too large.\n");
-97b8fd654556b1 Mike Leach 2022-12-19  561  		err = -EINVAL;
-97b8fd654556b1 Mike Leach 2022-12-19  562  		goto exit_unlock;
-97b8fd654556b1 Mike Leach 2022-12-19  563  	}
-97b8fd654556b1 Mike Leach 2022-12-19  564  
-97b8fd654556b1 Mike Leach 2022-12-19  565  	load_descs = kzalloc(sizeof(struct cscfg_fs_load_descs), GFP_KERNEL);
-97b8fd654556b1 Mike Leach 2022-12-19  566  	owner_info = kzalloc(sizeof(struct cscfg_load_owner_info), GFP_KERNEL);
-97b8fd654556b1 Mike Leach 2022-12-19  567  	if (!load_descs || !owner_info) {
-97b8fd654556b1 Mike Leach 2022-12-19  568  		err = -ENOMEM;
-97b8fd654556b1 Mike Leach 2022-12-19  569  		goto exit_memfree;
+12aceb89b0bce1 Jens Axboe     2020-05-01  226  static ssize_t eventfd_read(struct kiocb *iocb, struct iov_iter *to)
+e1ad7468c77ddb Davide Libenzi 2007-05-10  227  {
+12aceb89b0bce1 Jens Axboe     2020-05-01  228  	struct file *file = iocb->ki_filp;
+b6364572d641c8 Eric Biggers   2018-01-06  229  	struct eventfd_ctx *ctx = file->private_data;
+b6364572d641c8 Eric Biggers   2018-01-06  230  	__u64 ucnt = 0;
+e1ad7468c77ddb Davide Libenzi 2007-05-10  231  
+12aceb89b0bce1 Jens Axboe     2020-05-01  232  	if (iov_iter_count(to) < sizeof(ucnt))
+b6364572d641c8 Eric Biggers   2018-01-06  233  		return -EINVAL;
+d48eb233159522 Davide Libenzi 2007-05-18  234  	spin_lock_irq(&ctx->wqh.lock);
+12aceb89b0bce1 Jens Axboe     2020-05-01  235  	if (!ctx->count) {
+12aceb89b0bce1 Jens Axboe     2020-05-01  236  		if ((file->f_flags & O_NONBLOCK) ||
+12aceb89b0bce1 Jens Axboe     2020-05-01  237  		    (iocb->ki_flags & IOCB_NOWAIT)) {
+12aceb89b0bce1 Jens Axboe     2020-05-01  238  			spin_unlock_irq(&ctx->wqh.lock);
+12aceb89b0bce1 Jens Axboe     2020-05-01  239  			return -EAGAIN;
+12aceb89b0bce1 Jens Axboe     2020-05-01  240  		}
+c908f8e6a3a1eb Wen Yang       2022-12-22  241  
+c908f8e6a3a1eb Wen Yang       2022-12-22  242  		if (wait_event_interruptible_locked_irq(ctx->wqh, ctx->count))
+12aceb89b0bce1 Jens Axboe     2020-05-01  243  			return -ERESTARTSYS;
 
-This exit leaks (will never happen in real life though).
+spin_unlock_irq(&ctx->wqh.lock);
 
-97b8fd654556b1 Mike Leach 2022-12-19  570  	}
-97b8fd654556b1 Mike Leach 2022-12-19  571  
-97b8fd654556b1 Mike Leach 2022-12-19  572  	owner_info->owner_handle = load_descs;
-97b8fd654556b1 Mike Leach 2022-12-19  573  	owner_info->type = CSCFG_OWNER_CONFIGFS;
-97b8fd654556b1 Mike Leach 2022-12-19  574  
-97b8fd654556b1 Mike Leach 2022-12-19  575  	err = cscfg_file_read_buffer(buffer, size, load_descs);
-97b8fd654556b1 Mike Leach 2022-12-19  576  	if (err) {
-97b8fd654556b1 Mike Leach 2022-12-19  577  		pr_err("cscfg: Load error - Failed to read input file.\n");
-97b8fd654556b1 Mike Leach 2022-12-19  578  		goto exit_memfree;
-97b8fd654556b1 Mike Leach 2022-12-19  579  	}
-97b8fd654556b1 Mike Leach 2022-12-19  580  
-97b8fd654556b1 Mike Leach 2022-12-19  581  	err = cscfg_load_config_sets(load_descs->config_descs, load_descs->feat_descs, owner_info);
-97b8fd654556b1 Mike Leach 2022-12-19  582  	if (err) {
-97b8fd654556b1 Mike Leach 2022-12-19  583  		pr_err("cscfg: Load error - Failed to load configuaration file.\n");
-97b8fd654556b1 Mike Leach 2022-12-19  584  		goto exit_memfree;
-97b8fd654556b1 Mike Leach 2022-12-19  585  	}
-97b8fd654556b1 Mike Leach 2022-12-19  586  
-97b8fd654556b1 Mike Leach 2022-12-19  587  	mutex_unlock(&cfs_mutex);
-97b8fd654556b1 Mike Leach 2022-12-19  588  	return size;
-97b8fd654556b1 Mike Leach 2022-12-19  589  
-97b8fd654556b1 Mike Leach 2022-12-19  590  exit_memfree:
-97b8fd654556b1 Mike Leach 2022-12-19  591  	cscfg_configfs_free_owner_info(owner_info);
-97b8fd654556b1 Mike Leach 2022-12-19  592  
-97b8fd654556b1 Mike Leach 2022-12-19  593  exit_unlock:
-97b8fd654556b1 Mike Leach 2022-12-19  594  	mutex_unlock(&cfs_mutex);
-97b8fd654556b1 Mike Leach 2022-12-19 @595  	return err;
-97b8fd654556b1 Mike Leach 2022-12-19  596  }
+e1ad7468c77ddb Davide Libenzi 2007-05-10  244  	}
+b6364572d641c8 Eric Biggers   2018-01-06  245  	eventfd_ctx_do_read(ctx, &ucnt);
+9f0deaa12d832f Dylan Yudaken  2022-08-16  246  	current->in_eventfd = 1;
+e1ad7468c77ddb Davide Libenzi 2007-05-10  247  	if (waitqueue_active(&ctx->wqh))
+a9a08845e9acbd Linus Torvalds 2018-02-11  248  		wake_up_locked_poll(&ctx->wqh, EPOLLOUT);
+9f0deaa12d832f Dylan Yudaken  2022-08-16  249  	current->in_eventfd = 0;
+d48eb233159522 Davide Libenzi 2007-05-18  250  	spin_unlock_irq(&ctx->wqh.lock);
+12aceb89b0bce1 Jens Axboe     2020-05-01  251  	if (unlikely(copy_to_iter(&ucnt, sizeof(ucnt), to) != sizeof(ucnt)))
+b6364572d641c8 Eric Biggers   2018-01-06  252  		return -EFAULT;
+cb289d6244a37c Davide Libenzi 2010-01-13  253  
+12aceb89b0bce1 Jens Axboe     2020-05-01 @254  	return sizeof(ucnt);
+cb289d6244a37c Davide Libenzi 2010-01-13  255  }
 
 -- 
 0-DAY CI Kernel Test Service
