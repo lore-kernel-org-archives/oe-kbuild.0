@@ -1,132 +1,144 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98DA47B;
-	Sat, 24 Dec 2022 07:18:33 +0000 (UTC)
-Received: by mail-wm1-f54.google.com with SMTP id fm16-20020a05600c0c1000b003d96fb976efso2329754wmb.3;
-        Fri, 23 Dec 2022 23:18:33 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF8F97B;
+	Sat, 24 Dec 2022 07:20:39 +0000 (UTC)
+Received: by mail-wm1-f51.google.com with SMTP id bg10so4891532wmb.1;
+        Fri, 23 Dec 2022 23:20:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:content-disposition:mime-version
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vUx9cpZcYERslapw+heGtHbym4VjLEOm9qKWOBsoDho=;
-        b=YJXMrFBmbuGFRSBlOeoYqKmz9+A5rB47cUsWdc6C53vfWkYPTcbLawFP/tb00OQL69
-         SDKA6o4pX8FAHRvb6za2UEuVHKwozryv0SC/gHO4cMtl8x0FLZfLki3qrzJNJx8xpBMg
-         R4w0lzOdqLVaTteG4UYVmn9yrRBuB5+W79Hv2yBX29JLoYLszZ3e3nchh3MMNqRcomsi
-         j1D8kg0x1NRTBFy4NAoB9MPJonM/3MWrRqVCOvTZHDsPOTLRj9k2ulX2gqQTh6JlFWCY
-         2KGAzD1UkzrKG8aIP5ihTIgHzvudenT59Besz6UjCkT8leuszeaY44pnIUDPbmCwgX4E
-         /6cg==
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=bDzcg9ryzCl3sNE6QHz4vlng6AJigncSKLcE77xpo4A=;
+        b=NX7lpQo95erVGw6dHzdxh71YB9nwQjnl5hRk3EbAFYieFrVgjJfwhE1N/EXJQNPNEs
+         D6PTlLVubnIAzxB1hS2Sxt5I9FAqbFmX7Ozxp0a34DQxXP0imnq7pIxLKkDKIMPmSA0x
+         6Pbi2BrW6NYGqxwRE/p04jmOH7Q+N+v71PNFR0a6hPEfEXpU2xpKuRJklbCw9ALHcS83
+         Fnz9g2K18xbuVCWMqBJXxhtpF0UDUlrh33SdbCgmJLatrMDP1onW06EJ6KWb1JeEcpmq
+         5o1q5RsmYOQkb0RYTyl1+XVIq14DVunTWst5zGMYxD4M6wDOhri8cspvIb3VaENKqVYr
+         xTfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:content-disposition:mime-version
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=vUx9cpZcYERslapw+heGtHbym4VjLEOm9qKWOBsoDho=;
-        b=rTh8zEvY1+pbY4b+7a0HkK498z3gxv9eQfQiRTTvx08r6ycMxZ06MHk/0kY2UhBS+f
-         3sHjejwDd0o7mjJNXmh49Nu5lPecmMVccj6JwhHpxDaNge7NBIrIC375XkFvVUGIhZxF
-         Ear/28asMM9jUzWirCTxBNcZYQwVwAmEglXSz/UDbZ6vg/VO8C9QGfdifG9qj0RcLEYn
-         n6ApFwf5BnA/+rAq7ueinDuPwgESiZ+xbbKELjRU2dJwcPhsLEmKuDPCFl2FmMsT9ZEo
-         JOMuyMBgXBYgXXrPgwXbbn6qF/xVsXD05bD6uxADf1aIcumYvx22WPx5EnA7GVZJtlx+
-         MtRg==
-X-Gm-Message-State: AFqh2kqFzWIdL6lEAnD6WfaH15DlBnY2sKzWLTriFGzOK+jQO+qeF+Xy
-	ETQoxSGrQBT/E2R38p5FluW+9dZmje3vLqQy
-X-Google-Smtp-Source: AMrXdXtS22tBWvj5h2ZriP3m1qOtlPHaplB1jO66/J65du0supZUcRESOdIhtmtawlTlWR/TntUwMQ==
-X-Received: by 2002:a05:600c:1da3:b0:3d3:4dbc:75ef with SMTP id p35-20020a05600c1da300b003d34dbc75efmr8709253wms.17.1671866311642;
-        Fri, 23 Dec 2022 23:18:31 -0800 (PST)
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=bDzcg9ryzCl3sNE6QHz4vlng6AJigncSKLcE77xpo4A=;
+        b=g9jplfcUhKv7Mco/RO8qiISi07nhyP5mWxqDifj76OVoskNQ7Mo2TE5xQtUOgRXIeU
+         LSUnKb43NF3oK14qS/63cMpGDu5FnQOtgwolNWWZrABxcEa7MsKUSWAiBFEg0LQeqrU7
+         SnDr5Y3eYICOusH//CwQg9Gj3IjBbjW0qehyoALpKDNhZ9FMI9pnD+aD3IgIWkYAIlNA
+         LJIpT2mDkRKBkngtqOco5bsHbus0W0jDkpGtsjcS0+TGKdzND6IM9heukCfQeXW+RaDQ
+         Vqn7gVQvL0hIzvZJ/uUVjIWdEJK9LWt72OGOhim7ffY8YhSUPN7afHDFD4EX8JTV6fnZ
+         rXIA==
+X-Gm-Message-State: AFqh2koxVSd5aFRdVR3oGeW9rDKUezgHGXFCNJEgXVWsPUm7V8lGRHWf
+	6RjLVb22IMfvKrs9f2+PqyytUyBMEumSCD/F
+X-Google-Smtp-Source: AMrXdXvuF3I/qIcSXL9ty9Pa9+SSb7nnNG7LRZPOovDDt0YBLGTyBZwDZQ8CHTYDfG6SaChZ7HUhJA==
+X-Received: by 2002:a05:600c:348b:b0:3d1:f16b:30e6 with SMTP id a11-20020a05600c348b00b003d1f16b30e6mr8902772wmq.28.1671866437751;
+        Fri, 23 Dec 2022 23:20:37 -0800 (PST)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id h12-20020a05600c350c00b003d355ad9bb7sm12801789wmq.20.2022.12.23.23.18.30
+        by smtp.gmail.com with ESMTPSA id q185-20020a1c43c2000000b003cff309807esm11715715wma.23.2022.12.23.23.20.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Dec 2022 23:18:31 -0800 (PST)
-Date: Sat, 24 Dec 2022 10:18:28 +0300
+        Fri, 23 Dec 2022 23:20:37 -0800 (PST)
+Date: Sat, 24 Dec 2022 10:20:34 +0300
 From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev,
-	Sai Krishna Potthuri <lakshmi.sai.krishna.potthuri@xilinx.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	Michal Simek <monstr@monstr.eu>,
-	Radhey Shyam Pandey <radhey.shyam.pandey@xilinx.com>
-Subject: [xilinx-xlnx:xlnx_rebase_v5.15_LTS 72/1346]
- drivers/mtd/spi-nor/core.c:1891 spi_nor_read_id() error: we previously
- assumed 'nor->spimem' could be null (see line 1873)
-Message-ID: <202212241022.TAtlUM9B-lkp@intel.com>
+To: oe-kbuild@lists.linux.dev, Jiri Olsa <jolsa@kernel.org>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [jolsa-perf:bpf/tracing_multi_ng_2 8/23] kernel/bpf/btf.c:8332
+ btf_bitmap_funcs_read() error: uninitialized symbol 'err'.
+Message-ID: <202212241233.JSU4ZiL6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Message-ID: <20221224071828.8Gcg-SgkHB4M8reOPPPSBODAfbF3T9h3JjByn81dPiw@z>
+Message-ID: <20221224072034.WPeTd29ZFczQoAKcLbULIQig7w7G_kQFpOG81EiXkQM@z>
 
-tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v5.15_LTS
-head:   b9b26dcfcb221a7465b71e124f9ec0f4f4be988d
-commit: 87a0aa695a2dbabc2d1a24acbb421529ea53c59e [72/1346] spi: spi-cadence-quadspi: Add support for DDR PHY mode
-config: arm-randconfig-m041-20221218
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git bpf/tracing_multi_ng_2
+head:   1d05e5fe0fc4ec5ff53db6c6ea0bdf93b00c708f
+commit: becc9f8b25473feb2f95a4e0724b03f685c7e9d5 [8/23] bpf: Add bpf_bitmap object
+config: i386-randconfig-m021
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
 
-New smatch warnings:
-drivers/mtd/spi-nor/core.c:1891 spi_nor_read_id() error: we previously assumed 'nor->spimem' could be null (see line 1873)
+smatch warnings:
+kernel/bpf/btf.c:8332 btf_bitmap_funcs_read() error: uninitialized symbol 'err'.
+kernel/bpf/btf.c:8343 btf_bitmap_funcs_test_bit() warn: signedness bug returning '(-4095)'
 
-Old smatch warnings:
-drivers/mtd/spi-nor/core.c:1544 spi_nor_init_erase_cmd_list() warn: passing a valid pointer to 'PTR_ERR'
-drivers/mtd/spi-nor/core.c:1558 spi_nor_init_erase_cmd_list() warn: passing a valid pointer to 'PTR_ERR'
+vim +/err +8332 kernel/bpf/btf.c
 
-vim +1891 drivers/mtd/spi-nor/core.c
+becc9f8b25473f Jiri Olsa 2022-10-10  8290  struct btf_bitmap *btf_bitmap_funcs_read(u32 __user *uids, u32 uids_cnt)
+becc9f8b25473f Jiri Olsa 2022-10-10  8291  {
+becc9f8b25473f Jiri Olsa 2022-10-10  8292  	struct btf_bitmap *bm;
+becc9f8b25473f Jiri Olsa 2022-10-10  8293  	u32 id, i, *func;
+becc9f8b25473f Jiri Olsa 2022-10-10  8294  	struct btf *btf;
+becc9f8b25473f Jiri Olsa 2022-10-10  8295  	int err;
+becc9f8b25473f Jiri Olsa 2022-10-10  8296  
+becc9f8b25473f Jiri Olsa 2022-10-10  8297  	btf = bpf_get_btf_vmlinux();
+becc9f8b25473f Jiri Olsa 2022-10-10  8298  	if (IS_ERR(btf))
+becc9f8b25473f Jiri Olsa 2022-10-10  8299  		return ERR_CAST(btf);
+becc9f8b25473f Jiri Olsa 2022-10-10  8300  
+becc9f8b25473f Jiri Olsa 2022-10-10  8301  	bm = __btf_bitmap_funcs_alloc(btf);
+becc9f8b25473f Jiri Olsa 2022-10-10  8302  	if (IS_ERR(bm))
+becc9f8b25473f Jiri Olsa 2022-10-10  8303  		return bm;
+becc9f8b25473f Jiri Olsa 2022-10-10  8304  
+becc9f8b25473f Jiri Olsa 2022-10-10  8305  	if (uids_cnt >= bm->size)
+becc9f8b25473f Jiri Olsa 2022-10-10  8306  		goto error;
 
-06bb6f5a69dfc5 drivers/mtd/spi-nor/spi-nor.c Rafał Miłecki        2015-08-10  1866  static const struct flash_info *spi_nor_read_id(struct spi_nor *nor)
-b199489d37b21c drivers/mtd/spi-nor/spi-nor.c Huang Shijie         2014-02-24  1867  {
-9ec4bbcb2044ea drivers/mtd/spi-nor/core.c    Boris Brezillon      2020-03-13  1868  	const struct flash_info *info;
-f173f26a4d543f drivers/mtd/spi-nor/spi-nor.c Vignesh Raghavendra  2019-08-06  1869  	u8 *id = nor->bouncebuf;
-2dcbfe365b1303 drivers/mtd/spi-nor/spi-nor.c Jonathan Neuschäfer  2020-02-23  1870  	unsigned int i;
-2dcbfe365b1303 drivers/mtd/spi-nor/spi-nor.c Jonathan Neuschäfer  2020-02-23  1871  	int ret;
-b199489d37b21c drivers/mtd/spi-nor/spi-nor.c Huang Shijie         2014-02-24  1872  
-b35b9a10362d20 drivers/mtd/spi-nor/spi-nor.c Boris Brezillon      2019-08-06 @1873  	if (nor->spimem) {
-                                                                                            ^^^^^^^^^^^
-Check for NULL
+err not set.
 
-b35b9a10362d20 drivers/mtd/spi-nor/spi-nor.c Boris Brezillon      2019-08-06  1874  		struct spi_mem_op op =
-b35b9a10362d20 drivers/mtd/spi-nor/spi-nor.c Boris Brezillon      2019-08-06  1875  			SPI_MEM_OP(SPI_MEM_OP_CMD(SPINOR_OP_RDID, 1),
-b35b9a10362d20 drivers/mtd/spi-nor/spi-nor.c Boris Brezillon      2019-08-06  1876  				   SPI_MEM_OP_NO_ADDR,
-b35b9a10362d20 drivers/mtd/spi-nor/spi-nor.c Boris Brezillon      2019-08-06  1877  				   SPI_MEM_OP_NO_DUMMY,
-b35b9a10362d20 drivers/mtd/spi-nor/spi-nor.c Boris Brezillon      2019-08-06  1878  				   SPI_MEM_OP_DATA_IN(SPI_NOR_MAX_ID_LEN, id, 1));
-b35b9a10362d20 drivers/mtd/spi-nor/spi-nor.c Boris Brezillon      2019-08-06  1879  
-2dcbfe365b1303 drivers/mtd/spi-nor/spi-nor.c Jonathan Neuschäfer  2020-02-23  1880  		ret = spi_mem_exec_op(nor->spimem, &op);
-b35b9a10362d20 drivers/mtd/spi-nor/spi-nor.c Boris Brezillon      2019-08-06  1881  	} else {
-2dcbfe365b1303 drivers/mtd/spi-nor/spi-nor.c Jonathan Neuschäfer  2020-02-23  1882  		ret = nor->controller_ops->read_reg(nor, SPINOR_OP_RDID, id,
-b35b9a10362d20 drivers/mtd/spi-nor/spi-nor.c Boris Brezillon      2019-08-06  1883  						    SPI_NOR_MAX_ID_LEN);
-b35b9a10362d20 drivers/mtd/spi-nor/spi-nor.c Boris Brezillon      2019-08-06  1884  	}
-2dcbfe365b1303 drivers/mtd/spi-nor/spi-nor.c Jonathan Neuschäfer  2020-02-23  1885  	if (ret) {
-2dcbfe365b1303 drivers/mtd/spi-nor/spi-nor.c Jonathan Neuschäfer  2020-02-23  1886  		dev_dbg(nor->dev, "error %d reading JEDEC ID\n", ret);
-2dcbfe365b1303 drivers/mtd/spi-nor/spi-nor.c Jonathan Neuschäfer  2020-02-23  1887  		return ERR_PTR(ret);
-b199489d37b21c drivers/mtd/spi-nor/spi-nor.c Huang Shijie         2014-02-24  1888  	}
-b199489d37b21c drivers/mtd/spi-nor/spi-nor.c Huang Shijie         2014-02-24  1889  
-87a0aa695a2dba drivers/mtd/spi-nor/core.c    Sai Krishna Potthuri 2021-12-09  1890  	for (i = 0; i < SPI_NOR_MAX_ID_LEN; i++)
-87a0aa695a2dba drivers/mtd/spi-nor/core.c    Sai Krishna Potthuri 2021-12-09 @1891  		nor->spimem->device_id[i] = id[i];
-                                                                                                ^^^^^^^^^^^
-Unchecked dereference.
+becc9f8b25473f Jiri Olsa 2022-10-10  8307  
+becc9f8b25473f Jiri Olsa 2022-10-10  8308  	for (i = 0; i < uids_cnt; i++) {
+becc9f8b25473f Jiri Olsa 2022-10-10  8309  		if (__get_user(id, uids + i)) {
+becc9f8b25473f Jiri Olsa 2022-10-10  8310  			err = -EFAULT;
+becc9f8b25473f Jiri Olsa 2022-10-10  8311  			goto error;
+becc9f8b25473f Jiri Olsa 2022-10-10  8312  		}
+becc9f8b25473f Jiri Olsa 2022-10-10  8313  		func = bsearch(&id, btf->funcs_ids, btf->funcs_size,
+becc9f8b25473f Jiri Olsa 2022-10-10  8314  			      sizeof(*btf->funcs_ids), funcs_ids_cmp);
+becc9f8b25473f Jiri Olsa 2022-10-10  8315  		if (!func) {
+becc9f8b25473f Jiri Olsa 2022-10-10  8316  			err = -EINVAL;
+becc9f8b25473f Jiri Olsa 2022-10-10  8317  			goto error;
+becc9f8b25473f Jiri Olsa 2022-10-10  8318  		}
+becc9f8b25473f Jiri Olsa 2022-10-10  8319  		id = func - btf->funcs_ids;
+becc9f8b25473f Jiri Olsa 2022-10-10  8320  		if (WARN_ON_ONCE(id >= bm->size)) {
+becc9f8b25473f Jiri Olsa 2022-10-10  8321  			err = -EINVAL;
+becc9f8b25473f Jiri Olsa 2022-10-10  8322  			goto error;
+becc9f8b25473f Jiri Olsa 2022-10-10  8323  		}
+becc9f8b25473f Jiri Olsa 2022-10-10  8324  		bitmap_set(bm->bm, id, 1);
+becc9f8b25473f Jiri Olsa 2022-10-10  8325  	}
+becc9f8b25473f Jiri Olsa 2022-10-10  8326  
+becc9f8b25473f Jiri Olsa 2022-10-10  8327  	bm->cnt = uids_cnt;
+becc9f8b25473f Jiri Olsa 2022-10-10  8328  	return bm;
+becc9f8b25473f Jiri Olsa 2022-10-10  8329  
+becc9f8b25473f Jiri Olsa 2022-10-10  8330  error:
+becc9f8b25473f Jiri Olsa 2022-10-10  8331  	kvfree(bm);
+becc9f8b25473f Jiri Olsa 2022-10-10 @8332  	return ERR_PTR(err);
+becc9f8b25473f Jiri Olsa 2022-10-10  8333  }
+becc9f8b25473f Jiri Olsa 2022-10-10  8334  
+becc9f8b25473f Jiri Olsa 2022-10-10  8335  bool btf_bitmap_funcs_test_bit(struct btf_bitmap *bmap, u32 id, bool clear)
+becc9f8b25473f Jiri Olsa 2022-10-10  8336  {
+becc9f8b25473f Jiri Olsa 2022-10-10  8337  	struct btf *btf;
+becc9f8b25473f Jiri Olsa 2022-10-10  8338  	u32 *func;
+becc9f8b25473f Jiri Olsa 2022-10-10  8339  	bool set;
+becc9f8b25473f Jiri Olsa 2022-10-10  8340  
+becc9f8b25473f Jiri Olsa 2022-10-10  8341  	btf = bpf_get_btf_vmlinux();
+becc9f8b25473f Jiri Olsa 2022-10-10  8342  	if (IS_ERR(btf))
+becc9f8b25473f Jiri Olsa 2022-10-10 @8343  		return PTR_ERR(btf);
 
-87a0aa695a2dba drivers/mtd/spi-nor/core.c    Sai Krishna Potthuri 2021-12-09  1892  
-9ec4bbcb2044ea drivers/mtd/spi-nor/core.c    Boris Brezillon      2020-03-13  1893  	for (i = 0; i < ARRAY_SIZE(manufacturers); i++) {
-9ec4bbcb2044ea drivers/mtd/spi-nor/core.c    Boris Brezillon      2020-03-13  1894  		info = spi_nor_search_part_by_id(manufacturers[i]->parts,
-9ec4bbcb2044ea drivers/mtd/spi-nor/core.c    Boris Brezillon      2020-03-13  1895  						 manufacturers[i]->nparts,
-9ec4bbcb2044ea drivers/mtd/spi-nor/core.c    Boris Brezillon      2020-03-13  1896  						 id);
-9ec4bbcb2044ea drivers/mtd/spi-nor/core.c    Boris Brezillon      2020-03-13  1897  		if (info) {
-9ec4bbcb2044ea drivers/mtd/spi-nor/core.c    Boris Brezillon      2020-03-13  1898  			nor->manufacturer = manufacturers[i];
-9ec4bbcb2044ea drivers/mtd/spi-nor/core.c    Boris Brezillon      2020-03-13  1899  			return info;
-b199489d37b21c drivers/mtd/spi-nor/spi-nor.c Huang Shijie         2014-02-24  1900  		}
-9ec4bbcb2044ea drivers/mtd/spi-nor/core.c    Boris Brezillon      2020-03-13  1901  	}
-9ec4bbcb2044ea drivers/mtd/spi-nor/core.c    Boris Brezillon      2020-03-13  1902  
-3ddc8adbbc7683 drivers/mtd/spi-nor/spi-nor.c Geert Uytterhoeven   2019-03-12  1903  	dev_err(nor->dev, "unrecognized JEDEC id bytes: %*ph\n",
-3ddc8adbbc7683 drivers/mtd/spi-nor/spi-nor.c Geert Uytterhoeven   2019-03-12  1904  		SPI_NOR_MAX_ID_LEN, id);
-b199489d37b21c drivers/mtd/spi-nor/spi-nor.c Huang Shijie         2014-02-24  1905  	return ERR_PTR(-ENODEV);
-b199489d37b21c drivers/mtd/spi-nor/spi-nor.c Huang Shijie         2014-02-24  1906  }
+This should be either return true or return false;
+
+becc9f8b25473f Jiri Olsa 2022-10-10  8344  	func = bsearch(&id, btf->funcs_ids, btf->funcs_size,
+becc9f8b25473f Jiri Olsa 2022-10-10  8345  		      sizeof(*btf->funcs_ids), funcs_ids_cmp);
+becc9f8b25473f Jiri Olsa 2022-10-10  8346  	if (!func)
+becc9f8b25473f Jiri Olsa 2022-10-10  8347  		return -EINVAL;
+becc9f8b25473f Jiri Olsa 2022-10-10  8348  	id = func - btf->funcs_ids;
+becc9f8b25473f Jiri Olsa 2022-10-10  8349  	set = test_bit(id, bmap->bm);
+becc9f8b25473f Jiri Olsa 2022-10-10  8350  	if (set && clear)
+becc9f8b25473f Jiri Olsa 2022-10-10  8351  		clear_bit(id, bmap->bm);
+becc9f8b25473f Jiri Olsa 2022-10-10  8352  	return set;
+becc9f8b25473f Jiri Olsa 2022-10-10  8353  }
 
 -- 
 0-DAY CI Kernel Test Service
