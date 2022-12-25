@@ -1,70 +1,68 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A750720E2
-	for <oe-kbuild@lists.linux.dev>; Sun, 25 Dec 2022 19:53:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F07720E2
+	for <oe-kbuild@lists.linux.dev>; Sun, 25 Dec 2022 20:23:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1671997995; x=1703533995;
+  t=1671999795; x=1703535795;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ohvr8f7Eu9JOiPFFFi617w1gxgMG8ykFssAOnLaZjMk=;
-  b=M+ySTaIyTRU9AGyNCNUc9HPnvutY1kz3cc1RInFLyiSZvUqeEb8nV71U
-   XmVkIq6ap5hg1tJba7YozAAyxBYSpOsot++CP+sbG1cw1d0dRaY2l1CJn
-   3JW3iP1venhPL31CejaYlCuYgiQ9qNMAflN8DvFXcIhheFnC+nLzCNm9D
-   33L4Y5+z6uiLUPcOEnMwaH0R8lFCPmtPCSDM37KfOYKEHPTWxvMqTXfXK
-   McQveJVha0E6c7jxWBVDnG6B5r1vjOR0YRvH2vaVbTamNFMvezia9vM1C
-   +BiOoh0/z4snxes3edPfZvodq5+EvN91X8m5vap2bKIACmpQZFH0/Mz+i
+  bh=2C/YguIWD/uwIWQtNCpDX5LuJ18asfX+C8kT/oAeA+I=;
+  b=AKtRPw6RYZCcB/bDZKvzF/AlKVBAOH0BYYuWkU2fzg7VsHNfZuKdkfHK
+   b79U0rF7UTSRTcqiFAMpe6ra6EYhe44y7JCQEgLax4Q2g29aizFJHMQuB
+   AhUA7eXybZ1iq0by2AyFO+VfOJi+59lj40+5tzUVfiXNjifAmDrFliWnX
+   NLXgNT8u4v0i0b+WFrXHP9HwJvnlk7Ztm5NGrM5XkbUWCkcRGUPDZUc/R
+   +9ydDtmsueert0qmbT6t4L/gem28QzuuSNEyKeKeI0n+6k6a5+lhvd5QX
+   +1zSC8EjKSrolT5L4F0n0Xv/sVn+SE1Z1Tvf5Fjik6jCGC0TpWXU0Eclt
    w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10571"; a="347679908"
+X-IronPort-AV: E=McAfee;i="6500,9779,10571"; a="308238835"
 X-IronPort-AV: E=Sophos;i="5.96,273,1665471600"; 
-   d="scan'208";a="347679908"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Dec 2022 11:53:14 -0800
+   d="scan'208";a="308238835"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Dec 2022 12:23:14 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10571"; a="683184253"
+X-IronPort-AV: E=McAfee;i="6500,9779,10571"; a="721095773"
 X-IronPort-AV: E=Sophos;i="5.96,273,1665471600"; 
-   d="scan'208";a="683184253"
+   d="scan'208";a="721095773"
 Received: from lkp-server01.sh.intel.com (HELO b5d47979f3ad) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 25 Dec 2022 11:53:11 -0800
+  by fmsmga004.fm.intel.com with ESMTP; 25 Dec 2022 12:23:12 -0800
 Received: from kbuild by b5d47979f3ad with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1p9X3X-000E2O-03;
-	Sun, 25 Dec 2022 19:53:11 +0000
-Date: Mon, 26 Dec 2022 03:52:46 +0800
+	id 1p9XWZ-000E32-1M;
+	Sun, 25 Dec 2022 20:23:11 +0000
+Date: Mon, 26 Dec 2022 04:23:03 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH 3/5] iio: pressure: bmp280: Add support for new sensor
+Subject: Re: [PATCH 5/5] iio: pressure: bmp280: Add nvmem operations for
  BMP580
-Message-ID: <202212260352.XQTIlVGl-lkp@intel.com>
+Message-ID: <202212260442.wMrk3wW0-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="jFiaxAJGwG5H/BeX"
+Content-Type: multipart/mixed; boundary="v+S27LbpUx3OCp5P"
 Content-Disposition: inline
 
 
---jFiaxAJGwG5H/BeX
+--v+S27LbpUx3OCp5P
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <5a1c9341102fdce2f49d151f0cba76f1ba9ba279.1671986815.git.ang.iglesiasg@gmail.com>
-References: <5a1c9341102fdce2f49d151f0cba76f1ba9ba279.1671986815.git.ang.iglesiasg@gmail.com>
+In-Reply-To: <b902ef9ee60a6dd05f002916853ba23826eccf9a.1671986815.git.ang.iglesiasg@gmail.com>
+References: <b902ef9ee60a6dd05f002916853ba23826eccf9a.1671986815.git.ang.iglesiasg@gmail.com>
 TO: Angel Iglesias <ang.iglesiasg@gmail.com>
 TO: linux-iio@vger.kernel.org
 CC: Angel Iglesias <ang.iglesiasg@gmail.com>
 CC: Jonathan Cameron <jic23@kernel.org>
 CC: "Lars-Peter Clausen" <lars@metafoo.de>
-CC: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
-CC: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-CC: Ulf Hansson <ulf.hansson@linaro.org>
-CC: "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>
 CC: Paul Cercueil <paul@crapouillou.net>
+CC: "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>
+CC: Ulf Hansson <ulf.hansson@linaro.org>
 CC: linux-kernel@vger.kernel.org
 
 Hi Angel,
@@ -75,8 +73,8 @@ Thank you for the patch! Perhaps something to improve:
 
 url:    https://github.com/intel-lab-lkp/linux/commits/Angel-Iglesias/iio-pressure-bmp280-Add-enumeration-to-handle-chip-variants/20221226-010158
 base:   e807541c2b273677e82ef50b5747ec7ae7d652b9
-patch link:    https://lore.kernel.org/r/5a1c9341102fdce2f49d151f0cba76f1ba9ba279.1671986815.git.ang.iglesiasg%40gmail.com
-patch subject: [PATCH 3/5] iio: pressure: bmp280: Add support for new sensor BMP580
+patch link:    https://lore.kernel.org/r/b902ef9ee60a6dd05f002916853ba23826eccf9a.1671986815.git.ang.iglesiasg%40gmail.com
+patch subject: [PATCH 5/5] iio: pressure: bmp280: Add nvmem operations for BMP580
 :::::: branch date: 3 hours ago
 :::::: commit date: 3 hours ago
 config: i386-randconfig-m021-20221226
@@ -86,47 +84,142 @@ If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
 
-smatch warnings:
-drivers/iio/pressure/bmp280-core.c:1654 bmp580_preinit() warn: missing error code? 'ret'
+New smatch warnings:
+drivers/iio/pressure/bmp280-core.c:1687 bmp580_nvmem_read() warn: inconsistent returns '&data->lock'.
+drivers/iio/pressure/bmp280-core.c:1751 bmp580_nvmem_write() warn: inconsistent returns '&data->lock'.
 
-vim +/ret +1654 drivers/iio/pressure/bmp280-core.c
+Old smatch warnings:
+drivers/iio/pressure/bmp280-core.c:1787 bmp580_preinit() warn: missing error code? 'ret'
 
-ce037d81e52ecb Angel Iglesias 2022-12-25  1630  
-ce037d81e52ecb Angel Iglesias 2022-12-25  1631  static int bmp580_preinit(struct bmp280_data *data)
-ce037d81e52ecb Angel Iglesias 2022-12-25  1632  {
-ce037d81e52ecb Angel Iglesias 2022-12-25  1633  	unsigned int reg;
-ce037d81e52ecb Angel Iglesias 2022-12-25  1634  	int ret;
-ce037d81e52ecb Angel Iglesias 2022-12-25  1635  
-ce037d81e52ecb Angel Iglesias 2022-12-25  1636  	/* Issue soft-reset command */
-ce037d81e52ecb Angel Iglesias 2022-12-25  1637  	ret = bmp580_cmd(data, BMP580_SOFT_RESET_CMD);
-ce037d81e52ecb Angel Iglesias 2022-12-25  1638  	if (ret)
-ce037d81e52ecb Angel Iglesias 2022-12-25  1639  		return ret;
-ce037d81e52ecb Angel Iglesias 2022-12-25  1640  	/* Post powerup sequence */
-ce037d81e52ecb Angel Iglesias 2022-12-25  1641  	ret = regmap_read(data->regmap, BMP580_REG_CHIP_ID, &reg);
-ce037d81e52ecb Angel Iglesias 2022-12-25  1642  	if (ret)
-ce037d81e52ecb Angel Iglesias 2022-12-25  1643  		return ret;
-ce037d81e52ecb Angel Iglesias 2022-12-25  1644  	if (reg != BMP580_CHIP_ID) {
-ce037d81e52ecb Angel Iglesias 2022-12-25  1645  		dev_err(data->dev, "preinit: unexpected chip_id\n");
-ce037d81e52ecb Angel Iglesias 2022-12-25  1646  		return ret;
-ce037d81e52ecb Angel Iglesias 2022-12-25  1647  	}
-ce037d81e52ecb Angel Iglesias 2022-12-25  1648  	ret = regmap_read(data->regmap, BMP580_REG_STATUS, &reg);
-ce037d81e52ecb Angel Iglesias 2022-12-25  1649  	if (ret)
-ce037d81e52ecb Angel Iglesias 2022-12-25  1650  		return ret;
-ce037d81e52ecb Angel Iglesias 2022-12-25  1651  	/* Check nvm status */
-ce037d81e52ecb Angel Iglesias 2022-12-25  1652  	if (!(reg & BMP580_STATUS_NVM_RDY_MASK) || (reg & BMP580_STATUS_NVM_ERR_MASK)) {
-ce037d81e52ecb Angel Iglesias 2022-12-25  1653  		dev_err(data->dev, "preinit: nvm error on powerup sequence\n");
-ce037d81e52ecb Angel Iglesias 2022-12-25 @1654  		return ret;
-ce037d81e52ecb Angel Iglesias 2022-12-25  1655  	}
-ce037d81e52ecb Angel Iglesias 2022-12-25  1656  
-ce037d81e52ecb Angel Iglesias 2022-12-25  1657  	return 0;
-ce037d81e52ecb Angel Iglesias 2022-12-25  1658  }
-ce037d81e52ecb Angel Iglesias 2022-12-25  1659  
+vim +1687 drivers/iio/pressure/bmp280-core.c
+
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1633  
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1634  static int bmp580_nvmem_read(void *priv, unsigned int offset, void *val,
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1635  			     size_t bytes)
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1636  {
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1637  	struct bmp280_data *data = priv;
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1638  	u16 *dst = val;
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1639  	int ret, addr;
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1640  
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1641  	pm_runtime_get_sync(data->dev);
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1642  	mutex_lock(&data->lock);
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1643  
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1644  	/* Set sensor in standby mode */
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1645  	ret = regmap_update_bits(data->regmap, BMP580_REG_ODR_CONFIG,
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1646  				 BMP580_MODE_MASK | BMP580_ODR_DEEPSLEEP_DIS,
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1647  				 BMP580_ODR_DEEPSLEEP_DIS |
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1648  				 FIELD_PREP(BMP580_MODE_MASK, BMP580_MODE_SLEEP));
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1649  	if (ret) {
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1650  		dev_err(data->dev, "failed to change sensor to standby mode\n");
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1651  		return ret;
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1652  	}
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1653  	/* Wait standby transition time */
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1654  	usleep_range(2500, 3000);
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1655  
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1656  	while (bytes >= sizeof(u16)) {
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1657  		addr = bmp580_nvmem_addrs[offset / sizeof(u16)];
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1658  
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1659  		ret = regmap_write(data->regmap, BMP580_REG_NVM_ADDR,
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1660  				   FIELD_PREP(BMP580_NVM_ROW_ADDR_MASK, addr));
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1661  		if (ret) {
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1662  			dev_err(data->dev, "error writing nvm address\n");
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1663  			goto exit;
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1664  		}
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1665  
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1666  		ret = bmp580_cmd(data, BMP580_NVM_READ_CMD);
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1667  		if (ret)
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1668  			goto exit;
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1669  
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1670  		ret = regmap_bulk_read(data->regmap, BMP580_REG_NVM_DATA_LSB, &data->le16,
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1671  				       sizeof(data->le16));
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1672  		if (ret) {
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1673  			dev_err(data->dev, "error reading nvm data regs\n");
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1674  			goto exit;
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1675  		}
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1676  
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1677  		*dst++ = le16_to_cpu(data->le16);
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1678  		bytes -= sizeof(u16);
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1679  		offset += sizeof(u16);
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1680  	}
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1681  exit:
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1682  	/* Restore chip config */
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1683  	data->chip_info->chip_config(data);
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1684  	mutex_unlock(&data->lock);
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1685  	pm_runtime_mark_last_busy(data->dev);
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1686  	pm_runtime_put_autosuspend(data->dev);
+d3605f0ca09ea5 Angel Iglesias 2022-12-25 @1687  	return ret;
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1688  }
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1689  
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1690  static int bmp580_nvmem_write(void *priv, unsigned int offset, void *val,
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1691  			      size_t bytes)
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1692  {
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1693  	struct bmp280_data *data = priv;
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1694  	u16 *buf = val;
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1695  	int ret, addr;
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1696  
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1697  	pm_runtime_get_sync(data->dev);
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1698  	mutex_lock(&data->lock);
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1699  
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1700  	/* Set sensor in standby mode */
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1701  	ret = regmap_update_bits(data->regmap, BMP580_REG_ODR_CONFIG,
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1702  				 BMP580_MODE_MASK | BMP580_ODR_DEEPSLEEP_DIS,
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1703  				 BMP580_ODR_DEEPSLEEP_DIS |
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1704  				 FIELD_PREP(BMP580_MODE_MASK, BMP580_MODE_SLEEP));
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1705  	if (ret) {
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1706  		dev_err(data->dev, "failed to change sensor to standby mode\n");
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1707  		return ret;
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1708  	}
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1709  	/* Wait standby transition time */
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1710  	usleep_range(2500, 3000);
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1711  
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1712  	while (bytes >= sizeof(u16)) {
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1713  		addr = bmp580_nvmem_addrs[offset / sizeof(u16)];
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1714  
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1715  		ret = regmap_write(data->regmap, BMP580_REG_NVM_ADDR, BMP580_NVM_PROG_EN |
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1716  				   FIELD_PREP(BMP580_NVM_ROW_ADDR_MASK, addr));
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1717  		if (ret) {
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1718  			dev_err(data->dev, "error writing nvm address\n");
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1719  			goto exit;
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1720  		}
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1721  		data->le16 = cpu_to_le16(*buf++);
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1722  
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1723  		ret = regmap_bulk_write(data->regmap, BMP580_REG_NVM_DATA_LSB, &data->le16,
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1724  					sizeof(data->le16));
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1725  		if (ret) {
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1726  			dev_err(data->dev, "error writing LSB NVM data regs\n");
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1727  			goto exit;
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1728  		}
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1729  
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1730  		ret = bmp580_cmd(data, BMP580_NVM_WRITE_CMD);
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1731  		if (ret)
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1732  			goto exit;
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1733  
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1734  		/* Disable programming mode bit */
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1735  		ret = regmap_update_bits(data->regmap, BMP580_REG_NVM_ADDR,
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1736  					 BMP580_NVM_PROG_EN, 0);
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1737  		if (ret) {
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1738  			dev_err(data->dev, "error resetting nvm write\n");
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1739  			goto exit;
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1740  		}
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1741  
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1742  		bytes -= sizeof(u16);
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1743  		offset += sizeof(u16);
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1744  	}
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1745  exit:
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1746  	/* Restore chip config */
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1747  	data->chip_info->chip_config(data);
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1748  	mutex_unlock(&data->lock);
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1749  	pm_runtime_mark_last_busy(data->dev);
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1750  	pm_runtime_put_autosuspend(data->dev);
+d3605f0ca09ea5 Angel Iglesias 2022-12-25 @1751  	return ret;
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1752  }
+d3605f0ca09ea5 Angel Iglesias 2022-12-25  1753  
 
 -- 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
 
---jFiaxAJGwG5H/BeX
+--v+S27LbpUx3OCp5P
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename=config
 
@@ -6513,4 +6606,4 @@ CONFIG_MEMTEST=y
 # end of Rust hacking
 # end of Kernel hacking
 
---jFiaxAJGwG5H/BeX--
+--v+S27LbpUx3OCp5P--
