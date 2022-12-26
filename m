@@ -1,55 +1,55 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D9AD7F3
-	for <oe-kbuild@lists.linux.dev>; Mon, 26 Dec 2022 09:20:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D6C47E3
+	for <oe-kbuild@lists.linux.dev>; Mon, 26 Dec 2022 09:41:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1672046450; x=1703582450;
+  t=1672047709; x=1703583709;
   h=date:from:to:cc:subject:message-id:mime-version:
    content-transfer-encoding;
-  bh=QmLtF3G9R0hQCZ/Ik1obqYRfoximPL/Jt2ZE8y9Qvqg=;
-  b=Ty45QhagkY60iCoXyFM1/3s22mUpoGEzbv9wjSWuqRJ5IBkmzeiptYUy
-   2hEgWqwVSB5h2H5I+30oQVKIiPCpstfxkvhq28qZDXFiYA/kihg+Ee2vd
-   pDTVgdJ5BZuGLwnJSE3cQTd8lZnALtHQOC5YOUDFoXdwj33YrS6FzGD52
-   17cn2u+A+6YYI7RrCW7dB3K4Ug2oNdyMI1Nwns3shj2QvTUpez7mJoBGz
-   rYTZK4ZwjJ2W05F5SIzWHW7yCHjtCizHtOwAA1CXJDhJQrkB1HO+vafaM
-   2dVuAv8IBlZBrvNfaI4QeEEN/jjyskQRsLkBhzqX0v1OTJVrZMB59rQbT
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10571"; a="308293766"
+  bh=2PhzNzs1To0uM+F1RGDU5vmFxTN/g8xSbjVVuPGUuuU=;
+  b=NBUOKRUMgCPGXW2HqT0//QZK5qGhpaQIxzccUZ3TmqsItOc7pufqBQEf
+   pZbiMg8ORNhgV9QRMY2RdZkzS2jmc8DzEBYGVbJBwsVvXYOlILm1KtDkx
+   JykCYeMIa4JRrBL0C3ZeKWesTkw9TZuHrQIOYoXI16i9xusKzcBFSzHtq
+   fCPcjoiZebLpbBE6OwefUmOEvSFpkJMuJGdelW1/O8MxqL4xbXbd/pjif
+   l1WNWq40899DKvpbKGSTt710uhgkQTo1D6LZeMB5C1jNPeiUp9IBs6UjV
+   gC1dW437nQAEXU0CZ4hOoBvUVqTNTvzgV+zBrnobJYpzns3PqsOcvoKaO
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10571"; a="300242350"
 X-IronPort-AV: E=Sophos;i="5.96,275,1665471600"; 
-   d="scan'208";a="308293766"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Dec 2022 01:20:47 -0800
+   d="scan'208";a="300242350"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Dec 2022 01:41:48 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10571"; a="716050584"
+X-IronPort-AV: E=McAfee;i="6500,9779,10571"; a="721220271"
 X-IronPort-AV: E=Sophos;i="5.96,275,1665471600"; 
-   d="scan'208";a="716050584"
+   d="scan'208";a="721220271"
 Received: from lkp-server01.sh.intel.com (HELO b5d47979f3ad) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 26 Dec 2022 01:20:45 -0800
+  by fmsmga004.fm.intel.com with ESMTP; 26 Dec 2022 01:41:46 -0800
 Received: from kbuild by b5d47979f3ad with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1p9jf2-000EMd-1Q;
-	Mon, 26 Dec 2022 09:20:44 +0000
-Date: Mon, 26 Dec 2022 17:20:36 +0800
+	id 1p9jzN-000ENx-16;
+	Mon, 26 Dec 2022 09:41:45 +0000
+Date: Mon, 26 Dec 2022 17:40:54 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: sound/soc/intel/avs/path.c:171 avs_path_pipeline_create() warn:
- passing a valid pointer to 'PTR_ERR'
-Message-ID: <202212261756.WwByZGTX-lkp@intel.com>
+Subject: sound/soc/intel/avs/boards/rt274.c:206 avs_create_dapm_routes()
+ warn: potentially one past the end of array 'dr[idx]'
+Message-ID: <202212261719.q88t2UJ4-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="rUBzc+TM/qr2t4dO"
+Content-Type: multipart/mixed; boundary="lqhMFif1huhkr0G8"
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 
 
---rUBzc+TM/qr2t4dO
+--lqhMFif1huhkr0G8
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
@@ -63,10 +63,10 @@ CC: "Amadeusz Sławiński" <amadeuszx.slawinski@linux.intel.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   1b929c02afd37871d5afb9d498426f83432e71c2
-commit: 0ef882074eb1fee25083387ea6bc6669d0e24a85 ASoC: Intel: avs: Path creation and freeing
-date:   8 months ago
+commit: e2a4cbf277c4561d01f1aafa3cfafe46bf3feec7 ASoC: Intel: avs: Add rt274 machine board
+date:   7 months ago
 :::::: branch date: 12 hours ago
-:::::: commit date: 8 months ago
+:::::: commit date: 7 months ago
 config: i386-randconfig-m021-20221226
 compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 
@@ -74,85 +74,61 @@ If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
 
-smatch warnings:
-sound/soc/intel/avs/path.c:171 avs_path_pipeline_create() warn: passing a valid pointer to 'PTR_ERR'
+New smatch warnings:
+sound/soc/intel/avs/boards/rt274.c:206 avs_create_dapm_routes() warn: potentially one past the end of array 'dr[idx]'
 
-vim +/PTR_ERR +171 sound/soc/intel/avs/path.c
+Old smatch warnings:
+sound/soc/intel/avs/boards/rt274.c:207 avs_create_dapm_routes() warn: potentially one past the end of array 'dr[idx]'
+sound/soc/intel/avs/boards/rt274.c:208 avs_create_dapm_routes() warn: potentially one past the end of array 'dr[idx]'
+sound/soc/intel/avs/boards/rt274.c:208 avs_create_dapm_routes() warn: potentially one past the end of array 'dr[idx]'
 
-0ef882074eb1fe Cezary Rojewski 2022-03-31  124  
-0ef882074eb1fe Cezary Rojewski 2022-03-31  125  static struct avs_path_pipeline *
-0ef882074eb1fe Cezary Rojewski 2022-03-31  126  avs_path_pipeline_create(struct avs_dev *adev, struct avs_path *owner,
-0ef882074eb1fe Cezary Rojewski 2022-03-31  127  			 struct avs_tplg_pipeline *template)
-0ef882074eb1fe Cezary Rojewski 2022-03-31  128  {
-0ef882074eb1fe Cezary Rojewski 2022-03-31  129  	struct avs_path_pipeline *ppl;
-0ef882074eb1fe Cezary Rojewski 2022-03-31  130  	struct avs_tplg_pplcfg *cfg = template->cfg;
-0ef882074eb1fe Cezary Rojewski 2022-03-31  131  	struct avs_tplg_module *tmod;
-0ef882074eb1fe Cezary Rojewski 2022-03-31  132  	int ret, i;
-0ef882074eb1fe Cezary Rojewski 2022-03-31  133  
-0ef882074eb1fe Cezary Rojewski 2022-03-31  134  	ppl = kzalloc(sizeof(*ppl), GFP_KERNEL);
-0ef882074eb1fe Cezary Rojewski 2022-03-31  135  	if (!ppl)
-0ef882074eb1fe Cezary Rojewski 2022-03-31  136  		return ERR_PTR(-ENOMEM);
-0ef882074eb1fe Cezary Rojewski 2022-03-31  137  
-0ef882074eb1fe Cezary Rojewski 2022-03-31  138  	ppl->template = template;
-0ef882074eb1fe Cezary Rojewski 2022-03-31  139  	ppl->owner = owner;
-0ef882074eb1fe Cezary Rojewski 2022-03-31  140  	INIT_LIST_HEAD(&ppl->binding_list);
-0ef882074eb1fe Cezary Rojewski 2022-03-31  141  	INIT_LIST_HEAD(&ppl->mod_list);
-0ef882074eb1fe Cezary Rojewski 2022-03-31  142  	INIT_LIST_HEAD(&ppl->node);
-0ef882074eb1fe Cezary Rojewski 2022-03-31  143  
-0ef882074eb1fe Cezary Rojewski 2022-03-31  144  	ret = avs_dsp_create_pipeline(adev, cfg->req_size, cfg->priority,
-0ef882074eb1fe Cezary Rojewski 2022-03-31  145  				      cfg->lp, cfg->attributes,
-0ef882074eb1fe Cezary Rojewski 2022-03-31  146  				      &ppl->instance_id);
-0ef882074eb1fe Cezary Rojewski 2022-03-31  147  	if (ret) {
-0ef882074eb1fe Cezary Rojewski 2022-03-31  148  		dev_err(adev->dev, "error creating pipeline %d\n", ret);
-0ef882074eb1fe Cezary Rojewski 2022-03-31  149  		kfree(ppl);
-0ef882074eb1fe Cezary Rojewski 2022-03-31  150  		return ERR_PTR(ret);
-0ef882074eb1fe Cezary Rojewski 2022-03-31  151  	}
-0ef882074eb1fe Cezary Rojewski 2022-03-31  152  
-0ef882074eb1fe Cezary Rojewski 2022-03-31  153  	list_for_each_entry(tmod, &template->mod_list, node) {
-0ef882074eb1fe Cezary Rojewski 2022-03-31  154  		struct avs_path_module *mod;
-0ef882074eb1fe Cezary Rojewski 2022-03-31  155  
-0ef882074eb1fe Cezary Rojewski 2022-03-31  156  		mod = avs_path_module_create(adev, ppl, tmod);
-0ef882074eb1fe Cezary Rojewski 2022-03-31  157  		if (IS_ERR(mod)) {
-0ef882074eb1fe Cezary Rojewski 2022-03-31  158  			ret = PTR_ERR(mod);
-0ef882074eb1fe Cezary Rojewski 2022-03-31  159  			dev_err(adev->dev, "error creating module %d\n", ret);
-0ef882074eb1fe Cezary Rojewski 2022-03-31  160  			goto init_err;
-0ef882074eb1fe Cezary Rojewski 2022-03-31  161  		}
-0ef882074eb1fe Cezary Rojewski 2022-03-31  162  
-0ef882074eb1fe Cezary Rojewski 2022-03-31  163  		list_add_tail(&mod->node, &ppl->mod_list);
-0ef882074eb1fe Cezary Rojewski 2022-03-31  164  	}
-0ef882074eb1fe Cezary Rojewski 2022-03-31  165  
-0ef882074eb1fe Cezary Rojewski 2022-03-31  166  	for (i = 0; i < template->num_bindings; i++) {
-0ef882074eb1fe Cezary Rojewski 2022-03-31  167  		struct avs_path_binding *binding;
-0ef882074eb1fe Cezary Rojewski 2022-03-31  168  
-0ef882074eb1fe Cezary Rojewski 2022-03-31  169  		binding = avs_path_binding_create(adev, ppl, template->bindings[i]);
-0ef882074eb1fe Cezary Rojewski 2022-03-31  170  		if (IS_ERR(binding)) {
-0ef882074eb1fe Cezary Rojewski 2022-03-31 @171  			ret = PTR_ERR(binding);
-0ef882074eb1fe Cezary Rojewski 2022-03-31  172  			dev_err(adev->dev, "error creating binding %d\n", ret);
-0ef882074eb1fe Cezary Rojewski 2022-03-31  173  			goto init_err;
-0ef882074eb1fe Cezary Rojewski 2022-03-31  174  		}
-0ef882074eb1fe Cezary Rojewski 2022-03-31  175  
-0ef882074eb1fe Cezary Rojewski 2022-03-31  176  		list_add_tail(&binding->node, &ppl->binding_list);
-0ef882074eb1fe Cezary Rojewski 2022-03-31  177  	}
-0ef882074eb1fe Cezary Rojewski 2022-03-31  178  
-0ef882074eb1fe Cezary Rojewski 2022-03-31  179  	return ppl;
-0ef882074eb1fe Cezary Rojewski 2022-03-31  180  
-0ef882074eb1fe Cezary Rojewski 2022-03-31  181  init_err:
-0ef882074eb1fe Cezary Rojewski 2022-03-31  182  	avs_path_pipeline_free(adev, ppl);
-0ef882074eb1fe Cezary Rojewski 2022-03-31  183  	return ERR_PTR(ret);
-0ef882074eb1fe Cezary Rojewski 2022-03-31  184  }
-0ef882074eb1fe Cezary Rojewski 2022-03-31  185  
+vim +206 sound/soc/intel/avs/boards/rt274.c
+
+e2a4cbf277c456 Cezary Rojewski 2022-05-11  184  
+e2a4cbf277c456 Cezary Rojewski 2022-05-11  185  static int avs_create_dapm_routes(struct device *dev, int ssp_port,
+e2a4cbf277c456 Cezary Rojewski 2022-05-11  186  				  struct snd_soc_dapm_route **routes, int *num_routes)
+e2a4cbf277c456 Cezary Rojewski 2022-05-11  187  {
+e2a4cbf277c456 Cezary Rojewski 2022-05-11  188  	struct snd_soc_dapm_route *dr;
+e2a4cbf277c456 Cezary Rojewski 2022-05-11  189  	const int num_base = ARRAY_SIZE(card_base_routes);
+e2a4cbf277c456 Cezary Rojewski 2022-05-11  190  	const int num_dr = num_base + 2;
+e2a4cbf277c456 Cezary Rojewski 2022-05-11  191  	int idx;
+e2a4cbf277c456 Cezary Rojewski 2022-05-11  192  
+e2a4cbf277c456 Cezary Rojewski 2022-05-11  193  	dr = devm_kcalloc(dev, num_dr, sizeof(*dr), GFP_KERNEL);
+e2a4cbf277c456 Cezary Rojewski 2022-05-11  194  	if (!dr)
+e2a4cbf277c456 Cezary Rojewski 2022-05-11  195  		return -ENOMEM;
+e2a4cbf277c456 Cezary Rojewski 2022-05-11  196  
+e2a4cbf277c456 Cezary Rojewski 2022-05-11  197  	memcpy(dr, card_base_routes, num_base * sizeof(*dr));
+e2a4cbf277c456 Cezary Rojewski 2022-05-11  198  
+e2a4cbf277c456 Cezary Rojewski 2022-05-11  199  	idx = num_base;
+e2a4cbf277c456 Cezary Rojewski 2022-05-11  200  	dr[idx].sink = devm_kasprintf(dev, GFP_KERNEL, "AIF1 Playback");
+e2a4cbf277c456 Cezary Rojewski 2022-05-11  201  	dr[idx].source = devm_kasprintf(dev, GFP_KERNEL, "ssp%d Tx", ssp_port);
+e2a4cbf277c456 Cezary Rojewski 2022-05-11  202  	if (!dr[idx].sink || !dr[idx].source)
+e2a4cbf277c456 Cezary Rojewski 2022-05-11  203  		return -ENOMEM;
+e2a4cbf277c456 Cezary Rojewski 2022-05-11  204  
+e2a4cbf277c456 Cezary Rojewski 2022-05-11  205  	idx++;
+e2a4cbf277c456 Cezary Rojewski 2022-05-11 @206  	dr[idx].sink = devm_kasprintf(dev, GFP_KERNEL, "ssp%d Rx", ssp_port);
+e2a4cbf277c456 Cezary Rojewski 2022-05-11  207  	dr[idx].source = devm_kasprintf(dev, GFP_KERNEL, "AIF1 Capture");
+e2a4cbf277c456 Cezary Rojewski 2022-05-11  208  	if (!dr[idx].sink || !dr[idx].source)
+e2a4cbf277c456 Cezary Rojewski 2022-05-11  209  		return -ENOMEM;
+e2a4cbf277c456 Cezary Rojewski 2022-05-11  210  
+e2a4cbf277c456 Cezary Rojewski 2022-05-11  211  	*routes = dr;
+e2a4cbf277c456 Cezary Rojewski 2022-05-11  212  	*num_routes = num_dr;
+e2a4cbf277c456 Cezary Rojewski 2022-05-11  213  
+e2a4cbf277c456 Cezary Rojewski 2022-05-11  214  	return 0;
+e2a4cbf277c456 Cezary Rojewski 2022-05-11  215  }
+e2a4cbf277c456 Cezary Rojewski 2022-05-11  216  
 
 -- 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
 
---rUBzc+TM/qr2t4dO
+--lqhMFif1huhkr0G8
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename=config
 
 #
 # Automatically generated file; DO NOT EDIT.
-# Linux/i386 5.18.0-rc1 Kernel Configuration
+# Linux/i386 5.19.0-rc1 Kernel Configuration
 #
 CONFIG_CC_VERSION_TEXT="gcc-11 (Debian 11.3.0-8) 11.3.0"
 CONFIG_CC_IS_GCC=y
@@ -201,7 +177,6 @@ CONFIG_KERNEL_LZ4=y
 # CONFIG_KERNEL_ZSTD is not set
 CONFIG_DEFAULT_INIT=""
 CONFIG_DEFAULT_HOSTNAME="(none)"
-# CONFIG_SWAP is not set
 # CONFIG_SYSVIPC is not set
 # CONFIG_POSIX_MQUEUE is not set
 CONFIG_WATCH_QUEUE=y
@@ -288,8 +263,11 @@ CONFIG_RCU_EXPERT=y
 CONFIG_SRCU=y
 CONFIG_TREE_SRCU=y
 CONFIG_TASKS_RCU_GENERIC=y
+CONFIG_FORCE_TASKS_RCU=y
 CONFIG_TASKS_RCU=y
+CONFIG_FORCE_TASKS_RUDE_RCU=y
 CONFIG_TASKS_RUDE_RCU=y
+CONFIG_FORCE_TASKS_TRACE_RCU=y
 CONFIG_TASKS_TRACE_RCU=y
 CONFIG_RCU_STALL_COMMON=y
 CONFIG_RCU_NEED_SEGCBLIST=y
@@ -349,6 +327,9 @@ CONFIG_RD_LZO=y
 CONFIG_RD_LZ4=y
 CONFIG_RD_ZSTD=y
 CONFIG_BOOT_CONFIG=y
+CONFIG_BOOT_CONFIG_EMBED=y
+CONFIG_BOOT_CONFIG_EMBED_FILE=""
+CONFIG_INITRAMFS_PRESERVE_MTIME=y
 # CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE is not set
 CONFIG_CC_OPTIMIZE_FOR_SIZE=y
 CONFIG_LD_ORPHAN_WARN=y
@@ -381,7 +362,6 @@ CONFIG_MEMBARRIER=y
 CONFIG_KALLSYMS=y
 CONFIG_KALLSYMS_ALL=y
 CONFIG_KALLSYMS_BASE_RELATIVE=y
-# CONFIG_USERFAULTFD is not set
 CONFIG_ARCH_HAS_MEMBARRIER_SYNC_CORE=y
 CONFIG_KCMP=y
 CONFIG_RSEQ=y
@@ -398,17 +378,6 @@ CONFIG_PERF_EVENTS=y
 CONFIG_DEBUG_PERF_USE_VMALLOC=y
 # end of Kernel Performance Events And Counters
 
-CONFIG_VM_EVENT_COUNTERS=y
-CONFIG_SLUB_DEBUG=y
-# CONFIG_COMPAT_BRK is not set
-# CONFIG_SLAB is not set
-CONFIG_SLUB=y
-# CONFIG_SLOB is not set
-CONFIG_SLAB_MERGE_DEFAULT=y
-# CONFIG_SLAB_FREELIST_RANDOM is not set
-# CONFIG_SLAB_FREELIST_HARDENED is not set
-# CONFIG_SHUFFLE_PAGE_ALLOCATOR is not set
-# CONFIG_SLUB_CPU_PARTIAL is not set
 CONFIG_SYSTEM_DATA_VERIFICATION=y
 # CONFIG_PROFILING is not set
 CONFIG_TRACEPOINTS=y
@@ -514,6 +483,7 @@ CONFIG_CPU_SUP_UMC_32=y
 CONFIG_CPU_SUP_VORTEX_32=y
 CONFIG_HPET_TIMER=y
 # CONFIG_DMI is not set
+CONFIG_BOOT_VESA_SUPPORT=y
 CONFIG_NR_CPUS_RANGE_BEGIN=2
 CONFIG_NR_CPUS_RANGE_END=8
 CONFIG_NR_CPUS_DEFAULT=8
@@ -547,8 +517,7 @@ CONFIG_TOSHIBA=y
 # CONFIG_X86_REBOOTFIXUPS is not set
 CONFIG_MICROCODE=y
 CONFIG_MICROCODE_INTEL=y
-# CONFIG_MICROCODE_AMD is not set
-# CONFIG_MICROCODE_OLD_INTERFACE is not set
+CONFIG_MICROCODE_LATE_LOADING=y
 CONFIG_X86_MSR=y
 CONFIG_X86_CPUID=y
 # CONFIG_NOHIGHMEM is not set
@@ -571,7 +540,6 @@ CONFIG_X86_CHECK_BIOS_CORRUPTION=y
 # CONFIG_X86_BOOTPARAM_MEMORY_CORRUPTION_CHECK is not set
 # CONFIG_MTRR is not set
 CONFIG_ARCH_RANDOM=y
-CONFIG_X86_SMAP=y
 CONFIG_X86_UMIP=y
 CONFIG_CC_HAS_IBT=y
 # CONFIG_X86_INTEL_TSX_MODE_OFF is not set
@@ -887,6 +855,7 @@ CONFIG_MODULES=y
 # CONFIG_MODULE_FORCE_LOAD is not set
 CONFIG_MODULE_UNLOAD=y
 # CONFIG_MODULE_FORCE_UNLOAD is not set
+# CONFIG_MODULE_UNLOAD_TAINT_TRACKING is not set
 # CONFIG_MODVERSIONS is not set
 # CONFIG_MODULE_SRCVERSION_ALL is not set
 # CONFIG_MODULE_SIG is not set
@@ -970,6 +939,23 @@ CONFIG_BINFMT_MISC=y
 #
 # Memory Management options
 #
+# CONFIG_SWAP is not set
+
+#
+# SLAB allocator options
+#
+# CONFIG_SLAB is not set
+CONFIG_SLUB=y
+# CONFIG_SLOB is not set
+CONFIG_SLAB_MERGE_DEFAULT=y
+# CONFIG_SLAB_FREELIST_RANDOM is not set
+# CONFIG_SLAB_FREELIST_HARDENED is not set
+CONFIG_SLUB_STATS=y
+# CONFIG_SLUB_CPU_PARTIAL is not set
+# end of SLAB allocator options
+
+# CONFIG_SHUFFLE_PAGE_ALLOCATOR is not set
+# CONFIG_COMPAT_BRK is not set
 CONFIG_SELECT_MEMORY_MODEL=y
 # CONFIG_FLATMEM_MANUAL is not set
 CONFIG_SPARSEMEM_MANUAL=y
@@ -985,26 +971,26 @@ CONFIG_MIGRATION=y
 CONFIG_VIRT_TO_BUS=y
 CONFIG_KSM=y
 CONFIG_DEFAULT_MMAP_MIN_ADDR=4096
-# CONFIG_TRANSPARENT_HUGEPAGE is not set
 CONFIG_ARCH_WANT_GENERAL_HUGETLB=y
+# CONFIG_TRANSPARENT_HUGEPAGE is not set
 CONFIG_NEED_PER_CPU_EMBED_FIRST_CHUNK=y
 CONFIG_NEED_PER_CPU_PAGE_FIRST_CHUNK=y
 CONFIG_HAVE_SETUP_PER_CPU_AREA=y
 # CONFIG_CMA is not set
-# CONFIG_ZPOOL is not set
-# CONFIG_ZSMALLOC is not set
 CONFIG_GENERIC_EARLY_IOREMAP=y
 CONFIG_PAGE_IDLE_FLAG=y
 # CONFIG_IDLE_PAGE_TRACKING is not set
 CONFIG_ARCH_HAS_CACHE_LINE_SIZE=y
 CONFIG_ARCH_HAS_CURRENT_STACK_POINTER=y
-CONFIG_ARCH_HAS_FILTER_PGPROT=y
+CONFIG_ARCH_HAS_VM_GET_PAGE_PROT=y
 CONFIG_ARCH_HAS_ZONE_DMA_SET=y
 # CONFIG_ZONE_DMA is not set
+CONFIG_VM_EVENT_COUNTERS=y
 # CONFIG_PERCPU_STATS is not set
 # CONFIG_GUP_TEST is not set
 CONFIG_ARCH_HAS_PTE_SPECIAL=y
 CONFIG_KMAP_LOCAL=y
+# CONFIG_USERFAULTFD is not set
 
 #
 # Data Access Monitoring
@@ -1296,11 +1282,13 @@ CONFIG_PREVENT_FIRMWARE_BUILD=y
 #
 CONFIG_FW_LOADER=y
 CONFIG_FW_LOADER_PAGED_BUF=y
+CONFIG_FW_LOADER_SYSFS=y
 CONFIG_EXTRA_FIRMWARE=""
 CONFIG_FW_LOADER_USER_HELPER=y
 CONFIG_FW_LOADER_USER_HELPER_FALLBACK=y
 # CONFIG_FW_LOADER_COMPRESS is not set
 CONFIG_FW_CACHE=y
+CONFIG_FW_UPLOAD=y
 # end of Firmware loader
 
 CONFIG_WANT_DEV_COREDUMP=y
@@ -1329,6 +1317,7 @@ CONFIG_MOXTET=y
 CONFIG_MHI_BUS=y
 CONFIG_MHI_BUS_DEBUG=y
 CONFIG_MHI_BUS_PCI_GENERIC=y
+CONFIG_MHI_BUS_EP=y
 # end of Bus devices
 
 # CONFIG_CONNECTOR is not set
@@ -1390,6 +1379,7 @@ CONFIG_BLK_DEV=y
 # CONFIG_BLK_DEV_NULL_BLK is not set
 # CONFIG_BLK_DEV_FD is not set
 # CONFIG_BLK_DEV_PCIESSD_MTIP32XX is not set
+# CONFIG_ZRAM is not set
 # CONFIG_BLK_DEV_LOOP is not set
 # CONFIG_BLK_DEV_DRBD is not set
 # CONFIG_BLK_DEV_NBD is not set
@@ -1533,7 +1523,7 @@ CONFIG_SATA_PMP=y
 # Controllers with non-SFF native interface
 #
 CONFIG_SATA_AHCI=y
-CONFIG_SATA_LPM_POLICY=0
+CONFIG_SATA_MOBILE_LPM_POLICY=0
 # CONFIG_SATA_AHCI_PLATFORM is not set
 # CONFIG_AHCI_CEVA is not set
 CONFIG_AHCI_QORIQ=y
@@ -1658,6 +1648,7 @@ CONFIG_NET_VENDOR_ATHEROS=y
 # CONFIG_ATL1E is not set
 # CONFIG_ATL1C is not set
 # CONFIG_ALX is not set
+# CONFIG_CX_ECAT is not set
 CONFIG_NET_VENDOR_BROADCOM=y
 # CONFIG_B44 is not set
 # CONFIG_BCMGENET is not set
@@ -1667,8 +1658,6 @@ CONFIG_NET_VENDOR_BROADCOM=y
 # CONFIG_BNX2X is not set
 # CONFIG_SYSTEMPORT is not set
 # CONFIG_BNXT is not set
-CONFIG_NET_VENDOR_BROCADE=y
-# CONFIG_BNA is not set
 CONFIG_NET_VENDOR_CADENCE=y
 # CONFIG_MACB is not set
 CONFIG_NET_VENDOR_CAVIUM=y
@@ -1682,7 +1671,6 @@ CONFIG_NET_VENDOR_CISCO=y
 # CONFIG_ENIC is not set
 CONFIG_NET_VENDOR_CORTINA=y
 # CONFIG_GEMINI_ETHERNET is not set
-# CONFIG_CX_ECAT is not set
 CONFIG_NET_VENDOR_DAVICOM=y
 # CONFIG_DM9051 is not set
 # CONFIG_DNET is not set
@@ -1713,7 +1701,6 @@ CONFIG_E1000=y
 # CONFIG_IXGBE is not set
 # CONFIG_I40E is not set
 # CONFIG_IGC is not set
-CONFIG_NET_VENDOR_MICROSOFT=y
 # CONFIG_JME is not set
 CONFIG_NET_VENDOR_LITEX=y
 # CONFIG_LITEX_LITEETH is not set
@@ -1735,9 +1722,12 @@ CONFIG_NET_VENDOR_MICROCHIP=y
 # CONFIG_ENCX24J600 is not set
 # CONFIG_LAN743X is not set
 CONFIG_NET_VENDOR_MICROSEMI=y
+CONFIG_NET_VENDOR_MICROSOFT=y
 CONFIG_NET_VENDOR_MYRI=y
 # CONFIG_MYRI10GE is not set
 # CONFIG_FEALNX is not set
+CONFIG_NET_VENDOR_NI=y
+# CONFIG_NI_XGE_MANAGEMENT_ENET is not set
 CONFIG_NET_VENDOR_NATSEMI=y
 # CONFIG_NATSEMI is not set
 # CONFIG_NS83820 is not set
@@ -1745,8 +1735,6 @@ CONFIG_NET_VENDOR_NETERION=y
 # CONFIG_S2IO is not set
 # CONFIG_VXGE is not set
 CONFIG_NET_VENDOR_NETRONOME=y
-CONFIG_NET_VENDOR_NI=y
-# CONFIG_NI_XGE_MANAGEMENT_ENET is not set
 CONFIG_NET_VENDOR_8390=y
 # CONFIG_PCMCIA_AXNET is not set
 # CONFIG_NE2K_PCI is not set
@@ -1764,6 +1752,8 @@ CONFIG_NET_VENDOR_QLOGIC=y
 # CONFIG_QLCNIC is not set
 # CONFIG_NETXEN_NIC is not set
 # CONFIG_QED is not set
+CONFIG_NET_VENDOR_BROCADE=y
+# CONFIG_BNA is not set
 CONFIG_NET_VENDOR_QUALCOMM=y
 # CONFIG_QCA7000_SPI is not set
 # CONFIG_QCA7000_UART is not set
@@ -1780,14 +1770,14 @@ CONFIG_NET_VENDOR_ROCKER=y
 CONFIG_NET_VENDOR_SAMSUNG=y
 # CONFIG_SXGBE_ETH is not set
 CONFIG_NET_VENDOR_SEEQ=y
-CONFIG_NET_VENDOR_SOLARFLARE=y
-# CONFIG_SFC is not set
-# CONFIG_SFC_FALCON is not set
 CONFIG_NET_VENDOR_SILAN=y
 # CONFIG_SC92031 is not set
 CONFIG_NET_VENDOR_SIS=y
 # CONFIG_SIS900 is not set
 # CONFIG_SIS190 is not set
+CONFIG_NET_VENDOR_SOLARFLARE=y
+# CONFIG_SFC is not set
+# CONFIG_SFC_FALCON is not set
 CONFIG_NET_VENDOR_SMSC=y
 # CONFIG_PCMCIA_SMC91C92 is not set
 # CONFIG_EPIC100 is not set
@@ -1859,9 +1849,11 @@ CONFIG_WLAN_VENDOR_INTERSIL=y
 CONFIG_WLAN_VENDOR_MARVELL=y
 CONFIG_WLAN_VENDOR_MEDIATEK=y
 CONFIG_WLAN_VENDOR_MICROCHIP=y
+CONFIG_WLAN_VENDOR_PURELIFI=y
 CONFIG_WLAN_VENDOR_RALINK=y
 CONFIG_WLAN_VENDOR_REALTEK=y
 CONFIG_WLAN_VENDOR_RSI=y
+CONFIG_WLAN_VENDOR_SILABS=y
 CONFIG_WLAN_VENDOR_ST=y
 CONFIG_WLAN_VENDOR_TI=y
 CONFIG_WLAN_VENDOR_ZYDAS=y
@@ -1992,6 +1984,7 @@ CONFIG_INPUT_PCAP=y
 # CONFIG_INPUT_IMS_PCU is not set
 CONFIG_INPUT_IQS269A=y
 CONFIG_INPUT_IQS626A=y
+CONFIG_INPUT_IQS7222=y
 CONFIG_INPUT_CMA3000=y
 CONFIG_INPUT_CMA3000_I2C=y
 # CONFIG_INPUT_IDEAPAD_SLIDEBAR is not set
@@ -2195,8 +2188,8 @@ CONFIG_TELCLOCK=y
 CONFIG_XILLYBUS_CLASS=y
 # CONFIG_XILLYBUS is not set
 CONFIG_XILLYUSB=y
-CONFIG_RANDOM_TRUST_CPU=y
-CONFIG_RANDOM_TRUST_BOOTLOADER=y
+# CONFIG_RANDOM_TRUST_CPU is not set
+# CONFIG_RANDOM_TRUST_BOOTLOADER is not set
 # end of Character devices
 
 #
@@ -2804,7 +2797,9 @@ CONFIG_SENSORS_PC87360=y
 CONFIG_SENSORS_PC87427=y
 # CONFIG_SENSORS_NTC_THERMISTOR is not set
 CONFIG_SENSORS_NCT6683=y
+CONFIG_SENSORS_NCT6775_CORE=y
 CONFIG_SENSORS_NCT6775=y
+CONFIG_SENSORS_NCT6775_I2C=y
 CONFIG_SENSORS_NCT7802=y
 CONFIG_SENSORS_NPCM7XX=y
 CONFIG_SENSORS_NZXT_KRAKEN2=y
@@ -2851,9 +2846,10 @@ CONFIG_SENSORS_TPS40422=y
 # CONFIG_SENSORS_TPS53679 is not set
 # CONFIG_SENSORS_UCD9000 is not set
 CONFIG_SENSORS_UCD9200=y
+CONFIG_SENSORS_XDPE152=y
 # CONFIG_SENSORS_XDPE122 is not set
 # CONFIG_SENSORS_ZL6100 is not set
-CONFIG_SENSORS_PWM_FAN=y
+# CONFIG_SENSORS_PWM_FAN is not set
 CONFIG_SENSORS_SBTSI=y
 CONFIG_SENSORS_SBRMI=y
 CONFIG_SENSORS_SHT15=y
@@ -3185,6 +3181,7 @@ CONFIG_REGULATOR_RASPBERRYPI_TOUCHSCREEN_ATTINY=y
 CONFIG_REGULATOR_ROHM=y
 CONFIG_REGULATOR_RT4801=y
 CONFIG_REGULATOR_RT5190A=y
+CONFIG_REGULATOR_RT5759=y
 CONFIG_REGULATOR_RT6160=y
 # CONFIG_REGULATOR_RT6245 is not set
 # CONFIG_REGULATOR_RTQ2134 is not set
@@ -3250,7 +3247,6 @@ CONFIG_FB_NOTIFY=y
 CONFIG_FB=y
 CONFIG_FIRMWARE_EDID=y
 CONFIG_FB_DDC=y
-CONFIG_FB_BOOT_VESA_SUPPORT=y
 CONFIG_FB_CFB_FILLRECT=y
 CONFIG_FB_CFB_COPYAREA=y
 CONFIG_FB_CFB_IMAGEBLIT=y
@@ -3396,6 +3392,7 @@ CONFIG_SND_DEBUG_VERBOSE=y
 # CONFIG_SND_JACK_INJECTION_DEBUG is not set
 CONFIG_SND_VMASTER=y
 CONFIG_SND_DMA_SGBUF=y
+CONFIG_SND_CTL_LED=y
 CONFIG_SND_SEQUENCER=y
 CONFIG_SND_SEQ_DUMMY=y
 CONFIG_SND_SEQ_MIDI_EVENT=y
@@ -3475,7 +3472,31 @@ CONFIG_SND_VX222=y
 #
 # HD-Audio
 #
+CONFIG_SND_HDA=y
+CONFIG_SND_HDA_GENERIC_LEDS=y
 # CONFIG_SND_HDA_INTEL is not set
+CONFIG_SND_HDA_HWDEP=y
+# CONFIG_SND_HDA_RECONFIG is not set
+CONFIG_SND_HDA_INPUT_BEEP=y
+CONFIG_SND_HDA_INPUT_BEEP_MODE=1
+# CONFIG_SND_HDA_PATCH_LOADER is not set
+# CONFIG_SND_HDA_SCODEC_CS35L41_I2C is not set
+# CONFIG_SND_HDA_SCODEC_CS35L41_SPI is not set
+# CONFIG_SND_HDA_CODEC_REALTEK is not set
+# CONFIG_SND_HDA_CODEC_ANALOG is not set
+CONFIG_SND_HDA_CODEC_SIGMATEL=y
+CONFIG_SND_HDA_CODEC_VIA=y
+CONFIG_SND_HDA_CODEC_HDMI=y
+CONFIG_SND_HDA_CODEC_CIRRUS=y
+# CONFIG_SND_HDA_CODEC_CS8409 is not set
+CONFIG_SND_HDA_CODEC_CONEXANT=y
+CONFIG_SND_HDA_CODEC_CA0110=y
+CONFIG_SND_HDA_CODEC_CA0132=y
+CONFIG_SND_HDA_CODEC_CA0132_DSP=y
+# CONFIG_SND_HDA_CODEC_CMEDIA is not set
+CONFIG_SND_HDA_CODEC_SI3054=y
+CONFIG_SND_HDA_GENERIC=y
+CONFIG_SND_HDA_POWER_SAVE_DEFAULT=0
 # end of HD-Audio
 
 CONFIG_SND_HDA_CORE=y
@@ -3563,6 +3584,20 @@ CONFIG_SND_SST_ATOM_HIFI2_PLATFORM_ACPI=y
 # CONFIG_SND_SOC_INTEL_CML_LP is not set
 CONFIG_SND_SOC_ACPI_INTEL_MATCH=y
 CONFIG_SND_SOC_INTEL_AVS=y
+
+#
+# Intel AVS Machine drivers
+#
+
+#
+# Available DSP configurations
+#
+CONFIG_SND_SOC_INTEL_AVS_MACH_DMIC=y
+CONFIG_SND_SOC_INTEL_AVS_MACH_HDAUDIO=y
+# CONFIG_SND_SOC_INTEL_AVS_MACH_I2S_TEST is not set
+CONFIG_SND_SOC_INTEL_AVS_MACH_RT274=y
+# end of Intel AVS Machine drivers
+
 CONFIG_SND_SOC_INTEL_MACH=y
 CONFIG_SND_SOC_INTEL_USER_FRIENDLY_LONG_NAMES=y
 CONFIG_SND_SOC_MTK_BTCVSD=y
@@ -3652,6 +3687,7 @@ CONFIG_SND_SOC_ES8328=y
 CONFIG_SND_SOC_ES8328_I2C=y
 CONFIG_SND_SOC_ES8328_SPI=y
 CONFIG_SND_SOC_GTM601=y
+CONFIG_SND_SOC_HDA=y
 # CONFIG_SND_SOC_ICS43432 is not set
 CONFIG_SND_SOC_INNO_RK3036=y
 CONFIG_SND_SOC_LOCHNAGAR_SC=y
@@ -3664,6 +3700,7 @@ CONFIG_SND_SOC_MAX98520=y
 CONFIG_SND_SOC_MAX98373=y
 CONFIG_SND_SOC_MAX98373_I2C=y
 CONFIG_SND_SOC_MAX98390=y
+CONFIG_SND_SOC_MAX98396=y
 # CONFIG_SND_SOC_MAX9860 is not set
 CONFIG_SND_SOC_MSM8916_WCD_DIGITAL=y
 # CONFIG_SND_SOC_PCM1681 is not set
@@ -3687,6 +3724,8 @@ CONFIG_SND_SOC_PCM512x=y
 CONFIG_SND_SOC_PCM512x_SPI=y
 # CONFIG_SND_SOC_RK3328 is not set
 CONFIG_SND_SOC_RL6231=y
+CONFIG_SND_SOC_RL6347A=y
+CONFIG_SND_SOC_RT274=y
 CONFIG_SND_SOC_RT5616=y
 # CONFIG_SND_SOC_RT5631 is not set
 CONFIG_SND_SOC_RT5640=y
@@ -3757,6 +3796,7 @@ CONFIG_SND_SOC_WM8804_I2C=y
 # CONFIG_SND_SOC_WM8804_SPI is not set
 CONFIG_SND_SOC_WM8903=y
 CONFIG_SND_SOC_WM8904=y
+CONFIG_SND_SOC_WM8940=y
 CONFIG_SND_SOC_WM8960=y
 CONFIG_SND_SOC_WM8962=y
 CONFIG_SND_SOC_WM8974=y
@@ -3860,6 +3900,7 @@ CONFIG_HID_LENOVO=y
 CONFIG_HID_MAGICMOUSE=y
 CONFIG_HID_MALTRON=y
 CONFIG_HID_MAYFLASH=y
+# CONFIG_HID_MEGAWORLD_FF is not set
 # CONFIG_HID_REDRAGON is not set
 CONFIG_HID_MICROSOFT=y
 CONFIG_HID_MONTEREY=y
@@ -3965,7 +4006,7 @@ CONFIG_USB_EHCI_FSL=y
 CONFIG_USB_EHCI_HCD_PLATFORM=y
 CONFIG_USB_OXU210HP_HCD=y
 CONFIG_USB_ISP116X_HCD=y
-CONFIG_USB_FOTG210_HCD=y
+# CONFIG_USB_FOTG210_HCD is not set
 CONFIG_USB_MAX3421_HCD=y
 # CONFIG_USB_OHCI_HCD is not set
 # CONFIG_USB_U132_HCD is not set
@@ -4213,6 +4254,15 @@ CONFIG_USB_RAW_GADGET=y
 CONFIG_USB_ROLE_SWITCH=y
 # CONFIG_USB_ROLES_INTEL_XHCI is not set
 # CONFIG_MMC is not set
+CONFIG_SCSI_UFSHCD=y
+# CONFIG_SCSI_UFS_BSG is not set
+# CONFIG_SCSI_UFS_HPB is not set
+# CONFIG_SCSI_UFS_HWMON is not set
+CONFIG_SCSI_UFSHCD_PCI=y
+CONFIG_SCSI_UFS_DWC_TC_PCI=y
+CONFIG_SCSI_UFSHCD_PLATFORM=y
+CONFIG_SCSI_UFS_CDNS_PLATFORM=y
+# CONFIG_SCSI_UFS_DWC_TC_PLATFORM is not set
 CONFIG_MEMSTICK=y
 CONFIG_MEMSTICK_DEBUG=y
 
@@ -4295,6 +4345,10 @@ CONFIG_LEDS_LGM=y
 
 #
 # Flash and Torch LED drivers
+#
+
+#
+# RGB LED drivers
 #
 
 #
@@ -4412,6 +4466,7 @@ CONFIG_COMEDI_NI_ROUTING=y
 # CONFIG_X86_PLATFORM_DEVICES is not set
 CONFIG_PMC_ATOM=y
 CONFIG_CHROME_PLATFORMS=y
+# CONFIG_CHROMEOS_ACPI is not set
 CONFIG_CHROMEOS_PSTORE=y
 # CONFIG_CHROMEOS_TBMC is not set
 CONFIG_CROS_EC=y
@@ -4575,6 +4630,7 @@ CONFIG_EXTCON_USB_GPIO=y
 CONFIG_EXTCON_USBC_CROS_EC=y
 # CONFIG_EXTCON_USBC_TUSB320 is not set
 CONFIG_MEMORY=y
+# CONFIG_OMAP_GPMC is not set
 CONFIG_IIO=y
 CONFIG_IIO_BUFFER=y
 CONFIG_IIO_BUFFER_CB=y
@@ -5179,6 +5235,7 @@ CONFIG_PWM_SYSFS=y
 # CONFIG_PWM_LPSS_PLATFORM is not set
 # CONFIG_PWM_NTXEC is not set
 # CONFIG_PWM_PCA9685 is not set
+# CONFIG_PWM_XILINX is not set
 
 #
 # IRQ chip support
@@ -5309,6 +5366,7 @@ CONFIG_MOST_USB_HDM=y
 CONFIG_MOST_CDEV=y
 # CONFIG_MOST_SND is not set
 # CONFIG_PECI is not set
+# CONFIG_HTE is not set
 # end of Device Drivers
 
 #
@@ -5393,6 +5451,7 @@ CONFIG_FSCACHE_DEBUG=y
 CONFIG_CACHEFILES=y
 # CONFIG_CACHEFILES_DEBUG is not set
 # CONFIG_CACHEFILES_ERROR_INJECTION is not set
+# CONFIG_CACHEFILES_ONDEMAND is not set
 # end of Caches
 
 #
@@ -5642,6 +5701,8 @@ CONFIG_INIT_ON_FREE_DEFAULT_ON=y
 CONFIG_CC_HAS_ZERO_CALL_USED_REGS=y
 # CONFIG_ZERO_CALL_USED_REGS is not set
 # end of Memory initialization
+
+CONFIG_RANDSTRUCT_NONE=y
 # end of Kernel hardening options
 # end of Security options
 
@@ -5757,6 +5818,7 @@ CONFIG_CRYPTO_SHA256=y
 CONFIG_CRYPTO_SHA512=y
 CONFIG_CRYPTO_SHA3=y
 CONFIG_CRYPTO_SM3=y
+CONFIG_CRYPTO_SM3_GENERIC=y
 CONFIG_CRYPTO_STREEBOG=y
 CONFIG_CRYPTO_WP512=y
 
@@ -5777,6 +5839,7 @@ CONFIG_CRYPTO_CHACHA20=y
 CONFIG_CRYPTO_SERPENT=y
 CONFIG_CRYPTO_SERPENT_SSE2_586=y
 CONFIG_CRYPTO_SM4=y
+CONFIG_CRYPTO_SM4_GENERIC=y
 # CONFIG_CRYPTO_TWOFISH is not set
 CONFIG_CRYPTO_TWOFISH_COMMON=y
 CONFIG_CRYPTO_TWOFISH_586=y
@@ -5881,8 +5944,6 @@ CONFIG_CRYPTO_LIB_POLY1305_GENERIC=y
 # CONFIG_CRYPTO_LIB_POLY1305 is not set
 # CONFIG_CRYPTO_LIB_CHACHA20POLY1305 is not set
 CONFIG_CRYPTO_LIB_SHA256=y
-CONFIG_CRYPTO_LIB_SM3=y
-CONFIG_CRYPTO_LIB_SM4=y
 # end of Crypto library routines
 
 CONFIG_CRC_CCITT=y
@@ -6047,6 +6108,7 @@ CONFIG_HAVE_KCSAN_COMPILER=y
 #
 # CONFIG_NET_DEV_REFCNT_TRACKER is not set
 # CONFIG_NET_NS_REFCNT_TRACKER is not set
+# CONFIG_DEBUG_NET is not set
 # end of Networking Debugging
 
 #
@@ -6054,6 +6116,8 @@ CONFIG_HAVE_KCSAN_COMPILER=y
 #
 CONFIG_PAGE_EXTENSION=y
 # CONFIG_DEBUG_PAGEALLOC is not set
+CONFIG_SLUB_DEBUG=y
+# CONFIG_SLUB_DEBUG_ON is not set
 CONFIG_PAGE_OWNER=y
 CONFIG_PAGE_POISONING=y
 # CONFIG_DEBUG_PAGE_REF is not set
@@ -6071,8 +6135,6 @@ CONFIG_DEBUG_OBJECTS_FREE=y
 # CONFIG_DEBUG_OBJECTS_RCU_HEAD is not set
 # CONFIG_DEBUG_OBJECTS_PERCPU_COUNTER is not set
 CONFIG_DEBUG_OBJECTS_ENABLE_DEFAULT=1
-# CONFIG_SLUB_DEBUG_ON is not set
-CONFIG_SLUB_STATS=y
 CONFIG_HAVE_DEBUG_KMEMLEAK=y
 # CONFIG_DEBUG_KMEMLEAK is not set
 CONFIG_DEBUG_STACK_USAGE=y
@@ -6110,12 +6172,10 @@ CONFIG_PANIC_TIMEOUT=0
 CONFIG_LOCKUP_DETECTOR=y
 CONFIG_SOFTLOCKUP_DETECTOR=y
 # CONFIG_BOOTPARAM_SOFTLOCKUP_PANIC is not set
-CONFIG_BOOTPARAM_SOFTLOCKUP_PANIC_VALUE=0
 # CONFIG_HARDLOCKUP_DETECTOR is not set
 CONFIG_DETECT_HUNG_TASK=y
 CONFIG_DEFAULT_HUNG_TASK_TIMEOUT=480
 # CONFIG_BOOTPARAM_HUNG_TASK_PANIC is not set
-CONFIG_BOOTPARAM_HUNG_TASK_PANIC_VALUE=0
 CONFIG_WQ_WATCHDOG=y
 # CONFIG_TEST_LOCKUP is not set
 # end of Debug Oops, Lockups and Hangs
@@ -6186,6 +6246,7 @@ CONFIG_RCU_SCALE_TEST=m
 CONFIG_RCU_TORTURE_TEST=m
 CONFIG_RCU_REF_SCALE_TEST=m
 CONFIG_RCU_CPU_STALL_TIMEOUT=21
+CONFIG_RCU_EXP_CPU_STALL_TIMEOUT=0
 CONFIG_RCU_TRACE=y
 CONFIG_RCU_EQS_DEBUG=y
 # end of RCU Debugging
@@ -6314,4 +6375,4 @@ CONFIG_MEMTEST=y
 # end of Kernel Testing and Coverage
 # end of Kernel hacking
 
---rUBzc+TM/qr2t4dO--
+--lqhMFif1huhkr0G8--
