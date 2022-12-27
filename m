@@ -1,66 +1,90 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 816D17ED
-	for <oe-kbuild@lists.linux.dev>; Tue, 27 Dec 2022 03:01:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 865AD62A
+	for <oe-kbuild@lists.linux.dev>; Tue, 27 Dec 2022 04:32:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1672110071; x=1703646071;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=CeCmoZp0wopubYJcOzya/AclCz/pQd0ZoHvoK1pU+xo=;
-  b=AsVh/VsleDzeHVPBy/g1PvrY7m6tJaqYgkSIHdz6auPutym7Yj5LQCPL
-   93d6F1iC5f/K4GIA02sSO1t0gb4KrbKBJEBcsKwPw4k6IJnUXgS3DhIER
-   p1as+fq67jgzSY+hn5hDQ30fP75aizHYLLwFieQNvlJHK5/PTcrbR4Z+F
-   hQDjBB+JsRIzpDNwi1Mz8ANwlv1TqFvub+GUmKAjhlHM2YFf8GHK19adN
-   74gXAgjIY0wFHgKM01FlmMxSVL88t/HoqflHBoT1s4GphFsuB3U0aI2qY
-   UiyPUletUj2eEwXxuIE/eGsE6I0PrcyVFCLAsnLIBO9dX5QurUUVIgbWQ
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10572"; a="319354949"
+  t=1672115531; x=1703651531;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=zbgDkhYWHDJqh5MHlCvYohXQs1pR6xehzqOT3EJvQaY=;
+  b=l3L7d1/pVqlLHIyGfZ/CyZV/v35RbFCthEVq0tUKDY4fg8KlqdcunxYr
+   CQ+gwvwV/Fjlm/ePn+DQDDtWPqBn1iub3bguop6LZOR/OTa3amZpjr6kH
+   jXkzbv/hWf7czWmUmywgN/21YavnNQpNQRHhQ9h3wEfE+iCoAtsJ/foyl
+   Wx86PDPCRHBGmJ/rYfbTvaTXHJgMLKql3OZQJaNh4omLWBnNLEuxi2wF6
+   zrCS9Xpns/au8wX6RuLmLpH+pAzzIvH9YYmVDduR3XgR0m6bSaE0CbLOm
+   gzQxehZm1XQxuS65dD7PXk4+9n2hHHWh/hsnTr3SfyOJpHxHHZq/YPcOp
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10572"; a="320728954"
 X-IronPort-AV: E=Sophos;i="5.96,277,1665471600"; 
-   d="scan'208";a="319354949"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Dec 2022 19:01:10 -0800
+   d="scan'208";a="320728954"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Dec 2022 20:32:10 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10572"; a="646298024"
+X-IronPort-AV: E=McAfee;i="6500,9779,10572"; a="898251758"
 X-IronPort-AV: E=Sophos;i="5.96,277,1665471600"; 
-   d="scan'208";a="646298024"
+   d="scan'208";a="898251758"
 Received: from lkp-server01.sh.intel.com (HELO b5d47979f3ad) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 26 Dec 2022 19:01:06 -0800
+  by fmsmga006.fm.intel.com with ESMTP; 26 Dec 2022 20:32:08 -0800
 Received: from kbuild by b5d47979f3ad with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pA0DB-000EnB-2P;
-	Tue, 27 Dec 2022 03:01:05 +0000
-Date: Tue, 27 Dec 2022 11:00:55 +0800
+	id 1pA1dI-000Epn-02;
+	Tue, 27 Dec 2022 04:32:08 +0000
+Date: Tue, 27 Dec 2022 12:31:45 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [cel:topic-rpcsec-gss-krb5-enhancements 12/67]
- net/sunrpc/auth_gss/svcauth_gss.c:1165 gss_read_proxy_verf() warn: potential
- spectre issue 'in_token->pages' [w]
-Message-ID: <202212271041.ttnE2Q2x-lkp@intel.com>
+Subject: Re: [PATCH] ucsi_ccg: Refine the UCSI Interrupt handling
+Message-ID: <202212271237.LWXg8oOw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="9L0VWBVLphlX+eJY"
+Content-Type: multipart/mixed; boundary="pVRfuQCncrSPe8mF"
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
 
---9L0VWBVLphlX+eJY
-Content-Type: text/plain; charset=us-ascii
+--pVRfuQCncrSPe8mF
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Chuck Lever <chuck.lever@oracle.com>
+In-Reply-To: <20221221083812.3363045-1-haotienh@nvidia.com>
+References: <20221221083812.3363045-1-haotienh@nvidia.com>
+TO: Haotien Hsu <haotienh@nvidia.com>
+TO: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+TO: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+CC: Wayne Chang <waynec@nvidia.com>
+CC: "Sing-Han Chen" <singhanc@nvidia.com>
+CC: Sanket Goswami <Sanket.Goswami@amd.com>
+CC: "Uwe Kleine-König" <u.kleine-koenig@pengutronix.de>
+CC: Jonathan Hunter <jonathanh@nvidia.com>
+CC: linux-usb@vger.kernel.org
+CC: linux-kernel@vger.kernel.org
+CC: Haotien Hsu <haotienh@nvidia.com>
 
-tree:   git://git.kernel.org/pub/scm/linux/kernel/git/cel/linux topic-rpcsec-gss-krb5-enhancements
-head:   aa20fa7b4e53f714b87e2769ccb80c120776c5cc
-commit: ddb4b4ebfb1e5208f2621e944cfa75968cb66290 [12/67] SUNRPC: Convert server-side GSS upcall helpers to use xdr_stream
-:::::: branch date: 11 hours ago
-:::::: commit date: 11 hours ago
+Hi Haotien,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on usb/usb-testing]
+[also build test WARNING on usb/usb-next usb/usb-linus linus/master v6.2-rc1 next-20221226]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Haotien-Hsu/ucsi_ccg-Refine-the-UCSI-Interrupt-handling/20221221-163923
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+patch link:    https://lore.kernel.org/r/20221221083812.3363045-1-haotienh%40nvidia.com
+patch subject: [PATCH] ucsi_ccg: Refine the UCSI Interrupt handling
+:::::: branch date: 6 days ago
+:::::: commit date: 6 days ago
 config: x86_64-randconfig-m001-20221226
 compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 
@@ -69,99 +93,62 @@ If you fix the issue, kindly add following tag where applicable
 | Reported-by: Dan Carpenter <error27@gmail.com>
 
 smatch warnings:
-net/sunrpc/auth_gss/svcauth_gss.c:1165 gss_read_proxy_verf() warn: potential spectre issue 'in_token->pages' [w]
+drivers/usb/typec/ucsi/ucsi_ccg.c:708 ccg_irq_handler() error: uninitialized symbol 'cci'.
 
-vim +1165 net/sunrpc/auth_gss/svcauth_gss.c
+vim +/cci +708 drivers/usb/typec/ucsi/ucsi_ccg.c
 
-5866efa8cbfbad Chuck Lever     2019-10-24  1109  
-5866efa8cbfbad Chuck Lever     2019-10-24  1110  static int gss_read_proxy_verf(struct svc_rqst *rqstp,
-438623a06bacd6 Chuck Lever     2021-07-15  1111  			       struct rpc_gss_wire_cred *gc,
-030d794bf49855 Simo Sorce      2012-05-25  1112  			       struct xdr_netobj *in_handle,
-030d794bf49855 Simo Sorce      2012-05-25  1113  			       struct gssp_in_token *in_token)
-030d794bf49855 Simo Sorce      2012-05-25  1114  {
-ddb4b4ebfb1e52 Chuck Lever     2022-11-07  1115  	struct xdr_stream *xdr = &rqstp->rq_arg_stream;
-d48c8124749c9a Martijn de Gouw 2020-10-19  1116  	unsigned int length, pgto_offs, pgfrom_offs;
-583ee7426ecac7 Chuck Lever     2022-11-16  1117  	int pages, i, pgto, pgfrom;
-ddb4b4ebfb1e52 Chuck Lever     2022-11-07  1118  	size_t to_offs, from_offs;
-ddb4b4ebfb1e52 Chuck Lever     2022-11-07  1119  	u32 inlen;
-030d794bf49855 Simo Sorce      2012-05-25  1120  
-583ee7426ecac7 Chuck Lever     2022-11-16  1121  	if (dup_netobj(in_handle, &gc->gc_ctx))
-583ee7426ecac7 Chuck Lever     2022-11-16  1122  		return SVC_CLOSE;
-030d794bf49855 Simo Sorce      2012-05-25  1123  
-ddb4b4ebfb1e52 Chuck Lever     2022-11-07  1124  	/*
-ddb4b4ebfb1e52 Chuck Lever     2022-11-07  1125  	 *  RFC 2203 Section 5.2.2
-ddb4b4ebfb1e52 Chuck Lever     2022-11-07  1126  	 *
-ddb4b4ebfb1e52 Chuck Lever     2022-11-07  1127  	 *	struct rpc_gss_init_arg {
-ddb4b4ebfb1e52 Chuck Lever     2022-11-07  1128  	 *		opaque gss_token<>;
-ddb4b4ebfb1e52 Chuck Lever     2022-11-07  1129  	 *	};
-ddb4b4ebfb1e52 Chuck Lever     2022-11-07  1130  	 */
-ddb4b4ebfb1e52 Chuck Lever     2022-11-07  1131  	if (xdr_stream_decode_u32(xdr, &inlen) < 0)
-ddb4b4ebfb1e52 Chuck Lever     2022-11-07  1132  		goto out_denied_free;
-ddb4b4ebfb1e52 Chuck Lever     2022-11-07  1133  	if (inlen > xdr_stream_remaining(xdr))
-ddb4b4ebfb1e52 Chuck Lever     2022-11-07  1134  		goto out_denied_free;
-030d794bf49855 Simo Sorce      2012-05-25  1135  
-5866efa8cbfbad Chuck Lever     2019-10-24  1136  	pages = DIV_ROUND_UP(inlen, PAGE_SIZE);
-5866efa8cbfbad Chuck Lever     2019-10-24  1137  	in_token->pages = kcalloc(pages, sizeof(struct page *), GFP_KERNEL);
-ddb4b4ebfb1e52 Chuck Lever     2022-11-07  1138  	if (!in_token->pages)
-ddb4b4ebfb1e52 Chuck Lever     2022-11-07  1139  		goto out_denied_free;
-5866efa8cbfbad Chuck Lever     2019-10-24  1140  	in_token->page_base = 0;
-030d794bf49855 Simo Sorce      2012-05-25  1141  	in_token->page_len = inlen;
-5866efa8cbfbad Chuck Lever     2019-10-24  1142  	for (i = 0; i < pages; i++) {
-5866efa8cbfbad Chuck Lever     2019-10-24  1143  		in_token->pages[i] = alloc_page(GFP_KERNEL);
-5866efa8cbfbad Chuck Lever     2019-10-24  1144  		if (!in_token->pages[i]) {
-5866efa8cbfbad Chuck Lever     2019-10-24  1145  			gss_free_in_token_pages(in_token);
-ddb4b4ebfb1e52 Chuck Lever     2022-11-07  1146  			goto out_denied_free;
-5866efa8cbfbad Chuck Lever     2019-10-24  1147  		}
-5866efa8cbfbad Chuck Lever     2019-10-24  1148  	}
-5866efa8cbfbad Chuck Lever     2019-10-24  1149  
-ddb4b4ebfb1e52 Chuck Lever     2022-11-07  1150  	length = min_t(unsigned int, inlen, (char *)xdr->end - (char *)xdr->p);
-ddb4b4ebfb1e52 Chuck Lever     2022-11-07  1151  	memcpy(page_address(in_token->pages[0]), xdr->p, length);
-5866efa8cbfbad Chuck Lever     2019-10-24  1152  	inlen -= length;
-5866efa8cbfbad Chuck Lever     2019-10-24  1153  
-d48c8124749c9a Martijn de Gouw 2020-10-19  1154  	to_offs = length;
-d48c8124749c9a Martijn de Gouw 2020-10-19  1155  	from_offs = rqstp->rq_arg.page_base;
-5866efa8cbfbad Chuck Lever     2019-10-24  1156  	while (inlen) {
-d48c8124749c9a Martijn de Gouw 2020-10-19  1157  		pgto = to_offs >> PAGE_SHIFT;
-d48c8124749c9a Martijn de Gouw 2020-10-19  1158  		pgfrom = from_offs >> PAGE_SHIFT;
-d48c8124749c9a Martijn de Gouw 2020-10-19  1159  		pgto_offs = to_offs & ~PAGE_MASK;
-d48c8124749c9a Martijn de Gouw 2020-10-19  1160  		pgfrom_offs = from_offs & ~PAGE_MASK;
-d48c8124749c9a Martijn de Gouw 2020-10-19  1161  
-d48c8124749c9a Martijn de Gouw 2020-10-19  1162  		length = min_t(unsigned int, inlen,
-d48c8124749c9a Martijn de Gouw 2020-10-19  1163  			 min_t(unsigned int, PAGE_SIZE - pgto_offs,
-d48c8124749c9a Martijn de Gouw 2020-10-19  1164  			       PAGE_SIZE - pgfrom_offs));
-d48c8124749c9a Martijn de Gouw 2020-10-19 @1165  		memcpy(page_address(in_token->pages[pgto]) + pgto_offs,
-d48c8124749c9a Martijn de Gouw 2020-10-19  1166  		       page_address(rqstp->rq_arg.pages[pgfrom]) + pgfrom_offs,
-5866efa8cbfbad Chuck Lever     2019-10-24  1167  		       length);
-030d794bf49855 Simo Sorce      2012-05-25  1168  
-d48c8124749c9a Martijn de Gouw 2020-10-19  1169  		to_offs += length;
-d48c8124749c9a Martijn de Gouw 2020-10-19  1170  		from_offs += length;
-5866efa8cbfbad Chuck Lever     2019-10-24  1171  		inlen -= length;
-5866efa8cbfbad Chuck Lever     2019-10-24  1172  	}
-030d794bf49855 Simo Sorce      2012-05-25  1173  	return 0;
-ddb4b4ebfb1e52 Chuck Lever     2022-11-07  1174  
-ddb4b4ebfb1e52 Chuck Lever     2022-11-07  1175  out_denied_free:
-ddb4b4ebfb1e52 Chuck Lever     2022-11-07  1176  	kfree(in_handle->data);
-ddb4b4ebfb1e52 Chuck Lever     2022-11-07  1177  	return SVC_DENIED;
-030d794bf49855 Simo Sorce      2012-05-25  1178  }
-030d794bf49855 Simo Sorce      2012-05-25  1179  
-
-:::::: The code at line 1165 was first introduced by commit
-:::::: d48c8124749c9a5081fe68680f83605e272c984b SUNRPC: fix copying of multiple pages in gss_read_proxy_verf()
-
-:::::: TO: Martijn de Gouw <martijn.de.gouw@prodrive-technologies.com>
-:::::: CC: J. Bruce Fields <bfields@redhat.com>
+247c554a14aa16 Ajay Gupta      2018-10-26  674  
+247c554a14aa16 Ajay Gupta      2018-10-26  675  static irqreturn_t ccg_irq_handler(int irq, void *data)
+247c554a14aa16 Ajay Gupta      2018-10-26  676  {
+e32fd989ac1c45 Heikki Krogerus 2019-11-04  677  	u16 reg = CCGX_RAB_UCSI_DATA_BLOCK(UCSI_CCI);
+247c554a14aa16 Ajay Gupta      2018-10-26  678  	struct ucsi_ccg *uc = data;
+e32fd989ac1c45 Heikki Krogerus 2019-11-04  679  	u8 intr_reg;
+e32fd989ac1c45 Heikki Krogerus 2019-11-04  680  	u32 cci;
+e32fd989ac1c45 Heikki Krogerus 2019-11-04  681  	int ret;
+e32fd989ac1c45 Heikki Krogerus 2019-11-04  682  
+e32fd989ac1c45 Heikki Krogerus 2019-11-04  683  	ret = ccg_read(uc, CCGX_RAB_INTR_REG, &intr_reg, sizeof(intr_reg));
+e32fd989ac1c45 Heikki Krogerus 2019-11-04  684  	if (ret)
+e32fd989ac1c45 Heikki Krogerus 2019-11-04  685  		return ret;
+e32fd989ac1c45 Heikki Krogerus 2019-11-04  686  
+e65232d7f1fccd Sing-Han Chen   2022-12-21  687  	if (!intr_reg)
+e65232d7f1fccd Sing-Han Chen   2022-12-21  688  		return IRQ_HANDLED;
+e65232d7f1fccd Sing-Han Chen   2022-12-21  689  	else if (!(intr_reg & UCSI_READ_INT))
+e65232d7f1fccd Sing-Han Chen   2022-12-21  690  		goto err_clear_irq;
+e65232d7f1fccd Sing-Han Chen   2022-12-21  691  
+e32fd989ac1c45 Heikki Krogerus 2019-11-04  692  	ret = ccg_read(uc, reg, (void *)&cci, sizeof(cci));
+e32fd989ac1c45 Heikki Krogerus 2019-11-04  693  	if (ret)
+e32fd989ac1c45 Heikki Krogerus 2019-11-04  694  		goto err_clear_irq;
+e32fd989ac1c45 Heikki Krogerus 2019-11-04  695  
+e32fd989ac1c45 Heikki Krogerus 2019-11-04  696  	if (UCSI_CCI_CONNECTOR(cci))
+e32fd989ac1c45 Heikki Krogerus 2019-11-04  697  		ucsi_connector_change(uc->ucsi, UCSI_CCI_CONNECTOR(cci));
+247c554a14aa16 Ajay Gupta      2018-10-26  698  
+e65232d7f1fccd Sing-Han Chen   2022-12-21  699  	/* As per CCGx UCSI interface guide, copy CCI and MESSAGE_IN
+e65232d7f1fccd Sing-Han Chen   2022-12-21  700  	 * to the OpRegion before clear the UCSI interrupt
+e65232d7f1fccd Sing-Han Chen   2022-12-21  701  	 */
+e65232d7f1fccd Sing-Han Chen   2022-12-21  702  	ccg_op_region_update(uc, cci);
+e32fd989ac1c45 Heikki Krogerus 2019-11-04  703  
+e32fd989ac1c45 Heikki Krogerus 2019-11-04  704  err_clear_irq:
+e32fd989ac1c45 Heikki Krogerus 2019-11-04  705  	ccg_write(uc, CCGX_RAB_INTR_REG, &intr_reg, sizeof(intr_reg));
+247c554a14aa16 Ajay Gupta      2018-10-26  706  
+e65232d7f1fccd Sing-Han Chen   2022-12-21  707  	if (!ret && test_bit(DEV_CMD_PENDING, &uc->flags) &&
+e65232d7f1fccd Sing-Han Chen   2022-12-21 @708  	    cci & (UCSI_CCI_ACK_COMPLETE | UCSI_CCI_COMMAND_COMPLETE))
+e65232d7f1fccd Sing-Han Chen   2022-12-21  709  		complete(&uc->complete);
+e65232d7f1fccd Sing-Han Chen   2022-12-21  710  
+247c554a14aa16 Ajay Gupta      2018-10-26  711  	return IRQ_HANDLED;
+247c554a14aa16 Ajay Gupta      2018-10-26  712  }
+247c554a14aa16 Ajay Gupta      2018-10-26  713  
 
 -- 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
 
---9L0VWBVLphlX+eJY
+--pVRfuQCncrSPe8mF
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename=config
 
 #
 # Automatically generated file; DO NOT EDIT.
-# Linux/x86_64 6.2.0-rc1 Kernel Configuration
+# Linux/x86_64 6.1.0 Kernel Configuration
 #
 CONFIG_CC_VERSION_TEXT="gcc-11 (Debian 11.3.0-8) 11.3.0"
 CONFIG_CC_IS_GCC=y
@@ -993,6 +980,7 @@ CONFIG_SECRETMEM=y
 # end of Memory Management options
 
 CONFIG_NET=y
+CONFIG_SKB_EXTENSIONS=y
 
 #
 # Networking options
@@ -1053,7 +1041,9 @@ CONFIG_IPV6_NDISC_NODETYPE=y
 # CONFIG_IPV6_RPL_LWTUNNEL is not set
 # CONFIG_IPV6_IOAM6_LWTUNNEL is not set
 # CONFIG_NETLABEL is not set
-# CONFIG_MPTCP is not set
+CONFIG_MPTCP=y
+CONFIG_INET_MPTCP_DIAG=y
+CONFIG_MPTCP_IPV6=y
 # CONFIG_NETWORK_SECMARK is not set
 CONFIG_NET_PTP_CLASSIFY=y
 # CONFIG_NETWORK_PHY_TIMESTAMPING is not set
@@ -2728,7 +2718,6 @@ CONFIG_PINCTRL_MCP23S08_SPI=y
 CONFIG_PINCTRL_MCP23S08=y
 CONFIG_PINCTRL_MICROCHIP_SGPIO=y
 # CONFIG_PINCTRL_OCELOT is not set
-# CONFIG_PINCTRL_RK805 is not set
 CONFIG_PINCTRL_SINGLE=y
 CONFIG_PINCTRL_STMFX=y
 # CONFIG_PINCTRL_SX150X is not set
@@ -2995,7 +2984,6 @@ CONFIG_CHARGER_BQ24735=y
 CONFIG_CHARGER_BQ25890=y
 # CONFIG_CHARGER_BQ25980 is not set
 # CONFIG_CHARGER_BQ256XX is not set
-CONFIG_CHARGER_RK817=y
 CONFIG_CHARGER_SMB347=y
 CONFIG_CHARGER_TPS65090=y
 CONFIG_CHARGER_TPS65217=y
@@ -3293,7 +3281,6 @@ CONFIG_BCMA_POSSIBLE=y
 CONFIG_MFD_CORE=y
 CONFIG_MFD_ACT8945A=y
 CONFIG_MFD_AS3711=y
-# CONFIG_MFD_SMPRO is not set
 CONFIG_MFD_AS3722=y
 # CONFIG_PMIC_ADP5520 is not set
 CONFIG_MFD_AAT2870_CORE=y
@@ -3319,6 +3306,7 @@ CONFIG_MFD_MC13XXX_SPI=y
 CONFIG_MFD_HI6421_PMIC=y
 CONFIG_MFD_HI6421_SPMI=y
 # CONFIG_HTC_PASIC3 is not set
+# CONFIG_HTC_I2CPLD is not set
 CONFIG_MFD_INTEL_QUARK_I2C_GPIO=y
 CONFIG_LPC_ICH=y
 CONFIG_LPC_SCH=y
@@ -3362,7 +3350,7 @@ CONFIG_MFD_RT4831=y
 # CONFIG_MFD_RT5033 is not set
 # CONFIG_MFD_RT5120 is not set
 CONFIG_MFD_RC5T583=y
-CONFIG_MFD_RK808=y
+# CONFIG_MFD_RK808 is not set
 CONFIG_MFD_RN5T618=y
 # CONFIG_MFD_SEC_CORE is not set
 CONFIG_MFD_SI476X_CORE=y
@@ -3394,7 +3382,6 @@ CONFIG_MFD_TPS65217=y
 # CONFIG_MFD_TI_LP873X is not set
 CONFIG_MFD_TI_LP87565=y
 CONFIG_MFD_TPS65218=y
-# CONFIG_MFD_TPS65219 is not set
 # CONFIG_MFD_TPS6586X is not set
 CONFIG_MFD_TPS65910=y
 CONFIG_MFD_TPS65912=y
@@ -3526,7 +3513,6 @@ CONFIG_REGULATOR_QCOM_SPMI=y
 CONFIG_REGULATOR_QCOM_USB_VBUS=y
 CONFIG_REGULATOR_RASPBERRYPI_TOUCHSCREEN_ATTINY=y
 CONFIG_REGULATOR_RC5T583=y
-# CONFIG_REGULATOR_RK808 is not set
 # CONFIG_REGULATOR_RN5T618 is not set
 CONFIG_REGULATOR_ROHM=y
 # CONFIG_REGULATOR_RT4801 is not set
@@ -4558,7 +4544,6 @@ CONFIG_COMMON_CLK=y
 CONFIG_LMK04832=y
 CONFIG_COMMON_CLK_MAX77686=y
 # CONFIG_COMMON_CLK_MAX9485 is not set
-CONFIG_COMMON_CLK_RK808=y
 CONFIG_COMMON_CLK_SI5341=y
 # CONFIG_COMMON_CLK_SI5351 is not set
 CONFIG_COMMON_CLK_SI514=y
@@ -5115,7 +5100,7 @@ CONFIG_NLS_CODEPAGE_874=y
 # CONFIG_NLS_CODEPAGE_1250 is not set
 CONFIG_NLS_CODEPAGE_1251=y
 CONFIG_NLS_ASCII=y
-CONFIG_NLS_ISO8859_1=y
+# CONFIG_NLS_ISO8859_1 is not set
 CONFIG_NLS_ISO8859_2=y
 # CONFIG_NLS_ISO8859_3 is not set
 CONFIG_NLS_ISO8859_4=y
@@ -5997,4 +5982,4 @@ CONFIG_ARCH_USE_MEMTEST=y
 # end of Rust hacking
 # end of Kernel hacking
 
---9L0VWBVLphlX+eJY--
+--pVRfuQCncrSPe8mF--
