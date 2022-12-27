@@ -1,136 +1,131 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F3E533D1;
-	Tue, 27 Dec 2022 17:46:19 +0000 (UTC)
-Received: by mail-wm1-f52.google.com with SMTP id fm16-20020a05600c0c1000b003d96fb976efso7544400wmb.3;
-        Tue, 27 Dec 2022 09:46:19 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 414333D74;
+	Tue, 27 Dec 2022 17:50:18 +0000 (UTC)
+Received: by mail-wm1-f48.google.com with SMTP id o15so9777976wmr.4;
+        Tue, 27 Dec 2022 09:50:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=DVFRVr+KSZVMPZ3bgSDdZDe07uyPuIo4qVJD0MUcklk=;
-        b=W8Ob3EalTIaJEmIgGrDiEKysh0LW0YZhynxgWPgL6Pi6xg9ydA858Ee0hblIBW0PkX
-         tAP1+NMzbsNcJRZmRdlBPmgiorNMU+MOEZcrxzwgaBeWS1H/HcGT6qK1/4z1iAEpulMh
-         LPnjJ/Jm6UM/KyB+Mu2vk4rRpgUqzy/mtyKZ6srgf6uHjIPDSFG8EaAnnvXDcVD2YPnf
-         B+c1baPu+1PFs6tTOosatJ15bOI25XNZ+XpY2Zfrr8SkDsSnt4y2v66jdy4hrGxOMX6j
-         Sh4jEp2ulcRSoxm+sMrubuF4q/MAUFl8g+EmeVeaKPaSFDwfwTH5NWYDhkUZg9Dd3S7H
-         q0sw==
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=7f0CdUXe8phT2kexAusIBnKBuWstxNOnBu3E9cI6oAw=;
+        b=Q9sjBtEne7RjKn4hDm87PK/7ZG+eYBNLw9Wv6p8ORD/X4ZMGE00WqK/5RRwu9Ml5lk
+         mk59HNlGK2PWEXyXq9ZyMrHIif2h7tBjd2i8Gfd5mA93mHHll16vwUI4/FIya6y68QmW
+         tGwTikOjEtEmXsVEDDBjLH5NFniqHqBmFSXZZrPZpL3bpd9RJjafMQMGAiG7VtCfZJeu
+         EWsp45l1oUERqLxPaHcnsaFUcEam1uc4psoX5rQu07/4Gpe4sZ7Vp6Dmi/0BFQ3rbtbE
+         eyx+QROpP7b1hSow6o0SXDfTg0Fo/zK3i55W+9JuMaGiRlbT/dSLGvO/ETrXfMyIAcw5
+         xCqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=DVFRVr+KSZVMPZ3bgSDdZDe07uyPuIo4qVJD0MUcklk=;
-        b=rVMUO7zq0hfEzhBjOhNtFDnUwn7gBiI7wS6Q6gfUGVK+dbLreYbPHMd7Q3ZOdHQAag
-         znUb1MnA2Y9odSuL4BsZdDPuE9mE3/ZG/CFArVXuAe4jddqPkqmZ3KiDXduFeKAzGLL9
-         Ii8RK+cucmNX+mwRvqbBkBp34verUbyoFgwb5njeFRxDZWBxm46DzDznfaq5P2gVk2Gz
-         hEPwE/hZv6zBMZpMwKxqWiNbg4IkBxLfEbMgSaJk8Xzn6pFhgyv6ppjW9mWu1VElkSvt
-         K/HHPf0o7mF1droCuAhTGD4A32uTRWPsz5JmqD+pwI3nF+2l3nJQzbVdCo79SB2tusCL
-         RPtQ==
-X-Gm-Message-State: AFqh2kr9MZ6NQZOgr0DCfQlQ+9eujcryn+vQX758+QHQhO/gHnCg23Qg
-	DCW/GSTWFcs4P7S7UFsVuBs=
-X-Google-Smtp-Source: AMrXdXvV4a0JiJpRVeLMRsu3XEv+j2nk1w/KzSd1wjIF29yB4VcySisYxf7shoAANy63dbKQZ7PW2A==
-X-Received: by 2002:a05:600c:44c9:b0:3d1:f6b3:2ce3 with SMTP id f9-20020a05600c44c900b003d1f6b32ce3mr20476801wmo.35.1672163177667;
-        Tue, 27 Dec 2022 09:46:17 -0800 (PST)
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=7f0CdUXe8phT2kexAusIBnKBuWstxNOnBu3E9cI6oAw=;
+        b=fW8P0pwkdJZL/IQoI+uBOzpMoBTABhuB/sff3GEAmzS+poYzt4OHj04j8WcpogAOLQ
+         FvNBmuZ9J5b2wqhEa9ao4OrGhx9ckvAFlDqdGJjZM43as4gZTo4hjAWefi/J603EoxDI
+         6MEdeLKy4nHCecUfQSQvfPeGIF641F1Czx5yhn9FTs5v04ZMcjUBwpU+2NHuLPtMj0Z9
+         5VOKZkcDn1odRfIA4Lx8f+jZETtFNsMo7gcx4Llksr0G/2mKNQO7u101OywsRx8mjHKs
+         EfNOUc9XUcfIxhDUrEIq99FAFSjPmsCL4ePK9JwEs9NVYYUhQgNF1qtjC2Vxq59BBF2P
+         3ePA==
+X-Gm-Message-State: AFqh2kqq+9jZnblk8Zb9ZWOHtzzxeoXldmBSrqc1zifQND56mgjfT41A
+	CtDVIavvMoiliqxWEAmI8zo8Ol2TihEyvw==
+X-Google-Smtp-Source: AMrXdXtEFINalGZewRhoRzS8KM0N+ONevOn0UdkngxKVKJp6fU6iLO0GHdGRhrwQ9567YL6Sv8i6zQ==
+X-Received: by 2002:a05:600c:5012:b0:3d3:5a4a:9103 with SMTP id n18-20020a05600c501200b003d35a4a9103mr15680308wmr.31.1672163416349;
+        Tue, 27 Dec 2022 09:50:16 -0800 (PST)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id n25-20020a7bc5d9000000b003d969a595fbsm18060238wmk.10.2022.12.27.09.46.16
+        by smtp.gmail.com with ESMTPSA id hg24-20020a05600c539800b003cf71b1f66csm17759245wmb.0.2022.12.27.09.50.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Dec 2022 09:46:16 -0800 (PST)
-Date: Tue, 27 Dec 2022 20:46:13 +0300
+        Tue, 27 Dec 2022 09:50:15 -0800 (PST)
+Date: Tue, 27 Dec 2022 20:50:13 +0300
 From: Dan Carpenter <error27@gmail.com>
-To: Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc: oe-kbuild@lists.linux.dev, Qingtao Cao <qingtao.cao.au@gmail.com>,
-	lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Bartosz Golaszewski <brgl@bgdev.pl>
-Subject: Re: drivers/gpio/gpio-exar.c:52 exar_offset_to_sel_addr() warn:
- replace divide condition 'pin / 8' with 'pin >= 8'
-Message-ID: <Y6svZX++B5TYRHBT@kadam>
-References: <202212181140.EAWl7FKx-lkp@intel.com>
- <3D147284-AF8C-4414-9BE1-C83032B6C15D@gmail.com>
- <Y6dTX2wx/SXlswGC@kadam>
- <F701A496-22A6-4E3B-B3CB-E5BCF4C30502@gmail.com>
- <C430F7E6-723B-4EA8-BA87-00C84676BD4F@gmail.com>
+To: oe-kbuild@lists.linux.dev, haibo.chen@nxp.com, ulf.hansson@linaro.org,
+	adrian.hunter@intel.com
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, shawnguo@kernel.org,
+	s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
+	linux-imx@nxp.com, linux-mmc@vger.kernel.org,
+	kgroeneveld@lenbrook.com, haibo.chen@nxp.com
+Subject: Re: [PATCH v2 3/3] mmc: sdhci-esdhc-imx: only enable DAT[0] and CMD
+ line auto tuning for SDIO device
+Message-ID: <202212262324.SVvtUbT2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <C430F7E6-723B-4EA8-BA87-00C84676BD4F@gmail.com>
+In-Reply-To: <20221221112853.789675-4-haibo.chen@nxp.com>
+Message-ID: <20221227175013.3DW7qkzznSjybJ0n5Remy8dxtDzT_KqjCPQqWc2qDdU@z>
 
-On Sun, Dec 25, 2022 at 12:50:46PM +0100, Andy Shevchenko wrote:
-> 
-> 
-> Lähetetty iPhonesta
-> 
-> > Andy Shevchenko <andy.shevchenko@gmail.com> kirjoitti 25.12.2022 kello 12.45:
-> > 
-> > 
-> > 
-> > Lähetetty iPhonesta
-> > 
-> >>> Dan Carpenter <error27@gmail.com> kirjoitti 24.12.2022 kello 20.30:
-> >>> 
-> >>> On Sat, Dec 24, 2022 at 05:19:27PM +0100, Andy Shevchenko wrote:
-> >>> 
-> >>> 
-> >>> Lähetetty iPhonesta
-> >>> 
-> >>>> Dan Carpenter <error27@gmail.com> kirjoitti 23.12.2022 kello 11.54:
-> >>>> 
-> >>>> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> >>>> head:   f9ff5644bcc04221bae56f922122f2b7f5d24d62
-> >>>> commit: 5134272f9f3f71d4e1f3aa15cb09321af49b3646 gpio: exar: access MPIO registers on cascaded chips
-> >>>> config: ia64-randconfig-m031-20221218
-> >>>> compiler: ia64-linux-gcc (GCC) 12.1.0
-> >>>> 
-> >>>> If you fix the issue, kindly add following tag where applicable
-> >>>> | Reported-by: kernel test robot <lkp@intel.com>
-> >>>> | Reported-by: Dan Carpenter <error27@gmail.com>
-> >>>> 
-> >>>> smatch warnings:
-> >>>> drivers/gpio/gpio-exar.c:52 exar_offset_to_sel_addr() warn: replace divide condition 'pin / 8' with 'pin >= 8'
-> >>>> drivers/gpio/gpio-exar.c:62 exar_offset_to_lvl_addr() warn: replace divide condition 'pin / 8' with 'pin >= 8'
-> >>>> 
-> >>> 
-> >>> 
-> >>> 
-> >>> I don’t think this is a good advice. If we want to limit that, we need
-> >>> to check also upper limit. But. The GPIO framework does that. So,
-> >>> changing / to >= is bogus.
-> >> 
-> >> 
-> >> How is checking pin / 8 not mathematically equivalent to pin >= 8?
-> > 
-> > The point is that semantically the / is better in case this code will ever support more than two banks of pins.
-> 
-> On top of that it’s paired with pin % 8.
-> 
+Hi,
 
-I noticed that, but it's a common bug though that a lot of people
-accidentally write if (pin / 8) when if ((pin % 8) == 0) is intended.
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-For example:
+url:    https://github.com/intel-lab-lkp/linux/commits/haibo-chen-nxp-com/fix-the-sdio-device-DATA-CMD-CRC-and-Timeout-issue-after-tuning/20221221-193033
+patch link:    https://lore.kernel.org/r/20221221112853.789675-4-haibo.chen%40nxp.com
+patch subject: [PATCH v2 3/3] mmc: sdhci-esdhc-imx: only enable DAT[0] and CMD line auto tuning for SDIO device
+config: parisc-randconfig-m031-20221225
+compiler: hppa-linux-gcc (GCC) 12.1.0
 
-drivers/rtc/rtc-m48t59.c
-   132          M48T59_WRITE((bin2bcd(tm->tm_mon + 1) & 0x1F), M48T59_MONTH);
-   133          M48T59_WRITE(bin2bcd(year % 100), M48T59_YEAR);
-   134  
-   135          if (pdata->type == M48T59RTC_TYPE_M48T59 && (year / 100))
-                                                             ^^^^^^^^^^
-This code is pretty clearly an example of where people accidentally uses
-/ to mean "divides cleanly".  (I have not patched or reported this code,
-btw so if anyone wants an easy patch to send it's available).
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
 
-   136                  val = (M48T59_WDAY_CEB | M48T59_WDAY_CB);
-   137          val |= (bin2bcd(tm->tm_wday) & 0x07);
-   138          M48T59_WRITE(val, M48T59_WDAY);
+smatch warnings:
+drivers/mmc/host/sdhci-esdhc-imx.c:462 usdhc_auto_tuning_mode_sel_and_en() error: we previously assumed 'host->mmc->card' could be null (see line 462)
 
-regards,
-dan carpenter
+vim +462 drivers/mmc/host/sdhci-esdhc-imx.c
+
+45334ee13858de Haibo Chen 2021-08-18  431  /* Enable the auto tuning circuit to check the CMD line and BUS line */
+235cd41770bdcb Haibo Chen 2022-12-21  432  static inline void usdhc_auto_tuning_mode_sel_and_en(struct sdhci_host *host)
+45334ee13858de Haibo Chen 2021-08-18  433  {
+45334ee13858de Haibo Chen 2021-08-18  434  	u32 buswidth, auto_tune_buswidth;
+235cd41770bdcb Haibo Chen 2022-12-21  435  	u32 reg;
+45334ee13858de Haibo Chen 2021-08-18  436  
+45334ee13858de Haibo Chen 2021-08-18  437  	buswidth = USDHC_GET_BUSWIDTH(readl(host->ioaddr + SDHCI_HOST_CONTROL));
+45334ee13858de Haibo Chen 2021-08-18  438  
+45334ee13858de Haibo Chen 2021-08-18  439  	switch (buswidth) {
+45334ee13858de Haibo Chen 2021-08-18  440  	case ESDHC_CTRL_8BITBUS:
+45334ee13858de Haibo Chen 2021-08-18  441  		auto_tune_buswidth = ESDHC_VEND_SPEC2_AUTO_TUNE_8BIT_EN;
+45334ee13858de Haibo Chen 2021-08-18  442  		break;
+45334ee13858de Haibo Chen 2021-08-18  443  	case ESDHC_CTRL_4BITBUS:
+45334ee13858de Haibo Chen 2021-08-18  444  		auto_tune_buswidth = ESDHC_VEND_SPEC2_AUTO_TUNE_4BIT_EN;
+45334ee13858de Haibo Chen 2021-08-18  445  		break;
+45334ee13858de Haibo Chen 2021-08-18  446  	default:	/* 1BITBUS */
+45334ee13858de Haibo Chen 2021-08-18  447  		auto_tune_buswidth = ESDHC_VEND_SPEC2_AUTO_TUNE_1BIT_EN;
+45334ee13858de Haibo Chen 2021-08-18  448  		break;
+45334ee13858de Haibo Chen 2021-08-18  449  	}
+45334ee13858de Haibo Chen 2021-08-18  450  
+e088d1496d45c2 Haibo Chen 2022-12-21  451  	/*
+e088d1496d45c2 Haibo Chen 2022-12-21  452  	 * For USDHC, auto tuning circuit can not handle the async sdio
+e088d1496d45c2 Haibo Chen 2022-12-21  453  	 * device interrupt correctly. When sdio device use 4 data lines,
+e088d1496d45c2 Haibo Chen 2022-12-21  454  	 * async sdio interrupt will use the shared DAT[1], if enable auto
+e088d1496d45c2 Haibo Chen 2022-12-21  455  	 * tuning circuit check these 4 data lines, include the DAT[1],
+e088d1496d45c2 Haibo Chen 2022-12-21  456  	 * this circuit will detect this interrupt, take this as a data on
+e088d1496d45c2 Haibo Chen 2022-12-21  457  	 * DAT[1], and adjust the delay cell wrongly.
+e088d1496d45c2 Haibo Chen 2022-12-21  458  	 * This is the hardware design limitation, to avoid this, for sdio
+e088d1496d45c2 Haibo Chen 2022-12-21  459  	 * device, config the auto tuning circuit only check DAT[0] and CMD
+e088d1496d45c2 Haibo Chen 2022-12-21  460  	 * line.
+e088d1496d45c2 Haibo Chen 2022-12-21  461  	 */
+e088d1496d45c2 Haibo Chen 2022-12-21 @462  	if (!host->mmc->card && mmc_card_sdio(host->mmc->card))
+
+Presumably the ! is a mistake?  mmc_card_sdio() dereferences
+host->mmc->card.
+
+e088d1496d45c2 Haibo Chen 2022-12-21  463  		auto_tune_buswidth = ESDHC_VEND_SPEC2_AUTO_TUNE_1BIT_EN;
+e088d1496d45c2 Haibo Chen 2022-12-21  464  
+45334ee13858de Haibo Chen 2021-08-18  465  	esdhc_clrset_le(host, ESDHC_VEND_SPEC2_AUTO_TUNE_MODE_MASK,
+45334ee13858de Haibo Chen 2021-08-18  466  			auto_tune_buswidth | ESDHC_VEND_SPEC2_AUTO_TUNE_CMD_EN,
+45334ee13858de Haibo Chen 2021-08-18  467  			ESDHC_VEND_SPEC2);
+235cd41770bdcb Haibo Chen 2022-12-21  468  
+235cd41770bdcb Haibo Chen 2022-12-21  469  	reg = readl(host->ioaddr + ESDHC_MIX_CTRL);
+235cd41770bdcb Haibo Chen 2022-12-21  470  	reg |= ESDHC_MIX_CTRL_AUTO_TUNE_EN;
+235cd41770bdcb Haibo Chen 2022-12-21  471  	writel(reg, host->ioaddr + ESDHC_MIX_CTRL);
+45334ee13858de Haibo Chen 2021-08-18  472  }
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
 
