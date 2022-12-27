@@ -1,72 +1,68 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFFF86ADB
-	for <oe-kbuild@lists.linux.dev>; Tue, 27 Dec 2022 20:41:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB5A4620
+	for <oe-kbuild@lists.linux.dev>; Tue, 27 Dec 2022 22:32:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1672173698; x=1703709698;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=+DzjqCCx15faA7e8Lp9Kq+wi67ROseBtDb2ckIBDJsc=;
-  b=cpgw1ITZ6lf6sVXFsgrVAP7zDAa2+20fvkqE7h6WlHRcYXxOrgVRwP+H
-   AvsXjCFjf2TI7buovJfHh261CvUw2u3GXufOzRH+jEhG2jJUT1ckhZlWZ
-   y8C+WyVhLXMR5qeCHRzqDaTau5BCuOIADsml1n5kw+A1bVI7jKWQ6Vum+
-   sUdy6fVDQyIDxBj3zAKsK4gU0U+ZrI79LnLTY+GyZhR1dqzoG2x+Rwkkv
-   E3RTfZIPwA4pUPls2ULAIDpKwCJTCOqf4eBTVIvtpHIRSRnyD0aqmuIz9
-   piCn6+PrvW/anRuV1goIu0HMRiotGWxVDsgBDYwGivkpK/1U9c+G4alAI
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10573"; a="383057617"
+  t=1672180363; x=1703716363;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=vSRYX5h+Rc919G9+5rexLUL7PJJ2RbOAdfWrSzGYPIk=;
+  b=Jgx45ltaoBj8MMoJpJNDysxItTGwfF75xlYevY9CinnEWgtNQf+kcfSu
+   gY4nzVpDrWlQdDj0lRC/zlwkOijyS4552GunoEacOCsbuWThkNPWVdJmC
+   tcKt6As2vxpTTxh9Fd8CefFkBPlcRQAsg1l5wJ2QOdmfzpN5aR+X71lrJ
+   PNZnmBqFprmLGHiUs6u9c+VHwl+uW2EoeQhQNz2VOmjpgMnrwmCNGYpZc
+   py2YBNtosLgemmcEPPyMcEefuK92emMthOxdAwembMjhYCRebJeaQFddj
+   Mi2KLX/DDH2QilxWB4R9DQAusGxyjhWGaZ5w6qa01vr/RqypzJQwGG4LZ
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10573"; a="320850964"
 X-IronPort-AV: E=Sophos;i="5.96,279,1665471600"; 
-   d="scan'208";a="383057617"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Dec 2022 12:41:38 -0800
+   d="scan'208";a="320850964"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Dec 2022 14:32:42 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10573"; a="603137766"
+X-IronPort-AV: E=McAfee;i="6500,9779,10573"; a="685531393"
 X-IronPort-AV: E=Sophos;i="5.96,279,1665471600"; 
-   d="scan'208";a="603137766"
+   d="scan'208";a="685531393"
 Received: from lkp-server01.sh.intel.com (HELO b5d47979f3ad) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 27 Dec 2022 12:41:35 -0800
+  by orsmga001.jf.intel.com with ESMTP; 27 Dec 2022 14:32:40 -0800
 Received: from kbuild by b5d47979f3ad with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pAGlT-000FC9-0V;
-	Tue, 27 Dec 2022 20:41:35 +0000
-Date: Wed, 28 Dec 2022 04:41:07 +0800
+	id 1pAIUx-000FF2-1F;
+	Tue, 27 Dec 2022 22:32:39 +0000
+Date: Wed, 28 Dec 2022 06:32:10 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: sound/soc/intel/avs/boards/max98927.c:162 avs_create_dapm_routes()
- warn: potentially one past the end of array 'dr[idx]'
-Message-ID: <202212280428.a7wQcKZl-lkp@intel.com>
+Subject: sound/soc/intel/avs/pcm.c:1406 avs_component_hda_open() warn:
+ ignoring unreachable code.
+Message-ID: <202212280623.8r89qFNC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="OTohAIGF7Q1O33Rt"
+Content-Type: multipart/mixed; boundary="kFQ5e55xM1wLxxyA"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
 
---OTohAIGF7Q1O33Rt
-Content-Type: text/plain; charset=utf-8
+--kFQ5e55xM1wLxxyA
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: "Amadeusz Sławiński" <amadeuszx.slawinski@linux.intel.com>
+TO: Cezary Rojewski <cezary.rojewski@intel.com>
 CC: Mark Brown <broonie@kernel.org>
-CC: Cezary Rojewski <cezary.rojewski@intel.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   1b929c02afd37871d5afb9d498426f83432e71c2
-commit: 1c993300ab1cec9a0a6a3c417614a1d9f35b175b ASoC: Intel: avs: Add max98927 machine board
-date:   2 months ago
+commit: f38d4c72cb2d68e73d3e54feb68febd6b7c4bfd2 ASoC: Intel: avs: Initialize private data for subsequent HDA FEs
+date:   6 weeks ago
 :::::: branch date: 2 days ago
-:::::: commit date: 2 months ago
+:::::: commit date: 6 weeks ago
 config: i386-randconfig-m021-20221226
 compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 
@@ -74,61 +70,71 @@ If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
 
-New smatch warnings:
-sound/soc/intel/avs/boards/max98927.c:162 avs_create_dapm_routes() warn: potentially one past the end of array 'dr[idx]'
+smatch warnings:
+sound/soc/intel/avs/pcm.c:1406 avs_component_hda_open() warn: ignoring unreachable code.
 
-Old smatch warnings:
-sound/soc/intel/avs/boards/max98927.c:163 avs_create_dapm_routes() warn: potentially one past the end of array 'dr[idx]'
-sound/soc/intel/avs/boards/max98927.c:164 avs_create_dapm_routes() warn: potentially one past the end of array 'dr[idx]'
-sound/soc/intel/avs/boards/max98927.c:164 avs_create_dapm_routes() warn: potentially one past the end of array 'dr[idx]'
+vim +1406 sound/soc/intel/avs/pcm.c
 
-vim +162 sound/soc/intel/avs/boards/max98927.c
-
-1c993300ab1cec Amadeusz Sławiński 2022-09-30  140  
-1c993300ab1cec Amadeusz Sławiński 2022-09-30  141  static int avs_create_dapm_routes(struct device *dev, int ssp_port,
-1c993300ab1cec Amadeusz Sławiński 2022-09-30  142  				  struct snd_soc_dapm_route **routes, int *num_routes)
-1c993300ab1cec Amadeusz Sławiński 2022-09-30  143  {
-1c993300ab1cec Amadeusz Sławiński 2022-09-30  144  	struct snd_soc_dapm_route *dr;
-1c993300ab1cec Amadeusz Sławiński 2022-09-30  145  	const int num_base = ARRAY_SIZE(card_base_routes);
-1c993300ab1cec Amadeusz Sławiński 2022-09-30  146  	const int num_dr = num_base + 2;
-1c993300ab1cec Amadeusz Sławiński 2022-09-30  147  	int idx;
-1c993300ab1cec Amadeusz Sławiński 2022-09-30  148  
-1c993300ab1cec Amadeusz Sławiński 2022-09-30  149  	dr = devm_kcalloc(dev, num_dr, sizeof(*dr), GFP_KERNEL);
-1c993300ab1cec Amadeusz Sławiński 2022-09-30  150  	if (!dr)
-1c993300ab1cec Amadeusz Sławiński 2022-09-30  151  		return -ENOMEM;
-1c993300ab1cec Amadeusz Sławiński 2022-09-30  152  
-1c993300ab1cec Amadeusz Sławiński 2022-09-30  153  	memcpy(dr, card_base_routes, num_base * sizeof(*dr));
-1c993300ab1cec Amadeusz Sławiński 2022-09-30  154  
-1c993300ab1cec Amadeusz Sławiński 2022-09-30  155  	idx = num_base;
-1c993300ab1cec Amadeusz Sławiński 2022-09-30  156  	dr[idx].sink = devm_kasprintf(dev, GFP_KERNEL, "Left HiFi Playback");
-1c993300ab1cec Amadeusz Sławiński 2022-09-30  157  	dr[idx].source = devm_kasprintf(dev, GFP_KERNEL, "ssp%d Tx", ssp_port);
-1c993300ab1cec Amadeusz Sławiński 2022-09-30  158  	if (!dr[idx].sink || !dr[idx].source)
-1c993300ab1cec Amadeusz Sławiński 2022-09-30  159  		return -ENOMEM;
-1c993300ab1cec Amadeusz Sławiński 2022-09-30  160  
-1c993300ab1cec Amadeusz Sławiński 2022-09-30  161  	idx++;
-1c993300ab1cec Amadeusz Sławiński 2022-09-30 @162  	dr[idx].sink = devm_kasprintf(dev, GFP_KERNEL, "Right HiFi Playback");
-1c993300ab1cec Amadeusz Sławiński 2022-09-30  163  	dr[idx].source = devm_kasprintf(dev, GFP_KERNEL, "ssp%d Tx", ssp_port);
-1c993300ab1cec Amadeusz Sławiński 2022-09-30  164  	if (!dr[idx].sink || !dr[idx].source)
-1c993300ab1cec Amadeusz Sławiński 2022-09-30  165  		return -ENOMEM;
-1c993300ab1cec Amadeusz Sławiński 2022-09-30  166  
-1c993300ab1cec Amadeusz Sławiński 2022-09-30  167  	*routes = dr;
-1c993300ab1cec Amadeusz Sławiński 2022-09-30  168  	*num_routes = num_dr;
-1c993300ab1cec Amadeusz Sławiński 2022-09-30  169  
-1c993300ab1cec Amadeusz Sławiński 2022-09-30  170  	return 0;
-1c993300ab1cec Amadeusz Sławiński 2022-09-30  171  }
-1c993300ab1cec Amadeusz Sławiński 2022-09-30  172  
+d070002a20fc07 Cezary Rojewski 2022-05-16  1387  
+d070002a20fc07 Cezary Rojewski 2022-05-16  1388  static int avs_component_hda_open(struct snd_soc_component *component,
+d070002a20fc07 Cezary Rojewski 2022-05-16  1389  				  struct snd_pcm_substream *substream)
+d070002a20fc07 Cezary Rojewski 2022-05-16  1390  {
+d070002a20fc07 Cezary Rojewski 2022-05-16  1391  	struct snd_soc_pcm_runtime *rtd = snd_pcm_substream_chip(substream);
+d070002a20fc07 Cezary Rojewski 2022-05-16  1392  	struct hdac_ext_stream *link_stream;
+d070002a20fc07 Cezary Rojewski 2022-05-16  1393  	struct hda_codec *codec;
+d070002a20fc07 Cezary Rojewski 2022-05-16  1394  
+eb0699c4cd6e32 Cezary Rojewski 2022-10-27  1395  	if (!rtd->dai_link->no_pcm) {
+eb0699c4cd6e32 Cezary Rojewski 2022-10-27  1396  		struct snd_pcm_hardware hwparams = avs_pcm_hardware;
+f38d4c72cb2d68 Cezary Rojewski 2022-11-18  1397  		struct snd_soc_pcm_runtime *be;
+f38d4c72cb2d68 Cezary Rojewski 2022-11-18  1398  		struct snd_soc_dpcm *dpcm;
+f38d4c72cb2d68 Cezary Rojewski 2022-11-18  1399  		int dir = substream->stream;
+f38d4c72cb2d68 Cezary Rojewski 2022-11-18  1400  
+f38d4c72cb2d68 Cezary Rojewski 2022-11-18  1401  		/*
+f38d4c72cb2d68 Cezary Rojewski 2022-11-18  1402  		 * Support the DPCM reparenting while still fulfilling expectations of HDAudio
+f38d4c72cb2d68 Cezary Rojewski 2022-11-18  1403  		 * common code - a valid stream pointer at substream->runtime->private_data -
+f38d4c72cb2d68 Cezary Rojewski 2022-11-18  1404  		 * by having all FEs point to the same private data.
+f38d4c72cb2d68 Cezary Rojewski 2022-11-18  1405  		 */
+f38d4c72cb2d68 Cezary Rojewski 2022-11-18 @1406  		for_each_dpcm_be(rtd, dir, dpcm) {
+f38d4c72cb2d68 Cezary Rojewski 2022-11-18  1407  			struct snd_pcm_substream *be_substream;
+f38d4c72cb2d68 Cezary Rojewski 2022-11-18  1408  
+f38d4c72cb2d68 Cezary Rojewski 2022-11-18  1409  			be = dpcm->be;
+f38d4c72cb2d68 Cezary Rojewski 2022-11-18  1410  			if (be->dpcm[dir].users == 1)
+f38d4c72cb2d68 Cezary Rojewski 2022-11-18  1411  				break;
+f38d4c72cb2d68 Cezary Rojewski 2022-11-18  1412  
+f38d4c72cb2d68 Cezary Rojewski 2022-11-18  1413  			be_substream = snd_soc_dpcm_get_substream(be, dir);
+f38d4c72cb2d68 Cezary Rojewski 2022-11-18  1414  			substream->runtime->private_data = be_substream->runtime->private_data;
+f38d4c72cb2d68 Cezary Rojewski 2022-11-18  1415  			break;
+f38d4c72cb2d68 Cezary Rojewski 2022-11-18  1416  		}
+eb0699c4cd6e32 Cezary Rojewski 2022-10-27  1417  
+eb0699c4cd6e32 Cezary Rojewski 2022-10-27  1418  		/* RESUME unsupported for de-coupled HD-Audio capture. */
+f38d4c72cb2d68 Cezary Rojewski 2022-11-18  1419  		if (dir == SNDRV_PCM_STREAM_CAPTURE)
+eb0699c4cd6e32 Cezary Rojewski 2022-10-27  1420  			hwparams.info &= ~SNDRV_PCM_INFO_RESUME;
+eb0699c4cd6e32 Cezary Rojewski 2022-10-27  1421  
+eb0699c4cd6e32 Cezary Rojewski 2022-10-27  1422  		return snd_soc_set_runtime_hwparams(substream, &hwparams);
+eb0699c4cd6e32 Cezary Rojewski 2022-10-27  1423  	}
+d070002a20fc07 Cezary Rojewski 2022-05-16  1424  
+d070002a20fc07 Cezary Rojewski 2022-05-16  1425  	codec = dev_to_hda_codec(asoc_rtd_to_codec(rtd, 0)->dev);
+d070002a20fc07 Cezary Rojewski 2022-05-16  1426  	link_stream = snd_hdac_ext_stream_assign(&codec->bus->core, substream,
+d070002a20fc07 Cezary Rojewski 2022-05-16  1427  					     HDAC_EXT_STREAM_TYPE_LINK);
+d070002a20fc07 Cezary Rojewski 2022-05-16  1428  	if (!link_stream)
+d070002a20fc07 Cezary Rojewski 2022-05-16  1429  		return -EBUSY;
+d070002a20fc07 Cezary Rojewski 2022-05-16  1430  
+d070002a20fc07 Cezary Rojewski 2022-05-16  1431  	substream->runtime->private_data = link_stream;
+d070002a20fc07 Cezary Rojewski 2022-05-16  1432  	return 0;
+d070002a20fc07 Cezary Rojewski 2022-05-16  1433  }
+d070002a20fc07 Cezary Rojewski 2022-05-16  1434  
 
 -- 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
 
---OTohAIGF7Q1O33Rt
+--kFQ5e55xM1wLxxyA
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename=config
 
 #
 # Automatically generated file; DO NOT EDIT.
-# Linux/i386 6.1.0-rc1 Kernel Configuration
+# Linux/i386 6.1.0-rc4 Kernel Configuration
 #
 CONFIG_CC_VERSION_TEXT="gcc-11 (Debian 11.3.0-8) 11.3.0"
 CONFIG_CC_IS_GCC=y
@@ -3858,6 +3864,7 @@ CONFIG_SND_SOC_WM8903=y
 CONFIG_SND_SOC_WM8904=y
 CONFIG_SND_SOC_WM8940=y
 CONFIG_SND_SOC_WM8960=y
+CONFIG_SND_SOC_WM8961=y
 CONFIG_SND_SOC_WM8962=y
 CONFIG_SND_SOC_WM8974=y
 # CONFIG_SND_SOC_WM8978 is not set
@@ -6515,4 +6522,4 @@ CONFIG_MEMTEST=y
 # end of Rust hacking
 # end of Kernel hacking
 
---OTohAIGF7Q1O33Rt--
+--kFQ5e55xM1wLxxyA--
