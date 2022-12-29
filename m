@@ -1,50 +1,52 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0271E1C06;
-	Thu, 29 Dec 2022 09:03:55 +0000 (UTC)
-Received: by mail-wm1-f53.google.com with SMTP id m3so3828077wmq.0;
-        Thu, 29 Dec 2022 01:03:55 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14DAB1C06;
+	Thu, 29 Dec 2022 09:06:03 +0000 (UTC)
+Received: by mail-wm1-f47.google.com with SMTP id ay2-20020a05600c1e0200b003d22e3e796dso12807063wmb.0;
+        Thu, 29 Dec 2022 01:06:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=YyVj5LH9lc5R7wzNC99DEtW9gJWq26S+ydaJBYHa66c=;
-        b=nGnryUSoryGomgt8nHGcoY/0pJl0caVqvvbqMPzzGDGTcTNSbbwVU+7W/FOZV90bWA
-         v864xgLGdYW27y8DZP2glw5LAoTKmcS5y3VGAj33ND7LZUR6koghisanQh5IZlCFl+RC
-         ChzvwWqGnavPa3parvcjuPq1Qm8jCxCmky1LTh+9NOaGFaWrfhVV4OTvxFfOBHZAXlH4
-         49vqIOoneLJbY9d6NTZIPr86zU5Iw/Hw5F+C/9ys+tYVAH/ayM+HuTdJajltHgMHmyEN
-         IKh4sqeWtV3SXNxi/UWyA8N72B3GNbJfoksAs1gsnUDbTkMRl4N3HzxIBPWn54Elcp95
-         tpxg==
+        bh=75Rhb7yr4CFALeAESpUIY1hruG7ddcbfO3zbvxmqiH0=;
+        b=DQGCnoF7rxoGdN6dXxDyiHk5VWScUYolP70xQ9EroV7lyVX74VHu0QdVuJybHSBSj+
+         UmIsNdkzni1wSXtj7AcXlPuIGgyr8JB9d8l7pQG6F45XP7ia1KULgmZr7LzoXv7Iqn7A
+         NnOSpsm08Hco5aXkjScGpQ9z0oj9FyZWkaWHwXZqUxFCFjpf6rS8poI44nSO4AAbji26
+         G3hGTRCvKZPrhCPWUQLlzsGcClqPfESph9qtqfzEO0rKmilzp4zvbXS8ywWGxq8zpPZD
+         DI2xW5tT1MCsbNhywVH1TfPQDhvcWjsej6MFrK/3tXWGAaHdcw9Mg4gSHvtaglplTNnu
+         s94Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=YyVj5LH9lc5R7wzNC99DEtW9gJWq26S+ydaJBYHa66c=;
-        b=uO5BDekrjH1FWwd+jPeLlSD1yBUCrXEtm7eOL7vhT1pOmoVzJlpzOmJDZkPax4B6CN
-         cYT8Xc9M9qy3VLeAM0LxvmaelJM14jPNUFAdN/bPZ+kcJn5XXx7VyMf1Qnt4mxgcIS3R
-         OQsAEozs5YmETlqhGpRav419UvSxV8MycjgNA5/535D6f2glMSRPtb50ZoijTX0eVnfd
-         bRaxNFPuhkADmDRRL3i19+Z72/cxnXrbyYKwl90/ZpBArtvbYFQO9dIHRFRVph627GDE
-         UxQAbVu6D8DujNdFQ1chzgPbUl9ZW8G8oppJ++H7l1dFbdE+3dm3e0TfnnWCSFNHLxmM
-         zr4g==
-X-Gm-Message-State: AFqh2krs3fRg6x/lrjchpdw7roahajgeOqXYQOAo2HlWUUI+oc8psdCi
-	/EZsAHb7cOTBvbzKUl9NRHsNJmm9rbj4gg==
-X-Google-Smtp-Source: AMrXdXtpIqODpEHgej6L6Xp74mVfUhUn6G+xqzefJBC8ogeI1b5Wkv7e8GwxqwDQ/Mw4b4+1nVCM5Q==
-X-Received: by 2002:a05:600c:a4d:b0:3cf:6e78:e2ca with SMTP id c13-20020a05600c0a4d00b003cf6e78e2camr22620882wmq.5.1672304634048;
-        Thu, 29 Dec 2022 01:03:54 -0800 (PST)
+        bh=75Rhb7yr4CFALeAESpUIY1hruG7ddcbfO3zbvxmqiH0=;
+        b=Vsu21bDIWhgKlkY2Bx244liDYSbFsNpsPCj+AGsJ+SM/9S2e4uXYMVXD0hIjIO8KZs
+         hrVRp/lJ+9fTQqOGwLECuQuIhAUOXX3fimka2Qez3r4/QbHAvSfczr7sjToDSv05oJgW
+         DTL6qXHDoWQyQ0m4aQegCvSUUjDqFim72hDnqOWFlvmGOMe1xyXCVF0To01RIJM8i34P
+         UHpQTHnWuwSJcXjDFzdR0pgIbxANL9xogCmbQnoXO5rqNvT2J7jr7DWPPA34iCoZvTd+
+         p1eyI8Ema7ULVcJahZJeU6yHqLdB5uoq77slrTKOj2MXulMA/mzn2GHjhHS2BXknnvSM
+         AfWA==
+X-Gm-Message-State: AFqh2kpSxXasybeTaX/XwqCm1npD0kWJkyIgl0CvfqWpjxgN5YvQ0mW/
+	b0OdowlbLlsJ1aawVCeXwFAsdkNRK5Nk1Q==
+X-Google-Smtp-Source: AMrXdXvCenDHhsBYy4xBubR3lORanAhgPCqxK/T3BBuB7Sp/HUqghcPB1BewFS3CuRYHnLckAcsr0w==
+X-Received: by 2002:a05:600c:4e53:b0:3c6:e60f:3f4a with SMTP id e19-20020a05600c4e5300b003c6e60f3f4amr19246203wmq.1.1672304762056;
+        Thu, 29 Dec 2022 01:06:02 -0800 (PST)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id l13-20020a05600c2ccd00b003c70191f267sm30321247wmc.39.2022.12.29.01.03.52
+        by smtp.gmail.com with ESMTPSA id iv7-20020a05600c548700b003d35c09d4b9sm32514263wmb.40.2022.12.29.00.58.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Dec 2022 01:03:53 -0800 (PST)
-Date: Thu, 29 Dec 2022 12:03:50 +0300
+        Thu, 29 Dec 2022 01:06:01 -0800 (PST)
+Date: Thu, 29 Dec 2022 11:58:08 +0300
 From: Dan Carpenter <error27@gmail.com>
 To: oe-kbuild@lists.linux.dev,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+	Paul M Stillwell Jr <paul.m.stillwell.jr@intel.com>
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Jens Axboe <axboe@kernel.dk>
-Subject: drivers/block/rnbd/rnbd-clt.c:1460 init_dev() error: Calling
- ida_alloc_max() with a 'max' argument which is a power of 2. -1 missing?
-Message-ID: <202212290454.KjkzaEzK-lkp@intel.com>
+	Intel Wired LAN <intel-wired-lan@lists.osuosl.org>,
+	Tony Nguyen <anthony.l.nguyen@intel.com>
+Subject: [tnguy-net-queue:dev-queue 2/17]
+ drivers/net/ethernet/intel/ice/ice_main.c:4921 ice_probe() warn: missing
+ error code 'err'
+Message-ID: <202212291532.mOisbpke-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -53,11 +55,11 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Message-ID: <20221229090350.tqhN9EVIpiuhRrWWykXoY8-72eLN6QA_PjgpLjEyTdY@z>
+Message-ID: <20221229085808.nbUBdB_52uC8MqqjlC2aOplV0eY5vIS4x1W2ILOEw74@z>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   1b929c02afd37871d5afb9d498426f83432e71c2
-commit: 24afc15dbe218f860994f627b4ba1fb09225a298 block/rnbd: Remove a useless mutex
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tnguy/net-queue.git dev-queue
+head:   c342bc11f5a438cf39e2280bafda39ec2c6953f1
+commit: e51d0e34580892d22107a85390d1752fa7a7d56a [2/17] ice: move devlink port creation/deletion
 config: powerpc-randconfig-m031-20221226
 compiler: powerpc-linux-gcc (GCC) 12.1.0
 
@@ -66,74 +68,93 @@ If you fix the issue, kindly add following tag where applicable
 | Reported-by: Dan Carpenter <error27@gmail.com>
 
 smatch warnings:
-drivers/block/rnbd/rnbd-clt.c:1460 init_dev() error: Calling ida_alloc_max() with a 'max' argument which is a power of 2. -1 missing?
+drivers/net/ethernet/intel/ice/ice_main.c:4921 ice_probe() warn: missing error code 'err'
 
-vim +/max +1460 drivers/block/rnbd/rnbd-clt.c
+vim +/err +4921 drivers/net/ethernet/intel/ice/ice_main.c
 
-f7a7a5c228d45e Jack Wang          2020-05-11  1436  static struct rnbd_clt_dev *init_dev(struct rnbd_clt_session *sess,
-f7a7a5c228d45e Jack Wang          2020-05-11  1437  				      enum rnbd_access_mode access_mode,
-2958a995edc946 Gioh Kim           2021-04-19  1438  				      const char *pathname,
-2958a995edc946 Gioh Kim           2021-04-19  1439  				      u32 nr_poll_queues)
-f7a7a5c228d45e Jack Wang          2020-05-11  1440  {
-f7a7a5c228d45e Jack Wang          2020-05-11  1441  	struct rnbd_clt_dev *dev;
-f7a7a5c228d45e Jack Wang          2020-05-11  1442  	int ret;
-f7a7a5c228d45e Jack Wang          2020-05-11  1443  
-f7a7a5c228d45e Jack Wang          2020-05-11  1444  	dev = kzalloc_node(sizeof(*dev), GFP_KERNEL, NUMA_NO_NODE);
-f7a7a5c228d45e Jack Wang          2020-05-11  1445  	if (!dev)
-f7a7a5c228d45e Jack Wang          2020-05-11  1446  		return ERR_PTR(-ENOMEM);
-f7a7a5c228d45e Jack Wang          2020-05-11  1447  
-2958a995edc946 Gioh Kim           2021-04-19  1448  	/*
-2958a995edc946 Gioh Kim           2021-04-19  1449  	 * nr_cpu_ids: the number of softirq queues
-2958a995edc946 Gioh Kim           2021-04-19  1450  	 * nr_poll_queues: the number of polling queues
-2958a995edc946 Gioh Kim           2021-04-19  1451  	 */
-2958a995edc946 Gioh Kim           2021-04-19  1452  	dev->hw_queues = kcalloc(nr_cpu_ids + nr_poll_queues,
-2958a995edc946 Gioh Kim           2021-04-19  1453  				 sizeof(*dev->hw_queues),
-f7a7a5c228d45e Jack Wang          2020-05-11  1454  				 GFP_KERNEL);
-f7a7a5c228d45e Jack Wang          2020-05-11  1455  	if (!dev->hw_queues) {
-f7a7a5c228d45e Jack Wang          2020-05-11  1456  		ret = -ENOMEM;
-f7a7a5c228d45e Jack Wang          2020-05-11  1457  		goto out_alloc;
-f7a7a5c228d45e Jack Wang          2020-05-11  1458  	}
-f7a7a5c228d45e Jack Wang          2020-05-11  1459  
-24afc15dbe218f Christophe JAILLET 2022-02-07 @1460  	ret = ida_alloc_max(&index_ida, 1 << (MINORBITS - RNBD_PART_BITS),
-                                                                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-You wrote this Smatch check...  But, this should probably be
-(1 << (MINORBITS - RNBD_PART_BITS)) - 1, yeah?
+df006dd4b1dca8 Dave Ertman            2020-11-20  4908  	if (ice_init_lag(pf))
+df006dd4b1dca8 Dave Ertman            2020-11-20  4909  		dev_warn(dev, "Failed to init link aggregation support\n");
+df006dd4b1dca8 Dave Ertman            2020-11-20  4910  
+e18ff118181bca Paul Greenwalt         2019-10-09  4911  	/* print PCI link speed and width */
+e18ff118181bca Paul Greenwalt         2019-10-09  4912  	pcie_print_link_status(pf->pdev);
+e18ff118181bca Paul Greenwalt         2019-10-09  4913  
+de75135b5c04c9 Anirudh Venkataramanan 2020-05-07  4914  probe_done:
+e51d0e34580892 Paul M Stillwell Jr    2022-11-18  4915  	err = ice_devlink_create_pf_port(pf);
+e51d0e34580892 Paul M Stillwell Jr    2022-11-18  4916  	if (err)
+e51d0e34580892 Paul M Stillwell Jr    2022-11-18  4917  		goto err_create_pf_port;
+e51d0e34580892 Paul M Stillwell Jr    2022-11-18  4918  
+e51d0e34580892 Paul M Stillwell Jr    2022-11-18  4919  	vsi = ice_get_main_vsi(pf);
+e51d0e34580892 Paul M Stillwell Jr    2022-11-18  4920  	if (!vsi || !vsi->netdev)
+e51d0e34580892 Paul M Stillwell Jr    2022-11-18 @4921  		goto err_netdev_reg;
 
-f7a7a5c228d45e Jack Wang          2020-05-11  1461  			    GFP_KERNEL);
-f7a7a5c228d45e Jack Wang          2020-05-11  1462  	if (ret < 0) {
-f7a7a5c228d45e Jack Wang          2020-05-11  1463  		pr_err("Failed to initialize device '%s' from session %s, allocating idr failed, err: %d\n",
-f7a7a5c228d45e Jack Wang          2020-05-11  1464  		       pathname, sess->sessname, ret);
-f7a7a5c228d45e Jack Wang          2020-05-11  1465  		goto out_queues;
-f7a7a5c228d45e Jack Wang          2020-05-11  1466  	}
-64e8a6ece1a5b1 Md Haris Iqbal     2020-11-26  1467  
-e7508d48565060 Md Haris Iqbal     2020-12-10  1468  	dev->pathname = kstrdup(pathname, GFP_KERNEL);
-64e8a6ece1a5b1 Md Haris Iqbal     2020-11-26  1469  	if (!dev->pathname) {
-64e8a6ece1a5b1 Md Haris Iqbal     2020-11-26  1470  		ret = -ENOMEM;
-64e8a6ece1a5b1 Md Haris Iqbal     2020-11-26  1471  		goto out_queues;
-64e8a6ece1a5b1 Md Haris Iqbal     2020-11-26  1472  	}
-64e8a6ece1a5b1 Md Haris Iqbal     2020-11-26  1473  
-f7a7a5c228d45e Jack Wang          2020-05-11  1474  	dev->clt_device_id	= ret;
-f7a7a5c228d45e Jack Wang          2020-05-11  1475  	dev->sess		= sess;
-f7a7a5c228d45e Jack Wang          2020-05-11  1476  	dev->access_mode	= access_mode;
-2958a995edc946 Gioh Kim           2021-04-19  1477  	dev->nr_poll_queues	= nr_poll_queues;
-f7a7a5c228d45e Jack Wang          2020-05-11  1478  	mutex_init(&dev->lock);
-f7a7a5c228d45e Jack Wang          2020-05-11  1479  	refcount_set(&dev->refcount, 1);
-f7a7a5c228d45e Jack Wang          2020-05-11  1480  	dev->dev_state = DEV_STATE_INIT;
-f7a7a5c228d45e Jack Wang          2020-05-11  1481  
-f7a7a5c228d45e Jack Wang          2020-05-11  1482  	/*
-f7a7a5c228d45e Jack Wang          2020-05-11  1483  	 * Here we called from sysfs entry, thus clt-sysfs is
-f7a7a5c228d45e Jack Wang          2020-05-11  1484  	 * responsible that session will not disappear.
-f7a7a5c228d45e Jack Wang          2020-05-11  1485  	 */
-f7a7a5c228d45e Jack Wang          2020-05-11  1486  	WARN_ON(!rnbd_clt_get_sess(sess));
-f7a7a5c228d45e Jack Wang          2020-05-11  1487  
-f7a7a5c228d45e Jack Wang          2020-05-11  1488  	return dev;
-f7a7a5c228d45e Jack Wang          2020-05-11  1489  
-f7a7a5c228d45e Jack Wang          2020-05-11  1490  out_queues:
-f7a7a5c228d45e Jack Wang          2020-05-11  1491  	kfree(dev->hw_queues);
-f7a7a5c228d45e Jack Wang          2020-05-11  1492  out_alloc:
-f7a7a5c228d45e Jack Wang          2020-05-11  1493  	kfree(dev);
-f7a7a5c228d45e Jack Wang          2020-05-11  1494  	return ERR_PTR(ret);
-f7a7a5c228d45e Jack Wang          2020-05-11  1495  }
+This seems like an error path so "err = -EINVAL;"
+
+e51d0e34580892 Paul M Stillwell Jr    2022-11-18  4922  
+e51d0e34580892 Paul M Stillwell Jr    2022-11-18  4923  	SET_NETDEV_DEVLINK_PORT(vsi->netdev, &pf->devlink_port);
+e51d0e34580892 Paul M Stillwell Jr    2022-11-18  4924  
+1e23f076b25424 Anirudh Venkataramanan 2021-03-02  4925  	err = ice_register_netdev(pf);
+1e23f076b25424 Anirudh Venkataramanan 2021-03-02  4926  	if (err)
+1e23f076b25424 Anirudh Venkataramanan 2021-03-02  4927  		goto err_netdev_reg;
+1e23f076b25424 Anirudh Venkataramanan 2021-03-02  4928  
+e523af4ee56090 Shiraz Saleem          2021-10-18  4929  	err = ice_devlink_register_params(pf);
+e523af4ee56090 Shiraz Saleem          2021-10-18  4930  	if (err)
+e523af4ee56090 Shiraz Saleem          2021-10-18  4931  		goto err_netdev_reg;
+e523af4ee56090 Shiraz Saleem          2021-10-18  4932  
+de75135b5c04c9 Anirudh Venkataramanan 2020-05-07  4933  	/* ready to go, so clear down state bit */
+7e408e07b42dce Anirudh Venkataramanan 2021-03-02  4934  	clear_bit(ICE_DOWN, pf->state);
+88f62aea1cff0c Dave Ertman            2022-02-11  4935  	if (ice_is_rdma_ena(pf)) {
+d25a0fc41c1f92 Dave Ertman            2021-05-20  4936  		pf->aux_idx = ida_alloc(&ice_aux_ida, GFP_KERNEL);
+d25a0fc41c1f92 Dave Ertman            2021-05-20  4937  		if (pf->aux_idx < 0) {
+d25a0fc41c1f92 Dave Ertman            2021-05-20  4938  			dev_err(dev, "Failed to allocate device ID for AUX driver\n");
+d25a0fc41c1f92 Dave Ertman            2021-05-20  4939  			err = -ENOMEM;
+e523af4ee56090 Shiraz Saleem          2021-10-18  4940  			goto err_devlink_reg_param;
+d25a0fc41c1f92 Dave Ertman            2021-05-20  4941  		}
+d25a0fc41c1f92 Dave Ertman            2021-05-20  4942  
+d25a0fc41c1f92 Dave Ertman            2021-05-20  4943  		err = ice_init_rdma(pf);
+d25a0fc41c1f92 Dave Ertman            2021-05-20  4944  		if (err) {
+d25a0fc41c1f92 Dave Ertman            2021-05-20  4945  			dev_err(dev, "Failed to initialize RDMA: %d\n", err);
+d25a0fc41c1f92 Dave Ertman            2021-05-20  4946  			err = -EIO;
+d25a0fc41c1f92 Dave Ertman            2021-05-20  4947  			goto err_init_aux_unroll;
+d25a0fc41c1f92 Dave Ertman            2021-05-20  4948  		}
+d25a0fc41c1f92 Dave Ertman            2021-05-20  4949  	} else {
+d25a0fc41c1f92 Dave Ertman            2021-05-20  4950  		dev_warn(dev, "RDMA is not supported on this device\n");
+d25a0fc41c1f92 Dave Ertman            2021-05-20  4951  	}
+d25a0fc41c1f92 Dave Ertman            2021-05-20  4952  
+838cefd5e52c4a Leon Romanovsky        2021-09-25  4953  	ice_devlink_register(pf);
+837f08fdecbe4b Anirudh Venkataramanan 2018-03-20  4954  	return 0;
+f31e4b6fe227df Anirudh Venkataramanan 2018-03-20  4955  
+d25a0fc41c1f92 Dave Ertman            2021-05-20  4956  err_init_aux_unroll:
+d25a0fc41c1f92 Dave Ertman            2021-05-20  4957  	pf->adev = NULL;
+d25a0fc41c1f92 Dave Ertman            2021-05-20  4958  	ida_free(&ice_aux_ida, pf->aux_idx);
+e523af4ee56090 Shiraz Saleem          2021-10-18  4959  err_devlink_reg_param:
+e523af4ee56090 Shiraz Saleem          2021-10-18  4960  	ice_devlink_unregister_params(pf);
+1e23f076b25424 Anirudh Venkataramanan 2021-03-02  4961  err_netdev_reg:
+e51d0e34580892 Paul M Stillwell Jr    2022-11-18  4962  	ice_devlink_destroy_pf_port(pf);
+e51d0e34580892 Paul M Stillwell Jr    2022-11-18  4963  err_create_pf_port:
+78116e979ddc49 Marcin Szycik          2020-07-13  4964  err_send_version_unroll:
+78116e979ddc49 Marcin Szycik          2020-07-13  4965  	ice_vsi_release_all(pf);
+3a858ba392c3b1 Anirudh Venkataramanan 2018-03-20  4966  err_alloc_sw_unroll:
+7e408e07b42dce Anirudh Venkataramanan 2021-03-02  4967  	set_bit(ICE_SERVICE_DIS, pf->state);
+7e408e07b42dce Anirudh Venkataramanan 2021-03-02  4968  	set_bit(ICE_DOWN, pf->state);
+4015d11e4b9720 Brett Creeley          2019-11-08  4969  	devm_kfree(dev, pf->first_sw);
+940b61af02f497 Anirudh Venkataramanan 2018-03-20  4970  err_msix_misc_unroll:
+940b61af02f497 Anirudh Venkataramanan 2018-03-20  4971  	ice_free_irq_msix_misc(pf);
+940b61af02f497 Anirudh Venkataramanan 2018-03-20  4972  err_init_interrupt_unroll:
+940b61af02f497 Anirudh Venkataramanan 2018-03-20  4973  	ice_clear_interrupt_scheme(pf);
+288ecf491b1654 Benjamin Mikailenko    2022-11-18  4974  err_init_vsi_stats_unroll:
+288ecf491b1654 Benjamin Mikailenko    2022-11-18  4975  	devm_kfree(dev, pf->vsi_stats);
+288ecf491b1654 Benjamin Mikailenko    2022-11-18  4976  	pf->vsi_stats = NULL;
+bc3a024101ca49 Jacob Keller           2020-05-15  4977  err_init_vsi_unroll:
+77ed84f49aeed1 Bruce Allan            2019-02-08  4978  	devm_kfree(dev, pf->vsi);
+940b61af02f497 Anirudh Venkataramanan 2018-03-20  4979  err_init_pf_unroll:
+940b61af02f497 Anirudh Venkataramanan 2018-03-20  4980  	ice_deinit_pf(pf);
+dce730f17825f4 Jacob Keller           2020-03-26  4981  	ice_devlink_destroy_regions(pf);
+940b61af02f497 Anirudh Venkataramanan 2018-03-20  4982  	ice_deinit_hw(hw);
+f31e4b6fe227df Anirudh Venkataramanan 2018-03-20  4983  err_exit_unroll:
+f31e4b6fe227df Anirudh Venkataramanan 2018-03-20  4984  	pci_disable_pcie_error_reporting(pdev);
+769c500dcc1edb Akeem G Abodunrin      2020-07-09  4985  	pci_disable_device(pdev);
+f31e4b6fe227df Anirudh Venkataramanan 2018-03-20  4986  	return err;
+837f08fdecbe4b Anirudh Venkataramanan 2018-03-20  4987  }
 
 -- 
 0-DAY CI Kernel Test Service
