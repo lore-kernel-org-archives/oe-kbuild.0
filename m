@@ -1,49 +1,51 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17FA71C2B;
-	Thu, 29 Dec 2022 09:25:57 +0000 (UTC)
-Received: by mail-wr1-f46.google.com with SMTP id t15so8062684wro.9;
-        Thu, 29 Dec 2022 01:25:56 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 499041C2B;
+	Thu, 29 Dec 2022 09:29:30 +0000 (UTC)
+Received: by mail-wr1-f48.google.com with SMTP id z16so441788wrw.1;
+        Thu, 29 Dec 2022 01:29:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=iXSUc7XHv0bfEy70PXNaXzaqNq55P4wATYmwSDCQdhk=;
-        b=Et+i0j2afzPO3JhTA8HJQIrPEvHTdrXDaqp+dpFiljvG+8QtKK0r42j2+tej/IdsyZ
-         0tf3JgPD+nWtYBmIb0HtevBgjJRkJ1GqX3bq4xyngYVPvWors+1UkrZIwZ4fhDJf77Kw
-         hIq2uhedd6g0NKWlbqhr9WsUUc5AaBf3vpyO10qMFBpQCV7fyhxvcQrd7ZMemql22IuF
-         iak0iXQtccX0Zb4DjZH3Q/ZtDoNK/tX9zadL8HJDs9hFd7V4g7JzmV8yWc5g7tHh8zlO
-         oPaNfjlRRokMxXEqgELfDgd/auDyjZ7o9vbTadnPf5bGk5GrDl/wu7HAhzBsGnA/hMFL
-         uByw==
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=dQjUzt0TYzPClWLYVG06i7EaST8h2wDOVIpEzBnJCKM=;
+        b=IqTbHq4xT4HYduozrFDpiDA7xJ9I+5OnwguxGsOfY3/321zoGjQt8+6WV4s/5EG1Ao
+         VVPVp6PPpUyzgnG1R5QXST2wikq1yDOK/Qx3/CUd2u5+f6abRfL+Vygdxi3h2OIsR1ZF
+         cWGPdbDZJ5lrSLGF+tgXTMYY9hteZOYzcwx0qoIN/EYJtAet2+xmjRw4pazNK0aXL4Hs
+         JKRFPHCkir35PSkPzwjWdurWmqdhKfLW8nZPy2nlXVs5wdjw0SeLirjyMjagC2cf9iUU
+         m6wrUlN7hEwtsNR12bZ8n4qSV5y4N4QSnmdtnqnq55t952J0IK+Bflia6v1E0uCQgM61
+         7cWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=iXSUc7XHv0bfEy70PXNaXzaqNq55P4wATYmwSDCQdhk=;
-        b=M95XHpfN+rXg1kzhtbBjKrl5nn1yLMSo1XLOSs9bLmm4ciHSL014dXb5sc2YoB/RRk
-         fDN5g+XtGhFbguTCIwUXiVSF8YLnq17zMDX4/kt8omfA9ZLQ/rTqPK8ZNcYCqQF8Zktw
-         ZGWy8H6NKdQbZcZa+GAWqTpgsuc2lecxgtlxoBz7YJptFaxc1hG8a5EN22ZRSzWASjPe
-         N9PvJerFhn6RseYi1gyu7Rrv9wSUoKYeDW8fdq38JF3lritw4v8wblIr97TBmnjaBpNh
-         kBs8xv13Z12dQ3puTb7auJ6AwUdk/8vGaOrUXyB+sAkUuY+NWhH1mKE+Y1envKEfgQCu
-         DNeQ==
-X-Gm-Message-State: AFqh2kp9hC17FKuQPDzD4r8yDTEyZlpNZ6F2gsrph8R3z8OxlTXEwzaw
-	G7DNGu9ZvosdrdKhS3Se6qOqEdZxFRcN1A==
-X-Google-Smtp-Source: AMrXdXsxOfYI7KAZ0tpzFwM+5Jt3IQya/tuOYHwElEwqyK/BA3c0IOfooUCtG7n1diDhtbka6r5sag==
-X-Received: by 2002:a5d:6588:0:b0:275:4c60:1a31 with SMTP id q8-20020a5d6588000000b002754c601a31mr13428560wru.14.1672305955109;
-        Thu, 29 Dec 2022 01:25:55 -0800 (PST)
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=dQjUzt0TYzPClWLYVG06i7EaST8h2wDOVIpEzBnJCKM=;
+        b=jwMqdE1p5gHcI2YYS3v7KGwpJ6PtKlJBlYlZzCXsvoWg8qghyT9u6hRHgi5IfM3uRQ
+         ItOYH59UcdRpp5qg4JETtzORfgsMFbJQzHWMzsrIiNC5N9B6gIfbmOmluZhJRwBqoqhd
+         6K2XDFwtmVLb9u4K3jk6ShJpe6M0fTWs4Y9BYYZlSc+PmjSsS+RfyNKSEEp9G5sq5nNu
+         Oavc5rs1KKzm86DnQkmPsbdbg8eo0hLbJaFGjYkXJBvg8kZ6l55Ebaog6F02+QXxoMaM
+         haYSte0dQYmCVMPHhaAYeGQwq0lBlc8EHYXJY7QLMKK+X5LEKT7W38+iyB9REmMZ60XG
+         bO5Q==
+X-Gm-Message-State: AFqh2kojcCotsmgXdHSoCAqCqOZTNoKP2mgJSgF8wVOJPo1/F5pPREGO
+	5xrwz1NmTc8ozj7ZL7tKDZxu8yWp63AyW2Ib
+X-Google-Smtp-Source: AMrXdXvpWbDjkYnrUfS5uRT4UDoc3xE2G3Tlimu2DTpvAxWp+BIGeZObuZyRRKFe3+Mwk7ax6JNEHA==
+X-Received: by 2002:a05:6000:10e:b0:272:4d0b:366b with SMTP id o14-20020a056000010e00b002724d0b366bmr14027014wrx.38.1672306168168;
+        Thu, 29 Dec 2022 01:29:28 -0800 (PST)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id f8-20020adff8c8000000b00282194eaf7bsm7524106wrq.71.2022.12.29.01.25.53
+        by smtp.gmail.com with ESMTPSA id c10-20020a5d414a000000b0024242111a27sm17819412wrq.75.2022.12.29.01.29.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Dec 2022 01:25:54 -0800 (PST)
-Date: Thu, 29 Dec 2022 12:25:47 +0300
+        Thu, 29 Dec 2022 01:29:27 -0800 (PST)
+Date: Thu, 29 Dec 2022 12:29:24 +0300
 From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, Ben Skeggs <bskeggs@redhat.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Lyude Paul <lyude@redhat.com>
-Subject: drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c:466
- gf100_gr_chan_new() warn: inconsistent returns '&gr->fecs.mutex'.
-Message-ID: <202212261100.ADnY9d8X-lkp@intel.com>
+To: oe-kbuild@lists.linux.dev, Joshua Goins <josh@redstrate.com>,
+	linux-input@vger.kernel.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, jikos@kernel.org,
+	benjamin.tissoires@redhat.com, kurikaesu@users.noreply.github.com,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] HID: uclogic: Add support for XP-PEN Artist 22R Pro
+Message-ID: <202212261746.hBtGGDW4-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -52,64 +54,122 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Message-ID: <20221229092547.djZ9NBkYjvvjDRg8WWezpJMP9C_iJ2tDL6E4mHvG4kM@z>
+In-Reply-To: <2068502.VLH7GnMWUR@adrastea>
+Message-ID: <20221229092924.1Co2gN94Eu20DRjvQU4hLOMR8b-RFCBIwcJU1a2gR7w@z>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   72a85e2b0a1e1e6fb4ee51ae902730212b2de25c
-commit: ca081fff6ecc63c86a99918230cc9b947bebae8a drm/nouveau/gr/gf100-: generate golden context during first object alloc
-config: s390-randconfig-m041-20221225
-compiler: s390-linux-gcc (GCC) 12.1.0
+Hi Joshua,
+
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Joshua-Goins/HID-uclogic-Add-support-for-XP-PEN-Artist-22R-Pro/20221226-112302
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-next
+patch link:    https://lore.kernel.org/r/2068502.VLH7GnMWUR%40adrastea
+patch subject: [PATCH] HID: uclogic: Add support for XP-PEN Artist 22R Pro
+config: i386-randconfig-m021-20221226
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
 
-smatch warnings:
-drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c:466 gf100_gr_chan_new() warn: inconsistent returns '&gr->fecs.mutex'.
+New smatch warnings:
+drivers/hid/hid-uclogic-params.c:1453 uclogic_params_init_ugee_xppen_pro() warn: variable dereferenced before check 'hdev' (see line 1447)
+drivers/hid/hid-uclogic-params.c:1454 uclogic_params_init_ugee_xppen_pro() warn: possible memory leak of 'buf'
+drivers/hid/hid-uclogic-params.c:1492 uclogic_params_init_ugee_xppen_pro() error: double free of 'buf'
 
-vim +466 drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c
+Old smatch warnings:
+drivers/hid/hid-uclogic-params.c:1502 uclogic_params_init_ugee_xppen_pro() error: double free of 'buf'
 
-27f3d6cf803249 drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c   Ben Skeggs 2015-08-20  377  static int
-27f3d6cf803249 drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c   Ben Skeggs 2015-08-20  378  gf100_gr_chan_new(struct nvkm_gr *base, struct nvkm_fifo_chan *fifoch,
-27f3d6cf803249 drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c   Ben Skeggs 2015-08-20  379  		  const struct nvkm_oclass *oclass,
-e3c71eb27419b6 drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c   Ben Skeggs 2015-01-14  380  		  struct nvkm_object **pobject)
-966a5b7daa15e1 drivers/gpu/drm/nouveau/nvc0_graph.c             Ben Skeggs 2010-11-24  381  {
-27f3d6cf803249 drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c   Ben Skeggs 2015-08-20  382  	struct gf100_gr *gr = gf100_gr(base);
-bfee3f3d97db88 drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c   Ben Skeggs 2015-08-20  383  	struct gf100_gr_data *data = gr->mmio_data;
-bfee3f3d97db88 drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c   Ben Skeggs 2015-08-20  384  	struct gf100_gr_mmio *mmio = gr->mmio_list;
-e3c71eb27419b6 drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c   Ben Skeggs 2015-01-14  385  	struct gf100_gr_chan *chan;
-019e4d76c6e91b drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c   Ben Skeggs 2017-11-01  386  	struct gf100_vmm_map_v0 args = { .priv = 1 };
-227c95d90a3c50 drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c   Ben Skeggs 2015-08-20  387  	struct nvkm_device *device = gr->base.engine.subdev.device;
-966a5b7daa15e1 drivers/gpu/drm/nouveau/nvc0_graph.c             Ben Skeggs 2010-11-24  388  	int ret, i;
-966a5b7daa15e1 drivers/gpu/drm/nouveau/nvc0_graph.c             Ben Skeggs 2010-11-24  389  
-27f3d6cf803249 drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c   Ben Skeggs 2015-08-20  390  	if (!(chan = kzalloc(sizeof(*chan), GFP_KERNEL)))
-27f3d6cf803249 drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c   Ben Skeggs 2015-08-20  391  		return -ENOMEM;
-27f3d6cf803249 drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c   Ben Skeggs 2015-08-20  392  	nvkm_object_ctor(&gf100_gr_chan, oclass, &chan->object);
-27f3d6cf803249 drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c   Ben Skeggs 2015-08-20  393  	chan->gr = gr;
-019e4d76c6e91b drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c   Ben Skeggs 2017-11-01  394  	chan->vmm = nvkm_vmm_ref(fifoch->vmm);
-27f3d6cf803249 drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c   Ben Skeggs 2015-08-20  395  	*pobject = &chan->object;
-966a5b7daa15e1 drivers/gpu/drm/nouveau/nvc0_graph.c             Ben Skeggs 2010-11-24  396  
-ca081fff6ecc63 drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c   Ben Skeggs 2022-06-01  397  	/* Generate golden context image. */
-ca081fff6ecc63 drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c   Ben Skeggs 2022-06-01  398  	mutex_lock(&gr->fecs.mutex);
-ca081fff6ecc63 drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c   Ben Skeggs 2022-06-01  399  	if (gr->data == NULL) {
-ca081fff6ecc63 drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c   Ben Skeggs 2022-06-01  400  		ret = gf100_grctx_generate(gr, chan, fifoch->inst);
-ca081fff6ecc63 drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c   Ben Skeggs 2022-06-01  401  		if (ret) {
-ca081fff6ecc63 drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c   Ben Skeggs 2022-06-01  402  			nvkm_error(&base->engine.subdev, "failed to construct context\n");
-ca081fff6ecc63 drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c   Ben Skeggs 2022-06-01  403  			return ret;
+vim +/hdev +1453 drivers/hid/hid-uclogic-params.c
 
-Needs a mutex_unlock(&gr->fecs.mutex);
+51d8c9b14fc55dc Aren Villanueva 2022-12-25  1436  static int uclogic_params_init_ugee_xppen_pro(struct hid_device *hdev,
+51d8c9b14fc55dc Aren Villanueva 2022-12-25  1437  					      struct uclogic_params *p,
+51d8c9b14fc55dc Aren Villanueva 2022-12-25  1438  					      const u8 probe_endpoint,
+51d8c9b14fc55dc Aren Villanueva 2022-12-25  1439  					      const u8 rdesc_init_packet[],
+51d8c9b14fc55dc Aren Villanueva 2022-12-25  1440  					      const size_t rdesc_init_size,
+51d8c9b14fc55dc Aren Villanueva 2022-12-25  1441  					      const u8 rdesc_tablet_arr[],
+51d8c9b14fc55dc Aren Villanueva 2022-12-25  1442  					      const size_t rdesc_tablet_size,
+51d8c9b14fc55dc Aren Villanueva 2022-12-25  1443  					      const u8 rdesc_frame_arr[],
+51d8c9b14fc55dc Aren Villanueva 2022-12-25  1444  					      const size_t rdesc_frame_size)
+51d8c9b14fc55dc Aren Villanueva 2022-12-25  1445  {
+51d8c9b14fc55dc Aren Villanueva 2022-12-25  1446  	const size_t str_desc_len = 12;
+51d8c9b14fc55dc Aren Villanueva 2022-12-25 @1447  	struct usb_device *udev = hid_to_usb_dev(hdev);
+                                                                                                 ^^^^
+Dereference.
 
-ca081fff6ecc63 drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c   Ben Skeggs 2022-06-01  404  		}
-ca081fff6ecc63 drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c   Ben Skeggs 2022-06-01  405  	}
-ca081fff6ecc63 drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c   Ben Skeggs 2022-06-01  406  	mutex_unlock(&gr->fecs.mutex);
-ca081fff6ecc63 drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c   Ben Skeggs 2022-06-01  407  
-ac1499d9573f4a drivers/gpu/drm/nouveau/core/engine/graph/nvc0.c Ben Skeggs 2012-08-04  408  	/* allocate memory for a "mmio list" buffer that's used by the HUB
-ac1499d9573f4a drivers/gpu/drm/nouveau/core/engine/graph/nvc0.c Ben Skeggs 2012-08-04  409  	 * fuc to modify some per-context register settings on first load
-ac1499d9573f4a drivers/gpu/drm/nouveau/core/engine/graph/nvc0.c Ben Skeggs 2012-08-04  410  	 * of the context.
-ac1499d9573f4a drivers/gpu/drm/nouveau/core/engine/graph/nvc0.c Ben Skeggs 2012-08-04  411  	 */
-227c95d90a3c50 drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c   Ben Skeggs 2015-08-20  412  	ret = nvkm_memory_new(device, NVKM_MEM_TARGET_INST, 0x1000, 0x100,
-227c95d90a3c50 drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c   Ben Skeggs 2015-08-20  413  			      false, &chan->mmio);
-73a60c0d218a29 drivers/gpu/drm/nouveau/core/engine/graph/nvc0.c Ben Skeggs 2012-07-13  414  	if (ret)
+51d8c9b14fc55dc Aren Villanueva 2022-12-25  1448  	u8 *buf = kmemdup(rdesc_init_packet, rdesc_init_size, GFP_KERNEL);
+
+Never put functions which can fail in the declaration block.  This
+allocation has no check for NULL (common problem when done in
+declaration block).
+
+51d8c9b14fc55dc Aren Villanueva 2022-12-25  1449  	s32 desc_params[UCLOGIC_RDESC_PH_ID_NUM];
+51d8c9b14fc55dc Aren Villanueva 2022-12-25  1450  	int actual_len, rc;
+51d8c9b14fc55dc Aren Villanueva 2022-12-25  1451  	u16 resolution;
+51d8c9b14fc55dc Aren Villanueva 2022-12-25  1452  
+51d8c9b14fc55dc Aren Villanueva 2022-12-25 @1453  	if (hdev == NULL || p == NULL)
+                                                            ^^^^^^^^^^^^
+Checked to late.
+
+51d8c9b14fc55dc Aren Villanueva 2022-12-25 @1454  		return -EINVAL;
+
+Needs a kfree(buf);
+
+51d8c9b14fc55dc Aren Villanueva 2022-12-25  1455  
+51d8c9b14fc55dc Aren Villanueva 2022-12-25  1456  	rc = usb_interrupt_msg(
+51d8c9b14fc55dc Aren Villanueva 2022-12-25  1457  		udev,
+51d8c9b14fc55dc Aren Villanueva 2022-12-25  1458  		usb_sndintpipe(udev, probe_endpoint),
+51d8c9b14fc55dc Aren Villanueva 2022-12-25  1459  		buf,
+51d8c9b14fc55dc Aren Villanueva 2022-12-25  1460  		rdesc_init_size,
+51d8c9b14fc55dc Aren Villanueva 2022-12-25  1461  		&actual_len,
+51d8c9b14fc55dc Aren Villanueva 2022-12-25  1462  		USB_CTRL_SET_TIMEOUT);
+51d8c9b14fc55dc Aren Villanueva 2022-12-25  1463  	kfree(buf);
+51d8c9b14fc55dc Aren Villanueva 2022-12-25  1464  	if (rc == -EPIPE) {
+51d8c9b14fc55dc Aren Villanueva 2022-12-25  1465  		hid_err(hdev, "broken pipe sending init packet\n");
+51d8c9b14fc55dc Aren Villanueva 2022-12-25  1466  		return rc;
+51d8c9b14fc55dc Aren Villanueva 2022-12-25  1467  	} else if (rc < 0) {
+51d8c9b14fc55dc Aren Villanueva 2022-12-25  1468  		hid_err(hdev, "failed sending init packet: %d\n", rc);
+51d8c9b14fc55dc Aren Villanueva 2022-12-25  1469  		return rc;
+51d8c9b14fc55dc Aren Villanueva 2022-12-25  1470  	} else if (actual_len != rdesc_init_size) {
+51d8c9b14fc55dc Aren Villanueva 2022-12-25  1471  		hid_err(hdev,
+51d8c9b14fc55dc Aren Villanueva 2022-12-25  1472  			"failed to transfer complete init packet, only %d bytes sent\n",
+51d8c9b14fc55dc Aren Villanueva 2022-12-25  1473  			actual_len);
+51d8c9b14fc55dc Aren Villanueva 2022-12-25  1474  		return -1;
+51d8c9b14fc55dc Aren Villanueva 2022-12-25  1475  	}
+51d8c9b14fc55dc Aren Villanueva 2022-12-25  1476  
+51d8c9b14fc55dc Aren Villanueva 2022-12-25  1477  	rc = uclogic_params_get_str_desc(&buf, hdev, 100, str_desc_len);
+51d8c9b14fc55dc Aren Villanueva 2022-12-25  1478  	if (rc != str_desc_len) {
+51d8c9b14fc55dc Aren Villanueva 2022-12-25  1479  		if (rc == -EPIPE) {
+51d8c9b14fc55dc Aren Villanueva 2022-12-25  1480  			hid_err(hdev,
+51d8c9b14fc55dc Aren Villanueva 2022-12-25  1481  				"string descriptor with pen parameters not found\n");
+51d8c9b14fc55dc Aren Villanueva 2022-12-25  1482  		} else if (rc < 0) {
+51d8c9b14fc55dc Aren Villanueva 2022-12-25  1483  			hid_err(hdev,
+51d8c9b14fc55dc Aren Villanueva 2022-12-25  1484  				"failed retrieving pen parameters: %d\n", rc);
+51d8c9b14fc55dc Aren Villanueva 2022-12-25  1485  		} else {
+51d8c9b14fc55dc Aren Villanueva 2022-12-25  1486  			hid_err(hdev,
+51d8c9b14fc55dc Aren Villanueva 2022-12-25  1487  				"string descriptor with pen parameters has invalid length (got %d, expected %lu)\n",
+51d8c9b14fc55dc Aren Villanueva 2022-12-25  1488  				rc,
+51d8c9b14fc55dc Aren Villanueva 2022-12-25  1489  				str_desc_len);
+51d8c9b14fc55dc Aren Villanueva 2022-12-25  1490  			rc = -1;
+51d8c9b14fc55dc Aren Villanueva 2022-12-25  1491  		}
+51d8c9b14fc55dc Aren Villanueva 2022-12-25 @1492  		kfree(buf);
+
+If uclogic_params_get_str_desc() fails then this is a double free.
+
+51d8c9b14fc55dc Aren Villanueva 2022-12-25  1493  		return rc;
+51d8c9b14fc55dc Aren Villanueva 2022-12-25  1494  	}
+51d8c9b14fc55dc Aren Villanueva 2022-12-25  1495  
+51d8c9b14fc55dc Aren Villanueva 2022-12-25  1496  	desc_params[UCLOGIC_RDESC_PEN_PH_ID_X_LM] = get_unaligned_le16(buf + 2);
+51d8c9b14fc55dc Aren Villanueva 2022-12-25  1497  	desc_params[UCLOGIC_RDESC_PEN_PH_ID_Y_LM] = get_unaligned_le16(buf + 4);
+51d8c9b14fc55dc Aren Villanueva 2022-12-25  1498  	/* buf + 6 is the number of pad buttons? Its 0x0008 */
+51d8c9b14fc55dc Aren Villanueva 2022-12-25  1499  	desc_params[UCLOGIC_RDESC_PEN_PH_ID_PRESSURE_LM] =
+51d8c9b14fc55dc Aren Villanueva 2022-12-25  1500  		get_unaligned_le16(buf + 8);
+51d8c9b14fc55dc Aren Villanueva 2022-12-25  1501  	resolution = get_unaligned_le16(buf + 10);
+51d8c9b14fc55dc Aren Villanueva 2022-12-25  1502  	kfree(buf);
+51d8c9b14fc55dc Aren Villanueva 2022-12-25  1503  	if (resolution == 0) {
+51d8c9b14fc55dc Aren Villanueva 2022-12-25  1504  		hid_err(hdev, "resolution of 0 in descriptor string\n");
+51d8c9b14fc55dc Aren Villanueva 2022-12-25  1505  		return -1;
+51d8c9b14fc55dc Aren Villanueva 2022-12-25  1506  	}
 
 -- 
 0-DAY CI Kernel Test Service
