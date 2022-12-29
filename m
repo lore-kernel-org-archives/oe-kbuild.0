@@ -1,67 +1,76 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65E631C06;
-	Thu, 29 Dec 2022 08:44:46 +0000 (UTC)
-Received: by mail-wr1-f42.google.com with SMTP id y8so16797129wrl.13;
-        Thu, 29 Dec 2022 00:44:46 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBCEE1C06;
+	Thu, 29 Dec 2022 08:47:07 +0000 (UTC)
+Received: by mail-wm1-f49.google.com with SMTP id ay40so12719802wmb.2;
+        Thu, 29 Dec 2022 00:47:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:content-disposition:mime-version
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=shLOGnyRf57l8TRyOK6+sLjGfHVfbSQkzK1IPgdF4ok=;
-        b=gDb6DIZBhXC6DaWK6t840obqpG00K3HuAtfc8fepW1NV2W5JChobb68Zqpq+KVMKo6
-         PN64xqsNZVz3LlrFkL+yGRKdpv6BTMsFl2sHCjljEUaE8jk76+CPgIKsruHrRlxKDYE3
-         lMVMUPNIZk0zdwaB8fDLRICajBz6xSp9ztB16eGKZAWUvw0w9NU16rP89cmcE9cs8MV0
-         wW0uEMSKTm6Mcvv4BoRgJlIy2ktgN1yNdCH1ad/L69tFdAQvvLmlLDEfGCp7FB/AdCNN
-         Py4tfTq9cp/EY6q4eD3OKLTi6khIzAq/0FWRNpG8VaWj3tm+0ZJS8HOhflaEZazXfHRx
-         kDVg==
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=jRWUhYIq+SLDOvQiqrOVOP6g3Plcd0QA8Y2GhVoNHpY=;
+        b=PMmPvJZJK2r6qP2rG7yBPRIYRvx2BDiE43Zlzgw1gDG+sj56JGlhCmiz59Ads3rrFw
+         Rp1PFqxtnf+Dh/uSXrbNLt1WwQq/YFqM71Ew5SfdqyQSr2CvYMfrZeHYAa2lMorNalck
+         e/89+1riqt1mZnOVftBxiIjfKXy643kUZe4qj6DoGNzoF54gTTqAXX9VG57Up8jcNHwd
+         /LvbhlSfhGjSbHzO7Mm+z1bCdP01fyBE9Wr23jPWJG62klUveXG5eRAdjIPZrWAUYudh
+         kCLHtW8ZlIznRK3PiS5AkRDVB5TOfUo+n6bmdgR9AtpS+tyGOI4m+n2ryhjewrVq6B3o
+         8+cQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:content-disposition:mime-version
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=shLOGnyRf57l8TRyOK6+sLjGfHVfbSQkzK1IPgdF4ok=;
-        b=vEWkNav9g/0k9bJp/9Emdm6Kqgc+3XReR2gc23S/WYCgXVwoTlq1jgy3v886qN/GSK
-         rjko4ywdaBxUjf7V5vD7GrfzRSBNA55jkLkAcfFSJV1EiYZQYn4jjdSiVP/81c6G7V5C
-         5+Ah4soLTVlH8kltByUmJWaxIWHqmRUmMArOpGPoTAoMw4s7JdkUyYKJKBp2kA5Mmaux
-         JfWgRy6ZTJ0Y/2C3wyg3ShvCAAQH7gu6/+EKxE5qNk7jui/Mhy4+18EJ4arjv54x2qbk
-         NcJenbNHymicIPr2SGeFjmt6zJa+G9Jn/SlQWn8SG2/Ge+TNe+hvbGio54H6fljxZeGu
-         BjbA==
-X-Gm-Message-State: AFqh2kodp8JK01GvWJejVdDAymqQ3pdFLRzM9Q3hiZzfAFiX9Z+I4Vud
-	k13B/4+9ZSlPkxZi4gTEeVRwNCchG99YIA==
-X-Google-Smtp-Source: AMrXdXvSyf83ujV4jDOZKDiAKRHjZtoA82FQbaY+4q29y2DFgtsNhwM3Rb3QdzNvgEaObvvU0MnyQQ==
-X-Received: by 2002:a5d:430e:0:b0:279:53e1:5178 with SMTP id h14-20020a5d430e000000b0027953e15178mr9734138wrq.45.1672303484355;
-        Thu, 29 Dec 2022 00:44:44 -0800 (PST)
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=jRWUhYIq+SLDOvQiqrOVOP6g3Plcd0QA8Y2GhVoNHpY=;
+        b=MllBC0j19HpGdMekoEiMFGXLoD4wWOQpwUSMf/KzwGkl48SvvJDk3kEFaG1urFuqlZ
+         P8R8hEb9HcXmt58DbrGnrOj+vVolEWpiNSHBPkI5atXEgnlkJ/lPBMZ6BN9t6opB0Nxh
+         2j3ZvtxYESZNeBMPjgdUetp1H+GcQyOIHUTpC+F2wOKPKC3jE4RDaPS79ELT5SuaX2+t
+         uJEgjwaQZju22zX4QBLUsyYoxpP3XAZu97KCiR7bx/9/JXjMQ14R5LC7Jd9WWq/rDHAp
+         I5XWqAGkz1I53kqzateoHTtoAd5nG/aZ8LuYZ3uLlpsCDHw0JbZG1CdvhaT+8mqKXK+f
+         YeGg==
+X-Gm-Message-State: AFqh2kruK+A8NFegkozHcSm5Sv/Trw9hV9z8k+f9Cdyc1Zo8WINT7yFo
+	RgJdjbQ8JS1b9NnAcG2ko3xm/S53DTzK4A==
+X-Google-Smtp-Source: AMrXdXs15dm23+E5UFcIdXUAKnnmmfv0pPZ4hEra6qNEnJIQ5Mnj58LgrCWanrudgmPOTIz4vAuhng==
+X-Received: by 2002:a05:600c:54ef:b0:3d0:5254:8a43 with SMTP id jb15-20020a05600c54ef00b003d052548a43mr25267480wmb.38.1672303625992;
+        Thu, 29 Dec 2022 00:47:05 -0800 (PST)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id y2-20020a5d4ac2000000b0027323b19ecesm16204120wrs.16.2022.12.29.00.44.43
+        by smtp.gmail.com with ESMTPSA id n36-20020a05600c3ba400b003b49bd61b19sm29848934wms.15.2022.12.29.00.47.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Dec 2022 00:44:43 -0800 (PST)
-Date: Thu, 29 Dec 2022 11:44:40 +0300
+        Thu, 29 Dec 2022 00:47:05 -0800 (PST)
+Date: Thu, 29 Dec 2022 11:46:56 +0300
 From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev,
-	Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>
+To: oe-kbuild@lists.linux.dev, Haotien Hsu <haotienh@nvidia.com>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Hector Martin <marcan@marcan.st>
-Subject: [asahilinux:bits/070-audio 19/36] sound/soc/soc-dapm.c:2277
- dapm_graph_read_file() error: testing array offset 'num_wdone' after use.
-Message-ID: <202212270519.LzpGlIjQ-lkp@intel.com>
+	Wayne Chang <waynec@nvidia.com>,
+	Sing-Han Chen <singhanc@nvidia.com>,
+	Sanket Goswami <Sanket.Goswami@amd.com>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+	Jonathan Hunter <jonathanh@nvidia.com>, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Haotien Hsu <haotienh@nvidia.com>
+Subject: Re: [PATCH] ucsi_ccg: Refine the UCSI Interrupt handling
+Message-ID: <202212271237.LWXg8oOw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Message-ID: <20221229084440.5VQEt5J0PKXT-7LcpKs5S53lStAyU46gy1FQHCkYlgI@z>
+In-Reply-To: <20221221083812.3363045-1-haotienh@nvidia.com>
+Message-ID: <20221229084656.qdHXXlLwfl4fHeOUdBhvgaUrkVLOTbyRFw4M8hgn5sc@z>
 
-tree:   https://github.com/AsahiLinux/linux bits/070-audio
-head:   88d23ed31d629d6981f72fec9d008db7815cde8b
-commit: ea9892341d0d212354bf954780e4762ad6ad1104 [19/36] ASoC: dapm: Export new 'graph.dot' file in debugfs
-config: i386-randconfig-m021-20221226
+Hi Haotien,
+
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Haotien-Hsu/ucsi_ccg-Refine-the-UCSI-Interrupt-handling/20221221-163923
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+patch link:    https://lore.kernel.org/r/20221221083812.3363045-1-haotienh%40nvidia.com
+patch subject: [PATCH] ucsi_ccg: Refine the UCSI Interrupt handling
+config: x86_64-randconfig-m001-20221226
 compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
@@ -69,96 +78,51 @@ If you fix the issue, kindly add following tag where applicable
 | Reported-by: Dan Carpenter <error27@gmail.com>
 
 smatch warnings:
-sound/soc/soc-dapm.c:2277 dapm_graph_read_file() error: testing array offset 'num_wdone' after use.
+drivers/usb/typec/ucsi/ucsi_ccg.c:708 ccg_irq_handler() error: uninitialized symbol 'cci'.
 
-vim +/num_wdone +2277 sound/soc/soc-dapm.c
+vim +/cci +708 drivers/usb/typec/ucsi/ucsi_ccg.c
 
-ea9892341d0d21 Martin Povišer 2022-08-21  2213  static ssize_t dapm_graph_read_file(struct file *file, char __user *user_buf,
-ea9892341d0d21 Martin Povišer 2022-08-21  2214  				    size_t count, loff_t *ppos)
-ea9892341d0d21 Martin Povišer 2022-08-21  2215  {
-ea9892341d0d21 Martin Povišer 2022-08-21  2216  	struct snd_soc_card *card = file->private_data;
-ea9892341d0d21 Martin Povišer 2022-08-21  2217  	struct snd_soc_dapm_context *dapm;
-ea9892341d0d21 Martin Povišer 2022-08-21  2218  	struct snd_soc_dapm_path *p;
-ea9892341d0d21 Martin Povišer 2022-08-21  2219  	struct snd_soc_dapm_widget *w;
-ea9892341d0d21 Martin Povišer 2022-08-21  2220  	struct snd_soc_pcm_runtime *rtd;
-ea9892341d0d21 Martin Povišer 2022-08-21  2221  	struct snd_soc_dapm_widget *wdone[16];
-ea9892341d0d21 Martin Povišer 2022-08-21  2222  	struct snd_soc_dai *dai;
-ea9892341d0d21 Martin Povišer 2022-08-21  2223  	int i, num_wdone = 0, cluster = 0;
-ea9892341d0d21 Martin Povišer 2022-08-21  2224  	char *buf;
-ea9892341d0d21 Martin Povišer 2022-08-21  2225  	ssize_t bufsize;
-ea9892341d0d21 Martin Povišer 2022-08-21  2226  	ssize_t ret = 0;
-ea9892341d0d21 Martin Povišer 2022-08-21  2227  
-ea9892341d0d21 Martin Povišer 2022-08-21  2228  	bufsize = 1024 * card->num_dapm_widgets;
-ea9892341d0d21 Martin Povišer 2022-08-21  2229  	buf = kmalloc(bufsize, GFP_KERNEL);
-ea9892341d0d21 Martin Povišer 2022-08-21  2230  	if (!buf)
-ea9892341d0d21 Martin Povišer 2022-08-21  2231  		return -ENOMEM;
-ea9892341d0d21 Martin Povišer 2022-08-21  2232  
-ea9892341d0d21 Martin Povišer 2022-08-21  2233  	mutex_lock(&card->dapm_mutex);
-ea9892341d0d21 Martin Povišer 2022-08-21  2234  
-ea9892341d0d21 Martin Povišer 2022-08-21  2235  #define bufprintf(...) \
-ea9892341d0d21 Martin Povišer 2022-08-21  2236  		ret += scnprintf(buf + ret, bufsize - ret, __VA_ARGS__)
-ea9892341d0d21 Martin Povišer 2022-08-21  2237  
-ea9892341d0d21 Martin Povišer 2022-08-21  2238  	bufprintf("digraph dapm {\n");
-ea9892341d0d21 Martin Povišer 2022-08-21  2239  
-ea9892341d0d21 Martin Povišer 2022-08-21  2240  	/*
-ea9892341d0d21 Martin Povišer 2022-08-21  2241  	 * Print the user-visible devices of the card.
-ea9892341d0d21 Martin Povišer 2022-08-21  2242  	 */
-ea9892341d0d21 Martin Povišer 2022-08-21  2243  	bufprintf("subgraph cluster_%d {\n", cluster++);
-ea9892341d0d21 Martin Povišer 2022-08-21  2244  	bufprintf("label=\"Devices\";style=filled;fillcolor=gray;\n");
-ea9892341d0d21 Martin Povišer 2022-08-21  2245  	for_each_card_rtds(card, rtd) {
-ea9892341d0d21 Martin Povišer 2022-08-21  2246  		if (rtd->dai_link->no_pcm)
-ea9892341d0d21 Martin Povišer 2022-08-21  2247  			continue;
-ea9892341d0d21 Martin Povišer 2022-08-21  2248  
-ea9892341d0d21 Martin Povišer 2022-08-21  2249  		bufprintf("w%pK [label=\"%d: %s\"];\n", rtd,
-ea9892341d0d21 Martin Povišer 2022-08-21  2250  			  rtd->pcm->device, rtd->dai_link->name);
-ea9892341d0d21 Martin Povišer 2022-08-21  2251  	}
-ea9892341d0d21 Martin Povišer 2022-08-21  2252  	bufprintf("};\n");
-ea9892341d0d21 Martin Povišer 2022-08-21  2253  
-ea9892341d0d21 Martin Povišer 2022-08-21  2254  	/*
-ea9892341d0d21 Martin Povišer 2022-08-21  2255  	 * Print the playback/capture widgets of DAIs just next to
-ea9892341d0d21 Martin Povišer 2022-08-21  2256  	 * the user-visible devices. Keep the list of already printed
-ea9892341d0d21 Martin Povišer 2022-08-21  2257  	 * widgets in 'wdone', so they will be skipped later.
-ea9892341d0d21 Martin Povišer 2022-08-21  2258  	 */
-ea9892341d0d21 Martin Povišer 2022-08-21  2259  	for_each_card_rtds(card, rtd) {
-ea9892341d0d21 Martin Povišer 2022-08-21  2260  		for_each_rtd_cpu_dais(rtd, i, dai) {
-ea9892341d0d21 Martin Povišer 2022-08-21  2261  			if (dai->playback_widget) {
-ea9892341d0d21 Martin Povišer 2022-08-21  2262  				w = dai->playback_widget;
-ea9892341d0d21 Martin Povišer 2022-08-21  2263  				bufprintf("w%pK [label=\"%s\"];\n", w, w->name);
-ea9892341d0d21 Martin Povišer 2022-08-21  2264  				if (!rtd->dai_link->no_pcm)
-ea9892341d0d21 Martin Povišer 2022-08-21  2265  					bufprintf("w%pK -> w%pK;\n", rtd, w);
-ea9892341d0d21 Martin Povišer 2022-08-21  2266  				wdone[num_wdone] = w;
-ea9892341d0d21 Martin Povišer 2022-08-21  2267  				if (num_wdone < ARRAY_SIZE(wdone))
-ea9892341d0d21 Martin Povišer 2022-08-21  2268  					num_wdone++;
-ea9892341d0d21 Martin Povišer 2022-08-21  2269  			}
-ea9892341d0d21 Martin Povišer 2022-08-21  2270  
-ea9892341d0d21 Martin Povišer 2022-08-21  2271  			if (dai->capture_widget) {
-ea9892341d0d21 Martin Povišer 2022-08-21  2272  				w = dai->capture_widget;
-ea9892341d0d21 Martin Povišer 2022-08-21  2273  				bufprintf("w%pK [label=\"%s\"];\n", w, w->name);
-ea9892341d0d21 Martin Povišer 2022-08-21  2274  				if (!rtd->dai_link->no_pcm)
-ea9892341d0d21 Martin Povišer 2022-08-21  2275  					bufprintf("w%pK -> w%pK;\n", w, rtd);
-ea9892341d0d21 Martin Povišer 2022-08-21  2276  				wdone[num_wdone] = w;
-                                                                                ^^^^^^^^^^^^^^^^^^^^
-ea9892341d0d21 Martin Povišer 2022-08-21 @2277  				if (num_wdone < ARRAY_SIZE(wdone))
-                                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-If this condition is not true then we just corrupted memory on the line
-before.
+247c554a14aa16 Ajay Gupta      2018-10-26  675  static irqreturn_t ccg_irq_handler(int irq, void *data)
+247c554a14aa16 Ajay Gupta      2018-10-26  676  {
+e32fd989ac1c45 Heikki Krogerus 2019-11-04  677  	u16 reg = CCGX_RAB_UCSI_DATA_BLOCK(UCSI_CCI);
+247c554a14aa16 Ajay Gupta      2018-10-26  678  	struct ucsi_ccg *uc = data;
+e32fd989ac1c45 Heikki Krogerus 2019-11-04  679  	u8 intr_reg;
+e32fd989ac1c45 Heikki Krogerus 2019-11-04  680  	u32 cci;
+e32fd989ac1c45 Heikki Krogerus 2019-11-04  681  	int ret;
+e32fd989ac1c45 Heikki Krogerus 2019-11-04  682  
+e32fd989ac1c45 Heikki Krogerus 2019-11-04  683  	ret = ccg_read(uc, CCGX_RAB_INTR_REG, &intr_reg, sizeof(intr_reg));
+e32fd989ac1c45 Heikki Krogerus 2019-11-04  684  	if (ret)
+e32fd989ac1c45 Heikki Krogerus 2019-11-04  685  		return ret;
+e32fd989ac1c45 Heikki Krogerus 2019-11-04  686  
+e65232d7f1fccd Sing-Han Chen   2022-12-21  687  	if (!intr_reg)
+e65232d7f1fccd Sing-Han Chen   2022-12-21  688  		return IRQ_HANDLED;
+e65232d7f1fccd Sing-Han Chen   2022-12-21  689  	else if (!(intr_reg & UCSI_READ_INT))
+e65232d7f1fccd Sing-Han Chen   2022-12-21  690  		goto err_clear_irq;
 
-ea9892341d0d21 Martin Povišer 2022-08-21  2278  					num_wdone++;
-ea9892341d0d21 Martin Povišer 2022-08-21  2279  			}
-ea9892341d0d21 Martin Povišer 2022-08-21  2280  		}
-ea9892341d0d21 Martin Povišer 2022-08-21  2281  	}
-ea9892341d0d21 Martin Povišer 2022-08-21  2282  
-ea9892341d0d21 Martin Povišer 2022-08-21  2283  	for_each_card_dapms(card, dapm) {
-ea9892341d0d21 Martin Povišer 2022-08-21  2284  		const char *prefix = soc_dapm_prefix(dapm);
-ea9892341d0d21 Martin Povišer 2022-08-21  2285  
-ea9892341d0d21 Martin Povišer 2022-08-21  2286  		if (dapm != &card->dapm) {
-ea9892341d0d21 Martin Povišer 2022-08-21  2287  			bufprintf("subgraph cluster_%d {\n", cluster++);
-ea9892341d0d21 Martin Povišer 2022-08-21  2288  			if (prefix)
-ea9892341d0d21 Martin Povišer 2022-08-21  2289  				bufprintf("label=\"%s\";\n", prefix);
-ea9892341d0d21 Martin Povišer 2022-08-21  2290  			else if (dapm->component)
-ea9892341d0d21 Martin Povišer 2022-08-21  2291  				bufprintf("label=\"%s\";\n",
-ea9892341d0d21 Martin Povišer 2022-08-21  2292  					  dapm->component->name);
-ea9892341d0d21 Martin Povišer 2022-08-21  2293  		}
+cci is uninitialized on this goto.
+
+e65232d7f1fccd Sing-Han Chen   2022-12-21  691  
+e32fd989ac1c45 Heikki Krogerus 2019-11-04  692  	ret = ccg_read(uc, reg, (void *)&cci, sizeof(cci));
+e32fd989ac1c45 Heikki Krogerus 2019-11-04  693  	if (ret)
+e32fd989ac1c45 Heikki Krogerus 2019-11-04  694  		goto err_clear_irq;
+e32fd989ac1c45 Heikki Krogerus 2019-11-04  695  
+e32fd989ac1c45 Heikki Krogerus 2019-11-04  696  	if (UCSI_CCI_CONNECTOR(cci))
+e32fd989ac1c45 Heikki Krogerus 2019-11-04  697  		ucsi_connector_change(uc->ucsi, UCSI_CCI_CONNECTOR(cci));
+247c554a14aa16 Ajay Gupta      2018-10-26  698  
+e65232d7f1fccd Sing-Han Chen   2022-12-21  699  	/* As per CCGx UCSI interface guide, copy CCI and MESSAGE_IN
+e65232d7f1fccd Sing-Han Chen   2022-12-21  700  	 * to the OpRegion before clear the UCSI interrupt
+e65232d7f1fccd Sing-Han Chen   2022-12-21  701  	 */
+e65232d7f1fccd Sing-Han Chen   2022-12-21  702  	ccg_op_region_update(uc, cci);
+e32fd989ac1c45 Heikki Krogerus 2019-11-04  703  
+e32fd989ac1c45 Heikki Krogerus 2019-11-04  704  err_clear_irq:
+e32fd989ac1c45 Heikki Krogerus 2019-11-04  705  	ccg_write(uc, CCGX_RAB_INTR_REG, &intr_reg, sizeof(intr_reg));
+247c554a14aa16 Ajay Gupta      2018-10-26  706  
+e65232d7f1fccd Sing-Han Chen   2022-12-21  707  	if (!ret && test_bit(DEV_CMD_PENDING, &uc->flags) &&
+e65232d7f1fccd Sing-Han Chen   2022-12-21 @708  	    cci & (UCSI_CCI_ACK_COMPLETE | UCSI_CCI_COMMAND_COMPLETE))
+e65232d7f1fccd Sing-Han Chen   2022-12-21  709  		complete(&uc->complete);
+e65232d7f1fccd Sing-Han Chen   2022-12-21  710  
+247c554a14aa16 Ajay Gupta      2018-10-26  711  	return IRQ_HANDLED;
+247c554a14aa16 Ajay Gupta      2018-10-26  712  }
 
 -- 
 0-DAY CI Kernel Test Service
