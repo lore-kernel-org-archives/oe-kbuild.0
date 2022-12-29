@@ -1,49 +1,49 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2F7E1C2B;
-	Thu, 29 Dec 2022 09:24:54 +0000 (UTC)
-Received: by mail-wm1-f45.google.com with SMTP id m8-20020a05600c3b0800b003d96f801c48so10536163wms.0;
-        Thu, 29 Dec 2022 01:24:54 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17FA71C2B;
+	Thu, 29 Dec 2022 09:25:57 +0000 (UTC)
+Received: by mail-wr1-f46.google.com with SMTP id t15so8062684wro.9;
+        Thu, 29 Dec 2022 01:25:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=osLtJOc/4PM5X4uBlOLQKHlEYcjzPp8720JlY48ebIc=;
-        b=fHcQQDQtGQAVcssMtTLRqFMbtspw8JwpnHg8lO8tJTvbHS+Vn5vGTmNgZTvmI1MntV
-         /F+OME2MZnNvnKPTB3LYC0fs0slIT1CV3qtp1b+8oeGkQ41iWZHJeOt7rkmiMsLTXffB
-         UAILq3M7H83ri4NinGUy2l2IIxIPxqF7iNuldhvOQomOVtpAhiQ4f8xu8ktZnBQrL1IZ
-         rBROWaMBqpAyUGiK565VySK/57eGx5lcdVOa8if4M7gb0Izm6wLxzs6hHOzL7ttcoiSq
-         Qq0X04+hLQgsBoYtPiJGT91EopX2ym+t3f2KdSmrWjieLaEqqVHX8FPIdLeMKjFTOZtK
-         fv4w==
+        bh=iXSUc7XHv0bfEy70PXNaXzaqNq55P4wATYmwSDCQdhk=;
+        b=Et+i0j2afzPO3JhTA8HJQIrPEvHTdrXDaqp+dpFiljvG+8QtKK0r42j2+tej/IdsyZ
+         0tf3JgPD+nWtYBmIb0HtevBgjJRkJ1GqX3bq4xyngYVPvWors+1UkrZIwZ4fhDJf77Kw
+         hIq2uhedd6g0NKWlbqhr9WsUUc5AaBf3vpyO10qMFBpQCV7fyhxvcQrd7ZMemql22IuF
+         iak0iXQtccX0Zb4DjZH3Q/ZtDoNK/tX9zadL8HJDs9hFd7V4g7JzmV8yWc5g7tHh8zlO
+         oPaNfjlRRokMxXEqgELfDgd/auDyjZ7o9vbTadnPf5bGk5GrDl/wu7HAhzBsGnA/hMFL
+         uByw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=osLtJOc/4PM5X4uBlOLQKHlEYcjzPp8720JlY48ebIc=;
-        b=xXIucqh9bTvYEga1HbMFOCsmLjYuXkYXFLTDZFGlXzUg4BRWAOiTezzPmC6is3bD9J
-         Rxf6hUELqRamVxZcKL5iTQE1O1Q6qEAcO2liKn0bwxZgZE1fkJApP55KJu5xKXcuhJBx
-         ZtP8h3l8ZXEsmCteRCh6dP3SVjWMzc/TdjhB3w62uZNcLyThLP/tiD2XZDP64CZuuDFq
-         48lJ+GLJR107kUieP0NVLjfmyqxDeSW6pq0Tk+1toVCaZDudhjV7rmgqiM4/I9D9GLc6
-         1lrCCKifCT1NMgTDCtcZr90Ks9EqYcMbc+ko28brxYx0kZ7bg0pEQoRDe5l721w/OAO9
-         LkJw==
-X-Gm-Message-State: AFqh2kp84wNjRia9DAeJqtDWCCTEWOTcxUuIfXXs7NWvEGzQ/mTvkbmG
-	3o0dUcRSuJ6P5c4++f8LoyADDBYt8f5ThQ==
-X-Google-Smtp-Source: AMrXdXsypwyZC4j7d5EUZyhoYOxFhMCPePPMlU/YyWDot9po4OCgJUbdXHW7QXv54z+lGb2u6WCf4Q==
-X-Received: by 2002:a05:600c:1d8e:b0:3d6:e23:76a2 with SMTP id p14-20020a05600c1d8e00b003d60e2376a2mr19263586wms.34.1672305893029;
-        Thu, 29 Dec 2022 01:24:53 -0800 (PST)
+        bh=iXSUc7XHv0bfEy70PXNaXzaqNq55P4wATYmwSDCQdhk=;
+        b=M95XHpfN+rXg1kzhtbBjKrl5nn1yLMSo1XLOSs9bLmm4ciHSL014dXb5sc2YoB/RRk
+         fDN5g+XtGhFbguTCIwUXiVSF8YLnq17zMDX4/kt8omfA9ZLQ/rTqPK8ZNcYCqQF8Zktw
+         ZGWy8H6NKdQbZcZa+GAWqTpgsuc2lecxgtlxoBz7YJptFaxc1hG8a5EN22ZRSzWASjPe
+         N9PvJerFhn6RseYi1gyu7Rrv9wSUoKYeDW8fdq38JF3lritw4v8wblIr97TBmnjaBpNh
+         kBs8xv13Z12dQ3puTb7auJ6AwUdk/8vGaOrUXyB+sAkUuY+NWhH1mKE+Y1envKEfgQCu
+         DNeQ==
+X-Gm-Message-State: AFqh2kp9hC17FKuQPDzD4r8yDTEyZlpNZ6F2gsrph8R3z8OxlTXEwzaw
+	G7DNGu9ZvosdrdKhS3Se6qOqEdZxFRcN1A==
+X-Google-Smtp-Source: AMrXdXsxOfYI7KAZ0tpzFwM+5Jt3IQya/tuOYHwElEwqyK/BA3c0IOfooUCtG7n1diDhtbka6r5sag==
+X-Received: by 2002:a5d:6588:0:b0:275:4c60:1a31 with SMTP id q8-20020a5d6588000000b002754c601a31mr13428560wru.14.1672305955109;
+        Thu, 29 Dec 2022 01:25:55 -0800 (PST)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id m4-20020a05600c3b0400b003c6b7f5567csm46125259wms.0.2022.12.29.01.24.52
+        by smtp.gmail.com with ESMTPSA id f8-20020adff8c8000000b00282194eaf7bsm7524106wrq.71.2022.12.29.01.25.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Dec 2022 01:24:52 -0800 (PST)
-Date: Thu, 29 Dec 2022 12:24:49 +0300
+        Thu, 29 Dec 2022 01:25:54 -0800 (PST)
+Date: Thu, 29 Dec 2022 12:25:47 +0300
 From: Dan Carpenter <error27@gmail.com>
 To: oe-kbuild@lists.linux.dev, Ben Skeggs <bskeggs@redhat.com>
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
 	linux-kernel@vger.kernel.org, Lyude Paul <lyude@redhat.com>
-Subject: drivers/gpu/drm/nouveau/nvkm/engine/fifo/chan.c:282
- nvkm_chan_cctx_get() warn: inconsistent returns '&cgrp->mutex'.
-Message-ID: <202212260844.AYAkoVok-lkp@intel.com>
+Subject: drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c:466
+ gf100_gr_chan_new() warn: inconsistent returns '&gr->fecs.mutex'.
+Message-ID: <202212261100.ADnY9d8X-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -52,11 +52,11 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Message-ID: <20221229092449.4AbLmRnAT5hL2VorAIfmvkTXP_wXW_IMmsbMJSIY8n0@z>
+Message-ID: <20221229092547.djZ9NBkYjvvjDRg8WWezpJMP9C_iJ2tDL6E4mHvG4kM@z>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   72a85e2b0a1e1e6fb4ee51ae902730212b2de25c
-commit: f48dd2936138882d7755cbbc5d9984015c75980c drm/nouveau/fifo: add new engine context tracking
+commit: ca081fff6ecc63c86a99918230cc9b947bebae8a drm/nouveau/gr/gf100-: generate golden context during first object alloc
 config: s390-randconfig-m041-20221225
 compiler: s390-linux-gcc (GCC) 12.1.0
 
@@ -65,57 +65,51 @@ If you fix the issue, kindly add following tag where applicable
 | Reported-by: Dan Carpenter <error27@gmail.com>
 
 smatch warnings:
-drivers/gpu/drm/nouveau/nvkm/engine/fifo/chan.c:282 nvkm_chan_cctx_get() warn: inconsistent returns '&cgrp->mutex'.
+drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c:466 gf100_gr_chan_new() warn: inconsistent returns '&gr->fecs.mutex'.
 
-vim +282 drivers/gpu/drm/nouveau/nvkm/engine/fifo/chan.c
+vim +466 drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c
 
-f48dd293613888 Ben Skeggs 2022-06-01  241  int
-f48dd293613888 Ben Skeggs 2022-06-01  242  nvkm_chan_cctx_get(struct nvkm_chan *chan, struct nvkm_engn *engn, struct nvkm_cctx **pcctx,
-f48dd293613888 Ben Skeggs 2022-06-01  243  		   struct nvkm_client *client)
-f48dd293613888 Ben Skeggs 2022-06-01  244  {
-f48dd293613888 Ben Skeggs 2022-06-01  245  	struct nvkm_cgrp *cgrp = chan->cgrp;
-f48dd293613888 Ben Skeggs 2022-06-01  246  	struct nvkm_vctx *vctx;
-f48dd293613888 Ben Skeggs 2022-06-01  247  	struct nvkm_cctx *cctx;
-f48dd293613888 Ben Skeggs 2022-06-01  248  	int ret;
-f48dd293613888 Ben Skeggs 2022-06-01  249  
-f48dd293613888 Ben Skeggs 2022-06-01  250  	/* Look for an existing channel context for this engine+VEID. */
-f48dd293613888 Ben Skeggs 2022-06-01  251  	mutex_lock(&cgrp->mutex);
-f48dd293613888 Ben Skeggs 2022-06-01  252  	cctx = nvkm_list_find(cctx, &chan->cctxs, head,
-f48dd293613888 Ben Skeggs 2022-06-01  253  			      cctx->vctx->ectx->engn == engn && cctx->vctx->vmm == chan->vmm);
-f48dd293613888 Ben Skeggs 2022-06-01  254  	if (cctx) {
-f48dd293613888 Ben Skeggs 2022-06-01  255  		refcount_inc(&cctx->refs);
-f48dd293613888 Ben Skeggs 2022-06-01  256  		*pcctx = cctx;
-f48dd293613888 Ben Skeggs 2022-06-01  257  		mutex_unlock(&chan->cgrp->mutex);
+27f3d6cf803249 drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c   Ben Skeggs 2015-08-20  377  static int
+27f3d6cf803249 drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c   Ben Skeggs 2015-08-20  378  gf100_gr_chan_new(struct nvkm_gr *base, struct nvkm_fifo_chan *fifoch,
+27f3d6cf803249 drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c   Ben Skeggs 2015-08-20  379  		  const struct nvkm_oclass *oclass,
+e3c71eb27419b6 drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c   Ben Skeggs 2015-01-14  380  		  struct nvkm_object **pobject)
+966a5b7daa15e1 drivers/gpu/drm/nouveau/nvc0_graph.c             Ben Skeggs 2010-11-24  381  {
+27f3d6cf803249 drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c   Ben Skeggs 2015-08-20  382  	struct gf100_gr *gr = gf100_gr(base);
+bfee3f3d97db88 drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c   Ben Skeggs 2015-08-20  383  	struct gf100_gr_data *data = gr->mmio_data;
+bfee3f3d97db88 drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c   Ben Skeggs 2015-08-20  384  	struct gf100_gr_mmio *mmio = gr->mmio_list;
+e3c71eb27419b6 drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c   Ben Skeggs 2015-01-14  385  	struct gf100_gr_chan *chan;
+019e4d76c6e91b drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c   Ben Skeggs 2017-11-01  386  	struct gf100_vmm_map_v0 args = { .priv = 1 };
+227c95d90a3c50 drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c   Ben Skeggs 2015-08-20  387  	struct nvkm_device *device = gr->base.engine.subdev.device;
+966a5b7daa15e1 drivers/gpu/drm/nouveau/nvc0_graph.c             Ben Skeggs 2010-11-24  388  	int ret, i;
+966a5b7daa15e1 drivers/gpu/drm/nouveau/nvc0_graph.c             Ben Skeggs 2010-11-24  389  
+27f3d6cf803249 drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c   Ben Skeggs 2015-08-20  390  	if (!(chan = kzalloc(sizeof(*chan), GFP_KERNEL)))
+27f3d6cf803249 drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c   Ben Skeggs 2015-08-20  391  		return -ENOMEM;
+27f3d6cf803249 drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c   Ben Skeggs 2015-08-20  392  	nvkm_object_ctor(&gf100_gr_chan, oclass, &chan->object);
+27f3d6cf803249 drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c   Ben Skeggs 2015-08-20  393  	chan->gr = gr;
+019e4d76c6e91b drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c   Ben Skeggs 2017-11-01  394  	chan->vmm = nvkm_vmm_ref(fifoch->vmm);
+27f3d6cf803249 drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c   Ben Skeggs 2015-08-20  395  	*pobject = &chan->object;
+966a5b7daa15e1 drivers/gpu/drm/nouveau/nvc0_graph.c             Ben Skeggs 2010-11-24  396  
+ca081fff6ecc63 drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c   Ben Skeggs 2022-06-01  397  	/* Generate golden context image. */
+ca081fff6ecc63 drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c   Ben Skeggs 2022-06-01  398  	mutex_lock(&gr->fecs.mutex);
+ca081fff6ecc63 drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c   Ben Skeggs 2022-06-01  399  	if (gr->data == NULL) {
+ca081fff6ecc63 drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c   Ben Skeggs 2022-06-01  400  		ret = gf100_grctx_generate(gr, chan, fifoch->inst);
+ca081fff6ecc63 drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c   Ben Skeggs 2022-06-01  401  		if (ret) {
+ca081fff6ecc63 drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c   Ben Skeggs 2022-06-01  402  			nvkm_error(&base->engine.subdev, "failed to construct context\n");
+ca081fff6ecc63 drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c   Ben Skeggs 2022-06-01  403  			return ret;
 
-This code is correct, but smatch wants people to use "&cgrp->mutex"
-constistently instead of "&chan->cgrp->mutex".
+Needs a mutex_unlock(&gr->fecs.mutex);
 
-f48dd293613888 Ben Skeggs 2022-06-01  258  		return 0;
-f48dd293613888 Ben Skeggs 2022-06-01  259  	}
-f48dd293613888 Ben Skeggs 2022-06-01  260  
-f48dd293613888 Ben Skeggs 2022-06-01  261  	/* Nope - create a fresh one.  But, sub-context first. */
-f48dd293613888 Ben Skeggs 2022-06-01  262  	ret = nvkm_cgrp_vctx_get(cgrp, engn, chan, &vctx, client);
-f48dd293613888 Ben Skeggs 2022-06-01  263  	if (ret) {
-f48dd293613888 Ben Skeggs 2022-06-01  264  		CHAN_ERROR(chan, "vctx %d[%s]: %d", engn->id, engn->engine->subdev.name, ret);
-f48dd293613888 Ben Skeggs 2022-06-01  265  		goto done;
-f48dd293613888 Ben Skeggs 2022-06-01  266  	}
-f48dd293613888 Ben Skeggs 2022-06-01  267  
-f48dd293613888 Ben Skeggs 2022-06-01  268  	/* Now, create the channel context - to track engine binding. */
-f48dd293613888 Ben Skeggs 2022-06-01  269  	CHAN_TRACE(chan, "ctor cctx %d[%s]", engn->id, engn->engine->subdev.name);
-f48dd293613888 Ben Skeggs 2022-06-01  270  	if (!(cctx = *pcctx = kzalloc(sizeof(*cctx), GFP_KERNEL))) {
-f48dd293613888 Ben Skeggs 2022-06-01  271  		nvkm_cgrp_vctx_put(cgrp, &vctx);
-f48dd293613888 Ben Skeggs 2022-06-01  272  		ret = -ENOMEM;
-f48dd293613888 Ben Skeggs 2022-06-01  273  		goto done;
-f48dd293613888 Ben Skeggs 2022-06-01  274  	}
-f48dd293613888 Ben Skeggs 2022-06-01  275  
-f48dd293613888 Ben Skeggs 2022-06-01  276  	cctx->vctx = vctx;
-f48dd293613888 Ben Skeggs 2022-06-01  277  	refcount_set(&cctx->refs, 1);
-f48dd293613888 Ben Skeggs 2022-06-01  278  	refcount_set(&cctx->uses, 0);
-f48dd293613888 Ben Skeggs 2022-06-01  279  	list_add_tail(&cctx->head, &chan->cctxs);
-f48dd293613888 Ben Skeggs 2022-06-01  280  done:
-f48dd293613888 Ben Skeggs 2022-06-01  281  	mutex_unlock(&cgrp->mutex);
-f48dd293613888 Ben Skeggs 2022-06-01 @282  	return ret;
-f48dd293613888 Ben Skeggs 2022-06-01  283  }
+ca081fff6ecc63 drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c   Ben Skeggs 2022-06-01  404  		}
+ca081fff6ecc63 drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c   Ben Skeggs 2022-06-01  405  	}
+ca081fff6ecc63 drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c   Ben Skeggs 2022-06-01  406  	mutex_unlock(&gr->fecs.mutex);
+ca081fff6ecc63 drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c   Ben Skeggs 2022-06-01  407  
+ac1499d9573f4a drivers/gpu/drm/nouveau/core/engine/graph/nvc0.c Ben Skeggs 2012-08-04  408  	/* allocate memory for a "mmio list" buffer that's used by the HUB
+ac1499d9573f4a drivers/gpu/drm/nouveau/core/engine/graph/nvc0.c Ben Skeggs 2012-08-04  409  	 * fuc to modify some per-context register settings on first load
+ac1499d9573f4a drivers/gpu/drm/nouveau/core/engine/graph/nvc0.c Ben Skeggs 2012-08-04  410  	 * of the context.
+ac1499d9573f4a drivers/gpu/drm/nouveau/core/engine/graph/nvc0.c Ben Skeggs 2012-08-04  411  	 */
+227c95d90a3c50 drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c   Ben Skeggs 2015-08-20  412  	ret = nvkm_memory_new(device, NVKM_MEM_TARGET_INST, 0x1000, 0x100,
+227c95d90a3c50 drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c   Ben Skeggs 2015-08-20  413  			      false, &chan->mmio);
+73a60c0d218a29 drivers/gpu/drm/nouveau/core/engine/graph/nvc0.c Ben Skeggs 2012-07-13  414  	if (ret)
 
 -- 
 0-DAY CI Kernel Test Service
