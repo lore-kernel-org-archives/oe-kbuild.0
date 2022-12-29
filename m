@@ -1,51 +1,51 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B827F33F0;
-	Thu, 29 Dec 2022 13:50:38 +0000 (UTC)
-Received: by mail-wm1-f45.google.com with SMTP id g25-20020a7bc4d9000000b003d97c8d4941so7703721wmk.4;
-        Thu, 29 Dec 2022 05:50:38 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BFA233F0;
+	Thu, 29 Dec 2022 13:51:56 +0000 (UTC)
+Received: by mail-wr1-f46.google.com with SMTP id d4so9437403wrw.6;
+        Thu, 29 Dec 2022 05:51:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=duyEJD1qg+3LQJyuFvYZow64sOCy88nxykalmK5O5YU=;
-        b=DC8n2ULg36RcVmSYx50CJMQ0eKjA+XqWSbxmNNQddQPw+y9jGuqMJ5bSMLhE3wWw2l
-         dJ2X9J1UwT9HegH6ldg4b5+Obboc0CtWWjA5Wdd5Cw7aXR0o+tDcpBH4YXabdnlgWHd8
-         B4WjwxV2ChiLz6RTDIIOBU38djnNzOTb+f2rdu7fqheO4Vw5uxcmIxPCiAWwKxv0DPtv
-         67vz7MExxkSIZZiRKAf9SjVDv1NHtlMg5I0QNEkoZzgR7aIp8L96S5M8U3MzNpLamQoH
-         NYzlH9UABH4e7N6JKbFmyaobUvMgLY+Ev+EKa2Xw1u8E+TOwexJTTWsG+Tpu6KCBTPMp
-         s8Mw==
+        bh=zm1bDobgQ6pSygeM5xND4kJhHGlT6DofkyFQfGt783I=;
+        b=ebyv8dR6NjEqXCxT6IOlhcLHXUp8IXlMN5UxhjqQjoo2WdZPXKdncfCJXZ7/nJilSf
+         iknxXehJ0bmCibu4XomXgfzlgaGShlrLSGtTP8l7R0+SbNjuXVp7YX1AfpZPsX5hR2RH
+         GBc6ER0dziccAo57D9bmapVWmX6WWbYH03tv5Rs41ZBFFYzBhCXV4Ft04SlHiy7bTMxX
+         CfGHfbeUNTsAPApgDkFcMS1M2PAOt9q2eDvl8aJ/zE1FSzZ/Rt+h95X2xOEZInUd/noh
+         HqPdwalRJ9U3QQURPgH8mnMsn02Pf30ith2s1CSeT51aTvHcDvWnpSjh3SXxt26470YC
+         tXnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=duyEJD1qg+3LQJyuFvYZow64sOCy88nxykalmK5O5YU=;
-        b=N7S33XJHn5X2BV+PRnodslu3XJ354e3mrN7hm8Ej/M04ENF1GZM7uTBW0ZtybobJ3g
-         p7qX/mIFQUc0yKgfsrbfDMjvdhFlHqV9YaUzeM2Zq9n8IdOB0IxMbRqt558Q4a3gPX+k
-         EUbrWG6wAjRM6JAaxnKUEqV4LztKXCaFhcpf8fqbiv1PZhUI12W6lNk0WMoUjY1nXNUD
-         +Px0nConu9zepGM4kKYskStL0QeP17NDy0ImxAlxhUMdJGpkyd0K8Mz8pzvGF2drlOHK
-         tZEk4asdH+/RW88QOZl+X+Fkjyc1ayhi5Axzmg/A20Rqsr9I5oepHZI11DuP5AwSPlqj
-         XocQ==
-X-Gm-Message-State: AFqh2kr/gkcUVfLhddIm0DWvR1SrqdA56sWt46cSFFwqaDooUFSwkfkD
-	IWx9dFrsayATlo9SkEPpF/k913wT6vnbAH4K
-X-Google-Smtp-Source: AMrXdXsejk/XMwVhyDlX8eDlbR3H9pClUTd3eb8SV8HIMnlFVXHwnRl+nWjcGCr1FNcJ5hGZnloybQ==
-X-Received: by 2002:a05:600c:512a:b0:3d3:3c60:b2bb with SMTP id o42-20020a05600c512a00b003d33c60b2bbmr20372131wms.23.1672321836534;
-        Thu, 29 Dec 2022 05:50:36 -0800 (PST)
+        bh=zm1bDobgQ6pSygeM5xND4kJhHGlT6DofkyFQfGt783I=;
+        b=uMUWkCbetSc52dyCjhhH197/5RGSuxiQbq8fYEGaPA9OPiKAQJy/N0SbnkJ3oNBjgg
+         urttqt+02qD0mz1xf24Wmr2OWgfjuaLeWgUmevxtIoI2TkHWVp8UB+AabrGX10hJSCla
+         IuazVpfM3xB5W1mcsGk063uzqkwIVjZl+lz0fgIhiFhN13QGZvFhy4aC+SRL3R4CG+I+
+         z/32/ZtOZW7lbOAPSiPoeBApMt812gscygWfoO9TB38uFcXarK0DEj46GScIvgc8chnB
+         TiXOG1sKt9Z2bQap5GunfXGKVM1KPmrjLqzVOebTjX1qnRnWMJhs1TDb/RgrWO2MSoyb
+         cvNw==
+X-Gm-Message-State: AFqh2koMXTy4ZF6QoPWMMco81VeOOt1UYO1sB8mKPlRc8vVh63uuxOqG
+	luiLK2mgyXyXYTmAYDsi/+8bQDHpNy6fr8xQ
+X-Google-Smtp-Source: AMrXdXtLRvlEt+jd72HMXlQo7iX6ufjl37B1CT3ePpVUkFgVOQvjeCTsYYPmCCcIkJbhUp0GzkFGgw==
+X-Received: by 2002:adf:e94a:0:b0:242:154e:5f14 with SMTP id m10-20020adfe94a000000b00242154e5f14mr17800498wrn.17.1672321914423;
+        Thu, 29 Dec 2022 05:51:54 -0800 (PST)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id u9-20020a05600c19c900b003d9876aa04asm14969441wmq.41.2022.12.29.05.50.35
+        by smtp.gmail.com with ESMTPSA id t13-20020adfe44d000000b002365b759b65sm17934596wrm.86.2022.12.29.05.51.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Dec 2022 05:50:36 -0800 (PST)
-Date: Thu, 29 Dec 2022 16:50:33 +0300
+        Thu, 29 Dec 2022 05:51:54 -0800 (PST)
+Date: Thu, 29 Dec 2022 16:51:50 +0300
 From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, Hans Verkuil <hverkuil@xs4all.nl>
+To: oe-kbuild@lists.linux.dev, Xiaojian Du <Xiaojian.Du@amd.com>
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org
-Subject: drivers/media/v4l2-core/v4l2-ctrls-api.c:152 user_to_new() warn: if
- statement not indented
-Message-ID: <202212291913.3PNcavtH-lkp@intel.com>
+	Alex Deucher <alexander.deucher@amd.com>,
+	Huang Rui <ray.huang@amd.com>
+Subject: drivers/gpu/drm/amd/amdgpu/gmc_v6_0.c:928 gmc_v6_0_hw_init() warn:
+ missing error code? 'r'
+Message-ID: <202212291937.KPkOnXbQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -54,93 +54,50 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Message-ID: <20221229135033.VFnTm3hWXMhydf30G2c1I31eR_hWbZPxo9OVwr75CWI@z>
+Message-ID: <20221229135150.hDvcitoFN2VgfNoGSa_Tq-kYLfNyu66eySOPJJ3H3hw@z>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   1b929c02afd37871d5afb9d498426f83432e71c2
-commit: 73278d483378cf850ade923a1107a70297b2602a media: v4l2-ctrls-api.c: add back dropped ctrl->is_new = 1
-config: sh-randconfig-m031-20221228
-compiler: sh4-linux-gcc (GCC) 12.1.0
+commit: 479e3b02b73a2de2b19df2950863149c59d57bfe drm/amdgpu: add vram check function for GMC
+config: ia64-randconfig-m041-20221229
+compiler: ia64-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
 
 smatch warnings:
-drivers/media/v4l2-core/v4l2-ctrls-api.c:152 user_to_new() warn: if statement not indented
-drivers/media/v4l2-core/v4l2-ctrls-api.c:154 user_to_new() warn: inconsistent indenting
+drivers/gpu/drm/amd/amdgpu/gmc_v6_0.c:928 gmc_v6_0_hw_init() warn: missing error code? 'r'
 
-vim +152 drivers/media/v4l2-core/v4l2-ctrls-api.c
+vim +/r +928 drivers/gpu/drm/amd/amdgpu/gmc_v6_0.c
 
-fb582cba44928f Hans Verkuil 2022-07-08   98  static int user_to_new(struct v4l2_ext_control *c, struct v4l2_ctrl *ctrl)
-71c689dc2e732d Hans Verkuil 2021-04-27   99  {
-71c689dc2e732d Hans Verkuil 2021-04-27  100  	int ret;
-71c689dc2e732d Hans Verkuil 2021-04-27  101  	u32 size;
-71c689dc2e732d Hans Verkuil 2021-04-27  102  
-fb582cba44928f Hans Verkuil 2022-07-08  103  	ctrl->is_new = 0;
-fb582cba44928f Hans Verkuil 2022-07-08  104  	if (ctrl->is_dyn_array &&
-5f2c5c69a61dc5 Hans Verkuil 2022-07-11  105  	    c->size > ctrl->p_array_alloc_elems * ctrl->elem_size) {
-5f2c5c69a61dc5 Hans Verkuil 2022-07-11  106  		void *old = ctrl->p_array;
-fb582cba44928f Hans Verkuil 2022-07-08  107  		void *tmp = kvzalloc(2 * c->size, GFP_KERNEL);
-fb582cba44928f Hans Verkuil 2022-07-08  108  
-fb582cba44928f Hans Verkuil 2022-07-08  109  		if (!tmp)
-fb582cba44928f Hans Verkuil 2022-07-08  110  			return -ENOMEM;
-fb582cba44928f Hans Verkuil 2022-07-08  111  		memcpy(tmp, ctrl->p_new.p, ctrl->elems * ctrl->elem_size);
-fb582cba44928f Hans Verkuil 2022-07-08  112  		memcpy(tmp + c->size, ctrl->p_cur.p, ctrl->elems * ctrl->elem_size);
-fb582cba44928f Hans Verkuil 2022-07-08  113  		ctrl->p_new.p = tmp;
-fb582cba44928f Hans Verkuil 2022-07-08  114  		ctrl->p_cur.p = tmp + c->size;
-5f2c5c69a61dc5 Hans Verkuil 2022-07-11  115  		ctrl->p_array = tmp;
-5f2c5c69a61dc5 Hans Verkuil 2022-07-11  116  		ctrl->p_array_alloc_elems = c->size / ctrl->elem_size;
-fb582cba44928f Hans Verkuil 2022-07-08  117  		kvfree(old);
-fb582cba44928f Hans Verkuil 2022-07-08  118  	}
-fb582cba44928f Hans Verkuil 2022-07-08  119  
-71c689dc2e732d Hans Verkuil 2021-04-27  120  	if (ctrl->is_ptr && !ctrl->is_string) {
-fb582cba44928f Hans Verkuil 2022-07-08  121  		unsigned int elems = c->size / ctrl->elem_size;
-71c689dc2e732d Hans Verkuil 2021-04-27  122  
-fb582cba44928f Hans Verkuil 2022-07-08  123  		if (copy_from_user(ctrl->p_new.p, c->ptr, c->size))
-fb582cba44928f Hans Verkuil 2022-07-08  124  			return -EFAULT;
-fb582cba44928f Hans Verkuil 2022-07-08  125  		ctrl->is_new = 1;
-fb582cba44928f Hans Verkuil 2022-07-08  126  		if (ctrl->is_dyn_array)
-fb582cba44928f Hans Verkuil 2022-07-08  127  			ctrl->new_elems = elems;
-fb582cba44928f Hans Verkuil 2022-07-08  128  		else if (ctrl->is_array)
-cd75981ec93a3a Hans Verkuil 2022-08-29  129  			ctrl->type_ops->init(ctrl, elems, ctrl->p_new);
-71c689dc2e732d Hans Verkuil 2021-04-27  130  		return 0;
-71c689dc2e732d Hans Verkuil 2021-04-27  131  	}
-71c689dc2e732d Hans Verkuil 2021-04-27  132  
-71c689dc2e732d Hans Verkuil 2021-04-27  133  	switch (ctrl->type) {
-71c689dc2e732d Hans Verkuil 2021-04-27  134  	case V4L2_CTRL_TYPE_INTEGER64:
-fb582cba44928f Hans Verkuil 2022-07-08  135  		*ctrl->p_new.p_s64 = c->value64;
-71c689dc2e732d Hans Verkuil 2021-04-27  136  		break;
-71c689dc2e732d Hans Verkuil 2021-04-27  137  	case V4L2_CTRL_TYPE_STRING:
-71c689dc2e732d Hans Verkuil 2021-04-27  138  		size = c->size;
-71c689dc2e732d Hans Verkuil 2021-04-27  139  		if (size == 0)
-71c689dc2e732d Hans Verkuil 2021-04-27  140  			return -ERANGE;
-71c689dc2e732d Hans Verkuil 2021-04-27  141  		if (size > ctrl->maximum + 1)
-71c689dc2e732d Hans Verkuil 2021-04-27  142  			size = ctrl->maximum + 1;
-fb582cba44928f Hans Verkuil 2022-07-08  143  		ret = copy_from_user(ctrl->p_new.p_char, c->string, size) ? -EFAULT : 0;
-71c689dc2e732d Hans Verkuil 2021-04-27  144  		if (!ret) {
-fb582cba44928f Hans Verkuil 2022-07-08  145  			char last = ctrl->p_new.p_char[size - 1];
-71c689dc2e732d Hans Verkuil 2021-04-27  146  
-fb582cba44928f Hans Verkuil 2022-07-08  147  			ctrl->p_new.p_char[size - 1] = 0;
-71c689dc2e732d Hans Verkuil 2021-04-27  148  			/*
-71c689dc2e732d Hans Verkuil 2021-04-27  149  			 * If the string was longer than ctrl->maximum,
-71c689dc2e732d Hans Verkuil 2021-04-27  150  			 * then return an error.
-71c689dc2e732d Hans Verkuil 2021-04-27  151  			 */
-fb582cba44928f Hans Verkuil 2022-07-08 @152  			if (strlen(ctrl->p_new.p_char) == ctrl->maximum && last)
-73278d483378cf Hans Verkuil 2022-12-12  153  			ctrl->is_new = 1;
+df70502eef80be Ken Wang     2016-01-19  906  static int gmc_v6_0_hw_init(void *handle)
+df70502eef80be Ken Wang     2016-01-19  907  {
+df70502eef80be Ken Wang     2016-01-19  908  	int r;
+df70502eef80be Ken Wang     2016-01-19  909  	struct amdgpu_device *adev = (struct amdgpu_device *)handle;
+df70502eef80be Ken Wang     2016-01-19  910  
+df70502eef80be Ken Wang     2016-01-19  911  	gmc_v6_0_mc_program(adev);
+df70502eef80be Ken Wang     2016-01-19  912  
+df70502eef80be Ken Wang     2016-01-19  913  	if (!(adev->flags & AMD_IS_APU)) {
+df70502eef80be Ken Wang     2016-01-19  914  		r = gmc_v6_0_mc_load_microcode(adev);
+df70502eef80be Ken Wang     2016-01-19  915  		if (r) {
+075719c3cb79f3 Tom St Denis 2016-09-06  916  			dev_err(adev->dev, "Failed to load MC firmware!\n");
+df70502eef80be Ken Wang     2016-01-19  917  			return r;
+df70502eef80be Ken Wang     2016-01-19  918  		}
+df70502eef80be Ken Wang     2016-01-19  919  	}
+df70502eef80be Ken Wang     2016-01-19  920  
+df70502eef80be Ken Wang     2016-01-19  921  	r = gmc_v6_0_gart_enable(adev);
+df70502eef80be Ken Wang     2016-01-19  922  	if (r)
+df70502eef80be Ken Wang     2016-01-19  923  		return r;
+df70502eef80be Ken Wang     2016-01-19  924  
+479e3b02b73a2d Xiaojian Du  2022-01-17  925  	if (amdgpu_emu_mode == 1)
+479e3b02b73a2d Xiaojian Du  2022-01-17  926  		return amdgpu_gmc_vram_checking(adev);
+479e3b02b73a2d Xiaojian Du  2022-01-17  927  	else
+df70502eef80be Ken Wang     2016-01-19 @928  		return r;
 
-Was "ctrl->is_new = 1;" supposed to go before the if statement?
+"r" is zero.  Just return a literal "return 0;" or "return EINVAL;"
 
-71c689dc2e732d Hans Verkuil 2021-04-27 @154  				return -ERANGE;
-71c689dc2e732d Hans Verkuil 2021-04-27  155  		}
-71c689dc2e732d Hans Verkuil 2021-04-27  156  		return ret;
-71c689dc2e732d Hans Verkuil 2021-04-27  157  	default:
-fb582cba44928f Hans Verkuil 2022-07-08  158  		*ctrl->p_new.p_s32 = c->value;
-71c689dc2e732d Hans Verkuil 2021-04-27  159  		break;
-71c689dc2e732d Hans Verkuil 2021-04-27  160  	}
-fb582cba44928f Hans Verkuil 2022-07-08  161  	ctrl->is_new = 1;
-71c689dc2e732d Hans Verkuil 2021-04-27  162  	return 0;
-71c689dc2e732d Hans Verkuil 2021-04-27  163  }
+df70502eef80be Ken Wang     2016-01-19  929  }
 
 -- 
 0-DAY CI Kernel Test Service
