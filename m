@@ -1,184 +1,164 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56ED98C0C;
-	Thu, 29 Dec 2022 22:27:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 827301110
+	for <oe-kbuild@lists.linux.dev>; Fri, 30 Dec 2022 01:01:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1672352868; x=1703888868;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=SStv1tFbggjdHtb7jXO0qtVslcKuX+qryvQ7cK5fJwM=;
-  b=htuVSf8UOHhIDm2xMvO8FqIZO74xWae/pgP31bMPYndXDZ8qsg5/Uhdl
-   zh+QH69Tymrqb7hdfnuA32Iwup+Q5ErPYARzyklc6YTECXsRv60lSbK5k
-   E+/KUMdpqExTgmCY03vOAmu/m+8wOBvoF8R/MhLIhbPpqcWunDcnDVuYq
-   U5On2LshsLZSePmwZUDR8P6cTV9potinJ9yygZOCPkcwpVLsYqpM5MvkW
-   U8BJudlUdcZtSBFImzjdr4lmtvU9ctvoSoAssi0gNyvOJVwsuvBS/jESF
-   h2rh7Pq2R6GKu1Ym/cc69hkWuVcqnNXpmgHcIXRX1q+Vw3GI6hJqYaJ7r
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10575"; a="308879892"
+  t=1672362109; x=1703898109;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=d+zihHhTjkTHbzsweorPZ0gVbCIKE7WgKEqkZWOyfX8=;
+  b=Qs3SIsPbfE3S5VK0ToHnzT7SNLyK23kBF6TmnjS0HBUumGPQ5TLbnHaK
+   zUm/H+HLsYlqFtDIGE1q3I4mEi36eUAIVrzFCiIx1z/kIfdSPJDp5PlyJ
+   YWBPqscELDxB2anfjEk22C36hZRBO7EMrJ2cEfb9iA5Fyu0nvyjcv7Cjm
+   Se6HKZDUC/E4gdWXJpM5djNmcW0Zvnl6QebitQF5utEJAP2INXYxesChL
+   LZqXhwvE7tncODks9VOMnSwHnZ2X3bLJRpRg64DUeYbhEg9qBolpVrBtx
+   tpN8v/F/TCiYvPv9yi5bTFtOyvDAtGtCk3P5U5Rwed2r4r5aznnkECIh+
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10575"; a="304638066"
 X-IronPort-AV: E=Sophos;i="5.96,285,1665471600"; 
-   d="scan'208";a="308879892"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Dec 2022 14:27:47 -0800
+   d="scan'208";a="304638066"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Dec 2022 17:01:48 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10575"; a="717012685"
+X-IronPort-AV: E=McAfee;i="6500,9779,10575"; a="796101635"
 X-IronPort-AV: E=Sophos;i="5.96,285,1665471600"; 
-   d="scan'208";a="717012685"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
-  by fmsmga008.fm.intel.com with ESMTP; 29 Dec 2022 14:27:47 -0800
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Thu, 29 Dec 2022 14:27:47 -0800
-Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16 via Frontend Transport; Thu, 29 Dec 2022 14:27:47 -0800
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.176)
- by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.16; Thu, 29 Dec 2022 14:27:46 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=VPKedUf7nmH36nOdjlxUCY99z8HcJejUjo/nnZxXzkDdb7mlKt67pgYXV3qwO20/5YJ+v+3dmgyfKc4IkX1scmWyYr0KuPMOCjWYqJfOPlJnqI2sq+jOXxo/Co8DOdRiyGlbN1k5vlTZaOAj4nE5gHv7RdDVh8tjOV8ARHQyoxmPH5I64xKDuxpDg1y42HJA31LhpO5nT+zPA9nw6NXC8Vd/pCjKXV5r4AAYpI1tHxCe8j7b7y5TW23olRyTxOx5JzNYi8GDWZ5MYwRo8v69RoF20Cau9TIvXhGclKs315r6g1bAu1Pc1HL24qwWG/WM2ZU27K0SZLHxQQf66Ji79A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=p+6Xe+YRfuMsrYZliCc5PH/3gCQ6+Hx3pRo12K+mXs8=;
- b=m7Zre46d3OvkJaYUJ7Q1+eVhsqYuUtwiVm8voE7/h2ZlwiorWD2yNfqa+xZ9jkZqdX1NbTKhKdYBF1Aa3RmHje2Tj4ST/0v9BUuTTXJTAVD7yfm16k/6wEbR437IoC+Lnx8wVjwp3lWWjHW/TNNcA4yLQf2S/158kMmTu/uKg0Sz5BIi2ZJqthm6DwOzw0QULMm3lmblHEvYQP4eSShwPr1SAvZF2xbMusKqu+2ry0r5MADaW6Fzt50ofliQPQ3jiZZA+9V6z6dCTHhV9gJ6vHyUFKbfT1ez9vQDDnJiBBs8p24nc2fvJnBgA/c0UYyheGnWHPng72wc8GpC5kWMeQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SN6PR11MB3229.namprd11.prod.outlook.com (2603:10b6:805:ba::28)
- by BL3PR11MB6484.namprd11.prod.outlook.com (2603:10b6:208:3bf::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5944.12; Thu, 29 Dec
- 2022 22:27:44 +0000
-Received: from SN6PR11MB3229.namprd11.prod.outlook.com
- ([fe80::933:90f8:7128:f1c5]) by SN6PR11MB3229.namprd11.prod.outlook.com
- ([fe80::933:90f8:7128:f1c5%5]) with mapi id 15.20.5944.016; Thu, 29 Dec 2022
- 22:27:43 +0000
-Message-ID: <67374aba-998f-b14c-d785-82ed8fa9bca5@intel.com>
-Date: Thu, 29 Dec 2022 14:27:41 -0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [tnguy-net-queue:dev-queue 2/17]
- drivers/net/ethernet/intel/ice/ice_main.c:4921 ice_probe() warn: missing
- error code 'err'
-Content-Language: en-US
-To: Dan Carpenter <error27@gmail.com>, <oe-kbuild@lists.linux.dev>, "Paul M
- Stillwell Jr" <paul.m.stillwell.jr@intel.com>
-CC: <lkp@intel.com>, <oe-kbuild-all@lists.linux.dev>, Intel Wired LAN
-	<intel-wired-lan@lists.osuosl.org>
-References: <202212291532.mOisbpke-lkp@intel.com>
-From: Tony Nguyen <anthony.l.nguyen@intel.com>
-In-Reply-To: <202212291532.mOisbpke-lkp@intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BY3PR10CA0011.namprd10.prod.outlook.com
- (2603:10b6:a03:255::16) To SN6PR11MB3229.namprd11.prod.outlook.com
- (2603:10b6:805:ba::28)
+   d="scan'208";a="796101635"
+Received: from lkp-server01.sh.intel.com (HELO b5d47979f3ad) ([10.239.97.150])
+  by fmsmga001.fm.intel.com with ESMTP; 29 Dec 2022 17:01:47 -0800
+Received: from kbuild by b5d47979f3ad with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pB3mN-000HHJ-08;
+	Fri, 30 Dec 2022 01:01:47 +0000
+Date: Fri, 30 Dec 2022 09:01:45 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: drivers/iio/cdc/ad7746.c:288:24: warning: The statement 'if
+ (chip->capdac_set!=chan->channel) chip->capdac_set=chan->channel' is
+ logically equivalent to 'chip->capdac_set=chan->channel'.
+ [duplicateConditionalAssign]
+Message-ID: <202212300959.ghzpOGjH-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN6PR11MB3229:EE_|BL3PR11MB6484:EE_
-X-MS-Office365-Filtering-Correlation-Id: d37cd7b1-966b-4102-7ea8-08dae9ebe776
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Vl/70/UfaTgy0ZYmf5+RGUqPbonABedBSCf/R8uiskvadnEf0OTYIdZzvEAI06x+q+OnKfHd0DNuQTjBOzRTz37dDgWO7AFAdobRBMLQFJwujBk4woGNQ1E867jFinLGLoR4xzKXt+tfPfpzkQfBSc87enYsrJqWqOqlC0HcwBzbHJ+t3/JtIVCZ3XpQ5y6hDgHIKXZelknpyLQfR55vJPvWmml59E1IFfyvi4Gfu6GklbE7OsVtvsjb7sjcXQVLo0HK3nITjqKbRm0afWTrFBmsIzSfm/k+yJ0Y8RCGwPWLuLOuCVc8G2HjmZSAziOYoLjOAKrRHbpEFqYnoeqM2ZDAotCC+iva79Pb54SJ5fbbVdcyIzq6FX/LrqpbWyHIdlZgS2+5eI6dtqAT8AaowIzAaHa34S4VlhQQQmBJ7QyO+nqbF8uJjHsvD8k0cI2HvN/umrXDaWmyrnsIqc9J2tPV2WXBT4lkI4cxqSHtJiE2yAaXQHtdOaxhSqpBTIHK+jWSGS4NWQhnHR6cbF2f04Sd+FJf02b/cS11pOpC8Vv3upU7XpQAgWQr1j1RjwcbfF/qzD+6Sn1ZrKdMMYKRP58VEBlAwpkE+9ah8OVsLT6okQyBHP9Bp258+TNOpRRZiGmQxyMnNl7YvaQrok3UOBaM9lFdBT19D6URG9Lap2zOYQN9klqEMGrFBmyLvEz0nk3v0llyAP338q4VZwtfMUvJORBXRqMqAoKE4gYPV3iTTX+6f3CWekuQeiCzIEbQ
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR11MB3229.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(39860400002)(366004)(376002)(346002)(136003)(396003)(451199015)(2906002)(8936002)(478600001)(66556008)(4326008)(4001150100001)(66476007)(66946007)(5660300002)(110136005)(8676002)(316002)(6636002)(966005)(6486002)(6506007)(53546011)(38100700002)(6512007)(83380400001)(186003)(2616005)(26005)(31686004)(31696002)(41300700001)(86362001)(82960400001)(36756003)(43740500002)(45980500001);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?aDI3TGJwWEZFcDNhUm4xQXd3RnJpcU9pZXpmRXYzcEN3NUszNDk4Q1NsTkhl?=
- =?utf-8?B?Z09tdEUzd3JMQy9iVTA2VHFrdThlcWRmWEdiMllkd1Zrelk3R2JGbDNkMEE1?=
- =?utf-8?B?VWtuRUN4amgvN3IyeVBOaHNPY0tNM21XaWxLQSs2Q000QXRwUElVZXdweE12?=
- =?utf-8?B?NUkvTVN3cXNOZ2ExcXF6ZGxsSXdPck1nc3B4R1dIR2pqTUo5YzRwWS9zUmps?=
- =?utf-8?B?eDk1SEhTODBJcUczZ2w2WTR1c1Z0aklDS3BlbXdOcVhBWktLWStVbmlvYmRn?=
- =?utf-8?B?MWZVZVVuVmZ6Zmk0WVN1SktPQngydDM4cVFTOXVWZW1Kd0hQWTJmSXdyQUtJ?=
- =?utf-8?B?WnNaeTAwdjFXcnlsZHpLbEdQcit6U0l1V3ZtbXI3NWg0U3RtdFVjSEtTZWN4?=
- =?utf-8?B?S0MwRXIzOU9qNVc2RWNER0FzVnBDMEdYRW1RVlFQMDQ0SWsrcmxDVnJXejRN?=
- =?utf-8?B?UEl0MHhuOVhZWkgwTnpKQ1N4bEZ1TE1PdGFwQkd5VUdsVW11bEpnRGg2Y1NT?=
- =?utf-8?B?OVVIT20yVG1rY1pYZ1k3RXVXWXdrMDJJdTd3cFIzTTVuNnZxeW5Jei9vSUNS?=
- =?utf-8?B?NVZnOGNGUVYxcTVZY0dXWmFLb1dKTklZcjNkOHhZd2p3VHpFd3BLSVJtVnJV?=
- =?utf-8?B?MVBySlBuNGo5R1BTWDRwc1FhTGpDRC9TanR2dVN4Tklyelo0SWhvdFgxRGFR?=
- =?utf-8?B?TE1hejlFWDZwWmszNWY4M29RYXJJU0NwdVRwMk9lT05HVlYvU1dkVnlqSU1a?=
- =?utf-8?B?TFkwSzRkSUJ2TGRuS09Ed2RncXlQR25DN0FxMDg3YWJ5Uk1WcnhzMEU1a0gv?=
- =?utf-8?B?ejhqKzczRlFuazZBMjNHNldQYkU3clFpdHZlZUoyVmI2WklHb2dhdm4rbUVD?=
- =?utf-8?B?T1NjNkR4L3V2VzRVNlZwWlZXcHcrY2dzQjVyRk54NzB3Y0k5MWxFK2FidTJX?=
- =?utf-8?B?TlFDT3NqYlNpRGtXWGU3MWcxQVFRemRVK0QvZHpzeEphZE43UHl6SnBFeWtZ?=
- =?utf-8?B?TytSa05HeTBqWXc4YmloMmxXTzJGUHZnQjVsU3pKM0tZVmdjR2tqYTI1aDNF?=
- =?utf-8?B?aEdCTVNPUmVxb2lubHJEeks5MHlsSEhIL3diZHZqUldmTEozYzVqbUpOTHpp?=
- =?utf-8?B?Q2JwWDhjNXVJaTl5eGFrTEQyd0M3aDJKWW0zUjNRcXllTHlPT2ZVb2pDcG5k?=
- =?utf-8?B?MmgwTVFZTXp1aVdtb3VteGFxbUkwMEpxNlJyMWhDc2tUc1ZFOUpTRllxamlH?=
- =?utf-8?B?QmhOU25PYTQ2MkNpWUNFOGlOWS8rTzdLRE9uZ0VpazRmSHhIVG1KNGpWTE1i?=
- =?utf-8?B?Yk5ybEwySlgySjRGZTRSeHlSSGdWOWtxTHZEQ3JqVDR1TUwvUlFZZ1dMeDVI?=
- =?utf-8?B?anAzNVRDZnlyMkZ2TmRyRmQ2M2IyeHVjeUViQnQ1dWtHUGd5M1kxN0l6c2Z1?=
- =?utf-8?B?MHdoOUladnloUTB4S2dLRWNCdTlOdzcxMUNHZ3FBU0RoT1dqWTNVOGNIcjRj?=
- =?utf-8?B?TCtZVStBdnQ2RDAwZmxWVHluejNLNWkwc3RLck5idE90OURNWkNRdTRIb21l?=
- =?utf-8?B?QmpHWmJJbE5tK0daRGI4WTVuVWJzekZ4QzdqWEVpRGpwQWhPMHRNTWZFQVFl?=
- =?utf-8?B?aGdRcXRHQXgzV3kzR3VOUlRCZmxMTVNPdzExQVdYM3pnYTdqUmRrTlBkdVBh?=
- =?utf-8?B?TGlVOFVGdnlyRHVrRG1IbTQ2MHQ1WU9QZjE4bUFEZGFoc2Rxa3FoWCtEakFF?=
- =?utf-8?B?VnBuYUJ4TUpXdFk4TG5PUlliOHVyWHBLemVLeE04eVRpam9MbmozOUpTaTlT?=
- =?utf-8?B?Yks2YmFGZm0weDN5WGdyUnpZSldRTWtIZzBueHRNT1VMbjM1QWdBZTZzWmRs?=
- =?utf-8?B?RlVObDhLWTVGaExQcjgza0gvbjIxZkxIRXpNSUdzcnQ3dDZwb0k4YVB6OEc3?=
- =?utf-8?B?RS85N2FGUVFvOWxGblpGL29xUkJCeUYvYTN2andtQWx6R2Zad3dUZWJmU3FZ?=
- =?utf-8?B?elZkNGo4Zlh0M1BCSVh1Z3pEbHI2ZUczSVRIT1hrMlUzd2luUHE0b0RmMUNS?=
- =?utf-8?B?N0d1cjJqS29HeVpxU1RmYmRDVDFVVWFLOW1sSEJ6UDdFWGlqYnVEcVZhbFpx?=
- =?utf-8?B?UjFndHBINXRuanZTUVoyblJTVEIrRmFYVmFUU0dwOXgvM01vOXJjdUl4SnRC?=
- =?utf-8?B?V3c9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: d37cd7b1-966b-4102-7ea8-08dae9ebe776
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR11MB3229.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Dec 2022 22:27:43.8266
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: dg07WfL4ppVOx43kp4UD42QvGgCLxdeLSuVDJvd0+4HGhFRP7d6KorWtKT075QXmSnB7OrJlLJ+nGiu7xhLye00HygSmmCpeqksQQ/1et+w=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL3PR11MB6484
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-On 12/29/2022 12:58 AM, Dan Carpenter wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tnguy/net-queue.git dev-queue
-> head:   c342bc11f5a438cf39e2280bafda39ec2c6953f1
-> commit: e51d0e34580892d22107a85390d1752fa7a7d56a [2/17] ice: move devlink port creation/deletion
-> config: powerpc-randconfig-m031-20221226
-> compiler: powerpc-linux-gcc (GCC) 12.1.0
-> 
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <error27@gmail.com>
-> 
-> smatch warnings:
-> drivers/net/ethernet/intel/ice/ice_main.c:4921 ice_probe() warn: missing error code 'err'
-> 
-> vim +/err +4921 drivers/net/ethernet/intel/ice/ice_main.c
-> 
-> df006dd4b1dca8 Dave Ertman            2020-11-20  4908  	if (ice_init_lag(pf))
-> df006dd4b1dca8 Dave Ertman            2020-11-20  4909  		dev_warn(dev, "Failed to init link aggregation support\n");
-> df006dd4b1dca8 Dave Ertman            2020-11-20  4910
-> e18ff118181bca Paul Greenwalt         2019-10-09  4911  	/* print PCI link speed and width */
-> e18ff118181bca Paul Greenwalt         2019-10-09  4912  	pcie_print_link_status(pf->pdev);
-> e18ff118181bca Paul Greenwalt         2019-10-09  4913
-> de75135b5c04c9 Anirudh Venkataramanan 2020-05-07  4914  probe_done:
-> e51d0e34580892 Paul M Stillwell Jr    2022-11-18  4915  	err = ice_devlink_create_pf_port(pf);
-> e51d0e34580892 Paul M Stillwell Jr    2022-11-18  4916  	if (err)
-> e51d0e34580892 Paul M Stillwell Jr    2022-11-18  4917  		goto err_create_pf_port;
-> e51d0e34580892 Paul M Stillwell Jr    2022-11-18  4918
-> e51d0e34580892 Paul M Stillwell Jr    2022-11-18  4919  	vsi = ice_get_main_vsi(pf);
-> e51d0e34580892 Paul M Stillwell Jr    2022-11-18  4920  	if (!vsi || !vsi->netdev)
-> e51d0e34580892 Paul M Stillwell Jr    2022-11-18 @4921  		goto err_netdev_reg;
-> 
-> This seems like an error path so "err = -EINVAL;"
+:::::: 
+:::::: Manual check reason: "low confidence static check warning: drivers/iio/cdc/ad7746.c:288:24: warning: The statement 'if (chip->capdac_set!=chan->channel) chip->capdac_set=chan->channel' is logically equivalent to 'chip->capdac_set=chan->channel'. [duplicateConditionalAssign]"
+:::::: 
 
-Thanks for the report Dan. We'll get this fixed.
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+TO: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+CC: Andy Shevchenko <andy.shevchenko@gmail.com>
 
-Thanks,
-Tony
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   2258c2dc850b8605cb66b3383e50b9dddd1c6580
+commit: 40b5c4d5b5a67e79eef86a653cdc8b10b4d73f11 iio: cdc: ad7746: Move driver out of staging.
+date:   5 months ago
+:::::: branch date: 6 hours ago
+:::::: commit date: 5 months ago
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+reproduce (cppcheck warning):
+        # apt-get install cppcheck
+        git checkout 40b5c4d5b5a67e79eef86a653cdc8b10b4d73f11
+        cppcheck --quiet --enable=style,performance,portability --template=gcc FILE
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+
+
+cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+
+>> drivers/iio/cdc/ad7746.c:288:24: warning: The statement 'if (chip->capdac_set!=chan->channel) chip->capdac_set=chan->channel' is logically equivalent to 'chip->capdac_set=chan->channel'. [duplicateConditionalAssign]
+     if (chip->capdac_set != chan->channel)
+                          ^
+   drivers/iio/cdc/ad7746.c:289:21: note: Assignment 'chip->capdac_set=chan->channel'
+      chip->capdac_set = chan->channel;
+                       ^
+   drivers/iio/cdc/ad7746.c:288:24: note: Condition 'chip->capdac_set!=chan->channel' is redundant
+     if (chip->capdac_set != chan->channel)
+                          ^
+
+vim +288 drivers/iio/cdc/ad7746.c
+
+6a7e4b04df3f4f drivers/staging/iio/cdc/ad7746.c Lucas Stankus     2021-05-23  265  
+83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich 2011-09-21  266  static int ad7746_select_channel(struct iio_dev *indio_dev,
+83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich 2011-09-21  267  				 struct iio_chan_spec const *chan)
+83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich 2011-09-21  268  {
+83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich 2011-09-21  269  	struct ad7746_chip_info *chip = iio_priv(indio_dev);
+83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich 2011-09-21  270  	u8 vt_setup, cap_setup;
+afcd0b22e35e0b drivers/staging/iio/cdc/ad7746.c Hernán Gonzalez   2018-04-13  271  	int ret, delay, idx;
+83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich 2011-09-21  272  
+83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich 2011-09-21  273  	switch (chan->type) {
+83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich 2011-09-21  274  	case IIO_CAPACITANCE:
+9eee2fc4a670d7 drivers/staging/iio/cdc/ad7746.c Jonathan Cameron  2022-06-26  275  		cap_setup = FIELD_PREP(AD7746_CAPSETUP_CIN2,
+9eee2fc4a670d7 drivers/staging/iio/cdc/ad7746.c Jonathan Cameron  2022-06-26  276  				       ad7746_chan_info[chan->address].cin2) |
+9eee2fc4a670d7 drivers/staging/iio/cdc/ad7746.c Jonathan Cameron  2022-06-26  277  			FIELD_PREP(AD7746_CAPSETUP_CAPDIFF,
+9eee2fc4a670d7 drivers/staging/iio/cdc/ad7746.c Jonathan Cameron  2022-06-26  278  				   ad7746_chan_info[chan->address].capdiff) |
+9eee2fc4a670d7 drivers/staging/iio/cdc/ad7746.c Jonathan Cameron  2022-06-26  279  			FIELD_PREP(AD7746_CAPSETUP_CAPEN, 1);
+83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich 2011-09-21  280  		vt_setup = chip->vt_setup & ~AD7746_VTSETUP_VTEN;
+9eee2fc4a670d7 drivers/staging/iio/cdc/ad7746.c Jonathan Cameron  2022-06-26  281  		idx = FIELD_GET(AD7746_CONF_CAPFS_MASK, chip->config);
+579d542534c96c drivers/staging/iio/cdc/ad7746.c Eva Rachel Retuya 2016-10-28  282  		delay = ad7746_cap_filter_rate_table[idx][1];
+83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich 2011-09-21  283  
+6a7e4b04df3f4f drivers/staging/iio/cdc/ad7746.c Lucas Stankus     2021-05-23  284  		ret = ad7746_set_capdac(chip, chan->channel);
+83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich 2011-09-21  285  		if (ret < 0)
+83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich 2011-09-21  286  			return ret;
+83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich 2011-09-21  287  
+050098500ae4f7 drivers/staging/iio/cdc/ad7746.c Alexander Vorwerk 2021-08-21 @288  		if (chip->capdac_set != chan->channel)
+83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich 2011-09-21  289  			chip->capdac_set = chan->channel;
+83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich 2011-09-21  290  		break;
+83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich 2011-09-21  291  	case IIO_VOLTAGE:
+83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich 2011-09-21  292  	case IIO_TEMP:
+9eee2fc4a670d7 drivers/staging/iio/cdc/ad7746.c Jonathan Cameron  2022-06-26  293  		vt_setup = FIELD_PREP(AD7746_VTSETUP_VTMD_MASK,
+9eee2fc4a670d7 drivers/staging/iio/cdc/ad7746.c Jonathan Cameron  2022-06-26  294  				      ad7746_chan_info[chan->address].vtmd) |
+9eee2fc4a670d7 drivers/staging/iio/cdc/ad7746.c Jonathan Cameron  2022-06-26  295  			FIELD_PREP(AD7746_VTSETUP_VTEN, 1);
+83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich 2011-09-21  296  		cap_setup = chip->cap_setup & ~AD7746_CAPSETUP_CAPEN;
+9eee2fc4a670d7 drivers/staging/iio/cdc/ad7746.c Jonathan Cameron  2022-06-26  297  		idx = FIELD_GET(AD7746_CONF_VTFS_MASK, chip->config);
+579d542534c96c drivers/staging/iio/cdc/ad7746.c Eva Rachel Retuya 2016-10-28  298  		delay = ad7746_cap_filter_rate_table[idx][1];
+83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich 2011-09-21  299  		break;
+83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich 2011-09-21  300  	default:
+83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich 2011-09-21  301  		return -EINVAL;
+83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich 2011-09-21  302  	}
+83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich 2011-09-21  303  
+83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich 2011-09-21  304  	if (chip->cap_setup != cap_setup) {
+83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich 2011-09-21  305  		ret = i2c_smbus_write_byte_data(chip->client,
+83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich 2011-09-21  306  						AD7746_REG_CAP_SETUP,
+83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich 2011-09-21  307  						cap_setup);
+83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich 2011-09-21  308  		if (ret < 0)
+83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich 2011-09-21  309  			return ret;
+83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich 2011-09-21  310  
+83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich 2011-09-21  311  		chip->cap_setup = cap_setup;
+83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich 2011-09-21  312  	}
+83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich 2011-09-21  313  
+83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich 2011-09-21  314  	if (chip->vt_setup != vt_setup) {
+83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich 2011-09-21  315  		ret = i2c_smbus_write_byte_data(chip->client,
+83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich 2011-09-21  316  						AD7746_REG_VT_SETUP,
+83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich 2011-09-21  317  						vt_setup);
+83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich 2011-09-21  318  		if (ret < 0)
+83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich 2011-09-21  319  			return ret;
+83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich 2011-09-21  320  
+83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich 2011-09-21  321  		chip->vt_setup = vt_setup;
+83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich 2011-09-21  322  	}
+83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich 2011-09-21  323  
+83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich 2011-09-21  324  	return delay;
+83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich 2011-09-21  325  }
+83e416f458d532 drivers/staging/iio/adc/ad7746.c Michael Hennerich 2011-09-21  326  
+
+:::::: The code at line 288 was first introduced by commit
+:::::: 050098500ae4f73f76a775b26fdf6ee5ee5bef40 staging: iio: cdc: remove braces from single line if blocks
+
+:::::: TO: Alexander Vorwerk <alec@vc-celle.de>
+:::::: CC: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
