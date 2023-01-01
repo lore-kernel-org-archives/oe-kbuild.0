@@ -1,73 +1,73 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 207007C
-	for <oe-kbuild@lists.linux.dev>; Sun,  1 Jan 2023 10:16:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 189E82F3C
+	for <oe-kbuild@lists.linux.dev>; Sun,  1 Jan 2023 14:08:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1672568167; x=1704104167;
+  t=1672582105; x=1704118105;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=AJJlkTv5OGbwKcwRbMM5gQtz2eulT/beXOK5t1XAd6s=;
-  b=e9Zx8+mmC+fuvdnUZlOl9neV+tYTM34z6zCEzbUDw18l1euoHJeLuQvH
-   tBpuDb07K3BqwE+/Q+hMmQGuss5tSQw7v3I8HUY55O+6iTHLB32Y7e24d
-   WFHHxosTS/IwBpsTQ+5w0Je6JmPqzV4LWZ6r8e09gAInZNh28GQJY6UAd
-   JiqnN3Gje8xuCPsE3hdblXQLe3AxiCjmOoGqIvPVi59hbQybBh0oxPSDZ
-   03GHcrYFGPOIimg7bA4dTJ8w0ME11PKeZIixdEz4OidwJ0mwg1xdDPL4o
-   QxMNYCkLvBP50qcGr8SuNXM2nm1oysj+DThuI6zpCqei02mM/fbTJv+KK
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10577"; a="383674368"
-X-IronPort-AV: E=Sophos;i="5.96,291,1665471600"; 
-   d="scan'208";a="383674368"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jan 2023 02:16:06 -0800
+  bh=zEGU0avHDYi3ZtGNP8qzmSTCK5Yl5HJVYV4MP6MQD1A=;
+  b=ZBcHsjEI2YVHWID4d1hnn+VY4XnJVEyZ7Lnj6moILEN3xHb7NCnCCn3w
+   7Vwx2OImjDsTyWbEQHKMiOLCDYUe23fwWqj38V62JOQ6Yb9vKdXsjPn89
+   RlYuRZVPgTbLooeaRoWfcz4yJ5sJXDuKEZhEx6n+MZLMNQxHtV7g8gupB
+   iTuJytI/gCGRB7ejKdnJiSEH+Oco7swibSO5b2olGZ55nGEN6rBU+79gQ
+   jssZp7MwQUUJ10daHW5eHaqya48xp3Sgnbdv4pyw4nPmrkAWHIXzn+qmh
+   +GvdjNvUwCdvvaKhxwFEvG7VUQ6TQNPCb8onRgsjbYKEC/tT4iAVeS8H0
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10577"; a="348606214"
+X-IronPort-AV: E=Sophos;i="5.96,292,1665471600"; 
+   d="scan'208";a="348606214"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jan 2023 06:08:24 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10577"; a="828324334"
-X-IronPort-AV: E=Sophos;i="5.96,291,1665471600"; 
-   d="scan'208";a="828324334"
+X-IronPort-AV: E=McAfee;i="6500,9779,10577"; a="604336092"
+X-IronPort-AV: E=Sophos;i="5.96,292,1665471600"; 
+   d="scan'208";a="604336092"
 Received: from lkp-server01.sh.intel.com (HELO b5d47979f3ad) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 01 Jan 2023 02:16:05 -0800
+  by orsmga003.jf.intel.com with ESMTP; 01 Jan 2023 06:08:21 -0800
 Received: from kbuild by b5d47979f3ad with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pBvNs-000PCl-0t;
-	Sun, 01 Jan 2023 10:16:04 +0000
-Date: Sun, 1 Jan 2023 18:15:39 +0800
+	id 1pBz0e-000PUD-2k;
+	Sun, 01 Jan 2023 14:08:20 +0000
+Date: Sun, 1 Jan 2023 22:07:46 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: mm/slab_common.c:217:3: warning: Value stored to 'useroffset' is
- never read [clang-analyzer-deadcode.DeadStores]
-Message-ID: <202301011840.QKMSq0vV-lkp@intel.com>
+Subject: kernel/events/core.c:4738:2: warning: Value stored to 'err' is never
+ read [clang-analyzer-deadcode.DeadStores]
+Message-ID: <202301012220.RiIFTZgZ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="BbWjBmcvQrybYkQA"
+Content-Type: multipart/mixed; boundary="QNw/mDmfLZjJf8wd"
 Content-Disposition: inline
 
 
---BbWjBmcvQrybYkQA
+--QNw/mDmfLZjJf8wd
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "low confidence static check warning: mm/slab_common.c:217:3: warning: Value stored to 'useroffset' is never read [clang-analyzer-deadcode.DeadStores]"
+:::::: Manual check reason: "low confidence static check warning: kernel/events/core.c:4738:2: warning: Value stored to 'err' is never read [clang-analyzer-deadcode.DeadStores]"
 :::::: 
 
 BCC: lkp@intel.com
 CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Vlastimil Babka <vbabka@suse.cz>
-CC: Christoph Lameter <cl@linux-foundation.org>
+TO: Peter Zijlstra <peterz@infradead.org>
+CC: Ravi Bangoria <ravi.bangoria@amd.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   e4cf7c25bae5c3b5089a3c23a897f450149caef2
-commit: 346907ceb9d11b9e22677c142b45ff50dd20a66a mm, slab: ignore hardened usercopy parameters when disabled
-date:   5 weeks ago
-:::::: branch date: 16 hours ago
-:::::: commit date: 5 weeks ago
+commit: bd27568117664b8b3e259721393df420ed51f57b perf: Rewrite core context handling
+date:   9 weeks ago
+:::::: branch date: 20 hours ago
+:::::: commit date: 9 weeks ago
 config: riscv-randconfig-c006-20221228
 compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project f5700e7b69048de958172fb513b336564e7f8709)
 reproduce (this is a W=1 build):
@@ -75,10 +75,10 @@ reproduce (this is a W=1 build):
         chmod +x ~/bin/make.cross
         # install riscv cross compiling tool for clang build
         # apt-get install binutils-riscv64-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=346907ceb9d11b9e22677c142b45ff50dd20a66a
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=bd27568117664b8b3e259721393df420ed51f57b
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout 346907ceb9d11b9e22677c142b45ff50dd20a66a
+        git checkout bd27568117664b8b3e259721393df420ed51f57b
         # save the config file
         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=riscv clang-analyzer  olddefconfig
         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=riscv clang-analyzer 
@@ -87,271 +87,299 @@ If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
 clang_analyzer warnings: (new ones prefixed by >>)
-                   if (__ONCE_LITE_IF(__ret_do_once))                      \
-                       ^
-   include/linux/once_lite.h:19:3: note: expanded from macro '__ONCE_LITE_IF'
-                   if (unlikely(__ret_cond && !__already_done)) {          \
-                   ^
-   kernel/sysctl.c:355:2: note: Taking false branch
-           memcpy(tmp, *buf, len);
+   include/linux/timer.h:190:29: note: expanded from macro 'del_timer_sync'
+   # define del_timer_sync(t)              del_timer(t)
+                                           ^~~~~~~~~~~~
+   drivers/char/ipmi/ipmi_si_intf.c:2176:2: note: Returning from 'stop_timer_and_thread'
+           stop_timer_and_thread(smi_info);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/char/ipmi/ipmi_si_intf.c:2190:9: note: Assuming field 'curr_msg' is null
+           while (smi_info->curr_msg || (smi_info->si_state != SI_NORMAL)) {
+                  ^~~~~~~~~~~~~~~~~~
+   drivers/char/ipmi/ipmi_si_intf.c:2190:9: note: Left side of '||' is false
+   drivers/char/ipmi/ipmi_si_intf.c:2190:32: note: Assuming field 'si_state' is not equal to SI_NORMAL
+           while (smi_info->curr_msg || (smi_info->si_state != SI_NORMAL)) {
+                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/char/ipmi/ipmi_si_intf.c:2190:2: note: Loop condition is true.  Entering loop body
+           while (smi_info->curr_msg || (smi_info->si_state != SI_NORMAL)) {
            ^
-   include/linux/fortify-string.h:496:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^
-   include/linux/fortify-string.h:445:2: note: expanded from macro '__fortify_memcpy_chk'
-           WARN_ONCE(fortify_memcpy_chk(__fortify_size, p_size, q_size,    \
+   drivers/char/ipmi/ipmi_si_intf.c:2191:3: note: Calling 'poll'
+                   poll(smi_info);
+                   ^~~~~~~~~~~~~~
+   drivers/char/ipmi/ipmi_si_intf.c:1042:6: note: Assuming 'run_to_completion' is true
+           if (!run_to_completion)
+               ^~~~~~~~~~~~~~~~~~
+   drivers/char/ipmi/ipmi_si_intf.c:1042:2: note: Taking false branch
+           if (!run_to_completion)
            ^
-   include/asm-generic/bug.h:151:2: note: expanded from macro 'WARN_ONCE'
-           DO_ONCE_LITE_IF(condition, WARN, 1, format)
+   drivers/char/ipmi/ipmi_si_intf.c:1044:2: note: Calling 'smi_event_handler'
+           smi_event_handler(smi_info, 10);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/char/ipmi/ipmi_si_intf.c:765:9: note: Assuming 'si_sm_result' is not equal to SI_SM_CALL_WITHOUT_DELAY
+           while (si_sm_result == SI_SM_CALL_WITHOUT_DELAY)
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/char/ipmi/ipmi_si_intf.c:765:2: note: Loop condition is false. Execution continues on line 768
+           while (si_sm_result == SI_SM_CALL_WITHOUT_DELAY)
            ^
-   include/linux/once_lite.h:30:3: note: expanded from macro 'DO_ONCE_LITE_IF'
-                   if (__ONCE_LITE_IF(__ret_do_once))                      \
-                   ^
-   kernel/sysctl.c:359:6: note: Assuming the condition is false
-           if (*p == '-' && *size > 1) {
-               ^~~~~~~~~
-   kernel/sysctl.c:359:16: note: Left side of '&&' is false
-           if (*p == '-' && *size > 1) {
-                         ^
-   kernel/sysctl.c:363:3: note: The value 0 is assigned to 'neg', which participates in a condition later
-                   *neg = false;
-                   ^~~~~~~~~~~~
-   kernel/sysctl.c:364:7: note: Assuming the character is a digit
-           if (!isdigit(*p))
-                ^~~~~~~~~~~
-   kernel/sysctl.c:364:2: note: Taking false branch
-           if (!isdigit(*p))
+   drivers/char/ipmi/ipmi_si_intf.c:768:6: note: Assuming 'si_sm_result' is equal to SI_SM_TRANSACTION_COMPLETE
+           if (si_sm_result == SI_SM_TRANSACTION_COMPLETE) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/char/ipmi/ipmi_si_intf.c:768:2: note: Taking true branch
+           if (si_sm_result == SI_SM_TRANSACTION_COMPLETE) {
            ^
-   kernel/sysctl.c:367:2: note: Taking false branch
-           if (strtoul_lenient(p, &p, 0, val))
+   drivers/char/ipmi/ipmi_si_intf.c:771:3: note: Calling 'handle_transaction_done'
+                   handle_transaction_done(smi_info);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/char/ipmi/ipmi_si_intf.c:543:2: note: Control jumps to 'case SI_GETTING_MESSAGES:'  at line 640
+           switch (smi_info->si_state) {
            ^
-   kernel/sysctl.c:375:6: note: Assuming the condition is false
-           if (len == TMPBUFLEN - 1)
-               ^~~~~~~~~~~~~~~~~~~~
-   kernel/sysctl.c:375:2: note: Taking false branch
-           if (len == TMPBUFLEN - 1)
-           ^
-   kernel/sysctl.c:378:6: note: Assuming the condition is false
-           if (len < *size && perm_tr_len && !memchr(perm_tr, *p, perm_tr_len))
-               ^~~~~~~~~~~
-   kernel/sysctl.c:378:18: note: Left side of '&&' is false
-           if (len < *size && perm_tr_len && !memchr(perm_tr, *p, perm_tr_len))
+   drivers/char/ipmi/ipmi_si_intf.c:643:4: note: Access to field 'rsp_size' results in a dereference of a null pointer (loaded from field 'curr_msg')
+                           = smi_info->handlers->get_result(
                            ^
-   kernel/sysctl.c:381:6: note: 'tr' is non-null
-           if (tr && (len < *size))
-               ^~
-   kernel/sysctl.c:381:6: note: Left side of '&&' is true
-   kernel/sysctl.c:381:2: note: Taking false branch
-           if (tr && (len < *size))
-           ^
-   kernel/sysctl.c:387:2: note: Returning without writing to '*tr'
-           return 0;
-           ^
-   kernel/sysctl.c:387:2: note: Returning zero, which participates in a condition later
-           return 0;
-           ^~~~~~~~
-   kernel/sysctl.c:1422:10: note: Returning from 'proc_get_long'
-                           err = proc_get_long(&p, &left, &val_a, &neg, tr_a,
-                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/sysctl.c:1429:9: note: Assuming 'left' is > 1
-                           if ((left <= 1) && skipped) {
-                                ^~~~~~~~~
-   kernel/sysctl.c:1429:20: note: Left side of '&&' is false
-                           if ((left <= 1) && skipped) {
-                                           ^
-   kernel/sysctl.c:1434:8: note: 'err' is 0
-                           if (err)
-                               ^~~
-   kernel/sysctl.c:1434:4: note: Taking false branch
-                           if (err)
-                           ^
-   kernel/sysctl.c:1436:8: note: Assuming 'val_a' is < 'bitmap_len'
-                           if (val_a >= bitmap_len || neg) {
-                               ^~~~~~~~~~~~~~~~~~~
-   kernel/sysctl.c:1436:8: note: Left side of '||' is false
-   kernel/sysctl.c:1436:31: note: 'neg' is false
-                           if (val_a >= bitmap_len || neg) {
-                                                      ^~~
-   kernel/sysctl.c:1436:4: note: Taking false branch
-                           if (val_a >= bitmap_len || neg) {
-                           ^
-   kernel/sysctl.c:1442:8: note: 'left' is not equal to 0
-                           if (left) {
-                               ^~~~
-   kernel/sysctl.c:1442:4: note: Taking true branch
-                           if (left) {
-                           ^
-   kernel/sysctl.c:1447:10: note: The left operand of '==' is a garbage value
-                           if (c == '-') {
-                               ~ ^
-   Suppressed 18 warnings (4 in non-user code, 14 with check filters).
+   Suppressed 17 warnings (4 in non-user code, 13 with check filters).
    Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   22 warnings generated.
->> mm/slab_common.c:217:3: warning: Value stored to 'useroffset' is never read [clang-analyzer-deadcode.DeadStores]
-                   useroffset = usersize = 0;
-                   ^            ~~~~~~~~~~~~
-   mm/slab_common.c:217:3: note: Value stored to 'useroffset' is never read
-                   useroffset = usersize = 0;
-                   ^            ~~~~~~~~~~~~
->> mm/slab_common.c:217:16: warning: Although the value stored to 'usersize' is used in the enclosing expression, the value is never actually read from 'usersize' [clang-analyzer-deadcode.DeadStores]
-                   useroffset = usersize = 0;
-                                ^          ~
-   mm/slab_common.c:217:16: note: Although the value stored to 'usersize' is used in the enclosing expression, the value is never actually read from 'usersize'
-                   useroffset = usersize = 0;
-                                ^          ~
-   mm/slab_common.c:756:20: warning: The result of the left shift is undefined due to shifting by '64', which is greater or equal to the width of type 'unsigned long' [clang-analyzer-core.UndefinedBinaryOperatorResult]
-                   return PAGE_SIZE << get_order(size);
-                                    ^  ~~~~~~~~~~~~~~~
-   mm/slab_common.c:749:15: note: Assuming 'size' is not equal to 0
-           if (unlikely(size == 0))
-                        ^
-   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                               ^
-   mm/slab_common.c:749:2: note: Taking false branch
-           if (unlikely(size == 0))
-           ^
-   mm/slab_common.c:752:15: note: Assuming the condition is false
-           if (unlikely(size == SIZE_MAX))
-                        ^
-   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                               ^
-   mm/slab_common.c:752:2: note: Taking false branch
-           if (unlikely(size == SIZE_MAX))
-           ^
-   mm/slab_common.c:755:6: note: Assuming the condition is true
-           if (size > KMALLOC_MAX_CACHE_SIZE)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/slab_common.c:755:2: note: Taking true branch
-           if (size > KMALLOC_MAX_CACHE_SIZE)
-           ^
-   mm/slab_common.c:756:23: note: Calling 'get_order'
-                   return PAGE_SIZE << get_order(size);
-                                       ^~~~~~~~~~~~~~~
-   include/asm-generic/getorder.h:31:2: note: Taking false branch
-           if (__builtin_constant_p(size)) {
-           ^
-   include/asm-generic/getorder.h:46:9: note: Calling 'fls64'
-           return fls64(size);
-                  ^~~~~~~~~~~
-   include/asm-generic/bitops/fls64.h:29:6: note: Assuming 'x' is not equal to 0
-           if (x == 0)
-               ^~~~~~
-   include/asm-generic/bitops/fls64.h:29:2: note: Taking false branch
-           if (x == 0)
-           ^
-   include/asm-generic/bitops/fls64.h:31:2: note: Returning the value 64
-           return __fls(x) + 1;
-           ^~~~~~~~~~~~~~~~~~~
-   include/asm-generic/getorder.h:46:9: note: Returning from 'fls64'
-           return fls64(size);
-                  ^~~~~~~~~~~
-   include/asm-generic/getorder.h:46:2: note: Returning the value 64
-           return fls64(size);
-           ^~~~~~~~~~~~~~~~~~
-   mm/slab_common.c:756:23: note: Returning from 'get_order'
-                   return PAGE_SIZE << get_order(size);
-                                       ^~~~~~~~~~~~~~~
-   mm/slab_common.c:756:20: note: The result of the left shift is undefined due to shifting by '64', which is greater or equal to the width of type 'unsigned long'
-                   return PAGE_SIZE << get_order(size);
-                                    ^  ~~~~~~~~~~~~~~~
-   Suppressed 19 warnings (6 in non-user code, 13 with check filters).
+   17 warnings generated.
+   Suppressed 17 warnings (4 in non-user code, 13 with check filters).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   39 warnings generated.
+   Suppressed 39 warnings (26 in non-user code, 13 with check filters).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   17 warnings generated.
+   Suppressed 17 warnings (4 in non-user code, 13 with check filters).
    Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
    18 warnings generated.
-   block/blk-mq-cpumap.c:21:33: warning: Division by zero [clang-analyzer-core.DivideZero]
-           return qmap->queue_offset + (q % nr_queues);
-                                          ^
-   block/blk-mq-cpumap.c:38:2: note: 'nr_queues' initialized here
-           unsigned int nr_queues = qmap->nr_queues;
-           ^~~~~~~~~~~~~~~~~~~~~~
-   block/blk-mq-cpumap.c:41:2: note: Loop condition is true.  Entering loop body
-           for_each_possible_cpu(cpu)
+   kernel/trace/trace_probe.c:195:3: warning: Call to function 'strcpy' is insecure as it does not provide bounding of the memory buffer. Replace unbounded copy functions with analogous functions that support length arguments such as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+                   strcpy(p, trace_probe_log.argv[i]);
+                   ^~~~~~
+   kernel/trace/trace_probe.c:195:3: note: Call to function 'strcpy' is insecure as it does not provide bounding of the memory buffer. Replace unbounded copy functions with analogous functions that support length arguments such as 'strlcpy'. CWE-119
+                   strcpy(p, trace_probe_log.argv[i]);
+                   ^~~~~~
+   Suppressed 17 warnings (4 in non-user code, 13 with check filters).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   17 warnings generated.
+   Suppressed 17 warnings (4 in non-user code, 13 with check filters).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   19 warnings generated.
+   kernel/trace/rv/rv.c:293:2: warning: Value stored to 'retval' is never read [clang-analyzer-deadcode.DeadStores]
+           retval = count;
+           ^        ~~~~~
+   kernel/trace/rv/rv.c:293:2: note: Value stored to 'retval' is never read
+           retval = count;
+           ^        ~~~~~
+   kernel/trace/rv/rv.c:519:8: warning: Value stored to 'ptr' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           char *ptr = buff;
+                 ^~~   ~~~~
+   kernel/trace/rv/rv.c:519:8: note: Value stored to 'ptr' during its initialization is never read
+           char *ptr = buff;
+                 ^~~   ~~~~
+   Suppressed 17 warnings (4 in non-user code, 13 with check filters).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   17 warnings generated.
+   Suppressed 17 warnings (4 in non-user code, 13 with check filters).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   22 warnings generated.
+   kernel/events/core.c:4232:2: warning: Value stored to 'task_ctx' is never read [clang-analyzer-deadcode.DeadStores]
+           task_ctx = cpuctx->task_ctx;
+           ^          ~~~~~~~~~~~~~~~~
+   kernel/events/core.c:4232:2: note: Value stored to 'task_ctx' is never read
+           task_ctx = cpuctx->task_ctx;
+           ^          ~~~~~~~~~~~~~~~~
+>> kernel/events/core.c:4738:2: warning: Value stored to 'err' is never read [clang-analyzer-deadcode.DeadStores]
+           err = -EINVAL;
+           ^     ~~~~~~~
+   kernel/events/core.c:4738:2: note: Value stored to 'err' is never read
+           err = -EINVAL;
+           ^     ~~~~~~~
+   kernel/events/core.c:9481:23: warning: Assigned value is garbage or undefined [clang-analyzer-core.uninitialized.Assign]
+                   event->pending_addr = data->addr;
+                                       ^
+   kernel/events/core.c:10885:6: note: Assuming field 'state' is equal to PERF_EVENT_STATE_ACTIVE
+           if (event->state != PERF_EVENT_STATE_ACTIVE)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/events/core.c:10885:2: note: Taking false branch
+           if (event->state != PERF_EVENT_STATE_ACTIVE)
            ^
-   include/linux/cpumask.h:918:36: note: expanded from macro 'for_each_possible_cpu'
-   #define for_each_possible_cpu(cpu)      for ((cpu) = 0; (cpu) < 1; (cpu)++)
-                                           ^
-   block/blk-mq-cpumap.c:41:2: note: Loop condition is false. Execution continues on line 48
-           for_each_possible_cpu(cpu)
+   kernel/events/core.c:10890:2: note: Calling 'perf_sample_data_init'
+           perf_sample_data_init(&data, 0, event->hw.last_period);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/perf_event.h:1158:6: note: 'addr' is 0
+           if (addr) {
+               ^~~~
+   include/linux/perf_event.h:1158:2: note: Taking false branch
+           if (addr) {
            ^
-   include/linux/cpumask.h:918:36: note: expanded from macro 'for_each_possible_cpu'
-   #define for_each_possible_cpu(cpu)      for ((cpu) = 0; (cpu) < 1; (cpu)++)
-                                           ^
-   block/blk-mq-cpumap.c:48:2: note: Loop condition is true.  Entering loop body
-           for_each_present_cpu(cpu) {
+   include/linux/perf_event.h:1162:1: note: Returning without writing to 'data->addr'
+   }
+   ^
+   kernel/events/core.c:10890:2: note: Returning from 'perf_sample_data_init'
+           perf_sample_data_init(&data, 0, event->hw.last_period);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/events/core.c:10893:6: note: Assuming 'regs' is non-null
+           if (regs && !perf_exclude_event(event, regs)) {
+               ^~~~
+   kernel/events/core.c:10893:6: note: Left side of '&&' is true
+   kernel/events/core.c:10893:15: note: Calling 'perf_exclude_event'
+           if (regs && !perf_exclude_event(event, regs)) {
+                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/events/core.c:9605:6: note: Assuming the condition is false
+           if (event->hw.state & PERF_HES_STOPPED)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/events/core.c:9605:2: note: Taking false branch
+           if (event->hw.state & PERF_HES_STOPPED)
            ^
-   include/linux/cpumask.h:920:35: note: expanded from macro 'for_each_present_cpu'
-   #define for_each_present_cpu(cpu)       for ((cpu) = 0; (cpu) < 1; (cpu)++)
-                                           ^
-   block/blk-mq-cpumap.c:49:7: note: Assuming 'q' is >= 'nr_queues'
-                   if (q >= nr_queues)
-                       ^~~~~~~~~~~~~~
-   block/blk-mq-cpumap.c:49:3: note: Taking true branch
-                   if (q >= nr_queues)
+   kernel/events/core.c:9608:6: note: 'regs' is non-null
+           if (regs) {
+               ^~~~
+   kernel/events/core.c:9608:2: note: Taking true branch
+           if (regs) {
+           ^
+   kernel/events/core.c:9609:7: note: Assuming field 'exclude_user' is 0
+                   if (event->attr.exclude_user && user_mode(regs))
+                       ^~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/events/core.c:9609:32: note: Left side of '&&' is false
+                   if (event->attr.exclude_user && user_mode(regs))
+                                                ^
+   kernel/events/core.c:9612:7: note: Assuming field 'exclude_kernel' is 0
+                   if (event->attr.exclude_kernel && !user_mode(regs))
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/events/core.c:9612:34: note: Left side of '&&' is false
+                   if (event->attr.exclude_kernel && !user_mode(regs))
+                                                  ^
+   kernel/events/core.c:9616:2: note: Returning without writing to 'event->attr.sigtrap', which participates in a condition later
+           return 0;
+           ^
+   kernel/events/core.c:10893:15: note: Returning from 'perf_exclude_event'
+           if (regs && !perf_exclude_event(event, regs)) {
+                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/events/core.c:10893:2: note: Taking true branch
+           if (regs && !perf_exclude_event(event, regs)) {
+           ^
+   kernel/events/core.c:10894:9: note: Assuming field 'exclude_idle' is 0
+                   if (!(event->attr.exclude_idle && is_idle_task(current)))
+                         ^~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/events/core.c:10894:34: note: Left side of '&&' is false
+                   if (!(event->attr.exclude_idle && is_idle_task(current)))
+                                                  ^
+   kernel/events/core.c:10894:3: note: Taking true branch
+                   if (!(event->attr.exclude_idle && is_idle_task(current)))
                    ^
-   block/blk-mq-cpumap.c:50:4: note:  Execution continues on line 54
-                           break;
-                           ^
-   block/blk-mq-cpumap.c:54:2: note: Loop condition is true.  Entering loop body
-           for_each_possible_cpu(cpu) {
+   kernel/events/core.c:10895:8: note: Calling '__perf_event_overflow'
+                           if (__perf_event_overflow(event, 1, &data, regs))
+                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/events/core.c:9454:16: note: Calling 'is_sampling_event'
+           if (unlikely(!is_sampling_event(event)))
+                         ^
+   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   include/linux/perf_event.h:1237:9: note: Assuming field 'sample_period' is not equal to 0
+           return event->attr.sample_period != 0;
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/perf_event.h:1237:2: note: Returning without writing to 'event->attr.sigtrap', which participates in a condition later
+           return event->attr.sample_period != 0;
+           ^
+   kernel/events/core.c:9454:16: note: Returning from 'is_sampling_event'
+           if (unlikely(!is_sampling_event(event)))
+                         ^
+   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   kernel/events/core.c:9454:2: note: Taking false branch
 
-vim +/useroffset +217 mm/slab_common.c
+vim +/err +4738 kernel/events/core.c
 
-423c929cbbecc6 Joonsoo Kim       2014-10-09  206  
-c9a77a792003ce Vladimir Davydov  2015-11-05  207  static struct kmem_cache *create_cache(const char *name,
-613a5eb5677923 Shakeel Butt      2018-04-05  208  		unsigned int object_size, unsigned int align,
-7bbdb81ee3de73 Alexey Dobriyan   2018-04-05  209  		slab_flags_t flags, unsigned int useroffset,
-7bbdb81ee3de73 Alexey Dobriyan   2018-04-05  210  		unsigned int usersize, void (*ctor)(void *),
-9855609bde03e2 Roman Gushchin    2020-08-06  211  		struct kmem_cache *root_cache)
-794b1248be4e7e Vladimir Davydov  2014-04-07  212  {
-794b1248be4e7e Vladimir Davydov  2014-04-07  213  	struct kmem_cache *s;
-794b1248be4e7e Vladimir Davydov  2014-04-07  214  	int err;
-794b1248be4e7e Vladimir Davydov  2014-04-07  215  
-8eb8284b412906 David Windsor     2017-06-10  216  	if (WARN_ON(useroffset + usersize > object_size))
-8eb8284b412906 David Windsor     2017-06-10 @217  		useroffset = usersize = 0;
-8eb8284b412906 David Windsor     2017-06-10  218  
-794b1248be4e7e Vladimir Davydov  2014-04-07  219  	err = -ENOMEM;
-794b1248be4e7e Vladimir Davydov  2014-04-07  220  	s = kmem_cache_zalloc(kmem_cache, GFP_KERNEL);
-794b1248be4e7e Vladimir Davydov  2014-04-07  221  	if (!s)
-794b1248be4e7e Vladimir Davydov  2014-04-07  222  		goto out;
-794b1248be4e7e Vladimir Davydov  2014-04-07  223  
-794b1248be4e7e Vladimir Davydov  2014-04-07  224  	s->name = name;
-613a5eb5677923 Shakeel Butt      2018-04-05  225  	s->size = s->object_size = object_size;
-794b1248be4e7e Vladimir Davydov  2014-04-07  226  	s->align = align;
-794b1248be4e7e Vladimir Davydov  2014-04-07  227  	s->ctor = ctor;
-346907ceb9d11b Vlastimil Babka   2022-11-16  228  #ifdef CONFIG_HARDENED_USERCOPY
-8eb8284b412906 David Windsor     2017-06-10  229  	s->useroffset = useroffset;
-8eb8284b412906 David Windsor     2017-06-10  230  	s->usersize = usersize;
-346907ceb9d11b Vlastimil Babka   2022-11-16  231  #endif
-794b1248be4e7e Vladimir Davydov  2014-04-07  232  
-794b1248be4e7e Vladimir Davydov  2014-04-07  233  	err = __kmem_cache_create(s, flags);
-794b1248be4e7e Vladimir Davydov  2014-04-07  234  	if (err)
-794b1248be4e7e Vladimir Davydov  2014-04-07  235  		goto out_free_cache;
-794b1248be4e7e Vladimir Davydov  2014-04-07  236  
-794b1248be4e7e Vladimir Davydov  2014-04-07  237  	s->refcount = 1;
-794b1248be4e7e Vladimir Davydov  2014-04-07  238  	list_add(&s->list, &slab_caches);
-794b1248be4e7e Vladimir Davydov  2014-04-07  239  out:
-794b1248be4e7e Vladimir Davydov  2014-04-07  240  	if (err)
-794b1248be4e7e Vladimir Davydov  2014-04-07  241  		return ERR_PTR(err);
-794b1248be4e7e Vladimir Davydov  2014-04-07  242  	return s;
-794b1248be4e7e Vladimir Davydov  2014-04-07  243  
-794b1248be4e7e Vladimir Davydov  2014-04-07  244  out_free_cache:
-7c4da061f2e953 Vaishali Thakkar  2015-02-10  245  	kmem_cache_free(kmem_cache, s);
-794b1248be4e7e Vladimir Davydov  2014-04-07  246  	goto out;
-794b1248be4e7e Vladimir Davydov  2014-04-07  247  }
-4590685546a374 Christoph Lameter 2012-11-28  248  
+2ebd4ffb6d0cb8 kernel/perf_event.c   Matt Helsley            2010-09-13  4710  
+fe4b04fa31a6dc kernel/perf_event.c   Peter Zijlstra          2011-02-02  4711  /*
+fe4b04fa31a6dc kernel/perf_event.c   Peter Zijlstra          2011-02-02  4712   * Returns a matching context with refcount and pincount.
+fe4b04fa31a6dc kernel/perf_event.c   Peter Zijlstra          2011-02-02  4713   */
+108b02cfce04ee kernel/perf_event.c   Peter Zijlstra          2010-09-06  4714  static struct perf_event_context *
+bd27568117664b kernel/events/core.c  Peter Zijlstra          2022-10-08  4715  find_get_context(struct task_struct *task, struct perf_event *event)
+0793a61d4df8da kernel/perf_counter.c Thomas Gleixner         2008-12-04  4716  {
+211de6eba89605 kernel/events/core.c  Peter Zijlstra          2014-09-30  4717  	struct perf_event_context *ctx, *clone_ctx = NULL;
+22a4f650d686ee kernel/perf_counter.c Ingo Molnar             2009-06-01  4718  	struct perf_cpu_context *cpuctx;
+25346b93ca0790 kernel/perf_counter.c Paul Mackerras          2009-06-01  4719  	unsigned long flags;
+bd27568117664b kernel/events/core.c  Peter Zijlstra          2022-10-08  4720  	int err;
+0793a61d4df8da kernel/perf_counter.c Thomas Gleixner         2008-12-04  4721  
+22a4ec729017ba kernel/perf_event.c   Oleg Nesterov           2011-01-18  4722  	if (!task) {
+cdd6c482c9ff9c kernel/perf_event.c   Ingo Molnar             2009-09-21  4723  		/* Must be root to operate on a CPU event: */
+da97e18458fb42 kernel/events/core.c  Joel Fernandes (Google  2019-10-14  4724) 		err = perf_allow_cpu(&event->attr);
+da97e18458fb42 kernel/events/core.c  Joel Fernandes (Google  2019-10-14  4725) 		if (err)
+da97e18458fb42 kernel/events/core.c  Joel Fernandes (Google  2019-10-14  4726) 			return ERR_PTR(err);
+0793a61d4df8da kernel/perf_counter.c Thomas Gleixner         2008-12-04  4727  
+bd27568117664b kernel/events/core.c  Peter Zijlstra          2022-10-08  4728  		cpuctx = per_cpu_ptr(&perf_cpu_context, event->cpu);
+0793a61d4df8da kernel/perf_counter.c Thomas Gleixner         2008-12-04  4729  		ctx = &cpuctx->ctx;
+c93f7669098eb9 kernel/perf_counter.c Paul Mackerras          2009-05-28  4730  		get_ctx(ctx);
+6c605f83711594 kernel/events/core.c  Marco Elver             2021-05-27  4731  		raw_spin_lock_irqsave(&ctx->lock, flags);
+fe4b04fa31a6dc kernel/perf_event.c   Peter Zijlstra          2011-02-02  4732  		++ctx->pin_count;
+6c605f83711594 kernel/events/core.c  Marco Elver             2021-05-27  4733  		raw_spin_unlock_irqrestore(&ctx->lock, flags);
+0793a61d4df8da kernel/perf_counter.c Thomas Gleixner         2008-12-04  4734  
+0793a61d4df8da kernel/perf_counter.c Thomas Gleixner         2008-12-04  4735  		return ctx;
+0793a61d4df8da kernel/perf_counter.c Thomas Gleixner         2008-12-04  4736  	}
+0793a61d4df8da kernel/perf_counter.c Thomas Gleixner         2008-12-04  4737  
+8dc85d54728566 kernel/perf_event.c   Peter Zijlstra          2010-09-02 @4738  	err = -EINVAL;
+c93f7669098eb9 kernel/perf_counter.c Paul Mackerras          2009-05-28  4739  retry:
+bd27568117664b kernel/events/core.c  Peter Zijlstra          2022-10-08  4740  	ctx = perf_lock_task_context(task, &flags);
+c93f7669098eb9 kernel/perf_counter.c Paul Mackerras          2009-05-28  4741  	if (ctx) {
+211de6eba89605 kernel/events/core.c  Peter Zijlstra          2014-09-30  4742  		clone_ctx = unclone_ctx(ctx);
+fe4b04fa31a6dc kernel/perf_event.c   Peter Zijlstra          2011-02-02  4743  		++ctx->pin_count;
+4af57ef28c2c10 kernel/events/core.c  Yan, Zheng              2014-11-04  4744  
+e625cce1b73fb3 kernel/perf_event.c   Thomas Gleixner         2009-11-17  4745  		raw_spin_unlock_irqrestore(&ctx->lock, flags);
+211de6eba89605 kernel/events/core.c  Peter Zijlstra          2014-09-30  4746  
+211de6eba89605 kernel/events/core.c  Peter Zijlstra          2014-09-30  4747  		if (clone_ctx)
+211de6eba89605 kernel/events/core.c  Peter Zijlstra          2014-09-30  4748  			put_ctx(clone_ctx);
+9137fb28ac74d0 kernel/events/core.c  Peter Zijlstra          2011-04-09  4749  	} else {
+bd27568117664b kernel/events/core.c  Peter Zijlstra          2022-10-08  4750  		ctx = alloc_perf_context(task);
+c93f7669098eb9 kernel/perf_counter.c Paul Mackerras          2009-05-28  4751  		err = -ENOMEM;
+c93f7669098eb9 kernel/perf_counter.c Paul Mackerras          2009-05-28  4752  		if (!ctx)
+c93f7669098eb9 kernel/perf_counter.c Paul Mackerras          2009-05-28  4753  			goto errout;
+eb184479874238 kernel/perf_event.c   Peter Zijlstra          2010-09-07  4754  
+dbe08d82ce3967 kernel/perf_event.c   Oleg Nesterov           2011-01-19  4755  		err = 0;
+dbe08d82ce3967 kernel/perf_event.c   Oleg Nesterov           2011-01-19  4756  		mutex_lock(&task->perf_event_mutex);
+a63eaf34ae60bd kernel/perf_counter.c Paul Mackerras          2009-05-22  4757  		/*
+dbe08d82ce3967 kernel/perf_event.c   Oleg Nesterov           2011-01-19  4758  		 * If it has already passed perf_event_exit_task().
+dbe08d82ce3967 kernel/perf_event.c   Oleg Nesterov           2011-01-19  4759  		 * we must see PF_EXITING, it takes this mutex too.
+a63eaf34ae60bd kernel/perf_counter.c Paul Mackerras          2009-05-22  4760  		 */
+dbe08d82ce3967 kernel/perf_event.c   Oleg Nesterov           2011-01-19  4761  		if (task->flags & PF_EXITING)
+dbe08d82ce3967 kernel/perf_event.c   Oleg Nesterov           2011-01-19  4762  			err = -ESRCH;
+bd27568117664b kernel/events/core.c  Peter Zijlstra          2022-10-08  4763  		else if (task->perf_event_ctxp)
+dbe08d82ce3967 kernel/perf_event.c   Oleg Nesterov           2011-01-19  4764  			err = -EAGAIN;
+fe4b04fa31a6dc kernel/perf_event.c   Peter Zijlstra          2011-02-02  4765  		else {
+9137fb28ac74d0 kernel/events/core.c  Peter Zijlstra          2011-04-09  4766  			get_ctx(ctx);
+fe4b04fa31a6dc kernel/perf_event.c   Peter Zijlstra          2011-02-02  4767  			++ctx->pin_count;
+bd27568117664b kernel/events/core.c  Peter Zijlstra          2022-10-08  4768  			rcu_assign_pointer(task->perf_event_ctxp, ctx);
+fe4b04fa31a6dc kernel/perf_event.c   Peter Zijlstra          2011-02-02  4769  		}
+dbe08d82ce3967 kernel/perf_event.c   Oleg Nesterov           2011-01-19  4770  		mutex_unlock(&task->perf_event_mutex);
+dbe08d82ce3967 kernel/perf_event.c   Oleg Nesterov           2011-01-19  4771  
+dbe08d82ce3967 kernel/perf_event.c   Oleg Nesterov           2011-01-19  4772  		if (unlikely(err)) {
+9137fb28ac74d0 kernel/events/core.c  Peter Zijlstra          2011-04-09  4773  			put_ctx(ctx);
+dbe08d82ce3967 kernel/perf_event.c   Oleg Nesterov           2011-01-19  4774  
+dbe08d82ce3967 kernel/perf_event.c   Oleg Nesterov           2011-01-19  4775  			if (err == -EAGAIN)
+25346b93ca0790 kernel/perf_counter.c Paul Mackerras          2009-06-01  4776  				goto retry;
+dbe08d82ce3967 kernel/perf_event.c   Oleg Nesterov           2011-01-19  4777  			goto errout;
+a63eaf34ae60bd kernel/perf_counter.c Paul Mackerras          2009-05-22  4778  		}
+a63eaf34ae60bd kernel/perf_counter.c Paul Mackerras          2009-05-22  4779  	}
+a63eaf34ae60bd kernel/perf_counter.c Paul Mackerras          2009-05-22  4780  
+0793a61d4df8da kernel/perf_counter.c Thomas Gleixner         2008-12-04  4781  	return ctx;
+c93f7669098eb9 kernel/perf_counter.c Paul Mackerras          2009-05-28  4782  
+c93f7669098eb9 kernel/perf_counter.c Paul Mackerras          2009-05-28  4783  errout:
+c93f7669098eb9 kernel/perf_counter.c Paul Mackerras          2009-05-28  4784  	return ERR_PTR(err);
+0793a61d4df8da kernel/perf_counter.c Thomas Gleixner         2008-12-04  4785  }
+0793a61d4df8da kernel/perf_counter.c Thomas Gleixner         2008-12-04  4786  
 
-:::::: The code at line 217 was first introduced by commit
-:::::: 8eb8284b412906181357c2b0110d879d5af95e52 usercopy: Prepare for usercopy whitelisting
+:::::: The code at line 4738 was first introduced by commit
+:::::: 8dc85d547285668e509f86c177bcd4ea055bcaaf perf: Multiple task contexts
 
-:::::: TO: David Windsor <dave@nullcore.net>
-:::::: CC: Kees Cook <keescook@chromium.org>
+:::::: TO: Peter Zijlstra <a.p.zijlstra@chello.nl>
+:::::: CC: Ingo Molnar <mingo@elte.hu>
 
 -- 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
 
---BbWjBmcvQrybYkQA
+--QNw/mDmfLZjJf8wd
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename=config
 
@@ -359,7 +387,7 @@ Content-Disposition: attachment; filename=config
 # Automatically generated file; DO NOT EDIT.
 # Linux/riscv 6.1.0-rc2 Kernel Configuration
 #
-CONFIG_CC_VERSION_TEXT="clang version 16.0.0 (git://gitmirror/llvm_project f5700e7b69048de958172fb513b336564e7f8709)"
+CONFIG_CC_VERSION_TEXT="clang version 16.0.0 (git://gitmirror/llvm_project 7a8cb6cd4e3ff8aaadebff2b9d3ee9e2a326d444)"
 CONFIG_GCC_VERSION=0
 CONFIG_CC_IS_CLANG=y
 CONFIG_CLANG_VERSION=160000
@@ -5685,4 +5713,4 @@ CONFIG_MEMTEST=y
 # CONFIG_WARN_ABI_ERRORS is not set
 # end of Kernel hacking
 
---BbWjBmcvQrybYkQA--
+--QNw/mDmfLZjJf8wd--
