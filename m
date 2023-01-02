@@ -1,42 +1,43 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 396CC320E
-	for <oe-kbuild@lists.linux.dev>; Mon,  2 Jan 2023 14:02:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88DA517F1
+	for <oe-kbuild@lists.linux.dev>; Mon,  2 Jan 2023 14:32:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1672668155; x=1704204155;
+  t=1672669958; x=1704205958;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=qhWBi3Ns5FsrqYZMp+CZYG1OmdmrjkbplfMsajPaEw8=;
-  b=g10VNjxtEThPxhdemEvzi1MLt6vSf5fp0uZv9C5VjmLec5FoTy+eVV7a
-   ciWcIR/vmb3k1tEAt+8dS8Ze+9MYm9gH1j2sM6hG47zLTxuRV8IFKLTq/
-   fASUG+2RgpROvfOCkcOHYFgOrLROq5X5+Ff6h0Xh9vuRZsMsPgijcTpSI
-   9eTvGLWgLr/vooSHBP+VJ310nacFv4DPoxAXRBlqgwjUPaBMdFESEmyhG
-   8xHO5sz4fAr+oFljfdgmqQccolKKIwvXC2VPcBp4GFS08c5lUAdr5c87i
-   FKMmwRwvJRJMXfAiLS2lUurj8wUbVFiqFYb8/p7QVRuez2tAhTKk4KCWH
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10578"; a="320200910"
+  bh=IC011c2qwatRTUxSQ/panxPlAGH+vik9+xfr6RGJ518=;
+  b=HljKDcp0zrvQkT0gq2reFFzHRwRCGmPGtb4UgfHNoIbqJHOyiEy4ryoc
+   Ht5KDubqTsONZlq/CUqHg3kjB17KQrnPA6SjrqRvTHHIGxkHFeq15zIdy
+   qLwHmCxKdRbs3ERS7bdFwQEO1Cp97XJ2i3DtsifEtJKiGPtAP4FM/sArs
+   EVBmiFUxpDRpsMHeV9yI8794YrbhhQr94IP5vMuLK6ghI/BvOzGjDASaa
+   3RQUZAUVvubiBdeMhVIQSkMEnMEKqhgAD73bHg3/myNbYeaOJGCIOFlSY
+   gBb4Ius+Lyhddo9rwqNHpTgpQmK2thaY+bR4cfWV9xTN8qsYdMpyJvRh8
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10578"; a="383793482"
 X-IronPort-AV: E=Sophos;i="5.96,294,1665471600"; 
-   d="scan'208";a="320200910"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jan 2023 06:02:33 -0800
+   d="scan'208";a="383793482"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jan 2023 06:32:37 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10578"; a="604540171"
+X-IronPort-AV: E=McAfee;i="6500,9779,10578"; a="899893633"
 X-IronPort-AV: E=Sophos;i="5.96,294,1665471600"; 
-   d="scan'208";a="604540171"
+   d="scan'208";a="899893633"
 Received: from lkp-server01.sh.intel.com (HELO b5d47979f3ad) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 02 Jan 2023 06:02:32 -0800
+  by fmsmga006.fm.intel.com with ESMTP; 02 Jan 2023 06:32:36 -0800
 Received: from kbuild by b5d47979f3ad with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pCLOZ-000R9b-1j;
-	Mon, 02 Jan 2023 14:02:31 +0000
-Date: Mon, 2 Jan 2023 22:01:39 +0800
+	id 1pCLrf-000RBV-2M;
+	Mon, 02 Jan 2023 14:32:35 +0000
+Date: Mon, 2 Jan 2023 22:31:59 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: drivers/iommu/iommu.c:191:57: warning: Parameter 'data' can be
- declared as pointer to const [constParameter]
-Message-ID: <202301022200.C8Fb8KuQ-lkp@intel.com>
+Subject: [asahilinux:bits/130-cpufreq 2/3]
+ drivers/cpufreq/apple-soc-cpufreq.c:143:3: warning: Assignment of function
+ parameter has no effect outside the function. [uselessAssignmentArg]
+Message-ID: <202301022224.HqopMwDG-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -47,27 +48,22 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "low confidence static check warning: drivers/iommu/iommu.c:191:57: warning: Parameter 'data' can be declared as pointer to const [constParameter]"
+:::::: Manual check reason: "low confidence static check warning: drivers/cpufreq/apple-soc-cpufreq.c:143:3: warning: Assignment of function parameter has no effect outside the function. [uselessAssignmentArg]"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Robin Murphy <robin.murphy@arm.com>
-CC: Joerg Roedel <jroedel@suse.de>
-CC: Krishna Reddy <vdumpa@nvidia.com>
-CC: Kevin Tian <kevin.tian@intel.com>
+TO: Hector Martin <marcan@marcan.st>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   88603b6dc419445847923fcb7fe5080067a30f98
-commit: 57365a04c92126525a58bf7a1599ddfa832415e9 iommu: Move bus setup to IOMMU device registration
-date:   4 months ago
-:::::: branch date: 16 hours ago
-:::::: commit date: 4 months ago
-compiler: or1k-linux-gcc (GCC) 12.1.0
+tree:   https://github.com/AsahiLinux/linux bits/130-cpufreq
+head:   7e8e9ffcf2a22addd94d17ca073670ad4b081619
+commit: c559623fb774e24213e47ef6fa6b7b0821ad851a [2/3] cpufreq: apple-soc: Add new driver to control Apple SoC CPU P-states
+:::::: branch date: 3 weeks ago
+:::::: commit date: 3 weeks ago
+compiler: aarch64-linux-gcc (GCC) 12.1.0
 reproduce (cppcheck warning):
         # apt-get install cppcheck
-        git checkout 57365a04c92126525a58bf7a1599ddfa832415e9
+        git checkout c559623fb774e24213e47ef6fa6b7b0821ad851a
         cppcheck --quiet --enable=style,performance,portability --template=gcc FILE
 
 If you fix the issue, kindly add following tag where applicable
@@ -76,55 +72,53 @@ If you fix the issue, kindly add following tag where applicable
 
 cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
->> drivers/iommu/iommu.c:191:57: warning: Parameter 'data' can be declared as pointer to const [constParameter]
-   static int remove_iommu_group(struct device *dev, void *data)
-                                                           ^
->> drivers/iommu/iommu.c:2021:47: warning: Parameter 'domain' can be declared as pointer to const [constParameter]
-   void iommu_detach_device(struct iommu_domain *domain, struct device *dev)
-                                                 ^
->> drivers/iommu/iommu.c:2642:69: warning: Parameter 'fwnode' can be declared as pointer to const [constParameter]
-   const struct iommu_ops *iommu_ops_from_fwnode(struct fwnode_handle *fwnode)
-                                                                       ^
->> drivers/iommu/iommu.c:580:16: warning: Uninitialized variable: device->dev [uninitvar]
-     if (!device->dev->iommu)
-                  ^
->> drivers/iommu/iommu.c:1019:19: warning: Uninitialized variable: tmp_device->dev [uninitvar]
-     if (tmp_device->dev == dev) {
-                     ^
-   drivers/iommu/iommu.c:1012:6: note: Assuming condition is false
-    if (!group)
-        ^
-   drivers/iommu/iommu.c:1019:19: note: Uninitialized variable: tmp_device->dev
-     if (tmp_device->dev == dev) {
-                     ^
->> drivers/iommu/iommu.c:1807:35: warning: Uninitialized variables: group.kobj, group.devices_kobj, group.devices, group.iommu_data, group.iommu_data_release, group.name, group.id, group.default_domain, group.blocking_domain, group.domain, group.owner_cnt, group.owner [uninitvar]
-     probe_alloc_default_domain(bus, group);
-                                     ^
-   drivers/iommu/iommu.c:1797:6: note: Assuming condition is false
-    if (ret)
-        ^
-   drivers/iommu/iommu.c:1807:35: note: Uninitialized variables: group.kobj, group.devices_kobj, group.devices, group.iommu_data, group.iommu_data_release, group.name, group.id, group.default_domain, group.blocking_domain, group.domain, group.owner_cnt, group.owner
-     probe_alloc_default_domain(bus, group);
-                                     ^
->> drivers/iommu/iommu.c:2449:24: warning: Uninitialized variable: start [uninitvar]
-     if (len && s_phys != start + len) {
-                          ^
+>> drivers/cpufreq/apple-soc-cpufreq.c:143:3: warning: Assignment of function parameter has no effect outside the function. [uselessAssignmentArg]
+     index = priv->info->max_pstate;
+     ^
+>> drivers/mailbox/mailbox.c:564:76: warning: Parameter 'data' can be declared as pointer to const [constParameter]
+   static int devm_mbox_controller_match(struct device *dev, void *res, void *data)
+                                                                              ^
 --
->> lib/vsprintf.c:588:41: warning: Parameter 'end' can be declared as pointer to const [constParameter]
-   static void move_right(char *buf, char *end, unsigned len, unsigned spaces)
-                                           ^
+>> drivers/iommu/io-pgtable-arm.c:894:9: warning: Signed integer overflow for expression '0xf4<<(3<<3)'. [integerOverflow]
+           << ARM_LPAE_MAIR_ATTR_SHIFT(ARM_LPAE_MAIR_ATTR_IDX_INC_OCACHE));
+           ^
+>> drivers/iommu/io-pgtable-arm.c:1126:46: warning: Parameter 'cookie' can be declared as pointer to const [constParameter]
+   static void __init dummy_tlb_flush_all(void *cookie)
+                                                ^
+   drivers/iommu/io-pgtable-arm.c:1132:30: warning: Parameter 'cookie' can be declared as pointer to const [constParameter]
+          size_t granule, void *cookie)
+                                ^
 
-vim +/data +191 drivers/iommu/iommu.c
+vim +143 drivers/cpufreq/apple-soc-cpufreq.c
 
-5fa9e7c5fa50f27 Joerg Roedel 2019-08-19  190  
-57365a04c921265 Robin Murphy 2022-08-15 @191  static int remove_iommu_group(struct device *dev, void *data)
-57365a04c921265 Robin Murphy 2022-08-15  192  {
-57365a04c921265 Robin Murphy 2022-08-15  193  	if (dev->iommu && dev->iommu->iommu_dev == data)
-57365a04c921265 Robin Murphy 2022-08-15  194  		iommu_release_device(dev);
-57365a04c921265 Robin Murphy 2022-08-15  195  
-57365a04c921265 Robin Murphy 2022-08-15  196  	return 0;
-57365a04c921265 Robin Murphy 2022-08-15  197  }
-57365a04c921265 Robin Murphy 2022-08-15  198  
+c559623fb774e2 Hector Martin 2022-02-15  133  
+c559623fb774e2 Hector Martin 2022-02-15  134  static int apple_soc_cpufreq_set_target(struct cpufreq_policy *policy,
+c559623fb774e2 Hector Martin 2022-02-15  135  					unsigned int index)
+c559623fb774e2 Hector Martin 2022-02-15  136  {
+c559623fb774e2 Hector Martin 2022-02-15  137  	struct apple_cpu_priv *priv = policy->driver_data;
+c559623fb774e2 Hector Martin 2022-02-15  138  	unsigned int pstate = policy->freq_table[index].driver_data;
+c559623fb774e2 Hector Martin 2022-02-15  139  	u64 reg;
+c559623fb774e2 Hector Martin 2022-02-15  140  
+c559623fb774e2 Hector Martin 2022-02-15  141  	/* Fallback for newer SoCs */
+c559623fb774e2 Hector Martin 2022-02-15  142  	if (index > priv->info->max_pstate)
+c559623fb774e2 Hector Martin 2022-02-15 @143  		index = priv->info->max_pstate;
+c559623fb774e2 Hector Martin 2022-02-15  144  
+c559623fb774e2 Hector Martin 2022-02-15  145  	if (readq_poll_timeout_atomic(priv->reg_base + APPLE_DVFS_CMD, reg,
+c559623fb774e2 Hector Martin 2022-02-15  146  				      !(reg & APPLE_DVFS_CMD_BUSY), 2,
+c559623fb774e2 Hector Martin 2022-02-15  147  				      APPLE_DVFS_TRANSITION_TIMEOUT)) {
+c559623fb774e2 Hector Martin 2022-02-15  148  		return -EIO;
+c559623fb774e2 Hector Martin 2022-02-15  149  	}
+c559623fb774e2 Hector Martin 2022-02-15  150  
+c559623fb774e2 Hector Martin 2022-02-15  151  	reg &= ~(APPLE_DVFS_CMD_PS1 | APPLE_DVFS_CMD_PS2);
+c559623fb774e2 Hector Martin 2022-02-15  152  	reg |= FIELD_PREP(APPLE_DVFS_CMD_PS1, pstate);
+c559623fb774e2 Hector Martin 2022-02-15  153  	reg |= FIELD_PREP(APPLE_DVFS_CMD_PS2, pstate);
+c559623fb774e2 Hector Martin 2022-02-15  154  	reg |= APPLE_DVFS_CMD_SET;
+c559623fb774e2 Hector Martin 2022-02-15  155  
+c559623fb774e2 Hector Martin 2022-02-15  156  	writeq_relaxed(reg, priv->reg_base + APPLE_DVFS_CMD);
+c559623fb774e2 Hector Martin 2022-02-15  157  
+c559623fb774e2 Hector Martin 2022-02-15  158  	return 0;
+c559623fb774e2 Hector Martin 2022-02-15  159  }
+c559623fb774e2 Hector Martin 2022-02-15  160  
 
 -- 
 0-DAY CI Kernel Test Service
