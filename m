@@ -1,73 +1,79 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 929EA17E3
-	for <oe-kbuild@lists.linux.dev>; Mon,  2 Jan 2023 03:26:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8D1E7C
+	for <oe-kbuild@lists.linux.dev>; Mon,  2 Jan 2023 09:39:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1672630006; x=1704166006;
+  t=1672652362; x=1704188362;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=CAdatkjgonCB7sl0X0KFsP9smZ2HhQe3PB4vZlvUJMI=;
-  b=E2Fh0kwLG7o0KS0JN7NIGxwnncMSf7gvuzWtXmRrurp1eqddQIZg5LID
-   3e6i3oxqCrP55YZycuC8spBMHuyrwS71m4iXKf83yfCrTu6jcoIqnHEa5
-   iHaxWRWfdsDuzNw6iS8kDIfLKC0XDWishP41g+oOBB0zKf+KL93eaTGcl
-   fOdAjRcY10wkEN2YFZKqRmd3g0CsCuRA5o9uzxuJQJMWBFcldOoVqYgUg
-   cEomyyaI/oDvZLO5QGebxb+bvFDAwm+kW0iq6Wl1bbOHgUd2KqwuKyd2W
-   bvojbmKnkW8mLo6ueSKRKyQMbwHnzCitkzB8fjWiB7lO/Dtf2TP6B1Btd
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10577"; a="304940038"
+  bh=2r6CAeW9l0CTmp2SU6KpdcTfEhBaUV2Pa+TERXVjREk=;
+  b=UW0LBvHSYQMjT3EmI/bukiScDFEdU7yy0w4bcVcxVhJ98hdTaG5oM+FR
+   ADGavQC85VBsBMvLQ/a4MGIFbIOmgEzAfJYa2x+KPsm6L7ClHVNlJioZp
+   BAyNX5bvYh2xzH3JN4tUSYuHvRWfLfb4gb4QcDj8OAAdOSCiBHwkME9mY
+   KL8jbTseQ4H5F3PcYLM53+3n4QOkdbpGGFmxINDi2j9CD2lfkTWZp+lZJ
+   hNGdkrdiqLzVrIRwVFUDDqBAmBNp+Hy/ZNdnwKWgNpSyP74F6GaXu+LP7
+   SF9eqSDrzNSVUalJftt57j3ML1VKWbpubYVAD1I+hdrLXhNETVmwWBP/g
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10577"; a="383759852"
 X-IronPort-AV: E=Sophos;i="5.96,293,1665471600"; 
-   d="scan'208";a="304940038"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jan 2023 19:26:45 -0800
+   d="scan'208";a="383759852"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jan 2023 01:39:22 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10577"; a="717700782"
+X-IronPort-AV: E=McAfee;i="6500,9779,10577"; a="654451676"
 X-IronPort-AV: E=Sophos;i="5.96,293,1665471600"; 
-   d="scan'208";a="717700782"
+   d="scan'208";a="654451676"
 Received: from lkp-server01.sh.intel.com (HELO b5d47979f3ad) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 01 Jan 2023 19:26:43 -0800
+  by orsmga002.jf.intel.com with ESMTP; 02 Jan 2023 01:39:19 -0800
 Received: from kbuild by b5d47979f3ad with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pCBTH-000QaF-0q;
-	Mon, 02 Jan 2023 03:26:43 +0000
-Date: Mon, 2 Jan 2023 11:25:42 +0800
+	id 1pCHHq-000QvX-2z;
+	Mon, 02 Jan 2023 09:39:18 +0000
+Date: Mon, 2 Jan 2023 17:39:12 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: sound/soc/fsl/fsl_micfil.c:991:17: warning: Value stored to 'dev'
- during its initialization is never read [clang-analyzer-deadcode.DeadStores]
-Message-ID: <202301021135.n7mTvEhL-lkp@intel.com>
+Subject: drivers/vfio/group.c:725:21: warning: Value stored to 'group' during
+ its initialization is never read [clang-analyzer-deadcode.DeadStores]
+Message-ID: <202301021745.T3MmPGAC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="SRRke1TO+FxctB5Y"
+Content-Type: multipart/mixed; boundary="QLDw85Q32nqd54Jl"
 Content-Disposition: inline
 
 
---SRRke1TO+FxctB5Y
+--QLDw85Q32nqd54Jl
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "low confidence static check warning: sound/soc/fsl/fsl_micfil.c:991:17: warning: Value stored to 'dev' during its initialization is never read [clang-analyzer-deadcode.DeadStores]"
+:::::: Manual check reason: "low confidence static check warning: drivers/vfio/group.c:725:21: warning: Value stored to 'group' during its initialization is never read [clang-analyzer-deadcode.DeadStores]"
 :::::: 
 
 BCC: lkp@intel.com
 CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Shengjiu Wang <shengjiu.wang@nxp.com>
-CC: Mark Brown <broonie@kernel.org>
+TO: Yi Liu <yi.l.liu@intel.com>
+CC: Jason Gunthorpe <jgg@ziepe.ca>
+CC: Kevin Tian <kevin.tian@intel.com>
+CC: Alex Williamson <alex.williamson@redhat.com>
+
+Hi Yi,
+
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   88603b6dc419445847923fcb7fe5080067a30f98
-commit: 29dbfeecab85fc998d8c5c29473da33d272d0c85 ASoC: fsl_micfil: Add Hardware Voice Activity Detector support
-date:   3 months ago
-:::::: branch date: 6 hours ago
-:::::: commit date: 3 months ago
+commit: 9eefba8002c27d65ab52a533fd0611b099b73591 vfio: Move vfio group specific code into group.c
+date:   4 weeks ago
+:::::: branch date: 12 hours ago
+:::::: commit date: 4 weeks ago
 config: riscv-randconfig-c006-20221228
 compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project f5700e7b69048de958172fb513b336564e7f8709)
 reproduce (this is a W=1 build):
@@ -75,10 +81,10 @@ reproduce (this is a W=1 build):
         chmod +x ~/bin/make.cross
         # install riscv cross compiling tool for clang build
         # apt-get install binutils-riscv64-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=29dbfeecab85fc998d8c5c29473da33d272d0c85
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=9eefba8002c27d65ab52a533fd0611b099b73591
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout 29dbfeecab85fc998d8c5c29473da33d272d0c85
+        git checkout 9eefba8002c27d65ab52a533fd0611b099b73591
         # save the config file
         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=riscv clang-analyzer  olddefconfig
         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=riscv clang-analyzer 
@@ -87,176 +93,140 @@ If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
 clang_analyzer warnings: (new ones prefixed by >>)
-   20 warnings generated.
-   Suppressed 20 warnings (7 in non-user code, 13 with check filters).
+   18 warnings generated.
+   Suppressed 18 warnings (5 in non-user code, 13 with check filters).
    Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   20 warnings generated.
-   Suppressed 20 warnings (7 in non-user code, 13 with check filters).
+   18 warnings generated.
+   Suppressed 18 warnings (5 in non-user code, 13 with check filters).
    Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   drivers/soundwire/bus.c:1294:6: warning: The result of the left shift is undefined due to shifting by '255', which is greater or equal to the width of type 'unsigned long' [clang-analyzer-core.UndefinedBinaryOperatorResult]
-           if (BIT(scale_index) != scale || scale_index > 6) {
-               ^
-   include/vdso/bits.h:7:26: note: expanded from macro 'BIT'
-   #define BIT(nr)                 (UL(1) << (nr))
-                                          ^
-   drivers/soundwire/bus.c:1335:8: note: Calling 'sdw_slave_set_frequency'
-           ret = sdw_slave_set_frequency(slave);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/soundwire/bus.c:1239:6: note: Assuming field 'class_id' is not equal to 0
-           if (!slave->id.class_id)
-               ^~~~~~~~~~~~~~~~~~~
-   drivers/soundwire/bus.c:1239:2: note: Taking false branch
-           if (!slave->id.class_id)
-           ^
-   drivers/soundwire/bus.c:1242:6: note: Assuming 'mclk_freq' is not equal to 0
-           if (!mclk_freq) {
-               ^~~~~~~~~~
-   drivers/soundwire/bus.c:1242:2: note: Taking false branch
-           if (!mclk_freq) {
-           ^
-   drivers/soundwire/bus.c:1257:6: note: Assuming the condition is true
-           if (!(19200000 % mclk_freq)) {
-               ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/soundwire/bus.c:1257:2: note: Taking true branch
-           if (!(19200000 % mclk_freq)) {
-           ^
-   drivers/soundwire/bus.c:1279:6: note: Assuming the condition is false
-           if (mclk_freq % curr_freq) {
-               ^~~~~~~~~~~~~~~~~~~~~
-   drivers/soundwire/bus.c:1279:2: note: Taking false branch
-           if (mclk_freq % curr_freq) {
-           ^
-   drivers/soundwire/bus.c:1292:16: note: '?' condition is false
-           scale_index = ilog2(scale);
-                         ^
-   include/linux/log2.h:158:2: note: expanded from macro 'ilog2'
-           __builtin_constant_p(n) ?       \
-           ^
-   drivers/soundwire/bus.c:1292:16: note: '?' condition is true
-           scale_index = ilog2(scale);
-                         ^
-   include/linux/log2.h:161:2: note: expanded from macro 'ilog2'
-           (sizeof(n) <= 4) ?              \
-           ^
-   drivers/soundwire/bus.c:1292:16: note: Calling '__ilog2_u32'
-           scale_index = ilog2(scale);
-                         ^
-   include/linux/log2.h:162:2: note: expanded from macro 'ilog2'
-           __ilog2_u32(n) :                \
-           ^~~~~~~~~~~~~~
-   include/linux/log2.h:24:2: note: Returning the value -1
-           return fls(n) - 1;
-           ^~~~~~~~~~~~~~~~~
-   drivers/soundwire/bus.c:1292:16: note: Returning from '__ilog2_u32'
-           scale_index = ilog2(scale);
-                         ^
-   include/linux/log2.h:162:2: note: expanded from macro 'ilog2'
-           __ilog2_u32(n) :                \
-           ^~~~~~~~~~~~~~
-   drivers/soundwire/bus.c:1292:2: note: The value 255 is assigned to 'scale_index'
-           scale_index = ilog2(scale);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/soundwire/bus.c:1294:6: note: The result of the left shift is undefined due to shifting by '255', which is greater or equal to the width of type 'unsigned long'
-           if (BIT(scale_index) != scale || scale_index > 6) {
-               ^
-   include/vdso/bits.h:7:26: note: expanded from macro 'BIT'
-   #define BIT(nr)                 (UL(1) << (nr))
-                                          ^  ~~~~
-   Suppressed 4 warnings (4 in non-user code).
+   18 warnings generated.
+   Suppressed 18 warnings (5 in non-user code, 13 with check filters).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   18 warnings generated.
+   Suppressed 18 warnings (5 in non-user code, 13 with check filters).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   19 warnings generated.
+   fs/f2fs/file.c:1699:9: warning: Value stored to 'new_size' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           loff_t new_size = i_size_read(inode);
+                  ^~~~~~~~   ~~~~~~~~~~~~~~~~~~
+   fs/f2fs/file.c:1699:9: note: Value stored to 'new_size' during its initialization is never read
+           loff_t new_size = i_size_read(inode);
+                  ^~~~~~~~   ~~~~~~~~~~~~~~~~~~
+   Suppressed 18 warnings (5 in non-user code, 13 with check filters).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   18 warnings generated.
+   Suppressed 18 warnings (5 in non-user code, 13 with check filters).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   18 warnings generated.
+   Suppressed 18 warnings (5 in non-user code, 13 with check filters).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   17 warnings generated.
+   Suppressed 17 warnings (4 in non-user code, 13 with check filters).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   18 warnings generated.
+   drivers/media/dvb-frontends/sp2.c:208:14: warning: Value stored to 's' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct sp2 *s = en50221->data;
+                       ^   ~~~~~~~~~~~~~
+   drivers/media/dvb-frontends/sp2.c:208:14: note: Value stored to 's' during its initialization is never read
+           struct sp2 *s = en50221->data;
+                       ^   ~~~~~~~~~~~~~
+   Suppressed 17 warnings (4 in non-user code, 13 with check filters).
    Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
    4 warnings generated.
    Suppressed 4 warnings (4 in non-user code).
    Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   22 warnings generated.
-   sound/soc/fsl/fsl_micfil.c:664:2: warning: Value stored to 'ret' is never read [clang-analyzer-deadcode.DeadStores]
-           ret = regmap_update_bits(micfil->regmap, REG_MICFIL_CTRL2,
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   sound/soc/fsl/fsl_micfil.c:664:2: note: Value stored to 'ret' is never read
-           ret = regmap_update_bits(micfil->regmap, REG_MICFIL_CTRL2,
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   sound/soc/fsl/fsl_micfil.c:871:26: warning: Value stored to 'pdev' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct platform_device *pdev = micfil->pdev;
-                                   ^~~~   ~~~~~~~~~~~~
-   sound/soc/fsl/fsl_micfil.c:871:26: note: Value stored to 'pdev' during its initialization is never read
-           struct platform_device *pdev = micfil->pdev;
-                                   ^~~~   ~~~~~~~~~~~~
-   sound/soc/fsl/fsl_micfil.c:917:26: warning: Value stored to 'pdev' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct platform_device *pdev = micfil->pdev;
-                                   ^~~~   ~~~~~~~~~~~~
-   sound/soc/fsl/fsl_micfil.c:917:26: note: Value stored to 'pdev' during its initialization is never read
-           struct platform_device *pdev = micfil->pdev;
-                                   ^~~~   ~~~~~~~~~~~~
->> sound/soc/fsl/fsl_micfil.c:991:17: warning: Value stored to 'dev' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct device *dev = &micfil->pdev->dev;
-                          ^~~   ~~~~~~~~~~~~~~~~~~
-   sound/soc/fsl/fsl_micfil.c:991:17: note: Value stored to 'dev' during its initialization is never read
-           struct device *dev = &micfil->pdev->dev;
-                          ^~~   ~~~~~~~~~~~~~~~~~~
+   17 warnings generated.
+   Suppressed 17 warnings (4 in non-user code, 13 with check filters).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   17 warnings generated.
+   Suppressed 17 warnings (4 in non-user code, 13 with check filters).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   17 warnings generated.
+   Suppressed 17 warnings (4 in non-user code, 13 with check filters).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   17 warnings generated.
+   Suppressed 17 warnings (4 in non-user code, 13 with check filters).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   17 warnings generated.
+   Suppressed 17 warnings (4 in non-user code, 13 with check filters).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   17 warnings generated.
+   Suppressed 17 warnings (4 in non-user code, 13 with check filters).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   17 warnings generated.
+   Suppressed 17 warnings (4 in non-user code, 13 with check filters).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   17 warnings generated.
+   Suppressed 17 warnings (4 in non-user code, 13 with check filters).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   17 warnings generated.
+   Suppressed 17 warnings (4 in non-user code, 13 with check filters).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   17 warnings generated.
+   Suppressed 17 warnings (4 in non-user code, 13 with check filters).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   18 warnings generated.
    Suppressed 18 warnings (5 in non-user code, 13 with check filters).
    Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
    17 warnings generated.
    Suppressed 17 warnings (4 in non-user code, 13 with check filters).
    Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
    19 warnings generated.
-   sound/soc/fsl/fsl_easrc.c:1845:17: warning: Value stored to 'dev' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct device *dev = &easrc->pdev->dev;
-                          ^~~   ~~~~~~~~~~~~~~~~~
-   sound/soc/fsl/fsl_easrc.c:1845:17: note: Value stored to 'dev' during its initialization is never read
-           struct device *dev = &easrc->pdev->dev;
-                          ^~~   ~~~~~~~~~~~~~~~~~
-   Suppressed 18 warnings (5 in non-user code, 13 with check filters).
+   Suppressed 19 warnings (6 in non-user code, 13 with check filters).
    Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   18 warnings generated.
-   sound/soc/fsl/fsl_xcvr.c:1056:17: warning: Value stored to 'dev' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct device *dev = &xcvr->pdev->dev;
-                          ^~~   ~~~~~~~~~~~~~~~~
-   sound/soc/fsl/fsl_xcvr.c:1056:17: note: Value stored to 'dev' during its initialization is never read
-           struct device *dev = &xcvr->pdev->dev;
-                          ^~~   ~~~~~~~~~~~~~~~~
+   19 warnings generated.
+   Suppressed 19 warnings (6 in non-user code, 13 with check filters).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   19 warnings generated.
+   Suppressed 19 warnings (6 in non-user code, 13 with check filters).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   17 warnings generated.
    Suppressed 17 warnings (4 in non-user code, 13 with check filters).
    Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
    17 warnings generated.
    Suppressed 17 warnings (4 in non-user code, 13 with check filters).
    Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   24 warnings generated.
-   drivers/media/radio/radio-wl1273.c:1292:24: warning: Value stored to 'radio' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct wl1273_device *radio = video_get_drvdata(video_devdata(file));
-                                 ^~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/radio/radio-wl1273.c:1292:24: note: Value stored to 'radio' during its initialization is never read
-           struct wl1273_device *radio = video_get_drvdata(video_devdata(file));
-                                 ^~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/radio/radio-wl1273.c:1304:24: warning: Value stored to 'radio' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct wl1273_device *radio = video_get_drvdata(video_devdata(file));
-                                 ^~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/radio/radio-wl1273.c:1304:24: note: Value stored to 'radio' during its initialization is never read
-           struct wl1273_device *radio = video_get_drvdata(video_devdata(file));
-                                 ^~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/radio/radio-wl1273.c:1467:24: warning: Value stored to 'radio' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct wl1273_device *radio = video_get_drvdata(video_devdata(file));
-                                 ^~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/radio/radio-wl1273.c:1467:24: note: Value stored to 'radio' during its initialization is never read
-           struct wl1273_device *radio = video_get_drvdata(video_devdata(file));
-                                 ^~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/radio/radio-wl1273.c:1483:24: warning: Value stored to 'radio' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct wl1273_device *radio = video_get_drvdata(video_devdata(file));
-                                 ^~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/radio/radio-wl1273.c:1483:24: note: Value stored to 'radio' during its initialization is never read
-           struct wl1273_device *radio = video_get_drvdata(video_devdata(file));
-                                 ^~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/radio/radio-wl1273.c:1739:3: warning: Value stored to 'r' is never read [clang-analyzer-deadcode.DeadStores]
-                   r = wl1273_fm_set_rds(radio, WL1273_RDS_ON);
-                   ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/radio/radio-wl1273.c:1739:3: note: Value stored to 'r' is never read
-                   r = wl1273_fm_set_rds(radio, WL1273_RDS_ON);
-                   ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/radio/radio-wl1273.c:1741:3: warning: Value stored to 'r' is never read [clang-analyzer-deadcode.DeadStores]
-                   r = wl1273_fm_set_rds(radio, WL1273_RDS_OFF);
-                   ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/radio/radio-wl1273.c:1741:3: note: Value stored to 'r' is never read
-                   r = wl1273_fm_set_rds(radio, WL1273_RDS_OFF);
-                   ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 18 warnings (5 in non-user code, 13 with check filters).
+   17 warnings generated.
+   Suppressed 17 warnings (4 in non-user code, 13 with check filters).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   18 warnings generated.
+>> drivers/vfio/group.c:725:21: warning: Value stored to 'group' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct vfio_group *group = file->private_data;
+                              ^~~~~   ~~~~~~~~~~~~~~~~~~
+   drivers/vfio/group.c:725:21: note: Value stored to 'group' during its initialization is never read
+           struct vfio_group *group = file->private_data;
+                              ^~~~~   ~~~~~~~~~~~~~~~~~~
+   Suppressed 17 warnings (4 in non-user code, 13 with check filters).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
    Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
    18 warnings generated.
    Suppressed 18 warnings (5 in non-user code, 13 with check filters).
@@ -264,180 +234,111 @@ clang_analyzer warnings: (new ones prefixed by >>)
    18 warnings generated.
    Suppressed 18 warnings (5 in non-user code, 13 with check filters).
    Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
    18 warnings generated.
    Suppressed 18 warnings (5 in non-user code, 13 with check filters).
    Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   22 warnings generated.
-   drivers/media/v4l2-core/v4l2-common.c:97:27: warning: The result of the left shift is undefined due to shifting by '32', which is greater or equal to the width of type 'int' [clang-analyzer-core.UndefinedBinaryOperatorResult]
-           unsigned int mask = ~((1 << align) - 1);
-                                    ^
-   drivers/media/v4l2-core/v4l2-common.c:128:6: note: Assuming 'salign' is not equal to 0
-           if (!salign)
-               ^~~~~~~
-   drivers/media/v4l2-core/v4l2-common.c:128:2: note: Taking false branch
-           if (!salign)
+   23 warnings generated.
+   drivers/media/dvb-frontends/cx22700.c:249:46: warning: The result of the left shift is undefined because the left operand is negative [clang-analyzer-core.UndefinedBinaryOperatorResult]
+           u16 rs_ber = (cx22700_readreg (state, 0x0d) << 9)
+                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+   drivers/media/dvb-frontends/cx22700.c:249:16: note: Calling 'cx22700_readreg'
+           u16 rs_ber = (cx22700_readreg (state, 0x0d) << 9)
+                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/dvb-frontends/cx22700.c:83:2: note: Assuming 'debug' is 0
+           dprintk ("%s\n", __func__);
            ^
-   drivers/media/v4l2-core/v4l2-common.c:135:6: note: Assuming the condition is true
-           if (walign + halign < salign) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/v4l2-core/v4l2-common.c:135:2: note: Taking true branch
-           if (walign + halign < salign) {
+   drivers/media/dvb-frontends/cx22700.c:33:7: note: expanded from macro 'dprintk'
+                   if (debug) printk(KERN_DEBUG "cx22700: " args); \
+                       ^~~~~
+   drivers/media/dvb-frontends/cx22700.c:83:2: note: Taking false branch
+           dprintk ("%s\n", __func__);
            ^
-   drivers/media/v4l2-core/v4l2-common.c:143:8: note: Assuming 'halign' is < 'hmaxa'
-                           if (halign >= hmaxa ||
+   drivers/media/dvb-frontends/cx22700.c:33:3: note: expanded from macro 'dprintk'
+                   if (debug) printk(KERN_DEBUG "cx22700: " args); \
+                   ^
+   drivers/media/dvb-frontends/cx22700.c:83:2: note: Loop condition is false.  Exiting loop
+           dprintk ("%s\n", __func__);
+           ^
+   drivers/media/dvb-frontends/cx22700.c:32:2: note: expanded from macro 'dprintk'
+           do { \
+           ^
+   drivers/media/dvb-frontends/cx22700.c:87:6: note: Assuming 'ret' is not equal to 2
+           if (ret != 2) return -EIO;
+               ^~~~~~~~
+   drivers/media/dvb-frontends/cx22700.c:87:2: note: Taking true branch
+           if (ret != 2) return -EIO;
+           ^
+   drivers/media/dvb-frontends/cx22700.c:87:16: note: Returning the value -5
+           if (ret != 2) return -EIO;
+                         ^~~~~~~~~~~
+   drivers/media/dvb-frontends/cx22700.c:249:16: note: Returning from 'cx22700_readreg'
+           u16 rs_ber = (cx22700_readreg (state, 0x0d) << 9)
+                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/dvb-frontends/cx22700.c:249:46: note: The result of the left shift is undefined because the left operand is negative
+           u16 rs_ber = (cx22700_readreg (state, 0x0d) << 9)
+                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+   drivers/media/dvb-frontends/cx22700.c:250:39: warning: The result of the left shift is undefined because the left operand is negative [clang-analyzer-core.UndefinedBinaryOperatorResult]
+                      | (cx22700_readreg (state, 0x0e) << 1);
+                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+   drivers/media/dvb-frontends/cx22700.c:250:9: note: Calling 'cx22700_readreg'
+                      | (cx22700_readreg (state, 0x0e) << 1);
+                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/dvb-frontends/cx22700.c:83:2: note: Assuming 'debug' is 0
+           dprintk ("%s\n", __func__);
+           ^
+   drivers/media/dvb-frontends/cx22700.c:33:7: note: expanded from macro 'dprintk'
+                   if (debug) printk(KERN_DEBUG "cx22700: " args); \
+                       ^~~~~
+   drivers/media/dvb-frontends/cx22700.c:83:2: note: Taking false branch
+           dprintk ("%s\n", __func__);
+           ^
+   drivers/media/dvb-frontends/cx22700.c:33:3: note: expanded from macro 'dprintk'
+                   if (debug) printk(KERN_DEBUG "cx22700: " args); \
 
-vim +/dev +991 sound/soc/fsl/fsl_micfil.c
+vim +/group +725 drivers/vfio/group.c
 
-47a70e6fc9a80c Cosmin Samoila 2019-01-04   867  
-47a70e6fc9a80c Cosmin Samoila 2019-01-04   868  static irqreturn_t micfil_isr(int irq, void *devid)
-47a70e6fc9a80c Cosmin Samoila 2019-01-04   869  {
-47a70e6fc9a80c Cosmin Samoila 2019-01-04   870  	struct fsl_micfil *micfil = (struct fsl_micfil *)devid;
-47a70e6fc9a80c Cosmin Samoila 2019-01-04  @871  	struct platform_device *pdev = micfil->pdev;
-47a70e6fc9a80c Cosmin Samoila 2019-01-04   872  	u32 stat_reg;
-47a70e6fc9a80c Cosmin Samoila 2019-01-04   873  	u32 fifo_stat_reg;
-47a70e6fc9a80c Cosmin Samoila 2019-01-04   874  	u32 ctrl1_reg;
-47a70e6fc9a80c Cosmin Samoila 2019-01-04   875  	bool dma_enabled;
-47a70e6fc9a80c Cosmin Samoila 2019-01-04   876  	int i;
-47a70e6fc9a80c Cosmin Samoila 2019-01-04   877  
-47a70e6fc9a80c Cosmin Samoila 2019-01-04   878  	regmap_read(micfil->regmap, REG_MICFIL_STAT, &stat_reg);
-47a70e6fc9a80c Cosmin Samoila 2019-01-04   879  	regmap_read(micfil->regmap, REG_MICFIL_CTRL1, &ctrl1_reg);
-47a70e6fc9a80c Cosmin Samoila 2019-01-04   880  	regmap_read(micfil->regmap, REG_MICFIL_FIFO_STAT, &fifo_stat_reg);
-47a70e6fc9a80c Cosmin Samoila 2019-01-04   881  
-17f2142bae4b6f Sascha Hauer   2022-04-14   882  	dma_enabled = FIELD_GET(MICFIL_CTRL1_DISEL, ctrl1_reg) == MICFIL_CTRL1_DISEL_DMA;
-47a70e6fc9a80c Cosmin Samoila 2019-01-04   883  
-47a70e6fc9a80c Cosmin Samoila 2019-01-04   884  	/* Channel 0-7 Output Data Flags */
-47a70e6fc9a80c Cosmin Samoila 2019-01-04   885  	for (i = 0; i < MICFIL_OUTPUT_CHANNELS; i++) {
-17f2142bae4b6f Sascha Hauer   2022-04-14   886  		if (stat_reg & MICFIL_STAT_CHXF(i))
-47a70e6fc9a80c Cosmin Samoila 2019-01-04   887  			dev_dbg(&pdev->dev,
-47a70e6fc9a80c Cosmin Samoila 2019-01-04   888  				"Data available in Data Channel %d\n", i);
-47a70e6fc9a80c Cosmin Samoila 2019-01-04   889  		/* if DMA is not enabled, field must be written with 1
-47a70e6fc9a80c Cosmin Samoila 2019-01-04   890  		 * to clear
-47a70e6fc9a80c Cosmin Samoila 2019-01-04   891  		 */
-47a70e6fc9a80c Cosmin Samoila 2019-01-04   892  		if (!dma_enabled)
-47a70e6fc9a80c Cosmin Samoila 2019-01-04   893  			regmap_write_bits(micfil->regmap,
-47a70e6fc9a80c Cosmin Samoila 2019-01-04   894  					  REG_MICFIL_STAT,
-17f2142bae4b6f Sascha Hauer   2022-04-14   895  					  MICFIL_STAT_CHXF(i),
-47a70e6fc9a80c Cosmin Samoila 2019-01-04   896  					  1);
-47a70e6fc9a80c Cosmin Samoila 2019-01-04   897  	}
-47a70e6fc9a80c Cosmin Samoila 2019-01-04   898  
-47a70e6fc9a80c Cosmin Samoila 2019-01-04   899  	for (i = 0; i < MICFIL_FIFO_NUM; i++) {
-17f2142bae4b6f Sascha Hauer   2022-04-14   900  		if (fifo_stat_reg & MICFIL_FIFO_STAT_FIFOX_OVER(i))
-47a70e6fc9a80c Cosmin Samoila 2019-01-04   901  			dev_dbg(&pdev->dev,
-47a70e6fc9a80c Cosmin Samoila 2019-01-04   902  				"FIFO Overflow Exception flag for channel %d\n",
-47a70e6fc9a80c Cosmin Samoila 2019-01-04   903  				i);
-47a70e6fc9a80c Cosmin Samoila 2019-01-04   904  
-17f2142bae4b6f Sascha Hauer   2022-04-14   905  		if (fifo_stat_reg & MICFIL_FIFO_STAT_FIFOX_UNDER(i))
-47a70e6fc9a80c Cosmin Samoila 2019-01-04   906  			dev_dbg(&pdev->dev,
-47a70e6fc9a80c Cosmin Samoila 2019-01-04   907  				"FIFO Underflow Exception flag for channel %d\n",
-47a70e6fc9a80c Cosmin Samoila 2019-01-04   908  				i);
-47a70e6fc9a80c Cosmin Samoila 2019-01-04   909  	}
-47a70e6fc9a80c Cosmin Samoila 2019-01-04   910  
-47a70e6fc9a80c Cosmin Samoila 2019-01-04   911  	return IRQ_HANDLED;
-47a70e6fc9a80c Cosmin Samoila 2019-01-04   912  }
-47a70e6fc9a80c Cosmin Samoila 2019-01-04   913  
-47a70e6fc9a80c Cosmin Samoila 2019-01-04   914  static irqreturn_t micfil_err_isr(int irq, void *devid)
-47a70e6fc9a80c Cosmin Samoila 2019-01-04   915  {
-47a70e6fc9a80c Cosmin Samoila 2019-01-04   916  	struct fsl_micfil *micfil = (struct fsl_micfil *)devid;
-47a70e6fc9a80c Cosmin Samoila 2019-01-04   917  	struct platform_device *pdev = micfil->pdev;
-47a70e6fc9a80c Cosmin Samoila 2019-01-04   918  	u32 stat_reg;
-47a70e6fc9a80c Cosmin Samoila 2019-01-04   919  
-47a70e6fc9a80c Cosmin Samoila 2019-01-04   920  	regmap_read(micfil->regmap, REG_MICFIL_STAT, &stat_reg);
-47a70e6fc9a80c Cosmin Samoila 2019-01-04   921  
-bd2cffd10d79eb Sascha Hauer   2022-04-14   922  	if (stat_reg & MICFIL_STAT_BSY_FIL)
-47a70e6fc9a80c Cosmin Samoila 2019-01-04   923  		dev_dbg(&pdev->dev, "isr: Decimation Filter is running\n");
-47a70e6fc9a80c Cosmin Samoila 2019-01-04   924  
-bd2cffd10d79eb Sascha Hauer   2022-04-14   925  	if (stat_reg & MICFIL_STAT_FIR_RDY)
-47a70e6fc9a80c Cosmin Samoila 2019-01-04   926  		dev_dbg(&pdev->dev, "isr: FIR Filter Data ready\n");
-47a70e6fc9a80c Cosmin Samoila 2019-01-04   927  
-bd2cffd10d79eb Sascha Hauer   2022-04-14   928  	if (stat_reg & MICFIL_STAT_LOWFREQF) {
-47a70e6fc9a80c Cosmin Samoila 2019-01-04   929  		dev_dbg(&pdev->dev, "isr: ipg_clk_app is too low\n");
-47a70e6fc9a80c Cosmin Samoila 2019-01-04   930  		regmap_write_bits(micfil->regmap, REG_MICFIL_STAT,
-bd2cffd10d79eb Sascha Hauer   2022-04-14   931  				  MICFIL_STAT_LOWFREQF, 1);
-47a70e6fc9a80c Cosmin Samoila 2019-01-04   932  	}
-47a70e6fc9a80c Cosmin Samoila 2019-01-04   933  
-47a70e6fc9a80c Cosmin Samoila 2019-01-04   934  	return IRQ_HANDLED;
-47a70e6fc9a80c Cosmin Samoila 2019-01-04   935  }
-47a70e6fc9a80c Cosmin Samoila 2019-01-04   936  
-29dbfeecab85fc Shengjiu Wang  2022-09-23   937  static irqreturn_t voice_detected_fn(int irq, void *devid)
-29dbfeecab85fc Shengjiu Wang  2022-09-23   938  {
-29dbfeecab85fc Shengjiu Wang  2022-09-23   939  	struct fsl_micfil *micfil = (struct fsl_micfil *)devid;
-29dbfeecab85fc Shengjiu Wang  2022-09-23   940  	struct snd_kcontrol *kctl;
-29dbfeecab85fc Shengjiu Wang  2022-09-23   941  
-29dbfeecab85fc Shengjiu Wang  2022-09-23   942  	if (!micfil->card)
-29dbfeecab85fc Shengjiu Wang  2022-09-23   943  		return IRQ_HANDLED;
-29dbfeecab85fc Shengjiu Wang  2022-09-23   944  
-29dbfeecab85fc Shengjiu Wang  2022-09-23   945  	kctl = snd_soc_card_get_kcontrol(micfil->card, "VAD Detected");
-29dbfeecab85fc Shengjiu Wang  2022-09-23   946  	if (!kctl)
-29dbfeecab85fc Shengjiu Wang  2022-09-23   947  		return IRQ_HANDLED;
-29dbfeecab85fc Shengjiu Wang  2022-09-23   948  
-29dbfeecab85fc Shengjiu Wang  2022-09-23   949  	if (micfil->vad_detected)
-29dbfeecab85fc Shengjiu Wang  2022-09-23   950  		snd_ctl_notify(micfil->card->snd_card,
-29dbfeecab85fc Shengjiu Wang  2022-09-23   951  			       SNDRV_CTL_EVENT_MASK_VALUE,
-29dbfeecab85fc Shengjiu Wang  2022-09-23   952  			       &kctl->id);
-29dbfeecab85fc Shengjiu Wang  2022-09-23   953  
-29dbfeecab85fc Shengjiu Wang  2022-09-23   954  	return IRQ_HANDLED;
-29dbfeecab85fc Shengjiu Wang  2022-09-23   955  }
-29dbfeecab85fc Shengjiu Wang  2022-09-23   956  
-29dbfeecab85fc Shengjiu Wang  2022-09-23   957  static irqreturn_t hwvad_isr(int irq, void *devid)
-29dbfeecab85fc Shengjiu Wang  2022-09-23   958  {
-29dbfeecab85fc Shengjiu Wang  2022-09-23   959  	struct fsl_micfil *micfil = (struct fsl_micfil *)devid;
-29dbfeecab85fc Shengjiu Wang  2022-09-23   960  	struct device *dev = &micfil->pdev->dev;
-29dbfeecab85fc Shengjiu Wang  2022-09-23   961  	u32 vad0_reg;
-29dbfeecab85fc Shengjiu Wang  2022-09-23   962  	int ret;
-29dbfeecab85fc Shengjiu Wang  2022-09-23   963  
-29dbfeecab85fc Shengjiu Wang  2022-09-23   964  	regmap_read(micfil->regmap, REG_MICFIL_VAD0_STAT, &vad0_reg);
-29dbfeecab85fc Shengjiu Wang  2022-09-23   965  
-29dbfeecab85fc Shengjiu Wang  2022-09-23   966  	/*
-29dbfeecab85fc Shengjiu Wang  2022-09-23   967  	 * The only difference between MICFIL_VAD0_STAT_EF and
-29dbfeecab85fc Shengjiu Wang  2022-09-23   968  	 * MICFIL_VAD0_STAT_IF is that the former requires Write
-29dbfeecab85fc Shengjiu Wang  2022-09-23   969  	 * 1 to Clear. Since both flags are set, it is enough
-29dbfeecab85fc Shengjiu Wang  2022-09-23   970  	 * to only read one of them
-29dbfeecab85fc Shengjiu Wang  2022-09-23   971  	 */
-29dbfeecab85fc Shengjiu Wang  2022-09-23   972  	if (vad0_reg & MICFIL_VAD0_STAT_IF) {
-29dbfeecab85fc Shengjiu Wang  2022-09-23   973  		/* Write 1 to clear */
-29dbfeecab85fc Shengjiu Wang  2022-09-23   974  		regmap_write_bits(micfil->regmap, REG_MICFIL_VAD0_STAT,
-29dbfeecab85fc Shengjiu Wang  2022-09-23   975  				  MICFIL_VAD0_STAT_IF,
-29dbfeecab85fc Shengjiu Wang  2022-09-23   976  				  MICFIL_VAD0_STAT_IF);
-29dbfeecab85fc Shengjiu Wang  2022-09-23   977  
-29dbfeecab85fc Shengjiu Wang  2022-09-23   978  		micfil->vad_detected = 1;
-29dbfeecab85fc Shengjiu Wang  2022-09-23   979  	}
-29dbfeecab85fc Shengjiu Wang  2022-09-23   980  
-29dbfeecab85fc Shengjiu Wang  2022-09-23   981  	ret = fsl_micfil_hwvad_disable(micfil);
-29dbfeecab85fc Shengjiu Wang  2022-09-23   982  	if (ret)
-29dbfeecab85fc Shengjiu Wang  2022-09-23   983  		dev_err(dev, "Failed to disable hwvad\n");
-29dbfeecab85fc Shengjiu Wang  2022-09-23   984  
-29dbfeecab85fc Shengjiu Wang  2022-09-23   985  	return IRQ_WAKE_THREAD;
-29dbfeecab85fc Shengjiu Wang  2022-09-23   986  }
-29dbfeecab85fc Shengjiu Wang  2022-09-23   987  
-29dbfeecab85fc Shengjiu Wang  2022-09-23   988  static irqreturn_t hwvad_err_isr(int irq, void *devid)
-29dbfeecab85fc Shengjiu Wang  2022-09-23   989  {
-29dbfeecab85fc Shengjiu Wang  2022-09-23   990  	struct fsl_micfil *micfil = (struct fsl_micfil *)devid;
-29dbfeecab85fc Shengjiu Wang  2022-09-23  @991  	struct device *dev = &micfil->pdev->dev;
-29dbfeecab85fc Shengjiu Wang  2022-09-23   992  	u32 vad0_reg;
-29dbfeecab85fc Shengjiu Wang  2022-09-23   993  
-29dbfeecab85fc Shengjiu Wang  2022-09-23   994  	regmap_read(micfil->regmap, REG_MICFIL_VAD0_STAT, &vad0_reg);
-29dbfeecab85fc Shengjiu Wang  2022-09-23   995  
-29dbfeecab85fc Shengjiu Wang  2022-09-23   996  	if (vad0_reg & MICFIL_VAD0_STAT_INSATF)
-29dbfeecab85fc Shengjiu Wang  2022-09-23   997  		dev_dbg(dev, "voice activity input overflow/underflow detected\n");
-29dbfeecab85fc Shengjiu Wang  2022-09-23   998  
-29dbfeecab85fc Shengjiu Wang  2022-09-23   999  	return IRQ_HANDLED;
-29dbfeecab85fc Shengjiu Wang  2022-09-23  1000  }
-29dbfeecab85fc Shengjiu Wang  2022-09-23  1001  
+9eefba8002c27d Yi Liu 2022-11-25  714  
+9eefba8002c27d Yi Liu 2022-11-25  715  /**
+9eefba8002c27d Yi Liu 2022-11-25  716   * vfio_file_iommu_group - Return the struct iommu_group for the vfio group file
+9eefba8002c27d Yi Liu 2022-11-25  717   * @file: VFIO group file
+9eefba8002c27d Yi Liu 2022-11-25  718   *
+9eefba8002c27d Yi Liu 2022-11-25  719   * The returned iommu_group is valid as long as a ref is held on the file. This
+9eefba8002c27d Yi Liu 2022-11-25  720   * returns a reference on the group. This function is deprecated, only the SPAPR
+9eefba8002c27d Yi Liu 2022-11-25  721   * path in kvm should call it.
+9eefba8002c27d Yi Liu 2022-11-25  722   */
+9eefba8002c27d Yi Liu 2022-11-25  723  struct iommu_group *vfio_file_iommu_group(struct file *file)
+9eefba8002c27d Yi Liu 2022-11-25  724  {
+9eefba8002c27d Yi Liu 2022-11-25 @725  	struct vfio_group *group = file->private_data;
+9eefba8002c27d Yi Liu 2022-11-25  726  	struct iommu_group *iommu_group = NULL;
+9eefba8002c27d Yi Liu 2022-11-25  727  
+9eefba8002c27d Yi Liu 2022-11-25  728  	if (!IS_ENABLED(CONFIG_SPAPR_TCE_IOMMU))
+9eefba8002c27d Yi Liu 2022-11-25  729  		return NULL;
+9eefba8002c27d Yi Liu 2022-11-25  730  
+9eefba8002c27d Yi Liu 2022-11-25  731  	if (!vfio_file_is_group(file))
+9eefba8002c27d Yi Liu 2022-11-25  732  		return NULL;
+9eefba8002c27d Yi Liu 2022-11-25  733  
+9eefba8002c27d Yi Liu 2022-11-25  734  	mutex_lock(&group->group_lock);
+9eefba8002c27d Yi Liu 2022-11-25  735  	if (group->iommu_group) {
+9eefba8002c27d Yi Liu 2022-11-25  736  		iommu_group = group->iommu_group;
+9eefba8002c27d Yi Liu 2022-11-25  737  		iommu_group_ref_get(iommu_group);
+9eefba8002c27d Yi Liu 2022-11-25  738  	}
+9eefba8002c27d Yi Liu 2022-11-25  739  	mutex_unlock(&group->group_lock);
+9eefba8002c27d Yi Liu 2022-11-25  740  	return iommu_group;
+9eefba8002c27d Yi Liu 2022-11-25  741  }
+9eefba8002c27d Yi Liu 2022-11-25  742  EXPORT_SYMBOL_GPL(vfio_file_iommu_group);
+9eefba8002c27d Yi Liu 2022-11-25  743  
 
 -- 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
 
---SRRke1TO+FxctB5Y
+--QLDw85Q32nqd54Jl
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename=config
 
 #
 # Automatically generated file; DO NOT EDIT.
-# Linux/riscv 6.1.0-rc1 Kernel Configuration
+# Linux/riscv 6.1.0-rc7 Kernel Configuration
 #
 CONFIG_CC_VERSION_TEXT="clang version 16.0.0 (git://gitmirror/llvm_project 7a8cb6cd4e3ff8aaadebff2b9d3ee9e2a326d444)"
 CONFIG_GCC_VERSION=0
@@ -450,6 +351,7 @@ CONFIG_LD_IS_LLD=y
 CONFIG_LLD_VERSION=160000
 CONFIG_RUST_IS_AVAILABLE=y
 CONFIG_CC_HAS_ASM_GOTO_OUTPUT=y
+CONFIG_CC_HAS_ASM_GOTO_TIED_OUTPUT=y
 CONFIG_TOOLS_SUPPORT_RELR=y
 CONFIG_CC_HAS_ASM_INLINE=y
 CONFIG_CC_HAS_NO_PROFILE_FN_ATTR=y
@@ -676,7 +578,8 @@ CONFIG_MODULE_SECTIONS=y
 CONFIG_TUNE_GENERIC=y
 CONFIG_RISCV_ALTERNATIVE=y
 # CONFIG_RISCV_ISA_C is not set
-CONFIG_CC_HAS_ZICBOM=y
+CONFIG_TOOLCHAIN_HAS_ZICBOM=y
+CONFIG_TOOLCHAIN_HAS_ZIHINTPAUSE=y
 # CONFIG_FPU is not set
 # end of Platform type
 
@@ -4036,6 +3939,7 @@ CONFIG_CHARLCD_BL_ON=y
 # CONFIG_CHARLCD_BL_FLASH is not set
 CONFIG_PANEL=m
 CONFIG_VFIO=y
+CONFIG_VFIO_CONTAINER=y
 CONFIG_VFIO_NOIOMMU=y
 # CONFIG_VFIO_PLATFORM is not set
 # CONFIG_VFIO_MDEV is not set
@@ -5738,6 +5642,7 @@ CONFIG_TEST_PRINTF=m
 CONFIG_TEST_BITMAP=y
 CONFIG_TEST_UUID=y
 CONFIG_TEST_XARRAY=y
+CONFIG_TEST_MAPLE_TREE=m
 # CONFIG_TEST_RHASHTABLE is not set
 # CONFIG_TEST_SIPHASH is not set
 # CONFIG_TEST_IDA is not set
@@ -5765,4 +5670,4 @@ CONFIG_MEMTEST=y
 # CONFIG_WARN_ABI_ERRORS is not set
 # end of Kernel hacking
 
---SRRke1TO+FxctB5Y--
+--QLDw85Q32nqd54Jl--
