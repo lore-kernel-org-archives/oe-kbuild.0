@@ -1,252 +1,184 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E67E625;
-	Tue,  3 Jan 2023 08:03:58 +0000 (UTC)
-Received: by mail-wr1-f44.google.com with SMTP id bs20so26529463wrb.3;
-        Tue, 03 Jan 2023 00:03:58 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02D23138D;
+	Tue,  3 Jan 2023 08:07:52 +0000 (UTC)
+Received: by mail-wr1-f42.google.com with SMTP id d17so8887428wrs.2;
+        Tue, 03 Jan 2023 00:07:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:content-disposition:mime-version
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=znFJdTv7I7iLn8Rr+3HWd6ymOSTUbKHdMLx0BmAIdlg=;
-        b=mTRGraLErKX1dRbkQJlQ5jwofscpVRXx4eyNNN/S4NETkQEgvX1DX72uPL4VX+fUuo
-         WqC9mfP9G4wvp4B+jB3dMi/GkOm+aCrUtCc5HltCXO4uRNAZIsCzKIOy5S3QH03Icyyn
-         kUnka1P8pVDvsuwKhQszo4upTxkYXuIQgw0qFBj1sbDko2n3Fayk+mtnjeQczm5OAkTC
-         g+XeZIQ+DyvghBDzWBZztjTrx325YRQSPVj2dFwVzgkneLeY0YPiFt9cGLNd3RUY6gSD
-         CGF0CM5DhEq48tUsMnP83C8KqqHv0VXPjFEcyE3mSTznZj0Sq99tlAerOuqXLfHTOGvu
-         XsVA==
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=YQO0ONCN4ZgZtx9HE+Nsk3Zq7sSG4eK1JNOppC+Lx/M=;
+        b=QDLW1jX26AnzUwefK2H+ja7576rr/JSkW+0K2ljLG+6oZyopCuqAABCXZ3ttcx+kDm
+         rphxzjnPsFyNFkPffo8odV6vt4PbFDc9cqI+u8JDxzKceNO4WgoGsUxREIsnDUc0We7R
+         v0rNKXv8unP0hz2MkdTwrgMe/35vng2kL8cLfRcU0Dfm9/reaRkj9d1dqBGii7+wxkg4
+         lySdvACqMcEwQMj7koxsJKBHZbQ13IVluzaJUKU439TJovDsSQCUQJBhr0XRbaS3LGiz
+         K7kxbtef9AQxASGqRMOZlYH4TmEedLmz0NryAw+5hkJzUmd+KUJDzhEgZC1FwD4lRT45
+         56lQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:content-disposition:mime-version
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=znFJdTv7I7iLn8Rr+3HWd6ymOSTUbKHdMLx0BmAIdlg=;
-        b=oBwcLCxliQIasWP53GFhJBmNkpufVAlpm2BXoSNkb7hmev6KDe6BeTsb86WqcOyvcl
-         HoZy6pdAjhtpBR54FNzQFHqGAGrj8OFi8sAKAMuaCPmEFTwR72xBGnsiFM5jYeyUkHVV
-         g5vtVSHhQp0sNQJPnjBX5x86AD13X4Az33PjnvU8XO+3F9+nRn/295+XTD41Dbk+GRBL
-         wgXhhf2e4fz22HpwQRf//byiwVC4nI+HzjrEoj4fZDtzQTY+2w5zCzCcyYgOp9ion1mg
-         Dd0cn3PRHF6kNWDftuyJ6igAhl7y9tDLuM7s4QOMCp063mqfuV09R7WMSs5hfONDFgXn
-         /YyQ==
-X-Gm-Message-State: AFqh2krRIbXchj2z6J8VT+AmSpWC1ZyARUlNPNNKPVg/yDMmAMA6zORj
-	xJBxHFjLmS4n4vEMDVlwcAYdhApDT4ZQuQ==
-X-Google-Smtp-Source: AMrXdXvuHSIbf2j888rHb1GSR6wocxWp/1iaUcClL4ktO5C6yr9pxeLEW3wXu0xCAyVeAep0cJ4zRw==
-X-Received: by 2002:a5d:58c5:0:b0:28f:c68f:f5ee with SMTP id o5-20020a5d58c5000000b0028fc68ff5eemr9981290wrf.28.1672733036041;
-        Tue, 03 Jan 2023 00:03:56 -0800 (PST)
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=YQO0ONCN4ZgZtx9HE+Nsk3Zq7sSG4eK1JNOppC+Lx/M=;
+        b=Etxk/FSu5WP7YG5MESBKb8Ks3vYZjw4CXLQTEz9u/9S4+eab5dQHcv2PBW3N3DTRXN
+         4VKCbJLIU8baYupT9ZXl5N60TzmbcQ8U8iCLbWpkNyhB4/mncpnqWk/QLSoY587uu6Xp
+         UP4Y1U7KlHRirUlGF5Yhxiy6fWR1L0PTDZGilpZ6gzalDArod8+a6bqHrX/XCqTg+wJ3
+         oMq6/pr00nVpxg4TooWl7+996nsmdZFQAwJEqKmeFHkQqH9PlMAv3cOcrLnEJWqzkS2q
+         I7/3qmfGH3KqpHZjgZh91yeiCc8cQMrO9a7D3hmNHT2PVSBrh2omVQpMFqyJ7x/mH/jB
+         a6Ag==
+X-Gm-Message-State: AFqh2krWYEhQRman8FQ8EpVLLIwM8dRjkB3c/Nx3j+UuqLU1Kbv7UHe0
+	tTlE4DqecIx7woq36lCS5NW30BxcJGxgMw==
+X-Google-Smtp-Source: AMrXdXtmMg3fso+1Q3zVGl2iFiX51Pj04IeNueZWY1axHYHgHL3dcIYuPR3TZbL9T/xOaJH0CCZjkA==
+X-Received: by 2002:adf:f606:0:b0:28c:1ae0:e67f with SMTP id t6-20020adff606000000b0028c1ae0e67fmr10080656wrp.55.1672733270983;
+        Tue, 03 Jan 2023 00:07:50 -0800 (PST)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id t12-20020a05600001cc00b0027b35baf811sm24203913wrx.57.2023.01.03.00.03.54
+        by smtp.gmail.com with ESMTPSA id i1-20020adfb641000000b002425787c5easm30768195wre.96.2023.01.03.00.07.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Jan 2023 00:03:55 -0800 (PST)
-Date: Tue, 3 Jan 2023 11:03:52 +0300
+        Tue, 03 Jan 2023 00:07:50 -0800 (PST)
+Date: Tue, 3 Jan 2023 11:07:45 +0300
 From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, Huang Ying <ying.huang@intel.com>
+To: oe-kbuild@lists.linux.dev,
+	Michael Riesch <michael.riesch@wolfvision.net>,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
+	dri-devel@lists.freedesktop.org
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Ammar Faizi <ammarfaizi2@gnuweeb.org>,
-	GNU/Weeb Mailing List <gwml@vger.gnuweeb.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: [ammarfaizi2-block:akpm/mm/mm-unstable 139/146] mm/migrate.c:1254
- migrate_folio_unmap() warn: variable dereferenced before check 'dst' (see
- line 1128)
-Message-ID: <202212300556.FgloYuxW-lkp@intel.com>
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Heiko Stuebner <heiko@sntech.de>, Sandy Huang <hjc@rock-chips.com>,
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+	Sascha Hauer <sha@pengutronix.de>,
+	Michael Riesch <michael.riesch@wolfvision.net>
+Subject: Re: [PATCH 3/5] drm/rockchip: vop2: use symmetric function pair
+ vop2_{create,destroy}_crtcs
+Message-ID: <202301010414.gzia8KzY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Message-ID: <20230103080352.zY4Z16rn7hKyUvAVeMuN5pb_4AxUB4lAMVh6hWqJiF4@z>
+In-Reply-To: <20221130140217.3196414-4-michael.riesch@wolfvision.net>
+Message-ID: <20230103080745.XNkQyKFMuFIhO6K2vMgFN5qJqcTuAWqv_SFJ1plAFoc@z>
 
-tree:   https://github.com/ammarfaizi2/linux-block akpm/mm/mm-unstable
-head:   e1cea426ef35ef33737d45dfb0d863c7a93f5d1c
-commit: 2db5be48ba87378da366e4c90a9a6193fea1a8dc [139/146] migrate_pages: share more code between _unmap and _move
-config: i386-randconfig-m021-20221226
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+Hi Michael,
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Michael-Riesch/drm-rockchip-vop2-add-support-for-the-rgb-output-block/20221130-220346
+base:   b7b275e60bcd5f89771e865a8239325f86d9927d
+patch link:    https://lore.kernel.org/r/20221130140217.3196414-4-michael.riesch%40wolfvision.net
+patch subject: [PATCH 3/5] drm/rockchip: vop2: use symmetric function pair vop2_{create,destroy}_crtcs
+config: parisc-randconfig-m031-20221225
+compiler: hppa-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
 
-smatch warnings:
-mm/migrate.c:1254 migrate_folio_unmap() warn: variable dereferenced before check 'dst' (see line 1128)
+New smatch warnings:
+drivers/gpu/drm/rockchip/rockchip_drm_vop2.c:2330 vop2_create_crtcs() error: uninitialized symbol 'possible_crtcs'.
 
-vim +/dst +1254 mm/migrate.c
+vim +/possible_crtcs +2330 drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
 
-2db5be48ba87378 Huang Ying              2022-12-27  1094  static int migrate_folio_unmap(new_page_t get_new_page, free_page_t put_new_page,
-2db5be48ba87378 Huang Ying              2022-12-27  1095  			       unsigned long private, struct folio *src,
-2db5be48ba87378 Huang Ying              2022-12-27  1096  			       struct folio **dstp, int force, bool force_lock,
-2db5be48ba87378 Huang Ying              2022-12-27  1097  			       enum migrate_mode mode, enum migrate_reason reason,
-2db5be48ba87378 Huang Ying              2022-12-27  1098  			       struct list_head *ret)
-e24f0b8f76cc3dd Christoph Lameter       2006-06-23  1099  {
-2db5be48ba87378 Huang Ying              2022-12-27  1100  	struct folio *dst;
-2db5be48ba87378 Huang Ying              2022-12-27  1101  	int rc = MIGRATEPAGE_UNMAP;
-2db5be48ba87378 Huang Ying              2022-12-27  1102  	struct page *newpage = NULL;
-2b44763e2f0ca52 Huang Ying              2022-12-27  1103  	int page_was_mapped = 0;
-3f6c82728f4e31a Mel Gorman              2010-05-24  1104  	struct anon_vma *anon_vma = NULL;
-682a71a1b6b363b Matthew Wilcox (Oracle  2022-09-02  1105) 	bool is_lru = !__PageMovable(&src->page);
-2db5be48ba87378 Huang Ying              2022-12-27  1106  	bool locked = false;
-2db5be48ba87378 Huang Ying              2022-12-27  1107  	bool dst_locked = false;
-2db5be48ba87378 Huang Ying              2022-12-27  1108  
-2db5be48ba87378 Huang Ying              2022-12-27  1109  	if (!thp_migration_supported() && folio_test_transhuge(src))
-2db5be48ba87378 Huang Ying              2022-12-27  1110  		return -ENOSYS;
-2db5be48ba87378 Huang Ying              2022-12-27  1111  
-2db5be48ba87378 Huang Ying              2022-12-27  1112  	if (folio_ref_count(src) == 1) {
-2db5be48ba87378 Huang Ying              2022-12-27  1113  		/* Folio was freed from under us. So we are done. */
-2db5be48ba87378 Huang Ying              2022-12-27  1114  		folio_clear_active(src);
-2db5be48ba87378 Huang Ying              2022-12-27  1115  		folio_clear_unevictable(src);
-2db5be48ba87378 Huang Ying              2022-12-27  1116  		/* free_pages_prepare() will clear PG_isolated. */
-2db5be48ba87378 Huang Ying              2022-12-27  1117  		list_del(&src->lru);
-2db5be48ba87378 Huang Ying              2022-12-27  1118  		migrate_folio_done(src, reason);
-2db5be48ba87378 Huang Ying              2022-12-27  1119  		return MIGRATEPAGE_SUCCESS;
-2db5be48ba87378 Huang Ying              2022-12-27  1120  	}
-2db5be48ba87378 Huang Ying              2022-12-27  1121  
-2db5be48ba87378 Huang Ying              2022-12-27  1122  	newpage = get_new_page(&src->page, private);
-2db5be48ba87378 Huang Ying              2022-12-27  1123  	if (!newpage)
-2db5be48ba87378 Huang Ying              2022-12-27  1124  		return -ENOMEM;
-2db5be48ba87378 Huang Ying              2022-12-27  1125  	dst = page_folio(newpage);
-2db5be48ba87378 Huang Ying              2022-12-27  1126  	*dstp = dst;
-95a402c3847cc16 Christoph Lameter       2006-06-23  1127  
-2db5be48ba87378 Huang Ying              2022-12-27 @1128  	dst->private = NULL;
-                                                                ^^^^^^^^^^^^
-"dst" is dereferenced.
+fb83276e59f2d6 Michael Riesch 2022-11-30  2249  static int vop2_create_crtcs(struct vop2 *vop2)
+604be85547ce4d Andy Yan       2022-04-22  2250  {
+604be85547ce4d Andy Yan       2022-04-22  2251  	const struct vop2_data *vop2_data = vop2->data;
+604be85547ce4d Andy Yan       2022-04-22  2252  	struct drm_device *drm = vop2->drm;
+604be85547ce4d Andy Yan       2022-04-22  2253  	struct device *dev = vop2->dev;
+604be85547ce4d Andy Yan       2022-04-22  2254  	struct drm_plane *plane;
+604be85547ce4d Andy Yan       2022-04-22  2255  	struct device_node *port;
+604be85547ce4d Andy Yan       2022-04-22  2256  	struct vop2_video_port *vp;
+604be85547ce4d Andy Yan       2022-04-22  2257  	int i, nvp, nvps = 0;
+604be85547ce4d Andy Yan       2022-04-22  2258  	int ret;
+604be85547ce4d Andy Yan       2022-04-22  2259  
+604be85547ce4d Andy Yan       2022-04-22  2260  	for (i = 0; i < vop2_data->nr_vps; i++) {
+604be85547ce4d Andy Yan       2022-04-22  2261  		const struct vop2_video_port_data *vp_data;
+604be85547ce4d Andy Yan       2022-04-22  2262  		struct device_node *np;
+604be85547ce4d Andy Yan       2022-04-22  2263  		char dclk_name[9];
+604be85547ce4d Andy Yan       2022-04-22  2264  
+604be85547ce4d Andy Yan       2022-04-22  2265  		vp_data = &vop2_data->vp[i];
+604be85547ce4d Andy Yan       2022-04-22  2266  		vp = &vop2->vps[i];
+604be85547ce4d Andy Yan       2022-04-22  2267  		vp->vop2 = vop2;
+604be85547ce4d Andy Yan       2022-04-22  2268  		vp->id = vp_data->id;
+604be85547ce4d Andy Yan       2022-04-22  2269  		vp->regs = vp_data->regs;
+604be85547ce4d Andy Yan       2022-04-22  2270  		vp->data = vp_data;
+604be85547ce4d Andy Yan       2022-04-22  2271  
+604be85547ce4d Andy Yan       2022-04-22  2272  		snprintf(dclk_name, sizeof(dclk_name), "dclk_vp%d", vp->id);
+604be85547ce4d Andy Yan       2022-04-22  2273  		vp->dclk = devm_clk_get(vop2->dev, dclk_name);
+604be85547ce4d Andy Yan       2022-04-22  2274  		if (IS_ERR(vp->dclk)) {
+604be85547ce4d Andy Yan       2022-04-22  2275  			drm_err(vop2->drm, "failed to get %s\n", dclk_name);
+604be85547ce4d Andy Yan       2022-04-22  2276  			return PTR_ERR(vp->dclk);
+604be85547ce4d Andy Yan       2022-04-22  2277  		}
+604be85547ce4d Andy Yan       2022-04-22  2278  
+604be85547ce4d Andy Yan       2022-04-22  2279  		np = of_graph_get_remote_node(dev->of_node, i, -1);
+604be85547ce4d Andy Yan       2022-04-22  2280  		if (!np) {
+604be85547ce4d Andy Yan       2022-04-22  2281  			drm_dbg(vop2->drm, "%s: No remote for vp%d\n", __func__, i);
+604be85547ce4d Andy Yan       2022-04-22  2282  			continue;
+604be85547ce4d Andy Yan       2022-04-22  2283  		}
+604be85547ce4d Andy Yan       2022-04-22  2284  		of_node_put(np);
+604be85547ce4d Andy Yan       2022-04-22  2285  
+604be85547ce4d Andy Yan       2022-04-22  2286  		port = of_graph_get_port_by_id(dev->of_node, i);
+604be85547ce4d Andy Yan       2022-04-22  2287  		if (!port) {
+604be85547ce4d Andy Yan       2022-04-22  2288  			drm_err(vop2->drm, "no port node found for video_port%d\n", i);
+604be85547ce4d Andy Yan       2022-04-22  2289  			return -ENOENT;
+604be85547ce4d Andy Yan       2022-04-22  2290  		}
+604be85547ce4d Andy Yan       2022-04-22  2291  
+604be85547ce4d Andy Yan       2022-04-22  2292  		vp->crtc.port = port;
+604be85547ce4d Andy Yan       2022-04-22  2293  		nvps++;
+604be85547ce4d Andy Yan       2022-04-22  2294  	}
+604be85547ce4d Andy Yan       2022-04-22  2295  
+604be85547ce4d Andy Yan       2022-04-22  2296  	nvp = 0;
+604be85547ce4d Andy Yan       2022-04-22  2297  	for (i = 0; i < vop2->registered_num_wins; i++) {
+604be85547ce4d Andy Yan       2022-04-22  2298  		struct vop2_win *win = &vop2->win[i];
+604be85547ce4d Andy Yan       2022-04-22  2299  		u32 possible_crtcs;
+604be85547ce4d Andy Yan       2022-04-22  2300  
+604be85547ce4d Andy Yan       2022-04-22  2301  		if (vop2->data->soc_id == 3566) {
+604be85547ce4d Andy Yan       2022-04-22  2302  			/*
+604be85547ce4d Andy Yan       2022-04-22  2303  			 * On RK3566 these windows don't have an independent
+604be85547ce4d Andy Yan       2022-04-22  2304  			 * framebuffer. They share the framebuffer with smart0,
+604be85547ce4d Andy Yan       2022-04-22  2305  			 * esmart0 and cluster0 respectively.
+604be85547ce4d Andy Yan       2022-04-22  2306  			 */
+604be85547ce4d Andy Yan       2022-04-22  2307  			switch (win->data->phys_id) {
+604be85547ce4d Andy Yan       2022-04-22  2308  			case ROCKCHIP_VOP2_SMART1:
+604be85547ce4d Andy Yan       2022-04-22  2309  			case ROCKCHIP_VOP2_ESMART1:
+604be85547ce4d Andy Yan       2022-04-22  2310  			case ROCKCHIP_VOP2_CLUSTER1:
+604be85547ce4d Andy Yan       2022-04-22  2311  				continue;
+604be85547ce4d Andy Yan       2022-04-22  2312  			}
+604be85547ce4d Andy Yan       2022-04-22  2313  		}
+604be85547ce4d Andy Yan       2022-04-22  2314  
+604be85547ce4d Andy Yan       2022-04-22  2315  		if (win->type == DRM_PLANE_TYPE_PRIMARY) {
+604be85547ce4d Andy Yan       2022-04-22  2316  			vp = find_vp_without_primary(vop2);
+604be85547ce4d Andy Yan       2022-04-22  2317  			if (vp) {
+604be85547ce4d Andy Yan       2022-04-22  2318  				possible_crtcs = BIT(nvp);
+604be85547ce4d Andy Yan       2022-04-22  2319  				vp->primary_plane = win;
+604be85547ce4d Andy Yan       2022-04-22  2320  				nvp++;
+604be85547ce4d Andy Yan       2022-04-22  2321  			} else {
+604be85547ce4d Andy Yan       2022-04-22  2322  				/* change the unused primary window to overlay window */
+604be85547ce4d Andy Yan       2022-04-22  2323  				win->type = DRM_PLANE_TYPE_OVERLAY;
+604be85547ce4d Andy Yan       2022-04-22  2324  			}
+604be85547ce4d Andy Yan       2022-04-22  2325  		}
+604be85547ce4d Andy Yan       2022-04-22  2326  
+604be85547ce4d Andy Yan       2022-04-22  2327  		if (win->type == DRM_PLANE_TYPE_OVERLAY)
+604be85547ce4d Andy Yan       2022-04-22  2328  			possible_crtcs = (1 << nvps) - 1;
 
-2db5be48ba87378 Huang Ying              2022-12-27  1129  
-2db5be48ba87378 Huang Ying              2022-12-27  1130  	rc = -EAGAIN;
-682a71a1b6b363b Matthew Wilcox (Oracle  2022-09-02  1131) 	if (!folio_trylock(src)) {
-a6bc32b899223a8 Mel Gorman              2012-01-12  1132  		if (!force || mode == MIGRATE_ASYNC)
-0dabec93de633a8 Minchan Kim             2011-10-31  1133  			goto out;
-3e7d344970673c5 Mel Gorman              2011-01-13  1134  
-3e7d344970673c5 Mel Gorman              2011-01-13  1135  		/*
-3e7d344970673c5 Mel Gorman              2011-01-13  1136  		 * It's not safe for direct compaction to call lock_page.
-3e7d344970673c5 Mel Gorman              2011-01-13  1137  		 * For example, during page readahead pages are added locked
-3e7d344970673c5 Mel Gorman              2011-01-13  1138  		 * to the LRU. Later, when the IO completes the pages are
-3e7d344970673c5 Mel Gorman              2011-01-13  1139  		 * marked uptodate and unlocked. However, the queueing
-3e7d344970673c5 Mel Gorman              2011-01-13  1140  		 * could be merging multiple pages for one bio (e.g.
-d4388340ae0bc83 Matthew Wilcox (Oracle  2020-06-01  1141) 		 * mpage_readahead). If an allocation happens for the
-3e7d344970673c5 Mel Gorman              2011-01-13  1142  		 * second or third page, the process can end up locking
-3e7d344970673c5 Mel Gorman              2011-01-13  1143  		 * the same page twice and deadlocking. Rather than
-3e7d344970673c5 Mel Gorman              2011-01-13  1144  		 * trying to be clever about what pages can be locked,
-3e7d344970673c5 Mel Gorman              2011-01-13  1145  		 * avoid the use of lock_page for direct compaction
-3e7d344970673c5 Mel Gorman              2011-01-13  1146  		 * altogether.
-3e7d344970673c5 Mel Gorman              2011-01-13  1147  		 */
-3e7d344970673c5 Mel Gorman              2011-01-13  1148  		if (current->flags & PF_MEMALLOC)
-0dabec93de633a8 Minchan Kim             2011-10-31  1149  			goto out;
-3e7d344970673c5 Mel Gorman              2011-01-13  1150  
-1548ab2c86db6ff Huang Ying              2022-12-27  1151  		if (!force_lock) {
-1548ab2c86db6ff Huang Ying              2022-12-27  1152  			rc = -EDEADLOCK;
-1548ab2c86db6ff Huang Ying              2022-12-27  1153  			goto out;
-1548ab2c86db6ff Huang Ying              2022-12-27  1154  		}
-1548ab2c86db6ff Huang Ying              2022-12-27  1155  
-682a71a1b6b363b Matthew Wilcox (Oracle  2022-09-02  1156) 		folio_lock(src);
-e24f0b8f76cc3dd Christoph Lameter       2006-06-23  1157  	}
-2db5be48ba87378 Huang Ying              2022-12-27  1158  	locked = true;
-e24f0b8f76cc3dd Christoph Lameter       2006-06-23  1159  
-682a71a1b6b363b Matthew Wilcox (Oracle  2022-09-02  1160) 	if (folio_test_writeback(src)) {
-11bc82d67d11507 Andrea Arcangeli        2011-03-22  1161  		/*
-fed5b64a9532669 Jianguo Wu              2013-04-29  1162  		 * Only in the case of a full synchronous migration is it
-a6bc32b899223a8 Mel Gorman              2012-01-12  1163  		 * necessary to wait for PageWriteback. In the async case,
-a6bc32b899223a8 Mel Gorman              2012-01-12  1164  		 * the retry loop is too short and in the sync-light case,
-a6bc32b899223a8 Mel Gorman              2012-01-12  1165  		 * the overhead of stalling is too much
-11bc82d67d11507 Andrea Arcangeli        2011-03-22  1166  		 */
-2916ecc0f9d435d Jérôme Glisse           2017-09-08  1167  		switch (mode) {
-2916ecc0f9d435d Jérôme Glisse           2017-09-08  1168  		case MIGRATE_SYNC:
-2916ecc0f9d435d Jérôme Glisse           2017-09-08  1169  		case MIGRATE_SYNC_NO_COPY:
-2916ecc0f9d435d Jérôme Glisse           2017-09-08  1170  			break;
-2916ecc0f9d435d Jérôme Glisse           2017-09-08  1171  		default:
-11bc82d67d11507 Andrea Arcangeli        2011-03-22  1172  			rc = -EBUSY;
-2db5be48ba87378 Huang Ying              2022-12-27  1173  			goto out;
-11bc82d67d11507 Andrea Arcangeli        2011-03-22  1174  		}
-11bc82d67d11507 Andrea Arcangeli        2011-03-22  1175  		if (!force)
-2db5be48ba87378 Huang Ying              2022-12-27  1176  			goto out;
-682a71a1b6b363b Matthew Wilcox (Oracle  2022-09-02  1177) 		folio_wait_writeback(src);
-e24f0b8f76cc3dd Christoph Lameter       2006-06-23  1178  	}
-03f15c86c8d1b9d Hugh Dickins            2015-11-05  1179  
-e24f0b8f76cc3dd Christoph Lameter       2006-06-23  1180  	/*
-682a71a1b6b363b Matthew Wilcox (Oracle  2022-09-02  1181) 	 * By try_to_migrate(), src->mapcount goes down to 0 here. In this case,
-682a71a1b6b363b Matthew Wilcox (Oracle  2022-09-02  1182) 	 * we cannot notice that anon_vma is freed while we migrate a page.
-1ce82b69e96c838 Hugh Dickins            2011-01-13  1183  	 * This get_anon_vma() delays freeing anon_vma pointer until the end
-dc386d4d1e98bb3 KAMEZAWA Hiroyuki       2007-07-26  1184  	 * of migration. File cache pages are no problem because of page_lock()
-989f89c57e6361e KAMEZAWA Hiroyuki       2007-08-30  1185  	 * File Caches may use write_page() or lock_page() in migration, then,
-989f89c57e6361e KAMEZAWA Hiroyuki       2007-08-30  1186  	 * just care Anon page here.
-03f15c86c8d1b9d Hugh Dickins            2015-11-05  1187  	 *
-29eea9b5a9c9ecf Matthew Wilcox (Oracle  2022-09-02  1188) 	 * Only folio_get_anon_vma() understands the subtleties of
-1ce82b69e96c838 Hugh Dickins            2011-01-13  1189  	 * getting a hold on an anon_vma from outside one of its mms.
-03f15c86c8d1b9d Hugh Dickins            2015-11-05  1190  	 * But if we cannot get anon_vma, then we won't need it anyway,
-03f15c86c8d1b9d Hugh Dickins            2015-11-05  1191  	 * because that implies that the anon page is no longer mapped
-03f15c86c8d1b9d Hugh Dickins            2015-11-05  1192  	 * (and cannot be remapped so long as we hold the page lock).
-1ce82b69e96c838 Hugh Dickins            2011-01-13  1193  	 */
-682a71a1b6b363b Matthew Wilcox (Oracle  2022-09-02  1194) 	if (folio_test_anon(src) && !folio_test_ksm(src))
-29eea9b5a9c9ecf Matthew Wilcox (Oracle  2022-09-02  1195) 		anon_vma = folio_get_anon_vma(src);
-62e1c55300f306e Shaohua Li              2008-02-04  1196  
-7db7671f835ccad Hugh Dickins            2015-11-05  1197  	/*
-7db7671f835ccad Hugh Dickins            2015-11-05  1198  	 * Block others from accessing the new page when we get around to
-7db7671f835ccad Hugh Dickins            2015-11-05  1199  	 * establishing additional references. We are usually the only one
-682a71a1b6b363b Matthew Wilcox (Oracle  2022-09-02  1200) 	 * holding a reference to dst at this point. We used to have a BUG
-682a71a1b6b363b Matthew Wilcox (Oracle  2022-09-02  1201) 	 * here if folio_trylock(dst) fails, but would like to allow for
-682a71a1b6b363b Matthew Wilcox (Oracle  2022-09-02  1202) 	 * cases where there might be a race with the previous use of dst.
-7db7671f835ccad Hugh Dickins            2015-11-05  1203  	 * This is much like races on refcount of oldpage: just don't BUG().
-7db7671f835ccad Hugh Dickins            2015-11-05  1204  	 */
-682a71a1b6b363b Matthew Wilcox (Oracle  2022-09-02  1205) 	if (unlikely(!folio_trylock(dst)))
-2db5be48ba87378 Huang Ying              2022-12-27  1206  		goto out;
-2db5be48ba87378 Huang Ying              2022-12-27  1207  	dst_locked = true;
-7db7671f835ccad Hugh Dickins            2015-11-05  1208  
-bda807d4445414e Minchan Kim             2016-07-26  1209  	if (unlikely(!is_lru)) {
-2b44763e2f0ca52 Huang Ying              2022-12-27  1210  		__migrate_folio_record(dst, page_was_mapped, anon_vma);
-2b44763e2f0ca52 Huang Ying              2022-12-27  1211  		return MIGRATEPAGE_UNMAP;
-bda807d4445414e Minchan Kim             2016-07-26  1212  	}
-bda807d4445414e Minchan Kim             2016-07-26  1213  
-62e1c55300f306e Shaohua Li              2008-02-04  1214  	/*
-62e1c55300f306e Shaohua Li              2008-02-04  1215  	 * Corner case handling:
-62e1c55300f306e Shaohua Li              2008-02-04  1216  	 * 1. When a new swap-cache page is read into, it is added to the LRU
-62e1c55300f306e Shaohua Li              2008-02-04  1217  	 * and treated as swapcache but it has no rmap yet.
-682a71a1b6b363b Matthew Wilcox (Oracle  2022-09-02  1218) 	 * Calling try_to_unmap() against a src->mapping==NULL page will
-62e1c55300f306e Shaohua Li              2008-02-04  1219  	 * trigger a BUG.  So handle it here.
-d12b8951ad17cd8 Yang Shi                2020-12-14  1220  	 * 2. An orphaned page (see truncate_cleanup_page) might have
-62e1c55300f306e Shaohua Li              2008-02-04  1221  	 * fs-private metadata. The page can be picked up due to memory
-62e1c55300f306e Shaohua Li              2008-02-04  1222  	 * offlining.  Everywhere else except page reclaim, the page is
-62e1c55300f306e Shaohua Li              2008-02-04  1223  	 * invisible to the vm, so the page can not be migrated.  So try to
-62e1c55300f306e Shaohua Li              2008-02-04  1224  	 * free the metadata, so the page can be freed.
-62e1c55300f306e Shaohua Li              2008-02-04  1225  	 */
-682a71a1b6b363b Matthew Wilcox (Oracle  2022-09-02  1226) 	if (!src->mapping) {
-682a71a1b6b363b Matthew Wilcox (Oracle  2022-09-02  1227) 		if (folio_test_private(src)) {
-682a71a1b6b363b Matthew Wilcox (Oracle  2022-09-02  1228) 			try_to_free_buffers(src);
-2db5be48ba87378 Huang Ying              2022-12-27  1229  			goto out;
-abfc3488118d48a Shaohua Li              2009-09-21  1230  		}
-682a71a1b6b363b Matthew Wilcox (Oracle  2022-09-02  1231) 	} else if (folio_mapped(src)) {
-7db7671f835ccad Hugh Dickins            2015-11-05  1232  		/* Establish migration ptes */
-682a71a1b6b363b Matthew Wilcox (Oracle  2022-09-02  1233) 		VM_BUG_ON_FOLIO(folio_test_anon(src) &&
-682a71a1b6b363b Matthew Wilcox (Oracle  2022-09-02  1234) 			       !folio_test_ksm(src) && !anon_vma, src);
-682a71a1b6b363b Matthew Wilcox (Oracle  2022-09-02  1235) 		try_to_migrate(src, 0);
-2b44763e2f0ca52 Huang Ying              2022-12-27  1236  		page_was_mapped = 1;
-2ebba6b7e1d9872 Hugh Dickins            2014-12-12  1237  	}
-dc386d4d1e98bb3 KAMEZAWA Hiroyuki       2007-07-26  1238  
-2b44763e2f0ca52 Huang Ying              2022-12-27  1239  	if (!folio_mapped(src)) {
-2b44763e2f0ca52 Huang Ying              2022-12-27  1240  		__migrate_folio_record(dst, page_was_mapped, anon_vma);
-2b44763e2f0ca52 Huang Ying              2022-12-27  1241  		return MIGRATEPAGE_UNMAP;
-2b44763e2f0ca52 Huang Ying              2022-12-27  1242  	}
-2b44763e2f0ca52 Huang Ying              2022-12-27  1243  
-2b44763e2f0ca52 Huang Ying              2022-12-27  1244  out:
-06968ece4cd7f1e Huang Ying              2022-12-27  1245  	/*
-06968ece4cd7f1e Huang Ying              2022-12-27  1246  	 * A page that has not been migrated will have kept its
-06968ece4cd7f1e Huang Ying              2022-12-27  1247  	 * references and be restored.
-06968ece4cd7f1e Huang Ying              2022-12-27  1248  	 */
-06968ece4cd7f1e Huang Ying              2022-12-27  1249  	/* restore the folio to right list. */
-2db5be48ba87378 Huang Ying              2022-12-27  1250  	if (rc == -EAGAIN || rc == -EDEADLOCK)
-2db5be48ba87378 Huang Ying              2022-12-27  1251  		ret = NULL;
-06968ece4cd7f1e Huang Ying              2022-12-27  1252  
-2db5be48ba87378 Huang Ying              2022-12-27  1253  	migrate_folio_undo_src(src, page_was_mapped, anon_vma, locked, ret);
-2db5be48ba87378 Huang Ying              2022-12-27 @1254  	if (dst)
-                                                                    ^^^
-Presumably this check can be deleted.  (pointless).
+What about if win->type is not equal to either DRM_PLANE_TYPE_PRIMARY or
+DRM_PLANE_TYPE_OVERLAY?  That's what the checker is worried about.
 
-2db5be48ba87378 Huang Ying              2022-12-27  1255  		migrate_folio_undo_dst(dst, dst_locked, put_new_page, private);
-06968ece4cd7f1e Huang Ying              2022-12-27  1256  
-06968ece4cd7f1e Huang Ying              2022-12-27  1257  	return rc;
-06968ece4cd7f1e Huang Ying              2022-12-27  1258  }
+604be85547ce4d Andy Yan       2022-04-22  2329  
+604be85547ce4d Andy Yan       2022-04-22 @2330  		ret = vop2_plane_init(vop2, win, possible_crtcs);
+                                                                                                 ^^^^^^^^^^^^^^
+
+604be85547ce4d Andy Yan       2022-04-22  2331  		if (ret) {
+604be85547ce4d Andy Yan       2022-04-22  2332  			drm_err(vop2->drm, "failed to init plane %s: %d\n",
+604be85547ce4d Andy Yan       2022-04-22  2333  				win->data->name, ret);
+604be85547ce4d Andy Yan       2022-04-22  2334  			return ret;
+604be85547ce4d Andy Yan       2022-04-22  2335  		}
+604be85547ce4d Andy Yan       2022-04-22  2336  	}
+604be85547ce4d Andy Yan       2022-04-22  2337  
+604be85547ce4d Andy Yan       2022-04-22  2338  	for (i = 0; i < vop2_data->nr_vps; i++) {
 
 -- 
 0-DAY CI Kernel Test Service
