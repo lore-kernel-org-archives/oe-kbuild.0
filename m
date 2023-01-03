@@ -1,59 +1,60 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EBA979FD
-	for <oe-kbuild@lists.linux.dev>; Tue,  3 Jan 2023 14:39:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B84968466
+	for <oe-kbuild@lists.linux.dev>; Tue,  3 Jan 2023 15:29:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1672756745; x=1704292745;
+  t=1672759753; x=1704295753;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=mVXk7g4a4ehXuiUdTIkz/yq1DydHwY+UZDcrMAWGEFc=;
-  b=XB4/Qem+0GvbdWbV7Tu6+7W3xAc+BXf7L80k8BVPb+ZMGmMeQhDeIXwM
-   eo3FqxsgSvM2ydZotMOQgii8r+srN8S361nOYsyqIzjZ+uwQJFAWQ8vP8
-   9HQ6PEz775nJxlOGVi69vznHpYt91JWs8tsilVq0mrvF1NavhraHqN7Mg
-   GhTva20jtWAr4/p2pZzzLaRroVEBUNE3R33TsGKEj8vrUX0UpxEK9Jb/d
-   oJIlJD0iR58s1LTTO5MbXW4OCB2ROAkXv3ZMmKDXXssLcOL4v2+J/v3L0
-   YdFB9n24TraVJKy6Rmv2cmtboHCZ1KqUeIiyw5W/kwke09xJ0QDnrp55y
+  bh=1b6rOqQRsp45fR2G6NNo8/ZFIAg8552dHs7l81ONMbs=;
+  b=MB87aCLU0Id/5jo4BkXMLDJAYioe03MX0RAOxH8L1Jq151vArq521zfg
+   U4kOm+VbP1Y/UWR+k85hMqrAAViHyey1I+y+qECSN0jiq5eduj6/lRYBp
+   y1rSbdrPCt2IAXfhjxp4SdM2N1Q1fQ/Xl5njFb99/TZvYleu918WhZ1h1
+   DwMCY/ErjspQFM0Dnm9YhNqM0Mdpo56uvi+QAGtG+0VY6Ftw8hD9B5Zss
+   hTR5NPghjooBIgCS2yI6lXNPT/5NNB4g6dMNZmj02CXrhhVl7H9rFNrv9
+   QhEWcBsMOYxdqHIWtfTSEtbvuAW0uo8vgdairJWub/kWsgTsLHaILFSfi
    Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10579"; a="309441774"
+X-IronPort-AV: E=McAfee;i="6500,9779,10579"; a="348899180"
 X-IronPort-AV: E=Sophos;i="5.96,297,1665471600"; 
-   d="scan'208";a="309441774"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jan 2023 06:39:04 -0800
+   d="scan'208";a="348899180"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jan 2023 07:29:12 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10579"; a="983581559"
+X-IronPort-AV: E=McAfee;i="6500,9779,10579"; a="900210834"
 X-IronPort-AV: E=Sophos;i="5.96,297,1665471600"; 
-   d="scan'208";a="983581559"
+   d="scan'208";a="900210834"
 Received: from lkp-server01.sh.intel.com (HELO b5d47979f3ad) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 03 Jan 2023 06:39:01 -0800
+  by fmsmga006.fm.intel.com with ESMTP; 03 Jan 2023 07:29:10 -0800
 Received: from kbuild by b5d47979f3ad with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pCiRQ-000SL7-2R;
-	Tue, 03 Jan 2023 14:39:00 +0000
-Date: Tue, 3 Jan 2023 22:38:00 +0800
+	id 1pCjDt-000SOn-0l;
+	Tue, 03 Jan 2023 15:29:05 +0000
+Date: Tue, 3 Jan 2023 23:28:32 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [RFC PATCH 04/17] fscrypt: factor out fscrypt_set_inode_info()
-Message-ID: <202301032219.6equSd0D-lkp@intel.com>
+Subject: Re: [RFC PATCH 14/17] fscrypt: add creation/usage/freeing of
+ per-extent infos
+Message-ID: <202301032351.WJOSX4jj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="VMyEi2xXZaI8slfe"
+Content-Type: multipart/mixed; boundary="DN2DHeQhd2JEn0a7"
 Content-Disposition: inline
 
 
---VMyEi2xXZaI8slfe
+--DN2DHeQhd2JEn0a7
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <fba20d354834b5b9f20c284b577381e5147692a0.1672547582.git.sweettea-kernel@dorminy.me>
-References: <fba20d354834b5b9f20c284b577381e5147692a0.1672547582.git.sweettea-kernel@dorminy.me>
+In-Reply-To: <9e1c2b101025a3388a6b31a8bdfb2b1cf59bf97c.1672547582.git.sweettea-kernel@dorminy.me>
+References: <9e1c2b101025a3388a6b31a8bdfb2b1cf59bf97c.1672547582.git.sweettea-kernel@dorminy.me>
 TO: Sweet Tea Dorminy <sweettea-kernel@dorminy.me>
 
 Hi Sweet,
@@ -63,8 +64,8 @@ Hi Sweet,
 
 url:    https://github.com/intel-lab-lkp/linux/commits/Sweet-Tea-Dorminy/fscrypt-factor-accessing-inode-i_crypt_info/20230101-130927
 base:   b7af0635c87ff78d6bd523298ab7471f9ffd3ce5
-patch link:    https://lore.kernel.org/r/fba20d354834b5b9f20c284b577381e5147692a0.1672547582.git.sweettea-kernel%40dorminy.me
-patch subject: [RFC PATCH 04/17] fscrypt: factor out fscrypt_set_inode_info()
+patch link:    https://lore.kernel.org/r/9e1c2b101025a3388a6b31a8bdfb2b1cf59bf97c.1672547582.git.sweettea-kernel%40dorminy.me
+patch subject: [RFC PATCH 14/17] fscrypt: add creation/usage/freeing of per-extent infos
 :::::: branch date: 2 days ago
 :::::: commit date: 2 days ago
 config: i386-randconfig-m021
@@ -74,69 +75,73 @@ If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
 
-New smatch warnings:
-fs/crypto/keysetup.c:593 fscrypt_setup_encryption_info() error: uninitialized symbol 'set_succeeded'.
+smatch warnings:
+fs/crypto/crypto.c:121 fscrypt_crypt_block() warn: variable dereferenced before check 'ci' (see line 114)
 
-Old smatch warnings:
-fs/crypto/keysetup.c:576 fscrypt_setup_encryption_info() warn: passing a valid pointer to 'PTR_ERR'
+vim +/ci +121 fs/crypto/crypto.c
 
-vim +/set_succeeded +593 fs/crypto/keysetup.c
-
-6da376f1c405a2 fs/crypto/keysetup.c Sweet Tea Dorminy 2023-01-01  549  
-a992b20cd4ee36 fs/crypto/keysetup.c Eric Biggers      2020-09-16  550  static int
-a992b20cd4ee36 fs/crypto/keysetup.c Eric Biggers      2020-09-16  551  fscrypt_setup_encryption_info(struct inode *inode,
-a992b20cd4ee36 fs/crypto/keysetup.c Eric Biggers      2020-09-16  552  			      const union fscrypt_policy *policy,
-a992b20cd4ee36 fs/crypto/keysetup.c Eric Biggers      2020-09-16  553  			      const u8 nonce[FSCRYPT_FILE_NONCE_SIZE],
-a992b20cd4ee36 fs/crypto/keysetup.c Eric Biggers      2020-09-16  554  			      bool need_dirhash_key)
-26bf3dc7e25b81 fs/f2fs/crypto_key.c Jaegeuk Kim       2015-05-19  555  {
-0b81d077907269 fs/crypto/keyinfo.c  Jaegeuk Kim       2015-05-15  556  	struct fscrypt_info *crypt_info;
-e1cc40e5d42acb fs/crypto/keyinfo.c  Eric Biggers      2018-05-18  557  	struct fscrypt_mode *mode;
-d7e7b9af104c7b fs/crypto/keysetup.c Eric Biggers      2022-09-01  558  	struct fscrypt_master_key *mk = NULL;
-0adda907f23df2 fs/f2fs/crypto_key.c Jaegeuk Kim       2015-04-21  559  	int res;
-6da376f1c405a2 fs/crypto/keysetup.c Sweet Tea Dorminy 2023-01-01  560  	bool set_succeeded;
-0adda907f23df2 fs/f2fs/crypto_key.c Jaegeuk Kim       2015-04-21  561  
-f32d7ac20a5864 fs/crypto/keyinfo.c  David Gstir       2016-12-06  562  	res = fscrypt_initialize(inode->i_sb->s_cop->flags);
-0adda907f23df2 fs/f2fs/crypto_key.c Jaegeuk Kim       2015-04-21  563  	if (res)
-0adda907f23df2 fs/f2fs/crypto_key.c Jaegeuk Kim       2015-04-21  564  		return res;
-0b81d077907269 fs/crypto/keyinfo.c  Jaegeuk Kim       2015-05-15  565  
-9dad5feb49a5c3 fs/crypto/keysetup.c Eric Biggers      2020-09-16  566  	crypt_info = kmem_cache_zalloc(fscrypt_info_cachep, GFP_KERNEL);
-0adda907f23df2 fs/f2fs/crypto_key.c Jaegeuk Kim       2015-04-21  567  	if (!crypt_info)
-0adda907f23df2 fs/f2fs/crypto_key.c Jaegeuk Kim       2015-04-21  568  		return -ENOMEM;
-0adda907f23df2 fs/f2fs/crypto_key.c Jaegeuk Kim       2015-04-21  569  
-59dc6a8e1f534c fs/crypto/keyinfo.c  Eric Biggers      2019-08-04  570  	crypt_info->ci_inode = inode;
-a992b20cd4ee36 fs/crypto/keysetup.c Eric Biggers      2020-09-16  571  	crypt_info->ci_policy = *policy;
-a992b20cd4ee36 fs/crypto/keysetup.c Eric Biggers      2020-09-16  572  	memcpy(crypt_info->ci_nonce, nonce, FSCRYPT_FILE_NONCE_SIZE);
-640778fbc97b36 fs/f2fs/crypto_key.c Jaegeuk Kim       2015-05-12  573  
-5dae460c2292db fs/crypto/keysetup.c Eric Biggers      2019-08-04  574  	mode = select_encryption_mode(&crypt_info->ci_policy, inode);
-e1cc40e5d42acb fs/crypto/keyinfo.c  Eric Biggers      2018-05-18  575  	if (IS_ERR(mode)) {
-e1cc40e5d42acb fs/crypto/keyinfo.c  Eric Biggers      2018-05-18  576  		res = PTR_ERR(mode);
-26bf3dc7e25b81 fs/f2fs/crypto_key.c Jaegeuk Kim       2015-05-19  577  		goto out;
-e1cc40e5d42acb fs/crypto/keyinfo.c  Eric Biggers      2018-05-18  578  	}
-8094c3ceb21ad9 fs/crypto/keyinfo.c  Eric Biggers      2019-01-06  579  	WARN_ON(mode->ivsize > FSCRYPT_MAX_IV_SIZE);
-8094c3ceb21ad9 fs/crypto/keyinfo.c  Eric Biggers      2019-01-06  580  	crypt_info->ci_mode = mode;
-8f39850dffa9cb fs/crypto/keyinfo.c  Eric Biggers      2016-09-15  581  
-d7e7b9af104c7b fs/crypto/keysetup.c Eric Biggers      2022-09-01  582  	res = setup_file_encryption_key(crypt_info, need_dirhash_key, &mk);
-26bf3dc7e25b81 fs/f2fs/crypto_key.c Jaegeuk Kim       2015-05-19  583  	if (res)
-26bf3dc7e25b81 fs/f2fs/crypto_key.c Jaegeuk Kim       2015-05-19  584  		goto out;
-26bf3dc7e25b81 fs/f2fs/crypto_key.c Jaegeuk Kim       2015-05-19  585  
-6da376f1c405a2 fs/crypto/keysetup.c Sweet Tea Dorminy 2023-01-01  586  	set_succeeded = fscrypt_set_inode_info(inode, crypt_info, mk);
-b1c0ec3599f42a fs/crypto/keysetup.c Eric Biggers      2019-08-04  587  	res = 0;
-0adda907f23df2 fs/f2fs/crypto_key.c Jaegeuk Kim       2015-04-21  588  out:
-d7e7b9af104c7b fs/crypto/keysetup.c Eric Biggers      2022-09-01  589  	if (mk) {
-d7e7b9af104c7b fs/crypto/keysetup.c Eric Biggers      2022-09-01  590  		up_read(&mk->mk_sem);
-d7e7b9af104c7b fs/crypto/keysetup.c Eric Biggers      2022-09-01  591  		fscrypt_put_master_key(mk);
-b1c0ec3599f42a fs/crypto/keysetup.c Eric Biggers      2019-08-04  592  	}
-6da376f1c405a2 fs/crypto/keysetup.c Sweet Tea Dorminy 2023-01-01 @593  	if (!set_succeeded)
-a992b20cd4ee36 fs/crypto/keysetup.c Eric Biggers      2020-09-16  594  		put_crypt_info(crypt_info);
-a992b20cd4ee36 fs/crypto/keysetup.c Eric Biggers      2020-09-16  595  	return res;
-a992b20cd4ee36 fs/crypto/keysetup.c Eric Biggers      2020-09-16  596  }
-a992b20cd4ee36 fs/crypto/keysetup.c Eric Biggers      2020-09-16  597  
+8094c3ceb21ad9 Eric Biggers       2019-01-06  100  
+f47fcbb2b578bd Eric Biggers       2019-05-20  101  /* Encrypt or decrypt a single filesystem block of file contents */
+f47fcbb2b578bd Eric Biggers       2019-05-20  102  int fscrypt_crypt_block(const struct inode *inode, fscrypt_direction_t rw,
+58ae74683ae2c0 Richard Weinberger 2016-12-19  103  			u64 lblk_num, struct page *src_page,
+58ae74683ae2c0 Richard Weinberger 2016-12-19  104  			struct page *dest_page, unsigned int len,
+58ae74683ae2c0 Richard Weinberger 2016-12-19  105  			unsigned int offs, gfp_t gfp_flags)
+0b81d077907269 Jaegeuk Kim        2015-05-15  106  {
+8094c3ceb21ad9 Eric Biggers       2019-01-06  107  	union fscrypt_iv iv;
+d407574e794821 Linus Torvalds     2016-03-21  108  	struct skcipher_request *req = NULL;
+d0082e1a7c8dfe Gilad Ben-Yossef   2017-10-18  109  	DECLARE_CRYPTO_WAIT(wait);
+0b81d077907269 Jaegeuk Kim        2015-05-15  110  	struct scatterlist dst, src;
+e87879ea12c3b6 Sweet Tea Dorminy  2023-01-01  111  	u64 ci_offset = 0;
+e87879ea12c3b6 Sweet Tea Dorminy  2023-01-01  112  	struct fscrypt_info *ci = fscrypt_get_lblk_info(inode, lblk_num,
+e87879ea12c3b6 Sweet Tea Dorminy  2023-01-01  113  						        &ci_offset, NULL);
+5fee36095cda45 Satya Tangirala    2020-07-02 @114  	struct crypto_skcipher *tfm = ci->ci_enc_key.tfm;
+0b81d077907269 Jaegeuk Kim        2015-05-15  115  	int res = 0;
+0b81d077907269 Jaegeuk Kim        2015-05-15  116  
+eeacfdc68a1049 Eric Biggers       2019-05-20  117  	if (WARN_ON_ONCE(len <= 0))
+eeacfdc68a1049 Eric Biggers       2019-05-20  118  		return -EINVAL;
+63cec1389e116a Eric Biggers       2022-04-04  119  	if (WARN_ON_ONCE(len % FSCRYPT_CONTENTS_ALIGNMENT != 0))
+eeacfdc68a1049 Eric Biggers       2019-05-20  120  		return -EINVAL;
+938fa42307b18b Sweet Tea Dorminy  2023-01-01 @121  	if (!ci) {
+938fa42307b18b Sweet Tea Dorminy  2023-01-01  122  		fscrypt_err(inode,
+938fa42307b18b Sweet Tea Dorminy  2023-01-01  123  			    "Error %d getting extent info for block %llu",
+938fa42307b18b Sweet Tea Dorminy  2023-01-01  124  			    res, lblk_num);
+938fa42307b18b Sweet Tea Dorminy  2023-01-01  125  		return -EINVAL;
+938fa42307b18b Sweet Tea Dorminy  2023-01-01  126  	}
+1400451f04f2ff David Gstir        2016-12-06  127  
+e87879ea12c3b6 Sweet Tea Dorminy  2023-01-01  128  	fscrypt_generate_iv(&iv, ci_offset, ci);
+b7e7cf7a66a27e Daniel Walter      2017-06-19  129  
+b32e4482aadfd1 Jaegeuk Kim        2016-04-11  130  	req = skcipher_request_alloc(tfm, gfp_flags);
+c90fd775624791 Eric Biggers       2018-04-30  131  	if (!req)
+0b81d077907269 Jaegeuk Kim        2015-05-15  132  		return -ENOMEM;
+0b81d077907269 Jaegeuk Kim        2015-05-15  133  
+d407574e794821 Linus Torvalds     2016-03-21  134  	skcipher_request_set_callback(
+0b81d077907269 Jaegeuk Kim        2015-05-15  135  		req, CRYPTO_TFM_REQ_MAY_BACKLOG | CRYPTO_TFM_REQ_MAY_SLEEP,
+d0082e1a7c8dfe Gilad Ben-Yossef   2017-10-18  136  		crypto_req_done, &wait);
+0b81d077907269 Jaegeuk Kim        2015-05-15  137  
+0b81d077907269 Jaegeuk Kim        2015-05-15  138  	sg_init_table(&dst, 1);
+1400451f04f2ff David Gstir        2016-12-06  139  	sg_set_page(&dst, dest_page, len, offs);
+0b81d077907269 Jaegeuk Kim        2015-05-15  140  	sg_init_table(&src, 1);
+1400451f04f2ff David Gstir        2016-12-06  141  	sg_set_page(&src, src_page, len, offs);
+b7e7cf7a66a27e Daniel Walter      2017-06-19  142  	skcipher_request_set_crypt(req, &src, &dst, len, &iv);
+0b81d077907269 Jaegeuk Kim        2015-05-15  143  	if (rw == FS_DECRYPT)
+d0082e1a7c8dfe Gilad Ben-Yossef   2017-10-18  144  		res = crypto_wait_req(crypto_skcipher_decrypt(req), &wait);
+0b81d077907269 Jaegeuk Kim        2015-05-15  145  	else
+d0082e1a7c8dfe Gilad Ben-Yossef   2017-10-18  146  		res = crypto_wait_req(crypto_skcipher_encrypt(req), &wait);
+d407574e794821 Linus Torvalds     2016-03-21  147  	skcipher_request_free(req);
+0b81d077907269 Jaegeuk Kim        2015-05-15  148  	if (res) {
+886da8b39cf279 Eric Biggers       2019-07-24  149  		fscrypt_err(inode, "%scryption failed for block %llu: %d",
+886da8b39cf279 Eric Biggers       2019-07-24  150  			    (rw == FS_DECRYPT ? "De" : "En"), lblk_num, res);
+0b81d077907269 Jaegeuk Kim        2015-05-15  151  		return res;
+0b81d077907269 Jaegeuk Kim        2015-05-15  152  	}
+0b81d077907269 Jaegeuk Kim        2015-05-15  153  	return 0;
+0b81d077907269 Jaegeuk Kim        2015-05-15  154  }
+0b81d077907269 Jaegeuk Kim        2015-05-15  155  
 
 -- 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
 
---VMyEi2xXZaI8slfe
+--DN2DHeQhd2JEn0a7
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename=config
 
@@ -5675,4 +5680,4 @@ CONFIG_ARCH_USE_MEMTEST=y
 # end of Rust hacking
 # end of Kernel hacking
 
---VMyEi2xXZaI8slfe--
+--DN2DHeQhd2JEn0a7--
