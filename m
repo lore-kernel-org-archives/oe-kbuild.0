@@ -1,71 +1,71 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A616C38D
-	for <oe-kbuild@lists.linux.dev>; Tue,  3 Jan 2023 03:50:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EB8039B
+	for <oe-kbuild@lists.linux.dev>; Tue,  3 Jan 2023 05:52:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1672717826; x=1704253826;
+  t=1672725147; x=1704261147;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=gUJap5+4EHryL3XEGBikQTQTEmC58yJ3YF2bykuQOTA=;
-  b=UfIXDsi7TioKfsf3ok4mzZ3wo7+jj4j+LWOR39+t+aIOmmHFpXHu09v+
-   7TpqJciAuP6BcESwkOccPyxUvHKZuyliYKbwLExKcam4CMQYVWzPtmuVN
-   Obd7ok4VvjRCVKZBWJIyuXjm+uVtf1v3E3+w2f6prVXbcULXqKUuVLOCA
-   cjDYFucV81O3Pv2Sp3sjtjyUFuhgsvMBE4dCjGMnSfy+Xg884zeone0Hf
-   U+Q+EBdUMW6e/PpILPVAUJcBIfu0T5PFLRegC5hf4+0hL2S8bzamCdHWb
-   NJA7oniQsIpzRatYzvWvdjJ7FBM8GAoWRPE24mNSmRc6/C9CrSgpRqpdL
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10578"; a="301263231"
-X-IronPort-AV: E=Sophos;i="5.96,295,1665471600"; 
-   d="scan'208";a="301263231"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jan 2023 19:50:18 -0800
+  bh=pf2RDoI6zJ8+s/JuFFq8M1phlp5cZdgHpCWQjQC6gr0=;
+  b=UVVAcVrR1tlDqy3pO4Ogme+uW38bJPa4orNEzh2zDnVQ8o5Wmy1l2cJG
+   HqqDeUPVFb20BVEBu2llPXJlUTlf5FXxeXNq0nLRFeKPBYtE4xS9+8wbR
+   8oriEN2BDuXIwdVlopbByITFJn198znX3uVGXYxvVAtjiK4ALbFMnJzGc
+   pxJ/fXFL5YBgawLwMnGzkw5Z2SISocVfOWvd8k2/Q1cwuLf0TYB0kd69G
+   ZcW7RDlYJtDjKw9HBuA/C4hqU5HuT97bGngkdG5KsQJWkMFeQRGgNl+yo
+   v7pPgPWUyjXzpsyY5c6LE2owVQSWSg/BKi0ps1dVLy2PvELu8Go1AHgEc
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10578"; a="319294886"
+X-IronPort-AV: E=Sophos;i="5.96,296,1665471600"; 
+   d="scan'208";a="319294886"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jan 2023 21:52:26 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10578"; a="762166487"
-X-IronPort-AV: E=Sophos;i="5.96,295,1665471600"; 
-   d="scan'208";a="762166487"
+X-IronPort-AV: E=McAfee;i="6500,9779,10578"; a="656650365"
+X-IronPort-AV: E=Sophos;i="5.96,296,1665471600"; 
+   d="scan'208";a="656650365"
 Received: from lkp-server01.sh.intel.com (HELO b5d47979f3ad) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 02 Jan 2023 19:50:15 -0800
+  by fmsmga007.fm.intel.com with ESMTP; 02 Jan 2023 21:52:23 -0800
 Received: from kbuild by b5d47979f3ad with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pCYJb-000Rk3-0E;
-	Tue, 03 Jan 2023 03:50:15 +0000
-Date: Tue, 3 Jan 2023 11:50:04 +0800
+	id 1pCaDn-000Rot-04;
+	Tue, 03 Jan 2023 05:52:23 +0000
+Date: Tue, 3 Jan 2023 13:51:34 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/media/platform/nxp/dw100/dw100.c:1574 dw100_probe() warn:
- missing unwind goto?
-Message-ID: <202301031138.wkCMwZin-lkp@intel.com>
+Subject: drivers/media/platform/mediatek/mdp3/mtk-mdp3-comp.c:992
+ mdp_comp_config() warn: missing unwind goto?
+Message-ID: <202301031311.h6InTjT3-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="m4pSavDwmWFkkbVW"
+Content-Type: multipart/mixed; boundary="93UXydhKJHgFyM4+"
 Content-Disposition: inline
 
 
---m4pSavDwmWFkkbVW
+--93UXydhKJHgFyM4+
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Xavier Roumegue <xavier.roumegue@oss.nxp.com>
+TO: Moudy Ho <moudy.ho@mediatek.com>
 CC: Mauro Carvalho Chehab <mchehab@kernel.org>
 CC: linux-media@vger.kernel.org
-CC: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-CC: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+CC: "Ping-Hsun Wu" <ping-hsun.wu@mediatek.com>
+CC: daoyuan huang <daoyuan.huang@mediatek.com>
 CC: Hans Verkuil <hverkuil@xs4all.nl>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   69b41ac87e4a664de78a395ff97166f0b2943210
-commit: cb6d000fcaa6e2ee0e01937364c686690329bf5e media: dw100: Add i.MX8MP dw100 dewarper driver
+commit: 61890ccaefaff89f5babd2c8412fd222c3f5fe38 media: platform: mtk-mdp3: add MediaTek MDP3 driver
 date:   4 months ago
-:::::: branch date: 9 hours ago
+:::::: branch date: 11 hours ago
 :::::: commit date: 4 months ago
 config: ia64-randconfig-m041-20230101
 compiler: ia64-linux-gcc (GCC) 12.1.0
@@ -74,122 +74,92 @@ If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
 
-smatch warnings:
-drivers/media/platform/nxp/dw100/dw100.c:1574 dw100_probe() warn: missing unwind goto?
+New smatch warnings:
+drivers/media/platform/mediatek/mdp3/mtk-mdp3-comp.c:992 mdp_comp_config() warn: missing unwind goto?
 
-vim +1574 drivers/media/platform/nxp/dw100/dw100.c
+Old smatch warnings:
+drivers/media/platform/mediatek/mdp3/mtk-mdp3-comp.c:872 mdp_comp_create() warn: passing devm_ allocated variable to kfree. 'comp'
 
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1530  
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1531  static int dw100_probe(struct platform_device *pdev)
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1532  {
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1533  	struct dw100_device *dw_dev;
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1534  	struct video_device *vfd;
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1535  	struct resource *res;
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1536  	int ret, irq;
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1537  
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1538  	dw_dev = devm_kzalloc(&pdev->dev, sizeof(*dw_dev), GFP_KERNEL);
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1539  	if (!dw_dev)
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1540  		return -ENOMEM;
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1541  	dw_dev->pdev = pdev;
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1542  
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1543  	ret = devm_clk_bulk_get_all(&pdev->dev, &dw_dev->clks);
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1544  	if (ret < 0) {
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1545  		dev_err(&pdev->dev, "Unable to get clocks: %d\n", ret);
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1546  		return ret;
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1547  	}
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1548  	dw_dev->num_clks = ret;
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1549  
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1550  	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1551  	dw_dev->mmio = devm_ioremap_resource(&pdev->dev, res);
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1552  	if (IS_ERR(dw_dev->mmio))
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1553  		return PTR_ERR(dw_dev->mmio);
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1554  
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1555  	irq = platform_get_irq(pdev, 0);
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1556  	if (irq < 0)
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1557  		return irq;
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1558  
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1559  	platform_set_drvdata(pdev, dw_dev);
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1560  
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1561  	pm_runtime_enable(&pdev->dev);
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1562  	ret = pm_runtime_resume_and_get(&pdev->dev);
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1563  	if (ret < 0) {
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1564  		dev_err(&pdev->dev, "Unable to resume the device: %d\n", ret);
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1565  		goto err_pm;
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1566  	}
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1567  
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1568  	pm_runtime_put_sync(&pdev->dev);
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1569  
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1570  	ret = devm_request_irq(&pdev->dev, irq, dw100_irq_handler, IRQF_ONESHOT,
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1571  			       dev_name(&pdev->dev), dw_dev);
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1572  	if (ret < 0) {
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1573  		dev_err(&pdev->dev, "Failed to request irq: %d\n", ret);
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30 @1574  		return ret;
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1575  	}
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1576  
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1577  	ret = v4l2_device_register(&pdev->dev, &dw_dev->v4l2_dev);
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1578  	if (ret)
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1579  		goto err_pm;
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1580  
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1581  	vfd = dw100_init_video_device(dw_dev);
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1582  
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1583  	dw_dev->m2m_dev = v4l2_m2m_init(&dw100_m2m_ops);
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1584  	if (IS_ERR(dw_dev->m2m_dev)) {
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1585  		dev_err(&pdev->dev, "Failed to init mem2mem device\n");
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1586  		ret = PTR_ERR(dw_dev->m2m_dev);
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1587  		goto err_v4l2;
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1588  	}
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1589  
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1590  	dw_dev->mdev.dev = &pdev->dev;
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1591  	strscpy(dw_dev->mdev.model, "dw100", sizeof(dw_dev->mdev.model));
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1592  	media_device_init(&dw_dev->mdev);
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1593  	dw_dev->v4l2_dev.mdev = &dw_dev->mdev;
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1594  
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1595  	ret = video_register_device(vfd, VFL_TYPE_VIDEO, -1);
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1596  	if (ret) {
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1597  		dev_err(&pdev->dev, "Failed to register video device\n");
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1598  		goto err_m2m;
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1599  	}
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1600  
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1601  	ret = v4l2_m2m_register_media_controller(dw_dev->m2m_dev, vfd,
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1602  						 MEDIA_ENT_F_PROC_VIDEO_SCALER);
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1603  	if (ret) {
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1604  		dev_err(&pdev->dev, "Failed to init mem2mem media controller\n");
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1605  		goto error_v4l2;
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1606  	}
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1607  
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1608  	ret = media_device_register(&dw_dev->mdev);
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1609  	if (ret) {
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1610  		dev_err(&pdev->dev, "Failed to register mem2mem media device\n");
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1611  		goto error_m2m_mc;
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1612  	}
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1613  
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1614  	dw100_debugfs_init(dw_dev);
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1615  
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1616  	dev_info(&pdev->dev,
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1617  		 "dw100 v4l2 m2m registered as /dev/video%u\n", vfd->num);
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1618  
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1619  	return 0;
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1620  
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1621  error_m2m_mc:
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1622  	v4l2_m2m_unregister_media_controller(dw_dev->m2m_dev);
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1623  error_v4l2:
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1624  	video_unregister_device(vfd);
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1625  err_m2m:
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1626  	v4l2_m2m_release(dw_dev->m2m_dev);
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1627  err_v4l2:
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1628  	v4l2_device_unregister(&dw_dev->v4l2_dev);
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1629  err_pm:
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1630  	pm_runtime_disable(&pdev->dev);
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1631  
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1632  	return ret;
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1633  }
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1634  
+vim +992 drivers/media/platform/mediatek/mdp3/mtk-mdp3-comp.c
+
+61890ccaefaff8 Moudy Ho 2022-08-23   938  
+61890ccaefaff8 Moudy Ho 2022-08-23   939  int mdp_comp_config(struct mdp_dev *mdp)
+61890ccaefaff8 Moudy Ho 2022-08-23   940  {
+61890ccaefaff8 Moudy Ho 2022-08-23   941  	struct device *dev = &mdp->pdev->dev;
+61890ccaefaff8 Moudy Ho 2022-08-23   942  	struct device_node *node, *parent;
+61890ccaefaff8 Moudy Ho 2022-08-23   943  	struct platform_device *pdev;
+61890ccaefaff8 Moudy Ho 2022-08-23   944  	int ret;
+61890ccaefaff8 Moudy Ho 2022-08-23   945  
+61890ccaefaff8 Moudy Ho 2022-08-23   946  	memset(mdp_comp_alias_id, 0, sizeof(mdp_comp_alias_id));
+61890ccaefaff8 Moudy Ho 2022-08-23   947  
+61890ccaefaff8 Moudy Ho 2022-08-23   948  	parent = dev->of_node->parent;
+61890ccaefaff8 Moudy Ho 2022-08-23   949  	/* Iterate over sibling MDP function blocks */
+61890ccaefaff8 Moudy Ho 2022-08-23   950  	for_each_child_of_node(parent, node) {
+61890ccaefaff8 Moudy Ho 2022-08-23   951  		const struct of_device_id *of_id;
+61890ccaefaff8 Moudy Ho 2022-08-23   952  		enum mdp_comp_type type;
+61890ccaefaff8 Moudy Ho 2022-08-23   953  		int id, alias_id;
+61890ccaefaff8 Moudy Ho 2022-08-23   954  		struct mdp_comp *comp;
+61890ccaefaff8 Moudy Ho 2022-08-23   955  
+61890ccaefaff8 Moudy Ho 2022-08-23   956  		of_id = of_match_node(mdp_comp_dt_ids, node);
+61890ccaefaff8 Moudy Ho 2022-08-23   957  		if (!of_id)
+61890ccaefaff8 Moudy Ho 2022-08-23   958  			continue;
+61890ccaefaff8 Moudy Ho 2022-08-23   959  
+61890ccaefaff8 Moudy Ho 2022-08-23   960  		if (!of_device_is_available(node)) {
+61890ccaefaff8 Moudy Ho 2022-08-23   961  			dev_dbg(dev, "Skipping disabled component %pOF\n",
+61890ccaefaff8 Moudy Ho 2022-08-23   962  				node);
+61890ccaefaff8 Moudy Ho 2022-08-23   963  			continue;
+61890ccaefaff8 Moudy Ho 2022-08-23   964  		}
+61890ccaefaff8 Moudy Ho 2022-08-23   965  
+61890ccaefaff8 Moudy Ho 2022-08-23   966  		type = (enum mdp_comp_type)(uintptr_t)of_id->data;
+61890ccaefaff8 Moudy Ho 2022-08-23   967  		alias_id = mdp_comp_alias_id[type];
+61890ccaefaff8 Moudy Ho 2022-08-23   968  		id = mdp_comp_get_id(type, alias_id);
+61890ccaefaff8 Moudy Ho 2022-08-23   969  		if (id < 0) {
+61890ccaefaff8 Moudy Ho 2022-08-23   970  			dev_err(dev,
+61890ccaefaff8 Moudy Ho 2022-08-23   971  				"Fail to get component id: type %d alias %d\n",
+61890ccaefaff8 Moudy Ho 2022-08-23   972  				type, alias_id);
+61890ccaefaff8 Moudy Ho 2022-08-23   973  			continue;
+61890ccaefaff8 Moudy Ho 2022-08-23   974  		}
+61890ccaefaff8 Moudy Ho 2022-08-23   975  		mdp_comp_alias_id[type]++;
+61890ccaefaff8 Moudy Ho 2022-08-23   976  
+61890ccaefaff8 Moudy Ho 2022-08-23   977  		comp = mdp_comp_create(mdp, node, id);
+61890ccaefaff8 Moudy Ho 2022-08-23   978  		if (IS_ERR(comp)) {
+61890ccaefaff8 Moudy Ho 2022-08-23   979  			ret = PTR_ERR(comp);
+61890ccaefaff8 Moudy Ho 2022-08-23   980  			goto err_init_comps;
+61890ccaefaff8 Moudy Ho 2022-08-23   981  		}
+61890ccaefaff8 Moudy Ho 2022-08-23   982  
+61890ccaefaff8 Moudy Ho 2022-08-23   983  		/* Only DMA capable components need the pm control */
+61890ccaefaff8 Moudy Ho 2022-08-23   984  		comp->comp_dev = NULL;
+61890ccaefaff8 Moudy Ho 2022-08-23   985  		if (!is_dma_capable(comp->type))
+61890ccaefaff8 Moudy Ho 2022-08-23   986  			continue;
+61890ccaefaff8 Moudy Ho 2022-08-23   987  
+61890ccaefaff8 Moudy Ho 2022-08-23   988  		pdev = of_find_device_by_node(node);
+61890ccaefaff8 Moudy Ho 2022-08-23   989  		if (!pdev) {
+61890ccaefaff8 Moudy Ho 2022-08-23   990  			dev_warn(dev, "can't find platform device of node:%s\n",
+61890ccaefaff8 Moudy Ho 2022-08-23   991  				 node->name);
+61890ccaefaff8 Moudy Ho 2022-08-23  @992  			return -ENODEV;
+61890ccaefaff8 Moudy Ho 2022-08-23   993  		}
+61890ccaefaff8 Moudy Ho 2022-08-23   994  
+61890ccaefaff8 Moudy Ho 2022-08-23   995  		comp->comp_dev = &pdev->dev;
+61890ccaefaff8 Moudy Ho 2022-08-23   996  		pm_runtime_enable(comp->comp_dev);
+61890ccaefaff8 Moudy Ho 2022-08-23   997  	}
+61890ccaefaff8 Moudy Ho 2022-08-23   998  
+61890ccaefaff8 Moudy Ho 2022-08-23   999  	ret = mdp_comp_sub_create(mdp);
+61890ccaefaff8 Moudy Ho 2022-08-23  1000  	if (ret)
+61890ccaefaff8 Moudy Ho 2022-08-23  1001  		goto err_init_comps;
+61890ccaefaff8 Moudy Ho 2022-08-23  1002  
+61890ccaefaff8 Moudy Ho 2022-08-23  1003  	return 0;
+61890ccaefaff8 Moudy Ho 2022-08-23  1004  
+61890ccaefaff8 Moudy Ho 2022-08-23  1005  err_init_comps:
+61890ccaefaff8 Moudy Ho 2022-08-23  1006  	mdp_comp_destroy(mdp);
+61890ccaefaff8 Moudy Ho 2022-08-23  1007  	return ret;
+61890ccaefaff8 Moudy Ho 2022-08-23  1008  }
+61890ccaefaff8 Moudy Ho 2022-08-23  1009  
 
 -- 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
 
---m4pSavDwmWFkkbVW
+--93UXydhKJHgFyM4+
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename=config
 
@@ -2406,14 +2376,12 @@ CONFIG_STA2X11_VIP=y
 # CONFIG_VIDEO_TW5864 is not set
 CONFIG_VIDEO_TW68=y
 # CONFIG_VIDEO_TW686X is not set
+# CONFIG_VIDEO_ZORAN is not set
 
 #
 # Media capture/analog TV support
 #
 CONFIG_VIDEO_DT3155=y
-# CONFIG_VIDEO_HEXIUM_GEMINI is not set
-# CONFIG_VIDEO_HEXIUM_ORION is not set
-CONFIG_VIDEO_MXB=y
 
 #
 # Media capture/analog/hybrid TV support
@@ -2437,9 +2405,6 @@ CONFIG_DVB_DDBRIDGE_MSIENABLE=y
 CONFIG_DVB_PLUTO2=y
 CONFIG_DVB_PT1=y
 # CONFIG_DVB_PT3 is not set
-CONFIG_DVB_BUDGET_CORE=y
-CONFIG_DVB_BUDGET=y
-CONFIG_DVB_BUDGET_AV=y
 CONFIG_RADIO_ADAPTERS=y
 CONFIG_RADIO_MAXIRADIO=y
 CONFIG_RADIO_SAA7706H=y
@@ -2510,6 +2475,7 @@ CONFIG_VIDEO_MEDIATEK_VCODEC_SCP=y
 CONFIG_VIDEO_MEDIATEK_VCODEC_VPU=y
 CONFIG_VIDEO_MEDIATEK_VCODEC=y
 CONFIG_VIDEO_MEDIATEK_VPU=y
+CONFIG_VIDEO_MEDIATEK_MDP3=y
 
 #
 # NVidia media platform drivers
@@ -2592,8 +2558,6 @@ CONFIG_TTPCI_EEPROM=y
 CONFIG_VIDEO_TVEEPROM=y
 CONFIG_DVB_B2C2_FLEXCOP=y
 CONFIG_DVB_B2C2_FLEXCOP_DEBUG=y
-CONFIG_VIDEO_SAA7146=y
-CONFIG_VIDEO_SAA7146_VV=y
 CONFIG_VIDEOBUF2_CORE=y
 CONFIG_VIDEOBUF2_V4L2=y
 CONFIG_VIDEOBUF2_MEMOPS=y
@@ -4254,10 +4218,6 @@ CONFIG_ADE7854_SPI=y
 
 # CONFIG_FB_SM750 is not set
 CONFIG_STAGING_MEDIA=y
-CONFIG_DVB_AV7110=y
-# CONFIG_DVB_AV7110_OSD is not set
-CONFIG_DVB_BUDGET_PATCH=y
-CONFIG_DVB_SP8870=y
 CONFIG_VIDEO_HANTRO=y
 CONFIG_VIDEO_HANTRO_IMX8M=y
 # CONFIG_VIDEO_HANTRO_SAMA5D4 is not set
@@ -4268,7 +4228,19 @@ CONFIG_VIDEO_MESON_VDEC=y
 CONFIG_VIDEO_OMAP4=y
 CONFIG_VIDEO_ROCKCHIP_VDEC=y
 CONFIG_VIDEO_SUNXI=y
-# CONFIG_VIDEO_ZORAN is not set
+CONFIG_STAGING_MEDIA_DEPRECATED=y
+CONFIG_VIDEO_SAA7146=y
+CONFIG_VIDEO_SAA7146_VV=y
+CONFIG_DVB_AV7110=y
+# CONFIG_DVB_AV7110_OSD is not set
+CONFIG_DVB_BUDGET_PATCH=y
+CONFIG_DVB_SP8870=y
+# CONFIG_VIDEO_HEXIUM_GEMINI is not set
+# CONFIG_VIDEO_HEXIUM_ORION is not set
+CONFIG_VIDEO_MXB=y
+CONFIG_DVB_BUDGET_CORE=y
+CONFIG_DVB_BUDGET=y
+CONFIG_DVB_BUDGET_AV=y
 # CONFIG_FIREWIRE_SERIAL is not set
 CONFIG_FB_TFT=y
 # CONFIG_FB_TFT_AGM1264K_FL is not set
@@ -6332,4 +6304,4 @@ CONFIG_CC_HAS_SANCOV_TRACE_PC=y
 # CONFIG_WARN_ABI_ERRORS is not set
 # end of Kernel hacking
 
---m4pSavDwmWFkkbVW--
+--93UXydhKJHgFyM4+--
