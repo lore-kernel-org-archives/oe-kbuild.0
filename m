@@ -1,42 +1,54 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70C54138D
-	for <oe-kbuild@lists.linux.dev>; Tue,  3 Jan 2023 08:13:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1672733626; x=1704269626;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ik/hY5V9m74UnlVMOClFyb9ijKzwspaCcLII2BTauZA=;
-  b=S2QV3O5LFNoh2JmG5qHZBMI7n8ZYuqB66NFwZ1Cx5GX+Li1i7tWHhgy9
-   FWn38L+JhMxTBvbkhl0cmU9rcWsaJzMMHVjTVgPNEKkVDtnwkVj9/SvEs
-   wdRm+MmHe6zJibJg9Rxm6tYANTvNeSNTOxt3vfhTR8BPdn9XOgRfs5hGL
-   UprTTKI7qpxpqJuCaOy8QsFBpMTB6NEuZnhmlchdq74koRQZ3lJafd803
-   Rjzz4V9wzLrz3hUE0fzCl0O4XYWhIEwDV6fCUVa/qI8CSUmC2MTXL/uCx
-   kQDLr2SyiqsGbM/dBA/lxzsEqcCzs+us0NfEjljU1keD3N1hAcmCUPrNT
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10578"; a="309378593"
-X-IronPort-AV: E=Sophos;i="5.96,296,1665471600"; 
-   d="scan'208";a="309378593"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jan 2023 00:13:32 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10578"; a="685306976"
-X-IronPort-AV: E=Sophos;i="5.96,296,1665471600"; 
-   d="scan'208";a="685306976"
-Received: from lkp-server01.sh.intel.com (HELO b5d47979f3ad) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 03 Jan 2023 00:13:30 -0800
-Received: from kbuild by b5d47979f3ad with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pCcQL-000RyA-36;
-	Tue, 03 Jan 2023 08:13:29 +0000
-Date: Tue, 3 Jan 2023 16:13:16 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: mm/damon/sysfs.c:1277:63: warning: Parameter 'c' can be declared as
- pointer to const [constParameter]
-Message-ID: <202301031613.424amznO-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70B0F138E;
+	Tue,  3 Jan 2023 08:15:33 +0000 (UTC)
+Received: by mail-wm1-f46.google.com with SMTP id p1-20020a05600c1d8100b003d8c9b191e0so22487549wms.4;
+        Tue, 03 Jan 2023 00:15:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=D24Ke8emZUzBrFiO02JZq5KiuUcFxUJuSzFEhev76Dk=;
+        b=m9Y9Ra7OKWDZ+nIeMqGzMbR1ZQO/8Z4xpUytyPON17FlDc5os+Nk4zB0IXdqf+LIp1
+         vBbRVuIj4saUoXMpzcUyvUowViY2xwuFXmiCxNb5oBB9Pm04hFOZrDIEY7vEwrkPaCER
+         XKm3/ll4P3wNxewGl3PFt/GDOU86w1pw6WOmxC1PtNJZfERjuimh2byO+cmYaf4kZ60/
+         yOSdKx2GVrsQwc7nIfNdWc96rc69hlLoZbo53U//ReGmkdM/hN9/UqP6eeseFvMt/NTg
+         39aZwmmQeeW3JNcb74VPmfpraRDo40yTkMXFJAp4CWgAxZ5sa5QJXTN4dnBzVdFr8tds
+         hczw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=D24Ke8emZUzBrFiO02JZq5KiuUcFxUJuSzFEhev76Dk=;
+        b=ALwGjgVW/8G/9LnVZmk2dFQW4ziYyh1i6AYjLdRcUl4yi4G8LKf5GRoVMQ/XDLTQN6
+         3SCzxAhKTbg9aEa71wuZcyAFkNImhE6DhvSsv7HrweSDl/z74yECVs9MH7TGxFhv6bjp
+         vKZhIIKhuGOXba3tamGe+SOfvedSZ+xqjisfffhwAHDsWxiVEBABWI/FnLLy0P6Q7xOI
+         LAQ3dkzkqDSMAeYfpjbYRq+4H1lbZ27n/A2ytrE0iOJj/hfsifKndn3AWIZo9ckHuUyj
+         SwXT9760Bfg8YVL1QtFR6CNIXWBiuzflNLfteenyHcPasDi99aMcmtt0AQOncT8NBqFi
+         DKgA==
+X-Gm-Message-State: AFqh2koxMkGXYPGA1DzITAeq1dlofI4azXSsRtYYyOMySkNEACZBUvJn
+	qmMPB4vKRosML5xbDMDpGm6kwSXg//IRq9xN
+X-Google-Smtp-Source: AMrXdXuB8XWVL5cQY2apWhtCvBxmcSiMLpwa3Q675GiAeD4bd3YkwTn/CJv6A52w9uEkJPyg+q1JrQ==
+X-Received: by 2002:a05:600c:a4e:b0:3d1:baf7:ceae with SMTP id c14-20020a05600c0a4e00b003d1baf7ceaemr30459488wmq.39.1672733731471;
+        Tue, 03 Jan 2023 00:15:31 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id p12-20020a05600c468c00b003cf5ec79bf9sm40588410wmo.40.2023.01.03.00.15.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 03 Jan 2023 00:15:31 -0800 (PST)
+Date: Tue, 3 Jan 2023 11:15:24 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev, Moudy Ho <moudy.ho@mediatek.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org,
+	Ping-Hsun Wu <ping-hsun.wu@mediatek.com>,
+	daoyuan huang <daoyuan.huang@mediatek.com>,
+	Hans Verkuil <hverkuil@xs4all.nl>
+Subject: drivers/media/platform/mediatek/mdp3/mtk-mdp3-comp.c:992
+ mdp_comp_config() warn: missing unwind goto?
+Message-ID: <202301031311.h6InTjT3-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -45,85 +57,105 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-
-:::::: 
-:::::: Manual check reason: "low confidence static check warning: mm/damon/sysfs.c:1277:63: warning: Parameter 'c' can be declared as pointer to const [constParameter]"
-:::::: 
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: SeongJae Park <sj@kernel.org>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
+Message-ID: <20230103081524.iQzEgtZI4hl2nwoM24P2DOHhILWBZ8_XyJC1I3CBqo4@z>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   69b41ac87e4a664de78a395ff97166f0b2943210
-commit: c8e7b4d0ba348a8ef14956a80c780f152f433764 mm/damon/sysfs: split out schemes directory implementation to separate file
-date:   5 weeks ago
-:::::: branch date: 13 hours ago
-:::::: commit date: 5 weeks ago
-compiler: aarch64-linux-gcc (GCC) 12.1.0
-reproduce (cppcheck warning):
-        # apt-get install cppcheck
-        git checkout c8e7b4d0ba348a8ef14956a80c780f152f433764
-        cppcheck --quiet --enable=style,performance,portability --template=gcc FILE
+commit: 61890ccaefaff89f5babd2c8412fd222c3f5fe38 media: platform: mtk-mdp3: add MediaTek MDP3 driver
+config: ia64-randconfig-m041-20230101
+compiler: ia64-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
 
+New smatch warnings:
+drivers/media/platform/mediatek/mdp3/mtk-mdp3-comp.c:992 mdp_comp_config() warn: missing unwind goto?
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+Old smatch warnings:
+drivers/media/platform/mediatek/mdp3/mtk-mdp3-comp.c:872 mdp_comp_create() warn: passing devm_ allocated variable to kfree. 'comp'
 
->> mm/damon/sysfs.c:1277:63: warning: Parameter 'c' can be declared as pointer to const [constParameter]
-   static int damon_sysfs_cmd_request_callback(struct damon_ctx *c)
-                                                                 ^
+vim +992 drivers/media/platform/mediatek/mdp3/mtk-mdp3-comp.c
 
-vim +/c +1277 mm/damon/sysfs.c
+61890ccaefaff8 Moudy Ho 2022-08-23   939  int mdp_comp_config(struct mdp_dev *mdp)
+61890ccaefaff8 Moudy Ho 2022-08-23   940  {
+61890ccaefaff8 Moudy Ho 2022-08-23   941  	struct device *dev = &mdp->pdev->dev;
+61890ccaefaff8 Moudy Ho 2022-08-23   942  	struct device_node *node, *parent;
+61890ccaefaff8 Moudy Ho 2022-08-23   943  	struct platform_device *pdev;
+61890ccaefaff8 Moudy Ho 2022-08-23   944  	int ret;
+61890ccaefaff8 Moudy Ho 2022-08-23   945  
+61890ccaefaff8 Moudy Ho 2022-08-23   946  	memset(mdp_comp_alias_id, 0, sizeof(mdp_comp_alias_id));
+61890ccaefaff8 Moudy Ho 2022-08-23   947  
+61890ccaefaff8 Moudy Ho 2022-08-23   948  	parent = dev->of_node->parent;
+61890ccaefaff8 Moudy Ho 2022-08-23   949  	/* Iterate over sibling MDP function blocks */
+61890ccaefaff8 Moudy Ho 2022-08-23   950  	for_each_child_of_node(parent, node) {
+61890ccaefaff8 Moudy Ho 2022-08-23   951  		const struct of_device_id *of_id;
+61890ccaefaff8 Moudy Ho 2022-08-23   952  		enum mdp_comp_type type;
+61890ccaefaff8 Moudy Ho 2022-08-23   953  		int id, alias_id;
+61890ccaefaff8 Moudy Ho 2022-08-23   954  		struct mdp_comp *comp;
+61890ccaefaff8 Moudy Ho 2022-08-23   955  
+61890ccaefaff8 Moudy Ho 2022-08-23   956  		of_id = of_match_node(mdp_comp_dt_ids, node);
+61890ccaefaff8 Moudy Ho 2022-08-23   957  		if (!of_id)
+61890ccaefaff8 Moudy Ho 2022-08-23   958  			continue;
+61890ccaefaff8 Moudy Ho 2022-08-23   959  
+61890ccaefaff8 Moudy Ho 2022-08-23   960  		if (!of_device_is_available(node)) {
+61890ccaefaff8 Moudy Ho 2022-08-23   961  			dev_dbg(dev, "Skipping disabled component %pOF\n",
+61890ccaefaff8 Moudy Ho 2022-08-23   962  				node);
+61890ccaefaff8 Moudy Ho 2022-08-23   963  			continue;
+61890ccaefaff8 Moudy Ho 2022-08-23   964  		}
+61890ccaefaff8 Moudy Ho 2022-08-23   965  
+61890ccaefaff8 Moudy Ho 2022-08-23   966  		type = (enum mdp_comp_type)(uintptr_t)of_id->data;
+61890ccaefaff8 Moudy Ho 2022-08-23   967  		alias_id = mdp_comp_alias_id[type];
+61890ccaefaff8 Moudy Ho 2022-08-23   968  		id = mdp_comp_get_id(type, alias_id);
+61890ccaefaff8 Moudy Ho 2022-08-23   969  		if (id < 0) {
+61890ccaefaff8 Moudy Ho 2022-08-23   970  			dev_err(dev,
+61890ccaefaff8 Moudy Ho 2022-08-23   971  				"Fail to get component id: type %d alias %d\n",
+61890ccaefaff8 Moudy Ho 2022-08-23   972  				type, alias_id);
+61890ccaefaff8 Moudy Ho 2022-08-23   973  			continue;
+61890ccaefaff8 Moudy Ho 2022-08-23   974  		}
+61890ccaefaff8 Moudy Ho 2022-08-23   975  		mdp_comp_alias_id[type]++;
+61890ccaefaff8 Moudy Ho 2022-08-23   976  
+61890ccaefaff8 Moudy Ho 2022-08-23   977  		comp = mdp_comp_create(mdp, node, id);
+61890ccaefaff8 Moudy Ho 2022-08-23   978  		if (IS_ERR(comp)) {
+61890ccaefaff8 Moudy Ho 2022-08-23   979  			ret = PTR_ERR(comp);
+61890ccaefaff8 Moudy Ho 2022-08-23   980  			goto err_init_comps;
+61890ccaefaff8 Moudy Ho 2022-08-23   981  		}
+61890ccaefaff8 Moudy Ho 2022-08-23   982  
+61890ccaefaff8 Moudy Ho 2022-08-23   983  		/* Only DMA capable components need the pm control */
+61890ccaefaff8 Moudy Ho 2022-08-23   984  		comp->comp_dev = NULL;
+61890ccaefaff8 Moudy Ho 2022-08-23   985  		if (!is_dma_capable(comp->type))
+61890ccaefaff8 Moudy Ho 2022-08-23   986  			continue;
+61890ccaefaff8 Moudy Ho 2022-08-23   987  
+61890ccaefaff8 Moudy Ho 2022-08-23   988  		pdev = of_find_device_by_node(node);
+61890ccaefaff8 Moudy Ho 2022-08-23   989  		if (!pdev) {
+61890ccaefaff8 Moudy Ho 2022-08-23   990  			dev_warn(dev, "can't find platform device of node:%s\n",
+61890ccaefaff8 Moudy Ho 2022-08-23   991  				 node->name);
+61890ccaefaff8 Moudy Ho 2022-08-23  @992  			return -ENODEV;
 
-da87878010e598 SeongJae Park 2022-05-09  1269  
-01538719c098f5 SeongJae Park 2022-05-09  1270  /*
-01538719c098f5 SeongJae Park 2022-05-09  1271   * damon_sysfs_cmd_request_callback() - DAMON callback for handling requests.
-01538719c098f5 SeongJae Park 2022-05-09  1272   * @c:	The DAMON context of the callback.
-01538719c098f5 SeongJae Park 2022-05-09  1273   *
-01538719c098f5 SeongJae Park 2022-05-09  1274   * This function is periodically called back from the kdamond thread for @c.
-01538719c098f5 SeongJae Park 2022-05-09  1275   * Then, it checks if there is a waiting DAMON sysfs request and handles it.
-01538719c098f5 SeongJae Park 2022-05-09  1276   */
-01538719c098f5 SeongJae Park 2022-05-09 @1277  static int damon_sysfs_cmd_request_callback(struct damon_ctx *c)
-01538719c098f5 SeongJae Park 2022-05-09  1278  {
-01538719c098f5 SeongJae Park 2022-05-09  1279  	struct damon_sysfs_kdamond *kdamond;
-01538719c098f5 SeongJae Park 2022-05-09  1280  	int err = 0;
-01538719c098f5 SeongJae Park 2022-05-09  1281  
-01538719c098f5 SeongJae Park 2022-05-09  1282  	/* avoid deadlock due to concurrent state_store('off') */
-01538719c098f5 SeongJae Park 2022-05-09  1283  	if (!mutex_trylock(&damon_sysfs_lock))
-01538719c098f5 SeongJae Park 2022-05-09  1284  		return 0;
-01538719c098f5 SeongJae Park 2022-05-09  1285  	kdamond = damon_sysfs_cmd_request.kdamond;
-01538719c098f5 SeongJae Park 2022-05-09  1286  	if (!kdamond || kdamond->damon_ctx != c)
-01538719c098f5 SeongJae Park 2022-05-09  1287  		goto out;
-01538719c098f5 SeongJae Park 2022-05-09  1288  	switch (damon_sysfs_cmd_request.cmd) {
-01538719c098f5 SeongJae Park 2022-05-09  1289  	case DAMON_SYSFS_CMD_UPDATE_SCHEMES_STATS:
-01538719c098f5 SeongJae Park 2022-05-09  1290  		err = damon_sysfs_upd_schemes_stats(kdamond);
-01538719c098f5 SeongJae Park 2022-05-09  1291  		break;
-da87878010e598 SeongJae Park 2022-05-09  1292  	case DAMON_SYSFS_CMD_COMMIT:
-da87878010e598 SeongJae Park 2022-05-09  1293  		err = damon_sysfs_commit_input(kdamond);
-da87878010e598 SeongJae Park 2022-05-09  1294  		break;
-01538719c098f5 SeongJae Park 2022-05-09  1295  	default:
-01538719c098f5 SeongJae Park 2022-05-09  1296  		break;
-01538719c098f5 SeongJae Park 2022-05-09  1297  	}
-01538719c098f5 SeongJae Park 2022-05-09  1298  	/* Mark the request as invalid now. */
-01538719c098f5 SeongJae Park 2022-05-09  1299  	damon_sysfs_cmd_request.kdamond = NULL;
-01538719c098f5 SeongJae Park 2022-05-09  1300  out:
-01538719c098f5 SeongJae Park 2022-05-09  1301  	mutex_unlock(&damon_sysfs_lock);
-01538719c098f5 SeongJae Park 2022-05-09  1302  	return err;
-01538719c098f5 SeongJae Park 2022-05-09  1303  }
-01538719c098f5 SeongJae Park 2022-05-09  1304  
+Presumably this should be "goto err_init_comps;" but I have not looked
+at the context out side of this email.  Normally for loops it's better
+to clean up the partial iteration before doing the goto.  So undo the
+mdp_comp_create() and then goto.  But again I have no context for this
+code.
 
-:::::: The code at line 1277 was first introduced by commit
-:::::: 01538719c098f51ac0742ef610d127ba3e3d1e03 mm/damon/sysfs: update schemes stat in the kdamond context
-
-:::::: TO: SeongJae Park <sj@kernel.org>
-:::::: CC: Andrew Morton <akpm@linux-foundation.org>
+61890ccaefaff8 Moudy Ho 2022-08-23   993  		}
+61890ccaefaff8 Moudy Ho 2022-08-23   994  
+61890ccaefaff8 Moudy Ho 2022-08-23   995  		comp->comp_dev = &pdev->dev;
+61890ccaefaff8 Moudy Ho 2022-08-23   996  		pm_runtime_enable(comp->comp_dev);
+61890ccaefaff8 Moudy Ho 2022-08-23   997  	}
+61890ccaefaff8 Moudy Ho 2022-08-23   998  
+61890ccaefaff8 Moudy Ho 2022-08-23   999  	ret = mdp_comp_sub_create(mdp);
+61890ccaefaff8 Moudy Ho 2022-08-23  1000  	if (ret)
+61890ccaefaff8 Moudy Ho 2022-08-23  1001  		goto err_init_comps;
+61890ccaefaff8 Moudy Ho 2022-08-23  1002  
+61890ccaefaff8 Moudy Ho 2022-08-23  1003  	return 0;
+61890ccaefaff8 Moudy Ho 2022-08-23  1004  
+61890ccaefaff8 Moudy Ho 2022-08-23  1005  err_init_comps:
+61890ccaefaff8 Moudy Ho 2022-08-23  1006  	mdp_comp_destroy(mdp);
+61890ccaefaff8 Moudy Ho 2022-08-23  1007  	return ret;
+61890ccaefaff8 Moudy Ho 2022-08-23  1008  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
+
