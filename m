@@ -1,55 +1,42 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91035138D;
-	Tue,  3 Jan 2023 08:13:25 +0000 (UTC)
-Received: by mail-wm1-f46.google.com with SMTP id fm16-20020a05600c0c1000b003d96fb976efso20356187wmb.3;
-        Tue, 03 Jan 2023 00:13:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=s9x7x+PDQyoC//YE5z76DODqegmiMuec0Apjfukh6vU=;
-        b=BCWZFslWen88M91vk6UysisKNCyPjoRrGSdBkAQqSWWvUDO7KrSspFNT3yNU1P8M5p
-         e07V3gJbMpycNavWA3hhy8x1SkZ96ytpQ0AQ6P/Z/YUyDTPPD8zdq5okJ/p1TAnUoTu+
-         KWpM0hJtn+k+YgNT3ySY4BO0ENaD8mcOPYvZMPtcrex6LwKlKiO1k4VBf+VhETSyYVbD
-         eiOK4hjuQOehZ4ed8Li2JNL5KBkQu1tjK1Q6WbF/4mVESSvstP1GG4P3cfCzFcc41mL0
-         SQMDkZ0jQ/YwWdbyeVmcuQwBh1wJPvhKyoF/XRXE2a/moBuBJGF3ww4NHJm9mqQxmgOq
-         K1MA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=s9x7x+PDQyoC//YE5z76DODqegmiMuec0Apjfukh6vU=;
-        b=KGlbhoGquVnnwO+rxE9PjqN54cJKiQt49y8CipLbUE3WlcEJ+zrt2UV+Ew7/jgmUSC
-         YvaKhtOUQBoeOuIpqwWm/og9gEyGfSuVwHYNCiJaY7m0rUQs75Bb/aabTiTn4X2ctiQQ
-         vdvUxTSZFz6uKI1wkNqjin+/v9/A+KBmWh/PMFPVWrhryZvBKxc+R+agcxOt3sPl/2Jg
-         mTf2w4c1THNO9+QR5vm/NaUJB1Pji0rjyFrOhtDn3FbqcDS458+2H4eag0ANAxRFnx7S
-         fdTkwhp4JSpT8pHnvPJkYiskdm7YGY1hOml2zN51lWHcMO5Nl0pUdvQ7ODCAH08bh9zR
-         +E0Q==
-X-Gm-Message-State: AFqh2koVKOl1IZ5nlFAJB9yTH+etlLCW/3Gq6uiIXV9ODyQCeNRC2+7V
-	Vukg21tyhC6YzygpBl5GfvXMZQGnR7rz8w==
-X-Google-Smtp-Source: AMrXdXuzbXcTKhCq2LwZEFGE45IPcvl6hZKjXK/ye2w6WH8dpxIxiYDCILXC4dPXS5uOVRz1ybliAg==
-X-Received: by 2002:a7b:cd99:0:b0:3d3:5506:1bac with SMTP id y25-20020a7bcd99000000b003d355061bacmr30909493wmj.30.1672733603645;
-        Tue, 03 Jan 2023 00:13:23 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id k6-20020adff5c6000000b002a01e64f7a1sm659283wrp.88.2023.01.03.00.13.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Jan 2023 00:13:23 -0800 (PST)
-Date: Tue, 3 Jan 2023 11:13:18 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev,
-	Xavier Roumegue <xavier.roumegue@oss.nxp.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org,
-	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Hans Verkuil <hverkuil@xs4all.nl>
-Subject: drivers/media/platform/nxp/dw100/dw100.c:1574 dw100_probe() warn:
- missing unwind goto?
-Message-ID: <202301031138.wkCMwZin-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70C54138D
+	for <oe-kbuild@lists.linux.dev>; Tue,  3 Jan 2023 08:13:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1672733626; x=1704269626;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ik/hY5V9m74UnlVMOClFyb9ijKzwspaCcLII2BTauZA=;
+  b=S2QV3O5LFNoh2JmG5qHZBMI7n8ZYuqB66NFwZ1Cx5GX+Li1i7tWHhgy9
+   FWn38L+JhMxTBvbkhl0cmU9rcWsaJzMMHVjTVgPNEKkVDtnwkVj9/SvEs
+   wdRm+MmHe6zJibJg9Rxm6tYANTvNeSNTOxt3vfhTR8BPdn9XOgRfs5hGL
+   UprTTKI7qpxpqJuCaOy8QsFBpMTB6NEuZnhmlchdq74koRQZ3lJafd803
+   Rjzz4V9wzLrz3hUE0fzCl0O4XYWhIEwDV6fCUVa/qI8CSUmC2MTXL/uCx
+   kQDLr2SyiqsGbM/dBA/lxzsEqcCzs+us0NfEjljU1keD3N1hAcmCUPrNT
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10578"; a="309378593"
+X-IronPort-AV: E=Sophos;i="5.96,296,1665471600"; 
+   d="scan'208";a="309378593"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jan 2023 00:13:32 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10578"; a="685306976"
+X-IronPort-AV: E=Sophos;i="5.96,296,1665471600"; 
+   d="scan'208";a="685306976"
+Received: from lkp-server01.sh.intel.com (HELO b5d47979f3ad) ([10.239.97.150])
+  by orsmga008.jf.intel.com with ESMTP; 03 Jan 2023 00:13:30 -0800
+Received: from kbuild by b5d47979f3ad with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pCcQL-000RyA-36;
+	Tue, 03 Jan 2023 08:13:29 +0000
+Date: Tue, 3 Jan 2023 16:13:16 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: mm/damon/sysfs.c:1277:63: warning: Parameter 'c' can be declared as
+ pointer to const [constParameter]
+Message-ID: <202301031613.424amznO-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -58,131 +45,85 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Message-ID: <20230103081318.HcHpcKYEIGoe6H7kn6gf78zVn5F_Z8i1qOqtrkGli2I@z>
+
+:::::: 
+:::::: Manual check reason: "low confidence static check warning: mm/damon/sysfs.c:1277:63: warning: Parameter 'c' can be declared as pointer to const [constParameter]"
+:::::: 
+
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+TO: SeongJae Park <sj@kernel.org>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   69b41ac87e4a664de78a395ff97166f0b2943210
-commit: cb6d000fcaa6e2ee0e01937364c686690329bf5e media: dw100: Add i.MX8MP dw100 dewarper driver
-config: ia64-randconfig-m041-20230101
-compiler: ia64-linux-gcc (GCC) 12.1.0
+commit: c8e7b4d0ba348a8ef14956a80c780f152f433764 mm/damon/sysfs: split out schemes directory implementation to separate file
+date:   5 weeks ago
+:::::: branch date: 13 hours ago
+:::::: commit date: 5 weeks ago
+compiler: aarch64-linux-gcc (GCC) 12.1.0
+reproduce (cppcheck warning):
+        # apt-get install cppcheck
+        git checkout c8e7b4d0ba348a8ef14956a80c780f152f433764
+        cppcheck --quiet --enable=style,performance,portability --template=gcc FILE
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
 
-smatch warnings:
-drivers/media/platform/nxp/dw100/dw100.c:1574 dw100_probe() warn: missing unwind goto?
 
-vim +1574 drivers/media/platform/nxp/dw100/dw100.c
+cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1531  static int dw100_probe(struct platform_device *pdev)
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1532  {
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1533  	struct dw100_device *dw_dev;
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1534  	struct video_device *vfd;
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1535  	struct resource *res;
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1536  	int ret, irq;
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1537  
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1538  	dw_dev = devm_kzalloc(&pdev->dev, sizeof(*dw_dev), GFP_KERNEL);
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1539  	if (!dw_dev)
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1540  		return -ENOMEM;
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1541  	dw_dev->pdev = pdev;
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1542  
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1543  	ret = devm_clk_bulk_get_all(&pdev->dev, &dw_dev->clks);
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1544  	if (ret < 0) {
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1545  		dev_err(&pdev->dev, "Unable to get clocks: %d\n", ret);
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1546  		return ret;
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1547  	}
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1548  	dw_dev->num_clks = ret;
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1549  
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1550  	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1551  	dw_dev->mmio = devm_ioremap_resource(&pdev->dev, res);
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1552  	if (IS_ERR(dw_dev->mmio))
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1553  		return PTR_ERR(dw_dev->mmio);
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1554  
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1555  	irq = platform_get_irq(pdev, 0);
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1556  	if (irq < 0)
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1557  		return irq;
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1558  
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1559  	platform_set_drvdata(pdev, dw_dev);
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1560  
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1561  	pm_runtime_enable(&pdev->dev);
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1562  	ret = pm_runtime_resume_and_get(&pdev->dev);
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1563  	if (ret < 0) {
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1564  		dev_err(&pdev->dev, "Unable to resume the device: %d\n", ret);
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1565  		goto err_pm;
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1566  	}
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1567  
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1568  	pm_runtime_put_sync(&pdev->dev);
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1569  
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1570  	ret = devm_request_irq(&pdev->dev, irq, dw100_irq_handler, IRQF_ONESHOT,
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1571  			       dev_name(&pdev->dev), dw_dev);
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1572  	if (ret < 0) {
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1573  		dev_err(&pdev->dev, "Failed to request irq: %d\n", ret);
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30 @1574  		return ret;
+>> mm/damon/sysfs.c:1277:63: warning: Parameter 'c' can be declared as pointer to const [constParameter]
+   static int damon_sysfs_cmd_request_callback(struct damon_ctx *c)
+                                                                 ^
 
-goto err_pm;
+vim +/c +1277 mm/damon/sysfs.c
 
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1575  	}
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1576  
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1577  	ret = v4l2_device_register(&pdev->dev, &dw_dev->v4l2_dev);
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1578  	if (ret)
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1579  		goto err_pm;
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1580  
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1581  	vfd = dw100_init_video_device(dw_dev);
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1582  
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1583  	dw_dev->m2m_dev = v4l2_m2m_init(&dw100_m2m_ops);
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1584  	if (IS_ERR(dw_dev->m2m_dev)) {
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1585  		dev_err(&pdev->dev, "Failed to init mem2mem device\n");
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1586  		ret = PTR_ERR(dw_dev->m2m_dev);
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1587  		goto err_v4l2;
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1588  	}
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1589  
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1590  	dw_dev->mdev.dev = &pdev->dev;
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1591  	strscpy(dw_dev->mdev.model, "dw100", sizeof(dw_dev->mdev.model));
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1592  	media_device_init(&dw_dev->mdev);
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1593  	dw_dev->v4l2_dev.mdev = &dw_dev->mdev;
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1594  
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1595  	ret = video_register_device(vfd, VFL_TYPE_VIDEO, -1);
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1596  	if (ret) {
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1597  		dev_err(&pdev->dev, "Failed to register video device\n");
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1598  		goto err_m2m;
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1599  	}
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1600  
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1601  	ret = v4l2_m2m_register_media_controller(dw_dev->m2m_dev, vfd,
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1602  						 MEDIA_ENT_F_PROC_VIDEO_SCALER);
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1603  	if (ret) {
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1604  		dev_err(&pdev->dev, "Failed to init mem2mem media controller\n");
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1605  		goto error_v4l2;
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1606  	}
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1607  
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1608  	ret = media_device_register(&dw_dev->mdev);
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1609  	if (ret) {
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1610  		dev_err(&pdev->dev, "Failed to register mem2mem media device\n");
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1611  		goto error_m2m_mc;
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1612  	}
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1613  
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1614  	dw100_debugfs_init(dw_dev);
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1615  
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1616  	dev_info(&pdev->dev,
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1617  		 "dw100 v4l2 m2m registered as /dev/video%u\n", vfd->num);
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1618  
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1619  	return 0;
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1620  
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1621  error_m2m_mc:
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1622  	v4l2_m2m_unregister_media_controller(dw_dev->m2m_dev);
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1623  error_v4l2:
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1624  	video_unregister_device(vfd);
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1625  err_m2m:
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1626  	v4l2_m2m_release(dw_dev->m2m_dev);
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1627  err_v4l2:
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1628  	v4l2_device_unregister(&dw_dev->v4l2_dev);
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1629  err_pm:
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1630  	pm_runtime_disable(&pdev->dev);
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1631  
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1632  	return ret;
-cb6d000fcaa6e2 Xavier Roumegue 2022-07-30  1633  }
+da87878010e598 SeongJae Park 2022-05-09  1269  
+01538719c098f5 SeongJae Park 2022-05-09  1270  /*
+01538719c098f5 SeongJae Park 2022-05-09  1271   * damon_sysfs_cmd_request_callback() - DAMON callback for handling requests.
+01538719c098f5 SeongJae Park 2022-05-09  1272   * @c:	The DAMON context of the callback.
+01538719c098f5 SeongJae Park 2022-05-09  1273   *
+01538719c098f5 SeongJae Park 2022-05-09  1274   * This function is periodically called back from the kdamond thread for @c.
+01538719c098f5 SeongJae Park 2022-05-09  1275   * Then, it checks if there is a waiting DAMON sysfs request and handles it.
+01538719c098f5 SeongJae Park 2022-05-09  1276   */
+01538719c098f5 SeongJae Park 2022-05-09 @1277  static int damon_sysfs_cmd_request_callback(struct damon_ctx *c)
+01538719c098f5 SeongJae Park 2022-05-09  1278  {
+01538719c098f5 SeongJae Park 2022-05-09  1279  	struct damon_sysfs_kdamond *kdamond;
+01538719c098f5 SeongJae Park 2022-05-09  1280  	int err = 0;
+01538719c098f5 SeongJae Park 2022-05-09  1281  
+01538719c098f5 SeongJae Park 2022-05-09  1282  	/* avoid deadlock due to concurrent state_store('off') */
+01538719c098f5 SeongJae Park 2022-05-09  1283  	if (!mutex_trylock(&damon_sysfs_lock))
+01538719c098f5 SeongJae Park 2022-05-09  1284  		return 0;
+01538719c098f5 SeongJae Park 2022-05-09  1285  	kdamond = damon_sysfs_cmd_request.kdamond;
+01538719c098f5 SeongJae Park 2022-05-09  1286  	if (!kdamond || kdamond->damon_ctx != c)
+01538719c098f5 SeongJae Park 2022-05-09  1287  		goto out;
+01538719c098f5 SeongJae Park 2022-05-09  1288  	switch (damon_sysfs_cmd_request.cmd) {
+01538719c098f5 SeongJae Park 2022-05-09  1289  	case DAMON_SYSFS_CMD_UPDATE_SCHEMES_STATS:
+01538719c098f5 SeongJae Park 2022-05-09  1290  		err = damon_sysfs_upd_schemes_stats(kdamond);
+01538719c098f5 SeongJae Park 2022-05-09  1291  		break;
+da87878010e598 SeongJae Park 2022-05-09  1292  	case DAMON_SYSFS_CMD_COMMIT:
+da87878010e598 SeongJae Park 2022-05-09  1293  		err = damon_sysfs_commit_input(kdamond);
+da87878010e598 SeongJae Park 2022-05-09  1294  		break;
+01538719c098f5 SeongJae Park 2022-05-09  1295  	default:
+01538719c098f5 SeongJae Park 2022-05-09  1296  		break;
+01538719c098f5 SeongJae Park 2022-05-09  1297  	}
+01538719c098f5 SeongJae Park 2022-05-09  1298  	/* Mark the request as invalid now. */
+01538719c098f5 SeongJae Park 2022-05-09  1299  	damon_sysfs_cmd_request.kdamond = NULL;
+01538719c098f5 SeongJae Park 2022-05-09  1300  out:
+01538719c098f5 SeongJae Park 2022-05-09  1301  	mutex_unlock(&damon_sysfs_lock);
+01538719c098f5 SeongJae Park 2022-05-09  1302  	return err;
+01538719c098f5 SeongJae Park 2022-05-09  1303  }
+01538719c098f5 SeongJae Park 2022-05-09  1304  
+
+:::::: The code at line 1277 was first introduced by commit
+:::::: 01538719c098f51ac0742ef610d127ba3e3d1e03 mm/damon/sysfs: update schemes stat in the kdamond context
+
+:::::: TO: SeongJae Park <sj@kernel.org>
+:::::: CC: Andrew Morton <akpm@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
-
