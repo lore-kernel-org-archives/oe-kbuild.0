@@ -1,51 +1,50 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7150D7EA;
-	Wed,  4 Jan 2023 08:39:42 +0000 (UTC)
-Received: by mail-wm1-f50.google.com with SMTP id l26so23429151wme.5;
-        Wed, 04 Jan 2023 00:39:42 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 411E37EA;
+	Wed,  4 Jan 2023 08:41:16 +0000 (UTC)
+Received: by mail-wr1-f41.google.com with SMTP id s9so202402wru.13;
+        Wed, 04 Jan 2023 00:41:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=8M4iGpO9e7b2cQQvu3ijDQSMC1UJ28r1PJjopN7UEUQ=;
-        b=Zq/1/TKDbuZmK4ywvygwb9EcdYZHPGyoydny94EyBFfGfQJ5xeDEWsCQM4qES7w2XJ
-         jS49PfaZHIL4eqa39bTkr999TTKKqG6NAxQtm1//JjsvzIx+KFuk4rVaB81p2EU29G6E
-         CQimUftb7pxH0iblcjB71pVrXfjTj91ZNwCPvbf65NARF3a/lIjTMMq6aP3cuY2RQ+l6
-         l+zSELmyXh/DSN2oZBrZqtq4Irhc2A98iWd8Zqghm09mBpkKHEXJER0mlA4QdiwtXrrZ
-         WJmBCpXrzFBx9zvvGN1C9ss3bq2Z2LFF+Ywbl7S6ajs698vXMzZ0p54SJEGboypbvYH9
-         eiLQ==
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Q3kht5c7R/bDxLs1R15CaC2JjXppkUaxhQMa2gSrLEU=;
+        b=Tpz+t7ijJg7+fiiaw32iSRGydIDOFitpNOCJRygJrOSpKzrIGvXvo4NswFjubsu9WB
+         4Bw6wa0cGQueOi3kje+UI+irqHJGmlvOm7aEjlHAG1VWsZHl1619f1S68LFbbAja54v2
+         dUquW5wJ1x8SUvFKbYBxWQfUju+LJVrithHLbfaqc9rEa1NWM17SWrwa/ks8kcs0O5fM
+         wyePpCHYBVPBoffayLQ8mfkAJ0cuSuV/mhm9+UIoEGzxYXYVMEihP0GXtkNZWLNC6ndJ
+         ljgdgW6KoA25rFCqHilzAU2fQxUxIf7zTijRfgtZ71RRhFKeRhFcG1Noq70mlwXAun37
+         BOHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=8M4iGpO9e7b2cQQvu3ijDQSMC1UJ28r1PJjopN7UEUQ=;
-        b=2GxITY/KNnk++eLsvehkxZwOKbtoZSVUJt2f3noqzxaQZyD4eOg6ZQpi10kvdHl9UL
-         FyAUyAPavaw44YNS2Qqrzb+sFC7TiVGG6JaGhMjh5kzOSQxpvLfk7Lg+X9F/zi0wYTal
-         N/4Zprnf71vvN7zaVYhrsMgLfDw828ukLhoL6iT+0iZ6IbIrrq3tyl76kvrCOt6wG2mH
-         ZFeBfBmaGLN6+xDiJKq+os/d0u2kcrY1SY51TtKutyglWD7AIx1EkPu+wRIMuIc3Xtg7
-         PIo5zZzSry93oBQ4v9HayPXs55yorpQHduiBn/zhPzEqlkP5H8kD/8Ou/Cd0AA7Dlag4
-         Z1OQ==
-X-Gm-Message-State: AFqh2kq/lIqEdrbnbDI4fOilrU4GO5w1K0sPTZs5VXm1NNUDNMaRxjEq
-	DY0N2euGBpP+lDq8xc5t3nnxednZxlJc822F
-X-Google-Smtp-Source: AMrXdXt1aJKSMCXpyvqCpHFt5HESprrAjO//Xl5shjkWBe6PXBfaj3rY8aN3L5tzS3q5FEqPGs0mfg==
-X-Received: by 2002:a05:600c:4255:b0:3d3:3d34:5d63 with SMTP id r21-20020a05600c425500b003d33d345d63mr34789309wmm.8.1672821580251;
-        Wed, 04 Jan 2023 00:39:40 -0800 (PST)
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Q3kht5c7R/bDxLs1R15CaC2JjXppkUaxhQMa2gSrLEU=;
+        b=v1NTniB0DHfZpgF6q+1UsYKs5ZAfUdAUaHdnh6mYgrW/5zwVHcEPZ5ICVJZKUHXJ/k
+         tdhtL36uCuQEqyJ04DWxIt4Rv4sEui5SIM+vOz8R2nUjHRBJu2HrLMlE0KmVfVlB87YD
+         gU91jeMGTSv+/+resFkWPkzKhmr7OzgvdEjKTQK+Xm/aS2xIgPle+Iv0o33xywzWJKJ3
+         TwQEiplWcB+0wcEHjOSelpqxfDG62dkGB0NkxXwi0ZsKKwvVgFUuYyTY6Y1L7xR9HQ5i
+         9E+9TwiasAqNiQKhV0P+rJa/k0W7PJaF/RVR1zHPTK0PfaLyZUdnsNREIDe2j5nNzVnq
+         szxw==
+X-Gm-Message-State: AFqh2krWabtxjF6VKiCJ2LmLlzlxrvkZsl2M7AWlLa3wGS+ctvVqogEQ
+	CaKXt2r5iF8MyCddECWDMxZPqNBxsQ0OnAp9
+X-Google-Smtp-Source: AMrXdXt1cEjP/FWe9Sz6sTlBB/HCmNmtLt4vNsWm09kHJJVJSB+QiAMz+0gUvYMNgPQIRXKy3DLtMw==
+X-Received: by 2002:adf:e383:0:b0:267:b8df:932b with SMTP id e3-20020adfe383000000b00267b8df932bmr36865489wrm.23.1672821674211;
+        Wed, 04 Jan 2023 00:41:14 -0800 (PST)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id ay39-20020a05600c1e2700b003cfa80443a0sm44791827wmb.35.2023.01.04.00.39.38
+        by smtp.gmail.com with ESMTPSA id w17-20020a5d5451000000b0023662d97130sm33512251wrv.20.2023.01.04.00.41.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Jan 2023 00:39:39 -0800 (PST)
-Date: Wed, 4 Jan 2023 11:39:35 +0300
+        Wed, 04 Jan 2023 00:41:13 -0800 (PST)
+Date: Wed, 4 Jan 2023 11:41:11 +0300
 From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, Neil Armstrong <neil.armstrong@linaro.org>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Wolfram Sang <wsa-dev@sang-engineering.com>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>
-Subject: drivers/i2c/busses/i2c-qcom-geni.c:937 geni_i2c_probe() warn:
- 'gi2c->core_clk' from clk_prepare_enable() not released on lines: 896.
-Message-ID: <202301032054.FPhnSn5K-lkp@intel.com>
+To: oe-kbuild@lists.linux.dev,
+	Sweet Tea Dorminy <sweettea-kernel@dorminy.me>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH 14/17] fscrypt: add creation/usage/freeing of
+ per-extent infos
+Message-ID: <202301032351.WJOSX4jj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -54,202 +53,63 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Message-ID: <20230104083935.AUA0MDXUvLy5WbMSMybiygqThAPf0YfiDqMFdywiFf4@z>
+In-Reply-To: <9e1c2b101025a3388a6b31a8bdfb2b1cf59bf97c.1672547582.git.sweettea-kernel@dorminy.me>
+Message-ID: <20230104084111.7RiKBmDkQRedGe-i6GA30kfS7mzOCV-lfiUF5cV0Y6w@z>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   69b41ac87e4a664de78a395ff97166f0b2943210
-commit: 14d02fbadb5dc1cdf66078ef8430dd1cd22bfd53 i2c: qcom-geni: add desc struct to prepare support for I2C Master Hub variant
-compiler: csky-linux-gcc (GCC) 12.1.0
+Hi Sweet,
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Sweet-Tea-Dorminy/fscrypt-factor-accessing-inode-i_crypt_info/20230101-130927
+base:   b7af0635c87ff78d6bd523298ab7471f9ffd3ce5
+patch link:    https://lore.kernel.org/r/9e1c2b101025a3388a6b31a8bdfb2b1cf59bf97c.1672547582.git.sweettea-kernel%40dorminy.me
+patch subject: [RFC PATCH 14/17] fscrypt: add creation/usage/freeing of per-extent infos
+config: i386-randconfig-m021
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
 
-New smatch warnings:
-drivers/i2c/busses/i2c-qcom-geni.c:937 geni_i2c_probe() warn: 'gi2c->core_clk' from clk_prepare_enable() not released on lines: 896.
+smatch warnings:
+fs/crypto/crypto.c:121 fscrypt_crypt_block() warn: variable dereferenced before check 'ci' (see line 114)
 
-vim +937 drivers/i2c/busses/i2c-qcom-geni.c
+vim +/ci +121 fs/crypto/crypto.c
 
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  768  static int geni_i2c_probe(struct platform_device *pdev)
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  769  {
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  770  	struct geni_i2c_dev *gi2c;
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  771  	struct resource *res;
-d8703554f4dea9 Vinod Koul                  2022-02-21  772  	u32 proto, tx_depth, fifo_disable;
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  773  	int ret;
-3b7d81f08a6a2b Stephen Boyd                2020-03-10  774  	struct device *dev = &pdev->dev;
-14d02fbadb5dc1 Neil Armstrong              2022-11-29  775  	const struct geni_i2c_desc *desc = NULL;
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  776  
-3b7d81f08a6a2b Stephen Boyd                2020-03-10  777  	gi2c = devm_kzalloc(dev, sizeof(*gi2c), GFP_KERNEL);
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  778  	if (!gi2c)
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  779  		return -ENOMEM;
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  780  
-3b7d81f08a6a2b Stephen Boyd                2020-03-10  781  	gi2c->se.dev = dev;
-3b7d81f08a6a2b Stephen Boyd                2020-03-10  782  	gi2c->se.wrapper = dev_get_drvdata(dev->parent);
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  783  	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-3b7d81f08a6a2b Stephen Boyd                2020-03-10  784  	gi2c->se.base = devm_ioremap_resource(dev, res);
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  785  	if (IS_ERR(gi2c->se.base))
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  786  		return PTR_ERR(gi2c->se.base);
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  787  
-14d02fbadb5dc1 Neil Armstrong              2022-11-29  788  	desc = device_get_match_data(&pdev->dev);
-14d02fbadb5dc1 Neil Armstrong              2022-11-29  789  
-14d02fbadb5dc1 Neil Armstrong              2022-11-29  790  	if (desc && desc->has_core_clk) {
-14d02fbadb5dc1 Neil Armstrong              2022-11-29  791  		gi2c->core_clk = devm_clk_get(dev, "core");
-14d02fbadb5dc1 Neil Armstrong              2022-11-29  792  		if (IS_ERR(gi2c->core_clk))
-14d02fbadb5dc1 Neil Armstrong              2022-11-29  793  			return PTR_ERR(gi2c->core_clk);
-14d02fbadb5dc1 Neil Armstrong              2022-11-29  794  	}
-14d02fbadb5dc1 Neil Armstrong              2022-11-29  795  
-3b7d81f08a6a2b Stephen Boyd                2020-03-10  796  	gi2c->se.clk = devm_clk_get(dev, "se");
-3b7d81f08a6a2b Stephen Boyd                2020-03-10  797  	if (IS_ERR(gi2c->se.clk) && !has_acpi_companion(dev))
-3b7d81f08a6a2b Stephen Boyd                2020-03-10  798  		return PTR_ERR(gi2c->se.clk);
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  799  
-3b7d81f08a6a2b Stephen Boyd                2020-03-10  800  	ret = device_property_read_u32(dev, "clock-frequency",
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  801  				       &gi2c->clk_freq_out);
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  802  	if (ret) {
-3b7d81f08a6a2b Stephen Boyd                2020-03-10  803  		dev_info(dev, "Bus frequency not specified, default to 100kHz.\n");
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  804  		gi2c->clk_freq_out = KHZ(100);
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  805  	}
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  806  
-3b7d81f08a6a2b Stephen Boyd                2020-03-10  807  	if (has_acpi_companion(dev))
-3b7d81f08a6a2b Stephen Boyd                2020-03-10  808  		ACPI_COMPANION_SET(&gi2c->adap.dev, ACPI_COMPANION(dev));
-c9913ac42135cf Lee Jones                   2019-06-12  809  
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  810  	gi2c->irq = platform_get_irq(pdev, 0);
-3b7d81f08a6a2b Stephen Boyd                2020-03-10  811  	if (gi2c->irq < 0)
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  812  		return gi2c->irq;
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  813  
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  814  	ret = geni_i2c_clk_map_idx(gi2c);
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  815  	if (ret) {
-3b7d81f08a6a2b Stephen Boyd                2020-03-10  816  		dev_err(dev, "Invalid clk frequency %d Hz: %d\n",
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  817  			gi2c->clk_freq_out, ret);
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  818  		return ret;
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  819  	}
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  820  
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  821  	gi2c->adap.algo = &geni_i2c_algo;
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  822  	init_completion(&gi2c->done);
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  823  	spin_lock_init(&gi2c->lock);
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  824  	platform_set_drvdata(pdev, gi2c);
-3b7d81f08a6a2b Stephen Boyd                2020-03-10  825  	ret = devm_request_irq(dev, gi2c->irq, geni_i2c_irq, 0,
-3b7d81f08a6a2b Stephen Boyd                2020-03-10  826  			       dev_name(dev), gi2c);
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  827  	if (ret) {
-3b7d81f08a6a2b Stephen Boyd                2020-03-10  828  		dev_err(dev, "Request_irq failed:%d: err:%d\n",
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  829  			gi2c->irq, ret);
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  830  		return ret;
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  831  	}
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  832  	/* Disable the interrupt so that the system can enter low-power mode */
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  833  	disable_irq(gi2c->irq);
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  834  	i2c_set_adapdata(&gi2c->adap, gi2c);
-3b7d81f08a6a2b Stephen Boyd                2020-03-10  835  	gi2c->adap.dev.parent = dev;
-3b7d81f08a6a2b Stephen Boyd                2020-03-10  836  	gi2c->adap.dev.of_node = dev->of_node;
-ea1558ce149d28 Wolfram Sang                2022-08-11  837  	strscpy(gi2c->adap.name, "Geni-I2C", sizeof(gi2c->adap.name));
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  838  
-14d02fbadb5dc1 Neil Armstrong              2022-11-29  839  	ret = geni_icc_get(&gi2c->se, desc ? desc->icc_ddr : "qup-memory");
-bf225ed357c65e Akash Asthana               2020-06-23  840  	if (ret)
-bf225ed357c65e Akash Asthana               2020-06-23  841  		return ret;
-bf225ed357c65e Akash Asthana               2020-06-23  842  	/*
-bf225ed357c65e Akash Asthana               2020-06-23  843  	 * Set the bus quota for core and cpu to a reasonable value for
-bf225ed357c65e Akash Asthana               2020-06-23  844  	 * register access.
-bf225ed357c65e Akash Asthana               2020-06-23  845  	 * Set quota for DDR based on bus speed.
-bf225ed357c65e Akash Asthana               2020-06-23  846  	 */
-bf225ed357c65e Akash Asthana               2020-06-23  847  	gi2c->se.icc_paths[GENI_TO_CORE].avg_bw = GENI_DEFAULT_BW;
-bf225ed357c65e Akash Asthana               2020-06-23  848  	gi2c->se.icc_paths[CPU_TO_GENI].avg_bw = GENI_DEFAULT_BW;
-14d02fbadb5dc1 Neil Armstrong              2022-11-29  849  	if (!desc || desc->icc_ddr)
-bf225ed357c65e Akash Asthana               2020-06-23  850  		gi2c->se.icc_paths[GENI_TO_DDR].avg_bw = Bps_to_icc(gi2c->clk_freq_out);
-bf225ed357c65e Akash Asthana               2020-06-23  851  
-bf225ed357c65e Akash Asthana               2020-06-23  852  	ret = geni_icc_set_bw(&gi2c->se);
-bf225ed357c65e Akash Asthana               2020-06-23  853  	if (ret)
-bf225ed357c65e Akash Asthana               2020-06-23  854  		return ret;
-bf225ed357c65e Akash Asthana               2020-06-23  855  
-14d02fbadb5dc1 Neil Armstrong              2022-11-29  856  	ret = clk_prepare_enable(gi2c->core_clk);
-14d02fbadb5dc1 Neil Armstrong              2022-11-29  857  	if (ret)
-14d02fbadb5dc1 Neil Armstrong              2022-11-29  858  		return ret;
-14d02fbadb5dc1 Neil Armstrong              2022-11-29  859  
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  860  	ret = geni_se_resources_on(&gi2c->se);
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  861  	if (ret) {
-3b7d81f08a6a2b Stephen Boyd                2020-03-10  862  		dev_err(dev, "Error turning on resources %d\n", ret);
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  863  		return ret;
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  864  	}
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  865  	proto = geni_se_read_proto(&gi2c->se);
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  866  	if (proto != GENI_SE_I2C) {
-3b7d81f08a6a2b Stephen Boyd                2020-03-10  867  		dev_err(dev, "Invalid proto %d\n", proto);
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  868  		geni_se_resources_off(&gi2c->se);
-14d02fbadb5dc1 Neil Armstrong              2022-11-29  869  		clk_disable_unprepare(gi2c->core_clk);
+f47fcbb2b578bd Eric Biggers       2019-05-20  102  int fscrypt_crypt_block(const struct inode *inode, fscrypt_direction_t rw,
+58ae74683ae2c0 Richard Weinberger 2016-12-19  103  			u64 lblk_num, struct page *src_page,
+58ae74683ae2c0 Richard Weinberger 2016-12-19  104  			struct page *dest_page, unsigned int len,
+58ae74683ae2c0 Richard Weinberger 2016-12-19  105  			unsigned int offs, gfp_t gfp_flags)
+0b81d077907269 Jaegeuk Kim        2015-05-15  106  {
+8094c3ceb21ad9 Eric Biggers       2019-01-06  107  	union fscrypt_iv iv;
+d407574e794821 Linus Torvalds     2016-03-21  108  	struct skcipher_request *req = NULL;
+d0082e1a7c8dfe Gilad Ben-Yossef   2017-10-18  109  	DECLARE_CRYPTO_WAIT(wait);
+0b81d077907269 Jaegeuk Kim        2015-05-15  110  	struct scatterlist dst, src;
+e87879ea12c3b6 Sweet Tea Dorminy  2023-01-01  111  	u64 ci_offset = 0;
+e87879ea12c3b6 Sweet Tea Dorminy  2023-01-01  112  	struct fscrypt_info *ci = fscrypt_get_lblk_info(inode, lblk_num,
+e87879ea12c3b6 Sweet Tea Dorminy  2023-01-01  113  						        &ci_offset, NULL);
+5fee36095cda45 Satya Tangirala    2020-07-02 @114  	struct crypto_skcipher *tfm = ci->ci_enc_key.tfm;
+                                                                                      ^^^^
+Dereference.
 
-Error handling clean up.
+0b81d077907269 Jaegeuk Kim        2015-05-15  115  	int res = 0;
+0b81d077907269 Jaegeuk Kim        2015-05-15  116  
+eeacfdc68a1049 Eric Biggers       2019-05-20  117  	if (WARN_ON_ONCE(len <= 0))
+eeacfdc68a1049 Eric Biggers       2019-05-20  118  		return -EINVAL;
+63cec1389e116a Eric Biggers       2022-04-04  119  	if (WARN_ON_ONCE(len % FSCRYPT_CONTENTS_ALIGNMENT != 0))
+eeacfdc68a1049 Eric Biggers       2019-05-20  120  		return -EINVAL;
+938fa42307b18b Sweet Tea Dorminy  2023-01-01 @121  	if (!ci) {
+                                                            ^^^
+Checked too late.
 
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  870  		return -ENXIO;
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  871  	}
-d8703554f4dea9 Vinod Koul                  2022-02-21  872  
-14d02fbadb5dc1 Neil Armstrong              2022-11-29  873  	if (desc && desc->no_dma_support)
-14d02fbadb5dc1 Neil Armstrong              2022-11-29  874  		fifo_disable = false;
-14d02fbadb5dc1 Neil Armstrong              2022-11-29  875  	else
-d8703554f4dea9 Vinod Koul                  2022-02-21  876  		fifo_disable = readl_relaxed(gi2c->se.base + GENI_IF_DISABLE_RO) & FIFO_IF_DISABLE;
-14d02fbadb5dc1 Neil Armstrong              2022-11-29  877  
-d8703554f4dea9 Vinod Koul                  2022-02-21  878  	if (fifo_disable) {
-d8703554f4dea9 Vinod Koul                  2022-02-21  879  		/* FIFO is disabled, so we can only use GPI DMA */
-d8703554f4dea9 Vinod Koul                  2022-02-21  880  		gi2c->gpi_mode = true;
-d8703554f4dea9 Vinod Koul                  2022-02-21  881  		ret = setup_gpi_dma(gi2c);
-c60bd968c74749 Bjorn Andersson             2022-04-12  882  		if (ret)
-c60bd968c74749 Bjorn Andersson             2022-04-12  883  			return dev_err_probe(dev, ret, "Failed to setup GPI DMA mode\n");
-
-No clean up.
-
-d8703554f4dea9 Vinod Koul                  2022-02-21  884  
-d8703554f4dea9 Vinod Koul                  2022-02-21  885  		dev_dbg(dev, "Using GPI DMA mode for I2C\n");
-d8703554f4dea9 Vinod Koul                  2022-02-21  886  	} else {
-d8703554f4dea9 Vinod Koul                  2022-02-21  887  		gi2c->gpi_mode = false;
-d8703554f4dea9 Vinod Koul                  2022-02-21  888  		tx_depth = geni_se_get_tx_fifo_depth(&gi2c->se);
-14d02fbadb5dc1 Neil Armstrong              2022-11-29  889  
-14d02fbadb5dc1 Neil Armstrong              2022-11-29  890  		/* I2C Master Hub Serial Elements doesn't have the HW_PARAM_0 register */
-14d02fbadb5dc1 Neil Armstrong              2022-11-29  891  		if (!tx_depth && desc)
-14d02fbadb5dc1 Neil Armstrong              2022-11-29  892  			tx_depth = desc->tx_fifo_depth;
-14d02fbadb5dc1 Neil Armstrong              2022-11-29  893  
-14d02fbadb5dc1 Neil Armstrong              2022-11-29  894  		if (!tx_depth) {
-14d02fbadb5dc1 Neil Armstrong              2022-11-29  895  			dev_err(dev, "Invalid TX FIFO depth\n");
-14d02fbadb5dc1 Neil Armstrong              2022-11-29  896  			return -EINVAL;
-
-No clean up.
-
-14d02fbadb5dc1 Neil Armstrong              2022-11-29  897  		}
-14d02fbadb5dc1 Neil Armstrong              2022-11-29  898  
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  899  		gi2c->tx_wm = tx_depth - 1;
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  900  		geni_se_init(&gi2c->se, gi2c->tx_wm, tx_depth);
-d8703554f4dea9 Vinod Koul                  2022-02-21  901  		geni_se_config_packing(&gi2c->se, BITS_PER_BYTE,
-d8703554f4dea9 Vinod Koul                  2022-02-21  902  				       PACKING_BYTES_PW, true, true, true);
-d8703554f4dea9 Vinod Koul                  2022-02-21  903  
-d8703554f4dea9 Vinod Koul                  2022-02-21  904  		dev_dbg(dev, "i2c fifo/se-dma mode. fifo depth:%d\n", tx_depth);
-d8703554f4dea9 Vinod Koul                  2022-02-21  905  	}
-d8703554f4dea9 Vinod Koul                  2022-02-21  906  
-14d02fbadb5dc1 Neil Armstrong              2022-11-29  907  	clk_disable_unprepare(gi2c->core_clk);
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  908  	ret = geni_se_resources_off(&gi2c->se);
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  909  	if (ret) {
-3b7d81f08a6a2b Stephen Boyd                2020-03-10  910  		dev_err(dev, "Error turning off resources %d\n", ret);
-d8703554f4dea9 Vinod Koul                  2022-02-21  911  		goto err_dma;
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  912  	}
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  913  
-bf225ed357c65e Akash Asthana               2020-06-23  914  	ret = geni_icc_disable(&gi2c->se);
-bf225ed357c65e Akash Asthana               2020-06-23  915  	if (ret)
-d8703554f4dea9 Vinod Koul                  2022-02-21  916  		goto err_dma;
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  917  
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  918  	gi2c->suspended = 1;
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  919  	pm_runtime_set_suspended(gi2c->se.dev);
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  920  	pm_runtime_set_autosuspend_delay(gi2c->se.dev, I2C_AUTO_SUSPEND_DELAY);
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  921  	pm_runtime_use_autosuspend(gi2c->se.dev);
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  922  	pm_runtime_enable(gi2c->se.dev);
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  923  
-848bd3f3de9d44 Stephen Boyd                2018-11-02  924  	ret = i2c_add_adapter(&gi2c->adap);
-848bd3f3de9d44 Stephen Boyd                2018-11-02  925  	if (ret) {
-3b7d81f08a6a2b Stephen Boyd                2020-03-10  926  		dev_err(dev, "Error adding i2c adapter %d\n", ret);
-848bd3f3de9d44 Stephen Boyd                2018-11-02  927  		pm_runtime_disable(gi2c->se.dev);
-d8703554f4dea9 Vinod Koul                  2022-02-21  928  		goto err_dma;
-848bd3f3de9d44 Stephen Boyd                2018-11-02  929  	}
-848bd3f3de9d44 Stephen Boyd                2018-11-02  930  
-3b7d81f08a6a2b Stephen Boyd                2020-03-10  931  	dev_dbg(dev, "Geni-I2C adaptor successfully added\n");
-c3c2889b8a2c9d Lee Jones                   2019-06-12  932  
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  933  	return 0;
-d8703554f4dea9 Vinod Koul                  2022-02-21  934  
-d8703554f4dea9 Vinod Koul                  2022-02-21  935  err_dma:
-d8703554f4dea9 Vinod Koul                  2022-02-21  936  	release_gpi_dma(gi2c);
-d8703554f4dea9 Vinod Koul                  2022-02-21 @937  	return ret;
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  938  }
+938fa42307b18b Sweet Tea Dorminy  2023-01-01  122  		fscrypt_err(inode,
+938fa42307b18b Sweet Tea Dorminy  2023-01-01  123  			    "Error %d getting extent info for block %llu",
+938fa42307b18b Sweet Tea Dorminy  2023-01-01  124  			    res, lblk_num);
+938fa42307b18b Sweet Tea Dorminy  2023-01-01  125  		return -EINVAL;
+938fa42307b18b Sweet Tea Dorminy  2023-01-01  126  	}
+1400451f04f2ff David Gstir        2016-12-06  127  
+e87879ea12c3b6 Sweet Tea Dorminy  2023-01-01  128  	fscrypt_generate_iv(&iv, ci_offset, ci);
+b7e7cf7a66a27e Daniel Walter      2017-06-19  129  
+b32e4482aadfd1 Jaegeuk Kim        2016-04-11  130  	req = skcipher_request_alloc(tfm, gfp_flags);
+c90fd775624791 Eric Biggers       2018-04-30  131  	if (!req)
 
 -- 
 0-DAY CI Kernel Test Service
