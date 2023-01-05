@@ -1,50 +1,54 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 862A9636;
-	Thu,  5 Jan 2023 04:32:45 +0000 (UTC)
-Received: by mail-wm1-f44.google.com with SMTP id c65-20020a1c3544000000b003cfffd00fc0so461138wma.1;
-        Wed, 04 Jan 2023 20:32:45 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F4B77FD;
+	Thu,  5 Jan 2023 04:37:13 +0000 (UTC)
+Received: by mail-wr1-f53.google.com with SMTP id w1so22902131wrt.8;
+        Wed, 04 Jan 2023 20:37:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=yKDYQovoyQyyVAppAevicmydYycu3YFAtwMJ7JKg5FI=;
-        b=i/9I/yrP1jhhlIrogEYg+zTeBNA3wb80YWC/mpKALE2FP3AbCABpm/Xh/SHXPFukSB
-         LXDlfQinnb540wW5PH6vdQwWVH7kj+d3uR7Lpa4uGJZOPJbcTViMOPq0T+MHcGHWoQOe
-         hwITYVbBpXprGce8X4jQjb3Ndl/ZJfKmIPUiXMJ7ZIlx0TR0voFc/6ByGvTXGx30Ob0B
-         x8EH352Jeo/hkE39fzEsvr0/i4rq1vtYucUSpWZxNKnb+EPCsI2i3OUvUDOnnaa+jugp
-         PuxuS4WzhUWC1XQiaOd9IOHoyPnP09vwnZKaogVKQJ4/Akb7I/Gnb5De4Vha8JfvWGhR
-         dArg==
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=V8n4KZU3ErLZb7D+5oV5JKZTvhpFWTfVUw/4LSSiqWc=;
+        b=T1QBcW/bIgzKPnVeL59jcQEp1vZU40PnLLKdMX6yYF0va5o0MbdVKdVFMz9QrQdS0l
+         Yt0Xs6/NsGHezhsriK5sZ4sYw2H/SuTxo5h8+6Bc3TcyQc8pP0TcjJBiYHJgX02FQan5
+         rUYWSmhY+M0qbWO43UYTMqaCtiJAJJ8XIQkhbNF03YM37VN55TaeXVA7yKf+WjWwt2EB
+         hMgMOj1eV4wMxwLCnSbJJ0hfeVFgRUBwUHuuYY08yHZaGuLomJ5ubCds7DiXUZiD5M/0
+         4qG/mavSBdUCvfIM7arRtQjJP3UmFfsTkw6aKEx7d0xiVeXJi0lT8pKVf4aTJEtlYN/t
+         vO2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=yKDYQovoyQyyVAppAevicmydYycu3YFAtwMJ7JKg5FI=;
-        b=I8PrMZPqEIuIwBemT+wNL64gz/77OL8TGr05K7BF0jwC7/t2qKSo39XIxjHDNWnJaz
-         bv4uA04yRdfvzXP+K6RtW5cg7Ghr6jxpYJWi+1e2MwGyiHVXpvMWoG5y0UjYcKVu14Aj
-         O3Ei4jYkabVuSyw8nyqenWUdxPWGDuDQxa7MPYBak+SfzzgfbI6Wor3x5eiFTO5l+wx6
-         2wLE/Vmw/esSPNYLhCE+61lDY5A0IAZLZFnptRcNqRzoHgPZkPuOMjY67TnSEVLVnxnU
-         YyNeEcR0Fo7Et5iF/88V1j/UbxeUPV/2UM/Agx+SFcJIo4e3cNzinWdKzMqVGLlMBBah
-         wtHQ==
-X-Gm-Message-State: AFqh2kpQEhYam6Y7c1LE2i7vkh48vlzFCdPjyyaFp1z9zo4BX8g0HkOZ
-	O55WzVhqIWjvAjf4eJYy1/gGRuHfzSdM2Q==
-X-Google-Smtp-Source: AMrXdXuw5nWTW/9AMASl5bZUcFMJdpVhVgnffy9zAL0A7dvsClrZEPhzcc5JAqbISL+u6Nnns4hDbQ==
-X-Received: by 2002:a05:600c:35ca:b0:3d1:f2de:195a with SMTP id r10-20020a05600c35ca00b003d1f2de195amr38485396wmq.32.1672893163517;
-        Wed, 04 Jan 2023 20:32:43 -0800 (PST)
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=V8n4KZU3ErLZb7D+5oV5JKZTvhpFWTfVUw/4LSSiqWc=;
+        b=OfEKiypxOUiD8A/hs40chblnsI0k7D3vejHgTRKzax/colBzphEPZ5YHojMpIpZ4bB
+         iaEn9gFoaF7sdS7U/B3MANmYQAVPkGuXG2rU2aC2teYts7u5D5UjWXiA4wjsLCC9DsEq
+         YYRY0frKLKsSoryfvBPJUMpNmM9MAGiwrYcY0eXOxicZ7Tp6ZlBP1V/MTOQJ+6DTx9uG
+         bdfVwNWmKgAt+KGBUfTKM9d0bsuT/+b77wOfrz88v1xr6iWjdd1QM7NKfQYUf+o2L2fo
+         3zSxVydEaRA6XVLJCSKasd/9q7V+K0wi2mjQySQyOjlGcbQNifwRXZWwdUdLwCNRi86v
+         m7NQ==
+X-Gm-Message-State: AFqh2kqSJsIt7bET6fPTAlhbYx+BqC0cSsD48Bg9Zkq7PrYGcRRLE/2P
+	bmxI94POsd8pXKIEFXiaO1oDM1bXpfAn40w8
+X-Google-Smtp-Source: AMrXdXt/yqQWzK0JIKHjU/7CDgvchWlRfZKhJFMKPVJnTZ3cGXeN8hOkB/m/K6zF7kNjhTkMv6m3QA==
+X-Received: by 2002:adf:e690:0:b0:2b3:f6f:293b with SMTP id r16-20020adfe690000000b002b30f6f293bmr335845wrm.47.1672893431502;
+        Wed, 04 Jan 2023 20:37:11 -0800 (PST)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id bg41-20020a05600c3ca900b003d1e34bcbb2sm987206wmb.13.2023.01.04.20.32.42
+        by smtp.gmail.com with ESMTPSA id m16-20020adffe50000000b00241bd7a7165sm39712107wrs.82.2023.01.04.20.37.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Jan 2023 20:32:43 -0800 (PST)
-Date: Thu, 5 Jan 2023 07:32:40 +0300
+        Wed, 04 Jan 2023 20:37:10 -0800 (PST)
+Date: Thu, 5 Jan 2023 07:37:08 +0300
 From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, Cristian Marussi <cristian.marussi@arm.com>
+To: oe-kbuild@lists.linux.dev,
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+	Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+	Abhinav Kumar <quic_abhinavk@quicinc.com>
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Sudeep Holla <sudeep.holla@arm.com>
-Subject: [sudeep-holla:for-next/scmi 23/30]
- drivers/firmware/arm_scmi/driver.c:2531 scmi_debugfs_common_setup() error:
- uninitialized symbol 'c_ptr'.
-Message-ID: <202301050721.xSWIWpwP-lkp@intel.com>
+	freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+	Bjorn Andersson <andersson@kernel.org>,
+	dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>
+Subject: Re: [PATCH] drm/msm: another fix for the headless Adreno GPU
+Message-ID: <202301050715.xoGxiXQq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -53,107 +57,46 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Message-ID: <20230105043240.uUb395uDko1rnTCFDHOlbiqJ_1giUqcSJUiPL5LDpn4@z>
+In-Reply-To: <20221231022937.286491-1-dmitry.baryshkov@linaro.org>
+Message-ID: <20230105043708.-_53ecNBWPCJbIOWe58qrbn8qAPxfj6ICa-1v4E_F-E@z>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sudeep.holla/linux.git for-next/scmi
-head:   0b4d8ff8d58dc9cd19bae9c109b313830263c928
-commit: 0868ff68bdf60d4fd3ea542ca568ecf40697a2b5 [23/30] firmware: arm_scmi: Populate a common SCMI debugsfs root
-config: parisc-randconfig-m041-20230102
-compiler: hppa-linux-gcc (GCC) 12.1.0
+Hi Dmitry,
+
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Dmitry-Baryshkov/drm-msm-another-fix-for-the-headless-Adreno-GPU/20221231-103022
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20221231022937.286491-1-dmitry.baryshkov%40linaro.org
+patch subject: [PATCH] drm/msm: another fix for the headless Adreno GPU
+config: loongarch-randconfig-m031-20230101
+compiler: loongarch64-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
 
-New smatch warnings:
-drivers/firmware/arm_scmi/driver.c:2531 scmi_debugfs_common_setup() error: uninitialized symbol 'c_ptr'.
+smatch warnings:
+drivers/gpu/drm/msm/msm_atomic.c:194 msm_atomic_commit_tail() error: uninitialized symbol 'async'.
 
-vim +/c_ptr +2531 drivers/firmware/arm_scmi/driver.c
+vim +/async +194 drivers/gpu/drm/msm/msm_atomic.c
 
-0868ff68bdf60d Cristian Marussi 2022-12-29  2512  static struct scmi_debug_info *scmi_debugfs_common_setup(struct scmi_info *info)
-0868ff68bdf60d Cristian Marussi 2022-12-29  2513  {
-0868ff68bdf60d Cristian Marussi 2022-12-29  2514  	int ret;
-0868ff68bdf60d Cristian Marussi 2022-12-29  2515  	const char *c_ptr;
-0868ff68bdf60d Cristian Marussi 2022-12-29  2516  	char top_dir[16];
-0868ff68bdf60d Cristian Marussi 2022-12-29  2517  	struct dentry *trans, *top_dentry;
-0868ff68bdf60d Cristian Marussi 2022-12-29  2518  	struct scmi_debug_info *dbg;
-0868ff68bdf60d Cristian Marussi 2022-12-29  2519  
-0868ff68bdf60d Cristian Marussi 2022-12-29  2520  	dbg = devm_kzalloc(info->dev, sizeof(*dbg), GFP_KERNEL);
-0868ff68bdf60d Cristian Marussi 2022-12-29  2521  	if (!dbg)
-0868ff68bdf60d Cristian Marussi 2022-12-29  2522  		return NULL;
-0868ff68bdf60d Cristian Marussi 2022-12-29  2523  
-0868ff68bdf60d Cristian Marussi 2022-12-29  2524  	dbg->name = kstrdup(of_node_full_name(info->dev->of_node), GFP_KERNEL);
-0868ff68bdf60d Cristian Marussi 2022-12-29  2525  	if (!dbg->name) {
-0868ff68bdf60d Cristian Marussi 2022-12-29  2526  		devm_kfree(info->dev, dbg);
-0868ff68bdf60d Cristian Marussi 2022-12-29  2527  		return ERR_PTR(-ENOMEM);
-0868ff68bdf60d Cristian Marussi 2022-12-29  2528  	}
-0868ff68bdf60d Cristian Marussi 2022-12-29  2529  
-0868ff68bdf60d Cristian Marussi 2022-12-29  2530  	of_property_read_string(info->dev->of_node, "compatible", &c_ptr);
-0868ff68bdf60d Cristian Marussi 2022-12-29 @2531  	dbg->type = kstrdup(c_ptr, GFP_KERNEL);
-
-My instinct is to agree with the checker on this and say that it does
-feel like we should check if of_property_read_string() read something.
-
-0868ff68bdf60d Cristian Marussi 2022-12-29  2532  	if (!dbg->type) {
-0868ff68bdf60d Cristian Marussi 2022-12-29  2533  		kfree(dbg->name);
-0868ff68bdf60d Cristian Marussi 2022-12-29  2534  		devm_kfree(info->dev, dbg);
-0868ff68bdf60d Cristian Marussi 2022-12-29  2535  		return ERR_PTR(-ENOMEM);
-0868ff68bdf60d Cristian Marussi 2022-12-29  2536  	}
-0868ff68bdf60d Cristian Marussi 2022-12-29  2537  
-0868ff68bdf60d Cristian Marussi 2022-12-29  2538  	snprintf(top_dir, 16, "%d", info->id);
-0868ff68bdf60d Cristian Marussi 2022-12-29  2539  	top_dentry = debugfs_create_dir(top_dir, scmi_top_dentry);
-0868ff68bdf60d Cristian Marussi 2022-12-29  2540  	if (IS_ERR(top_dentry)) {
-0868ff68bdf60d Cristian Marussi 2022-12-29  2541  		kfree(dbg->name);
-0868ff68bdf60d Cristian Marussi 2022-12-29  2542  		kfree(dbg->type);
-0868ff68bdf60d Cristian Marussi 2022-12-29  2543  		devm_kfree(info->dev, dbg);
-0868ff68bdf60d Cristian Marussi 2022-12-29  2544  		return NULL;
-0868ff68bdf60d Cristian Marussi 2022-12-29  2545  	}
-0868ff68bdf60d Cristian Marussi 2022-12-29  2546  
-0868ff68bdf60d Cristian Marussi 2022-12-29  2547  	trans = debugfs_create_dir("transport", top_dentry);
-0868ff68bdf60d Cristian Marussi 2022-12-29  2548  	if (IS_ERR(trans)) {
-0868ff68bdf60d Cristian Marussi 2022-12-29  2549  		debugfs_remove_recursive(top_dentry);
-0868ff68bdf60d Cristian Marussi 2022-12-29  2550  		kfree(dbg->name);
-0868ff68bdf60d Cristian Marussi 2022-12-29  2551  		kfree(dbg->type);
-0868ff68bdf60d Cristian Marussi 2022-12-29  2552  		devm_kfree(info->dev, dbg);
-0868ff68bdf60d Cristian Marussi 2022-12-29  2553  		return NULL;
-0868ff68bdf60d Cristian Marussi 2022-12-29  2554  	}
-0868ff68bdf60d Cristian Marussi 2022-12-29  2555  
-0868ff68bdf60d Cristian Marussi 2022-12-29  2556  	dbg->is_atomic = info->desc->atomic_enabled &&
-0868ff68bdf60d Cristian Marussi 2022-12-29  2557  				is_transport_polling_capable(info->desc);
-0868ff68bdf60d Cristian Marussi 2022-12-29  2558  
-0868ff68bdf60d Cristian Marussi 2022-12-29  2559  	debugfs_create_str("instance_name", 0400, top_dentry,
-0868ff68bdf60d Cristian Marussi 2022-12-29  2560  			   (char **)&dbg->name);
-0868ff68bdf60d Cristian Marussi 2022-12-29  2561  
-0868ff68bdf60d Cristian Marussi 2022-12-29  2562  	debugfs_create_u32("atomic_threshold_us", 0400, top_dentry,
-0868ff68bdf60d Cristian Marussi 2022-12-29  2563  			   &info->atomic_threshold);
-0868ff68bdf60d Cristian Marussi 2022-12-29  2564  
-0868ff68bdf60d Cristian Marussi 2022-12-29  2565  	debugfs_create_str("type", 0400, trans, (char **)&dbg->type);
-0868ff68bdf60d Cristian Marussi 2022-12-29  2566  
-0868ff68bdf60d Cristian Marussi 2022-12-29  2567  	debugfs_create_bool("is_atomic", 0400, trans, &dbg->is_atomic);
-0868ff68bdf60d Cristian Marussi 2022-12-29  2568  
-0868ff68bdf60d Cristian Marussi 2022-12-29  2569  	debugfs_create_u32("max_rx_timeout_ms", 0400, trans,
-0868ff68bdf60d Cristian Marussi 2022-12-29  2570  			   (u32 *)&info->desc->max_rx_timeout_ms);
-0868ff68bdf60d Cristian Marussi 2022-12-29  2571  
-0868ff68bdf60d Cristian Marussi 2022-12-29  2572  	debugfs_create_u32("max_msg_size", 0400, trans,
-0868ff68bdf60d Cristian Marussi 2022-12-29  2573  			   (u32 *)&info->desc->max_msg_size);
-0868ff68bdf60d Cristian Marussi 2022-12-29  2574  
-0868ff68bdf60d Cristian Marussi 2022-12-29  2575  	debugfs_create_u32("tx_max_msg", 0400, trans,
-0868ff68bdf60d Cristian Marussi 2022-12-29  2576  			   (u32 *)&info->tx_minfo.max_msg);
-0868ff68bdf60d Cristian Marussi 2022-12-29  2577  
-0868ff68bdf60d Cristian Marussi 2022-12-29  2578  	debugfs_create_u32("rx_max_msg", 0400, trans,
-0868ff68bdf60d Cristian Marussi 2022-12-29  2579  			   (u32 *)&info->rx_minfo.max_msg);
-0868ff68bdf60d Cristian Marussi 2022-12-29  2580  
-0868ff68bdf60d Cristian Marussi 2022-12-29  2581  	dbg->top_dentry = top_dentry;
-0868ff68bdf60d Cristian Marussi 2022-12-29  2582  
-0868ff68bdf60d Cristian Marussi 2022-12-29  2583  	ret = devm_add_action_or_reset(info->dev,
-0868ff68bdf60d Cristian Marussi 2022-12-29  2584  				       scmi_debugfs_common_cleanup, dbg);
-0868ff68bdf60d Cristian Marussi 2022-12-29  2585  	if (ret) {
-0868ff68bdf60d Cristian Marussi 2022-12-29  2586  		scmi_debugfs_common_cleanup(dbg);
-0868ff68bdf60d Cristian Marussi 2022-12-29  2587  		return NULL;
-0868ff68bdf60d Cristian Marussi 2022-12-29  2588  	}
-0868ff68bdf60d Cristian Marussi 2022-12-29  2589  
-0868ff68bdf60d Cristian Marussi 2022-12-29  2590  	return dbg;
-0868ff68bdf60d Cristian Marussi 2022-12-29  2591  }
+d4d2c60497cfc5 Rob Clark        2019-08-29  181  
+d14659f5de7d28 Sean Paul        2018-02-28  182  void msm_atomic_commit_tail(struct drm_atomic_state *state)
+cf3a7e4ce08e68 Rob Clark        2014-11-08  183  {
+cf3a7e4ce08e68 Rob Clark        2014-11-08  184  	struct drm_device *dev = state->dev;
+0b776d457b9476 Rob Clark        2015-01-30  185  	struct msm_drm_private *priv = dev->dev_private;
+0b776d457b9476 Rob Clark        2015-01-30  186  	struct msm_kms *kms = priv->kms;
+2d99ced787e3d0 Rob Clark        2019-08-29  187  	struct drm_crtc *async_crtc = NULL;
+d4d2c60497cfc5 Rob Clark        2019-08-29  188  	unsigned crtc_mask = get_crtc_mask(state);
+91a514e50f1157 Dmitry Baryshkov 2022-12-31  189  	bool async;
+                                                        ^^^^^^^^^^^
+91a514e50f1157 Dmitry Baryshkov 2022-12-31  190  
+91a514e50f1157 Dmitry Baryshkov 2022-12-31  191  	if (!kms)
+91a514e50f1157 Dmitry Baryshkov 2022-12-31  192  		return;
+0b776d457b9476 Rob Clark        2015-01-30  193  
+d934a712c5e6a3 Rob Clark        2019-08-29 @194  	trace_msm_atomic_commit_tail_start(async, crtc_mask);
+                                                                                           ^^^^^
+Unitialized.
 
 -- 
 0-DAY CI Kernel Test Service
