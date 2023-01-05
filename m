@@ -1,66 +1,69 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4A0863DA
-	for <oe-kbuild@lists.linux.dev>; Thu,  5 Jan 2023 12:53:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1846E2F27
+	for <oe-kbuild@lists.linux.dev>; Thu,  5 Jan 2023 14:35:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1672923239; x=1704459239;
+  t=1672929316; x=1704465316;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=yn6q6VmMm0qrkmzXC1gjR7CmzYtpXGTP1CFn3y22SMI=;
-  b=bdrx8Eo1FZDzoqi0ZjHyHw3/2Xw1iO8pOkPzxudlCI5SfAJxYNeLKzR0
-   QZZrz5fO+jFoDLRxqBtAxMI7kZQqTx4n9Dp3//sGGo07Bo+KtaIUsgtK2
-   Pem1mtAkC/YUMMAw7NDnoa3PJxBNuIyRreO/hB4qX0eziY66Xc6hYSKMb
-   6xWO+tQ45zZRGNRO0SsCRRpWV5olCoLs9HPKLJjTxpg/YtF1BQ9qQQjFw
-   p/RAmLkKxnj0cRTCcx4U9kPW2kItPoM1/qQ4yVvnQl9leE356WOch0xw7
-   mS/XgLpWj6FMBaoRKWNlL5jwXA3zassRVia/Etq3JP/HcarlENzVt7VuS
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10580"; a="309964657"
-X-IronPort-AV: E=Sophos;i="5.96,302,1665471600"; 
-   d="scan'208";a="309964657"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jan 2023 04:53:58 -0800
+  bh=kkgFVM88mj8ftBXU+qBGcsxuUAPZ0DWq5b8bgh1yjWc=;
+  b=ilMIIydQQhF56T/CS2bONfh0+yzT4RYzCQTKDzo2/6FiyJ0YroWcOG6M
+   vyW4s042wwU9ovtO/NfZGp3CQXn+ohg/2amDI0Hq7DIGD2PJ8aQJgbXWH
+   UUabmk9q08OZQ8yNSaN3jfIqFzqDUEZ3OChw/HGvKTq9jG6hJziJoQHsL
+   iv/AWAIJZWOk9kfRsMKPzR/PMavchFu1tUiIfZTHIIUG/7+BzRuur2g0H
+   Y4LFTu9JbMutolydxd94TQG0ZY4vQIBbVQHy6uigXA5qO864ZB/qawdwm
+   cyhuoTnRUqQvjKR/vXvKSt26ifThBzuFEh3iXALvO2tx+IRGMMztWXv8B
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10580"; a="319925552"
+X-IronPort-AV: E=Sophos;i="5.96,303,1665471600"; 
+   d="scan'208";a="319925552"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jan 2023 06:35:12 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10580"; a="687906651"
-X-IronPort-AV: E=Sophos;i="5.96,302,1665471600"; 
-   d="scan'208";a="687906651"
+X-IronPort-AV: E=McAfee;i="6500,9779,10580"; a="605569755"
+X-IronPort-AV: E=Sophos;i="5.96,303,1665471600"; 
+   d="scan'208";a="605569755"
 Received: from lkp-server02.sh.intel.com (HELO f1920e93ebb5) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 05 Jan 2023 04:53:56 -0800
+  by orsmga003.jf.intel.com with ESMTP; 05 Jan 2023 06:35:09 -0800
 Received: from kbuild by f1920e93ebb5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pDPko-0001ij-34;
-	Thu, 05 Jan 2023 12:53:55 +0000
-Date: Thu, 5 Jan 2023 20:53:48 +0800
+	id 1pDRKm-0001s3-34;
+	Thu, 05 Jan 2023 14:35:08 +0000
+Date: Thu, 5 Jan 2023 22:35:07 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [linux-next:master 2301/2872] fs/udf/file.c:177
- udf_file_write_iter() warn: inconsistent returns '&iinfo->i_data_sem'.
-Message-ID: <202301052046.hemZiST5-lkp@intel.com>
+Subject: [leon-rdma:rdma-next 8/19] drivers/infiniband/core/umem.c:201
+ __ib_umem_get() warn: impossible condition '(npages > (~0)) => (0-u32max >
+ u32max)'
+Message-ID: <202301052253.3i9J9yCv-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="vGUYt+KKFcS2eCc8"
+Content-Type: multipart/mixed; boundary="oxmlgvUz0blmKNrB"
 Content-Disposition: inline
 
 
---vGUYt+KKFcS2eCc8
+--oxmlgvUz0blmKNrB
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Jan Kara <jack@suse.cz>
+TO: Jason Gunthorpe <jgg@nvidia.com>
+CC: Leon Romanovsky <leon@kernel.org>
+CC: Yishai Hadas <yishaih@mellanox.com>
+CC: Feras Daoud <ferasda@mellanox.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   cc3c08b41a9c9402ead726ec6deb1217081d0d8b
-commit: 16919375dca0b1769b7ac956c0c492fbed476463 [2301/2872] udf: Do not update file length for failed writes to inline files
-:::::: branch date: 9 hours ago
-:::::: commit date: 2 days ago
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git rdma-next
+head:   edc794f622a33e4ee12d7f5d218d1a59aa7c6af5
+commit: 5a494372a0adae020bf2d871609d23480407ec92 [8/19] RDMA/core: Introduce peer memory interface
+:::::: branch date: 31 hours ago
+:::::: commit date: 31 hours ago
 config: parisc-randconfig-m041-20230102
 compiler: hppa-linux-gcc (GCC) 12.1.0
 
@@ -69,72 +72,174 @@ If you fix the issue, kindly add following tag where applicable
 | Reported-by: Dan Carpenter <error27@gmail.com>
 
 smatch warnings:
-fs/udf/file.c:177 udf_file_write_iter() warn: inconsistent returns '&iinfo->i_data_sem'.
+drivers/infiniband/core/umem.c:201 __ib_umem_get() warn: impossible condition '(npages > (~0)) => (0-u32max > u32max)'
 
-vim +177 fs/udf/file.c
+vim +201 drivers/infiniband/core/umem.c
 
-^1da177e4c3f41 Linus Torvalds    2005-04-16  136  
-d4637bc18f3bf8 Al Viro           2014-04-03  137  static ssize_t udf_file_write_iter(struct kiocb *iocb, struct iov_iter *from)
-^1da177e4c3f41 Linus Torvalds    2005-04-16  138  {
-^1da177e4c3f41 Linus Torvalds    2005-04-16  139  	ssize_t retval;
-543ade1fc901db Badari Pulavarty  2006-09-30  140  	struct file *file = iocb->ki_filp;
-496ad9aa8ef448 Al Viro           2013-01-23  141  	struct inode *inode = file_inode(file);
-48d6d8ff7dca80 Marcin Slusarz    2008-02-08  142  	struct udf_inode_info *iinfo = UDF_I(inode);
-165f1a6e300d5a Al Viro           2015-04-07  143  	int err;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  144  
-5955102c9984fa Al Viro           2016-01-22  145  	inode_lock(inode);
-165f1a6e300d5a Al Viro           2015-04-07  146  
-3309dd04cbcd2c Al Viro           2015-04-09  147  	retval = generic_write_checks(iocb, from);
-3309dd04cbcd2c Al Viro           2015-04-09  148  	if (retval <= 0)
-165f1a6e300d5a Al Viro           2015-04-07  149  		goto out;
-165f1a6e300d5a Al Viro           2015-04-07  150  
-8754a3f718f08d Jan Kara          2010-11-16  151  	down_write(&iinfo->i_data_sem);
-16919375dca0b1 Jan Kara          2023-01-02  152  	if (iinfo->i_alloc_type == ICBTAG_FLAG_AD_IN_ICB &&
-16919375dca0b1 Jan Kara          2023-01-02  153  	    inode->i_sb->s_blocksize < (udf_file_entry_alloc_offset(inode) +
-16919375dca0b1 Jan Kara          2023-01-02  154  				 iocb->ki_pos + iov_iter_count(from))) {
-7e49b6f2480cb9 Jan Kara          2010-10-22  155  		err = udf_expand_file_adinicb(inode);
-7e49b6f2480cb9 Jan Kara          2010-10-22  156  		if (err) {
-5955102c9984fa Al Viro           2016-01-22  157  			inode_unlock(inode);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  158  			udf_debug("udf_expand_adinicb: err=%d\n", err);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  159  			return err;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  160  		}
-d2eb8c359309ec Jan Kara          2011-12-10  161  	} else
-8754a3f718f08d Jan Kara          2010-11-16  162  		up_write(&iinfo->i_data_sem);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  163  
-d4637bc18f3bf8 Al Viro           2014-04-03  164  	retval = __generic_file_write_iter(iocb, from);
-5f380c7fa7e01f Al Viro           2015-04-07  165  out:
-16919375dca0b1 Jan Kara          2023-01-02  166  	down_write(&iinfo->i_data_sem);
-16919375dca0b1 Jan Kara          2023-01-02  167  	if (iinfo->i_alloc_type == ICBTAG_FLAG_AD_IN_ICB && retval > 0)
-16919375dca0b1 Jan Kara          2023-01-02  168  		iinfo->i_lenAlloc = inode->i_size;
-16919375dca0b1 Jan Kara          2023-01-02  169  	up_write(&iinfo->i_data_sem);
-5955102c9984fa Al Viro           2016-01-22  170  	inode_unlock(inode);
-09ebb17ab476b6 Jan Kara          2014-02-18  171  
-09ebb17ab476b6 Jan Kara          2014-02-18  172  	if (retval > 0) {
-^1da177e4c3f41 Linus Torvalds    2005-04-16  173  		mark_inode_dirty(inode);
-e259221763a404 Christoph Hellwig 2016-04-07  174  		retval = generic_write_sync(iocb, retval);
-09ebb17ab476b6 Jan Kara          2014-02-18  175  	}
-28de7948a89676 Cyrill Gorcunov   2007-07-21  176  
-^1da177e4c3f41 Linus Torvalds    2005-04-16 @177  	return retval;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  178  }
-^1da177e4c3f41 Linus Torvalds    2005-04-16  179  
+4a35339958f16d drivers/infiniband/core/umem.c       Shiraz Saleem     2019-05-06  140  
+f7c6a7b5d59980 drivers/infiniband/core/umem.c       Roland Dreier     2007-03-04  141  /**
+5a494372a0adae drivers/infiniband/core/umem.c       Jason Gunthorpe   2020-11-26  142   * __ib_umem_get - Pin and DMA map userspace memory.
+8ada2c1c0c1d75 drivers/infiniband/core/umem.c       Shachar Raindel   2014-12-11  143   *
+c320e527e15483 drivers/infiniband/core/umem.c       Moni Shoua        2020-01-15  144   * @device: IB device to connect UMEM
+f7c6a7b5d59980 drivers/infiniband/core/umem.c       Roland Dreier     2007-03-04  145   * @addr: userspace virtual address to start at
+f7c6a7b5d59980 drivers/infiniband/core/umem.c       Roland Dreier     2007-03-04  146   * @size: length of region to pin
+f7c6a7b5d59980 drivers/infiniband/core/umem.c       Roland Dreier     2007-03-04  147   * @access: IB_ACCESS_xxx flags for memory being pinned
+5a494372a0adae drivers/infiniband/core/umem.c       Jason Gunthorpe   2020-11-26  148   * @peer_mem_flags: IB_PEER_MEM_xxx flags for memory being used
+f7c6a7b5d59980 drivers/infiniband/core/umem.c       Roland Dreier     2007-03-04  149   */
+5a494372a0adae drivers/infiniband/core/umem.c       Jason Gunthorpe   2020-11-26  150  static struct ib_umem *__ib_umem_get(struct ib_device *device,
+5a494372a0adae drivers/infiniband/core/umem.c       Jason Gunthorpe   2020-11-26  151  				    unsigned long addr, size_t size, int access,
+5a494372a0adae drivers/infiniband/core/umem.c       Jason Gunthorpe   2020-11-26  152  				    unsigned long peer_mem_flags)
+eb8ffbfed50e79 drivers/infiniband/core/uverbs_mem.c Roland Dreier     2005-07-07  153  {
+f7c6a7b5d59980 drivers/infiniband/core/umem.c       Roland Dreier     2007-03-04  154  	struct ib_umem *umem;
+eb8ffbfed50e79 drivers/infiniband/core/uverbs_mem.c Roland Dreier     2005-07-07  155  	struct page **page_list;
+eb8ffbfed50e79 drivers/infiniband/core/uverbs_mem.c Roland Dreier     2005-07-07  156  	unsigned long lock_limit;
+c6ce580716372d drivers/infiniband/core/umem.c       Doug Ledford      2018-09-21  157  	unsigned long new_pinned;
+eb8ffbfed50e79 drivers/infiniband/core/uverbs_mem.c Roland Dreier     2005-07-07  158  	unsigned long cur_base;
+f03d9fadfe13a7 drivers/infiniband/core/umem.c       Michael Guralnik  2020-02-12  159  	unsigned long dma_attr = 0;
+d4b4dd1b9706e4 drivers/infiniband/core/umem.c       Jason Gunthorpe   2018-09-16  160  	struct mm_struct *mm;
+eb8ffbfed50e79 drivers/infiniband/core/uverbs_mem.c Roland Dreier     2005-07-07  161  	unsigned long npages;
+3e302dbc6774a2 drivers/infiniband/core/umem.c       Maor Gottlieb     2021-08-24  162  	int pinned, ret;
+b40656aa7d559a drivers/infiniband/core/umem.c       David Hildenbrand 2022-11-16  163  	unsigned int gup_flags = FOLL_LONGTERM;
+cb9fbc5c37b69a drivers/infiniband/core/umem.c       Arthur Kepner     2008-04-29  164  
+8494057ab5e40d drivers/infiniband/core/umem.c       Shachar Raindel   2015-03-18  165  	/*
+8494057ab5e40d drivers/infiniband/core/umem.c       Shachar Raindel   2015-03-18  166  	 * If the combination of the addr and size requested for this memory
+8494057ab5e40d drivers/infiniband/core/umem.c       Shachar Raindel   2015-03-18  167  	 * region causes an integer overflow, return error.
+8494057ab5e40d drivers/infiniband/core/umem.c       Shachar Raindel   2015-03-18  168  	 */
+66578b0b2f6965 drivers/infiniband/core/umem.c       Yann Droneaud     2015-04-13  169  	if (((addr + size) < addr) ||
+66578b0b2f6965 drivers/infiniband/core/umem.c       Yann Droneaud     2015-04-13  170  	    PAGE_ALIGN(addr + size) < (addr + size))
+8494057ab5e40d drivers/infiniband/core/umem.c       Shachar Raindel   2015-03-18  171  		return ERR_PTR(-EINVAL);
+8494057ab5e40d drivers/infiniband/core/umem.c       Shachar Raindel   2015-03-18  172  
+eb8ffbfed50e79 drivers/infiniband/core/uverbs_mem.c Roland Dreier     2005-07-07  173  	if (!can_do_mlock())
+f7c6a7b5d59980 drivers/infiniband/core/umem.c       Roland Dreier     2007-03-04  174  		return ERR_PTR(-EPERM);
+eb8ffbfed50e79 drivers/infiniband/core/uverbs_mem.c Roland Dreier     2005-07-07  175  
+261dc53f8ee037 drivers/infiniband/core/umem.c       Jason Gunthorpe   2019-08-19  176  	if (access & IB_ACCESS_ON_DEMAND)
+261dc53f8ee037 drivers/infiniband/core/umem.c       Jason Gunthorpe   2019-08-19  177  		return ERR_PTR(-EOPNOTSUPP);
+261dc53f8ee037 drivers/infiniband/core/umem.c       Jason Gunthorpe   2019-08-19  178  
+41b4deeaa123e6 drivers/infiniband/core/umem.c       Jason Gunthorpe   2018-09-16  179  	umem = kzalloc(sizeof(*umem), GFP_KERNEL);
+41b4deeaa123e6 drivers/infiniband/core/umem.c       Jason Gunthorpe   2018-09-16  180  	if (!umem)
+41b4deeaa123e6 drivers/infiniband/core/umem.c       Jason Gunthorpe   2018-09-16  181  		return ERR_PTR(-ENOMEM);
+c320e527e15483 drivers/infiniband/core/umem.c       Moni Shoua        2020-01-15  182  	umem->ibdev      = device;
+f7c6a7b5d59980 drivers/infiniband/core/umem.c       Roland Dreier     2007-03-04  183  	umem->length     = size;
+406f9e5fa9a7a6 drivers/infiniband/core/umem.c       Haggai Eran       2014-12-11  184  	umem->address    = addr;
+a665aca89a4111 drivers/infiniband/core/umem.c       Jason Gunthorpe   2020-09-04  185  	/*
+a665aca89a4111 drivers/infiniband/core/umem.c       Jason Gunthorpe   2020-09-04  186  	 * Drivers should call ib_umem_find_best_pgsz() to set the iova
+a665aca89a4111 drivers/infiniband/core/umem.c       Jason Gunthorpe   2020-09-04  187  	 * correctly.
+a665aca89a4111 drivers/infiniband/core/umem.c       Jason Gunthorpe   2020-09-04  188  	 */
+a665aca89a4111 drivers/infiniband/core/umem.c       Jason Gunthorpe   2020-09-04  189  	umem->iova = addr;
+08bb558ac11ab9 drivers/infiniband/core/umem.c       Jack Morgenstein  2018-05-23  190  	umem->writable   = ib_access_writable(access);
+41b4deeaa123e6 drivers/infiniband/core/umem.c       Jason Gunthorpe   2018-09-16  191  	umem->owning_mm = mm = current->mm;
+41b4deeaa123e6 drivers/infiniband/core/umem.c       Jason Gunthorpe   2018-09-16  192  	mmgrab(mm);
+eb8ffbfed50e79 drivers/infiniband/core/uverbs_mem.c Roland Dreier     2005-07-07  193  
+f7c6a7b5d59980 drivers/infiniband/core/umem.c       Roland Dreier     2007-03-04  194  	page_list = (struct page **) __get_free_page(GFP_KERNEL);
+f7c6a7b5d59980 drivers/infiniband/core/umem.c       Roland Dreier     2007-03-04  195  	if (!page_list) {
+1215cb7c88ec88 drivers/infiniband/core/umem.c       Leon Romanovsky   2018-07-10  196  		ret = -ENOMEM;
+41b4deeaa123e6 drivers/infiniband/core/umem.c       Jason Gunthorpe   2018-09-16  197  		goto umem_kfree;
+f7c6a7b5d59980 drivers/infiniband/core/umem.c       Roland Dreier     2007-03-04  198  	}
+eb8ffbfed50e79 drivers/infiniband/core/uverbs_mem.c Roland Dreier     2005-07-07  199  
+406f9e5fa9a7a6 drivers/infiniband/core/umem.c       Haggai Eran       2014-12-11  200  	npages = ib_umem_num_pages(umem);
+3312d1c6bdee6a drivers/infiniband/core/umem.c       Doug Ledford      2018-09-21 @201  	if (npages == 0 || npages > UINT_MAX) {
+3312d1c6bdee6a drivers/infiniband/core/umem.c       Doug Ledford      2018-09-21  202  		ret = -EINVAL;
+3312d1c6bdee6a drivers/infiniband/core/umem.c       Doug Ledford      2018-09-21  203  		goto out;
+3312d1c6bdee6a drivers/infiniband/core/umem.c       Doug Ledford      2018-09-21  204  	}
+eb8ffbfed50e79 drivers/infiniband/core/uverbs_mem.c Roland Dreier     2005-07-07  205  
+ccbe9f0b11b137 drivers/infiniband/core/umem.c       Jiri Slaby        2010-02-11  206  	lock_limit = rlimit(RLIMIT_MEMLOCK) >> PAGE_SHIFT;
+eb8ffbfed50e79 drivers/infiniband/core/uverbs_mem.c Roland Dreier     2005-07-07  207  
+b95df5e3e45914 drivers/infiniband/core/umem.c       Davidlohr Bueso   2019-02-06  208  	new_pinned = atomic64_add_return(npages, &mm->pinned_vm);
+70f8a3ca68d3e1 drivers/infiniband/core/umem.c       Davidlohr Bueso   2019-02-06  209  	if (new_pinned > lock_limit && !capable(CAP_IPC_LOCK)) {
+b95df5e3e45914 drivers/infiniband/core/umem.c       Davidlohr Bueso   2019-02-06  210  		atomic64_sub(npages, &mm->pinned_vm);
+eb8ffbfed50e79 drivers/infiniband/core/uverbs_mem.c Roland Dreier     2005-07-07  211  		ret = -ENOMEM;
+c6ce580716372d drivers/infiniband/core/umem.c       Doug Ledford      2018-09-21  212  		goto out;
+eb8ffbfed50e79 drivers/infiniband/core/uverbs_mem.c Roland Dreier     2005-07-07  213  	}
+eb8ffbfed50e79 drivers/infiniband/core/uverbs_mem.c Roland Dreier     2005-07-07  214  
+f7c6a7b5d59980 drivers/infiniband/core/umem.c       Roland Dreier     2007-03-04  215  	cur_base = addr & PAGE_MASK;
+eb8ffbfed50e79 drivers/infiniband/core/uverbs_mem.c Roland Dreier     2005-07-07  216  
+b40656aa7d559a drivers/infiniband/core/umem.c       David Hildenbrand 2022-11-16  217  	if (umem->writable)
+b40656aa7d559a drivers/infiniband/core/umem.c       David Hildenbrand 2022-11-16  218  		gup_flags |= FOLL_WRITE;
+768ae309a96103 drivers/infiniband/core/umem.c       Lorenzo Stoakes   2016-10-13  219  
+eb8ffbfed50e79 drivers/infiniband/core/uverbs_mem.c Roland Dreier     2005-07-07  220  	while (npages) {
+928da37a229f34 drivers/infiniband/core/umem.c       Eric Dumazet      2020-07-29  221  		cond_resched();
+3e302dbc6774a2 drivers/infiniband/core/umem.c       Maor Gottlieb     2021-08-24  222  		pinned = pin_user_pages_fast(cur_base,
+8079ffa0e18baa drivers/infiniband/core/umem.c       Roland Dreier     2008-06-06  223  					  min_t(unsigned long, npages,
+4789fcdd140952 drivers/infiniband/core/umem.c       John Hubbard      2020-01-30  224  						PAGE_SIZE /
+4789fcdd140952 drivers/infiniband/core/umem.c       John Hubbard      2020-01-30  225  						sizeof(struct page *)),
+b40656aa7d559a drivers/infiniband/core/umem.c       David Hildenbrand 2022-11-16  226  					  gup_flags, page_list);
+3e302dbc6774a2 drivers/infiniband/core/umem.c       Maor Gottlieb     2021-08-24  227  		if (pinned < 0) {
+3e302dbc6774a2 drivers/infiniband/core/umem.c       Maor Gottlieb     2021-08-24  228  			ret = pinned;
+1215cb7c88ec88 drivers/infiniband/core/umem.c       Leon Romanovsky   2018-07-10  229  			goto umem_release;
+3e302dbc6774a2 drivers/infiniband/core/umem.c       Maor Gottlieb     2021-08-24  230  		}
+eb8ffbfed50e79 drivers/infiniband/core/uverbs_mem.c Roland Dreier     2005-07-07  231  
+3e302dbc6774a2 drivers/infiniband/core/umem.c       Maor Gottlieb     2021-08-24  232  		cur_base += pinned * PAGE_SIZE;
+3e302dbc6774a2 drivers/infiniband/core/umem.c       Maor Gottlieb     2021-08-24  233  		npages -= pinned;
+3e302dbc6774a2 drivers/infiniband/core/umem.c       Maor Gottlieb     2021-08-24  234  		ret = sg_alloc_append_table_from_pages(
+3e302dbc6774a2 drivers/infiniband/core/umem.c       Maor Gottlieb     2021-08-24  235  			&umem->sgt_append, page_list, pinned, 0,
+3e302dbc6774a2 drivers/infiniband/core/umem.c       Maor Gottlieb     2021-08-24  236  			pinned << PAGE_SHIFT, ib_dma_max_seg_size(device),
+3e302dbc6774a2 drivers/infiniband/core/umem.c       Maor Gottlieb     2021-08-24  237  			npages, GFP_KERNEL);
+3e302dbc6774a2 drivers/infiniband/core/umem.c       Maor Gottlieb     2021-08-24  238  		if (ret) {
+3e302dbc6774a2 drivers/infiniband/core/umem.c       Maor Gottlieb     2021-08-24  239  			unpin_user_pages_dirty_lock(page_list, pinned, 0);
+0c16d9635e3a51 drivers/infiniband/core/umem.c       Maor Gottlieb     2020-10-04  240  			goto umem_release;
+0c16d9635e3a51 drivers/infiniband/core/umem.c       Maor Gottlieb     2020-10-04  241  		}
+eb8ffbfed50e79 drivers/infiniband/core/uverbs_mem.c Roland Dreier     2005-07-07  242  	}
+d10bcf947a3ea2 drivers/infiniband/core/umem.c       Shiraz Saleem     2019-04-02  243  
+f03d9fadfe13a7 drivers/infiniband/core/umem.c       Michael Guralnik  2020-02-12  244  	if (access & IB_ACCESS_RELAXED_ORDERING)
+f03d9fadfe13a7 drivers/infiniband/core/umem.c       Michael Guralnik  2020-02-12  245  		dma_attr |= DMA_ATTR_WEAK_ORDERING;
+f03d9fadfe13a7 drivers/infiniband/core/umem.c       Michael Guralnik  2020-02-12  246  
+79fbd3e1241cea drivers/infiniband/core/umem.c       Maor Gottlieb     2021-08-24  247  	ret = ib_dma_map_sgtable_attrs(device, &umem->sgt_append.sgt,
+f03d9fadfe13a7 drivers/infiniband/core/umem.c       Michael Guralnik  2020-02-12  248  				       DMA_BIDIRECTIONAL, dma_attr);
+79fbd3e1241cea drivers/infiniband/core/umem.c       Maor Gottlieb     2021-08-24  249  	if (ret)
+1215cb7c88ec88 drivers/infiniband/core/umem.c       Leon Romanovsky   2018-07-10  250  		goto umem_release;
+1215cb7c88ec88 drivers/infiniband/core/umem.c       Leon Romanovsky   2018-07-10  251  	goto out;
+eb8ffbfed50e79 drivers/infiniband/core/uverbs_mem.c Roland Dreier     2005-07-07  252  
+1215cb7c88ec88 drivers/infiniband/core/umem.c       Leon Romanovsky   2018-07-10  253  umem_release:
+c320e527e15483 drivers/infiniband/core/umem.c       Moni Shoua        2020-01-15  254  	__ib_umem_release(device, umem, 0);
+5a494372a0adae drivers/infiniband/core/umem.c       Jason Gunthorpe   2020-11-26  255  
+5a494372a0adae drivers/infiniband/core/umem.c       Jason Gunthorpe   2020-11-26  256  	/*
+5a494372a0adae drivers/infiniband/core/umem.c       Jason Gunthorpe   2020-11-26  257  	 * If the address belongs to peer memory client, then the first
+5a494372a0adae drivers/infiniband/core/umem.c       Jason Gunthorpe   2020-11-26  258  	 * call to get_user_pages will fail. In this case, try to get
+5a494372a0adae drivers/infiniband/core/umem.c       Jason Gunthorpe   2020-11-26  259  	 * these pages from the peers.
+5a494372a0adae drivers/infiniband/core/umem.c       Jason Gunthorpe   2020-11-26  260  	 */
+5a494372a0adae drivers/infiniband/core/umem.c       Jason Gunthorpe   2020-11-26  261  	//FIXME: this placement is horrible
+5a494372a0adae drivers/infiniband/core/umem.c       Jason Gunthorpe   2020-11-26  262  	if (ret < 0 && peer_mem_flags & IB_PEER_MEM_ALLOW) {
+5a494372a0adae drivers/infiniband/core/umem.c       Jason Gunthorpe   2020-11-26  263  		struct ib_umem *new_umem;
+5a494372a0adae drivers/infiniband/core/umem.c       Jason Gunthorpe   2020-11-26  264  
+5a494372a0adae drivers/infiniband/core/umem.c       Jason Gunthorpe   2020-11-26  265  		new_umem = ib_peer_umem_get(umem, ret, peer_mem_flags);
+5a494372a0adae drivers/infiniband/core/umem.c       Jason Gunthorpe   2020-11-26  266  		if (IS_ERR(new_umem)) {
+5a494372a0adae drivers/infiniband/core/umem.c       Jason Gunthorpe   2020-11-26  267  			ret = PTR_ERR(new_umem);
+5a494372a0adae drivers/infiniband/core/umem.c       Jason Gunthorpe   2020-11-26  268  			goto vma;
+5a494372a0adae drivers/infiniband/core/umem.c       Jason Gunthorpe   2020-11-26  269  		}
+5a494372a0adae drivers/infiniband/core/umem.c       Jason Gunthorpe   2020-11-26  270  		umem = new_umem;
+5a494372a0adae drivers/infiniband/core/umem.c       Jason Gunthorpe   2020-11-26  271  		ret = 0;
+5a494372a0adae drivers/infiniband/core/umem.c       Jason Gunthorpe   2020-11-26  272  		goto out;
+5a494372a0adae drivers/infiniband/core/umem.c       Jason Gunthorpe   2020-11-26  273  	}
+5a494372a0adae drivers/infiniband/core/umem.c       Jason Gunthorpe   2020-11-26  274  vma:
+70f8a3ca68d3e1 drivers/infiniband/core/umem.c       Davidlohr Bueso   2019-02-06  275  	atomic64_sub(ib_umem_num_pages(umem), &mm->pinned_vm);
+1215cb7c88ec88 drivers/infiniband/core/umem.c       Leon Romanovsky   2018-07-10  276  out:
+eb8ffbfed50e79 drivers/infiniband/core/uverbs_mem.c Roland Dreier     2005-07-07  277  	free_page((unsigned long) page_list);
+1215cb7c88ec88 drivers/infiniband/core/umem.c       Leon Romanovsky   2018-07-10  278  umem_kfree:
+41b4deeaa123e6 drivers/infiniband/core/umem.c       Jason Gunthorpe   2018-09-16  279  	if (ret) {
+41b4deeaa123e6 drivers/infiniband/core/umem.c       Jason Gunthorpe   2018-09-16  280  		mmdrop(umem->owning_mm);
+1215cb7c88ec88 drivers/infiniband/core/umem.c       Leon Romanovsky   2018-07-10  281  		kfree(umem);
+41b4deeaa123e6 drivers/infiniband/core/umem.c       Jason Gunthorpe   2018-09-16  282  	}
+1215cb7c88ec88 drivers/infiniband/core/umem.c       Leon Romanovsky   2018-07-10  283  	return ret ? ERR_PTR(ret) : umem;
+eb8ffbfed50e79 drivers/infiniband/core/uverbs_mem.c Roland Dreier     2005-07-07  284  }
+5a494372a0adae drivers/infiniband/core/umem.c       Jason Gunthorpe   2020-11-26  285  
 
-:::::: The code at line 177 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+:::::: The code at line 201 was first introduced by commit
+:::::: 3312d1c6bdee6aa912c099c0ac0662d197c52842 RDMA/umem: Minor optimizations
 
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: TO: Doug Ledford <dledford@redhat.com>
+:::::: CC: Jason Gunthorpe <jgg@mellanox.com>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
 
---vGUYt+KKFcS2eCc8
+--oxmlgvUz0blmKNrB
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename=config
 
 #
 # Automatically generated file; DO NOT EDIT.
-# Linux/parisc 6.1.0 Kernel Configuration
+# Linux/parisc 6.2.0-rc1 Kernel Configuration
 #
 CONFIG_CC_VERSION_TEXT="hppa-linux-gcc (GCC) 12.1.0"
 CONFIG_CC_IS_GCC=y
@@ -1540,6 +1645,8 @@ CONFIG_TIFM_CORE=m
 # CONFIG_ICS932S401 is not set
 CONFIG_ATMEL_SSC=m
 CONFIG_ENCLOSURE_SERVICES=m
+CONFIG_SMPRO_ERRMON=y
+CONFIG_SMPRO_MISC=m
 # CONFIG_GEHC_ACHC is not set
 CONFIG_HP_ILO=m
 CONFIG_QCOM_COINCELL=m
@@ -2319,6 +2426,7 @@ CONFIG_INPUT_POWERMATE=y
 # CONFIG_INPUT_TWL6040_VIBRA is not set
 # CONFIG_INPUT_UINPUT is not set
 # CONFIG_HP_SDC_RTC is not set
+# CONFIG_INPUT_PALMAS_PWRBUTTON is not set
 CONFIG_INPUT_PCF8574=m
 CONFIG_INPUT_GPIO_ROTARY_ENCODER=m
 CONFIG_INPUT_DA7280_HAPTICS=y
@@ -2390,6 +2498,7 @@ CONFIG_HW_CONSOLE=y
 # CONFIG_VT_HW_CONSOLE_BINDING is not set
 CONFIG_UNIX98_PTYS=y
 # CONFIG_LEGACY_PTYS is not set
+# CONFIG_LEGACY_TIOCSTI is not set
 # CONFIG_LDISC_AUTOLOAD is not set
 
 #
@@ -3030,6 +3139,7 @@ CONFIG_GPIO_DLN2=m
 CONFIG_GPIO_JANZ_TTL=m
 CONFIG_GPIO_LP3943=m
 CONFIG_GPIO_MADERA=m
+# CONFIG_GPIO_PALMAS is not set
 # CONFIG_GPIO_RC5T583 is not set
 CONFIG_GPIO_SL28CPLD=y
 CONFIG_GPIO_TIMBERDALE=y
@@ -3374,6 +3484,7 @@ CONFIG_BCMA_DRIVER_GPIO=y
 CONFIG_MFD_CORE=y
 CONFIG_MFD_SUN4I_GPADC=y
 CONFIG_MFD_AS3711=y
+# CONFIG_MFD_SMPRO is not set
 # CONFIG_PMIC_ADP5520 is not set
 # CONFIG_MFD_AAT2870_CORE is not set
 # CONFIG_MFD_AT91_USART is not set
@@ -3408,7 +3519,6 @@ CONFIG_MFD_MC13XXX_I2C=y
 CONFIG_MFD_MXS_LRADC=m
 CONFIG_MFD_MX25_TSADC=y
 CONFIG_HTC_PASIC3=m
-# CONFIG_HTC_I2CPLD is not set
 CONFIG_LPC_ICH=m
 CONFIG_LPC_SCH=y
 CONFIG_MFD_IQS62X=y
@@ -3418,11 +3528,7 @@ CONFIG_MFD_88PM800=m
 CONFIG_MFD_88PM805=m
 # CONFIG_MFD_88PM860X is not set
 # CONFIG_MFD_MAX14577 is not set
-# CONFIG_MFD_MAX77620 is not set
-# CONFIG_MFD_MAX77650 is not set
-# CONFIG_MFD_MAX77686 is not set
 CONFIG_MFD_MAX77693=m
-# CONFIG_MFD_MAX77714 is not set
 CONFIG_MFD_MAX77843=y
 CONFIG_MFD_MAX8907=m
 # CONFIG_MFD_MAX8925 is not set
@@ -3434,9 +3540,7 @@ CONFIG_MFD_MT6370=y
 # CONFIG_MFD_MENF21BMC is not set
 CONFIG_MFD_OCELOT=m
 CONFIG_EZX_PCAP=y
-# CONFIG_MFD_CPCAP is not set
 # CONFIG_MFD_VIPERBOARD is not set
-# CONFIG_MFD_NTXEC is not set
 # CONFIG_MFD_RETU is not set
 # CONFIG_MFD_PCF50633 is not set
 CONFIG_MFD_PM8XXX=m
@@ -3446,7 +3550,6 @@ CONFIG_MFD_PM8XXX=m
 CONFIG_MFD_RT5033=y
 CONFIG_MFD_RT5120=m
 CONFIG_MFD_RC5T583=y
-# CONFIG_MFD_SEC_CORE is not set
 # CONFIG_MFD_SI476X_CORE is not set
 CONFIG_MFD_SIMPLE_MFD_I2C=y
 CONFIG_MFD_SL28CPLD=y
@@ -3461,7 +3564,7 @@ CONFIG_MFD_TI_AM335X_TSCADC=m
 CONFIG_MFD_LP3943=m
 CONFIG_MFD_LP8788=y
 # CONFIG_MFD_TI_LMU is not set
-# CONFIG_MFD_PALMAS is not set
+CONFIG_MFD_PALMAS=m
 CONFIG_TPS6105X=m
 CONFIG_TPS65010=y
 CONFIG_TPS6507X=m
@@ -3497,7 +3600,6 @@ CONFIG_MFD_WM831X_SPI=y
 # CONFIG_MFD_STW481X is not set
 CONFIG_MFD_STM32_LPTIMER=y
 CONFIG_MFD_STM32_TIMERS=y
-# CONFIG_MFD_STMFX is not set
 CONFIG_MFD_WCD934X=m
 CONFIG_MFD_ATC260X=m
 CONFIG_MFD_ATC260X_I2C=m
@@ -3556,6 +3658,7 @@ CONFIG_REGULATOR_MP8859=y
 CONFIG_REGULATOR_MT6311=y
 CONFIG_REGULATOR_MT6360=m
 CONFIG_REGULATOR_MT6370=m
+CONFIG_REGULATOR_PALMAS=m
 CONFIG_REGULATOR_PBIAS=y
 CONFIG_REGULATOR_PCA9450=y
 # CONFIG_REGULATOR_PCAP is not set
@@ -3938,7 +4041,6 @@ CONFIG_USB_EHCI_HCD_PLATFORM=m
 # CONFIG_USB_OXU210HP_HCD is not set
 # CONFIG_USB_ISP116X_HCD is not set
 # CONFIG_USB_ISP1362_HCD is not set
-CONFIG_USB_FOTG210_HCD=y
 # CONFIG_USB_MAX3421_HCD is not set
 CONFIG_USB_OHCI_HCD=y
 CONFIG_USB_OHCI_HCD_SPEAR=m
@@ -3988,12 +4090,19 @@ CONFIG_USBIP_CORE=y
 # CONFIG_USBIP_HOST is not set
 # CONFIG_USBIP_VUDC is not set
 # CONFIG_USBIP_DEBUG is not set
+
+#
+# USB dual-mode controller drivers
+#
 CONFIG_USB_CDNS_SUPPORT=m
 CONFIG_USB_CDNS3=m
 CONFIG_USB_CDNS3_GADGET=y
 # CONFIG_USB_CDNS3_HOST is not set
 CONFIG_USB_CDNS3_TI=m
 CONFIG_USB_CDNS3_IMX=m
+CONFIG_USB_FOTG210=y
+CONFIG_USB_FOTG210_HCD=y
+# CONFIG_USB_FOTG210_UDC is not set
 CONFIG_USB_MTU3=y
 # CONFIG_USB_MTU3_HOST is not set
 CONFIG_USB_MTU3_GADGET=y
@@ -4142,7 +4251,6 @@ CONFIG_USB_HSIC_USB4604=y
 CONFIG_USB_LINK_LAYER_TEST=y
 # CONFIG_USB_CHAOSKEY is not set
 CONFIG_BRCM_USB_PINMAP=y
-# CONFIG_USB_ONBOARD_HUB is not set
 # CONFIG_USB_ATM is not set
 
 #
@@ -4158,7 +4266,6 @@ CONFIG_USB_ISP1301=y
 CONFIG_USB_TEGRA_PHY=y
 CONFIG_USB_ULPI=y
 CONFIG_USB_ULPI_VIEWPORT=y
-# CONFIG_JZ4770_PHY is not set
 # end of USB Physical Layer drivers
 
 CONFIG_USB_GADGET=y
@@ -4175,7 +4282,6 @@ CONFIG_U_SERIAL_CONSOLE=y
 #
 # CONFIG_USB_LPC32XX is not set
 # CONFIG_USB_FUSB300 is not set
-# CONFIG_USB_FOTG210_UDC is not set
 CONFIG_USB_GR_UDC=m
 CONFIG_USB_R8A66597=y
 CONFIG_USB_RENESAS_USB3=y
@@ -4189,7 +4295,6 @@ CONFIG_USB_M66592=y
 CONFIG_USB_NET2280=m
 CONFIG_USB_GOKU=y
 # CONFIG_USB_EG20T is not set
-# CONFIG_USB_GADGET_XILINX is not set
 # CONFIG_USB_MAX3420_UDC is not set
 # CONFIG_USB_ASPEED_UDC is not set
 CONFIG_USB_ASPEED_VHUB=y
@@ -4352,7 +4457,7 @@ CONFIG_LEDS_IS31FL319X=y
 #
 # LED driver for blink(1) USB RGB LED is under Special HID drivers (HID_THINGM)
 #
-CONFIG_LEDS_BLINKM=y
+CONFIG_LEDS_BLINKM=m
 CONFIG_LEDS_PM8058=m
 CONFIG_LEDS_MLXREG=y
 # CONFIG_LEDS_USER is not set
@@ -4461,7 +4566,6 @@ CONFIG_RTC_DRV_MAX8907=y
 CONFIG_RTC_DRV_RS5C372=m
 # CONFIG_RTC_DRV_ISL1208 is not set
 CONFIG_RTC_DRV_ISL12022=m
-# CONFIG_RTC_DRV_ISL12026 is not set
 # CONFIG_RTC_DRV_X1205 is not set
 CONFIG_RTC_DRV_PCF8523=y
 CONFIG_RTC_DRV_PCF85063=m
@@ -4471,6 +4575,7 @@ CONFIG_RTC_DRV_PCF8563=y
 CONFIG_RTC_DRV_M41T80=y
 CONFIG_RTC_DRV_M41T80_WDT=y
 CONFIG_RTC_DRV_BQ32K=y
+CONFIG_RTC_DRV_PALMAS=m
 # CONFIG_RTC_DRV_TPS6586X is not set
 # CONFIG_RTC_DRV_RC5T583 is not set
 CONFIG_RTC_DRV_S35390A=m
@@ -4547,7 +4652,6 @@ CONFIG_RTC_DRV_SC27XX=y
 # on-CPU RTC drivers
 #
 CONFIG_RTC_DRV_ASM9260=y
-# CONFIG_RTC_DRV_DAVINCI is not set
 # CONFIG_RTC_DRV_DIGICOLOR is not set
 CONFIG_RTC_DRV_FSL_FTM_ALARM=m
 CONFIG_RTC_DRV_MESON=m
@@ -4599,7 +4703,6 @@ CONFIG_AXI_DMAC=m
 CONFIG_HISI_DMA=y
 # CONFIG_IMG_MDC_DMA is not set
 # CONFIG_INTEL_IDMA64 is not set
-# CONFIG_INTEL_IOP_ADMA is not set
 CONFIG_K3_DMA=m
 # CONFIG_MCF_EDMA is not set
 CONFIG_MMP_PDMA=m
@@ -5091,6 +5194,7 @@ CONFIG_EXTCON_MAX3355=m
 # CONFIG_EXTCON_MAX77693 is not set
 # CONFIG_EXTCON_MAX77843 is not set
 # CONFIG_EXTCON_MAX8997 is not set
+# CONFIG_EXTCON_PALMAS is not set
 CONFIG_EXTCON_PTN5150=m
 CONFIG_EXTCON_QCOM_SPMI_MISC=y
 CONFIG_EXTCON_RT8973A=m
@@ -5216,6 +5320,7 @@ CONFIG_PHY_QCOM_USB_HS=m
 CONFIG_PHY_QCOM_USB_HSIC=m
 CONFIG_PHY_MT7621_PCI=m
 CONFIG_PHY_RALINK_USB=m
+# CONFIG_PHY_R8A779F0_ETHERNET_SERDES is not set
 CONFIG_PHY_RCAR_GEN3_USB3=y
 CONFIG_PHY_ROCKCHIP_DPHY_RX0=y
 # CONFIG_PHY_ROCKCHIP_PCIE is not set
@@ -5333,6 +5438,8 @@ CONFIG_FPGA_MGR_ZYNQMP_FPGA=m
 # CONFIG_FPGA_MGR_VERSAL_FPGA is not set
 CONFIG_FPGA_M10_BMC_SEC_UPDATE=m
 CONFIG_FPGA_MGR_MICROCHIP_SPI=m
+CONFIG_FPGA_MGR_LATTICE_SYSCONFIG=m
+CONFIG_FPGA_MGR_LATTICE_SYSCONFIG_SPI=m
 CONFIG_TEE=y
 CONFIG_MULTIPLEXER=y
 
@@ -5517,7 +5624,7 @@ CONFIG_NLS_ISO8859_8=y
 # CONFIG_NLS_CODEPAGE_1250 is not set
 CONFIG_NLS_CODEPAGE_1251=m
 # CONFIG_NLS_ASCII is not set
-CONFIG_NLS_ISO8859_1=y
+# CONFIG_NLS_ISO8859_1 is not set
 CONFIG_NLS_ISO8859_2=y
 CONFIG_NLS_ISO8859_3=y
 CONFIG_NLS_ISO8859_4=y
@@ -6014,7 +6121,8 @@ CONFIG_AS_HAS_NON_CONST_LEB128=y
 CONFIG_DEBUG_INFO_DWARF4=y
 # CONFIG_DEBUG_INFO_DWARF5 is not set
 # CONFIG_DEBUG_INFO_REDUCED is not set
-# CONFIG_DEBUG_INFO_COMPRESSED is not set
+# CONFIG_DEBUG_INFO_COMPRESSED_NONE is not set
+CONFIG_DEBUG_INFO_COMPRESSED_ZLIB=y
 # CONFIG_DEBUG_INFO_SPLIT is not set
 # CONFIG_DEBUG_INFO_BTF is not set
 CONFIG_PAHOLE_HAS_SPLIT_BTF=y
@@ -6297,4 +6405,4 @@ CONFIG_WARN_MISSING_DOCUMENTS=y
 # CONFIG_WARN_ABI_ERRORS is not set
 # end of Kernel hacking
 
---vGUYt+KKFcS2eCc8--
+--oxmlgvUz0blmKNrB--
