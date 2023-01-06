@@ -1,57 +1,51 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32E687B;
-	Fri,  6 Jan 2023 07:33:07 +0000 (UTC)
-Received: by mail-wm1-f49.google.com with SMTP id c65-20020a1c3544000000b003cfffd00fc0so2977083wma.1;
-        Thu, 05 Jan 2023 23:33:07 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 734737B;
+	Fri,  6 Jan 2023 07:51:39 +0000 (UTC)
+Received: by mail-wm1-f46.google.com with SMTP id g25-20020a7bc4d9000000b003d97c8d4941so2976184wmk.4;
+        Thu, 05 Jan 2023 23:51:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
          :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=fryLgUhyc4PP68FzTGHDLJwZ8g1kpMrCFCBcKvTSbIM=;
-        b=Mbqqc4SfDl3i56U8CiGCOj+H2nPqKWcc12YtYWpqSfK0x15AstNbluvOdr2oPmiliG
-         fc6zDseyy4eNH8VzpRuJmuXBS+ZtI5WICcU4/YgST9aN0o6jR6lGzFQviERtx1OVyIuL
-         IXcWDQ5MyxHpSHQ+Z6aMYbiL7CeDOv6cEESo4EarXDxRJ8RSXCi5xsulU6ln66e+YYy1
-         Ums3GDYdLhjYZFtuYEHTk/urEZKHE499xsXrYix4MgioddCTlRDBp6ch6S71aQGVUce2
-         QYgdn7WXk5mKKk+DuYd1WATw2wQCJxt5n8jqIpEtv5hprPvJBneRWUbD/lCGPGUwdojf
-         rriw==
+        bh=y3pRAKha/wzSEcfkkP+wItKC8O2T26cp8rC+a7a/8wE=;
+        b=h9qSkZ/lNKRn0GoqXqd51msXoaLrhePp2jwrns+8ZIarLWUXHUwUV7U7LIyPrBy7v0
+         v9wQc3vTiWWsrgCRL7y8HGQIHKGe/Jm6pJhOAK6jZckbKoRBQasG3sI6yO8IwdUIy5Ex
+         bsErb0FzMDhrZmcqHNsenITTPcBCotVeDqOrCti6GYWann/B8rp8iIkn695yTB0560v8
+         IIhH1KMWSqkkc6GPTk39BbA8lTePWJApzDUjpL8LLB3INak3SBgQVZ6y4tDhUpGn58p5
+         zmB1C0yNPAh6YwWhVAM7rPsWPrld8ZWG1RIV8YESKDYFlG/Ka7DzlesV6inKaI1BSoQS
+         jN4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
          :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=fryLgUhyc4PP68FzTGHDLJwZ8g1kpMrCFCBcKvTSbIM=;
-        b=umV7bLK7SVVahZbyy+tXrlrp88hv7uaeYwfTbCniny3fUogdhlFM2cULFWaN815zlm
-         oY/fYg7IAxR106v9OMn9vKTtt5+Ssh2qlMtduT3B25NMgs28+fpmFDIGEIFwMTufiZ2I
-         GTrGSKXoXUcF8+8PrYBmKSq1vVG9f4s9+3MWMgg/uXJdpG9ysodcuQhyv8P+Z0wbbnco
-         Tx+IUeBlo47AIa3bRCrr91pAJO1tyLQ4kdh2uJrcVoS0e5ASV/NCiLeljA7ta6wtPtxp
-         t+Q5+MHGx12MsomC4dzJVJ6sQjL4+WUxBi5Fc6CPNIIKSVdaxiC16w2lCayo+APF+0bL
-         4Ttw==
-X-Gm-Message-State: AFqh2krs+qjqFoykpWZ+2TrFB6Bzn8LyDE8yXsnKTDDXgy1mIUAeBdaW
-	TrHFz1v3YsdYSZ4zZeLSnu8GLPc3FMm/xA==
-X-Google-Smtp-Source: AMrXdXtrcCS7Q3zoliyIo93NAmMqzefmn1311SdNqJbWKYGFmApsuGCWfyU7SHOWGLkVONfzKGXv5Q==
-X-Received: by 2002:a05:600c:250:b0:3d2:2830:b8bb with SMTP id 16-20020a05600c025000b003d22830b8bbmr42185381wmj.34.1672990385260;
-        Thu, 05 Jan 2023 23:33:05 -0800 (PST)
+        bh=y3pRAKha/wzSEcfkkP+wItKC8O2T26cp8rC+a7a/8wE=;
+        b=oJQHbk4Frqu0DhjCfJQWlOH3A2oWkemFTyKeBhtXtspVoXZnY/7QwZJhw/WrGACanO
+         PklOm9vJ7+UguvEa/29rILDX46Q4lWO/7jkvNB4jI91HvO7ed14GCGHh3FQrqrhP4+MQ
+         tWKh2lPwdmBVzRyRxAlonOQPTM7SSSjTxTiIrzSB9wwsPwGv22X+68Vz7UMKSj1V5Gei
+         Q9wIMEia/kP8WOXpEUDZjPCw45hbKx+VK6iwx14i+oz3pjHFvh8lducICzrGdeHzkwQS
+         RCit11BuDhOLXdax892Pdn6DkuuCfOyvhLoiUNZfQ9H/NVSJ23q+or705iYWEGE4y3FZ
+         W6qA==
+X-Gm-Message-State: AFqh2kr62r2/4TKg8uaF+SBKtPv4dGR0DqtJymC039P9IL9yMrYNenOP
+	Vi/crc69qA8Q+1K6iLILF0n7THiD1YITwQ==
+X-Google-Smtp-Source: AMrXdXu6TTTYGLa+SILLMKWwpOWZZYNwmyzupE2o6wzTTk3OqigAVRTAyV6CyW8n+m7PZJRemMcT7w==
+X-Received: by 2002:a05:600c:6020:b0:3d1:f0b4:8827 with SMTP id az32-20020a05600c602000b003d1f0b48827mr38023700wmb.25.1672991497451;
+        Thu, 05 Jan 2023 23:51:37 -0800 (PST)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id j19-20020a05600c301300b003d6b71c0c92sm5470479wmh.45.2023.01.05.23.33.03
+        by smtp.gmail.com with ESMTPSA id h10-20020a1ccc0a000000b003d237d60318sm780111wmb.2.2023.01.05.23.51.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Jan 2023 23:33:04 -0800 (PST)
-Date: Fri, 6 Jan 2023 10:33:00 +0300
+        Thu, 05 Jan 2023 23:51:36 -0800 (PST)
+Date: Fri, 6 Jan 2023 10:51:30 +0300
 From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
-	mchehab@kernel.org, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, heiko@sntech.de,
-	daniel.almeida@collabora.com, nicolas.dufresne@collabora.co.uk
+To: oe-kbuild@lists.linux.dev, Kiseok Jo <kiseok.jo@irondevice.com>,
+	Mark Brown <broonie@kernel.org>
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org, kernel@collabora.com,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: Re: [PATCH v2 10/13] media: verisilicon: Add Rockchip AV1 decoder
-Message-ID: <202301060326.FJvy51O1-lkp@intel.com>
+	alsa-devel@alsa-project.org, application@irondevice.com,
+	Kiseok Jo <kiseok.jo@irondevice.com>
+Subject: Re: [PATCH 3/3] ASOC: sma1303: change the overall contents
+Message-ID: <202301060752.Z9ahR5KX-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -60,17 +54,17 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230103170058.810597-11-benjamin.gaignard@collabora.com>
-Message-ID: <20230106073300.0g7dsuyNcNAdRQMMw-CHJB401ZWndIk3p_EybSPp2zY@z>
+In-Reply-To: <20230104064342.2094-4-kiseok.jo@irondevice.com>
+Message-ID: <20230106075130.DNkhfRLup_HNvg3IbLgqAhNlkUJ68soxmxHuiJP98J0@z>
 
-Hi Benjamin,
+Hi Kiseok,
 
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Benjamin-Gaignard/dt-bindings-media-rockchip-vpu-Add-rk3588-vpu-compatible/20230104-010906
-base:   git://linuxtv.org/media_tree.git master
-patch link:    https://lore.kernel.org/r/20230103170058.810597-11-benjamin.gaignard%40collabora.com
-patch subject: [PATCH v2 10/13] media: verisilicon: Add Rockchip AV1 decoder
+url:    https://github.com/intel-lab-lkp/linux/commits/Kiseok-Jo/ASoC-sma1303-Add-driver-for-Iron-Device-SMA1303-Amp/20230104-150052
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+patch link:    https://lore.kernel.org/r/20230104064342.2094-4-kiseok.jo%40irondevice.com
+patch subject: [PATCH 3/3] ASOC: sma1303: change the overall contents
 config: ia64-randconfig-m041-20230101
 compiler: ia64-linux-gcc (GCC) 12.1.0
 
@@ -79,92 +73,88 @@ If you fix the issue, kindly add following tag where applicable
 | Reported-by: Dan Carpenter <error27@gmail.com>
 
 smatch warnings:
-drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:121 rockchip_vpu981_get_frame_index() error: buffer overflow 'frame->reference_frame_ts' 8 <= 8
-drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:167 rockchip_vpu981_av1_dec_frame_ref() error: buffer overflow 'frame->global_motion.type' 8 <= 9
-drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1947 rockchip_vpu981_av1_dec_run() warn: missing error code 'ret'
+sound/soc/codecs/sma1303.c:257 sma1303_regmap_write() error: uninitialized symbol 'ret'.
+sound/soc/codecs/sma1303.c:275 sma1303_regmap_update_bits() error: uninitialized symbol 'ret'.
+sound/soc/codecs/sma1303.c:293 sma1303_regmap_read() error: uninitialized symbol 'ret'.
+sound/soc/codecs/sma1303.c:684 sma1303_add_component_controls() error: not allocating enough for = 'name' 8 vs 3
+	(This should allocate sizeof() not ARRAY_SIZE()).
+sound/soc/codecs/sma1303.c:1539 sma1303_i2c_probe() warn: unsigned 'value' is never less than zero.
 
-vim +121 drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c
+vim +/ret +257 sound/soc/codecs/sma1303.c
 
-9223ba771533395 Benjamin Gaignard 2023-01-03  109  
-9223ba771533395 Benjamin Gaignard 2023-01-03  110  static int rockchip_vpu981_get_frame_index(struct hantro_ctx *ctx, int ref)
-9223ba771533395 Benjamin Gaignard 2023-01-03  111  {
-9223ba771533395 Benjamin Gaignard 2023-01-03  112  	struct hantro_av1_dec_hw_ctx *av1_dec = &ctx->av1_dec;
-9223ba771533395 Benjamin Gaignard 2023-01-03  113  	struct hantro_av1_dec_ctrls *ctrls = &av1_dec->ctrls;
-9223ba771533395 Benjamin Gaignard 2023-01-03  114  	const struct v4l2_ctrl_av1_frame *frame = ctrls->frame;
-9223ba771533395 Benjamin Gaignard 2023-01-03  115  	u64 timestamp;
-9223ba771533395 Benjamin Gaignard 2023-01-03  116  	int i, idx = frame->ref_frame_idx[ref];
-9223ba771533395 Benjamin Gaignard 2023-01-03  117  
-9223ba771533395 Benjamin Gaignard 2023-01-03  118  	if (idx >= AV1_MAX_FRAME_BUF_COUNT || idx < 0)
-                                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+287cf116194f9c Kiseok Jo 2023-01-04  242  static int sma1303_regmap_write(struct sma1303_priv *sma1303,
+0b15568ccfb962 Kiseok Jo 2023-01-04  243  				unsigned int reg, unsigned int val)
+0b15568ccfb962 Kiseok Jo 2023-01-04  244  {
+287cf116194f9c Kiseok Jo 2023-01-04  245  	int ret;
+287cf116194f9c Kiseok Jo 2023-01-04  246  	int cnt = sma1303->retry_cnt;
+0b15568ccfb962 Kiseok Jo 2023-01-04  247  
+287cf116194f9c Kiseok Jo 2023-01-04  248  	while (cnt--) {
 
-Should this be V4L2_AV1_TOTAL_REFS_PER_FRAME?
+The way I look at it, you need three bugs for this to affect real life:
 
-9223ba771533395 Benjamin Gaignard 2023-01-03  119  		return AV1_INVALID_IDX;
-9223ba771533395 Benjamin Gaignard 2023-01-03  120  
-9223ba771533395 Benjamin Gaignard 2023-01-03 @121  	timestamp = frame->reference_frame_ts[idx];
-                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+BUG 1: sma1303_regmap_write() is not written robustly (this warning).
+BUG 2: sma1303_i2c_probe() allows sma1303->retry_cnt of zero (it does).
+BUG 3: The i2c-retry_count is set to zero.  (Probably not but also not
+       unimaginable).
 
+So, yeah, let's fix BUG 2 because retry_cnt of zero is bogus.
 
-9223ba771533395 Benjamin Gaignard 2023-01-03  122  	for (i = 0; i < AV1_MAX_FRAME_BUF_COUNT; i++) {
-9223ba771533395 Benjamin Gaignard 2023-01-03  123  		if (!av1_dec->frame_refs[i].used)
-9223ba771533395 Benjamin Gaignard 2023-01-03  124  			continue;
-9223ba771533395 Benjamin Gaignard 2023-01-03  125  		if (av1_dec->frame_refs[i].timestamp == timestamp)
-9223ba771533395 Benjamin Gaignard 2023-01-03  126  			return i;
-9223ba771533395 Benjamin Gaignard 2023-01-03  127  	}
-9223ba771533395 Benjamin Gaignard 2023-01-03  128  
-9223ba771533395 Benjamin Gaignard 2023-01-03  129  	return AV1_INVALID_IDX;
-9223ba771533395 Benjamin Gaignard 2023-01-03  130  }
-9223ba771533395 Benjamin Gaignard 2023-01-03  131  
-9223ba771533395 Benjamin Gaignard 2023-01-03  132  static int rockchip_vpu981_get_order_hint(struct hantro_ctx *ctx, int ref)
-9223ba771533395 Benjamin Gaignard 2023-01-03  133  {
-9223ba771533395 Benjamin Gaignard 2023-01-03  134  	struct hantro_av1_dec_hw_ctx *av1_dec = &ctx->av1_dec;
-9223ba771533395 Benjamin Gaignard 2023-01-03  135  	int idx = rockchip_vpu981_get_frame_index(ctx, ref);
-9223ba771533395 Benjamin Gaignard 2023-01-03  136  
-9223ba771533395 Benjamin Gaignard 2023-01-03  137  	if (idx != AV1_INVALID_IDX)
-9223ba771533395 Benjamin Gaignard 2023-01-03  138  		return av1_dec->frame_refs[idx].order_hint;
-9223ba771533395 Benjamin Gaignard 2023-01-03  139  
-9223ba771533395 Benjamin Gaignard 2023-01-03  140  	return 0;
-9223ba771533395 Benjamin Gaignard 2023-01-03  141  }
-9223ba771533395 Benjamin Gaignard 2023-01-03  142  
-9223ba771533395 Benjamin Gaignard 2023-01-03  143  static int rockchip_vpu981_av1_dec_frame_ref(struct hantro_ctx *ctx,
-9223ba771533395 Benjamin Gaignard 2023-01-03  144  					     u64 timestamp)
-9223ba771533395 Benjamin Gaignard 2023-01-03  145  {
-9223ba771533395 Benjamin Gaignard 2023-01-03  146  	struct hantro_av1_dec_hw_ctx *av1_dec = &ctx->av1_dec;
-9223ba771533395 Benjamin Gaignard 2023-01-03  147  	struct hantro_av1_dec_ctrls *ctrls = &av1_dec->ctrls;
-9223ba771533395 Benjamin Gaignard 2023-01-03  148  	const struct v4l2_ctrl_av1_frame *frame = ctrls->frame;
-9223ba771533395 Benjamin Gaignard 2023-01-03  149  	int i;
-9223ba771533395 Benjamin Gaignard 2023-01-03  150  
-9223ba771533395 Benjamin Gaignard 2023-01-03  151  	for (i = 0; i < AV1_MAX_FRAME_BUF_COUNT; i++) {
-9223ba771533395 Benjamin Gaignard 2023-01-03  152  		if (!av1_dec->frame_refs[i].used) {
-9223ba771533395 Benjamin Gaignard 2023-01-03  153  			int j;
-9223ba771533395 Benjamin Gaignard 2023-01-03  154  
-9223ba771533395 Benjamin Gaignard 2023-01-03  155  			av1_dec->frame_refs[i].width =
-9223ba771533395 Benjamin Gaignard 2023-01-03  156  			    frame->frame_width_minus_1 + 1;
-9223ba771533395 Benjamin Gaignard 2023-01-03  157  			av1_dec->frame_refs[i].height =
-9223ba771533395 Benjamin Gaignard 2023-01-03  158  			    frame->frame_height_minus_1 + 1;
-9223ba771533395 Benjamin Gaignard 2023-01-03  159  			av1_dec->frame_refs[i].mi_cols =
-9223ba771533395 Benjamin Gaignard 2023-01-03  160  			    DIV_ROUND_UP(frame->frame_width_minus_1 + 1, 8);
-9223ba771533395 Benjamin Gaignard 2023-01-03  161  			av1_dec->frame_refs[i].mi_rows =
-9223ba771533395 Benjamin Gaignard 2023-01-03  162  			    DIV_ROUND_UP(frame->frame_height_minus_1 + 1, 8);
-9223ba771533395 Benjamin Gaignard 2023-01-03  163  			av1_dec->frame_refs[i].timestamp = timestamp;
-9223ba771533395 Benjamin Gaignard 2023-01-03  164  			av1_dec->frame_refs[i].frame_type = frame->frame_type;
-9223ba771533395 Benjamin Gaignard 2023-01-03  165  			av1_dec->frame_refs[i].order_hint = frame->order_hint;
-9223ba771533395 Benjamin Gaignard 2023-01-03  166  			av1_dec->frame_refs[i].gm_mode =
-9223ba771533395 Benjamin Gaignard 2023-01-03 @167  				frame->global_motion.type[V4L2_AV1_REF_LAST_FRAME + i];
-9223ba771533395 Benjamin Gaignard 2023-01-03  168  			if (!av1_dec->frame_refs[i].vb2_ref)
-9223ba771533395 Benjamin Gaignard 2023-01-03  169  				av1_dec->frame_refs[i].vb2_ref = hantro_get_dst_buf(ctx);
-9223ba771533395 Benjamin Gaignard 2023-01-03  170  
-9223ba771533395 Benjamin Gaignard 2023-01-03  171  			for (j = 0; j < V4L2_AV1_TOTAL_REFS_PER_FRAME; j++)
-9223ba771533395 Benjamin Gaignard 2023-01-03  172  				av1_dec->frame_refs[i].order_hints[j] = frame->order_hints[j];
-9223ba771533395 Benjamin Gaignard 2023-01-03  173  
-9223ba771533395 Benjamin Gaignard 2023-01-03  174  			av1_dec->frame_refs[i].used = true;
-9223ba771533395 Benjamin Gaignard 2023-01-03  175  			av1_dec->current_frame_index = i;
-9223ba771533395 Benjamin Gaignard 2023-01-03  176  			return i;
-9223ba771533395 Benjamin Gaignard 2023-01-03  177  		}
-9223ba771533395 Benjamin Gaignard 2023-01-03  178  	}
-9223ba771533395 Benjamin Gaignard 2023-01-03  179  
-9223ba771533395 Benjamin Gaignard 2023-01-03  180  	return AV1_INVALID_IDX;
-9223ba771533395 Benjamin Gaignard 2023-01-03  181  }
+                if (!of_property_read_u32(np, "i2c-retry_count", &value)) {
+-                        if (value > 50 || value < 0) {
++                        if (value > 50 || value <= 0) {
+                                sma1303->retry_cnt = SMA1303_I2C_RETRY_COUNT;
+
+And BUG 1 to make the checker happy.
+
+-  	int ret;
++  	int ret = -EINVAL;
+
+287cf116194f9c Kiseok Jo 2023-01-04  249  		ret = regmap_write(sma1303->regmap, reg, val);
+0b15568ccfb962 Kiseok Jo 2023-01-04  250  		if (ret < 0) {
+287cf116194f9c Kiseok Jo 2023-01-04  251  			dev_err(sma1303->dev, "Failed to write [0x%02X]\n", reg);
+287cf116194f9c Kiseok Jo 2023-01-04  252  			if (gCallback.set_i2c_err)
+287cf116194f9c Kiseok Jo 2023-01-04  253  				gCallback.set_i2c_err(sma1303->dev, ret);
+287cf116194f9c Kiseok Jo 2023-01-04  254  		} else
+287cf116194f9c Kiseok Jo 2023-01-04  255  			break;
+0b15568ccfb962 Kiseok Jo 2023-01-04  256  	}
+0b15568ccfb962 Kiseok Jo 2023-01-04 @257  	return ret;
+0b15568ccfb962 Kiseok Jo 2023-01-04  258  }
+0b15568ccfb962 Kiseok Jo 2023-01-04  259  
+287cf116194f9c Kiseok Jo 2023-01-04  260  static int sma1303_regmap_update_bits(struct sma1303_priv *sma1303,
+0b15568ccfb962 Kiseok Jo 2023-01-04  261  		unsigned int reg, unsigned int mask, unsigned int val)
+0b15568ccfb962 Kiseok Jo 2023-01-04  262  {
+287cf116194f9c Kiseok Jo 2023-01-04  263  	int ret;
+287cf116194f9c Kiseok Jo 2023-01-04  264  	int cnt = sma1303->retry_cnt;
+0b15568ccfb962 Kiseok Jo 2023-01-04  265  
+287cf116194f9c Kiseok Jo 2023-01-04  266  	while (cnt--) {
+287cf116194f9c Kiseok Jo 2023-01-04  267  		ret = regmap_update_bits(sma1303->regmap, reg, mask, val);
+0b15568ccfb962 Kiseok Jo 2023-01-04  268  		if (ret < 0) {
+287cf116194f9c Kiseok Jo 2023-01-04  269  			dev_err(sma1303->dev, "Failed to update [0x%02X]\n", reg);
+287cf116194f9c Kiseok Jo 2023-01-04  270  			if (gCallback.set_i2c_err)
+287cf116194f9c Kiseok Jo 2023-01-04  271  				gCallback.set_i2c_err(sma1303->dev, ret);
+287cf116194f9c Kiseok Jo 2023-01-04  272  		} else
+287cf116194f9c Kiseok Jo 2023-01-04  273  			break;
+0b15568ccfb962 Kiseok Jo 2023-01-04  274  	}
+0b15568ccfb962 Kiseok Jo 2023-01-04 @275  	return ret;
+0b15568ccfb962 Kiseok Jo 2023-01-04  276  }
+0b15568ccfb962 Kiseok Jo 2023-01-04  277  
+287cf116194f9c Kiseok Jo 2023-01-04  278  static int sma1303_regmap_read(struct sma1303_priv *sma1303,
+287cf116194f9c Kiseok Jo 2023-01-04  279  		unsigned int reg, unsigned int *val)
+0b15568ccfb962 Kiseok Jo 2023-01-04  280  {
+287cf116194f9c Kiseok Jo 2023-01-04  281  	int ret;
+287cf116194f9c Kiseok Jo 2023-01-04  282  	int cnt = sma1303->retry_cnt;
+0b15568ccfb962 Kiseok Jo 2023-01-04  283  
+287cf116194f9c Kiseok Jo 2023-01-04  284  	while (cnt--) {
+287cf116194f9c Kiseok Jo 2023-01-04  285  		ret = regmap_read(sma1303->regmap, reg, val);
+0b15568ccfb962 Kiseok Jo 2023-01-04  286  		if (ret < 0) {
+287cf116194f9c Kiseok Jo 2023-01-04  287  			dev_err(sma1303->dev, "Failed to read [0x%02X]\n", reg);
+287cf116194f9c Kiseok Jo 2023-01-04  288  			if (gCallback.set_i2c_err)
+287cf116194f9c Kiseok Jo 2023-01-04  289  				gCallback.set_i2c_err(sma1303->dev, ret);
+287cf116194f9c Kiseok Jo 2023-01-04  290  		} else
+287cf116194f9c Kiseok Jo 2023-01-04  291  			break;
+0b15568ccfb962 Kiseok Jo 2023-01-04  292  	}
+287cf116194f9c Kiseok Jo 2023-01-04 @293  	return ret;
+0b15568ccfb962 Kiseok Jo 2023-01-04  294  }
 
 -- 
 0-DAY CI Kernel Test Service
