@@ -1,66 +1,65 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1873EDE
-	for <oe-kbuild@lists.linux.dev>; Sat,  7 Jan 2023 01:00:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CFA810E5
+	for <oe-kbuild@lists.linux.dev>; Sat,  7 Jan 2023 01:11:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1673053216; x=1704589216;
+  t=1673053877; x=1704589877;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ay1faXdjgUX4fY2kK0TEnO9EXnQ0wjT5UFAa28+M328=;
-  b=ZE/ppazU4TdayAqwg/mYoEc+YanxZcBHHfsxEx4vQmz68C/JijyBwakZ
-   G1bKJ2gUAM99PSsE3g5xRLhkilHL4X7iWjwzrgJsyeRSvN91g7FLcc79V
-   f0Kq0o0Srw7qaTq3BI4fD6o70KU60IR/v1sEjt9mOsEuDpd5y1ND1Xz3X
-   N2PY4qIDqg+SEZlR+/MzBKth7whdA/BVNtVSqPDAfIuDnuZq01ecOxTBU
-   D4NToM+Vv7q9joTs42ZbHD7GsJf5wKOk8TBXhQ129J1afeKNzXMmnHkRM
-   FGoOcOC0lsB6pVDHCYLNz1wsUXtPEfQpLa8j9hrFw0Jfcr4C76YQlOR7j
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10582"; a="310389362"
+  bh=k4vKNAiVOJSHglSYCp7HqbhAXJr9+7K7aEAhB063qDc=;
+  b=BLAnSJKW5hjx3P6u1xQsiTqYJFQ+wrJtzDp59+W6zfcFjvUDoR9tBBwC
+   Z82v6QtDaZhJ/SWVURcoWQqUd2gTJynw4/E2xSaAu9eFJmhnZlgRlCThJ
+   trh9zaflTTYKxOcHq39Rq/NRjn/87bFPeqJoMxcKGKrYT7Ez8/tP3RXdb
+   COd+2ZQfm3YcjgOhnx9Nf0ynXzyUN/7/1OM5L9WmuULp75Hfnkm9Qfqeg
+   sR6U8cvb+bx0IIq0WqOAG3OQHnacL9Jhpj/k7dN2Dgegrzu2jecb0APuE
+   A+34Z3ajtpwpTK085uU/fODxn/lN922xcLMFAsiuoj8OfBx/zzrfy2XPJ
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10582"; a="302296783"
 X-IronPort-AV: E=Sophos;i="5.96,307,1665471600"; 
-   d="scan'208";a="310389362"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jan 2023 17:00:16 -0800
+   d="scan'208";a="302296783"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jan 2023 17:11:16 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10582"; a="763691536"
+X-IronPort-AV: E=McAfee;i="6500,9779,10582"; a="688474518"
 X-IronPort-AV: E=Sophos;i="5.96,307,1665471600"; 
-   d="scan'208";a="763691536"
+   d="scan'208";a="688474518"
 Received: from lkp-server02.sh.intel.com (HELO f1920e93ebb5) ([10.239.97.151])
-  by fmsmga002.fm.intel.com with ESMTP; 06 Jan 2023 17:00:13 -0800
+  by orsmga001.jf.intel.com with ESMTP; 06 Jan 2023 17:11:13 -0800
 Received: from kbuild by f1920e93ebb5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pDxZE-000438-2t;
-	Sat, 07 Jan 2023 01:00:12 +0000
-Date: Sat, 7 Jan 2023 09:00:03 +0800
+	id 1pDxjt-00043g-0b;
+	Sat, 07 Jan 2023 01:11:13 +0000
+Date: Sat, 7 Jan 2023 09:10:13 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [jirislaby:devel 35/43] drivers/tty/serial/serial_core.c:3370
- uart_try_toggle_sysrq() warn: impossible condition '(++port->sysrq_seq <
- sysrq_toggle_seq_len) => (0-255 < 0)'
-Message-ID: <202301070845.YZgSNQyJ-lkp@intel.com>
+Subject: [jolsa-perf:bpf/tracing_multi_5 14/27] kernel/bpf/trampoline.c:1276
+ trampoline_multi_split() warn: passing zero to 'PTR_ERR'
+Message-ID: <202301070944.r0WRbhsk-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="NvNheDJ8Be2HfKIz"
+Content-Type: multipart/mixed; boundary="lT4oB2CHtVH7olXU"
 Content-Disposition: inline
 
 
---NvNheDJ8Be2HfKIz
+--lT4oB2CHtVH7olXU
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: "Jiri Slaby (SUSE)" <jirislaby@kernel.org>
+TO: Jiri Olsa <jolsa@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jirislaby/linux.git devel
-head:   9ece22e46deaf1639417390a1ee94a5719492861
-commit: a20acc4e3e49e40c08fa528e11cbddcc042a7147 [35/43] serial: make strlen of sysrq_toggle_seq[] a global constant
-:::::: branch date: 15 hours ago
-:::::: commit date: 15 hours ago
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git bpf/tracing_multi_5
+head:   45ca925f42727b7feae7acd15e47534a1f9693b7
+commit: e2296e57b24595cf947b9fefa78ef3f73334ed3c [14/27] bpf: Add support to attach multi trampolines
+:::::: branch date: 10 hours ago
+:::::: commit date: 10 hours ago
 config: i386-randconfig-m021
 compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 
@@ -68,63 +67,59 @@ If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
 
-New smatch warnings:
-drivers/tty/serial/serial_core.c:3370 uart_try_toggle_sysrq() warn: impossible condition '(++port->sysrq_seq < sysrq_toggle_seq_len) => (0-255 < 0)'
+smatch warnings:
+kernel/bpf/trampoline.c:1276 trampoline_multi_split() warn: passing zero to 'PTR_ERR'
 
-Old smatch warnings:
-drivers/tty/serial/serial_core.c:328 uart_shutdown() error: uninitialized symbol 'flags'.
-drivers/tty/serial/serial_core.c:2921 iomem_base_show() warn: argument 3 to %lX specifier is cast from pointer
+vim +/PTR_ERR +1276 kernel/bpf/trampoline.c
 
-vim +3370 drivers/tty/serial/serial_core.c
-
-68af43173d3fce Dmitry Safonov    2020-03-02  3347  
-68af43173d3fce Dmitry Safonov    2020-03-02  3348  /**
-68af43173d3fce Dmitry Safonov    2020-03-02  3349   * uart_try_toggle_sysrq - Enables SysRq from serial line
-68af43173d3fce Dmitry Safonov    2020-03-02  3350   * @port: uart_port structure where char(s) after BREAK met
-68af43173d3fce Dmitry Safonov    2020-03-02  3351   * @ch: new character in the sequence after received BREAK
-68af43173d3fce Dmitry Safonov    2020-03-02  3352   *
-68af43173d3fce Dmitry Safonov    2020-03-02  3353   * Enables magic SysRq when the required sequence is met on port
-68af43173d3fce Dmitry Safonov    2020-03-02  3354   * (see CONFIG_MAGIC_SYSRQ_SERIAL_SEQUENCE).
-68af43173d3fce Dmitry Safonov    2020-03-02  3355   *
-987233b342b950 Jiri Slaby        2022-07-28  3356   * Returns: %false if @ch is out of enabling sequence and should be
-987233b342b950 Jiri Slaby        2022-07-28  3357   * handled some other way, %true if @ch was consumed.
-68af43173d3fce Dmitry Safonov    2020-03-02  3358   */
-faa0c504642883 Jiri Slaby (SUSE  2022-11-23  3359) bool uart_try_toggle_sysrq(struct uart_port *port, u8 ch)
-68af43173d3fce Dmitry Safonov    2020-03-02  3360  {
-2ce5eace42b859 Andy Shevchenko   2020-03-10  3361  	if (!sysrq_toggle_seq_len)
-68af43173d3fce Dmitry Safonov    2020-03-02  3362  		return false;
-68af43173d3fce Dmitry Safonov    2020-03-02  3363  
-68af43173d3fce Dmitry Safonov    2020-03-02  3364  	BUILD_BUG_ON(ARRAY_SIZE(sysrq_toggle_seq) >= U8_MAX);
-68af43173d3fce Dmitry Safonov    2020-03-02  3365  	if (sysrq_toggle_seq[port->sysrq_seq] != ch) {
-68af43173d3fce Dmitry Safonov    2020-03-02  3366  		port->sysrq_seq = 0;
-68af43173d3fce Dmitry Safonov    2020-03-02  3367  		return false;
-68af43173d3fce Dmitry Safonov    2020-03-02  3368  	}
-68af43173d3fce Dmitry Safonov    2020-03-02  3369  
-2ce5eace42b859 Andy Shevchenko   2020-03-10 @3370  	if (++port->sysrq_seq < sysrq_toggle_seq_len) {
-68af43173d3fce Dmitry Safonov    2020-03-02  3371  		port->sysrq = jiffies + SYSRQ_TIMEOUT;
-68af43173d3fce Dmitry Safonov    2020-03-02  3372  		return true;
-68af43173d3fce Dmitry Safonov    2020-03-02  3373  	}
-68af43173d3fce Dmitry Safonov    2020-03-02  3374  
-68af43173d3fce Dmitry Safonov    2020-03-02  3375  	schedule_work(&sysrq_enable_work);
-68af43173d3fce Dmitry Safonov    2020-03-02  3376  
-68af43173d3fce Dmitry Safonov    2020-03-02  3377  	port->sysrq = 0;
-68af43173d3fce Dmitry Safonov    2020-03-02  3378  	return true;
-68af43173d3fce Dmitry Safonov    2020-03-02  3379  }
-08d5470308ac35 Johan Hovold      2020-06-10  3380  EXPORT_SYMBOL_GPL(uart_try_toggle_sysrq);
-68af43173d3fce Dmitry Safonov    2020-03-02  3381  #endif
-68af43173d3fce Dmitry Safonov    2020-03-02  3382  
-
-:::::: The code at line 3370 was first introduced by commit
-:::::: 2ce5eace42b859cabef898877b38a0429f931370 serial: core: Use string length for SysRq magic sequence
-
-:::::: TO: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+e2296e57b24595 Jiri Olsa 2023-01-04  1261  
+e2296e57b24595 Jiri Olsa 2023-01-04  1262  static int
+e2296e57b24595 Jiri Olsa 2023-01-04  1263  trampoline_multi_split(struct bpf_trampoline *tr, struct btf_bitmap *and,
+e2296e57b24595 Jiri Olsa 2023-01-04  1264  		       struct bpf_tramp_prog *tp, struct list_head *rollback)
+e2296e57b24595 Jiri Olsa 2023-01-04  1265  {
+e2296e57b24595 Jiri Olsa 2023-01-04  1266  	struct btf_bitmap *bmap_rollback = NULL;
+e2296e57b24595 Jiri Olsa 2023-01-04  1267  	struct bpf_trampoline *tr_new;
+e2296e57b24595 Jiri Olsa 2023-01-04  1268  	int err;
+e2296e57b24595 Jiri Olsa 2023-01-04  1269  
+e2296e57b24595 Jiri Olsa 2023-01-04  1270  	bmap_rollback = btf_bitmap_funcs_alloc();
+e2296e57b24595 Jiri Olsa 2023-01-04  1271  	if (!bmap_rollback)
+e2296e57b24595 Jiri Olsa 2023-01-04  1272  		return -ENOMEM;
+e2296e57b24595 Jiri Olsa 2023-01-04  1273  
+e2296e57b24595 Jiri Olsa 2023-01-04  1274  	tr_new = trampoline_multi_split_trampoline(tr, and);
+e2296e57b24595 Jiri Olsa 2023-01-04  1275  	if (!tr_new) {
+e2296e57b24595 Jiri Olsa 2023-01-04 @1276  		err = PTR_ERR(tr_new);
+e2296e57b24595 Jiri Olsa 2023-01-04  1277  		goto error_bmap;
+e2296e57b24595 Jiri Olsa 2023-01-04  1278  	}
+e2296e57b24595 Jiri Olsa 2023-01-04  1279  
+e2296e57b24595 Jiri Olsa 2023-01-04  1280  	err = bpf_trampoline_link_prog(tp, tr_new);
+e2296e57b24595 Jiri Olsa 2023-01-04  1281  	if (err)
+e2296e57b24595 Jiri Olsa 2023-01-04  1282  		goto error_tr;
+e2296e57b24595 Jiri Olsa 2023-01-04  1283  
+e2296e57b24595 Jiri Olsa 2023-01-04  1284  	btf_bitmap_copy(bmap_rollback, tr->multi.bmap);
+e2296e57b24595 Jiri Olsa 2023-01-04  1285  	btf_bitmap_andnot(tr->multi.bmap, tr->multi.bmap, and);
+e2296e57b24595 Jiri Olsa 2023-01-04  1286  	tr->rollback.bmap = bmap_rollback;
+e2296e57b24595 Jiri Olsa 2023-01-04  1287  
+e2296e57b24595 Jiri Olsa 2023-01-04  1288  	err = trampoline_multi_reset_bmap(tr, rollback);
+e2296e57b24595 Jiri Olsa 2023-01-04  1289  	if (err)
+e2296e57b24595 Jiri Olsa 2023-01-04  1290  		goto error_tr;
+e2296e57b24595 Jiri Olsa 2023-01-04  1291  
+e2296e57b24595 Jiri Olsa 2023-01-04  1292  	tr_new->rollback.free = true;
+e2296e57b24595 Jiri Olsa 2023-01-04  1293  	list_add_tail(&tr_new->rollback.list, &tr->rollback.list);
+e2296e57b24595 Jiri Olsa 2023-01-04  1294  	return err;
+e2296e57b24595 Jiri Olsa 2023-01-04  1295  
+e2296e57b24595 Jiri Olsa 2023-01-04  1296  error_tr:
+e2296e57b24595 Jiri Olsa 2023-01-04  1297  	bpf_trampoline_free(tr_new);
+e2296e57b24595 Jiri Olsa 2023-01-04  1298  error_bmap:
+e2296e57b24595 Jiri Olsa 2023-01-04  1299  	btf_bitmap_free(bmap_rollback);
+e2296e57b24595 Jiri Olsa 2023-01-04  1300  	return err;
+e2296e57b24595 Jiri Olsa 2023-01-04  1301  }
+e2296e57b24595 Jiri Olsa 2023-01-04  1302  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
 
---NvNheDJ8Be2HfKIz
+--lT4oB2CHtVH7olXU
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename=config
 
@@ -227,7 +222,6 @@ CONFIG_HZ_PERIODIC=y
 CONFIG_NO_HZ=y
 # CONFIG_HIGH_RES_TIMERS is not set
 CONFIG_CLOCKSOURCE_WATCHDOG_MAX_SKEW_US=125
-CONFIG_CLOCKSOURCE_WATCHDOG_DURATION=10
 # end of Timers subsystem
 
 CONFIG_BPF=y
@@ -273,6 +267,7 @@ CONFIG_CPU_ISOLATION=y
 #
 CONFIG_TREE_RCU=y
 CONFIG_RCU_EXPERT=y
+CONFIG_SRCU=y
 CONFIG_TREE_SRCU=y
 CONFIG_TASKS_RCU_GENERIC=y
 CONFIG_FORCE_TASKS_RCU=y
@@ -335,7 +330,6 @@ CONFIG_RD_GZIP=y
 # CONFIG_RD_LZ4 is not set
 # CONFIG_RD_ZSTD is not set
 CONFIG_BOOT_CONFIG=y
-# CONFIG_BOOT_CONFIG_FORCE is not set
 # CONFIG_BOOT_CONFIG_EMBED is not set
 CONFIG_INITRAMFS_PRESERVE_MTIME=y
 CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE=y
@@ -1504,6 +1498,7 @@ CONFIG_VMWARE_VMCI=m
 CONFIG_ECHO=y
 # CONFIG_MISC_ALCOR_PCI is not set
 # CONFIG_MISC_RTSX_PCI is not set
+CONFIG_HABANA_AI=m
 CONFIG_UACCE=y
 CONFIG_PVPANIC=y
 CONFIG_PVPANIC_MMIO=y
@@ -2130,7 +2125,6 @@ CONFIG_NOZOMI=y
 # CONFIG_NULL_TTY is not set
 CONFIG_RPMSG_TTY=m
 CONFIG_SERIAL_DEV_BUS=m
-CONFIG_AAA=y
 CONFIG_TTY_PRINTK=y
 CONFIG_TTY_PRINTK_LEVEL=6
 CONFIG_PRINTER=y
@@ -3262,6 +3256,8 @@ CONFIG_DRM_DW_HDMI=m
 CONFIG_DRM_ETNAVIV=m
 CONFIG_DRM_ETNAVIV_THERMAL=y
 # CONFIG_DRM_LOGICVC is not set
+# CONFIG_DRM_MXSFB is not set
+# CONFIG_DRM_IMX_LCDIF is not set
 # CONFIG_DRM_ARCPGU is not set
 # CONFIG_DRM_BOCHS is not set
 CONFIG_DRM_CIRRUS_QEMU=m
@@ -3408,7 +3404,10 @@ CONFIG_HDMI=y
 
 # CONFIG_DRM_ACCEL is not set
 # CONFIG_SOUND is not set
-CONFIG_HID_SUPPORT=y
+
+#
+# HID support
+#
 CONFIG_HID=y
 # CONFIG_HID_BATTERY_STRENGTH is not set
 CONFIG_HIDRAW=y
@@ -3494,11 +3493,6 @@ CONFIG_HID_ALPS=y
 # end of Special HID drivers
 
 #
-# HID-BPF support
-#
-# end of HID-BPF support
-
-#
 # I2C HID support
 #
 # CONFIG_I2C_HID_ACPI is not set
@@ -3508,6 +3502,8 @@ CONFIG_I2C_HID_OF_GOODIX=m
 # end of I2C HID support
 
 CONFIG_I2C_HID_CORE=y
+# end of HID support
+
 CONFIG_USB_OHCI_LITTLE_ENDIAN=y
 CONFIG_USB_SUPPORT=y
 # CONFIG_USB_ULPI_BUS is not set
@@ -3909,7 +3905,6 @@ CONFIG_CHROMEOS_PSTORE=y
 CONFIG_CROS_EC=y
 CONFIG_CROS_EC_I2C=m
 CONFIG_CROS_EC_RPMSG=m
-# CONFIG_CROS_EC_UART is not set
 # CONFIG_CROS_EC_LPC is not set
 CONFIG_CROS_EC_PROTO=y
 # CONFIG_CROS_KBD_LED_BACKLIGHT is not set
@@ -4092,8 +4087,6 @@ CONFIG_SOUNDWIRE=m
 CONFIG_LITEX=y
 CONFIG_LITEX_SOC_CONTROLLER=m
 # end of Enable LiteX SoC Builder specific drivers
-
-# CONFIG_WPCM450_SOC is not set
 
 #
 # Qualcomm SoC drivers
@@ -4470,7 +4463,6 @@ CONFIG_IIO_ST_MAGN_I2C_3AXIS=m
 CONFIG_SENSORS_HMC5843=m
 CONFIG_SENSORS_HMC5843_I2C=m
 # CONFIG_SENSORS_RM3100_I2C is not set
-# CONFIG_TI_TMAG5273 is not set
 CONFIG_YAMAHA_YAS530=m
 # end of Magnetometer sensors
 
@@ -4686,14 +4678,6 @@ CONFIG_USB4_DEBUGFS_WRITE=y
 # CONFIG_DAX is not set
 CONFIG_NVMEM=y
 CONFIG_NVMEM_SYSFS=y
-
-#
-# Layout Types
-#
-# CONFIG_NVMEM_LAYOUT_SL28_VPD is not set
-# CONFIG_NVMEM_LAYOUT_ONIE_TLV is not set
-# end of Layout Types
-
 # CONFIG_NVMEM_RAVE_SP_EEPROM is not set
 # CONFIG_NVMEM_RMEM is not set
 # CONFIG_NVMEM_U_BOOT_ENV is not set
@@ -4767,6 +4751,7 @@ CONFIG_EXPORTFS=y
 CONFIG_FILE_LOCKING=y
 CONFIG_FS_ENCRYPTION=y
 CONFIG_FS_VERITY=y
+CONFIG_FS_VERITY_DEBUG=y
 # CONFIG_FS_VERITY_BUILTIN_SIGNATURES is not set
 CONFIG_FSNOTIFY=y
 # CONFIG_DNOTIFY is not set
@@ -5535,7 +5520,6 @@ CONFIG_LOCK_TORTURE_TEST=m
 
 CONFIG_TRACE_IRQFLAGS=y
 CONFIG_TRACE_IRQFLAGS_NMI=y
-# CONFIG_NMI_CHECK_CPU is not set
 # CONFIG_DEBUG_IRQFLAGS is not set
 CONFIG_STACKTRACE=y
 # CONFIG_WARN_ALL_UNSEEDED_RANDOM is not set
@@ -5566,7 +5550,6 @@ CONFIG_RCU_TORTURE_TEST=m
 CONFIG_RCU_REF_SCALE_TEST=m
 CONFIG_RCU_CPU_STALL_TIMEOUT=21
 CONFIG_RCU_EXP_CPU_STALL_TIMEOUT=0
-# CONFIG_RCU_CPU_STALL_CPUTIME is not set
 CONFIG_RCU_TRACE=y
 CONFIG_RCU_EQS_DEBUG=y
 # end of RCU Debugging
@@ -5720,4 +5703,4 @@ CONFIG_ARCH_USE_MEMTEST=y
 # end of Rust hacking
 # end of Kernel hacking
 
---NvNheDJ8Be2HfKIz--
+--lT4oB2CHtVH7olXU--
