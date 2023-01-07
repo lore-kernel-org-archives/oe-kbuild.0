@@ -1,51 +1,48 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A23461842;
-	Sat,  7 Jan 2023 08:40:36 +0000 (UTC)
-Received: by mail-wr1-f50.google.com with SMTP id bs20so3262136wrb.3;
-        Sat, 07 Jan 2023 00:40:36 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E78195E9;
+	Sat,  7 Jan 2023 08:42:10 +0000 (UTC)
+Received: by mail-wr1-f43.google.com with SMTP id m7so3245750wrn.10;
+        Sat, 07 Jan 2023 00:42:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=qQ5P1wDbIcvebvDNJyCuZSz2c6UHJpFAi9orkbFi7MM=;
-        b=leCqRXHHtvImpioKXuPmV+IOcy9SOb9wS4z6tvDWf6KqJrNlJsprvE7e/xdY9fzttA
-         naIyN9VOqlMaKRUOcBzXjLF2O7u1Snti9SoKcLmTPo+uG8nlQ/jdq+ZeZ9JHasgzsnm7
-         iXG6UzXbNLUgg1ScTdSStVdVC8jk3OY9mofzNW3HUL/QzLbguCuJv0227/WDlUJBkgGM
-         XFBk/akCv84yLse7uCMD98IaUWDnSfavsxXazVRw9AxQDCkKa32T982i8/6fgMSX4oX5
-         7oQcwCdl4K0HQD6iRTWpZ4J3cv0fBlUTy/MobXazYwypMo/WdBVegXPBgGk6+x6I/bQl
-         IIag==
+        bh=jTXvAq3zSmq0I6sQ8T0o7ipRdLy24L2DpRJ+dLSqhi4=;
+        b=LHbgH9AcQmO9EQflvXO6Efm+vQRDEYv0aSkepmPpy7/0eqhiUXDqkYovHvIinAgjRg
+         +pT3u2cK4Qc7+YIHbYjW+qCkjrtEpugRELIJaHR4dLLXtJzCGrQ0/9sZevMh9xU2Zdty
+         1geGdCMed1t9DaD/WhyKjghKuw9Uxoge/TvNdkYngiMI/nVlB8XnVu1ZafrvvUL5j90Y
+         wnX9FU7gw9ekwrRssFSSvk74aDOLco6hB0Xll+OT3hgEEzG7j50It46JBYu0L1nY/GGB
+         WMBD+PEKKSdYAuF7YXhMm+sTwpJxh383fdf95wFe/tg2Toi53aY8RPUL+1DVfY+9lFLm
+         zhOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=qQ5P1wDbIcvebvDNJyCuZSz2c6UHJpFAi9orkbFi7MM=;
-        b=MmgfCODREa8BbAPT1KEdP/31dZEsV7Enw/IpzQx8WsC+8VrmCNqncg5qmrIoHbO6Qn
-         nniJ78fxaKVFqdedaAn28aHWemiKc1UpMdRTIZULWggb2hgDj294XDO92YCe6YI0ukih
-         b+HNsPvog+QOykwY7hzC+i1KSK4yQBT6NvkJiPQJH9ESpuvo/SA9jSjX3MtHYuT3h70N
-         75b6d2xWaf6Dz8/pL845gMt5YzQbEE2WJdHnRexOCjNcbtM7mhtdDOhGnLfWVvTxOzWj
-         SRGY9WPqAginpiQ8zefw5YCpf+jzOPXlb0FikKvqjHlFcvsRPryYPHhHgB+vmlQGQ6GC
-         qKHg==
-X-Gm-Message-State: AFqh2kq+YZxGfTxFCA65CxNGPqaP8QLocKWWFYJj2CEtQQMDKrMplqIB
-	PV0pzb/6DWk5Xw9B7pL8z5e8O2hnAaBxC76a
-X-Google-Smtp-Source: AMrXdXsFmifkZg4c4qh6fMJNAdtI0zXint4Zh6ArKFnFKBJ1HmcLjjvCz7WZOpw2l4AAvqYO0xE8jA==
-X-Received: by 2002:a05:6000:982:b0:2a3:6f99:17d4 with SMTP id by2-20020a056000098200b002a36f9917d4mr8895076wrb.5.1673080834727;
-        Sat, 07 Jan 2023 00:40:34 -0800 (PST)
+        bh=jTXvAq3zSmq0I6sQ8T0o7ipRdLy24L2DpRJ+dLSqhi4=;
+        b=zNR0L1z4DobToODzWv8wZltYFUZO3uIxlXfTYSjY3ITwSyMIbHvVAP/yPTURWwBwXg
+         ogf4AHeScnu/YhflswkYWrT109uid+5Y4FTcxkPytMQXq2RiIsbChpDbE/L3HzBB8VRG
+         SnfGmOEp2t+3WHjvc8SmCrkOZD5XvLjqpi+t5ZiyTiyg6TouQIQX6dsSFeS0j7azjqBQ
+         JBSjlrH590yU+EsaiNC/ndCSYVVqQ0nOM6F5jXvQXHT5JuLPux0XTzS8Ol7o1NhnQWPc
+         dT5D6FFKEqmK6YIZrYeQPgGmYajsPavI68rI0PkZMDGDqXRmsomm9Osw5hqYwS9e35gS
+         VKYw==
+X-Gm-Message-State: AFqh2koPZOabl7uQIROSrdoulHarkscyVlaUAsuxr6RqyUBOtmwNjkts
+	hwWDLqNNP+CSt99bWfEocIcqdtrTW1awFEMH
+X-Google-Smtp-Source: AMrXdXvdeRIQC8Ez95pk94S6ooycoEvMbEz/kIhMbUftEdqPTglJS8fHRVbWjoWq48aoC7OLNU3DAw==
+X-Received: by 2002:adf:eb01:0:b0:242:4c00:f544 with SMTP id s1-20020adfeb01000000b002424c00f544mr34282430wrn.45.1673080928587;
+        Sat, 07 Jan 2023 00:42:08 -0800 (PST)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id g8-20020a5d5408000000b0027973315213sm3233092wrv.89.2023.01.07.00.40.33
+        by smtp.gmail.com with ESMTPSA id l6-20020a5d4bc6000000b0027323b19ecesm3287527wrt.16.2023.01.07.00.42.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 07 Jan 2023 00:40:34 -0800 (PST)
-Date: Sat, 7 Jan 2023 11:40:30 +0300
+        Sat, 07 Jan 2023 00:42:08 -0800 (PST)
+Date: Sat, 7 Jan 2023 11:42:04 +0300
 From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev,
-	Ajye Huang <ajye_huang@compal.corp-partner.google.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Mark Brown <broonie@kernel.org>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Subject: sound/soc/mediatek/mt8186/mt8186-mt6366-rt1019-rt5682s.c:143
- primary_codec_init() warn: missing error code? 'ret'
-Message-ID: <202301070814.uxRqe1Ox-lkp@intel.com>
+To: oe-kbuild@lists.linux.dev, Jiri Olsa <jolsa@kernel.org>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [jolsa-perf:bpf/tracing_multi_5 14/27] kernel/bpf/trampoline.c:1276
+ trampoline_multi_split() warn: passing zero to 'PTR_ERR'
+Message-ID: <202301070944.r0WRbhsk-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -54,61 +51,66 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Message-ID: <20230107084030.HnFIxThZq6Cs-Ljo2N7sbg33801eIF_L-j3o_l0Dczo@z>
+Message-ID: <20230107084204.050tug925i_hlv-qC41_pmRBTp3vZAcP7Q_XveWBX88@z>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   1f5abbd77e2c1787e74b7c2caffac97def78ba52
-commit: e14657c0f0022e02c8f25fa9c56afae3d3db9e77 ASoC: mediatek: mt8186-rt5682: Modify machine driver for two DMICs case
-config: microblaze-randconfig-m041-20230106
-compiler: microblaze-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git bpf/tracing_multi_5
+head:   45ca925f42727b7feae7acd15e47534a1f9693b7
+commit: e2296e57b24595cf947b9fefa78ef3f73334ed3c [14/27] bpf: Add support to attach multi trampolines
+config: i386-randconfig-m021
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
 
 smatch warnings:
-sound/soc/mediatek/mt8186/mt8186-mt6366-rt1019-rt5682s.c:143 primary_codec_init() warn: missing error code? 'ret'
+kernel/bpf/trampoline.c:1276 trampoline_multi_split() warn: passing zero to 'PTR_ERR'
 
-vim +/ret +143 sound/soc/mediatek/mt8186/mt8186-mt6366-rt1019-rt5682s.c
+vim +/PTR_ERR +1276 kernel/bpf/trampoline.c
 
-e14657c0f0022e Ajye Huang 2022-11-02  127  static int primary_codec_init(struct snd_soc_pcm_runtime *rtd)
-e14657c0f0022e Ajye Huang 2022-11-02  128  {
-e14657c0f0022e Ajye Huang 2022-11-02  129  	struct snd_soc_card *card = rtd->card;
-e14657c0f0022e Ajye Huang 2022-11-02  130  	struct mtk_soc_card_data *soc_card_data = snd_soc_card_get_drvdata(card);
-e14657c0f0022e Ajye Huang 2022-11-02  131  	struct mt8186_mt6366_rt1019_rt5682s_priv *priv = soc_card_data->mach_priv;
-e14657c0f0022e Ajye Huang 2022-11-02  132  	int ret;
-e14657c0f0022e Ajye Huang 2022-11-02  133  
-e14657c0f0022e Ajye Huang 2022-11-02  134  	ret = mt8186_mt6366_init(rtd);
-e14657c0f0022e Ajye Huang 2022-11-02  135  
-e14657c0f0022e Ajye Huang 2022-11-02  136  	if (ret) {
-e14657c0f0022e Ajye Huang 2022-11-02  137  		dev_err(card->dev, "mt8186_mt6366_init failed: %d\n", ret);
-e14657c0f0022e Ajye Huang 2022-11-02  138  		return ret;
-e14657c0f0022e Ajye Huang 2022-11-02  139  	}
-e14657c0f0022e Ajye Huang 2022-11-02  140  
-e14657c0f0022e Ajye Huang 2022-11-02  141  	if (!priv->dmic_sel) {
-e14657c0f0022e Ajye Huang 2022-11-02  142  		dev_info(card->dev, "dmic_sel is null\n");
-e14657c0f0022e Ajye Huang 2022-11-02 @143  		return ret;
+e2296e57b24595 Jiri Olsa 2023-01-04  1262  static int
+e2296e57b24595 Jiri Olsa 2023-01-04  1263  trampoline_multi_split(struct bpf_trampoline *tr, struct btf_bitmap *and,
+e2296e57b24595 Jiri Olsa 2023-01-04  1264  		       struct bpf_tramp_prog *tp, struct list_head *rollback)
+e2296e57b24595 Jiri Olsa 2023-01-04  1265  {
+e2296e57b24595 Jiri Olsa 2023-01-04  1266  	struct btf_bitmap *bmap_rollback = NULL;
+e2296e57b24595 Jiri Olsa 2023-01-04  1267  	struct bpf_trampoline *tr_new;
+e2296e57b24595 Jiri Olsa 2023-01-04  1268  	int err;
+e2296e57b24595 Jiri Olsa 2023-01-04  1269  
+e2296e57b24595 Jiri Olsa 2023-01-04  1270  	bmap_rollback = btf_bitmap_funcs_alloc();
+e2296e57b24595 Jiri Olsa 2023-01-04  1271  	if (!bmap_rollback)
+e2296e57b24595 Jiri Olsa 2023-01-04  1272  		return -ENOMEM;
+e2296e57b24595 Jiri Olsa 2023-01-04  1273  
+e2296e57b24595 Jiri Olsa 2023-01-04  1274  	tr_new = trampoline_multi_split_trampoline(tr, and);
+e2296e57b24595 Jiri Olsa 2023-01-04  1275  	if (!tr_new) {
+e2296e57b24595 Jiri Olsa 2023-01-04 @1276  		err = PTR_ERR(tr_new);
 
-return -EIVNAL;?  return 0;?
+This is zero.  Needs to be err = -ENOMEM; or something.
 
-e14657c0f0022e Ajye Huang 2022-11-02  144  	}
-e14657c0f0022e Ajye Huang 2022-11-02  145  
-e14657c0f0022e Ajye Huang 2022-11-02  146  	ret = snd_soc_dapm_new_controls(&card->dapm, dmic_widgets,
-e14657c0f0022e Ajye Huang 2022-11-02  147  					ARRAY_SIZE(dmic_widgets));
-e14657c0f0022e Ajye Huang 2022-11-02  148  	if (ret) {
-e14657c0f0022e Ajye Huang 2022-11-02  149  		dev_err(card->dev, "DMic widget addition failed: %d\n", ret);
-e14657c0f0022e Ajye Huang 2022-11-02  150  		/* Don't need to add routes if widget addition failed */
-e14657c0f0022e Ajye Huang 2022-11-02  151  		return ret;
-e14657c0f0022e Ajye Huang 2022-11-02  152  	}
-e14657c0f0022e Ajye Huang 2022-11-02  153  
-e14657c0f0022e Ajye Huang 2022-11-02  154  	ret = snd_soc_dapm_add_routes(&card->dapm, dmic_map,
-e14657c0f0022e Ajye Huang 2022-11-02  155  				      ARRAY_SIZE(dmic_map));
-e14657c0f0022e Ajye Huang 2022-11-02  156  
-e14657c0f0022e Ajye Huang 2022-11-02  157  	if (ret)
-e14657c0f0022e Ajye Huang 2022-11-02  158  		dev_err(card->dev, "DMic map addition failed: %d\n", ret);
-e14657c0f0022e Ajye Huang 2022-11-02  159  
-e14657c0f0022e Ajye Huang 2022-11-02  160  	return ret;
-e14657c0f0022e Ajye Huang 2022-11-02  161  }
+e2296e57b24595 Jiri Olsa 2023-01-04  1277  		goto error_bmap;
+e2296e57b24595 Jiri Olsa 2023-01-04  1278  	}
+e2296e57b24595 Jiri Olsa 2023-01-04  1279  
+e2296e57b24595 Jiri Olsa 2023-01-04  1280  	err = bpf_trampoline_link_prog(tp, tr_new);
+e2296e57b24595 Jiri Olsa 2023-01-04  1281  	if (err)
+e2296e57b24595 Jiri Olsa 2023-01-04  1282  		goto error_tr;
+e2296e57b24595 Jiri Olsa 2023-01-04  1283  
+e2296e57b24595 Jiri Olsa 2023-01-04  1284  	btf_bitmap_copy(bmap_rollback, tr->multi.bmap);
+e2296e57b24595 Jiri Olsa 2023-01-04  1285  	btf_bitmap_andnot(tr->multi.bmap, tr->multi.bmap, and);
+e2296e57b24595 Jiri Olsa 2023-01-04  1286  	tr->rollback.bmap = bmap_rollback;
+e2296e57b24595 Jiri Olsa 2023-01-04  1287  
+e2296e57b24595 Jiri Olsa 2023-01-04  1288  	err = trampoline_multi_reset_bmap(tr, rollback);
+e2296e57b24595 Jiri Olsa 2023-01-04  1289  	if (err)
+e2296e57b24595 Jiri Olsa 2023-01-04  1290  		goto error_tr;
+e2296e57b24595 Jiri Olsa 2023-01-04  1291  
+e2296e57b24595 Jiri Olsa 2023-01-04  1292  	tr_new->rollback.free = true;
+e2296e57b24595 Jiri Olsa 2023-01-04  1293  	list_add_tail(&tr_new->rollback.list, &tr->rollback.list);
+e2296e57b24595 Jiri Olsa 2023-01-04  1294  	return err;
+e2296e57b24595 Jiri Olsa 2023-01-04  1295  
+e2296e57b24595 Jiri Olsa 2023-01-04  1296  error_tr:
+e2296e57b24595 Jiri Olsa 2023-01-04  1297  	bpf_trampoline_free(tr_new);
+e2296e57b24595 Jiri Olsa 2023-01-04  1298  error_bmap:
+e2296e57b24595 Jiri Olsa 2023-01-04  1299  	btf_bitmap_free(bmap_rollback);
+e2296e57b24595 Jiri Olsa 2023-01-04  1300  	return err;
+e2296e57b24595 Jiri Olsa 2023-01-04  1301  }
 
 -- 
 0-DAY CI Kernel Test Service
