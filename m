@@ -1,48 +1,50 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECA7D1842;
-	Sat,  7 Jan 2023 08:42:59 +0000 (UTC)
-Received: by mail-wm1-f53.google.com with SMTP id l26so2547918wme.5;
-        Sat, 07 Jan 2023 00:42:59 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E2511842;
+	Sat,  7 Jan 2023 08:45:47 +0000 (UTC)
+Received: by mail-wm1-f43.google.com with SMTP id o15so2550219wmr.4;
+        Sat, 07 Jan 2023 00:45:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=PJ12B5tVQVeGyYDen27FQdHZHiBHGM0e2jeMEmTW0Bc=;
-        b=h0aVc+xCZYcm8PSTVQG4gGd2wzqUO2heLHpsGNcAV+XOjO7CnE3EIhG4PsGolqufY5
-         SASM4ijrNrlu+A0LY5SUM+1PqOnSU3epvF9dEDS2rAc+HADl3uYdr8BFRrkpMH38qs4Q
-         gdFLtWicHRcOO2lmB4UkduICaG0Xxx8pHK4d68S3/xeHub3Zw0IBmhXR6clLRbbGMyuT
-         SHBap9YRS7YgBhV576/hhnNs8lIHJR34mgZoNbUD98KUByMHiZznU3PptMst+V8/db/T
-         Pk8+S39z6KbAA9Q2Lxa0B4BZ1ha84o6pPJknvzoLQclTUBhXilno704WyzL/tUqacE8F
-         o7lg==
+        bh=lt9W0zTmSfnJ2L+6b3nzdRY70GeMsclpC2RCJP1f6Oc=;
+        b=o1dHo9I7Mg7cY2PH33Rv0uczDOpn/IfMYwEF51AMsebUkm6u/S5FX9ul/D7voM0k/N
+         eKS+hjzDcLaN4+WNAjAANp2+lodYsC4hBnMFs3kImwpoNwKFzeiF3S0VSqBCLXg1jF+d
+         r04Lb6Ei5Rhn6D4AfJIh8BPiYoWCJUTyD8mUXIIU4y1pq7+2bV8WmZ6W52CxY27czXdn
+         lYy0USwSVJb7gJIjVEmbtzWNO/C9CKnetYVe0W65X/Bs/DNzuxRCUJ35Hsd2DZg7xjrk
+         TGR8n7QztAEJFCaZjafgrS7TPA5bnXu921v8lfevP17hW11ZP/Mi5YqxPm5dUXveiO8w
+         mlKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=PJ12B5tVQVeGyYDen27FQdHZHiBHGM0e2jeMEmTW0Bc=;
-        b=C55Wqnxk4CTjZwjbrau1FPQQfOlE7MNEgRTB89lDWGRAdABs+K2uodbC7J29PHs/pH
-         fB1tQ4gvra1E0M0FY3OpmWuZ++1Ncx9CzQL456Uxnr/IuV2zZEm3ewr4HmdDydfkgu+b
-         YO/24kfTyn6i6tXMSocAYVK0Zrla4ZKfwAQ3keRJnJlv7PIgfWTIBzvjUG4vLoBmgOg4
-         mD6vzYW3348ibDI5PqknDZawjaCwgrrZ/M0DIlyB6BYPbHn1tHzdxbevAz059T35Qu3q
-         Lo4slEZRB2ddWQCIBMBUPSJtuq67q8N8C9ot5HiFYLdqC99Ec9NXv5CG2X0YEbUP0hyi
-         gCTw==
-X-Gm-Message-State: AFqh2kqUvHtFZqmej+VflgSVz0cUcJ2Q6wyiiJGcdk6zHYuR1/VBUNN9
-	CKphOvnTHUYtryefZnVG2TjjcSt0D+mmZwSg
-X-Google-Smtp-Source: AMrXdXvHgSR4fUdv2mDs8yPnk3erGJqTyrf+NBA+AQPGq50vqeAyyv2VCw2aE2v4B9xfpraV6QGDcg==
-X-Received: by 2002:a05:600c:a51:b0:3cf:6f4d:c259 with SMTP id c17-20020a05600c0a5100b003cf6f4dc259mr40205784wmq.39.1673080978075;
-        Sat, 07 Jan 2023 00:42:58 -0800 (PST)
+        bh=lt9W0zTmSfnJ2L+6b3nzdRY70GeMsclpC2RCJP1f6Oc=;
+        b=421cUi2jHn2J0A851/ktXpsS8AJVy3winhW+9EIJ/0AraGTaKfXlDhVs6LHGbwIwci
+         MMwFXy2r2IfIZeuv0Xm6YkAx23ewVvBZLSnzf3dltVBdnOWpC0ZJwGik8I8NO3/XkxGX
+         casNlQ+V4UM2TYGyf+rqxoPsZzpnxKBedoGF9xr0udu8kHqQT4xjG0ws+07clKiqTwuX
+         EJVHQ1cIDQGrrdvleijsVpsHBQ363hD1fUZEVbjt7hExYEmOeHNTe3JjXIaLXjmIkxcM
+         3kZYClcglvyLJF9TvQevxZEHrzqM0SHOSPtvJlc0wI5e6M/6ujsakkSJm6F0h6kVfj0f
+         MDBQ==
+X-Gm-Message-State: AFqh2kqRjUL11W6aK5a+zu4oFd+re0peWYOrmnN2I4Jqmii+mMmTbxaQ
+	cTAn9f37Z3Xn95FbtfMrcrdjKX1J4hiE2p/L
+X-Google-Smtp-Source: AMrXdXvsQtGXFJhQfrrkI4KgBRY4dHbLotWADHTfRdRUkZs9u76mJuVMer8RobFSGwcS+je1KPj/Ow==
+X-Received: by 2002:a05:600c:3b2a:b0:3d9:7950:dc6d with SMTP id m42-20020a05600c3b2a00b003d97950dc6dmr31010228wms.40.1673081145145;
+        Sat, 07 Jan 2023 00:45:45 -0800 (PST)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id u8-20020a05600c19c800b003d9780466b0sm5041258wmq.31.2023.01.07.00.42.57
+        by smtp.gmail.com with ESMTPSA id o11-20020a05600c4fcb00b003c6f3f6675bsm9855943wmq.26.2023.01.07.00.45.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 07 Jan 2023 00:42:57 -0800 (PST)
-Date: Sat, 7 Jan 2023 11:42:52 +0300
+        Sat, 07 Jan 2023 00:45:44 -0800 (PST)
+Date: Sat, 7 Jan 2023 11:45:39 +0300
 From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, Jiri Olsa <jolsa@kernel.org>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [jolsa-perf:bpf/tracing_multi_5 15/27] kernel/bpf/trampoline.c:1341
- check_multi_trampoline() warn: passing zero to 'PTR_ERR'
-Message-ID: <202301071053.q6dvJmIi-lkp@intel.com>
+To: oe-kbuild@lists.linux.dev,
+	Horatiu Vultur <horatiu.vultur@microchip.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Paolo Abeni <pabeni@redhat.com>
+Subject: drivers/net/ethernet/microchip/vcap/vcap_api_debugfs.c:275
+ vcap_show_admin() warn: passing zero to 'PTR_ERR'
+Message-ID: <202301071222.ef1ERM6s-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -51,66 +53,60 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Message-ID: <20230107084252.UOP-zeaYOiMqAeydAnDH63Vx_UmFjPlcO9yBKYsNYNQ@z>
+Message-ID: <20230107084539.O5Fl2AecJg5s_oFbxFUupZnn93YO2KJVQJIJMBOtjG4@z>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git bpf/tracing_multi_5
-head:   45ca925f42727b7feae7acd15e47534a1f9693b7
-commit: 061bc4744b2f3826d77e1313f3bf63aab66b0ad3 [15/27] bpf: Make single trampolines aware of multi
-config: i386-randconfig-m021
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   0a71553536d270e988580a3daa9fc87535908221
+commit: 610c32b2ce66d4aaa07b3a77a709bd4d2b268bb1 net: microchip: vcap: Add vcap_get_rule
+config: arc-randconfig-m041-20230106
+compiler: arc-elf-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
 
-smatch warnings:
-kernel/bpf/trampoline.c:1341 check_multi_trampoline() warn: passing zero to 'PTR_ERR'
+New smatch warnings:
+drivers/net/ethernet/microchip/vcap/vcap_api_debugfs.c:275 vcap_show_admin() warn: passing zero to 'PTR_ERR'
 
-vim +/PTR_ERR +1341 kernel/bpf/trampoline.c
+Old smatch warnings:
+drivers/net/ethernet/microchip/vcap/vcap_api_debugfs.c:103 vcap_debugfs_show_rule_keyfield() error: uninitialized symbol 'value'.
+drivers/net/ethernet/microchip/vcap/vcap_api_debugfs.c:106 vcap_debugfs_show_rule_keyfield() error: uninitialized symbol 'mask'.
 
-061bc4744b2f38 Jiri Olsa 2023-01-06  1317  static int check_multi_trampoline(u64 key)
-061bc4744b2f38 Jiri Olsa 2023-01-06  1318  {
-061bc4744b2f38 Jiri Olsa 2023-01-06  1319  	struct btf_bitmap *bmap_tmp, *bmap_new;
-061bc4744b2f38 Jiri Olsa 2023-01-06  1320  	struct bpf_trampoline *tr, *tr_new;
-061bc4744b2f38 Jiri Olsa 2023-01-06  1321  	u32 obj_id, btf_id;
-061bc4744b2f38 Jiri Olsa 2023-01-06  1322  	int err;
-061bc4744b2f38 Jiri Olsa 2023-01-06  1323  
-061bc4744b2f38 Jiri Olsa 2023-01-06  1324  	bpf_trampoline_unpack_key(key, &obj_id, &btf_id);
-061bc4744b2f38 Jiri Olsa 2023-01-06  1325  	if (obj_id != btf_obj_id(btf_vmlinux))
-061bc4744b2f38 Jiri Olsa 2023-01-06  1326  		return 0;
-061bc4744b2f38 Jiri Olsa 2023-01-06  1327  
-061bc4744b2f38 Jiri Olsa 2023-01-06  1328  	tr = in_multi_trampoline(btf_id);
-061bc4744b2f38 Jiri Olsa 2023-01-06  1329  	if (!tr)
-061bc4744b2f38 Jiri Olsa 2023-01-06  1330  		return 0;
-061bc4744b2f38 Jiri Olsa 2023-01-06  1331  
-061bc4744b2f38 Jiri Olsa 2023-01-06  1332  	bmap_new = btf_bitmap_funcs_id(btf_id);
-061bc4744b2f38 Jiri Olsa 2023-01-06  1333  	bmap_tmp = btf_bitmap_funcs_alloc();
-061bc4744b2f38 Jiri Olsa 2023-01-06  1334  	if (!bmap_new || !bmap_tmp) {
-061bc4744b2f38 Jiri Olsa 2023-01-06  1335  		err = -ENOMEM;
-061bc4744b2f38 Jiri Olsa 2023-01-06  1336  		goto out;
-061bc4744b2f38 Jiri Olsa 2023-01-06  1337  	}
-061bc4744b2f38 Jiri Olsa 2023-01-06  1338  
-061bc4744b2f38 Jiri Olsa 2023-01-06  1339  	tr_new = trampoline_multi_split_trampoline(tr, bmap_new);
-061bc4744b2f38 Jiri Olsa 2023-01-06  1340  	if (!tr_new) {
-061bc4744b2f38 Jiri Olsa 2023-01-06 @1341  		err = PTR_ERR(tr_new);
+vim +/PTR_ERR +275 drivers/net/ethernet/microchip/vcap/vcap_api_debugfs.c
 
-Same.
+3a7921560d2fd3 Steen Hegelund 2022-11-17  263  static int vcap_show_admin(struct vcap_control *vctrl,
+3a7921560d2fd3 Steen Hegelund 2022-11-17  264  			   struct vcap_admin *admin,
+3a7921560d2fd3 Steen Hegelund 2022-11-17  265  			   struct vcap_output_print *out)
+3a7921560d2fd3 Steen Hegelund 2022-11-17  266  {
+610c32b2ce66d4 Horatiu Vultur 2022-12-03  267  	struct vcap_rule_internal *elem;
+610c32b2ce66d4 Horatiu Vultur 2022-12-03  268  	struct vcap_rule *vrule;
+3a7921560d2fd3 Steen Hegelund 2022-11-17  269  	int ret = 0;
+3a7921560d2fd3 Steen Hegelund 2022-11-17  270  
+3a7921560d2fd3 Steen Hegelund 2022-11-17  271  	vcap_show_admin_info(vctrl, admin, out);
+3a7921560d2fd3 Steen Hegelund 2022-11-17  272  	list_for_each_entry(elem, &admin->rules, list) {
+610c32b2ce66d4 Horatiu Vultur 2022-12-03  273  		vrule = vcap_get_rule(vctrl, elem->data.id);
+610c32b2ce66d4 Horatiu Vultur 2022-12-03  274  		if (IS_ERR_OR_NULL(vrule)) {
+610c32b2ce66d4 Horatiu Vultur 2022-12-03 @275  			ret = PTR_ERR(vrule);
 
-061bc4744b2f38 Jiri Olsa 2023-01-06  1342  		goto out;
-061bc4744b2f38 Jiri Olsa 2023-01-06  1343  	}
-061bc4744b2f38 Jiri Olsa 2023-01-06  1344  
-061bc4744b2f38 Jiri Olsa 2023-01-06  1345  	btf_bitmap_copy(bmap_tmp, tr->multi.bmap);
-061bc4744b2f38 Jiri Olsa 2023-01-06  1346  	btf_bitmap_andnot(tr->multi.bmap, tr->multi.bmap, bmap_new);
-061bc4744b2f38 Jiri Olsa 2023-01-06  1347  	err = trampoline_multi_reset_bmap(tr, NULL);
-061bc4744b2f38 Jiri Olsa 2023-01-06  1348  	if (err) {
-061bc4744b2f38 Jiri Olsa 2023-01-06  1349  		btf_bitmap_copy(tr->multi.bmap, bmap_tmp);
-061bc4744b2f38 Jiri Olsa 2023-01-06  1350  		bpf_trampoline_free(tr_new);
-061bc4744b2f38 Jiri Olsa 2023-01-06  1351  	}
-061bc4744b2f38 Jiri Olsa 2023-01-06  1352  out:
-061bc4744b2f38 Jiri Olsa 2023-01-06  1353  	btf_bitmap_free(bmap_new);
-061bc4744b2f38 Jiri Olsa 2023-01-06  1354  	btf_bitmap_free(bmap_tmp);
-061bc4744b2f38 Jiri Olsa 2023-01-06  1355  	return err;
-061bc4744b2f38 Jiri Olsa 2023-01-06  1356  }
+This isn't right.  The error pointer and the NULL should be handled
+differently.  I haven't looked at vcap_get_rule() but if it really
+returns both then it should be something like:
+
+	vrule = vcap_get_rule(vctrl, elem->data.id);
+	if (IS_ERR(vrule))
+		return PTR_ERR(vrule);
+	if (!vrule)
+		continue;
+
+610c32b2ce66d4 Horatiu Vultur 2022-12-03  276  			break;
+682f560b8a87bf Dan Carpenter  2022-11-29  277  		}
+610c32b2ce66d4 Horatiu Vultur 2022-12-03  278  
+3a7921560d2fd3 Steen Hegelund 2022-11-17  279  		out->prf(out->dst, "\n");
+610c32b2ce66d4 Horatiu Vultur 2022-12-03  280  		vcap_show_admin_rule(vctrl, admin, out, to_intrule(vrule));
+610c32b2ce66d4 Horatiu Vultur 2022-12-03  281  		vcap_free_rule(vrule);
+3a7921560d2fd3 Steen Hegelund 2022-11-17  282  	}
+3a7921560d2fd3 Steen Hegelund 2022-11-17  283  	return ret;
+3a7921560d2fd3 Steen Hegelund 2022-11-17  284  }
 
 -- 
 0-DAY CI Kernel Test Service
