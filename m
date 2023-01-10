@@ -1,81 +1,81 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E077123A3
-	for <oe-kbuild@lists.linux.dev>; Mon,  9 Jan 2023 23:04:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5465015A7
+	for <oe-kbuild@lists.linux.dev>; Tue, 10 Jan 2023 00:45:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1673305447; x=1704841447;
+  t=1673311510; x=1704847510;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=V8mqGpWEKfBODXrcmW9NJvzQrnLfIZevWUYlkwky79Y=;
-  b=mgSnPFdqzc1+M8QNyLt+wa4MZyZhc/yipdmzs6WQJstv+JYl1FYq+PKk
-   J3VJsy+XfKb9x0QMTo8dmj2WTilgyYdm+wWNyJBwDjyqgE69iS0NWjweC
-   FC0jq38dqT+LXfVViuxpN2PJX7fvX5QvkBfmk2FXJeR3Blh/yoi/0vRed
-   O1a8hUnGX3akImZ6a1zLz0B3FuIczHR307crEWXZcYeyadi0slTjZV78k
-   9W3Bz0thIlPLqIPOMc2HKPkLRWkUNZUoZAhVVhWScjjm+EsoUXq53KcZD
-   R5v4nG9aKGV+9coPXl1IwgCgg1CzdCrdaaGU+pINy9W2OzFIv7JGLjyie
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10585"; a="303367838"
+  bh=PTEVGgxbORIS1rJPEtgexlfHPpFtlvmqTM4CNszuVIs=;
+  b=B9mcAN/qrNHzvcS3SQ4DVvvmlE7bk4jG4So1SV/2shhWRKvHwFHPf+Fp
+   yHWoRUrb87lGi3nEHwc3ZUv291GZN+5ORQS9VI/Ok9hnhI9T/dg/DcPbG
+   7nZgox2Xbd2KVVcJ5+C9I0uc3qcRhQizWk3lpnz5iU7NwllpfGw4sOoJK
+   Ff9amzg+b6zFRZtsAQndmPPeEgiTrwK7WwjNLzXKHjMDUUTRZLrfm/kD0
+   Ry04GR0Ce6MGyrWFwRMo37tv9wOghoNTJKN/KyNF/gFKNT+3tif0SGj6A
+   Llq7FRL/D5RQayY74yZz2YWCenL0E1h9VoO+87Xkw5GbEGLN79pnxpimj
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10585"; a="320722201"
 X-IronPort-AV: E=Sophos;i="5.96,313,1665471600"; 
-   d="scan'208";a="303367838"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jan 2023 15:03:33 -0800
+   d="scan'208";a="320722201"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jan 2023 16:45:09 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10585"; a="658768238"
+X-IronPort-AV: E=McAfee;i="6500,9779,10585"; a="799229774"
 X-IronPort-AV: E=Sophos;i="5.96,313,1665471600"; 
-   d="scan'208";a="658768238"
+   d="scan'208";a="799229774"
 Received: from lkp-server02.sh.intel.com (HELO f1920e93ebb5) ([10.239.97.151])
-  by fmsmga007.fm.intel.com with ESMTP; 09 Jan 2023 15:03:30 -0800
+  by fmsmga001.fm.intel.com with ESMTP; 09 Jan 2023 16:45:07 -0800
 Received: from kbuild by f1920e93ebb5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pF1Aw-0007K2-03;
-	Mon, 09 Jan 2023 23:03:30 +0000
-Date: Tue, 10 Jan 2023 07:03:16 +0800
+	id 1pF2lC-0007PY-0M;
+	Tue, 10 Jan 2023 00:45:02 +0000
+Date: Tue, 10 Jan 2023 08:44:28 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: arch/x86/events/amd/lbr.c:79:36: sparse: sparse: invalid access past
- the end of 'entry' (12 16)
-Message-ID: <202301100730.tc1ZnuK9-lkp@intel.com>
+Subject: arch/x86/events/amd/ibs.c:980:56: sparse: sparse: invalid access
+ past the end of 'op_data3' (4 8)
+Message-ID: <202301100808.qklY1QxC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="5naVZHO3g97hTRQP"
+Content-Type: multipart/mixed; boundary="Y92DB59uqs6IO2vr"
 Content-Disposition: inline
 
 
---5naVZHO3g97hTRQP
+--Y92DB59uqs6IO2vr
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "low confidence static check warning: arch/x86/events/amd/lbr.c:79:36: sparse: sparse: invalid access past the end of 'entry' (12 16)"
+:::::: Manual check reason: "low confidence static check warning: arch/x86/events/amd/ibs.c:980:56: sparse: sparse: invalid access past the end of 'op_data3' (4 8)"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Sandipan Das <sandipan.das@amd.com>
+TO: Ravi Bangoria <ravi.bangoria@amd.com>
 CC: Peter Zijlstra <peterz@infradead.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   1fe4fd6f5cad346e598593af36caeadc4f5d4fa9
-commit: ca5b7c0d9621702e107c83216316a6d722878b64 perf/x86/amd/lbr: Add LbrExtV2 branch record support
-date:   5 months ago
-:::::: branch date: 29 hours ago
-:::::: commit date: 5 months ago
+head:   5a41237ad1d4b62008f93163af1d9b1da90729d8
+commit: 6b2ae4952ef8ac23b467bc10776404092b581143 perf/x86/amd: Support PERF_SAMPLE_{WEIGHT|WEIGHT_STRUCT}
+date:   3 months ago
+:::::: branch date: 2 hours ago
+:::::: commit date: 3 months ago
 config: i386-randconfig-s002-20230109
 compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce:
         # apt-get install sparse
         # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=ca5b7c0d9621702e107c83216316a6d722878b64
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=6b2ae4952ef8ac23b467bc10776404092b581143
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout ca5b7c0d9621702e107c83216316a6d722878b64
+        git checkout 6b2ae4952ef8ac23b467bc10776404092b581143
         # save the config file
         mkdir build_dir && cp config build_dir/.config
         make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 olddefconfig
@@ -85,59 +85,62 @@ If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
 sparse warnings: (new ones prefixed by >>)
->> arch/x86/events/amd/lbr.c:79:36: sparse: sparse: invalid access past the end of 'entry' (12 16)
+   arch/x86/events/amd/ibs.c:340:31: sparse: sparse: invalid access past the end of 'op_ctl' (4 8)
+>> arch/x86/events/amd/ibs.c:980:56: sparse: sparse: invalid access past the end of 'op_data3' (4 8)
+   arch/x86/events/amd/ibs.c:983:53: sparse: sparse: invalid access past the end of 'op_data3' (4 8)
 
-vim +/entry +79 arch/x86/events/amd/lbr.c
+vim +/op_data3 +980 arch/x86/events/amd/ibs.c
 
-ca5b7c0d962170 Sandipan Das 2022-08-11  63  
-ca5b7c0d962170 Sandipan Das 2022-08-11  64  void amd_pmu_lbr_read(void)
-ca5b7c0d962170 Sandipan Das 2022-08-11  65  {
-ca5b7c0d962170 Sandipan Das 2022-08-11  66  	struct cpu_hw_events *cpuc = this_cpu_ptr(&cpu_hw_events);
-ca5b7c0d962170 Sandipan Das 2022-08-11  67  	struct perf_branch_entry *br = cpuc->lbr_entries;
-ca5b7c0d962170 Sandipan Das 2022-08-11  68  	struct branch_entry entry;
-ca5b7c0d962170 Sandipan Das 2022-08-11  69  	int out = 0, i;
-ca5b7c0d962170 Sandipan Das 2022-08-11  70  
-ca5b7c0d962170 Sandipan Das 2022-08-11  71  	if (!cpuc->lbr_users)
-ca5b7c0d962170 Sandipan Das 2022-08-11  72  		return;
-ca5b7c0d962170 Sandipan Das 2022-08-11  73  
-ca5b7c0d962170 Sandipan Das 2022-08-11  74  	for (i = 0; i < x86_pmu.lbr_nr; i++) {
-ca5b7c0d962170 Sandipan Das 2022-08-11  75  		entry.from.full	= amd_pmu_lbr_get_from(i);
-ca5b7c0d962170 Sandipan Das 2022-08-11  76  		entry.to.full	= amd_pmu_lbr_get_to(i);
-ca5b7c0d962170 Sandipan Das 2022-08-11  77  
-ca5b7c0d962170 Sandipan Das 2022-08-11  78  		/* Check if a branch has been logged */
-ca5b7c0d962170 Sandipan Das 2022-08-11 @79  		if (!entry.to.split.valid)
-ca5b7c0d962170 Sandipan Das 2022-08-11  80  			continue;
-ca5b7c0d962170 Sandipan Das 2022-08-11  81  
-ca5b7c0d962170 Sandipan Das 2022-08-11  82  		perf_clear_branch_entry_bitfields(br + out);
-ca5b7c0d962170 Sandipan Das 2022-08-11  83  
-ca5b7c0d962170 Sandipan Das 2022-08-11  84  		br[out].from	= sign_ext_branch_ip(entry.from.split.ip);
-ca5b7c0d962170 Sandipan Das 2022-08-11  85  		br[out].to	= sign_ext_branch_ip(entry.to.split.ip);
-ca5b7c0d962170 Sandipan Das 2022-08-11  86  		br[out].mispred	= entry.from.split.mispredict;
-ca5b7c0d962170 Sandipan Das 2022-08-11  87  		br[out].predicted = !br[out].mispred;
-ca5b7c0d962170 Sandipan Das 2022-08-11  88  		out++;
-ca5b7c0d962170 Sandipan Das 2022-08-11  89  	}
-ca5b7c0d962170 Sandipan Das 2022-08-11  90  
-ca5b7c0d962170 Sandipan Das 2022-08-11  91  	cpuc->lbr_stack.nr = out;
-ca5b7c0d962170 Sandipan Das 2022-08-11  92  
-ca5b7c0d962170 Sandipan Das 2022-08-11  93  	/*
-ca5b7c0d962170 Sandipan Das 2022-08-11  94  	 * Internal register renaming always ensures that LBR From[0] and
-ca5b7c0d962170 Sandipan Das 2022-08-11  95  	 * LBR To[0] always represent the TOS
-ca5b7c0d962170 Sandipan Das 2022-08-11  96  	 */
-ca5b7c0d962170 Sandipan Das 2022-08-11  97  	cpuc->lbr_stack.hw_idx = 0;
-ca5b7c0d962170 Sandipan Das 2022-08-11  98  }
-ca5b7c0d962170 Sandipan Das 2022-08-11  99  
+7c10dd0a88b1cc Ravi Bangoria 2022-09-28  951  
+7c10dd0a88b1cc Ravi Bangoria 2022-09-28  952  static void perf_ibs_parse_ld_st_data(__u64 sample_type,
+7c10dd0a88b1cc Ravi Bangoria 2022-09-28  953  				      struct perf_ibs_data *ibs_data,
+7c10dd0a88b1cc Ravi Bangoria 2022-09-28  954  				      struct perf_sample_data *data)
+7c10dd0a88b1cc Ravi Bangoria 2022-09-28  955  {
+7c10dd0a88b1cc Ravi Bangoria 2022-09-28  956  	union ibs_op_data3 op_data3;
+7c10dd0a88b1cc Ravi Bangoria 2022-09-28  957  	union ibs_op_data2 op_data2;
+6b2ae4952ef8ac Ravi Bangoria 2022-09-28  958  	union ibs_op_data op_data;
+7c10dd0a88b1cc Ravi Bangoria 2022-09-28  959  
+7c10dd0a88b1cc Ravi Bangoria 2022-09-28  960  	data->data_src.val = PERF_MEM_NA;
+7c10dd0a88b1cc Ravi Bangoria 2022-09-28  961  	op_data3.val = ibs_data->regs[ibs_op_msr_idx(MSR_AMD64_IBSOPDATA3)];
+7c10dd0a88b1cc Ravi Bangoria 2022-09-28  962  
+7c10dd0a88b1cc Ravi Bangoria 2022-09-28  963  	perf_ibs_get_mem_op(&op_data3, data);
+7c10dd0a88b1cc Ravi Bangoria 2022-09-28  964  	if (data->data_src.mem_op != PERF_MEM_OP_LOAD &&
+7c10dd0a88b1cc Ravi Bangoria 2022-09-28  965  	    data->data_src.mem_op != PERF_MEM_OP_STORE)
+7c10dd0a88b1cc Ravi Bangoria 2022-09-28  966  		return;
+7c10dd0a88b1cc Ravi Bangoria 2022-09-28  967  
+7c10dd0a88b1cc Ravi Bangoria 2022-09-28  968  	op_data2.val = perf_ibs_get_op_data2(ibs_data, &op_data3);
+7c10dd0a88b1cc Ravi Bangoria 2022-09-28  969  
+7c10dd0a88b1cc Ravi Bangoria 2022-09-28  970  	if (sample_type & PERF_SAMPLE_DATA_SRC) {
+7c10dd0a88b1cc Ravi Bangoria 2022-09-28  971  		perf_ibs_get_data_src(ibs_data, data, &op_data2, &op_data3);
+7c10dd0a88b1cc Ravi Bangoria 2022-09-28  972  		data->sample_flags |= PERF_SAMPLE_DATA_SRC;
+7c10dd0a88b1cc Ravi Bangoria 2022-09-28  973  	}
+6b2ae4952ef8ac Ravi Bangoria 2022-09-28  974  
+6b2ae4952ef8ac Ravi Bangoria 2022-09-28  975  	if (sample_type & PERF_SAMPLE_WEIGHT_TYPE && op_data3.dc_miss &&
+6b2ae4952ef8ac Ravi Bangoria 2022-09-28  976  	    data->data_src.mem_op == PERF_MEM_OP_LOAD) {
+6b2ae4952ef8ac Ravi Bangoria 2022-09-28  977  		op_data.val = ibs_data->regs[ibs_op_msr_idx(MSR_AMD64_IBSOPDATA)];
+6b2ae4952ef8ac Ravi Bangoria 2022-09-28  978  
+6b2ae4952ef8ac Ravi Bangoria 2022-09-28  979  		if (sample_type & PERF_SAMPLE_WEIGHT_STRUCT) {
+6b2ae4952ef8ac Ravi Bangoria 2022-09-28 @980  			data->weight.var1_dw = op_data3.dc_miss_lat;
+6b2ae4952ef8ac Ravi Bangoria 2022-09-28  981  			data->weight.var2_w = op_data.tag_to_ret_ctr;
+6b2ae4952ef8ac Ravi Bangoria 2022-09-28  982  		} else if (sample_type & PERF_SAMPLE_WEIGHT) {
+6b2ae4952ef8ac Ravi Bangoria 2022-09-28  983  			data->weight.full = op_data3.dc_miss_lat;
+6b2ae4952ef8ac Ravi Bangoria 2022-09-28  984  		}
+6b2ae4952ef8ac Ravi Bangoria 2022-09-28  985  		data->sample_flags |= PERF_SAMPLE_WEIGHT_TYPE;
+6b2ae4952ef8ac Ravi Bangoria 2022-09-28  986  	}
+7c10dd0a88b1cc Ravi Bangoria 2022-09-28  987  }
+7c10dd0a88b1cc Ravi Bangoria 2022-09-28  988  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
 
---5naVZHO3g97hTRQP
+--Y92DB59uqs6IO2vr
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename=config
 
 #
 # Automatically generated file; DO NOT EDIT.
-# Linux/i386 6.0.0-rc2 Kernel Configuration
+# Linux/i386 6.0.0-rc7 Kernel Configuration
 #
 CONFIG_CC_VERSION_TEXT="gcc-11 (Debian 11.3.0-8) 11.3.0"
 CONFIG_CC_IS_GCC=y
@@ -804,6 +807,7 @@ CONFIG_ARCH_WANT_HUGE_PMD_SHARE=y
 CONFIG_HAVE_MOD_ARCH_SPECIFIC=y
 CONFIG_MODULES_USE_ELF_REL=y
 CONFIG_HAVE_SOFTIRQ_ON_OWN_STACK=y
+CONFIG_SOFTIRQ_ON_OWN_STACK=y
 CONFIG_ARCH_HAS_ELF_RANDOMIZE=y
 CONFIG_HAVE_ARCH_MMAP_RND_BITS=y
 CONFIG_HAVE_EXIT_THREAD=y
@@ -5363,4 +5367,4 @@ CONFIG_ARCH_USE_MEMTEST=y
 # end of Kernel Testing and Coverage
 # end of Kernel hacking
 
---5naVZHO3g97hTRQP--
+--Y92DB59uqs6IO2vr--
