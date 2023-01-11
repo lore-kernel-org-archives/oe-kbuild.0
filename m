@@ -1,52 +1,53 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6463B44C;
-	Wed, 11 Jan 2023 04:19:47 +0000 (UTC)
-Received: by mail-wm1-f53.google.com with SMTP id k22-20020a05600c1c9600b003d1ee3a6289so11701157wms.2;
-        Tue, 10 Jan 2023 20:19:47 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44F88B44D;
+	Wed, 11 Jan 2023 04:22:42 +0000 (UTC)
+Received: by mail-wm1-f49.google.com with SMTP id g10so10269201wmo.1;
+        Tue, 10 Jan 2023 20:22:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=hUMPKuhG+8Z6R1irpovw2uiZug8L2MoeWPZFn367qSI=;
-        b=EaF6u+VcLozIFsgA68VCjOaRTNBQyfHtzVB/YvrScNR1GlpHprKGOXvcE/jd3IHxjA
-         pYhKH9KDYetrf6sutCDdy/vM/R3q0W+rysDIZh+TVAm3c/0L/Jniwetn01plz0BWYFcJ
-         IAIsETd6h8uU364qrKdg5+XUgwTg8nGEtrKIZIBNgPYoHsE4f+fyNVHcbH7GhTJDWOHg
-         fvn3tg65o4WFxbyBToXreBT2LXeeysnFfDWqJNAZVzBs/KcmbLkqzHh5Kh6mqzqtUCgQ
-         Px4r9hgeL/78CdWX//g/vL8cdLmejlK9yYVoHo6Ii6nA/g0Plox24PP34kYVGl/vkguX
-         LRqg==
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ftLAYv4HnjcIlKeQoEpxqzr+3v92yi3++RYeCqxlnJc=;
+        b=ED1rkAEszLf1w0JP8ZRcNvQ/TdUg5LvnQmq/Oo5bFtBzx9Y0tJZGZL3bf1ww7A5u9X
+         hKVqH/T8DHCiAUgRRzfjeRDH/ocsItkjK5UxqrABF7PVrJPVQqX4dqkyjsCjLvfc0ylt
+         AW5+90nnswOuIAkMBByhJLMb1Ff1/HFTcnY2GboDrvojBOBeexuowo45ygszFJZnMoVy
+         11i4MIr1U1wH4mycySUpKchb53Gaecro21axhjI+5EEqAw4HiGcd/PSyYLqnaL+vXedG
+         PKFdt7LNVZl+dRQdzJ9Z9yfjG+JRy2nfY8Fpb2X6AJqu9NoTlzcXOJjrZiYwtBJ/Ogw8
+         LrFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=hUMPKuhG+8Z6R1irpovw2uiZug8L2MoeWPZFn367qSI=;
-        b=MED7oHu0TTd67nZttpD1c5U2npwi14ZQdpUKTbc2Yxxf9b3iJmSxLey2JS7/MTq1Cv
-         dc1Ak/+Q0gYnlvExwrFAJpeqPzIHXssZsiXx435766zFWzNjYpC18a3qXBR7DTgQ8xyQ
-         UDcYkZRxut6/VIuP8CHhAbyU/A3PHPj81VGdSlkqG+L2Yu20X+W5CUTDAmQY17kaSr5u
-         crEPBgI/ISPpfvOFIP7OWkwsdWCLTNSD6P6dUg9ZrZ8py02TwijCvD0Iix72ZH0m6siC
-         Y5EEshQW9mg4O5NivACWqdDTKtLYCP7SD4HTvov6YUJv4qqt0AYRs3fr6EODep8CCM7Q
-         NEtA==
-X-Gm-Message-State: AFqh2krpEbGVIBJU8Homse6aBgcSzaAC4Rhw6nlXoMGcFflDgfNi/WeR
-	wO34gaKR8jWBR/E0d3o19pN3O9F875o=
-X-Google-Smtp-Source: AMrXdXsO4ilNvoM7fTh8urm1u9sF0qlhvkLU20CpHFdmH0XT8MYJ7kkIk5u2fON05SS8kG9RfyOtig==
-X-Received: by 2002:a05:600c:1d18:b0:3d9:73fe:9744 with SMTP id l24-20020a05600c1d1800b003d973fe9744mr42444071wms.26.1673410785748;
-        Tue, 10 Jan 2023 20:19:45 -0800 (PST)
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ftLAYv4HnjcIlKeQoEpxqzr+3v92yi3++RYeCqxlnJc=;
+        b=JJ5eZNAa99cGRD/OG3CpSKen7KkUMsmLjnnj/8GbfoRa0iL4ls01BNy5IDLLFiuTXI
+         MhTJ6HEi4D1gWQ7I3ySeISLKoDYm2ssXETf5CffuOQmY+0qWVWPk+q/chAkMslWoVrLx
+         9LPh3yCnrh62gU7CmX3f0aERqi4WHQi8iasUW5QCfcELP7PLgQprXPhgovyW/bNqKq96
+         quz5vyaA1RNQmB3Ye1r67hh90DaDN9JRetzq9n6i+vv3V47WIH7jWVursCg+0xFKd9rh
+         G9gBuuyU2mmKQHrkmHOUtiDI9upcj9dGpj6KqqCkusam6w0I2SW997x1T4o89wiKWf6z
+         Ha+g==
+X-Gm-Message-State: AFqh2kpVmK9DEP+51eaAsE2Deo2C66w7VJdCrShft5KIwokpWEtYg/Cq
+	cDj1/xCnvh0cpZN/92YeYnHmOQxzq6I=
+X-Google-Smtp-Source: AMrXdXseySAzzfHhzIYdq8leghK75uUQJJOUq/9/uz9rpM1DqtYDQkEf5MTt+yD2JhiNTMJn8doiHw==
+X-Received: by 2002:a05:600c:34cf:b0:3d0:7415:c5a9 with SMTP id d15-20020a05600c34cf00b003d07415c5a9mr52585728wmq.21.1673410960237;
+        Tue, 10 Jan 2023 20:22:40 -0800 (PST)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id c18-20020adffb52000000b0025e86026866sm14833820wrs.0.2023.01.10.20.19.44
+        by smtp.gmail.com with ESMTPSA id u16-20020a05600c00d000b003cf4eac8e80sm20333621wmm.23.2023.01.10.20.22.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Jan 2023 20:19:45 -0800 (PST)
-Date: Wed, 11 Jan 2023 07:19:42 +0300
+        Tue, 10 Jan 2023 20:22:39 -0800 (PST)
+Date: Wed, 11 Jan 2023 07:22:37 +0300
 From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, Ricardo Ribalda <ribalda@chromium.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: oe-kbuild@lists.linux.dev,
+	Michal Swiatkowski <michal.swiatkowski@linux.intel.com>
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-media@vger.kernel.org, Ricardo Ribalda <ribalda@chromium.org>,
-	"hn.chen" <hn.chen@sunplusit.com>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 1/5] media: uvc: Ignore empty TS packets
-Message-ID: <202301110645.Dm6n60lb-lkp@intel.com>
+	Intel Wired LAN <intel-wired-lan@lists.osuosl.org>,
+	Tony Nguyen <anthony.l.nguyen@intel.com>,
+	Jacob Keller <jacob.e.keller@intel.com>
+Subject: [tnguy-next-queue:dev-queue 50/62]
+ drivers/net/ethernet/intel/ice/ice_lib.c:571 ice_vsi_alloc_stat_arrays()
+ warn: possible memory leak of 'vsi_stat'
+Message-ID: <202301110916.nD8vny59-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -55,112 +56,76 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220920-resend-hwtimestamp-v4-1-a8ddc1358a29@chromium.org>
-Message-ID: <20230111041942.FyW-E45waz4FyjmUKFuWSxiwz7WdIHDbKV0dEe_HDFE@z>
+Message-ID: <20230111042237.nPm8O-wFdo3cCTiInvaY8Ag4Keb6So5qFN6xzAiui5w@z>
 
-Hi Ricardo,
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ricardo-Ribalda/media-uvc-Ignore-empty-TS-packets/20230109-180318
-base:   73d6709376914f577a61bb29e596fa93ec66598c
-patch link:    https://lore.kernel.org/r/20220920-resend-hwtimestamp-v4-1-a8ddc1358a29%40chromium.org
-patch subject: [PATCH v4 1/5] media: uvc: Ignore empty TS packets
-config: arc-randconfig-m031-20230108
-compiler: arceb-elf-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tnguy/next-queue.git dev-queue
+head:   c9ebfbece30b59350bc6879be8ed954cecc6be05
+commit: f833ce48581cfdf4b086d7c79cef79191b0a21d2 [50/62] ice: split ice_vsi_setup into smaller functions
+config: x86_64-randconfig-m001-20230109
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
 
-smatch warnings:
-drivers/media/usb/uvc/uvc_video.c:538 uvc_video_clock_decode() error: we previously assumed 'buf' could be null (see line 514)
+New smatch warnings:
+drivers/net/ethernet/intel/ice/ice_lib.c:571 ice_vsi_alloc_stat_arrays() warn: possible memory leak of 'vsi_stat'
+drivers/net/ethernet/intel/ice/ice_lib.c:2846 ice_vsi_cfg_def() warn: missing error code 'ret'
 
-vim +/buf +538 drivers/media/usb/uvc/uvc_video.c
+Old smatch warnings:
+drivers/net/ethernet/intel/ice/ice_lib.c:437 ice_vsi_alloc_ring_stats() warn: inconsistent indenting
+drivers/net/ethernet/intel/ice/ice_lib.c:3527 ice_vsi_rebuild() warn: missing error code 'ret'
 
-66847ef013cc4ed drivers/media/video/uvc/uvc_video.c Laurent Pinchart 2011-09-24  469  static void
-66847ef013cc4ed drivers/media/video/uvc/uvc_video.c Laurent Pinchart 2011-09-24  470  uvc_video_clock_decode(struct uvc_streaming *stream, struct uvc_buffer *buf,
-2c6b222cee2d68e drivers/media/usb/uvc/uvc_video.c   Laurent Pinchart 2018-01-16  471  		       const u8 *data, int len)
-66847ef013cc4ed drivers/media/video/uvc/uvc_video.c Laurent Pinchart 2011-09-24  472  {
-66847ef013cc4ed drivers/media/video/uvc/uvc_video.c Laurent Pinchart 2011-09-24  473  	struct uvc_clock_sample *sample;
-66847ef013cc4ed drivers/media/video/uvc/uvc_video.c Laurent Pinchart 2011-09-24  474  	unsigned int header_size;
-66847ef013cc4ed drivers/media/video/uvc/uvc_video.c Laurent Pinchart 2011-09-24  475  	bool has_pts = false;
-66847ef013cc4ed drivers/media/video/uvc/uvc_video.c Laurent Pinchart 2011-09-24  476  	bool has_scr = false;
-66847ef013cc4ed drivers/media/video/uvc/uvc_video.c Laurent Pinchart 2011-09-24  477  	unsigned long flags;
-828ee8c71950155 drivers/media/usb/uvc/uvc_video.c   Arnd Bergmann    2017-11-27  478  	ktime_t time;
-66847ef013cc4ed drivers/media/video/uvc/uvc_video.c Laurent Pinchart 2011-09-24  479  	u16 host_sof;
-66847ef013cc4ed drivers/media/video/uvc/uvc_video.c Laurent Pinchart 2011-09-24  480  	u16 dev_sof;
-febd4163e286059 drivers/media/usb/uvc/uvc_video.c   Ricardo Ribalda  2023-01-09  481  	u32 dev_stc;
-66847ef013cc4ed drivers/media/video/uvc/uvc_video.c Laurent Pinchart 2011-09-24  482  
-66847ef013cc4ed drivers/media/video/uvc/uvc_video.c Laurent Pinchart 2011-09-24  483  	switch (data[1] & (UVC_STREAM_PTS | UVC_STREAM_SCR)) {
-66847ef013cc4ed drivers/media/video/uvc/uvc_video.c Laurent Pinchart 2011-09-24  484  	case UVC_STREAM_PTS | UVC_STREAM_SCR:
-66847ef013cc4ed drivers/media/video/uvc/uvc_video.c Laurent Pinchart 2011-09-24  485  		header_size = 12;
-66847ef013cc4ed drivers/media/video/uvc/uvc_video.c Laurent Pinchart 2011-09-24  486  		has_pts = true;
-66847ef013cc4ed drivers/media/video/uvc/uvc_video.c Laurent Pinchart 2011-09-24  487  		has_scr = true;
-66847ef013cc4ed drivers/media/video/uvc/uvc_video.c Laurent Pinchart 2011-09-24  488  		break;
-66847ef013cc4ed drivers/media/video/uvc/uvc_video.c Laurent Pinchart 2011-09-24  489  	case UVC_STREAM_PTS:
-66847ef013cc4ed drivers/media/video/uvc/uvc_video.c Laurent Pinchart 2011-09-24  490  		header_size = 6;
-66847ef013cc4ed drivers/media/video/uvc/uvc_video.c Laurent Pinchart 2011-09-24  491  		has_pts = true;
-66847ef013cc4ed drivers/media/video/uvc/uvc_video.c Laurent Pinchart 2011-09-24  492  		break;
-66847ef013cc4ed drivers/media/video/uvc/uvc_video.c Laurent Pinchart 2011-09-24  493  	case UVC_STREAM_SCR:
-66847ef013cc4ed drivers/media/video/uvc/uvc_video.c Laurent Pinchart 2011-09-24  494  		header_size = 8;
-66847ef013cc4ed drivers/media/video/uvc/uvc_video.c Laurent Pinchart 2011-09-24  495  		has_scr = true;
-66847ef013cc4ed drivers/media/video/uvc/uvc_video.c Laurent Pinchart 2011-09-24  496  		break;
-66847ef013cc4ed drivers/media/video/uvc/uvc_video.c Laurent Pinchart 2011-09-24  497  	default:
-66847ef013cc4ed drivers/media/video/uvc/uvc_video.c Laurent Pinchart 2011-09-24  498  		header_size = 2;
-66847ef013cc4ed drivers/media/video/uvc/uvc_video.c Laurent Pinchart 2011-09-24  499  		break;
-66847ef013cc4ed drivers/media/video/uvc/uvc_video.c Laurent Pinchart 2011-09-24  500  	}
-66847ef013cc4ed drivers/media/video/uvc/uvc_video.c Laurent Pinchart 2011-09-24  501  
-66847ef013cc4ed drivers/media/video/uvc/uvc_video.c Laurent Pinchart 2011-09-24  502  	/* Check for invalid headers. */
-66847ef013cc4ed drivers/media/video/uvc/uvc_video.c Laurent Pinchart 2011-09-24  503  	if (len < header_size)
-66847ef013cc4ed drivers/media/video/uvc/uvc_video.c Laurent Pinchart 2011-09-24  504  		return;
-66847ef013cc4ed drivers/media/video/uvc/uvc_video.c Laurent Pinchart 2011-09-24  505  
-699b9a86a3f03ad drivers/media/usb/uvc/uvc_video.c   Laurent Pinchart 2022-06-08  506  	/*
-699b9a86a3f03ad drivers/media/usb/uvc/uvc_video.c   Laurent Pinchart 2022-06-08  507  	 * Extract the timestamps:
-66847ef013cc4ed drivers/media/video/uvc/uvc_video.c Laurent Pinchart 2011-09-24  508  	 *
-66847ef013cc4ed drivers/media/video/uvc/uvc_video.c Laurent Pinchart 2011-09-24  509  	 * - store the frame PTS in the buffer structure
-66847ef013cc4ed drivers/media/video/uvc/uvc_video.c Laurent Pinchart 2011-09-24  510  	 * - if the SCR field is present, retrieve the host SOF counter and
-66847ef013cc4ed drivers/media/video/uvc/uvc_video.c Laurent Pinchart 2011-09-24  511  	 *   kernel timestamps and store them with the SCR STC and SOF fields
-66847ef013cc4ed drivers/media/video/uvc/uvc_video.c Laurent Pinchart 2011-09-24  512  	 *   in the ring buffer
-66847ef013cc4ed drivers/media/video/uvc/uvc_video.c Laurent Pinchart 2011-09-24  513  	 */
-66847ef013cc4ed drivers/media/video/uvc/uvc_video.c Laurent Pinchart 2011-09-24 @514  	if (has_pts && buf != NULL)
-                                                                                                       ^^^^^^^^^^^
-This code checks for NULL.
+vim +/vsi_stat +571 drivers/net/ethernet/intel/ice/ice_lib.c
 
-66847ef013cc4ed drivers/media/video/uvc/uvc_video.c Laurent Pinchart 2011-09-24  515  		buf->pts = get_unaligned_le32(&data[2]);
-66847ef013cc4ed drivers/media/video/uvc/uvc_video.c Laurent Pinchart 2011-09-24  516  
-66847ef013cc4ed drivers/media/video/uvc/uvc_video.c Laurent Pinchart 2011-09-24  517  	if (!has_scr)
-66847ef013cc4ed drivers/media/video/uvc/uvc_video.c Laurent Pinchart 2011-09-24  518  		return;
-66847ef013cc4ed drivers/media/video/uvc/uvc_video.c Laurent Pinchart 2011-09-24  519  
-699b9a86a3f03ad drivers/media/usb/uvc/uvc_video.c   Laurent Pinchart 2022-06-08  520  	/*
-699b9a86a3f03ad drivers/media/usb/uvc/uvc_video.c   Laurent Pinchart 2022-06-08  521  	 * To limit the amount of data, drop SCRs with an SOF identical to the
-a919bd4d768164c drivers/media/usb/uvc/uvc_video.c   Ricardo Ribalda  2023-01-04  522  	 * previous one. This filtering is also needed to support UVC 1.5, where
-a919bd4d768164c drivers/media/usb/uvc/uvc_video.c   Ricardo Ribalda  2023-01-04  523  	 * all the data packets of the same frame contains the same SOF. In that
-a919bd4d768164c drivers/media/usb/uvc/uvc_video.c   Ricardo Ribalda  2023-01-04  524  	 * case only the first one will match the host_sof.
-66847ef013cc4ed drivers/media/video/uvc/uvc_video.c Laurent Pinchart 2011-09-24  525  	 */
-66847ef013cc4ed drivers/media/video/uvc/uvc_video.c Laurent Pinchart 2011-09-24  526  	dev_sof = get_unaligned_le16(&data[header_size - 2]);
-66847ef013cc4ed drivers/media/video/uvc/uvc_video.c Laurent Pinchart 2011-09-24  527  	if (dev_sof == stream->clock.last_sof)
-66847ef013cc4ed drivers/media/video/uvc/uvc_video.c Laurent Pinchart 2011-09-24  528  		return;
-66847ef013cc4ed drivers/media/video/uvc/uvc_video.c Laurent Pinchart 2011-09-24  529  
-febd4163e286059 drivers/media/usb/uvc/uvc_video.c   Ricardo Ribalda  2023-01-09  530  	dev_stc = get_unaligned_le32(&data[header_size - 6]);
-febd4163e286059 drivers/media/usb/uvc/uvc_video.c   Ricardo Ribalda  2023-01-09  531  
-febd4163e286059 drivers/media/usb/uvc/uvc_video.c   Ricardo Ribalda  2023-01-09  532  	/*
-febd4163e286059 drivers/media/usb/uvc/uvc_video.c   Ricardo Ribalda  2023-01-09  533  	 * Some devices make a borderline interpretation of the UVC 1.5 standard
-febd4163e286059 drivers/media/usb/uvc/uvc_video.c   Ricardo Ribalda  2023-01-09  534  	 * and sends packets with no data contain undefined timestamps. Ignore
-febd4163e286059 drivers/media/usb/uvc/uvc_video.c   Ricardo Ribalda  2023-01-09  535  	 * such packages to avoid interfering with the clock interpolation
-febd4163e286059 drivers/media/usb/uvc/uvc_video.c   Ricardo Ribalda  2023-01-09  536  	 * algorithm.
-febd4163e286059 drivers/media/usb/uvc/uvc_video.c   Ricardo Ribalda  2023-01-09  537  	 */
-febd4163e286059 drivers/media/usb/uvc/uvc_video.c   Ricardo Ribalda  2023-01-09 @538  	if (buf->bytesused == 0 && len == header_size &&
-                                                                                            ^^^^^^^^^^^^^^
-Unchecked dereference
+288ecf491b1654 Benjamin Mikailenko 2022-11-18  555  static int ice_vsi_alloc_stat_arrays(struct ice_vsi *vsi)
+288ecf491b1654 Benjamin Mikailenko 2022-11-18  556  {
+288ecf491b1654 Benjamin Mikailenko 2022-11-18  557  	struct ice_vsi_stats *vsi_stat;
+288ecf491b1654 Benjamin Mikailenko 2022-11-18  558  	struct ice_pf *pf = vsi->back;
+288ecf491b1654 Benjamin Mikailenko 2022-11-18  559  
+288ecf491b1654 Benjamin Mikailenko 2022-11-18  560  	if (vsi->type == ICE_VSI_CHNL)
+288ecf491b1654 Benjamin Mikailenko 2022-11-18  561  		return 0;
+288ecf491b1654 Benjamin Mikailenko 2022-11-18  562  	if (!pf->vsi_stats)
+288ecf491b1654 Benjamin Mikailenko 2022-11-18  563  		return -ENOENT;
+288ecf491b1654 Benjamin Mikailenko 2022-11-18  564  
+288ecf491b1654 Benjamin Mikailenko 2022-11-18  565  	vsi_stat = kzalloc(sizeof(*vsi_stat), GFP_KERNEL);
+288ecf491b1654 Benjamin Mikailenko 2022-11-18  566  	if (!vsi_stat)
+288ecf491b1654 Benjamin Mikailenko 2022-11-18  567  		return -ENOMEM;
+288ecf491b1654 Benjamin Mikailenko 2022-11-18  568  
+f833ce48581cfd Michal Swiatkowski  2022-12-21  569  	if (vsi_stat->tx_ring_stats && vsi_stat->rx_ring_stats)
+f833ce48581cfd Michal Swiatkowski  2022-12-21  570  	/* realloc will happen in rebuild path */
+f833ce48581cfd Michal Swiatkowski  2022-12-21 @571  		return 0;
 
-febd4163e286059 drivers/media/usb/uvc/uvc_video.c   Ricardo Ribalda  2023-01-09  539  	    dev_stc == 0 && dev_sof == 0)
-febd4163e286059 drivers/media/usb/uvc/uvc_video.c   Ricardo Ribalda  2023-01-09  540  		return;
-febd4163e286059 drivers/media/usb/uvc/uvc_video.c   Ricardo Ribalda  2023-01-09  541  
-66847ef013cc4ed drivers/media/video/uvc/uvc_video.c Laurent Pinchart 2011-09-24  542  	stream->clock.last_sof = dev_sof;
-66847ef013cc4ed drivers/media/video/uvc/uvc_video.c Laurent Pinchart 2011-09-24  543  
-66847ef013cc4ed drivers/media/video/uvc/uvc_video.c Laurent Pinchart 2011-09-24  544  	host_sof = usb_get_current_frame_number(stream->dev->udev);
-828ee8c71950155 drivers/media/usb/uvc/uvc_video.c   Arnd Bergmann    2017-11-27  545  	time = uvc_video_get_time();
-66847ef013cc4ed drivers/media/video/uvc/uvc_video.c Laurent Pinchart 2011-09-24  546  
-699b9a86a3f03ad drivers/media/usb/uvc/uvc_video.c   Laurent Pinchart 2022-06-08  547  	/*
+
+These aren't allocated until the next line so the return is impossible.
+Just delete.  But Smatch is correct that it doesn't have a kfree() on
+this path...
+
+f833ce48581cfd Michal Swiatkowski  2022-12-21  572  
+288ecf491b1654 Benjamin Mikailenko 2022-11-18  573  	vsi_stat->tx_ring_stats =
+288ecf491b1654 Benjamin Mikailenko 2022-11-18  574  		kcalloc(vsi->alloc_txq, sizeof(*vsi_stat->tx_ring_stats),
+288ecf491b1654 Benjamin Mikailenko 2022-11-18  575  			GFP_KERNEL);
+288ecf491b1654 Benjamin Mikailenko 2022-11-18  576  	if (!vsi_stat->tx_ring_stats)
+288ecf491b1654 Benjamin Mikailenko 2022-11-18  577  		goto err_alloc_tx;
+288ecf491b1654 Benjamin Mikailenko 2022-11-18  578  
+288ecf491b1654 Benjamin Mikailenko 2022-11-18  579  	vsi_stat->rx_ring_stats =
+288ecf491b1654 Benjamin Mikailenko 2022-11-18  580  		kcalloc(vsi->alloc_rxq, sizeof(*vsi_stat->rx_ring_stats),
+288ecf491b1654 Benjamin Mikailenko 2022-11-18  581  			GFP_KERNEL);
+288ecf491b1654 Benjamin Mikailenko 2022-11-18  582  	if (!vsi_stat->rx_ring_stats)
+288ecf491b1654 Benjamin Mikailenko 2022-11-18  583  		goto err_alloc_rx;
+288ecf491b1654 Benjamin Mikailenko 2022-11-18  584  
+288ecf491b1654 Benjamin Mikailenko 2022-11-18  585  	pf->vsi_stats[vsi->idx] = vsi_stat;
+288ecf491b1654 Benjamin Mikailenko 2022-11-18  586  
+288ecf491b1654 Benjamin Mikailenko 2022-11-18  587  	return 0;
+288ecf491b1654 Benjamin Mikailenko 2022-11-18  588  
+288ecf491b1654 Benjamin Mikailenko 2022-11-18  589  err_alloc_rx:
+288ecf491b1654 Benjamin Mikailenko 2022-11-18  590  	kfree(vsi_stat->rx_ring_stats);
+288ecf491b1654 Benjamin Mikailenko 2022-11-18  591  err_alloc_tx:
+288ecf491b1654 Benjamin Mikailenko 2022-11-18  592  	kfree(vsi_stat->tx_ring_stats);
+288ecf491b1654 Benjamin Mikailenko 2022-11-18  593  	kfree(vsi_stat);
+288ecf491b1654 Benjamin Mikailenko 2022-11-18  594  	pf->vsi_stats[vsi->idx] = NULL;
+288ecf491b1654 Benjamin Mikailenko 2022-11-18  595  	return -ENOMEM;
+288ecf491b1654 Benjamin Mikailenko 2022-11-18  596  }
 
 -- 
 0-DAY CI Kernel Test Service
