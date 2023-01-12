@@ -1,58 +1,58 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 098DF8470
-	for <oe-kbuild@lists.linux.dev>; Thu, 12 Jan 2023 18:38:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8682E8F67
+	for <oe-kbuild@lists.linux.dev>; Thu, 12 Jan 2023 23:01:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1673548708; x=1705084708;
+  t=1673564473; x=1705100473;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=jWz/Pus3TU++evU7VswZwchwStjt2YiGbalqYQTBYUU=;
-  b=EKPs80wF42vNkTTDw9MTGmUWkG3PDmWF5QI0tPmLoCmMa3lZZl2OF8ut
-   KRG+2fyGF5gSqNsC/7gpcREtevtY2cgsZFNAtI7bbgHEAjGOS+INU+d6E
-   Xj30Op62iPUn2E8crivglvXMUNKY+2iy2wKXvyRAOtjkpjXpNp1lLdyAy
-   8fFS/2dgfwBej8+4ziniQQFsseDB5Wfndk2S6plEkclRhqF6U90SQOiVl
-   5lPDJAjYu9CxpC0WyisK/VhprhpFTYHftWqe3SFRSV4u0g89RiFcApPQ3
-   Qvx8M8E/pZW7gCpO8Pxtoj6pRrqD+0EXUk6rOU4RkSCcR/g5jM+IQ0+t9
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10588"; a="325842578"
-X-IronPort-AV: E=Sophos;i="5.97,211,1669104000"; 
-   d="scan'208";a="325842578"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2023 10:38:28 -0800
+  bh=fCAgn/3CYeWgcLouqgh2BQpb6aKqjsEbC04wGHJ7st8=;
+  b=bc6if4ljEtHYTKrZib7FiPqRb8f1ltxqwUEA8GdWWO0OZlxvGDGC2GfU
+   zJa0iXvxPeBCTh06EKZsGiN6oxyFXvyDHXkNDtxFoDpDx/oFnULY0lbU0
+   M2+GIVRj54GW9PzqsbHknk3QfOCpfVf9a4SeJAHw8U+fjZuEjDi/9z8lj
+   0AuMiR51LFar4lgfq5XUExTo+UmPetMoaX3WV2wGGQsXgUO6d9MYc00Mt
+   o6ZrxDZP9VloKvH0m6RRJ2VwUbBYuJ+Pnu8KewNXEHh7YzbASSXGNlbGv
+   HBENjCq1sdRotO5C4QKxBDFxY6TjdYCjyhXK13uhOXJsdFtaqcWTCE6mq
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10588"; a="322549699"
+X-IronPort-AV: E=Sophos;i="5.97,212,1669104000"; 
+   d="scan'208";a="322549699"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2023 15:01:12 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10588"; a="635487829"
-X-IronPort-AV: E=Sophos;i="5.97,211,1669104000"; 
-   d="scan'208";a="635487829"
+X-IronPort-AV: E=McAfee;i="6500,9779,10588"; a="903385404"
+X-IronPort-AV: E=Sophos;i="5.97,212,1669104000"; 
+   d="scan'208";a="903385404"
 Received: from lkp-server02.sh.intel.com (HELO f1920e93ebb5) ([10.239.97.151])
-  by orsmga006.jf.intel.com with ESMTP; 12 Jan 2023 10:38:26 -0800
+  by fmsmga006.fm.intel.com with ESMTP; 12 Jan 2023 15:01:10 -0800
 Received: from kbuild by f1920e93ebb5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pG2T3-000AM3-2i;
-	Thu, 12 Jan 2023 18:38:25 +0000
-Date: Fri, 13 Jan 2023 02:37:34 +0800
+	id 1pG6ZK-000AV2-0h;
+	Thu, 12 Jan 2023 23:01:10 +0000
+Date: Fri, 13 Jan 2023 07:00:39 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [linux-next:master 746/4441] libbpf: failed to find '.BTF' ELF
- section in vmlinux
-Message-ID: <202301130219.X5ASLVgC-lkp@intel.com>
+Subject: [linux-next:master 1834/4441] FAILED: load BTF from vmlinux: No data
+ available
+Message-ID: <202301130641.VZGpD45c-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="cTIISznMDvyelU+i"
+Content-Type: multipart/mixed; boundary="K5IaOALx+qsrO7fe"
 Content-Disposition: inline
 
 
---cTIISznMDvyelU+i
+--K5IaOALx+qsrO7fe
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "low confidence static check first_new_problem: libbpf: failed to find '.BTF' ELF section in vmlinux"
+:::::: Manual check reason: "low confidence static check first_new_problem: FAILED: load BTF from vmlinux: No data available"
 :::::: 
 
 BCC: lkp@intel.com
@@ -63,9 +63,9 @@ CC: Andrii Nakryiko <andrii@kernel.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
 head:   0a093b2893c711d82622a9ab27da4f1172821336
-commit: e6b4e1d759d3bfb7cb84c87cc8f1858da7db8dea [746/4441] libbpf: Show error info about missing ".BTF" section
-:::::: branch date: 16 hours ago
-:::::: commit date: 3 weeks ago
+commit: acd3b7768048fe338248cdf43ccfbf8c084a6bc1 [1834/4441] libbpf: Return -ENODATA for missing btf section
+:::::: branch date: 20 hours ago
+:::::: commit date: 9 days ago
 config: nios2-randconfig-s041-20230112
 compiler: nios2-linux-gcc (GCC) 12.1.0
 reproduce:
@@ -73,10 +73,10 @@ reproduce:
         chmod +x ~/bin/make.cross
         # apt-get install sparse
         # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=e6b4e1d759d3bfb7cb84c87cc8f1858da7db8dea
+        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=acd3b7768048fe338248cdf43ccfbf8c084a6bc1
         git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
         git fetch --no-tags linux-next master
-        git checkout e6b4e1d759d3bfb7cb84c87cc8f1858da7db8dea
+        git checkout acd3b7768048fe338248cdf43ccfbf8c084a6bc1
         # save the config file
         mkdir build_dir && cp config build_dir/.config
         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=nios2 olddefconfig
@@ -89,14 +89,14 @@ All errors (new ones prefixed by >>):
 
    Complex, interval and imaginary float types are not supported
    Encountered error while encoding BTF.
->> libbpf: failed to find '.BTF' ELF section in vmlinux
-   FAILED: load BTF from vmlinux: No such file or directory
+   libbpf: failed to find '.BTF' ELF section in vmlinux
+>> FAILED: load BTF from vmlinux: No data available
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
 
---cTIISznMDvyelU+i
+--K5IaOALx+qsrO7fe
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename=config
 
@@ -5329,4 +5329,4 @@ CONFIG_TEST_FREE_PAGES=y
 # CONFIG_WARN_ABI_ERRORS is not set
 # end of Kernel hacking
 
---cTIISznMDvyelU+i--
+--K5IaOALx+qsrO7fe--
