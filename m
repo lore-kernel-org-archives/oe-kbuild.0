@@ -1,156 +1,172 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F91C640
-	for <oe-kbuild@lists.linux.dev>; Fri, 13 Jan 2023 05:46:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79C5F640
+	for <oe-kbuild@lists.linux.dev>; Fri, 13 Jan 2023 06:06:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1673588773; x=1705124773;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=SW3fkuVJhPYjK+KTBvx58fwC7iwPWIeCZpNjO5GnLs8=;
-  b=nulxE51OhGRUhOv9+ydU0h8MDnd8EQ9izu3kXSdPIBsTrnE36oDiSMHP
-   5esEV/OeR7m1djCxhc/SyVOCO+Fb2b2XWsTvvrDImlCUvmqCRMUVO2fn7
-   KGekQhIYeTMhXBKZF+sxZg5Bf8bgm+a3sVMyBBzbgedKJehRRCq1OUGiI
-   nJh9lzXSGBpJIsxYXId4im30JG4jlD2mSaKKml30KkW2wnI80MDFfMemb
-   53dGaR3FWHdp0gVWBQyNfFdl1t9qUVR/HL+8CGgkJyKLk8se6pOmLTAeP
-   vmVISX0OBKTc7zPO+KIe2+w8wfAWKVRjaGoYlFdBmYHJXA8jZdFb9NOjf
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10588"; a="304301793"
+  t=1673589970; x=1705125970;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=ZzKLR29WQb2begikZ3BH+E2+99rzvpCv2smvedAAIoU=;
+  b=bhdjv4C3ALLfI8AXQHsYOr12qL5bvB7GzamyQOxPC3zL2D+iYWh/vFp8
+   X7XO6rLa4YBSQPUb9fI7KyU+YRq+NVxR8hQcjhBD8TV8Co0HlJHl+PEYM
+   UQZkOntM1OZsWXZ51vfXZkGtdH6tuczxGYgviBFU+VIPw7LhCi4jI+dQZ
+   3oq+i8XOnq1PrTawJ3Qm1XyjlQgmXW5oLQJ1lQrvyX5fCHWDn0HQoQuO6
+   6MsKWhBRlxi2D1/zchII496rhPiXIHI02kQbpfVUjoR2x5By0X7sINPCe
+   eWbeQfg9x+Xv8Woyb6BiOGOU32n8C0Kk868//wQzMPVz35//5O5LCfDEP
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10588"; a="321620649"
 X-IronPort-AV: E=Sophos;i="5.97,213,1669104000"; 
-   d="scan'208";a="304301793"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2023 21:46:12 -0800
+   d="scan'208";a="321620649"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2023 22:06:09 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10588"; a="608053191"
+X-IronPort-AV: E=McAfee;i="6500,9779,10588"; a="831975222"
 X-IronPort-AV: E=Sophos;i="5.97,213,1669104000"; 
-   d="scan'208";a="608053191"
+   d="scan'208";a="831975222"
 Received: from lkp-server02.sh.intel.com (HELO f1920e93ebb5) ([10.239.97.151])
-  by orsmga003.jf.intel.com with ESMTP; 12 Jan 2023 21:46:11 -0800
+  by orsmga005.jf.intel.com with ESMTP; 12 Jan 2023 22:06:08 -0800
 Received: from kbuild by f1920e93ebb5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pGCtB-000AmG-2B;
-	Fri, 13 Jan 2023 05:46:05 +0000
-Date: Fri, 13 Jan 2023 13:45:08 +0800
+	id 1pGDCZ-000Ao4-27;
+	Fri, 13 Jan 2023 06:06:07 +0000
+Date: Fri, 13 Jan 2023 14:05:21 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: drivers/thermal/thermal_helpers.c:79:6: warning: Redundant
- initialization for 'ret'. The initialized value is overwritten before it is
- read. [redundantInitialization]
-Message-ID: <202301131328.qw761KtQ-lkp@intel.com>
+Subject: drivers/gpu/drm/drm_edid.c:2124:9: warning: Local variable 'block'
+ shadows outer argument [shadowArgument]
+Message-ID: <202301131332.OEs9bR0g-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
 :::::: 
-:::::: Manual check reason: "low confidence static check warning: drivers/thermal/thermal_helpers.c:79:6: warning: Redundant initialization for 'ret'. The initialized value is overwritten before it is read. [redundantInitialization]"
+:::::: Manual check reason: "low confidence static check warning: drivers/gpu/drm/drm_edid.c:2124:9: warning: Local variable 'block' shadows outer argument [shadowArgument]"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Daniel Lezcano <daniel.lezcano@linaro.org>
+TO: Jani Nikula <jani.nikula@intel.com>
+CC: "Ville Syrjälä" <ville.syrjala@linux.intel.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   d9fc1511728c15df49ff18e49a494d00f78b7cd4
-commit: a930da9bf583b2add01fb0e086913664dadaffd0 thermal/core: Move the mutex inside the thermal_zone_device_update() function
-date:   5 months ago
-:::::: branch date: 5 hours ago
-:::::: commit date: 5 months ago
+commit: 89fb7536ad2fdcdaf95eee44b9e162d0522f48dc drm/edid: add typedef for block read function
+date:   9 months ago
+:::::: branch date: 6 hours ago
+:::::: commit date: 9 months ago
 compiler: csky-linux-gcc (GCC) 12.1.0
 reproduce (cppcheck warning):
         # apt-get install cppcheck
-        git checkout a930da9bf583b2add01fb0e086913664dadaffd0
+        git checkout 89fb7536ad2fdcdaf95eee44b9e162d0522f48dc
         cppcheck --quiet --enable=style,performance,portability --template=gcc FILE
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-cppcheck warnings: (new ones prefixed by >>)
->> drivers/thermal/thermal_sysfs.c:620:6: warning: %ld in format string (no. 1) requires 'long *' but the argument type is 'unsigned long *'. [invalidScanfArgType_int]
-    if (sscanf(buf, "%ldn", &state) != 1)
-        ^
 
 cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
->> drivers/thermal/thermal_helpers.c:79:6: warning: Redundant initialization for 'ret'. The initialized value is overwritten before it is read. [redundantInitialization]
-    ret = tz->ops->get_temp(tz, temp);
-        ^
-   drivers/thermal/thermal_helpers.c:69:10: note: ret is initialized
-    int ret = -EINVAL;
-            ^
-   drivers/thermal/thermal_helpers.c:79:6: note: ret is overwritten
-    ret = tz->ops->get_temp(tz, temp);
-        ^
->> drivers/thermal/thermal_sysfs.c:596:9: warning: %ld in format string (no. 1) requires 'long' but the argument type is 'unsigned long'. [invalidPrintfArgType_sint]
-    return sprintf(buf, "%ldn", state);
+>> drivers/gpu/drm/drm_edid.c:2124:9: warning: Local variable 'block' shadows outer argument [shadowArgument]
+     void *block = edid + j;
            ^
-   drivers/thermal/thermal_sysfs.c:609:9: warning: %ld in format string (no. 1) requires 'long' but the argument type is 'unsigned long'. [invalidPrintfArgType_sint]
-    return sprintf(buf, "%ldn", state);
+   drivers/gpu/drm/drm_edid.c:2101:0: note: Shadowed declaration
+           read_block_fn read_block,
+   ^
+   drivers/gpu/drm/drm_edid.c:2124:9: note: Shadow variable
+     void *block = edid + j;
            ^
->> drivers/thermal/thermal_sysfs.c:902:9: warning: %d in format string (no. 1) requires 'int' but the argument type is 'unsigned int'. [invalidPrintfArgType_sint]
-    return sprintf(buf, "%dn", instance->weight);
-           ^
->> drivers/thermal/thermal_sysfs.c:728:10: warning: %u in format string (no. 1) requires 'unsigned int' but the argument type is 'signed int'. [invalidPrintfArgType_uint]
-     len += sprintf(buf + len, "state%ut%llun", i,
-            ^
-   drivers/thermal/thermal_sysfs.c:772:10: warning: %u in format string (no. 1) requires 'unsigned int' but the argument type is 'signed int'. [invalidPrintfArgType_uint]
-     len += snprintf(buf + len, PAGE_SIZE - len, "state%2u  ", i);
-            ^
-   drivers/thermal/thermal_sysfs.c:783:10: warning: %u in format string (no. 1) requires 'unsigned int' but the argument type is 'signed int'. [invalidPrintfArgType_uint]
-     len += snprintf(buf + len, PAGE_SIZE - len, "state%2u:", i);
-            ^
 
-vim +/ret +79 drivers/thermal/thermal_helpers.c
+vim +/block +2124 drivers/gpu/drm/drm_edid.c
 
-cd221c7b638f83 Eduardo Valentin 2016-11-07   66  
-a930da9bf583b2 Daniel Lezcano   2022-08-05   67  int __thermal_zone_get_temp(struct thermal_zone_device *tz, int *temp)
-cd221c7b638f83 Eduardo Valentin 2016-11-07   68  {
-cd221c7b638f83 Eduardo Valentin 2016-11-07   69  	int ret = -EINVAL;
-cd221c7b638f83 Eduardo Valentin 2016-11-07   70  	int count;
-cd221c7b638f83 Eduardo Valentin 2016-11-07   71  	int crit_temp = INT_MAX;
-cd221c7b638f83 Eduardo Valentin 2016-11-07   72  	enum thermal_trip_type type;
-cd221c7b638f83 Eduardo Valentin 2016-11-07   73  
-a930da9bf583b2 Daniel Lezcano   2022-08-05   74  	lockdep_assert_held(&tz->lock);
-cd221c7b638f83 Eduardo Valentin 2016-11-07   75  
-a930da9bf583b2 Daniel Lezcano   2022-08-05   76  	if (!tz || IS_ERR(tz) || !tz->ops->get_temp)
-a930da9bf583b2 Daniel Lezcano   2022-08-05   77  		return -EINVAL;
-cd221c7b638f83 Eduardo Valentin 2016-11-07   78  
-cd221c7b638f83 Eduardo Valentin 2016-11-07  @79  	ret = tz->ops->get_temp(tz, temp);
-cd221c7b638f83 Eduardo Valentin 2016-11-07   80  
-cd221c7b638f83 Eduardo Valentin 2016-11-07   81  	if (IS_ENABLED(CONFIG_THERMAL_EMULATION) && tz->emul_temperature) {
-e5bfcd30f88fdb Daniel Lezcano   2022-07-22   82  		for (count = 0; count < tz->num_trips; count++) {
-cd221c7b638f83 Eduardo Valentin 2016-11-07   83  			ret = tz->ops->get_trip_type(tz, count, &type);
-cd221c7b638f83 Eduardo Valentin 2016-11-07   84  			if (!ret && type == THERMAL_TRIP_CRITICAL) {
-cd221c7b638f83 Eduardo Valentin 2016-11-07   85  				ret = tz->ops->get_trip_temp(tz, count,
-cd221c7b638f83 Eduardo Valentin 2016-11-07   86  						&crit_temp);
-cd221c7b638f83 Eduardo Valentin 2016-11-07   87  				break;
-cd221c7b638f83 Eduardo Valentin 2016-11-07   88  			}
-cd221c7b638f83 Eduardo Valentin 2016-11-07   89  		}
-cd221c7b638f83 Eduardo Valentin 2016-11-07   90  
-cd221c7b638f83 Eduardo Valentin 2016-11-07   91  		/*
-cd221c7b638f83 Eduardo Valentin 2016-11-07   92  		 * Only allow emulating a temperature when the real temperature
-cd221c7b638f83 Eduardo Valentin 2016-11-07   93  		 * is below the critical temperature so that the emulation code
-cd221c7b638f83 Eduardo Valentin 2016-11-07   94  		 * cannot hide critical conditions.
-cd221c7b638f83 Eduardo Valentin 2016-11-07   95  		 */
-cd221c7b638f83 Eduardo Valentin 2016-11-07   96  		if (!ret && *temp < crit_temp)
-cd221c7b638f83 Eduardo Valentin 2016-11-07   97  			*temp = tz->emul_temperature;
-cd221c7b638f83 Eduardo Valentin 2016-11-07   98  	}
-cd221c7b638f83 Eduardo Valentin 2016-11-07   99  
-cd221c7b638f83 Eduardo Valentin 2016-11-07  100  	return ret;
-cd221c7b638f83 Eduardo Valentin 2016-11-07  101  }
-cd221c7b638f83 Eduardo Valentin 2016-11-07  102  
+bac9c29482248b0 Douglas Anderson   2021-09-14  2079  
+18df89fef2d5c7c Lars-Peter Clausen 2012-04-27  2080  /**
+18df89fef2d5c7c Lars-Peter Clausen 2012-04-27  2081   * drm_do_get_edid - get EDID data using a custom EDID block read function
+18df89fef2d5c7c Lars-Peter Clausen 2012-04-27  2082   * @connector: connector we're probing
+18df89fef2d5c7c Lars-Peter Clausen 2012-04-27  2083   * @get_edid_block: EDID block read function
+18df89fef2d5c7c Lars-Peter Clausen 2012-04-27  2084   * @data: private data passed to the block read function
+18df89fef2d5c7c Lars-Peter Clausen 2012-04-27  2085   *
+18df89fef2d5c7c Lars-Peter Clausen 2012-04-27  2086   * When the I2C adapter connected to the DDC bus is hidden behind a device that
+18df89fef2d5c7c Lars-Peter Clausen 2012-04-27  2087   * exposes a different interface to read EDID blocks this function can be used
+18df89fef2d5c7c Lars-Peter Clausen 2012-04-27  2088   * to get EDID data using a custom block read function.
+18df89fef2d5c7c Lars-Peter Clausen 2012-04-27  2089   *
+18df89fef2d5c7c Lars-Peter Clausen 2012-04-27  2090   * As in the general case the DDC bus is accessible by the kernel at the I2C
+18df89fef2d5c7c Lars-Peter Clausen 2012-04-27  2091   * level, drivers must make all reasonable efforts to expose it as an I2C
+18df89fef2d5c7c Lars-Peter Clausen 2012-04-27  2092   * adapter and use drm_get_edid() instead of abusing this function.
+18df89fef2d5c7c Lars-Peter Clausen 2012-04-27  2093   *
+0ae865ef92f1920 Cai Huoqing        2021-07-30  2094   * The EDID may be overridden using debugfs override_edid or firmware EDID
+53fd40a90f3c0bd Jani Nikula        2017-09-12  2095   * (drm_load_edid_firmware() and drm.edid_firmware parameter), in this priority
+53fd40a90f3c0bd Jani Nikula        2017-09-12  2096   * order. Having either of them bypasses actual EDID reads.
+53fd40a90f3c0bd Jani Nikula        2017-09-12  2097   *
+18df89fef2d5c7c Lars-Peter Clausen 2012-04-27  2098   * Return: Pointer to valid EDID or NULL if we couldn't find any.
+18df89fef2d5c7c Lars-Peter Clausen 2012-04-27  2099   */
+18df89fef2d5c7c Lars-Peter Clausen 2012-04-27  2100  struct edid *drm_do_get_edid(struct drm_connector *connector,
+89fb7536ad2fdcd Jani Nikula        2022-04-11  2101  			     read_block_fn read_block,
+89fb7536ad2fdcd Jani Nikula        2022-04-11  2102  			     void *context)
+61e57a8d72f2336 Adam Jackson       2010-03-29  2103  {
+ccc97def44ecc08 Jani Nikula        2022-03-31  2104  	int j, invalid_blocks = 0;
+e9a9e0768ba49d9 Jani Nikula        2022-03-31  2105  	struct edid *edid, *new, *override;
+53fd40a90f3c0bd Jani Nikula        2017-09-12  2106  
+56a2b7f2a39a8d4 Jani Nikula        2019-06-07  2107  	override = drm_get_override_edid(connector);
+56a2b7f2a39a8d4 Jani Nikula        2019-06-07  2108  	if (override)
+53fd40a90f3c0bd Jani Nikula        2017-09-12  2109  		return override;
+61e57a8d72f2336 Adam Jackson       2010-03-29  2110  
+89fb7536ad2fdcd Jani Nikula        2022-04-11  2111  	edid = drm_do_get_edid_base_block(connector, read_block, context);
+e7bd95a7ed4e4c8 Douglas Anderson   2021-10-04  2112  	if (!edid)
+61e57a8d72f2336 Adam Jackson       2010-03-29  2113  		return NULL;
+61e57a8d72f2336 Adam Jackson       2010-03-29  2114  
+ccc97def44ecc08 Jani Nikula        2022-03-31  2115  	if (edid->extensions == 0)
+e9a9e0768ba49d9 Jani Nikula        2022-03-31  2116  		return edid;
+61e57a8d72f2336 Adam Jackson       2010-03-29  2117  
+ccc97def44ecc08 Jani Nikula        2022-03-31  2118  	new = krealloc(edid, (edid->extensions + 1) * EDID_LENGTH, GFP_KERNEL);
+61e57a8d72f2336 Adam Jackson       2010-03-29  2119  	if (!new)
+61e57a8d72f2336 Adam Jackson       2010-03-29  2120  		goto out;
+f14f368670541bf Chris Wilson       2016-10-17  2121  	edid = new;
+61e57a8d72f2336 Adam Jackson       2010-03-29  2122  
+e9a9e0768ba49d9 Jani Nikula        2022-03-31  2123  	for (j = 1; j <= edid->extensions; j++) {
+e9a9e0768ba49d9 Jani Nikula        2022-03-31 @2124  		void *block = edid + j;
+18d83450468ca57 Jani Nikula        2022-03-31  2125  		int try;
+a28187ccab9410c Chris Wilson       2016-10-17  2126  
+18d83450468ca57 Jani Nikula        2022-03-31  2127  		for (try = 0; try < 4; try++) {
+89fb7536ad2fdcd Jani Nikula        2022-04-11  2128  			if (read_block(context, block, j, EDID_LENGTH))
+61e57a8d72f2336 Adam Jackson       2010-03-29  2129  				goto out;
+14544d0937bf016 Chris Wilson       2016-10-24  2130  			if (drm_edid_block_valid(block, j, false, NULL))
+61e57a8d72f2336 Adam Jackson       2010-03-29  2131  				break;
+61e57a8d72f2336 Adam Jackson       2010-03-29  2132  		}
+f934ec8c34b9dce Maarten Lankhorst  2013-01-29  2133  
+18d83450468ca57 Jani Nikula        2022-03-31  2134  		if (try == 4)
+ccc97def44ecc08 Jani Nikula        2022-03-31  2135  			invalid_blocks++;
+0ea75e23356f73b Sam Tygier         2010-09-23  2136  	}
+0ea75e23356f73b Sam Tygier         2010-09-23  2137  
+ccc97def44ecc08 Jani Nikula        2022-03-31  2138  	if (invalid_blocks) {
+63cae081538de1b Jani Nikula        2022-04-11  2139  		connector_bad_edid(connector, edid, edid->extensions + 1);
+14544d0937bf016 Chris Wilson       2016-10-24  2140  
+ccc97def44ecc08 Jani Nikula        2022-03-31  2141  		edid = edid_filter_invalid_blocks(edid, invalid_blocks);
+61e57a8d72f2336 Adam Jackson       2010-03-29  2142  	}
+61e57a8d72f2336 Adam Jackson       2010-03-29  2143  
+e9a9e0768ba49d9 Jani Nikula        2022-03-31  2144  	return edid;
+61e57a8d72f2336 Adam Jackson       2010-03-29  2145  
+61e57a8d72f2336 Adam Jackson       2010-03-29  2146  out:
+f14f368670541bf Chris Wilson       2016-10-17  2147  	kfree(edid);
+61e57a8d72f2336 Adam Jackson       2010-03-29  2148  	return NULL;
+61e57a8d72f2336 Adam Jackson       2010-03-29  2149  }
+18df89fef2d5c7c Lars-Peter Clausen 2012-04-27  2150  EXPORT_SYMBOL_GPL(drm_do_get_edid);
+61e57a8d72f2336 Adam Jackson       2010-03-29  2151  
 
-:::::: The code at line 79 was first introduced by commit
-:::::: cd221c7b638f83193ffcacf9c2e3f087033fd4cf thermal: core: introduce thermal_helpers.c
+:::::: The code at line 2124 was first introduced by commit
+:::::: e9a9e0768ba49d9cad3b698860af1842c53c717f drm/edid: use struct edid * in drm_do_get_edid()
 
-:::::: TO: Eduardo Valentin <edubezval@gmail.com>
-:::::: CC: Zhang Rui <rui.zhang@intel.com>
+:::::: TO: Jani Nikula <jani.nikula@intel.com>
+:::::: CC: Jani Nikula <jani.nikula@intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
