@@ -1,84 +1,77 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0588320F
-	for <oe-kbuild@lists.linux.dev>; Fri, 13 Jan 2023 20:45:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E54EDBA41
+	for <oe-kbuild@lists.linux.dev>; Fri, 13 Jan 2023 22:26:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1673642713; x=1705178713;
+  t=1673648780; x=1705184780;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=zsdxlN/Dhll8kiXDTGyXD3Y8bE6nMcj8/9ZLqoi6MCM=;
-  b=g13EHj54soUri1ypvnlEjfabjt2t0d528FcNYjVhltQiwatyDwuVUd/e
-   tXF85idOTTHxMC6clhhVptQwurIiuPrcNkfZIZAZdtYsagZobBcEWq/nL
-   dRNoGIbmEmxCeLFAwI89pi4e0nuI+lTBz7HiWrp6ta2uKs49nWxABqGH9
-   c0wpxduqfoG6ZZPhEctvpba1Yj0hIcGrdcPsdy6GI1mQCEmdAH3ENVs0n
-   ZaKcM+jTnvTV+jIktK2pEKiCnIzohtbipHI7n14EgfZWT6abmfL1VIbs5
-   /O9+vg7+/0Pigp5aGk4l71hct6IwaCxZfm0/rbwBvVeOi75VeMveJ8w2g
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10589"; a="410337422"
-X-IronPort-AV: E=Sophos;i="5.97,214,1669104000"; 
-   d="scan'208";a="410337422"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2023 12:44:59 -0800
+  bh=DocuK+21vjYKKmbZFuN4OvMEuwHzuPWaE45U4vKbG9g=;
+  b=OvlvvmwGyqn4MY5Jg/PbAdYrwrIU834mnMy+eIHpbfCfpRk+mcI2bUzU
+   Wr/DzxD745i63/VBIVZoB1MmdAU5H6F2QEnHNtgNR6W4EojfQhAAi2qrS
+   k4+Usaq6cUT4ljO8xKOjrpnZ/bqYkcJHaQLMq1hq/gSh6WUIFRRU11R0J
+   l0AVbr4v6wIGELBH5yhz9W4crVOBUd2g2PBQVxHFerx03gF8jYpz/EklD
+   1sD+d88sMx6YzIxjUALonCjKZBhFh/LbK1HkLTv9lTgi58CN6Sqgfe5Ua
+   MHNxAFUu9Y53SFP42Du9kzKBekgfhHnFk1XAr9YTYLqu+z5fsuYspC/0A
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10589"; a="351350621"
+X-IronPort-AV: E=Sophos;i="5.97,215,1669104000"; 
+   d="scan'208";a="351350621"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2023 14:26:12 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10589"; a="726822616"
-X-IronPort-AV: E=Sophos;i="5.97,214,1669104000"; 
-   d="scan'208";a="726822616"
+X-IronPort-AV: E=McAfee;i="6500,9779,10589"; a="658356896"
+X-IronPort-AV: E=Sophos;i="5.97,215,1669104000"; 
+   d="scan'208";a="658356896"
 Received: from lkp-server02.sh.intel.com (HELO f1920e93ebb5) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 13 Jan 2023 12:44:56 -0800
+  by orsmga002.jf.intel.com with ESMTP; 13 Jan 2023 14:26:09 -0800
 Received: from kbuild by f1920e93ebb5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pGQv1-000BOE-2L;
-	Fri, 13 Jan 2023 20:44:55 +0000
-Date: Sat, 14 Jan 2023 04:44:42 +0800
+	id 1pGSUy-000BT8-0u;
+	Fri, 13 Jan 2023 22:26:08 +0000
+Date: Sat, 14 Jan 2023 06:25:44 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH v4 5/8] mmc: sdhci-pxav2: add optional core clock
-Message-ID: <202301140445.zXxR25qN-lkp@intel.com>
+Subject: Re: [PATCH] clk: qcom: gdsc: Disable HW control until supported
+Message-ID: <202301140659.K71haT7d-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="h3Zrda3NTxxqTjiF"
+Content-Type: multipart/mixed; boundary="vcuWUVUC9f4pDQ9F"
 Content-Disposition: inline
 
 
---h3Zrda3NTxxqTjiF
+--vcuWUVUC9f4pDQ9F
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20230112022416.8474-6-doug@schmorgal.com>
-References: <20230112022416.8474-6-doug@schmorgal.com>
-TO: Doug Brown <doug@schmorgal.com>
-TO: Ulf Hansson <ulf.hansson@linaro.org>
-TO: Adrian Hunter <adrian.hunter@intel.com>
-CC: Rob Herring <robh+dt@kernel.org>
-CC: Krzysztof Kozlowski <krzk@kernel.org>
-CC: linux-mmc@vger.kernel.org
-CC: devicetree@vger.kernel.org
-CC: Doug Brown <doug@schmorgal.com>
+In-Reply-To: <20230112135224.3837820-1-quic_bjorande@quicinc.com>
+References: <20230112135224.3837820-1-quic_bjorande@quicinc.com>
+TO: Bjorn Andersson <quic_bjorande@quicinc.com>
 
-Hi Doug,
+Hi Bjorn,
 
-Thank you for the patch! Perhaps something to improve:
+I love your patch! Perhaps something to improve:
 
-[auto build test WARNING on robh/for-next]
+[auto build test WARNING on clk/clk-next]
 [also build test WARNING on linus/master v6.2-rc3 next-20230113]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Doug-Brown/mmc-sdhci-pxav2-add-initial-support-for-PXA168-V1-controller/20230112-102921
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20230112022416.8474-6-doug%40schmorgal.com
-patch subject: [PATCH v4 5/8] mmc: sdhci-pxav2: add optional core clock
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
+url:    https://github.com/intel-lab-lkp/linux/commits/Bjorn-Andersson/clk-qcom-gdsc-Disable-HW-control-until-supported/20230112-215454
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git clk-next
+patch link:    https://lore.kernel.org/r/20230112135224.3837820-1-quic_bjorande%40quicinc.com
+patch subject: [PATCH] clk: qcom: gdsc: Disable HW control until supported
+:::::: branch date: 32 hours ago
+:::::: commit date: 32 hours ago
 config: riscv-randconfig-m041-20230113
 compiler: riscv64-linux-gcc (GCC) 12.1.0
 
@@ -87,100 +80,119 @@ If you fix the issue, kindly add following tag where applicable
 | Reported-by: Dan Carpenter <error27@gmail.com>
 
 smatch warnings:
-drivers/mmc/host/sdhci-pxav2.c:220 sdhci_pxav2_probe() warn: missing error code 'ret'
+drivers/clk/qcom/gdsc.c:405 gdsc_init() warn: missing unwind goto?
 
-vim +/ret +220 drivers/mmc/host/sdhci-pxav2.c
+vim +405 drivers/clk/qcom/gdsc.c
 
-b650352dd3df36 Chris Ball            2012-04-10  184  
-c3be1efd41a97f Bill Pemberton        2012-11-19  185  static int sdhci_pxav2_probe(struct platform_device *pdev)
-9f5d71e4a78a02 Zhangfei Gao          2011-06-08  186  {
-9f5d71e4a78a02 Zhangfei Gao          2011-06-08  187  	struct sdhci_pltfm_host *pltfm_host;
-9f5d71e4a78a02 Zhangfei Gao          2011-06-08  188  	struct sdhci_pxa_platdata *pdata = pdev->dev.platform_data;
-9f5d71e4a78a02 Zhangfei Gao          2011-06-08  189  	struct device *dev = &pdev->dev;
-9f5d71e4a78a02 Zhangfei Gao          2011-06-08  190  	struct sdhci_host *host = NULL;
-568536d7eb1969 Doug Brown            2023-01-11  191  	const struct sdhci_pxa_variant *variant;
-b650352dd3df36 Chris Ball            2012-04-10  192  
-9f5d71e4a78a02 Zhangfei Gao          2011-06-08  193  	int ret;
-d8981da5ec7505 Doug Brown            2023-01-11  194  	struct clk *clk, *clk_core;
-9f5d71e4a78a02 Zhangfei Gao          2011-06-08  195  
-0e748234293f5f Christian Daudt       2013-05-29  196  	host = sdhci_pltfm_init(pdev, NULL, 0);
-6a686c31324c9e Sebastian Hesselbarth 2014-10-21  197  	if (IS_ERR(host))
-9f5d71e4a78a02 Zhangfei Gao          2011-06-08  198  		return PTR_ERR(host);
-6a686c31324c9e Sebastian Hesselbarth 2014-10-21  199  
-9f5d71e4a78a02 Zhangfei Gao          2011-06-08  200  	pltfm_host = sdhci_priv(host);
-9f5d71e4a78a02 Zhangfei Gao          2011-06-08  201  
-edf4ccd94bbef1 Doug Brown            2023-01-11  202  	clk = devm_clk_get(dev, "io");
-edf4ccd94bbef1 Doug Brown            2023-01-11  203  	if (IS_ERR(clk) && PTR_ERR(clk) != -EPROBE_DEFER)
-edf4ccd94bbef1 Doug Brown            2023-01-11  204  		clk = devm_clk_get(dev, NULL);
-9f5d71e4a78a02 Zhangfei Gao          2011-06-08  205  	if (IS_ERR(clk)) {
-9f5d71e4a78a02 Zhangfei Gao          2011-06-08  206  		ret = PTR_ERR(clk);
-edf4ccd94bbef1 Doug Brown            2023-01-11  207  		dev_err_probe(dev, ret, "failed to get io clock\n");
-3fd1d86f03cbcc Masahiro Yamada       2017-08-23  208  		goto free;
-9f5d71e4a78a02 Zhangfei Gao          2011-06-08  209  	}
-9f5d71e4a78a02 Zhangfei Gao          2011-06-08  210  	pltfm_host->clk = clk;
-21b22284619bbb Alexey Khoroshilov    2017-02-11  211  	ret = clk_prepare_enable(clk);
-21b22284619bbb Alexey Khoroshilov    2017-02-11  212  	if (ret) {
-edf4ccd94bbef1 Doug Brown            2023-01-11  213  		dev_err(dev, "failed to enable io clock\n");
-3fd1d86f03cbcc Masahiro Yamada       2017-08-23  214  		goto free;
-21b22284619bbb Alexey Khoroshilov    2017-02-11  215  	}
-9f5d71e4a78a02 Zhangfei Gao          2011-06-08  216  
-d8981da5ec7505 Doug Brown            2023-01-11  217  	clk_core = devm_clk_get_optional_enabled(dev, "core");
-d8981da5ec7505 Doug Brown            2023-01-11  218  	if (IS_ERR(clk_core)) {
-d8981da5ec7505 Doug Brown            2023-01-11  219  		dev_err_probe(dev, PTR_ERR(clk_core), "failed to enable core clock\n");
-d8981da5ec7505 Doug Brown            2023-01-11 @220  		goto disable_clk;
-d8981da5ec7505 Doug Brown            2023-01-11  221  	}
-d8981da5ec7505 Doug Brown            2023-01-11  222  
-9f5d71e4a78a02 Zhangfei Gao          2011-06-08  223  	host->quirks = SDHCI_QUIRK_BROKEN_ADMA
-9f5d71e4a78a02 Zhangfei Gao          2011-06-08  224  		| SDHCI_QUIRK_BROKEN_TIMEOUT_VAL
-9f5d71e4a78a02 Zhangfei Gao          2011-06-08  225  		| SDHCI_QUIRK_CAP_CLOCK_BASE_BROKEN;
-9f5d71e4a78a02 Zhangfei Gao          2011-06-08  226  
-568536d7eb1969 Doug Brown            2023-01-11  227  	variant = of_device_get_match_data(dev);
-568536d7eb1969 Doug Brown            2023-01-11  228  	if (variant)
-b650352dd3df36 Chris Ball            2012-04-10  229  		pdata = pxav2_get_mmc_pdata(dev);
-568536d7eb1969 Doug Brown            2023-01-11  230  	else
-568536d7eb1969 Doug Brown            2023-01-11  231  		variant = &pxav2_variant;
-568536d7eb1969 Doug Brown            2023-01-11  232  
-9f5d71e4a78a02 Zhangfei Gao          2011-06-08  233  	if (pdata) {
-9f5d71e4a78a02 Zhangfei Gao          2011-06-08  234  		if (pdata->flags & PXA_FLAG_CARD_PERMANENT) {
-9f5d71e4a78a02 Zhangfei Gao          2011-06-08  235  			/* on-chip device */
-9f5d71e4a78a02 Zhangfei Gao          2011-06-08  236  			host->quirks |= SDHCI_QUIRK_BROKEN_CARD_DETECTION;
-9f5d71e4a78a02 Zhangfei Gao          2011-06-08  237  			host->mmc->caps |= MMC_CAP_NONREMOVABLE;
-9f5d71e4a78a02 Zhangfei Gao          2011-06-08  238  		}
-9f5d71e4a78a02 Zhangfei Gao          2011-06-08  239  
-9f5d71e4a78a02 Zhangfei Gao          2011-06-08  240  		/* If slot design supports 8 bit data, indicate this to MMC. */
-9f5d71e4a78a02 Zhangfei Gao          2011-06-08  241  		if (pdata->flags & PXA_FLAG_SD_8_BIT_CAPABLE_SLOT)
-9f5d71e4a78a02 Zhangfei Gao          2011-06-08  242  			host->mmc->caps |= MMC_CAP_8_BIT_DATA;
-9f5d71e4a78a02 Zhangfei Gao          2011-06-08  243  
-9f5d71e4a78a02 Zhangfei Gao          2011-06-08  244  		if (pdata->quirks)
-9f5d71e4a78a02 Zhangfei Gao          2011-06-08  245  			host->quirks |= pdata->quirks;
-9f5d71e4a78a02 Zhangfei Gao          2011-06-08  246  		if (pdata->host_caps)
-9f5d71e4a78a02 Zhangfei Gao          2011-06-08  247  			host->mmc->caps |= pdata->host_caps;
-9f5d71e4a78a02 Zhangfei Gao          2011-06-08  248  		if (pdata->pm_caps)
-9f5d71e4a78a02 Zhangfei Gao          2011-06-08  249  			host->mmc->pm_caps |= pdata->pm_caps;
-9f5d71e4a78a02 Zhangfei Gao          2011-06-08  250  	}
-9f5d71e4a78a02 Zhangfei Gao          2011-06-08  251  
-568536d7eb1969 Doug Brown            2023-01-11  252  	host->quirks |= variant->extra_quirks;
-568536d7eb1969 Doug Brown            2023-01-11  253  	host->ops = variant->ops;
-9f5d71e4a78a02 Zhangfei Gao          2011-06-08  254  
-9f5d71e4a78a02 Zhangfei Gao          2011-06-08  255  	ret = sdhci_add_host(host);
-fb8617e1ee4d40 Jisheng Zhang         2018-05-25  256  	if (ret)
-3fd1d86f03cbcc Masahiro Yamada       2017-08-23  257  		goto disable_clk;
-9f5d71e4a78a02 Zhangfei Gao          2011-06-08  258  
-9f5d71e4a78a02 Zhangfei Gao          2011-06-08  259  	return 0;
-9f5d71e4a78a02 Zhangfei Gao          2011-06-08  260  
-3fd1d86f03cbcc Masahiro Yamada       2017-08-23  261  disable_clk:
-164378efe7612a Chao Xie              2012-07-31  262  	clk_disable_unprepare(clk);
-3fd1d86f03cbcc Masahiro Yamada       2017-08-23  263  free:
-9f5d71e4a78a02 Zhangfei Gao          2011-06-08  264  	sdhci_pltfm_free(pdev);
-9f5d71e4a78a02 Zhangfei Gao          2011-06-08  265  	return ret;
-9f5d71e4a78a02 Zhangfei Gao          2011-06-08  266  }
-9f5d71e4a78a02 Zhangfei Gao          2011-06-08  267  
+45dd0e55317ccb Stephen Boyd    2015-08-06  330  
+45dd0e55317ccb Stephen Boyd    2015-08-06  331  static int gdsc_init(struct gdsc *sc)
+45dd0e55317ccb Stephen Boyd    2015-08-06  332  {
+45dd0e55317ccb Stephen Boyd    2015-08-06  333  	u32 mask, val;
+45dd0e55317ccb Stephen Boyd    2015-08-06  334  	int on, ret;
+45dd0e55317ccb Stephen Boyd    2015-08-06  335  
+45dd0e55317ccb Stephen Boyd    2015-08-06  336  	/*
+45dd0e55317ccb Stephen Boyd    2015-08-06  337  	 * Disable HW trigger: collapse/restore occur based on registers writes.
+45dd0e55317ccb Stephen Boyd    2015-08-06  338  	 * Disable SW override: Use hardware state-machine for sequencing.
+45dd0e55317ccb Stephen Boyd    2015-08-06  339  	 * Configure wait time between states.
+45dd0e55317ccb Stephen Boyd    2015-08-06  340  	 */
+45dd0e55317ccb Stephen Boyd    2015-08-06  341  	mask = HW_CONTROL_MASK | SW_OVERRIDE_MASK |
+45dd0e55317ccb Stephen Boyd    2015-08-06  342  	       EN_REST_WAIT_MASK | EN_FEW_WAIT_MASK | CLK_DIS_WAIT_MASK;
+4e7c4d3652f96f Taniya Das      2022-02-24  343  
+4e7c4d3652f96f Taniya Das      2022-02-24  344  	if (!sc->en_rest_wait_val)
+4e7c4d3652f96f Taniya Das      2022-02-24  345  		sc->en_rest_wait_val = EN_REST_WAIT_VAL;
+4e7c4d3652f96f Taniya Das      2022-02-24  346  	if (!sc->en_few_wait_val)
+4e7c4d3652f96f Taniya Das      2022-02-24  347  		sc->en_few_wait_val = EN_FEW_WAIT_VAL;
+4e7c4d3652f96f Taniya Das      2022-02-24  348  	if (!sc->clk_dis_wait_val)
+4e7c4d3652f96f Taniya Das      2022-02-24  349  		sc->clk_dis_wait_val = CLK_DIS_WAIT_VAL;
+4e7c4d3652f96f Taniya Das      2022-02-24  350  
+4e7c4d3652f96f Taniya Das      2022-02-24  351  	val = sc->en_rest_wait_val << EN_REST_WAIT_SHIFT |
+4e7c4d3652f96f Taniya Das      2022-02-24  352  		sc->en_few_wait_val << EN_FEW_WAIT_SHIFT |
+4e7c4d3652f96f Taniya Das      2022-02-24  353  		sc->clk_dis_wait_val << CLK_DIS_WAIT_SHIFT;
+4e7c4d3652f96f Taniya Das      2022-02-24  354  
+45dd0e55317ccb Stephen Boyd    2015-08-06  355  	ret = regmap_update_bits(sc->regmap, sc->gdscr, mask, val);
+45dd0e55317ccb Stephen Boyd    2015-08-06  356  	if (ret)
+45dd0e55317ccb Stephen Boyd    2015-08-06  357  		return ret;
+45dd0e55317ccb Stephen Boyd    2015-08-06  358  
+3c53f5e2179874 Rajendra Nayak  2015-08-06  359  	/* Force gdsc ON if only ON state is supported */
+3c53f5e2179874 Rajendra Nayak  2015-08-06  360  	if (sc->pwrsts == PWRSTS_ON) {
+88051f55de5028 Stephen Boyd    2018-05-01  361  		ret = gdsc_toggle_logic(sc, GDSC_ON);
+3c53f5e2179874 Rajendra Nayak  2015-08-06  362  		if (ret)
+3c53f5e2179874 Rajendra Nayak  2015-08-06  363  			return ret;
+3c53f5e2179874 Rajendra Nayak  2015-08-06  364  	}
+3c53f5e2179874 Rajendra Nayak  2015-08-06  365  
+88051f55de5028 Stephen Boyd    2018-05-01  366  	on = gdsc_check_status(sc, GDSC_ON);
+45dd0e55317ccb Stephen Boyd    2015-08-06  367  	if (on < 0)
+45dd0e55317ccb Stephen Boyd    2015-08-06  368  		return on;
+45dd0e55317ccb Stephen Boyd    2015-08-06  369  
+9711759a87a041 Bjorn Andersson 2021-07-21  370  	if (on) {
+9711759a87a041 Bjorn Andersson 2021-07-21  371  		/* The regulator must be on, sync the kernel state */
+9711759a87a041 Bjorn Andersson 2021-07-21  372  		if (sc->rsupply) {
+9711759a87a041 Bjorn Andersson 2021-07-21  373  			ret = regulator_enable(sc->rsupply);
+9711759a87a041 Bjorn Andersson 2021-07-21  374  			if (ret < 0)
+9711759a87a041 Bjorn Andersson 2021-07-21  375  				return ret;
+9711759a87a041 Bjorn Andersson 2021-07-21  376  		}
+9711759a87a041 Bjorn Andersson 2021-07-21  377  
+a823bb9fbefbac Rajendra Nayak  2015-12-01  378  		/*
+a823bb9fbefbac Rajendra Nayak  2015-12-01  379  		 * Votable GDSCs can be ON due to Vote from other masters.
+a823bb9fbefbac Rajendra Nayak  2015-12-01  380  		 * If a Votable GDSC is ON, make sure we have a Vote.
+a823bb9fbefbac Rajendra Nayak  2015-12-01  381  		 */
+9711759a87a041 Bjorn Andersson 2021-07-21  382  		if (sc->flags & VOTABLE) {
+e73cb8527c5975 Johan Hovold    2022-05-20  383  			ret = gdsc_update_collapse_bit(sc, false);
+9711759a87a041 Bjorn Andersson 2021-07-21  384  			if (ret)
+4cc47e8add6354 Stephen Boyd    2022-11-03  385  				goto err_disable_supply;
+9711759a87a041 Bjorn Andersson 2021-07-21  386  		}
+9711759a87a041 Bjorn Andersson 2021-07-21  387  
+fda48bf5c86d88 Stephen Boyd    2020-10-16  388  		/*
+9711759a87a041 Bjorn Andersson 2021-07-21  389  		 * Make sure the retain bit is set if the GDSC is already on,
+9711759a87a041 Bjorn Andersson 2021-07-21  390  		 * otherwise we end up turning off the GDSC and destroying all
+9711759a87a041 Bjorn Andersson 2021-07-21  391  		 * the register contents that we thought we were saving.
+fda48bf5c86d88 Stephen Boyd    2020-10-16  392  		 */
+9711759a87a041 Bjorn Andersson 2021-07-21  393  		if (sc->flags & RETAIN_FF_ENABLE)
+fda48bf5c86d88 Stephen Boyd    2020-10-16  394  			gdsc_retain_ff_on(sc);
+9711759a87a041 Bjorn Andersson 2021-07-21  395  	} else if (sc->flags & ALWAYS_ON) {
+fb55bea1fe436b Rajendra Nayak  2018-03-23  396  		/* If ALWAYS_ON GDSCs are not ON, turn them ON */
+fb55bea1fe436b Rajendra Nayak  2018-03-23  397  		gdsc_enable(&sc->pd);
+fb55bea1fe436b Rajendra Nayak  2018-03-23  398  		on = true;
+fb55bea1fe436b Rajendra Nayak  2018-03-23  399  	}
+fb55bea1fe436b Rajendra Nayak  2018-03-23  400  
+d02f1b6ec32c40 Bjorn Andersson 2023-01-12  401  	/* Disable HW trigger mode until propertly supported */
+d02f1b6ec32c40 Bjorn Andersson 2023-01-12  402  	if (sc->flags & HW_CTRL) {
+d02f1b6ec32c40 Bjorn Andersson 2023-01-12  403  		ret = gdsc_hwctrl(sc, false);
+d02f1b6ec32c40 Bjorn Andersson 2023-01-12  404  		if (ret < 0)
+d02f1b6ec32c40 Bjorn Andersson 2023-01-12 @405  			return ret;
+d02f1b6ec32c40 Bjorn Andersson 2023-01-12  406  	}
+d02f1b6ec32c40 Bjorn Andersson 2023-01-12  407  
+014e193ccd197d Rajendra Nayak  2015-08-06  408  	if (on || (sc->pwrsts & PWRSTS_RET))
+014e193ccd197d Rajendra Nayak  2015-08-06  409  		gdsc_force_mem_on(sc);
+014e193ccd197d Rajendra Nayak  2015-08-06  410  	else
+014e193ccd197d Rajendra Nayak  2015-08-06  411  		gdsc_clear_mem_on(sc);
+014e193ccd197d Rajendra Nayak  2015-08-06  412  
+9711759a87a041 Bjorn Andersson 2021-07-21  413  	if (sc->flags & ALWAYS_ON)
+9711759a87a041 Bjorn Andersson 2021-07-21  414  		sc->pd.flags |= GENPD_FLAG_ALWAYS_ON;
+7895861a963cfa Jordan Crouse   2018-11-26  415  	if (!sc->pd.power_off)
+45dd0e55317ccb Stephen Boyd    2015-08-06  416  		sc->pd.power_off = gdsc_disable;
+7895861a963cfa Jordan Crouse   2018-11-26  417  	if (!sc->pd.power_on)
+45dd0e55317ccb Stephen Boyd    2015-08-06  418  		sc->pd.power_on = gdsc_enable;
+eab4c1ebdd6579 Johan Hovold    2022-09-29  419  
+eab4c1ebdd6579 Johan Hovold    2022-09-29  420  	ret = pm_genpd_init(&sc->pd, NULL, !on);
+eab4c1ebdd6579 Johan Hovold    2022-09-29  421  	if (ret)
+4cc47e8add6354 Stephen Boyd    2022-11-03  422  		goto err_disable_supply;
+45dd0e55317ccb Stephen Boyd    2015-08-06  423  
+45dd0e55317ccb Stephen Boyd    2015-08-06  424  	return 0;
+eab4c1ebdd6579 Johan Hovold    2022-09-29  425  
+eab4c1ebdd6579 Johan Hovold    2022-09-29  426  err_disable_supply:
+eab4c1ebdd6579 Johan Hovold    2022-09-29  427  	if (on && sc->rsupply)
+eab4c1ebdd6579 Johan Hovold    2022-09-29  428  		regulator_disable(sc->rsupply);
+eab4c1ebdd6579 Johan Hovold    2022-09-29  429  
+eab4c1ebdd6579 Johan Hovold    2022-09-29  430  	return ret;
+45dd0e55317ccb Stephen Boyd    2015-08-06  431  }
+45dd0e55317ccb Stephen Boyd    2015-08-06  432  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
 
---h3Zrda3NTxxqTjiF
+--vcuWUVUC9f4pDQ9F
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename=config
 
@@ -6757,4 +6769,4 @@ CONFIG_MEMTEST=y
 # CONFIG_WARN_ABI_ERRORS is not set
 # end of Kernel hacking
 
---h3Zrda3NTxxqTjiF--
+--vcuWUVUC9f4pDQ9F--
