@@ -1,54 +1,53 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 918F17C;
-	Sat, 14 Jan 2023 07:58:06 +0000 (UTC)
-Received: by mail-wr1-f43.google.com with SMTP id k8so8450810wrc.9;
-        Fri, 13 Jan 2023 23:58:06 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C0907C;
+	Sat, 14 Jan 2023 08:02:11 +0000 (UTC)
+Received: by mail-wr1-f49.google.com with SMTP id az7so22956553wrb.5;
+        Sat, 14 Jan 2023 00:02:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
          :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=qQA/jgCksOZddh0t+6XHMKOBpW3pPFDdE2DouCM2c2E=;
-        b=EZ1spF+g9tj6JZ9obKA2f15ldiLo7ImLG5vcNvOKxCI7g1jH7XwfnYg+/TPjYLPwYw
-         dY+mlOjDuh8PfSp+dJPtGQQXwzMRwTA+bI78bvWBJKyOD2N3k3i2/EOc/FTfv0BCiENg
-         gz6DkCu9lxP7li91CBICIVM/KTo4ymo08vjjekqYRLcsvxhftIUHF4rLlrtnv1f1bnBz
-         tpKP97A469zDgIgKAXqppor8SbmqauqWrlENC3e/qY/o5k2bFow4SUKXBbG7ZuCNWjnf
-         pqK6UMuhul99NpBJ+/w3LdvhYwWip2AHtV4EfTXMde4iT1uj0FMcMlnixLnCnRKpco9M
-         Zc3w==
+        bh=ySUOi8HQVQgZ3gY5yQW/rIsj+8KY7201qmZ9Y2W7p9o=;
+        b=lCkbXhy0Jc0SB8JMFHmcuvZQ7fDAQUYkaYSyRbloHOXS+nyzPNSZufuatadEPqbnXS
+         baFdUBBpdgFPBTtMag1LqZUE7CBd2fIg+fkwFd0QoM4kBuf7dZSeM1N22ZtcGEP7mmku
+         Nhl3soOXTw0PMZRMd0HKDMt2xdjo4HyqELi1fmXAa3cqzkpXl0+pXyukRvCXIwDzaYDE
+         zUQJermTdwQ44dTf5PEbosl6FXeUMbmukmXojKOLmLol4YbmH2fV8D+fB5v2T3LKaYs1
+         JEa3imrOdSndA1PVLwidYyVlvhwL1e/icxZHHFeg36tkUO/eCQ4AZfx2uX07veNuYAXR
+         44Rw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
          :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=qQA/jgCksOZddh0t+6XHMKOBpW3pPFDdE2DouCM2c2E=;
-        b=opEgA/F94spVbzsZ1koMc1/sxyqpd0vuxYKBST5+ewdTWwZDrTmSqQio+patbkym0E
-         sFBMoyJSMMPtAkgdIMGmTsJZome1oFVjiIWYHwKt27uHJZt9aRRTqLBwGFLRxtxtJv5O
-         azBnHF0OfJKpgkoHsIh+TXWp4PcHN3GOo/e1H3HBGfBlCGeHa1fNnObinekAoEGZGR/1
-         IQ5wcRhpgdiBvQAVejk4sMRvBFD1dfj7jn6YI9X92CA6WAATFXe90eEiFPlTY97lm+bF
-         GYfRW9BZMK1DhFqGTJOjaN/v9FFt70j57h007UEhLBvCpAHz1h6q82Rs6rLcNTG0yjdr
-         lLHg==
-X-Gm-Message-State: AFqh2koXBW1RAk6O3sX8Yy8xcHFGL4Ta95miW22bjsqE/paSRb6X084K
-	ZziPztEJrzUjTcYLthkHgDGxkeYfANWaZA==
-X-Google-Smtp-Source: AMrXdXvCPoBFIbLaSJkx19HGU3lDcez+oZCo3Ap1z0m3e1nMLOEGXaXMSkGzFGIoW9/7X5QkRnu2fg==
-X-Received: by 2002:adf:de0e:0:b0:242:63e5:2449 with SMTP id b14-20020adfde0e000000b0024263e52449mr54048043wrm.69.1673683084436;
-        Fri, 13 Jan 2023 23:58:04 -0800 (PST)
+        bh=ySUOi8HQVQgZ3gY5yQW/rIsj+8KY7201qmZ9Y2W7p9o=;
+        b=gvmAIILBQdyIO3MBQPbbHMmwGIzPimGr+dmdSnrKBLaSIStFc/2sC4bmkaEygJZmuQ
+         n/5J7JY62sqUoiHCyyNljomjL+IITm4OqCOe9Gn8gsI+cTUcMG4n5cdjsVOYX1xvteCu
+         CiC7tF+79CZznGUUc+4D0WrTrIwX7p+ofTpD0r3ajzGCZdRvkb3aVD/k8gpR88hqsNhG
+         ZXtkN6AJYMSHw/6mc6HqsnLi9iUfO6R5qQtMJ3i2hHgL0Ru/Q1W3gRVdjhS5MaA4Jx8x
+         PGb4qM+8/w43eI75fWOZOGEQChssEqCSMlSCSBXiJzKKuDwGb5bpmbf8+Ssu2wo3HPro
+         XrVA==
+X-Gm-Message-State: AFqh2koce3ldVY+s+5tXDV7Zd5lXsQRLOILBAsU03du8FqbHUvVXgJK+
+	tgPsHeyLEOhRNpWGRwKmJjqT7Grn24bUFw==
+X-Google-Smtp-Source: AMrXdXs5XfBthFdwA04j0BNqT9jCJxgCA6SyreY/jbTi3614mIWhdIZWM4ooIC6l/DEaRl7Mk3l3JA==
+X-Received: by 2002:adf:e709:0:b0:2bd:d34e:534d with SMTP id c9-20020adfe709000000b002bdd34e534dmr6150561wrm.27.1673683328588;
+        Sat, 14 Jan 2023 00:02:08 -0800 (PST)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id c8-20020a5d4cc8000000b002bdeb0cf706sm1540112wrt.65.2023.01.13.23.58.02
+        by smtp.gmail.com with ESMTPSA id o17-20020a5d4091000000b0028965dc7c6bsm20536647wrp.73.2023.01.14.00.02.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Jan 2023 23:58:03 -0800 (PST)
-Date: Sat, 14 Jan 2023 10:57:59 +0300
+        Sat, 14 Jan 2023 00:02:08 -0800 (PST)
+Date: Sat, 14 Jan 2023 11:01:54 +0300
 From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, Baoquan He <bhe@redhat.com>,
-	linux-mm@kvack.org
+To: oe-kbuild@lists.linux.dev, Doug Brown <doug@schmorgal.com>,
+	Ulf Hansson <ulf.hansson@linaro.org>,
+	Adrian Hunter <adrian.hunter@intel.com>
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, urezki@gmail.com, lstoakes@gmail.com,
-	stephen.s.brennan@oracle.com, willy@infradead.org,
-	akpm@linux-foundation.org, hch@infradead.org,
-	Baoquan He <bhe@redhat.com>
-Subject: Re: [PATCH v3 3/7] mm/vmalloc.c: allow vread() to read out
- vm_map_ram areas
-Message-ID: <202301132345.KVjvHMFq-lkp@intel.com>
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>, linux-mmc@vger.kernel.org,
+	devicetree@vger.kernel.org, Doug Brown <doug@schmorgal.com>
+Subject: Re: [PATCH v4 5/8] mmc: sdhci-pxav2: add optional core clock
+Message-ID: <202301140445.zXxR25qN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -57,109 +56,114 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230113031921.64716-4-bhe@redhat.com>
-Message-ID: <20230114075759.WaHdF-IU6h7ItqPlHMON1Zb6Tx6GeVyMfcEcLM2OXuk@z>
+In-Reply-To: <20230112022416.8474-6-doug@schmorgal.com>
+Message-ID: <20230114080154.lsAN9RiG9UyyBs67goyafYrKwsjCGEXqHyuHMU7HFmY@z>
 
-Hi Baoquan,
+Hi Doug,
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Baoquan-He/mm-vmalloc-c-add-used_map-into-vmap_block-to-track-space-of-vmap_block/20230113-112149
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20230113031921.64716-4-bhe%40redhat.com
-patch subject: [PATCH v3 3/7] mm/vmalloc.c: allow vread() to read out vm_map_ram areas
-config: i386-randconfig-m021
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Doug-Brown/mmc-sdhci-pxav2-add-initial-support-for-PXA168-V1-controller/20230112-102921
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20230112022416.8474-6-doug%40schmorgal.com
+patch subject: [PATCH v4 5/8] mmc: sdhci-pxav2: add optional core clock
+config: riscv-randconfig-m041-20230113
+compiler: riscv64-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
 
 smatch warnings:
-mm/vmalloc.c:3682 vread() error: we previously assumed 'vm' could be null (see line 3664)
+drivers/mmc/host/sdhci-pxav2.c:220 sdhci_pxav2_probe() warn: missing error code 'ret'
 
-vim +/vm +3682 mm/vmalloc.c
+vim +/ret +220 drivers/mmc/host/sdhci-pxav2.c
 
-^1da177e4c3f415 Linus Torvalds          2005-04-16  3630  long vread(char *buf, char *addr, unsigned long count)
-^1da177e4c3f415 Linus Torvalds          2005-04-16  3631  {
-e81ce85f960c2e2 Joonsoo Kim             2013-04-29  3632  	struct vmap_area *va;
-e81ce85f960c2e2 Joonsoo Kim             2013-04-29  3633  	struct vm_struct *vm;
-^1da177e4c3f415 Linus Torvalds          2005-04-16  3634  	char *vaddr, *buf_start = buf;
-d0107eb07320b5d KAMEZAWA Hiroyuki       2009-09-21  3635  	unsigned long buflen = count;
-129dbdf298d7383 Baoquan He              2023-01-13  3636  	unsigned long n, size, flags;
-^1da177e4c3f415 Linus Torvalds          2005-04-16  3637  
-4aff1dc4fb3a5a3 Andrey Konovalov        2022-03-24  3638  	addr = kasan_reset_tag(addr);
-4aff1dc4fb3a5a3 Andrey Konovalov        2022-03-24  3639  
-^1da177e4c3f415 Linus Torvalds          2005-04-16  3640  	/* Don't allow overflow */
-^1da177e4c3f415 Linus Torvalds          2005-04-16  3641  	if ((unsigned long) addr + count < count)
-^1da177e4c3f415 Linus Torvalds          2005-04-16  3642  		count = -(unsigned long) addr;
-^1da177e4c3f415 Linus Torvalds          2005-04-16  3643  
-e81ce85f960c2e2 Joonsoo Kim             2013-04-29  3644  	spin_lock(&vmap_area_lock);
-f181234a5a21fd0 Chen Wandun             2021-09-02  3645  	va = find_vmap_area_exceed_addr((unsigned long)addr);
-f608788cd2d6cae Serapheim Dimitropoulos 2021-04-29  3646  	if (!va)
-f608788cd2d6cae Serapheim Dimitropoulos 2021-04-29  3647  		goto finished;
-f181234a5a21fd0 Chen Wandun             2021-09-02  3648  
-f181234a5a21fd0 Chen Wandun             2021-09-02  3649  	/* no intersects with alive vmap_area */
-f181234a5a21fd0 Chen Wandun             2021-09-02  3650  	if ((unsigned long)addr + count <= va->va_start)
-f181234a5a21fd0 Chen Wandun             2021-09-02  3651  		goto finished;
-f181234a5a21fd0 Chen Wandun             2021-09-02  3652  
-f608788cd2d6cae Serapheim Dimitropoulos 2021-04-29  3653  	list_for_each_entry_from(va, &vmap_area_list, list) {
-e81ce85f960c2e2 Joonsoo Kim             2013-04-29  3654  		if (!count)
-e81ce85f960c2e2 Joonsoo Kim             2013-04-29  3655  			break;
-e81ce85f960c2e2 Joonsoo Kim             2013-04-29  3656  
-129dbdf298d7383 Baoquan He              2023-01-13  3657  		vm = va->vm;
-129dbdf298d7383 Baoquan He              2023-01-13  3658  		flags = va->flags & VMAP_FLAGS_MASK;
-129dbdf298d7383 Baoquan He              2023-01-13  3659  
-129dbdf298d7383 Baoquan He              2023-01-13  3660  		if (!vm && !flags)
-                                                                            ^^^
-vm can be NULL if a flag in VMAP_FLAGS_MASK is set.
+c3be1efd41a97f Bill Pemberton        2012-11-19  185  static int sdhci_pxav2_probe(struct platform_device *pdev)
+9f5d71e4a78a02 Zhangfei Gao          2011-06-08  186  {
+9f5d71e4a78a02 Zhangfei Gao          2011-06-08  187  	struct sdhci_pltfm_host *pltfm_host;
+9f5d71e4a78a02 Zhangfei Gao          2011-06-08  188  	struct sdhci_pxa_platdata *pdata = pdev->dev.platform_data;
+9f5d71e4a78a02 Zhangfei Gao          2011-06-08  189  	struct device *dev = &pdev->dev;
+9f5d71e4a78a02 Zhangfei Gao          2011-06-08  190  	struct sdhci_host *host = NULL;
+568536d7eb1969 Doug Brown            2023-01-11  191  	const struct sdhci_pxa_variant *variant;
+b650352dd3df36 Chris Ball            2012-04-10  192  
+9f5d71e4a78a02 Zhangfei Gao          2011-06-08  193  	int ret;
+d8981da5ec7505 Doug Brown            2023-01-11  194  	struct clk *clk, *clk_core;
+9f5d71e4a78a02 Zhangfei Gao          2011-06-08  195  
+0e748234293f5f Christian Daudt       2013-05-29  196  	host = sdhci_pltfm_init(pdev, NULL, 0);
+6a686c31324c9e Sebastian Hesselbarth 2014-10-21  197  	if (IS_ERR(host))
+9f5d71e4a78a02 Zhangfei Gao          2011-06-08  198  		return PTR_ERR(host);
+6a686c31324c9e Sebastian Hesselbarth 2014-10-21  199  
+9f5d71e4a78a02 Zhangfei Gao          2011-06-08  200  	pltfm_host = sdhci_priv(host);
+9f5d71e4a78a02 Zhangfei Gao          2011-06-08  201  
+edf4ccd94bbef1 Doug Brown            2023-01-11  202  	clk = devm_clk_get(dev, "io");
+edf4ccd94bbef1 Doug Brown            2023-01-11  203  	if (IS_ERR(clk) && PTR_ERR(clk) != -EPROBE_DEFER)
+edf4ccd94bbef1 Doug Brown            2023-01-11  204  		clk = devm_clk_get(dev, NULL);
+9f5d71e4a78a02 Zhangfei Gao          2011-06-08  205  	if (IS_ERR(clk)) {
+9f5d71e4a78a02 Zhangfei Gao          2011-06-08  206  		ret = PTR_ERR(clk);
+edf4ccd94bbef1 Doug Brown            2023-01-11  207  		dev_err_probe(dev, ret, "failed to get io clock\n");
+3fd1d86f03cbcc Masahiro Yamada       2017-08-23  208  		goto free;
+9f5d71e4a78a02 Zhangfei Gao          2011-06-08  209  	}
+9f5d71e4a78a02 Zhangfei Gao          2011-06-08  210  	pltfm_host->clk = clk;
+21b22284619bbb Alexey Khoroshilov    2017-02-11  211  	ret = clk_prepare_enable(clk);
+21b22284619bbb Alexey Khoroshilov    2017-02-11  212  	if (ret) {
+edf4ccd94bbef1 Doug Brown            2023-01-11  213  		dev_err(dev, "failed to enable io clock\n");
+3fd1d86f03cbcc Masahiro Yamada       2017-08-23  214  		goto free;
+21b22284619bbb Alexey Khoroshilov    2017-02-11  215  	}
+9f5d71e4a78a02 Zhangfei Gao          2011-06-08  216  
+d8981da5ec7505 Doug Brown            2023-01-11  217  	clk_core = devm_clk_get_optional_enabled(dev, "core");
+d8981da5ec7505 Doug Brown            2023-01-11  218  	if (IS_ERR(clk_core)) {
+d8981da5ec7505 Doug Brown            2023-01-11  219  		dev_err_probe(dev, PTR_ERR(clk_core), "failed to enable core clock\n");
+d8981da5ec7505 Doug Brown            2023-01-11 @220  		goto disable_clk;
 
-e81ce85f960c2e2 Joonsoo Kim             2013-04-29  3661  			continue;
-e81ce85f960c2e2 Joonsoo Kim             2013-04-29  3662  
-129dbdf298d7383 Baoquan He              2023-01-13  3663  		vaddr = (char *) va->va_start;
-129dbdf298d7383 Baoquan He              2023-01-13 @3664  		size = vm ? get_vm_area_size(vm) : va_size(va);
-                                                                               ^^
+ret = PTR_ERR(clk_core);
 
-129dbdf298d7383 Baoquan He              2023-01-13  3665  
-129dbdf298d7383 Baoquan He              2023-01-13  3666  		if (addr >= vaddr + size)
-^1da177e4c3f415 Linus Torvalds          2005-04-16  3667  			continue;
-^1da177e4c3f415 Linus Torvalds          2005-04-16  3668  		while (addr < vaddr) {
-^1da177e4c3f415 Linus Torvalds          2005-04-16  3669  			if (count == 0)
-^1da177e4c3f415 Linus Torvalds          2005-04-16  3670  				goto finished;
-^1da177e4c3f415 Linus Torvalds          2005-04-16  3671  			*buf = '\0';
-^1da177e4c3f415 Linus Torvalds          2005-04-16  3672  			buf++;
-^1da177e4c3f415 Linus Torvalds          2005-04-16  3673  			addr++;
-^1da177e4c3f415 Linus Torvalds          2005-04-16  3674  			count--;
-^1da177e4c3f415 Linus Torvalds          2005-04-16  3675  		}
-129dbdf298d7383 Baoquan He              2023-01-13  3676  		n = vaddr + size - addr;
-d0107eb07320b5d KAMEZAWA Hiroyuki       2009-09-21  3677  		if (n > count)
-d0107eb07320b5d KAMEZAWA Hiroyuki       2009-09-21  3678  			n = count;
-129dbdf298d7383 Baoquan He              2023-01-13  3679  
-129dbdf298d7383 Baoquan He              2023-01-13  3680  		if (flags & VMAP_RAM)
-
-assume VMAP_RAM is not set
-
-129dbdf298d7383 Baoquan He              2023-01-13  3681  			vmap_ram_vread(buf, addr, n, flags);
-129dbdf298d7383 Baoquan He              2023-01-13 @3682  		else if (!(vm->flags & VM_IOREMAP))
-                                                                                   ^^^^^^^^^
-Unchecked dereference.  Should this be "flags" instead of "vm->flags"?
-
-d0107eb07320b5d KAMEZAWA Hiroyuki       2009-09-21  3683  			aligned_vread(buf, addr, n);
-d0107eb07320b5d KAMEZAWA Hiroyuki       2009-09-21  3684  		else /* IOREMAP area is treated as memory hole */
-d0107eb07320b5d KAMEZAWA Hiroyuki       2009-09-21  3685  			memset(buf, 0, n);
-d0107eb07320b5d KAMEZAWA Hiroyuki       2009-09-21  3686  		buf += n;
-d0107eb07320b5d KAMEZAWA Hiroyuki       2009-09-21  3687  		addr += n;
-d0107eb07320b5d KAMEZAWA Hiroyuki       2009-09-21  3688  		count -= n;
-^1da177e4c3f415 Linus Torvalds          2005-04-16  3689  	}
-^1da177e4c3f415 Linus Torvalds          2005-04-16  3690  finished:
-e81ce85f960c2e2 Joonsoo Kim             2013-04-29  3691  	spin_unlock(&vmap_area_lock);
-d0107eb07320b5d KAMEZAWA Hiroyuki       2009-09-21  3692  
-d0107eb07320b5d KAMEZAWA Hiroyuki       2009-09-21  3693  	if (buf == buf_start)
-d0107eb07320b5d KAMEZAWA Hiroyuki       2009-09-21  3694  		return 0;
-d0107eb07320b5d KAMEZAWA Hiroyuki       2009-09-21  3695  	/* zero-fill memory holes */
-d0107eb07320b5d KAMEZAWA Hiroyuki       2009-09-21  3696  	if (buf != buf_start + buflen)
-d0107eb07320b5d KAMEZAWA Hiroyuki       2009-09-21  3697  		memset(buf, 0, buflen - (buf - buf_start));
-d0107eb07320b5d KAMEZAWA Hiroyuki       2009-09-21  3698  
-d0107eb07320b5d KAMEZAWA Hiroyuki       2009-09-21  3699  	return buflen;
-^1da177e4c3f415 Linus Torvalds          2005-04-16  3700  }
+d8981da5ec7505 Doug Brown            2023-01-11  221  	}
+d8981da5ec7505 Doug Brown            2023-01-11  222  
+9f5d71e4a78a02 Zhangfei Gao          2011-06-08  223  	host->quirks = SDHCI_QUIRK_BROKEN_ADMA
+9f5d71e4a78a02 Zhangfei Gao          2011-06-08  224  		| SDHCI_QUIRK_BROKEN_TIMEOUT_VAL
+9f5d71e4a78a02 Zhangfei Gao          2011-06-08  225  		| SDHCI_QUIRK_CAP_CLOCK_BASE_BROKEN;
+9f5d71e4a78a02 Zhangfei Gao          2011-06-08  226  
+568536d7eb1969 Doug Brown            2023-01-11  227  	variant = of_device_get_match_data(dev);
+568536d7eb1969 Doug Brown            2023-01-11  228  	if (variant)
+b650352dd3df36 Chris Ball            2012-04-10  229  		pdata = pxav2_get_mmc_pdata(dev);
+568536d7eb1969 Doug Brown            2023-01-11  230  	else
+568536d7eb1969 Doug Brown            2023-01-11  231  		variant = &pxav2_variant;
+568536d7eb1969 Doug Brown            2023-01-11  232  
+9f5d71e4a78a02 Zhangfei Gao          2011-06-08  233  	if (pdata) {
+9f5d71e4a78a02 Zhangfei Gao          2011-06-08  234  		if (pdata->flags & PXA_FLAG_CARD_PERMANENT) {
+9f5d71e4a78a02 Zhangfei Gao          2011-06-08  235  			/* on-chip device */
+9f5d71e4a78a02 Zhangfei Gao          2011-06-08  236  			host->quirks |= SDHCI_QUIRK_BROKEN_CARD_DETECTION;
+9f5d71e4a78a02 Zhangfei Gao          2011-06-08  237  			host->mmc->caps |= MMC_CAP_NONREMOVABLE;
+9f5d71e4a78a02 Zhangfei Gao          2011-06-08  238  		}
+9f5d71e4a78a02 Zhangfei Gao          2011-06-08  239  
+9f5d71e4a78a02 Zhangfei Gao          2011-06-08  240  		/* If slot design supports 8 bit data, indicate this to MMC. */
+9f5d71e4a78a02 Zhangfei Gao          2011-06-08  241  		if (pdata->flags & PXA_FLAG_SD_8_BIT_CAPABLE_SLOT)
+9f5d71e4a78a02 Zhangfei Gao          2011-06-08  242  			host->mmc->caps |= MMC_CAP_8_BIT_DATA;
+9f5d71e4a78a02 Zhangfei Gao          2011-06-08  243  
+9f5d71e4a78a02 Zhangfei Gao          2011-06-08  244  		if (pdata->quirks)
+9f5d71e4a78a02 Zhangfei Gao          2011-06-08  245  			host->quirks |= pdata->quirks;
+9f5d71e4a78a02 Zhangfei Gao          2011-06-08  246  		if (pdata->host_caps)
+9f5d71e4a78a02 Zhangfei Gao          2011-06-08  247  			host->mmc->caps |= pdata->host_caps;
+9f5d71e4a78a02 Zhangfei Gao          2011-06-08  248  		if (pdata->pm_caps)
+9f5d71e4a78a02 Zhangfei Gao          2011-06-08  249  			host->mmc->pm_caps |= pdata->pm_caps;
+9f5d71e4a78a02 Zhangfei Gao          2011-06-08  250  	}
+9f5d71e4a78a02 Zhangfei Gao          2011-06-08  251  
+568536d7eb1969 Doug Brown            2023-01-11  252  	host->quirks |= variant->extra_quirks;
+568536d7eb1969 Doug Brown            2023-01-11  253  	host->ops = variant->ops;
+9f5d71e4a78a02 Zhangfei Gao          2011-06-08  254  
+9f5d71e4a78a02 Zhangfei Gao          2011-06-08  255  	ret = sdhci_add_host(host);
+fb8617e1ee4d40 Jisheng Zhang         2018-05-25  256  	if (ret)
+3fd1d86f03cbcc Masahiro Yamada       2017-08-23  257  		goto disable_clk;
+9f5d71e4a78a02 Zhangfei Gao          2011-06-08  258  
+9f5d71e4a78a02 Zhangfei Gao          2011-06-08  259  	return 0;
+9f5d71e4a78a02 Zhangfei Gao          2011-06-08  260  
+3fd1d86f03cbcc Masahiro Yamada       2017-08-23  261  disable_clk:
+164378efe7612a Chao Xie              2012-07-31  262  	clk_disable_unprepare(clk);
+3fd1d86f03cbcc Masahiro Yamada       2017-08-23  263  free:
+9f5d71e4a78a02 Zhangfei Gao          2011-06-08  264  	sdhci_pltfm_free(pdev);
+9f5d71e4a78a02 Zhangfei Gao          2011-06-08  265  	return ret;
+9f5d71e4a78a02 Zhangfei Gao          2011-06-08  266  }
 
 -- 
 0-DAY CI Kernel Test Service
