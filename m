@@ -1,89 +1,82 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50EED63C1
-	for <oe-kbuild@lists.linux.dev>; Sat, 14 Jan 2023 14:06:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E58A47C
+	for <oe-kbuild@lists.linux.dev>; Sat, 14 Jan 2023 16:57:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1673705176; x=1705241176;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=B/XcTmjHvwzLPh3bljx1bL/UB6Ik+kYs9qFXtwix60A=;
-  b=iSUtdhRxHhtLtQrZLxP1RBzPap4dn4ikexlqDDC0lDFVNhuyCtnq0D4O
-   DGtKsR1rNpWlnm8dnK9m+IKDNbl/Gb79of3JmVyPTwpEkiDDElWapYuzC
-   CWdK0cDMvvrKyUieKwT+gawMFKxsHcLy1lH3XKEpJVSkEy/JP4WqU6JnX
-   E+H7NCviiVnr8zzctPrs/JY06+1VJn7TfdhmqxOmp3whEi+Y+eO36es1a
-   u3jOhFBWkpDk9jSr++xYTFBg5VdR8Pl9ZYF+JAcKYsMGImLAyRVJ+qQJC
-   a4a+a6dgY6Ql6QdXj/WY0bd+67e79sGkzh1zzII19OAdej1YarA8Yl5IX
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10590"; a="304572631"
+  t=1673715470; x=1705251470;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=OzZD0GZdpcP1z4CDDCXDxU1QpFgQIojgdBNv5ppX/aI=;
+  b=Un8Os8H9Zbp28MhuJ49i9v7oFQw336RmX8aL5WIMl4vB3bNIIY2PoUo+
+   o8gyEAF6kjmJ7RD27eMbJf0BDuVJMZPlTN/G7ebRz6N9ptJUpEwBGn4vT
+   OxB1wu0dHcoCZc30F9k+dKl8peL+6/Rp1sbrf8+C+AtaGvIUazCdo+fGS
+   OvkNB8r8FFZq9boI/AOoNHW1uoGbYVJJ8Lh8BczLApXfzFVZLAEL4nXqn
+   /6DaTHikDSNDHPb4sB+aD92zFnirCpLgmzeTeQnvhM+6egM4yzyQQDax0
+   E8scNUC385mAh4zICW/SGkHqRpGrcqj4DFQ6aJSJDuGLGZdn1netQjr9h
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10590"; a="321907987"
 X-IronPort-AV: E=Sophos;i="5.97,216,1669104000"; 
-   d="scan'208";a="304572631"
+   d="scan'208";a="321907987"
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2023 06:06:15 -0800
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2023 08:57:50 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10590"; a="727001491"
+X-IronPort-AV: E=McAfee;i="6500,9779,10590"; a="727027030"
 X-IronPort-AV: E=Sophos;i="5.97,216,1669104000"; 
-   d="scan'208";a="727001491"
+   d="scan'208";a="727027030"
 Received: from lkp-server02.sh.intel.com (HELO f1920e93ebb5) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 14 Jan 2023 06:06:12 -0800
+  by fmsmga004.fm.intel.com with ESMTP; 14 Jan 2023 08:57:47 -0800
 Received: from kbuild by f1920e93ebb5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pGhAh-000CA8-2p;
-	Sat, 14 Jan 2023 14:06:11 +0000
-Date: Sat, 14 Jan 2023 22:05:52 +0800
+	id 1pGjqk-000CGm-1T;
+	Sat, 14 Jan 2023 16:57:46 +0000
+Date: Sun, 15 Jan 2023 00:57:37 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [net-next v2] ipv6: remove max_size check inline with ipv4
-Message-ID: <202301142151.w3sdXdjc-lkp@intel.com>
+Subject: [linux-next:master 2922/4770] arch/x86/kernel/nmi.c:491:20: warning:
+ Value stored to 'nsp' during its initialization is never read
+ [clang-analyzer-deadcode.DeadStores]
+Message-ID: <202301150041.mpHpPukx-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8PdZWBQLrO1cDNHu"
+Content-Type: multipart/mixed; boundary="4TUlhu3uZ2QM8uuL"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
 
---8PdZWBQLrO1cDNHu
-Content-Type: text/plain; charset=utf-8
+--4TUlhu3uZ2QM8uuL
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
 :::::: 
-:::::: Manual check reason: "low confidence static check warning: net/ipv6/route.c:3299:3: warning: Value stored to 'entries' is never read [clang-analyzer-deadcode.DeadStores]"
+:::::: Manual check reason: "low confidence static check warning: arch/x86/kernel/nmi.c:491:20: warning: Value stored to 'nsp' during its initialization is never read [clang-analyzer-deadcode.DeadStores]"
 :::::: 
 
 BCC: lkp@intel.com
 CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20230112012532.311021-1-jmaxwell37@gmail.com>
-References: <20230112012532.311021-1-jmaxwell37@gmail.com>
-TO: Jon Maxwell <jmaxwell37@gmail.com>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: "Paul E. McKenney" <paulmck@kernel.org>
+CC: Ingo Molnar <mingo@kernel.org>
 
-Hi Jon,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on net-next/master]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jon-Maxwell/ipv6-remove-max_size-check-inline-with-ipv4/20230112-092706
-patch link:    https://lore.kernel.org/r/20230112012532.311021-1-jmaxwell37%40gmail.com
-patch subject: [net-next v2] ipv6: remove max_size check inline with ipv4
-:::::: branch date: 3 days ago
-:::::: commit date: 3 days ago
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   6b31ffe9c8b9947d6d3552d6e10752fd96d0f80f
+commit: 8a4de7c131174a55f70dc419f696d4e70275afe3 [2922/4770] x86/nmi: Accumulate NMI-progress evidence in exc_nmi()
+:::::: branch date: 2 days ago
+:::::: commit date: 5 days ago
 config: i386-randconfig-c001
 compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/be4d6b6b6e4a9d872dcd363814f8791a200745f9
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Jon-Maxwell/ipv6-remove-max_size-check-inline-with-ipv4/20230112-092706
-        git checkout be4d6b6b6e4a9d872dcd363814f8791a200745f9
+        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=8a4de7c131174a55f70dc419f696d4e70275afe3
+        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+        git fetch --no-tags linux-next master
+        git checkout 8a4de7c131174a55f70dc419f696d4e70275afe3
         # save the config file
         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=i386 clang-analyzer  olddefconfig
         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=i386 clang-analyzer 
@@ -102,24 +95,30 @@ clang_analyzer warnings: (new ones prefixed by >>)
    include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_value'
            (cond) ?                                        \
            ^
-   net/ipv6/route.c:3090:2: note: Taking false branch
-           if (!rt)
+   fs/jbd2/transaction.c:2521:2: note: Taking false branch
+           if (jlist == BJ_Metadata || jlist == BJ_Reserved ||
            ^
    include/linux/compiler.h:56:23: note: expanded from macro 'if'
    #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
                          ^
-   net/ipv6/route.c:3092:7: note: '?' condition is false
-           else if (rt->fib6_flags & RTF_REJECT) {
-                ^
+   fs/jbd2/transaction.c:2537:10: note: Field 'b_transaction' is non-null
+           if (jh->b_transaction)
+                   ^
+   fs/jbd2/transaction.c:2537:2: note: '?' condition is false
+           if (jh->b_transaction)
+           ^
    include/linux/compiler.h:56:28: note: expanded from macro 'if'
    #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
                               ^
    include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_var'
    #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
                                  ^
-   net/ipv6/route.c:3092:7: note: '?' condition is true
-           else if (rt->fib6_flags & RTF_REJECT) {
-                ^
+   fs/jbd2/transaction.c:2537:10: note: Field 'b_transaction' is non-null
+           if (jh->b_transaction)
+                   ^
+   fs/jbd2/transaction.c:2537:2: note: '?' condition is true
+           if (jh->b_transaction)
+           ^
    include/linux/compiler.h:56:28: note: expanded from macro 'if'
    #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
                               ^
@@ -129,83 +128,148 @@ clang_analyzer warnings: (new ones prefixed by >>)
    include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_value'
            (cond) ?                                        \
            ^
-   net/ipv6/route.c:3092:7: note: Taking true branch
-           else if (rt->fib6_flags & RTF_REJECT) {
-                ^
+   fs/jbd2/transaction.c:2537:2: note: Taking true branch
+           if (jh->b_transaction)
+           ^
    include/linux/compiler.h:56:23: note: expanded from macro 'if'
    #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
                          ^
-   net/ipv6/route.c:3094:3: note: Control jumps to line 3106
-                   goto out;
-                   ^
-   net/ipv6/route.c:3106:2: note: Assuming 'ret' is null
-           if (ret) {
+   fs/jbd2/transaction.c:2543:2: note: 'Default' branch taken. Execution continues on line 2563
+           switch (jlist) {
            ^
-   include/linux/compiler.h:56:45: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_var'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
-                                                      ^~~~
-   net/ipv6/route.c:3106:2: note: '?' condition is false
-           if (ret) {
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_var'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
-                                 ^
-   net/ipv6/route.c:3106:6: note: 'ret' is null
-           if (ret) {
-               ^
+   fs/jbd2/transaction.c:2563:21: note: Passing null pointer value via 1st parameter 'list'
+           __blist_add_buffer(list, jh);
+                              ^~~~
+   fs/jbd2/transaction.c:2563:2: note: Calling '__blist_add_buffer'
+           __blist_add_buffer(list, jh);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/jbd2/transaction.c:1979:7: note: Dereference of null pointer (loaded from variable 'list')
+           if (!*list) {
+                ^
    include/linux/compiler.h:56:47: note: expanded from macro 'if'
    #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
                                                  ^~~~
-   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_var'
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_var'
    #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
-                                                                                        ^~~~
-   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_value'
-           (cond) ?                                        \
-            ^~~~
-   net/ipv6/route.c:3106:2: note: '?' condition is false
-           if (ret) {
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_var'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_value'
-           (cond) ?                                        \
-           ^
-   net/ipv6/route.c:3106:2: note: Taking false branch
-           if (ret) {
-           ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   net/ipv6/route.c:3111:9: note: Calling 'ip6_create_rt_rcu'
-                   ret = ip6_create_rt_rcu(&res);
-                         ^~~~~~~~~~~~~~~~~~~~~~~
-   net/ipv6/route.c:1178:27: note: Dereference of null pointer
-           struct net_device *dev = res->nh->fib_nh_dev;
-                                    ^~~~~~~~~~~~~~~~~~~
->> net/ipv6/route.c:3299:3: warning: Value stored to 'entries' is never read [clang-analyzer-deadcode.DeadStores]
-                   entries = dst_entries_get_slow(ops);
-                   ^         ~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/ipv6/route.c:3299:3: note: Value stored to 'entries' is never read
-                   entries = dst_entries_get_slow(ops);
-                   ^         ~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/ipv6/route.c:3620:24: warning: Access to field 'ifindex' results in a dereference of a null pointer (loaded from variable 'dev') [clang-analyzer-core.NullDereference]
-           fib6_nh->fib_nh_oif = dev->ifindex;
-                                 ^~~
-   net/ipv6/route.c:3511:2: note: 'dev' initialized to a null pointer value
-           struct net_device *dev = NULL;
-           ^~~~~~~~~~~~~~~~~~~~~~
-   net/ipv6/route.c:3520:2: note: Assuming field 'fc_is_fdb' is false
-           if (cfg->fc_is_fdb) {
+                                                      ^~~~
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   2 warnings generated.
+>> arch/x86/kernel/nmi.c:491:20: warning: Value stored to 'nsp' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct nmi_stats *nsp = this_cpu_ptr(&nmi_stats);
+                             ^~~
+   arch/x86/kernel/nmi.c:491:20: note: Value stored to 'nsp' during its initialization is never read
+           struct nmi_stats *nsp = this_cpu_ptr(&nmi_stats);
+                             ^~~
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (1 in non-user code, 2 with check filters).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (1 in non-user code, 1 with check filters).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (1 in non-user code, 2 with check filters).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   1 warning generated.
+   drivers/acpi/acpica/dsfield.c:182:4: warning: Value stored to 'status' is never read [clang-analyzer-deadcode.DeadStores]
+                           status = AE_OK;
+                           ^
+   drivers/acpi/acpica/dsfield.c:182:4: note: Value stored to 'status' is never read
+   1 warning generated.
+   drivers/acpi/acpica/dspkginit.c:350:17: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]
+                   element_ptr = state->pkg.this_target_obj;
+                                 ^
+   drivers/acpi/acpica/dspkginit.c:73:2: note: Assuming the condition is true
+           if (walk_state->parse_flags & ACPI_PARSE_MODULE_LEVEL) {
            ^
    include/linux/compiler.h:56:45: note: expanded from macro 'if'
    #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
@@ -213,8 +277,8 @@ clang_analyzer warnings: (new ones prefixed by >>)
    include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_var'
    #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
                                                       ^~~~
-   net/ipv6/route.c:3520:2: note: '?' condition is false
-           if (cfg->fc_is_fdb) {
+   drivers/acpi/acpica/dspkginit.c:73:2: note: '?' condition is false
+           if (walk_state->parse_flags & ACPI_PARSE_MODULE_LEVEL) {
            ^
    include/linux/compiler.h:56:28: note: expanded from macro 'if'
    #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
@@ -222,369 +286,97 @@ clang_analyzer warnings: (new ones prefixed by >>)
    include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_var'
    #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
                                  ^
-   net/ipv6/route.c:3520:11: note: Field 'fc_is_fdb' is false
-           if (cfg->fc_is_fdb) {
-                    ^
-   net/ipv6/route.c:3520:2: note: '?' condition is false
-           if (cfg->fc_is_fdb) {
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_var'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_value'
-           (cond) ?                                        \
-           ^
-   net/ipv6/route.c:3520:2: note: Taking false branch
-           if (cfg->fc_is_fdb) {
-           ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   net/ipv6/route.c:3527:2: note: Assuming field 'fc_ifindex' is 0
-           if (cfg->fc_ifindex) {
-           ^
-   include/linux/compiler.h:56:45: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_var'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
-                                                      ^~~~
-   net/ipv6/route.c:3527:2: note: '?' condition is false
-           if (cfg->fc_ifindex) {
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_var'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
-                                 ^
-   net/ipv6/route.c:3527:11: note: Field 'fc_ifindex' is 0
-           if (cfg->fc_ifindex) {
-                    ^
-   net/ipv6/route.c:3527:2: note: '?' condition is false
-           if (cfg->fc_ifindex) {
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_var'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_value'
-           (cond) ?                                        \
-           ^
-   net/ipv6/route.c:3527:2: note: Taking false branch
-           if (cfg->fc_ifindex) {
-           ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   net/ipv6/route.c:3536:2: note: Assuming the condition is true
-           if (cfg->fc_flags & RTNH_F_ONLINK) {
-           ^
-   include/linux/compiler.h:56:45: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_var'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
-                                                      ^~~~
-   net/ipv6/route.c:3536:2: note: '?' condition is false
-           if (cfg->fc_flags & RTNH_F_ONLINK) {
 
-vim +/entries +3299 net/ipv6/route.c
+vim +/nsp +491 arch/x86/kernel/nmi.c
 
-b55b76b22144ab Duan Jiong          2013-09-04  3036  
-55cced4f813bec Brian Vazquez       2020-06-23  3037  INDIRECT_CALLABLE_SCOPE struct rt6_info *__ip6_route_redirect(struct net *net,
-b55b76b22144ab Duan Jiong          2013-09-04  3038  					     struct fib6_table *table,
-b55b76b22144ab Duan Jiong          2013-09-04  3039  					     struct flowi6 *fl6,
-b75cc8f90f0734 David Ahern         2018-03-02  3040  					     const struct sk_buff *skb,
-b55b76b22144ab Duan Jiong          2013-09-04  3041  					     int flags)
-b55b76b22144ab Duan Jiong          2013-09-04  3042  {
-b55b76b22144ab Duan Jiong          2013-09-04  3043  	struct ip6rd_flowi *rdfl = (struct ip6rd_flowi *)fl6;
-0b34eb00434730 David Ahern         2019-04-09  3044  	struct rt6_info *ret = NULL;
-9b6b35abfbde37 David Ahern         2019-04-16  3045  	struct fib6_result res = {};
-c55c89884d3d06 David Ahern         2019-06-08  3046  	struct fib6_nh_rd_arg arg = {
-c55c89884d3d06 David Ahern         2019-06-08  3047  		.res = &res,
-c55c89884d3d06 David Ahern         2019-06-08  3048  		.fl6 = fl6,
-c55c89884d3d06 David Ahern         2019-06-08  3049  		.gw  = &rdfl->gateway,
-c55c89884d3d06 David Ahern         2019-06-08  3050  		.ret = &ret
-c55c89884d3d06 David Ahern         2019-06-08  3051  	};
-8d1c802b2815ed David Ahern         2018-04-17  3052  	struct fib6_info *rt;
-b55b76b22144ab Duan Jiong          2013-09-04  3053  	struct fib6_node *fn;
-b55b76b22144ab Duan Jiong          2013-09-04  3054  
-b55b76b22144ab Duan Jiong          2013-09-04  3055  	/* Get the "current" route for this destination and
-67c408cfa8862f Alexander Alemayhu  2017-01-07  3056  	 * check if the redirect has come from appropriate router.
-b55b76b22144ab Duan Jiong          2013-09-04  3057  	 *
-b55b76b22144ab Duan Jiong          2013-09-04  3058  	 * RFC 4861 specifies that redirects should only be
-b55b76b22144ab Duan Jiong          2013-09-04  3059  	 * accepted if they come from the nexthop to the target.
-b55b76b22144ab Duan Jiong          2013-09-04  3060  	 * Due to the way the routes are chosen, this notion
-b55b76b22144ab Duan Jiong          2013-09-04  3061  	 * is a bit fuzzy and one might need to check all possible
-b55b76b22144ab Duan Jiong          2013-09-04  3062  	 * routes.
-b55b76b22144ab Duan Jiong          2013-09-04  3063  	 */
-b55b76b22144ab Duan Jiong          2013-09-04  3064  
-66f5d6ce53e665 Wei Wang            2017-10-06  3065  	rcu_read_lock();
-6454743bc13e7d David Ahern         2018-05-09  3066  	fn = fib6_node_lookup(&table->tb6_root, &fl6->daddr, &fl6->saddr);
-b55b76b22144ab Duan Jiong          2013-09-04  3067  restart:
-66f5d6ce53e665 Wei Wang            2017-10-06  3068  	for_each_fib6_node_rt_rcu(fn) {
-9b6b35abfbde37 David Ahern         2019-04-16  3069  		res.f6i = rt;
-14895687d36805 David Ahern         2018-04-17  3070  		if (fib6_check_expired(rt))
-b55b76b22144ab Duan Jiong          2013-09-04  3071  			continue;
-93c2fb253d177a David Ahern         2018-04-18  3072  		if (rt->fib6_flags & RTF_REJECT)
-b55b76b22144ab Duan Jiong          2013-09-04  3073  			break;
-c55c89884d3d06 David Ahern         2019-06-08  3074  		if (unlikely(rt->nh)) {
-c55c89884d3d06 David Ahern         2019-06-08  3075  			if (nexthop_is_blackhole(rt->nh))
-c55c89884d3d06 David Ahern         2019-06-08  3076  				continue;
-c55c89884d3d06 David Ahern         2019-06-08  3077  			/* on match, res->nh is filled in and potentially ret */
-c55c89884d3d06 David Ahern         2019-06-08  3078  			if (nexthop_for_each_fib6_nh(rt->nh,
-c55c89884d3d06 David Ahern         2019-06-08  3079  						     fib6_nh_redirect_match,
-c55c89884d3d06 David Ahern         2019-06-08  3080  						     &arg))
-0b34eb00434730 David Ahern         2019-04-09  3081  				goto out;
-c55c89884d3d06 David Ahern         2019-06-08  3082  		} else {
-c55c89884d3d06 David Ahern         2019-06-08  3083  			res.nh = rt->fib6_nh;
-c55c89884d3d06 David Ahern         2019-06-08  3084  			if (ip6_redirect_nh_match(&res, fl6, &rdfl->gateway,
-c55c89884d3d06 David Ahern         2019-06-08  3085  						  &ret))
-c55c89884d3d06 David Ahern         2019-06-08  3086  				goto out;
-c55c89884d3d06 David Ahern         2019-06-08  3087  		}
-b55b76b22144ab Duan Jiong          2013-09-04  3088  	}
-b55b76b22144ab Duan Jiong          2013-09-04  3089  
-b55b76b22144ab Duan Jiong          2013-09-04  3090  	if (!rt)
-421842edeaf62c David Ahern         2018-04-17  3091  		rt = net->ipv6.fib6_null_entry;
-93c2fb253d177a David Ahern         2018-04-18  3092  	else if (rt->fib6_flags & RTF_REJECT) {
-23fb93a4d3f118 David Ahern         2018-04-17  3093  		ret = net->ipv6.ip6_null_entry;
-b0a1ba59921eaa Martin KaFai Lau    2015-01-20  3094  		goto out;
-b0a1ba59921eaa Martin KaFai Lau    2015-01-20  3095  	}
-b0a1ba59921eaa Martin KaFai Lau    2015-01-20  3096  
-421842edeaf62c David Ahern         2018-04-17  3097  	if (rt == net->ipv6.fib6_null_entry) {
-a3c00e46efdb40 Martin KaFai Lau    2014-10-20  3098  		fn = fib6_backtrack(fn, &fl6->saddr);
-a3c00e46efdb40 Martin KaFai Lau    2014-10-20  3099  		if (fn)
-a3c00e46efdb40 Martin KaFai Lau    2014-10-20  3100  			goto restart;
-b55b76b22144ab Duan Jiong          2013-09-04  3101  	}
-a3c00e46efdb40 Martin KaFai Lau    2014-10-20  3102  
-9b6b35abfbde37 David Ahern         2019-04-16  3103  	res.f6i = rt;
-1cf844c747d542 David Ahern         2019-05-22  3104  	res.nh = rt->fib6_nh;
-b0a1ba59921eaa Martin KaFai Lau    2015-01-20  3105  out:
-7d21fec9043894 David Ahern         2019-04-16  3106  	if (ret) {
-10585b43420e2f David Ahern         2019-03-20  3107  		ip6_hold_safe(net, &ret);
-7d21fec9043894 David Ahern         2019-04-16  3108  	} else {
-7d21fec9043894 David Ahern         2019-04-16  3109  		res.fib6_flags = res.f6i->fib6_flags;
-7d21fec9043894 David Ahern         2019-04-16  3110  		res.fib6_type = res.f6i->fib6_type;
-9b6b35abfbde37 David Ahern         2019-04-16 @3111  		ret = ip6_create_rt_rcu(&res);
-7d21fec9043894 David Ahern         2019-04-16  3112  	}
-b55b76b22144ab Duan Jiong          2013-09-04  3113  
-66f5d6ce53e665 Wei Wang            2017-10-06  3114  	rcu_read_unlock();
-b55b76b22144ab Duan Jiong          2013-09-04  3115  
-8ff2e5b26cb84b David Ahern         2019-04-16  3116  	trace_fib6_table_lookup(net, &res, table, fl6);
-23fb93a4d3f118 David Ahern         2018-04-17  3117  	return ret;
-b55b76b22144ab Duan Jiong          2013-09-04  3118  };
-b55b76b22144ab Duan Jiong          2013-09-04  3119  
-b55b76b22144ab Duan Jiong          2013-09-04  3120  static struct dst_entry *ip6_route_redirect(struct net *net,
-b55b76b22144ab Duan Jiong          2013-09-04  3121  					    const struct flowi6 *fl6,
-b75cc8f90f0734 David Ahern         2018-03-02  3122  					    const struct sk_buff *skb,
-b55b76b22144ab Duan Jiong          2013-09-04  3123  					    const struct in6_addr *gateway)
-b55b76b22144ab Duan Jiong          2013-09-04  3124  {
-b55b76b22144ab Duan Jiong          2013-09-04  3125  	int flags = RT6_LOOKUP_F_HAS_SADDR;
-b55b76b22144ab Duan Jiong          2013-09-04  3126  	struct ip6rd_flowi rdfl;
-b55b76b22144ab Duan Jiong          2013-09-04  3127  
-b55b76b22144ab Duan Jiong          2013-09-04  3128  	rdfl.fl6 = *fl6;
-b55b76b22144ab Duan Jiong          2013-09-04  3129  	rdfl.gateway = *gateway;
-b55b76b22144ab Duan Jiong          2013-09-04  3130  
-b75cc8f90f0734 David Ahern         2018-03-02  3131  	return fib6_rule_lookup(net, &rdfl.fl6, skb,
-b55b76b22144ab Duan Jiong          2013-09-04  3132  				flags, __ip6_route_redirect);
-b55b76b22144ab Duan Jiong          2013-09-04  3133  }
-b55b76b22144ab Duan Jiong          2013-09-04  3134  
-e2d118a1cb5e60 Lorenzo Colitti     2016-11-04  3135  void ip6_redirect(struct sk_buff *skb, struct net *net, int oif, u32 mark,
-e2d118a1cb5e60 Lorenzo Colitti     2016-11-04  3136  		  kuid_t uid)
-3a5ad2ee5e2c50 David S. Miller     2012-07-12  3137  {
-3a5ad2ee5e2c50 David S. Miller     2012-07-12  3138  	const struct ipv6hdr *iph = (struct ipv6hdr *) skb->data;
-3a5ad2ee5e2c50 David S. Miller     2012-07-12  3139  	struct dst_entry *dst;
-1f7f10ac4aab5a Maciej Żenczykowski 2018-09-29  3140  	struct flowi6 fl6 = {
-1f7f10ac4aab5a Maciej Żenczykowski 2018-09-29  3141  		.flowi6_iif = LOOPBACK_IFINDEX,
-1f7f10ac4aab5a Maciej Żenczykowski 2018-09-29  3142  		.flowi6_oif = oif,
-1f7f10ac4aab5a Maciej Żenczykowski 2018-09-29  3143  		.flowi6_mark = mark,
-1f7f10ac4aab5a Maciej Żenczykowski 2018-09-29  3144  		.daddr = iph->daddr,
-1f7f10ac4aab5a Maciej Żenczykowski 2018-09-29  3145  		.saddr = iph->saddr,
-1f7f10ac4aab5a Maciej Żenczykowski 2018-09-29  3146  		.flowlabel = ip6_flowinfo(iph),
-1f7f10ac4aab5a Maciej Żenczykowski 2018-09-29  3147  		.flowi6_uid = uid,
-1f7f10ac4aab5a Maciej Żenczykowski 2018-09-29  3148  	};
-3a5ad2ee5e2c50 David S. Miller     2012-07-12  3149  
-b75cc8f90f0734 David Ahern         2018-03-02  3150  	dst = ip6_route_redirect(net, &fl6, skb, &ipv6_hdr(skb)->saddr);
-6700c2709c08d7 David S. Miller     2012-07-17  3151  	rt6_do_redirect(dst, NULL, skb);
-3a5ad2ee5e2c50 David S. Miller     2012-07-12  3152  	dst_release(dst);
-3a5ad2ee5e2c50 David S. Miller     2012-07-12  3153  }
-3a5ad2ee5e2c50 David S. Miller     2012-07-12  3154  EXPORT_SYMBOL_GPL(ip6_redirect);
-3a5ad2ee5e2c50 David S. Miller     2012-07-12  3155  
-d456336d164886 Maciej Żenczykowski 2018-09-29  3156  void ip6_redirect_no_header(struct sk_buff *skb, struct net *net, int oif)
-c92a59eca86f5d Duan Jiong          2013-08-22  3157  {
-c92a59eca86f5d Duan Jiong          2013-08-22  3158  	const struct ipv6hdr *iph = ipv6_hdr(skb);
-c92a59eca86f5d Duan Jiong          2013-08-22  3159  	const struct rd_msg *msg = (struct rd_msg *)icmp6_hdr(skb);
-c92a59eca86f5d Duan Jiong          2013-08-22  3160  	struct dst_entry *dst;
-0b26fb17cadf9d Maciej Żenczykowski 2018-09-29  3161  	struct flowi6 fl6 = {
-0b26fb17cadf9d Maciej Żenczykowski 2018-09-29  3162  		.flowi6_iif = LOOPBACK_IFINDEX,
-0b26fb17cadf9d Maciej Żenczykowski 2018-09-29  3163  		.flowi6_oif = oif,
-0b26fb17cadf9d Maciej Żenczykowski 2018-09-29  3164  		.daddr = msg->dest,
-0b26fb17cadf9d Maciej Żenczykowski 2018-09-29  3165  		.saddr = iph->daddr,
-0b26fb17cadf9d Maciej Żenczykowski 2018-09-29  3166  		.flowi6_uid = sock_net_uid(net, NULL),
-0b26fb17cadf9d Maciej Żenczykowski 2018-09-29  3167  	};
-c92a59eca86f5d Duan Jiong          2013-08-22  3168  
-b75cc8f90f0734 David Ahern         2018-03-02  3169  	dst = ip6_route_redirect(net, &fl6, skb, &iph->saddr);
-c92a59eca86f5d Duan Jiong          2013-08-22  3170  	rt6_do_redirect(dst, NULL, skb);
-c92a59eca86f5d Duan Jiong          2013-08-22  3171  	dst_release(dst);
-c92a59eca86f5d Duan Jiong          2013-08-22  3172  }
-c92a59eca86f5d Duan Jiong          2013-08-22  3173  
-3a5ad2ee5e2c50 David S. Miller     2012-07-12  3174  void ip6_sk_redirect(struct sk_buff *skb, struct sock *sk)
-3a5ad2ee5e2c50 David S. Miller     2012-07-12  3175  {
-e2d118a1cb5e60 Lorenzo Colitti     2016-11-04  3176  	ip6_redirect(skb, sock_net(sk), sk->sk_bound_dev_if, sk->sk_mark,
-e2d118a1cb5e60 Lorenzo Colitti     2016-11-04  3177  		     sk->sk_uid);
-3a5ad2ee5e2c50 David S. Miller     2012-07-12  3178  }
-3a5ad2ee5e2c50 David S. Miller     2012-07-12  3179  EXPORT_SYMBOL_GPL(ip6_sk_redirect);
-3a5ad2ee5e2c50 David S. Miller     2012-07-12  3180  
-0dbaee3b37e118 David S. Miller     2010-12-13  3181  static unsigned int ip6_default_advmss(const struct dst_entry *dst)
-^1da177e4c3f41 Linus Torvalds      2005-04-16  3182  {
-0dbaee3b37e118 David S. Miller     2010-12-13  3183  	struct net_device *dev = dst->dev;
-0dbaee3b37e118 David S. Miller     2010-12-13  3184  	unsigned int mtu = dst_mtu(dst);
-0dbaee3b37e118 David S. Miller     2010-12-13  3185  	struct net *net = dev_net(dev);
-0dbaee3b37e118 David S. Miller     2010-12-13  3186  
-^1da177e4c3f41 Linus Torvalds      2005-04-16  3187  	mtu -= sizeof(struct ipv6hdr) + sizeof(struct tcphdr);
-^1da177e4c3f41 Linus Torvalds      2005-04-16  3188  
-5578689a4e3c04 Daniel Lezcano      2008-03-04  3189  	if (mtu < net->ipv6.sysctl.ip6_rt_min_advmss)
-5578689a4e3c04 Daniel Lezcano      2008-03-04  3190  		mtu = net->ipv6.sysctl.ip6_rt_min_advmss;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  3191  
-^1da177e4c3f41 Linus Torvalds      2005-04-16  3192  	/*
-^1da177e4c3f41 Linus Torvalds      2005-04-16  3193  	 * Maximal non-jumbo IPv6 payload is IPV6_MAXPLEN and
-^1da177e4c3f41 Linus Torvalds      2005-04-16  3194  	 * corresponding MSS is IPV6_MAXPLEN - tcp_header_size.
-^1da177e4c3f41 Linus Torvalds      2005-04-16  3195  	 * IPV6_MAXPLEN is also valid and means: "any MSS,
-^1da177e4c3f41 Linus Torvalds      2005-04-16  3196  	 * rely only on pmtu discovery"
-^1da177e4c3f41 Linus Torvalds      2005-04-16  3197  	 */
-^1da177e4c3f41 Linus Torvalds      2005-04-16  3198  	if (mtu > IPV6_MAXPLEN - sizeof(struct tcphdr))
-^1da177e4c3f41 Linus Torvalds      2005-04-16  3199  		mtu = IPV6_MAXPLEN;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  3200  	return mtu;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  3201  }
-^1da177e4c3f41 Linus Torvalds      2005-04-16  3202  
-f67fbeaebdc035 Brian Vazquez       2021-02-01  3203  INDIRECT_CALLABLE_SCOPE unsigned int ip6_mtu(const struct dst_entry *dst)
-d33e455337ea2c David S. Miller     2010-12-14  3204  {
-427faee167bce4 Vadim Fedorenko     2021-07-20  3205  	return ip6_dst_mtu_maybe_forward(dst, false);
-d33e455337ea2c David S. Miller     2010-12-14  3206  }
-9c97921a51a013 Brian Vazquez       2021-02-04  3207  EXPORT_INDIRECT_CALLABLE(ip6_mtu);
-d33e455337ea2c David S. Miller     2010-12-14  3208  
-901731b882d77d David Ahern         2018-05-21  3209  /* MTU selection:
-901731b882d77d David Ahern         2018-05-21  3210   * 1. mtu on route is locked - use it
-901731b882d77d David Ahern         2018-05-21  3211   * 2. mtu from nexthop exception
-901731b882d77d David Ahern         2018-05-21  3212   * 3. mtu from egress device
-901731b882d77d David Ahern         2018-05-21  3213   *
-901731b882d77d David Ahern         2018-05-21  3214   * based on ip6_dst_mtu_forward and exception logic of
-901731b882d77d David Ahern         2018-05-21  3215   * rt6_find_cached_rt; called with rcu_read_lock
-901731b882d77d David Ahern         2018-05-21  3216   */
-b748f260926263 David Ahern         2019-04-16  3217  u32 ip6_mtu_from_fib6(const struct fib6_result *res,
-b748f260926263 David Ahern         2019-04-16  3218  		      const struct in6_addr *daddr,
-b748f260926263 David Ahern         2019-04-16  3219  		      const struct in6_addr *saddr)
-901731b882d77d David Ahern         2018-05-21  3220  {
-b748f260926263 David Ahern         2019-04-16  3221  	const struct fib6_nh *nh = res->nh;
-b748f260926263 David Ahern         2019-04-16  3222  	struct fib6_info *f6i = res->f6i;
-901731b882d77d David Ahern         2018-05-21  3223  	struct inet6_dev *idev;
-510e2ceda031ee Wei Wang            2019-05-16  3224  	struct rt6_info *rt;
-901731b882d77d David Ahern         2018-05-21  3225  	u32 mtu = 0;
-901731b882d77d David Ahern         2018-05-21  3226  
-901731b882d77d David Ahern         2018-05-21  3227  	if (unlikely(fib6_metric_locked(f6i, RTAX_MTU))) {
-901731b882d77d David Ahern         2018-05-21  3228  		mtu = f6i->fib6_pmtu;
-901731b882d77d David Ahern         2018-05-21  3229  		if (mtu)
-901731b882d77d David Ahern         2018-05-21  3230  			goto out;
-901731b882d77d David Ahern         2018-05-21  3231  	}
-901731b882d77d David Ahern         2018-05-21  3232  
-510e2ceda031ee Wei Wang            2019-05-16  3233  	rt = rt6_find_cached_rt(res, daddr, saddr);
-510e2ceda031ee Wei Wang            2019-05-16  3234  	if (unlikely(rt)) {
-510e2ceda031ee Wei Wang            2019-05-16  3235  		mtu = dst_metric_raw(&rt->dst, RTAX_MTU);
-510e2ceda031ee Wei Wang            2019-05-16  3236  	} else {
-b748f260926263 David Ahern         2019-04-16  3237  		struct net_device *dev = nh->fib_nh_dev;
-901731b882d77d David Ahern         2018-05-21  3238  
-901731b882d77d David Ahern         2018-05-21  3239  		mtu = IPV6_MIN_MTU;
-901731b882d77d David Ahern         2018-05-21  3240  		idev = __in6_dev_get(dev);
-901731b882d77d David Ahern         2018-05-21  3241  		if (idev && idev->cnf.mtu6 > mtu)
-901731b882d77d David Ahern         2018-05-21  3242  			mtu = idev->cnf.mtu6;
-901731b882d77d David Ahern         2018-05-21  3243  	}
-901731b882d77d David Ahern         2018-05-21  3244  
-901731b882d77d David Ahern         2018-05-21  3245  	mtu = min_t(unsigned int, mtu, IP6_MAX_MTU);
-901731b882d77d David Ahern         2018-05-21  3246  out:
-b748f260926263 David Ahern         2019-04-16  3247  	return mtu - lwtunnel_headroom(nh->fib_nh_lws, mtu);
-901731b882d77d David Ahern         2018-05-21  3248  }
-901731b882d77d David Ahern         2018-05-21  3249  
-3b00944c5c73c4 YOSHIFUJI Hideaki   2007-12-06  3250  struct dst_entry *icmp6_dst_alloc(struct net_device *dev,
-87a115783eca7a David S. Miller     2011-12-06  3251  				  struct flowi6 *fl6)
-^1da177e4c3f41 Linus Torvalds      2005-04-16  3252  {
-87a115783eca7a David S. Miller     2011-12-06  3253  	struct dst_entry *dst;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  3254  	struct rt6_info *rt;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  3255  	struct inet6_dev *idev = in6_dev_get(dev);
-c346dca10840a8 YOSHIFUJI Hideaki   2008-03-25  3256  	struct net *net = dev_net(dev);
-^1da177e4c3f41 Linus Torvalds      2005-04-16  3257  
-3830847396fa6d David S. Miller     2011-12-03  3258  	if (unlikely(!idev))
-122bdf67f15a22 Eric Dumazet        2012-03-14  3259  		return ERR_PTR(-ENODEV);
-^1da177e4c3f41 Linus Torvalds      2005-04-16  3260  
-ad706862890171 Martin KaFai Lau    2015-08-14  3261  	rt = ip6_dst_alloc(net, dev, 0);
-3830847396fa6d David S. Miller     2011-12-03  3262  	if (unlikely(!rt)) {
-^1da177e4c3f41 Linus Torvalds      2005-04-16  3263  		in6_dev_put(idev);
-87a115783eca7a David S. Miller     2011-12-06  3264  		dst = ERR_PTR(-ENOMEM);
-^1da177e4c3f41 Linus Torvalds      2005-04-16  3265  		goto out;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  3266  	}
-^1da177e4c3f41 Linus Torvalds      2005-04-16  3267  
-588753f1eb1897 Brendan McGrath     2017-12-13  3268  	rt->dst.input = ip6_input;
-8e2ec639173f32 Yan, Zheng          2011-09-05  3269  	rt->dst.output  = ip6_output;
-550bab42f83308 Julian Anastasov    2013-10-20  3270  	rt->rt6i_gateway  = fl6->daddr;
-87a115783eca7a David S. Miller     2011-12-06  3271  	rt->rt6i_dst.addr = fl6->daddr;
-8e2ec639173f32 Yan, Zheng          2011-09-05  3272  	rt->rt6i_dst.plen = 128;
-8e2ec639173f32 Yan, Zheng          2011-09-05  3273  	rt->rt6i_idev     = idev;
-14edd87dc67311 Li RongQing         2012-10-24  3274  	dst_metric_set(&rt->dst, RTAX_HOPLIMIT, 0);
-^1da177e4c3f41 Linus Torvalds      2005-04-16  3275  
-4c981e28d373e3 Ido Schimmel        2018-01-07  3276  	/* Add this dst into uncached_list so that rt6_disable_ip() can
-587fea74113463 Wei Wang            2017-06-17  3277  	 * do proper release of the net_device
-587fea74113463 Wei Wang            2017-06-17  3278  	 */
-587fea74113463 Wei Wang            2017-06-17  3279  	rt6_uncached_list_add(rt);
-^1da177e4c3f41 Linus Torvalds      2005-04-16  3280  
-87a115783eca7a David S. Miller     2011-12-06  3281  	dst = xfrm_lookup(net, &rt->dst, flowi6_to_flowi(fl6), NULL, 0);
-87a115783eca7a David S. Miller     2011-12-06  3282  
-^1da177e4c3f41 Linus Torvalds      2005-04-16  3283  out:
-87a115783eca7a David S. Miller     2011-12-06  3284  	return dst;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  3285  }
-^1da177e4c3f41 Linus Torvalds      2005-04-16  3286  
-be4d6b6b6e4a9d Jon Maxwell         2023-01-12  3287  static void ip6_dst_gc(struct dst_ops *ops)
-^1da177e4c3f41 Linus Torvalds      2005-04-16  3288  {
-86393e52c3f1e2 Alexey Dobriyan     2009-08-29  3289  	struct net *net = container_of(ops, struct net, ipv6.ip6_dst_ops);
-7019b78e1483fa Daniel Lezcano      2008-03-04  3290  	int rt_min_interval = net->ipv6.sysctl.ip6_rt_gc_min_interval;
-7019b78e1483fa Daniel Lezcano      2008-03-04  3291  	int rt_elasticity = net->ipv6.sysctl.ip6_rt_gc_elasticity;
-7019b78e1483fa Daniel Lezcano      2008-03-04  3292  	int rt_gc_timeout = net->ipv6.sysctl.ip6_rt_gc_timeout;
-7019b78e1483fa Daniel Lezcano      2008-03-04  3293  	unsigned long rt_last_gc = net->ipv6.ip6_rt_last_gc;
-9cb7c013420f98 Eric Dumazet        2022-04-13  3294  	unsigned int val;
-fc66f95c68b6d4 Eric Dumazet        2010-10-08  3295  	int entries;
-7019b78e1483fa Daniel Lezcano      2008-03-04  3296  
-fc66f95c68b6d4 Eric Dumazet        2010-10-08  3297  	entries = dst_entries_get_fast(ops);
-be4d6b6b6e4a9d Jon Maxwell         2023-01-12  3298  	if (entries > ops->gc_thresh)
-cf86a086a18095 Eric Dumazet        2020-05-07 @3299  		entries = dst_entries_get_slow(ops);
-cf86a086a18095 Eric Dumazet        2020-05-07  3300  
-be4d6b6b6e4a9d Jon Maxwell         2023-01-12  3301  	if (time_after(rt_last_gc + rt_min_interval, jiffies))
-^1da177e4c3f41 Linus Torvalds      2005-04-16  3302  		goto out;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  3303  
-9cb7c013420f98 Eric Dumazet        2022-04-13  3304  	fib6_run_gc(atomic_inc_return(&net->ipv6.ip6_rt_gc_expire), net, true);
-fc66f95c68b6d4 Eric Dumazet        2010-10-08  3305  	entries = dst_entries_get_slow(ops);
-fc66f95c68b6d4 Eric Dumazet        2010-10-08  3306  	if (entries < ops->gc_thresh)
-9cb7c013420f98 Eric Dumazet        2022-04-13  3307  		atomic_set(&net->ipv6.ip6_rt_gc_expire, rt_gc_timeout >> 1);
-^1da177e4c3f41 Linus Torvalds      2005-04-16  3308  out:
-9cb7c013420f98 Eric Dumazet        2022-04-13  3309  	val = atomic_read(&net->ipv6.ip6_rt_gc_expire);
-9cb7c013420f98 Eric Dumazet        2022-04-13  3310  	atomic_set(&net->ipv6.ip6_rt_gc_expire, val - (val >> rt_elasticity));
-^1da177e4c3f41 Linus Torvalds      2005-04-16  3311  }
-^1da177e4c3f41 Linus Torvalds      2005-04-16  3312  
+228bdaa95fb830 Steven Rostedt   2011-12-09  487  
+71ed49d8fb3302 Thomas Gleixner  2020-06-12  488  DEFINE_IDTENTRY_RAW(exc_nmi)
+ccd49c2391773f Steven Rostedt   2011-12-13  489  {
+b6be002bcd1dd1 Thomas Gleixner  2020-11-02  490  	irqentry_state_t irq_state;
+8a4de7c131174a Paul E. McKenney 2022-12-16 @491  	struct nmi_stats *nsp = this_cpu_ptr(&nmi_stats);
+ba1f2b2eaa2a52 Peter Zijlstra   2020-05-27  492  
+4ca68e023b11e4 Joerg Roedel     2020-09-07  493  	/*
+4ca68e023b11e4 Joerg Roedel     2020-09-07  494  	 * Re-enable NMIs right here when running as an SEV-ES guest. This might
+4ca68e023b11e4 Joerg Roedel     2020-09-07  495  	 * cause nested NMIs, but those can be handled safely.
+4ca68e023b11e4 Joerg Roedel     2020-09-07  496  	 */
+4ca68e023b11e4 Joerg Roedel     2020-09-07  497  	sev_es_nmi_complete();
+8a4de7c131174a Paul E. McKenney 2022-12-16  498  	if (IS_ENABLED(CONFIG_NMI_CHECK_CPU))
+8a4de7c131174a Paul E. McKenney 2022-12-16  499  		arch_atomic_long_inc(&nsp->idt_calls);
+4ca68e023b11e4 Joerg Roedel     2020-09-07  500  
+14d3b376b6c3f6 Peter Zijlstra   2020-06-03  501  	if (IS_ENABLED(CONFIG_SMP) && arch_cpu_is_offline(smp_processor_id()))
+60dcaad5736faf Thomas Gleixner  2019-07-24  502  		return;
+60dcaad5736faf Thomas Gleixner  2019-07-24  503  
+9d05041679904b Andy Lutomirski  2015-07-15  504  	if (this_cpu_read(nmi_state) != NMI_NOT_RUNNING) {
+9d05041679904b Andy Lutomirski  2015-07-15  505  		this_cpu_write(nmi_state, NMI_LATCHED);
+9d05041679904b Andy Lutomirski  2015-07-15  506  		return;
+9d05041679904b Andy Lutomirski  2015-07-15  507  	}
+9d05041679904b Andy Lutomirski  2015-07-15  508  	this_cpu_write(nmi_state, NMI_EXECUTING);
+9d05041679904b Andy Lutomirski  2015-07-15  509  	this_cpu_write(nmi_cr2, read_cr2());
+8a4de7c131174a Paul E. McKenney 2022-12-16  510  	if (IS_ENABLED(CONFIG_NMI_CHECK_CPU)) {
+8a4de7c131174a Paul E. McKenney 2022-12-16  511  		WRITE_ONCE(nsp->idt_seq, nsp->idt_seq + 1);
+8a4de7c131174a Paul E. McKenney 2022-12-16  512  		WARN_ON_ONCE(!(nsp->idt_seq & 0x1));
+8a4de7c131174a Paul E. McKenney 2022-12-16  513  		WRITE_ONCE(nsp->recv_jiffies, jiffies);
+8a4de7c131174a Paul E. McKenney 2022-12-16  514  	}
+9d05041679904b Andy Lutomirski  2015-07-15  515  nmi_restart:
+9d05041679904b Andy Lutomirski  2015-07-15  516  
+315562c9af3d58 Joerg Roedel     2020-09-07  517  	/*
+315562c9af3d58 Joerg Roedel     2020-09-07  518  	 * Needs to happen before DR7 is accessed, because the hypervisor can
+315562c9af3d58 Joerg Roedel     2020-09-07  519  	 * intercept DR7 reads/writes, turning those into #VC exceptions.
+315562c9af3d58 Joerg Roedel     2020-09-07  520  	 */
+315562c9af3d58 Joerg Roedel     2020-09-07  521  	sev_es_ist_enter(regs);
+315562c9af3d58 Joerg Roedel     2020-09-07  522  
+fd338e3564b0b8 Peter Zijlstra   2020-05-29  523  	this_cpu_write(nmi_dr7, local_db_save());
+ccd49c2391773f Steven Rostedt   2011-12-13  524  
+b6be002bcd1dd1 Thomas Gleixner  2020-11-02  525  	irq_state = irqentry_nmi_enter(regs);
+1d48922c14b636 Don Zickus       2011-09-30  526  
+1d48922c14b636 Don Zickus       2011-09-30  527  	inc_irq_stat(__nmi_count);
+1d48922c14b636 Don Zickus       2011-09-30  528  
+8a4de7c131174a Paul E. McKenney 2022-12-16  529  	if (IS_ENABLED(CONFIG_NMI_CHECK_CPU) && ignore_nmis) {
+8a4de7c131174a Paul E. McKenney 2022-12-16  530  		WRITE_ONCE(nsp->idt_ignored, nsp->idt_ignored + 1);
+8a4de7c131174a Paul E. McKenney 2022-12-16  531  	} else if (!ignore_nmis) {
+8a4de7c131174a Paul E. McKenney 2022-12-16  532  		if (IS_ENABLED(CONFIG_NMI_CHECK_CPU) && ignore_nmis) {
+8a4de7c131174a Paul E. McKenney 2022-12-16  533  			WRITE_ONCE(nsp->idt_nmi_seq, nsp->idt_nmi_seq + 1);
+8a4de7c131174a Paul E. McKenney 2022-12-16  534  			WARN_ON_ONCE(!(nsp->idt_nmi_seq & 0x1));
+8a4de7c131174a Paul E. McKenney 2022-12-16  535  		}
+1d48922c14b636 Don Zickus       2011-09-30  536  		default_do_nmi(regs);
+8a4de7c131174a Paul E. McKenney 2022-12-16  537  		if (IS_ENABLED(CONFIG_NMI_CHECK_CPU) && ignore_nmis) {
+8a4de7c131174a Paul E. McKenney 2022-12-16  538  			WRITE_ONCE(nsp->idt_nmi_seq, nsp->idt_nmi_seq + 1);
+8a4de7c131174a Paul E. McKenney 2022-12-16  539  			WARN_ON_ONCE(nsp->idt_nmi_seq & 0x1);
+8a4de7c131174a Paul E. McKenney 2022-12-16  540  		}
+8a4de7c131174a Paul E. McKenney 2022-12-16  541  	}
+1d48922c14b636 Don Zickus       2011-09-30  542  
+b6be002bcd1dd1 Thomas Gleixner  2020-11-02  543  	irqentry_nmi_exit(regs, irq_state);
+228bdaa95fb830 Steven Rostedt   2011-12-09  544  
+fd338e3564b0b8 Peter Zijlstra   2020-05-29  545  	local_db_restore(this_cpu_read(nmi_dr7));
+9d05041679904b Andy Lutomirski  2015-07-15  546  
+315562c9af3d58 Joerg Roedel     2020-09-07  547  	sev_es_ist_exit();
+315562c9af3d58 Joerg Roedel     2020-09-07  548  
+9d05041679904b Andy Lutomirski  2015-07-15  549  	if (unlikely(this_cpu_read(nmi_cr2) != read_cr2()))
+9d05041679904b Andy Lutomirski  2015-07-15  550  		write_cr2(this_cpu_read(nmi_cr2));
+9d05041679904b Andy Lutomirski  2015-07-15  551  	if (this_cpu_dec_return(nmi_state))
+9d05041679904b Andy Lutomirski  2015-07-15  552  		goto nmi_restart;
+04dcbdb8057827 Thomas Gleixner  2019-02-18  553  
+04dcbdb8057827 Thomas Gleixner  2019-02-18  554  	if (user_mode(regs))
+04dcbdb8057827 Thomas Gleixner  2019-02-18  555  		mds_user_clear_cpu_buffers();
+8a4de7c131174a Paul E. McKenney 2022-12-16  556  	if (IS_ENABLED(CONFIG_NMI_CHECK_CPU)) {
+8a4de7c131174a Paul E. McKenney 2022-12-16  557  		WRITE_ONCE(nsp->idt_seq, nsp->idt_seq + 1);
+8a4de7c131174a Paul E. McKenney 2022-12-16  558  		WARN_ON_ONCE(nsp->idt_seq & 0x1);
+8a4de7c131174a Paul E. McKenney 2022-12-16  559  		WRITE_ONCE(nsp->recv_jiffies, jiffies);
+8a4de7c131174a Paul E. McKenney 2022-12-16  560  	}
+1d48922c14b636 Don Zickus       2011-09-30  561  }
+1d48922c14b636 Don Zickus       2011-09-30  562  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
 
---8PdZWBQLrO1cDNHu
+--4TUlhu3uZ2QM8uuL
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename=config
 
 #
 # Automatically generated file; DO NOT EDIT.
-# Linux/i386 6.2.0-rc2 Kernel Configuration
+# Linux/i386 6.2.0-rc1 Kernel Configuration
 #
 CONFIG_CC_VERSION_TEXT="clang version 14.0.6 (git://gitmirror/llvm_project f28c006a5895fc0e329fe15fead81e37457cb1d1)"
 CONFIG_GCC_VERSION=0
@@ -1512,7 +1304,9 @@ CONFIG_IPV6_NDISC_NODETYPE=y
 # CONFIG_IPV6_RPL_LWTUNNEL is not set
 # CONFIG_IPV6_IOAM6_LWTUNNEL is not set
 # CONFIG_NETLABEL is not set
-# CONFIG_MPTCP is not set
+CONFIG_MPTCP=y
+CONFIG_INET_MPTCP_DIAG=y
+CONFIG_MPTCP_IPV6=y
 CONFIG_NETWORK_SECMARK=y
 CONFIG_NET_PTP_CLASSIFY=y
 # CONFIG_NETWORK_PHY_TIMESTAMPING is not set
@@ -2394,7 +2188,6 @@ CONFIG_MICROCHIP_PHY=y
 CONFIG_MOTORCOMM_PHY=y
 CONFIG_NATIONAL_PHY=y
 CONFIG_NXP_C45_TJA11XX_PHY=m
-# CONFIG_NCN26000_PHY is not set
 CONFIG_QSEMI_PHY=m
 CONFIG_REALTEK_PHY=y
 CONFIG_RENESAS_PHY=m
@@ -5934,6 +5727,7 @@ CONFIG_LOCK_TORTURE_TEST=m
 
 CONFIG_TRACE_IRQFLAGS=y
 CONFIG_TRACE_IRQFLAGS_NMI=y
+# CONFIG_NMI_CHECK_CPU is not set
 # CONFIG_DEBUG_IRQFLAGS is not set
 CONFIG_STACKTRACE=y
 # CONFIG_WARN_ALL_UNSEEDED_RANDOM is not set
@@ -6098,4 +5892,4 @@ CONFIG_MEMTEST=y
 # end of Rust hacking
 # end of Kernel hacking
 
---8PdZWBQLrO1cDNHu--
+--4TUlhu3uZ2QM8uuL--
