@@ -1,138 +1,120 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D444F1C07;
-	Mon, 16 Jan 2023 11:13:15 +0000 (UTC)
-Received: by mail-wr1-f42.google.com with SMTP id b5so5950572wrn.0;
-        Mon, 16 Jan 2023 03:13:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=nmj5GlePH1m1v4jjTuyZYeEMUXxnTC/9kTjujEoJMs0=;
-        b=d6H8HAsNEMGyEdrbdLq7DiHkcwqesRiEn5ysZDwwRCpvMePhphV208q/GxUktf/l/a
-         pAPAJpBi2EYQtR/teF0VrCWW/JVIkblu4eZ4CW7kcosBFsUTIcRYkOsSk1JrX6J/Kjdw
-         Q6ZzBEdHw6SeVbjiHHSS17E4NfTaYUesBXXD4+xnuiGEYa2FUka7vgBLzgjeUfkSDEjO
-         INV7b1K9dn6XnyCJIKQjc1auZSWGNSbYNRCluxTRjLkgvLf549SAR/61/Mtn5sd1/kT0
-         M6ivyuZAHGo54jRlaOHwx+HULdbHGvNcujBWXQnceg4hB2wcTgp5/fTRRDzHD1dJnUls
-         CqQA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=nmj5GlePH1m1v4jjTuyZYeEMUXxnTC/9kTjujEoJMs0=;
-        b=pNRaDPWhU2Xx7ZlDF4U+GosOZljDagcFo5BZLHJEy/ALmo8MJLGUWh/iHXGl5choSl
-         ui/sH5CdckpbOKIev0cEJ1IlugmZfKopzc6w2z3oE3zod8NaYmvj7o9uvo4e+YdBz362
-         7SvRzV8ozTR1iL53FYHxTNhNygWPFzVTN0Cx1aXcIbJ/Wkl0pQruwEo6lOgiW82iOOe/
-         uuUQ8v7CtADThN5y04pd/+TX4ud6OXMvPoS8OYMcbyXtCdKm7OwfBSpqu+L4KHJaxcaU
-         XJPQ12z415dlKCsC4mrGY87uJ+SY8h/fW580N7W8xdrqDER5RvXtp/Ejm9/DN06w2F2a
-         mJ2Q==
-X-Gm-Message-State: AFqh2kp4ORrqSzEtb5O1VYsZLLcB7eU1x8ik7RgIeynvBOdAe0TXrnq3
-	ELzQh1UmepfGfVE+7qgkL9BfA12kUqQ=
-X-Google-Smtp-Source: AMrXdXuKN4rVrN2BmOdoxS7iAkhLVDXr8ESjJSdhLJh8rGn/DGc6pF+Xk2X4luvYiYo481YVXrNvsw==
-X-Received: by 2002:adf:e911:0:b0:2bd:da56:230c with SMTP id f17-20020adfe911000000b002bdda56230cmr10385772wrm.40.1673867593953;
-        Mon, 16 Jan 2023 03:13:13 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id l1-20020adfe9c1000000b00289bdda07b7sm25392040wrn.92.2023.01.16.03.13.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Jan 2023 03:13:13 -0800 (PST)
-Date: Mon, 16 Jan 2023 14:13:10 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Jakub Sitnicki <jakub@cloudflare.com>
-Cc: oe-kbuild@lists.linux.dev, netdev@vger.kernel.org, lkp@intel.com,
-	oe-kbuild-all@lists.linux.dev, kernel-team@cloudflare.com,
-	John Fastabend <john.fastabend@gmail.com>,
-	Eric Dumazet <edumazet@google.com>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	syzbot+04c21ed96d861dccc5cd@syzkaller.appspotmail.com
-Subject: Re: [PATCH bpf 1/3] bpf, sockmap: Check for any of tcp_bpf_prots
- when cloning a listener
-Message-ID: <Y8UxRmxdqGv92Szw@kadam>
-References: <20230113-sockmap-fix-v1-1-d3cad092ee10@cloudflare.com>
- <202301141018.w4fQc4gd-lkp@intel.com>
- <87sfgayeg9.fsf@cloudflare.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FCDA1C33
+	for <oe-kbuild@lists.linux.dev>; Mon, 16 Jan 2023 11:25:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1673868328; x=1705404328;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=VIkr7gbu2HVCrsx9pMsPCWEovNgwR+l1V/j0L54wgkg=;
+  b=OEVbAfZTAapq+MURVyPsGe2VciTW7WRTnqdwrDiOp8kf03QeUBZBbUrq
+   SG9/JXxmutUaV3ko704UuiG+cThM9sYjGnPDu13G1/4s4vZvcqxeh0oY0
+   r5LUoggIpORWOTwBinFXPpxnz/V0T4VM1K6sJ1IxGSA9kBd1HDBe3+YjV
+   rUaLKOgX8418cHb9zwJvchz+bAsj/a114K6w6cU3JqKBBHb9KhOh3tXDR
+   nI1LlzrGIU1/qOHgUBd4Dh/FvjZOIkdyYjIHHJNvX9Um69AfzBKYSty3C
+   fDslWG1WxzFteXO35e3ZuQz3AYuq1XaIs+20fAHhPekJaOjo/CRk7OOy0
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10591"; a="312294559"
+X-IronPort-AV: E=Sophos;i="5.97,220,1669104000"; 
+   d="scan'208";a="312294559"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2023 03:25:27 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10591"; a="782873401"
+X-IronPort-AV: E=Sophos;i="5.97,220,1669104000"; 
+   d="scan'208";a="782873401"
+Received: from lkp-server02.sh.intel.com (HELO f57cd993bc73) ([10.239.97.151])
+  by orsmga004.jf.intel.com with ESMTP; 16 Jan 2023 03:25:26 -0800
+Received: from kbuild by f57cd993bc73 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pHNc8-0000RN-2a;
+	Mon, 16 Jan 2023 11:25:20 +0000
+Date: Mon, 16 Jan 2023 19:24:54 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: drivers/net/wwan/t7xx/t7xx_pci.c:124:15: warning: Uninitialized
+ variable: entity->id [uninitvar]
+Message-ID: <202301161933.JsK1Yuiv-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <87sfgayeg9.fsf@cloudflare.com>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Jan 16, 2023 at 11:09:02AM +0100, Jakub Sitnicki wrote:
-> Hi Dan,
-> 
-> On Sat, Jan 14, 2023 at 11:04 AM +03, Dan Carpenter wrote:
-> > Hi Jakub,
-> >
-> > url:    https://github.com/intel-lab-lkp/linux/commits/Jakub-Sitnicki/bpf-sockmap-Check-for-any-of-tcp_bpf_prots-when-cloning-a-listener/20230113-230728
-> > base:   e7895f017b79410bf4591396a733b876dc1e0e9d
-> > patch link:    https://lore.kernel.org/r/20230113-sockmap-fix-v1-1-d3cad092ee10%40cloudflare.com
-> > patch subject: [PATCH bpf 1/3] bpf, sockmap: Check for any of tcp_bpf_prots when cloning a listener
-> > config: i386-randconfig-m021
-> > compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-> >
-> > If you fix the issue, kindly add following tag where applicable
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Reported-by: Dan Carpenter <error27@gmail.com>
-> >
-> > smatch warnings:
-> > net/ipv4/tcp_bpf.c:644 tcp_bpf_clone() error: buffer overflow 'tcp_bpf_prots' 2 <= 2
-> >
-> > vim +/tcp_bpf_prots +644 net/ipv4/tcp_bpf.c
-> >
-> > 604326b41a6fb9 Daniel Borkmann 2018-10-13  634  
-> > e80251555f0bef Jakub Sitnicki  2020-02-18  635  /* If a child got cloned from a listening socket that had tcp_bpf
-> > e80251555f0bef Jakub Sitnicki  2020-02-18  636   * protocol callbacks installed, we need to restore the callbacks to
-> > e80251555f0bef Jakub Sitnicki  2020-02-18  637   * the default ones because the child does not inherit the psock state
-> > e80251555f0bef Jakub Sitnicki  2020-02-18  638   * that tcp_bpf callbacks expect.
-> > e80251555f0bef Jakub Sitnicki  2020-02-18  639   */
-> > e80251555f0bef Jakub Sitnicki  2020-02-18  640  void tcp_bpf_clone(const struct sock *sk, struct sock *newsk)
-> > e80251555f0bef Jakub Sitnicki  2020-02-18  641  {
-> > e80251555f0bef Jakub Sitnicki  2020-02-18  642  	struct proto *prot = newsk->sk_prot;
-> > e80251555f0bef Jakub Sitnicki  2020-02-18  643  
-> > c2e74657613125 Jakub Sitnicki  2023-01-13 @644  	if (tcp_bpf_prots[0] <= prot && prot < tcp_bpf_prots[ARRAY_SIZE(tcp_bpf_prots)])
-> >                                                                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> > What?  Also I suspect this might cause a compile error for Clang builds.
-> 
-> Can't say I see a problem B-)
-> 
-> tcp_bpf_prots is a 2D array:
-> 
-> static struct proto tcp_bpf_prots[TCP_BPF_NUM_PROTS][TCP_BPF_NUM_CFGS];
-> 
-> ... so tcp_bpf_prots[0] is the base address of the first array, while
-> tcp_bpf_prots[ARRAY_SIZE(tcp_bpf_prots)] is the base address of the
-> array one past the last one.
-> 
-> Smatch doesn't seem to graps the 2D array concept here. We can make it
-> happy by being explicit but harder on the eyes:
-> 
-> 	if (&tcp_bpf_prots[0][0] <= prot && prot < &tcp_bpf_prots[ARRAY_SIZE(tcp_bpf_prots)][0])
-> 		newsk->sk_prot = sk->sk_prot_creator;
+:::::: 
+:::::: Manual check reason: "low confidence static check warning: drivers/net/wwan/t7xx/t7xx_pci.c:124:15: warning: Uninitialized variable: entity->id [uninitvar]"
+:::::: 
 
-Huh.  I can silence this false positive in Smatch...  It never even
-occured to me that this was a two dimensional array (I only have the
-information in the email).
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+TO: Haijun Liu <haijun.liu@mediatek.com>
+CC: Chandrashekar Devegowda <chandrashekar.devegowda@intel.com>
+CC: Ricardo Martinez <ricardo.martinez@linux.intel.com>
+CC: "Ilpo Järvinen" <ilpo.jarvinen@linux.intel.com>
 
-> 
-> Clang can do pointer arithmetic on 2D arrays just fine :-)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   5dc4c995db9eb45f6373a956eb1f69460e69e6d4
+commit: 46e8f49ed7b3063f51e28f3ea2084b3da29c1503 net: wwan: t7xx: Introduce power management
+date:   8 months ago
+:::::: branch date: 20 hours ago
+:::::: commit date: 8 months ago
+compiler: csky-linux-gcc (GCC) 12.1.0
+reproduce (cppcheck warning):
+        # apt-get install cppcheck
+        git checkout 46e8f49ed7b3063f51e28f3ea2084b3da29c1503
+        cppcheck --quiet --enable=style,performance,portability --template=gcc FILE
 
-Heh.  I must have an older version of Clang.
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
 
-  CC      net/ipv4/tcp_bpf.o
-net/ipv4/tcp_bpf.c:644:41: warning: array index 2 is past the end of the array (that has type 'struct proto[2][4]') [-Warray-bounds]
-        if (tcp_bpf_prots[0] <= prot && prot < tcp_bpf_prots[ARRAY_SIZE(tcp_bpf_prots)])
-                                               ^             ~~~~~~~~~~~~~~~~~~~~~~~~~
-net/ipv4/tcp_bpf.c:544:1: note: array 'tcp_bpf_prots' declared here
-static struct proto tcp_bpf_prots[TCP_BPF_NUM_PROTS][TCP_BPF_NUM_CFGS];
-^
-1 warning generated.
 
-regards,
-dan carpetner
+cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+
+>> drivers/net/wwan/t7xx/t7xx_pci.c:124:15: warning: Uninitialized variable: entity->id [uninitvar]
+     if (entity->id == pm_entity->id) {
+                 ^
+   drivers/net/wwan/t7xx/t7xx_pci.c:141:15: warning: Uninitialized variable: entity->id [uninitvar]
+     if (entity->id == pm_entity->id) {
+                 ^
+>> drivers/net/wwan/t7xx/t7xx_pci.c:382:15: warning: Uninitialized variable: entity->resume_early [uninitvar]
+     if (entity->resume_early)
+                 ^
+   drivers/net/wwan/t7xx/t7xx_pci.c:309:42: note: Assuming condition is false
+    if (atomic_read(&t7xx_dev->md_pm_state) <= MTK_PM_INIT) {
+                                            ^
+   drivers/net/wwan/t7xx/t7xx_pci.c:382:15: note: Uninitialized variable: entity->resume_early
+     if (entity->resume_early)
+                 ^
+
+vim +124 drivers/net/wwan/t7xx/t7xx_pci.c
+
+46e8f49ed7b306 Haijun Liu 2022-05-06  117  
+46e8f49ed7b306 Haijun Liu 2022-05-06  118  int t7xx_pci_pm_entity_register(struct t7xx_pci_dev *t7xx_dev, struct md_pm_entity *pm_entity)
+46e8f49ed7b306 Haijun Liu 2022-05-06  119  {
+46e8f49ed7b306 Haijun Liu 2022-05-06  120  	struct md_pm_entity *entity;
+46e8f49ed7b306 Haijun Liu 2022-05-06  121  
+46e8f49ed7b306 Haijun Liu 2022-05-06  122  	mutex_lock(&t7xx_dev->md_pm_entity_mtx);
+46e8f49ed7b306 Haijun Liu 2022-05-06  123  	list_for_each_entry(entity, &t7xx_dev->md_pm_entities, entity) {
+46e8f49ed7b306 Haijun Liu 2022-05-06 @124  		if (entity->id == pm_entity->id) {
+46e8f49ed7b306 Haijun Liu 2022-05-06  125  			mutex_unlock(&t7xx_dev->md_pm_entity_mtx);
+46e8f49ed7b306 Haijun Liu 2022-05-06  126  			return -EEXIST;
+46e8f49ed7b306 Haijun Liu 2022-05-06  127  		}
+46e8f49ed7b306 Haijun Liu 2022-05-06  128  	}
+46e8f49ed7b306 Haijun Liu 2022-05-06  129  
+46e8f49ed7b306 Haijun Liu 2022-05-06  130  	list_add_tail(&pm_entity->entity, &t7xx_dev->md_pm_entities);
+46e8f49ed7b306 Haijun Liu 2022-05-06  131  	mutex_unlock(&t7xx_dev->md_pm_entity_mtx);
+46e8f49ed7b306 Haijun Liu 2022-05-06  132  	return 0;
+46e8f49ed7b306 Haijun Liu 2022-05-06  133  }
+46e8f49ed7b306 Haijun Liu 2022-05-06  134  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
