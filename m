@@ -1,126 +1,89 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A790F1852;
-	Mon, 16 Jan 2023 09:06:10 +0000 (UTC)
-Received: by mail-wm1-f49.google.com with SMTP id j17so942996wms.0;
-        Mon, 16 Jan 2023 01:06:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=mybuF9eD3xVvis6T5JIyJaZfvocrTCm2rxCNsyVTOkU=;
-        b=q7jd9wKgXH0/Zzzn5FLkNZRBf0GRiZGtRTqGPy4rIzw78L6Rdi5PIsb9C7gC7j51kN
-         s4qleK3zZ6gHylMpLV2tXMx3E6ZNRhUVuRUgAOf4nLkrBjG0/TWD7GapTYAntlmerfgY
-         ADJbR25GiYFOXYU8Vuaw5gOLaO8R3Oksjbt1eWMhOwEHENAx61v1DrtiGRi+mreK96kH
-         cp3+FPVAf6XD2HYZjMU+zGJvoVvqmuMfwp5UgK11L11ZVqiAdNIQEdAXBKCzGwVveqGr
-         vFmlrsgdinpn3mBFF6l3kpgw8cRzYiZkV5AAsU0eCuaKVF+LrrgrTCr8/50ksU3i1XLV
-         t/yg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=mybuF9eD3xVvis6T5JIyJaZfvocrTCm2rxCNsyVTOkU=;
-        b=y5GQmGksQFrmcFy7LFHno/5JebI8a9zp5feoJPbVVD3JGUFZvWxp6VTQAm0hdDJh+9
-         DmfTKLTWutQNMaljaMEQMdDi0JhyKKbyPLMu9QRRB7161aW2w3Pd/xaan0mqzBV7pkBg
-         DDAkhBny4hu8VBCXw1PNRlV1m9DdXcMOxA2cw5x3tsBmnnCdsJRAff36rhPbwRGLclzA
-         kHHnRwrottXv6A5MHzK2GTLID+M/nfOWTN7Kf4KRqw+ZIt87KwA9iRQ/JGJeOxHrboo0
-         VOxb7ew/ydkCtLsly4yCLFbpqgjsYDkEX6g0GahVCJLsXqdCEtTbTksq+YsM5grCPIAJ
-         LMDw==
-X-Gm-Message-State: AFqh2kq/6ExuRu7Vmt3lMTG7NC2CNrEON/HK1OMH01v4UERD4jARZN/Z
-	6c5mArqBpKQ0s/HLKRAQdVAuhrgMVBw=
-X-Google-Smtp-Source: AMrXdXvtJW/6I7ehLolULg8ec1+nCcU6FGQKRr6kBRTyTieMEW0T071YTtx3fhJpYdkMs/CvSVv66w==
-X-Received: by 2002:a05:600c:a51:b0:3d2:3376:6f38 with SMTP id c17-20020a05600c0a5100b003d233766f38mr65109079wmq.20.1673859968652;
-        Mon, 16 Jan 2023 01:06:08 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id l14-20020a05600c4f0e00b003d96c811d6dsm40957158wmq.30.2023.01.16.01.06.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Jan 2023 01:06:08 -0800 (PST)
-Date: Mon, 16 Jan 2023 12:06:05 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, Sven Peter <sven@svenpeter.dev>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Hector Martin <marcan@marcan.st>
-Subject: [asahilinux:bits/170-atcphy 3/4] drivers/phy/apple/atc.c:1606
- atcphy_usb3_power_on() warn: inconsistent returns '&atcphy->lock'.
-Message-ID: <202301161612.kh6CzNOx-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D159A1852;
+	Mon, 16 Jan 2023 09:07:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D5B66C433EF;
+	Mon, 16 Jan 2023 09:07:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1673860031;
+	bh=KfOwJKcWTGtct6PgcEN5PTwfSFfDmoGSOMzeq+aA6aI=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=lnGh1KYs+1ddaRg0hSgKMzK3LYBwz/UA2nJ/4z5SSa1PO3zeQvvFpGVLepmi78Ors
+	 xg12itfkbpLnpbE8UoRXW2hOBXhxng2kUU2pLo7z2XMHz35cPsZRae0IrHI37Rvn27
+	 vqkE75PRHKzs0TEKCpV4Q/9vLHM5ysjpunvfnjcGwTLtpbbTxLM5aeo1IagMqcXSBw
+	 UQWt0jwyhQCMRW/fs7yx5QZX5de/EIWo1c39VqLQF3SViU5nkaXB/EUNsaj3cNEg3n
+	 lr8KX8KK1ryTZ52EInmDlbatjCcFm7+dHreCE/ep4sXF9p4bI1p7c4tYk0UXAs0k8t
+	 blrDmIU5UAorQ==
+Message-ID: <ce6ad04f-808a-9cd9-f70e-5f228e405807@kernel.org>
+Date: Mon, 16 Jan 2023 10:07:05 +0100
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Message-ID: <20230116090605.-AjoyY0EZIWKl30rn3HYg7XgI0JLxI62gAzhOQW5vGM@z>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH v4 5/8] mmc: sdhci-pxav2: add optional core clock
+Content-Language: en-US
+To: Dan Carpenter <error27@gmail.com>, Doug Brown <doug@schmorgal.com>
+Cc: oe-kbuild@lists.linux.dev, Ulf Hansson <ulf.hansson@linaro.org>,
+ Adrian Hunter <adrian.hunter@intel.com>, lkp@intel.com,
+ oe-kbuild-all@lists.linux.dev, Rob Herring <robh+dt@kernel.org>,
+ linux-mmc@vger.kernel.org, devicetree@vger.kernel.org
+References: <202301140445.zXxR25qN-lkp@intel.com>
+ <b5867cb5-aeed-b081-543f-fd611c3c84c9@schmorgal.com> <Y8USwHNZfuaP1ro8@kadam>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+In-Reply-To: <Y8USwHNZfuaP1ro8@kadam>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-tree:   https://github.com/AsahiLinux/linux bits/170-atcphy
-head:   79938b462abfcb29899b2784d426565e487e2c07
-commit: 14fe97d5e1f4fd24f520a539c0d497490f669d0e [3/4] WIP: phy: apple: Add Apple Type-C PHY
-config: arm64-randconfig-m041-20230115
-compiler: aarch64-linux-gcc (GCC) 12.1.0
+On 16/01/2023 10:02, Dan Carpenter wrote:
+> On Sat, Jan 14, 2023 at 02:49:07PM -0800, Doug Brown wrote:
+>> Hi Dan,
+>>
+>> On 1/14/2023 12:01 AM, Dan Carpenter wrote:
+>>> Hi Doug,
+>>>
+>>> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>>>
+>>> url:    https://github.com/intel-lab-lkp/linux/commits/Doug-Brown/mmc-sdhci-pxav2-add-initial-support-for-PXA168-V1-controller/20230112-102921
+>>> base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+>>> patch link:    https://lore.kernel.org/r/20230112022416.8474-6-doug%40schmorgal.com
+>>> patch subject: [PATCH v4 5/8] mmc: sdhci-pxav2: add optional core clock
+>>> config: riscv-randconfig-m041-20230113
+>>> compiler: riscv64-linux-gcc (GCC) 12.1.0
+>>>
+>>> If you fix the issue, kindly add following tag where applicable
+>>> | Reported-by: kernel test robot <lkp@intel.com>
+>>> | Reported-by: Dan Carpenter <error27@gmail.com>
+>>>
+>>> smatch warnings:
+>>> drivers/mmc/host/sdhci-pxav2.c:220 sdhci_pxav2_probe() warn: missing error code 'ret'
+>>
+>> Thanks for passing this on. I definitely forgot an assignment to ret.
+>> Since this is correcting an error in my patch that hasn't been accepted
+>> yet, is it safe to assume I should omit those Reported-by tags from the
+>> next version of my patch, since they don't apply to the patch itself?
+>>
+> 
+> These emails are from the kbuild team and not from me.  I just look them
+> over and hit the forward button.  I'm sure it helps the kbuild team in
+> their marketing when people use the tags...  Right now I'm applying to
+> jobs outside the Linux community so the tags give me a measurable thing
+> to say I've helped fix thousands of bugs or whatever...
+> 
+> I've always argued that there should be a different Fixes-from: tag for
+> people who find bugs during review (as opposed to just complaining about
+> white space which is its own reward and I do that for free).  So far I
+> haven't convinced anyone on this though.
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
+Oh, I am in. This is considerable effort to find bugs on the mailing
+lists or in linux-next. Even if it is pure bisect and test, it's a lot
+of time. If it is not credited, we loose some valuable feedback and
+incentives.
 
-smatch warnings:
-drivers/phy/apple/atc.c:1606 atcphy_usb3_power_on() warn: inconsistent returns '&atcphy->lock'.
-drivers/phy/apple/atc.c:2153 atcphy_parse_new_tunable() warn: impossible condition '(offset > (~0)) => (0-u32max > u32max)'
-drivers/phy/apple/atc.c:2153 atcphy_parse_new_tunable() warn: impossible condition '(mask > (~0)) => (0-u32max > u32max)'
-drivers/phy/apple/atc.c:2154 atcphy_parse_new_tunable() warn: impossible condition '(value > (~0)) => (0-u32max > u32max)'
-
-vim +1606 drivers/phy/apple/atc.c
-
-14fe97d5e1f4fd Sven Peter 2022-11-30  1564  static int atcphy_usb3_power_on(struct phy *phy)
-14fe97d5e1f4fd Sven Peter 2022-11-30  1565  {
-14fe97d5e1f4fd Sven Peter 2022-11-30  1566  	struct apple_atcphy *atcphy = phy_get_drvdata(phy);
-14fe97d5e1f4fd Sven Peter 2022-11-30  1567  	enum atcphy_pipehandler_state state;
-14fe97d5e1f4fd Sven Peter 2022-11-30  1568  	int ret = 0;
-14fe97d5e1f4fd Sven Peter 2022-11-30  1569  
-14fe97d5e1f4fd Sven Peter 2022-11-30  1570  	/*
-14fe97d5e1f4fd Sven Peter 2022-11-30  1571  	 * Both usb role switch and mux set work will be running concurrently.
-14fe97d5e1f4fd Sven Peter 2022-11-30  1572  	 * Make sure atcphy_mux_set_work is done bringing up ATCPHY before
-14fe97d5e1f4fd Sven Peter 2022-11-30  1573  	 * trying to switch dwc3 to the correct PHY.
-14fe97d5e1f4fd Sven Peter 2022-11-30  1574  	 */
-14fe97d5e1f4fd Sven Peter 2022-11-30  1575  	mutex_lock(&atcphy->lock);
-14fe97d5e1f4fd Sven Peter 2022-11-30  1576  	if (atcphy->mode != atcphy->target_mode) {
-14fe97d5e1f4fd Sven Peter 2022-11-30  1577  		reinit_completion(&atcphy->atcphy_online_event);
-14fe97d5e1f4fd Sven Peter 2022-11-30  1578  		mutex_unlock(&atcphy->lock);
-14fe97d5e1f4fd Sven Peter 2022-11-30  1579  		wait_for_completion_timeout(&atcphy->atcphy_online_event,
-14fe97d5e1f4fd Sven Peter 2022-11-30  1580  					msecs_to_jiffies(1000));
-14fe97d5e1f4fd Sven Peter 2022-11-30  1581  		mutex_lock(&atcphy->lock);
-14fe97d5e1f4fd Sven Peter 2022-11-30  1582  	}
-14fe97d5e1f4fd Sven Peter 2022-11-30  1583  
-14fe97d5e1f4fd Sven Peter 2022-11-30  1584  	if (atcphy->mode != atcphy->target_mode) {
-14fe97d5e1f4fd Sven Peter 2022-11-30  1585  		dev_err(atcphy->dev, "ATCPHY did not come up; won't allow dwc3 to come up.\n");
-14fe97d5e1f4fd Sven Peter 2022-11-30  1586  		return -EINVAL;
-
-unlock before returning
-
-14fe97d5e1f4fd Sven Peter 2022-11-30  1587  	}
-14fe97d5e1f4fd Sven Peter 2022-11-30  1588  
-14fe97d5e1f4fd Sven Peter 2022-11-30  1589  	atcphy->dwc3_online = true;
-14fe97d5e1f4fd Sven Peter 2022-11-30  1590  	state = atcphy_modes[atcphy->mode].pipehandler_state;
-14fe97d5e1f4fd Sven Peter 2022-11-30  1591  	switch (state) {
-14fe97d5e1f4fd Sven Peter 2022-11-30  1592  	case ATCPHY_PIPEHANDLER_STATE_USB2:
-14fe97d5e1f4fd Sven Peter 2022-11-30  1593  	case ATCPHY_PIPEHANDLER_STATE_USB3:
-14fe97d5e1f4fd Sven Peter 2022-11-30  1594  		ret = atcphy_configure_pipehandler(atcphy, state);
-14fe97d5e1f4fd Sven Peter 2022-11-30  1595  		break;
-14fe97d5e1f4fd Sven Peter 2022-11-30  1596  
-14fe97d5e1f4fd Sven Peter 2022-11-30  1597  	case ATCPHY_PIPEHANDLER_STATE_INVALID:
-14fe97d5e1f4fd Sven Peter 2022-11-30  1598  	default:
-14fe97d5e1f4fd Sven Peter 2022-11-30  1599  		dev_warn(atcphy->dev, "Invalid state %d in usb3_set_phy\n",
-14fe97d5e1f4fd Sven Peter 2022-11-30  1600  			 state);
-14fe97d5e1f4fd Sven Peter 2022-11-30  1601  		ret = -EINVAL;
-14fe97d5e1f4fd Sven Peter 2022-11-30  1602  	}
-14fe97d5e1f4fd Sven Peter 2022-11-30  1603  
-14fe97d5e1f4fd Sven Peter 2022-11-30  1604  	mutex_unlock(&atcphy->lock);
-14fe97d5e1f4fd Sven Peter 2022-11-30  1605  
-14fe97d5e1f4fd Sven Peter 2022-11-30 @1606  	return 0;
-14fe97d5e1f4fd Sven Peter 2022-11-30  1607  }
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+Best regards,
+Krzysztof
 
