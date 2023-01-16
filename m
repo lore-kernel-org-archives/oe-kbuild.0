@@ -1,106 +1,189 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72D241852;
-	Mon, 16 Jan 2023 09:04:10 +0000 (UTC)
-Received: by mail-wr1-f50.google.com with SMTP id k8so12266320wrc.9;
-        Mon, 16 Jan 2023 01:04:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=wv8k8EuVFunz1/XjttdFyAnIrtF9oXGipLVqOLoy8EE=;
-        b=PclT6y2kSF+9XfRSXQzG5xUdOghWFa1Gw1b8fYSOhdreguJXrh4qo4WZLNdgYh4CX7
-         t68PbL8b46lZ2weCqBii5Imf2SmFNuKtpgAEdu0G/zFOWkwTwM1P1hia1q9yzbN/JBPJ
-         r/LWPrBojIsyz3nXfIcW03Ni12a8X3NH8URzRoKzk3vYH7cNlgvI9N1iJ4zKOJlrcg9e
-         ZHU4fjHbpUFrpcb8u1GEBRKtEN7e/Tca4CF7PUFs3ZNwXMpPNUNhewzFPG0c48TBz8yX
-         GTlheODSTxHQ0ZpD06IVdEoRahNuSy5VomvqSf3FX2QYRj50A2Z7v0feV1K6LGh+BcEO
-         uVLA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=wv8k8EuVFunz1/XjttdFyAnIrtF9oXGipLVqOLoy8EE=;
-        b=HpfVMJOJsTsf1tTgGfwO/H4rJwHERfyzaOYBOJRWHk1//DBBm7OZeTuhtM8gg2vVqi
-         vW+oeSslg/LP5qMxD8ondgUybosFO9fLyyQLrGLBsg0cbk6hDum/PoopNnj6wS7kDYgU
-         7jMyq+HYqxL/Kx6poGNUk9MvB4WHfImxkLHjML+jLbfjU8+wzOtrx93QVpBnKcFUstdh
-         XkLzqos1nVyWh5NjEfXj8kTzpmVbKNp5FqZNWeMEuFBp6WzNhfjzUPf4A2F7YpxKGcDd
-         SzPKOY3QfhG0EU9UBwhx9q1pk8+PrBABEhdwisNawMi9gZLAyBmjKKVRMVIdDcpw2SFS
-         0JaQ==
-X-Gm-Message-State: AFqh2kounS0Kiv68lVwybYualcnfEvHMmH28p8euj5G9aaK3GMclUJjI
-	p3aSiZwoDnoZB9Obr7zixA9o5NsfjOU=
-X-Google-Smtp-Source: AMrXdXsFGXMMHRUC0M/DijIFFfetsaCAiWj8jJXEeoq8278V+Gu6c72O7AJqYkyZkPpuUj30e75PMA==
-X-Received: by 2002:a5d:5484:0:b0:2b6:320e:45a5 with SMTP id h4-20020a5d5484000000b002b6320e45a5mr7181823wrv.29.1673859848532;
-        Mon, 16 Jan 2023 01:04:08 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id l7-20020a5d6747000000b002b57bae7174sm25982484wrw.5.2023.01.16.01.04.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Jan 2023 01:04:08 -0800 (PST)
-Date: Mon, 16 Jan 2023 12:04:05 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, Lorenzo Bianconi <lorenzo@kernel.org>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC v2 bpf-next 1/7] netdev-genl: create a simple family for
- netdev stuff
-Message-ID: <202301150819.NtqkP31A-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D07CD1852
+	for <oe-kbuild@lists.linux.dev>; Mon, 16 Jan 2023 09:04:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1673859853; x=1705395853;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=Gjy2vsu0FchXk57RkO/U18BrQjN6q2nGfceCk9Q9QIw=;
+  b=X/AgwCyJeWyVP4jLtCYJVwPBq1qns8Wv6/bkUVqeGd0uOpAX0t5d76TG
+   yQvtOrpjp+Di4XOhTF6mogxOnfFL0OK+EuBhHUKBM+LaqLTY2RdUtcH4P
+   WCZRI2P/wh7zkK4kISTAeKkgxNl1BZa76kssXJPldf2uXNUIqw/uvfJ93
+   i5MDdsaPzlMVjA5I+6DFl/LtymyA8utm3ygAnRNNhFDWj8fJMaW8LmEeJ
+   v9WDp5kc0hyd8ezjYBzwWMO0SrM4fywsYkglA5IU+Eh/aNu0mOek1pQkA
+   Oh/WJ5ZNhvBQMOCF4QKoxdNtEx2QNkvmzQCBC8NNZBncVRrVOLJ98hUCD
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10591"; a="410665552"
+X-IronPort-AV: E=Sophos;i="5.97,220,1669104000"; 
+   d="scan'208";a="410665552"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2023 01:04:13 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10591"; a="904265617"
+X-IronPort-AV: E=Sophos;i="5.97,220,1669104000"; 
+   d="scan'208";a="904265617"
+Received: from lkp-server02.sh.intel.com (HELO f57cd993bc73) ([10.239.97.151])
+  by fmsmga006.fm.intel.com with ESMTP; 16 Jan 2023 01:04:12 -0800
+Received: from kbuild by f57cd993bc73 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pHLPS-0000OP-1V;
+	Mon, 16 Jan 2023 09:04:06 +0000
+Date: Mon, 16 Jan 2023 17:03:38 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: drivers/net/wwan/t7xx/t7xx_state_monitor.c:67:7: warning:
+ Uninitialized variables: notifier_cur.entry, notifier_cur.notifier_fn,
+ notifier_cur.data [uninitvar]
+Message-ID: <202301161628.ZEcreuNf-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <595c703c45c021fa943762829e71db775a16a3cb.1673710867.git.lorenzo@kernel.org>
-Message-ID: <20230116090405.WktYmZhk65NF2b1bM_ve-SboAogpdJEabSXAWnJsrdA@z>
+Content-Transfer-Encoding: 8bit
 
-Hi Lorenzo,
+:::::: 
+:::::: Manual check reason: "low confidence static check warning: drivers/net/wwan/t7xx/t7xx_state_monitor.c:67:7: warning: Uninitialized variables: notifier_cur.entry, notifier_cur.notifier_fn, notifier_cur.data [uninitvar]"
+:::::: 
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Lorenzo-Bianconi/netdev-genl-create-a-simple-family-for-netdev-stuff/20230114-235603
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/595c703c45c021fa943762829e71db775a16a3cb.1673710867.git.lorenzo%40kernel.org
-patch subject: [RFC v2 bpf-next 1/7] netdev-genl: create a simple family for netdev stuff
-config: i386-randconfig-m021
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+TO: Haijun Liu <haijun.liu@mediatek.com>
+CC: Chandrashekar Devegowda <chandrashekar.devegowda@intel.com>
+CC: Ricardo Martinez <ricardo.martinez@linux.intel.com>
+CC: Loic Poulain <loic.poulain@linaro.org>
+CC: "Ilpo Järvinen" <ilpo.jarvinen@linux.intel.com>
+CC: Sergey Ryazanov <ryazanov.s.a@gmail.com>
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   5dc4c995db9eb45f6373a956eb1f69460e69e6d4
+commit: 13e920d93e37fcaef4a9309515798a3cae9dcf19 net: wwan: t7xx: Add core components
+date:   8 months ago
+:::::: branch date: 18 hours ago
+:::::: commit date: 8 months ago
+compiler: csky-linux-gcc (GCC) 12.1.0
+reproduce (cppcheck warning):
+        # apt-get install cppcheck
+        git checkout 13e920d93e37fcaef4a9309515798a3cae9dcf19
+        cppcheck --quiet --enable=style,performance,portability --template=gcc FILE
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
 
-smatch warnings:
-net/core/netdev-genl.c:32 netdev_nl_dev_fill() error: uninitialized symbol 'err'.
 
-vim +/err +32 net/core/netdev-genl.c
+cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
-653b9134fa5a21 Jakub Kicinski 2023-01-14   11  static int
-653b9134fa5a21 Jakub Kicinski 2023-01-14   12  netdev_nl_dev_fill(struct net_device *netdev, struct sk_buff *rsp,
-653b9134fa5a21 Jakub Kicinski 2023-01-14   13  		   u32 portid, u32 seq, int flags, u32 cmd)
-653b9134fa5a21 Jakub Kicinski 2023-01-14   14  {
-653b9134fa5a21 Jakub Kicinski 2023-01-14   15  	void *hdr;
-653b9134fa5a21 Jakub Kicinski 2023-01-14   16  	int err;
-653b9134fa5a21 Jakub Kicinski 2023-01-14   17  
-653b9134fa5a21 Jakub Kicinski 2023-01-14   18  	hdr = genlmsg_put(rsp, portid, seq, &netdev_nl_family, flags, cmd);
-653b9134fa5a21 Jakub Kicinski 2023-01-14   19  	if (!hdr)
-653b9134fa5a21 Jakub Kicinski 2023-01-14   20  		return -EMSGSIZE;
-653b9134fa5a21 Jakub Kicinski 2023-01-14   21  
-653b9134fa5a21 Jakub Kicinski 2023-01-14   22  	if (nla_put_u32(rsp, NETDEV_A_DEV_IFINDEX, netdev->ifindex) ||
-653b9134fa5a21 Jakub Kicinski 2023-01-14   23  	    nla_put_u64_64bit(rsp, NETDEV_A_DEV_XDP_FEATURES,
-653b9134fa5a21 Jakub Kicinski 2023-01-14   24  			      netdev->xdp_features, NETDEV_A_DEV_PAD))
-653b9134fa5a21 Jakub Kicinski 2023-01-14   25  		goto err_cancel_msg;
+>> drivers/net/wwan/t7xx/t7xx_state_monitor.c:67:7: warning: Uninitialized variables: notifier_cur.entry, notifier_cur.notifier_fn, notifier_cur.data [uninitvar]
+     if (notifier_cur == notifier)
+         ^
+>> drivers/net/wwan/t7xx/t7xx_state_monitor.c:82:17: warning: Uninitialized variable: notifier->notifier_fn [uninitvar]
+     if (notifier->notifier_fn)
+                   ^
+>> drivers/net/wwan/t7xx/t7xx_state_monitor.c:123:27: warning: Uninitialized variables: cmd.flag, cmd.done, cmd.ret [uninitvar]
+     fsm_finish_command(ctl, cmd, -EINVAL);
+                             ^
+>> drivers/net/wwan/t7xx/t7xx_state_monitor.c:130:20: warning: Uninitialized variables: event.entry, event.length [uninitvar]
+     fsm_del_kf_event(event);
+                      ^
+>> drivers/net/wwan/t7xx/t7xx_state_monitor.c:455:14: warning: Uninitialized variable: event->event_id [uninitvar]
+     if (event->event_id == event_id)
+                ^
+--
+>> drivers/net/wwan/t7xx/t7xx_hif_cldma.c:370:16: warning: Uninitialized variable: req_cur->mapped_buff [uninitvar]
+     if (req_cur->mapped_buff && req_cur->skb) {
+                  ^
+>> drivers/net/wwan/t7xx/t7xx_hif_cldma.c:786:12: warning: Uninitialized variable: req->skb [uninitvar]
+     if (req->skb) {
+              ^
 
-err = -ESOMETHING;
+vim +67 drivers/net/wwan/t7xx/t7xx_state_monitor.c
 
-653b9134fa5a21 Jakub Kicinski 2023-01-14   26  
-653b9134fa5a21 Jakub Kicinski 2023-01-14   27  	genlmsg_end(rsp, hdr);
-653b9134fa5a21 Jakub Kicinski 2023-01-14   28  	return 0;
-653b9134fa5a21 Jakub Kicinski 2023-01-14   29  
-653b9134fa5a21 Jakub Kicinski 2023-01-14   30  err_cancel_msg:
-653b9134fa5a21 Jakub Kicinski 2023-01-14   31  	genlmsg_cancel(rsp, hdr);
-653b9134fa5a21 Jakub Kicinski 2023-01-14  @32  	return err;
-653b9134fa5a21 Jakub Kicinski 2023-01-14   33  }
+13e920d93e37fc Haijun Liu 2022-05-06   58  
+13e920d93e37fc Haijun Liu 2022-05-06   59  void t7xx_fsm_notifier_unregister(struct t7xx_modem *md, struct t7xx_fsm_notifier *notifier)
+13e920d93e37fc Haijun Liu 2022-05-06   60  {
+13e920d93e37fc Haijun Liu 2022-05-06   61  	struct t7xx_fsm_notifier *notifier_cur, *notifier_next;
+13e920d93e37fc Haijun Liu 2022-05-06   62  	struct t7xx_fsm_ctl *ctl = md->fsm_ctl;
+13e920d93e37fc Haijun Liu 2022-05-06   63  	unsigned long flags;
+13e920d93e37fc Haijun Liu 2022-05-06   64  
+13e920d93e37fc Haijun Liu 2022-05-06   65  	spin_lock_irqsave(&ctl->notifier_lock, flags);
+13e920d93e37fc Haijun Liu 2022-05-06   66  	list_for_each_entry_safe(notifier_cur, notifier_next, &ctl->notifier_list, entry) {
+13e920d93e37fc Haijun Liu 2022-05-06  @67  		if (notifier_cur == notifier)
+13e920d93e37fc Haijun Liu 2022-05-06   68  			list_del(&notifier->entry);
+13e920d93e37fc Haijun Liu 2022-05-06   69  	}
+13e920d93e37fc Haijun Liu 2022-05-06   70  	spin_unlock_irqrestore(&ctl->notifier_lock, flags);
+13e920d93e37fc Haijun Liu 2022-05-06   71  }
+13e920d93e37fc Haijun Liu 2022-05-06   72  
+13e920d93e37fc Haijun Liu 2022-05-06   73  static void fsm_state_notify(struct t7xx_modem *md, enum md_state state)
+13e920d93e37fc Haijun Liu 2022-05-06   74  {
+13e920d93e37fc Haijun Liu 2022-05-06   75  	struct t7xx_fsm_ctl *ctl = md->fsm_ctl;
+13e920d93e37fc Haijun Liu 2022-05-06   76  	struct t7xx_fsm_notifier *notifier;
+13e920d93e37fc Haijun Liu 2022-05-06   77  	unsigned long flags;
+13e920d93e37fc Haijun Liu 2022-05-06   78  
+13e920d93e37fc Haijun Liu 2022-05-06   79  	spin_lock_irqsave(&ctl->notifier_lock, flags);
+13e920d93e37fc Haijun Liu 2022-05-06   80  	list_for_each_entry(notifier, &ctl->notifier_list, entry) {
+13e920d93e37fc Haijun Liu 2022-05-06   81  		spin_unlock_irqrestore(&ctl->notifier_lock, flags);
+13e920d93e37fc Haijun Liu 2022-05-06  @82  		if (notifier->notifier_fn)
+13e920d93e37fc Haijun Liu 2022-05-06   83  			notifier->notifier_fn(state, notifier->data);
+13e920d93e37fc Haijun Liu 2022-05-06   84  
+13e920d93e37fc Haijun Liu 2022-05-06   85  		spin_lock_irqsave(&ctl->notifier_lock, flags);
+13e920d93e37fc Haijun Liu 2022-05-06   86  	}
+13e920d93e37fc Haijun Liu 2022-05-06   87  	spin_unlock_irqrestore(&ctl->notifier_lock, flags);
+13e920d93e37fc Haijun Liu 2022-05-06   88  }
+13e920d93e37fc Haijun Liu 2022-05-06   89  
+13e920d93e37fc Haijun Liu 2022-05-06   90  void t7xx_fsm_broadcast_state(struct t7xx_fsm_ctl *ctl, enum md_state state)
+13e920d93e37fc Haijun Liu 2022-05-06   91  {
+13e920d93e37fc Haijun Liu 2022-05-06   92  	ctl->md_state = state;
+13e920d93e37fc Haijun Liu 2022-05-06   93  	fsm_state_notify(ctl->md, state);
+13e920d93e37fc Haijun Liu 2022-05-06   94  }
+13e920d93e37fc Haijun Liu 2022-05-06   95  
+13e920d93e37fc Haijun Liu 2022-05-06   96  static void fsm_finish_command(struct t7xx_fsm_ctl *ctl, struct t7xx_fsm_command *cmd, int result)
+13e920d93e37fc Haijun Liu 2022-05-06   97  {
+13e920d93e37fc Haijun Liu 2022-05-06   98  	if (cmd->flag & FSM_CMD_FLAG_WAIT_FOR_COMPLETION) {
+13e920d93e37fc Haijun Liu 2022-05-06   99  		*cmd->ret = result;
+13e920d93e37fc Haijun Liu 2022-05-06  100  		complete_all(cmd->done);
+13e920d93e37fc Haijun Liu 2022-05-06  101  	}
+13e920d93e37fc Haijun Liu 2022-05-06  102  
+13e920d93e37fc Haijun Liu 2022-05-06  103  	kfree(cmd);
+13e920d93e37fc Haijun Liu 2022-05-06  104  }
+13e920d93e37fc Haijun Liu 2022-05-06  105  
+13e920d93e37fc Haijun Liu 2022-05-06  106  static void fsm_del_kf_event(struct t7xx_fsm_event *event)
+13e920d93e37fc Haijun Liu 2022-05-06  107  {
+13e920d93e37fc Haijun Liu 2022-05-06  108  	list_del(&event->entry);
+13e920d93e37fc Haijun Liu 2022-05-06  109  	kfree(event);
+13e920d93e37fc Haijun Liu 2022-05-06  110  }
+13e920d93e37fc Haijun Liu 2022-05-06  111  
+13e920d93e37fc Haijun Liu 2022-05-06  112  static void fsm_flush_event_cmd_qs(struct t7xx_fsm_ctl *ctl)
+13e920d93e37fc Haijun Liu 2022-05-06  113  {
+13e920d93e37fc Haijun Liu 2022-05-06  114  	struct device *dev = &ctl->md->t7xx_dev->pdev->dev;
+13e920d93e37fc Haijun Liu 2022-05-06  115  	struct t7xx_fsm_event *event, *evt_next;
+13e920d93e37fc Haijun Liu 2022-05-06  116  	struct t7xx_fsm_command *cmd, *cmd_next;
+13e920d93e37fc Haijun Liu 2022-05-06  117  	unsigned long flags;
+13e920d93e37fc Haijun Liu 2022-05-06  118  
+13e920d93e37fc Haijun Liu 2022-05-06  119  	spin_lock_irqsave(&ctl->command_lock, flags);
+13e920d93e37fc Haijun Liu 2022-05-06  120  	list_for_each_entry_safe(cmd, cmd_next, &ctl->command_queue, entry) {
+13e920d93e37fc Haijun Liu 2022-05-06  121  		dev_warn(dev, "Unhandled command %d\n", cmd->cmd_id);
+13e920d93e37fc Haijun Liu 2022-05-06  122  		list_del(&cmd->entry);
+13e920d93e37fc Haijun Liu 2022-05-06 @123  		fsm_finish_command(ctl, cmd, -EINVAL);
+13e920d93e37fc Haijun Liu 2022-05-06  124  	}
+13e920d93e37fc Haijun Liu 2022-05-06  125  	spin_unlock_irqrestore(&ctl->command_lock, flags);
+13e920d93e37fc Haijun Liu 2022-05-06  126  
+13e920d93e37fc Haijun Liu 2022-05-06  127  	spin_lock_irqsave(&ctl->event_lock, flags);
+13e920d93e37fc Haijun Liu 2022-05-06  128  	list_for_each_entry_safe(event, evt_next, &ctl->event_queue, entry) {
+13e920d93e37fc Haijun Liu 2022-05-06  129  		dev_warn(dev, "Unhandled event %d\n", event->event_id);
+13e920d93e37fc Haijun Liu 2022-05-06 @130  		fsm_del_kf_event(event);
+13e920d93e37fc Haijun Liu 2022-05-06  131  	}
+13e920d93e37fc Haijun Liu 2022-05-06  132  	spin_unlock_irqrestore(&ctl->event_lock, flags);
+13e920d93e37fc Haijun Liu 2022-05-06  133  }
+13e920d93e37fc Haijun Liu 2022-05-06  134  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
-
