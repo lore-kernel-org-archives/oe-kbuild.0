@@ -1,152 +1,142 @@
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E4B51FB4
-	for <oe-kbuild@lists.linux.dev>; Mon, 16 Jan 2023 12:32:21 +0000 (UTC)
-Received: by mail-pj1-f54.google.com with SMTP id z9-20020a17090a468900b00226b6e7aeeaso30948367pjf.1
-        for <oe-kbuild@lists.linux.dev>; Mon, 16 Jan 2023 04:32:21 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C33151FB4;
+	Mon, 16 Jan 2023 13:08:38 +0000 (UTC)
+Received: by mail-wr1-f49.google.com with SMTP id k8so12932546wrc.9;
+        Mon, 16 Jan 2023 05:08:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=6jhXVeZj3sO/tuUlaQsdeBNyp/PhhJvgN96rYmKb5i0=;
-        b=pIRuxEOOjHvC13Fw5vC7vy9ty9Uk3lJKccR4rAlq3J68yWTuxFmYr6mjleM12U1os9
-         +ea2Buac1sqiNemABGgtvpxECZIpTZ5cW8fkU+Ug3x8tzTlj/qpfBlf0db3q2fIF4/zJ
-         WX0wrCYbzSwrjmrsqWwakJGddd/DXEl90WA32FxtsAIhzz7278wGV7zThYSONSj3IUez
-         rj7dQHn68WFKgheGfU5Al3BZxEjzV5GHE7wlaSOJUcifpP/ThlKPGnlgWZZI8xWo3ucl
-         pLKOBMMPdryiKA29KktG0eOfVN5vh1qLO96rvhazTliD5J6G1Q9Q9gBtpW5vo5qxFGnz
-         PRUA==
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=bgpWNAUapJMRm26abQtvCzO7nE5jcn7/XPBKaRHCDCA=;
+        b=VYYyjXDy+Yzh/3KKMh2FFaywaTMfMaWrhGFCbDcofAkDNbKEY1U/AcHM4m1TBL8qfH
+         Tm4QTFHkZRvvUPtx4HucHbBsdchtFC2pEXGJJ1lgBB633pV7UjYjW1nbKfn1CM4UBna9
+         AsHPDiaMWh9J/Z/I7rt61f5TRgr7lkItMzifaLl4Fjw9tkGg+RXtEzjc33QQLtaS2fTn
+         VZDF/kK6HyfMxllfQp0aSLFElxUYzXz5fUAjyKo57kP3HU/TZ3gXz8UWCCUjk9g9Wss5
+         qT7GF2RXlZ2MhADzlNRdV3NwUdrcKow6KFKKliIxMNZy0c6BbsG8vq6w77jdYYuHFA34
+         QD1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=6jhXVeZj3sO/tuUlaQsdeBNyp/PhhJvgN96rYmKb5i0=;
-        b=l7LWjVF4q59SKs0U0sbYOjQdtWlSSOWDRkcwkGQHE61I5QFHZAWaNTp1ud5NA4HnGz
-         i/DEU1xMqaui8oC2nINlG3UVhMr+a/MXip4ymimi5BE7h/ITNaym3VQeN+5SQr9DLipH
-         ROdF3KRUrKw44++NuEXkByHEZzaBybGrG5UOhfxlrjs3n8JUYylbuOLqYnXTJmCmDDaC
-         mbxCbm3KDDUgTEqaUl9/2tNZ4+qJlkxtp15bS8yw0zTL7BlU20ZaztEEQ+2raXr0xTBu
-         jA+Bs4I8i1G/Sc09vYmI57ys+BqEj1Oi+fIpGSUQmSSVdGk6hL5Je0JXSaPgu0hpI9Qx
-         KGJg==
-X-Gm-Message-State: AFqh2kqLaBo5Qv96bqODrNrEA7HUDADQjdnwG1r3k3CuNjWAA6BTTbxU
-	S5ZVSDN2Y/RGqvzajYcpcYYdKFm59SShnVKc3JO+XQ==
-X-Google-Smtp-Source: AMrXdXu3o4PpTxE/H1KZemRNBlTBp4R7zzW6f9SXdERFAFvHV2e8V77Yo57ybKszjl9GCVLJvPSU529Hdi9tujPrdE0=
-X-Received: by 2002:a17:903:2484:b0:194:706a:ad18 with SMTP id
- p4-20020a170903248400b00194706aad18mr735042plw.18.1673872340790; Mon, 16 Jan
- 2023 04:32:20 -0800 (PST)
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=bgpWNAUapJMRm26abQtvCzO7nE5jcn7/XPBKaRHCDCA=;
+        b=cubr7LGYXsgj6KUWo4yFuqsX49r0Mex7yNZfbnAf4NOwT8w+bKNG2Mn4Pq/UBGG8wp
+         OjaUhrb+FgFd52sqXmsYh0USry1TGTgCKbatTvyiZkmSWydES6VVpHfX2pcMcjmS7ukx
+         9d1TwUpaeMmnI/TS+T83Spqu+zRtwR3vw0QULpNczO2ha9MHHWMUf3m6L/G7hV+zUVd7
+         v/f6U/3iCFhOqIIhLgKGoByBI0261LohPjN7d9j4OVS9i+sS/4FwWage7aViE0X9Xv3R
+         LMfIc8ceVBh3bvNQC0xejD+VqIIq/RzzVAh5MLyUNyJ++OygPYNIZC5JifrLylBF1TLJ
+         5tiQ==
+X-Gm-Message-State: AFqh2korMrpv5Mg/yfkVOr47F4bZEZ1TULQwddriWUTOYct7IlnnfBp1
+	x/0WgAXwsROXLAAliYbNTxI=
+X-Google-Smtp-Source: AMrXdXs6DqKJK054DmvtJdRU6Bwn1nL5xmlS++i0CmtXQ+GXk+OkqbLd6vDTD0JzDF+ahEO36Ag5iw==
+X-Received: by 2002:adf:dcd2:0:b0:2bb:ebc4:2f5c with SMTP id x18-20020adfdcd2000000b002bbebc42f5cmr8564941wrm.43.1673874516935;
+        Mon, 16 Jan 2023 05:08:36 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id o17-20020a5d4091000000b0028965dc7c6bsm25975365wrp.73.2023.01.16.05.08.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Jan 2023 05:08:36 -0800 (PST)
+Date: Mon, 16 Jan 2023 16:08:33 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Baoquan He <bhe@redhat.com>
+Cc: oe-kbuild@lists.linux.dev, linux-mm@kvack.org, lkp@intel.com,
+	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	urezki@gmail.com, lstoakes@gmail.com, stephen.s.brennan@oracle.com,
+	willy@infradead.org, akpm@linux-foundation.org, hch@infradead.org
+Subject: Re: [PATCH v3 3/7] mm/vmalloc.c: allow vread() to read out
+ vm_map_ram areas
+Message-ID: <Y8VMUUOlkwuu5xn6@kadam>
+References: <20230113031921.64716-4-bhe@redhat.com>
+ <202301132345.KVjvHMFq-lkp@intel.com>
+ <Y8QI977QBDbuuGW5@fedora>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20221219234638.3661-4-mike.leach@linaro.org> <202212240621.sgsPYIdK-lkp@intel.com>
-In-Reply-To: <202212240621.sgsPYIdK-lkp@intel.com>
-From: Mike Leach <mike.leach@linaro.org>
-Date: Mon, 16 Jan 2023 12:32:09 +0000
-Message-ID: <CAJ9a7ViJZre-X563M6tc+_rbi_LRc11z5THRSw3iK6Fxd4SwYw@mail.gmail.com>
-Subject: Re: [PATCH v5 3/6] coresight: configfs: Add in binary attributes to
- load files
-To: Dan Carpenter <error27@gmail.com>
-Cc: oe-kbuild@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
-	coresight@lists.linaro.org, linux-kernel@vger.kernel.org, lkp@intel.com, 
-	oe-kbuild-all@lists.linux.dev, mathieu.poirier@linaro.org, 
-	suzuki.poulose@arm.com, acme@kernel.org, james.clark@arm.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y8QI977QBDbuuGW5@fedora>
 
-Hi,
-
-Thanks for this - I'll fix in next set
-
-Mike
-
-On Sat, 24 Dec 2022 at 07:16, Dan Carpenter <error27@gmail.com> wrote:
->
-> Hi Mike,
->
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Mike-Leach/coresight-syscfg-Extend-configfs-for-config-load/20221220-074850
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git for-next
-> patch link:    https://lore.kernel.org/r/20221219234638.3661-4-mike.leach%40linaro.org
-> patch subject: [PATCH v5 3/6] coresight: configfs: Add in binary attributes to load files
-> config: arm-randconfig-m041-20221218
-> compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
->
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <error27@gmail.com>
->
-> smatch warnings:
-> drivers/hwtracing/coresight/coresight-syscfg-configfs.c:595 cscfg_cfg_load_write() warn: possible memory leak of 'load_descs'
->
-> vim +/load_descs +595 drivers/hwtracing/coresight/coresight-syscfg-configfs.c
->
-> 97b8fd654556b1 Mike Leach 2022-12-19  543  static ssize_t cscfg_cfg_load_write(struct config_item *item, const void *buffer, size_t size)
-> 97b8fd654556b1 Mike Leach 2022-12-19  544  {
-> 97b8fd654556b1 Mike Leach 2022-12-19  545       struct cscfg_fs_load_descs *load_descs = 0;
-> 97b8fd654556b1 Mike Leach 2022-12-19  546       struct cscfg_load_owner_info *owner_info = 0;
-> 97b8fd654556b1 Mike Leach 2022-12-19  547       int err = 0;
-> 97b8fd654556b1 Mike Leach 2022-12-19  548
-> 97b8fd654556b1 Mike Leach 2022-12-19  549       /* ensure we cannot simultaneously load and unload */
-> 97b8fd654556b1 Mike Leach 2022-12-19  550       if (!mutex_trylock(&cfs_mutex))
-> 97b8fd654556b1 Mike Leach 2022-12-19  551               return -EBUSY;
-> 97b8fd654556b1 Mike Leach 2022-12-19  552
-> 97b8fd654556b1 Mike Leach 2022-12-19  553       /* check configfs load / unload ops are permitted */
-> 97b8fd654556b1 Mike Leach 2022-12-19  554       if (!cscfg_fs_load_enabled || unload_owner_info) {
-> 97b8fd654556b1 Mike Leach 2022-12-19  555               err = -EBUSY;
-> 97b8fd654556b1 Mike Leach 2022-12-19  556               goto exit_unlock;
-> 97b8fd654556b1 Mike Leach 2022-12-19  557       }
-> 97b8fd654556b1 Mike Leach 2022-12-19  558
-> 97b8fd654556b1 Mike Leach 2022-12-19  559       if (size > CSCFG_FILE_MAXSIZE) {
-> 97b8fd654556b1 Mike Leach 2022-12-19  560               pr_err("cscfg: Load error - Input file too large.\n");
-> 97b8fd654556b1 Mike Leach 2022-12-19  561               err = -EINVAL;
-> 97b8fd654556b1 Mike Leach 2022-12-19  562               goto exit_unlock;
-> 97b8fd654556b1 Mike Leach 2022-12-19  563       }
-> 97b8fd654556b1 Mike Leach 2022-12-19  564
-> 97b8fd654556b1 Mike Leach 2022-12-19  565       load_descs = kzalloc(sizeof(struct cscfg_fs_load_descs), GFP_KERNEL);
-> 97b8fd654556b1 Mike Leach 2022-12-19  566       owner_info = kzalloc(sizeof(struct cscfg_load_owner_info), GFP_KERNEL);
-> 97b8fd654556b1 Mike Leach 2022-12-19  567       if (!load_descs || !owner_info) {
-> 97b8fd654556b1 Mike Leach 2022-12-19  568               err = -ENOMEM;
-> 97b8fd654556b1 Mike Leach 2022-12-19  569               goto exit_memfree;
->
-> This exit leaks (will never happen in real life though).
->
-> 97b8fd654556b1 Mike Leach 2022-12-19  570       }
-> 97b8fd654556b1 Mike Leach 2022-12-19  571
-> 97b8fd654556b1 Mike Leach 2022-12-19  572       owner_info->owner_handle = load_descs;
-> 97b8fd654556b1 Mike Leach 2022-12-19  573       owner_info->type = CSCFG_OWNER_CONFIGFS;
-> 97b8fd654556b1 Mike Leach 2022-12-19  574
-> 97b8fd654556b1 Mike Leach 2022-12-19  575       err = cscfg_file_read_buffer(buffer, size, load_descs);
-> 97b8fd654556b1 Mike Leach 2022-12-19  576       if (err) {
-> 97b8fd654556b1 Mike Leach 2022-12-19  577               pr_err("cscfg: Load error - Failed to read input file.\n");
-> 97b8fd654556b1 Mike Leach 2022-12-19  578               goto exit_memfree;
-> 97b8fd654556b1 Mike Leach 2022-12-19  579       }
-> 97b8fd654556b1 Mike Leach 2022-12-19  580
-> 97b8fd654556b1 Mike Leach 2022-12-19  581       err = cscfg_load_config_sets(load_descs->config_descs, load_descs->feat_descs, owner_info);
-> 97b8fd654556b1 Mike Leach 2022-12-19  582       if (err) {
-> 97b8fd654556b1 Mike Leach 2022-12-19  583               pr_err("cscfg: Load error - Failed to load configuaration file.\n");
-> 97b8fd654556b1 Mike Leach 2022-12-19  584               goto exit_memfree;
-> 97b8fd654556b1 Mike Leach 2022-12-19  585       }
-> 97b8fd654556b1 Mike Leach 2022-12-19  586
-> 97b8fd654556b1 Mike Leach 2022-12-19  587       mutex_unlock(&cfs_mutex);
-> 97b8fd654556b1 Mike Leach 2022-12-19  588       return size;
-> 97b8fd654556b1 Mike Leach 2022-12-19  589
-> 97b8fd654556b1 Mike Leach 2022-12-19  590  exit_memfree:
-> 97b8fd654556b1 Mike Leach 2022-12-19  591       cscfg_configfs_free_owner_info(owner_info);
-> 97b8fd654556b1 Mike Leach 2022-12-19  592
-> 97b8fd654556b1 Mike Leach 2022-12-19  593  exit_unlock:
-> 97b8fd654556b1 Mike Leach 2022-12-19  594       mutex_unlock(&cfs_mutex);
-> 97b8fd654556b1 Mike Leach 2022-12-19 @595       return err;
-> 97b8fd654556b1 Mike Leach 2022-12-19  596  }
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://01.org/lkp
+On Sun, Jan 15, 2023 at 10:08:55PM +0800, Baoquan He wrote:
+> > f181234a5a21fd0 Chen Wandun             2021-09-02  3650  	if ((unsigned long)addr + count <= va->va_start)
+> > f181234a5a21fd0 Chen Wandun             2021-09-02  3651  		goto finished;
+> > f181234a5a21fd0 Chen Wandun             2021-09-02  3652  
+> > f608788cd2d6cae Serapheim Dimitropoulos 2021-04-29  3653  	list_for_each_entry_from(va, &vmap_area_list, list) {
+> > e81ce85f960c2e2 Joonsoo Kim             2013-04-29  3654  		if (!count)
+> > e81ce85f960c2e2 Joonsoo Kim             2013-04-29  3655  			break;
+> > e81ce85f960c2e2 Joonsoo Kim             2013-04-29  3656  
+> > 129dbdf298d7383 Baoquan He              2023-01-13  3657  		vm = va->vm;
+> > 129dbdf298d7383 Baoquan He              2023-01-13  3658  		flags = va->flags & VMAP_FLAGS_MASK;
+> > 129dbdf298d7383 Baoquan He              2023-01-13  3659  
+> > 129dbdf298d7383 Baoquan He              2023-01-13  3660  		if (!vm && !flags)
+> >                                                                             ^^^
+> > vm can be NULL if a flag in VMAP_FLAGS_MASK is set.
+> > 
+> > e81ce85f960c2e2 Joonsoo Kim             2013-04-29  3661  			continue;
+> 
+> Right, after the 'continue;' line, only two cases could happen when it
+> comes here. (vm != null) or (vm->flags & VMAP_RAM) is true.
 >
 
+You're saying VMAP_RAM, but strictly speaking the code is checking
+VMAP_FLAGS_MASK and not VMAP_RAM.
 
--- 
-Mike Leach
-Principal Engineer, ARM Ltd.
-Manchester Design Centre. UK
++#define VMAP_RAM               0x1 /* indicates vm_map_ram area*/
++#define VMAP_BLOCK             0x2 /* mark out the vmap_block sub-type*/
++#define VMAP_FLAGS_MASK                0x3
+
+If we assume that vm is NULL, VMAP_BLOCK is set and VMAP_RAM is clear
+then it would lead to a NULL dereference.  There might be reasons why
+that combination is impossible outside the function but we can't tell
+from the information we have here.
+
+Which is fine, outside information is a common reason for false
+positives with this check.  But I was just concerned about the mix of
+VMAP_FLAGS_MASK and VMAP_RAM.
+
+regards,
+dan carpenter
+
+ 
+> > e81ce85f960c2e2 Joonsoo Kim             2013-04-29  3662  
+> > 129dbdf298d7383 Baoquan He              2023-01-13  3663  		vaddr = (char *) va->va_start;
+> > 129dbdf298d7383 Baoquan He              2023-01-13 @3664  		size = vm ? get_vm_area_size(vm) : va_size(va);
+> >                                                                                ^^
+> > 
+> > 129dbdf298d7383 Baoquan He              2023-01-13  3665  
+> > 129dbdf298d7383 Baoquan He              2023-01-13  3666  		if (addr >= vaddr + size)
+> > ^1da177e4c3f415 Linus Torvalds          2005-04-16  3667  			continue;
+> > ^1da177e4c3f415 Linus Torvalds          2005-04-16  3668  		while (addr < vaddr) {
+> > ^1da177e4c3f415 Linus Torvalds          2005-04-16  3669  			if (count == 0)
+> > ^1da177e4c3f415 Linus Torvalds          2005-04-16  3670  				goto finished;
+> > ^1da177e4c3f415 Linus Torvalds          2005-04-16  3671  			*buf = '\0';
+> > ^1da177e4c3f415 Linus Torvalds          2005-04-16  3672  			buf++;
+> > ^1da177e4c3f415 Linus Torvalds          2005-04-16  3673  			addr++;
+> > ^1da177e4c3f415 Linus Torvalds          2005-04-16  3674  			count--;
+> > ^1da177e4c3f415 Linus Torvalds          2005-04-16  3675  		}
+> > 129dbdf298d7383 Baoquan He              2023-01-13  3676  		n = vaddr + size - addr;
+> > d0107eb07320b5d KAMEZAWA Hiroyuki       2009-09-21  3677  		if (n > count)
+> > d0107eb07320b5d KAMEZAWA Hiroyuki       2009-09-21  3678  			n = count;
+> > 129dbdf298d7383 Baoquan He              2023-01-13  3679  
+> > 129dbdf298d7383 Baoquan He              2023-01-13  3680  		if (flags & VMAP_RAM)
+> > 
+> > assume VMAP_RAM is not set
+> 
+> OK, then vm is not null.
+> > 
+> > 129dbdf298d7383 Baoquan He              2023-01-13  3681  			vmap_ram_vread(buf, addr, n, flags);
+> > 129dbdf298d7383 Baoquan He              2023-01-13 @3682  		else if (!(vm->flags & VM_IOREMAP))
+> >                                                                                    ^^^^^^^^^
+> > Unchecked dereference.  Should this be "flags" instead of "vm->flags"?
+> 
+> Thus, here, in 'else if', vm is not null. And in this 'else if', we are
+> intending to check vm->flags. I don't see issue or risk here. Please
+> help check if I miss anything.
+> 
+> Thanks
+> Baoquan
+> 
+
