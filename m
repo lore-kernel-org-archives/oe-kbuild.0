@@ -1,64 +1,64 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A273F1363
-	for <oe-kbuild@lists.linux.dev>; Mon, 16 Jan 2023 07:53:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7FD91852
+	for <oe-kbuild@lists.linux.dev>; Mon, 16 Jan 2023 08:54:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1673855618; x=1705391618;
+  t=1673859250; x=1705395250;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=s3wtPcgisSo02UYECwEfMdCnySj1xURBHKY/vITRflA=;
-  b=VwvkX5GOk+WFzFDcUPkckx1t208eeKAkMwabR4WX3TgWwU89m8qXB0dR
-   PzbfC6jsB2EGy0F3wuGYEH2AEtolDnK/TpV3SlUnXDdb/TnX1OJfY9NDw
-   tqJltP2pVKD7Ty6S4/FJozoKELBNlPqMaVaxWcG01M/PS4mJUJqITiUq/
-   lSq6M5FxSnl6SOg3Y9FNkAZjPHjjccflV9Db5DWPyNlTtF4YcQpWFFtxw
-   uGkDWWHP4raoKg+TwCK/WIqrwzvXeGkW99aLdpbqIH2UilOT3HVViPLmi
-   OAKjHZgXYDVfKvz4cGzWf2uCd5Fxl5PrRHZhu/6SqEG1eD3pYLrTIy8rl
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10591"; a="351652272"
+  bh=XFT2xbW+awit2qLW3516hcimqiN6iYsju8Zo39wxTYo=;
+  b=XwPbWwLAMocBl88Z0F2rkAsykK3o7kPsb5ES+LrrIP3PVRC4/30Mi7bF
+   ZSf61NRXxoktNckjB+Cp7AtM+hPJDB4jbnrtdBjqHdQsNAQiL9Po/ZfXE
+   JvYUxUb2BvL61FQfSXuFi2+L3xj2Y1PGYkLB01hnr7uieI2WRnYbvE+NE
+   Irt9bqoe7aX3j23WIqRRD/nShDE82mTLclmhEzVLBe+BqyO4n/9uJ8wTS
+   OGIAUWHFPwsviu1c9o6aYKor9hM7d+iKBgFnLLAyCMtfgDfnyyzYCs7l/
+   PeFC0/axQtNFPpFkIy7gVKqZ+1lICq47zRYjwfzki9YZNDEB6IhlWyYjW
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10591"; a="325679620"
 X-IronPort-AV: E=Sophos;i="5.97,220,1669104000"; 
-   d="scan'208";a="351652272"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2023 23:53:37 -0800
+   d="scan'208";a="325679620"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2023 00:54:09 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10591"; a="782819464"
+X-IronPort-AV: E=McAfee;i="6500,9779,10591"; a="722238173"
 X-IronPort-AV: E=Sophos;i="5.97,220,1669104000"; 
-   d="scan'208";a="782819464"
+   d="scan'208";a="722238173"
 Received: from lkp-server02.sh.intel.com (HELO f57cd993bc73) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 15 Jan 2023 23:53:34 -0800
+  by fmsmga008.fm.intel.com with ESMTP; 16 Jan 2023 00:54:07 -0800
 Received: from kbuild by f57cd993bc73 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pHKJB-0000MB-2X;
-	Mon, 16 Jan 2023 07:53:33 +0000
-Date: Mon, 16 Jan 2023 15:52:45 +0800
+	id 1pHLFl-0000O3-2z;
+	Mon, 16 Jan 2023 08:54:05 +0000
+Date: Mon, 16 Jan 2023 16:53:31 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [asahilinux:bits/110-smc 12/21]
- drivers/power/reset/macsmc-reboot.c:193 macsmc_reboot_notify() warn:
- unrecognized format '%p4c'. Was '%p4cc' intended?
-Message-ID: <202301161531.Hs9xhRRt-lkp@intel.com>
+Subject: [asahilinux:bits/170-atcphy 3/4] drivers/phy/apple/atc.c:1606
+ atcphy_usb3_power_on() warn: inconsistent returns '&atcphy->lock'.
+Message-ID: <202301161612.kh6CzNOx-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="vmk8s1N8sJLAz+fw"
+Content-Type: multipart/mixed; boundary="ahRA8GCB1gx9CR3d"
 Content-Disposition: inline
 
 
---vmk8s1N8sJLAz+fw
+--ahRA8GCB1gx9CR3d
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Hector Martin <marcan@marcan.st>
+TO: Sven Peter <sven@svenpeter.dev>
+CC: Hector Martin <marcan@marcan.st>
 
-tree:   https://github.com/AsahiLinux/linux bits/110-smc
-head:   5ae10a7e031c3e261c2f80d41b8d8b55cdb2b087
-commit: 2a8a196dcc1514d64f5c0fe77c535538a668d5de [12/21] power: reset: macsmc-reboot: Add driver for rebooting via Apple SMC
+tree:   https://github.com/AsahiLinux/linux bits/170-atcphy
+head:   79938b462abfcb29899b2784d426565e487e2c07
+commit: 14fe97d5e1f4fd24f520a539c0d497490f669d0e [3/4] WIP: phy: apple: Add Apple Type-C PHY
 :::::: branch date: 5 days ago
 :::::: commit date: 5 days ago
 config: arm64-randconfig-m041-20230115
@@ -69,59 +69,65 @@ If you fix the issue, kindly add following tag where applicable
 | Reported-by: Dan Carpenter <error27@gmail.com>
 
 smatch warnings:
-drivers/power/reset/macsmc-reboot.c:193 macsmc_reboot_notify() warn: unrecognized format '%p4c'. Was '%p4cc' intended?
+drivers/phy/apple/atc.c:1606 atcphy_usb3_power_on() warn: inconsistent returns '&atcphy->lock'.
+drivers/phy/apple/atc.c:2153 atcphy_parse_new_tunable() warn: impossible condition '(offset > (~0)) => (0-u32max > u32max)'
+drivers/phy/apple/atc.c:2153 atcphy_parse_new_tunable() warn: impossible condition '(mask > (~0)) => (0-u32max > u32max)'
+drivers/phy/apple/atc.c:2154 atcphy_parse_new_tunable() warn: impossible condition '(value > (~0)) => (0-u32max > u32max)'
 
-vim +193 drivers/power/reset/macsmc-reboot.c
+vim +1606 drivers/phy/apple/atc.c
 
-2a8a196dcc1514 Hector Martin 2022-02-08  173  
-2a8a196dcc1514 Hector Martin 2022-02-08  174  static int macsmc_reboot_notify(struct notifier_block *this, unsigned long action, void *data)
-2a8a196dcc1514 Hector Martin 2022-02-08  175  {
-2a8a196dcc1514 Hector Martin 2022-02-08  176  	struct macsmc_reboot *reboot = container_of(this, struct macsmc_reboot, reboot_notify);
-2a8a196dcc1514 Hector Martin 2022-02-08  177  	u32 val;
-2a8a196dcc1514 Hector Martin 2022-02-08  178  	u8 shutdown_flag;
-2a8a196dcc1514 Hector Martin 2022-02-08  179  
-2a8a196dcc1514 Hector Martin 2022-02-08  180  	switch (action) {
-2a8a196dcc1514 Hector Martin 2022-02-08  181  		case SYS_RESTART:
-2a8a196dcc1514 Hector Martin 2022-02-08  182  			val = SMC_KEY(rest);
-2a8a196dcc1514 Hector Martin 2022-02-08  183  			shutdown_flag = 0;
-2a8a196dcc1514 Hector Martin 2022-02-08  184  			break;
-2a8a196dcc1514 Hector Martin 2022-02-08  185  		case SYS_POWER_OFF:
-2a8a196dcc1514 Hector Martin 2022-02-08  186  			val = SMC_KEY(offw);
-2a8a196dcc1514 Hector Martin 2022-02-08  187  			shutdown_flag = 1;
-2a8a196dcc1514 Hector Martin 2022-02-08  188  			break;
-2a8a196dcc1514 Hector Martin 2022-02-08  189  		default:
-2a8a196dcc1514 Hector Martin 2022-02-08  190  			return NOTIFY_DONE;
-2a8a196dcc1514 Hector Martin 2022-02-08  191  	}
-2a8a196dcc1514 Hector Martin 2022-02-08  192  
-2a8a196dcc1514 Hector Martin 2022-02-08 @193  	dev_info(reboot->dev, "Preparing for reboot (%p4ch)\n", &val);
-2a8a196dcc1514 Hector Martin 2022-02-08  194  
-2a8a196dcc1514 Hector Martin 2022-02-08  195  	/* On the Mac Mini, this will turn off the LED for power off */
-2a8a196dcc1514 Hector Martin 2022-02-08  196  	if (apple_smc_write_u32(reboot->smc, SMC_KEY(MBSE), val) < 0)
-2a8a196dcc1514 Hector Martin 2022-02-08  197  		dev_err(reboot->dev, "Failed to issue MBSE = %p4ch (reboot_prepare)\n", &val);
-2a8a196dcc1514 Hector Martin 2022-02-08  198  
-2a8a196dcc1514 Hector Martin 2022-02-08  199  	/* Set the boot_stage to 0, which means we're doing a clean shutdown/reboot. */
-2a8a196dcc1514 Hector Martin 2022-02-08  200  	if (reboot->nvm.boot_stage &&
-2a8a196dcc1514 Hector Martin 2022-02-08  201  	    nvmem_cell_set_u8(reboot->nvm.boot_stage, BOOT_STAGE_SHUTDOWN) < 0)
-2a8a196dcc1514 Hector Martin 2022-02-08  202  		dev_err(reboot->dev, "Failed to write boot_stage\n");
-2a8a196dcc1514 Hector Martin 2022-02-08  203  
-2a8a196dcc1514 Hector Martin 2022-02-08  204  	/*
-2a8a196dcc1514 Hector Martin 2022-02-08  205  	 * Set the PMU flag to actually reboot into the off state.
-2a8a196dcc1514 Hector Martin 2022-02-08  206  	 * Without this, the device will just reboot. We make it optional in case it is no longer
-2a8a196dcc1514 Hector Martin 2022-02-08  207  	 * necessary on newer hardware.
-2a8a196dcc1514 Hector Martin 2022-02-08  208  	 */
-2a8a196dcc1514 Hector Martin 2022-02-08  209  	if (reboot->nvm.shutdown_flag &&
-2a8a196dcc1514 Hector Martin 2022-02-08  210  	    nvmem_cell_set_u8(reboot->nvm.shutdown_flag, shutdown_flag) < 0)
-2a8a196dcc1514 Hector Martin 2022-02-08  211  		dev_err(reboot->dev, "Failed to write shutdown_flag\n");
-2a8a196dcc1514 Hector Martin 2022-02-08  212  
-2a8a196dcc1514 Hector Martin 2022-02-08  213  	return NOTIFY_OK;
-2a8a196dcc1514 Hector Martin 2022-02-08  214  }
-2a8a196dcc1514 Hector Martin 2022-02-08  215  
+14fe97d5e1f4fd Sven Peter 2022-11-30  1563  
+14fe97d5e1f4fd Sven Peter 2022-11-30  1564  static int atcphy_usb3_power_on(struct phy *phy)
+14fe97d5e1f4fd Sven Peter 2022-11-30  1565  {
+14fe97d5e1f4fd Sven Peter 2022-11-30  1566  	struct apple_atcphy *atcphy = phy_get_drvdata(phy);
+14fe97d5e1f4fd Sven Peter 2022-11-30  1567  	enum atcphy_pipehandler_state state;
+14fe97d5e1f4fd Sven Peter 2022-11-30  1568  	int ret = 0;
+14fe97d5e1f4fd Sven Peter 2022-11-30  1569  
+14fe97d5e1f4fd Sven Peter 2022-11-30  1570  	/*
+14fe97d5e1f4fd Sven Peter 2022-11-30  1571  	 * Both usb role switch and mux set work will be running concurrently.
+14fe97d5e1f4fd Sven Peter 2022-11-30  1572  	 * Make sure atcphy_mux_set_work is done bringing up ATCPHY before
+14fe97d5e1f4fd Sven Peter 2022-11-30  1573  	 * trying to switch dwc3 to the correct PHY.
+14fe97d5e1f4fd Sven Peter 2022-11-30  1574  	 */
+14fe97d5e1f4fd Sven Peter 2022-11-30  1575  	mutex_lock(&atcphy->lock);
+14fe97d5e1f4fd Sven Peter 2022-11-30  1576  	if (atcphy->mode != atcphy->target_mode) {
+14fe97d5e1f4fd Sven Peter 2022-11-30  1577  		reinit_completion(&atcphy->atcphy_online_event);
+14fe97d5e1f4fd Sven Peter 2022-11-30  1578  		mutex_unlock(&atcphy->lock);
+14fe97d5e1f4fd Sven Peter 2022-11-30  1579  		wait_for_completion_timeout(&atcphy->atcphy_online_event,
+14fe97d5e1f4fd Sven Peter 2022-11-30  1580  					msecs_to_jiffies(1000));
+14fe97d5e1f4fd Sven Peter 2022-11-30  1581  		mutex_lock(&atcphy->lock);
+14fe97d5e1f4fd Sven Peter 2022-11-30  1582  	}
+14fe97d5e1f4fd Sven Peter 2022-11-30  1583  
+14fe97d5e1f4fd Sven Peter 2022-11-30  1584  	if (atcphy->mode != atcphy->target_mode) {
+14fe97d5e1f4fd Sven Peter 2022-11-30  1585  		dev_err(atcphy->dev, "ATCPHY did not come up; won't allow dwc3 to come up.\n");
+14fe97d5e1f4fd Sven Peter 2022-11-30  1586  		return -EINVAL;
+14fe97d5e1f4fd Sven Peter 2022-11-30  1587  	}
+14fe97d5e1f4fd Sven Peter 2022-11-30  1588  
+14fe97d5e1f4fd Sven Peter 2022-11-30  1589  	atcphy->dwc3_online = true;
+14fe97d5e1f4fd Sven Peter 2022-11-30  1590  	state = atcphy_modes[atcphy->mode].pipehandler_state;
+14fe97d5e1f4fd Sven Peter 2022-11-30  1591  	switch (state) {
+14fe97d5e1f4fd Sven Peter 2022-11-30  1592  	case ATCPHY_PIPEHANDLER_STATE_USB2:
+14fe97d5e1f4fd Sven Peter 2022-11-30  1593  	case ATCPHY_PIPEHANDLER_STATE_USB3:
+14fe97d5e1f4fd Sven Peter 2022-11-30  1594  		ret = atcphy_configure_pipehandler(atcphy, state);
+14fe97d5e1f4fd Sven Peter 2022-11-30  1595  		break;
+14fe97d5e1f4fd Sven Peter 2022-11-30  1596  
+14fe97d5e1f4fd Sven Peter 2022-11-30  1597  	case ATCPHY_PIPEHANDLER_STATE_INVALID:
+14fe97d5e1f4fd Sven Peter 2022-11-30  1598  	default:
+14fe97d5e1f4fd Sven Peter 2022-11-30  1599  		dev_warn(atcphy->dev, "Invalid state %d in usb3_set_phy\n",
+14fe97d5e1f4fd Sven Peter 2022-11-30  1600  			 state);
+14fe97d5e1f4fd Sven Peter 2022-11-30  1601  		ret = -EINVAL;
+14fe97d5e1f4fd Sven Peter 2022-11-30  1602  	}
+14fe97d5e1f4fd Sven Peter 2022-11-30  1603  
+14fe97d5e1f4fd Sven Peter 2022-11-30  1604  	mutex_unlock(&atcphy->lock);
+14fe97d5e1f4fd Sven Peter 2022-11-30  1605  
+14fe97d5e1f4fd Sven Peter 2022-11-30 @1606  	return 0;
+14fe97d5e1f4fd Sven Peter 2022-11-30  1607  }
+14fe97d5e1f4fd Sven Peter 2022-11-30  1608  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
 
---vmk8s1N8sJLAz+fw
+--ahRA8GCB1gx9CR3d
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename=config
 
@@ -2115,7 +2121,6 @@ CONFIG_GPIO_BD9571MWV=y
 CONFIG_GPIO_LP3943=y
 CONFIG_GPIO_LP873X=y
 # CONFIG_GPIO_LP87565 is not set
-CONFIG_GPIO_MACSMC=y
 CONFIG_GPIO_MAX77620=y
 # CONFIG_GPIO_SL28CPLD is not set
 # CONFIG_GPIO_STMPE is not set
@@ -2197,7 +2202,6 @@ CONFIG_POWER_RESET_BRCMSTB=y
 # CONFIG_POWER_RESET_GEMINI_POWEROFF is not set
 CONFIG_POWER_RESET_GPIO=y
 # CONFIG_POWER_RESET_GPIO_RESTART is not set
-CONFIG_POWER_RESET_MACSMC=y
 # CONFIG_POWER_RESET_OCELOT_RESET is not set
 # CONFIG_POWER_RESET_PIIX4_POWEROFF is not set
 # CONFIG_POWER_RESET_LTC2952 is not set
@@ -2270,7 +2274,6 @@ CONFIG_BATTERY_GOLDFISH=y
 CONFIG_CHARGER_UCS1002=y
 # CONFIG_CHARGER_BD99954 is not set
 CONFIG_BATTERY_UG3105=y
-# CONFIG_CHARGER_MACSMC is not set
 CONFIG_HWMON=y
 CONFIG_HWMON_VID=y
 # CONFIG_HWMON_DEBUG_CHIP is not set
@@ -3757,6 +3760,7 @@ CONFIG_SND_VIRTIO=y
 CONFIG_AC97_BUS=y
 CONFIG_USB_OHCI_LITTLE_ENDIAN=y
 # CONFIG_USB_SUPPORT is not set
+CONFIG_TYPEC=y
 CONFIG_MMC=y
 CONFIG_PWRSEQ_EMMC=y
 # CONFIG_PWRSEQ_SIMPLE is not set
@@ -4382,8 +4386,6 @@ CONFIG_MLXREG_IO=y
 CONFIG_NVSW_SN2201=y
 # CONFIG_OLPC_XO175 is not set
 # CONFIG_SURFACE_PLATFORMS is not set
-CONFIG_APPLE_PLATFORMS=y
-CONFIG_APPLE_SMC=y
 CONFIG_HAVE_CLK=y
 CONFIG_HAVE_CLK_PREPARE=y
 CONFIG_COMMON_CLK=y
@@ -4932,6 +4934,7 @@ CONFIG_EXTCON_PTN5150=y
 # CONFIG_EXTCON_RT8973A is not set
 CONFIG_EXTCON_SM5502=y
 CONFIG_EXTCON_USB_GPIO=y
+# CONFIG_EXTCON_USBC_TUSB320 is not set
 CONFIG_MEMORY=y
 CONFIG_DDR=y
 # CONFIG_ARM_PL172_MPMC is not set
@@ -5126,6 +5129,7 @@ CONFIG_PHY_MESON_G12A_MIPI_DPHY_ANALOG=y
 # CONFIG_PHY_MESON_AXG_PCIE is not set
 # CONFIG_PHY_MESON_AXG_MIPI_PCIE_ANALOG is not set
 CONFIG_PHY_MESON_AXG_MIPI_DPHY=y
+CONFIG_PHY_APPLE_ATC=y
 
 #
 # PHY drivers for Broadcom platforms
@@ -6393,4 +6397,4 @@ CONFIG_ARCH_USE_MEMTEST=y
 # CONFIG_WARN_ABI_ERRORS is not set
 # end of Kernel hacking
 
---vmk8s1N8sJLAz+fw--
+--ahRA8GCB1gx9CR3d--
