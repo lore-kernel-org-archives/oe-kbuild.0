@@ -1,53 +1,53 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BBB21851
-	for <oe-kbuild@lists.linux.dev>; Tue, 17 Jan 2023 03:25:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CCDD1C20
+	for <oe-kbuild@lists.linux.dev>; Tue, 17 Jan 2023 04:46:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1673925913; x=1705461913;
+  t=1673930805; x=1705466805;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=KzQfTJte/nnI9fymo9AVVYXF1zjBLYqAOT116YaPYow=;
-  b=YWN1ASh9GwRwDHNwgAPXgIxvZ6EJmNjxuAeixGkJioOdQfeupS8RwSIJ
-   Kb9rj/LyGYCeWvG6n4GTVJOBt3HCjOCL0gqklIeDR7iv0uevIl09oPQZ/
-   w4UQyo7ZbBgJNVx4VyC1ezxyyr6MuFUawu/KFq+fKuPfgPvOL4mgkCQ7d
-   oTTfG1vv9MDSHMTgBocZJeUqrmGrUK3k/wmcHNwl0ft7B7r0cFrscyPH2
-   A482tJzMxg/VhhUSGb9nDR3CurM9hVhY7S1Yia5RRXK2b/8DKuj98Q7z6
-   gd2w7E1tcSFebBUE7OgM73+BdMkjn1pLpIcrHTUGxQS8j/EmiUkrYMoRG
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10592"; a="410842850"
+  bh=yIjg2VMVBY5mFhVCTEzVJP+AzeGGTgV4FeieHW3W5Ik=;
+  b=ZAk94l8iRBNlELaDTC0lITQLCis7CcK0295JCn7SsyhXBITJbW7NeQzv
+   WPd3pHOe/6wWOVfp+rEfPvDRaxeHs3ichbiXYS4OQN08lFHOqWJJSTuCf
+   VAZtv7PjGmJbp9VTDO13SPx/CpkoC+vslKAZVMCFFCenLyz+7i5vMb7yB
+   jVDZhhggEn0ugvC5JDujhgIcinHNWQd8IkBMw8GMFThX9vGhkcLYQ7KAb
+   MRUfJLPgDKiTfS20c7opMUV3VeWFjsdk80GAxww/rP7Q0BcMIn9ustQXD
+   lh6n0WDP0elMqfuAVAhrWrqTyB9SO2A2VbvnDVsax6D7/7XaDQ4Vsimdr
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10592"; a="323307349"
 X-IronPort-AV: E=Sophos;i="5.97,222,1669104000"; 
-   d="scan'208";a="410842850"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2023 19:25:12 -0800
+   d="scan'208";a="323307349"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2023 20:46:16 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10592"; a="987970179"
+X-IronPort-AV: E=McAfee;i="6500,9779,10592"; a="767125508"
 X-IronPort-AV: E=Sophos;i="5.97,222,1669104000"; 
-   d="scan'208";a="987970179"
+   d="scan'208";a="767125508"
 Received: from lkp-server02.sh.intel.com (HELO f57cd993bc73) ([10.239.97.151])
-  by fmsmga005.fm.intel.com with ESMTP; 16 Jan 2023 19:25:09 -0800
+  by fmsmga002.fm.intel.com with ESMTP; 16 Jan 2023 20:46:14 -0800
 Received: from kbuild by f57cd993bc73 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pHcaz-0000uk-0i;
-	Tue, 17 Jan 2023 03:25:09 +0000
-Date: Tue, 17 Jan 2023 11:24:59 +0800
+	id 1pHdrR-0000xW-1G;
+	Tue, 17 Jan 2023 04:46:13 +0000
+Date: Tue, 17 Jan 2023 12:46:01 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [net-next:master 6/37] drivers/net/virtio_net.c:1012
- virtnet_build_xdp_buff_mrg() error: uninitialized symbol 'shinfo'.
-Message-ID: <202301171103.jfe7REdC-lkp@intel.com>
+Subject: [net-next:master 9/37] drivers/net/virtio_net.c:1003
+ build_skb_from_xdp_buff() error: uninitialized symbol 'nr_frags'.
+Message-ID: <202301171234.ZHms1qMQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="dbSaFZQbQexSRiHC"
+Content-Type: multipart/mixed; boundary="4nJX8CKBhJvy6oxN"
 Content-Disposition: inline
 
 
---dbSaFZQbQexSRiHC
+--4nJX8CKBhJvy6oxN
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
@@ -59,9 +59,9 @@ CC: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next.git master
 head:   86ce04f39b3013b99e85412a615b4cdd616c85cd
-commit: ef75cb51f13941cf7633227ade43c4d86ecbc336 [6/37] virtio-net: build xdp_buff with multi buffers
-:::::: branch date: 9 hours ago
-:::::: commit date: 16 hours ago
+commit: b26aa481b4b710051dd663c89ed31f705a7a67eb [9/37] virtio-net: build skb from multi-buffer xdp
+:::::: branch date: 10 hours ago
+:::::: commit date: 17 hours ago
 config: i386-randconfig-m021
 compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 
@@ -70,107 +70,72 @@ If you fix the issue, kindly add following tag where applicable
 | Reported-by: Dan Carpenter <error27@gmail.com>
 
 New smatch warnings:
-drivers/net/virtio_net.c:1012 virtnet_build_xdp_buff_mrg() error: uninitialized symbol 'shinfo'.
+drivers/net/virtio_net.c:1003 build_skb_from_xdp_buff() error: uninitialized symbol 'nr_frags'.
 
 Old smatch warnings:
-drivers/net/virtio_net.c:2974 virtnet_update_settings() error: uninitialized symbol 'virtio_cread_v'.
-drivers/net/virtio_net.c:3391 virtnet_config_changed_work() error: uninitialized symbol 'virtio_cread_v'.
-drivers/net/virtio_net.c:3395 virtnet_config_changed_work() error: uninitialized symbol 'v'.
+drivers/net/virtio_net.c:1082 virtnet_build_xdp_buff_mrg() error: uninitialized symbol 'shinfo'.
+drivers/net/virtio_net.c:3074 virtnet_update_settings() error: uninitialized symbol 'virtio_cread_v'.
+drivers/net/virtio_net.c:3491 virtnet_config_changed_work() error: uninitialized symbol 'virtio_cread_v'.
+drivers/net/virtio_net.c:3495 virtnet_config_changed_work() error: uninitialized symbol 'v'.
 
-vim +/shinfo +1012 drivers/net/virtio_net.c
+vim +/nr_frags +1003 drivers/net/virtio_net.c
 
-f121159d72091f Michael S. Tsirkin 2013-11-28   940  
-ef75cb51f13941 Heng Qi            2023-01-14   941  /* TODO: build xdp in big mode */
-ef75cb51f13941 Heng Qi            2023-01-14   942  static int virtnet_build_xdp_buff_mrg(struct net_device *dev,
-ef75cb51f13941 Heng Qi            2023-01-14   943  				      struct virtnet_info *vi,
-ef75cb51f13941 Heng Qi            2023-01-14   944  				      struct receive_queue *rq,
-ef75cb51f13941 Heng Qi            2023-01-14   945  				      struct xdp_buff *xdp,
-ef75cb51f13941 Heng Qi            2023-01-14   946  				      void *buf,
-ef75cb51f13941 Heng Qi            2023-01-14   947  				      unsigned int len,
-ef75cb51f13941 Heng Qi            2023-01-14   948  				      unsigned int frame_sz,
-ef75cb51f13941 Heng Qi            2023-01-14   949  				      u16 *num_buf,
-ef75cb51f13941 Heng Qi            2023-01-14   950  				      unsigned int *xdp_frags_truesize,
-ef75cb51f13941 Heng Qi            2023-01-14   951  				      struct virtnet_rq_stats *stats)
-ef75cb51f13941 Heng Qi            2023-01-14   952  {
-ef75cb51f13941 Heng Qi            2023-01-14   953  	struct virtio_net_hdr_mrg_rxbuf *hdr = buf;
-ef75cb51f13941 Heng Qi            2023-01-14   954  	unsigned int headroom, tailroom, room;
-ef75cb51f13941 Heng Qi            2023-01-14   955  	unsigned int truesize, cur_frag_size;
-ef75cb51f13941 Heng Qi            2023-01-14   956  	struct skb_shared_info *shinfo;
-ef75cb51f13941 Heng Qi            2023-01-14   957  	unsigned int xdp_frags_truesz = 0;
-ef75cb51f13941 Heng Qi            2023-01-14   958  	struct page *page;
-ef75cb51f13941 Heng Qi            2023-01-14   959  	skb_frag_t *frag;
-ef75cb51f13941 Heng Qi            2023-01-14   960  	int offset;
-ef75cb51f13941 Heng Qi            2023-01-14   961  	void *ctx;
-ef75cb51f13941 Heng Qi            2023-01-14   962  
-ef75cb51f13941 Heng Qi            2023-01-14   963  	xdp_init_buff(xdp, frame_sz, &rq->xdp_rxq);
-ef75cb51f13941 Heng Qi            2023-01-14   964  	xdp_prepare_buff(xdp, buf - VIRTIO_XDP_HEADROOM,
-ef75cb51f13941 Heng Qi            2023-01-14   965  			 VIRTIO_XDP_HEADROOM + vi->hdr_len, len - vi->hdr_len, true);
-ef75cb51f13941 Heng Qi            2023-01-14   966  
-ef75cb51f13941 Heng Qi            2023-01-14   967  	if (*num_buf > 1) {
-ef75cb51f13941 Heng Qi            2023-01-14   968  		/* If we want to build multi-buffer xdp, we need
-ef75cb51f13941 Heng Qi            2023-01-14   969  		 * to specify that the flags of xdp_buff have the
-ef75cb51f13941 Heng Qi            2023-01-14   970  		 * XDP_FLAGS_HAS_FRAG bit.
-ef75cb51f13941 Heng Qi            2023-01-14   971  		 */
-ef75cb51f13941 Heng Qi            2023-01-14   972  		if (!xdp_buff_has_frags(xdp))
-ef75cb51f13941 Heng Qi            2023-01-14   973  			xdp_buff_set_frags_flag(xdp);
-ef75cb51f13941 Heng Qi            2023-01-14   974  
-ef75cb51f13941 Heng Qi            2023-01-14   975  		shinfo = xdp_get_shared_info_from_buff(xdp);
-ef75cb51f13941 Heng Qi            2023-01-14   976  		shinfo->nr_frags = 0;
-ef75cb51f13941 Heng Qi            2023-01-14   977  		shinfo->xdp_frags_size = 0;
-ef75cb51f13941 Heng Qi            2023-01-14   978  	}
-ef75cb51f13941 Heng Qi            2023-01-14   979  
-ef75cb51f13941 Heng Qi            2023-01-14   980  	if ((*num_buf - 1) > MAX_SKB_FRAGS)
-ef75cb51f13941 Heng Qi            2023-01-14   981  		return -EINVAL;
-ef75cb51f13941 Heng Qi            2023-01-14   982  
-ef75cb51f13941 Heng Qi            2023-01-14   983  	while ((--*num_buf) >= 1) {
-ef75cb51f13941 Heng Qi            2023-01-14   984  		buf = virtqueue_get_buf_ctx(rq->vq, &len, &ctx);
-ef75cb51f13941 Heng Qi            2023-01-14   985  		if (unlikely(!buf)) {
-ef75cb51f13941 Heng Qi            2023-01-14   986  			pr_debug("%s: rx error: %d buffers out of %d missing\n",
-ef75cb51f13941 Heng Qi            2023-01-14   987  				 dev->name, *num_buf,
-ef75cb51f13941 Heng Qi            2023-01-14   988  				 virtio16_to_cpu(vi->vdev, hdr->num_buffers));
-ef75cb51f13941 Heng Qi            2023-01-14   989  			dev->stats.rx_length_errors++;
-ef75cb51f13941 Heng Qi            2023-01-14   990  			return -EINVAL;
-ef75cb51f13941 Heng Qi            2023-01-14   991  		}
-ef75cb51f13941 Heng Qi            2023-01-14   992  
-ef75cb51f13941 Heng Qi            2023-01-14   993  		stats->bytes += len;
-ef75cb51f13941 Heng Qi            2023-01-14   994  		page = virt_to_head_page(buf);
-ef75cb51f13941 Heng Qi            2023-01-14   995  		offset = buf - page_address(page);
-ef75cb51f13941 Heng Qi            2023-01-14   996  
-ef75cb51f13941 Heng Qi            2023-01-14   997  		truesize = mergeable_ctx_to_truesize(ctx);
-ef75cb51f13941 Heng Qi            2023-01-14   998  		headroom = mergeable_ctx_to_headroom(ctx);
-ef75cb51f13941 Heng Qi            2023-01-14   999  		tailroom = headroom ? sizeof(struct skb_shared_info) : 0;
-ef75cb51f13941 Heng Qi            2023-01-14  1000  		room = SKB_DATA_ALIGN(headroom + tailroom);
-ef75cb51f13941 Heng Qi            2023-01-14  1001  
-ef75cb51f13941 Heng Qi            2023-01-14  1002  		cur_frag_size = truesize;
-ef75cb51f13941 Heng Qi            2023-01-14  1003  		xdp_frags_truesz += cur_frag_size;
-ef75cb51f13941 Heng Qi            2023-01-14  1004  		if (unlikely(len > truesize - room || cur_frag_size > PAGE_SIZE)) {
-ef75cb51f13941 Heng Qi            2023-01-14  1005  			put_page(page);
-ef75cb51f13941 Heng Qi            2023-01-14  1006  			pr_debug("%s: rx error: len %u exceeds truesize %lu\n",
-ef75cb51f13941 Heng Qi            2023-01-14  1007  				 dev->name, len, (unsigned long)(truesize - room));
-ef75cb51f13941 Heng Qi            2023-01-14  1008  			dev->stats.rx_length_errors++;
-ef75cb51f13941 Heng Qi            2023-01-14  1009  			return -EINVAL;
-ef75cb51f13941 Heng Qi            2023-01-14  1010  		}
-ef75cb51f13941 Heng Qi            2023-01-14  1011  
-ef75cb51f13941 Heng Qi            2023-01-14 @1012  		frag = &shinfo->frags[shinfo->nr_frags++];
-ef75cb51f13941 Heng Qi            2023-01-14  1013  		__skb_frag_set_page(frag, page);
-ef75cb51f13941 Heng Qi            2023-01-14  1014  		skb_frag_off_set(frag, offset);
-ef75cb51f13941 Heng Qi            2023-01-14  1015  		skb_frag_size_set(frag, len);
-ef75cb51f13941 Heng Qi            2023-01-14  1016  		if (page_is_pfmemalloc(page))
-ef75cb51f13941 Heng Qi            2023-01-14  1017  			xdp_buff_set_frag_pfmemalloc(xdp);
-ef75cb51f13941 Heng Qi            2023-01-14  1018  
-ef75cb51f13941 Heng Qi            2023-01-14  1019  		shinfo->xdp_frags_size += len;
-ef75cb51f13941 Heng Qi            2023-01-14  1020  	}
-ef75cb51f13941 Heng Qi            2023-01-14  1021  
-ef75cb51f13941 Heng Qi            2023-01-14  1022  	*xdp_frags_truesize = xdp_frags_truesz;
-ef75cb51f13941 Heng Qi            2023-01-14  1023  	return 0;
-ef75cb51f13941 Heng Qi            2023-01-14  1024  }
-ef75cb51f13941 Heng Qi            2023-01-14  1025  
+f121159d72091f Michael S. Tsirkin 2013-11-28   961  
+b26aa481b4b710 Heng Qi            2023-01-14   962  /* Why not use xdp_build_skb_from_frame() ?
+b26aa481b4b710 Heng Qi            2023-01-14   963   * XDP core assumes that xdp frags are PAGE_SIZE in length, while in
+b26aa481b4b710 Heng Qi            2023-01-14   964   * virtio-net there are 2 points that do not match its requirements:
+b26aa481b4b710 Heng Qi            2023-01-14   965   *  1. The size of the prefilled buffer is not fixed before xdp is set.
+b26aa481b4b710 Heng Qi            2023-01-14   966   *  2. xdp_build_skb_from_frame() does more checks that we don't need,
+b26aa481b4b710 Heng Qi            2023-01-14   967   *     like eth_type_trans() (which virtio-net does in receive_buf()).
+b26aa481b4b710 Heng Qi            2023-01-14   968   */
+b26aa481b4b710 Heng Qi            2023-01-14   969  static struct sk_buff *build_skb_from_xdp_buff(struct net_device *dev,
+b26aa481b4b710 Heng Qi            2023-01-14   970  					       struct virtnet_info *vi,
+b26aa481b4b710 Heng Qi            2023-01-14   971  					       struct xdp_buff *xdp,
+b26aa481b4b710 Heng Qi            2023-01-14   972  					       unsigned int xdp_frags_truesz)
+b26aa481b4b710 Heng Qi            2023-01-14   973  {
+b26aa481b4b710 Heng Qi            2023-01-14   974  	struct skb_shared_info *sinfo = xdp_get_shared_info_from_buff(xdp);
+b26aa481b4b710 Heng Qi            2023-01-14   975  	unsigned int headroom, data_len;
+b26aa481b4b710 Heng Qi            2023-01-14   976  	struct sk_buff *skb;
+b26aa481b4b710 Heng Qi            2023-01-14   977  	int metasize;
+b26aa481b4b710 Heng Qi            2023-01-14   978  	u8 nr_frags;
+b26aa481b4b710 Heng Qi            2023-01-14   979  
+b26aa481b4b710 Heng Qi            2023-01-14   980  	if (unlikely(xdp->data_end > xdp_data_hard_end(xdp))) {
+b26aa481b4b710 Heng Qi            2023-01-14   981  		pr_debug("Error building skb as missing reserved tailroom for xdp");
+b26aa481b4b710 Heng Qi            2023-01-14   982  		return NULL;
+b26aa481b4b710 Heng Qi            2023-01-14   983  	}
+b26aa481b4b710 Heng Qi            2023-01-14   984  
+b26aa481b4b710 Heng Qi            2023-01-14   985  	if (unlikely(xdp_buff_has_frags(xdp)))
+b26aa481b4b710 Heng Qi            2023-01-14   986  		nr_frags = sinfo->nr_frags;
+b26aa481b4b710 Heng Qi            2023-01-14   987  
+b26aa481b4b710 Heng Qi            2023-01-14   988  	skb = build_skb(xdp->data_hard_start, xdp->frame_sz);
+b26aa481b4b710 Heng Qi            2023-01-14   989  	if (unlikely(!skb))
+b26aa481b4b710 Heng Qi            2023-01-14   990  		return NULL;
+b26aa481b4b710 Heng Qi            2023-01-14   991  
+b26aa481b4b710 Heng Qi            2023-01-14   992  	headroom = xdp->data - xdp->data_hard_start;
+b26aa481b4b710 Heng Qi            2023-01-14   993  	data_len = xdp->data_end - xdp->data;
+b26aa481b4b710 Heng Qi            2023-01-14   994  	skb_reserve(skb, headroom);
+b26aa481b4b710 Heng Qi            2023-01-14   995  	__skb_put(skb, data_len);
+b26aa481b4b710 Heng Qi            2023-01-14   996  
+b26aa481b4b710 Heng Qi            2023-01-14   997  	metasize = xdp->data - xdp->data_meta;
+b26aa481b4b710 Heng Qi            2023-01-14   998  	metasize = metasize > 0 ? metasize : 0;
+b26aa481b4b710 Heng Qi            2023-01-14   999  	if (metasize)
+b26aa481b4b710 Heng Qi            2023-01-14  1000  		skb_metadata_set(skb, metasize);
+b26aa481b4b710 Heng Qi            2023-01-14  1001  
+b26aa481b4b710 Heng Qi            2023-01-14  1002  	if (unlikely(xdp_buff_has_frags(xdp)))
+b26aa481b4b710 Heng Qi            2023-01-14 @1003  		xdp_update_skb_shared_info(skb, nr_frags,
+b26aa481b4b710 Heng Qi            2023-01-14  1004  					   sinfo->xdp_frags_size,
+b26aa481b4b710 Heng Qi            2023-01-14  1005  					   xdp_frags_truesz,
+b26aa481b4b710 Heng Qi            2023-01-14  1006  					   xdp_buff_is_frag_pfmemalloc(xdp));
+b26aa481b4b710 Heng Qi            2023-01-14  1007  
+b26aa481b4b710 Heng Qi            2023-01-14  1008  	return skb;
+b26aa481b4b710 Heng Qi            2023-01-14  1009  }
+b26aa481b4b710 Heng Qi            2023-01-14  1010  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
 
---dbSaFZQbQexSRiHC
+--4nJX8CKBhJvy6oxN
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename=config
 
@@ -5753,4 +5718,4 @@ CONFIG_ARCH_USE_MEMTEST=y
 # end of Rust hacking
 # end of Kernel hacking
 
---dbSaFZQbQexSRiHC--
+--4nJX8CKBhJvy6oxN--
