@@ -1,41 +1,42 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0353053A7
-	for <oe-kbuild@lists.linux.dev>; Wed, 18 Jan 2023 19:57:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B6802CAB
+	for <oe-kbuild@lists.linux.dev>; Wed, 18 Jan 2023 20:38:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674071837; x=1705607837;
+  t=1674074295; x=1705610295;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=UWco4Gi9cxGLL1J49YyzjwS2Q/JzEXK5q0ncHpNsfJc=;
-  b=cAKABwyg2huBbpQbI3rhVbtXg2FDMPzeR5MPz3n4GF3Ix9SzoxuNsUO3
-   aFhCiF7+Nki6JCDiVG6IXBo/nNLnbz/dXQ6emOuQsdMpoCI9RC7Uw4lR3
-   WSFGr724EqEozGSvwOgnq7uCNZ5X3HQYcWNISUwSDezdgSmq6ugDV3+T0
-   Sf0OZmOLBVsTiwHFmCfWW83MQJoxhWfJJ7k8NHSbtm2gE2nNqwunf3p6D
-   XW6to3VaDOPikjV9aUaFxE6D6yV/cBPLgHUR+o3IXOUFfqKI2bwnlzxWw
-   XfYl4PqwChBcYsHeD7dOa+oo3jaXjNhMTRx5Bf6uQSVlcAxdwYsdw0BPV
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="352336785"
+  bh=v3qz1Yk1cU1W2OikfQ0pfl//8+ByxXJ2DIUNi4Rw+Xc=;
+  b=VieeSj4bSFqX6tBHTCm76M23T4FkCmRNtaMcl3t3vehDCdXHfDItX6Yy
+   VFe8k9HlsJaaibL0Q6lF0XImj41GEA/fGaXB8Qw9m3qCqj/+16Kj/bqKD
+   Keu7Ny0e4cIsHn6/VZYMxrKZ2BSSeff22AuZ74UpAS/XPx9ajGbmeRqF2
+   J1IwIHRqwv6c/Z8X1zeUvi45PrqfdTiK8/diq0IiBwCHEJgdE5dunE+SS
+   C15W6ucyjqGjpAaMSMjklQT9wzlUGph7ID1eXQuxDvJafzkaXp6+z6vwe
+   jw9XmQp/jq5K/CBWWptES7fRzzZwEEQikD+FfJnR6uoQmVTIeiLCkC+ym
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="387446033"
 X-IronPort-AV: E=Sophos;i="5.97,226,1669104000"; 
-   d="scan'208";a="352336785"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2023 11:57:13 -0800
+   d="scan'208";a="387446033"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2023 12:38:14 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="767894536"
+X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="723231078"
 X-IronPort-AV: E=Sophos;i="5.97,226,1669104000"; 
-   d="scan'208";a="767894536"
+   d="scan'208";a="723231078"
 Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 18 Jan 2023 11:57:12 -0800
+  by fmsmga008.fm.intel.com with ESMTP; 18 Jan 2023 12:38:13 -0800
 Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pIEYZ-0000fW-2H;
-	Wed, 18 Jan 2023 19:57:11 +0000
-Date: Thu, 19 Jan 2023 03:56:26 +0800
+	id 1pIFCG-0000hK-2x;
+	Wed, 18 Jan 2023 20:38:12 +0000
+Date: Thu, 19 Jan 2023 04:37:34 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: kernel/sched/fair.c:4049:30: sparse: sparse: cast to non-scalar
-Message-ID: <202301190344.5RkRNUDs-lkp@intel.com>
+Subject: [intel-tdx:guest-hardening-rebased 13/38] lib/iomap.c:62:29:
+ warning: unused function 'iomap_readb'
+Message-ID: <202301190450.dskq03tX-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -46,133 +47,89 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "low confidence static check warning: kernel/sched/fair.c:4049:30: sparse: sparse: cast to non-scalar"
+:::::: Manual check reason: "gcc: unused function warning for stub function"
 :::::: 
 
 BCC: lkp@intel.com
+CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Chengming Zhou <zhouchengming@bytedance.com>
-CC: Peter Zijlstra <peterz@infradead.org>
-CC: Vincent Guittot <vincent.guittot@linaro.org>
+TO: Andi Kleen <ak@linux.intel.com>
+CC: Alexander Shishkin <alexander.shishkin@linux.intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   c1649ec55708ae42091a2f1bca1ab49ecd722d55
-commit: 51bf903b64bdde4e4c9009a9e2b4a589845d9d81 sched/fair: Optimize and simplify rq leaf_cfs_rq_list
-date:   7 months ago
-:::::: branch date: 26 hours ago
-:::::: commit date: 7 months ago
-config: alpha-randconfig-s051-20230118 (https://download.01.org/0day-ci/archive/20230119/202301190344.5RkRNUDs-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 12.1.0
-reproduce:
+tree:   https://github.com/intel/tdx.git guest-hardening-rebased
+head:   b47a6d251aaad2926b5947a5894556d58c0ba7e2
+commit: 90d81f51300ed67de3e57f57f28f12366e1b20b9 [13/38] x86/tdx: Enable direct iomap MMIO optimizations
+:::::: branch date: 4 hours ago
+:::::: commit date: 3 weeks ago
+config: x86_64-randconfig-a005-20230116 (https://download.01.org/0day-ci/archive/20230119/202301190450.dskq03tX-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=51bf903b64bdde4e4c9009a9e2b4a589845d9d81
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 51bf903b64bdde4e4c9009a9e2b4a589845d9d81
+        # https://github.com/intel/tdx/commit/90d81f51300ed67de3e57f57f28f12366e1b20b9
+        git remote add intel-tdx https://github.com/intel/tdx.git
+        git fetch --no-tags intel-tdx guest-hardening-rebased
+        git checkout 90d81f51300ed67de3e57f57f28f12366e1b20b9
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=alpha olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=alpha SHELL=/bin/bash kernel/sched/ mm/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-sparse warnings: (new ones prefixed by >>)
-   kernel/sched/fair.c:930:34: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct sched_entity *se @@     got struct sched_entity [noderef] __rcu * @@
-   kernel/sched/fair.c:930:34: sparse:     expected struct sched_entity *se
-   kernel/sched/fair.c:930:34: sparse:     got struct sched_entity [noderef] __rcu *
-   kernel/sched/fair.c:10918:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/fair.c:10918:9: sparse:     expected struct sched_domain *[assigned] sd
-   kernel/sched/fair.c:10918:9: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/fair.c:5083:22: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/fair.c:5083:22: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/fair.c:5083:22: sparse:    struct task_struct *
-   kernel/sched/fair.c:6770:20: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/fair.c:6770:20: sparse:     expected struct sched_domain *[assigned] sd
-   kernel/sched/fair.c:6770:20: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/fair.c:6904:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] tmp @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/fair.c:6904:9: sparse:     expected struct sched_domain *[assigned] tmp
-   kernel/sched/fair.c:6904:9: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/fair.c:7102:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/fair.c:7102:38: sparse:     expected struct task_struct *curr
-   kernel/sched/fair.c:7102:38: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/fair.c:7400:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/fair.c:7400:38: sparse:     expected struct task_struct *curr
-   kernel/sched/fair.c:7400:38: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/fair.c:8385:40: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct sched_domain *child @@     got struct sched_domain [noderef] __rcu *child @@
-   kernel/sched/fair.c:8385:40: sparse:     expected struct sched_domain *child
-   kernel/sched/fair.c:8385:40: sparse:     got struct sched_domain [noderef] __rcu *child
-   kernel/sched/fair.c:8929:22: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/fair.c:8929:22: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/fair.c:8929:22: sparse:    struct task_struct *
-   kernel/sched/fair.c:10193:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/fair.c:10193:9: sparse:     expected struct sched_domain *[assigned] sd
-   kernel/sched/fair.c:10193:9: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/fair.c:9853:44: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct sched_domain *sd_parent @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/fair.c:9853:44: sparse:     expected struct sched_domain *sd_parent
-   kernel/sched/fair.c:9853:44: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/fair.c:10289:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/fair.c:10289:9: sparse:     expected struct sched_domain *[assigned] sd
-   kernel/sched/fair.c:10289:9: sparse:     got struct sched_domain [noderef] __rcu *parent
->> kernel/sched/fair.c:4049:30: sparse: sparse: cast to non-scalar
->> kernel/sched/fair.c:4049:30: sparse: sparse: cast from non-scalar
->> kernel/sched/fair.c:4049:30: sparse: sparse: cast to non-scalar
->> kernel/sched/fair.c:4049:30: sparse: sparse: cast from non-scalar
->> kernel/sched/fair.c:4049:30: sparse: sparse: cast to non-scalar
->> kernel/sched/fair.c:4049:30: sparse: sparse: cast from non-scalar
->> kernel/sched/fair.c:4049:30: sparse: sparse: cast to non-scalar
->> kernel/sched/fair.c:4049:30: sparse: sparse: cast from non-scalar
->> kernel/sched/fair.c:4049:30: sparse: sparse: cast to non-scalar
->> kernel/sched/fair.c:4049:30: sparse: sparse: cast from non-scalar
->> kernel/sched/fair.c:4049:30: sparse: sparse: cast to non-scalar
->> kernel/sched/fair.c:4049:30: sparse: sparse: cast from non-scalar
->> kernel/sched/fair.c:4049:30: sparse: sparse: cast to non-scalar
->> kernel/sched/fair.c:4049:30: sparse: sparse: cast from non-scalar
->> kernel/sched/fair.c:4049:30: sparse: sparse: cast to non-scalar
->> kernel/sched/fair.c:4049:30: sparse: sparse: cast from non-scalar
-   kernel/sched/fair.c:6155:28: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *sd @@     got struct sched_domain [noderef] __rcu *child @@
-   kernel/sched/fair.c:6155:28: sparse:     expected struct sched_domain *sd
-   kernel/sched/fair.c:6155:28: sparse:     got struct sched_domain [noderef] __rcu *child
-   kernel/sched/fair.c:6161:28: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *sd @@     got struct sched_domain [noderef] __rcu *child @@
-   kernel/sched/fair.c:6161:28: sparse:     expected struct sched_domain *sd
-   kernel/sched/fair.c:6161:28: sparse:     got struct sched_domain [noderef] __rcu *child
-   kernel/sched/fair.c:6168:28: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *sd @@     got struct sched_domain [noderef] __rcu *child @@
-   kernel/sched/fair.c:6168:28: sparse:     expected struct sched_domain *sd
-   kernel/sched/fair.c:6168:28: sparse:     got struct sched_domain [noderef] __rcu *child
-   kernel/sched/fair.c:6176:17: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] tmp @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/fair.c:6176:17: sparse:     expected struct sched_domain *[assigned] tmp
-   kernel/sched/fair.c:6176:17: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/fair.c: note: in included file:
-   kernel/sched/sched.h:2171:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2171:9: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2171:9: sparse:    struct task_struct *
-   kernel/sched/sched.h:2013:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2013:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2013:25: sparse:    struct task_struct *
-   kernel/sched/sched.h:2013:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2013:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2013:25: sparse:    struct task_struct *
+All warnings (new ones prefixed by >>):
 
-vim +4049 kernel/sched/fair.c
+>> lib/iomap.c:62:29: warning: unused function 'iomap_readb' [-Wunused-function]
+   static inline unsigned char iomap_readb(void __iomem *addr)
+                               ^
+>> lib/iomap.c:67:30: warning: unused function 'iomap_readw' [-Wunused-function]
+   static inline unsigned short iomap_readw(void __iomem *addr)
+                                ^
+>> lib/iomap.c:72:28: warning: unused function 'iomap_readl' [-Wunused-function]
+   static inline unsigned int iomap_readl(void __iomem *addr)
+                              ^
+>> lib/iomap.c:77:29: warning: unused function 'iomap_readq' [-Wunused-function]
+   static inline unsigned long iomap_readq(void __iomem *addr)
+                               ^
+   4 warnings generated.
 
-7f65ea42eb00bc9 Patrick Bellasi  2018-03-09  4046  
-7f65ea42eb00bc9 Patrick Bellasi  2018-03-09  4047  static inline unsigned long _task_util_est(struct task_struct *p)
-7f65ea42eb00bc9 Patrick Bellasi  2018-03-09  4048  {
-7f65ea42eb00bc9 Patrick Bellasi  2018-03-09 @4049  	struct util_est ue = READ_ONCE(p->se.avg.util_est);
-7f65ea42eb00bc9 Patrick Bellasi  2018-03-09  4050  
-68d7a190682aa4e Dietmar Eggemann 2021-06-02  4051  	return max(ue.ewma, (ue.enqueued & ~UTIL_AVG_UNCHANGED));
-7f65ea42eb00bc9 Patrick Bellasi  2018-03-09  4052  }
-7f65ea42eb00bc9 Patrick Bellasi  2018-03-09  4053  
 
-:::::: The code at line 4049 was first introduced by commit
-:::::: 7f65ea42eb00bc902f1c37a71e984e4f4064cfa9 sched/fair: Add util_est on top of PELT
+vim +/iomap_readb +62 lib/iomap.c
 
-:::::: TO: Patrick Bellasi <patrick.bellasi@arm.com>
-:::::: CC: Ingo Molnar <mingo@kernel.org>
+ea8256f39e0f40 Andi Kleen 2021-08-20  55  
+ea8256f39e0f40 Andi Kleen 2021-08-20  56  #define COND_MMIO_READ(func, addr)			\
+ea8256f39e0f40 Andi Kleen 2021-08-20  57  	(iomap_mmio ? iomap_mmio->i ## func(addr) : func(addr))
+ea8256f39e0f40 Andi Kleen 2021-08-20  58  
+ea8256f39e0f40 Andi Kleen 2021-08-20  59  #define COND_MMIO_WRITE(func, val, addr)		\
+ea8256f39e0f40 Andi Kleen 2021-08-20  60  	(iomap_mmio ? iomap_mmio->i ## func(val, addr) : func(val, addr))
+ea8256f39e0f40 Andi Kleen 2021-08-20  61  
+ea8256f39e0f40 Andi Kleen 2021-08-20 @62  static inline unsigned char iomap_readb(void __iomem *addr)
+ea8256f39e0f40 Andi Kleen 2021-08-20  63  {
+ea8256f39e0f40 Andi Kleen 2021-08-20  64  	return COND_MMIO_READ(readb, addr);
+ea8256f39e0f40 Andi Kleen 2021-08-20  65  }
+ea8256f39e0f40 Andi Kleen 2021-08-20  66  
+ea8256f39e0f40 Andi Kleen 2021-08-20 @67  static inline unsigned short iomap_readw(void __iomem *addr)
+ea8256f39e0f40 Andi Kleen 2021-08-20  68  {
+ea8256f39e0f40 Andi Kleen 2021-08-20  69  	return COND_MMIO_READ(readw, addr);
+ea8256f39e0f40 Andi Kleen 2021-08-20  70  }
+ea8256f39e0f40 Andi Kleen 2021-08-20  71  
+ea8256f39e0f40 Andi Kleen 2021-08-20 @72  static inline unsigned int iomap_readl(void __iomem *addr)
+ea8256f39e0f40 Andi Kleen 2021-08-20  73  {
+ea8256f39e0f40 Andi Kleen 2021-08-20  74  	return COND_MMIO_READ(readl, addr);
+ea8256f39e0f40 Andi Kleen 2021-08-20  75  }
+ea8256f39e0f40 Andi Kleen 2021-08-20  76  
+ea8256f39e0f40 Andi Kleen 2021-08-20 @77  static inline unsigned long iomap_readq(void __iomem *addr)
+ea8256f39e0f40 Andi Kleen 2021-08-20  78  {
+ea8256f39e0f40 Andi Kleen 2021-08-20  79  	return COND_MMIO_READ(readq, addr);
+ea8256f39e0f40 Andi Kleen 2021-08-20  80  }
+ea8256f39e0f40 Andi Kleen 2021-08-20  81  
+
+:::::: The code at line 62 was first introduced by commit
+:::::: ea8256f39e0f4016b581dc94ce2d428a7584ec15 iomap: Add support for indirect MMIO
+
+:::::: TO: Andi Kleen <ak@linux.intel.com>
+:::::: CC: Alexander Shishkin <alexander.shishkin@linux.intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
