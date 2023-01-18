@@ -1,42 +1,42 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A9878C06
-	for <oe-kbuild@lists.linux.dev>; Wed, 18 Jan 2023 22:00:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 693678C06
+	for <oe-kbuild@lists.linux.dev>; Wed, 18 Jan 2023 22:00:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674079218; x=1705615218;
+  t=1674079231; x=1705615231;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=MeKKNXgY4pj7qK9rvBnNtWYN5IYnWdy+FJv//NvU734=;
-  b=OFwKmjr9hSSbp15e7TLcHo1iDbTi4uFy7EXgRd2Vq0SHwZ/ZxsfZqdH9
-   7XA7MJehcqaMn1AgwWyzbiEbqs4cGJN82wZSUm9tOHd63PtcNry/sJ/kt
-   mZdjqYGboYXZXZGbKK2OxKde7OUiAVZfiWXc3K9XqFGfLnrq78oPwEbqX
-   IMk56Pi/1pPMVrRnFFrpknDM9eQkZZzsuSg0fGlaaW6n6exe214Bk6vZU
-   6cD5znFrGyjQjBa4ALrwAavsfioAEPOgtcSoYiO4pV302ADLpKnpFITve
-   waTK93WGWboxr/wWT56SvrCdQO4J0bd97Za03L6hN1PSOrf/MRp/7+B6V
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="326377370"
+  bh=YI+SbRxDEPr5NISEk21wIgU63lLQ5fPR/thqrkXfVb4=;
+  b=XkplB/kQILirteOjbWgHBvkP0xNsmNH5Gy60BEgJ/uFO7fv1P4MaRpfu
+   67IzTjepxX80pNIgmEHVNlqjftEWBLfkhR1Jh4dge7H3JWuhRmMc9ZVw1
+   tijCBmnGcDXcm052N5WcbSK11oDxcG5rGHciqS38KjjLwQmPM8BkuQtau
+   kLLOoZMmXoYgDzuD7BdUIC39gJ3u9ZxLvM7W72vpurk2yD1dvQDI+cXmf
+   ApDNfzCISnwWA5ncF10QcVG2k+aDgHXH55IUbuZ9cgZce6kChYgI0akSd
+   4ONm0xI+22TYoElRg9dgKqIfolEwoE+C17kkbX9vvVQAhif2Kb5Vm++nw
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="327186243"
 X-IronPort-AV: E=Sophos;i="5.97,226,1669104000"; 
-   d="scan'208";a="326377370"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2023 14:00:17 -0800
+   d="scan'208";a="327186243"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2023 14:00:16 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="637449138"
+X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="748650165"
 X-IronPort-AV: E=Sophos;i="5.97,226,1669104000"; 
-   d="scan'208";a="637449138"
+   d="scan'208";a="748650165"
 Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 18 Jan 2023 14:00:15 -0800
+  by FMSMGA003.fm.intel.com with ESMTP; 18 Jan 2023 14:00:15 -0800
 Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pIGTf-0000ka-01;
-	Wed, 18 Jan 2023 22:00:15 +0000
-Date: Thu, 19 Jan 2023 06:00:12 +0800
+	id 1pIGTe-0000kY-38;
+	Wed, 18 Jan 2023 22:00:14 +0000
+Date: Thu, 19 Jan 2023 06:00:13 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [android-common:android13-5.15 2/2] mm/mremap.c:245:20: warning:
- unused function 'trylock_vma_ref_count'
-Message-ID: <202301190526.sXdNVLPH-lkp@intel.com>
+Subject: [intel-tdx:guest-next 7/10] arch/x86/coco/tdx/tdx.c:93:19: warning:
+ unused function '_trace_tdx_hypercall'
+Message-ID: <202301190512.qpqo8czQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -51,93 +51,69 @@ Content-Disposition: inline
 :::::: 
 
 BCC: lkp@intel.com
+CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-TO: cros-kernel-buildreports@googlegroups.com
+TO: Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>
 
-tree:   https://android.googlesource.com/kernel/common android13-5.15
-head:   2f40ae382fe6b1c13e02c4673f6b1880329e13f0
-commit: a2593b3a744486a5b38eefdd899d460cf33ce46d [2/2] ANDROID: Re-enable fast mremap and fix UAF with SPF
-:::::: branch date: 7 hours ago
-:::::: commit date: 12 days ago
-config: arm-randconfig-r046-20230118 (https://download.01.org/0day-ci/archive/20230119/202301190526.sXdNVLPH-lkp@intel.com/config)
-compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 4196ca3278f78c6e19246e54ab0ecb364e37d66a)
+tree:   https://github.com/intel/tdx.git guest-next
+head:   a9fe7e5b76f30be16e10d52a91a7a4328bb2d085
+commit: 7543a1b6098050d7cd5e8fd22fa9c1e7ad578f96 [7/10] Merge remote-tracking branch 'origin/guest-debug' into guest-next
+:::::: branch date: 2 weeks ago
+:::::: commit date: 2 weeks ago
+config: x86_64-randconfig-a005-20230116 (https://download.01.org/0day-ci/archive/20230119/202301190512.qpqo8czQ-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        git remote add android-common https://android.googlesource.com/kernel/common
-        git fetch --no-tags android-common android13-5.15
-        git checkout a2593b3a744486a5b38eefdd899d460cf33ce46d
+        # https://github.com/intel/tdx/commit/7543a1b6098050d7cd5e8fd22fa9c1e7ad578f96
+        git remote add intel-tdx https://github.com/intel/tdx.git
+        git fetch --no-tags intel-tdx guest-next
+        git checkout 7543a1b6098050d7cd5e8fd22fa9c1e7ad578f96
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash arch/x86/coco/tdx/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
 All warnings (new ones prefixed by >>):
 
-   mm/mremap.c:215:20: warning: unused function 'arch_supports_page_table_move' [-Wunused-function]
-   static inline bool arch_supports_page_table_move(void)
-                      ^
-   mm/mremap.c:214:39: note: expanded from macro 'arch_supports_page_table_move'
-   #define arch_supports_page_table_move arch_supports_page_table_move
-                                         ^
->> mm/mremap.c:245:20: warning: unused function 'trylock_vma_ref_count' [-Wunused-function]
-   static inline bool trylock_vma_ref_count(struct vm_area_struct *vma)
-                      ^
->> mm/mremap.c:249:20: warning: unused function 'unlock_vma_ref_count' [-Wunused-function]
-   static inline void unlock_vma_ref_count(struct vm_area_struct *vma)
-                      ^
-   3 warnings generated.
+>> arch/x86/coco/tdx/tdx.c:93:19: warning: unused function '_trace_tdx_hypercall' [-Wunused-function]
+   static inline u64 _trace_tdx_hypercall(u64 fn, u64 r12, u64 r13, u64 r14,
+                     ^
+   1 warning generated.
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for EFI_STUB
+   Depends on [n]: EFI [=n]
+   Selected by [y]:
+   - INTEL_TDX_GUEST [=y] && HYPERVISOR_GUEST [=y] && X86_64 [=y] && CPU_SUP_INTEL [=y] && X86_X2APIC [=y]
+   WARNING: unmet direct dependencies detected for UNACCEPTED_MEMORY
+   Depends on [n]: EFI [=n] && EFI_STUB [=y]
+   Selected by [y]:
+   - INTEL_TDX_GUEST [=y] && HYPERVISOR_GUEST [=y] && X86_64 [=y] && CPU_SUP_INTEL [=y] && X86_X2APIC [=y]
 
 
-vim +/trylock_vma_ref_count +245 mm/mremap.c
+vim +/_trace_tdx_hypercall +93 arch/x86/coco/tdx/tdx.c
 
-^1da177e4c3f41 Linus Torvalds     2005-04-16  212  
-3bbda69c48d274 Aneesh Kumar K.V   2021-07-07  213  #ifndef arch_supports_page_table_move
-3bbda69c48d274 Aneesh Kumar K.V   2021-07-07  214  #define arch_supports_page_table_move arch_supports_page_table_move
-3bbda69c48d274 Aneesh Kumar K.V   2021-07-07 @215  static inline bool arch_supports_page_table_move(void)
-3bbda69c48d274 Aneesh Kumar K.V   2021-07-07  216  {
-3bbda69c48d274 Aneesh Kumar K.V   2021-07-07  217  	return IS_ENABLED(CONFIG_HAVE_MOVE_PMD) ||
-3bbda69c48d274 Aneesh Kumar K.V   2021-07-07  218  		IS_ENABLED(CONFIG_HAVE_MOVE_PUD);
-3bbda69c48d274 Aneesh Kumar K.V   2021-07-07  219  }
-3bbda69c48d274 Aneesh Kumar K.V   2021-07-07  220  #endif
-3bbda69c48d274 Aneesh Kumar K.V   2021-07-07  221  
-a2593b3a744486 Kalesh Singh       2023-01-06  222  #ifdef CONFIG_SPECULATIVE_PAGE_FAULT
-a2593b3a744486 Kalesh Singh       2023-01-06  223  static inline bool trylock_vma_ref_count(struct vm_area_struct *vma)
-a2593b3a744486 Kalesh Singh       2023-01-06  224  {
-3e7526c6723968 Suren Baghdasaryan 2022-11-18  225  	/*
-a2593b3a744486 Kalesh Singh       2023-01-06  226  	 * If we have the only reference, swap the refcount to -1. This
-a2593b3a744486 Kalesh Singh       2023-01-06  227  	 * will prevent other concurrent references by get_vma() for SPFs.
-3e7526c6723968 Suren Baghdasaryan 2022-11-18  228  	 */
-a2593b3a744486 Kalesh Singh       2023-01-06  229  	return atomic_cmpxchg(&vma->file_ref_count, 0, -1) == 0;
-a2593b3a744486 Kalesh Singh       2023-01-06  230  }
-a2593b3a744486 Kalesh Singh       2023-01-06  231  
-a2593b3a744486 Kalesh Singh       2023-01-06  232  /*
-a2593b3a744486 Kalesh Singh       2023-01-06  233   * Restore the VMA reference count to 1 after a fast mremap.
-a2593b3a744486 Kalesh Singh       2023-01-06  234   */
-a2593b3a744486 Kalesh Singh       2023-01-06  235  static inline void unlock_vma_ref_count(struct vm_area_struct *vma)
-a2593b3a744486 Kalesh Singh       2023-01-06  236  {
-a2593b3a744486 Kalesh Singh       2023-01-06  237  	/*
-a2593b3a744486 Kalesh Singh       2023-01-06  238  	 * This should only be called after a corresponding,
-a2593b3a744486 Kalesh Singh       2023-01-06  239  	 * successful trylock_vma_ref_count().
-a2593b3a744486 Kalesh Singh       2023-01-06  240  	 */
-a2593b3a744486 Kalesh Singh       2023-01-06  241  	VM_BUG_ON_VMA(atomic_cmpxchg(&vma->file_ref_count, -1, 0) != -1,
-a2593b3a744486 Kalesh Singh       2023-01-06  242  		      vma);
-a2593b3a744486 Kalesh Singh       2023-01-06  243  }
-a2593b3a744486 Kalesh Singh       2023-01-06  244  #else	/* !CONFIG_SPECULATIVE_PAGE_FAULT */
-a2593b3a744486 Kalesh Singh       2023-01-06 @245  static inline bool trylock_vma_ref_count(struct vm_area_struct *vma)
-a2593b3a744486 Kalesh Singh       2023-01-06  246  {
-a2593b3a744486 Kalesh Singh       2023-01-06  247  	return true;
-a2593b3a744486 Kalesh Singh       2023-01-06  248  }
-a2593b3a744486 Kalesh Singh       2023-01-06 @249  static inline void unlock_vma_ref_count(struct vm_area_struct *vma)
-a2593b3a744486 Kalesh Singh       2023-01-06  250  {
-a2593b3a744486 Kalesh Singh       2023-01-06  251  }
-a2593b3a744486 Kalesh Singh       2023-01-06  252  #endif	/* CONFIG_SPECULATIVE_PAGE_FAULT */
-a2593b3a744486 Kalesh Singh       2023-01-06  253  
+e380d45bbd9d4a Kuppuswamy Sathyanarayanan 2021-04-28   91  
+7543a1b6098050 Kuppuswamy Sathyanarayanan 2023-01-05   92  /* Traced version of _tdx_hypercall */
+7543a1b6098050 Kuppuswamy Sathyanarayanan 2023-01-05  @93  static inline u64 _trace_tdx_hypercall(u64 fn, u64 r12, u64 r13, u64 r14,
+7543a1b6098050 Kuppuswamy Sathyanarayanan 2023-01-05   94  				       u64 r15)
+eb94f1b6a70a68 Kuppuswamy Sathyanarayanan 2022-04-06   95  {
+eb94f1b6a70a68 Kuppuswamy Sathyanarayanan 2022-04-06   96  	struct tdx_hypercall_args args = {
+eb94f1b6a70a68 Kuppuswamy Sathyanarayanan 2022-04-06   97  		.r10 = TDX_HYPERCALL_STANDARD,
+eb94f1b6a70a68 Kuppuswamy Sathyanarayanan 2022-04-06   98  		.r11 = fn,
+eb94f1b6a70a68 Kuppuswamy Sathyanarayanan 2022-04-06   99  		.r12 = r12,
+eb94f1b6a70a68 Kuppuswamy Sathyanarayanan 2022-04-06  100  		.r13 = r13,
+eb94f1b6a70a68 Kuppuswamy Sathyanarayanan 2022-04-06  101  		.r14 = r14,
+eb94f1b6a70a68 Kuppuswamy Sathyanarayanan 2022-04-06  102  		.r15 = r15,
+eb94f1b6a70a68 Kuppuswamy Sathyanarayanan 2022-04-06  103  	};
+eb94f1b6a70a68 Kuppuswamy Sathyanarayanan 2022-04-06  104  
+e380d45bbd9d4a Kuppuswamy Sathyanarayanan 2021-04-28  105  	return __trace_tdx_hypercall(&args, 0);
+eb94f1b6a70a68 Kuppuswamy Sathyanarayanan 2022-04-06  106  }
+eb94f1b6a70a68 Kuppuswamy Sathyanarayanan 2022-04-06  107  
 
 -- 
 0-DAY CI Kernel Test Service
