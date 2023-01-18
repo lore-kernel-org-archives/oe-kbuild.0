@@ -1,42 +1,42 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 520F7539E
-	for <oe-kbuild@lists.linux.dev>; Wed, 18 Jan 2023 18:24:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41D8E53A7
+	for <oe-kbuild@lists.linux.dev>; Wed, 18 Jan 2023 19:26:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674066250; x=1705602250;
+  t=1674069979; x=1705605979;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ayxGNuhXdrR/FcsmLppXZwqn5+dIWkPGcgYkuW1ZZk4=;
-  b=btmR6isN7Xp8O+VdFrm4V9w8Ij7G7Co3Q3GUtlKWEcI3cLRlsNdPMQiC
-   y93C32FLyrC+M9eqc6R5PORXBChw5S10MZRysByeF7AclodMK1oV79UiT
-   3COWRxTChp0saegqg55LObBKnO5Jw3w7LpRaoPAHAnQ1zOzUXZccm7gOK
-   SFaFQHbg1Ta+oYdmyK2ZbdXhLHC5CMlAXBDnCVg1iGX6+bGuz4zvCqjIr
-   VAVcqTzqqQavclzgSfZ07Ym7bJL5tcHBSKsilODeRKoaOgG57olsZUXvM
-   iuHeAizmEW0pCg3Hqxt/UY2FLACHRaFKgVev5P1Nf4UekAUwUVoAvQ+rQ
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="312939085"
+  bh=JJoIjiM83hcoF3WTgcdPMJ7DvJNrGMpP37ViG2mnVng=;
+  b=MfFi5WWAH7rA8xrgh8d130EyQ7W4w4D64sD1bwcwUK2uAUNvAJ66y61/
+   +R3yQzTv001mAYmYSUiXcXIj53eXQQC66AqKCJdEFSert4OZijBJlN9z1
+   xCb2kM7qhOd7+NfnbC8EQD+94iCgj9wun4xKUjFIu0OQnAyi64legNGJk
+   SLHtbeo9y+wxDvZomfHpnGlWfcPdRNsyFrQ2js5Kns/z7UwFXr6h46+b3
+   vQPJJXPT/KfLZF+Nr2v2yCW8wQVk+W3N+fL/4bxFQHH03e9QenJWfzhpg
+   Has4Re7zl4m1yDoyoj1L2HjLjUluTrzJbMiRNR13kdQH4JVKHwp/5c2Ih
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="326341920"
 X-IronPort-AV: E=Sophos;i="5.97,226,1669104000"; 
-   d="scan'208";a="312939085"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2023 10:24:09 -0800
+   d="scan'208";a="326341920"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2023 11:26:13 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="690322898"
+X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="723212969"
 X-IronPort-AV: E=Sophos;i="5.97,226,1669104000"; 
-   d="scan'208";a="690322898"
+   d="scan'208";a="723212969"
 Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 18 Jan 2023 10:24:08 -0800
+  by fmsmga008.fm.intel.com with ESMTP; 18 Jan 2023 11:26:11 -0800
 Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pID6V-0000cA-38;
-	Wed, 18 Jan 2023 18:24:07 +0000
-Date: Thu, 19 Jan 2023 02:23:53 +0800
+	id 1pIE4Z-0000ek-0J;
+	Wed, 18 Jan 2023 19:26:11 +0000
+Date: Thu, 19 Jan 2023 03:25:20 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [linux-next:master 4653/5587] mm/zsmalloc.c:940:13: warning: unused
- function 'obj_allocated'
-Message-ID: <202301190220.c9AqKakw-lkp@intel.com>
+Subject: drivers/pinctrl/sunplus/sppctl.c:393:12: warning: unused function
+ 'sppctl_gpio_inv_get'
+Message-ID: <202301190311.jbodCg9L-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -53,97 +53,76 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Nhat Pham <nphamcs@gmail.com>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
+CC: linux-kernel@vger.kernel.org
+TO: Qin Jian <qinjian@cqplus1.com>
+CC: Arnd Bergmann <arnd@arndb.de>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   f3381a7baf5ccbd091eb2c4fd2afd84266fcef24
-commit: c8ed11162e615740a3d920e743fae3337f7d1fea [4653/5587] zsmalloc: fix a race with deferred_handles storing
-:::::: branch date: 15 hours ago
-:::::: commit date: 2 days ago
-config: hexagon-randconfig-r041-20230117 (https://download.01.org/0day-ci/archive/20230119/202301190220.c9AqKakw-lkp@intel.com/config)
+Hi Qin,
+
+First bad commit (maybe != root cause):
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   c1649ec55708ae42091a2f1bca1ab49ecd722d55
+commit: 0aa94eea8d955c82014e5368a843da93f1dc58f8 ARM: sunplus: Add initial support for Sunplus SP7021 SoC
+date:   6 months ago
+:::::: branch date: 26 hours ago
+:::::: commit date: 6 months ago
+config: arm-randconfig-r013-20230118 (https://download.01.org/0day-ci/archive/20230119/202301190311.jbodCg9L-lkp@intel.com/config)
 compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 4196ca3278f78c6e19246e54ab0ecb364e37d66a)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=c8ed11162e615740a3d920e743fae3337f7d1fea
-        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
-        git fetch --no-tags linux-next master
-        git checkout c8ed11162e615740a3d920e743fae3337f7d1fea
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=0aa94eea8d955c82014e5368a843da93f1dc58f8
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 0aa94eea8d955c82014e5368a843da93f1dc58f8
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash mm/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/pinctrl/nomadik/ drivers/pinctrl/sunplus/ drivers/usb/gadget/udc/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
 All warnings (new ones prefixed by >>):
 
-   In file included from mm/zsmalloc.c:45:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __raw_readb(PCI_IOBASE + addr);
-                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-                                                     ^
-   In file included from mm/zsmalloc.c:45:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-                                                     ^
-   In file included from mm/zsmalloc.c:45:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writeb(value, PCI_IOBASE + addr);
-                               ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
->> mm/zsmalloc.c:940:13: warning: unused function 'obj_allocated' [-Wunused-function]
-   static bool obj_allocated(struct page *page, void *obj, unsigned long *phandle)
-               ^
-   7 warnings generated.
+>> drivers/pinctrl/sunplus/sppctl.c:393:12: warning: unused function 'sppctl_gpio_inv_get' [-Wunused-function]
+   static int sppctl_gpio_inv_get(struct gpio_chip *chip, unsigned int offset)
+              ^
+   1 warning generated.
 
 
-vim +/obj_allocated +940 mm/zsmalloc.c
+vim +/sppctl_gpio_inv_get +393 drivers/pinctrl/sunplus/sppctl.c
 
-312fcae2270376 Minchan Kim 2015-04-15  939  
-c8ed11162e6157 Nhat Pham   2023-01-10 @940  static bool obj_allocated(struct page *page, void *obj, unsigned long *phandle)
-c8ed11162e6157 Nhat Pham   2023-01-10  941  {
-c8ed11162e6157 Nhat Pham   2023-01-10  942  	return obj_tagged(page, obj, phandle, OBJ_ALLOCATED_TAG);
-c8ed11162e6157 Nhat Pham   2023-01-10  943  }
-c8ed11162e6157 Nhat Pham   2023-01-10  944  
+aa74c44be19c8b1 Wells Lu 2022-01-16  392  
+aa74c44be19c8b1 Wells Lu 2022-01-16 @393  static int sppctl_gpio_inv_get(struct gpio_chip *chip, unsigned int offset)
+aa74c44be19c8b1 Wells Lu 2022-01-16  394  {
+aa74c44be19c8b1 Wells Lu 2022-01-16  395  	struct sppctl_gpio_chip *spp_gchip = gpiochip_get_data(chip);
+aa74c44be19c8b1 Wells Lu 2022-01-16  396  	u32 reg_off, bit_off, reg;
+aa74c44be19c8b1 Wells Lu 2022-01-16  397  	unsigned long flags;
+aa74c44be19c8b1 Wells Lu 2022-01-16  398  
+aa74c44be19c8b1 Wells Lu 2022-01-16  399  	bit_off = sppctl_get_moon_reg_and_bit_offset(offset, &reg_off);
+aa74c44be19c8b1 Wells Lu 2022-01-16  400  
+aa74c44be19c8b1 Wells Lu 2022-01-16  401  	spin_lock_irqsave(&spp_gchip->lock, flags);
+aa74c44be19c8b1 Wells Lu 2022-01-16  402  
+aa74c44be19c8b1 Wells Lu 2022-01-16  403  	if (sppctl_gpio_get_direction(chip, offset))
+aa74c44be19c8b1 Wells Lu 2022-01-16  404  		reg = sppctl_gpio_iinv_readl(spp_gchip, reg_off);
+aa74c44be19c8b1 Wells Lu 2022-01-16  405  	else
+aa74c44be19c8b1 Wells Lu 2022-01-16  406  		reg = sppctl_gpio_oinv_readl(spp_gchip, reg_off);
+aa74c44be19c8b1 Wells Lu 2022-01-16  407  
+aa74c44be19c8b1 Wells Lu 2022-01-16  408  	spin_unlock_irqrestore(&spp_gchip->lock, flags);
+aa74c44be19c8b1 Wells Lu 2022-01-16  409  
+aa74c44be19c8b1 Wells Lu 2022-01-16  410  	return (reg & BIT(bit_off)) ? 1 : 0;
+aa74c44be19c8b1 Wells Lu 2022-01-16  411  }
+aa74c44be19c8b1 Wells Lu 2022-01-16  412  
+
+:::::: The code at line 393 was first introduced by commit
+:::::: aa74c44be19c8b1de38d955c2c45c309991c805a pinctrl: Add driver for Sunplus SP7021
+
+:::::: TO: Wells Lu <wellslutw@gmail.com>
+:::::: CC: Linus Walleij <linus.walleij@linaro.org>
 
 -- 
 0-DAY CI Kernel Test Service
