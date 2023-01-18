@@ -1,42 +1,42 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE6632F21
-	for <oe-kbuild@lists.linux.dev>; Wed, 18 Jan 2023 16:51:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA0D72F21
+	for <oe-kbuild@lists.linux.dev>; Wed, 18 Jan 2023 17:23:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674060693; x=1705596693;
+  t=1674062580; x=1705598580;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=7nFWUjz0gBFGVYd8Qsqf/F8ufv1n7Rq6jDMYyrJq2oM=;
-  b=eTbVJEEJAdbNe5VFawqwurUq3mqQTqGa5rmLpJo/VLuRu2z9qWRGaKhl
-   5izpXk89vlfcUb3gAWEii4f/ixc4X13kv/HKk6LrPGn9q9z7SUvHdb718
-   hs35BsFYkbrAe209LxOd7PLkkh27bEC75ou/0Jkf+XU6w5l6iEL4Xzo+3
-   9rNGJ810YI4BCg3R68gnOuyjzhsiWXDj9E9BnlL8KRMd8xCPyRi4gdDm3
-   8jPB5Un3GvOpO5McJnSW5ReJN+oQ/JS651g/AV0pa0s7MJK3yi87fDmW0
-   MMXRTi5pXf0y6086y8EFhw+U8SQGU1ZyehAfGP/tB9D2r4Suh3g8uMHL2
+  bh=FXRE9sPqUEO1IVFEvxfgFEvJXUDo9Q44XA986/4TqTg=;
+  b=T0l827wjuYp1sfBR5O4x6JQtw0ZR7KFvyFAa9xaEHRRLHtSHgC4nQWrT
+   uWY7ayzWBK3fSsGgI6DXCjtIvIy2740DdAM7aGSnEn4Ro3OIw4JnxCCK5
+   JY8F4ePtJ2kZdvnF6UZqUhYtk05rQK699Tq2gLRbAyy7D76V6AgemA0LJ
+   RqBK96lqgcAxadLPguPyb8ZFkTr5cweGISQG5+tYfA3HlT6RKF7BJ/gU5
+   Xuq9xwpu1rIw8cp5j2TOI2c6MFzGyoQSFb5ZzgGNMcd4FKaNX0G2WV0vT
+   3HeuHikzeal4LGuZSbZ5LnMzGc5oGbIUZCMgUwcNXc2pWB8EW1SEbv40m
    Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="327104756"
+X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="326306170"
 X-IronPort-AV: E=Sophos;i="5.97,226,1669104000"; 
-   d="scan'208";a="327104756"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2023 08:51:18 -0800
+   d="scan'208";a="326306170"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2023 09:23:00 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="692066334"
+X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="690293676"
 X-IronPort-AV: E=Sophos;i="5.97,226,1669104000"; 
-   d="scan'208";a="692066334"
+   d="scan'208";a="690293676"
 Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 18 Jan 2023 08:51:02 -0800
+  by orsmga008.jf.intel.com with ESMTP; 18 Jan 2023 09:22:59 -0800
 Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pIBeK-0000XB-2X;
-	Wed, 18 Jan 2023 16:50:56 +0000
-Date: Thu, 19 Jan 2023 00:50:08 +0800
+	id 1pIC9K-0000ZM-1h;
+	Wed, 18 Jan 2023 17:22:58 +0000
+Date: Thu, 19 Jan 2023 01:22:00 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH drm-next 03/14] drm: manager to keep track of GPUs VA
- mappings
-Message-ID: <202301190004.9AzNXacp-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [djwong-xfs:xfile-page-caching 181/266] fs/xfs/scrub/trace.c:48:1:
+ warning: unused function 'xfbtree_ino'
+Message-ID: <202301190144.4A9aWMCj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -46,79 +46,67 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "gcc: unused function warning for stub function"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20230118061256.2689-4-dakr@redhat.com>
-References: <20230118061256.2689-4-dakr@redhat.com>
-TO: Danilo Krummrich <dakr@redhat.com>
-TO: daniel@ffwll.ch
-TO: airlied@redhat.com
-TO: christian.koenig@amd.com
-TO: bskeggs@redhat.com
-TO: jason@jlekstrand.net
-TO: tzimmermann@suse.de
-TO: mripard@kernel.org
-TO: corbet@lwn.net
-CC: nouveau@lists.freedesktop.org
-CC: Danilo Krummrich <dakr@redhat.com>
-CC: linux-kernel@vger.kernel.org
-CC: dri-devel@lists.freedesktop.org
-CC: linux-doc@vger.kernel.org
+TO: "Darrick J. Wong" <darrick.wong@oracle.com>
 
-Hi Danilo,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on 0b45ac1170ea6416bc1d36798414c04870cd356d]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Danilo-Krummrich/drm-execution-context-for-GEM-buffers/20230118-141552
-base:   0b45ac1170ea6416bc1d36798414c04870cd356d
-patch link:    https://lore.kernel.org/r/20230118061256.2689-4-dakr%40redhat.com
-patch subject: [PATCH drm-next 03/14] drm: manager to keep track of GPUs VA mappings
-:::::: branch date: 10 hours ago
-:::::: commit date: 10 hours ago
-config: i386-randconfig-m021-20230116 (https://download.01.org/0day-ci/archive/20230119/202301190004.9AzNXacp-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git xfile-page-caching
+head:   5ac6d5f53f18d0486ac3713be490eb8c186ff344
+commit: 5e5403fd13b9e84e08d6f3e7da7c3bc489b63eab [181/266] xfs: connect in-memory btrees to xfiles
+:::::: branch date: 17 hours ago
+:::::: commit date: 17 hours ago
+config: riscv-randconfig-r036-20230118 (https://download.01.org/0day-ci/archive/20230119/202301190144.4A9aWMCj-lkp@intel.com/config)
+compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 4196ca3278f78c6e19246e54ab0ecb364e37d66a)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git/commit/?id=5e5403fd13b9e84e08d6f3e7da7c3bc489b63eab
+        git remote add djwong-xfs https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git
+        git fetch --no-tags djwong-xfs xfile-page-caching
+        git checkout 5e5403fd13b9e84e08d6f3e7da7c3bc489b63eab
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash fs/xfs/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
 
-smatch warnings:
-drivers/gpu/drm/drm_gpuva_mgr.c:739 drm_gpuva_region_destroy() warn: ignoring unreachable code.
+All warnings (new ones prefixed by >>):
 
-vim +739 drivers/gpu/drm/drm_gpuva_mgr.c
+   In file included from fs/xfs/scrub/trace.c:6:
+   In file included from fs/xfs/xfs.h:22:
+   In file included from fs/xfs/xfs_linux.h:83:
+   fs/xfs/xfs_hooks.h:63:27: warning: cast from 'xfs_hook_fn_t' (aka 'int (*)(struct xfs_hook *, unsigned long, void *)') to 'notifier_fn_t' (aka 'int (*)(struct notifier_block *, unsigned long, void *)') converts to incompatible function type [-Wcast-function-type-strict]
+           hook->nb.notifier_call = (notifier_fn_t)fn;
+                                    ^~~~~~~~~~~~~~~~~
+   fs/xfs/scrub/trace.c:31:1: warning: unused function 'xchk_btree_cur_fsbno' [-Wunused-function]
+   xchk_btree_cur_fsbno(
+   ^
+>> fs/xfs/scrub/trace.c:48:1: warning: unused function 'xfbtree_ino' [-Wunused-function]
+   xfbtree_ino(
+   ^
+   3 warnings generated.
 
-fffbb2141e3b96 Danilo Krummrich 2023-01-18  725  
-fffbb2141e3b96 Danilo Krummrich 2023-01-18  726  /**
-fffbb2141e3b96 Danilo Krummrich 2023-01-18  727   * drm_gpuva_region_destroy - destroy a &drm_gpuva_region
-fffbb2141e3b96 Danilo Krummrich 2023-01-18  728   * @mgr: the &drm_gpuva_manager holding the region
-fffbb2141e3b96 Danilo Krummrich 2023-01-18  729   * @reg: the &drm_gpuva to destroy
-fffbb2141e3b96 Danilo Krummrich 2023-01-18  730   *
-fffbb2141e3b96 Danilo Krummrich 2023-01-18  731   * This removes the given &reg from the underlaying range allocator.
-fffbb2141e3b96 Danilo Krummrich 2023-01-18  732   */
-fffbb2141e3b96 Danilo Krummrich 2023-01-18  733  void
-fffbb2141e3b96 Danilo Krummrich 2023-01-18  734  drm_gpuva_region_destroy(struct drm_gpuva_manager *mgr,
-fffbb2141e3b96 Danilo Krummrich 2023-01-18  735  			 struct drm_gpuva_region *reg)
-fffbb2141e3b96 Danilo Krummrich 2023-01-18  736  {
-fffbb2141e3b96 Danilo Krummrich 2023-01-18  737  	struct drm_gpuva *va;
-fffbb2141e3b96 Danilo Krummrich 2023-01-18  738  
-fffbb2141e3b96 Danilo Krummrich 2023-01-18 @739  	drm_gpuva_for_each_va_in_range(va, mgr,
-fffbb2141e3b96 Danilo Krummrich 2023-01-18  740  				       reg->node.start,
-fffbb2141e3b96 Danilo Krummrich 2023-01-18  741  				       reg->node.size) {
-fffbb2141e3b96 Danilo Krummrich 2023-01-18  742  		WARN(1, "GPU VA region must be empty on destroy.\n");
-fffbb2141e3b96 Danilo Krummrich 2023-01-18  743  		return;
-fffbb2141e3b96 Danilo Krummrich 2023-01-18  744  	}
-fffbb2141e3b96 Danilo Krummrich 2023-01-18  745  
-fffbb2141e3b96 Danilo Krummrich 2023-01-18  746  	if (&reg->node == &mgr->kernel_alloc_node) {
-fffbb2141e3b96 Danilo Krummrich 2023-01-18  747  		WARN(1, "Can't destroy kernel reserved region.\n");
-fffbb2141e3b96 Danilo Krummrich 2023-01-18  748  		return;
-fffbb2141e3b96 Danilo Krummrich 2023-01-18  749  	}
-fffbb2141e3b96 Danilo Krummrich 2023-01-18  750  
-fffbb2141e3b96 Danilo Krummrich 2023-01-18  751  	drm_mm_remove_node(&reg->node);
-fffbb2141e3b96 Danilo Krummrich 2023-01-18  752  }
-fffbb2141e3b96 Danilo Krummrich 2023-01-18  753  EXPORT_SYMBOL(drm_gpuva_region_destroy);
-fffbb2141e3b96 Danilo Krummrich 2023-01-18  754  
+
+vim +/xfbtree_ino +48 fs/xfs/scrub/trace.c
+
+537964bceb9a4c Darrick J. Wong 2017-10-17  45  
+5e5403fd13b9e8 Darrick J. Wong 2022-07-14  46  #ifdef CONFIG_XFS_IN_MEMORY_BTREE
+5e5403fd13b9e8 Darrick J. Wong 2022-07-14  47  static inline unsigned long
+5e5403fd13b9e8 Darrick J. Wong 2022-07-14 @48  xfbtree_ino(
+5e5403fd13b9e8 Darrick J. Wong 2022-07-14  49  	struct xfbtree		*xfbt)
+5e5403fd13b9e8 Darrick J. Wong 2022-07-14  50  {
+5e5403fd13b9e8 Darrick J. Wong 2022-07-14  51  	return file_inode(xfbt->target->bt_xfile->file)->i_ino;
+5e5403fd13b9e8 Darrick J. Wong 2022-07-14  52  }
+5e5403fd13b9e8 Darrick J. Wong 2022-07-14  53  #endif /* CONFIG_XFS_IN_MEMORY_BTREE */
+5e5403fd13b9e8 Darrick J. Wong 2022-07-14  54  
 
 -- 
 0-DAY CI Kernel Test Service
