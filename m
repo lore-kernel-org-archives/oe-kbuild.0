@@ -1,42 +1,42 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 862242F21
-	for <oe-kbuild@lists.linux.dev>; Wed, 18 Jan 2023 16:51:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE6632F21
+	for <oe-kbuild@lists.linux.dev>; Wed, 18 Jan 2023 16:51:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674060669; x=1705596669;
+  t=1674060693; x=1705596693;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=sMKMslHgAjVW4WNOTO2kdSLxR5sHstazfzkYSAh88oc=;
-  b=CB3iaIqNUNkaXC3kMcVqG4Ar4S6TIhdTEIvqexipvzQmjBWaFi1Z0+eR
-   S/g7vqz6T+anFlLhIOQLDmU3rsuCxavwxv0cXcteOEWO32gGZgM6+GCns
-   t6nTiTHiejL6fqoi/We/Z7H9zS57kZ+noZyYKKR4lQi8NSzySMa+5qtGL
-   hqPpQ+iTC6alglcxQMeY08ZRmidU5OKn8pkbFemYmIwn6nYabmu9k4feP
-   QOetvWIk4PKTJ9OY/7WBSsW/mrJr5EWeyy+NKHcgUEWslC+E+0ZNR6lJU
-   Nkpi4UgibX098JQ+egU+OGsoR/1BxrC8cJXCqbJNqexwx8vyFq2DDrnYD
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="323715963"
+  bh=7nFWUjz0gBFGVYd8Qsqf/F8ufv1n7Rq6jDMYyrJq2oM=;
+  b=eTbVJEEJAdbNe5VFawqwurUq3mqQTqGa5rmLpJo/VLuRu2z9qWRGaKhl
+   5izpXk89vlfcUb3gAWEii4f/ixc4X13kv/HKk6LrPGn9q9z7SUvHdb718
+   hs35BsFYkbrAe209LxOd7PLkkh27bEC75ou/0Jkf+XU6w5l6iEL4Xzo+3
+   9rNGJ810YI4BCg3R68gnOuyjzhsiWXDj9E9BnlL8KRMd8xCPyRi4gdDm3
+   8jPB5Un3GvOpO5McJnSW5ReJN+oQ/JS651g/AV0pa0s7MJK3yi87fDmW0
+   MMXRTi5pXf0y6086y8EFhw+U8SQGU1ZyehAfGP/tB9D2r4Suh3g8uMHL2
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="327104756"
 X-IronPort-AV: E=Sophos;i="5.97,226,1669104000"; 
-   d="scan'208";a="323715963"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2023 08:51:03 -0800
+   d="scan'208";a="327104756"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2023 08:51:18 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="767824596"
+X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="692066334"
 X-IronPort-AV: E=Sophos;i="5.97,226,1669104000"; 
-   d="scan'208";a="767824596"
+   d="scan'208";a="692066334"
 Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 18 Jan 2023 08:51:02 -0800
+  by orsmga001.jf.intel.com with ESMTP; 18 Jan 2023 08:51:02 -0800
 Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pIBeK-0000X7-2O;
+	id 1pIBeK-0000XB-2X;
 	Wed, 18 Jan 2023 16:50:56 +0000
-Date: Thu, 19 Jan 2023 00:50:07 +0800
+Date: Thu, 19 Jan 2023 00:50:08 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [leon-rdma:rdma-next 27/28] drivers/nvme/host/rdma.c:420:12:
- warning: 'nvme_rdma_crypto_keyslot_evict' defined but not used
-Message-ID: <202301190016.bBLvEKIJ-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCH drm-next 03/14] drm: manager to keep track of GPUs VA
+ mappings
+Message-ID: <202301190004.9AzNXacp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -46,119 +46,79 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "gcc: unused function warning for stub function"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Israel Rukshin <israelr@nvidia.com>
-CC: Leon Romanovsky <leon@kernel.org>
+In-Reply-To: <20230118061256.2689-4-dakr@redhat.com>
+References: <20230118061256.2689-4-dakr@redhat.com>
+TO: Danilo Krummrich <dakr@redhat.com>
+TO: daniel@ffwll.ch
+TO: airlied@redhat.com
+TO: christian.koenig@amd.com
+TO: bskeggs@redhat.com
+TO: jason@jlekstrand.net
+TO: tzimmermann@suse.de
+TO: mripard@kernel.org
+TO: corbet@lwn.net
+CC: nouveau@lists.freedesktop.org
+CC: Danilo Krummrich <dakr@redhat.com>
+CC: linux-kernel@vger.kernel.org
+CC: dri-devel@lists.freedesktop.org
+CC: linux-doc@vger.kernel.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git rdma-next
-head:   d26d5571e19e3ab7c9cffea17fc5fb00078d9472
-commit: ab0817fac98d498372fd32e950d1ca6e157b575d [27/28] nvme-rdma: Add inline encryption support
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: i386-debian-10.3-func (https://download.01.org/0day-ci/archive/20230119/202301190016.bBLvEKIJ-lkp@intel.com/config)
+Hi Danilo,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on 0b45ac1170ea6416bc1d36798414c04870cd356d]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Danilo-Krummrich/drm-execution-context-for-GEM-buffers/20230118-141552
+base:   0b45ac1170ea6416bc1d36798414c04870cd356d
+patch link:    https://lore.kernel.org/r/20230118061256.2689-4-dakr%40redhat.com
+patch subject: [PATCH drm-next 03/14] drm: manager to keep track of GPUs VA mappings
+:::::: branch date: 10 hours ago
+:::::: commit date: 10 hours ago
+config: i386-randconfig-m021-20230116 (https://download.01.org/0day-ci/archive/20230119/202301190004.9AzNXacp-lkp@intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-reproduce (this is a W=1 build):
-        # https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git/commit/?id=ab0817fac98d498372fd32e950d1ca6e157b575d
-        git remote add leon-rdma https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git
-        git fetch --no-tags leon-rdma rdma-next
-        git checkout ab0817fac98d498372fd32e950d1ca6e157b575d
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=i386 olddefconfig
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/nvme/host/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+drivers/gpu/drm/drm_gpuva_mgr.c:739 drm_gpuva_region_destroy() warn: ignoring unreachable code.
 
->> drivers/nvme/host/rdma.c:420:12: warning: 'nvme_rdma_crypto_keyslot_evict' defined but not used [-Wunused-function]
-     420 | static int nvme_rdma_crypto_keyslot_evict(struct blk_crypto_profile *profile,
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/nvme/host/rdma.c:377:12: warning: 'nvme_rdma_crypto_keyslot_program' defined but not used [-Wunused-function]
-     377 | static int nvme_rdma_crypto_keyslot_program(struct blk_crypto_profile *profile,
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+vim +739 drivers/gpu/drm/drm_gpuva_mgr.c
 
-
-vim +/nvme_rdma_crypto_keyslot_evict +420 drivers/nvme/host/rdma.c
-
-71102307196028 Christoph Hellwig 2016-07-06  376  
-ab0817fac98d49 Israel Rukshin    2022-02-23 @377  static int nvme_rdma_crypto_keyslot_program(struct blk_crypto_profile *profile,
-ab0817fac98d49 Israel Rukshin    2022-02-23  378  					    const struct blk_crypto_key *key,
-ab0817fac98d49 Israel Rukshin    2022-02-23  379  					    unsigned int slot)
-ab0817fac98d49 Israel Rukshin    2022-02-23  380  {
-ab0817fac98d49 Israel Rukshin    2022-02-23  381  	struct nvme_ctrl *nctrl =
-ab0817fac98d49 Israel Rukshin    2022-02-23  382  		container_of(profile, struct nvme_ctrl, crypto_profile);
-ab0817fac98d49 Israel Rukshin    2022-02-23  383  	struct nvme_rdma_ctrl *ctrl = to_rdma_ctrl(nctrl);
-ab0817fac98d49 Israel Rukshin    2022-02-23  384  	struct ib_dek_attr dek_attr = { };
-ab0817fac98d49 Israel Rukshin    2022-02-23  385  	int err = 0;
-ab0817fac98d49 Israel Rukshin    2022-02-23  386  
-ab0817fac98d49 Israel Rukshin    2022-02-23  387  	if (slot > NVME_RDMA_NUM_CRYPTO_KEYSLOTS) {
-ab0817fac98d49 Israel Rukshin    2022-02-23  388  		dev_err(nctrl->device, "slot index reached the limit %d/%d",
-ab0817fac98d49 Israel Rukshin    2022-02-23  389  			slot, NVME_RDMA_NUM_CRYPTO_KEYSLOTS);
-ab0817fac98d49 Israel Rukshin    2022-02-23  390  		return -EOPNOTSUPP;
-ab0817fac98d49 Israel Rukshin    2022-02-23  391  	}
-ab0817fac98d49 Israel Rukshin    2022-02-23  392  
-ab0817fac98d49 Israel Rukshin    2022-02-23  393  	if (WARN_ON_ONCE(key->crypto_cfg.crypto_mode !=
-ab0817fac98d49 Israel Rukshin    2022-02-23  394  			 BLK_ENCRYPTION_MODE_AES_256_XTS))
-ab0817fac98d49 Israel Rukshin    2022-02-23  395  		return -EOPNOTSUPP;
-ab0817fac98d49 Israel Rukshin    2022-02-23  396  
-ab0817fac98d49 Israel Rukshin    2022-02-23  397  	if (ctrl->dek[slot]) {
-ab0817fac98d49 Israel Rukshin    2022-02-23  398  		dev_dbg(nctrl->device, "slot %d is taken, free DEK ID %d\n",
-ab0817fac98d49 Israel Rukshin    2022-02-23  399  			slot, ctrl->dek[slot]->id);
-ab0817fac98d49 Israel Rukshin    2022-02-23  400  		ib_destroy_dek(ctrl->dek[slot]);
-ab0817fac98d49 Israel Rukshin    2022-02-23  401  	}
-ab0817fac98d49 Israel Rukshin    2022-02-23  402  
-ab0817fac98d49 Israel Rukshin    2022-02-23  403  	dek_attr.key_blob = key->raw;
-ab0817fac98d49 Israel Rukshin    2022-02-23  404  	dek_attr.key_blob_size = key->size;
-ab0817fac98d49 Israel Rukshin    2022-02-23  405  	dek_attr.key_type = IB_CRYPTO_KEY_TYPE_AES_XTS;
-ab0817fac98d49 Israel Rukshin    2022-02-23  406  	ctrl->dek[slot] = ib_create_dek(ctrl->device->pd, &dek_attr);
-ab0817fac98d49 Israel Rukshin    2022-02-23  407  	if (IS_ERR(ctrl->dek[slot])) {
-ab0817fac98d49 Israel Rukshin    2022-02-23  408  		err = PTR_ERR(ctrl->dek[slot]);
-ab0817fac98d49 Israel Rukshin    2022-02-23  409  		dev_err(nctrl->device,
-ab0817fac98d49 Israel Rukshin    2022-02-23  410  			"failed to create DEK at slot %d, err %d\n", slot, err);
-ab0817fac98d49 Israel Rukshin    2022-02-23  411  		ctrl->dek[slot] = NULL;
-ab0817fac98d49 Israel Rukshin    2022-02-23  412  	} else {
-ab0817fac98d49 Israel Rukshin    2022-02-23  413  		dev_dbg(nctrl->device, "DEK ID %d was created at slot %d\n",
-ab0817fac98d49 Israel Rukshin    2022-02-23  414  			ctrl->dek[slot]->id, slot);
-ab0817fac98d49 Israel Rukshin    2022-02-23  415  	}
-ab0817fac98d49 Israel Rukshin    2022-02-23  416  
-ab0817fac98d49 Israel Rukshin    2022-02-23  417  	return err;
-ab0817fac98d49 Israel Rukshin    2022-02-23  418  }
-ab0817fac98d49 Israel Rukshin    2022-02-23  419  
-ab0817fac98d49 Israel Rukshin    2022-02-23 @420  static int nvme_rdma_crypto_keyslot_evict(struct blk_crypto_profile *profile,
-ab0817fac98d49 Israel Rukshin    2022-02-23  421  					  const struct blk_crypto_key *key,
-ab0817fac98d49 Israel Rukshin    2022-02-23  422  					  unsigned int slot)
-ab0817fac98d49 Israel Rukshin    2022-02-23  423  {
-ab0817fac98d49 Israel Rukshin    2022-02-23  424  	struct nvme_ctrl *nctrl =
-ab0817fac98d49 Israel Rukshin    2022-02-23  425  		container_of(profile, struct nvme_ctrl, crypto_profile);
-ab0817fac98d49 Israel Rukshin    2022-02-23  426  	struct nvme_rdma_ctrl *ctrl = to_rdma_ctrl(nctrl);
-ab0817fac98d49 Israel Rukshin    2022-02-23  427  
-ab0817fac98d49 Israel Rukshin    2022-02-23  428  	if (slot > NVME_RDMA_NUM_CRYPTO_KEYSLOTS) {
-ab0817fac98d49 Israel Rukshin    2022-02-23  429  		dev_err(nctrl->device, "slot index reached the limit %d/%d\n",
-ab0817fac98d49 Israel Rukshin    2022-02-23  430  			slot, NVME_RDMA_NUM_CRYPTO_KEYSLOTS);
-ab0817fac98d49 Israel Rukshin    2022-02-23  431  		return -EOPNOTSUPP;
-ab0817fac98d49 Israel Rukshin    2022-02-23  432  	}
-ab0817fac98d49 Israel Rukshin    2022-02-23  433  
-ab0817fac98d49 Israel Rukshin    2022-02-23  434  	if (!ctrl->dek[slot]) {
-ab0817fac98d49 Israel Rukshin    2022-02-23  435  		dev_err(nctrl->device, "slot %d is empty\n", slot);
-ab0817fac98d49 Israel Rukshin    2022-02-23  436  		return -EINVAL;
-ab0817fac98d49 Israel Rukshin    2022-02-23  437  	}
-ab0817fac98d49 Israel Rukshin    2022-02-23  438  
-ab0817fac98d49 Israel Rukshin    2022-02-23  439  	dev_dbg(nctrl->device, "Destroy DEK ID %d slot %d\n",
-ab0817fac98d49 Israel Rukshin    2022-02-23  440  		ctrl->dek[slot]->id, slot);
-ab0817fac98d49 Israel Rukshin    2022-02-23  441  
-ab0817fac98d49 Israel Rukshin    2022-02-23  442  	ib_destroy_dek(ctrl->dek[slot]);
-ab0817fac98d49 Israel Rukshin    2022-02-23  443  	ctrl->dek[slot] = NULL;
-ab0817fac98d49 Israel Rukshin    2022-02-23  444  
-ab0817fac98d49 Israel Rukshin    2022-02-23  445  	return 0;
-ab0817fac98d49 Israel Rukshin    2022-02-23  446  }
-ab0817fac98d49 Israel Rukshin    2022-02-23  447  
+fffbb2141e3b96 Danilo Krummrich 2023-01-18  725  
+fffbb2141e3b96 Danilo Krummrich 2023-01-18  726  /**
+fffbb2141e3b96 Danilo Krummrich 2023-01-18  727   * drm_gpuva_region_destroy - destroy a &drm_gpuva_region
+fffbb2141e3b96 Danilo Krummrich 2023-01-18  728   * @mgr: the &drm_gpuva_manager holding the region
+fffbb2141e3b96 Danilo Krummrich 2023-01-18  729   * @reg: the &drm_gpuva to destroy
+fffbb2141e3b96 Danilo Krummrich 2023-01-18  730   *
+fffbb2141e3b96 Danilo Krummrich 2023-01-18  731   * This removes the given &reg from the underlaying range allocator.
+fffbb2141e3b96 Danilo Krummrich 2023-01-18  732   */
+fffbb2141e3b96 Danilo Krummrich 2023-01-18  733  void
+fffbb2141e3b96 Danilo Krummrich 2023-01-18  734  drm_gpuva_region_destroy(struct drm_gpuva_manager *mgr,
+fffbb2141e3b96 Danilo Krummrich 2023-01-18  735  			 struct drm_gpuva_region *reg)
+fffbb2141e3b96 Danilo Krummrich 2023-01-18  736  {
+fffbb2141e3b96 Danilo Krummrich 2023-01-18  737  	struct drm_gpuva *va;
+fffbb2141e3b96 Danilo Krummrich 2023-01-18  738  
+fffbb2141e3b96 Danilo Krummrich 2023-01-18 @739  	drm_gpuva_for_each_va_in_range(va, mgr,
+fffbb2141e3b96 Danilo Krummrich 2023-01-18  740  				       reg->node.start,
+fffbb2141e3b96 Danilo Krummrich 2023-01-18  741  				       reg->node.size) {
+fffbb2141e3b96 Danilo Krummrich 2023-01-18  742  		WARN(1, "GPU VA region must be empty on destroy.\n");
+fffbb2141e3b96 Danilo Krummrich 2023-01-18  743  		return;
+fffbb2141e3b96 Danilo Krummrich 2023-01-18  744  	}
+fffbb2141e3b96 Danilo Krummrich 2023-01-18  745  
+fffbb2141e3b96 Danilo Krummrich 2023-01-18  746  	if (&reg->node == &mgr->kernel_alloc_node) {
+fffbb2141e3b96 Danilo Krummrich 2023-01-18  747  		WARN(1, "Can't destroy kernel reserved region.\n");
+fffbb2141e3b96 Danilo Krummrich 2023-01-18  748  		return;
+fffbb2141e3b96 Danilo Krummrich 2023-01-18  749  	}
+fffbb2141e3b96 Danilo Krummrich 2023-01-18  750  
+fffbb2141e3b96 Danilo Krummrich 2023-01-18  751  	drm_mm_remove_node(&reg->node);
+fffbb2141e3b96 Danilo Krummrich 2023-01-18  752  }
+fffbb2141e3b96 Danilo Krummrich 2023-01-18  753  EXPORT_SYMBOL(drm_gpuva_region_destroy);
+fffbb2141e3b96 Danilo Krummrich 2023-01-18  754  
 
 -- 
 0-DAY CI Kernel Test Service
