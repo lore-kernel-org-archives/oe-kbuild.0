@@ -1,43 +1,42 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F41F03C21
-	for <oe-kbuild@lists.linux.dev>; Wed, 18 Jan 2023 17:23:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C88BB539E
+	for <oe-kbuild@lists.linux.dev>; Wed, 18 Jan 2023 18:14:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674062582; x=1705598582;
+  t=1674065661; x=1705601661;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=wDJ/zN60NB1RG+eZvCLbcggAZjWwPIINV5vvLv38YAA=;
-  b=hEql+UbHYARyZf8NNxs9j/Fe9xsIrXRvWCH2i2stWM3G30LnFCzG1TPL
-   DxPnjpfCIwP5pPxw9pWJwBzQW5eUVt6Z0WaMbXKPdGW7NFc9QC3fP62y/
-   Tg8L2dmbNuGbRtft30iU9E6IWq6AvEG4i2ZKu9Z7eqWglqaNeA/eEM+jF
-   hUigifp8Ue48Rfie2xUdz4LfIPoRNHRiVH7YLFvWTM4e4UfAgM6yKzOew
-   5ENx66tdhmtIydTy546PwKK3nxbQYr0/3bbBgx6j+zztDQTg+LSOzY/4n
-   ynd+YFewoQV1UNI1U3b3CCGfJCyU4fX8+OTc0vcWhRPUzXNZh2iKIJnbt
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="326306171"
+  bh=B4H5xb4WcoPSsxHIAIXJUgpzPGQ9gVneTbej30UifHo=;
+  b=Zw/U1o9J8x5vgZ7sEQwod8RbpIXb6ybA9dyjk5a3MKGygP2pAFUMHkwx
+   euTlRDrj3mmDGt1Oj9BrYqwlBD/69zL2drqIulnL4WpytQjreGjQaJFpO
+   jI5K3li4aw1R6rNz7X5LdwND2OnB5QEeC7X5AKkowUsU561vm70pY9ykR
+   CvudGKBvRocpE+Y1PAALF5/YJ93dk6BsutcUlCf08PFNQXJ5nzfvAbqmJ
+   LCmWJ9dWMKJbpYfKKw+OY337o9qeLfz73EqtgOtgDgtzsvENLnmdjOuTJ
+   AK0Cu2CrafFSIK8RWolTLS45dRqkIZw5e88LJd3jF+BSoFWCCDEJe7TGk
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="304742435"
 X-IronPort-AV: E=Sophos;i="5.97,226,1669104000"; 
-   d="scan'208";a="326306171"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2023 09:23:00 -0800
+   d="scan'208";a="304742435"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2023 10:14:09 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="690293682"
+X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="653051299"
 X-IronPort-AV: E=Sophos;i="5.97,226,1669104000"; 
-   d="scan'208";a="690293682"
+   d="scan'208";a="653051299"
 Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 18 Jan 2023 09:22:59 -0800
+  by orsmga007.jf.intel.com with ESMTP; 18 Jan 2023 10:14:08 -0800
 Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pIC9K-0000ZW-2v;
-	Wed, 18 Jan 2023 17:22:58 +0000
-Date: Thu, 19 Jan 2023 01:21:59 +0800
+	id 1pICwp-0000c2-2u;
+	Wed, 18 Jan 2023 18:14:07 +0000
+Date: Thu, 19 Jan 2023 02:13:21 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [ammarfaizi2-block:kvalo/ath/pending 38/57]
- drivers/net/wireless/ath/ath10k/ce.c:80:19: warning: unused function
- 'shadow_dst_wr_ind_addr'
-Message-ID: <202301190132.Qut2rBZK-lkp@intel.com>
+Subject: drivers/pinctrl/pinctrl-at91.c:1650:12: warning: unused function
+ 'at91_gpio_suspend'
+Message-ID: <202301190231.oWPtSJ5A-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -54,95 +53,81 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-CC: Ammar Faizi <ammarfaizi2@gnuweeb.org>
-CC: "GNU/Weeb Mailing List" <gwml@vger.gnuweeb.org>
-TO: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-CC: Kalle Valo <quic_kvalo@quicinc.com>
+CC: linux-kernel@vger.kernel.org
+TO: Claudiu Beznea <claudiu.beznea@microchip.com>
+CC: Linus Walleij <linus.walleij@linaro.org>
 
-tree:   https://github.com/ammarfaizi2/linux-block kvalo/ath/pending
-head:   25844d62c9351ba63242a700097adff33329eeb8
-commit: 179340dd4b39932a16f7db59998942494046b5a1 [38/57] wifi: ath10k: Remove the unused function ath10k_ce_shadow_src_ring_write_index_set()
-:::::: branch date: 10 hours ago
-:::::: commit date: 29 hours ago
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230119/202301190132.Qut2rBZK-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   c1649ec55708ae42091a2f1bca1ab49ecd722d55
+commit: a575207583676298f3999d41d86d81f7172fe950 pinctrl: at91: move gpio suspend/resume calls to driver's context
+date:   5 months ago
+:::::: branch date: 25 hours ago
+:::::: commit date: 5 months ago
+config: arm-randconfig-r046-20230118 (https://download.01.org/0day-ci/archive/20230119/202301190231.oWPtSJ5A-lkp@intel.com/config)
+compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 4196ca3278f78c6e19246e54ab0ecb364e37d66a)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/ammarfaizi2/linux-block/commit/179340dd4b39932a16f7db59998942494046b5a1
-        git remote add ammarfaizi2-block https://github.com/ammarfaizi2/linux-block
-        git fetch --no-tags ammarfaizi2-block kvalo/ath/pending
-        git checkout 179340dd4b39932a16f7db59998942494046b5a1
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=a575207583676298f3999d41d86d81f7172fe950
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout a575207583676298f3999d41d86d81f7172fe950
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/net/wireless/ath/ath10k/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/pinctrl/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
 All warnings (new ones prefixed by >>):
 
->> drivers/net/wireless/ath/ath10k/ce.c:80:19: warning: unused function 'shadow_dst_wr_ind_addr' [-Wunused-function]
-   static inline u32 shadow_dst_wr_ind_addr(struct ath10k *ar,
-                     ^
-   drivers/net/wireless/ath/ath10k/ce.c:127:1: warning: unused function 'ath10k_get_ring_byte' [-Wunused-function]
-   ath10k_get_ring_byte(unsigned int offset,
-   ^
-   drivers/net/wireless/ath/ath10k/ce.c:441:20: warning: unused function 'ath10k_ce_error_intr_enable' [-Wunused-function]
-   static inline void ath10k_ce_error_intr_enable(struct ath10k *ar,
-                      ^
-   3 warnings generated.
+>> drivers/pinctrl/pinctrl-at91.c:1650:12: warning: unused function 'at91_gpio_suspend' [-Wunused-function]
+   static int at91_gpio_suspend(struct device *dev)
+              ^
+>> drivers/pinctrl/pinctrl-at91.c:1668:12: warning: unused function 'at91_gpio_resume' [-Wunused-function]
+   static int at91_gpio_resume(struct device *dev)
+              ^
+   2 warnings generated.
 
 
-vim +/shadow_dst_wr_ind_addr +80 drivers/net/wireless/ath/ath10k/ce.c
+vim +/at91_gpio_suspend +1650 drivers/pinctrl/pinctrl-at91.c
 
-b7ba83f7c414e5 Rakesh Pillai 2018-04-17   79  
-b7ba83f7c414e5 Rakesh Pillai 2018-04-17  @80  static inline u32 shadow_dst_wr_ind_addr(struct ath10k *ar,
-b7ba83f7c414e5 Rakesh Pillai 2018-04-17   81  					 struct ath10k_ce_pipe *ce_state)
-b7ba83f7c414e5 Rakesh Pillai 2018-04-17   82  {
-b7ba83f7c414e5 Rakesh Pillai 2018-04-17   83  	u32 ce_id = ce_state->id;
-b7ba83f7c414e5 Rakesh Pillai 2018-04-17   84  	u32 addr = 0;
-b7ba83f7c414e5 Rakesh Pillai 2018-04-17   85  
-b7ba83f7c414e5 Rakesh Pillai 2018-04-17   86  	switch (ce_id) {
-b7ba83f7c414e5 Rakesh Pillai 2018-04-17   87  	case 1:
-b7ba83f7c414e5 Rakesh Pillai 2018-04-17   88  		addr = 0x00032034;
-b7ba83f7c414e5 Rakesh Pillai 2018-04-17   89  		break;
-b7ba83f7c414e5 Rakesh Pillai 2018-04-17   90  	case 2:
-b7ba83f7c414e5 Rakesh Pillai 2018-04-17   91  		addr = 0x00032038;
-b7ba83f7c414e5 Rakesh Pillai 2018-04-17   92  		break;
-b7ba83f7c414e5 Rakesh Pillai 2018-04-17   93  	case 5:
-b7ba83f7c414e5 Rakesh Pillai 2018-04-17   94  		addr = 0x00032044;
-b7ba83f7c414e5 Rakesh Pillai 2018-04-17   95  		break;
-b7ba83f7c414e5 Rakesh Pillai 2018-04-17   96  	case 7:
-b7ba83f7c414e5 Rakesh Pillai 2018-04-17   97  		addr = 0x0003204C;
-b7ba83f7c414e5 Rakesh Pillai 2018-04-17   98  		break;
-b7ba83f7c414e5 Rakesh Pillai 2018-04-17   99  	case 8:
-b7ba83f7c414e5 Rakesh Pillai 2018-04-17  100  		addr = 0x00032050;
-b7ba83f7c414e5 Rakesh Pillai 2018-04-17  101  		break;
-b7ba83f7c414e5 Rakesh Pillai 2018-04-17  102  	case 9:
-b7ba83f7c414e5 Rakesh Pillai 2018-04-17  103  		addr = 0x00032054;
-b7ba83f7c414e5 Rakesh Pillai 2018-04-17  104  		break;
-b7ba83f7c414e5 Rakesh Pillai 2018-04-17  105  	case 10:
-b7ba83f7c414e5 Rakesh Pillai 2018-04-17  106  		addr = 0x00032058;
-b7ba83f7c414e5 Rakesh Pillai 2018-04-17  107  		break;
-b7ba83f7c414e5 Rakesh Pillai 2018-04-17  108  	case 11:
-b7ba83f7c414e5 Rakesh Pillai 2018-04-17  109  		addr = 0x0003205C;
-b7ba83f7c414e5 Rakesh Pillai 2018-04-17  110  		break;
-b7ba83f7c414e5 Rakesh Pillai 2018-04-17  111  	default:
-b7ba83f7c414e5 Rakesh Pillai 2018-04-17  112  		ath10k_warn(ar, "invalid CE id: %d", ce_id);
-b7ba83f7c414e5 Rakesh Pillai 2018-04-17  113  		break;
-b7ba83f7c414e5 Rakesh Pillai 2018-04-17  114  	}
-b7ba83f7c414e5 Rakesh Pillai 2018-04-17  115  
-b7ba83f7c414e5 Rakesh Pillai 2018-04-17  116  	return addr;
-b7ba83f7c414e5 Rakesh Pillai 2018-04-17  117  }
-b7ba83f7c414e5 Rakesh Pillai 2018-04-17  118  
-
-:::::: The code at line 80 was first introduced by commit
-:::::: b7ba83f7c414e583fdf82a1b1b95d2376cdb4b45 ath10k: add support for shadow register for WNC3990
-
-:::::: TO: Rakesh Pillai <pillair@codeaurora.org>
-:::::: CC: Kalle Valo <kvalo@codeaurora.org>
+647f8d94a4e69d Ludovic Desroches 2013-03-08  1649  
+a5752075836762 Claudiu Beznea    2022-08-31 @1650  static int at91_gpio_suspend(struct device *dev)
+647f8d94a4e69d Ludovic Desroches 2013-03-08  1651  {
+a5752075836762 Claudiu Beznea    2022-08-31  1652  	struct at91_gpio_chip *at91_chip = dev_get_drvdata(dev);
+a5752075836762 Claudiu Beznea    2022-08-31  1653  	void __iomem *pio = at91_chip->regbase;
+647f8d94a4e69d Ludovic Desroches 2013-03-08  1654  
+a5752075836762 Claudiu Beznea    2022-08-31  1655  	at91_chip->backups = readl_relaxed(pio + PIO_IMR);
+a5752075836762 Claudiu Beznea    2022-08-31  1656  	writel_relaxed(at91_chip->backups, pio + PIO_IDR);
+a5752075836762 Claudiu Beznea    2022-08-31  1657  	writel_relaxed(at91_chip->wakeups, pio + PIO_IER);
+647f8d94a4e69d Ludovic Desroches 2013-03-08  1658  
+a5752075836762 Claudiu Beznea    2022-08-31  1659  	if (!at91_chip->wakeups)
+a5752075836762 Claudiu Beznea    2022-08-31  1660  		clk_disable_unprepare(at91_chip->clock);
+795f9953eaccf9 Boris Brezillon   2013-12-15  1661  	else
+647f8d94a4e69d Ludovic Desroches 2013-03-08  1662  		printk(KERN_DEBUG "GPIO-%c may wake for %08x\n",
+a5752075836762 Claudiu Beznea    2022-08-31  1663  		       'A' + at91_chip->id, at91_chip->wakeups);
+a5752075836762 Claudiu Beznea    2022-08-31  1664  
+a5752075836762 Claudiu Beznea    2022-08-31  1665  	return 0;
+647f8d94a4e69d Ludovic Desroches 2013-03-08  1666  }
+647f8d94a4e69d Ludovic Desroches 2013-03-08  1667  
+a5752075836762 Claudiu Beznea    2022-08-31 @1668  static int at91_gpio_resume(struct device *dev)
+647f8d94a4e69d Ludovic Desroches 2013-03-08  1669  {
+a5752075836762 Claudiu Beznea    2022-08-31  1670  	struct at91_gpio_chip *at91_chip = dev_get_drvdata(dev);
+a5752075836762 Claudiu Beznea    2022-08-31  1671  	void __iomem *pio = at91_chip->regbase;
+647f8d94a4e69d Ludovic Desroches 2013-03-08  1672  
+a5752075836762 Claudiu Beznea    2022-08-31  1673  	if (!at91_chip->wakeups)
+a5752075836762 Claudiu Beznea    2022-08-31  1674  		clk_prepare_enable(at91_chip->clock);
+647f8d94a4e69d Ludovic Desroches 2013-03-08  1675  
+a5752075836762 Claudiu Beznea    2022-08-31  1676  	writel_relaxed(at91_chip->wakeups, pio + PIO_IDR);
+a5752075836762 Claudiu Beznea    2022-08-31  1677  	writel_relaxed(at91_chip->backups, pio + PIO_IER);
+647f8d94a4e69d Ludovic Desroches 2013-03-08  1678  
+a5752075836762 Claudiu Beznea    2022-08-31  1679  	return 0;
+647f8d94a4e69d Ludovic Desroches 2013-03-08  1680  }
+647f8d94a4e69d Ludovic Desroches 2013-03-08  1681  
 
 -- 
 0-DAY CI Kernel Test Service
