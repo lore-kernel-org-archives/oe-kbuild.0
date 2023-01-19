@@ -1,41 +1,42 @@
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E78415A3
-	for <oe-kbuild@lists.linux.dev>; Thu, 19 Jan 2023 02:08:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 679F517CD
+	for <oe-kbuild@lists.linux.dev>; Thu, 19 Jan 2023 03:20:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674094115; x=1705630115;
+  t=1674098430; x=1705634430;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=gPPn4n1dG0yiTEn5a040TPVurQT2Fm1Pyl14gPfiaqc=;
-  b=EI9DCCKuwn/lfxJqOmBChPCj9poq3CL6zX1YtQSQDEY548I9HBCGigx9
-   pbVDe5ENtnqyIp56OOXxMXMIq+PeOJCtstSFtE1/VA/mXifTRjU3iHUfe
-   zMj13VYj82Ou2zVJ7juGoWTlIICYzFXwTe1Bg3ZbuEnibVrfOqhlYR87v
-   Eb+YJcVzR68QwYJPy4KjEfAiscnxAx/uaPggYXvezUZb4MXwIPy8Gvcxd
-   MJGiw9sOZAbLWbk8CYMsrmKi7vKyIYm2hkSE73kDEbW3OuP5QxvG70CNd
-   W7EE/3wz50na1gRty8lWXTZ3KMaeNEbEySbSE2jf0qSalkvHoNWUxSurn
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="325216660"
+  bh=QJjqEIPabbxJSJU9oAei1PlsxamPw2opBElh9MUIsGs=;
+  b=C9WqzlQ96p7ai4l3TyoPffw1kmSTkgE1zO3PHyvCfshJFXlOcX5fdyaE
+   TCP+MmRRfMYo763nbNJ9YPSpYD7I4BmMjZqE1G6tkj+42vouemEB4jLv4
+   2t17xGFGddJfxT1srku89hI25eT8HLjAfMbQQVe8fsop2VW66EJgpeUll
+   njYU3ODANrp4hXPF6fqD89Y3obbrUkTHWNOTbJAi4O4oSnAIgKHLnwXT+
+   OFnvsZUdJ0L7gJHD/A5AOQbOkPl4mW2No1cg0/YKWayCdTklyI6QW6W1/
+   IisFjjZGLyQFaieSPcYy+HAK22rWo2RRYOPy5PDa4NyyL7nB+Y61CtPF+
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="325229361"
 X-IronPort-AV: E=Sophos;i="5.97,226,1669104000"; 
-   d="scan'208";a="325216660"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2023 18:08:30 -0800
+   d="scan'208";a="325229361"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2023 19:20:29 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="609898116"
+X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="728488288"
 X-IronPort-AV: E=Sophos;i="5.97,226,1669104000"; 
-   d="scan'208";a="609898116"
+   d="scan'208";a="728488288"
 Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 18 Jan 2023 18:08:26 -0800
+  by fmsmga004.fm.intel.com with ESMTP; 18 Jan 2023 19:20:28 -0800
 Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pIKLp-0000xU-1X;
-	Thu, 19 Jan 2023 02:08:25 +0000
-Date: Thu, 19 Jan 2023 10:08:09 +0800
+	id 1pILTX-000114-2r;
+	Thu, 19 Jan 2023 03:20:27 +0000
+Date: Thu, 19 Jan 2023 11:19:45 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: mm/slub.c:475:1: warning: unused function 'slub_set_cpu_partial'
-Message-ID: <202301190945.J7YwikXr-lkp@intel.com>
+Subject: drivers/media/mc/mc-entity.c:47:27: warning: unused function
+ 'link_type_name'
+Message-ID: <202301191158.i9yaFVnS-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -53,141 +54,96 @@ BCC: lkp@intel.com
 CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Vlastimil Babka <vbabka@suse.cz>
-CC: Christoph Lameter <cl@linux-foundation.org>
+TO: Daniel Scally <djrscally@gmail.com>
+CC: Mauro Carvalho Chehab <mchehab@kernel.org>
+CC: linux-media@vger.kernel.org
+CC: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+CC: "Jean-Michel Hautbois" <jeanmichel.hautbois@ideasonboard.com>
+CC: Sakari Ailus <sakari.ailus@linux.intel.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   7287904c8771b77b9504f53623bb477065c19a58
-commit: b1a413a39a1a7694acf3636a52c109821148ecdd mm, slub: disable SYSFS support with CONFIG_SLUB_TINY
-date:   7 weeks ago
-:::::: branch date: 3 hours ago
-:::::: commit date: 7 weeks ago
-config: hexagon-randconfig-r045-20230117 (https://download.01.org/0day-ci/archive/20230119/202301190945.J7YwikXr-lkp@intel.com/config)
+commit: 9d0c23bfe7083f182194ca235156a4098aa59344 media: entity: Add link_type_name() helper
+date:   9 months ago
+:::::: branch date: 5 hours ago
+:::::: commit date: 9 months ago
+config: arm-randconfig-r022-20230116 (https://download.01.org/0day-ci/archive/20230119/202301191158.i9yaFVnS-lkp@intel.com/config)
 compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 4196ca3278f78c6e19246e54ab0ecb364e37d66a)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=b1a413a39a1a7694acf3636a52c109821148ecdd
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=9d0c23bfe7083f182194ca235156a4098aa59344
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout b1a413a39a1a7694acf3636a52c109821148ecdd
+        git checkout 9d0c23bfe7083f182194ca235156a4098aa59344
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/media/mc/ drivers/mfd/ drivers/pinctrl/ lib/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
 All warnings (new ones prefixed by >>):
 
-   In file included from mm/slub.c:14:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:9:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __raw_readb(PCI_IOBASE + addr);
-                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-                                                     ^
-   In file included from mm/slub.c:14:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:9:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-                                                     ^
-   In file included from mm/slub.c:14:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:9:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writeb(value, PCI_IOBASE + addr);
-                               ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   mm/slub.c:2199:15: warning: variable 'partial_slabs' set but not used [-Wunused-but-set-variable]
-           unsigned int partial_slabs = 0;
-                        ^
-   mm/slub.c:210:20: warning: unused function 'slub_debug_orig_size' [-Wunused-function]
-   static inline bool slub_debug_orig_size(struct kmem_cache *s)
-                      ^
->> mm/slub.c:475:1: warning: unused function 'slub_set_cpu_partial' [-Wunused-function]
-   slub_set_cpu_partial(struct kmem_cache *s, unsigned int nr_objects)
-   ^
-   mm/slub.c:1672:29: warning: unused function 'node_nr_slabs' [-Wunused-function]
-   static inline unsigned long node_nr_slabs(struct kmem_cache_node *n)
-                               ^
-   10 warnings generated.
+   drivers/media/mc/mc-entity.c:17:27: warning: unused function 'intf_type' [-Wunused-function]
+   static inline const char *intf_type(struct media_interface *intf)
+                             ^
+>> drivers/media/mc/mc-entity.c:47:27: warning: unused function 'link_type_name' [-Wunused-function]
+   static inline const char *link_type_name(struct media_link *link)
+                             ^
+   2 warnings generated.
 
 
-vim +/slub_set_cpu_partial +475 mm/slub.c
+vim +/link_type_name +47 drivers/media/mc/mc-entity.c
 
-834f3d119234b3 Christoph Lameter 2008-04-14  456  
-b47291ef02b0be Vlastimil Babka   2021-11-05  457  #ifdef CONFIG_SLUB_CPU_PARTIAL
-b47291ef02b0be Vlastimil Babka   2021-11-05  458  static void slub_set_cpu_partial(struct kmem_cache *s, unsigned int nr_objects)
-b47291ef02b0be Vlastimil Babka   2021-11-05  459  {
-bb192ed9aa7191 Vlastimil Babka   2021-11-03  460  	unsigned int nr_slabs;
-b47291ef02b0be Vlastimil Babka   2021-11-05  461  
-b47291ef02b0be Vlastimil Babka   2021-11-05  462  	s->cpu_partial = nr_objects;
-b47291ef02b0be Vlastimil Babka   2021-11-05  463  
-b47291ef02b0be Vlastimil Babka   2021-11-05  464  	/*
-b47291ef02b0be Vlastimil Babka   2021-11-05  465  	 * We take the number of objects but actually limit the number of
-c2092c12064a97 Vlastimil Babka   2021-11-15  466  	 * slabs on the per cpu partial list, in order to limit excessive
-c2092c12064a97 Vlastimil Babka   2021-11-15  467  	 * growth of the list. For simplicity we assume that the slabs will
-b47291ef02b0be Vlastimil Babka   2021-11-05  468  	 * be half-full.
-b47291ef02b0be Vlastimil Babka   2021-11-05  469  	 */
-bb192ed9aa7191 Vlastimil Babka   2021-11-03  470  	nr_slabs = DIV_ROUND_UP(nr_objects * 2, oo_objects(s->oo));
-bb192ed9aa7191 Vlastimil Babka   2021-11-03  471  	s->cpu_partial_slabs = nr_slabs;
-b47291ef02b0be Vlastimil Babka   2021-11-05  472  }
-b47291ef02b0be Vlastimil Babka   2021-11-05  473  #else
-b47291ef02b0be Vlastimil Babka   2021-11-05  474  static inline void
-b47291ef02b0be Vlastimil Babka   2021-11-05 @475  slub_set_cpu_partial(struct kmem_cache *s, unsigned int nr_objects)
-b47291ef02b0be Vlastimil Babka   2021-11-05  476  {
-b47291ef02b0be Vlastimil Babka   2021-11-05  477  }
-b47291ef02b0be Vlastimil Babka   2021-11-05  478  #endif /* CONFIG_SLUB_CPU_PARTIAL */
-b47291ef02b0be Vlastimil Babka   2021-11-05  479  
-
-:::::: The code at line 475 was first introduced by commit
-:::::: b47291ef02b0bee85ffb7efd6c336060ad1fe1a4 mm, slub: change percpu partial accounting from objects to pages
-
-:::::: TO: Vlastimil Babka <vbabka@suse.cz>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+53e269c102fbaf7 drivers/media/media-entity.c Laurent Pinchart      2009-12-09  16  
+27e543fa87deea3 drivers/media/media-entity.c Mauro Carvalho Chehab 2015-08-20 @17  static inline const char *intf_type(struct media_interface *intf)
+27e543fa87deea3 drivers/media/media-entity.c Mauro Carvalho Chehab 2015-08-20  18  {
+27e543fa87deea3 drivers/media/media-entity.c Mauro Carvalho Chehab 2015-08-20  19  	switch (intf->type) {
+27e543fa87deea3 drivers/media/media-entity.c Mauro Carvalho Chehab 2015-08-20  20  	case MEDIA_INTF_T_DVB_FE:
+66c1db1bc5e1a21 drivers/media/media-entity.c Shuah Khan            2016-03-04  21  		return "dvb-frontend";
+27e543fa87deea3 drivers/media/media-entity.c Mauro Carvalho Chehab 2015-08-20  22  	case MEDIA_INTF_T_DVB_DEMUX:
+66c1db1bc5e1a21 drivers/media/media-entity.c Shuah Khan            2016-03-04  23  		return "dvb-demux";
+27e543fa87deea3 drivers/media/media-entity.c Mauro Carvalho Chehab 2015-08-20  24  	case MEDIA_INTF_T_DVB_DVR:
+66c1db1bc5e1a21 drivers/media/media-entity.c Shuah Khan            2016-03-04  25  		return "dvb-dvr";
+27e543fa87deea3 drivers/media/media-entity.c Mauro Carvalho Chehab 2015-08-20  26  	case MEDIA_INTF_T_DVB_CA:
+66c1db1bc5e1a21 drivers/media/media-entity.c Shuah Khan            2016-03-04  27  		return  "dvb-ca";
+27e543fa87deea3 drivers/media/media-entity.c Mauro Carvalho Chehab 2015-08-20  28  	case MEDIA_INTF_T_DVB_NET:
+66c1db1bc5e1a21 drivers/media/media-entity.c Shuah Khan            2016-03-04  29  		return "dvb-net";
+27e543fa87deea3 drivers/media/media-entity.c Mauro Carvalho Chehab 2015-08-20  30  	case MEDIA_INTF_T_V4L_VIDEO:
+66c1db1bc5e1a21 drivers/media/media-entity.c Shuah Khan            2016-03-04  31  		return "v4l-video";
+27e543fa87deea3 drivers/media/media-entity.c Mauro Carvalho Chehab 2015-08-20  32  	case MEDIA_INTF_T_V4L_VBI:
+66c1db1bc5e1a21 drivers/media/media-entity.c Shuah Khan            2016-03-04  33  		return "v4l-vbi";
+27e543fa87deea3 drivers/media/media-entity.c Mauro Carvalho Chehab 2015-08-20  34  	case MEDIA_INTF_T_V4L_RADIO:
+66c1db1bc5e1a21 drivers/media/media-entity.c Shuah Khan            2016-03-04  35  		return "v4l-radio";
+27e543fa87deea3 drivers/media/media-entity.c Mauro Carvalho Chehab 2015-08-20  36  	case MEDIA_INTF_T_V4L_SUBDEV:
+66c1db1bc5e1a21 drivers/media/media-entity.c Shuah Khan            2016-03-04  37  		return "v4l-subdev";
+27e543fa87deea3 drivers/media/media-entity.c Mauro Carvalho Chehab 2015-08-20  38  	case MEDIA_INTF_T_V4L_SWRADIO:
+66c1db1bc5e1a21 drivers/media/media-entity.c Shuah Khan            2016-03-04  39  		return "v4l-swradio";
+b2fe22d0cf64708 drivers/media/media-entity.c Nick Dyer             2016-07-18  40  	case MEDIA_INTF_T_V4L_TOUCH:
+b2fe22d0cf64708 drivers/media/media-entity.c Nick Dyer             2016-07-18  41  		return "v4l-touch";
+27e543fa87deea3 drivers/media/media-entity.c Mauro Carvalho Chehab 2015-08-20  42  	default:
+27e543fa87deea3 drivers/media/media-entity.c Mauro Carvalho Chehab 2015-08-20  43  		return "unknown-intf";
+27e543fa87deea3 drivers/media/media-entity.c Mauro Carvalho Chehab 2015-08-20  44  	}
+27e543fa87deea3 drivers/media/media-entity.c Mauro Carvalho Chehab 2015-08-20  45  };
+27e543fa87deea3 drivers/media/media-entity.c Mauro Carvalho Chehab 2015-08-20  46  
+9d0c23bfe7083f1 drivers/media/mc/mc-entity.c Daniel Scally         2022-03-02 @47  static inline const char *link_type_name(struct media_link *link)
+9d0c23bfe7083f1 drivers/media/mc/mc-entity.c Daniel Scally         2022-03-02  48  {
+9d0c23bfe7083f1 drivers/media/mc/mc-entity.c Daniel Scally         2022-03-02  49  	switch (link->flags & MEDIA_LNK_FL_LINK_TYPE) {
+9d0c23bfe7083f1 drivers/media/mc/mc-entity.c Daniel Scally         2022-03-02  50  	case MEDIA_LNK_FL_DATA_LINK:
+9d0c23bfe7083f1 drivers/media/mc/mc-entity.c Daniel Scally         2022-03-02  51  		return "data";
+9d0c23bfe7083f1 drivers/media/mc/mc-entity.c Daniel Scally         2022-03-02  52  	case MEDIA_LNK_FL_INTERFACE_LINK:
+9d0c23bfe7083f1 drivers/media/mc/mc-entity.c Daniel Scally         2022-03-02  53  		return "interface";
+9d0c23bfe7083f1 drivers/media/mc/mc-entity.c Daniel Scally         2022-03-02  54  	case MEDIA_LNK_FL_ANCILLARY_LINK:
+9d0c23bfe7083f1 drivers/media/mc/mc-entity.c Daniel Scally         2022-03-02  55  		return "ancillary";
+9d0c23bfe7083f1 drivers/media/mc/mc-entity.c Daniel Scally         2022-03-02  56  	default:
+9d0c23bfe7083f1 drivers/media/mc/mc-entity.c Daniel Scally         2022-03-02  57  		return "unknown";
+9d0c23bfe7083f1 drivers/media/mc/mc-entity.c Daniel Scally         2022-03-02  58  	}
+9d0c23bfe7083f1 drivers/media/mc/mc-entity.c Daniel Scally         2022-03-02  59  }
+9d0c23bfe7083f1 drivers/media/mc/mc-entity.c Daniel Scally         2022-03-02  60  
 
 -- 
 0-DAY CI Kernel Test Service
