@@ -1,41 +1,41 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B83D15A3
-	for <oe-kbuild@lists.linux.dev>; Thu, 19 Jan 2023 00:45:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22DF415A3
+	for <oe-kbuild@lists.linux.dev>; Thu, 19 Jan 2023 00:56:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674089134; x=1705625134;
+  t=1674089785; x=1705625785;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=WVwN7WMJ73r9wju8Z2/pCUecWtOtHXcFbgRoTMFdpBU=;
-  b=E/6LLVV7zSoZtRTYeY2Z/ypWJy0AQMQyiCdsLJwZ4yllQlO1MXtmI836
-   I9L8GgsFeL4aCI1ADgxmLyFIBuIu218sBqFIBPjMdCL+DSYvUjrkbu2J+
-   zEVP8loM7rPWsfeW0v8yfH4YUpzLLFoE95eav9kUhWMiKfYkSUusPI+zb
-   ieVc/IpNbqmTWhu6qi6ZHwEUx96/aahKIP4OZrO6SLBLtU6Kk9dNIpcP9
-   fjhBtQSQfSI6bqe0fK4Q6w+6jESnKBfqkOoiMtUYTkkikMiRFZbuXdaU4
-   7FhTeZOUdxM93wzRNMEFugGheBGGhQopuCfUPKjOeqIDklzcRzzJrGGeO
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="308710656"
+  bh=lRTkLGG5Nyo7sE0pNu/3b8La1ukwr1j+9IZDtBLQsCs=;
+  b=GAXKbX7y59YDlQZSwcST7H5NyaArm7N0JosaqlzF+DJmU4TTEPn0/7po
+   obCTXiz2GD83ShtGh5QwwQJCH/jmojuXNUtCJ1o5MiCsmzNo/u4lrgx/E
+   5Nuga9sSUpIj2xz20SUqR35ElkOKekXa2+gVJuvXRTp0GSWIabhIE+JBO
+   fhMxz2AiqwVW7Htv9bP6c6XplTEhWD4e41THZDOtBynlHwhL4PIYftakM
+   YDsb9HQ1ndLoeOmAr+Cx2jLqu6dkCgub0PZzzMrGqnPbotrIZoN0H5DS7
+   u9CZrSRV2LiPcPhsLUQ/0+U3VBDjxp85V3VaT/etxzzrVw2Xh0CbyRmUB
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="323836544"
 X-IronPort-AV: E=Sophos;i="5.97,226,1669104000"; 
-   d="scan'208";a="308710656"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2023 16:45:23 -0800
+   d="scan'208";a="323836544"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2023 16:56:24 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="609873404"
+X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="661942540"
 X-IronPort-AV: E=Sophos;i="5.97,226,1669104000"; 
-   d="scan'208";a="609873404"
+   d="scan'208";a="661942540"
 Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 18 Jan 2023 16:45:22 -0800
+  by fmsmga007.fm.intel.com with ESMTP; 18 Jan 2023 16:56:23 -0800
 Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pIJ3S-0000sy-08;
-	Thu, 19 Jan 2023 00:45:22 +0000
-Date: Thu, 19 Jan 2023 08:45:16 +0800
+	id 1pIJE6-0000tm-2Z;
+	Thu, 19 Jan 2023 00:56:22 +0000
+Date: Thu, 19 Jan 2023 08:55:49 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: mm/list_lru.c:98:20: warning: unused function 'list_lru_memcg_aware'
-Message-ID: <202301190807.m1GEaW3N-lkp@intel.com>
+Subject: lib/maple_tree.c:330:20: warning: unused function 'mte_set_full'
+Message-ID: <202301190839.wFvjzxBp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -53,55 +53,58 @@ BCC: lkp@intel.com
 CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Muchun Song <songmuchun@bytedance.com>
+TO: "Liam R. Howlett" <Liam.Howlett@Oracle.com>
 CC: Andrew Morton <akpm@linux-foundation.org>
 CC: Linux Memory Management List <linux-mm@kvack.org>
+CC: "Matthew Wilcox (Oracle)" <willy@infradead.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   7287904c8771b77b9504f53623bb477065c19a58
-commit: bbca91cca9a902de2e9907370e9c1e0a3d1aab0f mm: list_lru: replace linear array with xarray
-date:   10 months ago
+commit: 54a611b605901c7d5d05b6b8f5d04a6ceb0962aa Maple Tree: add new data structure
+date:   4 months ago
 :::::: branch date: 2 hours ago
-:::::: commit date: 10 months ago
-config: i386-randconfig-a002-20230116 (https://download.01.org/0day-ci/archive/20230119/202301190807.m1GEaW3N-lkp@intel.com/config)
+:::::: commit date: 4 months ago
+config: x86_64-randconfig-k001 (https://download.01.org/0day-ci/archive/20230119/202301190839.wFvjzxBp-lkp@intel.com/config)
 compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=bbca91cca9a902de2e9907370e9c1e0a3d1aab0f
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=54a611b605901c7d5d05b6b8f5d04a6ceb0962aa
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout bbca91cca9a902de2e9907370e9c1e0a3d1aab0f
+        git checkout 54a611b605901c7d5d05b6b8f5d04a6ceb0962aa
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
 All warnings (new ones prefixed by >>):
 
->> mm/list_lru.c:98:20: warning: unused function 'list_lru_memcg_aware' [-Wunused-function]
-   static inline bool list_lru_memcg_aware(struct list_lru *lru)
+>> lib/maple_tree.c:330:20: warning: unused function 'mte_set_full' [-Wunused-function]
+   static inline void mte_set_full(const struct maple_enode *node)
                       ^
-   1 warning generated.
+>> lib/maple_tree.c:335:20: warning: unused function 'mte_clear_full' [-Wunused-function]
+   static inline void mte_clear_full(const struct maple_enode *node)
+                      ^
+   2 warnings generated.
 
 
-vim +/list_lru_memcg_aware +98 mm/list_lru.c
+vim +/mte_set_full +330 lib/maple_tree.c
 
-fae91d6d8be5e20 Kirill Tkhai     2018-08-17   97  
-60d3fd32a7a9da4 Vladimir Davydov 2015-02-12  @98  static inline bool list_lru_memcg_aware(struct list_lru *lru)
-60d3fd32a7a9da4 Vladimir Davydov 2015-02-12   99  {
-60d3fd32a7a9da4 Vladimir Davydov 2015-02-12  100  	return false;
-60d3fd32a7a9da4 Vladimir Davydov 2015-02-12  101  }
-60d3fd32a7a9da4 Vladimir Davydov 2015-02-12  102  
-
-:::::: The code at line 98 was first introduced by commit
-:::::: 60d3fd32a7a9da4c8c93a9f89cfda22a0b4c65ce list_lru: introduce per-memcg lists
-
-:::::: TO: Vladimir Davydov <vdavydov@parallels.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+54a611b605901c7 Liam R. Howlett 2022-09-06  329  
+54a611b605901c7 Liam R. Howlett 2022-09-06 @330  static inline void mte_set_full(const struct maple_enode *node)
+54a611b605901c7 Liam R. Howlett 2022-09-06  331  {
+54a611b605901c7 Liam R. Howlett 2022-09-06  332  	node = (void *)((unsigned long)node & ~MAPLE_ENODE_NULL);
+54a611b605901c7 Liam R. Howlett 2022-09-06  333  }
+54a611b605901c7 Liam R. Howlett 2022-09-06  334  
+54a611b605901c7 Liam R. Howlett 2022-09-06 @335  static inline void mte_clear_full(const struct maple_enode *node)
+54a611b605901c7 Liam R. Howlett 2022-09-06  336  {
+54a611b605901c7 Liam R. Howlett 2022-09-06  337  	node = (void *)((unsigned long)node | MAPLE_ENODE_NULL);
+54a611b605901c7 Liam R. Howlett 2022-09-06  338  }
+54a611b605901c7 Liam R. Howlett 2022-09-06  339  
 
 -- 
 0-DAY CI Kernel Test Service
