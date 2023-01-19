@@ -1,43 +1,42 @@
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B84203C26
-	for <oe-kbuild@lists.linux.dev>; Thu, 19 Jan 2023 09:42:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D45A02C9C
+	for <oe-kbuild@lists.linux.dev>; Thu, 19 Jan 2023 16:43:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674121366; x=1705657366;
+  t=1674146587; x=1705682587;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=DOqn5Vjp6shFjM9P2OMQQExdBUf+oAZBRcSbGfkFSlA=;
-  b=d+w16jUd7ocipjj+XM2faKrZHxStEIod0z4OO4lt1BKZHyv9SlsrLDeq
-   TArpeMQQ7EiwDfslQqT0eneb29Yj5czaFU5gRCxXFzOIcytunAYGq67B9
-   1wDyPiuNdu7MqnNJavNxRcoCjI6bjT500OYkb0uaghdcqZ+/kEt81aj/g
-   sc4b+Tbjn0fGlaZFdtmsnvifSzD+P+G/PNPXmXL8Z5Nn4quauIn6Q6HhR
-   9WXCFekj5oWWwPL+mHDnndRnGg9bpnApLNYRTIzkbWrRu2I3hm/qZvGPZ
-   B4fM4OyosLGdTQQsCxTZh6L0nAc7S+sSw9hFKtdFpJyx40ljgKH/bvzbn
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="323928483"
-X-IronPort-AV: E=Sophos;i="5.97,228,1669104000"; 
-   d="scan'208";a="323928483"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2023 01:42:46 -0800
+  bh=mnXffyzGxyTdYFhnISwe0RePlCX9Ivi1Cq7sYmy4JpA=;
+  b=A/GIIPJey14SCD38Eq4ZSxpDTt7AA9W8c58/wf3mAJobYAlddxNpDMYW
+   XojkI3iKncQSkQmLePhbeZg71du8funTGpT4Y/oU9qd2GuihKhR/B9Yxw
+   iKjb2mTafBGYtf+8oqfzitskfm2RdGgreMxiq+Y78UMSKjqkz01HRZKuq
+   x4evvBIFS42gYSWxkVT4r2Se/XDDaVWxNsQo4z1WNAIVIjLB1UtwhiHpc
+   +J9f2a1Dh8QcD7X08KHt1YZ2smOHp1Z3lTEWl6C7xfuVmz/dLRaahtl3Q
+   GOkg6sbJMQpG9x2a/S/crvjerUo8Q2l0Rat+Ucht9LU/REyXRXChf69u9
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="324027293"
+X-IronPort-AV: E=Sophos;i="5.97,229,1669104000"; 
+   d="scan'208";a="324027293"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2023 08:43:07 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="768150843"
-X-IronPort-AV: E=Sophos;i="5.97,228,1669104000"; 
-   d="scan'208";a="768150843"
+X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="690682677"
+X-IronPort-AV: E=Sophos;i="5.97,229,1669104000"; 
+   d="scan'208";a="690682677"
 Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 19 Jan 2023 01:42:45 -0800
+  by orsmga008.jf.intel.com with ESMTP; 19 Jan 2023 08:43:05 -0800
 Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pIRRU-0001M0-1M;
-	Thu, 19 Jan 2023 09:42:44 +0000
-Date: Thu, 19 Jan 2023 17:41:55 +0800
+	id 1pIY0B-0001e4-37;
+	Thu, 19 Jan 2023 16:42:59 +0000
+Date: Fri, 20 Jan 2023 00:42:27 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [stable:linux-5.15.y 2330/9999]
- drivers/dma/dw-edma/dw-edma-v0-core.c:169:20: warning: unused function
- 'writeq_ch'
-Message-ID: <202301191743.1zXVRuMW-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: drivers/iio/industrialio-core.c:1446 current_timestamp_clock_show()
+ error: uninitialized symbol 'name'.
+Message-ID: <202301200025.PS63pnzj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -47,83 +46,85 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "gcc: unused function warning for stub function"
-:::::: 
-
 BCC: lkp@intel.com
-CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-TO: Herve Codina <herve.codina@bootlin.com>
-CC: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
-CC: Vinod Koul <vkoul@kernel.org>
-CC: Sasha Levin <sashal@kernel.org>
+CC: linux-kernel@vger.kernel.org
+TO: "Joe Simmons-Talbott" <joetalbott@gmail.com>
+CC: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+CC: Andy Shevchenko <andy.shevchenko@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git linux-5.15.y
-head:   3bcc86eb3ed952c22ceecce8932dde72ea01f8cc
-commit: 84e77e72367f6f2d293b80b18da84d587e86382f [2330/9999] dmaengine: dw-edma: Fix unaligned 64bit access
-:::::: branch date: 23 hours ago
-:::::: commit date: 9 months ago
-config: x86_64-randconfig-a002-20230116 (https://download.01.org/0day-ci/archive/20230119/202301191743.1zXVRuMW-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git/commit/?id=84e77e72367f6f2d293b80b18da84d587e86382f
-        git remote add stable https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git
-        git fetch --no-tags stable linux-5.15.y
-        git checkout 84e77e72367f6f2d293b80b18da84d587e86382f
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/dma/dw-edma/ drivers/hid/intel-ish-hid/
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   7287904c8771b77b9504f53623bb477065c19a58
+commit: 9cf0b618599487f456ef5596dd30b5c162291e3c iio: Use octal permissions and DEVICE_ATTR_{RO,RW}.
+date:   7 months ago
+:::::: branch date: 18 hours ago
+:::::: commit date: 7 months ago
+config: ia64-randconfig-m041-20230118 (https://download.01.org/0day-ci/archive/20230120/202301200025.PS63pnzj-lkp@intel.com/config)
+compiler: ia64-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+drivers/iio/industrialio-core.c:1446 current_timestamp_clock_show() error: uninitialized symbol 'name'.
+drivers/iio/industrialio-core.c:1446 current_timestamp_clock_show() error: uninitialized symbol 'sz'.
 
->> drivers/dma/dw-edma/dw-edma-v0-core.c:169:20: warning: unused function 'writeq_ch' [-Wunused-function]
-   static inline void writeq_ch(struct dw_edma *dw, enum dw_edma_dir dir, u16 ch,
-                      ^
-   drivers/dma/dw-edma/dw-edma-v0-core.c:192:19: warning: unused function 'readq_ch' [-Wunused-function]
-   static inline u64 readq_ch(struct dw_edma *dw, enum dw_edma_dir dir, u16 ch,
-                     ^
-   2 warnings generated.
+vim +/name +1446 drivers/iio/industrialio-core.c
 
+2c3d0c9ffd24d9 Phil Reid           2019-09-19  1403  
+9cf0b618599487 Joe Simmons-Talbott 2022-06-01  1404  static ssize_t current_timestamp_clock_show(struct device *dev,
+bc2b7dab629a51 Gregor Boirie       2016-03-09  1405  					    struct device_attribute *attr,
+bc2b7dab629a51 Gregor Boirie       2016-03-09  1406  					    char *buf)
+bc2b7dab629a51 Gregor Boirie       2016-03-09  1407  {
+bc2b7dab629a51 Gregor Boirie       2016-03-09  1408  	const struct iio_dev *indio_dev = dev_to_iio_dev(dev);
+bc2b7dab629a51 Gregor Boirie       2016-03-09  1409  	const clockid_t clk = iio_device_get_clock(indio_dev);
+bc2b7dab629a51 Gregor Boirie       2016-03-09  1410  	const char *name;
+bc2b7dab629a51 Gregor Boirie       2016-03-09  1411  	ssize_t sz;
+bc2b7dab629a51 Gregor Boirie       2016-03-09  1412  
+bc2b7dab629a51 Gregor Boirie       2016-03-09  1413  	switch (clk) {
+bc2b7dab629a51 Gregor Boirie       2016-03-09  1414  	case CLOCK_REALTIME:
+bc2b7dab629a51 Gregor Boirie       2016-03-09  1415  		name = "realtime\n";
+bc2b7dab629a51 Gregor Boirie       2016-03-09  1416  		sz = sizeof("realtime\n");
+bc2b7dab629a51 Gregor Boirie       2016-03-09  1417  		break;
+bc2b7dab629a51 Gregor Boirie       2016-03-09  1418  	case CLOCK_MONOTONIC:
+bc2b7dab629a51 Gregor Boirie       2016-03-09  1419  		name = "monotonic\n";
+bc2b7dab629a51 Gregor Boirie       2016-03-09  1420  		sz = sizeof("monotonic\n");
+bc2b7dab629a51 Gregor Boirie       2016-03-09  1421  		break;
+bc2b7dab629a51 Gregor Boirie       2016-03-09  1422  	case CLOCK_MONOTONIC_RAW:
+bc2b7dab629a51 Gregor Boirie       2016-03-09  1423  		name = "monotonic_raw\n";
+bc2b7dab629a51 Gregor Boirie       2016-03-09  1424  		sz = sizeof("monotonic_raw\n");
+bc2b7dab629a51 Gregor Boirie       2016-03-09  1425  		break;
+bc2b7dab629a51 Gregor Boirie       2016-03-09  1426  	case CLOCK_REALTIME_COARSE:
+bc2b7dab629a51 Gregor Boirie       2016-03-09  1427  		name = "realtime_coarse\n";
+bc2b7dab629a51 Gregor Boirie       2016-03-09  1428  		sz = sizeof("realtime_coarse\n");
+bc2b7dab629a51 Gregor Boirie       2016-03-09  1429  		break;
+bc2b7dab629a51 Gregor Boirie       2016-03-09  1430  	case CLOCK_MONOTONIC_COARSE:
+bc2b7dab629a51 Gregor Boirie       2016-03-09  1431  		name = "monotonic_coarse\n";
+bc2b7dab629a51 Gregor Boirie       2016-03-09  1432  		sz = sizeof("monotonic_coarse\n");
+bc2b7dab629a51 Gregor Boirie       2016-03-09  1433  		break;
+bc2b7dab629a51 Gregor Boirie       2016-03-09  1434  	case CLOCK_BOOTTIME:
+bc2b7dab629a51 Gregor Boirie       2016-03-09  1435  		name = "boottime\n";
+bc2b7dab629a51 Gregor Boirie       2016-03-09  1436  		sz = sizeof("boottime\n");
+bc2b7dab629a51 Gregor Boirie       2016-03-09  1437  		break;
+bc2b7dab629a51 Gregor Boirie       2016-03-09  1438  	case CLOCK_TAI:
+bc2b7dab629a51 Gregor Boirie       2016-03-09  1439  		name = "tai\n";
+bc2b7dab629a51 Gregor Boirie       2016-03-09  1440  		sz = sizeof("tai\n");
+bc2b7dab629a51 Gregor Boirie       2016-03-09  1441  		break;
+bc2b7dab629a51 Gregor Boirie       2016-03-09  1442  	default:
+bc2b7dab629a51 Gregor Boirie       2016-03-09  1443  		BUG();
+bc2b7dab629a51 Gregor Boirie       2016-03-09  1444  	}
+bc2b7dab629a51 Gregor Boirie       2016-03-09  1445  
+bc2b7dab629a51 Gregor Boirie       2016-03-09 @1446  	memcpy(buf, name, sz);
+bc2b7dab629a51 Gregor Boirie       2016-03-09  1447  	return sz;
+bc2b7dab629a51 Gregor Boirie       2016-03-09  1448  }
+bc2b7dab629a51 Gregor Boirie       2016-03-09  1449  
 
-vim +/writeq_ch +169 drivers/dma/dw-edma/dw-edma-v0-core.c
+:::::: The code at line 1446 was first introduced by commit
+:::::: bc2b7dab629a51e8beb5fda4222c62a23b729f26 iio:core: timestamping clock selection support
 
-04e0a39fc10f82 Gustavo Pimentel 2021-02-18  168  
-04e0a39fc10f82 Gustavo Pimentel 2021-02-18 @169  static inline void writeq_ch(struct dw_edma *dw, enum dw_edma_dir dir, u16 ch,
-04e0a39fc10f82 Gustavo Pimentel 2021-02-18  170  			     u64 value, void __iomem *addr)
-04e0a39fc10f82 Gustavo Pimentel 2021-02-18  171  {
-04e0a39fc10f82 Gustavo Pimentel 2021-02-18  172  	if (dw->mf == EDMA_MF_EDMA_LEGACY) {
-04e0a39fc10f82 Gustavo Pimentel 2021-02-18  173  		u32 viewport_sel;
-04e0a39fc10f82 Gustavo Pimentel 2021-02-18  174  		unsigned long flags;
-04e0a39fc10f82 Gustavo Pimentel 2021-02-18  175  
-04e0a39fc10f82 Gustavo Pimentel 2021-02-18  176  		raw_spin_lock_irqsave(&dw->lock, flags);
-04e0a39fc10f82 Gustavo Pimentel 2021-02-18  177  
-04e0a39fc10f82 Gustavo Pimentel 2021-02-18  178  		viewport_sel = FIELD_PREP(EDMA_V0_VIEWPORT_MASK, ch);
-04e0a39fc10f82 Gustavo Pimentel 2021-02-18  179  		if (dir == EDMA_DIR_READ)
-04e0a39fc10f82 Gustavo Pimentel 2021-02-18  180  			viewport_sel |= BIT(31);
-04e0a39fc10f82 Gustavo Pimentel 2021-02-18  181  
-04e0a39fc10f82 Gustavo Pimentel 2021-02-18  182  		writel(viewport_sel,
-04e0a39fc10f82 Gustavo Pimentel 2021-02-18  183  		       &(__dw_regs(dw)->type.legacy.viewport_sel));
-04e0a39fc10f82 Gustavo Pimentel 2021-02-18  184  		writeq(value, addr);
-04e0a39fc10f82 Gustavo Pimentel 2021-02-18  185  
-04e0a39fc10f82 Gustavo Pimentel 2021-02-18  186  		raw_spin_unlock_irqrestore(&dw->lock, flags);
-04e0a39fc10f82 Gustavo Pimentel 2021-02-18  187  	} else {
-04e0a39fc10f82 Gustavo Pimentel 2021-02-18  188  		writeq(value, addr);
-04e0a39fc10f82 Gustavo Pimentel 2021-02-18  189  	}
-04e0a39fc10f82 Gustavo Pimentel 2021-02-18  190  }
-04e0a39fc10f82 Gustavo Pimentel 2021-02-18  191  
-
-:::::: The code at line 169 was first introduced by commit
-:::::: 04e0a39fc10f82a71b84af73351333b184cee578 dmaengine: dw-edma: Add writeq() and readq() for 64 bits architectures
-
-:::::: TO: Gustavo Pimentel <Gustavo.Pimentel@synopsys.com>
-:::::: CC: Vinod Koul <vkoul@kernel.org>
+:::::: TO: Gregor Boirie <gregor.boirie@parrot.com>
+:::::: CC: Jonathan Cameron <jic23@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
