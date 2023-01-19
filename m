@@ -1,43 +1,42 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D46DB257E
-	for <oe-kbuild@lists.linux.dev>; Thu, 19 Jan 2023 06:08:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59579257E
+	for <oe-kbuild@lists.linux.dev>; Thu, 19 Jan 2023 06:18:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674108518; x=1705644518;
+  t=1674109119; x=1705645119;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=1MV/+tbtakTtcwltUwhrqS1yilXLzqgQcOj/jVtgMZ8=;
-  b=V+lveF/CnbOkPDrM22Ih04McyacmF8ETgEWevNCrr1rXdxcptOhTM3/s
-   gJ6SgW3xd+w8HeQnMRax2h1DqOxj6KbZAk7lZlfkKCqcPAQIt712qcvxO
-   E9kJIMiKntzWsy+CqUjyNPqnnApDICyCei32owoZ9vC4lGYfd7G2qKEb5
-   fN5JlmdYHnQNsorf/7LkrZU4KhUq5XHDflV9NVDKz55J/kNgGyb30LXB6
-   I+wpn3DRAsBDREXFnhSUBZXIoVKwNWWz/nOVeedLD+z8d1ZZF9vmkuIMz
-   t8MCrzgXYHvJYaVe0uD8fbwjvUKxeZgTTkQBb6myDDQP41m+BPNAumyAW
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="352460956"
+  bh=RvaCgniqO9K84nVi7HeC2QS/fE+z1XVqp4BjBqqDnBY=;
+  b=Opx/SmWg6xNI3nvhgFdIcg1OETFwAqZ70E2FmFiUUI29HZfOgJJKjT+O
+   juoSWCOMWairxoBHeJ9bIsaVGQx5zZAzRGRTJqRFH2rksGe7xb4tgKoVZ
+   FEWBNOUoAyTVmp87mdHIxYk4pEuhuB5rSvcGytT/TaRgHbV0dbHJKP5RA
+   YpSgXEtqXDXk4AkMlaA+iifclMeaAs2zo0zA4NRrRnWyH3kL0PyRA630h
+   r5hxvBvfroBj+aqMgI2tWoHPpqFn0CpHwIQFSBvCZtUMOMPUDnS4I0RP4
+   oM8R8xCdWJ2icYisaPb6ZAAhP18zZUqWSLagwjfkQJvdJ1NEKthFbYOn8
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="326470853"
 X-IronPort-AV: E=Sophos;i="5.97,228,1669104000"; 
-   d="scan'208";a="352460956"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2023 22:08:38 -0800
+   d="scan'208";a="326470853"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2023 22:18:38 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="660078435"
+X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="723381015"
 X-IronPort-AV: E=Sophos;i="5.97,228,1669104000"; 
-   d="scan'208";a="660078435"
+   d="scan'208";a="723381015"
 Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 18 Jan 2023 22:08:36 -0800
+  by fmsmga008.fm.intel.com with ESMTP; 18 Jan 2023 22:18:37 -0800
 Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pIO6G-0001Ba-0X;
-	Thu, 19 Jan 2023 06:08:36 +0000
-Date: Thu, 19 Jan 2023 14:07:45 +0800
+	id 1pIOFx-0001Cm-02;
+	Thu, 19 Jan 2023 06:18:37 +0000
+Date: Thu, 19 Jan 2023 14:18:08 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [rt-devel:linux-6.2.y-rt-rebase 14/46]
- kernel/printk/printk.c:2903:13: warning: 'console_is_usable_unlocked'
- defined but not used
-Message-ID: <202301191434.kRWtbfc2-lkp@intel.com>
+Subject: arch/arm/mach-pxa/pxa3xx-ulpi.c:39:19: warning: unused function
+ 'u2d_readl'
+Message-ID: <202301191430.WcMxtd78-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -52,51 +51,70 @@ Content-Disposition: inline
 :::::: 
 
 BCC: lkp@intel.com
+CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-TO: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+CC: linux-kernel@vger.kernel.org
+TO: Arnd Bergmann <arnd@arndb.de>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rt/linux-rt-devel.git linux-6.2.y-rt-rebase
-head:   bee0efc1fe1add1df7d677cee5a9c4c325196403
-commit: 5342b8e20b15e5fb37e49de2435e62dd00ff20fe [14/46] printk: Bring back the RT bits.
-:::::: branch date: 7 days ago
-:::::: commit date: 7 days ago
-config: i386-tinyconfig (https://download.01.org/0day-ci/archive/20230119/202301191434.kRWtbfc2-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+Hi Arnd,
+
+First bad commit (maybe != root cause):
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   7287904c8771b77b9504f53623bb477065c19a58
+commit: 8c1fb11b8a77dc489a8ef6d96c38c1297b629d06 ARM: s3c: enable s3c24xx multiplatform support
+date:   10 months ago
+:::::: branch date: 7 hours ago
+:::::: commit date: 10 months ago
+config: arm-randconfig-r032-20230115 (https://download.01.org/0day-ci/archive/20230119/202301191430.WcMxtd78-lkp@intel.com/config)
+compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 4196ca3278f78c6e19246e54ab0ecb364e37d66a)
 reproduce (this is a W=1 build):
-        # https://git.kernel.org/pub/scm/linux/kernel/git/rt/linux-rt-devel.git/commit/?id=5342b8e20b15e5fb37e49de2435e62dd00ff20fe
-        git remote add rt-devel https://git.kernel.org/pub/scm/linux/kernel/git/rt/linux-rt-devel.git
-        git fetch --no-tags rt-devel linux-6.2.y-rt-rebase
-        git checkout 5342b8e20b15e5fb37e49de2435e62dd00ff20fe
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=8c1fb11b8a77dc489a8ef6d96c38c1297b629d06
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 8c1fb11b8a77dc489a8ef6d96c38c1297b629d06
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=i386 olddefconfig
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash kernel/printk/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
 All warnings (new ones prefixed by >>):
 
->> kernel/printk/printk.c:2903:13: warning: 'console_is_usable_unlocked' defined but not used [-Wunused-function]
-    2903 | static bool console_is_usable_unlocked(struct console *con)
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~
+>> arch/arm/mach-pxa/pxa3xx-ulpi.c:39:19: warning: unused function 'u2d_readl' [-Wunused-function]
+   static inline u32 u2d_readl(u32 reg)
+                     ^
+>> arch/arm/mach-pxa/pxa3xx-ulpi.c:44:20: warning: unused function 'u2d_writel' [-Wunused-function]
+   static inline void u2d_writel(u32 reg, u32 val)
+                      ^
+   2 warnings generated.
 
 
-vim +/console_is_usable_unlocked +2903 kernel/printk/printk.c
+vim +/u2d_readl +39 arch/arm/mach-pxa/pxa3xx-ulpi.c
 
-a8199371afc279 Sergey Senozhatsky        2016-03-17  2902  
-5342b8e20b15e5 Sebastian Andrzej Siewior 2022-07-19 @2903  static bool console_is_usable_unlocked(struct console *con)
-5342b8e20b15e5 Sebastian Andrzej Siewior 2022-07-19  2904  {
-5342b8e20b15e5 Sebastian Andrzej Siewior 2022-07-19  2905  	int cookie;
-5342b8e20b15e5 Sebastian Andrzej Siewior 2022-07-19  2906  	bool ret;
-5342b8e20b15e5 Sebastian Andrzej Siewior 2022-07-19  2907  
-5342b8e20b15e5 Sebastian Andrzej Siewior 2022-07-19  2908  	cookie = console_srcu_read_lock();
-5342b8e20b15e5 Sebastian Andrzej Siewior 2022-07-19  2909  	ret = console_is_usable(con);
-5342b8e20b15e5 Sebastian Andrzej Siewior 2022-07-19  2910  	console_srcu_read_unlock(cookie);
-5342b8e20b15e5 Sebastian Andrzej Siewior 2022-07-19  2911  
-5342b8e20b15e5 Sebastian Andrzej Siewior 2022-07-19  2912  	return ret;
-5342b8e20b15e5 Sebastian Andrzej Siewior 2022-07-19  2913  }
-5342b8e20b15e5 Sebastian Andrzej Siewior 2022-07-19  2914  
+69f22be7b10684a Igor Grinberg 2010-07-27  38  
+69f22be7b10684a Igor Grinberg 2010-07-27 @39  static inline u32 u2d_readl(u32 reg)
+69f22be7b10684a Igor Grinberg 2010-07-27  40  {
+69f22be7b10684a Igor Grinberg 2010-07-27  41  	return __raw_readl(u2d->mmio_base + reg);
+69f22be7b10684a Igor Grinberg 2010-07-27  42  }
+69f22be7b10684a Igor Grinberg 2010-07-27  43  
+69f22be7b10684a Igor Grinberg 2010-07-27 @44  static inline void u2d_writel(u32 reg, u32 val)
+69f22be7b10684a Igor Grinberg 2010-07-27  45  {
+69f22be7b10684a Igor Grinberg 2010-07-27  46  	__raw_writel(val, u2d->mmio_base + reg);
+69f22be7b10684a Igor Grinberg 2010-07-27  47  }
+69f22be7b10684a Igor Grinberg 2010-07-27  48  
+
+:::::: The code at line 39 was first introduced by commit
+:::::: 69f22be7b10684ade3808de22db87c536ed135f3 ARM: pxa: add U2D controller and ULPI driver for pxa3xx
+
+:::::: TO: Igor Grinberg <grinberg@compulab.co.il>
+:::::: CC: Eric Miao <eric.y.miao@gmail.com>
 
 -- 
 0-DAY CI Kernel Test Service
