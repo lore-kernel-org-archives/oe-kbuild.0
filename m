@@ -1,42 +1,41 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DB28179
-	for <oe-kbuild@lists.linux.dev>; Thu, 19 Jan 2023 06:59:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B33BA2905
+	for <oe-kbuild@lists.linux.dev>; Thu, 19 Jan 2023 07:29:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674111581; x=1705647581;
+  t=1674113382; x=1705649382;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=G4f4LN1ITdAyn3vtA+dsmEGeJp8EpT1FT1JT24n5AvU=;
-  b=WTaGuLF/yBemwTdVK6D59WSt+assPjISLchPsbooStlElW3wiA1RllKu
-   VNliIbqqh4CKMDpFbSvQzvkhllIA/J59flH0BExNo5qEejGpNN3zxeHJL
-   M7+iMtynz3FNQs8WO0mPFfq/L1/cGtdnyN53eeorEnhh6FBi3urGHf7Sd
-   IKOhv4FMNqSgtBv/E7npiv1+iMglWpGC8Km/1YFJPN56O313mKnfSOnZO
-   G40LWtEbj4vvbDhqGT2X09g3zOHvotSSxagNt3uZHws3+vWgUixogF4+K
-   EsGWq/85WD8Vhc+piIq7OJ4QTkhMOuPz0dPd5gmuby9oDkFNoU490oTRD
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="305588086"
+  bh=iJ4hfy8/jv/At80AK3EXjZsi89q+nPuDkCjcZ98oy5o=;
+  b=Ma372doArrxI1Wk+QxzyjoWNMNJaT4wLIvIYUYEwk7ZPZJOEAbEAoQjb
+   m2o/dmeUv3/RQd+GPCJ4EemBAXlUTHb0yKk4OLWt6HZYFPYDRHLbGTgCK
+   FfgqmS6S1x6jz+xVoLWWXcRWl3TN77uddxbAkFkcJUQGIIozpgAJwqStq
+   xPOgf3HQkFKsawbJ1ChjjuMdR9WTAswytv/A7X1GCVQhce6ZKmDF7OdFB
+   KrqTNv0QGJElIjHLDGk9fPm9RbudtVqcjrHvb+aa7HGX4Yq796gOdxRaQ
+   LVVqEjfseKEYBCd9k+0LDY1/Vg6xF16/a2P8TvplzjsXAJ5mXNgPCUbWy
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="308774903"
 X-IronPort-AV: E=Sophos;i="5.97,228,1669104000"; 
-   d="scan'208";a="305588086"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2023 22:59:40 -0800
+   d="scan'208";a="308774903"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2023 23:29:42 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="609966776"
+X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="748795861"
 X-IronPort-AV: E=Sophos;i="5.97,228,1669104000"; 
-   d="scan'208";a="609966776"
+   d="scan'208";a="748795861"
 Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 18 Jan 2023 22:59:38 -0800
+  by FMSMGA003.fm.intel.com with ESMTP; 18 Jan 2023 23:29:40 -0800
 Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pIOtd-0001Dw-2y;
-	Thu, 19 Jan 2023 06:59:37 +0000
-Date: Thu, 19 Jan 2023 14:58:43 +0800
+	id 1pIPMi-0001Fi-0J;
+	Thu, 19 Jan 2023 07:29:40 +0000
+Date: Thu, 19 Jan 2023 15:29:18 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: drivers/staging/rtl8712/rtl871x_mlme.c:457:27: sparse: sparse:
- incorrect type in assignment (different base types)
-Message-ID: <202301191438.tGZrxKwM-lkp@intel.com>
+Subject: mm/slub.c:409:21: warning: unused function 'get_freepointer_safe'
+Message-ID: <202301191546.UC04tF3Q-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -47,358 +46,159 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "drivers/staging/rtl8712/rtl871x_mlme.c: fbc_errors <102> is not larger than parent_errors <102>"
-:::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "gcc: unused function warning for stub function"
 :::::: 
 
 BCC: lkp@intel.com
+CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Justin Stitt <jstitt007@gmail.com>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
-CC: Nathan Chancellor <nathan@kernel.org>
+TO: Vlastimil Babka <vbabka@suse.cz>
+CC: Christoph Lameter <cl@linux-foundation.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   7287904c8771b77b9504f53623bb477065c19a58
-commit: d30dfd490f7dc4cb6a7c11a647bd1ff7a22139e7 include/uapi/linux/swab.h: move explicit cast outside ternary
-date:   7 months ago
-:::::: branch date: 8 hours ago
-:::::: commit date: 7 months ago
-config: openrisc-randconfig-s043-20230119 (https://download.01.org/0day-ci/archive/20230119/202301191438.tGZrxKwM-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 12.1.0
-reproduce:
+commit: 0af8489b0216fa1dd83e264bef8063f2632633d7 mm, slub: remove percpu slabs with CONFIG_SLUB_TINY
+date:   7 weeks ago
+:::::: branch date: 9 hours ago
+:::::: commit date: 7 weeks ago
+config: hexagon-randconfig-r045-20230117 (https://download.01.org/0day-ci/archive/20230119/202301191546.UC04tF3Q-lkp@intel.com/config)
+compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 4196ca3278f78c6e19246e54ab0ecb364e37d66a)
+reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=d30dfd490f7dc4cb6a7c11a647bd1ff7a22139e7
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=0af8489b0216fa1dd83e264bef8063f2632633d7
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout d30dfd490f7dc4cb6a7c11a647bd1ff7a22139e7
+        git checkout 0af8489b0216fa1dd83e264bef8063f2632633d7
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=openrisc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=openrisc SHELL=/bin/bash drivers/net/wireless/realtek/rtl8xxxu/ drivers/staging/rtl8712/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/staging/rtl8712/rtl871x_mlme.c:455:28: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_mlme.c:455:28: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_mlme.c:455:28: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_mlme.c:455:28: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_mlme.c:455:28: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_mlme.c:455:28: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_mlme.c:456:37: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_mlme.c:456:37: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_mlme.c:456:37: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_mlme.c:456:37: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_mlme.c:456:37: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_mlme.c:456:37: sparse: sparse: cast to restricted __le32
->> drivers/staging/rtl8712/rtl871x_mlme.c:457:27: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] Privacy @@     got unsigned int [usertype] @@
-   drivers/staging/rtl8712/rtl871x_mlme.c:457:27: sparse:     expected restricted __le32 [usertype] Privacy
-   drivers/staging/rtl8712/rtl871x_mlme.c:457:27: sparse:     got unsigned int [usertype]
-   drivers/staging/rtl8712/rtl871x_mlme.c:458:26: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_mlme.c:458:26: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_mlme.c:458:26: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_mlme.c:458:26: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_mlme.c:458:26: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_mlme.c:458:26: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_mlme.c:459:38: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_mlme.c:459:38: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_mlme.c:459:38: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_mlme.c:459:38: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_mlme.c:459:38: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_mlme.c:459:38: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_mlme.c:461:18: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_mlme.c:461:18: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_mlme.c:461:18: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_mlme.c:461:18: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_mlme.c:461:18: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_mlme.c:461:18: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_mlme.c:463:18: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_mlme.c:463:18: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_mlme.c:463:18: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_mlme.c:463:18: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_mlme.c:463:18: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_mlme.c:463:18: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_mlme.c:465:18: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_mlme.c:465:18: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_mlme.c:465:18: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_mlme.c:465:18: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_mlme.c:465:18: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_mlme.c:465:18: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_mlme.c:467:18: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_mlme.c:467:18: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_mlme.c:467:18: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_mlme.c:467:18: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_mlme.c:467:18: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_mlme.c:467:18: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_mlme.c:469:18: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_mlme.c:469:18: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_mlme.c:469:18: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_mlme.c:469:18: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_mlme.c:469:18: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_mlme.c:469:18: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_mlme.c:471:18: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_mlme.c:471:18: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_mlme.c:471:18: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_mlme.c:471:18: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_mlme.c:471:18: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_mlme.c:471:18: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_mlme.c:473:18: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_mlme.c:473:18: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_mlme.c:473:18: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_mlme.c:473:18: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_mlme.c:473:18: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_mlme.c:473:18: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_mlme.c:475:18: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_mlme.c:475:18: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_mlme.c:475:18: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_mlme.c:475:18: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_mlme.c:475:18: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_mlme.c:475:18: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_mlme.c:477:18: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_mlme.c:477:18: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_mlme.c:477:18: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_mlme.c:477:18: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_mlme.c:477:18: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_mlme.c:477:18: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_mlme.c:478:30: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_mlme.c:478:30: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_mlme.c:478:30: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_mlme.c:478:30: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_mlme.c:478:30: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_mlme.c:478:30: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_mlme.c:673:30: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_mlme.c:673:30: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_mlme.c:673:30: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_mlme.c:673:30: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_mlme.c:673:30: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_mlme.c:673:30: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_mlme.c:674:34: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_mlme.c:674:34: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_mlme.c:674:34: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_mlme.c:674:34: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_mlme.c:674:34: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_mlme.c:674:34: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_mlme.c:675:36: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_mlme.c:675:36: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_mlme.c:675:36: sparse: sparse: too many warnings
---
-   drivers/staging/rtl8712/rtl871x_cmd.c:438:29: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] Length @@     got restricted __le32 [usertype] @@
-   drivers/staging/rtl8712/rtl871x_cmd.c:438:29: sparse:     expected unsigned int [usertype] Length
-   drivers/staging/rtl8712/rtl871x_cmd.c:438:29: sparse:     got restricted __le32 [usertype]
-   drivers/staging/rtl8712/rtl871x_cmd.c:439:38: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] SsidLength @@     got restricted __le32 [usertype] @@
-   drivers/staging/rtl8712/rtl871x_cmd.c:439:38: sparse:     expected unsigned int [usertype] SsidLength
-   drivers/staging/rtl8712/rtl871x_cmd.c:439:38: sparse:     got restricted __le32 [usertype]
-   drivers/staging/rtl8712/rtl871x_cmd.c:441:32: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] val @@     got restricted __le32 [usertype] Privacy @@
-   drivers/staging/rtl8712/rtl871x_cmd.c:441:32: sparse:     expected unsigned int [usertype] val
-   drivers/staging/rtl8712/rtl871x_cmd.c:441:32: sparse:     got restricted __le32 [usertype] Privacy
-   drivers/staging/rtl8712/rtl871x_cmd.c:441:32: sparse: sparse: cast from restricted __le32
-   drivers/staging/rtl8712/rtl871x_cmd.c:441:32: sparse: sparse: cast from restricted __le32
-   drivers/staging/rtl8712/rtl871x_cmd.c:441:32: sparse: sparse: cast from restricted __le32
-   drivers/staging/rtl8712/rtl871x_cmd.c:441:32: sparse: sparse: cast from restricted __le32
-   drivers/staging/rtl8712/rtl871x_cmd.c:442:27: sparse: sparse: incorrect type in assignment (different base types) @@     expected signed int [usertype] Rssi @@     got restricted __le32 [usertype] @@
-   drivers/staging/rtl8712/rtl871x_cmd.c:442:27: sparse:     expected signed int [usertype] Rssi
-   drivers/staging/rtl8712/rtl871x_cmd.c:442:27: sparse:     got restricted __le32 [usertype]
-   drivers/staging/rtl8712/rtl871x_cmd.c:443:39: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int enum NDIS_802_11_NETWORK_TYPE NetworkTypeInUse @@     got restricted __le32 [usertype] @@
-   drivers/staging/rtl8712/rtl871x_cmd.c:443:39: sparse:     expected unsigned int enum NDIS_802_11_NETWORK_TYPE NetworkTypeInUse
-   drivers/staging/rtl8712/rtl871x_cmd.c:443:39: sparse:     got restricted __le32 [usertype]
-   drivers/staging/rtl8712/rtl871x_cmd.c:445:47: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] ATIMWindow @@     got restricted __le32 [usertype] @@
-   drivers/staging/rtl8712/rtl871x_cmd.c:445:47: sparse:     expected unsigned int [usertype] ATIMWindow
-   drivers/staging/rtl8712/rtl871x_cmd.c:445:47: sparse:     got restricted __le32 [usertype]
-   drivers/staging/rtl8712/rtl871x_cmd.c:447:49: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] BeaconPeriod @@     got restricted __le32 [usertype] @@
-   drivers/staging/rtl8712/rtl871x_cmd.c:447:49: sparse:     expected unsigned int [usertype] BeaconPeriod
-   drivers/staging/rtl8712/rtl871x_cmd.c:447:49: sparse:     got restricted __le32 [usertype]
-   drivers/staging/rtl8712/rtl871x_cmd.c:449:45: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] DSConfig @@     got restricted __le32 [usertype] @@
-   drivers/staging/rtl8712/rtl871x_cmd.c:449:45: sparse:     expected unsigned int [usertype] DSConfig
-   drivers/staging/rtl8712/rtl871x_cmd.c:449:45: sparse:     got restricted __le32 [usertype]
-   drivers/staging/rtl8712/rtl871x_cmd.c:451:55: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] DwellTime @@     got restricted __le32 [usertype] @@
-   drivers/staging/rtl8712/rtl871x_cmd.c:451:55: sparse:     expected unsigned int [usertype] DwellTime
-   drivers/staging/rtl8712/rtl871x_cmd.c:451:55: sparse:     got restricted __le32 [usertype]
-   drivers/staging/rtl8712/rtl871x_cmd.c:453:56: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] HopPattern @@     got restricted __le32 [usertype] @@
-   drivers/staging/rtl8712/rtl871x_cmd.c:453:56: sparse:     expected unsigned int [usertype] HopPattern
-   drivers/staging/rtl8712/rtl871x_cmd.c:453:56: sparse:     got restricted __le32 [usertype]
-   drivers/staging/rtl8712/rtl871x_cmd.c:455:52: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] HopSet @@     got restricted __le32 [usertype] @@
-   drivers/staging/rtl8712/rtl871x_cmd.c:455:52: sparse:     expected unsigned int [usertype] HopSet
-   drivers/staging/rtl8712/rtl871x_cmd.c:455:52: sparse:     got restricted __le32 [usertype]
-   drivers/staging/rtl8712/rtl871x_cmd.c:457:52: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] Length @@     got restricted __le32 [usertype] @@
-   drivers/staging/rtl8712/rtl871x_cmd.c:457:52: sparse:     expected unsigned int [usertype] Length
-   drivers/staging/rtl8712/rtl871x_cmd.c:457:52: sparse:     got restricted __le32 [usertype]
-   drivers/staging/rtl8712/rtl871x_cmd.c:459:43: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] Length @@     got restricted __le32 [usertype] @@
-   drivers/staging/rtl8712/rtl871x_cmd.c:459:43: sparse:     expected unsigned int [usertype] Length
-   drivers/staging/rtl8712/rtl871x_cmd.c:459:43: sparse:     got restricted __le32 [usertype]
-   drivers/staging/rtl8712/rtl871x_cmd.c:461:41: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int enum NDIS_802_11_NETWORK_INFRASTRUCTURE InfrastructureMode @@     got restricted __le32 [usertype] @@
-   drivers/staging/rtl8712/rtl871x_cmd.c:461:41: sparse:     expected unsigned int enum NDIS_802_11_NETWORK_INFRASTRUCTURE InfrastructureMode
-   drivers/staging/rtl8712/rtl871x_cmd.c:461:41: sparse:     got restricted __le32 [usertype]
-   drivers/staging/rtl8712/rtl871x_cmd.c:463:31: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] IELength @@     got restricted __le32 [usertype] @@
-   drivers/staging/rtl8712/rtl871x_cmd.c:463:31: sparse:     expected unsigned int [usertype] IELength
-   drivers/staging/rtl8712/rtl871x_cmd.c:463:31: sparse:     got restricted __le32 [usertype]
-   drivers/staging/rtl8712/rtl871x_cmd.c:668:28: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_cmd.c:668:28: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_cmd.c:668:28: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_cmd.c:668:28: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_cmd.c:668:28: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_cmd.c:668:28: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_cmd.c:669:37: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_cmd.c:669:37: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_cmd.c:669:37: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_cmd.c:669:37: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_cmd.c:669:37: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_cmd.c:669:37: sparse: sparse: cast to restricted __le32
->> drivers/staging/rtl8712/rtl871x_cmd.c:670:27: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] Privacy @@     got unsigned int [usertype] @@
-   drivers/staging/rtl8712/rtl871x_cmd.c:670:27: sparse:     expected restricted __le32 [usertype] Privacy
-   drivers/staging/rtl8712/rtl871x_cmd.c:670:27: sparse:     got unsigned int [usertype]
-   drivers/staging/rtl8712/rtl871x_cmd.c:671:26: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_cmd.c:671:26: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_cmd.c:671:26: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_cmd.c:671:26: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_cmd.c:671:26: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_cmd.c:671:26: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_cmd.c:672:38: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_cmd.c:672:38: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_cmd.c:672:38: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_cmd.c:672:38: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_cmd.c:672:38: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_cmd.c:672:38: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_cmd.c:674:17: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_cmd.c:674:17: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_cmd.c:674:17: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_cmd.c:674:17: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_cmd.c:674:17: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_cmd.c:674:17: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_cmd.c:676:17: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_cmd.c:676:17: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_cmd.c:676:17: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_cmd.c:676:17: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_cmd.c:676:17: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_cmd.c:676:17: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_cmd.c:678:17: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_cmd.c:678:17: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_cmd.c:678:17: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_cmd.c:678:17: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_cmd.c:678:17: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_cmd.c:678:17: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_cmd.c:680:17: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_cmd.c:680:17: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_cmd.c:680:17: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_cmd.c:680:17: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_cmd.c:680:17: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_cmd.c:680:17: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_cmd.c:682:17: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_cmd.c:682:17: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_cmd.c:682:17: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_cmd.c:682:17: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_cmd.c:682:17: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_cmd.c:682:17: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_cmd.c:684:17: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_cmd.c:684:17: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_cmd.c:684:17: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_cmd.c:684:17: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_cmd.c:684:17: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_cmd.c:684:17: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_cmd.c:686:17: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_cmd.c:686:17: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_cmd.c:686:17: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_cmd.c:686:17: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_cmd.c:686:17: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_cmd.c:686:17: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_cmd.c:688:17: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_cmd.c:688:17: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_cmd.c:688:17: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_cmd.c:688:17: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_cmd.c:688:17: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_cmd.c:688:17: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_cmd.c:689:30: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_cmd.c:689:30: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_cmd.c:689:30: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_cmd.c:689:30: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_cmd.c:689:30: sparse: sparse: cast to restricted __le32
-   drivers/staging/rtl8712/rtl871x_cmd.c:689:30: sparse: sparse: cast to restricted __le32
+All warnings (new ones prefixed by >>):
 
-vim +457 drivers/staging/rtl8712/rtl871x_mlme.c
+   In file included from mm/slub.c:14:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:26:
+   In file included from include/linux/kernel_stat.h:9:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __raw_readb(PCI_IOBASE + addr);
+                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+                                                     ^
+   In file included from mm/slub.c:14:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:26:
+   In file included from include/linux/kernel_stat.h:9:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+                                                     ^
+   In file included from mm/slub.c:14:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:26:
+   In file included from include/linux/kernel_stat.h:9:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writeb(value, PCI_IOBASE + addr);
+                               ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   mm/slub.c:2210:15: warning: variable 'partial_slabs' set but not used [-Wunused-but-set-variable]
+           unsigned int partial_slabs = 0;
+                        ^
+   mm/slub.c:210:20: warning: unused function 'slub_debug_orig_size' [-Wunused-function]
+   static inline bool slub_debug_orig_size(struct kmem_cache *s)
+                      ^
+>> mm/slub.c:409:21: warning: unused function 'get_freepointer_safe' [-Wunused-function]
+   static inline void *get_freepointer_safe(struct kmem_cache *s, void *object)
+                       ^
+   mm/slub.c:484:1: warning: unused function 'slub_set_cpu_partial' [-Wunused-function]
+   slub_set_cpu_partial(struct kmem_cache *s, unsigned int nr_objects)
+   ^
+>> mm/slub.c:1664:20: warning: unused function 'set_track' [-Wunused-function]
+   static inline void set_track(struct kmem_cache *s, void *object,
+                      ^
+   mm/slub.c:1681:29: warning: unused function 'node_nr_slabs' [-Wunused-function]
+   static inline unsigned long node_nr_slabs(struct kmem_cache_node *n)
+                               ^
+>> mm/slub.c:2830:19: warning: unused function 'node_match' [-Wunused-function]
+   static inline int node_match(struct slab *slab, int node)
+                     ^
+   13 warnings generated.
 
-2865d42c78a912 Larry Finger        2010-08-20  444  
-2865d42c78a912 Larry Finger        2010-08-20  445  void r8712_survey_event_callback(struct _adapter *adapter, u8 *pbuf)
-2865d42c78a912 Larry Finger        2010-08-20  446  {
-2865d42c78a912 Larry Finger        2010-08-20  447  	unsigned long flags;
-2865d42c78a912 Larry Finger        2010-08-20  448  	u32 len;
-44367877c6c504 Joshua Clayton      2015-08-05  449  	struct wlan_bssid_ex *pnetwork;
-2865d42c78a912 Larry Finger        2010-08-20  450  	struct mlme_priv *pmlmepriv = &adapter->mlmepriv;
-2865d42c78a912 Larry Finger        2010-08-20  451  
-44367877c6c504 Joshua Clayton      2015-08-05  452  	pnetwork = (struct wlan_bssid_ex *)pbuf;
-2865d42c78a912 Larry Finger        2010-08-20  453  #ifdef __BIG_ENDIAN
-2865d42c78a912 Larry Finger        2010-08-20  454  	/* endian_convert */
-2865d42c78a912 Larry Finger        2010-08-20  455  	pnetwork->Length = le32_to_cpu(pnetwork->Length);
-2865d42c78a912 Larry Finger        2010-08-20  456  	pnetwork->Ssid.SsidLength = le32_to_cpu(pnetwork->Ssid.SsidLength);
-2865d42c78a912 Larry Finger        2010-08-20 @457  	pnetwork->Privacy = le32_to_cpu(pnetwork->Privacy);
-2865d42c78a912 Larry Finger        2010-08-20  458  	pnetwork->Rssi = le32_to_cpu(pnetwork->Rssi);
-2865d42c78a912 Larry Finger        2010-08-20  459  	pnetwork->NetworkTypeInUse = le32_to_cpu(pnetwork->NetworkTypeInUse);
-2865d42c78a912 Larry Finger        2010-08-20  460  	pnetwork->Configuration.ATIMWindow =
-2865d42c78a912 Larry Finger        2010-08-20  461  		 le32_to_cpu(pnetwork->Configuration.ATIMWindow);
-2865d42c78a912 Larry Finger        2010-08-20  462  	pnetwork->Configuration.BeaconPeriod =
-2865d42c78a912 Larry Finger        2010-08-20  463  		 le32_to_cpu(pnetwork->Configuration.BeaconPeriod);
-2865d42c78a912 Larry Finger        2010-08-20  464  	pnetwork->Configuration.DSConfig =
-2865d42c78a912 Larry Finger        2010-08-20  465  		 le32_to_cpu(pnetwork->Configuration.DSConfig);
-2865d42c78a912 Larry Finger        2010-08-20  466  	pnetwork->Configuration.FHConfig.DwellTime =
-2865d42c78a912 Larry Finger        2010-08-20  467  		 le32_to_cpu(pnetwork->Configuration.FHConfig.DwellTime);
-2865d42c78a912 Larry Finger        2010-08-20  468  	pnetwork->Configuration.FHConfig.HopPattern =
-2865d42c78a912 Larry Finger        2010-08-20  469  		 le32_to_cpu(pnetwork->Configuration.FHConfig.HopPattern);
-2865d42c78a912 Larry Finger        2010-08-20  470  	pnetwork->Configuration.FHConfig.HopSet =
-2865d42c78a912 Larry Finger        2010-08-20  471  		 le32_to_cpu(pnetwork->Configuration.FHConfig.HopSet);
-2865d42c78a912 Larry Finger        2010-08-20  472  	pnetwork->Configuration.FHConfig.Length =
-2865d42c78a912 Larry Finger        2010-08-20  473  		 le32_to_cpu(pnetwork->Configuration.FHConfig.Length);
-2865d42c78a912 Larry Finger        2010-08-20  474  	pnetwork->Configuration.Length =
-2865d42c78a912 Larry Finger        2010-08-20  475  		 le32_to_cpu(pnetwork->Configuration.Length);
-2865d42c78a912 Larry Finger        2010-08-20  476  	pnetwork->InfrastructureMode =
-2865d42c78a912 Larry Finger        2010-08-20  477  		 le32_to_cpu(pnetwork->InfrastructureMode);
-2865d42c78a912 Larry Finger        2010-08-20  478  	pnetwork->IELength = le32_to_cpu(pnetwork->IELength);
-2865d42c78a912 Larry Finger        2010-08-20  479  #endif
-986fc8e7410d65 Joshua Clayton      2015-08-05  480  	len = r8712_get_wlan_bssid_ex_sz(pnetwork);
-2865d42c78a912 Larry Finger        2010-08-20  481  	if (len > sizeof(struct wlan_bssid_ex))
-2865d42c78a912 Larry Finger        2010-08-20  482  		return;
-2865d42c78a912 Larry Finger        2010-08-20  483  	spin_lock_irqsave(&pmlmepriv->lock2, flags);
-2865d42c78a912 Larry Finger        2010-08-20  484  	/* update IBSS_network 's timestamp */
-1ca96884b12dd2 Luis de Bethencourt 2015-10-19  485  	if (check_fwstate(pmlmepriv, WIFI_ADHOC_MASTER_STATE)) {
-2865d42c78a912 Larry Finger        2010-08-20  486  		if (!memcmp(&(pmlmepriv->cur_network.network.MacAddress),
-2865d42c78a912 Larry Finger        2010-08-20  487  		    pnetwork->MacAddress, ETH_ALEN)) {
-2865d42c78a912 Larry Finger        2010-08-20  488  			struct wlan_network *ibss_wlan = NULL;
-2865d42c78a912 Larry Finger        2010-08-20  489  
-2865d42c78a912 Larry Finger        2010-08-20  490  			memcpy(pmlmepriv->cur_network.network.IEs,
-2865d42c78a912 Larry Finger        2010-08-20  491  				pnetwork->IEs, 8);
-2865d42c78a912 Larry Finger        2010-08-20  492  			ibss_wlan = r8712_find_network(
-2865d42c78a912 Larry Finger        2010-08-20  493  						&pmlmepriv->scanned_queue,
-2865d42c78a912 Larry Finger        2010-08-20  494  						pnetwork->MacAddress);
-7c19c1e80d348a Julia Lawall        2011-10-29  495  			if (ibss_wlan) {
-2865d42c78a912 Larry Finger        2010-08-20  496  				memcpy(ibss_wlan->network.IEs,
-2865d42c78a912 Larry Finger        2010-08-20  497  					pnetwork->IEs, 8);
-2865d42c78a912 Larry Finger        2010-08-20  498  				goto exit;
-2865d42c78a912 Larry Finger        2010-08-20  499  			}
-2865d42c78a912 Larry Finger        2010-08-20  500  		}
-2865d42c78a912 Larry Finger        2010-08-20  501  	}
-2865d42c78a912 Larry Finger        2010-08-20  502  	/* lock pmlmepriv->lock when you accessing network_q */
-1ca96884b12dd2 Luis de Bethencourt 2015-10-19  503  	if (!check_fwstate(pmlmepriv, _FW_UNDER_LINKING)) {
-168a2c10288d78 Luis de Bethencourt 2015-10-19  504  		if (pnetwork->Ssid.Ssid[0] != 0) {
-2865d42c78a912 Larry Finger        2010-08-20  505  			rtl8711_add_network(adapter, pnetwork);
-168a2c10288d78 Luis de Bethencourt 2015-10-19  506  		} else {
-2865d42c78a912 Larry Finger        2010-08-20  507  			pnetwork->Ssid.SsidLength = 8;
-2865d42c78a912 Larry Finger        2010-08-20  508  			memcpy(pnetwork->Ssid.Ssid, "<hidden>", 8);
-2865d42c78a912 Larry Finger        2010-08-20  509  			rtl8711_add_network(adapter, pnetwork);
-2865d42c78a912 Larry Finger        2010-08-20  510  		}
-2865d42c78a912 Larry Finger        2010-08-20  511  	}
-2865d42c78a912 Larry Finger        2010-08-20  512  exit:
-2865d42c78a912 Larry Finger        2010-08-20  513  	spin_unlock_irqrestore(&pmlmepriv->lock2, flags);
-2865d42c78a912 Larry Finger        2010-08-20  514  }
-2865d42c78a912 Larry Finger        2010-08-20  515  
 
-:::::: The code at line 457 was first introduced by commit
-:::::: 2865d42c78a9121caad52cb02d1fbb7f5cdbc4ef staging: r8712u: Add the new driver to the mainline kernel
+vim +/get_freepointer_safe +409 mm/slub.c
 
-:::::: TO: Larry Finger <Larry.Finger@lwfinger.net>
-:::::: CC: Larry Finger <Larry.Finger@lwfinger.net>
+0ad9500e16fe24a Eric Dumazet        2011-12-16  397  
+68ef169a1dd20df Alexander Potapenko 2022-09-15  398  /*
+68ef169a1dd20df Alexander Potapenko 2022-09-15  399   * When running under KMSAN, get_freepointer_safe() may return an uninitialized
+68ef169a1dd20df Alexander Potapenko 2022-09-15  400   * pointer value in the case the current thread loses the race for the next
+68ef169a1dd20df Alexander Potapenko 2022-09-15  401   * memory chunk in the freelist. In that case this_cpu_cmpxchg_double() in
+68ef169a1dd20df Alexander Potapenko 2022-09-15  402   * slab_alloc_node() will fail, so the uninitialized value won't be used, but
+68ef169a1dd20df Alexander Potapenko 2022-09-15  403   * KMSAN will still check all arguments of cmpxchg because of imperfect
+68ef169a1dd20df Alexander Potapenko 2022-09-15  404   * handling of inline assembly.
+68ef169a1dd20df Alexander Potapenko 2022-09-15  405   * To work around this problem, we apply __no_kmsan_checks to ensure that
+68ef169a1dd20df Alexander Potapenko 2022-09-15  406   * get_freepointer_safe() returns initialized memory.
+68ef169a1dd20df Alexander Potapenko 2022-09-15  407   */
+68ef169a1dd20df Alexander Potapenko 2022-09-15  408  __no_kmsan_checks
+1393d9a1857471f Christoph Lameter   2011-05-16 @409  static inline void *get_freepointer_safe(struct kmem_cache *s, void *object)
+1393d9a1857471f Christoph Lameter   2011-05-16  410  {
+2482ddec670fb83 Kees Cook           2017-09-06  411  	unsigned long freepointer_addr;
+1393d9a1857471f Christoph Lameter   2011-05-16  412  	void *p;
+1393d9a1857471f Christoph Lameter   2011-05-16  413  
+8e57f8acbbd121e Vlastimil Babka     2020-01-13  414  	if (!debug_pagealloc_enabled_static())
+922d566cdcb7166 Joonsoo Kim         2016-03-17  415  		return get_freepointer(s, object);
+922d566cdcb7166 Joonsoo Kim         2016-03-17  416  
+f70b00496f2a066 Alexander Potapenko 2021-05-22  417  	object = kasan_reset_tag(object);
+2482ddec670fb83 Kees Cook           2017-09-06  418  	freepointer_addr = (unsigned long)object + s->offset;
+fe557319aa06c23 Christoph Hellwig   2020-06-17  419  	copy_from_kernel_nofault(&p, (void **)freepointer_addr, sizeof(p));
+2482ddec670fb83 Kees Cook           2017-09-06  420  	return freelist_ptr(s, p, freepointer_addr);
+1393d9a1857471f Christoph Lameter   2011-05-16  421  }
+1393d9a1857471f Christoph Lameter   2011-05-16  422  
+
+:::::: The code at line 409 was first introduced by commit
+:::::: 1393d9a1857471f816d0be1ccc1d6433a86050f6 slub: Make CONFIG_DEBUG_PAGE_ALLOC work with new fastpath
+
+:::::: TO: Christoph Lameter <cl@linux.com>
+:::::: CC: Pekka Enberg <penberg@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
