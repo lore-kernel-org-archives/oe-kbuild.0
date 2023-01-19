@@ -1,42 +1,41 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EDB5179
-	for <oe-kbuild@lists.linux.dev>; Thu, 19 Jan 2023 00:15:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B83D15A3
+	for <oe-kbuild@lists.linux.dev>; Thu, 19 Jan 2023 00:45:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674087323; x=1705623323;
+  t=1674089134; x=1705625134;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=GPaMpUXZd0raldEWPXgsnSBxSc7D0cJ1zF4U9BAUncI=;
-  b=bB228N4pSzH9gyh0+aRamhpkFkkhThKTUcjJ9SpzXOYS8aZpp5yz+mwf
-   iea/Yp0TCDc2qyrHtMb47ouoG/OEIw6meeJXTQHCsTpOXE5NTbyQNRMiE
-   Bfo6W/mQOHhEjvoWvmmMc7qKf4CUSxIFA85Id+Jr8bbiXAEfwUbJqZAfj
-   DI3NMZntOH+QCG7utFAX3zMrsVeuyTbrkE7XTYBYVgLhVlej6jhnIkHW3
-   OBXDHxgrZsvdSMe8tYycplH6ZWmndlEYrIX0pWM7bJ8qRsyvrQp4QIoii
-   cCUv+NVXTN/bG2eW43RYrUMBrImItNtBXuVQEzY1VLVZJR8MH1Jd8a9yq
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="325193285"
+  bh=WVwN7WMJ73r9wju8Z2/pCUecWtOtHXcFbgRoTMFdpBU=;
+  b=E/6LLVV7zSoZtRTYeY2Z/ypWJy0AQMQyiCdsLJwZ4yllQlO1MXtmI836
+   I9L8GgsFeL4aCI1ADgxmLyFIBuIu218sBqFIBPjMdCL+DSYvUjrkbu2J+
+   zEVP8loM7rPWsfeW0v8yfH4YUpzLLFoE95eav9kUhWMiKfYkSUusPI+zb
+   ieVc/IpNbqmTWhu6qi6ZHwEUx96/aahKIP4OZrO6SLBLtU6Kk9dNIpcP9
+   fjhBtQSQfSI6bqe0fK4Q6w+6jESnKBfqkOoiMtUYTkkikMiRFZbuXdaU4
+   7FhTeZOUdxM93wzRNMEFugGheBGGhQopuCfUPKjOeqIDklzcRzzJrGGeO
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="308710656"
 X-IronPort-AV: E=Sophos;i="5.97,226,1669104000"; 
-   d="scan'208";a="325193285"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2023 16:15:22 -0800
+   d="scan'208";a="308710656"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2023 16:45:23 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="661932787"
+X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="609873404"
 X-IronPort-AV: E=Sophos;i="5.97,226,1669104000"; 
-   d="scan'208";a="661932787"
+   d="scan'208";a="609873404"
 Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 18 Jan 2023 16:15:21 -0800
+  by orsmga003.jf.intel.com with ESMTP; 18 Jan 2023 16:45:22 -0800
 Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pIIaO-0000rB-30;
-	Thu, 19 Jan 2023 00:15:20 +0000
-Date: Thu, 19 Jan 2023 08:14:21 +0800
+	id 1pIJ3S-0000sy-08;
+	Thu, 19 Jan 2023 00:45:22 +0000
+Date: Thu, 19 Jan 2023 08:45:16 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: drivers/dma/dw-edma/dw-edma-v0-core.c:192:19: warning: unused
- function 'readq_ch'
-Message-ID: <202301190830.KA2m7fiH-lkp@intel.com>
+Subject: mm/list_lru.c:98:20: warning: unused function 'list_lru_memcg_aware'
+Message-ID: <202301190807.m1GEaW3N-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -54,80 +53,55 @@ BCC: lkp@intel.com
 CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Gustavo Pimentel <Gustavo.Pimentel@synopsys.com>
-CC: Vinod Koul <vkoul@kernel.org>
-
-Hi Gustavo,
-
-FYI, the error/warning still remains.
+TO: Muchun Song <songmuchun@bytedance.com>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   7287904c8771b77b9504f53623bb477065c19a58
-commit: e0c1d53891c43a70c9fa85ddb3174ab5afd7e2ec dmaengine: dw-edma: Add support for the HDMA feature
-date:   1 year, 10 months ago
-:::::: branch date: 84 minutes ago
-:::::: commit date: 1 year, 10 months ago
-config: x86_64-randconfig-a002-20230116 (https://download.01.org/0day-ci/archive/20230119/202301190830.KA2m7fiH-lkp@intel.com/config)
+commit: bbca91cca9a902de2e9907370e9c1e0a3d1aab0f mm: list_lru: replace linear array with xarray
+date:   10 months ago
+:::::: branch date: 2 hours ago
+:::::: commit date: 10 months ago
+config: i386-randconfig-a002-20230116 (https://download.01.org/0day-ci/archive/20230119/202301190807.m1GEaW3N-lkp@intel.com/config)
 compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=e0c1d53891c43a70c9fa85ddb3174ab5afd7e2ec
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=bbca91cca9a902de2e9907370e9c1e0a3d1aab0f
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout e0c1d53891c43a70c9fa85ddb3174ab5afd7e2ec
+        git checkout bbca91cca9a902de2e9907370e9c1e0a3d1aab0f
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/dma/dw-edma/ drivers/hid/intel-ish-hid/ drivers/scsi/ufs/ drivers/staging/ fs/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
 All warnings (new ones prefixed by >>):
 
->> drivers/dma/dw-edma/dw-edma-v0-core.c:192:19: warning: unused function 'readq_ch' [-Wunused-function]
-   static inline u64 readq_ch(struct dw_edma *dw, enum dw_edma_dir dir, u16 ch,
-                     ^
+>> mm/list_lru.c:98:20: warning: unused function 'list_lru_memcg_aware' [-Wunused-function]
+   static inline bool list_lru_memcg_aware(struct list_lru *lru)
+                      ^
    1 warning generated.
 
 
-vim +/readq_ch +192 drivers/dma/dw-edma/dw-edma-v0-core.c
+vim +/list_lru_memcg_aware +98 mm/list_lru.c
 
-04e0a39fc10f82a Gustavo Pimentel 2021-02-18  191  
-04e0a39fc10f82a Gustavo Pimentel 2021-02-18 @192  static inline u64 readq_ch(struct dw_edma *dw, enum dw_edma_dir dir, u16 ch,
-04e0a39fc10f82a Gustavo Pimentel 2021-02-18  193  			   const void __iomem *addr)
-04e0a39fc10f82a Gustavo Pimentel 2021-02-18  194  {
-04e0a39fc10f82a Gustavo Pimentel 2021-02-18  195  	u32 value;
-04e0a39fc10f82a Gustavo Pimentel 2021-02-18  196  
-04e0a39fc10f82a Gustavo Pimentel 2021-02-18  197  	if (dw->mf == EDMA_MF_EDMA_LEGACY) {
-04e0a39fc10f82a Gustavo Pimentel 2021-02-18  198  		u32 viewport_sel;
-04e0a39fc10f82a Gustavo Pimentel 2021-02-18  199  		unsigned long flags;
-04e0a39fc10f82a Gustavo Pimentel 2021-02-18  200  
-04e0a39fc10f82a Gustavo Pimentel 2021-02-18  201  		raw_spin_lock_irqsave(&dw->lock, flags);
-04e0a39fc10f82a Gustavo Pimentel 2021-02-18  202  
-04e0a39fc10f82a Gustavo Pimentel 2021-02-18  203  		viewport_sel = FIELD_PREP(EDMA_V0_VIEWPORT_MASK, ch);
-04e0a39fc10f82a Gustavo Pimentel 2021-02-18  204  		if (dir == EDMA_DIR_READ)
-04e0a39fc10f82a Gustavo Pimentel 2021-02-18  205  			viewport_sel |= BIT(31);
-04e0a39fc10f82a Gustavo Pimentel 2021-02-18  206  
-04e0a39fc10f82a Gustavo Pimentel 2021-02-18  207  		writel(viewport_sel,
-04e0a39fc10f82a Gustavo Pimentel 2021-02-18  208  		       &(__dw_regs(dw)->type.legacy.viewport_sel));
-04e0a39fc10f82a Gustavo Pimentel 2021-02-18  209  		value = readq(addr);
-04e0a39fc10f82a Gustavo Pimentel 2021-02-18  210  
-04e0a39fc10f82a Gustavo Pimentel 2021-02-18  211  		raw_spin_unlock_irqrestore(&dw->lock, flags);
-04e0a39fc10f82a Gustavo Pimentel 2021-02-18  212  	} else {
-04e0a39fc10f82a Gustavo Pimentel 2021-02-18  213  		value = readq(addr);
-04e0a39fc10f82a Gustavo Pimentel 2021-02-18  214  	}
-04e0a39fc10f82a Gustavo Pimentel 2021-02-18  215  
-04e0a39fc10f82a Gustavo Pimentel 2021-02-18  216  	return value;
-04e0a39fc10f82a Gustavo Pimentel 2021-02-18  217  }
-04e0a39fc10f82a Gustavo Pimentel 2021-02-18  218  
+fae91d6d8be5e20 Kirill Tkhai     2018-08-17   97  
+60d3fd32a7a9da4 Vladimir Davydov 2015-02-12  @98  static inline bool list_lru_memcg_aware(struct list_lru *lru)
+60d3fd32a7a9da4 Vladimir Davydov 2015-02-12   99  {
+60d3fd32a7a9da4 Vladimir Davydov 2015-02-12  100  	return false;
+60d3fd32a7a9da4 Vladimir Davydov 2015-02-12  101  }
+60d3fd32a7a9da4 Vladimir Davydov 2015-02-12  102  
 
-:::::: The code at line 192 was first introduced by commit
-:::::: 04e0a39fc10f82a71b84af73351333b184cee578 dmaengine: dw-edma: Add writeq() and readq() for 64 bits architectures
+:::::: The code at line 98 was first introduced by commit
+:::::: 60d3fd32a7a9da4c8c93a9f89cfda22a0b4c65ce list_lru: introduce per-memcg lists
 
-:::::: TO: Gustavo Pimentel <Gustavo.Pimentel@synopsys.com>
-:::::: CC: Vinod Koul <vkoul@kernel.org>
+:::::: TO: Vladimir Davydov <vdavydov@parallels.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
