@@ -1,42 +1,42 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 679F517CD
-	for <oe-kbuild@lists.linux.dev>; Thu, 19 Jan 2023 03:20:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6178E17D4
+	for <oe-kbuild@lists.linux.dev>; Thu, 19 Jan 2023 03:40:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674098430; x=1705634430;
+  t=1674099632; x=1705635632;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=QJjqEIPabbxJSJU9oAei1PlsxamPw2opBElh9MUIsGs=;
-  b=C9WqzlQ96p7ai4l3TyoPffw1kmSTkgE1zO3PHyvCfshJFXlOcX5fdyaE
-   TCP+MmRRfMYo763nbNJ9YPSpYD7I4BmMjZqE1G6tkj+42vouemEB4jLv4
-   2t17xGFGddJfxT1srku89hI25eT8HLjAfMbQQVe8fsop2VW66EJgpeUll
-   njYU3ODANrp4hXPF6fqD89Y3obbrUkTHWNOTbJAi4O4oSnAIgKHLnwXT+
-   OFnvsZUdJ0L7gJHD/A5AOQbOkPl4mW2No1cg0/YKWayCdTklyI6QW6W1/
-   IisFjjZGLyQFaieSPcYy+HAK22rWo2RRYOPy5PDa4NyyL7nB+Y61CtPF+
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="325229361"
+  bh=uAiggiOmmO1P5bd5NVcVJLseE1YTM3Wj8meA+Uo2lr4=;
+  b=eShSfgHRiJ66nP6mqNqi738m5Vq5FhSoWrxSkTGmoIG3lEjGlJ1t9Kn4
+   k/xUAwRUXkJj7LxYHbC0up1boBP3sDaJspjGQ2R63ez1LscOK1oI+IO/n
+   SAiBafARno9t0RQCvtj2iJ/5zTjg4ZNs/tAoFP6Mc13TRoGV+NH3iQPOB
+   KbfkXD24MF01dpqK1wZ0NBGvv4q5pEK1Ta9qv3oOxGDr8uBOE/N5ZnbqC
+   FXtIVWG/Np7WKY6HGbfiR95kC0xAlMXuLP8dMOqIVpZyMGwiax8LMRQEz
+   maOflmafe6nhuPfa8giBWpwIc96ombDm8r18LgUKfpYYI+BOHfkEXxQQF
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="411422959"
 X-IronPort-AV: E=Sophos;i="5.97,226,1669104000"; 
-   d="scan'208";a="325229361"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2023 19:20:29 -0800
+   d="scan'208";a="411422959"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2023 19:40:31 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="728488288"
+X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="833843076"
 X-IronPort-AV: E=Sophos;i="5.97,226,1669104000"; 
-   d="scan'208";a="728488288"
+   d="scan'208";a="833843076"
 Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 18 Jan 2023 19:20:28 -0800
+  by orsmga005.jf.intel.com with ESMTP; 18 Jan 2023 19:40:30 -0800
 Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pILTX-000114-2r;
-	Thu, 19 Jan 2023 03:20:27 +0000
-Date: Thu, 19 Jan 2023 11:19:45 +0800
+	id 1pILmv-00012X-2d;
+	Thu, 19 Jan 2023 03:40:29 +0000
+Date: Thu, 19 Jan 2023 11:40:21 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: drivers/media/mc/mc-entity.c:47:27: warning: unused function
- 'link_type_name'
-Message-ID: <202301191158.i9yaFVnS-lkp@intel.com>
+Subject: [djwong-xfs:xfile-page-caching 90/266] fs/xfs/scrub/bitmap.c:54:1:
+ warning: unused function 'xbitmap_tree_iter_next'
+Message-ID: <202301191159.rXhePzyX-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -51,99 +51,65 @@ Content-Disposition: inline
 :::::: 
 
 BCC: lkp@intel.com
-CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Daniel Scally <djrscally@gmail.com>
-CC: Mauro Carvalho Chehab <mchehab@kernel.org>
-CC: linux-media@vger.kernel.org
-CC: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-CC: "Jean-Michel Hautbois" <jeanmichel.hautbois@ideasonboard.com>
-CC: Sakari Ailus <sakari.ailus@linux.intel.com>
+TO: "Darrick J. Wong" <darrick.wong@oracle.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   7287904c8771b77b9504f53623bb477065c19a58
-commit: 9d0c23bfe7083f182194ca235156a4098aa59344 media: entity: Add link_type_name() helper
-date:   9 months ago
-:::::: branch date: 5 hours ago
-:::::: commit date: 9 months ago
-config: arm-randconfig-r022-20230116 (https://download.01.org/0day-ci/archive/20230119/202301191158.i9yaFVnS-lkp@intel.com/config)
-compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 4196ca3278f78c6e19246e54ab0ecb364e37d66a)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git xfile-page-caching
+head:   5ac6d5f53f18d0486ac3713be490eb8c186ff344
+commit: d1b9a7a892083108c5afb4d543c86c4e1c734624 [90/266] xfs: cross-reference rmap records with ag btrees
+:::::: branch date: 27 hours ago
+:::::: commit date: 27 hours ago
+config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20230119/202301191159.rXhePzyX-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=9d0c23bfe7083f182194ca235156a4098aa59344
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 9d0c23bfe7083f182194ca235156a4098aa59344
+        # https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git/commit/?id=d1b9a7a892083108c5afb4d543c86c4e1c734624
+        git remote add djwong-xfs https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git
+        git fetch --no-tags djwong-xfs xfile-page-caching
+        git checkout d1b9a7a892083108c5afb4d543c86c4e1c734624
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/media/mc/ drivers/mfd/ drivers/pinctrl/ lib/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash fs/cifs/ fs/xfs/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
 All warnings (new ones prefixed by >>):
 
-   drivers/media/mc/mc-entity.c:17:27: warning: unused function 'intf_type' [-Wunused-function]
-   static inline const char *intf_type(struct media_interface *intf)
-                             ^
->> drivers/media/mc/mc-entity.c:47:27: warning: unused function 'link_type_name' [-Wunused-function]
-   static inline const char *link_type_name(struct media_link *link)
-                             ^
-   2 warnings generated.
+>> fs/xfs/scrub/bitmap.c:54:1: warning: unused function 'xbitmap_tree_iter_next' [-Wunused-function]
+   INTERVAL_TREE_DEFINE(struct xbitmap_node, bn_rbnode, uint64_t,
+   ^
+   include/linux/interval_tree_generic.h:151:33: note: expanded from macro 'INTERVAL_TREE_DEFINE'
+   ITSTATIC ITSTRUCT *                                                           \
+                                                                                 ^
+   <scratch space>:35:1: note: expanded from here
+   xbitmap_tree_iter_next
+   ^
+   1 warning generated.
 
 
-vim +/link_type_name +47 drivers/media/mc/mc-entity.c
+vim +/xbitmap_tree_iter_next +54 fs/xfs/scrub/bitmap.c
 
-53e269c102fbaf7 drivers/media/media-entity.c Laurent Pinchart      2009-12-09  16  
-27e543fa87deea3 drivers/media/media-entity.c Mauro Carvalho Chehab 2015-08-20 @17  static inline const char *intf_type(struct media_interface *intf)
-27e543fa87deea3 drivers/media/media-entity.c Mauro Carvalho Chehab 2015-08-20  18  {
-27e543fa87deea3 drivers/media/media-entity.c Mauro Carvalho Chehab 2015-08-20  19  	switch (intf->type) {
-27e543fa87deea3 drivers/media/media-entity.c Mauro Carvalho Chehab 2015-08-20  20  	case MEDIA_INTF_T_DVB_FE:
-66c1db1bc5e1a21 drivers/media/media-entity.c Shuah Khan            2016-03-04  21  		return "dvb-frontend";
-27e543fa87deea3 drivers/media/media-entity.c Mauro Carvalho Chehab 2015-08-20  22  	case MEDIA_INTF_T_DVB_DEMUX:
-66c1db1bc5e1a21 drivers/media/media-entity.c Shuah Khan            2016-03-04  23  		return "dvb-demux";
-27e543fa87deea3 drivers/media/media-entity.c Mauro Carvalho Chehab 2015-08-20  24  	case MEDIA_INTF_T_DVB_DVR:
-66c1db1bc5e1a21 drivers/media/media-entity.c Shuah Khan            2016-03-04  25  		return "dvb-dvr";
-27e543fa87deea3 drivers/media/media-entity.c Mauro Carvalho Chehab 2015-08-20  26  	case MEDIA_INTF_T_DVB_CA:
-66c1db1bc5e1a21 drivers/media/media-entity.c Shuah Khan            2016-03-04  27  		return  "dvb-ca";
-27e543fa87deea3 drivers/media/media-entity.c Mauro Carvalho Chehab 2015-08-20  28  	case MEDIA_INTF_T_DVB_NET:
-66c1db1bc5e1a21 drivers/media/media-entity.c Shuah Khan            2016-03-04  29  		return "dvb-net";
-27e543fa87deea3 drivers/media/media-entity.c Mauro Carvalho Chehab 2015-08-20  30  	case MEDIA_INTF_T_V4L_VIDEO:
-66c1db1bc5e1a21 drivers/media/media-entity.c Shuah Khan            2016-03-04  31  		return "v4l-video";
-27e543fa87deea3 drivers/media/media-entity.c Mauro Carvalho Chehab 2015-08-20  32  	case MEDIA_INTF_T_V4L_VBI:
-66c1db1bc5e1a21 drivers/media/media-entity.c Shuah Khan            2016-03-04  33  		return "v4l-vbi";
-27e543fa87deea3 drivers/media/media-entity.c Mauro Carvalho Chehab 2015-08-20  34  	case MEDIA_INTF_T_V4L_RADIO:
-66c1db1bc5e1a21 drivers/media/media-entity.c Shuah Khan            2016-03-04  35  		return "v4l-radio";
-27e543fa87deea3 drivers/media/media-entity.c Mauro Carvalho Chehab 2015-08-20  36  	case MEDIA_INTF_T_V4L_SUBDEV:
-66c1db1bc5e1a21 drivers/media/media-entity.c Shuah Khan            2016-03-04  37  		return "v4l-subdev";
-27e543fa87deea3 drivers/media/media-entity.c Mauro Carvalho Chehab 2015-08-20  38  	case MEDIA_INTF_T_V4L_SWRADIO:
-66c1db1bc5e1a21 drivers/media/media-entity.c Shuah Khan            2016-03-04  39  		return "v4l-swradio";
-b2fe22d0cf64708 drivers/media/media-entity.c Nick Dyer             2016-07-18  40  	case MEDIA_INTF_T_V4L_TOUCH:
-b2fe22d0cf64708 drivers/media/media-entity.c Nick Dyer             2016-07-18  41  		return "v4l-touch";
-27e543fa87deea3 drivers/media/media-entity.c Mauro Carvalho Chehab 2015-08-20  42  	default:
-27e543fa87deea3 drivers/media/media-entity.c Mauro Carvalho Chehab 2015-08-20  43  		return "unknown-intf";
-27e543fa87deea3 drivers/media/media-entity.c Mauro Carvalho Chehab 2015-08-20  44  	}
-27e543fa87deea3 drivers/media/media-entity.c Mauro Carvalho Chehab 2015-08-20  45  };
-27e543fa87deea3 drivers/media/media-entity.c Mauro Carvalho Chehab 2015-08-20  46  
-9d0c23bfe7083f1 drivers/media/mc/mc-entity.c Daniel Scally         2022-03-02 @47  static inline const char *link_type_name(struct media_link *link)
-9d0c23bfe7083f1 drivers/media/mc/mc-entity.c Daniel Scally         2022-03-02  48  {
-9d0c23bfe7083f1 drivers/media/mc/mc-entity.c Daniel Scally         2022-03-02  49  	switch (link->flags & MEDIA_LNK_FL_LINK_TYPE) {
-9d0c23bfe7083f1 drivers/media/mc/mc-entity.c Daniel Scally         2022-03-02  50  	case MEDIA_LNK_FL_DATA_LINK:
-9d0c23bfe7083f1 drivers/media/mc/mc-entity.c Daniel Scally         2022-03-02  51  		return "data";
-9d0c23bfe7083f1 drivers/media/mc/mc-entity.c Daniel Scally         2022-03-02  52  	case MEDIA_LNK_FL_INTERFACE_LINK:
-9d0c23bfe7083f1 drivers/media/mc/mc-entity.c Daniel Scally         2022-03-02  53  		return "interface";
-9d0c23bfe7083f1 drivers/media/mc/mc-entity.c Daniel Scally         2022-03-02  54  	case MEDIA_LNK_FL_ANCILLARY_LINK:
-9d0c23bfe7083f1 drivers/media/mc/mc-entity.c Daniel Scally         2022-03-02  55  		return "ancillary";
-9d0c23bfe7083f1 drivers/media/mc/mc-entity.c Daniel Scally         2022-03-02  56  	default:
-9d0c23bfe7083f1 drivers/media/mc/mc-entity.c Daniel Scally         2022-03-02  57  		return "unknown";
-9d0c23bfe7083f1 drivers/media/mc/mc-entity.c Daniel Scally         2022-03-02  58  	}
-9d0c23bfe7083f1 drivers/media/mc/mc-entity.c Daniel Scally         2022-03-02  59  }
-9d0c23bfe7083f1 drivers/media/mc/mc-entity.c Daniel Scally         2022-03-02  60  
+54c0e470fff6cc Darrick J. Wong 2022-09-28  45  
+54c0e470fff6cc Darrick J. Wong 2022-09-28  46  static inline struct xbitmap_node *
+54c0e470fff6cc Darrick J. Wong 2022-09-28  47  xbitmap_tree_iter_first(struct rb_root_cached *root, uint64_t start,
+54c0e470fff6cc Darrick J. Wong 2022-09-28  48  			uint64_t last);
+54c0e470fff6cc Darrick J. Wong 2022-09-28  49  
+54c0e470fff6cc Darrick J. Wong 2022-09-28  50  static inline struct xbitmap_node *
+54c0e470fff6cc Darrick J. Wong 2022-09-28  51  xbitmap_tree_iter_next(struct xbitmap_node *node, uint64_t start,
+54c0e470fff6cc Darrick J. Wong 2022-09-28  52  		       uint64_t last);
+54c0e470fff6cc Darrick J. Wong 2022-09-28  53  
+54c0e470fff6cc Darrick J. Wong 2022-09-28 @54  INTERVAL_TREE_DEFINE(struct xbitmap_node, bn_rbnode, uint64_t,
+54c0e470fff6cc Darrick J. Wong 2022-09-28  55  		__bn_subtree_last, START, LAST, static inline, xbitmap_tree)
+54c0e470fff6cc Darrick J. Wong 2022-09-28  56  
+
+:::::: The code at line 54 was first introduced by commit
+:::::: 54c0e470fff6cc86be34520d61c3b83679bcb188 xfs: convert xbitmap to interval tree
+
+:::::: TO: Darrick J. Wong <djwong@kernel.org>
+:::::: CC: Darrick J. Wong <djwong@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
