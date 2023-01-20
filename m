@@ -1,40 +1,53 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2871D17D7
-	for <oe-kbuild@lists.linux.dev>; Fri, 20 Jan 2023 09:17:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674206276; x=1705742276;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=zgucdIB+ruv8fJCjrtsqKitKrkpE1me+3XYQ5/rIJJI=;
-  b=VN46Yx3/W8fdTAvIjBYIrzr7VRu0JVDcR+0zlokaMUSW3fBvIVQ+n2lp
-   eK2xe4g1dEJtKAJ5vbXuLs7PKusesHCcb4r2Yx0INpauPeuh8gkyt73TJ
-   QdBNVTpVhcuQTC1S9YJOZ3k6R9eJQw+LcVaVXpwL9KlAOmolvUDj4qZkZ
-   DJC/aZ8XbJ+YhnDdyOYqu6fZORQUGMqd0eYFom0pLNn9LClcVmiFNhPmD
-   C1rGZX8d1wBIG1cWjXOlSvR+8WbdyPZnDvccqKvY/4C4y8s8l/o6lqFeu
-   IzTM8W5SiOGBkutMHg1ig6fGzjROVzizRS2oRTwUuccg0WDzjDJhBkdRl
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="324223993"
-X-IronPort-AV: E=Sophos;i="5.97,231,1669104000"; 
-   d="scan'208";a="324223993"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2023 01:17:54 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="690987627"
-X-IronPort-AV: E=Sophos;i="5.97,231,1669104000"; 
-   d="scan'208";a="690987627"
-Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 20 Jan 2023 01:17:52 -0800
-Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pInWy-0002QU-06;
-	Fri, 20 Jan 2023 09:17:52 +0000
-Date: Fri, 20 Jan 2023 17:16:51 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D190917E6;
+	Fri, 20 Jan 2023 09:57:54 +0000 (UTC)
+Received: by mail-wr1-f44.google.com with SMTP id q10so4369108wrs.2;
+        Fri, 20 Jan 2023 01:57:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:content-disposition:mime-version
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4DBEBeRvdSKbe+o+qYl+b8CSc6/SIHPSVX9tdSemlLY=;
+        b=Q7bKtcsnSZTD1fDv5/N4gbyNDP7pQOgjX7TKGq7oj28sB0Ukni5IXNwGj69pYoz1mO
+         fX2ymC1sR5HkWwlik1Om40Jjrgh5AiU/aXBAt/Hj7XV/hpNNFyAUcF0GtcZivOS/oQ3i
+         vhXRwSp46neqgiolQmSASTb7wiQ1CQ3c/1e/zLmZT5t+bMf0A5gUk49tbSoa9Y5MnhTl
+         j6/mzREsQmvnmlyS7drCy4qHu4TOw5BUMSKhBc8So/gQBTCzh/EYWl2PoeB71nnVmFeu
+         0DGjCEv2INSJz1RIT/EZqDFG8QaQr/TaC/QB+WOjEW8Z0P1oPRwbeUuOLPO57Vj6vGob
+         BPUw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:content-disposition:mime-version
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=4DBEBeRvdSKbe+o+qYl+b8CSc6/SIHPSVX9tdSemlLY=;
+        b=AbBKBQaelRLwcSj/T5Hy5NunjV6o60NW5PGolGpEOcD4wP4EynYJ9CRXDlL4GgCfT9
+         +FD2ZtZ15BnbYODPVuJu6JQh8++gM+YLU8X1lbWQw4s8C8eM9Rk4VHY/BB34waGT9rMN
+         6Yy9QP1Tx/1x7cXwk9Dr3ahyE/8gX87C+5kaNQfRWLMO3DGC5PohxIqZLAWdFhdTN06g
+         tOiYhAElIPehcs6uji/rtjYtEfFuLg5IBYCq7olVjLnUsUxmhMlzelNwEiVqR4O5iEzo
+         B3f5g/3dE7B+uGLwvHD3G6TIo6IUlBhuRY0U9vvQv8BohZXDD7utjjVf9BkKDVoc9i9q
+         lqFA==
+X-Gm-Message-State: AFqh2kpOcicnkOpbAk4o7jR0k/tYstG4d6E5BejRdOILeZ+tPtKwKjWV
+	ZHS5Fgs1WWJqh4COCNFfHh0hGOEvUMppJQ==
+X-Google-Smtp-Source: AMrXdXvoJYiDwaQcIESfi+0EhMHMrpWpwgzHvibXtLrikSgPgxdrXOye1AIzJs9e7UrUhlpqgq3xOA==
+X-Received: by 2002:a5d:4cc6:0:b0:269:65c0:79fd with SMTP id c6-20020a5d4cc6000000b0026965c079fdmr11380546wrt.53.1674208672786;
+        Fri, 20 Jan 2023 01:57:52 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id w5-20020adfcd05000000b002bdc914a139sm26986440wrm.108.2023.01.20.01.57.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 20 Jan 2023 01:57:52 -0800 (PST)
+Date: Fri, 20 Jan 2023 12:57:44 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev,
+	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Mark Brown <broonie@kernel.org>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Rander Wang <rander.wang@intel.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Subject: [linux-next:master 5407/6912] sound/soc/sof/sof-audio.c:329
  sof_prepare_widgets_in_path() error: we previously assumed 'swidget' could
  be null (see line 306)
@@ -48,21 +61,11 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
-CC: Mark Brown <broonie@kernel.org>
-CC: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-CC: Rander Wang <rander.wang@intel.com>
-CC: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Message-ID: <20230120095744.annzh5x7v2arKmUg8XvGFzIBD8vMqHZm1iMwmQ4FAA8@z>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
 head:   d514392f17fd4d386cfadde7f849d97db4ca1fb0
 commit: 0ad84b11f2f8dd19d62d0b2ffd95ece897e6c3dc [5407/6912] ASoC: SOF: sof-audio: skip prepare/unprepare if swidget is NULL
-:::::: branch date: 7 hours ago
-:::::: commit date: 2 days ago
 config: csky-randconfig-m041-20230119 (https://download.01.org/0day-ci/archive/20230120/202301201736.O3WvrMfz-lkp@intel.com/config)
 compiler: csky-linux-gcc (GCC) 12.1.0
 
@@ -75,7 +78,6 @@ sound/soc/sof/sof-audio.c:329 sof_prepare_widgets_in_path() error: we previously
 
 vim +/swidget +329 sound/soc/sof/sof-audio.c
 
-66344c6d92113e Ranjani Sridharan  2022-04-26  293  
 66344c6d92113e Ranjani Sridharan  2022-04-26  294  static int
 66344c6d92113e Ranjani Sridharan  2022-04-26  295  sof_prepare_widgets_in_path(struct snd_sof_dev *sdev, struct snd_soc_dapm_widget *widget,
 66344c6d92113e Ranjani Sridharan  2022-04-26  296  			    struct snd_pcm_hw_params *fe_params,
@@ -89,6 +91,9 @@ vim +/swidget +329 sound/soc/sof/sof-audio.c
 66344c6d92113e Ranjani Sridharan  2022-04-26  304  	int ret;
 66344c6d92113e Ranjani Sridharan  2022-04-26  305  
 0ad84b11f2f8dd Ranjani Sridharan  2023-01-18 @306  	if (!swidget || !widget_ops[widget->id].ipc_prepare || swidget->prepared)
+                                                             ^^^^^^^
+Check for NULL
+
 66344c6d92113e Ranjani Sridharan  2022-04-26  307  		goto sink_prepare;
 66344c6d92113e Ranjani Sridharan  2022-04-26  308  
 66344c6d92113e Ranjani Sridharan  2022-04-26  309  	/* prepare the source widget */
@@ -112,6 +117,9 @@ vim +/swidget +329 sound/soc/sof/sof-audio.c
 66344c6d92113e Ranjani Sridharan  2022-04-26  327  			if (ret < 0) {
 66344c6d92113e Ranjani Sridharan  2022-04-26  328  				/* unprepare the source widget */
 2fe08216fda33b Amadeusz Sławiński 2022-06-02 @329  				if (widget_ops[widget->id].ipc_unprepare && swidget->prepared) {
+                                                                                                                            ^^^^^^^^^^^^^^^^^
+Unchecked dereference
+
 66344c6d92113e Ranjani Sridharan  2022-04-26  330  					widget_ops[widget->id].ipc_unprepare(swidget);
 66344c6d92113e Ranjani Sridharan  2022-04-26  331  					swidget->prepared = false;
 66344c6d92113e Ranjani Sridharan  2022-04-26  332  				}
@@ -122,14 +130,8 @@ vim +/swidget +329 sound/soc/sof/sof-audio.c
 66344c6d92113e Ranjani Sridharan  2022-04-26  337  
 66344c6d92113e Ranjani Sridharan  2022-04-26  338  	return 0;
 66344c6d92113e Ranjani Sridharan  2022-04-26  339  }
-66344c6d92113e Ranjani Sridharan  2022-04-26  340  
-
-:::::: The code at line 329 was first introduced by commit
-:::::: 2fe08216fda33bbc1f80133b8fd560ffd094b987 ASoC: SOF: Fix potential NULL pointer dereference
-
-:::::: TO: Amadeusz Sławiński <amadeuszx.slawinski@linux.intel.com>
-:::::: CC: Mark Brown <broonie@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
+
