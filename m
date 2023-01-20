@@ -1,42 +1,42 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA3D920FE
-	for <oe-kbuild@lists.linux.dev>; Fri, 20 Jan 2023 13:19:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DB62256E
+	for <oe-kbuild@lists.linux.dev>; Fri, 20 Jan 2023 14:21:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674220743; x=1705756743;
+  t=1674224473; x=1705760473;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=u03NdceibkKYRheSWLTimNBLJjfT3vToQMGWBom6xMo=;
-  b=l0TU4XMPz4LOl8n5NciCyIPbOBWh5jtvJCzS89VwNfeaRxOWMNanOUXa
-   iyCojJCfIBF4LPS+9iuCnDqSEjX7uwuNhkMYTb2CgvFtYu4hOu1jGORzr
-   AyGhnZGg0alu9/zIfEF+9rmB16g2EeoodlecT+P8oOC/5SuNklLvBc5+q
-   6i5QHH3utvFUpvR1wm52XTcmOmd9QdBXNjMb+cOTfxg7ziLQmBIOLkn7d
-   /4dWVroy+ochmUwrlBiWObLq92Eu9B6nM43ybGHYkQ4OEpcnjqL14Z1gr
-   17+7P2YVFuVSHxi81bewOAVUIfwtQ0fCmHq5qI+jZ8RDjA9A70PfPP+fp
+  bh=HBUCLxlFW/t6mqK5whpjOPF4Gx5ISfYOe4ioyK/Iqng=;
+  b=c3eAUSd3Oj8ttdPP6JQ4aJIcPOHFXSP0z+NY+0SZD1R6v4EJbHgrCS5K
+   3lMydTAfO/GlIS/ySxn+N1qdJqPD8Lh0uHJJQFA2IFq/y8DlNJMQF1H3U
+   LFSYPyEIAjsL4P7CaY6MJEOW5azXoCbQnsPQy4XCj79pqSQffZblovvhs
+   5D/WQkZ7+Wex4ytuDcPar3zomrDXFpKY/Eh952CSIbZSsncsyoqs0w7w9
+   8zUErOuexZBF8/seQVtZdCymP2QdcQAwSkEFwE6ld8FtqIC95hXx53H5+
+   lE3TNe3fgkUzLhmc5m2N1+1RXhOylbuE9IyaodymL3tsXdknIO6D0UcSV
    Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="305248486"
+X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="324268959"
 X-IronPort-AV: E=Sophos;i="5.97,232,1669104000"; 
-   d="scan'208";a="305248486"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2023 05:19:03 -0800
+   d="scan'208";a="324268959"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2023 06:21:12 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="691047540"
+X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="905978501"
 X-IronPort-AV: E=Sophos;i="5.97,232,1669104000"; 
-   d="scan'208";a="691047540"
+   d="scan'208";a="905978501"
 Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 20 Jan 2023 05:19:01 -0800
+  by fmsmga006.fm.intel.com with ESMTP; 20 Jan 2023 06:21:10 -0800
 Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pIrIL-0002aA-02;
-	Fri, 20 Jan 2023 13:19:01 +0000
-Date: Fri, 20 Jan 2023 21:18:10 +0800
+	id 1pIsGP-0002cM-13;
+	Fri, 20 Jan 2023 14:21:05 +0000
+Date: Fri, 20 Jan 2023 22:20:16 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: drivers/clk/clk-milbeaut.c:297:13: warning: shift by negative count
- ('-1')
-Message-ID: <202301202157.ukmDhYZC-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [linux-next:master 6810/6912] mm/hugetlb.c:3101
+ alloc_hugetlb_folio() error: uninitialized symbol 'h_cg'.
+Message-ID: <202301202207.AHQn9hKW-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -46,307 +46,168 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "low confidence bisect report"
-:::::: Manual check reason: "low confidence static check first_new_problem: drivers/clk/clk-milbeaut.c:297:13: warning: shift by negative count ('-1') [-Wanalyzer-shift-count-negative]"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Arnd Bergmann <arnd@arndb.de>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Sidhartha Kumar <sidhartha.kumar@oracle.com>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   d368967cb1039b5c4cccb62b5a4b9468c50cd143
-commit: 09f6b27d5ddd9ad0ec096d1b0f8decdacc70f0f8 ARM: dove: multiplatform support
-date:   10 months ago
-:::::: branch date: 17 hours ago
-:::::: commit date: 10 months ago
-config: arm-randconfig-c002-20230119 (https://download.01.org/0day-ci/archive/20230120/202301202157.ukmDhYZC-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=09f6b27d5ddd9ad0ec096d1b0f8decdacc70f0f8
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 09f6b27d5ddd9ad0ec096d1b0f8decdacc70f0f8
-        # save the config file
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross ARCH=arm KBUILD_USERCFLAGS='-fanalyzer -Wno-error'  olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross ARCH=arm KBUILD_USERCFLAGS='-fanalyzer -Wno-error' 
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   d514392f17fd4d386cfadde7f849d97db4ca1fb0
+commit: ee2b5e0fb8de76a4acc5cf4aa340270e995aaea2 [6810/6912] mm/hugetlb: convert alloc_huge_page to alloc_hugetlb_folio
+:::::: branch date: 12 hours ago
+:::::: commit date: 14 hours ago
+config: x86_64-randconfig-m001 (https://download.01.org/0day-ci/archive/20230120/202301202207.AHQn9hKW-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
 
-gcc_analyzer warnings: (new ones prefixed by >>)
-   drivers/clk/clk-milbeaut.c: In function 'm10v_mux_set_parent':
->> drivers/clk/clk-milbeaut.c:297:13: warning: shift by negative count ('-1') [-Wanalyzer-shift-count-negative]
-     297 |         u32 write_en = BIT(fls(mux->mask) - 1);
-         |             ^~~~~~~~
-     'm10v_mux_set_parent': event 1
-       |
-       |include/asm-generic/bitops/builtin-fls.h:14:53:
-       |   14 |         return x ? sizeof(x) * 8 - __builtin_clz(x) : 0;
-       |      |                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~
-       |      |                                                     |
-       |      |                                                     (1) following 'false' branch...
-       |
-     'm10v_mux_set_parent': event 2
-       |
-       |drivers/clk/clk-milbeaut.c:297:43:
-       |  297 |         u32 write_en = BIT(fls(mux->mask) - 1);
-   include/vdso/bits.h:7:44: note: in definition of macro 'BIT'
-       |    7 | #define BIT(nr)                 (UL(1) << (nr))
-       |      |                                            ^~
-       |
-     'm10v_mux_set_parent': event 3
-       |
-       |drivers/clk/clk-milbeaut.c:297:13:
-       |  297 |         u32 write_en = BIT(fls(mux->mask) - 1);
-       |      |             ^~~~~~~~
-       |      |             |
-       |      |             (3) shift by negative amount here ('-1')
-       |
---
-     'ap_cpu_clock_probe': events 1-3
-       |
-       |  230 | static int ap_cpu_clock_probe(struct platform_device *pdev)
-       |      |            ^~~~~~~~~~~~~~~~~~
-       |      |            |
-       |      |            (1) entry to 'ap_cpu_clock_probe'
-       |......
-       |  240 |         if (IS_ERR(regmap)) {
-       |      |            ~
-       |      |            |
-       |      |            (2) following 'false' branch...
-       |......
-       |  254 |         nclusters = 1;
-       |      |         ~~~~~~~~~
-       |      |         |
-       |      |         (3) ...to here
-       |
-     'ap_cpu_clock_probe': event 4
-       |
-       |include/linux/device.h:224:16:
-       |  224 |         return devm_kmalloc_array(dev, n, size, flags | __GFP_ZERO);
-       |      |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |                |
-       |      |                (4) calling 'devm_kmalloc_array' from 'ap_cpu_clock_probe'
-       |
-       +--> 'devm_kmalloc_array': events 5-7
-              |
-              |  211 | static inline void *devm_kmalloc_array(struct device *dev,
-              |      |                     ^~~~~~~~~~~~~~~~~~
-              |      |                     |
-              |      |                     (5) entry to 'devm_kmalloc_array'
-              |......
-              |  216 |         if (unlikely(check_mul_overflow(n, size, &bytes)))
-              |      |            ~         
-              |      |            |
-              |      |            (6) following 'false' branch (when '______r == 0')...
-              |......
-              |  219 |         return devm_kmalloc(dev, bytes, flags);
-              |      |         ~~~~~~       
-              |      |         |
-              |      |         (7) ...to here
-              |
-       <------+
-       |
-     'ap_cpu_clock_probe': event 8
-       |
-       |  224 |         return devm_kmalloc_array(dev, n, size, flags | __GFP_ZERO);
-       |      |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |                |
-       |      |                (8) returning to 'ap_cpu_clock_probe' from 'devm_kmalloc_array'
-       |
-     'ap_cpu_clock_probe': events 9-11
-       |
-       |drivers/clk/mvebu/ap-cpu-clk.c:277:12:
-       |  277 |         if (!ap_cpu_clk)
-       |      |            ^
-       |      |            |
-       |      |            (9) following 'false' branch...
-       |......
-       |  280 |         ap_cpu_data = devm_kzalloc(dev, struct_size(ap_cpu_data, hws,
-       |      |         ~~~~~~~~~~~
-       |      |         |
-       |      |         (10) ...to here
-       |......
-       |  283 |         if (!ap_cpu_data)
-       |      |            ~
-       |      |            |
-       |      |            (11) following 'false' branch...
-       |
-     'ap_cpu_clock_probe': event 12
-       |
-       |include/linux/of.h:1365:9:
-       | 1365 |         for (cpu = of_get_next_cpu_node(NULL); cpu != NULL; \
-       |      |         ^~~
-       |      |         |
-       |      |         (12) ...to here
-   drivers/clk/mvebu/ap-cpu-clk.c:286:9: note: in expansion of macro 'for_each_of_cpu_node'
-       |  286 |         for_each_of_cpu_node(dn) {
-       |      |         ^~~~~~~~~~~~~~~~~~~~
-       |
-     'ap_cpu_clock_probe': event 13
-       |
-       |include/linux/of.h:1365:52:
-       | 1365 |         for (cpu = of_get_next_cpu_node(NULL); cpu != NULL; \
-   drivers/clk/mvebu/ap-cpu-clk.c:286:9: note: in expansion of macro 'for_each_of_cpu_node'
-       |  286 |         for_each_of_cpu_node(dn) {
-       |      |         ^~~~~~~~~~~~~~~~~~~~
-       |
-     'ap_cpu_clock_probe': events 14-15
-       |
-       |  287 |                 char *clk_name = "cpu-cluster-0";
-       |      |                 ^~~~
-       |      |                 |
-       |      |                 (14) ...to here
-       |......
-       |  291 |                 int cpu, err;
-       |      |                     ~~~
-       |      |                     |
-       |      |                     (15) use of uninitialized value '<unknown>' here
-       |
->> drivers/clk/mvebu/ap-cpu-clk.c:313:30: warning: write to string literal [-Wanalyzer-write-to-string-literal]
-     313 |                 clk_name[12] += cluster_index;
-         |                 ~~~~~~~~~~~~~^~~~~~~~~~~~~~~~
-     'ap_cpu_clock_probe': events 1-3
-       |
-       |  230 | static int ap_cpu_clock_probe(struct platform_device *pdev)
-       |      |            ^~~~~~~~~~~~~~~~~~
-       |      |            |
-       |      |            (1) entry to 'ap_cpu_clock_probe'
-       |......
-       |  240 |         if (IS_ERR(regmap)) {
-       |      |            ~
-       |      |            |
-       |      |            (2) following 'false' branch...
-       |......
-       |  254 |         nclusters = 1;
-       |      |         ~~~~~~~~~
-       |      |         |
-       |      |         (3) ...to here
-       |
-     'ap_cpu_clock_probe': event 4
-       |
-       |include/linux/device.h:224:16:
-       |  224 |         return devm_kmalloc_array(dev, n, size, flags | __GFP_ZERO);
-       |      |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |                |
-       |      |                (4) calling 'devm_kmalloc_array' from 'ap_cpu_clock_probe'
-       |
-       +--> 'devm_kmalloc_array': events 5-7
-              |
-              |  211 | static inline void *devm_kmalloc_array(struct device *dev,
-              |      |                     ^~~~~~~~~~~~~~~~~~
-              |      |                     |
-              |      |                     (5) entry to 'devm_kmalloc_array'
-              |......
-              |  216 |         if (unlikely(check_mul_overflow(n, size, &bytes)))
-              |      |            ~         
-              |      |            |
-              |      |            (6) following 'false' branch (when '______r == 0')...
-              |......
-              |  219 |         return devm_kmalloc(dev, bytes, flags);
-              |      |         ~~~~~~       
-              |      |         |
-              |      |         (7) ...to here
-              |
-       <------+
-       |
-     'ap_cpu_clock_probe': event 8
-       |
-       |  224 |         return devm_kmalloc_array(dev, n, size, flags | __GFP_ZERO);
-       |      |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |                |
-       |      |                (8) returning to 'ap_cpu_clock_probe' from 'devm_kmalloc_array'
-       |
-     'ap_cpu_clock_probe': events 9-11
-       |
-       |drivers/clk/mvebu/ap-cpu-clk.c:277:12:
-       |  277 |         if (!ap_cpu_clk)
-       |      |            ^
-       |      |            |
-       |      |            (9) following 'false' branch...
-       |......
-       |  280 |         ap_cpu_data = devm_kzalloc(dev, struct_size(ap_cpu_data, hws,
-       |      |         ~~~~~~~~~~~
-       |      |         |
-       |      |         (10) ...to here
-       |......
-       |  283 |         if (!ap_cpu_data)
-       |      |            ~
-       |      |            |
-       |      |            (11) following 'false' branch...
-       |
-     'ap_cpu_clock_probe': event 12
-       |
-       |include/linux/of.h:1365:9:
-       | 1365 |         for (cpu = of_get_next_cpu_node(NULL); cpu != NULL; \
-       |      |         ^~~
-       |      |         |
-       |      |         (12) ...to here
-   drivers/clk/mvebu/ap-cpu-clk.c:286:9: note: in expansion of macro 'for_each_of_cpu_node'
-       |  286 |         for_each_of_cpu_node(dn) {
-       |      |         ^~~~~~~~~~~~~~~~~~~~
-       |
-     'ap_cpu_clock_probe': event 13
-       |
-       |include/linux/of.h:1365:52:
-       | 1365 |         for (cpu = of_get_next_cpu_node(NULL); cpu != NULL; \
-   drivers/clk/mvebu/ap-cpu-clk.c:286:9: note: in expansion of macro 'for_each_of_cpu_node'
-       |  286 |         for_each_of_cpu_node(dn) {
-       |      |         ^~~~~~~~~~~~~~~~~~~~
-       |
-     'ap_cpu_clock_probe': events 14-21
-       |
-       |  287 |                 char *clk_name = "cpu-cluster-0";
-       |      |                 ^~~~
-       |      |                 |
-       |      |                 (14) ...to here
-       |......
-       |  294 |                 if (WARN_ON(err)) {
-       |      |                    ~
-       |      |                    |
+smatch warnings:
+mm/hugetlb.c:3101 alloc_hugetlb_folio() error: uninitialized symbol 'h_cg'.
 
-vim +297 drivers/clk/clk-milbeaut.c
+vim +/h_cg +3101 mm/hugetlb.c
 
-6a6ba5b55a728d Sugaya Taichi 2019-04-25  290  
-6a6ba5b55a728d Sugaya Taichi 2019-04-25  291  static int m10v_mux_set_parent(struct clk_hw *hw, u8 index)
-6a6ba5b55a728d Sugaya Taichi 2019-04-25  292  {
-6a6ba5b55a728d Sugaya Taichi 2019-04-25  293  	struct clk_mux *mux = to_clk_mux(hw);
-6a6ba5b55a728d Sugaya Taichi 2019-04-25  294  	u32 val = clk_mux_index_to_val(mux->table, mux->flags, index);
-6a6ba5b55a728d Sugaya Taichi 2019-04-25  295  	unsigned long flags = 0;
-6a6ba5b55a728d Sugaya Taichi 2019-04-25  296  	u32 reg;
-6a6ba5b55a728d Sugaya Taichi 2019-04-25 @297  	u32 write_en = BIT(fls(mux->mask) - 1);
-6a6ba5b55a728d Sugaya Taichi 2019-04-25  298  
-6a6ba5b55a728d Sugaya Taichi 2019-04-25  299  	if (mux->lock)
-6a6ba5b55a728d Sugaya Taichi 2019-04-25  300  		spin_lock_irqsave(mux->lock, flags);
-6a6ba5b55a728d Sugaya Taichi 2019-04-25  301  	else
-6a6ba5b55a728d Sugaya Taichi 2019-04-25  302  		__acquire(mux->lock);
-6a6ba5b55a728d Sugaya Taichi 2019-04-25  303  
-6a6ba5b55a728d Sugaya Taichi 2019-04-25  304  	reg = readl(mux->reg);
-6a6ba5b55a728d Sugaya Taichi 2019-04-25  305  	reg &= ~(mux->mask << mux->shift);
-6a6ba5b55a728d Sugaya Taichi 2019-04-25  306  
-6a6ba5b55a728d Sugaya Taichi 2019-04-25  307  	val = (val | write_en) << mux->shift;
-6a6ba5b55a728d Sugaya Taichi 2019-04-25  308  	reg |= val;
-6a6ba5b55a728d Sugaya Taichi 2019-04-25  309  	writel(reg, mux->reg);
-6a6ba5b55a728d Sugaya Taichi 2019-04-25  310  
-6a6ba5b55a728d Sugaya Taichi 2019-04-25  311  	if (mux->lock)
-6a6ba5b55a728d Sugaya Taichi 2019-04-25  312  		spin_unlock_irqrestore(mux->lock, flags);
-6a6ba5b55a728d Sugaya Taichi 2019-04-25  313  	else
-6a6ba5b55a728d Sugaya Taichi 2019-04-25  314  		__release(mux->lock);
-6a6ba5b55a728d Sugaya Taichi 2019-04-25  315  
-6a6ba5b55a728d Sugaya Taichi 2019-04-25  316  	return 0;
-6a6ba5b55a728d Sugaya Taichi 2019-04-25  317  }
-6a6ba5b55a728d Sugaya Taichi 2019-04-25  318  
+369fa227c21949 Oscar Salvador   2021-05-04  3016  
+ee2b5e0fb8de76 Sidhartha Kumar  2023-01-19  3017  struct folio *alloc_hugetlb_folio(struct vm_area_struct *vma,
+04f2cbe35699d2 Mel Gorman       2008-07-23  3018  				    unsigned long addr, int avoid_reserve)
+^1da177e4c3f41 Linus Torvalds   2005-04-16  3019  {
+90481622d75715 David Gibson     2012-03-21  3020  	struct hugepage_subpool *spool = subpool_vma(vma);
+a5516438959d90 Andi Kleen       2008-07-23  3021  	struct hstate *h = hstate_vma(vma);
+d4ab0316cc33ae Sidhartha Kumar  2022-11-01  3022  	struct folio *folio;
+d85f69b0b533ec Mike Kravetz     2015-09-08  3023  	long map_chg, map_commit;
+d85f69b0b533ec Mike Kravetz     2015-09-08  3024  	long gbl_chg;
+6d76dcf4040514 Aneesh Kumar K.V 2012-07-31  3025  	int ret, idx;
+6d76dcf4040514 Aneesh Kumar K.V 2012-07-31  3026  	struct hugetlb_cgroup *h_cg;
+08cf9faf755802 Mina Almasry     2020-04-01  3027  	bool deferred_reserve;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  3028  
+6d76dcf4040514 Aneesh Kumar K.V 2012-07-31  3029  	idx = hstate_index(h);
+a1e78772d72b26 Mel Gorman       2008-07-23  3030  	/*
+d85f69b0b533ec Mike Kravetz     2015-09-08  3031  	 * Examine the region/reserve map to determine if the process
+d85f69b0b533ec Mike Kravetz     2015-09-08  3032  	 * has a reservation for the page to be allocated.  A return
+d85f69b0b533ec Mike Kravetz     2015-09-08  3033  	 * code of zero indicates a reservation exists (no change).
+a1e78772d72b26 Mel Gorman       2008-07-23  3034  	 */
+d85f69b0b533ec Mike Kravetz     2015-09-08  3035  	map_chg = gbl_chg = vma_needs_reservation(h, vma, addr);
+d85f69b0b533ec Mike Kravetz     2015-09-08  3036  	if (map_chg < 0)
+76dcee75c1aff6 Aneesh Kumar K.V 2012-07-31  3037  		return ERR_PTR(-ENOMEM);
+d85f69b0b533ec Mike Kravetz     2015-09-08  3038  
+d85f69b0b533ec Mike Kravetz     2015-09-08  3039  	/*
+d85f69b0b533ec Mike Kravetz     2015-09-08  3040  	 * Processes that did not create the mapping will have no
+d85f69b0b533ec Mike Kravetz     2015-09-08  3041  	 * reserves as indicated by the region/reserve map. Check
+d85f69b0b533ec Mike Kravetz     2015-09-08  3042  	 * that the allocation will not exceed the subpool limit.
+d85f69b0b533ec Mike Kravetz     2015-09-08  3043  	 * Allocations for MAP_NORESERVE mappings also need to be
+d85f69b0b533ec Mike Kravetz     2015-09-08  3044  	 * checked against any subpool limit.
+d85f69b0b533ec Mike Kravetz     2015-09-08  3045  	 */
+d85f69b0b533ec Mike Kravetz     2015-09-08  3046  	if (map_chg || avoid_reserve) {
+d85f69b0b533ec Mike Kravetz     2015-09-08  3047  		gbl_chg = hugepage_subpool_get_pages(spool, 1);
+d85f69b0b533ec Mike Kravetz     2015-09-08  3048  		if (gbl_chg < 0) {
+feba16e25a5780 Mike Kravetz     2015-09-08  3049  			vma_end_reservation(h, vma, addr);
+76dcee75c1aff6 Aneesh Kumar K.V 2012-07-31  3050  			return ERR_PTR(-ENOSPC);
+5e9113731a3ce6 Mike Kravetz     2015-09-08  3051  		}
+b45b5bd65f668a David Gibson     2006-03-22  3052  
+d85f69b0b533ec Mike Kravetz     2015-09-08  3053  		/*
+d85f69b0b533ec Mike Kravetz     2015-09-08  3054  		 * Even though there was no reservation in the region/reserve
+d85f69b0b533ec Mike Kravetz     2015-09-08  3055  		 * map, there could be reservations associated with the
+d85f69b0b533ec Mike Kravetz     2015-09-08  3056  		 * subpool that can be used.  This would be indicated if the
+d85f69b0b533ec Mike Kravetz     2015-09-08  3057  		 * return value of hugepage_subpool_get_pages() is zero.
+d85f69b0b533ec Mike Kravetz     2015-09-08  3058  		 * However, if avoid_reserve is specified we still avoid even
+d85f69b0b533ec Mike Kravetz     2015-09-08  3059  		 * the subpool reservations.
+d85f69b0b533ec Mike Kravetz     2015-09-08  3060  		 */
+d85f69b0b533ec Mike Kravetz     2015-09-08  3061  		if (avoid_reserve)
+d85f69b0b533ec Mike Kravetz     2015-09-08  3062  			gbl_chg = 1;
+d85f69b0b533ec Mike Kravetz     2015-09-08  3063  	}
+d85f69b0b533ec Mike Kravetz     2015-09-08  3064  
+08cf9faf755802 Mina Almasry     2020-04-01  3065  	/* If this allocation is not consuming a reservation, charge it now.
+08cf9faf755802 Mina Almasry     2020-04-01  3066  	 */
+6501fe5f162395 Miaohe Lin       2021-05-04  3067  	deferred_reserve = map_chg || avoid_reserve;
+08cf9faf755802 Mina Almasry     2020-04-01  3068  	if (deferred_reserve) {
+08cf9faf755802 Mina Almasry     2020-04-01  3069  		ret = hugetlb_cgroup_charge_cgroup_rsvd(
+08cf9faf755802 Mina Almasry     2020-04-01  3070  			idx, pages_per_huge_page(h), &h_cg);
+8f34af6f93aee8 Jianyu Zhan      2014-06-04  3071  		if (ret)
+8f34af6f93aee8 Jianyu Zhan      2014-06-04  3072  			goto out_subpool_put;
+08cf9faf755802 Mina Almasry     2020-04-01  3073  	}
+08cf9faf755802 Mina Almasry     2020-04-01  3074  
+08cf9faf755802 Mina Almasry     2020-04-01  3075  	ret = hugetlb_cgroup_charge_cgroup(idx, pages_per_huge_page(h), &h_cg);
+08cf9faf755802 Mina Almasry     2020-04-01  3076  	if (ret)
+08cf9faf755802 Mina Almasry     2020-04-01  3077  		goto out_uncharge_cgroup_reservation;
+8f34af6f93aee8 Jianyu Zhan      2014-06-04  3078  
+db71ef79b59bb2 Mike Kravetz     2021-05-04  3079  	spin_lock_irq(&hugetlb_lock);
+d85f69b0b533ec Mike Kravetz     2015-09-08  3080  	/*
+d85f69b0b533ec Mike Kravetz     2015-09-08  3081  	 * glb_chg is passed to indicate whether or not a page must be taken
+d85f69b0b533ec Mike Kravetz     2015-09-08  3082  	 * from the global free pool (global change).  gbl_chg == 0 indicates
+d85f69b0b533ec Mike Kravetz     2015-09-08  3083  	 * a reservation exists for the allocation.
+d85f69b0b533ec Mike Kravetz     2015-09-08  3084  	 */
+3468080c04cfe8 Sidhartha Kumar  2023-01-13  3085  	folio = dequeue_hugetlb_folio_vma(h, vma, addr, avoid_reserve, gbl_chg);
+3468080c04cfe8 Sidhartha Kumar  2023-01-13  3086  	if (!folio) {
+db71ef79b59bb2 Mike Kravetz     2021-05-04  3087  		spin_unlock_irq(&hugetlb_lock);
+3468080c04cfe8 Sidhartha Kumar  2023-01-13  3088  		folio = alloc_buddy_hugetlb_folio_with_mpol(h, vma, addr);
+3468080c04cfe8 Sidhartha Kumar  2023-01-13  3089  		if (!folio)
+8f34af6f93aee8 Jianyu Zhan      2014-06-04  3090  			goto out_uncharge_cgroup;
+12df140f0bdfae Rik van Riel     2022-10-17  3091  		spin_lock_irq(&hugetlb_lock);
+a88c769548047b Naoya Horiguchi  2015-12-11  3092  		if (!avoid_reserve && vma_has_reserves(vma, gbl_chg)) {
+3468080c04cfe8 Sidhartha Kumar  2023-01-13  3093  			folio_set_hugetlb_restore_reserve(folio);
+a88c769548047b Naoya Horiguchi  2015-12-11  3094  			h->resv_huge_pages--;
+a88c769548047b Naoya Horiguchi  2015-12-11  3095  		}
+3468080c04cfe8 Sidhartha Kumar  2023-01-13  3096  		list_add(&folio->lru, &h->hugepage_activelist);
+3468080c04cfe8 Sidhartha Kumar  2023-01-13  3097  		folio_ref_unfreeze(folio, 1);
+81a6fcae3ff3f6 Joonsoo Kim      2013-09-11  3098  		/* Fall through */
+68842c9b94560e Ken Chen         2008-01-14  3099  	}
+3468080c04cfe8 Sidhartha Kumar  2023-01-13  3100  
+3468080c04cfe8 Sidhartha Kumar  2023-01-13 @3101  	hugetlb_cgroup_commit_charge(idx, pages_per_huge_page(h), h_cg, folio);
+08cf9faf755802 Mina Almasry     2020-04-01  3102  	/* If allocation is not consuming a reservation, also store the
+08cf9faf755802 Mina Almasry     2020-04-01  3103  	 * hugetlb_cgroup pointer on the page.
+08cf9faf755802 Mina Almasry     2020-04-01  3104  	 */
+08cf9faf755802 Mina Almasry     2020-04-01  3105  	if (deferred_reserve) {
+08cf9faf755802 Mina Almasry     2020-04-01  3106  		hugetlb_cgroup_commit_charge_rsvd(idx, pages_per_huge_page(h),
+3468080c04cfe8 Sidhartha Kumar  2023-01-13  3107  						  h_cg, folio);
+08cf9faf755802 Mina Almasry     2020-04-01  3108  	}
+08cf9faf755802 Mina Almasry     2020-04-01  3109  
+db71ef79b59bb2 Mike Kravetz     2021-05-04  3110  	spin_unlock_irq(&hugetlb_lock);
+7893d1d505d59d Adam Litke       2007-10-16  3111  
+3468080c04cfe8 Sidhartha Kumar  2023-01-13  3112  	hugetlb_set_folio_subpool(folio, spool);
+a1e78772d72b26 Mel Gorman       2008-07-23  3113  
+d85f69b0b533ec Mike Kravetz     2015-09-08  3114  	map_commit = vma_commit_reservation(h, vma, addr);
+d85f69b0b533ec Mike Kravetz     2015-09-08  3115  	if (unlikely(map_chg > map_commit)) {
+33039678c8da81 Mike Kravetz     2015-06-24  3116  		/*
+33039678c8da81 Mike Kravetz     2015-06-24  3117  		 * The page was added to the reservation map between
+33039678c8da81 Mike Kravetz     2015-06-24  3118  		 * vma_needs_reservation and vma_commit_reservation.
+33039678c8da81 Mike Kravetz     2015-06-24  3119  		 * This indicates a race with hugetlb_reserve_pages.
+33039678c8da81 Mike Kravetz     2015-06-24  3120  		 * Adjust for the subpool count incremented above AND
+33039678c8da81 Mike Kravetz     2015-06-24  3121  		 * in hugetlb_reserve_pages for the same page.  Also,
+33039678c8da81 Mike Kravetz     2015-06-24  3122  		 * the reservation count added in hugetlb_reserve_pages
+33039678c8da81 Mike Kravetz     2015-06-24  3123  		 * no longer applies.
+33039678c8da81 Mike Kravetz     2015-06-24  3124  		 */
+33039678c8da81 Mike Kravetz     2015-06-24  3125  		long rsv_adjust;
+33039678c8da81 Mike Kravetz     2015-06-24  3126  
+33039678c8da81 Mike Kravetz     2015-06-24  3127  		rsv_adjust = hugepage_subpool_put_pages(spool, 1);
+33039678c8da81 Mike Kravetz     2015-06-24  3128  		hugetlb_acct_memory(h, -rsv_adjust);
+79aa925bf239c2 Mike Kravetz     2020-11-01  3129  		if (deferred_reserve)
+d4ab0316cc33ae Sidhartha Kumar  2022-11-01  3130  			hugetlb_cgroup_uncharge_folio_rsvd(hstate_index(h),
+d4ab0316cc33ae Sidhartha Kumar  2022-11-01  3131  					pages_per_huge_page(h), folio);
+33039678c8da81 Mike Kravetz     2015-06-24  3132  	}
+ee2b5e0fb8de76 Sidhartha Kumar  2023-01-19  3133  	return folio;
+8f34af6f93aee8 Jianyu Zhan      2014-06-04  3134  
+8f34af6f93aee8 Jianyu Zhan      2014-06-04  3135  out_uncharge_cgroup:
+8f34af6f93aee8 Jianyu Zhan      2014-06-04  3136  	hugetlb_cgroup_uncharge_cgroup(idx, pages_per_huge_page(h), h_cg);
+08cf9faf755802 Mina Almasry     2020-04-01  3137  out_uncharge_cgroup_reservation:
+08cf9faf755802 Mina Almasry     2020-04-01  3138  	if (deferred_reserve)
+08cf9faf755802 Mina Almasry     2020-04-01  3139  		hugetlb_cgroup_uncharge_cgroup_rsvd(idx, pages_per_huge_page(h),
+08cf9faf755802 Mina Almasry     2020-04-01  3140  						    h_cg);
+8f34af6f93aee8 Jianyu Zhan      2014-06-04  3141  out_subpool_put:
+d85f69b0b533ec Mike Kravetz     2015-09-08  3142  	if (map_chg || avoid_reserve)
+8f34af6f93aee8 Jianyu Zhan      2014-06-04  3143  		hugepage_subpool_put_pages(spool, 1);
+feba16e25a5780 Mike Kravetz     2015-09-08  3144  	vma_end_reservation(h, vma, addr);
+8f34af6f93aee8 Jianyu Zhan      2014-06-04  3145  	return ERR_PTR(-ENOSPC);
+^1da177e4c3f41 Linus Torvalds   2005-04-16  3146  }
+b45b5bd65f668a David Gibson     2006-03-22  3147  
 
-:::::: The code at line 297 was first introduced by commit
-:::::: 6a6ba5b55a728d819bad598ef5299fa740538dcf clock: milbeaut: Add Milbeaut M10V clock controller
+:::::: The code at line 3101 was first introduced by commit
+:::::: 3468080c04cfe8609ffb785c6121451f1e1341ef mm/hugetlb: increase use of folios in alloc_huge_page()
 
-:::::: TO: Sugaya Taichi <sugaya.taichi@socionext.com>
-:::::: CC: Stephen Boyd <sboyd@kernel.org>
+:::::: TO: Sidhartha Kumar <sidhartha.kumar@oracle.com>
+:::::: CC: Andrew Morton <akpm@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
