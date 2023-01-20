@@ -1,67 +1,69 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C101BD39;
-	Fri, 20 Jan 2023 08:54:49 +0000 (UTC)
-Received: by mail-wr1-f47.google.com with SMTP id r2so4190360wrv.7;
-        Fri, 20 Jan 2023 00:54:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=vA6U513FDIj3fc5yXQaqgAvo5ZnMYfg6Pzt2xeGMuxs=;
-        b=BnJhgZnL+YSSR57D0PuKcwb6qFqhvGRSjCpripeLBEcKSU6OhZwhAnpGiITo49ipuv
-         vCacMAX2vXX/iTOK7LIQdPaImfZqv7rBNi8Mm606DnA6bR1eo6JzwbC6LEYDA8b1Woox
-         txsmi0ZaxbvDDcbCkBnfaELCM9O7VqPOArLmxv8h+c4V2j1OQujybsOajEqYfNs667pa
-         gCG5xoF71QPmFn8x4Q7+C6sJxm4fXNQZsVpoP7SAbV4EXy6Nd9dnQ15G1prZFTlkEz7D
-         U7zEEkfmTz2wT5fR7OXA7dgW/m3hcD/0zK9yPg+vrtuT+DlXQ11szEeqSfr40gF1fOTj
-         PXHQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=vA6U513FDIj3fc5yXQaqgAvo5ZnMYfg6Pzt2xeGMuxs=;
-        b=cnSXnLFTer/S2+XQroXD2nw88npeaFmHximVRkUPOutKL6h+kghEHGVqqUy15C+Q5Y
-         rLSEvufBaeKcz1Eo4WrrU+AqNnLjoKGXyjYcMkZxf6ODGoWlXcQY/t73rX4o+ONhVxu+
-         xlwDTI6IFPkekEwnT3ibKo6WnGDd09jdRZI8mFUnX0AVLF8oLY98FhkyB6RxfZyPFLaf
-         zIni8ADhqAe4L22d9WeROGybE86hBVqLdYNabzw6yTRGIJClepMjM+6pJHN6RGTJ5p8C
-         BDg3151uM4Mv7+RVFQyCksfbXcuqrNiVch4gNLnGhpF3N1ktsIxxC2xw2lpi42SyKlhp
-         O38A==
-X-Gm-Message-State: AFqh2koZoCRIEk9sfMIeDkETcxW9JtdSaNhws2YzrLl6OzgcfyHLc7lm
-	qH/O9nt+yqgJKBwrTqzrJ6M63tRUr236UA==
-X-Google-Smtp-Source: AMrXdXvgHBTa5hCcXAJgBnKjz869MWykaIf7OvwwEru3zqLwnrhfPBk52tmGsDu5pTbCJ2MO0p9kTg==
-X-Received: by 2002:a5d:5f06:0:b0:2bd:d1be:ec99 with SMTP id cl6-20020a5d5f06000000b002bdd1beec99mr7688801wrb.66.1674204887781;
-        Fri, 20 Jan 2023 00:54:47 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id c14-20020adfa30e000000b002be50604c81sm2069475wrb.47.2023.01.20.00.54.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Jan 2023 00:54:47 -0800 (PST)
-Date: Fri, 20 Jan 2023 11:54:43 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, Christian Eggers <ceggers@arri.de>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Arun Ramadoss <arun.ramadoss@microchip.com>,
-	Vladimir Oltean <olteanv@gmail.com>,
-	Florian Fainelli <f.fainelli@gmail.com>,
-	Jacob Keller <jacob.e.keller@intel.com>
-Subject: [linux-next:master 3733/6912]
- drivers/net/dsa/microchip/ksz_ptp.c:217 ksz_ptp_clock_register() warn:
- passing zero to 'PTR_ERR'
-Message-ID: <202301201523.lxPMYgrH-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2871D17D7
+	for <oe-kbuild@lists.linux.dev>; Fri, 20 Jan 2023 09:17:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1674206276; x=1705742276;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=zgucdIB+ruv8fJCjrtsqKitKrkpE1me+3XYQ5/rIJJI=;
+  b=VN46Yx3/W8fdTAvIjBYIrzr7VRu0JVDcR+0zlokaMUSW3fBvIVQ+n2lp
+   eK2xe4g1dEJtKAJ5vbXuLs7PKusesHCcb4r2Yx0INpauPeuh8gkyt73TJ
+   QdBNVTpVhcuQTC1S9YJOZ3k6R9eJQw+LcVaVXpwL9KlAOmolvUDj4qZkZ
+   DJC/aZ8XbJ+YhnDdyOYqu6fZORQUGMqd0eYFom0pLNn9LClcVmiFNhPmD
+   C1rGZX8d1wBIG1cWjXOlSvR+8WbdyPZnDvccqKvY/4C4y8s8l/o6lqFeu
+   IzTM8W5SiOGBkutMHg1ig6fGzjROVzizRS2oRTwUuccg0WDzjDJhBkdRl
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="324223993"
+X-IronPort-AV: E=Sophos;i="5.97,231,1669104000"; 
+   d="scan'208";a="324223993"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2023 01:17:54 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="690987627"
+X-IronPort-AV: E=Sophos;i="5.97,231,1669104000"; 
+   d="scan'208";a="690987627"
+Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
+  by orsmga008.jf.intel.com with ESMTP; 20 Jan 2023 01:17:52 -0800
+Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pInWy-0002QU-06;
+	Fri, 20 Jan 2023 09:17:52 +0000
+Date: Fri, 20 Jan 2023 17:16:51 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [linux-next:master 5407/6912] sound/soc/sof/sof-audio.c:329
+ sof_prepare_widgets_in_path() error: we previously assumed 'swidget' could
+ be null (see line 306)
+Message-ID: <202301201736.O3WvrMfz-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Message-ID: <20230120085443.kNqenIuNf90QD6v7ndPdwvhWClSwKALQJJaZJdDPoGQ@z>
+Content-Transfer-Encoding: 8bit
+
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
+CC: Mark Brown <broonie@kernel.org>
+CC: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+CC: Rander Wang <rander.wang@intel.com>
+CC: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
 head:   d514392f17fd4d386cfadde7f849d97db4ca1fb0
-commit: eac1ea20261e1fac8ffbfb3b7da2d5e6b7c159e3 [3733/6912] net: dsa: microchip: ptp: add the posix clock support
-config: csky-randconfig-m041-20230119 (https://download.01.org/0day-ci/archive/20230120/202301201523.lxPMYgrH-lkp@intel.com/config)
+commit: 0ad84b11f2f8dd19d62d0b2ffd95ece897e6c3dc [5407/6912] ASoC: SOF: sof-audio: skip prepare/unprepare if swidget is NULL
+:::::: branch date: 7 hours ago
+:::::: commit date: 2 days ago
+config: csky-randconfig-m041-20230119 (https://download.01.org/0day-ci/archive/20230120/202301201736.O3WvrMfz-lkp@intel.com/config)
 compiler: csky-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
@@ -69,57 +71,65 @@ If you fix the issue, kindly add following tag where applicable
 | Reported-by: Dan Carpenter <error27@gmail.com>
 
 smatch warnings:
-drivers/net/dsa/microchip/ksz_ptp.c:217 ksz_ptp_clock_register() warn: passing zero to 'PTR_ERR'
+sound/soc/sof/sof-audio.c:329 sof_prepare_widgets_in_path() error: we previously assumed 'swidget' could be null (see line 306)
 
-vim +/PTR_ERR +217 drivers/net/dsa/microchip/ksz_ptp.c
+vim +/swidget +329 sound/soc/sof/sof-audio.c
 
-eac1ea20261e1f Christian Eggers 2023-01-10  186  int ksz_ptp_clock_register(struct dsa_switch *ds)
-eac1ea20261e1f Christian Eggers 2023-01-10  187  {
-eac1ea20261e1f Christian Eggers 2023-01-10  188  	struct ksz_device *dev = ds->priv;
-eac1ea20261e1f Christian Eggers 2023-01-10  189  	struct ksz_ptp_data *ptp_data;
-eac1ea20261e1f Christian Eggers 2023-01-10  190  	int ret;
-eac1ea20261e1f Christian Eggers 2023-01-10  191  
-eac1ea20261e1f Christian Eggers 2023-01-10  192  	ptp_data = &dev->ptp_data;
-eac1ea20261e1f Christian Eggers 2023-01-10  193  	mutex_init(&ptp_data->lock);
-eac1ea20261e1f Christian Eggers 2023-01-10  194  
-eac1ea20261e1f Christian Eggers 2023-01-10  195  	ptp_data->caps.owner		= THIS_MODULE;
-eac1ea20261e1f Christian Eggers 2023-01-10  196  	snprintf(ptp_data->caps.name, 16, "Microchip Clock");
-eac1ea20261e1f Christian Eggers 2023-01-10  197  	ptp_data->caps.max_adj		= KSZ_MAX_DRIFT_CORR;
-eac1ea20261e1f Christian Eggers 2023-01-10  198  	ptp_data->caps.gettime64	= ksz_ptp_gettime;
-eac1ea20261e1f Christian Eggers 2023-01-10  199  	ptp_data->caps.settime64	= ksz_ptp_settime;
-eac1ea20261e1f Christian Eggers 2023-01-10  200  	ptp_data->caps.adjfine		= ksz_ptp_adjfine;
-eac1ea20261e1f Christian Eggers 2023-01-10  201  	ptp_data->caps.adjtime		= ksz_ptp_adjtime;
-eac1ea20261e1f Christian Eggers 2023-01-10  202  
-eac1ea20261e1f Christian Eggers 2023-01-10  203  	ret = ksz_ptp_start_clock(dev);
-eac1ea20261e1f Christian Eggers 2023-01-10  204  	if (ret)
-eac1ea20261e1f Christian Eggers 2023-01-10  205  		return ret;
-eac1ea20261e1f Christian Eggers 2023-01-10  206  
-eac1ea20261e1f Christian Eggers 2023-01-10  207  	/* Currently only P2P mode is supported. When 802_1AS bit is set, it
-eac1ea20261e1f Christian Eggers 2023-01-10  208  	 * forwards all PTP packets to host port and none to other ports.
-eac1ea20261e1f Christian Eggers 2023-01-10  209  	 */
-eac1ea20261e1f Christian Eggers 2023-01-10  210  	ret = ksz_rmw16(dev, REG_PTP_MSG_CONF1, PTP_TC_P2P | PTP_802_1AS,
-eac1ea20261e1f Christian Eggers 2023-01-10  211  			PTP_TC_P2P | PTP_802_1AS);
-eac1ea20261e1f Christian Eggers 2023-01-10  212  	if (ret)
-eac1ea20261e1f Christian Eggers 2023-01-10  213  		return ret;
-eac1ea20261e1f Christian Eggers 2023-01-10  214  
-eac1ea20261e1f Christian Eggers 2023-01-10  215  	ptp_data->clock = ptp_clock_register(&ptp_data->caps, dev->dev);
-eac1ea20261e1f Christian Eggers 2023-01-10  216  	if (IS_ERR_OR_NULL(ptp_data->clock))
-eac1ea20261e1f Christian Eggers 2023-01-10 @217  		return PTR_ERR(ptp_data->clock);
+66344c6d92113e Ranjani Sridharan  2022-04-26  293  
+66344c6d92113e Ranjani Sridharan  2022-04-26  294  static int
+66344c6d92113e Ranjani Sridharan  2022-04-26  295  sof_prepare_widgets_in_path(struct snd_sof_dev *sdev, struct snd_soc_dapm_widget *widget,
+66344c6d92113e Ranjani Sridharan  2022-04-26  296  			    struct snd_pcm_hw_params *fe_params,
+66344c6d92113e Ranjani Sridharan  2022-04-26  297  			    struct snd_sof_platform_stream_params *platform_params,
+66344c6d92113e Ranjani Sridharan  2022-04-26  298  			    struct snd_pcm_hw_params *pipeline_params, int dir)
+66344c6d92113e Ranjani Sridharan  2022-04-26  299  {
+66344c6d92113e Ranjani Sridharan  2022-04-26  300  	const struct sof_ipc_tplg_ops *ipc_tplg_ops = sdev->ipc->ops->tplg;
+66344c6d92113e Ranjani Sridharan  2022-04-26  301  	const struct sof_ipc_tplg_widget_ops *widget_ops = ipc_tplg_ops->widget;
+66344c6d92113e Ranjani Sridharan  2022-04-26  302  	struct snd_sof_widget *swidget = widget->dobj.private;
+66344c6d92113e Ranjani Sridharan  2022-04-26  303  	struct snd_soc_dapm_path *p;
+66344c6d92113e Ranjani Sridharan  2022-04-26  304  	int ret;
+66344c6d92113e Ranjani Sridharan  2022-04-26  305  
+0ad84b11f2f8dd Ranjani Sridharan  2023-01-18 @306  	if (!swidget || !widget_ops[widget->id].ipc_prepare || swidget->prepared)
+66344c6d92113e Ranjani Sridharan  2022-04-26  307  		goto sink_prepare;
+66344c6d92113e Ranjani Sridharan  2022-04-26  308  
+66344c6d92113e Ranjani Sridharan  2022-04-26  309  	/* prepare the source widget */
+66344c6d92113e Ranjani Sridharan  2022-04-26  310  	ret = widget_ops[widget->id].ipc_prepare(swidget, fe_params, platform_params,
+66344c6d92113e Ranjani Sridharan  2022-04-26  311  					     pipeline_params, dir);
+66344c6d92113e Ranjani Sridharan  2022-04-26  312  	if (ret < 0) {
+66344c6d92113e Ranjani Sridharan  2022-04-26  313  		dev_err(sdev->dev, "failed to prepare widget %s\n", widget->name);
+66344c6d92113e Ranjani Sridharan  2022-04-26  314  		return ret;
+66344c6d92113e Ranjani Sridharan  2022-04-26  315  	}
+66344c6d92113e Ranjani Sridharan  2022-04-26  316  
+66344c6d92113e Ranjani Sridharan  2022-04-26  317  	swidget->prepared = true;
+66344c6d92113e Ranjani Sridharan  2022-04-26  318  
+66344c6d92113e Ranjani Sridharan  2022-04-26  319  sink_prepare:
+66344c6d92113e Ranjani Sridharan  2022-04-26  320  	/* prepare all widgets in the sink paths */
+66344c6d92113e Ranjani Sridharan  2022-04-26  321  	snd_soc_dapm_widget_for_each_sink_path(widget, p) {
+66344c6d92113e Ranjani Sridharan  2022-04-26  322  		if (!p->walking && p->sink->dobj.private) {
+66344c6d92113e Ranjani Sridharan  2022-04-26  323  			p->walking = true;
+66344c6d92113e Ranjani Sridharan  2022-04-26  324  			ret = sof_prepare_widgets_in_path(sdev, p->sink,  fe_params,
+66344c6d92113e Ranjani Sridharan  2022-04-26  325  							  platform_params, pipeline_params, dir);
+66344c6d92113e Ranjani Sridharan  2022-04-26  326  			p->walking = false;
+66344c6d92113e Ranjani Sridharan  2022-04-26  327  			if (ret < 0) {
+66344c6d92113e Ranjani Sridharan  2022-04-26  328  				/* unprepare the source widget */
+2fe08216fda33b Amadeusz Sławiński 2022-06-02 @329  				if (widget_ops[widget->id].ipc_unprepare && swidget->prepared) {
+66344c6d92113e Ranjani Sridharan  2022-04-26  330  					widget_ops[widget->id].ipc_unprepare(swidget);
+66344c6d92113e Ranjani Sridharan  2022-04-26  331  					swidget->prepared = false;
+66344c6d92113e Ranjani Sridharan  2022-04-26  332  				}
+66344c6d92113e Ranjani Sridharan  2022-04-26  333  				return ret;
+66344c6d92113e Ranjani Sridharan  2022-04-26  334  			}
+66344c6d92113e Ranjani Sridharan  2022-04-26  335  		}
+66344c6d92113e Ranjani Sridharan  2022-04-26  336  	}
+66344c6d92113e Ranjani Sridharan  2022-04-26  337  
+66344c6d92113e Ranjani Sridharan  2022-04-26  338  	return 0;
+66344c6d92113e Ranjani Sridharan  2022-04-26  339  }
+66344c6d92113e Ranjani Sridharan  2022-04-26  340  
 
-This returns success if ptp_clock_register() returns NULL (which it
-would do if CONFIG_PTP_1588_CLOCK is disabled).  Returning success is
-correct, but this would be cleaner as:
+:::::: The code at line 329 was first introduced by commit
+:::::: 2fe08216fda33bbc1f80133b8fd560ffd094b987 ASoC: SOF: Fix potential NULL pointer dereference
 
-	if (IS_ERR(ptp_data->clock))
-		return PTR_ERR(ptp_data->clock);
-
-	return 0;
-
-eac1ea20261e1f Christian Eggers 2023-01-10  218  
-eac1ea20261e1f Christian Eggers 2023-01-10  219  	return 0;
-eac1ea20261e1f Christian Eggers 2023-01-10  220  }
+:::::: TO: Amadeusz Sławiński <amadeuszx.slawinski@linux.intel.com>
+:::::: CC: Mark Brown <broonie@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
-
