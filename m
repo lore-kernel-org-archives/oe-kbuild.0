@@ -1,42 +1,42 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89DA239E
-	for <oe-kbuild@lists.linux.dev>; Sat, 21 Jan 2023 05:23:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 777CCBD37
+	for <oe-kbuild@lists.linux.dev>; Sat, 21 Jan 2023 10:22:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674278637; x=1705814637;
+  t=1674296536; x=1705832536;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Tr5a9VFedqtkdoV1H5roByZj6YGA1xeK8XzYi75bdso=;
-  b=FkHDM07T/sq1bvKA3lgb6ft9Dj1bkfi3ulmJvStQg9a6vpqr1PSEwplT
-   KreBEKMnFBMoEYt0uAzGwvW89EYOd9Q76RS0/39qB5K9NkokRKri7yUs2
-   b+VrHx53jaCYim3vMopZveay/q0w6Vf6d3BtTIfGIenHP7t3JjCwnHXvb
-   tTe7JRcm0F6BjBtk/c+hVCfuMCAcaLxREYootiq3GMz1+lTA56EyVZNjC
-   tZ9ilpyZdhEv/v+09CW9RCMSfmBZAHTdV2eOCYrSuYqPBQ6zqHdjOJS/4
-   lAbQVMEq9ATLCu/V8qJEK/wwOKAHGS2YvqS8KSMRuTqY5VDCyGgPnppI/
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10596"; a="324448204"
-X-IronPort-AV: E=Sophos;i="5.97,234,1669104000"; 
-   d="scan'208";a="324448204"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2023 21:23:56 -0800
+  bh=1h7NUZW6WnA7K8SrpSIIxXjRGTTZotc3P3CieUNLpmM=;
+  b=flkUERWuOjwzsytutRDBw+SfNizw6+EKMRyiZh7S3hMZLJQgv1J/UbxQ
+   0eyXV8qZm+2zWpfIGQJL8Xkhro6IlccOSnOfBQBjyyV6yJ7GFHh0aBG1h
+   DJwtMeDJcXEQhMDP9rMH2B6GTAl2A56ZM/FdRvJHnmY5ls5L33UZhMTKU
+   oFdzDBDz4LtHqmN2buJw7TgUOoJIRX0zSMQyQfbcbc2IbGCfHAV4w0k9w
+   dxqLJVMlqEL+1mJDsOdrJHrvbts4pFduIblzQogpgOt5L8mynlwaqNXbu
+   8CQH2DEzeljnc367ETRB4wUf1PGLqXQx7+dqYyYlenixdhC4Hd7a4S1lQ
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10596"; a="323462817"
+X-IronPort-AV: E=Sophos;i="5.97,235,1669104000"; 
+   d="scan'208";a="323462817"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2023 02:22:15 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10596"; a="768938380"
-X-IronPort-AV: E=Sophos;i="5.97,234,1669104000"; 
-   d="scan'208";a="768938380"
+X-IronPort-AV: E=McAfee;i="6500,9779,10596"; a="724233470"
+X-IronPort-AV: E=Sophos;i="5.97,235,1669104000"; 
+   d="scan'208";a="724233470"
 Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 20 Jan 2023 21:23:55 -0800
+  by fmsmga008.fm.intel.com with ESMTP; 21 Jan 2023 02:22:14 -0800
 Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pJ6M6-0003YY-0j;
-	Sat, 21 Jan 2023 05:23:54 +0000
-Date: Sat, 21 Jan 2023 13:23:49 +0800
+	id 1pJB0n-0003xa-3C;
+	Sat, 21 Jan 2023 10:22:13 +0000
+Date: Sat, 21 Jan 2023 18:21:20 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/video/fbdev/imsttfb.c:1538 imsttfb_probe() warn:
- 'par->cmap_regs' from ioremap() not released on lines: 1538.
-Message-ID: <202301211314.K1jPf4TD-lkp@intel.com>
+Subject: [peterz-queue:x86/core 3/3] arch/x86/kernel/static_call.c:98
+ __static_call_transform() error: uninitialized symbol 'op'.
+Message-ID: <202301211834.noGVyk06-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -48,111 +48,96 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Kefeng Wang <wangkefeng.wang@huawei.com>
-CC: Will Deacon <will@kernel.org>
-CC: Anshuman Khandual <anshuman.khandual@arm.com>
+TO: Peter Zijlstra <peterz@infradead.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   f883675bf6522b52cd75dc3de791680375961769
-commit: f23eab0bfaefb3319c7de90c9c632bebf53a03bc arm64: mm: Convert to GENERIC_IOREMAP
-date:   7 months ago
-:::::: branch date: 4 hours ago
-:::::: commit date: 7 months ago
-config: arm64-randconfig-m031-20230119 (https://download.01.org/0day-ci/archive/20230121/202301211314.K1jPf4TD-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git x86/core
+head:   700f4c6d925823018a2d09f92de5405065d2ffec
+commit: 700f4c6d925823018a2d09f92de5405065d2ffec [3/3] x86/static_call: Add support for Jcc tail-calls
+:::::: branch date: 11 hours ago
+:::::: commit date: 11 hours ago
+config: i386-randconfig-m021 (https://download.01.org/0day-ci/archive/20230121/202301211834.noGVyk06-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
 
 smatch warnings:
-drivers/video/fbdev/imsttfb.c:1538 imsttfb_probe() warn: 'par->cmap_regs' from ioremap() not released on lines: 1538.
+arch/x86/kernel/static_call.c:98 __static_call_transform() error: uninitialized symbol 'op'.
 
-vim +1538 drivers/video/fbdev/imsttfb.c
+vim +/op +98 arch/x86/kernel/static_call.c
 
-^1da177e4c3f41 drivers/video/imsttfb.c       Linus Torvalds            2005-04-16  1465  
-48c68c4f1b5424 drivers/video/imsttfb.c       Greg Kroah-Hartman        2012-12-21  1466  static int imsttfb_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
-^1da177e4c3f41 drivers/video/imsttfb.c       Linus Torvalds            2005-04-16  1467  {
-^1da177e4c3f41 drivers/video/imsttfb.c       Linus Torvalds            2005-04-16  1468  	unsigned long addr, size;
-^1da177e4c3f41 drivers/video/imsttfb.c       Linus Torvalds            2005-04-16  1469  	struct imstt_par *par;
-^1da177e4c3f41 drivers/video/imsttfb.c       Linus Torvalds            2005-04-16  1470  	struct fb_info *info;
-^1da177e4c3f41 drivers/video/imsttfb.c       Linus Torvalds            2005-04-16  1471  	struct device_node *dp;
-13b7c0390a5d38 drivers/video/fbdev/imsttfb.c Greg Kroah-Hartman        2021-05-03  1472  	int ret = -ENOMEM;
-^1da177e4c3f41 drivers/video/imsttfb.c       Linus Torvalds            2005-04-16  1473  	
-^1da177e4c3f41 drivers/video/imsttfb.c       Linus Torvalds            2005-04-16  1474  	dp = pci_device_to_OF_node(pdev);
-^1da177e4c3f41 drivers/video/imsttfb.c       Linus Torvalds            2005-04-16  1475  	if(dp)
-5c63e407aaabb0 drivers/video/fbdev/imsttfb.c Rob Herring               2018-10-08  1476  		printk(KERN_INFO "%s: OF name %pOFn\n",__func__, dp);
-e9cfb2d62befcd drivers/video/fbdev/imsttfb.c Kevin Hao                 2015-03-12  1477  	else if (IS_ENABLED(CONFIG_OF))
-^1da177e4c3f41 drivers/video/imsttfb.c       Linus Torvalds            2005-04-16  1478  		printk(KERN_ERR "imsttfb: no OF node for pci device\n");
-^1da177e4c3f41 drivers/video/imsttfb.c       Linus Torvalds            2005-04-16  1479  
-94f9e09ce531d4 drivers/video/imsttfb.c       Antonino A. Daplas        2006-01-09  1480  	info = framebuffer_alloc(sizeof(struct imstt_par), &pdev->dev);
-0adcdbcb179624 drivers/video/fbdev/imsttfb.c Bartlomiej Zolnierkiewicz 2019-06-28  1481  	if (!info)
-^1da177e4c3f41 drivers/video/imsttfb.c       Linus Torvalds            2005-04-16  1482  		return -ENOMEM;
-^1da177e4c3f41 drivers/video/imsttfb.c       Linus Torvalds            2005-04-16  1483  
-94f9e09ce531d4 drivers/video/imsttfb.c       Antonino A. Daplas        2006-01-09  1484  	par = info->par;
-^1da177e4c3f41 drivers/video/imsttfb.c       Linus Torvalds            2005-04-16  1485  
-^1da177e4c3f41 drivers/video/imsttfb.c       Linus Torvalds            2005-04-16  1486  	addr = pci_resource_start (pdev, 0);
-^1da177e4c3f41 drivers/video/imsttfb.c       Linus Torvalds            2005-04-16  1487  	size = pci_resource_len (pdev, 0);
-^1da177e4c3f41 drivers/video/imsttfb.c       Linus Torvalds            2005-04-16  1488  
-^1da177e4c3f41 drivers/video/imsttfb.c       Linus Torvalds            2005-04-16  1489  	if (!request_mem_region(addr, size, "imsttfb")) {
-^1da177e4c3f41 drivers/video/imsttfb.c       Linus Torvalds            2005-04-16  1490  		printk(KERN_ERR "imsttfb: Can't reserve memory region\n");
-94f9e09ce531d4 drivers/video/imsttfb.c       Antonino A. Daplas        2006-01-09  1491  		framebuffer_release(info);
-^1da177e4c3f41 drivers/video/imsttfb.c       Linus Torvalds            2005-04-16  1492  		return -ENODEV;
-^1da177e4c3f41 drivers/video/imsttfb.c       Linus Torvalds            2005-04-16  1493  	}
-^1da177e4c3f41 drivers/video/imsttfb.c       Linus Torvalds            2005-04-16  1494  
-^1da177e4c3f41 drivers/video/imsttfb.c       Linus Torvalds            2005-04-16  1495  	switch (pdev->device) {
-^1da177e4c3f41 drivers/video/imsttfb.c       Linus Torvalds            2005-04-16  1496  		case PCI_DEVICE_ID_IMS_TT128: /* IMS,tt128mbA */
-^1da177e4c3f41 drivers/video/imsttfb.c       Linus Torvalds            2005-04-16  1497  			par->ramdac = IBM;
-a6f13af4d115a1 drivers/video/fbdev/imsttfb.c Rob Herring               2019-02-08  1498  			if (of_node_name_eq(dp, "IMS,tt128mb8") ||
-a6f13af4d115a1 drivers/video/fbdev/imsttfb.c Rob Herring               2019-02-08  1499  			    of_node_name_eq(dp, "IMS,tt128mb8A"))
-^1da177e4c3f41 drivers/video/imsttfb.c       Linus Torvalds            2005-04-16  1500  				par->ramdac = TVP;
-^1da177e4c3f41 drivers/video/imsttfb.c       Linus Torvalds            2005-04-16  1501  			break;
-^1da177e4c3f41 drivers/video/imsttfb.c       Linus Torvalds            2005-04-16  1502  		case PCI_DEVICE_ID_IMS_TT3D:  /* IMS,tt3d */
-^1da177e4c3f41 drivers/video/imsttfb.c       Linus Torvalds            2005-04-16  1503  			par->ramdac = TVP;
-^1da177e4c3f41 drivers/video/imsttfb.c       Linus Torvalds            2005-04-16  1504  			break;
-^1da177e4c3f41 drivers/video/imsttfb.c       Linus Torvalds            2005-04-16  1505  		default:
-^1da177e4c3f41 drivers/video/imsttfb.c       Linus Torvalds            2005-04-16  1506  			printk(KERN_INFO "imsttfb: Device 0x%x unknown, "
-^1da177e4c3f41 drivers/video/imsttfb.c       Linus Torvalds            2005-04-16  1507  					 "contact maintainer.\n", pdev->device);
-13b7c0390a5d38 drivers/video/fbdev/imsttfb.c Greg Kroah-Hartman        2021-05-03  1508  			ret = -ENODEV;
-13b7c0390a5d38 drivers/video/fbdev/imsttfb.c Greg Kroah-Hartman        2021-05-03  1509  			goto error;
-^1da177e4c3f41 drivers/video/imsttfb.c       Linus Torvalds            2005-04-16  1510  	}
-^1da177e4c3f41 drivers/video/imsttfb.c       Linus Torvalds            2005-04-16  1511  
-^1da177e4c3f41 drivers/video/imsttfb.c       Linus Torvalds            2005-04-16  1512  	info->fix.smem_start = addr;
-94f9e09ce531d4 drivers/video/imsttfb.c       Antonino A. Daplas        2006-01-09  1513  	info->screen_base = (__u8 *)ioremap(addr, par->ramdac == IBM ?
-94f9e09ce531d4 drivers/video/imsttfb.c       Antonino A. Daplas        2006-01-09  1514  					    0x400000 : 0x800000);
-13b7c0390a5d38 drivers/video/fbdev/imsttfb.c Greg Kroah-Hartman        2021-05-03  1515  	if (!info->screen_base)
-13b7c0390a5d38 drivers/video/fbdev/imsttfb.c Greg Kroah-Hartman        2021-05-03  1516  		goto error;
-^1da177e4c3f41 drivers/video/imsttfb.c       Linus Torvalds            2005-04-16  1517  	info->fix.mmio_start = addr + 0x800000;
-^1da177e4c3f41 drivers/video/imsttfb.c       Linus Torvalds            2005-04-16  1518  	par->dc_regs = ioremap(addr + 0x800000, 0x1000);
-13b7c0390a5d38 drivers/video/fbdev/imsttfb.c Greg Kroah-Hartman        2021-05-03  1519  	if (!par->dc_regs)
-13b7c0390a5d38 drivers/video/fbdev/imsttfb.c Greg Kroah-Hartman        2021-05-03  1520  		goto error;
-^1da177e4c3f41 drivers/video/imsttfb.c       Linus Torvalds            2005-04-16  1521  	par->cmap_regs_phys = addr + 0x840000;
-^1da177e4c3f41 drivers/video/imsttfb.c       Linus Torvalds            2005-04-16  1522  	par->cmap_regs = (__u8 *)ioremap(addr + 0x840000, 0x1000);
-13b7c0390a5d38 drivers/video/fbdev/imsttfb.c Greg Kroah-Hartman        2021-05-03  1523  	if (!par->cmap_regs)
-13b7c0390a5d38 drivers/video/fbdev/imsttfb.c Greg Kroah-Hartman        2021-05-03  1524  		goto error;
-94f9e09ce531d4 drivers/video/imsttfb.c       Antonino A. Daplas        2006-01-09  1525  	info->pseudo_palette = par->palette;
-^1da177e4c3f41 drivers/video/imsttfb.c       Linus Torvalds            2005-04-16  1526  	init_imstt(info);
-^1da177e4c3f41 drivers/video/imsttfb.c       Linus Torvalds            2005-04-16  1527  
-^1da177e4c3f41 drivers/video/imsttfb.c       Linus Torvalds            2005-04-16  1528  	pci_set_drvdata(pdev, info);
-^1da177e4c3f41 drivers/video/imsttfb.c       Linus Torvalds            2005-04-16  1529  	return 0;
-13b7c0390a5d38 drivers/video/fbdev/imsttfb.c Greg Kroah-Hartman        2021-05-03  1530  
-13b7c0390a5d38 drivers/video/fbdev/imsttfb.c Greg Kroah-Hartman        2021-05-03  1531  error:
-13b7c0390a5d38 drivers/video/fbdev/imsttfb.c Greg Kroah-Hartman        2021-05-03  1532  	if (par->dc_regs)
-13b7c0390a5d38 drivers/video/fbdev/imsttfb.c Greg Kroah-Hartman        2021-05-03  1533  		iounmap(par->dc_regs);
-13b7c0390a5d38 drivers/video/fbdev/imsttfb.c Greg Kroah-Hartman        2021-05-03  1534  	if (info->screen_base)
-13b7c0390a5d38 drivers/video/fbdev/imsttfb.c Greg Kroah-Hartman        2021-05-03  1535  		iounmap(info->screen_base);
-13b7c0390a5d38 drivers/video/fbdev/imsttfb.c Greg Kroah-Hartman        2021-05-03  1536  	release_mem_region(addr, size);
-13b7c0390a5d38 drivers/video/fbdev/imsttfb.c Greg Kroah-Hartman        2021-05-03  1537  	framebuffer_release(info);
-13b7c0390a5d38 drivers/video/fbdev/imsttfb.c Greg Kroah-Hartman        2021-05-03 @1538  	return ret;
-^1da177e4c3f41 drivers/video/imsttfb.c       Linus Torvalds            2005-04-16  1539  }
-^1da177e4c3f41 drivers/video/imsttfb.c       Linus Torvalds            2005-04-16  1540  
-
-:::::: The code at line 1538 was first introduced by commit
-:::::: 13b7c0390a5d3840e1e2cda8f44a310fdbb982de video: imsttfb: check for ioremap() failures
-
-:::::: TO: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+700f4c6d925823 Peter Zijlstra  2023-01-20   43  
+700f4c6d925823 Peter Zijlstra  2023-01-20   44  asm (".global __static_call_return\n\t"
+700f4c6d925823 Peter Zijlstra  2023-01-20   45       ".type __static_call_return, @function\n\t"
+700f4c6d925823 Peter Zijlstra  2023-01-20   46       ASM_FUNC_ALIGN "\n\t"
+700f4c6d925823 Peter Zijlstra  2023-01-20   47       "__static_call_return:\n\t"
+700f4c6d925823 Peter Zijlstra  2023-01-20   48       ANNOTATE_NOENDBR
+700f4c6d925823 Peter Zijlstra  2023-01-20   49       ANNOTATE_RETPOLINE_SAFE
+700f4c6d925823 Peter Zijlstra  2023-01-20   50       "ret; int3\n\t"
+700f4c6d925823 Peter Zijlstra  2023-01-20   51       ".size __static_call_return, . - __static_call_return \n\t");
+700f4c6d925823 Peter Zijlstra  2023-01-20   52  
+c27c753ea6fd12 Thomas Gleixner 2022-07-12   53  static void __ref __static_call_transform(void *insn, enum insn_type type,
+c27c753ea6fd12 Thomas Gleixner 2022-07-12   54  					  void *func, bool modinit)
+e6d6c071f22de2 Josh Poimboeuf  2020-08-18   55  {
+3f2a8fc4b15de1 Peter Zijlstra  2021-01-18   56  	const void *emulate = NULL;
+452cddbff74b6a Peter Zijlstra  2020-08-18   57  	int size = CALL_INSN_SIZE;
+452cddbff74b6a Peter Zijlstra  2020-08-18   58  	const void *code;
+700f4c6d925823 Peter Zijlstra  2023-01-20   59  	u8 op, buf[6];
+700f4c6d925823 Peter Zijlstra  2023-01-20   60  
+700f4c6d925823 Peter Zijlstra  2023-01-20   61  	if ((type == JMP || type == RET) && (op = __is_Jcc(insn)))
+700f4c6d925823 Peter Zijlstra  2023-01-20   62  		type = JCC;
+452cddbff74b6a Peter Zijlstra  2020-08-18   63  
+452cddbff74b6a Peter Zijlstra  2020-08-18   64  	switch (type) {
+452cddbff74b6a Peter Zijlstra  2020-08-18   65  	case CALL:
+7825451fa4dc04 Peter Zijlstra  2022-09-15   66  		func = callthunks_translate_call_dest(func);
+452cddbff74b6a Peter Zijlstra  2020-08-18   67  		code = text_gen_insn(CALL_INSN_OPCODE, insn, func);
+3f2a8fc4b15de1 Peter Zijlstra  2021-01-18   68  		if (func == &__static_call_return0) {
+3f2a8fc4b15de1 Peter Zijlstra  2021-01-18   69  			emulate = code;
+3f2a8fc4b15de1 Peter Zijlstra  2021-01-18   70  			code = &xor5rax;
+3f2a8fc4b15de1 Peter Zijlstra  2021-01-18   71  		}
+3f2a8fc4b15de1 Peter Zijlstra  2021-01-18   72  
+452cddbff74b6a Peter Zijlstra  2020-08-18   73  		break;
+452cddbff74b6a Peter Zijlstra  2020-08-18   74  
+452cddbff74b6a Peter Zijlstra  2020-08-18   75  	case NOP:
+a89dfde3dc3c2d Peter Zijlstra  2021-03-12   76  		code = x86_nops[5];
+452cddbff74b6a Peter Zijlstra  2020-08-18   77  		break;
+452cddbff74b6a Peter Zijlstra  2020-08-18   78  
+452cddbff74b6a Peter Zijlstra  2020-08-18   79  	case JMP:
+452cddbff74b6a Peter Zijlstra  2020-08-18   80  		code = text_gen_insn(JMP32_INSN_OPCODE, insn, func);
+452cddbff74b6a Peter Zijlstra  2020-08-18   81  		break;
+452cddbff74b6a Peter Zijlstra  2020-08-18   82  
+452cddbff74b6a Peter Zijlstra  2020-08-18   83  	case RET:
+ee88d363d15617 Peter Zijlstra  2022-06-14   84  		if (cpu_feature_enabled(X86_FEATURE_RETHUNK))
+770ae1b709528a Peter Zijlstra  2022-09-15   85  			code = text_gen_insn(JMP32_INSN_OPCODE, insn, x86_return_thunk);
+ee88d363d15617 Peter Zijlstra  2022-06-14   86  		else
+e463a09af2f067 Peter Zijlstra  2021-12-04   87  			code = &retinsn;
+452cddbff74b6a Peter Zijlstra  2020-08-18   88  		break;
+700f4c6d925823 Peter Zijlstra  2023-01-20   89  
+700f4c6d925823 Peter Zijlstra  2023-01-20   90  	case JCC:
+700f4c6d925823 Peter Zijlstra  2023-01-20   91  		if (!func) {
+700f4c6d925823 Peter Zijlstra  2023-01-20   92  			func = __static_call_return;
+700f4c6d925823 Peter Zijlstra  2023-01-20   93  			if (cpu_feature_enabled(X86_FEATURE_RETHUNK))
+700f4c6d925823 Peter Zijlstra  2023-01-20   94  				func = x86_return_thunk;
+700f4c6d925823 Peter Zijlstra  2023-01-20   95  		}
+700f4c6d925823 Peter Zijlstra  2023-01-20   96  
+700f4c6d925823 Peter Zijlstra  2023-01-20   97  		buf[0] = 0x0f;
+700f4c6d925823 Peter Zijlstra  2023-01-20  @98  		__text_gen_insn(buf+1, op, insn+1, func, 5);
+700f4c6d925823 Peter Zijlstra  2023-01-20   99  		code = buf;
+700f4c6d925823 Peter Zijlstra  2023-01-20  100  		size = 6;
+700f4c6d925823 Peter Zijlstra  2023-01-20  101  
+700f4c6d925823 Peter Zijlstra  2023-01-20  102  		break;
+452cddbff74b6a Peter Zijlstra  2020-08-18  103  	}
+e6d6c071f22de2 Josh Poimboeuf  2020-08-18  104  
+452cddbff74b6a Peter Zijlstra  2020-08-18  105  	if (memcmp(insn, code, size) == 0)
+e6d6c071f22de2 Josh Poimboeuf  2020-08-18  106  		return;
+e6d6c071f22de2 Josh Poimboeuf  2020-08-18  107  
+c27c753ea6fd12 Thomas Gleixner 2022-07-12  108  	if (system_state == SYSTEM_BOOTING || modinit)
+a945c8345ec0de Peter Zijlstra  2020-08-18  109  		return text_poke_early(insn, code, size);
+a945c8345ec0de Peter Zijlstra  2020-08-18  110  
+3f2a8fc4b15de1 Peter Zijlstra  2021-01-18  111  	text_poke_bp(insn, code, size, emulate);
+e6d6c071f22de2 Josh Poimboeuf  2020-08-18  112  }
+e6d6c071f22de2 Josh Poimboeuf  2020-08-18  113  
 
 -- 
 0-DAY CI Kernel Test Service
