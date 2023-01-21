@@ -1,92 +1,69 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f199.google.com (mail-il1-f199.google.com [209.85.166.199])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C727E380
-	for <oe-kbuild@lists.linux.dev>; Sat, 21 Jan 2023 01:37:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674265062; x=1705801062;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=BXdQLa94fGL8AY63MUMJqO8MXvRV9X9BLe2uEvn5J3o=;
-  b=lY9Q2tfcrZJy31oOE8deHKwchxwk7///IQKjP+Ub3x9URfavlWrr7FnC
-   l275GASAatb2maou2d66iOUgnXlJKP+R7R7Xr2kaWuPjWH7P5ZqTl9WSc
-   vF/CO3wPp7bYbOZZtwv28dlDzQkR7tALE2D/qDEKnHlhg/AhLMhXJKHvK
-   BEUshQHDswZdNmHMsqPXC/uXncG1i3qcdFZCJW3PUddJc2MH61/JbBU7r
-   b53YtxSHI54RUTKG0wyz0HJG2hQwP8wuLn0ybO6bURhwsTWJc1Y3L28Ta
-   9B1R7PzzCnWfv6AjH4fz/2+EnnSXFvw4aLr1tftgHJ/C6zkRXtV/fxb0m
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10596"; a="327016386"
-X-IronPort-AV: E=Sophos;i="5.97,234,1669104000"; 
-   d="scan'208";a="327016386"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2023 17:37:40 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10596"; a="989594957"
-X-IronPort-AV: E=Sophos;i="5.97,233,1669104000"; 
-   d="scan'208";a="989594957"
-Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 20 Jan 2023 17:37:38 -0800
-Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pJ2p8-0003EG-15;
-	Sat, 21 Jan 2023 01:37:38 +0000
-Date: Sat, 21 Jan 2023 09:37:16 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@lip6.fr>
-Subject: Re: [PATCH] ARM: mvebu: potential dereference of null pointer
-Message-ID: <202301210926.eZarSBqd-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DC77383
+	for <oe-kbuild@lists.linux.dev>; Sat, 21 Jan 2023 02:06:28 +0000 (UTC)
+Received: by mail-il1-f199.google.com with SMTP id h24-20020a056e021d9800b0030be8a5dd68so4898855ila.13
+        for <oe-kbuild@lists.linux.dev>; Fri, 20 Jan 2023 18:06:28 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=to:from:subject:message-id:in-reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Dd5wNecq6Iwv6f1dG8KNdC3uYkQa6Cax7xeMdbKruNc=;
+        b=3BaNT9rEKmBQqW9pWgCcBcLGDaYdlCpImNUmP0QZPqpeVRa660+OSM0Gzkc5hijBqy
+         iU6FL6wPuHsgLbrU9QY6zskXkkayrBTor9QMpEicsEi92ubBaNZ8tdw8JY06jUdESwRU
+         /DvzWkhBxOxIu3ksxUSxvyHGLHEdCFDFRuOiPO/3M8A8mmghLBmnPbTXnXFjKauaUuD6
+         rDJespSO2SAN2+EocfQX7UOtcAUSh+0DKMwNQ9tznncaSmFNZ0Rf0k4TfSuQOR99wB4m
+         OSvIS2MEU8Zn4+ZvyhtIqO6ITa01/R5u22qQga2D7Vwwg+5a8gV4+VUtwkC/ZPR4IZNn
+         U+kA==
+X-Gm-Message-State: AFqh2kr3hHzHZrhZvg7jiB7u+CJLmWryRUlqCS2JWEQ18Ts/mogzOTwS
+	vgfvIvauBqTzkDVQSWg36tYB/nb6DnuYmNhp7dz4YznES32+
+X-Google-Smtp-Source: AMrXdXuiE0IWVmXxJeCGb0ni2t8km2avjyvmVVncmFvAcPb4QdDuRxSIc/M0BGbQD/iK6SAKylqwiFZkiLM+lWBM9yGzrPrY225N
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-Received: by 2002:a5d:889a:0:b0:6e0:34ee:4e97 with SMTP id
+ d26-20020a5d889a000000b006e034ee4e97mr1273397ioo.38.1674266787394; Fri, 20
+ Jan 2023 18:06:27 -0800 (PST)
+Date: Fri, 20 Jan 2023 18:06:27 -0800
+In-Reply-To: <00000000000073b14905ef2e7401@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <0000000000001f3d6405f2bc9d28@google.com>
+Subject: Re: [syzbot] BUG: stack guard page was hit in inet6_release
+From: syzbot <syzbot+04c21ed96d861dccc5cd@syzkaller.appspotmail.com>
+To: andrii@kernel.org, ast@kernel.org, bpf@vger.kernel.org, 
+	daniel@iogearbox.net, davem@davemloft.net, edumazet@google.com, 
+	error27@gmail.com, hdanton@sina.com, jakub@cloudflare.com, 
+	john.fastabend@gmail.com, kafai@fb.com, kernel-team@cloudflare.com, 
+	kpsingh@kernel.org, kuba@kernel.org, linux-kernel@vger.kernel.org, 
+	lkp@intel.com, lmb@cloudflare.com, netdev@vger.kernel.org, 
+	oe-kbuild-all@lists.linux.dev, oe-kbuild@lists.linux.dev, pabeni@redhat.com, 
+	songliubraving@fb.com, syzkaller-bugs@googlegroups.com, yhs@fb.com
+Content-Type: text/plain; charset="UTF-8"
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <202301191051184033370@zte.com.cn>
-References: <202301191051184033370@zte.com.cn>
-TO: ye.xingchen@zte.com.cn
-TO: andrew@lunn.ch
-CC: gregory.clement@bootlin.com
-CC: sebastian.hesselbarth@gmail.com
-CC: linux@armlinux.org.uk
-CC: linux-arm-kernel@lists.infradead.org
-CC: linux-kernel@vger.kernel.org
+syzbot has bisected this issue to:
 
-Hi,
+commit 38207a5e81230d6ffbdd51e5fa5681be5116dcae
+Author: John Fastabend <john.fastabend@gmail.com>
+Date:   Fri Nov 19 18:14:17 2021 +0000
 
-Thank you for the patch! Perhaps something to improve:
+    bpf, sockmap: Attach map progs to psock early for feature probes
 
-[auto build test WARNING on soc/for-next]
-[also build test WARNING on linus/master v6.2-rc4 next-20230120]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=106884b9480000
+start commit:   c8451c141e07 Merge tag 'acpi-6.2-rc2' of git://git.kernel...
+git tree:       upstream
+final oops:     https://syzkaller.appspot.com/x/report.txt?x=126884b9480000
+console output: https://syzkaller.appspot.com/x/log.txt?x=146884b9480000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=2651619a26b4d687
+dashboard link: https://syzkaller.appspot.com/bug?extid=04c21ed96d861dccc5cd
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=14a1a692480000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1575dc34480000
 
-url:    https://github.com/intel-lab-lkp/linux/commits/ye-xingchen-zte-com-cn/ARM-mvebu-potential-dereference-of-null-pointer/20230119-105239
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git for-next
-patch link:    https://lore.kernel.org/r/202301191051184033370%40zte.com.cn
-patch subject: [PATCH] ARM: mvebu: potential dereference of null pointer
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: arm-randconfig-c032-20230119 (https://download.01.org/0day-ci/archive/20230121/202301210926.eZarSBqd-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+Reported-by: syzbot+04c21ed96d861dccc5cd@syzkaller.appspotmail.com
+Fixes: 38207a5e8123 ("bpf, sockmap: Attach map progs to psock early for feature probes")
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@lip6.fr>
-
-cocci warnings: (new ones prefixed by >>)
->> arch/arm/mach-mvebu/board-v7.c:124:1-25: WARNING: Function "for_each_compatible_node" should have of_node_put() before return around line 129.
-   arch/arm/mach-mvebu/board-v7.c:124:1-25: WARNING: Function "for_each_compatible_node" should have of_node_put() before return around line 136.
---
->> arch/arm/mach-mvebu/coherency.c:190:1-25: WARNING: Function "for_each_compatible_node" should have of_node_put() before return around line 195.
-   arch/arm/mach-mvebu/coherency.c:190:1-25: WARNING: Function "for_each_compatible_node" should have of_node_put() before return around line 198.
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+For information about bisection process see: https://goo.gl/tpsmEJ#bisection
