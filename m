@@ -1,43 +1,42 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D256929AC
-	for <oe-kbuild@lists.linux.dev>; Sat, 21 Jan 2023 14:27:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56D8A365
+	for <oe-kbuild@lists.linux.dev>; Sun, 22 Jan 2023 00:10:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674311258; x=1705847258;
+  t=1674346257; x=1705882257;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=YkT2P5tk/i/AdQbnyDMha0uWkqnfuy9Qd18BJto0a5U=;
-  b=VXCjINaxVhiahFmo2ZXRcnqr7qXIN9ZThaJSasMM8cxbeg2gmDi+EEAY
-   PaUnnRf9xiHlJhfrU0Pna6qezq8N0Pz47X+1vOlQ7JzzjRfyUAqMnX/9g
-   uHLY00Fon4ivMX2QAZbPksAoK+BvlLS3yTMWn58wI+7XBht/PdaMEJ8ng
-   2pbSWyXEIcFYdSKcmLx5fqLop0VlexXU6K3KF6/ja+u1XPSd/UnWOgYQ1
-   jetbuwOnkK0XHYW2qYw/hg3ksVXAe3zCnODfCHG2ySY2nd30P+VPpeRmX
-   to6okWKVb3XvbXdfHAi+kyJopxv+FB4dOULrDLizdBRwgGgZ4GPRB4L8W
+  bh=jRnj735wTh4Xv47YMo90baRFc5V6xc8dpborL6Njx3M=;
+  b=R7hk1McLhxhrXHt19lLexCsrxkIIq6t6R1kAx6WO/P79HgsWOAmQYMKi
+   O/+BD2j1pMUTKeAC98QbxdZIZ56hfxls24k8N12kudo/7Mn42CiyNDfd0
+   79B7P6PMnLjERg7Ql262/sfmgprVjNliGNiFrCF+qe+1bhK9nY89hbBpA
+   /DRCWW1k2zT0T797tQu+7I8EaSAu4QNfKSiz+f/2E01cLKz+2juTIzi4x
+   6245yVCcONu9c/Zd1jEF0UvHGUxmLFq8kyNxGmcUCyyIjBtRowedRBBVI
+   sp59g93AonDUJ2OjkE+VlHC+coohL3y6THeXBLLIGyAhZzs2TP4wE9AtX
    Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10596"; a="309363213"
+X-IronPort-AV: E=McAfee;i="6500,9779,10597"; a="327939893"
 X-IronPort-AV: E=Sophos;i="5.97,235,1669104000"; 
-   d="scan'208";a="309363213"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2023 06:27:27 -0800
+   d="scan'208";a="327939893"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2023 16:10:56 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10596"; a="662851481"
+X-IronPort-AV: E=McAfee;i="6500,9779,10597"; a="661007419"
 X-IronPort-AV: E=Sophos;i="5.97,235,1669104000"; 
-   d="scan'208";a="662851481"
+   d="scan'208";a="661007419"
 Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 21 Jan 2023 06:27:26 -0800
+  by orsmga002.jf.intel.com with ESMTP; 21 Jan 2023 16:10:55 -0800
 Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pJEq5-0004A4-0P;
-	Sat, 21 Jan 2023 14:27:25 +0000
-Date: Sat, 21 Jan 2023 22:27:04 +0800
+	id 1pJNwk-0004b4-0x;
+	Sun, 22 Jan 2023 00:10:54 +0000
+Date: Sun, 22 Jan 2023 08:10:44 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:164:2: warning:
- Called function pointer is null (null dereference)
- [clang-analyzer-core.CallAndMessage]
-Message-ID: <202301212236.KDtLdi5N-lkp@intel.com>
+Subject: drivers/pci/vgaarb.c:235:17: warning: Value stored to 'dev' during
+ its initialization is never read [clang-analyzer-deadcode.DeadStores]
+Message-ID: <202301220831.ENizXFlq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -48,37 +47,32 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "low confidence static check first_new_problem: drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:164:2: warning: Called function pointer is null (null dereference) [clang-analyzer-core.CallAndMessage]"
+:::::: Manual check reason: "low confidence static check warning: drivers/pci/vgaarb.c:235:17: warning: Value stored to 'dev' during its initialization is never read [clang-analyzer-deadcode.DeadStores]"
 :::::: 
 
 BCC: lkp@intel.com
 CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Li Zhengyu <lizhengyu3@huawei.com>
-CC: Palmer Dabbelt <palmer@rivosinc.com>
-
-Hi Li,
-
-First bad commit (maybe != root cause):
+TO: Bjorn Helgaas <helgaas@kernel.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   f883675bf6522b52cd75dc3de791680375961769
-commit: a927444aa953f757eaea5bb3615916fba6db58bf RISCV: kexec: Fix build error without CONFIG_MODULES
-date:   6 months ago
-:::::: branch date: 13 hours ago
-:::::: commit date: 6 months ago
-config: riscv-randconfig-c006-20230118 (https://download.01.org/0day-ci/archive/20230121/202301212236.KDtLdi5N-lkp@intel.com/config)
+head:   f67144022885344375ad03593e7a290cc614da34
+commit: 1d38fe6ee6a874675ca3bba6b48e69a0e6176ffc PCI/VGA: Move vgaarb to drivers/pci
+date:   11 months ago
+:::::: branch date: 5 hours ago
+:::::: commit date: 11 months ago
+config: riscv-randconfig-c006-20230119 (https://download.01.org/0day-ci/archive/20230122/202301220831.ENizXFlq-lkp@intel.com/config)
 compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 4196ca3278f78c6e19246e54ab0ecb364e37d66a)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
         # install riscv cross compiling tool for clang build
         # apt-get install binutils-riscv64-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=a927444aa953f757eaea5bb3615916fba6db58bf
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=1d38fe6ee6a874675ca3bba6b48e69a0e6176ffc
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout a927444aa953f757eaea5bb3615916fba6db58bf
+        git checkout 1d38fe6ee6a874675ca3bba6b48e69a0e6176ffc
         # save the config file
         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=riscv clang-analyzer  olddefconfig
         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=riscv clang-analyzer 
@@ -87,843 +81,356 @@ If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
 clang_analyzer warnings: (new ones prefixed by >>)
-                                            ^
-   include/linux/math.h:37:22: note: expanded from macro 'DIV_ROUND_UP'
-   #define DIV_ROUND_UP __KERNEL_DIV_ROUND_UP
-                        ^
-   include/uapi/linux/const.h:34:40: note: expanded from macro '__KERNEL_DIV_ROUND_UP'
-   #define __KERNEL_DIV_ROUND_UP(n, d) (((n) + (d) - 1) / (d))
-                                          ^
-   drivers/mtd/nand/ecc-sw-bch.c:222:6: note: Assuming field 'strength' is 0
-           if (!conf->strength)
-               ^~~~~~~~~~~~~~~
-   drivers/mtd/nand/ecc-sw-bch.c:222:2: note: Taking true branch
-           if (!conf->strength)
            ^
-   drivers/mtd/nand/ecc-sw-bch.c:223:38: note: Calling 'fls'
-                   conf->strength = (code_size * 8) / fls(8 * conf->step_size);
-                                                      ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/fls.h:17:7: note: 'x' is 0
-           if (!x)
-                ^
-   include/asm-generic/bitops/fls.h:17:2: note: Taking true branch
-           if (!x)
+   include/linux/spinlock.h:450:34: note: expanded from macro 'assert_spin_locked'
+   #define assert_spin_locked(lock)        assert_raw_spin_locked(&(lock)->rlock)
+                                           ^
+   include/linux/spinlock_api_smp.h:20:35: note: expanded from macro 'assert_raw_spin_locked'
+   #define assert_raw_spin_locked(x)       BUG_ON(!raw_spin_is_locked(x))
+                                           ^
+   include/asm-generic/bug.h:65:27: note: expanded from macro 'BUG_ON'
+   #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (0)
+                             ^
+   drivers/gpu/drm/nouveau/nvkm/core/event.c:42:2: note: Loop condition is true.  Entering loop body
+           while (types) {
            ^
-   include/asm-generic/bitops/fls.h:18:3: note: Returning zero
-                   return 0;
-                   ^~~~~~~~
-   drivers/mtd/nand/ecc-sw-bch.c:223:38: note: Returning from 'fls'
-                   conf->strength = (code_size * 8) / fls(8 * conf->step_size);
-                                                      ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/mtd/nand/ecc-sw-bch.c:223:36: note: Division by zero
-                   conf->strength = (code_size * 8) / fls(8 * conf->step_size);
-                                    ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   drivers/spi/spi-intel.c:1247:2: warning: Call to function 'snprintf' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'snprintf_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           snprintf(chip.modalias, 8, "spi-nor");
-           ^~~~~~~~
-   drivers/spi/spi-intel.c:1247:2: note: Call to function 'snprintf' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'snprintf_s' in case of C11
-           snprintf(chip.modalias, 8, "spi-nor");
-           ^~~~~~~~
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   14 warnings generated.
-   drivers/spi/spi-meson-spicc.c:545:2: warning: Call to function 'snprintf' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'snprintf_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           snprintf(name, sizeof(name), "%s#pow2_fixed_div", dev_name(dev));
-           ^~~~~~~~
-   drivers/spi/spi-meson-spicc.c:545:2: note: Call to function 'snprintf' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'snprintf_s' in case of C11
-           snprintf(name, sizeof(name), "%s#pow2_fixed_div", dev_name(dev));
-           ^~~~~~~~
-   drivers/spi/spi-meson-spicc.c:567:2: warning: Call to function 'snprintf' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'snprintf_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           snprintf(name, sizeof(name), "%s#pow2_div", dev_name(dev));
-           ^~~~~~~~
-   drivers/spi/spi-meson-spicc.c:567:2: note: Call to function 'snprintf' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'snprintf_s' in case of C11
-           snprintf(name, sizeof(name), "%s#pow2_div", dev_name(dev));
-           ^~~~~~~~
-   drivers/spi/spi-meson-spicc.c:595:2: warning: Call to function 'snprintf' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'snprintf_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           snprintf(name, sizeof(name), "%s#enh_fixed_div", dev_name(dev));
-           ^~~~~~~~
-   drivers/spi/spi-meson-spicc.c:595:2: note: Call to function 'snprintf' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'snprintf_s' in case of C11
-           snprintf(name, sizeof(name), "%s#enh_fixed_div", dev_name(dev));
-           ^~~~~~~~
-   drivers/spi/spi-meson-spicc.c:617:2: warning: Call to function 'snprintf' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'snprintf_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           snprintf(name, sizeof(name), "%s#enh_div", dev_name(dev));
-           ^~~~~~~~
-   drivers/spi/spi-meson-spicc.c:617:2: note: Call to function 'snprintf' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'snprintf_s' in case of C11
-           snprintf(name, sizeof(name), "%s#enh_div", dev_name(dev));
-           ^~~~~~~~
-   drivers/spi/spi-meson-spicc.c:637:2: warning: Call to function 'snprintf' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'snprintf_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           snprintf(name, sizeof(name), "%s#sel", dev_name(dev));
-           ^~~~~~~~
-   drivers/spi/spi-meson-spicc.c:637:2: note: Call to function 'snprintf' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'snprintf_s' in case of C11
-           snprintf(name, sizeof(name), "%s#sel", dev_name(dev));
-           ^~~~~~~~
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   12 warnings generated.
-   Suppressed 12 warnings (12 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   16 warnings generated.
-   Suppressed 16 warnings (16 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   12 warnings generated.
-   Suppressed 12 warnings (12 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   12 warnings generated.
-   Suppressed 12 warnings (12 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   13 warnings generated.
->> drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:164:2: warning: Called function pointer is null (null dereference) [clang-analyzer-core.CallAndMessage]
-           dpu_kms->hw_intr->irq_tbl[irq_idx].cb(dpu_kms->hw_intr->irq_tbl[irq_idx].arg, irq_idx);
+   drivers/gpu/drm/nouveau/nvkm/core/event.c:43:14: note: Calling '__ffs'
+                   int type = __ffs(types); types &= ~(1 << type);
+                              ^~~~~~~~~~~~
+   include/asm-generic/bitops/__ffs.h:18:6: note: Assuming the condition is true
+           if ((word & 0xffffffff) == 0) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/bitops/__ffs.h:18:2: note: Taking true branch
+           if ((word & 0xffffffff) == 0) {
            ^
-   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:178:6: note: Assuming 'intr' is non-null
-           if (!intr)
-               ^~~~~
-   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:178:2: note: Taking false branch
-           if (!intr)
+   include/asm-generic/bitops/__ffs.h:23:6: note: Assuming the condition is true
+           if ((word & 0xffff) == 0) {
+               ^~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/bitops/__ffs.h:23:2: note: Taking true branch
+           if ((word & 0xffff) == 0) {
            ^
-   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:181:2: note: Loop condition is false.  Exiting loop
-           spin_lock_irqsave(&intr->irq_lock, irq_flags);
-           ^
-   include/linux/spinlock.h:379:2: note: expanded from macro 'spin_lock_irqsave'
-           raw_spin_lock_irqsave(spinlock_check(lock), flags);     \
-           ^
-   include/linux/spinlock.h:240:2: note: expanded from macro 'raw_spin_lock_irqsave'
-           do {                                            \
-           ^
-   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:181:2: note: Loop condition is false.  Exiting loop
-           spin_lock_irqsave(&intr->irq_lock, irq_flags);
-           ^
-   include/linux/spinlock.h:377:43: note: expanded from macro 'spin_lock_irqsave'
-   #define spin_lock_irqsave(lock, flags)                          \
-                                                                   ^
-   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:182:2: note: Loop condition is true.  Entering loop body
-           for (reg_idx = 0; reg_idx < ARRAY_SIZE(dpu_intr_set); reg_idx++) {
-           ^
-   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:183:7: note: Assuming the condition is false
-                   if (!test_bit(reg_idx, &intr->irq_mask))
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:183:3: note: Taking false branch
-                   if (!test_bit(reg_idx, &intr->irq_mask))
-                   ^
-   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:193:7: note: Assuming 'irq_status' is not equal to 0
-                   if (irq_status)
-                       ^~~~~~~~~~
-   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:193:3: note: Taking true branch
-                   if (irq_status)
-                   ^
-   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:194:4: note: Value assigned to field 'cb'
-                           DPU_REG_WRITE(&intr->hw, dpu_intr_set[reg_idx].clr_off,
-                           ^
-   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h:326:36: note: expanded from macro 'DPU_REG_WRITE'
-   #define DPU_REG_WRITE(c, off, val) dpu_reg_write(c, off, val, #off)
-                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:200:7: note: Assuming 'irq_status' is not equal to 0
-                   if (!irq_status)
-                       ^~~~~~~~~~~
-   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:200:3: note: Taking false branch
-                   if (!irq_status)
-                   ^
-   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:206:3: note: Loop condition is true.  Entering loop body
-                   while ((bit = ffs(irq_status)) != 0) {
-                   ^
-   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:209:4: note: Calling 'dpu_core_irq_callback_handler'
-                           dpu_core_irq_callback_handler(dpu_kms, irq_idx);
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:154:2: note: Taking false branch
-           VERB("irq_idx=%d\n", irq_idx);
-           ^
-   drivers/gpu/drm/msm/msm_drv.h:478:24: note: expanded from macro 'VERB'
-   #define VERB(fmt, ...) if (0) DRM_DEBUG_DRIVER(fmt"\n", ##__VA_ARGS__)
-                          ^
-   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:156:6: note: Assuming field 'cb' is null
-           if (!dpu_kms->hw_intr->irq_tbl[irq_idx].cb)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:156:2: note: Taking true branch
-           if (!dpu_kms->hw_intr->irq_tbl[irq_idx].cb)
-           ^
-   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:164:2: note: Called function pointer is null (null dereference)
-           dpu_kms->hw_intr->irq_tbl[irq_idx].cb(dpu_kms->hw_intr->irq_tbl[irq_idx].arg, irq_idx);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 12 warnings (12 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   drivers/tty/serial/lpc32xx_hs.c:237:3: warning: Value stored to 'hsu_rate' is never read [clang-analyzer-deadcode.DeadStores]
-                   hsu_rate = 0xFF;
-                   ^          ~~~~
-   drivers/tty/serial/lpc32xx_hs.c:237:3: note: Value stored to 'hsu_rate' is never read
-                   hsu_rate = 0xFF;
-                   ^          ~~~~
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   14 warnings generated.
-   drivers/tty/serial/sh-sci.c:1100:9: warning: Call to function 'sprintf' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'sprintf_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           return sprintf(buf, "%d\n", sci->rx_trigger);
-                  ^~~~~~~
-   drivers/tty/serial/sh-sci.c:1100:9: note: Call to function 'sprintf' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'sprintf_s' in case of C11
-           return sprintf(buf, "%d\n", sci->rx_trigger);
-                  ^~~~~~~
-   drivers/tty/serial/sh-sci.c:1138:9: warning: Call to function 'sprintf' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'sprintf_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           return sprintf(buf, "%d\n", v);
-                  ^~~~~~~
-   drivers/tty/serial/sh-sci.c:1138:9: note: Call to function 'sprintf' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'sprintf_s' in case of C11
-           return sprintf(buf, "%d\n", v);
-                  ^~~~~~~
-   drivers/tty/serial/sh-sci.c:2218:2: warning: The result of the left shift is undefined due to shifting by '4294967295', which is greater or equal to the width of type 'unsigned long' [clang-analyzer-core.UndefinedBinaryOperatorResult]
-           for_each_sr(sr, s) {
---
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   drivers/iio/adc/ingenic-adc.c:658:3: warning: 3rd function call argument is an uninitialized value [clang-analyzer-core.CallAndMessage]
-                   ingenic_adc_set_config(adc, JZ_ADC_REG_CFG_AUX_MD, cmd);
-                   ^
-   drivers/iio/adc/ingenic-adc.c:692:2: note: Control jumps to 'case IIO_CHAN_INFO_RAW:'  at line 693
-           switch (m) {
-           ^
-   drivers/iio/adc/ingenic-adc.c:694:10: note: Calling 'ingenic_adc_read_chan_info_raw'
-                   return ingenic_adc_read_chan_info_raw(iio_dev, chan, val);
-                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iio/adc/ingenic-adc.c:633:6: note: 'cmd' declared without an initial value
-           int cmd, ret, engine = (chan->channel == INGENIC_ADC_BATTERY);
-               ^~~
-   drivers/iio/adc/ingenic-adc.c:633:26: note: Assuming field 'channel' is not equal to INGENIC_ADC_BATTERY
-           int cmd, ret, engine = (chan->channel == INGENIC_ADC_BATTERY);
-                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iio/adc/ingenic-adc.c:637:6: note: Assuming 'ret' is 0
-           if (ret) {
-               ^~~
-   drivers/iio/adc/ingenic-adc.c:637:2: note: Taking false branch
-           if (ret) {
-           ^
-   drivers/iio/adc/ingenic-adc.c:645:6: note: Assuming field 'has_aux_md' is not equal to 0
-           if (adc->soc_data->has_aux_md && engine == 0) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iio/adc/ingenic-adc.c:645:6: note: Left side of '&&' is true
-   drivers/iio/adc/ingenic-adc.c:645:35: note: 'engine' is equal to 0
-           if (adc->soc_data->has_aux_md && engine == 0) {
-                                            ^~~~~~
-   drivers/iio/adc/ingenic-adc.c:645:2: note: Taking true branch
-           if (adc->soc_data->has_aux_md && engine == 0) {
-           ^
-   drivers/iio/adc/ingenic-adc.c:646:3: note: 'Default' branch taken. Execution continues on line 658
-                   switch (chan->channel) {
-                   ^
-   drivers/iio/adc/ingenic-adc.c:658:3: note: 3rd function call argument is an uninitialized value
-                   ingenic_adc_set_config(adc, JZ_ADC_REG_CFG_AUX_MD, cmd);
-                   ^                                                  ~~~
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   drivers/devfreq/devfreq-event.c:447:9: warning: Call to function 'sprintf' is insecure as it does not provide bounding of the memory buffer or security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'sprintf_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           return sprintf(buf, "%s\n", edev->desc->name);
-                  ^~~~~~~
-   drivers/devfreq/devfreq-event.c:447:9: note: Call to function 'sprintf' is insecure as it does not provide bounding of the memory buffer or security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'sprintf_s' in case of C11
-           return sprintf(buf, "%s\n", edev->desc->name);
-                  ^~~~~~~
-   drivers/devfreq/devfreq-event.c:459:9: warning: Call to function 'sprintf' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'sprintf_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           return sprintf(buf, "%d\n", edev->enable_count);
-                  ^~~~~~~
-   drivers/devfreq/devfreq-event.c:459:9: note: Call to function 'sprintf' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'sprintf_s' in case of C11
-           return sprintf(buf, "%d\n", edev->enable_count);
-                  ^~~~~~~
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   drivers/clocksource/ingenic-sysost.c:340:2: warning: Call to function 'snprintf' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'snprintf_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           snprintf(ost->name, sizeof(ost->name), "OST percpu timer");
-           ^~~~~~~~
-   drivers/clocksource/ingenic-sysost.c:340:2: note: Call to function 'snprintf' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'snprintf_s' in case of C11
-           snprintf(ost->name, sizeof(ost->name), "OST percpu timer");
-           ^~~~~~~~
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   9 warnings generated.
->> drivers/clocksource/timer-goldfish.c:12:8: warning: Excessive padding in 'struct goldfish_timer' (96 padding bytes, where 32 is optimal). Optimal fields order: ced, base, res, cs, consider reordering the fields or adding explicit padding members [clang-analyzer-optin.performance.Padding]
-   struct goldfish_timer {
-   ~~~~~~~^~~~~~~~~~~~~~~~
-   drivers/clocksource/timer-goldfish.c:12:8: note: Excessive padding in 'struct goldfish_timer' (96 padding bytes, where 32 is optimal). Optimal fields order: ced, base, res, cs, consider reordering the fields or adding explicit padding members
-   struct goldfish_timer {
-   ~~~~~~~^~~~~~~~~~~~~~~~
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   drivers/of/base.c:1886:2: warning: Call to function 'strncpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'strncpy_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           strncpy(ap->stem, stem, stem_len);
-           ^~~~~~~
-   drivers/of/base.c:1886:2: note: Call to function 'strncpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'strncpy_s' in case of C11
-           strncpy(ap->stem, stem, stem_len);
-           ^~~~~~~
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   drivers/spi/spi-dw-mmio.c:165:14: warning: Value stored to 'syscon_name' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           const char *syscon_name = "microchip,sparx5-cpu-syscon";
-                       ^~~~~~~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/spi/spi-dw-mmio.c:165:14: note: Value stored to 'syscon_name' during its initialization is never read
-           const char *syscon_name = "microchip,sparx5-cpu-syscon";
-                       ^~~~~~~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   drivers/spi/spi-hisi-kunpeng.c:170:2: warning: Call to function 'snprintf' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'snprintf_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           snprintf(name, 32, "hisi_spi%d", master->bus_num);
-           ^~~~~~~~
-   drivers/spi/spi-hisi-kunpeng.c:170:2: note: Call to function 'snprintf' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'snprintf_s' in case of C11
-           snprintf(name, 32, "hisi_spi%d", master->bus_num);
-           ^~~~~~~~
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   11 warnings generated.
-   drivers/spi/spi-img-spfi.c:451:23: warning: The result of the left shift is undefined because the right operand is negative [clang-analyzer-core.UndefinedBinaryOperatorResult]
-           div = clamp(512 / (1 << get_count_order(div)), 1, 128);
-                                ^
-   drivers/spi/spi-img-spfi.c:486:6: note: Assuming field 'len' is <= SPFI_TRANSACTION_TSIZE_MASK
-           if (xfer->len > SPFI_TRANSACTION_TSIZE_MASK) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/spi/spi-img-spfi.c:486:2: note: Taking false branch
-           if (xfer->len > SPFI_TRANSACTION_TSIZE_MASK) {
-           ^
-   drivers/spi/spi-img-spfi.c:493:2: note: Calling 'img_spfi_config'
-           img_spfi_config(master, spi, xfer);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/spi/spi-img-spfi.c:451:26: note: Calling 'get_count_order'
-           div = clamp(512 / (1 << get_count_order(div)), 1, 128);
-                                   ^
-   include/linux/minmax.h:89:49: note: expanded from macro 'clamp'
-   #define clamp(val, lo, hi) min((typeof(val))max(val, lo), hi)
-                                                   ^~~
-   include/linux/minmax.h:52:33: note: expanded from macro 'max'
-   #define max(x, y)       __careful_cmp(x, y, >)
-                                         ^
-   include/linux/minmax.h:38:14: note: expanded from macro '__careful_cmp'
-                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
-                              ^
-   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/minmax.h:45:33: note: expanded from macro 'min'
-   #define min(x, y)       __careful_cmp(x, y, <)
-                                         ^
-   include/linux/minmax.h:38:14: note: expanded from macro '__careful_cmp'
-                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
-                              ^
-   include/linux/minmax.h:31:25: note: expanded from macro '__cmp_once'
-                   typeof(x) unique_x = (x);               \
-                                         ^
-   include/linux/bitops.h:161:6: note: Assuming 'count' is equal to 0
-           if (count == 0)
-               ^~~~~~~~~~
-   include/linux/bitops.h:161:2: note: Taking true branch
-           if (count == 0)
-           ^
-   include/linux/bitops.h:162:3: note: Returning the value -1
-                   return -1;
-                   ^~~~~~~~~
-   drivers/spi/spi-img-spfi.c:451:26: note: Returning from 'get_count_order'
---
-   include/linux/printk.h:446:3: note: expanded from macro 'printk_index_wrap'
-                   __printk_index_emit(_fmt, NULL, NULL);                  \
-                   ^
-   include/linux/printk.h:399:3: note: expanded from macro '__printk_index_emit'
-                   if (__builtin_constant_p(_fmt) && __builtin_constant_p(_level)) { \
-                   ^
-   mm/page_alloc.c:8970:2: note: '?' condition is true
-           pr_info("%s hash table entries: %ld (order: %d, %lu bytes, %s)\n",
-           ^
-   include/linux/printk.h:548:2: note: expanded from macro 'pr_info'
-           printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
-           ^
-   include/linux/printk.h:475:26: note: expanded from macro 'printk'
-   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-                            ^
-   include/linux/printk.h:446:3: note: expanded from macro 'printk_index_wrap'
-                   __printk_index_emit(_fmt, NULL, NULL);                  \
-                   ^
-   include/linux/printk.h:408:12: note: expanded from macro '__printk_index_emit'
-                                   .fmt = __builtin_constant_p(_fmt) ? (_fmt) : NULL, \
-                                          ^
-   mm/page_alloc.c:8970:2: note: '?' condition is true
-           pr_info("%s hash table entries: %ld (order: %d, %lu bytes, %s)\n",
-           ^
-   include/linux/printk.h:548:2: note: expanded from macro 'pr_info'
-           printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
-           ^
-   include/linux/printk.h:475:26: note: expanded from macro 'printk'
-   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-                            ^
-   include/linux/printk.h:446:3: note: expanded from macro 'printk_index_wrap'
-                   __printk_index_emit(_fmt, NULL, NULL);                  \
-                   ^
-   include/linux/printk.h:412:14: note: expanded from macro '__printk_index_emit'
-                                   .level = __builtin_constant_p(_level) ? (_level) : NULL, \
-                                            ^
-   mm/page_alloc.c:8970:2: note: Loop condition is false.  Exiting loop
-           pr_info("%s hash table entries: %ld (order: %d, %lu bytes, %s)\n",
-           ^
-   include/linux/printk.h:548:2: note: expanded from macro 'pr_info'
-           printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
-           ^
-   include/linux/printk.h:475:26: note: expanded from macro 'printk'
-   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-                            ^
-   include/linux/printk.h:446:3: note: expanded from macro 'printk_index_wrap'
-                   __printk_index_emit(_fmt, NULL, NULL);                  \
-                   ^
-   include/linux/printk.h:398:2: note: expanded from macro '__printk_index_emit'
-           do {                                                            \
-           ^
-   mm/page_alloc.c:8971:30: note: '?' condition is false
-                   tablename, 1UL << log2qty, ilog2(size) - PAGE_SHIFT, size,
-                                              ^
-   mm/page_alloc.c:8971:30: note: '?' condition is false
-   mm/page_alloc.c:8972:3: note: 'virt' is false
-                   virt ? (huge ? "vmalloc hugepage" : "vmalloc") : "linear");
-                   ^
-   include/linux/printk.h:548:34: note: expanded from macro 'pr_info'
-           printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
-                                           ^~~~~~~~~~~
-   include/linux/printk.h:475:60: note: expanded from macro 'printk'
-   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-                                                              ^~~~~~~~~~~
-   include/linux/printk.h:447:19: note: expanded from macro 'printk_index_wrap'
-                   _p_func(_fmt, ##__VA_ARGS__);                           \
-                                   ^~~~~~~~~~~
-   mm/page_alloc.c:8972:3: note: '?' condition is false
-                   virt ? (huge ? "vmalloc hugepage" : "vmalloc") : "linear");
-                   ^
-   mm/page_alloc.c:8974:6: note: Assuming '_hash_shift' is null
-           if (_hash_shift)
-               ^~~~~~~~~~~
-   mm/page_alloc.c:8974:2: note: Taking false branch
-           if (_hash_shift)
-           ^
-   mm/page_alloc.c:8976:6: note: Assuming '_hash_mask' is non-null
-           if (_hash_mask)
-               ^~~~~~~~~~
-   mm/page_alloc.c:8976:2: note: Taking true branch
-           if (_hash_mask)
-           ^
-   mm/page_alloc.c:8977:20: note: The result of the left shift is undefined due to shifting by '63', which is greater or equal to the width of type 'int'
-                   *_hash_mask = (1 << log2qty) - 1;
-                                    ^  ~~~~~~~
-   Suppressed 10 warnings (10 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   12 warnings generated.
-   Suppressed 12 warnings (12 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   16 warnings generated.
-   Suppressed 16 warnings (16 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   12 warnings generated.
-   Suppressed 12 warnings (12 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   12 warnings generated.
-   Suppressed 12 warnings (12 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   13 warnings generated.
->> drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:164:2: warning: Called function pointer is null (null dereference) [clang-analyzer-core.CallAndMessage]
-           dpu_kms->hw_intr->irq_tbl[irq_idx].cb(dpu_kms->hw_intr->irq_tbl[irq_idx].arg, irq_idx);
-           ^
-   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:178:6: note: Assuming 'intr' is non-null
-           if (!intr)
-               ^~~~~
-   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:178:2: note: Taking false branch
-           if (!intr)
-           ^
-   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:181:2: note: Loop condition is false.  Exiting loop
-           spin_lock_irqsave(&intr->irq_lock, irq_flags);
-           ^
-   include/linux/spinlock.h:379:2: note: expanded from macro 'spin_lock_irqsave'
-           raw_spin_lock_irqsave(spinlock_check(lock), flags);     \
-           ^
-   include/linux/spinlock.h:240:2: note: expanded from macro 'raw_spin_lock_irqsave'
-           do {                                            \
-           ^
-   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:181:2: note: Loop condition is false.  Exiting loop
-           spin_lock_irqsave(&intr->irq_lock, irq_flags);
-           ^
-   include/linux/spinlock.h:377:43: note: expanded from macro 'spin_lock_irqsave'
-   #define spin_lock_irqsave(lock, flags)                          \
-                                                                   ^
-   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:182:2: note: Loop condition is true.  Entering loop body
-           for (reg_idx = 0; reg_idx < ARRAY_SIZE(dpu_intr_set); reg_idx++) {
-           ^
-   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:183:7: note: Assuming the condition is false
-                   if (!test_bit(reg_idx, &intr->irq_mask))
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:183:3: note: Taking false branch
-                   if (!test_bit(reg_idx, &intr->irq_mask))
-                   ^
-   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:193:7: note: Assuming 'irq_status' is not equal to 0
-                   if (irq_status)
-                       ^~~~~~~~~~
-   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:193:3: note: Taking true branch
-                   if (irq_status)
-                   ^
-   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:194:4: note: Value assigned to field 'cb'
-                           DPU_REG_WRITE(&intr->hw, dpu_intr_set[reg_idx].clr_off,
-                           ^
-   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h:326:36: note: expanded from macro 'DPU_REG_WRITE'
-   #define DPU_REG_WRITE(c, off, val) dpu_reg_write(c, off, val, #off)
-                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:200:7: note: Assuming 'irq_status' is not equal to 0
-                   if (!irq_status)
-                       ^~~~~~~~~~~
-   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:200:3: note: Taking false branch
-                   if (!irq_status)
-                   ^
-   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:206:3: note: Loop condition is true.  Entering loop body
-                   while ((bit = ffs(irq_status)) != 0) {
-                   ^
-   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:209:4: note: Calling 'dpu_core_irq_callback_handler'
-                           dpu_core_irq_callback_handler(dpu_kms, irq_idx);
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:154:2: note: Taking false branch
-           VERB("irq_idx=%d\n", irq_idx);
-           ^
-   drivers/gpu/drm/msm/msm_drv.h:478:24: note: expanded from macro 'VERB'
-   #define VERB(fmt, ...) if (0) DRM_DEBUG_DRIVER(fmt"\n", ##__VA_ARGS__)
-                          ^
-   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:156:6: note: Assuming field 'cb' is null
-           if (!dpu_kms->hw_intr->irq_tbl[irq_idx].cb)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:156:2: note: Taking true branch
-           if (!dpu_kms->hw_intr->irq_tbl[irq_idx].cb)
-           ^
-   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:164:2: note: Called function pointer is null (null dereference)
-           dpu_kms->hw_intr->irq_tbl[irq_idx].cb(dpu_kms->hw_intr->irq_tbl[irq_idx].arg, irq_idx);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 12 warnings (12 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (10 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (10 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (10 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (10 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   12 warnings generated.
-   drivers/gpu/drm/etnaviv/etnaviv_perfmon.c:514:2: warning: Call to function 'strncpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'strncpy_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           strncpy(domain->name, dom->name, sizeof(domain->name));
-           ^~~~~~~
-   drivers/gpu/drm/etnaviv/etnaviv_perfmon.c:514:2: note: Call to function 'strncpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'strncpy_s' in case of C11
-           strncpy(domain->name, dom->name, sizeof(domain->name));
-           ^~~~~~~
-   drivers/gpu/drm/etnaviv/etnaviv_perfmon.c:543:2: warning: Call to function 'strncpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'strncpy_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           strncpy(signal->name, sig->name, sizeof(signal->name));
-           ^~~~~~~
-   drivers/gpu/drm/etnaviv/etnaviv_perfmon.c:543:2: note: Call to function 'strncpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'strncpy_s' in case of C11
-           strncpy(signal->name, sig->name, sizeof(signal->name));
-           ^~~~~~~
-   Suppressed 10 warnings (10 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
---
-                  ^                 ~~~~~~~~~~~~~~~~~~
-   drivers/memory/brcmstb_dpfe.c:745:8: note: Calling 'generic_show'
-           ret = generic_show(DPFE_CMD_GET_REFRESH, response, priv, buf);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/memory/brcmstb_dpfe.c:702:6: note: Assuming 'priv' is null, which participates in a condition later
-           if (!priv)
-               ^~~~~
-   drivers/memory/brcmstb_dpfe.c:702:2: note: Taking true branch
-           if (!priv)
-           ^
-   drivers/memory/brcmstb_dpfe.c:703:3: note: Returning value, which participates in a condition later
-                   return sprintf(buf, "ERROR: driver private data not set\n");
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/memory/brcmstb_dpfe.c:745:8: note: Returning from 'generic_show'
-           ret = generic_show(DPFE_CMD_GET_REFRESH, response, priv, buf);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/memory/brcmstb_dpfe.c:746:6: note: Assuming 'ret' is 0
-           if (ret)
-               ^~~
-   drivers/memory/brcmstb_dpfe.c:746:2: note: Taking false branch
-           if (ret)
-           ^
-   drivers/memory/brcmstb_dpfe.c:749:9: note: 2nd function call argument is an uninitialized value
-           info = get_msg_ptr(priv, response[MSG_ARG0], buf, &ret);
-                  ^                 ~~~~~~~~~~~~~~~~~~
-   drivers/memory/brcmstb_dpfe.c:762:9: warning: Call to function 'sprintf' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'sprintf_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           return sprintf(buf, "%#x %#x %#x %#x %#x %#x %#x\n",
-                  ^~~~~~~
-   drivers/memory/brcmstb_dpfe.c:762:9: note: Call to function 'sprintf' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'sprintf_s' in case of C11
-           return sprintf(buf, "%#x %#x %#x %#x %#x %#x %#x\n",
-                  ^~~~~~~
-   drivers/memory/brcmstb_dpfe.c:808:9: warning: 2nd function call argument is an uninitialized value [clang-analyzer-core.CallAndMessage]
-           info = get_msg_ptr(priv, response[MSG_ARG0], buf, &ret);
-                  ^                 ~~~~~~~~~~~~~~~~~~
-   drivers/memory/brcmstb_dpfe.c:804:8: note: Calling 'generic_show'
-           ret = generic_show(DPFE_CMD_GET_VENDOR, response, priv, buf);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/memory/brcmstb_dpfe.c:702:6: note: Assuming 'priv' is null, which participates in a condition later
-           if (!priv)
-               ^~~~~
-   drivers/memory/brcmstb_dpfe.c:702:2: note: Taking true branch
-           if (!priv)
-           ^
-   drivers/memory/brcmstb_dpfe.c:703:3: note: Returning value, which participates in a condition later
-                   return sprintf(buf, "ERROR: driver private data not set\n");
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/memory/brcmstb_dpfe.c:804:8: note: Returning from 'generic_show'
-           ret = generic_show(DPFE_CMD_GET_VENDOR, response, priv, buf);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/memory/brcmstb_dpfe.c:805:6: note: Assuming 'ret' is 0
-           if (ret)
-               ^~~
-   drivers/memory/brcmstb_dpfe.c:805:2: note: Taking false branch
-           if (ret)
-           ^
-   drivers/memory/brcmstb_dpfe.c:808:9: note: 2nd function call argument is an uninitialized value
-           info = get_msg_ptr(priv, response[MSG_ARG0], buf, &ret);
-                  ^                 ~~~~~~~~~~~~~~~~~~
-   drivers/memory/brcmstb_dpfe.c:822:9: warning: Call to function 'sprintf' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'sprintf_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           return sprintf(buf, "%#x %#x %#x %#x %#x\n", mr5, mr6, mr7, mr8, err);
-                  ^~~~~~~
-   drivers/memory/brcmstb_dpfe.c:822:9: note: Call to function 'sprintf' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'sprintf_s' in case of C11
-           return sprintf(buf, "%#x %#x %#x %#x %#x\n", mr5, mr6, mr7, mr8, err);
-                  ^~~~~~~
-   drivers/memory/brcmstb_dpfe.c:838:31: warning: The left operand of '&' is a garbage value [clang-analyzer-core.UndefinedBinaryOperatorResult]
-           mr4 = response[MSG_ARG0 + 0] & DRAM_INFO_MR4_MASK;
-                 ~~~~~~~~~~~~~~~~~~~~~~ ^
-   drivers/memory/brcmstb_dpfe.c:834:8: note: Calling 'generic_show'
-           ret = generic_show(DPFE_CMD_GET_REFRESH, response, priv, buf);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/memory/brcmstb_dpfe.c:702:6: note: Assuming 'priv' is null, which participates in a condition later
-           if (!priv)
-               ^~~~~
-   drivers/memory/brcmstb_dpfe.c:702:2: note: Taking true branch
-           if (!priv)
-           ^
-   drivers/memory/brcmstb_dpfe.c:703:3: note: Returning value, which participates in a condition later
-                   return sprintf(buf, "ERROR: driver private data not set\n");
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/memory/brcmstb_dpfe.c:834:8: note: Returning from 'generic_show'
-           ret = generic_show(DPFE_CMD_GET_REFRESH, response, priv, buf);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/memory/brcmstb_dpfe.c:835:6: note: Assuming 'ret' is 0
-           if (ret)
-               ^~~
-   drivers/memory/brcmstb_dpfe.c:835:2: note: Taking false branch
-           if (ret)
-           ^
-   drivers/memory/brcmstb_dpfe.c:838:31: note: The left operand of '&' is a garbage value
-           mr4 = response[MSG_ARG0 + 0] & DRAM_INFO_MR4_MASK;
-                 ~~~~~~~~~~~~~~~~~~~~~~ ^
-   drivers/memory/brcmstb_dpfe.c:845:9: warning: Call to function 'sprintf' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'sprintf_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           return sprintf(buf, "%#x %#x %#x %#x %#x %#x\n", mr4, mr5, mr6, mr7,
-                  ^~~~~~~
-   drivers/memory/brcmstb_dpfe.c:845:9: note: Call to function 'sprintf' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'sprintf_s' in case of C11
-           return sprintf(buf, "%#x %#x %#x %#x %#x %#x\n", mr4, mr5, mr6, mr7,
-                  ^~~~~~~
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   9 warnings generated.
->> drivers/clocksource/timer-goldfish.c:12:8: warning: Excessive padding in 'struct goldfish_timer' (96 padding bytes, where 32 is optimal). Optimal fields order: ced, base, res, cs, consider reordering the fields or adding explicit padding members [clang-analyzer-optin.performance.Padding]
-   struct goldfish_timer {
-   ~~~~~~~^~~~~~~~~~~~~~~~
-   drivers/clocksource/timer-goldfish.c:12:8: note: Excessive padding in 'struct goldfish_timer' (96 padding bytes, where 32 is optimal). Optimal fields order: ced, base, res, cs, consider reordering the fields or adding explicit padding members
-   struct goldfish_timer {
-   ~~~~~~~^~~~~~~~~~~~~~~~
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   drivers/of/base.c:1886:2: warning: Call to function 'strncpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'strncpy_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           strncpy(ap->stem, stem, stem_len);
-           ^~~~~~~
-   drivers/of/base.c:1886:2: note: Call to function 'strncpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'strncpy_s' in case of C11
-           strncpy(ap->stem, stem, stem_len);
-           ^~~~~~~
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   include/linux/log2.h:57:13: warning: The result of the left shift is undefined due to shifting by '64', which is greater or equal to the width of type 'unsigned long' [clang-analyzer-core.UndefinedBinaryOperatorResult]
-           return 1UL << fls_long(n - 1);
-                      ^
-   drivers/iio/buffer/kfifo_buf.c:48:6: note: Assuming field 'update_needed' is not equal to 0
-           if (buf->update_needed) {
+   include/asm-generic/bitops/__ffs.h:27:6: note: Assuming the condition is true
+           if ((word & 0xff) == 0) {
                ^~~~~~~~~~~~~~~~~~
-   drivers/iio/buffer/kfifo_buf.c:48:2: note: Taking true branch
-           if (buf->update_needed) {
+   include/asm-generic/bitops/__ffs.h:27:2: note: Taking true branch
+           if ((word & 0xff) == 0) {
            ^
-   drivers/iio/buffer/kfifo_buf.c:49:3: note: Taking true branch
-                   kfifo_free(&buf->kf);
-                   ^
-   include/linux/kfifo.h:369:2: note: expanded from macro 'kfifo_free'
-           if (__is_kfifo_ptr(__tmp)) \
+   include/asm-generic/bitops/__ffs.h:31:6: note: Assuming the condition is true
+           if ((word & 0xf) == 0) {
+               ^~~~~~~~~~~~~~~~~
+   include/asm-generic/bitops/__ffs.h:31:2: note: Taking true branch
+           if ((word & 0xf) == 0) {
            ^
-   drivers/iio/buffer/kfifo_buf.c:50:9: note: Calling '__iio_allocate_kfifo'
-                   ret = __iio_allocate_kfifo(buf, buf->buffer.bytes_per_datum,
-                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iio/buffer/kfifo_buf.c:28:7: note: Assuming 'length' is not equal to 0
-           if ((length == 0) || (bytes_per_datum == 0))
-                ^~~~~~~~~~~
-   drivers/iio/buffer/kfifo_buf.c:28:6: note: Left side of '||' is false
-           if ((length == 0) || (bytes_per_datum == 0))
-               ^
-   drivers/iio/buffer/kfifo_buf.c:28:24: note: Assuming 'bytes_per_datum' is not equal to 0
-           if ((length == 0) || (bytes_per_datum == 0))
-                                 ^~~~~~~~~~~~~~~~~~~~
-   drivers/iio/buffer/kfifo_buf.c:28:2: note: Taking false branch
-           if ((length == 0) || (bytes_per_datum == 0))
+   include/asm-generic/bitops/__ffs.h:35:6: note: Assuming the condition is true
+           if ((word & 0x3) == 0) {
+               ^~~~~~~~~~~~~~~~~
+   include/asm-generic/bitops/__ffs.h:35:2: note: Taking true branch
+           if ((word & 0x3) == 0) {
            ^
-   drivers/iio/buffer/kfifo_buf.c:35:6: note: '?' condition is false
-           if (roundup_pow_of_two(length) > UINT_MAX / bytes_per_datum)
-               ^
-   include/linux/log2.h:176:2: note: expanded from macro 'roundup_pow_of_two'
-           __builtin_constant_p(n) ? (             \
+   include/asm-generic/bitops/__ffs.h:39:6: note: Assuming the condition is true
+           if ((word & 0x1) == 0)
+               ^~~~~~~~~~~~~~~~~
+   include/asm-generic/bitops/__ffs.h:39:2: note: Taking true branch
+           if ((word & 0x1) == 0)
            ^
-   drivers/iio/buffer/kfifo_buf.c:35:6: note: Calling '__roundup_pow_of_two'
-           if (roundup_pow_of_two(length) > UINT_MAX / bytes_per_datum)
-               ^
-   include/linux/log2.h:180:2: note: expanded from macro 'roundup_pow_of_two'
-           __roundup_pow_of_two(n)                 \
-           ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/log2.h:57:16: note: Calling 'fls_long'
-           return 1UL << fls_long(n - 1);
-                         ^~~~~~~~~~~~~~~
-   include/linux/bitops.h:154:2: note: Taking false branch
-           if (sizeof(l) == 4)
-           ^
-   include/linux/bitops.h:156:9: note: Calling 'fls64'
-           return fls64(l);
-                  ^~~~~~~~
-   include/asm-generic/bitops/fls64.h:29:6: note: Assuming 'x' is not equal to 0
-           if (x == 0)
-               ^~~~~~
-   include/asm-generic/bitops/fls64.h:29:2: note: Taking false branch
-           if (x == 0)
-           ^
-   include/asm-generic/bitops/fls64.h:31:2: note: Returning the value 64
-           return __fls(x) + 1;
-           ^~~~~~~~~~~~~~~~~~~
-   include/linux/bitops.h:156:9: note: Returning from 'fls64'
-           return fls64(l);
-                  ^~~~~~~~
-   include/linux/bitops.h:156:2: note: Returning the value 64
-           return fls64(l);
-           ^~~~~~~~~~~~~~~
-   include/linux/log2.h:57:16: note: Returning from 'fls_long'
-           return 1UL << fls_long(n - 1);
-                         ^~~~~~~~~~~~~~~
-   include/linux/log2.h:57:13: note: The result of the left shift is undefined due to shifting by '64', which is greater or equal to the width of type 'unsigned long'
-           return 1UL << fls_long(n - 1);
-                      ^  ~~~~~~~~~~~~~~~
-   Suppressed 7 warnings (7 in non-user code).
+   include/asm-generic/bitops/__ffs.h:40:3: note: The value 63 is assigned to 'num'
+                   num += 1;
+                   ^~~~~~~~
+   include/asm-generic/bitops/__ffs.h:41:2: note: Returning the value 63 (loaded from 'num')
+           return num;
+           ^~~~~~~~~~
+   drivers/gpu/drm/nouveau/nvkm/core/event.c:43:14: note: Returning from '__ffs'
+                   int type = __ffs(types); types &= ~(1 << type);
+                              ^~~~~~~~~~~~
+   drivers/gpu/drm/nouveau/nvkm/core/event.c:43:3: note: 'type' initialized to 63
+                   int type = __ffs(types); types &= ~(1 << type);
+                   ^~~~~~~~
+   drivers/gpu/drm/nouveau/nvkm/core/event.c:43:41: note: The result of the left shift is undefined due to shifting by '63', which is greater or equal to the width of type 'int'
+                   int type = __ffs(types); types &= ~(1 << type);
+                                                         ^  ~~~~
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   drivers/pci/ecam.c:129:15: warning: Value stored to 'bsz' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           unsigned int bsz = 1 << cfg->bus_shift;
+                        ^~~   ~~~~~~~~~~~~~~~~~~~
+   drivers/pci/ecam.c:129:15: note: Value stored to 'bsz' during its initialization is never read
+           unsigned int bsz = 1 << cfg->bus_shift;
+                        ^~~   ~~~~~~~~~~~~~~~~~~~
+   drivers/pci/ecam.c:130:15: warning: Value stored to 'busn' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           unsigned int busn = bus->number;
+                        ^~~~   ~~~~~~~~~~~
+   drivers/pci/ecam.c:130:15: note: Value stored to 'busn' during its initialization is never read
+           unsigned int busn = bus->number;
+                        ^~~~   ~~~~~~~~~~~
+   drivers/pci/ecam.c:151:28: warning: Value stored to 'cfg' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct pci_config_window *cfg = bus->sysdata;
+                                     ^~~   ~~~~~~~~~~~~
+   drivers/pci/ecam.c:151:28: note: Value stored to 'cfg' during its initialization is never read
+           struct pci_config_window *cfg = bus->sysdata;
+                                     ^~~   ~~~~~~~~~~~~
+   drivers/pci/ecam.c:152:15: warning: Value stored to 'busn' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           unsigned int busn = bus->number;
+                        ^~~~   ~~~~~~~~~~~
+   drivers/pci/ecam.c:152:15: note: Value stored to 'busn' during its initialization is never read
+           unsigned int busn = bus->number;
+                        ^~~~   ~~~~~~~~~~~
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   5 warnings generated.
+>> drivers/pci/vgaarb.c:235:17: warning: Value stored to 'dev' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct device *dev = &vgadev->pdev->dev;
+                          ^~~   ~~~~~~~~~~~~~~~~~~
+   drivers/pci/vgaarb.c:235:17: note: Value stored to 'dev' during its initialization is never read
+           struct device *dev = &vgadev->pdev->dev;
+                          ^~~   ~~~~~~~~~~~~~~~~~~
+   drivers/pci/vgaarb.c:373:17: warning: Value stored to 'dev' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct device *dev = &vgadev->pdev->dev;
+                          ^~~   ~~~~~~~~~~~~~~~~~~
+   drivers/pci/vgaarb.c:373:17: note: Value stored to 'dev' during its initialization is never read
+           struct device *dev = &vgadev->pdev->dev;
+                          ^~~   ~~~~~~~~~~~~~~~~~~
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   drivers/pinctrl/bcm/pinctrl-nsp-mux.c:135:8: warning: Excessive padding in 'struct nsp_pin' (8 padding bytes, where 0 is optimal). Optimal fields order: name, pin, gpio_select, consider reordering the fields or adding explicit padding members [clang-analyzer-optin.performance.Padding]
+   struct nsp_pin {
+   ~~~~~~~^~~~~~~~~
+   drivers/pinctrl/bcm/pinctrl-nsp-mux.c:135:8: note: Excessive padding in 'struct nsp_pin' (8 padding bytes, where 0 is optimal). Optimal fields order: name, pin, gpio_select, consider reordering the fields or adding explicit padding members
+   struct nsp_pin {
+   ~~~~~~~^~~~~~~~~
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (4 in non-user code, 1 with check filters).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (4 in non-user code, 1 with check filters).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
    Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
 
-vim +164 drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c
+vim +/dev +235 drivers/pci/vgaarb.c
 
-667e9985ee24ca Dmitry Baryshkov  2021-05-16  146  
-a73033619ea904 Dmitry Baryshkov  2021-06-18  147  /**
-a73033619ea904 Dmitry Baryshkov  2021-06-18  148   * dpu_core_irq_callback_handler - dispatch core interrupts
-07567d596eb0ad Vinod Koul        2022-02-10  149   * @dpu_kms:		Pointer to DPU's KMS structure
-a73033619ea904 Dmitry Baryshkov  2021-06-18  150   * @irq_idx:		interrupt index
-a73033619ea904 Dmitry Baryshkov  2021-06-18  151   */
-a73033619ea904 Dmitry Baryshkov  2021-06-18  152  static void dpu_core_irq_callback_handler(struct dpu_kms *dpu_kms, int irq_idx)
-25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  153  {
-a73033619ea904 Dmitry Baryshkov  2021-06-18  154  	VERB("irq_idx=%d\n", irq_idx);
-a73033619ea904 Dmitry Baryshkov  2021-06-18  155  
-c929ac60b3ed34 Dmitry Baryshkov  2022-02-17  156  	if (!dpu_kms->hw_intr->irq_tbl[irq_idx].cb)
-a73033619ea904 Dmitry Baryshkov  2021-06-18  157  		DRM_ERROR("no registered cb, idx:%d\n", irq_idx);
-a73033619ea904 Dmitry Baryshkov  2021-06-18  158  
-c929ac60b3ed34 Dmitry Baryshkov  2022-02-17  159  	atomic_inc(&dpu_kms->hw_intr->irq_tbl[irq_idx].count);
-a73033619ea904 Dmitry Baryshkov  2021-06-18  160  
-a73033619ea904 Dmitry Baryshkov  2021-06-18  161  	/*
-a73033619ea904 Dmitry Baryshkov  2021-06-18  162  	 * Perform registered function callback
-a73033619ea904 Dmitry Baryshkov  2021-06-18  163  	 */
-c929ac60b3ed34 Dmitry Baryshkov  2022-02-17 @164  	dpu_kms->hw_intr->irq_tbl[irq_idx].cb(dpu_kms->hw_intr->irq_tbl[irq_idx].arg, irq_idx);
-a73033619ea904 Dmitry Baryshkov  2021-06-18  165  }
-a73033619ea904 Dmitry Baryshkov  2021-06-18  166  
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  231  
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  232  static struct vga_device *__vga_tryget(struct vga_device *vgadev,
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  233  				       unsigned int rsrc)
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  234  {
+a75d68f62106fe drivers/gpu/vga/vgaarb.c Bjorn Helgaas          2016-11-17 @235  	struct device *dev = &vgadev->pdev->dev;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  236  	unsigned int wants, legacy_wants, match;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  237  	struct vga_device *conflict;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  238  	unsigned int pci_bits;
+3448a19da479b6 drivers/gpu/vga/vgaarb.c Dave Airlie            2010-06-01  239  	u32 flags = 0;
+3448a19da479b6 drivers/gpu/vga/vgaarb.c Dave Airlie            2010-06-01  240  
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  241  	/* Account for "normal" resources to lock. If we decode the legacy,
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  242  	 * counterpart, we need to request it as well
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  243  	 */
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  244  	if ((rsrc & VGA_RSRC_NORMAL_IO) &&
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  245  	    (vgadev->decodes & VGA_RSRC_LEGACY_IO))
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  246  		rsrc |= VGA_RSRC_LEGACY_IO;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  247  	if ((rsrc & VGA_RSRC_NORMAL_MEM) &&
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  248  	    (vgadev->decodes & VGA_RSRC_LEGACY_MEM))
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  249  		rsrc |= VGA_RSRC_LEGACY_MEM;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  250  
+a75d68f62106fe drivers/gpu/vga/vgaarb.c Bjorn Helgaas          2016-11-17  251  	vgaarb_dbg(dev, "%s: %d\n", __func__, rsrc);
+a75d68f62106fe drivers/gpu/vga/vgaarb.c Bjorn Helgaas          2016-11-17  252  	vgaarb_dbg(dev, "%s: owns: %d\n", __func__, vgadev->owns);
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  253  
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  254  	/* Check what resources we need to acquire */
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  255  	wants = rsrc & ~vgadev->owns;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  256  
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  257  	/* We already own everything, just mark locked & bye bye */
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  258  	if (wants == 0)
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  259  		goto lock_them;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  260  
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  261  	/* We don't need to request a legacy resource, we just enable
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  262  	 * appropriate decoding and go
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  263  	 */
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  264  	legacy_wants = wants & VGA_RSRC_LEGACY_MASK;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  265  	if (legacy_wants == 0)
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  266  		goto enable_them;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  267  
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  268  	/* Ok, we don't, let's find out how we need to kick off */
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  269  	list_for_each_entry(conflict, &vga_list, list) {
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  270  		unsigned int lwants = legacy_wants;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  271  		unsigned int change_bridge = 0;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  272  
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  273  		/* Don't conflict with myself */
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  274  		if (vgadev == conflict)
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  275  			continue;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  276  
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  277  		/* We have a possible conflict. before we go further, we must
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  278  		 * check if we sit on the same bus as the conflicting device.
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  279  		 * if we don't, then we must tie both IO and MEM resources
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  280  		 * together since there is only a single bit controlling
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  281  		 * VGA forwarding on P2P bridges
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  282  		 */
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  283  		if (vgadev->pdev->bus != conflict->pdev->bus) {
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  284  			change_bridge = 1;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  285  			lwants = VGA_RSRC_LEGACY_IO | VGA_RSRC_LEGACY_MEM;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  286  		}
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  287  
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  288  		/* Check if the guy has a lock on the resource. If he does,
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  289  		 * return the conflicting entry
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  290  		 */
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  291  		if (conflict->locks & lwants)
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  292  			return conflict;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  293  
+4e4e7dc55af5aa drivers/gpu/vga/vgaarb.c Alex Williamson        2014-07-03  294  		/* Ok, now check if it owns the resource we want.  We can
+4e4e7dc55af5aa drivers/gpu/vga/vgaarb.c Alex Williamson        2014-07-03  295  		 * lock resources that are not decoded, therefore a device
+4e4e7dc55af5aa drivers/gpu/vga/vgaarb.c Alex Williamson        2014-07-03  296  		 * can own resources it doesn't decode.
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  297  		 */
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  298  		match = lwants & conflict->owns;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  299  		if (!match)
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  300  			continue;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  301  
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  302  		/* looks like he doesn't have a lock, we can steal
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  303  		 * them from him
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  304  		 */
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  305  
+3448a19da479b6 drivers/gpu/vga/vgaarb.c Dave Airlie            2010-06-01  306  		flags = 0;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  307  		pci_bits = 0;
+3448a19da479b6 drivers/gpu/vga/vgaarb.c Dave Airlie            2010-06-01  308  
+4e4e7dc55af5aa drivers/gpu/vga/vgaarb.c Alex Williamson        2014-07-03  309  		/* If we can't control legacy resources via the bridge, we
+4e4e7dc55af5aa drivers/gpu/vga/vgaarb.c Alex Williamson        2014-07-03  310  		 * also need to disable normal decoding.
+4e4e7dc55af5aa drivers/gpu/vga/vgaarb.c Alex Williamson        2014-07-03  311  		 */
+3448a19da479b6 drivers/gpu/vga/vgaarb.c Dave Airlie            2010-06-01  312  		if (!conflict->bridge_has_one_vga) {
+4e4e7dc55af5aa drivers/gpu/vga/vgaarb.c Alex Williamson        2014-07-03  313  			if ((match & conflict->decodes) & VGA_RSRC_LEGACY_MEM)
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  314  				pci_bits |= PCI_COMMAND_MEMORY;
+4e4e7dc55af5aa drivers/gpu/vga/vgaarb.c Alex Williamson        2014-07-03  315  			if ((match & conflict->decodes) & VGA_RSRC_LEGACY_IO)
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  316  				pci_bits |= PCI_COMMAND_IO;
+4e4e7dc55af5aa drivers/gpu/vga/vgaarb.c Alex Williamson        2014-07-03  317  
+f6b1772b255504 drivers/gpu/vga/vgaarb.c Christoph Hellwig      2021-07-16  318  			if (pci_bits)
+4e4e7dc55af5aa drivers/gpu/vga/vgaarb.c Alex Williamson        2014-07-03  319  				flags |= PCI_VGA_STATE_CHANGE_DECODES;
+4e4e7dc55af5aa drivers/gpu/vga/vgaarb.c Alex Williamson        2014-07-03  320  		}
+3448a19da479b6 drivers/gpu/vga/vgaarb.c Dave Airlie            2010-06-01  321  
+3448a19da479b6 drivers/gpu/vga/vgaarb.c Dave Airlie            2010-06-01  322  		if (change_bridge)
+3448a19da479b6 drivers/gpu/vga/vgaarb.c Dave Airlie            2010-06-01  323  			flags |= PCI_VGA_STATE_CHANGE_BRIDGE;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  324  
+3448a19da479b6 drivers/gpu/vga/vgaarb.c Dave Airlie            2010-06-01  325  		pci_set_vga_state(conflict->pdev, false, pci_bits, flags);
+f22d776f3e280e drivers/gpu/vga/vgaarb.c Alex Williamson        2013-08-15  326  		conflict->owns &= ~match;
+4e4e7dc55af5aa drivers/gpu/vga/vgaarb.c Alex Williamson        2014-07-03  327  
+4e4e7dc55af5aa drivers/gpu/vga/vgaarb.c Alex Williamson        2014-07-03  328  		/* If we disabled normal decoding, reflect it in owns */
+4e4e7dc55af5aa drivers/gpu/vga/vgaarb.c Alex Williamson        2014-07-03  329  		if (pci_bits & PCI_COMMAND_MEMORY)
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  330  			conflict->owns &= ~VGA_RSRC_NORMAL_MEM;
+4e4e7dc55af5aa drivers/gpu/vga/vgaarb.c Alex Williamson        2014-07-03  331  		if (pci_bits & PCI_COMMAND_IO)
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  332  			conflict->owns &= ~VGA_RSRC_NORMAL_IO;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  333  	}
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  334  
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  335  enable_them:
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  336  	/* ok dude, we got it, everybody conflicting has been disabled, let's
+4e4e7dc55af5aa drivers/gpu/vga/vgaarb.c Alex Williamson        2014-07-03  337  	 * enable us.  Mark any bits in "owns" regardless of whether we
+4e4e7dc55af5aa drivers/gpu/vga/vgaarb.c Alex Williamson        2014-07-03  338  	 * decoded them.  We can lock resources we don't decode, therefore
+4e4e7dc55af5aa drivers/gpu/vga/vgaarb.c Alex Williamson        2014-07-03  339  	 * we must track them via "owns".
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  340  	 */
+3448a19da479b6 drivers/gpu/vga/vgaarb.c Dave Airlie            2010-06-01  341  	flags = 0;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  342  	pci_bits = 0;
+3448a19da479b6 drivers/gpu/vga/vgaarb.c Dave Airlie            2010-06-01  343  
+3448a19da479b6 drivers/gpu/vga/vgaarb.c Dave Airlie            2010-06-01  344  	if (!vgadev->bridge_has_one_vga) {
+3448a19da479b6 drivers/gpu/vga/vgaarb.c Dave Airlie            2010-06-01  345  		flags |= PCI_VGA_STATE_CHANGE_DECODES;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  346  		if (wants & (VGA_RSRC_LEGACY_MEM|VGA_RSRC_NORMAL_MEM))
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  347  			pci_bits |= PCI_COMMAND_MEMORY;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  348  		if (wants & (VGA_RSRC_LEGACY_IO|VGA_RSRC_NORMAL_IO))
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  349  			pci_bits |= PCI_COMMAND_IO;
+3448a19da479b6 drivers/gpu/vga/vgaarb.c Dave Airlie            2010-06-01  350  	}
+4e4e7dc55af5aa drivers/gpu/vga/vgaarb.c Alex Williamson        2014-07-03  351  	if (wants & VGA_RSRC_LEGACY_MASK)
+3448a19da479b6 drivers/gpu/vga/vgaarb.c Dave Airlie            2010-06-01  352  		flags |= PCI_VGA_STATE_CHANGE_BRIDGE;
+3448a19da479b6 drivers/gpu/vga/vgaarb.c Dave Airlie            2010-06-01  353  
+3448a19da479b6 drivers/gpu/vga/vgaarb.c Dave Airlie            2010-06-01  354  	pci_set_vga_state(vgadev->pdev, true, pci_bits, flags);
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  355  
+4e4e7dc55af5aa drivers/gpu/vga/vgaarb.c Alex Williamson        2014-07-03  356  	vgadev->owns |= wants;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  357  lock_them:
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  358  	vgadev->locks |= (rsrc & VGA_RSRC_LEGACY_MASK);
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  359  	if (rsrc & VGA_RSRC_LEGACY_IO)
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  360  		vgadev->io_lock_cnt++;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  361  	if (rsrc & VGA_RSRC_LEGACY_MEM)
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  362  		vgadev->mem_lock_cnt++;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  363  	if (rsrc & VGA_RSRC_NORMAL_IO)
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  364  		vgadev->io_norm_cnt++;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  365  	if (rsrc & VGA_RSRC_NORMAL_MEM)
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  366  		vgadev->mem_norm_cnt++;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  367  
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  368  	return NULL;
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  369  }
+deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  370  
 
-:::::: The code at line 164 was first introduced by commit
-:::::: c929ac60b3ed34accd25a052a4833e418900f466 drm/msm/dpu: allow just single IRQ callback
+:::::: The code at line 235 was first introduced by commit
+:::::: a75d68f62106fe66c4b8b96c0ee7155bdafc6f06 vgaarb: Use dev_printk() when possible
 
-:::::: TO: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-:::::: CC: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+:::::: TO: Bjorn Helgaas <bhelgaas@google.com>
+:::::: CC: Daniel Vetter <daniel.vetter@ffwll.ch>
 
 -- 
 0-DAY CI Kernel Test Service
