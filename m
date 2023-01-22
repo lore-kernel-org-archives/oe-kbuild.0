@@ -1,42 +1,42 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56D8A365
-	for <oe-kbuild@lists.linux.dev>; Sun, 22 Jan 2023 00:10:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 890107E
+	for <oe-kbuild@lists.linux.dev>; Sun, 22 Jan 2023 00:41:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674346257; x=1705882257;
+  t=1674348119; x=1705884119;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=jRnj735wTh4Xv47YMo90baRFc5V6xc8dpborL6Njx3M=;
-  b=R7hk1McLhxhrXHt19lLexCsrxkIIq6t6R1kAx6WO/P79HgsWOAmQYMKi
-   O/+BD2j1pMUTKeAC98QbxdZIZ56hfxls24k8N12kudo/7Mn42CiyNDfd0
-   79B7P6PMnLjERg7Ql262/sfmgprVjNliGNiFrCF+qe+1bhK9nY89hbBpA
-   /DRCWW1k2zT0T797tQu+7I8EaSAu4QNfKSiz+f/2E01cLKz+2juTIzi4x
-   6245yVCcONu9c/Zd1jEF0UvHGUxmLFq8kyNxGmcUCyyIjBtRowedRBBVI
-   sp59g93AonDUJ2OjkE+VlHC+coohL3y6THeXBLLIGyAhZzs2TP4wE9AtX
+  bh=H4VJkGSoqvXPMEjkBN31U2J3PGg/BMhvd6VCxrPrCXQ=;
+  b=oJ+Gh8TWRgAQ9cgK8/kujrGkRYwqLnhH3FDP6MQs0NbnzS6Ad5geANe8
+   aTvD2JtFS8gaA27ShJSVAzK1B58I6eIw68m1l4C/vXV7KzXvoS4FTNXs+
+   r3mOqVZlj7nam075rkrJ9FrShaz+s6uUeDNm0BgkmgkF+72rT6BwpJveI
+   n5YODFektugfhvmiSle562Vbj3X6FOruhBtkdy/QI3VH6ZwnSUXbTxA4G
+   rpN7JoJB491L/OcPyPkill0WUaTHgTKgsANfnqeyi844w/UHmVWKMbjym
+   GLXOqHKk5TYZtC86NLsWce40jPX7WXgoTGEi8piha+dAPqgy28He0H6ks
    Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10597"; a="327939893"
+X-IronPort-AV: E=McAfee;i="6500,9779,10597"; a="324540489"
 X-IronPort-AV: E=Sophos;i="5.97,235,1669104000"; 
-   d="scan'208";a="327939893"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2023 16:10:56 -0800
+   d="scan'208";a="324540489"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2023 16:41:58 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10597"; a="661007419"
+X-IronPort-AV: E=McAfee;i="6500,9779,10597"; a="729539328"
 X-IronPort-AV: E=Sophos;i="5.97,235,1669104000"; 
-   d="scan'208";a="661007419"
+   d="scan'208";a="729539328"
 Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 21 Jan 2023 16:10:55 -0800
+  by fmsmga004.fm.intel.com with ESMTP; 21 Jan 2023 16:41:57 -0800
 Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pJNwk-0004b4-0x;
-	Sun, 22 Jan 2023 00:10:54 +0000
-Date: Sun, 22 Jan 2023 08:10:44 +0800
+	id 1pJOQm-0004c4-2c;
+	Sun, 22 Jan 2023 00:41:56 +0000
+Date: Sun, 22 Jan 2023 08:41:49 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: drivers/pci/vgaarb.c:235:17: warning: Value stored to 'dev' during
- its initialization is never read [clang-analyzer-deadcode.DeadStores]
-Message-ID: <202301220831.ENizXFlq-lkp@intel.com>
+Subject: drivers/mtd/ubi/eba.c:848:9: warning: use of NULL 'buf' where
+ non-null expected [CWE-476]
+Message-ID: <202301220809.Z83VshLt-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -47,390 +47,349 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "low confidence static check warning: drivers/pci/vgaarb.c:235:17: warning: Value stored to 'dev' during its initialization is never read [clang-analyzer-deadcode.DeadStores]"
+:::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "low confidence static check first_new_problem: drivers/mtd/ubi/eba.c:848:9: warning: use of NULL 'buf' where non-null expected [CWE-476] [-Wanalyzer-null-argument]"
 :::::: 
 
 BCC: lkp@intel.com
-CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Bjorn Helgaas <helgaas@kernel.org>
+TO: Christophe Leroy <christophe.leroy@csgroup.eu>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   f67144022885344375ad03593e7a290cc614da34
-commit: 1d38fe6ee6a874675ca3bba6b48e69a0e6176ffc PCI/VGA: Move vgaarb to drivers/pci
-date:   11 months ago
+commit: f334f5668bedf7307f6df1d98b14f55902931926 ilog2: force inlining of __ilog2_u32() and __ilog2_u64()
+date:   10 months ago
 :::::: branch date: 5 hours ago
-:::::: commit date: 11 months ago
-config: riscv-randconfig-c006-20230119 (https://download.01.org/0day-ci/archive/20230122/202301220831.ENizXFlq-lkp@intel.com/config)
-compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 4196ca3278f78c6e19246e54ab0ecb364e37d66a)
+:::::: commit date: 10 months ago
+config: arm-randconfig-c002-20230118 (https://download.01.org/0day-ci/archive/20230122/202301220809.Z83VshLt-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=1d38fe6ee6a874675ca3bba6b48e69a0e6176ffc
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=f334f5668bedf7307f6df1d98b14f55902931926
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout 1d38fe6ee6a874675ca3bba6b48e69a0e6176ffc
+        git checkout f334f5668bedf7307f6df1d98b14f55902931926
         # save the config file
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=riscv clang-analyzer  olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=riscv clang-analyzer 
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross ARCH=arm KBUILD_USERCFLAGS='-fanalyzer -Wno-error'  olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross ARCH=arm KBUILD_USERCFLAGS='-fanalyzer -Wno-error' 
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-clang_analyzer warnings: (new ones prefixed by >>)
-           ^
-   include/linux/spinlock.h:450:34: note: expanded from macro 'assert_spin_locked'
-   #define assert_spin_locked(lock)        assert_raw_spin_locked(&(lock)->rlock)
-                                           ^
-   include/linux/spinlock_api_smp.h:20:35: note: expanded from macro 'assert_raw_spin_locked'
-   #define assert_raw_spin_locked(x)       BUG_ON(!raw_spin_is_locked(x))
-                                           ^
-   include/asm-generic/bug.h:65:27: note: expanded from macro 'BUG_ON'
-   #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (0)
-                             ^
-   drivers/gpu/drm/nouveau/nvkm/core/event.c:42:2: note: Loop condition is true.  Entering loop body
-           while (types) {
-           ^
-   drivers/gpu/drm/nouveau/nvkm/core/event.c:43:14: note: Calling '__ffs'
-                   int type = __ffs(types); types &= ~(1 << type);
-                              ^~~~~~~~~~~~
-   include/asm-generic/bitops/__ffs.h:18:6: note: Assuming the condition is true
-           if ((word & 0xffffffff) == 0) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/__ffs.h:18:2: note: Taking true branch
-           if ((word & 0xffffffff) == 0) {
-           ^
-   include/asm-generic/bitops/__ffs.h:23:6: note: Assuming the condition is true
-           if ((word & 0xffff) == 0) {
-               ^~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/__ffs.h:23:2: note: Taking true branch
-           if ((word & 0xffff) == 0) {
-           ^
-   include/asm-generic/bitops/__ffs.h:27:6: note: Assuming the condition is true
-           if ((word & 0xff) == 0) {
-               ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/__ffs.h:27:2: note: Taking true branch
-           if ((word & 0xff) == 0) {
-           ^
-   include/asm-generic/bitops/__ffs.h:31:6: note: Assuming the condition is true
-           if ((word & 0xf) == 0) {
-               ^~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/__ffs.h:31:2: note: Taking true branch
-           if ((word & 0xf) == 0) {
-           ^
-   include/asm-generic/bitops/__ffs.h:35:6: note: Assuming the condition is true
-           if ((word & 0x3) == 0) {
-               ^~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/__ffs.h:35:2: note: Taking true branch
-           if ((word & 0x3) == 0) {
-           ^
-   include/asm-generic/bitops/__ffs.h:39:6: note: Assuming the condition is true
-           if ((word & 0x1) == 0)
-               ^~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/__ffs.h:39:2: note: Taking true branch
-           if ((word & 0x1) == 0)
-           ^
-   include/asm-generic/bitops/__ffs.h:40:3: note: The value 63 is assigned to 'num'
-                   num += 1;
-                   ^~~~~~~~
-   include/asm-generic/bitops/__ffs.h:41:2: note: Returning the value 63 (loaded from 'num')
-           return num;
-           ^~~~~~~~~~
-   drivers/gpu/drm/nouveau/nvkm/core/event.c:43:14: note: Returning from '__ffs'
-                   int type = __ffs(types); types &= ~(1 << type);
-                              ^~~~~~~~~~~~
-   drivers/gpu/drm/nouveau/nvkm/core/event.c:43:3: note: 'type' initialized to 63
-                   int type = __ffs(types); types &= ~(1 << type);
-                   ^~~~~~~~
-   drivers/gpu/drm/nouveau/nvkm/core/event.c:43:41: note: The result of the left shift is undefined due to shifting by '63', which is greater or equal to the width of type 'int'
-                   int type = __ffs(types); types &= ~(1 << type);
-                                                         ^  ~~~~
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   drivers/pci/ecam.c:129:15: warning: Value stored to 'bsz' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           unsigned int bsz = 1 << cfg->bus_shift;
-                        ^~~   ~~~~~~~~~~~~~~~~~~~
-   drivers/pci/ecam.c:129:15: note: Value stored to 'bsz' during its initialization is never read
-           unsigned int bsz = 1 << cfg->bus_shift;
-                        ^~~   ~~~~~~~~~~~~~~~~~~~
-   drivers/pci/ecam.c:130:15: warning: Value stored to 'busn' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           unsigned int busn = bus->number;
-                        ^~~~   ~~~~~~~~~~~
-   drivers/pci/ecam.c:130:15: note: Value stored to 'busn' during its initialization is never read
-           unsigned int busn = bus->number;
-                        ^~~~   ~~~~~~~~~~~
-   drivers/pci/ecam.c:151:28: warning: Value stored to 'cfg' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct pci_config_window *cfg = bus->sysdata;
-                                     ^~~   ~~~~~~~~~~~~
-   drivers/pci/ecam.c:151:28: note: Value stored to 'cfg' during its initialization is never read
-           struct pci_config_window *cfg = bus->sysdata;
-                                     ^~~   ~~~~~~~~~~~~
-   drivers/pci/ecam.c:152:15: warning: Value stored to 'busn' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           unsigned int busn = bus->number;
-                        ^~~~   ~~~~~~~~~~~
-   drivers/pci/ecam.c:152:15: note: Value stored to 'busn' during its initialization is never read
-           unsigned int busn = bus->number;
-                        ^~~~   ~~~~~~~~~~~
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   5 warnings generated.
->> drivers/pci/vgaarb.c:235:17: warning: Value stored to 'dev' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct device *dev = &vgadev->pdev->dev;
-                          ^~~   ~~~~~~~~~~~~~~~~~~
-   drivers/pci/vgaarb.c:235:17: note: Value stored to 'dev' during its initialization is never read
-           struct device *dev = &vgadev->pdev->dev;
-                          ^~~   ~~~~~~~~~~~~~~~~~~
-   drivers/pci/vgaarb.c:373:17: warning: Value stored to 'dev' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct device *dev = &vgadev->pdev->dev;
-                          ^~~   ~~~~~~~~~~~~~~~~~~
-   drivers/pci/vgaarb.c:373:17: note: Value stored to 'dev' during its initialization is never read
-           struct device *dev = &vgadev->pdev->dev;
-                          ^~~   ~~~~~~~~~~~~~~~~~~
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   drivers/pinctrl/bcm/pinctrl-nsp-mux.c:135:8: warning: Excessive padding in 'struct nsp_pin' (8 padding bytes, where 0 is optimal). Optimal fields order: name, pin, gpio_select, consider reordering the fields or adding explicit padding members [clang-analyzer-optin.performance.Padding]
-   struct nsp_pin {
-   ~~~~~~~^~~~~~~~~
-   drivers/pinctrl/bcm/pinctrl-nsp-mux.c:135:8: note: Excessive padding in 'struct nsp_pin' (8 padding bytes, where 0 is optimal). Optimal fields order: name, pin, gpio_select, consider reordering the fields or adding explicit padding members
-   struct nsp_pin {
-   ~~~~~~~^~~~~~~~~
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (4 in non-user code, 1 with check filters).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (4 in non-user code, 1 with check filters).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+gcc_analyzer warnings: (new ones prefixed by >>)
+                            |      |                 |
+                            |      |                 (17) ...to here
+                            |
+                     <------+
+                     |
+                   'leb_write_lock': events 18-19
+                     |
+                     |  365 |         le = ltree_add_entry(ubi, vol_id, lnum);
+                     |      |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                     |      |              |
+                     |      |              (18) returning to 'leb_write_lock' from 'ltree_add_entry'
+                     |  366 |         if (IS_ERR(le))
+                     |      |            ~  
+                     |      |            |
+                     |      |            (19) following 'true' branch...
+                     |
+                   'leb_write_lock': event 20
+                     |
+                     |include/linux/err.h:31:16:
+                     |   31 |         return (long) ptr;
+                     |      |                ^~~~~~~~~~
+                     |      |                |
+                     |      |                (20) ...to here
+                     |
+              <------+
+              |
+            'ubi_eba_unmap_leb': events 21-26
+              |
+              |drivers/mtd/ubi/eba.c:458:15:
+              |  458 |         err = leb_write_lock(ubi, vol_id, lnum);
+              |      |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |               |
+              |      |               (21) returning to 'ubi_eba_unmap_leb' from 'leb_write_lock'
+              |  459 |         if (err)
+              |      |            ~   
+              |      |            |
+              |      |            (22) following 'false' branch (when 'err == 0')...
+              |......
+              |  462 |         pnum = vol->eba_tbl->entries[lnum].pnum;
+              |      |                ~~~~~~~~~~~~
+              |      |                   |
+              |      |                   (23) ...to here
+              |  463 |         if (pnum < 0)
+              |      |            ~   
+              |      |            |
+              |      |            (24) following 'false' branch (when 'pnum >= 0')...
+              |......
+              |  469 |         down_read(&ubi->fm_eba_sem);
+              |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |         |
+              |      |         (25) ...to here
+              |......
+              |  475 |         leb_write_unlock(ubi, vol_id, lnum);
+              |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |         |
+              |      |         (26) calling 'leb_write_unlock' from 'ubi_eba_unmap_leb'
+              |
+              +--> 'leb_write_unlock': events 27-28
+                     |
+                     |  412 | static void leb_write_unlock(struct ubi_device *ubi, int vol_id, int lnum)
+                     |      |             ^~~~~~~~~~~~~~~~
+                     |      |             |
+                     |      |             (27) entry to 'leb_write_unlock'
+                     |......
+                     |  417 |         le = ltree_lookup(ubi, vol_id, lnum);
+                     |      |              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                     |      |              |
+                     |      |              (28) calling 'ltree_lookup' from 'leb_write_unlock'
+                     |
+                     +--> 'ltree_lookup': events 29-30
+                            |
+                            |  210 | static struct ubi_ltree_entry *ltree_lookup(struct ubi_device *ubi, int vol_id,
+                            |      |                                ^~~~~~~~~~~~
+                            |      |                                |
+                            |      |                                (29) entry to 'ltree_lookup'
+                            |......
+                            |  216 |         while (p) {
+                            |      |                ~                
+                            |      |                |
+                            |      |                (30) following 'false' branch (when 'p' is NULL)...
+                            |
+                          'ltree_lookup': event 31
+                            |
+                            |cc1:
+                            | (31): ...to here
+                            |
+                     <------+
+                     |
+                   'leb_write_unlock': events 32-33
+                     |
+                     |  417 |         le = ltree_lookup(ubi, vol_id, lnum);
+                     |      |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                     |      |              |
+                     |      |              (32) return of NULL to 'leb_write_unlock' from 'ltree_lookup'
+                     |  418 |         le->users -= 1;
+                     |      |         ~~~~~~~~~
+                     |      |           |
+                     |      |           (33) dereference of NULL 'le'
+                     |
+   drivers/mtd/ubi/eba.c: In function 'try_recover_peb':
+>> drivers/mtd/ubi/eba.c:848:9: warning: use of NULL 'buf' where non-null expected [CWE-476] [-Wanalyzer-null-argument]
+     848 |         memcpy(ubi->peb_buf + offset, buf, len);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     'ubi_eba_atomic_leb_change': events 1-6
+       |
+       | 1188 | int ubi_eba_atomic_leb_change(struct ubi_device *ubi, struct ubi_volume *vol,
+       |      |     ^~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |     |
+       |      |     (1) entry to 'ubi_eba_atomic_leb_change'
+       |......
+       | 1196 |         if (ubi->ro_mode)
+       |      |            ~
+       |      |            |
+       |      |            (2) following 'false' branch...
+       |......
+       | 1199 |         if (len == 0) {
+       |      |            ~
+       |      |            |
+       |      |            (3) ...to here
+       |      |            (4) following 'true' branch (when 'len == 0')...
+       |......
+       | 1204 |                 err = ubi_eba_unmap_leb(ubi, vol, lnum);
+       |      |                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |                       |
+       |      |                       (5) ...to here
+       |      |                       (6) calling 'ubi_eba_unmap_leb' from 'ubi_eba_atomic_leb_change'
+       |
+       +--> 'ubi_eba_unmap_leb': events 7-10
+              |
+              |  450 | int ubi_eba_unmap_leb(struct ubi_device *ubi, struct ubi_volume *vol,
+              |      |     ^~~~~~~~~~~~~~~~~
+              |      |     |
+              |      |     (7) entry to 'ubi_eba_unmap_leb'
+              |......
+              |  455 |         if (ubi->ro_mode)
+              |      |            ~
+              |      |            |
+              |      |            (8) following 'false' branch...
+              |......
+              |  458 |         err = leb_write_lock(ubi, vol_id, lnum);
+              |      |               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |               |
+              |      |               (9) ...to here
+              |      |               (10) calling 'leb_write_lock' from 'ubi_eba_unmap_leb'
+              |
+              +--> 'leb_write_lock': events 11-12
+                     |
+                     |  361 | static int leb_write_lock(struct ubi_device *ubi, int vol_id, int lnum)
+                     |      |            ^~~~~~~~~~~~~~
+                     |      |            |
+                     |      |            (11) entry to 'leb_write_lock'
+                     |......
+                     |  365 |         le = ltree_add_entry(ubi, vol_id, lnum);
+                     |      |              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                     |      |              |
+                     |      |              (12) calling 'ltree_add_entry' from 'leb_write_lock'
+                     |
+                     +--> 'ltree_add_entry': events 13-17
+                            |
+                            |  249 | static struct ubi_ltree_entry *ltree_add_entry(struct ubi_device *ubi,
+                            |      |                                ^~~~~~~~~~~~~~~
+                            |      |                                |
+                            |      |                                (13) entry to 'ltree_add_entry'
+                            |......
+                            |  266 |         if (le1) {
+                            |      |            ~                    
+                            |      |            |
+                            |      |            (14) following 'false' branch (when 'le1' is NULL)...
+                            |......
+                            |  282 |                 p = &ubi->ltree.rb_node;
+                            |      |                 ~~~~~~~~~~~~~~~~~~~~~~~
+                            |      |                   |
+                            |      |                   (15) ...to here
+                            |  283 |                 while (*p) {
+                            |      |                        ~        
+                            |      |                        |
+                            |      |                        (16) following 'false' branch...
+                            |......
+                            |  300 |                 rb_link_node(&le->rb, parent, p);
+                            |      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                            |      |                 |
+                            |      |                 (17) ...to here
+                            |
+                     <------+
+                     |
+                   'leb_write_lock': events 18-19
+                     |
+                     |  365 |         le = ltree_add_entry(ubi, vol_id, lnum);
+                     |      |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                     |      |              |
+                     |      |              (18) returning to 'leb_write_lock' from 'ltree_add_entry'
+                     |  366 |         if (IS_ERR(le))
+                     |      |            ~  
+                     |      |            |
+                     |      |            (19) following 'true' branch...
+                     |
+                   'leb_write_lock': event 20
+                     |
+                     |include/linux/err.h:31:16:
+                     |   31 |         return (long) ptr;
+                     |      |                ^~~~~~~~~~
 
-vim +/dev +235 drivers/pci/vgaarb.c
+vim +/buf +848 drivers/mtd/ubi/eba.c
 
-deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  231  
-deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  232  static struct vga_device *__vga_tryget(struct vga_device *vgadev,
-deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  233  				       unsigned int rsrc)
-deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  234  {
-a75d68f62106fe drivers/gpu/vga/vgaarb.c Bjorn Helgaas          2016-11-17 @235  	struct device *dev = &vgadev->pdev->dev;
-deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  236  	unsigned int wants, legacy_wants, match;
-deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  237  	struct vga_device *conflict;
-deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  238  	unsigned int pci_bits;
-3448a19da479b6 drivers/gpu/vga/vgaarb.c Dave Airlie            2010-06-01  239  	u32 flags = 0;
-3448a19da479b6 drivers/gpu/vga/vgaarb.c Dave Airlie            2010-06-01  240  
-deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  241  	/* Account for "normal" resources to lock. If we decode the legacy,
-deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  242  	 * counterpart, we need to request it as well
-deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  243  	 */
-deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  244  	if ((rsrc & VGA_RSRC_NORMAL_IO) &&
-deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  245  	    (vgadev->decodes & VGA_RSRC_LEGACY_IO))
-deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  246  		rsrc |= VGA_RSRC_LEGACY_IO;
-deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  247  	if ((rsrc & VGA_RSRC_NORMAL_MEM) &&
-deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  248  	    (vgadev->decodes & VGA_RSRC_LEGACY_MEM))
-deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  249  		rsrc |= VGA_RSRC_LEGACY_MEM;
-deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  250  
-a75d68f62106fe drivers/gpu/vga/vgaarb.c Bjorn Helgaas          2016-11-17  251  	vgaarb_dbg(dev, "%s: %d\n", __func__, rsrc);
-a75d68f62106fe drivers/gpu/vga/vgaarb.c Bjorn Helgaas          2016-11-17  252  	vgaarb_dbg(dev, "%s: owns: %d\n", __func__, vgadev->owns);
-deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  253  
-deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  254  	/* Check what resources we need to acquire */
-deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  255  	wants = rsrc & ~vgadev->owns;
-deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  256  
-deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  257  	/* We already own everything, just mark locked & bye bye */
-deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  258  	if (wants == 0)
-deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  259  		goto lock_them;
-deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  260  
-deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  261  	/* We don't need to request a legacy resource, we just enable
-deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  262  	 * appropriate decoding and go
-deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  263  	 */
-deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  264  	legacy_wants = wants & VGA_RSRC_LEGACY_MASK;
-deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  265  	if (legacy_wants == 0)
-deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  266  		goto enable_them;
-deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  267  
-deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  268  	/* Ok, we don't, let's find out how we need to kick off */
-deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  269  	list_for_each_entry(conflict, &vga_list, list) {
-deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  270  		unsigned int lwants = legacy_wants;
-deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  271  		unsigned int change_bridge = 0;
-deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  272  
-deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  273  		/* Don't conflict with myself */
-deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  274  		if (vgadev == conflict)
-deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  275  			continue;
-deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  276  
-deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  277  		/* We have a possible conflict. before we go further, we must
-deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  278  		 * check if we sit on the same bus as the conflicting device.
-deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  279  		 * if we don't, then we must tie both IO and MEM resources
-deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  280  		 * together since there is only a single bit controlling
-deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  281  		 * VGA forwarding on P2P bridges
-deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  282  		 */
-deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  283  		if (vgadev->pdev->bus != conflict->pdev->bus) {
-deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  284  			change_bridge = 1;
-deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  285  			lwants = VGA_RSRC_LEGACY_IO | VGA_RSRC_LEGACY_MEM;
-deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  286  		}
-deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  287  
-deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  288  		/* Check if the guy has a lock on the resource. If he does,
-deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  289  		 * return the conflicting entry
-deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  290  		 */
-deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  291  		if (conflict->locks & lwants)
-deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  292  			return conflict;
-deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  293  
-4e4e7dc55af5aa drivers/gpu/vga/vgaarb.c Alex Williamson        2014-07-03  294  		/* Ok, now check if it owns the resource we want.  We can
-4e4e7dc55af5aa drivers/gpu/vga/vgaarb.c Alex Williamson        2014-07-03  295  		 * lock resources that are not decoded, therefore a device
-4e4e7dc55af5aa drivers/gpu/vga/vgaarb.c Alex Williamson        2014-07-03  296  		 * can own resources it doesn't decode.
-deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  297  		 */
-deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  298  		match = lwants & conflict->owns;
-deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  299  		if (!match)
-deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  300  			continue;
-deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  301  
-deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  302  		/* looks like he doesn't have a lock, we can steal
-deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  303  		 * them from him
-deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  304  		 */
-deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  305  
-3448a19da479b6 drivers/gpu/vga/vgaarb.c Dave Airlie            2010-06-01  306  		flags = 0;
-deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  307  		pci_bits = 0;
-3448a19da479b6 drivers/gpu/vga/vgaarb.c Dave Airlie            2010-06-01  308  
-4e4e7dc55af5aa drivers/gpu/vga/vgaarb.c Alex Williamson        2014-07-03  309  		/* If we can't control legacy resources via the bridge, we
-4e4e7dc55af5aa drivers/gpu/vga/vgaarb.c Alex Williamson        2014-07-03  310  		 * also need to disable normal decoding.
-4e4e7dc55af5aa drivers/gpu/vga/vgaarb.c Alex Williamson        2014-07-03  311  		 */
-3448a19da479b6 drivers/gpu/vga/vgaarb.c Dave Airlie            2010-06-01  312  		if (!conflict->bridge_has_one_vga) {
-4e4e7dc55af5aa drivers/gpu/vga/vgaarb.c Alex Williamson        2014-07-03  313  			if ((match & conflict->decodes) & VGA_RSRC_LEGACY_MEM)
-deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  314  				pci_bits |= PCI_COMMAND_MEMORY;
-4e4e7dc55af5aa drivers/gpu/vga/vgaarb.c Alex Williamson        2014-07-03  315  			if ((match & conflict->decodes) & VGA_RSRC_LEGACY_IO)
-deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  316  				pci_bits |= PCI_COMMAND_IO;
-4e4e7dc55af5aa drivers/gpu/vga/vgaarb.c Alex Williamson        2014-07-03  317  
-f6b1772b255504 drivers/gpu/vga/vgaarb.c Christoph Hellwig      2021-07-16  318  			if (pci_bits)
-4e4e7dc55af5aa drivers/gpu/vga/vgaarb.c Alex Williamson        2014-07-03  319  				flags |= PCI_VGA_STATE_CHANGE_DECODES;
-4e4e7dc55af5aa drivers/gpu/vga/vgaarb.c Alex Williamson        2014-07-03  320  		}
-3448a19da479b6 drivers/gpu/vga/vgaarb.c Dave Airlie            2010-06-01  321  
-3448a19da479b6 drivers/gpu/vga/vgaarb.c Dave Airlie            2010-06-01  322  		if (change_bridge)
-3448a19da479b6 drivers/gpu/vga/vgaarb.c Dave Airlie            2010-06-01  323  			flags |= PCI_VGA_STATE_CHANGE_BRIDGE;
-deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  324  
-3448a19da479b6 drivers/gpu/vga/vgaarb.c Dave Airlie            2010-06-01  325  		pci_set_vga_state(conflict->pdev, false, pci_bits, flags);
-f22d776f3e280e drivers/gpu/vga/vgaarb.c Alex Williamson        2013-08-15  326  		conflict->owns &= ~match;
-4e4e7dc55af5aa drivers/gpu/vga/vgaarb.c Alex Williamson        2014-07-03  327  
-4e4e7dc55af5aa drivers/gpu/vga/vgaarb.c Alex Williamson        2014-07-03  328  		/* If we disabled normal decoding, reflect it in owns */
-4e4e7dc55af5aa drivers/gpu/vga/vgaarb.c Alex Williamson        2014-07-03  329  		if (pci_bits & PCI_COMMAND_MEMORY)
-deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  330  			conflict->owns &= ~VGA_RSRC_NORMAL_MEM;
-4e4e7dc55af5aa drivers/gpu/vga/vgaarb.c Alex Williamson        2014-07-03  331  		if (pci_bits & PCI_COMMAND_IO)
-deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  332  			conflict->owns &= ~VGA_RSRC_NORMAL_IO;
-deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  333  	}
-deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  334  
-deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  335  enable_them:
-deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  336  	/* ok dude, we got it, everybody conflicting has been disabled, let's
-4e4e7dc55af5aa drivers/gpu/vga/vgaarb.c Alex Williamson        2014-07-03  337  	 * enable us.  Mark any bits in "owns" regardless of whether we
-4e4e7dc55af5aa drivers/gpu/vga/vgaarb.c Alex Williamson        2014-07-03  338  	 * decoded them.  We can lock resources we don't decode, therefore
-4e4e7dc55af5aa drivers/gpu/vga/vgaarb.c Alex Williamson        2014-07-03  339  	 * we must track them via "owns".
-deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  340  	 */
-3448a19da479b6 drivers/gpu/vga/vgaarb.c Dave Airlie            2010-06-01  341  	flags = 0;
-deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  342  	pci_bits = 0;
-3448a19da479b6 drivers/gpu/vga/vgaarb.c Dave Airlie            2010-06-01  343  
-3448a19da479b6 drivers/gpu/vga/vgaarb.c Dave Airlie            2010-06-01  344  	if (!vgadev->bridge_has_one_vga) {
-3448a19da479b6 drivers/gpu/vga/vgaarb.c Dave Airlie            2010-06-01  345  		flags |= PCI_VGA_STATE_CHANGE_DECODES;
-deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  346  		if (wants & (VGA_RSRC_LEGACY_MEM|VGA_RSRC_NORMAL_MEM))
-deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  347  			pci_bits |= PCI_COMMAND_MEMORY;
-deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  348  		if (wants & (VGA_RSRC_LEGACY_IO|VGA_RSRC_NORMAL_IO))
-deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  349  			pci_bits |= PCI_COMMAND_IO;
-3448a19da479b6 drivers/gpu/vga/vgaarb.c Dave Airlie            2010-06-01  350  	}
-4e4e7dc55af5aa drivers/gpu/vga/vgaarb.c Alex Williamson        2014-07-03  351  	if (wants & VGA_RSRC_LEGACY_MASK)
-3448a19da479b6 drivers/gpu/vga/vgaarb.c Dave Airlie            2010-06-01  352  		flags |= PCI_VGA_STATE_CHANGE_BRIDGE;
-3448a19da479b6 drivers/gpu/vga/vgaarb.c Dave Airlie            2010-06-01  353  
-3448a19da479b6 drivers/gpu/vga/vgaarb.c Dave Airlie            2010-06-01  354  	pci_set_vga_state(vgadev->pdev, true, pci_bits, flags);
-deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  355  
-4e4e7dc55af5aa drivers/gpu/vga/vgaarb.c Alex Williamson        2014-07-03  356  	vgadev->owns |= wants;
-deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  357  lock_them:
-deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  358  	vgadev->locks |= (rsrc & VGA_RSRC_LEGACY_MASK);
-deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  359  	if (rsrc & VGA_RSRC_LEGACY_IO)
-deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  360  		vgadev->io_lock_cnt++;
-deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  361  	if (rsrc & VGA_RSRC_LEGACY_MEM)
-deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  362  		vgadev->mem_lock_cnt++;
-deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  363  	if (rsrc & VGA_RSRC_NORMAL_IO)
-deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  364  		vgadev->io_norm_cnt++;
-deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  365  	if (rsrc & VGA_RSRC_NORMAL_MEM)
-deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  366  		vgadev->mem_norm_cnt++;
-deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  367  
-deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  368  	return NULL;
-deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  369  }
-deb2d2ecd43dfc drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11  370  
+9ff08979e17423 Richard Weinberger  2015-01-10  787  
+801c135ce73d5d Artem B. Bityutskiy 2006-06-27  788  /**
+f036dfeb859cb4 Boris Brezillon     2016-09-16  789   * try_recover_peb - try to recover from write failure.
+f036dfeb859cb4 Boris Brezillon     2016-09-16  790   * @vol: volume description object
+801c135ce73d5d Artem B. Bityutskiy 2006-06-27  791   * @pnum: the physical eraseblock to recover
+801c135ce73d5d Artem B. Bityutskiy 2006-06-27  792   * @lnum: logical eraseblock number
+801c135ce73d5d Artem B. Bityutskiy 2006-06-27  793   * @buf: data which was not written because of the write failure
+801c135ce73d5d Artem B. Bityutskiy 2006-06-27  794   * @offset: offset of the failed write
+801c135ce73d5d Artem B. Bityutskiy 2006-06-27  795   * @len: how many bytes should have been written
+3291b52f9ff0ac Boris Brezillon     2016-09-16  796   * @vidb: VID buffer
+f036dfeb859cb4 Boris Brezillon     2016-09-16  797   * @retry: whether the caller should retry in case of failure
+801c135ce73d5d Artem B. Bityutskiy 2006-06-27  798   *
+801c135ce73d5d Artem B. Bityutskiy 2006-06-27  799   * This function is called in case of a write failure and moves all good data
+801c135ce73d5d Artem B. Bityutskiy 2006-06-27  800   * from the potentially bad physical eraseblock to a good physical eraseblock.
+801c135ce73d5d Artem B. Bityutskiy 2006-06-27  801   * This function also writes the data which was not written due to the failure.
+f036dfeb859cb4 Boris Brezillon     2016-09-16  802   * Returns 0 in case of success, and a negative error code in case of failure.
+f036dfeb859cb4 Boris Brezillon     2016-09-16  803   * In case of failure, the %retry parameter is set to false if this is a fatal
+f036dfeb859cb4 Boris Brezillon     2016-09-16  804   * error (retrying won't help), and true otherwise.
+801c135ce73d5d Artem B. Bityutskiy 2006-06-27  805   */
+f036dfeb859cb4 Boris Brezillon     2016-09-16  806  static int try_recover_peb(struct ubi_volume *vol, int pnum, int lnum,
+f036dfeb859cb4 Boris Brezillon     2016-09-16  807  			   const void *buf, int offset, int len,
+3291b52f9ff0ac Boris Brezillon     2016-09-16  808  			   struct ubi_vid_io_buf *vidb, bool *retry)
+801c135ce73d5d Artem B. Bityutskiy 2006-06-27  809  {
+f036dfeb859cb4 Boris Brezillon     2016-09-16  810  	struct ubi_device *ubi = vol->ubi;
+3291b52f9ff0ac Boris Brezillon     2016-09-16  811  	struct ubi_vid_hdr *vid_hdr;
+f036dfeb859cb4 Boris Brezillon     2016-09-16  812  	int new_pnum, err, vol_id = vol->vol_id, data_size;
+972228d87445dc Richard Weinberger  2016-06-21  813  	uint32_t crc;
+801c135ce73d5d Artem B. Bityutskiy 2006-06-27  814  
+f036dfeb859cb4 Boris Brezillon     2016-09-16  815  	*retry = false;
+801c135ce73d5d Artem B. Bityutskiy 2006-06-27  816  
+b36a261e8c0ab3 Richard Weinberger  2012-05-14  817  	new_pnum = ubi_wl_get_peb(ubi);
+801c135ce73d5d Artem B. Bityutskiy 2006-06-27  818  	if (new_pnum < 0) {
+f036dfeb859cb4 Boris Brezillon     2016-09-16  819  		err = new_pnum;
+f036dfeb859cb4 Boris Brezillon     2016-09-16  820  		goto out_put;
+801c135ce73d5d Artem B. Bityutskiy 2006-06-27  821  	}
+801c135ce73d5d Artem B. Bityutskiy 2006-06-27  822  
+326087033108e7 Tanya Brokhman      2014-10-20  823  	ubi_msg(ubi, "recover PEB %d, move data to PEB %d",
+326087033108e7 Tanya Brokhman      2014-10-20  824  		pnum, new_pnum);
+801c135ce73d5d Artem B. Bityutskiy 2006-06-27  825  
+3291b52f9ff0ac Boris Brezillon     2016-09-16  826  	err = ubi_io_read_vid_hdr(ubi, pnum, vidb, 1);
+801c135ce73d5d Artem B. Bityutskiy 2006-06-27  827  	if (err && err != UBI_IO_BITFLIPS) {
+801c135ce73d5d Artem B. Bityutskiy 2006-06-27  828  		if (err > 0)
+801c135ce73d5d Artem B. Bityutskiy 2006-06-27  829  			err = -EIO;
+801c135ce73d5d Artem B. Bityutskiy 2006-06-27  830  		goto out_put;
+801c135ce73d5d Artem B. Bityutskiy 2006-06-27  831  	}
+801c135ce73d5d Artem B. Bityutskiy 2006-06-27  832  
+884a3b647809cb Geert Uytterhoeven  2016-10-13  833  	vid_hdr = ubi_get_vid_hdr(vidb);
+972228d87445dc Richard Weinberger  2016-06-21  834  	ubi_assert(vid_hdr->vol_type == UBI_VID_DYNAMIC);
+801c135ce73d5d Artem B. Bityutskiy 2006-06-27  835  
+4df581f3dc6a91 Artem Bityutskiy    2008-12-04  836  	mutex_lock(&ubi->buf_mutex);
+0ca39d74de8b26 Artem Bityutskiy    2012-03-08  837  	memset(ubi->peb_buf + offset, 0xFF, len);
+801c135ce73d5d Artem B. Bityutskiy 2006-06-27  838  
+801c135ce73d5d Artem B. Bityutskiy 2006-06-27  839  	/* Read everything before the area where the write failure happened */
+801c135ce73d5d Artem B. Bityutskiy 2006-06-27  840  	if (offset > 0) {
+0ca39d74de8b26 Artem Bityutskiy    2012-03-08  841  		err = ubi_io_read_data(ubi, ubi->peb_buf, pnum, 0, offset);
+f036dfeb859cb4 Boris Brezillon     2016-09-16  842  		if (err && err != UBI_IO_BITFLIPS)
+4df581f3dc6a91 Artem Bityutskiy    2008-12-04  843  			goto out_unlock;
+801c135ce73d5d Artem B. Bityutskiy 2006-06-27  844  	}
+f036dfeb859cb4 Boris Brezillon     2016-09-16  845  
+f036dfeb859cb4 Boris Brezillon     2016-09-16  846  	*retry = true;
+801c135ce73d5d Artem B. Bityutskiy 2006-06-27  847  
+0ca39d74de8b26 Artem Bityutskiy    2012-03-08 @848  	memcpy(ubi->peb_buf + offset, buf, len);
+801c135ce73d5d Artem B. Bityutskiy 2006-06-27  849  
+972228d87445dc Richard Weinberger  2016-06-21  850  	data_size = offset + len;
+972228d87445dc Richard Weinberger  2016-06-21  851  	crc = crc32(UBI_CRC32_INIT, ubi->peb_buf, data_size);
+972228d87445dc Richard Weinberger  2016-06-21  852  	vid_hdr->sqnum = cpu_to_be64(ubi_next_sqnum(ubi));
+972228d87445dc Richard Weinberger  2016-06-21  853  	vid_hdr->copy_flag = 1;
+972228d87445dc Richard Weinberger  2016-06-21  854  	vid_hdr->data_size = cpu_to_be32(data_size);
+972228d87445dc Richard Weinberger  2016-06-21  855  	vid_hdr->data_crc = cpu_to_be32(crc);
+3291b52f9ff0ac Boris Brezillon     2016-09-16  856  	err = ubi_io_write_vid_hdr(ubi, new_pnum, vidb);
+f036dfeb859cb4 Boris Brezillon     2016-09-16  857  	if (err)
+f036dfeb859cb4 Boris Brezillon     2016-09-16  858  		goto out_unlock;
+972228d87445dc Richard Weinberger  2016-06-21  859  
+0ca39d74de8b26 Artem Bityutskiy    2012-03-08  860  	err = ubi_io_write_data(ubi, ubi->peb_buf, new_pnum, 0, data_size);
+801c135ce73d5d Artem B. Bityutskiy 2006-06-27  861  
+f036dfeb859cb4 Boris Brezillon     2016-09-16  862  out_unlock:
+e88d6e10e5c848 Artem Bityutskiy    2007-08-29  863  	mutex_unlock(&ubi->buf_mutex);
+801c135ce73d5d Artem B. Bityutskiy 2006-06-27  864  
+f036dfeb859cb4 Boris Brezillon     2016-09-16  865  	if (!err)
+799dca34ac5434 Boris Brezillon     2016-09-16  866  		vol->eba_tbl->entries[lnum].pnum = new_pnum;
+801c135ce73d5d Artem B. Bityutskiy 2006-06-27  867  
+4df581f3dc6a91 Artem Bityutskiy    2008-12-04  868  out_put:
+f036dfeb859cb4 Boris Brezillon     2016-09-16  869  	up_read(&ubi->fm_eba_sem);
+801c135ce73d5d Artem B. Bityutskiy 2006-06-27  870  
+f036dfeb859cb4 Boris Brezillon     2016-09-16  871  	if (!err) {
+f036dfeb859cb4 Boris Brezillon     2016-09-16  872  		ubi_wl_put_peb(ubi, vol_id, lnum, pnum, 1);
+f036dfeb859cb4 Boris Brezillon     2016-09-16  873  		ubi_msg(ubi, "data was successfully recovered");
+f036dfeb859cb4 Boris Brezillon     2016-09-16  874  	} else if (new_pnum >= 0) {
+801c135ce73d5d Artem B. Bityutskiy 2006-06-27  875  		/*
+f036dfeb859cb4 Boris Brezillon     2016-09-16  876  		 * Bad luck? This physical eraseblock is bad too? Crud. Let's
+f036dfeb859cb4 Boris Brezillon     2016-09-16  877  		 * try to get another one.
+801c135ce73d5d Artem B. Bityutskiy 2006-06-27  878  		 */
+d36e59e69b8be5 Joel Reardon        2012-05-18  879  		ubi_wl_put_peb(ubi, vol_id, lnum, new_pnum, 1);
+f036dfeb859cb4 Boris Brezillon     2016-09-16  880  		ubi_warn(ubi, "failed to write to PEB %d", new_pnum);
+f036dfeb859cb4 Boris Brezillon     2016-09-16  881  	}
+f036dfeb859cb4 Boris Brezillon     2016-09-16  882  
+801c135ce73d5d Artem B. Bityutskiy 2006-06-27  883  	return err;
+801c135ce73d5d Artem B. Bityutskiy 2006-06-27  884  }
+f036dfeb859cb4 Boris Brezillon     2016-09-16  885  
 
-:::::: The code at line 235 was first introduced by commit
-:::::: a75d68f62106fe66c4b8b96c0ee7155bdafc6f06 vgaarb: Use dev_printk() when possible
+:::::: The code at line 848 was first introduced by commit
+:::::: 0ca39d74de8b269fb61eac11b75bd6c3fc887c28 UBI: rename peb_buf1 to peb_buf
 
-:::::: TO: Bjorn Helgaas <bhelgaas@google.com>
-:::::: CC: Daniel Vetter <daniel.vetter@ffwll.ch>
+:::::: TO: Artem Bityutskiy <artem.bityutskiy@linux.intel.com>
+:::::: CC: Artem Bityutskiy <artem.bityutskiy@linux.intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
