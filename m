@@ -1,56 +1,42 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B2A71391;
-	Mon, 23 Jan 2023 12:37:28 +0000 (UTC)
-Received: by mail-wm1-f46.google.com with SMTP id q8so8872120wmo.5;
-        Mon, 23 Jan 2023 04:37:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=tLgSZ6O91njTGUq3vk9144iZV68n8GbM1GAVJ5K9gHQ=;
-        b=H8lzIkKWxlcdNJtwav8GT1stFUzYMcGkPqXHGDnxjysbQTduMHGUcIsH+2Yf+jyp+N
-         PUxgPwSH9DPoPEjzSft+o1MBWu4qTEyR34/Aw6w15RP5DNQMDmnLZ249ARSMr6ei3pHq
-         Q7+LZFOXiJSKdNE20khovt/IbDUY/rzGxtQZX/1aFWULcDnsRLWsEsamIntOvWLa268I
-         PhkiYfx5c58/a/8/ZwKG22Tzk36w4PVR/Q0pYQpTH3Oo7EZepvR5tmY7epUcmYOGwxDb
-         VJSitu/JHfN8rANPgzm2vhTUrTR5KU/5KKIz5EW8/slmBz5LLpIqRKkygBbjfY+aePNl
-         qqiA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=tLgSZ6O91njTGUq3vk9144iZV68n8GbM1GAVJ5K9gHQ=;
-        b=yMrvHHqsCj5216IrlJ9Y7aAn5Vnwk0tLL5SIl8ucOEm0Aoe0LHwLtKWNIR6alVlmRt
-         U7m2ijT7hi8nDm94OSr8TK85ersuM2XrLXVZhnSOEtUIang2hSTBDScmZC2n9Oyr2vtL
-         2+y+0EIKO8QpP7ThYG6aerTSN5jh1kwq7VH4C5q4LhinjXrUtYjF7l53oWdTqbLFG38m
-         n4i3/ieuPbzL0RwtxmWLOQ5kWJsvXSA88i7DjLiL4lOeflNnShrjEkB2XNxw4/GhDo10
-         ESg59mpDlx4OuDhdiUUHViZLlw15Wqkq+Iid/5af03Pcb35J/rRZQT/ug8/072+IwV4c
-         F41g==
-X-Gm-Message-State: AFqh2koCrRofDlxFDYF0w+J01iZNFEZbRHU5HKFoSe5zHkiccu+7sQHT
-	W+C04QBahTBwainVxmVXGII=
-X-Google-Smtp-Source: AMrXdXuBckxCdly7hZDO+7ioeodPQcu+dNBtTpc63PkAuQuvkJyEdhzQfcozamqg+ceU8OoM64vnNw==
-X-Received: by 2002:a05:600c:2d05:b0:3d0:85b5:33d3 with SMTP id x5-20020a05600c2d0500b003d085b533d3mr22793200wmf.16.1674477446346;
-        Mon, 23 Jan 2023 04:37:26 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id fc17-20020a05600c525100b003db1d9553e7sm11742499wmb.32.2023.01.23.04.37.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Jan 2023 04:37:25 -0800 (PST)
-Date: Mon, 23 Jan 2023 15:37:22 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Ammar Faizi <ammarfaizi2@gnuweeb.org>
-Cc: Jaegeuk Kim <jaegeuk@kernel.org>,
-	GNU/Weeb Mailing List <gwml@vger.gnuweeb.org>,
-	oe-kbuild@lists.linux.dev, lkp@intel.com,
-	oe-kbuild-all@lists.linux.dev
-Subject: Re: Fwd:
- [ammarfaizi2-block:google/android/kernel/common/upstream-f2fs-stable-linux-5.15.y
- 115/361] fs/f2fs/data.c:996 f2fs_grab_read_bio() warn: variable dereferenced
- before check 'bio' (see line 995)
-Message-ID: <Y85/gtltbiWCv+jB@kadam>
-References: <Y853lht6nq1emVj6@kadam>
- <0b9b8c6b-b79a-126f-745e-f571abad7bff@gnuweeb.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCA711C01
+	for <oe-kbuild@lists.linux.dev>; Mon, 23 Jan 2023 12:42:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1674477728; x=1706013728;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=WtQp1j0+4sMw2tkHHzHOSMRXh7LEufdGCdrcPOUxGBo=;
+  b=K30nmI4CqduHc7V2P0nSK0a2GnBZ0FURgxDWby/h6IOHgPBC1Is9Aoth
+   KvMOxk1Obdj1uHjHt8Sko0nqMucYqITeCvXvd4UBSlJEdZi0TKtAs8Q1X
+   j2jxEx9spC7mb0MWvW/bY82bxzWIRSDFNYBGcS2C4knz61/wrIG49TdqN
+   SYpcgUhGiZaQLBHzavGhGUk5tPySs3Xzy/p0V0J5nBlYr44vFlvz8aH/u
+   G51TOrh/0b2WEFEqOW6466RWjmsGNE0D3YRK0Z8oNUSzi7hMC+gK4tV50
+   2fvBn1cLaF9rS4QNRaTv3OtRfch56TwZMrVgcZXmyPz+lzgt/alGVVr3Y
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10598"; a="323721509"
+X-IronPort-AV: E=Sophos;i="5.97,239,1669104000"; 
+   d="scan'208";a="323721509"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2023 04:42:08 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10598"; a="990394608"
+X-IronPort-AV: E=Sophos;i="5.97,239,1669104000"; 
+   d="scan'208";a="990394608"
+Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
+  by fmsmga005.fm.intel.com with ESMTP; 23 Jan 2023 04:42:06 -0800
+Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pJw9G-0005do-12;
+	Mon, 23 Jan 2023 12:42:06 +0000
+Date: Mon, 23 Jan 2023 20:41:58 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: drivers/rtc/rtc-sh.c:316 sh_rtc_read_time() warn: bitwise AND
+ condition is false here
+Message-ID: <202301232033.ZrbgdE2H-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -59,27 +45,85 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <0b9b8c6b-b79a-126f-745e-f571abad7bff@gnuweeb.org>
 
-On Mon, Jan 23, 2023 at 07:24:17PM +0700, Ammar Faizi wrote:
-> commit e8e3f1a12d05d0aef2c819664890b540dfb055af
-> Author:     Christoph Hellwig <hch@lst.de>
-> AuthorDate: Mon Feb 28 14:41:22 2022 +0200
-> Commit:     Jaegeuk Kim <jaegeuk@kernel.org>
-> CommitDate: Thu Apr 28 15:51:57 2022 -0700
-> 
->     f2fs: don't pass a bio to f2fs_target_device
->     Set the bdev at bio allocation time by changing the f2fs_target_device
->     calling conventions, so that no bio needs to be passed in.
->     Signed-off-by: Christoph Hellwig <hch@lst.de>
->     Reviewed-by: Chao Yu <chao@kernel.org>
->     Link: https://lore.kernel.org/r/20220228124123.856027-2-hch@lst.de
-            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-This link doesn't have the bug.  It seems like it was caused by a merge
-issue.
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+TO: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+CC: Geert Uytterhoeven <geert+renesas@glider.be>
+CC: Conor Dooley <conor.dooley@microchip.com>
+CC: Guo Ren <guoren@kernel.org>
 
-Simple enough to fix either way.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   2475bf0250dee99b477e0c56d7dc9d7ac3f04117
+commit: 8292493c22c8e28b6e67a01e0f5c6db1cf231eb1 riscv: Kconfig.socs: Add ARCH_RENESAS kconfig option
+date:   2 months ago
+:::::: branch date: 16 hours ago
+:::::: commit date: 2 months ago
+config: riscv-randconfig-m031-20230123 (https://download.01.org/0day-ci/archive/20230123/202301232033.ZrbgdE2H-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 12.1.0
 
-regards,
-dan carpenter
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
 
+smatch warnings:
+drivers/rtc/rtc-sh.c:316 sh_rtc_read_time() warn: bitwise AND condition is false here
+
+vim +316 drivers/rtc/rtc-sh.c
+
+16380c153a69c3 John Stultz       2011-02-02  273  
+317a6104a99f87 Paul Mundt        2006-09-27  274  static int sh_rtc_read_time(struct device *dev, struct rtc_time *tm)
+317a6104a99f87 Paul Mundt        2006-09-27  275  {
+85368bb9de6366 Wolfram Sang      2018-04-19  276  	struct sh_rtc *rtc = dev_get_drvdata(dev);
+317a6104a99f87 Paul Mundt        2006-09-27  277  	unsigned int sec128, sec2, yr, yr100, cf_bit;
+317a6104a99f87 Paul Mundt        2006-09-27  278  
+9852023d204b97 Alexandre Belloni 2019-03-20  279  	if (!(readb(rtc->regbase + RCR2) & RCR2_RTCEN))
+9852023d204b97 Alexandre Belloni 2019-03-20  280  		return -EINVAL;
+9852023d204b97 Alexandre Belloni 2019-03-20  281  
+317a6104a99f87 Paul Mundt        2006-09-27  282  	do {
+317a6104a99f87 Paul Mundt        2006-09-27  283  		unsigned int tmp;
+317a6104a99f87 Paul Mundt        2006-09-27  284  
+317a6104a99f87 Paul Mundt        2006-09-27  285  		spin_lock_irq(&rtc->lock);
+317a6104a99f87 Paul Mundt        2006-09-27  286  
+317a6104a99f87 Paul Mundt        2006-09-27  287  		tmp = readb(rtc->regbase + RCR1);
+317a6104a99f87 Paul Mundt        2006-09-27  288  		tmp &= ~RCR1_CF; /* Clear CF-bit */
+317a6104a99f87 Paul Mundt        2006-09-27  289  		tmp |= RCR1_CIE;
+317a6104a99f87 Paul Mundt        2006-09-27  290  		writeb(tmp, rtc->regbase + RCR1);
+317a6104a99f87 Paul Mundt        2006-09-27  291  
+317a6104a99f87 Paul Mundt        2006-09-27  292  		sec128 = readb(rtc->regbase + R64CNT);
+317a6104a99f87 Paul Mundt        2006-09-27  293  
+fe20ba70abf7d6 Adrian Bunk       2008-10-18  294  		tm->tm_sec	= bcd2bin(readb(rtc->regbase + RSECCNT));
+fe20ba70abf7d6 Adrian Bunk       2008-10-18  295  		tm->tm_min	= bcd2bin(readb(rtc->regbase + RMINCNT));
+fe20ba70abf7d6 Adrian Bunk       2008-10-18  296  		tm->tm_hour	= bcd2bin(readb(rtc->regbase + RHRCNT));
+fe20ba70abf7d6 Adrian Bunk       2008-10-18  297  		tm->tm_wday	= bcd2bin(readb(rtc->regbase + RWKCNT));
+fe20ba70abf7d6 Adrian Bunk       2008-10-18  298  		tm->tm_mday	= bcd2bin(readb(rtc->regbase + RDAYCNT));
+fe20ba70abf7d6 Adrian Bunk       2008-10-18  299  		tm->tm_mon	= bcd2bin(readb(rtc->regbase + RMONCNT)) - 1;
+317a6104a99f87 Paul Mundt        2006-09-27  300  
+ad89f87a84040a Paul Mundt        2007-08-03  301  		if (rtc->capabilities & RTC_CAP_4_DIGIT_YEAR) {
+317a6104a99f87 Paul Mundt        2006-09-27  302  			yr  = readw(rtc->regbase + RYRCNT);
+fe20ba70abf7d6 Adrian Bunk       2008-10-18  303  			yr100 = bcd2bin(yr >> 8);
+317a6104a99f87 Paul Mundt        2006-09-27  304  			yr &= 0xff;
+ad89f87a84040a Paul Mundt        2007-08-03  305  		} else {
+317a6104a99f87 Paul Mundt        2006-09-27  306  			yr  = readb(rtc->regbase + RYRCNT);
+fe20ba70abf7d6 Adrian Bunk       2008-10-18  307  			yr100 = bcd2bin((yr == 0x99) ? 0x19 : 0x20);
+ad89f87a84040a Paul Mundt        2007-08-03  308  		}
+317a6104a99f87 Paul Mundt        2006-09-27  309  
+fe20ba70abf7d6 Adrian Bunk       2008-10-18  310  		tm->tm_year = (yr100 * 100 + bcd2bin(yr)) - 1900;
+317a6104a99f87 Paul Mundt        2006-09-27  311  
+317a6104a99f87 Paul Mundt        2006-09-27  312  		sec2 = readb(rtc->regbase + R64CNT);
+317a6104a99f87 Paul Mundt        2006-09-27  313  		cf_bit = readb(rtc->regbase + RCR1) & RCR1_CF;
+317a6104a99f87 Paul Mundt        2006-09-27  314  
+317a6104a99f87 Paul Mundt        2006-09-27  315  		spin_unlock_irq(&rtc->lock);
+317a6104a99f87 Paul Mundt        2006-09-27 @316  	} while (cf_bit != 0 || ((sec128 ^ sec2) & RTC_BIT_INVERTED) != 0);
+317a6104a99f87 Paul Mundt        2006-09-27  317  
+
+:::::: The code at line 316 was first introduced by commit
+:::::: 317a6104a99f87c0b35c0d9f19ec23ee7429b33e rtc: New RTC driver for SuperH On-Chip RTC.
+
+:::::: TO: Paul Mundt <lethal@linux-sh.org>
+:::::: CC: Paul Mundt <lethal@linux-sh.org>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
