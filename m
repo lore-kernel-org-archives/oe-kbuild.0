@@ -1,48 +1,49 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6C347C;
-	Mon, 23 Jan 2023 12:02:59 +0000 (UTC)
-Received: by mail-wr1-f42.google.com with SMTP id y1so6067434wru.2;
-        Mon, 23 Jan 2023 04:02:59 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF4E17C;
+	Mon, 23 Jan 2023 12:03:18 +0000 (UTC)
+Received: by mail-wr1-f52.google.com with SMTP id t5so10590762wrq.1;
+        Mon, 23 Jan 2023 04:03:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=bA4iCK2P0kpfk3RD6UVoxkxc8xGUII6wrYB2Fp7DXj8=;
-        b=qq3cnI8DwN6ktr1Qh82mQd7OMy4MwTqsRSwoDLPHaVM0YiD+LdpWqWF8p3ipU6Z9cc
-         cHmO8XZfr42ruWdWX5wMifEBPiykZ7vyTdMFzJFYePPtbi7iUSU5y00+Rp6IAZQ/clKP
-         IAl0FYuVyBn4n+7lIcqpmVZ9wF7auoiUvtkYKIysr2OZ+ewMdsQNFkq67Znpj4qm1Nw4
-         88HkWd6MUFmsZCfNDCZd+n0oE71rcowJcBmzVcuf21JIit4tgtFmWeUpJYA6bIcP+wFi
-         V6xzdFccCuTfodR/LOrMXIhhvBF1drUmZAFCM5rKCMlJeI2M49T/2k4IO2cM/QTo3oPR
-         l7Hw==
+        bh=naREYrGCnL2JKVgRkgwxtRoXQKOJ4lKotuFrXLo0TUM=;
+        b=UZiSaqHTf354ob/9hvjPcG7pDDI7awL0mauVJnwj2wH9xPORjFpLAlny+UubWbSdhu
+         hDMc/z1D+RTtL+P+UEqA7sHiED+K3oy7/1Ke1q7GjgBt7jxcy/0f3vhgpJyMHYOBaX4Q
+         ixZKhtB7Qf0Vo2gZh98TbsbJrepFom/+7kiZkSuapS5lweiCVNDkeMyxT0KKIdRg96vY
+         0YGbFr2oDEXX13BrEfY34mg1yw7nPgysmuCYBJQg+cGqmK3DG2XuGdkWr5SZW1uQ1Aat
+         hAqtopfkavvhp4q3HT1EGThjuUQCuB/erdh4wgkErbT8qn/auBId5xmndbLgBmNs+3hT
+         CJ6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=bA4iCK2P0kpfk3RD6UVoxkxc8xGUII6wrYB2Fp7DXj8=;
-        b=rTqFfmHh0s5c5FVkiY1JjmBpUEnblWs5qhiwjsKU+l7PIv/7cz+ZRMTCE4Xj6Y5GvA
-         rrcnP5mwK5Onlt7S6st/g92PI7pFFR2C17eN/vCJgVFr8Op0q8qzSHshyk1meQAjlywN
-         ttEtQOl8HubtoRYfoNp1ZnGbUh1NMnwGcGDpNO33ap05+SKGRRyvhdsiaxFFkMzIrqgB
-         k4n4jrsYcm0nxBgJRzWhTlL35KBw1BZ4DEvH0GVoty6c+uLua1jvUTYUS5w8oMenEe2p
-         7y2FnPqDIS5/wr0KraqA1tPRCO8iPbXAOEaRHi1pwxerRkzbmdVQHfP1WO52dW8b6UdF
-         cJmg==
-X-Gm-Message-State: AFqh2kptsz/EP30SYF7bTioTLSe2/mTY6FUT+Nr5u8UDfVwXteZAFSgl
-	0Gm6VPgT00Ppwb6RlmJ0xuwdslrF9qE=
-X-Google-Smtp-Source: AMrXdXuGcU5jUtMDoTKSraUjnCYWXo93//sjsd0t2xjAO5U+Ze5H+PiEzpER+aGQ90pLDruE4dEpHw==
-X-Received: by 2002:adf:e50a:0:b0:2be:a904:fbd5 with SMTP id j10-20020adfe50a000000b002bea904fbd5mr10176626wrm.29.1674475377717;
-        Mon, 23 Jan 2023 04:02:57 -0800 (PST)
+        bh=naREYrGCnL2JKVgRkgwxtRoXQKOJ4lKotuFrXLo0TUM=;
+        b=BL8lkb7sbb4LAjLdgSOpvxzMvK2FbMxKTGANILJ5uMFWm9YFNDw8XF2c/LLc+js444
+         AKQvwnUEmoeMMdi95KoQaXlYFH0lHrL5wSEDtB3ggjlTtvn6J7F7KXZmJeJSJZam8+2n
+         XpVdl990oiURxj5+FyqogQOlm6pgTRjm8U66+i5ATYsSXvfdHzRo2a1gBrJ/xOGkWz9k
+         YqLk62Ex+GzT0KPa4xMPZTVuXkDq4Ppe4ns0ihJSVeoWnIvqcrGCRd95wQDBpmxVzWB0
+         44WDTvRxbBUGucZNj5pEMZSVb17V69gsbMCn6Vha2II2uFly8vEYQLJx4AFxnhBm5p2v
+         QtLA==
+X-Gm-Message-State: AFqh2kpErfuWdL4322rb/qyWcefNjVaar0K+jQ6Xaye8+IWigfbqjDcf
+	DbNLq7Pvx5tLmKt8C1ueiVFdE4ohkUI=
+X-Google-Smtp-Source: AMrXdXtdtwgntp8C5hZdOoDztezP0X5xbTmB59EHZ8mTaHAMnjL7B8BhWI4zuEMcsHrOJnHRb9JwAg==
+X-Received: by 2002:adf:efc8:0:b0:29d:f817:42d4 with SMTP id i8-20020adfefc8000000b0029df81742d4mr31510112wrp.19.1674475396753;
+        Mon, 23 Jan 2023 04:03:16 -0800 (PST)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id o18-20020adf8b92000000b002365730eae8sm4383622wra.55.2023.01.23.04.02.56
+        by smtp.gmail.com with ESMTPSA id r8-20020a056000014800b0027323b19ecesm4911457wrx.16.2023.01.23.04.03.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Jan 2023 04:02:57 -0800 (PST)
-Date: Mon, 23 Jan 2023 15:02:54 +0300
+        Mon, 23 Jan 2023 04:03:16 -0800 (PST)
+Date: Mon, 23 Jan 2023 15:03:13 +0300
 From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, Peter Zijlstra <peterz@infradead.org>
+To: oe-kbuild@lists.linux.dev, Lukas Wunner <lukas@wunner.de>
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [peterz-queue:x86/core 3/3] arch/x86/kernel/static_call.c:98
- __static_call_transform() error: uninitialized symbol 'op'.
-Message-ID: <Y853bqEhA5NDC3Ar@kadam>
+Subject: [l1k:pciehp_deadlock_v2_attempt_per_dev_rwsem 3/3]
+ drivers/pci/doe.c:313 doe_statemachine_work() warn: inconsistent returns
+ '&pdev->reset_lock'.
+Message-ID: <Y853gQjq6cX3/gNp@kadam>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -52,10 +53,10 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git x86/core
-head:   700f4c6d925823018a2d09f92de5405065d2ffec
-commit: 700f4c6d925823018a2d09f92de5405065d2ffec [3/3] x86/static_call: Add support for Jcc tail-calls
-config: i386-randconfig-m021 (https://download.01.org/0day-ci/archive/20230121/202301211834.noGVyk06-lkp@intel.com/config)
+tree:   https://github.com/l1k/linux pciehp_deadlock_v2_attempt_per_dev_rwsem
+head:   1fd5c4fbe98942fb0a686f116616b8f3098e2680
+commit: 1fd5c4fbe98942fb0a686f116616b8f3098e2680 [3/3] PCI/DOE: Protect DOE exchanges against concurrent reset.
+config: i386-randconfig-m021 (https://download.01.org/0day-ci/archive/20230122/202301220912.A7Z0o7dG-lkp@intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
@@ -63,73 +64,90 @@ If you fix the issue, kindly add following tag where applicable
 | Reported-by: Dan Carpenter <error27@gmail.com>
 
 smatch warnings:
-arch/x86/kernel/static_call.c:98 __static_call_transform() error: uninitialized symbol 'op'.
+drivers/pci/doe.c:313 doe_statemachine_work() warn: inconsistent returns '&pdev->reset_lock'.
 
-vim +/op +98 arch/x86/kernel/static_call.c
+vim +313 drivers/pci/doe.c
 
-c27c753ea6fd12 Thomas Gleixner 2022-07-12   53  static void __ref __static_call_transform(void *insn, enum insn_type type,
-c27c753ea6fd12 Thomas Gleixner 2022-07-12   54  					  void *func, bool modinit)
-e6d6c071f22de2 Josh Poimboeuf  2020-08-18   55  {
-3f2a8fc4b15de1 Peter Zijlstra  2021-01-18   56  	const void *emulate = NULL;
-452cddbff74b6a Peter Zijlstra  2020-08-18   57  	int size = CALL_INSN_SIZE;
-452cddbff74b6a Peter Zijlstra  2020-08-18   58  	const void *code;
-700f4c6d925823 Peter Zijlstra  2023-01-20   59  	u8 op, buf[6];
-700f4c6d925823 Peter Zijlstra  2023-01-20   60  
-700f4c6d925823 Peter Zijlstra  2023-01-20   61  	if ((type == JMP || type == RET) && (op = __is_Jcc(insn)))
-700f4c6d925823 Peter Zijlstra  2023-01-20   62  		type = JCC;
+9d24322e887b6a Jonathan Cameron 2022-07-19  250  static void doe_statemachine_work(struct work_struct *work)
+9d24322e887b6a Jonathan Cameron 2022-07-19  251  {
+9d24322e887b6a Jonathan Cameron 2022-07-19  252  	struct pci_doe_task *task = container_of(work, struct pci_doe_task,
+9d24322e887b6a Jonathan Cameron 2022-07-19  253  						 work);
+9d24322e887b6a Jonathan Cameron 2022-07-19  254  	struct pci_doe_mb *doe_mb = task->doe_mb;
+9d24322e887b6a Jonathan Cameron 2022-07-19  255  	struct pci_dev *pdev = doe_mb->pdev;
+9d24322e887b6a Jonathan Cameron 2022-07-19  256  	int offset = doe_mb->cap_offset;
+9d24322e887b6a Jonathan Cameron 2022-07-19  257  	unsigned long timeout_jiffies;
+9d24322e887b6a Jonathan Cameron 2022-07-19  258  	u32 val;
+9d24322e887b6a Jonathan Cameron 2022-07-19  259  	int rc;
+9d24322e887b6a Jonathan Cameron 2022-07-19  260  
+9d24322e887b6a Jonathan Cameron 2022-07-19  261  	if (test_bit(PCI_DOE_FLAG_DEAD, &doe_mb->flags)) {
+9d24322e887b6a Jonathan Cameron 2022-07-19  262  		signal_task_complete(task, -EIO);
+9d24322e887b6a Jonathan Cameron 2022-07-19  263  		return;
+9d24322e887b6a Jonathan Cameron 2022-07-19  264  	}
+9d24322e887b6a Jonathan Cameron 2022-07-19  265  
+1fd5c4fbe98942 Lukas Wunner     2023-01-21  266  	down_read(&pdev->reset_lock);
+1fd5c4fbe98942 Lukas Wunner     2023-01-21  267  
+9d24322e887b6a Jonathan Cameron 2022-07-19  268  	/* Send request */
+9d24322e887b6a Jonathan Cameron 2022-07-19  269  	rc = pci_doe_send_req(doe_mb, task);
+9d24322e887b6a Jonathan Cameron 2022-07-19  270  	if (rc) {
+9d24322e887b6a Jonathan Cameron 2022-07-19  271  		/*
+9d24322e887b6a Jonathan Cameron 2022-07-19  272  		 * The specification does not provide any guidance on how to
+9d24322e887b6a Jonathan Cameron 2022-07-19  273  		 * resolve conflicting requests from other entities.
+9d24322e887b6a Jonathan Cameron 2022-07-19  274  		 * Furthermore, it is likely that busy will not be detected
+9d24322e887b6a Jonathan Cameron 2022-07-19  275  		 * most of the time.  Flag any detection of status busy with an
+9d24322e887b6a Jonathan Cameron 2022-07-19  276  		 * error.
+9d24322e887b6a Jonathan Cameron 2022-07-19  277  		 */
+9d24322e887b6a Jonathan Cameron 2022-07-19  278  		if (rc == -EBUSY)
+9d24322e887b6a Jonathan Cameron 2022-07-19  279  			dev_err_ratelimited(&pdev->dev, "[%x] busy detected; another entity is sending conflicting requests\n",
+9d24322e887b6a Jonathan Cameron 2022-07-19  280  					    offset);
+9d24322e887b6a Jonathan Cameron 2022-07-19  281  		signal_task_abort(task, rc);
+9d24322e887b6a Jonathan Cameron 2022-07-19  282  		return;
 
-Smatch is concerned that type can start as "JCC".
+Needs to drop the lock before returning
 
-452cddbff74b6a Peter Zijlstra  2020-08-18   63  
-452cddbff74b6a Peter Zijlstra  2020-08-18   64  	switch (type) {
-452cddbff74b6a Peter Zijlstra  2020-08-18   65  	case CALL:
-7825451fa4dc04 Peter Zijlstra  2022-09-15   66  		func = callthunks_translate_call_dest(func);
-452cddbff74b6a Peter Zijlstra  2020-08-18   67  		code = text_gen_insn(CALL_INSN_OPCODE, insn, func);
-3f2a8fc4b15de1 Peter Zijlstra  2021-01-18   68  		if (func == &__static_call_return0) {
-3f2a8fc4b15de1 Peter Zijlstra  2021-01-18   69  			emulate = code;
-3f2a8fc4b15de1 Peter Zijlstra  2021-01-18   70  			code = &xor5rax;
-3f2a8fc4b15de1 Peter Zijlstra  2021-01-18   71  		}
-3f2a8fc4b15de1 Peter Zijlstra  2021-01-18   72  
-452cddbff74b6a Peter Zijlstra  2020-08-18   73  		break;
-452cddbff74b6a Peter Zijlstra  2020-08-18   74  
-452cddbff74b6a Peter Zijlstra  2020-08-18   75  	case NOP:
-a89dfde3dc3c2d Peter Zijlstra  2021-03-12   76  		code = x86_nops[5];
-452cddbff74b6a Peter Zijlstra  2020-08-18   77  		break;
-452cddbff74b6a Peter Zijlstra  2020-08-18   78  
-452cddbff74b6a Peter Zijlstra  2020-08-18   79  	case JMP:
-452cddbff74b6a Peter Zijlstra  2020-08-18   80  		code = text_gen_insn(JMP32_INSN_OPCODE, insn, func);
-452cddbff74b6a Peter Zijlstra  2020-08-18   81  		break;
-452cddbff74b6a Peter Zijlstra  2020-08-18   82  
-452cddbff74b6a Peter Zijlstra  2020-08-18   83  	case RET:
-ee88d363d15617 Peter Zijlstra  2022-06-14   84  		if (cpu_feature_enabled(X86_FEATURE_RETHUNK))
-770ae1b709528a Peter Zijlstra  2022-09-15   85  			code = text_gen_insn(JMP32_INSN_OPCODE, insn, x86_return_thunk);
-ee88d363d15617 Peter Zijlstra  2022-06-14   86  		else
-e463a09af2f067 Peter Zijlstra  2021-12-04   87  			code = &retinsn;
-452cddbff74b6a Peter Zijlstra  2020-08-18   88  		break;
-700f4c6d925823 Peter Zijlstra  2023-01-20   89  
-700f4c6d925823 Peter Zijlstra  2023-01-20   90  	case JCC:
-700f4c6d925823 Peter Zijlstra  2023-01-20   91  		if (!func) {
-700f4c6d925823 Peter Zijlstra  2023-01-20   92  			func = __static_call_return;
-700f4c6d925823 Peter Zijlstra  2023-01-20   93  			if (cpu_feature_enabled(X86_FEATURE_RETHUNK))
-700f4c6d925823 Peter Zijlstra  2023-01-20   94  				func = x86_return_thunk;
-700f4c6d925823 Peter Zijlstra  2023-01-20   95  		}
-700f4c6d925823 Peter Zijlstra  2023-01-20   96  
-700f4c6d925823 Peter Zijlstra  2023-01-20   97  		buf[0] = 0x0f;
-700f4c6d925823 Peter Zijlstra  2023-01-20  @98  		__text_gen_insn(buf+1, op, insn+1, func, 5);
-700f4c6d925823 Peter Zijlstra  2023-01-20   99  		code = buf;
-700f4c6d925823 Peter Zijlstra  2023-01-20  100  		size = 6;
-700f4c6d925823 Peter Zijlstra  2023-01-20  101  
-700f4c6d925823 Peter Zijlstra  2023-01-20  102  		break;
-452cddbff74b6a Peter Zijlstra  2020-08-18  103  	}
-e6d6c071f22de2 Josh Poimboeuf  2020-08-18  104  
-452cddbff74b6a Peter Zijlstra  2020-08-18  105  	if (memcmp(insn, code, size) == 0)
-e6d6c071f22de2 Josh Poimboeuf  2020-08-18  106  		return;
-e6d6c071f22de2 Josh Poimboeuf  2020-08-18  107  
-c27c753ea6fd12 Thomas Gleixner 2022-07-12  108  	if (system_state == SYSTEM_BOOTING || modinit)
-a945c8345ec0de Peter Zijlstra  2020-08-18  109  		return text_poke_early(insn, code, size);
-a945c8345ec0de Peter Zijlstra  2020-08-18  110  
-3f2a8fc4b15de1 Peter Zijlstra  2021-01-18  111  	text_poke_bp(insn, code, size, emulate);
-e6d6c071f22de2 Josh Poimboeuf  2020-08-18  112  }
+9d24322e887b6a Jonathan Cameron 2022-07-19  283  	}
+9d24322e887b6a Jonathan Cameron 2022-07-19  284  
+9d24322e887b6a Jonathan Cameron 2022-07-19  285  	timeout_jiffies = jiffies + PCI_DOE_TIMEOUT;
+9d24322e887b6a Jonathan Cameron 2022-07-19  286  	/* Poll for response */
+9d24322e887b6a Jonathan Cameron 2022-07-19  287  retry_resp:
+9d24322e887b6a Jonathan Cameron 2022-07-19  288  	pci_read_config_dword(pdev, offset + PCI_DOE_STATUS, &val);
+9d24322e887b6a Jonathan Cameron 2022-07-19  289  	if (FIELD_GET(PCI_DOE_STATUS_ERROR, val)) {
+9d24322e887b6a Jonathan Cameron 2022-07-19  290  		signal_task_abort(task, -EIO);
+9d24322e887b6a Jonathan Cameron 2022-07-19  291  		return;
+
+Same
+
+9d24322e887b6a Jonathan Cameron 2022-07-19  292  	}
+9d24322e887b6a Jonathan Cameron 2022-07-19  293  
+9d24322e887b6a Jonathan Cameron 2022-07-19  294  	if (!FIELD_GET(PCI_DOE_STATUS_DATA_OBJECT_READY, val)) {
+9d24322e887b6a Jonathan Cameron 2022-07-19  295  		if (time_after(jiffies, timeout_jiffies)) {
+9d24322e887b6a Jonathan Cameron 2022-07-19  296  			signal_task_abort(task, -EIO);
+9d24322e887b6a Jonathan Cameron 2022-07-19  297  			return;
+
+Same
+
+9d24322e887b6a Jonathan Cameron 2022-07-19  298  		}
+9d24322e887b6a Jonathan Cameron 2022-07-19  299  		rc = pci_doe_wait(doe_mb, PCI_DOE_POLL_INTERVAL);
+9d24322e887b6a Jonathan Cameron 2022-07-19  300  		if (rc) {
+9d24322e887b6a Jonathan Cameron 2022-07-19  301  			signal_task_abort(task, rc);
+9d24322e887b6a Jonathan Cameron 2022-07-19  302  			return;
+
+Same
+
+9d24322e887b6a Jonathan Cameron 2022-07-19  303  		}
+9d24322e887b6a Jonathan Cameron 2022-07-19  304  		goto retry_resp;
+9d24322e887b6a Jonathan Cameron 2022-07-19  305  	}
+9d24322e887b6a Jonathan Cameron 2022-07-19  306  
+9d24322e887b6a Jonathan Cameron 2022-07-19  307  	rc  = pci_doe_recv_resp(doe_mb, task);
+9d24322e887b6a Jonathan Cameron 2022-07-19  308  	if (rc < 0) {
+9d24322e887b6a Jonathan Cameron 2022-07-19  309  		signal_task_abort(task, rc);
+9d24322e887b6a Jonathan Cameron 2022-07-19  310  		return;
+
+Same
+
+9d24322e887b6a Jonathan Cameron 2022-07-19  311  	}
+9d24322e887b6a Jonathan Cameron 2022-07-19  312  
+9d24322e887b6a Jonathan Cameron 2022-07-19 @313  	signal_task_complete(task, rc);
+9d24322e887b6a Jonathan Cameron 2022-07-19  314  }
 
 -- 
 0-DAY CI Kernel Test Service
