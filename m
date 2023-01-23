@@ -1,42 +1,42 @@
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D624F63C4
-	for <oe-kbuild@lists.linux.dev>; Mon, 23 Jan 2023 16:10:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 987CE7C
+	for <oe-kbuild@lists.linux.dev>; Mon, 23 Jan 2023 19:43:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674490205; x=1706026205;
+  t=1674503002; x=1706039002;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=iB0wrGvDRHLEaWOcs5cs/77PDyWNEm8VJnrnBHdwBIc=;
-  b=OLhiOSTwwS7fL0Jk/l9ycs1JP1+fJsWXuQ2A9L906zdS4ZODx00/gBIJ
-   hivNCWSmAc8XYF+sBE/KP26zlMFUSYherF1mtUJTGcFkdaytAxQSvr0QK
-   w+dfYKTfNWg31cQ1LnODtbKsadvR+8xl2BtAb7gbWLAIEFsgMTAE1bKQA
-   rjMbKCmClegPO4C/WJXfXQ7/GqrLYIvASLTsXvE5pZRSyBRbp+UZrhPjU
-   BXIBUqyUi6+M+yAnKVQFUoUsPYzsbNTQ9P5HdH8hQK1dccZmvLzYTxKtN
-   Zau7EHQpzmWPjLJXiPFSFg39wSVXsNUdVFONkP/pAGzHTb2/0NtJpsXYi
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="353344083"
+  bh=79kbli5aCY7WgaNVRsq9hxJVSHK7SJ+MA9koJdHXENc=;
+  b=RHhd03GCF5Qzrw86NtHyrafZs1Y6FHouWUCnMs8Gz6kg/mvq8ZDlhKVp
+   /HLOwjLm99aUJ+GKv+mpUzcmxDpRftORd6rAXV9MT6orqe6ppUZsTayGA
+   /AYa8jLwGK/yiiw3Cl7Sl8BZHDv3hcuBwq9SxiJNO9R6gfpsrQPtt997T
+   ihd8Rwo/Dgb2q0fYXhpYulwRUHXPcE0XSO4XMo9LImKaVn/OK8lJrxSew
+   /H7EP6hEMx/UnXYC1K1MDi1LaTkDMPFfYPF9IXq9B7Q/Qjz0se0SNsF9o
+   Zok2ph1eDX6LUvN9duE9/hiLfaLXuyZxFIeGvXsEwkZEzw95XJuhNu99U
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="353400202"
 X-IronPort-AV: E=Sophos;i="5.97,240,1669104000"; 
-   d="scan'208";a="353344083"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2023 08:10:05 -0800
+   d="scan'208";a="353400202"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2023 11:43:21 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="769940555"
+X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="990581938"
 X-IronPort-AV: E=Sophos;i="5.97,240,1669104000"; 
-   d="scan'208";a="769940555"
+   d="scan'208";a="990581938"
 Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 23 Jan 2023 08:09:13 -0800
+  by fmsmga005.fm.intel.com with ESMTP; 23 Jan 2023 11:43:20 -0800
 Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pJzNg-0005kW-2q;
-	Mon, 23 Jan 2023 16:09:12 +0000
-Date: Tue, 24 Jan 2023 00:08:13 +0800
+	id 1pK2it-0005r8-36;
+	Mon, 23 Jan 2023 19:43:19 +0000
+Date: Tue, 24 Jan 2023 03:42:42 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: net/sched/act_bpf.c:131:35: sparse: sparse: incorrect type in
- argument 2 (different address spaces)
-Message-ID: <202301240014.jsJIeoB0-lkp@intel.com>
+Subject: arch/x86/kernel/alternative.c:786:42: warning: Subtracting pointers
+ that point to different objects [comparePointers]
+Message-ID: <202301240315.LFP5syQz-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -47,77 +47,218 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "net/sched/act_bpf.c: fbc_errors <5> is not larger than parent_errors <5>"
+:::::: Manual check reason: "low confidence static check warning: arch/x86/kernel/alternative.c:786:42: warning: Subtracting pointers that point to different objects [comparePointers]"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Huacai Chen <chenhuacai@loongson.cn>
-CC: Jun Yi <yijun@loongson.cn>
+TO: Peter Zijlstra <peterz@infradead.org>
+CC: Kees Cook <keescook@chromium.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   2475bf0250dee99b477e0c56d7dc9d7ac3f04117
-commit: a275a82dcd4024c75337db15d59ed039c31e21da LoongArch: Use alternative to optimize libraries
-date:   6 weeks ago
-:::::: branch date: 20 hours ago
-:::::: commit date: 6 weeks ago
-config: loongarch-randconfig-s033-20230123 (https://download.01.org/0day-ci/archive/20230124/202301240014.jsJIeoB0-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 12.1.0
-reproduce:
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=a275a82dcd4024c75337db15d59ed039c31e21da
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout a275a82dcd4024c75337db15d59ed039c31e21da
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=loongarch olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=loongarch SHELL=/bin/bash net/sched/
+commit: 931ab63664f02b17d2213ef36b83e1e50190a0aa x86/ibt: Implement FineIBT
+date:   3 months ago
+:::::: branch date: 23 hours ago
+:::::: commit date: 3 months ago
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+reproduce (cppcheck warning):
+        # apt-get install cppcheck
+        git checkout 931ab63664f02b17d2213ef36b83e1e50190a0aa
+        cppcheck --quiet --enable=style,performance,portability --template=gcc FILE
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-sparse warnings: (new ones prefixed by >>)
->> net/sched/act_bpf.c:131:35: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const *__from @@     got unsigned char [noderef] __rcu * @@
-   net/sched/act_bpf.c:131:35: sparse:     expected void const *__from
-   net/sched/act_bpf.c:131:35: sparse:     got unsigned char [noderef] __rcu *
-   net/sched/act_bpf.c:124:50: sparse: sparse: dereference of noderef expression
-   net/sched/act_bpf.c:124:50: sparse: sparse: dereference of noderef expression
+cppcheck warnings: (new ones prefixed by >>)
+>> arch/x86/kernel/e820.c:1217:2: warning: int result is returned as long value. If the return value is long to avoid loss of information, then you have loss of information. [truncLongCastReturn]
+    return 64*1024*1024;
+    ^
+--
 
-vim +131 net/sched/act_bpf.c
+cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
-a8cb5f556b5679 Daniel Borkmann 2015-03-20  114  
-a8cb5f556b5679 Daniel Borkmann 2015-03-20  115  static int tcf_bpf_dump_ebpf_info(const struct tcf_bpf *prog,
-a8cb5f556b5679 Daniel Borkmann 2015-03-20  116  				  struct sk_buff *skb)
-a8cb5f556b5679 Daniel Borkmann 2015-03-20  117  {
-7bd509e311f408 Daniel Borkmann 2016-12-04  118  	struct nlattr *nla;
-7bd509e311f408 Daniel Borkmann 2016-12-04  119  
-a8cb5f556b5679 Daniel Borkmann 2015-03-20  120  	if (prog->bpf_name &&
-a8cb5f556b5679 Daniel Borkmann 2015-03-20  121  	    nla_put_string(skb, TCA_ACT_BPF_NAME, prog->bpf_name))
-a8cb5f556b5679 Daniel Borkmann 2015-03-20  122  		return -EMSGSIZE;
-a8cb5f556b5679 Daniel Borkmann 2015-03-20  123  
-e86283071fb0ee Daniel Borkmann 2017-06-21  124  	if (nla_put_u32(skb, TCA_ACT_BPF_ID, prog->filter->aux->id))
-e86283071fb0ee Daniel Borkmann 2017-06-21  125  		return -EMSGSIZE;
-e86283071fb0ee Daniel Borkmann 2017-06-21  126  
-f1f7714ea51c56 Daniel Borkmann 2017-01-13  127  	nla = nla_reserve(skb, TCA_ACT_BPF_TAG, sizeof(prog->filter->tag));
-7bd509e311f408 Daniel Borkmann 2016-12-04  128  	if (nla == NULL)
-7bd509e311f408 Daniel Borkmann 2016-12-04  129  		return -EMSGSIZE;
-7bd509e311f408 Daniel Borkmann 2016-12-04  130  
-f1f7714ea51c56 Daniel Borkmann 2017-01-13 @131  	memcpy(nla_data(nla), prog->filter->tag, nla_len(nla));
-7bd509e311f408 Daniel Borkmann 2016-12-04  132  
-a8cb5f556b5679 Daniel Borkmann 2015-03-20  133  	return 0;
-a8cb5f556b5679 Daniel Borkmann 2015-03-20  134  }
-a8cb5f556b5679 Daniel Borkmann 2015-03-20  135  
+>> arch/x86/kernel/static_call.c:143:52: warning: Parameter 'dest' can be declared as pointer to const [constParameter]
+   bool __static_call_fixup(void *tramp, u8 op, void *dest)
+                                                      ^
+>> drivers/acpi/ioapic.c:218:39: warning: Uninitialized variable: ioapic->root_handle [uninitvar]
+     if (root->device->handle != ioapic->root_handle)
+                                         ^
+   drivers/acpi/ioapic.c:236:39: warning: Uninitialized variable: ioapic->root_handle [uninitvar]
+     if (root->device->handle != ioapic->root_handle)
+                                         ^
+--
+>> arch/x86/kernel/hpet.c:937:33: warning: Signed integer overflow for expression '0xF<<28'. [integerOverflow]
+           (mwait_substates & (0xF << 28));
+                                   ^
+>> arch/x86/kernel/hpet.c:731:3: warning: %d in format string (no. 1) requires 'int' but the argument type is 'unsigned int'. [invalidPrintfArgType_sint]
+     sprintf(hc->name, "hpet%d", i);
+     ^
+--
+>> drivers/acpi/battery.c:477:10: warning: Redundant initialization for 'result'. The initialized value is overwritten before it is read. [redundantInitialization]
+     result = extract_package(battery, buffer->pointer,
+            ^
+   drivers/acpi/battery.c:474:13: note: result is initialized
+    int result = -EFAULT;
+               ^
+   drivers/acpi/battery.c:477:10: note: result is overwritten
+     result = extract_package(battery, buffer->pointer,
+            ^
+   arch/x86/kernel/alternative.c:1882:64: warning: Parameter 'addr' can be declared as pointer to const [constParameter]
+   static void text_poke_loc_init(struct text_poke_loc *tp, void *addr,
+                                                                  ^
+   arch/x86/kernel/alternative.c:528:66: warning: Parameter 'end' can be declared as pointer to const [constParameter]
+   void __init_or_module noinline apply_retpolines(s32 *start, s32 *end)
+                                                                    ^
+   arch/x86/kernel/alternative.c:610:63: warning: Parameter 'end' can be declared as pointer to const [constParameter]
+   void __init_or_module noinline apply_returns(s32 *start, s32 *end)
+                                                                 ^
+>> arch/x86/kernel/alternative.c:786:42: warning: Subtracting pointers that point to different objects [comparePointers]
+    if (p[0] == JMP8_INSN_OPCODE && p[1] == fineibt_caller_jmp)
+                                            ^
+   arch/x86/kernel/alternative.c:759:11: note: Variable declared here.
+   extern u8 fineibt_caller_end[];
+             ^
+   arch/x86/kernel/alternative.c:786:42: note: Array decayed to pointer here.
+    if (p[0] == JMP8_INSN_OPCODE && p[1] == fineibt_caller_jmp)
+                                            ^
+   arch/x86/kernel/alternative.c:758:11: note: Variable declared here.
+   extern u8 fineibt_caller_start[];
+             ^
+   arch/x86/kernel/alternative.c:786:42: note: Array decayed to pointer here.
+    if (p[0] == JMP8_INSN_OPCODE && p[1] == fineibt_caller_jmp)
+                                            ^
+   arch/x86/kernel/alternative.c:786:42: note: Subtracting pointers that point to different objects
+    if (p[0] == JMP8_INSN_OPCODE && p[1] == fineibt_caller_jmp)
+                                            ^
+   arch/x86/kernel/alternative.c:800:39: warning: Subtracting pointers that point to different objects [comparePointers]
+    const u8 jmp[] = { JMP8_INSN_OPCODE, fineibt_caller_jmp };
+                                         ^
+   arch/x86/kernel/alternative.c:759:11: note: Variable declared here.
+   extern u8 fineibt_caller_end[];
+             ^
+   arch/x86/kernel/alternative.c:800:39: note: Array decayed to pointer here.
+    const u8 jmp[] = { JMP8_INSN_OPCODE, fineibt_caller_jmp };
+                                         ^
+   arch/x86/kernel/alternative.c:758:11: note: Variable declared here.
+   extern u8 fineibt_caller_start[];
+             ^
+   arch/x86/kernel/alternative.c:800:39: note: Array decayed to pointer here.
+    const u8 jmp[] = { JMP8_INSN_OPCODE, fineibt_caller_jmp };
+                                         ^
+   arch/x86/kernel/alternative.c:800:39: note: Subtracting pointers that point to different objects
+    const u8 jmp[] = { JMP8_INSN_OPCODE, fineibt_caller_jmp };
+                                         ^
+   arch/x86/kernel/alternative.c:807:11: warning: Subtracting pointers that point to different objects [comparePointers]
+     addr -= fineibt_caller_size;
+             ^
+   arch/x86/kernel/alternative.c:759:11: note: Variable declared here.
+   extern u8 fineibt_caller_end[];
+             ^
+   arch/x86/kernel/alternative.c:800:39: note: Array decayed to pointer here.
+    const u8 jmp[] = { JMP8_INSN_OPCODE, fineibt_caller_jmp };
+                                         ^
+   arch/x86/kernel/alternative.c:758:11: note: Variable declared here.
+   extern u8 fineibt_caller_start[];
+             ^
+   arch/x86/kernel/alternative.c:800:39: note: Array decayed to pointer here.
+    const u8 jmp[] = { JMP8_INSN_OPCODE, fineibt_caller_jmp };
+                                         ^
+   arch/x86/kernel/alternative.c:807:11: note: Subtracting pointers that point to different objects
+     addr -= fineibt_caller_size;
+             ^
+   arch/x86/kernel/alternative.c:832:49: warning: Subtracting pointers that point to different objects [comparePointers]
+     text_poke_early(addr, fineibt_preamble_start, fineibt_preamble_size);
+                                                   ^
+   arch/x86/kernel/alternative.c:744:11: note: Variable declared here.
+   extern u8 fineibt_preamble_end[];
+             ^
+   arch/x86/kernel/alternative.c:832:49: note: Array decayed to pointer here.
+     text_poke_early(addr, fineibt_preamble_start, fineibt_preamble_size);
+                                                   ^
+   arch/x86/kernel/alternative.c:743:11: note: Variable declared here.
+   extern u8 fineibt_preamble_start[];
+             ^
+   arch/x86/kernel/alternative.c:832:49: note: Array decayed to pointer here.
+     text_poke_early(addr, fineibt_preamble_start, fineibt_preamble_size);
+                                                   ^
+   arch/x86/kernel/alternative.c:832:49: note: Subtracting pointers that point to different objects
+     text_poke_early(addr, fineibt_preamble_start, fineibt_preamble_size);
+                                                   ^
+   arch/x86/kernel/alternative.c:849:11: warning: Subtracting pointers that point to different objects [comparePointers]
+     addr -= fineibt_caller_size;
+             ^
+   arch/x86/kernel/alternative.c:759:11: note: Variable declared here.
+   extern u8 fineibt_caller_end[];
+             ^
+   arch/x86/kernel/alternative.c:849:11: note: Array decayed to pointer here.
+     addr -= fineibt_caller_size;
+             ^
+   arch/x86/kernel/alternative.c:758:11: note: Variable declared here.
+   extern u8 fineibt_caller_start[];
+             ^
+   arch/x86/kernel/alternative.c:849:11: note: Array decayed to pointer here.
+     addr -= fineibt_caller_size;
+             ^
+   arch/x86/kernel/alternative.c:849:11: note: Subtracting pointers that point to different objects
+     addr -= fineibt_caller_size;
+             ^
+   arch/x86/kernel/alternative.c:852:48: warning: Subtracting pointers that point to different objects [comparePointers]
+      text_poke_early(addr, fineibt_caller_start, fineibt_caller_size);
+                                                  ^
+   arch/x86/kernel/alternative.c:759:11: note: Variable declared here.
+   extern u8 fineibt_caller_end[];
+             ^
+   arch/x86/kernel/alternative.c:852:48: note: Array decayed to pointer here.
+      text_poke_early(addr, fineibt_caller_start, fineibt_caller_size);
+                                                  ^
+   arch/x86/kernel/alternative.c:758:11: note: Variable declared here.
+   extern u8 fineibt_caller_start[];
+--
+>> arch/x86/kernel/cpu/common.c:1628:40: warning: Comparing pointers that point to different objects [comparePointers]
+    for (cdev = __x86_cpu_dev_start; cdev < __x86_cpu_dev_end; cdev++) {
+                                          ^
+   arch/x86/kernel/cpu/cpu.h:44:36: note: Variable declared here.
+   extern const struct cpu_dev *const __x86_cpu_dev_start[],
+                                      ^
+   arch/x86/kernel/cpu/common.c:1628:14: note: Array decayed to pointer here.
+    for (cdev = __x86_cpu_dev_start; cdev < __x86_cpu_dev_end; cdev++) {
+                ^
+   arch/x86/kernel/cpu/cpu.h:45:15: note: Variable declared here.
+          *const __x86_cpu_dev_end[];
+                 ^
+   arch/x86/kernel/cpu/common.c:1628:42: note: Array decayed to pointer here.
+    for (cdev = __x86_cpu_dev_start; cdev < __x86_cpu_dev_end; cdev++) {
+                                            ^
+   arch/x86/kernel/cpu/common.c:1628:40: note: Comparing pointers that point to different objects
+    for (cdev = __x86_cpu_dev_start; cdev < __x86_cpu_dev_end; cdev++) {
+                                          ^
+>> arch/x86/kernel/cpu/common.c:275:45: warning: Parameter 's' can be declared as pointer to const [constParameter]
+   static int __init x86_noinvpcid_setup(char *s)
+                                               ^
+>> arch/x86/kernel/cpu/common.c:530:59: warning: Parameter 'c' can be declared as pointer to const [constParameter]
+   static __always_inline void setup_pku(struct cpuinfo_x86 *c)
+                                                             ^
 
-:::::: The code at line 131 was first introduced by commit
-:::::: f1f7714ea51c56b7163fb1a5acf39c6a204dd758 bpf: rework prog_digest into prog_tag
+vim +786 arch/x86/kernel/alternative.c
 
-:::::: TO: Daniel Borkmann <daniel@iogearbox.net>
-:::::: CC: David S. Miller <davem@davemloft.net>
+931ab63664f02b Peter Zijlstra 2022-10-27  776  
+931ab63664f02b Peter Zijlstra 2022-10-27  777  static u32 decode_caller_hash(void *addr)
+931ab63664f02b Peter Zijlstra 2022-10-27  778  {
+931ab63664f02b Peter Zijlstra 2022-10-27  779  	u8 *p = addr;
+931ab63664f02b Peter Zijlstra 2022-10-27  780  
+931ab63664f02b Peter Zijlstra 2022-10-27  781  	/* 41 ba 78 56 34 12       mov    $0x12345678,%r10d */
+931ab63664f02b Peter Zijlstra 2022-10-27  782  	if (p[0] == 0x41 && p[1] == 0xba)
+931ab63664f02b Peter Zijlstra 2022-10-27  783  		return -*(u32 *)(addr + 2);
+931ab63664f02b Peter Zijlstra 2022-10-27  784  
+931ab63664f02b Peter Zijlstra 2022-10-27  785  	/* e8 0c 78 56 34 12	   jmp.d8  +12 */
+931ab63664f02b Peter Zijlstra 2022-10-27 @786  	if (p[0] == JMP8_INSN_OPCODE && p[1] == fineibt_caller_jmp)
+931ab63664f02b Peter Zijlstra 2022-10-27  787  		return -*(u32 *)(addr + 2);
+931ab63664f02b Peter Zijlstra 2022-10-27  788  
+931ab63664f02b Peter Zijlstra 2022-10-27  789  	return 0; /* invalid hash value */
+931ab63664f02b Peter Zijlstra 2022-10-27  790  }
+931ab63664f02b Peter Zijlstra 2022-10-27  791  
 
 -- 
 0-DAY CI Kernel Test Service
