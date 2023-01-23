@@ -1,42 +1,51 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D64E133D8
-	for <oe-kbuild@lists.linux.dev>; Mon, 23 Jan 2023 15:27:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674487651; x=1706023651;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Xol2/QaOFlqAwfG8g+Oih7iR5YsK53bCI+kn300YaEk=;
-  b=i2RMaA8yeHN+dkeAZa+g9EM8loFpo4enSjNW/RZUDlkRxoqrnIha8dbZ
-   KGYGbQgXC6daogX1KI9/uzum9cfK95mnwaZ4vHU1/IbDoV3vqYQ8PN/yT
-   KxFeqjLU35IDF7Fce9ChxyT/lhY1WIaGGcuD7CEVUOQihMkDM7iGXtySh
-   U5fZuFTKJGK8N69PD5fzqFsx+xjHv8wYhVIhluCgukpVE1qAIE5nLCjzZ
-   MNNLdDx8DQQYl2UIF27uNLWqytFjrtvWEhZNWf5Cm30BNJ9tsXRTTtGkE
-   TPND2kFUNeAAKYJa/nk+WNsiNzc59e/tAK7kynV8pyAfg/cjQ7tzrxtEq
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="313960016"
-X-IronPort-AV: E=Sophos;i="5.97,239,1669104000"; 
-   d="scan'208";a="313960016"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2023 07:27:13 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="785676422"
-X-IronPort-AV: E=Sophos;i="5.97,239,1669104000"; 
-   d="scan'208";a="785676422"
-Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 23 Jan 2023 07:27:12 -0800
-Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pJyj1-0005is-2Q;
-	Mon, 23 Jan 2023 15:27:11 +0000
-Date: Mon, 23 Jan 2023 23:26:59 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [linux-next:master 6880/7257] drivers/media/i2c/max9286.c:771
- max9286_s_stream() error: buffer overflow 'priv->fmt' 4 <= 32
-Message-ID: <202301232350.U1DFzt57-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDC9133C0;
+	Mon, 23 Jan 2023 15:47:01 +0000 (UTC)
+Received: by mail-wm1-f42.google.com with SMTP id g10so9372741wmo.1;
+        Mon, 23 Jan 2023 07:47:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=2xgEEjXrW2lbu5MpNlLjABQ+7E1/MT4wNU2nwaef9vI=;
+        b=Kt3pT582myGeFi/97kQnKAexk3ywU6roMYBJ2ygVFJim8h+xpOVfdaO41qjzhtJ0Sz
+         zvqhzMxr9C42+GQke42JlIhYWKctrUdtalMd65GrY4/utVq6xQXZAd/hoSQDkQmwKIFZ
+         ihEsobREny3WwDAGu2uksDeQNm7veEaO1C3ep33lBj2ZsP7Lv12JhhQ+pcfwwpabeEwW
+         2RK9g+W+DZLr4PGXF1K/gHYe1lG/Xmu4466x+QsZVfGzA8sqonBZr4FIhCeyDflhrLtI
+         BLcZJWM5PJfIkKmeMM4+voe7yc3FM/Wpx7QfoxtRNmusmuiBERHEgSNQ/J8E68Ya51O2
+         8Q/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2xgEEjXrW2lbu5MpNlLjABQ+7E1/MT4wNU2nwaef9vI=;
+        b=RGmMHDwqV+OUzryRiEqXzXZf3mL8WCKluCuxVBN6Ew0VB4XbnFuCrPMQo9EZDVyddX
+         vfXh1bSbu98eGknChfLPJQ69DwiM70Fv1QSVf50HS+tXTtebTFK1EsLjfFlVk8xjv3fv
+         xCRtiQi0kF4JUzyCLVhcU6/zIoZGy03kcUBGwBKUGXUgnWoFzgCqHED469Mgv3wJmczu
+         QcjdsAtMy4iV8aZPAuIOeuU1Y8IhCTjCqjzRzxBLNwOVm7SJyz6ozrJndChNA5RGSBBG
+         E5z6htav+NippgN5ujwBKKVK1/6exyxomvVQw6D3yPFNIJfyH2l74nG6F8f4mWWlzCg6
+         w/Ug==
+X-Gm-Message-State: AFqh2koCYnQeJGLxDt6PpAo3rvx8apARCdCXAKAKTKnbzBJY78WmnUs6
+	gtQfzUnNtT5y0+8u6Ds5iaQ=
+X-Google-Smtp-Source: AMrXdXt0Nm3pTHNspcprTRWX8uHoMzHpbZY5sB9M/E2IPudxPwZTsKYcte6yCvHiQbF6uESqJuuj1w==
+X-Received: by 2002:a05:600c:35c1:b0:3db:1424:e781 with SMTP id r1-20020a05600c35c100b003db1424e781mr19349102wmq.23.1674488820252;
+        Mon, 23 Jan 2023 07:47:00 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id o21-20020a05600c4fd500b003c6f8d30e40sm12223314wmq.31.2023.01.23.07.46.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 Jan 2023 07:46:59 -0800 (PST)
+Date: Mon, 23 Jan 2023 18:46:56 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: Re: [peterz-queue:x86/core 3/3] arch/x86/kernel/static_call.c:98
+ __static_call_transform() error: uninitialized symbol 'op'.
+Message-ID: <Y86r8GaOYdvGlPq9@kadam>
+References: <Y853bqEhA5NDC3Ar@kadam>
+ <Y86maRy5ILlUBo/9@hirez.programming.kicks-ass.net>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -45,113 +54,48 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <Y86maRy5ILlUBo/9@hirez.programming.kicks-ass.net>
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-CC: Mauro Carvalho Chehab <mchehab@kernel.org>
-CC: linux-media@vger.kernel.org
-CC: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+On Mon, Jan 23, 2023 at 04:23:21PM +0100, Peter Zijlstra wrote:
+> On Mon, Jan 23, 2023 at 03:02:54PM +0300, Dan Carpenter wrote:
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git x86/core
+> > head:   700f4c6d925823018a2d09f92de5405065d2ffec
+> > commit: 700f4c6d925823018a2d09f92de5405065d2ffec [3/3] x86/static_call: Add support for Jcc tail-calls
+> > config: i386-randconfig-m021 (https://download.01.org/0day-ci/archive/20230121/202301211834.noGVyk06-lkp@intel.com/config)
+> > compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+> > 
+> > If you fix the issue, kindly add following tag where applicable
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Reported-by: Dan Carpenter <error27@gmail.com>
+> > 
+> > smatch warnings:
+> > arch/x86/kernel/static_call.c:98 __static_call_transform() error: uninitialized symbol 'op'.
+> > 
+> > vim +/op +98 arch/x86/kernel/static_call.c
+> > 
+> > c27c753ea6fd12 Thomas Gleixner 2022-07-12   53  static void __ref __static_call_transform(void *insn, enum insn_type type,
+> > c27c753ea6fd12 Thomas Gleixner 2022-07-12   54  					  void *func, bool modinit)
+> > e6d6c071f22de2 Josh Poimboeuf  2020-08-18   55  {
+> > 3f2a8fc4b15de1 Peter Zijlstra  2021-01-18   56  	const void *emulate = NULL;
+> > 452cddbff74b6a Peter Zijlstra  2020-08-18   57  	int size = CALL_INSN_SIZE;
+> > 452cddbff74b6a Peter Zijlstra  2020-08-18   58  	const void *code;
+> > 700f4c6d925823 Peter Zijlstra  2023-01-20   59  	u8 op, buf[6];
+> > 700f4c6d925823 Peter Zijlstra  2023-01-20   60  
+> > 700f4c6d925823 Peter Zijlstra  2023-01-20   61  	if ((type == JMP || type == RET) && (op = __is_Jcc(insn)))
+> > 700f4c6d925823 Peter Zijlstra  2023-01-20   62  		type = JCC;
+> > 
+> > Smatch is concerned that type can start as "JCC".
+> 
+> It can't. What's the normal way to shut this kind of warnings up?
+> 
+> Something like BUG_ON(type==JCC); should squash that value I suppose,
+> but it does seems a bit crude.
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   691781f561e9868a94c3ed7daf4adad7f8af5d16
-commit: f1403802d5117651f0b8fd1ec3ba2e0515ab17ad [6880/7257] media: i2c: max9286: Support 12-bit raw bayer formats
-:::::: branch date: 11 hours ago
-:::::: commit date: 31 hours ago
-config: arc-randconfig-m031-20230123 (https://download.01.org/0day-ci/archive/20230123/202301232350.U1DFzt57-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 12.1.0
+We could just ignore it.  These are one time only emails.
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
+This code hasn't hit linux-next yet, so I don't have it on my system.
+It may be that using the cross function DB silences the warning.
 
-smatch warnings:
-drivers/media/i2c/max9286.c:771 max9286_s_stream() error: buffer overflow 'priv->fmt' 4 <= 32
+regards,
+dan carpenter
 
-vim +771 drivers/media/i2c/max9286.c
-
-66d8c9d2422da2 Kieran Bingham   2020-06-12  755  
-66d8c9d2422da2 Kieran Bingham   2020-06-12  756  static int max9286_s_stream(struct v4l2_subdev *sd, int enable)
-66d8c9d2422da2 Kieran Bingham   2020-06-12  757  {
-66d8c9d2422da2 Kieran Bingham   2020-06-12  758  	struct max9286_priv *priv = sd_to_max9286(sd);
-66d8c9d2422da2 Kieran Bingham   2020-06-12  759  	struct max9286_source *source;
-66d8c9d2422da2 Kieran Bingham   2020-06-12  760  	unsigned int i;
-66d8c9d2422da2 Kieran Bingham   2020-06-12  761  	bool sync = false;
-66d8c9d2422da2 Kieran Bingham   2020-06-12  762  	int ret;
-66d8c9d2422da2 Kieran Bingham   2020-06-12  763  
-66d8c9d2422da2 Kieran Bingham   2020-06-12  764  	if (enable) {
-f1403802d51176 Laurent Pinchart 2022-01-01  765  		const struct v4l2_mbus_framefmt *format;
-f1403802d51176 Laurent Pinchart 2022-01-01  766  
-f1403802d51176 Laurent Pinchart 2022-01-01  767  		/*
-f1403802d51176 Laurent Pinchart 2022-01-01  768  		 * Get the format from the first used sink pad, as all sink
-f1403802d51176 Laurent Pinchart 2022-01-01  769  		 * formats must be identical.
-f1403802d51176 Laurent Pinchart 2022-01-01  770  		 */
-f1403802d51176 Laurent Pinchart 2022-01-01 @771  		format = &priv->fmt[__ffs(priv->bound_sources)];
-f1403802d51176 Laurent Pinchart 2022-01-01  772  
-f1403802d51176 Laurent Pinchart 2022-01-01  773  		max9286_set_video_format(priv, format);
-cffc9fb1ed6c5c Laurent Pinchart 2022-01-01  774  		max9286_set_fsync_period(priv);
-cffc9fb1ed6c5c Laurent Pinchart 2022-01-01  775  
-66d8c9d2422da2 Kieran Bingham   2020-06-12  776  		/*
-66d8c9d2422da2 Kieran Bingham   2020-06-12  777  		 * The frame sync between cameras is transmitted across the
-66d8c9d2422da2 Kieran Bingham   2020-06-12  778  		 * reverse channel as GPIO. We must open all channels while
-66d8c9d2422da2 Kieran Bingham   2020-06-12  779  		 * streaming to allow this synchronisation signal to be shared.
-66d8c9d2422da2 Kieran Bingham   2020-06-12  780  		 */
-66d8c9d2422da2 Kieran Bingham   2020-06-12  781  		max9286_i2c_mux_open(priv);
-66d8c9d2422da2 Kieran Bingham   2020-06-12  782  
-66d8c9d2422da2 Kieran Bingham   2020-06-12  783  		/* Start all cameras. */
-66d8c9d2422da2 Kieran Bingham   2020-06-12  784  		for_each_source(priv, source) {
-66d8c9d2422da2 Kieran Bingham   2020-06-12  785  			ret = v4l2_subdev_call(source->sd, video, s_stream, 1);
-66d8c9d2422da2 Kieran Bingham   2020-06-12  786  			if (ret)
-66d8c9d2422da2 Kieran Bingham   2020-06-12  787  				return ret;
-66d8c9d2422da2 Kieran Bingham   2020-06-12  788  		}
-66d8c9d2422da2 Kieran Bingham   2020-06-12  789  
-66d8c9d2422da2 Kieran Bingham   2020-06-12  790  		ret = max9286_check_video_links(priv);
-66d8c9d2422da2 Kieran Bingham   2020-06-12  791  		if (ret)
-66d8c9d2422da2 Kieran Bingham   2020-06-12  792  			return ret;
-66d8c9d2422da2 Kieran Bingham   2020-06-12  793  
-66d8c9d2422da2 Kieran Bingham   2020-06-12  794  		/*
-66d8c9d2422da2 Kieran Bingham   2020-06-12  795  		 * Wait until frame synchronization is locked.
-66d8c9d2422da2 Kieran Bingham   2020-06-12  796  		 *
-66d8c9d2422da2 Kieran Bingham   2020-06-12  797  		 * Manual says frame sync locking should take ~6 VTS.
-66d8c9d2422da2 Kieran Bingham   2020-06-12  798  		 * From practical experience at least 8 are required. Give
-66d8c9d2422da2 Kieran Bingham   2020-06-12  799  		 * 12 complete frames time (~400ms at 30 fps) to achieve frame
-66d8c9d2422da2 Kieran Bingham   2020-06-12  800  		 * locking before returning error.
-66d8c9d2422da2 Kieran Bingham   2020-06-12  801  		 */
-66d8c9d2422da2 Kieran Bingham   2020-06-12  802  		for (i = 0; i < 40; i++) {
-66d8c9d2422da2 Kieran Bingham   2020-06-12  803  			if (max9286_read(priv, 0x31) & MAX9286_FSYNC_LOCKED) {
-66d8c9d2422da2 Kieran Bingham   2020-06-12  804  				sync = true;
-66d8c9d2422da2 Kieran Bingham   2020-06-12  805  				break;
-66d8c9d2422da2 Kieran Bingham   2020-06-12  806  			}
-66d8c9d2422da2 Kieran Bingham   2020-06-12  807  			usleep_range(9000, 11000);
-66d8c9d2422da2 Kieran Bingham   2020-06-12  808  		}
-66d8c9d2422da2 Kieran Bingham   2020-06-12  809  
-66d8c9d2422da2 Kieran Bingham   2020-06-12  810  		if (!sync) {
-66d8c9d2422da2 Kieran Bingham   2020-06-12  811  			dev_err(&priv->client->dev,
-66d8c9d2422da2 Kieran Bingham   2020-06-12  812  				"Failed to get frame synchronization\n");
-66d8c9d2422da2 Kieran Bingham   2020-06-12  813  			return -EXDEV; /* Invalid cross-device link */
-66d8c9d2422da2 Kieran Bingham   2020-06-12  814  		}
-66d8c9d2422da2 Kieran Bingham   2020-06-12  815  
-66d8c9d2422da2 Kieran Bingham   2020-06-12  816  		/*
-66d8c9d2422da2 Kieran Bingham   2020-06-12  817  		 * Enable CSI output, VC set according to link number.
-66d8c9d2422da2 Kieran Bingham   2020-06-12  818  		 * Bit 7 must be set (chip manual says it's 0 and reserved).
-66d8c9d2422da2 Kieran Bingham   2020-06-12  819  		 */
-66d8c9d2422da2 Kieran Bingham   2020-06-12  820  		max9286_write(priv, 0x15, 0x80 | MAX9286_VCTYPE |
-66d8c9d2422da2 Kieran Bingham   2020-06-12  821  			      MAX9286_CSIOUTEN | MAX9286_0X15_RESV);
-66d8c9d2422da2 Kieran Bingham   2020-06-12  822  	} else {
-66d8c9d2422da2 Kieran Bingham   2020-06-12  823  		max9286_write(priv, 0x15, MAX9286_VCTYPE | MAX9286_0X15_RESV);
-66d8c9d2422da2 Kieran Bingham   2020-06-12  824  
-66d8c9d2422da2 Kieran Bingham   2020-06-12  825  		/* Stop all cameras. */
-66d8c9d2422da2 Kieran Bingham   2020-06-12  826  		for_each_source(priv, source)
-66d8c9d2422da2 Kieran Bingham   2020-06-12  827  			v4l2_subdev_call(source->sd, video, s_stream, 0);
-66d8c9d2422da2 Kieran Bingham   2020-06-12  828  
-66d8c9d2422da2 Kieran Bingham   2020-06-12  829  		max9286_i2c_mux_close(priv);
-66d8c9d2422da2 Kieran Bingham   2020-06-12  830  	}
-66d8c9d2422da2 Kieran Bingham   2020-06-12  831  
-66d8c9d2422da2 Kieran Bingham   2020-06-12  832  	return 0;
-66d8c9d2422da2 Kieran Bingham   2020-06-12  833  }
-66d8c9d2422da2 Kieran Bingham   2020-06-12  834  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
