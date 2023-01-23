@@ -1,112 +1,85 @@
-Received: from gnuweeb.org (gnuweeb.org [51.81.211.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E776FA4D;
-	Mon, 23 Jan 2023 12:30:07 +0000 (UTC)
-Received: from [10.7.7.5] (unknown [182.253.88.152])
-	by gnuweeb.org (Postfix) with ESMTPSA id CA3FC81F47;
-	Mon, 23 Jan 2023 12:22:24 +0000 (UTC)
-X-GW-Data: lPqxHiMPbJw1wb7CM9QUryAGzr0yq5atzVDdxTR0iA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gnuweeb.org;
-	s=default; t=1674476546;
-	bh=lgk2zwP1kpgva+ZUgxjVQRkEplrOVG690aJTRGEP8/U=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Uhspuy8PQNj8wJnPsQ1FC0lbcsB5xCZM68Ohk/OA64Ujm9s2INW08OdBuAYGd2ERP
-	 qATFAl6dZwdcOrs+EXVtwNJcrlAzJlA+nq/v2LHcr6rHuZFGKHOImbOFl8XP3c0ipB
-	 5fMC9eIf7iNuv3UUV2nI67kdEjM+SjJy1VFp7GfZnZdtff23UVkdWeyDnBF79PLkgH
-	 EwDQRlhZvWH2+2RY8qlv9RvP0qpKJd+05SFXSH61spm67udn+baWu+z94Qy+xmqeX+
-	 HqzhaKV6THwVNnJnhGfZU0DOivctixbz6ragyi5d6+gMFOOyA/oTpX7e5mto0XFKXJ
-	 jopEYxnSAUJtA==
-Message-ID: <ea91d364-2e7c-8769-b62b-aa213f677b9b@gnuweeb.org>
-Date: Mon, 23 Jan 2023 19:22:21 +0700
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B2A71391;
+	Mon, 23 Jan 2023 12:37:28 +0000 (UTC)
+Received: by mail-wm1-f46.google.com with SMTP id q8so8872120wmo.5;
+        Mon, 23 Jan 2023 04:37:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=tLgSZ6O91njTGUq3vk9144iZV68n8GbM1GAVJ5K9gHQ=;
+        b=H8lzIkKWxlcdNJtwav8GT1stFUzYMcGkPqXHGDnxjysbQTduMHGUcIsH+2Yf+jyp+N
+         PUxgPwSH9DPoPEjzSft+o1MBWu4qTEyR34/Aw6w15RP5DNQMDmnLZ249ARSMr6ei3pHq
+         Q7+LZFOXiJSKdNE20khovt/IbDUY/rzGxtQZX/1aFWULcDnsRLWsEsamIntOvWLa268I
+         PhkiYfx5c58/a/8/ZwKG22Tzk36w4PVR/Q0pYQpTH3Oo7EZepvR5tmY7epUcmYOGwxDb
+         VJSitu/JHfN8rANPgzm2vhTUrTR5KU/5KKIz5EW8/slmBz5LLpIqRKkygBbjfY+aePNl
+         qqiA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=tLgSZ6O91njTGUq3vk9144iZV68n8GbM1GAVJ5K9gHQ=;
+        b=yMrvHHqsCj5216IrlJ9Y7aAn5Vnwk0tLL5SIl8ucOEm0Aoe0LHwLtKWNIR6alVlmRt
+         U7m2ijT7hi8nDm94OSr8TK85ersuM2XrLXVZhnSOEtUIang2hSTBDScmZC2n9Oyr2vtL
+         2+y+0EIKO8QpP7ThYG6aerTSN5jh1kwq7VH4C5q4LhinjXrUtYjF7l53oWdTqbLFG38m
+         n4i3/ieuPbzL0RwtxmWLOQ5kWJsvXSA88i7DjLiL4lOeflNnShrjEkB2XNxw4/GhDo10
+         ESg59mpDlx4OuDhdiUUHViZLlw15Wqkq+Iid/5af03Pcb35J/rRZQT/ug8/072+IwV4c
+         F41g==
+X-Gm-Message-State: AFqh2koCrRofDlxFDYF0w+J01iZNFEZbRHU5HKFoSe5zHkiccu+7sQHT
+	W+C04QBahTBwainVxmVXGII=
+X-Google-Smtp-Source: AMrXdXuBckxCdly7hZDO+7ioeodPQcu+dNBtTpc63PkAuQuvkJyEdhzQfcozamqg+ceU8OoM64vnNw==
+X-Received: by 2002:a05:600c:2d05:b0:3d0:85b5:33d3 with SMTP id x5-20020a05600c2d0500b003d085b533d3mr22793200wmf.16.1674477446346;
+        Mon, 23 Jan 2023 04:37:26 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id fc17-20020a05600c525100b003db1d9553e7sm11742499wmb.32.2023.01.23.04.37.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 Jan 2023 04:37:25 -0800 (PST)
+Date: Mon, 23 Jan 2023 15:37:22 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Ammar Faizi <ammarfaizi2@gnuweeb.org>
+Cc: Jaegeuk Kim <jaegeuk@kernel.org>,
+	GNU/Weeb Mailing List <gwml@vger.gnuweeb.org>,
+	oe-kbuild@lists.linux.dev, lkp@intel.com,
+	oe-kbuild-all@lists.linux.dev
+Subject: Re: Fwd:
+ [ammarfaizi2-block:google/android/kernel/common/upstream-f2fs-stable-linux-5.15.y
+ 115/361] fs/f2fs/data.c:996 f2fs_grab_read_bio() warn: variable dereferenced
+ before check 'bio' (see line 995)
+Message-ID: <Y85/gtltbiWCv+jB@kadam>
+References: <Y853lht6nq1emVj6@kadam>
+ <0b9b8c6b-b79a-126f-745e-f571abad7bff@gnuweeb.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re:
- [ammarfaizi2-block:google/android/kernel/common/upstream-f2fs-stable-linux-5.15.y
- 115/361] fs/f2fs/data.c:996 f2fs_grab_read_bio() warn: variable dereferenced
- before check 'bio' (see line 995)
-Content-Language: en-US
-To: Dan Carpenter <error27@gmail.com>
-Cc: GNU/Weeb Mailing List <gwml@vger.gnuweeb.org>,
- kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
- oe-kbuild@lists.linux.dev
-References: <Y853lht6nq1emVj6@kadam>
-From: Ammar Faizi <ammarfaizi2@gnuweeb.org>
-In-Reply-To: <Y853lht6nq1emVj6@kadam>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <0b9b8c6b-b79a-126f-745e-f571abad7bff@gnuweeb.org>
 
-On 1/23/23 7:03 PM, Dan Carpenter wrote:
-> tree:   https://github.com/ammarfaizi2/linux-block google/android/kernel/common/upstream-f2fs-stable-linux-5.15.y
-> head:   4bf3e7f429f64b802942c685cf37b02a546a25e5
-> commit: e8e3f1a12d05d0aef2c819664890b540dfb055af [115/361] f2fs: don't pass a bio to f2fs_target_device
-> config: arm64-randconfig-m041-20230115 (https://download.01.org/0day-ci/archive/20230122/202301220910.UeYxE65s-lkp@intel.com/config)
-> compiler: aarch64-linux-gcc (GCC) 12.1.0
+On Mon, Jan 23, 2023 at 07:24:17PM +0700, Ammar Faizi wrote:
+> commit e8e3f1a12d05d0aef2c819664890b540dfb055af
+> Author:     Christoph Hellwig <hch@lst.de>
+> AuthorDate: Mon Feb 28 14:41:22 2022 +0200
+> Commit:     Jaegeuk Kim <jaegeuk@kernel.org>
+> CommitDate: Thu Apr 28 15:51:57 2022 -0700
 > 
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <error27@gmail.com>
-> 
-> New smatch warnings:
-> fs/f2fs/data.c:996 f2fs_grab_read_bio() warn: variable dereferenced before check 'bio' (see line 995)
-> 
-> vim +/bio +996 fs/f2fs/data.c
-> 
-> 13ba41e346170e Jaegeuk Kim             2017-09-06   982  static struct bio *f2fs_grab_read_bio(struct inode *inode, block_t blkaddr,
-> 95ae251fe82838 Eric Biggers            2019-07-22   983  				      unsigned nr_pages, unsigned op_flag,
-> 7f59b277f79e8a Eric Biggers            2021-01-04   984  				      pgoff_t first_idx, bool for_write)
-> 13ba41e346170e Jaegeuk Kim             2017-09-06   985  {
-> 13ba41e346170e Jaegeuk Kim             2017-09-06   986  	struct f2fs_sb_info *sbi = F2FS_I_SB(inode);
-> 13ba41e346170e Jaegeuk Kim             2017-09-06   987  	struct bio *bio;
-> a4b6817625e71d Daeho Jeong             2021-08-20   988  	struct bio_post_read_ctx *ctx = NULL;
-> 6dbb17961f46b2 Eric Biggers            2018-04-18   989  	unsigned int post_read_steps = 0;
-> e8e3f1a12d05d0 Christoph Hellwig       2022-02-28   990  	sector_t sector;
-> e8e3f1a12d05d0 Christoph Hellwig       2022-02-28   991  	struct block_device *bdev = f2fs_target_device(sbi, blkaddr, &sector);
-> 13ba41e346170e Jaegeuk Kim             2017-09-06   992
-> 67883ade7a98a7 Christoph Hellwig       2021-01-26   993  	bio = bio_alloc_bioset(for_write ? GFP_NOIO : GFP_KERNEL,
-> 5f7136db829960 Matthew Wilcox (Oracle  2021-01-29   994) 			       bio_max_segs(nr_pages), &f2fs_bioset);
-> e8e3f1a12d05d0 Christoph Hellwig       2022-02-28  @995  	bio_set_dev(bio, bdev);
->                                                                              ^^^
-> Dereferenced inside function
-> 
-> 6dbb17961f46b2 Eric Biggers            2018-04-18  @996  	if (!bio)
->                                                                      ^^^^
-> Checked too late
-> 
-> 13ba41e346170e Jaegeuk Kim             2017-09-06   997  		return ERR_PTR(-ENOMEM);
-> e8e3f1a12d05d0 Christoph Hellwig       2022-02-28   998  	bio->bi_iter.bi_sector = sector;
-> 27aacd28ea3b89 Satya Tangirala         2020-07-02   999  	f2fs_set_bio_crypt_ctx(bio, inode, first_idx, NULL, GFP_NOFS);
-> 13ba41e346170e Jaegeuk Kim             2017-09-06  1000  	bio->bi_end_io = f2fs_read_end_io;
-> e2e59414aae2c8 Jaegeuk Kim             2018-06-21  1001  	bio_set_op_attrs(bio, REQ_OP_READ, op_flag);
-> 13ba41e346170e Jaegeuk Kim             2017-09-06  1002
-> 27aacd28ea3b89 Satya Tangirala         2020-07-02  1003  	if (fscrypt_inode_uses_fs_layer_crypto(inode))
-> 7f59b277f79e8a Eric Biggers            2021-01-04  1004  		post_read_steps |= STEP_DECRYPT;
-> 7f59b277f79e8a Eric Biggers            2021-01-04  1005
+>     f2fs: don't pass a bio to f2fs_target_device
+>     Set the bdev at bio allocation time by changing the f2fs_target_device
+>     calling conventions, so that no bio needs to be passed in.
+>     Signed-off-by: Christoph Hellwig <hch@lst.de>
+>     Reviewed-by: Chao Yu <chao@kernel.org>
+>     Link: https://lore.kernel.org/r/20220228124123.856027-2-hch@lst.de
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+This link doesn't have the bug.  It seems like it was caused by a merge
+issue.
 
-That looks like a real bug. I'll forward it to the committer.
+Simple enough to fix either way.
 
-commit e8e3f1a12d05d0aef2c819664890b540dfb055af
-Author:     Christoph Hellwig <hch@lst.de>
-AuthorDate: Mon Feb 28 14:41:22 2022 +0200
-Commit:     Jaegeuk Kim <jaegeuk@kernel.org>
-CommitDate: Thu Apr 28 15:51:57 2022 -0700
-
-     f2fs: don't pass a bio to f2fs_target_device
-     
-     Set the bdev at bio allocation time by changing the f2fs_target_device
-     calling conventions, so that no bio needs to be passed in.
-     
-     Signed-off-by: Christoph Hellwig <hch@lst.de>
-     Reviewed-by: Chao Yu <chao@kernel.org>
-     Link: https://lore.kernel.org/r/20220228124123.856027-2-hch@lst.de
-     Signed-off-by: Jens Axboe <axboe@kernel.dk>
-
--- 
-Ammar Faizi
+regards,
+dan carpenter
 
