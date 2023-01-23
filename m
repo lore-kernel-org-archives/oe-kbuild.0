@@ -1,54 +1,52 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC3867C;
-	Mon, 23 Jan 2023 12:04:17 +0000 (UTC)
-Received: by mail-wr1-f42.google.com with SMTP id t5so10593376wrq.1;
-        Mon, 23 Jan 2023 04:04:17 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAE0B7C;
+	Mon, 23 Jan 2023 12:04:26 +0000 (UTC)
+Received: by mail-wr1-f46.google.com with SMTP id z5so10572118wrt.6;
+        Mon, 23 Jan 2023 04:04:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=dc6Iu0o4fP6ivasC7UZeOSkzWU+HqKmeQgzRy86uQ1M=;
-        b=O6/IZ8T6juXFBxwlihCeu4uCoPmkh1n/nuFQJdZ3eSMX1cv738HyzZycJsj1SCDhfj
-         tTnQqGg5PV9EHiw8P/mXED9EBlVfpktM79yV8rqgCuqmoYVH61pDCuQW5JmbUBLcemCC
-         ZVf0hqvt8sZrWq0d6XzWygUXcrCJnVOHdXJ9kvSAL9aZJxq1EsOCR1r/E0VT6jc288VG
-         dYm9v2vD/l7wqJ10Pn7D8CqqCAKupkSI01P6MxjiaClBIYYu8URNzhUR/yhb7Erv+6je
-         2qbuMqMEnH9Et9NimYfzg2Pl3D5PPaafG1A8Z/VCU3lfVOazcTt9rfF/St1B4FWH85u4
-         YxMw==
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=xjnmOT38exucKpDnBU3ufQTB3PeDS8pOIxods2RkuqU=;
+        b=UUuJSdzFXaxpXgT78bDz8LTpg6wNHB833NRvU1jUgbKWTbM5n9tLmSf1V0MAHV8ikK
+         VWDUnIEdUpt9PvolNOKjWtNfqLzL4+ogWsZVhWbTjQa26Xn1MDH8wvzphBfhUcRcKTx+
+         2qdLuoSOOHJOTv4DQBR8p/YC3uFjlcFKCvmIlcMsvgpQGbi8o5NRiOgArsHTjL/J030I
+         siZ1TC3VtoLx+ZGAp4VqrS378TMzQ0k07GshmhwBp6N5OxBDZ2in3Kw+ajyLYQz7OdqF
+         dFoSzZFGNkuP+yHG0EcndNpGAnvr0WOop34du4EFQlybgLhOpxj1QmiaqQQYkOOjY4yL
+         x5DA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=dc6Iu0o4fP6ivasC7UZeOSkzWU+HqKmeQgzRy86uQ1M=;
-        b=0kdQoe6Jm+3ORQgz71tP0th13y+h7hx4T0k5Hk6S/oJ1PcHYnL9O+c4Y9LRwBU/SRv
-         80zw8zVvxbLAuL7r7FKa/XW4E3c5rNnTgKPy3F0gtrlFHjF8JFJGSiwnuvtytXqPwGns
-         X8PaKDvs8KRbfgsa96zLrvu8DYQcdYQ3wcwOtV6YU/PGWAvuwNhJF9A5IubtslhZD9Xx
-         y8WvyeDZKkT9VcUHY3zwigC3jIEN5uYLmS4IOyUmrHJxWumFXh+Ppo6kfdbKHWAUtH8z
-         WWfplMLe3Swl/Es17haC+Q+drDczMx0CbGm5J7XpoU5VspztZR80euqZxmulqtxVH0e6
-         3OlA==
-X-Gm-Message-State: AFqh2krQlxigmM34G7I5Ugh2ywhr2BolRGgsClK7IROQxZQHUxSYFOR2
-	dmlM6SwSWSawYsDFbK3f/Pza2JOqLbw=
-X-Google-Smtp-Source: AMrXdXva0tO72U7N+MHJLM3e3EW5ga5Hn9KbpUyoOKMqbwKALgpgNVk3x7EdNBa1FSdW/V9ve8Xsyg==
-X-Received: by 2002:a5d:4c4e:0:b0:2bb:4b40:2d1a with SMTP id n14-20020a5d4c4e000000b002bb4b402d1amr21946328wrt.56.1674475455949;
-        Mon, 23 Jan 2023 04:04:15 -0800 (PST)
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=xjnmOT38exucKpDnBU3ufQTB3PeDS8pOIxods2RkuqU=;
+        b=OJuNF14q5LBTwv6pcv4JnvjPcsWjadzCRViZxosHBHFKD3q5UR1Jc2+afopyLpNXt2
+         T7GrM0HPrFUc3qNuvMQNiSXBSLcrBIV6siR1A9GC3gu1xcPopPPfxp5m6MtZNZnS3jKR
+         SQB6fpXfyR/ZzziEOvT22za/whIkwYmFFFYZRfhsYTqoXBrxKIS9M61gtIyvipHZmOKt
+         zmbkP5GqOBeVX3bqh9GnmCnF+V7+3NEIagUQlTw7apUvFTHYBV7zF0dKGu0NPYDHM1gs
+         DAVmTgGyUcnRGg8hsaeAeGQc4Dx2w0iUnhT97Vy4XAwdHsAi67Pl6imZoB5melxhC9tA
+         Uk+A==
+X-Gm-Message-State: AFqh2kpFcxV5+/pCXMp9951DVINcKTGmB+yXufpbV6QyAQXkuMnEtbKC
+	YiakzIcqyAkHiB3dh//Dsm9Ua3gdYPg=
+X-Google-Smtp-Source: AMrXdXt9r3PFlHjSFKwd+OygSUaI9ukjcd2mC9i/Q5L3weA7oL+9hWeLk+Fd3hgpYQZVjf/oB+6q3Q==
+X-Received: by 2002:a05:6000:1a8f:b0:2be:3fa7:ab4e with SMTP id f15-20020a0560001a8f00b002be3fa7ab4emr18860225wry.38.1674475464786;
+        Mon, 23 Jan 2023 04:04:24 -0800 (PST)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id b13-20020a05600003cd00b002be07cbefb2sm22510868wrg.18.2023.01.23.04.04.15
+        by smtp.gmail.com with ESMTPSA id q15-20020a5d574f000000b00272c0767b4asm4156681wrw.109.2023.01.23.04.04.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Jan 2023 04:04:15 -0800 (PST)
-Date: Mon, 23 Jan 2023 15:04:12 +0300
+        Mon, 23 Jan 2023 04:04:24 -0800 (PST)
+Date: Mon, 23 Jan 2023 15:04:20 +0300
 From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, Ajay Kaher <akaher@vmware.com>,
-	rostedt@goodmis.org, mhiramat@kernel.org
+To: oe-kbuild@lists.linux.dev, Gabriel Somlo <gsomlo@gmail.com>
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
-	chinglinyu@google.com, namit@vmware.com, srivatsab@vmware.com,
-	srivatsa@csail.mit.edu, amakhalov@vmware.com,
-	vsirnapalli@vmware.com, tkundu@vmware.com, er.ajay.kaher@gmail.com,
-	Ajay Kaher <akaher@vmware.com>
-Subject: Re: [PATCH 2/8] eventfs: adding eventfs dir add functions
-Message-ID: <Y853vPCsTZXEiPgV@kadam>
+	linux-serial@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Jiri Slaby <jirislaby@kernel.org>
+Subject: [tty:tty-next 17/90] drivers/tty/serial/liteuart.c:328
+ liteuart_probe() warn: missing unwind goto?
+Message-ID: <Y853xOE+Oat1MQZg@kadam>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -57,16 +55,11 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1674407228-49109-2-git-send-email-akaher@vmware.com>
 
-Hi Ajay,
-
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ajay-Kaher/eventfs-adding-eventfs-dir-add-functions/20230123-010956
-patch link:    https://lore.kernel.org/r/1674407228-49109-2-git-send-email-akaher%40vmware.com
-patch subject: [PATCH 2/8] eventfs: adding eventfs dir add functions
-config: x86_64-randconfig-m001 (https://download.01.org/0day-ci/archive/20230123/202301231023.0ix6JmVM-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-next
+head:   05e2600cb0a4d73b0779cf29512819616252aeeb
+commit: 5602cf99dcdcc0bf8f9a5979b7443fbe46686995 [17/90] serial: liteuart: add IRQ support for the RX path
+config: i386-randconfig-m021 (https://download.01.org/0day-ci/archive/20230121/202301210724.SCRcRjOR-lkp@intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
@@ -74,54 +67,74 @@ If you fix the issue, kindly add following tag where applicable
 | Reported-by: Dan Carpenter <error27@gmail.com>
 
 smatch warnings:
-fs/tracefs/event_inode.c:114 eventfs_add_subsystem_dir() error: dereferencing freed memory 'ef'
+drivers/tty/serial/liteuart.c:328 liteuart_probe() warn: missing unwind goto?
 
-vim +/ef +114 fs/tracefs/event_inode.c
+vim +328 drivers/tty/serial/liteuart.c
 
-db5e58a9349f39 Ajay Kaher 2023-01-22   87  struct eventfs_file *eventfs_add_subsystem_dir(const char *name, struct dentry *parent)
-db5e58a9349f39 Ajay Kaher 2023-01-22   88  {
-db5e58a9349f39 Ajay Kaher 2023-01-22   89  	struct eventfs_file *ef;
-db5e58a9349f39 Ajay Kaher 2023-01-22   90  	struct tracefs_inode *ti_parent;
-db5e58a9349f39 Ajay Kaher 2023-01-22   91  	struct eventfs_inode *ei_parent;
-db5e58a9349f39 Ajay Kaher 2023-01-22   92  
-db5e58a9349f39 Ajay Kaher 2023-01-22   93  	if (!parent)
-db5e58a9349f39 Ajay Kaher 2023-01-22   94  		return ERR_PTR(-EINVAL);
-db5e58a9349f39 Ajay Kaher 2023-01-22   95  
-db5e58a9349f39 Ajay Kaher 2023-01-22   96  	ti_parent = get_tracefs(parent->d_inode);
-db5e58a9349f39 Ajay Kaher 2023-01-22   97  	ei_parent = ti_parent->private;
-db5e58a9349f39 Ajay Kaher 2023-01-22   98  
-db5e58a9349f39 Ajay Kaher 2023-01-22   99  	ef = kzalloc(sizeof(*ef), GFP_KERNEL);
-db5e58a9349f39 Ajay Kaher 2023-01-22  100  	if (!ef)
-db5e58a9349f39 Ajay Kaher 2023-01-22  101  		return ERR_PTR(-ENOMEM);
-db5e58a9349f39 Ajay Kaher 2023-01-22  102  
-db5e58a9349f39 Ajay Kaher 2023-01-22  103  	ef->ei = kzalloc(sizeof(*ef->ei), GFP_KERNEL);
-db5e58a9349f39 Ajay Kaher 2023-01-22  104  	if (!ef->ei) {
-db5e58a9349f39 Ajay Kaher 2023-01-22  105  		kfree(ef);
-db5e58a9349f39 Ajay Kaher 2023-01-22  106  		return ERR_PTR(-ENOMEM);
-db5e58a9349f39 Ajay Kaher 2023-01-22  107  	}
-db5e58a9349f39 Ajay Kaher 2023-01-22  108  
-db5e58a9349f39 Ajay Kaher 2023-01-22  109  	INIT_LIST_HEAD(&ef->ei->e_top_files);
-db5e58a9349f39 Ajay Kaher 2023-01-22  110  
-db5e58a9349f39 Ajay Kaher 2023-01-22  111  	ef->name = kstrdup(name, GFP_KERNEL);
-db5e58a9349f39 Ajay Kaher 2023-01-22  112  	if (!ef->name) {
-db5e58a9349f39 Ajay Kaher 2023-01-22  113  		kfree(ef);
-db5e58a9349f39 Ajay Kaher 2023-01-22 @114  		kfree(ef->ei);
+1da81e5562fac8 Filip Kokosinski 2020-10-13  294  static int liteuart_probe(struct platform_device *pdev)
+1da81e5562fac8 Filip Kokosinski 2020-10-13  295  {
+1da81e5562fac8 Filip Kokosinski 2020-10-13  296  	struct liteuart_port *uart;
+1da81e5562fac8 Filip Kokosinski 2020-10-13  297  	struct uart_port *port;
+1da81e5562fac8 Filip Kokosinski 2020-10-13  298  	struct xa_limit limit;
+1da81e5562fac8 Filip Kokosinski 2020-10-13  299  	int dev_id, ret;
+1da81e5562fac8 Filip Kokosinski 2020-10-13  300  
+1da81e5562fac8 Filip Kokosinski 2020-10-13  301  	/* look for aliases; auto-enumerate for free index if not found */
+1da81e5562fac8 Filip Kokosinski 2020-10-13  302  	dev_id = of_alias_get_id(pdev->dev.of_node, "serial");
+1da81e5562fac8 Filip Kokosinski 2020-10-13  303  	if (dev_id < 0)
+1da81e5562fac8 Filip Kokosinski 2020-10-13  304  		limit = XA_LIMIT(0, CONFIG_SERIAL_LITEUART_MAX_PORTS);
+1da81e5562fac8 Filip Kokosinski 2020-10-13  305  	else
+1da81e5562fac8 Filip Kokosinski 2020-10-13  306  		limit = XA_LIMIT(dev_id, dev_id);
+1da81e5562fac8 Filip Kokosinski 2020-10-13  307  
+1da81e5562fac8 Filip Kokosinski 2020-10-13  308  	uart = devm_kzalloc(&pdev->dev, sizeof(struct liteuart_port), GFP_KERNEL);
+1da81e5562fac8 Filip Kokosinski 2020-10-13  309  	if (!uart)
+1da81e5562fac8 Filip Kokosinski 2020-10-13  310  		return -ENOMEM;
+1da81e5562fac8 Filip Kokosinski 2020-10-13  311  
+1da81e5562fac8 Filip Kokosinski 2020-10-13  312  	ret = xa_alloc(&liteuart_array, &dev_id, uart, limit, GFP_KERNEL);
+1da81e5562fac8 Filip Kokosinski 2020-10-13  313  	if (ret)
+1da81e5562fac8 Filip Kokosinski 2020-10-13  314  		return ret;
+1da81e5562fac8 Filip Kokosinski 2020-10-13  315  
+1da81e5562fac8 Filip Kokosinski 2020-10-13  316  	uart->id = dev_id;
+1da81e5562fac8 Filip Kokosinski 2020-10-13  317  	port = &uart->port;
+1da81e5562fac8 Filip Kokosinski 2020-10-13  318  
+1da81e5562fac8 Filip Kokosinski 2020-10-13  319  	/* get membase */
+1da81e5562fac8 Filip Kokosinski 2020-10-13  320  	port->membase = devm_platform_get_and_ioremap_resource(pdev, 0, NULL);
+dd5e90b16cca8a Johan Hovold     2021-11-17  321  	if (IS_ERR(port->membase)) {
+dd5e90b16cca8a Johan Hovold     2021-11-17  322  		ret = PTR_ERR(port->membase);
+dd5e90b16cca8a Johan Hovold     2021-11-17  323  		goto err_erase_id;
+dd5e90b16cca8a Johan Hovold     2021-11-17  324  	}
+1da81e5562fac8 Filip Kokosinski 2020-10-13  325  
+5602cf99dcdcc0 Gabriel Somlo    2022-11-23  326  	ret = platform_get_irq_optional(pdev, 0);
+5602cf99dcdcc0 Gabriel Somlo    2022-11-23  327  	if (ret < 0 && ret != -ENXIO)
+5602cf99dcdcc0 Gabriel Somlo    2022-11-23 @328  		return ret;
 
-kfree(ef->ei); first to avoid a use after free.
+Needs to be "goto err_erase_id;"
 
-db5e58a9349f39 Ajay Kaher 2023-01-22  115  		return ERR_PTR(-ENOMEM);
-db5e58a9349f39 Ajay Kaher 2023-01-22  116  	}
-db5e58a9349f39 Ajay Kaher 2023-01-22  117  
-db5e58a9349f39 Ajay Kaher 2023-01-22  118  	ef->mode = S_IFDIR | S_IRWXU | S_IRUGO | S_IXUGO;
-db5e58a9349f39 Ajay Kaher 2023-01-22  119  	ef->iop = &eventfs_root_dir_inode_operations;
-db5e58a9349f39 Ajay Kaher 2023-01-22  120  	ef->fop =  &eventfs_file_operations;
-db5e58a9349f39 Ajay Kaher 2023-01-22  121  	ef->dentry = NULL;
-db5e58a9349f39 Ajay Kaher 2023-01-22  122  	ef->created = false;
-db5e58a9349f39 Ajay Kaher 2023-01-22  123  	ef->d_parent = parent;
-db5e58a9349f39 Ajay Kaher 2023-01-22  124  
-db5e58a9349f39 Ajay Kaher 2023-01-22  125  	list_add_tail(&ef->list, &ei_parent->e_top_files);
-db5e58a9349f39 Ajay Kaher 2023-01-22  126  	return ef;
-db5e58a9349f39 Ajay Kaher 2023-01-22  127  }
+5602cf99dcdcc0 Gabriel Somlo    2022-11-23  329  	if (ret > 0)
+5602cf99dcdcc0 Gabriel Somlo    2022-11-23  330  		port->irq = ret;
+5602cf99dcdcc0 Gabriel Somlo    2022-11-23  331  
+1da81e5562fac8 Filip Kokosinski 2020-10-13  332  	/* values not from device tree */
+1da81e5562fac8 Filip Kokosinski 2020-10-13  333  	port->dev = &pdev->dev;
+1da81e5562fac8 Filip Kokosinski 2020-10-13  334  	port->iotype = UPIO_MEM;
+1da81e5562fac8 Filip Kokosinski 2020-10-13  335  	port->flags = UPF_BOOT_AUTOCONF;
+1da81e5562fac8 Filip Kokosinski 2020-10-13  336  	port->ops = &liteuart_ops;
+1da81e5562fac8 Filip Kokosinski 2020-10-13  337  	port->fifosize = 16;
+1da81e5562fac8 Filip Kokosinski 2020-10-13  338  	port->type = PORT_UNKNOWN;
+1da81e5562fac8 Filip Kokosinski 2020-10-13  339  	port->line = dev_id;
+1da81e5562fac8 Filip Kokosinski 2020-10-13  340  	spin_lock_init(&port->lock);
+1da81e5562fac8 Filip Kokosinski 2020-10-13  341  
+0f55f89d98c8b3 Ilia Sergachev   2021-11-15  342  	platform_set_drvdata(pdev, port);
+0f55f89d98c8b3 Ilia Sergachev   2021-11-15  343  
+dd5e90b16cca8a Johan Hovold     2021-11-17  344  	ret = uart_add_one_port(&liteuart_driver, &uart->port);
+dd5e90b16cca8a Johan Hovold     2021-11-17  345  	if (ret)
+dd5e90b16cca8a Johan Hovold     2021-11-17  346  		goto err_erase_id;
+dd5e90b16cca8a Johan Hovold     2021-11-17  347  
+dd5e90b16cca8a Johan Hovold     2021-11-17  348  	return 0;
+dd5e90b16cca8a Johan Hovold     2021-11-17  349  
+dd5e90b16cca8a Johan Hovold     2021-11-17  350  err_erase_id:
+dd5e90b16cca8a Johan Hovold     2021-11-17  351  	xa_erase(&liteuart_array, uart->id);
+dd5e90b16cca8a Johan Hovold     2021-11-17  352  
+dd5e90b16cca8a Johan Hovold     2021-11-17  353  	return ret;
+1da81e5562fac8 Filip Kokosinski 2020-10-13  354  }
 
 -- 
 0-DAY CI Kernel Test Service
