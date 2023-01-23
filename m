@@ -1,43 +1,43 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 217323C1C
-	for <oe-kbuild@lists.linux.dev>; Sun, 22 Jan 2023 19:06:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D9EB624
+	for <oe-kbuild@lists.linux.dev>; Mon, 23 Jan 2023 00:35:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674414399; x=1705950399;
+  t=1674434149; x=1705970149;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Gc/bn76+yKLDOLlcHIdJotRDY0+gYHXuyLHxQhhqzws=;
-  b=F51CbPrlBU9UOV/HOvoSf1Vjx8eL9VLJ03qUDiymXA/UFH9qlXiUtJmi
-   4UI628EtDymVX7y4wE3O/hgbIWgKydS8TOO+fML5GKI8TPdSKMQZiJbxj
-   hUmgNZLnJbHvMU1B0KRSO6FT7obqsEFtsfr0c73wHHPnSEXWJc8jBduvb
-   DDA0CiaDE4OJDvZdMipNgifrY8WBD7D4orTwpUisv9WHqHqGWEU/Dyny3
-   xt9FBg9+1U3ahPhmuldYs2oUNGy7icFCuDEiSs11Y+7+y9ICgDV43g8Tq
-   m4kSkSgIAXwMQDVWfHE7Q0JcjsURBmraYQne1ZR8SnXZmaeG4UPtxYtLl
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10598"; a="390431954"
-X-IronPort-AV: E=Sophos;i="5.97,237,1669104000"; 
-   d="scan'208";a="390431954"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2023 11:06:38 -0800
+  bh=OyXBtDEk6CuVLwG2wFLbk2ZARwePWujWq7CpWGM9KnM=;
+  b=fwq74BnjWB7EZ6RjQ3lGM0SQbfiG+xkL37kzmPaL9RCnDxD+JKLrVOf9
+   sUAZ4WBTT/6bLpq1hSCk8vZvp9JSF50Akn/cwP+Lc2E+XEYbHauqS1zUv
+   WujQdRcdbwuQ0jMixAGwYXdHT8VtCM0NHZdCIbNF95FxF9DshEOmbGxj4
+   iZfiXNaqkkauZ+GL1yUKHxqXadWT+mU/DSMkRsTKU3IMDxNZj0P62DwlK
+   sCO6gN1RosdLznvwattMMd6sb2aSy9UA9L9DRMk3ZjZGZoPfmUPI6Clar
+   AJrd4PBVUe7ijOnGzXgfjp8u19WD6XnFONdus9oJigki9HSnDRgEuMZZt
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10598"; a="305616668"
+X-IronPort-AV: E=Sophos;i="5.97,238,1669104000"; 
+   d="scan'208";a="305616668"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2023 16:35:48 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10598"; a="769562224"
-X-IronPort-AV: E=Sophos;i="5.97,237,1669104000"; 
-   d="scan'208";a="769562224"
+X-IronPort-AV: E=McAfee;i="6500,9779,10598"; a="750148716"
+X-IronPort-AV: E=Sophos;i="5.97,238,1669104000"; 
+   d="scan'208";a="750148716"
 Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 22 Jan 2023 11:06:37 -0800
+  by FMSMGA003.fm.intel.com with ESMTP; 22 Jan 2023 16:35:47 -0800
 Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pJffo-0005CC-1D;
-	Sun, 22 Jan 2023 19:06:36 +0000
-Date: Mon, 23 Jan 2023 03:06:26 +0800
+	id 1pJkoM-0005Jc-1m;
+	Mon, 23 Jan 2023 00:35:46 +0000
+Date: Mon, 23 Jan 2023 08:34:49 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [bvanassche:block-small-segments 7/11]
- drivers/scsi/scsi_debug.c:5053:57: warning: shift by count ('4294967295') >=
- precision of type ('64')
-Message-ID: <202301230245.7J9OqADn-lkp@intel.com>
+Subject: drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c:1782:2: warning: Value
+ stored to 'dsc_common_mode' is never read
+ [clang-analyzer-deadcode.DeadStores]
+Message-ID: <202301230823.3GoEOFPA-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -48,359 +48,292 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "low confidence bisect report"
-:::::: Manual check reason: "low confidence static check warning: drivers/scsi/scsi_debug.c:5053:57: warning: shift by count ('4294967295') >= precision of type ('64') [-Wanalyzer-shift-count-overflow]"
+:::::: Manual check reason: "low confidence static check warning: drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c:1782:2: warning: Value stored to 'dsc_common_mode' is never read [clang-analyzer-deadcode.DeadStores]"
 :::::: 
 
 BCC: lkp@intel.com
+CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-TO: Bart Van Assche <bvanassche@acm.org>
+CC: linux-kernel@vger.kernel.org
+TO: Vinod Koul <vkoul@kernel.org>
+CC: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+CC: Abhinav Kumar <quic_abhinavk@quicinc.com>
 
-tree:   https://github.com/bvanassche/linux block-small-segments
-head:   e9056819514d5dc4cfdab8eee716282353cd6249
-commit: 30e645c4f13126159a4e9826af6175630da7d89c [7/11] scsi_debug: Support configuring the maximum segment size
-:::::: branch date: 4 days ago
-:::::: commit date: 4 days ago
-config: arm-randconfig-c002-20230122 (https://download.01.org/0day-ci/archive/20230123/202301230245.7J9OqADn-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   2475bf0250dee99b477e0c56d7dc9d7ac3f04117
+commit: 58dca9810749480737869d02bef4704756372194 drm/msm/disp/dpu1: Add support for DSC in encoder
+date:   9 months ago
+:::::: branch date: 4 hours ago
+:::::: commit date: 9 months ago
+config: riscv-randconfig-c006-20230118 (https://download.01.org/0day-ci/archive/20230123/202301230823.3GoEOFPA-lkp@intel.com/config)
+compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 4196ca3278f78c6e19246e54ab0ecb364e37d66a)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/bvanassche/linux/commit/30e645c4f13126159a4e9826af6175630da7d89c
-        git remote add bvanassche https://github.com/bvanassche/linux
-        git fetch --no-tags bvanassche block-small-segments
-        git checkout 30e645c4f13126159a4e9826af6175630da7d89c
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=58dca9810749480737869d02bef4704756372194
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 58dca9810749480737869d02bef4704756372194
         # save the config file
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross ARCH=arm KBUILD_USERCFLAGS='-fanalyzer -Wno-error'  olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross ARCH=arm KBUILD_USERCFLAGS='-fanalyzer -Wno-error' 
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=riscv clang-analyzer  olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=riscv clang-analyzer 
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-gcc_analyzer warnings: (new ones prefixed by >>)
-              |      |                                       |
-              |      |                                       (11) ...to here
-              | 5149 |                         if (sdebug_device_create_zones(devip)) {
-              |      |                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-              |      |                             |
-              |      |                             (12) calling 'sdebug_device_create_zones' from 'sdebug_device_create'
-              |
-              +--> 'sdebug_device_create_zones': events 13-14
-                     |
-                     | 5016 | static int sdebug_device_create_zones(struct sdebug_dev_info *devip)
-                     |      |            ^~~~~~~~~~~~~~~~~~~~~~~~~~
-                     |      |            |
-                     |      |            (13) entry to 'sdebug_device_create_zones'
-                     |......
-                     | 5019 |         sector_t capacity = get_sdebug_capacity();
-                     |      |                             ~~~~~~~~~~~~~~~~~~~~~
-                     |      |                             |
-                     |      |                             (14) calling 'get_sdebug_capacity' from 'sdebug_device_create_zones'
-                     |
-                     +--> 'get_sdebug_capacity': events 15-17
-                            |
-                            | 1844 | static sector_t get_sdebug_capacity(void)
-                            |      |                 ^~~~~~~~~~~~~~~~~~~
-                            |      |                 |
-                            |      |                 (15) entry to 'get_sdebug_capacity'
-                            |......
-                            | 1848 |         if (sdebug_virtual_gb > 0)
-                            |      |            ~     
-                            |      |            |
-                            |      |            (16) following 'true' branch...
-                            | 1849 |                 return (sector_t)sdebug_virtual_gb *
-                            |      |                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                            |      |                        |
-                            |      |                        (17) ...to here
-                            |
-                     <------+
-                     |
-                   'sdebug_device_create_zones': events 18-19
-                     |
-                     | 5019 |         sector_t capacity = get_sdebug_capacity();
-                     |      |                             ^~~~~~~~~~~~~~~~~~~~~
-                     |      |                             |
-                     |      |                             (18) returning to 'sdebug_device_create_zones' from 'get_sdebug_capacity'
-                     |......
-                     | 5030 |         if (!sdeb_zbc_zone_size_mb) {
-                     |      |            ~                 
-                     |      |            |
-                     |      |            (19) following 'true' branch...
-                     |
-                   'sdebug_device_create_zones': event 20
-                     |
-                     |include/linux/log2.h:158:9:
-                     |  158 |         __builtin_constant_p(n) ?       \
-                     |      |         ^~~~~~~~~~~~~~~~~~~~~~~
-                     |      |         |
-                     |      |         (20) ...to here
-   drivers/scsi/scsi_debug.c:5032:28: note: in expansion of macro 'ilog2'
-                     | 5032 |                         >> ilog2(sdebug_sector_size);
-                     |      |                            ^~~~~
-                     |
-                   'sdebug_device_create_zones': event 21
-                     |
-                     | 5032 |                         >> ilog2(sdebug_sector_size);
-                     |
-                   'sdebug_device_create_zones': event 22
-                     |
-                     |include/linux/log2.h:162:24:
-                     |  161 |         (sizeof(n) <= 4) ?              \
-                     |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                     |  162 |         __ilog2_u32(n) :                \
-                     |      |         ~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~
-                     |      |                        |
-                     |      |                        (22) ...to here
-                     |  163 |         __ilog2_u64(n)                  \
-                     |      |         ~~~~~~~~~~~~~~  
-   drivers/scsi/scsi_debug.c:5032:28: note: in expansion of macro 'ilog2'
-                     | 5032 |                         >> ilog2(sdebug_sector_size);
-                     |      |                            ^~~~~
-                     |
-                   'sdebug_device_create_zones': event 23
-                     |
-                     |include/asm-generic/bitops/builtin-fls.h:14:53:
-                     |   14 |         return x ? sizeof(x) * 8 - __builtin_clz(x) : 0;
-                     |      |                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~
-                     |      |                                                     |
-                     |      |                                                     (23) following 'false' branch...
-                     |
-                   'sdebug_device_create_zones': event 24
-                     |
-                     |include/linux/log2.h:24:23:
-                     |   24 |         return fls(n) - 1;
-                     |      |                ~~~~~~~^~~
-                     |      |                       |
-                     |      |                       (24) ...to here
-                     |
-                   'sdebug_device_create_zones': event 25
-                     |
-                     |drivers/scsi/scsi_debug.c:5032:25:
-                     | 5032 |                         >> ilog2(sdebug_sector_size);
-                     |
->> drivers/scsi/scsi_debug.c:5053:57: warning: shift by count ('4294967295') >= precision of type ('64') [-Wanalyzer-shift-count-overflow]
-    5053 |         devip->nr_zones = (capacity + devip->zsize - 1) >> devip->zsize_shift;
-         |                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~
-     'scsi_debug_init': events 1-2
-       |
-       | 6903 | static int __init scsi_debug_init(void)
-       |      |                   ^~~~~~~~~~~~~~~
-       |      |                   |
-       |      |                   (1) entry to 'scsi_debug_init'
-       |......
-       | 6920 |         switch (sdebug_sector_size) {
-       |      |         ~~~~~~     
-       |      |         |
-       |      |         (2) following 'case 512:, case 1024:, case 2048:, case 4096:' branch...
-       |
-     'scsi_debug_init': events 3-21
-       |
-       | 6931 |         if (sdebug_max_segment_size < SECTOR_SIZE) {
-       |      |            ~                         
-       |      |            |
-       |      |            (4) following 'false' branch...
-       |......
-       | 6937 |         switch (sdebug_dif) {
-       |      |         ~~~~~~                       
-       |      |         |
-       |      |         (5) ...to here
-       |......
-       | 6951 |         if (sdebug_num_tgts < 0) {
-       |      |            ~                         
-       |      |            |
-       |      |            (6) following 'false' branch...
-       |......
-       | 6956 |         if (sdebug_guard > 1) {
-       |      |            ~~~~~~~~~~~~~~~~~         
-       |      |            |             |
-       |      |            |             (7) ...to here
-       |      |            (8) following 'false' branch...
-       |......
-       | 6961 |         if (sdebug_ato > 1) {
-       |      |            ~~~~~~~~~~~~~~~           
-       |      |            |           |
-       |      |            |           (9) ...to here
-       |      |            (10) following 'false' branch...
-       |......
-       | 6966 |         if (sdebug_physblk_exp > 15) {
-       |      |            ~~~~~~~~~~~~~~~~~~~~~~~~  
-       |      |            |                   |
-       |      |            |                   (11) ...to here
-       |      |            (12) following 'false' branch...
-       |......
-       | 6971 |         sdebug_lun_am = sdebug_lun_am_i;
-       |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |                       |
-       |      |                       (13) ...to here
-       |......
-       | 6985 |         if (sdebug_lowest_aligned > 0x3fff) {
-       |      |            ~                         
-       |      |            |
-       |      |            (14) following 'false' branch...
-       |......
-       | 6990 |         if (submit_queues < 1) {
-       |      |            ~~~~~~~~~~~~~~~~~~        
-       |      |            |              |
-       |      |            |              (15) ...to here
-       |      |            (16) following 'false' branch...
-       |......
-       | 6995 |         if ((sdebug_max_queue > SDEBUG_CANQUEUE) || (sdebug_max_queue < 1)) {
-       |      |            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |            |                                     |
-       |      |            (18) following 'false' branch...      (17) ...to here
-       |......
-       | 7000 |         if ((sdebug_host_max_queue > SDEBUG_CANQUEUE) ||
-       |      |            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |            |                                          |
-       |      |            (20) following 'false' branch...           (19) ...to here
-       | 7001 |             (sdebug_host_max_queue < 0)) {
-       |      |             ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |......
-       | 7007 |         if (sdebug_host_max_queue &&
-       |      |            ~                         
-       |      |            |
-       |      |            (21) ...to here
-       |
-     'scsi_debug_init': event 22
-       |
-       |include/linux/slab.h:667:16:
-       |  667 |         return kmalloc_array(n, size, flags | __GFP_ZERO);
-       |      |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |                |
-       |      |                (22) calling 'kmalloc_array' from 'scsi_debug_init'
-       |
-       +--> 'kmalloc_array': events 23-25
-              |
-              |  628 | static inline __alloc_size(1, 2) void *kmalloc_array(size_t n, size_t size, gfp_t flags)
-              |      |                                        ^~~~~~~~~~~~~
-              |      |                                        |
-              |      |                                        (23) entry to 'kmalloc_array'
-              |......
-              |  632 |         if (unlikely(check_mul_overflow(n, size, &bytes)))
-              |      |            ~                            
-              |      |            |
+clang_analyzer warnings: (new ones prefixed by >>)
+   ~~~~~~~^~~~~~~~~~~~~
+   drivers/clk/clk-max9485.c:202:8: note: Excessive padding in 'struct max9485_clk' (11 padding bytes, where 3 is optimal). Optimal fields order: name, ops, parent_index, enable_bit, consider reordering the fields or adding explicit padding members
+   struct max9485_clk {
+   ~~~~~~~^~~~~~~~~~~~~
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   10 warnings generated.
+   Suppressed 10 warnings (10 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   10 warnings generated.
+   Suppressed 10 warnings (10 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   10 warnings generated.
+   Suppressed 10 warnings (10 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   10 warnings generated.
+   Suppressed 10 warnings (10 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   13 warnings generated.
+   drivers/gpu/drm/msm/adreno/adreno_device.c:459:7: warning: Call to function 'sscanf' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'sscanf_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   if (sscanf(compat, "qcom,adreno-%u.%u", &r, &patch) == 2 ||
+                       ^~~~~~
+   drivers/gpu/drm/msm/adreno/adreno_device.c:459:7: note: Call to function 'sscanf' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'sscanf_s' in case of C11
+                   if (sscanf(compat, "qcom,adreno-%u.%u", &r, &patch) == 2 ||
+                       ^~~~~~
+   drivers/gpu/drm/msm/adreno/adreno_device.c:460:7: warning: Call to function 'sscanf' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'sscanf_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                       sscanf(compat, "amd,imageon-%u.%u", &r, &patch) == 2) {
+                       ^~~~~~
+   drivers/gpu/drm/msm/adreno/adreno_device.c:460:7: note: Call to function 'sscanf' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'sscanf_s' in case of C11
+                       sscanf(compat, "amd,imageon-%u.%u", &r, &patch) == 2) {
+                       ^~~~~~
+   Suppressed 11 warnings (11 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   12 warnings generated.
+   drivers/gpu/drm/msm/adreno/adreno_gpu.c:29:17: warning: Value stored to 'dev' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct device *dev = &gpu->pdev->dev;
+                          ^~~   ~~~~~~~~~~~~~~~
+   drivers/gpu/drm/msm/adreno/adreno_gpu.c:29:17: note: Value stored to 'dev' during its initialization is never read
+           struct device *dev = &gpu->pdev->dev;
+                          ^~~   ~~~~~~~~~~~~~~~
+   Suppressed 11 warnings (11 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   14 warnings generated.
+   drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c:778:2: warning: Value stored to 'priv' is never read [clang-analyzer-deadcode.DeadStores]
+           priv = dev->dev_private;
+           ^      ~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c:778:2: note: Value stored to 'priv' is never read
+           priv = dev->dev_private;
+           ^      ~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c:1550:2: warning: Call to function 'snprintf' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'snprintf_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           snprintf(dpu_crtc->name, DPU_CRTC_NAME_SIZE, "crtc%u", crtc->base.id);
+           ^~~~~~~~
+   drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c:1550:2: note: Call to function 'snprintf' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'snprintf_s' in case of C11
+           snprintf(dpu_crtc->name, DPU_CRTC_NAME_SIZE, "crtc%u", crtc->base.id);
+           ^~~~~~~~
+   Suppressed 12 warnings (12 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   17 warnings generated.
+   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c:592:2: warning: Value stored to 'mode' is never read [clang-analyzer-deadcode.DeadStores]
+           mode = &crtc_state->mode;
+           ^      ~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c:592:2: note: Value stored to 'mode' is never read
+           mode = &crtc_state->mode;
+           ^      ~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c:1782:2: warning: Value stored to 'dsc_common_mode' is never read [clang-analyzer-deadcode.DeadStores]
+           dsc_common_mode = 0;
+           ^                 ~
+   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c:1782:2: note: Value stored to 'dsc_common_mode' is never read
+           dsc_common_mode = 0;
+           ^                 ~
+   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c:1945:2: warning: Call to function 'snprintf' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'snprintf_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           snprintf(name, DPU_NAME_SIZE, "encoder%u", drm_enc->base.id);
+           ^~~~~~~~
+   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c:1945:2: note: Call to function 'snprintf' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'snprintf_s' in case of C11
+           snprintf(name, DPU_NAME_SIZE, "encoder%u", drm_enc->base.id);
+           ^~~~~~~~
+   Suppressed 14 warnings (13 in non-user code, 1 with check filters).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   13 warnings generated.
+   Suppressed 13 warnings (13 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   13 warnings generated.
+   Suppressed 13 warnings (13 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   12 warnings generated.
+   Suppressed 12 warnings (12 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   41 warnings generated.
+   drivers/mfd/tc3589x.c:193:17: warning: The result of the left shift is undefined due to shifting by '32', which is greater or equal to the width of type 'int' [clang-analyzer-core.UndefinedBinaryOperatorResult]
+                   status &= ~(1 << bit);
+                                 ^  ~~~
+   drivers/mfd/tc3589x.c:185:6: note: Assuming 'status' is >= 0
+           if (status < 0)
+               ^~~~~~~~~~
+   drivers/mfd/tc3589x.c:185:2: note: Taking false branch
+           if (status < 0)
+           ^
+   drivers/mfd/tc3589x.c:188:2: note: Loop condition is true.  Entering loop body
+           while (status) {
+           ^
+   drivers/mfd/tc3589x.c:189:13: note: Calling '__ffs'
+                   int bit = __ffs(status);
+                             ^~~~~~~~~~~~~
+   include/asm-generic/bitops/__ffs.h:18:6: note: Assuming the condition is true
+           if ((word & 0xffffffff) == 0) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/bitops/__ffs.h:18:2: note: Taking true branch
+           if ((word & 0xffffffff) == 0) {
+           ^
+   include/asm-generic/bitops/__ffs.h:19:3: note: The value 32 is assigned to 'num'
+                   num += 32;
+                   ^~~~~~~~~
+   include/asm-generic/bitops/__ffs.h:23:6: note: Assuming the condition is false
+           if ((word & 0xffff) == 0) {
+               ^~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/bitops/__ffs.h:23:2: note: Taking false branch
+           if ((word & 0xffff) == 0) {
+           ^
+   include/asm-generic/bitops/__ffs.h:27:6: note: Assuming the condition is false
+           if ((word & 0xff) == 0) {
+               ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/bitops/__ffs.h:27:2: note: Taking false branch
+           if ((word & 0xff) == 0) {
+           ^
+   include/asm-generic/bitops/__ffs.h:31:6: note: Assuming the condition is false
+           if ((word & 0xf) == 0) {
+               ^~~~~~~~~~~~~~~~~
+   include/asm-generic/bitops/__ffs.h:31:2: note: Taking false branch
+           if ((word & 0xf) == 0) {
+           ^
+   include/asm-generic/bitops/__ffs.h:35:6: note: Assuming the condition is false
+           if ((word & 0x3) == 0) {
+               ^~~~~~~~~~~~~~~~~
+   include/asm-generic/bitops/__ffs.h:35:2: note: Taking false branch
+           if ((word & 0x3) == 0) {
+           ^
+   include/asm-generic/bitops/__ffs.h:39:6: note: Assuming the condition is false
+           if ((word & 0x1) == 0)
+               ^~~~~~~~~~~~~~~~~
+   include/asm-generic/bitops/__ffs.h:39:2: note: Taking false branch
+           if ((word & 0x1) == 0)
+           ^
+   include/asm-generic/bitops/__ffs.h:41:2: note: Returning the value 32 (loaded from 'num')
+           return num;
+           ^~~~~~~~~~
+   drivers/mfd/tc3589x.c:189:13: note: Returning from '__ffs'
+                   int bit = __ffs(status);
+                             ^~~~~~~~~~~~~
+   drivers/mfd/tc3589x.c:189:3: note: 'bit' initialized to 32
+                   int bit = __ffs(status);
+                   ^~~~~~~
+   drivers/mfd/tc3589x.c:193:17: note: The result of the left shift is undefined due to shifting by '32', which is greater or equal to the width of type 'int'
+                   status &= ~(1 << bit);
+                                 ^  ~~~
+   drivers/mfd/tc3589x.c:193:17: warning: The result of the left shift is undefined due to shifting by '33', which is greater or equal to the width of type 'int' [clang-analyzer-core.UndefinedBinaryOperatorResult]
+                   status &= ~(1 << bit);
+                                 ^  ~~~
+   drivers/mfd/tc3589x.c:185:6: note: Assuming 'status' is >= 0
+           if (status < 0)
 
-vim +5053 drivers/scsi/scsi_debug.c
+vim +/dsc_common_mode +1782 drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
 
-09ba24c18c7e0c Douglas Gilbert 2016-05-06  5015  
-f0d1cf9378bd40 Douglas Gilbert 2020-04-22  5016  static int sdebug_device_create_zones(struct sdebug_dev_info *devip)
-f0d1cf9378bd40 Douglas Gilbert 2020-04-22  5017  {
-f0d1cf9378bd40 Douglas Gilbert 2020-04-22  5018  	struct sdeb_zone_state *zsp;
-f0d1cf9378bd40 Douglas Gilbert 2020-04-22  5019  	sector_t capacity = get_sdebug_capacity();
-4a5fc1c6d75261 Damien Le Moal  2022-04-21  5020  	sector_t conv_capacity;
-f0d1cf9378bd40 Douglas Gilbert 2020-04-22  5021  	sector_t zstart = 0;
-f0d1cf9378bd40 Douglas Gilbert 2020-04-22  5022  	unsigned int i;
-f0d1cf9378bd40 Douglas Gilbert 2020-04-22  5023  
-f0d1cf9378bd40 Douglas Gilbert 2020-04-22  5024  	/*
-98e0a689868c26 Damien Le Moal  2020-04-22  5025  	 * Set the zone size: if sdeb_zbc_zone_size_mb is not set, figure out
-98e0a689868c26 Damien Le Moal  2020-04-22  5026  	 * a zone size allowing for at least 4 zones on the device. Otherwise,
-f0d1cf9378bd40 Douglas Gilbert 2020-04-22  5027  	 * use the specified zone size checking that at least 2 zones can be
-f0d1cf9378bd40 Douglas Gilbert 2020-04-22  5028  	 * created for the device.
-f0d1cf9378bd40 Douglas Gilbert 2020-04-22  5029  	 */
-98e0a689868c26 Damien Le Moal  2020-04-22  5030  	if (!sdeb_zbc_zone_size_mb) {
-f0d1cf9378bd40 Douglas Gilbert 2020-04-22  5031  		devip->zsize = (DEF_ZBC_ZONE_SIZE_MB * SZ_1M)
-f0d1cf9378bd40 Douglas Gilbert 2020-04-22 @5032  			>> ilog2(sdebug_sector_size);
-f0d1cf9378bd40 Douglas Gilbert 2020-04-22  5033  		while (capacity < devip->zsize << 2 && devip->zsize >= 2)
-f0d1cf9378bd40 Douglas Gilbert 2020-04-22  5034  			devip->zsize >>= 1;
-f0d1cf9378bd40 Douglas Gilbert 2020-04-22  5035  		if (devip->zsize < 2) {
-f0d1cf9378bd40 Douglas Gilbert 2020-04-22  5036  			pr_err("Device capacity too small\n");
-f0d1cf9378bd40 Douglas Gilbert 2020-04-22  5037  			return -EINVAL;
-f0d1cf9378bd40 Douglas Gilbert 2020-04-22  5038  		}
-f0d1cf9378bd40 Douglas Gilbert 2020-04-22  5039  	} else {
-108e36f0d8bf91 Damien Le Moal  2020-05-07  5040  		if (!is_power_of_2(sdeb_zbc_zone_size_mb)) {
-108e36f0d8bf91 Damien Le Moal  2020-05-07  5041  			pr_err("Zone size is not a power of 2\n");
-108e36f0d8bf91 Damien Le Moal  2020-05-07  5042  			return -EINVAL;
-108e36f0d8bf91 Damien Le Moal  2020-05-07  5043  		}
-98e0a689868c26 Damien Le Moal  2020-04-22  5044  		devip->zsize = (sdeb_zbc_zone_size_mb * SZ_1M)
-f0d1cf9378bd40 Douglas Gilbert 2020-04-22  5045  			>> ilog2(sdebug_sector_size);
-f0d1cf9378bd40 Douglas Gilbert 2020-04-22  5046  		if (devip->zsize >= capacity) {
-f0d1cf9378bd40 Douglas Gilbert 2020-04-22  5047  			pr_err("Zone size too large for device capacity\n");
-f0d1cf9378bd40 Douglas Gilbert 2020-04-22  5048  			return -EINVAL;
-f0d1cf9378bd40 Douglas Gilbert 2020-04-22  5049  		}
-f0d1cf9378bd40 Douglas Gilbert 2020-04-22  5050  	}
-f0d1cf9378bd40 Douglas Gilbert 2020-04-22  5051  
-f0d1cf9378bd40 Douglas Gilbert 2020-04-22  5052  	devip->zsize_shift = ilog2(devip->zsize);
-f0d1cf9378bd40 Douglas Gilbert 2020-04-22 @5053  	devip->nr_zones = (capacity + devip->zsize - 1) >> devip->zsize_shift;
-f0d1cf9378bd40 Douglas Gilbert 2020-04-22  5054  
-4a5fc1c6d75261 Damien Le Moal  2022-04-21  5055  	if (sdeb_zbc_zone_cap_mb == 0) {
-4a5fc1c6d75261 Damien Le Moal  2022-04-21  5056  		devip->zcap = devip->zsize;
-4a5fc1c6d75261 Damien Le Moal  2022-04-21  5057  	} else {
-4a5fc1c6d75261 Damien Le Moal  2022-04-21  5058  		devip->zcap = (sdeb_zbc_zone_cap_mb * SZ_1M) >>
-4a5fc1c6d75261 Damien Le Moal  2022-04-21  5059  			      ilog2(sdebug_sector_size);
-4a5fc1c6d75261 Damien Le Moal  2022-04-21  5060  		if (devip->zcap > devip->zsize) {
-4a5fc1c6d75261 Damien Le Moal  2022-04-21  5061  			pr_err("Zone capacity too large\n");
-4a5fc1c6d75261 Damien Le Moal  2022-04-21  5062  			return -EINVAL;
-4a5fc1c6d75261 Damien Le Moal  2022-04-21  5063  		}
-4a5fc1c6d75261 Damien Le Moal  2022-04-21  5064  	}
-4a5fc1c6d75261 Damien Le Moal  2022-04-21  5065  
-4a5fc1c6d75261 Damien Le Moal  2022-04-21  5066  	conv_capacity = (sector_t)sdeb_zbc_nr_conv << devip->zsize_shift;
-4a5fc1c6d75261 Damien Le Moal  2022-04-21  5067  	if (conv_capacity >= capacity) {
-aa8fecf96b704a Damien Le Moal  2020-04-22  5068  		pr_err("Number of conventional zones too large\n");
-aa8fecf96b704a Damien Le Moal  2020-04-22  5069  		return -EINVAL;
-aa8fecf96b704a Damien Le Moal  2020-04-22  5070  	}
-aa8fecf96b704a Damien Le Moal  2020-04-22  5071  	devip->nr_conv_zones = sdeb_zbc_nr_conv;
-4a5fc1c6d75261 Damien Le Moal  2022-04-21  5072  	devip->nr_seq_zones = ALIGN(capacity - conv_capacity, devip->zsize) >>
-4a5fc1c6d75261 Damien Le Moal  2022-04-21  5073  			      devip->zsize_shift;
-4a5fc1c6d75261 Damien Le Moal  2022-04-21  5074  	devip->nr_zones = devip->nr_conv_zones + devip->nr_seq_zones;
-4a5fc1c6d75261 Damien Le Moal  2022-04-21  5075  
-4a5fc1c6d75261 Damien Le Moal  2022-04-21  5076  	/* Add gap zones if zone capacity is smaller than the zone size */
-4a5fc1c6d75261 Damien Le Moal  2022-04-21  5077  	if (devip->zcap < devip->zsize)
-4a5fc1c6d75261 Damien Le Moal  2022-04-21  5078  		devip->nr_zones += devip->nr_seq_zones;
-aa8fecf96b704a Damien Le Moal  2020-04-22  5079  
-64e14ece07004f Damien Le Moal  2020-04-22  5080  	if (devip->zmodel == BLK_ZONED_HM) {
-64e14ece07004f Damien Le Moal  2020-04-22  5081  		/* zbc_max_open_zones can be 0, meaning "not reported" */
-380603a5bb83d3 Damien Le Moal  2020-04-22  5082  		if (sdeb_zbc_max_open >= devip->nr_zones - 1)
-f0d1cf9378bd40 Douglas Gilbert 2020-04-22  5083  			devip->max_open = (devip->nr_zones - 1) / 2;
-f0d1cf9378bd40 Douglas Gilbert 2020-04-22  5084  		else
-380603a5bb83d3 Damien Le Moal  2020-04-22  5085  			devip->max_open = sdeb_zbc_max_open;
-64e14ece07004f Damien Le Moal  2020-04-22  5086  	}
-f0d1cf9378bd40 Douglas Gilbert 2020-04-22  5087  
-f0d1cf9378bd40 Douglas Gilbert 2020-04-22  5088  	devip->zstate = kcalloc(devip->nr_zones,
-f0d1cf9378bd40 Douglas Gilbert 2020-04-22  5089  				sizeof(struct sdeb_zone_state), GFP_KERNEL);
-f0d1cf9378bd40 Douglas Gilbert 2020-04-22  5090  	if (!devip->zstate)
-f0d1cf9378bd40 Douglas Gilbert 2020-04-22  5091  		return -ENOMEM;
-f0d1cf9378bd40 Douglas Gilbert 2020-04-22  5092  
-f0d1cf9378bd40 Douglas Gilbert 2020-04-22  5093  	for (i = 0; i < devip->nr_zones; i++) {
-f0d1cf9378bd40 Douglas Gilbert 2020-04-22  5094  		zsp = &devip->zstate[i];
-f0d1cf9378bd40 Douglas Gilbert 2020-04-22  5095  
-f0d1cf9378bd40 Douglas Gilbert 2020-04-22  5096  		zsp->z_start = zstart;
-f0d1cf9378bd40 Douglas Gilbert 2020-04-22  5097  
-aa8fecf96b704a Damien Le Moal  2020-04-22  5098  		if (i < devip->nr_conv_zones) {
-35dbe2b9a7b0c9 Damien Le Moal  2022-04-21  5099  			zsp->z_type = ZBC_ZTYPE_CNV;
-f0d1cf9378bd40 Douglas Gilbert 2020-04-22  5100  			zsp->z_cond = ZBC_NOT_WRITE_POINTER;
-f0d1cf9378bd40 Douglas Gilbert 2020-04-22  5101  			zsp->z_wp = (sector_t)-1;
-4a5fc1c6d75261 Damien Le Moal  2022-04-21  5102  			zsp->z_size =
-4a5fc1c6d75261 Damien Le Moal  2022-04-21  5103  				min_t(u64, devip->zsize, capacity - zstart);
-4a5fc1c6d75261 Damien Le Moal  2022-04-21  5104  		} else if ((zstart & (devip->zsize - 1)) == 0) {
-64e14ece07004f Damien Le Moal  2020-04-22  5105  			if (devip->zmodel == BLK_ZONED_HM)
-35dbe2b9a7b0c9 Damien Le Moal  2022-04-21  5106  				zsp->z_type = ZBC_ZTYPE_SWR;
-64e14ece07004f Damien Le Moal  2020-04-22  5107  			else
-35dbe2b9a7b0c9 Damien Le Moal  2022-04-21  5108  				zsp->z_type = ZBC_ZTYPE_SWP;
-f0d1cf9378bd40 Douglas Gilbert 2020-04-22  5109  			zsp->z_cond = ZC1_EMPTY;
-f0d1cf9378bd40 Douglas Gilbert 2020-04-22  5110  			zsp->z_wp = zsp->z_start;
-4a5fc1c6d75261 Damien Le Moal  2022-04-21  5111  			zsp->z_size =
-4a5fc1c6d75261 Damien Le Moal  2022-04-21  5112  				min_t(u64, devip->zcap, capacity - zstart);
-4a5fc1c6d75261 Damien Le Moal  2022-04-21  5113  		} else {
-4a5fc1c6d75261 Damien Le Moal  2022-04-21  5114  			zsp->z_type = ZBC_ZTYPE_GAP;
-4a5fc1c6d75261 Damien Le Moal  2022-04-21  5115  			zsp->z_cond = ZBC_NOT_WRITE_POINTER;
-4a5fc1c6d75261 Damien Le Moal  2022-04-21  5116  			zsp->z_wp = (sector_t)-1;
-4a5fc1c6d75261 Damien Le Moal  2022-04-21  5117  			zsp->z_size = min_t(u64, devip->zsize - devip->zcap,
-4a5fc1c6d75261 Damien Le Moal  2022-04-21  5118  					    capacity - zstart);
-f0d1cf9378bd40 Douglas Gilbert 2020-04-22  5119  		}
-f0d1cf9378bd40 Douglas Gilbert 2020-04-22  5120  
-4a5fc1c6d75261 Damien Le Moal  2022-04-21  5121  		WARN_ON_ONCE((int)zsp->z_size <= 0);
-f0d1cf9378bd40 Douglas Gilbert 2020-04-22  5122  		zstart += zsp->z_size;
-f0d1cf9378bd40 Douglas Gilbert 2020-04-22  5123  	}
-f0d1cf9378bd40 Douglas Gilbert 2020-04-22  5124  
-f0d1cf9378bd40 Douglas Gilbert 2020-04-22  5125  	return 0;
-f0d1cf9378bd40 Douglas Gilbert 2020-04-22  5126  }
-f0d1cf9378bd40 Douglas Gilbert 2020-04-22  5127  
-
-:::::: The code at line 5053 was first introduced by commit
-:::::: f0d1cf9378bd4030725efa4c154cd39383dd0c12 scsi: scsi_debug: Add ZBC zone commands
-
-:::::: TO: Douglas Gilbert <dgilbert@interlog.com>
-:::::: CC: Martin K. Petersen <martin.petersen@oracle.com>
+58dca981074948 Vinod Koul 2022-04-06  1757  
+58dca981074948 Vinod Koul 2022-04-06  1758  static void dpu_encoder_prep_dsc(struct dpu_encoder_virt *dpu_enc,
+58dca981074948 Vinod Koul 2022-04-06  1759  				 struct msm_display_dsc_config *dsc)
+58dca981074948 Vinod Koul 2022-04-06  1760  {
+58dca981074948 Vinod Koul 2022-04-06  1761  	/* coding only for 2LM, 2enc, 1 dsc config */
+58dca981074948 Vinod Koul 2022-04-06  1762  	struct dpu_encoder_phys *enc_master = dpu_enc->cur_master;
+58dca981074948 Vinod Koul 2022-04-06  1763  	struct dpu_hw_dsc *hw_dsc[MAX_CHANNELS_PER_ENC];
+58dca981074948 Vinod Koul 2022-04-06  1764  	struct dpu_hw_pingpong *hw_pp[MAX_CHANNELS_PER_ENC];
+58dca981074948 Vinod Koul 2022-04-06  1765  	int this_frame_slices;
+58dca981074948 Vinod Koul 2022-04-06  1766  	int intf_ip_w, enc_ip_w;
+58dca981074948 Vinod Koul 2022-04-06  1767  	int dsc_common_mode;
+58dca981074948 Vinod Koul 2022-04-06  1768  	int pic_width;
+58dca981074948 Vinod Koul 2022-04-06  1769  	u32 initial_lines;
+58dca981074948 Vinod Koul 2022-04-06  1770  	int i;
+58dca981074948 Vinod Koul 2022-04-06  1771  
+58dca981074948 Vinod Koul 2022-04-06  1772  	for (i = 0; i < MAX_CHANNELS_PER_ENC; i++) {
+58dca981074948 Vinod Koul 2022-04-06  1773  		hw_pp[i] = dpu_enc->hw_pp[i];
+58dca981074948 Vinod Koul 2022-04-06  1774  		hw_dsc[i] = dpu_enc->hw_dsc[i];
+58dca981074948 Vinod Koul 2022-04-06  1775  
+58dca981074948 Vinod Koul 2022-04-06  1776  		if (!hw_pp[i] || !hw_dsc[i]) {
+58dca981074948 Vinod Koul 2022-04-06  1777  			DPU_ERROR_ENC(dpu_enc, "invalid params for DSC\n");
+58dca981074948 Vinod Koul 2022-04-06  1778  			return;
+58dca981074948 Vinod Koul 2022-04-06  1779  		}
+58dca981074948 Vinod Koul 2022-04-06  1780  	}
+58dca981074948 Vinod Koul 2022-04-06  1781  
+58dca981074948 Vinod Koul 2022-04-06 @1782  	dsc_common_mode = 0;
+58dca981074948 Vinod Koul 2022-04-06  1783  	pic_width = dsc->drm->pic_width;
+58dca981074948 Vinod Koul 2022-04-06  1784  
+58dca981074948 Vinod Koul 2022-04-06  1785  	dsc_common_mode = DSC_MODE_MULTIPLEX | DSC_MODE_SPLIT_PANEL;
+58dca981074948 Vinod Koul 2022-04-06  1786  	if (enc_master->intf_mode == INTF_MODE_VIDEO)
+58dca981074948 Vinod Koul 2022-04-06  1787  		dsc_common_mode |= DSC_MODE_VIDEO;
+58dca981074948 Vinod Koul 2022-04-06  1788  
+58dca981074948 Vinod Koul 2022-04-06  1789  	this_frame_slices = pic_width / dsc->drm->slice_width;
+58dca981074948 Vinod Koul 2022-04-06  1790  	intf_ip_w = this_frame_slices * dsc->drm->slice_width;
+58dca981074948 Vinod Koul 2022-04-06  1791  
+58dca981074948 Vinod Koul 2022-04-06  1792  	/*
+58dca981074948 Vinod Koul 2022-04-06  1793  	 * dsc merge case: when using 2 encoders for the same stream,
+58dca981074948 Vinod Koul 2022-04-06  1794  	 * no. of slices need to be same on both the encoders.
+58dca981074948 Vinod Koul 2022-04-06  1795  	 */
+58dca981074948 Vinod Koul 2022-04-06  1796  	enc_ip_w = intf_ip_w / 2;
+58dca981074948 Vinod Koul 2022-04-06  1797  	initial_lines = dpu_encoder_dsc_initial_line_calc(dsc, enc_ip_w);
+58dca981074948 Vinod Koul 2022-04-06  1798  
+58dca981074948 Vinod Koul 2022-04-06  1799  	for (i = 0; i < MAX_CHANNELS_PER_ENC; i++)
+58dca981074948 Vinod Koul 2022-04-06  1800  		dpu_encoder_dsc_pipe_cfg(hw_dsc[i], hw_pp[i], dsc, dsc_common_mode, initial_lines);
+58dca981074948 Vinod Koul 2022-04-06  1801  }
+58dca981074948 Vinod Koul 2022-04-06  1802  
 
 -- 
 0-DAY CI Kernel Test Service
