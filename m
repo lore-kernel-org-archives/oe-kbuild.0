@@ -1,51 +1,43 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 772EA10E9;
-	Tue, 24 Jan 2023 09:32:22 +0000 (UTC)
-Received: by mail-wm1-f53.google.com with SMTP id c4-20020a1c3504000000b003d9e2f72093so12369841wma.1;
-        Tue, 24 Jan 2023 01:32:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=V2fAO/tYe/DQxOMFeE5JyRlEqPoQiQpJLtCGw7d/Ecs=;
-        b=Ue4+eLX6HVaTqP4Kk2Tg9pVVne5fjVYrldoh7Ox6otI4hJ4OsHsuAfoGhGHukWnmBG
-         23M3ZrN9urV7/7k6d0kwy+Pt70XGAozHZhUV/fRdM0vXDUUOv0BWZCqmrAxnTcJcy6nz
-         6826XKV2CbNT5t3Y0dpcE8TqgZbRUtnwKJov64spVGuT8lNHBUYPFCNNKz6Rz2AoEIzQ
-         x/N4SuSgFJVVKjE4q9xkEB8kbsQnWPLIwTUDZr7DSq2G75AQyabnctFoqcnBMv80nRZB
-         uxdpAalpbwrIdNaAlp9USTWGF9BhPPFu/nHNYw2KWycUQLiKfn0zFOaJgZpv6sHdpnkG
-         FoOg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=V2fAO/tYe/DQxOMFeE5JyRlEqPoQiQpJLtCGw7d/Ecs=;
-        b=o0dq5s/sU6WNgBMpBMUh1lvoyKI0RFhHMMXHprudfBFfJ8piyfefJ2LTRjLl2/wIG4
-         zxvCmz1YTy18XOl6bwS9E6VG8XGS46RoOBuuefQJBf32XOmvGwxE9wLwOPUNm0iSJHa1
-         X37KakLqIL6QoOvJ3xF/2CGsgt3zr97PMDYN/lM35CDTqTRBdRG/ye06jkwCiHXbQU/I
-         WOGkp0llP57iVwmbKUrITSN4mX0Z8gVtCUvTFpSiPigW0YvWvbP3fBm7lktHB1ImswfJ
-         +rZclP1UajcswkzrX3qHTCkobFxNgScb/ISlHMEVvE/JGMAIQOgwL3Y/qNtE2SuV6zFr
-         c41w==
-X-Gm-Message-State: AFqh2kpKs52h5f1gymww3Yal6oX/m7E+6gzeT6SEHAAzAx80XksaSdWu
-	/GLZqnedxeL14oAx5eI5N4omP3B/XkAIPg==
-X-Google-Smtp-Source: AMrXdXvufRp95MwLy9SZZp8mmyAch1bM7K1uoVp9336veEKUqPIqchN0L5t7xkSAA1oJPJ29pFKfrA==
-X-Received: by 2002:a05:600c:3d06:b0:3da:f945:2354 with SMTP id bh6-20020a05600c3d0600b003daf9452354mr27451415wmb.41.1674552740258;
-        Tue, 24 Jan 2023 01:32:20 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id q14-20020adff78e000000b002be07cbefb2sm1731962wrp.18.2023.01.24.01.32.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Jan 2023 01:32:19 -0800 (PST)
-Date: Tue, 24 Jan 2023 12:32:14 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, "Paul E. McKenney" <paulmck@kernel.org>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Ammar Faizi <ammarfaizi2@gnuweeb.org>,
-	GNU/Weeb Mailing List <gwml@vger.gnuweeb.org>
-Subject: [ammarfaizi2-block:paulmck/linux-rcu/dev.2023.01.19a 55/61]
- kernel/rcu/rcutorture.c:3548 rcu_torture_init_srcu_lockdep() warn: for
- statement not indented
-Message-ID: <202301241716.MgPWF6fU-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4480710E9
+	for <oe-kbuild@lists.linux.dev>; Tue, 24 Jan 2023 10:03:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1674554636; x=1706090636;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=UDAR7JXhqHJv4DhxqQl1LZSEIvx7cluGTILNotuwvu0=;
+  b=OJ69+6M5ZBUm4jWEW/ZM6xyIN/dOH0CEn6Nsl+FTdABd7dJtvcP49HUW
+   B7HtLqscGFFjn4B5yoesDbd4o/S0ffgPKzU7hfifaio+gKM/qCygjksWN
+   HpVztQxbfv+hFI+Wu+YB/o6mmUOMM4xISfHyOUr0hSTiCKwnDcM33+VTV
+   8x4di8r1qUzhxoIuKqf2UAyovWeFX4mal7PpUi0IOPyLQjq1EwlJMMrry
+   GHyhQ18FrPcUC/gQYX4VMN4aTUhBue2spkxRafvjwRmT7N2XWx29M5rvE
+   sFj7kA7oWga+nPHHrJAeYLpud2ApnlKgbk9F0weGsR7c/+gFlA5pPkbDx
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="306616113"
+X-IronPort-AV: E=Sophos;i="5.97,242,1669104000"; 
+   d="scan'208";a="306616113"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2023 02:03:55 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="804528480"
+X-IronPort-AV: E=Sophos;i="5.97,242,1669104000"; 
+   d="scan'208";a="804528480"
+Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
+  by fmsmga001.fm.intel.com with ESMTP; 24 Jan 2023 02:03:54 -0800
+Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pKG9c-0006Jy-23;
+	Tue, 24 Jan 2023 10:03:48 +0000
+Date: Tue, 24 Jan 2023 18:02:53 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: sound/usb/mixer.c:2172:16: warning: The left expression of the
+ compound assignment is an uninitialized value. The computed value will also
+ be garbage [clang-analyzer-core.uninitialized.Assign]
+Message-ID: <202301241821.F9ZIyrvi-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -54,124 +46,315 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Message-ID: <20230124093214.sEKHAubkYjLReWYcf1rwy-DYs5XTwX5jphQ6IYE06N4@z>
 
-tree:   https://github.com/ammarfaizi2/linux-block paulmck/linux-rcu/dev.2023.01.19a
-head:   e51eadce38349e7edb506a61e325cc562d49409f
-commit: a5ae869a4ab737494a3c5c167d782b8eab3ba724 [55/61] squash! rcutorture: Add SRCU deadlock scenarios
-config: x86_64-randconfig-m001-20230123 (https://download.01.org/0day-ci/archive/20230124/202301241716.MgPWF6fU-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+:::::: 
+:::::: Manual check reason: "low confidence static check first_new_problem: sound/usb/mixer.c:2172:16: warning: The left expression of the compound assignment is an uninitialized value. The computed value will also be garbage [clang-analyzer-core.uninitialized.Assign]"
+:::::: 
+
+BCC: lkp@intel.com
+CC: llvm@lists.linux.dev
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+TO: Kees Cook <keescook@chromium.org>
+CC: Nick Desaulniers <ndesaulniers@google.com>
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   7bf70dbb18820b37406fdfa2aaf14c2f5c71a11a
+commit: 281d0c962752fb40866dd8d4cade68656f34bd1f fortify: Add Clang support
+date:   11 months ago
+:::::: branch date: 14 hours ago
+:::::: commit date: 11 months ago
+config: riscv-randconfig-c006-20230118 (https://download.01.org/0day-ci/archive/20230124/202301241821.F9ZIyrvi-lkp@intel.com/config)
+compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 4196ca3278f78c6e19246e54ab0ecb364e37d66a)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=281d0c962752fb40866dd8d4cade68656f34bd1f
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 281d0c962752fb40866dd8d4cade68656f34bd1f
+        # save the config file
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=riscv clang-analyzer  olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=riscv clang-analyzer 
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
 
-smatch warnings:
-kernel/rcu/rcutorture.c:3548 rcu_torture_init_srcu_lockdep() warn: for statement not indented
+clang_analyzer warnings: (new ones prefixed by >>)
+                                  ^  ~~~~~~~~
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   sound/pci/hda/hda_generic.c:2826:2: warning: Call to function 'strcpy' is insecure as it does not provide bounding of the memory buffer. Replace unbounded copy functions with analogous functions that support length arguments such as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+           strcpy(uinfo->value.enumerated.name,
+           ^~~~~~
+   sound/pci/hda/hda_generic.c:2826:2: note: Call to function 'strcpy' is insecure as it does not provide bounding of the memory buffer. Replace unbounded copy functions with analogous functions that support length arguments such as 'strlcpy'. CWE-119
+           strcpy(uinfo->value.enumerated.name,
+           ^~~~~~
+   sound/pci/hda/hda_generic.c:2939:2: warning: Call to function 'strcpy' is insecure as it does not provide bounding of the memory buffer. Replace unbounded copy functions with analogous functions that support length arguments such as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+           strcpy(uinfo->value.enumerated.name, text);
+           ^~~~~~
+   sound/pci/hda/hda_generic.c:2939:2: note: Call to function 'strcpy' is insecure as it does not provide bounding of the memory buffer. Replace unbounded copy functions with analogous functions that support length arguments such as 'strlcpy'. CWE-119
+           strcpy(uinfo->value.enumerated.name, text);
+           ^~~~~~
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   19 warnings generated.
+   sound/usb/mixer.c:677:4: warning: Call to function 'strcpy' is insecure as it does not provide bounding of the memory buffer. Replace unbounded copy functions with analogous functions that support length arguments such as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+                           strcpy(name, "Selector");
+                           ^~~~~~
+   sound/usb/mixer.c:677:4: note: Call to function 'strcpy' is insecure as it does not provide bounding of the memory buffer. Replace unbounded copy functions with analogous functions that support length arguments such as 'strlcpy'. CWE-119
+                           strcpy(name, "Selector");
+                           ^~~~~~
+   sound/usb/mixer.c:680:4: warning: Call to function 'strcpy' is insecure as it does not provide bounding of the memory buffer. Replace unbounded copy functions with analogous functions that support length arguments such as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+                           strcpy(name, "Process Unit");
+                           ^~~~~~
+   sound/usb/mixer.c:680:4: note: Call to function 'strcpy' is insecure as it does not provide bounding of the memory buffer. Replace unbounded copy functions with analogous functions that support length arguments such as 'strlcpy'. CWE-119
+                           strcpy(name, "Process Unit");
+                           ^~~~~~
+   sound/usb/mixer.c:683:4: warning: Call to function 'strcpy' is insecure as it does not provide bounding of the memory buffer. Replace unbounded copy functions with analogous functions that support length arguments such as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+                           strcpy(name, "Ext Unit");
+                           ^~~~~~
+   sound/usb/mixer.c:683:4: note: Call to function 'strcpy' is insecure as it does not provide bounding of the memory buffer. Replace unbounded copy functions with analogous functions that support length arguments such as 'strlcpy'. CWE-119
+                           strcpy(name, "Ext Unit");
+                           ^~~~~~
+   sound/usb/mixer.c:686:4: warning: Call to function 'strcpy' is insecure as it does not provide bounding of the memory buffer. Replace unbounded copy functions with analogous functions that support length arguments such as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+                           strcpy(name, "Mixer");
+                           ^~~~~~
+   sound/usb/mixer.c:686:4: note: Call to function 'strcpy' is insecure as it does not provide bounding of the memory buffer. Replace unbounded copy functions with analogous functions that support length arguments such as 'strlcpy'. CWE-119
+                           strcpy(name, "Mixer");
+                           ^~~~~~
+   sound/usb/mixer.c:695:3: warning: Call to function 'strcpy' is insecure as it does not provide bounding of the memory buffer. Replace unbounded copy functions with analogous functions that support length arguments such as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+                   strcpy(name, "PCM");
+                   ^~~~~~
+   sound/usb/mixer.c:695:3: note: Call to function 'strcpy' is insecure as it does not provide bounding of the memory buffer. Replace unbounded copy functions with analogous functions that support length arguments such as 'strlcpy'. CWE-119
+                   strcpy(name, "PCM");
+                   ^~~~~~
+   sound/usb/mixer.c:698:3: warning: Call to function 'strcpy' is insecure as it does not provide bounding of the memory buffer. Replace unbounded copy functions with analogous functions that support length arguments such as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+                   strcpy(name, "Mic");
+                   ^~~~~~
+   sound/usb/mixer.c:698:3: note: Call to function 'strcpy' is insecure as it does not provide bounding of the memory buffer. Replace unbounded copy functions with analogous functions that support length arguments such as 'strlcpy'. CWE-119
+                   strcpy(name, "Mic");
+                   ^~~~~~
+   sound/usb/mixer.c:701:3: warning: Call to function 'strcpy' is insecure as it does not provide bounding of the memory buffer. Replace unbounded copy functions with analogous functions that support length arguments such as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+                   strcpy(name, "Headset");
+                   ^~~~~~
+   sound/usb/mixer.c:701:3: note: Call to function 'strcpy' is insecure as it does not provide bounding of the memory buffer. Replace unbounded copy functions with analogous functions that support length arguments such as 'strlcpy'. CWE-119
+                   strcpy(name, "Headset");
+                   ^~~~~~
+   sound/usb/mixer.c:704:3: warning: Call to function 'strcpy' is insecure as it does not provide bounding of the memory buffer. Replace unbounded copy functions with analogous functions that support length arguments such as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+                   strcpy(name, "Phone");
+                   ^~~~~~
+   sound/usb/mixer.c:704:3: note: Call to function 'strcpy' is insecure as it does not provide bounding of the memory buffer. Replace unbounded copy functions with analogous functions that support length arguments such as 'strlcpy'. CWE-119
+                   strcpy(name, "Phone");
+                   ^~~~~~
+   sound/usb/mixer.c:710:4: warning: Call to function 'strcpy' is insecure as it does not provide bounding of the memory buffer. Replace unbounded copy functions with analogous functions that support length arguments such as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+                           strcpy(name, names->name);
+                           ^~~~~~
+   sound/usb/mixer.c:710:4: note: Call to function 'strcpy' is insecure as it does not provide bounding of the memory buffer. Replace unbounded copy functions with analogous functions that support length arguments such as 'strlcpy'. CWE-119
+                           strcpy(name, names->name);
+                           ^~~~~~
+>> sound/usb/mixer.c:2172:16: warning: The left expression of the compound assignment is an uninitialized value. The computed value will also be garbage [clang-analyzer-core.uninitialized.Assign]
+                           cval->cmask |= (1 << i);
+                                       ^
+   sound/usb/mixer.c:3563:6: note: Assuming 'mixer' is non-null
+           if (!mixer)
+               ^~~~~~
+   sound/usb/mixer.c:3563:2: note: Taking false branch
+           if (!mixer)
+           ^
+   sound/usb/mixer.c:3566:29: note: Assuming the condition is false
+           mixer->ignore_ctl_error = !!(chip->quirk_flags & QUIRK_FLAG_IGNORE_CTL_ERROR);
+                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/usb/mixer.c:3569:6: note: Assuming field 'id_elems' is non-null
+           if (!mixer->id_elems) {
+               ^~~~~~~~~~~~~~~~
+   sound/usb/mixer.c:3569:2: note: Taking false branch
+           if (!mixer->id_elems) {
+           ^
+   sound/usb/mixer.c:3575:2: note: Control jumps to the 'default' case at line 3577
+           switch (get_iface_desc(mixer->hostif)->bInterfaceProtocol) {
+           ^
+   sound/usb/mixer.c:3579:3: note:  Execution continues on line 3588
+                   break;
+                   ^
+   sound/usb/mixer.c:3588:13: note: Field 'protocol' is not equal to UAC_VERSION_3
+           if (mixer->protocol == UAC_VERSION_3 &&
+                      ^
+   sound/usb/mixer.c:3588:39: note: Left side of '&&' is false
+           if (mixer->protocol == UAC_VERSION_3 &&
+                                                ^
+   sound/usb/mixer.c:3594:9: note: Calling 'snd_usb_mixer_controls'
+                   err = snd_usb_mixer_controls(mixer);
+                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/usb/mixer.c:3223:2: note: Loop condition is false. Execution continues on line 3232
+           for (map = usbmix_ctl_maps; map->id; map++) {
+           ^
+   sound/usb/mixer.c:3233:9: note: Assuming the condition is true
+           while ((p = snd_usb_find_csint_desc(mixer->hostif->extra,
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/usb/mixer.c:3233:2: note: Loop condition is true.  Entering loop body
+           while ((p = snd_usb_find_csint_desc(mixer->hostif->extra,
+           ^
+   sound/usb/mixer.c:3236:7: note: Assuming the condition is false
+                   if (!snd_usb_validate_audio_desc(p, mixer->protocol))
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/usb/mixer.c:3236:3: note: Taking false branch
+                   if (!snd_usb_validate_audio_desc(p, mixer->protocol))
+                   ^
+   sound/usb/mixer.c:3239:14: note: Field 'protocol' is equal to UAC_VERSION_1
+                   if (mixer->protocol == UAC_VERSION_1) {
+                              ^
+   sound/usb/mixer.c:3239:3: note: Taking true branch
+                   if (mixer->protocol == UAC_VERSION_1) {
+                   ^
+   sound/usb/mixer.c:3247:10: note: Calling 'parse_audio_unit'
+                           err = parse_audio_unit(&state, desc->bSourceID);
+                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/usb/mixer.c:2867:6: note: Assuming the condition is false
+           if (test_and_set_bit(unitid, state->unitbitmap))
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/usb/mixer.c:2867:2: note: Taking false branch
+           if (test_and_set_bit(unitid, state->unitbitmap))
+           ^
+   sound/usb/mixer.c:2871:7: note: 'p1' is non-null
+           if (!p1) {
+                ^~
+   sound/usb/mixer.c:2871:2: note: Taking false branch
+           if (!p1) {
+           ^
+   sound/usb/mixer.c:2876:6: note: Assuming the condition is false
+           if (!snd_usb_validate_audio_desc(p1, protocol)) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/usb/mixer.c:2876:2: note: Taking false branch
+           if (!snd_usb_validate_audio_desc(p1, protocol)) {
+           ^
+   sound/usb/mixer.c:2881:2: note: Control jumps to 'case 4:'  at line 2886
+           switch (PTYPE(protocol, p1[2])) {
+           ^
+   sound/usb/mixer.c:2889:10: note: Calling 'parse_audio_mixer_unit'
+                   return parse_audio_mixer_unit(state, unitid, p1);
+                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/usb/mixer.c:2243:6: note: Assuming 'err' is >= 0
+           if (err < 0) {
+               ^~~~~~~
+   sound/usb/mixer.c:2243:2: note: Taking false branch
+           if (err < 0) {
+           ^
+   sound/usb/mixer.c:2255:16: note: Assuming 'pin' is < 'input_pins'
+           for (pin = 0; pin < input_pins; pin++) {
+                         ^~~~~~~~~~~~~~~~
+   sound/usb/mixer.c:2255:2: note: Loop condition is true.  Entering loop body
+           for (pin = 0; pin < input_pins; pin++) {
+           ^
+   sound/usb/mixer.c:2257:7: note: Assuming 'err' is >= 0
+                   if (err < 0)
+                       ^~~~~~~
+   sound/usb/mixer.c:2257:3: note: Taking false branch
+                   if (err < 0)
+                   ^
+   sound/usb/mixer.c:2260:7: note: Assuming 'num_outs' is not equal to 0
+                   if (!num_outs)
 
-vim +3548 kernel/rcu/rcutorture.c
+vim +2172 sound/usb/mixer.c
 
-81fba7e62c82be Paul E. McKenney 2023-01-13  3514  static void rcu_torture_init_srcu_lockdep(void)
-81fba7e62c82be Paul E. McKenney 2023-01-13  3515  {
-81fba7e62c82be Paul E. McKenney 2023-01-13  3516  	int cyclelen;
-81fba7e62c82be Paul E. McKenney 2023-01-13  3517  	int cyclelenmax;
-81fba7e62c82be Paul E. McKenney 2023-01-13  3518  	int deadlock;
-81fba7e62c82be Paul E. McKenney 2023-01-13  3519  	bool err = false;
-81fba7e62c82be Paul E. McKenney 2023-01-13  3520  	int i;
-81fba7e62c82be Paul E. McKenney 2023-01-13  3521  	int j;
-81fba7e62c82be Paul E. McKenney 2023-01-13  3522  	int idx;
-a5ae869a4ab737 Paul E. McKenney 2023-01-23  3523  	struct mutex *muts[] = { &mut0, &mut1, &mut2, &mut3, &mut4,
-a5ae869a4ab737 Paul E. McKenney 2023-01-23  3524  				 &mut5, &mut6, &mut7, &mut8, &mut9 };
-a5ae869a4ab737 Paul E. McKenney 2023-01-23  3525  	struct srcu_struct *srcus[] = { &srcu0, &srcu1, &srcu2, &srcu3, &srcu4,
-a5ae869a4ab737 Paul E. McKenney 2023-01-23  3526  					&srcu5, &srcu6, &srcu7, &srcu8, &srcu9 };
-81fba7e62c82be Paul E. McKenney 2023-01-13  3527  	int testtype;
-81fba7e62c82be Paul E. McKenney 2023-01-13  3528  
-81fba7e62c82be Paul E. McKenney 2023-01-13  3529  	if (!test_srcu_lockdep)
-81fba7e62c82be Paul E. McKenney 2023-01-13  3530  		return;
-81fba7e62c82be Paul E. McKenney 2023-01-13  3531  
-a5ae869a4ab737 Paul E. McKenney 2023-01-23  3532  	deadlock = test_srcu_lockdep / 1000;
-81fba7e62c82be Paul E. McKenney 2023-01-13  3533  	testtype = (test_srcu_lockdep / 10) % 100;
-81fba7e62c82be Paul E. McKenney 2023-01-13  3534  	cyclelen = test_srcu_lockdep % 10;
-81fba7e62c82be Paul E. McKenney 2023-01-13  3535  	cyclelenmax = min(ARRAY_SIZE(muts), ARRAY_SIZE(srcus));
-81fba7e62c82be Paul E. McKenney 2023-01-13  3536  	WARN_ON_ONCE(ARRAY_SIZE(muts) != ARRAY_SIZE(srcus));
-81fba7e62c82be Paul E. McKenney 2023-01-13  3537  	if (WARN_ONCE(deadlock != !!deadlock,
-81fba7e62c82be Paul E. McKenney 2023-01-13  3538  		      "%s: test_srcu_lockdep=%d and deadlock digit %d must be zero or one.\n",
-81fba7e62c82be Paul E. McKenney 2023-01-13  3539  		      __func__, test_srcu_lockdep, deadlock))
-81fba7e62c82be Paul E. McKenney 2023-01-13  3540  		err = true;
-81fba7e62c82be Paul E. McKenney 2023-01-13  3541  	if (WARN_ONCE(cyclelen <= 0,
-81fba7e62c82be Paul E. McKenney 2023-01-13  3542  		      "%s: test_srcu_lockdep=%d and cycle-length digit %d must be greater than zero.\n",
-81fba7e62c82be Paul E. McKenney 2023-01-13  3543  		      __func__, test_srcu_lockdep, cyclelen))
-81fba7e62c82be Paul E. McKenney 2023-01-13  3544  		err = true;
-81fba7e62c82be Paul E. McKenney 2023-01-13  3545  	if (err)
-81fba7e62c82be Paul E. McKenney 2023-01-13  3546  		goto err_out;
-81fba7e62c82be Paul E. McKenney 2023-01-13  3547  
-a5ae869a4ab737 Paul E. McKenney 2023-01-23 @3548  	for (i = 0; i < cyclelen; i++)
+f9f0e9ed350e15 sound/usb/mixer.c    Takashi Iwai    2019-08-20  2140  
+^1da177e4c3f41 sound/usb/usbmixer.c Linus Torvalds  2005-04-16  2141  /*
+^1da177e4c3f41 sound/usb/usbmixer.c Linus Torvalds  2005-04-16  2142   * build a mixer unit control
+^1da177e4c3f41 sound/usb/usbmixer.c Linus Torvalds  2005-04-16  2143   *
+^1da177e4c3f41 sound/usb/usbmixer.c Linus Torvalds  2005-04-16  2144   * the callbacks are identical with feature unit.
+^1da177e4c3f41 sound/usb/usbmixer.c Linus Torvalds  2005-04-16  2145   * input channel number (zero based) is given in control field instead.
+^1da177e4c3f41 sound/usb/usbmixer.c Linus Torvalds  2005-04-16  2146   */
+99fc86450c4390 sound/usb/mixer.c    Daniel Mack     2010-03-11  2147  static void build_mixer_unit_ctl(struct mixer_build *state,
+99fc86450c4390 sound/usb/mixer.c    Daniel Mack     2010-03-11  2148  				 struct uac_mixer_unit_descriptor *desc,
+6cfd839ae78ec3 sound/usb/mixer.c    Jorge Sanjuan   2018-05-11  2149  				 int in_pin, int in_ch, int num_outs,
+6cfd839ae78ec3 sound/usb/mixer.c    Jorge Sanjuan   2018-05-11  2150  				 int unitid, struct usb_audio_term *iterm)
+^1da177e4c3f41 sound/usb/usbmixer.c Linus Torvalds  2005-04-16  2151  {
+86e07d34658bb8 sound/usb/usbmixer.c Takashi Iwai    2005-11-17  2152  	struct usb_mixer_elem_info *cval;
+^1da177e4c3f41 sound/usb/usbmixer.c Linus Torvalds  2005-04-16  2153  	unsigned int i, len;
+86e07d34658bb8 sound/usb/usbmixer.c Takashi Iwai    2005-11-17  2154  	struct snd_kcontrol *kctl;
+c3a3e040f01457 sound/usb/usbmixer.c Jaroslav Kysela 2010-02-11  2155  	const struct usbmix_name_map *map;
+^1da177e4c3f41 sound/usb/usbmixer.c Linus Torvalds  2005-04-16  2156  
+17156f23e93c0f sound/usb/mixer.c    Ruslan Bilovol  2018-05-04  2157  	map = find_map(state->map, unitid, 0);
+c3a3e040f01457 sound/usb/usbmixer.c Jaroslav Kysela 2010-02-11  2158  	if (check_ignored_ctl(map))
+^1da177e4c3f41 sound/usb/usbmixer.c Linus Torvalds  2005-04-16  2159  		return;
+^1da177e4c3f41 sound/usb/usbmixer.c Linus Torvalds  2005-04-16  2160  
+561b220a4dece1 sound/usb/usbmixer.c Takashi Iwai    2005-09-09  2161  	cval = kzalloc(sizeof(*cval), GFP_KERNEL);
+^1da177e4c3f41 sound/usb/usbmixer.c Linus Torvalds  2005-04-16  2162  	if (!cval)
+^1da177e4c3f41 sound/usb/usbmixer.c Linus Torvalds  2005-04-16  2163  		return;
+^1da177e4c3f41 sound/usb/usbmixer.c Linus Torvalds  2005-04-16  2164  
+3360b84b8ed1f0 sound/usb/mixer.c    Takashi Iwai    2014-11-18  2165  	snd_usb_mixer_elem_init_std(&cval->head, state->mixer, unitid);
+^1da177e4c3f41 sound/usb/usbmixer.c Linus Torvalds  2005-04-16  2166  	cval->control = in_ch + 1; /* based on 1 */
+^1da177e4c3f41 sound/usb/usbmixer.c Linus Torvalds  2005-04-16  2167  	cval->val_type = USB_MIXER_S16;
+^1da177e4c3f41 sound/usb/usbmixer.c Linus Torvalds  2005-04-16  2168  	for (i = 0; i < num_outs; i++) {
+6bc170e4e8ac43 sound/usb/mixer.c    Daniel Mack     2014-05-24  2169  		__u8 *c = uac_mixer_unit_bmControls(desc, state->mixer->protocol);
+6bc170e4e8ac43 sound/usb/mixer.c    Daniel Mack     2014-05-24  2170  
+6bc170e4e8ac43 sound/usb/mixer.c    Daniel Mack     2014-05-24  2171  		if (check_matrix_bitmap(c, in_ch, i, num_outs)) {
+^1da177e4c3f41 sound/usb/usbmixer.c Linus Torvalds  2005-04-16 @2172  			cval->cmask |= (1 << i);
+^1da177e4c3f41 sound/usb/usbmixer.c Linus Torvalds  2005-04-16  2173  			cval->channels++;
+^1da177e4c3f41 sound/usb/usbmixer.c Linus Torvalds  2005-04-16  2174  		}
+^1da177e4c3f41 sound/usb/usbmixer.c Linus Torvalds  2005-04-16  2175  	}
+^1da177e4c3f41 sound/usb/usbmixer.c Linus Torvalds  2005-04-16  2176  
+^1da177e4c3f41 sound/usb/usbmixer.c Linus Torvalds  2005-04-16  2177  	/* get min/max values */
+^1da177e4c3f41 sound/usb/usbmixer.c Linus Torvalds  2005-04-16  2178  	get_min_max(cval, 0);
+^1da177e4c3f41 sound/usb/usbmixer.c Linus Torvalds  2005-04-16  2179  
+^1da177e4c3f41 sound/usb/usbmixer.c Linus Torvalds  2005-04-16  2180  	kctl = snd_ctl_new1(&usb_feature_unit_ctl, cval);
+^1da177e4c3f41 sound/usb/usbmixer.c Linus Torvalds  2005-04-16  2181  	if (!kctl) {
+0ba41d917eeb87 sound/usb/mixer.c    Takashi Iwai    2014-02-26  2182  		usb_audio_err(state->chip, "cannot malloc kcontrol\n");
+52c3e317a85709 sound/usb/mixer.c    Takashi Iwai    2019-08-22  2183  		usb_mixer_elem_info_free(cval);
+^1da177e4c3f41 sound/usb/usbmixer.c Linus Torvalds  2005-04-16  2184  		return;
+^1da177e4c3f41 sound/usb/usbmixer.c Linus Torvalds  2005-04-16  2185  	}
+eef90451605d79 sound/usb/mixer.c    Chris J Arges   2014-11-12  2186  	kctl->private_free = snd_usb_mixer_elem_free;
+^1da177e4c3f41 sound/usb/usbmixer.c Linus Torvalds  2005-04-16  2187  
+c3a3e040f01457 sound/usb/usbmixer.c Jaroslav Kysela 2010-02-11  2188  	len = check_mapped_name(map, kctl->id.name, sizeof(kctl->id.name));
+^1da177e4c3f41 sound/usb/usbmixer.c Linus Torvalds  2005-04-16  2189  	if (!len)
+eccfc1b868a990 sound/usb/mixer.c    Ruslan Bilovol  2018-05-04  2190  		len = get_term_name(state->chip, iterm, kctl->id.name,
+6bc170e4e8ac43 sound/usb/mixer.c    Daniel Mack     2014-05-24  2191  				    sizeof(kctl->id.name), 0);
+^1da177e4c3f41 sound/usb/usbmixer.c Linus Torvalds  2005-04-16  2192  	if (!len)
+^1da177e4c3f41 sound/usb/usbmixer.c Linus Torvalds  2005-04-16  2193  		len = sprintf(kctl->id.name, "Mixer Source %d", in_ch + 1);
+08d1e635089f41 sound/usb/usbmixer.c Takashi Iwai    2009-10-02  2194  	append_ctl_name(kctl, " Volume");
+^1da177e4c3f41 sound/usb/usbmixer.c Linus Torvalds  2005-04-16  2195  
+0ba41d917eeb87 sound/usb/mixer.c    Takashi Iwai    2014-02-26  2196  	usb_audio_dbg(state->chip, "[%d] MU [%s] ch = %d, val = %d/%d\n",
+3360b84b8ed1f0 sound/usb/mixer.c    Takashi Iwai    2014-11-18  2197  		    cval->head.id, kctl->id.name, cval->channels, cval->min, cval->max);
+3360b84b8ed1f0 sound/usb/mixer.c    Takashi Iwai    2014-11-18  2198  	snd_usb_mixer_add_control(&cval->head, kctl);
+^1da177e4c3f41 sound/usb/usbmixer.c Linus Torvalds  2005-04-16  2199  }
+^1da177e4c3f41 sound/usb/usbmixer.c Linus Torvalds  2005-04-16  2200  
 
-This line looks like it should just be deleted.  The real loops are
-later so i == cyclelen by the time it loops back here.  Should probably
-create a static checker warning for nested loops where the inside loop
-resets the outside iterator to zero.
+:::::: The code at line 2172 was first introduced by commit
+:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
 
-a5ae869a4ab737 Paul E. McKenney 2023-01-23  3549  
-81fba7e62c82be Paul E. McKenney 2023-01-13  3550  	if (testtype == 0) {
-81fba7e62c82be Paul E. McKenney 2023-01-13  3551  		pr_info("%s: test_srcu_lockdep = %05d: SRCU %d-way %sdeadlock.\n",
-81fba7e62c82be Paul E. McKenney 2023-01-13  3552  			__func__, test_srcu_lockdep, cyclelen, deadlock ? "" : "non-");
-81fba7e62c82be Paul E. McKenney 2023-01-13  3553  		if (deadlock && cyclelen == 1)
-81fba7e62c82be Paul E. McKenney 2023-01-13  3554  			pr_info("%s: Expect hang.\n", __func__);
-81fba7e62c82be Paul E. McKenney 2023-01-13  3555  		for (i = 0; i < cyclelen; i++) {
-81fba7e62c82be Paul E. McKenney 2023-01-13  3556  			j = i + 1;
-81fba7e62c82be Paul E. McKenney 2023-01-13  3557  			if (i >= cyclelen - 1)
-81fba7e62c82be Paul E. McKenney 2023-01-13  3558  				j = deadlock ? 0 : -1;
-81fba7e62c82be Paul E. McKenney 2023-01-13  3559  
-81fba7e62c82be Paul E. McKenney 2023-01-13  3560  			if (j >= 0)
-81fba7e62c82be Paul E. McKenney 2023-01-13  3561  				pr_info("%s: srcu_read_lock(%d), synchronize_srcu(%d), srcu_read_unlock(%d)\n",
-81fba7e62c82be Paul E. McKenney 2023-01-13  3562  					__func__, i, j, i);
-81fba7e62c82be Paul E. McKenney 2023-01-13  3563  			else
-81fba7e62c82be Paul E. McKenney 2023-01-13  3564  				pr_info("%s: srcu_read_lock(%d), srcu_read_unlock(%d)\n",
-81fba7e62c82be Paul E. McKenney 2023-01-13  3565  					__func__, i, i);
-81fba7e62c82be Paul E. McKenney 2023-01-13  3566  			idx = srcu_read_lock(srcus[i]);
-81fba7e62c82be Paul E. McKenney 2023-01-13  3567  			if (j >= 0)
-81fba7e62c82be Paul E. McKenney 2023-01-13  3568  				synchronize_srcu(srcus[j]);
-81fba7e62c82be Paul E. McKenney 2023-01-13  3569  			srcu_read_unlock(srcus[i], idx);
-81fba7e62c82be Paul E. McKenney 2023-01-13  3570  		}
-81fba7e62c82be Paul E. McKenney 2023-01-13  3571  		return;
-81fba7e62c82be Paul E. McKenney 2023-01-13  3572  	}
-81fba7e62c82be Paul E. McKenney 2023-01-13  3573  
-81fba7e62c82be Paul E. McKenney 2023-01-13  3574  	if (testtype == 1) {
-81fba7e62c82be Paul E. McKenney 2023-01-13  3575  		pr_info("%s: test_srcu_lockdep = %05d: SRCU/mutex %d-way %sdeadlock.\n",
-81fba7e62c82be Paul E. McKenney 2023-01-13  3576  			__func__, test_srcu_lockdep, cyclelen, deadlock ? "" : "non-");
-81fba7e62c82be Paul E. McKenney 2023-01-13  3577  		for (i = 0; i < cyclelen; i++) {
-81fba7e62c82be Paul E. McKenney 2023-01-13  3578  			j = i + 1;
-81fba7e62c82be Paul E. McKenney 2023-01-13  3579  			if (i >= cyclelen - 1)
-81fba7e62c82be Paul E. McKenney 2023-01-13  3580  				j = deadlock ? 0 : -1;
-81fba7e62c82be Paul E. McKenney 2023-01-13  3581  
-81fba7e62c82be Paul E. McKenney 2023-01-13  3582  			pr_info("%s: srcu_read_lock(%d), mutex_lock(%d), mutex_unlock(%d), srcu_read_unlock(%d)\n",
-81fba7e62c82be Paul E. McKenney 2023-01-13  3583  				__func__, i, i, i, i);
-81fba7e62c82be Paul E. McKenney 2023-01-13  3584  			idx = srcu_read_lock(srcus[i]);
-81fba7e62c82be Paul E. McKenney 2023-01-13  3585  			mutex_lock(muts[i]);
-81fba7e62c82be Paul E. McKenney 2023-01-13  3586  			mutex_unlock(muts[i]);
-81fba7e62c82be Paul E. McKenney 2023-01-13  3587  			srcu_read_unlock(srcus[i], idx);
-81fba7e62c82be Paul E. McKenney 2023-01-13  3588  
-81fba7e62c82be Paul E. McKenney 2023-01-13  3589  			if (j >= 0) {
-81fba7e62c82be Paul E. McKenney 2023-01-13  3590  				pr_info("%s: mutex_lock(%d), synchronize_srcu(%d), mutex_unlock(%d)\n",
-81fba7e62c82be Paul E. McKenney 2023-01-13  3591  					__func__, i, j, i);
-81fba7e62c82be Paul E. McKenney 2023-01-13  3592  				mutex_lock(muts[i]);
-81fba7e62c82be Paul E. McKenney 2023-01-13  3593  				synchronize_srcu(srcus[j]);
-81fba7e62c82be Paul E. McKenney 2023-01-13  3594  				mutex_unlock(muts[i]);
-81fba7e62c82be Paul E. McKenney 2023-01-13  3595  			}
-81fba7e62c82be Paul E. McKenney 2023-01-13  3596  		}
-81fba7e62c82be Paul E. McKenney 2023-01-13  3597  		return;
-81fba7e62c82be Paul E. McKenney 2023-01-13  3598  	}
-81fba7e62c82be Paul E. McKenney 2023-01-13  3599  
-81fba7e62c82be Paul E. McKenney 2023-01-13  3600  err_out:
-81fba7e62c82be Paul E. McKenney 2023-01-13  3601  	pr_info("%s: test_srcu_lockdep = %05d does nothing.\n", __func__, test_srcu_lockdep);
-a5ae869a4ab737 Paul E. McKenney 2023-01-23  3602  	pr_info("%s: test_srcu_lockdep = DTTC.\n", __func__);
-81fba7e62c82be Paul E. McKenney 2023-01-13  3603  	pr_info("%s: D: Deadlock if nonzero.\n", __func__);
-81fba7e62c82be Paul E. McKenney 2023-01-13  3604  	pr_info("%s: TT: Test number, 0=SRCU, 1=SRCU/mutex.\n", __func__);
-81fba7e62c82be Paul E. McKenney 2023-01-13  3605  	pr_info("%s: C: Cycle length.\n", __func__);
-81fba7e62c82be Paul E. McKenney 2023-01-13  3606  }
+:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
-
