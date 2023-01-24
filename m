@@ -1,39 +1,47 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93CD110EC
-	for <oe-kbuild@lists.linux.dev>; Tue, 24 Jan 2023 09:22:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674552120; x=1706088120;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=I4ix/Xa4LHlF0MvtwEOevcUsM6Mg43jO2q+un2nO4E0=;
-  b=GCNJIUu/MT72LCH528k41Xao6NpvwmRwHSu53l/YbX07yaBI23Ov9Ge0
-   dRV0oiyVVzqA8PsVjHSqymmrsgEGIwOeuW5TbgTunInFowiNnj8F36qcc
-   rcL0ircOzkRv2wbiU4wGfxmbYeJifIYO+l8TKiIBi5eweG0C7wDOAWWg1
-   Ez10Em0XROqVMftC/mzCcpxjrhtmz4j8s43h80jPfToOCi22CM6WQRQ8/
-   gPMzFBfLjffePtoxO+8IIKHZNyCjKsnwTTGphBqaP5z2pYr0KKlXro4Ed
-   K/3lI5UTjRaCGjFJlVZIETHRzeOv0OCyuczBp90JW9lcrqmhV3zkv6tAL
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="309831160"
-X-IronPort-AV: E=Sophos;i="5.97,242,1669104000"; 
-   d="scan'208";a="309831160"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2023 01:21:50 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="770240203"
-X-IronPort-AV: E=Sophos;i="5.97,242,1669104000"; 
-   d="scan'208";a="770240203"
-Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 24 Jan 2023 01:21:48 -0800
-Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pKFUx-0006Iy-2M;
-	Tue, 24 Jan 2023 09:21:47 +0000
-Date: Tue, 24 Jan 2023 17:21:32 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 772EA10E9;
+	Tue, 24 Jan 2023 09:32:22 +0000 (UTC)
+Received: by mail-wm1-f53.google.com with SMTP id c4-20020a1c3504000000b003d9e2f72093so12369841wma.1;
+        Tue, 24 Jan 2023 01:32:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=V2fAO/tYe/DQxOMFeE5JyRlEqPoQiQpJLtCGw7d/Ecs=;
+        b=Ue4+eLX6HVaTqP4Kk2Tg9pVVne5fjVYrldoh7Ox6otI4hJ4OsHsuAfoGhGHukWnmBG
+         23M3ZrN9urV7/7k6d0kwy+Pt70XGAozHZhUV/fRdM0vXDUUOv0BWZCqmrAxnTcJcy6nz
+         6826XKV2CbNT5t3Y0dpcE8TqgZbRUtnwKJov64spVGuT8lNHBUYPFCNNKz6Rz2AoEIzQ
+         x/N4SuSgFJVVKjE4q9xkEB8kbsQnWPLIwTUDZr7DSq2G75AQyabnctFoqcnBMv80nRZB
+         uxdpAalpbwrIdNaAlp9USTWGF9BhPPFu/nHNYw2KWycUQLiKfn0zFOaJgZpv6sHdpnkG
+         FoOg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=V2fAO/tYe/DQxOMFeE5JyRlEqPoQiQpJLtCGw7d/Ecs=;
+        b=o0dq5s/sU6WNgBMpBMUh1lvoyKI0RFhHMMXHprudfBFfJ8piyfefJ2LTRjLl2/wIG4
+         zxvCmz1YTy18XOl6bwS9E6VG8XGS46RoOBuuefQJBf32XOmvGwxE9wLwOPUNm0iSJHa1
+         X37KakLqIL6QoOvJ3xF/2CGsgt3zr97PMDYN/lM35CDTqTRBdRG/ye06jkwCiHXbQU/I
+         WOGkp0llP57iVwmbKUrITSN4mX0Z8gVtCUvTFpSiPigW0YvWvbP3fBm7lktHB1ImswfJ
+         +rZclP1UajcswkzrX3qHTCkobFxNgScb/ISlHMEVvE/JGMAIQOgwL3Y/qNtE2SuV6zFr
+         c41w==
+X-Gm-Message-State: AFqh2kpKs52h5f1gymww3Yal6oX/m7E+6gzeT6SEHAAzAx80XksaSdWu
+	/GLZqnedxeL14oAx5eI5N4omP3B/XkAIPg==
+X-Google-Smtp-Source: AMrXdXvufRp95MwLy9SZZp8mmyAch1bM7K1uoVp9336veEKUqPIqchN0L5t7xkSAA1oJPJ29pFKfrA==
+X-Received: by 2002:a05:600c:3d06:b0:3da:f945:2354 with SMTP id bh6-20020a05600c3d0600b003daf9452354mr27451415wmb.41.1674552740258;
+        Tue, 24 Jan 2023 01:32:20 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id q14-20020adff78e000000b002be07cbefb2sm1731962wrp.18.2023.01.24.01.32.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Jan 2023 01:32:19 -0800 (PST)
+Date: Tue, 24 Jan 2023 12:32:14 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev, "Paul E. McKenney" <paulmck@kernel.org>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Ammar Faizi <ammarfaizi2@gnuweeb.org>,
+	GNU/Weeb Mailing List <gwml@vger.gnuweeb.org>
 Subject: [ammarfaizi2-block:paulmck/linux-rcu/dev.2023.01.19a 55/61]
  kernel/rcu/rcutorture.c:3548 rcu_torture_init_srcu_lockdep() warn: for
  statement not indented
@@ -46,18 +54,11 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: Ammar Faizi <ammarfaizi2@gnuweeb.org>
-CC: "GNU/Weeb Mailing List" <gwml@vger.gnuweeb.org>
-TO: "Paul E. McKenney" <paulmck@kernel.org>
+Message-ID: <20230124093214.sEKHAubkYjLReWYcf1rwy-DYs5XTwX5jphQ6IYE06N4@z>
 
 tree:   https://github.com/ammarfaizi2/linux-block paulmck/linux-rcu/dev.2023.01.19a
 head:   e51eadce38349e7edb506a61e325cc562d49409f
 commit: a5ae869a4ab737494a3c5c167d782b8eab3ba724 [55/61] squash! rcutorture: Add SRCU deadlock scenarios
-:::::: branch date: 9 hours ago
-:::::: commit date: 14 hours ago
 config: x86_64-randconfig-m001-20230123 (https://download.01.org/0day-ci/archive/20230124/202301241716.MgPWF6fU-lkp@intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 
@@ -70,8 +71,6 @@ kernel/rcu/rcutorture.c:3548 rcu_torture_init_srcu_lockdep() warn: for statement
 
 vim +3548 kernel/rcu/rcutorture.c
 
-81fba7e62c82be Paul E. McKenney 2023-01-13  3512  
-81fba7e62c82be Paul E. McKenney 2023-01-13  3513  // Test lockdep on SRCU-based deadlock scenarios.
 81fba7e62c82be Paul E. McKenney 2023-01-13  3514  static void rcu_torture_init_srcu_lockdep(void)
 81fba7e62c82be Paul E. McKenney 2023-01-13  3515  {
 81fba7e62c82be Paul E. McKenney 2023-01-13  3516  	int cyclelen;
@@ -107,6 +106,12 @@ a5ae869a4ab737 Paul E. McKenney 2023-01-23  3532  	deadlock = test_srcu_lockdep 
 81fba7e62c82be Paul E. McKenney 2023-01-13  3546  		goto err_out;
 81fba7e62c82be Paul E. McKenney 2023-01-13  3547  
 a5ae869a4ab737 Paul E. McKenney 2023-01-23 @3548  	for (i = 0; i < cyclelen; i++)
+
+This line looks like it should just be deleted.  The real loops are
+later so i == cyclelen by the time it loops back here.  Should probably
+create a static checker warning for nested loops where the inside loop
+resets the outside iterator to zero.
+
 a5ae869a4ab737 Paul E. McKenney 2023-01-23  3549  
 81fba7e62c82be Paul E. McKenney 2023-01-13  3550  	if (testtype == 0) {
 81fba7e62c82be Paul E. McKenney 2023-01-13  3551  		pr_info("%s: test_srcu_lockdep = %05d: SRCU %d-way %sdeadlock.\n",
@@ -165,8 +170,8 @@ a5ae869a4ab737 Paul E. McKenney 2023-01-23  3602  	pr_info("%s: test_srcu_lockde
 81fba7e62c82be Paul E. McKenney 2023-01-13  3604  	pr_info("%s: TT: Test number, 0=SRCU, 1=SRCU/mutex.\n", __func__);
 81fba7e62c82be Paul E. McKenney 2023-01-13  3605  	pr_info("%s: C: Cycle length.\n", __func__);
 81fba7e62c82be Paul E. McKenney 2023-01-13  3606  }
-81fba7e62c82be Paul E. McKenney 2023-01-13  3607  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
+
