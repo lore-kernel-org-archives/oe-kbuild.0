@@ -1,44 +1,42 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D4F81399
-	for <oe-kbuild@lists.linux.dev>; Wed, 25 Jan 2023 00:03:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A481A20
+	for <oe-kbuild@lists.linux.dev>; Wed, 25 Jan 2023 00:24:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674605009; x=1706141009;
+  t=1674606270; x=1706142270;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=E6j6niAOMdnAqe4LdG3iPaq8+yovcui7ErLm7aala+c=;
-  b=AG46RWgCGmRWZytGV4lYRytbMx9kADP3+kVRoi2avScRKQMD91ZLM8Qc
-   I47d9+Kde5HAPkLxIRzEGP2BsvTojSGVt0Oh2EEyVxdA9DvKQLTFzMSxb
-   vVqdjSgxdapROJIaedTCLSYEDHZFwmf4WbbIgCXRsMCHOUCyEaGVBx7PK
-   Ui0D8MdQm4Q77eWWhTmgyfz8MokavaBzknewmSV/DewAbx56BrKKUHsBM
-   fYXJDPP69VOt5dQNVSoUNUikz8QfYJGP8eBVr4LiI5i9dsH/ChnoiO/mk
-   olmIIXdQXWNYUJqN2vUrRdytKbZ4Kg5gBwWAxa3T2K+T93lFFKeYOk0mZ
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10600"; a="327699900"
+  bh=oSkbXusLtuWZ+4dnq0dTOtEjUjZ1zySv/C4112/gp6U=;
+  b=fUCifAN1xPWpOpPNRd1pPs8xu/HjuERtl7ypa9c4URn8L+ncq9P0T/uI
+   tgt34cT1mSfNBnCDC16wDTK1TX8MjEwIrgWGDSXkQfJFeWbZsz/nHFks5
+   j+O3Abi3Jbj83l5DqI/Hf/P/SjBW+zuSjvUSreucqnyts8zZWX0/btrRR
+   sN9EQfQsyQ9Y06maHGcUjgdbSSiZvYgNnrHpR84xqaqZPprq9Fdh9woK/
+   wQasOLf7pwvpiG0L+P12B9i+FpBoU+FeEeYXn2rPfG2F+rE+y0b78pfYB
+   0AtrzYGTj2xgV+5+/l3lKyyyxAaDsJHH+Tow+dcc4oTgGPebJWI7ihB2s
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10600"; a="306802550"
 X-IronPort-AV: E=Sophos;i="5.97,243,1669104000"; 
-   d="scan'208";a="327699900"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2023 16:03:29 -0800
+   d="scan'208";a="306802550"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2023 16:24:29 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10600"; a="655614697"
+X-IronPort-AV: E=McAfee;i="6500,9779,10600"; a="692771763"
 X-IronPort-AV: E=Sophos;i="5.97,243,1669104000"; 
-   d="scan'208";a="655614697"
+   d="scan'208";a="692771763"
 Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 24 Jan 2023 16:03:27 -0800
+  by orsmga008.jf.intel.com with ESMTP; 24 Jan 2023 16:24:27 -0800
 Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pKTGA-0006t5-1w;
-	Wed, 25 Jan 2023 00:03:26 +0000
-Date: Wed, 25 Jan 2023 08:03:12 +0800
+	id 1pKTaV-0006u0-0F;
+	Wed, 25 Jan 2023 00:24:27 +0000
+Date: Wed, 25 Jan 2023 08:23:55 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: drivers/clocksource/timer-goldfish.c:12:8: warning: Excessive
- padding in 'struct goldfish_timer' (96 padding bytes, where 32 is optimal).
- Optimal fields order: ced, base, res, cs, consider reordering the fields or
- adding explicit padding members [clang-an...
-Message-ID: <202301250740.FHUsJmnq-lkp@intel.com>
+Subject: drivers/staging/media/omap4iss/iss_csi2.c:874:17: warning: use of
+ NULL 'format' where non-null expected [CWE-476]
+Message-ID: <202301250849.bDc1TuR2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -49,253 +47,518 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "low confidence static check warning: drivers/clocksource/timer-goldfish.c:12:8: warning: Excessive padding in 'struct goldfish_timer' (96 padding bytes, where 32 is optimal). Optimal fields order: ced, base, res, cs, consider reordering the fields or adding explicit padding members [clang-analyzer-optin.performance.Padding]"
+:::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "low confidence static check first_new_problem: drivers/staging/media/omap4iss/iss_csi2.c:874:17: warning: use of NULL 'format' where non-null expected [CWE-476] [-Wanalyzer-null-argument]"
 :::::: 
 
 BCC: lkp@intel.com
-CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Laurent Vivier <laurent@vivier.eu>
-CC: Geert Uytterhoeven <geert@linux-m68k.org>
+TO: Sakari Ailus <sakari.ailus@linux.intel.com>
+CC: Mauro Carvalho Chehab <mchehab@kernel.org>
+CC: linux-media@vger.kernel.org
+CC: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+
+Hi Sakari,
+
+First bad commit (maybe != root cause):
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   7bf70dbb18820b37406fdfa2aaf14c2f5c71a11a
-commit: c92e7ef16400bf035e8b49c7dd091bfce4f99773 clocksource/drivers: Add a goldfish-timer clocksource
-date:   10 months ago
+commit: 2ba3e38517f5a4ebf9c997168079dca01b7f9fc6 media: v4l: subdev: Fail graciously when getting try data for NULL state
+date:   4 months ago
 :::::: branch date: 28 hours ago
-:::::: commit date: 10 months ago
-config: riscv-randconfig-c006-20230118 (https://download.01.org/0day-ci/archive/20230125/202301250740.FHUsJmnq-lkp@intel.com/config)
-compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 4196ca3278f78c6e19246e54ab0ecb364e37d66a)
+:::::: commit date: 4 months ago
+config: arm-randconfig-c002-20230123 (https://download.01.org/0day-ci/archive/20230125/202301250849.bDc1TuR2-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=c92e7ef16400bf035e8b49c7dd091bfce4f99773
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=2ba3e38517f5a4ebf9c997168079dca01b7f9fc6
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout c92e7ef16400bf035e8b49c7dd091bfce4f99773
+        git checkout 2ba3e38517f5a4ebf9c997168079dca01b7f9fc6
         # save the config file
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=riscv clang-analyzer  olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=riscv clang-analyzer 
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross ARCH=arm KBUILD_USERCFLAGS='-fanalyzer -Wno-error'  olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross ARCH=arm KBUILD_USERCFLAGS='-fanalyzer -Wno-error' 
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-clang_analyzer warnings: (new ones prefixed by >>)
-                                 ^
-   drivers/iio/adc/at91-sama5d2_adc.c:1343:6: note: Assuming the condition is false
-           if (iio_trigger_validate_own_device(indio_dev->trig, indio_dev))
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iio/adc/at91-sama5d2_adc.c:1343:2: note: Taking false branch
-           if (iio_trigger_validate_own_device(indio_dev->trig, indio_dev))
-           ^
-   drivers/iio/adc/at91-sama5d2_adc.c:1346:6: note: Assuming field 'dma_chan' is non-null
-           if (st->dma_st.dma_chan)
-               ^~~~~~~~~~~~~~~~~~~
-   drivers/iio/adc/at91-sama5d2_adc.c:1346:2: note: Taking true branch
-           if (st->dma_st.dma_chan)
-           ^
-   drivers/iio/adc/at91-sama5d2_adc.c:1347:3: note: Calling 'at91_adc_trigger_handler_dma'
-                   at91_adc_trigger_handler_dma(indio_dev);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iio/adc/at91-sama5d2_adc.c:1292:15: note: Loop condition is false.  Exiting loop
-           u32 status = at91_adc_readl(st, ISR);
-                        ^
-   drivers/iio/adc/at91-sama5d2_adc.c:387:2: note: expanded from macro 'at91_adc_readl'
-           readl_relaxed((st)->base + (st)->soc_info.platform->layout->reg)
-           ^
-   arch/riscv/include/asm/mmio.h:116:38: note: expanded from macro 'readl_relaxed'
-   #define readl_relaxed(c)        ({ u32 __v; __io_rbr(); __v = readl_cpu(c); __io_rar(); __v; })
-                                               ^
-   arch/riscv/include/asm/mmio.h:109:21: note: expanded from macro '__io_rbr'
-   #define __io_rbr()              do {} while (0)
-                                   ^
-   drivers/iio/adc/at91-sama5d2_adc.c:1292:15: note: Loop condition is false.  Exiting loop
-           u32 status = at91_adc_readl(st, ISR);
-                        ^
-   drivers/iio/adc/at91-sama5d2_adc.c:387:2: note: expanded from macro 'at91_adc_readl'
-           readl_relaxed((st)->base + (st)->soc_info.platform->layout->reg)
-           ^
-   arch/riscv/include/asm/mmio.h:116:70: note: expanded from macro 'readl_relaxed'
-   #define readl_relaxed(c)        ({ u32 __v; __io_rbr(); __v = readl_cpu(c); __io_rar(); __v; })
-                                                                               ^
-   arch/riscv/include/asm/mmio.h:110:21: note: expanded from macro '__io_rar'
-   #define __io_rar()              do {} while (0)
-                                   ^
-   drivers/iio/adc/at91-sama5d2_adc.c:1294:6: note: Assuming the condition is false
-           if (status & AT91_SAMA5D2_IER_GOVRE)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iio/adc/at91-sama5d2_adc.c:1294:2: note: Taking false branch
-           if (status & AT91_SAMA5D2_IER_GOVRE)
-           ^
-   drivers/iio/adc/at91-sama5d2_adc.c:1300:17: note: Calling 'div_s64'
-           sample_count = div_s64(transferred_len, sample_size);
-                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/math64.h:141:9: note: Calling 'div_s64_rem'
-           return div_s64_rem(dividend, divisor, &remainder);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/math64.h:43:2: note: Returning zero
-           return dividend / divisor;
-           ^~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/math64.h:141:9: note: Returning from 'div_s64_rem'
-           return div_s64_rem(dividend, divisor, &remainder);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/math64.h:141:2: note: Returning zero
-           return div_s64_rem(dividend, divisor, &remainder);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iio/adc/at91-sama5d2_adc.c:1300:17: note: Returning from 'div_s64'
-           sample_count = div_s64(transferred_len, sample_size);
-                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iio/adc/at91-sama5d2_adc.c:1300:2: note: The value 0 is assigned to 'sample_count'
-           sample_count = div_s64(transferred_len, sample_size);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iio/adc/at91-sama5d2_adc.c:1306:47: note: Passing the value 0 via 2nd parameter 'divisor'
-           interval = div_s64((ns - st->dma_st.dma_ts), sample_count);
-                                                        ^~~~~~~~~~~~
-   drivers/iio/adc/at91-sama5d2_adc.c:1306:13: note: Calling 'div_s64'
-           interval = div_s64((ns - st->dma_st.dma_ts), sample_count);
-                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/math64.h:141:31: note: Passing the value 0 via 2nd parameter 'divisor'
-           return div_s64_rem(dividend, divisor, &remainder);
-                                        ^~~~~~~
-   include/linux/math64.h:141:9: note: Calling 'div_s64_rem'
-           return div_s64_rem(dividend, divisor, &remainder);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/math64.h:42:24: note: Division by zero
-           *remainder = dividend % divisor;
-                        ~~~~~~~~~^~~~~~~~~
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   drivers/clocksource/ingenic-sysost.c:340:2: warning: Call to function 'snprintf' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'snprintf_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           snprintf(ost->name, sizeof(ost->name), "OST percpu timer");
-           ^~~~~~~~
-   drivers/clocksource/ingenic-sysost.c:340:2: note: Call to function 'snprintf' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'snprintf_s' in case of C11
-           snprintf(ost->name, sizeof(ost->name), "OST percpu timer");
-           ^~~~~~~~
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   9 warnings generated.
->> drivers/clocksource/timer-goldfish.c:12:8: warning: Excessive padding in 'struct goldfish_timer' (96 padding bytes, where 32 is optimal). Optimal fields order: ced, base, res, cs, consider reordering the fields or adding explicit padding members [clang-analyzer-optin.performance.Padding]
-   struct goldfish_timer {
-   ~~~~~~~^~~~~~~~~~~~~~~~
-   drivers/clocksource/timer-goldfish.c:12:8: note: Excessive padding in 'struct goldfish_timer' (96 padding bytes, where 32 is optimal). Optimal fields order: ced, base, res, cs, consider reordering the fields or adding explicit padding members
-   struct goldfish_timer {
-   ~~~~~~~^~~~~~~~~~~~~~~~
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   drivers/of/base.c:1886:2: warning: Call to function 'strncpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'strncpy_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           strncpy(ap->stem, stem, stem_len);
-           ^~~~~~~
-   drivers/of/base.c:1886:2: note: Call to function 'strncpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'strncpy_s' in case of C11
-           strncpy(ap->stem, stem, stem_len);
-           ^~~~~~~
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   11 warnings generated.
-   sound/firewire/digi00x/digi00x.c:34:2: warning: Call to function 'strcpy' is insecure as it does not provide bounding of the memory buffer. Replace unbounded copy functions with analogous functions that support length arguments such as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-           strcpy(dg00x->card->shortname, model);
-           ^~~~~~
-   sound/firewire/digi00x/digi00x.c:34:2: note: Call to function 'strcpy' is insecure as it does not provide bounding of the memory buffer. Replace unbounded copy functions with analogous functions that support length arguments such as 'strlcpy'. CWE-119
-           strcpy(dg00x->card->shortname, model);
-           ^~~~~~
-   sound/firewire/digi00x/digi00x.c:35:2: warning: Call to function 'strcpy' is insecure as it does not provide bounding of the memory buffer. Replace unbounded copy functions with analogous functions that support length arguments such as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-           strcpy(dg00x->card->mixername, model);
-           ^~~~~~
-   sound/firewire/digi00x/digi00x.c:35:2: note: Call to function 'strcpy' is insecure as it does not provide bounding of the memory buffer. Replace unbounded copy functions with analogous functions that support length arguments such as 'strlcpy'. CWE-119
-           strcpy(dg00x->card->mixername, model);
-           ^~~~~~
-   sound/firewire/digi00x/digi00x.c:36:2: warning: Call to function 'snprintf' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'snprintf_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           snprintf(dg00x->card->longname, sizeof(dg00x->card->longname),
-           ^~~~~~~~
-   sound/firewire/digi00x/digi00x.c:36:2: note: Call to function 'snprintf' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'snprintf_s' in case of C11
-           snprintf(dg00x->card->longname, sizeof(dg00x->card->longname),
-           ^~~~~~~~
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   15 warnings generated.
-   Suppressed 15 warnings (15 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   12 warnings generated.
-   drivers/usb/chipidea/otg_fsm.c:42:2: warning: Value stored to 'next' is never read [clang-analyzer-deadcode.DeadStores]
-           next += t;
-           ^       ~
-   drivers/usb/chipidea/otg_fsm.c:42:2: note: Value stored to 'next' is never read
-           next += t;
-           ^       ~
-   drivers/usb/chipidea/otg_fsm.c:91:2: warning: Value stored to 'next' is never read [clang-analyzer-deadcode.DeadStores]
-           next += t;
-           ^       ~
-   drivers/usb/chipidea/otg_fsm.c:91:2: note: Value stored to 'next' is never read
-           next += t;
-           ^       ~
-   drivers/usb/chipidea/otg_fsm.c:131:2: warning: Value stored to 'next' is never read [clang-analyzer-deadcode.DeadStores]
-           next += t;
-           ^       ~
-   drivers/usb/chipidea/otg_fsm.c:131:2: note: Value stored to 'next' is never read
-           next += t;
-           ^       ~
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   include/linux/list.h:137:13: warning: Use of memory after it is freed [clang-analyzer-unix.Malloc]
-           __list_del(entry->prev, entry->next);
-                      ^
-   drivers/firmware/cirrus/cs_dsp.c:2338:2: note: Loop condition is false. Execution continues on line 2341
-           list_for_each_entry(ctl, &dsp->ctl_list, list)
-           ^
-   include/linux/list.h:638:2: note: expanded from macro 'list_for_each_entry'
-           for (pos = list_first_entry(head, typeof(*pos), member);        \
-           ^
-   drivers/firmware/cirrus/cs_dsp.c:2341:2: note: Calling 'cs_dsp_free_alg_regions'
-           cs_dsp_free_alg_regions(dsp);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/firmware/cirrus/cs_dsp.c:1616:2: note: Loop condition is true.  Entering loop body
-           while (!list_empty(&dsp->alg_regions)) {
-           ^
-   drivers/firmware/cirrus/cs_dsp.c:1621:3: note: Memory is released
-                   kfree(alg_region);
+gcc_analyzer warnings: (new ones prefixed by >>)
+   drivers/staging/media/omap4iss/iss_csi2.c: In function 'csi2_try_format':
+>> drivers/staging/media/omap4iss/iss_csi2.c:874:17: warning: use of NULL 'format' where non-null expected [CWE-476] [-Wanalyzer-null-argument]
+     874 |                 memcpy(fmt, format, sizeof(*fmt));
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     'csi2_try_format': events 1-4
+       |
+       |  840 | csi2_try_format(struct iss_csi2_device *csi2,
+       |      | ^~~~~~~~~~~~~~~
+       |      | |
+       |      | (1) entry to 'csi2_try_format'
+       |......
+       |  851 |         switch (pad) {
+       |      |         ~~~~~~
+       |      |         |
+       |      |         (2) following 'case 1:' branch...
+       |......
+       |  867 |         case CSI2_PAD_SOURCE:
+       |      |         ~~~~
+       |      |         |
+       |      |         (3) ...to here
+       |......
+       |  872 |                 format = __csi2_get_format(csi2, sd_state, CSI2_PAD_SINK,
+       |      |                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |                          |
+       |      |                          (4) calling '__csi2_get_format' from 'csi2_try_format'
+       |  873 |                                            which);
+       |      |                                            ~~~~~~
+       |
+       +--> '__csi2_get_format': events 5-7
+              |
+              |  827 | __csi2_get_format(struct iss_csi2_device *csi2,
+              |      | ^~~~~~~~~~~~~~~~~
+              |      | |
+              |      | (5) entry to '__csi2_get_format'
+              |......
+              |  832 |         if (which == V4L2_SUBDEV_FORMAT_TRY)
+              |      |            ~
+              |      |            |
+              |      |            (6) following 'true' branch (when 'which == 0')...
+              |  833 |                 return v4l2_subdev_get_try_format(&csi2->subdev, sd_state,
+              |      |                 ~~~~~~
+              |      |                 |
+              |      |                 (7) ...to here
+              |
+            '__csi2_get_format': event 8
+              |
+              |include/media/v4l2-subdev.h:1101:9:
+              | 1101 |         v4l2_subdev_get_pad_format(sd, state, pad)
+              |      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |         |
+              |      |         (8) calling 'v4l2_subdev_get_pad_format' from '__csi2_get_format'
+   drivers/staging/media/omap4iss/iss_csi2.c:833:24: note: in expansion of macro 'v4l2_subdev_get_try_format'
+              |  833 |                 return v4l2_subdev_get_try_format(&csi2->subdev, sd_state,
+              |      |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~
+              |
+              +--> 'v4l2_subdev_get_pad_format': events 9-10
+                     |
+                     |include/media/v4l2-subdev.h:1045:1:
+                     | 1045 | v4l2_subdev_get_pad_format(struct v4l2_subdev *sd,
+                     |      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+                     |      | |
+                     |      | (9) entry to 'v4l2_subdev_get_pad_format'
+                     |......
+                     | 1049 |         if (WARN_ON(!state))
+                     |      |            ~
+                     |      |            |
+                     |      |            (10) following 'true' branch...
+                     |
+                   'v4l2_subdev_get_pad_format': event 11
+                     |
+                     |cc1:
+                     | (11): ...to here
+                     |
+              <------+
+              |
+            '__csi2_get_format': event 12
+              |
+              | 1101 |         v4l2_subdev_get_pad_format(sd, state, pad)
+              |      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |         |
+              |      |         (12) returning to '__csi2_get_format' from 'v4l2_subdev_get_pad_format'
+   drivers/staging/media/omap4iss/iss_csi2.c:833:24: note: in expansion of macro 'v4l2_subdev_get_try_format'
+              |  833 |                 return v4l2_subdev_get_try_format(&csi2->subdev, sd_state,
+              |      |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~
+              |
+       <------+
+       |
+     'csi2_try_format': events 13-14
+       |
+       |  872 |                 format = __csi2_get_format(csi2, sd_state, CSI2_PAD_SINK,
+       |      |                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |                          |
+       |      |                          (13) returning to 'csi2_try_format' from '__csi2_get_format'
+       |  873 |                                            which);
+       |      |                                            ~~~~~~
+       |  874 |                 memcpy(fmt, format, sizeof(*fmt));
+       |      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |                 |
+       |      |                 (14) argument 2 ('format') NULL where non-null expected
+       |
+   In file included from include/linux/string.h:20,
+                    from include/linux/bitmap.h:11,
+--
+   drivers/staging/media/omap4iss/iss_ipipeif.c: In function 'ipipeif_try_format':
+>> drivers/staging/media/omap4iss/iss_ipipeif.c:410:17: warning: use of NULL 'format' where non-null expected [CWE-476] [-Wanalyzer-null-argument]
+     410 |                 memcpy(fmt, format, sizeof(*fmt));
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     'ipipeif_enum_frame_size': events 1-4
+       |
+       |  482 | static int ipipeif_enum_frame_size(struct v4l2_subdev *sd,
+       |      |            ^~~~~~~~~~~~~~~~~~~~~~~
+       |      |            |
+       |      |            (1) entry to 'ipipeif_enum_frame_size'
+       |......
+       |  489 |         if (fse->index != 0)
+       |      |            ~
+       |      |            |
+       |      |            (2) following 'false' branch...
+       |......
+       |  492 |         format.code = fse->code;
+       |      |         ~~~~~~
+       |      |         |
+       |      |         (3) ...to here
+       |......
+       |  495 |         ipipeif_try_format(ipipeif, sd_state, fse->pad, &format, fse->which);
+       |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |         |
+       |      |         (4) calling 'ipipeif_try_format' from 'ipipeif_enum_frame_size'
+       |
+       +--> 'ipipeif_try_format': events 5-8
+              |
+              |  377 | ipipeif_try_format(struct iss_ipipeif_device *ipipeif,
+              |      | ^~~~~~~~~~~~~~~~~~
+              |      | |
+              |      | (5) entry to 'ipipeif_try_format'
+              |......
+              |  387 |         switch (pad) {
+              |      |         ~~~~~~
+              |      |         |
+              |      |         (6) following 'case 1:' branch...
+              |......
+              |  406 |         case IPIPEIF_PAD_SOURCE_ISIF_SF:
+              |      |         ~~~~
+              |      |         |
+              |      |         (7) ...to here
+              |  407 |                 format = __ipipeif_get_format(ipipeif, sd_state,
+              |      |                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |                          |
+              |      |                          (8) calling '__ipipeif_get_format' from 'ipipeif_try_format'
+              |  408 |                                               IPIPEIF_PAD_SINK,
+              |      |                                               ~~~~~~~~~~~~~~~~~
+              |  409 |                                               which);
+              |      |                                               ~~~~~~
+              |
+              +--> '__ipipeif_get_format': events 9-11
+                     |
+                     |  359 | __ipipeif_get_format(struct iss_ipipeif_device *ipipeif,
+                     |      | ^~~~~~~~~~~~~~~~~~~~
+                     |      | |
+                     |      | (9) entry to '__ipipeif_get_format'
+                     |......
+                     |  363 |         if (which == V4L2_SUBDEV_FORMAT_TRY)
+                     |      |            ~
+                     |      |            |
+                     |      |            (10) following 'true' branch (when 'which == 0')...
+                     |  364 |                 return v4l2_subdev_get_try_format(&ipipeif->subdev, sd_state,
+                     |      |                 ~~~~~~
+                     |      |                 |
+                     |      |                 (11) ...to here
+                     |
+                   '__ipipeif_get_format': event 12
+                     |
+                     |include/media/v4l2-subdev.h:1101:9:
+                     | 1101 |         v4l2_subdev_get_pad_format(sd, state, pad)
+                     |      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                     |      |         |
+                     |      |         (12) calling 'v4l2_subdev_get_pad_format' from '__ipipeif_get_format'
+   drivers/staging/media/omap4iss/iss_ipipeif.c:364:24: note: in expansion of macro 'v4l2_subdev_get_try_format'
+                     |  364 |                 return v4l2_subdev_get_try_format(&ipipeif->subdev, sd_state,
+                     |      |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~
+                     |
+                     +--> 'v4l2_subdev_get_pad_format': events 13-14
+                            |
+                            |include/media/v4l2-subdev.h:1045:1:
+                            | 1045 | v4l2_subdev_get_pad_format(struct v4l2_subdev *sd,
+                            |      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+                            |      | |
+                            |      | (13) entry to 'v4l2_subdev_get_pad_format'
+                            |......
+                            | 1049 |         if (WARN_ON(!state))
+                            |      |            ~
+                            |      |            |
+                            |      |            (14) following 'true' branch...
+                            |
+                          'v4l2_subdev_get_pad_format': event 15
+                            |
+                            |cc1:
+                            | (15): ...to here
+                            |
+                     <------+
+                     |
+                   '__ipipeif_get_format': event 16
+                     |
+                     | 1101 |         v4l2_subdev_get_pad_format(sd, state, pad)
+                     |      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--
+   drivers/staging/media/omap4iss/iss_ipipe.c: In function 'ipipe_try_format':
+>> drivers/staging/media/omap4iss/iss_ipipe.c:228:17: warning: use of NULL 'format' where non-null expected [CWE-476] [-Wanalyzer-null-argument]
+     228 |                 memcpy(fmt, format, sizeof(*fmt));
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     'ipipe_try_format': events 1-4
+       |
+       |  197 | ipipe_try_format(struct iss_ipipe_device *ipipe,
+       |      | ^~~~~~~~~~~~~~~~
+       |      | |
+       |      | (1) entry to 'ipipe_try_format'
+       |......
+       |  208 |         switch (pad) {
+       |      |         ~~~~~~
+       |      |         |
+       |      |         (2) following 'case 1:' branch...
+       |......
+       |  225 |         case IPIPE_PAD_SOURCE_VP:
+       |      |         ~~~~
+       |      |         |
+       |      |         (3) ...to here
+       |  226 |                 format = __ipipe_get_format(ipipe, sd_state, IPIPE_PAD_SINK,
+       |      |                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |                          |
+       |      |                          (4) calling '__ipipe_get_format' from 'ipipe_try_format'
+       |  227 |                                             which);
+       |      |                                             ~~~~~~
+       |
+       +--> '__ipipe_get_format': events 5-7
+              |
+              |  177 | __ipipe_get_format(struct iss_ipipe_device *ipipe,
+              |      | ^~~~~~~~~~~~~~~~~~
+              |      | |
+              |      | (5) entry to '__ipipe_get_format'
+              |......
+              |  182 |         if (which == V4L2_SUBDEV_FORMAT_TRY)
+              |      |            ~
+              |      |            |
+              |      |            (6) following 'true' branch (when 'which == 0')...
+              |  183 |                 return v4l2_subdev_get_try_format(&ipipe->subdev, sd_state,
+              |      |                 ~~~~~~
+              |      |                 |
+              |      |                 (7) ...to here
+              |
+            '__ipipe_get_format': event 8
+              |
+              |include/media/v4l2-subdev.h:1101:9:
+              | 1101 |         v4l2_subdev_get_pad_format(sd, state, pad)
+              |      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |         |
+              |      |         (8) calling 'v4l2_subdev_get_pad_format' from '__ipipe_get_format'
+   drivers/staging/media/omap4iss/iss_ipipe.c:183:24: note: in expansion of macro 'v4l2_subdev_get_try_format'
+              |  183 |                 return v4l2_subdev_get_try_format(&ipipe->subdev, sd_state,
+              |      |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~
+              |
+              +--> 'v4l2_subdev_get_pad_format': events 9-10
+                     |
+                     |include/media/v4l2-subdev.h:1045:1:
+                     | 1045 | v4l2_subdev_get_pad_format(struct v4l2_subdev *sd,
+                     |      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+                     |      | |
+                     |      | (9) entry to 'v4l2_subdev_get_pad_format'
+                     |......
+                     | 1049 |         if (WARN_ON(!state))
+                     |      |            ~
+                     |      |            |
+                     |      |            (10) following 'true' branch...
+                     |
+                   'v4l2_subdev_get_pad_format': event 11
+                     |
+                     |cc1:
+                     | (11): ...to here
+                     |
+              <------+
+              |
+            '__ipipe_get_format': event 12
+              |
+              | 1101 |         v4l2_subdev_get_pad_format(sd, state, pad)
+              |      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |         |
+              |      |         (12) returning to '__ipipe_get_format' from 'v4l2_subdev_get_pad_format'
+   drivers/staging/media/omap4iss/iss_ipipe.c:183:24: note: in expansion of macro 'v4l2_subdev_get_try_format'
+              |  183 |                 return v4l2_subdev_get_try_format(&ipipe->subdev, sd_state,
+              |      |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~
+              |
+       <------+
+       |
+     'ipipe_try_format': events 13-14
+       |
+       |  226 |                 format = __ipipe_get_format(ipipe, sd_state, IPIPE_PAD_SINK,
+       |      |                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |                          |
+       |      |                          (13) returning to 'ipipe_try_format' from '__ipipe_get_format'
+       |  227 |                                             which);
+       |      |                                             ~~~~~~
+       |  228 |                 memcpy(fmt, format, sizeof(*fmt));
+       |      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |                 |
+       |      |                 (14) argument 2 ('format') NULL where non-null expected
+       |
+   In file included from include/linux/string.h:20,
+                    from include/linux/bitmap.h:11,
+                    from include/linux/cpumask.h:12,
+--
+   drivers/staging/media/omap4iss/iss_resizer.c: In function 'resizer_try_format':
+>> drivers/staging/media/omap4iss/iss_resizer.c:468:17: warning: use of NULL 'format' where non-null expected [CWE-476] [-Wanalyzer-null-argument]
+     468 |                 memcpy(fmt, format, sizeof(*fmt));
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     'resizer_try_format': events 1-4
+       |
+       |  436 | resizer_try_format(struct iss_resizer_device *resizer,
+       |      | ^~~~~~~~~~~~~~~~~~
+       |      | |
+       |      | (1) entry to 'resizer_try_format'
+       |......
+       |  447 |         switch (pad) {
+       |      |         ~~~~~~
+       |      |         |
+       |      |         (2) following 'case 1:' branch...
+       |......
+       |  463 |         case RESIZER_PAD_SOURCE_MEM:
+       |      |         ~~~~
+       |      |         |
+       |      |         (3) ...to here
+       |  464 |                 pixelcode = fmt->code;
+       |  465 |                 format = __resizer_get_format(resizer, sd_state,
+       |      |                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |                          |
+       |      |                          (4) calling '__resizer_get_format' from 'resizer_try_format'
+       |  466 |                                               RESIZER_PAD_SINK,
+       |      |                                               ~~~~~~~~~~~~~~~~~
+       |  467 |                                               which);
+       |      |                                               ~~~~~~
+       |
+       +--> '__resizer_get_format': events 5-7
+              |
+              |  418 | __resizer_get_format(struct iss_resizer_device *resizer,
+              |      | ^~~~~~~~~~~~~~~~~~~~
+              |      | |
+              |      | (5) entry to '__resizer_get_format'
+              |......
+              |  422 |         if (which == V4L2_SUBDEV_FORMAT_TRY)
+              |      |            ~
+              |      |            |
+              |      |            (6) following 'true' branch (when 'which == 0')...
+              |  423 |                 return v4l2_subdev_get_try_format(&resizer->subdev, sd_state,
+              |      |                 ~~~~~~
+              |      |                 |
+              |      |                 (7) ...to here
+              |
+            '__resizer_get_format': event 8
+              |
+              |include/media/v4l2-subdev.h:1101:9:
+              | 1101 |         v4l2_subdev_get_pad_format(sd, state, pad)
+              |      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |         |
+              |      |         (8) calling 'v4l2_subdev_get_pad_format' from '__resizer_get_format'
+   drivers/staging/media/omap4iss/iss_resizer.c:423:24: note: in expansion of macro 'v4l2_subdev_get_try_format'
+              |  423 |                 return v4l2_subdev_get_try_format(&resizer->subdev, sd_state,
+              |      |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~
+              |
+              +--> 'v4l2_subdev_get_pad_format': events 9-10
+                     |
+                     |include/media/v4l2-subdev.h:1045:1:
+                     | 1045 | v4l2_subdev_get_pad_format(struct v4l2_subdev *sd,
+                     |      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+                     |      | |
+                     |      | (9) entry to 'v4l2_subdev_get_pad_format'
+                     |......
+                     | 1049 |         if (WARN_ON(!state))
+                     |      |            ~
+                     |      |            |
+                     |      |            (10) following 'true' branch...
+                     |
+                   'v4l2_subdev_get_pad_format': event 11
+                     |
+                     |cc1:
+                     | (11): ...to here
+                     |
+              <------+
+              |
+            '__resizer_get_format': event 12
+              |
+              | 1101 |         v4l2_subdev_get_pad_format(sd, state, pad)
+              |      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |         |
+              |      |         (12) returning to '__resizer_get_format' from 'v4l2_subdev_get_pad_format'
+   drivers/staging/media/omap4iss/iss_resizer.c:423:24: note: in expansion of macro 'v4l2_subdev_get_try_format'
+              |  423 |                 return v4l2_subdev_get_try_format(&resizer->subdev, sd_state,
+              |      |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~
+              |
+       <------+
+       |
+     'resizer_try_format': events 13-14
+       |
+       |  465 |                 format = __resizer_get_format(resizer, sd_state,
+       |      |                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |                          |
+       |      |                          (13) returning to 'resizer_try_format' from '__resizer_get_format'
+       |  466 |                                               RESIZER_PAD_SINK,
+       |      |                                               ~~~~~~~~~~~~~~~~~
+       |  467 |                                               which);
+       |      |                                               ~~~~~~
+       |  468 |                 memcpy(fmt, format, sizeof(*fmt));
+       |      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |                 |
 
-vim +12 drivers/clocksource/timer-goldfish.c
+vim +/format +874 drivers/staging/media/omap4iss/iss_csi2.c
 
-c92e7ef16400bf Laurent Vivier 2022-04-06  11  
-c92e7ef16400bf Laurent Vivier 2022-04-06 @12  struct goldfish_timer {
-c92e7ef16400bf Laurent Vivier 2022-04-06  13  	struct clocksource cs;
-c92e7ef16400bf Laurent Vivier 2022-04-06  14  	struct clock_event_device ced;
-c92e7ef16400bf Laurent Vivier 2022-04-06  15  	struct resource res;
-c92e7ef16400bf Laurent Vivier 2022-04-06  16  	void __iomem *base;
-c92e7ef16400bf Laurent Vivier 2022-04-06  17  };
-c92e7ef16400bf Laurent Vivier 2022-04-06  18  
+b4a0477c0b87c5b Sergio Aguirre      2011-01-24  838  
+b4a0477c0b87c5b Sergio Aguirre      2011-01-24  839  static void
+ee8defeceafa054 Piotr S. Staszewski 2015-05-26  840  csi2_try_format(struct iss_csi2_device *csi2,
+0d346d2a6f54f06 Tomi Valkeinen      2021-06-10  841  		struct v4l2_subdev_state *sd_state,
+ee8defeceafa054 Piotr S. Staszewski 2015-05-26  842  		unsigned int pad,
+ee8defeceafa054 Piotr S. Staszewski 2015-05-26  843  		struct v4l2_mbus_framefmt *fmt,
+b4a0477c0b87c5b Sergio Aguirre      2011-01-24  844  		enum v4l2_subdev_format_whence which)
+b4a0477c0b87c5b Sergio Aguirre      2011-01-24  845  {
+3336f07aa6bccf8 Boris Brezillon     2014-11-10  846  	u32 pixelcode;
+b4a0477c0b87c5b Sergio Aguirre      2011-01-24  847  	struct v4l2_mbus_framefmt *format;
+b4a0477c0b87c5b Sergio Aguirre      2011-01-24  848  	const struct iss_format_info *info;
+b4a0477c0b87c5b Sergio Aguirre      2011-01-24  849  	unsigned int i;
+b4a0477c0b87c5b Sergio Aguirre      2011-01-24  850  
+b4a0477c0b87c5b Sergio Aguirre      2011-01-24  851  	switch (pad) {
+b4a0477c0b87c5b Sergio Aguirre      2011-01-24  852  	case CSI2_PAD_SINK:
+b4a0477c0b87c5b Sergio Aguirre      2011-01-24  853  		/* Clamp the width and height to valid range (1-8191). */
+b4a0477c0b87c5b Sergio Aguirre      2011-01-24  854  		for (i = 0; i < ARRAY_SIZE(csi2_input_fmts); i++) {
+b4a0477c0b87c5b Sergio Aguirre      2011-01-24  855  			if (fmt->code == csi2_input_fmts[i])
+b4a0477c0b87c5b Sergio Aguirre      2011-01-24  856  				break;
+b4a0477c0b87c5b Sergio Aguirre      2011-01-24  857  		}
+b4a0477c0b87c5b Sergio Aguirre      2011-01-24  858  
+b4a0477c0b87c5b Sergio Aguirre      2011-01-24  859  		/* If not found, use SGRBG10 as default */
+b4a0477c0b87c5b Sergio Aguirre      2011-01-24  860  		if (i >= ARRAY_SIZE(csi2_input_fmts))
+3336f07aa6bccf8 Boris Brezillon     2014-11-10  861  			fmt->code = MEDIA_BUS_FMT_SGRBG10_1X10;
+b4a0477c0b87c5b Sergio Aguirre      2011-01-24  862  
+b4a0477c0b87c5b Sergio Aguirre      2011-01-24  863  		fmt->width = clamp_t(u32, fmt->width, 1, 8191);
+b4a0477c0b87c5b Sergio Aguirre      2011-01-24  864  		fmt->height = clamp_t(u32, fmt->height, 1, 8191);
+b4a0477c0b87c5b Sergio Aguirre      2011-01-24  865  		break;
+b4a0477c0b87c5b Sergio Aguirre      2011-01-24  866  
+b4a0477c0b87c5b Sergio Aguirre      2011-01-24  867  	case CSI2_PAD_SOURCE:
+b4a0477c0b87c5b Sergio Aguirre      2011-01-24  868  		/* Source format same as sink format, except for DPCM
+b4a0477c0b87c5b Sergio Aguirre      2011-01-24  869  		 * compression.
+b4a0477c0b87c5b Sergio Aguirre      2011-01-24  870  		 */
+b4a0477c0b87c5b Sergio Aguirre      2011-01-24  871  		pixelcode = fmt->code;
+0d346d2a6f54f06 Tomi Valkeinen      2021-06-10  872  		format = __csi2_get_format(csi2, sd_state, CSI2_PAD_SINK,
+0d346d2a6f54f06 Tomi Valkeinen      2021-06-10  873  					   which);
+b4a0477c0b87c5b Sergio Aguirre      2011-01-24 @874  		memcpy(fmt, format, sizeof(*fmt));
+b4a0477c0b87c5b Sergio Aguirre      2011-01-24  875  
+b4a0477c0b87c5b Sergio Aguirre      2011-01-24  876  		/*
+b4a0477c0b87c5b Sergio Aguirre      2011-01-24  877  		 * Only Allow DPCM decompression, and check that the
+b4a0477c0b87c5b Sergio Aguirre      2011-01-24  878  		 * pattern is preserved
+b4a0477c0b87c5b Sergio Aguirre      2011-01-24  879  		 */
+b4a0477c0b87c5b Sergio Aguirre      2011-01-24  880  		info = omap4iss_video_format_info(fmt->code);
+b4a0477c0b87c5b Sergio Aguirre      2011-01-24  881  		if (info->uncompressed == pixelcode)
+b4a0477c0b87c5b Sergio Aguirre      2011-01-24  882  			fmt->code = pixelcode;
+b4a0477c0b87c5b Sergio Aguirre      2011-01-24  883  		break;
+b4a0477c0b87c5b Sergio Aguirre      2011-01-24  884  	}
+b4a0477c0b87c5b Sergio Aguirre      2011-01-24  885  
+b4a0477c0b87c5b Sergio Aguirre      2011-01-24  886  	/* RGB, non-interlaced */
+b4a0477c0b87c5b Sergio Aguirre      2011-01-24  887  	fmt->colorspace = V4L2_COLORSPACE_SRGB;
+b4a0477c0b87c5b Sergio Aguirre      2011-01-24  888  	fmt->field = V4L2_FIELD_NONE;
+b4a0477c0b87c5b Sergio Aguirre      2011-01-24  889  }
+b4a0477c0b87c5b Sergio Aguirre      2011-01-24  890  
+
+:::::: The code at line 874 was first introduced by commit
+:::::: b4a0477c0b87c5b7a20a84df8cf81311d1efb226 [media] v4l: omap4iss: Add support for OMAP4 camera interface - CSI receivers
+
+:::::: TO: Sergio Aguirre <sergio.a.aguirre@gmail.com>
+:::::: CC: Mauro Carvalho Chehab <mchehab@redhat.com>
 
 -- 
 0-DAY CI Kernel Test Service
