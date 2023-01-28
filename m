@@ -1,43 +1,42 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 057A419D
-	for <oe-kbuild@lists.linux.dev>; Sat, 28 Jan 2023 04:47:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C272E2908
+	for <oe-kbuild@lists.linux.dev>; Sat, 28 Jan 2023 07:46:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674881239; x=1706417239;
+  t=1674891985; x=1706427985;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=IvbsB3QwZbSEFcsEzUJSHypdx3Dy2PDw7d6ol0psutI=;
-  b=HP6GOuynoqIKQtYNV8qDr293xTjP1XPOKC6+LhayvnBdRjtZOAjHJJkm
-   c2x82NxXvQQwP312cSCWgwwy9466fyJ3mWotX58WlWYITAmjN551eEJZC
-   0rCGAVt6dLUHtuDPlcfmHIV5Iz1rf+qATuvhg/K3dqUQ1fP0+kwBqmrEu
-   5RzR+K1lOFhPVA/Md/RD9P4gFVAKsHVzWzawj2JJ5crBydgAmhWSif9c7
-   fWgnoJai1x0/Qu8mFOI3462f8RnSXnHauiSrnt9wR51lt5FaNC6Sutpli
-   uGeCSplpUrBCEwlTYXxgkn2rsRjVeivu7kUhcET46Zx5qrRcy/jDLX3SS
+  bh=nLWnudtxZ5yX8xODXRvtM+DkqtsOOK78xrTHGsZMvbw=;
+  b=MbyUyRwE/IveJAzFclk3kj9ebiAQf2hfpdwmOL4UZSBplP3EwPjcGQbN
+   J6cY+iZjf/GhZqOLzN08HVnzxtgC9vjH/0FpphDl7b19fvxThVnSUA2oH
+   7FzB1GOr8iGRcdGp4kcbeIgA15yDgDWPSPEjFIfAE7Q6ziZIpSLs0Rlv2
+   1ZfsZ5NcenIeF8heizG0w3j0Q4+3XbFUNfNpujYLzFfcYOKAYKvdqyOl/
+   euyLBVs8E+fsv8zTAd41hEITL3mo1h4+EMYqcRdDosHqsbQcIb4peHsEq
+   Ag3K+etM+/VejYd+a3WaBmYyXwVojEX/vpFIKu67Bq4SLXFtkuDHUcbiY
    Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10603"; a="324957075"
+X-IronPort-AV: E=McAfee;i="6500,9779,10603"; a="327289360"
 X-IronPort-AV: E=Sophos;i="5.97,253,1669104000"; 
-   d="scan'208";a="324957075"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2023 20:47:19 -0800
+   d="scan'208";a="327289360"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2023 23:46:25 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10603"; a="771816482"
+X-IronPort-AV: E=McAfee;i="6500,9779,10603"; a="726946182"
 X-IronPort-AV: E=Sophos;i="5.97,253,1669104000"; 
-   d="scan'208";a="771816482"
+   d="scan'208";a="726946182"
 Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 27 Jan 2023 20:47:17 -0800
+  by fmsmga008.fm.intel.com with ESMTP; 27 Jan 2023 23:46:22 -0800
 Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pLd7V-0000P2-0R;
-	Sat, 28 Jan 2023 04:47:17 +0000
-Date: Sat, 28 Jan 2023 12:46:47 +0800
+	id 1pLfun-0000V7-2t;
+	Sat, 28 Jan 2023 07:46:21 +0000
+Date: Sat, 28 Jan 2023 15:45:50 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [jsarha:topic/cros-sof-v4.14-rebase 3532/9999]
- sound/soc/soc-topology.c:262:39: sparse: sparse: incorrect type in return
- expression (different base types)
-Message-ID: <202301281203.2Q43wVr3-lkp@intel.com>
+Subject: drivers/media/v4l2-core/v4l2-ctrls-api.c:993:11: warning: Parameter
+ 'dims' can be declared as const array [constParameter]
+Message-ID: <202301281506.Z0DdjLGb-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -48,264 +47,174 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "low confidence static check warning: drivers/media/v4l2-core/v4l2-ctrls-api.c:993:11: warning: Parameter 'dims' can be declared as const array [constParameter]"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Liam Girdwood <liam.r.girdwood@linux.intel.com>
-CC: Samaga Prasanna Krishna <samaga.krishna@intel.corp-partner.google.com>
-CC: Curtis Malainey <cujomalainey@chromium.org>
+CC: linux-kernel@vger.kernel.org
+TO: Hans Verkuil <hverkuil@xs4all.nl>
+CC: Mauro Carvalho Chehab <mchehab@kernel.org>
+CC: linux-media@vger.kernel.org
+CC: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
-tree:   https://github.com/jsarha/linux topic/cros-sof-v4.14-rebase
-head:   18a233f3f676a98dde00947535d99ab1a54da340
-commit: 9e1491388e755ed2b1dcffbaa54f76b2ad7a67ea [3532/9999] FROMLIST: ASoC: SOF: Add Build support for SOF core and Intel drivers
-:::::: branch date: 3 years, 8 months ago
-:::::: commit date: 4 years, 3 months ago
-config: i386-randconfig-s003-20230123 (https://download.01.org/0day-ci/archive/20230128/202301281203.2Q43wVr3-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce:
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://github.com/jsarha/linux/commit/9e1491388e755ed2b1dcffbaa54f76b2ad7a67ea
-        git remote add jsarha https://github.com/jsarha/linux
-        git fetch --no-tags jsarha topic/cros-sof-v4.14-rebase
-        git checkout 9e1491388e755ed2b1dcffbaa54f76b2ad7a67ea
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 olddefconfig
-        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 SHELL=/bin/bash sound/soc/
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   5af6ce7049365952f7f023155234fe091693ead1
+commit: 0975274557d15ab9a01c0944f27065e6708a797c media: v4l2-ctrls: add v4l2_ctrl_modify_dimensions
+date:   5 months ago
+:::::: branch date: 6 hours ago
+:::::: commit date: 5 months ago
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+reproduce (cppcheck warning):
+        # apt-get install cppcheck
+        git checkout 0975274557d15ab9a01c0944f27065e6708a797c
+        cppcheck --quiet --enable=style,performance,portability --template=gcc FILE
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-sparse warnings: (new ones prefixed by >>)
-   sound/soc/soc-topology.c:2503:45: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:261:28: sparse: sparse: restricted __le32 degrades to integer
->> sound/soc/soc-topology.c:262:39: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted __le32 [usertype] reg @@
-   sound/soc/soc-topology.c:262:39: sparse:     expected int
-   sound/soc/soc-topology.c:262:39: sparse:     got restricted __le32 [usertype] reg
-   sound/soc/soc-topology.c:274:28: sparse: sparse: restricted __le32 degrades to integer
->> sound/soc/soc-topology.c:275:39: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted __le32 [usertype] shift @@
-   sound/soc/soc-topology.c:275:39: sparse:     expected int
-   sound/soc/soc-topology.c:275:39: sparse:     got restricted __le32 [usertype] shift
-   sound/soc/soc-topology.c:604:21: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:623:70: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:625:70: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:640:60: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:642:60: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:644:61: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:657:60: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:659:60: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:661:61: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:720:14: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int @@     got restricted __le32 [usertype] min @@
-   sound/soc/soc-topology.c:720:14: sparse:     expected unsigned int
-   sound/soc/soc-topology.c:720:14: sparse:     got restricted __le32 [usertype] min
-   sound/soc/soc-topology.c:721:22: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:733:17: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:736:17: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:738:33: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:789:33: sparse: sparse: restricted __le32 degrades to integer
->> sound/soc/soc-topology.c:799:27: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [addressable] [assigned] access @@     got restricted __le32 [usertype] access @@
-   sound/soc/soc-topology.c:799:27: sparse:     expected unsigned int [addressable] [assigned] access
-   sound/soc/soc-topology.c:799:27: sparse:     got restricted __le32 [usertype] access
-   sound/soc/soc-topology.c:801:26: sparse: sparse: incorrect type in assignment (different base types) @@     expected int max @@     got restricted __le32 [usertype] max @@
-   sound/soc/soc-topology.c:801:26: sparse:     expected int max
-   sound/soc/soc-topology.c:801:26: sparse:     got restricted __le32 [usertype] max
-   sound/soc/soc-topology.c:869:33: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:879:27: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [addressable] [assigned] access @@     got restricted __le32 [usertype] access @@
-   sound/soc/soc-topology.c:879:27: sparse:     expected unsigned int [addressable] [assigned] access
-   sound/soc/soc-topology.c:879:27: sparse:     got restricted __le32 [usertype] access
-   sound/soc/soc-topology.c:891:25: sparse: sparse: incorrect type in assignment (different base types) @@     expected int max @@     got restricted __le32 [usertype] max @@
-   sound/soc/soc-topology.c:891:25: sparse:     expected int max
-   sound/soc/soc-topology.c:891:25: sparse:     got restricted __le32 [usertype] max
-   sound/soc/soc-topology.c:892:25: sparse: sparse: incorrect type in assignment (different base types) @@     expected int min @@     got restricted __le32 [usertype] min @@
-   sound/soc/soc-topology.c:892:25: sparse:     expected int min
-   sound/soc/soc-topology.c:892:25: sparse:     got restricted __le32 [usertype] min
-   sound/soc/soc-topology.c:893:28: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int invert:1 @@     got restricted __le32 [usertype] invert @@
-   sound/soc/soc-topology.c:893:28: sparse:     expected unsigned int invert:1
-   sound/soc/soc-topology.c:893:28: sparse:     got restricted __le32 [usertype] invert
-   sound/soc/soc-topology.c:894:34: sparse: sparse: incorrect type in assignment (different base types) @@     expected int platform_max @@     got restricted __le32 [usertype] platform_max @@
-   sound/soc/soc-topology.c:894:34: sparse:     expected int platform_max
-   sound/soc/soc-topology.c:894:34: sparse:     got restricted __le32 [usertype] platform_max
-   sound/soc/soc-topology.c:944:44: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:948:27: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:976:15: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:980:46: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:1008:33: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:1026:27: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [addressable] [assigned] access @@     got restricted __le32 [usertype] access @@
-   sound/soc/soc-topology.c:1026:27: sparse:     expected unsigned int [addressable] [assigned] access
-   sound/soc/soc-topology.c:1026:27: sparse:     got restricted __le32 [usertype] access
-   sound/soc/soc-topology.c:1034:27: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int items @@     got restricted __le32 [usertype] items @@
-   sound/soc/soc-topology.c:1034:27: sparse:     expected unsigned int items
-   sound/soc/soc-topology.c:1034:27: sparse:     got restricted __le32 [usertype] items
-   sound/soc/soc-topology.c:1035:26: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int mask @@     got restricted __le32 [usertype] mask @@
-   sound/soc/soc-topology.c:1035:26: sparse:     expected unsigned int mask
-   sound/soc/soc-topology.c:1035:26: sparse:     got restricted __le32 [usertype] mask
-   sound/soc/soc-topology.c:1041:36: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:1041:36: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:1041:36: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:1041:36: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:1041:36: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:1114:33: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:1114:45: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:1121:28: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:1125:32: sparse: sparse: restricted __le32 degrades to integer
->> sound/soc/soc-topology.c:1138:60: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected unsigned int [usertype] size @@     got restricted __le32 [usertype] payload_size @@
-   sound/soc/soc-topology.c:1138:60: sparse:     expected unsigned int [usertype] size
-   sound/soc/soc-topology.c:1138:60: sparse:     got restricted __le32 [usertype] payload_size
-   sound/soc/soc-topology.c:1145:59: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected unsigned int [usertype] size @@     got restricted __le32 [usertype] payload_size @@
-   sound/soc/soc-topology.c:1145:59: sparse:     expected unsigned int [usertype] size
-   sound/soc/soc-topology.c:1145:59: sparse:     got restricted __le32 [usertype] payload_size
-   sound/soc/soc-topology.c:1148:60: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected unsigned int [usertype] size @@     got restricted __le32 [usertype] payload_size @@
-   sound/soc/soc-topology.c:1148:60: sparse:     expected unsigned int [usertype] size
-   sound/soc/soc-topology.c:1148:60: sparse:     got restricted __le32 [usertype] payload_size
-   sound/soc/soc-topology.c:1130:41: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:1130:41: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:1130:41: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:1130:41: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:1130:41: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:1130:41: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:1130:41: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:1130:41: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:1130:41: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:1130:41: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:1130:41: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:1130:41: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:1130:41: sparse: sparse: restricted __le32 degrades to integer
->> sound/soc/soc-topology.c:1176:24: sparse: sparse: incorrect type in initializer (different base types) @@     expected int count @@     got restricted __le32 [usertype] count @@
-   sound/soc/soc-topology.c:1176:24: sparse:     expected int count
-   sound/soc/soc-topology.c:1176:24: sparse:     got restricted __le32 [usertype] count
-   sound/soc/soc-topology.c:1179:33: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:1179:45: sparse: sparse: restricted __le32 degrades to integer
->> sound/soc/soc-topology.c:1185:27: sparse: sparse: incorrect type in argument 4 (different base types) @@     expected unsigned int [usertype] bytes @@     got restricted __le32 [usertype] payload_size @@
-   sound/soc/soc-topology.c:1185:27: sparse:     expected unsigned int [usertype] bytes
-   sound/soc/soc-topology.c:1185:27: sparse:     got restricted __le32 [usertype] payload_size
-   sound/soc/soc-topology.c:1246:33: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:1261:30: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int access @@     got restricted __le32 [usertype] access @@
-   sound/soc/soc-topology.c:1261:30: sparse:     expected unsigned int access
-   sound/soc/soc-topology.c:1261:30: sparse:     got restricted __le32 [usertype] access
-   sound/soc/soc-topology.c:1273:25: sparse: sparse: incorrect type in assignment (different base types) @@     expected int max @@     got restricted __le32 [usertype] max @@
-   sound/soc/soc-topology.c:1273:25: sparse:     expected int max
-   sound/soc/soc-topology.c:1273:25: sparse:     got restricted __le32 [usertype] max
-   sound/soc/soc-topology.c:1274:25: sparse: sparse: incorrect type in assignment (different base types) @@     expected int min @@     got restricted __le32 [usertype] min @@
-   sound/soc/soc-topology.c:1274:25: sparse:     expected int min
-   sound/soc/soc-topology.c:1274:25: sparse:     got restricted __le32 [usertype] min
-   sound/soc/soc-topology.c:1275:28: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int invert:1 @@     got restricted __le32 [usertype] invert @@
-   sound/soc/soc-topology.c:1275:28: sparse:     expected unsigned int invert:1
-   sound/soc/soc-topology.c:1275:28: sparse:     got restricted __le32 [usertype] invert
-   sound/soc/soc-topology.c:1276:34: sparse: sparse: incorrect type in assignment (different base types) @@     expected int platform_max @@     got restricted __le32 [usertype] platform_max @@
-   sound/soc/soc-topology.c:1276:34: sparse:     expected int platform_max
-   sound/soc/soc-topology.c:1276:34: sparse:     got restricted __le32 [usertype] platform_max
-   sound/soc/soc-topology.c:1345:30: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int access @@     got restricted __le32 [usertype] access @@
-   sound/soc/soc-topology.c:1345:30: sparse:     expected unsigned int access
-   sound/soc/soc-topology.c:1345:30: sparse:     got restricted __le32 [usertype] access
-   sound/soc/soc-topology.c:1354:27: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int items @@     got restricted __le32 [usertype] items @@
-   sound/soc/soc-topology.c:1354:27: sparse:     expected unsigned int items
-   sound/soc/soc-topology.c:1354:27: sparse:     got restricted __le32 [usertype] items
-   sound/soc/soc-topology.c:1355:26: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int mask @@     got restricted __le32 [usertype] mask @@
-   sound/soc/soc-topology.c:1355:26: sparse:     expected unsigned int mask
-   sound/soc/soc-topology.c:1355:26: sparse:     got restricted __le32 [usertype] mask
-   sound/soc/soc-topology.c:1358:36: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:1358:36: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:1358:36: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:1358:36: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:1358:36: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:1401:41: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:1414:35: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:1451:33: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:1462:30: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int access @@     got restricted __le32 [usertype] access @@
-   sound/soc/soc-topology.c:1462:30: sparse:     expected unsigned int access
-   sound/soc/soc-topology.c:1462:30: sparse:     got restricted __le32 [usertype] access
-   sound/soc/soc-topology.c:1464:26: sparse: sparse: incorrect type in assignment (different base types) @@     expected int max @@     got restricted __le32 [usertype] max @@
-   sound/soc/soc-topology.c:1464:26: sparse:     expected int max
-   sound/soc/soc-topology.c:1464:26: sparse:     got restricted __le32 [usertype] max
->> sound/soc/soc-topology.c:1521:38: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected int tplg_type @@     got restricted __le32 [usertype] id @@
-   sound/soc/soc-topology.c:1521:38: sparse:     expected int tplg_type
-   sound/soc/soc-topology.c:1521:38: sparse:     got restricted __le32 [usertype] id
-   sound/soc/soc-topology.c:1534:22: sparse: sparse: incorrect type in assignment (different base types) @@     expected int [addressable] [assigned] reg @@     got restricted __le32 [usertype] reg @@
-   sound/soc/soc-topology.c:1534:22: sparse:     expected int [addressable] [assigned] reg
-   sound/soc/soc-topology.c:1534:22: sparse:     got restricted __le32 [usertype] reg
->> sound/soc/soc-topology.c:1535:24: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned char [addressable] [assigned] shift @@     got restricted __le32 [usertype] shift @@
-   sound/soc/soc-topology.c:1535:24: sparse:     expected unsigned char [addressable] [assigned] shift
-   sound/soc/soc-topology.c:1535:24: sparse:     got restricted __le32 [usertype] shift
-   sound/soc/soc-topology.c:1536:23: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [addressable] [assigned] mask @@     got restricted __le32 [usertype] mask @@
-   sound/soc/soc-topology.c:1536:23: sparse:     expected unsigned int [addressable] [assigned] mask
-   sound/soc/soc-topology.c:1536:23: sparse:     got restricted __le32 [usertype] mask
->> sound/soc/soc-topology.c:1537:25: sparse: sparse: incorrect type in assignment (different base types) @@     expected int [addressable] [assigned] subseq @@     got restricted __le32 [usertype] subseq @@
-   sound/soc/soc-topology.c:1537:25: sparse:     expected int [addressable] [assigned] subseq
-   sound/soc/soc-topology.c:1537:25: sparse:     got restricted __le32 [usertype] subseq
->> sound/soc/soc-topology.c:1540:33: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned char [addressable] [assigned] ignore_suspend:1 @@     got restricted __le32 [usertype] ignore_suspend @@
-   sound/soc/soc-topology.c:1540:33: sparse:     expected unsigned char [addressable] [assigned] ignore_suspend:1
-   sound/soc/soc-topology.c:1540:33: sparse:     got restricted __le32 [usertype] ignore_suspend
->> sound/soc/soc-topology.c:1541:30: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [addressable] [assigned] event_flags @@     got restricted __le16 [usertype] event_flags @@
-   sound/soc/soc-topology.c:1541:30: sparse:     expected unsigned short [addressable] [assigned] event_flags
-   sound/soc/soc-topology.c:1541:30: sparse:     got restricted __le16 [usertype] event_flags
-   sound/soc/soc-topology.c:1545:67: sparse: sparse: restricted __le32 degrades to integer
->> sound/soc/soc-topology.c:1564:40: sparse: sparse: incorrect type in assignment (different base types) @@     expected int [addressable] [assigned] num_kcontrols @@     got restricted __le32 [usertype] num_kcontrols @@
-   sound/soc/soc-topology.c:1564:40: sparse:     expected int [addressable] [assigned] num_kcontrols
-   sound/soc/soc-topology.c:1564:40: sparse:     got restricted __le32 [usertype] num_kcontrols
-   sound/soc/soc-topology.c:1579:40: sparse: sparse: incorrect type in assignment (different base types) @@     expected int [addressable] [assigned] num_kcontrols @@     got restricted __le32 [usertype] num_kcontrols @@
-   sound/soc/soc-topology.c:1579:40: sparse:     expected int [addressable] [assigned] num_kcontrols
-   sound/soc/soc-topology.c:1579:40: sparse:     got restricted __le32 [usertype] num_kcontrols
-   sound/soc/soc-topology.c:1590:40: sparse: sparse: incorrect type in assignment (different base types) @@     expected int [addressable] [assigned] num_kcontrols @@     got restricted __le32 [usertype] num_kcontrols @@
-   sound/soc/soc-topology.c:1590:40: sparse:     expected int [addressable] [assigned] num_kcontrols
-   sound/soc/soc-topology.c:1590:40: sparse:     got restricted __le32 [usertype] num_kcontrols
-   sound/soc/soc-topology.c:1556:33: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:1556:33: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:1556:33: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:1556:33: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:1556:33: sparse: sparse: too many warnings
-   sound/soc/soc-topology.c: In function 'soc_tplg_denum_create':
-   sound/soc/soc-topology.c:1045:7: warning: this statement may fall through [-Wimplicit-fallthrough=]
-       if (err < 0) {
-          ^
-   sound/soc/soc-topology.c:1053:3: note: here
-      case SND_SOC_TPLG_CTL_ENUM:
-      ^~~~
-   sound/soc/soc-topology.c: In function 'soc_tplg_dapm_widget_denum_create':
-   sound/soc/soc-topology.c:1362:7: warning: this statement may fall through [-Wimplicit-fallthrough=]
-       if (err < 0) {
-          ^
-   sound/soc/soc-topology.c:1368:3: note: here
-      case SND_SOC_TPLG_CTL_ENUM:
-      ^~~~
+cppcheck warnings: (new ones prefixed by >>)
+>> kernel/sched/fair.c:10527:16: warning: Local variable 'next_balance' shadows outer variable [shadowVariable]
+    unsigned long next_balance = jiffies + 60*HZ;
+                  ^
+   kernel/sched/fair.c:5906:16: note: Shadowed declaration
+    unsigned long next_balance;     /* in jiffy units */
+                  ^
+   kernel/sched/fair.c:10527:16: note: Shadow variable
+    unsigned long next_balance = jiffies + 60*HZ;
+                  ^
+   kernel/sched/fair.c:10924:16: warning: Local variable 'next_balance' shadows outer variable [shadowVariable]
+    unsigned long next_balance = now + 60*HZ;
+                  ^
+   kernel/sched/fair.c:5906:16: note: Shadowed declaration
+    unsigned long next_balance;     /* in jiffy units */
+                  ^
+   kernel/sched/fair.c:10924:16: note: Shadow variable
+    unsigned long next_balance = now + 60*HZ;
+                  ^
+   kernel/sched/fair.c:11107:16: warning: Local variable 'next_balance' shadows outer variable [shadowVariable]
+    unsigned long next_balance = jiffies + HZ;
+                  ^
+   kernel/sched/fair.c:5906:16: note: Shadowed declaration
+    unsigned long next_balance;     /* in jiffy units */
+                  ^
+   kernel/sched/fair.c:11107:16: note: Shadow variable
+    unsigned long next_balance = jiffies + HZ;
+                  ^
 
-vim +262 sound/soc/soc-topology.c
+cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
-8a9782346dccd8 Liam Girdwood 2015-05-29  254  
-8a9782346dccd8 Liam Girdwood 2015-05-29  255  static int tplc_chan_get_reg(struct soc_tplg *tplg,
-8a9782346dccd8 Liam Girdwood 2015-05-29  256  	struct snd_soc_tplg_channel *chan, int map)
-8a9782346dccd8 Liam Girdwood 2015-05-29  257  {
-8a9782346dccd8 Liam Girdwood 2015-05-29  258  	int i;
-8a9782346dccd8 Liam Girdwood 2015-05-29  259  
-8a9782346dccd8 Liam Girdwood 2015-05-29  260  	for (i = 0; i < SND_SOC_TPLG_MAX_CHAN; i++) {
-8a9782346dccd8 Liam Girdwood 2015-05-29  261  		if (chan[i].id == map)
-8a9782346dccd8 Liam Girdwood 2015-05-29 @262  			return chan[i].reg;
-8a9782346dccd8 Liam Girdwood 2015-05-29  263  	}
-8a9782346dccd8 Liam Girdwood 2015-05-29  264  
-8a9782346dccd8 Liam Girdwood 2015-05-29  265  	return -EINVAL;
-8a9782346dccd8 Liam Girdwood 2015-05-29  266  }
-8a9782346dccd8 Liam Girdwood 2015-05-29  267  
-8a9782346dccd8 Liam Girdwood 2015-05-29  268  static int tplc_chan_get_shift(struct soc_tplg *tplg,
-8a9782346dccd8 Liam Girdwood 2015-05-29  269  	struct snd_soc_tplg_channel *chan, int map)
-8a9782346dccd8 Liam Girdwood 2015-05-29  270  {
-8a9782346dccd8 Liam Girdwood 2015-05-29  271  	int i;
-8a9782346dccd8 Liam Girdwood 2015-05-29  272  
-8a9782346dccd8 Liam Girdwood 2015-05-29  273  	for (i = 0; i < SND_SOC_TPLG_MAX_CHAN; i++) {
-8a9782346dccd8 Liam Girdwood 2015-05-29  274  		if (chan[i].id == map)
-8a9782346dccd8 Liam Girdwood 2015-05-29 @275  			return chan[i].shift;
-8a9782346dccd8 Liam Girdwood 2015-05-29  276  	}
-8a9782346dccd8 Liam Girdwood 2015-05-29  277  
-8a9782346dccd8 Liam Girdwood 2015-05-29  278  	return -EINVAL;
-8a9782346dccd8 Liam Girdwood 2015-05-29  279  }
-8a9782346dccd8 Liam Girdwood 2015-05-29  280  
+>> drivers/spi/spidev.c:578:13: warning: Uninitialized variable: iter->devt [uninitvar]
+     if (iter->devt == inode->i_rdev) {
+               ^
+--
+                 ^
+   kernel/sched/fair.c:7461:1: warning: Label 'done' is not used. There is #if in function body so the label might be used in code that is removed by the preprocessor. [unusedLabelConfiguration]
+   done: __maybe_unused;
+   ^
+   kernel/sched/sched.h:2058:67: warning: Parameter 'p' can be declared as pointer to const [constParameter]
+   static inline int task_current(struct rq *rq, struct task_struct *p)
+                                                                     ^
+   kernel/sched/fair.c:5149:25: warning: Uninitialized variables: cfs_rq.load, cfs_rq.nr_running, cfs_rq.h_nr_running, cfs_rq.idle_nr_running, cfs_rq.idle_h_nr_running, cfs_rq.exec_clock, cfs_rq.min_vruntime, cfs_rq.min_vruntime_copy, cfs_rq.tasks_timeline, cfs_rq.curr, cfs_rq.next, cfs_rq.last, cfs_rq.skip [uninitvar]
+     struct rq *rq = rq_of(cfs_rq);
+                           ^
+   kernel/sched/fair.c:5149:25: warning: Uninitialized variables: cfs_rq.load, cfs_rq.nr_running, cfs_rq.h_nr_running, cfs_rq.idle_nr_running, cfs_rq.idle_h_nr_running, cfs_rq.exec_clock, cfs_rq.min_vruntime, cfs_rq.min_vruntime_copy, cfs_rq.tasks_timeline, cfs_rq.curr, cfs_rq.next, cfs_rq.last, cfs_rq.skip, cfs_rq.rq, cfs_rq.on_list, cfs_rq.leaf_cfs_rq_list, cfs_rq.tg, cfs_rq.idle, cfs_rq.runtime_enabled, cfs_rq.runtime_remaining, cfs_rq.throttled_pelt_idle, cfs_rq.throttled_pelt_idle_copy, cfs_rq.throttled_clock, cfs_rq.throttled_clock_pelt, cfs_rq.throttled_clock_pelt_time, cfs_rq.throttled, cfs_rq.throttle_count, cfs_rq.throttled_list [uninitvar]
+     struct rq *rq = rq_of(cfs_rq);
+                           ^
+   kernel/sched/fair.c:6481:16: warning: Local variable 'task_util' shadows outer function [shadowFunction]
+    unsigned long task_util, best_cap = 0;
+                  ^
+   kernel/sched/fair.c:4093:29: note: Shadowed declaration
+   static inline unsigned long task_util(struct task_struct *p)
+                               ^
+   kernel/sched/fair.c:6481:16: note: Shadow variable
+    unsigned long task_util, best_cap = 0;
+                  ^
+   kernel/sched/fair.c:6522:16: warning: Local variable 'task_util' shadows outer function [shadowFunction]
+    unsigned long task_util;
+                  ^
+   kernel/sched/fair.c:4093:29: note: Shadowed declaration
+   static inline unsigned long task_util(struct task_struct *p)
+                               ^
+   kernel/sched/fair.c:6522:16: note: Shadow variable
+    unsigned long task_util;
+                  ^
+   kernel/sched/fair.c:10528:6: warning: Local variable 'update_next_balance' shadows outer function [shadowFunction]
+    int update_next_balance = 0;
+        ^
+   kernel/sched/fair.c:10382:1: note: Shadowed declaration
+   update_next_balance(struct sched_domain *sd, unsigned long *next_balance)
+   ^
+   kernel/sched/fair.c:10528:6: note: Shadow variable
+    int update_next_balance = 0;
+        ^
+   kernel/sched/fair.c:10926:6: warning: Local variable 'update_next_balance' shadows outer function [shadowFunction]
+    int update_next_balance = 0;
+        ^
+   kernel/sched/fair.c:10382:1: note: Shadowed declaration
+   update_next_balance(struct sched_domain *sd, unsigned long *next_balance)
+   ^
+   kernel/sched/fair.c:10926:6: note: Shadow variable
+    int update_next_balance = 0;
+        ^
+   kernel/sched/fair.c:9079:58: warning: Parameter 'p' can be declared as pointer to const [constParameter]
+   static int idle_cpu_without(int cpu, struct task_struct *p)
+                                                            ^
+   kernel/sched/fair.c:5149:25: warning: Uninitialized variables: cfs_rq.load, cfs_rq.nr_running, cfs_rq.h_nr_running, cfs_rq.idle_nr_running, cfs_rq.idle_h_nr_running, cfs_rq.exec_clock, cfs_rq.min_vruntime, cfs_rq.min_vruntime_copy, cfs_rq.tasks_timeline, cfs_rq.curr, cfs_rq.next, cfs_rq.last, cfs_rq.skip, cfs_rq.avg, cfs_rq.last_update_time_copy, cfs_rq.removed [uninitvar]
+     struct rq *rq = rq_of(cfs_rq);
+                           ^
+   kernel/sched/fair.c:6540:25: warning: Uninitialized variable: task_util [uninitvar]
+        asym_fits_capacity(task_util, target))
+                           ^
+   kernel/sched/fair.c:6529:28: note: Assuming condition is false
+    if (static_branch_unlikely(&sched_asym_cpucapacity)) {
+                              ^
+   kernel/sched/fair.c:6540:25: note: Uninitialized variable: task_util
+        asym_fits_capacity(task_util, target))
+                           ^
+>> drivers/media/v4l2-core/v4l2-ctrls-api.c:993:11: warning: Parameter 'dims' can be declared as const array [constParameter]
+         u32 dims[V4L2_CTRL_MAX_DIMS])
+             ^
 
-:::::: The code at line 262 was first introduced by commit
-:::::: 8a9782346dccd82cf912552735bda619de4efd8c ASoC: topology: Add topology core
+vim +/dims +993 drivers/media/v4l2-core/v4l2-ctrls-api.c
 
-:::::: TO: Liam Girdwood <liam.r.girdwood@linux.intel.com>
-:::::: CC: Mark Brown <broonie@kernel.org>
+0975274557d15a Hans Verkuil 2022-07-11   991  
+0975274557d15a Hans Verkuil 2022-07-11   992  int __v4l2_ctrl_modify_dimensions(struct v4l2_ctrl *ctrl,
+0975274557d15a Hans Verkuil 2022-07-11  @993  				  u32 dims[V4L2_CTRL_MAX_DIMS])
+0975274557d15a Hans Verkuil 2022-07-11   994  {
+0975274557d15a Hans Verkuil 2022-07-11   995  	unsigned int elems = 1;
+0975274557d15a Hans Verkuil 2022-07-11   996  	unsigned int i;
+0975274557d15a Hans Verkuil 2022-07-11   997  	void *p_array;
+0975274557d15a Hans Verkuil 2022-07-11   998  
+0975274557d15a Hans Verkuil 2022-07-11   999  	lockdep_assert_held(ctrl->handler->lock);
+0975274557d15a Hans Verkuil 2022-07-11  1000  
+0975274557d15a Hans Verkuil 2022-07-11  1001  	if (!ctrl->is_array || ctrl->is_dyn_array)
+0975274557d15a Hans Verkuil 2022-07-11  1002  		return -EINVAL;
+0975274557d15a Hans Verkuil 2022-07-11  1003  
+0975274557d15a Hans Verkuil 2022-07-11  1004  	for (i = 0; i < ctrl->nr_of_dims; i++)
+0975274557d15a Hans Verkuil 2022-07-11  1005  		elems *= dims[i];
+0975274557d15a Hans Verkuil 2022-07-11  1006  	if (elems == 0)
+0975274557d15a Hans Verkuil 2022-07-11  1007  		return -EINVAL;
+0975274557d15a Hans Verkuil 2022-07-11  1008  	p_array = kvzalloc(2 * elems * ctrl->elem_size, GFP_KERNEL);
+0975274557d15a Hans Verkuil 2022-07-11  1009  	if (!p_array)
+0975274557d15a Hans Verkuil 2022-07-11  1010  		return -ENOMEM;
+0975274557d15a Hans Verkuil 2022-07-11  1011  	kvfree(ctrl->p_array);
+0975274557d15a Hans Verkuil 2022-07-11  1012  	ctrl->p_array_alloc_elems = elems;
+0975274557d15a Hans Verkuil 2022-07-11  1013  	ctrl->elems = elems;
+0975274557d15a Hans Verkuil 2022-07-11  1014  	ctrl->new_elems = elems;
+0975274557d15a Hans Verkuil 2022-07-11  1015  	ctrl->p_array = p_array;
+0975274557d15a Hans Verkuil 2022-07-11  1016  	ctrl->p_new.p = p_array;
+0975274557d15a Hans Verkuil 2022-07-11  1017  	ctrl->p_cur.p = p_array + elems * ctrl->elem_size;
+0975274557d15a Hans Verkuil 2022-07-11  1018  	for (i = 0; i < ctrl->nr_of_dims; i++)
+0975274557d15a Hans Verkuil 2022-07-11  1019  		ctrl->dims[i] = dims[i];
+0975274557d15a Hans Verkuil 2022-07-11  1020  	for (i = 0; i < elems; i++)
+0975274557d15a Hans Verkuil 2022-07-11  1021  		ctrl->type_ops->init(ctrl, i, ctrl->p_cur);
+0975274557d15a Hans Verkuil 2022-07-11  1022  	cur_to_new(ctrl);
+0975274557d15a Hans Verkuil 2022-07-11  1023  	send_event(NULL, ctrl, V4L2_EVENT_CTRL_CH_VALUE);
+0975274557d15a Hans Verkuil 2022-07-11  1024  	return 0;
+0975274557d15a Hans Verkuil 2022-07-11  1025  }
+0975274557d15a Hans Verkuil 2022-07-11  1026  EXPORT_SYMBOL(__v4l2_ctrl_modify_dimensions);
+71c689dc2e732d Hans Verkuil 2021-04-27  1027  
 
 -- 
 0-DAY CI Kernel Test Service
