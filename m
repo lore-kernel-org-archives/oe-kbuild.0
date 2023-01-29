@@ -1,42 +1,42 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC91DBD3F
-	for <oe-kbuild@lists.linux.dev>; Sun, 29 Jan 2023 09:48:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5D6E17F1
+	for <oe-kbuild@lists.linux.dev>; Sun, 29 Jan 2023 11:20:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674985681; x=1706521681;
+  t=1674991209; x=1706527209;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=7XL+KSsW5vpxfV4ZMO7VKU/zvVhDR+14YB7y7xovM5w=;
-  b=UE/7hL7BxXkq2cTZIt9pqJ6CfZpoSj61JklKNcFptWkTnp+9z61pmm2j
-   zb7BAe6P2DOFev9PS1zlPDFO626gNSG89B+knE+FRDmemb/ZZtVwEjqlT
-   KwURFhsd3JOSbx9sUi1tbC25w5QEj2Apily44gYXeK3G1YSiDGR/IaFdi
-   WG/fM/gmG+Qgl3uoKSlJLpBLgVPZQdJMMo6XyITvKRgtHl3Er1Q8ocbx8
-   845MH1W6mmavyj7wmNMGPPkADMQGdCq8zgk37BQ/dKDgpYurajJBCxPVi
-   QRnZzoG9rkhD1nFuwteKQj7keOkDBHuVB6KvnNO/IcLu5VeWtyfhAXPbx
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="315339541"
+  bh=PPpVawtvj9aEiU26I1IBb1oOKhEf6bidNxMmZGecJz8=;
+  b=gwN1/gCv5Q/v9TO2Kf9/7yJALIWtGDFhVazjmAQjUlRwsUUqZEE2NHk2
+   higjt+hgY6a5+anV267wmKLD+oAUZ4PdvO0cFl1XzmGzQFI/2DPFR6g1y
+   p0IJx4czr9xBxYOWzKwqfontAhCHYSZEfXulA7cCBQODyboCpGK66Ru92
+   Ml9/0LlMfViqAqHsACPpwqKhObd2dkQaCVfaOuoEn65XpGqUOiZCxC95F
+   8YPx8BZc3wcw8Co98Td3Dxvx1jEsujYOPWRwp7KEfAKNVBKTD+x688kTd
+   MA6jhtDduF38OuypuwG302niNJHxi1TUSQ0jUicNV5rM4XeKmO5bJ5QUj
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="327403765"
 X-IronPort-AV: E=Sophos;i="5.97,256,1669104000"; 
-   d="scan'208";a="315339541"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2023 01:48:01 -0800
+   d="scan'208";a="327403765"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2023 03:20:08 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="641217824"
+X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="837671887"
 X-IronPort-AV: E=Sophos;i="5.97,256,1669104000"; 
-   d="scan'208";a="641217824"
+   d="scan'208";a="837671887"
 Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 29 Jan 2023 01:47:59 -0800
+  by orsmga005.jf.intel.com with ESMTP; 29 Jan 2023 03:20:05 -0800
 Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pM4I2-0002gG-2i;
-	Sun, 29 Jan 2023 09:47:58 +0000
-Date: Sun, 29 Jan 2023 17:47:54 +0800
+	id 1pM5jA-0002kg-2K;
+	Sun, 29 Jan 2023 11:20:04 +0000
+Date: Sun, 29 Jan 2023 19:19:55 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: drivers/iommu/iommu.c:1902:18: warning: Dereference of null pointer
- [clang-analyzer-core.NullDereference]
-Message-ID: <202301291728.lXcLpa41-lkp@intel.com>
+Subject: drivers/spi/spi-omap-uwire.c:396:3: warning: Value stored to 'rate'
+ is never read [clang-analyzer-deadcode.DeadStores]
+Message-ID: <202301291959.cBwchN7P-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -47,480 +47,366 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "low confidence static check first_new_problem: drivers/iommu/iommu.c:1902:18: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]"
+:::::: Manual check reason: "low confidence static check warning: drivers/spi/spi-omap-uwire.c:396:3: warning: Value stored to 'rate' is never read [clang-analyzer-deadcode.DeadStores]"
 :::::: 
 
 BCC: lkp@intel.com
 CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-CC: Jason Gunthorpe <jgg@nvidia.com>
-
-Hi Jason,
-
-First bad commit (maybe != root cause):
+TO: Arnd Bergmann <arnd@arndb.de>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   c96618275234ad03d44eafe9f8844305bb44fda4
-commit: 90337f526c98129b0b180fc52dc5f57d8e7a8614 Merge tag 'v6.1-rc7' into iommufd.git for-next
-date:   8 weeks ago
-:::::: branch date: 14 hours ago
-:::::: commit date: 8 weeks ago
-config: mips-randconfig-c004-20230123 (https://download.01.org/0day-ci/archive/20230129/202301291728.lXcLpa41-lkp@intel.com/config)
+commit: 58d37dc1dfd8900892d73da1f26ac1cefca52e6e ARM: omap1: move perseus spi pinconf to board file
+date:   9 months ago
+:::::: branch date: 16 hours ago
+:::::: commit date: 9 months ago
+config: arm-randconfig-c002-20230128 (https://download.01.org/0day-ci/archive/20230129/202301291959.cBwchN7P-lkp@intel.com/config)
 compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 4196ca3278f78c6e19246e54ab0ecb364e37d66a)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install mips cross compiling tool for clang build
-        # apt-get install binutils-mipsel-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=90337f526c98129b0b180fc52dc5f57d8e7a8614
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=58d37dc1dfd8900892d73da1f26ac1cefca52e6e
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout 90337f526c98129b0b180fc52dc5f57d8e7a8614
+        git checkout 58d37dc1dfd8900892d73da1f26ac1cefca52e6e
         # save the config file
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=mips clang-analyzer  olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=mips clang-analyzer 
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=arm clang-analyzer  olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=arm clang-analyzer 
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
 clang_analyzer warnings: (new ones prefixed by >>)
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (10 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   drivers/thermal/gov_fair_share.c:103:21: warning: Division by zero [clang-analyzer-core.DivideZero]
-                           percentage = 100 / total_instance;
-                                        ~~~~^~~~~~~~~~~~~~~~
-   drivers/thermal/gov_fair_share.c:82:2: note: 'total_instance' initialized to 0
-           int total_instance = 0;
-           ^~~~~~~~~~~~~~~~~~
-   drivers/thermal/gov_fair_share.c:85:2: note: Assuming 'debug_locks' is 0
-           lockdep_assert_held(&tz->lock);
-           ^
-   include/linux/lockdep.h:319:2: note: expanded from macro 'lockdep_assert_held'
-           lockdep_assert(lockdep_is_held(l) != LOCK_STATE_NOT_HELD)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/lockdep.h:313:15: note: expanded from macro 'lockdep_assert'
-           do { WARN_ON(debug_locks && !(cond)); } while (0)
-                        ^~~~~~~~~~~
-   include/asm-generic/bug.h:122:25: note: expanded from macro 'WARN_ON'
-           int __ret_warn_on = !!(condition);                              \
-                                  ^~~~~~~~~
-   drivers/thermal/gov_fair_share.c:85:2: note: Left side of '&&' is false
-           lockdep_assert_held(&tz->lock);
-           ^
-   include/linux/lockdep.h:319:2: note: expanded from macro 'lockdep_assert_held'
-           lockdep_assert(lockdep_is_held(l) != LOCK_STATE_NOT_HELD)
-           ^
-   include/linux/lockdep.h:313:27: note: expanded from macro 'lockdep_assert'
-           do { WARN_ON(debug_locks && !(cond)); } while (0)
-                                    ^
-   drivers/thermal/gov_fair_share.c:85:2: note: Taking false branch
-           lockdep_assert_held(&tz->lock);
-           ^
-   include/linux/lockdep.h:319:2: note: expanded from macro 'lockdep_assert_held'
-           lockdep_assert(lockdep_is_held(l) != LOCK_STATE_NOT_HELD)
-           ^
-   include/linux/lockdep.h:313:7: note: expanded from macro 'lockdep_assert'
-           do { WARN_ON(debug_locks && !(cond)); } while (0)
-                ^
-   include/asm-generic/bug.h:123:2: note: expanded from macro 'WARN_ON'
-           if (unlikely(__ret_warn_on))                                    \
-           ^
-   drivers/thermal/gov_fair_share.c:85:2: note: Loop condition is false.  Exiting loop
-           lockdep_assert_held(&tz->lock);
-           ^
-   include/linux/lockdep.h:319:2: note: expanded from macro 'lockdep_assert_held'
-           lockdep_assert(lockdep_is_held(l) != LOCK_STATE_NOT_HELD)
-           ^
-   include/linux/lockdep.h:313:2: note: expanded from macro 'lockdep_assert'
-           do { WARN_ON(debug_locks && !(cond)); } while (0)
-           ^
-   drivers/thermal/gov_fair_share.c:87:2: note: Loop condition is false. Execution continues on line 95
-           list_for_each_entry(instance, &tz->thermal_instances, tz_node) {
-           ^
-   include/linux/list.h:674:2: note: expanded from macro 'list_for_each_entry'
-           for (pos = list_first_entry(head, typeof(*pos), member);        \
-           ^
-   drivers/thermal/gov_fair_share.c:95:2: note: Loop condition is true.  Entering loop body
-           list_for_each_entry(instance, &tz->thermal_instances, tz_node) {
-           ^
-   include/linux/list.h:674:2: note: expanded from macro 'list_for_each_entry'
-           for (pos = list_first_entry(head, typeof(*pos), member);        \
-           ^
-   drivers/thermal/gov_fair_share.c:99:7: note: Assuming 'trip' is equal to field 'trip'
-                   if (instance->trip != trip)
-                       ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/thermal/gov_fair_share.c:99:3: note: Taking false branch
-                   if (instance->trip != trip)
+   include/linux/fortify-string.h:45:29: note: expanded from macro '__underlying_memcpy'
+   #define __underlying_memcpy     __builtin_memcpy
+                                   ^~~~~~~~~~~~~~~~
+   drivers/w1/w1.c:800:3: warning: Call to function 'memset' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   memset(&msg, 0, sizeof(msg));
                    ^
-   drivers/thermal/gov_fair_share.c:102:8: note: 'total_weight' is 0
-                   if (!total_weight)
-                        ^~~~~~~~~~~~
-   drivers/thermal/gov_fair_share.c:102:3: note: Taking true branch
-                   if (!total_weight)
+   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:265:2: note: expanded from macro '__fortify_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__underlying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+   drivers/w1/w1.c:800:3: note: Call to function 'memset' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memset_s' in case of C11
+                   memset(&msg, 0, sizeof(msg));
                    ^
-   drivers/thermal/gov_fair_share.c:103:21: note: Division by zero
-                           percentage = 100 / total_instance;
-                                        ~~~~^~~~~~~~~~~~~~~~
-   Suppressed 4 warnings (4 in non-user code).
+   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:265:2: note: expanded from macro '__fortify_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__underlying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+   drivers/w1/w1.c:801:3: warning: Call to function 'memcpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   memcpy(msg.id.id, &sl->reg_num, sizeof(msg.id));
+                   ^
+   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:362:2: note: expanded from macro '__fortify_memcpy_chk'
+           __underlying_##op(p, q, __fortify_size);                        \
+           ^~~~~~~~~~~~~~~~~
+   note: expanded from here
+   include/linux/fortify-string.h:45:29: note: expanded from macro '__underlying_memcpy'
+   #define __underlying_memcpy     __builtin_memcpy
+                                   ^~~~~~~~~~~~~~~~
+   drivers/w1/w1.c:801:3: note: Call to function 'memcpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memcpy_s' in case of C11
+                   memcpy(msg.id.id, &sl->reg_num, sizeof(msg.id));
+                   ^
+   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:362:2: note: expanded from macro '__fortify_memcpy_chk'
+           __underlying_##op(p, q, __fortify_size);                        \
+           ^~~~~~~~~~~~~~~~~
+   note: expanded from here
+   include/linux/fortify-string.h:45:29: note: expanded from macro '__underlying_memcpy'
+   #define __underlying_memcpy     __builtin_memcpy
+                                   ^~~~~~~~~~~~~~~~
+   drivers/w1/w1.c:901:5: warning: Call to function 'memcpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                                   memcpy(&rn, &sl->reg_num, sizeof(rn));
+                                   ^
+   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:362:2: note: expanded from macro '__fortify_memcpy_chk'
+           __underlying_##op(p, q, __fortify_size);                        \
+           ^~~~~~~~~~~~~~~~~
+   note: expanded from here
+   include/linux/fortify-string.h:45:29: note: expanded from macro '__underlying_memcpy'
+   #define __underlying_memcpy     __builtin_memcpy
+                                   ^~~~~~~~~~~~~~~~
+   drivers/w1/w1.c:901:5: note: Call to function 'memcpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memcpy_s' in case of C11
+                                   memcpy(&rn, &sl->reg_num, sizeof(rn));
+                                   ^
+   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:362:2: note: expanded from macro '__fortify_memcpy_chk'
+           __underlying_##op(p, q, __fortify_size);                        \
+           ^~~~~~~~~~~~~~~~~
+   note: expanded from here
+   include/linux/fortify-string.h:45:29: note: expanded from macro '__underlying_memcpy'
+   #define __underlying_memcpy     __builtin_memcpy
+                                   ^~~~~~~~~~~~~~~~
+   drivers/w1/w1.c:997:2: warning: Value stored to 'search_bit' is never read [clang-analyzer-deadcode.DeadStores]
+           search_bit = 0;
+           ^            ~
+   drivers/w1/w1.c:997:2: note: Value stored to 'search_bit' is never read
+           search_bit = 0;
+           ^            ~
+   drivers/w1/w1.c:999:2: warning: Value stored to 'last_rn' is never read [clang-analyzer-deadcode.DeadStores]
+           last_rn = 0;
+           ^         ~
+   drivers/w1/w1.c:999:2: note: Value stored to 'last_rn' is never read
+           last_rn = 0;
+           ^         ~
+   Suppressed 74 warnings (74 in non-user code).
    Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   drivers/iommu/iommu.c:668:2: warning: Call to function 'strcpy' is insecure as it does not provide bounding of the memory buffer. Replace unbounded copy functions with analogous functions that support length arguments such as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-           strcpy(buf, type);
-           ^~~~~~
-   drivers/iommu/iommu.c:668:2: note: Call to function 'strcpy' is insecure as it does not provide bounding of the memory buffer. Replace unbounded copy functions with analogous functions that support length arguments such as 'strlcpy'. CWE-119
-           strcpy(buf, type);
-           ^~~~~~
->> drivers/iommu/iommu.c:1902:18: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]
-           domain->handler = handler;
-           ~~~~~~~~~~~~~~~~^~~~~~~~~
-   drivers/iommu/iommu.c:1900:9: note: Assuming 'domain' is null
-           BUG_ON(!domain);
-                  ^
-   arch/mips/include/asm/bug.h:34:44: note: expanded from macro 'BUG_ON'
-   #define BUG_ON(C) __BUG_ON((unsigned long)(C))
-                                              ^
-   drivers/iommu/iommu.c:1902:18: note: Dereference of null pointer
-           domain->handler = handler;
-           ~~~~~~~~~~~~~~~~^~~~~~~~~
-   Suppressed 4 warnings (4 in non-user code).
+   42 warnings generated.
+   drivers/spi/spi-omap-uwire.c:121:3: warning: Value stored to 'val' is never read [clang-analyzer-deadcode.DeadStores]
+                   val ^= 0x03;
+                   ^      ~~~~
+   drivers/spi/spi-omap-uwire.c:121:3: note: Value stored to 'val' is never read
+                   val ^= 0x03;
+                   ^      ~~~~
+>> drivers/spi/spi-omap-uwire.c:396:3: warning: Value stored to 'rate' is never read [clang-analyzer-deadcode.DeadStores]
+                   rate /= 2;
+                   ^       ~
+   drivers/spi/spi-omap-uwire.c:396:3: note: Value stored to 'rate' is never read
+                   rate /= 2;
+                   ^       ~
+   drivers/spi/spi-omap-uwire.c:401:3: warning: Value stored to 'rate' is never read [clang-analyzer-deadcode.DeadStores]
+                   rate /= 4;
+                   ^       ~
+   drivers/spi/spi-omap-uwire.c:401:3: note: Value stored to 'rate' is never read
+                   rate /= 4;
+                   ^       ~
+   drivers/spi/spi-omap-uwire.c:408:3: warning: Value stored to 'rate' is never read [clang-analyzer-deadcode.DeadStores]
+                   rate /= 8;
+                   ^       ~
+   drivers/spi/spi-omap-uwire.c:408:3: note: Value stored to 'rate' is never read
+                   rate /= 8;
+                   ^       ~
+   Suppressed 38 warnings (38 in non-user code).
    Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   12 warnings generated.
-   Suppressed 12 warnings (12 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   drivers/media/dvb-frontends/dib8000.c:623:3: warning: Value stored to 'bw' is never read [clang-analyzer-deadcode.DeadStores]
-                   bw = 6000;
-                   ^    ~~~~
-   drivers/media/dvb-frontends/dib8000.c:623:3: note: Value stored to 'bw' is never read
-                   bw = 6000;
-                   ^    ~~~~
-   drivers/media/dvb-frontends/dib8000.c:962:2: warning: Value stored to 'value' is never read [clang-analyzer-deadcode.DeadStores]
-           value = dib8000_i2c_read16(client, 896);
-           ^       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/dvb-frontends/dib8000.c:962:2: note: Value stored to 'value' is never read
-           value = dib8000_i2c_read16(client, 896);
-           ^       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/dvb-frontends/dib8000.c:2705:30: warning: Division by zero [clang-analyzer-core.DivideZero]
-                   unit_khz_dds_val = (1<<26) / (dib8000_read32(state, 23) / 1000);
-                                              ^
-   drivers/media/dvb-frontends/dib8000.c:3042:2: note: Control jumps to 'case CT_DEMOD_START:'  at line 3043
-           switch (*tune_state) {
+   56 warnings generated.
+   drivers/media/dvb-frontends/cx24120.c:236:3: warning: Call to function 'memcpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   memcpy(&msg.buf[1], values, msg.len);
+                   ^
+   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:362:2: note: expanded from macro '__fortify_memcpy_chk'
+           __underlying_##op(p, q, __fortify_size);                        \
+           ^~~~~~~~~~~~~~~~~
+   note: expanded from here
+   include/linux/fortify-string.h:45:29: note: expanded from macro '__underlying_memcpy'
+   #define __underlying_memcpy     __builtin_memcpy
+                                   ^~~~~~~~~~~~~~~~
+   drivers/media/dvb-frontends/cx24120.c:236:3: note: Call to function 'memcpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memcpy_s' in case of C11
+                   memcpy(&msg.buf[1], values, msg.len);
+                   ^
+   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:362:2: note: expanded from macro '__fortify_memcpy_chk'
+           __underlying_##op(p, q, __fortify_size);                        \
+           ^~~~~~~~~~~~~~~~~
+   note: expanded from here
+   include/linux/fortify-string.h:45:29: note: expanded from macro '__underlying_memcpy'
+   #define __underlying_memcpy     __builtin_memcpy
+                                   ^~~~~~~~~~~~~~~~
+   drivers/media/dvb-frontends/cx24120.c:297:2: warning: Call to function 'memcpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memcpy(&state->frontend.ops, &cx24120_ops,
            ^
-   drivers/media/dvb-frontends/dib8000.c:3046:7: note: Assuming field 'revision' is not equal to 32912
-                   if (state->revision == 0x8090)
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/dvb-frontends/dib8000.c:3046:3: note: Taking false branch
-                   if (state->revision == 0x8090)
-                   ^
-   drivers/media/dvb-frontends/dib8000.c:3051:3: note: Assuming 'debug' is 0
-                   dprintk("Tuning channel on %s search mode\n",
-                   ^
-   drivers/media/dvb-frontends/dib8000.c:35:6: note: expanded from macro 'dprintk'
-           if (debug)                                                      \
-               ^~~~~
-   drivers/media/dvb-frontends/dib8000.c:3051:3: note: Taking false branch
-                   dprintk("Tuning channel on %s search mode\n",
-                   ^
-   drivers/media/dvb-frontends/dib8000.c:35:2: note: expanded from macro 'dprintk'
-           if (debug)                                                      \
+   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:362:2: note: expanded from macro '__fortify_memcpy_chk'
+           __underlying_##op(p, q, __fortify_size);                        \
+           ^~~~~~~~~~~~~~~~~
+   note: expanded from here
+   include/linux/fortify-string.h:45:29: note: expanded from macro '__underlying_memcpy'
+   #define __underlying_memcpy     __builtin_memcpy
+                                   ^~~~~~~~~~~~~~~~
+   drivers/media/dvb-frontends/cx24120.c:297:2: note: Call to function 'memcpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memcpy_s' in case of C11
+           memcpy(&state->frontend.ops, &cx24120_ops,
            ^
-   drivers/media/dvb-frontends/dib8000.c:3051:3: note: Loop condition is false.  Exiting loop
-                   dprintk("Tuning channel on %s search mode\n",
-                   ^
-   drivers/media/dvb-frontends/dib8000.c:34:30: note: expanded from macro 'dprintk'
-   #define dprintk(fmt, arg...) do {                                       \
-                                ^
-   drivers/media/dvb-frontends/dib8000.c:3059:3: note: Calling 'dib8000_set_frequency_offset'
-                   dib8000_set_frequency_offset(state);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/dvb-frontends/dib8000.c:2744:6: note: Assuming field 'get_frequency' is null
-           if (state->fe[0]->ops.tuner_ops.get_frequency)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/dvb-frontends/dib8000.c:2744:2: note: Taking false branch
-           if (state->fe[0]->ops.tuner_ops.get_frequency)
+   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:362:2: note: expanded from macro '__fortify_memcpy_chk'
+           __underlying_##op(p, q, __fortify_size);                        \
+           ^~~~~~~~~~~~~~~~~
+   note: expanded from here
+   include/linux/fortify-string.h:45:29: note: expanded from macro '__underlying_memcpy'
+   #define __underlying_memcpy     __builtin_memcpy
+                                   ^~~~~~~~~~~~~~~~
+   drivers/media/dvb-frontends/cx24120.c:584:2: warning: Call to function 'memcpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memcpy(&cmd.arg[6], &d->msg, d->msg_len);
            ^
-   drivers/media/dvb-frontends/dib8000.c:2751:6: note: Assuming field 'isdbt_sb_mode' is 0
-           if (c->isdbt_sb_mode) {
-               ^~~~~~~~~~~~~~~~
-   drivers/media/dvb-frontends/dib8000.c:2751:2: note: Taking false branch
-           if (c->isdbt_sb_mode) {
+   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:362:2: note: expanded from macro '__fortify_memcpy_chk'
+           __underlying_##op(p, q, __fortify_size);                        \
+           ^~~~~~~~~~~~~~~~~
+   note: expanded from here
+   include/linux/fortify-string.h:45:29: note: expanded from macro '__underlying_memcpy'
+   #define __underlying_memcpy     __builtin_memcpy
+                                   ^~~~~~~~~~~~~~~~
+   drivers/media/dvb-frontends/cx24120.c:584:2: note: Call to function 'memcpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memcpy_s' in case of C11
+           memcpy(&cmd.arg[6], &d->msg, d->msg_len);
            ^
-   drivers/media/dvb-frontends/dib8000.c:2766:2: note: Assuming 'debug' is 0
-           dprintk("%dkhz tuner offset (frequency = %dHz & current_rf = %dHz) total_dds_offset_hz = %d\n", c->frequency - current_rf, c->frequency, current_rf, total_dds_offset_khz);
---
-                   for (i = 0; i < max && regions[i].offset <= child->part.offset;
-                   ^
-   drivers/mtd/mtdpart.c:154:7: note: 'i' is <= 0
-                   if (i > 0)
-                       ^
-   drivers/mtd/mtdpart.c:154:3: note: Taking false branch
-                   if (i > 0)
-                   ^
-   drivers/mtd/mtdpart.c:158:10: note: 'i' is < 'max'
-                   for (; i < max && regions[i].offset < end; i++) {
-                          ^
-   drivers/mtd/mtdpart.c:158:10: note: Left side of '&&' is true
-   drivers/mtd/mtdpart.c:158:21: note: Assuming 'end' is <= field 'offset'
-                   for (; i < max && regions[i].offset < end; i++) {
-                                     ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/mtd/mtdpart.c:158:3: note: Loop condition is false. Execution continues on line 162
-                   for (; i < max && regions[i].offset < end; i++) {
-                   ^
-   drivers/mtd/mtdpart.c:162:10: note: Assuming field 'erasesize' is equal to 0
-                   BUG_ON(child->erasesize == 0);
-                          ^
-   arch/mips/include/asm/bug.h:34:44: note: expanded from macro 'BUG_ON'
-   #define BUG_ON(C) __BUG_ON((unsigned long)(C))
-                                              ^
-   drivers/mtd/mtdpart.c:173:6: note: Assuming the condition is true
-           if (!(child->flags & MTD_NO_ERASE))
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/mtd/mtdpart.c:173:2: note: Taking true branch
-           if (!(child->flags & MTD_NO_ERASE))
-           ^
-   drivers/mtd/mtdpart.c:174:3: note: The value 0 is assigned to 'wr_alignment'
-                   wr_alignment = child->erasesize;
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/mtd/mtdpart.c:177:14: note: '__base' initialized to 0
-           remainder = do_div(tmp, wr_alignment);
-                       ^
-   include/asm-generic/div64.h:220:2: note: expanded from macro 'do_div'
-           uint32_t __base = (base);                       \
-           ^~~~~~~~~~~~~~~
-   drivers/mtd/mtdpart.c:177:14: note: Left side of '&&' is false
-           remainder = do_div(tmp, wr_alignment);
-                       ^
-   include/asm-generic/div64.h:223:35: note: expanded from macro 'do_div'
-           if (__builtin_constant_p(__base) &&             \
-                                            ^
-   drivers/mtd/mtdpart.c:177:14: note: Left side of '&&' is false
-           remainder = do_div(tmp, wr_alignment);
-                       ^
-   include/asm-generic/div64.h:227:42: note: expanded from macro 'do_div'
-           } else if (__builtin_constant_p(__base) &&      \
-                                                   ^
-   drivers/mtd/mtdpart.c:177:14: note: Assuming the condition is true
-           remainder = do_div(tmp, wr_alignment);
-                       ^
-   include/asm-generic/div64.h:234:20: note: expanded from macro 'do_div'
-           } else if (likely(((n) >> 32) == 0)) {          \
-                      ~~~~~~~^~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:77:40: note: expanded from macro 'likely'
-   # define likely(x)      __builtin_expect(!!(x), 1)
-                                               ^
-   drivers/mtd/mtdpart.c:177:14: note: Taking true branch
-           remainder = do_div(tmp, wr_alignment);
-                       ^
-   include/asm-generic/div64.h:234:9: note: expanded from macro 'do_div'
-           } else if (likely(((n) >> 32) == 0)) {          \
-                  ^
-   drivers/mtd/mtdpart.c:177:14: note: Division by zero
-           remainder = do_div(tmp, wr_alignment);
-                       ^
-   include/asm-generic/div64.h:235:25: note: expanded from macro 'do_div'
-                   __rem = (uint32_t)(n) % __base;         \
-                           ~~~~~~~~~~~~~~^~~~~~~~
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (5 in non-user code, 1 with check filters).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (5 in non-user code, 1 with check filters).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (5 in non-user code, 2 with check filters).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   drivers/char/xillybus/xillyusb.c:1154:4: warning: Value stored to 'rc' is never read [clang-analyzer-deadcode.DeadStores]
-                           rc = wait_event_interruptible_timeout(chan->flushq,
-                           ^
-   drivers/char/xillybus/xillyusb.c:1154:4: note: Value stored to 'rc' is never read
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   drivers/iommu/iommu.c:668:2: warning: Call to function 'strcpy' is insecure as it does not provide bounding of the memory buffer. Replace unbounded copy functions with analogous functions that support length arguments such as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-           strcpy(buf, type);
-           ^~~~~~
-   drivers/iommu/iommu.c:668:2: note: Call to function 'strcpy' is insecure as it does not provide bounding of the memory buffer. Replace unbounded copy functions with analogous functions that support length arguments such as 'strlcpy'. CWE-119
-           strcpy(buf, type);
-           ^~~~~~
->> drivers/iommu/iommu.c:1902:18: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]
-           domain->handler = handler;
-           ~~~~~~~~~~~~~~~~^~~~~~~~~
-   drivers/iommu/iommu.c:1900:9: note: Assuming 'domain' is null
-           BUG_ON(!domain);
-                  ^
-   arch/mips/include/asm/bug.h:34:44: note: expanded from macro 'BUG_ON'
-   #define BUG_ON(C) __BUG_ON((unsigned long)(C))
-                                              ^
-   drivers/iommu/iommu.c:1902:18: note: Dereference of null pointer
-           domain->handler = handler;
-           ~~~~~~~~~~~~~~~~^~~~~~~~~
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   12 warnings generated.
-   Suppressed 12 warnings (12 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   drivers/media/i2c/ad9389b.c:399:7: warning: Value stored to 'N' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
-                   u32 N = (ad9389b_rd(sd, 0x01) & 0xf) << 16 |
-                       ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/ad9389b.c:399:7: note: Value stored to 'N' during its initialization is never read
-                   u32 N = (ad9389b_rd(sd, 0x01) & 0xf) << 16 |
-                       ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   drivers/bus/mhi/host/boot.c:147:2: warning: Value stored to 'ret' is never read [clang-analyzer-deadcode.DeadStores]
-           ret = mhi_read_reg(mhi_cntrl, base, BHIE_RXVECSTATUS_OFFS, &rx_status);
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/bus/mhi/host/boot.c:147:2: note: Value stored to 'ret' is never read
-           ret = mhi_read_reg(mhi_cntrl, base, BHIE_RXVECSTATUS_OFFS, &rx_status);
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   drivers/phy/phy-core.c:337:2: warning: Value stored to 'ret' is never read [clang-analyzer-deadcode.DeadStores]
-           ret = 0; /* Override possible ret == -ENOTSUPP */
-           ^     ~
-   drivers/phy/phy-core.c:337:2: note: Value stored to 'ret' is never read
-           ret = 0; /* Override possible ret == -ENOTSUPP */
-           ^     ~
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:362:2: note: expanded from macro '__fortify_memcpy_chk'
+           __underlying_##op(p, q, __fortify_size);                        \
+           ^~~~~~~~~~~~~~~~~
+   note: expanded from here
+   include/linux/fortify-string.h:45:29: note: expanded from macro '__underlying_memcpy'
+   #define __underlying_memcpy     __builtin_memcpy
+                                   ^~~~~~~~~~~~~~~~
+   drivers/media/dvb-frontends/cx24120.c:1225:2: warning: Value stored to 'ret' is never read [clang-analyzer-deadcode.DeadStores]
+           ret = cx24120_writereg(state, CX24120_REG_CLKDIV, state->dcur.clkdiv);
 
-vim +1902 drivers/iommu/iommu.c
+vim +/rate +396 drivers/spi/spi-omap-uwire.c
 
-ed36d04e8f8d7b Robin Murphy   2022-04-25  1883  
-4f3f8d9db359bb Ohad Ben-Cohen 2011-09-13  1884  /**
-4f3f8d9db359bb Ohad Ben-Cohen 2011-09-13  1885   * iommu_set_fault_handler() - set a fault handler for an iommu domain
-4f3f8d9db359bb Ohad Ben-Cohen 2011-09-13  1886   * @domain: iommu domain
-4f3f8d9db359bb Ohad Ben-Cohen 2011-09-13  1887   * @handler: fault handler
-77ca2332359458 Ohad Ben-Cohen 2012-05-21  1888   * @token: user data, will be passed back to the fault handler
-0ed6d2d27bcc2a Ohad Ben-Cohen 2011-09-27  1889   *
-0ed6d2d27bcc2a Ohad Ben-Cohen 2011-09-27  1890   * This function should be used by IOMMU users which want to be notified
-0ed6d2d27bcc2a Ohad Ben-Cohen 2011-09-27  1891   * whenever an IOMMU fault happens.
-0ed6d2d27bcc2a Ohad Ben-Cohen 2011-09-27  1892   *
-0ed6d2d27bcc2a Ohad Ben-Cohen 2011-09-27  1893   * The fault handler itself should return 0 on success, and an appropriate
-0ed6d2d27bcc2a Ohad Ben-Cohen 2011-09-27  1894   * error code otherwise.
-4f3f8d9db359bb Ohad Ben-Cohen 2011-09-13  1895   */
-4f3f8d9db359bb Ohad Ben-Cohen 2011-09-13  1896  void iommu_set_fault_handler(struct iommu_domain *domain,
-77ca2332359458 Ohad Ben-Cohen 2012-05-21  1897  					iommu_fault_handler_t handler,
-77ca2332359458 Ohad Ben-Cohen 2012-05-21  1898  					void *token)
-4f3f8d9db359bb Ohad Ben-Cohen 2011-09-13  1899  {
-4f3f8d9db359bb Ohad Ben-Cohen 2011-09-13  1900  	BUG_ON(!domain);
-4f3f8d9db359bb Ohad Ben-Cohen 2011-09-13  1901  
-4f3f8d9db359bb Ohad Ben-Cohen 2011-09-13 @1902  	domain->handler = handler;
-77ca2332359458 Ohad Ben-Cohen 2012-05-21  1903  	domain->handler_token = token;
-4f3f8d9db359bb Ohad Ben-Cohen 2011-09-13  1904  }
-30bd918c7132ad Ohad Ben-Cohen 2011-09-26  1905  EXPORT_SYMBOL_GPL(iommu_set_fault_handler);
-4f3f8d9db359bb Ohad Ben-Cohen 2011-09-13  1906  
+fdb3c18d639311 drivers/spi/omap_uwire.c     David Brownell  2007-02-12  305  
+fdb3c18d639311 drivers/spi/omap_uwire.c     David Brownell  2007-02-12  306  static int uwire_setup_transfer(struct spi_device *spi, struct spi_transfer *t)
+fdb3c18d639311 drivers/spi/omap_uwire.c     David Brownell  2007-02-12  307  {
+fdb3c18d639311 drivers/spi/omap_uwire.c     David Brownell  2007-02-12  308  	struct uwire_state	*ust = spi->controller_state;
+fdb3c18d639311 drivers/spi/omap_uwire.c     David Brownell  2007-02-12  309  	struct uwire_spi	*uwire;
+fdb3c18d639311 drivers/spi/omap_uwire.c     David Brownell  2007-02-12  310  	unsigned		flags = 0;
+fdb3c18d639311 drivers/spi/omap_uwire.c     David Brownell  2007-02-12  311  	unsigned		hz;
+fdb3c18d639311 drivers/spi/omap_uwire.c     David Brownell  2007-02-12  312  	unsigned long		rate;
+fdb3c18d639311 drivers/spi/omap_uwire.c     David Brownell  2007-02-12  313  	int			div1_idx;
+fdb3c18d639311 drivers/spi/omap_uwire.c     David Brownell  2007-02-12  314  	int			div1;
+fdb3c18d639311 drivers/spi/omap_uwire.c     David Brownell  2007-02-12  315  	int			div2;
+fdb3c18d639311 drivers/spi/omap_uwire.c     David Brownell  2007-02-12  316  	int			status;
+fdb3c18d639311 drivers/spi/omap_uwire.c     David Brownell  2007-02-12  317  
+fdb3c18d639311 drivers/spi/omap_uwire.c     David Brownell  2007-02-12  318  	uwire = spi_master_get_devdata(spi->master);
+fdb3c18d639311 drivers/spi/omap_uwire.c     David Brownell  2007-02-12  319  
+fdb3c18d639311 drivers/spi/omap_uwire.c     David Brownell  2007-02-12  320  	/* mode 0..3, clock inverted separately;
+fdb3c18d639311 drivers/spi/omap_uwire.c     David Brownell  2007-02-12  321  	 * standard nCS signaling;
+fdb3c18d639311 drivers/spi/omap_uwire.c     David Brownell  2007-02-12  322  	 * don't treat DI=high as "not ready"
+fdb3c18d639311 drivers/spi/omap_uwire.c     David Brownell  2007-02-12  323  	 */
+fdb3c18d639311 drivers/spi/omap_uwire.c     David Brownell  2007-02-12  324  	if (spi->mode & SPI_CS_HIGH)
+fdb3c18d639311 drivers/spi/omap_uwire.c     David Brownell  2007-02-12  325  		flags |= UWIRE_CS_ACTIVE_HIGH;
+fdb3c18d639311 drivers/spi/omap_uwire.c     David Brownell  2007-02-12  326  
+fdb3c18d639311 drivers/spi/omap_uwire.c     David Brownell  2007-02-12  327  	if (spi->mode & SPI_CPOL)
+fdb3c18d639311 drivers/spi/omap_uwire.c     David Brownell  2007-02-12  328  		flags |= UWIRE_CLK_INVERTED;
+fdb3c18d639311 drivers/spi/omap_uwire.c     David Brownell  2007-02-12  329  
+fdb217a38808e0 drivers/spi/spi-omap-uwire.c Andy Shevchenko 2021-05-10  330  	switch (spi->mode & SPI_MODE_X_MASK) {
+fdb3c18d639311 drivers/spi/omap_uwire.c     David Brownell  2007-02-12  331  	case SPI_MODE_0:
+fdb3c18d639311 drivers/spi/omap_uwire.c     David Brownell  2007-02-12  332  	case SPI_MODE_3:
+e5f1b194a9afa3 drivers/spi/omap_uwire.c     Imre Deak       2007-05-23  333  		flags |= UWIRE_WRITE_FALLING_EDGE | UWIRE_READ_RISING_EDGE;
+fdb3c18d639311 drivers/spi/omap_uwire.c     David Brownell  2007-02-12  334  		break;
+fdb3c18d639311 drivers/spi/omap_uwire.c     David Brownell  2007-02-12  335  	case SPI_MODE_1:
+fdb3c18d639311 drivers/spi/omap_uwire.c     David Brownell  2007-02-12  336  	case SPI_MODE_2:
+e5f1b194a9afa3 drivers/spi/omap_uwire.c     Imre Deak       2007-05-23  337  		flags |= UWIRE_WRITE_RISING_EDGE | UWIRE_READ_FALLING_EDGE;
+fdb3c18d639311 drivers/spi/omap_uwire.c     David Brownell  2007-02-12  338  		break;
+fdb3c18d639311 drivers/spi/omap_uwire.c     David Brownell  2007-02-12  339  	}
+fdb3c18d639311 drivers/spi/omap_uwire.c     David Brownell  2007-02-12  340  
+fdb3c18d639311 drivers/spi/omap_uwire.c     David Brownell  2007-02-12  341  	/* assume it's already enabled */
+fdb3c18d639311 drivers/spi/omap_uwire.c     David Brownell  2007-02-12  342  	rate = clk_get_rate(uwire->ck);
+fdb3c18d639311 drivers/spi/omap_uwire.c     David Brownell  2007-02-12  343  
+160f8d0691659b drivers/spi/spi-omap-uwire.c Jarkko Nikula   2015-09-15  344  	if (t != NULL)
+fdb3c18d639311 drivers/spi/omap_uwire.c     David Brownell  2007-02-12  345  		hz = t->speed_hz;
+160f8d0691659b drivers/spi/spi-omap-uwire.c Jarkko Nikula   2015-09-15  346  	else
+160f8d0691659b drivers/spi/spi-omap-uwire.c Jarkko Nikula   2015-09-15  347  		hz = spi->max_speed_hz;
+fdb3c18d639311 drivers/spi/omap_uwire.c     David Brownell  2007-02-12  348  
+fdb3c18d639311 drivers/spi/omap_uwire.c     David Brownell  2007-02-12  349  	if (!hz) {
+6c7377ab6814c2 drivers/spi/omap_uwire.c     Kay Sievers     2009-03-24  350  		pr_debug("%s: zero speed?\n", dev_name(&spi->dev));
+fdb3c18d639311 drivers/spi/omap_uwire.c     David Brownell  2007-02-12  351  		status = -EINVAL;
+fdb3c18d639311 drivers/spi/omap_uwire.c     David Brownell  2007-02-12  352  		goto done;
+fdb3c18d639311 drivers/spi/omap_uwire.c     David Brownell  2007-02-12  353  	}
+fdb3c18d639311 drivers/spi/omap_uwire.c     David Brownell  2007-02-12  354  
+fdb3c18d639311 drivers/spi/omap_uwire.c     David Brownell  2007-02-12  355  	/* F_INT = mpu_xor_clk / DIV1 */
+fdb3c18d639311 drivers/spi/omap_uwire.c     David Brownell  2007-02-12  356  	for (div1_idx = 0; div1_idx < 4; div1_idx++) {
+fdb3c18d639311 drivers/spi/omap_uwire.c     David Brownell  2007-02-12  357  		switch (div1_idx) {
+fdb3c18d639311 drivers/spi/omap_uwire.c     David Brownell  2007-02-12  358  		case 0:
+fdb3c18d639311 drivers/spi/omap_uwire.c     David Brownell  2007-02-12  359  			div1 = 2;
+fdb3c18d639311 drivers/spi/omap_uwire.c     David Brownell  2007-02-12  360  			break;
+fdb3c18d639311 drivers/spi/omap_uwire.c     David Brownell  2007-02-12  361  		case 1:
+fdb3c18d639311 drivers/spi/omap_uwire.c     David Brownell  2007-02-12  362  			div1 = 4;
+fdb3c18d639311 drivers/spi/omap_uwire.c     David Brownell  2007-02-12  363  			break;
+fdb3c18d639311 drivers/spi/omap_uwire.c     David Brownell  2007-02-12  364  		case 2:
+fdb3c18d639311 drivers/spi/omap_uwire.c     David Brownell  2007-02-12  365  			div1 = 7;
+fdb3c18d639311 drivers/spi/omap_uwire.c     David Brownell  2007-02-12  366  			break;
+fdb3c18d639311 drivers/spi/omap_uwire.c     David Brownell  2007-02-12  367  		default:
+fdb3c18d639311 drivers/spi/omap_uwire.c     David Brownell  2007-02-12  368  		case 3:
+fdb3c18d639311 drivers/spi/omap_uwire.c     David Brownell  2007-02-12  369  			div1 = 10;
+fdb3c18d639311 drivers/spi/omap_uwire.c     David Brownell  2007-02-12  370  			break;
+fdb3c18d639311 drivers/spi/omap_uwire.c     David Brownell  2007-02-12  371  		}
+fdb3c18d639311 drivers/spi/omap_uwire.c     David Brownell  2007-02-12  372  		div2 = (rate / div1 + hz - 1) / hz;
+fdb3c18d639311 drivers/spi/omap_uwire.c     David Brownell  2007-02-12  373  		if (div2 <= 8)
+fdb3c18d639311 drivers/spi/omap_uwire.c     David Brownell  2007-02-12  374  			break;
+fdb3c18d639311 drivers/spi/omap_uwire.c     David Brownell  2007-02-12  375  	}
+fdb3c18d639311 drivers/spi/omap_uwire.c     David Brownell  2007-02-12  376  	if (div1_idx == 4) {
+fdb3c18d639311 drivers/spi/omap_uwire.c     David Brownell  2007-02-12  377  		pr_debug("%s: lowest clock %ld, need %d\n",
+6c7377ab6814c2 drivers/spi/omap_uwire.c     Kay Sievers     2009-03-24  378  			dev_name(&spi->dev), rate / 10 / 8, hz);
+fdb3c18d639311 drivers/spi/omap_uwire.c     David Brownell  2007-02-12  379  		status = -EDOM;
+fdb3c18d639311 drivers/spi/omap_uwire.c     David Brownell  2007-02-12  380  		goto done;
+fdb3c18d639311 drivers/spi/omap_uwire.c     David Brownell  2007-02-12  381  	}
+fdb3c18d639311 drivers/spi/omap_uwire.c     David Brownell  2007-02-12  382  
+fdb3c18d639311 drivers/spi/omap_uwire.c     David Brownell  2007-02-12  383  	/* we have to cache this and reset in uwire_chipselect as this is a
+fdb3c18d639311 drivers/spi/omap_uwire.c     David Brownell  2007-02-12  384  	 * global parameter and another uwire device can change it under
+fdb3c18d639311 drivers/spi/omap_uwire.c     David Brownell  2007-02-12  385  	 * us */
+fdb3c18d639311 drivers/spi/omap_uwire.c     David Brownell  2007-02-12  386  	ust->div1_idx = div1_idx;
+fdb3c18d639311 drivers/spi/omap_uwire.c     David Brownell  2007-02-12  387  	uwire_set_clk1_div(div1_idx);
+fdb3c18d639311 drivers/spi/omap_uwire.c     David Brownell  2007-02-12  388  
+fdb3c18d639311 drivers/spi/omap_uwire.c     David Brownell  2007-02-12  389  	rate /= div1;
+fdb3c18d639311 drivers/spi/omap_uwire.c     David Brownell  2007-02-12  390  
+fdb3c18d639311 drivers/spi/omap_uwire.c     David Brownell  2007-02-12  391  	switch (div2) {
+fdb3c18d639311 drivers/spi/omap_uwire.c     David Brownell  2007-02-12  392  	case 0:
+fdb3c18d639311 drivers/spi/omap_uwire.c     David Brownell  2007-02-12  393  	case 1:
+fdb3c18d639311 drivers/spi/omap_uwire.c     David Brownell  2007-02-12  394  	case 2:
+fdb3c18d639311 drivers/spi/omap_uwire.c     David Brownell  2007-02-12  395  		flags |= UWIRE_FREQ_DIV_2;
+fdb3c18d639311 drivers/spi/omap_uwire.c     David Brownell  2007-02-12 @396  		rate /= 2;
+fdb3c18d639311 drivers/spi/omap_uwire.c     David Brownell  2007-02-12  397  		break;
+fdb3c18d639311 drivers/spi/omap_uwire.c     David Brownell  2007-02-12  398  	case 3:
+fdb3c18d639311 drivers/spi/omap_uwire.c     David Brownell  2007-02-12  399  	case 4:
+fdb3c18d639311 drivers/spi/omap_uwire.c     David Brownell  2007-02-12  400  		flags |= UWIRE_FREQ_DIV_4;
+fdb3c18d639311 drivers/spi/omap_uwire.c     David Brownell  2007-02-12  401  		rate /= 4;
+fdb3c18d639311 drivers/spi/omap_uwire.c     David Brownell  2007-02-12  402  		break;
+fdb3c18d639311 drivers/spi/omap_uwire.c     David Brownell  2007-02-12  403  	case 5:
+fdb3c18d639311 drivers/spi/omap_uwire.c     David Brownell  2007-02-12  404  	case 6:
+fdb3c18d639311 drivers/spi/omap_uwire.c     David Brownell  2007-02-12  405  	case 7:
+fdb3c18d639311 drivers/spi/omap_uwire.c     David Brownell  2007-02-12  406  	case 8:
+fdb3c18d639311 drivers/spi/omap_uwire.c     David Brownell  2007-02-12  407  		flags |= UWIRE_FREQ_DIV_8;
+fdb3c18d639311 drivers/spi/omap_uwire.c     David Brownell  2007-02-12  408  		rate /= 8;
+fdb3c18d639311 drivers/spi/omap_uwire.c     David Brownell  2007-02-12  409  		break;
+fdb3c18d639311 drivers/spi/omap_uwire.c     David Brownell  2007-02-12  410  	}
+fdb3c18d639311 drivers/spi/omap_uwire.c     David Brownell  2007-02-12  411  	omap_uwire_configure_mode(spi->chip_select, flags);
+fdb3c18d639311 drivers/spi/omap_uwire.c     David Brownell  2007-02-12  412  	pr_debug("%s: uwire flags %02x, armxor %lu KHz, SCK %lu KHz\n",
+b687d2a8f8d469 drivers/spi/omap_uwire.c     Harvey Harrison 2008-04-28  413  			__func__, flags,
+fdb3c18d639311 drivers/spi/omap_uwire.c     David Brownell  2007-02-12  414  			clk_get_rate(uwire->ck) / 1000,
+fdb3c18d639311 drivers/spi/omap_uwire.c     David Brownell  2007-02-12  415  			rate / 1000);
+fdb3c18d639311 drivers/spi/omap_uwire.c     David Brownell  2007-02-12  416  	status = 0;
+fdb3c18d639311 drivers/spi/omap_uwire.c     David Brownell  2007-02-12  417  done:
+fdb3c18d639311 drivers/spi/omap_uwire.c     David Brownell  2007-02-12  418  	return status;
+fdb3c18d639311 drivers/spi/omap_uwire.c     David Brownell  2007-02-12  419  }
+fdb3c18d639311 drivers/spi/omap_uwire.c     David Brownell  2007-02-12  420  
 
-:::::: The code at line 1902 was first introduced by commit
-:::::: 4f3f8d9db359bbc780d482849f2a9c8b12f910b6 iommu/core: Add fault reporting mechanism
+:::::: The code at line 396 was first introduced by commit
+:::::: fdb3c18d639311287dc4675abe743847a1aa62a8 [PATCH] SPI controller driver for OMAP Microwire
 
-:::::: TO: Ohad Ben-Cohen <ohad@wizery.com>
-:::::: CC: Joerg Roedel <joerg.roedel@amd.com>
+:::::: TO: David Brownell <david-b@pacbell.net>
+:::::: CC: Linus Torvalds <torvalds@woody.linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
