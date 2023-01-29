@@ -1,42 +1,44 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C91DA33F7
-	for <oe-kbuild@lists.linux.dev>; Sat, 28 Jan 2023 19:39:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84F5317C3
+	for <oe-kbuild@lists.linux.dev>; Sun, 29 Jan 2023 02:40:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1674934791; x=1706470791;
+  t=1674960006; x=1706496006;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=oqtycua+6opYrBfXnVm7EV5f4V8+f88JQTrR6YR/9JI=;
-  b=QoW7LM+E0jM4eP9lspKbkXM19mpMLPDrhDBrs46bbvGwaTbclK0zn1m0
-   rWYxjEJRiYGtkB48wdOjzjQsmpx6mOIkNg9uHGXxzphiKIPUFqUAtCJS0
-   WtnYMNaxxzihG1WYldz2CAYJjWBk11tp1cc+iHH69t3N/USdqQEUFcp1S
-   4utaLJ8YQ3mROID8h0ZyLmBqeYB5F17hYVsEwF2kut3XGHwwTcp+fmvOc
-   IWt43L5Kb/PcVP5G65574OapGPnjG7EkwJB28qI5fwIO0soAbbyjBi0w8
-   bBWaX5a81la7QhWa6GDEL+Soys3dVQ83nSzLis6wZ3HPokhFoN/nIVIO/
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="413547461"
+  bh=lkmUNvBW+flXuvq3goEEVDEaLi7Yed4mwrZdMHRozVQ=;
+  b=R+qvI/J/SdZI7SGXr6uNOE3c2wkM3dJxY5p73++/sZ2EvHW9Gz5zqyFc
+   w9p/WiiFcZOsIbHiUz35cQ0cGJj1lK9a2CX3LRZuQTtAnPNAy7Cu9O2m6
+   Wt1BWhXa+4bwosGRd43AilptgqbUJdcK3QV1JV3FD4sFUcYfSzJxPpoMk
+   ojJsgr2sVMix5agdhuAw+dAxB6l46t3Ox2vPFyk6DSWX6DRuXPzt+7Fgo
+   VFA7pUQq7kvWN6s8RHV2bOJME2LTV37xTmByF80H7JK+5y8RQsKoBD761
+   QPeWmDgR35GvPEO8ulR41d8h1mD+4e9AZH8yLl0E6LGO6MBBpWn/jIR0K
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="315312331"
 X-IronPort-AV: E=Sophos;i="5.97,254,1669104000"; 
-   d="scan'208";a="413547461"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2023 11:39:51 -0800
+   d="scan'208";a="315312331"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2023 18:40:05 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="992431290"
+X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="695983867"
 X-IronPort-AV: E=Sophos;i="5.97,254,1669104000"; 
-   d="scan'208";a="992431290"
+   d="scan'208";a="695983867"
 Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 28 Jan 2023 11:39:49 -0800
+  by orsmga001.jf.intel.com with ESMTP; 28 Jan 2023 18:40:04 -0800
 Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pLr3E-00012W-2y;
-	Sat, 28 Jan 2023 19:39:48 +0000
-Date: Sun, 29 Jan 2023 03:38:48 +0800
+	id 1pLxbv-0001Mu-14;
+	Sun, 29 Jan 2023 02:40:03 +0000
+Date: Sun, 29 Jan 2023 10:39:20 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [akpm-mm:mm-unstable 401/450] fs/userfaultfd.c:1367:2: warning:
- Value stored to 'found' is never read [clang-analyzer-deadcode.DeadStores]
-Message-ID: <202301290308.ZN5KqCQ9-lkp@intel.com>
+Subject: kernel/bpf/hashtab.c:86:8: warning: Excessive padding in 'struct
+ bpf_htab' (35 padding bytes, where 3 is optimal). Optimal fields order: map,
+ pcount, buckets, elems, extra_elems, count, n_buckets, elem_size, hashrnd,
+ lockdep_key, map_locked, ma, pcpu_ma, ...
+Message-ID: <202301291052.VcdsjYU8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -47,483 +49,887 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "low confidence static check warning: fs/userfaultfd.c:1367:2: warning: Value stored to 'found' is never read [clang-analyzer-deadcode.DeadStores]"
+:::::: Manual check reason: "low confidence static check first_new_problem: kernel/bpf/hashtab.c:86:8: warning: Excessive padding in 'struct bpf_htab' (35 padding bytes, where 3 is optimal). Optimal fields order: map, pcount, buckets, elems, extra_elems, count, n_buckets, elem_size, hashrnd, lockdep_key, map_locked, ma, pcpu_ma, , use_percpu_counter, consider reordering the fields or adding explicit padding members [clang-analyzer-optin.performance.Padding]"
 :::::: 
 
 BCC: lkp@intel.com
 CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-TO: "Liam R. Howlett" <Liam.Howlett@Oracle.com>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
+CC: linux-kernel@vger.kernel.org
+TO: Rongwei Zhang <pudh4418@gmail.com>
+CC: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+CC: Nathan Chancellor <nathan@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-unstable
-head:   ede43f2956cc25e387a5e225324104f22e715908
-commit: a5545fd557c61ffab02714e67af69ef7f3757676 [401/450] userfaultfd: use vma iterator
-:::::: branch date: 20 hours ago
-:::::: commit date: 5 days ago
-config: s390-randconfig-c005-20230123 (https://download.01.org/0day-ci/archive/20230129/202301290308.ZN5KqCQ9-lkp@intel.com/config)
+Hi Rongwei,
+
+First bad commit (maybe != root cause):
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   c96618275234ad03d44eafe9f8844305bb44fda4
+commit: 612d80784fdc0c2e2ee2e2d901a55ef2f72ebf4b MIPS: fix duplicate definitions for exported symbols
+date:   3 months ago
+:::::: branch date: 7 hours ago
+:::::: commit date: 3 months ago
+config: mips-randconfig-c004-20230123 (https://download.01.org/0day-ci/archive/20230129/202301291052.VcdsjYU8-lkp@intel.com/config)
 compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 4196ca3278f78c6e19246e54ab0ecb364e37d66a)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install s390 cross compiling tool for clang build
-        # apt-get install binutils-s390x-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git/commit/?id=a5545fd557c61ffab02714e67af69ef7f3757676
-        git remote add akpm-mm https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git
-        git fetch --no-tags akpm-mm mm-unstable
-        git checkout a5545fd557c61ffab02714e67af69ef7f3757676
+        # install mips cross compiling tool for clang build
+        # apt-get install binutils-mipsel-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=612d80784fdc0c2e2ee2e2d901a55ef2f72ebf4b
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 612d80784fdc0c2e2ee2e2d901a55ef2f72ebf4b
         # save the config file
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=s390 clang-analyzer  olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=s390 clang-analyzer 
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=mips clang-analyzer  olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=mips clang-analyzer 
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
 clang_analyzer warnings: (new ones prefixed by >>)
-           ^
-   fs/userfaultfd.c:240:46: note: Dereference of null pointer
-                   msg.arg.pagefault.feat.ptid = task_pid_vnr(current);
-                                                              ^
-   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'current'
-   #define current ((struct task_struct *const)S390_lowcore.current_task)
-                                               ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/s390/include/asm/lowcore.h:215:22: note: expanded from macro 'S390_lowcore'
-   #define S390_lowcore (*((struct lowcore *) 0))
-                        ^
-   fs/userfaultfd.c:411:6: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]
-           if (current->flags & (PF_EXITING|PF_DUMPCORE))
-               ^
-   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'current'
-   #define current ((struct task_struct *const)S390_lowcore.current_task)
-                                               ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/s390/include/asm/lowcore.h:215:22: note: expanded from macro 'S390_lowcore'
-   #define S390_lowcore (*((struct lowcore *) 0))
-                        ^
-   fs/userfaultfd.c:411:6: note: Dereference of null pointer
-           if (current->flags & (PF_EXITING|PF_DUMPCORE))
-               ^
-   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'current'
-   #define current ((struct task_struct *const)S390_lowcore.current_task)
-                                               ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/s390/include/asm/lowcore.h:215:22: note: expanded from macro 'S390_lowcore'
-   #define S390_lowcore (*((struct lowcore *) 0))
-                        ^
-   fs/userfaultfd.c:589:19: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]
-           if (WARN_ON_ONCE(current->flags & PF_EXITING))
+   arch/mips/include/asm/cpu-features.h:384:25: note: expanded from macro 'cpu_has_clo_clz'
+   #define cpu_has_clo_clz cpu_has_mips_r
+                           ^
+   arch/mips/include/asm/cpu-features.h:336:5: note: expanded from macro 'cpu_has_mips_r'
+                            cpu_has_mips64r5 | cpu_has_mips64r6)
                             ^
-   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'current'
-   #define current ((struct task_struct *const)S390_lowcore.current_task)
+   arch/mips/include/asm/cpu-features.h:299:43: note: expanded from macro 'cpu_has_mips64r5'
+   # define cpu_has_mips64r5       (cpu_has_64bits && \
+                                                   ^
+   arch/mips/include/asm/bitops.h:390:27: note: 1 is < 6
+               __builtin_constant_p(cpu_has_clo_clz) && cpu_has_clo_clz) {
+                                    ^
+   arch/mips/include/asm/cpu-features.h:384:25: note: expanded from macro 'cpu_has_clo_clz'
+   #define cpu_has_clo_clz cpu_has_mips_r
+                           ^~~~~~~~~~~~~~
+   arch/mips/include/asm/cpu-features.h:336:24: note: expanded from macro 'cpu_has_mips_r'
+                            cpu_has_mips64r5 | cpu_has_mips64r6)
+                                               ^~~~~~~~~~~~~~~~
+   arch/mips/include/asm/cpu-features.h:303:27: note: expanded from macro 'cpu_has_mips64r6'
+   # define cpu_has_mips64r6       __isa_ge_and_flag(6, MIPS_CPU_ISA_M64R6)
+                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/mips/include/asm/cpu-features.h:60:40: note: expanded from macro '__isa_ge_and_flag'
+   #define __isa_ge_and_flag(isa, flag)    ((MIPS_ISA_REV >= (isa)) && __isa(flag))
+                                             ^~~~~~~~~~~~
+   arch/mips/include/asm/isa-rev.h:17:22: note: expanded from macro 'MIPS_ISA_REV'
+   #define MIPS_ISA_REV __mips_isa_rev
+                        ^~~~~~~~~~~~~~
+   note: expanded from macro '__mips_isa_rev'
+   arch/mips/include/asm/bitops.h:390:27: note: Left side of '&&' is false
+               __builtin_constant_p(cpu_has_clo_clz) && cpu_has_clo_clz) {
+                                    ^
+   arch/mips/include/asm/cpu-features.h:384:25: note: expanded from macro 'cpu_has_clo_clz'
+   #define cpu_has_clo_clz cpu_has_mips_r
+                           ^
+   arch/mips/include/asm/cpu-features.h:336:24: note: expanded from macro 'cpu_has_mips_r'
+                            cpu_has_mips64r5 | cpu_has_mips64r6)
                                                ^
-   arch/s390/include/asm/lowcore.h:215:22: note: expanded from macro 'S390_lowcore'
-   #define S390_lowcore (*((struct lowcore *) 0))
-                        ^
-   fs/userfaultfd.c:864:2: note: Loop condition is true.  Entering loop body
-           list_for_each_entry_safe(ctx, n, uf, list) {
-           ^
-   include/linux/list.h:761:2: note: expanded from macro 'list_for_each_entry_safe'
-           for (pos = list_first_entry(head, typeof(*pos), member),        \
-           ^
-   fs/userfaultfd.c:871:3: note: Calling 'userfaultfd_event_wait_completion'
-                   userfaultfd_event_wait_completion(ctx->ctx, &ewq);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/userfaultfd.c:589:19: note: Dereference of null pointer
-           if (WARN_ON_ONCE(current->flags & PF_EXITING))
-                            ^
-   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'current'
-   #define current ((struct task_struct *const)S390_lowcore.current_task)
-                                               ^
-   arch/s390/include/asm/lowcore.h:215:22: note: expanded from macro 'S390_lowcore'
-   #define S390_lowcore (*((struct lowcore *) 0))
-                        ^
-   include/asm-generic/bug.h:110:25: note: expanded from macro 'WARN_ON_ONCE'
-           int __ret_warn_on = !!(condition);                      \
-                                  ^~~~~~~~~
-   fs/userfaultfd.c:1036:26: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]
-           DECLARE_WAITQUEUE(wait, current);
+   arch/mips/include/asm/cpu-features.h:303:27: note: expanded from macro 'cpu_has_mips64r6'
+   # define cpu_has_mips64r6       __isa_ge_and_flag(6, MIPS_CPU_ISA_M64R6)
                                    ^
-   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'current'
-   #define current ((struct task_struct *const)S390_lowcore.current_task)
-                                               ^
-   arch/s390/include/asm/lowcore.h:215:22: note: expanded from macro 'S390_lowcore'
-   #define S390_lowcore (*((struct lowcore *) 0))
-                        ^
-   fs/userfaultfd.c:1206:6: note: Assuming the condition is false
-           if (!userfaultfd_is_initialized(ctx))
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/userfaultfd.c:1206:2: note: Taking false branch
-           if (!userfaultfd_is_initialized(ctx))
+   arch/mips/include/asm/cpu-features.h:60:63: note: expanded from macro '__isa_ge_and_flag'
+   #define __isa_ge_and_flag(isa, flag)    ((MIPS_ISA_REV >= (isa)) && __isa(flag))
+                                                                    ^
+   arch/mips/include/asm/bitops.h:390:44: note: Left side of '&&' is false
+               __builtin_constant_p(cpu_has_clo_clz) && cpu_has_clo_clz) {
+                                                     ^
+   arch/mips/include/asm/bitops.h:402:2: note: The value 32 is assigned to 'r'
+           r = 32;
+           ^~~~~~
+   arch/mips/include/asm/bitops.h:403:6: note: Assuming 'x' is not equal to 0, which participates in a condition later
+           if (!x)
+               ^~
+   arch/mips/include/asm/bitops.h:403:2: note: Taking false branch
+           if (!x)
            ^
-   fs/userfaultfd.c:1209:2: note: Loop condition is true.  Entering loop body
-           for (;;) {
+   arch/mips/include/asm/bitops.h:405:6: note: Assuming the condition is false
+           if (!(x & 0xffff0000u)) {
+               ^~~~~~~~~~~~~~~~~~
+   arch/mips/include/asm/bitops.h:405:2: note: Taking false branch
+           if (!(x & 0xffff0000u)) {
            ^
-   fs/userfaultfd.c:1210:7: note: Assuming the condition is false
-                   if (count < sizeof(msg))
-                       ^~~~~~~~~~~~~~~~~~~
-   fs/userfaultfd.c:1210:3: note: Taking false branch
-                   if (count < sizeof(msg))
-                   ^
-   fs/userfaultfd.c:1212:10: note: Calling 'userfaultfd_ctx_read'
-                   _ret = userfaultfd_ctx_read(ctx, no_wait, &msg, inode);
-                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/userfaultfd.c:1036:26: note: Dereference of null pointer
-           DECLARE_WAITQUEUE(wait, current);
-                                   ^
-   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'current'
-   #define current ((struct task_struct *const)S390_lowcore.current_task)
-                                               ^
-   arch/s390/include/asm/lowcore.h:215:22: note: expanded from macro 'S390_lowcore'
-   #define S390_lowcore (*((struct lowcore *) 0))
-                        ^
-   include/linux/wait.h:55:63: note: expanded from macro 'DECLARE_WAITQUEUE'
-           struct wait_queue_entry name = __WAITQUEUE_INITIALIZER(name, tsk)
-                                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~
-   include/linux/wait.h:50:13: note: expanded from macro '__WAITQUEUE_INITIALIZER'
-           .private        = tsk,                                                  \
-                             ^~~
->> fs/userfaultfd.c:1367:2: warning: Value stored to 'found' is never read [clang-analyzer-deadcode.DeadStores]
-           found = false;
-           ^       ~~~~~
-   fs/userfaultfd.c:1367:2: note: Value stored to 'found' is never read
-           found = false;
-           ^       ~~~~~
-   fs/userfaultfd.c:1574:2: warning: Value stored to 'found' is never read [clang-analyzer-deadcode.DeadStores]
-           found = false;
-           ^       ~~~~~
-   fs/userfaultfd.c:1574:2: note: Value stored to 'found' is never read
-           found = false;
-           ^       ~~~~~
-   fs/userfaultfd.c:2090:10: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]
-           BUG_ON(!current->mm);
-                   ^
-   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'current'
-   #define current ((struct task_struct *const)S390_lowcore.current_task)
-                                               ^
-   arch/s390/include/asm/lowcore.h:215:22: note: expanded from macro 'S390_lowcore'
-   #define S390_lowcore (*((struct lowcore *) 0))
-                        ^
-   fs/userfaultfd.c:2139:1: note: Calling '__do_sys_userfaultfd'
-   SYSCALL_DEFINE1(userfaultfd, int, flags)
-   ^
-   include/linux/syscalls.h:217:36: note: expanded from macro 'SYSCALL_DEFINE1'
-   #define SYSCALL_DEFINE1(name, ...) SYSCALL_DEFINEx(1, _##name, __VA_ARGS__)
-                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/syscalls.h:228:2: note: expanded from macro 'SYSCALL_DEFINEx'
-           __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/s390/include/asm/syscall_wrapper.h:157:14: note: expanded from macro '__SYSCALL_DEFINEx'
-                   long ret = __do_sys##name(SYSCALL_PT_ARGS(x, regs,                      \
-                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   note: expanded from here
-   fs/userfaultfd.c:2141:2: note: Taking false branch
-           if (!userfaultfd_syscall_allowed(flags))
+   arch/mips/include/asm/bitops.h:409:6: note: Assuming the condition is false
+           if (!(x & 0xff000000u)) {
+               ^~~~~~~~~~~~~~~~~~
+   arch/mips/include/asm/bitops.h:409:2: note: Taking false branch
+           if (!(x & 0xff000000u)) {
            ^
-   fs/userfaultfd.c:2144:9: note: Calling 'new_userfaultfd'
-           return new_userfaultfd(flags);
-                  ^~~~~~~~~~~~~~~~~~~~~~
-   fs/userfaultfd.c:2090:10: note: Dereference of null pointer
-           BUG_ON(!current->mm);
+   arch/mips/include/asm/bitops.h:413:6: note: Assuming the condition is false
+           if (!(x & 0xf0000000u)) {
+               ^~~~~~~~~~~~~~~~~~
+   arch/mips/include/asm/bitops.h:413:2: note: Taking false branch
+           if (!(x & 0xf0000000u)) {
+           ^
+   arch/mips/include/asm/bitops.h:417:6: note: Assuming the condition is false
+           if (!(x & 0xc0000000u)) {
+               ^~~~~~~~~~~~~~~~~~
+   arch/mips/include/asm/bitops.h:417:2: note: Taking false branch
+           if (!(x & 0xc0000000u)) {
+           ^
+   arch/mips/include/asm/bitops.h:421:6: note: Assuming the condition is false
+           if (!(x & 0x80000000u)) {
+               ^~~~~~~~~~~~~~~~~~
+   arch/mips/include/asm/bitops.h:421:2: note: Taking false branch
+           if (!(x & 0x80000000u)) {
+           ^
+   arch/mips/include/asm/bitops.h:425:2: note: Returning the value 32 (loaded from 'r')
+           return r;
+           ^~~~~~~~
+   include/linux/bitops.h:206:10: note: Returning from 'fls'
+                   return fls(l);
+                          ^~~~~~
+   include/linux/bitops.h:206:3: note: Returning the value 32
+                   return fls(l);
+                   ^~~~~~~~~~~~~
+   include/linux/log2.h:57:16: note: Returning from 'fls_long'
+           return 1UL << fls_long(n - 1);
+                         ^~~~~~~~~~~~~~~
+   include/linux/log2.h:57:13: note: The result of the left shift is undefined due to shifting by '32', which is greater or equal to the width of type 'unsigned long'
+           return 1UL << fls_long(n - 1);
+                      ^  ~~~~~~~~~~~~~~~
+>> kernel/bpf/hashtab.c:86:8: warning: Excessive padding in 'struct bpf_htab' (35 padding bytes, where 3 is optimal). Optimal fields order: map, pcount, buckets, elems, extra_elems, count, n_buckets, elem_size, hashrnd, lockdep_key, map_locked, ma, pcpu_ma, , use_percpu_counter, consider reordering the fields or adding explicit padding members [clang-analyzer-optin.performance.Padding]
+   struct bpf_htab {
+   ~~~~~~~^~~~~~~~~~
+   kernel/bpf/hashtab.c:86:8: note: Excessive padding in 'struct bpf_htab' (35 padding bytes, where 3 is optimal). Optimal fields order: map, pcount, buckets, elems, extra_elems, count, n_buckets, elem_size, hashrnd, lockdep_key, map_locked, ma, pcpu_ma, , use_percpu_counter, consider reordering the fields or adding explicit padding members
+   struct bpf_htab {
+   ~~~~~~~^~~~~~~~~~
+   kernel/bpf/hashtab.c:1983:3: warning: Value stored to 'b' is never read [clang-analyzer-deadcode.DeadStores]
+                   b = &htab->buckets[bucket_id++];
+                   ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/bpf/hashtab.c:1983:3: note: Value stored to 'b' is never read
+                   b = &htab->buckets[bucket_id++];
+                   ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (5 in non-user code, 2 with check filters).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (5 in non-user code, 1 with check filters).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (5 in non-user code, 1 with check filters).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (5 in non-user code, 1 with check filters).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   drivers/char/tpm/tpm1-cmd.c:440:29: warning: Assigned value is garbage or undefined [clang-analyzer-core.uninitialized.Assign]
+                   chip->duration[TPM_SHORT] = durations[0];
+                                             ^ ~~~~~~~~~~~~
+   drivers/char/tpm/tpm1-cmd.c:349:7: note: Calling 'tpm1_getcap'
+           rc = tpm1_getcap(chip, TPM_CAP_PROP_TIS_TIMEOUT, &cap, NULL,
+                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/char/tpm/tpm1-cmd.c:488:7: note: Calling 'tpm_buf_init'
+           rc = tpm_buf_init(&buf, TPM_TAG_RQU_COMMAND, TPM_ORD_GET_CAP);
+                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/tpm.h:337:6: note: Assuming field 'data' is non-null
+           if (!buf->data)
+               ^~~~~~~~~~
+   include/linux/tpm.h:337:2: note: Taking false branch
+           if (!buf->data)
+           ^
+   include/linux/tpm.h:342:2: note: Returning zero, which participates in a condition later
+           return 0;
+           ^~~~~~~~
+   drivers/char/tpm/tpm1-cmd.c:488:7: note: Returning from 'tpm_buf_init'
+           rc = tpm_buf_init(&buf, TPM_TAG_RQU_COMMAND, TPM_ORD_GET_CAP);
+                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/char/tpm/tpm1-cmd.c:489:6: note: 'rc' is 0
+           if (rc)
+               ^~
+   drivers/char/tpm/tpm1-cmd.c:489:2: note: Taking false branch
+           if (rc)
+           ^
+   drivers/char/tpm/tpm1-cmd.c:492:6: note: 'subcap_id' is not equal to TPM_CAP_VERSION_1_1
+           if (subcap_id == TPM_CAP_VERSION_1_1 ||
+               ^~~~~~~~~
+   drivers/char/tpm/tpm1-cmd.c:492:6: note: Left side of '||' is false
+   drivers/char/tpm/tpm1-cmd.c:493:6: note: 'subcap_id' is not equal to TPM_CAP_VERSION_1_2
+               subcap_id == TPM_CAP_VERSION_1_2) {
+               ^~~~~~~~~
+   drivers/char/tpm/tpm1-cmd.c:492:2: note: Taking false branch
+           if (subcap_id == TPM_CAP_VERSION_1_1 ||
+           ^
+   drivers/char/tpm/tpm1-cmd.c:497:7: note: 'subcap_id' is not equal to TPM_CAP_FLAG_PERM
+                   if (subcap_id == TPM_CAP_FLAG_PERM ||
+                       ^~~~~~~~~
+   drivers/char/tpm/tpm1-cmd.c:497:7: note: Left side of '||' is false
+   drivers/char/tpm/tpm1-cmd.c:498:7: note: 'subcap_id' is not equal to TPM_CAP_FLAG_VOL
+                       subcap_id == TPM_CAP_FLAG_VOL)
+                       ^~~~~~~~~
+   drivers/char/tpm/tpm1-cmd.c:497:3: note: Taking false branch
+                   if (subcap_id == TPM_CAP_FLAG_PERM ||
                    ^
-   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'current'
-   #define current ((struct task_struct *const)S390_lowcore.current_task)
-                                               ^
-   arch/s390/include/asm/lowcore.h:215:22: note: expanded from macro 'S390_lowcore'
-   #define S390_lowcore (*((struct lowcore *) 0))
-                        ^
-   include/asm-generic/bug.h:71:45: note: expanded from macro 'BUG_ON'
-   #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (0)
-                                      ~~~~~~~~~^~~~~~~~~~
+--
+           ^
+   drivers/media/dvb-core/dvb_ca_en50221.c:39:2: note: expanded from macro 'dprintk'
+           if (dvb_ca_en50221_debug)                                       \
+           ^
+   drivers/media/dvb-core/dvb_ca_en50221.c:1453:2: note: Loop condition is false.  Exiting loop
+           dprintk("%s\n", __func__);
+           ^
+   drivers/media/dvb-core/dvb_ca_en50221.c:38:30: note: expanded from macro 'dprintk'
+   #define dprintk(fmt, arg...) do {                                       \
+                                ^
+   drivers/media/dvb-core/dvb_ca_en50221.c:1459:6: note: Assuming 'count' is >= 2
+           if (count < 2)
+               ^~~~~~~~~
+   drivers/media/dvb-core/dvb_ca_en50221.c:1459:2: note: Taking false branch
+           if (count < 2)
+           ^
+   drivers/media/dvb-core/dvb_ca_en50221.c:1463:6: note: Calling 'copy_from_user'
+           if (copy_from_user(&slot, buf, 1))
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/uaccess.h:160:6: note: Assuming the condition is true
+           if (check_copy_size(to, n, false))
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/uaccess.h:160:2: note: Taking true branch
+           if (check_copy_size(to, n, false))
+           ^
+   include/linux/uaccess.h:161:7: note: Calling '_copy_from_user'
+                   n = _copy_from_user(to, from, n);
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/uaccess.h:125:6: note: Left side of '&&' is true
+           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
+               ^
+   include/linux/uaccess.h:125:2: note: Taking true branch
+           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
+           ^
+   include/linux/uaccess.h:127:9: note: Calling 'raw_copy_from_user'
+                   res = raw_copy_from_user(to, from, n);
+                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/mips/include/asm/uaccess.h:412:2: note: Returning without writing to '*to'
+           return __cu_len_r;
+           ^
+   include/linux/uaccess.h:127:9: note: Returning from 'raw_copy_from_user'
+                   res = raw_copy_from_user(to, from, n);
+                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/uaccess.h:130:6: note: Assuming 'res' is 0
+           if (unlikely(res))
+               ^
+   include/linux/compiler.h:78:40: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                             ^~~~
+   include/linux/uaccess.h:130:2: note: Taking false branch
+           if (unlikely(res))
+           ^
+   include/linux/uaccess.h:132:2: note: Returning without writing to '*to'
+           return res;
+           ^
+   include/linux/uaccess.h:161:7: note: Returning from '_copy_from_user'
+                   n = _copy_from_user(to, from, n);
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/uaccess.h:162:2: note: Returning without writing to '*to'
+           return n;
+           ^
+   drivers/media/dvb-core/dvb_ca_en50221.c:1463:6: note: Returning from 'copy_from_user'
+           if (copy_from_user(&slot, buf, 1))
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/dvb-core/dvb_ca_en50221.c:1463:2: note: Taking false branch
+           if (copy_from_user(&slot, buf, 1))
+           ^
+   drivers/media/dvb-core/dvb_ca_en50221.c:1465:2: note: Taking false branch
+           if (copy_from_user(&connection_id, buf + 1, 1))
+           ^
+   drivers/media/dvb-core/dvb_ca_en50221.c:1470:11: note: The left operand of '>=' is a garbage value
+           if (slot >= ca->slot_count)
+               ~~~~ ^
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   5 warnings generated.
+>> drivers/rpmsg/rpmsg_ctrl.c:89:13: warning: Assigned value is garbage or undefined [clang-analyzer-core.uninitialized.Assign]
+           chinfo.src = eptinfo.src;
+                      ^ ~~~~~~~~~~~
+   drivers/rpmsg/rpmsg_ctrl.c:84:6: note: Calling 'copy_from_user'
+           if (copy_from_user(&eptinfo, argp, sizeof(eptinfo)))
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/uaccess.h:160:2: note: Taking true branch
+           if (check_copy_size(to, n, false))
+           ^
+   include/linux/uaccess.h:161:7: note: Calling '_copy_from_user'
+                   n = _copy_from_user(to, from, n);
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/uaccess.h:125:6: note: Left side of '&&' is true
+           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
+               ^
+   include/linux/uaccess.h:125:2: note: Taking true branch
+           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
+           ^
+   include/linux/uaccess.h:127:9: note: Calling 'raw_copy_from_user'
+                   res = raw_copy_from_user(to, from, n);
+                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/mips/include/asm/uaccess.h:412:2: note: Returning without writing to 'to->src'
+           return __cu_len_r;
+           ^
+   include/linux/uaccess.h:127:9: note: Returning from 'raw_copy_from_user'
+                   res = raw_copy_from_user(to, from, n);
+                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/uaccess.h:130:6: note: Assuming 'res' is 0
+           if (unlikely(res))
+               ^
+   include/linux/compiler.h:78:40: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                             ^~~~
+   include/linux/uaccess.h:130:2: note: Taking false branch
+           if (unlikely(res))
+           ^
+   include/linux/uaccess.h:132:2: note: Returning without writing to 'to->src'
+           return res;
+           ^
+   include/linux/uaccess.h:161:7: note: Returning from '_copy_from_user'
+                   n = _copy_from_user(to, from, n);
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/uaccess.h:162:2: note: Returning without writing to 'to->src'
+           return n;
+           ^
+   drivers/rpmsg/rpmsg_ctrl.c:84:6: note: Returning from 'copy_from_user'
+           if (copy_from_user(&eptinfo, argp, sizeof(eptinfo)))
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/rpmsg/rpmsg_ctrl.c:84:2: note: Taking false branch
+           if (copy_from_user(&eptinfo, argp, sizeof(eptinfo)))
+           ^
+   drivers/rpmsg/rpmsg_ctrl.c:87:2: note: '__ret_cond' is false
+           memcpy(chinfo.name, eptinfo.name, RPMSG_NAME_SIZE);
+           ^
+   include/linux/fortify-string.h:514:26: note: expanded from macro 'memcpy'
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:462:2: note: expanded from macro '__fortify_memcpy_chk'
+           WARN_ONCE(fortify_memcpy_chk(__fortify_size, __p_size,          \
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/bug.h:151:2: note: expanded from macro 'WARN_ONCE'
+           DO_ONCE_LITE_IF(condition, WARN, 1, format)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/once_lite.h:30:7: note: expanded from macro 'DO_ONCE_LITE_IF'
+                   if (__ONCE_LITE_IF(__ret_do_once))                      \
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/once_lite.h:19:16: note: expanded from macro '__ONCE_LITE_IF'
+                   if (unlikely(__ret_cond && !__already_done)) {          \
+                                ^~~~~~~~~~
    include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
    # define unlikely(x)    __builtin_expect(!!(x), 0)
                                                ^
-   Suppressed 11 warnings (11 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   fs/verity/read_metadata.c:70:28: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]
-                   if (fatal_signal_pending(current))  {
-                                            ^
-   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'current'
-   #define current ((struct task_struct *const)S390_lowcore.current_task)
+   drivers/rpmsg/rpmsg_ctrl.c:87:2: note: Left side of '&&' is false
+           memcpy(chinfo.name, eptinfo.name, RPMSG_NAME_SIZE);
+           ^
+   include/linux/fortify-string.h:514:26: note: expanded from macro 'memcpy'
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            ^
+   include/linux/fortify-string.h:462:2: note: expanded from macro '__fortify_memcpy_chk'
+           WARN_ONCE(fortify_memcpy_chk(__fortify_size, __p_size,          \
+           ^
+   include/asm-generic/bug.h:151:2: note: expanded from macro 'WARN_ONCE'
+           DO_ONCE_LITE_IF(condition, WARN, 1, format)
+           ^
+   include/linux/once_lite.h:30:7: note: expanded from macro 'DO_ONCE_LITE_IF'
+                   if (__ONCE_LITE_IF(__ret_do_once))                      \
+                       ^
+   include/linux/once_lite.h:19:27: note: expanded from macro '__ONCE_LITE_IF'
+                   if (unlikely(__ret_cond && !__already_done)) {          \
+                                           ^
+   drivers/rpmsg/rpmsg_ctrl.c:87:2: note: Taking false branch
+           memcpy(chinfo.name, eptinfo.name, RPMSG_NAME_SIZE);
+           ^
+   include/linux/fortify-string.h:514:26: note: expanded from macro 'memcpy'
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            ^
+   include/linux/fortify-string.h:462:2: note: expanded from macro '__fortify_memcpy_chk'
+           WARN_ONCE(fortify_memcpy_chk(__fortify_size, __p_size,          \
+           ^
+   include/asm-generic/bug.h:151:2: note: expanded from macro 'WARN_ONCE'
+           DO_ONCE_LITE_IF(condition, WARN, 1, format)
+--
+   arch/mips/include/asm/cpu-features.h:384:25: note: expanded from macro 'cpu_has_clo_clz'
+   #define cpu_has_clo_clz cpu_has_mips_r
+                           ^
+   arch/mips/include/asm/cpu-features.h:336:5: note: expanded from macro 'cpu_has_mips_r'
+                            cpu_has_mips64r5 | cpu_has_mips64r6)
+                            ^
+   arch/mips/include/asm/cpu-features.h:299:43: note: expanded from macro 'cpu_has_mips64r5'
+   # define cpu_has_mips64r5       (cpu_has_64bits && \
+                                                   ^
+   arch/mips/include/asm/bitops.h:390:27: note: 1 is < 6
+               __builtin_constant_p(cpu_has_clo_clz) && cpu_has_clo_clz) {
+                                    ^
+   arch/mips/include/asm/cpu-features.h:384:25: note: expanded from macro 'cpu_has_clo_clz'
+   #define cpu_has_clo_clz cpu_has_mips_r
+                           ^~~~~~~~~~~~~~
+   arch/mips/include/asm/cpu-features.h:336:24: note: expanded from macro 'cpu_has_mips_r'
+                            cpu_has_mips64r5 | cpu_has_mips64r6)
+                                               ^~~~~~~~~~~~~~~~
+   arch/mips/include/asm/cpu-features.h:303:27: note: expanded from macro 'cpu_has_mips64r6'
+   # define cpu_has_mips64r6       __isa_ge_and_flag(6, MIPS_CPU_ISA_M64R6)
+                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/mips/include/asm/cpu-features.h:60:40: note: expanded from macro '__isa_ge_and_flag'
+   #define __isa_ge_and_flag(isa, flag)    ((MIPS_ISA_REV >= (isa)) && __isa(flag))
+                                             ^~~~~~~~~~~~
+   arch/mips/include/asm/isa-rev.h:17:22: note: expanded from macro 'MIPS_ISA_REV'
+   #define MIPS_ISA_REV __mips_isa_rev
+                        ^~~~~~~~~~~~~~
+   note: expanded from macro '__mips_isa_rev'
+   arch/mips/include/asm/bitops.h:390:27: note: Left side of '&&' is false
+               __builtin_constant_p(cpu_has_clo_clz) && cpu_has_clo_clz) {
+                                    ^
+   arch/mips/include/asm/cpu-features.h:384:25: note: expanded from macro 'cpu_has_clo_clz'
+   #define cpu_has_clo_clz cpu_has_mips_r
+                           ^
+   arch/mips/include/asm/cpu-features.h:336:24: note: expanded from macro 'cpu_has_mips_r'
+                            cpu_has_mips64r5 | cpu_has_mips64r6)
                                                ^
-   arch/s390/include/asm/lowcore.h:215:22: note: expanded from macro 'S390_lowcore'
-   #define S390_lowcore (*((struct lowcore *) 0))
-                        ^
-   fs/verity/read_metadata.c:160:6: note: Assuming 'vi' is non-null
-           if (!vi)
-               ^~~
-   fs/verity/read_metadata.c:160:2: note: Taking false branch
-           if (!vi)
+   arch/mips/include/asm/cpu-features.h:303:27: note: expanded from macro 'cpu_has_mips64r6'
+   # define cpu_has_mips64r6       __isa_ge_and_flag(6, MIPS_CPU_ISA_M64R6)
+                                   ^
+   arch/mips/include/asm/cpu-features.h:60:63: note: expanded from macro '__isa_ge_and_flag'
+   #define __isa_ge_and_flag(isa, flag)    ((MIPS_ISA_REV >= (isa)) && __isa(flag))
+                                                                    ^
+   arch/mips/include/asm/bitops.h:390:44: note: Left side of '&&' is false
+               __builtin_constant_p(cpu_has_clo_clz) && cpu_has_clo_clz) {
+                                                     ^
+   arch/mips/include/asm/bitops.h:402:2: note: The value 32 is assigned to 'r'
+           r = 32;
+           ^~~~~~
+   arch/mips/include/asm/bitops.h:403:6: note: Assuming 'x' is not equal to 0, which participates in a condition later
+           if (!x)
+               ^~
+   arch/mips/include/asm/bitops.h:403:2: note: Taking false branch
+           if (!x)
            ^
-   fs/verity/read_metadata.c:167:2: note: Taking false branch
-           if (copy_from_user(&arg, uarg, sizeof(arg)))
+   arch/mips/include/asm/bitops.h:405:6: note: Assuming the condition is false
+           if (!(x & 0xffff0000u)) {
+               ^~~~~~~~~~~~~~~~~~
+   arch/mips/include/asm/bitops.h:405:2: note: Taking false branch
+           if (!(x & 0xffff0000u)) {
            ^
-   fs/verity/read_metadata.c:170:6: note: Assuming field '__reserved' is 0
-           if (arg.__reserved)
-               ^~~~~~~~~~~~~~
-   fs/verity/read_metadata.c:170:2: note: Taking false branch
-           if (arg.__reserved)
+   arch/mips/include/asm/bitops.h:409:6: note: Assuming the condition is false
+           if (!(x & 0xff000000u)) {
+               ^~~~~~~~~~~~~~~~~~
+   arch/mips/include/asm/bitops.h:409:2: note: Taking false branch
+           if (!(x & 0xff000000u)) {
            ^
-   fs/verity/read_metadata.c:174:6: note: Assuming the condition is false
-           if (arg.offset + arg.length < arg.offset)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/verity/read_metadata.c:174:2: note: Taking false branch
-           if (arg.offset + arg.length < arg.offset)
+   arch/mips/include/asm/bitops.h:413:6: note: Assuming the condition is false
+           if (!(x & 0xf0000000u)) {
+               ^~~~~~~~~~~~~~~~~~
+   arch/mips/include/asm/bitops.h:413:2: note: Taking false branch
+           if (!(x & 0xf0000000u)) {
            ^
-   fs/verity/read_metadata.c:178:11: note: Assuming '__UNIQUE_ID___x305' is >= '__UNIQUE_ID___y306'
-           length = min_t(u64, arg.length, INT_MAX);
-                    ^
-   include/linux/minmax.h:126:27: note: expanded from macro 'min_t'
-   #define min_t(type, x, y)       __careful_cmp((type)(x), (type)(y), <)
-                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:38:3: note: expanded from macro '__careful_cmp'
-                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:33:3: note: expanded from macro '__cmp_once'
-                   __cmp(unique_x, unique_y, op); })
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:28:26: note: expanded from macro '__cmp'
+   arch/mips/include/asm/bitops.h:417:6: note: Assuming the condition is false
+           if (!(x & 0xc0000000u)) {
+               ^~~~~~~~~~~~~~~~~~
+   arch/mips/include/asm/bitops.h:417:2: note: Taking false branch
+           if (!(x & 0xc0000000u)) {
+           ^
+   arch/mips/include/asm/bitops.h:421:6: note: Assuming the condition is false
+           if (!(x & 0x80000000u)) {
+               ^~~~~~~~~~~~~~~~~~
+   arch/mips/include/asm/bitops.h:421:2: note: Taking false branch
+           if (!(x & 0x80000000u)) {
+           ^
+   arch/mips/include/asm/bitops.h:425:2: note: Returning the value 32 (loaded from 'r')
+           return r;
+           ^~~~~~~~
+   include/linux/bitops.h:206:10: note: Returning from 'fls'
+                   return fls(l);
+                          ^~~~~~
+   include/linux/bitops.h:206:3: note: Returning the value 32
+                   return fls(l);
+                   ^~~~~~~~~~~~~
+   include/linux/log2.h:57:16: note: Returning from 'fls_long'
+           return 1UL << fls_long(n - 1);
+                         ^~~~~~~~~~~~~~~
+   include/linux/log2.h:57:13: note: The result of the left shift is undefined due to shifting by '32', which is greater or equal to the width of type 'unsigned long'
+           return 1UL << fls_long(n - 1);
+                      ^  ~~~~~~~~~~~~~~~
+>> kernel/bpf/hashtab.c:86:8: warning: Excessive padding in 'struct bpf_htab' (35 padding bytes, where 3 is optimal). Optimal fields order: map, pcount, buckets, elems, extra_elems, count, n_buckets, elem_size, hashrnd, lockdep_key, map_locked, ma, pcpu_ma, , use_percpu_counter, consider reordering the fields or adding explicit padding members [clang-analyzer-optin.performance.Padding]
+   struct bpf_htab {
+   ~~~~~~~^~~~~~~~~~
+   kernel/bpf/hashtab.c:86:8: note: Excessive padding in 'struct bpf_htab' (35 padding bytes, where 3 is optimal). Optimal fields order: map, pcount, buckets, elems, extra_elems, count, n_buckets, elem_size, hashrnd, lockdep_key, map_locked, ma, pcpu_ma, , use_percpu_counter, consider reordering the fields or adding explicit padding members
+   struct bpf_htab {
+   ~~~~~~~^~~~~~~~~~
+   kernel/bpf/hashtab.c:1983:3: warning: Value stored to 'b' is never read [clang-analyzer-deadcode.DeadStores]
+                   b = &htab->buckets[bucket_id++];
+                   ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/bpf/hashtab.c:1983:3: note: Value stored to 'b' is never read
+                   b = &htab->buckets[bucket_id++];
+                   ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   include/linux/log2.h:57:13: warning: The result of the left shift is undefined due to shifting by '32', which is greater or equal to the width of type 'unsigned long' [clang-analyzer-core.UndefinedBinaryOperatorResult]
+           return 1UL << fls_long(n - 1);
+                      ^
+   mm/readahead.c:717:6: note: Assuming field 'ra_pages' is not equal to 0
+           if (!ractl->ra->ra_pages)
+               ^~~~~~~~~~~~~~~~~~~~
+   mm/readahead.c:717:2: note: Taking false branch
+           if (!ractl->ra->ra_pages)
+           ^
+   mm/readahead.c:723:6: note: Assuming the condition is false
+           if (folio_test_writeback(folio))
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/readahead.c:723:2: note: Taking false branch
+           if (folio_test_writeback(folio))
+           ^
+   mm/readahead.c:728:2: note: Taking false branch
+           if (blk_cgroup_congested())
+           ^
+   mm/readahead.c:731:2: note: Calling 'ondemand_readahead'
+           ondemand_readahead(ractl, folio, req_count);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/readahead.c:575:23: note: 'folio' is non-null
+           unsigned int order = folio ? folio_order(folio) : 0;
+                                ^~~~~
+   mm/readahead.c:575:23: note: '?' condition is true
+   mm/readahead.c:581:6: note: Assuming 'req_size' is <= 'max_pages'
+           if (req_size > max_pages && bdi->io_pages > max_pages)
+               ^~~~~~~~~~~~~~~~~~~~
+   mm/readahead.c:581:27: note: Left side of '&&' is false
+           if (req_size > max_pages && bdi->io_pages > max_pages)
+                                    ^
+   mm/readahead.c:587:6: note: Assuming 'index' is 0
+           if (!index)
+               ^~~~~~
+   mm/readahead.c:587:2: note: Taking true branch
+           if (!index)
+           ^
+   mm/readahead.c:588:3: note: Control jumps to line 659
+                   goto initial_readahead;
+                   ^
+   mm/readahead.c:660:13: note: Calling 'get_init_ra_size'
+           ra->size = get_init_ra_size(req_size, max_pages);
+                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/readahead.c:346:26: note: '?' condition is false
+           unsigned long newsize = roundup_pow_of_two(size);
+                                   ^
+   include/linux/log2.h:176:2: note: expanded from macro 'roundup_pow_of_two'
+           __builtin_constant_p(n) ? (             \
+           ^
+   mm/readahead.c:346:26: note: Calling '__roundup_pow_of_two'
+           unsigned long newsize = roundup_pow_of_two(size);
+                                   ^
+   include/linux/log2.h:180:2: note: expanded from macro 'roundup_pow_of_two'
+           __roundup_pow_of_two(n)                 \
+           ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/log2.h:57:16: note: Calling 'fls_long'
+           return 1UL << fls_long(n - 1);
+                         ^~~~~~~~~~~~~~~
+   include/linux/bitops.h:205:2: note: Taking true branch
+           if (sizeof(l) == 4)
+           ^
+   include/linux/bitops.h:206:10: note: Calling 'fls'
+                   return fls(l);
+                          ^~~~~~
+   arch/mips/include/asm/bitops.h:389:6: note: Left side of '&&' is true
+           if (!__builtin_constant_p(x) &&
+               ^
+   arch/mips/include/asm/bitops.h:390:27: note: 1 is < 5
+               __builtin_constant_p(cpu_has_clo_clz) && cpu_has_clo_clz) {
+                                    ^
+   arch/mips/include/asm/cpu-features.h:384:25: note: expanded from macro 'cpu_has_clo_clz'
+   #define cpu_has_clo_clz cpu_has_mips_r
+                           ^~~~~~~~~~~~~~
+   arch/mips/include/asm/cpu-features.h:334:5: note: expanded from macro 'cpu_has_mips_r'
+                            cpu_has_mips32r5 | cpu_has_mips32r6 | \
+                            ^~~~~~~~~~~~~~~~
+   arch/mips/include/asm/cpu-features.h:285:27: note: expanded from macro 'cpu_has_mips32r5'
+   # define cpu_has_mips32r5       __isa_range_or_flag(5, 6, MIPS_CPU_ISA_M32R5)
+                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   arch/mips/include/asm/cpu-features.h:64:4: note: expanded from macro '__isa_range'
+           ((MIPS_ISA_REV >= (ge)) && (MIPS_ISA_REV < (lt)))
+             ^~~~~~~~~~~~
+--
+           ^
+   drivers/hid/hidraw.c:213:8: note: Calling 'kmalloc'
+           buf = kmalloc(count, GFP_KERNEL);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/slab.h:564:2: note: Taking false branch
+           if (__builtin_constant_p(size)) {
+           ^
+   include/linux/slab.h:581:2: note: Returning pointer, which participates in a condition later
+           return __kmalloc(size, flags);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/hid/hidraw.c:213:8: note: Returning from 'kmalloc'
+           buf = kmalloc(count, GFP_KERNEL);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/hid/hidraw.c:214:6: note: Assuming 'buf' is non-null
+           if (!buf) {
+               ^~~~
+   drivers/hid/hidraw.c:214:2: note: Taking false branch
+           if (!buf) {
+           ^
+   drivers/hid/hidraw.c:223:6: note: Calling 'copy_from_user'
+           if (copy_from_user(&report_number, buffer, 1)) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/uaccess.h:160:2: note: Taking true branch
+           if (check_copy_size(to, n, false))
+           ^
+   include/linux/uaccess.h:161:7: note: Calling '_copy_from_user'
+                   n = _copy_from_user(to, from, n);
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/uaccess.h:125:6: note: Left side of '&&' is true
+           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
+               ^
+   include/linux/uaccess.h:125:2: note: Taking true branch
+           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
+           ^
+   include/linux/uaccess.h:127:9: note: Calling 'raw_copy_from_user'
+                   res = raw_copy_from_user(to, from, n);
+                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/mips/include/asm/uaccess.h:412:2: note: Returning without writing to '*to'
+           return __cu_len_r;
+           ^
+   include/linux/uaccess.h:127:9: note: Returning from 'raw_copy_from_user'
+                   res = raw_copy_from_user(to, from, n);
+                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/uaccess.h:130:6: note: Assuming 'res' is 0
+           if (unlikely(res))
+               ^
+   include/linux/compiler.h:78:40: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                             ^~~~
+   include/linux/uaccess.h:130:2: note: Taking false branch
+           if (unlikely(res))
+           ^
+   include/linux/uaccess.h:132:2: note: Returning without writing to '*to'
+           return res;
+           ^
+   include/linux/uaccess.h:161:7: note: Returning from '_copy_from_user'
+                   n = _copy_from_user(to, from, n);
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/uaccess.h:162:2: note: Returning without writing to '*to'
+           return n;
+           ^
+   drivers/hid/hidraw.c:223:6: note: Returning from 'copy_from_user'
+           if (copy_from_user(&report_number, buffer, 1)) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/hid/hidraw.c:223:2: note: Taking false branch
+           if (copy_from_user(&report_number, buffer, 1)) {
+           ^
+   drivers/hid/hidraw.c:228:8: note: 2nd function call argument is an uninitialized value
+           ret = hid_hw_raw_request(dev, report_number, buf, count, report_type,
+                 ^                       ~~~~~~~~~~~~~
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   5 warnings generated.
+>> drivers/rpmsg/rpmsg_ctrl.c:89:13: warning: Assigned value is garbage or undefined [clang-analyzer-core.uninitialized.Assign]
+           chinfo.src = eptinfo.src;
+                      ^ ~~~~~~~~~~~
+   drivers/rpmsg/rpmsg_ctrl.c:84:6: note: Calling 'copy_from_user'
+           if (copy_from_user(&eptinfo, argp, sizeof(eptinfo)))
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/uaccess.h:160:2: note: Taking true branch
+           if (check_copy_size(to, n, false))
+           ^
+   include/linux/uaccess.h:161:7: note: Calling '_copy_from_user'
+                   n = _copy_from_user(to, from, n);
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/uaccess.h:125:6: note: Left side of '&&' is true
+           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
+               ^
+   include/linux/uaccess.h:125:2: note: Taking true branch
+           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
+           ^
+   include/linux/uaccess.h:127:9: note: Calling 'raw_copy_from_user'
+                   res = raw_copy_from_user(to, from, n);
+                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/mips/include/asm/uaccess.h:412:2: note: Returning without writing to 'to->src'
+           return __cu_len_r;
+           ^
+   include/linux/uaccess.h:127:9: note: Returning from 'raw_copy_from_user'
+                   res = raw_copy_from_user(to, from, n);
+                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/uaccess.h:130:6: note: Assuming 'res' is 0
+           if (unlikely(res))
+               ^
+   include/linux/compiler.h:78:40: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                             ^~~~
+   include/linux/uaccess.h:130:2: note: Taking false branch
+           if (unlikely(res))
+           ^
+   include/linux/uaccess.h:132:2: note: Returning without writing to 'to->src'
+           return res;
+           ^
+   include/linux/uaccess.h:161:7: note: Returning from '_copy_from_user'
+                   n = _copy_from_user(to, from, n);
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/uaccess.h:162:2: note: Returning without writing to 'to->src'
+           return n;
+           ^
+   drivers/rpmsg/rpmsg_ctrl.c:84:6: note: Returning from 'copy_from_user'
+           if (copy_from_user(&eptinfo, argp, sizeof(eptinfo)))
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/rpmsg/rpmsg_ctrl.c:84:2: note: Taking false branch
+           if (copy_from_user(&eptinfo, argp, sizeof(eptinfo)))
+           ^
+   drivers/rpmsg/rpmsg_ctrl.c:87:2: note: '__ret_cond' is false
+           memcpy(chinfo.name, eptinfo.name, RPMSG_NAME_SIZE);
+           ^
+   include/linux/fortify-string.h:514:26: note: expanded from macro 'memcpy'
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:462:2: note: expanded from macro '__fortify_memcpy_chk'
+           WARN_ONCE(fortify_memcpy_chk(__fortify_size, __p_size,          \
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/bug.h:151:2: note: expanded from macro 'WARN_ONCE'
+           DO_ONCE_LITE_IF(condition, WARN, 1, format)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/once_lite.h:30:7: note: expanded from macro 'DO_ONCE_LITE_IF'
+                   if (__ONCE_LITE_IF(__ret_do_once))                      \
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/once_lite.h:19:16: note: expanded from macro '__ONCE_LITE_IF'
+                   if (unlikely(__ret_cond && !__already_done)) {          \
+                                ^~~~~~~~~~
+   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   drivers/rpmsg/rpmsg_ctrl.c:87:2: note: Left side of '&&' is false
+           memcpy(chinfo.name, eptinfo.name, RPMSG_NAME_SIZE);
+           ^
+   include/linux/fortify-string.h:514:26: note: expanded from macro 'memcpy'
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            ^
+   include/linux/fortify-string.h:462:2: note: expanded from macro '__fortify_memcpy_chk'
+           WARN_ONCE(fortify_memcpy_chk(__fortify_size, __p_size,          \
+           ^
+   include/asm-generic/bug.h:151:2: note: expanded from macro 'WARN_ONCE'
+           DO_ONCE_LITE_IF(condition, WARN, 1, format)
+           ^
+   include/linux/once_lite.h:30:7: note: expanded from macro 'DO_ONCE_LITE_IF'
+                   if (__ONCE_LITE_IF(__ret_do_once))                      \
+                       ^
+   include/linux/once_lite.h:19:27: note: expanded from macro '__ONCE_LITE_IF'
+                   if (unlikely(__ret_cond && !__already_done)) {          \
+                                           ^
+   drivers/rpmsg/rpmsg_ctrl.c:87:2: note: Taking false branch
+           memcpy(chinfo.name, eptinfo.name, RPMSG_NAME_SIZE);
+           ^
+   include/linux/fortify-string.h:514:26: note: expanded from macro 'memcpy'
+   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            ^
+   include/linux/fortify-string.h:462:2: note: expanded from macro '__fortify_memcpy_chk'
+           WARN_ONCE(fortify_memcpy_chk(__fortify_size, __p_size,          \
+           ^
+   include/asm-generic/bug.h:151:2: note: expanded from macro 'WARN_ONCE'
+           DO_ONCE_LITE_IF(condition, WARN, 1, format)
 
-vim +/found +1367 fs/userfaultfd.c
+vim +86 kernel/bpf/hashtab.c
 
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1291  
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1292  static int userfaultfd_register(struct userfaultfd_ctx *ctx,
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1293  				unsigned long arg)
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1294  {
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1295  	struct mm_struct *mm = ctx->mm;
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1296  	struct vm_area_struct *vma, *prev, *cur;
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1297  	int ret;
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1298  	struct uffdio_register uffdio_register;
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1299  	struct uffdio_register __user *user_uffdio_register;
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1300  	unsigned long vm_flags, new_flags;
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1301  	bool found;
-ce53e8e6f2cb02 Mike Rapoport       2017-09-06  1302  	bool basic_ioctls;
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1303  	unsigned long start, end, vma_end;
-a5545fd557c61f Liam R. Howlett     2023-01-20  1304  	struct vma_iterator vmi;
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1305  
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1306  	user_uffdio_register = (struct uffdio_register __user *) arg;
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1307  
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1308  	ret = -EFAULT;
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1309  	if (copy_from_user(&uffdio_register, user_uffdio_register,
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1310  			   sizeof(uffdio_register)-sizeof(__u64)))
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1311  		goto out;
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1312  
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1313  	ret = -EINVAL;
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1314  	if (!uffdio_register.mode)
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1315  		goto out;
-7677f7fd8be766 Axel Rasmussen      2021-05-04  1316  	if (uffdio_register.mode & ~UFFD_API_REGISTER_MODES)
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1317  		goto out;
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1318  	vm_flags = 0;
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1319  	if (uffdio_register.mode & UFFDIO_REGISTER_MODE_MISSING)
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1320  		vm_flags |= VM_UFFD_MISSING;
-00b151f21f390f Peter Xu            2021-06-30  1321  	if (uffdio_register.mode & UFFDIO_REGISTER_MODE_WP) {
-00b151f21f390f Peter Xu            2021-06-30  1322  #ifndef CONFIG_HAVE_ARCH_USERFAULTFD_WP
-00b151f21f390f Peter Xu            2021-06-30  1323  		goto out;
-00b151f21f390f Peter Xu            2021-06-30  1324  #endif
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1325  		vm_flags |= VM_UFFD_WP;
-00b151f21f390f Peter Xu            2021-06-30  1326  	}
-7677f7fd8be766 Axel Rasmussen      2021-05-04  1327  	if (uffdio_register.mode & UFFDIO_REGISTER_MODE_MINOR) {
-7677f7fd8be766 Axel Rasmussen      2021-05-04  1328  #ifndef CONFIG_HAVE_ARCH_USERFAULTFD_MINOR
-7677f7fd8be766 Axel Rasmussen      2021-05-04  1329  		goto out;
-7677f7fd8be766 Axel Rasmussen      2021-05-04  1330  #endif
-7677f7fd8be766 Axel Rasmussen      2021-05-04  1331  		vm_flags |= VM_UFFD_MINOR;
-7677f7fd8be766 Axel Rasmussen      2021-05-04  1332  	}
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1333  
-e71e2ace5721a8 Peter Collingbourne 2021-07-23  1334  	ret = validate_range(mm, uffdio_register.range.start,
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1335  			     uffdio_register.range.len);
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1336  	if (ret)
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1337  		goto out;
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1338  
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1339  	start = uffdio_register.range.start;
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1340  	end = start + uffdio_register.range.len;
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1341  
-d2005e3f41d4f9 Oleg Nesterov       2016-05-20  1342  	ret = -ENOMEM;
-d2005e3f41d4f9 Oleg Nesterov       2016-05-20  1343  	if (!mmget_not_zero(mm))
-d2005e3f41d4f9 Oleg Nesterov       2016-05-20  1344  		goto out;
-d2005e3f41d4f9 Oleg Nesterov       2016-05-20  1345  
-a5545fd557c61f Liam R. Howlett     2023-01-20  1346  	ret = -EINVAL;
-d8ed45c5dcd455 Michel Lespinasse   2020-06-08  1347  	mmap_write_lock(mm);
-a5545fd557c61f Liam R. Howlett     2023-01-20  1348  	vma_iter_init(&vmi, mm, start);
-a5545fd557c61f Liam R. Howlett     2023-01-20  1349  	vma = vma_find(&vmi, end);
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1350  	if (!vma)
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1351  		goto out_unlock;
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1352  
-cab350afcbc9c8 Mike Kravetz        2017-02-22  1353  	/*
-cab350afcbc9c8 Mike Kravetz        2017-02-22  1354  	 * If the first vma contains huge pages, make sure start address
-cab350afcbc9c8 Mike Kravetz        2017-02-22  1355  	 * is aligned to huge page size.
-cab350afcbc9c8 Mike Kravetz        2017-02-22  1356  	 */
-cab350afcbc9c8 Mike Kravetz        2017-02-22  1357  	if (is_vm_hugetlb_page(vma)) {
-cab350afcbc9c8 Mike Kravetz        2017-02-22  1358  		unsigned long vma_hpagesize = vma_kernel_pagesize(vma);
-cab350afcbc9c8 Mike Kravetz        2017-02-22  1359  
-cab350afcbc9c8 Mike Kravetz        2017-02-22  1360  		if (start & (vma_hpagesize - 1))
-cab350afcbc9c8 Mike Kravetz        2017-02-22  1361  			goto out_unlock;
-cab350afcbc9c8 Mike Kravetz        2017-02-22  1362  	}
-cab350afcbc9c8 Mike Kravetz        2017-02-22  1363  
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1364  	/*
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1365  	 * Search for not compatible vmas.
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1366  	 */
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04 @1367  	found = false;
-ce53e8e6f2cb02 Mike Rapoport       2017-09-06  1368  	basic_ioctls = false;
-a5545fd557c61f Liam R. Howlett     2023-01-20  1369  	cur = vma;
-a5545fd557c61f Liam R. Howlett     2023-01-20  1370  	do {
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1371  		cond_resched();
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1372  
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1373  		BUG_ON(!!cur->vm_userfaultfd_ctx.ctx ^
-7677f7fd8be766 Axel Rasmussen      2021-05-04  1374  		       !!(cur->vm_flags & __VM_UFFD_FLAGS));
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1375  
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1376  		/* check not compatible vmas */
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1377  		ret = -EINVAL;
-63b2d4174c4ad1 Andrea Arcangeli    2020-04-06  1378  		if (!vma_can_userfault(cur, vm_flags))
-cab350afcbc9c8 Mike Kravetz        2017-02-22  1379  			goto out_unlock;
-29ec90660d68bb Andrea Arcangeli    2018-11-30  1380  
-29ec90660d68bb Andrea Arcangeli    2018-11-30  1381  		/*
-29ec90660d68bb Andrea Arcangeli    2018-11-30  1382  		 * UFFDIO_COPY will fill file holes even without
-29ec90660d68bb Andrea Arcangeli    2018-11-30  1383  		 * PROT_WRITE. This check enforces that if this is a
-29ec90660d68bb Andrea Arcangeli    2018-11-30  1384  		 * MAP_SHARED, the process has write permission to the backing
-29ec90660d68bb Andrea Arcangeli    2018-11-30  1385  		 * file. If VM_MAYWRITE is set it also enforces that on a
-29ec90660d68bb Andrea Arcangeli    2018-11-30  1386  		 * MAP_SHARED vma: there is no F_WRITE_SEAL and no further
-29ec90660d68bb Andrea Arcangeli    2018-11-30  1387  		 * F_WRITE_SEAL can be taken until the vma is destroyed.
-29ec90660d68bb Andrea Arcangeli    2018-11-30  1388  		 */
-29ec90660d68bb Andrea Arcangeli    2018-11-30  1389  		ret = -EPERM;
-29ec90660d68bb Andrea Arcangeli    2018-11-30  1390  		if (unlikely(!(cur->vm_flags & VM_MAYWRITE)))
-29ec90660d68bb Andrea Arcangeli    2018-11-30  1391  			goto out_unlock;
-29ec90660d68bb Andrea Arcangeli    2018-11-30  1392  
-cab350afcbc9c8 Mike Kravetz        2017-02-22  1393  		/*
-cab350afcbc9c8 Mike Kravetz        2017-02-22  1394  		 * If this vma contains ending address, and huge pages
-cab350afcbc9c8 Mike Kravetz        2017-02-22  1395  		 * check alignment.
-cab350afcbc9c8 Mike Kravetz        2017-02-22  1396  		 */
-cab350afcbc9c8 Mike Kravetz        2017-02-22  1397  		if (is_vm_hugetlb_page(cur) && end <= cur->vm_end &&
-cab350afcbc9c8 Mike Kravetz        2017-02-22  1398  		    end > cur->vm_start) {
-cab350afcbc9c8 Mike Kravetz        2017-02-22  1399  			unsigned long vma_hpagesize = vma_kernel_pagesize(cur);
-cab350afcbc9c8 Mike Kravetz        2017-02-22  1400  
-cab350afcbc9c8 Mike Kravetz        2017-02-22  1401  			ret = -EINVAL;
-cab350afcbc9c8 Mike Kravetz        2017-02-22  1402  
-cab350afcbc9c8 Mike Kravetz        2017-02-22  1403  			if (end & (vma_hpagesize - 1))
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1404  				goto out_unlock;
-cab350afcbc9c8 Mike Kravetz        2017-02-22  1405  		}
-63b2d4174c4ad1 Andrea Arcangeli    2020-04-06  1406  		if ((vm_flags & VM_UFFD_WP) && !(cur->vm_flags & VM_MAYWRITE))
-63b2d4174c4ad1 Andrea Arcangeli    2020-04-06  1407  			goto out_unlock;
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1408  
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1409  		/*
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1410  		 * Check that this vma isn't already owned by a
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1411  		 * different userfaultfd. We can't allow more than one
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1412  		 * userfaultfd to own a single vma simultaneously or we
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1413  		 * wouldn't know which one to deliver the userfaults to.
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1414  		 */
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1415  		ret = -EBUSY;
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1416  		if (cur->vm_userfaultfd_ctx.ctx &&
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1417  		    cur->vm_userfaultfd_ctx.ctx != ctx)
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1418  			goto out_unlock;
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1419  
-cab350afcbc9c8 Mike Kravetz        2017-02-22  1420  		/*
-cab350afcbc9c8 Mike Kravetz        2017-02-22  1421  		 * Note vmas containing huge pages
-cab350afcbc9c8 Mike Kravetz        2017-02-22  1422  		 */
-ce53e8e6f2cb02 Mike Rapoport       2017-09-06  1423  		if (is_vm_hugetlb_page(cur))
-ce53e8e6f2cb02 Mike Rapoport       2017-09-06  1424  			basic_ioctls = true;
-cab350afcbc9c8 Mike Kravetz        2017-02-22  1425  
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1426  		found = true;
-a5545fd557c61f Liam R. Howlett     2023-01-20  1427  	} for_each_vma_range(vmi, cur, end);
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1428  	BUG_ON(!found);
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1429  
-a5545fd557c61f Liam R. Howlett     2023-01-20  1430  	vma_iter_set(&vmi, start);
-a5545fd557c61f Liam R. Howlett     2023-01-20  1431  	prev = vma_prev(&vmi);
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1432  
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1433  	ret = 0;
-a5545fd557c61f Liam R. Howlett     2023-01-20  1434  	for_each_vma_range(vmi, vma, end) {
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1435  		cond_resched();
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1436  
-63b2d4174c4ad1 Andrea Arcangeli    2020-04-06  1437  		BUG_ON(!vma_can_userfault(vma, vm_flags));
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1438  		BUG_ON(vma->vm_userfaultfd_ctx.ctx &&
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1439  		       vma->vm_userfaultfd_ctx.ctx != ctx);
-29ec90660d68bb Andrea Arcangeli    2018-11-30  1440  		WARN_ON(!(vma->vm_flags & VM_MAYWRITE));
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1441  
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1442  		/*
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1443  		 * Nothing to do: this vma is already registered into this
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1444  		 * userfaultfd and with the right tracking mode too.
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1445  		 */
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1446  		if (vma->vm_userfaultfd_ctx.ctx == ctx &&
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1447  		    (vma->vm_flags & vm_flags) == vm_flags)
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1448  			goto skip;
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1449  
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1450  		if (vma->vm_start > start)
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1451  			start = vma->vm_start;
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1452  		vma_end = min(end, vma->vm_end);
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1453  
-7677f7fd8be766 Axel Rasmussen      2021-05-04  1454  		new_flags = (vma->vm_flags & ~__VM_UFFD_FLAGS) | vm_flags;
-a5545fd557c61f Liam R. Howlett     2023-01-20  1455  		prev = vmi_vma_merge(&vmi, mm, prev, start, vma_end, new_flags,
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1456  				 vma->anon_vma, vma->vm_file, vma->vm_pgoff,
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1457  				 vma_policy(vma),
-9a10064f5625d5 Colin Cross         2022-01-14  1458  				 ((struct vm_userfaultfd_ctx){ ctx }),
-5c26f6ac9416b6 Suren Baghdasaryan  2022-03-04  1459  				 anon_vma_name(vma));
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1460  		if (prev) {
-69dbe6daf1041e Liam R. Howlett     2022-09-06  1461  			/* vma_merge() invalidated the mas */
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1462  			vma = prev;
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1463  			goto next;
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1464  		}
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1465  		if (vma->vm_start < start) {
-a5545fd557c61f Liam R. Howlett     2023-01-20  1466  			ret = vmi_split_vma(&vmi, mm, vma, start, 1);
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1467  			if (ret)
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1468  				break;
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1469  		}
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1470  		if (vma->vm_end > end) {
-a5545fd557c61f Liam R. Howlett     2023-01-20  1471  			ret = vmi_split_vma(&vmi, mm, vma, end, 0);
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1472  			if (ret)
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1473  				break;
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1474  		}
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1475  	next:
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1476  		/*
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1477  		 * In the vma_merge() successful mprotect-like case 8:
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1478  		 * the next vma was merged into the current one and
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1479  		 * the current one has not been updated yet.
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1480  		 */
-51d3d5eb74ff53 David Hildenbrand   2022-12-09  1481  		userfaultfd_set_vm_flags(vma, new_flags);
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1482  		vma->vm_userfaultfd_ctx.ctx = ctx;
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1483  
-6dfeaff93be1a4 Peter Xu            2021-05-04  1484  		if (is_vm_hugetlb_page(vma) && uffd_disable_huge_pmd_share(vma))
-6dfeaff93be1a4 Peter Xu            2021-05-04  1485  			hugetlb_unshare_all_pmds(vma);
-6dfeaff93be1a4 Peter Xu            2021-05-04  1486  
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1487  	skip:
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1488  		prev = vma;
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1489  		start = vma->vm_end;
-a5545fd557c61f Liam R. Howlett     2023-01-20  1490  	}
-a5545fd557c61f Liam R. Howlett     2023-01-20  1491  
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1492  out_unlock:
-d8ed45c5dcd455 Michel Lespinasse   2020-06-08  1493  	mmap_write_unlock(mm);
-d2005e3f41d4f9 Oleg Nesterov       2016-05-20  1494  	mmput(mm);
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1495  	if (!ret) {
-14819305e09fe4 Peter Xu            2020-04-06  1496  		__u64 ioctls_out;
-14819305e09fe4 Peter Xu            2020-04-06  1497  
-14819305e09fe4 Peter Xu            2020-04-06  1498  		ioctls_out = basic_ioctls ? UFFD_API_RANGE_IOCTLS_BASIC :
-14819305e09fe4 Peter Xu            2020-04-06  1499  		    UFFD_API_RANGE_IOCTLS;
-14819305e09fe4 Peter Xu            2020-04-06  1500  
-14819305e09fe4 Peter Xu            2020-04-06  1501  		/*
-14819305e09fe4 Peter Xu            2020-04-06  1502  		 * Declare the WP ioctl only if the WP mode is
-14819305e09fe4 Peter Xu            2020-04-06  1503  		 * specified and all checks passed with the range
-14819305e09fe4 Peter Xu            2020-04-06  1504  		 */
-14819305e09fe4 Peter Xu            2020-04-06  1505  		if (!(uffdio_register.mode & UFFDIO_REGISTER_MODE_WP))
-14819305e09fe4 Peter Xu            2020-04-06  1506  			ioctls_out &= ~((__u64)1 << _UFFDIO_WRITEPROTECT);
-14819305e09fe4 Peter Xu            2020-04-06  1507  
-f619147104c8ea Axel Rasmussen      2021-05-04  1508  		/* CONTINUE ioctl is only supported for MINOR ranges. */
-f619147104c8ea Axel Rasmussen      2021-05-04  1509  		if (!(uffdio_register.mode & UFFDIO_REGISTER_MODE_MINOR))
-f619147104c8ea Axel Rasmussen      2021-05-04  1510  			ioctls_out &= ~((__u64)1 << _UFFDIO_CONTINUE);
-f619147104c8ea Axel Rasmussen      2021-05-04  1511  
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1512  		/*
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1513  		 * Now that we scanned all vmas we can already tell
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1514  		 * userland which ioctls methods are guaranteed to
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1515  		 * succeed on this range.
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1516  		 */
-14819305e09fe4 Peter Xu            2020-04-06  1517  		if (put_user(ioctls_out, &user_uffdio_register->ioctls))
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1518  			ret = -EFAULT;
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1519  	}
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1520  out:
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1521  	return ret;
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1522  }
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1523  
+20b6cc34ea74b6 Song Liu              2020-10-29   85  
+0f8e4bd8a1fc8c Alexei Starovoitov    2014-11-13  @86  struct bpf_htab {
+0f8e4bd8a1fc8c Alexei Starovoitov    2014-11-13   87  	struct bpf_map map;
+fba1a1c6c912b3 Alexei Starovoitov    2022-09-02   88  	struct bpf_mem_alloc ma;
+ee4ed53c5eb62f Alexei Starovoitov    2022-09-02   89  	struct bpf_mem_alloc pcpu_ma;
+688ecfe6022051 tom.leiming@gmail.com 2015-12-29   90  	struct bucket *buckets;
+6c90598174322b Alexei Starovoitov    2016-03-07   91  	void *elems;
+29ba732acbeece Martin KaFai Lau      2016-11-11   92  	union {
+6c90598174322b Alexei Starovoitov    2016-03-07   93  		struct pcpu_freelist freelist;
+29ba732acbeece Martin KaFai Lau      2016-11-11   94  		struct bpf_lru lru;
+29ba732acbeece Martin KaFai Lau      2016-11-11   95  	};
+8c290e60fa2a51 Alexei Starovoitov    2017-03-21   96  	struct htab_elem *__percpu *extra_elems;
+86fe28f7692d96 Alexei Starovoitov    2022-09-02   97  	/* number of elements in non-preallocated hashtable are kept
+86fe28f7692d96 Alexei Starovoitov    2022-09-02   98  	 * in either pcount or count
+86fe28f7692d96 Alexei Starovoitov    2022-09-02   99  	 */
+86fe28f7692d96 Alexei Starovoitov    2022-09-02  100  	struct percpu_counter pcount;
+86fe28f7692d96 Alexei Starovoitov    2022-09-02  101  	atomic_t count;
+86fe28f7692d96 Alexei Starovoitov    2022-09-02  102  	bool use_percpu_counter;
+0f8e4bd8a1fc8c Alexei Starovoitov    2014-11-13  103  	u32 n_buckets;	/* number of hash buckets */
+0f8e4bd8a1fc8c Alexei Starovoitov    2014-11-13  104  	u32 elem_size;	/* size of each element in bytes */
+c0203475765f82 Daniel Borkmann       2018-08-22  105  	u32 hashrnd;
+c50eb518e262fa Song Liu              2020-10-29  106  	struct lock_class_key lockdep_key;
+20b6cc34ea74b6 Song Liu              2020-10-29  107  	int __percpu *map_locked[HASHTAB_MAP_LOCK_COUNT];
+0f8e4bd8a1fc8c Alexei Starovoitov    2014-11-13  108  };
+0f8e4bd8a1fc8c Alexei Starovoitov    2014-11-13  109  
 
-:::::: The code at line 1367 was first introduced by commit
-:::::: 86039bd3b4e6a1129318cbfed4e0a6e001656635 userfaultfd: add new syscall to provide memory externalization
+:::::: The code at line 86 was first introduced by commit
+:::::: 0f8e4bd8a1fc8c4185f1630061d0a1f2d197a475 bpf: add hashtable type of eBPF maps
 
-:::::: TO: Andrea Arcangeli <aarcange@redhat.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+:::::: TO: Alexei Starovoitov <ast@plumgrid.com>
+:::::: CC: David S. Miller <davem@davemloft.net>
 
 -- 
 0-DAY CI Kernel Test Service
