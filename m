@@ -1,42 +1,42 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BCBF28F4
-	for <oe-kbuild@lists.linux.dev>; Sun, 29 Jan 2023 17:38:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 313072F39
+	for <oe-kbuild@lists.linux.dev>; Sun, 29 Jan 2023 18:50:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675013901; x=1706549901;
+  t=1675018223; x=1706554223;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=YH3g+r2cFYciLlO0nLNCSQsC4zzXrO+aw0Bgoac9HEQ=;
-  b=HwnwJzI80BcvDYUY/0hOzSjbgITqZEiuUPJ+wRq8Am3RUNWjx/xfhCg8
-   U2ZW12jjbL2PEcK88NRWll3Qq7J9nWWoFvayNmyy7wO3iJI+1W3q+a4wg
-   oniXJWPyH35GIzAhhGk1lAZpuEOzMZDCqVR+fCl6Vca++yzvngc9UtJDy
-   dUB4hAu+AsPkDFwAHZ0HMT5qyYXG7VHhuMlLS7j66PmvhPVXljq0QMpUd
-   HhGqJUrGZ7rQC7xhYp581FsiD5sxT6tbtce2pCabxYR5NvSjOALSKhpye
-   lx403ErQr0NpvbPo2wHBNSF2yB7d0MQq8EA+1gz7Ht2u+KLbKNFt91d31
+  bh=64ycVebN5JCNuLowBlIUIP7xCU3fRcB4oLfIj4c3QLU=;
+  b=WfgxorPTO/Pa7ptC49JBwHNGmoueGj6eYwLvXIN4GFVNT+swAMLFr0Xk
+   jagtwmMkxmyNrO+/nKivwhqSieH03xtlhlnKXCYM1z/jybv0EBGxZuY3B
+   e+u5mIr8lz1SLC+dwzp0PfXPSXnBfqiJ+LWJHF4OvX7dDob7aENBApr9o
+   UBPO67zpVhcjGvZh3+yzn2HOYc4gWInCVcPeNTXInRZRnYyMqer/BUmF+
+   5UmE6q3HZEB5tqg+r3WvHWAKT6fS3cVPjZKP7175uS90U53UI7KhpB4/h
+   qG+V1725DR3HUxNejStaRIUXrBjQW2YVVfU4wDp+UrzWKnPCHW8EjnfnF
    g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10605"; a="329542719"
+X-IronPort-AV: E=McAfee;i="6500,9779,10605"; a="413644358"
 X-IronPort-AV: E=Sophos;i="5.97,256,1669104000"; 
-   d="scan'208";a="329542719"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2023 09:38:20 -0800
+   d="scan'208";a="413644358"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2023 10:50:22 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10605"; a="696153875"
+X-IronPort-AV: E=McAfee;i="6500,9779,10605"; a="665840784"
 X-IronPort-AV: E=Sophos;i="5.97,256,1669104000"; 
-   d="scan'208";a="696153875"
+   d="scan'208";a="665840784"
 Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 29 Jan 2023 09:38:19 -0800
+  by fmsmga007.fm.intel.com with ESMTP; 29 Jan 2023 10:50:21 -0800
 Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pMBdC-0002zC-19;
-	Sun, 29 Jan 2023 17:38:18 +0000
-Date: Mon, 30 Jan 2023 01:37:35 +0800
+	id 1pMCku-000322-0x;
+	Sun, 29 Jan 2023 18:50:20 +0000
+Date: Mon, 30 Jan 2023 02:49:54 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: kernel/irq/msi.c:96:16: warning: Local variable 'index' shadows
- outer argument [shadowArgument]
-Message-ID: <202301300150.GKbVOFfh-lkp@intel.com>
+Subject: Re: [PATCH] f2fs: reduce stack memory cost by using bitfield in
+ struct f2fs_io_info
+Message-ID: <202301300256.4XdrZjzc-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -47,87 +47,242 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "low confidence static check warning: kernel/irq/msi.c:96:16: warning: Local variable 'index' shadows outer argument [shadowArgument]"
+:::::: Manual check reason: "low confidence static check warning: fs/f2fs/f2fs.h:1217:24: sparse: sparse: dubious one-bit signed bitfield"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Thomas Gleixner <tglx@linutronix.de>
-CC: Kevin Tian <kevin.tian@intel.com>
+In-Reply-To: <20230129083045.7754-1-chao@kernel.org>
+References: <20230129083045.7754-1-chao@kernel.org>
+TO: Chao Yu <yuchao0@huawei.com>, Chao Yu <chao@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   c96618275234ad03d44eafe9f8844305bb44fda4
-commit: 3d393b21740bffbeeae7d4fa534a6b16c3e3e832 genirq/msi: Provide msi_domain_alloc_irq_at()
-date:   8 weeks ago
-:::::: branch date: 22 hours ago
-:::::: commit date: 8 weeks ago
+Hi Chao,
+
+I love your patch! Perhaps something to improve:
+
+[auto build test WARNING on jaegeuk-f2fs/dev-test]
+[also build test WARNING on jaegeuk-f2fs/dev linus/master v6.2-rc5 next-20230127]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Chao-Yu/f2fs-reduce-stack-memory-cost-by-using-bitfield-in-struct-f2fs_io_info/20230129-220837
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jaegeuk/f2fs.git dev-test
+patch link:    https://lore.kernel.org/r/20230129083045.7754-1-chao%40kernel.org
+patch subject: [PATCH] f2fs: reduce stack memory cost by using bitfield in struct f2fs_io_info
+:::::: branch date: 5 hours ago
+:::::: commit date: 5 hours ago
+config: csky-randconfig-s051-20230129 (https://download.01.org/0day-ci/archive/20230130/202301300256.4XdrZjzc-lkp@intel.com/config)
 compiler: csky-linux-gcc (GCC) 12.1.0
-reproduce (cppcheck warning):
-        # apt-get install cppcheck
-        git checkout 3d393b21740bffbeeae7d4fa534a6b16c3e3e832
-        cppcheck --quiet --enable=style,performance,portability --template=gcc FILE
+reproduce:
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://github.com/intel-lab-lkp/linux/commit/de0eb98b767c053132c5ffc724041551d315f69a
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Chao-Yu/f2fs-reduce-stack-memory-cost-by-using-bitfield-in-struct-f2fs_io_info/20230129-220837
+        git checkout de0eb98b767c053132c5ffc724041551d315f69a
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=csky olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=csky SHELL=/bin/bash fs/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
+sparse warnings: (new ones prefixed by >>)
+   fs/f2fs/dir.c: note: in included file:
+>> fs/f2fs/f2fs.h:1217:24: sparse: sparse: dubious one-bit signed bitfield
+   fs/f2fs/f2fs.h:1218:22: sparse: sparse: dubious one-bit signed bitfield
+   fs/f2fs/f2fs.h:1219:21: sparse: sparse: dubious one-bit signed bitfield
+   fs/f2fs/f2fs.h:1220:20: sparse: sparse: dubious one-bit signed bitfield
+   fs/f2fs/f2fs.h:1221:24: sparse: sparse: dubious one-bit signed bitfield
+   fs/f2fs/f2fs.h:1222:24: sparse: sparse: dubious one-bit signed bitfield
+--
+   fs/f2fs/inode.c: note: in included file:
+>> fs/f2fs/f2fs.h:1217:24: sparse: sparse: dubious one-bit signed bitfield
+   fs/f2fs/f2fs.h:1218:22: sparse: sparse: dubious one-bit signed bitfield
+   fs/f2fs/f2fs.h:1219:21: sparse: sparse: dubious one-bit signed bitfield
+   fs/f2fs/f2fs.h:1220:20: sparse: sparse: dubious one-bit signed bitfield
+   fs/f2fs/f2fs.h:1221:24: sparse: sparse: dubious one-bit signed bitfield
+   fs/f2fs/f2fs.h:1222:24: sparse: sparse: dubious one-bit signed bitfield
+--
+   fs/f2fs/namei.c: note: in included file:
+>> fs/f2fs/f2fs.h:1217:24: sparse: sparse: dubious one-bit signed bitfield
+   fs/f2fs/f2fs.h:1218:22: sparse: sparse: dubious one-bit signed bitfield
+   fs/f2fs/f2fs.h:1219:21: sparse: sparse: dubious one-bit signed bitfield
+   fs/f2fs/f2fs.h:1220:20: sparse: sparse: dubious one-bit signed bitfield
+   fs/f2fs/f2fs.h:1221:24: sparse: sparse: dubious one-bit signed bitfield
+   fs/f2fs/f2fs.h:1222:24: sparse: sparse: dubious one-bit signed bitfield
+--
+   fs/f2fs/file.c: note: in included file:
+>> fs/f2fs/f2fs.h:1217:24: sparse: sparse: dubious one-bit signed bitfield
+   fs/f2fs/f2fs.h:1218:22: sparse: sparse: dubious one-bit signed bitfield
+   fs/f2fs/f2fs.h:1219:21: sparse: sparse: dubious one-bit signed bitfield
+   fs/f2fs/f2fs.h:1220:20: sparse: sparse: dubious one-bit signed bitfield
+   fs/f2fs/f2fs.h:1221:24: sparse: sparse: dubious one-bit signed bitfield
+   fs/f2fs/f2fs.h:1222:24: sparse: sparse: dubious one-bit signed bitfield
+--
+   fs/f2fs/hash.c: note: in included file:
+>> fs/f2fs/f2fs.h:1217:24: sparse: sparse: dubious one-bit signed bitfield
+   fs/f2fs/f2fs.h:1218:22: sparse: sparse: dubious one-bit signed bitfield
+   fs/f2fs/f2fs.h:1219:21: sparse: sparse: dubious one-bit signed bitfield
+   fs/f2fs/f2fs.h:1220:20: sparse: sparse: dubious one-bit signed bitfield
+   fs/f2fs/f2fs.h:1221:24: sparse: sparse: dubious one-bit signed bitfield
+   fs/f2fs/f2fs.h:1222:24: sparse: sparse: dubious one-bit signed bitfield
+--
+   fs/f2fs/inline.c: note: in included file:
+>> fs/f2fs/f2fs.h:1217:24: sparse: sparse: dubious one-bit signed bitfield
+   fs/f2fs/f2fs.h:1218:22: sparse: sparse: dubious one-bit signed bitfield
+   fs/f2fs/f2fs.h:1219:21: sparse: sparse: dubious one-bit signed bitfield
+   fs/f2fs/f2fs.h:1220:20: sparse: sparse: dubious one-bit signed bitfield
+   fs/f2fs/f2fs.h:1221:24: sparse: sparse: dubious one-bit signed bitfield
+   fs/f2fs/f2fs.h:1222:24: sparse: sparse: dubious one-bit signed bitfield
+--
+   fs/f2fs/checkpoint.c: note: in included file:
+>> fs/f2fs/f2fs.h:1217:24: sparse: sparse: dubious one-bit signed bitfield
+   fs/f2fs/f2fs.h:1218:22: sparse: sparse: dubious one-bit signed bitfield
+   fs/f2fs/f2fs.h:1219:21: sparse: sparse: dubious one-bit signed bitfield
+   fs/f2fs/f2fs.h:1220:20: sparse: sparse: dubious one-bit signed bitfield
+   fs/f2fs/f2fs.h:1221:24: sparse: sparse: dubious one-bit signed bitfield
+   fs/f2fs/f2fs.h:1222:24: sparse: sparse: dubious one-bit signed bitfield
+--
+   fs/f2fs/gc.c: note: in included file:
+>> fs/f2fs/f2fs.h:1217:24: sparse: sparse: dubious one-bit signed bitfield
+   fs/f2fs/f2fs.h:1218:22: sparse: sparse: dubious one-bit signed bitfield
+   fs/f2fs/f2fs.h:1219:21: sparse: sparse: dubious one-bit signed bitfield
+   fs/f2fs/f2fs.h:1220:20: sparse: sparse: dubious one-bit signed bitfield
+   fs/f2fs/f2fs.h:1221:24: sparse: sparse: dubious one-bit signed bitfield
+   fs/f2fs/f2fs.h:1222:24: sparse: sparse: dubious one-bit signed bitfield
+--
+   fs/f2fs/shrinker.c: note: in included file:
+>> fs/f2fs/f2fs.h:1217:24: sparse: sparse: dubious one-bit signed bitfield
+   fs/f2fs/f2fs.h:1218:22: sparse: sparse: dubious one-bit signed bitfield
+   fs/f2fs/f2fs.h:1219:21: sparse: sparse: dubious one-bit signed bitfield
+   fs/f2fs/f2fs.h:1220:20: sparse: sparse: dubious one-bit signed bitfield
+   fs/f2fs/f2fs.h:1221:24: sparse: sparse: dubious one-bit signed bitfield
+   fs/f2fs/f2fs.h:1222:24: sparse: sparse: dubious one-bit signed bitfield
+--
+   fs/f2fs/sysfs.c: note: in included file:
+>> fs/f2fs/f2fs.h:1217:24: sparse: sparse: dubious one-bit signed bitfield
+   fs/f2fs/f2fs.h:1218:22: sparse: sparse: dubious one-bit signed bitfield
+   fs/f2fs/f2fs.h:1219:21: sparse: sparse: dubious one-bit signed bitfield
+   fs/f2fs/f2fs.h:1220:20: sparse: sparse: dubious one-bit signed bitfield
+   fs/f2fs/f2fs.h:1221:24: sparse: sparse: dubious one-bit signed bitfield
+   fs/f2fs/f2fs.h:1222:24: sparse: sparse: dubious one-bit signed bitfield
+--
+   fs/f2fs/acl.c: note: in included file:
+>> fs/f2fs/f2fs.h:1217:24: sparse: sparse: dubious one-bit signed bitfield
+   fs/f2fs/f2fs.h:1218:22: sparse: sparse: dubious one-bit signed bitfield
+   fs/f2fs/f2fs.h:1219:21: sparse: sparse: dubious one-bit signed bitfield
+   fs/f2fs/f2fs.h:1220:20: sparse: sparse: dubious one-bit signed bitfield
+   fs/f2fs/f2fs.h:1221:24: sparse: sparse: dubious one-bit signed bitfield
+   fs/f2fs/f2fs.h:1222:24: sparse: sparse: dubious one-bit signed bitfield
+--
+   fs/f2fs/recovery.c: note: in included file:
+>> fs/f2fs/f2fs.h:1217:24: sparse: sparse: dubious one-bit signed bitfield
+   fs/f2fs/f2fs.h:1218:22: sparse: sparse: dubious one-bit signed bitfield
+   fs/f2fs/f2fs.h:1219:21: sparse: sparse: dubious one-bit signed bitfield
+   fs/f2fs/f2fs.h:1220:20: sparse: sparse: dubious one-bit signed bitfield
+   fs/f2fs/f2fs.h:1221:24: sparse: sparse: dubious one-bit signed bitfield
+   fs/f2fs/f2fs.h:1222:24: sparse: sparse: dubious one-bit signed bitfield
+--
+   fs/f2fs/debug.c: note: in included file:
+>> fs/f2fs/f2fs.h:1217:24: sparse: sparse: dubious one-bit signed bitfield
+   fs/f2fs/f2fs.h:1218:22: sparse: sparse: dubious one-bit signed bitfield
+   fs/f2fs/f2fs.h:1219:21: sparse: sparse: dubious one-bit signed bitfield
+   fs/f2fs/f2fs.h:1220:20: sparse: sparse: dubious one-bit signed bitfield
+   fs/f2fs/f2fs.h:1221:24: sparse: sparse: dubious one-bit signed bitfield
+   fs/f2fs/f2fs.h:1222:24: sparse: sparse: dubious one-bit signed bitfield
+--
+   fs/f2fs/extent_cache.c: note: in included file:
+>> fs/f2fs/f2fs.h:1217:24: sparse: sparse: dubious one-bit signed bitfield
+   fs/f2fs/f2fs.h:1218:22: sparse: sparse: dubious one-bit signed bitfield
+   fs/f2fs/f2fs.h:1219:21: sparse: sparse: dubious one-bit signed bitfield
+   fs/f2fs/f2fs.h:1220:20: sparse: sparse: dubious one-bit signed bitfield
+   fs/f2fs/f2fs.h:1221:24: sparse: sparse: dubious one-bit signed bitfield
+   fs/f2fs/f2fs.h:1222:24: sparse: sparse: dubious one-bit signed bitfield
+--
+   fs/f2fs/xattr.c: note: in included file:
+>> fs/f2fs/f2fs.h:1217:24: sparse: sparse: dubious one-bit signed bitfield
+   fs/f2fs/f2fs.h:1218:22: sparse: sparse: dubious one-bit signed bitfield
+   fs/f2fs/f2fs.h:1219:21: sparse: sparse: dubious one-bit signed bitfield
+   fs/f2fs/f2fs.h:1220:20: sparse: sparse: dubious one-bit signed bitfield
+   fs/f2fs/f2fs.h:1221:24: sparse: sparse: dubious one-bit signed bitfield
+   fs/f2fs/f2fs.h:1222:24: sparse: sparse: dubious one-bit signed bitfield
+--
+   fs/f2fs/node.c: note: in included file:
+>> fs/f2fs/f2fs.h:1217:24: sparse: sparse: dubious one-bit signed bitfield
+   fs/f2fs/f2fs.h:1218:22: sparse: sparse: dubious one-bit signed bitfield
+   fs/f2fs/f2fs.h:1219:21: sparse: sparse: dubious one-bit signed bitfield
+   fs/f2fs/f2fs.h:1220:20: sparse: sparse: dubious one-bit signed bitfield
+   fs/f2fs/f2fs.h:1221:24: sparse: sparse: dubious one-bit signed bitfield
+   fs/f2fs/f2fs.h:1222:24: sparse: sparse: dubious one-bit signed bitfield
+--
+   fs/f2fs/super.c: note: in included file:
+>> fs/f2fs/f2fs.h:1217:24: sparse: sparse: dubious one-bit signed bitfield
+   fs/f2fs/f2fs.h:1218:22: sparse: sparse: dubious one-bit signed bitfield
+   fs/f2fs/f2fs.h:1219:21: sparse: sparse: dubious one-bit signed bitfield
+   fs/f2fs/f2fs.h:1220:20: sparse: sparse: dubious one-bit signed bitfield
+   fs/f2fs/f2fs.h:1221:24: sparse: sparse: dubious one-bit signed bitfield
+   fs/f2fs/f2fs.h:1222:24: sparse: sparse: dubious one-bit signed bitfield
+--
+   fs/f2fs/compress.c: note: in included file:
+>> fs/f2fs/f2fs.h:1217:24: sparse: sparse: dubious one-bit signed bitfield
+   fs/f2fs/f2fs.h:1218:22: sparse: sparse: dubious one-bit signed bitfield
+   fs/f2fs/f2fs.h:1219:21: sparse: sparse: dubious one-bit signed bitfield
+   fs/f2fs/f2fs.h:1220:20: sparse: sparse: dubious one-bit signed bitfield
+   fs/f2fs/f2fs.h:1221:24: sparse: sparse: dubious one-bit signed bitfield
+   fs/f2fs/f2fs.h:1222:24: sparse: sparse: dubious one-bit signed bitfield
+--
+   fs/f2fs/data.c: note: in included file:
+>> fs/f2fs/f2fs.h:1217:24: sparse: sparse: dubious one-bit signed bitfield
+   fs/f2fs/f2fs.h:1218:22: sparse: sparse: dubious one-bit signed bitfield
+   fs/f2fs/f2fs.h:1219:21: sparse: sparse: dubious one-bit signed bitfield
+   fs/f2fs/f2fs.h:1220:20: sparse: sparse: dubious one-bit signed bitfield
+   fs/f2fs/f2fs.h:1221:24: sparse: sparse: dubious one-bit signed bitfield
+   fs/f2fs/f2fs.h:1222:24: sparse: sparse: dubious one-bit signed bitfield
+--
+   fs/f2fs/segment.c: note: in included file:
+>> fs/f2fs/f2fs.h:1217:24: sparse: sparse: dubious one-bit signed bitfield
+   fs/f2fs/f2fs.h:1218:22: sparse: sparse: dubious one-bit signed bitfield
+   fs/f2fs/f2fs.h:1219:21: sparse: sparse: dubious one-bit signed bitfield
+   fs/f2fs/f2fs.h:1220:20: sparse: sparse: dubious one-bit signed bitfield
+   fs/f2fs/f2fs.h:1221:24: sparse: sparse: dubious one-bit signed bitfield
+   fs/f2fs/f2fs.h:1222:24: sparse: sparse: dubious one-bit signed bitfield
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+vim +1217 fs/f2fs/f2fs.h
 
->> kernel/irq/msi.c:96:16: warning: Local variable 'index' shadows outer argument [shadowArgument]
-     unsigned int index;
-                  ^
-   kernel/irq/msi.c:85:40: note: Shadowed declaration
-         unsigned int domid, unsigned int index)
-                                          ^
-   kernel/irq/msi.c:96:16: note: Shadow variable
-     unsigned int index;
-                  ^
->> kernel/irq/msi.c:1445:39: warning: Parameter 'icookie' can be declared as pointer to const [constParameter]
-              union msi_instance_cookie *icookie)
-                                         ^
-
-vim +/index +96 kernel/irq/msi.c
-
-aa48b6f708868a Jiang Liu       2015-07-09   83  
-36db3d9003ea85 Thomas Gleixner 2022-11-25   84  static int msi_insert_desc(struct device *dev, struct msi_desc *desc,
-fc8ab388325ddf Thomas Gleixner 2022-11-25   85  			   unsigned int domid, unsigned int index)
-cd6cf06590b979 Thomas Gleixner 2021-12-06   86  {
-36db3d9003ea85 Thomas Gleixner 2022-11-25   87  	struct msi_device_data *md = dev->msi.data;
-fc8ab388325ddf Thomas Gleixner 2022-11-25   88  	struct xarray *xa = &md->__domains[domid].store;
-36db3d9003ea85 Thomas Gleixner 2022-11-25   89  	unsigned int hwsize;
-cd6cf06590b979 Thomas Gleixner 2021-12-06   90  	int ret;
-cd6cf06590b979 Thomas Gleixner 2021-12-06   91  
-36db3d9003ea85 Thomas Gleixner 2022-11-25   92  	hwsize = msi_domain_get_hwsize(dev, domid);
-3d393b21740bff Thomas Gleixner 2022-11-25   93  
-3d393b21740bff Thomas Gleixner 2022-11-25   94  	if (index == MSI_ANY_INDEX) {
-3d393b21740bff Thomas Gleixner 2022-11-25   95  		struct xa_limit limit = { .min = 0, .max = hwsize - 1 };
-3d393b21740bff Thomas Gleixner 2022-11-25  @96  		unsigned int index;
-3d393b21740bff Thomas Gleixner 2022-11-25   97  
-3d393b21740bff Thomas Gleixner 2022-11-25   98  		/* Let the xarray allocate a free index within the limit */
-3d393b21740bff Thomas Gleixner 2022-11-25   99  		ret = xa_alloc(xa, &index, desc, limit, GFP_KERNEL);
-3d393b21740bff Thomas Gleixner 2022-11-25  100  		if (ret)
-3d393b21740bff Thomas Gleixner 2022-11-25  101  			goto fail;
-3d393b21740bff Thomas Gleixner 2022-11-25  102  
-3d393b21740bff Thomas Gleixner 2022-11-25  103  		desc->msi_index = index;
-3d393b21740bff Thomas Gleixner 2022-11-25  104  		return 0;
-3d393b21740bff Thomas Gleixner 2022-11-25  105  	} else {
-36db3d9003ea85 Thomas Gleixner 2022-11-25  106  		if (index >= hwsize) {
-36db3d9003ea85 Thomas Gleixner 2022-11-25  107  			ret = -ERANGE;
-36db3d9003ea85 Thomas Gleixner 2022-11-25  108  			goto fail;
-36db3d9003ea85 Thomas Gleixner 2022-11-25  109  		}
-36db3d9003ea85 Thomas Gleixner 2022-11-25  110  
-cd6cf06590b979 Thomas Gleixner 2021-12-06  111  		desc->msi_index = index;
-f1139f905bd2d8 Thomas Gleixner 2022-11-25  112  		ret = xa_insert(xa, index, desc, GFP_KERNEL);
-cd6cf06590b979 Thomas Gleixner 2021-12-06  113  		if (ret)
-36db3d9003ea85 Thomas Gleixner 2022-11-25  114  			goto fail;
-36db3d9003ea85 Thomas Gleixner 2022-11-25  115  		return 0;
-3d393b21740bff Thomas Gleixner 2022-11-25  116  	}
-36db3d9003ea85 Thomas Gleixner 2022-11-25  117  fail:
-cd6cf06590b979 Thomas Gleixner 2021-12-06  118  	msi_free_desc(desc);
-cd6cf06590b979 Thomas Gleixner 2021-12-06  119  	return ret;
-cd6cf06590b979 Thomas Gleixner 2021-12-06  120  }
-cd6cf06590b979 Thomas Gleixner 2021-12-06  121  
+b0af6d491a6b5f Chao Yu         2017-08-02  1200  
+458e6197c37de5 Jaegeuk Kim     2013-12-11  1201  struct f2fs_io_info {
+05ca3632e5a73b Jaegeuk Kim     2015-04-23  1202  	struct f2fs_sb_info *sbi;	/* f2fs_sb_info pointer */
+39d787bec4f792 Chao Yu         2017-09-29  1203  	nid_t ino;		/* inode number */
+458e6197c37de5 Jaegeuk Kim     2013-12-11  1204  	enum page_type type;	/* contains DATA/NODE/META/META_FLUSH */
+a912b54d3aaa01 Jaegeuk Kim     2017-05-10  1205  	enum temp_type temp;	/* contains HOT/WARM/COLD */
+7649c873c16a38 Bart Van Assche 2022-07-14  1206  	enum req_op op;		/* contains REQ_OP_ */
+7649c873c16a38 Bart Van Assche 2022-07-14  1207  	blk_opf_t op_flags;	/* req_flag_bits */
+7a9d75481b85d5 Chao Yu         2016-02-22  1208  	block_t new_blkaddr;	/* new block address to be written */
+28bc106b2346a7 Chao Yu         2016-02-06  1209  	block_t old_blkaddr;	/* old block address before Cow */
+05ca3632e5a73b Jaegeuk Kim     2015-04-23  1210  	struct page *page;	/* page to be written */
+4375a33664de17 Jaegeuk Kim     2015-04-23  1211  	struct page *encrypted_page;	/* encrypted page */
+4c8ff7095bef64 Chao Yu         2019-11-01  1212  	struct page *compressed_page;	/* compressed page */
+fb830fc5cfc90b Chao Yu         2017-05-19  1213  	struct list_head list;		/* serialize IOs */
+4c8ff7095bef64 Chao Yu         2019-11-01  1214  	int compr_blocks;	/* # of compressed block addresses */
+de0eb98b767c05 Chao Yu         2023-01-29  1215  	int need_lock:8;	/* indicate we need to lock cp_rwsem */
+de0eb98b767c05 Chao Yu         2023-01-29  1216  	int version:8;		/* version of the node */
+de0eb98b767c05 Chao Yu         2023-01-29 @1217  	int submitted:1;	/* indicate IO submission */
+de0eb98b767c05 Chao Yu         2023-01-29  1218  	int in_list:1;		/* indicate fio is in io_list */
+de0eb98b767c05 Chao Yu         2023-01-29  1219  	int is_por:1;		/* indicate IO is from recovery or not */
+de0eb98b767c05 Chao Yu         2023-01-29  1220  	int retry:1;		/* need to reallocate block address */
+de0eb98b767c05 Chao Yu         2023-01-29  1221  	int encrypted:1;	/* indicate file is encrypted */
+de0eb98b767c05 Chao Yu         2023-01-29  1222  	int post_read:1;	/* require post read */
+b0af6d491a6b5f Chao Yu         2017-08-02  1223  	enum iostat_type io_type;	/* io type */
+578c647879f74c Yufen Yu        2018-01-09  1224  	struct writeback_control *io_wbc; /* writeback control */
+8648de2c581eed Chao Yu         2019-02-19  1225  	struct bio **bio;		/* bio for ipu */
+8648de2c581eed Chao Yu         2019-02-19  1226  	sector_t *last_block;		/* last block number in bio */
+458e6197c37de5 Jaegeuk Kim     2013-12-11  1227  };
+458e6197c37de5 Jaegeuk Kim     2013-12-11  1228  
 
 -- 
 0-DAY CI Kernel Test Service
