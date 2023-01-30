@@ -1,43 +1,42 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98AFC160
-	for <oe-kbuild@lists.linux.dev>; Mon, 30 Jan 2023 00:19:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90234378
+	for <oe-kbuild@lists.linux.dev>; Mon, 30 Jan 2023 01:30:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675037952; x=1706573952;
+  t=1675042227; x=1706578227;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=tK5hyCZYxmPtXwRsM/Ma4bM1X+C/al46uMhVpHyRmss=;
-  b=a3AKASLKCmoadUTaXNDSu/IlPQQsZ9hV9u7cTYPcZM2z7g9oPWEuZQf3
-   +pTmsY+shw8IAv9QHk4rqV/tdBSkqmlUUB0zK612qxeDAa9mv8Oxg2aqy
-   2lNHH/2AiLsmHv/fS+wFx9gHtV1Vpvrz3IMaRUJT0iPamKFeXIzcnZJ2/
-   O/6wQEFxiIfLHzvRTortqnDBh3p2PhQzMiCjhOYZIqDQBQPor00AFTQat
-   H4kH799lvzSzmccG51mYjAeS/e8Ot1h5pzoiSGE8AONlyB+Ad9vRHpifj
-   r30wYaficbv7on1pNUlDxhI0GcOIA68EUmTM6d+sQ+CRJSQ4ydwptSbMG
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10605"; a="307793000"
+  bh=kKUFVJtRDv5DkZMlaBlnUpGLz7ZdtEX1NNk97QgOgyA=;
+  b=BwMzy7zFCetGpHTBGsE0j8ZwkVC1/5UBpMDXTP0bWBl9c0Z1fYopb7wY
+   BZv2/9GnKsHZ65ASpSXLd/Jzk+1DQt1CqsxoNprOy1FxCEbUuVbz+wI7B
+   Amywnzg8KYKzHftgyQaUsRuHoerv/OA9tl6HnG82SJJlCjEVhtj8g+DtP
+   ePWSKzLdmZVmpnszDu+Qa1/yx0TAELfMj+MtrZASwquDcUvp9TDfv8JaO
+   BncBMjaFRG/BhJM7WO9L1k01XBghcIvve1urhtSxVVkX+OQPinbY/3QSk
+   y3jQitTHKomJCmpXdBKkxi9AviMllK7fsUgzRjLwl0+rz7FzgQs2iKxhN
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10605"; a="329578285"
 X-IronPort-AV: E=Sophos;i="5.97,256,1669104000"; 
-   d="scan'208";a="307793000"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2023 16:19:12 -0800
+   d="scan'208";a="329578285"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2023 17:30:26 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10605"; a="772289111"
+X-IronPort-AV: E=McAfee;i="6500,9779,10605"; a="663927140"
 X-IronPort-AV: E=Sophos;i="5.97,256,1669104000"; 
-   d="scan'208";a="772289111"
+   d="scan'208";a="663927140"
 Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 29 Jan 2023 16:19:10 -0800
+  by orsmga002.jf.intel.com with ESMTP; 29 Jan 2023 17:30:24 -0800
 Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pMHt7-0003CY-1x;
-	Mon, 30 Jan 2023 00:19:09 +0000
-Date: Mon, 30 Jan 2023 08:18:43 +0800
+	id 1pMJ03-0003Ey-0R;
+	Mon, 30 Jan 2023 01:30:23 +0000
+Date: Mon, 30 Jan 2023 09:29:52 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: drivers/staging/media/meson/vdec/codec_vp9.c:1688:4: warning: Value
- stored to 'coef_node_start' is never read
- [clang-analyzer-deadcode.DeadStores]
-Message-ID: <202301300815.z9RQ9gDG-lkp@intel.com>
+Subject: include/linux/fortify-string.h:45:33: warning: use of NULL 'format'
+ where non-null expected [CWE-476]
+Message-ID: <202301300912.FbKkYLtB-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -48,789 +47,1651 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "low confidence static check warning: drivers/staging/media/meson/vdec/codec_vp9.c:1688:4: warning: Value stored to 'coef_node_start' is never read [clang-analyzer-deadcode.DeadStores]"
+:::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "low confidence static check first_new_problem: include/linux/fortify-string.h:45:33: warning: use of NULL 'format' where non-null expected [CWE-476] [-Wanalyzer-null-argument]"
 :::::: 
 
 BCC: lkp@intel.com
-CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Hans Verkuil <hverkuil@xs4all.nl>
+TO: Sakari Ailus <sakari.ailus@linux.intel.com>
+CC: Mauro Carvalho Chehab <mchehab@kernel.org>
+CC: linux-media@vger.kernel.org
+CC: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   6d796c50f84ca79f1722bb131799e5a5710c4700
-commit: 5e1a33759a57b5c075187b6f12f0f57c964ed1c4 media: meson/vdec: always init coef_node_start
-date:   3 months ago
-:::::: branch date: 2 hours ago
-:::::: commit date: 3 months ago
-config: arm-randconfig-c002-20230128 (https://download.01.org/0day-ci/archive/20230130/202301300815.z9RQ9gDG-lkp@intel.com/config)
-compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 4196ca3278f78c6e19246e54ab0ecb364e37d66a)
+commit: 2ba3e38517f5a4ebf9c997168079dca01b7f9fc6 media: v4l: subdev: Fail graciously when getting try data for NULL state
+date:   4 months ago
+:::::: branch date: 3 hours ago
+:::::: commit date: 4 months ago
+config: arm-randconfig-c002-20230128 (https://download.01.org/0day-ci/archive/20230130/202301300912.FbKkYLtB-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=5e1a33759a57b5c075187b6f12f0f57c964ed1c4
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=2ba3e38517f5a4ebf9c997168079dca01b7f9fc6
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout 5e1a33759a57b5c075187b6f12f0f57c964ed1c4
+        git checkout 2ba3e38517f5a4ebf9c997168079dca01b7f9fc6
         # save the config file
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=arm clang-analyzer  olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=arm clang-analyzer 
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross ARCH=arm KBUILD_USERCFLAGS='-fanalyzer -Wno-error'  olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross ARCH=arm KBUILD_USERCFLAGS='-fanalyzer -Wno-error' 
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-clang_analyzer warnings: (new ones prefixed by >>)
-               ^~~~
-   drivers/staging/media/meson/vdec/codec_vp9.c:2087:2: note: Taking false branch
-           if (!vp9)
-           ^
-   drivers/staging/media/meson/vdec/codec_vp9.c:2091:6: note: Assuming 'dec_status' is equal to VP9_HEAD_PARSER_DONE
-           if (dec_status != VP9_HEAD_PARSER_DONE) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/media/meson/vdec/codec_vp9.c:2091:2: note: Taking false branch
-           if (dec_status != VP9_HEAD_PARSER_DONE) {
-           ^
-   drivers/staging/media/meson/vdec/codec_vp9.c:2098:2: note: Taking false branch
-           pr_debug("ISR: %08X;%08X\n", dec_status, prob_status);
-           ^
-   include/linux/printk.h:587:2: note: expanded from macro 'pr_debug'
-           no_printk(KERN_DEBUG pr_fmt(fmt), ##__VA_ARGS__)
-           ^
-   include/linux/printk.h:130:2: note: expanded from macro 'no_printk'
-           if (0)                                          \
-           ^
-   drivers/staging/media/meson/vdec/codec_vp9.c:2101:6: note: Assuming the condition is false
-           if ((prob_status & 0xff) == 0xfd && vp9->cur_frame) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/media/meson/vdec/codec_vp9.c:2101:35: note: Left side of '&&' is false
-           if ((prob_status & 0xff) == 0xfd && vp9->cur_frame) {
-                                            ^
-   drivers/staging/media/meson/vdec/codec_vp9.c:2126:2: note: Loop condition is true.  Entering loop body
-           for (i = 0; i < REFS_PER_FRAME ; ++i)
-           ^
-   drivers/staging/media/meson/vdec/codec_vp9.c:2126:2: note: Loop condition is true.  Entering loop body
-   drivers/staging/media/meson/vdec/codec_vp9.c:2126:2: note: Loop condition is true.  Entering loop body
-   drivers/staging/media/meson/vdec/codec_vp9.c:2126:2: note: Loop condition is false. Execution continues on line 2129
-   drivers/staging/media/meson/vdec/codec_vp9.c:2133:2: note: Taking false branch
-           if (codec_vp9_process_rpm(vp9)) {
-           ^
-   drivers/staging/media/meson/vdec/codec_vp9.c:2150:2: note: Calling 'codec_vp9_process_frame'
-           codec_vp9_process_frame(sess);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/media/meson/vdec/codec_vp9.c:1266:6: note: Assuming field 'show_frame' is 0
-           if (!param->p.show_frame)
-               ^~~~~~~~~~~~~~~~~~~~
-   drivers/staging/media/meson/vdec/codec_vp9.c:1266:2: note: Taking true branch
-           if (!param->p.show_frame)
-           ^
-   drivers/staging/media/meson/vdec/codec_vp9.c:1267:3: note: Calling 'codec_vp9_rm_noshow_frame'
-                   codec_vp9_rm_noshow_frame(sess);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/media/meson/vdec/codec_vp9.c:1246:2: note: Loop condition is true.  Entering loop body
-           list_for_each_entry(tmp, &vp9->ref_frames_list, list) {
-           ^
-   include/linux/list.h:674:2: note: expanded from macro 'list_for_each_entry'
-           for (pos = list_first_entry(head, typeof(*pos), member);        \
-           ^
-   drivers/staging/media/meson/vdec/codec_vp9.c:1247:7: note: Assuming field 'show' is 0
-                   if (tmp->show)
-                       ^~~~~~~~~
-   drivers/staging/media/meson/vdec/codec_vp9.c:1247:3: note: Taking false branch
-                   if (tmp->show)
-                   ^
-   drivers/staging/media/meson/vdec/codec_vp9.c:1250:3: note: Taking false branch
-                   pr_debug("rm noshow: %u\n", tmp->index);
-                   ^
-   include/linux/printk.h:587:2: note: expanded from macro 'pr_debug'
-           no_printk(KERN_DEBUG pr_fmt(fmt), ##__VA_ARGS__)
-           ^
-   include/linux/printk.h:130:2: note: expanded from macro 'no_printk'
-           if (0)                                          \
-           ^
-   drivers/staging/media/meson/vdec/codec_vp9.c:1253:3: note: Memory is released
-                   kfree(tmp);
-                   ^~~~~~~~~~
-   drivers/staging/media/meson/vdec/codec_vp9.c:1267:3: note: Returning; memory was released
-                   codec_vp9_rm_noshow_frame(sess);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/media/meson/vdec/codec_vp9.c:1270:12: note: Field 'cur_frame' is null
-           if (!vp9->cur_frame)
-                     ^
-   drivers/staging/media/meson/vdec/codec_vp9.c:1270:2: note: Taking true branch
-           if (!vp9->cur_frame)
-           ^
-   drivers/staging/media/meson/vdec/codec_vp9.c:2150:2: note: Returning; memory was released
-           codec_vp9_process_frame(sess);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/media/meson/vdec/codec_vp9.c:2151:2: note: Calling 'codec_vp9_show_frame'
-           codec_vp9_show_frame(sess);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/media/meson/vdec/codec_vp9.c:1422:2: note: Use of memory after it is freed
-           list_for_each_entry_safe(tmp, n, &vp9->ref_frames_list, list) {
-           ^
-   include/linux/list.h:762:7: note: expanded from macro 'list_for_each_entry_safe'
-                   n = list_next_entry(pos, member);                       \
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/list.h:564:2: note: expanded from macro 'list_next_entry'
-           list_entry((pos)->member.next, typeof(*(pos)), member)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/list.h:520:2: note: expanded from macro 'list_entry'
-           container_of(ptr, type, member)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/container_of.h:18:25: note: expanded from macro 'container_of'
-           void *__mptr = (void *)(ptr);                                   \
-                                  ^~~~~
->> drivers/staging/media/meson/vdec/codec_vp9.c:1688:4: warning: Value stored to 'coef_node_start' is never read [clang-analyzer-deadcode.DeadStores]
-                           coef_node_start = coef_node_start + 1;
-                           ^                 ~~~~~~~~~~~~~~~~~~~
-   drivers/staging/media/meson/vdec/codec_vp9.c:1688:4: note: Value stored to 'coef_node_start' is never read
-                           coef_node_start = coef_node_start + 1;
-                           ^                 ~~~~~~~~~~~~~~~~~~~
-   Suppressed 4 warnings (3 in non-user code, 1 with check filters).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   drivers/of/device.c:59:29: warning: Value stored to 'of_node' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct device_node *node, *of_node = dev->of_node;
-                                      ^~~~~~~   ~~~~~~~~~~~~
-   drivers/of/device.c:59:29: note: Value stored to 'of_node' during its initialization is never read
-           struct device_node *node, *of_node = dev->of_node;
-                                      ^~~~~~~   ~~~~~~~~~~~~
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (3 in non-user code, 1 with check filters).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (3 in non-user code, 1 with check filters).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+gcc_analyzer warnings: (new ones prefixed by >>)
+   In file included from include/linux/string.h:253,
+                    from include/linux/bitmap.h:11,
+                    from include/linux/cpumask.h:12,
+                    from include/linux/smp.h:13,
+                    from include/linux/lockdep.h:14,
+                    from include/linux/rcupdate.h:29,
+                    from include/linux/rculist.h:11,
+                    from include/linux/pid.h:5,
+                    from include/linux/sched.h:14,
+                    from include/linux/delay.h:23,
+                    from drivers/staging/media/omap4iss/iss_csi2.c:10:
+   drivers/staging/media/omap4iss/iss_csi2.c: In function 'csi2_try_format':
+>> include/linux/fortify-string.h:45:33: warning: use of NULL 'format' where non-null expected [CWE-476] [-Wanalyzer-null-argument]
+      45 | #define __underlying_memcpy     __builtin_memcpy
+         |                                 ^
+   include/linux/fortify-string.h:378:9: note: in expansion of macro '__underlying_memcpy'
+     378 |         __underlying_##op(p, q, __fortify_size);                        \
+         |         ^~~~~~~~~~~~~
+   include/linux/fortify-string.h:385:26: note: in expansion of macro '__fortify_memcpy_chk'
+     385 | #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+         |                          ^~~~~~~~~~~~~~~~~~~~
+   drivers/staging/media/omap4iss/iss_csi2.c:874:17: note: in expansion of macro 'memcpy'
+     874 |                 memcpy(fmt, format, sizeof(*fmt));
+         |                 ^~~~~~
+     'csi2_enum_frame_size': events 1-4
+       |
+       |  935 | static int csi2_enum_frame_size(struct v4l2_subdev *sd,
+       |      |            ^~~~~~~~~~~~~~~~~~~~
+       |      |            |
+       |      |            (1) entry to 'csi2_enum_frame_size'
+       |......
+       |  942 |         if (fse->index != 0)
+       |      |            ~
+       |      |            |
+       |      |            (2) following 'false' branch...
+       |......
+       |  945 |         format.code = fse->code;
+       |      |                       ~~~~~~~~~
+       |      |                          |
+       |      |                          (3) ...to here
+       |......
+       |  948 |         csi2_try_format(csi2, sd_state, fse->pad, &format, fse->which);
+       |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |         |
+       |      |         (4) calling 'csi2_try_format' from 'csi2_enum_frame_size'
+       |
+       +--> 'csi2_try_format': events 5-8
+              |
+              |  840 | csi2_try_format(struct iss_csi2_device *csi2,
+              |      | ^~~~~~~~~~~~~~~
+              |      | |
+              |      | (5) entry to 'csi2_try_format'
+              |......
+              |  851 |         switch (pad) {
+              |      |         ~~~~~~
+              |      |         |
+              |      |         (6) following 'case 1:' branch...
+              |......
+              |  867 |         case CSI2_PAD_SOURCE:
+              |      |         ~~~~
+              |      |         |
+              |      |         (7) ...to here
+              |......
+              |  872 |                 format = __csi2_get_format(csi2, sd_state, CSI2_PAD_SINK,
+              |      |                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |                          |
+              |      |                          (8) calling '__csi2_get_format' from 'csi2_try_format'
+              |  873 |                                            which);
+              |      |                                            ~~~~~~
+              |
+              +--> '__csi2_get_format': events 9-10
+                     |
+                     |  827 | __csi2_get_format(struct iss_csi2_device *csi2,
+                     |      | ^~~~~~~~~~~~~~~~~
+                     |      | |
+                     |      | (9) entry to '__csi2_get_format'
+                     |......
+                     |  832 |         if (which == V4L2_SUBDEV_FORMAT_TRY)
+                     |      |            ~
+                     |      |            |
+                     |      |            (10) following 'true' branch (when 'which == 0')...
+                     |
+                   '__csi2_get_format': event 11
+                     |
+                     |include/media/v4l2-subdev.h:1101:9:
+                     | 1101 |         v4l2_subdev_get_pad_format(sd, state, pad)
+                     |      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                     |      |         |
+                     |      |         (11) ...to here
+   drivers/staging/media/omap4iss/iss_csi2.c:833:24: note: in expansion of macro 'v4l2_subdev_get_try_format'
+                     |  833 |                 return v4l2_subdev_get_try_format(&csi2->subdev, sd_state,
+                     |      |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~
+                     |
+                   '__csi2_get_format': event 12
+                     |
+                     |include/media/v4l2-subdev.h:1101:9:
+                     | 1101 |         v4l2_subdev_get_pad_format(sd, state, pad)
+                     |      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                     |      |         |
+                     |      |         (12) calling 'v4l2_subdev_get_pad_format' from '__csi2_get_format'
+   drivers/staging/media/omap4iss/iss_csi2.c:833:24: note: in expansion of macro 'v4l2_subdev_get_try_format'
+                     |  833 |                 return v4l2_subdev_get_try_format(&csi2->subdev, sd_state,
+                     |      |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~
+                     |
+                     +--> 'v4l2_subdev_get_pad_format': events 13-14
+                            |
+                            |include/media/v4l2-subdev.h:1045:1:
+                            | 1045 | v4l2_subdev_get_pad_format(struct v4l2_subdev *sd,
+                            |      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+                            |      | |
+                            |      | (13) entry to 'v4l2_subdev_get_pad_format'
+                            |......
+                            | 1049 |         if (WARN_ON(!state))
+                            |      |            ~
+                            |      |            |
+                            |      |            (14) following 'true' branch...
+                            |
+                          'v4l2_subdev_get_pad_format': event 15
+                            |
+                            |cc1:
+                            | (15): ...to here
+                            |
+                     <------+
+                     |
+                   '__csi2_get_format': event 16
+                     |
+                     | 1101 |         v4l2_subdev_get_pad_format(sd, state, pad)
+                     |      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                     |      |         |
+                     |      |         (16) returning to '__csi2_get_format' from 'v4l2_subdev_get_pad_format'
+   drivers/staging/media/omap4iss/iss_csi2.c:833:24: note: in expansion of macro 'v4l2_subdev_get_try_format'
+                     |  833 |                 return v4l2_subdev_get_try_format(&csi2->subdev, sd_state,
+                     |      |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~
+                     |
+              <------+
+              |
+            'csi2_try_format': event 17
+              |
+              |  872 |                 format = __csi2_get_format(csi2, sd_state, CSI2_PAD_SINK,
+              |      |                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |                          |
+              |      |                          (17) returning to 'csi2_try_format' from '__csi2_get_format'
+              |  873 |                                            which);
+              |      |                                            ~~~~~~
+              |
+            'csi2_try_format': event 18
+              |
+              |include/linux/fortify-string.h:45:33:
+              |   45 | #define __underlying_memcpy     __builtin_memcpy
+              |      |                                 ^
+              |      |                                 |
+              |      |                                 (18) argument 2 ('format') NULL where non-null expected
+   include/linux/fortify-string.h:378:9: note: in expansion of macro '__underlying_memcpy'
+              |  378 |         __underlying_##op(p, q, __fortify_size);                        \
+              |      |         ^~~~~~~~~~~~~
+   include/linux/fortify-string.h:385:26: note: in expansion of macro '__fortify_memcpy_chk'
+              |  385 | #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+              |      |                          ^~~~~~~~~~~~~~~~~~~~
+   drivers/staging/media/omap4iss/iss_csi2.c:874:17: note: in expansion of macro 'memcpy'
+              |  874 |                 memcpy(fmt, format, sizeof(*fmt));
+              |      |                 ^~~~~~
+              |
+   <built-in>: note: argument 2 of '__builtin_memcpy' must be non-null
+>> include/linux/fortify-string.h:45:33: warning: use of NULL 'fmt' where non-null expected [CWE-476] [-Wanalyzer-null-argument]
+      45 | #define __underlying_memcpy     __builtin_memcpy
+         |                                 ^
+   include/linux/fortify-string.h:378:9: note: in expansion of macro '__underlying_memcpy'
+     378 |         __underlying_##op(p, q, __fortify_size);                        \
+         |         ^~~~~~~~~~~~~
+   include/linux/fortify-string.h:385:26: note: in expansion of macro '__fortify_memcpy_chk'
+     385 | #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+         |                          ^~~~~~~~~~~~~~~~~~~~
+   drivers/staging/media/omap4iss/iss_csi2.c:874:17: note: in expansion of macro 'memcpy'
+     874 |                 memcpy(fmt, format, sizeof(*fmt));
+         |                 ^~~~~~
+     'csi2_set_format': events 1-6
+       |
+       |  994 | static int csi2_set_format(struct v4l2_subdev *sd,
+       |      |            ^~~~~~~~~~~~~~~
+       |      |            |
+       |      |            (1) entry to 'csi2_set_format'
+       |......
+       | 1002 |         if (!format)
+       |      |            ~
+       |      |            |
+       |      |            (2) following 'false' branch (when 'format' is non-NULL)...
+       |......
+       | 1005 |         csi2_try_format(csi2, sd_state, fmt->pad, &fmt->format, fmt->which);
+       |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |         |
+       |      |         (3) ...to here
+       |......
+       | 1009 |         if (fmt->pad == CSI2_PAD_SINK) {
+       |      |            ~
+       |      |            |
+       |      |            (4) following 'true' branch...
+       | 1010 |                 format = __csi2_get_format(csi2, sd_state, CSI2_PAD_SOURCE,
+       |      |                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |                          |
+       |      |                          (6) calling '__csi2_get_format' from 'csi2_set_format'
+       | 1011 |                                            fmt->which);
+       |      |                                            ~~~~~~~~~~~
+       |      |                                               |
+       |      |                                               (5) ...to here
+       |
+       +--> '__csi2_get_format': events 7-8
+              |
+              |  827 | __csi2_get_format(struct iss_csi2_device *csi2,
+              |      | ^~~~~~~~~~~~~~~~~
+              |      | |
+              |      | (7) entry to '__csi2_get_format'
+              |......
+              |  832 |         if (which == V4L2_SUBDEV_FORMAT_TRY)
+              |      |            ~
+              |      |            |
+              |      |            (8) following 'true' branch (when 'which == 0')...
+              |
+            '__csi2_get_format': event 9
+              |
+              |include/media/v4l2-subdev.h:1101:9:
+              | 1101 |         v4l2_subdev_get_pad_format(sd, state, pad)
+              |      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |         |
+              |      |         (9) ...to here
+   drivers/staging/media/omap4iss/iss_csi2.c:833:24: note: in expansion of macro 'v4l2_subdev_get_try_format'
+              |  833 |                 return v4l2_subdev_get_try_format(&csi2->subdev, sd_state,
+              |      |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~
+              |
+            '__csi2_get_format': event 10
+              |
+              |include/media/v4l2-subdev.h:1101:9:
+              | 1101 |         v4l2_subdev_get_pad_format(sd, state, pad)
+              |      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |         |
+              |      |         (10) calling 'v4l2_subdev_get_pad_format' from '__csi2_get_format'
+   drivers/staging/media/omap4iss/iss_csi2.c:833:24: note: in expansion of macro 'v4l2_subdev_get_try_format'
+              |  833 |                 return v4l2_subdev_get_try_format(&csi2->subdev, sd_state,
+              |      |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~
+              |
+              +--> 'v4l2_subdev_get_pad_format': events 11-12
+                     |
+                     |include/media/v4l2-subdev.h:1045:1:
+                     | 1045 | v4l2_subdev_get_pad_format(struct v4l2_subdev *sd,
+                     |      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+                     |      | |
+                     |      | (11) entry to 'v4l2_subdev_get_pad_format'
+                     |......
+                     | 1049 |         if (WARN_ON(!state))
+                     |      |            ~
+                     |      |            |
+                     |      |            (12) following 'true' branch...
+                     |
+                   'v4l2_subdev_get_pad_format': event 13
+                     |
+                     |cc1:
+                     | (13): ...to here
+                     |
+              <------+
+              |
+            '__csi2_get_format': event 14
+              |
+              | 1101 |         v4l2_subdev_get_pad_format(sd, state, pad)
+              |      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |         |
+--
+   In file included from include/linux/string.h:253,
+                    from include/linux/bitmap.h:11,
+                    from include/linux/cpumask.h:12,
+                    from include/linux/mm_types_task.h:14,
+                    from include/linux/mm_types.h:5,
+                    from include/linux/buildid.h:5,
+                    from include/linux/module.h:14,
+                    from drivers/staging/media/omap4iss/iss_ipipeif.c:10:
+   drivers/staging/media/omap4iss/iss_ipipeif.c: In function 'ipipeif_try_format':
+>> include/linux/fortify-string.h:45:33: warning: use of NULL 'format' where non-null expected [CWE-476] [-Wanalyzer-null-argument]
+      45 | #define __underlying_memcpy     __builtin_memcpy
+         |                                 ^
+   include/linux/fortify-string.h:378:9: note: in expansion of macro '__underlying_memcpy'
+     378 |         __underlying_##op(p, q, __fortify_size);                        \
+         |         ^~~~~~~~~~~~~
+   include/linux/fortify-string.h:385:26: note: in expansion of macro '__fortify_memcpy_chk'
+     385 | #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+         |                          ^~~~~~~~~~~~~~~~~~~~
+   drivers/staging/media/omap4iss/iss_ipipeif.c:410:17: note: in expansion of macro 'memcpy'
+     410 |                 memcpy(fmt, format, sizeof(*fmt));
+         |                 ^~~~~~
+     'ipipeif_init_entities': events 1-4
+       |
+       |  733 | static int ipipeif_init_entities(struct iss_ipipeif_device *ipipeif)
+       |      |            ^~~~~~~~~~~~~~~~~~~~~
+       |      |            |
+       |      |            (1) entry to 'ipipeif_init_entities'
+       |......
+       |  755 |         if (ret < 0)
+       |      |            ~
+       |      |            |
+       |      |            (2) following 'false' branch (when 'ret >= 0')...
+       |......
+       |  758 |         ipipeif_init_formats(sd, NULL);
+       |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |         |
+       |      |         (3) ...to here
+       |      |         (4) calling 'ipipeif_init_formats' from 'ipipeif_init_entities'
+       |
+       +--> 'ipipeif_init_formats': events 5-8
+              |
+              |  607 | static int ipipeif_init_formats(struct v4l2_subdev *sd,
+              |      |            ^~~~~~~~~~~~~~~~~~~~
+              |      |            |
+              |      |            (5) entry to 'ipipeif_init_formats'
+              |......
+              |  618 |         ipipeif_set_format(sd, fh ? fh->state : NULL, &format);
+              |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |         |
+              |      |         (6) following 'false' branch (when 'fh' is NULL)...
+              |      |         (7) ...to here
+              |      |         (8) calling 'ipipeif_set_format' from 'ipipeif_init_formats'
+              |
+              +--> 'ipipeif_set_format': events 9-10
+                     |
+                     |  545 | static int ipipeif_set_format(struct v4l2_subdev *sd,
+                     |      |            ^~~~~~~~~~~~~~~~~~
+                     |      |            |
+                     |      |            (9) entry to 'ipipeif_set_format'
+                     |......
+                     |  552 |         format = __ipipeif_get_format(ipipeif, sd_state, fmt->pad, fmt->which);
+                     |      |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                     |      |                  |
+                     |      |                  (10) calling '__ipipeif_get_format' from 'ipipeif_set_format'
+                     |
+                     +--> '__ipipeif_get_format': events 11-13
+                            |
+                            |  359 | __ipipeif_get_format(struct iss_ipipeif_device *ipipeif,
+                            |      | ^~~~~~~~~~~~~~~~~~~~
+                            |      | |
+                            |      | (11) entry to '__ipipeif_get_format'
+                            |......
+                            |  363 |         if (which == V4L2_SUBDEV_FORMAT_TRY)
+                            |      |            ~
+                            |      |            |
+                            |      |            (12) following 'false' branch (when 'which != 0')...
+                            |......
+                            |  366 |         return &ipipeif->formats[pad];
+                            |      |                ~~~~~~~~~~~~~~~~~~~~~~
+                            |      |                |
+                            |      |                (13) ...to here
+                            |
+                     <------+
+                     |
+                   'ipipeif_set_format': events 14-19
+                     |
+                     |  552 |         format = __ipipeif_get_format(ipipeif, sd_state, fmt->pad, fmt->which);
+                     |      |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                     |      |                  |
+                     |      |                  (14) returning to 'ipipeif_set_format' from '__ipipeif_get_format'
+                     |  553 |         if (!format)
+                     |      |            ~      
+                     |      |            |
+                     |      |            (15) following 'false' branch (when 'format' is non-NULL)...
+                     |......
+                     |  556 |         ipipeif_try_format(ipipeif, sd_state, fmt->pad, &fmt->format,
+                     |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                     |      |         |
+                     |      |         (16) ...to here
+                     |  557 |                            fmt->which);
+                     |      |                            ~~~~~~~~~~~
+                     |......
+                     |  561 |         if (fmt->pad == IPIPEIF_PAD_SINK) {
+                     |      |            ~      
+                     |      |            |
+                     |      |            (17) following 'true' branch...
+                     |  562 |                 format = __ipipeif_get_format(ipipeif, sd_state,
+                     |      |                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                     |      |                          |
+                     |      |                          (19) calling '__ipipeif_get_format' from 'ipipeif_set_format'
+--
+                            |  408 |                                               IPIPEIF_PAD_SINK,
+                            |      |                                               ~~~~~~~~~~~~~~~~~
+                            |  409 |                                               which);
+                            |      |                                               ~~~~~~
+                            |
+                            +--> '__ipipeif_get_format': events 29-30
+                                   |
+                                   |  359 | __ipipeif_get_format(struct iss_ipipeif_device *ipipeif,
+                                   |      | ^~~~~~~~~~~~~~~~~~~~
+                                   |      | |
+                                   |      | (29) entry to '__ipipeif_get_format'
+                                   |......
+                                   |  363 |         if (which == V4L2_SUBDEV_FORMAT_TRY)
+                                   |      |            ~
+                                   |      |            |
+                                   |      |            (30) following 'true' branch (when 'which == 0')...
+                                   |
+                                 '__ipipeif_get_format': event 31
+                                   |
+                                   |include/media/v4l2-subdev.h:1101:9:
+                                   | 1101 |         v4l2_subdev_get_pad_format(sd, state, pad)
+                                   |      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                                   |      |         |
+                                   |      |         (31) ...to here
+   drivers/staging/media/omap4iss/iss_ipipeif.c:364:24: note: in expansion of macro 'v4l2_subdev_get_try_format'
+                                   |  364 |                 return v4l2_subdev_get_try_format(&ipipeif->subdev, sd_state,
+                                   |      |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~
+                                   |
+                                 '__ipipeif_get_format': event 32
+                                   |
+                                   |include/media/v4l2-subdev.h:1101:9:
+                                   | 1101 |         v4l2_subdev_get_pad_format(sd, state, pad)
+                                   |      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                                   |      |         |
+                                   |      |         (32) calling 'v4l2_subdev_get_pad_format' from '__ipipeif_get_format'
+   drivers/staging/media/omap4iss/iss_ipipeif.c:364:24: note: in expansion of macro 'v4l2_subdev_get_try_format'
+                                   |  364 |                 return v4l2_subdev_get_try_format(&ipipeif->subdev, sd_state,
+                                   |      |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~
+                                   |
+                                   +--> 'v4l2_subdev_get_pad_format': events 33-34
+                                          |
+                                          |include/media/v4l2-subdev.h:1045:1:
+                                          | 1045 | v4l2_subdev_get_pad_format(struct v4l2_subdev *sd,
+                                          |      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+                                          |      | |
+                                          |      | (33) entry to 'v4l2_subdev_get_pad_format'
+                                          |......
+                                          | 1049 |         if (WARN_ON(!state))
+                                          |      |            ~
+                                          |      |            |
+                                          |      |            (34) following 'true' branch...
+                                          |
+                                        'v4l2_subdev_get_pad_format': event 35
+                                          |
+                                          |cc1:
+                                          | (35): ...to here
+                                          |
+                                   <------+
+                                   |
+                                 '__ipipeif_get_format': event 36
+                                   |
+                                   | 1101 |         v4l2_subdev_get_pad_format(sd, state, pad)
+                                   |      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                                   |      |         |
+                                   |      |         (36) returning to '__ipipeif_get_format' from 'v4l2_subdev_get_pad_format'
+   drivers/staging/media/omap4iss/iss_ipipeif.c:364:24: note: in expansion of macro 'v4l2_subdev_get_try_format'
+                                   |  364 |                 return v4l2_subdev_get_try_format(&ipipeif->subdev, sd_state,
+                                   |      |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~
+                                   |
+                            <------+
+                            |
+                          'ipipeif_try_format': event 37
+                            |
+                            |  407 |                 format = __ipipeif_get_format(ipipeif, sd_state,
+                            |      |                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                            |      |                          |
+                            |      |                          (37) returning to 'ipipeif_try_format' from '__ipipeif_get_format'
+                            |  408 |                                               IPIPEIF_PAD_SINK,
+                            |      |                                               ~~~~~~~~~~~~~~~~~
+                            |  409 |                                               which);
+                            |      |                                               ~~~~~~
+                            |
+                          'ipipeif_try_format': event 38
+                            |
+                            |include/linux/fortify-string.h:45:33:
+                            |   45 | #define __underlying_memcpy     __builtin_memcpy
+                            |      |                                 ^
+                            |      |                                 |
+                            |      |                                 (38) argument 2 ('format') NULL where non-null expected
+   include/linux/fortify-string.h:378:9: note: in expansion of macro '__underlying_memcpy'
+                            |  378 |         __underlying_##op(p, q, __fortify_size);                        \
+                            |      |         ^~~~~~~~~~~~~
+   include/linux/fortify-string.h:385:26: note: in expansion of macro '__fortify_memcpy_chk'
+                            |  385 | #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            |      |                          ^~~~~~~~~~~~~~~~~~~~
+   drivers/staging/media/omap4iss/iss_ipipeif.c:410:17: note: in expansion of macro 'memcpy'
+                            |  410 |                 memcpy(fmt, format, sizeof(*fmt));
+                            |      |                 ^~~~~~
+                            |
+   <built-in>: note: argument 2 of '__builtin_memcpy' must be non-null
+>> include/linux/fortify-string.h:45:33: warning: use of NULL 'fmt' where non-null expected [CWE-476] [-Wanalyzer-null-argument]
+      45 | #define __underlying_memcpy     __builtin_memcpy
+         |                                 ^
+   include/linux/fortify-string.h:378:9: note: in expansion of macro '__underlying_memcpy'
+     378 |         __underlying_##op(p, q, __fortify_size);                        \
+         |         ^~~~~~~~~~~~~
+   include/linux/fortify-string.h:385:26: note: in expansion of macro '__fortify_memcpy_chk'
+     385 | #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+         |                          ^~~~~~~~~~~~~~~~~~~~
+   drivers/staging/media/omap4iss/iss_ipipeif.c:410:17: note: in expansion of macro 'memcpy'
+     410 |                 memcpy(fmt, format, sizeof(*fmt));
+         |                 ^~~~~~
+     'ipipeif_init_entities': events 1-4
+       |
+       |  733 | static int ipipeif_init_entities(struct iss_ipipeif_device *ipipeif)
+       |      |            ^~~~~~~~~~~~~~~~~~~~~
+       |      |            |
+       |      |            (1) entry to 'ipipeif_init_entities'
+       |......
+       |  755 |         if (ret < 0)
+       |      |            ~
+       |      |            |
+       |      |            (2) following 'false' branch (when 'ret >= 0')...
+       |......
+       |  758 |         ipipeif_init_formats(sd, NULL);
+       |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |         |
+       |      |         (3) ...to here
+       |      |         (4) calling 'ipipeif_init_formats' from 'ipipeif_init_entities'
+       |
+       +--> 'ipipeif_init_formats': events 5-8
+              |
+              |  607 | static int ipipeif_init_formats(struct v4l2_subdev *sd,
+              |      |            ^~~~~~~~~~~~~~~~~~~~
+              |      |            |
+              |      |            (5) entry to 'ipipeif_init_formats'
+              |......
+              |  618 |         ipipeif_set_format(sd, fh ? fh->state : NULL, &format);
+              |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |         |
+              |      |         (6) following 'false' branch (when 'fh' is NULL)...
+              |      |         (7) ...to here
+              |      |         (8) calling 'ipipeif_set_format' from 'ipipeif_init_formats'
+              |
+              +--> 'ipipeif_set_format': events 9-10
+                     |
+                     |  545 | static int ipipeif_set_format(struct v4l2_subdev *sd,
+                     |      |            ^~~~~~~~~~~~~~~~~~
+                     |      |            |
+                     |      |            (9) entry to 'ipipeif_set_format'
+                     |......
+                     |  552 |         format = __ipipeif_get_format(ipipeif, sd_state, fmt->pad, fmt->which);
+                     |      |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                     |      |                  |
+                     |      |                  (10) calling '__ipipeif_get_format' from 'ipipeif_set_format'
+                     |
+                     +--> '__ipipeif_get_format': events 11-13
+                            |
+                            |  359 | __ipipeif_get_format(struct iss_ipipeif_device *ipipeif,
+                            |      | ^~~~~~~~~~~~~~~~~~~~
+                            |      | |
+                            |      | (11) entry to '__ipipeif_get_format'
+                            |......
+                            |  363 |         if (which == V4L2_SUBDEV_FORMAT_TRY)
+                            |      |            ~
+                            |      |            |
+                            |      |            (12) following 'false' branch (when 'which != 0')...
+                            |......
+                            |  366 |         return &ipipeif->formats[pad];
+                            |      |                ~~~~~~~~~~~~~~~~~~~~~~
+                            |      |                |
+                            |      |                (13) ...to here
+                            |
+                     <------+
+                     |
+                   'ipipeif_set_format': events 14-19
+                     |
+                     |  552 |         format = __ipipeif_get_format(ipipeif, sd_state, fmt->pad, fmt->which);
+                     |      |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                     |      |                  |
+                     |      |                  (14) returning to 'ipipeif_set_format' from '__ipipeif_get_format'
+                     |  553 |         if (!format)
+                     |      |            ~      
+                     |      |            |
+                     |      |            (15) following 'false' branch (when 'format' is non-NULL)...
+                     |......
+                     |  556 |         ipipeif_try_format(ipipeif, sd_state, fmt->pad, &fmt->format,
+                     |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                     |      |         |
+                     |      |         (16) ...to here
+                     |  557 |                            fmt->which);
+                     |      |                            ~~~~~~~~~~~
+                     |......
+                     |  561 |         if (fmt->pad == IPIPEIF_PAD_SINK) {
+                     |      |            ~      
+                     |      |            |
+                     |      |            (17) following 'true' branch...
+                     |  562 |                 format = __ipipeif_get_format(ipipeif, sd_state,
+                     |      |                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                     |      |                          |
+                     |      |                          (19) calling '__ipipeif_get_format' from 'ipipeif_set_format'
+--
+                            |  408 |                                               IPIPEIF_PAD_SINK,
+                            |      |                                               ~~~~~~~~~~~~~~~~~
+                            |  409 |                                               which);
+                            |      |                                               ~~~~~~
+                            |
+                            +--> '__ipipeif_get_format': events 34-35
+                                   |
+                                   |  359 | __ipipeif_get_format(struct iss_ipipeif_device *ipipeif,
+                                   |      | ^~~~~~~~~~~~~~~~~~~~
+                                   |      | |
+                                   |      | (34) entry to '__ipipeif_get_format'
+                                   |......
+                                   |  363 |         if (which == V4L2_SUBDEV_FORMAT_TRY)
+                                   |      |            ~
+                                   |      |            |
+                                   |      |            (35) following 'true' branch (when 'which == 0')...
+                                   |
+                                 '__ipipeif_get_format': event 36
+                                   |
+                                   |include/media/v4l2-subdev.h:1101:9:
+                                   | 1101 |         v4l2_subdev_get_pad_format(sd, state, pad)
+                                   |      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                                   |      |         |
+                                   |      |         (36) ...to here
+   drivers/staging/media/omap4iss/iss_ipipeif.c:364:24: note: in expansion of macro 'v4l2_subdev_get_try_format'
+                                   |  364 |                 return v4l2_subdev_get_try_format(&ipipeif->subdev, sd_state,
+                                   |      |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~
+                                   |
+                                 '__ipipeif_get_format': event 37
+                                   |
+                                   |include/media/v4l2-subdev.h:1101:9:
+                                   | 1101 |         v4l2_subdev_get_pad_format(sd, state, pad)
+                                   |      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                                   |      |         |
+                                   |      |         (37) calling 'v4l2_subdev_get_pad_format' from '__ipipeif_get_format'
+   drivers/staging/media/omap4iss/iss_ipipeif.c:364:24: note: in expansion of macro 'v4l2_subdev_get_try_format'
+                                   |  364 |                 return v4l2_subdev_get_try_format(&ipipeif->subdev, sd_state,
+                                   |      |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~
+                                   |
+                                   +--> 'v4l2_subdev_get_pad_format': events 38-39
+                                          |
+                                          |include/media/v4l2-subdev.h:1045:1:
+                                          | 1045 | v4l2_subdev_get_pad_format(struct v4l2_subdev *sd,
+                                          |      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+                                          |      | |
+                                          |      | (38) entry to 'v4l2_subdev_get_pad_format'
+                                          |......
+                                          | 1049 |         if (WARN_ON(!state))
+                                          |      |            ~
+                                          |      |            |
+                                          |      |            (39) following 'true' branch...
+                                          |
+                                        'v4l2_subdev_get_pad_format': event 40
+                                          |
+                                          |cc1:
+                                          | (40): ...to here
+                                          |
+                                   <------+
+                                   |
+                                 '__ipipeif_get_format': event 41
+                                   |
+                                   | 1101 |         v4l2_subdev_get_pad_format(sd, state, pad)
+                                   |      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                                   |      |         |
+                                   |      |         (41) returning to '__ipipeif_get_format' from 'v4l2_subdev_get_pad_format'
+   drivers/staging/media/omap4iss/iss_ipipeif.c:364:24: note: in expansion of macro 'v4l2_subdev_get_try_format'
+                                   |  364 |                 return v4l2_subdev_get_try_format(&ipipeif->subdev, sd_state,
+                                   |      |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~
+                                   |
+                            <------+
+                            |
+                          'ipipeif_try_format': event 42
+                            |
+                            |  407 |                 format = __ipipeif_get_format(ipipeif, sd_state,
+                            |      |                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                            |      |                          |
+                            |      |                          (42) returning to 'ipipeif_try_format' from '__ipipeif_get_format'
+                            |  408 |                                               IPIPEIF_PAD_SINK,
+                            |      |                                               ~~~~~~~~~~~~~~~~~
+                            |  409 |                                               which);
+                            |      |                                               ~~~~~~
+                            |
+                          'ipipeif_try_format': event 43
+                            |
+                            |include/linux/fortify-string.h:45:33:
+                            |   45 | #define __underlying_memcpy     __builtin_memcpy
+                            |      |                                 ^
+                            |      |                                 |
+                            |      |                                 (43) argument 1 ('fmt') NULL where non-null expected
+   include/linux/fortify-string.h:378:9: note: in expansion of macro '__underlying_memcpy'
+                            |  378 |         __underlying_##op(p, q, __fortify_size);                        \
+                            |      |         ^~~~~~~~~~~~~
+   include/linux/fortify-string.h:385:26: note: in expansion of macro '__fortify_memcpy_chk'
+                            |  385 | #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            |      |                          ^~~~~~~~~~~~~~~~~~~~
+   drivers/staging/media/omap4iss/iss_ipipeif.c:410:17: note: in expansion of macro 'memcpy'
+                            |  410 |                 memcpy(fmt, format, sizeof(*fmt));
+                            |      |                 ^~~~~~
+                            |
+   <built-in>: note: argument 1 of '__builtin_memcpy' must be non-null
+>> include/linux/fortify-string.h:45:33: warning: use of NULL 'format' where non-null expected [CWE-476] [-Wanalyzer-null-argument]
+      45 | #define __underlying_memcpy     __builtin_memcpy
+         |                                 ^
+   include/linux/fortify-string.h:378:9: note: in expansion of macro '__underlying_memcpy'
+     378 |         __underlying_##op(p, q, __fortify_size);                        \
+         |         ^~~~~~~~~~~~~
+   include/linux/fortify-string.h:385:26: note: in expansion of macro '__fortify_memcpy_chk'
+     385 | #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+         |                          ^~~~~~~~~~~~~~~~~~~~
+   drivers/staging/media/omap4iss/iss_ipipeif.c:426:17: note: in expansion of macro 'memcpy'
+     426 |                 memcpy(fmt, format, sizeof(*fmt));
+         |                 ^~~~~~
+     'ipipeif_init_entities': events 1-4
+       |
+       |  733 | static int ipipeif_init_entities(struct iss_ipipeif_device *ipipeif)
+       |      |            ^~~~~~~~~~~~~~~~~~~~~
+       |      |            |
+       |      |            (1) entry to 'ipipeif_init_entities'
+       |......
+       |  755 |         if (ret < 0)
+       |      |            ~
+       |      |            |
+       |      |            (2) following 'false' branch (when 'ret >= 0')...
+       |......
+       |  758 |         ipipeif_init_formats(sd, NULL);
+       |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |         |
+       |      |         (3) ...to here
+       |      |         (4) calling 'ipipeif_init_formats' from 'ipipeif_init_entities'
+       |
+       +--> 'ipipeif_init_formats': events 5-8
+              |
+              |  607 | static int ipipeif_init_formats(struct v4l2_subdev *sd,
+              |      |            ^~~~~~~~~~~~~~~~~~~~
+              |      |            |
+              |      |            (5) entry to 'ipipeif_init_formats'
+              |......
+              |  618 |         ipipeif_set_format(sd, fh ? fh->state : NULL, &format);
+              |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |         |
+              |      |         (6) following 'false' branch (when 'fh' is NULL)...
+              |      |         (7) ...to here
+              |      |         (8) calling 'ipipeif_set_format' from 'ipipeif_init_formats'
+              |
+              +--> 'ipipeif_set_format': events 9-10
+                     |
+                     |  545 | static int ipipeif_set_format(struct v4l2_subdev *sd,
+                     |      |            ^~~~~~~~~~~~~~~~~~
+                     |      |            |
+                     |      |            (9) entry to 'ipipeif_set_format'
+                     |......
+                     |  552 |         format = __ipipeif_get_format(ipipeif, sd_state, fmt->pad, fmt->which);
+                     |      |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                     |      |                  |
+                     |      |                  (10) calling '__ipipeif_get_format' from 'ipipeif_set_format'
+                     |
+                     +--> '__ipipeif_get_format': events 11-13
+                            |
+                            |  359 | __ipipeif_get_format(struct iss_ipipeif_device *ipipeif,
+                            |      | ^~~~~~~~~~~~~~~~~~~~
+                            |      | |
+                            |      | (11) entry to '__ipipeif_get_format'
+                            |......
+                            |  363 |         if (which == V4L2_SUBDEV_FORMAT_TRY)
+                            |      |            ~
+                            |      |            |
+                            |      |            (12) following 'false' branch (when 'which != 0')...
+                            |......
+                            |  366 |         return &ipipeif->formats[pad];
+                            |      |                ~~~~~~~~~~~~~~~~~~~~~~
+                            |      |                |
+                            |      |                (13) ...to here
+                            |
+                     <------+
+                     |
+                   'ipipeif_set_format': events 14-19
+                     |
+                     |  552 |         format = __ipipeif_get_format(ipipeif, sd_state, fmt->pad, fmt->which);
+                     |      |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                     |      |                  |
+                     |      |                  (14) returning to 'ipipeif_set_format' from '__ipipeif_get_format'
+                     |  553 |         if (!format)
+                     |      |            ~      
+                     |      |            |
+                     |      |            (15) following 'false' branch (when 'format' is non-NULL)...
+                     |......
+                     |  556 |         ipipeif_try_format(ipipeif, sd_state, fmt->pad, &fmt->format,
+                     |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                     |      |         |
+                     |      |         (16) ...to here
+                     |  557 |                            fmt->which);
+                     |      |                            ~~~~~~~~~~~
+                     |......
+                     |  561 |         if (fmt->pad == IPIPEIF_PAD_SINK) {
+                     |      |            ~      
+                     |      |            |
+                     |      |            (17) following 'true' branch...
+                     |  562 |                 format = __ipipeif_get_format(ipipeif, sd_state,
+                     |      |                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                     |      |                          |
+                     |      |                          (19) calling '__ipipeif_get_format' from 'ipipeif_set_format'
+--
+                            |  424 |                                               IPIPEIF_PAD_SINK,
+                            |      |                                               ~~~~~~~~~~~~~~~~~
+                            |  425 |                                               which);
+                            |      |                                               ~~~~~~
+                            |
+                            +--> '__ipipeif_get_format': events 44-45
+                                   |
+                                   |  359 | __ipipeif_get_format(struct iss_ipipeif_device *ipipeif,
+                                   |      | ^~~~~~~~~~~~~~~~~~~~
+                                   |      | |
+                                   |      | (44) entry to '__ipipeif_get_format'
+                                   |......
+                                   |  363 |         if (which == V4L2_SUBDEV_FORMAT_TRY)
+                                   |      |            ~
+                                   |      |            |
+                                   |      |            (45) following 'true' branch (when 'which == 0')...
+                                   |
+                                 '__ipipeif_get_format': event 46
+                                   |
+                                   |include/media/v4l2-subdev.h:1101:9:
+                                   | 1101 |         v4l2_subdev_get_pad_format(sd, state, pad)
+                                   |      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                                   |      |         |
+                                   |      |         (46) ...to here
+   drivers/staging/media/omap4iss/iss_ipipeif.c:364:24: note: in expansion of macro 'v4l2_subdev_get_try_format'
+                                   |  364 |                 return v4l2_subdev_get_try_format(&ipipeif->subdev, sd_state,
+                                   |      |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~
+                                   |
+                                 '__ipipeif_get_format': event 47
+                                   |
+                                   |include/media/v4l2-subdev.h:1101:9:
+                                   | 1101 |         v4l2_subdev_get_pad_format(sd, state, pad)
+                                   |      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                                   |      |         |
+                                   |      |         (47) calling 'v4l2_subdev_get_pad_format' from '__ipipeif_get_format'
+   drivers/staging/media/omap4iss/iss_ipipeif.c:364:24: note: in expansion of macro 'v4l2_subdev_get_try_format'
+                                   |  364 |                 return v4l2_subdev_get_try_format(&ipipeif->subdev, sd_state,
+                                   |      |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~
+                                   |
+                                   +--> 'v4l2_subdev_get_pad_format': events 48-49
+                                          |
+                                          |include/media/v4l2-subdev.h:1045:1:
+                                          | 1045 | v4l2_subdev_get_pad_format(struct v4l2_subdev *sd,
+                                          |      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+                                          |      | |
+                                          |      | (48) entry to 'v4l2_subdev_get_pad_format'
+                                          |......
+                                          | 1049 |         if (WARN_ON(!state))
+                                          |      |            ~
+                                          |      |            |
+                                          |      |            (49) following 'true' branch...
+                                          |
+                                        'v4l2_subdev_get_pad_format': event 50
+                                          |
+                                          |cc1:
+                                          | (50): ...to here
+                                          |
+                                   <------+
+                                   |
+                                 '__ipipeif_get_format': event 51
+                                   |
+                                   | 1101 |         v4l2_subdev_get_pad_format(sd, state, pad)
+                                   |      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                                   |      |         |
+                                   |      |         (51) returning to '__ipipeif_get_format' from 'v4l2_subdev_get_pad_format'
+   drivers/staging/media/omap4iss/iss_ipipeif.c:364:24: note: in expansion of macro 'v4l2_subdev_get_try_format'
+                                   |  364 |                 return v4l2_subdev_get_try_format(&ipipeif->subdev, sd_state,
+                                   |      |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~
+                                   |
+                            <------+
+                            |
+                          'ipipeif_try_format': event 52
+                            |
+                            |  423 |                 format = __ipipeif_get_format(ipipeif, sd_state,
+                            |      |                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                            |      |                          |
+                            |      |                          (52) returning to 'ipipeif_try_format' from '__ipipeif_get_format'
+                            |  424 |                                               IPIPEIF_PAD_SINK,
+                            |      |                                               ~~~~~~~~~~~~~~~~~
+                            |  425 |                                               which);
+                            |      |                                               ~~~~~~
+                            |
+                          'ipipeif_try_format': event 53
+                            |
+                            |include/linux/fortify-string.h:45:33:
+                            |   45 | #define __underlying_memcpy     __builtin_memcpy
+                            |      |                                 ^
+                            |      |                                 |
+                            |      |                                 (53) argument 2 ('format') NULL where non-null expected
+   include/linux/fortify-string.h:378:9: note: in expansion of macro '__underlying_memcpy'
+                            |  378 |         __underlying_##op(p, q, __fortify_size);                        \
+                            |      |         ^~~~~~~~~~~~~
+   include/linux/fortify-string.h:385:26: note: in expansion of macro '__fortify_memcpy_chk'
+                            |  385 | #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            |      |                          ^~~~~~~~~~~~~~~~~~~~
+   drivers/staging/media/omap4iss/iss_ipipeif.c:426:17: note: in expansion of macro 'memcpy'
+                            |  426 |                 memcpy(fmt, format, sizeof(*fmt));
+                            |      |                 ^~~~~~
+                            |
+   <built-in>: note: argument 2 of '__builtin_memcpy' must be non-null
+>> include/linux/fortify-string.h:45:33: warning: use of NULL 'fmt' where non-null expected [CWE-476] [-Wanalyzer-null-argument]
+      45 | #define __underlying_memcpy     __builtin_memcpy
+         |                                 ^
+   include/linux/fortify-string.h:378:9: note: in expansion of macro '__underlying_memcpy'
+     378 |         __underlying_##op(p, q, __fortify_size);                        \
+         |         ^~~~~~~~~~~~~
+   include/linux/fortify-string.h:385:26: note: in expansion of macro '__fortify_memcpy_chk'
+     385 | #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+         |                          ^~~~~~~~~~~~~~~~~~~~
+   drivers/staging/media/omap4iss/iss_ipipeif.c:426:17: note: in expansion of macro 'memcpy'
+     426 |                 memcpy(fmt, format, sizeof(*fmt));
+         |                 ^~~~~~
+     'ipipeif_init_entities': events 1-4
+       |
+       |  733 | static int ipipeif_init_entities(struct iss_ipipeif_device *ipipeif)
+       |      |            ^~~~~~~~~~~~~~~~~~~~~
+       |      |            |
+       |      |            (1) entry to 'ipipeif_init_entities'
+       |......
+       |  755 |         if (ret < 0)
+       |      |            ~
+       |      |            |
+       |      |            (2) following 'false' branch (when 'ret >= 0')...
+       |......
+       |  758 |         ipipeif_init_formats(sd, NULL);
+       |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |         |
+       |      |         (3) ...to here
+       |      |         (4) calling 'ipipeif_init_formats' from 'ipipeif_init_entities'
+       |
+       +--> 'ipipeif_init_formats': events 5-8
+              |
+              |  607 | static int ipipeif_init_formats(struct v4l2_subdev *sd,
+              |      |            ^~~~~~~~~~~~~~~~~~~~
+              |      |            |
+              |      |            (5) entry to 'ipipeif_init_formats'
+              |......
+              |  618 |         ipipeif_set_format(sd, fh ? fh->state : NULL, &format);
+              |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |         |
+              |      |         (6) following 'false' branch (when 'fh' is NULL)...
+              |      |         (7) ...to here
+              |      |         (8) calling 'ipipeif_set_format' from 'ipipeif_init_formats'
+              |
+              +--> 'ipipeif_set_format': events 9-10
+                     |
+                     |  545 | static int ipipeif_set_format(struct v4l2_subdev *sd,
+                     |      |            ^~~~~~~~~~~~~~~~~~
+                     |      |            |
+                     |      |            (9) entry to 'ipipeif_set_format'
+                     |......
+                     |  552 |         format = __ipipeif_get_format(ipipeif, sd_state, fmt->pad, fmt->which);
+                     |      |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                     |      |                  |
+                     |      |                  (10) calling '__ipipeif_get_format' from 'ipipeif_set_format'
+                     |
+                     +--> '__ipipeif_get_format': events 11-13
+                            |
+                            |  359 | __ipipeif_get_format(struct iss_ipipeif_device *ipipeif,
+                            |      | ^~~~~~~~~~~~~~~~~~~~
+                            |      | |
+                            |      | (11) entry to '__ipipeif_get_format'
+                            |......
+                            |  363 |         if (which == V4L2_SUBDEV_FORMAT_TRY)
+                            |      |            ~
+                            |      |            |
+                            |      |            (12) following 'false' branch (when 'which != 0')...
+                            |......
+                            |  366 |         return &ipipeif->formats[pad];
+                            |      |                ~~~~~~~~~~~~~~~~~~~~~~
+                            |      |                |
+                            |      |                (13) ...to here
+                            |
+                     <------+
+                     |
+                   'ipipeif_set_format': events 14-19
+                     |
+                     |  552 |         format = __ipipeif_get_format(ipipeif, sd_state, fmt->pad, fmt->which);
+                     |      |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                     |      |                  |
+                     |      |                  (14) returning to 'ipipeif_set_format' from '__ipipeif_get_format'
+                     |  553 |         if (!format)
+                     |      |            ~      
+                     |      |            |
+                     |      |            (15) following 'false' branch (when 'format' is non-NULL)...
+                     |......
+                     |  556 |         ipipeif_try_format(ipipeif, sd_state, fmt->pad, &fmt->format,
+                     |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                     |      |         |
+                     |      |         (16) ...to here
+                     |  557 |                            fmt->which);
+                     |      |                            ~~~~~~~~~~~
+                     |......
+                     |  561 |         if (fmt->pad == IPIPEIF_PAD_SINK) {
+                     |      |            ~      
+                     |      |            |
+                     |      |            (17) following 'true' branch...
+                     |......
+                     |  564 |                                               fmt->which);
+                     |      |                                               ~~~~~~~~~~
+                     |      |                                                  |
+--
+   In file included from include/linux/string.h:253,
+                    from include/linux/bitmap.h:11,
+                    from include/linux/cpumask.h:12,
+                    from include/linux/mm_types_task.h:14,
+                    from include/linux/mm_types.h:5,
+                    from include/linux/buildid.h:5,
+                    from include/linux/module.h:14,
+                    from drivers/staging/media/omap4iss/iss_ipipe.c:10:
+   drivers/staging/media/omap4iss/iss_ipipe.c: In function 'ipipe_try_format':
+>> include/linux/fortify-string.h:45:33: warning: use of NULL 'format' where non-null expected [CWE-476] [-Wanalyzer-null-argument]
+      45 | #define __underlying_memcpy     __builtin_memcpy
+         |                                 ^
+   include/linux/fortify-string.h:378:9: note: in expansion of macro '__underlying_memcpy'
+     378 |         __underlying_##op(p, q, __fortify_size);                        \
+         |         ^~~~~~~~~~~~~
+   include/linux/fortify-string.h:385:26: note: in expansion of macro '__fortify_memcpy_chk'
+     385 | #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+         |                          ^~~~~~~~~~~~~~~~~~~~
+   drivers/staging/media/omap4iss/iss_ipipe.c:228:17: note: in expansion of macro 'memcpy'
+     228 |                 memcpy(fmt, format, sizeof(*fmt));
+         |                 ^~~~~~
+     'ipipe_init_entities': events 1-4
+       |
+       |  498 | static int ipipe_init_entities(struct iss_ipipe_device *ipipe)
+       |      |            ^~~~~~~~~~~~~~~~~~~
+       |      |            |
+       |      |            (1) entry to 'ipipe_init_entities'
+       |......
+       |  519 |         if (ret < 0)
+       |      |            ~
+       |      |            |
+       |      |            (2) following 'false' branch (when 'ret >= 0')...
+       |......
+       |  522 |         ipipe_init_formats(sd, NULL);
+       |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |         |
+       |      |         (3) ...to here
+       |      |         (4) calling 'ipipe_init_formats' from 'ipipe_init_entities'
+       |
+       +--> 'ipipe_init_formats': events 5-8
+              |
+              |  388 | static int ipipe_init_formats(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
+              |      |            ^~~~~~~~~~~~~~~~~~
+              |      |            |
+              |      |            (5) entry to 'ipipe_init_formats'
+              |......
+              |  398 |         ipipe_set_format(sd, fh ? fh->state : NULL, &format);
+              |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |         |
+              |      |         (6) following 'false' branch (when 'fh' is NULL)...
+              |      |         (7) ...to here
+              |      |         (8) calling 'ipipe_set_format' from 'ipipe_init_formats'
+              |
+              +--> 'ipipe_set_format': events 9-10
+                     |
+                     |  337 | static int ipipe_set_format(struct v4l2_subdev *sd,
+                     |      |            ^~~~~~~~~~~~~~~~
+                     |      |            |
+                     |      |            (9) entry to 'ipipe_set_format'
+                     |......
+                     |  344 |         format = __ipipe_get_format(ipipe, sd_state, fmt->pad, fmt->which);
+                     |      |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                     |      |                  |
+                     |      |                  (10) calling '__ipipe_get_format' from 'ipipe_set_format'
+                     |
+                     +--> '__ipipe_get_format': events 11-13
+                            |
+                            |  177 | __ipipe_get_format(struct iss_ipipe_device *ipipe,
+                            |      | ^~~~~~~~~~~~~~~~~~
+                            |      | |
+                            |      | (11) entry to '__ipipe_get_format'
+                            |......
+                            |  182 |         if (which == V4L2_SUBDEV_FORMAT_TRY)
+                            |      |            ~
+                            |      |            |
+                            |      |            (12) following 'false' branch (when 'which != 0')...
+                            |......
+                            |  186 |         return &ipipe->formats[pad];
+                            |      |                ~~~~~~~~~~~~~~~~~~~~
+                            |      |                |
+                            |      |                (13) ...to here
+                            |
+                     <------+
+                     |
+                   'ipipe_set_format': events 14-19
+                     |
+                     |  344 |         format = __ipipe_get_format(ipipe, sd_state, fmt->pad, fmt->which);
+                     |      |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                     |      |                  |
+                     |      |                  (14) returning to 'ipipe_set_format' from '__ipipe_get_format'
+                     |  345 |         if (!format)
+                     |      |            ~      
+                     |      |            |
+                     |      |            (15) following 'false' branch (when 'format' is non-NULL)...
+                     |......
+                     |  348 |         ipipe_try_format(ipipe, sd_state, fmt->pad, &fmt->format, fmt->which);
+                     |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                     |      |         |
+                     |      |         (16) ...to here
+                     |......
+                     |  352 |         if (fmt->pad == IPIPE_PAD_SINK) {
+                     |      |            ~      
+                     |      |            |
+                     |      |            (17) following 'true' branch...
+                     |  353 |                 format = __ipipe_get_format(ipipe, sd_state,
+                     |      |                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                     |      |                          |
+                     |      |                          (19) calling '__ipipe_get_format' from 'ipipe_set_format'
+                     |  354 |                                             IPIPE_PAD_SOURCE_VP,
+                     |      |                                             ~~~~~~~~~~~~~~~~~~~~
+--
+                            |  226 |                 format = __ipipe_get_format(ipipe, sd_state, IPIPE_PAD_SINK,
+                            |      |                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                            |      |                          |
+                            |      |                          (28) calling '__ipipe_get_format' from 'ipipe_try_format'
+                            |  227 |                                             which);
+                            |      |                                             ~~~~~~
+                            |
+                            +--> '__ipipe_get_format': events 29-30
+                                   |
+                                   |  177 | __ipipe_get_format(struct iss_ipipe_device *ipipe,
+                                   |      | ^~~~~~~~~~~~~~~~~~
+                                   |      | |
+                                   |      | (29) entry to '__ipipe_get_format'
+                                   |......
+                                   |  182 |         if (which == V4L2_SUBDEV_FORMAT_TRY)
+                                   |      |            ~
+                                   |      |            |
+                                   |      |            (30) following 'true' branch (when 'which == 0')...
+                                   |
+                                 '__ipipe_get_format': event 31
+                                   |
+                                   |include/media/v4l2-subdev.h:1101:9:
+                                   | 1101 |         v4l2_subdev_get_pad_format(sd, state, pad)
+                                   |      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                                   |      |         |
+                                   |      |         (31) ...to here
+   drivers/staging/media/omap4iss/iss_ipipe.c:183:24: note: in expansion of macro 'v4l2_subdev_get_try_format'
+                                   |  183 |                 return v4l2_subdev_get_try_format(&ipipe->subdev, sd_state,
+                                   |      |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~
+                                   |
+                                 '__ipipe_get_format': event 32
+                                   |
+                                   |include/media/v4l2-subdev.h:1101:9:
+                                   | 1101 |         v4l2_subdev_get_pad_format(sd, state, pad)
+                                   |      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                                   |      |         |
+                                   |      |         (32) calling 'v4l2_subdev_get_pad_format' from '__ipipe_get_format'
+   drivers/staging/media/omap4iss/iss_ipipe.c:183:24: note: in expansion of macro 'v4l2_subdev_get_try_format'
+                                   |  183 |                 return v4l2_subdev_get_try_format(&ipipe->subdev, sd_state,
+                                   |      |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~
+                                   |
+                                   +--> 'v4l2_subdev_get_pad_format': events 33-34
+                                          |
+                                          |include/media/v4l2-subdev.h:1045:1:
+                                          | 1045 | v4l2_subdev_get_pad_format(struct v4l2_subdev *sd,
+                                          |      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+                                          |      | |
+                                          |      | (33) entry to 'v4l2_subdev_get_pad_format'
+                                          |......
+                                          | 1049 |         if (WARN_ON(!state))
+                                          |      |            ~
+                                          |      |            |
+                                          |      |            (34) following 'true' branch...
+                                          |
+                                        'v4l2_subdev_get_pad_format': event 35
+                                          |
+                                          |cc1:
+                                          | (35): ...to here
+                                          |
+                                   <------+
+                                   |
+                                 '__ipipe_get_format': event 36
+                                   |
+                                   | 1101 |         v4l2_subdev_get_pad_format(sd, state, pad)
+                                   |      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                                   |      |         |
+                                   |      |         (36) returning to '__ipipe_get_format' from 'v4l2_subdev_get_pad_format'
+   drivers/staging/media/omap4iss/iss_ipipe.c:183:24: note: in expansion of macro 'v4l2_subdev_get_try_format'
+                                   |  183 |                 return v4l2_subdev_get_try_format(&ipipe->subdev, sd_state,
+                                   |      |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~
+                                   |
+                            <------+
+                            |
+                          'ipipe_try_format': event 37
+                            |
+                            |  226 |                 format = __ipipe_get_format(ipipe, sd_state, IPIPE_PAD_SINK,
+                            |      |                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                            |      |                          |
+                            |      |                          (37) returning to 'ipipe_try_format' from '__ipipe_get_format'
+                            |  227 |                                             which);
+                            |      |                                             ~~~~~~
+                            |
+                          'ipipe_try_format': event 38
+                            |
+                            |include/linux/fortify-string.h:45:33:
+                            |   45 | #define __underlying_memcpy     __builtin_memcpy
+                            |      |                                 ^
+                            |      |                                 |
+                            |      |                                 (38) argument 2 ('format') NULL where non-null expected
+   include/linux/fortify-string.h:378:9: note: in expansion of macro '__underlying_memcpy'
+                            |  378 |         __underlying_##op(p, q, __fortify_size);                        \
+                            |      |         ^~~~~~~~~~~~~
+   include/linux/fortify-string.h:385:26: note: in expansion of macro '__fortify_memcpy_chk'
+                            |  385 | #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+                            |      |                          ^~~~~~~~~~~~~~~~~~~~
+   drivers/staging/media/omap4iss/iss_ipipe.c:228:17: note: in expansion of macro 'memcpy'
+                            |  228 |                 memcpy(fmt, format, sizeof(*fmt));
+                            |      |                 ^~~~~~
+                            |
+   <built-in>: note: argument 2 of '__builtin_memcpy' must be non-null
+>> include/linux/fortify-string.h:45:33: warning: use of NULL 'fmt' where non-null expected [CWE-476] [-Wanalyzer-null-argument]
+      45 | #define __underlying_memcpy     __builtin_memcpy
+         |                                 ^
+   include/linux/fortify-string.h:378:9: note: in expansion of macro '__underlying_memcpy'
+     378 |         __underlying_##op(p, q, __fortify_size);                        \
+         |         ^~~~~~~~~~~~~
+   include/linux/fortify-string.h:385:26: note: in expansion of macro '__fortify_memcpy_chk'
+     385 | #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+         |                          ^~~~~~~~~~~~~~~~~~~~
+   drivers/staging/media/omap4iss/iss_ipipe.c:228:17: note: in expansion of macro 'memcpy'
+     228 |                 memcpy(fmt, format, sizeof(*fmt));
+         |                 ^~~~~~
+     'ipipe_init_entities': events 1-4
+       |
+       |  498 | static int ipipe_init_entities(struct iss_ipipe_device *ipipe)
+       |      |            ^~~~~~~~~~~~~~~~~~~
+       |      |            |
+       |      |            (1) entry to 'ipipe_init_entities'
+       |......
+       |  519 |         if (ret < 0)
+       |      |            ~
+       |      |            |
+       |      |            (2) following 'false' branch (when 'ret >= 0')...
+       |......
+       |  522 |         ipipe_init_formats(sd, NULL);
+       |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |         |
+       |      |         (3) ...to here
+       |      |         (4) calling 'ipipe_init_formats' from 'ipipe_init_entities'
+       |
+       +--> 'ipipe_init_formats': events 5-8
+              |
+              |  388 | static int ipipe_init_formats(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
+              |      |            ^~~~~~~~~~~~~~~~~~
+              |      |            |
+              |      |            (5) entry to 'ipipe_init_formats'
+              |......
+              |  398 |         ipipe_set_format(sd, fh ? fh->state : NULL, &format);
+              |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |         |
+              |      |         (6) following 'false' branch (when 'fh' is NULL)...
+              |      |         (7) ...to here
+              |      |         (8) calling 'ipipe_set_format' from 'ipipe_init_formats'
+              |
+              +--> 'ipipe_set_format': events 9-10
+                     |
+                     |  337 | static int ipipe_set_format(struct v4l2_subdev *sd,
+                     |      |            ^~~~~~~~~~~~~~~~
+                     |      |            |
+                     |      |            (9) entry to 'ipipe_set_format'
+                     |......
+                     |  344 |         format = __ipipe_get_format(ipipe, sd_state, fmt->pad, fmt->which);
+                     |      |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                     |      |                  |
+                     |      |                  (10) calling '__ipipe_get_format' from 'ipipe_set_format'
+                     |
+                     +--> '__ipipe_get_format': events 11-13
+                            |
+                            |  177 | __ipipe_get_format(struct iss_ipipe_device *ipipe,
+                            |      | ^~~~~~~~~~~~~~~~~~
+                            |      | |
+                            |      | (11) entry to '__ipipe_get_format'
+                            |......
+                            |  182 |         if (which == V4L2_SUBDEV_FORMAT_TRY)
+                            |      |            ~
+                            |      |            |
+                            |      |            (12) following 'false' branch (when 'which != 0')...
+                            |......
+                            |  186 |         return &ipipe->formats[pad];
+                            |      |                ~~~~~~~~~~~~~~~~~~~~
+                            |      |                |
+                            |      |                (13) ...to here
+                            |
+                     <------+
+                     |
+                   'ipipe_set_format': events 14-19
+                     |
+                     |  344 |         format = __ipipe_get_format(ipipe, sd_state, fmt->pad, fmt->which);
+                     |      |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                     |      |                  |
+                     |      |                  (14) returning to 'ipipe_set_format' from '__ipipe_get_format'
+                     |  345 |         if (!format)
+                     |      |            ~      
+                     |      |            |
+                     |      |            (15) following 'false' branch (when 'format' is non-NULL)...
+                     |......
+                     |  348 |         ipipe_try_format(ipipe, sd_state, fmt->pad, &fmt->format, fmt->which);
+                     |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                     |      |         |
+                     |      |         (16) ...to here
+                     |......
+                     |  352 |         if (fmt->pad == IPIPE_PAD_SINK) {
+                     |      |            ~      
+                     |      |            |
+                     |      |            (17) following 'true' branch...
+                     |  353 |                 format = __ipipe_get_format(ipipe, sd_state,
+                     |      |                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                     |      |                          |
+                     |      |                          (19) calling '__ipipe_get_format' from 'ipipe_set_format'
+                     |  354 |                                             IPIPE_PAD_SOURCE_VP,
+                     |      |                                             ~~~~~~~~~~~~~~~~~~~~
+--
+   In file included from include/linux/string.h:253,
+                    from include/linux/bitmap.h:11,
+                    from include/linux/cpumask.h:12,
+                    from include/linux/mm_types_task.h:14,
+                    from include/linux/mm_types.h:5,
+                    from include/linux/buildid.h:5,
+                    from include/linux/module.h:14,
+                    from drivers/staging/media/omap4iss/iss_resizer.c:10:
+   drivers/staging/media/omap4iss/iss_resizer.c: In function 'resizer_try_format':
+>> include/linux/fortify-string.h:45:33: warning: use of NULL 'format' where non-null expected [CWE-476] [-Wanalyzer-null-argument]
+      45 | #define __underlying_memcpy     __builtin_memcpy
+         |                                 ^
+   include/linux/fortify-string.h:378:9: note: in expansion of macro '__underlying_memcpy'
+     378 |         __underlying_##op(p, q, __fortify_size);                        \
+         |         ^~~~~~~~~~~~~
+   include/linux/fortify-string.h:385:26: note: in expansion of macro '__fortify_memcpy_chk'
+     385 | #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+         |                          ^~~~~~~~~~~~~~~~~~~~
+   drivers/staging/media/omap4iss/iss_resizer.c:468:17: note: in expansion of macro 'memcpy'
+     468 |                 memcpy(fmt, format, sizeof(*fmt));
+         |                 ^~~~~~
+     'resizer_set_format': events 1-6
+       |
+       |  605 | static int resizer_set_format(struct v4l2_subdev *sd,
+       |      |            ^~~~~~~~~~~~~~~~~~
+       |      |            |
+       |      |            (1) entry to 'resizer_set_format'
+       |......
+       |  613 |         if (!format)
+       |      |            ~
+       |      |            |
+       |      |            (2) following 'false' branch (when 'format' is non-NULL)...
+       |......
+       |  616 |         resizer_try_format(resizer, sd_state, fmt->pad, &fmt->format,
+       |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |         |
+       |      |         (3) ...to here
+       |  617 |                            fmt->which);
+       |      |                            ~~~~~~~~~~~
+       |......
+       |  621 |         if (fmt->pad == RESIZER_PAD_SINK) {
+       |      |            ~
+       |      |            |
+       |      |            (4) following 'true' branch...
+       |......
+       |  624 |                                               fmt->which);
+       |      |                                               ~~~~~~~~~~
+       |      |                                                  |
+       |      |                                                  (5) ...to here
+       |  625 |                 *format = fmt->format;
+       |  626 |                 resizer_try_format(resizer, sd_state, RESIZER_PAD_SOURCE_MEM,
+       |      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |                 |
+       |      |                 (6) calling 'resizer_try_format' from 'resizer_set_format'
+       |  627 |                                    format,
+       |      |                                    ~~~~~~~
+       |  628 |                                    fmt->which);
+       |      |                                    ~~~~~~~~~~~
+       |
+       +--> 'resizer_try_format': events 7-10
+              |
+              |  436 | resizer_try_format(struct iss_resizer_device *resizer,
+              |      | ^~~~~~~~~~~~~~~~~~
+              |      | |
+              |      | (7) entry to 'resizer_try_format'
+              |......
+              |  447 |         switch (pad) {
+              |      |         ~~~~~~
+              |      |         |
+              |      |         (8) following 'case 1:' branch...
+              |......
+              |  463 |         case RESIZER_PAD_SOURCE_MEM:
+              |      |         ~~~~
+              |      |         |
+              |      |         (9) ...to here
+              |  464 |                 pixelcode = fmt->code;
+              |  465 |                 format = __resizer_get_format(resizer, sd_state,
+              |      |                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |                          |
+              |      |                          (10) calling '__resizer_get_format' from 'resizer_try_format'
+              |  466 |                                               RESIZER_PAD_SINK,
+              |      |                                               ~~~~~~~~~~~~~~~~~
+              |  467 |                                               which);
+              |      |                                               ~~~~~~
+              |
+              +--> '__resizer_get_format': events 11-12
+                     |
+                     |  418 | __resizer_get_format(struct iss_resizer_device *resizer,
+                     |      | ^~~~~~~~~~~~~~~~~~~~
+                     |      | |
+                     |      | (11) entry to '__resizer_get_format'
+                     |......
+                     |  422 |         if (which == V4L2_SUBDEV_FORMAT_TRY)
+                     |      |            ~
+                     |      |            |
+                     |      |            (12) following 'true' branch (when 'which == 0')...
+                     |
+                   '__resizer_get_format': event 13
+                     |
+                     |include/media/v4l2-subdev.h:1101:9:
+                     | 1101 |         v4l2_subdev_get_pad_format(sd, state, pad)
+                     |      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                     |      |         |
+                     |      |         (13) ...to here
+   drivers/staging/media/omap4iss/iss_resizer.c:423:24: note: in expansion of macro 'v4l2_subdev_get_try_format'
+                     |  423 |                 return v4l2_subdev_get_try_format(&resizer->subdev, sd_state,
+                     |      |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~
+                     |
+                   '__resizer_get_format': event 14
+                     |
+                     |include/media/v4l2-subdev.h:1101:9:
+                     | 1101 |         v4l2_subdev_get_pad_format(sd, state, pad)
+                     |      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                     |      |         |
+                     |      |         (14) calling 'v4l2_subdev_get_pad_format' from '__resizer_get_format'
+   drivers/staging/media/omap4iss/iss_resizer.c:423:24: note: in expansion of macro 'v4l2_subdev_get_try_format'
+                     |  423 |                 return v4l2_subdev_get_try_format(&resizer->subdev, sd_state,
+                     |      |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~
+                     |
+                     +--> 'v4l2_subdev_get_pad_format': events 15-16
+                            |
+                            |include/media/v4l2-subdev.h:1045:1:
+                            | 1045 | v4l2_subdev_get_pad_format(struct v4l2_subdev *sd,
+                            |      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+                            |      | |
+                            |      | (15) entry to 'v4l2_subdev_get_pad_format'
+                            |......
+                            | 1049 |         if (WARN_ON(!state))
+                            |      |            ~
+                            |      |            |
+                            |      |            (16) following 'true' branch...
+                            |
+                          'v4l2_subdev_get_pad_format': event 17
+                            |
+                            |cc1:
+                            | (17): ...to here
+                            |
+                     <------+
+                     |
+                   '__resizer_get_format': event 18
+                     |
+                     | 1101 |         v4l2_subdev_get_pad_format(sd, state, pad)
+                     |      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                     |      |         |
+                     |      |         (18) returning to '__resizer_get_format' from 'v4l2_subdev_get_pad_format'
+   drivers/staging/media/omap4iss/iss_resizer.c:423:24: note: in expansion of macro 'v4l2_subdev_get_try_format'
+                     |  423 |                 return v4l2_subdev_get_try_format(&resizer->subdev, sd_state,
+                     |      |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~
+                     |
+              <------+
+              |
+            'resizer_try_format': event 19
+              |
+              |  465 |                 format = __resizer_get_format(resizer, sd_state,
+              |      |                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |                          |
+              |      |                          (19) returning to 'resizer_try_format' from '__resizer_get_format'
+              |  466 |                                               RESIZER_PAD_SINK,
+              |      |                                               ~~~~~~~~~~~~~~~~~
+              |  467 |                                               which);
+              |      |                                               ~~~~~~
+              |
+            'resizer_try_format': event 20
+              |
+              |include/linux/fortify-string.h:45:33:
+              |   45 | #define __underlying_memcpy     __builtin_memcpy
+              |      |                                 ^
+              |      |                                 |
+              |      |                                 (20) argument 2 ('format') NULL where non-null expected
+   include/linux/fortify-string.h:378:9: note: in expansion of macro '__underlying_memcpy'
+              |  378 |         __underlying_##op(p, q, __fortify_size);                        \
+              |      |         ^~~~~~~~~~~~~
+   include/linux/fortify-string.h:385:26: note: in expansion of macro '__fortify_memcpy_chk'
+              |  385 | #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+              |      |                          ^~~~~~~~~~~~~~~~~~~~
+   drivers/staging/media/omap4iss/iss_resizer.c:468:17: note: in expansion of macro 'memcpy'
+              |  468 |                 memcpy(fmt, format, sizeof(*fmt));
+              |      |                 ^~~~~~
+              |
+   <built-in>: note: argument 2 of '__builtin_memcpy' must be non-null
+>> include/linux/fortify-string.h:45:33: warning: use of NULL 'fmt' where non-null expected [CWE-476] [-Wanalyzer-null-argument]
+      45 | #define __underlying_memcpy     __builtin_memcpy
+         |                                 ^
+   include/linux/fortify-string.h:378:9: note: in expansion of macro '__underlying_memcpy'
+     378 |         __underlying_##op(p, q, __fortify_size);                        \
+         |         ^~~~~~~~~~~~~
+   include/linux/fortify-string.h:385:26: note: in expansion of macro '__fortify_memcpy_chk'
+     385 | #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+         |                          ^~~~~~~~~~~~~~~~~~~~
+   drivers/staging/media/omap4iss/iss_resizer.c:468:17: note: in expansion of macro 'memcpy'
+     468 |                 memcpy(fmt, format, sizeof(*fmt));
+         |                 ^~~~~~
+     'resizer_set_format': events 1-6
+       |
+       |  605 | static int resizer_set_format(struct v4l2_subdev *sd,
+       |      |            ^~~~~~~~~~~~~~~~~~
+       |      |            |
+       |      |            (1) entry to 'resizer_set_format'
+       |......
+       |  613 |         if (!format)
+       |      |            ~
+       |      |            |
+       |      |            (2) following 'false' branch (when 'format' is non-NULL)...
+       |......
+       |  616 |         resizer_try_format(resizer, sd_state, fmt->pad, &fmt->format,
+       |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |         |
+       |      |         (3) ...to here
+       |  617 |                            fmt->which);
+       |      |                            ~~~~~~~~~~~
+       |......
+       |  621 |         if (fmt->pad == RESIZER_PAD_SINK) {
+       |      |            ~
+       |      |            |
+       |      |            (4) following 'true' branch...
+       |  622 |                 format = __resizer_get_format(resizer, sd_state,
+       |      |                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |                          |
+       |      |                          (6) calling '__resizer_get_format' from 'resizer_set_format'
+       |  623 |                                               RESIZER_PAD_SOURCE_MEM,
+       |      |                                               ~~~~~~~~~~~~~~~~~~~~~~~
+       |  624 |                                               fmt->which);
+       |      |                                               ~~~~~~~~~~~
+       |      |                                                  |
+       |      |                                                  (5) ...to here
+       |
+       +--> '__resizer_get_format': events 7-8
+              |
+              |  418 | __resizer_get_format(struct iss_resizer_device *resizer,
+              |      | ^~~~~~~~~~~~~~~~~~~~
+              |      | |
+              |      | (7) entry to '__resizer_get_format'
+              |......
+              |  422 |         if (which == V4L2_SUBDEV_FORMAT_TRY)
+              |      |            ~
+              |      |            |
+              |      |            (8) following 'true' branch (when 'which == 0')...
+              |
+            '__resizer_get_format': event 9
+              |
+              |include/media/v4l2-subdev.h:1101:9:
+              | 1101 |         v4l2_subdev_get_pad_format(sd, state, pad)
+              |      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |         |
+              |      |         (9) ...to here
+   drivers/staging/media/omap4iss/iss_resizer.c:423:24: note: in expansion of macro 'v4l2_subdev_get_try_format'
+              |  423 |                 return v4l2_subdev_get_try_format(&resizer->subdev, sd_state,
+              |      |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~
+              |
+            '__resizer_get_format': event 10
+              |
+              |include/media/v4l2-subdev.h:1101:9:
+              | 1101 |         v4l2_subdev_get_pad_format(sd, state, pad)
+              |      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |         |
+              |      |         (10) calling 'v4l2_subdev_get_pad_format' from '__resizer_get_format'
+   drivers/staging/media/omap4iss/iss_resizer.c:423:24: note: in expansion of macro 'v4l2_subdev_get_try_format'
+              |  423 |                 return v4l2_subdev_get_try_format(&resizer->subdev, sd_state,
+              |      |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~
+              |
+              +--> 'v4l2_subdev_get_pad_format': events 11-12
+                     |
+                     |include/media/v4l2-subdev.h:1045:1:
+                     | 1045 | v4l2_subdev_get_pad_format(struct v4l2_subdev *sd,
+                     |      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+                     |      | |
+                     |      | (11) entry to 'v4l2_subdev_get_pad_format'
+                     |......
+                     | 1049 |         if (WARN_ON(!state))
+                     |      |            ~
+                     |      |            |
+                     |      |            (12) following 'true' branch...
+                     |
+                   'v4l2_subdev_get_pad_format': event 13
+                     |
+                     |cc1:
+                     | (13): ...to here
+                     |
+              <------+
+              |
+            '__resizer_get_format': event 14
 
-vim +/coef_node_start +1688 drivers/staging/media/meson/vdec/codec_vp9.c
+vim +/format +45 include/linux/fortify-string.h
 
-00c43088aa6809 Maxime Jourdan 2020-03-04  1540  
-00c43088aa6809 Maxime Jourdan 2020-03-04  1541  static void adapt_coef_probs(int prev_kf, int cur_kf, int pre_fc,
-00c43088aa6809 Maxime Jourdan 2020-03-04  1542  			     unsigned int *prev_prob, unsigned int *cur_prob,
-00c43088aa6809 Maxime Jourdan 2020-03-04  1543  			     unsigned int *count)
-00c43088aa6809 Maxime Jourdan 2020-03-04  1544  {
-00c43088aa6809 Maxime Jourdan 2020-03-04  1545  	int tx_size, coef_tx_size_start, coef_count_tx_size_start;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1546  	int plane, coef_plane_start, coef_count_plane_start;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1547  	int type, coef_type_start, coef_count_type_start;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1548  	int band, coef_band_start, coef_count_band_start;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1549  	int cxt_num;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1550  	int coef_cxt_start, coef_count_cxt_start;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1551  	int node, coef_node_start, coef_count_node_start;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1552  
-00c43088aa6809 Maxime Jourdan 2020-03-04  1553  	int tree_i, tree_left, tree_right;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1554  	int mvd_i;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1555  
-00c43088aa6809 Maxime Jourdan 2020-03-04  1556  	int update_factor = cur_kf ? 112 : (prev_kf ? 128 : 112);
-00c43088aa6809 Maxime Jourdan 2020-03-04  1557  
-00c43088aa6809 Maxime Jourdan 2020-03-04  1558  	int prob_32;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1559  	int prob_res;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1560  	int prob_shift;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1561  	int pre_prob;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1562  
-00c43088aa6809 Maxime Jourdan 2020-03-04  1563  	int den;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1564  	int get_prob;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1565  	int m_count;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1566  	int factor;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1567  
-00c43088aa6809 Maxime Jourdan 2020-03-04  1568  	int new_prob;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1569  
-00c43088aa6809 Maxime Jourdan 2020-03-04  1570  	for (tx_size = 0 ; tx_size < 4 ; tx_size++) {
-00c43088aa6809 Maxime Jourdan 2020-03-04  1571  		coef_tx_size_start = VP9_COEF_START +
-00c43088aa6809 Maxime Jourdan 2020-03-04  1572  				tx_size * 4 * VP9_COEF_SIZE_ONE_SET;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1573  		coef_count_tx_size_start = VP9_COEF_COUNT_START +
-00c43088aa6809 Maxime Jourdan 2020-03-04  1574  				tx_size * 4 * VP9_COEF_COUNT_SIZE_ONE_SET;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1575  		coef_plane_start = coef_tx_size_start;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1576  		coef_count_plane_start = coef_count_tx_size_start;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1577  
-00c43088aa6809 Maxime Jourdan 2020-03-04  1578  		for (plane = 0 ; plane < 2 ; plane++) {
-00c43088aa6809 Maxime Jourdan 2020-03-04  1579  			coef_type_start = coef_plane_start;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1580  			coef_count_type_start = coef_count_plane_start;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1581  
-00c43088aa6809 Maxime Jourdan 2020-03-04  1582  			for (type = 0 ; type < 2 ; type++) {
-00c43088aa6809 Maxime Jourdan 2020-03-04  1583  				coef_band_start = coef_type_start;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1584  				coef_count_band_start = coef_count_type_start;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1585  
-00c43088aa6809 Maxime Jourdan 2020-03-04  1586  				for (band = 0 ; band < 6 ; band++) {
-00c43088aa6809 Maxime Jourdan 2020-03-04  1587  					if (band == 0)
-00c43088aa6809 Maxime Jourdan 2020-03-04  1588  						cxt_num = 3;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1589  					else
-00c43088aa6809 Maxime Jourdan 2020-03-04  1590  						cxt_num = 6;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1591  					coef_cxt_start = coef_band_start;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1592  					coef_count_cxt_start =
-00c43088aa6809 Maxime Jourdan 2020-03-04  1593  						coef_count_band_start;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1594  
-00c43088aa6809 Maxime Jourdan 2020-03-04  1595  					adapt_coef_probs_cxt(prev_prob,
-00c43088aa6809 Maxime Jourdan 2020-03-04  1596  							     cur_prob,
-00c43088aa6809 Maxime Jourdan 2020-03-04  1597  							     count,
-00c43088aa6809 Maxime Jourdan 2020-03-04  1598  							     update_factor,
-00c43088aa6809 Maxime Jourdan 2020-03-04  1599  							     cxt_num,
-00c43088aa6809 Maxime Jourdan 2020-03-04  1600  							     coef_cxt_start,
-00c43088aa6809 Maxime Jourdan 2020-03-04  1601  							coef_count_cxt_start);
-00c43088aa6809 Maxime Jourdan 2020-03-04  1602  
-00c43088aa6809 Maxime Jourdan 2020-03-04  1603  					if (band == 0) {
-00c43088aa6809 Maxime Jourdan 2020-03-04  1604  						coef_band_start += 10;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1605  						coef_count_band_start += 15;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1606  					} else {
-00c43088aa6809 Maxime Jourdan 2020-03-04  1607  						coef_band_start += 18;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1608  						coef_count_band_start += 30;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1609  					}
-00c43088aa6809 Maxime Jourdan 2020-03-04  1610  				}
-00c43088aa6809 Maxime Jourdan 2020-03-04  1611  				coef_type_start += VP9_COEF_SIZE_ONE_SET;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1612  				coef_count_type_start +=
-00c43088aa6809 Maxime Jourdan 2020-03-04  1613  					VP9_COEF_COUNT_SIZE_ONE_SET;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1614  			}
-00c43088aa6809 Maxime Jourdan 2020-03-04  1615  
-00c43088aa6809 Maxime Jourdan 2020-03-04  1616  			coef_plane_start += 2 * VP9_COEF_SIZE_ONE_SET;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1617  			coef_count_plane_start +=
-00c43088aa6809 Maxime Jourdan 2020-03-04  1618  				2 * VP9_COEF_COUNT_SIZE_ONE_SET;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1619  		}
-00c43088aa6809 Maxime Jourdan 2020-03-04  1620  	}
-00c43088aa6809 Maxime Jourdan 2020-03-04  1621  
-00c43088aa6809 Maxime Jourdan 2020-03-04  1622  	if (cur_kf == 0) {
-00c43088aa6809 Maxime Jourdan 2020-03-04  1623  		/* mode_mv_merge_probs - merge_intra_inter_prob */
-00c43088aa6809 Maxime Jourdan 2020-03-04  1624  		for (coef_count_node_start = VP9_INTRA_INTER_COUNT_START;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1625  		     coef_count_node_start < (VP9_MV_CLASS0_HP_1_COUNT_START +
-00c43088aa6809 Maxime Jourdan 2020-03-04  1626  					      VP9_MV_CLASS0_HP_1_COUNT_SIZE);
-00c43088aa6809 Maxime Jourdan 2020-03-04  1627  		     coef_count_node_start += 2) {
-00c43088aa6809 Maxime Jourdan 2020-03-04  1628  			if (coef_count_node_start ==
-00c43088aa6809 Maxime Jourdan 2020-03-04  1629  					VP9_INTRA_INTER_COUNT_START)
-00c43088aa6809 Maxime Jourdan 2020-03-04  1630  				coef_node_start = VP9_INTRA_INTER_START;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1631  			else if (coef_count_node_start ==
-00c43088aa6809 Maxime Jourdan 2020-03-04  1632  					VP9_COMP_INTER_COUNT_START)
-00c43088aa6809 Maxime Jourdan 2020-03-04  1633  				coef_node_start = VP9_COMP_INTER_START;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1634  			else if (coef_count_node_start ==
-00c43088aa6809 Maxime Jourdan 2020-03-04  1635  					VP9_TX_MODE_COUNT_START)
-00c43088aa6809 Maxime Jourdan 2020-03-04  1636  				coef_node_start = VP9_TX_MODE_START;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1637  			else if (coef_count_node_start ==
-00c43088aa6809 Maxime Jourdan 2020-03-04  1638  					VP9_SKIP_COUNT_START)
-00c43088aa6809 Maxime Jourdan 2020-03-04  1639  				coef_node_start = VP9_SKIP_START;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1640  			else if (coef_count_node_start ==
-00c43088aa6809 Maxime Jourdan 2020-03-04  1641  					VP9_MV_SIGN_0_COUNT_START)
-00c43088aa6809 Maxime Jourdan 2020-03-04  1642  				coef_node_start = VP9_MV_SIGN_0_START;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1643  			else if (coef_count_node_start ==
-00c43088aa6809 Maxime Jourdan 2020-03-04  1644  					VP9_MV_SIGN_1_COUNT_START)
-00c43088aa6809 Maxime Jourdan 2020-03-04  1645  				coef_node_start = VP9_MV_SIGN_1_START;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1646  			else if (coef_count_node_start ==
-00c43088aa6809 Maxime Jourdan 2020-03-04  1647  					VP9_MV_BITS_0_COUNT_START)
-00c43088aa6809 Maxime Jourdan 2020-03-04  1648  				coef_node_start = VP9_MV_BITS_0_START;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1649  			else if (coef_count_node_start ==
-00c43088aa6809 Maxime Jourdan 2020-03-04  1650  					VP9_MV_BITS_1_COUNT_START)
-00c43088aa6809 Maxime Jourdan 2020-03-04  1651  				coef_node_start = VP9_MV_BITS_1_START;
-5e1a33759a57b5 Hans Verkuil   2022-09-30  1652  			else /* node_start == VP9_MV_CLASS0_HP_0_COUNT_START */
-00c43088aa6809 Maxime Jourdan 2020-03-04  1653  				coef_node_start = VP9_MV_CLASS0_HP_0_START;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1654  
-00c43088aa6809 Maxime Jourdan 2020-03-04  1655  			den = count[coef_count_node_start] +
-00c43088aa6809 Maxime Jourdan 2020-03-04  1656  			      count[coef_count_node_start + 1];
-00c43088aa6809 Maxime Jourdan 2020-03-04  1657  
-00c43088aa6809 Maxime Jourdan 2020-03-04  1658  			prob_32 = prev_prob[coef_node_start / 4 * 2];
-00c43088aa6809 Maxime Jourdan 2020-03-04  1659  			prob_res = coef_node_start & 3;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1660  			prob_shift = prob_res * 8;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1661  			pre_prob = (prob_32 >> prob_shift) & 0xff;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1662  
-00c43088aa6809 Maxime Jourdan 2020-03-04  1663  			if (den == 0) {
-00c43088aa6809 Maxime Jourdan 2020-03-04  1664  				new_prob = pre_prob;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1665  			} else {
-00c43088aa6809 Maxime Jourdan 2020-03-04  1666  				m_count = den < MODE_MV_COUNT_SAT ?
-00c43088aa6809 Maxime Jourdan 2020-03-04  1667  						den : MODE_MV_COUNT_SAT;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1668  				get_prob =
-00c43088aa6809 Maxime Jourdan 2020-03-04  1669  				clip_prob(div_r32(((int64_t)
-00c43088aa6809 Maxime Jourdan 2020-03-04  1670  					count[coef_count_node_start] * 256 +
-00c43088aa6809 Maxime Jourdan 2020-03-04  1671  					(den >> 1)),
-00c43088aa6809 Maxime Jourdan 2020-03-04  1672  					den));
-00c43088aa6809 Maxime Jourdan 2020-03-04  1673  
-00c43088aa6809 Maxime Jourdan 2020-03-04  1674  				/* weighted prob */
-00c43088aa6809 Maxime Jourdan 2020-03-04  1675  				factor = count_to_update_factor[m_count];
-00c43088aa6809 Maxime Jourdan 2020-03-04  1676  				new_prob =
-00c43088aa6809 Maxime Jourdan 2020-03-04  1677  					round_power_of_two(pre_prob *
-00c43088aa6809 Maxime Jourdan 2020-03-04  1678  							   (256 - factor) +
-00c43088aa6809 Maxime Jourdan 2020-03-04  1679  							   get_prob * factor,
-00c43088aa6809 Maxime Jourdan 2020-03-04  1680  							   8);
-00c43088aa6809 Maxime Jourdan 2020-03-04  1681  			}
-00c43088aa6809 Maxime Jourdan 2020-03-04  1682  
-00c43088aa6809 Maxime Jourdan 2020-03-04  1683  			cur_prob[coef_node_start / 4 * 2] =
-00c43088aa6809 Maxime Jourdan 2020-03-04  1684  				(cur_prob[coef_node_start / 4 * 2] &
-00c43088aa6809 Maxime Jourdan 2020-03-04  1685  				 (~(0xff << prob_shift))) |
-00c43088aa6809 Maxime Jourdan 2020-03-04  1686  				(new_prob << prob_shift);
-00c43088aa6809 Maxime Jourdan 2020-03-04  1687  
-00c43088aa6809 Maxime Jourdan 2020-03-04 @1688  			coef_node_start = coef_node_start + 1;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1689  		}
-00c43088aa6809 Maxime Jourdan 2020-03-04  1690  
-00c43088aa6809 Maxime Jourdan 2020-03-04  1691  		coef_node_start = VP9_INTER_MODE_START;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1692  		coef_count_node_start = VP9_INTER_MODE_COUNT_START;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1693  		for (tree_i = 0 ; tree_i < 7 ; tree_i++) {
-00c43088aa6809 Maxime Jourdan 2020-03-04  1694  			for (node = 0 ; node < 3 ; node++) {
-00c43088aa6809 Maxime Jourdan 2020-03-04  1695  				unsigned int start = coef_count_node_start;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1696  
-00c43088aa6809 Maxime Jourdan 2020-03-04  1697  				switch (node) {
-00c43088aa6809 Maxime Jourdan 2020-03-04  1698  				case 2:
-00c43088aa6809 Maxime Jourdan 2020-03-04  1699  					tree_left = count[start + 1];
-00c43088aa6809 Maxime Jourdan 2020-03-04  1700  					tree_right = count[start + 3];
-00c43088aa6809 Maxime Jourdan 2020-03-04  1701  					break;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1702  				case 1:
-00c43088aa6809 Maxime Jourdan 2020-03-04  1703  					tree_left = count[start + 0];
-00c43088aa6809 Maxime Jourdan 2020-03-04  1704  					tree_right = count[start + 1] +
-00c43088aa6809 Maxime Jourdan 2020-03-04  1705  						     count[start + 3];
-00c43088aa6809 Maxime Jourdan 2020-03-04  1706  					break;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1707  				default:
-00c43088aa6809 Maxime Jourdan 2020-03-04  1708  					tree_left = count[start + 2];
-00c43088aa6809 Maxime Jourdan 2020-03-04  1709  					tree_right = count[start + 0] +
-00c43088aa6809 Maxime Jourdan 2020-03-04  1710  						     count[start + 1] +
-00c43088aa6809 Maxime Jourdan 2020-03-04  1711  						     count[start + 3];
-00c43088aa6809 Maxime Jourdan 2020-03-04  1712  					break;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1713  				}
-00c43088aa6809 Maxime Jourdan 2020-03-04  1714  
-00c43088aa6809 Maxime Jourdan 2020-03-04  1715  				vp9_tree_merge_probs(prev_prob, cur_prob,
-00c43088aa6809 Maxime Jourdan 2020-03-04  1716  						     coef_node_start,
-00c43088aa6809 Maxime Jourdan 2020-03-04  1717  						     tree_left, tree_right,
-00c43088aa6809 Maxime Jourdan 2020-03-04  1718  						     tree_i, node);
-00c43088aa6809 Maxime Jourdan 2020-03-04  1719  
-00c43088aa6809 Maxime Jourdan 2020-03-04  1720  				coef_node_start = coef_node_start + 1;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1721  			}
-00c43088aa6809 Maxime Jourdan 2020-03-04  1722  
-00c43088aa6809 Maxime Jourdan 2020-03-04  1723  			coef_count_node_start = coef_count_node_start + 4;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1724  		}
-00c43088aa6809 Maxime Jourdan 2020-03-04  1725  
-00c43088aa6809 Maxime Jourdan 2020-03-04  1726  		coef_node_start = VP9_IF_Y_MODE_START;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1727  		coef_count_node_start = VP9_IF_Y_MODE_COUNT_START;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1728  		for (tree_i = 0 ; tree_i < 14 ; tree_i++) {
-00c43088aa6809 Maxime Jourdan 2020-03-04  1729  			for (node = 0 ; node < 9 ; node++) {
-00c43088aa6809 Maxime Jourdan 2020-03-04  1730  				unsigned int start = coef_count_node_start;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1731  
-00c43088aa6809 Maxime Jourdan 2020-03-04  1732  				switch (node) {
-00c43088aa6809 Maxime Jourdan 2020-03-04  1733  				case 8:
-00c43088aa6809 Maxime Jourdan 2020-03-04  1734  					tree_left =
-00c43088aa6809 Maxime Jourdan 2020-03-04  1735  						count[start + D153_PRED];
-00c43088aa6809 Maxime Jourdan 2020-03-04  1736  					tree_right =
-00c43088aa6809 Maxime Jourdan 2020-03-04  1737  						count[start + D207_PRED];
-00c43088aa6809 Maxime Jourdan 2020-03-04  1738  					break;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1739  				case 7:
-00c43088aa6809 Maxime Jourdan 2020-03-04  1740  					tree_left =
-00c43088aa6809 Maxime Jourdan 2020-03-04  1741  						count[start + D63_PRED];
-00c43088aa6809 Maxime Jourdan 2020-03-04  1742  					tree_right =
-00c43088aa6809 Maxime Jourdan 2020-03-04  1743  						count[start + D207_PRED] +
-00c43088aa6809 Maxime Jourdan 2020-03-04  1744  						count[start + D153_PRED];
-00c43088aa6809 Maxime Jourdan 2020-03-04  1745  					break;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1746  				case 6:
-00c43088aa6809 Maxime Jourdan 2020-03-04  1747  					tree_left =
-00c43088aa6809 Maxime Jourdan 2020-03-04  1748  						count[start + D45_PRED];
-00c43088aa6809 Maxime Jourdan 2020-03-04  1749  					tree_right =
-00c43088aa6809 Maxime Jourdan 2020-03-04  1750  						count[start + D207_PRED] +
-00c43088aa6809 Maxime Jourdan 2020-03-04  1751  						count[start + D153_PRED] +
-00c43088aa6809 Maxime Jourdan 2020-03-04  1752  						count[start + D63_PRED];
-00c43088aa6809 Maxime Jourdan 2020-03-04  1753  					break;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1754  				case 5:
-00c43088aa6809 Maxime Jourdan 2020-03-04  1755  					tree_left =
-00c43088aa6809 Maxime Jourdan 2020-03-04  1756  						count[start + D135_PRED];
-00c43088aa6809 Maxime Jourdan 2020-03-04  1757  					tree_right =
-00c43088aa6809 Maxime Jourdan 2020-03-04  1758  						count[start + D117_PRED];
-00c43088aa6809 Maxime Jourdan 2020-03-04  1759  					break;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1760  				case 4:
-00c43088aa6809 Maxime Jourdan 2020-03-04  1761  					tree_left =
-00c43088aa6809 Maxime Jourdan 2020-03-04  1762  						count[start + H_PRED];
-00c43088aa6809 Maxime Jourdan 2020-03-04  1763  					tree_right =
-00c43088aa6809 Maxime Jourdan 2020-03-04  1764  						count[start + D117_PRED] +
-00c43088aa6809 Maxime Jourdan 2020-03-04  1765  						count[start + D135_PRED];
-00c43088aa6809 Maxime Jourdan 2020-03-04  1766  					break;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1767  				case 3:
-00c43088aa6809 Maxime Jourdan 2020-03-04  1768  					tree_left =
-00c43088aa6809 Maxime Jourdan 2020-03-04  1769  						count[start + H_PRED] +
-00c43088aa6809 Maxime Jourdan 2020-03-04  1770  						count[start + D117_PRED] +
-00c43088aa6809 Maxime Jourdan 2020-03-04  1771  						count[start + D135_PRED];
-00c43088aa6809 Maxime Jourdan 2020-03-04  1772  					tree_right =
-00c43088aa6809 Maxime Jourdan 2020-03-04  1773  						count[start + D45_PRED] +
-00c43088aa6809 Maxime Jourdan 2020-03-04  1774  						count[start + D207_PRED] +
-00c43088aa6809 Maxime Jourdan 2020-03-04  1775  						count[start + D153_PRED] +
-00c43088aa6809 Maxime Jourdan 2020-03-04  1776  						count[start + D63_PRED];
-00c43088aa6809 Maxime Jourdan 2020-03-04  1777  					break;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1778  				case 2:
-00c43088aa6809 Maxime Jourdan 2020-03-04  1779  					tree_left =
-00c43088aa6809 Maxime Jourdan 2020-03-04  1780  						count[start + V_PRED];
-00c43088aa6809 Maxime Jourdan 2020-03-04  1781  					tree_right =
-00c43088aa6809 Maxime Jourdan 2020-03-04  1782  						count[start + H_PRED] +
-00c43088aa6809 Maxime Jourdan 2020-03-04  1783  						count[start + D117_PRED] +
-00c43088aa6809 Maxime Jourdan 2020-03-04  1784  						count[start + D135_PRED] +
-00c43088aa6809 Maxime Jourdan 2020-03-04  1785  						count[start + D45_PRED] +
-00c43088aa6809 Maxime Jourdan 2020-03-04  1786  						count[start + D207_PRED] +
-00c43088aa6809 Maxime Jourdan 2020-03-04  1787  						count[start + D153_PRED] +
-00c43088aa6809 Maxime Jourdan 2020-03-04  1788  						count[start + D63_PRED];
-00c43088aa6809 Maxime Jourdan 2020-03-04  1789  					break;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1790  				case 1:
-00c43088aa6809 Maxime Jourdan 2020-03-04  1791  					tree_left =
-00c43088aa6809 Maxime Jourdan 2020-03-04  1792  						count[start + TM_PRED];
-00c43088aa6809 Maxime Jourdan 2020-03-04  1793  					tree_right =
-00c43088aa6809 Maxime Jourdan 2020-03-04  1794  						count[start + V_PRED] +
-00c43088aa6809 Maxime Jourdan 2020-03-04  1795  						count[start + H_PRED] +
-00c43088aa6809 Maxime Jourdan 2020-03-04  1796  						count[start + D117_PRED] +
-00c43088aa6809 Maxime Jourdan 2020-03-04  1797  						count[start + D135_PRED] +
-00c43088aa6809 Maxime Jourdan 2020-03-04  1798  						count[start + D45_PRED] +
-00c43088aa6809 Maxime Jourdan 2020-03-04  1799  						count[start + D207_PRED] +
-00c43088aa6809 Maxime Jourdan 2020-03-04  1800  						count[start + D153_PRED] +
-00c43088aa6809 Maxime Jourdan 2020-03-04  1801  						count[start + D63_PRED];
-00c43088aa6809 Maxime Jourdan 2020-03-04  1802  					break;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1803  				default:
-00c43088aa6809 Maxime Jourdan 2020-03-04  1804  					tree_left =
-00c43088aa6809 Maxime Jourdan 2020-03-04  1805  						count[start + DC_PRED];
-00c43088aa6809 Maxime Jourdan 2020-03-04  1806  					tree_right =
-00c43088aa6809 Maxime Jourdan 2020-03-04  1807  						count[start + TM_PRED] +
-00c43088aa6809 Maxime Jourdan 2020-03-04  1808  						count[start + V_PRED] +
-00c43088aa6809 Maxime Jourdan 2020-03-04  1809  						count[start + H_PRED] +
-00c43088aa6809 Maxime Jourdan 2020-03-04  1810  						count[start + D117_PRED] +
-00c43088aa6809 Maxime Jourdan 2020-03-04  1811  						count[start + D135_PRED] +
-00c43088aa6809 Maxime Jourdan 2020-03-04  1812  						count[start + D45_PRED] +
-00c43088aa6809 Maxime Jourdan 2020-03-04  1813  						count[start + D207_PRED] +
-00c43088aa6809 Maxime Jourdan 2020-03-04  1814  						count[start + D153_PRED] +
-00c43088aa6809 Maxime Jourdan 2020-03-04  1815  						count[start + D63_PRED];
-00c43088aa6809 Maxime Jourdan 2020-03-04  1816  					break;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1817  				}
-00c43088aa6809 Maxime Jourdan 2020-03-04  1818  
-00c43088aa6809 Maxime Jourdan 2020-03-04  1819  				vp9_tree_merge_probs(prev_prob, cur_prob,
-00c43088aa6809 Maxime Jourdan 2020-03-04  1820  						     coef_node_start,
-00c43088aa6809 Maxime Jourdan 2020-03-04  1821  						     tree_left, tree_right,
-00c43088aa6809 Maxime Jourdan 2020-03-04  1822  						     tree_i, node);
-00c43088aa6809 Maxime Jourdan 2020-03-04  1823  
-00c43088aa6809 Maxime Jourdan 2020-03-04  1824  				coef_node_start = coef_node_start + 1;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1825  			}
-00c43088aa6809 Maxime Jourdan 2020-03-04  1826  			coef_count_node_start = coef_count_node_start + 10;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1827  		}
-00c43088aa6809 Maxime Jourdan 2020-03-04  1828  
-00c43088aa6809 Maxime Jourdan 2020-03-04  1829  		coef_node_start = VP9_PARTITION_P_START;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1830  		coef_count_node_start = VP9_PARTITION_P_COUNT_START;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1831  		for (tree_i = 0 ; tree_i < 16 ; tree_i++) {
-00c43088aa6809 Maxime Jourdan 2020-03-04  1832  			for (node = 0 ; node < 3 ; node++) {
-00c43088aa6809 Maxime Jourdan 2020-03-04  1833  				unsigned int start = coef_count_node_start;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1834  
-00c43088aa6809 Maxime Jourdan 2020-03-04  1835  				switch (node) {
-00c43088aa6809 Maxime Jourdan 2020-03-04  1836  				case 2:
-00c43088aa6809 Maxime Jourdan 2020-03-04  1837  					tree_left = count[start + 2];
-00c43088aa6809 Maxime Jourdan 2020-03-04  1838  					tree_right = count[start + 3];
-00c43088aa6809 Maxime Jourdan 2020-03-04  1839  					break;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1840  				case 1:
-00c43088aa6809 Maxime Jourdan 2020-03-04  1841  					tree_left = count[start + 1];
-00c43088aa6809 Maxime Jourdan 2020-03-04  1842  					tree_right = count[start + 2] +
-00c43088aa6809 Maxime Jourdan 2020-03-04  1843  						     count[start + 3];
-00c43088aa6809 Maxime Jourdan 2020-03-04  1844  					break;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1845  				default:
-00c43088aa6809 Maxime Jourdan 2020-03-04  1846  					tree_left = count[start + 0];
-00c43088aa6809 Maxime Jourdan 2020-03-04  1847  					tree_right = count[start + 1] +
-00c43088aa6809 Maxime Jourdan 2020-03-04  1848  						     count[start + 2] +
-00c43088aa6809 Maxime Jourdan 2020-03-04  1849  						     count[start + 3];
-00c43088aa6809 Maxime Jourdan 2020-03-04  1850  					break;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1851  				}
-00c43088aa6809 Maxime Jourdan 2020-03-04  1852  
-00c43088aa6809 Maxime Jourdan 2020-03-04  1853  				vp9_tree_merge_probs(prev_prob, cur_prob,
-00c43088aa6809 Maxime Jourdan 2020-03-04  1854  						     coef_node_start,
-00c43088aa6809 Maxime Jourdan 2020-03-04  1855  						     tree_left, tree_right,
-00c43088aa6809 Maxime Jourdan 2020-03-04  1856  						     tree_i, node);
-00c43088aa6809 Maxime Jourdan 2020-03-04  1857  
-00c43088aa6809 Maxime Jourdan 2020-03-04  1858  				coef_node_start = coef_node_start + 1;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1859  			}
-00c43088aa6809 Maxime Jourdan 2020-03-04  1860  
-00c43088aa6809 Maxime Jourdan 2020-03-04  1861  			coef_count_node_start = coef_count_node_start + 4;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1862  		}
-00c43088aa6809 Maxime Jourdan 2020-03-04  1863  
-00c43088aa6809 Maxime Jourdan 2020-03-04  1864  		coef_node_start = VP9_INTERP_START;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1865  		coef_count_node_start = VP9_INTERP_COUNT_START;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1866  		for (tree_i = 0 ; tree_i < 4 ; tree_i++) {
-00c43088aa6809 Maxime Jourdan 2020-03-04  1867  			for (node = 0 ; node < 2 ; node++) {
-00c43088aa6809 Maxime Jourdan 2020-03-04  1868  				unsigned int start = coef_count_node_start;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1869  
-00c43088aa6809 Maxime Jourdan 2020-03-04  1870  				switch (node) {
-00c43088aa6809 Maxime Jourdan 2020-03-04  1871  				case 1:
-00c43088aa6809 Maxime Jourdan 2020-03-04  1872  					tree_left = count[start + 1];
-00c43088aa6809 Maxime Jourdan 2020-03-04  1873  					tree_right = count[start + 2];
-00c43088aa6809 Maxime Jourdan 2020-03-04  1874  					break;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1875  				default:
-00c43088aa6809 Maxime Jourdan 2020-03-04  1876  					tree_left = count[start + 0];
-00c43088aa6809 Maxime Jourdan 2020-03-04  1877  					tree_right = count[start + 1] +
-00c43088aa6809 Maxime Jourdan 2020-03-04  1878  						     count[start + 2];
-00c43088aa6809 Maxime Jourdan 2020-03-04  1879  					break;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1880  				}
-00c43088aa6809 Maxime Jourdan 2020-03-04  1881  
-00c43088aa6809 Maxime Jourdan 2020-03-04  1882  				vp9_tree_merge_probs(prev_prob, cur_prob,
-00c43088aa6809 Maxime Jourdan 2020-03-04  1883  						     coef_node_start,
-00c43088aa6809 Maxime Jourdan 2020-03-04  1884  						     tree_left, tree_right,
-00c43088aa6809 Maxime Jourdan 2020-03-04  1885  						     tree_i, node);
-00c43088aa6809 Maxime Jourdan 2020-03-04  1886  
-00c43088aa6809 Maxime Jourdan 2020-03-04  1887  				coef_node_start = coef_node_start + 1;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1888  			}
-00c43088aa6809 Maxime Jourdan 2020-03-04  1889  			coef_count_node_start = coef_count_node_start + 3;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1890  		}
-00c43088aa6809 Maxime Jourdan 2020-03-04  1891  
-00c43088aa6809 Maxime Jourdan 2020-03-04  1892  		coef_node_start = VP9_MV_JOINTS_START;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1893  		coef_count_node_start = VP9_MV_JOINTS_COUNT_START;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1894  		for (tree_i = 0 ; tree_i < 1 ; tree_i++) {
-00c43088aa6809 Maxime Jourdan 2020-03-04  1895  			for (node = 0 ; node < 3 ; node++) {
-00c43088aa6809 Maxime Jourdan 2020-03-04  1896  				unsigned int start = coef_count_node_start;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1897  
-00c43088aa6809 Maxime Jourdan 2020-03-04  1898  				switch (node) {
-00c43088aa6809 Maxime Jourdan 2020-03-04  1899  				case 2:
-00c43088aa6809 Maxime Jourdan 2020-03-04  1900  					tree_left = count[start + 2];
-00c43088aa6809 Maxime Jourdan 2020-03-04  1901  					tree_right = count[start + 3];
-00c43088aa6809 Maxime Jourdan 2020-03-04  1902  					break;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1903  				case 1:
-00c43088aa6809 Maxime Jourdan 2020-03-04  1904  					tree_left = count[start + 1];
-00c43088aa6809 Maxime Jourdan 2020-03-04  1905  					tree_right = count[start + 2] +
-00c43088aa6809 Maxime Jourdan 2020-03-04  1906  						     count[start + 3];
-00c43088aa6809 Maxime Jourdan 2020-03-04  1907  					break;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1908  				default:
-00c43088aa6809 Maxime Jourdan 2020-03-04  1909  					tree_left = count[start + 0];
-00c43088aa6809 Maxime Jourdan 2020-03-04  1910  					tree_right = count[start + 1] +
-00c43088aa6809 Maxime Jourdan 2020-03-04  1911  						     count[start + 2] +
-00c43088aa6809 Maxime Jourdan 2020-03-04  1912  						     count[start + 3];
-00c43088aa6809 Maxime Jourdan 2020-03-04  1913  					break;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1914  				}
-00c43088aa6809 Maxime Jourdan 2020-03-04  1915  
-00c43088aa6809 Maxime Jourdan 2020-03-04  1916  				vp9_tree_merge_probs(prev_prob, cur_prob,
-00c43088aa6809 Maxime Jourdan 2020-03-04  1917  						     coef_node_start,
-00c43088aa6809 Maxime Jourdan 2020-03-04  1918  						     tree_left, tree_right,
-00c43088aa6809 Maxime Jourdan 2020-03-04  1919  						     tree_i, node);
-00c43088aa6809 Maxime Jourdan 2020-03-04  1920  
-00c43088aa6809 Maxime Jourdan 2020-03-04  1921  				coef_node_start = coef_node_start + 1;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1922  			}
-00c43088aa6809 Maxime Jourdan 2020-03-04  1923  			coef_count_node_start = coef_count_node_start + 4;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1924  		}
-00c43088aa6809 Maxime Jourdan 2020-03-04  1925  
-00c43088aa6809 Maxime Jourdan 2020-03-04  1926  		for (mvd_i = 0 ; mvd_i < 2 ; mvd_i++) {
-00c43088aa6809 Maxime Jourdan 2020-03-04  1927  			coef_node_start = mvd_i ? VP9_MV_CLASSES_1_START :
-00c43088aa6809 Maxime Jourdan 2020-03-04  1928  						  VP9_MV_CLASSES_0_START;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1929  			coef_count_node_start = mvd_i ?
-00c43088aa6809 Maxime Jourdan 2020-03-04  1930  					VP9_MV_CLASSES_1_COUNT_START :
-00c43088aa6809 Maxime Jourdan 2020-03-04  1931  					VP9_MV_CLASSES_0_COUNT_START;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1932  			tree_i = 0;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1933  			for (node = 0; node < 10; node++) {
-00c43088aa6809 Maxime Jourdan 2020-03-04  1934  				unsigned int start = coef_count_node_start;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1935  
-00c43088aa6809 Maxime Jourdan 2020-03-04  1936  				switch (node) {
-00c43088aa6809 Maxime Jourdan 2020-03-04  1937  				case 9:
-00c43088aa6809 Maxime Jourdan 2020-03-04  1938  					tree_left = count[start + 9];
-00c43088aa6809 Maxime Jourdan 2020-03-04  1939  					tree_right = count[start + 10];
-00c43088aa6809 Maxime Jourdan 2020-03-04  1940  					break;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1941  				case 8:
-00c43088aa6809 Maxime Jourdan 2020-03-04  1942  					tree_left = count[start + 7];
-00c43088aa6809 Maxime Jourdan 2020-03-04  1943  					tree_right = count[start + 8];
-00c43088aa6809 Maxime Jourdan 2020-03-04  1944  					break;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1945  				case 7:
-00c43088aa6809 Maxime Jourdan 2020-03-04  1946  					tree_left = count[start + 7] +
-00c43088aa6809 Maxime Jourdan 2020-03-04  1947  						     count[start + 8];
-00c43088aa6809 Maxime Jourdan 2020-03-04  1948  					tree_right = count[start + 9] +
-00c43088aa6809 Maxime Jourdan 2020-03-04  1949  						     count[start + 10];
-00c43088aa6809 Maxime Jourdan 2020-03-04  1950  					break;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1951  				case 6:
-00c43088aa6809 Maxime Jourdan 2020-03-04  1952  					tree_left = count[start + 6];
-00c43088aa6809 Maxime Jourdan 2020-03-04  1953  					tree_right = count[start + 7] +
-00c43088aa6809 Maxime Jourdan 2020-03-04  1954  						     count[start + 8] +
-00c43088aa6809 Maxime Jourdan 2020-03-04  1955  						     count[start + 9] +
-00c43088aa6809 Maxime Jourdan 2020-03-04  1956  						     count[start + 10];
-00c43088aa6809 Maxime Jourdan 2020-03-04  1957  					break;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1958  				case 5:
-00c43088aa6809 Maxime Jourdan 2020-03-04  1959  					tree_left = count[start + 4];
-00c43088aa6809 Maxime Jourdan 2020-03-04  1960  					tree_right = count[start + 5];
-00c43088aa6809 Maxime Jourdan 2020-03-04  1961  					break;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1962  				case 4:
-00c43088aa6809 Maxime Jourdan 2020-03-04  1963  					tree_left = count[start + 4] +
-00c43088aa6809 Maxime Jourdan 2020-03-04  1964  						    count[start + 5];
-00c43088aa6809 Maxime Jourdan 2020-03-04  1965  					tree_right = count[start + 6] +
-00c43088aa6809 Maxime Jourdan 2020-03-04  1966  						     count[start + 7] +
-00c43088aa6809 Maxime Jourdan 2020-03-04  1967  						     count[start + 8] +
-00c43088aa6809 Maxime Jourdan 2020-03-04  1968  						     count[start + 9] +
-00c43088aa6809 Maxime Jourdan 2020-03-04  1969  						     count[start + 10];
-00c43088aa6809 Maxime Jourdan 2020-03-04  1970  					break;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1971  				case 3:
-00c43088aa6809 Maxime Jourdan 2020-03-04  1972  					tree_left = count[start + 2];
-00c43088aa6809 Maxime Jourdan 2020-03-04  1973  					tree_right = count[start + 3];
-00c43088aa6809 Maxime Jourdan 2020-03-04  1974  					break;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1975  				case 2:
-00c43088aa6809 Maxime Jourdan 2020-03-04  1976  					tree_left = count[start + 2] +
-00c43088aa6809 Maxime Jourdan 2020-03-04  1977  						    count[start + 3];
-00c43088aa6809 Maxime Jourdan 2020-03-04  1978  					tree_right = count[start + 4] +
-00c43088aa6809 Maxime Jourdan 2020-03-04  1979  						     count[start + 5] +
-00c43088aa6809 Maxime Jourdan 2020-03-04  1980  						     count[start + 6] +
-00c43088aa6809 Maxime Jourdan 2020-03-04  1981  						     count[start + 7] +
-00c43088aa6809 Maxime Jourdan 2020-03-04  1982  						     count[start + 8] +
-00c43088aa6809 Maxime Jourdan 2020-03-04  1983  						     count[start + 9] +
-00c43088aa6809 Maxime Jourdan 2020-03-04  1984  						     count[start + 10];
-00c43088aa6809 Maxime Jourdan 2020-03-04  1985  					break;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1986  				case 1:
-00c43088aa6809 Maxime Jourdan 2020-03-04  1987  					tree_left = count[start + 1];
-00c43088aa6809 Maxime Jourdan 2020-03-04  1988  					tree_right = count[start + 2] +
-00c43088aa6809 Maxime Jourdan 2020-03-04  1989  						     count[start + 3] +
-00c43088aa6809 Maxime Jourdan 2020-03-04  1990  						     count[start + 4] +
-00c43088aa6809 Maxime Jourdan 2020-03-04  1991  						     count[start + 5] +
-00c43088aa6809 Maxime Jourdan 2020-03-04  1992  						     count[start + 6] +
-00c43088aa6809 Maxime Jourdan 2020-03-04  1993  						     count[start + 7] +
-00c43088aa6809 Maxime Jourdan 2020-03-04  1994  						     count[start + 8] +
-00c43088aa6809 Maxime Jourdan 2020-03-04  1995  						     count[start + 9] +
-00c43088aa6809 Maxime Jourdan 2020-03-04  1996  						     count[start + 10];
-00c43088aa6809 Maxime Jourdan 2020-03-04  1997  					break;
-00c43088aa6809 Maxime Jourdan 2020-03-04  1998  				default:
-00c43088aa6809 Maxime Jourdan 2020-03-04  1999  					tree_left = count[start + 0];
-00c43088aa6809 Maxime Jourdan 2020-03-04  2000  					tree_right = count[start + 1] +
-00c43088aa6809 Maxime Jourdan 2020-03-04  2001  						     count[start + 2] +
-00c43088aa6809 Maxime Jourdan 2020-03-04  2002  						     count[start + 3] +
-00c43088aa6809 Maxime Jourdan 2020-03-04  2003  						     count[start + 4] +
-00c43088aa6809 Maxime Jourdan 2020-03-04  2004  						     count[start + 5] +
-00c43088aa6809 Maxime Jourdan 2020-03-04  2005  						     count[start + 6] +
-00c43088aa6809 Maxime Jourdan 2020-03-04  2006  						     count[start + 7] +
-00c43088aa6809 Maxime Jourdan 2020-03-04  2007  						     count[start + 8] +
-00c43088aa6809 Maxime Jourdan 2020-03-04  2008  						     count[start + 9] +
-00c43088aa6809 Maxime Jourdan 2020-03-04  2009  						     count[start + 10];
-00c43088aa6809 Maxime Jourdan 2020-03-04  2010  					break;
-00c43088aa6809 Maxime Jourdan 2020-03-04  2011  				}
-00c43088aa6809 Maxime Jourdan 2020-03-04  2012  
-00c43088aa6809 Maxime Jourdan 2020-03-04  2013  				vp9_tree_merge_probs(prev_prob, cur_prob,
-00c43088aa6809 Maxime Jourdan 2020-03-04  2014  						     coef_node_start,
-00c43088aa6809 Maxime Jourdan 2020-03-04  2015  						     tree_left, tree_right,
-00c43088aa6809 Maxime Jourdan 2020-03-04  2016  						     tree_i, node);
-00c43088aa6809 Maxime Jourdan 2020-03-04  2017  
-00c43088aa6809 Maxime Jourdan 2020-03-04  2018  				coef_node_start = coef_node_start + 1;
-00c43088aa6809 Maxime Jourdan 2020-03-04  2019  			}
-00c43088aa6809 Maxime Jourdan 2020-03-04  2020  
-00c43088aa6809 Maxime Jourdan 2020-03-04  2021  			coef_node_start = mvd_i ? VP9_MV_CLASS0_1_START :
-00c43088aa6809 Maxime Jourdan 2020-03-04  2022  						  VP9_MV_CLASS0_0_START;
-00c43088aa6809 Maxime Jourdan 2020-03-04  2023  			coef_count_node_start =	mvd_i ?
-00c43088aa6809 Maxime Jourdan 2020-03-04  2024  						VP9_MV_CLASS0_1_COUNT_START :
-00c43088aa6809 Maxime Jourdan 2020-03-04  2025  						VP9_MV_CLASS0_0_COUNT_START;
-00c43088aa6809 Maxime Jourdan 2020-03-04  2026  			tree_i = 0;
-00c43088aa6809 Maxime Jourdan 2020-03-04  2027  			node = 0;
-00c43088aa6809 Maxime Jourdan 2020-03-04  2028  			tree_left = count[coef_count_node_start + 0];
-00c43088aa6809 Maxime Jourdan 2020-03-04  2029  			tree_right = count[coef_count_node_start + 1];
-00c43088aa6809 Maxime Jourdan 2020-03-04  2030  
-00c43088aa6809 Maxime Jourdan 2020-03-04  2031  			vp9_tree_merge_probs(prev_prob, cur_prob,
-00c43088aa6809 Maxime Jourdan 2020-03-04  2032  					     coef_node_start,
-00c43088aa6809 Maxime Jourdan 2020-03-04  2033  					     tree_left, tree_right,
-00c43088aa6809 Maxime Jourdan 2020-03-04  2034  					     tree_i, node);
-00c43088aa6809 Maxime Jourdan 2020-03-04  2035  			coef_node_start = mvd_i ? VP9_MV_CLASS0_FP_1_START :
-00c43088aa6809 Maxime Jourdan 2020-03-04  2036  						  VP9_MV_CLASS0_FP_0_START;
-00c43088aa6809 Maxime Jourdan 2020-03-04  2037  			coef_count_node_start =	mvd_i ?
-00c43088aa6809 Maxime Jourdan 2020-03-04  2038  					VP9_MV_CLASS0_FP_1_COUNT_START :
-00c43088aa6809 Maxime Jourdan 2020-03-04  2039  					VP9_MV_CLASS0_FP_0_COUNT_START;
-00c43088aa6809 Maxime Jourdan 2020-03-04  2040  
-00c43088aa6809 Maxime Jourdan 2020-03-04  2041  			for (tree_i = 0; tree_i < 3; tree_i++) {
-00c43088aa6809 Maxime Jourdan 2020-03-04  2042  				for (node = 0; node < 3; node++) {
-00c43088aa6809 Maxime Jourdan 2020-03-04  2043  					unsigned int start =
-00c43088aa6809 Maxime Jourdan 2020-03-04  2044  						coef_count_node_start;
-00c43088aa6809 Maxime Jourdan 2020-03-04  2045  					switch (node) {
-00c43088aa6809 Maxime Jourdan 2020-03-04  2046  					case 2:
-00c43088aa6809 Maxime Jourdan 2020-03-04  2047  						tree_left = count[start + 2];
-00c43088aa6809 Maxime Jourdan 2020-03-04  2048  						tree_right = count[start + 3];
-00c43088aa6809 Maxime Jourdan 2020-03-04  2049  						break;
-00c43088aa6809 Maxime Jourdan 2020-03-04  2050  					case 1:
-00c43088aa6809 Maxime Jourdan 2020-03-04  2051  						tree_left = count[start + 1];
-00c43088aa6809 Maxime Jourdan 2020-03-04  2052  						tree_right = count[start + 2] +
-00c43088aa6809 Maxime Jourdan 2020-03-04  2053  							     count[start + 3];
-00c43088aa6809 Maxime Jourdan 2020-03-04  2054  						break;
-00c43088aa6809 Maxime Jourdan 2020-03-04  2055  					default:
-00c43088aa6809 Maxime Jourdan 2020-03-04  2056  						tree_left = count[start + 0];
-00c43088aa6809 Maxime Jourdan 2020-03-04  2057  						tree_right = count[start + 1] +
-00c43088aa6809 Maxime Jourdan 2020-03-04  2058  							     count[start + 2] +
-00c43088aa6809 Maxime Jourdan 2020-03-04  2059  							     count[start + 3];
-00c43088aa6809 Maxime Jourdan 2020-03-04  2060  						break;
-00c43088aa6809 Maxime Jourdan 2020-03-04  2061  					}
-00c43088aa6809 Maxime Jourdan 2020-03-04  2062  
-00c43088aa6809 Maxime Jourdan 2020-03-04  2063  					vp9_tree_merge_probs(prev_prob,
-00c43088aa6809 Maxime Jourdan 2020-03-04  2064  							     cur_prob,
-00c43088aa6809 Maxime Jourdan 2020-03-04  2065  							     coef_node_start,
-00c43088aa6809 Maxime Jourdan 2020-03-04  2066  							     tree_left,
-00c43088aa6809 Maxime Jourdan 2020-03-04  2067  							     tree_right,
-00c43088aa6809 Maxime Jourdan 2020-03-04  2068  							     tree_i, node);
-00c43088aa6809 Maxime Jourdan 2020-03-04  2069  
-00c43088aa6809 Maxime Jourdan 2020-03-04  2070  					coef_node_start = coef_node_start + 1;
-00c43088aa6809 Maxime Jourdan 2020-03-04  2071  				}
-00c43088aa6809 Maxime Jourdan 2020-03-04  2072  				coef_count_node_start =
-00c43088aa6809 Maxime Jourdan 2020-03-04  2073  					coef_count_node_start + 4;
-00c43088aa6809 Maxime Jourdan 2020-03-04  2074  			}
-00c43088aa6809 Maxime Jourdan 2020-03-04  2075  		}
-00c43088aa6809 Maxime Jourdan 2020-03-04  2076  	}
-00c43088aa6809 Maxime Jourdan 2020-03-04  2077  }
-00c43088aa6809 Maxime Jourdan 2020-03-04  2078  
+3009f891bb9f32 Kees Cook      2021-08-02  30  
+a28a6e860c6cf2 Francis Laniel 2021-02-25  31  #if defined(CONFIG_KASAN_GENERIC) || defined(CONFIG_KASAN_SW_TAGS)
+a28a6e860c6cf2 Francis Laniel 2021-02-25  32  extern void *__underlying_memchr(const void *p, int c, __kernel_size_t size) __RENAME(memchr);
+a28a6e860c6cf2 Francis Laniel 2021-02-25  33  extern int __underlying_memcmp(const void *p, const void *q, __kernel_size_t size) __RENAME(memcmp);
+a28a6e860c6cf2 Francis Laniel 2021-02-25  34  extern void *__underlying_memcpy(void *p, const void *q, __kernel_size_t size) __RENAME(memcpy);
+a28a6e860c6cf2 Francis Laniel 2021-02-25  35  extern void *__underlying_memmove(void *p, const void *q, __kernel_size_t size) __RENAME(memmove);
+a28a6e860c6cf2 Francis Laniel 2021-02-25  36  extern void *__underlying_memset(void *p, int c, __kernel_size_t size) __RENAME(memset);
+a28a6e860c6cf2 Francis Laniel 2021-02-25  37  extern char *__underlying_strcat(char *p, const char *q) __RENAME(strcat);
+a28a6e860c6cf2 Francis Laniel 2021-02-25  38  extern char *__underlying_strcpy(char *p, const char *q) __RENAME(strcpy);
+a28a6e860c6cf2 Francis Laniel 2021-02-25  39  extern __kernel_size_t __underlying_strlen(const char *p) __RENAME(strlen);
+a28a6e860c6cf2 Francis Laniel 2021-02-25  40  extern char *__underlying_strncat(char *p, const char *q, __kernel_size_t count) __RENAME(strncat);
+a28a6e860c6cf2 Francis Laniel 2021-02-25  41  extern char *__underlying_strncpy(char *p, const char *q, __kernel_size_t size) __RENAME(strncpy);
+a28a6e860c6cf2 Francis Laniel 2021-02-25  42  #else
+a28a6e860c6cf2 Francis Laniel 2021-02-25  43  #define __underlying_memchr	__builtin_memchr
+a28a6e860c6cf2 Francis Laniel 2021-02-25  44  #define __underlying_memcmp	__builtin_memcmp
+a28a6e860c6cf2 Francis Laniel 2021-02-25 @45  #define __underlying_memcpy	__builtin_memcpy
+a28a6e860c6cf2 Francis Laniel 2021-02-25  46  #define __underlying_memmove	__builtin_memmove
+a28a6e860c6cf2 Francis Laniel 2021-02-25  47  #define __underlying_memset	__builtin_memset
+a28a6e860c6cf2 Francis Laniel 2021-02-25  48  #define __underlying_strcat	__builtin_strcat
+a28a6e860c6cf2 Francis Laniel 2021-02-25  49  #define __underlying_strcpy	__builtin_strcpy
+a28a6e860c6cf2 Francis Laniel 2021-02-25  50  #define __underlying_strlen	__builtin_strlen
+a28a6e860c6cf2 Francis Laniel 2021-02-25  51  #define __underlying_strncat	__builtin_strncat
+a28a6e860c6cf2 Francis Laniel 2021-02-25  52  #define __underlying_strncpy	__builtin_strncpy
+a28a6e860c6cf2 Francis Laniel 2021-02-25  53  #endif
+a28a6e860c6cf2 Francis Laniel 2021-02-25  54  
 
-:::::: The code at line 1688 was first introduced by commit
-:::::: 00c43088aa680989407b6afbda295f67b3f123f1 media: meson: vdec: add VP9 decoder support
+:::::: The code at line 45 was first introduced by commit
+:::::: a28a6e860c6cf231cf3c5171c75c342adcd00406 string.h: move fortified functions definitions in a dedicated header.
 
-:::::: TO: Maxime Jourdan <mjourdan@baylibre.com>
-:::::: CC: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+:::::: TO: Francis Laniel <laniel_francis@privacyrequired.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
