@@ -1,235 +1,191 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD8BA659;
-	Tue, 31 Jan 2023 07:35:22 +0000 (UTC)
-Received: by mail-wr1-f52.google.com with SMTP id y1so13332312wru.2;
-        Mon, 30 Jan 2023 23:35:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=YpX4llJ455OytRpR/gVnSQw85gGHbm17o9W77XROS7c=;
-        b=nYA5CTOMy0fZWkfiB/Ap3Pcz9/OgKB/xnNAptJpBQwY300fsvKICh241cCn0SagLgJ
-         /hM1ZDYIr2PgwSiaWHUBZgWw2h24dA9jbF9OXiiWHPw+oKBtfeaMyoD1lzSUXOOkE7s2
-         w4PVU7iuNop8vSWsJHpmhjgFAe0ovaP0wV3baTiIdlOd2qnpu+voAKs5Y4bfOV0J374e
-         2iM+dgPZ9rlfTHuzzrjE0Oe8vclgjnRLLEW13YMU1U9sQ4tWkQsTVDYYICZ8jPVzqpk2
-         kZ73a2bE7B5sxhe90wfsw3oBe4ZkprweHCWmuv+a+vwBe4UO9WLMRhfa5j97+dLwnwSh
-         cj0Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=YpX4llJ455OytRpR/gVnSQw85gGHbm17o9W77XROS7c=;
-        b=ppYyMxKA2W1FyPGNTvbFIgYyT4KBfb62sqGV2UWxTAM8BwiVzoyhnyPiVt2JKDG6nH
-         87X0vuEJfPNSPyPseohrQ3+9j0rNs6hVTuxFO5KuZ5Prdf/6dbnu0ql3JHmxHCdMt1Ni
-         76SiEPDe1T+Dfh51tzkQe6YGqwx0KykuJYh4f5WBoC+znqRgioCOq8uuspTlvE8iBjQG
-         TwnFZtidigYIYvQMSecmV1ioIHVL4MOZT81jOxTui5Y2E4PACCqLc4Q5g4UqEIfgfSi2
-         kOxJ42N2IO/PQDFJZPlhznHaZTd6ly4ey1vgcVTTnYUI9L4VCv/HG7ss8S95KsF6MIs1
-         LB3Q==
-X-Gm-Message-State: AO0yUKXKa/j5/8mCwzamtOuUIMk4KPdp5/M6OtmC1myFZLStu89NQ/dL
-	5R4YRV+N8Xtoqk6Rm4JfLK6OYm9+OZA=
-X-Google-Smtp-Source: AK7set9hwEPgNEEkvr4sku3/lwfx6+wl/H7mzIicrHCt3k9vG5F3aXGJNwUGYjqgI59GOhk3RuGrSg==
-X-Received: by 2002:a05:6000:168a:b0:2bf:f029:8ac7 with SMTP id y10-20020a056000168a00b002bff0298ac7mr6292070wrd.67.1675150520721;
-        Mon, 30 Jan 2023 23:35:20 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id d3-20020adfe2c3000000b002bc7fcf08ddsm13597090wrj.103.2023.01.30.23.35.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Jan 2023 23:35:20 -0800 (PST)
-Date: Tue, 31 Jan 2023 10:35:16 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, Daniel Scally <dan.scally@ideasonboard.com>,
-	linux-usb@vger.kernel.org, gregkh@linuxfoundation.org,
-	laurent.pinchart@ideasonboard.com
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, mgr@pengutronix.de,
-	balbi@kernel.org, kieran.bingham@ideasonboard.com,
-	torleiv@huddly.com, stern@rowland.harvard.edu,
-	Daniel Scally <dan.scally@ideasonboard.com>
-Subject: Re: [PATCH v3 07/11] usb: gadget: configfs: Attach arbitrary strings
- to cdev
-Message-ID: <202301311446.AqdvqXkI-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53F01A94F
+	for <oe-kbuild@lists.linux.dev>; Tue, 31 Jan 2023 22:10:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1675203042; x=1706739042;
+  h=date:from:to:cc:subject:message-id:references:
+   in-reply-to:mime-version;
+  bh=5qk13RnMaKWwMVw/krBQrs32DGu/Ny/5VNNEiJL2jTo=;
+  b=HtTSpMtMGS7/eSFKBLteCGL5rZtqVDDT11cGpSbYaQ5f0uoswKK0gL8r
+   +zOAmXJgWB/sXuvBOjX75a10inNO+7S0TLXhkr6zY+xENJ+2GNDcUP50s
+   B3DX1VcT8/UTLgEd7dNmzMXCh1naTTUhiytDlUWGacXisQCUfOy/12UzX
+   gG0LEZz2BEABsEs3G6+5d4mc5IjTwcMrNOGP+l1dU4fzoB1xv7lqtRxfJ
+   wxa6OwLV/Ww21nZxWiqATMJpb9D1gb+aZ2/eCc6m1lJVkS1Tekt+O4L9C
+   LTPQ6gJzZkK5HPQQURYmQI36XoCBGdleb9PuvxXrJpITWSXlboLOqGdzI
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10607"; a="315942384"
+X-IronPort-AV: E=Sophos;i="5.97,261,1669104000"; 
+   d="scan'208";a="315942384"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2023 14:10:41 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10607"; a="910070481"
+X-IronPort-AV: E=Sophos;i="5.97,261,1669104000"; 
+   d="scan'208";a="910070481"
+Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
+  by fmsmga006.fm.intel.com with ESMTP; 31 Jan 2023 14:10:40 -0800
+Received: from orsmsx612.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16; Tue, 31 Jan 2023 14:10:40 -0800
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX612.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16; Tue, 31 Jan 2023 14:10:40 -0800
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16 via Frontend Transport; Tue, 31 Jan 2023 14:10:40 -0800
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.169)
+ by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.16; Tue, 31 Jan 2023 14:10:39 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=QP7xyEP8ov+ba3Aqphvtcwz6q3k++9r8X9s79j7HGwn+bJnIOJNHNy/wtIU+cWyuHW9csWIcQ+KfWsElzR+An0uU79jqrK6sSYopycFok+Y3D24ZADZlpcc7ltRO+xGw5yIRbHVtDe3up+RRptfjbhWOpBXm9I2O00zNVsysz79luSsMAS4CcrtZdzrj80wxzPZA7V0TTKYvmJcgZMQAEqUu+VGkas+Dq0JyVL/kyC7UJwRjs10utgz1LZP/DwWn8xG84GhiJ/q8dLfI/BNjGTYi/cTh6TBt7oA7bAzNU0t4BecVrFIfgZmaRfFC6YPeC0kw5caJ5vuUCxz/TuyYsw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=eI6+ijuVP6h8jv2dtJEtChSlYjNbKICE8qTYn/YehRk=;
+ b=MkfiBtDee83NYFE+2NtSovVZeqIbBVsCXH1lLEFOlHjQR702IVjG8rVvumi9QSZb80F2ZKFWHCktEZ38ggk29FmUyogMJsJBZjg4a1bhIuK3ZQE3zZ6XxvbYrsx+ucKXXtFdLJF3C4uBXsWhhHuqX2agVywI4bGKbUPxN72LWaF64Te74a4mDZJQRyA2Fdk7C9s3JXGg9LKdcTUcFuF3QJ8Ka4JaPPDaI8FtWL+fp7SNTMBx2XWqkR3JWsvyCPtEfNPcocDdy6tOnQJuX7cz+QcX8A+SSVTqeE301sVrOOSQeU08l7Bus8Co5B/wjCisTaw8AxFs89l5v9lWabvKKg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SA1PR11MB6733.namprd11.prod.outlook.com (2603:10b6:806:25c::17)
+ by SJ0PR11MB5680.namprd11.prod.outlook.com (2603:10b6:a03:305::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6043.38; Tue, 31 Jan
+ 2023 22:10:37 +0000
+Received: from SA1PR11MB6733.namprd11.prod.outlook.com
+ ([fe80::6851:3db2:1166:dda6]) by SA1PR11MB6733.namprd11.prod.outlook.com
+ ([fe80::6851:3db2:1166:dda6%9]) with mapi id 15.20.6043.036; Tue, 31 Jan 2023
+ 22:10:37 +0000
+Date: Tue, 31 Jan 2023 14:10:34 -0800
+From: Ira Weiny <ira.weiny@intel.com>
+To: Davidlohr Bueso <dave@stgolabs.net>, kernel test robot <lkp@intel.com>,
+	<ira.weiny@intel.com>, <dan.j.williams@intel.com>,
+	<Jonathan.Cameron@huawei.com>, <linux-cxl@vger.kernel.org>
+CC: <oe-kbuild@lists.linux.dev>, Julia Lawall <julia.lawall@lip6.fr>
+Subject: Re: [cxl:pending 13/21] drivers/cxl/pci.c:511:8-33: WARNING:
+ Threaded IRQ with no primary handler requested without IRQF_ONESHOT (unless
+ it is nested IRQ)
+Message-ID: <63d991da1c19c_a8e3129488@iweiny-mobl.notmuch>
+References: <202301291620.DxnDWLoW-lkp@intel.com>
+ <20230130215514.6cviyuwhxgjlzj27@offworld>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20230130215514.6cviyuwhxgjlzj27@offworld>
+X-ClientProxiedBy: BY3PR05CA0021.namprd05.prod.outlook.com
+ (2603:10b6:a03:254::26) To SA1PR11MB6733.namprd11.prod.outlook.com
+ (2603:10b6:806:25c::17)
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230130093443.25644-8-dan.scally@ideasonboard.com>
-Message-ID: <20230131073516.5jxtiQoAxZUbFfmwR_ycamHye5FVlVxC1Mdw6qxZGuk@z>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SA1PR11MB6733:EE_|SJ0PR11MB5680:EE_
+X-MS-Office365-Filtering-Correlation-Id: bd114ff7-24b3-4aea-fbde-08db03d7fb22
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: jf/knoeY2we3Ec5w1ucgibT47AM32h+GJjNqzo3sOSdd3HYbmlpdD2pvOl5EFW2pDZIHmWPeVM1VpoJq44nWG2E6qmIaoviqVJ2q5UAAQ5kLyThD9bbO0s4VVbL6202f9Ty5UkZQ5UQnfKKQ8SxTuB9H7TkzNSK3CqcJLThl1MdMVyqomnRNGcX3CV9Up2g1Y1cXgOQ06x8lkTZd8rxO+gNTAOHcQQY34I4Kj2v0GGHbp62I3CmejmFDnTavrHfnKysvS15gx9EJZdB4aF+CybNpkSc6/DgHkFHpd0Z7v5RARsfvYiCJtRW6lqj4dLwyT7gCKUiFDDDe01BXoPfV28W/qDs/1rdiIpMqnrJTEUeMtVfciVHFAVMRxPzEH+3LSFs/L8oeqquw9AVz36nhXbXibvytlWk7mpXniyWDYYjaGJCBqHD9afYSNGeB+0S9d84Vz2spwh9XoVo410HKIUrVKT0TSIURgY1uAt+Xjofzj4/aNIDVIctJga3x770SASRzaDvejzsxdwXvGVMDaI4Ey2qtLIOD+aDp/Nocxglzggixf9b7GRA5sqIM3TDF2nXUkT3KzuSvuixnWLWlyuM1WsHhXqNTSgItnS0Rb5ZRkXp7rG9rXzH7BvbwDO3SaKK57sSX4zr5yTqcC0u6bVRTmULK5KnpXSBCanS2OFKHFY/QgtN0N4p5fQwq5NY3WOyRaFWkUp4mOQpbqqtM1Q==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR11MB6733.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(136003)(376002)(346002)(39860400002)(366004)(396003)(451199018)(110136005)(6666004)(316002)(83380400001)(2906002)(44832011)(38100700002)(82960400001)(66476007)(66946007)(4326008)(6506007)(6512007)(66556008)(41300700001)(26005)(9686003)(6486002)(966005)(478600001)(186003)(86362001)(5660300002)(8676002)(8936002);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?B6k/4OZhWj7Zi+tphVPeF5yGx+2JMnyiMjCFF+F4OkTMY+PDJmdVV5JQhycR?=
+ =?us-ascii?Q?KFPoY5xwAFyBF67qmxAUlMO6yKFQQBzMFfFQ29HE9N9xhNvDGdw9DUrVROla?=
+ =?us-ascii?Q?CntpWOhkBx1VfBIApCR59xUz1VEGbsCTCwQg+JOjLPXQdx3UOMwodZFeXCYe?=
+ =?us-ascii?Q?LHqFyQsOIVOpPbzUDpfqpg30CfC6swOei9/CSM6XLueZwrW6ytKTVoXFGCcg?=
+ =?us-ascii?Q?KnUw6jtiyTI83ZTYYkX2P7E66rjoc5Pf/RDh4Pn0oufXop2ot/WvlcYxsUxq?=
+ =?us-ascii?Q?S+ZMi3gjujG8WKzoTUBPDS9M7MfM+oQwQiKHBy4LQvQwiH1RvgkZnEjh1Skh?=
+ =?us-ascii?Q?TZMXjMVpcezl8Y60EXM6UGxInUJhpnO3sccaTTmlwaRynkWB4VJdAs3rjb7g?=
+ =?us-ascii?Q?AqtWlqMCEpx5Genv22z1Ty1VtJIpGuSSs6GLHxCtDIZ3pZDaNX/CK1rFbgBi?=
+ =?us-ascii?Q?AZl/ZiG9O6p8nu8JWJZyJTJe4YcDMcAdJ53EbiKekRa4LkY/ZzmxBhvYLtBJ?=
+ =?us-ascii?Q?IGLioazXDrhjunKrapq6TJfTCbtDd7K9+W60SDNm14K1uQoundX/XxyR6j5C?=
+ =?us-ascii?Q?JKWCoyjAp8aIEcp+LKlLd1Aq71Vz5dZSfqeObNLTwtHxk1POky5q8AjYSfA5?=
+ =?us-ascii?Q?ovp7qL3J8j4BAHWrh1ivD1uqjnjIt3ubXc2KwntE484HfM0IPIXXfKw6V8zs?=
+ =?us-ascii?Q?xaVM2qQLzgnksFtNv9UWqlyPr8cgE4c09C5Fr4hUTPzisoDHyuQeEWkwlsgi?=
+ =?us-ascii?Q?LSDbXfqi0cB6QrT71A2R7mvJIHJeRAvsAA2Cpc91C1tnk0PTcXTZyBcuj+fs?=
+ =?us-ascii?Q?U1E0zFMVfkFdDPr8UV4sTRajhUopyagMgHvl6SY865ENslTb3vaBt5IX/tc9?=
+ =?us-ascii?Q?KHBcZLgkRhCcOeKmJEA6bVu5MWYEh/tOQwIiglm/GCdHDnpYBfBrJoTlAosz?=
+ =?us-ascii?Q?6iVJyy3XLfOyzz0RuYesymrVANWXFk8gPchAUhzoAe+ILtVE4uHJHCPt6uIr?=
+ =?us-ascii?Q?qdvfK+7cWnQg5j/8PDmDktd92srQtYFCqKYefr7cmRDMPhWvAF/KAHjZdf5o?=
+ =?us-ascii?Q?t/w+HW10t9bTLoLy5puAiCetcEp1qjfh5uiu4kzz41wdzezjQ+WED8pyeGxu?=
+ =?us-ascii?Q?O3l4SPfOJ+3ncRJJq7BcOcg3phEdNg9EQ1lewl9ueRQPDICyHue11MS4s1ii?=
+ =?us-ascii?Q?yQ+fHJJzaR8r09bg2JxLj2O2D0EJIulMaNiS/444fn1DsaeWL0Isqy5QMPap?=
+ =?us-ascii?Q?RH3P+QDZhxrvqvGCtghr9ZYl/+wfFlZsT8voqL3b6fjCFqFm2mw7aAQGx/F8?=
+ =?us-ascii?Q?RyCtBYajg/bMBJgP4/A4US90DmkwZc3e30HaQZ434+GlsQYTLYy9BbXB+oq3?=
+ =?us-ascii?Q?Fdpg8AuYZA3hlEbdauiOpB0QQN6MlHO/jBijDXEEPwKgjQc37hWLUqsGmUW/?=
+ =?us-ascii?Q?669oZVi+6qLj0FrmmYt75CHDb6dgox0k8unayEj6cu38EwDZjAy63324lZUA?=
+ =?us-ascii?Q?07EcUaLUqvTTzAe3WxT1eNmRvYQ1kmftaIvYCYPZsbSO9l7X2BXRtDzfiyv2?=
+ =?us-ascii?Q?Cf3sj4eiRn1D5m5lBdWPbc6Trqk0pPpIVyYXOIH+?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: bd114ff7-24b3-4aea-fbde-08db03d7fb22
+X-MS-Exchange-CrossTenant-AuthSource: SA1PR11MB6733.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Jan 2023 22:10:37.1470
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: TWmKIduxlWlvwq301H3bmkzfxmpGGSZ6Picd2JdmnLjBGm4oZwFbbZqqrBYH6jb277nU3fiMUh74Qb8SFN2VWg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB5680
+X-OriginatorOrg: intel.com
 
-Hi Daniel,
+Davidlohr Bueso wrote:
+> On Sun, 29 Jan 2023, kernel test robot wrote:
+> 
+> >BCC: lkp@intel.com
+> >CC: oe-kbuild-all@lists.linux.dev
+> >CC: Alison Schofield <alison.schofield@intel.com>
+> >CC: Vishal Verma <vishal.l.verma@intel.com>
+> >CC: Ira Weiny <ira.weiny@intel.com>
+> >CC: Ben Widawsky <ben.widawsky@intel.com>
+> >CC: Dan Williams <dan.j.williams@intel.com>
+> >CC: linux-cxl@vger.kernel.org
+> >TO: Davidlohr Bueso <dave@stgolabs.net>
+> >CC: Dan Williams <dan.j.williams@intel.com>
+> >CC: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> >CC: Ira Weiny <ira.weiny@intel.com>
+> >
+> >tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cxl/cxl.git pending
+> >head:   ace4b76d4ab70335cffb5a1c8450d3b34c16771a
+> >commit: a49aa8141b657a7fd33d86f7bed3ca07567ab37a [13/21] cxl/mem: Wire up event interrupts
+> >:::::: branch date: 4 hours ago
+> >:::::: commit date: 2 days ago
+> >config: microblaze-randconfig-c043-20230129 (https://download.01.org/0day-ci/archive/20230129/202301291620.DxnDWLoW-lkp@intel.com/config)
+> >compiler: microblaze-linux-gcc (GCC) 12.1.0
+> >
+> >If you fix the issue, kindly add following tag where applicable
+> >| Reported-by: kernel test robot <lkp@intel.com>
+> >| Reported-by: Julia Lawall <julia.lawall@lip6.fr>
+> 
+> Thanks for reporting, and I'm adding more folks explicitly to the Cc.
 
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Thanks for the Cc.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Scally/usb-gadget-uvc-Make-bSourceID-read-write/20230130-174215
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-linus
-patch link:    https://lore.kernel.org/r/20230130093443.25644-8-dan.scally%40ideasonboard.com
-patch subject: [PATCH v3 07/11] usb: gadget: configfs: Attach arbitrary strings to cdev
-config: x86_64-randconfig-m001 (https://download.01.org/0day-ci/archive/20230131/202301311446.AqdvqXkI-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+> 
+> >
+> >cocci warnings: (new ones prefixed by >>)
+> >>> drivers/cxl/pci.c:511:8-33: WARNING: Threaded IRQ with no primary handler requested without IRQF_ONESHOT (unless it is nested IRQ)
+> 
+> Considering MSIs are edge triggered interrupts, this should be benign.
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
+I'm trying to understand this a bit more.  So I looked in more detail.  I
+believe Dan suggested that I could use irq_default_primary_handler() in
+this case by passing NULL.  And this would handle threading the irq
+processing for me.
 
-New smatch warnings:
-drivers/usb/gadget/configfs.c:1563 configfs_composite_bind() warn: passing zero to 'PTR_ERR'
+It looks from a software standpoint this should work.  But the kdocs
+really imply that not masking the irq in the handler may be an issue.
+Thus the 'requirement' of using IRQF_ONESHOT.
 
-Old smatch warnings:
-drivers/usb/gadget/configfs.c:985 os_desc_b_vendor_code_show() warn: argument 3 to %02x specifier has type 'char'
+Is this somehow different with MSI?  Is this a case of the kdocs being a
+bit out of date for MSI?
 
-vim +/PTR_ERR +1563 drivers/usb/gadget/configfs.c
-
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1518  static int configfs_composite_bind(struct usb_gadget *gadget,
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1519  		struct usb_gadget_driver *gdriver)
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1520  {
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1521  	struct usb_composite_driver     *composite = to_cdriver(gdriver);
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1522  	struct gadget_info		*gi = container_of(composite,
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1523  						struct gadget_info, composite);
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1524  	struct usb_composite_dev	*cdev = &gi->cdev;
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1525  	struct usb_configuration	*c;
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1526  	struct usb_string		*s;
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1527  	unsigned			i;
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1528  	int				ret;
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1529  
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1530  	/* the gi->lock is hold by the caller */
-1a1c851bbd706e Peter Chen                2019-08-26  1531  	gi->unbind = 0;
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1532  	cdev->gadget = gadget;
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1533  	set_gadget_data(gadget, cdev);
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1534  	ret = composite_dev_prepare(composite, cdev);
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1535  	if (ret)
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1536  		return ret;
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1537  	/* and now the gadget bind */
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1538  	ret = -EINVAL;
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1539  
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1540  	if (list_empty(&gi->cdev.configs)) {
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1541  		pr_err("Need at least one configuration in %s.\n",
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1542  				gi->composite.name);
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1543  		goto err_comp_cleanup;
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1544  	}
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1545  
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1546  
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1547  	list_for_each_entry(c, &gi->cdev.configs, list) {
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1548  		struct config_usb_cfg *cfg;
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1549  
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1550  		cfg = container_of(c, struct config_usb_cfg, c);
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1551  		if (list_empty(&cfg->func_list)) {
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1552  			pr_err("Config %s/%d of %s needs at least one function.\n",
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1553  			      c->label, c->bConfigurationValue,
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1554  			      gi->composite.name);
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1555  			goto err_comp_cleanup;
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1556  		}
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1557  	}
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1558  
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1559  	/* init all strings */
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1560  	if (!list_empty(&gi->string_list)) {
-0c252735443756 Daniel Scally             2023-01-30  1561  		s = configfs_attach_gadget_strings(gi);
-0c252735443756 Daniel Scally             2023-01-30  1562  		if (IS_ERR_OR_NULL(s)) {
-
-
-Passing NULL to PTR_ERR(s) is not a bug, but this check has a probably
-under 10% false positive rate because 90% of the time when people do
-that it is wrong.
-
-In this case configfs_attach_gadget_strings() cannot actually return
-NULL so this could just be changed to if (IS_ERR(s)) {.
-
-I would say that probably if it *did* return NULL then we should return
--EPROBE_DEFER.  It's an interesting philosophical debate how to handle
-impossible things...
-
-fea77077d1623c Wei Yongjun               2013-05-07 @1563  			ret = PTR_ERR(s);
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1564  			goto err_comp_cleanup;
-fea77077d1623c Wei Yongjun               2013-05-07  1565  		}
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1566  
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1567  		gi->cdev.desc.iManufacturer = s[USB_GADGET_MANUFACTURER_IDX].id;
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1568  		gi->cdev.desc.iProduct = s[USB_GADGET_PRODUCT_IDX].id;
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1569  		gi->cdev.desc.iSerialNumber = s[USB_GADGET_SERIAL_IDX].id;
-0c252735443756 Daniel Scally             2023-01-30  1570  
-0c252735443756 Daniel Scally             2023-01-30  1571  		gi->cdev.usb_strings = s;
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1572  	}
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1573  
-87213d388e927a Andrzej Pietrasiewicz     2014-05-08  1574  	if (gi->use_os_desc) {
-87213d388e927a Andrzej Pietrasiewicz     2014-05-08  1575  		cdev->use_os_string = true;
-87213d388e927a Andrzej Pietrasiewicz     2014-05-08  1576  		cdev->b_vendor_code = gi->b_vendor_code;
-87213d388e927a Andrzej Pietrasiewicz     2014-05-08  1577  		memcpy(cdev->qw_sign, gi->qw_sign, OS_STRING_QW_SIGN_LEN);
-87213d388e927a Andrzej Pietrasiewicz     2014-05-08  1578  	}
-87213d388e927a Andrzej Pietrasiewicz     2014-05-08  1579  
-41ce84c86d0a04 Li Jun                    2015-07-09  1580  	if (gadget_is_otg(gadget) && !otg_desc[0]) {
-41ce84c86d0a04 Li Jun                    2015-07-09  1581  		struct usb_descriptor_header *usb_desc;
-41ce84c86d0a04 Li Jun                    2015-07-09  1582  
-41ce84c86d0a04 Li Jun                    2015-07-09  1583  		usb_desc = usb_otg_descriptor_alloc(gadget);
-41ce84c86d0a04 Li Jun                    2015-07-09  1584  		if (!usb_desc) {
-41ce84c86d0a04 Li Jun                    2015-07-09  1585  			ret = -ENOMEM;
-41ce84c86d0a04 Li Jun                    2015-07-09  1586  			goto err_comp_cleanup;
-41ce84c86d0a04 Li Jun                    2015-07-09  1587  		}
-41ce84c86d0a04 Li Jun                    2015-07-09  1588  		usb_otg_descriptor_init(gadget, usb_desc);
-41ce84c86d0a04 Li Jun                    2015-07-09  1589  		otg_desc[0] = usb_desc;
-41ce84c86d0a04 Li Jun                    2015-07-09  1590  		otg_desc[1] = NULL;
-41ce84c86d0a04 Li Jun                    2015-07-09  1591  	}
-41ce84c86d0a04 Li Jun                    2015-07-09  1592  
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1593  	/* Go through all configs, attach all functions */
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1594  	list_for_each_entry(c, &gi->cdev.configs, list) {
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1595  		struct config_usb_cfg *cfg;
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1596  		struct usb_function *f;
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1597  		struct usb_function *tmp;
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1598  		struct gadget_config_name *cn;
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1599  
-41ce84c86d0a04 Li Jun                    2015-07-09  1600  		if (gadget_is_otg(gadget))
-41ce84c86d0a04 Li Jun                    2015-07-09  1601  			c->descriptors = otg_desc;
-41ce84c86d0a04 Li Jun                    2015-07-09  1602  
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1603  		cfg = container_of(c, struct config_usb_cfg, c);
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1604  		if (!list_empty(&cfg->string_list)) {
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1605  			i = 0;
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1606  			list_for_each_entry(cn, &cfg->string_list, list) {
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1607  				cfg->gstrings[i] = &cn->stringtab_dev;
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1608  				cn->stringtab_dev.strings = &cn->strings;
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1609  				cn->strings.s = cn->configuration;
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1610  				i++;
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1611  			}
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1612  			cfg->gstrings[i] = NULL;
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1613  			s = usb_gstrings_attach(&gi->cdev, cfg->gstrings, 1);
-fea77077d1623c Wei Yongjun               2013-05-07  1614  			if (IS_ERR(s)) {
-fea77077d1623c Wei Yongjun               2013-05-07  1615  				ret = PTR_ERR(s);
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1616  				goto err_comp_cleanup;
-fea77077d1623c Wei Yongjun               2013-05-07  1617  			}
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1618  			c->iConfiguration = s[0].id;
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1619  		}
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1620  
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1621  		list_for_each_entry_safe(f, tmp, &cfg->func_list, list) {
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1622  			list_del(&f->list);
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1623  			ret = usb_add_function(c, f);
-5a68e9b57b1c19 Andrzej Pietrasiewicz     2013-08-08  1624  			if (ret) {
-5a68e9b57b1c19 Andrzej Pietrasiewicz     2013-08-08  1625  				list_add(&f->list, &cfg->func_list);
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1626  				goto err_purge_funcs;
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1627  			}
-5a68e9b57b1c19 Andrzej Pietrasiewicz     2013-08-08  1628  		}
-7adf9e3adc398e Wesley Cheng              2021-07-10  1629  		ret = usb_gadget_check_config(cdev->gadget);
-7adf9e3adc398e Wesley Cheng              2021-07-10  1630  		if (ret)
-7adf9e3adc398e Wesley Cheng              2021-07-10  1631  			goto err_purge_funcs;
-7adf9e3adc398e Wesley Cheng              2021-07-10  1632  
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1633  		usb_ep_autoconfig_reset(cdev->gadget);
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1634  	}
-da4243145fb197 Andrzej Pietrasiewicz     2014-05-08  1635  	if (cdev->use_os_string) {
-da4243145fb197 Andrzej Pietrasiewicz     2014-05-08  1636  		ret = composite_os_desc_req_prepare(cdev, gadget->ep0);
-da4243145fb197 Andrzej Pietrasiewicz     2014-05-08  1637  		if (ret)
-da4243145fb197 Andrzej Pietrasiewicz     2014-05-08  1638  			goto err_purge_funcs;
-da4243145fb197 Andrzej Pietrasiewicz     2014-05-08  1639  	}
-da4243145fb197 Andrzej Pietrasiewicz     2014-05-08  1640  
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1641  	usb_ep_autoconfig_reset(cdev->gadget);
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1642  	return 0;
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1643  
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1644  err_purge_funcs:
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1645  	purge_configs_funcs(gi);
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1646  err_comp_cleanup:
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1647  	composite_dev_cleanup(cdev);
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1648  	return ret;
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1649  }
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
-
+Ira
