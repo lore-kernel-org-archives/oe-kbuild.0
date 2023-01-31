@@ -1,44 +1,42 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05529746A
-	for <oe-kbuild@lists.linux.dev>; Mon, 30 Jan 2023 19:33:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1F8065C
+	for <oe-kbuild@lists.linux.dev>; Tue, 31 Jan 2023 07:09:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675107200; x=1706643200;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=e9sqguuVfrPOqhzIbZuwFN/pfAljA6GuTo9ZPN3JwBk=;
-  b=S+ra8iTIAbR+TS94dKvgSzSrh9QJi012mhWJqe8iId1zvRdvmBOZRlJp
-   kB0aHmIxqtj0KHiqIgKobhJwNeVd5adLKMNAAx8SRJSDMZMaGg3LGnCkz
-   xPSe0KRr2yP3Io7JirFMFtcpecpwngDBXXOqaIhFGrwei7NsHtpB6OdOn
-   w+eiBGIXhluZw2JDkZpeQe3PvEr/mrM0v8oLnclOi73shDdNCnUz31yS1
-   UAxID/N5rqQSSeOKpRBgCpn2CgBl0G72ZTLmmVjuxZYOivQFbQuI/wQ8D
-   8fMjjDwzW3zlsV1a6nq5Lj1ke52YNjpbXChnyG2kUsTgKFeRUoFWgeB1n
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10606"; a="315612688"
+  t=1675148984; x=1706684984;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=jLOxeaT0aZJ7m8ZTMrzdO3gVW0+qoqqJRcsbsV2x/Wg=;
+  b=jt/sWza/ciAW4hhow04x82ivfxVx9N2W0SEETFzpfmiSj1uRs0lspxRS
+   XC4rZGbnmCAYnA/Zeq4wjlTrVXg4Vq28d3q+ULv7DLGcyx7D3HutAV/1r
+   6SNosIOjwUQoKh1kH3g/5QYZgtLe7ooGy1xbCsFBoUzUtn937NEUjE0HQ
+   L5GwfdwSdFcClt6dyCSYMBEOVhRpwUeKIAi3qE2GM3kteB7JjjNiYM61M
+   zcRMTfDQOnaS04+zBmLA7q9KJEufMRmy/bo2hatfoJsomG9JL3K7oaQ6Q
+   4MC1sbt8wjlizPOffUYi6O2UIj7Yk6Jiw97CKupEdpC6ZLRxspZz4RfhJ
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10606"; a="311392438"
 X-IronPort-AV: E=Sophos;i="5.97,259,1669104000"; 
-   d="scan'208";a="315612688"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2023 11:33:19 -0800
+   d="scan'208";a="311392438"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2023 23:09:42 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10606"; a="664220704"
+X-IronPort-AV: E=McAfee;i="6500,9779,10606"; a="806998883"
 X-IronPort-AV: E=Sophos;i="5.97,259,1669104000"; 
-   d="scan'208";a="664220704"
+   d="scan'208";a="806998883"
 Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 30 Jan 2023 11:33:18 -0800
+  by fmsmga001.fm.intel.com with ESMTP; 30 Jan 2023 23:09:41 -0800
 Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pMZu1-0003rf-2N;
-	Mon, 30 Jan 2023 19:33:17 +0000
-Date: Tue, 31 Jan 2023 03:32:37 +0800
+	id 1pMklw-0004GC-2D;
+	Tue, 31 Jan 2023 07:09:40 +0000
+Date: Tue, 31 Jan 2023 15:09:10 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [ammarfaizi2-block:dhowells/linux-fs/iov-cifs 11/15]
- include/linux/fortify-string.h:57:33: warning: use of NULL 'iv' where
- non-null expected [CWE-476]
-Message-ID: <202301310323.SBG0Y5Dq-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCH v3 07/11] usb: gadget: configfs: Attach arbitrary strings
+ to cdev
+Message-ID: <202301311446.AqdvqXkI-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -47,340 +45,189 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-::::::=20
-:::::: Manual check reason: "low confidence bisect report"
-:::::: Manual check reason: "low confidence static check first_new_problem:=
- include/linux/fortify-string.h:57:33: warning: use of NULL 'iv' where non-=
-null expected [CWE-476] [-Wanalyzer-null-argument]"
-::::::=20
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: Ammar Faizi <ammarfaizi2@gnuweeb.org>
-CC: "GNU/Weeb Mailing List" <gwml@vger.gnuweeb.org>
-TO: David Howells <dhowells@redhat.com>
+In-Reply-To: <20230130093443.25644-8-dan.scally@ideasonboard.com>
+References: <20230130093443.25644-8-dan.scally@ideasonboard.com>
+TO: Daniel Scally <dan.scally@ideasonboard.com>
+TO: linux-usb@vger.kernel.org
+TO: gregkh@linuxfoundation.org
+TO: laurent.pinchart@ideasonboard.com
+CC: mgr@pengutronix.de
+CC: balbi@kernel.org
+CC: kieran.bingham@ideasonboard.com
+CC: torleiv@huddly.com
+CC: stern@rowland.harvard.edu
+CC: Daniel Scally <dan.scally@ideasonboard.com>
 
-tree:   https://github.com/ammarfaizi2/linux-block dhowells/linux-fs/iov-ci=
-fs
-head:   c8c6760ea04e68f89a711c414f56d81946bd2d57
-commit: 9f77fe4631af9cc7e82407c9c467b7e0a48271c2 [11/15] cifs: Change the I=
-/O paths to use an iterator rather than a page list
-:::::: branch date: 3 days ago
-:::::: commit date: 4 days ago
-config: i386-randconfig-c001-20230130 (https://download.01.org/0day-ci/arch=
-ive/20230131/202301310323.SBG0Y5Dq-lkp@intel.com/config)
+Hi Daniel,
+
+I love your patch! Perhaps something to improve:
+
+[auto build test WARNING on usb/usb-linus]
+[also build test WARNING on westeri-thunderbolt/next linus/master v6.2-rc6 next-20230130]
+[cannot apply to usb/usb-testing usb/usb-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Scally/usb-gadget-uvc-Make-bSourceID-read-write/20230130-174215
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-linus
+patch link:    https://lore.kernel.org/r/20230130093443.25644-8-dan.scally%40ideasonboard.com
+patch subject: [PATCH v3 07/11] usb: gadget: configfs: Attach arbitrary strings to cdev
+:::::: branch date: 21 hours ago
+:::::: commit date: 21 hours ago
+config: x86_64-randconfig-m001 (https://download.01.org/0day-ci/archive/20230131/202301311446.AqdvqXkI-lkp@intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-reproduce (this is a W=3D1 build):
-        # https://github.com/ammarfaizi2/linux-block/commit/9f77fe4631af9cc=
-7e82407c9c467b7e0a48271c2
-        git remote add ammarfaizi2-block https://github.com/ammarfaizi2/lin=
-ux-block
-        git fetch --no-tags ammarfaizi2-block dhowells/linux-fs/iov-cifs
-        git checkout 9f77fe4631af9cc7e82407c9c467b7e0a48271c2
-        # save the config file
-        make ARCH=3Di386 KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error'  oldde=
-fconfig
-        make ARCH=3Di386 KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error'=20
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
 
-gcc_analyzer warnings: (new ones prefixed by >>)
-                     | 4391 |         if (!enc) {
-                     |      |         ~~ ~   =20
-                     |      |         |  |
-                     |      |         |  (49) following 'true' branch (when=
- 'enc =3D=3D 0')...
-                     |      |         (48) ...to here
-                     |
-                   'crypt_message': event 50
-                     |
-                     |include/linux/fortify-string.h:565:62:
-                     |  565 |                              p_size_field, q_=
-size_field, op) ({         \
-                     |      |                                              =
-                ^
-                     |      |                                              =
-                |
-                     |      |                                              =
-                (50) ...to here
-   include/linux/fortify-string.h:623:26: note: in expansion of macro '__fo=
-rtify_memcpy_chk'
-                     |  623 | #define memcpy(p, q, s)  __fortify_memcpy_chk=
-(p, q, s,                  \
-                     |      |                          ^~~~~~~~~~~~~~~~~~~~
-   fs/cifs/smb2ops.c:4392:17: note: in expansion of macro 'memcpy'
-                     | 4392 |                 memcpy(sign, &tr_hdr->Signatu=
-re, SMB2_SIGNATURE_SIZE);
-                     |      |                 ^~~~~~
-                     |
-                   'crypt_message': events 51-52
-                     |
-                     |include/linux/fortify-string.h:538:51:
-                     |  538 |         if ((p_size !=3D SIZE_MAX && p_size <=
- size) ||
-                     |      |             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~^~
-                     |      |                                              =
-     |
-                     |      |                                              =
-     (51) following 'false' branch (when '__q_size > 15')...
-                     |  539 |             (q_size !=3D SIZE_MAX && q_size <=
- size))
-                     |      |             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~ =20
-                     |......
-                     |  557 |         if (p_size_field !=3D 0 && p_size_fie=
-ld !=3D SIZE_MAX &&
-                     |      |         ~~                                   =
-     =20
-                     |      |         |
-                     |      |         (52) ...to here
-                     |
-                   'crypt_message': event 53
-                     |
-                     |fs/cifs/smb2ops.c:4396:12:
-                     | 4396 |         if ((server->cipher_type =3D=3D SMB2_=
-ENCRYPTION_AES128_GCM) ||
-                     |      |            ^
-                     |      |            |
-                     |      |            (53) following 'true' branch...
-                     |
-                   'crypt_message': event 54
-                     |
-                     |include/linux/fortify-string.h:565:62:
-                     |  565 |                              p_size_field, q_=
-size_field, op) ({         \
-                     |      |                                              =
-                ^
-                     |      |                                              =
-                |
-                     |      |                                              =
-                (54) ...to here
-   include/linux/fortify-string.h:623:26: note: in expansion of macro '__fo=
-rtify_memcpy_chk'
-                     |  623 | #define memcpy(p, q, s)  __fortify_memcpy_chk=
-(p, q, s,                  \
-                     |      |                          ^~~~~~~~~~~~~~~~~~~~
-   fs/cifs/smb2ops.c:4398:17: note: in expansion of macro 'memcpy'
-                     | 4398 |                 memcpy(iv, (char *)tr_hdr->No=
-nce, SMB3_AES_GCM_NONCE);
-                     |      |                 ^~~~~~
-                     |
-                   'crypt_message': events 55-56
-                     |
-                     |include/linux/fortify-string.h:538:12:
-                     |  538 |         if ((p_size !=3D SIZE_MAX && p_size <=
- size) ||
-                     |      |            ^
-                     |      |            |
-                     |      |            (55) following 'false' branch...
-                     |......
-                     |  557 |         if (p_size_field !=3D 0 && p_size_fie=
-ld !=3D SIZE_MAX &&
-                     |      |         ~~ =20
-                     |      |         |
-                     |      |         (56) ...to here
-                     |
-                   'crypt_message': events 57-58
-                     |
-                     |fs/cifs/smb2ops.c:4404:9:
-                     | 4404 |         aead_request_set_tfm(req, tfm);
-                     |      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                     |      |         |
-                     |      |         (57) 'req' is NULL
-                     |      |         (58) 'req' is NULL
-                     |
-                   'crypt_message': event 59
-                     |
-                     |include/crypto/aead.h:510:18:
-                     |  510 |         req->src =3D src;
-                     |      |         ~~~~~~~~~^~~~~
-                     |      |                  |
-                     |      |                  (59) dereference of NULL 're=
-q'
-                     |
-   In file included from include/linux/string.h:253,
-                    from arch/x86/include/asm/page_32.h:22,
-                    from arch/x86/include/asm/page.h:14,
-                    from arch/x86/include/asm/thread_info.h:12,
-                    from include/linux/thread_info.h:60,
-                    from arch/x86/include/asm/preempt.h:9,
-                    from include/linux/preempt.h:78,
-                    from include/linux/spinlock.h:56,
-                    from include/linux/mmzone.h:8,
-                    from include/linux/gfp.h:7,
-                    from include/linux/mm.h:7,
-                    from include/linux/pagemap.h:8,
-                    from fs/cifs/smb2ops.c:8:
->> include/linux/fortify-string.h:57:33: warning: use of NULL 'iv' where no=
-n-null expected [CWE-476] [-Wanalyzer-null-argument]
-      57 | #define __underlying_memcpy     __builtin_memcpy
-         |                                 ^
-   include/linux/fortify-string.h:578:9: note: in expansion of macro '__und=
-erlying_memcpy'
-     578 |         __underlying_##op(p, q, __fortify_size);                =
-        \
-         |         ^~~~~~~~~~~~~
-   include/linux/fortify-string.h:623:26: note: in expansion of macro '__fo=
-rtify_memcpy_chk'
-     623 | #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,          =
-        \
-         |                          ^~~~~~~~~~~~~~~~~~~~
-   fs/cifs/smb2ops.c:4398:17: note: in expansion of macro 'memcpy'
-    4398 |                 memcpy(iv, (char *)tr_hdr->Nonce, SMB3_AES_GCM_N=
-ONCE);
-         |                 ^~~~~~
-     'smb2_decrypt_offload': events 1-2
-       |
-       | 4751 | static void smb2_decrypt_offload(struct work_struct *work)
-       |      |             ^~~~~~~~~~~~~~~~~~~~
-       |      |             |
-       |      |             (1) entry to 'smb2_decrypt_offload'
-       |......
-       | 4760 |         rc =3D decrypt_raw_data(dw->server, dw->buf, dw->se=
-rver->vals->read_rsp_size,
-       |      |              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |              |
-       |      |              (2) calling 'decrypt_raw_data' from 'smb2_decr=
-ypt_offload'
-       | 4761 |                               &iter, true);
-       |      |                               ~~~~~~~~~~~~
-       |
-       +--> 'decrypt_raw_data': events 3-6
-              |
-              | 4537 | decrypt_raw_data(struct TCP_Server_Info *server, cha=
-r *buf,
-              |      | ^~~~~~~~~~~~~~~~
-              |      | |
-              |      | (3) entry to 'decrypt_raw_data'
-              |......
-              | 4553 |         if (iter) {
-              |      |            ~
-              |      |            |
-              |      |            (4) following 'true' branch (when 'iter' =
-is non-NULL)...
-              | 4554 |                 rqst.rq_iter =3D *iter;
-              |      |                 ~~~~
-              |      |                 |
-              |      |                 (5) ...to here
-              |......
-              | 4558 |         rc =3D crypt_message(server, 1, &rqst, 0);
-              |      |              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-              |      |              |
-              |      |              (6) calling 'crypt_message' from 'decry=
-pt_raw_data'
-              |
-              +--> 'crypt_message': event 7
-                     |
-                     | 4338 | crypt_message(struct TCP_Server_Info *server,=
- int num_rqst,
-                     |      | ^~~~~~~~~~~~~
-                     |      | |
-                     |      | (7) entry to 'crypt_message'
-                     |
-                   'crypt_message': event 8
-                     |
-                     |cc1:
-                     | (8): '=1B[01m=1B[Kiv=1B[m=1B[K' is NULL
-                     |
-                   'crypt_message': event 9
-                     |
-                     | 4355 |         rc =3D smb2_get_enc_key(server, le64_=
-to_cpu(tr_hdr->SessionId), enc, key);
-                     |      |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                     |      |              |
-                     |      |              (9) calling 'smb2_get_enc_key' f=
-rom 'crypt_message'
-                     |
-                     +--> 'smb2_get_enc_key': events 10-12
-                            |
-                            | 4305 | smb2_get_enc_key(struct TCP_Server_Inf=
-o *server, __u64 ses_id, int enc, u8 *key)
-                            |      | ^~~~~~~~~~~~~~~~
-                            |      | |
-                            |      | (10) entry to 'smb2_get_enc_key'
-                            |......
-                            | 4318 |                         ses_enc_key =
-=3D enc ? ses->smb3encryptionkey :
-                            |      |                         ~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                            |      |                                     |
-                            |      |                                     (1=
-1) following 'false' branch (when 'enc =3D=3D 0')...
-                            |      |                                     (1=
-2) ...to here
-                            | 4319 |                                 ses->s=
-mb3decryptionkey;
-                            |      |                                 ~~~~~~=
-~~~~~~~~~~~~~~~~
-                            |
-                          'smb2_get_enc_key': events 13-14
-                            |
-                            |include/linux/fortify-string.h:538:12:
-                            |  538 |         if ((p_size !=3D SIZE_MAX && p=
-_size < size) ||
-                            |      |            ^
-                            |      |            |
-                            |      |            (13) following 'false' bran=
-ch...
-                            |......
-                            |  557 |         if (p_size_field !=3D 0 && p_s=
-ize_field !=3D SIZE_MAX &&
-                            |      |         ~~ =20
-                            |      |         |
-                            |      |         (14) ...to here
-                            |
-                     <------+
-                     |
-                   'crypt_message': events 15-26
-                     |
-                     |fs/cifs/smb2ops.c:4355:14:
-                     | 4355 |         rc =3D smb2_get_enc_key(server, le64_=
-to_cpu(tr_hdr->SessionId), enc, key);
-                     |      |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+New smatch warnings:
+drivers/usb/gadget/configfs.c:1563 configfs_composite_bind() warn: passing zero to 'PTR_ERR'
 
-vim +/iv +57 include/linux/fortify-string.h
+Old smatch warnings:
+drivers/usb/gadget/configfs.c:985 os_desc_b_vendor_code_show() warn: argument 3 to %02x specifier has type 'char'
 
-78a498c3a227f2a Alexander Potapenko 2022-10-24  46 =20
-78a498c3a227f2a Alexander Potapenko 2022-10-24  47  #if defined(__SANITIZE_=
-MEMORY__)
-78a498c3a227f2a Alexander Potapenko 2022-10-24  48  /*
-78a498c3a227f2a Alexander Potapenko 2022-10-24  49   * For KMSAN builds all=
- memcpy/memset/memmove calls should be replaced by the
-78a498c3a227f2a Alexander Potapenko 2022-10-24  50   * corresponding __msan=
-_XXX functions.
-78a498c3a227f2a Alexander Potapenko 2022-10-24  51   */
-78a498c3a227f2a Alexander Potapenko 2022-10-24  52  #include <linux/kmsan_s=
-tring.h>
-78a498c3a227f2a Alexander Potapenko 2022-10-24  53  #define __underlying_me=
-mcpy	__msan_memcpy
-78a498c3a227f2a Alexander Potapenko 2022-10-24  54  #define __underlying_me=
-mmove	__msan_memmove
-78a498c3a227f2a Alexander Potapenko 2022-10-24  55  #define __underlying_me=
-mset	__msan_memset
-78a498c3a227f2a Alexander Potapenko 2022-10-24  56  #else
-a28a6e860c6cf23 Francis Laniel      2021-02-25 @57  #define __underlying_me=
-mcpy	__builtin_memcpy
-a28a6e860c6cf23 Francis Laniel      2021-02-25  58  #define __underlying_me=
-mmove	__builtin_memmove
-a28a6e860c6cf23 Francis Laniel      2021-02-25  59  #define __underlying_me=
-mset	__builtin_memset
-78a498c3a227f2a Alexander Potapenko 2022-10-24  60  #endif
-78a498c3a227f2a Alexander Potapenko 2022-10-24  61 =20
+vim +/PTR_ERR +1563 drivers/usb/gadget/configfs.c
 
-:::::: The code at line 57 was first introduced by commit
-:::::: a28a6e860c6cf231cf3c5171c75c342adcd00406 string.h: move fortified fu=
-nctions definitions in a dedicated header.
+0c252735443756 Daniel Scally             2023-01-30  1517  
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1518  static int configfs_composite_bind(struct usb_gadget *gadget,
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1519  		struct usb_gadget_driver *gdriver)
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1520  {
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1521  	struct usb_composite_driver     *composite = to_cdriver(gdriver);
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1522  	struct gadget_info		*gi = container_of(composite,
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1523  						struct gadget_info, composite);
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1524  	struct usb_composite_dev	*cdev = &gi->cdev;
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1525  	struct usb_configuration	*c;
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1526  	struct usb_string		*s;
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1527  	unsigned			i;
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1528  	int				ret;
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1529  
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1530  	/* the gi->lock is hold by the caller */
+1a1c851bbd706e Peter Chen                2019-08-26  1531  	gi->unbind = 0;
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1532  	cdev->gadget = gadget;
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1533  	set_gadget_data(gadget, cdev);
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1534  	ret = composite_dev_prepare(composite, cdev);
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1535  	if (ret)
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1536  		return ret;
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1537  	/* and now the gadget bind */
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1538  	ret = -EINVAL;
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1539  
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1540  	if (list_empty(&gi->cdev.configs)) {
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1541  		pr_err("Need at least one configuration in %s.\n",
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1542  				gi->composite.name);
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1543  		goto err_comp_cleanup;
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1544  	}
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1545  
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1546  
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1547  	list_for_each_entry(c, &gi->cdev.configs, list) {
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1548  		struct config_usb_cfg *cfg;
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1549  
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1550  		cfg = container_of(c, struct config_usb_cfg, c);
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1551  		if (list_empty(&cfg->func_list)) {
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1552  			pr_err("Config %s/%d of %s needs at least one function.\n",
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1553  			      c->label, c->bConfigurationValue,
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1554  			      gi->composite.name);
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1555  			goto err_comp_cleanup;
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1556  		}
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1557  	}
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1558  
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1559  	/* init all strings */
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1560  	if (!list_empty(&gi->string_list)) {
+0c252735443756 Daniel Scally             2023-01-30  1561  		s = configfs_attach_gadget_strings(gi);
+0c252735443756 Daniel Scally             2023-01-30  1562  		if (IS_ERR_OR_NULL(s)) {
+fea77077d1623c Wei Yongjun               2013-05-07 @1563  			ret = PTR_ERR(s);
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1564  			goto err_comp_cleanup;
+fea77077d1623c Wei Yongjun               2013-05-07  1565  		}
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1566  
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1567  		gi->cdev.desc.iManufacturer = s[USB_GADGET_MANUFACTURER_IDX].id;
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1568  		gi->cdev.desc.iProduct = s[USB_GADGET_PRODUCT_IDX].id;
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1569  		gi->cdev.desc.iSerialNumber = s[USB_GADGET_SERIAL_IDX].id;
+0c252735443756 Daniel Scally             2023-01-30  1570  
+0c252735443756 Daniel Scally             2023-01-30  1571  		gi->cdev.usb_strings = s;
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1572  	}
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1573  
+87213d388e927a Andrzej Pietrasiewicz     2014-05-08  1574  	if (gi->use_os_desc) {
+87213d388e927a Andrzej Pietrasiewicz     2014-05-08  1575  		cdev->use_os_string = true;
+87213d388e927a Andrzej Pietrasiewicz     2014-05-08  1576  		cdev->b_vendor_code = gi->b_vendor_code;
+87213d388e927a Andrzej Pietrasiewicz     2014-05-08  1577  		memcpy(cdev->qw_sign, gi->qw_sign, OS_STRING_QW_SIGN_LEN);
+87213d388e927a Andrzej Pietrasiewicz     2014-05-08  1578  	}
+87213d388e927a Andrzej Pietrasiewicz     2014-05-08  1579  
+41ce84c86d0a04 Li Jun                    2015-07-09  1580  	if (gadget_is_otg(gadget) && !otg_desc[0]) {
+41ce84c86d0a04 Li Jun                    2015-07-09  1581  		struct usb_descriptor_header *usb_desc;
+41ce84c86d0a04 Li Jun                    2015-07-09  1582  
+41ce84c86d0a04 Li Jun                    2015-07-09  1583  		usb_desc = usb_otg_descriptor_alloc(gadget);
+41ce84c86d0a04 Li Jun                    2015-07-09  1584  		if (!usb_desc) {
+41ce84c86d0a04 Li Jun                    2015-07-09  1585  			ret = -ENOMEM;
+41ce84c86d0a04 Li Jun                    2015-07-09  1586  			goto err_comp_cleanup;
+41ce84c86d0a04 Li Jun                    2015-07-09  1587  		}
+41ce84c86d0a04 Li Jun                    2015-07-09  1588  		usb_otg_descriptor_init(gadget, usb_desc);
+41ce84c86d0a04 Li Jun                    2015-07-09  1589  		otg_desc[0] = usb_desc;
+41ce84c86d0a04 Li Jun                    2015-07-09  1590  		otg_desc[1] = NULL;
+41ce84c86d0a04 Li Jun                    2015-07-09  1591  	}
+41ce84c86d0a04 Li Jun                    2015-07-09  1592  
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1593  	/* Go through all configs, attach all functions */
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1594  	list_for_each_entry(c, &gi->cdev.configs, list) {
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1595  		struct config_usb_cfg *cfg;
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1596  		struct usb_function *f;
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1597  		struct usb_function *tmp;
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1598  		struct gadget_config_name *cn;
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1599  
+41ce84c86d0a04 Li Jun                    2015-07-09  1600  		if (gadget_is_otg(gadget))
+41ce84c86d0a04 Li Jun                    2015-07-09  1601  			c->descriptors = otg_desc;
+41ce84c86d0a04 Li Jun                    2015-07-09  1602  
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1603  		cfg = container_of(c, struct config_usb_cfg, c);
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1604  		if (!list_empty(&cfg->string_list)) {
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1605  			i = 0;
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1606  			list_for_each_entry(cn, &cfg->string_list, list) {
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1607  				cfg->gstrings[i] = &cn->stringtab_dev;
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1608  				cn->stringtab_dev.strings = &cn->strings;
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1609  				cn->strings.s = cn->configuration;
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1610  				i++;
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1611  			}
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1612  			cfg->gstrings[i] = NULL;
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1613  			s = usb_gstrings_attach(&gi->cdev, cfg->gstrings, 1);
+fea77077d1623c Wei Yongjun               2013-05-07  1614  			if (IS_ERR(s)) {
+fea77077d1623c Wei Yongjun               2013-05-07  1615  				ret = PTR_ERR(s);
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1616  				goto err_comp_cleanup;
+fea77077d1623c Wei Yongjun               2013-05-07  1617  			}
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1618  			c->iConfiguration = s[0].id;
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1619  		}
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1620  
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1621  		list_for_each_entry_safe(f, tmp, &cfg->func_list, list) {
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1622  			list_del(&f->list);
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1623  			ret = usb_add_function(c, f);
+5a68e9b57b1c19 Andrzej Pietrasiewicz     2013-08-08  1624  			if (ret) {
+5a68e9b57b1c19 Andrzej Pietrasiewicz     2013-08-08  1625  				list_add(&f->list, &cfg->func_list);
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1626  				goto err_purge_funcs;
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1627  			}
+5a68e9b57b1c19 Andrzej Pietrasiewicz     2013-08-08  1628  		}
+7adf9e3adc398e Wesley Cheng              2021-07-10  1629  		ret = usb_gadget_check_config(cdev->gadget);
+7adf9e3adc398e Wesley Cheng              2021-07-10  1630  		if (ret)
+7adf9e3adc398e Wesley Cheng              2021-07-10  1631  			goto err_purge_funcs;
+7adf9e3adc398e Wesley Cheng              2021-07-10  1632  
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1633  		usb_ep_autoconfig_reset(cdev->gadget);
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1634  	}
+da4243145fb197 Andrzej Pietrasiewicz     2014-05-08  1635  	if (cdev->use_os_string) {
+da4243145fb197 Andrzej Pietrasiewicz     2014-05-08  1636  		ret = composite_os_desc_req_prepare(cdev, gadget->ep0);
+da4243145fb197 Andrzej Pietrasiewicz     2014-05-08  1637  		if (ret)
+da4243145fb197 Andrzej Pietrasiewicz     2014-05-08  1638  			goto err_purge_funcs;
+da4243145fb197 Andrzej Pietrasiewicz     2014-05-08  1639  	}
+da4243145fb197 Andrzej Pietrasiewicz     2014-05-08  1640  
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1641  	usb_ep_autoconfig_reset(cdev->gadget);
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1642  	return 0;
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1643  
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1644  err_purge_funcs:
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1645  	purge_configs_funcs(gi);
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1646  err_comp_cleanup:
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1647  	composite_dev_cleanup(cdev);
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1648  	return ret;
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1649  }
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1650  
 
-:::::: TO: Francis Laniel <laniel_francis@privacyrequired.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
-
---=20
+-- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
