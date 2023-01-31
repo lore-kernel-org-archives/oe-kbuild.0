@@ -1,39 +1,51 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1F8065C
-	for <oe-kbuild@lists.linux.dev>; Tue, 31 Jan 2023 07:09:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675148984; x=1706684984;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=jLOxeaT0aZJ7m8ZTMrzdO3gVW0+qoqqJRcsbsV2x/Wg=;
-  b=jt/sWza/ciAW4hhow04x82ivfxVx9N2W0SEETFzpfmiSj1uRs0lspxRS
-   XC4rZGbnmCAYnA/Zeq4wjlTrVXg4Vq28d3q+ULv7DLGcyx7D3HutAV/1r
-   6SNosIOjwUQoKh1kH3g/5QYZgtLe7ooGy1xbCsFBoUzUtn937NEUjE0HQ
-   L5GwfdwSdFcClt6dyCSYMBEOVhRpwUeKIAi3qE2GM3kteB7JjjNiYM61M
-   zcRMTfDQOnaS04+zBmLA7q9KJEufMRmy/bo2hatfoJsomG9JL3K7oaQ6Q
-   4MC1sbt8wjlizPOffUYi6O2UIj7Yk6Jiw97CKupEdpC6ZLRxspZz4RfhJ
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10606"; a="311392438"
-X-IronPort-AV: E=Sophos;i="5.97,259,1669104000"; 
-   d="scan'208";a="311392438"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2023 23:09:42 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10606"; a="806998883"
-X-IronPort-AV: E=Sophos;i="5.97,259,1669104000"; 
-   d="scan'208";a="806998883"
-Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 30 Jan 2023 23:09:41 -0800
-Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pMklw-0004GC-2D;
-	Tue, 31 Jan 2023 07:09:40 +0000
-Date: Tue, 31 Jan 2023 15:09:10 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD8BA659;
+	Tue, 31 Jan 2023 07:35:22 +0000 (UTC)
+Received: by mail-wr1-f52.google.com with SMTP id y1so13332312wru.2;
+        Mon, 30 Jan 2023 23:35:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=YpX4llJ455OytRpR/gVnSQw85gGHbm17o9W77XROS7c=;
+        b=nYA5CTOMy0fZWkfiB/Ap3Pcz9/OgKB/xnNAptJpBQwY300fsvKICh241cCn0SagLgJ
+         /hM1ZDYIr2PgwSiaWHUBZgWw2h24dA9jbF9OXiiWHPw+oKBtfeaMyoD1lzSUXOOkE7s2
+         w4PVU7iuNop8vSWsJHpmhjgFAe0ovaP0wV3baTiIdlOd2qnpu+voAKs5Y4bfOV0J374e
+         2iM+dgPZ9rlfTHuzzrjE0Oe8vclgjnRLLEW13YMU1U9sQ4tWkQsTVDYYICZ8jPVzqpk2
+         kZ73a2bE7B5sxhe90wfsw3oBe4ZkprweHCWmuv+a+vwBe4UO9WLMRhfa5j97+dLwnwSh
+         cj0Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=YpX4llJ455OytRpR/gVnSQw85gGHbm17o9W77XROS7c=;
+        b=ppYyMxKA2W1FyPGNTvbFIgYyT4KBfb62sqGV2UWxTAM8BwiVzoyhnyPiVt2JKDG6nH
+         87X0vuEJfPNSPyPseohrQ3+9j0rNs6hVTuxFO5KuZ5Prdf/6dbnu0ql3JHmxHCdMt1Ni
+         76SiEPDe1T+Dfh51tzkQe6YGqwx0KykuJYh4f5WBoC+znqRgioCOq8uuspTlvE8iBjQG
+         TwnFZtidigYIYvQMSecmV1ioIHVL4MOZT81jOxTui5Y2E4PACCqLc4Q5g4UqEIfgfSi2
+         kOxJ42N2IO/PQDFJZPlhznHaZTd6ly4ey1vgcVTTnYUI9L4VCv/HG7ss8S95KsF6MIs1
+         LB3Q==
+X-Gm-Message-State: AO0yUKXKa/j5/8mCwzamtOuUIMk4KPdp5/M6OtmC1myFZLStu89NQ/dL
+	5R4YRV+N8Xtoqk6Rm4JfLK6OYm9+OZA=
+X-Google-Smtp-Source: AK7set9hwEPgNEEkvr4sku3/lwfx6+wl/H7mzIicrHCt3k9vG5F3aXGJNwUGYjqgI59GOhk3RuGrSg==
+X-Received: by 2002:a05:6000:168a:b0:2bf:f029:8ac7 with SMTP id y10-20020a056000168a00b002bff0298ac7mr6292070wrd.67.1675150520721;
+        Mon, 30 Jan 2023 23:35:20 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id d3-20020adfe2c3000000b002bc7fcf08ddsm13597090wrj.103.2023.01.30.23.35.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 30 Jan 2023 23:35:20 -0800 (PST)
+Date: Tue, 31 Jan 2023 10:35:16 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev, Daniel Scally <dan.scally@ideasonboard.com>,
+	linux-usb@vger.kernel.org, gregkh@linuxfoundation.org,
+	laurent.pinchart@ideasonboard.com
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, mgr@pengutronix.de,
+	balbi@kernel.org, kieran.bingham@ideasonboard.com,
+	torleiv@huddly.com, stern@rowland.harvard.edu,
+	Daniel Scally <dan.scally@ideasonboard.com>
 Subject: Re: [PATCH v3 07/11] usb: gadget: configfs: Attach arbitrary strings
  to cdev
 Message-ID: <202301311446.AqdvqXkI-lkp@intel.com>
@@ -45,39 +57,17 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
 In-Reply-To: <20230130093443.25644-8-dan.scally@ideasonboard.com>
-References: <20230130093443.25644-8-dan.scally@ideasonboard.com>
-TO: Daniel Scally <dan.scally@ideasonboard.com>
-TO: linux-usb@vger.kernel.org
-TO: gregkh@linuxfoundation.org
-TO: laurent.pinchart@ideasonboard.com
-CC: mgr@pengutronix.de
-CC: balbi@kernel.org
-CC: kieran.bingham@ideasonboard.com
-CC: torleiv@huddly.com
-CC: stern@rowland.harvard.edu
-CC: Daniel Scally <dan.scally@ideasonboard.com>
+Message-ID: <20230131073516.5jxtiQoAxZUbFfmwR_ycamHye5FVlVxC1Mdw6qxZGuk@z>
 
 Hi Daniel,
 
-I love your patch! Perhaps something to improve:
-
-[auto build test WARNING on usb/usb-linus]
-[also build test WARNING on westeri-thunderbolt/next linus/master v6.2-rc6 next-20230130]
-[cannot apply to usb/usb-testing usb/usb-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
 url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Scally/usb-gadget-uvc-Make-bSourceID-read-write/20230130-174215
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-linus
 patch link:    https://lore.kernel.org/r/20230130093443.25644-8-dan.scally%40ideasonboard.com
 patch subject: [PATCH v3 07/11] usb: gadget: configfs: Attach arbitrary strings to cdev
-:::::: branch date: 21 hours ago
-:::::: commit date: 21 hours ago
 config: x86_64-randconfig-m001 (https://download.01.org/0day-ci/archive/20230131/202301311446.AqdvqXkI-lkp@intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 
@@ -93,7 +83,6 @@ drivers/usb/gadget/configfs.c:985 os_desc_b_vendor_code_show() warn: argument 3 
 
 vim +/PTR_ERR +1563 drivers/usb/gadget/configfs.c
 
-0c252735443756 Daniel Scally             2023-01-30  1517  
 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1518  static int configfs_composite_bind(struct usb_gadget *gadget,
 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1519  		struct usb_gadget_driver *gdriver)
 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1520  {
@@ -139,6 +128,19 @@ vim +/PTR_ERR +1563 drivers/usb/gadget/configfs.c
 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1560  	if (!list_empty(&gi->string_list)) {
 0c252735443756 Daniel Scally             2023-01-30  1561  		s = configfs_attach_gadget_strings(gi);
 0c252735443756 Daniel Scally             2023-01-30  1562  		if (IS_ERR_OR_NULL(s)) {
+
+
+Passing NULL to PTR_ERR(s) is not a bug, but this check has a probably
+under 10% false positive rate because 90% of the time when people do
+that it is wrong.
+
+In this case configfs_attach_gadget_strings() cannot actually return
+NULL so this could just be changed to if (IS_ERR(s)) {.
+
+I would say that probably if it *did* return NULL then we should return
+-EPROBE_DEFER.  It's an interesting philosophical debate how to handle
+impossible things...
+
 fea77077d1623c Wei Yongjun               2013-05-07 @1563  			ret = PTR_ERR(s);
 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1564  			goto err_comp_cleanup;
 fea77077d1623c Wei Yongjun               2013-05-07  1565  		}
@@ -226,8 +228,8 @@ da4243145fb197 Andrzej Pietrasiewicz     2014-05-08  1640
 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1647  	composite_dev_cleanup(cdev);
 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1648  	return ret;
 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1649  }
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1650  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
+
