@@ -1,161 +1,120 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from bird.elm.relay.mailchannels.net (bird.elm.relay.mailchannels.net [23.83.212.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD747A94F
-	for <oe-kbuild@lists.linux.dev>; Tue, 31 Jan 2023 22:18:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675203526; x=1706739526;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=m5kPEv2Yu6F7PRUvO32rCet2ROYnY9VYCqDw2MEQ7UM=;
-  b=G4d+LGNaxrHnUsvr2pVF7pdSQnoS5CjFQ9K8CWUtIcb4klDaO8ucmWHJ
-   lZJSJXf4i+wYlfD7kTffkBETZKeQf9bsd3MxIcIzJeQ73nu8PRVvwILuD
-   6s34kwHmWsejC/UwbJwsx9XwfRoyp61NouPHNtr68iuDNIbbl9NXeg4fX
-   8dlFy59GTDm59/mNVhngYFXEts6cDP3wPaZrVVj/BeQzU4tcvqldcBu9q
-   MO+WaOjWbVuampj5l0PwSvKE9YOUoWP2yZIiSbJyEotFqw07n55YJQs8U
-   n/1QTGnZlKulzN+SK51sTvAMBMiuayHxGLRkAJO53x+s07LXCJoYcJ8vN
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10607"; a="308318394"
-X-IronPort-AV: E=Sophos;i="5.97,261,1669104000"; 
-   d="scan'208";a="308318394"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2023 14:18:43 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10607"; a="788615550"
-X-IronPort-AV: E=Sophos;i="5.97,261,1669104000"; 
-   d="scan'208";a="788615550"
-Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
-  by orsmga004.jf.intel.com with ESMTP; 31 Jan 2023 14:18:43 -0800
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Tue, 31 Jan 2023 14:18:42 -0800
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Tue, 31 Jan 2023 14:18:42 -0800
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16 via Frontend Transport; Tue, 31 Jan 2023 14:18:42 -0800
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.109)
- by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.16; Tue, 31 Jan 2023 14:18:42 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Nf7r87dIH5pTMne3muh16a9uOQVslTyhaX++/9ov+j2FIet6oM3Kkhf5Ea/YQCdm6qBImn4G+U0GP7p9ObmLe7iPsVIictQFEY18OY2Cg29dOgtGjmCeN3+ds6C16yYcv6u31UILsbVwUT8X2ZImmAstPdLWGcGsa+JN3wr0d4I1yuCRVdegcOZhVvhVvPKI5hc8e9TWb1a0E/HKmW0CClxOsUz9hsXA7dwhvXuuKt+BMTCwEIsHDFbVgGk3KGvAazl4rNuovbtp5nmoYjeTF4k2YiFhUStL+tbt34azfoSPTYS/gdbDOpBquld1HjtjDFc6WGGVSHRcU68X+nxfrQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=k55+VKsngtypW+Z0gjV+v6OqW6go7YOer5tW8Gt3Uz4=;
- b=FRHz7idZFUYrRy+OY+6kGtJypyvV8RlRhxgsJnkbqaaf4MDRgHqUJO0h1qXpLA8q/rm04R6iVoe/PLGHxX3aiTvhAJMwQM9hJZrKrewfXJyqwUQ8EmZSsnwJ4LN/fvad63SyYQnUFnThs3YYE2kx8K1tzuhZ+c5byP5clPx4Up1X9LTee5eKcwRGATkyiIPheqOSWRXHc4gFXxWd91vCTppMRfAp/tWULP9aA31/+4VltXCkTllA0UjEwjOa9wDjSGlYBt1wLFUigNchXU7ug1/VMs6+GLLIxXD60pn/FIrWgeT9lUXNKITQAph/Cq1SDKTikBXYsBtIm/RxWIlCBQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from PH8PR11MB8107.namprd11.prod.outlook.com (2603:10b6:510:256::6)
- by DS0PR11MB6541.namprd11.prod.outlook.com (2603:10b6:8:d3::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6043.36; Tue, 31 Jan
- 2023 22:18:40 +0000
-Received: from PH8PR11MB8107.namprd11.prod.outlook.com
- ([fe80::421b:865b:f356:7dfc]) by PH8PR11MB8107.namprd11.prod.outlook.com
- ([fe80::421b:865b:f356:7dfc%6]) with mapi id 15.20.6043.038; Tue, 31 Jan 2023
- 22:18:40 +0000
-Date: Tue, 31 Jan 2023 14:18:38 -0800
-From: Dan Williams <dan.j.williams@intel.com>
-To: Ira Weiny <ira.weiny@intel.com>, Davidlohr Bueso <dave@stgolabs.net>,
-	kernel test robot <lkp@intel.com>, <dan.j.williams@intel.com>,
-	<Jonathan.Cameron@huawei.com>, <linux-cxl@vger.kernel.org>
-CC: <oe-kbuild@lists.linux.dev>, Julia Lawall <julia.lawall@lip6.fr>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E64347E
+	for <oe-kbuild@lists.linux.dev>; Wed,  1 Feb 2023 00:54:10 +0000 (UTC)
+X-Sender-Id: dreamhost|x-authsender|dave@stgolabs.net
+Received: from relay.mailchannels.net (localhost [127.0.0.1])
+	by relay.mailchannels.net (Postfix) with ESMTP id F2C8C20181C;
+	Wed,  1 Feb 2023 00:54:09 +0000 (UTC)
+Received: from pdx1-sub0-mail-a221.dreamhost.com (unknown [127.0.0.6])
+	(Authenticated sender: dreamhost)
+	by relay.mailchannels.net (Postfix) with ESMTPA id 7676C2011F8;
+	Wed,  1 Feb 2023 00:54:09 +0000 (UTC)
+ARC-Seal: i=1; s=arc-2022; d=mailchannels.net; t=1675212849; a=rsa-sha256;
+	cv=none;
+	b=sQClwr6czrCSj2BYk3QHFFSL94sLI+7cUMIdxNhmUlXhE1d9UMi2mE+XUB5oYqpRm7wa7n
+	/h5UZ1913eyu/vsPPsQoYoNaAG9o0RqpXIngiogOuEOZesp89z7oRiANN7zeoQE4YcF1f4
+	ns6T7JqBfzIGOtxFYj+6rgJTUE3VvHWOZ6pKeovNLYu3POgq6oOfXBJZxWaAo/IrFGd2bE
+	93S6jgZyXw3uJpBkKm8xvV+vqw20cEfB9LLg6bwwttGonv2ygdzMUQziL5ydibWlR2iVlu
+	g0wI3MqSOYJUQZ8E5LXtLSkZ3DoDPeRwlMYxvIMbWjDN9RtKRqM9dkE31M1Hmw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=mailchannels.net;
+	s=arc-2022; t=1675212849;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references:dkim-signature;
+	bh=GB3eAKWa/B4f4aGpz3wUhDs1isp0x7Qvxa046mYEWF0=;
+	b=SNeRq+wF4IdZmhLImaVF5d3BmbqOlE1mkPccVowFKXqy2YyuFupsdM1rSbS3Sbq0SYJx8q
+	nJbzANdWG+osPB4umv+tAyNmLBg7oCJR90FY5R0jAbKpOFGYvV2jy01HdUljcAbmw3E1KS
+	2KOjGlz1Qy7jCq/pPuHloscMdynuzqdNPUtJb0tRv+Ec6iHGmtd/QjJ/q/s5zMTCnwxzqI
+	3kfIxOJPfOSgWzIuLci0TEbCki1oCI9EV5JVHqUfjhUBD/Czvk/gojCL4po5vBAEEf/XPu
+	B6P0hN0oTWFjfbA4EsRfyV5RkA+2KqG1NQlIBSqkmhPTG+EWgZIFOlGGJNnZXQ==
+ARC-Authentication-Results: i=1;
+	rspamd-5fb8f68d88-zgmxp;
+	auth=pass smtp.auth=dreamhost smtp.mailfrom=dave@stgolabs.net
+X-Sender-Id: dreamhost|x-authsender|dave@stgolabs.net
+X-MC-Relay: Neutral
+X-MailChannels-SenderId: dreamhost|x-authsender|dave@stgolabs.net
+X-MailChannels-Auth-Id: dreamhost
+X-Well-Made-Abiding: 6f5a8d343d41ad00_1675212849796_2822025892
+X-MC-Loop-Signature: 1675212849796:3630125511
+X-MC-Ingress-Time: 1675212849796
+Received: from pdx1-sub0-mail-a221.dreamhost.com (pop.dreamhost.com
+ [64.90.62.162])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384)
+	by 100.99.229.7 (trex/6.7.1);
+	Wed, 01 Feb 2023 00:54:09 +0000
+Received: from offworld (ip72-199-50-187.sd.sd.cox.net [72.199.50.187])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: dave@stgolabs.net)
+	by pdx1-sub0-mail-a221.dreamhost.com (Postfix) with ESMTPSA id 4P63Mh4YSdz9t;
+	Tue, 31 Jan 2023 16:54:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stgolabs.net;
+	s=dreamhost; t=1675212849;
+	bh=GB3eAKWa/B4f4aGpz3wUhDs1isp0x7Qvxa046mYEWF0=;
+	h=Date:From:To:Cc:Subject:Content-Type;
+	b=eN4IYm4c8E7hB7b8LM66qiwoR4WVQcQiC7VwxOR96ndIf4r+0g56LzQGa988+UM+E
+	 sXhSF28mid7yzU0PHhfCyKDApw3mJxNmJR4sNX/5H9im+9y0ku9iFVGTgk83aTuo6q
+	 VmM2Xj57eWHSv7OytUMokS+sxeWGZZhibh1LipKTfw3qG9gfKmuf0zIMc4qZDOz0kD
+	 fO8GNvQiKV2Xx1LzN80iPtsmu3ug+JQ4W4Ws2mmPSfNA3XxiLWaoiFV8+fSA9FU1iD
+	 yrd47XfSU/3Dq0W9IUiwXmvqxPKjzqibEC94jWR+r4y0coHpxkAOkpXaLztCKvcRoJ
+	 UlJXJlhCqu5IA==
+Date: Tue, 31 Jan 2023 16:27:01 -0800
+From: Davidlohr Bueso <dave@stgolabs.net>
+To: Dan Williams <dan.j.williams@intel.com>
+Cc: Ira Weiny <ira.weiny@intel.com>, kernel test robot <lkp@intel.com>,
+	Jonathan.Cameron@huawei.com, linux-cxl@vger.kernel.org,
+	oe-kbuild@lists.linux.dev, Julia Lawall <julia.lawall@lip6.fr>
 Subject: Re: [cxl:pending 13/21] drivers/cxl/pci.c:511:8-33: WARNING:
  Threaded IRQ with no primary handler requested without IRQF_ONESHOT (unless
  it is nested IRQ)
-Message-ID: <63d993bdecd01_3a36e529454@dwillia2-xfh.jf.intel.com.notmuch>
+Message-ID: <20230201002701.a7lwsouomqvoheso@offworld>
 References: <202301291620.DxnDWLoW-lkp@intel.com>
  <20230130215514.6cviyuwhxgjlzj27@offworld>
  <63d991da1c19c_a8e3129488@iweiny-mobl.notmuch>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <63d991da1c19c_a8e3129488@iweiny-mobl.notmuch>
-X-ClientProxiedBy: BYAPR11CA0065.namprd11.prod.outlook.com
- (2603:10b6:a03:80::42) To PH8PR11MB8107.namprd11.prod.outlook.com
- (2603:10b6:510:256::6)
+ <63d993bdecd01_3a36e529454@dwillia2-xfh.jf.intel.com.notmuch>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH8PR11MB8107:EE_|DS0PR11MB6541:EE_
-X-MS-Office365-Filtering-Correlation-Id: 422460e6-bfcf-4a05-6a2e-08db03d91ae9
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: K5aevOX/457WZN7kyrU3OsoY/4TjhGKXv1+oQvf/BKRLp4p9cMySKVGkIe8Sw9JdO/ZDqH0WAl3yFs+kiKd3oO4k1VnIkLfMuoU1nEVA9dtgUMz0dK4MRGVhNrxvGRoMPsnn0sjkNDnF70hamautsqSReSimTzptvoIsGh6qpxVjXfNQPgxqTnGUnWNXI5Q5GvO8T1/AFXhm57Tcx2ngc+UKxMMitoqCqA2Mzcojj1abDnjpWpizNnbWWHPMkqaoNRQoKKjaZoBea38xWya1r3c+HAItXFl6V8L8XsCzGUnAbvhTGacIjpKYgVbOan9rxo2FSh70+CNww5L83DYgdYpz8bIonol+4q7Ze28efJKXDrUptbetAimWq0pXq2AupCKO6cRk8OwbVlhNl+iLqzYZrjlOI/tph2AB1iwsXiRAk1ClebuRSVLMJEe0PEfksSY0ep8g8OsXKO7OQezh+A+V9CoQ1q/GApIo1OfIZ7C2BNdvm61pUQKeqEQZzqfJjdPCy0554rxuaRosTzlj/T+RvBY7n3Qfc1fK5BjKZdLFLlPfkPaSC8N0UzJrU8EGUTVSQKyYsHTxT3gaMCP89w75z3M+q+W+HazOOg2FD0DEL45vJf2ymYWwvUTMbEdZ5RYzYCMEiI7YUPsRa+Dz3g==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH8PR11MB8107.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(396003)(366004)(39860400002)(376002)(346002)(136003)(451199018)(2906002)(8936002)(316002)(6506007)(82960400001)(86362001)(38100700002)(6486002)(478600001)(186003)(26005)(6512007)(4744005)(9686003)(110136005)(5660300002)(83380400001)(8676002)(4326008)(41300700001)(66556008)(66476007)(66946007);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?cvxnagiCUHF49cyKpQbIoZdZigFAZsrKj8EOOIJzVwwdhy+yvT6VBPDr5IQr?=
- =?us-ascii?Q?ccrqSz2JwIZS7xqnW2dFglxHi2LEIHEdgwC0UkH9t4FhCjdXSDdOYfhLlMgJ?=
- =?us-ascii?Q?lD4MYldJNLcp3XVThwhCJn0nUqzsg4Aejp/McYkMGBq6K1653E3uhDzQLFyy?=
- =?us-ascii?Q?ZUFlV9BSCRY5J0uTV3/JalQPMzHCoCrxPNb5zjzeInCb/NqeiSuxijmiZadj?=
- =?us-ascii?Q?TzV9XvwIziXYEngyPvwfLUASMoUcbjoVoI7mCpsJ2lJmmhD7fHMSBYv6tHoH?=
- =?us-ascii?Q?2HHJq1OxkP6f1zyWm+nj9wgZ8dgjYz/qi0CsG9JGMQcUPq+Wh2/n8e2OoOKc?=
- =?us-ascii?Q?OTr+AU2def79JKnNPKfUsFHwm0/gmSIbjZ1txuTxVMS/CsskahkrfVxSDTrp?=
- =?us-ascii?Q?wTfvMoyMMz6q9w/KDzGItwcn2Q6WY8nfxbiLvKCGsUO48Zeue40p6xxpLM6F?=
- =?us-ascii?Q?WcOW6XF8nKy1sg7WXB1LIaGxKY5NqyG3/l/vZaBHVWDgck6heYxgkkuWBzlV?=
- =?us-ascii?Q?OaF33qibw65fRgQ+nhXj8QdJDdGFqiZNw++42MpuWb/aADbbErUhfUjdzgBC?=
- =?us-ascii?Q?9G9X0usZr7a7awBEs2NM+pLRO9Oeh9BGX90PN625ZaApmhkbYzIp4Td0EKJR?=
- =?us-ascii?Q?3kKqD8otSOgerq+x2viTiJXdqfeZo3MEJcg8rqBTApmAqdubILp58ZWAyEQi?=
- =?us-ascii?Q?5llXZX5y8OW8D3oNkfvAZilOxj1l1d2YJFMFZ/g59LuTQj+Dy2vLjhC0pnvB?=
- =?us-ascii?Q?Q3TPeZL2NUkSAVWHN6h5RCyyzJfxTzmqN2oDkpLG+HSX/il3PfLk+c7HYxX4?=
- =?us-ascii?Q?MbfJICjnGeWY9UUuDRZX9PCrw6TsFgYQnRBlHvBqlxSRmAk+CWq9fIVdGv9f?=
- =?us-ascii?Q?zoCpXWGfwbRTO5bRgZHMIsEhmq3nfJfD4L9XOsDNpZbB+nV+QvWqCBflWXNq?=
- =?us-ascii?Q?VEEsZTdG4b5fTTiuOLkfgobH+oHEpU1aidSHZoeTXshcgRvqvV2yM5FFUf8Y?=
- =?us-ascii?Q?NXAYHXKAhswtRsBMqnsjOk8CI/R9mEeJAJuWUE6Wta5xmcX2GiCQteuvwPj+?=
- =?us-ascii?Q?37D+yG4zVfx+IQ6DuCav6cfZiJf/CuKKWLIaqRrufGT/PVWInHDKZSj7I8Ps?=
- =?us-ascii?Q?Js+T6pg2LYlv4oOgzinBOUWDH6simOvi46yUHzfHj+tJxdXEyKgYxC6OW+xL?=
- =?us-ascii?Q?lvH5l5EBSODL599eADlgNbE5KhKiH9LnLOQUK8xQCk1IMNkQo6L6pXAA+nON?=
- =?us-ascii?Q?ygnn7ISdbZtg2N4GZewnO5oMHnqKaCAYJjjjcJl8FPVHOHFmbuANyxIrgHBR?=
- =?us-ascii?Q?pz5ZnUAprsHLh54W5a2um5rprGEpIs54q5Gal5AF2aqdF6SMXUI8NcitVbNI?=
- =?us-ascii?Q?oKCRZA+36crRcNjgYfngC+O60mdCLv41Qq5G/HGJhF5jvhZKN09dcSRozGam?=
- =?us-ascii?Q?vlkQi2m+rVTD1IBWXl2M2aUraYpGukEwmKoLTbN05u75ZcOvpHl6jY+7oMFy?=
- =?us-ascii?Q?GhOKvNr4JoOf8lt3L4qKhiCEFyfVSZdXRPT899Fy3l8xyG+LjeAhf4nHH1f5?=
- =?us-ascii?Q?mORWO5I5paBKdVnO0Yit3xolyBDwHuRmFOhNGdlLco6GyfjEWzo1xK5nUzSc?=
- =?us-ascii?Q?fQ=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 422460e6-bfcf-4a05-6a2e-08db03d91ae9
-X-MS-Exchange-CrossTenant-AuthSource: PH8PR11MB8107.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Jan 2023 22:18:40.0004
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: XkrwfwNMx6ZtIuSZNA6SfBbwxgiWOZIPySW9m2eMxjDO+jciUAR1Tda1QFKhxwvjoBVZ8SYkdWMowyIDeS31PSx5GHGnCUiUdl9Fd/3bTto=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB6541
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <63d993bdecd01_3a36e529454@dwillia2-xfh.jf.intel.com.notmuch>
+User-Agent: NeoMutt/20220429
 
-Ira Weiny wrote:
-[..]
-> > Considering MSIs are edge triggered interrupts, this should be benign.
-> 
-> I'm trying to understand this a bit more.  So I looked in more detail.  I
-> believe Dan suggested that I could use irq_default_primary_handler() in
-> this case by passing NULL.  And this would handle threading the irq
-> processing for me.
-> 
-> It looks from a software standpoint this should work.  But the kdocs
-> really imply that not masking the irq in the handler may be an issue.
-> Thus the 'requirement' of using IRQF_ONESHOT.
-> 
-> Is this somehow different with MSI?  Is this a case of the kdocs being a
-> bit out of date for MSI?
+On Tue, 31 Jan 2023, Dan Williams wrote:
 
-My reading, may be from the changelog and not the kdocs, was that at
-request_irq() time it is difficult to discern level triggered vs
-edge-triggered. So for the default primary handler, that does nothing to
-quiet a screaming level-triggered interrupt, just require oneshot mode.
+>Ira Weiny wrote:
+>[..]
+>> > Considering MSIs are edge triggered interrupts, this should be benign.
+>>
+>> I'm trying to understand this a bit more.  So I looked in more detail.  I
+>> believe Dan suggested that I could use irq_default_primary_handler() in
+>> this case by passing NULL.  And this would handle threading the irq
+>> processing for me.
+>>
+>> It looks from a software standpoint this should work.  But the kdocs
+>> really imply that not masking the irq in the handler may be an issue.
+>> Thus the 'requirement' of using IRQF_ONESHOT.
+>>
+>> Is this somehow different with MSI?  Is this a case of the kdocs being a
+>> bit out of date for MSI?
+>
+>My reading, may be from the changelog and not the kdocs, was that at
+>request_irq() time it is difficult to discern level triggered vs
+>edge-triggered. So for the default primary handler, that does nothing to
+>quiet a screaming level-triggered interrupt, just require oneshot mode.
+
+Right and it's only level-triggered that are the problem after done with
+the hardirq handler. So in the msi/cxl case we already know that all this
+is edge (sent once and forgotten by the hardware), which is why I was saying
+it's harmless. It's still probably a good idea to have it explicitly oneshot
+semantics as Dan's patch.
+
+Thanks,
+Davidlohr
