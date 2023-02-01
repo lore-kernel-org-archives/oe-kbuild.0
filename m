@@ -1,226 +1,296 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6683C7F;
-	Wed,  1 Feb 2023 09:50:49 +0000 (UTC)
-Received: from [192.168.0.43] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id D0722505;
-	Wed,  1 Feb 2023 10:50:40 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1675245041;
-	bh=/A2MjtZqFhnOy/r6l0wgf2i8iPrH8vgfGbLAT8s5AsI=;
-	h=Date:To:Cc:References:From:Subject:In-Reply-To:From;
-	b=t5Y6EOY1rv8X1Lsb3a8d0jaPVoiyRooB1eOfRhfSloZiFSCuvJ9aCiSmGrKFyn3JQ
-	 wjufrwhbmr50RwpSCstWAm/rZNK33FgmXpIYoUNDLanZUjFnY1gbPyXr6tkF8p7O8M
-	 IlyMV0HwWgD17P8PCeAgo+UeSjSH9RgE+l2mc7XI=
-Message-ID: <be531861-c7aa-8ad2-bbbb-58f30de6f50d@ideasonboard.com>
-Date: Wed, 1 Feb 2023 09:50:37 +0000
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B9FE2588
+	for <oe-kbuild@lists.linux.dev>; Wed,  1 Feb 2023 12:35:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1675254928; x=1706790928;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=bcGaglO7saZpiyoI+l4YmPsrINrsgjqZ7ZaGSIlVPFg=;
+  b=PXKfIfq0DoP0GwvDhWHW2GeVLv6a8GZOEVt1YEuSu4PtaFf8JvK5cDTW
+   4lZ3nb8g0aWBOn46y74ds/W32F5oAGikouOdDwrV64iZrY42FCv9xMW5t
+   BT0dBOCHNMxAfiIbAV/+6KQmfCbi3TYKS5TTamv3TyHYm8j+ue6iWzgkE
+   XrdxnWKuP+F70sSiC5DYu+6CDmq2C4SaCLQEPxdYiwxKj1r9agU92ARPq
+   t4XUufLw1BIJt4n08xbCNXBJP222ermAOVHmC2LJIjzyiKptDiYbkbSiM
+   Ad7+9llGNCHbbVWhgctROCAKqKpnG8YDnrpPvE1L4133ZqpQnvgr00/CQ
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10607"; a="311773535"
+X-IronPort-AV: E=Sophos;i="5.97,263,1669104000"; 
+   d="scan'208";a="311773535"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2023 04:35:28 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10607"; a="910305946"
+X-IronPort-AV: E=Sophos;i="5.97,263,1669104000"; 
+   d="scan'208";a="910305946"
+Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
+  by fmsmga006.fm.intel.com with ESMTP; 01 Feb 2023 04:35:26 -0800
+Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pNCKj-0005QM-1X;
+	Wed, 01 Feb 2023 12:35:25 +0000
+Date: Wed, 1 Feb 2023 20:34:38 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: [tip:timers/core 4/4] include/vdso/bits.h:8:41: warning: shift by
+ count ('4294967292') >= precision of type ('64')
+Message-ID: <202302012009.t1J7Kj3v-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Content-Language: en-US
-To: Dan Carpenter <error27@gmail.com>, oe-kbuild@lists.linux.dev,
- linux-usb@vger.kernel.org, gregkh@linuxfoundation.org,
- laurent.pinchart@ideasonboard.com
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, mgr@pengutronix.de,
- balbi@kernel.org, kieran.bingham@ideasonboard.com, torleiv@huddly.com,
- stern@rowland.harvard.edu
-References: <202301311446.AqdvqXkI-lkp@intel.com>
-From: Dan Scally <dan.scally@ideasonboard.com>
-Subject: Re: [PATCH v3 07/11] usb: gadget: configfs: Attach arbitrary strings
- to cdev
-In-Reply-To: <202301311446.AqdvqXkI-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Morning Dan
+:::::: 
+:::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "low confidence static check warning: include/vdso/bits.h:8:41: warning: shift by count ('4294967292') >= precision of type ('64') [-Wanalyzer-shift-count-overflow]"
+:::::: 
 
-On 31/01/2023 07:35, Dan Carpenter wrote:
-> Hi Daniel,
->
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Scally/usb-gadget-uvc-Make-bSourceID-read-write/20230130-174215
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-linus
-> patch link:    https://lore.kernel.org/r/20230130093443.25644-8-dan.scally%40ideasonboard.com
-> patch subject: [PATCH v3 07/11] usb: gadget: configfs: Attach arbitrary strings to cdev
-> config: x86_64-randconfig-m001 (https://download.01.org/0day-ci/archive/20230131/202301311446.AqdvqXkI-lkp@intel.com/config)
-> compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
->
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <error27@gmail.com>
->
-> New smatch warnings:
-> drivers/usb/gadget/configfs.c:1563 configfs_composite_bind() warn: passing zero to 'PTR_ERR'
->
-> Old smatch warnings:
-> drivers/usb/gadget/configfs.c:985 os_desc_b_vendor_code_show() warn: argument 3 to %02x specifier has type 'char'
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+CC: x86@kernel.org
+TO: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+CC: Thomas Gleixner <tglx@linutronix.de>
 
+Hi Andy,
 
-Really must make time to look at Smatch...
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
 
->
-> vim +/PTR_ERR +1563 drivers/usb/gadget/configfs.c
->
-> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1518  static int configfs_composite_bind(struct usb_gadget *gadget,
-> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1519  		struct usb_gadget_driver *gdriver)
-> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1520  {
-> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1521  	struct usb_composite_driver     *composite = to_cdriver(gdriver);
-> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1522  	struct gadget_info		*gi = container_of(composite,
-> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1523  						struct gadget_info, composite);
-> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1524  	struct usb_composite_dev	*cdev = &gi->cdev;
-> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1525  	struct usb_configuration	*c;
-> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1526  	struct usb_string		*s;
-> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1527  	unsigned			i;
-> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1528  	int				ret;
-> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1529
-> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1530  	/* the gi->lock is hold by the caller */
-> 1a1c851bbd706e Peter Chen                2019-08-26  1531  	gi->unbind = 0;
-> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1532  	cdev->gadget = gadget;
-> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1533  	set_gadget_data(gadget, cdev);
-> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1534  	ret = composite_dev_prepare(composite, cdev);
-> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1535  	if (ret)
-> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1536  		return ret;
-> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1537  	/* and now the gadget bind */
-> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1538  	ret = -EINVAL;
-> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1539
-> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1540  	if (list_empty(&gi->cdev.configs)) {
-> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1541  		pr_err("Need at least one configuration in %s.\n",
-> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1542  				gi->composite.name);
-> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1543  		goto err_comp_cleanup;
-> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1544  	}
-> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1545
-> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1546
-> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1547  	list_for_each_entry(c, &gi->cdev.configs, list) {
-> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1548  		struct config_usb_cfg *cfg;
-> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1549
-> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1550  		cfg = container_of(c, struct config_usb_cfg, c);
-> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1551  		if (list_empty(&cfg->func_list)) {
-> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1552  			pr_err("Config %s/%d of %s needs at least one function.\n",
-> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1553  			      c->label, c->bConfigurationValue,
-> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1554  			      gi->composite.name);
-> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1555  			goto err_comp_cleanup;
-> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1556  		}
-> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1557  	}
-> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1558
-> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1559  	/* init all strings */
-> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1560  	if (!list_empty(&gi->string_list)) {
-> 0c252735443756 Daniel Scally             2023-01-30  1561  		s = configfs_attach_gadget_strings(gi);
-> 0c252735443756 Daniel Scally             2023-01-30  1562  		if (IS_ERR_OR_NULL(s)) {
->
->
-> Passing NULL to PTR_ERR(s) is not a bug, but this check has a probably
-> under 10% false positive rate because 90% of the time when people do
-> that it is wrong.
->
-> In this case configfs_attach_gadget_strings() cannot actually return
-> NULL so this could just be changed to if (IS_ERR(s)) {.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git timers/core
+head:   cbdb1f163af2bb90d01be1f0263df1d8d5c9d9d3
+commit: cbdb1f163af2bb90d01be1f0263df1d8d5c9d9d3 [4/4] vdso/bits.h: Add BIT_ULL() for the sake of consistency
+:::::: branch date: 23 hours ago
+:::::: commit date: 23 hours ago
+config: x86_64-randconfig-c001-20230130 (https://download.01.org/0day-ci/archive/20230201/202302012009.t1J7Kj3v-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+reproduce (this is a W=1 build):
+        # https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git/commit/?id=cbdb1f163af2bb90d01be1f0263df1d8d5c9d9d3
+        git remote add tip https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git
+        git fetch --no-tags tip timers/core
+        git checkout cbdb1f163af2bb90d01be1f0263df1d8d5c9d9d3
+        # save the config file
+        make ARCH=x86_64 KBUILD_USERCFLAGS='-fanalyzer -Wno-error'  olddefconfig
+        make ARCH=x86_64 KBUILD_USERCFLAGS='-fanalyzer -Wno-error' 
 
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
 
-Yes good spot, thank you
+gcc_analyzer warnings: (new ones prefixed by >>)
+              | 2634 |                 if (gaudi2_is_arc_enabled(hdev, i))
+              |      |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |                     |
+              |      |                     (10) returning to 'gaudi2_init_arcs' from 'gaudi2_is_arc_enabled'
+              |......
+              | 2640 |         for (i = GAUDI2_QUEUE_ID_PDMA_0_0 ; i < GAUDI2_QUEUE_ID_CPU_PQ ; i += 4) {
+              |      |                                             ~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |                                               |
+              |      |                                               (11) following 'true' branch (when 'i != 260')...
+              | 2641 |                 if (!gaudi2_is_queue_enabled(hdev, i))
+              |      |                 ~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |                 |    |
+              |      |                 |    (13) calling 'gaudi2_is_queue_enabled' from 'gaudi2_init_arcs'
+              |      |                 (12) ...to here
+              |
+              +--> 'gaudi2_is_queue_enabled': events 14-22
+                     |
+                     | 5563 | static bool gaudi2_is_queue_enabled(struct hl_device *hdev, u32 hw_queue_id)
+                     |      |             ^~~~~~~~~~~~~~~~~~~~~~~
+                     |      |             |
+                     |      |             (14) entry to 'gaudi2_is_queue_enabled'
+                     |......
+                     | 5571 |         switch (hw_queue_id) {
+                     |      |         ~~~~~~
+                     |      |         |
+                     |      |         (15) following 'case 0 ... 1:' branch...
+                     |......
+                     | 5657 |         if (hw_tpc_cap_bit)
+                     |      |         ~~ ~ 
+                     |      |         |  |
+                     |      |         |  (17) following 'false' branch (when 'hw_tpc_cap_bit == 0')...
+                     |      |         (16) ...to here
+                     |......
+                     | 5660 |         if (hw_nic_cap_bit)
+                     |      |         ~~ ~ 
+                     |      |         |  |
+                     |      |         |  (19) following 'false' branch (when 'hw_nic_cap_bit == 0')...
+                     |      |         (18) ...to here
+                     |......
+                     | 5663 |         if (hw_test_cap_bit)
+                     |      |         ~~ ~ 
+                     |      |         |  |
+                     |      |         |  (21) following 'false' branch (when 'hw_test_cap_bit == 0')...
+                     |      |         (20) ...to here
+                     |......
+                     | 5666 |         return !!(gaudi2->hw_cap_initialized & hw_cap_mask);
+                     |      |         ~~~~~~
+                     |      |         |
+                     |      |         (22) ...to here
+                     |
+              <------+
+              |
+            'gaudi2_init_arcs': events 23-26
+              |
+              | 2641 |                 if (!gaudi2_is_queue_enabled(hdev, i))
+              |      |                    ~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |                    | |
+              |      |                    | (23) returning to 'gaudi2_init_arcs' from 'gaudi2_is_queue_enabled'
+              |      |                    (24) following 'true' branch...
+              |......
+              | 2644 |                 arc_id = gaudi2_queue_id_to_arc_id[i];
+              |      |                 ~~~~~~
+              |      |                 |
+              |      |                 (25) ...to here
+              | 2645 |                 if (gaudi2_is_arc_enabled(hdev, arc_id))
+              |      |                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |                     |
+              |      |                     (26) calling 'gaudi2_is_arc_enabled' from 'gaudi2_init_arcs'
+              |
+              +--> 'gaudi2_is_arc_enabled': events 27-30
+                     |
+                     | 5669 | static bool gaudi2_is_arc_enabled(struct hl_device *hdev, u64 arc_id)
+                     |      |             ^~~~~~~~~~~~~~~~~~~~~
+                     |      |             |
+                     |      |             (27) entry to 'gaudi2_is_arc_enabled'
+                     |......
+                     | 5673 |         switch (arc_id) {
+                     |      |         ~~~~~~
+                     |      |         |
+                     |      |         (28) following 'case 31 ... 44:' branch...
+                     |......
+                     | 5681 |         case CPU_ID_NIC_QMAN_ARC0...CPU_ID_NIC_QMAN_ARC23:
+                     |      |         ~~~~ 
+                     |      |         |
+                     |      |         (29) ...to here
+                     | 5682 |                 return !!(gaudi2->active_nic_arc & BIT_ULL(arc_id - CPU_ID_NIC_QMAN_ARC0));
+                     |      |                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                     |      |                        |
+                     |      |                        (30) shift by count '4294967292' here
+                     |
+   In file included from include/linux/bits.h:6,
+                    from include/linux/bitops.h:6,
+                    from include/linux/kernel.h:22,
+                    from include/linux/skbuff.h:13,
+                    from include/linux/if_ether.h:19,
+                    from drivers/misc/habanalabs/gaudi2/../common/../include/common/cpucp_if.h:12,
+                    from drivers/misc/habanalabs/gaudi2/../common/habanalabs.h:11,
+                    from drivers/misc/habanalabs/gaudi2/gaudi2P.h:12,
+                    from drivers/misc/habanalabs/gaudi2/gaudi2.c:8:
+   drivers/misc/habanalabs/gaudi2/gaudi2.c: In function 'gaudi2_set_arc_id_cap':
+>> include/vdso/bits.h:8:41: warning: shift by count ('4294967292') >= precision of type ('64') [-Wanalyzer-shift-count-overflow]
+       8 | #define BIT_ULL(nr)             (ULL(1) << (nr))
+         |                                         ^~
+   drivers/misc/habanalabs/gaudi2/gaudi2.c:5727:43: note: in expansion of macro 'BIT_ULL'
+    5727 |                 gaudi2->active_nic_arc |= BIT_ULL(arc_id - CPU_ID_NIC_QMAN_ARC0);
+         |                                           ^~~~~~~
+     'gaudi2_compute_reset_late_init': events 1-2
+       |
+       | 6175 | static int gaudi2_compute_reset_late_init(struct hl_device *hdev)
+       |      |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |            |
+       |      |            (1) entry to 'gaudi2_compute_reset_late_init'
+       |......
+       | 6183 |         gaudi2_init_arcs(hdev);
+       |      |         ~~~~~~~~~~~~~~~~~~~~~~
+       |      |         |
+       |      |         (2) calling 'gaudi2_init_arcs' from 'gaudi2_compute_reset_late_init'
+       |
+       +--> 'gaudi2_init_arcs': event 3
+              |
+              | 2627 | static void gaudi2_init_arcs(struct hl_device *hdev)
+              |      |             ^~~~~~~~~~~~~~~~
+              |      |             |
+              |      |             (3) entry to 'gaudi2_init_arcs'
+              |
+            'gaudi2_init_arcs': events 4-6
+              |
+              | 2633 |         for (i = CPU_ID_SCHED_ARC0 ; i <= CPU_ID_SCHED_ARC3 ; i++) {
+              | 2634 |                 if (gaudi2_is_arc_enabled(hdev, i))
+              |      |                 ~~  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |                 |   |
+              |      |                 |   (6) calling 'gaudi2_is_arc_enabled' from 'gaudi2_init_arcs'
+              |      |                 (5) ...to here
+              |
+              +--> 'gaudi2_is_arc_enabled': events 7-9
+                     |
+                     | 5669 | static bool gaudi2_is_arc_enabled(struct hl_device *hdev, u64 arc_id)
+                     |      |             ^~~~~~~~~~~~~~~~~~~~~
+                     |      |             |
+                     |      |             (7) entry to 'gaudi2_is_arc_enabled'
+                     |......
+                     | 5673 |         switch (arc_id) {
+                     |      |         ~~~~~~
+                     |      |         |
+                     |      |         (8) following 'case 0 ... 5:' branch...
+                     |......
+                     | 5676 |                 return !!(gaudi2->active_hw_arc & BIT_ULL(arc_id));
+                     |      |                 ~~~~~~
+                     |      |                 |
+                     |      |                 (9) ...to here
+                     |
+              <------+
+              |
+            'gaudi2_init_arcs': events 10-13
+              |
+              | 2634 |                 if (gaudi2_is_arc_enabled(hdev, i))
+              |      |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |                     |
+              |      |                     (10) returning to 'gaudi2_init_arcs' from 'gaudi2_is_arc_enabled'
+              |......
+              | 2640 |         for (i = GAUDI2_QUEUE_ID_PDMA_0_0 ; i < GAUDI2_QUEUE_ID_CPU_PQ ; i += 4) {
+              |      |                                             ~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |                                               |
+              |      |                                               (11) following 'true' branch (when 'i != 260')...
+              | 2641 |                 if (!gaudi2_is_queue_enabled(hdev, i))
+              |      |                 ~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |                 |    |
+              |      |                 |    (13) calling 'gaudi2_is_queue_enabled' from 'gaudi2_init_arcs'
+              |      |                 (12) ...to here
+              |
+              +--> 'gaudi2_is_queue_enabled': events 14-22
+                     |
+                     | 5563 | static bool gaudi2_is_queue_enabled(struct hl_device *hdev, u32 hw_queue_id)
+                     |      |             ^~~~~~~~~~~~~~~~~~~~~~~
+                     |      |             |
+                     |      |             (14) entry to 'gaudi2_is_queue_enabled'
+                     |......
+                     | 5571 |         switch (hw_queue_id) {
+                     |      |         ~~~~~~
+                     |      |         |
+                     |      |         (15) following 'case 0 ... 1:' branch...
+                     |......
+                     | 5657 |         if (hw_tpc_cap_bit)
+                     |      |         ~~ ~ 
+                     |      |         |  |
+                     |      |         |  (17) following 'false' branch (when 'hw_tpc_cap_bit == 0')...
+                     |      |         (16) ...to here
+                     |......
+                     | 5660 |         if (hw_nic_cap_bit)
+                     |      |         ~~ ~ 
+                     |      |         |  |
+                     |      |         |  (19) following 'false' branch (when 'hw_nic_cap_bit == 0')...
+                     |      |         (18) ...to here
+                     |......
+                     | 5663 |         if (hw_test_cap_bit)
+                     |      |         ~~ ~ 
+                     |      |         |  |
+                     |      |         |  (21) following 'false' branch (when 'hw_test_cap_bit == 0')...
+                     |      |         (20) ...to here
+                     |......
+                     | 5666 |         return !!(gaudi2->hw_cap_initialized & hw_cap_mask);
 
->
-> I would say that probably if it *did* return NULL then we should return
-> -EPROBE_DEFER.  It's an interesting philosophical debate how to handle
-> impossible things...
+vim +8 include/vdso/bits.h
 
+3945ff37d2f48d Vincenzo Frascino 2020-03-20  6  
+3945ff37d2f48d Vincenzo Frascino 2020-03-20  7  #define BIT(nr)			(UL(1) << (nr))
+cbdb1f163af2bb Andy Shevchenko   2022-11-28 @8  #define BIT_ULL(nr)		(ULL(1) << (nr))
+3945ff37d2f48d Vincenzo Frascino 2020-03-20  9  
 
-Well in this case it returns null when there's no languages defined, 
-which isn't possible here since it's behind the if(!list_empty(...)) 
-check but in principle I think is allowed - usb devices don't have to 
-support any string descriptors as far as I know.
-
-> fea77077d1623c Wei Yongjun               2013-05-07 @1563  			ret = PTR_ERR(s);
-> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1564  			goto err_comp_cleanup;
-> fea77077d1623c Wei Yongjun               2013-05-07  1565  		}
-> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1566
-> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1567  		gi->cdev.desc.iManufacturer = s[USB_GADGET_MANUFACTURER_IDX].id;
-> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1568  		gi->cdev.desc.iProduct = s[USB_GADGET_PRODUCT_IDX].id;
-> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1569  		gi->cdev.desc.iSerialNumber = s[USB_GADGET_SERIAL_IDX].id;
-> 0c252735443756 Daniel Scally             2023-01-30  1570
-> 0c252735443756 Daniel Scally             2023-01-30  1571  		gi->cdev.usb_strings = s;
-> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1572  	}
-> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1573
-> 87213d388e927a Andrzej Pietrasiewicz     2014-05-08  1574  	if (gi->use_os_desc) {
-> 87213d388e927a Andrzej Pietrasiewicz     2014-05-08  1575  		cdev->use_os_string = true;
-> 87213d388e927a Andrzej Pietrasiewicz     2014-05-08  1576  		cdev->b_vendor_code = gi->b_vendor_code;
-> 87213d388e927a Andrzej Pietrasiewicz     2014-05-08  1577  		memcpy(cdev->qw_sign, gi->qw_sign, OS_STRING_QW_SIGN_LEN);
-> 87213d388e927a Andrzej Pietrasiewicz     2014-05-08  1578  	}
-> 87213d388e927a Andrzej Pietrasiewicz     2014-05-08  1579
-> 41ce84c86d0a04 Li Jun                    2015-07-09  1580  	if (gadget_is_otg(gadget) && !otg_desc[0]) {
-> 41ce84c86d0a04 Li Jun                    2015-07-09  1581  		struct usb_descriptor_header *usb_desc;
-> 41ce84c86d0a04 Li Jun                    2015-07-09  1582
-> 41ce84c86d0a04 Li Jun                    2015-07-09  1583  		usb_desc = usb_otg_descriptor_alloc(gadget);
-> 41ce84c86d0a04 Li Jun                    2015-07-09  1584  		if (!usb_desc) {
-> 41ce84c86d0a04 Li Jun                    2015-07-09  1585  			ret = -ENOMEM;
-> 41ce84c86d0a04 Li Jun                    2015-07-09  1586  			goto err_comp_cleanup;
-> 41ce84c86d0a04 Li Jun                    2015-07-09  1587  		}
-> 41ce84c86d0a04 Li Jun                    2015-07-09  1588  		usb_otg_descriptor_init(gadget, usb_desc);
-> 41ce84c86d0a04 Li Jun                    2015-07-09  1589  		otg_desc[0] = usb_desc;
-> 41ce84c86d0a04 Li Jun                    2015-07-09  1590  		otg_desc[1] = NULL;
-> 41ce84c86d0a04 Li Jun                    2015-07-09  1591  	}
-> 41ce84c86d0a04 Li Jun                    2015-07-09  1592
-> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1593  	/* Go through all configs, attach all functions */
-> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1594  	list_for_each_entry(c, &gi->cdev.configs, list) {
-> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1595  		struct config_usb_cfg *cfg;
-> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1596  		struct usb_function *f;
-> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1597  		struct usb_function *tmp;
-> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1598  		struct gadget_config_name *cn;
-> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1599
-> 41ce84c86d0a04 Li Jun                    2015-07-09  1600  		if (gadget_is_otg(gadget))
-> 41ce84c86d0a04 Li Jun                    2015-07-09  1601  			c->descriptors = otg_desc;
-> 41ce84c86d0a04 Li Jun                    2015-07-09  1602
-> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1603  		cfg = container_of(c, struct config_usb_cfg, c);
-> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1604  		if (!list_empty(&cfg->string_list)) {
-> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1605  			i = 0;
-> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1606  			list_for_each_entry(cn, &cfg->string_list, list) {
-> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1607  				cfg->gstrings[i] = &cn->stringtab_dev;
-> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1608  				cn->stringtab_dev.strings = &cn->strings;
-> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1609  				cn->strings.s = cn->configuration;
-> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1610  				i++;
-> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1611  			}
-> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1612  			cfg->gstrings[i] = NULL;
-> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1613  			s = usb_gstrings_attach(&gi->cdev, cfg->gstrings, 1);
-> fea77077d1623c Wei Yongjun               2013-05-07  1614  			if (IS_ERR(s)) {
-> fea77077d1623c Wei Yongjun               2013-05-07  1615  				ret = PTR_ERR(s);
-> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1616  				goto err_comp_cleanup;
-> fea77077d1623c Wei Yongjun               2013-05-07  1617  			}
-> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1618  			c->iConfiguration = s[0].id;
-> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1619  		}
-> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1620
-> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1621  		list_for_each_entry_safe(f, tmp, &cfg->func_list, list) {
-> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1622  			list_del(&f->list);
-> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1623  			ret = usb_add_function(c, f);
-> 5a68e9b57b1c19 Andrzej Pietrasiewicz     2013-08-08  1624  			if (ret) {
-> 5a68e9b57b1c19 Andrzej Pietrasiewicz     2013-08-08  1625  				list_add(&f->list, &cfg->func_list);
-> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1626  				goto err_purge_funcs;
-> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1627  			}
-> 5a68e9b57b1c19 Andrzej Pietrasiewicz     2013-08-08  1628  		}
-> 7adf9e3adc398e Wesley Cheng              2021-07-10  1629  		ret = usb_gadget_check_config(cdev->gadget);
-> 7adf9e3adc398e Wesley Cheng              2021-07-10  1630  		if (ret)
-> 7adf9e3adc398e Wesley Cheng              2021-07-10  1631  			goto err_purge_funcs;
-> 7adf9e3adc398e Wesley Cheng              2021-07-10  1632
-> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1633  		usb_ep_autoconfig_reset(cdev->gadget);
-> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1634  	}
-> da4243145fb197 Andrzej Pietrasiewicz     2014-05-08  1635  	if (cdev->use_os_string) {
-> da4243145fb197 Andrzej Pietrasiewicz     2014-05-08  1636  		ret = composite_os_desc_req_prepare(cdev, gadget->ep0);
-> da4243145fb197 Andrzej Pietrasiewicz     2014-05-08  1637  		if (ret)
-> da4243145fb197 Andrzej Pietrasiewicz     2014-05-08  1638  			goto err_purge_funcs;
-> da4243145fb197 Andrzej Pietrasiewicz     2014-05-08  1639  	}
-> da4243145fb197 Andrzej Pietrasiewicz     2014-05-08  1640
-> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1641  	usb_ep_autoconfig_reset(cdev->gadget);
-> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1642  	return 0;
-> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1643
-> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1644  err_purge_funcs:
-> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1645  	purge_configs_funcs(gi);
-> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1646  err_comp_cleanup:
-> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1647  	composite_dev_cleanup(cdev);
-> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1648  	return ret;
-> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1649  }
->
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
