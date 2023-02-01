@@ -1,303 +1,226 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 377837E5
-	for <oe-kbuild@lists.linux.dev>; Wed,  1 Feb 2023 03:40:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675222844; x=1706758844;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=wOv2q2kujmnYRLxcQGbueRFU7hYKIglTbjAzsGIDKTc=;
-  b=V1wWwtGpdZ71bsUApc8yqoEgIrni1Dpp3dxX88th+3s0F19eiFJ/brUe
-   r8tXZYyO6Tt1gJYVKJDRbWVKwIr2OGn4MRV7cf4dFKBCW6/bJ0CR5cmag
-   5DQ8zkZRz8Ad5cYkftQammvV2FT/ef8p12FETr8JfvaKKVlN9gJCsVbKm
-   d20PfY69XGlI+T5GI+Gg36BGAUEC4AFO4Pk2lEcPtmOMfsilTpKlg8SP7
-   aFeYYRhaoiyIS9KXvWuL+bCLtVlXmJupIjZrbhu4m8uR6ZSPf5Uef7Tz8
-   t/V24cNFvZJsQhYg6rnxcQ2IVgngRMipbrw2lHlOgOiXFTv3T4ZuX/7gd
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10607"; a="392582486"
-X-IronPort-AV: E=Sophos;i="5.97,263,1669104000"; 
-   d="scan'208";a="392582486"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2023 19:40:43 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10607"; a="666758932"
-X-IronPort-AV: E=Sophos;i="5.97,263,1669104000"; 
-   d="scan'208";a="666758932"
-Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 31 Jan 2023 19:40:42 -0800
-Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pN3zF-00051K-2D;
-	Wed, 01 Feb 2023 03:40:41 +0000
-Date: Wed, 1 Feb 2023 11:40:23 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [tip:sched/core 27/54] fs/btrfs/zoned.c:180:38: warning: shift by
- negative count ('-1')
-Message-ID: <202302011122.gjAb2MwQ-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6683C7F;
+	Wed,  1 Feb 2023 09:50:49 +0000 (UTC)
+Received: from [192.168.0.43] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id D0722505;
+	Wed,  1 Feb 2023 10:50:40 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1675245041;
+	bh=/A2MjtZqFhnOy/r6l0wgf2i8iPrH8vgfGbLAT8s5AsI=;
+	h=Date:To:Cc:References:From:Subject:In-Reply-To:From;
+	b=t5Y6EOY1rv8X1Lsb3a8d0jaPVoiyRooB1eOfRhfSloZiFSCuvJ9aCiSmGrKFyn3JQ
+	 wjufrwhbmr50RwpSCstWAm/rZNK33FgmXpIYoUNDLanZUjFnY1gbPyXr6tkF8p7O8M
+	 IlyMV0HwWgD17P8PCeAgo+UeSjSH9RgE+l2mc7XI=
+Message-ID: <be531861-c7aa-8ad2-bbbb-58f30de6f50d@ideasonboard.com>
+Date: Wed, 1 Feb 2023 09:50:37 +0000
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Content-Language: en-US
+To: Dan Carpenter <error27@gmail.com>, oe-kbuild@lists.linux.dev,
+ linux-usb@vger.kernel.org, gregkh@linuxfoundation.org,
+ laurent.pinchart@ideasonboard.com
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, mgr@pengutronix.de,
+ balbi@kernel.org, kieran.bingham@ideasonboard.com, torleiv@huddly.com,
+ stern@rowland.harvard.edu
+References: <202301311446.AqdvqXkI-lkp@intel.com>
+From: Dan Scally <dan.scally@ideasonboard.com>
+Subject: Re: [PATCH v3 07/11] usb: gadget: configfs: Attach arbitrary strings
+ to cdev
+In-Reply-To: <202301311446.AqdvqXkI-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-:::::: 
-:::::: Manual check reason: "low confidence bisect report"
-:::::: Manual check reason: "low confidence static check first_new_problem: fs/btrfs/zoned.c:180:38: warning: shift by negative count ('-1') [-Wanalyzer-shift-count-negative]"
-:::::: 
+Morning Dan
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-CC: x86@kernel.org
-TO: Peter Zijlstra <peterz@infradead.org>
-CC: Ingo Molnar <mingo@kernel.org>
+On 31/01/2023 07:35, Dan Carpenter wrote:
+> Hi Daniel,
+>
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Scally/usb-gadget-uvc-Make-bSourceID-read-write/20230130-174215
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-linus
+> patch link:    https://lore.kernel.org/r/20230130093443.25644-8-dan.scally%40ideasonboard.com
+> patch subject: [PATCH v3 07/11] usb: gadget: configfs: Attach arbitrary strings to cdev
+> config: x86_64-randconfig-m001 (https://download.01.org/0day-ci/archive/20230131/202301311446.AqdvqXkI-lkp@intel.com/config)
+> compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+>
+> If you fix the issue, kindly add following tag where applicable
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <error27@gmail.com>
+>
+> New smatch warnings:
+> drivers/usb/gadget/configfs.c:1563 configfs_composite_bind() warn: passing zero to 'PTR_ERR'
+>
+> Old smatch warnings:
+> drivers/usb/gadget/configfs.c:985 os_desc_b_vendor_code_show() warn: argument 3 to %02x specifier has type 'char'
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git sched/core
-head:   4d627628d7584f3d3add1d53342d0f01aa878e04
-commit: e4df1511e1f4bcaa0d590aa7bbffe8bbbd6dfb49 [27/54] cpuidle, sched: Remove instrumentation from TIF_{POLLING_NRFLAG,NEED_RESCHED}
-:::::: branch date: 14 hours ago
-:::::: commit date: 3 weeks ago
-config: arm-randconfig-c002-20230129 (https://download.01.org/0day-ci/archive/20230201/202302011122.gjAb2MwQ-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git/commit/?id=e4df1511e1f4bcaa0d590aa7bbffe8bbbd6dfb49
-        git remote add tip https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git
-        git fetch --no-tags tip sched/core
-        git checkout e4df1511e1f4bcaa0d590aa7bbffe8bbbd6dfb49
-        # save the config file
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross ARCH=arm KBUILD_USERCFLAGS='-fanalyzer -Wno-error'  olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross ARCH=arm KBUILD_USERCFLAGS='-fanalyzer -Wno-error' 
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
+Really must make time to look at Smatch...
 
-gcc_analyzer warnings: (new ones prefixed by >>)
-              |   49 |         ((__builtin_constant_p(nr) &&                                   \
-              |      |                                ^~
-   fs/btrfs/zoned.h:290:16: note: in expansion of macro 'test_bit'
-              |  290 |         return test_bit(pos >> zone_info->zone_size_shift, zone_info->seq_zones);
-              |      |                ^~~~~~~~
-              |
-       <------+
-       |
-     'btrfs_find_allocatable_zones': event 10
-       |
-       |fs/btrfs/zoned.c:1055:21:
-       | 1055 |                 if (btrfs_dev_is_sequential(device, pos) &&
-       |      |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |                     |
-       |      |                     (10) returning to 'btrfs_find_allocatable_zones' from 'btrfs_dev_is_sequential'
-       |
-     'btrfs_find_allocatable_zones': events 11-13
-       |
-       | 1062 |                 for (i = 0; i < BTRFS_SUPER_MIRROR_MAX; i++) {
-       |......
-       | 1066 |                         sb_zone = sb_zone_number(shift, i);
-       |      |                                   ~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |                                   |
-       |      |                                   (12) ...to here
-       |      |                                   (13) calling 'sb_zone_number' from 'btrfs_find_allocatable_zones'
-       |
-       +--> 'sb_zone_number': events 14-17
-              |
-              |  161 | static inline u32 sb_zone_number(int shift, int mirror)
-              |      |                   ^~~~~~~~~~~~~~
-              |      |                   |
-              |      |                   (14) entry to 'sb_zone_number'
-              |  162 | {
-              |  163 |         u64 zone;
-              |      |             ~~~~   
-              |      |             |
-              |      |             (15) region created on stack here
-              |......
-              |  166 |         switch (mirror) {
-              |      |         ~~~~~~     
-              |      |         |
-              |      |         (16) following 'case 0:' branch...
-              |  167 |         case 0: zone = 0; break;
-              |      |         ~~~~       
-              |      |         |
-              |      |         (17) ...to here
-              |
-       <------+
-       |
-     'btrfs_find_allocatable_zones': event 18
-       |
-       | 1066 |                         sb_zone = sb_zone_number(shift, i);
-       |      |                                   ^~~~~~~~~~~~~~~~~~~~~~~~
-       |      |                                   |
-       |      |                                   (18) returning to 'btrfs_find_allocatable_zones' from 'sb_zone_number'
-       |
-     'btrfs_find_allocatable_zones': event 19
-       |
-       |fs/btrfs/disk-io.h:23:12:
-       |   23 |         if (mirror)
-       |      |            ^
-       |      |            |
-       |      |            (19) following 'false' branch (when 'i == 0')...
-       |
-     'btrfs_find_allocatable_zones': event 20
-       |
-       |fs/btrfs/zoned.c:1077:35:
-       | 1077 |                         if (!(pos + num_bytes <= sb_pos ||
-       |      |                               ~~~~^~~~~~~~~~~
-       |      |                                   |
-       |      |                                   (20) ...to here
-       |
-     'btrfs_find_allocatable_zones': events 21-23
-       |
-       | 1062 |                 for (i = 0; i < BTRFS_SUPER_MIRROR_MAX; i++) {
-       |......
-       | 1066 |                         sb_zone = sb_zone_number(shift, i);
-       |      |                                   ~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |                                   |
-       |      |                                   (22) ...to here
-       |      |                                   (23) calling 'sb_zone_number' from 'btrfs_find_allocatable_zones'
-       |
-       +--> 'sb_zone_number': events 24-26
-              |
-              |  161 | static inline u32 sb_zone_number(int shift, int mirror)
-              |      |                   ^~~~~~~~~~~~~~
-              |      |                   |
-              |      |                   (24) entry to 'sb_zone_number'
-              |  162 | {
-              |  163 |         u64 zone;
-              |      |             ~~~~   
-              |      |             |
-              |      |             (25) region created on stack here
-              |......
-              |  174 |         return (u32)zone;
-              |      |                ~~~~~~~~~
-              |      |                |
-              |      |                (26) use of uninitialized value 'zone' here
-              |
-   fs/btrfs/zoned.c: In function 'zone_start_sector':
->> fs/btrfs/zoned.c:180:38: warning: shift by negative count ('-1') [-Wanalyzer-shift-count-negative]
-     180 |         return (sector_t)zone_number << ilog2(bdev_zone_sectors(bdev));
-     'btrfs_reset_sb_log_zones': events 1-4
-       |
-       | 1000 | int btrfs_reset_sb_log_zones(struct block_device *bdev, int mirror)
-       |      |     ^~~~~~~~~~~~~~~~~~~~~~~~
-       |      |     |
-       |      |     (1) entry to 'btrfs_reset_sb_log_zones'
-       |......
-       | 1014 |         if (sb_zone + 1 >= nr_zones)
-       |      |            ~
-       |      |            |
-       |      |            (2) following 'false' branch...
-       |......
-       | 1017 |         return blkdev_zone_mgmt(bdev, REQ_OP_ZONE_RESET,
-       |      |                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |                |
-       |      |                (3) ...to here
-       |      |                (4) calling 'zone_start_sector' from 'btrfs_reset_sb_log_zones'
-       | 1018 |                                 zone_start_sector(sb_zone, bdev),
-       |      |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-       | 1019 |                                 zone_sectors * BTRFS_NR_SB_LOG_ZONES, GFP_NOFS);
-       |      |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |
-       +--> 'zone_start_sector': event 5
-              |
-              |  177 | static inline sector_t zone_start_sector(u32 zone_number,
-              |      |                        ^~~~~~~~~~~~~~~~~
-              |      |                        |
-              |      |                        (5) entry to 'zone_start_sector'
-              |
-            'zone_start_sector': event 6
-              |
-              |  180 |         return (sector_t)zone_number << ilog2(bdev_zone_sectors(bdev));
-              |
-   fs/btrfs/zoned.c: In function 'btrfs_get_dev_zones':
-   fs/btrfs/zoned.c:278:42: warning: use of uninitialized value 'zno' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-     278 |                 memcpy(zinfo->zone_cache + zno, zones,
-         |                                          ^
-     'read_zone_info': events 1-8
-       |
-       | 1770 | static int read_zone_info(struct btrfs_fs_info *fs_info, u64 logical,
-       |      |            ^~~~~~~~~~~~~~
-       |      |            |
-       |      |            (1) entry to 'read_zone_info'
-       |......
-       | 1781 |         if (ret || !bioc || mapped_length < PAGE_SIZE) {
-       |      |            ~
-       |      |            |
-       |      |            (2) following 'false' branch...
-       |......
-       | 1786 |         if (bioc->map_type & BTRFS_BLOCK_GROUP_RAID56_MASK) {
-       |      |            ~~~~~~~~~~~~~~~
-       |      |            |    |
-       |      |            |    (3) ...to here
-       |      |            (4) following 'false' branch...
-       |......
-       | 1791 |         nofs_flag = memalloc_nofs_save();
-       |      |                     ~~~~~~~~~~~~~~~~~~~~
-       |      |                     |
-       |      |                     (5) ...to here
-       | 1792 |         nmirrors = (int)bioc->num_stripes;
-       | 1793 |         for (i = 0; i < nmirrors; i++) {
-       |      |                     ~~~~~~~~~~~~
-       |      |                       |
-       |      |                       (6) following 'true' branch (when 'i < nmirrors')...
-       | 1794 |                 u64 physical = bioc->stripes[i].physical;
-       |      |                                    ~~
-       |      |                                    |
-       |      |                                    (7) ...to here
-       |......
-       | 1801 |                 ret = btrfs_get_dev_zone(dev, physical, zone);
-       |      |                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |                       |
-       |      |                       (8) calling 'btrfs_get_dev_zone' from 'read_zone_info'
-       |
-       +--> 'btrfs_get_dev_zone': events 9-10
-              |
-              |  684 | int btrfs_get_dev_zone(struct btrfs_device *device, u64 pos,
-              |      |     ^~~~~~~~~~~~~~~~~~
-              |      |     |
-              |      |     (9) entry to 'btrfs_get_dev_zone'
-              |......
-              |  690 |         ret = btrfs_get_dev_zones(device, pos, zone, &nr_zones);
-              |      |               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-              |      |               |
-              |      |               (10) calling 'btrfs_get_dev_zones' from 'btrfs_get_dev_zone'
-              |
-              +--> 'btrfs_get_dev_zones': events 11-14
-                     |
-                     |  219 | static int btrfs_get_dev_zones(struct btrfs_device *device, u64 pos,
-                     |      |            ^~~~~~~~~~~~~~~~~~~
-                     |      |            |
-                     |      |            (11) entry to 'btrfs_get_dev_zones'
-                     |......
-                     |  223 |         u32 zno;
-                     |      |             ~~~
-                     |      |             |
-                     |      |             (12) region created on stack here
-                     |......
-                     |  226 |         if (!*nr_zones)
+>
+> vim +/PTR_ERR +1563 drivers/usb/gadget/configfs.c
+>
+> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1518  static int configfs_composite_bind(struct usb_gadget *gadget,
+> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1519  		struct usb_gadget_driver *gdriver)
+> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1520  {
+> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1521  	struct usb_composite_driver     *composite = to_cdriver(gdriver);
+> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1522  	struct gadget_info		*gi = container_of(composite,
+> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1523  						struct gadget_info, composite);
+> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1524  	struct usb_composite_dev	*cdev = &gi->cdev;
+> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1525  	struct usb_configuration	*c;
+> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1526  	struct usb_string		*s;
+> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1527  	unsigned			i;
+> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1528  	int				ret;
+> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1529
+> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1530  	/* the gi->lock is hold by the caller */
+> 1a1c851bbd706e Peter Chen                2019-08-26  1531  	gi->unbind = 0;
+> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1532  	cdev->gadget = gadget;
+> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1533  	set_gadget_data(gadget, cdev);
+> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1534  	ret = composite_dev_prepare(composite, cdev);
+> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1535  	if (ret)
+> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1536  		return ret;
+> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1537  	/* and now the gadget bind */
+> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1538  	ret = -EINVAL;
+> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1539
+> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1540  	if (list_empty(&gi->cdev.configs)) {
+> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1541  		pr_err("Need at least one configuration in %s.\n",
+> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1542  				gi->composite.name);
+> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1543  		goto err_comp_cleanup;
+> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1544  	}
+> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1545
+> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1546
+> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1547  	list_for_each_entry(c, &gi->cdev.configs, list) {
+> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1548  		struct config_usb_cfg *cfg;
+> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1549
+> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1550  		cfg = container_of(c, struct config_usb_cfg, c);
+> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1551  		if (list_empty(&cfg->func_list)) {
+> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1552  			pr_err("Config %s/%d of %s needs at least one function.\n",
+> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1553  			      c->label, c->bConfigurationValue,
+> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1554  			      gi->composite.name);
+> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1555  			goto err_comp_cleanup;
+> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1556  		}
+> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1557  	}
+> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1558
+> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1559  	/* init all strings */
+> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1560  	if (!list_empty(&gi->string_list)) {
+> 0c252735443756 Daniel Scally             2023-01-30  1561  		s = configfs_attach_gadget_strings(gi);
+> 0c252735443756 Daniel Scally             2023-01-30  1562  		if (IS_ERR_OR_NULL(s)) {
+>
+>
+> Passing NULL to PTR_ERR(s) is not a bug, but this check has a probably
+> under 10% false positive rate because 90% of the time when people do
+> that it is wrong.
+>
+> In this case configfs_attach_gadget_strings() cannot actually return
+> NULL so this could just be changed to if (IS_ERR(s)) {.
 
-vim +180 fs/btrfs/zoned.c
 
-12659251ca5df0 Naohiro Aota 2020-11-10  176  
-5b434df8778771 Naohiro Aota 2021-05-27  177  static inline sector_t zone_start_sector(u32 zone_number,
-5b434df8778771 Naohiro Aota 2021-05-27  178  					 struct block_device *bdev)
-5b434df8778771 Naohiro Aota 2021-05-27  179  {
-5b434df8778771 Naohiro Aota 2021-05-27 @180  	return (sector_t)zone_number << ilog2(bdev_zone_sectors(bdev));
-5b434df8778771 Naohiro Aota 2021-05-27  181  }
-5b434df8778771 Naohiro Aota 2021-05-27  182  
+Yes good spot, thank you
 
-:::::: The code at line 180 was first introduced by commit
-:::::: 5b434df8778771d181bc19fb4593bca114d1c4eb btrfs: zoned: fix zone number to sector/physical calculation
+>
+> I would say that probably if it *did* return NULL then we should return
+> -EPROBE_DEFER.  It's an interesting philosophical debate how to handle
+> impossible things...
 
-:::::: TO: Naohiro Aota <naohiro.aota@wdc.com>
-:::::: CC: David Sterba <dsterba@suse.com>
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+Well in this case it returns null when there's no languages defined, 
+which isn't possible here since it's behind the if(!list_empty(...)) 
+check but in principle I think is allowed - usb devices don't have to 
+support any string descriptors as far as I know.
+
+> fea77077d1623c Wei Yongjun               2013-05-07 @1563  			ret = PTR_ERR(s);
+> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1564  			goto err_comp_cleanup;
+> fea77077d1623c Wei Yongjun               2013-05-07  1565  		}
+> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1566
+> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1567  		gi->cdev.desc.iManufacturer = s[USB_GADGET_MANUFACTURER_IDX].id;
+> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1568  		gi->cdev.desc.iProduct = s[USB_GADGET_PRODUCT_IDX].id;
+> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1569  		gi->cdev.desc.iSerialNumber = s[USB_GADGET_SERIAL_IDX].id;
+> 0c252735443756 Daniel Scally             2023-01-30  1570
+> 0c252735443756 Daniel Scally             2023-01-30  1571  		gi->cdev.usb_strings = s;
+> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1572  	}
+> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1573
+> 87213d388e927a Andrzej Pietrasiewicz     2014-05-08  1574  	if (gi->use_os_desc) {
+> 87213d388e927a Andrzej Pietrasiewicz     2014-05-08  1575  		cdev->use_os_string = true;
+> 87213d388e927a Andrzej Pietrasiewicz     2014-05-08  1576  		cdev->b_vendor_code = gi->b_vendor_code;
+> 87213d388e927a Andrzej Pietrasiewicz     2014-05-08  1577  		memcpy(cdev->qw_sign, gi->qw_sign, OS_STRING_QW_SIGN_LEN);
+> 87213d388e927a Andrzej Pietrasiewicz     2014-05-08  1578  	}
+> 87213d388e927a Andrzej Pietrasiewicz     2014-05-08  1579
+> 41ce84c86d0a04 Li Jun                    2015-07-09  1580  	if (gadget_is_otg(gadget) && !otg_desc[0]) {
+> 41ce84c86d0a04 Li Jun                    2015-07-09  1581  		struct usb_descriptor_header *usb_desc;
+> 41ce84c86d0a04 Li Jun                    2015-07-09  1582
+> 41ce84c86d0a04 Li Jun                    2015-07-09  1583  		usb_desc = usb_otg_descriptor_alloc(gadget);
+> 41ce84c86d0a04 Li Jun                    2015-07-09  1584  		if (!usb_desc) {
+> 41ce84c86d0a04 Li Jun                    2015-07-09  1585  			ret = -ENOMEM;
+> 41ce84c86d0a04 Li Jun                    2015-07-09  1586  			goto err_comp_cleanup;
+> 41ce84c86d0a04 Li Jun                    2015-07-09  1587  		}
+> 41ce84c86d0a04 Li Jun                    2015-07-09  1588  		usb_otg_descriptor_init(gadget, usb_desc);
+> 41ce84c86d0a04 Li Jun                    2015-07-09  1589  		otg_desc[0] = usb_desc;
+> 41ce84c86d0a04 Li Jun                    2015-07-09  1590  		otg_desc[1] = NULL;
+> 41ce84c86d0a04 Li Jun                    2015-07-09  1591  	}
+> 41ce84c86d0a04 Li Jun                    2015-07-09  1592
+> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1593  	/* Go through all configs, attach all functions */
+> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1594  	list_for_each_entry(c, &gi->cdev.configs, list) {
+> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1595  		struct config_usb_cfg *cfg;
+> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1596  		struct usb_function *f;
+> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1597  		struct usb_function *tmp;
+> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1598  		struct gadget_config_name *cn;
+> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1599
+> 41ce84c86d0a04 Li Jun                    2015-07-09  1600  		if (gadget_is_otg(gadget))
+> 41ce84c86d0a04 Li Jun                    2015-07-09  1601  			c->descriptors = otg_desc;
+> 41ce84c86d0a04 Li Jun                    2015-07-09  1602
+> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1603  		cfg = container_of(c, struct config_usb_cfg, c);
+> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1604  		if (!list_empty(&cfg->string_list)) {
+> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1605  			i = 0;
+> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1606  			list_for_each_entry(cn, &cfg->string_list, list) {
+> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1607  				cfg->gstrings[i] = &cn->stringtab_dev;
+> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1608  				cn->stringtab_dev.strings = &cn->strings;
+> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1609  				cn->strings.s = cn->configuration;
+> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1610  				i++;
+> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1611  			}
+> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1612  			cfg->gstrings[i] = NULL;
+> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1613  			s = usb_gstrings_attach(&gi->cdev, cfg->gstrings, 1);
+> fea77077d1623c Wei Yongjun               2013-05-07  1614  			if (IS_ERR(s)) {
+> fea77077d1623c Wei Yongjun               2013-05-07  1615  				ret = PTR_ERR(s);
+> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1616  				goto err_comp_cleanup;
+> fea77077d1623c Wei Yongjun               2013-05-07  1617  			}
+> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1618  			c->iConfiguration = s[0].id;
+> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1619  		}
+> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1620
+> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1621  		list_for_each_entry_safe(f, tmp, &cfg->func_list, list) {
+> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1622  			list_del(&f->list);
+> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1623  			ret = usb_add_function(c, f);
+> 5a68e9b57b1c19 Andrzej Pietrasiewicz     2013-08-08  1624  			if (ret) {
+> 5a68e9b57b1c19 Andrzej Pietrasiewicz     2013-08-08  1625  				list_add(&f->list, &cfg->func_list);
+> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1626  				goto err_purge_funcs;
+> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1627  			}
+> 5a68e9b57b1c19 Andrzej Pietrasiewicz     2013-08-08  1628  		}
+> 7adf9e3adc398e Wesley Cheng              2021-07-10  1629  		ret = usb_gadget_check_config(cdev->gadget);
+> 7adf9e3adc398e Wesley Cheng              2021-07-10  1630  		if (ret)
+> 7adf9e3adc398e Wesley Cheng              2021-07-10  1631  			goto err_purge_funcs;
+> 7adf9e3adc398e Wesley Cheng              2021-07-10  1632
+> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1633  		usb_ep_autoconfig_reset(cdev->gadget);
+> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1634  	}
+> da4243145fb197 Andrzej Pietrasiewicz     2014-05-08  1635  	if (cdev->use_os_string) {
+> da4243145fb197 Andrzej Pietrasiewicz     2014-05-08  1636  		ret = composite_os_desc_req_prepare(cdev, gadget->ep0);
+> da4243145fb197 Andrzej Pietrasiewicz     2014-05-08  1637  		if (ret)
+> da4243145fb197 Andrzej Pietrasiewicz     2014-05-08  1638  			goto err_purge_funcs;
+> da4243145fb197 Andrzej Pietrasiewicz     2014-05-08  1639  	}
+> da4243145fb197 Andrzej Pietrasiewicz     2014-05-08  1640
+> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1641  	usb_ep_autoconfig_reset(cdev->gadget);
+> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1642  	return 0;
+> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1643
+> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1644  err_purge_funcs:
+> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1645  	purge_configs_funcs(gi);
+> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1646  err_comp_cleanup:
+> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1647  	composite_dev_cleanup(cdev);
+> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1648  	return ret;
+> 88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1649  }
+>
