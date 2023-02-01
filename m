@@ -1,163 +1,174 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6255B8483
-	for <oe-kbuild@lists.linux.dev>; Wed,  1 Feb 2023 18:05:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17E1733FA
+	for <oe-kbuild@lists.linux.dev>; Wed,  1 Feb 2023 19:25:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675274714; x=1706810714;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=3ulhaxX2A9Jjc45y0mBBzIlTjlRVyCarXiMa8mtGH+8=;
-  b=gUnMaVn6sBNDmkf9eLYuJKsxuvz+iq9uw7OnGvKTZVpJ9GvNtSLe2BTZ
-   k/4D3+9H6xwTa8gA8xLlGSQ2yXeiIF2QFYIbJ1MsF2vvbd9MfF5gUuS8x
-   pvAsiPNXgKhLzl9CYqpMnpVj1pn6VlCg+zTd40B+XC8JD32wfX8d6qwPe
-   +lETpbTB4mHCYiOcNEso+79jLefWj/wWK2oQFCiZICRtY9TsCxGrv7iZG
-   ar/IMGZ73HsFXfvQKTWBUnq4obaivs1j8RzdpKQKNqwnLxuGQ+Kr7QWuN
-   luf9Q4nft5PIIwP7vTDsSrPQ+UiSU8BKMe/2ZJz1aKv/ty/CBXmixnLVJ
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="390615851"
+  t=1675279505; x=1706815505;
+  h=date:from:to:cc:subject:message-id:references:
+   in-reply-to:mime-version;
+  bh=2Yufp73x7KBvOeq6Ge3NpBUUPS+OdFRIZsD8F32mF0A=;
+  b=l8WbtKG4vbJFvDt31uKdpyGBdUyQZCnNCnE5OnRs30FlQYyaemaDAad1
+   hz4cQzEdTfSsICW5cbSfxBUpaxFac5qaU+f0NESnG2Wq/OEWLJWPwDU/h
+   mrSI/sczdxnEOgqLj2L128LuGOTwssAlimUi9gxFhhVr8oFBP9U63X3yr
+   SKln+7toUNrc2ybQBWTZx/b3/+gWk+0Lo0B4lODlFBpE41rXeEdCqJJkV
+   L0+mHyMH+ynVp0dhNCt+Ld+rvh/b6k9ULEt1U/f3ncz9Do1Yqb/og+m6f
+   2BuR2VWC6eceqoS23GLiTfuc3nClvVeoKUcL9f1BeSp5GH4G0BMmqJJXX
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="308591553"
 X-IronPort-AV: E=Sophos;i="5.97,265,1669104000"; 
-   d="scan'208";a="390615851"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2023 10:04:10 -0800
+   d="scan'208";a="308591553"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2023 11:25:04 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="788972546"
+X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="667021843"
 X-IronPort-AV: E=Sophos;i="5.97,265,1669104000"; 
-   d="scan'208";a="788972546"
-Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 01 Feb 2023 10:03:46 -0800
-Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pNHSO-0005fK-1k;
-	Wed, 01 Feb 2023 18:03:40 +0000
-Date: Thu, 2 Feb 2023 02:02:57 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [linux-next:master 8821/9815] mm/zsmalloc.c:1619:72: warning:
- Parameter 'handle' can be declared as pointer to const [constParameter]
-Message-ID: <202302020127.8jJUKhkv-lkp@intel.com>
+   d="scan'208";a="667021843"
+Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
+  by fmsmga007.fm.intel.com with ESMTP; 01 Feb 2023 11:25:04 -0800
+Received: from fmsmsx602.amr.corp.intel.com (10.18.126.82) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16; Wed, 1 Feb 2023 11:25:03 -0800
+Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16 via Frontend Transport; Wed, 1 Feb 2023 11:25:03 -0800
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.172)
+ by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.16; Wed, 1 Feb 2023 11:25:03 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ExaPmtPTG8hpk7DF0iBEB69Mo/rpELH9phuZ4uaV4Ijtp33e4U5lh7TSfNMP7Q4Y6k96T6jrrUvK/GniTJ/EHsRmwUr8D+CBRRJk0ukrnSnHXfJecalT4PwILiHNBY+jAzljrc5ULXm6MugxcPPwcLSXhsuxBzWPmDbFoyZf8ZZWfL1JRVi8vPeIG4iTpgguLDIB/fxc3mqp/1Yu1UxckTIQUQj2+QbPm1KUJ6v3IFRTzPGSVJUKijtnIAWzRdcX680hiBGMUb7+YCLu1WRe3Y/m+8MjLnmZXiLMgKQvhL8L0FJUs1zR3HPv9bsVulRa3dUieqFTGrVXpiz7els1HQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ZcS5VG0+aaybA9ZW5v8TrWSMsAD5D34NGxDxdVH3VmQ=;
+ b=C+tJ9CwYeBco0PwXRbPemDh050S6YZb/AXh1mZDEVQhcWR4emPSvNqtLUGh81hBMkZbnFqmTQyTimBu4aMkPGN9XdgL+Kak7jljy1pY0r5L5L6Ix+opGUyWxNLzVR/udG6S9I6rLmzQH8FjVy3/JJvCUNnkwI17Kn6k9YPf6XCxcUtu81djYFAEbJPQqM1y/s8/SHfnAWxC33dMDwusfpdIUjcPeCZxAJKuhiCm4Ngb/CdhDM209+XeHHu4JtNlCQ3ArVBKcHCx/9XetcFWZfdW5iusBw9jGDDt3sq4sksf/j1+GrGVpZ+8NIcUNgCBoblrJau/QHeGqut+j2XC9gw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SA1PR11MB6733.namprd11.prod.outlook.com (2603:10b6:806:25c::17)
+ by MN2PR11MB4567.namprd11.prod.outlook.com (2603:10b6:208:26d::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6043.38; Wed, 1 Feb
+ 2023 19:24:59 +0000
+Received: from SA1PR11MB6733.namprd11.prod.outlook.com
+ ([fe80::6851:3db2:1166:dda6]) by SA1PR11MB6733.namprd11.prod.outlook.com
+ ([fe80::6851:3db2:1166:dda6%9]) with mapi id 15.20.6043.036; Wed, 1 Feb 2023
+ 19:24:59 +0000
+Date: Wed, 1 Feb 2023 11:24:55 -0800
+From: Ira Weiny <ira.weiny@intel.com>
+To: Davidlohr Bueso <dave@stgolabs.net>, Dan Williams
+	<dan.j.williams@intel.com>
+CC: Ira Weiny <ira.weiny@intel.com>, kernel test robot <lkp@intel.com>,
+	<Jonathan.Cameron@huawei.com>, <linux-cxl@vger.kernel.org>,
+	<oe-kbuild@lists.linux.dev>, Julia Lawall <julia.lawall@lip6.fr>
+Subject: Re: [cxl:pending 13/21] drivers/cxl/pci.c:511:8-33: WARNING:
+ Threaded IRQ with no primary handler requested without IRQF_ONESHOT (unless
+ it is nested IRQ)
+Message-ID: <63dabc87909e3_b941e29489@iweiny-mobl.notmuch>
+References: <202301291620.DxnDWLoW-lkp@intel.com>
+ <20230130215514.6cviyuwhxgjlzj27@offworld>
+ <63d991da1c19c_a8e3129488@iweiny-mobl.notmuch>
+ <63d993bdecd01_3a36e529454@dwillia2-xfh.jf.intel.com.notmuch>
+ <20230201002701.a7lwsouomqvoheso@offworld>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20230201002701.a7lwsouomqvoheso@offworld>
+X-ClientProxiedBy: SJ0PR03CA0192.namprd03.prod.outlook.com
+ (2603:10b6:a03:2ef::17) To SA1PR11MB6733.namprd11.prod.outlook.com
+ (2603:10b6:806:25c::17)
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SA1PR11MB6733:EE_|MN2PR11MB4567:EE_
+X-MS-Office365-Filtering-Correlation-Id: c04d5935-eb86-45a6-fcbc-08db048a0248
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: AVRBpdCEfdSBiMlayDmJw7P+uiqkOb4l2DUgk4a/dfRnlussmL1Y6LYvZmYyxkRS6fPHefUL7rC44rVAsCKZtrRW+I4tOiMtHeBWPgLgXx0vU1s+Qy0tqr8Mg0WLP3T+dv6vUiuRRDI/AH6s58F/WsRwRhSXhhXsNlUS2GIew27DzwOe6JWsAQAJGwq1A5ehNfIr4V1AlTgcfBWNM1iaMZzaXd/MndyAtxL6+Vp93zyjrA1k3YPLqfwhc89qlcXM22lGZGOVc90ePzJFgVI+GnNxgt0lgCU3mADa/WG9Rz5xoNSrDPi4iBKP1z4uPD4/jijDllROFvGiM++1rtNI41genfVSHulsi+LlvPpQquEkCA0Lmqd+guI4CwPytl0xEYX0XgQfyNJBiH23FW+0qbu24Vzq6nnrW09CG/oI2eqdqsUG+8TdabY4Ppb0mPU8OuRt/iPCrU2hrH73zdjLZfdmT1dm9tBsyl4NnI/KFMY3n7skqURq2PuQplhn52pHuhOnSU/xk9PsOcbp5GCJ3pm5CpUCMQd1TNhjpuM0IzkzrcCmaIc50ViEaTJ2XX41Pv4LwOYtuVcFitNOLHwoLq6H+D6IzbqN1UM9m6fDgj9QUVXH7r2SrGw6whvhyrYzlg2mY/gNdVzyn0fu6kPCCw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR11MB6733.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(366004)(376002)(346002)(136003)(39860400002)(396003)(451199018)(6666004)(6486002)(478600001)(83380400001)(82960400001)(110136005)(6636002)(2906002)(54906003)(38100700002)(41300700001)(86362001)(5660300002)(6506007)(8676002)(66476007)(26005)(316002)(4326008)(44832011)(6512007)(186003)(8936002)(9686003)(66556008)(66946007);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?TrgUp44y6oZ3SyPpeQfMfCFsHUS1CN1bLrwTnpHhkB71088SWy3tefUvaP10?=
+ =?us-ascii?Q?QiNxr+v6BBXTUkO4kP866mb2C6EkxFbZgmiCTTSOQF9t9SrSRzwENrKnR25S?=
+ =?us-ascii?Q?FwRBFpxNJ1iMBp10A7Aa/6TRJ2Dgr+8RDFqjkuFtFBPtnJyG+z9oPUeThK5U?=
+ =?us-ascii?Q?KB+Fg1s4u4R7bpyMDGo+Nlr/baMM1xFVsEiIXat+GO0a6FtewRHABe6hGq0Z?=
+ =?us-ascii?Q?I22YrJDcpA5A0eVkJGho0z+hwpqAavEvr2SDBcDKupMBkMKJPLCql0/O6yhR?=
+ =?us-ascii?Q?w+ixRZKccRlCBZXRzWFyk3uAxjnYNKELPXG7MWwHarsqLGZcdaIsahb1COeo?=
+ =?us-ascii?Q?22oG83seqIJQvqYgPep53bHgLfppt0cYf9R3p3pZNoPTaqM6i054gWPi1jf4?=
+ =?us-ascii?Q?IxsVIvqn+ECT+yHdtY2lTrUdWGudJK4rJYGyy0+06A061uSPQmAVe/OGfhVU?=
+ =?us-ascii?Q?Ph72Bcbw7eOLbv4ooqrSmRtcmPecQIQQYF1jmwlZOu9caOcAuURo4z4WbX3+?=
+ =?us-ascii?Q?brN37uvCO8HRCFHfnbuftM7pFKJopFUow1NTUuDEDpRVZ9ZBntWb+uSdyO83?=
+ =?us-ascii?Q?kui9FQAM4vRAuWnHTXS0zf8kXZBjKES9JdKaRX8AUSOIxBkB/B2OQakUziC1?=
+ =?us-ascii?Q?tMoBs47ZYIvkRwWx9bM7/Jnwo05PvhkJFHWNf7iKl5pBTb5xfdQFk4eUaCNY?=
+ =?us-ascii?Q?LJU0Bsc9eD69XnAo+SnX1KCyxzIsfJK/7sDrQFoM3wj/aCJXcTypHrKsSyDF?=
+ =?us-ascii?Q?mVVJftTefBF0nPKa84a1ERDAuylrUjq3Q1gaHCpb2o16lgLJlLBH4aIm7cma?=
+ =?us-ascii?Q?hLtksMaHO4DpQsxqq0Bk9vE3kH7MyrfLcH/3t5d0aVwVlIwuxiddPOOEJgYQ?=
+ =?us-ascii?Q?66DlX1It3a3cpvN5QwrU2Aok5BiOfdUquAY5aCaHfTl2WDgl9Ww6kifHYGYb?=
+ =?us-ascii?Q?E+ijOYomaJloVCPfl/R/lcdpsZkY+2sxIjUH8twd/AV22piZ/r5uXew/+YHD?=
+ =?us-ascii?Q?x4zRscc1Y45hfOr+i2RhcfqcMBnleM5Ckm/gtevPEluotb1Fn7zIKVmksEyV?=
+ =?us-ascii?Q?D7rRBIyAscr6fDeh3ZM6HfTT1BGc1/hfDsZ3sQxecz+4hHoX6kNu9NUf9Msj?=
+ =?us-ascii?Q?ZVqRSdebuhLOnPO4gT5+/Hsxl8ss8NBO68pay6Y6NL/QaMpmWjUixP2LhAu+?=
+ =?us-ascii?Q?zRoRiOIgMY1mw/HUE1cXuosj3BHV5CYUqiSCVcIAApSNRJLB5ao+tqJKu9Bm?=
+ =?us-ascii?Q?URHonuIMnRnYgs8Y5QdgNt3HC66QI/z+kgcbmL2z6VVgAv61W56pcW0+aFxl?=
+ =?us-ascii?Q?xlohVkEnO9wOSlxdIG1y8MofUFUnGUMO86ajgMLF414OQHx7700+blyEgDnP?=
+ =?us-ascii?Q?ZGtinhWLGnS5+dJ6jwDrnyCLm+/IMGtLdnICFDQfGlxd92F6iNnhueeB4Oqs?=
+ =?us-ascii?Q?HQQ8zhoHDh6NrLqupj2wVACZKEo+O7OZ5qDUc5YLXb7nBYwfICWvfXsM/dQq?=
+ =?us-ascii?Q?UHlGNPVjipfarpdvNrfKXlfXcG7BD+TebfJZBNA/ZmXsJeTQYVvtEvQvXhsc?=
+ =?us-ascii?Q?uWuzbGZhTicndbT5RoZ+xx9LYJ5KaFyv/6NfcX5g?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: c04d5935-eb86-45a6-fcbc-08db048a0248
+X-MS-Exchange-CrossTenant-AuthSource: SA1PR11MB6733.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Feb 2023 19:24:59.5736
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: KkhmShSondnzHS+EbgdDVkAi/7C6m/eKVK50YKoctsLwwpUj56vAjDJqjRWMowj58Lm9rpiLb+PUoDiiPY/NzQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR11MB4567
+X-OriginatorOrg: intel.com
 
-:::::: 
-:::::: Manual check reason: "low confidence static check warning: mm/zsmalloc.c:1619:72: warning: Parameter 'handle' can be declared as pointer to const [constParameter]"
-:::::: 
+Davidlohr Bueso wrote:
+> On Tue, 31 Jan 2023, Dan Williams wrote:
+> 
+> >Ira Weiny wrote:
+> >[..]
+> >> > Considering MSIs are edge triggered interrupts, this should be benign.
+> >>
+> >> I'm trying to understand this a bit more.  So I looked in more detail.  I
+> >> believe Dan suggested that I could use irq_default_primary_handler() in
+> >> this case by passing NULL.  And this would handle threading the irq
+> >> processing for me.
+> >>
+> >> It looks from a software standpoint this should work.  But the kdocs
+> >> really imply that not masking the irq in the handler may be an issue.
+> >> Thus the 'requirement' of using IRQF_ONESHOT.
+> >>
+> >> Is this somehow different with MSI?  Is this a case of the kdocs being a
+> >> bit out of date for MSI?
+> >
+> >My reading, may be from the changelog and not the kdocs, was that at
+> >request_irq() time it is difficult to discern level triggered vs
+> >edge-triggered. So for the default primary handler, that does nothing to
+> >quiet a screaming level-triggered interrupt, just require oneshot mode.
+> 
+> Right and it's only level-triggered that are the problem after done with
+> the hardirq handler. So in the msi/cxl case we already know that all this
+> is edge (sent once and forgotten by the hardware), which is why I was saying
+> it's harmless. It's still probably a good idea to have it explicitly oneshot
+> semantics as Dan's patch.
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Nhat Pham <nphamcs@gmail.com>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
+Ok that makes sense.
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   66eee64b235411d512bed4d672c2d00683239daf
-commit: 278425ca22837bad466ac6558024b10424d3b82a [8821/9815] zsmalloc: fix a race with deferred_handles storing
-:::::: branch date: 14 hours ago
-:::::: commit date: 2 days ago
-compiler: csky-linux-gcc (GCC) 12.1.0
-reproduce (cppcheck warning):
-        # apt-get install cppcheck
-        git checkout 278425ca22837bad466ac6558024b10424d3b82a
-        cppcheck --quiet --enable=style,performance,portability --template=gcc FILE
+Thanks to you both for clarifying and to Dan for the patch.
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-
-
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
-
-   mm/zsmalloc.c:2249:16: warning: Local variable 'obj_allocated' shadows outer function [shadowFunction]
-    unsigned long obj_allocated = zs_stat_get(class, OBJ_ALLOCATED);
-                  ^
-   mm/zsmalloc.c:940:13: note: Shadowed declaration
-   static bool obj_allocated(struct page *page, void *obj, unsigned long *phandle)
-               ^
-   mm/zsmalloc.c:2249:16: note: Shadow variable
-    unsigned long obj_allocated = zs_stat_get(class, OBJ_ALLOCATED);
-                  ^
->> mm/zsmalloc.c:1619:72: warning: Parameter 'handle' can be declared as pointer to const [constParameter]
-   static void obj_free(int class_size, unsigned long obj, unsigned long *handle)
-                                                                          ^
-   mm/zsmalloc.c:2198:15: warning: Uninitialized variables: zspage.huge, zspage.fullness, zspage.class, zspage.isolated, zspage.magic, zspage.inuse, zspage.freeobj, zspage.first_page, zspage.pool, zspage.lock [uninitvar]
-     lock_zspage(zspage);
-                 ^
-   mm/zsmalloc.c:2188:20: note: Assuming condition is false
-     if (class->index != i)
-                      ^
-   mm/zsmalloc.c:2198:15: note: Uninitialized variables: zspage.huge, zspage.fullness, zspage.class, zspage.isolated, zspage.magic, zspage.inuse, zspage.freeobj, zspage.first_page, zspage.pool, zspage.lock
-     lock_zspage(zspage);
-                 ^
->> mm/zsmalloc.c:2198:15: warning: Uninitialized variables: zspage.huge, zspage.fullness, zspage.class, zspage.isolated, zspage.magic, zspage.inuse, zspage.freeobj, zspage.first_page, zspage.lru, zspage.under_reclaim, zspage.pool, zspage.lock [uninitvar]
-     lock_zspage(zspage);
-                 ^
-   mm/zsmalloc.c:2188:20: note: Assuming condition is false
-     if (class->index != i)
-                      ^
-   mm/zsmalloc.c:2198:15: note: Uninitialized variables: zspage.huge, zspage.fullness, zspage.class, zspage.isolated, zspage.magic, zspage.inuse, zspage.freeobj, zspage.first_page, zspage.lru, zspage.under_reclaim, zspage.pool, zspage.lock
-     lock_zspage(zspage);
-                 ^
-   mm/zsmalloc.c:642:16: warning: Local variable 'obj_allocated' shadows outer function [shadowFunction]
-    unsigned long obj_allocated, obj_used, pages_used, freeable;
-                  ^
-   mm/zsmalloc.c:940:13: note: Shadowed declaration
-   static bool obj_allocated(struct page *page, void *obj, unsigned long *phandle)
-               ^
-   mm/zsmalloc.c:642:16: note: Shadow variable
-    unsigned long obj_allocated, obj_used, pages_used, freeable;
-                  ^
-
-vim +/handle +1619 mm/zsmalloc.c
-
-61989a80fb3ac9 drivers/staging/zsmalloc/zsmalloc-main.c Nitin Gupta 2012-01-09  1618  
-278425ca22837b mm/zsmalloc.c                            Nhat Pham   2023-01-10 @1619  static void obj_free(int class_size, unsigned long obj, unsigned long *handle)
-61989a80fb3ac9 drivers/staging/zsmalloc/zsmalloc-main.c Nitin Gupta 2012-01-09  1620  {
-61989a80fb3ac9 drivers/staging/zsmalloc/zsmalloc-main.c Nitin Gupta 2012-01-09  1621  	struct link_free *link;
-3783689a1aa82e mm/zsmalloc.c                            Minchan Kim 2016-07-26  1622  	struct zspage *zspage;
-3783689a1aa82e mm/zsmalloc.c                            Minchan Kim 2016-07-26  1623  	struct page *f_page;
-bfd093f5e7f09c mm/zsmalloc.c                            Minchan Kim 2016-07-26  1624  	unsigned long f_offset;
-bfd093f5e7f09c mm/zsmalloc.c                            Minchan Kim 2016-07-26  1625  	unsigned int f_objidx;
-af4ee5e977acb1 mm/zsmalloc.c                            Minchan Kim 2014-12-12  1626  	void *vaddr;
-61989a80fb3ac9 drivers/staging/zsmalloc/zsmalloc-main.c Nitin Gupta 2012-01-09  1627  
-2e40e163a25af3 mm/zsmalloc.c                            Minchan Kim 2015-04-15  1628  	obj_to_location(obj, &f_page, &f_objidx);
-0a5f079b810765 mm/zsmalloc.c                            Minchan Kim 2022-01-21  1629  	f_offset = (class_size * f_objidx) & ~PAGE_MASK;
-3783689a1aa82e mm/zsmalloc.c                            Minchan Kim 2016-07-26  1630  	zspage = get_zspage(f_page);
-61989a80fb3ac9 drivers/staging/zsmalloc/zsmalloc-main.c Nitin Gupta 2012-01-09  1631  
-c78062612fb525 mm/zsmalloc.c                            Minchan Kim 2015-04-15  1632  	vaddr = kmap_atomic(f_page);
-278425ca22837b mm/zsmalloc.c                            Nhat Pham   2023-01-10  1633  	link = (struct link_free *)(vaddr + f_offset);
-61989a80fb3ac9 drivers/staging/zsmalloc/zsmalloc-main.c Nitin Gupta 2012-01-09  1634  
-278425ca22837b mm/zsmalloc.c                            Nhat Pham   2023-01-10  1635  	if (handle) {
-278425ca22837b mm/zsmalloc.c                            Nhat Pham   2023-01-10  1636  #ifdef CONFIG_ZPOOL
-278425ca22837b mm/zsmalloc.c                            Nhat Pham   2023-01-10  1637  		/* Stores the (deferred) handle in the object's header */
-278425ca22837b mm/zsmalloc.c                            Nhat Pham   2023-01-10  1638  		*handle |= OBJ_DEFERRED_HANDLE_TAG;
-278425ca22837b mm/zsmalloc.c                            Nhat Pham   2023-01-10  1639  		*handle &= ~OBJ_ALLOCATED_TAG;
-278425ca22837b mm/zsmalloc.c                            Nhat Pham   2023-01-10  1640  
-278425ca22837b mm/zsmalloc.c                            Nhat Pham   2023-01-10  1641  		if (likely(!ZsHugePage(zspage)))
-278425ca22837b mm/zsmalloc.c                            Nhat Pham   2023-01-10  1642  			link->deferred_handle = *handle;
-278425ca22837b mm/zsmalloc.c                            Nhat Pham   2023-01-10  1643  		else
-278425ca22837b mm/zsmalloc.c                            Nhat Pham   2023-01-10  1644  			f_page->index = *handle;
-278425ca22837b mm/zsmalloc.c                            Nhat Pham   2023-01-10  1645  #endif
-278425ca22837b mm/zsmalloc.c                            Nhat Pham   2023-01-10  1646  	} else {
-61989a80fb3ac9 drivers/staging/zsmalloc/zsmalloc-main.c Nitin Gupta 2012-01-09  1647  		/* Insert this object in containing zspage's freelist */
-a41ec880aa7bee mm/zsmalloc.c                            Minchan Kim 2022-01-21  1648  		if (likely(!ZsHugePage(zspage)))
-3b1d9ca65a80ce mm/zsmalloc.c                            Minchan Kim 2016-07-26  1649  			link->next = get_freeobj(zspage) << OBJ_TAG_BITS;
-a41ec880aa7bee mm/zsmalloc.c                            Minchan Kim 2022-01-21  1650  		else
-a41ec880aa7bee mm/zsmalloc.c                            Minchan Kim 2022-01-21  1651  			f_page->index = 0;
-bfd093f5e7f09c mm/zsmalloc.c                            Minchan Kim 2016-07-26  1652  		set_freeobj(zspage, f_objidx);
-278425ca22837b mm/zsmalloc.c                            Nhat Pham   2023-01-10  1653  	}
-278425ca22837b mm/zsmalloc.c                            Nhat Pham   2023-01-10  1654  
-278425ca22837b mm/zsmalloc.c                            Nhat Pham   2023-01-10  1655  	kunmap_atomic(vaddr);
-3783689a1aa82e mm/zsmalloc.c                            Minchan Kim 2016-07-26  1656  	mod_zspage_inuse(zspage, -1);
-c78062612fb525 mm/zsmalloc.c                            Minchan Kim 2015-04-15  1657  }
-c78062612fb525 mm/zsmalloc.c                            Minchan Kim 2015-04-15  1658  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+Ira
