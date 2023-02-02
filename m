@@ -1,43 +1,51 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6382E1875
-	for <oe-kbuild@lists.linux.dev>; Thu,  2 Feb 2023 10:24:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675333466; x=1706869466;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=320GxDjfYUny+lell/uHvEM60yqHBym4YIAFxCclPqI=;
-  b=V5X+bt2U0EJx0XVof0ByyKbo1H++8ONiO7x8LDNt27FvirroGU5BUES+
-   B3lehTN+V5dGsUzfnSU2vUl97RGM/8U+P2I/WjUb5u7vrErayxmNddWcC
-   NzhS7xouqPPc+hiBbFsxxeWCmsCUcCrPIlb8qHSM01X5nWQBTBEDiCnKL
-   qfnnoSXU/ePpFxEotYbwisOkgFR8XkEkZQkY514maVOp8dW2Bevr1lMMu
-   bi+w5Ad8F+IT8mUWZNIrDlLuGKg92THWbp/mAqGLensrhS8Z01Yec6YYn
-   SZ6QnJkFz5akIhWyRvkzA4rWCDLrjQuSwzr4qVhxXgFTvSlahVHx1iDQ0
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="327062132"
-X-IronPort-AV: E=Sophos;i="5.97,267,1669104000"; 
-   d="scan'208";a="327062132"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2023 02:24:25 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="807925305"
-X-IronPort-AV: E=Sophos;i="5.97,267,1669104000"; 
-   d="scan'208";a="807925305"
-Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 02 Feb 2023 02:24:24 -0800
-Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pNWlT-0006Q0-32;
-	Thu, 02 Feb 2023 10:24:23 +0000
-Date: Thu, 2 Feb 2023 18:24:01 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: drivers/thermal/thermal_helpers.c:79:6: warning: Redundant
- initialization for 'ret'. The initialized value is overwritten before it is
- read. [redundantInitialization]
-Message-ID: <202302021854.IhllliHg-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 946243239;
+	Thu,  2 Feb 2023 12:16:32 +0000 (UTC)
+Received: by mail-wm1-f51.google.com with SMTP id f47-20020a05600c492f00b003dc584a7b7eso3572496wmp.3;
+        Thu, 02 Feb 2023 04:16:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=/gi6ygwK+Ed3kqscUd6G2XBWzqocOrYUpatO0ytaDdk=;
+        b=cJsFtWsn5zeNrTSCEHdc97jXnvhwsi9qpJ/LwR9vadff1nMkOJlyX7GxOqBLPNyU+c
+         JlmbNRDKVVSUMv6rhbzof+vCS+PjPhig7R9PIJVH2azTiu3/WDurngy2OePogl3XoCeb
+         xpDZzZ8ITWCH20VOznlbCf2ld7Ewqp+fhSlFuk12e2w3Y9ioCb3NKlWsXdEWAevnG27D
+         3VfF8DEtMRpK/JVJ2MUV4EzY1jLUdRXXRyGAZ3sHEWpvSx5TtFAo2rS14WANkEeIAiUG
+         1wByXlb3xtTrZ8PTdc12nzEpPP4Q2GFvSjc9LrA3GTw+wuOy/HNZBBXCd7lKPJlhERd0
+         iqeg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=/gi6ygwK+Ed3kqscUd6G2XBWzqocOrYUpatO0ytaDdk=;
+        b=r6GJxXmAvpf0zJCF57SICFgJLONbizw9ahAON7VsYZYDrEh1uScw0OCWhSt4sRhhj1
+         wAXN6/sR13bRWW3xEPAhuTmKzdBiyu1rXQDeOtXBLUURi2I+jFrA9O1KwMeeRIdZ5Z8V
+         cMTodSqaVpgh31Q3QYONfp4flMG+f9/z1OT+c6r+DXQq9WihhFHBVC0AFk65Ng2KSCrc
+         yOPRQ/iK2uCwLIRDd+RKEqZ1wChlN9ob5V2lcYb5PH8YKNWG300RfeEei1fSyCMiDBpp
+         BAYomJU5KGJf4s/Ce54g247mkdgdmctwQw2LGXApNX4xCGyiilH4nuHt1AgeKH/E6K9y
+         r7CQ==
+X-Gm-Message-State: AO0yUKUcnOalT9fFl9L54JICAFpZeWsFgQFoRjG2n3jpbIkjvgcaKyEa
+	6cJz5qn/5xn9k0UsrBkQvOrsxL2i+DI=
+X-Google-Smtp-Source: AK7set8pYRNGJPQ22IMpy/HZrP6qt9rlrHP93M0y7on5zIH/fT479NmbxOvNb4nvUO4KYr/GyHdZag==
+X-Received: by 2002:a05:600c:6018:b0:3dc:1ad6:55fd with SMTP id az24-20020a05600c601800b003dc1ad655fdmr5683543wmb.32.1675340190601;
+        Thu, 02 Feb 2023 04:16:30 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id q9-20020a1ce909000000b003dc34edacf8sm4508219wmc.31.2023.02.02.04.16.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 02 Feb 2023 04:16:30 -0800 (PST)
+Date: Thu, 2 Feb 2023 15:15:46 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev, Imre Deak <imre.deak@intel.com>,
+	intel-gfx@lists.freedesktop.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v2 11/17] drm/display/dp_mst: Add helpers to query for
+ payload allocation errors
+Message-ID: <202302021855.yyqIeQ2o-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -46,122 +54,73 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230131150548.1614458-12-imre.deak@intel.com>
+Message-ID: <20230202121546.yoYhXznAbhl2wwdO2NQ8vJHijrkKddMMFbo372bUKoY@z>
 
-:::::: 
-:::::: Manual check reason: "low confidence static check warning: drivers/thermal/thermal_helpers.c:79:6: warning: Redundant initialization for 'ret'. The initialized value is overwritten before it is read. [redundantInitialization]"
-:::::: 
+Hi Imre,
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Daniel Lezcano <daniel.lezcano@linaro.org>
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   9f266ccaa2f5228bfe67ad58a94ca4e0109b954a
-commit: a930da9bf583b2add01fb0e086913664dadaffd0 thermal/core: Move the mutex inside the thermal_zone_device_update() function
-date:   6 months ago
-:::::: branch date: 16 hours ago
-:::::: commit date: 6 months ago
-compiler: arc-elf-gcc (GCC) 12.1.0
-reproduce (cppcheck warning):
-        # apt-get install cppcheck
-        git checkout a930da9bf583b2add01fb0e086913664dadaffd0
-        cppcheck --quiet --enable=style,performance,portability --template=gcc FILE
+url:    https://github.com/intel-lab-lkp/linux/commits/Imre-Deak/drm-i915-dp_mst-Add-the-MST-topology-state-for-modesetted-CRTCs/20230131-230853
+base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
+patch link:    https://lore.kernel.org/r/20230131150548.1614458-12-imre.deak%40intel.com
+patch subject: [PATCH v2 11/17] drm/display/dp_mst: Add helpers to query for payload allocation errors
+config: x86_64-randconfig-m001 (https://download.01.org/0day-ci/archive/20230202/202302021855.yyqIeQ2o-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
 
-cppcheck warnings: (new ones prefixed by >>)
->> drivers/thermal/thermal_sysfs.c:620:6: warning: %ld in format string (no. 1) requires 'long *' but the argument type is 'unsigned long *'. [invalidScanfArgType_int]
-    if (sscanf(buf, "%ldn", &state) != 1)
-        ^
+smatch warnings:
+drivers/gpu/drm/display/drm_dp_mst_topology.c:3316 drm_dp_add_payload_part1() warn: missing error code 'ret'
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+vim +/ret +3316 drivers/gpu/drm/display/drm_dp_mst_topology.c
 
->> drivers/thermal/thermal_helpers.c:79:6: warning: Redundant initialization for 'ret'. The initialized value is overwritten before it is read. [redundantInitialization]
-    ret = tz->ops->get_temp(tz, temp);
-        ^
-   drivers/thermal/thermal_helpers.c:69:10: note: ret is initialized
-    int ret = -EINVAL;
-            ^
-   drivers/thermal/thermal_helpers.c:79:6: note: ret is overwritten
-    ret = tz->ops->get_temp(tz, temp);
-        ^
-   drivers/thermal/thermal_of.c:146:27: warning: Parameter 'sensor_np' can be declared as pointer to const [constParameter]
-         struct device_node *sensor_np,
-                             ^
->> drivers/thermal/thermal_of.c:179:72: warning: Parameter 'trip' can be declared as pointer to const [constParameter]
-   static int of_find_trip_id(struct device_node *np, struct device_node *trip)
-                                                                          ^
->> drivers/thermal/thermal_of.c:717:17: warning: Parameter 'data' can be declared as pointer to const [constParameter]
-             void *data)
-                   ^
---
->> drivers/thermal/thermal_sysfs.c:596:9: warning: %ld in format string (no. 1) requires 'long' but the argument type is 'unsigned long'. [invalidPrintfArgType_sint]
-    return sprintf(buf, "%ldn", state);
-           ^
-   drivers/thermal/thermal_sysfs.c:609:9: warning: %ld in format string (no. 1) requires 'long' but the argument type is 'unsigned long'. [invalidPrintfArgType_sint]
-    return sprintf(buf, "%ldn", state);
-           ^
->> drivers/thermal/thermal_sysfs.c:902:9: warning: %d in format string (no. 1) requires 'int' but the argument type is 'unsigned int'. [invalidPrintfArgType_sint]
-    return sprintf(buf, "%dn", instance->weight);
-           ^
->> drivers/thermal/thermal_sysfs.c:728:10: warning: %u in format string (no. 1) requires 'unsigned int' but the argument type is 'signed int'. [invalidPrintfArgType_uint]
-     len += sprintf(buf + len, "state%ut%llun", i,
-            ^
-   drivers/thermal/thermal_sysfs.c:772:10: warning: %u in format string (no. 1) requires 'unsigned int' but the argument type is 'signed int'. [invalidPrintfArgType_uint]
-     len += snprintf(buf + len, PAGE_SIZE - len, "state%2u  ", i);
-            ^
-   drivers/thermal/thermal_sysfs.c:783:10: warning: %u in format string (no. 1) requires 'unsigned int' but the argument type is 'signed int'. [invalidPrintfArgType_uint]
-     len += snprintf(buf + len, PAGE_SIZE - len, "state%2u:", i);
-            ^
+4d07b0bc403403 drivers/gpu/drm/display/drm_dp_mst_topology.c Lyude Paul       2022-08-17  3304  int drm_dp_add_payload_part1(struct drm_dp_mst_topology_mgr *mgr,
+4d07b0bc403403 drivers/gpu/drm/display/drm_dp_mst_topology.c Lyude Paul       2022-08-17  3305  			     struct drm_dp_mst_topology_state *mst_state,
+4d07b0bc403403 drivers/gpu/drm/display/drm_dp_mst_topology.c Lyude Paul       2022-08-17  3306  			     struct drm_dp_mst_atomic_payload *payload)
+ad7f8a1f9ced7f drivers/gpu/drm/drm_dp_mst_topology.c         Dave Airlie      2014-06-05  3307  {
+ad7f8a1f9ced7f drivers/gpu/drm/drm_dp_mst_topology.c         Dave Airlie      2014-06-05  3308  	struct drm_dp_mst_port *port;
+5c4df7ffba973b drivers/gpu/drm/display/drm_dp_mst_topology.c Imre Deak        2023-01-31  3309  	int ret = 0;
+706246c761ddd3 drivers/gpu/drm/drm_dp_mst_topology.c         Lyude Paul       2018-12-13  3310  
+4d07b0bc403403 drivers/gpu/drm/display/drm_dp_mst_topology.c Lyude Paul       2022-08-17  3311  	port = drm_dp_mst_topology_get_port_validated(mgr, payload->port);
+33f960e23c29d1 drivers/gpu/drm/display/drm_dp_mst_topology.c Imre Deak        2022-12-14  3312  	if (!port) {
+33f960e23c29d1 drivers/gpu/drm/display/drm_dp_mst_topology.c Imre Deak        2022-12-14  3313  		drm_dbg_kms(mgr->dev,
+33f960e23c29d1 drivers/gpu/drm/display/drm_dp_mst_topology.c Imre Deak        2022-12-14  3314  			    "VCPI %d for port %p not in topology, not creating a payload\n",
+33f960e23c29d1 drivers/gpu/drm/display/drm_dp_mst_topology.c Imre Deak        2022-12-14  3315  			    payload->vcpi, payload->port);
+5c4df7ffba973b drivers/gpu/drm/display/drm_dp_mst_topology.c Imre Deak        2023-01-31 @3316  		goto alloc_fail;
 
-vim +/ret +79 drivers/thermal/thermal_helpers.c
+Hard to tell if this is an error path or a success path.
 
-cd221c7b638f83 Eduardo Valentin 2016-11-07   66  
-a930da9bf583b2 Daniel Lezcano   2022-08-05   67  int __thermal_zone_get_temp(struct thermal_zone_device *tz, int *temp)
-cd221c7b638f83 Eduardo Valentin 2016-11-07   68  {
-cd221c7b638f83 Eduardo Valentin 2016-11-07   69  	int ret = -EINVAL;
-cd221c7b638f83 Eduardo Valentin 2016-11-07   70  	int count;
-cd221c7b638f83 Eduardo Valentin 2016-11-07   71  	int crit_temp = INT_MAX;
-cd221c7b638f83 Eduardo Valentin 2016-11-07   72  	enum thermal_trip_type type;
-cd221c7b638f83 Eduardo Valentin 2016-11-07   73  
-a930da9bf583b2 Daniel Lezcano   2022-08-05   74  	lockdep_assert_held(&tz->lock);
-cd221c7b638f83 Eduardo Valentin 2016-11-07   75  
-a930da9bf583b2 Daniel Lezcano   2022-08-05   76  	if (!tz || IS_ERR(tz) || !tz->ops->get_temp)
-a930da9bf583b2 Daniel Lezcano   2022-08-05   77  		return -EINVAL;
-cd221c7b638f83 Eduardo Valentin 2016-11-07   78  
-cd221c7b638f83 Eduardo Valentin 2016-11-07  @79  	ret = tz->ops->get_temp(tz, temp);
-cd221c7b638f83 Eduardo Valentin 2016-11-07   80  
-cd221c7b638f83 Eduardo Valentin 2016-11-07   81  	if (IS_ENABLED(CONFIG_THERMAL_EMULATION) && tz->emul_temperature) {
-e5bfcd30f88fdb Daniel Lezcano   2022-07-22   82  		for (count = 0; count < tz->num_trips; count++) {
-cd221c7b638f83 Eduardo Valentin 2016-11-07   83  			ret = tz->ops->get_trip_type(tz, count, &type);
-cd221c7b638f83 Eduardo Valentin 2016-11-07   84  			if (!ret && type == THERMAL_TRIP_CRITICAL) {
-cd221c7b638f83 Eduardo Valentin 2016-11-07   85  				ret = tz->ops->get_trip_temp(tz, count,
-cd221c7b638f83 Eduardo Valentin 2016-11-07   86  						&crit_temp);
-cd221c7b638f83 Eduardo Valentin 2016-11-07   87  				break;
-cd221c7b638f83 Eduardo Valentin 2016-11-07   88  			}
-cd221c7b638f83 Eduardo Valentin 2016-11-07   89  		}
-cd221c7b638f83 Eduardo Valentin 2016-11-07   90  
-cd221c7b638f83 Eduardo Valentin 2016-11-07   91  		/*
-cd221c7b638f83 Eduardo Valentin 2016-11-07   92  		 * Only allow emulating a temperature when the real temperature
-cd221c7b638f83 Eduardo Valentin 2016-11-07   93  		 * is below the critical temperature so that the emulation code
-cd221c7b638f83 Eduardo Valentin 2016-11-07   94  		 * cannot hide critical conditions.
-cd221c7b638f83 Eduardo Valentin 2016-11-07   95  		 */
-cd221c7b638f83 Eduardo Valentin 2016-11-07   96  		if (!ret && *temp < crit_temp)
-cd221c7b638f83 Eduardo Valentin 2016-11-07   97  			*temp = tz->emul_temperature;
-cd221c7b638f83 Eduardo Valentin 2016-11-07   98  	}
-cd221c7b638f83 Eduardo Valentin 2016-11-07   99  
-cd221c7b638f83 Eduardo Valentin 2016-11-07  100  	return ret;
-cd221c7b638f83 Eduardo Valentin 2016-11-07  101  }
-cd221c7b638f83 Eduardo Valentin 2016-11-07  102  
-
-:::::: The code at line 79 was first introduced by commit
-:::::: cd221c7b638f83193ffcacf9c2e3f087033fd4cf thermal: core: introduce thermal_helpers.c
-
-:::::: TO: Eduardo Valentin <edubezval@gmail.com>
-:::::: CC: Zhang Rui <rui.zhang@intel.com>
+33f960e23c29d1 drivers/gpu/drm/display/drm_dp_mst_topology.c Imre Deak        2022-12-14  3317  	}
+cfe9f90358d97a drivers/gpu/drm/drm_dp_mst_topology.c         Lyude Paul       2019-01-10  3318  
+4d07b0bc403403 drivers/gpu/drm/display/drm_dp_mst_topology.c Lyude Paul       2022-08-17  3319  	if (mgr->payload_count == 0)
+4d07b0bc403403 drivers/gpu/drm/display/drm_dp_mst_topology.c Lyude Paul       2022-08-17  3320  		mgr->next_start_slot = mst_state->start_slot;
+3769e4c0af5b82 drivers/gpu/drm/drm_dp_mst_topology.c         Wayne Lin        2021-06-16  3321  
+4d07b0bc403403 drivers/gpu/drm/display/drm_dp_mst_topology.c Lyude Paul       2022-08-17  3322  	payload->vc_start_slot = mgr->next_start_slot;
+cfe9f90358d97a drivers/gpu/drm/drm_dp_mst_topology.c         Lyude Paul       2019-01-10  3323  
+4d07b0bc403403 drivers/gpu/drm/display/drm_dp_mst_topology.c Lyude Paul       2022-08-17  3324  	ret = drm_dp_create_payload_step1(mgr, payload);
+4d07b0bc403403 drivers/gpu/drm/display/drm_dp_mst_topology.c Lyude Paul       2022-08-17  3325  	drm_dp_mst_topology_put_port(port);
+4d07b0bc403403 drivers/gpu/drm/display/drm_dp_mst_topology.c Lyude Paul       2022-08-17  3326  	if (ret < 0) {
+4d07b0bc403403 drivers/gpu/drm/display/drm_dp_mst_topology.c Lyude Paul       2022-08-17  3327  		drm_warn(mgr->dev, "Failed to create MST payload for port %p: %d\n",
+4d07b0bc403403 drivers/gpu/drm/display/drm_dp_mst_topology.c Lyude Paul       2022-08-17  3328  			 payload->port, ret);
+5c4df7ffba973b drivers/gpu/drm/display/drm_dp_mst_topology.c Imre Deak        2023-01-31  3329  		goto alloc_fail;
+ad7f8a1f9ced7f drivers/gpu/drm/drm_dp_mst_topology.c         Dave Airlie      2014-06-05  3330  	}
+dfda0df3426483 drivers/gpu/drm/drm_dp_mst_topology.c         Dave Airlie      2014-08-06  3331  
+5c4df7ffba973b drivers/gpu/drm/display/drm_dp_mst_topology.c Imre Deak        2023-01-31  3332  	payload->alloc_failed = false;
+5c4df7ffba973b drivers/gpu/drm/display/drm_dp_mst_topology.c Imre Deak        2023-01-31  3333  
+4d07b0bc403403 drivers/gpu/drm/display/drm_dp_mst_topology.c Lyude Paul       2022-08-17  3334  	mgr->payload_count++;
+4d07b0bc403403 drivers/gpu/drm/display/drm_dp_mst_topology.c Lyude Paul       2022-08-17  3335  	mgr->next_start_slot += payload->time_slots;
+ad7f8a1f9ced7f drivers/gpu/drm/drm_dp_mst_topology.c         Dave Airlie      2014-06-05  3336  
+4d07b0bc403403 drivers/gpu/drm/display/drm_dp_mst_topology.c Lyude Paul       2022-08-17  3337  	return 0;
+5c4df7ffba973b drivers/gpu/drm/display/drm_dp_mst_topology.c Imre Deak        2023-01-31  3338  
+5c4df7ffba973b drivers/gpu/drm/display/drm_dp_mst_topology.c Imre Deak        2023-01-31  3339  alloc_fail:
+5c4df7ffba973b drivers/gpu/drm/display/drm_dp_mst_topology.c Imre Deak        2023-01-31  3340  	payload->vc_start_slot = -1;
+5c4df7ffba973b drivers/gpu/drm/display/drm_dp_mst_topology.c Imre Deak        2023-01-31  3341  	payload->alloc_failed = true;
+5c4df7ffba973b drivers/gpu/drm/display/drm_dp_mst_topology.c Imre Deak        2023-01-31  3342  
+5c4df7ffba973b drivers/gpu/drm/display/drm_dp_mst_topology.c Imre Deak        2023-01-31  3343  	return ret;
+ad7f8a1f9ced7f drivers/gpu/drm/drm_dp_mst_topology.c         Dave Airlie      2014-06-05  3344  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
+
