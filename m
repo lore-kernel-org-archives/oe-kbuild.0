@@ -1,174 +1,99 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17E1733FA
-	for <oe-kbuild@lists.linux.dev>; Wed,  1 Feb 2023 19:25:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C2FE7F
+	for <oe-kbuild@lists.linux.dev>; Thu,  2 Feb 2023 07:57:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675279505; x=1706815505;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=2Yufp73x7KBvOeq6Ge3NpBUUPS+OdFRIZsD8F32mF0A=;
-  b=l8WbtKG4vbJFvDt31uKdpyGBdUyQZCnNCnE5OnRs30FlQYyaemaDAad1
-   hz4cQzEdTfSsICW5cbSfxBUpaxFac5qaU+f0NESnG2Wq/OEWLJWPwDU/h
-   mrSI/sczdxnEOgqLj2L128LuGOTwssAlimUi9gxFhhVr8oFBP9U63X3yr
-   SKln+7toUNrc2ybQBWTZx/b3/+gWk+0Lo0B4lODlFBpE41rXeEdCqJJkV
-   L0+mHyMH+ynVp0dhNCt+Ld+rvh/b6k9ULEt1U/f3ncz9Do1Yqb/og+m6f
-   2BuR2VWC6eceqoS23GLiTfuc3nClvVeoKUcL9f1BeSp5GH4G0BMmqJJXX
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="308591553"
-X-IronPort-AV: E=Sophos;i="5.97,265,1669104000"; 
-   d="scan'208";a="308591553"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2023 11:25:04 -0800
+  t=1675324639; x=1706860639;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=unjzbZkunBs5lBCQVTUbtlusIgDR+pFZ40WWs56srvQ=;
+  b=TMRq8hMWQY635VjsNhfEMqpBD76EiFX67PIPgXusZlV9uGC24lG1hAP6
+   5pNAJMdOjAC+uxAslMk1Z1+rACltNk8DwUF33rqbTrDsve4fkjAwHbnoJ
+   O57VRIo1AZEtn6LTMdnP08EyG3Rh9VGJluxy+zyfI/8xHhzCUdoGGh+hm
+   uszC3pevcQ86Z5nUPCdvdwnIoa3zbHZQ9kllkmC8iDHX+I4wXKIx7HdAZ
+   bAwl0GIdz53eFENrAw2CTiTtDGjjJRa47+JeGbWpWJ0C7eGaN7mzJzFTY
+   otCrqXTT1pAC/4WsqIcBa25+6aVxNJRgqTik7+IOruiqQqWUBRxfX+N+m
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="414590097"
+X-IronPort-AV: E=Sophos;i="5.97,266,1669104000"; 
+   d="scan'208";a="414590097"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2023 23:57:18 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="667021843"
-X-IronPort-AV: E=Sophos;i="5.97,265,1669104000"; 
-   d="scan'208";a="667021843"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
-  by fmsmga007.fm.intel.com with ESMTP; 01 Feb 2023 11:25:04 -0800
-Received: from fmsmsx602.amr.corp.intel.com (10.18.126.82) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Wed, 1 Feb 2023 11:25:03 -0800
-Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16 via Frontend Transport; Wed, 1 Feb 2023 11:25:03 -0800
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.172)
- by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.16; Wed, 1 Feb 2023 11:25:03 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ExaPmtPTG8hpk7DF0iBEB69Mo/rpELH9phuZ4uaV4Ijtp33e4U5lh7TSfNMP7Q4Y6k96T6jrrUvK/GniTJ/EHsRmwUr8D+CBRRJk0ukrnSnHXfJecalT4PwILiHNBY+jAzljrc5ULXm6MugxcPPwcLSXhsuxBzWPmDbFoyZf8ZZWfL1JRVi8vPeIG4iTpgguLDIB/fxc3mqp/1Yu1UxckTIQUQj2+QbPm1KUJ6v3IFRTzPGSVJUKijtnIAWzRdcX680hiBGMUb7+YCLu1WRe3Y/m+8MjLnmZXiLMgKQvhL8L0FJUs1zR3HPv9bsVulRa3dUieqFTGrVXpiz7els1HQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ZcS5VG0+aaybA9ZW5v8TrWSMsAD5D34NGxDxdVH3VmQ=;
- b=C+tJ9CwYeBco0PwXRbPemDh050S6YZb/AXh1mZDEVQhcWR4emPSvNqtLUGh81hBMkZbnFqmTQyTimBu4aMkPGN9XdgL+Kak7jljy1pY0r5L5L6Ix+opGUyWxNLzVR/udG6S9I6rLmzQH8FjVy3/JJvCUNnkwI17Kn6k9YPf6XCxcUtu81djYFAEbJPQqM1y/s8/SHfnAWxC33dMDwusfpdIUjcPeCZxAJKuhiCm4Ngb/CdhDM209+XeHHu4JtNlCQ3ArVBKcHCx/9XetcFWZfdW5iusBw9jGDDt3sq4sksf/j1+GrGVpZ+8NIcUNgCBoblrJau/QHeGqut+j2XC9gw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SA1PR11MB6733.namprd11.prod.outlook.com (2603:10b6:806:25c::17)
- by MN2PR11MB4567.namprd11.prod.outlook.com (2603:10b6:208:26d::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6043.38; Wed, 1 Feb
- 2023 19:24:59 +0000
-Received: from SA1PR11MB6733.namprd11.prod.outlook.com
- ([fe80::6851:3db2:1166:dda6]) by SA1PR11MB6733.namprd11.prod.outlook.com
- ([fe80::6851:3db2:1166:dda6%9]) with mapi id 15.20.6043.036; Wed, 1 Feb 2023
- 19:24:59 +0000
-Date: Wed, 1 Feb 2023 11:24:55 -0800
-From: Ira Weiny <ira.weiny@intel.com>
-To: Davidlohr Bueso <dave@stgolabs.net>, Dan Williams
-	<dan.j.williams@intel.com>
-CC: Ira Weiny <ira.weiny@intel.com>, kernel test robot <lkp@intel.com>,
-	<Jonathan.Cameron@huawei.com>, <linux-cxl@vger.kernel.org>,
-	<oe-kbuild@lists.linux.dev>, Julia Lawall <julia.lawall@lip6.fr>
-Subject: Re: [cxl:pending 13/21] drivers/cxl/pci.c:511:8-33: WARNING:
- Threaded IRQ with no primary handler requested without IRQF_ONESHOT (unless
- it is nested IRQ)
-Message-ID: <63dabc87909e3_b941e29489@iweiny-mobl.notmuch>
-References: <202301291620.DxnDWLoW-lkp@intel.com>
- <20230130215514.6cviyuwhxgjlzj27@offworld>
- <63d991da1c19c_a8e3129488@iweiny-mobl.notmuch>
- <63d993bdecd01_3a36e529454@dwillia2-xfh.jf.intel.com.notmuch>
- <20230201002701.a7lwsouomqvoheso@offworld>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20230201002701.a7lwsouomqvoheso@offworld>
-X-ClientProxiedBy: SJ0PR03CA0192.namprd03.prod.outlook.com
- (2603:10b6:a03:2ef::17) To SA1PR11MB6733.namprd11.prod.outlook.com
- (2603:10b6:806:25c::17)
+X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="753981534"
+X-IronPort-AV: E=Sophos;i="5.97,266,1669104000"; 
+   d="scan'208";a="753981534"
+Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
+  by FMSMGA003.fm.intel.com with ESMTP; 01 Feb 2023 23:57:18 -0800
+Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pNUT7-0006Ic-1o;
+	Thu, 02 Feb 2023 07:57:17 +0000
+Date: Thu, 2 Feb 2023 15:57:14 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: [driver-core:kobject-const 28/30] drivers/base/platform.c:886:57:
+ warning: Parameter 'driver' can be declared as pointer to const
+ [constParameter]
+Message-ID: <202302021533.qdo93vxD-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA1PR11MB6733:EE_|MN2PR11MB4567:EE_
-X-MS-Office365-Filtering-Correlation-Id: c04d5935-eb86-45a6-fcbc-08db048a0248
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: AVRBpdCEfdSBiMlayDmJw7P+uiqkOb4l2DUgk4a/dfRnlussmL1Y6LYvZmYyxkRS6fPHefUL7rC44rVAsCKZtrRW+I4tOiMtHeBWPgLgXx0vU1s+Qy0tqr8Mg0WLP3T+dv6vUiuRRDI/AH6s58F/WsRwRhSXhhXsNlUS2GIew27DzwOe6JWsAQAJGwq1A5ehNfIr4V1AlTgcfBWNM1iaMZzaXd/MndyAtxL6+Vp93zyjrA1k3YPLqfwhc89qlcXM22lGZGOVc90ePzJFgVI+GnNxgt0lgCU3mADa/WG9Rz5xoNSrDPi4iBKP1z4uPD4/jijDllROFvGiM++1rtNI41genfVSHulsi+LlvPpQquEkCA0Lmqd+guI4CwPytl0xEYX0XgQfyNJBiH23FW+0qbu24Vzq6nnrW09CG/oI2eqdqsUG+8TdabY4Ppb0mPU8OuRt/iPCrU2hrH73zdjLZfdmT1dm9tBsyl4NnI/KFMY3n7skqURq2PuQplhn52pHuhOnSU/xk9PsOcbp5GCJ3pm5CpUCMQd1TNhjpuM0IzkzrcCmaIc50ViEaTJ2XX41Pv4LwOYtuVcFitNOLHwoLq6H+D6IzbqN1UM9m6fDgj9QUVXH7r2SrGw6whvhyrYzlg2mY/gNdVzyn0fu6kPCCw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR11MB6733.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(366004)(376002)(346002)(136003)(39860400002)(396003)(451199018)(6666004)(6486002)(478600001)(83380400001)(82960400001)(110136005)(6636002)(2906002)(54906003)(38100700002)(41300700001)(86362001)(5660300002)(6506007)(8676002)(66476007)(26005)(316002)(4326008)(44832011)(6512007)(186003)(8936002)(9686003)(66556008)(66946007);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?TrgUp44y6oZ3SyPpeQfMfCFsHUS1CN1bLrwTnpHhkB71088SWy3tefUvaP10?=
- =?us-ascii?Q?QiNxr+v6BBXTUkO4kP866mb2C6EkxFbZgmiCTTSOQF9t9SrSRzwENrKnR25S?=
- =?us-ascii?Q?FwRBFpxNJ1iMBp10A7Aa/6TRJ2Dgr+8RDFqjkuFtFBPtnJyG+z9oPUeThK5U?=
- =?us-ascii?Q?KB+Fg1s4u4R7bpyMDGo+Nlr/baMM1xFVsEiIXat+GO0a6FtewRHABe6hGq0Z?=
- =?us-ascii?Q?I22YrJDcpA5A0eVkJGho0z+hwpqAavEvr2SDBcDKupMBkMKJPLCql0/O6yhR?=
- =?us-ascii?Q?w+ixRZKccRlCBZXRzWFyk3uAxjnYNKELPXG7MWwHarsqLGZcdaIsahb1COeo?=
- =?us-ascii?Q?22oG83seqIJQvqYgPep53bHgLfppt0cYf9R3p3pZNoPTaqM6i054gWPi1jf4?=
- =?us-ascii?Q?IxsVIvqn+ECT+yHdtY2lTrUdWGudJK4rJYGyy0+06A061uSPQmAVe/OGfhVU?=
- =?us-ascii?Q?Ph72Bcbw7eOLbv4ooqrSmRtcmPecQIQQYF1jmwlZOu9caOcAuURo4z4WbX3+?=
- =?us-ascii?Q?brN37uvCO8HRCFHfnbuftM7pFKJopFUow1NTUuDEDpRVZ9ZBntWb+uSdyO83?=
- =?us-ascii?Q?kui9FQAM4vRAuWnHTXS0zf8kXZBjKES9JdKaRX8AUSOIxBkB/B2OQakUziC1?=
- =?us-ascii?Q?tMoBs47ZYIvkRwWx9bM7/Jnwo05PvhkJFHWNf7iKl5pBTb5xfdQFk4eUaCNY?=
- =?us-ascii?Q?LJU0Bsc9eD69XnAo+SnX1KCyxzIsfJK/7sDrQFoM3wj/aCJXcTypHrKsSyDF?=
- =?us-ascii?Q?mVVJftTefBF0nPKa84a1ERDAuylrUjq3Q1gaHCpb2o16lgLJlLBH4aIm7cma?=
- =?us-ascii?Q?hLtksMaHO4DpQsxqq0Bk9vE3kH7MyrfLcH/3t5d0aVwVlIwuxiddPOOEJgYQ?=
- =?us-ascii?Q?66DlX1It3a3cpvN5QwrU2Aok5BiOfdUquAY5aCaHfTl2WDgl9Ww6kifHYGYb?=
- =?us-ascii?Q?E+ijOYomaJloVCPfl/R/lcdpsZkY+2sxIjUH8twd/AV22piZ/r5uXew/+YHD?=
- =?us-ascii?Q?x4zRscc1Y45hfOr+i2RhcfqcMBnleM5Ckm/gtevPEluotb1Fn7zIKVmksEyV?=
- =?us-ascii?Q?D7rRBIyAscr6fDeh3ZM6HfTT1BGc1/hfDsZ3sQxecz+4hHoX6kNu9NUf9Msj?=
- =?us-ascii?Q?ZVqRSdebuhLOnPO4gT5+/Hsxl8ss8NBO68pay6Y6NL/QaMpmWjUixP2LhAu+?=
- =?us-ascii?Q?zRoRiOIgMY1mw/HUE1cXuosj3BHV5CYUqiSCVcIAApSNRJLB5ao+tqJKu9Bm?=
- =?us-ascii?Q?URHonuIMnRnYgs8Y5QdgNt3HC66QI/z+kgcbmL2z6VVgAv61W56pcW0+aFxl?=
- =?us-ascii?Q?xlohVkEnO9wOSlxdIG1y8MofUFUnGUMO86ajgMLF414OQHx7700+blyEgDnP?=
- =?us-ascii?Q?ZGtinhWLGnS5+dJ6jwDrnyCLm+/IMGtLdnICFDQfGlxd92F6iNnhueeB4Oqs?=
- =?us-ascii?Q?HQQ8zhoHDh6NrLqupj2wVACZKEo+O7OZ5qDUc5YLXb7nBYwfICWvfXsM/dQq?=
- =?us-ascii?Q?UHlGNPVjipfarpdvNrfKXlfXcG7BD+TebfJZBNA/ZmXsJeTQYVvtEvQvXhsc?=
- =?us-ascii?Q?uWuzbGZhTicndbT5RoZ+xx9LYJ5KaFyv/6NfcX5g?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: c04d5935-eb86-45a6-fcbc-08db048a0248
-X-MS-Exchange-CrossTenant-AuthSource: SA1PR11MB6733.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Feb 2023 19:24:59.5736
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: KkhmShSondnzHS+EbgdDVkAi/7C6m/eKVK50YKoctsLwwpUj56vAjDJqjRWMowj58Lm9rpiLb+PUoDiiPY/NzQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR11MB4567
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-Davidlohr Bueso wrote:
-> On Tue, 31 Jan 2023, Dan Williams wrote:
-> 
-> >Ira Weiny wrote:
-> >[..]
-> >> > Considering MSIs are edge triggered interrupts, this should be benign.
-> >>
-> >> I'm trying to understand this a bit more.  So I looked in more detail.  I
-> >> believe Dan suggested that I could use irq_default_primary_handler() in
-> >> this case by passing NULL.  And this would handle threading the irq
-> >> processing for me.
-> >>
-> >> It looks from a software standpoint this should work.  But the kdocs
-> >> really imply that not masking the irq in the handler may be an issue.
-> >> Thus the 'requirement' of using IRQF_ONESHOT.
-> >>
-> >> Is this somehow different with MSI?  Is this a case of the kdocs being a
-> >> bit out of date for MSI?
-> >
-> >My reading, may be from the changelog and not the kdocs, was that at
-> >request_irq() time it is difficult to discern level triggered vs
-> >edge-triggered. So for the default primary handler, that does nothing to
-> >quiet a screaming level-triggered interrupt, just require oneshot mode.
-> 
-> Right and it's only level-triggered that are the problem after done with
-> the hardirq handler. So in the msi/cxl case we already know that all this
-> is edge (sent once and forgotten by the hardware), which is why I was saying
-> it's harmless. It's still probably a good idea to have it explicitly oneshot
-> semantics as Dan's patch.
+:::::: 
+:::::: Manual check reason: "low confidence static check warning: drivers/base/platform.c:886:57: warning: Parameter 'driver' can be declared as pointer to const [constParameter]"
+:::::: 
 
-Ok that makes sense.
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: devel@driverdev.osuosl.org
+TO: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
 
-Thanks to you both for clarifying and to Dan for the patch.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git kobject-const
+head:   3c0eee8be59d8fbd2b794443bbe787c35c2e2076
+commit: d09a225c093ae441ae080f65d7e032856f3f0bfd [28/30] driver core: platform: simplify __platform_driver_probe()
+:::::: branch date: 19 hours ago
+:::::: commit date: 19 hours ago
+compiler: csky-linux-gcc (GCC) 12.1.0
+reproduce (cppcheck warning):
+        # apt-get install cppcheck
+        git checkout d09a225c093ae441ae080f65d7e032856f3f0bfd
+        cppcheck --quiet --enable=style,performance,portability --template=gcc FILE
 
-Ira
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+
+
+cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+
+>> drivers/base/soc.c:68:75: warning: Parameter 'attr' can be declared as pointer to const [constParameter]
+   static ssize_t soc_info_show(struct device *dev, struct device_attribute *attr,
+                                                                             ^
+--
+>> drivers/base/platform.c:886:57: warning: Parameter 'driver' can be declared as pointer to const [constParameter]
+   static int is_bound_to_driver(struct device *dev, void *driver)
+                                                           ^
+
+vim +/driver +886 drivers/base/platform.c
+
+e21d740a3fe5ad2 Uwe Kleine-König   2020-11-19  885  
+d09a225c093ae44 Greg Kroah-Hartman 2023-01-30 @886  static int is_bound_to_driver(struct device *dev, void *driver)
+d09a225c093ae44 Greg Kroah-Hartman 2023-01-30  887  {
+d09a225c093ae44 Greg Kroah-Hartman 2023-01-30  888  	if (dev->driver == driver)
+d09a225c093ae44 Greg Kroah-Hartman 2023-01-30  889  		return 1;
+d09a225c093ae44 Greg Kroah-Hartman 2023-01-30  890  	return 0;
+d09a225c093ae44 Greg Kroah-Hartman 2023-01-30  891  }
+d09a225c093ae44 Greg Kroah-Hartman 2023-01-30  892  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
