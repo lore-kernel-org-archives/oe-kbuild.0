@@ -1,42 +1,42 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDD2610E6
-	for <oe-kbuild@lists.linux.dev>; Fri,  3 Feb 2023 04:20:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DE5D1855
+	for <oe-kbuild@lists.linux.dev>; Fri,  3 Feb 2023 08:03:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675398035; x=1706934035;
+  t=1675411432; x=1706947432;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=aA7mML88mIP3sSnit+Fzol+quCuInGsvhkqnlkHAAgQ=;
-  b=di8DJWYpsf27SQJVELWJYkCZb4WC2kQME7VeGJVZu+XgbcmlQhZ4zvzC
-   qaLB+N7hwM6lVKzbQxqvbnqSnbUikcnvA/xz0iC+mQK86hFIR/wIuD/Rj
-   /fNIfg59SYyl2sDLrdjzRpTM7HV5Q5DtqHfRAVG+kQNfwZTrs2/E7z4Uf
-   VqCEC8qIMtPf92kJ2i+7M8x/luM9O5Sv1aBJ7iu0/TCcbpKc/Jh0L9rwo
-   bdv9Gzc7C7bLy0xYyMUgicrSA8FJJ++TJXFxRUk1tNMlXZsT67knqE48D
-   /Nwrc/XKkHYRAOGtVKyREJUzfZUgCxZlVevFtC1jWaUKOXPPBUJTHkS6f
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10609"; a="330784669"
+  bh=A0bf1YmJkiJ3xaq+udE5kV0b+i2+uMagH4EdOuRhv7Q=;
+  b=MPGPlHZrrUs2GzIqAJUi5mDR946fH5o8uzgxIn0afRhfNX2mBJY/AODU
+   QLdLfLA7kv9CNY/RN1F/r6u/4AUGbgwDhHuXSWmpI/snlkYdqmBWUxGfW
+   /T39wSQuy01YjHPKVUkjCeG8uEx1R9SXay2BjL7qMB+Um0yrgo50QsFzb
+   1rWJ4QDTHKxErIzLS/boOQRZkWsoycrzHKAw5+CVGRNNe9ruI2X2iWSjs
+   KWrgnHvG9Z6KExnMvl10zK9eXWSHIJiaqeSga3oLQ6vHO8eHZL5RXAfpp
+   b3Xe842V7hJhYPKUfv8aAmVwx4uZggfyNXWFtw5Rj1gtONZWLnh+Lz3/j
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10609"; a="312345130"
 X-IronPort-AV: E=Sophos;i="5.97,269,1669104000"; 
-   d="scan'208";a="330784669"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2023 20:20:34 -0800
+   d="scan'208";a="312345130"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2023 00:03:49 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10609"; a="615570806"
+X-IronPort-AV: E=McAfee;i="6500,9779,10609"; a="665619703"
 X-IronPort-AV: E=Sophos;i="5.97,269,1669104000"; 
-   d="scan'208";a="615570806"
+   d="scan'208";a="665619703"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 02 Feb 2023 20:20:33 -0800
+  by orsmga002.jf.intel.com with ESMTP; 03 Feb 2023 00:03:47 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pNnYu-00005t-2d;
-	Fri, 03 Feb 2023 04:20:32 +0000
-Date: Fri, 3 Feb 2023 12:19:46 +0800
+	id 1pNr2x-0000I8-0u;
+	Fri, 03 Feb 2023 08:03:47 +0000
+Date: Fri, 3 Feb 2023 16:03:20 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [linux-next:master 6973/10357] drivers/clk/ingenic/jz4760-cgu.c:80
- jz4760_cgu_calc_m_n_od() error: uninitialized symbol 'od'.
-Message-ID: <202302031212.THLYMkki-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [niks:dma_iommu_v5 4/7] drivers/iommu/dma-iommu.c:190:7: warning:
+ Dereference of null pointer [clang-analyzer-core.NullDereference]
+Message-ID: <202302031603.R6HCpHiY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -46,63 +46,298 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Paul Cercueil <paul@crapouillou.net>
-CC: Stephen Boyd <sboyd@kernel.org>
+:::::: 
+:::::: Manual check reason: "low confidence static check first_new_problem: drivers/iommu/dma-iommu.c:190:7: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]"
+:::::: 
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   4fafd96910add124586b549ad005dcd179de8a18
-commit: ecfb9f404771dde909ce7743df954370933c3be2 [6973/10357] clk: ingenic: jz4760: Update M/N/OD calculation algorithm
-:::::: branch date: 80 minutes ago
-:::::: commit date: 8 days ago
-config: openrisc-randconfig-m031-20230202 (https://download.01.org/0day-ci/archive/20230203/202302031212.THLYMkki-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 12.1.0
+BCC: lkp@intel.com
+CC: llvm@lists.linux.dev
+CC: oe-kbuild-all@lists.linux.dev
+TO: Niklas Schnelle <schnelle@linux.ibm.com>
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/niks/linux.git dma_iommu_v5
+head:   1130d11df3ad4a18aada280e80da35911239b4ad
+commit: 4dd8a9e92a898af65c84631f354f51a8b9f9ff09 [4/7] s390/pci: Use dma-iommu layer
+:::::: branch date: 10 days ago
+:::::: commit date: 10 days ago
+config: s390-randconfig-c005-20230123 (https://download.01.org/0day-ci/archive/20230203/202302031603.R6HCpHiY-lkp@intel.com/config)
+compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 4196ca3278f78c6e19246e54ab0ecb364e37d66a)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install s390 cross compiling tool for clang build
+        # apt-get install binutils-s390x-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/niks/linux.git/commit/?id=4dd8a9e92a898af65c84631f354f51a8b9f9ff09
+        git remote add niks https://git.kernel.org/pub/scm/linux/kernel/git/niks/linux.git
+        git fetch --no-tags niks dma_iommu_v5
+        git checkout 4dd8a9e92a898af65c84631f354f51a8b9f9ff09
+        # save the config file
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=s390 clang-analyzer  olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=s390 clang-analyzer 
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
 
-smatch warnings:
-drivers/clk/ingenic/jz4760-cgu.c:80 jz4760_cgu_calc_m_n_od() error: uninitialized symbol 'od'.
+clang_analyzer warnings: (new ones prefixed by >>)
+           _enter("c=%x", cookie->debug_id);
+           ^
+   fs/fscache/internal.h:178:3: note: expanded from macro '_enter'
+                   kenter(FMT, ##__VA_ARGS__);     \
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/fscache/internal.h:163:26: note: expanded from macro 'kenter'
+   #define kenter(FMT, ...) dbgprintk("==> %s("FMT")", __func__, ##__VA_ARGS__)
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/fscache/internal.h:161:29: note: expanded from macro 'dbgprintk'
+           printk("[%-6.6s] "FMT"\n", current->comm, ##__VA_ARGS__)
+                                      ^~~~~~~
+   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/printk.h:429:19: note: expanded from macro 'printk_index_wrap'
+                   _p_func(_fmt, ##__VA_ARGS__);                           \
+                                   ^~~~~~~~~~~
+   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'current'
+   #define current ((struct task_struct *const)S390_lowcore.current_task)
+                                               ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/s390/include/asm/lowcore.h:215:22: note: expanded from macro 'S390_lowcore'
+   #define S390_lowcore (*((struct lowcore *) 0))
+                        ^
+   fs/fscache/cookie.c:1053:2: note: Assuming the condition is false
+           _enter("c=%x", cookie->debug_id);
+           ^
+   fs/fscache/internal.h:177:6: note: expanded from macro '_enter'
+           if (__do_kdebug(ENTER))                 \
+               ^~~~~~~~~~~~~~~~~~
+   fs/fscache/internal.h:210:2: note: expanded from macro '__do_kdebug'
+           ___do_kdebug(FSCACHE_DEBUG_LEVEL, POINT)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/fscache/internal.h:208:2: note: expanded from macro '___do_kdebug'
+           ____do_kdebug(LEVEL, POINT)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/fscache/internal.h:205:2: note: expanded from macro '____do_kdebug'
+           unlikely((fscache_debug & \
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:78:40: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                             ^~~~
+   fs/fscache/cookie.c:1053:2: note: Taking true branch
+           _enter("c=%x", cookie->debug_id);
+           ^
+   fs/fscache/internal.h:177:2: note: expanded from macro '_enter'
+           if (__do_kdebug(ENTER))                 \
+           ^
+   fs/fscache/cookie.c:1053:2: note: Loop condition is false.  Exiting loop
+           _enter("c=%x", cookie->debug_id);
+           ^
+   fs/fscache/internal.h:178:3: note: expanded from macro '_enter'
+                   kenter(FMT, ##__VA_ARGS__);     \
+                   ^
+   fs/fscache/internal.h:163:26: note: expanded from macro 'kenter'
+   #define kenter(FMT, ...) dbgprintk("==> %s("FMT")", __func__, ##__VA_ARGS__)
+                            ^
+   fs/fscache/internal.h:161:2: note: expanded from macro 'dbgprintk'
+           printk("[%-6.6s] "FMT"\n", current->comm, ##__VA_ARGS__)
+           ^
+   include/linux/printk.h:457:26: note: expanded from macro 'printk'
+   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
+                            ^
+   include/linux/printk.h:428:3: note: expanded from macro 'printk_index_wrap'
+                   __printk_index_emit(_fmt, NULL, NULL);                  \
+                   ^
+   include/linux/printk.h:403:34: note: expanded from macro '__printk_index_emit'
+   #define __printk_index_emit(...) do {} while (0)
+                                    ^
+   fs/fscache/cookie.c:1053:2: note: Dereference of null pointer
+           _enter("c=%x", cookie->debug_id);
+           ^
+   fs/fscache/internal.h:178:3: note: expanded from macro '_enter'
+                   kenter(FMT, ##__VA_ARGS__);     \
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/fscache/internal.h:163:26: note: expanded from macro 'kenter'
+   #define kenter(FMT, ...) dbgprintk("==> %s("FMT")", __func__, ##__VA_ARGS__)
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/fscache/internal.h:161:29: note: expanded from macro 'dbgprintk'
+           printk("[%-6.6s] "FMT"\n", current->comm, ##__VA_ARGS__)
+                                      ^~~~~~~
+   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/printk.h:429:19: note: expanded from macro 'printk_index_wrap'
+                   _p_func(_fmt, ##__VA_ARGS__);                           \
+                                   ^~~~~~~~~~~
+   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'current'
+   #define current ((struct task_struct *const)S390_lowcore.current_task)
+                                               ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/s390/include/asm/lowcore.h:215:22: note: expanded from macro 'S390_lowcore'
+   #define S390_lowcore (*((struct lowcore *) 0))
+                        ^
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   17 warnings generated.
+   Suppressed 17 warnings (17 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   21 warnings generated.
+   Suppressed 21 warnings (9 in non-user code, 12 with check filters).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   21 warnings generated.
+   Suppressed 21 warnings (9 in non-user code, 12 with check filters).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   22 warnings generated.
+>> drivers/iommu/dma-iommu.c:190:7: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]
+           fq = raw_cpu_ptr(cookie->fq);
+                ^
+   include/linux/percpu-defs.h:242:2: note: expanded from macro 'raw_cpu_ptr'
+           arch_raw_cpu_ptr(ptr);                                          \
+           ^
+   include/asm-generic/percpu.h:44:31: note: expanded from macro 'arch_raw_cpu_ptr'
+   #define arch_raw_cpu_ptr(ptr) SHIFT_PERCPU_PTR(ptr, __my_cpu_offset)
+                                 ^
+   include/linux/percpu-defs.h:231:2: note: expanded from macro 'SHIFT_PERCPU_PTR'
+           RELOC_HIDE((typeof(*(__p)) __kernel __force *)(__p), (__offset))
+           ^
+   include/linux/compiler.h:170:28: note: expanded from macro 'RELOC_HIDE'
+       (typeof(ptr)) (__ptr + (off)); })
+                              ^
+   drivers/iommu/dma-iommu.c:1398:2: note: Calling '__iommu_dma_unmap'
+           __iommu_dma_unmap(dev, handle, size);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iommu/dma-iommu.c:687:24: note: Left side of '||' is false
+           iotlb_gather.queued = READ_ONCE(cookie->fq_domain);
+                                 ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compiletime_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+                              ^
+   include/linux/compiler_types.h:325:3: note: expanded from macro '__native_word'
+           (sizeof(t) == sizeof(char) || sizeof(t) == sizeof(short) || \
+            ^
+   drivers/iommu/dma-iommu.c:687:24: note: Left side of '||' is false
+           iotlb_gather.queued = READ_ONCE(cookie->fq_domain);
+                                 ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compiletime_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+                              ^
+   include/linux/compiler_types.h:325:3: note: expanded from macro '__native_word'
+           (sizeof(t) == sizeof(char) || sizeof(t) == sizeof(short) || \
+            ^
+   drivers/iommu/dma-iommu.c:687:24: note: Left side of '||' is false
+           iotlb_gather.queued = READ_ONCE(cookie->fq_domain);
+                                 ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compiletime_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+                              ^
+   include/linux/compiler_types.h:325:3: note: expanded from macro '__native_word'
+           (sizeof(t) == sizeof(char) || sizeof(t) == sizeof(short) || \
+            ^
+   drivers/iommu/dma-iommu.c:687:24: note: Left side of '||' is true
+           iotlb_gather.queued = READ_ONCE(cookie->fq_domain);
+                                 ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:38: note: expanded from macro 'compiletime_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+                                               ^
+   drivers/iommu/dma-iommu.c:687:24: note: Taking false branch
+           iotlb_gather.queued = READ_ONCE(cookie->fq_domain);
+                                 ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:2: note: expanded from macro 'compiletime_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+           ^
+   include/linux/compiler_types.h:358:2: note: expanded from macro 'compiletime_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+           ^
+   include/linux/compiler_types.h:346:2: note: expanded from macro '_compiletime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:338:3: note: expanded from macro '__compiletime_assert'
+                   if (!(condition))                                       \
+                   ^
+   drivers/iommu/dma-iommu.c:687:24: note: Loop condition is false.  Exiting loop
+           iotlb_gather.queued = READ_ONCE(cookie->fq_domain);
+                                 ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:2: note: expanded from macro 'compiletime_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+           ^
+   include/linux/compiler_types.h:358:2: note: expanded from macro 'compiletime_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+           ^
+   include/linux/compiler_types.h:346:2: note: expanded from macro '_compiletime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:330:2: note: expanded from macro '__compiletime_assert'
+           do {                                                            \
+           ^
+   drivers/iommu/dma-iommu.c:690:10: note: Assuming 'unmapped' is equal to 'size'
+           WARN_ON(unmapped != size);
 
-vim +/od +80 drivers/clk/ingenic/jz4760-cgu.c
+vim +190 drivers/iommu/dma-iommu.c
 
-bdbfc029374f6d Paul Cercueil 2021-05-30  55  
-bdbfc029374f6d Paul Cercueil 2021-05-30  56  static void
-bdbfc029374f6d Paul Cercueil 2021-05-30  57  jz4760_cgu_calc_m_n_od(const struct ingenic_cgu_pll_info *pll_info,
-bdbfc029374f6d Paul Cercueil 2021-05-30  58  		       unsigned long rate, unsigned long parent_rate,
-bdbfc029374f6d Paul Cercueil 2021-05-30  59  		       unsigned int *pm, unsigned int *pn, unsigned int *pod)
-bdbfc029374f6d Paul Cercueil 2021-05-30  60  {
-ecfb9f404771dd Paul Cercueil 2022-12-14  61  	unsigned int m, n, od, m_max = (1 << pll_info->m_bits) - 1;
-bdbfc029374f6d Paul Cercueil 2021-05-30  62  
-bdbfc029374f6d Paul Cercueil 2021-05-30  63  	/* The frequency after the N divider must be between 1 and 50 MHz. */
-bdbfc029374f6d Paul Cercueil 2021-05-30  64  	n = parent_rate / (1 * MHZ);
-bdbfc029374f6d Paul Cercueil 2021-05-30  65  
-bdbfc029374f6d Paul Cercueil 2021-05-30  66  	/* The N divider must be >= 2. */
-bdbfc029374f6d Paul Cercueil 2021-05-30  67  	n = clamp_val(n, 2, 1 << pll_info->n_bits);
-bdbfc029374f6d Paul Cercueil 2021-05-30  68  
-ecfb9f404771dd Paul Cercueil 2022-12-14  69  	rate /= MHZ;
-ecfb9f404771dd Paul Cercueil 2022-12-14  70  	parent_rate /= MHZ;
-bdbfc029374f6d Paul Cercueil 2021-05-30  71  
-ecfb9f404771dd Paul Cercueil 2022-12-14  72  	for (m = m_max; m >= m_max && n >= 2; n--) {
-ecfb9f404771dd Paul Cercueil 2022-12-14  73  		m = rate * n / parent_rate;
-ecfb9f404771dd Paul Cercueil 2022-12-14  74  		od = m & 1;
-ecfb9f404771dd Paul Cercueil 2022-12-14  75  		m <<= od;
-bdbfc029374f6d Paul Cercueil 2021-05-30  76  	}
-bdbfc029374f6d Paul Cercueil 2021-05-30  77  
-bdbfc029374f6d Paul Cercueil 2021-05-30  78  	*pm = m;
-ecfb9f404771dd Paul Cercueil 2022-12-14  79  	*pn = n + 1;
-bdbfc029374f6d Paul Cercueil 2021-05-30 @80  	*pod = 1 << od;
-bdbfc029374f6d Paul Cercueil 2021-05-30  81  }
-bdbfc029374f6d Paul Cercueil 2021-05-30  82  
+f7f07484542fae Robin Murphy 2021-12-17  172  
+a17e3026bc4da9 Robin Murphy 2021-12-17  173  static void queue_iova(struct iommu_dma_cookie *cookie,
+f7f07484542fae Robin Murphy 2021-12-17  174  		unsigned long pfn, unsigned long pages,
+f7f07484542fae Robin Murphy 2021-12-17  175  		struct list_head *freelist)
+f7f07484542fae Robin Murphy 2021-12-17  176  {
+f7f07484542fae Robin Murphy 2021-12-17  177  	struct iova_fq *fq;
+f7f07484542fae Robin Murphy 2021-12-17  178  	unsigned long flags;
+a17e3026bc4da9 Robin Murphy 2021-12-17  179  	unsigned int idx;
+f7f07484542fae Robin Murphy 2021-12-17  180  
+f7f07484542fae Robin Murphy 2021-12-17  181  	/*
+f7f07484542fae Robin Murphy 2021-12-17  182  	 * Order against the IOMMU driver's pagetable update from unmapping
+a17e3026bc4da9 Robin Murphy 2021-12-17  183  	 * @pte, to guarantee that fq_flush_iotlb() observes that if called
+f7f07484542fae Robin Murphy 2021-12-17  184  	 * from a different CPU before we release the lock below. Full barrier
+f7f07484542fae Robin Murphy 2021-12-17  185  	 * so it also pairs with iommu_dma_init_fq() to avoid seeing partially
+f7f07484542fae Robin Murphy 2021-12-17  186  	 * written fq state here.
+f7f07484542fae Robin Murphy 2021-12-17  187  	 */
+f7f07484542fae Robin Murphy 2021-12-17  188  	smp_mb();
+f7f07484542fae Robin Murphy 2021-12-17  189  
+a17e3026bc4da9 Robin Murphy 2021-12-17 @190  	fq = raw_cpu_ptr(cookie->fq);
+f7f07484542fae Robin Murphy 2021-12-17  191  	spin_lock_irqsave(&fq->lock, flags);
+f7f07484542fae Robin Murphy 2021-12-17  192  
+f7f07484542fae Robin Murphy 2021-12-17  193  	/*
+f7f07484542fae Robin Murphy 2021-12-17  194  	 * First remove all entries from the flush queue that have already been
+f7f07484542fae Robin Murphy 2021-12-17  195  	 * flushed out on another CPU. This makes the fq_full() check below less
+f7f07484542fae Robin Murphy 2021-12-17  196  	 * likely to be true.
+f7f07484542fae Robin Murphy 2021-12-17  197  	 */
+a17e3026bc4da9 Robin Murphy 2021-12-17  198  	fq_ring_free(cookie, fq);
+f7f07484542fae Robin Murphy 2021-12-17  199  
+f7f07484542fae Robin Murphy 2021-12-17  200  	if (fq_full(fq)) {
+a17e3026bc4da9 Robin Murphy 2021-12-17  201  		fq_flush_iotlb(cookie);
+a17e3026bc4da9 Robin Murphy 2021-12-17  202  		fq_ring_free(cookie, fq);
+f7f07484542fae Robin Murphy 2021-12-17  203  	}
+f7f07484542fae Robin Murphy 2021-12-17  204  
+f7f07484542fae Robin Murphy 2021-12-17  205  	idx = fq_ring_add(fq);
+f7f07484542fae Robin Murphy 2021-12-17  206  
+f7f07484542fae Robin Murphy 2021-12-17  207  	fq->entries[idx].iova_pfn = pfn;
+f7f07484542fae Robin Murphy 2021-12-17  208  	fq->entries[idx].pages    = pages;
+a17e3026bc4da9 Robin Murphy 2021-12-17  209  	fq->entries[idx].counter  = atomic64_read(&cookie->fq_flush_start_cnt);
+f7f07484542fae Robin Murphy 2021-12-17  210  	list_splice(freelist, &fq->entries[idx].freelist);
+f7f07484542fae Robin Murphy 2021-12-17  211  
+f7f07484542fae Robin Murphy 2021-12-17  212  	spin_unlock_irqrestore(&fq->lock, flags);
+f7f07484542fae Robin Murphy 2021-12-17  213  
+f7f07484542fae Robin Murphy 2021-12-17  214  	/* Avoid false sharing as much as possible. */
+a17e3026bc4da9 Robin Murphy 2021-12-17  215  	if (!atomic_read(&cookie->fq_timer_on) &&
+a17e3026bc4da9 Robin Murphy 2021-12-17  216  	    !atomic_xchg(&cookie->fq_timer_on, 1))
+a17e3026bc4da9 Robin Murphy 2021-12-17  217  		mod_timer(&cookie->fq_timer,
+f7f07484542fae Robin Murphy 2021-12-17  218  			  jiffies + msecs_to_jiffies(IOVA_FQ_TIMEOUT));
+f7f07484542fae Robin Murphy 2021-12-17  219  }
+f7f07484542fae Robin Murphy 2021-12-17  220  
 
-:::::: The code at line 80 was first introduced by commit
-:::::: bdbfc029374f6d9ed31bc44983501fd1008b677f clk: ingenic: Add support for the JZ4760
+:::::: The code at line 190 was first introduced by commit
+:::::: a17e3026bc4da9135ca9a42ec0b1fa67f95172e3 iommu: Move flush queue data into iommu_dma_cookie
 
-:::::: TO: Paul Cercueil <paul@crapouillou.net>
-:::::: CC: Stephen Boyd <sboyd@kernel.org>
+:::::: TO: Robin Murphy <robin.murphy@arm.com>
+:::::: CC: Joerg Roedel <jroedel@suse.de>
 
 -- 
 0-DAY CI Kernel Test Service
