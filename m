@@ -1,42 +1,42 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1003AED9
-	for <oe-kbuild@lists.linux.dev>; Fri,  3 Feb 2023 02:38:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04B8810E6
+	for <oe-kbuild@lists.linux.dev>; Fri,  3 Feb 2023 03:49:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675391896; x=1706927896;
+  t=1675396172; x=1706932172;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=gKeKKzScGJCZT/FJQ05bSy1OJ/VYmkc/F4gZMRNEBBo=;
-  b=ilwP0YqjXxMdNheZZCzZfvtX2/rxbLhWvRoUCL6MUvB/G+FViKjVK64P
-   deJEDm9P5UnaybmcPSMxCkV4E5SPM6/87/E1I9jUkBEDvEzU/I4VQx1DS
-   lAIaKsgrbh7k0oYWTvKCQ5DFXx5mRMSNI39L8bw5HcqzV/z+4sSGj1cmk
-   Dnc7Y2WR7eJZzcIDDDLi779HYQHgBbafoIZ/ZDCV2Fc29AG2HK+dMQG0j
-   RuAQCusMn6GW2raSTwyArpipnGb0dI93QbZo+EjOoaeaA+qkGU7oU90aB
-   sSV7fcItBeEzDdZ5lwM0ZlFsErl7TzXxWnAcnxLcxy+VI5CCf91jgAoQv
+  bh=h0O69a8kBJywusscSyM5PDicVxJpd5MyzOXafgmEfnk=;
+  b=SmYN63CM9d98QXgB7L5izd3alhkoEWvJj+uZyqJGC9+Fs71uejUhw9/u
+   vZvLUwveIgiEJz84ktoP0zEcUEbkJ5D3+TS7ZAmse32Dd8xWSoyGJz6Nw
+   UldwprMXfswEhgs9VJJbw1rSOVyjzp9jigElk8h7eMF6jzcrUjExpsL77
+   x8NvdRDT4ftpzlWCU8oQ/L7r6yl/Bfj2X8pZ57LQkhaW4t9b25YTjOKwA
+   Oae0++6xs/Q09AUOXJlPvq6eEoa50pObh0sQ5lgMrU2Vq8RpXBzkeIef9
+   4eZeqKk5g84JI7Ab/m4YfcZJiS89nWwu6b5JpDDoKeuu/9mpPzmRNGmRr
    A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10609"; a="316638920"
+X-IronPort-AV: E=McAfee;i="6500,9779,10609"; a="414858673"
 X-IronPort-AV: E=Sophos;i="5.97,269,1669104000"; 
-   d="scan'208";a="316638920"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2023 18:38:15 -0800
+   d="scan'208";a="414858673"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2023 19:49:32 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10609"; a="697913418"
+X-IronPort-AV: E=McAfee;i="6500,9779,10609"; a="754320372"
 X-IronPort-AV: E=Sophos;i="5.97,269,1669104000"; 
-   d="scan'208";a="697913418"
-Received: from lkp-server01.sh.intel.com (HELO 0572c01a5cf9) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 02 Feb 2023 18:38:14 -0800
-Received: from kbuild by 0572c01a5cf9 with local (Exim 4.96)
+   d="scan'208";a="754320372"
+Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
+  by FMSMGA003.fm.intel.com with ESMTP; 02 Feb 2023 19:49:31 -0800
+Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pNlxt-00002m-1J;
-	Fri, 03 Feb 2023 02:38:13 +0000
-Date: Fri, 3 Feb 2023 10:37:40 +0800
+	id 1pNn4s-000040-2I;
+	Fri, 03 Feb 2023 03:49:30 +0000
+Date: Fri, 3 Feb 2023 11:49:08 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH v4 10/23] clk: mediatek: mt8173: Break down clock drivers
- and allow module build
-Message-ID: <202302031042.0Jaf7m4t-lkp@intel.com>
+Subject: net/l2tp/l2tp_core.c:1481 l2tp_tunnel_register() warn: missing error
+ code 'ret'
+Message-ID: <202302031144.yY6UaRcD-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -48,89 +48,116 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20230120092053.182923-11-angelogioacchino.delregno@collabora.com>
-References: <20230120092053.182923-11-angelogioacchino.delregno@collabora.com>
-TO: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+CC: linux-kernel@vger.kernel.org
+TO: Cong Wang <cong.wang@bytedance.com>
+CC: Guillaume Nault <gnault@redhat.com>
 
-Hi AngeloGioacchino,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on clk/clk-next]
-[also build test WARNING on linus/master v6.2-rc6]
-[cannot apply to next-20230202]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/AngeloGioacchino-Del-Regno/clk-mediatek-mt8192-Correctly-unregister-and-free-clocks-on-failure/20230120-173005
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git clk-next
-patch link:    https://lore.kernel.org/r/20230120092053.182923-11-angelogioacchino.delregno%40collabora.com
-patch subject: [PATCH v4 10/23] clk: mediatek: mt8173: Break down clock drivers and allow module build
-:::::: branch date: 2 weeks ago
-:::::: commit date: 2 weeks ago
-config: openrisc-randconfig-m031-20230202 (https://download.01.org/0day-ci/archive/20230203/202302031042.0Jaf7m4t-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   66a87fff1a87c260452f5a57123891ca5258c449
+commit: c4d48a58f32c5972174a1d01c33b296fe378cce0 l2tp: convert l2tp_tunnel_list to idr
+date:   3 weeks ago
+:::::: branch date: 3 hours ago
+:::::: commit date: 3 weeks ago
+config: powerpc-randconfig-m031-20230202 (https://download.01.org/0day-ci/archive/20230203/202302031144.yY6UaRcD-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
 
 smatch warnings:
-drivers/clk/mediatek/clk-mt8173-apmixedsys.c:95 clk_mt8173_apmixed_probe() warn: passing zero to 'PTR_ERR'
-drivers/clk/mediatek/clk-mt8173-apmixedsys.c:130 clk_mt8173_apmixed_probe() warn: 'base' from of_iomap() not released on lines: 99.
+net/l2tp/l2tp_core.c:1481 l2tp_tunnel_register() warn: missing error code 'ret'
 
-vim +/PTR_ERR +95 drivers/clk/mediatek/clk-mt8173-apmixedsys.c
+vim +/ret +1481 net/l2tp/l2tp_core.c
 
-22686e696741e8 AngeloGioacchino Del Regno 2023-01-20   84  
-22686e696741e8 AngeloGioacchino Del Regno 2023-01-20   85  static int clk_mt8173_apmixed_probe(struct platform_device *pdev)
-22686e696741e8 AngeloGioacchino Del Regno 2023-01-20   86  {
-22686e696741e8 AngeloGioacchino Del Regno 2023-01-20   87  	struct device_node *node = pdev->dev.of_node;
-22686e696741e8 AngeloGioacchino Del Regno 2023-01-20   88  	struct clk_hw_onecell_data *clk_data;
-22686e696741e8 AngeloGioacchino Del Regno 2023-01-20   89  	void __iomem *base;
-22686e696741e8 AngeloGioacchino Del Regno 2023-01-20   90  	struct clk_hw *hw;
-22686e696741e8 AngeloGioacchino Del Regno 2023-01-20   91  	int r;
-22686e696741e8 AngeloGioacchino Del Regno 2023-01-20   92  
-22686e696741e8 AngeloGioacchino Del Regno 2023-01-20   93  	base = of_iomap(node, 0);
-22686e696741e8 AngeloGioacchino Del Regno 2023-01-20   94  	if (!base)
-22686e696741e8 AngeloGioacchino Del Regno 2023-01-20  @95  		return PTR_ERR(base);
-22686e696741e8 AngeloGioacchino Del Regno 2023-01-20   96  
-22686e696741e8 AngeloGioacchino Del Regno 2023-01-20   97  	clk_data = mtk_alloc_clk_data(CLK_APMIXED_NR_CLK);
-22686e696741e8 AngeloGioacchino Del Regno 2023-01-20   98  	if (IS_ERR_OR_NULL(clk_data))
-22686e696741e8 AngeloGioacchino Del Regno 2023-01-20   99  		return -ENOMEM;
-22686e696741e8 AngeloGioacchino Del Regno 2023-01-20  100  
-22686e696741e8 AngeloGioacchino Del Regno 2023-01-20  101  	r = mtk_clk_register_plls(node, plls, ARRAY_SIZE(plls), clk_data);
-22686e696741e8 AngeloGioacchino Del Regno 2023-01-20  102  	if (r)
-22686e696741e8 AngeloGioacchino Del Regno 2023-01-20  103  		goto free_clk_data;
-22686e696741e8 AngeloGioacchino Del Regno 2023-01-20  104  
-22686e696741e8 AngeloGioacchino Del Regno 2023-01-20  105  	hw = mtk_clk_register_ref2usb_tx("ref2usb_tx", "clk26m", base + REGOFF_REF2USB);
-22686e696741e8 AngeloGioacchino Del Regno 2023-01-20  106  	if (IS_ERR(hw)) {
-22686e696741e8 AngeloGioacchino Del Regno 2023-01-20  107  		r = PTR_ERR(hw);
-22686e696741e8 AngeloGioacchino Del Regno 2023-01-20  108  		dev_err(&pdev->dev, "Failed to register ref2usb_tx: %d\n", r);
-22686e696741e8 AngeloGioacchino Del Regno 2023-01-20  109  		goto unregister_plls;
-22686e696741e8 AngeloGioacchino Del Regno 2023-01-20  110  	}
-22686e696741e8 AngeloGioacchino Del Regno 2023-01-20  111  	clk_data->hws[CLK_APMIXED_REF2USB_TX] = hw;
-22686e696741e8 AngeloGioacchino Del Regno 2023-01-20  112  
-22686e696741e8 AngeloGioacchino Del Regno 2023-01-20  113  	hw = devm_clk_hw_register_divider(&pdev->dev, "hdmi_ref", "tvdpll_594m", 0,
-22686e696741e8 AngeloGioacchino Del Regno 2023-01-20  114  					  base + REGOFF_HDMI_REF, 16, 3,
-22686e696741e8 AngeloGioacchino Del Regno 2023-01-20  115  					  CLK_DIVIDER_POWER_OF_TWO, NULL);
-22686e696741e8 AngeloGioacchino Del Regno 2023-01-20  116  	clk_data->hws[CLK_APMIXED_HDMI_REF] = hw;
-22686e696741e8 AngeloGioacchino Del Regno 2023-01-20  117  
-22686e696741e8 AngeloGioacchino Del Regno 2023-01-20  118  	r = of_clk_add_hw_provider(node, of_clk_hw_onecell_get, clk_data);
-22686e696741e8 AngeloGioacchino Del Regno 2023-01-20  119  	if (r)
-22686e696741e8 AngeloGioacchino Del Regno 2023-01-20  120  		goto unregister_ref2usb;
-22686e696741e8 AngeloGioacchino Del Regno 2023-01-20  121  
-22686e696741e8 AngeloGioacchino Del Regno 2023-01-20  122  	return 0;
-22686e696741e8 AngeloGioacchino Del Regno 2023-01-20  123  
-22686e696741e8 AngeloGioacchino Del Regno 2023-01-20  124  unregister_ref2usb:
-22686e696741e8 AngeloGioacchino Del Regno 2023-01-20  125  	mtk_clk_unregister_ref2usb_tx(clk_data->hws[CLK_APMIXED_REF2USB_TX]);
-22686e696741e8 AngeloGioacchino Del Regno 2023-01-20  126  unregister_plls:
-22686e696741e8 AngeloGioacchino Del Regno 2023-01-20  127  	mtk_clk_unregister_plls(plls, ARRAY_SIZE(plls), clk_data);
-22686e696741e8 AngeloGioacchino Del Regno 2023-01-20  128  free_clk_data:
-22686e696741e8 AngeloGioacchino Del Regno 2023-01-20  129  	mtk_free_clk_data(clk_data);
-22686e696741e8 AngeloGioacchino Del Regno 2023-01-20 @130  	return r;
-22686e696741e8 AngeloGioacchino Del Regno 2023-01-20  131  }
-22686e696741e8 AngeloGioacchino Del Regno 2023-01-20  132  
+6b9f34239b00e6 Guillaume Nault 2018-04-10  1455  
+6b9f34239b00e6 Guillaume Nault 2018-04-10  1456  int l2tp_tunnel_register(struct l2tp_tunnel *tunnel, struct net *net,
+6b9f34239b00e6 Guillaume Nault 2018-04-10  1457  			 struct l2tp_tunnel_cfg *cfg)
+6b9f34239b00e6 Guillaume Nault 2018-04-10  1458  {
+c4d48a58f32c59 Cong Wang       2023-01-13  1459  	struct l2tp_net *pn = l2tp_pernet(net);
+c4d48a58f32c59 Cong Wang       2023-01-13  1460  	u32 tunnel_id = tunnel->tunnel_id;
+6b9f34239b00e6 Guillaume Nault 2018-04-10  1461  	struct socket *sock;
+6b9f34239b00e6 Guillaume Nault 2018-04-10  1462  	struct sock *sk;
+6b9f34239b00e6 Guillaume Nault 2018-04-10  1463  	int ret;
+6b9f34239b00e6 Guillaume Nault 2018-04-10  1464  
+c4d48a58f32c59 Cong Wang       2023-01-13  1465  	spin_lock_bh(&pn->l2tp_tunnel_idr_lock);
+c4d48a58f32c59 Cong Wang       2023-01-13  1466  	ret = idr_alloc_u32(&pn->l2tp_tunnel_idr, NULL, &tunnel_id, tunnel_id,
+c4d48a58f32c59 Cong Wang       2023-01-13  1467  			    GFP_ATOMIC);
+c4d48a58f32c59 Cong Wang       2023-01-13  1468  	spin_unlock_bh(&pn->l2tp_tunnel_idr_lock);
+c4d48a58f32c59 Cong Wang       2023-01-13  1469  	if (ret)
+c4d48a58f32c59 Cong Wang       2023-01-13  1470  		return ret == -ENOSPC ? -EEXIST : ret;
+c4d48a58f32c59 Cong Wang       2023-01-13  1471  
+6b9f34239b00e6 Guillaume Nault 2018-04-10  1472  	if (tunnel->fd < 0) {
+6b9f34239b00e6 Guillaume Nault 2018-04-10  1473  		ret = l2tp_tunnel_sock_create(net, tunnel->tunnel_id,
+6b9f34239b00e6 Guillaume Nault 2018-04-10  1474  					      tunnel->peer_tunnel_id, cfg,
+6b9f34239b00e6 Guillaume Nault 2018-04-10  1475  					      &sock);
+6b9f34239b00e6 Guillaume Nault 2018-04-10  1476  		if (ret < 0)
+6b9f34239b00e6 Guillaume Nault 2018-04-10  1477  			goto err;
+6b9f34239b00e6 Guillaume Nault 2018-04-10  1478  	} else {
+6b9f34239b00e6 Guillaume Nault 2018-04-10  1479  		sock = sockfd_lookup(tunnel->fd, &ret);
+6b9f34239b00e6 Guillaume Nault 2018-04-10  1480  		if (!sock)
+6b9f34239b00e6 Guillaume Nault 2018-04-10 @1481  			goto err;
+b68777d54fac21 Jakub Sitnicki  2022-11-14  1482  	}
+b68777d54fac21 Jakub Sitnicki  2022-11-14  1483  
+b68777d54fac21 Jakub Sitnicki  2022-11-14  1484  	sk = sock->sk;
+af295e854a4e38 Jakub Sitnicki  2022-11-21  1485  	write_lock_bh(&sk->sk_callback_lock);
+b68777d54fac21 Jakub Sitnicki  2022-11-14  1486  	ret = l2tp_validate_socket(sk, net, tunnel->encap);
+6b9f34239b00e6 Guillaume Nault 2018-04-10  1487  	if (ret < 0)
+af295e854a4e38 Jakub Sitnicki  2022-11-21  1488  		goto err_inval_sock;
+af295e854a4e38 Jakub Sitnicki  2022-11-21  1489  	rcu_assign_sk_user_data(sk, tunnel);
+af295e854a4e38 Jakub Sitnicki  2022-11-21  1490  	write_unlock_bh(&sk->sk_callback_lock);
+6b9f34239b00e6 Guillaume Nault 2018-04-10  1491  
+69e16d01d1de4f Gong, Sishuai   2021-04-27  1492  	sock_hold(sk);
+69e16d01d1de4f Gong, Sishuai   2021-04-27  1493  	tunnel->sock = sk;
+c4d48a58f32c59 Cong Wang       2023-01-13  1494  	tunnel->l2tp_net = net;
+69e16d01d1de4f Gong, Sishuai   2021-04-27  1495  
+c4d48a58f32c59 Cong Wang       2023-01-13  1496  	spin_lock_bh(&pn->l2tp_tunnel_idr_lock);
+c4d48a58f32c59 Cong Wang       2023-01-13  1497  	idr_replace(&pn->l2tp_tunnel_idr, tunnel, tunnel->tunnel_id);
+c4d48a58f32c59 Cong Wang       2023-01-13  1498  	spin_unlock_bh(&pn->l2tp_tunnel_idr_lock);
+6b9f34239b00e6 Guillaume Nault 2018-04-10  1499  
+6b9f34239b00e6 Guillaume Nault 2018-04-10  1500  	if (tunnel->encap == L2TP_ENCAPTYPE_UDP) {
+6b9f34239b00e6 Guillaume Nault 2018-04-10  1501  		struct udp_tunnel_sock_cfg udp_cfg = {
+6b9f34239b00e6 Guillaume Nault 2018-04-10  1502  			.sk_user_data = tunnel,
+6b9f34239b00e6 Guillaume Nault 2018-04-10  1503  			.encap_type = UDP_ENCAP_L2TPINUDP,
+6b9f34239b00e6 Guillaume Nault 2018-04-10  1504  			.encap_rcv = l2tp_udp_encap_recv,
+6b9f34239b00e6 Guillaume Nault 2018-04-10  1505  			.encap_destroy = l2tp_udp_encap_destroy,
+6b9f34239b00e6 Guillaume Nault 2018-04-10  1506  		};
+6b9f34239b00e6 Guillaume Nault 2018-04-10  1507  
+6b9f34239b00e6 Guillaume Nault 2018-04-10  1508  		setup_udp_tunnel_sock(net, sock, &udp_cfg);
+6b9f34239b00e6 Guillaume Nault 2018-04-10  1509  	}
+6b9f34239b00e6 Guillaume Nault 2018-04-10  1510  
+6b9f34239b00e6 Guillaume Nault 2018-04-10  1511  	tunnel->old_sk_destruct = sk->sk_destruct;
+6b9f34239b00e6 Guillaume Nault 2018-04-10  1512  	sk->sk_destruct = &l2tp_tunnel_destruct;
+6b9f34239b00e6 Guillaume Nault 2018-04-10  1513  	lockdep_set_class_and_name(&sk->sk_lock.slock, &l2tp_socket_class,
+6b9f34239b00e6 Guillaume Nault 2018-04-10  1514  				   "l2tp_sock");
+6b9f34239b00e6 Guillaume Nault 2018-04-10  1515  	sk->sk_allocation = GFP_ATOMIC;
+6b9f34239b00e6 Guillaume Nault 2018-04-10  1516  
+6b7bdcd7ca01d8 Tom Parkin      2020-08-22  1517  	trace_register_tunnel(tunnel);
+6b7bdcd7ca01d8 Tom Parkin      2020-08-22  1518  
+6b9f34239b00e6 Guillaume Nault 2018-04-10  1519  	if (tunnel->fd >= 0)
+6b9f34239b00e6 Guillaume Nault 2018-04-10  1520  		sockfd_put(sock);
+6b9f34239b00e6 Guillaume Nault 2018-04-10  1521  
+6b9f34239b00e6 Guillaume Nault 2018-04-10  1522  	return 0;
+6b9f34239b00e6 Guillaume Nault 2018-04-10  1523  
+af295e854a4e38 Jakub Sitnicki  2022-11-21  1524  err_inval_sock:
+af295e854a4e38 Jakub Sitnicki  2022-11-21  1525  	write_unlock_bh(&sk->sk_callback_lock);
+af295e854a4e38 Jakub Sitnicki  2022-11-21  1526  
+f6cd651b056ffd Guillaume Nault 2018-04-10  1527  	if (tunnel->fd < 0)
+f6cd651b056ffd Guillaume Nault 2018-04-10  1528  		sock_release(sock);
+f6cd651b056ffd Guillaume Nault 2018-04-10  1529  	else
+6b9f34239b00e6 Guillaume Nault 2018-04-10  1530  		sockfd_put(sock);
+6b9f34239b00e6 Guillaume Nault 2018-04-10  1531  err:
+c4d48a58f32c59 Cong Wang       2023-01-13  1532  	l2tp_tunnel_remove(net, tunnel);
+6b9f34239b00e6 Guillaume Nault 2018-04-10  1533  	return ret;
+6b9f34239b00e6 Guillaume Nault 2018-04-10  1534  }
+6b9f34239b00e6 Guillaume Nault 2018-04-10  1535  EXPORT_SYMBOL_GPL(l2tp_tunnel_register);
+6b9f34239b00e6 Guillaume Nault 2018-04-10  1536  
+
+:::::: The code at line 1481 was first introduced by commit
+:::::: 6b9f34239b00e6956a267abed2bc559ede556ad6 l2tp: fix races in tunnel creation
+
+:::::: TO: Guillaume Nault <g.nault@alphalink.fr>
+:::::: CC: David S. Miller <davem@davemloft.net>
 
 -- 
 0-DAY CI Kernel Test Service
