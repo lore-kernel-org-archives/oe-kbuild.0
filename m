@@ -1,42 +1,49 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC5861C29
-	for <oe-kbuild@lists.linux.dev>; Fri,  3 Feb 2023 10:06:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675418814; x=1706954814;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=dfZRg/E2Y4+DQ0lpPT15TSKrb0iqkOgNHNRsX5cxCKI=;
-  b=icpy663LjFotClis/qvMyDItUDiDCEk5586dBSqvM2q2A3nH+MBC15KU
-   9gMi9VhFl1yPR4NMe5F8AZymsCDtdmqtudBfWo/ajRo06nxtyqINqW2oh
-   60P45Di0cvJBLlZ4W3p8LiterIhWIcLmgwZnv/OBwoSd6KJHSoTsu9mmC
-   yW7ONna066FH6WjOVevMZsIuPaLEH3aZkrSV5ODXDTJdOIpzRLuHZoTo3
-   XWkwsRd7NcUzvqt5gsks0el2sZZRQlbTqCoznMycMImx7J0xgwboJlA2m
-   rQYFvPzz7xHMaG0DRbeZdmzsMaoOY3C5JdLniljpmI4JZ9oeStlMFYos0
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10609"; a="308351416"
-X-IronPort-AV: E=Sophos;i="5.97,270,1669104000"; 
-   d="scan'208";a="308351416"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2023 02:06:54 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10609"; a="696119553"
-X-IronPort-AV: E=Sophos;i="5.97,270,1669104000"; 
-   d="scan'208";a="696119553"
-Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 03 Feb 2023 02:06:52 -0800
-Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pNsy4-0000Nl-05;
-	Fri, 03 Feb 2023 10:06:52 +0000
-Date: Fri, 3 Feb 2023 18:06:48 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: net/ncsi/ncsi-rsp.c:471 ncsi_rsp_handler_sma() warn: potential
- spectre issue 'ncf->addrs' [r]
-Message-ID: <202302031757.Iw0AcvtL-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CE541FBC;
+	Fri,  3 Feb 2023 11:30:55 +0000 (UTC)
+Received: by mail-wr1-f49.google.com with SMTP id o18so4377207wrj.3;
+        Fri, 03 Feb 2023 03:30:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=LBQjtoGHHgqblX9RDRub+u5uqU4jup01+5+erIPdZwM=;
+        b=dAiyQMjKSt9ndJtDjBZ/ofTPZOTeCfiQH206n5H+iIKpJIPr7siML8X1IphJXWzxtz
+         EtUwocmx3nxf+RSn+AFrlxrIXPBXh8p1YAOVnYcRA3pfO5YtWVJ4whOVDwN5lfClOWGZ
+         P2FwayBIUkwaVbdue+CoquyA6V8okieTt+Q6wVBboO3l4KcUmNagOQ3Ki89XNXo+ddxw
+         v3cHDrLhIIewKQhyhbQ5dEPcSs+okKMpQCZxO7UrWRVrDiKEvgFougXyL560Ox09psoA
+         gnSJS7WeylAZ88iZE0mnJWOcT6v0SMJNtL6wCr10euHFYRo8DYh4RXGouXdUI1MVDuGy
+         RzZg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=LBQjtoGHHgqblX9RDRub+u5uqU4jup01+5+erIPdZwM=;
+        b=BZii3It1JpL5vwY9a7S+u2lJ8Sy81sbOICzzfzAfvB9G+qMOyn/3TjuOxDexNfGybp
+         GUDkkqXBYaZxNjr42j8XVyVC4TNwOrt2zC9ihmSaDW5G0+GPx0WdYgnZ6QLdt3uUnEDf
+         NQDDbr3T8CMCM0BUzZ0QBnwCUbu0SFQ2FLpnJSyZIxhcNhnHHVAfgZ5Q2tZMZ5Qh9rAa
+         bn7xQa4ICcRdYmA3xbtMKeynYxVGFqkAYXfllLNomfI16XinBQnPf7aC6ELKbVIwvBHx
+         3P/b1Gsj8v5Y80cMBIXn3xOnJVX1gkIQlA9+Yc4n3PIhIJV8RHD4VSVFzaGMYn38w83X
+         HxVw==
+X-Gm-Message-State: AO0yUKUDrmGfANgP2oIJUpZ3boxQrr28E5VXxpeoGuHCkryzqP4PbDXU
+	kkvN8CuBvKN9M7sLG3F8VrcleTV1Vew=
+X-Google-Smtp-Source: AK7set+wwtWTop0v2FxlIUbjvMTzk7G71xpzSxEDSgPBIPgQbcRL2JfA+6kUDKGNn2S3L5k+wmMcYg==
+X-Received: by 2002:adf:b355:0:b0:2bd:c83a:6e3 with SMTP id k21-20020adfb355000000b002bdc83a06e3mr8123753wrd.7.1675423853355;
+        Fri, 03 Feb 2023 03:30:53 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id n9-20020a5d5989000000b002bc7fcf08ddsm1878761wri.103.2023.02.03.03.30.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 03 Feb 2023 03:30:52 -0800 (PST)
+Date: Fri, 3 Feb 2023 11:56:01 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev, Cong Wang <cong.wang@bytedance.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Guillaume Nault <gnault@redhat.com>
+Subject: net/l2tp/l2tp_core.c:1481 l2tp_tunnel_register() warn: missing error
+ code 'ret'
+Message-ID: <202302031144.yY6UaRcD-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -45,87 +52,109 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Kees Cook <keescook@chromium.org>
+Message-ID: <20230203085601.Z6cLos8rqvBLQC9kWxjobXYV9ulbPlhMLCkbJpkBWpY@z>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   66a87fff1a87c260452f5a57123891ca5258c449
-commit: 54d9469bc515dc5fcbc20eecbe19cea868b70d68 fortify: Add run-time WARN for cross-field memcpy()
-date:   5 months ago
-:::::: branch date: 9 hours ago
-:::::: commit date: 5 months ago
-config: mips-randconfig-m031-20230202 (https://download.01.org/0day-ci/archive/20230203/202302031757.Iw0AcvtL-lkp@intel.com/config)
-compiler: mips64-linux-gcc (GCC) 12.1.0
+commit: c4d48a58f32c5972174a1d01c33b296fe378cce0 l2tp: convert l2tp_tunnel_list to idr
+config: powerpc-randconfig-m031-20230202 (https://download.01.org/0day-ci/archive/20230203/202302031144.yY6UaRcD-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
 
-New smatch warnings:
-net/ncsi/ncsi-rsp.c:471 ncsi_rsp_handler_sma() warn: potential spectre issue 'ncf->addrs' [r]
+smatch warnings:
+net/l2tp/l2tp_core.c:1481 l2tp_tunnel_register() warn: missing error code 'ret'
 
-Old smatch warnings:
-net/ncsi/ncsi-rsp.c:373 ncsi_rsp_handler_svf() warn: potential spectre issue 'ncf->vids' [w]
+vim +/ret +1481 net/l2tp/l2tp_core.c
 
-vim +471 net/ncsi/ncsi-rsp.c
+6b9f34239b00e6 Guillaume Nault 2018-04-10  1456  int l2tp_tunnel_register(struct l2tp_tunnel *tunnel, struct net *net,
+6b9f34239b00e6 Guillaume Nault 2018-04-10  1457  			 struct l2tp_tunnel_cfg *cfg)
+6b9f34239b00e6 Guillaume Nault 2018-04-10  1458  {
+c4d48a58f32c59 Cong Wang       2023-01-13  1459  	struct l2tp_net *pn = l2tp_pernet(net);
+c4d48a58f32c59 Cong Wang       2023-01-13  1460  	u32 tunnel_id = tunnel->tunnel_id;
+6b9f34239b00e6 Guillaume Nault 2018-04-10  1461  	struct socket *sock;
+6b9f34239b00e6 Guillaume Nault 2018-04-10  1462  	struct sock *sk;
+6b9f34239b00e6 Guillaume Nault 2018-04-10  1463  	int ret;
+6b9f34239b00e6 Guillaume Nault 2018-04-10  1464  
+c4d48a58f32c59 Cong Wang       2023-01-13  1465  	spin_lock_bh(&pn->l2tp_tunnel_idr_lock);
+c4d48a58f32c59 Cong Wang       2023-01-13  1466  	ret = idr_alloc_u32(&pn->l2tp_tunnel_idr, NULL, &tunnel_id, tunnel_id,
+c4d48a58f32c59 Cong Wang       2023-01-13  1467  			    GFP_ATOMIC);
+c4d48a58f32c59 Cong Wang       2023-01-13  1468  	spin_unlock_bh(&pn->l2tp_tunnel_idr_lock);
+c4d48a58f32c59 Cong Wang       2023-01-13  1469  	if (ret)
+c4d48a58f32c59 Cong Wang       2023-01-13  1470  		return ret == -ENOSPC ? -EEXIST : ret;
+c4d48a58f32c59 Cong Wang       2023-01-13  1471  
+6b9f34239b00e6 Guillaume Nault 2018-04-10  1472  	if (tunnel->fd < 0) {
+6b9f34239b00e6 Guillaume Nault 2018-04-10  1473  		ret = l2tp_tunnel_sock_create(net, tunnel->tunnel_id,
+6b9f34239b00e6 Guillaume Nault 2018-04-10  1474  					      tunnel->peer_tunnel_id, cfg,
+6b9f34239b00e6 Guillaume Nault 2018-04-10  1475  					      &sock);
+6b9f34239b00e6 Guillaume Nault 2018-04-10  1476  		if (ret < 0)
+6b9f34239b00e6 Guillaume Nault 2018-04-10  1477  			goto err;
+6b9f34239b00e6 Guillaume Nault 2018-04-10  1478  	} else {
+6b9f34239b00e6 Guillaume Nault 2018-04-10  1479  		sock = sockfd_lookup(tunnel->fd, &ret);
+6b9f34239b00e6 Guillaume Nault 2018-04-10  1480  		if (!sock)
+6b9f34239b00e6 Guillaume Nault 2018-04-10 @1481  			goto err;
+                                                                        ^^^^^^^^^
+I don't know why this is showing up as a 3 week old warning when it
+looks like the code is from 2018...  Anyway, should this be an error
+path or a success path?
 
-138635cc27c973 Gavin Shan           2016-07-19  434  
-138635cc27c973 Gavin Shan           2016-07-19  435  static int ncsi_rsp_handler_sma(struct ncsi_request *nr)
-138635cc27c973 Gavin Shan           2016-07-19  436  {
-138635cc27c973 Gavin Shan           2016-07-19  437  	struct ncsi_cmd_sma_pkt *cmd;
-138635cc27c973 Gavin Shan           2016-07-19  438  	struct ncsi_rsp_pkt *rsp;
-138635cc27c973 Gavin Shan           2016-07-19  439  	struct ncsi_dev_priv *ndp = nr->ndp;
-138635cc27c973 Gavin Shan           2016-07-19  440  	struct ncsi_channel *nc;
-062b3e1b6d4f2a Samuel Mendoza-Jonas 2018-04-17  441  	struct ncsi_channel_mac_filter *ncf;
-062b3e1b6d4f2a Samuel Mendoza-Jonas 2018-04-17  442  	unsigned long flags;
-138635cc27c973 Gavin Shan           2016-07-19  443  	void *bitmap;
-062b3e1b6d4f2a Samuel Mendoza-Jonas 2018-04-17  444  	bool enabled;
-062b3e1b6d4f2a Samuel Mendoza-Jonas 2018-04-17  445  	int index;
-062b3e1b6d4f2a Samuel Mendoza-Jonas 2018-04-17  446  
-138635cc27c973 Gavin Shan           2016-07-19  447  
-138635cc27c973 Gavin Shan           2016-07-19  448  	/* Find the package and channel */
-138635cc27c973 Gavin Shan           2016-07-19  449  	rsp = (struct ncsi_rsp_pkt *)skb_network_header(nr->rsp);
-138635cc27c973 Gavin Shan           2016-07-19  450  	ncsi_find_package_and_channel(ndp, rsp->rsp.common.channel,
-138635cc27c973 Gavin Shan           2016-07-19  451  				      NULL, &nc);
-138635cc27c973 Gavin Shan           2016-07-19  452  	if (!nc)
-138635cc27c973 Gavin Shan           2016-07-19  453  		return -ENODEV;
-138635cc27c973 Gavin Shan           2016-07-19  454  
-138635cc27c973 Gavin Shan           2016-07-19  455  	/* According to NCSI spec 1.01, the mixed filter table
-138635cc27c973 Gavin Shan           2016-07-19  456  	 * isn't supported yet.
-138635cc27c973 Gavin Shan           2016-07-19  457  	 */
-138635cc27c973 Gavin Shan           2016-07-19  458  	cmd = (struct ncsi_cmd_sma_pkt *)skb_network_header(nr->cmd);
-062b3e1b6d4f2a Samuel Mendoza-Jonas 2018-04-17  459  	enabled = cmd->at_e & 0x1;
-062b3e1b6d4f2a Samuel Mendoza-Jonas 2018-04-17  460  	ncf = &nc->mac_filter;
-062b3e1b6d4f2a Samuel Mendoza-Jonas 2018-04-17  461  	bitmap = &ncf->bitmap;
-138635cc27c973 Gavin Shan           2016-07-19  462  
-990a9d4975c974 Dan Carpenter        2018-05-17  463  	if (cmd->index == 0 ||
-990a9d4975c974 Dan Carpenter        2018-05-17  464  	    cmd->index > ncf->n_uc + ncf->n_mc + ncf->n_mixed)
-138635cc27c973 Gavin Shan           2016-07-19  465  		return -ERANGE;
-138635cc27c973 Gavin Shan           2016-07-19  466  
-062b3e1b6d4f2a Samuel Mendoza-Jonas 2018-04-17  467  	index = (cmd->index - 1) * ETH_ALEN;
-062b3e1b6d4f2a Samuel Mendoza-Jonas 2018-04-17  468  	spin_lock_irqsave(&nc->lock, flags);
-062b3e1b6d4f2a Samuel Mendoza-Jonas 2018-04-17  469  	if (enabled) {
-062b3e1b6d4f2a Samuel Mendoza-Jonas 2018-04-17  470  		set_bit(cmd->index - 1, bitmap);
-062b3e1b6d4f2a Samuel Mendoza-Jonas 2018-04-17 @471  		memcpy(&ncf->addrs[index], cmd->mac, ETH_ALEN);
-138635cc27c973 Gavin Shan           2016-07-19  472  	} else {
-062b3e1b6d4f2a Samuel Mendoza-Jonas 2018-04-17  473  		clear_bit(cmd->index - 1, bitmap);
-49b0aa1b658570 Miaohe Lin           2020-07-23  474  		eth_zero_addr(&ncf->addrs[index]);
-138635cc27c973 Gavin Shan           2016-07-19  475  	}
-062b3e1b6d4f2a Samuel Mendoza-Jonas 2018-04-17  476  	spin_unlock_irqrestore(&nc->lock, flags);
-138635cc27c973 Gavin Shan           2016-07-19  477  
-138635cc27c973 Gavin Shan           2016-07-19  478  	return 0;
-138635cc27c973 Gavin Shan           2016-07-19  479  }
-138635cc27c973 Gavin Shan           2016-07-19  480  
-
-:::::: The code at line 471 was first introduced by commit
-:::::: 062b3e1b6d4f2a33c1d0fd7ae9b4550da5cf7e4b net/ncsi: Refactor MAC, VLAN filters
-
-:::::: TO: Samuel Mendoza-Jonas <sam@mendozajonas.com>
-:::::: CC: David S. Miller <davem@davemloft.net>
+b68777d54fac21 Jakub Sitnicki  2022-11-14  1482  	}
+b68777d54fac21 Jakub Sitnicki  2022-11-14  1483  
+b68777d54fac21 Jakub Sitnicki  2022-11-14  1484  	sk = sock->sk;
+af295e854a4e38 Jakub Sitnicki  2022-11-21  1485  	write_lock_bh(&sk->sk_callback_lock);
+b68777d54fac21 Jakub Sitnicki  2022-11-14  1486  	ret = l2tp_validate_socket(sk, net, tunnel->encap);
+6b9f34239b00e6 Guillaume Nault 2018-04-10  1487  	if (ret < 0)
+af295e854a4e38 Jakub Sitnicki  2022-11-21  1488  		goto err_inval_sock;
+af295e854a4e38 Jakub Sitnicki  2022-11-21  1489  	rcu_assign_sk_user_data(sk, tunnel);
+af295e854a4e38 Jakub Sitnicki  2022-11-21  1490  	write_unlock_bh(&sk->sk_callback_lock);
+6b9f34239b00e6 Guillaume Nault 2018-04-10  1491  
+69e16d01d1de4f Gong, Sishuai   2021-04-27  1492  	sock_hold(sk);
+69e16d01d1de4f Gong, Sishuai   2021-04-27  1493  	tunnel->sock = sk;
+c4d48a58f32c59 Cong Wang       2023-01-13  1494  	tunnel->l2tp_net = net;
+69e16d01d1de4f Gong, Sishuai   2021-04-27  1495  
+c4d48a58f32c59 Cong Wang       2023-01-13  1496  	spin_lock_bh(&pn->l2tp_tunnel_idr_lock);
+c4d48a58f32c59 Cong Wang       2023-01-13  1497  	idr_replace(&pn->l2tp_tunnel_idr, tunnel, tunnel->tunnel_id);
+c4d48a58f32c59 Cong Wang       2023-01-13  1498  	spin_unlock_bh(&pn->l2tp_tunnel_idr_lock);
+6b9f34239b00e6 Guillaume Nault 2018-04-10  1499  
+6b9f34239b00e6 Guillaume Nault 2018-04-10  1500  	if (tunnel->encap == L2TP_ENCAPTYPE_UDP) {
+6b9f34239b00e6 Guillaume Nault 2018-04-10  1501  		struct udp_tunnel_sock_cfg udp_cfg = {
+6b9f34239b00e6 Guillaume Nault 2018-04-10  1502  			.sk_user_data = tunnel,
+6b9f34239b00e6 Guillaume Nault 2018-04-10  1503  			.encap_type = UDP_ENCAP_L2TPINUDP,
+6b9f34239b00e6 Guillaume Nault 2018-04-10  1504  			.encap_rcv = l2tp_udp_encap_recv,
+6b9f34239b00e6 Guillaume Nault 2018-04-10  1505  			.encap_destroy = l2tp_udp_encap_destroy,
+6b9f34239b00e6 Guillaume Nault 2018-04-10  1506  		};
+6b9f34239b00e6 Guillaume Nault 2018-04-10  1507  
+6b9f34239b00e6 Guillaume Nault 2018-04-10  1508  		setup_udp_tunnel_sock(net, sock, &udp_cfg);
+6b9f34239b00e6 Guillaume Nault 2018-04-10  1509  	}
+6b9f34239b00e6 Guillaume Nault 2018-04-10  1510  
+6b9f34239b00e6 Guillaume Nault 2018-04-10  1511  	tunnel->old_sk_destruct = sk->sk_destruct;
+6b9f34239b00e6 Guillaume Nault 2018-04-10  1512  	sk->sk_destruct = &l2tp_tunnel_destruct;
+6b9f34239b00e6 Guillaume Nault 2018-04-10  1513  	lockdep_set_class_and_name(&sk->sk_lock.slock, &l2tp_socket_class,
+6b9f34239b00e6 Guillaume Nault 2018-04-10  1514  				   "l2tp_sock");
+6b9f34239b00e6 Guillaume Nault 2018-04-10  1515  	sk->sk_allocation = GFP_ATOMIC;
+6b9f34239b00e6 Guillaume Nault 2018-04-10  1516  
+6b7bdcd7ca01d8 Tom Parkin      2020-08-22  1517  	trace_register_tunnel(tunnel);
+6b7bdcd7ca01d8 Tom Parkin      2020-08-22  1518  
+6b9f34239b00e6 Guillaume Nault 2018-04-10  1519  	if (tunnel->fd >= 0)
+6b9f34239b00e6 Guillaume Nault 2018-04-10  1520  		sockfd_put(sock);
+6b9f34239b00e6 Guillaume Nault 2018-04-10  1521  
+6b9f34239b00e6 Guillaume Nault 2018-04-10  1522  	return 0;
+6b9f34239b00e6 Guillaume Nault 2018-04-10  1523  
+af295e854a4e38 Jakub Sitnicki  2022-11-21  1524  err_inval_sock:
+af295e854a4e38 Jakub Sitnicki  2022-11-21  1525  	write_unlock_bh(&sk->sk_callback_lock);
+af295e854a4e38 Jakub Sitnicki  2022-11-21  1526  
+f6cd651b056ffd Guillaume Nault 2018-04-10  1527  	if (tunnel->fd < 0)
+f6cd651b056ffd Guillaume Nault 2018-04-10  1528  		sock_release(sock);
+f6cd651b056ffd Guillaume Nault 2018-04-10  1529  	else
+6b9f34239b00e6 Guillaume Nault 2018-04-10  1530  		sockfd_put(sock);
+6b9f34239b00e6 Guillaume Nault 2018-04-10  1531  err:
+c4d48a58f32c59 Cong Wang       2023-01-13  1532  	l2tp_tunnel_remove(net, tunnel);
+6b9f34239b00e6 Guillaume Nault 2018-04-10  1533  	return ret;
+6b9f34239b00e6 Guillaume Nault 2018-04-10  1534  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
+
