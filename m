@@ -1,44 +1,42 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95D85D50B
-	for <oe-kbuild@lists.linux.dev>; Fri,  3 Feb 2023 22:11:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F23C290B
+	for <oe-kbuild@lists.linux.dev>; Fri,  3 Feb 2023 22:42:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675462283; x=1706998283;
+  t=1675464146; x=1707000146;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=jzUphug4tAj5lT+t+uDSudW/1DhEYW3mc9XHLA5gQXo=;
-  b=jQ2RxkR9N9p/BNZ8zNVhOb0w2IKigt9Pl9VGxSujM620khO8bheDwN4q
-   u2LN/4QhWkjXbaJazJpH39vd4ppPAqk0vxmoxfWevmBbXMVdmt+aBCMjX
-   P0mWpl329t6lyd235XdlSF+gRG6R8+b5FKu3OaJI6PmKs4NCTREbY/1VR
-   W6s9BACClypC7u9mZicEe43kfVY7Z2bWfZQ7vUK4CrLNSPHwkWHeaELzp
-   CuBa8RB5gxWhh0o3bRqd7KROKLsP8QLsZLmLKYRP8+Uf95pbr39jZh1Lk
-   PSsaMDWt6g2Fq7p6FdVWNR6fVrZYELfhPSosT0ejyEpuge4MO7xcvqOaX
+  bh=fqvuwRl5Is4nikpA3YhOse7T/YMNEurhl1FTOG1bmGA=;
+  b=Ofk9DtfKOY/lJ4I8H0ZuFqyQOaeWs68VuQndjqh5pP4oUyAePV/tLW5j
+   wxWeQ6PpFzc29G3w4FFnfmOXd9wYkIjiN0+vXjj+csAbPWZcOqfZR47HE
+   PvZsgtbtdhAyv8Yz9I71Nqf5GUauAu0NaP11eV7/DRA3STucKQAMBZQ3w
+   y1FHUG2394MpNNB6b2jiyRwiGQppTuADp2TAL6O3JqpsiSkpk38V8knnB
+   wVu5FI3Jqw/drspQt9I4DV5drmw30vAkm6J7rn1aMiZJzhfh9OiQpPk9/
+   1Qo0/xvB9s4jKrBiFiFvxPxdy4yUfaDTfcMx63Thj45lZi3kKNqsEpKDb
    Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10610"; a="330158913"
+X-IronPort-AV: E=McAfee;i="6500,9779,10610"; a="356218526"
 X-IronPort-AV: E=Sophos;i="5.97,271,1669104000"; 
-   d="scan'208";a="330158913"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2023 14:11:20 -0800
+   d="scan'208";a="356218526"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2023 14:42:26 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10610"; a="729401039"
+X-IronPort-AV: E=McAfee;i="6500,9779,10610"; a="698225823"
 X-IronPort-AV: E=Sophos;i="5.97,271,1669104000"; 
-   d="scan'208";a="729401039"
+   d="scan'208";a="698225823"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 03 Feb 2023 14:11:18 -0800
+  by orsmga001.jf.intel.com with ESMTP; 03 Feb 2023 14:42:25 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pO4H8-0000nH-0u;
-	Fri, 03 Feb 2023 22:11:18 +0000
-Date: Sat, 4 Feb 2023 06:11:08 +0800
+	id 1pO4l9-0000ol-0y;
+	Fri, 03 Feb 2023 22:42:19 +0000
+Date: Sat, 4 Feb 2023 06:42:18 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [linux-next:master 6933/10357]
- arch/s390/kernel/perf_pai_ext.c:633:5: warning: Redundant initialization for
- 'rc'. The initialized value is overwritten before it is read.
- [redundantInitialization]
-Message-ID: <202302040623.ifFhlh6Q-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: fs/erofs/fscache.c:226 erofs_fscache_meta_read_folio() warn: passing
+ a valid pointer to 'PTR_ERR'
+Message-ID: <202302040646.V0MEzlKy-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -48,175 +46,148 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "low confidence static check warning: arch/s390/kernel/perf_pai_ext.c:633:5: warning: Redundant initialization for 'rc'. The initialized value is overwritten before it is read. [redundantInitialization]"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Thomas Richter <tmricht@linux.ibm.com>
-CC: Heiko Carstens <hca@linux.ibm.com>
+CC: linux-kernel@vger.kernel.org
+TO: Sun Ke <sunke32@huawei.com>
+CC: Gao Xiang <xiang@kernel.org>
+CC: Jingbo Xu <jefflexu@linux.alibaba.com>
+CC: Chao Yu <yuchao0@huawei.com>, Chao Yu <chao@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   4fafd96910add124586b549ad005dcd179de8a18
-commit: 1e99c242acb2fc211aa9f57cd1060622e66bbf63 [6933/10357] s390/cpum_cf: merge source files for CPU Measurement counter facility
-:::::: branch date: 19 hours ago
-:::::: commit date: 9 days ago
-compiler: s390-linux-gcc (GCC) 12.1.0
-reproduce (cppcheck warning):
-        # apt-get install cppcheck
-        git checkout 1e99c242acb2fc211aa9f57cd1060622e66bbf63
-        cppcheck --quiet --enable=style,performance,portability --template=gcc FILE
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   0136d86b78522bbd5755f8194c97a987f0586ba5
+commit: 5bd9628b784cc5e38e1c7ebb680bbd6ee741230e erofs: fix error return code in erofs_fscache_{meta_,}read_folio
+date:   5 months ago
+:::::: branch date: 3 hours ago
+:::::: commit date: 5 months ago
+config: m68k-randconfig-m041-20230204 (https://download.01.org/0day-ci/archive/20230204/202302040646.V0MEzlKy-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
 
+smatch warnings:
+fs/erofs/fscache.c:226 erofs_fscache_meta_read_folio() warn: passing a valid pointer to 'PTR_ERR'
+fs/erofs/fscache.c:307 erofs_fscache_read_folio() warn: passing a valid pointer to 'PTR_ERR'
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+vim +/PTR_ERR +226 fs/erofs/fscache.c
 
->> arch/s390/pci/pci_bus.c:367:5: warning: Redundant initialization for 'rc'. The initialized value is overwritten before it is read. [redundantInitialization]
-    rc = zpci_bus_add_device(zbus, zdev);
-       ^
-   arch/s390/pci/pci_bus.c:337:9: note: rc is initialized
-    int rc = -EBADF;
-           ^
-   arch/s390/pci/pci_bus.c:367:5: note: rc is overwritten
-    rc = zpci_bus_add_device(zbus, zdev);
-       ^
->> arch/s390/kernel/perf_pai_ext.c:633:5: warning: Redundant initialization for 'rc'. The initialized value is overwritten before it is read. [redundantInitialization]
-    rc = attr_event_init();
-       ^
-   arch/s390/kernel/perf_pai_ext.c:621:9: note: rc is initialized
-    int rc = -ENOMEM;
-           ^
-   arch/s390/kernel/perf_pai_ext.c:633:5: note: rc is overwritten
-    rc = attr_event_init();
-       ^
->> arch/s390/kernel/perf_cpum_sf.c:852:8: warning: Using pointer that is a temporary. [danglingTemporaryLifetime]
-     si = cpuhw->qsi;
-          ^
-   arch/s390/kernel/perf_cpum_sf.c:851:11: note: Address of variable taken here.
-     cpuhw = &per_cpu(cpu_hw_sf, event->cpu);
-             ^
-   arch/s390/kernel/perf_cpum_sf.c:851:19: note: Temporary created here.
-     cpuhw = &per_cpu(cpu_hw_sf, event->cpu);
-                     ^
-   arch/s390/kernel/perf_cpum_sf.c:852:8: note: Using pointer that is a temporary.
-     si = cpuhw->qsi;
-          ^
-   arch/s390/kernel/perf_cpum_sf.c:914:27: warning: Using pointer that is a temporary. [danglingTemporaryLifetime]
-      err = allocate_buffers(cpuhw, hwc);
-                             ^
-   arch/s390/kernel/perf_cpum_sf.c:913:12: note: Address of variable taken here.
-      cpuhw = &per_cpu(cpu_hw_sf, cpu);
-              ^
-   arch/s390/kernel/perf_cpum_sf.c:913:20: note: Temporary created here.
-      cpuhw = &per_cpu(cpu_hw_sf, cpu);
-                      ^
-   arch/s390/kernel/perf_cpum_sf.c:914:27: note: Using pointer that is a temporary.
-      err = allocate_buffers(cpuhw, hwc);
-                             ^
-   arch/s390/kernel/perf_cpum_sf.c:1910:8: warning: Using pointer that is a temporary. [danglingTemporaryLifetime]
-     si = cpuhw->qsi;
-          ^
-   arch/s390/kernel/perf_cpum_sf.c:1908:29: note: Address of variable taken here.
-     struct cpu_hw_sf *cpuhw = &per_cpu(cpu_hw_sf, event->cpu);
-                               ^
-   arch/s390/kernel/perf_cpum_sf.c:1908:37: note: Temporary created here.
-     struct cpu_hw_sf *cpuhw = &per_cpu(cpu_hw_sf, event->cpu);
-                                       ^
-   arch/s390/kernel/perf_cpum_sf.c:1910:8: note: Using pointer that is a temporary.
-     si = cpuhw->qsi;
-          ^
->> arch/s390/kernel/perf_cpum_sf.c:143:48: warning: Parameter 's' can be declared as pointer to const [constParameter]
-   static inline int is_link_entry(unsigned long *s)
-                                                  ^
-   arch/s390/kernel/perf_cpum_sf.c:149:59: warning: Parameter 's' can be declared as pointer to const [constParameter]
-   static inline unsigned long *get_next_sdbt(unsigned long *s)
-                                                             ^
->> arch/s390/kernel/perf_cpum_cf.c:453:27: warning: Using pointer that is a temporary. [danglingTemporaryLifetime]
-    if (!(hwc->config_base & cpuhw->info.auth_ctl))
-                             ^
-   arch/s390/kernel/perf_cpum_cf.c:446:10: note: Address of variable taken here.
-    cpuhw = &get_cpu_var(cpu_cf_events);
-            ^
-   arch/s390/kernel/perf_cpum_cf.c:446:22: note: Temporary created here.
-    cpuhw = &get_cpu_var(cpu_cf_events);
-                        ^
-   arch/s390/kernel/perf_cpum_cf.c:453:27: note: Using pointer that is a temporary.
-    if (!(hwc->config_base & cpuhw->info.auth_ctl))
-                             ^
-   arch/s390/kernel/perf_cpum_cf.c:1584:7: warning: Using pointer that is a temporary. [danglingTemporaryLifetime]
-     if (cpuhw->info.auth_ctl & cpumf_ctr_ctl[i])
-         ^
-   arch/s390/kernel/perf_cpum_cf.c:1582:10: note: Address of variable taken here.
-    cpuhw = &get_cpu_var(cpu_cf_events);
-            ^
-   arch/s390/kernel/perf_cpum_cf.c:1582:22: note: Temporary created here.
-    cpuhw = &get_cpu_var(cpu_cf_events);
-                        ^
-   arch/s390/kernel/perf_cpum_cf.c:1584:7: note: Using pointer that is a temporary.
-     if (cpuhw->info.auth_ctl & cpumf_ctr_ctl[i])
-         ^
-
-vim +/rc +633 arch/s390/kernel/perf_pai_ext.c
-
-c432fefe8e6262 Thomas Richter 2022-06-30  617  
-c432fefe8e6262 Thomas Richter 2022-06-30  618  static int __init paiext_init(void)
-c432fefe8e6262 Thomas Richter 2022-06-30  619  {
-c432fefe8e6262 Thomas Richter 2022-06-30  620  	struct qpaci_info_block ib;
-c432fefe8e6262 Thomas Richter 2022-06-30  621  	int rc = -ENOMEM;
-c432fefe8e6262 Thomas Richter 2022-06-30  622  
-c432fefe8e6262 Thomas Richter 2022-06-30  623  	if (!test_facility(197))
-c432fefe8e6262 Thomas Richter 2022-06-30  624  		return 0;
-c432fefe8e6262 Thomas Richter 2022-06-30  625  
-c432fefe8e6262 Thomas Richter 2022-06-30  626  	qpaci(&ib);
-c432fefe8e6262 Thomas Richter 2022-06-30  627  	paiext_cnt = ib.num_nnpa;
-c432fefe8e6262 Thomas Richter 2022-06-30  628  	if (paiext_cnt >= PAI_NNPA_MAXCTR)
-c432fefe8e6262 Thomas Richter 2022-06-30  629  		paiext_cnt = PAI_NNPA_MAXCTR;
-c432fefe8e6262 Thomas Richter 2022-06-30  630  	if (!paiext_cnt)
-c432fefe8e6262 Thomas Richter 2022-06-30  631  		return 0;
-c432fefe8e6262 Thomas Richter 2022-06-30  632  
-c432fefe8e6262 Thomas Richter 2022-06-30 @633  	rc = attr_event_init();
-c432fefe8e6262 Thomas Richter 2022-06-30  634  	if (rc) {
-c432fefe8e6262 Thomas Richter 2022-06-30  635  		pr_err("Creation of PMU " KMSG_COMPONENT " /sysfs failed\n");
-c432fefe8e6262 Thomas Richter 2022-06-30  636  		return rc;
-c432fefe8e6262 Thomas Richter 2022-06-30  637  	}
-c432fefe8e6262 Thomas Richter 2022-06-30  638  
-c432fefe8e6262 Thomas Richter 2022-06-30  639  	/* Setup s390dbf facility */
-c432fefe8e6262 Thomas Richter 2022-06-30  640  	paiext_dbg = debug_register(KMSG_COMPONENT, 2, 256, 128);
-c432fefe8e6262 Thomas Richter 2022-06-30  641  	if (!paiext_dbg) {
-c432fefe8e6262 Thomas Richter 2022-06-30  642  		pr_err("Registration of s390dbf " KMSG_COMPONENT " failed\n");
-c432fefe8e6262 Thomas Richter 2022-06-30  643  		rc = -ENOMEM;
-c432fefe8e6262 Thomas Richter 2022-06-30  644  		goto out_init;
-c432fefe8e6262 Thomas Richter 2022-06-30  645  	}
-c432fefe8e6262 Thomas Richter 2022-06-30  646  	debug_register_view(paiext_dbg, &debug_sprintf_view);
-c432fefe8e6262 Thomas Richter 2022-06-30  647  
-c432fefe8e6262 Thomas Richter 2022-06-30  648  	rc = perf_pmu_register(&paiext, KMSG_COMPONENT, -1);
-c432fefe8e6262 Thomas Richter 2022-06-30  649  	if (rc) {
-c432fefe8e6262 Thomas Richter 2022-06-30  650  		pr_err("Registration of " KMSG_COMPONENT " PMU failed with "
-c432fefe8e6262 Thomas Richter 2022-06-30  651  		       "rc=%i\n", rc);
-c432fefe8e6262 Thomas Richter 2022-06-30  652  		goto out_pmu;
-c432fefe8e6262 Thomas Richter 2022-06-30  653  	}
-c432fefe8e6262 Thomas Richter 2022-06-30  654  
-c432fefe8e6262 Thomas Richter 2022-06-30  655  	return 0;
-c432fefe8e6262 Thomas Richter 2022-06-30  656  
-c432fefe8e6262 Thomas Richter 2022-06-30  657  out_pmu:
-c432fefe8e6262 Thomas Richter 2022-06-30  658  	debug_unregister_view(paiext_dbg, &debug_sprintf_view);
-c432fefe8e6262 Thomas Richter 2022-06-30  659  	debug_unregister(paiext_dbg);
-c432fefe8e6262 Thomas Richter 2022-06-30  660  out_init:
-c432fefe8e6262 Thomas Richter 2022-06-30  661  	attr_event_free(paiext_events_group.attrs,
-c432fefe8e6262 Thomas Richter 2022-06-30  662  			ARRAY_SIZE(paiext_ctrnames) + 1);
-c432fefe8e6262 Thomas Richter 2022-06-30  663  	return rc;
-c432fefe8e6262 Thomas Richter 2022-06-30  664  }
-c432fefe8e6262 Thomas Richter 2022-06-30  665  
-
-:::::: The code at line 633 was first introduced by commit
-:::::: c432fefe8e6262bf3d288ab82d006cfafa78a139 s390/pai: Add support for PAI Extension 1 NNPA counters
-
-:::::: TO: Thomas Richter <tmricht@linux.ibm.com>
-:::::: CC: Vasily Gorbik <gor@linux.ibm.com>
+ec00b5e29ce3a2 Jeffle Xu      2022-04-25  208  
+fdaf9a5840acaa Linus Torvalds 2022-05-24  209  static int erofs_fscache_meta_read_folio(struct file *data, struct folio *folio)
+5375e7c8b0fef1 Jeffle Xu      2022-04-25  210  {
+5375e7c8b0fef1 Jeffle Xu      2022-04-25  211  	int ret;
+5375e7c8b0fef1 Jeffle Xu      2022-04-25  212  	struct super_block *sb = folio_mapping(folio)->host->i_sb;
+d435d53228dd03 Xin Yin        2022-05-09  213  	struct netfs_io_request *rreq;
+5375e7c8b0fef1 Jeffle Xu      2022-04-25  214  	struct erofs_map_dev mdev = {
+5375e7c8b0fef1 Jeffle Xu      2022-04-25  215  		.m_deviceid = 0,
+5375e7c8b0fef1 Jeffle Xu      2022-04-25  216  		.m_pa = folio_pos(folio),
+5375e7c8b0fef1 Jeffle Xu      2022-04-25  217  	};
+5375e7c8b0fef1 Jeffle Xu      2022-04-25  218  
+5375e7c8b0fef1 Jeffle Xu      2022-04-25  219  	ret = erofs_map_dev(sb, &mdev);
+5375e7c8b0fef1 Jeffle Xu      2022-04-25  220  	if (ret)
+5375e7c8b0fef1 Jeffle Xu      2022-04-25  221  		goto out;
+5375e7c8b0fef1 Jeffle Xu      2022-04-25  222  
+d435d53228dd03 Xin Yin        2022-05-09  223  	rreq = erofs_fscache_alloc_request(folio_mapping(folio),
+d435d53228dd03 Xin Yin        2022-05-09  224  				folio_pos(folio), folio_size(folio));
+5bd9628b784cc5 Sun Ke         2022-08-15  225  	if (IS_ERR(rreq)) {
+5bd9628b784cc5 Sun Ke         2022-08-15 @226  		ret = PTR_ERR(rreq);
+d435d53228dd03 Xin Yin        2022-05-09  227  		goto out;
+5bd9628b784cc5 Sun Ke         2022-08-15  228  	}
+d435d53228dd03 Xin Yin        2022-05-09  229  
+d435d53228dd03 Xin Yin        2022-05-09  230  	return erofs_fscache_read_folios_async(mdev.m_fscache->cookie,
+d435d53228dd03 Xin Yin        2022-05-09  231  				rreq, mdev.m_pa);
+5375e7c8b0fef1 Jeffle Xu      2022-04-25  232  out:
+5375e7c8b0fef1 Jeffle Xu      2022-04-25  233  	folio_unlock(folio);
+5375e7c8b0fef1 Jeffle Xu      2022-04-25  234  	return ret;
+5375e7c8b0fef1 Jeffle Xu      2022-04-25  235  }
+5375e7c8b0fef1 Jeffle Xu      2022-04-25  236  
+fdaf9a5840acaa Linus Torvalds 2022-05-24  237  static int erofs_fscache_read_folio_inline(struct folio *folio,
+bd735bdaa62fb6 Jeffle Xu      2022-04-25  238  					 struct erofs_map_blocks *map)
+bd735bdaa62fb6 Jeffle Xu      2022-04-25  239  {
+bd735bdaa62fb6 Jeffle Xu      2022-04-25  240  	struct super_block *sb = folio_mapping(folio)->host->i_sb;
+bd735bdaa62fb6 Jeffle Xu      2022-04-25  241  	struct erofs_buf buf = __EROFS_BUF_INITIALIZER;
+bd735bdaa62fb6 Jeffle Xu      2022-04-25  242  	erofs_blk_t blknr;
+bd735bdaa62fb6 Jeffle Xu      2022-04-25  243  	size_t offset, len;
+bd735bdaa62fb6 Jeffle Xu      2022-04-25  244  	void *src, *dst;
+bd735bdaa62fb6 Jeffle Xu      2022-04-25  245  
+bd735bdaa62fb6 Jeffle Xu      2022-04-25  246  	/* For tail packing layout, the offset may be non-zero. */
+bd735bdaa62fb6 Jeffle Xu      2022-04-25  247  	offset = erofs_blkoff(map->m_pa);
+bd735bdaa62fb6 Jeffle Xu      2022-04-25  248  	blknr = erofs_blknr(map->m_pa);
+bd735bdaa62fb6 Jeffle Xu      2022-04-25  249  	len = map->m_llen;
+bd735bdaa62fb6 Jeffle Xu      2022-04-25  250  
+bd735bdaa62fb6 Jeffle Xu      2022-04-25  251  	src = erofs_read_metabuf(&buf, sb, blknr, EROFS_KMAP);
+bd735bdaa62fb6 Jeffle Xu      2022-04-25  252  	if (IS_ERR(src))
+bd735bdaa62fb6 Jeffle Xu      2022-04-25  253  		return PTR_ERR(src);
+bd735bdaa62fb6 Jeffle Xu      2022-04-25  254  
+bd735bdaa62fb6 Jeffle Xu      2022-04-25  255  	dst = kmap_local_folio(folio, 0);
+bd735bdaa62fb6 Jeffle Xu      2022-04-25  256  	memcpy(dst, src + offset, len);
+bd735bdaa62fb6 Jeffle Xu      2022-04-25  257  	memset(dst + len, 0, PAGE_SIZE - len);
+bd735bdaa62fb6 Jeffle Xu      2022-04-25  258  	kunmap_local(dst);
+bd735bdaa62fb6 Jeffle Xu      2022-04-25  259  
+bd735bdaa62fb6 Jeffle Xu      2022-04-25  260  	erofs_put_metabuf(&buf);
+bd735bdaa62fb6 Jeffle Xu      2022-04-25  261  	return 0;
+bd735bdaa62fb6 Jeffle Xu      2022-04-25  262  }
+bd735bdaa62fb6 Jeffle Xu      2022-04-25  263  
+fdaf9a5840acaa Linus Torvalds 2022-05-24  264  static int erofs_fscache_read_folio(struct file *file, struct folio *folio)
+1442b02b66ad2c Jeffle Xu      2022-04-25  265  {
+1442b02b66ad2c Jeffle Xu      2022-04-25  266  	struct inode *inode = folio_mapping(folio)->host;
+1442b02b66ad2c Jeffle Xu      2022-04-25  267  	struct super_block *sb = inode->i_sb;
+1442b02b66ad2c Jeffle Xu      2022-04-25  268  	struct erofs_map_blocks map;
+1442b02b66ad2c Jeffle Xu      2022-04-25  269  	struct erofs_map_dev mdev;
+d435d53228dd03 Xin Yin        2022-05-09  270  	struct netfs_io_request *rreq;
+1442b02b66ad2c Jeffle Xu      2022-04-25  271  	erofs_off_t pos;
+1442b02b66ad2c Jeffle Xu      2022-04-25  272  	loff_t pstart;
+1442b02b66ad2c Jeffle Xu      2022-04-25  273  	int ret;
+1442b02b66ad2c Jeffle Xu      2022-04-25  274  
+1442b02b66ad2c Jeffle Xu      2022-04-25  275  	DBG_BUGON(folio_size(folio) != EROFS_BLKSIZ);
+1442b02b66ad2c Jeffle Xu      2022-04-25  276  
+1442b02b66ad2c Jeffle Xu      2022-04-25  277  	pos = folio_pos(folio);
+1442b02b66ad2c Jeffle Xu      2022-04-25  278  	map.m_la = pos;
+1442b02b66ad2c Jeffle Xu      2022-04-25  279  
+1442b02b66ad2c Jeffle Xu      2022-04-25  280  	ret = erofs_map_blocks(inode, &map, EROFS_GET_BLOCKS_RAW);
+1442b02b66ad2c Jeffle Xu      2022-04-25  281  	if (ret)
+1442b02b66ad2c Jeffle Xu      2022-04-25  282  		goto out_unlock;
+1442b02b66ad2c Jeffle Xu      2022-04-25  283  
+1442b02b66ad2c Jeffle Xu      2022-04-25  284  	if (!(map.m_flags & EROFS_MAP_MAPPED)) {
+1442b02b66ad2c Jeffle Xu      2022-04-25  285  		folio_zero_range(folio, 0, folio_size(folio));
+1442b02b66ad2c Jeffle Xu      2022-04-25  286  		goto out_uptodate;
+1442b02b66ad2c Jeffle Xu      2022-04-25  287  	}
+1442b02b66ad2c Jeffle Xu      2022-04-25  288  
+bd735bdaa62fb6 Jeffle Xu      2022-04-25  289  	if (map.m_flags & EROFS_MAP_META) {
+fdaf9a5840acaa Linus Torvalds 2022-05-24  290  		ret = erofs_fscache_read_folio_inline(folio, &map);
+bd735bdaa62fb6 Jeffle Xu      2022-04-25  291  		goto out_uptodate;
+bd735bdaa62fb6 Jeffle Xu      2022-04-25  292  	}
+bd735bdaa62fb6 Jeffle Xu      2022-04-25  293  
+1442b02b66ad2c Jeffle Xu      2022-04-25  294  	mdev = (struct erofs_map_dev) {
+1442b02b66ad2c Jeffle Xu      2022-04-25  295  		.m_deviceid = map.m_deviceid,
+1442b02b66ad2c Jeffle Xu      2022-04-25  296  		.m_pa = map.m_pa,
+1442b02b66ad2c Jeffle Xu      2022-04-25  297  	};
+1442b02b66ad2c Jeffle Xu      2022-04-25  298  
+1442b02b66ad2c Jeffle Xu      2022-04-25  299  	ret = erofs_map_dev(sb, &mdev);
+1442b02b66ad2c Jeffle Xu      2022-04-25  300  	if (ret)
+1442b02b66ad2c Jeffle Xu      2022-04-25  301  		goto out_unlock;
+1442b02b66ad2c Jeffle Xu      2022-04-25  302  
+d435d53228dd03 Xin Yin        2022-05-09  303  
+d435d53228dd03 Xin Yin        2022-05-09  304  	rreq = erofs_fscache_alloc_request(folio_mapping(folio),
+d435d53228dd03 Xin Yin        2022-05-09  305  				folio_pos(folio), folio_size(folio));
+5bd9628b784cc5 Sun Ke         2022-08-15  306  	if (IS_ERR(rreq)) {
+5bd9628b784cc5 Sun Ke         2022-08-15 @307  		ret = PTR_ERR(rreq);
+d435d53228dd03 Xin Yin        2022-05-09  308  		goto out_unlock;
+5bd9628b784cc5 Sun Ke         2022-08-15  309  	}
+d435d53228dd03 Xin Yin        2022-05-09  310  
+1442b02b66ad2c Jeffle Xu      2022-04-25  311  	pstart = mdev.m_pa + (pos - map.m_la);
+d435d53228dd03 Xin Yin        2022-05-09  312  	return erofs_fscache_read_folios_async(mdev.m_fscache->cookie,
+d435d53228dd03 Xin Yin        2022-05-09  313  				rreq, pstart);
+1442b02b66ad2c Jeffle Xu      2022-04-25  314  
+1442b02b66ad2c Jeffle Xu      2022-04-25  315  out_uptodate:
+1442b02b66ad2c Jeffle Xu      2022-04-25  316  	if (!ret)
+1442b02b66ad2c Jeffle Xu      2022-04-25  317  		folio_mark_uptodate(folio);
+1442b02b66ad2c Jeffle Xu      2022-04-25  318  out_unlock:
+1442b02b66ad2c Jeffle Xu      2022-04-25  319  	folio_unlock(folio);
+1442b02b66ad2c Jeffle Xu      2022-04-25  320  	return ret;
+1442b02b66ad2c Jeffle Xu      2022-04-25  321  }
+1442b02b66ad2c Jeffle Xu      2022-04-25  322  
 
 -- 
 0-DAY CI Kernel Test Service
