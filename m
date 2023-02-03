@@ -1,119 +1,144 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D75729A2
-	for <oe-kbuild@lists.linux.dev>; Fri,  3 Feb 2023 12:21:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1675426914;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/iWvwr9L2DmJ1MAQBDrXjwhR/OpMGxajLpmUomtu16k=;
-	b=YPtfuI2UnnKaCKVDCUo4tnncdJAycODogz9PQrhN6RkucUwx2iMGeDZtR7BeWMSh2JWdP6
-	BqWAy7bNqh1XzIoYYsHlBLmRczD8scPuLvxQmOurIRUKjA/+diMoFLCT9DW561wJ3ISZ2p
-	hJq1VmPaMm9fV1pDOawvcXHMkneRmL8=
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-351-sey6vBjAPPeUpUFmYDBohw-1; Fri, 03 Feb 2023 07:21:53 -0500
-X-MC-Unique: sey6vBjAPPeUpUFmYDBohw-1
-Received: by mail-qk1-f199.google.com with SMTP id j29-20020a05620a001d00b00724fd33cb3eso3206862qki.14
-        for <oe-kbuild@lists.linux.dev>; Fri, 03 Feb 2023 04:21:53 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/iWvwr9L2DmJ1MAQBDrXjwhR/OpMGxajLpmUomtu16k=;
-        b=SolokDtRrSjNDCiVqS8v4JeDAg4cvKr98xmSTB+ewe095GMVTqZlU6dVtUONe2IE0p
-         gt8yZx2Dp/Dh2KVWx/56eu357hzRCR3UtJX0Ht0YWna1FDifrgrG/D0P/suvNkiiu2ts
-         YHVa95lzOS3AeRnrD2EMPlFfK3BWo7k8uK++5CLUHt+UefpJnFJo39brCYSWvOeuV1dl
-         nCHDHurqHkckcRxUawfhterivZYZ6Zf3oXUGXrh3uF4SDLL9imHef90e8IFxitx1FnsT
-         zmifF3xY7Suj7OU5I3LQwHRIbMUwN3ObHRCa5ANZo+a/7/Jj3/eyAJ7LyiRPJwo3psXh
-         TvVw==
-X-Gm-Message-State: AO0yUKXDk083+9Fqp9EuYwLKmo/HofpgJ/R4qp/114EGWg+GDGf/+uXh
-	s0Gf35KHNTrQchvGe4abrcD9t+Bl6M9+jbJfnSCHb3jJ3JxZAmxyWM3yyJkiq90kGzEEV8eiz1j
-	SE+tfAfm9UVsmy/ad8bpI
-X-Received: by 2002:ad4:4ea9:0:b0:569:ca4a:f43a with SMTP id ed9-20020ad44ea9000000b00569ca4af43amr2068046qvb.17.1675426912748;
-        Fri, 03 Feb 2023 04:21:52 -0800 (PST)
-X-Google-Smtp-Source: AK7set8twCog3F1I1XaD90c7D1NEz0cVPNiyWLY81koaeGmUA3SfTejDiOh0CnX2PpEpPWkURyvyiQ==
-X-Received: by 2002:ad4:4ea9:0:b0:569:ca4a:f43a with SMTP id ed9-20020ad44ea9000000b00569ca4af43amr2068011qvb.17.1675426912479;
-        Fri, 03 Feb 2023 04:21:52 -0800 (PST)
-Received: from debian (2a01cb058918ce0086895da7f8f951ef.ipv6.abo.wanadoo.fr. [2a01:cb05:8918:ce00:8689:5da7:f8f9:51ef])
-        by smtp.gmail.com with ESMTPSA id 3-20020ac856e3000000b003b86c0046a0sm1462861qtu.20.2023.02.03.04.21.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Feb 2023 04:21:51 -0800 (PST)
-Date: Fri, 3 Feb 2023 13:21:48 +0100
-From: Guillaume Nault <gnault@redhat.com>
-To: Dan Carpenter <error27@gmail.com>
-Cc: oe-kbuild@lists.linux.dev, Cong Wang <cong.wang@bytedance.com>,
-	lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: net/l2tp/l2tp_core.c:1481 l2tp_tunnel_register() warn: missing
- error code 'ret'
-Message-ID: <Y9z8XPvcv5Wn2J8n@debian>
-References: <202302031144.yY6UaRcD-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D81A8A31
+	for <oe-kbuild@lists.linux.dev>; Fri,  3 Feb 2023 20:49:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1675457357; x=1706993357;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=7mvf9+IYvjg18fVslOiEXTpulPUEjzyzKHyfZzBWj4k=;
+  b=O5PGrumgacdE20gu8H8LZJFW0WLdi7DyBJ0iSXMouU2npoGY1Trwtxwq
+   FBlKRInJqkhwmUD8DcCSRh0pAO5lqUhQ5hK/FToHZHXTFzoKyMsq2CUY0
+   WZ5DnNErkpLSk5sWbaGQyQE4Vgs3oGtI6xDhoe8RdE/igGTu7LMsBWPDq
+   mki5hMUdu58SWrx+5/W5uGheRRhZJz6vYJ4RKlhcUXqZAxtU35xe+YCrD
+   hNyzXzk6J9cZUIg0IgBa9d8cv4ZYBaHMeYZ9Lfd8+grg2sVSz3/efuBRx
+   RTBpQhBmJDyRdkXo6GBI2Yz8Ibq/gzR10u5c1nlArDcO6ZDYV3FvOzqz3
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10610"; a="393441465"
+X-IronPort-AV: E=Sophos;i="5.97,271,1669104000"; 
+   d="scan'208";a="393441465"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2023 12:49:16 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10610"; a="911272982"
+X-IronPort-AV: E=Sophos;i="5.97,271,1669104000"; 
+   d="scan'208";a="911272982"
+Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
+  by fmsmga006.fm.intel.com with ESMTP; 03 Feb 2023 12:49:15 -0800
+Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pO2zi-0000kV-1Y;
+	Fri, 03 Feb 2023 20:49:14 +0000
+Date: Sat, 4 Feb 2023 04:48:34 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCH v2 3/3] bcache: support overlay bcache
+Message-ID: <202302040450.L9x6GFfq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <202302031144.yY6UaRcD-lkp@intel.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On Fri, Feb 03, 2023 at 11:56:01AM +0300, Dan Carpenter wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   66a87fff1a87c260452f5a57123891ca5258c449
-> commit: c4d48a58f32c5972174a1d01c33b296fe378cce0 l2tp: convert l2tp_tunnel_list to idr
-> config: powerpc-randconfig-m031-20230202 (https://download.01.org/0day-ci/archive/20230203/202302031144.yY6UaRcD-lkp@intel.com/config)
-> compiler: powerpc-linux-gcc (GCC) 12.1.0
-> 
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <error27@gmail.com>
-> 
-> smatch warnings:
-> net/l2tp/l2tp_core.c:1481 l2tp_tunnel_register() warn: missing error code 'ret'
-> 
-> vim +/ret +1481 net/l2tp/l2tp_core.c
-> 
-> 6b9f34239b00e6 Guillaume Nault 2018-04-10  1456  int l2tp_tunnel_register(struct l2tp_tunnel *tunnel, struct net *net,
-> 6b9f34239b00e6 Guillaume Nault 2018-04-10  1457  			 struct l2tp_tunnel_cfg *cfg)
-> 6b9f34239b00e6 Guillaume Nault 2018-04-10  1458  {
-> c4d48a58f32c59 Cong Wang       2023-01-13  1459  	struct l2tp_net *pn = l2tp_pernet(net);
-> c4d48a58f32c59 Cong Wang       2023-01-13  1460  	u32 tunnel_id = tunnel->tunnel_id;
-> 6b9f34239b00e6 Guillaume Nault 2018-04-10  1461  	struct socket *sock;
-> 6b9f34239b00e6 Guillaume Nault 2018-04-10  1462  	struct sock *sk;
-> 6b9f34239b00e6 Guillaume Nault 2018-04-10  1463  	int ret;
-> 6b9f34239b00e6 Guillaume Nault 2018-04-10  1464  
-> c4d48a58f32c59 Cong Wang       2023-01-13  1465  	spin_lock_bh(&pn->l2tp_tunnel_idr_lock);
-> c4d48a58f32c59 Cong Wang       2023-01-13  1466  	ret = idr_alloc_u32(&pn->l2tp_tunnel_idr, NULL, &tunnel_id, tunnel_id,
-> c4d48a58f32c59 Cong Wang       2023-01-13  1467  			    GFP_ATOMIC);
-> c4d48a58f32c59 Cong Wang       2023-01-13  1468  	spin_unlock_bh(&pn->l2tp_tunnel_idr_lock);
-> c4d48a58f32c59 Cong Wang       2023-01-13  1469  	if (ret)
-> c4d48a58f32c59 Cong Wang       2023-01-13  1470  		return ret == -ENOSPC ? -EEXIST : ret;
-> c4d48a58f32c59 Cong Wang       2023-01-13  1471  
-> 6b9f34239b00e6 Guillaume Nault 2018-04-10  1472  	if (tunnel->fd < 0) {
-> 6b9f34239b00e6 Guillaume Nault 2018-04-10  1473  		ret = l2tp_tunnel_sock_create(net, tunnel->tunnel_id,
-> 6b9f34239b00e6 Guillaume Nault 2018-04-10  1474  					      tunnel->peer_tunnel_id, cfg,
-> 6b9f34239b00e6 Guillaume Nault 2018-04-10  1475  					      &sock);
-> 6b9f34239b00e6 Guillaume Nault 2018-04-10  1476  		if (ret < 0)
-> 6b9f34239b00e6 Guillaume Nault 2018-04-10  1477  			goto err;
-> 6b9f34239b00e6 Guillaume Nault 2018-04-10  1478  	} else {
-> 6b9f34239b00e6 Guillaume Nault 2018-04-10  1479  		sock = sockfd_lookup(tunnel->fd, &ret);
-> 6b9f34239b00e6 Guillaume Nault 2018-04-10  1480  		if (!sock)
-> 6b9f34239b00e6 Guillaume Nault 2018-04-10 @1481  			goto err;
->                                                                         ^^^^^^^^^
-> I don't know why this is showing up as a 3 week old warning when it
-> looks like the code is from 2018...  Anyway, should this be an error
-> path or a success path?
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20230202030221.14397-3-mingzhe.zou@easystack.cn>
+References: <20230202030221.14397-3-mingzhe.zou@easystack.cn>
+TO: mingzhe.zou@easystack.cn
+TO: colyli@suse.de
+TO: andrea.tomassetti-opensource@devo.com
+TO: bcache@lists.ewheeler.net
+CC: kent.overstreet@gmail.com
+CC: linux-bcache@vger.kernel.org
+CC: zoumingzhe@qq.com
+CC: Dongsheng Yang <dongsheng.yang@easystack.cn>
+CC: mingzhe <mingzhe.zou@easystack.cn>
 
-This is an error path.
-But I don't understand this warning. Does it complain that 'ret' isn't
-initialised before the 'goto err;' jump? (this is done by
-sockfd_lookup() in case of error).
+Hi,
 
+I love your patch! Perhaps something to improve:
+
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.2-rc6 next-20230203]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/mingzhe-zou-easystack-cn/bcache-submit-writeback-inflight-dirty-writes-in-batch/20230202-110624
+patch link:    https://lore.kernel.org/r/20230202030221.14397-3-mingzhe.zou%40easystack.cn
+patch subject: [PATCH v2 3/3] bcache: support overlay bcache
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: openrisc-randconfig-m031-20230202 (https://download.01.org/0day-ci/archive/20230204/202302040450.L9x6GFfq-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 12.1.0
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
+
+smatch warnings:
+drivers/md/bcache/super.c:1573 flash_dev_run() warn: missing error code 'err'
+
+vim +/err +1573 drivers/md/bcache/super.c
+
+cafe563591446c Kent Overstreet   2013-03-23  1539  
+cafe563591446c Kent Overstreet   2013-03-23  1540  static int flash_dev_run(struct cache_set *c, struct uuid_entry *u)
+cafe563591446c Kent Overstreet   2013-03-23  1541  {
+bbce89267a538f Dongsheng Yang    2023-02-02  1542  	int ret;
+2961c3bbcaec0e Luis Chamberlain  2021-10-15  1543  	int err = -ENOMEM;
+cafe563591446c Kent Overstreet   2013-03-23  1544  	struct bcache_device *d = kzalloc(sizeof(struct bcache_device),
+cafe563591446c Kent Overstreet   2013-03-23  1545  					  GFP_KERNEL);
+cafe563591446c Kent Overstreet   2013-03-23  1546  	if (!d)
+2961c3bbcaec0e Luis Chamberlain  2021-10-15  1547  		goto err_ret;
+cafe563591446c Kent Overstreet   2013-03-23  1548  
+cafe563591446c Kent Overstreet   2013-03-23  1549  	closure_init(&d->cl, NULL);
+cafe563591446c Kent Overstreet   2013-03-23  1550  	set_closure_fn(&d->cl, flash_dev_flush, system_wq);
+cafe563591446c Kent Overstreet   2013-03-23  1551  
+cafe563591446c Kent Overstreet   2013-03-23  1552  	kobject_init(&d->kobj, &bch_flash_dev_ktype);
+cafe563591446c Kent Overstreet   2013-03-23  1553  
+4e1ebae3ee4e0c Coly Li           2020-10-01  1554  	if (bcache_device_init(d, block_bytes(c->cache), u->sectors,
+c62b37d96b6eb3 Christoph Hellwig 2020-07-01  1555  			NULL, &bcache_flash_ops))
+cafe563591446c Kent Overstreet   2013-03-23  1556  		goto err;
+cafe563591446c Kent Overstreet   2013-03-23  1557  
+cafe563591446c Kent Overstreet   2013-03-23  1558  	bcache_device_attach(d, c, u - c->uuids);
+175206cf9ab631 Tang Junhui       2017-09-07  1559  	bch_sectors_dirty_init(d);
+cafe563591446c Kent Overstreet   2013-03-23  1560  	bch_flash_dev_request_init(d);
+2961c3bbcaec0e Luis Chamberlain  2021-10-15  1561  	err = add_disk(d->disk);
+2961c3bbcaec0e Luis Chamberlain  2021-10-15  1562  	if (err)
+2961c3bbcaec0e Luis Chamberlain  2021-10-15  1563  		goto err;
+cafe563591446c Kent Overstreet   2013-03-23  1564  
+bbce89267a538f Dongsheng Yang    2023-02-02  1565  	err = kobject_add(&d->kobj, &disk_to_dev(d->disk)->kobj, "bcache_fdev");
+2961c3bbcaec0e Luis Chamberlain  2021-10-15  1566  	if (err)
+cafe563591446c Kent Overstreet   2013-03-23  1567  		goto err;
+cafe563591446c Kent Overstreet   2013-03-23  1568  
+bbce89267a538f Dongsheng Yang    2023-02-02  1569  	ret = sysfs_create_link_nowarn(&disk_to_dev(d->disk)->kobj,
+bbce89267a538f Dongsheng Yang    2023-02-02  1570  				       &d->kobj, "bcache");
+bbce89267a538f Dongsheng Yang    2023-02-02  1571  	if (ret && ret != -EEXIST) {
+bbce89267a538f Dongsheng Yang    2023-02-02  1572  		pr_err("Couldn't create lagacy flash dev ->bcache");
+bbce89267a538f Dongsheng Yang    2023-02-02 @1573  		goto err;
+bbce89267a538f Dongsheng Yang    2023-02-02  1574  	}
+bbce89267a538f Dongsheng Yang    2023-02-02  1575  
+cafe563591446c Kent Overstreet   2013-03-23  1576  	bcache_device_link(d, c, "volume");
+cafe563591446c Kent Overstreet   2013-03-23  1577  
+5342fd4255021e Coly Li           2021-01-04  1578  	if (bch_has_feature_obso_large_bucket(&c->cache->sb)) {
+5342fd4255021e Coly Li           2021-01-04  1579  		pr_err("The obsoleted large bucket layout is unsupported, set the bcache device into read-only\n");
+5342fd4255021e Coly Li           2021-01-04  1580  		pr_err("Please update to the latest bcache-tools to create the cache device\n");
+5342fd4255021e Coly Li           2021-01-04  1581  		set_disk_ro(d->disk, 1);
+5342fd4255021e Coly Li           2021-01-04  1582  	}
+5342fd4255021e Coly Li           2021-01-04  1583  
+cafe563591446c Kent Overstreet   2013-03-23  1584  	return 0;
+cafe563591446c Kent Overstreet   2013-03-23  1585  err:
+cafe563591446c Kent Overstreet   2013-03-23  1586  	kobject_put(&d->kobj);
+2961c3bbcaec0e Luis Chamberlain  2021-10-15  1587  err_ret:
+2961c3bbcaec0e Luis Chamberlain  2021-10-15  1588  	return err;
+cafe563591446c Kent Overstreet   2013-03-23  1589  }
+cafe563591446c Kent Overstreet   2013-03-23  1590  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
