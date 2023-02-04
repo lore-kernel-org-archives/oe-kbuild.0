@@ -1,42 +1,42 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4A0233EC
-	for <oe-kbuild@lists.linux.dev>; Sat,  4 Feb 2023 17:08:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70710AD5A
+	for <oe-kbuild@lists.linux.dev>; Sat,  4 Feb 2023 17:29:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675530533; x=1707066533;
+  t=1675531797; x=1707067797;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+VbLnrkl3aafHPzluPcL6QjdeRpSUvhwhbKqUZhJGy0=;
-  b=cjjzqfz7QykRyezTzNLDYmLmkI0Uz+4eyPoWb2DthxT9j+07fOpohtgt
-   AV3NFOUsOeIo03nsvcCRUtYwLqgD0iLyjURoLrrRFLj5OxGoeTn8qca/I
-   0LcsUZb8/4bg/WqxJ53cqgz4xzMgk5/ExCKhdDzo8WY7DAkKAxp+Ug8IQ
-   S6zeklQUAqgyKf9dJXUv434u5T7dJTrQCfZYS7/budny1uCa59RrnivS/
-   Q40B7vDmxedgOpPsl5OcOwoTBOWtjqNzlSrHVJBEk4Ma0slE9BAqhG17s
-   my+Mwl/FMGegZ5cEe0fKfZxtP4K+ECnn81FbMApX7Sqad91eoWuW7hVTx
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10611"; a="309299682"
+  bh=hqOBDGi/FoWSKCu8BC/pOnBai3KkICzCTknNH5Pyjc0=;
+  b=HWMQ73ufszbd+7Zcz5lT/JHiM2/6cpcamiZqr2jMWooSZFRTK+33zk6H
+   KYA6AC6tIEO99OoUqlY1kb+6UvrzzzVdXauKNgEQQP+5rsxVQUQpJdnxc
+   il8Ibx256QzSAFePLXTQE0lRdQsQq1FD6J1MKa5XXR/Jj6lBS/NH2L1VV
+   9fewYV16VgNXiz0b41HrpXkrNLBb24bhf2t8nuYECbE+l7hPjaIKbgjeA
+   /R8CcXuQyPTFFm/tx8KsK9rhjkLwA4MwL7kfvjv2VR5eszBk5IwaiEw4Q
+   W8rOnJ9xCOoEBoTedVRGgX/11CZaKca5Mahbescjzg3gUrHsscxtuWJvC
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10611"; a="415181484"
 X-IronPort-AV: E=Sophos;i="5.97,272,1669104000"; 
-   d="scan'208";a="309299682"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2023 09:08:53 -0800
+   d="scan'208";a="415181484"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2023 09:29:54 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10611"; a="734695255"
+X-IronPort-AV: E=McAfee;i="6500,9779,10611"; a="698410430"
 X-IronPort-AV: E=Sophos;i="5.97,272,1669104000"; 
-   d="scan'208";a="734695255"
+   d="scan'208";a="698410430"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 04 Feb 2023 09:08:51 -0800
+  by orsmga001.jf.intel.com with ESMTP; 04 Feb 2023 09:29:52 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pOM1z-0001Ri-14;
-	Sat, 04 Feb 2023 17:08:51 +0000
-Date: Sun, 5 Feb 2023 01:08:27 +0800
+	id 1pOMMJ-0001SS-2a;
+	Sat, 04 Feb 2023 17:29:51 +0000
+Date: Sun, 5 Feb 2023 01:28:52 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH 11/11] firewire: cdev: implement new event relevant to
- phy packet with time stamp
-Message-ID: <202302050013.pp3qpCRq-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [tip:x86/alternatives 4/4] arch/x86/kernel/static_call.c:98
+ __static_call_transform() error: uninitialized symbol 'op'.
+Message-ID: <202302050128.jb3rspDg-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -46,303 +46,102 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "low confidence static check warning: drivers/firewire/core-cdev.c:1706:38: warning: Value stored to 'pp' during its initialization is never read [clang-analyzer-deadcode.DeadStores]"
-:::::: 
-
 BCC: lkp@intel.com
-CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20230125120301.51585-12-o-takashi@sakamocchi.jp>
-References: <20230125120301.51585-12-o-takashi@sakamocchi.jp>
-TO: Takashi Sakamoto <o-takashi@sakamocchi.jp>
-TO: stefanr@s5r6.in-berlin.de
-CC: linux1394-devel@lists.sourceforge.net
 CC: linux-kernel@vger.kernel.org
-CC: tiwai@suse.de
+CC: x86@kernel.org
+TO: Peter Zijlstra <peterz@infradead.org>
+CC: Ingo Molnar <mingo@kernel.org>
+CC: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
 
-Hi Takashi,
-
-I love your patch! Perhaps something to improve:
-
-[auto build test WARNING on tiwai-sound/for-next]
-[also build test WARNING on next-20230203]
-[cannot apply to tiwai-sound/for-linus linus/master v6.2-rc6]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Takashi-Sakamoto/firewire-cdev-add-new-version-of-ABI-to-notify-time-stamp-at-request-response-subaction-of-transaction/20230125-200634
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git for-next
-patch link:    https://lore.kernel.org/r/20230125120301.51585-12-o-takashi%40sakamocchi.jp
-patch subject: [PATCH 11/11] firewire: cdev: implement new event relevant to phy packet with time stamp
-:::::: branch date: 10 days ago
-:::::: commit date: 10 days ago
-config: s390-randconfig-c005-20230123 (https://download.01.org/0day-ci/archive/20230205/202302050013.pp3qpCRq-lkp@intel.com/config)
-compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 4196ca3278f78c6e19246e54ab0ecb364e37d66a)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install s390 cross compiling tool for clang build
-        # apt-get install binutils-s390x-linux-gnu
-        # https://github.com/intel-lab-lkp/linux/commit/27355dff42dad4fe3a33e259ad8ace3102367a32
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Takashi-Sakamoto/firewire-cdev-add-new-version-of-ABI-to-notify-time-stamp-at-request-response-subaction-of-transaction/20230125-200634
-        git checkout 27355dff42dad4fe3a33e259ad8ace3102367a32
-        # save the config file
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=s390 clang-analyzer  olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=s390 clang-analyzer 
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git x86/alternatives
+head:   923510c88d2b7d947c4217835fd9ca6bd65cc56c
+commit: 923510c88d2b7d947c4217835fd9ca6bd65cc56c [4/4] x86/static_call: Add support for Jcc tail-calls
+:::::: branch date: 4 days ago
+:::::: commit date: 4 days ago
+config: x86_64-randconfig-m001 (https://download.01.org/0day-ci/archive/20230205/202302050128.jb3rspDg-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
 
-clang_analyzer warnings: (new ones prefixed by >>)
-                           ^~~~
-   drivers/firewire/core-cdev.c:1344:28: note: Left side of '||' is true
-                           todo == ISO_RES_REALLOC ||
-                                                   ^
-   drivers/firewire/core-cdev.c:1351:6: note: Assuming the condition is false
-           if (channel == -EAGAIN &&
-               ^~~~~~~~~~~~~~~~~~
-   drivers/firewire/core-cdev.c:1351:25: note: Left side of '&&' is false
-           if (channel == -EAGAIN &&
-                                  ^
-   drivers/firewire/core-cdev.c:1355:12: note: Assuming 'channel' is < 0
-           success = channel >= 0 || bandwidth > 0;
-                     ^~~~~~~~~~~~
-   drivers/firewire/core-cdev.c:1355:12: note: Left side of '||' is false
-   drivers/firewire/core-cdev.c:1355:28: note: Assuming 'bandwidth' is <= 0
-           success = channel >= 0 || bandwidth > 0;
-                                     ^~~~~~~~~~~~~
-   drivers/firewire/core-cdev.c:1362:9: note: Field 'todo' is not equal to ISO_RES_ALLOC
-           if (r->todo == ISO_RES_ALLOC)
-                  ^
-   drivers/firewire/core-cdev.c:1362:2: note: Taking false branch
-           if (r->todo == ISO_RES_ALLOC)
-           ^
-   drivers/firewire/core-cdev.c:1368:9: note: Field 'todo' is equal to ISO_RES_REALLOC
-           if (r->todo == ISO_RES_REALLOC && !success &&
-                  ^
-   drivers/firewire/core-cdev.c:1368:6: note: Left side of '&&' is true
-           if (r->todo == ISO_RES_REALLOC && !success &&
-               ^
-   drivers/firewire/core-cdev.c:1368:37: note: 'success' is false
-           if (r->todo == ISO_RES_REALLOC && !success &&
-                                              ^~~~~~~
-   drivers/firewire/core-cdev.c:1368:6: note: Left side of '&&' is true
-           if (r->todo == ISO_RES_REALLOC && !success &&
-               ^
-   drivers/firewire/core-cdev.c:1369:6: note: Assuming field 'in_shutdown' is false
-               !client->in_shutdown &&
-               ^~~~~~~~~~~~~~~~~~~~
-   drivers/firewire/core-cdev.c:1368:6: note: Left side of '&&' is true
-           if (r->todo == ISO_RES_REALLOC && !success &&
-               ^
-   drivers/firewire/core-cdev.c:1370:6: note: Assuming the condition is true
-               idr_remove(&client->resource_idr, r->resource.handle)) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/firewire/core-cdev.c:1368:2: note: Taking true branch
-           if (r->todo == ISO_RES_REALLOC && !success &&
-           ^
-   drivers/firewire/core-cdev.c:1371:3: note: Calling 'client_put'
-                   client_put(client);
-                   ^~~~~~~~~~~~~~~~~~
-   drivers/firewire/core-cdev.c:88:2: note: Calling 'kref_put'
-           kref_put(&client->kref, client_release);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/kref.h:64:2: note: Taking true branch
-           if (refcount_dec_and_test(&kref->refcount)) {
-           ^
-   include/linux/kref.h:65:3: note: Calling 'client_release'
-                   release(kref);
-                   ^~~~~~~~~~~~~
-   drivers/firewire/core-cdev.c:83:2: note: Memory is released
-           kfree(client);
-           ^~~~~~~~~~~~~
-   include/linux/kref.h:65:3: note: Returning; memory was released
-                   release(kref);
-                   ^~~~~~~~~~~~~
-   drivers/firewire/core-cdev.c:88:2: note: Returning; memory was released
-           kref_put(&client->kref, client_release);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/firewire/core-cdev.c:1371:3: note: Returning; memory was released via 1st parameter
-                   client_put(client);
-                   ^~~~~~~~~~~~~~~~~~
-   drivers/firewire/core-cdev.c:1376:6: note: 'todo' is not equal to ISO_RES_ALLOC
-           if (todo == ISO_RES_ALLOC && channel >= 0)
-               ^~~~
-   drivers/firewire/core-cdev.c:1376:28: note: Left side of '&&' is false
-           if (todo == ISO_RES_ALLOC && channel >= 0)
-                                     ^
-   drivers/firewire/core-cdev.c:1379:6: note: 'todo' is equal to ISO_RES_REALLOC
-           if (todo == ISO_RES_REALLOC && success)
-               ^~~~
-   drivers/firewire/core-cdev.c:1379:6: note: Left side of '&&' is true
-   drivers/firewire/core-cdev.c:1379:33: note: 'success' is false
-           if (todo == ISO_RES_REALLOC && success)
-                                          ^~~~~~~
-   drivers/firewire/core-cdev.c:1379:2: note: Taking false branch
-           if (todo == ISO_RES_REALLOC && success)
-           ^
-   drivers/firewire/core-cdev.c:1382:6: note: 'todo' is not equal to ISO_RES_ALLOC
-           if (todo == ISO_RES_ALLOC || todo == ISO_RES_ALLOC_ONCE) {
-               ^~~~
-   drivers/firewire/core-cdev.c:1382:6: note: Left side of '||' is false
-   drivers/firewire/core-cdev.c:1382:31: note: 'todo' is not equal to ISO_RES_ALLOC_ONCE
-           if (todo == ISO_RES_ALLOC || todo == ISO_RES_ALLOC_ONCE) {
-                                        ^~~~
-   drivers/firewire/core-cdev.c:1382:2: note: Taking false branch
-           if (todo == ISO_RES_ALLOC || todo == ISO_RES_ALLOC_ONCE) {
-           ^
-   drivers/firewire/core-cdev.c:1393:2: note: Use of memory after it is freed
-           queue_event(client, &e->event,
-           ^           ~~~~~~
->> drivers/firewire/core-cdev.c:1706:38: warning: Value stored to 'pp' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
-                           struct fw_cdev_event_phy_packet2 *pp = &e->phy_packet.with_tstamp;
-                                                             ^~   ~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/firewire/core-cdev.c:1706:38: note: Value stored to 'pp' during its initialization is never read
-                           struct fw_cdev_event_phy_packet2 *pp = &e->phy_packet.with_tstamp;
-                                                             ^~   ~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/idr.h:174:2: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]
-           local_unlock(&radix_tree_preloads.lock);
-           ^
-   include/linux/local_lock.h:37:29: note: expanded from macro 'local_unlock'
-   #define local_unlock(lock)              __local_unlock(lock)
-                                           ^
-   include/linux/local_lock_internal.h:85:22: note: expanded from macro '__local_unlock'
-                   local_lock_release(this_cpu_ptr(lock));         \
-                                      ^
-   include/linux/percpu-defs.h:252:27: note: expanded from macro 'this_cpu_ptr'
-   #define this_cpu_ptr(ptr) raw_cpu_ptr(ptr)
-                             ^
-   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/asm-generic/percpu.h:44:31: note: expanded from macro 'arch_raw_cpu_ptr'
-   #define arch_raw_cpu_ptr(ptr) SHIFT_PERCPU_PTR(ptr, __my_cpu_offset)
-                                 ^
-   include/linux/percpu-defs.h:231:2: note: expanded from macro 'SHIFT_PERCPU_PTR'
-           RELOC_HIDE((typeof(*(__p)) __kernel __force *)(__p), (__offset))
-           ^
-   include/linux/compiler.h:170:28: note: expanded from macro 'RELOC_HIDE'
-       (typeof(ptr)) (__ptr + (off)); })
-                              ^
-   drivers/firewire/core-cdev.c:821:6: note: Assuming 'r' is not equal to NULL
-           if (r == NULL)
-               ^~~~~~~~~
-   drivers/firewire/core-cdev.c:821:2: note: Taking false branch
-           if (r == NULL)
-           ^
-   drivers/firewire/core-cdev.c:825:6: note: Assuming field 'version' is >= FW_CDEV_VERSION_ALLOCATE_REGION_END
-           if (client->version < FW_CDEV_VERSION_ALLOCATE_REGION_END)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/firewire/core-cdev.c:825:2: note: Taking false branch
-           if (client->version < FW_CDEV_VERSION_ALLOCATE_REGION_END)
-           ^
-   drivers/firewire/core-cdev.c:837:6: note: Assuming 'ret' is >= 0
-           if (ret < 0) {
-               ^~~~~~~
-   drivers/firewire/core-cdev.c:837:2: note: Taking false branch
-           if (ret < 0) {
-           ^
-   drivers/firewire/core-cdev.c:844:8: note: Calling 'add_client_resource'
-           ret = add_client_resource(client, &r->resource, GFP_KERNEL);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/firewire/core-cdev.c:493:6: note: 'preload' is true
-           if (preload)
-               ^~~~~~~
-   drivers/firewire/core-cdev.c:493:2: note: Taking true branch
-           if (preload)
-           ^
-   drivers/firewire/core-cdev.c:495:2: note: Loop condition is false.  Exiting loop
-           spin_lock_irqsave(&client->lock, flags);
-           ^
-   include/linux/spinlock.h:380:2: note: expanded from macro 'spin_lock_irqsave'
-           raw_spin_lock_irqsave(spinlock_check(lock), flags);     \
-           ^
-   include/linux/spinlock.h:241:2: note: expanded from macro 'raw_spin_lock_irqsave'
-           do {                                            \
-           ^
-   drivers/firewire/core-cdev.c:495:2: note: Loop condition is false.  Exiting loop
-           spin_lock_irqsave(&client->lock, flags);
-           ^
-   include/linux/spinlock.h:378:43: note: expanded from macro 'spin_lock_irqsave'
-   #define spin_lock_irqsave(lock, flags)                          \
-                                                                   ^
-   drivers/firewire/core-cdev.c:497:6: note: Assuming field 'in_shutdown' is true
-           if (client->in_shutdown)
-               ^~~~~~~~~~~~~~~~~~~
-   drivers/firewire/core-cdev.c:497:2: note: Taking true branch
-           if (client->in_shutdown)
-           ^
-   drivers/firewire/core-cdev.c:502:6: note: 'ret' is < 0
-           if (ret >= 0) {
-               ^~~
-   drivers/firewire/core-cdev.c:502:2: note: Taking false branch
-           if (ret >= 0) {
-           ^
-   drivers/firewire/core-cdev.c:509:6: note: 'preload' is true
-           if (preload)
-               ^~~~~~~
-   drivers/firewire/core-cdev.c:509:2: note: Taking true branch
-           if (preload)
-           ^
-   drivers/firewire/core-cdev.c:510:3: note: Calling 'idr_preload_end'
-                   idr_preload_end();
-                   ^~~~~~~~~~~~~~~~~
-   include/linux/idr.h:174:2: note: Loop condition is false.  Exiting loop
-           local_unlock(&radix_tree_preloads.lock);
-           ^
-   include/linux/local_lock.h:37:29: note: expanded from macro 'local_unlock'
-   #define local_unlock(lock)              __local_unlock(lock)
-                                           ^
-   include/linux/local_lock_internal.h:85:22: note: expanded from macro '__local_unlock'
-                   local_lock_release(this_cpu_ptr(lock));         \
-                                      ^
-   include/linux/percpu-defs.h:252:27: note: expanded from macro 'this_cpu_ptr'
+smatch warnings:
+arch/x86/kernel/static_call.c:98 __static_call_transform() error: uninitialized symbol 'op'.
 
-vim +/pp +1706 drivers/firewire/core-cdev.c
+vim +/op +98 arch/x86/kernel/static_call.c
 
-bf54e1462b9192 Stefan Richter   2010-07-16  1681  
-bf54e1462b9192 Stefan Richter   2010-07-16  1682  void fw_cdev_handle_phy_packet(struct fw_card *card, struct fw_packet *p)
-bf54e1462b9192 Stefan Richter   2010-07-16  1683  {
-bf54e1462b9192 Stefan Richter   2010-07-16  1684  	struct client *client;
-bf54e1462b9192 Stefan Richter   2010-07-16  1685  	struct inbound_phy_packet_event *e;
-bf54e1462b9192 Stefan Richter   2010-07-16  1686  	unsigned long flags;
-bf54e1462b9192 Stefan Richter   2010-07-16  1687  
-bf54e1462b9192 Stefan Richter   2010-07-16  1688  	spin_lock_irqsave(&card->lock, flags);
-bf54e1462b9192 Stefan Richter   2010-07-16  1689  
-bf54e1462b9192 Stefan Richter   2010-07-16  1690  	list_for_each_entry(client, &card->phy_receiver_list, phy_receiver_link) {
-bf54e1462b9192 Stefan Richter   2010-07-16  1691  		e = kmalloc(sizeof(*e) + 8, GFP_ATOMIC);
-cfb0c9d1ffbf93 Stefan Richter   2013-03-24  1692  		if (e == NULL)
-bf54e1462b9192 Stefan Richter   2010-07-16  1693  			break;
-cfb0c9d1ffbf93 Stefan Richter   2013-03-24  1694  
-27355dff42dad4 Takashi Sakamoto 2023-01-25  1695  		if (client->version < FW_CDEV_VERSION_EVENT_ASYNC_TSTAMP) {
-27355dff42dad4 Takashi Sakamoto 2023-01-25  1696  			struct fw_cdev_event_phy_packet *pp = &e->phy_packet.without_tstamp;
-27355dff42dad4 Takashi Sakamoto 2023-01-25  1697  
-a56b6c7e7d92bd Takashi Sakamoto 2023-01-25  1698  			pp->closure = client->phy_receiver_closure;
-a56b6c7e7d92bd Takashi Sakamoto 2023-01-25  1699  			pp->type = FW_CDEV_EVENT_PHY_PACKET_RECEIVED;
-a56b6c7e7d92bd Takashi Sakamoto 2023-01-25  1700  			pp->rcode = RCODE_COMPLETE;
-a56b6c7e7d92bd Takashi Sakamoto 2023-01-25  1701  			pp->length = 8;
-a56b6c7e7d92bd Takashi Sakamoto 2023-01-25  1702  			pp->data[0] = p->header[1];
-a56b6c7e7d92bd Takashi Sakamoto 2023-01-25  1703  			pp->data[1] = p->header[2];
-a56b6c7e7d92bd Takashi Sakamoto 2023-01-25  1704  			queue_event(client, &e->event, &e->phy_packet, sizeof(*pp) + 8, NULL, 0);
-27355dff42dad4 Takashi Sakamoto 2023-01-25  1705  		} else {
-27355dff42dad4 Takashi Sakamoto 2023-01-25 @1706  			struct fw_cdev_event_phy_packet2 *pp = &e->phy_packet.with_tstamp;
-27355dff42dad4 Takashi Sakamoto 2023-01-25  1707  
-27355dff42dad4 Takashi Sakamoto 2023-01-25  1708  			pp = &e->phy_packet.with_tstamp;
-27355dff42dad4 Takashi Sakamoto 2023-01-25  1709  			pp->closure = client->phy_receiver_closure;
-27355dff42dad4 Takashi Sakamoto 2023-01-25  1710  			pp->type = FW_CDEV_EVENT_PHY_PACKET_RECEIVED2;
-27355dff42dad4 Takashi Sakamoto 2023-01-25  1711  			pp->rcode = RCODE_COMPLETE;
-27355dff42dad4 Takashi Sakamoto 2023-01-25  1712  			pp->length = 8;
-27355dff42dad4 Takashi Sakamoto 2023-01-25  1713  			pp->tstamp = p->timestamp;
-27355dff42dad4 Takashi Sakamoto 2023-01-25  1714  			pp->data[0] = p->header[1];
-27355dff42dad4 Takashi Sakamoto 2023-01-25  1715  			pp->data[1] = p->header[2];
-27355dff42dad4 Takashi Sakamoto 2023-01-25  1716  			queue_event(client, &e->event, &e->phy_packet, sizeof(*pp) + 8, NULL, 0);
-27355dff42dad4 Takashi Sakamoto 2023-01-25  1717  		}
-bf54e1462b9192 Stefan Richter   2010-07-16  1718  	}
-bf54e1462b9192 Stefan Richter   2010-07-16  1719  
-bf54e1462b9192 Stefan Richter   2010-07-16  1720  	spin_unlock_irqrestore(&card->lock, flags);
-bf54e1462b9192 Stefan Richter   2010-07-16  1721  }
-bf54e1462b9192 Stefan Richter   2010-07-16  1722  
+923510c88d2b7d Peter Zijlstra  2023-01-26   43  
+923510c88d2b7d Peter Zijlstra  2023-01-26   44  asm (".global __static_call_return\n\t"
+923510c88d2b7d Peter Zijlstra  2023-01-26   45       ".type __static_call_return, @function\n\t"
+923510c88d2b7d Peter Zijlstra  2023-01-26   46       ASM_FUNC_ALIGN "\n\t"
+923510c88d2b7d Peter Zijlstra  2023-01-26   47       "__static_call_return:\n\t"
+923510c88d2b7d Peter Zijlstra  2023-01-26   48       ANNOTATE_NOENDBR
+923510c88d2b7d Peter Zijlstra  2023-01-26   49       ANNOTATE_RETPOLINE_SAFE
+923510c88d2b7d Peter Zijlstra  2023-01-26   50       "ret; int3\n\t"
+923510c88d2b7d Peter Zijlstra  2023-01-26   51       ".size __static_call_return, . - __static_call_return \n\t");
+923510c88d2b7d Peter Zijlstra  2023-01-26   52  
+c27c753ea6fd12 Thomas Gleixner 2022-07-12   53  static void __ref __static_call_transform(void *insn, enum insn_type type,
+c27c753ea6fd12 Thomas Gleixner 2022-07-12   54  					  void *func, bool modinit)
+e6d6c071f22de2 Josh Poimboeuf  2020-08-18   55  {
+3f2a8fc4b15de1 Peter Zijlstra  2021-01-18   56  	const void *emulate = NULL;
+452cddbff74b6a Peter Zijlstra  2020-08-18   57  	int size = CALL_INSN_SIZE;
+452cddbff74b6a Peter Zijlstra  2020-08-18   58  	const void *code;
+923510c88d2b7d Peter Zijlstra  2023-01-26   59  	u8 op, buf[6];
+923510c88d2b7d Peter Zijlstra  2023-01-26   60  
+923510c88d2b7d Peter Zijlstra  2023-01-26   61  	if ((type == JMP || type == RET) && (op = __is_Jcc(insn)))
+923510c88d2b7d Peter Zijlstra  2023-01-26   62  		type = JCC;
+452cddbff74b6a Peter Zijlstra  2020-08-18   63  
+452cddbff74b6a Peter Zijlstra  2020-08-18   64  	switch (type) {
+452cddbff74b6a Peter Zijlstra  2020-08-18   65  	case CALL:
+7825451fa4dc04 Peter Zijlstra  2022-09-15   66  		func = callthunks_translate_call_dest(func);
+452cddbff74b6a Peter Zijlstra  2020-08-18   67  		code = text_gen_insn(CALL_INSN_OPCODE, insn, func);
+3f2a8fc4b15de1 Peter Zijlstra  2021-01-18   68  		if (func == &__static_call_return0) {
+3f2a8fc4b15de1 Peter Zijlstra  2021-01-18   69  			emulate = code;
+3f2a8fc4b15de1 Peter Zijlstra  2021-01-18   70  			code = &xor5rax;
+3f2a8fc4b15de1 Peter Zijlstra  2021-01-18   71  		}
+3f2a8fc4b15de1 Peter Zijlstra  2021-01-18   72  
+452cddbff74b6a Peter Zijlstra  2020-08-18   73  		break;
+452cddbff74b6a Peter Zijlstra  2020-08-18   74  
+452cddbff74b6a Peter Zijlstra  2020-08-18   75  	case NOP:
+a89dfde3dc3c2d Peter Zijlstra  2021-03-12   76  		code = x86_nops[5];
+452cddbff74b6a Peter Zijlstra  2020-08-18   77  		break;
+452cddbff74b6a Peter Zijlstra  2020-08-18   78  
+452cddbff74b6a Peter Zijlstra  2020-08-18   79  	case JMP:
+452cddbff74b6a Peter Zijlstra  2020-08-18   80  		code = text_gen_insn(JMP32_INSN_OPCODE, insn, func);
+452cddbff74b6a Peter Zijlstra  2020-08-18   81  		break;
+452cddbff74b6a Peter Zijlstra  2020-08-18   82  
+452cddbff74b6a Peter Zijlstra  2020-08-18   83  	case RET:
+ee88d363d15617 Peter Zijlstra  2022-06-14   84  		if (cpu_feature_enabled(X86_FEATURE_RETHUNK))
+770ae1b709528a Peter Zijlstra  2022-09-15   85  			code = text_gen_insn(JMP32_INSN_OPCODE, insn, x86_return_thunk);
+ee88d363d15617 Peter Zijlstra  2022-06-14   86  		else
+e463a09af2f067 Peter Zijlstra  2021-12-04   87  			code = &retinsn;
+452cddbff74b6a Peter Zijlstra  2020-08-18   88  		break;
+923510c88d2b7d Peter Zijlstra  2023-01-26   89  
+923510c88d2b7d Peter Zijlstra  2023-01-26   90  	case JCC:
+923510c88d2b7d Peter Zijlstra  2023-01-26   91  		if (!func) {
+923510c88d2b7d Peter Zijlstra  2023-01-26   92  			func = __static_call_return;
+923510c88d2b7d Peter Zijlstra  2023-01-26   93  			if (cpu_feature_enabled(X86_FEATURE_RETHUNK))
+923510c88d2b7d Peter Zijlstra  2023-01-26   94  				func = x86_return_thunk;
+923510c88d2b7d Peter Zijlstra  2023-01-26   95  		}
+923510c88d2b7d Peter Zijlstra  2023-01-26   96  
+923510c88d2b7d Peter Zijlstra  2023-01-26   97  		buf[0] = 0x0f;
+923510c88d2b7d Peter Zijlstra  2023-01-26  @98  		__text_gen_insn(buf+1, op, insn+1, func, 5);
+923510c88d2b7d Peter Zijlstra  2023-01-26   99  		code = buf;
+923510c88d2b7d Peter Zijlstra  2023-01-26  100  		size = 6;
+923510c88d2b7d Peter Zijlstra  2023-01-26  101  
+923510c88d2b7d Peter Zijlstra  2023-01-26  102  		break;
+452cddbff74b6a Peter Zijlstra  2020-08-18  103  	}
+e6d6c071f22de2 Josh Poimboeuf  2020-08-18  104  
+452cddbff74b6a Peter Zijlstra  2020-08-18  105  	if (memcmp(insn, code, size) == 0)
+e6d6c071f22de2 Josh Poimboeuf  2020-08-18  106  		return;
+e6d6c071f22de2 Josh Poimboeuf  2020-08-18  107  
+c27c753ea6fd12 Thomas Gleixner 2022-07-12  108  	if (system_state == SYSTEM_BOOTING || modinit)
+a945c8345ec0de Peter Zijlstra  2020-08-18  109  		return text_poke_early(insn, code, size);
+a945c8345ec0de Peter Zijlstra  2020-08-18  110  
+3f2a8fc4b15de1 Peter Zijlstra  2021-01-18  111  	text_poke_bp(insn, code, size, emulate);
+e6d6c071f22de2 Josh Poimboeuf  2020-08-18  112  }
+e6d6c071f22de2 Josh Poimboeuf  2020-08-18  113  
 
 -- 
 0-DAY CI Kernel Test Service
