@@ -1,82 +1,81 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3ECD2771B
-	for <oe-kbuild@lists.linux.dev>; Sun,  5 Feb 2023 22:04:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F0FA3205
+	for <oe-kbuild@lists.linux.dev>; Sun,  5 Feb 2023 23:26:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675634678; x=1707170678;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=b7BhXpRiSHrFSng4vRQePNIIXqaPMnmuptP3FL+zLzI=;
-  b=D1QEXgiK4YpDab4ksAwxH5Rb0fUgM1xKYqdF5oQvUDjzLxKLY/A969Du
-   EqUinm1CnUTSMp2rmbFp8wri6CS92TECRfhFf4gHnSGEJdjiiYHG71vfC
-   QFgaTuqvti6W6x73oz64OBCHfgtQqIIWf/ZoHBaQywwN6xnhJWrLgEUlx
-   TOvVAIJmzieDXnW464DdMZ75GpijQeFw6Ah33sclcv+0+Xi3Nigbo6sf0
-   L7QbcsY2mfmO59+d0CV+E4DDhMCvKBqbhhFwTF8Zz4xIICc1PNzk32GEA
-   9qHCDcjHJE+eY/Y51wi1q7LLMHZ3+YArUW/J3yAs2KLq+WudHcnC2OXli
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10612"; a="317099537"
-X-IronPort-AV: E=Sophos;i="5.97,275,1669104000"; 
-   d="scan'208";a="317099537"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2023 14:04:38 -0800
+  t=1675639605; x=1707175605;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=Xsi+fl0v2PdYRJIMUGSyAc8JBlbXa0t+ms6QmvlwIuM=;
+  b=IMqB2mxX8zAgghcXjDnIu+UUxHT6BE1b0bj1ze3SupgJn0R3CcT5z0KP
+   UC9Yt0FQrPeY0bwHQ8c4RPalHF7JQYclgVB6dFXCK189RzFV8wI87WUi+
+   IplobHJutemmef8hkeF/zJXFeY7CwQPOol8YKZ/UhLNlxCfOoZqpfEh20
+   iE2ogfoOSmM29Td72DyYw1jBf73Rds872SypEulxHSoobPPz6Mx+cKlBz
+   Vd0i/23BA60oNTNT6H7Lo6NkqCBhrJ14YrM4MZAY0rQEttRtFBQsny1rc
+   rSTzsj6y1wnVfk/aA8pBELQ9S6xe7tOEayVJrs/1W7zZoE1TrRD7VWSCi
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10612"; a="309434122"
+X-IronPort-AV: E=Sophos;i="5.97,276,1669104000"; 
+   d="scan'208";a="309434122"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2023 15:26:42 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10612"; a="698668401"
+X-IronPort-AV: E=McAfee;i="6500,9779,10612"; a="696700395"
 X-IronPort-AV: E=Sophos;i="5.97,275,1669104000"; 
-   d="scan'208";a="698668401"
+   d="scan'208";a="696700395"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 05 Feb 2023 14:04:36 -0800
+  by orsmga008.jf.intel.com with ESMTP; 05 Feb 2023 15:26:40 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pOn7j-0002FG-2f;
-	Sun, 05 Feb 2023 22:04:35 +0000
-Date: Mon, 6 Feb 2023 06:04:33 +0800
+	id 1pOoP9-0002HS-0q;
+	Sun, 05 Feb 2023 23:26:39 +0000
+Date: Mon, 6 Feb 2023 07:26:23 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: drivers/i2c/busses/i2c-qup.c:1807:2: warning: Value stored to
- 'hw_ver' is never read [clang-analyzer-deadcode.DeadStores]
-Message-ID: <202302060613.5bFNldFC-lkp@intel.com>
+Subject: arch/arm/kernel/unwind.c:479:17: warning: Assigned value is garbage
+ or undefined [clang-analyzer-core.uninitialized.Assign]
+Message-ID: <202302060738.m9inCfPp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
 :::::: 
-:::::: Manual check reason: "low confidence static check first_new_problem: drivers/i2c/busses/i2c-qup.c:1807:2: warning: Value stored to 'hw_ver' is never read [clang-analyzer-deadcode.DeadStores]"
+:::::: Manual check reason: "low confidence static check warning: arch/arm/kernel/unwind.c:479:17: warning: Assigned value is garbage or undefined [clang-analyzer-core.uninitialized.Assign]"
 :::::: 
 
 BCC: lkp@intel.com
 CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Wolfram Sang <wsa-dev@sang-engineering.com>
-
-Hi Wolfram,
-
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+TO: Ard Biesheuvel <ardb@kernel.org>
+CC: Nick Desaulniers <ndesaulniers@google.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   c608f6b58f306ce0e4f459af69a196f5ed6ccf45
-commit: 5de717974005fcad2502281e9f82e139ca91f4bb i2c: qup: allow COMPILE_TEST
+head:   4ec5183ec48656cec489c49f989c508b68b518e3
+commit: 538b9265c063f081ca6b1228d242575a1db60711 ARM: unwind: track location of LR value in stack frame
 date:   12 months ago
 :::::: branch date: 2 hours ago
 :::::: commit date: 12 months ago
-config: arm-randconfig-c002-20230202 (https://download.01.org/0day-ci/archive/20230206/202302060613.5bFNldFC-lkp@intel.com/config)
+config: arm-randconfig-c002-20230204 (https://download.01.org/0day-ci/archive/20230206/202302060738.m9inCfPp-lkp@intel.com/config)
 compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 4196ca3278f78c6e19246e54ab0ecb364e37d66a)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
         # install arm cross compiling tool for clang build
         # apt-get install binutils-arm-linux-gnueabi
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=5de717974005fcad2502281e9f82e139ca91f4bb
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=538b9265c063f081ca6b1228d242575a1db60711
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout 5de717974005fcad2502281e9f82e139ca91f4bb
+        git checkout 538b9265c063f081ca6b1228d242575a1db60711
         # save the config file
         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=arm clang-analyzer  olddefconfig
         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=arm clang-analyzer 
@@ -85,467 +84,311 @@ If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
 clang_analyzer warnings: (new ones prefixed by >>)
-   drivers/gpu/drm/etnaviv/etnaviv_gem.c:60:21: warning: Value stored to 'dev' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct drm_device *dev = etnaviv_obj->base.dev;
-                              ^~~   ~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/etnaviv/etnaviv_gem.c:60:21: note: Value stored to 'dev' during its initialization is never read
-           struct drm_device *dev = etnaviv_obj->base.dev;
-                              ^~~   ~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 15 warnings (15 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   1 warning generated.
-   drivers/thermal/tegra/soctherm.c:2248:2: warning: Value stored to 'err' is never read [clang-analyzer-deadcode.DeadStores]
-           err = soctherm_interrupts_init(pdev, tegra);
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/thermal/tegra/soctherm.c:2248:2: note: Value stored to 'err' is never read
-           err = soctherm_interrupts_init(pdev, tegra);
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   15 warnings generated.
-   Suppressed 15 warnings (15 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   15 warnings generated.
-   Suppressed 15 warnings (15 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   1 warning generated.
-   drivers/base/regmap/regmap-mmio.c:52:3: warning: Value stored to 'min_stride' is never read [clang-analyzer-deadcode.DeadStores]
-                   min_stride = 0;
-                   ^            ~
-   drivers/base/regmap/regmap-mmio.c:52:3: note: Value stored to 'min_stride' is never read
-                   min_stride = 0;
-                   ^            ~
-   17 warnings generated.
-   drivers/i2c/busses/i2c-rk3x.c:897:2: warning: Value stored to 't_low_ns' is never read [clang-analyzer-deadcode.DeadStores]
-           t_low_ns = div_u64(((u64)calc.div_low + 1) * 8 * 1000000000, clk_rate);
-           ^          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/i2c/busses/i2c-rk3x.c:897:2: note: Value stored to 't_low_ns' is never read
-           t_low_ns = div_u64(((u64)calc.div_low + 1) * 8 * 1000000000, clk_rate);
-           ^          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/i2c/busses/i2c-rk3x.c:898:2: warning: Value stored to 't_high_ns' is never read [clang-analyzer-deadcode.DeadStores]
-           t_high_ns = div_u64(((u64)calc.div_high + 1) * 8 * 1000000000,
-           ^           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/i2c/busses/i2c-rk3x.c:898:2: note: Value stored to 't_high_ns' is never read
-           t_high_ns = div_u64(((u64)calc.div_high + 1) * 8 * 1000000000,
-           ^           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 15 warnings (15 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   15 warnings generated.
-   Suppressed 15 warnings (15 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   15 warnings generated.
-   Suppressed 15 warnings (15 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   15 warnings generated.
-   Suppressed 15 warnings (15 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   15 warnings generated.
-   Suppressed 15 warnings (15 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   15 warnings generated.
-   Suppressed 15 warnings (15 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   15 warnings generated.
-   Suppressed 15 warnings (15 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   15 warnings generated.
-   Suppressed 15 warnings (15 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   15 warnings generated.
-   Suppressed 15 warnings (15 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   18 warnings generated.
-   drivers/gpu/drm/radeon/ni.c:780:3: warning: Value stored to 'err' is never read [clang-analyzer-deadcode.DeadStores]
-                   err = -EINVAL;
-                   ^     ~~~~~~~
-   drivers/gpu/drm/radeon/ni.c:780:3: note: Value stored to 'err' is never read
-                   err = -EINVAL;
-                   ^     ~~~~~~~
-   drivers/gpu/drm/radeon/ni.c:1917:3: warning: Value stored to 'tmp' is never read [clang-analyzer-deadcode.DeadStores]
-                   tmp = RREG32(GRBM_SOFT_RESET);
-                   ^
-   drivers/gpu/drm/radeon/ni.c:1917:3: note: Value stored to 'tmp' is never read
-   drivers/gpu/drm/radeon/ni.c:1931:3: warning: Value stored to 'tmp' is never read [clang-analyzer-deadcode.DeadStores]
-                   tmp = RREG32(SRBM_SOFT_RESET);
-                   ^
-   drivers/gpu/drm/radeon/ni.c:1931:3: note: Value stored to 'tmp' is never read
-   Suppressed 15 warnings (15 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   15 warnings generated.
-   Suppressed 15 warnings (15 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   15 warnings generated.
-   Suppressed 15 warnings (15 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   15 warnings generated.
-   Suppressed 15 warnings (15 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   15 warnings generated.
-   Suppressed 15 warnings (15 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   15 warnings generated.
-   Suppressed 15 warnings (15 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   16 warnings generated.
->> drivers/i2c/busses/i2c-qup.c:1807:2: warning: Value stored to 'hw_ver' is never read [clang-analyzer-deadcode.DeadStores]
-           hw_ver = readl(qup->base + QUP_HW_VERSION);
+   security/keys/process_keys.c:626:13: note: Left side of '&&' is false
+           ctx.cred = get_current_cred();
+                      ^
+   include/linux/cred.h:331:12: note: expanded from macro 'get_current_cred'
+           (get_cred(current_cred()))
+                     ^
+   include/linux/cred.h:299:2: note: expanded from macro 'current_cred'
+           rcu_dereference_protected(current->cred, 1)
            ^
-   drivers/i2c/busses/i2c-qup.c:1807:2: note: Value stored to 'hw_ver' is never read
-   Suppressed 15 warnings (15 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   15 warnings generated.
-   Suppressed 15 warnings (15 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   15 warnings generated.
-   Suppressed 15 warnings (15 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   15 warnings generated.
-   Suppressed 15 warnings (15 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   15 warnings generated.
-   Suppressed 15 warnings (15 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   15 warnings generated.
-   Suppressed 15 warnings (15 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   15 warnings generated.
-   Suppressed 15 warnings (15 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   15 warnings generated.
-   Suppressed 15 warnings (15 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   15 warnings generated.
-   Suppressed 15 warnings (15 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   drivers/clocksource/timer-fttmr010.c:99:8: warning: Excessive padding in 'struct fttmr010' (103 padding bytes, where 39 is optimal). Optimal fields order: clkevt, base, tick_rate, t1_enable_val, timer_shutdown, delay_timer, is_aspeed, consider reordering the fields or adding explicit padding members [clang-analyzer-optin.performance.Padding]
-   struct fttmr010 {
-   ~~~~~~~^~~~~~~~~~
-   drivers/clocksource/timer-fttmr010.c:99:8: note: Excessive padding in 'struct fttmr010' (103 padding bytes, where 39 is optimal). Optimal fields order: clkevt, base, tick_rate, t1_enable_val, timer_shutdown, delay_timer, is_aspeed, consider reordering the fields or adding explicit padding members
-   struct fttmr010 {
-   ~~~~~~~^~~~~~~~~~
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   drivers/clocksource/timer-ixp4xx.c:48:8: warning: Excessive padding in 'struct ixp4xx_timer' (112 padding bytes, where 48 is optimal). Optimal fields order: clkevt, base, latch, delay_timer, consider reordering the fields or adding explicit padding members [clang-analyzer-optin.performance.Padding]
-   struct ixp4xx_timer {
-   ~~~~~~~^~~~~~~~~~~~~~
-   drivers/clocksource/timer-ixp4xx.c:48:8: note: Excessive padding in 'struct ixp4xx_timer' (112 padding bytes, where 48 is optimal). Optimal fields order: clkevt, base, latch, delay_timer, consider reordering the fields or adding explicit padding members
-   struct ixp4xx_timer {
-   ~~~~~~~^~~~~~~~~~~~~~
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   16 warnings generated.
-   Suppressed 16 warnings (16 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   16 warnings generated.
-   Suppressed 16 warnings (16 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   15 warnings generated.
-   Suppressed 15 warnings (15 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 with check filters).
-   15 warnings generated.
-   Suppressed 15 warnings (15 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   15 warnings generated.
-   Suppressed 15 warnings (15 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   15 warnings generated.
-   Suppressed 15 warnings (15 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   15 warnings generated.
-   Suppressed 15 warnings (15 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   15 warnings generated.
-   Suppressed 15 warnings (15 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   15 warnings generated.
-   Suppressed 15 warnings (15 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   15 warnings generated.
-   Suppressed 15 warnings (15 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   15 warnings generated.
-   Suppressed 15 warnings (15 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   15 warnings generated.
-   Suppressed 15 warnings (15 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   15 warnings generated.
-   Suppressed 15 warnings (15 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   include/linux/rcupdate.h:588:2: note: expanded from macro 'rcu_dereference_protected'
+           __rcu_dereference_protected((p), (c), __rcu)
+           ^
+   include/linux/rcupdate.h:397:2: note: expanded from macro '__rcu_dereference_protected'
+           RCU_LOCKDEP_WARN(!(c), "suspicious rcu_dereference_protected() usage"); \
+           ^
+   include/linux/rcupdate.h:347:48: note: expanded from macro 'RCU_LOCKDEP_WARN'
+   #define RCU_LOCKDEP_WARN(c, s) do { } while (0 && (c))
+                                                  ^
+   security/keys/process_keys.c:626:13: note: Loop condition is false.  Exiting loop
+           ctx.cred = get_current_cred();
+                      ^
+   include/linux/cred.h:331:12: note: expanded from macro 'get_current_cred'
+           (get_cred(current_cred()))
+                     ^
+   include/linux/cred.h:299:2: note: expanded from macro 'current_cred'
+           rcu_dereference_protected(current->cred, 1)
+           ^
+   include/linux/rcupdate.h:588:2: note: expanded from macro 'rcu_dereference_protected'
+           __rcu_dereference_protected((p), (c), __rcu)
+           ^
+   include/linux/rcupdate.h:397:2: note: expanded from macro '__rcu_dereference_protected'
+           RCU_LOCKDEP_WARN(!(c), "suspicious rcu_dereference_protected() usage"); \
+           ^
+   include/linux/rcupdate.h:347:32: note: expanded from macro 'RCU_LOCKDEP_WARN'
+   #define RCU_LOCKDEP_WARN(c, s) do { } while (0 && (c))
+                                  ^
+   security/keys/process_keys.c:629:2: note: Control jumps to 'case -5:'  at line 703
+           switch (id) {
+           ^
+   security/keys/process_keys.c:704:9: note: Calling 'look_up_user_keyrings'
+                   ret = look_up_user_keyrings(NULL, &key);
+                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   security/keys/process_keys.c:77:28: note: Left side of '&&' is false
+           const struct cred *cred = current_cred();
+                                     ^
+   include/linux/cred.h:299:2: note: expanded from macro 'current_cred'
+           rcu_dereference_protected(current->cred, 1)
+           ^
+   include/linux/rcupdate.h:588:2: note: expanded from macro 'rcu_dereference_protected'
+           __rcu_dereference_protected((p), (c), __rcu)
+           ^
+   include/linux/rcupdate.h:397:2: note: expanded from macro '__rcu_dereference_protected'
+           RCU_LOCKDEP_WARN(!(c), "suspicious rcu_dereference_protected() usage"); \
+           ^
+   include/linux/rcupdate.h:347:48: note: expanded from macro 'RCU_LOCKDEP_WARN'
+   #define RCU_LOCKDEP_WARN(c, s) do { } while (0 && (c))
+                                                  ^
+   security/keys/process_keys.c:77:28: note: Loop condition is false.  Exiting loop
+           const struct cred *cred = current_cred();
+                                     ^
+   include/linux/cred.h:299:2: note: expanded from macro 'current_cred'
+           rcu_dereference_protected(current->cred, 1)
+           ^
+   include/linux/rcupdate.h:588:2: note: expanded from macro 'rcu_dereference_protected'
+           __rcu_dereference_protected((p), (c), __rcu)
+           ^
+   include/linux/rcupdate.h:397:2: note: expanded from macro '__rcu_dereference_protected'
+           RCU_LOCKDEP_WARN(!(c), "suspicious rcu_dereference_protected() usage"); \
+           ^
+   include/linux/rcupdate.h:347:32: note: expanded from macro 'RCU_LOCKDEP_WARN'
+   #define RCU_LOCKDEP_WARN(c, s) do { } while (0 && (c))
+                                  ^
+   security/keys/process_keys.c:88:2: note: Taking false branch
+           kenter("%u", uid);
+           ^
+   security/keys/internal.h:34:2: note: expanded from macro 'kenter'
+           no_printk(KERN_DEBUG "==> %s("FMT")\n", __func__, ##__VA_ARGS__)
+           ^
+   include/linux/printk.h:131:2: note: expanded from macro 'no_printk'
+           if (0)                                          \
+           ^
+   security/keys/process_keys.c:91:2: note: Taking true branch
+           if (IS_ERR(reg_keyring))
+           ^
+   security/keys/process_keys.c:92:3: note: Returning without writing to '*_user_session_keyring'
+                   return PTR_ERR(reg_keyring);
+                   ^
+   security/keys/process_keys.c:704:9: note: Returning from 'look_up_user_keyrings'
+                   ret = look_up_user_keyrings(NULL, &key);
+                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   security/keys/process_keys.c:705:7: note: 'ret' is >= 0
+                   if (ret < 0)
+                       ^~~
+   security/keys/process_keys.c:705:3: note: Taking false branch
+                   if (ret < 0)
+                   ^
+   security/keys/process_keys.c:707:13: note: 1st function call argument is an uninitialized value
+                   key_ref = make_key_ref(key, 1);
+                             ^            ~~~
+   4 warnings generated.
+>> arch/arm/kernel/unwind.c:479:17: warning: Assigned value is garbage or undefined [clang-analyzer-core.uninitialized.Assign]
+           frame->lr_addr = ctrl.lr_addr;
+                          ^
+   arch/arm/kernel/unwind.c:489:2: note: Taking false branch
+           pr_debug("%s(regs = %p tsk = %p)\n", __func__, regs, tsk);
+           ^
+   include/linux/printk.h:570:2: note: expanded from macro 'pr_debug'
+           dynamic_pr_debug(fmt, ##__VA_ARGS__)
+           ^
+   include/linux/dynamic_debug.h:162:2: note: expanded from macro 'dynamic_pr_debug'
+           _dynamic_func_call(fmt, __dynamic_pr_debug,             \
+           ^
+   include/linux/dynamic_debug.h:152:2: note: expanded from macro '_dynamic_func_call'
+           __dynamic_func_call(__UNIQUE_ID(ddebug), fmt, func, ##__VA_ARGS__)
+           ^
+   include/linux/dynamic_debug.h:133:2: note: expanded from macro '__dynamic_func_call'
+           if (DYNAMIC_DEBUG_BRANCH(id))                   \
+           ^
+   arch/arm/kernel/unwind.c:489:2: note: Loop condition is false.  Exiting loop
+           pr_debug("%s(regs = %p tsk = %p)\n", __func__, regs, tsk);
+           ^
+   include/linux/printk.h:570:2: note: expanded from macro 'pr_debug'
+           dynamic_pr_debug(fmt, ##__VA_ARGS__)
+           ^
+   include/linux/dynamic_debug.h:162:2: note: expanded from macro 'dynamic_pr_debug'
+           _dynamic_func_call(fmt, __dynamic_pr_debug,             \
+           ^
+   include/linux/dynamic_debug.h:152:2: note: expanded from macro '_dynamic_func_call'
+           __dynamic_func_call(__UNIQUE_ID(ddebug), fmt, func, ##__VA_ARGS__)
+           ^
+   include/linux/dynamic_debug.h:131:49: note: expanded from macro '__dynamic_func_call'
+   #define __dynamic_func_call(id, fmt, func, ...) do {    \
+                                                   ^
+   arch/arm/kernel/unwind.c:491:6: note: Assuming 'tsk' is non-null
+           if (!tsk)
+               ^~~~
+   arch/arm/kernel/unwind.c:491:2: note: Taking false branch
+           if (!tsk)
+           ^
+   arch/arm/kernel/unwind.c:494:6: note: Assuming 'regs' is null
+           if (regs) {
+               ^~~~
+   arch/arm/kernel/unwind.c:494:2: note: Taking false branch
+           if (regs) {
+           ^
+   arch/arm/kernel/unwind.c:499:13: note: Assuming the condition is false
+           } else if (tsk == current) {
+                      ^~~~~~~~~~~~~~
+   arch/arm/kernel/unwind.c:499:9: note: Taking false branch
+           } else if (tsk == current) {
+                  ^
+   arch/arm/kernel/unwind.c:516:2: note: Loop condition is true.  Entering loop body
+           while (1) {
+           ^
+   arch/arm/kernel/unwind.c:520:9: note: Calling 'unwind_frame'
+                   urc = unwind_frame(&frame);
+                         ^~~~~~~~~~~~~~~~~~~~
+   arch/arm/kernel/unwind.c:398:2: note: Taking false branch
+           pr_debug("%s(pc = %08lx lr = %08lx sp = %08lx)\n", __func__,
+           ^
+   include/linux/printk.h:570:2: note: expanded from macro 'pr_debug'
+           dynamic_pr_debug(fmt, ##__VA_ARGS__)
+           ^
+   include/linux/dynamic_debug.h:162:2: note: expanded from macro 'dynamic_pr_debug'
+           _dynamic_func_call(fmt, __dynamic_pr_debug,             \
+           ^
+   include/linux/dynamic_debug.h:152:2: note: expanded from macro '_dynamic_func_call'
+           __dynamic_func_call(__UNIQUE_ID(ddebug), fmt, func, ##__VA_ARGS__)
+           ^
+   include/linux/dynamic_debug.h:133:2: note: expanded from macro '__dynamic_func_call'
+           if (DYNAMIC_DEBUG_BRANCH(id))                   \
+           ^
+   arch/arm/kernel/unwind.c:398:2: note: Loop condition is false.  Exiting loop
+           pr_debug("%s(pc = %08lx lr = %08lx sp = %08lx)\n", __func__,
+           ^
+   include/linux/printk.h:570:2: note: expanded from macro 'pr_debug'
+           dynamic_pr_debug(fmt, ##__VA_ARGS__)
+           ^
+   include/linux/dynamic_debug.h:162:2: note: expanded from macro 'dynamic_pr_debug'
+           _dynamic_func_call(fmt, __dynamic_pr_debug,             \
+           ^
+   include/linux/dynamic_debug.h:152:2: note: expanded from macro '_dynamic_func_call'
+           __dynamic_func_call(__UNIQUE_ID(ddebug), fmt, func, ##__VA_ARGS__)
+           ^
+   include/linux/dynamic_debug.h:131:49: note: expanded from macro '__dynamic_func_call'
+   #define __dynamic_func_call(id, fmt, func, ...) do {    \
+                                                   ^
+   arch/arm/kernel/unwind.c:401:8: note: Calling 'unwind_find_idx'
+           idx = unwind_find_idx(frame->pc);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm/kernel/unwind.c:175:2: note: Taking false branch
+           pr_debug("%s(%08lx)\n", __func__, addr);
+           ^
+   include/linux/printk.h:570:2: note: expanded from macro 'pr_debug'
+           dynamic_pr_debug(fmt, ##__VA_ARGS__)
+           ^
+   include/linux/dynamic_debug.h:162:2: note: expanded from macro 'dynamic_pr_debug'
+           _dynamic_func_call(fmt, __dynamic_pr_debug,             \
+           ^
+   include/linux/dynamic_debug.h:152:2: note: expanded from macro '_dynamic_func_call'
+           __dynamic_func_call(__UNIQUE_ID(ddebug), fmt, func, ##__VA_ARGS__)
 
-vim +/hw_ver +1807 drivers/i2c/busses/i2c-qup.c
+vim +479 arch/arm/kernel/unwind.c
 
-902a91a02bdf02 Austin Christ   2018-05-10  1656  
-10c5a8425968f8 Bjorn Andersson 2014-03-13  1657  static int qup_i2c_probe(struct platform_device *pdev)
-10c5a8425968f8 Bjorn Andersson 2014-03-13  1658  {
-10c5a8425968f8 Bjorn Andersson 2014-03-13  1659  	static const int blk_sizes[] = {4, 16, 32};
-10c5a8425968f8 Bjorn Andersson 2014-03-13  1660  	struct qup_i2c_dev *qup;
-10c5a8425968f8 Bjorn Andersson 2014-03-13  1661  	unsigned long one_bit_t;
-10c5a8425968f8 Bjorn Andersson 2014-03-13  1662  	u32 io_mode, hw_ver, size;
-10c5a8425968f8 Bjorn Andersson 2014-03-13  1663  	int ret, fs_div, hs_div;
-515da746983bc6 Naveen Kaje     2016-10-11  1664  	u32 src_clk_freq = DEFAULT_SRC_CLK;
-515da746983bc6 Naveen Kaje     2016-10-11  1665  	u32 clk_freq = DEFAULT_CLK_FREQ;
-9cedf3b2f09946 Sricharan R     2016-02-22  1666  	int blocks;
-7545c7dba169c4 Abhishek Sahu   2018-03-12  1667  	bool is_qup_v1;
-10c5a8425968f8 Bjorn Andersson 2014-03-13  1668  
-10c5a8425968f8 Bjorn Andersson 2014-03-13  1669  	qup = devm_kzalloc(&pdev->dev, sizeof(*qup), GFP_KERNEL);
-10c5a8425968f8 Bjorn Andersson 2014-03-13  1670  	if (!qup)
-10c5a8425968f8 Bjorn Andersson 2014-03-13  1671  		return -ENOMEM;
-10c5a8425968f8 Bjorn Andersson 2014-03-13  1672  
-10c5a8425968f8 Bjorn Andersson 2014-03-13  1673  	qup->dev = &pdev->dev;
-10c5a8425968f8 Bjorn Andersson 2014-03-13  1674  	init_completion(&qup->xfer);
-10c5a8425968f8 Bjorn Andersson 2014-03-13  1675  	platform_set_drvdata(pdev, qup);
-10c5a8425968f8 Bjorn Andersson 2014-03-13  1676  
-d9f52281bc09bd Austin Christ   2018-05-10  1677  	if (scl_freq) {
-d9f52281bc09bd Austin Christ   2018-05-10  1678  		dev_notice(qup->dev, "Using override frequency of %u\n", scl_freq);
-d9f52281bc09bd Austin Christ   2018-05-10  1679  		clk_freq = scl_freq;
-d9f52281bc09bd Austin Christ   2018-05-10  1680  	} else {
-515da746983bc6 Naveen Kaje     2016-10-11  1681  		ret = device_property_read_u32(qup->dev, "clock-frequency", &clk_freq);
-515da746983bc6 Naveen Kaje     2016-10-11  1682  		if (ret) {
-515da746983bc6 Naveen Kaje     2016-10-11  1683  			dev_notice(qup->dev, "using default clock-frequency %d",
-515da746983bc6 Naveen Kaje     2016-10-11  1684  				DEFAULT_CLK_FREQ);
-515da746983bc6 Naveen Kaje     2016-10-11  1685  		}
-d9f52281bc09bd Austin Christ   2018-05-10  1686  	}
-10c5a8425968f8 Bjorn Andersson 2014-03-13  1687  
-191424bb6166f6 Sricharan R     2016-01-19  1688  	if (of_device_is_compatible(pdev->dev.of_node, "qcom,i2c-qup-v1.1.1")) {
-191424bb6166f6 Sricharan R     2016-01-19  1689  		qup->adap.algo = &qup_i2c_algo;
-191424bb6166f6 Sricharan R     2016-01-19  1690  		qup->adap.quirks = &qup_i2c_quirks;
-7545c7dba169c4 Abhishek Sahu   2018-03-12  1691  		is_qup_v1 = true;
-191424bb6166f6 Sricharan R     2016-01-19  1692  	} else {
-191424bb6166f6 Sricharan R     2016-01-19  1693  		qup->adap.algo = &qup_i2c_algo_v2;
-de82bb43185558 Wolfram Sang    2018-07-23  1694  		qup->adap.quirks = &qup_i2c_quirks_v2;
-7545c7dba169c4 Abhishek Sahu   2018-03-12  1695  		is_qup_v1 = false;
-902a91a02bdf02 Austin Christ   2018-05-10  1696  		if (acpi_match_device(qup_i2c_acpi_match, qup->dev))
-902a91a02bdf02 Austin Christ   2018-05-10  1697  			goto nodma;
-902a91a02bdf02 Austin Christ   2018-05-10  1698  		else
-9cedf3b2f09946 Sricharan R     2016-02-22  1699  			ret = qup_i2c_req_dma(qup);
-9cedf3b2f09946 Sricharan R     2016-02-22  1700  
-9cedf3b2f09946 Sricharan R     2016-02-22  1701  		if (ret == -EPROBE_DEFER)
-9cedf3b2f09946 Sricharan R     2016-02-22  1702  			goto fail_dma;
-9cedf3b2f09946 Sricharan R     2016-02-22  1703  		else if (ret != 0)
-9cedf3b2f09946 Sricharan R     2016-02-22  1704  			goto nodma;
-9cedf3b2f09946 Sricharan R     2016-02-22  1705  
-6f2f0f6465acbd Abhishek Sahu   2018-03-12  1706  		qup->max_xfer_sg_len = (MX_BLOCKS << 1);
-6f2f0f6465acbd Abhishek Sahu   2018-03-12  1707  		blocks = (MX_DMA_BLOCKS << 1) + 1;
-a86854d0c599b3 Kees Cook       2018-06-12  1708  		qup->btx.sg = devm_kcalloc(&pdev->dev,
-a86854d0c599b3 Kees Cook       2018-06-12  1709  					   blocks, sizeof(*qup->btx.sg),
-9cedf3b2f09946 Sricharan R     2016-02-22  1710  					   GFP_KERNEL);
-9cedf3b2f09946 Sricharan R     2016-02-22  1711  		if (!qup->btx.sg) {
-9cedf3b2f09946 Sricharan R     2016-02-22  1712  			ret = -ENOMEM;
-9cedf3b2f09946 Sricharan R     2016-02-22  1713  			goto fail_dma;
-9cedf3b2f09946 Sricharan R     2016-02-22  1714  		}
-9cedf3b2f09946 Sricharan R     2016-02-22  1715  		sg_init_table(qup->btx.sg, blocks);
-9cedf3b2f09946 Sricharan R     2016-02-22  1716  
-a86854d0c599b3 Kees Cook       2018-06-12  1717  		qup->brx.sg = devm_kcalloc(&pdev->dev,
-a86854d0c599b3 Kees Cook       2018-06-12  1718  					   blocks, sizeof(*qup->brx.sg),
-9cedf3b2f09946 Sricharan R     2016-02-22  1719  					   GFP_KERNEL);
-9cedf3b2f09946 Sricharan R     2016-02-22  1720  		if (!qup->brx.sg) {
-9cedf3b2f09946 Sricharan R     2016-02-22  1721  			ret = -ENOMEM;
-9cedf3b2f09946 Sricharan R     2016-02-22  1722  			goto fail_dma;
-9cedf3b2f09946 Sricharan R     2016-02-22  1723  		}
-9cedf3b2f09946 Sricharan R     2016-02-22  1724  		sg_init_table(qup->brx.sg, blocks);
-9cedf3b2f09946 Sricharan R     2016-02-22  1725  
-9cedf3b2f09946 Sricharan R     2016-02-22  1726  		/* 2 tag bytes for each block + 5 for start, stop tags */
-9cedf3b2f09946 Sricharan R     2016-02-22  1727  		size = blocks * 2 + 5;
-9cedf3b2f09946 Sricharan R     2016-02-22  1728  
-685983f4decc5f Sricharan R     2016-06-10  1729  		qup->start_tag.start = devm_kzalloc(&pdev->dev,
-685983f4decc5f Sricharan R     2016-06-10  1730  						    size, GFP_KERNEL);
-9cedf3b2f09946 Sricharan R     2016-02-22  1731  		if (!qup->start_tag.start) {
-9cedf3b2f09946 Sricharan R     2016-02-22  1732  			ret = -ENOMEM;
-9cedf3b2f09946 Sricharan R     2016-02-22  1733  			goto fail_dma;
-9cedf3b2f09946 Sricharan R     2016-02-22  1734  		}
-9cedf3b2f09946 Sricharan R     2016-02-22  1735  
-685983f4decc5f Sricharan R     2016-06-10  1736  		qup->brx.tag.start = devm_kzalloc(&pdev->dev, 2, GFP_KERNEL);
-9cedf3b2f09946 Sricharan R     2016-02-22  1737  		if (!qup->brx.tag.start) {
-9cedf3b2f09946 Sricharan R     2016-02-22  1738  			ret = -ENOMEM;
-9cedf3b2f09946 Sricharan R     2016-02-22  1739  			goto fail_dma;
-191424bb6166f6 Sricharan R     2016-01-19  1740  		}
-191424bb6166f6 Sricharan R     2016-01-19  1741  
-685983f4decc5f Sricharan R     2016-06-10  1742  		qup->btx.tag.start = devm_kzalloc(&pdev->dev, 2, GFP_KERNEL);
-9cedf3b2f09946 Sricharan R     2016-02-22  1743  		if (!qup->btx.tag.start) {
-9cedf3b2f09946 Sricharan R     2016-02-22  1744  			ret = -ENOMEM;
-9cedf3b2f09946 Sricharan R     2016-02-22  1745  			goto fail_dma;
-9cedf3b2f09946 Sricharan R     2016-02-22  1746  		}
-9cedf3b2f09946 Sricharan R     2016-02-22  1747  		qup->is_dma = true;
-9cedf3b2f09946 Sricharan R     2016-02-22  1748  	}
-9cedf3b2f09946 Sricharan R     2016-02-22  1749  
-9cedf3b2f09946 Sricharan R     2016-02-22  1750  nodma:
-109b8c42b7e28d Austin Christ   2018-05-10  1751  	/* We support frequencies up to FAST Mode Plus (1MHz) */
-90224e6468e15d Andy Shevchenko 2020-03-24  1752  	if (!clk_freq || clk_freq > I2C_MAX_FAST_MODE_PLUS_FREQ) {
-10c5a8425968f8 Bjorn Andersson 2014-03-13  1753  		dev_err(qup->dev, "clock frequency not supported %d\n",
-10c5a8425968f8 Bjorn Andersson 2014-03-13  1754  			clk_freq);
-10c5a8425968f8 Bjorn Andersson 2014-03-13  1755  		return -EINVAL;
-10c5a8425968f8 Bjorn Andersson 2014-03-13  1756  	}
-10c5a8425968f8 Bjorn Andersson 2014-03-13  1757  
-e0442d76213981 Dejin Zheng     2020-04-09  1758  	qup->base = devm_platform_ioremap_resource(pdev, 0);
-10c5a8425968f8 Bjorn Andersson 2014-03-13  1759  	if (IS_ERR(qup->base))
-10c5a8425968f8 Bjorn Andersson 2014-03-13  1760  		return PTR_ERR(qup->base);
-10c5a8425968f8 Bjorn Andersson 2014-03-13  1761  
-10c5a8425968f8 Bjorn Andersson 2014-03-13  1762  	qup->irq = platform_get_irq(pdev, 0);
-e42688ed5cf593 Dejin Zheng     2020-04-16  1763  	if (qup->irq < 0)
-10c5a8425968f8 Bjorn Andersson 2014-03-13  1764  		return qup->irq;
-10c5a8425968f8 Bjorn Andersson 2014-03-13  1765  
-515da746983bc6 Naveen Kaje     2016-10-11  1766  	if (has_acpi_companion(qup->dev)) {
-515da746983bc6 Naveen Kaje     2016-10-11  1767  		ret = device_property_read_u32(qup->dev,
-515da746983bc6 Naveen Kaje     2016-10-11  1768  				"src-clock-hz", &src_clk_freq);
-515da746983bc6 Naveen Kaje     2016-10-11  1769  		if (ret) {
-515da746983bc6 Naveen Kaje     2016-10-11  1770  			dev_notice(qup->dev, "using default src-clock-hz %d",
-515da746983bc6 Naveen Kaje     2016-10-11  1771  				DEFAULT_SRC_CLK);
-515da746983bc6 Naveen Kaje     2016-10-11  1772  		}
-515da746983bc6 Naveen Kaje     2016-10-11  1773  		ACPI_COMPANION_SET(&qup->adap.dev, ACPI_COMPANION(qup->dev));
-515da746983bc6 Naveen Kaje     2016-10-11  1774  	} else {
-10c5a8425968f8 Bjorn Andersson 2014-03-13  1775  		qup->clk = devm_clk_get(qup->dev, "core");
-10c5a8425968f8 Bjorn Andersson 2014-03-13  1776  		if (IS_ERR(qup->clk)) {
-10c5a8425968f8 Bjorn Andersson 2014-03-13  1777  			dev_err(qup->dev, "Could not get core clock\n");
-10c5a8425968f8 Bjorn Andersson 2014-03-13  1778  			return PTR_ERR(qup->clk);
-10c5a8425968f8 Bjorn Andersson 2014-03-13  1779  		}
-10c5a8425968f8 Bjorn Andersson 2014-03-13  1780  
-10c5a8425968f8 Bjorn Andersson 2014-03-13  1781  		qup->pclk = devm_clk_get(qup->dev, "iface");
-10c5a8425968f8 Bjorn Andersson 2014-03-13  1782  		if (IS_ERR(qup->pclk)) {
-10c5a8425968f8 Bjorn Andersson 2014-03-13  1783  			dev_err(qup->dev, "Could not get iface clock\n");
-10c5a8425968f8 Bjorn Andersson 2014-03-13  1784  			return PTR_ERR(qup->pclk);
-10c5a8425968f8 Bjorn Andersson 2014-03-13  1785  		}
-10c5a8425968f8 Bjorn Andersson 2014-03-13  1786  		qup_i2c_enable_clocks(qup);
-515da746983bc6 Naveen Kaje     2016-10-11  1787  		src_clk_freq = clk_get_rate(qup->clk);
-515da746983bc6 Naveen Kaje     2016-10-11  1788  	}
-10c5a8425968f8 Bjorn Andersson 2014-03-13  1789  
-10c5a8425968f8 Bjorn Andersson 2014-03-13  1790  	/*
-10c5a8425968f8 Bjorn Andersson 2014-03-13  1791  	 * Bootloaders might leave a pending interrupt on certain QUP's,
-10c5a8425968f8 Bjorn Andersson 2014-03-13  1792  	 * so we reset the core before registering for interrupts.
-10c5a8425968f8 Bjorn Andersson 2014-03-13  1793  	 */
-10c5a8425968f8 Bjorn Andersson 2014-03-13  1794  	writel(1, qup->base + QUP_SW_RESET);
-10c5a8425968f8 Bjorn Andersson 2014-03-13  1795  	ret = qup_i2c_poll_state_valid(qup);
-10c5a8425968f8 Bjorn Andersson 2014-03-13  1796  	if (ret)
-10c5a8425968f8 Bjorn Andersson 2014-03-13  1797  		goto fail;
-10c5a8425968f8 Bjorn Andersson 2014-03-13  1798  
-10c5a8425968f8 Bjorn Andersson 2014-03-13  1799  	ret = devm_request_irq(qup->dev, qup->irq, qup_i2c_interrupt,
-5fe058b04d017a Tian Tao        2021-03-19  1800  			       IRQF_TRIGGER_HIGH | IRQF_NO_AUTOEN,
-5fe058b04d017a Tian Tao        2021-03-19  1801  			       "i2c_qup", qup);
-10c5a8425968f8 Bjorn Andersson 2014-03-13  1802  	if (ret) {
-10c5a8425968f8 Bjorn Andersson 2014-03-13  1803  		dev_err(qup->dev, "Request %d IRQ failed\n", qup->irq);
-10c5a8425968f8 Bjorn Andersson 2014-03-13  1804  		goto fail;
-10c5a8425968f8 Bjorn Andersson 2014-03-13  1805  	}
-10c5a8425968f8 Bjorn Andersson 2014-03-13  1806  
-10c5a8425968f8 Bjorn Andersson 2014-03-13 @1807  	hw_ver = readl(qup->base + QUP_HW_VERSION);
-10c5a8425968f8 Bjorn Andersson 2014-03-13  1808  	dev_dbg(qup->dev, "Revision %x\n", hw_ver);
-10c5a8425968f8 Bjorn Andersson 2014-03-13  1809  
-10c5a8425968f8 Bjorn Andersson 2014-03-13  1810  	io_mode = readl(qup->base + QUP_IO_MODE);
-10c5a8425968f8 Bjorn Andersson 2014-03-13  1811  
-10c5a8425968f8 Bjorn Andersson 2014-03-13  1812  	/*
-10c5a8425968f8 Bjorn Andersson 2014-03-13  1813  	 * The block/fifo size w.r.t. 'actual data' is 1/2 due to 'tag'
-10c5a8425968f8 Bjorn Andersson 2014-03-13  1814  	 * associated with each byte written/received
-10c5a8425968f8 Bjorn Andersson 2014-03-13  1815  	 */
-10c5a8425968f8 Bjorn Andersson 2014-03-13  1816  	size = QUP_OUTPUT_BLOCK_SIZE(io_mode);
-3cf357dfb40b4a Pramod Gurav    2014-08-06  1817  	if (size >= ARRAY_SIZE(blk_sizes)) {
-3cf357dfb40b4a Pramod Gurav    2014-08-06  1818  		ret = -EIO;
-3cf357dfb40b4a Pramod Gurav    2014-08-06  1819  		goto fail;
-3cf357dfb40b4a Pramod Gurav    2014-08-06  1820  	}
-7545c7dba169c4 Abhishek Sahu   2018-03-12  1821  	qup->out_blk_sz = blk_sizes[size];
-10c5a8425968f8 Bjorn Andersson 2014-03-13  1822  
-10c5a8425968f8 Bjorn Andersson 2014-03-13  1823  	size = QUP_INPUT_BLOCK_SIZE(io_mode);
-3cf357dfb40b4a Pramod Gurav    2014-08-06  1824  	if (size >= ARRAY_SIZE(blk_sizes)) {
-3cf357dfb40b4a Pramod Gurav    2014-08-06  1825  		ret = -EIO;
-3cf357dfb40b4a Pramod Gurav    2014-08-06  1826  		goto fail;
-3cf357dfb40b4a Pramod Gurav    2014-08-06  1827  	}
-7545c7dba169c4 Abhishek Sahu   2018-03-12  1828  	qup->in_blk_sz = blk_sizes[size];
-7545c7dba169c4 Abhishek Sahu   2018-03-12  1829  
-7545c7dba169c4 Abhishek Sahu   2018-03-12  1830  	if (is_qup_v1) {
-7545c7dba169c4 Abhishek Sahu   2018-03-12  1831  		/*
-7545c7dba169c4 Abhishek Sahu   2018-03-12  1832  		 * in QUP v1, QUP_CONFIG uses N as 15 i.e 16 bits constitutes a
-7545c7dba169c4 Abhishek Sahu   2018-03-12  1833  		 * single transfer but the block size is in bytes so divide the
-7545c7dba169c4 Abhishek Sahu   2018-03-12  1834  		 * in_blk_sz and out_blk_sz by 2
-7545c7dba169c4 Abhishek Sahu   2018-03-12  1835  		 */
-7545c7dba169c4 Abhishek Sahu   2018-03-12  1836  		qup->in_blk_sz /= 2;
-7545c7dba169c4 Abhishek Sahu   2018-03-12  1837  		qup->out_blk_sz /= 2;
-7545c7dba169c4 Abhishek Sahu   2018-03-12  1838  		qup->write_tx_fifo = qup_i2c_write_tx_fifo_v1;
-7545c7dba169c4 Abhishek Sahu   2018-03-12  1839  		qup->read_rx_fifo = qup_i2c_read_rx_fifo_v1;
-7545c7dba169c4 Abhishek Sahu   2018-03-12  1840  		qup->write_rx_tags = qup_i2c_write_rx_tags_v1;
-7545c7dba169c4 Abhishek Sahu   2018-03-12  1841  	} else {
-7545c7dba169c4 Abhishek Sahu   2018-03-12  1842  		qup->write_tx_fifo = qup_i2c_write_tx_fifo_v2;
-7545c7dba169c4 Abhishek Sahu   2018-03-12  1843  		qup->read_rx_fifo = qup_i2c_read_rx_fifo_v2;
-7545c7dba169c4 Abhishek Sahu   2018-03-12  1844  		qup->write_rx_tags = qup_i2c_write_rx_tags_v2;
-7545c7dba169c4 Abhishek Sahu   2018-03-12  1845  	}
-10c5a8425968f8 Bjorn Andersson 2014-03-13  1846  
-10c5a8425968f8 Bjorn Andersson 2014-03-13  1847  	size = QUP_OUTPUT_FIFO_SIZE(io_mode);
-10c5a8425968f8 Bjorn Andersson 2014-03-13  1848  	qup->out_fifo_sz = qup->out_blk_sz * (2 << size);
-10c5a8425968f8 Bjorn Andersson 2014-03-13  1849  
-10c5a8425968f8 Bjorn Andersson 2014-03-13  1850  	size = QUP_INPUT_FIFO_SIZE(io_mode);
-10c5a8425968f8 Bjorn Andersson 2014-03-13  1851  	qup->in_fifo_sz = qup->in_blk_sz * (2 << size);
-10c5a8425968f8 Bjorn Andersson 2014-03-13  1852  
-10c5a8425968f8 Bjorn Andersson 2014-03-13  1853  	hs_div = 3;
-90224e6468e15d Andy Shevchenko 2020-03-24  1854  	if (clk_freq <= I2C_MAX_STANDARD_MODE_FREQ) {
-71fbafcc45fed7 Austin Christ   2018-05-10  1855  		fs_div = ((src_clk_freq / clk_freq) / 2) - 3;
-10c5a8425968f8 Bjorn Andersson 2014-03-13  1856  		qup->clk_ctl = (hs_div << 8) | (fs_div & 0xff);
-71fbafcc45fed7 Austin Christ   2018-05-10  1857  	} else {
-71fbafcc45fed7 Austin Christ   2018-05-10  1858  		/* 33%/66% duty cycle */
-71fbafcc45fed7 Austin Christ   2018-05-10  1859  		fs_div = ((src_clk_freq / clk_freq) - 6) * 2 / 3;
-71fbafcc45fed7 Austin Christ   2018-05-10  1860  		qup->clk_ctl = ((fs_div / 2) << 16) | (hs_div << 8) | (fs_div & 0xff);
-71fbafcc45fed7 Austin Christ   2018-05-10  1861  	}
-10c5a8425968f8 Bjorn Andersson 2014-03-13  1862  
-10c5a8425968f8 Bjorn Andersson 2014-03-13  1863  	/*
-10c5a8425968f8 Bjorn Andersson 2014-03-13  1864  	 * Time it takes for a byte to be clocked out on the bus.
-10c5a8425968f8 Bjorn Andersson 2014-03-13  1865  	 * Each byte takes 9 clock cycles (8 bits + 1 ack).
-10c5a8425968f8 Bjorn Andersson 2014-03-13  1866  	 */
-10c5a8425968f8 Bjorn Andersson 2014-03-13  1867  	one_bit_t = (USEC_PER_SEC / clk_freq) + 1;
-10c5a8425968f8 Bjorn Andersson 2014-03-13  1868  	qup->one_byte_t = one_bit_t * 9;
-ecb6e1e5f43520 Abhishek Sahu   2018-03-12  1869  	qup->xfer_timeout = TOUT_MIN * HZ +
-6f2f0f6465acbd Abhishek Sahu   2018-03-12  1870  		usecs_to_jiffies(MX_DMA_TX_RX_LEN * qup->one_byte_t);
-10c5a8425968f8 Bjorn Andersson 2014-03-13  1871  
-10c5a8425968f8 Bjorn Andersson 2014-03-13  1872  	dev_dbg(qup->dev, "IN:block:%d, fifo:%d, OUT:block:%d, fifo:%d\n",
-10c5a8425968f8 Bjorn Andersson 2014-03-13  1873  		qup->in_blk_sz, qup->in_fifo_sz,
-10c5a8425968f8 Bjorn Andersson 2014-03-13  1874  		qup->out_blk_sz, qup->out_fifo_sz);
-10c5a8425968f8 Bjorn Andersson 2014-03-13  1875  
-10c5a8425968f8 Bjorn Andersson 2014-03-13  1876  	i2c_set_adapdata(&qup->adap, qup);
-10c5a8425968f8 Bjorn Andersson 2014-03-13  1877  	qup->adap.dev.parent = qup->dev;
-10c5a8425968f8 Bjorn Andersson 2014-03-13  1878  	qup->adap.dev.of_node = pdev->dev.of_node;
-9cedf3b2f09946 Sricharan R     2016-02-22  1879  	qup->is_last = true;
-f74187932d30e4 Sricharan R     2016-01-19  1880  
-10c5a8425968f8 Bjorn Andersson 2014-03-13  1881  	strlcpy(qup->adap.name, "QUP I2C adapter", sizeof(qup->adap.name));
-10c5a8425968f8 Bjorn Andersson 2014-03-13  1882  
-10c5a8425968f8 Bjorn Andersson 2014-03-13  1883  	pm_runtime_set_autosuspend_delay(qup->dev, MSEC_PER_SEC);
-10c5a8425968f8 Bjorn Andersson 2014-03-13  1884  	pm_runtime_use_autosuspend(qup->dev);
-10c5a8425968f8 Bjorn Andersson 2014-03-13  1885  	pm_runtime_set_active(qup->dev);
-10c5a8425968f8 Bjorn Andersson 2014-03-13  1886  	pm_runtime_enable(qup->dev);
-86b59bbfae2a89 Andy Gross      2014-09-29  1887  
-86b59bbfae2a89 Andy Gross      2014-09-29  1888  	ret = i2c_add_adapter(&qup->adap);
-86b59bbfae2a89 Andy Gross      2014-09-29  1889  	if (ret)
-86b59bbfae2a89 Andy Gross      2014-09-29  1890  		goto fail_runtime;
-86b59bbfae2a89 Andy Gross      2014-09-29  1891  
-10c5a8425968f8 Bjorn Andersson 2014-03-13  1892  	return 0;
-10c5a8425968f8 Bjorn Andersson 2014-03-13  1893  
-86b59bbfae2a89 Andy Gross      2014-09-29  1894  fail_runtime:
-86b59bbfae2a89 Andy Gross      2014-09-29  1895  	pm_runtime_disable(qup->dev);
-86b59bbfae2a89 Andy Gross      2014-09-29  1896  	pm_runtime_set_suspended(qup->dev);
-10c5a8425968f8 Bjorn Andersson 2014-03-13  1897  fail:
-10c5a8425968f8 Bjorn Andersson 2014-03-13  1898  	qup_i2c_disable_clocks(qup);
-9cedf3b2f09946 Sricharan R     2016-02-22  1899  fail_dma:
-9cedf3b2f09946 Sricharan R     2016-02-22  1900  	if (qup->btx.dma)
-9cedf3b2f09946 Sricharan R     2016-02-22  1901  		dma_release_channel(qup->btx.dma);
-9cedf3b2f09946 Sricharan R     2016-02-22  1902  	if (qup->brx.dma)
-9cedf3b2f09946 Sricharan R     2016-02-22  1903  		dma_release_channel(qup->brx.dma);
-10c5a8425968f8 Bjorn Andersson 2014-03-13  1904  	return ret;
-10c5a8425968f8 Bjorn Andersson 2014-03-13  1905  }
-10c5a8425968f8 Bjorn Andersson 2014-03-13  1906  
-
-:::::: The code at line 1807 was first introduced by commit
-:::::: 10c5a8425968f8a43b7039ce6261367fc992289f i2c: qup: New bus driver for the Qualcomm QUP I2C controller
-
-:::::: TO: Bjorn Andersson <bjorn.andersson@sonymobile.com>
-:::::: CC: Wolfram Sang <wsa@the-dreams.de>
+bff595c15c92b9 Catalin Marinas  2009-02-16  383  
+bff595c15c92b9 Catalin Marinas  2009-02-16  384  /*
+bff595c15c92b9 Catalin Marinas  2009-02-16  385   * Unwind a single frame starting with *sp for the symbol at *pc. It
+bff595c15c92b9 Catalin Marinas  2009-02-16  386   * updates the *pc and *sp with the new values.
+bff595c15c92b9 Catalin Marinas  2009-02-16  387   */
+bff595c15c92b9 Catalin Marinas  2009-02-16  388  int unwind_frame(struct stackframe *frame)
+bff595c15c92b9 Catalin Marinas  2009-02-16  389  {
+de66a979012dbc Uwe Kleine-König 2011-12-05  390  	const struct unwind_idx *idx;
+bff595c15c92b9 Catalin Marinas  2009-02-16  391  	struct unwind_ctrl_block ctrl;
+bff595c15c92b9 Catalin Marinas  2009-02-16  392  
+a51345770e5195 Anurag Aggarwal  2014-02-24  393  	/* store the highest address on the stack to avoid crossing it*/
+b6506981f880de Ard Biesheuvel   2021-10-05  394  	ctrl.sp_low = frame->sp;
+a1c510d0adc604 Ard Biesheuvel   2021-09-23  395  	ctrl.sp_high = ALIGN(ctrl.sp_low - THREAD_SIZE, THREAD_ALIGN)
+a1c510d0adc604 Ard Biesheuvel   2021-09-23  396  		       + THREAD_SIZE;
+bff595c15c92b9 Catalin Marinas  2009-02-16  397  
+bff595c15c92b9 Catalin Marinas  2009-02-16  398  	pr_debug("%s(pc = %08lx lr = %08lx sp = %08lx)\n", __func__,
+bff595c15c92b9 Catalin Marinas  2009-02-16  399  		 frame->pc, frame->lr, frame->sp);
+bff595c15c92b9 Catalin Marinas  2009-02-16  400  
+bff595c15c92b9 Catalin Marinas  2009-02-16  401  	idx = unwind_find_idx(frame->pc);
+bff595c15c92b9 Catalin Marinas  2009-02-16  402  	if (!idx) {
+8b521cb2947d88 Joe Perches      2014-09-16  403  		pr_warn("unwind: Index not found %08lx\n", frame->pc);
+bff595c15c92b9 Catalin Marinas  2009-02-16  404  		return -URC_FAILURE;
+bff595c15c92b9 Catalin Marinas  2009-02-16  405  	}
+bff595c15c92b9 Catalin Marinas  2009-02-16  406  
+bff595c15c92b9 Catalin Marinas  2009-02-16  407  	ctrl.vrs[FP] = frame->fp;
+bff595c15c92b9 Catalin Marinas  2009-02-16  408  	ctrl.vrs[SP] = frame->sp;
+bff595c15c92b9 Catalin Marinas  2009-02-16  409  	ctrl.vrs[LR] = frame->lr;
+bff595c15c92b9 Catalin Marinas  2009-02-16  410  	ctrl.vrs[PC] = 0;
+bff595c15c92b9 Catalin Marinas  2009-02-16  411  
+bff595c15c92b9 Catalin Marinas  2009-02-16  412  	if (idx->insn == 1)
+bff595c15c92b9 Catalin Marinas  2009-02-16  413  		/* can't unwind */
+bff595c15c92b9 Catalin Marinas  2009-02-16  414  		return -URC_FAILURE;
+532319b9c418fc Ard Biesheuvel   2021-10-04  415  	else if (frame->pc == prel31_to_addr(&idx->addr_offset)) {
+532319b9c418fc Ard Biesheuvel   2021-10-04  416  		/*
+532319b9c418fc Ard Biesheuvel   2021-10-04  417  		 * Unwinding is tricky when we're halfway through the prologue,
+532319b9c418fc Ard Biesheuvel   2021-10-04  418  		 * since the stack frame that the unwinder expects may not be
+532319b9c418fc Ard Biesheuvel   2021-10-04  419  		 * fully set up yet. However, one thing we do know for sure is
+532319b9c418fc Ard Biesheuvel   2021-10-04  420  		 * that if we are unwinding from the very first instruction of
+532319b9c418fc Ard Biesheuvel   2021-10-04  421  		 * a function, we are still effectively in the stack frame of
+532319b9c418fc Ard Biesheuvel   2021-10-04  422  		 * the caller, and the unwind info has no relevance yet.
+532319b9c418fc Ard Biesheuvel   2021-10-04  423  		 */
+532319b9c418fc Ard Biesheuvel   2021-10-04  424  		if (frame->pc == frame->lr)
+532319b9c418fc Ard Biesheuvel   2021-10-04  425  			return -URC_FAILURE;
+532319b9c418fc Ard Biesheuvel   2021-10-04  426  		frame->sp_low = frame->sp;
+532319b9c418fc Ard Biesheuvel   2021-10-04  427  		frame->pc = frame->lr;
+532319b9c418fc Ard Biesheuvel   2021-10-04  428  		return URC_OK;
+532319b9c418fc Ard Biesheuvel   2021-10-04  429  	} else if ((idx->insn & 0x80000000) == 0)
+bff595c15c92b9 Catalin Marinas  2009-02-16  430  		/* prel31 to the unwind table */
+bff595c15c92b9 Catalin Marinas  2009-02-16  431  		ctrl.insn = (unsigned long *)prel31_to_addr(&idx->insn);
+bff595c15c92b9 Catalin Marinas  2009-02-16  432  	else if ((idx->insn & 0xff000000) == 0x80000000)
+bff595c15c92b9 Catalin Marinas  2009-02-16  433  		/* only personality routine 0 supported in the index */
+bff595c15c92b9 Catalin Marinas  2009-02-16  434  		ctrl.insn = &idx->insn;
+bff595c15c92b9 Catalin Marinas  2009-02-16  435  	else {
+8b521cb2947d88 Joe Perches      2014-09-16  436  		pr_warn("unwind: Unsupported personality routine %08lx in the index at %p\n",
+bff595c15c92b9 Catalin Marinas  2009-02-16  437  			idx->insn, idx);
+bff595c15c92b9 Catalin Marinas  2009-02-16  438  		return -URC_FAILURE;
+bff595c15c92b9 Catalin Marinas  2009-02-16  439  	}
+bff595c15c92b9 Catalin Marinas  2009-02-16  440  
+bff595c15c92b9 Catalin Marinas  2009-02-16  441  	/* check the personality routine */
+bff595c15c92b9 Catalin Marinas  2009-02-16  442  	if ((*ctrl.insn & 0xff000000) == 0x80000000) {
+bff595c15c92b9 Catalin Marinas  2009-02-16  443  		ctrl.byte = 2;
+bff595c15c92b9 Catalin Marinas  2009-02-16  444  		ctrl.entries = 1;
+bff595c15c92b9 Catalin Marinas  2009-02-16  445  	} else if ((*ctrl.insn & 0xff000000) == 0x81000000) {
+bff595c15c92b9 Catalin Marinas  2009-02-16  446  		ctrl.byte = 1;
+bff595c15c92b9 Catalin Marinas  2009-02-16  447  		ctrl.entries = 1 + ((*ctrl.insn & 0x00ff0000) >> 16);
+bff595c15c92b9 Catalin Marinas  2009-02-16  448  	} else {
+8b521cb2947d88 Joe Perches      2014-09-16  449  		pr_warn("unwind: Unsupported personality routine %08lx at %p\n",
+bff595c15c92b9 Catalin Marinas  2009-02-16  450  			*ctrl.insn, ctrl.insn);
+bff595c15c92b9 Catalin Marinas  2009-02-16  451  		return -URC_FAILURE;
+bff595c15c92b9 Catalin Marinas  2009-02-16  452  	}
+bff595c15c92b9 Catalin Marinas  2009-02-16  453  
+a51345770e5195 Anurag Aggarwal  2014-02-24  454  	ctrl.check_each_pop = 0;
+a51345770e5195 Anurag Aggarwal  2014-02-24  455  
+bff595c15c92b9 Catalin Marinas  2009-02-16  456  	while (ctrl.entries > 0) {
+a51345770e5195 Anurag Aggarwal  2014-02-24  457  		int urc;
+a51345770e5195 Anurag Aggarwal  2014-02-24  458  		if ((ctrl.sp_high - ctrl.vrs[SP]) < sizeof(ctrl.vrs))
+a51345770e5195 Anurag Aggarwal  2014-02-24  459  			ctrl.check_each_pop = 1;
+a51345770e5195 Anurag Aggarwal  2014-02-24  460  		urc = unwind_exec_insn(&ctrl);
+bff595c15c92b9 Catalin Marinas  2009-02-16  461  		if (urc < 0)
+bff595c15c92b9 Catalin Marinas  2009-02-16  462  			return urc;
+b6506981f880de Ard Biesheuvel   2021-10-05  463  		if (ctrl.vrs[SP] < ctrl.sp_low || ctrl.vrs[SP] > ctrl.sp_high)
+c894ed6956f126 Catalin Marinas  2009-06-19  464  			return -URC_FAILURE;
+bff595c15c92b9 Catalin Marinas  2009-02-16  465  	}
+bff595c15c92b9 Catalin Marinas  2009-02-16  466  
+bff595c15c92b9 Catalin Marinas  2009-02-16  467  	if (ctrl.vrs[PC] == 0)
+bff595c15c92b9 Catalin Marinas  2009-02-16  468  		ctrl.vrs[PC] = ctrl.vrs[LR];
+bff595c15c92b9 Catalin Marinas  2009-02-16  469  
+c894ed6956f126 Catalin Marinas  2009-06-19  470  	/* check for infinite loop */
+8d54a275938968 Russell King     2019-12-22  471  	if (frame->pc == ctrl.vrs[PC] && frame->sp == ctrl.vrs[SP])
+c894ed6956f126 Catalin Marinas  2009-06-19  472  		return -URC_FAILURE;
+c894ed6956f126 Catalin Marinas  2009-06-19  473  
+bff595c15c92b9 Catalin Marinas  2009-02-16  474  	frame->fp = ctrl.vrs[FP];
+bff595c15c92b9 Catalin Marinas  2009-02-16  475  	frame->sp = ctrl.vrs[SP];
+bff595c15c92b9 Catalin Marinas  2009-02-16  476  	frame->lr = ctrl.vrs[LR];
+bff595c15c92b9 Catalin Marinas  2009-02-16  477  	frame->pc = ctrl.vrs[PC];
+4ab6827081c63b Ard Biesheuvel   2021-10-05  478  	frame->sp_low = ctrl.sp_low;
+538b9265c063f0 Ard Biesheuvel   2022-01-24 @479  	frame->lr_addr = ctrl.lr_addr;
+bff595c15c92b9 Catalin Marinas  2009-02-16  480  
+bff595c15c92b9 Catalin Marinas  2009-02-16  481  	return URC_OK;
+bff595c15c92b9 Catalin Marinas  2009-02-16  482  }
+bff595c15c92b9 Catalin Marinas  2009-02-16  483  
 
 -- 
 0-DAY CI Kernel Test Service
