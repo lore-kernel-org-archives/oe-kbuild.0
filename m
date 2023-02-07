@@ -1,40 +1,50 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2D7120E8
-	for <oe-kbuild@lists.linux.dev>; Tue,  7 Feb 2023 10:05:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675764357; x=1707300357;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=cS0mS5e87EpPs9YmJz+v16wWurZ2RLJ0B0JEKFP805Y=;
-  b=YSkMR4yMmNFHt22+lDo6BGcW5ranqOnnX6ijmJXrl5fOF/yGsml4FYSI
-   Bxij409012h44kUGi42ggY08yBQVW/CaaMHMcyU/2gMCpgQs28FOlBHlS
-   nbgFJePOnSTDwONEpuA/n+ojMRkDIOXeTrgFSotL+3yObnGgq5yQ3tE0u
-   rK3I8qIkw1pFYyZCmYCmPVXVfYiLHssWpn3r0u+BLzoXcizJV75CaxQRA
-   u44Db8wDMIpfMurhYkvTBLC3i4i/xSs/lOeWvBjfrFTiiG6aD5hJyW2xF
-   XCeOnbI0Jwj4YSg8Na60dEC9jqhecLqOs6x9eucuprK+/NQKKpPd6Q8HU
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10613"; a="313115679"
-X-IronPort-AV: E=Sophos;i="5.97,278,1669104000"; 
-   d="scan'208";a="313115679"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2023 02:05:56 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10613"; a="735493868"
-X-IronPort-AV: E=Sophos;i="5.97,278,1669104000"; 
-   d="scan'208";a="735493868"
-Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 07 Feb 2023 02:05:54 -0800
-Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pPKrJ-0003Qg-2r;
-	Tue, 07 Feb 2023 10:05:53 +0000
-Date: Tue, 7 Feb 2023 18:05:31 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C19AF20E8;
+	Tue,  7 Feb 2023 10:08:50 +0000 (UTC)
+Received: by mail-wm1-f54.google.com with SMTP id o36so10647445wms.1;
+        Tue, 07 Feb 2023 02:08:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:content-disposition:mime-version
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4uBjwL3X2HhfSsi8GSFH1CrM9+dq4wni12QE/75bmps=;
+        b=Mbeh36rfjqSD/9tb2T97Hk6RyZlM2o7NAAZinKXXhss8GTupnJAV1Il2bvU0cfM6bk
+         OZeBFGXB8KRCwjCqBGVt08j3E68phG0/AHrZbFacvv6R+OAyAtMWp9D1AUmoKkF6dGsg
+         AUlgDXlKPW6Xd81aK48m3BtQdhoM6oDjNhRIvotdUXgQnKOqCxzo2vl1T+ScQzYCp1kq
+         q6LfdK+7ZzFwgq7HKCNAxcKo1hWzdK9Ci5Fd2Z4a/Gna19R3zuojYRuOYqnpwV/QtSHz
+         be7cJOzEpk4nHqMZoJandUhkti3+BT0CUolzconzvt5Abqe7tjLBUsCYARF5QfD3Ev5P
+         ZKag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:content-disposition:mime-version
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=4uBjwL3X2HhfSsi8GSFH1CrM9+dq4wni12QE/75bmps=;
+        b=ab5/TV50peThFLG9rSOb6x2+MkGx3hxwYDmXLui8Ef/X326BmfjasyjmF/XEL36a2R
+         FqfgI42V0a8akuf9ZEPeKSAvy0tMgMO19XNw0sGkSbv1axE0OSpklPPRLMkwRyCKZqoO
+         fTeU3uTC4A0EuStnLf+Sv5xtp/NB+ED4rR42PbyMTdHEiiAldkwiZrvOvT9JwZ8RS8nz
+         Z9G6b0uAfHEoN5E+iBaCe7MrpJq4DLJW1Jf6a/NbTQ/YBj5SbXFuY5HeOi1qop1hWZdn
+         kXXguSbAL9GalmN3a+lSUwWbO9wYv9WAHCv4qcAUwqkDiZyUGVEPLFzjgbRK8wtQStDK
+         PygQ==
+X-Gm-Message-State: AO0yUKVsJmT0zqlOwd33S3iklKJsuReOxDXeWh9jetU9aElX54ihBXqu
+	z07yHGEGdR+lo8jGBR6S4rnYivOlIiVFymmY
+X-Google-Smtp-Source: AK7set93uxF3lHRrPiRHQM1UH+2x36Mh43Pw4XoyelOnuMdSq0hgbz6HUWI6ZkHYokasTZVsisscqQ==
+X-Received: by 2002:a05:600c:4d16:b0:3df:e549:bd00 with SMTP id u22-20020a05600c4d1600b003dfe549bd00mr2477864wmp.1.1675764528790;
+        Tue, 07 Feb 2023 02:08:48 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id k19-20020a05600c1c9300b003dc43a10fa5sm14354269wms.13.2023.02.07.02.08.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 Feb 2023 02:08:48 -0800 (PST)
+Date: Tue, 7 Feb 2023 13:08:45 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev,
+	Amadeusz =?utf-8?B?U8WCYXdpxYRza2k=?= <amadeuszx.slawinski@linux.intel.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Mark Brown <broonie@kernel.org>,
+	Cezary Rojewski <cezary.rojewski@intel.com>
 Subject: sound/soc/soc-topology.c:1405 soc_tplg_dapm_widget_create() warn:
  missing error code 'ret'
 Message-ID: <202302071823.2veEqSHM-lkp@intel.com>
@@ -47,13 +57,7 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: "Amadeusz Sławiński" <amadeuszx.slawinski@linux.intel.com>
-CC: Mark Brown <broonie@kernel.org>
-CC: Cezary Rojewski <cezary.rojewski@intel.com>
+Message-ID: <20230207100845.6xt1REx8PQzUAAxFs2VBwyGAcl62PJG0fdok7rEfmGc@z>
 
 Hi Amadeusz,
 
@@ -62,9 +66,6 @@ FYI, the error/warning was bisected to this commit, please ignore it if it's irr
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   05ecb680708a1dbe6554d6fc17e5d9a8a7cb5e6a
 commit: 47a1886a610aca6a55c18ee677f9176e73162e97 ASoC: Intel: avs: Enable AVS driver only on x86 platforms
-date:   10 months ago
-:::::: branch date: 12 hours ago
-:::::: commit date: 10 months ago
 config: microblaze-randconfig-m041-20230206 (https://download.01.org/0day-ci/archive/20230207/202302071823.2veEqSHM-lkp@intel.com/config)
 compiler: microblaze-linux-gcc (GCC) 12.1.0
 
@@ -77,7 +78,6 @@ sound/soc/soc-topology.c:1405 soc_tplg_dapm_widget_create() warn: missing error 
 
 vim +/ret +1405 sound/soc/soc-topology.c
 
-8a9782346dccd8 Liam Girdwood        2015-05-29  1341  
 8a9782346dccd8 Liam Girdwood        2015-05-29  1342  static int soc_tplg_dapm_widget_create(struct soc_tplg *tplg,
 8a9782346dccd8 Liam Girdwood        2015-05-29  1343  	struct snd_soc_tplg_dapm_widget *w)
 8a9782346dccd8 Liam Girdwood        2015-05-29  1344  {
@@ -142,11 +142,17 @@ d29d41e28eea65 Jaska Uimonen        2021-05-07  1402  	template.num_kcontrols = 
 d29d41e28eea65 Jaska Uimonen        2021-05-07  1403  	kc = devm_kcalloc(tplg->dev, le32_to_cpu(w->num_kcontrols), sizeof(*kc), GFP_KERNEL);
 d29d41e28eea65 Jaska Uimonen        2021-05-07  1404  	if (!kc)
 9c363532413cda Peter Ujfalusi       2022-03-31 @1405  		goto hdr_err;
+
+ret = -ENOMEM;
+
 d29d41e28eea65 Jaska Uimonen        2021-05-07  1406  
 d29d41e28eea65 Jaska Uimonen        2021-05-07  1407  	kcontrol_type = devm_kcalloc(tplg->dev, le32_to_cpu(w->num_kcontrols), sizeof(unsigned int),
 d29d41e28eea65 Jaska Uimonen        2021-05-07  1408  				     GFP_KERNEL);
 d29d41e28eea65 Jaska Uimonen        2021-05-07  1409  	if (!kcontrol_type)
 9c363532413cda Peter Ujfalusi       2022-03-31  1410  		goto hdr_err;
+
+Same.
+
 d29d41e28eea65 Jaska Uimonen        2021-05-07  1411  
 1baad7dad115ea Pierre-Louis Bossart 2021-10-25  1412  	for (i = 0; i < le32_to_cpu(w->num_kcontrols); i++) {
 d29d41e28eea65 Jaska Uimonen        2021-05-07  1413  		control_hdr = (struct snd_soc_tplg_ctl_hdr *)tplg->pos;
@@ -240,14 +246,8 @@ ebd259d33a900b Liam Girdwood        2017-06-09  1497  	snd_soc_dapm_free_widget(
 8a9782346dccd8 Liam Girdwood        2015-05-29  1501  	kfree(template.name);
 8a9782346dccd8 Liam Girdwood        2015-05-29  1502  	return ret;
 8a9782346dccd8 Liam Girdwood        2015-05-29  1503  }
-8a9782346dccd8 Liam Girdwood        2015-05-29  1504  
-
-:::::: The code at line 1405 was first introduced by commit
-:::::: 9c363532413cda3e2c6dfa10e5cca7cd221877a0 ASoC: topology: Correct error handling in soc_tplg_dapm_widget_create()
-
-:::::: TO: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-:::::: CC: Mark Brown <broonie@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
+
