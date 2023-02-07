@@ -1,116 +1,253 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FE1D20E8;
-	Tue,  7 Feb 2023 08:03:13 +0000 (UTC)
-Received: by mail-wm1-f43.google.com with SMTP id k8-20020a05600c1c8800b003dc57ea0dfeso12532657wms.0;
-        Tue, 07 Feb 2023 00:03:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=h8Fo/rCSoO5B3dO/TraHF/Ewq1zEZS6ueUNW5PL1NVo=;
-        b=nvJYeCCwwXa/iPihaau1177ZExjMysWH1KDEGe6XaL8oRtXrVsqhAukMZWZrerwG7G
-         rpSNBQkFR3vfcays7jEmShxOYJefIj5fIjfKVtMb9N8qtB9z0fibudCN4DTNMbS5FADS
-         aqeWBu+uWmzBcVpucTAsgQoI3DXywkJ57av1tRzQ0ikoaFgVqmH2pG91dS6GNGv+hEMF
-         3CiTruVkJlX2ITJ3XwD92Vc4E9t3R5bdsRSc3QDoWedEKKwMtnqUFLMLACjAaVXDtqRu
-         GlGCAG6RtRPaU1BbhZ0z2FEKMnotmsijGmCNmQ3Fqs7XWVlMp7vXpLxLFrgGqDRx7jSr
-         mGGg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=h8Fo/rCSoO5B3dO/TraHF/Ewq1zEZS6ueUNW5PL1NVo=;
-        b=pNIRVZfAUwInkpKniXRedSjdq5WBGjQC03C7FEjpZ1UEchPhd/p5JcVqq3NVeHpdf2
-         EQeP7egXu/7yl+C4QKiW751z3o83yuYhiUHU+M6b83yPdY54WqhbxI6alFPu47NFxPD4
-         AxsLPJhjxWO9R9pa5O7tuV4250Q6UaCaE68fFE/oE1aWwbn6ahbcjIQl6Tkvk9r2fl7j
-         MN64zjYxxMgx9w6QdD+32cZXedtlEJLhyJChAe78edmsrSiDZiEqxW89Qq0OPqpt8z97
-         nlFBLiWqxnCnHKoq3nX4IMikbgFjBiZ88B3w1HGyQ1D/09J1QJ341J4MSFqfv2mKxdvG
-         qASw==
-X-Gm-Message-State: AO0yUKWq0d0g/MVr/wrcMn/RV08MONlkZ7TntSa8h7QXLGUmk9s/Xb+2
-	GSafmlElo/GgfZtx+MhPl3q6CsijQlUhvcyF
-X-Google-Smtp-Source: AK7set8IRQ93d6Encc0Zv1jH2b6tzYJsgZlGP02itsR5AgLShBbs40ZOJ5VEF94FKV+nQOPF3v2afA==
-X-Received: by 2002:a05:600c:1613:b0:3df:b5ae:5289 with SMTP id m19-20020a05600c161300b003dfb5ae5289mr2195856wmn.8.1675756991262;
-        Tue, 07 Feb 2023 00:03:11 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id k10-20020a5d6e8a000000b002bdda9856b5sm10626509wrz.50.2023.02.07.00.03.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Feb 2023 00:03:10 -0800 (PST)
-Date: Tue, 7 Feb 2023 11:03:07 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, Bob Pearson <rpearsonhpe@gmail.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH for-next v7 6/6] RDMA/rxe: Replace rxe_map and
- rxe_phys_buf by xarray
-Message-ID: <202302071553.dxgzoPxM-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2D7120E8
+	for <oe-kbuild@lists.linux.dev>; Tue,  7 Feb 2023 10:05:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1675764357; x=1707300357;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=cS0mS5e87EpPs9YmJz+v16wWurZ2RLJ0B0JEKFP805Y=;
+  b=YSkMR4yMmNFHt22+lDo6BGcW5ranqOnnX6ijmJXrl5fOF/yGsml4FYSI
+   Bxij409012h44kUGi42ggY08yBQVW/CaaMHMcyU/2gMCpgQs28FOlBHlS
+   nbgFJePOnSTDwONEpuA/n+ojMRkDIOXeTrgFSotL+3yObnGgq5yQ3tE0u
+   rK3I8qIkw1pFYyZCmYCmPVXVfYiLHssWpn3r0u+BLzoXcizJV75CaxQRA
+   u44Db8wDMIpfMurhYkvTBLC3i4i/xSs/lOeWvBjfrFTiiG6aD5hJyW2xF
+   XCeOnbI0Jwj4YSg8Na60dEC9jqhecLqOs6x9eucuprK+/NQKKpPd6Q8HU
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10613"; a="313115679"
+X-IronPort-AV: E=Sophos;i="5.97,278,1669104000"; 
+   d="scan'208";a="313115679"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2023 02:05:56 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10613"; a="735493868"
+X-IronPort-AV: E=Sophos;i="5.97,278,1669104000"; 
+   d="scan'208";a="735493868"
+Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
+  by fmsmga004.fm.intel.com with ESMTP; 07 Feb 2023 02:05:54 -0800
+Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pPKrJ-0003Qg-2r;
+	Tue, 07 Feb 2023 10:05:53 +0000
+Date: Tue, 7 Feb 2023 18:05:31 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: sound/soc/soc-topology.c:1405 soc_tplg_dapm_widget_create() warn:
+ missing error code 'ret'
+Message-ID: <202302071823.2veEqSHM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230119235936.19728-7-rpearsonhpe@gmail.com>
-Message-ID: <20230207080307.Ae1qpYDgwBS_VmtHrqf6VQFESileimb0RywPfSULYy8@z>
+Content-Transfer-Encoding: 8bit
 
-Hi Bob,
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+TO: "Amadeusz Sławiński" <amadeuszx.slawinski@linux.intel.com>
+CC: Mark Brown <broonie@kernel.org>
+CC: Cezary Rojewski <cezary.rojewski@intel.com>
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Bob-Pearson/RDMA-rxe-Cleanup-mr_check_range/20230120-080520
-base:   1ec82317a1daac78c04b0c15af89018ccf9fa2b7
-patch link:    https://lore.kernel.org/r/20230119235936.19728-7-rpearsonhpe%40gmail.com
-patch subject: [PATCH for-next v7 6/6] RDMA/rxe: Replace rxe_map and rxe_phys_buf by xarray
-config: s390-randconfig-m041-20230206 (https://download.01.org/0day-ci/archive/20230207/202302071553.dxgzoPxM-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 12.1.0
+Hi Amadeusz,
+
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   05ecb680708a1dbe6554d6fc17e5d9a8a7cb5e6a
+commit: 47a1886a610aca6a55c18ee677f9176e73162e97 ASoC: Intel: avs: Enable AVS driver only on x86 platforms
+date:   10 months ago
+:::::: branch date: 12 hours ago
+:::::: commit date: 10 months ago
+config: microblaze-randconfig-m041-20230206 (https://download.01.org/0day-ci/archive/20230207/202302071823.2veEqSHM-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
 
 smatch warnings:
-drivers/infiniband/sw/rxe/rxe_mr.c:130 rxe_mr_fill_pages_from_sgt() warn: inconsistent returns '&((&xas)->xa)->xa_lock'.
+sound/soc/soc-topology.c:1405 soc_tplg_dapm_widget_create() warn: missing error code 'ret'
 
-vim +130 drivers/infiniband/sw/rxe/rxe_mr.c
+vim +/ret +1405 sound/soc/soc-topology.c
 
-3222da9099ca42 Bob Pearson 2023-01-19   99  static int rxe_mr_fill_pages_from_sgt(struct rxe_mr *mr, struct sg_table *sgt)
-3222da9099ca42 Bob Pearson 2023-01-19  100  {
-3222da9099ca42 Bob Pearson 2023-01-19  101  	XA_STATE(xas, &mr->page_list, 0);
-3222da9099ca42 Bob Pearson 2023-01-19  102  	struct sg_page_iter sg_iter;
-3222da9099ca42 Bob Pearson 2023-01-19  103  	struct page *page;
-3222da9099ca42 Bob Pearson 2023-01-19  104  	bool persistent = !!(mr->access & IB_ACCESS_FLUSH_PERSISTENT);
-3222da9099ca42 Bob Pearson 2023-01-19  105  
-3222da9099ca42 Bob Pearson 2023-01-19  106  	__sg_page_iter_start(&sg_iter, sgt->sgl, sgt->orig_nents, 0);
-3222da9099ca42 Bob Pearson 2023-01-19  107  	if (!__sg_page_iter_next(&sg_iter))
-3222da9099ca42 Bob Pearson 2023-01-19  108  		return 0;
-3222da9099ca42 Bob Pearson 2023-01-19  109  
-3222da9099ca42 Bob Pearson 2023-01-19  110  	do {
-3222da9099ca42 Bob Pearson 2023-01-19  111  		xas_lock(&xas);
-3222da9099ca42 Bob Pearson 2023-01-19  112  		while (true) {
-3222da9099ca42 Bob Pearson 2023-01-19  113  			page = sg_page_iter_page(&sg_iter);
-3222da9099ca42 Bob Pearson 2023-01-19  114  
-3222da9099ca42 Bob Pearson 2023-01-19  115  			if (persistent && !is_pmem_page(page)) {
-3222da9099ca42 Bob Pearson 2023-01-19  116  				rxe_dbg_mr(mr, "Page can't be persistent\n");
-3222da9099ca42 Bob Pearson 2023-01-19  117  				return -EINVAL;
+8a9782346dccd8 Liam Girdwood        2015-05-29  1341  
+8a9782346dccd8 Liam Girdwood        2015-05-29  1342  static int soc_tplg_dapm_widget_create(struct soc_tplg *tplg,
+8a9782346dccd8 Liam Girdwood        2015-05-29  1343  	struct snd_soc_tplg_dapm_widget *w)
+8a9782346dccd8 Liam Girdwood        2015-05-29  1344  {
+8a9782346dccd8 Liam Girdwood        2015-05-29  1345  	struct snd_soc_dapm_context *dapm = &tplg->comp->dapm;
+8a9782346dccd8 Liam Girdwood        2015-05-29  1346  	struct snd_soc_dapm_widget template, *widget;
+8a9782346dccd8 Liam Girdwood        2015-05-29  1347  	struct snd_soc_tplg_ctl_hdr *control_hdr;
+8a9782346dccd8 Liam Girdwood        2015-05-29  1348  	struct snd_soc_card *card = tplg->comp->card;
+b9c035aa43b8c0 Jaska Uimonen        2021-05-19  1349  	unsigned int *kcontrol_type = NULL;
+d29d41e28eea65 Jaska Uimonen        2021-05-07  1350  	struct snd_kcontrol_new *kc;
+d29d41e28eea65 Jaska Uimonen        2021-05-07  1351  	int mixer_count = 0;
+d29d41e28eea65 Jaska Uimonen        2021-05-07  1352  	int bytes_count = 0;
+d29d41e28eea65 Jaska Uimonen        2021-05-07  1353  	int enum_count = 0;
+8a9782346dccd8 Liam Girdwood        2015-05-29  1354  	int ret = 0;
+d29d41e28eea65 Jaska Uimonen        2021-05-07  1355  	int i;
+8a9782346dccd8 Liam Girdwood        2015-05-29  1356  
+8a9782346dccd8 Liam Girdwood        2015-05-29  1357  	if (strnlen(w->name, SNDRV_CTL_ELEM_ID_NAME_MAXLEN) ==
+8a9782346dccd8 Liam Girdwood        2015-05-29  1358  		SNDRV_CTL_ELEM_ID_NAME_MAXLEN)
+8a9782346dccd8 Liam Girdwood        2015-05-29  1359  		return -EINVAL;
+8a9782346dccd8 Liam Girdwood        2015-05-29  1360  	if (strnlen(w->sname, SNDRV_CTL_ELEM_ID_NAME_MAXLEN) ==
+8a9782346dccd8 Liam Girdwood        2015-05-29  1361  		SNDRV_CTL_ELEM_ID_NAME_MAXLEN)
+8a9782346dccd8 Liam Girdwood        2015-05-29  1362  		return -EINVAL;
+8a9782346dccd8 Liam Girdwood        2015-05-29  1363  
+8a9782346dccd8 Liam Girdwood        2015-05-29  1364  	dev_dbg(tplg->dev, "ASoC: creating DAPM widget %s id %d\n",
+8a9782346dccd8 Liam Girdwood        2015-05-29  1365  		w->name, w->id);
+8a9782346dccd8 Liam Girdwood        2015-05-29  1366  
+8a9782346dccd8 Liam Girdwood        2015-05-29  1367  	memset(&template, 0, sizeof(template));
+8a9782346dccd8 Liam Girdwood        2015-05-29  1368  
+8a9782346dccd8 Liam Girdwood        2015-05-29  1369  	/* map user to kernel widget ID */
+5aebe7c7f9c20e Pierre-Louis Bossart 2019-04-04  1370  	template.id = get_widget_id(le32_to_cpu(w->id));
+752c938a5c14b8 Dan Carpenter        2019-09-25  1371  	if ((int)template.id < 0)
+8a9782346dccd8 Liam Girdwood        2015-05-29  1372  		return template.id;
+8a9782346dccd8 Liam Girdwood        2015-05-29  1373  
+c3421a6a65abc6 Liam Girdwood        2017-06-06  1374  	/* strings are allocated here, but used and freed by the widget */
+8a9782346dccd8 Liam Girdwood        2015-05-29  1375  	template.name = kstrdup(w->name, GFP_KERNEL);
+8a9782346dccd8 Liam Girdwood        2015-05-29  1376  	if (!template.name)
+8a9782346dccd8 Liam Girdwood        2015-05-29  1377  		return -ENOMEM;
+8a9782346dccd8 Liam Girdwood        2015-05-29  1378  	template.sname = kstrdup(w->sname, GFP_KERNEL);
+8a9782346dccd8 Liam Girdwood        2015-05-29  1379  	if (!template.sname) {
+8a9782346dccd8 Liam Girdwood        2015-05-29  1380  		ret = -ENOMEM;
+8a9782346dccd8 Liam Girdwood        2015-05-29  1381  		goto err;
+8a9782346dccd8 Liam Girdwood        2015-05-29  1382  	}
+5aebe7c7f9c20e Pierre-Louis Bossart 2019-04-04  1383  	template.reg = le32_to_cpu(w->reg);
+5aebe7c7f9c20e Pierre-Louis Bossart 2019-04-04  1384  	template.shift = le32_to_cpu(w->shift);
+5aebe7c7f9c20e Pierre-Louis Bossart 2019-04-04  1385  	template.mask = le32_to_cpu(w->mask);
+5aebe7c7f9c20e Pierre-Louis Bossart 2019-04-04  1386  	template.subseq = le32_to_cpu(w->subseq);
+8a9782346dccd8 Liam Girdwood        2015-05-29  1387  	template.on_val = w->invert ? 0 : 1;
+8a9782346dccd8 Liam Girdwood        2015-05-29  1388  	template.off_val = w->invert ? 1 : 0;
+5aebe7c7f9c20e Pierre-Louis Bossart 2019-04-04  1389  	template.ignore_suspend = le32_to_cpu(w->ignore_suspend);
+5aebe7c7f9c20e Pierre-Louis Bossart 2019-04-04  1390  	template.event_flags = le16_to_cpu(w->event_flags);
+8a9782346dccd8 Liam Girdwood        2015-05-29  1391  	template.dobj.index = tplg->index;
+8a9782346dccd8 Liam Girdwood        2015-05-29  1392  
+8a9782346dccd8 Liam Girdwood        2015-05-29  1393  	tplg->pos +=
+5aebe7c7f9c20e Pierre-Louis Bossart 2019-04-04  1394  		(sizeof(struct snd_soc_tplg_dapm_widget) +
+5aebe7c7f9c20e Pierre-Louis Bossart 2019-04-04  1395  		 le32_to_cpu(w->priv.size));
+5aebe7c7f9c20e Pierre-Louis Bossart 2019-04-04  1396  
+8a9782346dccd8 Liam Girdwood        2015-05-29  1397  	if (w->num_kcontrols == 0) {
+8a9782346dccd8 Liam Girdwood        2015-05-29  1398  		template.num_kcontrols = 0;
+8a9782346dccd8 Liam Girdwood        2015-05-29  1399  		goto widget;
+8a9782346dccd8 Liam Girdwood        2015-05-29  1400  	}
+8a9782346dccd8 Liam Girdwood        2015-05-29  1401  
+d29d41e28eea65 Jaska Uimonen        2021-05-07  1402  	template.num_kcontrols = le32_to_cpu(w->num_kcontrols);
+d29d41e28eea65 Jaska Uimonen        2021-05-07  1403  	kc = devm_kcalloc(tplg->dev, le32_to_cpu(w->num_kcontrols), sizeof(*kc), GFP_KERNEL);
+d29d41e28eea65 Jaska Uimonen        2021-05-07  1404  	if (!kc)
+9c363532413cda Peter Ujfalusi       2022-03-31 @1405  		goto hdr_err;
+d29d41e28eea65 Jaska Uimonen        2021-05-07  1406  
+d29d41e28eea65 Jaska Uimonen        2021-05-07  1407  	kcontrol_type = devm_kcalloc(tplg->dev, le32_to_cpu(w->num_kcontrols), sizeof(unsigned int),
+d29d41e28eea65 Jaska Uimonen        2021-05-07  1408  				     GFP_KERNEL);
+d29d41e28eea65 Jaska Uimonen        2021-05-07  1409  	if (!kcontrol_type)
+9c363532413cda Peter Ujfalusi       2022-03-31  1410  		goto hdr_err;
+d29d41e28eea65 Jaska Uimonen        2021-05-07  1411  
+1baad7dad115ea Pierre-Louis Bossart 2021-10-25  1412  	for (i = 0; i < le32_to_cpu(w->num_kcontrols); i++) {
+d29d41e28eea65 Jaska Uimonen        2021-05-07  1413  		control_hdr = (struct snd_soc_tplg_ctl_hdr *)tplg->pos;
+5aebe7c7f9c20e Pierre-Louis Bossart 2019-04-04  1414  		switch (le32_to_cpu(control_hdr->ops.info)) {
+8a9782346dccd8 Liam Girdwood        2015-05-29  1415  		case SND_SOC_TPLG_CTL_VOLSW:
+8a9782346dccd8 Liam Girdwood        2015-05-29  1416  		case SND_SOC_TPLG_CTL_STROBE:
+8a9782346dccd8 Liam Girdwood        2015-05-29  1417  		case SND_SOC_TPLG_CTL_VOLSW_SX:
+8a9782346dccd8 Liam Girdwood        2015-05-29  1418  		case SND_SOC_TPLG_CTL_VOLSW_XR_SX:
+8a9782346dccd8 Liam Girdwood        2015-05-29  1419  		case SND_SOC_TPLG_CTL_RANGE:
+8a9782346dccd8 Liam Girdwood        2015-05-29  1420  		case SND_SOC_TPLG_DAPM_CTL_VOLSW:
+d29d41e28eea65 Jaska Uimonen        2021-05-07  1421  			/* volume mixer */
+d29d41e28eea65 Jaska Uimonen        2021-05-07  1422  			kc[i].index = mixer_count;
+d29d41e28eea65 Jaska Uimonen        2021-05-07  1423  			kcontrol_type[i] = SND_SOC_TPLG_TYPE_MIXER;
+d29d41e28eea65 Jaska Uimonen        2021-05-07  1424  			mixer_count++;
+d29d41e28eea65 Jaska Uimonen        2021-05-07  1425  			ret = soc_tplg_dapm_widget_dmixer_create(tplg, &kc[i]);
+d29d41e28eea65 Jaska Uimonen        2021-05-07  1426  			if (ret < 0)
+8a9782346dccd8 Liam Girdwood        2015-05-29  1427  				goto hdr_err;
+8a9782346dccd8 Liam Girdwood        2015-05-29  1428  			break;
+8a9782346dccd8 Liam Girdwood        2015-05-29  1429  		case SND_SOC_TPLG_CTL_ENUM:
+8a9782346dccd8 Liam Girdwood        2015-05-29  1430  		case SND_SOC_TPLG_CTL_ENUM_VALUE:
+8a9782346dccd8 Liam Girdwood        2015-05-29  1431  		case SND_SOC_TPLG_DAPM_CTL_ENUM_DOUBLE:
+8a9782346dccd8 Liam Girdwood        2015-05-29  1432  		case SND_SOC_TPLG_DAPM_CTL_ENUM_VIRT:
+8a9782346dccd8 Liam Girdwood        2015-05-29  1433  		case SND_SOC_TPLG_DAPM_CTL_ENUM_VALUE:
+d29d41e28eea65 Jaska Uimonen        2021-05-07  1434  			/* enumerated mixer */
+d29d41e28eea65 Jaska Uimonen        2021-05-07  1435  			kc[i].index = enum_count;
+d29d41e28eea65 Jaska Uimonen        2021-05-07  1436  			kcontrol_type[i] = SND_SOC_TPLG_TYPE_ENUM;
+d29d41e28eea65 Jaska Uimonen        2021-05-07  1437  			enum_count++;
+d29d41e28eea65 Jaska Uimonen        2021-05-07  1438  			ret = soc_tplg_dapm_widget_denum_create(tplg, &kc[i]);
+d29d41e28eea65 Jaska Uimonen        2021-05-07  1439  			if (ret < 0)
+8a9782346dccd8 Liam Girdwood        2015-05-29  1440  				goto hdr_err;
+8a9782346dccd8 Liam Girdwood        2015-05-29  1441  			break;
+8a9782346dccd8 Liam Girdwood        2015-05-29  1442  		case SND_SOC_TPLG_CTL_BYTES:
+d29d41e28eea65 Jaska Uimonen        2021-05-07  1443  			/* bytes control */
+d29d41e28eea65 Jaska Uimonen        2021-05-07  1444  			kc[i].index = bytes_count;
+d29d41e28eea65 Jaska Uimonen        2021-05-07  1445  			kcontrol_type[i] = SND_SOC_TPLG_TYPE_BYTES;
+d29d41e28eea65 Jaska Uimonen        2021-05-07  1446  			bytes_count++;
+d29d41e28eea65 Jaska Uimonen        2021-05-07  1447  			ret = soc_tplg_dapm_widget_dbytes_create(tplg, &kc[i]);
+d29d41e28eea65 Jaska Uimonen        2021-05-07  1448  			if (ret < 0)
+8a9782346dccd8 Liam Girdwood        2015-05-29  1449  				goto hdr_err;
+8a9782346dccd8 Liam Girdwood        2015-05-29  1450  			break;
+8a9782346dccd8 Liam Girdwood        2015-05-29  1451  		default:
+8a9782346dccd8 Liam Girdwood        2015-05-29  1452  			dev_err(tplg->dev, "ASoC: invalid widget control type %d:%d:%d\n",
+8a9782346dccd8 Liam Girdwood        2015-05-29  1453  				control_hdr->ops.get, control_hdr->ops.put,
+5aebe7c7f9c20e Pierre-Louis Bossart 2019-04-04  1454  				le32_to_cpu(control_hdr->ops.info));
+8a9782346dccd8 Liam Girdwood        2015-05-29  1455  			ret = -EINVAL;
+8a9782346dccd8 Liam Girdwood        2015-05-29  1456  			goto hdr_err;
+8a9782346dccd8 Liam Girdwood        2015-05-29  1457  		}
+d29d41e28eea65 Jaska Uimonen        2021-05-07  1458  	}
+d29d41e28eea65 Jaska Uimonen        2021-05-07  1459  
+d29d41e28eea65 Jaska Uimonen        2021-05-07  1460  	template.kcontrol_news = kc;
+8facf84bcf575e Peter Ujfalusi       2021-09-02  1461  	dev_dbg(tplg->dev, "ASoC: template %s with %d/%d/%d (mixer/enum/bytes) control\n",
+8facf84bcf575e Peter Ujfalusi       2021-09-02  1462  		w->name, mixer_count, enum_count, bytes_count);
+8a9782346dccd8 Liam Girdwood        2015-05-29  1463  
+8a9782346dccd8 Liam Girdwood        2015-05-29  1464  widget:
+8a9782346dccd8 Liam Girdwood        2015-05-29  1465  	ret = soc_tplg_widget_load(tplg, &template, w);
+8a9782346dccd8 Liam Girdwood        2015-05-29  1466  	if (ret < 0)
+8a9782346dccd8 Liam Girdwood        2015-05-29  1467  		goto hdr_err;
+8a9782346dccd8 Liam Girdwood        2015-05-29  1468  
+8a9782346dccd8 Liam Girdwood        2015-05-29  1469  	/* card dapm mutex is held by the core if we are loading topology
+8a9782346dccd8 Liam Girdwood        2015-05-29  1470  	 * data during sound card init. */
+8a9782346dccd8 Liam Girdwood        2015-05-29  1471  	if (card->instantiated)
+8a9782346dccd8 Liam Girdwood        2015-05-29  1472  		widget = snd_soc_dapm_new_control(dapm, &template);
+8a9782346dccd8 Liam Girdwood        2015-05-29  1473  	else
+8a9782346dccd8 Liam Girdwood        2015-05-29  1474  		widget = snd_soc_dapm_new_control_unlocked(dapm, &template);
+37e1df8c95e2c8 Linus Walleij        2017-01-13  1475  	if (IS_ERR(widget)) {
+37e1df8c95e2c8 Linus Walleij        2017-01-13  1476  		ret = PTR_ERR(widget);
+8a9782346dccd8 Liam Girdwood        2015-05-29  1477  		goto hdr_err;
+8a9782346dccd8 Liam Girdwood        2015-05-29  1478  	}
+8a9782346dccd8 Liam Girdwood        2015-05-29  1479  
+8a9782346dccd8 Liam Girdwood        2015-05-29  1480  	widget->dobj.type = SND_SOC_DOBJ_WIDGET;
+eea3dd4f1247aa Mengdong Lin         2016-11-25  1481  	widget->dobj.widget.kcontrol_type = kcontrol_type;
+8a9782346dccd8 Liam Girdwood        2015-05-29  1482  	widget->dobj.ops = tplg->ops;
+8a9782346dccd8 Liam Girdwood        2015-05-29  1483  	widget->dobj.index = tplg->index;
+8a9782346dccd8 Liam Girdwood        2015-05-29  1484  	list_add(&widget->dobj.list, &tplg->comp->dobj_list);
+ebd259d33a900b Liam Girdwood        2017-06-09  1485  
+ebd259d33a900b Liam Girdwood        2017-06-09  1486  	ret = soc_tplg_widget_ready(tplg, widget, w);
+ebd259d33a900b Liam Girdwood        2017-06-09  1487  	if (ret < 0)
+ebd259d33a900b Liam Girdwood        2017-06-09  1488  		goto ready_err;
+ebd259d33a900b Liam Girdwood        2017-06-09  1489  
+7620fe9161cec2 Bard liao            2019-01-25  1490  	kfree(template.sname);
+7620fe9161cec2 Bard liao            2019-01-25  1491  	kfree(template.name);
+7620fe9161cec2 Bard liao            2019-01-25  1492  
+8a9782346dccd8 Liam Girdwood        2015-05-29  1493  	return 0;
+8a9782346dccd8 Liam Girdwood        2015-05-29  1494  
+ebd259d33a900b Liam Girdwood        2017-06-09  1495  ready_err:
+841fb1096713bd Amadeusz Sławiński   2020-10-30  1496  	remove_widget(widget->dapm->component, &widget->dobj, SOC_TPLG_PASS_WIDGET);
+ebd259d33a900b Liam Girdwood        2017-06-09  1497  	snd_soc_dapm_free_widget(widget);
+8a9782346dccd8 Liam Girdwood        2015-05-29  1498  hdr_err:
+8a9782346dccd8 Liam Girdwood        2015-05-29  1499  	kfree(template.sname);
+8a9782346dccd8 Liam Girdwood        2015-05-29  1500  err:
+8a9782346dccd8 Liam Girdwood        2015-05-29  1501  	kfree(template.name);
+8a9782346dccd8 Liam Girdwood        2015-05-29  1502  	return ret;
+8a9782346dccd8 Liam Girdwood        2015-05-29  1503  }
+8a9782346dccd8 Liam Girdwood        2015-05-29  1504  
 
-xas_unlock(&xas);
+:::::: The code at line 1405 was first introduced by commit
+:::::: 9c363532413cda3e2c6dfa10e5cca7cd221877a0 ASoC: topology: Correct error handling in soc_tplg_dapm_widget_create()
 
-3222da9099ca42 Bob Pearson 2023-01-19  118  			}
-3222da9099ca42 Bob Pearson 2023-01-19  119  
-3222da9099ca42 Bob Pearson 2023-01-19  120  			xas_store(&xas, page);
-3222da9099ca42 Bob Pearson 2023-01-19  121  			if (xas_error(&xas))
-3222da9099ca42 Bob Pearson 2023-01-19  122  				break;
-3222da9099ca42 Bob Pearson 2023-01-19  123  			xas_next(&xas);
-3222da9099ca42 Bob Pearson 2023-01-19  124  			if (!__sg_page_iter_next(&sg_iter))
-3222da9099ca42 Bob Pearson 2023-01-19  125  				break;
-3222da9099ca42 Bob Pearson 2023-01-19  126  		}
-3222da9099ca42 Bob Pearson 2023-01-19  127  		xas_unlock(&xas);
-3222da9099ca42 Bob Pearson 2023-01-19  128  	} while (xas_nomem(&xas, GFP_KERNEL));
-3222da9099ca42 Bob Pearson 2023-01-19  129  
-3222da9099ca42 Bob Pearson 2023-01-19 @130  	return xas_error(&xas);
-3222da9099ca42 Bob Pearson 2023-01-19  131  }
+:::::: TO: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+:::::: CC: Mark Brown <broonie@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
-
