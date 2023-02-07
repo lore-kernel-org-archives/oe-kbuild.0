@@ -1,253 +1,116 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C19AF20E8;
-	Tue,  7 Feb 2023 10:08:50 +0000 (UTC)
-Received: by mail-wm1-f54.google.com with SMTP id o36so10647445wms.1;
-        Tue, 07 Feb 2023 02:08:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:content-disposition:mime-version
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4uBjwL3X2HhfSsi8GSFH1CrM9+dq4wni12QE/75bmps=;
-        b=Mbeh36rfjqSD/9tb2T97Hk6RyZlM2o7NAAZinKXXhss8GTupnJAV1Il2bvU0cfM6bk
-         OZeBFGXB8KRCwjCqBGVt08j3E68phG0/AHrZbFacvv6R+OAyAtMWp9D1AUmoKkF6dGsg
-         AUlgDXlKPW6Xd81aK48m3BtQdhoM6oDjNhRIvotdUXgQnKOqCxzo2vl1T+ScQzYCp1kq
-         q6LfdK+7ZzFwgq7HKCNAxcKo1hWzdK9Ci5Fd2Z4a/Gna19R3zuojYRuOYqnpwV/QtSHz
-         be7cJOzEpk4nHqMZoJandUhkti3+BT0CUolzconzvt5Abqe7tjLBUsCYARF5QfD3Ev5P
-         ZKag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:content-disposition:mime-version
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=4uBjwL3X2HhfSsi8GSFH1CrM9+dq4wni12QE/75bmps=;
-        b=ab5/TV50peThFLG9rSOb6x2+MkGx3hxwYDmXLui8Ef/X326BmfjasyjmF/XEL36a2R
-         FqfgI42V0a8akuf9ZEPeKSAvy0tMgMO19XNw0sGkSbv1axE0OSpklPPRLMkwRyCKZqoO
-         fTeU3uTC4A0EuStnLf+Sv5xtp/NB+ED4rR42PbyMTdHEiiAldkwiZrvOvT9JwZ8RS8nz
-         Z9G6b0uAfHEoN5E+iBaCe7MrpJq4DLJW1Jf6a/NbTQ/YBj5SbXFuY5HeOi1qop1hWZdn
-         kXXguSbAL9GalmN3a+lSUwWbO9wYv9WAHCv4qcAUwqkDiZyUGVEPLFzjgbRK8wtQStDK
-         PygQ==
-X-Gm-Message-State: AO0yUKVsJmT0zqlOwd33S3iklKJsuReOxDXeWh9jetU9aElX54ihBXqu
-	z07yHGEGdR+lo8jGBR6S4rnYivOlIiVFymmY
-X-Google-Smtp-Source: AK7set93uxF3lHRrPiRHQM1UH+2x36Mh43Pw4XoyelOnuMdSq0hgbz6HUWI6ZkHYokasTZVsisscqQ==
-X-Received: by 2002:a05:600c:4d16:b0:3df:e549:bd00 with SMTP id u22-20020a05600c4d1600b003dfe549bd00mr2477864wmp.1.1675764528790;
-        Tue, 07 Feb 2023 02:08:48 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id k19-20020a05600c1c9300b003dc43a10fa5sm14354269wms.13.2023.02.07.02.08.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Feb 2023 02:08:48 -0800 (PST)
-Date: Tue, 7 Feb 2023 13:08:45 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev,
-	Amadeusz =?utf-8?B?U8WCYXdpxYRza2k=?= <amadeuszx.slawinski@linux.intel.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Mark Brown <broonie@kernel.org>,
-	Cezary Rojewski <cezary.rojewski@intel.com>
-Subject: sound/soc/soc-topology.c:1405 soc_tplg_dapm_widget_create() warn:
- missing error code 'ret'
-Message-ID: <202302071823.2veEqSHM-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7669320FC
+	for <oe-kbuild@lists.linux.dev>; Tue,  7 Feb 2023 10:57:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1675767420; x=1707303420;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=63udTvaMaLusKWEXi8ycMpNNH8X0TKhEhvwW3Ybe8L4=;
+  b=MkfSBIQtWP0r7MjWVd3I0q0l9brqObMGHt8/swLCIHPKu/ofio6FnTTw
+   ABO8F87eFpXzLsA9VFlVtbkkhMCclycJahmI4MsWJDK6kaWwrmorQV1i1
+   YT548Bwy9YARi5FFrfLSfSE89JDDuo3inCExAFh2FFO+i/M7RgbSl9x4P
+   3k+t+nuzvIqrVu5VSZki9v53+3a76wxEOnvwUzX6prZbmrum0T5+tgLNY
+   aqgznNGkyUfnDMk0FVg2i7EAWV8Hh7hpnLt1/g5llwkMyNLqNy1fZlY2M
+   o38nf9gRlgAfELPTXeRt434quGHKpPEsACOyfyYmpzP3LflihScplm5lL
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10613"; a="356845517"
+X-IronPort-AV: E=Sophos;i="5.97,278,1669104000"; 
+   d="scan'208";a="356845517"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2023 02:56:58 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10613"; a="616765845"
+X-IronPort-AV: E=Sophos;i="5.97,278,1669104000"; 
+   d="scan'208";a="616765845"
+Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
+  by orsmga003.jf.intel.com with ESMTP; 07 Feb 2023 02:56:57 -0800
+Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pPLei-0003TK-1y;
+	Tue, 07 Feb 2023 10:56:56 +0000
+Date: Tue, 7 Feb 2023 18:56:28 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCH v4 3/4] crypto/net/ipv6: sr: Switch to using crypto_pool
+Message-ID: <202302071833.k6CihGFl-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Message-ID: <20230207100845.6xt1REx8PQzUAAxFs2VBwyGAcl62PJG0fdok7rEfmGc@z>
 
-Hi Amadeusz,
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20230118214111.394416-4-dima@arista.com>
+References: <20230118214111.394416-4-dima@arista.com>
+TO: Dmitry Safonov <dima@arista.com>
+TO: linux-kernel@vger.kernel.org
+TO: David Ahern <dsahern@kernel.org>
+TO: Eric Dumazet <edumazet@google.com>
+TO: Herbert Xu <herbert@gondor.apana.org.au>
+TO: Jakub Kicinski <kuba@kernel.org>
+TO: "David S. Miller" <davem@davemloft.net>
+CC: netdev@vger.kernel.org
+CC: Dmitry Safonov <dima@arista.com>
+CC: Andy Lutomirski <luto@amacapital.net>
+CC: Bob Gilligan <gilligan@arista.com>
+CC: Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>
+CC: Leonard Crestez <cdleonard@gmail.com>
+CC: Paolo Abeni <pabeni@redhat.com>
+CC: Salam Noureddine <noureddine@arista.com>
+CC: linux-crypto@vger.kernel.org
 
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+Hi Dmitry,
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   05ecb680708a1dbe6554d6fc17e5d9a8a7cb5e6a
-commit: 47a1886a610aca6a55c18ee677f9176e73162e97 ASoC: Intel: avs: Enable AVS driver only on x86 platforms
-config: microblaze-randconfig-m041-20230206 (https://download.01.org/0day-ci/archive/20230207/202302071823.2veEqSHM-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 12.1.0
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on c1649ec55708ae42091a2f1bca1ab49ecd722d55]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Dmitry-Safonov/crypto-Introduce-crypto_pool/20230119-054258
+base:   c1649ec55708ae42091a2f1bca1ab49ecd722d55
+patch link:    https://lore.kernel.org/r/20230118214111.394416-4-dima%40arista.com
+patch subject: [PATCH v4 3/4] crypto/net/ipv6: sr: Switch to using crypto_pool
+:::::: branch date: 3 weeks ago
+:::::: commit date: 3 weeks ago
+config: s390-randconfig-m041-20230206 (https://download.01.org/0day-ci/archive/20230207/202302071833.k6CihGFl-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
 
 smatch warnings:
-sound/soc/soc-topology.c:1405 soc_tplg_dapm_widget_create() warn: missing error code 'ret'
+net/ipv6/seg6.c:539 seg6_init() warn: ignoring unreachable code.
 
-vim +/ret +1405 sound/soc/soc-topology.c
+vim +539 net/ipv6/seg6.c
 
-8a9782346dccd8 Liam Girdwood        2015-05-29  1342  static int soc_tplg_dapm_widget_create(struct soc_tplg *tplg,
-8a9782346dccd8 Liam Girdwood        2015-05-29  1343  	struct snd_soc_tplg_dapm_widget *w)
-8a9782346dccd8 Liam Girdwood        2015-05-29  1344  {
-8a9782346dccd8 Liam Girdwood        2015-05-29  1345  	struct snd_soc_dapm_context *dapm = &tplg->comp->dapm;
-8a9782346dccd8 Liam Girdwood        2015-05-29  1346  	struct snd_soc_dapm_widget template, *widget;
-8a9782346dccd8 Liam Girdwood        2015-05-29  1347  	struct snd_soc_tplg_ctl_hdr *control_hdr;
-8a9782346dccd8 Liam Girdwood        2015-05-29  1348  	struct snd_soc_card *card = tplg->comp->card;
-b9c035aa43b8c0 Jaska Uimonen        2021-05-19  1349  	unsigned int *kcontrol_type = NULL;
-d29d41e28eea65 Jaska Uimonen        2021-05-07  1350  	struct snd_kcontrol_new *kc;
-d29d41e28eea65 Jaska Uimonen        2021-05-07  1351  	int mixer_count = 0;
-d29d41e28eea65 Jaska Uimonen        2021-05-07  1352  	int bytes_count = 0;
-d29d41e28eea65 Jaska Uimonen        2021-05-07  1353  	int enum_count = 0;
-8a9782346dccd8 Liam Girdwood        2015-05-29  1354  	int ret = 0;
-d29d41e28eea65 Jaska Uimonen        2021-05-07  1355  	int i;
-8a9782346dccd8 Liam Girdwood        2015-05-29  1356  
-8a9782346dccd8 Liam Girdwood        2015-05-29  1357  	if (strnlen(w->name, SNDRV_CTL_ELEM_ID_NAME_MAXLEN) ==
-8a9782346dccd8 Liam Girdwood        2015-05-29  1358  		SNDRV_CTL_ELEM_ID_NAME_MAXLEN)
-8a9782346dccd8 Liam Girdwood        2015-05-29  1359  		return -EINVAL;
-8a9782346dccd8 Liam Girdwood        2015-05-29  1360  	if (strnlen(w->sname, SNDRV_CTL_ELEM_ID_NAME_MAXLEN) ==
-8a9782346dccd8 Liam Girdwood        2015-05-29  1361  		SNDRV_CTL_ELEM_ID_NAME_MAXLEN)
-8a9782346dccd8 Liam Girdwood        2015-05-29  1362  		return -EINVAL;
-8a9782346dccd8 Liam Girdwood        2015-05-29  1363  
-8a9782346dccd8 Liam Girdwood        2015-05-29  1364  	dev_dbg(tplg->dev, "ASoC: creating DAPM widget %s id %d\n",
-8a9782346dccd8 Liam Girdwood        2015-05-29  1365  		w->name, w->id);
-8a9782346dccd8 Liam Girdwood        2015-05-29  1366  
-8a9782346dccd8 Liam Girdwood        2015-05-29  1367  	memset(&template, 0, sizeof(template));
-8a9782346dccd8 Liam Girdwood        2015-05-29  1368  
-8a9782346dccd8 Liam Girdwood        2015-05-29  1369  	/* map user to kernel widget ID */
-5aebe7c7f9c20e Pierre-Louis Bossart 2019-04-04  1370  	template.id = get_widget_id(le32_to_cpu(w->id));
-752c938a5c14b8 Dan Carpenter        2019-09-25  1371  	if ((int)template.id < 0)
-8a9782346dccd8 Liam Girdwood        2015-05-29  1372  		return template.id;
-8a9782346dccd8 Liam Girdwood        2015-05-29  1373  
-c3421a6a65abc6 Liam Girdwood        2017-06-06  1374  	/* strings are allocated here, but used and freed by the widget */
-8a9782346dccd8 Liam Girdwood        2015-05-29  1375  	template.name = kstrdup(w->name, GFP_KERNEL);
-8a9782346dccd8 Liam Girdwood        2015-05-29  1376  	if (!template.name)
-8a9782346dccd8 Liam Girdwood        2015-05-29  1377  		return -ENOMEM;
-8a9782346dccd8 Liam Girdwood        2015-05-29  1378  	template.sname = kstrdup(w->sname, GFP_KERNEL);
-8a9782346dccd8 Liam Girdwood        2015-05-29  1379  	if (!template.sname) {
-8a9782346dccd8 Liam Girdwood        2015-05-29  1380  		ret = -ENOMEM;
-8a9782346dccd8 Liam Girdwood        2015-05-29  1381  		goto err;
-8a9782346dccd8 Liam Girdwood        2015-05-29  1382  	}
-5aebe7c7f9c20e Pierre-Louis Bossart 2019-04-04  1383  	template.reg = le32_to_cpu(w->reg);
-5aebe7c7f9c20e Pierre-Louis Bossart 2019-04-04  1384  	template.shift = le32_to_cpu(w->shift);
-5aebe7c7f9c20e Pierre-Louis Bossart 2019-04-04  1385  	template.mask = le32_to_cpu(w->mask);
-5aebe7c7f9c20e Pierre-Louis Bossart 2019-04-04  1386  	template.subseq = le32_to_cpu(w->subseq);
-8a9782346dccd8 Liam Girdwood        2015-05-29  1387  	template.on_val = w->invert ? 0 : 1;
-8a9782346dccd8 Liam Girdwood        2015-05-29  1388  	template.off_val = w->invert ? 1 : 0;
-5aebe7c7f9c20e Pierre-Louis Bossart 2019-04-04  1389  	template.ignore_suspend = le32_to_cpu(w->ignore_suspend);
-5aebe7c7f9c20e Pierre-Louis Bossart 2019-04-04  1390  	template.event_flags = le16_to_cpu(w->event_flags);
-8a9782346dccd8 Liam Girdwood        2015-05-29  1391  	template.dobj.index = tplg->index;
-8a9782346dccd8 Liam Girdwood        2015-05-29  1392  
-8a9782346dccd8 Liam Girdwood        2015-05-29  1393  	tplg->pos +=
-5aebe7c7f9c20e Pierre-Louis Bossart 2019-04-04  1394  		(sizeof(struct snd_soc_tplg_dapm_widget) +
-5aebe7c7f9c20e Pierre-Louis Bossart 2019-04-04  1395  		 le32_to_cpu(w->priv.size));
-5aebe7c7f9c20e Pierre-Louis Bossart 2019-04-04  1396  
-8a9782346dccd8 Liam Girdwood        2015-05-29  1397  	if (w->num_kcontrols == 0) {
-8a9782346dccd8 Liam Girdwood        2015-05-29  1398  		template.num_kcontrols = 0;
-8a9782346dccd8 Liam Girdwood        2015-05-29  1399  		goto widget;
-8a9782346dccd8 Liam Girdwood        2015-05-29  1400  	}
-8a9782346dccd8 Liam Girdwood        2015-05-29  1401  
-d29d41e28eea65 Jaska Uimonen        2021-05-07  1402  	template.num_kcontrols = le32_to_cpu(w->num_kcontrols);
-d29d41e28eea65 Jaska Uimonen        2021-05-07  1403  	kc = devm_kcalloc(tplg->dev, le32_to_cpu(w->num_kcontrols), sizeof(*kc), GFP_KERNEL);
-d29d41e28eea65 Jaska Uimonen        2021-05-07  1404  	if (!kc)
-9c363532413cda Peter Ujfalusi       2022-03-31 @1405  		goto hdr_err;
-
-ret = -ENOMEM;
-
-d29d41e28eea65 Jaska Uimonen        2021-05-07  1406  
-d29d41e28eea65 Jaska Uimonen        2021-05-07  1407  	kcontrol_type = devm_kcalloc(tplg->dev, le32_to_cpu(w->num_kcontrols), sizeof(unsigned int),
-d29d41e28eea65 Jaska Uimonen        2021-05-07  1408  				     GFP_KERNEL);
-d29d41e28eea65 Jaska Uimonen        2021-05-07  1409  	if (!kcontrol_type)
-9c363532413cda Peter Ujfalusi       2022-03-31  1410  		goto hdr_err;
-
-Same.
-
-d29d41e28eea65 Jaska Uimonen        2021-05-07  1411  
-1baad7dad115ea Pierre-Louis Bossart 2021-10-25  1412  	for (i = 0; i < le32_to_cpu(w->num_kcontrols); i++) {
-d29d41e28eea65 Jaska Uimonen        2021-05-07  1413  		control_hdr = (struct snd_soc_tplg_ctl_hdr *)tplg->pos;
-5aebe7c7f9c20e Pierre-Louis Bossart 2019-04-04  1414  		switch (le32_to_cpu(control_hdr->ops.info)) {
-8a9782346dccd8 Liam Girdwood        2015-05-29  1415  		case SND_SOC_TPLG_CTL_VOLSW:
-8a9782346dccd8 Liam Girdwood        2015-05-29  1416  		case SND_SOC_TPLG_CTL_STROBE:
-8a9782346dccd8 Liam Girdwood        2015-05-29  1417  		case SND_SOC_TPLG_CTL_VOLSW_SX:
-8a9782346dccd8 Liam Girdwood        2015-05-29  1418  		case SND_SOC_TPLG_CTL_VOLSW_XR_SX:
-8a9782346dccd8 Liam Girdwood        2015-05-29  1419  		case SND_SOC_TPLG_CTL_RANGE:
-8a9782346dccd8 Liam Girdwood        2015-05-29  1420  		case SND_SOC_TPLG_DAPM_CTL_VOLSW:
-d29d41e28eea65 Jaska Uimonen        2021-05-07  1421  			/* volume mixer */
-d29d41e28eea65 Jaska Uimonen        2021-05-07  1422  			kc[i].index = mixer_count;
-d29d41e28eea65 Jaska Uimonen        2021-05-07  1423  			kcontrol_type[i] = SND_SOC_TPLG_TYPE_MIXER;
-d29d41e28eea65 Jaska Uimonen        2021-05-07  1424  			mixer_count++;
-d29d41e28eea65 Jaska Uimonen        2021-05-07  1425  			ret = soc_tplg_dapm_widget_dmixer_create(tplg, &kc[i]);
-d29d41e28eea65 Jaska Uimonen        2021-05-07  1426  			if (ret < 0)
-8a9782346dccd8 Liam Girdwood        2015-05-29  1427  				goto hdr_err;
-8a9782346dccd8 Liam Girdwood        2015-05-29  1428  			break;
-8a9782346dccd8 Liam Girdwood        2015-05-29  1429  		case SND_SOC_TPLG_CTL_ENUM:
-8a9782346dccd8 Liam Girdwood        2015-05-29  1430  		case SND_SOC_TPLG_CTL_ENUM_VALUE:
-8a9782346dccd8 Liam Girdwood        2015-05-29  1431  		case SND_SOC_TPLG_DAPM_CTL_ENUM_DOUBLE:
-8a9782346dccd8 Liam Girdwood        2015-05-29  1432  		case SND_SOC_TPLG_DAPM_CTL_ENUM_VIRT:
-8a9782346dccd8 Liam Girdwood        2015-05-29  1433  		case SND_SOC_TPLG_DAPM_CTL_ENUM_VALUE:
-d29d41e28eea65 Jaska Uimonen        2021-05-07  1434  			/* enumerated mixer */
-d29d41e28eea65 Jaska Uimonen        2021-05-07  1435  			kc[i].index = enum_count;
-d29d41e28eea65 Jaska Uimonen        2021-05-07  1436  			kcontrol_type[i] = SND_SOC_TPLG_TYPE_ENUM;
-d29d41e28eea65 Jaska Uimonen        2021-05-07  1437  			enum_count++;
-d29d41e28eea65 Jaska Uimonen        2021-05-07  1438  			ret = soc_tplg_dapm_widget_denum_create(tplg, &kc[i]);
-d29d41e28eea65 Jaska Uimonen        2021-05-07  1439  			if (ret < 0)
-8a9782346dccd8 Liam Girdwood        2015-05-29  1440  				goto hdr_err;
-8a9782346dccd8 Liam Girdwood        2015-05-29  1441  			break;
-8a9782346dccd8 Liam Girdwood        2015-05-29  1442  		case SND_SOC_TPLG_CTL_BYTES:
-d29d41e28eea65 Jaska Uimonen        2021-05-07  1443  			/* bytes control */
-d29d41e28eea65 Jaska Uimonen        2021-05-07  1444  			kc[i].index = bytes_count;
-d29d41e28eea65 Jaska Uimonen        2021-05-07  1445  			kcontrol_type[i] = SND_SOC_TPLG_TYPE_BYTES;
-d29d41e28eea65 Jaska Uimonen        2021-05-07  1446  			bytes_count++;
-d29d41e28eea65 Jaska Uimonen        2021-05-07  1447  			ret = soc_tplg_dapm_widget_dbytes_create(tplg, &kc[i]);
-d29d41e28eea65 Jaska Uimonen        2021-05-07  1448  			if (ret < 0)
-8a9782346dccd8 Liam Girdwood        2015-05-29  1449  				goto hdr_err;
-8a9782346dccd8 Liam Girdwood        2015-05-29  1450  			break;
-8a9782346dccd8 Liam Girdwood        2015-05-29  1451  		default:
-8a9782346dccd8 Liam Girdwood        2015-05-29  1452  			dev_err(tplg->dev, "ASoC: invalid widget control type %d:%d:%d\n",
-8a9782346dccd8 Liam Girdwood        2015-05-29  1453  				control_hdr->ops.get, control_hdr->ops.put,
-5aebe7c7f9c20e Pierre-Louis Bossart 2019-04-04  1454  				le32_to_cpu(control_hdr->ops.info));
-8a9782346dccd8 Liam Girdwood        2015-05-29  1455  			ret = -EINVAL;
-8a9782346dccd8 Liam Girdwood        2015-05-29  1456  			goto hdr_err;
-8a9782346dccd8 Liam Girdwood        2015-05-29  1457  		}
-d29d41e28eea65 Jaska Uimonen        2021-05-07  1458  	}
-d29d41e28eea65 Jaska Uimonen        2021-05-07  1459  
-d29d41e28eea65 Jaska Uimonen        2021-05-07  1460  	template.kcontrol_news = kc;
-8facf84bcf575e Peter Ujfalusi       2021-09-02  1461  	dev_dbg(tplg->dev, "ASoC: template %s with %d/%d/%d (mixer/enum/bytes) control\n",
-8facf84bcf575e Peter Ujfalusi       2021-09-02  1462  		w->name, mixer_count, enum_count, bytes_count);
-8a9782346dccd8 Liam Girdwood        2015-05-29  1463  
-8a9782346dccd8 Liam Girdwood        2015-05-29  1464  widget:
-8a9782346dccd8 Liam Girdwood        2015-05-29  1465  	ret = soc_tplg_widget_load(tplg, &template, w);
-8a9782346dccd8 Liam Girdwood        2015-05-29  1466  	if (ret < 0)
-8a9782346dccd8 Liam Girdwood        2015-05-29  1467  		goto hdr_err;
-8a9782346dccd8 Liam Girdwood        2015-05-29  1468  
-8a9782346dccd8 Liam Girdwood        2015-05-29  1469  	/* card dapm mutex is held by the core if we are loading topology
-8a9782346dccd8 Liam Girdwood        2015-05-29  1470  	 * data during sound card init. */
-8a9782346dccd8 Liam Girdwood        2015-05-29  1471  	if (card->instantiated)
-8a9782346dccd8 Liam Girdwood        2015-05-29  1472  		widget = snd_soc_dapm_new_control(dapm, &template);
-8a9782346dccd8 Liam Girdwood        2015-05-29  1473  	else
-8a9782346dccd8 Liam Girdwood        2015-05-29  1474  		widget = snd_soc_dapm_new_control_unlocked(dapm, &template);
-37e1df8c95e2c8 Linus Walleij        2017-01-13  1475  	if (IS_ERR(widget)) {
-37e1df8c95e2c8 Linus Walleij        2017-01-13  1476  		ret = PTR_ERR(widget);
-8a9782346dccd8 Liam Girdwood        2015-05-29  1477  		goto hdr_err;
-8a9782346dccd8 Liam Girdwood        2015-05-29  1478  	}
-8a9782346dccd8 Liam Girdwood        2015-05-29  1479  
-8a9782346dccd8 Liam Girdwood        2015-05-29  1480  	widget->dobj.type = SND_SOC_DOBJ_WIDGET;
-eea3dd4f1247aa Mengdong Lin         2016-11-25  1481  	widget->dobj.widget.kcontrol_type = kcontrol_type;
-8a9782346dccd8 Liam Girdwood        2015-05-29  1482  	widget->dobj.ops = tplg->ops;
-8a9782346dccd8 Liam Girdwood        2015-05-29  1483  	widget->dobj.index = tplg->index;
-8a9782346dccd8 Liam Girdwood        2015-05-29  1484  	list_add(&widget->dobj.list, &tplg->comp->dobj_list);
-ebd259d33a900b Liam Girdwood        2017-06-09  1485  
-ebd259d33a900b Liam Girdwood        2017-06-09  1486  	ret = soc_tplg_widget_ready(tplg, widget, w);
-ebd259d33a900b Liam Girdwood        2017-06-09  1487  	if (ret < 0)
-ebd259d33a900b Liam Girdwood        2017-06-09  1488  		goto ready_err;
-ebd259d33a900b Liam Girdwood        2017-06-09  1489  
-7620fe9161cec2 Bard liao            2019-01-25  1490  	kfree(template.sname);
-7620fe9161cec2 Bard liao            2019-01-25  1491  	kfree(template.name);
-7620fe9161cec2 Bard liao            2019-01-25  1492  
-8a9782346dccd8 Liam Girdwood        2015-05-29  1493  	return 0;
-8a9782346dccd8 Liam Girdwood        2015-05-29  1494  
-ebd259d33a900b Liam Girdwood        2017-06-09  1495  ready_err:
-841fb1096713bd Amadeusz Sławiński   2020-10-30  1496  	remove_widget(widget->dapm->component, &widget->dobj, SOC_TPLG_PASS_WIDGET);
-ebd259d33a900b Liam Girdwood        2017-06-09  1497  	snd_soc_dapm_free_widget(widget);
-8a9782346dccd8 Liam Girdwood        2015-05-29  1498  hdr_err:
-8a9782346dccd8 Liam Girdwood        2015-05-29  1499  	kfree(template.sname);
-8a9782346dccd8 Liam Girdwood        2015-05-29  1500  err:
-8a9782346dccd8 Liam Girdwood        2015-05-29  1501  	kfree(template.name);
-8a9782346dccd8 Liam Girdwood        2015-05-29  1502  	return ret;
-8a9782346dccd8 Liam Girdwood        2015-05-29  1503  }
+4f4853dc1c9c19 David Lebrun   2016-11-08  532  
+915d7e5e5930b4 David Lebrun   2016-11-08  533  	pr_info("Segment Routing with IPv6\n");
+915d7e5e5930b4 David Lebrun   2016-11-08  534  
+915d7e5e5930b4 David Lebrun   2016-11-08  535  out:
+915d7e5e5930b4 David Lebrun   2016-11-08  536  	return err;
+754f6619437c57 Dmitry Safonov 2023-01-18  537  
+46738b1317e169 David Lebrun   2016-11-15  538  #ifdef CONFIG_IPV6_SEG6_LWTUNNEL
+d1df6fd8a1d22d David Lebrun   2017-08-05 @539  	seg6_local_exit();
+754f6619437c57 Dmitry Safonov 2023-01-18  540  out_unregister_iptun:
+4f4853dc1c9c19 David Lebrun   2016-11-08  541  	seg6_iptunnel_exit();
+4f4853dc1c9c19 David Lebrun   2016-11-08  542  #endif
+46738b1317e169 David Lebrun   2016-11-15  543  #ifdef CONFIG_IPV6_SEG6_LWTUNNEL
+6c8702c60b8865 David Lebrun   2016-11-08  544  out_unregister_pernet:
+6c8702c60b8865 David Lebrun   2016-11-08  545  	unregister_pernet_subsys(&ip6_segments_ops);
+46738b1317e169 David Lebrun   2016-11-15  546  #endif
+915d7e5e5930b4 David Lebrun   2016-11-08  547  out_unregister_genl:
+915d7e5e5930b4 David Lebrun   2016-11-08  548  	genl_unregister_family(&seg6_genl_family);
+915d7e5e5930b4 David Lebrun   2016-11-08  549  	goto out;
+915d7e5e5930b4 David Lebrun   2016-11-08  550  }
+915d7e5e5930b4 David Lebrun   2016-11-08  551  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
-
