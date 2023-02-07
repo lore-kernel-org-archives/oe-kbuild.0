@@ -1,42 +1,42 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 670CD7F
-	for <oe-kbuild@lists.linux.dev>; Tue,  7 Feb 2023 01:54:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44802BD14
+	for <oe-kbuild@lists.linux.dev>; Tue,  7 Feb 2023 04:28:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675734869; x=1707270869;
+  t=1675744116; x=1707280116;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=jJO/TXyj0mAw2SDClF3wDySdhjVC/4EsXUzE1lnoIek=;
-  b=QErsX7YGBicli+COn4WqCMoL/CAMWy0yYJqPEtufAX8FExL6JM/kh668
-   pI6+YTFW1erDzU0a8X0Jhzp5hQ87s3ebfLVJKAktBNpZkBSy2LaduSUOA
-   pIZEJ2oYMn+Z7ZBfcIvvc3jV64CVQB9CevRl42PWeLdyBT6hQzXjsqSWw
-   U5FvIUB4kyVu2c+e34B0cEDf7HcahQqTrBd16vWRfeY78f8XFhtUdcUEo
-   QkwEFFTOd0saVkKuh+mCGcFs+V54rsMgMjGYfmO4w99sega5ssCKUAAHW
-   gNobxEIAoTT6InKu2uKakIiH9uTO24EEBeAJwQDIxXK/lxVEP9EKhUPo9
+  bh=J9UNMrPOtE0gBsTyFLjmGE/BiOwPDmqMuZkjPwsdlQo=;
+  b=HBpWsxDpVmlRaPFoa82L5qBnBWdaNn9Vm49ccT0SKClCRC/Z4Y+JzAEn
+   ZkaUt+sCop8H5S1yPWWutCORF4nfKi0nlc42OHJfJI3BLfg107pqqK8B+
+   jslf5/F0wxNfqBtv2q+l+WpgG9yU/0PCsXVufIDdOqna7BCgDi8NSfJfF
+   wZkbrTD9iTsjwrwR+Qe4qdvD/7JXgM/XtxJD8WCjVDnG1Tx8fpvu/Arhn
+   n5oySTbJDyDj+0+UsOjc9JxJO52g8FEn0qfXW3oI1eDgp8Pa16Ids/Rub
+   mt5WE84ykBkr0ff+jyRxWHH2OQ5thjt5LXsC4RNaneQFEL4hU49VQxS8h
    w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10613"; a="393973398"
+X-IronPort-AV: E=McAfee;i="6500,9779,10613"; a="317417621"
 X-IronPort-AV: E=Sophos;i="5.97,278,1669104000"; 
-   d="scan'208";a="393973398"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2023 17:54:28 -0800
+   d="scan'208";a="317417621"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2023 20:28:35 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10613"; a="995548603"
+X-IronPort-AV: E=McAfee;i="6500,9779,10613"; a="755498498"
 X-IronPort-AV: E=Sophos;i="5.97,278,1669104000"; 
-   d="scan'208";a="995548603"
+   d="scan'208";a="755498498"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 06 Feb 2023 17:54:27 -0800
+  by FMSMGA003.fm.intel.com with ESMTP; 06 Feb 2023 20:28:34 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pPDBi-0002wQ-1T;
-	Tue, 07 Feb 2023 01:54:26 +0000
-Date: Tue, 7 Feb 2023 09:54:21 +0800
+	id 1pPFar-00034S-1t;
+	Tue, 07 Feb 2023 04:28:33 +0000
+Date: Tue, 7 Feb 2023 12:27:48 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: net/rxrpc/call_object.c:528:27: warning: Value stored to 'conn'
- during its initialization is never read [clang-analyzer-deadcode.DeadStores]
-Message-ID: <202302070959.sI0MyjXY-lkp@intel.com>
+Subject: fs/notify/fanotify/fanotify.c:101:13: warning: use of NULL where
+ non-null expected [CWE-476]
+Message-ID: <202302071259.cs2LAtCN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -47,303 +47,487 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "low confidence static check warning: net/rxrpc/call_object.c:528:27: warning: Value stored to 'conn' during its initialization is never read [clang-analyzer-deadcode.DeadStores]"
+:::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "low confidence static check first_new_problem: fs/notify/fanotify/fanotify.c:101:13: warning: use of NULL where non-null expected [CWE-476] [-Wanalyzer-null-argument]"
 :::::: 
 
 BCC: lkp@intel.com
-CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: David Howells <dhowells@redhat.com>
+TO: Vlastimil Babka <vbabka@suse.cz>
+CC: Christoph Lameter <cl@linux-foundation.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   05ecb680708a1dbe6554d6fc17e5d9a8a7cb5e6a
-commit: 03fc55adf8761c546d72798264b019c9f672c578 rxrpc: Only disconnect calls in the I/O thread
-date:   5 weeks ago
-:::::: branch date: 4 hours ago
-:::::: commit date: 5 weeks ago
-config: arm-randconfig-c002-20230204 (https://download.01.org/0day-ci/archive/20230207/202302070959.sI0MyjXY-lkp@intel.com/config)
-compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 4196ca3278f78c6e19246e54ab0ecb364e37d66a)
+commit: 2f7c1c1396b587e8cfe18a1f0d628cedaae56b6a mm, slub: don't create kmalloc-rcl caches with CONFIG_SLUB_TINY
+date:   2 months ago
+:::::: branch date: 6 hours ago
+:::::: commit date: 2 months ago
+config: arm-randconfig-c002-20230205 (https://download.01.org/0day-ci/archive/20230207/202302071259.cs2LAtCN-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=03fc55adf8761c546d72798264b019c9f672c578
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=2f7c1c1396b587e8cfe18a1f0d628cedaae56b6a
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout 03fc55adf8761c546d72798264b019c9f672c578
+        git checkout 2f7c1c1396b587e8cfe18a1f0d628cedaae56b6a
         # save the config file
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=arm clang-analyzer  olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=arm clang-analyzer 
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross ARCH=arm KBUILD_USERCFLAGS='-fanalyzer -Wno-error'  olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross ARCH=arm KBUILD_USERCFLAGS='-fanalyzer -Wno-error' 
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-clang_analyzer warnings: (new ones prefixed by >>)
-                                             ^~~~~~~~~~~
-   include/linux/printk.h:457:60: note: expanded from macro 'printk'
-   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-                                                              ^~~~~~~~~~~
-   include/linux/printk.h:429:19: note: expanded from macro 'printk_index_wrap'
-                   _p_func(_fmt, ##__VA_ARGS__);                           \
-                                   ^~~~~~~~~~~
-   lib/test_lockup.c:569:5: note: '?' condition is false
-                     reacquire_locks ? "reacquire_locks " : "");
-                     ^
-   lib/test_lockup.c:571:6: note: Assuming 'alloc_pages_nr' is 0
-           if (alloc_pages_nr)
-               ^~~~~~~~~~~~~~
-   lib/test_lockup.c:571:2: note: Taking false branch
-           if (alloc_pages_nr)
-           ^
-   lib/test_lockup.c:576:6: note: Assuming 'all_cpus' is false
-           if (all_cpus) {
-               ^~~~~~~~
-   lib/test_lockup.c:576:2: note: Taking false branch
-           if (all_cpus) {
-           ^
-   lib/test_lockup.c:595:3: note: Calling 'test_lockup'
-                   test_lockup(true);
-                   ^~~~~~~~~~~~~~~~~
-   lib/test_lockup.c:355:2: note: Loop condition is false.  Exiting loop
-           pr_notice("Start on CPU%d\n", raw_smp_processor_id());
-           ^
-   include/linux/printk.h:520:2: note: expanded from macro 'pr_notice'
-           printk(KERN_NOTICE pr_fmt(fmt), ##__VA_ARGS__)
-           ^
-   include/linux/printk.h:457:26: note: expanded from macro 'printk'
-   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-                            ^
-   include/linux/printk.h:428:3: note: expanded from macro 'printk_index_wrap'
-                   __printk_index_emit(_fmt, NULL, NULL);                  \
-                   ^
-   include/linux/printk.h:403:34: note: expanded from macro '__printk_index_emit'
-   #define __printk_index_emit(...) do {} while (0)
-                                    ^
-   lib/test_lockup.c:359:2: note: Calling 'test_alloc_pages'
-           test_alloc_pages(&pages);
-           ^~~~~~~~~~~~~~~~~~~~~~~~
-   lib/test_lockup.c:309:14: note: Assuming 'i' is >= 'alloc_pages_nr'
-           for (i = 0; i < alloc_pages_nr; i++) {
-                       ^~~~~~~~~~~~~~~~~~
-   lib/test_lockup.c:309:2: note: Loop condition is false. Execution continues on line 309
-           for (i = 0; i < alloc_pages_nr; i++) {
-           ^
-   lib/test_lockup.c:359:2: note: Returning from 'test_alloc_pages'
-           test_alloc_pages(&pages);
-           ^~~~~~~~~~~~~~~~~~~~~~~~
-   lib/test_lockup.c:361:9: note: Assuming the condition is false
-           while (iter++ < iterations && !signal_pending(main_task)) {
-                  ^~~~~~~~~~~~~~~~~~~
-   lib/test_lockup.c:361:29: note: Left side of '&&' is false
-           while (iter++ < iterations && !signal_pending(main_task)) {
-                                      ^
-   lib/test_lockup.c:395:2: note: Loop condition is false.  Exiting loop
-           pr_notice("Finish on CPU%d in %lld ns\n", raw_smp_processor_id(),
-           ^
-   include/linux/printk.h:520:2: note: expanded from macro 'pr_notice'
-           printk(KERN_NOTICE pr_fmt(fmt), ##__VA_ARGS__)
-           ^
-   include/linux/printk.h:457:26: note: expanded from macro 'printk'
-   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-                            ^
-   include/linux/printk.h:428:3: note: expanded from macro 'printk_index_wrap'
-                   __printk_index_emit(_fmt, NULL, NULL);                  \
-                   ^
-   include/linux/printk.h:403:34: note: expanded from macro '__printk_index_emit'
-   #define __printk_index_emit(...) do {} while (0)
-                                    ^
-   lib/test_lockup.c:398:2: note: Calling 'test_free_pages'
-           test_free_pages(&pages);
-           ^~~~~~~~~~~~~~~~~~~~~~~
-   lib/test_lockup.c:323:2: note: Assigned value is garbage or undefined
-           list_for_each_entry_safe(page, next, pages, lru)
-           ^
-   include/linux/list.h:762:7: note: expanded from macro 'list_for_each_entry_safe'
-                   n = list_next_entry(pos, member);                       \
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/list.h:564:2: note: expanded from macro 'list_next_entry'
-           list_entry((pos)->member.next, typeof(*(pos)), member)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/list.h:520:2: note: expanded from macro 'list_entry'
-           container_of(ptr, type, member)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/container_of.h:19:2: note: expanded from macro 'container_of'
-           void *__mptr = (void *)(ptr);                                   \
-           ^              ~~~~~~~~~~~~~
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (3 in non-user code, 1 with check filters).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (3 in non-user code, 1 with check filters).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   5 warnings generated.
->> net/rxrpc/call_object.c:528:27: warning: Value stored to 'conn' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct rxrpc_connection *conn = call->conn;
-                                    ^~~~   ~~~~~~~~~~
-   net/rxrpc/call_object.c:528:27: note: Value stored to 'conn' during its initialization is never read
-           struct rxrpc_connection *conn = call->conn;
-                                    ^~~~   ~~~~~~~~~~
-   Suppressed 4 warnings (3 in non-user code, 1 with check filters).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   net/rxrpc/conn_client.c:160:20: warning: Use of memory after it is freed [clang-analyzer-unix.Malloc]
-           unsigned int id = bundle->debug_id;
-                             ^
-   net/rxrpc/conn_client.c:724:2: note: Taking false branch
-           _enter("{%d,%lx},", call->debug_id, call->user_call_ID);
-           ^
-   net/rxrpc/ar-internal.h:1268:25: note: expanded from macro '_enter'
-   #define _enter(FMT,...) no_printk("==> %s("FMT")",__func__ ,##__VA_ARGS__)
-                           ^
-   include/linux/printk.h:130:2: note: expanded from macro 'no_printk'
-           if (0)                                          \
-           ^
-   net/rxrpc/conn_client.c:731:2: note: Taking false branch
-           if (IS_ERR(bundle)) {
-           ^
-   net/rxrpc/conn_client.c:737:6: note: Assuming field 'state' is not equal to RXRPC_CALL_CLIENT_AWAIT_CONN
-           if (call->state == RXRPC_CALL_CLIENT_AWAIT_CONN) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/rxrpc/conn_client.c:737:2: note: Taking false branch
-           if (call->state == RXRPC_CALL_CLIENT_AWAIT_CONN) {
-           ^
-   net/rxrpc/conn_client.c:748:2: note: Calling 'rxrpc_deactivate_bundle'
-           rxrpc_deactivate_bundle(bundle);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/rxrpc/conn_client.c:959:6: note: Assuming the condition is true
-           if (atomic_dec_and_lock(&bundle->active, &local->client_bundles_lock)) {
-               ^
-   include/linux/spinlock.h:472:21: note: expanded from macro 'atomic_dec_and_lock'
-                   __cond_lock(lock, _atomic_dec_and_lock(atomic, lock))
-                   ~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:63:28: note: expanded from macro '__cond_lock'
-   # define __cond_lock(x,c) (c)
-                              ^
-   net/rxrpc/conn_client.c:959:2: note: Taking true branch
-           if (atomic_dec_and_lock(&bundle->active, &local->client_bundles_lock)) {
-           ^
-   net/rxrpc/conn_client.c:960:7: note: Assuming field 'exclusive' is false
-                   if (!bundle->exclusive) {
-                       ^~~~~~~~~~~~~~~~~~
-   net/rxrpc/conn_client.c:960:3: note: Taking true branch
-                   if (!bundle->exclusive) {
-                   ^
-   net/rxrpc/conn_client.c:961:4: note: Taking false branch
-                           _debug("erase bundle");
-                           ^
-   net/rxrpc/ar-internal.h:1270:25: note: expanded from macro '_debug'
-   #define _debug(FMT,...) no_printk("    "FMT ,##__VA_ARGS__)
-                           ^
-   include/linux/printk.h:130:2: note: expanded from macro 'no_printk'
-           if (0)                                          \
-           ^
-   net/rxrpc/conn_client.c:967:7: note: 'need_put' is true
-                   if (need_put)
-                       ^~~~~~~~
-   net/rxrpc/conn_client.c:967:3: note: Taking true branch
-                   if (need_put)
-                   ^
-   net/rxrpc/conn_client.c:968:4: note: Calling 'rxrpc_put_bundle'
-                           rxrpc_put_bundle(bundle, rxrpc_bundle_put_discard);
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/rxrpc/conn_client.c:166:6: note: 'dead' is true
-           if (dead)
-               ^~~~
-   net/rxrpc/conn_client.c:166:2: note: Taking true branch
-           if (dead)
-           ^
-   net/rxrpc/conn_client.c:167:3: note: Calling 'rxrpc_free_bundle'
-                   rxrpc_free_bundle(bundle);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~
-   net/rxrpc/conn_client.c:155:2: note: Memory is released
-           kfree(bundle);
-           ^~~~~~~~~~~~~
-   net/rxrpc/conn_client.c:167:3: note: Returning; memory was released
-                   rxrpc_free_bundle(bundle);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~
-   net/rxrpc/conn_client.c:968:4: note: Returning; memory was released
-                           rxrpc_put_bundle(bundle, rxrpc_bundle_put_discard);
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/rxrpc/conn_client.c:748:2: note: Returning; memory was released
-           rxrpc_deactivate_bundle(bundle);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/rxrpc/conn_client.c:749:2: note: Calling 'rxrpc_put_bundle'
-           rxrpc_put_bundle(bundle, rxrpc_bundle_get_client_call);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/rxrpc/conn_client.c:160:20: note: Use of memory after it is freed
-           unsigned int id = bundle->debug_id;
-                             ^~~~~~~~~~~~~~~~
-   net/rxrpc/conn_client.c:749:2: warning: Use of memory after it is freed [clang-analyzer-unix.Malloc]
-           rxrpc_put_bundle(bundle, rxrpc_bundle_get_client_call);
-           ^                ~~~~~~
-   net/rxrpc/conn_client.c:724:2: note: Taking false branch
-           _enter("{%d,%lx},", call->debug_id, call->user_call_ID);
+gcc_analyzer warnings: (new ones prefixed by >>)
+       |      |                 |   (6) calling 'fanotify_should_merge' from 'fanotify_merge'
+       |      |                 (5) ...to here
+       |
+       +--> 'fanotify_should_merge': events 7-20
+              |
+              |  136 | static bool fanotify_should_merge(struct fanotify_event *old,
+              |      |             ^~~~~~~~~~~~~~~~~~~~~
+              |      |             |
+              |      |             (7) entry to 'fanotify_should_merge'
+              |......
+              |  141 |         if (old->hash != new->hash ||
+              |      |            ~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |            |                       |
+              |      |            |                       (10) following 'false' branch...
+              |      |            (8) following 'false' branch...
+              |  142 |             old->type != new->type || old->pid != new->pid)
+              |      |             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |                       |            |     |
+              |      |                       |            |     (11) ...to here
+              |      |                       |            (12) following 'false' branch...
+              |      |                       (9) ...to here
+              |......
+              |  153 |         if ((old->mask & FS_ISDIR) != (new->mask & FS_ISDIR))
+              |      |         ~~ ~ 
+              |      |         |  |
+              |      |         |  (14) following 'false' branch...
+              |      |         (13) ...to here
+              |......
+              |  160 |         if ((old->mask & FAN_RENAME) != (new->mask & FAN_RENAME))
+              |      |         ~~ ~ 
+              |      |         |  |
+              |      |         |  (16) following 'false' branch...
+              |      |         (15) ...to here
+              |......
+              |  163 |         switch (old->type) {
+              |      |         ~~~~~~
+              |      |         |
+              |      |         (17) ...to here
+              |      |         (18) following 'case 2:' branch...
+              |  164 |         case FANOTIFY_EVENT_TYPE_PATH:
+              |      |         ~~~~ 
+              |      |         |
+              |      |         (19) ...to here
+              |  165 |                 return fanotify_path_equal(fanotify_event_path(old),
+              |      |                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |                        |
+              |      |                        (20) calling 'fanotify_event_path' from 'fanotify_should_merge'
+              |  166 |                                            fanotify_event_path(new));
+              |      |                                            ~~~~~~~~~~~~~~~~~~~~~~~~~
+              |
+              +--> 'fanotify_event_path': events 21-24
+                     |
+                     |fs/notify/fanotify/fanotify.h:455:34:
+                     |  455 | static inline const struct path *fanotify_event_path(struct fanotify_event *event)
+                     |      |                                  ^~~~~~~~~~~~~~~~~~~
+                     |      |                                  |
+                     |      |                                  (21) entry to 'fanotify_event_path'
+                     |  456 | {
+                     |  457 |         if (event->type == FANOTIFY_EVENT_TYPE_PATH)
+                     |      |            ~                      
+                     |      |            |
+                     |      |            (22) following 'false' branch...
+                     |  458 |                 return &FANOTIFY_PE(event)->path;
+                     |  459 |         else if (event->type == FANOTIFY_EVENT_TYPE_PATH_PERM)
+                     |      |              ~~ ~                 
+                     |      |              |  |
+                     |      |              |  (24) following 'false' branch...
+                     |      |              (23) ...to here
+                     |
+                   'fanotify_event_path': event 25
+                     |
+                     |cc1:
+                     | (25): ...to here
+                     |
+              <------+
+              |
+            'fanotify_should_merge': events 26-27
+              |
+              |fs/notify/fanotify/fanotify.c:165:24:
+              |  165 |                 return fanotify_path_equal(fanotify_event_path(old),
+              |      |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |                        |
+              |      |                        (26) returning to 'fanotify_should_merge' from 'fanotify_event_path'
+              |      |                        (27) calling 'fanotify_path_equal' from 'fanotify_should_merge'
+              |  166 |                                            fanotify_event_path(new));
+              |      |                                            ~~~~~~~~~~~~~~~~~~~~~~~~~
+              |
+              +--> 'fanotify_path_equal': events 28-29
+                     |
+                     |   21 | static bool fanotify_path_equal(const struct path *p1, const struct path *p2)
+                     |      |             ^~~~~~~~~~~~~~~~~~~
+                     |      |             |
+                     |      |             (28) entry to 'fanotify_path_equal'
+                     |   22 | {
+                     |   23 |         return p1->mnt == p2->mnt && p1->dentry == p2->dentry;
+                     |      |                           ~~~~~~~
+                     |      |                             |
+                     |      |                             (29) dereference of NULL 'p2'
+                     |
+   fs/notify/fanotify/fanotify.c: In function 'fanotify_info_equal':
+>> fs/notify/fanotify/fanotify.c:101:13: warning: use of NULL where non-null expected [CWE-476] [-Wanalyzer-null-argument]
+     101 |             memcmp(fanotify_info_name(info1), fanotify_info_name(info2),
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     102 |                    info1->name_len))
+         |                    ~~~~~~~~~~~~~~~~
+     'fanotify_merge': event 1
+       |
+       |  187 | static int fanotify_merge(struct fsnotify_group *group,
+       |      |            ^~~~~~~~~~~~~~
+       |      |            |
+       |      |            (1) entry to 'fanotify_merge'
+       |
+     'fanotify_merge': event 2
+       |
+       |include/linux/list.h:1029:57:
+       | 1029 |            ____ptr ? hlist_entry(____ptr, type, member) : NULL; \
+   include/linux/list.h:1039:20: note: in expansion of macro 'hlist_entry_safe'
+       | 1039 |         for (pos = hlist_entry_safe((head)->first, typeof(*(pos)), member);\
+       |      |                    ^~~~~~~~~~~~~~~~
+   fs/notify/fanotify/fanotify.c:206:9: note: in expansion of macro 'hlist_for_each_entry'
+       |  206 |         hlist_for_each_entry(old, hlist, merge_list) {
+       |      |         ^~~~~~~~~~~~~~~~~~~~
+       |
+     'fanotify_merge': events 3-6
+       |
+       |  207 |                 if (++i > FANOTIFY_MAX_MERGE_EVENTS)
+       |      |                 ^~ ~
+       |      |                 |  |
+       |      |                 |  (4) following 'false' branch (when 'i != 129')...
+       |      |                 (3) ...to here
+       |  208 |                         break;
+       |  209 |                 if (fanotify_should_merge(old, new)) {
+       |      |                 ~~  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |                 |   |
+       |      |                 |   (6) calling 'fanotify_should_merge' from 'fanotify_merge'
+       |      |                 (5) ...to here
+       |
+       +--> 'fanotify_should_merge': events 7-20
+              |
+              |  136 | static bool fanotify_should_merge(struct fanotify_event *old,
+              |      |             ^~~~~~~~~~~~~~~~~~~~~
+              |      |             |
+              |      |             (7) entry to 'fanotify_should_merge'
+              |......
+              |  141 |         if (old->hash != new->hash ||
+              |      |            ~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |            |                       |
+              |      |            |                       (10) following 'false' branch...
+              |      |            (8) following 'false' branch...
+              |  142 |             old->type != new->type || old->pid != new->pid)
+              |      |             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |                       |            |     |
+              |      |                       |            |     (11) ...to here
+              |      |                       |            (12) following 'false' branch...
+              |      |                       (9) ...to here
+              |......
+              |  153 |         if ((old->mask & FS_ISDIR) != (new->mask & FS_ISDIR))
+              |      |         ~~ ~ 
+              |      |         |  |
+              |      |         |  (14) following 'false' branch...
+              |      |         (13) ...to here
+              |......
+              |  160 |         if ((old->mask & FAN_RENAME) != (new->mask & FAN_RENAME))
+              |      |         ~~ ~ 
+              |      |         |  |
+              |      |         |  (16) following 'false' branch...
+              |      |         (15) ...to here
+              |......
+              |  163 |         switch (old->type) {
+              |      |         ~~~~~~
+              |      |         |
+              |      |         (17) ...to here
+              |      |         (18) following 'case 1:' branch...
+              |......
+              |  171 |                 return fanotify_name_event_equal(FANOTIFY_NE(old),
+              |      |                 ~~~~~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |                 |      |
+              |      |                 |      (20) calling 'fanotify_name_event_equal' from 'fanotify_should_merge'
+              |      |                 (19) ...to here
+              |  172 |                                                  FANOTIFY_NE(new));
+              |      |                                                  ~~~~~~~~~~~~~~~~~
+              |
+              +--> 'fanotify_name_event_equal': events 21-26
+                     |
+                     |  110 | static bool fanotify_name_event_equal(struct fanotify_name_event *fne1,
+                     |      |             ^~~~~~~~~~~~~~~~~~~~~~~~~
+                     |      |             |
+                     |      |             (21) entry to 'fanotify_name_event_equal'
+                     |......
+                     |  117 |         if (!info1->dir_fh_totlen)
+                     |      |            ~ 
+                     |      |            |
+                     |      |            (22) following 'false' branch...
+                     |......
+                     |  120 |         if (!fanotify_fsid_equal(&fne1->fsid, &fne2->fsid))
+                     |      |         ~~ ~ 
+                     |      |         |  |
+                     |      |         |  (24) following 'true' branch...
+                     |      |         (23) ...to here
+                     |......
+                     |  123 |         return fanotify_info_equal(info1, info2);
+--
+                            |      |            (28) following 'false' branch...
+                            |   79 |             info1->dir2_fh_totlen != info2->dir2_fh_totlen ||
+                            |      |             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                            |   80 |             info1->file_fh_totlen != info2->file_fh_totlen ||
+                            |      |             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                            |   81 |             info1->name_len != info2->name_len ||
+                            |      |             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                            |      |                                                |
+                            |      |                                                (30) following 'false' branch...
+                            |   82 |             info1->name2_len != info2->name2_len)
+                            |      |             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                            |      |                  |
+                            |      |                  (29) ...to here
+                            |......
+                            |   85 |         if (info1->dir_fh_totlen &&
+                            |      |         ~~   
+                            |      |         |
+                            |      |         (31) ...to here
+                            |......
+                            |  100 |         if (info1->name_len &&
+                            |      |            ~ 
+                            |      |            |
+                            |      |            (32) following 'true' branch...
+                            |  101 |             memcmp(fanotify_info_name(info1), fanotify_info_name(info2),
+                            |      |                    ~~~~~~~~~~~~~~~~~~~~~~~~~
+                            |      |                    |
+                            |      |                    (33) ...to here
+                            |      |                    (34) calling 'fanotify_info_name' from 'fanotify_info_equal'
+                            |
+                            +--> 'fanotify_info_name': events 35-37
+                                   |
+                                   |fs/notify/fanotify/fanotify.h:151:21:
+                                   |  151 | static inline char *fanotify_info_name(struct fanotify_info *info)
+                                   |      |                     ^~~~~~~~~~~~~~~~~~
+                                   |      |                     |
+                                   |      |                     (35) entry to 'fanotify_info_name'
+                                   |  152 | {
+                                   |  153 |         if (!info->name_len)
+                                   |      |            ~         
+                                   |      |            |
+                                   |      |            (36) following 'false' branch...
+                                   |......
+                                   |  156 |         return FANOTIFY_NAME_BUF(info);
+                                   |      |         ~~~~~~       
+                                   |      |         |
+                                   |      |         (37) ...to here
+                                   |
+                            <------+
+                            |
+                          'fanotify_info_equal': events 38-39
+                            |
+                            |fs/notify/fanotify/fanotify.c:101:20:
+                            |  101 |             memcmp(fanotify_info_name(info1), fanotify_info_name(info2),
+                            |      |                    ^~~~~~~~~~~~~~~~~~~~~~~~~  ~~~~~~~~~~~~~~~~~~~~~~~~~
+                            |      |                    |                          |
+                            |      |                    |                          (39) calling 'fanotify_info_name' from 'fanotify_info_equal'
+                            |      |                    (38) returning to 'fanotify_info_equal' from 'fanotify_info_name'
+                            |
+                            +--> 'fanotify_info_name': events 40-41
+                                   |
+                                   |fs/notify/fanotify/fanotify.h:151:21:
+                                   |  151 | static inline char *fanotify_info_name(struct fanotify_info *info)
+                                   |      |                     ^~~~~~~~~~~~~~~~~~
+                                   |      |                     |
+                                   |      |                     (40) entry to 'fanotify_info_name'
+                                   |  152 | {
+                                   |  153 |         if (!info->name_len)
+                                   |      |            ~         
+                                   |      |            |
+                                   |      |            (41) following 'true' branch...
+                                   |
+                                 'fanotify_info_name': event 42
+                                   |
+                                   |cc1:
+                                   | (42): ...to here
+                                   |
+                            <------+
+                            |
+                          'fanotify_info_equal': events 43-44
+                            |
+                            |fs/notify/fanotify/fanotify.c:101:47:
+                            |  101 |             memcmp(fanotify_info_name(info1), fanotify_info_name(info2),
+                            |      |             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
+                            |      |             |                                 |
+                            |      |             |                                 (43) returning to 'fanotify_info_equal' from 'fanotify_info_name'
+                            |      |             (44) argument 2 ('fanotify_info_name(info2)') NULL where non-null expected
+                            |  102 |                    info1->name_len))
+                            |      |                    ~~~~~~~~~~~~~~~~            
+                            |
+   In file included from include/linux/bitmap.h:11,
+                    from include/linux/cpumask.h:12,
+                    from include/linux/smp.h:13,
+                    from include/linux/lockdep.h:14,
+                    from include/linux/rcupdate.h:29,
+                    from include/linux/sysctl.h:26,
+                    from include/linux/fanotify.h:5,
+                    from fs/notify/fanotify/fanotify.c:2:
+   include/linux/string.h:156:12: note: argument 2 of 'memcmp' must be non-null
+     156 | extern int memcmp(const void *,const void *,__kernel_size_t);
+         |            ^~~~~~
+>> fs/notify/fanotify/fanotify.c:101:13: warning: use of NULL where non-null expected [CWE-476] [-Wanalyzer-null-argument]
+     101 |             memcmp(fanotify_info_name(info1), fanotify_info_name(info2),
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     102 |                    info1->name_len))
+         |                    ~~~~~~~~~~~~~~~~
+     'fanotify_merge': event 1
+       |
+       |  187 | static int fanotify_merge(struct fsnotify_group *group,
+       |      |            ^~~~~~~~~~~~~~
+       |      |            |
+       |      |            (1) entry to 'fanotify_merge'
+       |
+     'fanotify_merge': event 2
+       |
+       |include/linux/list.h:1029:57:
+       | 1029 |            ____ptr ? hlist_entry(____ptr, type, member) : NULL; \
+   include/linux/list.h:1039:20: note: in expansion of macro 'hlist_entry_safe'
+       | 1039 |         for (pos = hlist_entry_safe((head)->first, typeof(*(pos)), member);\
+       |      |                    ^~~~~~~~~~~~~~~~
+   fs/notify/fanotify/fanotify.c:206:9: note: in expansion of macro 'hlist_for_each_entry'
+       |  206 |         hlist_for_each_entry(old, hlist, merge_list) {
+       |      |         ^~~~~~~~~~~~~~~~~~~~
+       |
+     'fanotify_merge': events 3-6
+       |
+       |  207 |                 if (++i > FANOTIFY_MAX_MERGE_EVENTS)
+       |      |                 ^~ ~
+       |      |                 |  |
+       |      |                 |  (4) following 'false' branch (when 'i != 129')...
+       |      |                 (3) ...to here
+       |  208 |                         break;
+       |  209 |                 if (fanotify_should_merge(old, new)) {
+       |      |                 ~~  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |                 |   |
+       |      |                 |   (6) calling 'fanotify_should_merge' from 'fanotify_merge'
+       |      |                 (5) ...to here
+       |
+       +--> 'fanotify_should_merge': events 7-20
+              |
+              |  136 | static bool fanotify_should_merge(struct fanotify_event *old,
+              |      |             ^~~~~~~~~~~~~~~~~~~~~
+              |      |             |
+              |      |             (7) entry to 'fanotify_should_merge'
+              |......
+              |  141 |         if (old->hash != new->hash ||
+              |      |            ~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |            |                       |
+              |      |            |                       (10) following 'false' branch...
+              |      |            (8) following 'false' branch...
+              |  142 |             old->type != new->type || old->pid != new->pid)
+              |      |             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |                       |            |     |
+              |      |                       |            |     (11) ...to here
+              |      |                       |            (12) following 'false' branch...
+              |      |                       (9) ...to here
+              |......
+              |  153 |         if ((old->mask & FS_ISDIR) != (new->mask & FS_ISDIR))
+              |      |         ~~ ~ 
+              |      |         |  |
+              |      |         |  (14) following 'false' branch...
+              |      |         (13) ...to here
+              |......
+              |  160 |         if ((old->mask & FAN_RENAME) != (new->mask & FAN_RENAME))
+              |      |         ~~ ~ 
+              |      |         |  |
+              |      |         |  (16) following 'false' branch...
+              |      |         (15) ...to here
+              |......
+              |  163 |         switch (old->type) {
+              |      |         ~~~~~~
+              |      |         |
+              |      |         (17) ...to here
+              |      |         (18) following 'case 1:' branch...
+              |......
+              |  171 |                 return fanotify_name_event_equal(FANOTIFY_NE(old),
+              |      |                 ~~~~~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |                 |      |
+              |      |                 |      (20) calling 'fanotify_name_event_equal' from 'fanotify_should_merge'
+              |      |                 (19) ...to here
+              |  172 |                                                  FANOTIFY_NE(new));
+              |      |                                                  ~~~~~~~~~~~~~~~~~
+              |
+              +--> 'fanotify_name_event_equal': events 21-26
+                     |
+                     |  110 | static bool fanotify_name_event_equal(struct fanotify_name_event *fne1,
+                     |      |             ^~~~~~~~~~~~~~~~~~~~~~~~~
+                     |      |             |
+                     |      |             (21) entry to 'fanotify_name_event_equal'
+                     |......
+                     |  117 |         if (!info1->dir_fh_totlen)
+                     |      |            ~ 
+                     |      |            |
+                     |      |            (22) following 'false' branch...
+                     |......
+                     |  120 |         if (!fanotify_fsid_equal(&fne1->fsid, &fne2->fsid))
+                     |      |         ~~ ~ 
+                     |      |         |  |
+                     |      |         |  (24) following 'true' branch...
+                     |      |         (23) ...to here
+                     |......
+                     |  123 |         return fanotify_info_equal(info1, info2);
 
-vim +/conn +528 net/rxrpc/call_object.c
+vim +101 fs/notify/fanotify/fanotify.c
 
-a641fd00d05a5a net/rxrpc/call_object.c David Howells 2019-08-19  522  
-e34d4234b0b77a net/rxrpc/call_object.c David Howells 2016-08-30  523  /*
-248f219cb8bcbf net/rxrpc/call_object.c David Howells 2016-09-08  524   * Detach a call from its owning socket.
-e34d4234b0b77a net/rxrpc/call_object.c David Howells 2016-08-30  525   */
-248f219cb8bcbf net/rxrpc/call_object.c David Howells 2016-09-08  526  void rxrpc_release_call(struct rxrpc_sock *rx, struct rxrpc_call *call)
-e34d4234b0b77a net/rxrpc/call_object.c David Howells 2016-08-30  527  {
-248f219cb8bcbf net/rxrpc/call_object.c David Howells 2016-09-08 @528  	struct rxrpc_connection *conn = call->conn;
-248f219cb8bcbf net/rxrpc/call_object.c David Howells 2016-09-08  529  	bool put = false;
-e34d4234b0b77a net/rxrpc/call_object.c David Howells 2016-08-30  530  
-a05754295e01f0 net/rxrpc/call_object.c David Howells 2022-05-21  531  	_enter("{%d,%d}", call->debug_id, refcount_read(&call->ref));
-e34d4234b0b77a net/rxrpc/call_object.c David Howells 2016-08-30  532  
-cb0fc0c9722c0c net/rxrpc/call_object.c David Howells 2022-10-21  533  	trace_rxrpc_call(call->debug_id, refcount_read(&call->ref),
-cb0fc0c9722c0c net/rxrpc/call_object.c David Howells 2022-10-21  534  			 call->flags, rxrpc_call_see_release);
-17926a79320afa net/rxrpc/ar-call.c     David Howells 2007-04-26  535  
-17926a79320afa net/rxrpc/ar-call.c     David Howells 2007-04-26  536  	if (test_and_set_bit(RXRPC_CALL_RELEASED, &call->flags))
-17926a79320afa net/rxrpc/ar-call.c     David Howells 2007-04-26  537  		BUG();
-17926a79320afa net/rxrpc/ar-call.c     David Howells 2007-04-26  538  
-b7a7d674080328 net/rxrpc/call_object.c David Howells 2020-07-02  539  	rxrpc_put_call_slot(call);
-17926a79320afa net/rxrpc/ar-call.c     David Howells 2007-04-26  540  
-248f219cb8bcbf net/rxrpc/call_object.c David Howells 2016-09-08  541  	/* Make sure we don't get any more notifications */
-3dd9c8b5f09fd2 net/rxrpc/call_object.c David Howells 2020-01-24  542  	write_lock(&rx->recvmsg_lock);
-e653cfe49cec54 net/rxrpc/call_object.c David Howells 2016-04-04  543  
-248f219cb8bcbf net/rxrpc/call_object.c David Howells 2016-09-08  544  	if (!list_empty(&call->recvmsg_link)) {
-17926a79320afa net/rxrpc/ar-call.c     David Howells 2007-04-26  545  		_debug("unlinking once-pending call %p { e=%lx f=%lx }",
-17926a79320afa net/rxrpc/ar-call.c     David Howells 2007-04-26  546  		       call, call->events, call->flags);
-248f219cb8bcbf net/rxrpc/call_object.c David Howells 2016-09-08  547  		list_del(&call->recvmsg_link);
-248f219cb8bcbf net/rxrpc/call_object.c David Howells 2016-09-08  548  		put = true;
-248f219cb8bcbf net/rxrpc/call_object.c David Howells 2016-09-08  549  	}
-248f219cb8bcbf net/rxrpc/call_object.c David Howells 2016-09-08  550  
-248f219cb8bcbf net/rxrpc/call_object.c David Howells 2016-09-08  551  	/* list_empty() must return false in rxrpc_notify_socket() */
-248f219cb8bcbf net/rxrpc/call_object.c David Howells 2016-09-08  552  	call->recvmsg_link.next = NULL;
-248f219cb8bcbf net/rxrpc/call_object.c David Howells 2016-09-08  553  	call->recvmsg_link.prev = NULL;
-248f219cb8bcbf net/rxrpc/call_object.c David Howells 2016-09-08  554  
-3dd9c8b5f09fd2 net/rxrpc/call_object.c David Howells 2020-01-24  555  	write_unlock(&rx->recvmsg_lock);
-248f219cb8bcbf net/rxrpc/call_object.c David Howells 2016-09-08  556  	if (put)
-cb0fc0c9722c0c net/rxrpc/call_object.c David Howells 2022-10-21  557  		rxrpc_put_call(call, rxrpc_call_put_unnotify);
-248f219cb8bcbf net/rxrpc/call_object.c David Howells 2016-09-08  558  
-248f219cb8bcbf net/rxrpc/call_object.c David Howells 2016-09-08  559  	write_lock(&rx->call_lock);
-248f219cb8bcbf net/rxrpc/call_object.c David Howells 2016-09-08  560  
-248f219cb8bcbf net/rxrpc/call_object.c David Howells 2016-09-08  561  	if (test_and_clear_bit(RXRPC_CALL_HAS_USERID, &call->flags)) {
-17926a79320afa net/rxrpc/ar-call.c     David Howells 2007-04-26  562  		rb_erase(&call->sock_node, &rx->calls);
-17926a79320afa net/rxrpc/ar-call.c     David Howells 2007-04-26  563  		memset(&call->sock_node, 0xdd, sizeof(call->sock_node));
-cb0fc0c9722c0c net/rxrpc/call_object.c David Howells 2022-10-21  564  		rxrpc_put_call(call, rxrpc_call_put_userid_exists);
-17926a79320afa net/rxrpc/ar-call.c     David Howells 2007-04-26  565  	}
-e653cfe49cec54 net/rxrpc/call_object.c David Howells 2016-04-04  566  
-248f219cb8bcbf net/rxrpc/call_object.c David Howells 2016-09-08  567  	list_del(&call->sock_link);
-248f219cb8bcbf net/rxrpc/call_object.c David Howells 2016-09-08  568  	write_unlock(&rx->call_lock);
-17926a79320afa net/rxrpc/ar-call.c     David Howells 2007-04-26  569  
-248f219cb8bcbf net/rxrpc/call_object.c David Howells 2016-09-08  570  	_debug("RELEASE CALL %p (%d CONN %p)", call, call->debug_id, conn);
-17926a79320afa net/rxrpc/ar-call.c     David Howells 2007-04-26  571  
-17926a79320afa net/rxrpc/ar-call.c     David Howells 2007-04-26  572  	_leave("");
-17926a79320afa net/rxrpc/ar-call.c     David Howells 2007-04-26  573  }
-17926a79320afa net/rxrpc/ar-call.c     David Howells 2007-04-26  574  
+7088f35720a55b Jan Kara       2020-03-24   74  
+f454fa610a69b9 Amir Goldstein 2020-07-16   75  static bool fanotify_info_equal(struct fanotify_info *info1,
+f454fa610a69b9 Amir Goldstein 2020-07-16   76  				struct fanotify_info *info2)
+f454fa610a69b9 Amir Goldstein 2020-07-16   77  {
+f454fa610a69b9 Amir Goldstein 2020-07-16   78  	if (info1->dir_fh_totlen != info2->dir_fh_totlen ||
+3cf984e950c1c3 Amir Goldstein 2021-11-29   79  	    info1->dir2_fh_totlen != info2->dir2_fh_totlen ||
+f454fa610a69b9 Amir Goldstein 2020-07-16   80  	    info1->file_fh_totlen != info2->file_fh_totlen ||
+3cf984e950c1c3 Amir Goldstein 2021-11-29   81  	    info1->name_len != info2->name_len ||
+3cf984e950c1c3 Amir Goldstein 2021-11-29   82  	    info1->name2_len != info2->name2_len)
+f454fa610a69b9 Amir Goldstein 2020-07-16   83  		return false;
+f454fa610a69b9 Amir Goldstein 2020-07-16   84  
+f454fa610a69b9 Amir Goldstein 2020-07-16   85  	if (info1->dir_fh_totlen &&
+f454fa610a69b9 Amir Goldstein 2020-07-16   86  	    !fanotify_fh_equal(fanotify_info_dir_fh(info1),
+f454fa610a69b9 Amir Goldstein 2020-07-16   87  			       fanotify_info_dir_fh(info2)))
+f454fa610a69b9 Amir Goldstein 2020-07-16   88  		return false;
+f454fa610a69b9 Amir Goldstein 2020-07-16   89  
+3cf984e950c1c3 Amir Goldstein 2021-11-29   90  	if (info1->dir2_fh_totlen &&
+3cf984e950c1c3 Amir Goldstein 2021-11-29   91  	    !fanotify_fh_equal(fanotify_info_dir2_fh(info1),
+3cf984e950c1c3 Amir Goldstein 2021-11-29   92  			       fanotify_info_dir2_fh(info2)))
+3cf984e950c1c3 Amir Goldstein 2021-11-29   93  		return false;
+3cf984e950c1c3 Amir Goldstein 2021-11-29   94  
+f454fa610a69b9 Amir Goldstein 2020-07-16   95  	if (info1->file_fh_totlen &&
+f454fa610a69b9 Amir Goldstein 2020-07-16   96  	    !fanotify_fh_equal(fanotify_info_file_fh(info1),
+f454fa610a69b9 Amir Goldstein 2020-07-16   97  			       fanotify_info_file_fh(info2)))
+f454fa610a69b9 Amir Goldstein 2020-07-16   98  		return false;
+f454fa610a69b9 Amir Goldstein 2020-07-16   99  
+3cf984e950c1c3 Amir Goldstein 2021-11-29  100  	if (info1->name_len &&
+3cf984e950c1c3 Amir Goldstein 2021-11-29 @101  	    memcmp(fanotify_info_name(info1), fanotify_info_name(info2),
+3cf984e950c1c3 Amir Goldstein 2021-11-29  102  		   info1->name_len))
+3cf984e950c1c3 Amir Goldstein 2021-11-29  103  		return false;
+3cf984e950c1c3 Amir Goldstein 2021-11-29  104  
+3cf984e950c1c3 Amir Goldstein 2021-11-29  105  	return !info1->name2_len ||
+3cf984e950c1c3 Amir Goldstein 2021-11-29  106  		!memcmp(fanotify_info_name2(info1), fanotify_info_name2(info2),
+3cf984e950c1c3 Amir Goldstein 2021-11-29  107  			info1->name2_len);
+f454fa610a69b9 Amir Goldstein 2020-07-16  108  }
+f454fa610a69b9 Amir Goldstein 2020-07-16  109  
 
-:::::: The code at line 528 was first introduced by commit
-:::::: 248f219cb8bcbfbd7f132752d44afa2df7c241d1 rxrpc: Rewrite the data and ack handling code
+:::::: The code at line 101 was first introduced by commit
+:::::: 3cf984e950c1c3f41d407ed31db33beb996be132 fanotify: support secondary dir fh and name in fanotify_info
 
-:::::: TO: David Howells <dhowells@redhat.com>
-:::::: CC: David Howells <dhowells@redhat.com>
+:::::: TO: Amir Goldstein <amir73il@gmail.com>
+:::::: CC: Jan Kara <jack@suse.cz>
 
 -- 
 0-DAY CI Kernel Test Service
