@@ -1,43 +1,42 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58BFDBD1D
-	for <oe-kbuild@lists.linux.dev>; Tue,  7 Feb 2023 05:08:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41F78BD1E
+	for <oe-kbuild@lists.linux.dev>; Tue,  7 Feb 2023 05:19:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675746517; x=1707282517;
+  t=1675747179; x=1707283179;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=axQSxiwpYEB1InWxhJD6pdlqaUR+IzUV66bepRZVkZg=;
-  b=KDjlW5Gh2nTDTpYmDfjf21im4D2EFy+IpIPRaJT4uUL8cNNPG0Q9vNV1
-   ia4wbQ9o2WZFJPR2IdzdLuMIrd6DoYGQ3L3nqBG9lCaai+C28G5mFuVoa
-   PyiCqtg1lbcWd5GPE8UXzJuHJjwarzBZz4U6li8JO21XLp8McF2qPgSr4
-   FNjSJ8mAsX0GjzlqJvyEwqYWpMyPA/zB55UZ6tdz/4lEC7eZbECBspYFf
-   2/5whno0eSt5yBF2dy+fSRN/x06S3i0utooW27vob5FyC377CfNmL+zCp
-   2XQJRUgYPtZuPQnZckSjLQq4L7NCnw6GeXIYms6iVmSgoAnUoJh+bXgr3
+  bh=RD2T6l6Jf+VwOPWuA+NoSr5aextbn2nCIy475g1SNHo=;
+  b=lU7j1Rz40yCFQi7QdRahUphkQuOEJuJhx88Ape5FC/aWDVfcWLSirGAe
+   jPm4maHtLdyQ1/fYWeKLBivnt+kCBcPgBhODdk7TIFEeOUy+4CMajLIYZ
+   w9DEwfFYTF1YDcu7Issmr1Emki/YIPmb8RTpsgk22Z7+tNc04omQ7D9se
+   pCkj5wpjU48V60Jb8GxtK53FpOIxZDRFGICfb7Irz7KjeCSqoRxWCdbn0
+   Rom7RteLRGQb78ecBOvrJWQs/GkgLmJ5PSe2si5EgbYH3DJhdtYMbruPU
+   W/afc34XUVf3rRYfOWZTHjDX5jI1+Xt8Dqp3Q251YCnENkxiYi4m2rUAx
    w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10613"; a="328045442"
+X-IronPort-AV: E=McAfee;i="6500,9779,10613"; a="309742796"
 X-IronPort-AV: E=Sophos;i="5.97,278,1669104000"; 
-   d="scan'208";a="328045442"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2023 21:08:36 -0800
+   d="scan'208";a="309742796"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2023 21:19:38 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10613"; a="775395612"
+X-IronPort-AV: E=McAfee;i="6500,9779,10613"; a="660088937"
 X-IronPort-AV: E=Sophos;i="5.97,278,1669104000"; 
-   d="scan'208";a="775395612"
+   d="scan'208";a="660088937"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 06 Feb 2023 21:08:35 -0800
+  by orsmga007.jf.intel.com with ESMTP; 06 Feb 2023 21:19:37 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pPGDb-00036C-0d;
-	Tue, 07 Feb 2023 05:08:35 +0000
-Date: Tue, 7 Feb 2023 13:08:28 +0800
+	id 1pPGOG-00037G-2H;
+	Tue, 07 Feb 2023 05:19:36 +0000
+Date: Tue, 7 Feb 2023 13:18:55 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [niks:dma_iommu_v5 4/7] drivers/iommu/s390-iommu.c:713
- zpci_get_iommu_ctrs() error: we previously assumed 'zdev' could be null (see
- line 713)
-Message-ID: <202302071312.P2C14gaH-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [djwong-xfs:vectorized-scrub 426/495] fs/xfs/scrub/rtbitmap.c:
+ scrub/repair.h is included more than once.
+Message-ID: <202302071301.H7hSb7UY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -47,35 +46,26 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "low confidence bisect report"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Niklas Schnelle <schnelle@linux.ibm.com>
+TO: "Darrick J. Wong" <darrick.wong@oracle.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/niks/linux.git dma_iommu_v5
-head:   1130d11df3ad4a18aada280e80da35911239b4ad
-commit: 4dd8a9e92a898af65c84631f354f51a8b9f9ff09 [4/7] s390/pci: Use dma-iommu layer
-:::::: branch date: 2 weeks ago
-:::::: commit date: 2 weeks ago
-config: s390-randconfig-m041-20230206 (https://download.01.org/0day-ci/archive/20230207/202302071312.P2C14gaH-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git vectorized-scrub
+head:   4315ec0cda3c70a7df76c2516694e6d1219b2995
+commit: f8451880356773abd2792811580114190db35bd2 [426/495] xfs: online repair of realtime bitmaps for a realtime group
+:::::: branch date: 6 days ago
+:::::: commit date: 6 days ago
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
 
-smatch warnings:
-drivers/iommu/s390-iommu.c:713 zpci_get_iommu_ctrs() error: we previously assumed 'zdev' could be null (see line 713)
-
-vim +/zdev +713 drivers/iommu/s390-iommu.c
-
-4dd8a9e92a898a Niklas Schnelle 2022-07-01  710  
-4dd8a9e92a898a Niklas Schnelle 2022-07-01  711  struct zpci_iommu_ctrs *zpci_get_iommu_ctrs(struct zpci_dev *zdev)
-4dd8a9e92a898a Niklas Schnelle 2022-07-01  712  {
-4dd8a9e92a898a Niklas Schnelle 2022-07-01 @713  	if (!zdev && !zdev->s390_domain)
-4dd8a9e92a898a Niklas Schnelle 2022-07-01  714  		return NULL;
-4dd8a9e92a898a Niklas Schnelle 2022-07-01  715  	return &zdev->s390_domain->ctrs;
-4dd8a9e92a898a Niklas Schnelle 2022-07-01  716  }
-4dd8a9e92a898a Niklas Schnelle 2022-07-01  717  
+includecheck warnings: (new ones prefixed by >>)
+>> fs/xfs/scrub/rtbitmap.c: scrub/repair.h is included more than once.
 
 -- 
 0-DAY CI Kernel Test Service
