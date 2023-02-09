@@ -1,42 +1,42 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68825371
-	for <oe-kbuild@lists.linux.dev>; Thu,  9 Feb 2023 10:05:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1F5133EA
+	for <oe-kbuild@lists.linux.dev>; Thu,  9 Feb 2023 10:46:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675937102; x=1707473102;
+  t=1675939599; x=1707475599;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=WzA0Z1XmceqM/D0WnvjshzhSeM2vVct1+yn71/JA7bk=;
-  b=KguI64Lr7TkOlOSwoIryNPdNpNKjU5Vfb3mKIOlnQWN63BfCGWKkB1Di
-   4DfNryNMs38Kpja8DjVRue+YLutCAoNQ0FBoXZ/V3+ALmDyelCVWvliYL
-   qgQI9/4cbAJixiPuQXp0N3Y9tSAoCNG0g9KioQIpsPXMt9bWO0sBZsCOl
-   zS9nMIr6Ly9Orjlj/Ccno1xkK4HNccZXfZQzaMkswrrNM+ICZnK5JX7q2
-   pKC7y36x+i0Hm+dCuw1g/XnzLvkjgsT5i9xHmQD2n1JZlRuTqj2bjZeUk
-   HH6i6iJZgQn5xINRI8kNVu70a65LNtGTGq8DNdeZJz6iKjJwRNEeTsxr8
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10615"; a="331354503"
+  bh=gc8hDrfmTGgQ7jI/4Tq1U07ofcx6Lu7mMekXmD9A/rs=;
+  b=Z0GshWv1qFMwbBcO82O0GrT/ePutPUiUGEJXTLVMRz5AprmF306cDVdI
+   nII6p9leXpAjBbRwUMNbGCVBr/NrMZXVJKf8OM/FxlRGJLH8ysV1JPWw3
+   7mudl6hpMSPQhJ2vNIboOMFL6XW9Yfrq1qo6fqUy/s1Jx0b0trkClvHY7
+   uWgpN0WJnQTVFDBdLOPb6Wc9CwkghWffVwPn5xNU0QlidRjhvdQs7g36k
+   j35duIBDfyLaXc2Q4w7NsgEiqmLxMJwX3jt+lAhrEaSkrnI6o8TRsx8X8
+   bIoPPNIDE+6nrs6SPZAKU1Br34+jGTR+jpQnbiupkF9fy+7qDa14/5ZY2
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10615"; a="310428581"
 X-IronPort-AV: E=Sophos;i="5.97,283,1669104000"; 
-   d="scan'208";a="331354503"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2023 02:04:37 -0800
+   d="scan'208";a="310428581"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2023 02:46:39 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10615"; a="697969649"
+X-IronPort-AV: E=McAfee;i="6500,9779,10615"; a="736290445"
 X-IronPort-AV: E=Sophos;i="5.97,283,1669104000"; 
-   d="scan'208";a="697969649"
+   d="scan'208";a="736290445"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 09 Feb 2023 02:04:36 -0800
+  by fmsmga004.fm.intel.com with ESMTP; 09 Feb 2023 02:46:38 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pQ3n9-0004zW-2d;
-	Thu, 09 Feb 2023 10:04:35 +0000
-Date: Thu, 9 Feb 2023 18:04:15 +0800
+	id 1pQ4Rp-00050w-17;
+	Thu, 09 Feb 2023 10:46:37 +0000
+Date: Thu, 9 Feb 2023 18:45:46 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/media/platform/samsung/s5p-g2d/g2d.c:103 g2d_queue_setup()
- warn: passing a valid pointer to 'PTR_ERR'
-Message-ID: <202302091702.VRrQz389-lkp@intel.com>
+Subject: mm/kasan/kasan_test.c:1155 rcu_uaf_reclaim() warn: statement has no
+ effect 8
+Message-ID: <202302091841.Vm0kZ0kt-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -49,71 +49,41 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Mauro Carvalho Chehab <mchehab@kernel.org>
-CC: linux-media@vger.kernel.org
+TO: Andrey Konovalov <andreyknvl@google.com>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+CC: Marco Elver <elver@google.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   0983f6bf2bfc0789b51ddf7315f644ff4da50acb
-commit: a7f3b2d32dabd8e59854ec39ba257050b5e4949e media: platform: rename s5p-g2d/ to samsung/s5p-g2d/
-date:   11 months ago
+commit: 8516e837cab0b2c740b90603b66039aa7dcecda4 kasan: migrate kasan_rcu_uaf test to kunit
+date:   3 months ago
 :::::: branch date: 2 days ago
-:::::: commit date: 11 months ago
-config: powerpc-randconfig-m041-20230208 (https://download.01.org/0day-ci/archive/20230209/202302091702.VRrQz389-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 12.1.0
+:::::: commit date: 3 months ago
+config: xtensa-randconfig-m031-20230209 (https://download.01.org/0day-ci/archive/20230209/202302091841.Vm0kZ0kt-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202302091702.VRrQz389-lkp@intel.com
+| Link: https://lore.kernel.org/r/202302091841.Vm0kZ0kt-lkp@intel.com
 
 smatch warnings:
-drivers/media/platform/samsung/s5p-g2d/g2d.c:103 g2d_queue_setup() warn: passing a valid pointer to 'PTR_ERR'
-drivers/media/platform/samsung/s5p-g2d/g2d.c:120 g2d_buf_prepare() warn: passing a valid pointer to 'PTR_ERR'
-drivers/media/platform/samsung/s5p-g2d/g2d.c:319 vidioc_g_fmt() warn: passing a valid pointer to 'PTR_ERR'
-drivers/media/platform/samsung/s5p-g2d/g2d.c:381 vidioc_s_fmt() warn: passing a valid pointer to 'PTR_ERR'
-drivers/media/platform/samsung/s5p-g2d/g2d.c:408 vidioc_g_selection() warn: passing a valid pointer to 'PTR_ERR'
-drivers/media/platform/samsung/s5p-g2d/g2d.c:459 vidioc_try_selection() warn: passing a valid pointer to 'PTR_ERR'
-drivers/media/platform/samsung/s5p-g2d/g2d.c:490 vidioc_s_selection() warn: passing a valid pointer to 'PTR_ERR'
+mm/kasan/kasan_test.c:1155 rcu_uaf_reclaim() warn: statement has no effect 8
+mm/kasan/kasan_test.c:1155 rcu_uaf_reclaim() error: dereferencing freed memory 'fp'
 
-vim +/PTR_ERR +103 drivers/media/platform/samsung/s5p-g2d/g2d.c
+vim +1155 mm/kasan/kasan_test.c
 
-918847341af0f5 drivers/media/video/s5p-g2d/g2d.c    Kamil Debski 2011-10-06   94  
-df9ecb0cad14b9 drivers/media/platform/s5p-g2d/g2d.c Hans Verkuil 2015-10-28   95  static int g2d_queue_setup(struct vb2_queue *vq,
-918847341af0f5 drivers/media/video/s5p-g2d/g2d.c    Kamil Debski 2011-10-06   96  			   unsigned int *nbuffers, unsigned int *nplanes,
-36c0f8b32c4bd4 drivers/media/platform/s5p-g2d/g2d.c Hans Verkuil 2016-04-15   97  			   unsigned int sizes[], struct device *alloc_devs[])
-918847341af0f5 drivers/media/video/s5p-g2d/g2d.c    Kamil Debski 2011-10-06   98  {
-918847341af0f5 drivers/media/video/s5p-g2d/g2d.c    Kamil Debski 2011-10-06   99  	struct g2d_ctx *ctx = vb2_get_drv_priv(vq);
-918847341af0f5 drivers/media/video/s5p-g2d/g2d.c    Kamil Debski 2011-10-06  100  	struct g2d_frame *f = get_frame(ctx, vq->type);
-918847341af0f5 drivers/media/video/s5p-g2d/g2d.c    Kamil Debski 2011-10-06  101  
-918847341af0f5 drivers/media/video/s5p-g2d/g2d.c    Kamil Debski 2011-10-06  102  	if (IS_ERR(f))
-918847341af0f5 drivers/media/video/s5p-g2d/g2d.c    Kamil Debski 2011-10-06 @103  		return PTR_ERR(f);
-918847341af0f5 drivers/media/video/s5p-g2d/g2d.c    Kamil Debski 2011-10-06  104  
-918847341af0f5 drivers/media/video/s5p-g2d/g2d.c    Kamil Debski 2011-10-06  105  	sizes[0] = f->size;
-918847341af0f5 drivers/media/video/s5p-g2d/g2d.c    Kamil Debski 2011-10-06  106  	*nplanes = 1;
-918847341af0f5 drivers/media/video/s5p-g2d/g2d.c    Kamil Debski 2011-10-06  107  
-918847341af0f5 drivers/media/video/s5p-g2d/g2d.c    Kamil Debski 2011-10-06  108  	if (*nbuffers == 0)
-918847341af0f5 drivers/media/video/s5p-g2d/g2d.c    Kamil Debski 2011-10-06  109  		*nbuffers = 1;
-918847341af0f5 drivers/media/video/s5p-g2d/g2d.c    Kamil Debski 2011-10-06  110  
-918847341af0f5 drivers/media/video/s5p-g2d/g2d.c    Kamil Debski 2011-10-06  111  	return 0;
-918847341af0f5 drivers/media/video/s5p-g2d/g2d.c    Kamil Debski 2011-10-06  112  }
-918847341af0f5 drivers/media/video/s5p-g2d/g2d.c    Kamil Debski 2011-10-06  113  
-918847341af0f5 drivers/media/video/s5p-g2d/g2d.c    Kamil Debski 2011-10-06  114  static int g2d_buf_prepare(struct vb2_buffer *vb)
-918847341af0f5 drivers/media/video/s5p-g2d/g2d.c    Kamil Debski 2011-10-06  115  {
-918847341af0f5 drivers/media/video/s5p-g2d/g2d.c    Kamil Debski 2011-10-06  116  	struct g2d_ctx *ctx = vb2_get_drv_priv(vb->vb2_queue);
-918847341af0f5 drivers/media/video/s5p-g2d/g2d.c    Kamil Debski 2011-10-06  117  	struct g2d_frame *f = get_frame(ctx, vb->vb2_queue->type);
-918847341af0f5 drivers/media/video/s5p-g2d/g2d.c    Kamil Debski 2011-10-06  118  
-918847341af0f5 drivers/media/video/s5p-g2d/g2d.c    Kamil Debski 2011-10-06  119  	if (IS_ERR(f))
-918847341af0f5 drivers/media/video/s5p-g2d/g2d.c    Kamil Debski 2011-10-06 @120  		return PTR_ERR(f);
-918847341af0f5 drivers/media/video/s5p-g2d/g2d.c    Kamil Debski 2011-10-06  121  	vb2_set_plane_payload(vb, 0, f->size);
-918847341af0f5 drivers/media/video/s5p-g2d/g2d.c    Kamil Debski 2011-10-06  122  	return 0;
-918847341af0f5 drivers/media/video/s5p-g2d/g2d.c    Kamil Debski 2011-10-06  123  }
-918847341af0f5 drivers/media/video/s5p-g2d/g2d.c    Kamil Debski 2011-10-06  124  
-
-:::::: The code at line 103 was first introduced by commit
-:::::: 918847341af0f5f1907fc0b52549f0dc29192c03 [media] v4l: add G2D driver for s5p device family
-
-:::::: TO: Kamil Debski <k.debski@samsung.com>
-:::::: CC: Mauro Carvalho Chehab <mchehab@redhat.com>
+8516e837cab0b2 Andrey Konovalov 2022-09-27  1148  
+8516e837cab0b2 Andrey Konovalov 2022-09-27  1149  static void rcu_uaf_reclaim(struct rcu_head *rp)
+8516e837cab0b2 Andrey Konovalov 2022-09-27  1150  {
+8516e837cab0b2 Andrey Konovalov 2022-09-27  1151  	struct kasan_rcu_info *fp =
+8516e837cab0b2 Andrey Konovalov 2022-09-27  1152  		container_of(rp, struct kasan_rcu_info, rcu);
+8516e837cab0b2 Andrey Konovalov 2022-09-27  1153  
+8516e837cab0b2 Andrey Konovalov 2022-09-27  1154  	kfree(fp);
+8516e837cab0b2 Andrey Konovalov 2022-09-27 @1155  	((volatile struct kasan_rcu_info *)fp)->i;
+8516e837cab0b2 Andrey Konovalov 2022-09-27  1156  }
+8516e837cab0b2 Andrey Konovalov 2022-09-27  1157  
 
 -- 
 0-DAY CI Kernel Test Service
