@@ -1,42 +1,43 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 976E0A931
-	for <oe-kbuild@lists.linux.dev>; Thu,  9 Feb 2023 19:46:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4164D2F3A
+	for <oe-kbuild@lists.linux.dev>; Thu,  9 Feb 2023 20:58:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675971972; x=1707507972;
+  t=1675976310; x=1707512310;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=n7+uzYsGQUVgVeWMUbZqp1cN4ZIaEg/v+WVhVSUUTt8=;
-  b=kiumQAejm+8my6UIZMBUHeb6DBgagTJH9POabW4J/aDF5ksRVccRXvcZ
-   0xXotzVd13vsMiv1c7qM+pBE4mb4g3QZm4hfVgVXLNNq+3tMNv7ZYtbKf
-   Ra9ceiyqtsFNgFflarLhwYWDW6rm/7kC5XY3bNyZQLriEOnRWGbkQ5OqE
-   //1ist63sOZvAlZLVYYY3bkvpPE6PnV/TvzKZ4QW64zc/M8n+rOhaclUr
-   jZHCIKDSEKudAUgMkIrEue/QMFvJmzfSuGGlsWPngSBE4uy1HihjMX8WM
-   CEP/25d7cthHhIgYf+elLTUTscHmfwvV1oYQgltQsP0GXVTtNc+wd/pMB
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10616"; a="331525918"
+  bh=suzoZvsOAjEdLDD9v1mWyIrHpiVMWDeTv0gjFOYXD1w=;
+  b=DVjeR1TbPp6eNbo5X/IEapBd5xsbCYENdOR/pTMXRpGB5Y+W2NG2KJDe
+   J5J2YEG6ADRN8D7M94eDQ9IpHzpfaR6VMnr5g+vh4kxcUOwfdBRm9M7Mt
+   nioaQJj4XtuFNF7H6c1U4XY0ISMxCylRrCwp5fw1/3UMqJu7uS3dltcjY
+   rBxnxRGEAZzRljQlW/tSvYlqUVEmr6ubGhrcNmwHWruJj+TrjYKUVzNBY
+   Wqqq57GHBZ2p548kjjQfycrpoSKDI3r8tnIph4q2FqEBDdQsfZipaboXk
+   nJQQPWORcnUWxlMWHNHSCrt9Pt31BFDnCgUay5odvnZjUxcoIk9SAUVTv
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10616"; a="318256884"
 X-IronPort-AV: E=Sophos;i="5.97,284,1669104000"; 
-   d="scan'208";a="331525918"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2023 11:45:59 -0800
+   d="scan'208";a="318256884"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2023 12:58:09 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10616"; a="731454221"
+X-IronPort-AV: E=McAfee;i="6500,9779,10616"; a="791737348"
 X-IronPort-AV: E=Sophos;i="5.97,284,1669104000"; 
-   d="scan'208";a="731454221"
+   d="scan'208";a="791737348"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 09 Feb 2023 11:45:58 -0800
+  by orsmga004.jf.intel.com with ESMTP; 09 Feb 2023 12:58:08 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pQCrl-0005H4-0x;
-	Thu, 09 Feb 2023 19:45:57 +0000
-Date: Fri, 10 Feb 2023 03:45:53 +0800
+	id 1pQDzb-0005J1-1Q;
+	Thu, 09 Feb 2023 20:58:07 +0000
+Date: Fri, 10 Feb 2023 04:57:59 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: drivers/scsi/bnx2fc/bnx2fc_hwi.c:273:43: sparse: sparse: incorrect
- type in assignment (different base types)
-Message-ID: <202302100323.KuosWYFS-lkp@intel.com>
+Subject: [linux-next:master 7601/11577]
+ kernel/bpf/preload/iterators/iterators.lskel-big-endian.h:310:39: sparse:
+ sparse: string too long (16616 bytes, 8191 bytes max)
+Message-ID: <202302100415.zJn6hMJf-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -47,481 +48,353 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "low confidence static check warning: kernel/bpf/preload/iterators/iterators.lskel-big-endian.h:310:39: sparse: sparse: string too long (16616 bytes, 8191 bytes max)"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Huacai Chen <chenhuacai@loongson.cn>
-CC: WANG Xuerui <git@xen0n.name>
-CC: Jianmin Lv <lvjianmin@loongson.cn>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Ilya Leoshkevich <iii@linux.ibm.com>
+CC: Alexei Starovoitov <ast@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   35674e787518768626d3a0ffce1c13a7eeed922d
-commit: 57fc7323a8e7c2e7c1d5795ab63cb3ffea3cfdfb LoongArch: Add PCI controller support
-date:   6 months ago
-:::::: branch date: 2 hours ago
-:::::: commit date: 6 months ago
-config: loongarch-randconfig-s032-20230209 (https://download.01.org/0day-ci/archive/20230210/202302100323.KuosWYFS-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   20f513df926fac0594a3b65f79d856bd64251861
+commit: 0f0e5f5bd5066c9ffaa006e26fc7d092b04d4088 [7601/11577] bpf: iterators: Split iterators.lskel.h into little- and big- endian versions
+:::::: branch date: 17 hours ago
+:::::: commit date: 12 days ago
+config: s390-randconfig-s043-20230209 (https://download.01.org/0day-ci/archive/20230210/202302100415.zJn6hMJf-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 12.1.0
 reproduce:
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
         # apt-get install sparse
         # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=57fc7323a8e7c2e7c1d5795ab63cb3ffea3cfdfb
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 57fc7323a8e7c2e7c1d5795ab63cb3ffea3cfdfb
+        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=0f0e5f5bd5066c9ffaa006e26fc7d092b04d4088
+        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+        git fetch --no-tags linux-next master
+        git checkout 0f0e5f5bd5066c9ffaa006e26fc7d092b04d4088
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=loongarch olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=loongarch SHELL=/bin/bash drivers/isdn/hardware/mISDN/ drivers/scsi/bnx2fc/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=s390 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=s390 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/r/202302100323.KuosWYFS-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202302100415.zJn6hMJf-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:87:41: sparse:     got unsigned int [usertype]
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:88:41: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [addressable] [assigned] [usertype] dummy_buffer_addr_hi @@     got unsigned int [usertype] @@
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:88:41: sparse:     expected restricted __le32 [addressable] [assigned] [usertype] dummy_buffer_addr_hi
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:88:41: sparse:     got unsigned int [usertype]
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:89:42: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [addressable] [assigned] [usertype] task_list_pbl_addr_lo @@     got unsigned int [usertype] @@
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:89:42: sparse:     expected restricted __le32 [addressable] [assigned] [usertype] task_list_pbl_addr_lo
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:89:42: sparse:     got unsigned int [usertype]
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:90:42: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [addressable] [assigned] [usertype] task_list_pbl_addr_hi @@     got unsigned int [usertype] @@
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:90:42: sparse:     expected restricted __le32 [addressable] [assigned] [usertype] task_list_pbl_addr_hi
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:90:42: sparse:     got unsigned int [usertype]
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:92:24: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [addressable] [assigned] [usertype] mtu @@     got int @@
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:92:24: sparse:     expected restricted __le16 [addressable] [assigned] [usertype] mtu
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:92:24: sparse:     got int
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:109:41: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [addressable] [assigned] [usertype] hash_tbl_pbl_addr_lo @@     got unsigned int [usertype] @@
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:109:41: sparse:     expected restricted __le32 [addressable] [assigned] [usertype] hash_tbl_pbl_addr_lo
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:109:41: sparse:     got unsigned int [usertype]
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:110:41: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [addressable] [assigned] [usertype] hash_tbl_pbl_addr_hi @@     got unsigned int [usertype] @@
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:110:41: sparse:     expected restricted __le32 [addressable] [assigned] [usertype] hash_tbl_pbl_addr_hi
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:110:41: sparse:     got unsigned int [usertype]
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:113:40: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [addressable] [assigned] [usertype] t2_hash_tbl_addr_lo @@     got unsigned int [usertype] @@
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:113:40: sparse:     expected restricted __le32 [addressable] [assigned] [usertype] t2_hash_tbl_addr_lo
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:113:40: sparse:     got unsigned int [usertype]
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:114:40: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [addressable] [assigned] [usertype] t2_hash_tbl_addr_hi @@     got unsigned int [usertype] @@
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:114:40: sparse:     expected restricted __le32 [addressable] [assigned] [usertype] t2_hash_tbl_addr_hi
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:114:40: sparse:     got unsigned int [usertype]
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:117:44: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [addressable] [assigned] [usertype] t2_ptr_hash_tbl_addr_lo @@     got unsigned int [usertype] @@
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:117:44: sparse:     expected restricted __le32 [addressable] [assigned] [usertype] t2_ptr_hash_tbl_addr_lo
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:117:44: sparse:     got unsigned int [usertype]
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:118:44: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [addressable] [assigned] [usertype] t2_ptr_hash_tbl_addr_hi @@     got unsigned int [usertype] @@
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:118:44: sparse:     expected restricted __le32 [addressable] [assigned] [usertype] t2_ptr_hash_tbl_addr_hi
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:118:44: sparse:     got unsigned int [usertype]
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:121:36: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [addressable] [assigned] [usertype] free_list_count @@     got int @@
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:121:36: sparse:     expected restricted __le32 [addressable] [assigned] [usertype] free_list_count
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:121:36: sparse:     got int
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:128:37: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [addressable] [assigned] [usertype] error_bit_map_lo @@     got unsigned int @@
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:128:37: sparse:     expected restricted __le32 [addressable] [assigned] [usertype] error_bit_map_lo
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:128:37: sparse:     got unsigned int
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:129:37: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [addressable] [assigned] [usertype] error_bit_map_hi @@     got unsigned int @@
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:129:37: sparse:     expected restricted __le32 [addressable] [assigned] [usertype] error_bit_map_hi
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:129:37: sparse:     got unsigned int
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:199:32: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [addressable] [assigned] [usertype] fcoe_conn_id @@     got unsigned short [assigned] [usertype] conn_id @@
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:199:32: sparse:     expected restricted __le16 [addressable] [assigned] [usertype] fcoe_conn_id
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:199:32: sparse:     got unsigned short [assigned] [usertype] conn_id
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:202:30: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [addressable] [assigned] [usertype] sq_addr_lo @@     got unsigned int [usertype] @@
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:202:30: sparse:     expected restricted __le32 [addressable] [assigned] [usertype] sq_addr_lo
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:202:30: sparse:     got unsigned int [usertype]
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:203:30: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [addressable] [assigned] [usertype] sq_addr_hi @@     got unsigned int [usertype] @@
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:203:30: sparse:     expected restricted __le32 [addressable] [assigned] [usertype] sq_addr_hi
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:203:30: sparse:     got unsigned int [usertype]
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:205:34: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [addressable] [assigned] [usertype] rq_pbl_addr_lo @@     got unsigned int [usertype] @@
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:205:34: sparse:     expected restricted __le32 [addressable] [assigned] [usertype] rq_pbl_addr_lo
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:205:34: sparse:     got unsigned int [usertype]
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:206:34: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [addressable] [assigned] [usertype] rq_pbl_addr_hi @@     got unsigned int [usertype] @@
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:206:34: sparse:     expected restricted __le32 [addressable] [assigned] [usertype] rq_pbl_addr_hi
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:206:34: sparse:     got unsigned int [usertype]
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:208:40: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [addressable] [assigned] [usertype] rq_first_pbe_addr_lo @@     got unsigned int [usertype] @@
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:208:40: sparse:     expected restricted __le32 [addressable] [assigned] [usertype] rq_first_pbe_addr_lo
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:208:40: sparse:     got unsigned int [usertype]
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:209:40: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [addressable] [assigned] [usertype] rq_first_pbe_addr_hi @@     got unsigned int [usertype] @@
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:209:40: sparse:     expected restricted __le32 [addressable] [assigned] [usertype] rq_first_pbe_addr_hi
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:209:40: sparse:     got unsigned int [usertype]
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:212:27: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [addressable] [assigned] [usertype] rq_prod @@     got int @@
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:212:27: sparse:     expected restricted __le16 [addressable] [assigned] [usertype] rq_prod
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:212:27: sparse:     got int
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:221:37: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [addressable] [assigned] [usertype] tx_max_fc_pay_len @@     got unsigned short [usertype] maxframe_size @@
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:221:37: sparse:     expected restricted __le16 [addressable] [assigned] [usertype] tx_max_fc_pay_len
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:221:37: sparse:     got unsigned short [usertype] maxframe_size
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:223:30: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [addressable] [assigned] [usertype] cq_addr_lo @@     got unsigned int [usertype] @@
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:223:30: sparse:     expected restricted __le32 [addressable] [assigned] [usertype] cq_addr_lo
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:223:30: sparse:     got unsigned int [usertype]
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:224:30: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [addressable] [assigned] [usertype] cq_addr_hi @@     got unsigned int [usertype] @@
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:224:30: sparse:     expected restricted __le32 [addressable] [assigned] [usertype] cq_addr_hi
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:224:30: sparse:     got unsigned int [usertype]
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:226:33: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [addressable] [assigned] [usertype] xferq_addr_lo @@     got unsigned int [usertype] @@
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:226:33: sparse:     expected restricted __le32 [addressable] [assigned] [usertype] xferq_addr_lo
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:226:33: sparse:     got unsigned int [usertype]
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:227:33: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [addressable] [assigned] [usertype] xferq_addr_hi @@     got unsigned int [usertype] @@
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:227:33: sparse:     expected restricted __le32 [addressable] [assigned] [usertype] xferq_addr_hi
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:227:33: sparse:     got unsigned int [usertype]
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:229:35: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [addressable] [assigned] [usertype] conn_db_addr_lo @@     got unsigned int [usertype] @@
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:229:35: sparse:     expected restricted __le32 [addressable] [assigned] [usertype] conn_db_addr_lo
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:229:35: sparse:     got unsigned int [usertype]
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:230:35: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [addressable] [assigned] [usertype] conn_db_addr_hi @@     got unsigned int [usertype] @@
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:230:35: sparse:     expected restricted __le32 [addressable] [assigned] [usertype] conn_db_addr_hi
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:230:35: sparse:     got unsigned int [usertype]
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:239:28: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [addressable] [assigned] [usertype] vlan_tag @@     got int @@
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:239:28: sparse:     expected restricted __le16 [addressable] [assigned] [usertype] vlan_tag
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:239:28: sparse:     got int
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:241:28: sparse: sparse: invalid assignment: |=
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:241:28: sparse:    left side has type restricted __le16
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:241:28: sparse:    right side has type int
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:264:38: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [addressable] [assigned] [usertype] tx_total_conc_seqs @@     got unsigned short [usertype] max_seq @@
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:264:38: sparse:     expected restricted __le16 [addressable] [assigned] [usertype] tx_total_conc_seqs
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:264:38: sparse:     got unsigned short [usertype] max_seq
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:267:38: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [addressable] [assigned] [usertype] rx_max_fc_pay_len @@     got unsigned int [usertype] mfs @@
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:267:38: sparse:     expected restricted __le16 [addressable] [assigned] [usertype] rx_max_fc_pay_len
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:267:38: sparse:     got unsigned int [usertype] mfs
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:269:38: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [addressable] [assigned] [usertype] rx_total_conc_seqs @@     got int @@
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:269:38: sparse:     expected restricted __le16 [addressable] [assigned] [usertype] rx_total_conc_seqs
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:269:38: sparse:     got int
->> drivers/scsi/bnx2fc/bnx2fc_hwi.c:273:43: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [addressable] [assigned] [usertype] confq_first_pbe_addr_lo @@     got unsigned long long [usertype] confq_dma @@
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:273:43: sparse:     expected restricted __le32 [addressable] [assigned] [usertype] confq_first_pbe_addr_lo
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:273:43: sparse:     got unsigned long long [usertype] confq_dma
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:274:43: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [addressable] [assigned] [usertype] confq_first_pbe_addr_hi @@     got unsigned int [usertype] @@
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:274:43: sparse:     expected restricted __le32 [addressable] [assigned] [usertype] confq_first_pbe_addr_hi
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:274:43: sparse:     got unsigned int [usertype]
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:332:31: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [addressable] [assigned] [usertype] lcq_addr_lo @@     got unsigned int [usertype] @@
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:332:31: sparse:     expected restricted __le32 [addressable] [assigned] [usertype] lcq_addr_lo
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:332:31: sparse:     got unsigned int [usertype]
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:333:31: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [addressable] [assigned] [usertype] lcq_addr_hi @@     got unsigned int [usertype] @@
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:333:31: sparse:     expected restricted __le32 [addressable] [assigned] [usertype] lcq_addr_hi
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:333:31: sparse:     got unsigned int [usertype]
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:335:42: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [addressable] [assigned] [usertype] confq_pbl_base_addr_lo @@     got unsigned int [usertype] @@
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:335:42: sparse:     expected restricted __le32 [addressable] [assigned] [usertype] confq_pbl_base_addr_lo
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:335:42: sparse:     got unsigned int [usertype]
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:336:42: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [addressable] [assigned] [usertype] confq_pbl_base_addr_hi @@     got unsigned int [usertype] @@
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:336:42: sparse:     expected restricted __le32 [addressable] [assigned] [usertype] confq_pbl_base_addr_hi
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:336:42: sparse:     got unsigned int [usertype]
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:410:29: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [addressable] [assigned] [usertype] context_id @@     got unsigned int [usertype] context_id @@
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:410:29: sparse:     expected restricted __le32 [addressable] [assigned] [usertype] context_id
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:410:29: sparse:     got unsigned int [usertype] context_id
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:411:26: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [addressable] [assigned] [usertype] conn_id @@     got unsigned int [usertype] fcoe_conn_id @@
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:411:26: sparse:     expected restricted __le32 [addressable] [assigned] [usertype] conn_id
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:411:26: sparse:     got unsigned int [usertype] fcoe_conn_id
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:469:32: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [addressable] [assigned] [usertype] context_id @@     got unsigned int [usertype] context_id @@
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:469:32: sparse:     expected restricted __le32 [addressable] [assigned] [usertype] context_id
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:469:32: sparse:     got unsigned int [usertype] context_id
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:470:29: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [addressable] [assigned] [usertype] conn_id @@     got unsigned int [usertype] fcoe_conn_id @@
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:470:29: sparse:     expected restricted __le32 [addressable] [assigned] [usertype] conn_id
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:470:29: sparse:     got unsigned int [usertype] fcoe_conn_id
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:504:32: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [addressable] [assigned] [usertype] context_id @@     got unsigned int [usertype] context_id @@
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:504:32: sparse:     expected restricted __le32 [addressable] [assigned] [usertype] context_id
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:504:32: sparse:     got unsigned int [usertype] context_id
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:505:29: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [addressable] [assigned] [usertype] conn_id @@     got unsigned int [usertype] fcoe_conn_id @@
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:505:29: sparse:     expected restricted __le32 [addressable] [assigned] [usertype] conn_id
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:505:29: sparse:     got unsigned int [usertype] fcoe_conn_id
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:613:28: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] fr_crc @@     got restricted __le32 [usertype] @@
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:613:28: sparse:     expected unsigned int [usertype] fr_crc
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:613:28: sparse:     got restricted __le32 [usertype]
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:695:21: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] xid @@     got restricted __le16 [usertype] ox_id @@
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:695:21: sparse:     expected unsigned short [usertype] xid
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:695:21: sparse:     got restricted __le16 [usertype] ox_id
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:727:27: sparse: sparse: cast from restricted __le32
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:728:26: sparse: sparse: cast from restricted __le32
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:807:23: sparse: sparse: cast from restricted __le16
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:807:21: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] xid @@     got restricted __be16 [usertype] @@
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:807:21: sparse:     expected unsigned short [usertype] xid
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:807:21: sparse:     got restricted __be16 [usertype]
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:821:27: sparse: sparse: cast from restricted __le32
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:822:26: sparse: sparse: cast from restricted __le32
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:886:45: sparse: sparse: restricted __le16 degrades to integer
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:963:33: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [usertype] doorbell_cq_cons @@     got int @@
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:963:33: sparse:     expected restricted __le16 [usertype] doorbell_cq_cons
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:963:33: sparse:     got int
->> drivers/scsi/bnx2fc/bnx2fc_hwi.c:966:16: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] value @@     got restricted __le32 [usertype] @@
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:966:16: sparse:     expected unsigned int [usertype] value
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:966:16: sparse:     got restricted __le32 [usertype]
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:1019:43: sparse: sparse: restricted __le16 degrades to integer
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:1089:22: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] wqe @@     got restricted __le16 [usertype] wqe @@
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:1089:22: sparse:     expected unsigned short [usertype] wqe
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:1089:22: sparse:     got restricted __le16 [usertype] wqe
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:1253:17: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] conn_id @@     got restricted __le32 [usertype] fcoe_conn_id @@
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:1253:17: sparse:     expected unsigned int [usertype] conn_id
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:1253:17: sparse:     got restricted __le32 [usertype] fcoe_conn_id
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:1369:53: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected unsigned int [usertype] err_code @@     got restricted __le32 [usertype] completion_status @@
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:1369:53: sparse:     expected unsigned int [usertype] err_code
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:1369:53: sparse:     got restricted __le32 [usertype] completion_status
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:1420:18: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [usertype] wqe @@     got int @@
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:1420:18: sparse:     expected restricted __le16 [usertype] wqe
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:1420:18: sparse:     got int
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:1421:18: sparse: sparse: invalid assignment: |=
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:1421:18: sparse:    left side has type restricted __le16
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:1421:18: sparse:    right side has type int
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:1439:16: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] value @@     got restricted __le32 [usertype] @@
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:1439:16: sparse:     expected unsigned int [usertype] value
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:1439:16: sparse:     got restricted __le32 [usertype]
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:1522:46: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] init_flags @@     got unsigned int @@
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:1522:46: sparse:     expected restricted __le32 [usertype] init_flags
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:1522:46: sparse:     got unsigned int
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:1524:46: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] init_flags @@     got unsigned int @@
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:1524:46: sparse:     expected restricted __le32 [usertype] init_flags
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:1524:46: sparse:     got unsigned int
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:1527:63: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [usertype] cleaned_task_id @@     got unsigned short [usertype] orig_xid @@
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:1527:63: sparse:     expected restricted __le16 [usertype] cleaned_task_id
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:1527:63: sparse:     got unsigned short [usertype] orig_xid
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:1530:69: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] rolled_tx_data_offset @@     got unsigned int [usertype] offset @@
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:1530:69: sparse:     expected restricted __le32 [usertype] rolled_tx_data_offset
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:1530:69: sparse:     got unsigned int [usertype] offset
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:1536:35: sparse: sparse: restricted __le16 degrades to integer
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:1538:24: sparse: sparse: invalid assignment: -=
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:1538:24: sparse:    left side has type unsigned int
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:1538:24: sparse:    right side has type restricted __le16
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:1543:69: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] lo @@     got unsigned int [usertype] @@
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:1543:69: sparse:     expected restricted __le32 [usertype] lo
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:1543:69: sparse:     got unsigned int [usertype]
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:1545:69: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] hi @@     got unsigned int [usertype] @@
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:1545:69: sparse:     expected restricted __le32 [usertype] hi
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:1545:69: sparse:     got unsigned int [usertype]
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:1549:65: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [usertype] cur_sge_off @@     got unsigned int [usertype] offset @@
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:1549:65: sparse:     expected restricted __le16 [usertype] cur_sge_off
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:1549:65: sparse:     got unsigned int [usertype] offset
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:1556:46: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] lo @@     got unsigned int [usertype] @@
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:1556:46: sparse:     expected restricted __le32 [usertype] lo
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:1556:46: sparse:     got unsigned int [usertype]
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:1557:46: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] hi @@     got unsigned int [usertype] @@
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:1557:46: sparse:     expected restricted __le32 [usertype] hi
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:1557:46: sparse:     got unsigned int [usertype]
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:1559:42: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [usertype] cur_sge_off @@     got unsigned int [usertype] offset @@
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:1559:42: sparse:     expected restricted __le16 [usertype] cur_sge_off
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:1559:42: sparse:     got unsigned int [usertype] offset
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:1564:55: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] low_exp_ro @@     got unsigned int [usertype] orig_offset @@
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:1564:55: sparse:     expected restricted __le32 [usertype] low_exp_ro
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:1564:55: sparse:     got unsigned int [usertype] orig_offset
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:1565:56: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] high_exp_ro @@     got unsigned int [usertype] orig_offset @@
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:1565:56: sparse:     expected restricted __le32 [usertype] high_exp_ro
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:1565:56: sparse:     got unsigned int [usertype] orig_offset
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:1592:63: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [usertype] cleaned_task_id @@     got unsigned short [usertype] orig_xid @@
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:1592:63: sparse:     expected restricted __le16 [usertype] cleaned_task_id
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:1592:63: sparse:     got unsigned short [usertype] orig_xid
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:1600:46: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] init_flags @@     got unsigned int @@
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:1600:46: sparse:     expected restricted __le32 [usertype] init_flags
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:1600:46: sparse:     got unsigned int
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:1602:42: sparse: sparse: invalid assignment: |=
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:1602:42: sparse:    left side has type restricted __le16
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:1602:42: sparse:    right side has type int
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:1638:69: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] lo @@     got unsigned int [usertype] @@
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:1638:69: sparse:     expected restricted __le32 [usertype] lo
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:1638:69: sparse:     got unsigned int [usertype]
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:1640:69: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] hi @@     got unsigned int [usertype] @@
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:1640:69: sparse:     expected restricted __le32 [usertype] hi
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:1640:69: sparse:     got unsigned int [usertype]
->> drivers/scsi/bnx2fc/bnx2fc_hwi.c:1665:47: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] data_2_trns @@     got unsigned long [usertype] data_xfer_len @@
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:1665:47: sparse:     expected restricted __le32 [usertype] data_2_trns
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:1665:47: sparse:     got unsigned long [usertype] data_xfer_len
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:1668:42: sparse: sparse: invalid assignment: |=
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:1668:42: sparse:    left side has type restricted __le16
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:1668:42: sparse:    right side has type int
-   drivers/scsi/bnx2fc/bnx2fc_hwi.c:1672:46: sparse: sparse: too many warnings
---
-   drivers/isdn/hardware/mISDN/avmfritz.c:421:23: sparse: sparse: cast to restricted __le32
->> drivers/isdn/hardware/mISDN/avmfritz.c:494:30: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] value @@     got restricted __le32 [usertype] @@
-   drivers/isdn/hardware/mISDN/avmfritz.c:494:30: sparse:     expected unsigned int [usertype] value
-   drivers/isdn/hardware/mISDN/avmfritz.c:494:30: sparse:     got restricted __le32 [usertype]
+   kernel/bpf/preload/bpf_preload_kern.c: note: in included file:
+>> kernel/bpf/preload/iterators/iterators.lskel-big-endian.h:310:39: sparse: sparse: string too long (16616 bytes, 8191 bytes max)
 
-vim +273 drivers/scsi/bnx2fc/bnx2fc_hwi.c
+vim +310 kernel/bpf/preload/iterators/iterators.lskel-big-endian.h
 
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  164  
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  165  /**
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  166   * bnx2fc_send_session_ofld_req - initiates FCoE Session offload process
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  167   *
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  168   * @port:		port structure pointer
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  169   * @tgt:		bnx2fc_rport structure pointer
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  170   */
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  171  int bnx2fc_send_session_ofld_req(struct fcoe_port *port,
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  172  					struct bnx2fc_rport *tgt)
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  173  {
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  174  	struct fc_lport *lport = port->lport;
-aea71a024914e8 Bhanu Prakash Gollapudi 2011-07-26  175  	struct bnx2fc_interface *interface = port->priv;
-fd8f89027d816c Robert Love             2012-05-22  176  	struct fcoe_ctlr *ctlr = bnx2fc_to_ctlr(interface);
-aea71a024914e8 Bhanu Prakash Gollapudi 2011-07-26  177  	struct bnx2fc_hba *hba = interface->hba;
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  178  	struct kwqe *kwqe_arr[4];
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  179  	struct fcoe_kwqe_conn_offload1 ofld_req1;
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  180  	struct fcoe_kwqe_conn_offload2 ofld_req2;
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  181  	struct fcoe_kwqe_conn_offload3 ofld_req3;
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  182  	struct fcoe_kwqe_conn_offload4 ofld_req4;
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  183  	struct fc_rport_priv *rdata = tgt->rdata;
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  184  	struct fc_rport *rport = tgt->rport;
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  185  	int num_kwqes = 4;
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  186  	u32 port_id;
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  187  	int rc = 0;
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  188  	u16 conn_id;
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  189  
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  190  	/* Initialize offload request 1 structure */
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  191  	memset(&ofld_req1, 0x00, sizeof(struct fcoe_kwqe_conn_offload1));
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  192  
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  193  	ofld_req1.hdr.op_code = FCOE_KWQE_OPCODE_OFFLOAD_CONN1;
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  194  	ofld_req1.hdr.flags =
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  195  		(FCOE_KWQE_LAYER_CODE << FCOE_KWQE_HEADER_LAYER_CODE_SHIFT);
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  196  
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  197  
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  198  	conn_id = (u16)tgt->fcoe_conn_id;
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  199  	ofld_req1.fcoe_conn_id = conn_id;
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  200  
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  201  
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  202  	ofld_req1.sq_addr_lo = (u32) tgt->sq_dma;
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  203  	ofld_req1.sq_addr_hi = (u32)((u64) tgt->sq_dma >> 32);
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  204  
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  205  	ofld_req1.rq_pbl_addr_lo = (u32) tgt->rq_pbl_dma;
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  206  	ofld_req1.rq_pbl_addr_hi = (u32)((u64) tgt->rq_pbl_dma >> 32);
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  207  
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  208  	ofld_req1.rq_first_pbe_addr_lo = (u32) tgt->rq_dma;
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  209  	ofld_req1.rq_first_pbe_addr_hi =
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  210  				(u32)((u64) tgt->rq_dma >> 32);
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  211  
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  212  	ofld_req1.rq_prod = 0x8000;
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  213  
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  214  	/* Initialize offload request 2 structure */
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  215  	memset(&ofld_req2, 0x00, sizeof(struct fcoe_kwqe_conn_offload2));
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  216  
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  217  	ofld_req2.hdr.op_code = FCOE_KWQE_OPCODE_OFFLOAD_CONN2;
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  218  	ofld_req2.hdr.flags =
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  219  		(FCOE_KWQE_LAYER_CODE << FCOE_KWQE_HEADER_LAYER_CODE_SHIFT);
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  220  
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  221  	ofld_req2.tx_max_fc_pay_len = rdata->maxframe_size;
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  222  
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  223  	ofld_req2.cq_addr_lo = (u32) tgt->cq_dma;
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  224  	ofld_req2.cq_addr_hi = (u32)((u64)tgt->cq_dma >> 32);
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  225  
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  226  	ofld_req2.xferq_addr_lo = (u32) tgt->xferq_dma;
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  227  	ofld_req2.xferq_addr_hi = (u32)((u64)tgt->xferq_dma >> 32);
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  228  
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  229  	ofld_req2.conn_db_addr_lo = (u32)tgt->conn_db_dma;
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  230  	ofld_req2.conn_db_addr_hi = (u32)((u64)tgt->conn_db_dma >> 32);
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  231  
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  232  	/* Initialize offload request 3 structure */
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  233  	memset(&ofld_req3, 0x00, sizeof(struct fcoe_kwqe_conn_offload3));
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  234  
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  235  	ofld_req3.hdr.op_code = FCOE_KWQE_OPCODE_OFFLOAD_CONN3;
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  236  	ofld_req3.hdr.flags =
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  237  		(FCOE_KWQE_LAYER_CODE << FCOE_KWQE_HEADER_LAYER_CODE_SHIFT);
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  238  
-aea71a024914e8 Bhanu Prakash Gollapudi 2011-07-26  239  	ofld_req3.vlan_tag = interface->vlan_id <<
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  240  				FCOE_KWQE_CONN_OFFLOAD3_VLAN_ID_SHIFT;
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  241  	ofld_req3.vlan_tag |= 3 << FCOE_KWQE_CONN_OFFLOAD3_PRIORITY_SHIFT;
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  242  
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  243  	port_id = fc_host_port_id(lport->host);
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  244  	if (port_id == 0) {
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  245  		BNX2FC_HBA_DBG(lport, "ofld_req: port_id = 0, link down?\n");
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  246  		return -EINVAL;
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  247  	}
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  248  
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  249  	/*
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  250  	 * Store s_id of the initiator for further reference. This will
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  251  	 * be used during disable/destroy during linkdown processing as
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  252  	 * when the lport is reset, the port_id also is reset to 0
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  253  	 */
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  254  	tgt->sid = port_id;
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  255  	ofld_req3.s_id[0] = (port_id & 0x000000FF);
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  256  	ofld_req3.s_id[1] = (port_id & 0x0000FF00) >> 8;
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  257  	ofld_req3.s_id[2] = (port_id & 0x00FF0000) >> 16;
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  258  
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  259  	port_id = rport->port_id;
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  260  	ofld_req3.d_id[0] = (port_id & 0x000000FF);
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  261  	ofld_req3.d_id[1] = (port_id & 0x0000FF00) >> 8;
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  262  	ofld_req3.d_id[2] = (port_id & 0x00FF0000) >> 16;
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  263  
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04 @264  	ofld_req3.tx_total_conc_seqs = rdata->max_seq;
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  265  
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  266  	ofld_req3.tx_max_conc_seqs_c3 = rdata->max_seq;
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  267  	ofld_req3.rx_max_fc_pay_len  = lport->mfs;
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  268  
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  269  	ofld_req3.rx_total_conc_seqs = BNX2FC_MAX_SEQS;
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  270  	ofld_req3.rx_max_conc_seqs_c3 = BNX2FC_MAX_SEQS;
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  271  	ofld_req3.rx_open_seqs_exch_c3 = 1;
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  272  
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04 @273  	ofld_req3.confq_first_pbe_addr_lo = tgt->confq_dma;
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  274  	ofld_req3.confq_first_pbe_addr_hi = (u32)((u64) tgt->confq_dma >> 32);
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  275  
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  276  	/* set mul_n_port_ids supported flag to 0, until it is supported */
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  277  	ofld_req3.flags = 0;
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  278  	/*
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  279  	ofld_req3.flags |= (((lport->send_sp_features & FC_SP_FT_MNA) ? 1:0) <<
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  280  			    FCOE_KWQE_CONN_OFFLOAD3_B_MUL_N_PORT_IDS_SHIFT);
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  281  	*/
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  282  	/* Info from PLOGI response */
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  283  	ofld_req3.flags |= (((rdata->sp_features & FC_SP_FT_EDTR) ? 1 : 0) <<
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  284  			     FCOE_KWQE_CONN_OFFLOAD3_B_E_D_TOV_RES_SHIFT);
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  285  
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  286  	ofld_req3.flags |= (((rdata->sp_features & FC_SP_FT_SEQC) ? 1 : 0) <<
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  287  			     FCOE_KWQE_CONN_OFFLOAD3_B_CONT_INCR_SEQ_CNT_SHIFT);
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  288  
-b252f4c7c39cc4 Bhanu Prakash Gollapudi 2011-07-26  289  	/*
-b252f4c7c39cc4 Bhanu Prakash Gollapudi 2011-07-26  290  	 * Info from PRLI response, this info is used for sequence level error
-b252f4c7c39cc4 Bhanu Prakash Gollapudi 2011-07-26  291  	 * recovery support
-b252f4c7c39cc4 Bhanu Prakash Gollapudi 2011-07-26  292  	 */
-b252f4c7c39cc4 Bhanu Prakash Gollapudi 2011-07-26  293  	if (tgt->dev_type == TYPE_TAPE) {
-b252f4c7c39cc4 Bhanu Prakash Gollapudi 2011-07-26  294  		ofld_req3.flags |= 1 <<
-b252f4c7c39cc4 Bhanu Prakash Gollapudi 2011-07-26  295  				    FCOE_KWQE_CONN_OFFLOAD3_B_CONF_REQ_SHIFT;
-b252f4c7c39cc4 Bhanu Prakash Gollapudi 2011-07-26  296  		ofld_req3.flags |= (((rdata->flags & FC_RP_FLAGS_REC_SUPPORTED)
-b252f4c7c39cc4 Bhanu Prakash Gollapudi 2011-07-26  297  				    ? 1 : 0) <<
-b252f4c7c39cc4 Bhanu Prakash Gollapudi 2011-07-26  298  				    FCOE_KWQE_CONN_OFFLOAD3_B_REC_VALID_SHIFT);
-b252f4c7c39cc4 Bhanu Prakash Gollapudi 2011-07-26  299  	}
-b252f4c7c39cc4 Bhanu Prakash Gollapudi 2011-07-26  300  
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  301  	/* vlan flag */
-aea71a024914e8 Bhanu Prakash Gollapudi 2011-07-26  302  	ofld_req3.flags |= (interface->vlan_enabled <<
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  303  			    FCOE_KWQE_CONN_OFFLOAD3_B_VLAN_FLAG_SHIFT);
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  304  
-d7558148084de0 Masanari Iida           2012-08-22  305  	/* C2_VALID and ACK flags are not set as they are not supported */
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  306  
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  307  
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  308  	/* Initialize offload request 4 structure */
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  309  	memset(&ofld_req4, 0x00, sizeof(struct fcoe_kwqe_conn_offload4));
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  310  	ofld_req4.hdr.op_code = FCOE_KWQE_OPCODE_OFFLOAD_CONN4;
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  311  	ofld_req4.hdr.flags =
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  312  		(FCOE_KWQE_LAYER_CODE << FCOE_KWQE_HEADER_LAYER_CODE_SHIFT);
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  313  
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  314  	ofld_req4.e_d_tov_timer_val = lport->e_d_tov / 20;
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  315  
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  316  
-619c5cb6885b93 Vlad Zolotarov          2011-06-14  317  	ofld_req4.src_mac_addr_lo[0] =  port->data_src_addr[5];
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  318  							/* local mac */
-619c5cb6885b93 Vlad Zolotarov          2011-06-14  319  	ofld_req4.src_mac_addr_lo[1] =  port->data_src_addr[4];
-619c5cb6885b93 Vlad Zolotarov          2011-06-14  320  	ofld_req4.src_mac_addr_mid[0] =  port->data_src_addr[3];
-619c5cb6885b93 Vlad Zolotarov          2011-06-14  321  	ofld_req4.src_mac_addr_mid[1] =  port->data_src_addr[2];
-619c5cb6885b93 Vlad Zolotarov          2011-06-14  322  	ofld_req4.src_mac_addr_hi[0] =  port->data_src_addr[1];
-619c5cb6885b93 Vlad Zolotarov          2011-06-14  323  	ofld_req4.src_mac_addr_hi[1] =  port->data_src_addr[0];
-fd8f89027d816c Robert Love             2012-05-22  324  	ofld_req4.dst_mac_addr_lo[0] =  ctlr->dest_addr[5];
-aea71a024914e8 Bhanu Prakash Gollapudi 2011-07-26  325  							/* fcf mac */
-fd8f89027d816c Robert Love             2012-05-22  326  	ofld_req4.dst_mac_addr_lo[1] = ctlr->dest_addr[4];
-fd8f89027d816c Robert Love             2012-05-22  327  	ofld_req4.dst_mac_addr_mid[0] = ctlr->dest_addr[3];
-fd8f89027d816c Robert Love             2012-05-22  328  	ofld_req4.dst_mac_addr_mid[1] = ctlr->dest_addr[2];
-fd8f89027d816c Robert Love             2012-05-22  329  	ofld_req4.dst_mac_addr_hi[0] = ctlr->dest_addr[1];
-fd8f89027d816c Robert Love             2012-05-22  330  	ofld_req4.dst_mac_addr_hi[1] = ctlr->dest_addr[0];
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  331  
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  332  	ofld_req4.lcq_addr_lo = (u32) tgt->lcq_dma;
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  333  	ofld_req4.lcq_addr_hi = (u32)((u64) tgt->lcq_dma >> 32);
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  334  
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  335  	ofld_req4.confq_pbl_base_addr_lo = (u32) tgt->confq_pbl_dma;
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  336  	ofld_req4.confq_pbl_base_addr_hi =
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  337  					(u32)((u64) tgt->confq_pbl_dma >> 32);
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  338  
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  339  	kwqe_arr[0] = (struct kwqe *) &ofld_req1;
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  340  	kwqe_arr[1] = (struct kwqe *) &ofld_req2;
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  341  	kwqe_arr[2] = (struct kwqe *) &ofld_req3;
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  342  	kwqe_arr[3] = (struct kwqe *) &ofld_req4;
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  343  
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  344  	if (hba->cnic && hba->cnic->submit_kwqes)
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  345  		rc = hba->cnic->submit_kwqes(hba->cnic, kwqe_arr, num_kwqes);
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  346  
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  347  	return rc;
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  348  }
-853e2bd2103aaa Bhanu Gollapudi         2011-02-04  349  
-
-:::::: The code at line 273 was first introduced by commit
-:::::: 853e2bd2103aaa91d1ba1c0b57ba17628d836f03 [SCSI] bnx2fc: Broadcom FCoE offload driver
-
-:::::: TO: Bhanu Gollapudi <bprakash@broadcom.com>
-:::::: CC: James Bottomley <James.Bottomley@suse.de>
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28   86  
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28   87  static inline int
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28   88  iterators_bpf__load(struct iterators_bpf *skel)
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28   89  {
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28   90  	struct bpf_load_and_run_opts opts = {};
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28   91  	int err;
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28   92  
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28   93  	opts.ctx = (struct bpf_loader_ctx *)skel;
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28   94  	opts.data_sz = 6008;
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28   95  	opts.data = (void *)"\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28   96  \0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28   97  \0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28   98  \0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28   99  \0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  100  \0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  101  \0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  102  \0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  103  \0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  104  \0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  105  \0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  106  \0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  107  \0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  108  \0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  109  \0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  110  \0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  111  \0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  112  \0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  113  \0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  114  \0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  115  \0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  116  \0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  117  \0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  118  \0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  119  \0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  120  \0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  121  \0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  122  \0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  123  \0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  124  \0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  125  \0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  126  \0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  127  \0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  128  \0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\xeb\x9f\x01\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  129  \0\0\0\x18\0\0\0\0\0\0\x04\x1c\0\0\x04\x1c\0\0\x05\x18\0\0\0\0\x02\0\0\0\0\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  130  \x02\0\0\0\x01\x04\0\0\x02\0\0\0\x10\0\0\0\x13\0\0\0\x03\0\0\0\0\0\0\0\x18\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  131  \0\x04\0\0\0\x40\0\0\0\0\x02\0\0\0\0\0\0\x08\0\0\0\0\x02\0\0\0\0\0\0\x0d\0\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  132  \0\x0d\0\0\x01\0\0\0\x06\0\0\0\x1c\0\0\0\x01\0\0\0\x20\x01\0\0\0\0\0\0\x04\x01\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  133  \0\0\x20\0\0\0\x24\x0c\0\0\x01\0\0\0\x05\0\0\0\xc2\x04\0\0\x03\0\0\0\x18\0\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  134  \xd0\0\0\0\x09\0\0\0\0\0\0\0\xd4\0\0\0\x0b\0\0\0\x40\0\0\0\xdf\0\0\0\x0b\0\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  135  \x80\0\0\0\0\x02\0\0\0\0\0\0\x0a\0\0\0\xe7\x07\0\0\0\0\0\0\0\0\0\0\xf0\x08\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  136  \0\0\0\0\x0c\0\0\0\xf6\x01\0\0\0\0\0\0\x08\0\0\0\x40\0\0\x01\xb3\x04\0\0\x03\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  137  \0\0\x18\0\0\x01\xbb\0\0\0\x0e\0\0\0\0\0\0\x01\xbe\0\0\0\x11\0\0\0\x20\0\0\x01\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  138  \xc3\0\0\0\x0e\0\0\0\xa0\0\0\x01\xcf\x08\0\0\0\0\0\0\x0f\0\0\x01\xd5\x01\0\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  139  \0\0\0\x04\0\0\0\x20\0\0\x01\xe2\x01\0\0\0\0\0\0\x01\x01\0\0\x08\0\0\0\0\x03\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  140  \0\0\0\0\0\0\0\0\0\x10\0\0\0\x12\0\0\0\x10\0\0\x01\xe7\x01\0\0\0\0\0\0\x04\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  141  \0\x20\0\0\0\0\x02\0\0\0\0\0\0\x14\0\0\x02\x4b\x04\0\0\x02\0\0\0\x10\0\0\0\x13\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  142  \0\0\0\x03\0\0\0\0\0\0\x02\x5e\0\0\0\x15\0\0\0\x40\0\0\0\0\x02\0\0\0\0\0\0\x18\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  143  \0\0\0\0\x0d\0\0\x01\0\0\0\x06\0\0\0\x1c\0\0\0\x13\0\0\x02\x63\x0c\0\0\x01\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  144  \0\x16\0\0\x02\xaf\x04\0\0\x01\0\0\0\x08\0\0\x02\xb8\0\0\0\x19\0\0\0\0\0\0\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  145  \x02\0\0\0\0\0\0\x1a\0\0\x03\x09\x04\0\0\x06\0\0\0\x38\0\0\x01\xbb\0\0\0\x0e\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  146  \0\0\0\0\0\x01\xbe\0\0\0\x11\0\0\0\x20\0\0\x03\x16\0\0\0\x1b\0\0\0\xc0\0\0\x03\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  147  \x27\0\0\0\x15\0\0\x01\0\0\0\x03\x30\0\0\0\x1d\0\0\x01\x40\0\0\x03\x3a\0\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  148  \x1e\0\0\x01\x80\0\0\0\0\x02\0\0\0\0\0\0\x1c\0\0\0\0\x0a\0\0\0\0\0\0\x10\0\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  149  \0\x02\0\0\0\0\0\0\x1f\0\0\0\0\x02\0\0\0\0\0\0\x20\0\0\x03\x84\x04\0\0\x02\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  150  \0\x08\0\0\x03\x92\0\0\0\x0e\0\0\0\0\0\0\x03\x9b\0\0\0\x0e\0\0\0\x20\0\0\x03\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  151  \x3a\x04\0\0\x03\0\0\0\x18\0\0\x03\xa5\0\0\0\x1b\0\0\0\0\0\0\x03\xad\0\0\0\x21\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  152  \0\0\0\x40\0\0\x03\xb3\0\0\0\x23\0\0\0\x80\0\0\0\0\x02\0\0\0\0\0\0\x22\0\0\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  153  \x02\0\0\0\0\0\0\x24\0\0\x03\xb7\x04\0\0\x01\0\0\0\x04\0\0\x03\xc2\0\0\0\x0e\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  154  \0\0\0\0\0\x04\x2b\x04\0\0\x01\0\0\0\x04\0\0\x04\x34\0\0\0\x0e\0\0\0\0\0\0\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  155  \x03\0\0\0\0\0\0\0\0\0\0\x1c\0\0\0\x12\0\0\0\x23\0\0\x04\xaa\x0e\0\0\0\0\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  156  \x25\0\0\0\0\0\0\0\0\x03\0\0\0\0\0\0\0\0\0\0\x1c\0\0\0\x12\0\0\0\x0e\0\0\x04\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  157  \xbe\x0e\0\0\0\0\0\0\x27\0\0\0\0\0\0\0\0\x03\0\0\0\0\0\0\0\0\0\0\x1c\0\0\0\x12\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  158  \0\0\0\x20\0\0\x04\xd4\x0e\0\0\0\0\0\0\x29\0\0\0\0\0\0\0\0\x03\0\0\0\0\0\0\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  159  \0\0\x1c\0\0\0\x12\0\0\0\x11\0\0\x04\xe9\x0e\0\0\0\0\0\0\x2b\0\0\0\0\0\0\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  160  \x03\0\0\0\0\0\0\0\0\0\0\x10\0\0\0\x12\0\0\0\x04\0\0\x05\0\x0e\0\0\0\0\0\0\x2d\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  161  \0\0\0\x01\0\0\x05\x08\x0f\0\0\x04\0\0\0\x62\0\0\0\x26\0\0\0\0\0\0\0\x23\0\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  162  \x28\0\0\0\x23\0\0\0\x0e\0\0\0\x2a\0\0\0\x31\0\0\0\x20\0\0\0\x2c\0\0\0\x51\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  163  \0\x11\0\0\x05\x10\x0f\0\0\x01\0\0\0\x04\0\0\0\x2e\0\0\0\0\0\0\0\x04\0\x62\x70\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  164  \x66\x5f\x69\x74\x65\x72\x5f\x5f\x62\x70\x66\x5f\x6d\x61\x70\0\x6d\x65\x74\x61\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  165  \0\x6d\x61\x70\0\x63\x74\x78\0\x69\x6e\x74\0\x64\x75\x6d\x70\x5f\x62\x70\x66\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  166  \x5f\x6d\x61\x70\0\x69\x74\x65\x72\x2f\x62\x70\x66\x5f\x6d\x61\x70\0\x30\x3a\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  167  \x30\0\x2f\x68\x6f\x6d\x65\x2f\x69\x69\x69\x2f\x6c\x69\x6e\x75\x78\x2d\x6b\x65\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  168  \x72\x6e\x65\x6c\x2d\x74\x6f\x6f\x6c\x63\x68\x61\x69\x6e\x2f\x73\x72\x63\x2f\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  169  \x6c\x69\x6e\x75\x78\x2f\x6b\x65\x72\x6e\x65\x6c\x2f\x62\x70\x66\x2f\x70\x72\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  170  \x65\x6c\x6f\x61\x64\x2f\x69\x74\x65\x72\x61\x74\x6f\x72\x73\x2f\x69\x74\x65\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  171  \x72\x61\x74\x6f\x72\x73\x2e\x62\x70\x66\x2e\x63\0\x09\x73\x74\x72\x75\x63\x74\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  172  \x20\x73\x65\x71\x5f\x66\x69\x6c\x65\x20\x2a\x73\x65\x71\x20\x3d\x20\x63\x74\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  173  \x78\x2d\x3e\x6d\x65\x74\x61\x2d\x3e\x73\x65\x71\x3b\0\x62\x70\x66\x5f\x69\x74\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  174  \x65\x72\x5f\x6d\x65\x74\x61\0\x73\x65\x71\0\x73\x65\x73\x73\x69\x6f\x6e\x5f\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  175  \x69\x64\0\x73\x65\x71\x5f\x6e\x75\x6d\0\x73\x65\x71\x5f\x66\x69\x6c\x65\0\x5f\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  176  \x5f\x75\x36\x34\0\x75\x6e\x73\x69\x67\x6e\x65\x64\x20\x6c\x6f\x6e\x67\x20\x6c\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  177  \x6f\x6e\x67\0\x30\x3a\x31\0\x09\x73\x74\x72\x75\x63\x74\x20\x62\x70\x66\x5f\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  178  \x6d\x61\x70\x20\x2a\x6d\x61\x70\x20\x3d\x20\x63\x74\x78\x2d\x3e\x6d\x61\x70\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  179  \x3b\0\x09\x69\x66\x20\x28\x21\x6d\x61\x70\x29\0\x30\x3a\x32\0\x09\x5f\x5f\x75\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  180  \x36\x34\x20\x73\x65\x71\x5f\x6e\x75\x6d\x20\x3d\x20\x63\x74\x78\x2d\x3e\x6d\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  181  \x65\x74\x61\x2d\x3e\x73\x65\x71\x5f\x6e\x75\x6d\x3b\0\x09\x69\x66\x20\x28\x73\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  182  \x65\x71\x5f\x6e\x75\x6d\x20\x3d\x3d\x20\x30\x29\0\x09\x09\x42\x50\x46\x5f\x53\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  183  \x45\x51\x5f\x50\x52\x49\x4e\x54\x46\x28\x73\x65\x71\x2c\x20\x22\x20\x20\x69\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  184  \x64\x20\x6e\x61\x6d\x65\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  185  \x6d\x61\x78\x5f\x65\x6e\x74\x72\x69\x65\x73\x5c\x6e\x22\x29\x3b\0\x62\x70\x66\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  186  \x5f\x6d\x61\x70\0\x69\x64\0\x6e\x61\x6d\x65\0\x6d\x61\x78\x5f\x65\x6e\x74\x72\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  187  \x69\x65\x73\0\x5f\x5f\x75\x33\x32\0\x75\x6e\x73\x69\x67\x6e\x65\x64\x20\x69\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  188  \x6e\x74\0\x63\x68\x61\x72\0\x5f\x5f\x41\x52\x52\x41\x59\x5f\x53\x49\x5a\x45\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  189  \x5f\x54\x59\x50\x45\x5f\x5f\0\x09\x42\x50\x46\x5f\x53\x45\x51\x5f\x50\x52\x49\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  190  \x4e\x54\x46\x28\x73\x65\x71\x2c\x20\x22\x25\x34\x75\x20\x25\x2d\x31\x36\x73\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  191  \x25\x36\x64\x5c\x6e\x22\x2c\x20\x6d\x61\x70\x2d\x3e\x69\x64\x2c\x20\x6d\x61\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  192  \x70\x2d\x3e\x6e\x61\x6d\x65\x2c\x20\x6d\x61\x70\x2d\x3e\x6d\x61\x78\x5f\x65\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  193  \x6e\x74\x72\x69\x65\x73\x29\x3b\0\x7d\0\x62\x70\x66\x5f\x69\x74\x65\x72\x5f\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  194  \x5f\x62\x70\x66\x5f\x70\x72\x6f\x67\0\x70\x72\x6f\x67\0\x64\x75\x6d\x70\x5f\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  195  \x62\x70\x66\x5f\x70\x72\x6f\x67\0\x69\x74\x65\x72\x2f\x62\x70\x66\x5f\x70\x72\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  196  \x6f\x67\0\x09\x73\x74\x72\x75\x63\x74\x20\x62\x70\x66\x5f\x70\x72\x6f\x67\x20\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  197  \x2a\x70\x72\x6f\x67\x20\x3d\x20\x63\x74\x78\x2d\x3e\x70\x72\x6f\x67\x3b\0\x09\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  198  \x69\x66\x20\x28\x21\x70\x72\x6f\x67\x29\0\x62\x70\x66\x5f\x70\x72\x6f\x67\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  199  \x61\x75\x78\0\x09\x61\x75\x78\x20\x3d\x20\x70\x72\x6f\x67\x2d\x3e\x61\x75\x78\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  200  \x3b\0\x09\x09\x42\x50\x46\x5f\x53\x45\x51\x5f\x50\x52\x49\x4e\x54\x46\x28\x73\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  201  \x65\x71\x2c\x20\x22\x20\x20\x69\x64\x20\x6e\x61\x6d\x65\x20\x20\x20\x20\x20\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  202  \x20\x20\x20\x20\x20\x20\x20\x20\x61\x74\x74\x61\x63\x68\x65\x64\x5c\x6e\x22\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  203  \x29\x3b\0\x62\x70\x66\x5f\x70\x72\x6f\x67\x5f\x61\x75\x78\0\x61\x74\x74\x61\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  204  \x63\x68\x5f\x66\x75\x6e\x63\x5f\x6e\x61\x6d\x65\0\x64\x73\x74\x5f\x70\x72\x6f\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  205  \x67\0\x66\x75\x6e\x63\x5f\x69\x6e\x66\x6f\0\x62\x74\x66\0\x09\x42\x50\x46\x5f\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  206  \x53\x45\x51\x5f\x50\x52\x49\x4e\x54\x46\x28\x73\x65\x71\x2c\x20\x22\x25\x34\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  207  \x75\x20\x25\x2d\x31\x36\x73\x20\x25\x73\x20\x25\x73\x5c\x6e\x22\x2c\x20\x61\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  208  \x75\x78\x2d\x3e\x69\x64\x2c\0\x30\x3a\x34\0\x30\x3a\x35\0\x09\x69\x66\x20\x28\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  209  \x21\x62\x74\x66\x29\0\x62\x70\x66\x5f\x66\x75\x6e\x63\x5f\x69\x6e\x66\x6f\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  210  \x69\x6e\x73\x6e\x5f\x6f\x66\x66\0\x74\x79\x70\x65\x5f\x69\x64\0\x30\0\x73\x74\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  211  \x72\x69\x6e\x67\x73\0\x74\x79\x70\x65\x73\0\x68\x64\x72\0\x62\x74\x66\x5f\x68\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  212  \x65\x61\x64\x65\x72\0\x73\x74\x72\x5f\x6c\x65\x6e\0\x09\x74\x79\x70\x65\x73\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  213  \x20\x3d\x20\x62\x74\x66\x2d\x3e\x74\x79\x70\x65\x73\x3b\0\x09\x62\x70\x66\x5f\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  214  \x70\x72\x6f\x62\x65\x5f\x72\x65\x61\x64\x5f\x6b\x65\x72\x6e\x65\x6c\x28\x26\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  215  \x74\x2c\x20\x73\x69\x7a\x65\x6f\x66\x28\x74\x29\x2c\x20\x74\x79\x70\x65\x73\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  216  \x20\x2b\x20\x62\x74\x66\x5f\x69\x64\x29\x3b\0\x09\x73\x74\x72\x20\x3d\x20\x62\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  217  \x74\x66\x2d\x3e\x73\x74\x72\x69\x6e\x67\x73\x3b\0\x62\x74\x66\x5f\x74\x79\x70\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  218  \x65\0\x6e\x61\x6d\x65\x5f\x6f\x66\x66\0\x09\x6e\x61\x6d\x65\x5f\x6f\x66\x66\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  219  \x20\x3d\x20\x42\x50\x46\x5f\x43\x4f\x52\x45\x5f\x52\x45\x41\x44\x28\x74\x2c\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  220  \x20\x6e\x61\x6d\x65\x5f\x6f\x66\x66\x29\x3b\0\x30\x3a\x32\x3a\x30\0\x09\x69\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  221  \x66\x20\x28\x6e\x61\x6d\x65\x5f\x6f\x66\x66\x20\x3e\x3d\x20\x62\x74\x66\x2d\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  222  \x3e\x68\x64\x72\x2e\x73\x74\x72\x5f\x6c\x65\x6e\x29\0\x09\x72\x65\x74\x75\x72\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  223  \x6e\x20\x73\x74\x72\x20\x2b\x20\x6e\x61\x6d\x65\x5f\x6f\x66\x66\x3b\0\x30\x3a\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  224  \x33\0\x64\x75\x6d\x70\x5f\x62\x70\x66\x5f\x6d\x61\x70\x2e\x5f\x5f\x5f\x66\x6d\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  225  \x74\0\x64\x75\x6d\x70\x5f\x62\x70\x66\x5f\x6d\x61\x70\x2e\x5f\x5f\x5f\x66\x6d\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  226  \x74\x2e\x31\0\x64\x75\x6d\x70\x5f\x62\x70\x66\x5f\x70\x72\x6f\x67\x2e\x5f\x5f\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  227  \x5f\x66\x6d\x74\0\x64\x75\x6d\x70\x5f\x62\x70\x66\x5f\x70\x72\x6f\x67\x2e\x5f\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  228  \x5f\x5f\x66\x6d\x74\x2e\x32\0\x4c\x49\x43\x45\x4e\x53\x45\0\x2e\x72\x6f\x64\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  229  \x61\x74\x61\0\x6c\x69\x63\x65\x6e\x73\x65\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  230  \0\0\0\0\0\x09\x4c\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x02\0\0\0\x04\0\0\0\x62\0\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  231  \x01\0\0\0\x80\0\0\0\0\0\0\0\0\x69\x74\x65\x72\x61\x74\x6f\x72\x2e\x72\x6f\x64\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  232  \x61\x74\x61\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x2f\0\0\0\0\0\0\0\0\0\0\0\0\x20\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  233  \x20\x69\x64\x20\x6e\x61\x6d\x65\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  234  \x20\x20\x6d\x61\x78\x5f\x65\x6e\x74\x72\x69\x65\x73\x0a\0\x25\x34\x75\x20\x25\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  235  \x2d\x31\x36\x73\x25\x36\x64\x0a\0\x20\x20\x69\x64\x20\x6e\x61\x6d\x65\x20\x20\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  236  \x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x61\x74\x74\x61\x63\x68\x65\x64\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  237  \x0a\0\x25\x34\x75\x20\x25\x2d\x31\x36\x73\x20\x25\x73\x20\x25\x73\x0a\0\0\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  238  \0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  239  \0\0\0\0\0\0\0\0\0\0\0\0\x47\x50\x4c\0\0\0\0\0\x79\x21\0\0\0\0\0\0\x79\x62\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  240  \0\0\0\0\x79\x71\0\x08\0\0\0\0\x15\x70\0\x1a\0\0\0\0\x79\x12\0\x10\0\0\0\0\x55\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  241  \x10\0\x08\0\0\0\0\xbf\x4a\0\0\0\0\0\0\x07\x40\0\0\xff\xff\xff\xe8\xbf\x16\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  242  \0\0\0\0\x18\x26\0\0\0\0\0\0\0\0\0\0\0\0\0\0\xb7\x30\0\0\0\0\0\x23\xb7\x50\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  243  \0\0\0\0\x85\0\0\0\0\0\0\x7e\x61\x17\0\0\0\0\0\0\x7b\xa1\xff\xe8\0\0\0\0\xb7\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  244  \x10\0\0\0\0\0\x04\xbf\x27\0\0\0\0\0\0\x0f\x21\0\0\0\0\0\0\x7b\xa2\xff\xf0\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  245  \0\0\x61\x17\0\x14\0\0\0\0\x7b\xa1\xff\xf8\0\0\0\0\xbf\x4a\0\0\0\0\0\0\x07\x40\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  246  \0\0\xff\xff\xff\xe8\xbf\x16\0\0\0\0\0\0\x18\x26\0\0\0\0\0\0\0\0\0\0\0\0\0\x23\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  247  \xb7\x30\0\0\0\0\0\x0e\xb7\x50\0\0\0\0\0\x18\x85\0\0\0\0\0\0\x7e\xb7\0\0\0\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  248  \0\0\x95\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x07\0\0\0\0\0\0\0\x42\0\0\0\x9a\0\x01\x3c\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  249  \x1e\0\0\0\x01\0\0\0\x42\0\0\0\x9a\0\x01\x3c\x24\0\0\0\x02\0\0\0\x42\0\0\x01\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  250  \x0d\0\x01\x44\x1d\0\0\0\x03\0\0\0\x42\0\0\x01\x2e\0\x01\x4c\x06\0\0\0\x04\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  251  \0\x42\0\0\x01\x3d\0\x01\x40\x1d\0\0\0\x05\0\0\0\x42\0\0\x01\x62\0\x01\x58\x06\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  252  \0\0\0\x07\0\0\0\x42\0\0\x01\x75\0\x01\x5c\x03\0\0\0\x0e\0\0\0\x42\0\0\x01\xfb\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  253  \0\x01\x64\x02\0\0\0\x1e\0\0\0\x42\0\0\x02\x49\0\x01\x6c\x01\0\0\0\0\0\0\0\x02\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  254  \0\0\0\x3e\0\0\0\0\0\0\0\x08\0\0\0\x08\0\0\0\x3e\0\0\0\0\0\0\0\x10\0\0\0\x02\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  255  \0\x01\x09\0\0\0\0\0\0\0\x20\0\0\0\x08\0\0\x01\x39\0\0\0\0\0\0\0\x70\0\0\0\x0d\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  256  \0\0\0\x3e\0\0\0\0\0\0\0\x80\0\0\0\x0d\0\0\x01\x09\0\0\0\0\0\0\0\xa0\0\0\0\x0d\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  257  \0\0\x01\x39\0\0\0\0\0\0\0\x1a\0\0\0\x20\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  258  \0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x64\x75\x6d\x70\x5f\x62\x70\x66\x5f\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  259  \x6d\x61\x70\0\0\0\0\0\0\0\0\0\0\0\x1c\0\0\0\0\0\0\0\x08\0\0\0\0\0\0\0\0\0\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  260  \x01\0\0\0\x10\0\0\0\0\0\0\0\0\0\0\0\x09\0\0\0\x01\0\0\0\0\0\0\0\x07\0\0\0\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  261  \0\0\0\0\0\0\0\0\0\0\0\0\0\0\x10\0\0\0\0\x62\x70\x66\x5f\x69\x74\x65\x72\x5f\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  262  \x62\x70\x66\x5f\x6d\x61\x70\0\0\0\0\0\0\0\0\x47\x50\x4c\0\0\0\0\0\x79\x21\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  263  \0\0\0\0\x79\x62\0\0\0\0\0\0\x79\x11\0\x08\0\0\0\0\x15\x10\0\x3b\0\0\0\0\x79\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  264  \x71\0\0\0\0\0\0\x79\x12\0\x10\0\0\0\0\x55\x10\0\x08\0\0\0\0\xbf\x4a\0\0\0\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  265  \0\x07\x40\0\0\xff\xff\xff\xd0\xbf\x16\0\0\0\0\0\0\x18\x26\0\0\0\0\0\0\0\0\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  266  \0\0\0\x31\xb7\x30\0\0\0\0\0\x20\xb7\x50\0\0\0\0\0\0\x85\0\0\0\0\0\0\x7e\x7b\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  267  \xa6\xff\xc8\0\0\0\0\x61\x17\0\0\0\0\0\0\x7b\xa1\xff\xd0\0\0\0\0\xb7\x30\0\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  268  \0\0\x04\xbf\x97\0\0\0\0\0\0\x0f\x93\0\0\0\0\0\0\x79\x17\0\x28\0\0\0\0\x79\x87\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  269  \0\x30\0\0\0\0\x15\x80\0\x18\0\0\0\0\xb7\x20\0\0\0\0\0\0\x0f\x12\0\0\0\0\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  270  \x61\x11\0\x04\0\0\0\0\x79\x38\0\x08\0\0\0\0\x67\x10\0\0\0\0\0\x03\x0f\x31\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  271  \0\0\0\0\x79\x68\0\0\0\0\0\0\xbf\x1a\0\0\0\0\0\0\x07\x10\0\0\xff\xff\xff\xf8\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  272  \xb7\x20\0\0\0\0\0\x08\x85\0\0\0\0\0\0\x71\xb7\x10\0\0\0\0\0\0\x79\x3a\xff\xf8\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  273  \0\0\0\0\x0f\x31\0\0\0\0\0\0\xbf\x1a\0\0\0\0\0\0\x07\x10\0\0\xff\xff\xff\xf4\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  274  \xb7\x20\0\0\0\0\0\x04\x85\0\0\0\0\0\0\x71\xb7\x30\0\0\0\0\0\x04\x61\x1a\xff\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  275  \xf4\0\0\0\0\x61\x28\0\x10\0\0\0\0\x3d\x12\0\x02\0\0\0\0\x0f\x61\0\0\0\0\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  276  \xbf\x96\0\0\0\0\0\0\x7b\xa9\xff\xd8\0\0\0\0\x79\x17\0\x18\0\0\0\0\x7b\xa1\xff\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  277  \xe0\0\0\0\0\x79\x17\0\x20\0\0\0\0\x79\x11\0\0\0\0\0\0\x0f\x13\0\0\0\0\0\0\x7b\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  278  \xa1\xff\xe8\0\0\0\0\xbf\x4a\0\0\0\0\0\0\x07\x40\0\0\xff\xff\xff\xd0\x79\x1a\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  279  \xff\xc8\0\0\0\0\x18\x26\0\0\0\0\0\0\0\0\0\0\0\0\0\x51\xb7\x30\0\0\0\0\0\x11\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  280  \xb7\x50\0\0\0\0\0\x20\x85\0\0\0\0\0\0\x7e\xb7\0\0\0\0\0\0\0\x95\0\0\0\0\0\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  281  \0\0\0\0\0\0\0\x17\0\0\0\0\0\0\0\x42\0\0\0\x9a\0\x01\x80\x1e\0\0\0\x01\0\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  282  \x42\0\0\0\x9a\0\x01\x80\x24\0\0\0\x02\0\0\0\x42\0\0\x02\x7f\0\x01\x88\x1f\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  283  \0\x03\0\0\0\x42\0\0\x02\xa3\0\x01\x94\x06\0\0\0\x04\0\0\0\x42\0\0\x02\xbc\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  284  \x01\xa0\x0e\0\0\0\x05\0\0\0\x42\0\0\x01\x3d\0\x01\x84\x1d\0\0\0\x06\0\0\0\x42\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  285  \0\0\x01\x62\0\x01\xa4\x06\0\0\0\x08\0\0\0\x42\0\0\x02\xce\0\x01\xa8\x03\0\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  286  \x10\0\0\0\x42\0\0\x03\x3e\0\x01\xb0\x02\0\0\0\x17\0\0\0\x42\0\0\x03\x79\0\x01\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  287  \x04\x06\0\0\0\x1a\0\0\0\x42\0\0\x03\x3e\0\x01\xb0\x02\0\0\0\x1b\0\0\0\x42\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  288  \x03\xca\0\x01\x10\x0f\0\0\0\x1c\0\0\0\x42\0\0\x03\xdf\0\x01\x14\x2d\0\0\0\x1e\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  289  \0\0\0\x42\0\0\x04\x16\0\x01\x0c\x0d\0\0\0\x20\0\0\0\x42\0\0\x03\x3e\0\x01\xb0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  290  \x02\0\0\0\x21\0\0\0\x42\0\0\x03\xdf\0\x01\x14\x02\0\0\0\x24\0\0\0\x42\0\0\x04\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  291  \x3d\0\x01\x18\x0d\0\0\0\x27\0\0\0\x42\0\0\x03\x3e\0\x01\xb0\x02\0\0\0\x28\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  292  \0\x42\0\0\x04\x3d\0\x01\x18\x0d\0\0\0\x2b\0\0\0\x42\0\0\x04\x3d\0\x01\x18\x0d\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  293  \0\0\0\x2c\0\0\0\x42\0\0\x04\x6b\0\x01\x1c\x1b\0\0\0\x2d\0\0\0\x42\0\0\x04\x6b\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  294  \0\x01\x1c\x06\0\0\0\x2e\0\0\0\x42\0\0\x04\x8e\0\x01\x24\x0d\0\0\0\x30\0\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  295  \x42\0\0\x03\x3e\0\x01\xb0\x02\0\0\0\x3f\0\0\0\x42\0\0\x02\x49\0\x01\xc0\x01\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  296  \0\0\0\0\0\0\x14\0\0\0\x3e\0\0\0\0\0\0\0\x08\0\0\0\x08\0\0\0\x3e\0\0\0\0\0\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  297  \x10\0\0\0\x14\0\0\x01\x09\0\0\0\0\0\0\0\x20\0\0\0\x18\0\0\0\x3e\0\0\0\0\0\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  298  \x28\0\0\0\x08\0\0\x01\x39\0\0\0\0\0\0\0\x80\0\0\0\x1a\0\0\0\x3e\0\0\0\0\0\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  299  \x90\0\0\0\x1a\0\0\x01\x09\0\0\0\0\0\0\0\xa8\0\0\0\x1a\0\0\x03\x71\0\0\0\0\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  300  \0\xb0\0\0\0\x1a\0\0\x03\x75\0\0\0\0\0\0\0\xc0\0\0\0\x1f\0\0\x03\xa3\0\0\0\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  301  \0\0\xd8\0\0\0\x20\0\0\x01\x09\0\0\0\0\0\0\0\xf0\0\0\0\x20\0\0\0\x3e\0\0\0\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  302  \0\x01\x18\0\0\0\x24\0\0\0\x3e\0\0\0\0\0\0\x01\x50\0\0\0\x1a\0\0\x01\x09\0\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  303  \0\0\0\x01\x60\0\0\0\x20\0\0\x04\x65\0\0\0\0\0\0\x01\x88\0\0\0\x1a\0\0\x01\x39\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  304  \0\0\0\0\0\0\x01\x98\0\0\0\x1a\0\0\x04\xa6\0\0\0\0\0\0\x01\xa0\0\0\0\x18\0\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  305  \x3e\0\0\0\0\0\0\0\x1a\0\0\0\x41\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  306  \0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x64\x75\x6d\x70\x5f\x62\x70\x66\x5f\x70\x72\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  307  \x6f\x67\0\0\0\0\0\0\0\0\0\0\x1c\0\0\0\0\0\0\0\x08\0\0\0\0\0\0\0\0\0\0\0\x01\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  308  \0\0\x10\0\0\0\0\0\0\0\0\0\0\0\x19\0\0\0\x01\0\0\0\0\0\0\0\x12\0\0\0\0\0\0\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  309  \0\0\0\0\0\0\0\0\0\0\0\x10\0\0\0\0\x62\x70\x66\x5f\x69\x74\x65\x72\x5f\x62\x70\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28 @310  \x66\x5f\x70\x72\x6f\x67\0\0\0\0\0\0\0";
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  311  	opts.insns_sz = 2216;
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  312  	opts.insns = (void *)"\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  313  \xbf\x61\0\0\0\0\0\0\xbf\x1a\0\0\0\0\0\0\x07\x10\0\0\xff\xff\xff\x78\xb7\x20\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  314  \0\0\0\0\x88\xb7\x30\0\0\0\0\0\0\x85\0\0\0\0\0\0\x71\x05\0\0\x14\0\0\0\0\x61\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  315  \x1a\xff\x78\0\0\0\0\xd5\x10\0\x01\0\0\0\0\x85\0\0\0\0\0\0\xa8\x61\x1a\xff\x7c\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  316  \0\0\0\0\xd5\x10\0\x01\0\0\0\0\x85\0\0\0\0\0\0\xa8\x61\x1a\xff\x80\0\0\0\0\xd5\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  317  \x10\0\x01\0\0\0\0\x85\0\0\0\0\0\0\xa8\x61\x1a\xff\x84\0\0\0\0\xd5\x10\0\x01\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  318  \0\0\0\x85\0\0\0\0\0\0\xa8\x18\x06\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x61\x10\0\0\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  319  \0\0\xd5\x10\0\x02\0\0\0\0\xbf\x91\0\0\0\0\0\0\x85\0\0\0\0\0\0\xa8\xbf\x07\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  320  \0\0\0\0\x95\0\0\0\0\0\0\0\x61\x06\0\x08\0\0\0\0\x18\x16\0\0\0\0\0\0\0\0\0\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  321  \0\x0e\x68\x63\x10\0\0\0\0\0\0\x61\x06\0\x0c\0\0\0\0\x18\x16\0\0\0\0\0\0\0\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  322  \0\0\0\x0e\x64\x63\x10\0\0\0\0\0\0\x79\x06\0\x10\0\0\0\0\x18\x16\0\0\0\0\0\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  323  \0\0\0\0\0\x0e\x58\x7b\x10\0\0\0\0\0\0\x18\x06\0\0\0\0\0\0\0\0\0\0\0\0\x05\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  324  \x18\x16\0\0\0\0\0\0\0\0\0\0\0\0\x0e\x50\x7b\x10\0\0\0\0\0\0\xb7\x10\0\0\0\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  325  \x12\x18\x26\0\0\0\0\0\0\0\0\0\0\0\0\x0e\x50\xb7\x30\0\0\0\0\0\x1c\x85\0\0\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  326  \0\0\xa6\xbf\x70\0\0\0\0\0\0\xc5\x70\xff\xd4\0\0\0\0\x63\xa7\xff\x78\0\0\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  327  \x61\x0a\xff\x78\0\0\0\0\x18\x16\0\0\0\0\0\0\0\0\0\0\0\0\x0e\xa0\x63\x10\0\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  328  \0\0\0\x61\x06\0\x1c\0\0\0\0\x15\0\0\x03\0\0\0\0\x18\x16\0\0\0\0\0\0\0\0\0\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  329  \0\x0e\x7c\x63\x10\0\0\0\0\0\0\xb7\x10\0\0\0\0\0\0\x18\x26\0\0\0\0\0\0\0\0\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  330  \0\0\x0e\x70\xb7\x30\0\0\0\0\0\x48\x85\0\0\0\0\0\0\xa6\xbf\x70\0\0\0\0\0\0\xc5\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  331  \x70\xff\xc3\0\0\0\0\x18\x16\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x63\x17\0\0\0\0\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  332  \x79\x36\0\x20\0\0\0\0\x15\x30\0\x08\0\0\0\0\x18\x16\0\0\0\0\0\0\0\0\0\0\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  333  \x0e\xb8\xb7\x20\0\0\0\0\0\x62\x61\x06\0\x04\0\0\0\0\x45\0\0\x02\0\0\0\x01\x85\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  334  \0\0\0\0\0\0\x94\x05\0\0\x01\0\0\0\0\x85\0\0\0\0\0\0\x71\x18\x26\0\0\0\0\0\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  335  \0\0\0\0\0\0\0\x61\x02\0\0\0\0\0\0\x18\x16\0\0\0\0\0\0\0\0\0\0\0\0\x0f\x28\x63\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  336  \x10\0\0\0\0\0\0\x18\x06\0\0\0\0\0\0\0\0\0\0\0\0\x0f\x20\x18\x16\0\0\0\0\0\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  337  \0\0\0\0\0\x0f\x30\x7b\x10\0\0\0\0\0\0\x18\x06\0\0\0\0\0\0\0\0\0\0\0\0\x0e\xb8\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  338  \x18\x16\0\0\0\0\0\0\0\0\0\0\0\0\x0f\x38\x7b\x10\0\0\0\0\0\0\xb7\x10\0\0\0\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  339  \x02\x18\x26\0\0\0\0\0\0\0\0\0\0\0\0\x0f\x28\xb7\x30\0\0\0\0\0\x20\x85\0\0\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  340  \0\0\xa6\xbf\x70\0\0\0\0\0\0\xc5\x70\xff\x9f\0\0\0\0\x18\x26\0\0\0\0\0\0\0\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  341  \0\0\0\0\0\x61\x02\0\0\0\0\0\0\x18\x16\0\0\0\0\0\0\0\0\0\0\0\0\x0f\x48\x63\x10\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  342  \0\0\0\0\0\0\xb7\x10\0\0\0\0\0\x16\x18\x26\0\0\0\0\0\0\0\0\0\0\0\0\x0f\x48\xb7\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  343  \x30\0\0\0\0\0\x04\x85\0\0\0\0\0\0\xa6\xbf\x70\0\0\0\0\0\0\xc5\x70\xff\x92\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  344  \0\0\x18\x06\0\0\0\0\0\0\0\0\0\0\0\0\x0f\x50\x18\x16\0\0\0\0\0\0\0\0\0\0\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  345  \x11\x70\x7b\x10\0\0\0\0\0\0\x18\x06\0\0\0\0\0\0\0\0\0\0\0\0\x0f\x58\x18\x16\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  346  \0\0\0\0\0\0\0\0\0\0\0\x11\x68\x7b\x10\0\0\0\0\0\0\x18\x06\0\0\0\0\0\0\0\0\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  347  \0\0\x10\x58\x18\x16\0\0\0\0\0\0\0\0\0\0\0\0\x11\xb0\x7b\x10\0\0\0\0\0\0\x18\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  348  \x06\0\0\0\0\0\0\0\0\0\0\0\0\x10\x60\x18\x16\0\0\0\0\0\0\0\0\0\0\0\0\x11\xc0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  349  \x7b\x10\0\0\0\0\0\0\x18\x06\0\0\0\0\0\0\0\0\0\0\0\0\x10\xf0\x18\x16\0\0\0\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  350  \0\0\0\0\0\0\0\x11\xe0\x7b\x10\0\0\0\0\0\0\x18\x06\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  351  \x18\x16\0\0\0\0\0\0\0\0\0\0\0\0\x11\xd8\x7b\x10\0\0\0\0\0\0\x61\x06\0\x08\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  352  \0\0\x18\x16\0\0\0\0\0\0\0\0\0\0\0\0\x11\x78\x63\x10\0\0\0\0\0\0\x61\x06\0\x0c\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  353  \0\0\0\0\x18\x16\0\0\0\0\0\0\0\0\0\0\0\0\x11\x7c\x63\x10\0\0\0\0\0\0\x79\x06\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  354  \x10\0\0\0\0\x18\x16\0\0\0\0\0\0\0\0\0\0\0\0\x11\x80\x7b\x10\0\0\0\0\0\0\x61\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  355  \x0a\xff\x78\0\0\0\0\x18\x16\0\0\0\0\0\0\0\0\0\0\0\0\x11\xa8\x63\x10\0\0\0\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  356  \0\x18\x16\0\0\0\0\0\0\0\0\0\0\0\0\x11\xf0\xb7\x20\0\0\0\0\0\x11\xb7\x30\0\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  357  \0\0\x0c\xb7\x40\0\0\0\0\0\0\x85\0\0\0\0\0\0\xa7\xbf\x70\0\0\0\0\0\0\xc5\x70\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  358  \xff\x5c\0\0\0\0\x18\x06\0\0\0\0\0\0\0\0\0\0\0\0\x11\x60\x63\x07\0\x6c\0\0\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  359  \x77\x70\0\0\0\0\0\x20\x63\x07\0\x70\0\0\0\0\xb7\x10\0\0\0\0\0\x05\x18\x26\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  360  \0\0\0\0\0\0\0\0\0\0\x11\x60\xb7\x30\0\0\0\0\0\x8c\x85\0\0\0\0\0\0\xa6\xbf\x70\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  361  \0\0\0\0\0\0\x18\x06\0\0\0\0\0\0\0\0\0\0\0\0\x11\xd0\x61\x10\0\0\0\0\0\0\xd5\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  362  \x10\0\x02\0\0\0\0\xbf\x91\0\0\0\0\0\0\x85\0\0\0\0\0\0\xa8\xc5\x70\xff\x4a\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  363  \0\0\x63\xa7\xff\x80\0\0\0\0\x18\x06\0\0\0\0\0\0\0\0\0\0\0\0\x12\x08\x18\x16\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  364  \0\0\0\0\0\0\0\0\0\0\0\x16\xe0\x7b\x10\0\0\0\0\0\0\x18\x06\0\0\0\0\0\0\0\0\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  365  \0\0\x12\x10\x18\x16\0\0\0\0\0\0\0\0\0\0\0\0\x16\xd8\x7b\x10\0\0\0\0\0\0\x18\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  366  \x06\0\0\0\0\0\0\0\0\0\0\0\0\x14\x18\x18\x16\0\0\0\0\0\0\0\0\0\0\0\0\x17\x20\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  367  \x7b\x10\0\0\0\0\0\0\x18\x06\0\0\0\0\0\0\0\0\0\0\0\0\x14\x20\x18\x16\0\0\0\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  368  \0\0\0\0\0\0\0\x17\x30\x7b\x10\0\0\0\0\0\0\x18\x06\0\0\0\0\0\0\0\0\0\0\0\0\x15\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  369  \xb0\x18\x16\0\0\0\0\0\0\0\0\0\0\0\0\x17\x50\x7b\x10\0\0\0\0\0\0\x18\x06\0\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  370  \0\0\0\0\0\0\0\0\0\0\0\x18\x16\0\0\0\0\0\0\0\0\0\0\0\0\x17\x48\x7b\x10\0\0\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  371  \0\0\x61\x06\0\x08\0\0\0\0\x18\x16\0\0\0\0\0\0\0\0\0\0\0\0\x16\xe8\x63\x10\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  372  \0\0\0\0\x61\x06\0\x0c\0\0\0\0\x18\x16\0\0\0\0\0\0\0\0\0\0\0\0\x16\xec\x63\x10\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  373  \0\0\0\0\0\0\x79\x06\0\x10\0\0\0\0\x18\x16\0\0\0\0\0\0\0\0\0\0\0\0\x16\xf0\x7b\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  374  \x10\0\0\0\0\0\0\x61\x0a\xff\x78\0\0\0\0\x18\x16\0\0\0\0\0\0\0\0\0\0\0\0\x17\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  375  \x18\x63\x10\0\0\0\0\0\0\x18\x16\0\0\0\0\0\0\0\0\0\0\0\0\x17\x60\xb7\x20\0\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  376  \0\0\x12\xb7\x30\0\0\0\0\0\x0c\xb7\x40\0\0\0\0\0\0\x85\0\0\0\0\0\0\xa7\xbf\x70\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  377  \0\0\0\0\0\0\xc5\x70\xff\x13\0\0\0\0\x18\x06\0\0\0\0\0\0\0\0\0\0\0\0\x16\xd0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  378  \x63\x07\0\x6c\0\0\0\0\x77\x70\0\0\0\0\0\x20\x63\x07\0\x70\0\0\0\0\xb7\x10\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  379  \0\0\0\x05\x18\x26\0\0\0\0\0\0\0\0\0\0\0\0\x16\xd0\xb7\x30\0\0\0\0\0\x8c\x85\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  380  \0\0\0\0\0\xa6\xbf\x70\0\0\0\0\0\0\x18\x06\0\0\0\0\0\0\0\0\0\0\0\0\x17\x40\x61\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  381  \x10\0\0\0\0\0\0\xd5\x10\0\x02\0\0\0\0\xbf\x91\0\0\0\0\0\0\x85\0\0\0\0\0\0\xa8\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  382  \xc5\x70\xff\x01\0\0\0\0\x63\xa7\xff\x84\0\0\0\0\x61\x1a\xff\x78\0\0\0\0\xd5\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  383  \x10\0\x02\0\0\0\0\xbf\x91\0\0\0\0\0\0\x85\0\0\0\0\0\0\xa8\x61\x0a\xff\x80\0\0\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  384  \0\0\x63\x60\0\x28\0\0\0\0\x61\x0a\xff\x84\0\0\0\0\x63\x60\0\x2c\0\0\0\0\x18\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  385  \x16\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x61\x01\0\0\0\0\0\0\x63\x60\0\x18\0\0\0\0\xb7\
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  386  \0\0\0\0\0\0\0\x95\0\0\0\0\0\0\0";
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  387  	err = bpf_load_and_run(&opts);
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  388  	if (err < 0)
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  389  		return err;
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  390  	return 0;
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  391  }
+0f0e5f5bd5066c Ilya Leoshkevich 2023-01-28  392  
 
 -- 
 0-DAY CI Kernel Test Service
