@@ -1,39 +1,49 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6A3C371
-	for <oe-kbuild@lists.linux.dev>; Thu,  9 Feb 2023 09:34:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675935276; x=1707471276;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=0yzDCgOVNm1YFgYBPqgBMVKjsc5EnErjEgL8H9ezJ0M=;
-  b=mTtV0E67Iq4PAapdQrd3Gd/9CZhsgF7ACUWwqYeF/JG2CXBEGFJ/KBe0
-   Pk/kPsu4QnlxuaaXGxWqSgKBfktHgqINOOvpbZV1Qae9wwfpATVuBwV+M
-   Gt9mDBFF6qKlo3Jh6OOfD8131tGs9972eYDnleZHG1jsmtg6pStAYGjvG
-   +wDYINYCDq4NaQ+SIaaOsZjpo11N9J4ZyHIIQKqlKLtzPodrSdlECxY00
-   eOJWCCfBuRfhoTd12HyJQc31k9qYSB25soWWO01U5XUH5ESkmFnIXMezA
-   6KZdhj+EwEfm8G0OPCf0xjQ+Ech4el20YYNaAcZqVcvdQj5+bgucTX3B4
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10615"; a="330086917"
-X-IronPort-AV: E=Sophos;i="5.97,283,1669104000"; 
-   d="scan'208";a="330086917"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2023 01:34:36 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10615"; a="810274429"
-X-IronPort-AV: E=Sophos;i="5.97,283,1669104000"; 
-   d="scan'208";a="810274429"
-Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 09 Feb 2023 01:34:34 -0800
-Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pQ3K5-0004yA-2n;
-	Thu, 09 Feb 2023 09:34:33 +0000
-Date: Thu, 9 Feb 2023 17:33:39 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79E1A371;
+	Thu,  9 Feb 2023 09:47:27 +0000 (UTC)
+Received: by mail-wr1-f47.google.com with SMTP id r2so1148515wrv.7;
+        Thu, 09 Feb 2023 01:47:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=6ClLp3PPP9k28DbYaMNfEXNS3WvVI0EPC4yIBTWDqEE=;
+        b=M+JDhU199pYRh0D7Xx/HikLYxqi5repqdQx9VoMw9Q+n3Zlss5o/Mmr/3fibPeB1RF
+         BD9+UE+V1BRxBPidZyuYGdYO+LT7r9soJnmeattn3leFVlT7VQm5qPq+E59tskd5tqJh
+         a0LeVEslqO7r/ileCO4XGtFqK51VyNgURqfMmStg7NWhLGW+9iBdRCDWDRTeL8slhCoP
+         2AyT+fbz54iURTgiOVMHDpKoaSQx/czBW/GxBocyA5DhUcX/QmWnJlYPsgtlUUH5Cv1P
+         6daaKxyXrpbO0mq8UzB8+f8tJ4qTmi6CfzEz8W0YC6eGEYcO/n17kCOc596BKs+HUmZS
+         CM2Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=6ClLp3PPP9k28DbYaMNfEXNS3WvVI0EPC4yIBTWDqEE=;
+        b=CQMEeseqcCribKr/DbzrZCgkthXe7tU9JXetUfGggwx77EvF6ikVRGMCNBY0zVFrDx
+         EMXZ4sXmR+Kda8vgd6tnsmK4pawpVDRcID7z+UzE2MyHDO2qmpRW1V30WoxbevehuNPm
+         8WDo6DRLjJ7oG7eXMDezqRnGM1lYwJcKddCMqbjTSnaWqkpzZqCql/Gv/NRLY6qC7zfy
+         J8JzkqU1Fcr5DS6zNLjPDF1MZOezLU6aX4VQe09OiyWlPFGtzmNUYoJG7EWLfHHisYCg
+         H/WxNL72nuxGq36/+y4WCwxT0E9F/gpPqn4GkwLGdUPVZaiVpAfqqujxJzlQtL62DBmR
+         Vv6g==
+X-Gm-Message-State: AO0yUKVXA0SJBNR8GwnCzCkaAGK4nLoGbVU4ab/gpytL8bZwndIK21LI
+	4dFCj0eGzPDhdVydIq3SFOwpolnthrU=
+X-Google-Smtp-Source: AK7set9abhntnv+7sQvVlWr/s1UnyhqUWhGNpNBlg4dmh7vwG4w8/m+GjrtTwW/XcL5tdyoErubQSQ==
+X-Received: by 2002:adf:fa83:0:b0:2bf:ae16:817c with SMTP id h3-20020adffa83000000b002bfae16817cmr10200928wrr.29.1675936045518;
+        Thu, 09 Feb 2023 01:47:25 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id q13-20020adff94d000000b002be099f78c0sm795496wrr.69.2023.02.09.01.47.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 09 Feb 2023 01:47:24 -0800 (PST)
+Date: Thu, 9 Feb 2023 12:47:20 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev, Sakari Ailus <sakari.ailus@linux.intel.com>,
+	linux-acpi@vger.kernel.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-media@vger.kernel.org, rafael@kernel.org,
+	andriy.shevchenko@linux.intel.com, heikki.krogerus@linux.intel.com
 Subject: Re: [PATCH v5 2/8] ACPI: property: Parse _CRS CSI-2 descriptor
 Message-ID: <202302091722.YCT7d1kl-lkp@intel.com>
 Precedence: bulk
@@ -44,34 +54,17 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
 In-Reply-To: <20230208212712.3184953-3-sakari.ailus@linux.intel.com>
-References: <20230208212712.3184953-3-sakari.ailus@linux.intel.com>
-TO: Sakari Ailus <sakari.ailus@linux.intel.com>
-TO: linux-acpi@vger.kernel.org
-CC: linux-media@vger.kernel.org
-CC: rafael@kernel.org
-CC: andriy.shevchenko@linux.intel.com
-CC: heikki.krogerus@linux.intel.com
+Message-ID: <20230209094720.cIPZYfE6n4b8ujq0iwnkKBCKuZUEwIuOFm6XFKgTjjI@z>
 
 Hi Sakari,
 
-I love your patch! Perhaps something to improve:
-
-[auto build test WARNING on rafael-pm/linux-next]
-[also build test WARNING on sailus-media-tree/streams linus/master v6.2-rc7 next-20230209]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
 url:    https://github.com/intel-lab-lkp/linux/commits/Sakari-Ailus/ACPI-property-Parse-data-node-string-references-in-properties/20230209-053017
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
 patch link:    https://lore.kernel.org/r/20230208212712.3184953-3-sakari.ailus%40linux.intel.com
 patch subject: [PATCH v5 2/8] ACPI: property: Parse _CRS CSI-2 descriptor
-:::::: branch date: 12 hours ago
-:::::: commit date: 12 hours ago
 config: i386-randconfig-m021 (https://download.01.org/0day-ci/archive/20230209/202302091722.YCT7d1kl-lkp@intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 
@@ -85,11 +78,6 @@ drivers/acpi/mipi.c:241 acpi_crs_csi2_alloc_fill_swnodes() warn: variable derefe
 
 vim +/ads +241 drivers/acpi/mipi.c
 
-06167f6b99bad9 Sakari Ailus 2023-02-08  201  
-06167f6b99bad9 Sakari Ailus 2023-02-08  202  /*
-06167f6b99bad9 Sakari Ailus 2023-02-08  203   * Allocate memory and set up software nodes for an ACPI device with given
-06167f6b99bad9 Sakari Ailus 2023-02-08  204   * number of CSI-2 ports.
-06167f6b99bad9 Sakari Ailus 2023-02-08  205   */
 06167f6b99bad9 Sakari Ailus 2023-02-08  206  void acpi_crs_csi2_alloc_fill_swnodes(size_t ports_count, acpi_handle handle)
 06167f6b99bad9 Sakari Ailus 2023-02-08  207  {
 06167f6b99bad9 Sakari Ailus 2023-02-08  208  	struct acpi_device_software_nodes *ads;
@@ -122,10 +110,16 @@ vim +/ads +241 drivers/acpi/mipi.c
 06167f6b99bad9 Sakari Ailus 2023-02-08  235  	swnodes = kzalloc(sizeof(*swnodes), GFP_KERNEL);
 06167f6b99bad9 Sakari Ailus 2023-02-08  236  	ads = kzalloc(alloc_size, GFP_KERNEL);
 06167f6b99bad9 Sakari Ailus 2023-02-08 @237  	ads->ports = (void *)(ads + 1);
+                                                ^^^^^^^^^^
+Derference
+
 06167f6b99bad9 Sakari Ailus 2023-02-08  238  	ads->nodes = (void *)(ads->ports + ports_count);
 06167f6b99bad9 Sakari Ailus 2023-02-08  239  	ads->nodeptrs = (void *)(ads->nodes + ports_count * 2 + 1);
 06167f6b99bad9 Sakari Ailus 2023-02-08  240  	end = ads->nodeptrs + ports_count * 2 + 2;
 06167f6b99bad9 Sakari Ailus 2023-02-08 @241  	if (!swnodes || !ads || WARN_ON((void *)ads + alloc_size != end)) {
+                                                                ^^^^
+Checked to late.
+
 06167f6b99bad9 Sakari Ailus 2023-02-08  242  		kfree(swnodes);
 06167f6b99bad9 Sakari Ailus 2023-02-08  243  		kfree(ads);
 06167f6b99bad9 Sakari Ailus 2023-02-08  244  		acpi_handle_debug(handle,
@@ -144,8 +138,8 @@ vim +/ads +241 drivers/acpi/mipi.c
 06167f6b99bad9 Sakari Ailus 2023-02-08  257  	swnodes->ads = ads;
 06167f6b99bad9 Sakari Ailus 2023-02-08  258  	list_add(&swnodes->list, &crs_csi2_swnodes);
 06167f6b99bad9 Sakari Ailus 2023-02-08  259  }
-06167f6b99bad9 Sakari Ailus 2023-02-08  260  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
+
