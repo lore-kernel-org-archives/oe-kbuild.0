@@ -1,42 +1,42 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FCCA7F4
-	for <oe-kbuild@lists.linux.dev>; Fri, 10 Feb 2023 04:48:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDFDE7F8
+	for <oe-kbuild@lists.linux.dev>; Fri, 10 Feb 2023 04:48:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1676004503; x=1707540503;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=HB0vY/V7mbYbh/ZeWdGJxFDA/CH/YlFdtRAf+AvDehw=;
-  b=FNzs0YvsF9egPtRqZX+5BKA8cvsrrx+XaSSaP6C8alp1wMejeXgQs7Bf
-   NnE0xf24b2wuff50RlrkzuV/c+tIFb6c9A2z4scDVutWngB5Yrtj5Qr+q
-   YlDFINOb2ZSfsymhh0lafoC+XHWL3ni8liRFFJjwW8HT37Gqd1YR1YVD/
-   ju/IOGvV8NUGGrqag45gwnMR/WlNzTAoeEA9bVaAkMvaCU247xYf7m+0K
-   A6aE9Y6q0FHu/2N+g1K9HEkdMk1h/hNdQr4uASaIQiDM1whexNvmVm/6D
-   TVro+IMwwoGAjkDwynq5JD1oErprGR+mEXI3v4+sV2pnTGq/SXUfhYgum
+  bh=trT/0Nw3yJxcGmxQulLyxazGy08k4KTNjgGdIslvu14=;
+  b=VGRpXa317ymxWGWvMlqocRQq1ApMnIM8VgnXdqBmRYpC/uitisBo1XUz
+   GJLvYlQO3bk/36uhfeLStMfBKZtcl6ZHgMbDW0sLGJvLAndjOjsxoYLM+
+   rZIu5xC1vVXj8T9VoEf+V5r2rgwN4WxYl4Co7Aj9Ak4gzNj+XD9Hx3oqD
+   +V5NeN6e+oiaiOxf8tc05xak6yjZh+JNu8qcBIMlJFOFsAWWuBMITy722
+   rc8qjMX8BRaxDzLf1iAtSSQ8wD/wcbeLOha2XUj1iZ3EBSpkg+ofwtGAA
+   7kI8IDo9vdjeoD3JHvZ0wbqTn6A/XgJ/wN/zkeY2ZqC+0Wr08b2NxoVAO
    g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10616"; a="416562067"
+X-IronPort-AV: E=McAfee;i="6500,9779,10616"; a="392736654"
 X-IronPort-AV: E=Sophos;i="5.97,285,1669104000"; 
-   d="scan'208";a="416562067"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2023 20:48:22 -0800
+   d="scan'208";a="392736654"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2023 20:48:22 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10616"; a="756656859"
+X-IronPort-AV: E=McAfee;i="6500,9779,10616"; a="669870389"
 X-IronPort-AV: E=Sophos;i="5.97,285,1669104000"; 
-   d="scan'208";a="756656859"
+   d="scan'208";a="669870389"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 09 Feb 2023 20:48:21 -0800
+  by fmsmga007.fm.intel.com with ESMTP; 09 Feb 2023 20:48:21 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pQLKe-0005Ym-22;
+	id 1pQLKe-0005Yk-1z;
 	Fri, 10 Feb 2023 04:48:20 +0000
-Date: Fri, 10 Feb 2023 12:47:39 +0800
+Date: Fri, 10 Feb 2023 12:47:38 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/net/ethernet/sfc/tc_bindings.c:90 efx_tc_setup_block() warn:
- passing a valid pointer to 'PTR_ERR'
-Message-ID: <202302101258.5EKZjIX8-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: drivers/infiniband/hw/hns/hns_roce_hw_v2.c:309:9: sparse: sparse:
+ dubious: x & !y
+Message-ID: <202302101245.EXTYkZSJ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -46,96 +46,94 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "low confidence static check warning: drivers/infiniband/hw/hns/hns_roce_hw_v2.c:309:9: sparse: sparse: dubious: x & !y"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Edward Cree <ecree.xilinx@gmail.com>
+TO: Wenpeng Liang <liangwenpeng@huawei.com>
+CC: Jason Gunthorpe <jgg@ziepe.ca>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   38c1e0c65865426676123cc9a127526fa02bcac6
-commit: 9dc0cad203ab57efac34e6bcb67635edf3b62ebf sfc: bind blocks for TC offload on EF100
-date:   5 months ago
+commit: 82600b2d3cd57428bdb03c66ae67708d3c8f7281 RDMA/hns: Use hr_reg_xxx() instead of remaining roce_set_xxx()
+date:   9 months ago
 :::::: branch date: 3 hours ago
-:::::: commit date: 5 months ago
-config: parisc-randconfig-m031-20230209 (https://download.01.org/0day-ci/archive/20230210/202302101258.5EKZjIX8-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 12.1.0
+:::::: commit date: 9 months ago
+config: arm64-randconfig-s043-20230208 (https://download.01.org/0day-ci/archive/20230210/202302101245.EXTYkZSJ-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.1.0
+reproduce:
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=82600b2d3cd57428bdb03c66ae67708d3c8f7281
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 82600b2d3cd57428bdb03c66ae67708d3c8f7281
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arm64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/infiniband/hw/hns/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202302101258.5EKZjIX8-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202302101245.EXTYkZSJ-lkp@intel.com/
 
-smatch warnings:
-drivers/net/ethernet/sfc/tc_bindings.c:90 efx_tc_setup_block() warn: passing a valid pointer to 'PTR_ERR'
+sparse warnings: (new ones prefixed by >>)
+>> drivers/infiniband/hw/hns/hns_roce_hw_v2.c:309:9: sparse: sparse: dubious: x & !y
+   drivers/infiniband/hw/hns/hns_roce_hw_v2.c:460:9: sparse: sparse: dubious: x & !y
+   drivers/infiniband/hw/hns/hns_roce_hw_v2.c:462:9: sparse: sparse: dubious: x & !y
 
-vim +/PTR_ERR +90 drivers/net/ethernet/sfc/tc_bindings.c
+vim +309 drivers/infiniband/hw/hns/hns_roce_hw_v2.c
 
-9dc0cad203ab57e Edward Cree 2022-09-26   72  
-9dc0cad203ab57e Edward Cree 2022-09-26   73  int efx_tc_setup_block(struct net_device *net_dev, struct efx_nic *efx,
-9dc0cad203ab57e Edward Cree 2022-09-26   74  		       struct flow_block_offload *tcb, struct efx_rep *efv)
-9dc0cad203ab57e Edward Cree 2022-09-26   75  {
-9dc0cad203ab57e Edward Cree 2022-09-26   76  	struct efx_tc_block_binding *binding;
-9dc0cad203ab57e Edward Cree 2022-09-26   77  	struct flow_block_cb *block_cb;
-9dc0cad203ab57e Edward Cree 2022-09-26   78  	int rc;
-9dc0cad203ab57e Edward Cree 2022-09-26   79  
-9dc0cad203ab57e Edward Cree 2022-09-26   80  	if (tcb->binder_type != FLOW_BLOCK_BINDER_TYPE_CLSACT_INGRESS)
-9dc0cad203ab57e Edward Cree 2022-09-26   81  		return -EOPNOTSUPP;
-9dc0cad203ab57e Edward Cree 2022-09-26   82  
-9dc0cad203ab57e Edward Cree 2022-09-26   83  	if (WARN_ON(!efx->tc))
-9dc0cad203ab57e Edward Cree 2022-09-26   84  		return -ENETDOWN;
-9dc0cad203ab57e Edward Cree 2022-09-26   85  
-9dc0cad203ab57e Edward Cree 2022-09-26   86  	switch (tcb->command) {
-9dc0cad203ab57e Edward Cree 2022-09-26   87  	case FLOW_BLOCK_BIND:
-9dc0cad203ab57e Edward Cree 2022-09-26   88  		binding = efx_tc_create_binding(efx, efv, net_dev, tcb->block);
-9dc0cad203ab57e Edward Cree 2022-09-26   89  		if (IS_ERR(binding))
-9dc0cad203ab57e Edward Cree 2022-09-26  @90  			return PTR_ERR(binding);
-9dc0cad203ab57e Edward Cree 2022-09-26   91  		block_cb = flow_block_cb_alloc(efx_tc_block_cb, binding,
-9dc0cad203ab57e Edward Cree 2022-09-26   92  					       binding, efx_tc_block_unbind);
-9dc0cad203ab57e Edward Cree 2022-09-26   93  		rc = PTR_ERR_OR_ZERO(block_cb);
-9dc0cad203ab57e Edward Cree 2022-09-26   94  		netif_dbg(efx, drv, efx->net_dev,
-9dc0cad203ab57e Edward Cree 2022-09-26   95  			  "bind %sdirect block for device %s, rc %d\n",
-9dc0cad203ab57e Edward Cree 2022-09-26   96  			  net_dev == efx->net_dev ? "" :
-9dc0cad203ab57e Edward Cree 2022-09-26   97  			  efv ? "semi" : "in",
-9dc0cad203ab57e Edward Cree 2022-09-26   98  			  net_dev ? net_dev->name : NULL, rc);
-9dc0cad203ab57e Edward Cree 2022-09-26   99  		if (rc) {
-9dc0cad203ab57e Edward Cree 2022-09-26  100  			list_del(&binding->list);
-9dc0cad203ab57e Edward Cree 2022-09-26  101  			kfree(binding);
-9dc0cad203ab57e Edward Cree 2022-09-26  102  		} else {
-9dc0cad203ab57e Edward Cree 2022-09-26  103  			flow_block_cb_add(block_cb, tcb);
-9dc0cad203ab57e Edward Cree 2022-09-26  104  		}
-9dc0cad203ab57e Edward Cree 2022-09-26  105  		return rc;
-9dc0cad203ab57e Edward Cree 2022-09-26  106  	case FLOW_BLOCK_UNBIND:
-9dc0cad203ab57e Edward Cree 2022-09-26  107  		binding = efx_tc_find_binding(efx, net_dev);
-9dc0cad203ab57e Edward Cree 2022-09-26  108  		if (binding) {
-9dc0cad203ab57e Edward Cree 2022-09-26  109  			block_cb = flow_block_cb_lookup(tcb->block,
-9dc0cad203ab57e Edward Cree 2022-09-26  110  							efx_tc_block_cb,
-9dc0cad203ab57e Edward Cree 2022-09-26  111  							binding);
-9dc0cad203ab57e Edward Cree 2022-09-26  112  			if (block_cb) {
-9dc0cad203ab57e Edward Cree 2022-09-26  113  				flow_block_cb_remove(block_cb, tcb);
-9dc0cad203ab57e Edward Cree 2022-09-26  114  				netif_dbg(efx, drv, efx->net_dev,
-9dc0cad203ab57e Edward Cree 2022-09-26  115  					  "unbound %sdirect block for device %s\n",
-9dc0cad203ab57e Edward Cree 2022-09-26  116  					  net_dev == efx->net_dev ? "" :
-9dc0cad203ab57e Edward Cree 2022-09-26  117  					  binding->efv ? "semi" : "in",
-9dc0cad203ab57e Edward Cree 2022-09-26  118  					  net_dev ? net_dev->name : NULL);
-9dc0cad203ab57e Edward Cree 2022-09-26  119  				return 0;
-9dc0cad203ab57e Edward Cree 2022-09-26  120  			}
-9dc0cad203ab57e Edward Cree 2022-09-26  121  		}
-9dc0cad203ab57e Edward Cree 2022-09-26  122  		/* If we're in driver teardown, then we expect to have
-9dc0cad203ab57e Edward Cree 2022-09-26  123  		 * already unbound all our blocks (we did it early while
-9dc0cad203ab57e Edward Cree 2022-09-26  124  		 * we still had MCDI to remove the filters), so getting
-9dc0cad203ab57e Edward Cree 2022-09-26  125  		 * unbind callbacks now isn't a problem.
-9dc0cad203ab57e Edward Cree 2022-09-26  126  		 */
-9dc0cad203ab57e Edward Cree 2022-09-26  127  		netif_cond_dbg(efx, drv, efx->net_dev,
-9dc0cad203ab57e Edward Cree 2022-09-26  128  			       !efx->tc->up, warn,
-9dc0cad203ab57e Edward Cree 2022-09-26  129  			       "%sdirect block unbind for device %s, was never bound\n",
-9dc0cad203ab57e Edward Cree 2022-09-26  130  			       net_dev == efx->net_dev ? "" : "in",
-9dc0cad203ab57e Edward Cree 2022-09-26  131  			       net_dev ? net_dev->name : NULL);
-9dc0cad203ab57e Edward Cree 2022-09-26  132  		return -ENOENT;
-9dc0cad203ab57e Edward Cree 2022-09-26  133  	default:
-9dc0cad203ab57e Edward Cree 2022-09-26  134  		return -EOPNOTSUPP;
-9dc0cad203ab57e Edward Cree 2022-09-26  135  	}
-9dc0cad203ab57e Edward Cree 2022-09-26  136  }
-9dc0cad203ab57e Edward Cree 2022-09-26  137  
+30b707886aeb89 Weihang Li    2020-09-10  294  
+30b707886aeb89 Weihang Li    2020-09-10  295  static int set_rwqe_data_seg(struct ib_qp *ibqp, const struct ib_send_wr *wr,
+30b707886aeb89 Weihang Li    2020-09-10  296  			     struct hns_roce_v2_rc_send_wqe *rc_sq_wqe,
+30b707886aeb89 Weihang Li    2020-09-10  297  			     unsigned int *sge_ind,
+30b707886aeb89 Weihang Li    2020-09-10  298  			     unsigned int valid_num_sge)
+30b707886aeb89 Weihang Li    2020-09-10  299  {
+30b707886aeb89 Weihang Li    2020-09-10  300  	struct hns_roce_v2_wqe_data_seg *dseg =
+30b707886aeb89 Weihang Li    2020-09-10  301  		(void *)rc_sq_wqe + sizeof(struct hns_roce_v2_rc_send_wqe);
+30b707886aeb89 Weihang Li    2020-09-10  302  	struct hns_roce_qp *qp = to_hr_qp(ibqp);
+30b707886aeb89 Weihang Li    2020-09-10  303  	int j = 0;
+30b707886aeb89 Weihang Li    2020-09-10  304  	int i;
+30b707886aeb89 Weihang Li    2020-09-10  305  
+82600b2d3cd574 Wenpeng Liang 2022-05-12  306  	hr_reg_write(rc_sq_wqe, RC_SEND_WQE_MSG_START_SGE_IDX,
+30b707886aeb89 Weihang Li    2020-09-10  307  		     (*sge_ind) & (qp->sge.sge_cnt - 1));
+30b707886aeb89 Weihang Li    2020-09-10  308  
+82600b2d3cd574 Wenpeng Liang 2022-05-12 @309  	hr_reg_write(rc_sq_wqe, RC_SEND_WQE_INLINE,
+e13026578b727b Lang Cheng    2021-06-18  310  		     !!(wr->send_flags & IB_SEND_INLINE));
+30b707886aeb89 Weihang Li    2020-09-10  311  	if (wr->send_flags & IB_SEND_INLINE)
+30b707886aeb89 Weihang Li    2020-09-10  312  		return set_rc_inl(qp, wr, rc_sq_wqe, sge_ind);
+30b707886aeb89 Weihang Li    2020-09-10  313  
+54d6638765b0ed Xi Wang       2020-04-28  314  	if (valid_num_sge <= HNS_ROCE_SGE_IN_WQE) {
+7bdee4158b3778 oulijun       2018-01-10  315  		for (i = 0; i < wr->num_sge; i++) {
+7bdee4158b3778 oulijun       2018-01-10  316  			if (likely(wr->sg_list[i].length)) {
+7bdee4158b3778 oulijun       2018-01-10  317  				set_data_seg_v2(dseg, wr->sg_list + i);
+7bdee4158b3778 oulijun       2018-01-10  318  				dseg++;
+7bdee4158b3778 oulijun       2018-01-10  319  			}
+7bdee4158b3778 oulijun       2018-01-10  320  		}
+7bdee4158b3778 oulijun       2018-01-10  321  	} else {
+30b707886aeb89 Weihang Li    2020-09-10  322  		for (i = 0; i < wr->num_sge && j < HNS_ROCE_SGE_IN_WQE; i++) {
+7bdee4158b3778 oulijun       2018-01-10  323  			if (likely(wr->sg_list[i].length)) {
+7bdee4158b3778 oulijun       2018-01-10  324  				set_data_seg_v2(dseg, wr->sg_list + i);
+7bdee4158b3778 oulijun       2018-01-10  325  				dseg++;
+468d020e2f0286 Lijun Ou      2020-01-09  326  				j++;
+7bdee4158b3778 oulijun       2018-01-10  327  			}
+7bdee4158b3778 oulijun       2018-01-10  328  		}
+7bdee4158b3778 oulijun       2018-01-10  329  
+0fd0175e30e487 Lang Cheng    2020-11-28  330  		set_extend_sge(qp, wr->sg_list + i, sge_ind,
+0fd0175e30e487 Lang Cheng    2020-11-28  331  			       valid_num_sge - HNS_ROCE_SGE_IN_WQE);
+7bdee4158b3778 oulijun       2018-01-10  332  	}
+7bdee4158b3778 oulijun       2018-01-10  333  
+82600b2d3cd574 Wenpeng Liang 2022-05-12  334  	hr_reg_write(rc_sq_wqe, RC_SEND_WQE_SGE_NUM, valid_num_sge);
+7bdee4158b3778 oulijun       2018-01-10  335  
+7bdee4158b3778 oulijun       2018-01-10  336  	return 0;
+7bdee4158b3778 oulijun       2018-01-10  337  }
+7bdee4158b3778 oulijun       2018-01-10  338  
 
 -- 
 0-DAY CI Kernel Test Service
