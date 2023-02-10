@@ -1,42 +1,42 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAAA363DA
-	for <oe-kbuild@lists.linux.dev>; Fri, 10 Feb 2023 18:22:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F1698483
+	for <oe-kbuild@lists.linux.dev>; Fri, 10 Feb 2023 20:24:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676053365; x=1707589365;
+  t=1676060690; x=1707596690;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=J70Q82dYavVTCRZwsdPvHguIMcea4/YFZL3Cv7kFh9A=;
-  b=F/5hl8NkXUquAwa2B73PlDPX9+wBvFtLJmq4YDAfhbSAUmsi+K1slxRC
-   3akgoB1QkAWP7RtAgyyW9kHueXsmMjN+j0TDyr5xDJ8b8dWF36zG0dFxi
-   Go5uhxz5soXovSikVgTJMhMQv7IVwEBCZeyoxbRX5fSaY1yWC7Br+07G6
-   jZqMn081v2+JgxofyBtuyioWrCeSDXo4+LlkR/c1RCZzoCQJT5tgxSNLG
-   gyo0SG0jbgI/7uUehslPXFJHgTFSPfA81mBe5fXvasJ3No47pwIlGAw5l
-   XwUAMIOq2TzV1VcseOi+1YKl6kJvmCgkHH2X8GQaBO8MRPW6R0PfL7qLf
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10617"; a="395101768"
+  bh=IHTHEyrnDoU+WCf/WZuYNrkxjhX/xQgTL/NNJkD/RGg=;
+  b=oIUpcZUZpXJ5TMU9l65p0cVAAGy/11eUDhAyX1jtq26jJHt0O2Q+OBzQ
+   6McZNK2p7OXPATczQPbvzh2V5IjpprqlP6aRfUHiDIpAkMVd8A+McJGGV
+   kZFJbcZ+93pC4u2T6tCNjbJy+XMgSmst0jU6A4o7YIYOiJ+1/oIaxxtd0
+   m2bsv2B+MQcLrVlvgmxpHBh9PrEqpNsIchW4Ni4WNVL9rUMMrcswx4ZRc
+   W+QMoDAfbu0UKVV93EjIqfw/BJtLOobxgSOQ0xoD67YmmaEafnS9Ccfbd
+   eKTmzcf4INlocXHJXktcq/4ADs+Hsz+XRkeqjMOSYHWv4X3a4+CJegUpe
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10617"; a="331822946"
 X-IronPort-AV: E=Sophos;i="5.97,287,1669104000"; 
-   d="scan'208";a="395101768"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2023 10:22:45 -0800
+   d="scan'208";a="331822946"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2023 12:24:48 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10617"; a="756870950"
+X-IronPort-AV: E=McAfee;i="6500,9779,10617"; a="777061311"
 X-IronPort-AV: E=Sophos;i="5.97,287,1669104000"; 
-   d="scan'208";a="756870950"
+   d="scan'208";a="777061311"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 10 Feb 2023 10:22:43 -0800
+  by fmsmga002.fm.intel.com with ESMTP; 10 Feb 2023 12:24:46 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pQY2k-0005yN-33;
-	Fri, 10 Feb 2023 18:22:42 +0000
-Date: Sat, 11 Feb 2023 02:22:11 +0800
+	id 1pQZwr-00062T-29;
+	Fri, 10 Feb 2023 20:24:45 +0000
+Date: Sat, 11 Feb 2023 04:24:07 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: sound/soc/intel/avs/pcm.c:1406 avs_component_hda_open() warn:
- ignoring unreachable code.
-Message-ID: <202302110254.u5qPtpSr-lkp@intel.com>
+Subject: drivers/iommu/iommufd/pages.c:1318 iopt_area_fill_domain() error:
+ uninitialized symbol 'done_end_index'.
+Message-ID: <202302110422.GTkRjGCQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -49,76 +49,168 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Cezary Rojewski <cezary.rojewski@intel.com>
-CC: Mark Brown <broonie@kernel.org>
+TO: Jason Gunthorpe <jgg@nvidia.com>
+CC: Kevin Tian <kevin.tian@intel.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   38c1e0c65865426676123cc9a127526fa02bcac6
-commit: f38d4c72cb2d68e73d3e54feb68febd6b7c4bfd2 ASoC: Intel: avs: Initialize private data for subsequent HDA FEs
-date:   3 months ago
-:::::: branch date: 16 hours ago
-:::::: commit date: 3 months ago
-config: i386-randconfig-m021-20221226 (https://download.01.org/0day-ci/archive/20230211/202302110254.u5qPtpSr-lkp@intel.com/config)
+head:   4f72a263e162938de26866b862ed6015f5725946
+commit: 8d160cd4d5066f864ec0f2c981470e55ac03ac27 iommufd: Algorithms for PFN storage
+date:   2 months ago
+:::::: branch date: 3 hours ago
+:::::: commit date: 2 months ago
+config: i386-randconfig-m021-20221226 (https://download.01.org/0day-ci/archive/20230211/202302110422.GTkRjGCQ-lkp@intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202302110254.u5qPtpSr-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202302110422.GTkRjGCQ-lkp@intel.com/
 
-smatch warnings:
-sound/soc/intel/avs/pcm.c:1406 avs_component_hda_open() warn: ignoring unreachable code.
+New smatch warnings:
+drivers/iommu/iommufd/pages.c:1318 iopt_area_fill_domain() error: uninitialized symbol 'done_end_index'.
+drivers/iommu/iommufd/pages.c:1387 iopt_area_fill_domains() error: uninitialized symbol 'done_all_end_index'.
 
-vim +1406 sound/soc/intel/avs/pcm.c
+Old smatch warnings:
+drivers/iommu/iommufd/pages.c:1384 iopt_area_fill_domains() error: uninitialized symbol 'index'.
 
-d070002a20fc07 Cezary Rojewski 2022-05-16  1387  
-d070002a20fc07 Cezary Rojewski 2022-05-16  1388  static int avs_component_hda_open(struct snd_soc_component *component,
-d070002a20fc07 Cezary Rojewski 2022-05-16  1389  				  struct snd_pcm_substream *substream)
-d070002a20fc07 Cezary Rojewski 2022-05-16  1390  {
-d070002a20fc07 Cezary Rojewski 2022-05-16  1391  	struct snd_soc_pcm_runtime *rtd = snd_pcm_substream_chip(substream);
-d070002a20fc07 Cezary Rojewski 2022-05-16  1392  	struct hdac_ext_stream *link_stream;
-d070002a20fc07 Cezary Rojewski 2022-05-16  1393  	struct hda_codec *codec;
-d070002a20fc07 Cezary Rojewski 2022-05-16  1394  
-eb0699c4cd6e32 Cezary Rojewski 2022-10-27  1395  	if (!rtd->dai_link->no_pcm) {
-eb0699c4cd6e32 Cezary Rojewski 2022-10-27  1396  		struct snd_pcm_hardware hwparams = avs_pcm_hardware;
-f38d4c72cb2d68 Cezary Rojewski 2022-11-18  1397  		struct snd_soc_pcm_runtime *be;
-f38d4c72cb2d68 Cezary Rojewski 2022-11-18  1398  		struct snd_soc_dpcm *dpcm;
-f38d4c72cb2d68 Cezary Rojewski 2022-11-18  1399  		int dir = substream->stream;
-f38d4c72cb2d68 Cezary Rojewski 2022-11-18  1400  
-f38d4c72cb2d68 Cezary Rojewski 2022-11-18  1401  		/*
-f38d4c72cb2d68 Cezary Rojewski 2022-11-18  1402  		 * Support the DPCM reparenting while still fulfilling expectations of HDAudio
-f38d4c72cb2d68 Cezary Rojewski 2022-11-18  1403  		 * common code - a valid stream pointer at substream->runtime->private_data -
-f38d4c72cb2d68 Cezary Rojewski 2022-11-18  1404  		 * by having all FEs point to the same private data.
-f38d4c72cb2d68 Cezary Rojewski 2022-11-18  1405  		 */
-f38d4c72cb2d68 Cezary Rojewski 2022-11-18 @1406  		for_each_dpcm_be(rtd, dir, dpcm) {
-f38d4c72cb2d68 Cezary Rojewski 2022-11-18  1407  			struct snd_pcm_substream *be_substream;
-f38d4c72cb2d68 Cezary Rojewski 2022-11-18  1408  
-f38d4c72cb2d68 Cezary Rojewski 2022-11-18  1409  			be = dpcm->be;
-f38d4c72cb2d68 Cezary Rojewski 2022-11-18  1410  			if (be->dpcm[dir].users == 1)
-f38d4c72cb2d68 Cezary Rojewski 2022-11-18  1411  				break;
-f38d4c72cb2d68 Cezary Rojewski 2022-11-18  1412  
-f38d4c72cb2d68 Cezary Rojewski 2022-11-18  1413  			be_substream = snd_soc_dpcm_get_substream(be, dir);
-f38d4c72cb2d68 Cezary Rojewski 2022-11-18  1414  			substream->runtime->private_data = be_substream->runtime->private_data;
-f38d4c72cb2d68 Cezary Rojewski 2022-11-18  1415  			break;
-f38d4c72cb2d68 Cezary Rojewski 2022-11-18  1416  		}
-eb0699c4cd6e32 Cezary Rojewski 2022-10-27  1417  
-eb0699c4cd6e32 Cezary Rojewski 2022-10-27  1418  		/* RESUME unsupported for de-coupled HD-Audio capture. */
-f38d4c72cb2d68 Cezary Rojewski 2022-11-18  1419  		if (dir == SNDRV_PCM_STREAM_CAPTURE)
-eb0699c4cd6e32 Cezary Rojewski 2022-10-27  1420  			hwparams.info &= ~SNDRV_PCM_INFO_RESUME;
-eb0699c4cd6e32 Cezary Rojewski 2022-10-27  1421  
-eb0699c4cd6e32 Cezary Rojewski 2022-10-27  1422  		return snd_soc_set_runtime_hwparams(substream, &hwparams);
-eb0699c4cd6e32 Cezary Rojewski 2022-10-27  1423  	}
-d070002a20fc07 Cezary Rojewski 2022-05-16  1424  
-d070002a20fc07 Cezary Rojewski 2022-05-16  1425  	codec = dev_to_hda_codec(asoc_rtd_to_codec(rtd, 0)->dev);
-d070002a20fc07 Cezary Rojewski 2022-05-16  1426  	link_stream = snd_hdac_ext_stream_assign(&codec->bus->core, substream,
-d070002a20fc07 Cezary Rojewski 2022-05-16  1427  					     HDAC_EXT_STREAM_TYPE_LINK);
-d070002a20fc07 Cezary Rojewski 2022-05-16  1428  	if (!link_stream)
-d070002a20fc07 Cezary Rojewski 2022-05-16  1429  		return -EBUSY;
-d070002a20fc07 Cezary Rojewski 2022-05-16  1430  
-d070002a20fc07 Cezary Rojewski 2022-05-16  1431  	substream->runtime->private_data = link_stream;
-d070002a20fc07 Cezary Rojewski 2022-05-16  1432  	return 0;
-d070002a20fc07 Cezary Rojewski 2022-05-16  1433  }
-d070002a20fc07 Cezary Rojewski 2022-05-16  1434  
+vim +/done_end_index +1318 drivers/iommu/iommufd/pages.c
+
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1275  
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1276  /**
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1277   * iopt_area_fill_domain() - Map PFNs from the area into a domain
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1278   * @area: IOVA area to use
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1279   * @domain: Domain to load PFNs into
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1280   *
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1281   * Read the pfns from the area's underlying iopt_pages and map them into the
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1282   * given domain. Called when attaching a new domain to an io_pagetable.
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1283   */
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1284  int iopt_area_fill_domain(struct iopt_area *area, struct iommu_domain *domain)
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1285  {
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1286  	unsigned long done_end_index;
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1287  	struct pfn_reader pfns;
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1288  	int rc;
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1289  
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1290  	lockdep_assert_held(&area->pages->mutex);
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1291  
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1292  	rc = pfn_reader_first(&pfns, area->pages, iopt_area_index(area),
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1293  			      iopt_area_last_index(area));
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1294  	if (rc)
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1295  		return rc;
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1296  
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1297  	while (!pfn_reader_done(&pfns)) {
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1298  		done_end_index = pfns.batch_start_index;
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1299  		rc = batch_to_domain(&pfns.batch, domain, area,
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1300  				     pfns.batch_start_index);
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1301  		if (rc)
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1302  			goto out_unmap;
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1303  		done_end_index = pfns.batch_end_index;
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1304  
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1305  		rc = pfn_reader_next(&pfns);
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1306  		if (rc)
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1307  			goto out_unmap;
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1308  	}
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1309  
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1310  	rc = pfn_reader_update_pinned(&pfns);
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1311  	if (rc)
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1312  		goto out_unmap;
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1313  	goto out_destroy;
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1314  
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1315  out_unmap:
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1316  	pfn_reader_release_pins(&pfns);
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1317  	iopt_area_unfill_partial_domain(area, area->pages, domain,
+8d160cd4d5066f Jason Gunthorpe 2022-11-29 @1318  					done_end_index);
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1319  out_destroy:
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1320  	pfn_reader_destroy(&pfns);
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1321  	return rc;
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1322  }
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1323  
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1324  /**
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1325   * iopt_area_fill_domains() - Install PFNs into the area's domains
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1326   * @area: The area to act on
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1327   * @pages: The pages associated with the area (area->pages is NULL)
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1328   *
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1329   * Called during area creation. The area is freshly created and not inserted in
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1330   * the domains_itree yet. PFNs are read and loaded into every domain held in the
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1331   * area's io_pagetable and the area is installed in the domains_itree.
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1332   *
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1333   * On failure all domains are left unchanged.
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1334   */
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1335  int iopt_area_fill_domains(struct iopt_area *area, struct iopt_pages *pages)
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1336  {
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1337  	unsigned long done_first_end_index;
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1338  	unsigned long done_all_end_index;
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1339  	struct iommu_domain *domain;
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1340  	unsigned long unmap_index;
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1341  	struct pfn_reader pfns;
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1342  	unsigned long index;
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1343  	int rc;
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1344  
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1345  	lockdep_assert_held(&area->iopt->domains_rwsem);
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1346  
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1347  	if (xa_empty(&area->iopt->domains))
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1348  		return 0;
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1349  
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1350  	mutex_lock(&pages->mutex);
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1351  	rc = pfn_reader_first(&pfns, pages, iopt_area_index(area),
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1352  			      iopt_area_last_index(area));
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1353  	if (rc)
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1354  		goto out_unlock;
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1355  
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1356  	while (!pfn_reader_done(&pfns)) {
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1357  		done_first_end_index = pfns.batch_end_index;
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1358  		done_all_end_index = pfns.batch_start_index;
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1359  		xa_for_each(&area->iopt->domains, index, domain) {
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1360  			rc = batch_to_domain(&pfns.batch, domain, area,
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1361  					     pfns.batch_start_index);
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1362  			if (rc)
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1363  				goto out_unmap;
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1364  		}
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1365  		done_all_end_index = done_first_end_index;
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1366  
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1367  		rc = pfn_reader_next(&pfns);
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1368  		if (rc)
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1369  			goto out_unmap;
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1370  	}
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1371  	rc = pfn_reader_update_pinned(&pfns);
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1372  	if (rc)
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1373  		goto out_unmap;
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1374  
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1375  	area->storage_domain = xa_load(&area->iopt->domains, 0);
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1376  	interval_tree_insert(&area->pages_node, &pages->domains_itree);
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1377  	goto out_destroy;
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1378  
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1379  out_unmap:
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1380  	pfn_reader_release_pins(&pfns);
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1381  	xa_for_each(&area->iopt->domains, unmap_index, domain) {
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1382  		unsigned long end_index;
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1383  
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1384  		if (unmap_index < index)
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1385  			end_index = done_first_end_index;
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1386  		else
+8d160cd4d5066f Jason Gunthorpe 2022-11-29 @1387  			end_index = done_all_end_index;
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1388  
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1389  		/*
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1390  		 * The area is not yet part of the domains_itree so we have to
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1391  		 * manage the unpinning specially. The last domain does the
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1392  		 * unpin, every other domain is just unmapped.
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1393  		 */
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1394  		if (unmap_index != area->iopt->next_domain_id - 1) {
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1395  			if (end_index != iopt_area_index(area))
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1396  				iopt_area_unmap_domain_range(
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1397  					area, domain, iopt_area_index(area),
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1398  					end_index - 1);
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1399  		} else {
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1400  			iopt_area_unfill_partial_domain(area, pages, domain,
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1401  							end_index);
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1402  		}
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1403  	}
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1404  out_destroy:
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1405  	pfn_reader_destroy(&pfns);
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1406  out_unlock:
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1407  	mutex_unlock(&pages->mutex);
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1408  	return rc;
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1409  }
+8d160cd4d5066f Jason Gunthorpe 2022-11-29  1410  
 
 -- 
 0-DAY CI Kernel Test Service
