@@ -1,42 +1,42 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4595C624
-	for <oe-kbuild@lists.linux.dev>; Fri, 10 Feb 2023 02:09:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2D757E2
+	for <oe-kbuild@lists.linux.dev>; Fri, 10 Feb 2023 04:07:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675994959; x=1707530959;
+  t=1676002043; x=1707538043;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=M9o2i00HJ/HX8k2wvZwz/B0n7F97oOZu/pldEXkBwgw=;
-  b=jxAKlqq8GIfmaUwpKEFNjzbPra+XlHqbyRhK3npsBry7lh8LxHy/15eK
-   1EMUVaYedG5DYLa5M8GIPa3KnnVepf5pLh98OS+GqlnkYYqwAfi0dIEd4
-   1jB4/gXOdj4yza+oWenM4nlEu1pfdzAkenJMh9j2PHUTCLtPbu2jWz6aH
-   9jQqJl1WSzzMfC49E4l+Mr7K1Dp/OC2tc352dUeAt+q7A2Z009UxoXLoD
-   0LHO/02VEmCScgScQ0NzhwoyEHvesyxqAJW0Z4DqE/qciE/9e++g5MRsZ
-   R/H/DI5Z5UY2BlytSl5/cTUb8pHi920U4hR6na8YyQcc1itEu1HWg9zp4
+  bh=rahBWCLKjesXeemz/Gh+KFKxcagA3Gpbk92e9gFIwyE=;
+  b=kvowy4XuJwxnKLY/Ut7Te5iPKsHehnE1+w24MSG+3aWhTBAtaQw6ahfv
+   l7iJGjdR5+R/jdmS/SV/Ri16sx4n+5eDssUrhtsHooup6VheqtJLAtj1H
+   T3BxtNEc2YaHWGaTLQbSOkF16OP75Nst9sHUWkJ7ZSqpCrYn6YfEZSLEI
+   JOao03fWYduJSjY3QH6HSBzZ/jMgQ1qy4WUqoCKITWGBh8PXusdcoZ1P+
+   luRsk2VyHAIsKsXGYQMJyqj5v5ZBMUSQb2WR3AV+ligrHiF4QIDP5BdNE
+   yjY8h7vf35TAS22fPMiSLCztUKo6ySCfTbNRTovk8zR45ADNwxez/b61L
    Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10616"; a="416539777"
+X-IronPort-AV: E=McAfee;i="6500,9779,10616"; a="332473364"
 X-IronPort-AV: E=Sophos;i="5.97,285,1669104000"; 
-   d="scan'208";a="416539777"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2023 18:09:17 -0800
+   d="scan'208";a="332473364"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2023 20:07:21 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10616"; a="700300625"
+X-IronPort-AV: E=McAfee;i="6500,9779,10616"; a="617763860"
 X-IronPort-AV: E=Sophos;i="5.97,285,1669104000"; 
-   d="scan'208";a="700300625"
+   d="scan'208";a="617763860"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 09 Feb 2023 18:09:15 -0800
+  by orsmga003.jf.intel.com with ESMTP; 09 Feb 2023 20:07:19 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pQIqg-0005SE-1H;
-	Fri, 10 Feb 2023 02:09:14 +0000
-Date: Fri, 10 Feb 2023 10:08:54 +0800
+	id 1pQKgx-0005XA-0w;
+	Fri, 10 Feb 2023 04:07:19 +0000
+Date: Fri, 10 Feb 2023 12:06:27 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/net/wireless/realtek/rtw89/mac.c:3829
- rtw89_mac_cfg_ppdu_status() warn: missing error code? 'ret'
-Message-ID: <202302101023.ctlih5q0-lkp@intel.com>
+Subject: drivers/media/platform/samsung/s5p-g2d/g2d.c:103 g2d_queue_setup()
+ warn: passing a valid pointer to 'PTR_ERR'
+Message-ID: <202302101134.8Trt2uJA-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -49,60 +49,71 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: "Ping-Ke Shih" <pkshih@realtek.com>
-CC: Kalle Valo <kvalo@kernel.org>
+TO: Mauro Carvalho Chehab <mchehab@kernel.org>
+CC: linux-media@vger.kernel.org
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   e544a07438522ab3688416e6e2e34bf0ee6d8755
-commit: 7ba49f4c6896d83b3841c0b046a0a7b1e97cc0dd rtw89: 8852c: add 8852ce to Makefile and Kconfig
-date:   9 months ago
-:::::: branch date: 7 hours ago
-:::::: commit date: 9 months ago
-config: parisc-randconfig-m031-20230209 (https://download.01.org/0day-ci/archive/20230210/202302101023.ctlih5q0-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 12.1.0
+head:   38c1e0c65865426676123cc9a127526fa02bcac6
+commit: a7f3b2d32dabd8e59854ec39ba257050b5e4949e media: platform: rename s5p-g2d/ to samsung/s5p-g2d/
+date:   11 months ago
+:::::: branch date: 2 hours ago
+:::::: commit date: 11 months ago
+config: powerpc-randconfig-m041-20230208 (https://download.01.org/0day-ci/archive/20230210/202302101134.8Trt2uJA-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202302101023.ctlih5q0-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202302101134.8Trt2uJA-lkp@intel.com/
 
 smatch warnings:
-drivers/net/wireless/realtek/rtw89/mac.c:3829 rtw89_mac_cfg_ppdu_status() warn: missing error code? 'ret'
+drivers/media/platform/samsung/s5p-g2d/g2d.c:103 g2d_queue_setup() warn: passing a valid pointer to 'PTR_ERR'
+drivers/media/platform/samsung/s5p-g2d/g2d.c:120 g2d_buf_prepare() warn: passing a valid pointer to 'PTR_ERR'
+drivers/media/platform/samsung/s5p-g2d/g2d.c:319 vidioc_g_fmt() warn: passing a valid pointer to 'PTR_ERR'
+drivers/media/platform/samsung/s5p-g2d/g2d.c:381 vidioc_s_fmt() warn: passing a valid pointer to 'PTR_ERR'
+drivers/media/platform/samsung/s5p-g2d/g2d.c:408 vidioc_g_selection() warn: passing a valid pointer to 'PTR_ERR'
+drivers/media/platform/samsung/s5p-g2d/g2d.c:459 vidioc_try_selection() warn: passing a valid pointer to 'PTR_ERR'
+drivers/media/platform/samsung/s5p-g2d/g2d.c:490 vidioc_s_selection() warn: passing a valid pointer to 'PTR_ERR'
 
-vim +/ret +3829 drivers/net/wireless/realtek/rtw89/mac.c
+vim +/PTR_ERR +103 drivers/media/platform/samsung/s5p-g2d/g2d.c
 
-e3ec7017f6a20d Ping-Ke Shih  2021-10-11  3817  
-e3ec7017f6a20d Ping-Ke Shih  2021-10-11  3818  int rtw89_mac_cfg_ppdu_status(struct rtw89_dev *rtwdev, u8 mac_idx, bool enable)
-e3ec7017f6a20d Ping-Ke Shih  2021-10-11  3819  {
-e3ec7017f6a20d Ping-Ke Shih  2021-10-11  3820  	u32 reg = rtw89_mac_reg_by_idx(R_AX_PPDU_STAT, mac_idx);
-e3ec7017f6a20d Ping-Ke Shih  2021-10-11  3821  	int ret = 0;
-e3ec7017f6a20d Ping-Ke Shih  2021-10-11  3822  
-e3ec7017f6a20d Ping-Ke Shih  2021-10-11  3823  	ret = rtw89_mac_check_mac_en(rtwdev, mac_idx, RTW89_CMAC_SEL);
-e3ec7017f6a20d Ping-Ke Shih  2021-10-11  3824  	if (ret)
-e3ec7017f6a20d Ping-Ke Shih  2021-10-11  3825  		return ret;
-e3ec7017f6a20d Ping-Ke Shih  2021-10-11  3826  
-e3ec7017f6a20d Ping-Ke Shih  2021-10-11  3827  	if (!enable) {
-e3ec7017f6a20d Ping-Ke Shih  2021-10-11  3828  		rtw89_write32_clr(rtwdev, reg, B_AX_PPDU_STAT_RPT_EN);
-e3ec7017f6a20d Ping-Ke Shih  2021-10-11 @3829  		return ret;
-e3ec7017f6a20d Ping-Ke Shih  2021-10-11  3830  	}
-e3ec7017f6a20d Ping-Ke Shih  2021-10-11  3831  
-e3ec7017f6a20d Ping-Ke Shih  2021-10-11  3832  	rtw89_write32(rtwdev, reg, B_AX_PPDU_STAT_RPT_EN |
-e3ec7017f6a20d Ping-Ke Shih  2021-10-11  3833  				   B_AX_APP_MAC_INFO_RPT |
-e3ec7017f6a20d Ping-Ke Shih  2021-10-11  3834  				   B_AX_APP_RX_CNT_RPT | B_AX_APP_PLCP_HDR_RPT |
-e3ec7017f6a20d Ping-Ke Shih  2021-10-11  3835  				   B_AX_PPDU_STAT_RPT_CRC32);
-e3ec7017f6a20d Ping-Ke Shih  2021-10-11  3836  	rtw89_write32_mask(rtwdev, R_AX_HW_RPT_FWD, B_AX_FWD_PPDU_STAT_MASK,
-e3ec7017f6a20d Ping-Ke Shih  2021-10-11  3837  			   RTW89_PRPT_DEST_HOST);
-e3ec7017f6a20d Ping-Ke Shih  2021-10-11  3838  
-e3ec7017f6a20d Ping-Ke Shih  2021-10-11  3839  	return ret;
-e3ec7017f6a20d Ping-Ke Shih  2021-10-11  3840  }
-861e58c8fc6be0 Zong-Zhe Yang 2021-12-21  3841  EXPORT_SYMBOL(rtw89_mac_cfg_ppdu_status);
-e3ec7017f6a20d Ping-Ke Shih  2021-10-11  3842  
+918847341af0f5 drivers/media/video/s5p-g2d/g2d.c    Kamil Debski 2011-10-06   94  
+df9ecb0cad14b9 drivers/media/platform/s5p-g2d/g2d.c Hans Verkuil 2015-10-28   95  static int g2d_queue_setup(struct vb2_queue *vq,
+918847341af0f5 drivers/media/video/s5p-g2d/g2d.c    Kamil Debski 2011-10-06   96  			   unsigned int *nbuffers, unsigned int *nplanes,
+36c0f8b32c4bd4 drivers/media/platform/s5p-g2d/g2d.c Hans Verkuil 2016-04-15   97  			   unsigned int sizes[], struct device *alloc_devs[])
+918847341af0f5 drivers/media/video/s5p-g2d/g2d.c    Kamil Debski 2011-10-06   98  {
+918847341af0f5 drivers/media/video/s5p-g2d/g2d.c    Kamil Debski 2011-10-06   99  	struct g2d_ctx *ctx = vb2_get_drv_priv(vq);
+918847341af0f5 drivers/media/video/s5p-g2d/g2d.c    Kamil Debski 2011-10-06  100  	struct g2d_frame *f = get_frame(ctx, vq->type);
+918847341af0f5 drivers/media/video/s5p-g2d/g2d.c    Kamil Debski 2011-10-06  101  
+918847341af0f5 drivers/media/video/s5p-g2d/g2d.c    Kamil Debski 2011-10-06  102  	if (IS_ERR(f))
+918847341af0f5 drivers/media/video/s5p-g2d/g2d.c    Kamil Debski 2011-10-06 @103  		return PTR_ERR(f);
+918847341af0f5 drivers/media/video/s5p-g2d/g2d.c    Kamil Debski 2011-10-06  104  
+918847341af0f5 drivers/media/video/s5p-g2d/g2d.c    Kamil Debski 2011-10-06  105  	sizes[0] = f->size;
+918847341af0f5 drivers/media/video/s5p-g2d/g2d.c    Kamil Debski 2011-10-06  106  	*nplanes = 1;
+918847341af0f5 drivers/media/video/s5p-g2d/g2d.c    Kamil Debski 2011-10-06  107  
+918847341af0f5 drivers/media/video/s5p-g2d/g2d.c    Kamil Debski 2011-10-06  108  	if (*nbuffers == 0)
+918847341af0f5 drivers/media/video/s5p-g2d/g2d.c    Kamil Debski 2011-10-06  109  		*nbuffers = 1;
+918847341af0f5 drivers/media/video/s5p-g2d/g2d.c    Kamil Debski 2011-10-06  110  
+918847341af0f5 drivers/media/video/s5p-g2d/g2d.c    Kamil Debski 2011-10-06  111  	return 0;
+918847341af0f5 drivers/media/video/s5p-g2d/g2d.c    Kamil Debski 2011-10-06  112  }
+918847341af0f5 drivers/media/video/s5p-g2d/g2d.c    Kamil Debski 2011-10-06  113  
+918847341af0f5 drivers/media/video/s5p-g2d/g2d.c    Kamil Debski 2011-10-06  114  static int g2d_buf_prepare(struct vb2_buffer *vb)
+918847341af0f5 drivers/media/video/s5p-g2d/g2d.c    Kamil Debski 2011-10-06  115  {
+918847341af0f5 drivers/media/video/s5p-g2d/g2d.c    Kamil Debski 2011-10-06  116  	struct g2d_ctx *ctx = vb2_get_drv_priv(vb->vb2_queue);
+918847341af0f5 drivers/media/video/s5p-g2d/g2d.c    Kamil Debski 2011-10-06  117  	struct g2d_frame *f = get_frame(ctx, vb->vb2_queue->type);
+918847341af0f5 drivers/media/video/s5p-g2d/g2d.c    Kamil Debski 2011-10-06  118  
+918847341af0f5 drivers/media/video/s5p-g2d/g2d.c    Kamil Debski 2011-10-06  119  	if (IS_ERR(f))
+918847341af0f5 drivers/media/video/s5p-g2d/g2d.c    Kamil Debski 2011-10-06 @120  		return PTR_ERR(f);
+918847341af0f5 drivers/media/video/s5p-g2d/g2d.c    Kamil Debski 2011-10-06  121  	vb2_set_plane_payload(vb, 0, f->size);
+918847341af0f5 drivers/media/video/s5p-g2d/g2d.c    Kamil Debski 2011-10-06  122  	return 0;
+918847341af0f5 drivers/media/video/s5p-g2d/g2d.c    Kamil Debski 2011-10-06  123  }
+918847341af0f5 drivers/media/video/s5p-g2d/g2d.c    Kamil Debski 2011-10-06  124  
 
-:::::: The code at line 3829 was first introduced by commit
-:::::: e3ec7017f6a20d12ddd9fe23d345ebb7b8c104dd rtw89: add Realtek 802.11ax driver
+:::::: The code at line 103 was first introduced by commit
+:::::: 918847341af0f5f1907fc0b52549f0dc29192c03 [media] v4l: add G2D driver for s5p device family
 
-:::::: TO: Ping-Ke Shih <pkshih@realtek.com>
-:::::: CC: Kalle Valo <kvalo@codeaurora.org>
+:::::: TO: Kamil Debski <k.debski@samsung.com>
+:::::: CC: Mauro Carvalho Chehab <mchehab@redhat.com>
 
 -- 
 0-DAY CI Kernel Test Service
