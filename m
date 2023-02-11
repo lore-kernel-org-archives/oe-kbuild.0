@@ -1,44 +1,42 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03C5B2F27
-	for <oe-kbuild@lists.linux.dev>; Sat, 11 Feb 2023 15:28:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04B3663AC
+	for <oe-kbuild@lists.linux.dev>; Sat, 11 Feb 2023 16:09:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676129298; x=1707665298;
+  t=1676131760; x=1707667760;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=qC7nI/U1HgGAhytXrCP5F1dbKLzvbI3Jno2u+4I2Xq8=;
-  b=PAnZ9XOgE5B4hwojELJ6rtBLVINFSD5tyv7hQawb2VQWDn0/m8o2tfZ6
-   SvhVdmjbELcmzhLtr1IvkNgYbPTSGvuDTsjRWG3xLl1JBnIYN5NFybIEw
-   nTmZqu0ga7uAFUhQRc4m2i33Gmv84IWGZ9bu1T9oWIHZ6GHECqmUoNjeE
-   b8+IdkWX4P2xwJqBbSu8dChmYdj5s3oH3hS2fCsCgxQDrQSr2W3QA7+7L
-   LLhlxp+nXlDOAElX1n2eG+mqQoDLXi4gFQjv08p3KYO0CFRChjLMzZzON
-   ertE59SUe8rcsmE9OwLwVuhA+SC3z1tK1Rc6k3ftrPY3RxqvTuTB1d9/L
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10618"; a="328315510"
+  bh=ZhcLiOj/XQXCDfYSKVOJqm45KpGYAGtSfDj+tWhtVuM=;
+  b=AEfh5uBOsiIWGScYcvS0iPJSxLREkH2gJgWCdM9Z7chkPdyxuiJm5hY8
+   Qb2EOL8YnN3RkBF/dg8QNwI51+0ExG6Pt+h/gYo9tuAKckzFvZfLuZ2Dk
+   HjDHa3ztvrvrho4LusT/rkM/Z5OhZPUPv3yJVlUUinMgHWyTD8jHU41DY
+   MhAuiHISmbQI9AJVxDaSO1B2SuTMjVi+7lWvG064TArdlSDKFURdqfElQ
+   iIiwJc2QnEfgJYj2mPyRAna7ANg96ZpztvGd4TPfVKFYzyWPRQjoHDAjb
+   dnNyNDMMWcQMNyQPNsROqd+U38rUBGCoA/TsXeofsQQ34RxYADHb1qZ/0
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10618"; a="318640228"
 X-IronPort-AV: E=Sophos;i="5.97,289,1669104000"; 
-   d="scan'208";a="328315510"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2023 07:28:17 -0800
+   d="scan'208";a="318640228"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2023 08:09:19 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10618"; a="700773188"
+X-IronPort-AV: E=McAfee;i="6500,9779,10618"; a="811139722"
 X-IronPort-AV: E=Sophos;i="5.97,289,1669104000"; 
-   d="scan'208";a="700773188"
+   d="scan'208";a="811139722"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 11 Feb 2023 07:28:15 -0800
+  by fmsmga001.fm.intel.com with ESMTP; 11 Feb 2023 08:09:18 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pQrnS-0006d7-3A;
-	Sat, 11 Feb 2023 15:28:14 +0000
-Date: Sat, 11 Feb 2023 23:28:01 +0800
+	id 1pQsRB-0006eu-1c;
+	Sat, 11 Feb 2023 16:09:17 +0000
+Date: Sun, 12 Feb 2023 00:08:47 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [linux-next:master 10688/12152]
- fs/notify/fanotify/fanotify_user.c:873:21: warning: Value stored to
- 'info_buf' during its initialization is never read
- [clang-analyzer-deadcode.DeadStores]
-Message-ID: <202302112310.VDfNOOBm-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: drivers/net/ethernet/sfc/tc_bindings.c:90 efx_tc_setup_block() warn:
+ passing a valid pointer to 'PTR_ERR'
+Message-ID: <202302120014.68EpCbpL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -48,279 +46,96 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "low confidence static check warning: fs/notify/fanotify/fanotify_user.c:873:21: warning: Value stored to 'info_buf' during its initialization is never read [clang-analyzer-deadcode.DeadStores]"
-:::::: 
-
 BCC: lkp@intel.com
-CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Richard Guy Briggs <rgb@redhat.com>
-CC: Jan Kara <jack@suse.cz>
+CC: linux-kernel@vger.kernel.org
+TO: Edward Cree <ecree.xilinx@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   6ba8a227fd19d19779005fb66ad7562608e1df83
-commit: 70529a199574c15a40f46b14256633b02ba10ca2 [10688/12152] fanotify: define struct members to hold response decision context
-:::::: branch date: 35 hours ago
-:::::: commit date: 4 days ago
-config: riscv-randconfig-c006-20230210 (https://download.01.org/0day-ci/archive/20230211/202302112310.VDfNOOBm-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project db0e6591612b53910a1b366863348bdb9d7d2fb1)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=70529a199574c15a40f46b14256633b02ba10ca2
-        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
-        git fetch --no-tags linux-next master
-        git checkout 70529a199574c15a40f46b14256633b02ba10ca2
-        # save the config file
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=riscv clang-analyzer  olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=riscv clang-analyzer 
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   420b2d431d18a2572c8e86579e78105cb5ed45b0
+commit: 9dc0cad203ab57efac34e6bcb67635edf3b62ebf sfc: bind blocks for TC offload on EF100
+date:   5 months ago
+:::::: branch date: 17 hours ago
+:::::: commit date: 5 months ago
+config: parisc-randconfig-m031-20230209 (https://download.01.org/0day-ci/archive/20230212/202302120014.68EpCbpL-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/r/202302112310.VDfNOOBm-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Link: https://lore.kernel.org/r/202302120014.68EpCbpL-lkp@intel.com/
 
-clang_analyzer warnings: (new ones prefixed by >>)
-   include/linux/dynamic_debug.h:268:2: note: expanded from macro 'dynamic_pr_debug'
-           _dynamic_func_call(fmt, __dynamic_pr_debug,             \
-           ^
-   include/linux/dynamic_debug.h:249:2: note: expanded from macro '_dynamic_func_call'
-           _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
-           ^
-   note: (skipping 4 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:358:2: note: expanded from macro 'compiletime_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-           ^
-   include/linux/compiler_types.h:346:2: note: expanded from macro '_compiletime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:330:2: note: expanded from macro '__compiletime_assert'
-           do {                                                            \
-           ^
-   fs/notify/fanotify/fanotify_user.c:425:2: note: Taking false branch
-           pr_debug("%s: fh_len=%zu name_len=%zu, info_len=%zu, count=%zu\n",
-           ^
-   include/linux/printk.h:581:2: note: expanded from macro 'pr_debug'
-           dynamic_pr_debug(fmt, ##__VA_ARGS__)
-           ^
-   include/linux/dynamic_debug.h:268:2: note: expanded from macro 'dynamic_pr_debug'
-           _dynamic_func_call(fmt, __dynamic_pr_debug,             \
-           ^
-   include/linux/dynamic_debug.h:249:2: note: expanded from macro '_dynamic_func_call'
-           _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
-           ^
-   include/linux/dynamic_debug.h:247:2: note: expanded from macro '_dynamic_func_call_cls'
-           __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
-           ^
-   include/linux/dynamic_debug.h:222:2: note: expanded from macro '__dynamic_func_call_cls'
-           if (DYNAMIC_DEBUG_BRANCH(id))                           \
-           ^
-   fs/notify/fanotify/fanotify_user.c:425:2: note: Loop condition is false.  Exiting loop
-           pr_debug("%s: fh_len=%zu name_len=%zu, info_len=%zu, count=%zu\n",
-           ^
-   include/linux/printk.h:581:2: note: expanded from macro 'pr_debug'
-           dynamic_pr_debug(fmt, ##__VA_ARGS__)
-           ^
-   include/linux/dynamic_debug.h:268:2: note: expanded from macro 'dynamic_pr_debug'
-           _dynamic_func_call(fmt, __dynamic_pr_debug,             \
-           ^
-   include/linux/dynamic_debug.h:249:2: note: expanded from macro '_dynamic_func_call'
-           _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
-           ^
-   include/linux/dynamic_debug.h:247:2: note: expanded from macro '_dynamic_func_call_cls'
-           __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
-           ^
-   include/linux/dynamic_debug.h:220:58: note: expanded from macro '__dynamic_func_call_cls'
-   #define __dynamic_func_call_cls(id, cls, fmt, func, ...) do {   \
-                                                            ^
-   fs/notify/fanotify/fanotify_user.c:428:19: note: Left side of '||' is false
-           if (WARN_ON_ONCE(len < sizeof(info) || len > count))
-                            ^
-   fs/notify/fanotify/fanotify_user.c:428:41: note: Assuming 'len' is <= 'count'
-           if (WARN_ON_ONCE(len < sizeof(info) || len > count))
-                                                  ^
-   include/asm-generic/bug.h:180:41: note: expanded from macro 'WARN_ON_ONCE'
-   #define WARN_ON_ONCE(condition) WARN_ON(condition)
-                                           ^~~~~~~~~
-   include/asm-generic/bug.h:167:25: note: expanded from macro 'WARN_ON'
-           int __ret_warn_on = !!(condition);                              \
-                                  ^~~~~~~~~
-   fs/notify/fanotify/fanotify_user.c:428:2: note: Taking false branch
-           if (WARN_ON_ONCE(len < sizeof(info) || len > count))
-           ^
-   fs/notify/fanotify/fanotify_user.c:435:2: note: Control jumps to 'case 1:'  at line 436
-           switch (info_type) {
-           ^
-   fs/notify/fanotify/fanotify_user.c:438:3: note: Taking false branch
-                   if (WARN_ON_ONCE(name_len))
-                   ^
-   fs/notify/fanotify/fanotify_user.c:440:3: note:  Execution continues on line 451
-                   break;
-                   ^
-   fs/notify/fanotify/fanotify_user.c:454:6: note: Assuming the condition is false
-           if (copy_to_user(buf, &info, sizeof(info)))
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/notify/fanotify/fanotify_user.c:454:2: note: Taking false branch
-           if (copy_to_user(buf, &info, sizeof(info)))
-           ^
-   fs/notify/fanotify/fanotify_user.c:459:2: note: Taking false branch
-           if (WARN_ON_ONCE(len < sizeof(handle)))
-           ^
-   fs/notify/fanotify/fanotify_user.c:462:23: note: Access to field 'type' results in a dereference of a null pointer (loaded from variable 'fh')
-           handle.handle_type = fh->type;
-                                ^~
-   fs/notify/fanotify/fanotify_user.c:649:3: warning: Value stored to 'buf' is never read [clang-analyzer-deadcode.DeadStores]
-                   buf += ret;
-                   ^      ~~~
-   fs/notify/fanotify/fanotify_user.c:649:3: note: Value stored to 'buf' is never read
-                   buf += ret;
-                   ^      ~~~
-   fs/notify/fanotify/fanotify_user.c:650:3: warning: Value stored to 'count' is never read [clang-analyzer-deadcode.DeadStores]
-                   count -= ret;
-                   ^        ~~~
-   fs/notify/fanotify/fanotify_user.c:650:3: note: Value stored to 'count' is never read
-                   count -= ret;
-                   ^        ~~~
->> fs/notify/fanotify/fanotify_user.c:873:21: warning: Value stored to 'info_buf' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           const char __user *info_buf = buf + sizeof(struct fanotify_response);
-                              ^~~~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/notify/fanotify/fanotify_user.c:873:21: note: Value stored to 'info_buf' during its initialization is never read
-           const char __user *info_buf = buf + sizeof(struct fanotify_response);
-                              ^~~~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/notify/fanotify/fanotify_user.c:1813:14: warning: Access to field 'i_mode' results in a dereference of a null pointer (loaded from variable 'inode') [clang-analyzer-core.NullDereference]
-               (mnt || S_ISDIR(inode->i_mode)) &&
-                       ^
-   include/uapi/linux/stat.h:23:22: note: expanded from macro 'S_ISDIR'
-   #define S_ISDIR(m)      (((m) & S_IFMT) == S_IFDIR)
-                             ^~
-   fs/notify/fanotify/fanotify_user.c:1636:2: note: 'inode' initialized to a null pointer value
-           struct inode *inode = NULL;
-           ^~~~~~~~~~~~~~~~~~~
-   fs/notify/fanotify/fanotify_user.c:1650:2: note: Taking false branch
-           pr_debug("%s: fanotify_fd=%d flags=%x dfd=%d pathname=%p mask=%llx\n",
-           ^
-   include/linux/printk.h:581:2: note: expanded from macro 'pr_debug'
-           dynamic_pr_debug(fmt, ##__VA_ARGS__)
-           ^
-   include/linux/dynamic_debug.h:268:2: note: expanded from macro 'dynamic_pr_debug'
-           _dynamic_func_call(fmt, __dynamic_pr_debug,             \
-           ^
-   include/linux/dynamic_debug.h:249:2: note: expanded from macro '_dynamic_func_call'
-           _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
-           ^
-   note: (skipping 4 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:358:2: note: expanded from macro 'compiletime_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-           ^
-   include/linux/compiler_types.h:346:2: note: expanded from macro '_compiletime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:338:3: note: expanded from macro '__compiletime_assert'
-                   if (!(condition))                                       \
-                   ^
-   fs/notify/fanotify/fanotify_user.c:1650:2: note: Loop condition is false.  Exiting loop
-           pr_debug("%s: fanotify_fd=%d flags=%x dfd=%d pathname=%p mask=%llx\n",
-           ^
-   include/linux/printk.h:581:2: note: expanded from macro 'pr_debug'
-           dynamic_pr_debug(fmt, ##__VA_ARGS__)
-           ^
-   include/linux/dynamic_debug.h:268:2: note: expanded from macro 'dynamic_pr_debug'
-           _dynamic_func_call(fmt, __dynamic_pr_debug,             \
-           ^
-   include/linux/dynamic_debug.h:249:2: note: expanded from macro '_dynamic_func_call'
-           _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
-           ^
-   note: (skipping 4 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:358:2: note: expanded from macro 'compiletime_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-           ^
-   include/linux/compiler_types.h:346:2: note: expanded from macro '_compiletime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:330:2: note: expanded from macro '__compiletime_assert'
-           do {                                                            \
-           ^
-   fs/notify/fanotify/fanotify_user.c:1650:2: note: Taking false branch
-           pr_debug("%s: fanotify_fd=%d flags=%x dfd=%d pathname=%p mask=%llx\n",
-           ^
-   include/linux/printk.h:581:2: note: expanded from macro 'pr_debug'
-           dynamic_pr_debug(fmt, ##__VA_ARGS__)
-           ^
-   include/linux/dynamic_debug.h:268:2: note: expanded from macro 'dynamic_pr_debug'
-           _dynamic_func_call(fmt, __dynamic_pr_debug,             \
-           ^
-   include/linux/dynamic_debug.h:249:2: note: expanded from macro '_dynamic_func_call'
-           _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
-           ^
-   include/linux/dynamic_debug.h:247:2: note: expanded from macro '_dynamic_func_call_cls'
-           __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
-           ^
-   include/linux/dynamic_debug.h:222:2: note: expanded from macro '__dynamic_func_call_cls'
-           if (DYNAMIC_DEBUG_BRANCH(id))                           \
-           ^
-   fs/notify/fanotify/fanotify_user.c:1650:2: note: Loop condition is false.  Exiting loop
-           pr_debug("%s: fanotify_fd=%d flags=%x dfd=%d pathname=%p mask=%llx\n",
-           ^
-   include/linux/printk.h:581:2: note: expanded from macro 'pr_debug'
-           dynamic_pr_debug(fmt, ##__VA_ARGS__)
-           ^
-   include/linux/dynamic_debug.h:268:2: note: expanded from macro 'dynamic_pr_debug'
-           _dynamic_func_call(fmt, __dynamic_pr_debug,             \
-           ^
-   include/linux/dynamic_debug.h:249:2: note: expanded from macro '_dynamic_func_call'
-           _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
-           ^
-   include/linux/dynamic_debug.h:247:2: note: expanded from macro '_dynamic_func_call_cls'
-           __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
-           ^
-   include/linux/dynamic_debug.h:220:58: note: expanded from macro '__dynamic_func_call_cls'
-   #define __dynamic_func_call_cls(id, cls, fmt, func, ...) do {   \
-                                                            ^
-   fs/notify/fanotify/fanotify_user.c:1654:6: note: Assuming the condition is false
-           if (upper_32_bits(mask))
-               ^
-   include/linux/kernel.h:74:27: note: expanded from macro 'upper_32_bits'
-   #define upper_32_bits(n) ((u32)(((n) >> 16) >> 16))
-                             ^~~~~~~~~~~~~~~~~~~~~~~~
+smatch warnings:
+drivers/net/ethernet/sfc/tc_bindings.c:90 efx_tc_setup_block() warn: passing a valid pointer to 'PTR_ERR'
 
-vim +/info_buf +873 fs/notify/fanotify/fanotify_user.c
+vim +/PTR_ERR +90 drivers/net/ethernet/sfc/tc_bindings.c
 
-a1014f10232239 Eric Paris         2009-12-17  867  
-b2d879096ac799 Eric Paris         2009-12-17  868  static ssize_t fanotify_write(struct file *file, const char __user *buf, size_t count, loff_t *pos)
-b2d879096ac799 Eric Paris         2009-12-17  869  {
-70529a199574c1 Richard Guy Briggs 2023-02-03  870  	struct fanotify_response response;
-b2d879096ac799 Eric Paris         2009-12-17  871  	struct fsnotify_group *group;
-b2d879096ac799 Eric Paris         2009-12-17  872  	int ret;
-70529a199574c1 Richard Guy Briggs 2023-02-03 @873  	const char __user *info_buf = buf + sizeof(struct fanotify_response);
-70529a199574c1 Richard Guy Briggs 2023-02-03  874  	size_t info_len;
-b2d879096ac799 Eric Paris         2009-12-17  875  
-6685df31255493 Miklos Szeredi     2017-10-30  876  	if (!IS_ENABLED(CONFIG_FANOTIFY_ACCESS_PERMISSIONS))
-6685df31255493 Miklos Szeredi     2017-10-30  877  		return -EINVAL;
-6685df31255493 Miklos Szeredi     2017-10-30  878  
-b2d879096ac799 Eric Paris         2009-12-17  879  	group = file->private_data;
-b2d879096ac799 Eric Paris         2009-12-17  880  
-70529a199574c1 Richard Guy Briggs 2023-02-03  881  	pr_debug("%s: group=%p count=%zu\n", __func__, group, count);
-70529a199574c1 Richard Guy Briggs 2023-02-03  882  
-5e23663b49e1e8 Fabian Frederick   2020-05-12  883  	if (count < sizeof(response))
-5e23663b49e1e8 Fabian Frederick   2020-05-12  884  		return -EINVAL;
-5e23663b49e1e8 Fabian Frederick   2020-05-12  885  
-70529a199574c1 Richard Guy Briggs 2023-02-03  886  	if (copy_from_user(&response, buf, sizeof(response)))
-b2d879096ac799 Eric Paris         2009-12-17  887  		return -EFAULT;
-b2d879096ac799 Eric Paris         2009-12-17  888  
-70529a199574c1 Richard Guy Briggs 2023-02-03  889  	info_len = count - sizeof(response);
-70529a199574c1 Richard Guy Briggs 2023-02-03  890  
-70529a199574c1 Richard Guy Briggs 2023-02-03  891  	ret = process_access_response(group, &response, info_buf, info_len);
-b2d879096ac799 Eric Paris         2009-12-17  892  	if (ret < 0)
-b2d879096ac799 Eric Paris         2009-12-17  893  		count = ret;
-70529a199574c1 Richard Guy Briggs 2023-02-03  894  	else
-70529a199574c1 Richard Guy Briggs 2023-02-03  895  		count = sizeof(response) + ret;
-b2d879096ac799 Eric Paris         2009-12-17  896  
-b2d879096ac799 Eric Paris         2009-12-17  897  	return count;
-b2d879096ac799 Eric Paris         2009-12-17  898  }
-b2d879096ac799 Eric Paris         2009-12-17  899  
+9dc0cad203ab57 Edward Cree 2022-09-26   72  
+9dc0cad203ab57 Edward Cree 2022-09-26   73  int efx_tc_setup_block(struct net_device *net_dev, struct efx_nic *efx,
+9dc0cad203ab57 Edward Cree 2022-09-26   74  		       struct flow_block_offload *tcb, struct efx_rep *efv)
+9dc0cad203ab57 Edward Cree 2022-09-26   75  {
+9dc0cad203ab57 Edward Cree 2022-09-26   76  	struct efx_tc_block_binding *binding;
+9dc0cad203ab57 Edward Cree 2022-09-26   77  	struct flow_block_cb *block_cb;
+9dc0cad203ab57 Edward Cree 2022-09-26   78  	int rc;
+9dc0cad203ab57 Edward Cree 2022-09-26   79  
+9dc0cad203ab57 Edward Cree 2022-09-26   80  	if (tcb->binder_type != FLOW_BLOCK_BINDER_TYPE_CLSACT_INGRESS)
+9dc0cad203ab57 Edward Cree 2022-09-26   81  		return -EOPNOTSUPP;
+9dc0cad203ab57 Edward Cree 2022-09-26   82  
+9dc0cad203ab57 Edward Cree 2022-09-26   83  	if (WARN_ON(!efx->tc))
+9dc0cad203ab57 Edward Cree 2022-09-26   84  		return -ENETDOWN;
+9dc0cad203ab57 Edward Cree 2022-09-26   85  
+9dc0cad203ab57 Edward Cree 2022-09-26   86  	switch (tcb->command) {
+9dc0cad203ab57 Edward Cree 2022-09-26   87  	case FLOW_BLOCK_BIND:
+9dc0cad203ab57 Edward Cree 2022-09-26   88  		binding = efx_tc_create_binding(efx, efv, net_dev, tcb->block);
+9dc0cad203ab57 Edward Cree 2022-09-26   89  		if (IS_ERR(binding))
+9dc0cad203ab57 Edward Cree 2022-09-26  @90  			return PTR_ERR(binding);
+9dc0cad203ab57 Edward Cree 2022-09-26   91  		block_cb = flow_block_cb_alloc(efx_tc_block_cb, binding,
+9dc0cad203ab57 Edward Cree 2022-09-26   92  					       binding, efx_tc_block_unbind);
+9dc0cad203ab57 Edward Cree 2022-09-26   93  		rc = PTR_ERR_OR_ZERO(block_cb);
+9dc0cad203ab57 Edward Cree 2022-09-26   94  		netif_dbg(efx, drv, efx->net_dev,
+9dc0cad203ab57 Edward Cree 2022-09-26   95  			  "bind %sdirect block for device %s, rc %d\n",
+9dc0cad203ab57 Edward Cree 2022-09-26   96  			  net_dev == efx->net_dev ? "" :
+9dc0cad203ab57 Edward Cree 2022-09-26   97  			  efv ? "semi" : "in",
+9dc0cad203ab57 Edward Cree 2022-09-26   98  			  net_dev ? net_dev->name : NULL, rc);
+9dc0cad203ab57 Edward Cree 2022-09-26   99  		if (rc) {
+9dc0cad203ab57 Edward Cree 2022-09-26  100  			list_del(&binding->list);
+9dc0cad203ab57 Edward Cree 2022-09-26  101  			kfree(binding);
+9dc0cad203ab57 Edward Cree 2022-09-26  102  		} else {
+9dc0cad203ab57 Edward Cree 2022-09-26  103  			flow_block_cb_add(block_cb, tcb);
+9dc0cad203ab57 Edward Cree 2022-09-26  104  		}
+9dc0cad203ab57 Edward Cree 2022-09-26  105  		return rc;
+9dc0cad203ab57 Edward Cree 2022-09-26  106  	case FLOW_BLOCK_UNBIND:
+9dc0cad203ab57 Edward Cree 2022-09-26  107  		binding = efx_tc_find_binding(efx, net_dev);
+9dc0cad203ab57 Edward Cree 2022-09-26  108  		if (binding) {
+9dc0cad203ab57 Edward Cree 2022-09-26  109  			block_cb = flow_block_cb_lookup(tcb->block,
+9dc0cad203ab57 Edward Cree 2022-09-26  110  							efx_tc_block_cb,
+9dc0cad203ab57 Edward Cree 2022-09-26  111  							binding);
+9dc0cad203ab57 Edward Cree 2022-09-26  112  			if (block_cb) {
+9dc0cad203ab57 Edward Cree 2022-09-26  113  				flow_block_cb_remove(block_cb, tcb);
+9dc0cad203ab57 Edward Cree 2022-09-26  114  				netif_dbg(efx, drv, efx->net_dev,
+9dc0cad203ab57 Edward Cree 2022-09-26  115  					  "unbound %sdirect block for device %s\n",
+9dc0cad203ab57 Edward Cree 2022-09-26  116  					  net_dev == efx->net_dev ? "" :
+9dc0cad203ab57 Edward Cree 2022-09-26  117  					  binding->efv ? "semi" : "in",
+9dc0cad203ab57 Edward Cree 2022-09-26  118  					  net_dev ? net_dev->name : NULL);
+9dc0cad203ab57 Edward Cree 2022-09-26  119  				return 0;
+9dc0cad203ab57 Edward Cree 2022-09-26  120  			}
+9dc0cad203ab57 Edward Cree 2022-09-26  121  		}
+9dc0cad203ab57 Edward Cree 2022-09-26  122  		/* If we're in driver teardown, then we expect to have
+9dc0cad203ab57 Edward Cree 2022-09-26  123  		 * already unbound all our blocks (we did it early while
+9dc0cad203ab57 Edward Cree 2022-09-26  124  		 * we still had MCDI to remove the filters), so getting
+9dc0cad203ab57 Edward Cree 2022-09-26  125  		 * unbind callbacks now isn't a problem.
+9dc0cad203ab57 Edward Cree 2022-09-26  126  		 */
+9dc0cad203ab57 Edward Cree 2022-09-26  127  		netif_cond_dbg(efx, drv, efx->net_dev,
+9dc0cad203ab57 Edward Cree 2022-09-26  128  			       !efx->tc->up, warn,
+9dc0cad203ab57 Edward Cree 2022-09-26  129  			       "%sdirect block unbind for device %s, was never bound\n",
+9dc0cad203ab57 Edward Cree 2022-09-26  130  			       net_dev == efx->net_dev ? "" : "in",
+9dc0cad203ab57 Edward Cree 2022-09-26  131  			       net_dev ? net_dev->name : NULL);
+9dc0cad203ab57 Edward Cree 2022-09-26  132  		return -ENOENT;
+9dc0cad203ab57 Edward Cree 2022-09-26  133  	default:
+9dc0cad203ab57 Edward Cree 2022-09-26  134  		return -EOPNOTSUPP;
+9dc0cad203ab57 Edward Cree 2022-09-26  135  	}
+9dc0cad203ab57 Edward Cree 2022-09-26  136  }
+9dc0cad203ab57 Edward Cree 2022-09-26  137  
 
 -- 
 0-DAY CI Kernel Test Service
