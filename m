@@ -1,42 +1,53 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78E1F7E
-	for <oe-kbuild@lists.linux.dev>; Mon, 13 Feb 2023 02:29:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676255343; x=1707791343;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=GN2f1E+Y1J2TXgaYsPTPl1ujhwknPLEY2gVxaXV4i38=;
-  b=htdTLb5OrKJzcntgxbXH2+n3wIf5L62kRjefFIBRj6oTLVTs/iSHjiKW
-   D2OX0zkFiLCbgV+1vEoELA5U48X1vAet+I/I+7VyqZrr4a+TE+I6cFRXD
-   YmGE6otrx6t19ZVExzOiXHa04Ha+dZGsfx6bqarIsdxP1mDYxb2ZvIJ6H
-   UicxqLlu7bSssCpBBnz+0jiH0NDkVJOAWdsMPKM1Qo7P9iDj4+IPeFXQj
-   LeFw3EES2kLikd6H9xhTIYqzLzLctEwNET5uGiv6fYGiDVbemB/c45+bA
-   SU+47ZxdKAATFP+aae0EHMDkVp9DvyTzFIw/m9kaq1Yu5wg8EQ7qsatUl
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="332098108"
-X-IronPort-AV: E=Sophos;i="5.97,291,1669104000"; 
-   d="scan'208";a="332098108"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2023 18:29:02 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="662025840"
-X-IronPort-AV: E=Sophos;i="5.97,291,1669104000"; 
-   d="scan'208";a="662025840"
-Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 12 Feb 2023 18:29:01 -0800
-Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pROaS-0007UX-21;
-	Mon, 13 Feb 2023 02:29:00 +0000
-Date: Mon, 13 Feb 2023 10:28:57 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [RFC PATCH 1/2] ring-buffer: Introducing ring-buffer mapping
- functions
-Message-ID: <202302131044.i4aocWmE-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C7EA1C26;
+	Mon, 13 Feb 2023 05:30:53 +0000 (UTC)
+Received: by mail-wm1-f50.google.com with SMTP id f47-20020a05600c492f00b003dc584a7b7eso10418680wmp.3;
+        Sun, 12 Feb 2023 21:30:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=DvhpxDQXKeZtNY2kOg1NjTqJclEOHbxHiUQqZ6I9dxw=;
+        b=qp3/C5926MROi1qC+NQSMfLtjLFurExr91eBEKuIFCbeA1Sh7bszDSOzGdNN5dImuT
+         iRXHCbiU/mnl65PHX24obB0PX9XCg9nfWwBgp+D6g6wU1fnm7dhDsK3azsYI+x+ilTIB
+         C7C6z0rwRSX59Ecrcvg0xz+uZGdKeso1ZK4pMuIAK6yWwegigk/0gVXA9BUPRMFUHkoN
+         ieGc672uy1/w/QyI7/zqLDIQdPdt4MvFP2GH+D/2OSrgXzPcsg6uDS2nLCg3TA1Qc1Lj
+         uoS/fZObKSirgMmXjOScgJBCZ/mZVnXX8OuZzhWCU8GTUo7htsn4mxYZr4JETzlFwsti
+         Vy4A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=DvhpxDQXKeZtNY2kOg1NjTqJclEOHbxHiUQqZ6I9dxw=;
+        b=6O1zEe+rOrC5ejzomtdTnCB8AigbmoMh0eCpbIY4fXCywNeoihhAxu7lkP2rm+gyMO
+         AKwbBF7W8bB18fVy1H4FakZ1sQiAiAIdVPMZxWglcr+ZUEfkCrdsRhXXwgf0qZYoyGIA
+         gx5bVaGZ2Hf81SjPvLlht2zwn3bj0qaVFYdE7KmAhhQJLkQvk7MYO9uLyIlhY6NGw0m/
+         hIghmVJeNePO8MFUoHQyXYzdn3IMZyzOd+spfDZYQ4MoGWHmpngBhAQ0niQBXwHmK661
+         87eUDpYlBqNP4A/k057sTAMbVqM5mFnDnESCBPwOmGiP62H/v1ZHIB5yNEds6rnhO84x
+         iFsA==
+X-Gm-Message-State: AO0yUKU04m7710Di15YZZUzlUQzhh9WlmASoxg2bVLtVe9N0NrSB2rMU
+	URQErj1edhBv7faOX6KTg9A=
+X-Google-Smtp-Source: AK7set8HlPyAMF4kK4KhmJs93HrfWCXInIDCyJoBhy9pE9ypwqk+Czc0+lWO2LUiInYHPnHOgul1Hg==
+X-Received: by 2002:a05:600c:16c5:b0:3db:1434:c51a with SMTP id l5-20020a05600c16c500b003db1434c51amr17985268wmn.40.1676266252197;
+        Sun, 12 Feb 2023 21:30:52 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id e19-20020a05600c439300b003dd7edcc960sm12271594wmn.45.2023.02.12.21.30.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 12 Feb 2023 21:30:51 -0800 (PST)
+Date: Mon, 13 Feb 2023 08:30:44 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Guillaume Nault <gnault@redhat.com>
+Cc: oe-kbuild@lists.linux.dev, Cong Wang <cong.wang@bytedance.com>,
+	lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: net/l2tp/l2tp_core.c:1481 l2tp_tunnel_register() warn: missing
+ error code 'ret'
+Message-ID: <Y+nLBPj70/03q8Do@kadam>
+References: <202302031144.yY6UaRcD-lkp@intel.com>
+ <Y9z8XPvcv5Wn2J8n@debian>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -45,63 +56,64 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <Y9z8XPvcv5Wn2J8n@debian>
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20230212153250.1099136-2-vdonnefort@google.com>
-References: <20230212153250.1099136-2-vdonnefort@google.com>
-TO: Vincent Donnefort <vdonnefort@google.com>
+On Fri, Feb 03, 2023 at 01:21:48PM +0100, Guillaume Nault wrote:
+> On Fri, Feb 03, 2023 at 11:56:01AM +0300, Dan Carpenter wrote:
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> > head:   66a87fff1a87c260452f5a57123891ca5258c449
+> > commit: c4d48a58f32c5972174a1d01c33b296fe378cce0 l2tp: convert l2tp_tunnel_list to idr
+> > config: powerpc-randconfig-m031-20230202 (https://download.01.org/0day-ci/archive/20230203/202302031144.yY6UaRcD-lkp@intel.com/config)
+> > compiler: powerpc-linux-gcc (GCC) 12.1.0
+> > 
+> > If you fix the issue, kindly add following tag where applicable
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Reported-by: Dan Carpenter <error27@gmail.com>
+> > 
+> > smatch warnings:
+> > net/l2tp/l2tp_core.c:1481 l2tp_tunnel_register() warn: missing error code 'ret'
+> > 
+> > vim +/ret +1481 net/l2tp/l2tp_core.c
+> > 
+> > 6b9f34239b00e6 Guillaume Nault 2018-04-10  1456  int l2tp_tunnel_register(struct l2tp_tunnel *tunnel, struct net *net,
+> > 6b9f34239b00e6 Guillaume Nault 2018-04-10  1457  			 struct l2tp_tunnel_cfg *cfg)
+> > 6b9f34239b00e6 Guillaume Nault 2018-04-10  1458  {
+> > c4d48a58f32c59 Cong Wang       2023-01-13  1459  	struct l2tp_net *pn = l2tp_pernet(net);
+> > c4d48a58f32c59 Cong Wang       2023-01-13  1460  	u32 tunnel_id = tunnel->tunnel_id;
+> > 6b9f34239b00e6 Guillaume Nault 2018-04-10  1461  	struct socket *sock;
+> > 6b9f34239b00e6 Guillaume Nault 2018-04-10  1462  	struct sock *sk;
+> > 6b9f34239b00e6 Guillaume Nault 2018-04-10  1463  	int ret;
+> > 6b9f34239b00e6 Guillaume Nault 2018-04-10  1464  
+> > c4d48a58f32c59 Cong Wang       2023-01-13  1465  	spin_lock_bh(&pn->l2tp_tunnel_idr_lock);
+> > c4d48a58f32c59 Cong Wang       2023-01-13  1466  	ret = idr_alloc_u32(&pn->l2tp_tunnel_idr, NULL, &tunnel_id, tunnel_id,
+> > c4d48a58f32c59 Cong Wang       2023-01-13  1467  			    GFP_ATOMIC);
+> > c4d48a58f32c59 Cong Wang       2023-01-13  1468  	spin_unlock_bh(&pn->l2tp_tunnel_idr_lock);
+> > c4d48a58f32c59 Cong Wang       2023-01-13  1469  	if (ret)
+> > c4d48a58f32c59 Cong Wang       2023-01-13  1470  		return ret == -ENOSPC ? -EEXIST : ret;
+> > c4d48a58f32c59 Cong Wang       2023-01-13  1471  
+> > 6b9f34239b00e6 Guillaume Nault 2018-04-10  1472  	if (tunnel->fd < 0) {
+> > 6b9f34239b00e6 Guillaume Nault 2018-04-10  1473  		ret = l2tp_tunnel_sock_create(net, tunnel->tunnel_id,
+> > 6b9f34239b00e6 Guillaume Nault 2018-04-10  1474  					      tunnel->peer_tunnel_id, cfg,
+> > 6b9f34239b00e6 Guillaume Nault 2018-04-10  1475  					      &sock);
+> > 6b9f34239b00e6 Guillaume Nault 2018-04-10  1476  		if (ret < 0)
+> > 6b9f34239b00e6 Guillaume Nault 2018-04-10  1477  			goto err;
+> > 6b9f34239b00e6 Guillaume Nault 2018-04-10  1478  	} else {
+> > 6b9f34239b00e6 Guillaume Nault 2018-04-10  1479  		sock = sockfd_lookup(tunnel->fd, &ret);
+> > 6b9f34239b00e6 Guillaume Nault 2018-04-10  1480  		if (!sock)
+> > 6b9f34239b00e6 Guillaume Nault 2018-04-10 @1481  			goto err;
+> >                                                                         ^^^^^^^^^
+> > I don't know why this is showing up as a 3 week old warning when it
+> > looks like the code is from 2018...  Anyway, should this be an error
+> > path or a success path?
+> 
+> This is an error path.
+> But I don't understand this warning. Does it complain that 'ret' isn't
+> initialised before the 'goto err;' jump? (this is done by
+> sockfd_lookup() in case of error).
 
-Hi Vincent,
+Or sorry, I didn't see the &ret.  Yes, Smatch thinks "ret" is zero here.
+The kbuild-bot can't use the cross function database (building the DB
+is too slow to scale).  So that's why the warning is printed.
 
-[FYI, it's a private test report for your RFC patch.]
-[auto build test WARNING on linus/master]
-[also build test WARNING on rostedt-trace/for-next v6.2-rc8 next-20230210]
-[cannot apply to rostedt-trace/for-next-urgent]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Vincent-Donnefort/ring-buffer-Introducing-ring-buffer-mapping-functions/20230212-233420
-patch link:    https://lore.kernel.org/r/20230212153250.1099136-2-vdonnefort%40google.com
-patch subject: [RFC PATCH 1/2] ring-buffer: Introducing ring-buffer mapping functions
-:::::: branch date: 11 hours ago
-:::::: commit date: 11 hours ago
-config: i386-randconfig-m021 (https://download.01.org/0day-ci/archive/20230213/202302131044.i4aocWmE-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202302131044.i4aocWmE-lkp@intel.com/
-
-smatch warnings:
-kernel/trace/ring_buffer.c:6014 rb_get_mapped_buffer() warn: inconsistent returns '&cpu_buffer->mapping_lock'.
-
-vim +6014 kernel/trace/ring_buffer.c
-
-96cfb7d92682fb Vincent Donnefort 2023-02-12  5996  
-96cfb7d92682fb Vincent Donnefort 2023-02-12  5997  static struct ring_buffer_per_cpu *
-96cfb7d92682fb Vincent Donnefort 2023-02-12  5998  rb_get_mapped_buffer(struct trace_buffer *buffer, int cpu)
-96cfb7d92682fb Vincent Donnefort 2023-02-12  5999  {
-96cfb7d92682fb Vincent Donnefort 2023-02-12  6000  	struct ring_buffer_per_cpu *cpu_buffer;
-96cfb7d92682fb Vincent Donnefort 2023-02-12  6001  
-96cfb7d92682fb Vincent Donnefort 2023-02-12  6002  	if (!cpumask_test_cpu(cpu, buffer->cpumask))
-96cfb7d92682fb Vincent Donnefort 2023-02-12  6003  		return ERR_PTR(-EINVAL);
-96cfb7d92682fb Vincent Donnefort 2023-02-12  6004  
-96cfb7d92682fb Vincent Donnefort 2023-02-12  6005  	cpu_buffer = buffer->buffers[cpu];
-96cfb7d92682fb Vincent Donnefort 2023-02-12  6006  
-96cfb7d92682fb Vincent Donnefort 2023-02-12  6007  	down_read(&cpu_buffer->mapping_lock);
-96cfb7d92682fb Vincent Donnefort 2023-02-12  6008  
-96cfb7d92682fb Vincent Donnefort 2023-02-12  6009  	if (!atomic_read(&cpu_buffer->mapped)) {
-96cfb7d92682fb Vincent Donnefort 2023-02-12  6010  		up_read(&cpu_buffer->mapping_lock);
-96cfb7d92682fb Vincent Donnefort 2023-02-12  6011  		return ERR_PTR(-ENODEV);
-96cfb7d92682fb Vincent Donnefort 2023-02-12  6012  	}
-96cfb7d92682fb Vincent Donnefort 2023-02-12  6013  
-96cfb7d92682fb Vincent Donnefort 2023-02-12 @6014  	return cpu_buffer;
-96cfb7d92682fb Vincent Donnefort 2023-02-12  6015  }
-96cfb7d92682fb Vincent Donnefort 2023-02-12  6016  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+regards,
+dan carpenter
