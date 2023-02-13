@@ -1,122 +1,107 @@
-Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A905A7E;
-	Mon, 13 Feb 2023 00:57:21 +0000 (UTC)
-Authenticated-By: 
-X-SpamFilter-By: ArmorX SpamTrap 5.77 with qID 31D0v8cP5003820, This message is accepted by code: ctloc85258
-Received: from mail.realtek.com (rtexh36506.realtek.com.tw[172.21.6.27])
-	by rtits2.realtek.com.tw (8.15.2/2.81/5.90) with ESMTPS id 31D0v8cP5003820
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=OK);
-	Mon, 13 Feb 2023 08:57:08 +0800
-Received: from RTEXMBS03.realtek.com.tw (172.21.6.96) by
- RTEXH36506.realtek.com.tw (172.21.6.27) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.9; Mon, 13 Feb 2023 08:57:09 +0800
-Received: from RTEXMBS04.realtek.com.tw (172.21.6.97) by
- RTEXMBS03.realtek.com.tw (172.21.6.96) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Mon, 13 Feb 2023 08:57:09 +0800
-Received: from RTEXMBS04.realtek.com.tw ([fe80::b4a2:2bcc:48d1:8b02]) by
- RTEXMBS04.realtek.com.tw ([fe80::b4a2:2bcc:48d1:8b02%5]) with mapi id
- 15.01.2375.007; Mon, 13 Feb 2023 08:57:08 +0800
-From: Ping-Ke Shih <pkshih@realtek.com>
-To: Dan Carpenter <error27@gmail.com>,
-        "oe-kbuild@lists.linux.dev"
-	<oe-kbuild@lists.linux.dev>
-CC: "lkp@intel.com" <lkp@intel.com>,
-        "oe-kbuild-all@lists.linux.dev"
-	<oe-kbuild-all@lists.linux.dev>,
-        "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>,
-        Kalle Valo <kvalo@kernel.org>
-Subject: RE: drivers/net/wireless/realtek/rtw89/mac.c:3829 rtw89_mac_cfg_ppdu_status() warn: missing error code? 'ret'
-Thread-Topic: drivers/net/wireless/realtek/rtw89/mac.c:3829
- rtw89_mac_cfg_ppdu_status() warn: missing error code? 'ret'
-Thread-Index: AQHZPXeahvA2gD/Wl06jmE9Ze/ex9K7MEMyA
-Date: Mon, 13 Feb 2023 00:57:08 +0000
-Message-ID: <5884ba04b5364eab9c875139fa1f408b@realtek.com>
-References: <202302101023.ctlih5q0-lkp@intel.com>
-In-Reply-To: <202302101023.ctlih5q0-lkp@intel.com>
-Accept-Language: en-US, zh-TW
-Content-Language: zh-TW
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-originating-ip: [172.21.69.188]
-x-kse-serverinfo: RTEXMBS03.realtek.com.tw, 9
-x-kse-attachmentfiltering-interceptor-info: no applicable attachment filtering
- rules found
-x-kse-antivirus-interceptor-info: scan successful
-x-kse-antivirus-info: =?us-ascii?Q?Clean,_bases:_2023/2/12_=3F=3F_10:00:00?=
-x-kse-bulkmessagesfiltering-scan-result: protection disabled
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78E1F7E
+	for <oe-kbuild@lists.linux.dev>; Mon, 13 Feb 2023 02:29:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1676255343; x=1707791343;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=GN2f1E+Y1J2TXgaYsPTPl1ujhwknPLEY2gVxaXV4i38=;
+  b=htdTLb5OrKJzcntgxbXH2+n3wIf5L62kRjefFIBRj6oTLVTs/iSHjiKW
+   D2OX0zkFiLCbgV+1vEoELA5U48X1vAet+I/I+7VyqZrr4a+TE+I6cFRXD
+   YmGE6otrx6t19ZVExzOiXHa04Ha+dZGsfx6bqarIsdxP1mDYxb2ZvIJ6H
+   UicxqLlu7bSssCpBBnz+0jiH0NDkVJOAWdsMPKM1Qo7P9iDj4+IPeFXQj
+   LeFw3EES2kLikd6H9xhTIYqzLzLctEwNET5uGiv6fYGiDVbemB/c45+bA
+   SU+47ZxdKAATFP+aae0EHMDkVp9DvyTzFIw/m9kaq1Yu5wg8EQ7qsatUl
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="332098108"
+X-IronPort-AV: E=Sophos;i="5.97,291,1669104000"; 
+   d="scan'208";a="332098108"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2023 18:29:02 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="662025840"
+X-IronPort-AV: E=Sophos;i="5.97,291,1669104000"; 
+   d="scan'208";a="662025840"
+Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
+  by orsmga007.jf.intel.com with ESMTP; 12 Feb 2023 18:29:01 -0800
+Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pROaS-0007UX-21;
+	Mon, 13 Feb 2023 02:29:00 +0000
+Date: Mon, 13 Feb 2023 10:28:57 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: Re: [RFC PATCH 1/2] ring-buffer: Introducing ring-buffer mapping
+ functions
+Message-ID: <202302131044.i4aocWmE-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi,
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20230212153250.1099136-2-vdonnefort@google.com>
+References: <20230212153250.1099136-2-vdonnefort@google.com>
+TO: Vincent Donnefort <vdonnefort@google.com>
 
-> -----Original Message-----
-> From: Dan Carpenter <error27@gmail.com>
-> Sent: Saturday, February 11, 2023 12:11 AM
-> To: oe-kbuild@lists.linux.dev; Ping-Ke Shih <pkshih@realtek.com>
-> Cc: lkp@intel.com; oe-kbuild-all@lists.linux.dev; linux-kernel@vger.kerne=
-l.org; Kalle Valo
-> <kvalo@kernel.org>
-> Subject: drivers/net/wireless/realtek/rtw89/mac.c:3829 rtw89_mac_cfg_ppdu=
-_status() warn: missing error
-> code? 'ret'
->=20
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t master
-> head:   e544a07438522ab3688416e6e2e34bf0ee6d8755
-> commit: 7ba49f4c6896d83b3841c0b046a0a7b1e97cc0dd rtw89: 8852c: add 8852ce=
- to Makefile and Kconfig
-> config: parisc-randconfig-m031-20230209
-> (https://download.01.org/0day-ci/archive/20230210/202302101023.ctlih5q0-l=
-kp@intel.com/config)
-> compiler: hppa-linux-gcc (GCC) 12.1.0
->=20
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <error27@gmail.com>
-> | Link: https://lore.kernel.org/r/202302101023.ctlih5q0-lkp@intel.com/
->=20
-> smatch warnings:
-> drivers/net/wireless/realtek/rtw89/mac.c:3829 rtw89_mac_cfg_ppdu_status()=
- warn: missing error code? 'ret'
->=20
-> vim +/ret +3829 drivers/net/wireless/realtek/rtw89/mac.c
->=20
-> e3ec7017f6a20d Ping-Ke Shih  2021-10-11  3818  int rtw89_mac_cfg_ppdu_sta=
-tus(struct rtw89_dev *rtwdev, u8
-> mac_idx, bool enable)
-> e3ec7017f6a20d Ping-Ke Shih  2021-10-11  3819  {
-> e3ec7017f6a20d Ping-Ke Shih  2021-10-11  3820  	u32 reg =3D rtw89_mac_reg=
-_by_idx(R_AX_PPDU_STAT, mac_idx);
-> e3ec7017f6a20d Ping-Ke Shih  2021-10-11  3821  	int ret =3D 0;
-> e3ec7017f6a20d Ping-Ke Shih  2021-10-11  3822
-> e3ec7017f6a20d Ping-Ke Shih  2021-10-11  3823  	ret =3D rtw89_mac_check_m=
-ac_en(rtwdev, mac_idx,
-> RTW89_CMAC_SEL);
-> e3ec7017f6a20d Ping-Ke Shih  2021-10-11  3824  	if (ret)
-> e3ec7017f6a20d Ping-Ke Shih  2021-10-11  3825  		return ret;
-> e3ec7017f6a20d Ping-Ke Shih  2021-10-11  3826
-> e3ec7017f6a20d Ping-Ke Shih  2021-10-11  3827  	if (!enable) {
-> e3ec7017f6a20d Ping-Ke Shih  2021-10-11  3828  		rtw89_write32_clr(rtwdev=
-, reg,
-> B_AX_PPDU_STAT_RPT_EN);
-> e3ec7017f6a20d Ping-Ke Shih  2021-10-11 @3829  		return ret;
->=20
-> The code is correct, but it would be more readable to return 0;
+Hi Vincent,
 
-Yes, it will be more readable. I will send a patch to change them soon.
-Thanks for pointing out this.
+[FYI, it's a private test report for your RFC patch.]
+[auto build test WARNING on linus/master]
+[also build test WARNING on rostedt-trace/for-next v6.2-rc8 next-20230210]
+[cannot apply to rostedt-trace/for-next-urgent]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Ping-Ke
+url:    https://github.com/intel-lab-lkp/linux/commits/Vincent-Donnefort/ring-buffer-Introducing-ring-buffer-mapping-functions/20230212-233420
+patch link:    https://lore.kernel.org/r/20230212153250.1099136-2-vdonnefort%40google.com
+patch subject: [RFC PATCH 1/2] ring-buffer: Introducing ring-buffer mapping functions
+:::::: branch date: 11 hours ago
+:::::: commit date: 11 hours ago
+config: i386-randconfig-m021 (https://download.01.org/0day-ci/archive/20230213/202302131044.i4aocWmE-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Link: https://lore.kernel.org/r/202302131044.i4aocWmE-lkp@intel.com/
 
+smatch warnings:
+kernel/trace/ring_buffer.c:6014 rb_get_mapped_buffer() warn: inconsistent returns '&cpu_buffer->mapping_lock'.
+
+vim +6014 kernel/trace/ring_buffer.c
+
+96cfb7d92682fb Vincent Donnefort 2023-02-12  5996  
+96cfb7d92682fb Vincent Donnefort 2023-02-12  5997  static struct ring_buffer_per_cpu *
+96cfb7d92682fb Vincent Donnefort 2023-02-12  5998  rb_get_mapped_buffer(struct trace_buffer *buffer, int cpu)
+96cfb7d92682fb Vincent Donnefort 2023-02-12  5999  {
+96cfb7d92682fb Vincent Donnefort 2023-02-12  6000  	struct ring_buffer_per_cpu *cpu_buffer;
+96cfb7d92682fb Vincent Donnefort 2023-02-12  6001  
+96cfb7d92682fb Vincent Donnefort 2023-02-12  6002  	if (!cpumask_test_cpu(cpu, buffer->cpumask))
+96cfb7d92682fb Vincent Donnefort 2023-02-12  6003  		return ERR_PTR(-EINVAL);
+96cfb7d92682fb Vincent Donnefort 2023-02-12  6004  
+96cfb7d92682fb Vincent Donnefort 2023-02-12  6005  	cpu_buffer = buffer->buffers[cpu];
+96cfb7d92682fb Vincent Donnefort 2023-02-12  6006  
+96cfb7d92682fb Vincent Donnefort 2023-02-12  6007  	down_read(&cpu_buffer->mapping_lock);
+96cfb7d92682fb Vincent Donnefort 2023-02-12  6008  
+96cfb7d92682fb Vincent Donnefort 2023-02-12  6009  	if (!atomic_read(&cpu_buffer->mapped)) {
+96cfb7d92682fb Vincent Donnefort 2023-02-12  6010  		up_read(&cpu_buffer->mapping_lock);
+96cfb7d92682fb Vincent Donnefort 2023-02-12  6011  		return ERR_PTR(-ENODEV);
+96cfb7d92682fb Vincent Donnefort 2023-02-12  6012  	}
+96cfb7d92682fb Vincent Donnefort 2023-02-12  6013  
+96cfb7d92682fb Vincent Donnefort 2023-02-12 @6014  	return cpu_buffer;
+96cfb7d92682fb Vincent Donnefort 2023-02-12  6015  }
+96cfb7d92682fb Vincent Donnefort 2023-02-12  6016  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
