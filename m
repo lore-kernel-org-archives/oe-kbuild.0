@@ -1,137 +1,236 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 859D32914
-	for <oe-kbuild@lists.linux.dev>; Mon, 13 Feb 2023 11:15:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1676286940;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=LgE91EF5P7iqqXpt6PtSMoHjg4zT1SgTrY7NGsebBbQ=;
-	b=SPN47cjGGejosgnSE4jOeqdbvZg18DkozK0yHcdNPcPL55LJJbUANmKkaX2D/T74WADG3x
-	97iQ//XaZ+7S39D76ZJIHqrZEArtCTqOl7/CJzFRCzI0gTJb6KCSVH1E8TjYrYj6IpOGkW
-	lLyKZMKRmQVG4G7QoibshEEKlr2DQ/s=
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-652-n7BPICeyOHSm-TbNDEWs-A-1; Mon, 13 Feb 2023 06:15:39 -0500
-X-MC-Unique: n7BPICeyOHSm-TbNDEWs-A-1
-Received: by mail-qk1-f200.google.com with SMTP id x14-20020a05620a14ae00b0072f7f0f356bso7248950qkj.1
-        for <oe-kbuild@lists.linux.dev>; Mon, 13 Feb 2023 03:15:39 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=LgE91EF5P7iqqXpt6PtSMoHjg4zT1SgTrY7NGsebBbQ=;
-        b=JBiE6ZeG6jbqQFqPFTaaPg0/k6iqreOZ1p4HzDb+7G/P2MJr6KK74qXLTTFGWUxA9O
-         EQraS480JO1NNSQ2EVDSEm9WGm71IfAd6l1Jsh3BWrzQWDWUU8uTIjuzR+UEnJj21tkg
-         ig/HKWr1fbeEyhFfQYGrMo/R7KSGObbmC1LO8wexo7w/KW/0ltba/wi5O1MyB5eo8yVZ
-         Ls5OZ3CztvxlMRebbYTOB3WqrFCFvD20MWFPC4aiMGxDXcKztwqw5qt+cdUWXUF79x31
-         RijBA//vN72L3gLW9njqJ71wQ8cSIcMq0bhc8CAMmgMiFnbJINshyu/W66zkiwnHzCYF
-         nxfw==
-X-Gm-Message-State: AO0yUKVd7JBGmNHNlzbSYOq9yuzTcFXbeIxUxhZPJUbS7FRtkpxcQn4r
-	8SKCmooUHjL84w1mwfmiXb25MBBUHp25r+l4C7+9MHqJnmnBIsEyxCeZNHm5k3XUg22jfqyCED1
-	24dpKTvdWYOUu4BQco+V5
-X-Received: by 2002:a05:622a:1301:b0:3a8:2ccb:f55d with SMTP id v1-20020a05622a130100b003a82ccbf55dmr42017627qtk.33.1676286938877;
-        Mon, 13 Feb 2023 03:15:38 -0800 (PST)
-X-Google-Smtp-Source: AK7set8LqotNWAhkP4eDucQle2O3z8eSl+aQYETnylIeG+7DeQodD4EiIoDQiEjonnYcGhrhfkbk2Q==
-X-Received: by 2002:a05:622a:1301:b0:3a8:2ccb:f55d with SMTP id v1-20020a05622a130100b003a82ccbf55dmr42017604qtk.33.1676286938601;
-        Mon, 13 Feb 2023 03:15:38 -0800 (PST)
-Received: from debian (2a01cb058918ce0052a1c4711233f5f0.ipv6.abo.wanadoo.fr. [2a01:cb05:8918:ce00:52a1:c471:1233:f5f0])
-        by smtp.gmail.com with ESMTPSA id q1-20020ac84101000000b003b9dca4cdf4sm9035636qtl.83.2023.02.13.03.15.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Feb 2023 03:15:38 -0800 (PST)
-Date: Mon, 13 Feb 2023 12:15:35 +0100
-From: Guillaume Nault <gnault@redhat.com>
-To: Dan Carpenter <error27@gmail.com>
-Cc: oe-kbuild@lists.linux.dev, Cong Wang <cong.wang@bytedance.com>,
-	lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: net/l2tp/l2tp_core.c:1481 l2tp_tunnel_register() warn: missing
- error code 'ret'
-Message-ID: <Y+ob1xnM09kMlbRp@debian>
-References: <202302031144.yY6UaRcD-lkp@intel.com>
- <Y9z8XPvcv5Wn2J8n@debian>
- <Y+nLBPj70/03q8Do@kadam>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3518F33D1
+	for <oe-kbuild@lists.linux.dev>; Mon, 13 Feb 2023 12:33:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1676291599; x=1707827599;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=3QXlo+w4suXsTnGEEDlJ/a9iKxVZDik6KN0A/98kVmQ=;
+  b=fo18p5r/BPiWhkqRUGmInNu0vHs44Fo01XKpoe5UwhsnjwDvOseq4C9T
+   OYw0yDHvZ8Z42qTpaYOgiPNXeEnYX4BKeZZ/QDUb8nM8omlqTWEj1iAX+
+   ZebUKHtNi9R+a+SHibUFQcPJeQ/OPbeZqi56LrrhtaNcYUOO7Brd4VMLq
+   I/ML2KhHdEsWsxNZLgIwwHnJ52lPhIO3LXLjiCUQ4u6iljwTtU33N3Drg
+   Vnj1U6B+u8pMP+JRDuz/mebJy4+qH6jrmXttiC2bAtRgfoEPr2e15jjn3
+   37v9F+e16Qh34JvBjQCHoCbhtdyLhTh3/sc5rn0LyUCBM0zgV1wAn2M6b
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="332187828"
+X-IronPort-AV: E=Sophos;i="5.97,294,1669104000"; 
+   d="scan'208";a="332187828"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2023 04:33:18 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="792715626"
+X-IronPort-AV: E=Sophos;i="5.97,294,1669104000"; 
+   d="scan'208";a="792715626"
+Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
+  by orsmga004.jf.intel.com with ESMTP; 13 Feb 2023 04:33:17 -0800
+Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pRY1E-0007jZ-23;
+	Mon, 13 Feb 2023 12:33:16 +0000
+Date: Mon, 13 Feb 2023 20:33:03 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: [tip:sched/core 2/28] kernel/sched/fair.c:5486:24: warning:
+ Uninitialized variables: cursor.load, cursor.nr_running,
+ cursor.h_nr_running, cursor.idle_nr_running, cursor.idle_h_nr_running,
+ cursor.exec_clock, cursor.min_vruntime, cursor.min_vruntime_copy,
+ cursor.tasks_timeline, ...
+Message-ID: <202302132053.s282uPME-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <Y+nLBPj70/03q8Do@kadam>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On Mon, Feb 13, 2023 at 08:30:44AM +0300, Dan Carpenter wrote:
-> On Fri, Feb 03, 2023 at 01:21:48PM +0100, Guillaume Nault wrote:
-> > On Fri, Feb 03, 2023 at 11:56:01AM +0300, Dan Carpenter wrote:
-> > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> > > head:   66a87fff1a87c260452f5a57123891ca5258c449
-> > > commit: c4d48a58f32c5972174a1d01c33b296fe378cce0 l2tp: convert l2tp_tunnel_list to idr
-> > > config: powerpc-randconfig-m031-20230202 (https://download.01.org/0day-ci/archive/20230203/202302031144.yY6UaRcD-lkp@intel.com/config)
-> > > compiler: powerpc-linux-gcc (GCC) 12.1.0
-> > > 
-> > > If you fix the issue, kindly add following tag where applicable
-> > > | Reported-by: kernel test robot <lkp@intel.com>
-> > > | Reported-by: Dan Carpenter <error27@gmail.com>
-> > > 
-> > > smatch warnings:
-> > > net/l2tp/l2tp_core.c:1481 l2tp_tunnel_register() warn: missing error code 'ret'
-> > > 
-> > > vim +/ret +1481 net/l2tp/l2tp_core.c
-> > > 
-> > > 6b9f34239b00e6 Guillaume Nault 2018-04-10  1456  int l2tp_tunnel_register(struct l2tp_tunnel *tunnel, struct net *net,
-> > > 6b9f34239b00e6 Guillaume Nault 2018-04-10  1457  			 struct l2tp_tunnel_cfg *cfg)
-> > > 6b9f34239b00e6 Guillaume Nault 2018-04-10  1458  {
-> > > c4d48a58f32c59 Cong Wang       2023-01-13  1459  	struct l2tp_net *pn = l2tp_pernet(net);
-> > > c4d48a58f32c59 Cong Wang       2023-01-13  1460  	u32 tunnel_id = tunnel->tunnel_id;
-> > > 6b9f34239b00e6 Guillaume Nault 2018-04-10  1461  	struct socket *sock;
-> > > 6b9f34239b00e6 Guillaume Nault 2018-04-10  1462  	struct sock *sk;
-> > > 6b9f34239b00e6 Guillaume Nault 2018-04-10  1463  	int ret;
-> > > 6b9f34239b00e6 Guillaume Nault 2018-04-10  1464  
-> > > c4d48a58f32c59 Cong Wang       2023-01-13  1465  	spin_lock_bh(&pn->l2tp_tunnel_idr_lock);
-> > > c4d48a58f32c59 Cong Wang       2023-01-13  1466  	ret = idr_alloc_u32(&pn->l2tp_tunnel_idr, NULL, &tunnel_id, tunnel_id,
-> > > c4d48a58f32c59 Cong Wang       2023-01-13  1467  			    GFP_ATOMIC);
-> > > c4d48a58f32c59 Cong Wang       2023-01-13  1468  	spin_unlock_bh(&pn->l2tp_tunnel_idr_lock);
-> > > c4d48a58f32c59 Cong Wang       2023-01-13  1469  	if (ret)
-> > > c4d48a58f32c59 Cong Wang       2023-01-13  1470  		return ret == -ENOSPC ? -EEXIST : ret;
-> > > c4d48a58f32c59 Cong Wang       2023-01-13  1471  
-> > > 6b9f34239b00e6 Guillaume Nault 2018-04-10  1472  	if (tunnel->fd < 0) {
-> > > 6b9f34239b00e6 Guillaume Nault 2018-04-10  1473  		ret = l2tp_tunnel_sock_create(net, tunnel->tunnel_id,
-> > > 6b9f34239b00e6 Guillaume Nault 2018-04-10  1474  					      tunnel->peer_tunnel_id, cfg,
-> > > 6b9f34239b00e6 Guillaume Nault 2018-04-10  1475  					      &sock);
-> > > 6b9f34239b00e6 Guillaume Nault 2018-04-10  1476  		if (ret < 0)
-> > > 6b9f34239b00e6 Guillaume Nault 2018-04-10  1477  			goto err;
-> > > 6b9f34239b00e6 Guillaume Nault 2018-04-10  1478  	} else {
-> > > 6b9f34239b00e6 Guillaume Nault 2018-04-10  1479  		sock = sockfd_lookup(tunnel->fd, &ret);
-> > > 6b9f34239b00e6 Guillaume Nault 2018-04-10  1480  		if (!sock)
-> > > 6b9f34239b00e6 Guillaume Nault 2018-04-10 @1481  			goto err;
-> > >                                                                         ^^^^^^^^^
-> > > I don't know why this is showing up as a 3 week old warning when it
-> > > looks like the code is from 2018...  Anyway, should this be an error
-> > > path or a success path?
-> > 
-> > This is an error path.
-> > But I don't understand this warning. Does it complain that 'ret' isn't
-> > initialised before the 'goto err;' jump? (this is done by
-> > sockfd_lookup() in case of error).
-> 
-> Or sorry, I didn't see the &ret.
+:::::: 
+:::::: Manual check reason: "low confidence static check warning: kernel/sched/fair.c:5486:24: warning: Uninitialized variables: cursor.load, cursor.nr_running, cursor.h_nr_running, cursor.idle_nr_running, cursor.idle_h_nr_running, cursor.exec_clock, cursor.min_vruntime, cursor.min_vruntime_copy, cursor.tasks_timeline, cursor.curr, cursor.next, cursor.last, cursor.skip, cursor.avg, cursor.last_update_time_copy, cursor.removed, cursor.tg_load_avg_contrib, cursor.propagate, cursor.prop_runnable_sum, cursor.h_load, cursor.last_h_load_update, cursor.h_load_next, cursor.rq, cursor.on_list, cursor.leaf_cfs_rq_list, cursor.tg, cursor.idle, cursor.runtime_enabled, cursor.runtime_remaining, cursor.throttled_pelt_idle, cursor.throttled_pelt_idle_copy, cursor.throttled_clock, cursor.throttled_clock_pelt, cursor.throttled_clock_pelt_time, cursor.throttled, cursor.throttle_count, cursor.throttled_list [uninitvar]"
+:::::: 
 
-No problem.
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+CC: x86@kernel.org
+TO: Josh Don <joshdon@google.com>
+CC: Peter Zijlstra <peterz@infradead.org>
 
-> Yes, Smatch thinks "ret" is zero here.
-> The kbuild-bot can't use the cross function database (building the DB
-> is too slow to scale).  So that's why the warning is printed.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git sched/core
+head:   7c4a5b89a0b5a57a64b601775b296abf77a9fe97
+commit: 8ad075c2eb1f6b4b33436144ea1ef2619f3b6398 [2/28] sched: Async unthrottling for cfs bandwidth
+:::::: branch date: 2 days ago
+:::::: commit date: 7 weeks ago
+compiler: or1k-linux-gcc (GCC) 12.1.0
+reproduce (cppcheck warning):
+        # apt-get install cppcheck
+        git checkout 8ad075c2eb1f6b4b33436144ea1ef2619f3b6398
+        cppcheck --quiet --enable=style,performance,portability --template=gcc FILE
 
-Okay, thanks for the explanations.
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/r/202302132053.s282uPME-lkp@intel.com/
 
-> regards,
-> dan carpenter
-> 
+cppcheck warnings: (new ones prefixed by >>)
+          ^
+   kernel/sched/fair.c:11057:16: warning: Local variable 'next_balance' shadows outer variable [shadowVariable]
+    unsigned long next_balance = jiffies + 60*HZ;
+                  ^
+   kernel/sched/fair.c:6356:16: note: Shadowed declaration
+    unsigned long next_balance;     /* in jiffy units */
+                  ^
+   kernel/sched/fair.c:11057:16: note: Shadow variable
+    unsigned long next_balance = jiffies + 60*HZ;
+                  ^
+   kernel/sched/fair.c:11453:16: warning: Local variable 'next_balance' shadows outer variable [shadowVariable]
+    unsigned long next_balance = now + 60*HZ;
+                  ^
+   kernel/sched/fair.c:6356:16: note: Shadowed declaration
+    unsigned long next_balance;     /* in jiffy units */
+                  ^
+   kernel/sched/fair.c:11453:16: note: Shadow variable
+    unsigned long next_balance = now + 60*HZ;
+                  ^
+   kernel/sched/fair.c:11636:16: warning: Local variable 'next_balance' shadows outer variable [shadowVariable]
+    unsigned long next_balance = jiffies + HZ;
+                  ^
+   kernel/sched/fair.c:6356:16: note: Shadowed declaration
+    unsigned long next_balance;     /* in jiffy units */
+                  ^
+   kernel/sched/fair.c:11636:16: note: Shadow variable
+    unsigned long next_balance = jiffies + HZ;
+                  ^
 
+cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+
+          ^
+   kernel/sched/fair.c:5545:14: warning: Uninitialized variables: cfs_rq.load, cfs_rq.nr_running, cfs_rq.h_nr_running, cfs_rq.idle_nr_running, cfs_rq.idle_h_nr_running, cfs_rq.exec_clock, cfs_rq.min_vruntime, cfs_rq.min_vruntime_copy, cfs_rq.tasks_timeline, cfs_rq.curr, cfs_rq.next, cfs_rq.last, cfs_rq.skip [uninitvar]
+     rq = rq_of(cfs_rq);
+                ^
+   kernel/sched/fair.c:5545:14: warning: Uninitialized variables: cfs_rq.load, cfs_rq.nr_running, cfs_rq.h_nr_running, cfs_rq.idle_nr_running, cfs_rq.idle_h_nr_running, cfs_rq.exec_clock, cfs_rq.min_vruntime, cfs_rq.min_vruntime_copy, cfs_rq.tasks_timeline, cfs_rq.curr, cfs_rq.next, cfs_rq.last, cfs_rq.skip, cfs_rq.rq, cfs_rq.on_list, cfs_rq.leaf_cfs_rq_list, cfs_rq.tg, cfs_rq.idle, cfs_rq.runtime_enabled, cfs_rq.runtime_remaining, cfs_rq.throttled_pelt_idle, cfs_rq.throttled_pelt_idle_copy, cfs_rq.throttled_clock, cfs_rq.throttled_clock_pelt, cfs_rq.throttled_clock_pelt_time, cfs_rq.throttled, cfs_rq.throttle_count, cfs_rq.throttled_list [uninitvar]
+     rq = rq_of(cfs_rq);
+                ^
+   kernel/sched/fair.c:6927:16: warning: Local variable 'task_util' shadows outer function [shadowFunction]
+    unsigned long task_util, util_min, util_max, best_cap = 0;
+                  ^
+   kernel/sched/fair.c:4277:29: note: Shadowed declaration
+   static inline unsigned long task_util(struct task_struct *p)
+                               ^
+   kernel/sched/fair.c:6927:16: note: Shadow variable
+    unsigned long task_util, util_min, util_max, best_cap = 0;
+                  ^
+   kernel/sched/fair.c:6973:16: warning: Local variable 'task_util' shadows outer function [shadowFunction]
+    unsigned long task_util, util_min, util_max;
+                  ^
+   kernel/sched/fair.c:4277:29: note: Shadowed declaration
+   static inline unsigned long task_util(struct task_struct *p)
+                               ^
+   kernel/sched/fair.c:6973:16: note: Shadow variable
+    unsigned long task_util, util_min, util_max;
+                  ^
+   kernel/sched/fair.c:11058:6: warning: Local variable 'update_next_balance' shadows outer function [shadowFunction]
+    int update_next_balance = 0;
+        ^
+   kernel/sched/fair.c:10912:1: note: Shadowed declaration
+   update_next_balance(struct sched_domain *sd, unsigned long *next_balance)
+   ^
+   kernel/sched/fair.c:11058:6: note: Shadow variable
+    int update_next_balance = 0;
+        ^
+   kernel/sched/fair.c:9604:58: warning: Parameter 'p' can be declared as pointer to const [constParameter]
+   static int idle_cpu_without(int cpu, struct task_struct *p)
+                                                            ^
+>> kernel/sched/fair.c:5486:24: warning: Uninitialized variables: cursor.load, cursor.nr_running, cursor.h_nr_running, cursor.idle_nr_running, cursor.idle_h_nr_running, cursor.exec_clock, cursor.min_vruntime, cursor.min_vruntime_copy, cursor.tasks_timeline, cursor.curr, cursor.next, cursor.last, cursor.skip, cursor.avg, cursor.last_update_time_copy, cursor.removed, cursor.tg_load_avg_contrib, cursor.propagate, cursor.prop_runnable_sum, cursor.h_load, cursor.last_h_load_update, cursor.h_load_next, cursor.rq, cursor.on_list, cursor.leaf_cfs_rq_list, cursor.tg, cursor.idle, cursor.runtime_enabled, cursor.runtime_remaining, cursor.throttled_pelt_idle, cursor.throttled_pelt_idle_copy, cursor.throttled_clock, cursor.throttled_clock_pelt, cursor.throttled_clock_pelt_time, cursor.throttled, cursor.throttle_count, cursor.throttled_list [uninitvar]
+     if (cfs_rq_throttled(cursor))
+                          ^
+   kernel/sched/fair.c:5545:14: warning: Uninitialized variables: cfs_rq.load, cfs_rq.nr_running, cfs_rq.h_nr_running, cfs_rq.idle_nr_running, cfs_rq.idle_h_nr_running, cfs_rq.exec_clock, cfs_rq.min_vruntime, cfs_rq.min_vruntime_copy, cfs_rq.tasks_timeline, cfs_rq.curr, cfs_rq.next, cfs_rq.last, cfs_rq.skip, cfs_rq.avg, cfs_rq.last_update_time_copy, cfs_rq.removed, cfs_rq.tg_load_avg_contrib, cfs_rq.propagate, cfs_rq.prop_runnable_sum, cfs_rq.h_load, cfs_rq.last_h_load_update, cfs_rq.h_load_next, cfs_rq.rq, cfs_rq.on_list, cfs_rq.leaf_cfs_rq_list, cfs_rq.tg, cfs_rq.idle, cfs_rq.runtime_enabled, cfs_rq.runtime_remaining, cfs_rq.throttled_pelt_idle, cfs_rq.throttled_pelt_idle_copy, cfs_rq.throttled_clock, cfs_rq.throttled_clock_pelt, cfs_rq.throttled_clock_pelt_time, cfs_rq.throttled, cfs_rq.throttle_count, cfs_rq.throttled_list, cfs_rq.throttled_csd_list [uninitvar]
+     rq = rq_of(cfs_rq);
+                ^
+   kernel/sched/fair.c:6993:20: warning: Uninitialized variable: task_util [uninitvar]
+        asym_fits_cpu(task_util, util_min, util_max, target))
+                      ^
+   kernel/sched/fair.c:6980:30: note: Assuming condition is false
+    if (sched_asym_cpucap_active()) {
+                                ^
+   kernel/sched/fair.c:6993:20: note: Uninitialized variable: task_util
+        asym_fits_cpu(task_util, util_min, util_max, target))
+                      ^
+   kernel/sched/fair.c:6993:31: warning: Uninitialized variable: util_min [uninitvar]
+        asym_fits_cpu(task_util, util_min, util_max, target))
+                                 ^
+   kernel/sched/fair.c:6980:30: note: Assuming condition is false
+    if (sched_asym_cpucap_active()) {
+                                ^
+   kernel/sched/fair.c:6993:31: note: Uninitialized variable: util_min
+        asym_fits_cpu(task_util, util_min, util_max, target))
+                                 ^
+   kernel/sched/fair.c:6993:41: warning: Uninitialized variable: util_max [uninitvar]
+        asym_fits_cpu(task_util, util_min, util_max, target))
+                                           ^
+   kernel/sched/fair.c:6980:30: note: Assuming condition is false
+    if (sched_asym_cpucap_active()) {
+                                ^
+   kernel/sched/fair.c:6993:41: note: Uninitialized variable: util_max
+        asym_fits_cpu(task_util, util_min, util_max, target))
+                                           ^
+   kernel/sched/fair.c:8761:48: warning: Uninitialized variables: cfs_rq.load, cfs_rq.nr_running, cfs_rq.h_nr_running, cfs_rq.idle_nr_running, cfs_rq.idle_h_nr_running, cfs_rq.exec_clock, cfs_rq.min_vruntime, cfs_rq.min_vruntime_copy, cfs_rq.tasks_timeline, cfs_rq.curr, cfs_rq.next, cfs_rq.last, cfs_rq.skip, cfs_rq.avg, cfs_rq.last_update_time_copy, cfs_rq.removed, cfs_rq.tg_load_avg_contrib, cfs_rq.propagate, cfs_rq.prop_runnable_sum, cfs_rq.h_load, cfs_rq.last_h_load_update, cfs_rq.h_load_next, cfs_rq.rq, cfs_rq.on_list, cfs_rq.leaf_cfs_rq_list, cfs_rq.tg, cfs_rq.idle, cfs_rq.runtime_enabled, cfs_rq.runtime_remaining, cfs_rq.throttled_pelt_idle, cfs_rq.throttled_pelt_idle_copy, cfs_rq.throttled_clock, cfs_rq.throttled_clock_pelt, cfs_rq.throttled_clock_pelt_time, cfs_rq.throttled, cfs_rq.throttle_count, cfs_rq.throttled_list, cfs_rq.throttled_csd_list [uninitvar]
+     if (update_cfs_rq_load_avg(cfs_rq_clock_pelt(cfs_rq), cfs_rq)) {
+                                                  ^
+   kernel/sched/fair.c:11455:6: warning: Local variable 'update_next_balance' shadows outer function [shadowFunction]
+    int update_next_balance = 0;
+        ^
+   kernel/sched/fair.c:10912:1: note: Shadowed declaration
+   update_next_balance(struct sched_domain *sd, unsigned long *next_balance)
+   ^
+   kernel/sched/fair.c:11455:6: note: Shadow variable
+    int update_next_balance = 0;
+        ^
+   kernel/sched/fair.c:5486:24: warning: Uninitialized variables: cursor.load, cursor.nr_running, cursor.h_nr_running, cursor.idle_nr_running, cursor.idle_h_nr_running, cursor.exec_clock, cursor.min_vruntime, cursor.min_vruntime_copy, cursor.tasks_timeline, cursor.curr, cursor.next, cursor.last, cursor.skip, cursor.avg, cursor.last_update_time_copy, cursor.removed [uninitvar]
+     if (cfs_rq_throttled(cursor))
+                          ^
+   kernel/sched/fair.c:5545:14: warning: Uninitialized variables: cfs_rq.load, cfs_rq.nr_running, cfs_rq.h_nr_running, cfs_rq.idle_nr_running, cfs_rq.idle_h_nr_running, cfs_rq.exec_clock, cfs_rq.min_vruntime, cfs_rq.min_vruntime_copy, cfs_rq.tasks_timeline, cfs_rq.curr, cfs_rq.next, cfs_rq.last, cfs_rq.skip, cfs_rq.avg, cfs_rq.last_update_time_copy, cfs_rq.removed [uninitvar]
+     rq = rq_of(cfs_rq);
+                ^
+
+vim +5486 kernel/sched/fair.c
+
+671fd9dabe5239 kernel/sched_fair.c Paul Turner 2011-07-21  5463  
+8ad075c2eb1f6b kernel/sched/fair.c Josh Don    2022-11-16  5464  #ifdef CONFIG_SMP
+8ad075c2eb1f6b kernel/sched/fair.c Josh Don    2022-11-16  5465  static void __cfsb_csd_unthrottle(void *arg)
+671fd9dabe5239 kernel/sched_fair.c Paul Turner 2011-07-21  5466  {
+8ad075c2eb1f6b kernel/sched/fair.c Josh Don    2022-11-16  5467  	struct cfs_rq *cursor, *tmp;
+8ad075c2eb1f6b kernel/sched/fair.c Josh Don    2022-11-16  5468  	struct rq *rq = arg;
+8ad075c2eb1f6b kernel/sched/fair.c Josh Don    2022-11-16  5469  	struct rq_flags rf;
+8ad075c2eb1f6b kernel/sched/fair.c Josh Don    2022-11-16  5470  
+8ad075c2eb1f6b kernel/sched/fair.c Josh Don    2022-11-16  5471  	rq_lock(rq, &rf);
+8ad075c2eb1f6b kernel/sched/fair.c Josh Don    2022-11-16  5472  
+8ad075c2eb1f6b kernel/sched/fair.c Josh Don    2022-11-16  5473  	/*
+8ad075c2eb1f6b kernel/sched/fair.c Josh Don    2022-11-16  5474  	 * Since we hold rq lock we're safe from concurrent manipulation of
+8ad075c2eb1f6b kernel/sched/fair.c Josh Don    2022-11-16  5475  	 * the CSD list. However, this RCU critical section annotates the
+8ad075c2eb1f6b kernel/sched/fair.c Josh Don    2022-11-16  5476  	 * fact that we pair with sched_free_group_rcu(), so that we cannot
+8ad075c2eb1f6b kernel/sched/fair.c Josh Don    2022-11-16  5477  	 * race with group being freed in the window between removing it
+8ad075c2eb1f6b kernel/sched/fair.c Josh Don    2022-11-16  5478  	 * from the list and advancing to the next entry in the list.
+8ad075c2eb1f6b kernel/sched/fair.c Josh Don    2022-11-16  5479  	 */
+8ad075c2eb1f6b kernel/sched/fair.c Josh Don    2022-11-16  5480  	rcu_read_lock();
+8ad075c2eb1f6b kernel/sched/fair.c Josh Don    2022-11-16  5481  
+8ad075c2eb1f6b kernel/sched/fair.c Josh Don    2022-11-16  5482  	list_for_each_entry_safe(cursor, tmp, &rq->cfsb_csd_list,
+8ad075c2eb1f6b kernel/sched/fair.c Josh Don    2022-11-16  5483  				 throttled_csd_list) {
+8ad075c2eb1f6b kernel/sched/fair.c Josh Don    2022-11-16  5484  		list_del_init(&cursor->throttled_csd_list);
+8ad075c2eb1f6b kernel/sched/fair.c Josh Don    2022-11-16  5485  
+8ad075c2eb1f6b kernel/sched/fair.c Josh Don    2022-11-16 @5486  		if (cfs_rq_throttled(cursor))
+8ad075c2eb1f6b kernel/sched/fair.c Josh Don    2022-11-16  5487  			unthrottle_cfs_rq(cursor);
+8ad075c2eb1f6b kernel/sched/fair.c Josh Don    2022-11-16  5488  	}
+8ad075c2eb1f6b kernel/sched/fair.c Josh Don    2022-11-16  5489  
+8ad075c2eb1f6b kernel/sched/fair.c Josh Don    2022-11-16  5490  	rcu_read_unlock();
+8ad075c2eb1f6b kernel/sched/fair.c Josh Don    2022-11-16  5491  
+8ad075c2eb1f6b kernel/sched/fair.c Josh Don    2022-11-16  5492  	rq_unlock(rq, &rf);
+8ad075c2eb1f6b kernel/sched/fair.c Josh Don    2022-11-16  5493  }
+8ad075c2eb1f6b kernel/sched/fair.c Josh Don    2022-11-16  5494  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
