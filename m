@@ -1,42 +1,43 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 741AE256A
-	for <oe-kbuild@lists.linux.dev>; Mon, 13 Feb 2023 10:20:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3F18256F
+	for <oe-kbuild@lists.linux.dev>; Mon, 13 Feb 2023 10:51:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676283616; x=1707819616;
+  t=1676285477; x=1707821477;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=J5YwIgeMBB4y0ZiE1awqj2Df7Ys/bmgmjOQnJVXWbRc=;
-  b=faqEuw3iqKX5wnPodbUdx4zoy5dwHnB9WQThDzqqBUJ2EGFsMI9coujX
-   phgzU2JvEG3bAzxbbn1BedXBRxaXOLja7fK0yEUEx4n7gpL/CJM9h4WvA
-   AYide5yhXu49+F8NeZ0Ql0iTF5kZUIxPNEQ2g2KVn+Bu3QBWvnINeTVM3
-   y4I0DKyDb+KItLkCcJhel1B/ve12KTPktLT1/1+3Go6yvr0uwYgmEPcIA
-   XFVk8xAob0JhkWOW1FlWVOVGbf1eLWDVWgFSERNX9qUqYIN9gg6bAVFVr
-   aanD+LmqhXEJyhcQap5vlNlXn2QzqfAfznBQNPLuF1aikMnhcHDi/LBgd
+  bh=AQG2pAqiTRIeUogl+qXyUL8eOHBJ7i0s+3xyyFupFHY=;
+  b=NIVvkCux/HlR2GC2eqaP0n0LgJOoL+Yu64TwkWCvoy+kb2MzE0s19LYK
+   VOtTu3BP3x1druNQiwEMt+bU+N7tU39fEOJX4K7YTXjqgCqeQnzs5KbYo
+   D9/vOJF3lDNnLifSZr5Wat4dknmYkgdaZyshkCCuNR/bgMTASZchEJv0I
+   mhdZ6mclswFc5tpSVjnBONS5OYvdlclCG2OB0BAe5qXtP3Wd/Wub6EUxL
+   pdw9omQhFbTnJj37oC2gGezyc5MSrWBmqskOb+0gM6MWBwJ34XmkmzDUq
+   kQf7s+pycHlpi/CnOGrMBSd9HKIoUznpQeyL7wWd7CRc1pdOOu3C7agja
    w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="314500450"
+X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="311225703"
 X-IronPort-AV: E=Sophos;i="5.97,293,1669104000"; 
-   d="scan'208";a="314500450"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2023 02:20:15 -0800
+   d="scan'208";a="311225703"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2023 02:51:17 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="914272072"
+X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="618603611"
 X-IronPort-AV: E=Sophos;i="5.97,293,1669104000"; 
-   d="scan'208";a="914272072"
+   d="scan'208";a="618603611"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 13 Feb 2023 02:20:14 -0800
+  by orsmga003.jf.intel.com with ESMTP; 13 Feb 2023 02:51:15 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pRVwT-0007g5-2D;
-	Mon, 13 Feb 2023 10:20:13 +0000
-Date: Mon, 13 Feb 2023 18:19:48 +0800
+	id 1pRWQU-0007h6-1b;
+	Mon, 13 Feb 2023 10:51:14 +0000
+Date: Mon, 13 Feb 2023 18:50:42 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:2222 mxc_jpeg_probe()
- warn: missing unwind goto?
-Message-ID: <202302131844.OfX6JiAk-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: [linux-next:master 4945/12440]
+ drivers/firmware/arm_scmi/bus.c:128:18-22: ERROR: reference preceded by free
+ on line 102
+Message-ID: <202302131827.JrhSBb4s-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -48,191 +49,130 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Jian Zhang <zhangjian210@huawei.com>
-CC: Mauro Carvalho Chehab <mchehab@kernel.org>
-CC: linux-media@vger.kernel.org
-CC: Hans Verkuil <hverkuil@xs4all.nl>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Cristian Marussi <cristian.marussi@arm.com>
+CC: Sudeep Holla <sudeep.holla@arm.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   ceaa837f96adb69c0df0397937cd74991d5d821a
-commit: 5b304046a81eda221b5d06a9c62f7b5e45530fa5 media: driver/nxp/imx-jpeg: fix a unexpected return value problem
-date:   8 months ago
-:::::: branch date: 12 hours ago
-:::::: commit date: 8 months ago
-config: parisc-randconfig-m031-20230213 (https://download.01.org/0day-ci/archive/20230213/202302131844.OfX6JiAk-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   09e41676e35ab06e4bce8870ea3bf1f191c3cb90
+commit: d3cd7c525fd2ecce3a6c963f314969a54783d211 [4945/12440] firmware: arm_scmi: Refactor protocol device creation
+:::::: branch date: 6 hours ago
+:::::: commit date: 4 weeks ago
+config: ia64-randconfig-c042-20230212 (https://download.01.org/0day-ci/archive/20230213/202302131827.JrhSBb4s-lkp@intel.com/config)
+compiler: ia64-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202302131844.OfX6JiAk-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Link: https://lore.kernel.org/r/202302131827.JrhSBb4s-lkp@intel.com/
 
-smatch warnings:
-drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:2222 mxc_jpeg_probe() warn: missing unwind goto?
+cocci warnings: (new ones prefixed by >>)
+>> drivers/firmware/arm_scmi/bus.c:128:18-22: ERROR: reference preceded by free on line 102
+   drivers/firmware/arm_scmi/bus.c:128:18-22: ERROR: reference preceded by free on line 113
 
-vim +2222 drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c
+vim +128 drivers/firmware/arm_scmi/bus.c
 
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2154  
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2155  static int mxc_jpeg_probe(struct platform_device *pdev)
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2156  {
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2157  	struct mxc_jpeg_dev *jpeg;
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2158  	struct device *dev = &pdev->dev;
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2159  	int dec_irq;
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2160  	int ret;
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2161  	int mode;
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2162  	const struct of_device_id *of_id;
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2163  	unsigned int slot;
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2164  
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2165  	of_id = of_match_node(mxc_jpeg_match, dev->of_node);
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2166  	mode = *(const int *)of_id->data;
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2167  
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2168  	jpeg = devm_kzalloc(dev, sizeof(struct mxc_jpeg_dev), GFP_KERNEL);
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2169  	if (!jpeg)
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2170  		return -ENOMEM;
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2171  
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2172  	mutex_init(&jpeg->lock);
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2173  	spin_lock_init(&jpeg->hw_lock);
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2174  
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2175  	ret = dma_set_mask_and_coherent(dev, DMA_BIT_MASK(32));
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2176  	if (ret) {
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2177  		dev_err(&pdev->dev, "No suitable DMA available.\n");
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2178  		goto err_irq;
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2179  	}
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2180  
-a498a4e7af5022 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Cai Huoqing        2021-09-01  2181  	jpeg->base_reg = devm_platform_ioremap_resource(pdev, 0);
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2182  	if (IS_ERR(jpeg->base_reg))
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2183  		return PTR_ERR(jpeg->base_reg);
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2184  
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2185  	for (slot = 0; slot < MXC_MAX_SLOTS; slot++) {
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2186  		dec_irq = platform_get_irq(pdev, slot);
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2187  		if (dec_irq < 0) {
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2188  			ret = dec_irq;
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2189  			goto err_irq;
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2190  		}
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2191  		ret = devm_request_irq(&pdev->dev, dec_irq, mxc_jpeg_dec_irq,
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2192  				       0, pdev->name, jpeg);
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2193  		if (ret) {
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2194  			dev_err(&pdev->dev, "Failed to request irq %d (%d)\n",
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2195  				dec_irq, ret);
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2196  			goto err_irq;
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2197  		}
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2198  	}
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2199  
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2200  	jpeg->pdev = pdev;
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2201  	jpeg->dev = dev;
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2202  	jpeg->mode = mode;
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2203  
-4c2e5156d9fa63 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-10-07  2204  	/* Get clocks */
-4c2e5156d9fa63 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-10-07  2205  	jpeg->clk_ipg = devm_clk_get(dev, "ipg");
-4c2e5156d9fa63 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-10-07  2206  	if (IS_ERR(jpeg->clk_ipg)) {
-4c2e5156d9fa63 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-10-07  2207  		dev_err(dev, "failed to get clock: ipg\n");
-5b304046a81eda drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c Jian Zhang         2022-06-20  2208  		ret = PTR_ERR(jpeg->clk_ipg);
-4c2e5156d9fa63 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-10-07  2209  		goto err_clk;
-4c2e5156d9fa63 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-10-07  2210  	}
-4c2e5156d9fa63 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-10-07  2211  
-4c2e5156d9fa63 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-10-07  2212  	jpeg->clk_per = devm_clk_get(dev, "per");
-4c2e5156d9fa63 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-10-07  2213  	if (IS_ERR(jpeg->clk_per)) {
-4c2e5156d9fa63 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-10-07  2214  		dev_err(dev, "failed to get clock: per\n");
-5b304046a81eda drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c Jian Zhang         2022-06-20  2215  		ret = PTR_ERR(jpeg->clk_per);
-4c2e5156d9fa63 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-10-07  2216  		goto err_clk;
-4c2e5156d9fa63 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-10-07  2217  	}
-4c2e5156d9fa63 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-10-07  2218  
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2219  	ret = mxc_jpeg_attach_pm_domains(jpeg);
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2220  	if (ret < 0) {
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2221  		dev_err(dev, "failed to attach power domains %d\n", ret);
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11 @2222  		return ret;
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2223  	}
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2224  
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2225  	/* v4l2 */
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2226  	ret = v4l2_device_register(dev, &jpeg->v4l2_dev);
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2227  	if (ret) {
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2228  		dev_err(dev, "failed to register v4l2 device\n");
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2229  		goto err_register;
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2230  	}
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2231  	jpeg->m2m_dev = v4l2_m2m_init(&mxc_jpeg_m2m_ops);
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2232  	if (IS_ERR(jpeg->m2m_dev)) {
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2233  		dev_err(dev, "failed to register v4l2 device\n");
-fb3b597abdcec8 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Wei Yongjun        2021-03-23  2234  		ret = PTR_ERR(jpeg->m2m_dev);
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2235  		goto err_m2m;
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2236  	}
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2237  
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2238  	jpeg->dec_vdev = video_device_alloc();
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2239  	if (!jpeg->dec_vdev) {
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2240  		dev_err(dev, "failed to register v4l2 device\n");
-fb3b597abdcec8 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Wei Yongjun        2021-03-23  2241  		ret = -ENOMEM;
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2242  		goto err_vdev_alloc;
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2243  	}
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2244  	if (mode == MXC_JPEG_ENCODE)
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2245  		snprintf(jpeg->dec_vdev->name,
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2246  			 sizeof(jpeg->dec_vdev->name),
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2247  			 "%s-enc", MXC_JPEG_NAME);
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2248  	else
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2249  		snprintf(jpeg->dec_vdev->name,
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2250  			 sizeof(jpeg->dec_vdev->name),
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2251  			 "%s-dec", MXC_JPEG_NAME);
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2252  
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2253  	jpeg->dec_vdev->fops = &mxc_jpeg_fops;
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2254  	jpeg->dec_vdev->ioctl_ops = &mxc_jpeg_ioctl_ops;
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2255  	jpeg->dec_vdev->minor = -1;
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2256  	jpeg->dec_vdev->release = video_device_release;
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2257  	jpeg->dec_vdev->lock = &jpeg->lock; /* lock for ioctl serialization */
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2258  	jpeg->dec_vdev->v4l2_dev = &jpeg->v4l2_dev;
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2259  	jpeg->dec_vdev->vfl_dir = VFL_DIR_M2M;
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2260  	jpeg->dec_vdev->device_caps = V4L2_CAP_STREAMING |
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2261  					V4L2_CAP_VIDEO_M2M_MPLANE;
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2262  	if (mode == MXC_JPEG_ENCODE) {
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2263  		v4l2_disable_ioctl(jpeg->dec_vdev, VIDIOC_DECODER_CMD);
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2264  		v4l2_disable_ioctl(jpeg->dec_vdev, VIDIOC_TRY_DECODER_CMD);
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2265  	} else {
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2266  		v4l2_disable_ioctl(jpeg->dec_vdev, VIDIOC_ENCODER_CMD);
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2267  		v4l2_disable_ioctl(jpeg->dec_vdev, VIDIOC_TRY_ENCODER_CMD);
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2268  	}
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2269  	ret = video_register_device(jpeg->dec_vdev, VFL_TYPE_VIDEO, -1);
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2270  	if (ret) {
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2271  		dev_err(dev, "failed to register video device\n");
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2272  		goto err_vdev_register;
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2273  	}
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2274  	video_set_drvdata(jpeg->dec_vdev, jpeg);
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2275  	if (mode == MXC_JPEG_ENCODE)
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2276  		v4l2_info(&jpeg->v4l2_dev,
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2277  			  "encoder device registered as /dev/video%d (%d,%d)\n",
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2278  			  jpeg->dec_vdev->num, VIDEO_MAJOR,
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2279  			  jpeg->dec_vdev->minor);
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2280  	else
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2281  		v4l2_info(&jpeg->v4l2_dev,
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2282  			  "decoder device registered as /dev/video%d (%d,%d)\n",
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2283  			  jpeg->dec_vdev->num, VIDEO_MAJOR,
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2284  			  jpeg->dec_vdev->minor);
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2285  
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2286  	platform_set_drvdata(pdev, jpeg);
-4c2e5156d9fa63 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-10-07  2287  	pm_runtime_enable(dev);
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2288  
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2289  	return 0;
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2290  
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2291  err_vdev_register:
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2292  	video_device_release(jpeg->dec_vdev);
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2293  
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2294  err_vdev_alloc:
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2295  	v4l2_m2m_release(jpeg->m2m_dev);
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2296  
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2297  err_m2m:
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2298  	v4l2_device_unregister(&jpeg->v4l2_dev);
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2299  
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2300  err_register:
-5c47dc6657543b drivers/media/platform/imx-jpeg/mxc-jpeg.c     Christophe JAILLET 2021-08-21  2301  	mxc_jpeg_detach_pm_domains(jpeg);
-5c47dc6657543b drivers/media/platform/imx-jpeg/mxc-jpeg.c     Christophe JAILLET 2021-08-21  2302  
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2303  err_irq:
-4c2e5156d9fa63 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-10-07  2304  err_clk:
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2305  	return ret;
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2306  }
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2307  
-
-:::::: The code at line 2222 was first introduced by commit
-:::::: 2db16c6ed72ce644d5639b3ed15e5817442db4ba media: imx-jpeg: Add V4L2 driver for i.MX8 JPEG Encoder/Decoder
-
-:::::: TO: Mirela Rabulea <mirela.rabulea@nxp.com>
-:::::: CC: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+d3cd7c525fd2ec Cristian Marussi 2022-12-22   32  
+d3cd7c525fd2ec Cristian Marussi 2022-12-22   33  /**
+d3cd7c525fd2ec Cristian Marussi 2022-12-22   34   * scmi_protocol_device_request  - Helper to request a device
+d3cd7c525fd2ec Cristian Marussi 2022-12-22   35   *
+d3cd7c525fd2ec Cristian Marussi 2022-12-22   36   * @id_table: A protocol/name pair descriptor for the device to be created.
+d3cd7c525fd2ec Cristian Marussi 2022-12-22   37   *
+d3cd7c525fd2ec Cristian Marussi 2022-12-22   38   * This helper let an SCMI driver request specific devices identified by the
+d3cd7c525fd2ec Cristian Marussi 2022-12-22   39   * @id_table to be created for each active SCMI instance.
+d3cd7c525fd2ec Cristian Marussi 2022-12-22   40   *
+d3cd7c525fd2ec Cristian Marussi 2022-12-22   41   * The requested device name MUST NOT be already existent for any protocol;
+d3cd7c525fd2ec Cristian Marussi 2022-12-22   42   * at first the freshly requested @id_table is annotated in the IDR table
+d3cd7c525fd2ec Cristian Marussi 2022-12-22   43   * @scmi_requested_devices and then the requested device is advertised to any
+d3cd7c525fd2ec Cristian Marussi 2022-12-22   44   * registered party via the @scmi_requested_devices_nh notification chain.
+d3cd7c525fd2ec Cristian Marussi 2022-12-22   45   *
+d3cd7c525fd2ec Cristian Marussi 2022-12-22   46   * Return: 0 on Success
+d3cd7c525fd2ec Cristian Marussi 2022-12-22   47   */
+d3cd7c525fd2ec Cristian Marussi 2022-12-22   48  static int scmi_protocol_device_request(const struct scmi_device_id *id_table)
+d3cd7c525fd2ec Cristian Marussi 2022-12-22   49  {
+d3cd7c525fd2ec Cristian Marussi 2022-12-22   50  	int ret = 0;
+d3cd7c525fd2ec Cristian Marussi 2022-12-22   51  	unsigned int id = 0;
+d3cd7c525fd2ec Cristian Marussi 2022-12-22   52  	struct list_head *head, *phead = NULL;
+d3cd7c525fd2ec Cristian Marussi 2022-12-22   53  	struct scmi_requested_dev *rdev;
+d3cd7c525fd2ec Cristian Marussi 2022-12-22   54  
+d3cd7c525fd2ec Cristian Marussi 2022-12-22   55  	pr_debug("Requesting SCMI device (%s) for protocol %x\n",
+d3cd7c525fd2ec Cristian Marussi 2022-12-22   56  		 id_table->name, id_table->protocol_id);
+d3cd7c525fd2ec Cristian Marussi 2022-12-22   57  
+d3cd7c525fd2ec Cristian Marussi 2022-12-22   58  	/*
+d3cd7c525fd2ec Cristian Marussi 2022-12-22   59  	 * Search for the matching protocol rdev list and then search
+d3cd7c525fd2ec Cristian Marussi 2022-12-22   60  	 * of any existent equally named device...fails if any duplicate found.
+d3cd7c525fd2ec Cristian Marussi 2022-12-22   61  	 */
+d3cd7c525fd2ec Cristian Marussi 2022-12-22   62  	mutex_lock(&scmi_requested_devices_mtx);
+d3cd7c525fd2ec Cristian Marussi 2022-12-22   63  	idr_for_each_entry(&scmi_requested_devices, head, id) {
+d3cd7c525fd2ec Cristian Marussi 2022-12-22   64  		if (!phead) {
+d3cd7c525fd2ec Cristian Marussi 2022-12-22   65  			/* A list found registered in the IDR is never empty */
+d3cd7c525fd2ec Cristian Marussi 2022-12-22   66  			rdev = list_first_entry(head, struct scmi_requested_dev,
+d3cd7c525fd2ec Cristian Marussi 2022-12-22   67  						node);
+d3cd7c525fd2ec Cristian Marussi 2022-12-22   68  			if (rdev->id_table->protocol_id ==
+d3cd7c525fd2ec Cristian Marussi 2022-12-22   69  			    id_table->protocol_id)
+d3cd7c525fd2ec Cristian Marussi 2022-12-22   70  				phead = head;
+d3cd7c525fd2ec Cristian Marussi 2022-12-22   71  		}
+d3cd7c525fd2ec Cristian Marussi 2022-12-22   72  		list_for_each_entry(rdev, head, node) {
+d3cd7c525fd2ec Cristian Marussi 2022-12-22   73  			if (!strcmp(rdev->id_table->name, id_table->name)) {
+d3cd7c525fd2ec Cristian Marussi 2022-12-22   74  				pr_err("Ignoring duplicate request [%d] %s\n",
+d3cd7c525fd2ec Cristian Marussi 2022-12-22   75  				       rdev->id_table->protocol_id,
+d3cd7c525fd2ec Cristian Marussi 2022-12-22   76  				       rdev->id_table->name);
+d3cd7c525fd2ec Cristian Marussi 2022-12-22   77  				ret = -EINVAL;
+d3cd7c525fd2ec Cristian Marussi 2022-12-22   78  				goto out;
+d3cd7c525fd2ec Cristian Marussi 2022-12-22   79  			}
+d3cd7c525fd2ec Cristian Marussi 2022-12-22   80  		}
+d3cd7c525fd2ec Cristian Marussi 2022-12-22   81  	}
+d3cd7c525fd2ec Cristian Marussi 2022-12-22   82  
+d3cd7c525fd2ec Cristian Marussi 2022-12-22   83  	/*
+d3cd7c525fd2ec Cristian Marussi 2022-12-22   84  	 * No duplicate found for requested id_table, so let's create a new
+d3cd7c525fd2ec Cristian Marussi 2022-12-22   85  	 * requested device entry for this new valid request.
+d3cd7c525fd2ec Cristian Marussi 2022-12-22   86  	 */
+d3cd7c525fd2ec Cristian Marussi 2022-12-22   87  	rdev = kzalloc(sizeof(*rdev), GFP_KERNEL);
+d3cd7c525fd2ec Cristian Marussi 2022-12-22   88  	if (!rdev) {
+d3cd7c525fd2ec Cristian Marussi 2022-12-22   89  		ret = -ENOMEM;
+d3cd7c525fd2ec Cristian Marussi 2022-12-22   90  		goto out;
+d3cd7c525fd2ec Cristian Marussi 2022-12-22   91  	}
+d3cd7c525fd2ec Cristian Marussi 2022-12-22   92  	rdev->id_table = id_table;
+d3cd7c525fd2ec Cristian Marussi 2022-12-22   93  
+d3cd7c525fd2ec Cristian Marussi 2022-12-22   94  	/*
+d3cd7c525fd2ec Cristian Marussi 2022-12-22   95  	 * Append the new requested device table descriptor to the head of the
+d3cd7c525fd2ec Cristian Marussi 2022-12-22   96  	 * related protocol list, eventually creating such head if not already
+d3cd7c525fd2ec Cristian Marussi 2022-12-22   97  	 * there.
+d3cd7c525fd2ec Cristian Marussi 2022-12-22   98  	 */
+d3cd7c525fd2ec Cristian Marussi 2022-12-22   99  	if (!phead) {
+d3cd7c525fd2ec Cristian Marussi 2022-12-22  100  		phead = kzalloc(sizeof(*phead), GFP_KERNEL);
+d3cd7c525fd2ec Cristian Marussi 2022-12-22  101  		if (!phead) {
+d3cd7c525fd2ec Cristian Marussi 2022-12-22 @102  			kfree(rdev);
+d3cd7c525fd2ec Cristian Marussi 2022-12-22  103  			ret = -ENOMEM;
+d3cd7c525fd2ec Cristian Marussi 2022-12-22  104  			goto out;
+d3cd7c525fd2ec Cristian Marussi 2022-12-22  105  		}
+d3cd7c525fd2ec Cristian Marussi 2022-12-22  106  		INIT_LIST_HEAD(phead);
+d3cd7c525fd2ec Cristian Marussi 2022-12-22  107  
+d3cd7c525fd2ec Cristian Marussi 2022-12-22  108  		ret = idr_alloc(&scmi_requested_devices, (void *)phead,
+d3cd7c525fd2ec Cristian Marussi 2022-12-22  109  				id_table->protocol_id,
+d3cd7c525fd2ec Cristian Marussi 2022-12-22  110  				id_table->protocol_id + 1, GFP_KERNEL);
+d3cd7c525fd2ec Cristian Marussi 2022-12-22  111  		if (ret != id_table->protocol_id) {
+d3cd7c525fd2ec Cristian Marussi 2022-12-22  112  			pr_err("Failed to save SCMI device - ret:%d\n", ret);
+d3cd7c525fd2ec Cristian Marussi 2022-12-22  113  			kfree(rdev);
+d3cd7c525fd2ec Cristian Marussi 2022-12-22  114  			kfree(phead);
+d3cd7c525fd2ec Cristian Marussi 2022-12-22  115  			ret = -EINVAL;
+d3cd7c525fd2ec Cristian Marussi 2022-12-22  116  			goto out;
+d3cd7c525fd2ec Cristian Marussi 2022-12-22  117  		}
+d3cd7c525fd2ec Cristian Marussi 2022-12-22  118  		ret = 0;
+d3cd7c525fd2ec Cristian Marussi 2022-12-22  119  	}
+d3cd7c525fd2ec Cristian Marussi 2022-12-22  120  	list_add(&rdev->node, phead);
+d3cd7c525fd2ec Cristian Marussi 2022-12-22  121  
+d3cd7c525fd2ec Cristian Marussi 2022-12-22  122  out:
+d3cd7c525fd2ec Cristian Marussi 2022-12-22  123  	mutex_unlock(&scmi_requested_devices_mtx);
+d3cd7c525fd2ec Cristian Marussi 2022-12-22  124  
+d3cd7c525fd2ec Cristian Marussi 2022-12-22  125  	if (!ret)
+d3cd7c525fd2ec Cristian Marussi 2022-12-22  126  		blocking_notifier_call_chain(&scmi_requested_devices_nh,
+d3cd7c525fd2ec Cristian Marussi 2022-12-22  127  					     SCMI_BUS_NOTIFY_DEVICE_REQUEST,
+d3cd7c525fd2ec Cristian Marussi 2022-12-22 @128  					     (void *)rdev->id_table);
+d3cd7c525fd2ec Cristian Marussi 2022-12-22  129  
+d3cd7c525fd2ec Cristian Marussi 2022-12-22  130  	return ret;
+d3cd7c525fd2ec Cristian Marussi 2022-12-22  131  }
+d3cd7c525fd2ec Cristian Marussi 2022-12-22  132  
 
 -- 
 0-DAY CI Kernel Test Service
