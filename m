@@ -1,96 +1,122 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E5CA1C11
-	for <oe-kbuild@lists.linux.dev>; Sun, 12 Feb 2023 13:24:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676208286; x=1707744286;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=313yl8oTZjr4+qfeOk8JsPFK2wwgmg7T8Bq5G4bjdp4=;
-  b=ACgAFpr/V2CGUZ2Vw41zzC/ba+F1t7tlk+fsn0SJ1B7JKCAV19isGmSL
-   UWashjkIYMsQSUEfMFGARN4ruAZAz9twZx9L3jqlxYeLxrhvvAuqAyNx1
-   +8tuYhyhHA+lLoW4W0JBrfDC/KJD3hQSD+9I8dVc1dvtIZV7Qhip0IC2p
-   kOqW8Ul6T1ZoUsheLEehFnfW+hU+5W2VeVknv/6FtlwauiCXvHUlTQr0R
-   dWANOLQ/oiRxY2d44KxGrn0SSsmgTm0c4uKV/POChI2pwcHDgFYbB1ceS
-   jKUMOIVSBulduryIn8F8aTcwG2nNw6On+/YxRRDGC6XN2yGJfepN2ZuhB
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10618"; a="393116832"
-X-IronPort-AV: E=Sophos;i="5.97,291,1669104000"; 
-   d="scan'208";a="393116832"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2023 05:24:45 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10618"; a="737222974"
-X-IronPort-AV: E=Sophos;i="5.97,291,1669104000"; 
-   d="scan'208";a="737222974"
-Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 12 Feb 2023 05:24:44 -0800
-Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pRCLU-0007Dx-0E;
-	Sun, 12 Feb 2023 13:24:44 +0000
-Date: Sun, 12 Feb 2023 21:23:55 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH v5 2/2] drm/imx/lcdc: Implement DRM driver for imx25
-Message-ID: <202302122146.3fEMhin0-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A905A7E;
+	Mon, 13 Feb 2023 00:57:21 +0000 (UTC)
+Authenticated-By: 
+X-SpamFilter-By: ArmorX SpamTrap 5.77 with qID 31D0v8cP5003820, This message is accepted by code: ctloc85258
+Received: from mail.realtek.com (rtexh36506.realtek.com.tw[172.21.6.27])
+	by rtits2.realtek.com.tw (8.15.2/2.81/5.90) with ESMTPS id 31D0v8cP5003820
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=OK);
+	Mon, 13 Feb 2023 08:57:08 +0800
+Received: from RTEXMBS03.realtek.com.tw (172.21.6.96) by
+ RTEXH36506.realtek.com.tw (172.21.6.27) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.9; Mon, 13 Feb 2023 08:57:09 +0800
+Received: from RTEXMBS04.realtek.com.tw (172.21.6.97) by
+ RTEXMBS03.realtek.com.tw (172.21.6.96) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.7; Mon, 13 Feb 2023 08:57:09 +0800
+Received: from RTEXMBS04.realtek.com.tw ([fe80::b4a2:2bcc:48d1:8b02]) by
+ RTEXMBS04.realtek.com.tw ([fe80::b4a2:2bcc:48d1:8b02%5]) with mapi id
+ 15.01.2375.007; Mon, 13 Feb 2023 08:57:08 +0800
+From: Ping-Ke Shih <pkshih@realtek.com>
+To: Dan Carpenter <error27@gmail.com>,
+        "oe-kbuild@lists.linux.dev"
+	<oe-kbuild@lists.linux.dev>
+CC: "lkp@intel.com" <lkp@intel.com>,
+        "oe-kbuild-all@lists.linux.dev"
+	<oe-kbuild-all@lists.linux.dev>,
+        "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>,
+        Kalle Valo <kvalo@kernel.org>
+Subject: RE: drivers/net/wireless/realtek/rtw89/mac.c:3829 rtw89_mac_cfg_ppdu_status() warn: missing error code? 'ret'
+Thread-Topic: drivers/net/wireless/realtek/rtw89/mac.c:3829
+ rtw89_mac_cfg_ppdu_status() warn: missing error code? 'ret'
+Thread-Index: AQHZPXeahvA2gD/Wl06jmE9Ze/ex9K7MEMyA
+Date: Mon, 13 Feb 2023 00:57:08 +0000
+Message-ID: <5884ba04b5364eab9c875139fa1f408b@realtek.com>
+References: <202302101023.ctlih5q0-lkp@intel.com>
+In-Reply-To: <202302101023.ctlih5q0-lkp@intel.com>
+Accept-Language: en-US, zh-TW
+Content-Language: zh-TW
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-originating-ip: [172.21.69.188]
+x-kse-serverinfo: RTEXMBS03.realtek.com.tw, 9
+x-kse-attachmentfiltering-interceptor-info: no applicable attachment filtering
+ rules found
+x-kse-antivirus-interceptor-info: scan successful
+x-kse-antivirus-info: =?us-ascii?Q?Clean,_bases:_2023/2/12_=3F=3F_10:00:00?=
+x-kse-bulkmessagesfiltering-scan-result: protection disabled
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
-:::::: 
-:::::: Manual check reason: "low confidence bisect report"
-:::::: 
+Hi,
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20230210180014.173379-3-u.kleine-koenig@pengutronix.de>
-References: <20230210180014.173379-3-u.kleine-koenig@pengutronix.de>
-TO: "Uwe Kleine-König" <u.kleine-koenig@pengutronix.de>
-TO: David Airlie <airlied@gmail.com>
-TO: Daniel Vetter <daniel@ffwll.ch>
-TO: Shawn Guo <shawnguo@kernel.org>
-TO: Sascha Hauer <s.hauer@pengutronix.de>
-TO: Philipp Zabel <p.zabel@pengutronix.de>
-TO: Sam Ravnborg <sam@ravnborg.org>
-TO: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-TO: Danilo Krummrich <dakr@redhat.com>
-TO: Liu Ying <victor.liu@nxp.com>
-CC: linux-arm-kernel@lists.infradead.org
-CC: dri-devel@lists.freedesktop.org
-CC: NXP Linux Team <linux-imx@nxp.com>
-CC: Pengutronix Kernel Team <kernel@pengutronix.de>
+> -----Original Message-----
+> From: Dan Carpenter <error27@gmail.com>
+> Sent: Saturday, February 11, 2023 12:11 AM
+> To: oe-kbuild@lists.linux.dev; Ping-Ke Shih <pkshih@realtek.com>
+> Cc: lkp@intel.com; oe-kbuild-all@lists.linux.dev; linux-kernel@vger.kerne=
+l.org; Kalle Valo
+> <kvalo@kernel.org>
+> Subject: drivers/net/wireless/realtek/rtw89/mac.c:3829 rtw89_mac_cfg_ppdu=
+_status() warn: missing error
+> code? 'ret'
+>=20
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t master
+> head:   e544a07438522ab3688416e6e2e34bf0ee6d8755
+> commit: 7ba49f4c6896d83b3841c0b046a0a7b1e97cc0dd rtw89: 8852c: add 8852ce=
+ to Makefile and Kconfig
+> config: parisc-randconfig-m031-20230209
+> (https://download.01.org/0day-ci/archive/20230210/202302101023.ctlih5q0-l=
+kp@intel.com/config)
+> compiler: hppa-linux-gcc (GCC) 12.1.0
+>=20
+> If you fix the issue, kindly add following tag where applicable
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <error27@gmail.com>
+> | Link: https://lore.kernel.org/r/202302101023.ctlih5q0-lkp@intel.com/
+>=20
+> smatch warnings:
+> drivers/net/wireless/realtek/rtw89/mac.c:3829 rtw89_mac_cfg_ppdu_status()=
+ warn: missing error code? 'ret'
+>=20
+> vim +/ret +3829 drivers/net/wireless/realtek/rtw89/mac.c
+>=20
+> e3ec7017f6a20d Ping-Ke Shih  2021-10-11  3818  int rtw89_mac_cfg_ppdu_sta=
+tus(struct rtw89_dev *rtwdev, u8
+> mac_idx, bool enable)
+> e3ec7017f6a20d Ping-Ke Shih  2021-10-11  3819  {
+> e3ec7017f6a20d Ping-Ke Shih  2021-10-11  3820  	u32 reg =3D rtw89_mac_reg=
+_by_idx(R_AX_PPDU_STAT, mac_idx);
+> e3ec7017f6a20d Ping-Ke Shih  2021-10-11  3821  	int ret =3D 0;
+> e3ec7017f6a20d Ping-Ke Shih  2021-10-11  3822
+> e3ec7017f6a20d Ping-Ke Shih  2021-10-11  3823  	ret =3D rtw89_mac_check_m=
+ac_en(rtwdev, mac_idx,
+> RTW89_CMAC_SEL);
+> e3ec7017f6a20d Ping-Ke Shih  2021-10-11  3824  	if (ret)
+> e3ec7017f6a20d Ping-Ke Shih  2021-10-11  3825  		return ret;
+> e3ec7017f6a20d Ping-Ke Shih  2021-10-11  3826
+> e3ec7017f6a20d Ping-Ke Shih  2021-10-11  3827  	if (!enable) {
+> e3ec7017f6a20d Ping-Ke Shih  2021-10-11  3828  		rtw89_write32_clr(rtwdev=
+, reg,
+> B_AX_PPDU_STAT_RPT_EN);
+> e3ec7017f6a20d Ping-Ke Shih  2021-10-11 @3829  		return ret;
+>=20
+> The code is correct, but it would be more readable to return 0;
 
-Hi Uwe,
+Yes, it will be more readable. I will send a patch to change them soon.
+Thanks for pointing out this.
 
-Thank you for the patch! Perhaps something to improve:
+Ping-Ke
 
-[auto build test WARNING on 2591939e881cf728b6ac45971eeec2f58051c101]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Uwe-Kleine-K-nig/dt-bindings-display-imx-Describe-drm-binding-for-fsl-imx-lcdc/20230211-020147
-base:   2591939e881cf728b6ac45971eeec2f58051c101
-patch link:    https://lore.kernel.org/r/20230210180014.173379-3-u.kleine-koenig%40pengutronix.de
-patch subject: [PATCH v5 2/2] drm/imx/lcdc: Implement DRM driver for imx25
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/r/202302122146.3fEMhin0-lkp@intel.com/
-
-includecheck warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/imx/lcdc/imx-lcdc.c: drm/drm_fourcc.h is included more than once.
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
