@@ -1,56 +1,50 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F207C3C02;
-	Tue, 14 Feb 2023 07:58:08 +0000 (UTC)
-Received: by mail-wr1-f45.google.com with SMTP id by3so13379829wrb.10;
-        Mon, 13 Feb 2023 23:58:08 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 232AB3C02;
+	Tue, 14 Feb 2023 08:27:24 +0000 (UTC)
+Received: by mail-wm1-f44.google.com with SMTP id k8-20020a05600c1c8800b003dc57ea0dfeso13103036wms.0;
+        Tue, 14 Feb 2023 00:27:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=jJeol2eNvunQmmGVUes1HrblFwzhntE5hKnDqonygF8=;
-        b=J5nuyajfuT3ZldBj6d+ClBLuVhstXvY5W7g+kXaliIlrTpWkojYbic0hC4PQD0N7em
-         pdI0K3sXYWqBkPeXlk1H2wTi1kZwW3eMODYrAk9BDW0XYmmfsL5Mwt5S39IdunvFZDYa
-         AXE9qUOqrH4ijhFVOHtEfxXMUpbMCg6L5n573Wq9LSzw9aBotxpZEVVGfPW3iHFeKj/V
-         RR9+rxNxsVA0w9Obz8kp1d2TjryTHRPu4bELc+XYZ2aaCSyItvyftWRsHgLk5814xVSs
-         4K+uv3XYwIKrmcf8GdHyu3C6P7y2lknnNeddWJ8Im3usNZoSTq8rAWNVJIypGtyvDm44
-         Rleg==
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Q3SNzD1D/+G7EoWbroYbrElrYQ8bt6MSn6iygZYJlsA=;
+        b=iaLkJwRNrJ7fg1h6X9TBxfMRyjoxwBSFuUWtN8RynawGcpGtOZpVZ9jgk0YaD2tvL4
+         yBCWhoXbvYoj95luW8olOSFw2WNPXFTX7L3KbrVlaBGYslSUXl0C7uufc4e6Xstf5TVk
+         v89l57dWaRaGbFshFENq7IQa8IFASuM5c96hEJnU/V+cBaNCEfdoWlymxE9L9yk5ZfuW
+         V88aG2NZ1UhDyElTiSDNY+bi2lMxOWmx7JIryFjB12cT1e0Rz8aVCjfpaalwa8xw0Sim
+         FXh2NdHlaUHjJ2IQ+8YfHeUhSi6P52V+4UkRutpYOQ70daEX/d9vTzrhRIhv1TYCZRQy
+         IY0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=jJeol2eNvunQmmGVUes1HrblFwzhntE5hKnDqonygF8=;
-        b=Ul6fphZUDf9H9P2krxM+VJ/TMgExIfrC+K8WoZO6+QGO0MDlLvZhnNaoNkXtTlQ7JC
-         XMZM5nqI0qZXqng7QzvGJ2yhdTyH/lIBmSXhZ6gOMcCzcsvcGsGTuhp0LT0W6u+nO5Kq
-         w9piPxXlGhs/e1UIQkmY15zi8c4KDBBrChIOkuWTNVQtuc8PiB14OdV8EigrrGR38jLF
-         tQcEF4udxjCVzV7dU232r3IT+yJKOzmSvv4N38MFoBamAgUHshSQtR3VV12ezArwxPcr
-         P8Zj1GAJ77n3Y2j7r9l1/LWCrNadbuKq5XSHmAn5tbmJu+/ZcrmbY4gZtUxz6v0HjcU2
-         PIlw==
-X-Gm-Message-State: AO0yUKX6onEYs3sJSY9eTqXHFZJdxA3UhLIs9NqUye6DvekhcSqgPr8/
-	S8i9zUykexEna+cUXYe/4m5QpxcbxctcUQ==
-X-Google-Smtp-Source: AK7set+JwcQI+vO5QHy7CPTkFgxpNyvViFhZkVwGUzelkyHThhU3yIENvt2tzNpyjDGPROYHfJExhA==
-X-Received: by 2002:a5d:538a:0:b0:2c5:58aa:633b with SMTP id d10-20020a5d538a000000b002c558aa633bmr1246932wrv.20.1676361487037;
-        Mon, 13 Feb 2023 23:58:07 -0800 (PST)
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Q3SNzD1D/+G7EoWbroYbrElrYQ8bt6MSn6iygZYJlsA=;
+        b=AfCHul7czR9bkRAnjAsjQtey5yJPpLRKgewH8kQgRKZlk6QGAUfaaLfZFvkaz8w4Xv
+         2ZOGJhdmHAT/XBRHenqDpA218gAR594UCl+cdmLBTzcrj0pAhV7+OVX9ftCmJ5uwq8Fm
+         Qzf13f/7fme3H/oS4uTdEPXWHb+Qd21LvksnfIlEVHZfHd0zA1CzeqQs0yI8PV9XXNz9
+         R9GTIpNErWAsT/ELwAppqvVsncax9ZSZk/hHtd+JyygMh87WojB+5LgPUnQiNEHWmgEJ
+         EpfWiEiLyMv1dNuXf9zcwRd4gAYWMV+EtJyCoIt8bNNP6qMNcNG0mwdTzrEP0FbofRpF
+         Y1ew==
+X-Gm-Message-State: AO0yUKXiDPmkgRtWP2s0FCeAAesdNSeyIqp9WGazsWSPNvkZ1BBJVIIL
+	qNTAav2dIRiUowI17Z7tZqh1cFyOq2YmSA==
+X-Google-Smtp-Source: AK7set/PQGgEB4IJvIh0aW4sBsNUXDmoFU8fm/dDk4eB8lGJl3JfOc/5hiQKbUbK+BcjxlX/8ShgYA==
+X-Received: by 2002:a05:600c:a39e:b0:3dc:4c4f:6dc5 with SMTP id hn30-20020a05600ca39e00b003dc4c4f6dc5mr1302498wmb.9.1676363242267;
+        Tue, 14 Feb 2023 00:27:22 -0800 (PST)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id w8-20020a5d6088000000b002c5539171d1sm5786557wrt.41.2023.02.13.23.58.05
+        by smtp.gmail.com with ESMTPSA id n22-20020a05600c4f9600b003dcc82ce53fsm18110172wmq.38.2023.02.14.00.27.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Feb 2023 23:58:06 -0800 (PST)
-Date: Tue, 14 Feb 2023 10:58:02 +0300
+        Tue, 14 Feb 2023 00:27:21 -0800 (PST)
+Date: Tue, 14 Feb 2023 11:27:18 +0300
 From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, Pietro Borrello <borrello@diag.uniroma1.it>,
-	Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-	Hanno Zulla <kontakt@hanno.de>, Carlo Caione <carlo@endlessm.com>
+To: oe-kbuild@lists.linux.dev, "Haim, Dreyfuss" <haim.dreyfuss@intel.com>
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Cristiano Giuffrida <c.giuffrida@vu.nl>,
-	"Bos, H.J." <h.j.bos@vu.nl>, Jakob Koschel <jkl820.git@gmail.com>,
-	Roderick Colenbrander <roderick@gaikai.com>,
-	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Pietro Borrello <borrello@diag.uniroma1.it>
-Subject: Re: [PATCH v3 2/2] HID: asus: use spinlock to safely schedule workers
-Message-ID: <202302141039.anZLT940-lkp@intel.com>
+	linux-kernel@vger.kernel.org,
+	Gregory Greenman <gregory.greenman@intel.com>
+Subject: drivers/net/wireless/intel/iwlwifi/mvm/d3.c:2789
+ iwl_mvm_resume_firmware() error: uninitialized symbol 'd3_status'.
+Message-ID: <202302140947.nQROevUz-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -59,52 +53,64 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230125-hid-unregister-leds-v3-2-0a52ac225e00@diag.uniroma1.it>
-Message-ID: <20230214075802.MX915WwwtAqXUjv_u3Ze7-TIuV5rpF-wSNvZv6LpfB4@z>
+Message-ID: <20230214082718.5Gg4RueA6w3Seic5dGlVQ0azBYLIDVmYNbwCreuNw5I@z>
 
-Hi Pietro,
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Pietro-Borrello/HID-bigben-use-spinlock-to-safely-schedule-workers/20230210-080058
-base:   2241ab53cbb5cdb08a6b2d4688feb13971058f65
-patch link:    https://lore.kernel.org/r/20230125-hid-unregister-leds-v3-2-0a52ac225e00%40diag.uniroma1.it
-patch subject: [PATCH v3 2/2] HID: asus: use spinlock to safely schedule workers
-config: riscv-randconfig-m031-20230212 (https://download.01.org/0day-ci/archive/20230214/202302141039.anZLT940-lkp@intel.com/config)
-compiler: riscv32-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   f6feea56f66d34259c4222fa02e8171c4f2673d1
+commit: b75dac847c9453d017d463a97e253416abf93d36 wifi: iwlwifi: mvm: trigger resume flow before wait for notifications
+config: x86_64-randconfig-m001-20230213 (https://download.01.org/0day-ci/archive/20230214/202302140947.nQROevUz-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202302141039.anZLT940-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202302140947.nQROevUz-lkp@intel.com/
 
 smatch warnings:
-drivers/hid/hid-asus.c:532 asus_kbd_backlight_work() warn: sleeping in atomic context
+drivers/net/wireless/intel/iwlwifi/mvm/d3.c:2789 iwl_mvm_resume_firmware() error: uninitialized symbol 'd3_status'.
 
-vim +532 drivers/hid/hid-asus.c
+vim +/d3_status +2789 drivers/net/wireless/intel/iwlwifi/mvm/d3.c
 
-af22a610bc3850 Carlo Caione    2017-04-06  521  static void asus_kbd_backlight_work(struct work_struct *work)
-af22a610bc3850 Carlo Caione    2017-04-06  522  {
-af22a610bc3850 Carlo Caione    2017-04-06  523  	struct asus_kbd_leds *led = container_of(work, struct asus_kbd_leds, work);
-af22a610bc3850 Carlo Caione    2017-04-06  524  	u8 buf[] = { FEATURE_KBD_REPORT_ID, 0xba, 0xc5, 0xc4, 0x00 };
-af22a610bc3850 Carlo Caione    2017-04-06  525  	int ret;
-31e578b641b3b3 Pietro Borrello 2023-02-09  526  	unsigned long flags;
-af22a610bc3850 Carlo Caione    2017-04-06  527  
-31e578b641b3b3 Pietro Borrello 2023-02-09  528  	spin_lock_irqsave(&led->lock, flags);
-                                                        ^^^^^^^^^^^^^^^^^
-Holding a spinlock.
+4da46a06d4430a Haim Dreyfuss  2022-09-06  2773  
+b75dac847c9453 Haim, Dreyfuss 2022-09-06  2774  static int iwl_mvm_resume_firmware(struct iwl_mvm *mvm, bool test)
+b75dac847c9453 Haim, Dreyfuss 2022-09-06  2775  {
+b75dac847c9453 Haim, Dreyfuss 2022-09-06  2776  	int ret;
+b75dac847c9453 Haim, Dreyfuss 2022-09-06  2777  	enum iwl_d3_status d3_status;
+b75dac847c9453 Haim, Dreyfuss 2022-09-06  2778  	struct iwl_host_cmd cmd = {
+b75dac847c9453 Haim, Dreyfuss 2022-09-06  2779  			.id = D0I3_END_CMD,
+b75dac847c9453 Haim, Dreyfuss 2022-09-06  2780  			.flags = CMD_WANT_SKB | CMD_SEND_IN_D3,
+b75dac847c9453 Haim, Dreyfuss 2022-09-06  2781  		};
+b75dac847c9453 Haim, Dreyfuss 2022-09-06  2782  	bool reset = fw_has_capa(&mvm->fw->ucode_capa,
+b75dac847c9453 Haim, Dreyfuss 2022-09-06  2783  				 IWL_UCODE_TLV_CAPA_CNSLDTD_D3_D0_IMG);
+b75dac847c9453 Haim, Dreyfuss 2022-09-06  2784  
+b75dac847c9453 Haim, Dreyfuss 2022-09-06  2785  	ret = iwl_trans_d3_resume(mvm->trans, &d3_status, test, !reset);
+b75dac847c9453 Haim, Dreyfuss 2022-09-06  2786  	if (ret)
+b75dac847c9453 Haim, Dreyfuss 2022-09-06  2787  		return ret;
+b75dac847c9453 Haim, Dreyfuss 2022-09-06  2788  
+b75dac847c9453 Haim, Dreyfuss 2022-09-06 @2789  	if (d3_status != IWL_D3_STATUS_ALIVE) {
 
-af22a610bc3850 Carlo Caione    2017-04-06  529  
-af22a610bc3850 Carlo Caione    2017-04-06  530  	buf[4] = led->brightness;
-af22a610bc3850 Carlo Caione    2017-04-06  531  
-af22a610bc3850 Carlo Caione    2017-04-06 @532  	ret = asus_kbd_set_report(led->hdev, buf, sizeof(buf));
-                                                              ^^^^^^^^^^^^^^^^^^^
-asus_kbd_set_report() does a GFP_KERNEL allocation.
+The iwl_trans_d3_resume() function does not initialize d3_status if
+trans->ops->d3_resume is NULL.
 
-
-af22a610bc3850 Carlo Caione    2017-04-06  533  	if (ret < 0)
-af22a610bc3850 Carlo Caione    2017-04-06  534  		hid_err(led->hdev, "Asus failed to set keyboard backlight: %d\n", ret);
-31e578b641b3b3 Pietro Borrello 2023-02-09  535  
-31e578b641b3b3 Pietro Borrello 2023-02-09  536  	spin_unlock_irqrestore(&led->lock, flags);
-af22a610bc3850 Carlo Caione    2017-04-06  537  }
+b75dac847c9453 Haim, Dreyfuss 2022-09-06  2790  		IWL_INFO(mvm, "Device was reset during suspend\n");
+b75dac847c9453 Haim, Dreyfuss 2022-09-06  2791  		return -ENOENT;
+b75dac847c9453 Haim, Dreyfuss 2022-09-06  2792  	}
+b75dac847c9453 Haim, Dreyfuss 2022-09-06  2793  
+b75dac847c9453 Haim, Dreyfuss 2022-09-06  2794  	/*
+b75dac847c9453 Haim, Dreyfuss 2022-09-06  2795  	 * We should trigger resume flow using command only for 22000 family
+b75dac847c9453 Haim, Dreyfuss 2022-09-06  2796  	 * AX210 and above don't need the command since they have
+b75dac847c9453 Haim, Dreyfuss 2022-09-06  2797  	 * the doorbell interrupt.
+b75dac847c9453 Haim, Dreyfuss 2022-09-06  2798  	 */
+b75dac847c9453 Haim, Dreyfuss 2022-09-06  2799  	if (mvm->trans->trans_cfg->device_family <= IWL_DEVICE_FAMILY_22000 &&
+b75dac847c9453 Haim, Dreyfuss 2022-09-06  2800  	    fw_has_capa(&mvm->fw->ucode_capa, IWL_UCODE_TLV_CAPA_D0I3_END_FIRST)) {
+b75dac847c9453 Haim, Dreyfuss 2022-09-06  2801  		ret = iwl_mvm_send_cmd(mvm, &cmd);
+b75dac847c9453 Haim, Dreyfuss 2022-09-06  2802  		if (ret < 0)
+b75dac847c9453 Haim, Dreyfuss 2022-09-06  2803  			IWL_ERR(mvm, "Failed to send D0I3_END_CMD first (%d)\n",
+b75dac847c9453 Haim, Dreyfuss 2022-09-06  2804  				ret);
+b75dac847c9453 Haim, Dreyfuss 2022-09-06  2805  	}
+b75dac847c9453 Haim, Dreyfuss 2022-09-06  2806  
+b75dac847c9453 Haim, Dreyfuss 2022-09-06  2807  	return ret;
+b75dac847c9453 Haim, Dreyfuss 2022-09-06  2808  }
 
 -- 
 0-DAY CI Kernel Test Service
