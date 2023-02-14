@@ -1,39 +1,46 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAE9227721
-	for <oe-kbuild@lists.linux.dev>; Tue, 14 Feb 2023 13:08:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676380092; x=1707916092;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=xGB2YRibt4zTg5JNtgbUu9sZEvyRUEKDP9cdpYrf+sY=;
-  b=lUKXYE+g71nbfYl0x3lgo1R5gImlS1mGzfza3+N8wWCecwBTXMMkfnye
-   Gjy8bWyfJflm44XVHoDDrazldJqLVPSY7J0cSPe0DJ0uY0q+kEvlJcL4s
-   rHpU9tv0LloIWKjEK7Zbt+Eaqi9K6X4lu5R0H1onISirdI00ylg913JZE
-   e8We+tuB+9qu2UbvATpPrplBy2mX2dXkvanftC1OS3ZiDUHwiJjAx798x
-   hj2gHP2XaXmAfeq7XIjS1Np+kGMyQxAqi0vpwgx9VUhqz1yzQOGFD4qYD
-   76V3swEFjdSdV8nzWw0pG3PNa/hbDh1/dIQW3yUs/+Vgd9gDTnxBT2UH6
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="358568937"
-X-IronPort-AV: E=Sophos;i="5.97,296,1669104000"; 
-   d="scan'208";a="358568937"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2023 05:08:12 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="619053173"
-X-IronPort-AV: E=Sophos;i="5.97,296,1669104000"; 
-   d="scan'208";a="619053173"
-Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 14 Feb 2023 05:08:10 -0800
-Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pRv2X-0008Wn-2Z;
-	Tue, 14 Feb 2023 13:08:09 +0000
-Date: Tue, 14 Feb 2023 21:07:29 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E388227721;
+	Tue, 14 Feb 2023 13:24:48 +0000 (UTC)
+Received: by mail-wm1-f49.google.com with SMTP id n33so4965108wms.0;
+        Tue, 14 Feb 2023 05:24:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=G9RN+mg4kNcrM5qEGJpnwzf2Cf39MbkXJ0+S7zpdY80=;
+        b=IW4slTnEMTtls7Fc9o3RWZeElhv0VMbbHj0HVLgz4ilT/JTwRHbVUAq7cGsgpe2CYs
+         UywVIwH9OYYViiz53lMvUMarqcll7LgDWqfcoYjmp2adhc9y+EnzTg6ht5598vnt8LHJ
+         tsMd4XpKQjaOR6KRinV7T3MMRPtwo7/LAL5+3hDNSf4foEjotG0ybMQ2EomDHkO7gaoO
+         RXrUVInnGt+RrzVUIiWXYzFUs5euhPiHBbVB4veZIADn1nZqwYUdhIA1QHsYNc/gXnhg
+         H8pS5Dv/avjUIN4f/1CIc7W+OV4Z4YOzVdN1MHRAhszlLB1741u52YO5fWSHzF7NQkgo
+         4cTw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=G9RN+mg4kNcrM5qEGJpnwzf2Cf39MbkXJ0+S7zpdY80=;
+        b=y5WP1jtL1Sppv7adQjmBwnz4oqQbhIt4gUiOo1Fp5N+apzheTabFYbnVNjiiOUvlZX
+         QPXovu45FAY6L0HrIRyjZZjZ1rYrqB2YHO7UUE/RdHPRbAzcbhPC26M6pVvqy4Kq8gW3
+         xWMdJkhYoNGAkHVoKfxqmf141tw/Y7ojS1/vveGbLyUE1+LJN2EJWGRCXLhF+90sEhAX
+         QdgmvJ7UW3mfPel583nFP15VYCvDjtWH0awvGC2gw9DHjWLldvTpnE2wpSJBYW5lfyj6
+         nS/2+R+g+Bv0zzKfms//QunpkFqy1Qsk0kTA4/GViQDK7xMuOJxDEePOZZlM3iaRvkRE
+         1DLw==
+X-Gm-Message-State: AO0yUKW0DfnGreZDHQ4NNhXxNXwIgPbw0/w3p0P3WWznCPfVmZnu1ZZH
+	6icPuwlzR5zAVxCWz6oODm4B7yYlBO2ODg==
+X-Google-Smtp-Source: AK7set+uanKiaBrbmBnAjETJp7Y8YSpoU3xMktRTTTEO7ZKDOjjKT4Fi1hMiZcQIn3DK+8YFRUiLIQ==
+X-Received: by 2002:a05:600c:4486:b0:3d3:49db:9b25 with SMTP id e6-20020a05600c448600b003d349db9b25mr1988510wmo.26.1676381086840;
+        Tue, 14 Feb 2023 05:24:46 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id az10-20020a05600c600a00b003dc3f07c876sm20847195wmb.46.2023.02.14.05.24.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 14 Feb 2023 05:24:46 -0800 (PST)
+Date: Tue, 14 Feb 2023 16:24:35 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev, Bitterblue Smith <rtl8821cerfe2@gmail.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Kalle Valo <kvalo@kernel.org>, Ping-Ke Shih <pkshih@realtek.com>
 Subject: [linux-next:master 681/12724]
  drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_8188e.c:1678
  rtl8188e_handle_ra_tx_report2() warn: ignoring unreachable code.
@@ -46,19 +53,11 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Bitterblue Smith <rtl8821cerfe2@gmail.com>
-CC: Kalle Valo <kvalo@kernel.org>
-CC: "Ping-Ke Shih" <pkshih@realtek.com>
+Message-ID: <20230214132435.t98KiMXro-h62DvLgbmWUFaKyTtvb9Wc5T2J7Fbp8sQ@z>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
 head:   3ebb0ac55efaf1d0fb1b106f852c114e5021f7eb
 commit: 8b9754b28f0f231736667e1751f1fc6f18c80ad4 [681/12724] wifi: rtl8xxxu: Add rate control code for RTL8188EU
-:::::: branch date: 10 hours ago
-:::::: commit date: 8 weeks ago
 config: x86_64-randconfig-m001-20230213 (https://download.01.org/0day-ci/archive/20230214/202302142135.LCqUTVGY-lkp@intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 
@@ -72,7 +71,6 @@ drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_8188e.c:1678 rtl8188e_handle_ra_t
 
 vim +1678 drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_8188e.c
 
-8b9754b28f0f23 Bitterblue Smith 2022-12-17  1661  
 8b9754b28f0f23 Bitterblue Smith 2022-12-17  1662  void rtl8188e_handle_ra_tx_report2(struct rtl8xxxu_priv *priv, struct sk_buff *skb)
 8b9754b28f0f23 Bitterblue Smith 2022-12-17  1663  {
 8b9754b28f0f23 Bitterblue Smith 2022-12-17  1664  	u32 *_rx_desc = (u32 *)(skb->data - sizeof(struct rtl8xxxu_rxdesc16));
@@ -90,6 +88,13 @@ vim +1678 drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_8188e.c
 8b9754b28f0f23 Bitterblue Smith 2022-12-17  1676  	dev_dbg(dev, "%s: len: %d items: %d\n", __func__, tx_rpt_len, items);
 8b9754b28f0f23 Bitterblue Smith 2022-12-17  1677  
 8b9754b28f0f23 Bitterblue Smith 2022-12-17 @1678  	for (macid = 0; macid < items; macid++) {
+                                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+This loop doesn't loop.  I see the comment at the end which explains
+why we have the dead code.  I only review these checker warnings two
+times and this is my second review so, personally, I don't care if you
+leave it or not.  But probably other people will review this static
+checker warning as well so you might want to just delete the loop.
+
 8b9754b28f0f23 Bitterblue Smith 2022-12-17  1679  		valid = false;
 8b9754b28f0f23 Bitterblue Smith 2022-12-17  1680  
 8b9754b28f0f23 Bitterblue Smith 2022-12-17  1681  		if (macid < 64)
@@ -136,7 +141,10 @@ vim +1678 drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_8188e.c
 8b9754b28f0f23 Bitterblue Smith 2022-12-17  1722  		 * We only use macid 0, so only the first item is relevant.
 8b9754b28f0f23 Bitterblue Smith 2022-12-17  1723  		 * AP mode will use more of them if it's ever implemented.
 8b9754b28f0f23 Bitterblue Smith 2022-12-17  1724  		 */
+                                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 8b9754b28f0f23 Bitterblue Smith 2022-12-17  1725  		break;
+                                                                ^^^^^
+
 8b9754b28f0f23 Bitterblue Smith 2022-12-17  1726  	}
 8b9754b28f0f23 Bitterblue Smith 2022-12-17  1727  
 8b9754b28f0f23 Bitterblue Smith 2022-12-17  1728  	if (min_rpt_time != ra->pre_min_rpt_time) {
@@ -144,8 +152,8 @@ vim +1678 drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_8188e.c
 8b9754b28f0f23 Bitterblue Smith 2022-12-17  1730  		ra->pre_min_rpt_time = min_rpt_time;
 8b9754b28f0f23 Bitterblue Smith 2022-12-17  1731  	}
 8b9754b28f0f23 Bitterblue Smith 2022-12-17  1732  }
-8b9754b28f0f23 Bitterblue Smith 2022-12-17  1733  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
+
