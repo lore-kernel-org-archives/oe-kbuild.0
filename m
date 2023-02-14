@@ -1,137 +1,252 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5F95C5F7
-	for <oe-kbuild@lists.linux.dev>; Tue, 14 Feb 2023 20:21:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEAC5C0A3
+	for <oe-kbuild@lists.linux.dev>; Tue, 14 Feb 2023 21:53:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676406119; x=1707942119;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=4ksCtFjcs9UY01pJVC8Q7jNinmWPVYi9pVWBbm4aq9I=;
-  b=B5hyizwrYKpzd953i+lEmenNZLkq5BMCO3dBMdSraHVPlYDxiq3PfB4J
-   mPLxJanpUj/2PLfsf+NpcamdyrNfzkVDgN/xseql7KCeVsMWFA4F2zSbl
-   vQ8NyXq6ZMR+vOMR0sfW1vMc/sobYgUifcyj1Mv3B/sXiO8cAgF7kEZuN
-   D4PeFsPO1X6Tf+yW6cpjz+M3dJKITTxkfX89AZ8YU8MhLAnCFKLyoPH1w
-   +E+Rhz1WwXshf2jzwzEP5pNPCJGyE6cn8dIoz1CVaDm7leA8nXv6Lfnjb
-   r0YVFwG8aBqNkhNPbtmL21lcrqYq7JZ8nltQAzCgXnLLRcssINg2+pfDS
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10621"; a="417481123"
+  t=1676411605; x=1707947605;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=OEmSfnren99XsVIciYnWbGGesAKyT2hOubHEQb3e54A=;
+  b=K8Rabp2ayyFIRj4duVDg6QNz3zDyNydwYgtf2rUlaQCFD+UPRb1fo5Pv
+   JmpKeKPQcCr1WzH9WPt8git5TqOm5buEpXh6/2hTEeETwSIrAeOnWgzbf
+   T25yJNkyDQHW4qo7Zwk3tM6B139ybuSq6pGA8kxOk+EAAnH0KcxVlBnbu
+   iRVJhhaq0DLuM2uVLhIZziofPgsVHt7dd6reTMT+hwEVMZnVg3SqpZO6C
+   ZkUqun63r2jtLCWdR4QmjJMVTeTkCkzCjvw8RU56MmaOS1+WW8nh9eZDu
+   EkGwXrFzTMBhm7XEGv7VzUi8+lZYLPWGdGB6c9/Qbsk5PrWgt7jgUaavd
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10621"; a="319311711"
 X-IronPort-AV: E=Sophos;i="5.97,297,1669104000"; 
-   d="scan'208";a="417481123"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2023 12:20:23 -0800
+   d="scan'208";a="319311711"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2023 13:53:25 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10621"; a="701756169"
+X-IronPort-AV: E=McAfee;i="6500,9779,10621"; a="671379750"
 X-IronPort-AV: E=Sophos;i="5.97,297,1669104000"; 
-   d="scan'208";a="701756169"
+   d="scan'208";a="671379750"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 14 Feb 2023 12:20:21 -0800
+  by fmsmga007.fm.intel.com with ESMTP; 14 Feb 2023 13:53:23 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pS1mn-0008lx-0L;
-	Tue, 14 Feb 2023 20:20:21 +0000
-Date: Wed, 15 Feb 2023 04:19:39 +0800
+	id 1pS3Eo-0008oD-22;
+	Tue, 14 Feb 2023 21:53:22 +0000
+Date: Wed, 15 Feb 2023 05:52:26 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [linux-next:master 12089/12724] drivers/net/phy/phy-c45.c:296
- genphy_c45_an_config_aneg() error: uninitialized symbol 'changed'.
-Message-ID: <202302150400.uuWYkjZx-lkp@intel.com>
+Subject: Re: [PATCH 5/6] regulator: pca9450: Fix control register for LDO5
+Message-ID: <202302150540.GhiyJj5s-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Oleksij Rempel <o.rempel@pengutronix.de>
-CC: Andrew Lunn <andrew@lunn.ch>
+In-Reply-To: <20230213155833.1644366-6-frieder@fris.de>
+References: <20230213155833.1644366-6-frieder@fris.de>
+TO: Frieder Schrempf <frieder@fris.de>
+TO: Liam Girdwood <lgirdwood@gmail.com>
+TO: linux-kernel@vger.kernel.org
+TO: Mark Brown <broonie@kernel.org>
+CC: Marek Vasut <marex@denx.de>
+CC: Frieder Schrempf <frieder.schrempf@kontron.de>
+CC: "Per-Daniel Olsson" <perdo@axis.com>
+CC: Rickard x Andersson <rickaran@axis.com>
+CC: "Uwe Kleine-König" <u.kleine-koenig@pengutronix.de>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   3ebb0ac55efaf1d0fb1b106f852c114e5021f7eb
-commit: 5827b168125d16d93fe14284c2c377f32d13fce6 [12089/12724] net: phy: c45: migrate to genphy_c45_write_eee_adv()
-:::::: branch date: 17 hours ago
-:::::: commit date: 33 hours ago
-config: x86_64-randconfig-m001-20230213 (https://download.01.org/0day-ci/archive/20230215/202302150400.uuWYkjZx-lkp@intel.com/config)
+Hi Frieder,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on broonie-regulator/for-next]
+[also build test WARNING on shawnguo/for-next arm/for-next arm/fixes arm64/for-next/core kvmarm/next rockchip/for-next soc/for-next xilinx-xlnx/master linus/master v6.2-rc8 next-20230214]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Frieder-Schrempf/dt-bindings-regulator-pca9450-Document-new-usage-of-sd-vsel-gpios/20230214-013045
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git for-next
+patch link:    https://lore.kernel.org/r/20230213155833.1644366-6-frieder%40fris.de
+patch subject: [PATCH 5/6] regulator: pca9450: Fix control register for LDO5
+:::::: branch date: 28 hours ago
+:::::: commit date: 28 hours ago
+config: x86_64-randconfig-m001 (https://download.01.org/0day-ci/archive/20230215/202302150540.GhiyJj5s-lkp@intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202302150400.uuWYkjZx-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202302150540.GhiyJj5s-lkp@intel.com/
 
-New smatch warnings:
-drivers/net/phy/phy-c45.c:296 genphy_c45_an_config_aneg() error: uninitialized symbol 'changed'.
+smatch warnings:
+drivers/regulator/pca9450-regulator.c:866 pca9450_i2c_probe() error: uninitialized symbol 'ldo5'.
 
-Old smatch warnings:
-drivers/net/phy/phy-c45.c:716 genphy_c45_write_eee_adv() error: uninitialized symbol 'changed'.
+vim +/ldo5 +866 drivers/regulator/pca9450-regulator.c
 
-vim +/changed +296 drivers/net/phy/phy-c45.c
-
-3da8ffd8545f62 Alexandru Tachici 2022-04-29  247  
-9a5dc8af441668 Andrew Lunn       2019-02-17  248  /**
-9a5dc8af441668 Andrew Lunn       2019-02-17  249   * genphy_c45_an_config_aneg - configure advertisement registers
-9a5dc8af441668 Andrew Lunn       2019-02-17  250   * @phydev: target phy_device struct
-9a5dc8af441668 Andrew Lunn       2019-02-17  251   *
-9a5dc8af441668 Andrew Lunn       2019-02-17  252   * Configure advertisement registers based on modes set in phydev->advertising
-9a5dc8af441668 Andrew Lunn       2019-02-17  253   *
-9a5dc8af441668 Andrew Lunn       2019-02-17  254   * Returns negative errno code on failure, 0 if advertisement didn't change,
-9a5dc8af441668 Andrew Lunn       2019-02-17  255   * or 1 if advertised modes changed.
-9a5dc8af441668 Andrew Lunn       2019-02-17  256   */
-9a5dc8af441668 Andrew Lunn       2019-02-17  257  int genphy_c45_an_config_aneg(struct phy_device *phydev)
-9a5dc8af441668 Andrew Lunn       2019-02-17  258  {
-cc429d529126e5 Heiner Kallweit   2019-02-18  259  	int changed, ret;
-9a5dc8af441668 Andrew Lunn       2019-02-17  260  	u32 adv;
-9a5dc8af441668 Andrew Lunn       2019-02-17  261  
-9a5dc8af441668 Andrew Lunn       2019-02-17  262  	linkmode_and(phydev->advertising, phydev->advertising,
-9a5dc8af441668 Andrew Lunn       2019-02-17  263  		     phydev->supported);
-9a5dc8af441668 Andrew Lunn       2019-02-17  264  
-5827b168125d16 Oleksij Rempel    2023-02-11  265  	ret = genphy_c45_write_eee_adv(phydev, phydev->supported_eee);
-5827b168125d16 Oleksij Rempel    2023-02-11  266  	if (ret < 0)
-5827b168125d16 Oleksij Rempel    2023-02-11  267  		return ret;
-5827b168125d16 Oleksij Rempel    2023-02-11  268  	else if (ret)
-5827b168125d16 Oleksij Rempel    2023-02-11  269  		changed = true;
-cc429d529126e5 Heiner Kallweit   2019-02-18  270  
-3da8ffd8545f62 Alexandru Tachici 2022-04-29  271  	if (genphy_c45_baset1_able(phydev))
-3da8ffd8545f62 Alexandru Tachici 2022-04-29  272  		return genphy_c45_baset1_an_config_aneg(phydev);
-3da8ffd8545f62 Alexandru Tachici 2022-04-29  273  
-9a5dc8af441668 Andrew Lunn       2019-02-17  274  	adv = linkmode_adv_to_mii_adv_t(phydev->advertising);
-9a5dc8af441668 Andrew Lunn       2019-02-17  275  
-9731ea06298b20 Heiner Kallweit   2019-03-04  276  	ret = phy_modify_mmd_changed(phydev, MDIO_MMD_AN, MDIO_AN_ADVERTISE,
-9a5dc8af441668 Andrew Lunn       2019-02-17  277  				     ADVERTISE_ALL | ADVERTISE_100BASE4 |
-9a5dc8af441668 Andrew Lunn       2019-02-17  278  				     ADVERTISE_PAUSE_CAP | ADVERTISE_PAUSE_ASYM,
-9a5dc8af441668 Andrew Lunn       2019-02-17  279  				     adv);
-9a5dc8af441668 Andrew Lunn       2019-02-17  280  	if (ret < 0)
-9a5dc8af441668 Andrew Lunn       2019-02-17  281  		return ret;
-9a5dc8af441668 Andrew Lunn       2019-02-17  282  	if (ret > 0)
-9a5dc8af441668 Andrew Lunn       2019-02-17  283  		changed = 1;
-9a5dc8af441668 Andrew Lunn       2019-02-17  284  
-9a5dc8af441668 Andrew Lunn       2019-02-17  285  	adv = linkmode_adv_to_mii_10gbt_adv_t(phydev->advertising);
-9a5dc8af441668 Andrew Lunn       2019-02-17  286  
-9731ea06298b20 Heiner Kallweit   2019-03-04  287  	ret = phy_modify_mmd_changed(phydev, MDIO_MMD_AN, MDIO_AN_10GBT_CTRL,
-9a5dc8af441668 Andrew Lunn       2019-02-17  288  				     MDIO_AN_10GBT_CTRL_ADV10G |
-9a5dc8af441668 Andrew Lunn       2019-02-17  289  				     MDIO_AN_10GBT_CTRL_ADV5G |
-9731ea06298b20 Heiner Kallweit   2019-03-04  290  				     MDIO_AN_10GBT_CTRL_ADV2_5G, adv);
-9a5dc8af441668 Andrew Lunn       2019-02-17  291  	if (ret < 0)
-9a5dc8af441668 Andrew Lunn       2019-02-17  292  		return ret;
-9a5dc8af441668 Andrew Lunn       2019-02-17  293  	if (ret > 0)
-9a5dc8af441668 Andrew Lunn       2019-02-17  294  		changed = 1;
-9a5dc8af441668 Andrew Lunn       2019-02-17  295  
-9a5dc8af441668 Andrew Lunn       2019-02-17 @296  	return changed;
-9a5dc8af441668 Andrew Lunn       2019-02-17  297  }
-9a5dc8af441668 Andrew Lunn       2019-02-17  298  EXPORT_SYMBOL_GPL(genphy_c45_an_config_aneg);
-9a5dc8af441668 Andrew Lunn       2019-02-17  299  
-
-:::::: The code at line 296 was first introduced by commit
-:::::: 9a5dc8af441668a3db7fdcd927cb288be62c0a2e net: phy: add genphy_c45_an_config_aneg
-
-:::::: TO: Andrew Lunn <andrew@lunn.ch>
-:::::: CC: David S. Miller <davem@davemloft.net>
+0935ff5f1f0a44 Robin Gong          2020-07-04  721  
+ed56fa6e804cb1 Uwe Kleine-König    2022-11-18  722  static int pca9450_i2c_probe(struct i2c_client *i2c)
+0935ff5f1f0a44 Robin Gong          2020-07-04  723  {
+0935ff5f1f0a44 Robin Gong          2020-07-04  724  	enum pca9450_chip_type type = (unsigned int)(uintptr_t)
+0935ff5f1f0a44 Robin Gong          2020-07-04  725  				      of_device_get_match_data(&i2c->dev);
+0935ff5f1f0a44 Robin Gong          2020-07-04  726  	const struct pca9450_regulator_desc	*regulator_desc;
+0935ff5f1f0a44 Robin Gong          2020-07-04  727  	struct regulator_config config = { };
+f722e874661add Frieder Schrempf    2023-02-13  728  	struct regulator_dev *ldo5;
+0935ff5f1f0a44 Robin Gong          2020-07-04  729  	struct pca9450 *pca9450;
+0935ff5f1f0a44 Robin Gong          2020-07-04  730  	unsigned int device_id, i;
+2364a64d0673f5 Rickard x Andersson 2022-04-29  731  	unsigned int reset_ctrl;
+0935ff5f1f0a44 Robin Gong          2020-07-04  732  	int ret;
+0935ff5f1f0a44 Robin Gong          2020-07-04  733  
+0935ff5f1f0a44 Robin Gong          2020-07-04  734  	if (!i2c->irq) {
+0935ff5f1f0a44 Robin Gong          2020-07-04  735  		dev_err(&i2c->dev, "No IRQ configured?\n");
+0935ff5f1f0a44 Robin Gong          2020-07-04  736  		return -EINVAL;
+0935ff5f1f0a44 Robin Gong          2020-07-04  737  	}
+0935ff5f1f0a44 Robin Gong          2020-07-04  738  
+0935ff5f1f0a44 Robin Gong          2020-07-04  739  	pca9450 = devm_kzalloc(&i2c->dev, sizeof(struct pca9450), GFP_KERNEL);
+0935ff5f1f0a44 Robin Gong          2020-07-04  740  	if (!pca9450)
+0935ff5f1f0a44 Robin Gong          2020-07-04  741  		return -ENOMEM;
+0935ff5f1f0a44 Robin Gong          2020-07-04  742  
+0935ff5f1f0a44 Robin Gong          2020-07-04  743  	switch (type) {
+0935ff5f1f0a44 Robin Gong          2020-07-04  744  	case PCA9450_TYPE_PCA9450A:
+0935ff5f1f0a44 Robin Gong          2020-07-04  745  		regulator_desc = pca9450a_regulators;
+0935ff5f1f0a44 Robin Gong          2020-07-04  746  		pca9450->rcnt = ARRAY_SIZE(pca9450a_regulators);
+0935ff5f1f0a44 Robin Gong          2020-07-04  747  		break;
+0935ff5f1f0a44 Robin Gong          2020-07-04  748  	case PCA9450_TYPE_PCA9450BC:
+0935ff5f1f0a44 Robin Gong          2020-07-04  749  		regulator_desc = pca9450bc_regulators;
+0935ff5f1f0a44 Robin Gong          2020-07-04  750  		pca9450->rcnt = ARRAY_SIZE(pca9450bc_regulators);
+0935ff5f1f0a44 Robin Gong          2020-07-04  751  		break;
+0935ff5f1f0a44 Robin Gong          2020-07-04  752  	default:
+0935ff5f1f0a44 Robin Gong          2020-07-04  753  		dev_err(&i2c->dev, "Unknown device type");
+0935ff5f1f0a44 Robin Gong          2020-07-04  754  		return -EINVAL;
+0935ff5f1f0a44 Robin Gong          2020-07-04  755  	}
+0935ff5f1f0a44 Robin Gong          2020-07-04  756  
+0935ff5f1f0a44 Robin Gong          2020-07-04  757  	pca9450->irq = i2c->irq;
+0935ff5f1f0a44 Robin Gong          2020-07-04  758  	pca9450->type = type;
+0935ff5f1f0a44 Robin Gong          2020-07-04  759  	pca9450->dev = &i2c->dev;
+0935ff5f1f0a44 Robin Gong          2020-07-04  760  
+0935ff5f1f0a44 Robin Gong          2020-07-04  761  	dev_set_drvdata(&i2c->dev, pca9450);
+0935ff5f1f0a44 Robin Gong          2020-07-04  762  
+0935ff5f1f0a44 Robin Gong          2020-07-04  763  	pca9450->regmap = devm_regmap_init_i2c(i2c,
+0935ff5f1f0a44 Robin Gong          2020-07-04  764  					       &pca9450_regmap_config);
+0935ff5f1f0a44 Robin Gong          2020-07-04  765  	if (IS_ERR(pca9450->regmap)) {
+0935ff5f1f0a44 Robin Gong          2020-07-04  766  		dev_err(&i2c->dev, "regmap initialization failed\n");
+0935ff5f1f0a44 Robin Gong          2020-07-04  767  		return PTR_ERR(pca9450->regmap);
+0935ff5f1f0a44 Robin Gong          2020-07-04  768  	}
+0935ff5f1f0a44 Robin Gong          2020-07-04  769  
+0935ff5f1f0a44 Robin Gong          2020-07-04  770  	ret = regmap_read(pca9450->regmap, PCA9450_REG_DEV_ID, &device_id);
+0935ff5f1f0a44 Robin Gong          2020-07-04  771  	if (ret) {
+0935ff5f1f0a44 Robin Gong          2020-07-04  772  		dev_err(&i2c->dev, "Read device id error\n");
+0935ff5f1f0a44 Robin Gong          2020-07-04  773  		return ret;
+0935ff5f1f0a44 Robin Gong          2020-07-04  774  	}
+0935ff5f1f0a44 Robin Gong          2020-07-04  775  
+0935ff5f1f0a44 Robin Gong          2020-07-04  776  	/* Check your board and dts for match the right pmic */
+0935ff5f1f0a44 Robin Gong          2020-07-04  777  	if (((device_id >> 4) != 0x1 && type == PCA9450_TYPE_PCA9450A) ||
+0935ff5f1f0a44 Robin Gong          2020-07-04  778  	    ((device_id >> 4) != 0x3 && type == PCA9450_TYPE_PCA9450BC)) {
+0935ff5f1f0a44 Robin Gong          2020-07-04  779  		dev_err(&i2c->dev, "Device id(%x) mismatched\n",
+0935ff5f1f0a44 Robin Gong          2020-07-04  780  			device_id >> 4);
+0935ff5f1f0a44 Robin Gong          2020-07-04  781  		return -EINVAL;
+0935ff5f1f0a44 Robin Gong          2020-07-04  782  	}
+0935ff5f1f0a44 Robin Gong          2020-07-04  783  
+0935ff5f1f0a44 Robin Gong          2020-07-04  784  	for (i = 0; i < pca9450->rcnt; i++) {
+0935ff5f1f0a44 Robin Gong          2020-07-04  785  		const struct regulator_desc *desc;
+0935ff5f1f0a44 Robin Gong          2020-07-04  786  		struct regulator_dev *rdev;
+0935ff5f1f0a44 Robin Gong          2020-07-04  787  		const struct pca9450_regulator_desc *r;
+0935ff5f1f0a44 Robin Gong          2020-07-04  788  
+0935ff5f1f0a44 Robin Gong          2020-07-04  789  		r = &regulator_desc[i];
+0935ff5f1f0a44 Robin Gong          2020-07-04  790  		desc = &r->desc;
+0935ff5f1f0a44 Robin Gong          2020-07-04  791  
+0935ff5f1f0a44 Robin Gong          2020-07-04  792  		config.regmap = pca9450->regmap;
+0935ff5f1f0a44 Robin Gong          2020-07-04  793  		config.dev = pca9450->dev;
+f722e874661add Frieder Schrempf    2023-02-13  794  		config.driver_data = pca9450;
+0935ff5f1f0a44 Robin Gong          2020-07-04  795  
+0935ff5f1f0a44 Robin Gong          2020-07-04  796  		rdev = devm_regulator_register(pca9450->dev, desc, &config);
+0935ff5f1f0a44 Robin Gong          2020-07-04  797  		if (IS_ERR(rdev)) {
+0935ff5f1f0a44 Robin Gong          2020-07-04  798  			ret = PTR_ERR(rdev);
+0935ff5f1f0a44 Robin Gong          2020-07-04  799  			dev_err(pca9450->dev,
+0935ff5f1f0a44 Robin Gong          2020-07-04  800  				"Failed to register regulator(%s): %d\n",
+0935ff5f1f0a44 Robin Gong          2020-07-04  801  				desc->name, ret);
+0935ff5f1f0a44 Robin Gong          2020-07-04  802  			return ret;
+0935ff5f1f0a44 Robin Gong          2020-07-04  803  		}
+f722e874661add Frieder Schrempf    2023-02-13  804  
+f722e874661add Frieder Schrempf    2023-02-13  805  		if (!strcmp(desc->name, "ldo5"))
+f722e874661add Frieder Schrempf    2023-02-13  806  			ldo5 = rdev;
+0935ff5f1f0a44 Robin Gong          2020-07-04  807  	}
+0935ff5f1f0a44 Robin Gong          2020-07-04  808  
+0935ff5f1f0a44 Robin Gong          2020-07-04  809  	ret = devm_request_threaded_irq(pca9450->dev, pca9450->irq, NULL,
+0935ff5f1f0a44 Robin Gong          2020-07-04  810  					pca9450_irq_handler,
+0935ff5f1f0a44 Robin Gong          2020-07-04  811  					(IRQF_TRIGGER_FALLING | IRQF_ONESHOT),
+0935ff5f1f0a44 Robin Gong          2020-07-04  812  					"pca9450-irq", pca9450);
+0935ff5f1f0a44 Robin Gong          2020-07-04  813  	if (ret != 0) {
+0935ff5f1f0a44 Robin Gong          2020-07-04  814  		dev_err(pca9450->dev, "Failed to request IRQ: %d\n",
+0935ff5f1f0a44 Robin Gong          2020-07-04  815  			pca9450->irq);
+0935ff5f1f0a44 Robin Gong          2020-07-04  816  		return ret;
+0935ff5f1f0a44 Robin Gong          2020-07-04  817  	}
+0935ff5f1f0a44 Robin Gong          2020-07-04  818  	/* Unmask all interrupt except PWRON/WDOG/RSVD */
+0935ff5f1f0a44 Robin Gong          2020-07-04  819  	ret = regmap_update_bits(pca9450->regmap, PCA9450_REG_INT1_MSK,
+0935ff5f1f0a44 Robin Gong          2020-07-04  820  				IRQ_VR_FLT1 | IRQ_VR_FLT2 | IRQ_LOWVSYS |
+0935ff5f1f0a44 Robin Gong          2020-07-04  821  				IRQ_THERM_105 | IRQ_THERM_125,
+0935ff5f1f0a44 Robin Gong          2020-07-04  822  				IRQ_PWRON | IRQ_WDOGB | IRQ_RSVD);
+0935ff5f1f0a44 Robin Gong          2020-07-04  823  	if (ret) {
+0935ff5f1f0a44 Robin Gong          2020-07-04  824  		dev_err(&i2c->dev, "Unmask irq error\n");
+0935ff5f1f0a44 Robin Gong          2020-07-04  825  		return ret;
+0935ff5f1f0a44 Robin Gong          2020-07-04  826  	}
+0935ff5f1f0a44 Robin Gong          2020-07-04  827  
+98b94b6e38ca0c Frieder Schrempf    2021-02-22  828  	/* Clear PRESET_EN bit in BUCK123_DVS to use DVS registers */
+98b94b6e38ca0c Frieder Schrempf    2021-02-22  829  	ret = regmap_clear_bits(pca9450->regmap, PCA9450_REG_BUCK123_DVS,
+98b94b6e38ca0c Frieder Schrempf    2021-02-22  830  				BUCK123_PRESET_EN);
+98b94b6e38ca0c Frieder Schrempf    2021-02-22  831  	if (ret) {
+98b94b6e38ca0c Frieder Schrempf    2021-02-22  832  		dev_err(&i2c->dev, "Failed to clear PRESET_EN bit: %d\n", ret);
+98b94b6e38ca0c Frieder Schrempf    2021-02-22  833  		return ret;
+98b94b6e38ca0c Frieder Schrempf    2021-02-22  834  	}
+98b94b6e38ca0c Frieder Schrempf    2021-02-22  835  
+2364a64d0673f5 Rickard x Andersson 2022-04-29  836  	if (of_property_read_bool(i2c->dev.of_node, "nxp,wdog_b-warm-reset"))
+2364a64d0673f5 Rickard x Andersson 2022-04-29  837  		reset_ctrl = WDOG_B_CFG_WARM;
+2364a64d0673f5 Rickard x Andersson 2022-04-29  838  	else
+2364a64d0673f5 Rickard x Andersson 2022-04-29  839  		reset_ctrl = WDOG_B_CFG_COLD_LDO12;
+2364a64d0673f5 Rickard x Andersson 2022-04-29  840  
+f7684f5a048feb Frieder Schrempf    2021-02-11  841  	/* Set reset behavior on assertion of WDOG_B signal */
+f7684f5a048feb Frieder Schrempf    2021-02-11  842  	ret = regmap_update_bits(pca9450->regmap, PCA9450_REG_RESET_CTRL,
+2364a64d0673f5 Rickard x Andersson 2022-04-29  843  				 WDOG_B_CFG_MASK, reset_ctrl);
+f7684f5a048feb Frieder Schrempf    2021-02-11  844  	if (ret) {
+f7684f5a048feb Frieder Schrempf    2021-02-11  845  		dev_err(&i2c->dev, "Failed to set WDOG_B reset behavior\n");
+f7684f5a048feb Frieder Schrempf    2021-02-11  846  		return ret;
+f7684f5a048feb Frieder Schrempf    2021-02-11  847  	}
+f7684f5a048feb Frieder Schrempf    2021-02-11  848  
+62139f52b7e588 Per-Daniel Olsson   2022-04-29  849  	if (of_property_read_bool(i2c->dev.of_node, "nxp,i2c-lt-enable")) {
+62139f52b7e588 Per-Daniel Olsson   2022-04-29  850  		/* Enable I2C Level Translator */
+62139f52b7e588 Per-Daniel Olsson   2022-04-29  851  		ret = regmap_update_bits(pca9450->regmap, PCA9450_REG_CONFIG2,
+62139f52b7e588 Per-Daniel Olsson   2022-04-29  852  					 I2C_LT_MASK, I2C_LT_ON_STANDBY_RUN);
+62139f52b7e588 Per-Daniel Olsson   2022-04-29  853  		if (ret) {
+62139f52b7e588 Per-Daniel Olsson   2022-04-29  854  			dev_err(&i2c->dev,
+62139f52b7e588 Per-Daniel Olsson   2022-04-29  855  				"Failed to enable I2C level translator\n");
+62139f52b7e588 Per-Daniel Olsson   2022-04-29  856  			return ret;
+62139f52b7e588 Per-Daniel Olsson   2022-04-29  857  		}
+62139f52b7e588 Per-Daniel Olsson   2022-04-29  858  	}
+62139f52b7e588 Per-Daniel Olsson   2022-04-29  859  
+f722e874661add Frieder Schrempf    2023-02-13  860  	/*
+f722e874661add Frieder Schrempf    2023-02-13  861  	 * For LDO5 we need to be able to check the status of the SD_VSEL input in
+f722e874661add Frieder Schrempf    2023-02-13  862  	 * order to know which control register is used. Most boards connect SD_VSEL
+f722e874661add Frieder Schrempf    2023-02-13  863  	 * to the VSELECT signal, so we can use the GPIO that is internally routed
+f722e874661add Frieder Schrempf    2023-02-13  864  	 * to this signal (if SION bit is set in IOMUX).
+f722e874661add Frieder Schrempf    2023-02-13  865  	 */
+f722e874661add Frieder Schrempf    2023-02-13 @866  	pca9450->sd_vsel_gpio = gpiod_get_optional(&ldo5->dev, "sd-vsel", GPIOD_IN);
+f722e874661add Frieder Schrempf    2023-02-13  867  	if (IS_ERR(pca9450->sd_vsel_gpio)) {
+f722e874661add Frieder Schrempf    2023-02-13  868  		dev_err(&i2c->dev, "Failed to get SD_VSEL GPIO\n");
+f722e874661add Frieder Schrempf    2023-02-13  869  		return ret;
+f722e874661add Frieder Schrempf    2023-02-13  870  	}
+f722e874661add Frieder Schrempf    2023-02-13  871  
+0935ff5f1f0a44 Robin Gong          2020-07-04  872  	dev_info(&i2c->dev, "%s probed.\n",
+0935ff5f1f0a44 Robin Gong          2020-07-04  873  		type == PCA9450_TYPE_PCA9450A ? "pca9450a" : "pca9450bc");
+0935ff5f1f0a44 Robin Gong          2020-07-04  874  
+0935ff5f1f0a44 Robin Gong          2020-07-04  875  	return 0;
+0935ff5f1f0a44 Robin Gong          2020-07-04  876  }
+0935ff5f1f0a44 Robin Gong          2020-07-04  877  
 
 -- 
 0-DAY CI Kernel Test Service
