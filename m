@@ -1,43 +1,42 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EED577C
-	for <oe-kbuild@lists.linux.dev>; Tue, 14 Feb 2023 09:20:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73A2410799
+	for <oe-kbuild@lists.linux.dev>; Tue, 14 Feb 2023 10:44:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676366403; x=1707902403;
+  t=1676371446; x=1707907446;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=MHOor8cZVGbKvACQv1slIJr0oRcPEZz7QS7scQWnIos=;
-  b=OOXAi6dHIRQpqMQSAD/cucvlPbq0NyS68y5qLWdYA0t1BQ6kTdJaZDRb
-   aWK8G/2o0msZIlH9SxTd/dWvn8sAb6C7DubD/YrdJew6LlalNuj1ymvJV
-   Cb0ZiBxmPAx9bpHrrrq0bzw5m1t7qo8OdQb/SWdE1kyqBWi56tu0aWoHv
-   Uk2d8vgmQWj0Eu1U5jhWOpg41C4olOYO1a/X3GDl/p84V63XSsJAfeoY9
-   uKsdKesNWikNpzIWh2Pcim1Kwgq+8b5qQYZKr0o+wmlddPhV3gUnf8qXs
-   kBpb4Sza9R4htbeQy+i2/cQGFWHTqWq0f+ZWH69+R5dMoRZUzQGivkpz3
+  bh=Q/wCM2G5pbvxb57CXFPcJYqJOBuC0S9+FmYr+V/XSO0=;
+  b=l0YpyhUdrIxZhdhyDC8LNevGEF9IK/QYZgN4dcD2Mn46pl/JoSCdd6Rp
+   RCBTLnfEJFayYk+eWPFNJULnWN4AUoAsgBJDXloNmw5w4xA+icJ2AXOG8
+   tl+UVYoZ6duqn9C7FyhHTVCYDusUx5+0Xoem2QD6WcMSXBjmnbW8Kn/YR
+   fcD4ZqhLUE7kMb2QOR65h6ylNAb0P2pZV17gIYiqNe//XeIJ3caZvw6Wh
+   PylvqvESEw+AB5Byp0lkZiEKIsxha7EfxXdF//+S0lRsEU5y7pWonJs7X
+   FQo1er87O8Z2zm3GIHhpyxaWtLFTmPkDMyzYu5NqvcysGldOpp6r+ACHF
    A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="314761530"
+X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="319162127"
 X-IronPort-AV: E=Sophos;i="5.97,296,1669104000"; 
-   d="scan'208";a="314761530"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2023 01:20:03 -0800
+   d="scan'208";a="319162127"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2023 02:44:05 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="811948186"
+X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="793071570"
 X-IronPort-AV: E=Sophos;i="5.97,296,1669104000"; 
-   d="scan'208";a="811948186"
+   d="scan'208";a="793071570"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 14 Feb 2023 01:20:01 -0800
+  by orsmga004.jf.intel.com with ESMTP; 14 Feb 2023 02:44:04 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pRrTl-0008MH-09;
-	Tue, 14 Feb 2023 09:20:01 +0000
-Date: Tue, 14 Feb 2023 17:19:36 +0800
+	id 1pRsn5-0008Ph-3A;
+	Tue, 14 Feb 2023 10:44:03 +0000
+Date: Tue, 14 Feb 2023 18:43:23 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [djwong-xfs:xfile-page-caching 58/267] fs/xfs/scrub/ialloc.c:87:2:
- warning: Value stored to 'error' is never read
- [clang-analyzer-deadcode.DeadStores]
-Message-ID: <202302141734.r01cHtjW-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: [linux-next:master 10457/12724] drivers/pci/setup-bus.c:1916:21-24:
+ ERROR: invalid reference to the index variable of the iterator on line 1890
+Message-ID: <202302141850.4L2rwgdH-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -47,318 +46,181 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "low confidence static check warning: fs/xfs/scrub/ialloc.c:87:2: warning: Value stored to 'error' is never read [clang-analyzer-deadcode.DeadStores]"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: "Darrick J. Wong" <darrick.wong@oracle.com>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Mika Westerberg <mika.westerberg@linux.intel.com>
+CC: Bjorn Helgaas <helgaas@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git xfile-page-caching
-head:   ef9b9a38850bede83ff742105ecda40506c35320
-commit: e7466b46031e598f224dd49d41a2f2a9dae5349e [58/267] xfs: directly cross-reference the inode btrees with each other
-:::::: branch date: 13 days ago
-:::::: commit date: 13 days ago
-config: s390-randconfig-c005-20230212 (https://download.01.org/0day-ci/archive/20230214/202302141734.r01cHtjW-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project db0e6591612b53910a1b366863348bdb9d7d2fb1)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install s390 cross compiling tool for clang build
-        # apt-get install binutils-s390x-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git/commit/?id=e7466b46031e598f224dd49d41a2f2a9dae5349e
-        git remote add djwong-xfs https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git
-        git fetch --no-tags djwong-xfs xfile-page-caching
-        git checkout e7466b46031e598f224dd49d41a2f2a9dae5349e
-        # save the config file
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=s390 clang-analyzer  olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=s390 clang-analyzer 
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   3ebb0ac55efaf1d0fb1b106f852c114e5021f7eb
+commit: 9db0b9b6a14249ef65a5f1e5e3b37762af96f425 [10457/12724] PCI: Take other bus devices into account when distributing resources
+:::::: branch date: 7 hours ago
+:::::: commit date: 7 days ago
+config: x86_64-randconfig-c022 (https://download.01.org/0day-ci/archive/20230214/202302141850.4L2rwgdH-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/r/202302141734.r01cHtjW-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Link: https://lore.kernel.org/r/202302141850.4L2rwgdH-lkp@intel.com/
 
-clang_analyzer warnings: (new ones prefixed by >>)
-   fs/xfs/scrub/ialloc.c:483:11: note: Calling 'xchk_iallocbt_check_cluster'
-                   error = xchk_iallocbt_check_cluster(bs, irec, cluster_base);
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/xfs/scrub/ialloc.c:379:14: note: Assuming '__UNIQUE_ID___x361' is >= '__UNIQUE_ID___y362'
-           nr_inodes = min_t(unsigned int, XFS_INODES_PER_CHUNK,
-                       ^
-   include/linux/minmax.h:126:27: note: expanded from macro 'min_t'
-   #define min_t(type, x, y)       __careful_cmp((type)(x), (type)(y), <)
-                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:38:3: note: expanded from macro '__careful_cmp'
-                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:33:3: note: expanded from macro '__cmp_once'
-                   __cmp(unique_x, unique_y, op); })
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:28:26: note: expanded from macro '__cmp'
-   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
-                            ^~~~~~~~~~
-   fs/xfs/scrub/ialloc.c:379:14: note: '?' condition is false
-           nr_inodes = min_t(unsigned int, XFS_INODES_PER_CHUNK,
-                       ^
-   include/linux/minmax.h:126:27: note: expanded from macro 'min_t'
-   #define min_t(type, x, y)       __careful_cmp((type)(x), (type)(y), <)
-                                   ^
-   include/linux/minmax.h:38:3: note: expanded from macro '__careful_cmp'
-                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
-                   ^
-   include/linux/minmax.h:33:3: note: expanded from macro '__cmp_once'
-                   __cmp(unique_x, unique_y, op); })
-                   ^
-   include/linux/minmax.h:28:26: note: expanded from macro '__cmp'
-   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
-                            ^
-   fs/xfs/scrub/ialloc.c:387:7: note: Assuming 'cluster_index' is < 'nr_inodes'
-                cluster_index < nr_inodes;
-                ^~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/xfs/scrub/ialloc.c:386:2: note: Loop condition is true.  Entering loop body
-           for (cluster_index = 0;
-           ^
-   fs/xfs/scrub/ialloc.c:387:7: note: Assuming 'cluster_index' is >= 'nr_inodes'
-                cluster_index < nr_inodes;
-                ^~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/xfs/scrub/ialloc.c:386:2: note: Loop condition is false. Execution continues on line 399
-           for (cluster_index = 0;
-           ^
-   fs/xfs/scrub/ialloc.c:405:6: note: Assuming field 'im_boffset' is equal to 0
-           if (imap.im_boffset != 0 && cluster_base != 0) {
-               ^~~~~~~~~~~~~~~~~~~~
-   fs/xfs/scrub/ialloc.c:405:27: note: Left side of '&&' is false
-           if (imap.im_boffset != 0 && cluster_base != 0) {
-                                    ^
-   fs/xfs/scrub/ialloc.c:418:6: note: 'ir_holemask' is not equal to 'cluster_mask'
-           if (ir_holemask != cluster_mask && ir_holemask != 0) {
-               ^~~~~~~~~~~
-   fs/xfs/scrub/ialloc.c:418:6: note: Left side of '&&' is true
-   fs/xfs/scrub/ialloc.c:418:37: note: 'ir_holemask' is equal to 0
-           if (ir_holemask != cluster_mask && ir_holemask != 0) {
-                                              ^~~~~~~~~~~
-   fs/xfs/scrub/ialloc.c:418:2: note: Taking false branch
-           if (ir_holemask != cluster_mask && ir_holemask != 0) {
-           ^
-   fs/xfs/scrub/ialloc.c:424:6: note: 'ir_holemask' is 0
-           if (ir_holemask) {
-               ^~~~~~~~~~~
-   fs/xfs/scrub/ialloc.c:424:2: note: Taking false branch
-           if (ir_holemask) {
-           ^
-   fs/xfs/scrub/ialloc.c:436:6: note: Assuming the condition is false
-           if (!xchk_btree_xref_process_error(bs->sc, bs->cur, 0, &error))
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/xfs/scrub/ialloc.c:436:2: note: Taking false branch
-           if (!xchk_btree_xref_process_error(bs->sc, bs->cur, 0, &error))
-           ^
-   fs/xfs/scrub/ialloc.c:440:26: note: 'cluster_index' is < 'nr_inodes'
-           for (cluster_index = 0; cluster_index < nr_inodes; cluster_index++) {
-                                   ^~~~~~~~~~~~~
-   fs/xfs/scrub/ialloc.c:440:2: note: Loop condition is true.  Entering loop body
-           for (cluster_index = 0; cluster_index < nr_inodes; cluster_index++) {
-           ^
-   fs/xfs/scrub/ialloc.c:443:7: note: Assuming the condition is false
-                   if (imap.im_boffset >= BBTOB(cluster_bp->b_length)) {
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/xfs/scrub/ialloc.c:443:3: note: Taking false branch
-                   if (imap.im_boffset >= BBTOB(cluster_bp->b_length)) {
-                   ^
-   fs/xfs/scrub/ialloc.c:449:11: note: Calling 'xchk_iallocbt_check_cluster_ifree'
-                   error = xchk_iallocbt_check_cluster_ifree(bs, irec,
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/xfs/scrub/ialloc.c:314:6: note: Calling 'xchk_should_terminate'
-           if (xchk_should_terminate(bs->sc, &error))
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/xfs/scrub/common.h:26:27: note: Dereference of null pointer
-           if (fatal_signal_pending(current)) {
-                                    ^
-   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'current'
-   #define current ((struct task_struct *const)S390_lowcore.current_task)
-                                               ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/s390/include/asm/lowcore.h:215:22: note: expanded from macro 'S390_lowcore'
-   #define S390_lowcore (*((struct lowcore *) 0))
-                        ^
->> fs/xfs/scrub/ialloc.c:87:2: warning: Value stored to 'error' is never read [clang-analyzer-deadcode.DeadStores]
-           error = xfs_inobt_get_rec(cur, &frec, &has_record);
-           ^       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/xfs/scrub/ialloc.c:87:2: note: Value stored to 'error' is never read
-           error = xfs_inobt_get_rec(cur, &frec, &has_record);
-           ^       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/xfs/scrub/ialloc.c:190:2: warning: Value stored to 'error' is never read [clang-analyzer-deadcode.DeadStores]
-           error = xfs_inobt_get_rec(cur, &irec, &has_record);
-           ^       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/xfs/scrub/ialloc.c:190:2: note: Value stored to 'error' is never read
-           error = xfs_inobt_get_rec(cur, &irec, &has_record);
-           ^       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 12 warnings (12 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   fs/readdir.c:245:36: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]
-           if (prev_reclen && signal_pending(current))
-                                             ^
-   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'current'
-   #define current ((struct task_struct *const)S390_lowcore.current_task)
-                                               ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/s390/include/asm/lowcore.h:215:22: note: expanded from macro 'S390_lowcore'
-   #define S390_lowcore (*((struct lowcore *) 0))
-                        ^
-   fs/readdir.c:234:2: note: Taking false branch
-           if (unlikely(buf->error))
-           ^
-   fs/readdir.c:237:6: note: Assuming 'reclen' is <= field 'count'
-           if (reclen > buf->count)
-               ^~~~~~~~~~~~~~~~~~~
-   fs/readdir.c:237:2: note: Taking false branch
-           if (reclen > buf->count)
-           ^
-   fs/readdir.c:240:34: note: Left side of '&&' is false
-           if (sizeof(d_ino) < sizeof(ino) && d_ino != ino) {
-                                           ^
-   fs/readdir.c:245:6: note: Assuming 'prev_reclen' is not equal to 0
-           if (prev_reclen && signal_pending(current))
-               ^~~~~~~~~~~
-   fs/readdir.c:245:6: note: Left side of '&&' is true
-   fs/readdir.c:245:36: note: Dereference of null pointer
-           if (prev_reclen && signal_pending(current))
-                                             ^
-   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'current'
-   #define current ((struct task_struct *const)S390_lowcore.current_task)
-                                               ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/s390/include/asm/lowcore.h:215:22: note: expanded from macro 'S390_lowcore'
-   #define S390_lowcore (*((struct lowcore *) 0))
-                        ^
-   fs/readdir.c:327:36: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]
-           if (prev_reclen && signal_pending(current))
-                                             ^
-   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'current'
-   #define current ((struct task_struct *const)S390_lowcore.current_task)
-                                               ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/s390/include/asm/lowcore.h:215:22: note: expanded from macro 'S390_lowcore'
-   #define S390_lowcore (*((struct lowcore *) 0))
-                        ^
-   fs/readdir.c:321:2: note: Taking false branch
-           if (unlikely(buf->error))
-           ^
-   fs/readdir.c:324:6: note: Assuming 'reclen' is <= field 'count'
-           if (reclen > buf->count)
-               ^~~~~~~~~~~~~~~~~~~
-   fs/readdir.c:324:2: note: Taking false branch
-           if (reclen > buf->count)
-           ^
-   fs/readdir.c:327:6: note: Assuming 'prev_reclen' is not equal to 0
-           if (prev_reclen && signal_pending(current))
-               ^~~~~~~~~~~
-   fs/readdir.c:327:6: note: Left side of '&&' is true
-   fs/readdir.c:327:36: note: Dereference of null pointer
-           if (prev_reclen && signal_pending(current))
-                                             ^
-   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'current'
-   #define current ((struct task_struct *const)S390_lowcore.current_task)
-                                               ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/s390/include/asm/lowcore.h:215:22: note: expanded from macro 'S390_lowcore'
-   #define S390_lowcore (*((struct lowcore *) 0))
-                        ^
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   40 warnings generated.
-   fs/select.c:61:16: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]
-           if (task_nice(current) > 0)
-                         ^
-   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'current'
-   #define current ((struct task_struct *const)S390_lowcore.current_task)
-                                               ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/s390/include/asm/lowcore.h:215:22: note: expanded from macro 'S390_lowcore'
-   #define S390_lowcore (*((struct lowcore *) 0))
-                        ^
-   fs/select.c:58:6: note: Assuming field 'tv_sec' is >= 0
-           if (tv->tv_sec < 0)
-               ^~~~~~~~~~~~~~
-   fs/select.c:58:2: note: Taking false branch
-           if (tv->tv_sec < 0)
-           ^
-   fs/select.c:61:16: note: Dereference of null pointer
-           if (task_nice(current) > 0)
-                         ^
+cocci warnings: (new ones prefixed by >>)
+>> drivers/pci/setup-bus.c:1916:21-24: ERROR: invalid reference to the index variable of the iterator on line 1890
 
-vim +/error +87 fs/xfs/scrub/ialloc.c
+vim +1916 drivers/pci/setup-bus.c
 
-2c2d9d3a205afa Darrick J. Wong 2018-12-12   52  
-2e6f27561b7987 Darrick J. Wong 2018-01-16   53  /*
-e7466b46031e59 Darrick J. Wong 2022-07-14   54   * Does the finobt have a record for this inode with the same hole/free state?
-e7466b46031e59 Darrick J. Wong 2022-07-14   55   * This is a bit complicated because of the following:
-e7466b46031e59 Darrick J. Wong 2022-07-14   56   *
-e7466b46031e59 Darrick J. Wong 2022-07-14   57   * - The finobt need not have a record if all inodes in the inobt record are
-e7466b46031e59 Darrick J. Wong 2022-07-14   58   *   allocated.
-e7466b46031e59 Darrick J. Wong 2022-07-14   59   * - The finobt need not have a record if all inodes in the inobt record are
-e7466b46031e59 Darrick J. Wong 2022-07-14   60   *   free.
-e7466b46031e59 Darrick J. Wong 2022-07-14   61   * - The finobt need not have a record if the inobt record says this is a hole.
-e7466b46031e59 Darrick J. Wong 2022-07-14   62   *   This likely doesn't happen in practice.
-2e6f27561b7987 Darrick J. Wong 2018-01-16   63   */
-e7466b46031e59 Darrick J. Wong 2022-07-14   64  STATIC int
-e7466b46031e59 Darrick J. Wong 2022-07-14   65  xchk_inobt_xref_finobt(
-1d8a748a8aa94a Darrick J. Wong 2018-07-19   66  	struct xfs_scrub	*sc,
-2e6f27561b7987 Darrick J. Wong 2018-01-16   67  	struct xfs_inobt_rec_incore *irec,
-e7466b46031e59 Darrick J. Wong 2022-07-14   68  	xfs_agino_t		agino,
-e7466b46031e59 Darrick J. Wong 2022-07-14   69  	bool			free,
-e7466b46031e59 Darrick J. Wong 2022-07-14   70  	bool			hole)
-2e6f27561b7987 Darrick J. Wong 2018-01-16   71  {
-e7466b46031e59 Darrick J. Wong 2022-07-14   72  	struct xfs_inobt_rec_incore frec;
-e7466b46031e59 Darrick J. Wong 2022-07-14   73  	struct xfs_btree_cur	*cur = sc->sa.fino_cur;
-e7466b46031e59 Darrick J. Wong 2022-07-14   74  	bool			ffree, fhole;
-e7466b46031e59 Darrick J. Wong 2022-07-14   75  	unsigned int		frec_idx, fhole_idx;
-e7466b46031e59 Darrick J. Wong 2022-07-14   76  	int			has_record;
-2e6f27561b7987 Darrick J. Wong 2018-01-16   77  	int			error;
-2e6f27561b7987 Darrick J. Wong 2018-01-16   78  
-e7466b46031e59 Darrick J. Wong 2022-07-14   79  	ASSERT(cur->bc_btnum == XFS_BTNUM_FINO);
-e7466b46031e59 Darrick J. Wong 2022-07-14   80  
-e7466b46031e59 Darrick J. Wong 2022-07-14   81  	error = xfs_inobt_lookup(cur, agino, XFS_LOOKUP_LE, &has_record);
-e7466b46031e59 Darrick J. Wong 2022-07-14   82  	if (error)
-e7466b46031e59 Darrick J. Wong 2022-07-14   83  		return error;
-e7466b46031e59 Darrick J. Wong 2022-07-14   84  	if (!has_record)
-e7466b46031e59 Darrick J. Wong 2022-07-14   85  		goto no_record;
-e7466b46031e59 Darrick J. Wong 2022-07-14   86  
-e7466b46031e59 Darrick J. Wong 2022-07-14  @87  	error = xfs_inobt_get_rec(cur, &frec, &has_record);
-e7466b46031e59 Darrick J. Wong 2022-07-14   88  	if (!has_record)
-e7466b46031e59 Darrick J. Wong 2022-07-14   89  		return -EFSCORRUPTED;
-e7466b46031e59 Darrick J. Wong 2022-07-14   90  
-e7466b46031e59 Darrick J. Wong 2022-07-14   91  	if (frec.ir_startino + XFS_INODES_PER_CHUNK <= agino)
-e7466b46031e59 Darrick J. Wong 2022-07-14   92  		goto no_record;
-e7466b46031e59 Darrick J. Wong 2022-07-14   93  
-e7466b46031e59 Darrick J. Wong 2022-07-14   94  	/* There's a finobt record; free and hole status must match. */
-e7466b46031e59 Darrick J. Wong 2022-07-14   95  	frec_idx = agino - frec.ir_startino;
-e7466b46031e59 Darrick J. Wong 2022-07-14   96  	ffree = frec.ir_free & (1ULL << frec_idx);
-e7466b46031e59 Darrick J. Wong 2022-07-14   97  	fhole_idx = frec_idx / XFS_INODES_PER_HOLEMASK_BIT;
-e7466b46031e59 Darrick J. Wong 2022-07-14   98  	fhole = frec.ir_holemask & (1U << fhole_idx);
-e7466b46031e59 Darrick J. Wong 2022-07-14   99  
-e7466b46031e59 Darrick J. Wong 2022-07-14  100  	if (ffree != free)
-e7466b46031e59 Darrick J. Wong 2022-07-14  101  		xchk_btree_xref_set_corrupt(sc, cur, 0);
-e7466b46031e59 Darrick J. Wong 2022-07-14  102  	if (fhole != hole)
-e7466b46031e59 Darrick J. Wong 2022-07-14  103  		xchk_btree_xref_set_corrupt(sc, cur, 0);
-e7466b46031e59 Darrick J. Wong 2022-07-14  104  	return 0;
-e7466b46031e59 Darrick J. Wong 2022-07-14  105  
-e7466b46031e59 Darrick J. Wong 2022-07-14  106  no_record:
-e7466b46031e59 Darrick J. Wong 2022-07-14  107  	/* inobt record is fully allocated */
-e7466b46031e59 Darrick J. Wong 2022-07-14  108  	if (irec->ir_free == 0)
-e7466b46031e59 Darrick J. Wong 2022-07-14  109  		return 0;
-e7466b46031e59 Darrick J. Wong 2022-07-14  110  
-e7466b46031e59 Darrick J. Wong 2022-07-14  111  	/* inobt record is totally unallocated */
-e7466b46031e59 Darrick J. Wong 2022-07-14  112  	if (irec->ir_free == XFS_INOBT_ALL_FREE)
-e7466b46031e59 Darrick J. Wong 2022-07-14  113  		return 0;
-e7466b46031e59 Darrick J. Wong 2022-07-14  114  
-e7466b46031e59 Darrick J. Wong 2022-07-14  115  	/* inobt record says this is a hole */
-e7466b46031e59 Darrick J. Wong 2022-07-14  116  	if (hole)
-e7466b46031e59 Darrick J. Wong 2022-07-14  117  		return 0;
-e7466b46031e59 Darrick J. Wong 2022-07-14  118  
-e7466b46031e59 Darrick J. Wong 2022-07-14  119  	/* finobt doesn't care about allocated inodes */
-e7466b46031e59 Darrick J. Wong 2022-07-14  120  	if (!free)
-e7466b46031e59 Darrick J. Wong 2022-07-14  121  		return 0;
-e7466b46031e59 Darrick J. Wong 2022-07-14  122  
-e7466b46031e59 Darrick J. Wong 2022-07-14  123  	xchk_btree_xref_set_corrupt(sc, cur, 0);
-e7466b46031e59 Darrick J. Wong 2022-07-14  124  	return 0;
-e7466b46031e59 Darrick J. Wong 2022-07-14  125  }
-e7466b46031e59 Darrick J. Wong 2022-07-14  126  
+9db0b9b6a14249 Mika Westerberg      2023-01-31  1822  
+9db0b9b6a14249 Mika Westerberg      2023-01-31  1823  /*
+9db0b9b6a14249 Mika Westerberg      2023-01-31  1824   * io, mmio and mmio_pref contain the total amount of bridge window space
+9db0b9b6a14249 Mika Westerberg      2023-01-31  1825   * available. This includes the minimal space needed to cover all the
+9db0b9b6a14249 Mika Westerberg      2023-01-31  1826   * existing devices on the bus and the possible extra space that can be
+9db0b9b6a14249 Mika Westerberg      2023-01-31  1827   * shared with the bridges.
+9db0b9b6a14249 Mika Westerberg      2023-01-31  1828   */
+1a5767725ceced Mika Westerberg      2017-10-13  1829  static void pci_bus_distribute_available_resources(struct pci_bus *bus,
+0d6076184aecb9 Nicholas Johnson     2019-05-07  1830  					    struct list_head *add_list,
+d555a50fd6e028 Nicholas Johnson     2020-01-06  1831  					    struct resource io,
+d555a50fd6e028 Nicholas Johnson     2020-01-06  1832  					    struct resource mmio,
+d555a50fd6e028 Nicholas Johnson     2020-01-06  1833  					    struct resource mmio_pref)
+1a5767725ceced Mika Westerberg      2017-10-13  1834  {
+1a5767725ceced Mika Westerberg      2017-10-13  1835  	unsigned int normal_bridges = 0, hotplug_bridges = 0;
+1a5767725ceced Mika Westerberg      2017-10-13  1836  	struct resource *io_res, *mmio_res, *mmio_pref_res;
+1a5767725ceced Mika Westerberg      2017-10-13  1837  	struct pci_dev *dev, *bridge = bus->self;
+9db0b9b6a14249 Mika Westerberg      2023-01-31  1838  	resource_size_t io_per_b, mmio_per_b, mmio_pref_per_b, align;
+1a5767725ceced Mika Westerberg      2017-10-13  1839  
+6e0688dbff625f Krzysztof Wilczynski 2020-05-20  1840  	io_res = &bridge->resource[PCI_BRIDGE_IO_WINDOW];
+6e0688dbff625f Krzysztof Wilczynski 2020-05-20  1841  	mmio_res = &bridge->resource[PCI_BRIDGE_MEM_WINDOW];
+6e0688dbff625f Krzysztof Wilczynski 2020-05-20  1842  	mmio_pref_res = &bridge->resource[PCI_BRIDGE_PREF_MEM_WINDOW];
+1a5767725ceced Mika Westerberg      2017-10-13  1843  
+f924c26e4ee651 Nicholas Johnson     2020-01-06  1844  	/*
+f924c26e4ee651 Nicholas Johnson     2020-01-06  1845  	 * The alignment of this bridge is yet to be considered, hence it must
+f924c26e4ee651 Nicholas Johnson     2020-01-06  1846  	 * be done now before extending its bridge window.
+f924c26e4ee651 Nicholas Johnson     2020-01-06  1847  	 */
+f924c26e4ee651 Nicholas Johnson     2020-01-06  1848  	align = pci_resource_alignment(bridge, io_res);
+f924c26e4ee651 Nicholas Johnson     2020-01-06  1849  	if (!io_res->parent && align)
+f924c26e4ee651 Nicholas Johnson     2020-01-06  1850  		io.start = min(ALIGN(io.start, align), io.end + 1);
+f924c26e4ee651 Nicholas Johnson     2020-01-06  1851  
+f924c26e4ee651 Nicholas Johnson     2020-01-06  1852  	align = pci_resource_alignment(bridge, mmio_res);
+f924c26e4ee651 Nicholas Johnson     2020-01-06  1853  	if (!mmio_res->parent && align)
+f924c26e4ee651 Nicholas Johnson     2020-01-06  1854  		mmio.start = min(ALIGN(mmio.start, align), mmio.end + 1);
+f924c26e4ee651 Nicholas Johnson     2020-01-06  1855  
+f924c26e4ee651 Nicholas Johnson     2020-01-06  1856  	align = pci_resource_alignment(bridge, mmio_pref_res);
+f924c26e4ee651 Nicholas Johnson     2020-01-06  1857  	if (!mmio_pref_res->parent && align)
+f924c26e4ee651 Nicholas Johnson     2020-01-06  1858  		mmio_pref.start = min(ALIGN(mmio_pref.start, align),
+f924c26e4ee651 Nicholas Johnson     2020-01-06  1859  			mmio_pref.end + 1);
+f924c26e4ee651 Nicholas Johnson     2020-01-06  1860  
+1a5767725ceced Mika Westerberg      2017-10-13  1861  	/*
+ae4611f1d7e99e Nicholas Johnson     2020-01-06  1862  	 * Now that we have adjusted for alignment, update the bridge window
+ae4611f1d7e99e Nicholas Johnson     2020-01-06  1863  	 * resources to fill as much remaining resource space as possible.
+1a5767725ceced Mika Westerberg      2017-10-13  1864  	 */
+1e58f4e1cb47de Nicholas Johnson     2020-01-06  1865  	adjust_bridge_window(bridge, io_res, add_list, resource_size(&io));
+1e58f4e1cb47de Nicholas Johnson     2020-01-06  1866  	adjust_bridge_window(bridge, mmio_res, add_list, resource_size(&mmio));
+1e58f4e1cb47de Nicholas Johnson     2020-01-06  1867  	adjust_bridge_window(bridge, mmio_pref_res, add_list,
+7779385484dad7 Nicholas Johnson     2020-01-28  1868  			     resource_size(&mmio_pref));
+1a5767725ceced Mika Westerberg      2017-10-13  1869  
+1a5767725ceced Mika Westerberg      2017-10-13  1870  	/*
+1a5767725ceced Mika Westerberg      2017-10-13  1871  	 * Calculate how many hotplug bridges and normal bridges there
+1a5767725ceced Mika Westerberg      2017-10-13  1872  	 * are on this bus.  We will distribute the additional available
+1a5767725ceced Mika Westerberg      2017-10-13  1873  	 * resources between hotplug bridges.
+1a5767725ceced Mika Westerberg      2017-10-13  1874  	 */
+1a5767725ceced Mika Westerberg      2017-10-13  1875  	for_each_pci_bridge(dev, bus) {
+1a5767725ceced Mika Westerberg      2017-10-13  1876  		if (dev->is_hotplug_bridge)
+1a5767725ceced Mika Westerberg      2017-10-13  1877  			hotplug_bridges++;
+1a5767725ceced Mika Westerberg      2017-10-13  1878  		else
+1a5767725ceced Mika Westerberg      2017-10-13  1879  			normal_bridges++;
+1a5767725ceced Mika Westerberg      2017-10-13  1880  	}
+1a5767725ceced Mika Westerberg      2017-10-13  1881  
+9db0b9b6a14249 Mika Westerberg      2023-01-31  1882  	if (!(hotplug_bridges + normal_bridges))
+6a381ea694c9da Nicholas Johnson     2019-06-22  1883  		return;
+6a381ea694c9da Nicholas Johnson     2019-06-22  1884  
+5c6bcc344b18df Nicholas Johnson     2019-06-22  1885  	/*
+9db0b9b6a14249 Mika Westerberg      2023-01-31  1886  	 * Calculate the amount of space we can forward from "bus" to any
+9db0b9b6a14249 Mika Westerberg      2023-01-31  1887  	 * downstream buses, i.e., the space left over after assigning the
+9db0b9b6a14249 Mika Westerberg      2023-01-31  1888  	 * BARs and windows on "bus".
+5c6bcc344b18df Nicholas Johnson     2019-06-22  1889  	 */
+9db0b9b6a14249 Mika Westerberg      2023-01-31 @1890  	list_for_each_entry(dev, &bus->devices, bus_list) {
+9db0b9b6a14249 Mika Westerberg      2023-01-31  1891  		if (!dev->is_virtfn)
+9db0b9b6a14249 Mika Westerberg      2023-01-31  1892  			remove_dev_resources(dev, &io, &mmio, &mmio_pref);
+9db0b9b6a14249 Mika Westerberg      2023-01-31  1893  	}
+1a5767725ceced Mika Westerberg      2017-10-13  1894  
+1a5767725ceced Mika Westerberg      2017-10-13  1895  	/*
+9db0b9b6a14249 Mika Westerberg      2023-01-31  1896  	 * If there is at least one hotplug bridge on this bus it gets all
+9db0b9b6a14249 Mika Westerberg      2023-01-31  1897  	 * the extra resource space that was left after the reductions
+9db0b9b6a14249 Mika Westerberg      2023-01-31  1898  	 * above.
+9db0b9b6a14249 Mika Westerberg      2023-01-31  1899  	 *
+9db0b9b6a14249 Mika Westerberg      2023-01-31  1900  	 * If there are no hotplug bridges the extra resource space is
+9db0b9b6a14249 Mika Westerberg      2023-01-31  1901  	 * split between non-hotplug bridges. This is to allow possible
+9db0b9b6a14249 Mika Westerberg      2023-01-31  1902  	 * hotplug bridges below them to get the extra space as well.
+1a5767725ceced Mika Westerberg      2017-10-13  1903  	 */
+9db0b9b6a14249 Mika Westerberg      2023-01-31  1904  	if (hotplug_bridges) {
+9db0b9b6a14249 Mika Westerberg      2023-01-31  1905  		io_per_b = div64_ul(resource_size(&io), hotplug_bridges);
+9db0b9b6a14249 Mika Westerberg      2023-01-31  1906  		mmio_per_b = div64_ul(resource_size(&mmio), hotplug_bridges);
+9db0b9b6a14249 Mika Westerberg      2023-01-31  1907  		mmio_pref_per_b = div64_ul(resource_size(&mmio_pref),
+f924c26e4ee651 Nicholas Johnson     2020-01-06  1908  					   hotplug_bridges);
+9db0b9b6a14249 Mika Westerberg      2023-01-31  1909  	} else {
+9db0b9b6a14249 Mika Westerberg      2023-01-31  1910  		io_per_b = div64_ul(resource_size(&io), normal_bridges);
+9db0b9b6a14249 Mika Westerberg      2023-01-31  1911  		mmio_per_b = div64_ul(resource_size(&mmio), normal_bridges);
+9db0b9b6a14249 Mika Westerberg      2023-01-31  1912  		mmio_pref_per_b = div64_ul(resource_size(&mmio_pref),
+9db0b9b6a14249 Mika Westerberg      2023-01-31  1913  					   normal_bridges);
+9db0b9b6a14249 Mika Westerberg      2023-01-31  1914  	}
+1a5767725ceced Mika Westerberg      2017-10-13  1915  
+1a5767725ceced Mika Westerberg      2017-10-13 @1916  	for_each_pci_bridge(dev, bus) {
+08f0a15ee8adb4 Mika Westerberg      2023-01-31  1917  		struct resource *res;
+1a5767725ceced Mika Westerberg      2017-10-13  1918  		struct pci_bus *b;
+1a5767725ceced Mika Westerberg      2017-10-13  1919  
+1a5767725ceced Mika Westerberg      2017-10-13  1920  		b = dev->subordinate;
+9db0b9b6a14249 Mika Westerberg      2023-01-31  1921  		if (!b)
+1a5767725ceced Mika Westerberg      2017-10-13  1922  			continue;
+9db0b9b6a14249 Mika Westerberg      2023-01-31  1923  		if (hotplug_bridges && !dev->is_hotplug_bridge)
+9db0b9b6a14249 Mika Westerberg      2023-01-31  1924  			continue;
+9db0b9b6a14249 Mika Westerberg      2023-01-31  1925  
+9db0b9b6a14249 Mika Westerberg      2023-01-31  1926  		res = &dev->resource[PCI_BRIDGE_IO_WINDOW];
+1a5767725ceced Mika Westerberg      2017-10-13  1927  
+1a5767725ceced Mika Westerberg      2017-10-13  1928  		/*
+9db0b9b6a14249 Mika Westerberg      2023-01-31  1929  		 * Make sure the split resource space is properly aligned
+9db0b9b6a14249 Mika Westerberg      2023-01-31  1930  		 * for bridge windows (align it down to avoid going above
+9db0b9b6a14249 Mika Westerberg      2023-01-31  1931  		 * what is available).
+1a5767725ceced Mika Westerberg      2017-10-13  1932  		 */
+08f0a15ee8adb4 Mika Westerberg      2023-01-31  1933  		align = pci_resource_alignment(dev, res);
+9db0b9b6a14249 Mika Westerberg      2023-01-31  1934  		io.end = align ? io.start + ALIGN_DOWN(io_per_b, align) - 1
+9db0b9b6a14249 Mika Westerberg      2023-01-31  1935  			       : io.start + io_per_b - 1;
+9db0b9b6a14249 Mika Westerberg      2023-01-31  1936  
+9db0b9b6a14249 Mika Westerberg      2023-01-31  1937  		/*
+9db0b9b6a14249 Mika Westerberg      2023-01-31  1938  		 * The x_per_b holds the extra resource space that can be
+9db0b9b6a14249 Mika Westerberg      2023-01-31  1939  		 * added for each bridge but there is the minimal already
+9db0b9b6a14249 Mika Westerberg      2023-01-31  1940  		 * reserved as well so adjust x.start down accordingly to
+9db0b9b6a14249 Mika Westerberg      2023-01-31  1941  		 * cover the whole space.
+9db0b9b6a14249 Mika Westerberg      2023-01-31  1942  		 */
+9db0b9b6a14249 Mika Westerberg      2023-01-31  1943  		io.start -= resource_size(res);
+08f0a15ee8adb4 Mika Westerberg      2023-01-31  1944  
+08f0a15ee8adb4 Mika Westerberg      2023-01-31  1945  		res = &dev->resource[PCI_BRIDGE_MEM_WINDOW];
+08f0a15ee8adb4 Mika Westerberg      2023-01-31  1946  		align = pci_resource_alignment(dev, res);
+9db0b9b6a14249 Mika Westerberg      2023-01-31  1947  		mmio.end = align ? mmio.start + ALIGN_DOWN(mmio_per_b, align) - 1
+9db0b9b6a14249 Mika Westerberg      2023-01-31  1948  				 : mmio.start + mmio_per_b - 1;
+9db0b9b6a14249 Mika Westerberg      2023-01-31  1949  		mmio.start -= resource_size(res);
+08f0a15ee8adb4 Mika Westerberg      2023-01-31  1950  
+08f0a15ee8adb4 Mika Westerberg      2023-01-31  1951  		res = &dev->resource[PCI_BRIDGE_PREF_MEM_WINDOW];
+08f0a15ee8adb4 Mika Westerberg      2023-01-31  1952  		align = pci_resource_alignment(dev, res);
+08f0a15ee8adb4 Mika Westerberg      2023-01-31  1953  		mmio_pref.end = align ? mmio_pref.start +
+9db0b9b6a14249 Mika Westerberg      2023-01-31  1954  					ALIGN_DOWN(mmio_pref_per_b, align) - 1
+9db0b9b6a14249 Mika Westerberg      2023-01-31  1955  				      : mmio_pref.start + mmio_pref_per_b - 1;
+9db0b9b6a14249 Mika Westerberg      2023-01-31  1956  		mmio_pref.start -= resource_size(res);
+d555a50fd6e028 Nicholas Johnson     2020-01-06  1957  
+d555a50fd6e028 Nicholas Johnson     2020-01-06  1958  		pci_bus_distribute_available_resources(b, add_list, io, mmio,
+d555a50fd6e028 Nicholas Johnson     2020-01-06  1959  						       mmio_pref);
+f924c26e4ee651 Nicholas Johnson     2020-01-06  1960  
+08f0a15ee8adb4 Mika Westerberg      2023-01-31  1961  		io.start += io.end + 1;
+08f0a15ee8adb4 Mika Westerberg      2023-01-31  1962  		mmio.start += mmio.end + 1;
+08f0a15ee8adb4 Mika Westerberg      2023-01-31  1963  		mmio_pref.start += mmio_pref.end + 1;
+1a5767725ceced Mika Westerberg      2017-10-13  1964  	}
+1a5767725ceced Mika Westerberg      2017-10-13  1965  }
+1a5767725ceced Mika Westerberg      2017-10-13  1966  
+
+:::::: The code at line 1916 was first introduced by commit
+:::::: 1a5767725cecedd80a541799c83c0c97b8b5b624 PCI: Distribute available resources to hotplug-capable bridges
+
+:::::: TO: Mika Westerberg <mika.westerberg@linux.intel.com>
+:::::: CC: Bjorn Helgaas <bhelgaas@google.com>
 
 -- 
 0-DAY CI Kernel Test Service
