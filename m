@@ -1,165 +1,351 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93EFE6109
-	for <oe-kbuild@lists.linux.dev>; Wed, 15 Feb 2023 15:01:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D765E7B
+	for <oe-kbuild@lists.linux.dev>; Wed, 15 Feb 2023 16:43:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676473313; x=1708009313;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=DFKJsOB9dFRa1h8DsxOzr2ZPRPzzDt+WcsfaBTGOguE=;
-  b=nLy9brvm45Ac0wHEBSv9k9ttDGpBrQgY7JW7wYCzw3IJA0AzoxDLEIHf
-   y0kpziQqJWMoVnR6Bu5/vy1n8CzeTDBuM+7cEOHZgSkQ5nG1v7ncR7OvE
-   AvhfiMx4jWB/A0wuOjekIOZcWarVv45+7sCF11TYZvphTEYoaFPWSW9mD
-   aIKD4DfFK1t9SKT66ZSNxOkJ43nl+J1E9S2wgJwYYoEHqSH12npgqJ4XD
-   vqNGt/FGifEtO6vGrdYoCkhTA+XiIsEIvfMsmaXFTlFkUdbMI9tmOSvyE
-   V6/0QbQwEzCXm9IQbkCEON/HrBI2ReCnPlyPcTPvN0YIwBq0v8nsERnwL
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10621"; a="331445875"
-X-IronPort-AV: E=Sophos;i="5.97,299,1669104000"; 
-   d="scan'208";a="331445875"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Feb 2023 07:01:52 -0800
+  t=1676479435; x=1708015435;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=cb1V5B9yRuocm1CGp9BBItwFOmr1o68hLZgrC7k5Z1M=;
+  b=hP1DlBd/B6l4/G7Cg/27nnJ21Zqxq2HzATK1w7YL60/3G2bvwrJLqHCx
+   1JzUsFFjMo7yRmT3oyCXb4L47mBnG14suglKjEP5N0VfVrTMKRoYa5qC9
+   Ue01WKSG5eRltyCbPy5mSPR1js22aFBC47y/OfbQ/oxQ3l63LUqGS6mi0
+   m4ldRTkpDs4pOQPmVJJcEMMbCBBS6ipGBh0XyxWsTdCx5gP3i91F7s/Gh
+   kbEWkjuFDiC/+/752J5u/MLyoEcHEmkS4ShnJcpWL0PTnSFeDZUwE9c9D
+   fBU2Xwz+brHOFON0XAHwD+sr9QCWzUwHOzJhYOgkLxn5umGAut2yt0L7V
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10622"; a="330107618"
+X-IronPort-AV: E=Sophos;i="5.97,300,1669104000"; 
+   d="scan'208";a="330107618"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Feb 2023 08:43:55 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10621"; a="699996222"
-X-IronPort-AV: E=Sophos;i="5.97,299,1669104000"; 
-   d="scan'208";a="699996222"
+X-IronPort-AV: E=McAfee;i="6500,9779,10622"; a="669690245"
+X-IronPort-AV: E=Sophos;i="5.97,300,1669104000"; 
+   d="scan'208";a="669690245"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 15 Feb 2023 07:01:50 -0800
+  by orsmga002.jf.intel.com with ESMTP; 15 Feb 2023 08:43:53 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pSJI5-0009Tb-3A;
-	Wed, 15 Feb 2023 15:01:49 +0000
-Date: Wed, 15 Feb 2023 23:01:03 +0800
+	id 1pSKsr-0009Yr-0L;
+	Wed, 15 Feb 2023 16:43:53 +0000
+Date: Thu, 16 Feb 2023 00:43:16 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/gpu/drm/i915/display/intel_fb_pin.c:83
- intel_pin_fb_obj_dpt() error: potentially dereferencing uninitialized 'vma'.
-Message-ID: <202302152212.qMuf4OLQ-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [djwong-xfs:in-memory-btrees 105/182] fs/xfs/scrub/newbt.c:320:2:
+ warning: Use of memory after it is freed [clang-analyzer-unix.Malloc]
+Message-ID: <202302160051.Rfm4smVA-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+
+:::::: 
+:::::: Manual check reason: "low confidence static check warning: fs/xfs/scrub/newbt.c:320:2: warning: Use of memory after it is freed [clang-analyzer-unix.Malloc]"
+:::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Matthew Auld <matthew.auld@intel.com>
-CC: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-CC: "Ville Syrjälä" <ville.syrjala@linux.intel.com>
+TO: "Darrick J. Wong" <darrick.wong@oracle.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   e1c04510f521e853019afeca2a5991a5ef8d6a5b
-commit: c5e595e752b3a1c68cca57c3559521237332fbec drm/i915/display: handle migration for dpt
-date:   4 months ago
-:::::: branch date: 21 hours ago
-:::::: commit date: 4 months ago
-config: x86_64-randconfig-m001-20230213 (https://download.01.org/0day-ci/archive/20230215/202302152212.qMuf4OLQ-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git in-memory-btrees
+head:   d2b66bc91f378dde0839bf411f8a9c6f56656acc
+commit: d53b22d77a9007fbf9c29abba8496e46bda2e7e1 [105/182] xfs: implement block reservation accounting for btrees we're staging
+:::::: branch date: 12 hours ago
+:::::: commit date: 2 weeks ago
+config: s390-randconfig-c005-20230212 (https://download.01.org/0day-ci/archive/20230216/202302160051.Rfm4smVA-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project db0e6591612b53910a1b366863348bdb9d7d2fb1)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install s390 cross compiling tool for clang build
+        # apt-get install binutils-s390x-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git/commit/?id=d53b22d77a9007fbf9c29abba8496e46bda2e7e1
+        git remote add djwong-xfs https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git
+        git fetch --no-tags djwong-xfs in-memory-btrees
+        git checkout d53b22d77a9007fbf9c29abba8496e46bda2e7e1
+        # save the config file
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=s390 clang-analyzer  olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=s390 clang-analyzer 
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202302152212.qMuf4OLQ-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202302160051.Rfm4smVA-lkp@intel.com/
 
-New smatch warnings:
-drivers/gpu/drm/i915/display/intel_fb_pin.c:83 intel_pin_fb_obj_dpt() error: potentially dereferencing uninitialized 'vma'.
-drivers/gpu/drm/i915/display/intel_fb_pin.c:83 intel_pin_fb_obj_dpt() error: 'vma' dereferencing possible ERR_PTR()
+clang_analyzer warnings: (new ones prefixed by >>)
+                                    ^
+   include/linux/thread_info.h:141:22: note: expanded from macro 'test_thread_flag'
+           test_ti_thread_flag(current_thread_info(), flag)
+                               ^
+   include/linux/thread_info.h:24:54: note: expanded from macro 'current_thread_info'
+   #define current_thread_info() ((struct thread_info *)current)
+                                                        ^
+   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'current'
+   #define current ((struct task_struct *const)S390_lowcore.current_task)
+                                               ^
+   arch/s390/include/asm/lowcore.h:215:22: note: expanded from macro 'S390_lowcore'
+   #define S390_lowcore (*((struct lowcore *) 0))
+                        ^
+   mm/mmu_gather.c:337:2: note: Calling '__tlb_gather_mmu'
+           __tlb_gather_mmu(tlb, mm, false);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/mmu_gather.c:318:2: note: Calling 'tlb_table_init'
+           tlb_table_init(tlb);
+           ^~~~~~~~~~~~~~~~~~~
+   mm/mmu_gather.c:318:2: note: Returning from 'tlb_table_init'
+           tlb_table_init(tlb);
+           ^~~~~~~~~~~~~~~~~~~
+   mm/mmu_gather.c:323:2: note: Calling '__tlb_reset_range'
+           __tlb_reset_range(tlb);
+           ^~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/tlb.h:365:11: note: Field 'fullmm' is 0
+           if (tlb->fullmm) {
+                    ^
+   include/asm-generic/tlb.h:365:2: note: Taking false branch
+           if (tlb->fullmm) {
+           ^
+   include/asm-generic/tlb.h:368:16: note: Dereference of null pointer
+                   tlb->start = TASK_SIZE;
+                                ^
+   arch/s390/include/asm/processor.h:92:21: note: expanded from macro 'TASK_SIZE'
+   #define TASK_SIZE               (test_thread_flag(TIF_31BIT) ? \
+                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/thread_info.h:141:22: note: expanded from macro 'test_thread_flag'
+           test_ti_thread_flag(current_thread_info(), flag)
+                               ^~~~~~~~~~~~~~~~~~~~~
+   include/linux/thread_info.h:24:54: note: expanded from macro 'current_thread_info'
+   #define current_thread_info() ((struct thread_info *)current)
+                                                        ^~~~~~~
+   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'current'
+   #define current ((struct task_struct *const)S390_lowcore.current_task)
+                                               ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/s390/include/asm/lowcore.h:215:22: note: expanded from macro 'S390_lowcore'
+   #define S390_lowcore (*((struct lowcore *) 0))
+                        ^
+   Suppressed 10 warnings (10 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   13 warnings generated.
+   fs/xfs/scrub/common.h:26:27: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]
+           if (fatal_signal_pending(current)) {
+                                    ^
+   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'current'
+   #define current ((struct task_struct *const)S390_lowcore.current_task)
+                                               ^
+   arch/s390/include/asm/lowcore.h:215:22: note: expanded from macro 'S390_lowcore'
+   #define S390_lowcore (*((struct lowcore *) 0))
+                        ^
+   fs/xfs/scrub/quota.c:90:6: note: Calling 'xchk_should_terminate'
+           if (xchk_should_terminate(sc, &error))
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/xfs/scrub/common.h:26:27: note: Dereference of null pointer
+           if (fatal_signal_pending(current)) {
+                                    ^
+   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'current'
+   #define current ((struct task_struct *const)S390_lowcore.current_task)
+                                               ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/s390/include/asm/lowcore.h:215:22: note: expanded from macro 'S390_lowcore'
+   #define S390_lowcore (*((struct lowcore *) 0))
+                        ^
+   Suppressed 12 warnings (12 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   13 warnings generated.
+   fs/xfs/scrub/common.h:26:27: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]
+           if (fatal_signal_pending(current)) {
+                                    ^
+   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'current'
+   #define current ((struct task_struct *const)S390_lowcore.current_task)
+                                               ^
+   arch/s390/include/asm/lowcore.h:215:22: note: expanded from macro 'S390_lowcore'
+   #define S390_lowcore (*((struct lowcore *) 0))
+                        ^
+   fs/xfs/scrub/agheader_repair.c:472:6: note: Calling 'xchk_should_terminate'
+           if (xchk_should_terminate(ra->sc, &error))
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/xfs/scrub/common.h:26:27: note: Dereference of null pointer
+           if (fatal_signal_pending(current)) {
+                                    ^
+   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'current'
+   #define current ((struct task_struct *const)S390_lowcore.current_task)
+                                               ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/s390/include/asm/lowcore.h:215:22: note: expanded from macro 'S390_lowcore'
+   #define S390_lowcore (*((struct lowcore *) 0))
+                        ^
+   Suppressed 12 warnings (12 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   13 warnings generated.
+>> fs/xfs/scrub/newbt.c:320:2: warning: Use of memory after it is freed [clang-analyzer-unix.Malloc]
+           list_for_each_entry_safe(resv, n, &xnr->resv_list, list) {
+           ^
+   include/linux/list.h:762:7: note: expanded from macro 'list_for_each_entry_safe'
+                   n = list_next_entry(pos, member);                       \
+                       ^
+   include/linux/list.h:564:2: note: expanded from macro 'list_next_entry'
+           list_entry((pos)->member.next, typeof(*(pos)), member)
+           ^
+   include/linux/list.h:520:2: note: expanded from macro 'list_entry'
+           container_of(ptr, type, member)
+           ^
+   include/linux/container_of.h:19:25: note: expanded from macro 'container_of'
+           void *__mptr = (void *)(ptr);                                   \
+                                  ^
+   fs/xfs/scrub/newbt.c:354:2: note: Calling 'xrep_newbt_free'
+           xrep_newbt_free(xnr, false);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/xfs/scrub/newbt.c:287:6: note: Assuming the condition is false
+           if (xfs_is_shutdown(sc->mp))
+               ^~~~~~~~~~~~~~~~~~~~~~~
+   fs/xfs/scrub/newbt.c:287:2: note: Taking false branch
+           if (xfs_is_shutdown(sc->mp))
+           ^
+   fs/xfs/scrub/newbt.c:290:2: note: Loop condition is true.  Entering loop body
+           list_for_each_entry_safe(resv, n, &xnr->resv_list, list) {
+           ^
+   include/linux/list.h:761:2: note: expanded from macro 'list_for_each_entry_safe'
+           for (pos = list_first_entry(head, typeof(*pos), member),        \
+           ^
+   fs/xfs/scrub/newbt.c:296:3: note: Memory is released
+                   kfree(resv);
+                   ^~~~~~~~~~~
+   fs/xfs/scrub/newbt.c:297:7: note: 'ret' is >= 0
+                   if (ret < 0) {
+                       ^~~
+   fs/xfs/scrub/newbt.c:297:3: note: Taking false branch
+                   if (ret < 0) {
+                   ^
+   fs/xfs/scrub/newbt.c:303:7: note: 'freed' is < XREP_REAP_MAX_NEWBT_EFIS
+                   if (freed >= XREP_REAP_MAX_NEWBT_EFIS) {
+                       ^~~~~
+   fs/xfs/scrub/newbt.c:303:3: note: Taking false branch
+                   if (freed >= XREP_REAP_MAX_NEWBT_EFIS) {
+                   ^
+   fs/xfs/scrub/newbt.c:290:2: note: Loop condition is false. Execution continues on line 311
+           list_for_each_entry_safe(resv, n, &xnr->resv_list, list) {
+           ^
+   include/linux/list.h:761:2: note: expanded from macro 'list_for_each_entry_safe'
+           for (pos = list_first_entry(head, typeof(*pos), member),        \
+           ^
+   fs/xfs/scrub/newbt.c:311:6: note: 'freed' is 0
+           if (freed)
+               ^~~~~
+   fs/xfs/scrub/newbt.c:311:2: note: Taking false branch
+           if (freed)
+           ^
+   fs/xfs/scrub/newbt.c:320:2: note: Use of memory after it is freed
+           list_for_each_entry_safe(resv, n, &xnr->resv_list, list) {
+           ^
+   include/linux/list.h:762:7: note: expanded from macro 'list_for_each_entry_safe'
+                   n = list_next_entry(pos, member);                       \
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/list.h:564:2: note: expanded from macro 'list_next_entry'
+           list_entry((pos)->member.next, typeof(*(pos)), member)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/list.h:520:2: note: expanded from macro 'list_entry'
+           container_of(ptr, type, member)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/container_of.h:19:25: note: expanded from macro 'container_of'
+           void *__mptr = (void *)(ptr);                                   \
+                                  ^~~~~
+   Suppressed 12 warnings (12 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   32 warnings generated.
+   arch/s390/kernel/ptrace.c:54:6: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]
+           if (MACHINE_HAS_TE) {
+               ^
+   arch/s390/include/asm/setup.h:90:26: note: expanded from macro 'MACHINE_HAS_TE'
+   #define MACHINE_HAS_TE          (S390_lowcore.machine_flags & MACHINE_FLAG_TE)
+                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/s390/include/asm/lowcore.h:215:22: note: expanded from macro 'S390_lowcore'
+   #define S390_lowcore (*((struct lowcore *) 0))
+                        ^
+   arch/s390/kernel/ptrace.c:49:2: note: Taking false branch
+           __ctl_store(cr0_old.val, 0, 0);
+           ^
+   arch/s390/include/asm/ctl_reg.h:52:2: note: expanded from macro '__ctl_store'
+           BUILD_BUG_ON(sizeof(addrtype) != (high - low + 1) * sizeof(long));\
+           ^
+   include/linux/build_bug.h:50:2: note: expanded from macro 'BUILD_BUG_ON'
+           BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+           ^
+   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON_MSG'
+   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+                                       ^
+   include/linux/compiler_types.h:358:2: note: expanded from macro 'compiletime_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+           ^
+   include/linux/compiler_types.h:346:2: note: expanded from macro '_compiletime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
 
-Old smatch warnings:
-drivers/gpu/drm/i915/gem/i915_gem_object.h:194 __i915_gem_object_lock() error: we previously assumed 'ww' could be null (see line 183)
+vim +320 fs/xfs/scrub/newbt.c
 
-vim +/vma +83 drivers/gpu/drm/i915/display/intel_fb_pin.c
-
-814c8757115f9d7 Dave Airlie               2021-10-12  18  
-814c8757115f9d7 Dave Airlie               2021-10-12  19  static struct i915_vma *
-814c8757115f9d7 Dave Airlie               2021-10-12  20  intel_pin_fb_obj_dpt(struct drm_framebuffer *fb,
-3bb6a44251b4d06 Niranjana Vishwanathapura 2022-09-01  21  		     const struct i915_gtt_view *view,
-814c8757115f9d7 Dave Airlie               2021-10-12  22  		     bool uses_fence,
-814c8757115f9d7 Dave Airlie               2021-10-12  23  		     unsigned long *out_flags,
-814c8757115f9d7 Dave Airlie               2021-10-12  24  		     struct i915_address_space *vm)
-814c8757115f9d7 Dave Airlie               2021-10-12  25  {
-814c8757115f9d7 Dave Airlie               2021-10-12  26  	struct drm_device *dev = fb->dev;
-814c8757115f9d7 Dave Airlie               2021-10-12  27  	struct drm_i915_private *dev_priv = to_i915(dev);
-814c8757115f9d7 Dave Airlie               2021-10-12  28  	struct drm_i915_gem_object *obj = intel_fb_obj(fb);
-c5e595e752b3a1c Matthew Auld              2022-10-04  29  	struct i915_gem_ww_ctx ww;
-814c8757115f9d7 Dave Airlie               2021-10-12  30  	struct i915_vma *vma;
-814c8757115f9d7 Dave Airlie               2021-10-12  31  	u32 alignment;
-814c8757115f9d7 Dave Airlie               2021-10-12  32  	int ret;
-814c8757115f9d7 Dave Airlie               2021-10-12  33  
-c5e595e752b3a1c Matthew Auld              2022-10-04  34  	/*
-c5e595e752b3a1c Matthew Auld              2022-10-04  35  	 * We are not syncing against the binding (and potential migrations)
-c5e595e752b3a1c Matthew Auld              2022-10-04  36  	 * below, so this vm must never be async.
-c5e595e752b3a1c Matthew Auld              2022-10-04  37  	 */
-c5e595e752b3a1c Matthew Auld              2022-10-04  38  	GEM_WARN_ON(vm->bind_async_flags);
-c5e595e752b3a1c Matthew Auld              2022-10-04  39  
-814c8757115f9d7 Dave Airlie               2021-10-12  40  	if (WARN_ON(!i915_gem_object_is_framebuffer(obj)))
-814c8757115f9d7 Dave Airlie               2021-10-12  41  		return ERR_PTR(-EINVAL);
-814c8757115f9d7 Dave Airlie               2021-10-12  42  
-814c8757115f9d7 Dave Airlie               2021-10-12  43  	alignment = 4096 * 512;
-814c8757115f9d7 Dave Airlie               2021-10-12  44  
-814c8757115f9d7 Dave Airlie               2021-10-12  45  	atomic_inc(&dev_priv->gpu_error.pending_fb_pin);
-814c8757115f9d7 Dave Airlie               2021-10-12  46  
-c5e595e752b3a1c Matthew Auld              2022-10-04  47  	for_i915_gem_ww(&ww, ret, true) {
-c5e595e752b3a1c Matthew Auld              2022-10-04  48  		ret = i915_gem_object_lock(obj, &ww);
-c5e595e752b3a1c Matthew Auld              2022-10-04  49  		if (ret)
-c5e595e752b3a1c Matthew Auld              2022-10-04  50  			continue;
-c5e595e752b3a1c Matthew Auld              2022-10-04  51  
-c5e595e752b3a1c Matthew Auld              2022-10-04  52  		if (HAS_LMEM(dev_priv)) {
-c5e595e752b3a1c Matthew Auld              2022-10-04  53  			ret = i915_gem_object_migrate(obj, &ww, INTEL_REGION_LMEM_0);
-c5e595e752b3a1c Matthew Auld              2022-10-04  54  			if (ret)
-c5e595e752b3a1c Matthew Auld              2022-10-04  55  				continue;
-814c8757115f9d7 Dave Airlie               2021-10-12  56  		}
-814c8757115f9d7 Dave Airlie               2021-10-12  57  
-c5e595e752b3a1c Matthew Auld              2022-10-04  58  		ret = i915_gem_object_set_cache_level(obj, I915_CACHE_NONE);
-c5e595e752b3a1c Matthew Auld              2022-10-04  59  		if (ret)
-c5e595e752b3a1c Matthew Auld              2022-10-04  60  			continue;
-c5e595e752b3a1c Matthew Auld              2022-10-04  61  
-814c8757115f9d7 Dave Airlie               2021-10-12  62  		vma = i915_vma_instance(obj, vm, view);
-c5e595e752b3a1c Matthew Auld              2022-10-04  63  		if (IS_ERR(vma)) {
-c5e595e752b3a1c Matthew Auld              2022-10-04  64  			ret = PTR_ERR(vma);
-c5e595e752b3a1c Matthew Auld              2022-10-04  65  			continue;
-c5e595e752b3a1c Matthew Auld              2022-10-04  66  		}
-814c8757115f9d7 Dave Airlie               2021-10-12  67  
-814c8757115f9d7 Dave Airlie               2021-10-12  68  		if (i915_vma_misplaced(vma, 0, alignment, 0)) {
-c5e595e752b3a1c Matthew Auld              2022-10-04  69  			ret = i915_vma_unbind(vma);
-c5e595e752b3a1c Matthew Auld              2022-10-04  70  			if (ret)
-c5e595e752b3a1c Matthew Auld              2022-10-04  71  				continue;
-814c8757115f9d7 Dave Airlie               2021-10-12  72  		}
-814c8757115f9d7 Dave Airlie               2021-10-12  73  
-c5e595e752b3a1c Matthew Auld              2022-10-04  74  		ret = i915_vma_pin_ww(vma, &ww, 0, alignment, PIN_GLOBAL);
-c5e595e752b3a1c Matthew Auld              2022-10-04  75  		if (ret)
-c5e595e752b3a1c Matthew Auld              2022-10-04  76  			continue;
-c5e595e752b3a1c Matthew Auld              2022-10-04  77  	}
-814c8757115f9d7 Dave Airlie               2021-10-12  78  	if (ret) {
-814c8757115f9d7 Dave Airlie               2021-10-12  79  		vma = ERR_PTR(ret);
-814c8757115f9d7 Dave Airlie               2021-10-12  80  		goto err;
-814c8757115f9d7 Dave Airlie               2021-10-12  81  	}
-814c8757115f9d7 Dave Airlie               2021-10-12  82  
-814c8757115f9d7 Dave Airlie               2021-10-12 @83  	vma->display_alignment = max_t(u64, vma->display_alignment, alignment);
-814c8757115f9d7 Dave Airlie               2021-10-12  84  
-814c8757115f9d7 Dave Airlie               2021-10-12  85  	i915_gem_object_flush_if_display(obj);
-814c8757115f9d7 Dave Airlie               2021-10-12  86  
-814c8757115f9d7 Dave Airlie               2021-10-12  87  	i915_vma_get(vma);
-814c8757115f9d7 Dave Airlie               2021-10-12  88  err:
-814c8757115f9d7 Dave Airlie               2021-10-12  89  	atomic_dec(&dev_priv->gpu_error.pending_fb_pin);
-814c8757115f9d7 Dave Airlie               2021-10-12  90  
-814c8757115f9d7 Dave Airlie               2021-10-12  91  	return vma;
-814c8757115f9d7 Dave Airlie               2021-10-12  92  }
-814c8757115f9d7 Dave Airlie               2021-10-12  93  
-
-:::::: The code at line 83 was first introduced by commit
-:::::: 814c8757115f9d7135126ac43d3a178b31e796dd drm/i915/display: move pin/unpin fb/plane code to a new file.
-
-:::::: TO: Dave Airlie <airlied@redhat.com>
-:::::: CC: Jani Nikula <jani.nikula@intel.com>
+d53b22d77a9007 Darrick J. Wong 2022-07-14  271  
+d53b22d77a9007 Darrick J. Wong 2022-07-14  272  /* Free all the accounting info and disk space we reserved for a new btree. */
+d53b22d77a9007 Darrick J. Wong 2022-07-14  273  STATIC int
+d53b22d77a9007 Darrick J. Wong 2022-07-14  274  xrep_newbt_free(
+d53b22d77a9007 Darrick J. Wong 2022-07-14  275  	struct xrep_newbt	*xnr,
+d53b22d77a9007 Darrick J. Wong 2022-07-14  276  	bool			btree_committed)
+d53b22d77a9007 Darrick J. Wong 2022-07-14  277  {
+d53b22d77a9007 Darrick J. Wong 2022-07-14  278  	struct xfs_scrub	*sc = xnr->sc;
+d53b22d77a9007 Darrick J. Wong 2022-07-14  279  	struct xrep_newbt_resv	*resv, *n;
+d53b22d77a9007 Darrick J. Wong 2022-07-14  280  	unsigned int		freed = 0;
+d53b22d77a9007 Darrick J. Wong 2022-07-14  281  	int			error = 0;
+d53b22d77a9007 Darrick J. Wong 2022-07-14  282  
+d53b22d77a9007 Darrick J. Wong 2022-07-14  283  	/*
+d53b22d77a9007 Darrick J. Wong 2022-07-14  284  	 * If the filesystem already went down, we can't free the blocks.  Skip
+d53b22d77a9007 Darrick J. Wong 2022-07-14  285  	 * ahead to freeing the incore metadata because we can't fix anything.
+d53b22d77a9007 Darrick J. Wong 2022-07-14  286  	 */
+d53b22d77a9007 Darrick J. Wong 2022-07-14  287  	if (xfs_is_shutdown(sc->mp))
+d53b22d77a9007 Darrick J. Wong 2022-07-14  288  		goto junkit;
+d53b22d77a9007 Darrick J. Wong 2022-07-14  289  
+d53b22d77a9007 Darrick J. Wong 2022-07-14  290  	list_for_each_entry_safe(resv, n, &xnr->resv_list, list) {
+d53b22d77a9007 Darrick J. Wong 2022-07-14  291  		int		ret;
+d53b22d77a9007 Darrick J. Wong 2022-07-14  292  
+d53b22d77a9007 Darrick J. Wong 2022-07-14  293  		ret = xrep_newbt_free_extent(xnr, resv, btree_committed);
+d53b22d77a9007 Darrick J. Wong 2022-07-14  294  		list_del(&resv->list);
+d53b22d77a9007 Darrick J. Wong 2022-07-14  295  		xfs_perag_put(resv->pag);
+d53b22d77a9007 Darrick J. Wong 2022-07-14  296  		kfree(resv);
+d53b22d77a9007 Darrick J. Wong 2022-07-14  297  		if (ret < 0) {
+d53b22d77a9007 Darrick J. Wong 2022-07-14  298  			error = ret;
+d53b22d77a9007 Darrick J. Wong 2022-07-14  299  			goto junkit;
+d53b22d77a9007 Darrick J. Wong 2022-07-14  300  		}
+d53b22d77a9007 Darrick J. Wong 2022-07-14  301  
+d53b22d77a9007 Darrick J. Wong 2022-07-14  302  		freed += ret;
+d53b22d77a9007 Darrick J. Wong 2022-07-14  303  		if (freed >= XREP_REAP_MAX_NEWBT_EFIS) {
+d53b22d77a9007 Darrick J. Wong 2022-07-14  304  			error = xrep_defer_finish(sc);
+d53b22d77a9007 Darrick J. Wong 2022-07-14  305  			if (error)
+d53b22d77a9007 Darrick J. Wong 2022-07-14  306  				goto junkit;
+d53b22d77a9007 Darrick J. Wong 2022-07-14  307  			freed = 0;
+d53b22d77a9007 Darrick J. Wong 2022-07-14  308  		}
+d53b22d77a9007 Darrick J. Wong 2022-07-14  309  	}
+d53b22d77a9007 Darrick J. Wong 2022-07-14  310  
+d53b22d77a9007 Darrick J. Wong 2022-07-14  311  	if (freed)
+d53b22d77a9007 Darrick J. Wong 2022-07-14  312  		error = xrep_defer_finish(sc);
+d53b22d77a9007 Darrick J. Wong 2022-07-14  313  
+d53b22d77a9007 Darrick J. Wong 2022-07-14  314  junkit:
+d53b22d77a9007 Darrick J. Wong 2022-07-14  315  	/*
+d53b22d77a9007 Darrick J. Wong 2022-07-14  316  	 * If we still have reservations attached to @newbt, cleanup must have
+d53b22d77a9007 Darrick J. Wong 2022-07-14  317  	 * failed and the filesystem is about to go down.  Clean up the incore
+d53b22d77a9007 Darrick J. Wong 2022-07-14  318  	 * reservations.
+d53b22d77a9007 Darrick J. Wong 2022-07-14  319  	 */
+d53b22d77a9007 Darrick J. Wong 2022-07-14 @320  	list_for_each_entry_safe(resv, n, &xnr->resv_list, list) {
+d53b22d77a9007 Darrick J. Wong 2022-07-14  321  		list_del(&resv->list);
+d53b22d77a9007 Darrick J. Wong 2022-07-14  322  		xfs_perag_put(resv->pag);
+d53b22d77a9007 Darrick J. Wong 2022-07-14  323  		kfree(resv);
+d53b22d77a9007 Darrick J. Wong 2022-07-14  324  	}
+d53b22d77a9007 Darrick J. Wong 2022-07-14  325  
+d53b22d77a9007 Darrick J. Wong 2022-07-14  326  	if (sc->ip) {
+d53b22d77a9007 Darrick J. Wong 2022-07-14  327  		kmem_cache_free(xfs_ifork_cache, xnr->ifake.if_fork);
+d53b22d77a9007 Darrick J. Wong 2022-07-14  328  		xnr->ifake.if_fork = NULL;
+d53b22d77a9007 Darrick J. Wong 2022-07-14  329  	}
+d53b22d77a9007 Darrick J. Wong 2022-07-14  330  
+d53b22d77a9007 Darrick J. Wong 2022-07-14  331  	return error;
+d53b22d77a9007 Darrick J. Wong 2022-07-14  332  }
+d53b22d77a9007 Darrick J. Wong 2022-07-14  333  
 
 -- 
 0-DAY CI Kernel Test Service
