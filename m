@@ -1,42 +1,42 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E129B3C39
-	for <oe-kbuild@lists.linux.dev>; Wed, 15 Feb 2023 18:37:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E885CC5D8
+	for <oe-kbuild@lists.linux.dev>; Wed, 15 Feb 2023 18:58:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676486221; x=1708022221;
+  t=1676487484; x=1708023484;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=M3Y5vDecIKq8htoRzgDHQuXaBUmo4XKDrhFUcnCoJD8=;
-  b=ADPtsz5kDKToJzq/fqoDl7JxmeRO43ODib26QDbHhWbXBmbKFzHIfiBH
-   Koslv4wD5mMa3HHEXTztMWpLOmh8f4XkJkeDXWK5Yur3IKLNW2UZhkQuK
-   9ziqxzhIc3+M2Gc+JuX8NgT0J6UV1B/AGWMwe+0BKnzDCGDj1536B1RQJ
-   dcYTA9gRzZYt4P0jNFtSktYQi2X1DvC/gLx+jV1P5sJt+VmafxrufPfC5
-   c+i4PDkv4GUrmx88SAwWQBH+jqwhLoiMzB7r4fstYcjqzxscrIPUEbPyE
-   SljWmFAXZbzfzwd89BtfIExlptjc+/AL3rb2TDESVrwUNjDLe3FODYy51
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10622"; a="329228327"
+  bh=SVn9g/kPSbe0WzrpoxjrnLl2xgy52WNdFrPKkJ9n4oE=;
+  b=Ig/Md879g1sJRTv9bErqUjjnVV4tJz6dLMtMppbRISBWvI78Wq1sN8ia
+   jJMopw4OVyMTagtuh3ls05aNHby5agByKGrIO6uF1qbnyeHjCKCShwv+G
+   d1coPcfJCTzSmOZSClbD5ZEWpDwoIC6YVBeMQQtTFTTHVROXkYX4Cup1t
+   RKwFkYmA0Rf2ATROgjvagTIBN4UsfYzu3qghGlwx5nFJg0xua/EYeGP9+
+   4zzw2vvGlyMM+Z/25JgsdOg/IeY+k4Ejb8WQiEnL1UIDDghNQe1YpVvt/
+   xlPdVSKdOJH+cpUygRy9peZSMDfyVMtG4a+l7fklN0tyI0TqVltFHbWis
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10622"; a="315181416"
 X-IronPort-AV: E=Sophos;i="5.97,300,1669104000"; 
-   d="scan'208";a="329228327"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Feb 2023 10:37:01 -0800
+   d="scan'208";a="315181416"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Feb 2023 10:58:03 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10622"; a="758547812"
+X-IronPort-AV: E=McAfee;i="6500,9779,10622"; a="738478357"
 X-IronPort-AV: E=Sophos;i="5.97,300,1669104000"; 
-   d="scan'208";a="758547812"
+   d="scan'208";a="738478357"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 15 Feb 2023 10:37:00 -0800
+  by fmsmga004.fm.intel.com with ESMTP; 15 Feb 2023 10:58:00 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pSMeJ-0009fx-1s;
-	Wed, 15 Feb 2023 18:36:59 +0000
-Date: Thu, 16 Feb 2023 02:36:34 +0800
+	id 1pSMyd-0009gf-39;
+	Wed, 15 Feb 2023 18:57:59 +0000
+Date: Thu, 16 Feb 2023 02:57:06 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [tip:irq/core 8/9] lib/group_cpus.c:237:22: warning: Division by
- zero [clang-analyzer-core.DivideZero]
-Message-ID: <202302160257.uvKArXF7-lkp@intel.com>
+Subject: Re: [RFC 2/3] io_uring: enable io_uring to submit sqes located in
+ kernel
+Message-ID: <202302160254.XFXTSlCj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -47,381 +47,294 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "low confidence static check warning: lib/group_cpus.c:237:22: warning: Division by zero [clang-analyzer-core.DivideZero]"
+:::::: Manual check reason: "low confidence static check warning: include/linux/io_uring_types.h:472:35: sparse: sparse: bad constant expression"
 :::::: 
 
 BCC: lkp@intel.com
-CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-CC: x86@kernel.org
-TO: Ming Lei <ming.lei@redhat.com>
-CC: Thomas Gleixner <tglx@linutronix.de>
-CC: Christoph Hellwig <hch@lst.de>
-CC: Jens Axboe <axboe@kernel.dk>
+In-Reply-To: <20230215004122.28917-3-xiaoguang.wang@linux.alibaba.com>
+References: <20230215004122.28917-3-xiaoguang.wang@linux.alibaba.com>
+TO: Xiaoguang Wang <xiaoguang.wang@linux.alibaba.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git irq/core
-head:   188a569658584e93930ab60334c5a1079c0330d8
-commit: f7b3ea8cf72f3d6060fe08e461805181e7450a13 [8/9] genirq/affinity: Move group_cpus_evenly() into lib/
-:::::: branch date: 4 weeks ago
-:::::: commit date: 4 weeks ago
-config: s390-randconfig-c005-20230210 (https://download.01.org/0day-ci/archive/20230216/202302160257.uvKArXF7-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project db0e6591612b53910a1b366863348bdb9d7d2fb1)
-reproduce (this is a W=1 build):
+Hi Xiaoguang,
+
+[FYI, it's a private test report for your RFC patch.]
+[auto build test WARNING on bpf/master]
+[also build test WARNING on axboe-block/for-next linus/master v6.2-rc8]
+[cannot apply to bpf-next/master next-20230215]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Xiaoguang-Wang/bpf-add-UBLK-program-type/20230215-084242
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf.git master
+patch link:    https://lore.kernel.org/r/20230215004122.28917-3-xiaoguang.wang%40linux.alibaba.com
+patch subject: [RFC 2/3] io_uring: enable io_uring to submit sqes located in kernel
+:::::: branch date: 18 hours ago
+:::::: commit date: 18 hours ago
+config: sh-randconfig-s053-20230212 (https://download.01.org/0day-ci/archive/20230216/202302160254.XFXTSlCj-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 12.1.0
+reproduce:
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install s390 cross compiling tool for clang build
-        # apt-get install binutils-s390x-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git/commit/?id=f7b3ea8cf72f3d6060fe08e461805181e7450a13
-        git remote add tip https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git
-        git fetch --no-tags tip irq/core
-        git checkout f7b3ea8cf72f3d6060fe08e461805181e7450a13
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://github.com/intel-lab-lkp/linux/commit/0d433a1cf7f666e5596514da7fab92f2691463ad
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Xiaoguang-Wang/bpf-add-UBLK-program-type/20230215-084242
+        git checkout 0d433a1cf7f666e5596514da7fab92f2691463ad
         # save the config file
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=s390 clang-analyzer  olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=s390 clang-analyzer 
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=sh olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=sh SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/r/202302160257.uvKArXF7-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202302160254.XFXTSlCj-lkp@intel.com/
 
-clang_analyzer warnings: (new ones prefixed by >>)
-                       ^~~~~~~~~~~~~~~
-   crypto/testmgr.c:616:2: note: Loop condition is true.  Entering loop body
-           for (i = 0; i < tsgl->nents; i++) {
-           ^
-   crypto/testmgr.c:617:25: note: Access to field 'offset' results in a dereference of an undefined pointer value (loaded from field 'div')
-                   unsigned int offset = partitions[i].div->offset;
-                                         ^             ~~~
-   Suppressed 21 warnings (9 in non-user code, 12 with check filters).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   27 warnings generated.
-   Suppressed 27 warnings (15 in non-user code, 12 with check filters).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   21 warnings generated.
-   arch/s390/include/asm/preempt.h:107:29: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]
-           S390_lowcore.preempt_count += val;
-                                      ^
-   crypto/scatterwalk.c:61:6: note: Assuming 'nbytes' is not equal to 0
-           if (!nbytes)
-               ^~~~~~~
-   crypto/scatterwalk.c:61:2: note: Taking false branch
-           if (!nbytes)
-           ^
-   crypto/scatterwalk.c:67:2: note: Calling 'scatterwalk_copychunks'
-           scatterwalk_copychunks(buf, &walk, nbytes, out);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   crypto/scatterwalk.c:29:2: note: Loop condition is true.  Entering loop body
-           for (;;) {
-           ^
-   crypto/scatterwalk.c:33:7: note: Assuming 'len_this_page' is <= 'nbytes'
-                   if (len_this_page > nbytes)
-                       ^~~~~~~~~~~~~~~~~~~~~~
-   crypto/scatterwalk.c:33:3: note: Taking false branch
-                   if (len_this_page > nbytes)
-                   ^
-   crypto/scatterwalk.c:36:7: note: Assuming 'out' is not equal to 2
-                   if (out != 2) {
-                       ^~~~~~~~
-   crypto/scatterwalk.c:36:3: note: Taking true branch
-                   if (out != 2) {
-                   ^
-   crypto/scatterwalk.c:37:12: note: Calling 'scatterwalk_map'
-                           vaddr = scatterwalk_map(walk);
-                                   ^~~~~~~~~~~~~~~~~~~~~
-   include/crypto/scatterwalk.h:68:9: note: Calling 'kmap_atomic'
-           return kmap_atomic(scatterwalk_page(walk)) +
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/highmem-internal.h:209:2: note: Taking false branch
-           if (IS_ENABLED(CONFIG_PREEMPT_RT))
-           ^
-   include/linux/highmem-internal.h:212:3: note: Calling '__preempt_count_add'
-                   preempt_disable();
-                   ^
-   include/linux/preempt.h:203:2: note: expanded from macro 'preempt_disable'
-           preempt_count_inc(); \
-           ^~~~~~~~~~~~~~~~~~~
-   include/linux/preempt.h:196:29: note: expanded from macro 'preempt_count_inc'
-   #define preempt_count_inc() preempt_count_add(1)
-                               ^~~~~~~~~~~~~~~~~~~~
-   include/linux/preempt.h:188:32: note: expanded from macro 'preempt_count_add'
-   #define preempt_count_add(val)  __preempt_count_add(val)
-                                   ^~~~~~~~~~~~~~~~~~~~~~~~
-   arch/s390/include/asm/preempt.h:107:29: note: Dereference of null pointer
-           S390_lowcore.preempt_count += val;
-                                      ^
-   Suppressed 20 warnings (8 in non-user code, 12 with check filters).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   9 warnings generated.
->> lib/group_cpus.c:237:22: warning: Division by zero [clang-analyzer-core.DivideZero]
-                                    numgrps * ncpus / remaining_ncpus);
-                                                    ^
-   lib/group_cpus.c:354:6: note: Assuming the condition is false
-           if (!zalloc_cpumask_var(&nmsk, GFP_KERNEL))
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/group_cpus.c:354:2: note: Taking false branch
-           if (!zalloc_cpumask_var(&nmsk, GFP_KERNEL))
-           ^
-   lib/group_cpus.c:357:6: note: Assuming the condition is false
-           if (!zalloc_cpumask_var(&npresmsk, GFP_KERNEL))
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/group_cpus.c:357:2: note: Taking false branch
-           if (!zalloc_cpumask_var(&npresmsk, GFP_KERNEL))
-           ^
-   lib/group_cpus.c:361:7: note: 'node_to_cpumask' is non-null
-           if (!node_to_cpumask)
-                ^~~~~~~~~~~~~~~
-   lib/group_cpus.c:361:2: note: Taking false branch
-           if (!node_to_cpumask)
-           ^
-   lib/group_cpus.c:365:6: note: Assuming 'masks' is non-null
-           if (!masks)
-               ^~~~~~
-   lib/group_cpus.c:365:2: note: Taking false branch
-           if (!masks)
-           ^
-   lib/group_cpus.c:373:8: note: Calling '__group_cpus_evenly'
-           ret = __group_cpus_evenly(curgrp, numgrps, node_to_cpumask,
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/group_cpus.c:258:2: note: Taking false branch
-           if (cpumask_empty(cpu_mask))
-           ^
-   lib/group_cpus.c:267:6: note: Assuming 'numgrps' is > 'nodes'
-           if (numgrps <= nodes) {
-               ^~~~~~~~~~~~~~~~
-   lib/group_cpus.c:267:2: note: Taking false branch
-           if (numgrps <= nodes) {
-           ^
-   lib/group_cpus.c:281:6: note: Assuming 'node_groups' is non-null
-           if (!node_groups)
-               ^~~~~~~~~~~~
-   lib/group_cpus.c:281:2: note: Taking false branch
-           if (!node_groups)
-           ^
-   lib/group_cpus.c:285:2: note: Calling 'alloc_nodes_groups'
-           alloc_nodes_groups(numgrps, node_to_cpumask, cpu_mask,
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/group_cpus.c:135:14: note: 'remaining_ncpus' initialized to 0
-           unsigned n, remaining_ncpus = 0;
-                       ^~~~~~~~~~~~~~~
-   lib/group_cpus.c:137:2: note: Loop condition is true.  Entering loop body
-           for (n = 0; n < nr_node_ids; n++) {
-           ^
-   lib/group_cpus.c:137:2: note: Loop condition is false. Execution continues on line 142
-   lib/group_cpus.c:142:2: note: 'n' is < 1
-           for_each_node_mask(n, nodemsk) {
-           ^
-   include/linux/nodemask.h:392:19: note: expanded from macro 'for_each_node_mask'
-           for ((node) = 0; (node) < 1 && !nodes_empty(mask); (node)++)
-                            ^~~~~~
-   lib/group_cpus.c:142:2: note: Left side of '&&' is true
-           for_each_node_mask(n, nodemsk) {
-           ^
-   include/linux/nodemask.h:392:19: note: expanded from macro 'for_each_node_mask'
-           for ((node) = 0; (node) < 1 && !nodes_empty(mask); (node)++)
-                            ^
-   lib/group_cpus.c:142:2: note: Loop condition is false. Execution continues on line 154
-           for_each_node_mask(n, nodemsk) {
-           ^
-   include/linux/nodemask.h:392:2: note: expanded from macro 'for_each_node_mask'
-           for ((node) = 0; (node) < 1 && !nodes_empty(mask); (node)++)
-           ^
-   lib/group_cpus.c:154:12: note: '__UNIQUE_ID___x249' is < '__UNIQUE_ID___y250'
-           numgrps = min_t(unsigned, remaining_ncpus, numgrps);
-                     ^
-   include/linux/minmax.h:126:27: note: expanded from macro 'min_t'
-   #define min_t(type, x, y)       __careful_cmp((type)(x), (type)(y), <)
-                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:38:3: note: expanded from macro '__careful_cmp'
-                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:33:3: note: expanded from macro '__cmp_once'
-                   __cmp(unique_x, unique_y, op); })
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:28:26: note: expanded from macro '__cmp'
-   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
-                            ^~~
-   lib/group_cpus.c:154:12: note: '?' condition is true
-           numgrps = min_t(unsigned, remaining_ncpus, numgrps);
-                     ^
-   include/linux/minmax.h:126:27: note: expanded from macro 'min_t'
-   #define min_t(type, x, y)       __careful_cmp((type)(x), (type)(y), <)
-                                   ^
-   include/linux/minmax.h:38:3: note: expanded from macro '__careful_cmp'
-                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
-                   ^
-   include/linux/minmax.h:33:3: note: expanded from macro '__cmp_once'
-                   __cmp(unique_x, unique_y, op); })
-                   ^
-   include/linux/minmax.h:28:26: note: expanded from macro '__cmp'
+sparse warnings: (new ones prefixed by >>)
+   io_uring/xattr.c: note: in included file (through io_uring/io_uring.h):
+   io_uring/slist.h:138:29: sparse: sparse: no newline at end of file
+   io_uring/xattr.c: note: in included file (through io_uring/io_uring.h):
+>> include/linux/io_uring_types.h:472:35: sparse: sparse: bad constant expression
+--
+   io_uring/io_uring.c: note: in included file (through io_uring/io_uring.h):
+   io_uring/slist.h:138:29: sparse: sparse: no newline at end of file
+   io_uring/io_uring.c: note: in included file (through include/trace/events/io_uring.h):
+>> include/linux/io_uring_types.h:472:35: sparse: sparse: bad constant expression
+--
+   io_uring/nop.c: note: in included file (through io_uring/io_uring.h):
+   io_uring/slist.h:138:29: sparse: sparse: no newline at end of file
+   io_uring/nop.c: note: in included file (through io_uring/io_uring.h):
+>> include/linux/io_uring_types.h:472:35: sparse: sparse: bad constant expression
+--
+   io_uring/fs.c: note: in included file (through io_uring/io_uring.h):
+   io_uring/slist.h:138:29: sparse: sparse: no newline at end of file
+   io_uring/fs.c: note: in included file (through io_uring/io_uring.h):
+>> include/linux/io_uring_types.h:472:35: sparse: sparse: bad constant expression
+--
+   io_uring/splice.c: note: in included file (through io_uring/io_uring.h):
+   io_uring/slist.h:138:29: sparse: sparse: no newline at end of file
+   io_uring/splice.c: note: in included file (through io_uring/io_uring.h):
+>> include/linux/io_uring_types.h:472:35: sparse: sparse: bad constant expression
+--
+   io_uring/advise.c: note: in included file (through io_uring/io_uring.h):
+   io_uring/slist.h:138:29: sparse: sparse: no newline at end of file
+   io_uring/advise.c: note: in included file (through io_uring/io_uring.h):
+>> include/linux/io_uring_types.h:472:35: sparse: sparse: bad constant expression
+--
+   io_uring/sync.c: note: in included file (through io_uring/io_uring.h):
+   io_uring/slist.h:138:29: sparse: sparse: no newline at end of file
+   io_uring/sync.c: note: in included file (through io_uring/io_uring.h):
+>> include/linux/io_uring_types.h:472:35: sparse: sparse: bad constant expression
+--
+   io_uring/filetable.c: note: in included file (through io_uring/io_uring.h):
+   io_uring/slist.h:138:29: sparse: sparse: no newline at end of file
+   io_uring/filetable.c: note: in included file (through io_uring/io_uring.h):
+>> include/linux/io_uring_types.h:472:35: sparse: sparse: bad constant expression
+--
+   io_uring/openclose.c: note: in included file (through io_uring/io_uring.h):
+   io_uring/slist.h:138:29: sparse: sparse: no newline at end of file
+   io_uring/openclose.c: note: in included file (through io_uring/io_uring.h):
+>> include/linux/io_uring_types.h:472:35: sparse: sparse: bad constant expression
+--
+   io_uring/uring_cmd.c: note: in included file (through io_uring/io_uring.h):
+   io_uring/slist.h:138:29: sparse: sparse: no newline at end of file
+   io_uring/uring_cmd.c: note: in included file (through io_uring/io_uring.h):
+>> include/linux/io_uring_types.h:472:35: sparse: sparse: bad constant expression
+--
+   io_uring/statx.c: note: in included file (through io_uring/io_uring.h):
+   io_uring/slist.h:138:29: sparse: sparse: no newline at end of file
+   io_uring/statx.c: note: in included file (through io_uring/io_uring.h):
+>> include/linux/io_uring_types.h:472:35: sparse: sparse: bad constant expression
+--
+   io_uring/epoll.c: note: in included file (through io_uring/io_uring.h):
+   io_uring/slist.h:138:29: sparse: sparse: no newline at end of file
+   io_uring/epoll.c: note: in included file (through io_uring/io_uring.h):
+>> include/linux/io_uring_types.h:472:35: sparse: sparse: bad constant expression
+--
+   io_uring/msg_ring.c: note: in included file (through io_uring/io_uring.h):
+   io_uring/slist.h:138:29: sparse: sparse: no newline at end of file
+   io_uring/msg_ring.c: note: in included file (through io_uring/io_uring.h):
+>> include/linux/io_uring_types.h:472:35: sparse: sparse: bad constant expression
+--
+   io_uring/net.c: note: in included file (through io_uring/io_uring.h):
+   io_uring/slist.h:138:29: sparse: sparse: no newline at end of file
+   io_uring/net.c: note: in included file (through io_uring/io_uring.h):
+>> include/linux/io_uring_types.h:472:35: sparse: sparse: bad constant expression
+--
+   io_uring/timeout.c: note: in included file (through io_uring/io_uring.h):
+   io_uring/slist.h:138:29: sparse: sparse: no newline at end of file
+   io_uring/timeout.c: note: in included file (through include/trace/events/io_uring.h):
+>> include/linux/io_uring_types.h:472:35: sparse: sparse: bad constant expression
+--
+   io_uring/sqpoll.c: note: in included file (through io_uring/io_uring.h):
+   io_uring/slist.h:138:29: sparse: sparse: no newline at end of file
+   io_uring/sqpoll.c: note: in included file (through io_uring/io_uring.h):
+>> include/linux/io_uring_types.h:472:35: sparse: sparse: bad constant expression
+--
+   io_uring/fdinfo.c: note: in included file (through io_uring/io_uring.h):
+   io_uring/slist.h:138:29: sparse: sparse: no newline at end of file
+   io_uring/fdinfo.c: note: in included file (through io_uring/io_uring.h):
+>> include/linux/io_uring_types.h:472:35: sparse: sparse: bad constant expression
+--
+   io_uring/tctx.c: note: in included file (through io_uring/io_uring.h):
+   io_uring/slist.h:138:29: sparse: sparse: no newline at end of file
+   io_uring/tctx.c: note: in included file (through io_uring/io_uring.h):
+>> include/linux/io_uring_types.h:472:35: sparse: sparse: bad constant expression
+--
+   io_uring/poll.c: note: in included file (through io_uring/io_uring.h):
+   io_uring/slist.h:138:29: sparse: sparse: no newline at end of file
+   io_uring/poll.c: note: in included file (through include/trace/events/io_uring.h):
+>> include/linux/io_uring_types.h:472:35: sparse: sparse: bad constant expression
+--
+   io_uring/kbuf.c: note: in included file (through io_uring/io_uring.h):
+   io_uring/slist.h:138:29: sparse: sparse: no newline at end of file
+   io_uring/kbuf.c: note: in included file (through io_uring/io_uring.h):
+>> include/linux/io_uring_types.h:472:35: sparse: sparse: bad constant expression
+--
+   io_uring/cancel.c: note: in included file (through io_uring/io_uring.h):
+   io_uring/slist.h:138:29: sparse: sparse: no newline at end of file
+   io_uring/cancel.c: note: in included file (through io_uring/io_uring.h):
+>> include/linux/io_uring_types.h:472:35: sparse: sparse: bad constant expression
+--
+   io_uring/opdef.c: note: in included file (through io_uring/io_uring.h):
+   io_uring/slist.h:138:29: sparse: sparse: no newline at end of file
+   io_uring/opdef.c: note: in included file (through io_uring/io_uring.h):
+>> include/linux/io_uring_types.h:472:35: sparse: sparse: bad constant expression
+--
+   io_uring/rsrc.c: note: in included file (through io_uring/io_uring.h):
+   io_uring/slist.h:138:29: sparse: sparse: no newline at end of file
+   io_uring/rsrc.c: note: in included file (through io_uring/io_uring.h):
+>> include/linux/io_uring_types.h:472:35: sparse: sparse: bad constant expression
+--
+   io_uring/notif.c: note: in included file (through io_uring/io_uring.h):
+   io_uring/slist.h:138:29: sparse: sparse: no newline at end of file
+   io_uring/notif.c: note: in included file (through io_uring/io_uring.h):
+>> include/linux/io_uring_types.h:472:35: sparse: sparse: bad constant expression
+--
+   io_uring/io-wq.c: note: in included file:
+   io_uring/slist.h:138:29: sparse: sparse: no newline at end of file
+   io_uring/io-wq.c: note: in included file (through io_uring/io-wq.h):
+>> include/linux/io_uring_types.h:472:35: sparse: sparse: bad constant expression
+--
+   kernel/sched/core.c: note: in included file (through kernel/sched/../../io_uring/io-wq.h):
+>> include/linux/io_uring_types.h:472:35: sparse: sparse: bad constant expression
+   kernel/sched/core.c:7024:17: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/core.c:7024:17: sparse:    struct task_struct *
+   kernel/sched/core.c:7024:17: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/core.c:7240:22: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/core.c:7240:22: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/core.c:7240:22: sparse:    struct task_struct *
+   kernel/sched/core.c: note: in included file:
+   kernel/sched/sched.h:2068:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2068:25: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2068:25: sparse:    struct task_struct *
+   kernel/sched/sched.h:2226:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2226:9: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2226:9: sparse:    struct task_struct *
+   kernel/sched/sched.h:2226:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2226:9: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2226:9: sparse:    struct task_struct *
+   kernel/sched/sched.h:2068:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2068:25: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2068:25: sparse:    struct task_struct *
+   kernel/sched/sched.h:2226:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2226:9: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2226:9: sparse:    struct task_struct *
+   kernel/sched/sched.h:2068:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2068:25: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2068:25: sparse:    struct task_struct *
+   kernel/sched/sched.h:2226:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2226:9: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2226:9: sparse:    struct task_struct *
+   kernel/sched/sched.h:2068:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2068:25: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2068:25: sparse:    struct task_struct *
+   kernel/sched/sched.h:2226:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2226:9: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2226:9: sparse:    struct task_struct *
+   kernel/sched/sched.h:2068:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2068:25: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2068:25: sparse:    struct task_struct *
+   kernel/sched/sched.h:2068:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2068:25: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2068:25: sparse:    struct task_struct *
+   kernel/sched/sched.h:2226:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2226:9: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2226:9: sparse:    struct task_struct *
 
-vim +237 lib/group_cpus.c
+vim +472 include/linux/io_uring_types.h
 
-f7b3ea8cf72f3d Ming Lei 2022-12-27  114  
-f7b3ea8cf72f3d Ming Lei 2022-12-27  115  /*
-f7b3ea8cf72f3d Ming Lei 2022-12-27  116   * Allocate group number for each node, so that for each node:
-f7b3ea8cf72f3d Ming Lei 2022-12-27  117   *
-f7b3ea8cf72f3d Ming Lei 2022-12-27  118   * 1) the allocated number is >= 1
-f7b3ea8cf72f3d Ming Lei 2022-12-27  119   *
-f7b3ea8cf72f3d Ming Lei 2022-12-27  120   * 2) the allocated number is <= active CPU number of this node
-f7b3ea8cf72f3d Ming Lei 2022-12-27  121   *
-f7b3ea8cf72f3d Ming Lei 2022-12-27  122   * The actual allocated total groups may be less than @numgrps when
-f7b3ea8cf72f3d Ming Lei 2022-12-27  123   * active total CPU number is less than @numgrps.
-f7b3ea8cf72f3d Ming Lei 2022-12-27  124   *
-f7b3ea8cf72f3d Ming Lei 2022-12-27  125   * Active CPUs means the CPUs in '@cpu_mask AND @node_to_cpumask[]'
-f7b3ea8cf72f3d Ming Lei 2022-12-27  126   * for each node.
-f7b3ea8cf72f3d Ming Lei 2022-12-27  127   */
-f7b3ea8cf72f3d Ming Lei 2022-12-27  128  static void alloc_nodes_groups(unsigned int numgrps,
-f7b3ea8cf72f3d Ming Lei 2022-12-27  129  			       cpumask_var_t *node_to_cpumask,
-f7b3ea8cf72f3d Ming Lei 2022-12-27  130  			       const struct cpumask *cpu_mask,
-f7b3ea8cf72f3d Ming Lei 2022-12-27  131  			       const nodemask_t nodemsk,
-f7b3ea8cf72f3d Ming Lei 2022-12-27  132  			       struct cpumask *nmsk,
-f7b3ea8cf72f3d Ming Lei 2022-12-27  133  			       struct node_groups *node_groups)
-f7b3ea8cf72f3d Ming Lei 2022-12-27  134  {
-f7b3ea8cf72f3d Ming Lei 2022-12-27  135  	unsigned n, remaining_ncpus = 0;
-f7b3ea8cf72f3d Ming Lei 2022-12-27  136  
-f7b3ea8cf72f3d Ming Lei 2022-12-27  137  	for (n = 0; n < nr_node_ids; n++) {
-f7b3ea8cf72f3d Ming Lei 2022-12-27  138  		node_groups[n].id = n;
-f7b3ea8cf72f3d Ming Lei 2022-12-27  139  		node_groups[n].ncpus = UINT_MAX;
-f7b3ea8cf72f3d Ming Lei 2022-12-27  140  	}
-f7b3ea8cf72f3d Ming Lei 2022-12-27  141  
-f7b3ea8cf72f3d Ming Lei 2022-12-27  142  	for_each_node_mask(n, nodemsk) {
-f7b3ea8cf72f3d Ming Lei 2022-12-27  143  		unsigned ncpus;
-f7b3ea8cf72f3d Ming Lei 2022-12-27  144  
-f7b3ea8cf72f3d Ming Lei 2022-12-27  145  		cpumask_and(nmsk, cpu_mask, node_to_cpumask[n]);
-f7b3ea8cf72f3d Ming Lei 2022-12-27  146  		ncpus = cpumask_weight(nmsk);
-f7b3ea8cf72f3d Ming Lei 2022-12-27  147  
-f7b3ea8cf72f3d Ming Lei 2022-12-27  148  		if (!ncpus)
-f7b3ea8cf72f3d Ming Lei 2022-12-27  149  			continue;
-f7b3ea8cf72f3d Ming Lei 2022-12-27  150  		remaining_ncpus += ncpus;
-f7b3ea8cf72f3d Ming Lei 2022-12-27  151  		node_groups[n].ncpus = ncpus;
-f7b3ea8cf72f3d Ming Lei 2022-12-27  152  	}
-f7b3ea8cf72f3d Ming Lei 2022-12-27  153  
-f7b3ea8cf72f3d Ming Lei 2022-12-27  154  	numgrps = min_t(unsigned, remaining_ncpus, numgrps);
-f7b3ea8cf72f3d Ming Lei 2022-12-27  155  
-f7b3ea8cf72f3d Ming Lei 2022-12-27  156  	sort(node_groups, nr_node_ids, sizeof(node_groups[0]),
-f7b3ea8cf72f3d Ming Lei 2022-12-27  157  	     ncpus_cmp_func, NULL);
-f7b3ea8cf72f3d Ming Lei 2022-12-27  158  
-f7b3ea8cf72f3d Ming Lei 2022-12-27  159  	/*
-f7b3ea8cf72f3d Ming Lei 2022-12-27  160  	 * Allocate groups for each node according to the ratio of this
-f7b3ea8cf72f3d Ming Lei 2022-12-27  161  	 * node's nr_cpus to remaining un-assigned ncpus. 'numgrps' is
-f7b3ea8cf72f3d Ming Lei 2022-12-27  162  	 * bigger than number of active numa nodes. Always start the
-f7b3ea8cf72f3d Ming Lei 2022-12-27  163  	 * allocation from the node with minimized nr_cpus.
-f7b3ea8cf72f3d Ming Lei 2022-12-27  164  	 *
-f7b3ea8cf72f3d Ming Lei 2022-12-27  165  	 * This way guarantees that each active node gets allocated at
-f7b3ea8cf72f3d Ming Lei 2022-12-27  166  	 * least one group, and the theory is simple: over-allocation
-f7b3ea8cf72f3d Ming Lei 2022-12-27  167  	 * is only done when this node is assigned by one group, so
-f7b3ea8cf72f3d Ming Lei 2022-12-27  168  	 * other nodes will be allocated >= 1 groups, since 'numgrps' is
-f7b3ea8cf72f3d Ming Lei 2022-12-27  169  	 * bigger than number of numa nodes.
-f7b3ea8cf72f3d Ming Lei 2022-12-27  170  	 *
-f7b3ea8cf72f3d Ming Lei 2022-12-27  171  	 * One perfect invariant is that number of allocated groups for
-f7b3ea8cf72f3d Ming Lei 2022-12-27  172  	 * each node is <= CPU count of this node:
-f7b3ea8cf72f3d Ming Lei 2022-12-27  173  	 *
-f7b3ea8cf72f3d Ming Lei 2022-12-27  174  	 * 1) suppose there are two nodes: A and B
-f7b3ea8cf72f3d Ming Lei 2022-12-27  175  	 * 	ncpu(X) is CPU count of node X
-f7b3ea8cf72f3d Ming Lei 2022-12-27  176  	 * 	grps(X) is the group count allocated to node X via this
-f7b3ea8cf72f3d Ming Lei 2022-12-27  177  	 * 	algorithm
-f7b3ea8cf72f3d Ming Lei 2022-12-27  178  	 *
-f7b3ea8cf72f3d Ming Lei 2022-12-27  179  	 * 	ncpu(A) <= ncpu(B)
-f7b3ea8cf72f3d Ming Lei 2022-12-27  180  	 * 	ncpu(A) + ncpu(B) = N
-f7b3ea8cf72f3d Ming Lei 2022-12-27  181  	 * 	grps(A) + grps(B) = G
-f7b3ea8cf72f3d Ming Lei 2022-12-27  182  	 *
-f7b3ea8cf72f3d Ming Lei 2022-12-27  183  	 * 	grps(A) = max(1, round_down(G * ncpu(A) / N))
-f7b3ea8cf72f3d Ming Lei 2022-12-27  184  	 * 	grps(B) = G - grps(A)
-f7b3ea8cf72f3d Ming Lei 2022-12-27  185  	 *
-f7b3ea8cf72f3d Ming Lei 2022-12-27  186  	 * 	both N and G are integer, and 2 <= G <= N, suppose
-f7b3ea8cf72f3d Ming Lei 2022-12-27  187  	 * 	G = N - delta, and 0 <= delta <= N - 2
-f7b3ea8cf72f3d Ming Lei 2022-12-27  188  	 *
-f7b3ea8cf72f3d Ming Lei 2022-12-27  189  	 * 2) obviously grps(A) <= ncpu(A) because:
-f7b3ea8cf72f3d Ming Lei 2022-12-27  190  	 *
-f7b3ea8cf72f3d Ming Lei 2022-12-27  191  	 * 	if grps(A) is 1, then grps(A) <= ncpu(A) given
-f7b3ea8cf72f3d Ming Lei 2022-12-27  192  	 * 	ncpu(A) >= 1
-f7b3ea8cf72f3d Ming Lei 2022-12-27  193  	 *
-f7b3ea8cf72f3d Ming Lei 2022-12-27  194  	 * 	otherwise,
-f7b3ea8cf72f3d Ming Lei 2022-12-27  195  	 * 		grps(A) <= G * ncpu(A) / N <= ncpu(A), given G <= N
-f7b3ea8cf72f3d Ming Lei 2022-12-27  196  	 *
-f7b3ea8cf72f3d Ming Lei 2022-12-27  197  	 * 3) prove how grps(B) <= ncpu(B):
-f7b3ea8cf72f3d Ming Lei 2022-12-27  198  	 *
-f7b3ea8cf72f3d Ming Lei 2022-12-27  199  	 * 	if round_down(G * ncpu(A) / N) == 0, vecs(B) won't be
-f7b3ea8cf72f3d Ming Lei 2022-12-27  200  	 * 	over-allocated, so grps(B) <= ncpu(B),
-f7b3ea8cf72f3d Ming Lei 2022-12-27  201  	 *
-f7b3ea8cf72f3d Ming Lei 2022-12-27  202  	 * 	otherwise:
-f7b3ea8cf72f3d Ming Lei 2022-12-27  203  	 *
-f7b3ea8cf72f3d Ming Lei 2022-12-27  204  	 * 	grps(A) =
-f7b3ea8cf72f3d Ming Lei 2022-12-27  205  	 * 		round_down(G * ncpu(A) / N) =
-f7b3ea8cf72f3d Ming Lei 2022-12-27  206  	 * 		round_down((N - delta) * ncpu(A) / N) =
-f7b3ea8cf72f3d Ming Lei 2022-12-27  207  	 * 		round_down((N * ncpu(A) - delta * ncpu(A)) / N)	 >=
-f7b3ea8cf72f3d Ming Lei 2022-12-27  208  	 * 		round_down((N * ncpu(A) - delta * N) / N)	 =
-f7b3ea8cf72f3d Ming Lei 2022-12-27  209  	 * 		cpu(A) - delta
-f7b3ea8cf72f3d Ming Lei 2022-12-27  210  	 *
-f7b3ea8cf72f3d Ming Lei 2022-12-27  211  	 * 	then:
-f7b3ea8cf72f3d Ming Lei 2022-12-27  212  	 *
-f7b3ea8cf72f3d Ming Lei 2022-12-27  213  	 * 	grps(A) - G >= ncpu(A) - delta - G
-f7b3ea8cf72f3d Ming Lei 2022-12-27  214  	 * 	=>
-f7b3ea8cf72f3d Ming Lei 2022-12-27  215  	 * 	G - grps(A) <= G + delta - ncpu(A)
-f7b3ea8cf72f3d Ming Lei 2022-12-27  216  	 * 	=>
-f7b3ea8cf72f3d Ming Lei 2022-12-27  217  	 * 	grps(B) <= N - ncpu(A)
-f7b3ea8cf72f3d Ming Lei 2022-12-27  218  	 * 	=>
-f7b3ea8cf72f3d Ming Lei 2022-12-27  219  	 * 	grps(B) <= cpu(B)
-f7b3ea8cf72f3d Ming Lei 2022-12-27  220  	 *
-f7b3ea8cf72f3d Ming Lei 2022-12-27  221  	 * For nodes >= 3, it can be thought as one node and another big
-f7b3ea8cf72f3d Ming Lei 2022-12-27  222  	 * node given that is exactly what this algorithm is implemented,
-f7b3ea8cf72f3d Ming Lei 2022-12-27  223  	 * and we always re-calculate 'remaining_ncpus' & 'numgrps', and
-f7b3ea8cf72f3d Ming Lei 2022-12-27  224  	 * finally for each node X: grps(X) <= ncpu(X).
-f7b3ea8cf72f3d Ming Lei 2022-12-27  225  	 *
-f7b3ea8cf72f3d Ming Lei 2022-12-27  226  	 */
-f7b3ea8cf72f3d Ming Lei 2022-12-27  227  	for (n = 0; n < nr_node_ids; n++) {
-f7b3ea8cf72f3d Ming Lei 2022-12-27  228  		unsigned ngroups, ncpus;
-f7b3ea8cf72f3d Ming Lei 2022-12-27  229  
-f7b3ea8cf72f3d Ming Lei 2022-12-27  230  		if (node_groups[n].ncpus == UINT_MAX)
-f7b3ea8cf72f3d Ming Lei 2022-12-27  231  			continue;
-f7b3ea8cf72f3d Ming Lei 2022-12-27  232  
-f7b3ea8cf72f3d Ming Lei 2022-12-27  233  		WARN_ON_ONCE(numgrps == 0);
-f7b3ea8cf72f3d Ming Lei 2022-12-27  234  
-f7b3ea8cf72f3d Ming Lei 2022-12-27  235  		ncpus = node_groups[n].ncpus;
-f7b3ea8cf72f3d Ming Lei 2022-12-27  236  		ngroups = max_t(unsigned, 1,
-f7b3ea8cf72f3d Ming Lei 2022-12-27 @237  				 numgrps * ncpus / remaining_ncpus);
-f7b3ea8cf72f3d Ming Lei 2022-12-27  238  		WARN_ON_ONCE(ngroups > ncpus);
-f7b3ea8cf72f3d Ming Lei 2022-12-27  239  
-f7b3ea8cf72f3d Ming Lei 2022-12-27  240  		node_groups[n].ngroups = ngroups;
-f7b3ea8cf72f3d Ming Lei 2022-12-27  241  
-f7b3ea8cf72f3d Ming Lei 2022-12-27  242  		remaining_ncpus -= ncpus;
-f7b3ea8cf72f3d Ming Lei 2022-12-27  243  		numgrps -= ngroups;
-f7b3ea8cf72f3d Ming Lei 2022-12-27  244  	}
-f7b3ea8cf72f3d Ming Lei 2022-12-27  245  }
-f7b3ea8cf72f3d Ming Lei 2022-12-27  246  
+e27f928ee1cb06 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  406  
+e27f928ee1cb06 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  407  enum {
+e27f928ee1cb06 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  408  	/* ctx owns file */
+e27f928ee1cb06 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  409  	REQ_F_FIXED_FILE	= BIT(REQ_F_FIXED_FILE_BIT),
+e27f928ee1cb06 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  410  	/* drain existing IO first */
+e27f928ee1cb06 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  411  	REQ_F_IO_DRAIN		= BIT(REQ_F_IO_DRAIN_BIT),
+e27f928ee1cb06 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  412  	/* linked sqes */
+e27f928ee1cb06 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  413  	REQ_F_LINK		= BIT(REQ_F_LINK_BIT),
+e27f928ee1cb06 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  414  	/* doesn't sever on completion < 0 */
+e27f928ee1cb06 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  415  	REQ_F_HARDLINK		= BIT(REQ_F_HARDLINK_BIT),
+e27f928ee1cb06 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  416  	/* IOSQE_ASYNC */
+e27f928ee1cb06 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  417  	REQ_F_FORCE_ASYNC	= BIT(REQ_F_FORCE_ASYNC_BIT),
+e27f928ee1cb06 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  418  	/* IOSQE_BUFFER_SELECT */
+e27f928ee1cb06 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  419  	REQ_F_BUFFER_SELECT	= BIT(REQ_F_BUFFER_SELECT_BIT),
+e27f928ee1cb06 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  420  	/* IOSQE_CQE_SKIP_SUCCESS */
+e27f928ee1cb06 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  421  	REQ_F_CQE_SKIP		= BIT(REQ_F_CQE_SKIP_BIT),
+e27f928ee1cb06 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  422  
+e27f928ee1cb06 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  423  	/* fail rest of links */
+e27f928ee1cb06 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  424  	REQ_F_FAIL		= BIT(REQ_F_FAIL_BIT),
+e27f928ee1cb06 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  425  	/* on inflight list, should be cancelled and waited on exit reliably */
+e27f928ee1cb06 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  426  	REQ_F_INFLIGHT		= BIT(REQ_F_INFLIGHT_BIT),
+e27f928ee1cb06 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  427  	/* read/write uses file position */
+e27f928ee1cb06 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  428  	REQ_F_CUR_POS		= BIT(REQ_F_CUR_POS_BIT),
+e27f928ee1cb06 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  429  	/* must not punt to workers */
+e27f928ee1cb06 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  430  	REQ_F_NOWAIT		= BIT(REQ_F_NOWAIT_BIT),
+e27f928ee1cb06 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  431  	/* has or had linked timeout */
+e27f928ee1cb06 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  432  	REQ_F_LINK_TIMEOUT	= BIT(REQ_F_LINK_TIMEOUT_BIT),
+e27f928ee1cb06 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  433  	/* needs cleanup */
+e27f928ee1cb06 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  434  	REQ_F_NEED_CLEANUP	= BIT(REQ_F_NEED_CLEANUP_BIT),
+e27f928ee1cb06 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  435  	/* already went through poll handler */
+e27f928ee1cb06 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  436  	REQ_F_POLLED		= BIT(REQ_F_POLLED_BIT),
+e27f928ee1cb06 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  437  	/* buffer already selected */
+e27f928ee1cb06 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  438  	REQ_F_BUFFER_SELECTED	= BIT(REQ_F_BUFFER_SELECTED_BIT),
+e27f928ee1cb06 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  439  	/* buffer selected from ring, needs commit */
+e27f928ee1cb06 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  440  	REQ_F_BUFFER_RING	= BIT(REQ_F_BUFFER_RING_BIT),
+e27f928ee1cb06 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  441  	/* caller should reissue async */
+e27f928ee1cb06 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  442  	REQ_F_REISSUE		= BIT(REQ_F_REISSUE_BIT),
+e27f928ee1cb06 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  443  	/* supports async reads/writes */
+e27f928ee1cb06 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  444  	REQ_F_SUPPORT_NOWAIT	= BIT(REQ_F_SUPPORT_NOWAIT_BIT),
+e27f928ee1cb06 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  445  	/* regular file */
+e27f928ee1cb06 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  446  	REQ_F_ISREG		= BIT(REQ_F_ISREG_BIT),
+e27f928ee1cb06 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  447  	/* has creds assigned */
+e27f928ee1cb06 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  448  	REQ_F_CREDS		= BIT(REQ_F_CREDS_BIT),
+e27f928ee1cb06 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  449  	/* skip refcounting if not set */
+e27f928ee1cb06 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  450  	REQ_F_REFCOUNT		= BIT(REQ_F_REFCOUNT_BIT),
+e27f928ee1cb06 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  451  	/* there is a linked timeout that has to be armed */
+e27f928ee1cb06 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  452  	REQ_F_ARM_LTIMEOUT	= BIT(REQ_F_ARM_LTIMEOUT_BIT),
+e27f928ee1cb06 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  453  	/* ->async_data allocated */
+e27f928ee1cb06 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  454  	REQ_F_ASYNC_DATA	= BIT(REQ_F_ASYNC_DATA_BIT),
+e27f928ee1cb06 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  455  	/* don't post CQEs while failing linked requests */
+e27f928ee1cb06 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  456  	REQ_F_SKIP_LINK_CQES	= BIT(REQ_F_SKIP_LINK_CQES_BIT),
+e27f928ee1cb06 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  457  	/* single poll may be active */
+e27f928ee1cb06 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  458  	REQ_F_SINGLE_POLL	= BIT(REQ_F_SINGLE_POLL_BIT),
+e27f928ee1cb06 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  459  	/* double poll may active */
+e27f928ee1cb06 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  460  	REQ_F_DOUBLE_POLL	= BIT(REQ_F_DOUBLE_POLL_BIT),
+e27f928ee1cb06 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  461  	/* request has already done partial IO */
+e27f928ee1cb06 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  462  	REQ_F_PARTIAL_IO	= BIT(REQ_F_PARTIAL_IO_BIT),
+e27f928ee1cb06 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  463  	/* fast poll multishot mode */
+e27f928ee1cb06 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  464  	REQ_F_APOLL_MULTISHOT	= BIT(REQ_F_APOLL_MULTISHOT_BIT),
+e27f928ee1cb06 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  465  	/* ->extra1 and ->extra2 are initialised */
+e27f928ee1cb06 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  466  	REQ_F_CQE32_INIT	= BIT(REQ_F_CQE32_INIT_BIT),
+e27f928ee1cb06 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  467  	/* recvmsg special flag, clear EPOLLIN */
+e27f928ee1cb06 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  468  	REQ_F_CLEAR_POLLIN	= BIT(REQ_F_CLEAR_POLLIN_BIT),
+9ca9fb24d5febc io_uring/io_uring_types.h      Pavel Begunkov 2022-06-16  469  	/* hashed into ->cancel_hash_locked, protected by ->uring_lock */
+9ca9fb24d5febc io_uring/io_uring_types.h      Pavel Begunkov 2022-06-16  470  	REQ_F_HASH_LOCKED	= BIT(REQ_F_HASH_LOCKED_BIT),
+0d433a1cf7f666 include/linux/io_uring_types.h Xiaoguang Wang 2023-02-15  471  	/* buffer comes from kernel */
+0d433a1cf7f666 include/linux/io_uring_types.h Xiaoguang Wang 2023-02-15 @472  	REQ_F_KBUF		= BIT(REQ_F_KBUF_BIT),
+e27f928ee1cb06 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  473  };
+e27f928ee1cb06 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  474  
 
 -- 
 0-DAY CI Kernel Test Service
