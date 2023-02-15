@@ -1,39 +1,47 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83D7129A5
-	for <oe-kbuild@lists.linux.dev>; Wed, 15 Feb 2023 12:56:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676465809; x=1708001809;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=8sWZJkDITMutHz8Ma6opxidF4G7XrNtKUWVqXat1TU4=;
-  b=nhs1+R9mFQVpLD6mnD3QmrJCINUrJ343LIHd73p72TUW5IX7hhwVl9w1
-   Z5N4/mRLLqB9ub3Jilc1GouUoNbAf8cOye20Hqz9/hgUr1nbpljBstXww
-   xWMDpq0+WDhVaisy2j56co+/zGF+MN7aba8gC4A7JgPNbketn3Qw+l1QH
-   JzsV3Lxyv1J1CJDFSYp1P4eE5LzZ5lRIRpWwXwK4zK9oiOdvQntwJH0bu
-   4wI6N+nt/tMAz1mjEKtBtYLktTdbyKV/qDXs7fD40kwzkbVm9RpxgghCu
-   C93hU+8SH0E7B226+MXdAOf5SCukdCXI29CHmzZKeu1jwDz2hdakETLUU
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10621"; a="329137771"
-X-IronPort-AV: E=Sophos;i="5.97,299,1669104000"; 
-   d="scan'208";a="329137771"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Feb 2023 04:56:48 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10621"; a="843571832"
-X-IronPort-AV: E=Sophos;i="5.97,299,1669104000"; 
-   d="scan'208";a="843571832"
-Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 15 Feb 2023 04:56:47 -0800
-Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pSHL4-0009NJ-1I;
-	Wed, 15 Feb 2023 12:56:46 +0000
-Date: Wed, 15 Feb 2023 20:55:57 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 765EF53AF;
+	Wed, 15 Feb 2023 13:14:06 +0000 (UTC)
+Received: by mail-wr1-f54.google.com with SMTP id m14so19086952wrg.13;
+        Wed, 15 Feb 2023 05:14:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=y+bAytYdFSI9WfQJ0CTpzRZJVtTjO2ZYzIoYitpXp6U=;
+        b=TXNkB56Is+fEz10o9e5xuXBCX26VcdruHqQHk1SRImXPTgonAALFwvMBbsmxUBDuRy
+         ho5T3k+P1KLfh/KXqWKzL7ITMcwZaxoqfwj+0IylwejGkiMA/UgWHlecBGUNbrsr/kDn
+         ECC5KcIIZj302wgEE4qIBScgaPoLSgffKpo/63E1s/Rx4OBoUil48Ts7tC+I1yxj2gZn
+         NTN8To3aFlWNo1jIeIbnnZ3r2QO6IP7YDZ4fjHNjJsKHj8Xtw7natNI3l2qvxkbDVBit
+         jyJaN/m8WVajb3X5uQJCsJXvg4YWJqm49JiMuaf8gCKyAXIIL0unIrxhrVrvYke4GMgs
+         TzlA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=y+bAytYdFSI9WfQJ0CTpzRZJVtTjO2ZYzIoYitpXp6U=;
+        b=L8rCpHS5VHgpESZGh9I3jBWoL4vZYysWWRogaC6s77TT9EV1GHrThyyOt31/2NPJqg
+         cXlR4wlAEaOk8xQnK2CbOl+djz3yoigORSj9CEKQLjRZPZS07CLZz1rGidPwMKgwzrXS
+         uZaqz2qpMj/3I7b6ZESm238H5Qe1vBmk8dxF1ofdTX611YJO0uf79apQXrgN3EVaSS6z
+         Sger8m9PAl7TuGayBEWkEoUYAjg7Qa9xvIDbilPapAXWetlHDr0ge03Vr3a4n0BFUSd5
+         Q6hBfKLLh2g8tCIxxXOSZGAfH5y4meuKRwLvGXSADOzOKKaP8Yd2o/67G239KfRUdkCm
+         zi1w==
+X-Gm-Message-State: AO0yUKWSGVknN39R7EXzvwVdTv9EMaQpxHUesXJWqb8utrzqCjlRi8C+
+	6N9ehx0xwnOLxQOHVkI4rf0RWNkBe3I=
+X-Google-Smtp-Source: AK7set9jbwVagVa/T0k48kk22vOJoEyq75pyyXXbJQec7m1khoBZBylAVat40PmpnIlUWKUFvamoZg==
+X-Received: by 2002:a5d:4ac1:0:b0:2c5:56ab:ee5b with SMTP id y1-20020a5d4ac1000000b002c556abee5bmr1502376wrs.48.1676466844326;
+        Wed, 15 Feb 2023 05:14:04 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id v14-20020adfe28e000000b0027cb20605e3sm15498899wri.105.2023.02.15.05.14.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 15 Feb 2023 05:14:03 -0800 (PST)
+Date: Wed, 15 Feb 2023 16:13:59 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Mark Brown <broonie@kernel.org>
 Subject: [linux-next:master 12850/13038] sound/soc/soc-ac97.c:339
  snd_soc_ac97_parse_pinctl() warn: passing zero to 'PTR_ERR'
 Message-ID: <202302152000.9PrlVuV3-lkp@intel.com>
@@ -45,18 +53,11 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-CC: Mark Brown <broonie@kernel.org>
+Message-ID: <20230215131359.OtzvT8ITbyZAWxETaX27zSY4YYvaeB-iEK9ZDQKzk6c@z>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
 head:   9d9019bcea1aac7eed64a1a4966282b6b7b141c8
 commit: 3ee0d39c50dca18c76941f46a6c57dc9cd2bfb9d [12850/13038] ASoC: soc-ac97: Convert to agnostic GPIO API
-:::::: branch date: 9 hours ago
-:::::: commit date: 14 hours ago
 config: ia64-randconfig-m031-20230212 (https://download.01.org/0day-ci/archive/20230215/202302152000.9PrlVuV3-lkp@intel.com/config)
 compiler: ia64-linux-gcc (GCC) 12.1.0
 
@@ -73,7 +74,6 @@ sound/soc/soc-ac97.c:344 snd_soc_ac97_parse_pinctl() warn: passing zero to 'PTR_
 
 vim +/PTR_ERR +339 sound/soc/soc-ac97.c
 
-336b8423e28517 Lars-Peter Clausen 2014-11-10  297  
 336b8423e28517 Lars-Peter Clausen 2014-11-10  298  static int snd_soc_ac97_parse_pinctl(struct device *dev,
 336b8423e28517 Lars-Peter Clausen 2014-11-10  299  		struct snd_ac97_reset_cfg *cfg)
 336b8423e28517 Lars-Peter Clausen 2014-11-10  300  {
@@ -116,17 +116,23 @@ vim +/PTR_ERR +339 sound/soc/soc-ac97.c
 3ee0d39c50dca1 Andy Shevchenko    2023-02-13  337  	cfg->sdata_gpio = devm_gpiod_get_index(dev, "ac97", 1, GPIOD_ASIS);
 3ee0d39c50dca1 Andy Shevchenko    2023-02-13  338  	if (IS_ERR(cfg->sdata_gpio))
 3ee0d39c50dca1 Andy Shevchenko    2023-02-13 @339  		return dev_err_probe(dev, PTR_ERR(cfg->sync_gpio), "Can't find ac97-sdata gpio\n");
+
+Copy and paste bug.  s/sync_gpio/sdata_gpio/
+
 3ee0d39c50dca1 Andy Shevchenko    2023-02-13  340  	gpiod_set_consumer_name(cfg->sdata_gpio, "AC97 link sdata");
 336b8423e28517 Lars-Peter Clausen 2014-11-10  341  
 3ee0d39c50dca1 Andy Shevchenko    2023-02-13  342  	cfg->reset_gpio = devm_gpiod_get_index(dev, "ac97", 2, GPIOD_ASIS);
 3ee0d39c50dca1 Andy Shevchenko    2023-02-13  343  	if (IS_ERR(cfg->reset_gpio))
 3ee0d39c50dca1 Andy Shevchenko    2023-02-13  344  		return dev_err_probe(dev, PTR_ERR(cfg->sync_gpio), "Can't find ac97-reset gpio\n");
+
+Here too.
+
 3ee0d39c50dca1 Andy Shevchenko    2023-02-13  345  	gpiod_set_consumer_name(cfg->reset_gpio, "AC97 link reset");
 336b8423e28517 Lars-Peter Clausen 2014-11-10  346  
 336b8423e28517 Lars-Peter Clausen 2014-11-10  347  	return 0;
 336b8423e28517 Lars-Peter Clausen 2014-11-10  348  }
-336b8423e28517 Lars-Peter Clausen 2014-11-10  349  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
+
