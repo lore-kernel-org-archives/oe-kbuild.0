@@ -1,140 +1,131 @@
-Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1A9C7B;
-	Thu, 16 Feb 2023 00:53:24 +0000 (UTC)
-Authenticated-By: 
-X-SpamFilter-By: ArmorX SpamTrap 5.77 with qID 31G0qrqF7023501, This message is accepted by code: ctloc85258
-Received: from mail.realtek.com (rtexh36506.realtek.com.tw[172.21.6.27])
-	by rtits2.realtek.com.tw (8.15.2/2.81/5.90) with ESMTPS id 31G0qrqF7023501
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=OK);
-	Thu, 16 Feb 2023 08:52:53 +0800
-Received: from RTEXMBS03.realtek.com.tw (172.21.6.96) by
- RTEXH36506.realtek.com.tw (172.21.6.27) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.17; Thu, 16 Feb 2023 08:52:56 +0800
-Received: from RTEXMBS04.realtek.com.tw (172.21.6.97) by
- RTEXMBS03.realtek.com.tw (172.21.6.96) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Thu, 16 Feb 2023 08:52:55 +0800
-Received: from RTEXMBS04.realtek.com.tw ([fe80::b4a2:2bcc:48d1:8b02]) by
- RTEXMBS04.realtek.com.tw ([fe80::b4a2:2bcc:48d1:8b02%5]) with mapi id
- 15.01.2375.007; Thu, 16 Feb 2023 08:52:55 +0800
-From: Ping-Ke Shih <pkshih@realtek.com>
-To: Bitterblue Smith <rtl8821cerfe2@gmail.com>,
-        Dan Carpenter
-	<error27@gmail.com>,
-        "oe-kbuild@lists.linux.dev" <oe-kbuild@lists.linux.dev>
-CC: "lkp@intel.com" <lkp@intel.com>,
-        "oe-kbuild-all@lists.linux.dev"
-	<oe-kbuild-all@lists.linux.dev>,
-        Kalle Valo <kvalo@kernel.org>
-Subject: RE: [linux-next:master 681/12724] drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_8188e.c:1678 rtl8188e_handle_ra_tx_report2() warn: ignoring unreachable code.
-Thread-Topic: [linux-next:master 681/12724]
- drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_8188e.c:1678
- rtl8188e_handle_ra_tx_report2() warn: ignoring unreachable code.
-Thread-Index: AQHZQHe56iywkgwqnEueEeUQCVOmWa7PK+IwgAAuxYCAAWVt4A==
-Date: Thu, 16 Feb 2023 00:52:55 +0000
-Message-ID: <519695cc0eef4dab97ec409debab7867@realtek.com>
-References: <202302142135.LCqUTVGY-lkp@intel.com>
- <89d92b2ebc784c71a26810abb42a2dc7@realtek.com>
- <63e56fe2-d312-4f8a-c9e9-abafada1aa1f@gmail.com>
-In-Reply-To: <63e56fe2-d312-4f8a-c9e9-abafada1aa1f@gmail.com>
-Accept-Language: en-US, zh-TW
-Content-Language: zh-TW
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-originating-ip: [172.21.69.188]
-x-kse-serverinfo: RTEXMBS03.realtek.com.tw, 9
-x-kse-attachmentfiltering-interceptor-info: no applicable attachment filtering
- rules found
-x-kse-antivirus-interceptor-info: scan successful
-x-kse-antivirus-info: =?utf-8?B?Q2xlYW4sIGJhc2VzOiAyMDIzLzIvMTUg5LiL5Y2IIDA4OjE4OjAw?=
-x-kse-bulkmessagesfiltering-scan-result: protection disabled
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F6487B
+	for <oe-kbuild@lists.linux.dev>; Thu, 16 Feb 2023 01:13:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1676509994; x=1708045994;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=iu/mG16vicl1oiTnEwDtjx2O3AuY2vGDtfD3hcMh03c=;
+  b=NHkH5uUwwsFgrP8iWRNGaC0JsMuXB8s4if5Xo9vb04xG7A4GzyntI9JV
+   wUVf925FuK8dxNWEnQApxIb1fngInyyDiSeLp1Bmt7BMpH7akYaLvRumk
+   pmqxdMz7DTHNnYuj6TJzLxFFyvQEXF8IC1FpY1Mm1kAZJOxINDJRZ8xxu
+   oDjhD1dhBNVObvc9VBJr3LSHBpAvJImuYheqLAfPUfDvcIg3jKyph0+Bl
+   CZIjWs4Z4saot79P+oKCgZRh+Kyj1rDwjUaZt+fRZl1cX3wKjlb1zIG2r
+   GJ0R6VDw44vkhn8kPs6RkHwu5hqClBjYXf3/VQgu0gu6F6bGVy0fyFPM5
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10622"; a="396228148"
+X-IronPort-AV: E=Sophos;i="5.97,301,1669104000"; 
+   d="scan'208";a="396228148"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Feb 2023 17:13:14 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10622"; a="619828338"
+X-IronPort-AV: E=Sophos;i="5.97,301,1669104000"; 
+   d="scan'208";a="619828338"
+Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
+  by orsmga003.jf.intel.com with ESMTP; 15 Feb 2023 17:13:12 -0800
+Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pSSpj-0009vN-2S;
+	Thu, 16 Feb 2023 01:13:11 +0000
+Date: Thu, 16 Feb 2023 09:12:57 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: [linux-next:master 4344/13038] drivers/hid/hid-sony.c:1726:41:
+ warning: Uninitialized variables: entry.lock, entry.list_node, entry.hdev,
+ entry.touchpad, entry.sensor_dev, entry.quirks, entry.state_worker,
+ entry.send_output_report, entry.battery, entry.battery_desc,
+ entry.device_id, en...
+Message-ID: <202302160922.nitD5BDe-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogQml0dGVyYmx1ZSBTbWl0
-aCA8cnRsODgyMWNlcmZlMkBnbWFpbC5jb20+DQo+IFNlbnQ6IFdlZG5lc2RheSwgRmVicnVhcnkg
-MTUsIDIwMjMgNzozMCBQTQ0KPiBUbzogUGluZy1LZSBTaGloIDxwa3NoaWhAcmVhbHRlay5jb20+
-OyBEYW4gQ2FycGVudGVyIDxlcnJvcjI3QGdtYWlsLmNvbT47IG9lLWtidWlsZEBsaXN0cy5saW51
-eC5kZXYNCj4gQ2M6IGxrcEBpbnRlbC5jb207IG9lLWtidWlsZC1hbGxAbGlzdHMubGludXguZGV2
-OyBLYWxsZSBWYWxvIDxrdmFsb0BrZXJuZWwub3JnPg0KPiBTdWJqZWN0OiBSZTogW2xpbnV4LW5l
-eHQ6bWFzdGVyIDY4MS8xMjcyNF0gZHJpdmVycy9uZXQvd2lyZWxlc3MvcmVhbHRlay9ydGw4eHh4
-dS9ydGw4eHh4dV84MTg4ZS5jOjE2NzgNCj4gcnRsODE4OGVfaGFuZGxlX3JhX3R4X3JlcG9ydDIo
-KSB3YXJuOiBpZ25vcmluZyB1bnJlYWNoYWJsZSBjb2RlLg0KPiANCj4gDQo+IEV4dGVybmFsIG1h
-aWwuDQo+IA0KPiANCj4gDQo+IE9uIDE1LzAyLzIwMjMgMDI6NTEsIFBpbmctS2UgU2hpaCB3cm90
-ZToNCj4gPg0KPiA+DQo+ID4+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+ID4+IEZyb206
-IERhbiBDYXJwZW50ZXIgPGVycm9yMjdAZ21haWwuY29tPg0KPiA+PiBTZW50OiBUdWVzZGF5LCBG
-ZWJydWFyeSAxNCwgMjAyMyA5OjI1IFBNDQo+ID4+IFRvOiBvZS1rYnVpbGRAbGlzdHMubGludXgu
-ZGV2OyBCaXR0ZXJibHVlIFNtaXRoIDxydGw4ODIxY2VyZmUyQGdtYWlsLmNvbT4NCj4gPj4gQ2M6
-IGxrcEBpbnRlbC5jb207IG9lLWtidWlsZC1hbGxAbGlzdHMubGludXguZGV2OyBLYWxsZSBWYWxv
-IDxrdmFsb0BrZXJuZWwub3JnPjsgUGluZy1LZSBTaGloDQo+ID4+IDxwa3NoaWhAcmVhbHRlay5j
-b20+DQo+ID4+IFN1YmplY3Q6IFtsaW51eC1uZXh0Om1hc3RlciA2ODEvMTI3MjRdIGRyaXZlcnMv
-bmV0L3dpcmVsZXNzL3JlYWx0ZWsvcnRsOHh4eHUvcnRsOHh4eHVfODE4OGUuYzoxNjc4DQo+ID4+
-IHJ0bDgxODhlX2hhbmRsZV9yYV90eF9yZXBvcnQyKCkgd2FybjogaWdub3JpbmcgdW5yZWFjaGFi
-bGUgY29kZS4NCj4gPj4NCj4gPj4gdHJlZTogICBodHRwczovL2dpdC5rZXJuZWwub3JnL3B1Yi9z
-Y20vbGludXgva2VybmVsL2dpdC9uZXh0L2xpbnV4LW5leHQuZ2l0IG1hc3Rlcg0KPiA+PiBoZWFk
-OiAgIDNlYmIwYWM1NWVmYWYxZDBmYjFiMTA2Zjg1MmMxMTRlNTAyMWY3ZWINCj4gPj4gY29tbWl0
-OiA4Yjk3NTRiMjhmMGYyMzE3MzY2NjdlMTc1MWYxZmM2ZjE4YzgwYWQ0IFs2ODEvMTI3MjRdIHdp
-Zmk6IHJ0bDh4eHh1OiBBZGQgcmF0ZSBjb250cm9sIGNvZGUgZm9yDQo+ID4+IFJUTDgxODhFVQ0K
-PiA+PiBjb25maWc6IHg4Nl82NC1yYW5kY29uZmlnLW0wMDEtMjAyMzAyMTMNCj4gPj4gKGh0dHBz
-Oi8vZG93bmxvYWQuMDEub3JnLzBkYXktY2kvYXJjaGl2ZS8yMDIzMDIxNC8yMDIzMDIxNDIxMzUu
-TENxVVRWR1ktbGtwQGludGVsLmNvbS9jb25maWcpDQo+ID4+IGNvbXBpbGVyOiBnY2MtMTEgKERl
-YmlhbiAxMS4zLjAtOCkgMTEuMy4wDQo+ID4+DQo+ID4+IElmIHlvdSBmaXggdGhlIGlzc3VlLCBr
-aW5kbHkgYWRkIGZvbGxvd2luZyB0YWcgd2hlcmUgYXBwbGljYWJsZQ0KPiA+PiB8IFJlcG9ydGVk
-LWJ5OiBrZXJuZWwgdGVzdCByb2JvdCA8bGtwQGludGVsLmNvbT4NCj4gPj4gfCBSZXBvcnRlZC1i
-eTogRGFuIENhcnBlbnRlciA8ZXJyb3IyN0BnbWFpbC5jb20+DQo+ID4+IHwgTGluazogaHR0cHM6
-Ly9sb3JlLmtlcm5lbC5vcmcvci8yMDIzMDIxNDIxMzUuTENxVVRWR1ktbGtwQGludGVsLmNvbS8N
-Cj4gPj4NCj4gPj4gc21hdGNoIHdhcm5pbmdzOg0KPiA+PiBkcml2ZXJzL25ldC93aXJlbGVzcy9y
-ZWFsdGVrL3J0bDh4eHh1L3J0bDh4eHh1XzgxODhlLmM6MTY3OCBydGw4MTg4ZV9oYW5kbGVfcmFf
-dHhfcmVwb3J0MigpIHdhcm46DQo+ID4+IGlnbm9yaW5nIHVucmVhY2hhYmxlIGNvZGUuDQo+ID4+
-DQo+ID4+IHZpbSArMTY3OCBkcml2ZXJzL25ldC93aXJlbGVzcy9yZWFsdGVrL3J0bDh4eHh1L3J0
-bDh4eHh1XzgxODhlLmMNCj4gPj4NCj4gPj4gOGI5NzU0YjI4ZjBmMjMgQml0dGVyYmx1ZSBTbWl0
-aCAyMDIyLTEyLTE3ICAxNjYyICB2b2lkIHJ0bDgxODhlX2hhbmRsZV9yYV90eF9yZXBvcnQyKHN0
-cnVjdA0KPiA+PiBydGw4eHh4dV9wcml2ICpwcml2LCBzdHJ1Y3Qgc2tfYnVmZiAqc2tiKQ0KPiA+
-PiA4Yjk3NTRiMjhmMGYyMyBCaXR0ZXJibHVlIFNtaXRoIDIwMjItMTItMTcgIDE2NjMgIHsNCj4g
-Pj4gOGI5NzU0YjI4ZjBmMjMgQml0dGVyYmx1ZSBTbWl0aCAyMDIyLTEyLTE3ICAxNjY0ICAgICAg
-ICB1MzIgKl9yeF9kZXNjID0gKHUzMiAqKShza2ItPmRhdGEgLQ0KPiBzaXplb2Yoc3RydWN0DQo+
-ID4+IHJ0bDh4eHh1X3J4ZGVzYzE2KSk7DQo+ID4+IDhiOTc1NGIyOGYwZjIzIEJpdHRlcmJsdWUg
-U21pdGggMjAyMi0xMi0xNyAgMTY2NSAgICAgICAgc3RydWN0IHJ0bDh4eHh1X3J4ZGVzYzE2ICpy
-eF9kZXNjID0gKHN0cnVjdA0KPiA+PiBydGw4eHh4dV9yeGRlc2MxNiAqKV9yeF9kZXNjOw0KPiA+
-PiA4Yjk3NTRiMjhmMGYyMyBCaXR0ZXJibHVlIFNtaXRoIDIwMjItMTItMTcgIDE2NjYgICAgICAg
-IHN0cnVjdCBkZXZpY2UgKmRldiA9ICZwcml2LT51ZGV2LT5kZXY7DQo+ID4+IDhiOTc1NGIyOGYw
-ZjIzIEJpdHRlcmJsdWUgU21pdGggMjAyMi0xMi0xNyAgMTY2NyAgICAgICAgc3RydWN0IHJ0bDh4
-eHh1X3JhX2luZm8gKnJhID0gJnByaXYtPnJhX2luZm87DQo+ID4+IDhiOTc1NGIyOGYwZjIzIEJp
-dHRlcmJsdWUgU21pdGggMjAyMi0xMi0xNyAgMTY2OCAgICAgICAgdTMyIHR4X3JwdF9sZW4gPSBy
-eF9kZXNjLT5wa3RsZW4gJiAweDNmZjsNCj4gPj4gOGI5NzU0YjI4ZjBmMjMgQml0dGVyYmx1ZSBT
-bWl0aCAyMDIyLTEyLTE3ICAxNjY5ICAgICAgICB1MzIgaXRlbXMgPSB0eF9ycHRfbGVuIC8gVFhf
-UlBUMl9JVEVNX1NJWkU7DQo+ID4+IDhiOTc1NGIyOGYwZjIzIEJpdHRlcmJsdWUgU21pdGggMjAy
-Mi0xMi0xNyAgMTY3MCAgICAgICAgdTY0IG1hY2lkX3ZhbGlkID0gKCh1NjQpX3J4X2Rlc2NbNV0g
-PDwgMzIpIHwNCj4gPj4gX3J4X2Rlc2NbNF07DQo+ID4+IDhiOTc1NGIyOGYwZjIzIEJpdHRlcmJs
-dWUgU21pdGggMjAyMi0xMi0xNyAgMTY3MSAgICAgICAgdTMyIG1hY2lkOw0KPiA+PiA4Yjk3NTRi
-MjhmMGYyMyBCaXR0ZXJibHVlIFNtaXRoIDIwMjItMTItMTcgIDE2NzIgICAgICAgIHU4ICpycHQg
-PSBza2ItPmRhdGE7DQo+ID4+IDhiOTc1NGIyOGYwZjIzIEJpdHRlcmJsdWUgU21pdGggMjAyMi0x
-Mi0xNyAgMTY3MyAgICAgICAgYm9vbCB2YWxpZDsNCj4gPj4gOGI5NzU0YjI4ZjBmMjMgQml0dGVy
-Ymx1ZSBTbWl0aCAyMDIyLTEyLTE3ICAxNjc0ICAgICAgICB1MTYgbWluX3JwdF90aW1lID0gMHg5
-MjdjOw0KPiA+PiA4Yjk3NTRiMjhmMGYyMyBCaXR0ZXJibHVlIFNtaXRoIDIwMjItMTItMTcgIDE2
-NzUNCj4gPj4gOGI5NzU0YjI4ZjBmMjMgQml0dGVyYmx1ZSBTbWl0aCAyMDIyLTEyLTE3ICAxNjc2
-ICAgICAgICBkZXZfZGJnKGRldiwgIiVzOiBsZW46ICVkIGl0ZW1zOiAlZFxuIiwNCj4gX19mdW5j
-X18sDQo+ID4+IHR4X3JwdF9sZW4sIGl0ZW1zKTsNCj4gPg0KPiA+IEkgdGhpbmsgYW4gYWx0ZXJu
-YXRpdmUgd2F5IGlzIHRvIGFkZCBhIHN0YXRlbWVudCB0byByZXBsYWNlIHRoZSBjb21tZW50IG9m
-DQo+ID4gdGhlIGVuZCBvZiBsb29wLiBMaWtlDQo+ID4NCj4gPiBpZiAoIXByaXYtPnZpZiB8fA0K
-PiA+ICAgICBwcml2LT52aWYtPnR5cGUgPT0gTkw4MDIxMV9JRlRZUEVfU1RBVElPTikNCj4gPiAg
-ICAgICBpdGVtcyA9IDE7DQo+ID4NCj4gPiBvcg0KPiA+DQo+ID4gaWYgKHByaXYtPnZpZiAmJg0K
-PiA+ICAgICBwcml2LT52aWYtPnR5cGUgPT0gTkw4MDIxMV9JRlRZUEVfU1RBVElPTikNCj4gPiAg
-ICAgICBpdGVtcyA9IDE7DQo+ID4NCj4gPiBUaGVuLCB3ZSBjYW4gcmVtb3ZlICdicmVhazsnIG9m
-IExOMTcyNS4NCj4gPiBXaGVuIHRoaXMgZHJpdmVyIGlzIGdvaW5nIHRvIHN1cHBvcnQgQVAgbW9k
-ZSwgdGhpcyBsb2dpYyBpcyBzdGlsbCBleHBlY3RlZC4NCj4gPg0KPiA+IEhvdyBhYm91dCB5b3Us
-IEJpdHRlcmJsdWU/DQo+ID4NCj4gPiBQaW5nLUtlDQo+IA0KPiBUaGF0IHNvdW5kcyBnb29kIHRv
-IG1lLg0KPiANCg0KSSBoYXZlIHNlbnQgYSBwYXRjaCBmb3IgdGhpcyByZXBvcnQ6IA0KaHR0cHM6
-Ly9sb3JlLmtlcm5lbC5vcmcvbGludXgtd2lyZWxlc3MvMjAyMzAyMTYwMDQ2NTQuNDY0Mi0xLXBr
-c2hpaEByZWFsdGVrLmNvbS9ULyN1DQoNCkNvdWxkIHlvdSBnaXZlIGl0IGEgdHJ5LCBCaXR0ZXJi
-bHVlPyANClRoZW4sIHBvc3QgYSBUZXN0ZWQtYnkgdGFnIHRoZXJlLg0KDQpUaGFuayB5b3UNClBp
-bmctS2UNCg0K
+:::::: 
+:::::: Manual check reason: "low confidence static check warning: drivers/hid/hid-sony.c:1726:41: warning: Uninitialized variables: entry.lock, entry.list_node, entry.hdev, entry.touchpad, entry.sensor_dev, entry.quirks, entry.state_worker, entry.send_output_report, entry.battery, entry.battery_desc, entry.device_id, entry.output_report_dmabuf, entry.state_worker_initialized, entry.defer_initialization, entry.battery_capacity, entry.battery_status, entry.led_count, entry.ghl_urb, entry.ghl_poke_timer [uninitvar]"
+:::::: 
+
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Roderick Colenbrander <roderick@gaikai.com>
+CC: Jiri Kosina <jkosina@suse.cz>
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   9d9019bcea1aac7eed64a1a4966282b6b7b141c8
+commit: 4f1f391869eecb11d57e9e07ddec143ff3dc08ee [4344/13038] HID: sony: remove DualShock4 support.
+:::::: branch date: 21 hours ago
+:::::: commit date: 4 weeks ago
+compiler: or1k-linux-gcc (GCC) 12.1.0
+reproduce (cppcheck warning):
+        # apt-get install cppcheck
+        git checkout 4f1f391869eecb11d57e9e07ddec143ff3dc08ee
+        cppcheck --quiet --enable=style,performance,portability --template=gcc FILE
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/r/202302160922.nitD5BDe-lkp@intel.com/
+
+
+cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+
+>> drivers/hid/hid-sony.c:1726:41: warning: Uninitialized variables: entry.lock, entry.list_node, entry.hdev, entry.touchpad, entry.sensor_dev, entry.quirks, entry.state_worker, entry.send_output_report, entry.battery, entry.battery_desc, entry.device_id, entry.output_report_dmabuf, entry.state_worker_initialized, entry.defer_initialization, entry.battery_capacity, entry.battery_status, entry.led_count, entry.ghl_urb, entry.ghl_poke_timer [uninitvar]
+      if (sony_compare_connection_type(sc, entry)) {
+                                           ^
+   drivers/hid/hid-sony.c:1726:41: warning: Uninitialized variables: entry.lock, entry.list_node, entry.hdev, entry.touchpad, entry.sensor_dev, entry.quirks, entry.state_worker, entry.send_output_report, entry.battery, entry.battery_desc, entry.device_id, entry.output_report_dmabuf, entry.left, entry.right, entry.state_worker_initialized, entry.defer_initialization, entry.battery_capacity, entry.battery_status, entry.led_count, entry.ghl_urb, entry.ghl_poke_timer [uninitvar]
+      if (sony_compare_connection_type(sc, entry)) {
+                                           ^
+
+vim +1726 drivers/hid/hid-sony.c
+
+0f3982308b5fc7 Frank Praznik 2016-09-22  1713  
+d2d782fccee4f6 Frank Praznik 2014-02-20  1714  static int sony_check_add_dev_list(struct sony_sc *sc)
+d2d782fccee4f6 Frank Praznik 2014-02-20  1715  {
+d2d782fccee4f6 Frank Praznik 2014-02-20  1716  	struct sony_sc *entry;
+d2d782fccee4f6 Frank Praznik 2014-02-20  1717  	unsigned long flags;
+d2d782fccee4f6 Frank Praznik 2014-02-20  1718  	int ret;
+d2d782fccee4f6 Frank Praznik 2014-02-20  1719  
+d2d782fccee4f6 Frank Praznik 2014-02-20  1720  	spin_lock_irqsave(&sony_dev_list_lock, flags);
+c4e1ddf2680b35 Frank Praznik 2014-01-17  1721  
+d2d782fccee4f6 Frank Praznik 2014-02-20  1722  	list_for_each_entry(entry, &sony_device_list, list_node) {
+d2d782fccee4f6 Frank Praznik 2014-02-20  1723  		ret = memcmp(sc->mac_address, entry->mac_address,
+d2d782fccee4f6 Frank Praznik 2014-02-20  1724  				sizeof(sc->mac_address));
+d2d782fccee4f6 Frank Praznik 2014-02-20  1725  		if (!ret) {
+0f3982308b5fc7 Frank Praznik 2016-09-22 @1726  			if (sony_compare_connection_type(sc, entry)) {
+0f3982308b5fc7 Frank Praznik 2016-09-22  1727  				ret = 1;
+0f3982308b5fc7 Frank Praznik 2016-09-22  1728  			} else {
+d2d782fccee4f6 Frank Praznik 2014-02-20  1729  				ret = -EEXIST;
+0f3982308b5fc7 Frank Praznik 2016-09-22  1730  				hid_info(sc->hdev,
+0f3982308b5fc7 Frank Praznik 2016-09-22  1731  				"controller with MAC address %pMR already connected\n",
+d2d782fccee4f6 Frank Praznik 2014-02-20  1732  				sc->mac_address);
+0f3982308b5fc7 Frank Praznik 2016-09-22  1733  			}
+d2d782fccee4f6 Frank Praznik 2014-02-20  1734  			goto unlock;
+d2d782fccee4f6 Frank Praznik 2014-02-20  1735  		}
+d2d782fccee4f6 Frank Praznik 2014-02-20  1736  	}
+d2d782fccee4f6 Frank Praznik 2014-02-20  1737  
+d2d782fccee4f6 Frank Praznik 2014-02-20  1738  	ret = 0;
+d2d782fccee4f6 Frank Praznik 2014-02-20  1739  	list_add(&(sc->list_node), &sony_device_list);
+d2d782fccee4f6 Frank Praznik 2014-02-20  1740  
+d2d782fccee4f6 Frank Praznik 2014-02-20  1741  unlock:
+d2d782fccee4f6 Frank Praznik 2014-02-20  1742  	spin_unlock_irqrestore(&sony_dev_list_lock, flags);
+d2d782fccee4f6 Frank Praznik 2014-02-20  1743  	return ret;
+c4e1ddf2680b35 Frank Praznik 2014-01-17  1744  }
+c4e1ddf2680b35 Frank Praznik 2014-01-17  1745  
+
+:::::: The code at line 1726 was first introduced by commit
+:::::: 0f3982308b5fc7373c8d4e6dcfc8a02ee5a3408d HID: sony: Relax duplicate checking for USB-only devices
+
+:::::: TO: Frank Praznik <frank.praznik@gmail.com>
+:::::: CC: Jiri Kosina <jkosina@suse.cz>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
