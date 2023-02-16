@@ -1,42 +1,42 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB1166FD6
-	for <oe-kbuild@lists.linux.dev>; Thu, 16 Feb 2023 16:38:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D39986FD6
+	for <oe-kbuild@lists.linux.dev>; Thu, 16 Feb 2023 17:34:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676565520; x=1708101520;
+  t=1676568877; x=1708104877;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=p58qn2MqFMyEWlC7oDrqUOHuP2IqEvgeKcb114Fxzpo=;
-  b=Cf0zPQw6Dm3Fkd+5pexuj79r1nvDtAJl4qPeNBXgS1TqVdbiUa2vW+Rn
-   3FApHgbhVQH6sxztR4UrSs/CgJRuUs09iBFJT4Z07FizNUXUI31LiLMm/
-   nd9TMMqIjCFvPiHUI5LHu0W1syj6lVtQrDqHGzPQdjWnJzdYQ5T9wgKrz
-   oKvJTSzpfweJJKYheUac0rwh7Ap7t1qvVgy8hExm1OQYGTtlUS25tFfs9
-   tVXyc4tfvTFLVE6gCPgtU1wE/djiIsGh6/vFwXbMWq6RLttVcXCjREjFD
-   e2jKcYDCe8AaI7WV20dAMu4VOmG1vgUhL1VOWbOMipKrzOwfprvKO98nV
+  bh=VSJtT8ffy8pzs3jTooBpAzZM6pcYNyPMGS3GmqN4jpc=;
+  b=MSwXsrrSNgR9EP9LK+KRv+fi/YUkxHw1V7MJtog4NMzmFnkquIKajqmJ
+   QNImixQB878qQmrLTtjz/F3djVbTPsAfGUk592wQ7qY2slVCEXO1868yr
+   2esNxFc0eXZCU4ooY8hNUM5cyGWhclwmajWyjtCGwbFEgG0ZBKVRifHhO
+   ti+CTomr0igGpxpv+X8C9X6RktQJDtuJB1B4vnPs8O1cMt5ufCDw5I6U2
+   hjjDFwn2ScyDuRFv0XbE8G2ekASEl1imrWn1xmKeUctUs9YuerNOZGhhn
+   pHWmWv7RSI4LOVNYgeXeKxedwp+KD4AncrM7GJvTZTxCFGU0Aw7uWVvTj
    Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="333952366"
+X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="396452376"
 X-IronPort-AV: E=Sophos;i="5.97,302,1669104000"; 
-   d="scan'208";a="333952366"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2023 08:23:32 -0800
+   d="scan'208";a="396452376"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2023 09:34:34 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="620041637"
+X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="759016816"
 X-IronPort-AV: E=Sophos;i="5.97,302,1669104000"; 
-   d="scan'208";a="620041637"
+   d="scan'208";a="759016816"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 16 Feb 2023 08:23:31 -0800
+  by FMSMGA003.fm.intel.com with ESMTP; 16 Feb 2023 09:34:32 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pSh2g-000ALL-0P;
-	Thu, 16 Feb 2023 16:23:30 +0000
-Date: Fri, 17 Feb 2023 00:23:10 +0800
+	id 1pSi9Q-000AO6-0T;
+	Thu, 16 Feb 2023 17:34:32 +0000
+Date: Fri, 17 Feb 2023 01:34:24 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [linux-next:master 12848/13217] drivers/virtio/virtio_ring.c:692
- virtqueue_add_split_vring() error: uninitialized symbol 'prev'.
-Message-ID: <202302170026.ZWBh7H3o-lkp@intel.com>
+Subject: drivers/gpu/drm/i915/i915_hwmon.c:148 hwm_energy() error:
+ uninitialized symbol 'reg_val'.
+Message-ID: <202302170132.3TcDYrDK-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -48,148 +48,85 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
-CC: "Michael S. Tsirkin" <mst@redhat.com>
+CC: linux-kernel@vger.kernel.org
+TO: Dale B Stimson <dale.b.stimson@intel.com>
+CC: Anshuman Gupta <anshuman.gupta@intel.com>
+CC: Ashutosh Dixit <ashutosh.dixit@intel.com>
+CC: Riana Tauro <riana.tauro@intel.com>
+CC: Badal Nilawar <badal.nilawar@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   509583475828c4fd86897113f78315c1431edcc3
-commit: cf965d707e9fdf9368860ee71f699842c5fefa3f [12848/13217] virtio_ring: split: refactor virtqueue_add_split() for premapped
-:::::: branch date: 12 hours ago
-:::::: commit date: 26 hours ago
-config: microblaze-randconfig-m031-20230212 (https://download.01.org/0day-ci/archive/20230217/202302170026.ZWBh7H3o-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   033c40a89f55525139fd5b6342281b09b97d05bf
+commit: c41b8bdcc2973ca10c6f5c5c60d007a41f080a89 drm/i915/hwmon: Show device level energy usage
+date:   4 months ago
+:::::: branch date: 19 hours ago
+:::::: commit date: 4 months ago
+config: x86_64-randconfig-m001-20230213 (https://download.01.org/0day-ci/archive/20230217/202302170132.3TcDYrDK-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202302170026.ZWBh7H3o-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202302170132.3TcDYrDK-lkp@intel.com/
 
 New smatch warnings:
-drivers/virtio/virtio_ring.c:692 virtqueue_add_split_vring() error: uninitialized symbol 'prev'.
+drivers/gpu/drm/i915/i915_hwmon.c:148 hwm_energy() error: uninitialized symbol 'reg_val'.
 
 Old smatch warnings:
-drivers/virtio/virtio_ring.c:1555 virtqueue_add_packed() error: uninitialized symbol 'prev'.
-drivers/virtio/virtio_ring.c:1563 virtqueue_add_packed() error: uninitialized symbol 'head_flags'.
+drivers/gpu/drm/i915/i915_hwmon.c:87 hwm_field_read_and_scale() error: uninitialized symbol 'reg_value'.
+drivers/gpu/drm/i915/i915_hwmon.c:191 hwm_in_read() error: uninitialized symbol 'reg_value'.
 
-vim +/prev +692 drivers/virtio/virtio_ring.c
+vim +/reg_val +148 drivers/gpu/drm/i915/i915_hwmon.c
 
-cf965d707e9fdf Xuan Zhuo          2023-02-14  635  
-cf965d707e9fdf Xuan Zhuo          2023-02-14  636  static inline int virtqueue_add_split_vring(struct vring_virtqueue *vq,
-cf965d707e9fdf Xuan Zhuo          2023-02-14  637  					    struct scatterlist *sgs[],
-cf965d707e9fdf Xuan Zhuo          2023-02-14  638  					    unsigned int total_sg,
-cf965d707e9fdf Xuan Zhuo          2023-02-14  639  					    unsigned int out_sgs,
-cf965d707e9fdf Xuan Zhuo          2023-02-14  640  					    unsigned int in_sgs,
-cf965d707e9fdf Xuan Zhuo          2023-02-14  641  					    struct vring_desc *desc)
-cf965d707e9fdf Xuan Zhuo          2023-02-14  642  {
-cf965d707e9fdf Xuan Zhuo          2023-02-14  643  	unsigned int n, i, avail, descs_used, prev;
-cf965d707e9fdf Xuan Zhuo          2023-02-14  644  	struct virtqueue *_vq = &vq->vq;
-cf965d707e9fdf Xuan Zhuo          2023-02-14  645  	struct scatterlist *sg;
-cf965d707e9fdf Xuan Zhuo          2023-02-14  646  	bool indirect;
-cf965d707e9fdf Xuan Zhuo          2023-02-14  647  	int head;
-cf965d707e9fdf Xuan Zhuo          2023-02-14  648  
-cf965d707e9fdf Xuan Zhuo          2023-02-14  649  	head = vq->free_head;
-cf965d707e9fdf Xuan Zhuo          2023-02-14  650  
-cf965d707e9fdf Xuan Zhuo          2023-02-14  651  	if (desc) {
-cf965d707e9fdf Xuan Zhuo          2023-02-14  652  		/* Use a single buffer which doesn't continue */
-cf965d707e9fdf Xuan Zhuo          2023-02-14  653  		indirect = true;
-cf965d707e9fdf Xuan Zhuo          2023-02-14  654  		/* Set up rest to use this indirect table. */
-cf965d707e9fdf Xuan Zhuo          2023-02-14  655  		i = 0;
-cf965d707e9fdf Xuan Zhuo          2023-02-14  656  		descs_used = 1;
-cf965d707e9fdf Xuan Zhuo          2023-02-14  657  	} else {
-cf965d707e9fdf Xuan Zhuo          2023-02-14  658  		indirect = false;
-cf965d707e9fdf Xuan Zhuo          2023-02-14  659  		desc = vq->split.vring.desc;
-cf965d707e9fdf Xuan Zhuo          2023-02-14  660  		i = head;
-cf965d707e9fdf Xuan Zhuo          2023-02-14  661  		descs_used = total_sg;
-cf965d707e9fdf Xuan Zhuo          2023-02-14  662  	}
-cf965d707e9fdf Xuan Zhuo          2023-02-14  663  
-13816c768d4658 Rusty Russell      2013-03-20  664  	for (n = 0; n < out_sgs; n++) {
-eeebf9b1fc0862 Rusty Russell      2014-09-11  665  		for (sg = sgs[n]; sg; sg = sg_next(sg)) {
-0a8a69dd77ddbd Rusty Russell      2007-10-22  666  			prev = i;
-72b5e8958738aa Jason Wang         2021-06-04  667  			/* Note that we trust indirect descriptor
-72b5e8958738aa Jason Wang         2021-06-04  668  			 * table since it use stream DMA mapping.
-72b5e8958738aa Jason Wang         2021-06-04  669  			 */
-cf965d707e9fdf Xuan Zhuo          2023-02-14  670  			i = virtqueue_add_desc_split(_vq, desc, i,
-cf965d707e9fdf Xuan Zhuo          2023-02-14  671  						     sg->dma_address,
-cf965d707e9fdf Xuan Zhuo          2023-02-14  672  						     sg->length,
-72b5e8958738aa Jason Wang         2021-06-04  673  						     VRING_DESC_F_NEXT,
-72b5e8958738aa Jason Wang         2021-06-04  674  						     indirect);
-13816c768d4658 Rusty Russell      2013-03-20  675  		}
-0a8a69dd77ddbd Rusty Russell      2007-10-22  676  	}
-13816c768d4658 Rusty Russell      2013-03-20  677  	for (; n < (out_sgs + in_sgs); n++) {
-eeebf9b1fc0862 Rusty Russell      2014-09-11  678  		for (sg = sgs[n]; sg; sg = sg_next(sg)) {
-0a8a69dd77ddbd Rusty Russell      2007-10-22  679  			prev = i;
-72b5e8958738aa Jason Wang         2021-06-04  680  			/* Note that we trust indirect descriptor
-72b5e8958738aa Jason Wang         2021-06-04  681  			 * table since it use stream DMA mapping.
-72b5e8958738aa Jason Wang         2021-06-04  682  			 */
-cf965d707e9fdf Xuan Zhuo          2023-02-14  683  			i = virtqueue_add_desc_split(_vq, desc, i,
-cf965d707e9fdf Xuan Zhuo          2023-02-14  684  						     sg->dma_address,
-fe4c3862df630e Jason Wang         2021-06-04  685  						     sg->length,
-fe4c3862df630e Jason Wang         2021-06-04  686  						     VRING_DESC_F_NEXT |
-72b5e8958738aa Jason Wang         2021-06-04  687  						     VRING_DESC_F_WRITE,
-72b5e8958738aa Jason Wang         2021-06-04  688  						     indirect);
-13816c768d4658 Rusty Russell      2013-03-20  689  		}
-0a8a69dd77ddbd Rusty Russell      2007-10-22  690  	}
-0a8a69dd77ddbd Rusty Russell      2007-10-22  691  	/* Last one doesn't continue. */
-00e6f3d9d9e356 Michael S. Tsirkin 2014-10-22 @692  	desc[prev].flags &= cpu_to_virtio16(_vq->vdev, ~VRING_DESC_F_NEXT);
-72b5e8958738aa Jason Wang         2021-06-04  693  	if (!indirect && vq->use_dma_api)
-890d33561337ff Vincent Whitchurch 2021-10-26  694  		vq->split.desc_extra[prev & (vq->split.vring.num - 1)].flags &=
-72b5e8958738aa Jason Wang         2021-06-04  695  			~VRING_DESC_F_NEXT;
-0a8a69dd77ddbd Rusty Russell      2007-10-22  696  
-780bc7903a32ed Andy Lutomirski    2016-02-02  697  	if (indirect) {
-780bc7903a32ed Andy Lutomirski    2016-02-02  698  		/* Now that the indirect table is filled in, map it. */
-780bc7903a32ed Andy Lutomirski    2016-02-02  699  		dma_addr_t addr = vring_map_single(
-780bc7903a32ed Andy Lutomirski    2016-02-02  700  			vq, desc, total_sg * sizeof(struct vring_desc),
-780bc7903a32ed Andy Lutomirski    2016-02-02  701  			DMA_TO_DEVICE);
-780bc7903a32ed Andy Lutomirski    2016-02-02  702  		if (vring_mapping_error(vq, addr))
-cf965d707e9fdf Xuan Zhuo          2023-02-14  703  			return -ENOMEM;
-780bc7903a32ed Andy Lutomirski    2016-02-02  704  
-fe4c3862df630e Jason Wang         2021-06-04  705  		virtqueue_add_desc_split(_vq, vq->split.vring.desc,
-fe4c3862df630e Jason Wang         2021-06-04  706  					 head, addr,
-fe4c3862df630e Jason Wang         2021-06-04  707  					 total_sg * sizeof(struct vring_desc),
-72b5e8958738aa Jason Wang         2021-06-04  708  					 VRING_DESC_F_INDIRECT,
-72b5e8958738aa Jason Wang         2021-06-04  709  					 false);
-780bc7903a32ed Andy Lutomirski    2016-02-02  710  	}
-780bc7903a32ed Andy Lutomirski    2016-02-02  711  
-780bc7903a32ed Andy Lutomirski    2016-02-02  712  	/* We're using some buffers from the free list. */
-780bc7903a32ed Andy Lutomirski    2016-02-02  713  	vq->vq.num_free -= descs_used;
-780bc7903a32ed Andy Lutomirski    2016-02-02  714  
-0a8a69dd77ddbd Rusty Russell      2007-10-22  715  	/* Update free pointer */
-b25bd2515ea32c Rusty Russell      2014-09-11  716  	if (indirect)
-72b5e8958738aa Jason Wang         2021-06-04  717  		vq->free_head = vq->split.desc_extra[head].next;
-b25bd2515ea32c Rusty Russell      2014-09-11  718  	else
-0a8a69dd77ddbd Rusty Russell      2007-10-22  719  		vq->free_head = i;
-0a8a69dd77ddbd Rusty Russell      2007-10-22  720  
-0a8a69dd77ddbd Rusty Russell      2007-10-22  721  	/* Put entry in available array (but don't update avail->idx until they
-3b720b8c865098 Rusty Russell      2012-01-12  722  	 * do sync). */
-e593bf9751566e Tiwei Bie          2018-11-21  723  	avail = vq->split.avail_idx_shadow & (vq->split.vring.num - 1);
-e593bf9751566e Tiwei Bie          2018-11-21  724  	vq->split.vring.avail->ring[avail] = cpu_to_virtio16(_vq->vdev, head);
-0a8a69dd77ddbd Rusty Russell      2007-10-22  725  
-ee7cd8981e15bc Rusty Russell      2012-01-12  726  	/* Descriptors and available array need to be set before we expose the
-ee7cd8981e15bc Rusty Russell      2012-01-12  727  	 * new available array entries. */
-a9a0fef7790748 Rusty Russell      2013-03-18  728  	virtio_wmb(vq->weak_barriers);
-e593bf9751566e Tiwei Bie          2018-11-21  729  	vq->split.avail_idx_shadow++;
-e593bf9751566e Tiwei Bie          2018-11-21  730  	vq->split.vring.avail->idx = cpu_to_virtio16(_vq->vdev,
-e593bf9751566e Tiwei Bie          2018-11-21  731  						vq->split.avail_idx_shadow);
-ee7cd8981e15bc Rusty Russell      2012-01-12  732  	vq->num_added++;
-ee7cd8981e15bc Rusty Russell      2012-01-12  733  
-5e05bf5833eb3d Tetsuo Handa       2015-02-11  734  	pr_debug("Added buffer head %i to %p\n", head, vq);
-5e05bf5833eb3d Tetsuo Handa       2015-02-11  735  	END_USE(vq);
-5e05bf5833eb3d Tetsuo Handa       2015-02-11  736  
-ee7cd8981e15bc Rusty Russell      2012-01-12  737  	/* This is very unlikely, but theoretically possible.  Kick
-ee7cd8981e15bc Rusty Russell      2012-01-12  738  	 * just in case. */
-ee7cd8981e15bc Rusty Russell      2012-01-12  739  	if (unlikely(vq->num_added == (1 << 16) - 1))
-ee7cd8981e15bc Rusty Russell      2012-01-12  740  		virtqueue_kick(_vq);
-ee7cd8981e15bc Rusty Russell      2012-01-12  741  
-98e8c6bc66048d Rusty Russell      2012-10-16  742  	return 0;
-cf965d707e9fdf Xuan Zhuo          2023-02-14  743  }
-cf965d707e9fdf Xuan Zhuo          2023-02-14  744  
-
-:::::: The code at line 692 was first introduced by commit
-:::::: 00e6f3d9d9e356dbf08369ffc4576f79438d51ea virtio_ring: switch to new memory access APIs
-
-:::::: TO: Michael S. Tsirkin <mst@redhat.com>
-:::::: CC: Michael S. Tsirkin <mst@redhat.com>
+99f55efb79114f Dale B Stimson 2022-10-13  110  
+c41b8bdcc2973c Dale B Stimson 2022-10-13  111  /*
+c41b8bdcc2973c Dale B Stimson 2022-10-13  112   * hwm_energy - Obtain energy value
+c41b8bdcc2973c Dale B Stimson 2022-10-13  113   *
+c41b8bdcc2973c Dale B Stimson 2022-10-13  114   * The underlying energy hardware register is 32-bits and is subject to
+c41b8bdcc2973c Dale B Stimson 2022-10-13  115   * overflow. How long before overflow? For example, with an example
+c41b8bdcc2973c Dale B Stimson 2022-10-13  116   * scaling bit shift of 14 bits (see register *PACKAGE_POWER_SKU_UNIT) and
+c41b8bdcc2973c Dale B Stimson 2022-10-13  117   * a power draw of 1000 watts, the 32-bit counter will overflow in
+c41b8bdcc2973c Dale B Stimson 2022-10-13  118   * approximately 4.36 minutes.
+c41b8bdcc2973c Dale B Stimson 2022-10-13  119   *
+c41b8bdcc2973c Dale B Stimson 2022-10-13  120   * Examples:
+c41b8bdcc2973c Dale B Stimson 2022-10-13  121   *    1 watt:  (2^32 >> 14) /    1 W / (60 * 60 * 24) secs/day -> 3 days
+c41b8bdcc2973c Dale B Stimson 2022-10-13  122   * 1000 watts: (2^32 >> 14) / 1000 W / 60             secs/min -> 4.36 minutes
+c41b8bdcc2973c Dale B Stimson 2022-10-13  123   *
+c41b8bdcc2973c Dale B Stimson 2022-10-13  124   * The function significantly increases overflow duration (from 4.36
+c41b8bdcc2973c Dale B Stimson 2022-10-13  125   * minutes) by accumulating the energy register into a 'long' as allowed by
+c41b8bdcc2973c Dale B Stimson 2022-10-13  126   * the hwmon API. Using x86_64 128 bit arithmetic (see mul_u64_u32_shr()),
+c41b8bdcc2973c Dale B Stimson 2022-10-13  127   * a 'long' of 63 bits, SF_ENERGY of 1e6 (~20 bits) and
+c41b8bdcc2973c Dale B Stimson 2022-10-13  128   * hwmon->scl_shift_energy of 14 bits we have 57 (63 - 20 + 14) bits before
+c41b8bdcc2973c Dale B Stimson 2022-10-13  129   * energy1_input overflows. This at 1000 W is an overflow duration of 278 years.
+c41b8bdcc2973c Dale B Stimson 2022-10-13  130   */
+c41b8bdcc2973c Dale B Stimson 2022-10-13  131  static void
+c41b8bdcc2973c Dale B Stimson 2022-10-13  132  hwm_energy(struct hwm_drvdata *ddat, long *energy)
+c41b8bdcc2973c Dale B Stimson 2022-10-13  133  {
+c41b8bdcc2973c Dale B Stimson 2022-10-13  134  	struct intel_uncore *uncore = ddat->uncore;
+c41b8bdcc2973c Dale B Stimson 2022-10-13  135  	struct i915_hwmon *hwmon = ddat->hwmon;
+c41b8bdcc2973c Dale B Stimson 2022-10-13  136  	struct hwm_energy_info *ei = &ddat->ei;
+c41b8bdcc2973c Dale B Stimson 2022-10-13  137  	intel_wakeref_t wakeref;
+c41b8bdcc2973c Dale B Stimson 2022-10-13  138  	i915_reg_t rgaddr;
+c41b8bdcc2973c Dale B Stimson 2022-10-13  139  	u32 reg_val;
+c41b8bdcc2973c Dale B Stimson 2022-10-13  140  
+c41b8bdcc2973c Dale B Stimson 2022-10-13  141  	rgaddr = hwmon->rg.energy_status_all;
+c41b8bdcc2973c Dale B Stimson 2022-10-13  142  
+c41b8bdcc2973c Dale B Stimson 2022-10-13  143  	mutex_lock(&hwmon->hwmon_lock);
+c41b8bdcc2973c Dale B Stimson 2022-10-13  144  
+c41b8bdcc2973c Dale B Stimson 2022-10-13  145  	with_intel_runtime_pm(uncore->rpm, wakeref)
+c41b8bdcc2973c Dale B Stimson 2022-10-13  146  		reg_val = intel_uncore_read(uncore, rgaddr);
+c41b8bdcc2973c Dale B Stimson 2022-10-13  147  
+c41b8bdcc2973c Dale B Stimson 2022-10-13 @148  	if (reg_val >= ei->reg_val_prev)
+c41b8bdcc2973c Dale B Stimson 2022-10-13  149  		ei->accum_energy += reg_val - ei->reg_val_prev;
+c41b8bdcc2973c Dale B Stimson 2022-10-13  150  	else
+c41b8bdcc2973c Dale B Stimson 2022-10-13  151  		ei->accum_energy += UINT_MAX - ei->reg_val_prev + reg_val;
+c41b8bdcc2973c Dale B Stimson 2022-10-13  152  	ei->reg_val_prev = reg_val;
+c41b8bdcc2973c Dale B Stimson 2022-10-13  153  
+c41b8bdcc2973c Dale B Stimson 2022-10-13  154  	*energy = mul_u64_u32_shr(ei->accum_energy, SF_ENERGY,
+c41b8bdcc2973c Dale B Stimson 2022-10-13  155  				  hwmon->scl_shift_energy);
+c41b8bdcc2973c Dale B Stimson 2022-10-13  156  	mutex_unlock(&hwmon->hwmon_lock);
+c41b8bdcc2973c Dale B Stimson 2022-10-13  157  }
+c41b8bdcc2973c Dale B Stimson 2022-10-13  158  
 
 -- 
 0-DAY CI Kernel Test Service
