@@ -1,39 +1,46 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94C55747A
-	for <oe-kbuild@lists.linux.dev>; Thu, 16 Feb 2023 15:50:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676562611; x=1708098611;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=bnHE6sy/wnaDtJgx0KMIhh1oHnd7AuowvsnVXecQLQ8=;
-  b=f//2u/mecVF3rbhF25qkPm7CFkYssaWRUrS5BYE7EesPfGmzS51ttg3K
-   dDHtSIv7PmeECAnqJ6rosy7qSnDyJPS+PNhjW4cPMCnFqYSqq7f9Hr4bb
-   Kw5l38KeaWRqZVVE20JqVSK2QNi3vwVrkoiOxpTBLIDuQiTuRLzqi4kFE
-   XmX0snefLR/DPSRxEa1aYXjGLQ0cPxGVcs6FseKVaNrWCE9k5UWfl5UM/
-   HausEMUqFFFeD7CniUEljJH5MFIDukc3Y0QdsZeHQzENRnxt5sukf0snC
-   z5/VDz5KTZmHv17HwBr0sLp1ZIUczyf3J7z1Sr+GaEn+5TxKO63HzsxT7
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="315438127"
-X-IronPort-AV: E=Sophos;i="5.97,302,1669104000"; 
-   d="scan'208";a="315438127"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2023 07:22:30 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="672187961"
-X-IronPort-AV: E=Sophos;i="5.97,302,1669104000"; 
-   d="scan'208";a="672187961"
-Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 16 Feb 2023 07:22:29 -0800
-Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pSg5c-000AJp-34;
-	Thu, 16 Feb 2023 15:22:28 +0000
-Date: Thu, 16 Feb 2023 23:21:40 +0800
-From: kernel test robot <lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9094C747A;
+	Thu, 16 Feb 2023 15:52:20 +0000 (UTC)
+Received: by mail-ed1-f43.google.com with SMTP id v11so2058627edx.12;
+        Thu, 16 Feb 2023 07:52:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=sWKfj8YDGkl6WPwwzJhD3FgMzz5P3+ciTkv5Vv3HxHI=;
+        b=SphygXkN8/gTVarkLMkQOclDyO1OBz129V+zg3o7MEA/XXd0/9MXIjwxxsEZ3M/wQe
+         etpUiXCb2nl3nA9wWhnyNtNDWxkN3EtHrKZNTmNHGZC94Ch93BHJWY/FLam8Zyz9zGr/
+         0Cs50xd0pYBk/yjeCAJ8+IjgMtqZE1/PVMJWnjCyEv4n96WcdiTrOHi34idrYV4BdHGo
+         ZAoiN4q7VphVEGeCNFF8r1BXY6wLt0d+X1u9SQG3BqgqSjvIsxGVWsH69oRFTge2Tq4C
+         CptTbEV0vAYpv25MuEhvCMn7ZL02uh5QEa+ojNlFM7SeGzY/Nr/Z78eNxuS0BAbapIhH
+         N7Ow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=sWKfj8YDGkl6WPwwzJhD3FgMzz5P3+ciTkv5Vv3HxHI=;
+        b=4kZ6qGsh0QulL4HHFsYaX2JyUL1VejASZbJwjhlQfv/I02lyfLcKhDgLXkFlbDQC1E
+         al4PIPYbzZvifV0EEw/2DfZmrgTPPOxAFA+ueHLFObzawEFQn5xF7UP3/RR9eIyXENCL
+         pZ8d+76Z5G/tT1t93CJED32GTfpTHKolcJVlFpDvAo7P+NW2l3682EbZm71E3j2u2+mv
+         2ssuXOQhvmXFUY0XVAE39RZkg4obLVWeQZb83oAlP/XvIAVCKAK3bFgjbHERfaTXgM9K
+         xACbKGKhiSweweu9pRTdx7ZzkI++kAvvFhth+Ey0scuFFO9Cnl60uFLEhEw45WUBKKMv
+         7U0Q==
+X-Gm-Message-State: AO0yUKXv2pZKBrwuBa4AnMhrhPNWb3ZjViEhh5XAuarwaCSAfNdB0cB6
+	1rhGuFm+exONPlS74WLI47rhv9MNVawhbg==
+X-Google-Smtp-Source: AK7set+xvXc/Vys5PTRobYC2LB6yIj+RLxSdJ8Q5d7uPP2IojGZbb1Y81noeHUaGjH2XSZOOtBbUlA==
+X-Received: by 2002:a17:906:454:b0:8aa:a802:adcd with SMTP id e20-20020a170906045400b008aaa802adcdmr6052502eja.30.1676562738409;
+        Thu, 16 Feb 2023 07:52:18 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id lf17-20020a170907175100b008b14516382bsm940809ejc.129.2023.02.16.07.52.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 16 Feb 2023 07:52:18 -0800 (PST)
+Date: Thu, 16 Feb 2023 18:52:14 +0300
+From: Dan Carpenter <error27@gmail.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Johannes Berg <johannes.berg@intel.com>
 Subject: [linux-next:master 12385/13217] net/mac80211/rx.c:2947
  __ieee80211_rx_h_amsdu() error: we previously assumed 'rx->sta' could be
  null (see line 2933)
@@ -46,18 +53,11 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Felix Fietkau <nbd@nbd.name>
-CC: Johannes Berg <johannes.berg@intel.com>
+Message-ID: <20230216155214.gTnI0bI-OMC_DwOHHGg7pdwSS_6h18J6m3GTMnXAkBw@z>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
 head:   509583475828c4fd86897113f78315c1431edcc3
 commit: 6e4c0d0460bd32ca9244dff3ba2d2da27235de11 [12385/13217] wifi: mac80211: add a workaround for receiving non-standard mesh A-MSDU
-:::::: branch date: 11 hours ago
-:::::: commit date: 2 days ago
 config: x86_64-randconfig-m001-20230213 (https://download.01.org/0day-ci/archive/20230216/202302162310.nri8c4a1-lkp@intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 
@@ -74,7 +74,6 @@ net/mac80211/rx.c:888 ieee80211_rx_monitor() warn: variable dereferenced before 
 
 vim +2947 net/mac80211/rx.c
 
-986e43b19ae917 Felix Fietkau   2023-02-13  2890  
 49461622edf74c Johannes Berg   2008-06-30  2891  static ieee80211_rx_result debug_noinline
 24bba078eca099 Felix Fietkau   2018-02-27  2892  __ieee80211_rx_h_amsdu(struct ieee80211_rx_data *rx, u8 data_offset)
 fd4c7f2fce1737 Ron Rindjunsky  2007-11-26  2893  {
@@ -118,6 +117,9 @@ a1d5ff5651ea59 Mathy Vanhoef   2021-05-11  2930  					  data_offset, true))
 7f6990c830f3e8 Johannes Berg   2016-10-05  2931  		return RX_DROP_UNUSABLE;
 7f6990c830f3e8 Johannes Berg   2016-10-05  2932  
 6e4c0d0460bd32 Felix Fietkau   2023-02-13 @2933  	if (rx->sta && rx->sta->amsdu_mesh_control < 0) {
+                                                            ^^^^^^^
+Check for NULL
+
 6e4c0d0460bd32 Felix Fietkau   2023-02-13  2934  		bool valid_std = ieee80211_is_valid_amsdu(skb, true);
 6e4c0d0460bd32 Felix Fietkau   2023-02-13  2935  		bool valid_nonstd = ieee80211_is_valid_amsdu(skb, false);
 6e4c0d0460bd32 Felix Fietkau   2023-02-13  2936  
@@ -132,6 +134,9 @@ eaf85ca7fecb21 Zhu Yi          2009-12-01  2944  				 rx->sdata->vif.type,
 8b935ee2ea17db Johannes Berg   2016-10-05  2945  				 rx->local->hw.extra_tx_headroom,
 6e4c0d0460bd32 Felix Fietkau   2023-02-13  2946  				 check_da, check_sa,
 6e4c0d0460bd32 Felix Fietkau   2023-02-13 @2947  				 rx->sta->amsdu_mesh_control);
+                                                                                 ^^^^^^^
+Unchecked dereference
+
 fd4c7f2fce1737 Ron Rindjunsky  2007-11-26  2948  
 eaf85ca7fecb21 Zhu Yi          2009-12-01  2949  	while (!skb_queue_empty(&frame_list)) {
 eaf85ca7fecb21 Zhu Yi          2009-12-01  2950  		rx->skb = __skb_dequeue(&frame_list);
@@ -142,24 +147,8 @@ fd4c7f2fce1737 Ron Rindjunsky  2007-11-26  2951
 ce3edf6d0b979f Johannes Berg   2007-12-19  2955  			continue;
 986e43b19ae917 Felix Fietkau   2023-02-13  2956  		case RX_CONTINUE:
 986e43b19ae917 Felix Fietkau   2023-02-13  2957  			break;
-986e43b19ae917 Felix Fietkau   2023-02-13  2958  		default:
-986e43b19ae917 Felix Fietkau   2023-02-13  2959  			goto free;
-ce3edf6d0b979f Johannes Berg   2007-12-19  2960  		}
-fd4c7f2fce1737 Ron Rindjunsky  2007-11-26  2961  
-986e43b19ae917 Felix Fietkau   2023-02-13  2962  		if (!ieee80211_frame_allowed(rx, fc))
-986e43b19ae917 Felix Fietkau   2023-02-13  2963  			goto free;
-986e43b19ae917 Felix Fietkau   2023-02-13  2964  
-fd4c7f2fce1737 Ron Rindjunsky  2007-11-26  2965  		ieee80211_deliver_skb(rx);
-986e43b19ae917 Felix Fietkau   2023-02-13  2966  		continue;
-986e43b19ae917 Felix Fietkau   2023-02-13  2967  
-986e43b19ae917 Felix Fietkau   2023-02-13  2968  free:
-986e43b19ae917 Felix Fietkau   2023-02-13  2969  		dev_kfree_skb(rx->skb);
-fd4c7f2fce1737 Ron Rindjunsky  2007-11-26  2970  	}
-fd4c7f2fce1737 Ron Rindjunsky  2007-11-26  2971  
-9ae54c8463691b Johannes Berg   2008-01-31  2972  	return RX_QUEUED;
-fd4c7f2fce1737 Ron Rindjunsky  2007-11-26  2973  }
-fd4c7f2fce1737 Ron Rindjunsky  2007-11-26  2974  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
+
