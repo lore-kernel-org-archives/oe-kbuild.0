@@ -1,42 +1,50 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69D46D31B
-	for <oe-kbuild@lists.linux.dev>; Thu, 16 Feb 2023 06:04:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676527460; x=1708063460;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=aYNM9o/30VHUgFFSwG8kcpOg94tFSYuz0wE1g/5Fq+s=;
-  b=Q40QERMThQajwNbtdkEO76+VPD37/UxnvVo9Ak4pPvfLzJoVFifqaRBo
-   Viar3KLyfRnayrppkfpOugRdpR10qgKdtZCxiadGidZbETRwdfRGt/Zm9
-   grPgnVTENF/47nqvhVtFpSq/K2k4mnHn80xM20/BMABvoej5R/xs1kgvK
-   w7ppVuCENP4VqFMygU36SPt6ReeQA//O6cGEE6hxwJwi6WqUZ4Uibd0e9
-   TGB1qrlR6MmYOvT65TzJBlSzfPiOxbTaJUdHoSBz67QqKr7nStkEB+/mR
-   z8lfn2CM9mzMreyH3LJBbZZ6vBY3xF2RZBcELvii13dY04Ymlv6VjUccf
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10622"; a="396274414"
-X-IronPort-AV: E=Sophos;i="5.97,301,1669104000"; 
-   d="scan'208";a="396274414"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Feb 2023 22:04:19 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10622"; a="670012782"
-X-IronPort-AV: E=Sophos;i="5.97,301,1669104000"; 
-   d="scan'208";a="670012782"
-Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 15 Feb 2023 22:04:18 -0800
-Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pSXNR-000A3l-35;
-	Thu, 16 Feb 2023 06:04:17 +0000
-Date: Thu, 16 Feb 2023 14:03:49 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [djwong-xfs:in-memory-btrees 111/182] fs/xfs/scrub/xfarray.c:486:27:
- warning: Dereference of null pointer [clang-analyzer-core.NullDereference]
-Message-ID: <202302161321.73t2aZRO-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B99E420FB;
+	Thu, 16 Feb 2023 07:16:47 +0000 (UTC)
+Received: by mail-ej1-f53.google.com with SMTP id dr8so2860257ejc.12;
+        Wed, 15 Feb 2023 23:16:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=pCHIGxN51CRobbkEADA4BzKdh7TSEUJqG3lA19pd1rE=;
+        b=EkJYWYVMU02XsHWCdGrlqqXEiRwq6rVsf0iqekUAtUZviaLpx6p2a7wbkPr3GQRzpf
+         LxQG+UTXecBBlNERPA8JhvSKWtnXFNkWNGQBBdP93VVwgVKkVK8P9XN0EjvQesTxJpY+
+         +9XjCxm4he6u6OPDt59d2ls8lNEkcQbhx8OzDTMosigcRbInHS6CNu7qTcsXTpt03chp
+         W/FimudEqy5MEVwuwFRDXqfPKBTWdRUhkSHAOik2CYAS4Wjraa5VAFvMR2vBGoawvBQ7
+         oDBY/yl8dYV1eV9CFZiuk81mwnKk9EstsnMG58fSSVy1Y00YKTW9OQly1tCDA/BAu91F
+         OTcg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=pCHIGxN51CRobbkEADA4BzKdh7TSEUJqG3lA19pd1rE=;
+        b=B1nzfxiEyOF0olDFVmyaN+VvC+R9ZLC6pLHwO4mRI+a+Z9pGheENxMQHu/Bg21kkYP
+         exodLjHNazP3ZEwncG4i+BLU3QbMMtLkzOepRl6kqSiuNFM8ACEZtOWJXZo1D9DYM/YG
+         belXisVizsV+3I54yw60hIA/9DzcVHeLip81h4Mehqk5cTJPxgsI4J0f9ivPcx34ZpI8
+         WLu+a+LCVzXZg6KPCunqrZfvpjpTKSn5aIkF8WFH8YH1XAbo9GezJDR/2PLy5IdEPkI9
+         2YNeSKr5fhoJYUJQ1Lxrl2IzT/hG3Q6WohSNYBru0PofSNSoX5M2KOcXKIDUbkZCGXLh
+         sqyg==
+X-Gm-Message-State: AO0yUKURJ4NE00FBVKyFwLNAxT1evuAqiVqZtORk2Pc5UXoCv2heo6ro
+	wnHPExNI/7QGIctIXIs1+CQKuaXX8eQ=
+X-Google-Smtp-Source: AK7set9NIQgaNj7V6HF8wwXt9aZyCSQgne1wJG1yuSbONyXpWK4Wj0gxwiN3wEoTfQYVsah72LBqVA==
+X-Received: by 2002:a17:906:48c6:b0:8af:5154:ff8e with SMTP id d6-20020a17090648c600b008af5154ff8emr4272719ejt.15.1676531805708;
+        Wed, 15 Feb 2023 23:16:45 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id qp14-20020a170907206e00b008b126882334sm418150ejb.39.2023.02.15.23.16.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 15 Feb 2023 23:16:45 -0800 (PST)
+Date: Thu, 16 Feb 2023 10:16:41 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev, Roger Lu <roger.lu@mediatek.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Matthias Brugger <matthias.bgg@gmail.com>
+Subject: [matthias-bgg:v6.3-tmp/soc 42/48]
+ drivers/soc/mediatek/mtk-svs.c:1740 svs_get_efuse_data() warn: passing zero
+ to 'PTR_ERR'
+Message-ID: <202302160720.N64SWT4l-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -45,268 +53,61 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+Message-ID: <20230216071641.r7EfzaGcEnE26GR71B7k4FXBIw4IVYf63rTy8lCmqDA@z>
 
-:::::: 
-:::::: Manual check reason: "low confidence static check warning: fs/xfs/scrub/xfarray.c:486:27: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]"
-:::::: 
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: "Darrick J. Wong" <darrick.wong@oracle.com>
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git in-memory-btrees
-head:   d2b66bc91f378dde0839bf411f8a9c6f56656acc
-commit: cac672955a40d197ef9f302bb7b72e486b859008 [111/182] xfs: enable sorting of xfile-backed arrays
-:::::: branch date: 25 hours ago
-:::::: commit date: 2 weeks ago
-config: s390-randconfig-c005-20230212 (https://download.01.org/0day-ci/archive/20230216/202302161321.73t2aZRO-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project db0e6591612b53910a1b366863348bdb9d7d2fb1)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install s390 cross compiling tool for clang build
-        # apt-get install binutils-s390x-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git/commit/?id=cac672955a40d197ef9f302bb7b72e486b859008
-        git remote add djwong-xfs https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git
-        git fetch --no-tags djwong-xfs in-memory-btrees
-        git checkout cac672955a40d197ef9f302bb7b72e486b859008
-        # save the config file
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=s390 clang-analyzer  olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=s390 clang-analyzer 
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/matthias.bgg/linux.git v6.3-tmp/soc
+head:   d19b23050ea976b42a6527a623cdd5774c290b8b
+commit: 6c7174fd90a4690e2154a6a77ad2ffa119166217 [42/48] soc: mediatek: mtk-svs: use svs get efuse common function
+config: microblaze-randconfig-m031-20230212 (https://download.01.org/0day-ci/archive/20230216/202302160720.N64SWT4l-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/r/202302161321.73t2aZRO-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Link: https://lore.kernel.org/r/202302160720.N64SWT4l-lkp@intel.com/
 
-clang_analyzer warnings: (new ones prefixed by >>)
-           ^
-   include/linux/percpu-defs.h:217:37: note: expanded from macro '__verify_pcpu_ptr'
-   #define __verify_pcpu_ptr(ptr)                                          \
-                                                                           ^
-   arch/s390/kernel/perf_cpum_sf.c:1911:28: note: Dereference of null pointer
-           struct cpu_hw_sf *cpuhw = this_cpu_ptr(&cpu_hw_sf);
-                                     ^
-   include/linux/percpu-defs.h:252:27: note: expanded from macro 'this_cpu_ptr'
-   #define this_cpu_ptr(ptr) raw_cpu_ptr(ptr)
-                             ^~~~~~~~~~~~~~~~
-   include/linux/percpu-defs.h:242:2: note: expanded from macro 'raw_cpu_ptr'
-           arch_raw_cpu_ptr(ptr);                                          \
-           ^~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/percpu.h:44:31: note: expanded from macro 'arch_raw_cpu_ptr'
-   #define arch_raw_cpu_ptr(ptr) SHIFT_PERCPU_PTR(ptr, __my_cpu_offset)
-                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/percpu-defs.h:231:2: note: expanded from macro 'SHIFT_PERCPU_PTR'
-           RELOC_HIDE((typeof(*(__p)) __kernel __force *)(__p), (__offset))
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:170:28: note: expanded from macro 'RELOC_HIDE'
-       (typeof(ptr)) (__ptr + (off)); })
-                              ^~~~~
-   arch/s390/kernel/perf_cpum_sf.c:1973:28: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]
-           struct cpu_hw_sf *cpuhw = this_cpu_ptr(&cpu_hw_sf);
-                                     ^
-   include/linux/percpu-defs.h:252:27: note: expanded from macro 'this_cpu_ptr'
-   #define this_cpu_ptr(ptr) raw_cpu_ptr(ptr)
-                             ^~~~~~~~~~~~~~~~
-   include/linux/percpu-defs.h:242:2: note: expanded from macro 'raw_cpu_ptr'
-           arch_raw_cpu_ptr(ptr);                                          \
-           ^~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/percpu.h:44:31: note: expanded from macro 'arch_raw_cpu_ptr'
-   #define arch_raw_cpu_ptr(ptr) SHIFT_PERCPU_PTR(ptr, __my_cpu_offset)
-                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/percpu-defs.h:231:2: note: expanded from macro 'SHIFT_PERCPU_PTR'
-           RELOC_HIDE((typeof(*(__p)) __kernel __force *)(__p), (__offset))
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:170:28: note: expanded from macro 'RELOC_HIDE'
-       (typeof(ptr)) (__ptr + (off)); })
-                              ^~~~~
-   arch/s390/kernel/perf_cpum_sf.c:1973:28: note: Loop condition is false.  Exiting loop
-           struct cpu_hw_sf *cpuhw = this_cpu_ptr(&cpu_hw_sf);
-                                     ^
-   include/linux/percpu-defs.h:252:27: note: expanded from macro 'this_cpu_ptr'
-   #define this_cpu_ptr(ptr) raw_cpu_ptr(ptr)
-                             ^
-   include/linux/percpu-defs.h:241:2: note: expanded from macro 'raw_cpu_ptr'
-           __verify_pcpu_ptr(ptr);                                         \
-           ^
-   include/linux/percpu-defs.h:217:37: note: expanded from macro '__verify_pcpu_ptr'
-   #define __verify_pcpu_ptr(ptr)                                          \
-                                                                           ^
-   arch/s390/kernel/perf_cpum_sf.c:1973:28: note: Dereference of null pointer
-           struct cpu_hw_sf *cpuhw = this_cpu_ptr(&cpu_hw_sf);
-                                     ^
-   include/linux/percpu-defs.h:252:27: note: expanded from macro 'this_cpu_ptr'
-   #define this_cpu_ptr(ptr) raw_cpu_ptr(ptr)
-                             ^~~~~~~~~~~~~~~~
-   include/linux/percpu-defs.h:242:2: note: expanded from macro 'raw_cpu_ptr'
-           arch_raw_cpu_ptr(ptr);                                          \
-           ^~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/percpu.h:44:31: note: expanded from macro 'arch_raw_cpu_ptr'
-   #define arch_raw_cpu_ptr(ptr) SHIFT_PERCPU_PTR(ptr, __my_cpu_offset)
-                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/percpu-defs.h:231:2: note: expanded from macro 'SHIFT_PERCPU_PTR'
-           RELOC_HIDE((typeof(*(__p)) __kernel __force *)(__p), (__offset))
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:170:28: note: expanded from macro 'RELOC_HIDE'
-       (typeof(ptr)) (__ptr + (off)); })
-                              ^~~~~
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   13 warnings generated.
-   fs/xfs/scrub/common.h:26:27: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]
-           if (fatal_signal_pending(current)) {
-                                    ^
-   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'current'
-   #define current ((struct task_struct *const)S390_lowcore.current_task)
-                                               ^
-   arch/s390/include/asm/lowcore.h:215:22: note: expanded from macro 'S390_lowcore'
-   #define S390_lowcore (*((struct lowcore *) 0))
-                        ^
-   fs/xfs/scrub/scrub.c:142:6: note: Calling 'xchk_should_terminate'
-           if (xchk_should_terminate(sc, &error))
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/xfs/scrub/common.h:26:27: note: Dereference of null pointer
-           if (fatal_signal_pending(current)) {
-                                    ^
-   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'current'
-   #define current ((struct task_struct *const)S390_lowcore.current_task)
-                                               ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/s390/include/asm/lowcore.h:215:22: note: expanded from macro 'S390_lowcore'
-   #define S390_lowcore (*((struct lowcore *) 0))
-                        ^
-   Suppressed 12 warnings (12 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   12 warnings generated.
-   Suppressed 12 warnings (12 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   12 warnings generated.
->> fs/xfs/scrub/xfarray.c:486:27: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]
-               fatal_signal_pending(current)) {
-                                    ^
-   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'current'
-   #define current ((struct task_struct *const)S390_lowcore.current_task)
-                                               ^
-   arch/s390/include/asm/lowcore.h:215:22: note: expanded from macro 'S390_lowcore'
-   #define S390_lowcore (*((struct lowcore *) 0))
-                        ^
-   fs/xfs/scrub/xfarray.c:812:6: note: Assuming field 'nr' is >= 2
-           if (array->nr < 2)
-               ^~~~~~~~~~~~~
-   fs/xfs/scrub/xfarray.c:812:2: note: Taking false branch
-           if (array->nr < 2)
-           ^
-   fs/xfs/scrub/xfarray.c:814:6: note: Assuming the condition is false
-           if (array->nr >= QSORT_MAX_RECS)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/xfs/scrub/xfarray.c:814:2: note: Taking false branch
-           if (array->nr >= QSORT_MAX_RECS)
-           ^
-   fs/xfs/scrub/xfarray.c:818:6: note: 'error' is 0
-           if (error)
-               ^~~~~
-   fs/xfs/scrub/xfarray.c:818:2: note: Taking false branch
-           if (error)
-           ^
-   fs/xfs/scrub/xfarray.c:824:2: note: Loop condition is true.  Entering loop body
-           while (si->stack_depth >= 0) {
-           ^
-   fs/xfs/scrub/xfarray.c:831:7: note: Assuming 'lo' is < 'hi'
-                   if (lo >= hi) {
-                       ^~~~~~~~
-   fs/xfs/scrub/xfarray.c:831:3: note: Taking false branch
-                   if (lo >= hi) {
-                   ^
-   fs/xfs/scrub/xfarray.c:837:3: note: Taking true branch
-                   if (xfarray_want_isort(si, lo, hi)) {
-                   ^
-   fs/xfs/scrub/xfarray.c:838:12: note: Calling 'xfarray_isort'
-                           error = xfarray_isort(si, lo, hi);
-                                   ^~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/xfs/scrub/xfarray.c:541:6: note: 'error' is 0
-           if (error)
-               ^~~~~
-   fs/xfs/scrub/xfarray.c:541:2: note: Taking false branch
-           if (error)
-           ^
-   fs/xfs/scrub/xfarray.c:543:21: note: Assuming 'run' is <= 'hi'
-           for (run = lo + 1; run <= hi; run++) {
-                              ^~~~~~~~~
-   fs/xfs/scrub/xfarray.c:543:2: note: Loop condition is true.  Entering loop body
-           for (run = lo + 1; run <= hi; run++) {
-           ^
-   fs/xfs/scrub/xfarray.c:546:7: note: 'error' is 0
-                   if (error)
-                       ^~~~~
-   fs/xfs/scrub/xfarray.c:546:3: note: Taking false branch
-                   if (error)
-                   ^
-   fs/xfs/scrub/xfarray.c:548:7: note: Assuming the condition is false
-                   if (xfarray_sort_cmp(si, a, b) < 0) {
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/xfs/scrub/xfarray.c:548:3: note: Taking false branch
-                   if (xfarray_sort_cmp(si, a, b) < 0) {
-                   ^
-   fs/xfs/scrub/xfarray.c:553:7: note: Calling 'xfarray_sort_terminated'
-                   if (xfarray_sort_terminated(si, &error))
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/xfs/scrub/xfarray.c:485:7: note: Assuming the condition is true
-           if ((si->flags & XFARRAY_SORT_KILLABLE) &&
-                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/xfs/scrub/xfarray.c:485:6: note: Left side of '&&' is true
-           if ((si->flags & XFARRAY_SORT_KILLABLE) &&
-               ^
-   fs/xfs/scrub/xfarray.c:486:27: note: Dereference of null pointer
-               fatal_signal_pending(current)) {
-                                    ^
-   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'current'
-   #define current ((struct task_struct *const)S390_lowcore.current_task)
-                                               ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/s390/include/asm/lowcore.h:215:22: note: expanded from macro 'S390_lowcore'
-   #define S390_lowcore (*((struct lowcore *) 0))
-                        ^
-   Suppressed 11 warnings (11 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   32 warnings generated.
-   security/keys/process_keys.c:77:28: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]
-           const struct cred *cred = current_cred();
-                                     ^
-   include/linux/cred.h:299:28: note: expanded from macro 'current_cred'
-           rcu_dereference_protected(current->cred, 1)
-           ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~
-   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'current'
-   #define current ((struct task_struct *const)S390_lowcore.current_task)
-                                               ^
-   arch/s390/include/asm/lowcore.h:215:22: note: expanded from macro 'S390_lowcore'
-   #define S390_lowcore (*((struct lowcore *) 0))
-                        ^
-   include/linux/rcupdate.h:664:31: note: expanded from macro 'rcu_dereference_protected'
-           __rcu_dereference_protected((p), __UNIQUE_ID(rcu), (c), __rcu)
+New smatch warnings:
+drivers/soc/mediatek/mtk-svs.c:1740 svs_get_efuse_data() warn: passing zero to 'PTR_ERR'
 
-vim +486 fs/xfs/scrub/xfarray.c
+Old smatch warnings:
+drivers/soc/mediatek/mtk-svs.c:1742 svs_get_efuse_data() warn: passing zero to 'PTR_ERR'
 
-cac672955a40d1 Darrick J. Wong 2022-07-14  471  
-cac672955a40d1 Darrick J. Wong 2022-07-14  472  /* Should this sort be terminated by a fatal signal? */
-cac672955a40d1 Darrick J. Wong 2022-07-14  473  static inline bool
-cac672955a40d1 Darrick J. Wong 2022-07-14  474  xfarray_sort_terminated(
-cac672955a40d1 Darrick J. Wong 2022-07-14  475  	struct xfarray_sortinfo	*si,
-cac672955a40d1 Darrick J. Wong 2022-07-14  476  	int			*error)
-cac672955a40d1 Darrick J. Wong 2022-07-14  477  {
-cac672955a40d1 Darrick J. Wong 2022-07-14  478  	/*
-cac672955a40d1 Darrick J. Wong 2022-07-14  479  	 * If preemption is disabled, we need to yield to the scheduler every
-cac672955a40d1 Darrick J. Wong 2022-07-14  480  	 * few seconds so that we don't run afoul of the soft lockup watchdog
-cac672955a40d1 Darrick J. Wong 2022-07-14  481  	 * or RCU stall detector.
-cac672955a40d1 Darrick J. Wong 2022-07-14  482  	 */
-cac672955a40d1 Darrick J. Wong 2022-07-14  483  	cond_resched();
-cac672955a40d1 Darrick J. Wong 2022-07-14  484  
-cac672955a40d1 Darrick J. Wong 2022-07-14  485  	if ((si->flags & XFARRAY_SORT_KILLABLE) &&
-cac672955a40d1 Darrick J. Wong 2022-07-14 @486  	    fatal_signal_pending(current)) {
-cac672955a40d1 Darrick J. Wong 2022-07-14  487  		if (*error == 0)
-cac672955a40d1 Darrick J. Wong 2022-07-14  488  			*error = -EINTR;
-cac672955a40d1 Darrick J. Wong 2022-07-14  489  		return true;
-cac672955a40d1 Darrick J. Wong 2022-07-14  490  	}
-cac672955a40d1 Darrick J. Wong 2022-07-14  491  	return false;
-cac672955a40d1 Darrick J. Wong 2022-07-14  492  }
-cac672955a40d1 Darrick J. Wong 2022-07-14  493  
+vim +/PTR_ERR +1740 drivers/soc/mediatek/mtk-svs.c
+
+6c7174fd90a4690 Roger Lu                   2023-02-02  1732  static int svs_get_efuse_data(struct svs_platform *svsp,
+6c7174fd90a4690 Roger Lu                   2023-02-02  1733  			      const char *nvmem_cell_name,
+6c7174fd90a4690 Roger Lu                   2023-02-02  1734  			      u32 **svsp_efuse, size_t *svsp_efuse_max)
+43819e385330662 AngeloGioacchino Del Regno 2022-08-25  1735  {
+43819e385330662 AngeloGioacchino Del Regno 2022-08-25  1736  	struct nvmem_cell *cell;
+43819e385330662 AngeloGioacchino Del Regno 2022-08-25  1737  
+6c7174fd90a4690 Roger Lu                   2023-02-02  1738  	cell = nvmem_cell_get(svsp->dev, nvmem_cell_name);
+43819e385330662 AngeloGioacchino Del Regno 2022-08-25  1739  	if (IS_ERR_OR_NULL(cell)) {
+
+nvmem_cell_get() cannot return NULL so checking for NULL is wrong here.
+If it could return NULL then this code is handling it incorrectly.  I
+wrote a blog about this:
+https://staticthinking.wordpress.com/2022/08/01/mixing-error-pointers-and-null/
+
+6c7174fd90a4690 Roger Lu                   2023-02-02 @1740  		dev_err(svsp->dev, "no \"%s\"? %ld\n",
+6c7174fd90a4690 Roger Lu                   2023-02-02  1741  			nvmem_cell_name, PTR_ERR(cell));
+43819e385330662 AngeloGioacchino Del Regno 2022-08-25  1742  		return PTR_ERR(cell);
+43819e385330662 AngeloGioacchino Del Regno 2022-08-25  1743  	}
+43819e385330662 AngeloGioacchino Del Regno 2022-08-25  1744  
+6c7174fd90a4690 Roger Lu                   2023-02-02  1745  	*svsp_efuse = nvmem_cell_read(cell, svsp_efuse_max);
+6c7174fd90a4690 Roger Lu                   2023-02-02  1746  	if (IS_ERR(*svsp_efuse)) {
+6c7174fd90a4690 Roger Lu                   2023-02-02  1747  		dev_err(svsp->dev, "cannot read \"%s\" efuse: %ld\n",
+6c7174fd90a4690 Roger Lu                   2023-02-02  1748  			nvmem_cell_name, PTR_ERR(*svsp_efuse));
+43819e385330662 AngeloGioacchino Del Regno 2022-08-25  1749  		nvmem_cell_put(cell);
+6c7174fd90a4690 Roger Lu                   2023-02-02  1750  		return PTR_ERR(*svsp_efuse);
+43819e385330662 AngeloGioacchino Del Regno 2022-08-25  1751  	}
+43819e385330662 AngeloGioacchino Del Regno 2022-08-25  1752  
+6c7174fd90a4690 Roger Lu                   2023-02-02  1753  	*svsp_efuse_max /= sizeof(u32);
+43819e385330662 AngeloGioacchino Del Regno 2022-08-25  1754  	nvmem_cell_put(cell);
+43819e385330662 AngeloGioacchino Del Regno 2022-08-25  1755  
+43819e385330662 AngeloGioacchino Del Regno 2022-08-25  1756  	return 0;
+43819e385330662 AngeloGioacchino Del Regno 2022-08-25  1757  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
+
