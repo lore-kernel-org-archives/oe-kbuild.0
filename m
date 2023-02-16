@@ -1,50 +1,44 @@
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B99E420FB;
-	Thu, 16 Feb 2023 07:16:47 +0000 (UTC)
-Received: by mail-ej1-f53.google.com with SMTP id dr8so2860257ejc.12;
-        Wed, 15 Feb 2023 23:16:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=pCHIGxN51CRobbkEADA4BzKdh7TSEUJqG3lA19pd1rE=;
-        b=EkJYWYVMU02XsHWCdGrlqqXEiRwq6rVsf0iqekUAtUZviaLpx6p2a7wbkPr3GQRzpf
-         LxQG+UTXecBBlNERPA8JhvSKWtnXFNkWNGQBBdP93VVwgVKkVK8P9XN0EjvQesTxJpY+
-         +9XjCxm4he6u6OPDt59d2ls8lNEkcQbhx8OzDTMosigcRbInHS6CNu7qTcsXTpt03chp
-         W/FimudEqy5MEVwuwFRDXqfPKBTWdRUhkSHAOik2CYAS4Wjraa5VAFvMR2vBGoawvBQ7
-         oDBY/yl8dYV1eV9CFZiuk81mwnKk9EstsnMG58fSSVy1Y00YKTW9OQly1tCDA/BAu91F
-         OTcg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=pCHIGxN51CRobbkEADA4BzKdh7TSEUJqG3lA19pd1rE=;
-        b=B1nzfxiEyOF0olDFVmyaN+VvC+R9ZLC6pLHwO4mRI+a+Z9pGheENxMQHu/Bg21kkYP
-         exodLjHNazP3ZEwncG4i+BLU3QbMMtLkzOepRl6kqSiuNFM8ACEZtOWJXZo1D9DYM/YG
-         belXisVizsV+3I54yw60hIA/9DzcVHeLip81h4Mehqk5cTJPxgsI4J0f9ivPcx34ZpI8
-         WLu+a+LCVzXZg6KPCunqrZfvpjpTKSn5aIkF8WFH8YH1XAbo9GezJDR/2PLy5IdEPkI9
-         2YNeSKr5fhoJYUJQ1Lxrl2IzT/hG3Q6WohSNYBru0PofSNSoX5M2KOcXKIDUbkZCGXLh
-         sqyg==
-X-Gm-Message-State: AO0yUKURJ4NE00FBVKyFwLNAxT1evuAqiVqZtORk2Pc5UXoCv2heo6ro
-	wnHPExNI/7QGIctIXIs1+CQKuaXX8eQ=
-X-Google-Smtp-Source: AK7set9NIQgaNj7V6HF8wwXt9aZyCSQgne1wJG1yuSbONyXpWK4Wj0gxwiN3wEoTfQYVsah72LBqVA==
-X-Received: by 2002:a17:906:48c6:b0:8af:5154:ff8e with SMTP id d6-20020a17090648c600b008af5154ff8emr4272719ejt.15.1676531805708;
-        Wed, 15 Feb 2023 23:16:45 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id qp14-20020a170907206e00b008b126882334sm418150ejb.39.2023.02.15.23.16.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Feb 2023 23:16:45 -0800 (PST)
-Date: Thu, 16 Feb 2023 10:16:41 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, Roger Lu <roger.lu@mediatek.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Matthias Brugger <matthias.bgg@gmail.com>
-Subject: [matthias-bgg:v6.3-tmp/soc 42/48]
- drivers/soc/mediatek/mtk-svs.c:1740 svs_get_efuse_data() warn: passing zero
- to 'PTR_ERR'
-Message-ID: <202302160720.N64SWT4l-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8712120FB
+	for <oe-kbuild@lists.linux.dev>; Thu, 16 Feb 2023 07:26:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1676532382; x=1708068382;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=UhN/7SFaRiydR2ZHSXzWRFPARVPAC6d76O+ihVHL9/4=;
+  b=OupvFaJiQXxCWxb+BVPNerEAzPtTGlWQ7awa1PL0APKCFzr7FLXXCK8v
+   mLK1eeFzDEjVxHfBBYwyZaS+f8lKzQ9BvZzMNdEBvbCmGTSqPFPRjHXLx
+   tX00scbyTsvZ+dvuvcyaLy0xkDFXcPv/Q0IeOTRnPjwOVfrkFI481mZB+
+   p8G18LYzwGZ1EkbirEV4YcoN1ZnQqkFfruzcUz9/uAJbAtFS89BCvC5px
+   q7eLsGS0gR19NZBtb4rmz8sVU8jeZNzUOin2h8f9z4H3LGbum0+Pi5Tu+
+   Q6r2VSEE8OYSjHud9EnH/XuZF2jQUPqWAgirnlHATtIaIwZ3xrgwQ3p/c
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10622"; a="417869389"
+X-IronPort-AV: E=Sophos;i="5.97,301,1669104000"; 
+   d="scan'208";a="417869389"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Feb 2023 23:26:21 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10622"; a="998913934"
+X-IronPort-AV: E=Sophos;i="5.97,301,1669104000"; 
+   d="scan'208";a="998913934"
+Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
+  by fmsmga005.fm.intel.com with ESMTP; 15 Feb 2023 23:26:20 -0800
+Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pSYep-000A5z-2D;
+	Thu, 16 Feb 2023 07:26:19 +0000
+Date: Thu, 16 Feb 2023 15:25:43 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>,
+	Elena Reshetova <elena.reshetova@intel.com>
+Subject: [djwong-xfs:xfile-page-caching 217/268]
+ fs/xfs/xfs_swapext_item.c:57:5-24: atomic_dec_and_test variation before
+ object free at line 58.
+Message-ID: <202302161508.TFV6pe5Z-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -53,61 +47,49 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Message-ID: <20230216071641.r7EfzaGcEnE26GR71B7k4FXBIw4IVYf63rTy8lCmqDA@z>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/matthias.bgg/linux.git v6.3-tmp/soc
-head:   d19b23050ea976b42a6527a623cdd5774c290b8b
-commit: 6c7174fd90a4690e2154a6a77ad2ffa119166217 [42/48] soc: mediatek: mtk-svs: use svs get efuse common function
-config: microblaze-randconfig-m031-20230212 (https://download.01.org/0day-ci/archive/20230216/202302160720.N64SWT4l-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 12.1.0
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: "Darrick J. Wong" <darrick.wong@oracle.com>
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git xfile-page-caching
+head:   b1434f1ffff0b89a85493bd8ab8c880b3887ca75
+commit: 614a35f77ea5f89cd4bb782019aab1c874aa12b7 [217/268] xfs: introduce a swap-extent log intent item
+:::::: branch date: 27 hours ago
+:::::: commit date: 27 hours ago
+config: i386-randconfig-c001 (https://download.01.org/0day-ci/archive/20230216/202302161508.TFV6pe5Z-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202302160720.N64SWT4l-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Link: https://lore.kernel.org/r/202302161508.TFV6pe5Z-lkp@intel.com/
 
-New smatch warnings:
-drivers/soc/mediatek/mtk-svs.c:1740 svs_get_efuse_data() warn: passing zero to 'PTR_ERR'
+cocci warnings: (new ones prefixed by >>)
+>> fs/xfs/xfs_swapext_item.c:57:5-24: atomic_dec_and_test variation before object free at line 58.
 
-Old smatch warnings:
-drivers/soc/mediatek/mtk-svs.c:1742 svs_get_efuse_data() warn: passing zero to 'PTR_ERR'
+vim +57 fs/xfs/xfs_swapext_item.c
 
-vim +/PTR_ERR +1740 drivers/soc/mediatek/mtk-svs.c
-
-6c7174fd90a4690 Roger Lu                   2023-02-02  1732  static int svs_get_efuse_data(struct svs_platform *svsp,
-6c7174fd90a4690 Roger Lu                   2023-02-02  1733  			      const char *nvmem_cell_name,
-6c7174fd90a4690 Roger Lu                   2023-02-02  1734  			      u32 **svsp_efuse, size_t *svsp_efuse_max)
-43819e385330662 AngeloGioacchino Del Regno 2022-08-25  1735  {
-43819e385330662 AngeloGioacchino Del Regno 2022-08-25  1736  	struct nvmem_cell *cell;
-43819e385330662 AngeloGioacchino Del Regno 2022-08-25  1737  
-6c7174fd90a4690 Roger Lu                   2023-02-02  1738  	cell = nvmem_cell_get(svsp->dev, nvmem_cell_name);
-43819e385330662 AngeloGioacchino Del Regno 2022-08-25  1739  	if (IS_ERR_OR_NULL(cell)) {
-
-nvmem_cell_get() cannot return NULL so checking for NULL is wrong here.
-If it could return NULL then this code is handling it incorrectly.  I
-wrote a blog about this:
-https://staticthinking.wordpress.com/2022/08/01/mixing-error-pointers-and-null/
-
-6c7174fd90a4690 Roger Lu                   2023-02-02 @1740  		dev_err(svsp->dev, "no \"%s\"? %ld\n",
-6c7174fd90a4690 Roger Lu                   2023-02-02  1741  			nvmem_cell_name, PTR_ERR(cell));
-43819e385330662 AngeloGioacchino Del Regno 2022-08-25  1742  		return PTR_ERR(cell);
-43819e385330662 AngeloGioacchino Del Regno 2022-08-25  1743  	}
-43819e385330662 AngeloGioacchino Del Regno 2022-08-25  1744  
-6c7174fd90a4690 Roger Lu                   2023-02-02  1745  	*svsp_efuse = nvmem_cell_read(cell, svsp_efuse_max);
-6c7174fd90a4690 Roger Lu                   2023-02-02  1746  	if (IS_ERR(*svsp_efuse)) {
-6c7174fd90a4690 Roger Lu                   2023-02-02  1747  		dev_err(svsp->dev, "cannot read \"%s\" efuse: %ld\n",
-6c7174fd90a4690 Roger Lu                   2023-02-02  1748  			nvmem_cell_name, PTR_ERR(*svsp_efuse));
-43819e385330662 AngeloGioacchino Del Regno 2022-08-25  1749  		nvmem_cell_put(cell);
-6c7174fd90a4690 Roger Lu                   2023-02-02  1750  		return PTR_ERR(*svsp_efuse);
-43819e385330662 AngeloGioacchino Del Regno 2022-08-25  1751  	}
-43819e385330662 AngeloGioacchino Del Regno 2022-08-25  1752  
-6c7174fd90a4690 Roger Lu                   2023-02-02  1753  	*svsp_efuse_max /= sizeof(u32);
-43819e385330662 AngeloGioacchino Del Regno 2022-08-25  1754  	nvmem_cell_put(cell);
-43819e385330662 AngeloGioacchino Del Regno 2022-08-25  1755  
-43819e385330662 AngeloGioacchino Del Regno 2022-08-25  1756  	return 0;
-43819e385330662 AngeloGioacchino Del Regno 2022-08-25  1757  }
+614a35f77ea5f8 Darrick J. Wong 2022-07-14  44  
+614a35f77ea5f8 Darrick J. Wong 2022-07-14  45  /*
+614a35f77ea5f8 Darrick J. Wong 2022-07-14  46   * Freeing the SXI requires that we remove it from the AIL if it has already
+614a35f77ea5f8 Darrick J. Wong 2022-07-14  47   * been placed there. However, the SXI may not yet have been placed in the AIL
+614a35f77ea5f8 Darrick J. Wong 2022-07-14  48   * when called by xfs_sxi_release() from SXD processing due to the ordering of
+614a35f77ea5f8 Darrick J. Wong 2022-07-14  49   * committed vs unpin operations in bulk insert operations. Hence the reference
+614a35f77ea5f8 Darrick J. Wong 2022-07-14  50   * count to ensure only the last caller frees the SXI.
+614a35f77ea5f8 Darrick J. Wong 2022-07-14  51   */
+614a35f77ea5f8 Darrick J. Wong 2022-07-14  52  STATIC void
+614a35f77ea5f8 Darrick J. Wong 2022-07-14  53  xfs_sxi_release(
+614a35f77ea5f8 Darrick J. Wong 2022-07-14  54  	struct xfs_sxi_log_item	*sxi_lip)
+614a35f77ea5f8 Darrick J. Wong 2022-07-14  55  {
+614a35f77ea5f8 Darrick J. Wong 2022-07-14  56  	ASSERT(atomic_read(&sxi_lip->sxi_refcount) > 0);
+614a35f77ea5f8 Darrick J. Wong 2022-07-14 @57  	if (atomic_dec_and_test(&sxi_lip->sxi_refcount)) {
+614a35f77ea5f8 Darrick J. Wong 2022-07-14 @58  		xfs_trans_ail_delete(&sxi_lip->sxi_item, SHUTDOWN_LOG_IO_ERROR);
+614a35f77ea5f8 Darrick J. Wong 2022-07-14  59  		xfs_sxi_item_free(sxi_lip);
+614a35f77ea5f8 Darrick J. Wong 2022-07-14  60  	}
+614a35f77ea5f8 Darrick J. Wong 2022-07-14  61  }
+614a35f77ea5f8 Darrick J. Wong 2022-07-14  62  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
-
