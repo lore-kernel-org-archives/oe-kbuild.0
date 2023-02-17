@@ -1,39 +1,51 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48758746A
-	for <oe-kbuild@lists.linux.dev>; Fri, 17 Feb 2023 14:48:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676645307; x=1708181307;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=vHbwxyHEMwEd0vvw2HMOIQD9oco2AqudCL6GCxMDuBw=;
-  b=LZduT5t0zXG/0waCE9ySZz/ItD6xqNRXAH8zOzAqkv/8OTniuKtxlLMf
-   01LO2bs/EmGiU49r9ASsAmEiEokSVtryTm1KatyI5mfrIgrXPOmyhVoUn
-   dbkuTIrUWXjHtIPC2JqMhC6GrGXu3ISn4IEzsvHPv1Q37AN0eAKHvbm8A
-   F053zxidH4yoE9Sj0CbCSvfMngnHj9AgWXD+3/04tBE0Hw5rugoCjqo7F
-   fa9wAiWtwKASDJW0dwr4+IfMtMGigHCAC2jGUmRE93uaiD6oKBPJm0dua
-   K13tp50KoXLhizK2ptk3WfOVMDuU/GCgG+qVqKQgMvzhYyYb1SmuRZ2R2
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10624"; a="332001386"
-X-IronPort-AV: E=Sophos;i="5.97,306,1669104000"; 
-   d="scan'208";a="332001386"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2023 06:48:18 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10624"; a="702988633"
-X-IronPort-AV: E=Sophos;i="5.97,306,1669104000"; 
-   d="scan'208";a="702988633"
-Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 17 Feb 2023 06:48:17 -0800
-Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pT224-000BY5-0v;
-	Fri, 17 Feb 2023 14:48:16 +0000
-Date: Fri, 17 Feb 2023 22:47:23 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 425F6746A;
+	Fri, 17 Feb 2023 15:56:09 +0000 (UTC)
+Received: by mail-ed1-f51.google.com with SMTP id ez12so5960175edb.1;
+        Fri, 17 Feb 2023 07:56:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZzFjOEEzaxMg0PoK9w/FYDQg5oh8fvu0qlQZTMdpOdc=;
+        b=XS0MdCKYhSgWKheIOrss76W3LEfboar9PfOE2US+2XUg4vqQ837Gh64TtDVfvdsKsC
+         1BnNCYdJkZBPOpyqbmLPqjnz64GvfOnWz4X9Dl9abcZH0d4+3v6v4Nrpw6NbymuRYxBO
+         BkV5Do5S9co40LjM9xzUl6aj6UOGVHqJn1wtIKysUF1ehWXb+5umYNxyfW5B5Eq2DmUs
+         h3PoyQUmecKJohCygBH3WWtdr6sALhLEfSe02TXtdtEfY4IjhzEQuvFuIc4LcN1JCSyN
+         M+eHCoEINyG18cVfLcUO08XglToGPjZqdcsPEwmswRrnUNZUdF1DHFBY4S2K8AWupjWT
+         9SoQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ZzFjOEEzaxMg0PoK9w/FYDQg5oh8fvu0qlQZTMdpOdc=;
+        b=uyAwIq59KtHaArZ1mAwgFJiEq9igbzTAF02Ykiwcwa/pTYNEDB7N+KBlT3AzAJc/Z3
+         OKOeAq+6XBoW4OdBBt+AtcVlzVLkgDAmuXse4abbGO+08KBzDpOgb0w97kiimi+1qpfL
+         SYs4wS+fmT5l+zRXQ9sBA96D/K6Hxx5qVoE48m+GJ8DTHCBBJRcg/AEfYH6ha/hBnqlZ
+         P7XVDAfCg5AbdiYqx2dyqzxf3Wus6UPenhoC0EPtmurPE+/6h2SmiZeBJLENUi2jNjE5
+         tRiUZ3LWEbCiMWlOC20WgCwQ5uEd6pVtt9pV0KxKnpuhEK9Fx3RBw8QSAmjt4XO+ucbX
+         SPoQ==
+X-Gm-Message-State: AO0yUKVovQRJJPjPg3VDFN1jjv4pPHNuqpnXUqzh0GJOK3rL8fDWWDlU
+	d/Rx5g4NwpkxZ8xSittNUidmOYGQI+M=
+X-Google-Smtp-Source: AK7set/vxKzQWRPH6fDGnusk9+izTbvGUGGINVbSZdBFGVe8QIE5czO6u1CLDh4Ul2HyD2Qkzg68mA==
+X-Received: by 2002:aa7:d910:0:b0:499:4130:fae with SMTP id a16-20020aa7d910000000b0049941300faemr1124872edr.10.1676649367080;
+        Fri, 17 Feb 2023 07:56:07 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id n24-20020a509358000000b0049ef70a2894sm2486213eda.38.2023.02.17.07.56.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 17 Feb 2023 07:56:05 -0800 (PST)
+Date: Fri, 17 Feb 2023 18:55:59 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev, Elson Roy Serrao <quic_eserrao@quicinc.com>,
+	gregkh@linuxfoundation.org, Thinh.Nguyen@synopsys.com,
+	balbi@kernel.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+	quic_wcheng@quicinc.com, quic_jackp@quicinc.com,
+	Elson Roy Serrao <quic_eserrao@quicinc.com>
 Subject: Re: [PATCH v5 1/5] usb: gadget: Properly configure the device for
  remote wakeup
 Message-ID: <202302172243.hKUsQl2q-lkp@intel.com>
@@ -45,37 +57,17 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
 In-Reply-To: <1676586588-25989-2-git-send-email-quic_eserrao@quicinc.com>
-References: <1676586588-25989-2-git-send-email-quic_eserrao@quicinc.com>
-TO: Elson Roy Serrao <quic_eserrao@quicinc.com>
-TO: gregkh@linuxfoundation.org
-TO: Thinh.Nguyen@synopsys.com
-TO: balbi@kernel.org
-CC: linux-kernel@vger.kernel.org
-CC: linux-usb@vger.kernel.org
-CC: quic_wcheng@quicinc.com
-CC: quic_jackp@quicinc.com
-CC: Elson Roy Serrao <quic_eserrao@quicinc.com>
+Message-ID: <20230217155559.Jd3SIf2GVHWEM-gt7YuDspIUWQaYma0aGjgW5DV4Yvk@z>
 
 Hi Elson,
 
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on usb/usb-testing]
-[also build test WARNING on usb/usb-next usb/usb-linus linus/master v6.2-rc8 next-20230217]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
 url:    https://github.com/intel-lab-lkp/linux/commits/Elson-Roy-Serrao/usb-gadget-Properly-configure-the-device-for-remote-wakeup/20230217-063114
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
 patch link:    https://lore.kernel.org/r/1676586588-25989-2-git-send-email-quic_eserrao%40quicinc.com
 patch subject: [PATCH v5 1/5] usb: gadget: Properly configure the device for remote wakeup
-:::::: branch date: 16 hours ago
-:::::: commit date: 16 hours ago
 config: x86_64-randconfig-m001 (https://download.01.org/0day-ci/archive/20230217/202302172243.hKUsQl2q-lkp@intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 
@@ -89,7 +81,6 @@ drivers/usb/gadget/composite.c:1016 set_config() error: we previously assumed 'c
 
 vim +/c +1016 drivers/usb/gadget/composite.c
 
-40982be52d8f64 David Brownell    2008-06-19   909  
 40982be52d8f64 David Brownell    2008-06-19   910  static int set_config(struct usb_composite_dev *cdev,
 40982be52d8f64 David Brownell    2008-06-19   911  		const struct usb_ctrlrequest *ctrl, unsigned number)
 40982be52d8f64 David Brownell    2008-06-19   912  {
@@ -125,8 +116,13 @@ bdb64d727216b4 Tatyana Brokhman  2011-06-29   940  	}
 1cbfb8c4f62d66 Joel Stanley      2019-09-30   942  	DBG(cdev, "%s config #%d: %s\n",
 e538dfdae85244 Michal Nazarewicz 2011-08-30   943  	    usb_speed_string(gadget->speed),
 e538dfdae85244 Michal Nazarewicz 2011-08-30   944  	    number, c ? c->label : "unconfigured");
+                                                                    ^
+
 40982be52d8f64 David Brownell    2008-06-19   945  
 40982be52d8f64 David Brownell    2008-06-19  @946  	if (!c)
+                                                             ^
+Check for NULL
+
 40982be52d8f64 David Brownell    2008-06-19   947  		goto done;
 40982be52d8f64 David Brownell    2008-06-19   948  
 6027f3173e797b Peter Chen        2014-04-29   949  	usb_gadget_set_state(gadget, USB_STATE_CONFIGURED);
@@ -197,6 +193,9 @@ a2035411fa1d12 Jack Pham         2020-01-30  1009  		power = min(power, 900U);
 5e5caf4fa8d303 Thinh Nguyen      2020-02-03  1014  		usb_gadget_clear_selfpowered(gadget);
 5e5caf4fa8d303 Thinh Nguyen      2020-02-03  1015  
 24ee47b2693b2d Elson Roy Serrao  2023-02-16 @1016  	if (USB_CONFIG_ATT_WAKEUP & c->bmAttributes)
+                                                                                    ^^^^^^^^^^^^^^^
+Unchecked dereference
+
 24ee47b2693b2d Elson Roy Serrao  2023-02-16  1017  		usb_gadget_set_remote_wakeup(gadget, 1);
 24ee47b2693b2d Elson Roy Serrao  2023-02-16  1018  	else
 24ee47b2693b2d Elson Roy Serrao  2023-02-16  1019  		usb_gadget_set_remote_wakeup(gadget, 0);
@@ -206,8 +205,8 @@ a2035411fa1d12 Jack Pham         2020-01-30  1009  		power = min(power, 900U);
 1b9ba000177ee4 Roger Quadros     2011-05-09  1023  		result = USB_GADGET_DELAYED_STATUS;
 40982be52d8f64 David Brownell    2008-06-19  1024  	return result;
 40982be52d8f64 David Brownell    2008-06-19  1025  }
-40982be52d8f64 David Brownell    2008-06-19  1026  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
+
