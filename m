@@ -1,42 +1,42 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5073A4A
-	for <oe-kbuild@lists.linux.dev>; Sat, 18 Feb 2023 19:39:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D60B3642
+	for <oe-kbuild@lists.linux.dev>; Sat, 18 Feb 2023 22:13:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676749153; x=1708285153;
+  t=1676758397; x=1708294397;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=17EJJB6eg10lxQcA870Kagn343SM22VHBxaI+TeRQH8=;
-  b=bIocqjTuTEgahwIVzqvVvfsMXuQKkZNMFyk9z1TslSDeOJ1ggfK+xf6F
-   1vROcBg9Y1KyAfVjZPswxPRU01AV37y5WgENtMEa7MbIpPsHS8ZIr0/g1
-   rPnNQ6A3YVuUfEzbJ9Gxqwk891QWCwaeNGhZaUkXltVmhBXwdOWukVNHK
-   ieghf0P5akU/GblTsWldjkB7oldTW8LFra3Wo34DUhQirzg0W8fW2HeT3
-   +EYeI9WJTkx5sHdX0gLtCTD20rdoBF1R51mOIaV2v+8DEU1JKDEMIjRRH
-   c6vkT9BHyzr22d4p1oX4Mum2SJVNZH2t14c3q7D3OCIWAcvmstwKzOU/b
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10625"; a="329912357"
+  bh=ICcQaymgFJDToSgQAfkDUg6EGA4ngp3D+vysu9NuGV8=;
+  b=ImgrGmrxs+90XKYUPiSTczKHsYRqtvF3WQ5XBQZWFZdPm2QS5CKtw8j2
+   45CbGzywfHAcsdy+bd9RI8x72Rlreih2BWp+zOz3LQkMVfdqgbRVmBYTx
+   9E0+AIwrWBeJxeJ3dS4Q+I3Lf9ckv1KzqtNTgzzao7n/gL9wit3kpwBdX
+   AWEv+FMGEZaHaZfxXvniC72ptITp4h6PJLHDAP18RPecI0SwHMXe9oTei
+   0WsGTU4qEpdDJkoFVC6F+bC03fU6GoARXI3SW1n62sTPU52yf2SvMZ8Yf
+   Sp7RzItQA1ziA9bPKEK1PT/DjCG3m3swBOFE7IDBkzTDG/2Hp6EJRiZsF
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10625"; a="418430899"
 X-IronPort-AV: E=Sophos;i="5.97,309,1669104000"; 
-   d="scan'208";a="329912357"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Feb 2023 11:39:13 -0800
+   d="scan'208";a="418430899"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Feb 2023 14:13:17 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10625"; a="648428783"
+X-IronPort-AV: E=McAfee;i="6500,9779,10625"; a="916455497"
 X-IronPort-AV: E=Sophos;i="5.97,309,1669104000"; 
-   d="scan'208";a="648428783"
+   d="scan'208";a="916455497"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 18 Feb 2023 11:39:11 -0800
+  by fmsmga006.fm.intel.com with ESMTP; 18 Feb 2023 14:13:16 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pTT38-000CgD-30;
-	Sat, 18 Feb 2023 19:39:10 +0000
-Date: Sun, 19 Feb 2023 03:38:41 +0800
+	id 1pTVSF-000CnX-1H;
+	Sat, 18 Feb 2023 22:13:15 +0000
+Date: Sun, 19 Feb 2023 06:12:17 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/gpu/drm/i915/i915_hwmon.c:69 hwm_in_read() error:
- uninitialized symbol 'reg_value'.
-Message-ID: <202302190300.WEBzVXGI-lkp@intel.com>
+Subject: drivers/net/wireless/intel/iwlwifi/mvm/d3.c:2789
+ iwl_mvm_resume_firmware() error: uninitialized symbol 'd3_status'.
+Message-ID: <202302190617.IFhxl8Fl-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -49,50 +49,65 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Riana Tauro <riana.tauro@intel.com>
-CC: Anshuman Gupta <anshuman.gupta@intel.com>
-CC: Badal Nilawar <badal.nilawar@intel.com>
-CC: Ashutosh Dixit <ashutosh.dixit@intel.com>
+TO: "Haim, Dreyfuss" <haim.dreyfuss@intel.com>
+CC: Gregory Greenman <gregory.greenman@intel.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   38f8ccde04a3fa317b51b05e63c3cb57e1641931
-commit: f8572bb675250ee527d9ba35fa1ce17480407399 drm/i915/hwmon: Add HWMON current voltage support
-date:   4 months ago
-:::::: branch date: 18 hours ago
-:::::: commit date: 4 months ago
-config: x86_64-randconfig-m001-20230213 (https://download.01.org/0day-ci/archive/20230219/202302190300.WEBzVXGI-lkp@intel.com/config)
+commit: b75dac847c9453d017d463a97e253416abf93d36 wifi: iwlwifi: mvm: trigger resume flow before wait for notifications
+date:   5 months ago
+:::::: branch date: 20 hours ago
+:::::: commit date: 5 months ago
+config: x86_64-randconfig-m001-20230213 (https://download.01.org/0day-ci/archive/20230219/202302190617.IFhxl8Fl-lkp@intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202302190300.WEBzVXGI-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202302190617.IFhxl8Fl-lkp@intel.com/
 
 smatch warnings:
-drivers/gpu/drm/i915/i915_hwmon.c:69 hwm_in_read() error: uninitialized symbol 'reg_value'.
+drivers/net/wireless/intel/iwlwifi/mvm/d3.c:2789 iwl_mvm_resume_firmware() error: uninitialized symbol 'd3_status'.
 
-vim +/reg_value +69 drivers/gpu/drm/i915/i915_hwmon.c
+vim +/d3_status +2789 drivers/net/wireless/intel/iwlwifi/mvm/d3.c
 
-f8572bb675250e Riana Tauro 2022-10-13  56  
-f8572bb675250e Riana Tauro 2022-10-13  57  static int
-f8572bb675250e Riana Tauro 2022-10-13  58  hwm_in_read(struct hwm_drvdata *ddat, u32 attr, long *val)
-f8572bb675250e Riana Tauro 2022-10-13  59  {
-f8572bb675250e Riana Tauro 2022-10-13  60  	struct i915_hwmon *hwmon = ddat->hwmon;
-f8572bb675250e Riana Tauro 2022-10-13  61  	intel_wakeref_t wakeref;
-f8572bb675250e Riana Tauro 2022-10-13  62  	u32 reg_value;
-f8572bb675250e Riana Tauro 2022-10-13  63  
-f8572bb675250e Riana Tauro 2022-10-13  64  	switch (attr) {
-f8572bb675250e Riana Tauro 2022-10-13  65  	case hwmon_in_input:
-f8572bb675250e Riana Tauro 2022-10-13  66  		with_intel_runtime_pm(ddat->uncore->rpm, wakeref)
-f8572bb675250e Riana Tauro 2022-10-13  67  			reg_value = intel_uncore_read(ddat->uncore, hwmon->rg.gt_perf_status);
-f8572bb675250e Riana Tauro 2022-10-13  68  		/* HW register value in units of 2.5 millivolt */
-f8572bb675250e Riana Tauro 2022-10-13 @69  		*val = DIV_ROUND_CLOSEST(REG_FIELD_GET(GEN12_VOLTAGE_MASK, reg_value) * 25, 10);
-f8572bb675250e Riana Tauro 2022-10-13  70  		return 0;
-f8572bb675250e Riana Tauro 2022-10-13  71  	default:
-f8572bb675250e Riana Tauro 2022-10-13  72  		return -EOPNOTSUPP;
-f8572bb675250e Riana Tauro 2022-10-13  73  	}
-f8572bb675250e Riana Tauro 2022-10-13  74  }
-f8572bb675250e Riana Tauro 2022-10-13  75  
+4da46a06d4430a Haim Dreyfuss  2022-09-06  2773  
+b75dac847c9453 Haim, Dreyfuss 2022-09-06  2774  static int iwl_mvm_resume_firmware(struct iwl_mvm *mvm, bool test)
+b75dac847c9453 Haim, Dreyfuss 2022-09-06  2775  {
+b75dac847c9453 Haim, Dreyfuss 2022-09-06  2776  	int ret;
+b75dac847c9453 Haim, Dreyfuss 2022-09-06  2777  	enum iwl_d3_status d3_status;
+b75dac847c9453 Haim, Dreyfuss 2022-09-06  2778  	struct iwl_host_cmd cmd = {
+b75dac847c9453 Haim, Dreyfuss 2022-09-06  2779  			.id = D0I3_END_CMD,
+b75dac847c9453 Haim, Dreyfuss 2022-09-06  2780  			.flags = CMD_WANT_SKB | CMD_SEND_IN_D3,
+b75dac847c9453 Haim, Dreyfuss 2022-09-06  2781  		};
+b75dac847c9453 Haim, Dreyfuss 2022-09-06  2782  	bool reset = fw_has_capa(&mvm->fw->ucode_capa,
+b75dac847c9453 Haim, Dreyfuss 2022-09-06  2783  				 IWL_UCODE_TLV_CAPA_CNSLDTD_D3_D0_IMG);
+b75dac847c9453 Haim, Dreyfuss 2022-09-06  2784  
+b75dac847c9453 Haim, Dreyfuss 2022-09-06  2785  	ret = iwl_trans_d3_resume(mvm->trans, &d3_status, test, !reset);
+b75dac847c9453 Haim, Dreyfuss 2022-09-06  2786  	if (ret)
+b75dac847c9453 Haim, Dreyfuss 2022-09-06  2787  		return ret;
+b75dac847c9453 Haim, Dreyfuss 2022-09-06  2788  
+b75dac847c9453 Haim, Dreyfuss 2022-09-06 @2789  	if (d3_status != IWL_D3_STATUS_ALIVE) {
+b75dac847c9453 Haim, Dreyfuss 2022-09-06  2790  		IWL_INFO(mvm, "Device was reset during suspend\n");
+b75dac847c9453 Haim, Dreyfuss 2022-09-06  2791  		return -ENOENT;
+b75dac847c9453 Haim, Dreyfuss 2022-09-06  2792  	}
+b75dac847c9453 Haim, Dreyfuss 2022-09-06  2793  
+b75dac847c9453 Haim, Dreyfuss 2022-09-06  2794  	/*
+b75dac847c9453 Haim, Dreyfuss 2022-09-06  2795  	 * We should trigger resume flow using command only for 22000 family
+b75dac847c9453 Haim, Dreyfuss 2022-09-06  2796  	 * AX210 and above don't need the command since they have
+b75dac847c9453 Haim, Dreyfuss 2022-09-06  2797  	 * the doorbell interrupt.
+b75dac847c9453 Haim, Dreyfuss 2022-09-06  2798  	 */
+b75dac847c9453 Haim, Dreyfuss 2022-09-06  2799  	if (mvm->trans->trans_cfg->device_family <= IWL_DEVICE_FAMILY_22000 &&
+b75dac847c9453 Haim, Dreyfuss 2022-09-06  2800  	    fw_has_capa(&mvm->fw->ucode_capa, IWL_UCODE_TLV_CAPA_D0I3_END_FIRST)) {
+b75dac847c9453 Haim, Dreyfuss 2022-09-06  2801  		ret = iwl_mvm_send_cmd(mvm, &cmd);
+b75dac847c9453 Haim, Dreyfuss 2022-09-06  2802  		if (ret < 0)
+b75dac847c9453 Haim, Dreyfuss 2022-09-06  2803  			IWL_ERR(mvm, "Failed to send D0I3_END_CMD first (%d)\n",
+b75dac847c9453 Haim, Dreyfuss 2022-09-06  2804  				ret);
+b75dac847c9453 Haim, Dreyfuss 2022-09-06  2805  	}
+b75dac847c9453 Haim, Dreyfuss 2022-09-06  2806  
+b75dac847c9453 Haim, Dreyfuss 2022-09-06  2807  	return ret;
+b75dac847c9453 Haim, Dreyfuss 2022-09-06  2808  }
+b75dac847c9453 Haim, Dreyfuss 2022-09-06  2809  
 
 -- 
 0-DAY CI Kernel Test Service
