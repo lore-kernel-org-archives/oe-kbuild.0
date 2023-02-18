@@ -1,113 +1,250 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2199946A
-	for <oe-kbuild@lists.linux.dev>; Fri, 17 Feb 2023 22:24:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DF2462F
+	for <oe-kbuild@lists.linux.dev>; Sat, 18 Feb 2023 03:49:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676672677; x=1708208677;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=lqcrO5rs2py3hNUpI8XReNgXtZxKo8MNTIdbosFaLkg=;
-  b=Kpsj0uqXtnOZQ9DyJhJ+MKdhe7tG7eRD8m7l3UkQwWfs5v2S72uvy4US
-   rjwbypEMu5jZnXhUEkggv+XSw8NCNlHk/cBvfNiqHkaj2Z/nTOLJcR5Lo
-   TYxrD8GP/CMZm+bgUflmDhHMX3mgtc6ukAH8tF4OHCXfXXDK7ffmywlS/
-   5eAXqd+fAr1By09p6eyzNFYs2IK9SLD9LS80HhTR8gXiXl2Z0UzvNhjfL
-   qZnxMNUhv+M6roOuVSmVyEIarlpaTHcUy0FXA4l1XlK40wQtH5F6sca1o
-   4jvZga78t7g97Vy1VDU/rEATkBRlSDEGCf1MyVtWtIgQuMHaADIzjkgjR
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10624"; a="311732429"
+  t=1676692191; x=1708228191;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=b9POTIdW1CxAHx9zE9FjqMv7qpfWFrxwTyZXOOFvBNY=;
+  b=KoJBsyqzuWkhsvGe3M7gB2HBAvo1284NvVjNMbapwXkR9agTEG+sPzE6
+   y4wtNISxH9uGQ1tH95NQ5vINBSJ2o2c5vSH6QN1MZpPra9IQ3kv5BqjQU
+   8lzzzb3UinyROxP3w6fxEMZbnhUnWsRj9rzgP72kDuLoaS7lH5TndTKrL
+   n7dRPzfqctEL2MEkZoW3Yp6vlmEszvV3hN843jGhjdykL8p0Sd39TJqYZ
+   BHYreMavrVvlIaRblrDjfFC0NkTtOFXsfedte46IfqdC4E3C9hH5I3pC+
+   QnnJQbC5eszB7QXHnDXubiYOmo2n8fRZn7q1o96HmvTvo7I9REdLw5GKO
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10624"; a="312506146"
 X-IronPort-AV: E=Sophos;i="5.97,306,1669104000"; 
-   d="scan'208";a="311732429"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2023 14:24:37 -0800
+   d="scan'208";a="312506146"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2023 19:49:48 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10624"; a="779925435"
+X-IronPort-AV: E=McAfee;i="6500,9779,10624"; a="648281669"
 X-IronPort-AV: E=Sophos;i="5.97,306,1669104000"; 
-   d="scan'208";a="779925435"
+   d="scan'208";a="648281669"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 17 Feb 2023 14:24:36 -0800
+  by orsmga006.jf.intel.com with ESMTP; 17 Feb 2023 19:49:47 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pT99f-000BrZ-1N;
-	Fri, 17 Feb 2023 22:24:35 +0000
-Date: Sat, 18 Feb 2023 06:23:44 +0800
+	id 1pTEEM-000C65-0n;
+	Sat, 18 Feb 2023 03:49:46 +0000
+Date: Sat, 18 Feb 2023 11:49:18 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/net/wireless/intel/iwlwifi/mvm/d3.c:2789
- iwl_mvm_resume_firmware() error: uninitialized symbol 'd3_status'.
-Message-ID: <202302180658.bRNkgpPl-lkp@intel.com>
+Subject: drivers/gpu/drm/i915/display/skl_watermark.c:1522
+ skl_crtc_allocate_plane_ddb() error: uninitialized symbol 'blocks'.
+Message-ID: <202302181116.UQiZdVCp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: "Haim, Dreyfuss" <haim.dreyfuss@intel.com>
-CC: Gregory Greenman <gregory.greenman@intel.com>
+TO: "Ville Syrjälä" <ville.syrjala@linux.intel.com>
+CC: Jani Nikula <jani.nikula@intel.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   ec35307e18ba8174e2a3f701956059f6a36f22fb
-commit: b75dac847c9453d017d463a97e253416abf93d36 wifi: iwlwifi: mvm: trigger resume flow before wait for notifications
+head:   38f8ccde04a3fa317b51b05e63c3cb57e1641931
+commit: 42a0d256496f4526046b9779ea6e49018b58f779 drm/i915: Extract skl_watermark.c
 date:   5 months ago
-:::::: branch date: 18 hours ago
+:::::: branch date: 2 hours ago
 :::::: commit date: 5 months ago
-config: x86_64-randconfig-m001-20230213 (https://download.01.org/0day-ci/archive/20230218/202302180658.bRNkgpPl-lkp@intel.com/config)
+config: x86_64-randconfig-m001-20230213 (https://download.01.org/0day-ci/archive/20230218/202302181116.UQiZdVCp-lkp@intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202302180658.bRNkgpPl-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202302181116.UQiZdVCp-lkp@intel.com/
 
 smatch warnings:
-drivers/net/wireless/intel/iwlwifi/mvm/d3.c:2789 iwl_mvm_resume_firmware() error: uninitialized symbol 'd3_status'.
+drivers/gpu/drm/i915/display/skl_watermark.c:1522 skl_crtc_allocate_plane_ddb() error: uninitialized symbol 'blocks'.
 
-vim +/d3_status +2789 drivers/net/wireless/intel/iwlwifi/mvm/d3.c
+vim +/blocks +1522 drivers/gpu/drm/i915/display/skl_watermark.c
 
-4da46a06d4430a Haim Dreyfuss  2022-09-06  2773  
-b75dac847c9453 Haim, Dreyfuss 2022-09-06  2774  static int iwl_mvm_resume_firmware(struct iwl_mvm *mvm, bool test)
-b75dac847c9453 Haim, Dreyfuss 2022-09-06  2775  {
-b75dac847c9453 Haim, Dreyfuss 2022-09-06  2776  	int ret;
-b75dac847c9453 Haim, Dreyfuss 2022-09-06  2777  	enum iwl_d3_status d3_status;
-b75dac847c9453 Haim, Dreyfuss 2022-09-06  2778  	struct iwl_host_cmd cmd = {
-b75dac847c9453 Haim, Dreyfuss 2022-09-06  2779  			.id = D0I3_END_CMD,
-b75dac847c9453 Haim, Dreyfuss 2022-09-06  2780  			.flags = CMD_WANT_SKB | CMD_SEND_IN_D3,
-b75dac847c9453 Haim, Dreyfuss 2022-09-06  2781  		};
-b75dac847c9453 Haim, Dreyfuss 2022-09-06  2782  	bool reset = fw_has_capa(&mvm->fw->ucode_capa,
-b75dac847c9453 Haim, Dreyfuss 2022-09-06  2783  				 IWL_UCODE_TLV_CAPA_CNSLDTD_D3_D0_IMG);
-b75dac847c9453 Haim, Dreyfuss 2022-09-06  2784  
-b75dac847c9453 Haim, Dreyfuss 2022-09-06  2785  	ret = iwl_trans_d3_resume(mvm->trans, &d3_status, test, !reset);
-b75dac847c9453 Haim, Dreyfuss 2022-09-06  2786  	if (ret)
-b75dac847c9453 Haim, Dreyfuss 2022-09-06  2787  		return ret;
-b75dac847c9453 Haim, Dreyfuss 2022-09-06  2788  
-b75dac847c9453 Haim, Dreyfuss 2022-09-06 @2789  	if (d3_status != IWL_D3_STATUS_ALIVE) {
-b75dac847c9453 Haim, Dreyfuss 2022-09-06  2790  		IWL_INFO(mvm, "Device was reset during suspend\n");
-b75dac847c9453 Haim, Dreyfuss 2022-09-06  2791  		return -ENOENT;
-b75dac847c9453 Haim, Dreyfuss 2022-09-06  2792  	}
-b75dac847c9453 Haim, Dreyfuss 2022-09-06  2793  
-b75dac847c9453 Haim, Dreyfuss 2022-09-06  2794  	/*
-b75dac847c9453 Haim, Dreyfuss 2022-09-06  2795  	 * We should trigger resume flow using command only for 22000 family
-b75dac847c9453 Haim, Dreyfuss 2022-09-06  2796  	 * AX210 and above don't need the command since they have
-b75dac847c9453 Haim, Dreyfuss 2022-09-06  2797  	 * the doorbell interrupt.
-b75dac847c9453 Haim, Dreyfuss 2022-09-06  2798  	 */
-b75dac847c9453 Haim, Dreyfuss 2022-09-06  2799  	if (mvm->trans->trans_cfg->device_family <= IWL_DEVICE_FAMILY_22000 &&
-b75dac847c9453 Haim, Dreyfuss 2022-09-06  2800  	    fw_has_capa(&mvm->fw->ucode_capa, IWL_UCODE_TLV_CAPA_D0I3_END_FIRST)) {
-b75dac847c9453 Haim, Dreyfuss 2022-09-06  2801  		ret = iwl_mvm_send_cmd(mvm, &cmd);
-b75dac847c9453 Haim, Dreyfuss 2022-09-06  2802  		if (ret < 0)
-b75dac847c9453 Haim, Dreyfuss 2022-09-06  2803  			IWL_ERR(mvm, "Failed to send D0I3_END_CMD first (%d)\n",
-b75dac847c9453 Haim, Dreyfuss 2022-09-06  2804  				ret);
-b75dac847c9453 Haim, Dreyfuss 2022-09-06  2805  	}
-b75dac847c9453 Haim, Dreyfuss 2022-09-06  2806  
-b75dac847c9453 Haim, Dreyfuss 2022-09-06  2807  	return ret;
-b75dac847c9453 Haim, Dreyfuss 2022-09-06  2808  }
-b75dac847c9453 Haim, Dreyfuss 2022-09-06  2809  
+42a0d256496f45 Ville Syrjälä 2022-09-08  1448  
+42a0d256496f45 Ville Syrjälä 2022-09-08  1449  static int
+42a0d256496f45 Ville Syrjälä 2022-09-08  1450  skl_crtc_allocate_plane_ddb(struct intel_atomic_state *state,
+42a0d256496f45 Ville Syrjälä 2022-09-08  1451  			    struct intel_crtc *crtc)
+42a0d256496f45 Ville Syrjälä 2022-09-08  1452  {
+42a0d256496f45 Ville Syrjälä 2022-09-08  1453  	struct drm_i915_private *i915 = to_i915(crtc->base.dev);
+42a0d256496f45 Ville Syrjälä 2022-09-08  1454  	struct intel_crtc_state *crtc_state =
+42a0d256496f45 Ville Syrjälä 2022-09-08  1455  		intel_atomic_get_new_crtc_state(state, crtc);
+42a0d256496f45 Ville Syrjälä 2022-09-08  1456  	const struct intel_dbuf_state *dbuf_state =
+42a0d256496f45 Ville Syrjälä 2022-09-08  1457  		intel_atomic_get_new_dbuf_state(state);
+42a0d256496f45 Ville Syrjälä 2022-09-08  1458  	const struct skl_ddb_entry *alloc = &dbuf_state->ddb[crtc->pipe];
+42a0d256496f45 Ville Syrjälä 2022-09-08  1459  	int num_active = hweight8(dbuf_state->active_pipes);
+42a0d256496f45 Ville Syrjälä 2022-09-08  1460  	struct skl_plane_ddb_iter iter;
+42a0d256496f45 Ville Syrjälä 2022-09-08  1461  	enum plane_id plane_id;
+42a0d256496f45 Ville Syrjälä 2022-09-08  1462  	u16 cursor_size;
+42a0d256496f45 Ville Syrjälä 2022-09-08  1463  	u32 blocks;
+42a0d256496f45 Ville Syrjälä 2022-09-08  1464  	int level;
+42a0d256496f45 Ville Syrjälä 2022-09-08  1465  
+42a0d256496f45 Ville Syrjälä 2022-09-08  1466  	/* Clear the partitioning for disabled planes. */
+42a0d256496f45 Ville Syrjälä 2022-09-08  1467  	memset(crtc_state->wm.skl.plane_ddb, 0, sizeof(crtc_state->wm.skl.plane_ddb));
+42a0d256496f45 Ville Syrjälä 2022-09-08  1468  	memset(crtc_state->wm.skl.plane_ddb_y, 0, sizeof(crtc_state->wm.skl.plane_ddb_y));
+42a0d256496f45 Ville Syrjälä 2022-09-08  1469  
+42a0d256496f45 Ville Syrjälä 2022-09-08  1470  	if (!crtc_state->hw.active)
+42a0d256496f45 Ville Syrjälä 2022-09-08  1471  		return 0;
+42a0d256496f45 Ville Syrjälä 2022-09-08  1472  
+42a0d256496f45 Ville Syrjälä 2022-09-08  1473  	iter.start = alloc->start;
+42a0d256496f45 Ville Syrjälä 2022-09-08  1474  	iter.size = skl_ddb_entry_size(alloc);
+42a0d256496f45 Ville Syrjälä 2022-09-08  1475  	if (iter.size == 0)
+42a0d256496f45 Ville Syrjälä 2022-09-08  1476  		return 0;
+42a0d256496f45 Ville Syrjälä 2022-09-08  1477  
+42a0d256496f45 Ville Syrjälä 2022-09-08  1478  	/* Allocate fixed number of blocks for cursor. */
+42a0d256496f45 Ville Syrjälä 2022-09-08  1479  	cursor_size = skl_cursor_allocation(crtc_state, num_active);
+42a0d256496f45 Ville Syrjälä 2022-09-08  1480  	iter.size -= cursor_size;
+42a0d256496f45 Ville Syrjälä 2022-09-08  1481  	skl_ddb_entry_init(&crtc_state->wm.skl.plane_ddb[PLANE_CURSOR],
+42a0d256496f45 Ville Syrjälä 2022-09-08  1482  			   alloc->end - cursor_size, alloc->end);
+42a0d256496f45 Ville Syrjälä 2022-09-08  1483  
+42a0d256496f45 Ville Syrjälä 2022-09-08  1484  	iter.data_rate = skl_total_relative_data_rate(crtc_state);
+42a0d256496f45 Ville Syrjälä 2022-09-08  1485  
+42a0d256496f45 Ville Syrjälä 2022-09-08  1486  	/*
+42a0d256496f45 Ville Syrjälä 2022-09-08  1487  	 * Find the highest watermark level for which we can satisfy the block
+42a0d256496f45 Ville Syrjälä 2022-09-08  1488  	 * requirement of active planes.
+42a0d256496f45 Ville Syrjälä 2022-09-08  1489  	 */
+42a0d256496f45 Ville Syrjälä 2022-09-08  1490  	for (level = ilk_wm_max_level(i915); level >= 0; level--) {
+42a0d256496f45 Ville Syrjälä 2022-09-08  1491  		blocks = 0;
+42a0d256496f45 Ville Syrjälä 2022-09-08  1492  		for_each_plane_id_on_crtc(crtc, plane_id) {
+42a0d256496f45 Ville Syrjälä 2022-09-08  1493  			const struct skl_plane_wm *wm =
+42a0d256496f45 Ville Syrjälä 2022-09-08  1494  				&crtc_state->wm.skl.optimal.planes[plane_id];
+42a0d256496f45 Ville Syrjälä 2022-09-08  1495  
+42a0d256496f45 Ville Syrjälä 2022-09-08  1496  			if (plane_id == PLANE_CURSOR) {
+42a0d256496f45 Ville Syrjälä 2022-09-08  1497  				const struct skl_ddb_entry *ddb =
+42a0d256496f45 Ville Syrjälä 2022-09-08  1498  					&crtc_state->wm.skl.plane_ddb[plane_id];
+42a0d256496f45 Ville Syrjälä 2022-09-08  1499  
+42a0d256496f45 Ville Syrjälä 2022-09-08  1500  				if (wm->wm[level].min_ddb_alloc > skl_ddb_entry_size(ddb)) {
+42a0d256496f45 Ville Syrjälä 2022-09-08  1501  					drm_WARN_ON(&i915->drm,
+42a0d256496f45 Ville Syrjälä 2022-09-08  1502  						    wm->wm[level].min_ddb_alloc != U16_MAX);
+42a0d256496f45 Ville Syrjälä 2022-09-08  1503  					blocks = U32_MAX;
+42a0d256496f45 Ville Syrjälä 2022-09-08  1504  					break;
+42a0d256496f45 Ville Syrjälä 2022-09-08  1505  				}
+42a0d256496f45 Ville Syrjälä 2022-09-08  1506  				continue;
+42a0d256496f45 Ville Syrjälä 2022-09-08  1507  			}
+42a0d256496f45 Ville Syrjälä 2022-09-08  1508  
+42a0d256496f45 Ville Syrjälä 2022-09-08  1509  			blocks += wm->wm[level].min_ddb_alloc;
+42a0d256496f45 Ville Syrjälä 2022-09-08  1510  			blocks += wm->uv_wm[level].min_ddb_alloc;
+42a0d256496f45 Ville Syrjälä 2022-09-08  1511  		}
+42a0d256496f45 Ville Syrjälä 2022-09-08  1512  
+42a0d256496f45 Ville Syrjälä 2022-09-08  1513  		if (blocks <= iter.size) {
+42a0d256496f45 Ville Syrjälä 2022-09-08  1514  			iter.size -= blocks;
+42a0d256496f45 Ville Syrjälä 2022-09-08  1515  			break;
+42a0d256496f45 Ville Syrjälä 2022-09-08  1516  		}
+42a0d256496f45 Ville Syrjälä 2022-09-08  1517  	}
+42a0d256496f45 Ville Syrjälä 2022-09-08  1518  
+42a0d256496f45 Ville Syrjälä 2022-09-08  1519  	if (level < 0) {
+42a0d256496f45 Ville Syrjälä 2022-09-08  1520  		drm_dbg_kms(&i915->drm,
+42a0d256496f45 Ville Syrjälä 2022-09-08  1521  			    "Requested display configuration exceeds system DDB limitations");
+42a0d256496f45 Ville Syrjälä 2022-09-08 @1522  		drm_dbg_kms(&i915->drm, "minimum required %d/%d\n",
+42a0d256496f45 Ville Syrjälä 2022-09-08  1523  			    blocks, iter.size);
+42a0d256496f45 Ville Syrjälä 2022-09-08  1524  		return -EINVAL;
+42a0d256496f45 Ville Syrjälä 2022-09-08  1525  	}
+42a0d256496f45 Ville Syrjälä 2022-09-08  1526  
+42a0d256496f45 Ville Syrjälä 2022-09-08  1527  	/* avoid the WARN later when we don't allocate any extra DDB */
+42a0d256496f45 Ville Syrjälä 2022-09-08  1528  	if (iter.data_rate == 0)
+42a0d256496f45 Ville Syrjälä 2022-09-08  1529  		iter.size = 0;
+42a0d256496f45 Ville Syrjälä 2022-09-08  1530  
+42a0d256496f45 Ville Syrjälä 2022-09-08  1531  	/*
+42a0d256496f45 Ville Syrjälä 2022-09-08  1532  	 * Grant each plane the blocks it requires at the highest achievable
+42a0d256496f45 Ville Syrjälä 2022-09-08  1533  	 * watermark level, plus an extra share of the leftover blocks
+42a0d256496f45 Ville Syrjälä 2022-09-08  1534  	 * proportional to its relative data rate.
+42a0d256496f45 Ville Syrjälä 2022-09-08  1535  	 */
+42a0d256496f45 Ville Syrjälä 2022-09-08  1536  	for_each_plane_id_on_crtc(crtc, plane_id) {
+42a0d256496f45 Ville Syrjälä 2022-09-08  1537  		struct skl_ddb_entry *ddb =
+42a0d256496f45 Ville Syrjälä 2022-09-08  1538  			&crtc_state->wm.skl.plane_ddb[plane_id];
+42a0d256496f45 Ville Syrjälä 2022-09-08  1539  		struct skl_ddb_entry *ddb_y =
+42a0d256496f45 Ville Syrjälä 2022-09-08  1540  			&crtc_state->wm.skl.plane_ddb_y[plane_id];
+42a0d256496f45 Ville Syrjälä 2022-09-08  1541  		const struct skl_plane_wm *wm =
+42a0d256496f45 Ville Syrjälä 2022-09-08  1542  			&crtc_state->wm.skl.optimal.planes[plane_id];
+42a0d256496f45 Ville Syrjälä 2022-09-08  1543  
+42a0d256496f45 Ville Syrjälä 2022-09-08  1544  		if (plane_id == PLANE_CURSOR)
+42a0d256496f45 Ville Syrjälä 2022-09-08  1545  			continue;
+42a0d256496f45 Ville Syrjälä 2022-09-08  1546  
+42a0d256496f45 Ville Syrjälä 2022-09-08  1547  		if (DISPLAY_VER(i915) < 11 &&
+42a0d256496f45 Ville Syrjälä 2022-09-08  1548  		    crtc_state->nv12_planes & BIT(plane_id)) {
+42a0d256496f45 Ville Syrjälä 2022-09-08  1549  			skl_allocate_plane_ddb(&iter, ddb_y, &wm->wm[level],
+42a0d256496f45 Ville Syrjälä 2022-09-08  1550  					       crtc_state->rel_data_rate_y[plane_id]);
+42a0d256496f45 Ville Syrjälä 2022-09-08  1551  			skl_allocate_plane_ddb(&iter, ddb, &wm->uv_wm[level],
+42a0d256496f45 Ville Syrjälä 2022-09-08  1552  					       crtc_state->rel_data_rate[plane_id]);
+42a0d256496f45 Ville Syrjälä 2022-09-08  1553  		} else {
+42a0d256496f45 Ville Syrjälä 2022-09-08  1554  			skl_allocate_plane_ddb(&iter, ddb, &wm->wm[level],
+42a0d256496f45 Ville Syrjälä 2022-09-08  1555  					       crtc_state->rel_data_rate[plane_id]);
+42a0d256496f45 Ville Syrjälä 2022-09-08  1556  		}
+42a0d256496f45 Ville Syrjälä 2022-09-08  1557  	}
+42a0d256496f45 Ville Syrjälä 2022-09-08  1558  	drm_WARN_ON(&i915->drm, iter.size != 0 || iter.data_rate != 0);
+42a0d256496f45 Ville Syrjälä 2022-09-08  1559  
+42a0d256496f45 Ville Syrjälä 2022-09-08  1560  	/*
+42a0d256496f45 Ville Syrjälä 2022-09-08  1561  	 * When we calculated watermark values we didn't know how high
+42a0d256496f45 Ville Syrjälä 2022-09-08  1562  	 * of a level we'd actually be able to hit, so we just marked
+42a0d256496f45 Ville Syrjälä 2022-09-08  1563  	 * all levels as "enabled."  Go back now and disable the ones
+42a0d256496f45 Ville Syrjälä 2022-09-08  1564  	 * that aren't actually possible.
+42a0d256496f45 Ville Syrjälä 2022-09-08  1565  	 */
+42a0d256496f45 Ville Syrjälä 2022-09-08  1566  	for (level++; level <= ilk_wm_max_level(i915); level++) {
+42a0d256496f45 Ville Syrjälä 2022-09-08  1567  		for_each_plane_id_on_crtc(crtc, plane_id) {
+42a0d256496f45 Ville Syrjälä 2022-09-08  1568  			const struct skl_ddb_entry *ddb =
+42a0d256496f45 Ville Syrjälä 2022-09-08  1569  				&crtc_state->wm.skl.plane_ddb[plane_id];
+42a0d256496f45 Ville Syrjälä 2022-09-08  1570  			const struct skl_ddb_entry *ddb_y =
+42a0d256496f45 Ville Syrjälä 2022-09-08  1571  				&crtc_state->wm.skl.plane_ddb_y[plane_id];
+42a0d256496f45 Ville Syrjälä 2022-09-08  1572  			struct skl_plane_wm *wm =
+42a0d256496f45 Ville Syrjälä 2022-09-08  1573  				&crtc_state->wm.skl.optimal.planes[plane_id];
+42a0d256496f45 Ville Syrjälä 2022-09-08  1574  
+42a0d256496f45 Ville Syrjälä 2022-09-08  1575  			if (DISPLAY_VER(i915) < 11 &&
+42a0d256496f45 Ville Syrjälä 2022-09-08  1576  			    crtc_state->nv12_planes & BIT(plane_id))
+42a0d256496f45 Ville Syrjälä 2022-09-08  1577  				skl_check_nv12_wm_level(&wm->wm[level],
+42a0d256496f45 Ville Syrjälä 2022-09-08  1578  							&wm->uv_wm[level],
+42a0d256496f45 Ville Syrjälä 2022-09-08  1579  							ddb_y, ddb);
+42a0d256496f45 Ville Syrjälä 2022-09-08  1580  			else
+42a0d256496f45 Ville Syrjälä 2022-09-08  1581  				skl_check_wm_level(&wm->wm[level], ddb);
+42a0d256496f45 Ville Syrjälä 2022-09-08  1582  
+42a0d256496f45 Ville Syrjälä 2022-09-08  1583  			if (icl_need_wm1_wa(i915, plane_id) &&
+42a0d256496f45 Ville Syrjälä 2022-09-08  1584  			    level == 1 && wm->wm[0].enable) {
+42a0d256496f45 Ville Syrjälä 2022-09-08  1585  				wm->wm[level].blocks = wm->wm[0].blocks;
+42a0d256496f45 Ville Syrjälä 2022-09-08  1586  				wm->wm[level].lines = wm->wm[0].lines;
+42a0d256496f45 Ville Syrjälä 2022-09-08  1587  				wm->wm[level].ignore_lines = wm->wm[0].ignore_lines;
+42a0d256496f45 Ville Syrjälä 2022-09-08  1588  			}
+42a0d256496f45 Ville Syrjälä 2022-09-08  1589  		}
+42a0d256496f45 Ville Syrjälä 2022-09-08  1590  	}
+42a0d256496f45 Ville Syrjälä 2022-09-08  1591  
+42a0d256496f45 Ville Syrjälä 2022-09-08  1592  	/*
+42a0d256496f45 Ville Syrjälä 2022-09-08  1593  	 * Go back and disable the transition and SAGV watermarks
+42a0d256496f45 Ville Syrjälä 2022-09-08  1594  	 * if it turns out we don't have enough DDB blocks for them.
+42a0d256496f45 Ville Syrjälä 2022-09-08  1595  	 */
+42a0d256496f45 Ville Syrjälä 2022-09-08  1596  	for_each_plane_id_on_crtc(crtc, plane_id) {
+42a0d256496f45 Ville Syrjälä 2022-09-08  1597  		const struct skl_ddb_entry *ddb =
+42a0d256496f45 Ville Syrjälä 2022-09-08  1598  			&crtc_state->wm.skl.plane_ddb[plane_id];
+42a0d256496f45 Ville Syrjälä 2022-09-08  1599  		const struct skl_ddb_entry *ddb_y =
+42a0d256496f45 Ville Syrjälä 2022-09-08  1600  			&crtc_state->wm.skl.plane_ddb_y[plane_id];
+42a0d256496f45 Ville Syrjälä 2022-09-08  1601  		struct skl_plane_wm *wm =
+42a0d256496f45 Ville Syrjälä 2022-09-08  1602  			&crtc_state->wm.skl.optimal.planes[plane_id];
+42a0d256496f45 Ville Syrjälä 2022-09-08  1603  
+42a0d256496f45 Ville Syrjälä 2022-09-08  1604  		if (DISPLAY_VER(i915) < 11 &&
+42a0d256496f45 Ville Syrjälä 2022-09-08  1605  		    crtc_state->nv12_planes & BIT(plane_id)) {
+42a0d256496f45 Ville Syrjälä 2022-09-08  1606  			skl_check_wm_level(&wm->trans_wm, ddb_y);
+42a0d256496f45 Ville Syrjälä 2022-09-08  1607  		} else {
+42a0d256496f45 Ville Syrjälä 2022-09-08  1608  			WARN_ON(skl_ddb_entry_size(ddb_y));
+42a0d256496f45 Ville Syrjälä 2022-09-08  1609  
+42a0d256496f45 Ville Syrjälä 2022-09-08  1610  			skl_check_wm_level(&wm->trans_wm, ddb);
+42a0d256496f45 Ville Syrjälä 2022-09-08  1611  		}
+42a0d256496f45 Ville Syrjälä 2022-09-08  1612  
+42a0d256496f45 Ville Syrjälä 2022-09-08  1613  		skl_check_wm_level(&wm->sagv.wm0, ddb);
+42a0d256496f45 Ville Syrjälä 2022-09-08  1614  		skl_check_wm_level(&wm->sagv.trans_wm, ddb);
+42a0d256496f45 Ville Syrjälä 2022-09-08  1615  	}
+42a0d256496f45 Ville Syrjälä 2022-09-08  1616  
+42a0d256496f45 Ville Syrjälä 2022-09-08  1617  	return 0;
+42a0d256496f45 Ville Syrjälä 2022-09-08  1618  }
+42a0d256496f45 Ville Syrjälä 2022-09-08  1619  
 
 -- 
 0-DAY CI Kernel Test Service
