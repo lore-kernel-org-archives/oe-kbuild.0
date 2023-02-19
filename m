@@ -1,43 +1,42 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57C69629
-	for <oe-kbuild@lists.linux.dev>; Sun, 19 Feb 2023 11:58:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFCBB1367
+	for <oe-kbuild@lists.linux.dev>; Sun, 19 Feb 2023 12:49:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676807920; x=1708343920;
+  t=1676810978; x=1708346978;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=9HgAayMEf0O3U2fp6KZu39WvxH1m12qSFFtDbf4jfxQ=;
-  b=Io6MjCHBWlllJdn32ZiCJ5KM3gyXaW33XFIUjKLY/v5FEUpFZiD6P9Ap
-   xPrI0hIAp1Z3vDCZJfhZHP0jJVhSX/h6d49BZVaIYB5jwMkGR1qpTnRkf
-   WlGVwmrnU/5zOylDVA9VKI7enNgGwUVa3zvXXORAbTKdMMXkmWWhAHxHy
-   G7/TWSATeDHosULaTo0qLqJX9vq8pI+4B1yp0qkOkW/OVj3jYtgyA9vFY
-   T3Ky47nOkM3KJm6Bdj9wr6PbDktpwU8nObSE3B7yiQqTgThZ2TlmKqOom
-   y/kP23/csNrZsV3jI9NmnSZ2sYgH+206vHItgsTFObtLwvl1ry7LaXQtM
+  bh=bGIHcnIjbwpmerbbuuCStvh4uZIkECu3zp2NnvC8plo=;
+  b=O5OsNhmOFbQsc1hqBFxS2+wRs30v9Km6DQGk/Mscqph5r/lVpOVu8Max
+   ElRzhnzXYlASSGd1KE6nN16foQwrGNS5N7hiplMaSk/Uyuw0sP8936Drt
+   QquZ+WaPx6VOn4uWHCSzVN7pqIR4tfJtGxkSlwtQYWZHB5FIoOEbQdMKe
+   w/AFVE3LGsdLe5PbjEKRH/y8PvNTzry8aKikRSpQpoDH9QVLnNeW8bO0c
+   MVAmwvA1VW85qXp+GdCNkW+nDZcx2meIOCBak85u/7klqSbDGagEgC2e1
+   ESiSzNSTqWhYactTGGCeCyMfKcu1hPJAk3HHCFoEitnB/N/xPQMlyBQQB
    A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10625"; a="394727034"
+X-IronPort-AV: E=McAfee;i="6500,9779,10625"; a="312614129"
 X-IronPort-AV: E=Sophos;i="5.97,310,1669104000"; 
-   d="scan'208";a="394727034"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2023 03:58:37 -0800
+   d="scan'208";a="312614129"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2023 04:49:38 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10625"; a="813848573"
+X-IronPort-AV: E=McAfee;i="6500,9779,10625"; a="673091190"
 X-IronPort-AV: E=Sophos;i="5.97,310,1669104000"; 
-   d="scan'208";a="813848573"
+   d="scan'208";a="673091190"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 19 Feb 2023 03:58:36 -0800
+  by fmsmga007.fm.intel.com with ESMTP; 19 Feb 2023 04:49:37 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pTiKx-000DHe-1y;
-	Sun, 19 Feb 2023 11:58:35 +0000
-Date: Sun, 19 Feb 2023 19:57:51 +0800
+	id 1pTj8K-000DIX-1A;
+	Sun, 19 Feb 2023 12:49:36 +0000
+Date: Sun, 19 Feb 2023 20:49:12 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [linux-next:master 9495/13499]
- drivers/power/supply/rt9467-charger.c:379:4: warning: Value stored to
- 'value' is never read [clang-analyzer-deadcode.DeadStores]
-Message-ID: <202302191948.V9lrLeQJ-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: drivers/gpu/drm/i915/gt/intel_gt_mcr.c:297 rw_with_mcr_steering_fw()
+ error: uninitialized symbol 'old_mcr'.
+Message-ID: <202302192016.QUogcHQP-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -47,275 +46,121 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "low confidence static check warning: drivers/power/supply/rt9467-charger.c:379:4: warning: Value stored to 'value' is never read [clang-analyzer-deadcode.DeadStores]"
-:::::: 
-
 BCC: lkp@intel.com
-CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: ChiaEn Wu <chiaen_wu@richtek.com>
-CC: Sebastian Reichel <sebastian.reichel@collabora.com>
-CC: ChiYuan Huang <cy_huang@richtek.com>
+CC: linux-kernel@vger.kernel.org
+TO: Matt Roper <matthew.d.roper@intel.com>
+CC: Balasubramani Vivekanandan <balasubramani.vivekanandan@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   c068f40300a0eaa34f7105d137a5560b86951aa9
-commit: 6f7f70e3a8dd1fbce95eaea2a8eff70f01363c00 [9495/13499] power: supply: rt9467: Add Richtek RT9467 charger driver
-:::::: branch date: 2 days ago
-:::::: commit date: 2 weeks ago
-config: arm-randconfig-c002-20230218 (https://download.01.org/0day-ci/archive/20230219/202302191948.V9lrLeQJ-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project db89896bbbd2251fff457699635acbbedeead27f)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=6f7f70e3a8dd1fbce95eaea2a8eff70f01363c00
-        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
-        git fetch --no-tags linux-next master
-        git checkout 6f7f70e3a8dd1fbce95eaea2a8eff70f01363c00
-        # save the config file
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=arm clang-analyzer  olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=arm clang-analyzer 
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   925cf0457d7e62ce08878ffb789189ac08ca8677
+commit: f32898c94a105c221e6fe957aee833e7fc98f95f drm/i915/xelpg: Add multicast steering
+date:   4 months ago
+:::::: branch date: 11 hours ago
+:::::: commit date: 4 months ago
+config: x86_64-randconfig-m001-20230213 (https://download.01.org/0day-ci/archive/20230219/202302192016.QUogcHQP-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/r/202302191948.V9lrLeQJ-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Link: https://lore.kernel.org/r/202302192016.QUogcHQP-lkp@intel.com/
 
-clang_analyzer warnings: (new ones prefixed by >>)
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   drivers/hwmon/lm75.h:31:29: warning: The result of the left shift is undefined because the left operand is negative [clang-analyzer-core.UndefinedBinaryOperatorResult]
-           return (u16)((ntemp / 500) << 7);
-                                      ^
-   drivers/hwmon/ad7418.c:166:6: note: Assuming 'ret' is >= 0
-           if (ret < 0)
-               ^~~~~~~
-   drivers/hwmon/ad7418.c:166:2: note: Taking false branch
-           if (ret < 0)
-           ^
-   drivers/hwmon/ad7418.c:170:28: note: Calling 'LM75_TEMP_TO_REG'
-           data->temp[attr->index] = LM75_TEMP_TO_REG(temp);
-                                     ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/hwmon/lm75.h:28:14: note: Assuming '__UNIQUE_ID___val252' is < '__UNIQUE_ID___hi254'
-           int ntemp = clamp_val(temp, LM75_TEMP_MIN, LM75_TEMP_MAX);
-                       ^
-   include/linux/minmax.h:159:32: note: expanded from macro 'clamp_val'
-   #define clamp_val(val, lo, hi) clamp_t(typeof(val), val, lo, hi)
-                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:146:36: note: expanded from macro 'clamp_t'
-   #define clamp_t(type, val, lo, hi) __careful_clamp((type)(val), (type)(lo), (type)(hi))
-                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:59:3: note: expanded from macro '__careful_clamp'
-                   __clamp_once(val, lo, hi, __UNIQUE_ID(__val),           \
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:47:3: note: expanded from macro '__clamp_once'
-                   __clamp(unique_val, unique_lo, unique_hi); })
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:41:3: note: expanded from macro '__clamp'
-           ((val) >= (hi) ? (hi) : ((val) <= (lo) ? (lo) : (val)))
-            ^~~~~~~~~~~~~
-   drivers/hwmon/lm75.h:28:14: note: '?' condition is false
-           int ntemp = clamp_val(temp, LM75_TEMP_MIN, LM75_TEMP_MAX);
-                       ^
-   include/linux/minmax.h:159:32: note: expanded from macro 'clamp_val'
-   #define clamp_val(val, lo, hi) clamp_t(typeof(val), val, lo, hi)
-                                  ^
-   include/linux/minmax.h:146:36: note: expanded from macro 'clamp_t'
-   #define clamp_t(type, val, lo, hi) __careful_clamp((type)(val), (type)(lo), (type)(hi))
-                                      ^
-   include/linux/minmax.h:59:3: note: expanded from macro '__careful_clamp'
-                   __clamp_once(val, lo, hi, __UNIQUE_ID(__val),           \
-                   ^
-   include/linux/minmax.h:47:3: note: expanded from macro '__clamp_once'
-                   __clamp(unique_val, unique_lo, unique_hi); })
-                   ^
-   include/linux/minmax.h:41:3: note: expanded from macro '__clamp'
-           ((val) >= (hi) ? (hi) : ((val) <= (lo) ? (lo) : (val)))
-            ^
-   drivers/hwmon/lm75.h:28:14: note: Assuming '__UNIQUE_ID___val252' is <= '__UNIQUE_ID___lo253'
-           int ntemp = clamp_val(temp, LM75_TEMP_MIN, LM75_TEMP_MAX);
-                       ^
-   include/linux/minmax.h:159:32: note: expanded from macro 'clamp_val'
-   #define clamp_val(val, lo, hi) clamp_t(typeof(val), val, lo, hi)
-                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:146:36: note: expanded from macro 'clamp_t'
-   #define clamp_t(type, val, lo, hi) __careful_clamp((type)(val), (type)(lo), (type)(hi))
-                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:59:3: note: expanded from macro '__careful_clamp'
-                   __clamp_once(val, lo, hi, __UNIQUE_ID(__val),           \
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:47:3: note: expanded from macro '__clamp_once'
-                   __clamp(unique_val, unique_lo, unique_hi); })
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:41:27: note: expanded from macro '__clamp'
-           ((val) >= (hi) ? (hi) : ((val) <= (lo) ? (lo) : (val)))
-                                    ^~~~~~~~~~~~~
-   drivers/hwmon/lm75.h:28:14: note: '?' condition is true
-           int ntemp = clamp_val(temp, LM75_TEMP_MIN, LM75_TEMP_MAX);
-                       ^
-   include/linux/minmax.h:159:32: note: expanded from macro 'clamp_val'
-   #define clamp_val(val, lo, hi) clamp_t(typeof(val), val, lo, hi)
-                                  ^
-   include/linux/minmax.h:146:36: note: expanded from macro 'clamp_t'
-   #define clamp_t(type, val, lo, hi) __careful_clamp((type)(val), (type)(lo), (type)(hi))
-                                      ^
-   include/linux/minmax.h:59:3: note: expanded from macro '__careful_clamp'
-                   __clamp_once(val, lo, hi, __UNIQUE_ID(__val),           \
-                   ^
-   include/linux/minmax.h:47:3: note: expanded from macro '__clamp_once'
-                   __clamp(unique_val, unique_lo, unique_hi); })
-                   ^
-   include/linux/minmax.h:41:27: note: expanded from macro '__clamp'
-           ((val) >= (hi) ? (hi) : ((val) <= (lo) ? (lo) : (val)))
-                                    ^
-   drivers/hwmon/lm75.h:30:12: note: 'ntemp' is < 0
-           ntemp += (ntemp < 0 ? -250 : 250);
-                     ^~~~~
-   drivers/hwmon/lm75.h:30:12: note: '?' condition is true
-   drivers/hwmon/lm75.h:31:29: note: The result of the left shift is undefined because the left operand is negative
-           return (u16)((ntemp / 500) << 7);
-                        ~~~~~~~~~~~~~ ^
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   3 warnings generated.
->> drivers/power/supply/rt9467-charger.c:379:4: warning: Value stored to 'value' is never read [clang-analyzer-deadcode.DeadStores]
-                           value = range->max_sel;
-                           ^       ~~~~~~~~~~~~~~
-   drivers/power/supply/rt9467-charger.c:379:4: note: Value stored to 'value' is never read
-                           value = range->max_sel;
-                           ^       ~~~~~~~~~~~~~~
->> drivers/power/supply/rt9467-charger.c:589:2: warning: Value stored to 'ret' is never read [clang-analyzer-deadcode.DeadStores]
-           ret = rt9467_set_value_from_ranges(data, F_AICL_VTH,
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/power/supply/rt9467-charger.c:589:2: note: Value stored to 'ret' is never read
-           ret = rt9467_set_value_from_ranges(data, F_AICL_VTH,
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   drivers/input/keyboard/bcm-keypad.c:169:2: warning: Value stored to 'val' is never read [clang-analyzer-deadcode.DeadStores]
-           val &= ~KPCR_ENABLE;
-           ^      ~~~~~~~~~~~~
-   drivers/input/keyboard/bcm-keypad.c:169:2: note: Value stored to 'val' is never read
-           val &= ~KPCR_ENABLE;
-           ^      ~~~~~~~~~~~~
-   Suppressed 2 warnings (1 in non-user code, 1 with check filters).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (1 in non-user code, 7 with check filters).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   drivers/input/keyboard/tca8418_keypad.c:241:15: warning: The result of the left shift is undefined because the left operand is negative [clang-analyzer-core.UndefinedBinaryOperatorResult]
-           reg += (~(~0 << cols)) << 8;
-                        ^
-   drivers/input/keyboard/tca8418_keypad.c:272:2: note: Taking false branch
-           if (!i2c_check_functionality(client->adapter, I2C_FUNC_SMBUS_BYTE)) {
-           ^
-   drivers/input/keyboard/tca8418_keypad.c:279:6: note: Assuming 'error' is 0
-           if (error)
-               ^~~~~
-   drivers/input/keyboard/tca8418_keypad.c:279:2: note: Taking false branch
-           if (error)
-           ^
-   drivers/input/keyboard/tca8418_keypad.c:282:6: note: Assuming 'rows' is not equal to 0
-           if (!rows || rows > TCA8418_MAX_ROWS) {
-               ^~~~~
-   drivers/input/keyboard/tca8418_keypad.c:282:6: note: Left side of '||' is false
-   drivers/input/keyboard/tca8418_keypad.c:282:15: note: Assuming 'rows' is <= TCA8418_MAX_ROWS
-           if (!rows || rows > TCA8418_MAX_ROWS) {
-                        ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/input/keyboard/tca8418_keypad.c:282:2: note: Taking false branch
-           if (!rows || rows > TCA8418_MAX_ROWS) {
-           ^
-   drivers/input/keyboard/tca8418_keypad.c:287:6: note: Assuming 'cols' is not equal to 0
-           if (!cols || cols > TCA8418_MAX_COLS) {
-               ^~~~~
-   drivers/input/keyboard/tca8418_keypad.c:287:6: note: Left side of '||' is false
-   drivers/input/keyboard/tca8418_keypad.c:287:15: note: Assuming 'cols' is <= TCA8418_MAX_COLS
-           if (!cols || cols > TCA8418_MAX_COLS) {
-                        ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/input/keyboard/tca8418_keypad.c:287:2: note: Taking false branch
-           if (!cols || cols > TCA8418_MAX_COLS) {
-           ^
-   drivers/input/keyboard/tca8418_keypad.c:296:6: note: Assuming 'keypad_data' is non-null
-           if (!keypad_data)
-               ^~~~~~~~~~~~
-   drivers/input/keyboard/tca8418_keypad.c:296:2: note: Taking false branch
-           if (!keypad_data)
-           ^
-   drivers/input/keyboard/tca8418_keypad.c:304:6: note: 'error' is 0
-           if (error)
-               ^~~~~
-   drivers/input/keyboard/tca8418_keypad.c:304:2: note: Taking false branch
-           if (error)
-           ^
-   drivers/input/keyboard/tca8418_keypad.c:309:6: note: Assuming 'input' is non-null
-           if (!input)
-               ^~~~~~
-   drivers/input/keyboard/tca8418_keypad.c:309:2: note: Taking false branch
-           if (!input)
-           ^
-   drivers/input/keyboard/tca8418_keypad.c:321:6: note: Assuming 'error' is 0
-           if (error) {
-               ^~~~~
+smatch warnings:
+drivers/gpu/drm/i915/gt/intel_gt_mcr.c:297 rw_with_mcr_steering_fw() error: uninitialized symbol 'old_mcr'.
 
-vim +/value +379 drivers/power/supply/rt9467-charger.c
+vim +/old_mcr +297 drivers/gpu/drm/i915/gt/intel_gt_mcr.c
 
-6f7f70e3a8dd1f ChiaEn Wu 2023-01-03  365  
-6f7f70e3a8dd1f ChiaEn Wu 2023-01-03  366  static int rt9467_set_value_from_ranges(struct rt9467_chg_data *data,
-6f7f70e3a8dd1f ChiaEn Wu 2023-01-03  367  					enum rt9467_fields field,
-6f7f70e3a8dd1f ChiaEn Wu 2023-01-03  368  					enum rt9467_ranges rsel,
-6f7f70e3a8dd1f ChiaEn Wu 2023-01-03  369  					int value)
-6f7f70e3a8dd1f ChiaEn Wu 2023-01-03  370  {
-6f7f70e3a8dd1f ChiaEn Wu 2023-01-03  371  	const struct linear_range *range = rt9467_ranges + rsel;
-6f7f70e3a8dd1f ChiaEn Wu 2023-01-03  372  	unsigned int sel;
-6f7f70e3a8dd1f ChiaEn Wu 2023-01-03  373  	bool found;
-6f7f70e3a8dd1f ChiaEn Wu 2023-01-03  374  	int ret;
-6f7f70e3a8dd1f ChiaEn Wu 2023-01-03  375  
-6f7f70e3a8dd1f ChiaEn Wu 2023-01-03  376  	if (rsel == RT9467_RANGE_VMIVR) {
-6f7f70e3a8dd1f ChiaEn Wu 2023-01-03  377  		ret = linear_range_get_selector_high(range, value, &sel, &found);
-6f7f70e3a8dd1f ChiaEn Wu 2023-01-03  378  		if (ret)
-6f7f70e3a8dd1f ChiaEn Wu 2023-01-03 @379  			value = range->max_sel;
-6f7f70e3a8dd1f ChiaEn Wu 2023-01-03  380  	} else {
-6f7f70e3a8dd1f ChiaEn Wu 2023-01-03  381  		linear_range_get_selector_within(range, value, &sel);
-6f7f70e3a8dd1f ChiaEn Wu 2023-01-03  382  	}
-6f7f70e3a8dd1f ChiaEn Wu 2023-01-03  383  
-6f7f70e3a8dd1f ChiaEn Wu 2023-01-03  384  	return regmap_field_write(data->rm_field[field], sel);
-6f7f70e3a8dd1f ChiaEn Wu 2023-01-03  385  }
-6f7f70e3a8dd1f ChiaEn Wu 2023-01-03  386  
+58bc2453ab8a4b Matt Roper 2022-10-14  212  
+3fe6c7f53eaa62 Matt Roper 2022-06-14  213  /*
+3fe6c7f53eaa62 Matt Roper 2022-06-14  214   * rw_with_mcr_steering_fw - Access a register with specific MCR steering
+e7858254f9af9a Matt Roper 2022-06-14  215   * @uncore: pointer to struct intel_uncore
+e7858254f9af9a Matt Roper 2022-06-14  216   * @reg: register being accessed
+e7858254f9af9a Matt Roper 2022-06-14  217   * @rw_flag: FW_REG_READ for read access or FW_REG_WRITE for write access
+3fe6c7f53eaa62 Matt Roper 2022-06-14  218   * @group: group number (documented as "sliceid" on older platforms)
+3fe6c7f53eaa62 Matt Roper 2022-06-14  219   * @instance: instance number (documented as "subsliceid" on older platforms)
+e7858254f9af9a Matt Roper 2022-06-14  220   * @value: register value to be written (ignored for read)
+e7858254f9af9a Matt Roper 2022-06-14  221   *
+e7858254f9af9a Matt Roper 2022-06-14  222   * Return: 0 for write access. register value for read access.
+e7858254f9af9a Matt Roper 2022-06-14  223   *
+e7858254f9af9a Matt Roper 2022-06-14  224   * Caller needs to make sure the relevant forcewake wells are up.
+e7858254f9af9a Matt Roper 2022-06-14  225   */
+3fe6c7f53eaa62 Matt Roper 2022-06-14  226  static u32 rw_with_mcr_steering_fw(struct intel_uncore *uncore,
+58bc2453ab8a4b Matt Roper 2022-10-14  227  				   i915_mcr_reg_t reg, u8 rw_flag,
+3fe6c7f53eaa62 Matt Roper 2022-06-14  228  				   int group, int instance, u32 value)
+e7858254f9af9a Matt Roper 2022-06-14  229  {
+e7858254f9af9a Matt Roper 2022-06-14  230  	u32 mcr_mask, mcr_ss, mcr, old_mcr, val = 0;
+e7858254f9af9a Matt Roper 2022-06-14  231  
+e7858254f9af9a Matt Roper 2022-06-14  232  	lockdep_assert_held(&uncore->lock);
+e7858254f9af9a Matt Roper 2022-06-14  233  
+f32898c94a105c Matt Roper 2022-10-14  234  	if (GRAPHICS_VER_FULL(uncore->i915) >= IP_VER(12, 70)) {
+f32898c94a105c Matt Roper 2022-10-14  235  		/*
+f32898c94a105c Matt Roper 2022-10-14  236  		 * Always leave the hardware in multicast mode when doing reads
+f32898c94a105c Matt Roper 2022-10-14  237  		 * (see comment about Wa_22013088509 below) and only change it
+f32898c94a105c Matt Roper 2022-10-14  238  		 * to unicast mode when doing writes of a specific instance.
+f32898c94a105c Matt Roper 2022-10-14  239  		 *
+f32898c94a105c Matt Roper 2022-10-14  240  		 * No need to save old steering reg value.
+f32898c94a105c Matt Roper 2022-10-14  241  		 */
+f32898c94a105c Matt Roper 2022-10-14  242  		intel_uncore_write_fw(uncore, MTL_MCR_SELECTOR,
+f32898c94a105c Matt Roper 2022-10-14  243  				      REG_FIELD_PREP(MTL_MCR_GROUPID, group) |
+f32898c94a105c Matt Roper 2022-10-14  244  				      REG_FIELD_PREP(MTL_MCR_INSTANCEID, instance) |
+f32898c94a105c Matt Roper 2022-10-14  245  				      (rw_flag == FW_REG_READ) ? GEN11_MCR_MULTICAST : 0);
+f32898c94a105c Matt Roper 2022-10-14  246  	} else if (GRAPHICS_VER(uncore->i915) >= 11) {
+e7858254f9af9a Matt Roper 2022-06-14  247  		mcr_mask = GEN11_MCR_SLICE_MASK | GEN11_MCR_SUBSLICE_MASK;
+3fe6c7f53eaa62 Matt Roper 2022-06-14  248  		mcr_ss = GEN11_MCR_SLICE(group) | GEN11_MCR_SUBSLICE(instance);
+e7858254f9af9a Matt Roper 2022-06-14  249  
+e7858254f9af9a Matt Roper 2022-06-14  250  		/*
+e7858254f9af9a Matt Roper 2022-06-14  251  		 * Wa_22013088509
+e7858254f9af9a Matt Roper 2022-06-14  252  		 *
+e7858254f9af9a Matt Roper 2022-06-14  253  		 * The setting of the multicast/unicast bit usually wouldn't
+e7858254f9af9a Matt Roper 2022-06-14  254  		 * matter for read operations (which always return the value
+e7858254f9af9a Matt Roper 2022-06-14  255  		 * from a single register instance regardless of how that bit
+e7858254f9af9a Matt Roper 2022-06-14  256  		 * is set), but some platforms have a workaround requiring us
+e7858254f9af9a Matt Roper 2022-06-14  257  		 * to remain in multicast mode for reads.  There's no real
+e7858254f9af9a Matt Roper 2022-06-14  258  		 * downside to this, so we'll just go ahead and do so on all
+e7858254f9af9a Matt Roper 2022-06-14  259  		 * platforms; we'll only clear the multicast bit from the mask
+e7858254f9af9a Matt Roper 2022-06-14  260  		 * when exlicitly doing a write operation.
+e7858254f9af9a Matt Roper 2022-06-14  261  		 */
+e7858254f9af9a Matt Roper 2022-06-14  262  		if (rw_flag == FW_REG_WRITE)
+e7858254f9af9a Matt Roper 2022-06-14  263  			mcr_mask |= GEN11_MCR_MULTICAST;
+f32898c94a105c Matt Roper 2022-10-14  264  
+f32898c94a105c Matt Roper 2022-10-14  265  		mcr = intel_uncore_read_fw(uncore, GEN8_MCR_SELECTOR);
+f32898c94a105c Matt Roper 2022-10-14  266  		old_mcr = mcr;
+f32898c94a105c Matt Roper 2022-10-14  267  
+f32898c94a105c Matt Roper 2022-10-14  268  		mcr &= ~mcr_mask;
+f32898c94a105c Matt Roper 2022-10-14  269  		mcr |= mcr_ss;
+f32898c94a105c Matt Roper 2022-10-14  270  		intel_uncore_write_fw(uncore, GEN8_MCR_SELECTOR, mcr);
+e7858254f9af9a Matt Roper 2022-06-14  271  	} else {
+e7858254f9af9a Matt Roper 2022-06-14  272  		mcr_mask = GEN8_MCR_SLICE_MASK | GEN8_MCR_SUBSLICE_MASK;
+3fe6c7f53eaa62 Matt Roper 2022-06-14  273  		mcr_ss = GEN8_MCR_SLICE(group) | GEN8_MCR_SUBSLICE(instance);
+e7858254f9af9a Matt Roper 2022-06-14  274  
+f32898c94a105c Matt Roper 2022-10-14  275  		mcr = intel_uncore_read_fw(uncore, GEN8_MCR_SELECTOR);
+f32898c94a105c Matt Roper 2022-10-14  276  		old_mcr = mcr;
+e7858254f9af9a Matt Roper 2022-06-14  277  
+e7858254f9af9a Matt Roper 2022-06-14  278  		mcr &= ~mcr_mask;
+e7858254f9af9a Matt Roper 2022-06-14  279  		mcr |= mcr_ss;
+e7858254f9af9a Matt Roper 2022-06-14  280  		intel_uncore_write_fw(uncore, GEN8_MCR_SELECTOR, mcr);
+f32898c94a105c Matt Roper 2022-10-14  281  	}
+e7858254f9af9a Matt Roper 2022-06-14  282  
+e7858254f9af9a Matt Roper 2022-06-14  283  	if (rw_flag == FW_REG_READ)
+58bc2453ab8a4b Matt Roper 2022-10-14  284  		val = intel_uncore_read_fw(uncore, mcr_reg_cast(reg));
+e7858254f9af9a Matt Roper 2022-06-14  285  	else
+58bc2453ab8a4b Matt Roper 2022-10-14  286  		intel_uncore_write_fw(uncore, mcr_reg_cast(reg), value);
+e7858254f9af9a Matt Roper 2022-06-14  287  
+f32898c94a105c Matt Roper 2022-10-14  288  	/*
+f32898c94a105c Matt Roper 2022-10-14  289  	 * For pre-MTL platforms, we need to restore the old value of the
+f32898c94a105c Matt Roper 2022-10-14  290  	 * steering control register to ensure that implicit steering continues
+f32898c94a105c Matt Roper 2022-10-14  291  	 * to behave as expected.  For MTL and beyond, we need only reinstate
+f32898c94a105c Matt Roper 2022-10-14  292  	 * the 'multicast' bit (and only if we did a write that cleared it).
+f32898c94a105c Matt Roper 2022-10-14  293  	 */
+f32898c94a105c Matt Roper 2022-10-14  294  	if (GRAPHICS_VER_FULL(uncore->i915) >= IP_VER(12, 70) && rw_flag == FW_REG_WRITE)
+f32898c94a105c Matt Roper 2022-10-14  295  		intel_uncore_write_fw(uncore, MTL_MCR_SELECTOR, GEN11_MCR_MULTICAST);
+f32898c94a105c Matt Roper 2022-10-14  296  	else if (GRAPHICS_VER_FULL(uncore->i915) < IP_VER(12, 70))
+f32898c94a105c Matt Roper 2022-10-14 @297  		intel_uncore_write_fw(uncore, GEN8_MCR_SELECTOR, old_mcr);
+e7858254f9af9a Matt Roper 2022-06-14  298  
+e7858254f9af9a Matt Roper 2022-06-14  299  	return val;
+e7858254f9af9a Matt Roper 2022-06-14  300  }
+e7858254f9af9a Matt Roper 2022-06-14  301  
 
 -- 
 0-DAY CI Kernel Test Service
