@@ -1,165 +1,356 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B088B2F51
-	for <oe-kbuild@lists.linux.dev>; Sun, 19 Feb 2023 19:30:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 332693229
+	for <oe-kbuild@lists.linux.dev>; Sun, 19 Feb 2023 20:52:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676835047; x=1708371047;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=Yw8wH4RborXd42nNwiRet3w2i9X1cXLkRvJKVMEfO6A=;
-  b=JTmYZ2B69+8IeyL6khE5Ax7zYoe9hkMEzWsMqrbSsZlfbjlIbDKViiqI
-   pBiaLlAkZB1yiHH0/O+L8rs7u3yNyXAjboh4mbqRX3H8+cwlo0eZBAx9/
-   VsFuocJVx/RiXGan5yhReLGIN+CqtSjTNPU+BePOFc34+RrlP56AXaD/s
-   UuIfPK1Hi+RqXrcMHXCTQ3qcRD5uaz2Otk+k2xr/nJl+VseiBMKnfS1NK
-   qo1UyZ1Wr6JS4MtN3R5if38dlDfp/YlxROrTmBDRTaVQ55TpprLd+wuFE
-   NLDg/T6mDRLz5JaS9+NwOC6QBWgAkTMMLZaMn7z0m7Aec0yQLEhwRda8q
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10626"; a="359739481"
-X-IronPort-AV: E=Sophos;i="5.97,310,1669104000"; 
-   d="scan'208";a="359739481"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2023 11:30:44 -0800
+  t=1676839967; x=1708375967;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=T2Z7TXt4D4ogc/PYTrjAb81OzOugE8DqCaFImtjU/5Q=;
+  b=XsjM/iVQunsilv64q9QY1Ouk35p0ejwv2mdDF1tMx08YZyQaQWMvROhO
+   j+GKePgh0C2gFK6wDS41mOz8ivkRt8gY286A221Nye9P1iXe8mPKOdBdM
+   EMsQPGosnWBEsAbLkpqf228Q2w4DQMRRM3c9IrGJP4xNOP6DSV4QbgCXk
+   7saFjvmcBFvC12bHl86FC/MwvhEg9dAXSgqXjjGMvSDUmYwg549kEogRU
+   OG60WY5RHVjrXR8g46m3KsCX1LNqTPl8EnAAz4ZIS0ZBX76csstKID8Bd
+   JiAdkOGLEPDZnzFHCMk4mN4T2qV6EDRpFhnTgBWIGacNZngnhz5IRF/QF
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10626"; a="394766940"
+X-IronPort-AV: E=Sophos;i="5.97,311,1669104000"; 
+   d="scan'208";a="394766940"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2023 12:52:46 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10626"; a="759954885"
-X-IronPort-AV: E=Sophos;i="5.97,310,1669104000"; 
-   d="scan'208";a="759954885"
+X-IronPort-AV: E=McAfee;i="6500,9779,10626"; a="780425946"
+X-IronPort-AV: E=Sophos;i="5.97,311,1669104000"; 
+   d="scan'208";a="780425946"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 19 Feb 2023 11:30:43 -0800
+  by fmsmga002.fm.intel.com with ESMTP; 19 Feb 2023 12:52:45 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pTpOV-000DQr-0S;
-	Sun, 19 Feb 2023 19:30:43 +0000
-Date: Mon, 20 Feb 2023 03:29:56 +0800
+	id 1pTqfs-000DRx-1L;
+	Sun, 19 Feb 2023 20:52:44 +0000
+Date: Mon, 20 Feb 2023 04:52:12 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/gpu/drm/i915/display/intel_fb_pin.c:83
- intel_pin_fb_obj_dpt() error: potentially dereferencing uninitialized 'vma'.
-Message-ID: <202302200307.OEK3pnWV-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [linux-next:master 5568/13499]
+ drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c:436:2: warning: Value stored to
+ 'err' is never read [clang-analyzer-deadcode.DeadStores]
+Message-ID: <202302200440.aXeURxEN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+
+:::::: 
+:::::: Manual check reason: "low confidence static check warning: drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c:436:2: warning: Value stored to 'err' is never read [clang-analyzer-deadcode.DeadStores]"
+:::::: 
 
 BCC: lkp@intel.com
+CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Matthew Auld <matthew.auld@intel.com>
-CC: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-CC: "Ville Syrjälä" <ville.syrjala@linux.intel.com>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+CC: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+CC: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   925cf0457d7e62ce08878ffb789189ac08ca8677
-commit: c5e595e752b3a1c68cca57c3559521237332fbec drm/i915/display: handle migration for dpt
-date:   4 months ago
-:::::: branch date: 17 hours ago
-:::::: commit date: 4 months ago
-config: x86_64-randconfig-m001-20230213 (https://download.01.org/0day-ci/archive/20230220/202302200307.OEK3pnWV-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   c068f40300a0eaa34f7105d137a5560b86951aa9
+commit: 3f3b9861fa6c435c1600ae465e116497374ebe28 [5568/13499] drm: rcar-du: dsi: Add r8A779g0 support
+:::::: branch date: 3 days ago
+:::::: commit date: 4 weeks ago
+config: arm-randconfig-c002-20230217 (https://download.01.org/0day-ci/archive/20230220/202302200440.aXeURxEN-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project db89896bbbd2251fff457699635acbbedeead27f)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=3f3b9861fa6c435c1600ae465e116497374ebe28
+        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+        git fetch --no-tags linux-next master
+        git checkout 3f3b9861fa6c435c1600ae465e116497374ebe28
+        # save the config file
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=arm clang-analyzer  olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=arm clang-analyzer 
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202302200307.OEK3pnWV-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202302200440.aXeURxEN-lkp@intel.com/
 
-New smatch warnings:
-drivers/gpu/drm/i915/display/intel_fb_pin.c:83 intel_pin_fb_obj_dpt() error: potentially dereferencing uninitialized 'vma'.
-drivers/gpu/drm/i915/display/intel_fb_pin.c:83 intel_pin_fb_obj_dpt() error: 'vma' dereferencing possible ERR_PTR()
+clang_analyzer warnings: (new ones prefixed by >>)
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   drivers/media/test-drivers/vidtv/vidtv_s302m.c:383:3: warning: Value stored to 'nbytes_per_unit' is never read [clang-analyzer-deadcode.DeadStores]
+                   nbytes_per_unit = 0;
+                   ^                 ~
+   drivers/media/test-drivers/vidtv/vidtv_s302m.c:383:3: note: Value stored to 'nbytes_per_unit' is never read
+                   nbytes_per_unit = 0;
+                   ^                 ~
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c:364:15: warning: Access to field 'min_freq' results in a dereference of a null pointer (loaded from field 'clkset') [clang-analyzer-core.NullDereference]
+                           if (fout < setup_info->clkset->min_freq ||
+                                      ^
+   drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c:842:6: note: 'ret' is >= 0
+           if (ret < 0) {
+               ^~~
+   drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c:842:2: note: Taking false branch
+           if (ret < 0) {
+           ^
+   drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c:847:8: note: Calling 'rcar_mipi_dsi_startup'
+           ret = rcar_mipi_dsi_startup(dsi, mode);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c:507:2: note: 'setup_info.clkset' initialized to a null pointer value
+           struct dsi_setup_info setup_info = {};
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c:518:6: note: 'dsi_format' is >= 0
+           if (dsi_format < 0) {
+               ^~~~~~~~~~
+   drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c:518:2: note: Taking false branch
+           if (dsi_format < 0) {
+           ^
+   drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c:524:2: note: Calling 'rcar_mipi_dsi_parameters_calc'
+           rcar_mipi_dsi_parameters_calc(dsi, dsi->clocks.pll,
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c:400:6: note: Assuming the condition is false
+           if (fout_target < MHZ(40) || fout_target > MHZ(1250))
+               ^~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c:400:6: note: Left side of '||' is false
+   drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c:400:31: note: Assuming the condition is false
+           if (fout_target < MHZ(40) || fout_target > MHZ(1250))
+                                        ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c:400:2: note: Taking false branch
+           if (fout_target < MHZ(40) || fout_target > MHZ(1250))
+           ^
+   drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c:404:37: note: Assuming field 'min_freq' is equal to 0
+           for (clk_cfg = dsi->info->clk_cfg; clk_cfg->min_freq != 0; clk_cfg++) {
+                                              ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c:404:2: note: Loop condition is false. Execution continues on line 412
+           for (clk_cfg = dsi->info->clk_cfg; clk_cfg->min_freq != 0; clk_cfg++) {
+           ^
+   drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c:414:2: note: Control jumps to 'case RCAR_DSI_V4H:'  at line 420
+           switch (dsi->info->model) {
+           ^
+   drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c:422:3: note:  Execution continues on line 425
+                   break;
+                   ^
+   drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c:425:2: note: Calling 'rcar_mipi_dsi_pll_calc'
+           rcar_mipi_dsi_pll_calc(dsi, fin_rate, fout_target, setup_info);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c:345:37: note: Assuming 'n' is <= field 'n_max'
+           for (unsigned int n = info->n_min; n <= info->n_max; n++) {
+                                              ^~~~~~~~~~~~~~~~
+   drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c:345:2: note: Loop condition is true.  Entering loop body
+           for (unsigned int n = info->n_min; n <= info->n_max; n++) {
+           ^
+   drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c:350:7: note: Assuming 'fpfd' is >= field 'fpfd_min'
+                   if (fpfd < info->fpfd_min || fpfd > info->fpfd_max)
+                       ^~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c:350:7: note: Left side of '||' is false
+   drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c:350:32: note: Assuming 'fpfd' is <= field 'fpfd_max'
+                   if (fpfd < info->fpfd_min || fpfd > info->fpfd_max)
+                                                ^~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c:350:3: note: Taking false branch
+                   if (fpfd < info->fpfd_min || fpfd > info->fpfd_max)
+                   ^
+   drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c:353:38: note: Assuming 'm' is <= field 'm_max'
+                   for (unsigned int m = info->m_min; m <= info->m_max; m++) {
+                                                      ^~~~~~~~~~~~~~~~
+   drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c:353:3: note: Loop condition is true.  Entering loop body
+                   for (unsigned int m = info->m_min; m <= info->m_max; m++) {
+                   ^
+   drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c:359:8: note: Assuming 'fout' is >= field 'fout_min'
+                           if (fout < info->fout_min || fout > info->fout_max)
+                               ^~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c:359:8: note: Left side of '||' is false
+   drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c:359:33: note: Assuming 'fout' is <= field 'fout_max'
+                           if (fout < info->fout_min || fout > info->fout_max)
+                                                        ^~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c:359:4: note: Taking false branch
+                           if (fout < info->fout_min || fout > info->fout_max)
+                           ^
+   drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c:364:15: note: Access to field 'min_freq' results in a dereference of a null pointer (loaded from field 'clkset')
+                           if (fout < setup_info->clkset->min_freq ||
+                                      ^           ~~~~~~
+>> drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c:436:2: warning: Value stored to 'err' is never read [clang-analyzer-deadcode.DeadStores]
+           err = abs((long)(setup_info->fout - fout_target) * 10000 / (long)fout_target);
+           ^
+   drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c:436:2: note: Value stored to 'err' is never read
+   drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c:567:7: warning: Access to field 'vco_cntrl' results in a dereference of a null pointer (loaded from field 'clkset') [clang-analyzer-core.NullDereference]
+                     | CLOCKSET2_VCO_CNTRL(setup_info.clkset->vco_cntrl);
+                       ^
+   drivers/gpu/drm/rcar-du/rcar_mipi_dsi_regs.h:155:35: note: expanded from macro 'CLOCKSET2_VCO_CNTRL'
+   #define CLOCKSET2_VCO_CNTRL(x)          (((x) & 0x3f) << 8)
+                                             ^
+   drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c:842:6: note: 'ret' is >= 0
+           if (ret < 0) {
+               ^~~
+   drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c:842:2: note: Taking false branch
+           if (ret < 0) {
+           ^
+   drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c:847:8: note: Calling 'rcar_mipi_dsi_startup'
+           ret = rcar_mipi_dsi_startup(dsi, mode);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c:507:2: note: 'setup_info.clkset' initialized to a null pointer value
+           struct dsi_setup_info setup_info = {};
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c:518:6: note: 'dsi_format' is >= 0
+           if (dsi_format < 0) {
+               ^~~~~~~~~~
+   drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c:518:2: note: Taking false branch
+           if (dsi_format < 0) {
+           ^
+   drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c:524:2: note: Calling 'rcar_mipi_dsi_parameters_calc'
+           rcar_mipi_dsi_parameters_calc(dsi, dsi->clocks.pll,
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c:400:6: note: Assuming the condition is true
+           if (fout_target < MHZ(40) || fout_target > MHZ(1250))
+               ^~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c:400:28: note: Left side of '||' is true
+           if (fout_target < MHZ(40) || fout_target > MHZ(1250))
+                                     ^
+   drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c:401:3: note: Returning without writing to 'setup_info->clkset'
+                   return;
+                   ^
+   drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c:524:2: note: Returning from 'rcar_mipi_dsi_parameters_calc'
+           rcar_mipi_dsi_parameters_calc(dsi, dsi->clocks.pll,
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c:545:2: note: Control jumps to 'case RCAR_DSI_V3U:'  at line 546
+           switch (dsi->info->model) {
+           ^
+   drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c:549:7: note: Assuming 'ret' is >= 0
+                   if (ret < 0)
+                       ^~~~~~~
+   drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c:549:3: note: Taking false branch
+                   if (ret < 0)
+                   ^
+   drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c:551:3: note:  Execution continues on line 561
+                   break;
+                   ^
+   drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c:567:7: note: Access to field 'vco_cntrl' results in a dereference of a null pointer (loaded from field 'clkset')
+                     | CLOCKSET2_VCO_CNTRL(setup_info.clkset->vco_cntrl);
+                       ^
+   drivers/gpu/drm/rcar-du/rcar_mipi_dsi_regs.h:155:35: note: expanded from macro 'CLOCKSET2_VCO_CNTRL'
+   #define CLOCKSET2_VCO_CNTRL(x)          (((x) & 0x3f) << 8)
+                                             ^~
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   fs/ntfs/compress.c:164:6: warning: Value stored to 'cb_sb_start' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           u8 *cb_sb_start = cb;   /* Beginning of the current sb in the cb. */
+               ^~~~~~~~~~~   ~~
+   fs/ntfs/compress.c:164:6: note: Value stored to 'cb_sb_start' during its initialization is never read
+           u8 *cb_sb_start = cb;   /* Beginning of the current sb in the cb. */
+               ^~~~~~~~~~~   ~~
+   fs/ntfs/compress.c:810:4: warning: Value stored to 'cb_pos' is never read [clang-analyzer-deadcode.DeadStores]
+                           cb_pos += cb_max_ofs - cur_ofs;
+                           ^         ~~~~~~~~~~~~~~~~~~~~
+   fs/ntfs/compress.c:810:4: note: Value stored to 'cb_pos' is never read
+                           cb_pos += cb_max_ofs - cur_ofs;
+                           ^         ~~~~~~~~~~~~~~~~~~~~
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   fs/ntfs/dir.c:1107:2: warning: Value stored to 'rc' is never read [clang-analyzer-deadcode.DeadStores]
+           rc = err = 0;
+           ^    ~~~~~~~
+   fs/ntfs/dir.c:1107:2: note: Value stored to 'rc' is never read
+           rc = err = 0;
+           ^    ~~~~~~~
+   fs/ntfs/dir.c:1306:36: warning: Access to field 'magic' results in a dereference of a null pointer (loaded from variable 'ia') [clang-analyzer-core.NullDereference]
+           if (unlikely(!ntfs_is_indx_record(ia->magic))) {
+                                             ^
+   fs/ntfs/layout.h:139:50: note: expanded from macro 'ntfs_is_indx_record'
 
-Old smatch warnings:
-drivers/gpu/drm/i915/gem/i915_gem_object.h:194 __i915_gem_object_lock() error: we previously assumed 'ww' could be null (see line 183)
+vim +/err +436 drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c
 
-vim +/vma +83 drivers/gpu/drm/i915/display/intel_fb_pin.c
-
-814c8757115f9d Dave Airlie               2021-10-12  18  
-814c8757115f9d Dave Airlie               2021-10-12  19  static struct i915_vma *
-814c8757115f9d Dave Airlie               2021-10-12  20  intel_pin_fb_obj_dpt(struct drm_framebuffer *fb,
-3bb6a44251b4d0 Niranjana Vishwanathapura 2022-09-01  21  		     const struct i915_gtt_view *view,
-814c8757115f9d Dave Airlie               2021-10-12  22  		     bool uses_fence,
-814c8757115f9d Dave Airlie               2021-10-12  23  		     unsigned long *out_flags,
-814c8757115f9d Dave Airlie               2021-10-12  24  		     struct i915_address_space *vm)
-814c8757115f9d Dave Airlie               2021-10-12  25  {
-814c8757115f9d Dave Airlie               2021-10-12  26  	struct drm_device *dev = fb->dev;
-814c8757115f9d Dave Airlie               2021-10-12  27  	struct drm_i915_private *dev_priv = to_i915(dev);
-814c8757115f9d Dave Airlie               2021-10-12  28  	struct drm_i915_gem_object *obj = intel_fb_obj(fb);
-c5e595e752b3a1 Matthew Auld              2022-10-04  29  	struct i915_gem_ww_ctx ww;
-814c8757115f9d Dave Airlie               2021-10-12  30  	struct i915_vma *vma;
-814c8757115f9d Dave Airlie               2021-10-12  31  	u32 alignment;
-814c8757115f9d Dave Airlie               2021-10-12  32  	int ret;
-814c8757115f9d Dave Airlie               2021-10-12  33  
-c5e595e752b3a1 Matthew Auld              2022-10-04  34  	/*
-c5e595e752b3a1 Matthew Auld              2022-10-04  35  	 * We are not syncing against the binding (and potential migrations)
-c5e595e752b3a1 Matthew Auld              2022-10-04  36  	 * below, so this vm must never be async.
-c5e595e752b3a1 Matthew Auld              2022-10-04  37  	 */
-c5e595e752b3a1 Matthew Auld              2022-10-04  38  	GEM_WARN_ON(vm->bind_async_flags);
-c5e595e752b3a1 Matthew Auld              2022-10-04  39  
-814c8757115f9d Dave Airlie               2021-10-12  40  	if (WARN_ON(!i915_gem_object_is_framebuffer(obj)))
-814c8757115f9d Dave Airlie               2021-10-12  41  		return ERR_PTR(-EINVAL);
-814c8757115f9d Dave Airlie               2021-10-12  42  
-814c8757115f9d Dave Airlie               2021-10-12  43  	alignment = 4096 * 512;
-814c8757115f9d Dave Airlie               2021-10-12  44  
-814c8757115f9d Dave Airlie               2021-10-12  45  	atomic_inc(&dev_priv->gpu_error.pending_fb_pin);
-814c8757115f9d Dave Airlie               2021-10-12  46  
-c5e595e752b3a1 Matthew Auld              2022-10-04  47  	for_i915_gem_ww(&ww, ret, true) {
-c5e595e752b3a1 Matthew Auld              2022-10-04  48  		ret = i915_gem_object_lock(obj, &ww);
-c5e595e752b3a1 Matthew Auld              2022-10-04  49  		if (ret)
-c5e595e752b3a1 Matthew Auld              2022-10-04  50  			continue;
-c5e595e752b3a1 Matthew Auld              2022-10-04  51  
-c5e595e752b3a1 Matthew Auld              2022-10-04  52  		if (HAS_LMEM(dev_priv)) {
-c5e595e752b3a1 Matthew Auld              2022-10-04  53  			ret = i915_gem_object_migrate(obj, &ww, INTEL_REGION_LMEM_0);
-c5e595e752b3a1 Matthew Auld              2022-10-04  54  			if (ret)
-c5e595e752b3a1 Matthew Auld              2022-10-04  55  				continue;
-814c8757115f9d Dave Airlie               2021-10-12  56  		}
-814c8757115f9d Dave Airlie               2021-10-12  57  
-c5e595e752b3a1 Matthew Auld              2022-10-04  58  		ret = i915_gem_object_set_cache_level(obj, I915_CACHE_NONE);
-c5e595e752b3a1 Matthew Auld              2022-10-04  59  		if (ret)
-c5e595e752b3a1 Matthew Auld              2022-10-04  60  			continue;
-c5e595e752b3a1 Matthew Auld              2022-10-04  61  
-814c8757115f9d Dave Airlie               2021-10-12  62  		vma = i915_vma_instance(obj, vm, view);
-c5e595e752b3a1 Matthew Auld              2022-10-04  63  		if (IS_ERR(vma)) {
-c5e595e752b3a1 Matthew Auld              2022-10-04  64  			ret = PTR_ERR(vma);
-c5e595e752b3a1 Matthew Auld              2022-10-04  65  			continue;
-c5e595e752b3a1 Matthew Auld              2022-10-04  66  		}
-814c8757115f9d Dave Airlie               2021-10-12  67  
-814c8757115f9d Dave Airlie               2021-10-12  68  		if (i915_vma_misplaced(vma, 0, alignment, 0)) {
-c5e595e752b3a1 Matthew Auld              2022-10-04  69  			ret = i915_vma_unbind(vma);
-c5e595e752b3a1 Matthew Auld              2022-10-04  70  			if (ret)
-c5e595e752b3a1 Matthew Auld              2022-10-04  71  				continue;
-814c8757115f9d Dave Airlie               2021-10-12  72  		}
-814c8757115f9d Dave Airlie               2021-10-12  73  
-c5e595e752b3a1 Matthew Auld              2022-10-04  74  		ret = i915_vma_pin_ww(vma, &ww, 0, alignment, PIN_GLOBAL);
-c5e595e752b3a1 Matthew Auld              2022-10-04  75  		if (ret)
-c5e595e752b3a1 Matthew Auld              2022-10-04  76  			continue;
-c5e595e752b3a1 Matthew Auld              2022-10-04  77  	}
-814c8757115f9d Dave Airlie               2021-10-12  78  	if (ret) {
-814c8757115f9d Dave Airlie               2021-10-12  79  		vma = ERR_PTR(ret);
-814c8757115f9d Dave Airlie               2021-10-12  80  		goto err;
-814c8757115f9d Dave Airlie               2021-10-12  81  	}
-814c8757115f9d Dave Airlie               2021-10-12  82  
-814c8757115f9d Dave Airlie               2021-10-12 @83  	vma->display_alignment = max_t(u64, vma->display_alignment, alignment);
-814c8757115f9d Dave Airlie               2021-10-12  84  
-814c8757115f9d Dave Airlie               2021-10-12  85  	i915_gem_object_flush_if_display(obj);
-814c8757115f9d Dave Airlie               2021-10-12  86  
-814c8757115f9d Dave Airlie               2021-10-12  87  	i915_vma_get(vma);
-814c8757115f9d Dave Airlie               2021-10-12  88  err:
-814c8757115f9d Dave Airlie               2021-10-12  89  	atomic_dec(&dev_priv->gpu_error.pending_fb_pin);
-814c8757115f9d Dave Airlie               2021-10-12  90  
-814c8757115f9d Dave Airlie               2021-10-12  91  	return vma;
-814c8757115f9d Dave Airlie               2021-10-12  92  }
-814c8757115f9d Dave Airlie               2021-10-12  93  
-
-:::::: The code at line 83 was first introduced by commit
-:::::: 814c8757115f9d7135126ac43d3a178b31e796dd drm/i915/display: move pin/unpin fb/plane code to a new file.
-
-:::::: TO: Dave Airlie <airlied@redhat.com>
-:::::: CC: Jani Nikula <jani.nikula@intel.com>
+155358310f013c LUU HOAI       2020-02-25  387  
+3f3b9861fa6c43 Tomi Valkeinen 2022-12-01  388  	const struct dsi_clk_config *clk_cfg;
+155358310f013c LUU HOAI       2020-02-25  389  	unsigned long fout_target;
+3f3b9861fa6c43 Tomi Valkeinen 2022-12-01  390  	unsigned long fin_rate;
+155358310f013c LUU HOAI       2020-02-25  391  	unsigned int i;
+155358310f013c LUU HOAI       2020-02-25  392  	unsigned int err;
+155358310f013c LUU HOAI       2020-02-25  393  
+155358310f013c LUU HOAI       2020-02-25  394  	/*
+155358310f013c LUU HOAI       2020-02-25  395  	 * Calculate Fout = dot clock * ColorDepth / (2 * Lane Count)
+155358310f013c LUU HOAI       2020-02-25  396  	 * The range out Fout is [40 - 1250] Mhz
+155358310f013c LUU HOAI       2020-02-25  397  	 */
+155358310f013c LUU HOAI       2020-02-25  398  	fout_target = target * mipi_dsi_pixel_format_to_bpp(dsi->format)
+155358310f013c LUU HOAI       2020-02-25  399  		    / (2 * dsi->lanes);
+3f3b9861fa6c43 Tomi Valkeinen 2022-12-01  400  	if (fout_target < MHZ(40) || fout_target > MHZ(1250))
+155358310f013c LUU HOAI       2020-02-25  401  		return;
+155358310f013c LUU HOAI       2020-02-25  402  
+3f3b9861fa6c43 Tomi Valkeinen 2022-12-01  403  	/* Find PLL settings */
+3f3b9861fa6c43 Tomi Valkeinen 2022-12-01  404  	for (clk_cfg = dsi->info->clk_cfg; clk_cfg->min_freq != 0; clk_cfg++) {
+3f3b9861fa6c43 Tomi Valkeinen 2022-12-01  405  		if (fout_target > clk_cfg->min_freq &&
+3f3b9861fa6c43 Tomi Valkeinen 2022-12-01  406  		    fout_target <= clk_cfg->max_freq) {
+3f3b9861fa6c43 Tomi Valkeinen 2022-12-01  407  			setup_info->clkset = clk_cfg;
+155358310f013c LUU HOAI       2020-02-25  408  			break;
+155358310f013c LUU HOAI       2020-02-25  409  		}
+155358310f013c LUU HOAI       2020-02-25  410  	}
+155358310f013c LUU HOAI       2020-02-25  411  
+3f3b9861fa6c43 Tomi Valkeinen 2022-12-01  412  	fin_rate = clk_get_rate(clk);
+3f3b9861fa6c43 Tomi Valkeinen 2022-12-01  413  
+3f3b9861fa6c43 Tomi Valkeinen 2022-12-01  414  	switch (dsi->info->model) {
+3f3b9861fa6c43 Tomi Valkeinen 2022-12-01  415  	case RCAR_DSI_V3U:
+3f3b9861fa6c43 Tomi Valkeinen 2022-12-01  416  	default:
+3f3b9861fa6c43 Tomi Valkeinen 2022-12-01  417  		setup_info->vclk_divider = 1 << ((clk_cfg->vco_cntrl >> 4) & 0x3);
+3f3b9861fa6c43 Tomi Valkeinen 2022-12-01  418  		break;
+3f3b9861fa6c43 Tomi Valkeinen 2022-12-01  419  
+3f3b9861fa6c43 Tomi Valkeinen 2022-12-01  420  	case RCAR_DSI_V4H:
+3f3b9861fa6c43 Tomi Valkeinen 2022-12-01  421  		setup_info->vclk_divider = 1 << (((clk_cfg->vco_cntrl >> 3) & 0x7) + 1);
+3f3b9861fa6c43 Tomi Valkeinen 2022-12-01  422  		break;
+3f3b9861fa6c43 Tomi Valkeinen 2022-12-01  423  	}
+3f3b9861fa6c43 Tomi Valkeinen 2022-12-01  424  
+3f3b9861fa6c43 Tomi Valkeinen 2022-12-01  425  	rcar_mipi_dsi_pll_calc(dsi, fin_rate, fout_target, setup_info);
+155358310f013c LUU HOAI       2020-02-25  426  
+155358310f013c LUU HOAI       2020-02-25  427  	/* Find hsfreqrange */
+3f3b9861fa6c43 Tomi Valkeinen 2022-12-01  428  	setup_info->hsfreq = setup_info->fout * 2;
+155358310f013c LUU HOAI       2020-02-25  429  	for (i = 0; i < ARRAY_SIZE(hsfreqrange_table); i++) {
+3f3b9861fa6c43 Tomi Valkeinen 2022-12-01  430  		if (hsfreqrange_table[i][0] >= setup_info->hsfreq) {
+155358310f013c LUU HOAI       2020-02-25  431  			setup_info->hsfreqrange = hsfreqrange_table[i][1];
+155358310f013c LUU HOAI       2020-02-25  432  			break;
+155358310f013c LUU HOAI       2020-02-25  433  		}
+155358310f013c LUU HOAI       2020-02-25  434  	}
+155358310f013c LUU HOAI       2020-02-25  435  
+3f3b9861fa6c43 Tomi Valkeinen 2022-12-01 @436  	err = abs((long)(setup_info->fout - fout_target) * 10000 / (long)fout_target);
+155358310f013c LUU HOAI       2020-02-25  437  
+155358310f013c LUU HOAI       2020-02-25  438  	dev_dbg(dsi->dev,
+3f3b9861fa6c43 Tomi Valkeinen 2022-12-01  439  		"Fout = %u * %lu / (%u * %u * %u) = %lu (target %lu Hz, error %d.%02u%%)\n",
+3f3b9861fa6c43 Tomi Valkeinen 2022-12-01  440  		setup_info->m, fin_rate, dsi->info->n_mul, setup_info->n,
+3f3b9861fa6c43 Tomi Valkeinen 2022-12-01  441  		setup_info->vclk_divider, setup_info->fout, fout_target,
+3f3b9861fa6c43 Tomi Valkeinen 2022-12-01  442  		err / 100, err % 100);
+3f3b9861fa6c43 Tomi Valkeinen 2022-12-01  443  
+155358310f013c LUU HOAI       2020-02-25  444  	dev_dbg(dsi->dev,
+155358310f013c LUU HOAI       2020-02-25  445  		"vco_cntrl = 0x%x\tprop_cntrl = 0x%x\thsfreqrange = 0x%x\n",
+3f3b9861fa6c43 Tomi Valkeinen 2022-12-01  446  		clk_cfg->vco_cntrl, clk_cfg->prop_cntrl,
+155358310f013c LUU HOAI       2020-02-25  447  		setup_info->hsfreqrange);
+155358310f013c LUU HOAI       2020-02-25  448  }
+155358310f013c LUU HOAI       2020-02-25  449  
 
 -- 
 0-DAY CI Kernel Test Service
