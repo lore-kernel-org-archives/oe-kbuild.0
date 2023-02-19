@@ -1,311 +1,250 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BB58A29
-	for <oe-kbuild@lists.linux.dev>; Sun, 19 Feb 2023 09:34:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 697A6EBB
+	for <oe-kbuild@lists.linux.dev>; Sun, 19 Feb 2023 10:26:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676799275; x=1708335275;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=G5hXjnjid2LW4/tNWh7xnz0CPWVX9z9XRh+gSejDfdQ=;
-  b=WE1HoEUHtMl7gXhix6MaH6RoQYOsCY5OaEDoNvD6NyQfsVL2NGVRBEYs
-   KBaxlL62p0Fe8CmkgGQrPtButgyw9XJdMyisS5DwX4k2W1Iu5kzxkU9j3
-   m0+3P+ULRENqPcycz6xDXZmueXXErSmOEb+9OC1aO+bG8SWU9kf7LK79J
-   A+G4FPUsbXJ5vmm9zAZoRGsXWBveQMcWKI/qr9p+rAJH07TlVmIisO2Yb
-   uc4LUNqKyYwWql6Ug2TP+jNYzDrcp2kk0aeWUSCfWLlIVMKvoIoO6mhV3
-   4nutx864Glxp2xJ00uvLxAfhtVSI703RDHef0o1wFbiNjgC6rVu+jCfI8
+  t=1676802396; x=1708338396;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=zfduNAxNefUu+Fap/zYNPjHaXhYlJZxW5Cih6AhFr1A=;
+  b=Af1Ak04HPMNpmGAfY65wQOso/hy96JP/GFu2eJzyeb/afYx3PvbTlzTY
+   ItR4tTc/gYRkNw5QyfH0IDJxKEo1D8HDU8AwODbXve0vhBZVOb4qCKUlc
+   4QbivkeD1wP2KnMtaK7f48cWtpGjbVQ1Rv1hsdnLYapBZYqVw0LkSRK2f
+   ccDdpAr2Vx2QM7dhCN+bN6pQ3xPtKIIUHIBXFXRedmre1wqMi4ZW2OS4/
+   DiBr8o34jxj4SfTl5ZBmH6dQLIGYRscRKY4iymMpoplABioBEuH+TE3Mz
+   pH/oAG15lX6sd2rJg8AgPTys9QdOL7HXHyxw87jFAiUARiUVqMYjZi0WD
    g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10625"; a="330902640"
+X-IronPort-AV: E=McAfee;i="6500,9779,10625"; a="333600104"
 X-IronPort-AV: E=Sophos;i="5.97,310,1669104000"; 
-   d="scan'208";a="330902640"
+   d="scan'208";a="333600104"
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2023 01:34:34 -0800
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2023 02:26:35 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10625"; a="664327860"
+X-IronPort-AV: E=McAfee;i="6500,9779,10625"; a="664340032"
 X-IronPort-AV: E=Sophos;i="5.97,310,1669104000"; 
-   d="scan'208";a="664327860"
+   d="scan'208";a="664340032"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 19 Feb 2023 01:34:32 -0800
+  by orsmga007.jf.intel.com with ESMTP; 19 Feb 2023 02:26:34 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pTg5Y-000DDw-0E;
-	Sun, 19 Feb 2023 09:34:32 +0000
-Date: Sun, 19 Feb 2023 17:34:31 +0800
+	id 1pTgtt-000DF5-1k;
+	Sun, 19 Feb 2023 10:26:33 +0000
+Date: Sun, 19 Feb 2023 18:25:35 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [djwong-xfs:in-memory-btrees 111/182] fs/xfs/scrub/xfarray.c:486:27:
- warning: Dereference of null pointer [clang-analyzer-core.NullDereference]
-Message-ID: <202302191741.JWnunXam-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: drivers/gpu/drm/i915/display/skl_watermark.c:1522
+ skl_crtc_allocate_plane_ddb() error: uninitialized symbol 'blocks'.
+Message-ID: <202302191846.4oeXQ8wO-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-
-:::::: 
-:::::: Manual check reason: "low confidence static check warning: fs/xfs/scrub/xfarray.c:486:27: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]"
-:::::: 
+Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: "Darrick J. Wong" <darrick.wong@oracle.com>
+CC: linux-kernel@vger.kernel.org
+TO: "Ville Syrjälä" <ville.syrjala@linux.intel.com>
+CC: Jani Nikula <jani.nikula@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git in-memory-btrees
-head:   65b160b063691d49f132134659b0b200cb138e72
-commit: cac672955a40d197ef9f302bb7b72e486b859008 [111/182] xfs: enable sorting of xfile-backed arrays
-:::::: branch date: 33 hours ago
-:::::: commit date: 3 weeks ago
-config: s390-randconfig-c005-20230212 (https://download.01.org/0day-ci/archive/20230219/202302191741.JWnunXam-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project db0e6591612b53910a1b366863348bdb9d7d2fb1)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install s390 cross compiling tool for clang build
-        # apt-get install binutils-s390x-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git/commit/?id=cac672955a40d197ef9f302bb7b72e486b859008
-        git remote add djwong-xfs https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git
-        git fetch --no-tags djwong-xfs in-memory-btrees
-        git checkout cac672955a40d197ef9f302bb7b72e486b859008
-        # save the config file
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=s390 clang-analyzer  olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=s390 clang-analyzer 
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   925cf0457d7e62ce08878ffb789189ac08ca8677
+commit: 42a0d256496f4526046b9779ea6e49018b58f779 drm/i915: Extract skl_watermark.c
+date:   5 months ago
+:::::: branch date: 8 hours ago
+:::::: commit date: 5 months ago
+config: x86_64-randconfig-m001-20230213 (https://download.01.org/0day-ci/archive/20230219/202302191846.4oeXQ8wO-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/r/202302191741.JWnunXam-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Link: https://lore.kernel.org/r/202302191846.4oeXQ8wO-lkp@intel.com/
 
-clang_analyzer warnings: (new ones prefixed by >>)
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/ext4/move_extent.c:276:2: note: Taking false branch
-           if (IS_ERR(handle)) {
-           ^
-   fs/ext4/move_extent.c:288:6: note: Assuming the condition is false
-           if ((orig_blk_offset + block_len_in_page - 1) ==
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/ext4/move_extent.c:288:2: note: Taking false branch
-           if ((orig_blk_offset + block_len_in_page - 1) ==
-           ^
-   fs/ext4/move_extent.c:306:9: note: Calling 'mext_page_double_lock'
-           *err = mext_page_double_lock(orig_inode, donor_inode, orig_page_offset,
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/ext4/move_extent.c:130:10: note: 'inode1' is non-null
-           BUG_ON(!inode1 || !inode2);
-                   ^
-   include/asm-generic/bug.h:71:45: note: expanded from macro 'BUG_ON'
-   #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (0)
-                                               ^~~~~~~~~
-   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                               ^
-   fs/ext4/move_extent.c:130:9: note: Left side of '||' is false
-           BUG_ON(!inode1 || !inode2);
-                  ^
-   fs/ext4/move_extent.c:130:21: note: 'inode2' is non-null
-           BUG_ON(!inode1 || !inode2);
-                              ^
-   include/asm-generic/bug.h:71:45: note: expanded from macro 'BUG_ON'
-   #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (0)
-                                               ^~~~~~~~~
-   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                               ^
-   fs/ext4/move_extent.c:130:2: note: Taking false branch
-           BUG_ON(!inode1 || !inode2);
-           ^
-   include/asm-generic/bug.h:71:32: note: expanded from macro 'BUG_ON'
-   #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (0)
-                                  ^
-   fs/ext4/move_extent.c:130:2: note: Loop condition is false.  Exiting loop
-           BUG_ON(!inode1 || !inode2);
-           ^
-   include/asm-generic/bug.h:71:27: note: expanded from macro 'BUG_ON'
-   #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (0)
-                             ^
-   fs/ext4/move_extent.c:131:6: note: 'inode1' is >= 'inode2'
-           if (inode1 < inode2) {
-               ^~~~~~
-   fs/ext4/move_extent.c:131:2: note: Taking false branch
-           if (inode1 < inode2) {
-           ^
-   fs/ext4/move_extent.c:135:3: note: Loop condition is false.  Exiting loop
-                   swap(index1, index2);
-                   ^
-   include/linux/minmax.h:167:2: note: expanded from macro 'swap'
-           do { typeof(a) __tmp = (a); (a) = (b); (b) = __tmp; } while (0)
-           ^
-   fs/ext4/move_extent.c:140:10: note: Calling 'memalloc_nofs_save'
-           flags = memalloc_nofs_save();
-                   ^~~~~~~~~~~~~~~~~~~~
-   include/linux/sched/mm.h:321:23: note: Dereference of null pointer
-           unsigned int flags = current->flags & PF_MEMALLOC_NOFS;
-                                ^
-   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'current'
-   #define current ((struct task_struct *const)S390_lowcore.current_task)
-                                               ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/s390/include/asm/lowcore.h:215:22: note: expanded from macro 'S390_lowcore'
-   #define S390_lowcore (*((struct lowcore *) 0))
-                        ^
-   Suppressed 11 warnings (11 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   13 warnings generated.
-   fs/xfs/scrub/common.h:26:27: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]
-           if (fatal_signal_pending(current)) {
-                                    ^
-   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'current'
-   #define current ((struct task_struct *const)S390_lowcore.current_task)
-                                               ^
-   arch/s390/include/asm/lowcore.h:215:22: note: expanded from macro 'S390_lowcore'
-   #define S390_lowcore (*((struct lowcore *) 0))
-                        ^
-   fs/xfs/scrub/scrub.c:142:6: note: Calling 'xchk_should_terminate'
-           if (xchk_should_terminate(sc, &error))
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/xfs/scrub/common.h:26:27: note: Dereference of null pointer
-           if (fatal_signal_pending(current)) {
-                                    ^
-   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'current'
-   #define current ((struct task_struct *const)S390_lowcore.current_task)
-                                               ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/s390/include/asm/lowcore.h:215:22: note: expanded from macro 'S390_lowcore'
-   #define S390_lowcore (*((struct lowcore *) 0))
-                        ^
-   Suppressed 12 warnings (12 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   12 warnings generated.
-   Suppressed 12 warnings (12 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   12 warnings generated.
->> fs/xfs/scrub/xfarray.c:486:27: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]
-               fatal_signal_pending(current)) {
-                                    ^
-   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'current'
-   #define current ((struct task_struct *const)S390_lowcore.current_task)
-                                               ^
-   arch/s390/include/asm/lowcore.h:215:22: note: expanded from macro 'S390_lowcore'
-   #define S390_lowcore (*((struct lowcore *) 0))
-                        ^
-   fs/xfs/scrub/xfarray.c:812:6: note: Assuming field 'nr' is >= 2
-           if (array->nr < 2)
-               ^~~~~~~~~~~~~
-   fs/xfs/scrub/xfarray.c:812:2: note: Taking false branch
-           if (array->nr < 2)
-           ^
-   fs/xfs/scrub/xfarray.c:814:6: note: Assuming the condition is false
-           if (array->nr >= QSORT_MAX_RECS)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/xfs/scrub/xfarray.c:814:2: note: Taking false branch
-           if (array->nr >= QSORT_MAX_RECS)
-           ^
-   fs/xfs/scrub/xfarray.c:818:6: note: 'error' is 0
-           if (error)
-               ^~~~~
-   fs/xfs/scrub/xfarray.c:818:2: note: Taking false branch
-           if (error)
-           ^
-   fs/xfs/scrub/xfarray.c:824:2: note: Loop condition is true.  Entering loop body
-           while (si->stack_depth >= 0) {
-           ^
-   fs/xfs/scrub/xfarray.c:831:7: note: Assuming 'lo' is < 'hi'
-                   if (lo >= hi) {
-                       ^~~~~~~~
-   fs/xfs/scrub/xfarray.c:831:3: note: Taking false branch
-                   if (lo >= hi) {
-                   ^
-   fs/xfs/scrub/xfarray.c:837:3: note: Taking true branch
-                   if (xfarray_want_isort(si, lo, hi)) {
-                   ^
-   fs/xfs/scrub/xfarray.c:838:12: note: Calling 'xfarray_isort'
-                           error = xfarray_isort(si, lo, hi);
-                                   ^~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/xfs/scrub/xfarray.c:541:6: note: 'error' is 0
-           if (error)
-               ^~~~~
-   fs/xfs/scrub/xfarray.c:541:2: note: Taking false branch
-           if (error)
-           ^
-   fs/xfs/scrub/xfarray.c:543:21: note: Assuming 'run' is <= 'hi'
-           for (run = lo + 1; run <= hi; run++) {
-                              ^~~~~~~~~
-   fs/xfs/scrub/xfarray.c:543:2: note: Loop condition is true.  Entering loop body
-           for (run = lo + 1; run <= hi; run++) {
-           ^
-   fs/xfs/scrub/xfarray.c:546:7: note: 'error' is 0
-                   if (error)
-                       ^~~~~
-   fs/xfs/scrub/xfarray.c:546:3: note: Taking false branch
-                   if (error)
-                   ^
-   fs/xfs/scrub/xfarray.c:548:7: note: Assuming the condition is false
-                   if (xfarray_sort_cmp(si, a, b) < 0) {
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/xfs/scrub/xfarray.c:548:3: note: Taking false branch
-                   if (xfarray_sort_cmp(si, a, b) < 0) {
-                   ^
-   fs/xfs/scrub/xfarray.c:553:7: note: Calling 'xfarray_sort_terminated'
-                   if (xfarray_sort_terminated(si, &error))
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/xfs/scrub/xfarray.c:485:7: note: Assuming the condition is true
-           if ((si->flags & XFARRAY_SORT_KILLABLE) &&
-                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/xfs/scrub/xfarray.c:485:6: note: Left side of '&&' is true
-           if ((si->flags & XFARRAY_SORT_KILLABLE) &&
-               ^
-   fs/xfs/scrub/xfarray.c:486:27: note: Dereference of null pointer
-               fatal_signal_pending(current)) {
-                                    ^
-   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'current'
-   #define current ((struct task_struct *const)S390_lowcore.current_task)
-                                               ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/s390/include/asm/lowcore.h:215:22: note: expanded from macro 'S390_lowcore'
-   #define S390_lowcore (*((struct lowcore *) 0))
-                        ^
-   Suppressed 11 warnings (11 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   22 warnings generated.
-   arch/s390/include/asm/spinlock.h:61:52: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]
-           return likely(__atomic_cmpxchg_bool(&lp->lock, 0, SPINLOCK_LOCKVAL));
-                                                             ^
-   arch/s390/include/asm/spinlock.h:19:26: note: expanded from macro 'SPINLOCK_LOCKVAL'
-   #define SPINLOCK_LOCKVAL (S390_lowcore.spinlock_lockval)
-                            ^
-   kernel/time/clockevents.c:405:2: note: Calling '__raw_spin_lock'
-           raw_spin_lock(&clockevents_lock);
-           ^
-   include/linux/spinlock.h:216:29: note: expanded from macro 'raw_spin_lock'
-   #define raw_spin_lock(lock)     _raw_spin_lock(lock)
-                                   ^~~~~~~~~~~~~~~~~~~~
-   include/linux/spinlock_api_smp.h:47:30: note: expanded from macro '_raw_spin_lock'
-   #define _raw_spin_lock(lock) __raw_spin_lock(lock)
+smatch warnings:
+drivers/gpu/drm/i915/display/skl_watermark.c:1522 skl_crtc_allocate_plane_ddb() error: uninitialized symbol 'blocks'.
 
-vim +486 fs/xfs/scrub/xfarray.c
+vim +/blocks +1522 drivers/gpu/drm/i915/display/skl_watermark.c
 
-cac672955a40d1 Darrick J. Wong 2022-07-14  471  
-cac672955a40d1 Darrick J. Wong 2022-07-14  472  /* Should this sort be terminated by a fatal signal? */
-cac672955a40d1 Darrick J. Wong 2022-07-14  473  static inline bool
-cac672955a40d1 Darrick J. Wong 2022-07-14  474  xfarray_sort_terminated(
-cac672955a40d1 Darrick J. Wong 2022-07-14  475  	struct xfarray_sortinfo	*si,
-cac672955a40d1 Darrick J. Wong 2022-07-14  476  	int			*error)
-cac672955a40d1 Darrick J. Wong 2022-07-14  477  {
-cac672955a40d1 Darrick J. Wong 2022-07-14  478  	/*
-cac672955a40d1 Darrick J. Wong 2022-07-14  479  	 * If preemption is disabled, we need to yield to the scheduler every
-cac672955a40d1 Darrick J. Wong 2022-07-14  480  	 * few seconds so that we don't run afoul of the soft lockup watchdog
-cac672955a40d1 Darrick J. Wong 2022-07-14  481  	 * or RCU stall detector.
-cac672955a40d1 Darrick J. Wong 2022-07-14  482  	 */
-cac672955a40d1 Darrick J. Wong 2022-07-14  483  	cond_resched();
-cac672955a40d1 Darrick J. Wong 2022-07-14  484  
-cac672955a40d1 Darrick J. Wong 2022-07-14  485  	if ((si->flags & XFARRAY_SORT_KILLABLE) &&
-cac672955a40d1 Darrick J. Wong 2022-07-14 @486  	    fatal_signal_pending(current)) {
-cac672955a40d1 Darrick J. Wong 2022-07-14  487  		if (*error == 0)
-cac672955a40d1 Darrick J. Wong 2022-07-14  488  			*error = -EINTR;
-cac672955a40d1 Darrick J. Wong 2022-07-14  489  		return true;
-cac672955a40d1 Darrick J. Wong 2022-07-14  490  	}
-cac672955a40d1 Darrick J. Wong 2022-07-14  491  	return false;
-cac672955a40d1 Darrick J. Wong 2022-07-14  492  }
-cac672955a40d1 Darrick J. Wong 2022-07-14  493  
+42a0d256496f45 Ville Syrjälä 2022-09-08  1448  
+42a0d256496f45 Ville Syrjälä 2022-09-08  1449  static int
+42a0d256496f45 Ville Syrjälä 2022-09-08  1450  skl_crtc_allocate_plane_ddb(struct intel_atomic_state *state,
+42a0d256496f45 Ville Syrjälä 2022-09-08  1451  			    struct intel_crtc *crtc)
+42a0d256496f45 Ville Syrjälä 2022-09-08  1452  {
+42a0d256496f45 Ville Syrjälä 2022-09-08  1453  	struct drm_i915_private *i915 = to_i915(crtc->base.dev);
+42a0d256496f45 Ville Syrjälä 2022-09-08  1454  	struct intel_crtc_state *crtc_state =
+42a0d256496f45 Ville Syrjälä 2022-09-08  1455  		intel_atomic_get_new_crtc_state(state, crtc);
+42a0d256496f45 Ville Syrjälä 2022-09-08  1456  	const struct intel_dbuf_state *dbuf_state =
+42a0d256496f45 Ville Syrjälä 2022-09-08  1457  		intel_atomic_get_new_dbuf_state(state);
+42a0d256496f45 Ville Syrjälä 2022-09-08  1458  	const struct skl_ddb_entry *alloc = &dbuf_state->ddb[crtc->pipe];
+42a0d256496f45 Ville Syrjälä 2022-09-08  1459  	int num_active = hweight8(dbuf_state->active_pipes);
+42a0d256496f45 Ville Syrjälä 2022-09-08  1460  	struct skl_plane_ddb_iter iter;
+42a0d256496f45 Ville Syrjälä 2022-09-08  1461  	enum plane_id plane_id;
+42a0d256496f45 Ville Syrjälä 2022-09-08  1462  	u16 cursor_size;
+42a0d256496f45 Ville Syrjälä 2022-09-08  1463  	u32 blocks;
+42a0d256496f45 Ville Syrjälä 2022-09-08  1464  	int level;
+42a0d256496f45 Ville Syrjälä 2022-09-08  1465  
+42a0d256496f45 Ville Syrjälä 2022-09-08  1466  	/* Clear the partitioning for disabled planes. */
+42a0d256496f45 Ville Syrjälä 2022-09-08  1467  	memset(crtc_state->wm.skl.plane_ddb, 0, sizeof(crtc_state->wm.skl.plane_ddb));
+42a0d256496f45 Ville Syrjälä 2022-09-08  1468  	memset(crtc_state->wm.skl.plane_ddb_y, 0, sizeof(crtc_state->wm.skl.plane_ddb_y));
+42a0d256496f45 Ville Syrjälä 2022-09-08  1469  
+42a0d256496f45 Ville Syrjälä 2022-09-08  1470  	if (!crtc_state->hw.active)
+42a0d256496f45 Ville Syrjälä 2022-09-08  1471  		return 0;
+42a0d256496f45 Ville Syrjälä 2022-09-08  1472  
+42a0d256496f45 Ville Syrjälä 2022-09-08  1473  	iter.start = alloc->start;
+42a0d256496f45 Ville Syrjälä 2022-09-08  1474  	iter.size = skl_ddb_entry_size(alloc);
+42a0d256496f45 Ville Syrjälä 2022-09-08  1475  	if (iter.size == 0)
+42a0d256496f45 Ville Syrjälä 2022-09-08  1476  		return 0;
+42a0d256496f45 Ville Syrjälä 2022-09-08  1477  
+42a0d256496f45 Ville Syrjälä 2022-09-08  1478  	/* Allocate fixed number of blocks for cursor. */
+42a0d256496f45 Ville Syrjälä 2022-09-08  1479  	cursor_size = skl_cursor_allocation(crtc_state, num_active);
+42a0d256496f45 Ville Syrjälä 2022-09-08  1480  	iter.size -= cursor_size;
+42a0d256496f45 Ville Syrjälä 2022-09-08  1481  	skl_ddb_entry_init(&crtc_state->wm.skl.plane_ddb[PLANE_CURSOR],
+42a0d256496f45 Ville Syrjälä 2022-09-08  1482  			   alloc->end - cursor_size, alloc->end);
+42a0d256496f45 Ville Syrjälä 2022-09-08  1483  
+42a0d256496f45 Ville Syrjälä 2022-09-08  1484  	iter.data_rate = skl_total_relative_data_rate(crtc_state);
+42a0d256496f45 Ville Syrjälä 2022-09-08  1485  
+42a0d256496f45 Ville Syrjälä 2022-09-08  1486  	/*
+42a0d256496f45 Ville Syrjälä 2022-09-08  1487  	 * Find the highest watermark level for which we can satisfy the block
+42a0d256496f45 Ville Syrjälä 2022-09-08  1488  	 * requirement of active planes.
+42a0d256496f45 Ville Syrjälä 2022-09-08  1489  	 */
+42a0d256496f45 Ville Syrjälä 2022-09-08  1490  	for (level = ilk_wm_max_level(i915); level >= 0; level--) {
+42a0d256496f45 Ville Syrjälä 2022-09-08  1491  		blocks = 0;
+42a0d256496f45 Ville Syrjälä 2022-09-08  1492  		for_each_plane_id_on_crtc(crtc, plane_id) {
+42a0d256496f45 Ville Syrjälä 2022-09-08  1493  			const struct skl_plane_wm *wm =
+42a0d256496f45 Ville Syrjälä 2022-09-08  1494  				&crtc_state->wm.skl.optimal.planes[plane_id];
+42a0d256496f45 Ville Syrjälä 2022-09-08  1495  
+42a0d256496f45 Ville Syrjälä 2022-09-08  1496  			if (plane_id == PLANE_CURSOR) {
+42a0d256496f45 Ville Syrjälä 2022-09-08  1497  				const struct skl_ddb_entry *ddb =
+42a0d256496f45 Ville Syrjälä 2022-09-08  1498  					&crtc_state->wm.skl.plane_ddb[plane_id];
+42a0d256496f45 Ville Syrjälä 2022-09-08  1499  
+42a0d256496f45 Ville Syrjälä 2022-09-08  1500  				if (wm->wm[level].min_ddb_alloc > skl_ddb_entry_size(ddb)) {
+42a0d256496f45 Ville Syrjälä 2022-09-08  1501  					drm_WARN_ON(&i915->drm,
+42a0d256496f45 Ville Syrjälä 2022-09-08  1502  						    wm->wm[level].min_ddb_alloc != U16_MAX);
+42a0d256496f45 Ville Syrjälä 2022-09-08  1503  					blocks = U32_MAX;
+42a0d256496f45 Ville Syrjälä 2022-09-08  1504  					break;
+42a0d256496f45 Ville Syrjälä 2022-09-08  1505  				}
+42a0d256496f45 Ville Syrjälä 2022-09-08  1506  				continue;
+42a0d256496f45 Ville Syrjälä 2022-09-08  1507  			}
+42a0d256496f45 Ville Syrjälä 2022-09-08  1508  
+42a0d256496f45 Ville Syrjälä 2022-09-08  1509  			blocks += wm->wm[level].min_ddb_alloc;
+42a0d256496f45 Ville Syrjälä 2022-09-08  1510  			blocks += wm->uv_wm[level].min_ddb_alloc;
+42a0d256496f45 Ville Syrjälä 2022-09-08  1511  		}
+42a0d256496f45 Ville Syrjälä 2022-09-08  1512  
+42a0d256496f45 Ville Syrjälä 2022-09-08  1513  		if (blocks <= iter.size) {
+42a0d256496f45 Ville Syrjälä 2022-09-08  1514  			iter.size -= blocks;
+42a0d256496f45 Ville Syrjälä 2022-09-08  1515  			break;
+42a0d256496f45 Ville Syrjälä 2022-09-08  1516  		}
+42a0d256496f45 Ville Syrjälä 2022-09-08  1517  	}
+42a0d256496f45 Ville Syrjälä 2022-09-08  1518  
+42a0d256496f45 Ville Syrjälä 2022-09-08  1519  	if (level < 0) {
+42a0d256496f45 Ville Syrjälä 2022-09-08  1520  		drm_dbg_kms(&i915->drm,
+42a0d256496f45 Ville Syrjälä 2022-09-08  1521  			    "Requested display configuration exceeds system DDB limitations");
+42a0d256496f45 Ville Syrjälä 2022-09-08 @1522  		drm_dbg_kms(&i915->drm, "minimum required %d/%d\n",
+42a0d256496f45 Ville Syrjälä 2022-09-08  1523  			    blocks, iter.size);
+42a0d256496f45 Ville Syrjälä 2022-09-08  1524  		return -EINVAL;
+42a0d256496f45 Ville Syrjälä 2022-09-08  1525  	}
+42a0d256496f45 Ville Syrjälä 2022-09-08  1526  
+42a0d256496f45 Ville Syrjälä 2022-09-08  1527  	/* avoid the WARN later when we don't allocate any extra DDB */
+42a0d256496f45 Ville Syrjälä 2022-09-08  1528  	if (iter.data_rate == 0)
+42a0d256496f45 Ville Syrjälä 2022-09-08  1529  		iter.size = 0;
+42a0d256496f45 Ville Syrjälä 2022-09-08  1530  
+42a0d256496f45 Ville Syrjälä 2022-09-08  1531  	/*
+42a0d256496f45 Ville Syrjälä 2022-09-08  1532  	 * Grant each plane the blocks it requires at the highest achievable
+42a0d256496f45 Ville Syrjälä 2022-09-08  1533  	 * watermark level, plus an extra share of the leftover blocks
+42a0d256496f45 Ville Syrjälä 2022-09-08  1534  	 * proportional to its relative data rate.
+42a0d256496f45 Ville Syrjälä 2022-09-08  1535  	 */
+42a0d256496f45 Ville Syrjälä 2022-09-08  1536  	for_each_plane_id_on_crtc(crtc, plane_id) {
+42a0d256496f45 Ville Syrjälä 2022-09-08  1537  		struct skl_ddb_entry *ddb =
+42a0d256496f45 Ville Syrjälä 2022-09-08  1538  			&crtc_state->wm.skl.plane_ddb[plane_id];
+42a0d256496f45 Ville Syrjälä 2022-09-08  1539  		struct skl_ddb_entry *ddb_y =
+42a0d256496f45 Ville Syrjälä 2022-09-08  1540  			&crtc_state->wm.skl.plane_ddb_y[plane_id];
+42a0d256496f45 Ville Syrjälä 2022-09-08  1541  		const struct skl_plane_wm *wm =
+42a0d256496f45 Ville Syrjälä 2022-09-08  1542  			&crtc_state->wm.skl.optimal.planes[plane_id];
+42a0d256496f45 Ville Syrjälä 2022-09-08  1543  
+42a0d256496f45 Ville Syrjälä 2022-09-08  1544  		if (plane_id == PLANE_CURSOR)
+42a0d256496f45 Ville Syrjälä 2022-09-08  1545  			continue;
+42a0d256496f45 Ville Syrjälä 2022-09-08  1546  
+42a0d256496f45 Ville Syrjälä 2022-09-08  1547  		if (DISPLAY_VER(i915) < 11 &&
+42a0d256496f45 Ville Syrjälä 2022-09-08  1548  		    crtc_state->nv12_planes & BIT(plane_id)) {
+42a0d256496f45 Ville Syrjälä 2022-09-08  1549  			skl_allocate_plane_ddb(&iter, ddb_y, &wm->wm[level],
+42a0d256496f45 Ville Syrjälä 2022-09-08  1550  					       crtc_state->rel_data_rate_y[plane_id]);
+42a0d256496f45 Ville Syrjälä 2022-09-08  1551  			skl_allocate_plane_ddb(&iter, ddb, &wm->uv_wm[level],
+42a0d256496f45 Ville Syrjälä 2022-09-08  1552  					       crtc_state->rel_data_rate[plane_id]);
+42a0d256496f45 Ville Syrjälä 2022-09-08  1553  		} else {
+42a0d256496f45 Ville Syrjälä 2022-09-08  1554  			skl_allocate_plane_ddb(&iter, ddb, &wm->wm[level],
+42a0d256496f45 Ville Syrjälä 2022-09-08  1555  					       crtc_state->rel_data_rate[plane_id]);
+42a0d256496f45 Ville Syrjälä 2022-09-08  1556  		}
+42a0d256496f45 Ville Syrjälä 2022-09-08  1557  	}
+42a0d256496f45 Ville Syrjälä 2022-09-08  1558  	drm_WARN_ON(&i915->drm, iter.size != 0 || iter.data_rate != 0);
+42a0d256496f45 Ville Syrjälä 2022-09-08  1559  
+42a0d256496f45 Ville Syrjälä 2022-09-08  1560  	/*
+42a0d256496f45 Ville Syrjälä 2022-09-08  1561  	 * When we calculated watermark values we didn't know how high
+42a0d256496f45 Ville Syrjälä 2022-09-08  1562  	 * of a level we'd actually be able to hit, so we just marked
+42a0d256496f45 Ville Syrjälä 2022-09-08  1563  	 * all levels as "enabled."  Go back now and disable the ones
+42a0d256496f45 Ville Syrjälä 2022-09-08  1564  	 * that aren't actually possible.
+42a0d256496f45 Ville Syrjälä 2022-09-08  1565  	 */
+42a0d256496f45 Ville Syrjälä 2022-09-08  1566  	for (level++; level <= ilk_wm_max_level(i915); level++) {
+42a0d256496f45 Ville Syrjälä 2022-09-08  1567  		for_each_plane_id_on_crtc(crtc, plane_id) {
+42a0d256496f45 Ville Syrjälä 2022-09-08  1568  			const struct skl_ddb_entry *ddb =
+42a0d256496f45 Ville Syrjälä 2022-09-08  1569  				&crtc_state->wm.skl.plane_ddb[plane_id];
+42a0d256496f45 Ville Syrjälä 2022-09-08  1570  			const struct skl_ddb_entry *ddb_y =
+42a0d256496f45 Ville Syrjälä 2022-09-08  1571  				&crtc_state->wm.skl.plane_ddb_y[plane_id];
+42a0d256496f45 Ville Syrjälä 2022-09-08  1572  			struct skl_plane_wm *wm =
+42a0d256496f45 Ville Syrjälä 2022-09-08  1573  				&crtc_state->wm.skl.optimal.planes[plane_id];
+42a0d256496f45 Ville Syrjälä 2022-09-08  1574  
+42a0d256496f45 Ville Syrjälä 2022-09-08  1575  			if (DISPLAY_VER(i915) < 11 &&
+42a0d256496f45 Ville Syrjälä 2022-09-08  1576  			    crtc_state->nv12_planes & BIT(plane_id))
+42a0d256496f45 Ville Syrjälä 2022-09-08  1577  				skl_check_nv12_wm_level(&wm->wm[level],
+42a0d256496f45 Ville Syrjälä 2022-09-08  1578  							&wm->uv_wm[level],
+42a0d256496f45 Ville Syrjälä 2022-09-08  1579  							ddb_y, ddb);
+42a0d256496f45 Ville Syrjälä 2022-09-08  1580  			else
+42a0d256496f45 Ville Syrjälä 2022-09-08  1581  				skl_check_wm_level(&wm->wm[level], ddb);
+42a0d256496f45 Ville Syrjälä 2022-09-08  1582  
+42a0d256496f45 Ville Syrjälä 2022-09-08  1583  			if (icl_need_wm1_wa(i915, plane_id) &&
+42a0d256496f45 Ville Syrjälä 2022-09-08  1584  			    level == 1 && wm->wm[0].enable) {
+42a0d256496f45 Ville Syrjälä 2022-09-08  1585  				wm->wm[level].blocks = wm->wm[0].blocks;
+42a0d256496f45 Ville Syrjälä 2022-09-08  1586  				wm->wm[level].lines = wm->wm[0].lines;
+42a0d256496f45 Ville Syrjälä 2022-09-08  1587  				wm->wm[level].ignore_lines = wm->wm[0].ignore_lines;
+42a0d256496f45 Ville Syrjälä 2022-09-08  1588  			}
+42a0d256496f45 Ville Syrjälä 2022-09-08  1589  		}
+42a0d256496f45 Ville Syrjälä 2022-09-08  1590  	}
+42a0d256496f45 Ville Syrjälä 2022-09-08  1591  
+42a0d256496f45 Ville Syrjälä 2022-09-08  1592  	/*
+42a0d256496f45 Ville Syrjälä 2022-09-08  1593  	 * Go back and disable the transition and SAGV watermarks
+42a0d256496f45 Ville Syrjälä 2022-09-08  1594  	 * if it turns out we don't have enough DDB blocks for them.
+42a0d256496f45 Ville Syrjälä 2022-09-08  1595  	 */
+42a0d256496f45 Ville Syrjälä 2022-09-08  1596  	for_each_plane_id_on_crtc(crtc, plane_id) {
+42a0d256496f45 Ville Syrjälä 2022-09-08  1597  		const struct skl_ddb_entry *ddb =
+42a0d256496f45 Ville Syrjälä 2022-09-08  1598  			&crtc_state->wm.skl.plane_ddb[plane_id];
+42a0d256496f45 Ville Syrjälä 2022-09-08  1599  		const struct skl_ddb_entry *ddb_y =
+42a0d256496f45 Ville Syrjälä 2022-09-08  1600  			&crtc_state->wm.skl.plane_ddb_y[plane_id];
+42a0d256496f45 Ville Syrjälä 2022-09-08  1601  		struct skl_plane_wm *wm =
+42a0d256496f45 Ville Syrjälä 2022-09-08  1602  			&crtc_state->wm.skl.optimal.planes[plane_id];
+42a0d256496f45 Ville Syrjälä 2022-09-08  1603  
+42a0d256496f45 Ville Syrjälä 2022-09-08  1604  		if (DISPLAY_VER(i915) < 11 &&
+42a0d256496f45 Ville Syrjälä 2022-09-08  1605  		    crtc_state->nv12_planes & BIT(plane_id)) {
+42a0d256496f45 Ville Syrjälä 2022-09-08  1606  			skl_check_wm_level(&wm->trans_wm, ddb_y);
+42a0d256496f45 Ville Syrjälä 2022-09-08  1607  		} else {
+42a0d256496f45 Ville Syrjälä 2022-09-08  1608  			WARN_ON(skl_ddb_entry_size(ddb_y));
+42a0d256496f45 Ville Syrjälä 2022-09-08  1609  
+42a0d256496f45 Ville Syrjälä 2022-09-08  1610  			skl_check_wm_level(&wm->trans_wm, ddb);
+42a0d256496f45 Ville Syrjälä 2022-09-08  1611  		}
+42a0d256496f45 Ville Syrjälä 2022-09-08  1612  
+42a0d256496f45 Ville Syrjälä 2022-09-08  1613  		skl_check_wm_level(&wm->sagv.wm0, ddb);
+42a0d256496f45 Ville Syrjälä 2022-09-08  1614  		skl_check_wm_level(&wm->sagv.trans_wm, ddb);
+42a0d256496f45 Ville Syrjälä 2022-09-08  1615  	}
+42a0d256496f45 Ville Syrjälä 2022-09-08  1616  
+42a0d256496f45 Ville Syrjälä 2022-09-08  1617  	return 0;
+42a0d256496f45 Ville Syrjälä 2022-09-08  1618  }
+42a0d256496f45 Ville Syrjälä 2022-09-08  1619  
 
 -- 
 0-DAY CI Kernel Test Service
