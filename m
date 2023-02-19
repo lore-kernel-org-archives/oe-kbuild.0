@@ -1,43 +1,42 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD02D1367
-	for <oe-kbuild@lists.linux.dev>; Sun, 19 Feb 2023 14:21:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD9A62115
+	for <oe-kbuild@lists.linux.dev>; Sun, 19 Feb 2023 14:41:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676816500; x=1708352500;
+  t=1676817700; x=1708353700;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+vam+NvNJl4JXrct+0RbIReg0BRPdjoZORg8EmQvxUo=;
-  b=bVJJNDmbmMofrgU7rgPrlm4bKtg7ftiWlbMVghbuDu0ISOByC5PPJyBy
-   AHQw9v6LR0n0IUVmf3W6dFAoe/NuKZyN2pmjWP9/4nYnUWr2FWIlGaKuN
-   kTYV4dlFELfDFLsx8oyIWYhkAvHTj71GvQ+WR8kl0YTvNVQREOtub4WlM
-   KnnX04pN6Dsjpub0TmCCE/O0RFoxflP0xiCPmM7j5BRXzIisSJQR4Iahi
-   xeOboMMasSBfrc60WWyBP0bdH4r2ql1vQrXbMZ2DaBZbWtyP8TcEUL7rd
-   /ZiHCYoLNPupfM5RAwCi174klJLsQtPecQV2dSuitl/K2CUxPrA/fbZ+Y
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10626"; a="418475423"
+  bh=SJWPzNVluT18tv10b4Cimqi4wOem1asCMfv5lYzNSdI=;
+  b=GeFPk4+DsnevI4pxZJrqPklBj/Hd9aTEeWRCjcy/J/vRdF2591uiFp2G
+   QM/6ZYPUkO4HrorY3RB3Xobqr4Ry7ZJVMfZV07Y53AmRAa1piLanzdHog
+   ph1+BwcMTXJehVC7MoNMRJixRjZLWXkBW0R9rTKFS9EfKN9xeGin07Qg7
+   +ZWu2Z7CdjH6Pld43xgQXbF/ludea8vtWgKNGowFBdTn3VLaqUlsfRUPd
+   oYdOMgPbVJmhAMXrPsL9ELGzFT2UKYz1H1/HlnQj+AB7vpLHOZJvwUCfq
+   TnBH2VaWWGaUDYPxCaaCYm4HzfQhd+GiaPdOAOiXiT2nuTRKa2L0RAvLG
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10626"; a="394735863"
 X-IronPort-AV: E=Sophos;i="5.97,310,1669104000"; 
-   d="scan'208";a="418475423"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2023 06:21:39 -0800
+   d="scan'208";a="394735863"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2023 06:41:40 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10626"; a="916603096"
+X-IronPort-AV: E=McAfee;i="6500,9779,10626"; a="620898364"
 X-IronPort-AV: E=Sophos;i="5.97,310,1669104000"; 
-   d="scan'208";a="916603096"
+   d="scan'208";a="620898364"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 19 Feb 2023 06:21:38 -0800
+  by orsmga003.jf.intel.com with ESMTP; 19 Feb 2023 06:41:38 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pTkZN-000DKr-1o;
-	Sun, 19 Feb 2023 14:21:37 +0000
-Date: Sun, 19 Feb 2023 22:20:43 +0800
+	id 1pTksj-000DKz-2B;
+	Sun, 19 Feb 2023 14:41:37 +0000
+Date: Sun, 19 Feb 2023 22:41:15 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [djwong-xfs:in-memory-btrees 129/182]
- fs/xfs/scrub/refcount_repair.c:534:4: warning: Value stored to 'sbno' is
- never read [clang-analyzer-deadcode.DeadStores]
-Message-ID: <202302192238.4gDx5WDp-lkp@intel.com>
+Subject: [linux-next:master 11217/13499] drivers/dma/xilinx/xdma.c:219:8:
+ warning: Dereference of null pointer [clang-analyzer-core.NullDereference]
+Message-ID: <202302192217.bSxJ9BZz-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -48,365 +47,270 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "low confidence static check warning: fs/xfs/scrub/refcount_repair.c:534:4: warning: Value stored to 'sbno' is never read [clang-analyzer-deadcode.DeadStores]"
+:::::: Manual check reason: "low confidence static check warning: drivers/dma/xilinx/xdma.c:219:8: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]"
 :::::: 
 
 BCC: lkp@intel.com
+CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-TO: "Darrick J. Wong" <darrick.wong@oracle.com>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Lizhi Hou <lizhi.hou@amd.com>
+CC: Vinod Koul <vkoul@kernel.org>
+CC: Sonal Santan <sonal.santan@amd.com>
+CC: Max Zhen <max.zhen@amd.com>
+CC: Brian Xu <brian.xu@amd.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git in-memory-btrees
-head:   65b160b063691d49f132134659b0b200cb138e72
-commit: 771fa17dd5fd7d3d125c61232c4390e8f7ac0fb0 [129/182] xfs: repair refcount btrees
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   c068f40300a0eaa34f7105d137a5560b86951aa9
+commit: 17ce252266c7f016ece026492c45838f852ddc79 [11217/13499] dmaengine: xilinx: xdma: Add xilinx xdma driver
 :::::: branch date: 2 days ago
-:::::: commit date: 3 weeks ago
-config: s390-randconfig-c005-20230212 (https://download.01.org/0day-ci/archive/20230219/202302192238.4gDx5WDp-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project db0e6591612b53910a1b366863348bdb9d7d2fb1)
+:::::: commit date: 9 days ago
+config: arm-randconfig-c002-20230218 (https://download.01.org/0day-ci/archive/20230219/202302192217.bSxJ9BZz-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project db89896bbbd2251fff457699635acbbedeead27f)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install s390 cross compiling tool for clang build
-        # apt-get install binutils-s390x-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git/commit/?id=771fa17dd5fd7d3d125c61232c4390e8f7ac0fb0
-        git remote add djwong-xfs https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git
-        git fetch --no-tags djwong-xfs in-memory-btrees
-        git checkout 771fa17dd5fd7d3d125c61232c4390e8f7ac0fb0
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=17ce252266c7f016ece026492c45838f852ddc79
+        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+        git fetch --no-tags linux-next master
+        git checkout 17ce252266c7f016ece026492c45838f852ddc79
         # save the config file
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=s390 clang-analyzer  olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=s390 clang-analyzer 
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=arm clang-analyzer  olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=arm clang-analyzer 
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/r/202302192238.4gDx5WDp-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202302192217.bSxJ9BZz-lkp@intel.com/
 
 clang_analyzer warnings: (new ones prefixed by >>)
-   mm/migrate.c:1996:4: note: Taking false branch
-                           if (copy_from_user(chunk_pages, pages,
-                           ^
-   mm/migrate.c:2001:3: note: Calling 'do_pages_stat_array'
-                   do_pages_stat_array(mm, chunk_nr, chunk_pages, chunk_status);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/migrate.c:1924:14: note: 'i' is < 'nr_pages'
-           for (i = 0; i < nr_pages; i++) {
-                       ^
-   mm/migrate.c:1924:2: note: Loop condition is true.  Entering loop body
-           for (i = 0; i < nr_pages; i++) {
-           ^
-   mm/migrate.c:1925:3: note: Assigned value is garbage or undefined
-                   unsigned long addr = (unsigned long)(*pages);
-                   ^                    ~~~~~~~~~~~~~~~~~~~~~~~
-   mm/migrate.c:2023:9: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]
-                   mmget(current->mm);
-                         ^
-   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'current'
-   #define current ((struct task_struct *const)S390_lowcore.current_task)
-                                               ^
-   arch/s390/include/asm/lowcore.h:215:22: note: expanded from macro 'S390_lowcore'
-   #define S390_lowcore (*((struct lowcore *) 0))
-                        ^
-   mm/migrate.c:2094:1: note: Calling '__do_sys_move_pages'
-   SYSCALL_DEFINE6(move_pages, pid_t, pid, unsigned long, nr_pages,
+                  ^
+   drivers/regulator/core.c:937:1: note: 'flags' declared without an initial value
+   REGULATOR_ERROR_ATTR(over_temp_warn, REGULATOR_ERROR_OVER_TEMP_WARN);
    ^
-   include/linux/syscalls.h:222:36: note: expanded from macro 'SYSCALL_DEFINE6'
-   #define SYSCALL_DEFINE6(name, ...) SYSCALL_DEFINEx(6, _##name, __VA_ARGS__)
-                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/syscalls.h:228:2: note: expanded from macro 'SYSCALL_DEFINEx'
-           __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/s390/include/asm/syscall_wrapper.h:157:14: note: expanded from macro '__SYSCALL_DEFINEx'
-                   long ret = __do_sys##name(SYSCALL_PT_ARGS(x, regs,                      \
-                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   note: expanded from here
-   mm/migrate.c:2099:9: note: Calling 'kernel_move_pages'
-           return kernel_move_pages(pid, nr_pages, pages, nodes, status, flags);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/migrate.c:2074:6: note: Assuming the condition is false
-           if (flags & ~(MPOL_MF_MOVE|MPOL_MF_MOVE_ALL))
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/migrate.c:2074:2: note: Taking false branch
-           if (flags & ~(MPOL_MF_MOVE|MPOL_MF_MOVE_ALL))
+   drivers/regulator/core.c:920:3: note: expanded from macro 'REGULATOR_ERROR_ATTR'
+                   unsigned int flags;                                                     \
+                   ^~~~~~~~~~~~~~~~~~
+   drivers/regulator/core.c:937:1: note: Calling '_regulator_get_error_flags'
+   REGULATOR_ERROR_ATTR(over_temp_warn, REGULATOR_ERROR_OVER_TEMP_WARN);
+   ^
+   drivers/regulator/core.c:922:9: note: expanded from macro 'REGULATOR_ERROR_ATTR'
+                   ret = _regulator_get_error_flags(rdev, &flags);                         \
+                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/regulator/core.c:4608:6: note: Assuming field 'get_error_flags' is null
+           if (rdev->desc->ops->get_error_flags)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/regulator/core.c:4608:2: note: Taking false branch
+           if (rdev->desc->ops->get_error_flags)
            ^
-   mm/migrate.c:2077:7: note: Assuming the condition is false
-           if ((flags & MPOL_MF_MOVE_ALL) && !capable(CAP_SYS_NICE))
-                ^~~~~~~~~~~~~~~~~~~~~~~~
-   mm/migrate.c:2077:33: note: Left side of '&&' is false
-           if ((flags & MPOL_MF_MOVE_ALL) && !capable(CAP_SYS_NICE))
-                                          ^
-   mm/migrate.c:2080:7: note: Calling 'find_mm_struct'
-           mm = find_mm_struct(pid, &task_nodes);
-                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/migrate.c:2022:6: note: Assuming 'pid' is 0
-           if (!pid) {
-               ^~~~
-   mm/migrate.c:2022:2: note: Taking true branch
-           if (!pid) {
+   drivers/regulator/core.c:4610:18: note: Field 'use_cached_err' is false
+           else if (!rdev->use_cached_err)
+                           ^
+   drivers/regulator/core.c:4610:7: note: Taking true branch
+           else if (!rdev->use_cached_err)
+                ^
+   drivers/regulator/core.c:4613:9: note: The left expression of the compound assignment is an uninitialized value. The computed value will also be garbage
+           *flags |= cached_flags;
+           ~~~~~~ ^
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   include/linux/list.h:137:13: warning: Use of memory after it is freed [clang-analyzer-unix.Malloc]
+           __list_del(entry->prev, entry->next);
+                      ^
+   drivers/dma/ti/omap-dma.c:1852:6: note: Assuming field 'may_lose_context' is 0
+           if (od->cfg->may_lose_context)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/dma/ti/omap-dma.c:1852:2: note: Taking false branch
+           if (od->cfg->may_lose_context)
            ^
-   mm/migrate.c:2023:9: note: Dereference of null pointer
-                   mmget(current->mm);
-                         ^
-   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'current'
-   #define current ((struct task_struct *const)S390_lowcore.current_task)
-                                               ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/s390/include/asm/lowcore.h:215:22: note: expanded from macro 'S390_lowcore'
-   #define S390_lowcore (*((struct lowcore *) 0))
-                        ^
-   Suppressed 10 warnings (10 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   12 warnings generated.
-   Suppressed 12 warnings (12 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   14 warnings generated.
-   fs/xfs/scrub/common.h:26:27: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]
-           if (fatal_signal_pending(current)) {
-                                    ^
-   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'current'
-   #define current ((struct task_struct *const)S390_lowcore.current_task)
-                                               ^
-   arch/s390/include/asm/lowcore.h:215:22: note: expanded from macro 'S390_lowcore'
-   #define S390_lowcore (*((struct lowcore *) 0))
-                        ^
-   fs/xfs/scrub/refcount_repair.c:193:9: note: Calling 'xrep_refc_stash'
-           return xrep_refc_stash(rr, XFS_REFC_DOMAIN_COW, agbno, len, 1);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/xfs/scrub/refcount_repair.c:172:6: note: Calling 'xchk_should_terminate'
-           if (xchk_should_terminate(sc, &error))
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/xfs/scrub/common.h:26:27: note: Dereference of null pointer
-           if (fatal_signal_pending(current)) {
-                                    ^
-   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'current'
-   #define current ((struct task_struct *const)S390_lowcore.current_task)
-                                               ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/s390/include/asm/lowcore.h:215:22: note: expanded from macro 'S390_lowcore'
-   #define S390_lowcore (*((struct lowcore *) 0))
-                        ^
->> fs/xfs/scrub/refcount_repair.c:534:4: warning: Value stored to 'sbno' is never read [clang-analyzer-deadcode.DeadStores]
-                           sbno = nbno;
-                           ^      ~~~~
-   fs/xfs/scrub/refcount_repair.c:534:4: note: Value stored to 'sbno' is never read
-                           sbno = nbno;
-                           ^      ~~~~
-   Suppressed 12 warnings (12 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   14 warnings generated.
-   arch/s390/include/asm/spinlock.h:61:52: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]
-           return likely(__atomic_cmpxchg_bool(&lp->lock, 0, SPINLOCK_LOCKVAL));
-                                                             ^
-   arch/s390/include/asm/spinlock.h:19:26: note: expanded from macro 'SPINLOCK_LOCKVAL'
-   #define SPINLOCK_LOCKVAL (S390_lowcore.spinlock_lockval)
-                            ^
-   fs/xfs/scrub/repair.c:715:2: note: Control jumps to 'case -2:'  at line 718
-           switch (error) {
-           ^
-   fs/xfs/scrub/repair.c:719:3: note: Assuming the condition is false
-                   xfs_err_ratelimited(sc->mp,
-                   ^
-   fs/xfs/xfs_message.h:68:2: note: expanded from macro 'xfs_err_ratelimited'
-           xfs_printk_ratelimited(xfs_err, dev, fmt, ##__VA_ARGS__)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/xfs/xfs_message.h:54:6: note: expanded from macro 'xfs_printk_ratelimited'
-           if (__ratelimit(&_rs))                                          \
+   drivers/dma/ti/omap-dma.c:1855:6: note: Assuming field 'of_node' is null
+           if (pdev->dev.of_node)
                ^~~~~~~~~~~~~~~~~
-   include/linux/ratelimit_types.h:45:28: note: expanded from macro '__ratelimit'
-   #define __ratelimit(state) ___ratelimit(state, __func__)
-                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/xfs/scrub/repair.c:719:3: note: Taking false branch
-                   xfs_err_ratelimited(sc->mp,
-                   ^
-   fs/xfs/xfs_message.h:68:2: note: expanded from macro 'xfs_err_ratelimited'
-           xfs_printk_ratelimited(xfs_err, dev, fmt, ##__VA_ARGS__)
+   drivers/dma/ti/omap-dma.c:1855:2: note: Taking false branch
+           if (pdev->dev.of_node)
            ^
-   fs/xfs/xfs_message.h:54:2: note: expanded from macro 'xfs_printk_ratelimited'
-           if (__ratelimit(&_rs))                                          \
+   drivers/dma/ti/omap-dma.c:1863:2: note: Taking true branch
+           if (!omap_dma_legacy(od)) {
            ^
-   fs/xfs/scrub/repair.c:719:3: note: Loop condition is false.  Exiting loop
-                   xfs_err_ratelimited(sc->mp,
-                   ^
-   fs/xfs/xfs_message.h:68:2: note: expanded from macro 'xfs_err_ratelimited'
-           xfs_printk_ratelimited(xfs_err, dev, fmt, ##__VA_ARGS__)
+   drivers/dma/ti/omap-dma.c:1868:6: note: Assuming field 'll123_supported' is false
+           if (od->ll123_supported)
+               ^~~~~~~~~~~~~~~~~~~
+   drivers/dma/ti/omap-dma.c:1868:2: note: Taking false branch
+           if (od->ll123_supported)
            ^
-   fs/xfs/xfs_message.h:49:55: note: expanded from macro 'xfs_printk_ratelimited'
-   #define xfs_printk_ratelimited(func, dev, fmt, ...)                     \
-                                                                           ^
-   fs/xfs/scrub/repair.c:722:7: note: Assuming the condition is true
-                   if (XFS_IS_UQUOTA_ON(sc->mp) && !sc->ip->i_udquot)
-                       ^
-   fs/xfs/libxfs/xfs_quota_defs.h:63:32: note: expanded from macro 'XFS_IS_UQUOTA_ON'
-   #define XFS_IS_UQUOTA_ON(mp)            ((mp)->m_qflags & XFS_UQUOTA_ACCT)
-                                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/xfs/scrub/repair.c:722:7: note: Left side of '&&' is true
-                   if (XFS_IS_UQUOTA_ON(sc->mp) && !sc->ip->i_udquot)
-                       ^
-   fs/xfs/libxfs/xfs_quota_defs.h:63:31: note: expanded from macro 'XFS_IS_UQUOTA_ON'
-   #define XFS_IS_UQUOTA_ON(mp)            ((mp)->m_qflags & XFS_UQUOTA_ACCT)
-                                           ^
-   fs/xfs/scrub/repair.c:722:35: note: Assuming field 'i_udquot' is null
-                   if (XFS_IS_UQUOTA_ON(sc->mp) && !sc->ip->i_udquot)
-                                                   ^~~~~~~~~~~~~~~~~
-   fs/xfs/scrub/repair.c:722:3: note: Taking true branch
-                   if (XFS_IS_UQUOTA_ON(sc->mp) && !sc->ip->i_udquot)
-                   ^
-   fs/xfs/scrub/repair.c:723:4: note: Calling 'xrep_force_quotacheck'
-                           xrep_force_quotacheck(sc, XFS_DQTYPE_USER);
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/xfs/scrub/repair.c:686:6: note: Assuming the condition is false
-           if (!(flag & sc->mp->m_qflags))
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/xfs/scrub/repair.c:686:2: note: Taking false branch
-           if (!(flag & sc->mp->m_qflags))
+   drivers/dma/ti/omap-dma.c:1871:2: note: Calling 'omap_dma_free'
+           omap_dma_free(od);
+           ^~~~~~~~~~~~~~~~~
+   drivers/dma/ti/omap-dma.c:1520:2: note: Loop condition is true.  Entering loop body
+           while (!list_empty(&od->ddev.channels)) {
            ^
-   fs/xfs/scrub/repair.c:691:2: note: Calling 'spin_lock'
-           spin_lock(&sc->mp->m_sb_lock);
+   drivers/dma/ti/omap-dma.c:1526:3: note: Memory is released
+                   kfree(c);
+                   ^~~~~~~~
+   drivers/dma/ti/omap-dma.c:1520:2: note: Loop condition is true.  Entering loop body
+           while (!list_empty(&od->ddev.channels)) {
+           ^
+   drivers/dma/ti/omap-dma.c:1524:3: note: Calling 'list_del'
+                   list_del(&c->vc.chan.device_node);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/list.h:148:2: note: Calling '__list_del_entry'
+           __list_del_entry(entry);
+           ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/list.h:134:2: note: Taking false branch
+           if (!__list_del_entry_valid(entry))
+           ^
+   include/linux/list.h:137:13: note: Use of memory after it is freed
+           __list_del(entry->prev, entry->next);
+                      ^~~~~~~~~~~
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   3 warnings generated.
+>> drivers/dma/xilinx/xdma.c:219:8: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]
+                   if (!sw_desc->desc_blocks[i].virt_addr)
+                        ^
+   drivers/dma/xilinx/xdma.c:465:31: note: Assuming 'i' is >= 'sg_len'
+           for_each_sg(sgl, sg, sg_len, i)
+                                        ^
+   include/linux/scatterlist.h:172:31: note: expanded from macro 'for_each_sg'
+           for (__i = 0, sg = (sglist); __i < (nr); __i++, sg = sg_next(sg))
+                                        ^~~~~~~~~~
+   drivers/dma/xilinx/xdma.c:465:2: note: Loop condition is false. Execution continues on line 468
+           for_each_sg(sgl, sg, sg_len, i)
+           ^
+   include/linux/scatterlist.h:172:2: note: expanded from macro 'for_each_sg'
+           for (__i = 0, sg = (sglist); __i < (nr); __i++, sg = sg_next(sg))
+           ^
+   drivers/dma/xilinx/xdma.c:468:12: note: Calling 'xdma_alloc_desc'
+           sw_desc = xdma_alloc_desc(xdma_chan, desc_num);
+                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/dma/xilinx/xdma.c:244:12: note: Calling 'kzalloc'
+           sw_desc = kzalloc(sizeof(*sw_desc), GFP_NOWAIT);
+                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/slab.h:720:9: note: Calling 'kmalloc'
+           return kmalloc(size, flags | __GFP_ZERO);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/slab.h:589:33: note: Left side of '&&' is false
+           if (__builtin_constant_p(size) && size > KMALLOC_MAX_CACHE_SIZE)
+                                          ^
+   include/linux/slab.h:592:2: note: Returning pointer, which participates in a condition later
+           return __kmalloc(size, flags);
            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/spinlock.h:350:2: note: Calling '__raw_spin_lock'
-           raw_spin_lock(&lock->rlock);
+   include/linux/slab.h:720:9: note: Returning from 'kmalloc'
+           return kmalloc(size, flags | __GFP_ZERO);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/slab.h:720:2: note: Returning pointer, which participates in a condition later
+           return kmalloc(size, flags | __GFP_ZERO);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/dma/xilinx/xdma.c:244:12: note: Returning from 'kzalloc'
+           sw_desc = kzalloc(sizeof(*sw_desc), GFP_NOWAIT);
+                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/dma/xilinx/xdma.c:245:6: note: Assuming 'sw_desc' is non-null
+           if (!sw_desc)
+               ^~~~~~~~
+   drivers/dma/xilinx/xdma.c:245:2: note: Taking false branch
+           if (!sw_desc)
            ^
-   include/linux/spinlock.h:216:29: note: expanded from macro 'raw_spin_lock'
-   #define raw_spin_lock(lock)     _raw_spin_lock(lock)
-                                   ^~~~~~~~~~~~~~~~~~~~
-   include/linux/spinlock_api_smp.h:47:30: note: expanded from macro '_raw_spin_lock'
-   #define _raw_spin_lock(lock) __raw_spin_lock(lock)
-                                ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/spinlock_api_smp.h:133:2: note: Loop condition is false.  Exiting loop
-           spin_acquire(&lock->dep_map, 0, 0, _RET_IP_);
+   drivers/dma/xilinx/xdma.c:251:25: note: Calling 'kcalloc'
+           sw_desc->desc_blocks = kcalloc(dblk_num, sizeof(*sw_desc->desc_blocks),
+                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/slab.h:667:9: note: Calling 'kmalloc_array'
+           return kmalloc_array(n, size, flags | __GFP_ZERO);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/slab.h:632:2: note: Taking false branch
+           if (unlikely(check_mul_overflow(n, size, &bytes)))
            ^
-   include/linux/lockdep.h:526:35: note: expanded from macro 'spin_acquire'
-   #define spin_acquire(l, s, t, i)                lock_acquire_exclusive(l, s, t, NULL, i)
-                                                   ^
-   include/linux/lockdep.h:522:48: note: expanded from macro 'lock_acquire_exclusive'
-   #define lock_acquire_exclusive(l, s, t, n, i)           lock_acquire(l, s, t, 0, 1, n, i)
-                                                           ^
-   include/linux/lockdep.h:360:44: note: expanded from macro 'lock_acquire'
-   # define lock_acquire(l, s, t, r, c, n, i)      do { } while (0)
-                                                   ^
-   include/linux/spinlock_api_smp.h:134:44: note: Calling 'do_raw_spin_lock'
-           LOCK_CONTENDED(lock, do_raw_spin_trylock, do_raw_spin_lock);
+   include/linux/slab.h:634:30: note: Left side of '&&' is false
+           if (__builtin_constant_p(n) && __builtin_constant_p(size))
+                                       ^
+   include/linux/slab.h:636:2: note: Returning pointer
+           return __kmalloc(bytes, flags);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/slab.h:667:9: note: Returning from 'kmalloc_array'
+           return kmalloc_array(n, size, flags | __GFP_ZERO);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/slab.h:667:2: note: Returning pointer
+           return kmalloc_array(n, size, flags | __GFP_ZERO);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/dma/xilinx/xdma.c:251:25: note: Returning from 'kcalloc'
+           sw_desc->desc_blocks = kcalloc(dblk_num, sizeof(*sw_desc->desc_blocks),
+                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/dma/xilinx/xdma.c:251:2: note: Value assigned to field 'desc_blocks'
+           sw_desc->desc_blocks = kcalloc(dblk_num, sizeof(*sw_desc->desc_blocks),
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/dma/xilinx/xdma.c:253:6: note: Assuming field 'desc_blocks' is null
+           if (!sw_desc->desc_blocks)
+               ^~~~~~~~~~~~~~~~~~~~~
+   drivers/dma/xilinx/xdma.c:253:2: note: Taking true branch
+           if (!sw_desc->desc_blocks)
+           ^
+   drivers/dma/xilinx/xdma.c:254:3: note: Control jumps to line 273
+                   goto failed;
+                   ^
+   drivers/dma/xilinx/xdma.c:273:2: note: Calling 'xdma_free_desc'
+           xdma_free_desc(&sw_desc->vdesc);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/dma/xilinx/xdma.c:218:14: note: Assuming 'i' is < field 'dblk_num'
+           for (i = 0; i < sw_desc->dblk_num; i++) {
+                       ^~~~~~~~~~~~~~~~~~~~~
+   drivers/dma/xilinx/xdma.c:218:2: note: Loop condition is true.  Entering loop body
+           for (i = 0; i < sw_desc->dblk_num; i++) {
+           ^
+   drivers/dma/xilinx/xdma.c:219:8: note: Dereference of null pointer
+                   if (!sw_desc->desc_blocks[i].virt_addr)
+                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
 
-vim +/sbno +534 fs/xfs/scrub/refcount_repair.c
+vim +219 drivers/dma/xilinx/xdma.c
 
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  432  
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  433  /* Iterate all the rmap records to generate reference count data. */
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  434  STATIC int
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  435  xrep_refc_find_refcounts(
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  436  	struct xrep_refc	*rr)
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  437  {
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  438  	struct xrep_refc_rmap	rrm;
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  439  	struct xfs_scrub	*sc = rr->sc;
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  440  	struct xfarray		*rmap_bag;
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  441  	uint64_t		old_stack_sz;
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  442  	uint64_t		stack_sz = 0;
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  443  	xfs_agblock_t		sbno;
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  444  	xfs_agblock_t		cbno;
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  445  	xfs_agblock_t		nbno;
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  446  	bool			have;
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  447  	int			error;
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  448  
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  449  	xrep_ag_btcur_init(sc, &sc->sa);
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  450  
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  451  	/*
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  452  	 * Set up a sparse array to store all the rmap records that we're
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  453  	 * tracking to generate a reference count record.  If this exceeds
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  454  	 * MAXREFCOUNT, we clamp rc_refcount.
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  455  	 */
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  456  	error = xfarray_create(sc->mp, "rmap bag", 0,
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  457  			sizeof(struct xrep_refc_rmap), &rmap_bag);
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  458  	if (error)
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  459  		goto out_cur;
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  460  
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  461  	/* Start the rmapbt cursor to the left of all records. */
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  462  	error = xfs_btree_goto_left_edge(sc->sa.rmap_cur);
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  463  	if (error)
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  464  		goto out_bag;
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  465  
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  466  	/* Process reverse mappings into refcount data. */
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  467  	while (xfs_btree_has_more_records(sc->sa.rmap_cur)) {
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  468  		/* Push all rmaps with pblk == sbno onto the stack */
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  469  		error = xrep_refc_walk_rmaps(rr, &rrm, &have);
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  470  		if (error)
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  471  			goto out_bag;
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  472  		if (!have)
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  473  			break;
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  474  		sbno = cbno = rrm.startblock;
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  475  		error = xrep_refc_push_rmaps_at(rr, rmap_bag, sbno,
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  476  					&rrm, &have, &stack_sz);
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  477  		if (error)
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  478  			goto out_bag;
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  479  
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  480  		/* Set nbno to the bno of the next refcount change */
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  481  		error = xrep_refc_next_edge(rmap_bag, &rrm, have, &nbno);
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  482  		if (error)
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  483  			goto out_bag;
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  484  
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  485  		ASSERT(nbno > sbno);
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  486  		old_stack_sz = stack_sz;
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  487  
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  488  		/* While stack isn't empty... */
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  489  		while (stack_sz) {
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  490  			xfarray_idx_t	array_cur = XFARRAY_CURSOR_INIT;
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  491  
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  492  			/* Pop all rmaps that end at nbno */
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  493  			while ((error = xfarray_iter(rmap_bag, &array_cur,
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  494  								&rrm)) == 1) {
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  495  				if (RRM_NEXT(rrm) != nbno)
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  496  					continue;
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  497  				error = xfarray_unset(rmap_bag, array_cur - 1);
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  498  				if (error)
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  499  					goto out_bag;
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  500  				stack_sz--;
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  501  			}
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  502  			if (error)
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  503  				goto out_bag;
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  504  
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  505  			/* Push array items that start at nbno */
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  506  			error = xrep_refc_walk_rmaps(rr, &rrm, &have);
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  507  			if (error)
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  508  				goto out_bag;
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  509  			if (have) {
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  510  				error = xrep_refc_push_rmaps_at(rr, rmap_bag,
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  511  						nbno, &rrm, &have, &stack_sz);
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  512  				if (error)
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  513  					goto out_bag;
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  514  			}
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  515  
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  516  			/* Emit refcount if necessary */
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  517  			ASSERT(nbno > cbno);
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  518  			if (stack_sz != old_stack_sz) {
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  519  				if (old_stack_sz > 1) {
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  520  					error = xrep_refc_stash(rr,
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  521  							XFS_REFC_DOMAIN_SHARED,
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  522  							cbno, nbno - cbno,
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  523  							old_stack_sz);
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  524  					if (error)
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  525  						goto out_bag;
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  526  				}
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  527  				cbno = nbno;
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  528  			}
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  529  
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  530  			/* Stack empty, go find the next rmap */
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  531  			if (stack_sz == 0)
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  532  				break;
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  533  			old_stack_sz = stack_sz;
-771fa17dd5fd7d Darrick J. Wong 2022-07-14 @534  			sbno = nbno;
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  535  
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  536  			/* Set nbno to the bno of the next refcount change */
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  537  			error = xrep_refc_next_edge(rmap_bag, &rrm, have,
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  538  					&nbno);
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  539  			if (error)
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  540  				goto out_bag;
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  541  
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  542  			ASSERT(nbno > sbno);
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  543  		}
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  544  	}
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  545  
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  546  	ASSERT(stack_sz == 0);
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  547  out_bag:
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  548  	xfarray_destroy(rmap_bag);
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  549  out_cur:
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  550  	xchk_ag_btcur_free(&sc->sa);
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  551  	return error;
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  552  }
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  553  #undef RRM_NEXT
-771fa17dd5fd7d Darrick J. Wong 2022-07-14  554  
+17ce252266c7f0 Lizhi Hou 2023-01-19  207  
+17ce252266c7f0 Lizhi Hou 2023-01-19  208  /**
+17ce252266c7f0 Lizhi Hou 2023-01-19  209   * xdma_free_desc - Free descriptor
+17ce252266c7f0 Lizhi Hou 2023-01-19  210   * @vdesc: Virtual DMA descriptor
+17ce252266c7f0 Lizhi Hou 2023-01-19  211   */
+17ce252266c7f0 Lizhi Hou 2023-01-19  212  static void xdma_free_desc(struct virt_dma_desc *vdesc)
+17ce252266c7f0 Lizhi Hou 2023-01-19  213  {
+17ce252266c7f0 Lizhi Hou 2023-01-19  214  	struct xdma_desc *sw_desc;
+17ce252266c7f0 Lizhi Hou 2023-01-19  215  	int i;
+17ce252266c7f0 Lizhi Hou 2023-01-19  216  
+17ce252266c7f0 Lizhi Hou 2023-01-19  217  	sw_desc = to_xdma_desc(vdesc);
+17ce252266c7f0 Lizhi Hou 2023-01-19  218  	for (i = 0; i < sw_desc->dblk_num; i++) {
+17ce252266c7f0 Lizhi Hou 2023-01-19 @219  		if (!sw_desc->desc_blocks[i].virt_addr)
+17ce252266c7f0 Lizhi Hou 2023-01-19  220  			break;
+17ce252266c7f0 Lizhi Hou 2023-01-19  221  		dma_pool_free(sw_desc->chan->desc_pool,
+17ce252266c7f0 Lizhi Hou 2023-01-19  222  			      sw_desc->desc_blocks[i].virt_addr,
+17ce252266c7f0 Lizhi Hou 2023-01-19  223  			      sw_desc->desc_blocks[i].dma_addr);
+17ce252266c7f0 Lizhi Hou 2023-01-19  224  	}
+17ce252266c7f0 Lizhi Hou 2023-01-19  225  	kfree(sw_desc->desc_blocks);
+17ce252266c7f0 Lizhi Hou 2023-01-19  226  	kfree(sw_desc);
+17ce252266c7f0 Lizhi Hou 2023-01-19  227  }
+17ce252266c7f0 Lizhi Hou 2023-01-19  228  
 
 -- 
 0-DAY CI Kernel Test Service
