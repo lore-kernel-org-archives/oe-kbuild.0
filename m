@@ -1,43 +1,42 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21AE3624
-	for <oe-kbuild@lists.linux.dev>; Sun, 19 Feb 2023 08:33:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D781AA29
+	for <oe-kbuild@lists.linux.dev>; Sun, 19 Feb 2023 08:53:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676795613; x=1708331613;
+  t=1676796814; x=1708332814;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=P6/cFfEO0xTUnKqqL6N0F1UjfpagD5KKOaBRX4d3iTk=;
-  b=AELifYMfvgAxrzixLUn740lXLom2nOKU2daDA76W0VV2KoE8WMuuATbb
-   QNmORKw4+YVsGMCq4h2i5QVDLvjGHiRfojJujLqOuQ1L5uI55Lfb8tZhx
-   GzxUuW8a6Ml59Qal7dZGnPrHkmOKQSujWdb/xTBRDtAOf7EIsJthxJGB0
-   VTIv38kYZuGvfAJcE7f3rdkj2FNhD/hLE38VpQOZ43a0vPAHiDbgPwpzJ
-   UadAJ0PoDrXHtt3P+PuZvJOibbzjUloqmdi/zna8ezPfQ1rvvBP2z+kQh
-   2xn+/4ya7zs7srDVLkZxy2abtTaE020r3L2gpV7fr9FZ54gHk+tevmbZQ
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10625"; a="329947943"
-X-IronPort-AV: E=Sophos;i="5.97,309,1669104000"; 
-   d="scan'208";a="329947943"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2023 00:33:32 -0800
+  bh=/BqWZOGQqQxDKQflGTwMsvjhvWSp3wRXv/1dw6l7zyU=;
+  b=FdXSVyvZFVqKBBN+EmCygVJF/Bph4CLJ7/3AGLrllms9rKLGnFXvp1hw
+   YJqTBZ/8lmVD+EHqdW9n2fyIhVDcbEFVLWlYQWyqIdTJFN0r/qDmEuHAC
+   944zM1YucqknKguwZ7ce3v23uzPYAZveEEq2WwERFduFvHMHZYG7NlI32
+   SHA+nZnhJ+yYHfIXS5VEPC9gMezI38O15eD4vRaLXlZrBr61EtBvLqqDy
+   2UGBZ264UCAVJ70RNHu6KJZZtYSiz5HNadDM8ICqa9GwxtxTGZARp0Yug
+   uQ/7bZP+Qmr1P5vAJsvgD4GN25kSYNsenB2FQC6FZBI+QofL1BW5YxARo
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10625"; a="315948717"
+X-IronPort-AV: E=Sophos;i="5.97,310,1669104000"; 
+   d="scan'208";a="315948717"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2023 00:53:34 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10625"; a="780288535"
-X-IronPort-AV: E=Sophos;i="5.97,309,1669104000"; 
-   d="scan'208";a="780288535"
+X-IronPort-AV: E=McAfee;i="6500,9779,10625"; a="739737607"
+X-IronPort-AV: E=Sophos;i="5.97,310,1669104000"; 
+   d="scan'208";a="739737607"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 19 Feb 2023 00:33:31 -0800
+  by fmsmga004.fm.intel.com with ESMTP; 19 Feb 2023 00:53:31 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pTf8U-000DBJ-1c;
-	Sun, 19 Feb 2023 08:33:30 +0000
-Date: Sun, 19 Feb 2023 16:33:02 +0800
+	id 1pTfRr-000DCL-0F;
+	Sun, 19 Feb 2023 08:53:31 +0000
+Date: Sun, 19 Feb 2023 16:53:29 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: arch/arm/include/asm/bitops.h:56:5: warning: The left expression of
- the compound assignment is an uninitialized value. The computed value will
- also be garbage [clang-analyzer-core.uninitialized.Assign]
-Message-ID: <202302191623.InEXt4iV-lkp@intel.com>
+Subject: drivers/base/power/domain.c:2729:7: warning: Branch condition
+ evaluates to a garbage value [clang-analyzer-core.uninitialized.Branch]
+Message-ID: <202302191620.kbkdrAli-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -48,265 +47,320 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "low confidence static check first_new_problem: arch/arm/include/asm/bitops.h:56:5: warning: The left expression of the compound assignment is an uninitialized value. The computed value will also be garbage [clang-analyzer-core.uninitialized.Assign]"
+:::::: Manual check reason: "low confidence static check warning: drivers/base/power/domain.c:2729:7: warning: Branch condition evaluates to a garbage value [clang-analyzer-core.uninitialized.Branch]"
 :::::: 
 
 BCC: lkp@intel.com
 CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Filipe Manana <fdmanana@suse.com>
-CC: David Sterba <dsterba@suse.com>
+TO: Abel Vesa <abel.vesa@linaro.org>
+CC: "Rafael J. Wysocki" <rjw@rjwysocki.net>
+CC: Ulf Hansson <ulf.hansson@linaro.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   925cf0457d7e62ce08878ffb789189ac08ca8677
-commit: db21370bffbc966253ba32edb112f4beec1531cc btrfs: drop extent map range more efficiently
-date:   5 months ago
+commit: ae8ac19655e0cd7ca5ac2f45837d386745aaed7f PM: domains: Reverse the order of performance and enabling ops
+date:   3 months ago
 :::::: branch date: 7 hours ago
-:::::: commit date: 5 months ago
-config: arm-randconfig-c002-20230217 (https://download.01.org/0day-ci/archive/20230219/202302191623.InEXt4iV-lkp@intel.com/config)
+:::::: commit date: 3 months ago
+config: arm-randconfig-c002-20230218 (https://download.01.org/0day-ci/archive/20230219/202302191620.kbkdrAli-lkp@intel.com/config)
 compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project db89896bbbd2251fff457699635acbbedeead27f)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
         # install arm cross compiling tool for clang build
         # apt-get install binutils-arm-linux-gnueabi
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=db21370bffbc966253ba32edb112f4beec1531cc
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=ae8ac19655e0cd7ca5ac2f45837d386745aaed7f
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout db21370bffbc966253ba32edb112f4beec1531cc
+        git checkout ae8ac19655e0cd7ca5ac2f45837d386745aaed7f
         # save the config file
         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=arm clang-analyzer  olddefconfig
         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=arm clang-analyzer 
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/r/202302191623.InEXt4iV-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202302191620.kbkdrAli-lkp@intel.com/
 
 clang_analyzer warnings: (new ones prefixed by >>)
-                                                   ^
-   drivers/gpu/drm/drm_syncobj.c:506:6: note: Assuming the condition is false
-           if (flags & DRM_SYNCOBJ_CREATE_SIGNALED) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/drm_syncobj.c:506:2: note: Taking false branch
-           if (flags & DRM_SYNCOBJ_CREATE_SIGNALED) {
+   include/linux/dynamic_debug.h:222:2: note: expanded from macro '__dynamic_func_call_cls'
+           if (DYNAMIC_DEBUG_BRANCH(id))                           \
            ^
-   drivers/gpu/drm/drm_syncobj.c:514:6: note: 'fence' is null
-           if (fence)
-               ^~~~~
-   drivers/gpu/drm/drm_syncobj.c:514:2: note: Taking false branch
-           if (fence)
+   drivers/base/power/domain.c:1585:2: note: Loop condition is false.  Exiting loop
+           dev_dbg(dev, "%s()\n", __func__);
            ^
-   drivers/gpu/drm/drm_syncobj.c:564:8: note: Returning from 'drm_syncobj_create'
-           ret = drm_syncobj_create(&syncobj, flags, NULL);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/drm_syncobj.c:565:6: note: 'ret' is 0
+   include/linux/dev_printk.h:155:2: note: expanded from macro 'dev_dbg'
+           dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+           ^
+   include/linux/dynamic_debug.h:272:2: note: expanded from macro 'dynamic_dev_dbg'
+           _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
+           ^
+   include/linux/dynamic_debug.h:249:2: note: expanded from macro '_dynamic_func_call'
+           _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
+           ^
+   include/linux/dynamic_debug.h:247:2: note: expanded from macro '_dynamic_func_call_cls'
+           __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
+           ^
+   include/linux/dynamic_debug.h:220:58: note: expanded from macro '__dynamic_func_call_cls'
+   #define __dynamic_func_call_cls(id, cls, fmt, func, ...) do {   \
+                                                            ^
+   drivers/base/power/domain.c:1587:6: note: Left side of '||' is false
+           if (IS_ERR_OR_NULL(genpd) || IS_ERR_OR_NULL(dev))
+               ^
+   drivers/base/power/domain.c:1587:2: note: Taking false branch
+           if (IS_ERR_OR_NULL(genpd) || IS_ERR_OR_NULL(dev))
+           ^
+   drivers/base/power/domain.c:1590:13: note: Calling 'genpd_alloc_dev_data'
+           gpd_data = genpd_alloc_dev_data(dev, gd);
+                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/base/power/domain.c:1467:6: note: Assuming 'ret' is 0
            if (ret)
                ^~~
-   drivers/gpu/drm/drm_syncobj.c:565:2: note: Taking false branch
+   drivers/base/power/domain.c:1467:2: note: Taking false branch
            if (ret)
            ^
-   drivers/gpu/drm/drm_syncobj.c:568:8: note: Calling 'drm_syncobj_get_handle'
-           ret = drm_syncobj_get_handle(file_private, syncobj, handle);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/drm_syncobj.c:548:6: note: Assuming 'ret' is < 0
-           if (ret < 0) {
+   drivers/base/power/domain.c:1470:13: note: Calling 'kzalloc'
+           gpd_data = kzalloc(sizeof(*gpd_data), GFP_KERNEL);
+                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/slab.h:712:9: note: Uninitialized value stored to field 'td'
+           return kmalloc(size, flags | __GFP_ZERO);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/base/power/domain.c:1470:13: note: Returning from 'kzalloc'
+           gpd_data = kzalloc(sizeof(*gpd_data), GFP_KERNEL);
+                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/base/power/domain.c:1471:6: note: Assuming 'gpd_data' is non-null
+           if (!gpd_data) {
+               ^~~~~~~~~
+   drivers/base/power/domain.c:1471:2: note: Taking false branch
+           if (!gpd_data) {
+           ^
+   drivers/base/power/domain.c:1480:6: note: Assuming 'has_governor' is false
+           if (has_governor) {
+               ^~~~~~~~~~~~
+   drivers/base/power/domain.c:1480:2: note: Taking false branch
+           if (has_governor) {
+           ^
+   drivers/base/power/domain.c:1495:6: note: Assuming field 'domain_data' is null
+           if (dev->power.subsys_data->domain_data)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/base/power/domain.c:1495:2: note: Taking false branch
+           if (dev->power.subsys_data->domain_data)
+           ^
+   drivers/base/power/domain.c:1502:6: note: 'ret' is 0
+           if (ret)
+               ^~~
+   drivers/base/power/domain.c:1502:2: note: Taking false branch
+           if (ret)
+           ^
+   drivers/base/power/domain.c:1590:13: note: Returning from 'genpd_alloc_dev_data'
+           gpd_data = genpd_alloc_dev_data(dev, gd);
+                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/base/power/domain.c:1591:2: note: Taking false branch
+           if (IS_ERR(gpd_data))
+           ^
+   drivers/base/power/domain.c:1596:8: note: Assuming field 'attach_dev' is non-null
+           ret = genpd->attach_dev ? genpd->attach_dev(genpd, dev) : 0;
+                 ^~~~~~~~~~~~~~~~~
+   drivers/base/power/domain.c:1596:8: note: '?' condition is true
+   drivers/base/power/domain.c:1597:6: note: Assuming 'ret' is not equal to 0
+           if (ret)
+               ^~~
+   drivers/base/power/domain.c:1597:2: note: Taking true branch
+           if (ret)
+           ^
+   drivers/base/power/domain.c:1598:3: note: Control jumps to line 1613
+                   goto out;
+                   ^
+   drivers/base/power/domain.c:1613:6: note: 'ret' is not equal to 0
+           if (ret)
+               ^~~
+   drivers/base/power/domain.c:1613:2: note: Taking true branch
+           if (ret)
+           ^
+   drivers/base/power/domain.c:1614:3: note: Calling 'genpd_free_dev_data'
+                   genpd_free_dev_data(dev, gpd_data);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/base/power/domain.c:1524:2: note: 1st function call argument is an uninitialized value
+           kfree(gpd_data->td);
+           ^     ~~~~~~~~~~~~
+>> drivers/base/power/domain.c:2729:7: warning: Branch condition evaluates to a garbage value [clang-analyzer-core.uninitialized.Branch]
+                   if (dev_gpd_data(dev)->default_pstate) {
+                       ^
+   drivers/base/power/domain.c:2852:6: note: Assuming field 'of_node' is non-null
+           if (!dev->of_node)
+               ^~~~~~~~~~~~~
+   drivers/base/power/domain.c:2852:2: note: Taking false branch
+           if (!dev->of_node)
+           ^
+   drivers/base/power/domain.c:2857:6: note: Assuming 'index' is >= 0
+           if (index < 0)
+               ^~~~~~~~~
+   drivers/base/power/domain.c:2857:2: note: Taking false branch
+           if (index < 0)
+           ^
+   drivers/base/power/domain.c:2860:9: note: Calling 'genpd_dev_pm_attach_by_id'
+           return genpd_dev_pm_attach_by_id(dev, index);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/base/power/domain.c:2800:12: note: Field 'of_node' is non-null
+           if (!dev->of_node)
+                     ^
+   drivers/base/power/domain.c:2800:2: note: Taking false branch
+           if (!dev->of_node)
+           ^
+   drivers/base/power/domain.c:2806:6: note: Assuming 'index' is < 'num_domains'
+           if (index >= num_domains)
+               ^~~~~~~~~~~~~~~~~~~~
+   drivers/base/power/domain.c:2806:2: note: Taking false branch
+           if (index >= num_domains)
+           ^
+   drivers/base/power/domain.c:2811:6: note: Assuming 'virt_dev' is non-null
+           if (!virt_dev)
+               ^~~~~~~~~
+   drivers/base/power/domain.c:2811:2: note: Taking false branch
+           if (!virt_dev)
+           ^
+   drivers/base/power/domain.c:2820:6: note: Assuming 'ret' is 0
+           if (ret) {
+               ^~~
+   drivers/base/power/domain.c:2820:2: note: Taking false branch
+           if (ret) {
+           ^
+   drivers/base/power/domain.c:2826:8: note: Calling '__genpd_dev_pm_attach'
+           ret = __genpd_dev_pm_attach(virt_dev, dev, index, false);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/base/power/domain.c:2685:6: note: Assuming 'ret' is >= 0
+           if (ret < 0)
                ^~~~~~~
-   drivers/gpu/drm/drm_syncobj.c:548:2: note: Taking true branch
-           if (ret < 0) {
+   drivers/base/power/domain.c:2685:2: note: Taking false branch
+           if (ret < 0)
            ^
-   drivers/gpu/drm/drm_syncobj.c:549:3: note: Calling 'drm_syncobj_put'
-                   drm_syncobj_put(syncobj);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/drm/drm_syncobj.h:88:2: note: Calling 'kref_put'
-           kref_put(&obj->refcount, drm_syncobj_free);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/kref.h:64:2: note: Taking true branch
-           if (refcount_dec_and_test(&kref->refcount)) {
+   drivers/base/power/domain.c:2691:2: note: Taking false branch
+           if (IS_ERR(pd)) {
            ^
-   include/linux/kref.h:65:3: note: Calling 'drm_syncobj_free'
-                   release(kref);
-                   ^~~~~~~~~~~~~
-   drivers/gpu/drm/drm_syncobj.c:476:2: note: Memory is released
-           kfree(syncobj);
-           ^~~~~~~~~~~~~~
-   include/linux/kref.h:65:3: note: Returning; memory was released
-                   release(kref);
-                   ^~~~~~~~~~~~~
-   include/drm/drm_syncobj.h:88:2: note: Returning; memory was released
-           kref_put(&obj->refcount, drm_syncobj_free);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/drm_syncobj.c:549:3: note: Returning; memory was released via 1st parameter
-                   drm_syncobj_put(syncobj);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/drm_syncobj.c:568:8: note: Returning; memory was released via 2nd parameter
-           ret = drm_syncobj_get_handle(file_private, syncobj, handle);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/drm_syncobj.c:569:2: note: Use of memory after it is freed
-           drm_syncobj_put(syncobj);
-           ^               ~~~~~~~
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   fs/btrfs/file.c:1255:5: warning: Value stored to 'err' is never read [clang-analyzer-deadcode.DeadStores]
-                                   err = 0;
-                                   ^     ~
-   fs/btrfs/file.c:1255:5: note: Value stored to 'err' is never read
-                                   err = 0;
-                                   ^     ~
-   fs/btrfs/file.c:3244:4: warning: Value stored to 'ret' is never read [clang-analyzer-deadcode.DeadStores]
-                           ret = 0;
-                           ^     ~
-   fs/btrfs/file.c:3244:4: note: Value stored to 'ret' is never read
-                           ret = 0;
-                           ^     ~
-   fs/btrfs/file.c:3250:4: warning: Value stored to 'ret' is never read [clang-analyzer-deadcode.DeadStores]
-                           ret = 0;
-                           ^     ~
-   fs/btrfs/file.c:3250:4: note: Value stored to 'ret' is never read
-                           ret = 0;
-                           ^     ~
-   fs/btrfs/file.c:3261:4: warning: Value stored to 'ret' is never read [clang-analyzer-deadcode.DeadStores]
-                           ret = 0;
-                           ^     ~
-   fs/btrfs/file.c:3261:4: note: Value stored to 'ret' is never read
-                           ret = 0;
-                           ^     ~
-   fs/btrfs/file.c:3268:4: warning: Value stored to 'ret' is never read [clang-analyzer-deadcode.DeadStores]
-                           ret = 0;
-                           ^     ~
-   fs/btrfs/file.c:3268:4: note: Value stored to 'ret' is never read
-                           ret = 0;
-                           ^     ~
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   5 warnings generated.
->> arch/arm/include/asm/bitops.h:56:5: warning: The left expression of the compound assignment is an uninitialized value. The computed value will also be garbage [clang-analyzer-core.uninitialized.Assign]
-           *p &= ~mask;
-              ^
-   fs/btrfs/extent_map.c:711:10: note: Assuming 'end' is >= 'start'
-           WARN_ON(end < start);
+   drivers/base/power/domain.c:2698:2: note: Taking false branch
+           dev_dbg(dev, "adding to PM domain %s\n", pd->name);
+           ^
+   include/linux/dev_printk.h:155:2: note: expanded from macro 'dev_dbg'
+           dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+           ^
+   include/linux/dynamic_debug.h:272:2: note: expanded from macro 'dynamic_dev_dbg'
+           _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
+           ^
+   include/linux/dynamic_debug.h:249:2: note: expanded from macro '_dynamic_func_call'
+           _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
+           ^
+   note: (skipping 4 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/compiler_types.h:357:2: note: expanded from macro 'compiletime_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+           ^
+   include/linux/compiler_types.h:345:2: note: expanded from macro '_compiletime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:337:3: note: expanded from macro '__compiletime_assert'
+                   if (!(condition))                                       \
                    ^
-   include/asm-generic/bug.h:167:25: note: expanded from macro 'WARN_ON'
-           int __ret_warn_on = !!(condition);                              \
-                                  ^~~~~~~~~
-   fs/btrfs/extent_map.c:712:6: note: Assuming the condition is false
-           if (end == (u64)-1) {
-               ^~~~~~~~~~~~~~
-   fs/btrfs/extent_map.c:712:2: note: Taking false branch
-           if (end == (u64)-1) {
+   drivers/base/power/domain.c:2698:2: note: Loop condition is false.  Exiting loop
+           dev_dbg(dev, "adding to PM domain %s\n", pd->name);
            ^
-   fs/btrfs/extent_map.c:734:2: note: Loop condition is false.  Exiting loop
-           write_lock(&em_tree->lock);
+   include/linux/dev_printk.h:155:2: note: expanded from macro 'dev_dbg'
+           dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
            ^
-   include/linux/rwlock.h:55:26: note: expanded from macro 'write_lock'
-   #define write_lock(lock)        _raw_write_lock(lock)
-                                   ^
-   include/linux/spinlock_api_up.h:61:33: note: expanded from macro '_raw_write_lock'
-   #define _raw_write_lock(lock)                   __LOCK(lock)
-                                                   ^
-   include/linux/spinlock_api_up.h:31:27: note: expanded from macro '__LOCK'
-     do { preempt_disable(); ___LOCK(lock); } while (0)
-                             ^
-   include/linux/spinlock_api_up.h:28:3: note: expanded from macro '___LOCK'
-     do { __acquire(lock); (void)(lock); } while (0)
-     ^
-   fs/btrfs/extent_map.c:734:2: note: Loop condition is false.  Exiting loop
-           write_lock(&em_tree->lock);
+   include/linux/dynamic_debug.h:272:2: note: expanded from macro 'dynamic_dev_dbg'
+           _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
            ^
-   include/linux/rwlock.h:55:26: note: expanded from macro 'write_lock'
-   #define write_lock(lock)        _raw_write_lock(lock)
-                                   ^
-   include/linux/spinlock_api_up.h:61:33: note: expanded from macro '_raw_write_lock'
-   #define _raw_write_lock(lock)                   __LOCK(lock)
-                                                   ^
-   include/linux/spinlock_api_up.h:31:3: note: expanded from macro '__LOCK'
-     do { preempt_disable(); ___LOCK(lock); } while (0)
-     ^
-   fs/btrfs/extent_map.c:737:2: note: Loop condition is true.  Entering loop body
-           while (em) {
+   include/linux/dynamic_debug.h:249:2: note: expanded from macro '_dynamic_func_call'
+           _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
            ^
-   fs/btrfs/extent_map.c:742:3: note: 'flags' declared without an initial value
-                   unsigned long flags;
-                   ^~~~~~~~~~~~~~~~~~~
-   fs/btrfs/extent_map.c:746:7: note: Assuming 'em_end' is >= 'end'
-                   if (em_end < end) {
-                       ^~~~~~~~~~~~
-   fs/btrfs/extent_map.c:746:3: note: Taking false branch
-                   if (em_end < end) {
-                   ^
-   fs/btrfs/extent_map.c:756:7: note: Assuming 'skip_pinned' is false
-                   if (skip_pinned && test_bit(EXTENT_FLAG_PINNED, &em->flags)) {
-                       ^~~~~~~~~~~
-   fs/btrfs/extent_map.c:756:19: note: Left side of '&&' is false
-                   if (skip_pinned && test_bit(EXTENT_FLAG_PINNED, &em->flags)) {
-                                   ^
-   fs/btrfs/extent_map.c:763:3: note: '?' condition is true
-                   clear_bit(EXTENT_FLAG_PINNED, &em->flags);
-                   ^
-   arch/arm/include/asm/bitops.h:192:27: note: expanded from macro 'clear_bit'
-   #define clear_bit(nr,p)                 ATOMIC_BITOP(clear_bit,nr,p)
-                                           ^
-   arch/arm/include/asm/bitops.h:183:3: note: expanded from macro 'ATOMIC_BITOP'
-           (__builtin_constant_p(nr) ? ____atomic_##name(nr, p) : _##name(nr,p))
-            ^
-   fs/btrfs/extent_map.c:764:3: note: '?' condition is true
-                   clear_bit(EXTENT_FLAG_LOGGING, &flags);
-                   ^
-   arch/arm/include/asm/bitops.h:192:27: note: expanded from macro 'clear_bit'
-   #define clear_bit(nr,p)                 ATOMIC_BITOP(clear_bit,nr,p)
-                                           ^
-   arch/arm/include/asm/bitops.h:183:3: note: expanded from macro 'ATOMIC_BITOP'
-           (__builtin_constant_p(nr) ? ____atomic_##name(nr, p) : _##name(nr,p))
-            ^
-   fs/btrfs/extent_map.c:764:3: note: Calling '____atomic_clear_bit'
-                   clear_bit(EXTENT_FLAG_LOGGING, &flags);
-                   ^
-   arch/arm/include/asm/bitops.h:192:27: note: expanded from macro 'clear_bit'
-   #define clear_bit(nr,p)                 ATOMIC_BITOP(clear_bit,nr,p)
-                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/arm/include/asm/bitops.h:183:30: note: expanded from macro 'ATOMIC_BITOP'
-           (__builtin_constant_p(nr) ? ____atomic_##name(nr, p) : _##name(nr,p))
-                                       ^~~~~~~~~~~~~~~~~~~~~~~~
-   note: expanded from here
-   arch/arm/include/asm/bitops.h:55:2: note: Loop condition is false.  Exiting loop
-           raw_local_irq_save(flags);
+   note: (skipping 4 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/compiler_types.h:357:2: note: expanded from macro 'compiletime_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
            ^
-   include/linux/irqflags.h:176:2: note: expanded from macro 'raw_local_irq_save'
-           do {                                            \
+   include/linux/compiler_types.h:345:2: note: expanded from macro '_compiletime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
            ^
-   arch/arm/include/asm/bitops.h:56:5: note: The left expression of the compound assignment is an uninitialized value. The computed value will also be garbage
-           *p &= ~mask;
-           ~~ ^
-   fs/btrfs/extent_map.c:624:3: warning: Value stored to 'ret' is never read [clang-analyzer-deadcode.DeadStores]
-                   ret = 0;
-                   ^     ~
-   fs/btrfs/extent_map.c:624:3: note: Value stored to 'ret' is never read
+   include/linux/compiler_types.h:329:2: note: expanded from macro '__compiletime_assert'
+           do {                                                            \
+           ^
+   drivers/base/power/domain.c:2698:2: note: Taking false branch
+           dev_dbg(dev, "adding to PM domain %s\n", pd->name);
+           ^
 
-vim +56 arch/arm/include/asm/bitops.h
+vim +2729 drivers/base/power/domain.c
 
-^1da177e4c3f41 include/asm-arm/bitops.h      Linus Torvalds    2005-04-16  47  
-^1da177e4c3f41 include/asm-arm/bitops.h      Linus Torvalds    2005-04-16  48  static inline void ____atomic_clear_bit(unsigned int bit, volatile unsigned long *p)
-^1da177e4c3f41 include/asm-arm/bitops.h      Linus Torvalds    2005-04-16  49  {
-^1da177e4c3f41 include/asm-arm/bitops.h      Linus Torvalds    2005-04-16  50  	unsigned long flags;
-8901925d32232a arch/arm/include/asm/bitops.h Masahiro Yamada   2015-08-17  51  	unsigned long mask = BIT_MASK(bit);
-^1da177e4c3f41 include/asm-arm/bitops.h      Linus Torvalds    2005-04-16  52  
-8901925d32232a arch/arm/include/asm/bitops.h Masahiro Yamada   2015-08-17  53  	p += BIT_WORD(bit);
-^1da177e4c3f41 include/asm-arm/bitops.h      Linus Torvalds    2005-04-16  54  
-e7cc2c59cc8355 include/asm-arm/bitops.h      Lennert Buytenhek 2006-09-21  55  	raw_local_irq_save(flags);
-^1da177e4c3f41 include/asm-arm/bitops.h      Linus Torvalds    2005-04-16 @56  	*p &= ~mask;
-e7cc2c59cc8355 include/asm-arm/bitops.h      Lennert Buytenhek 2006-09-21  57  	raw_local_irq_restore(flags);
-^1da177e4c3f41 include/asm-arm/bitops.h      Linus Torvalds    2005-04-16  58  }
-^1da177e4c3f41 include/asm-arm/bitops.h      Linus Torvalds    2005-04-16  59  
-
-:::::: The code at line 56 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
-
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+632f7ce3f9b650 Russell King       2015-03-20  2674  
+51dcf7482f4b31 Ulf Hansson        2019-04-25  2675  static int __genpd_dev_pm_attach(struct device *dev, struct device *base_dev,
+51dcf7482f4b31 Ulf Hansson        2019-04-25  2676  				 unsigned int index, bool power_on)
+aa42240ab2544a Tomasz Figa        2014-09-19  2677  {
+aa42240ab2544a Tomasz Figa        2014-09-19  2678  	struct of_phandle_args pd_args;
+aa42240ab2544a Tomasz Figa        2014-09-19  2679  	struct generic_pm_domain *pd;
+c016baf7dc58e7 Rajendra Nayak     2021-08-12  2680  	int pstate;
+aa42240ab2544a Tomasz Figa        2014-09-19  2681  	int ret;
+aa42240ab2544a Tomasz Figa        2014-09-19  2682  
+e8b04de9da71b5 Ulf Hansson        2019-04-18  2683  	ret = of_parse_phandle_with_args(dev->of_node, "power-domains",
+8cb1cbd644d5bb Ulf Hansson        2018-05-31  2684  				"#power-domain-cells", index, &pd_args);
+001d50c9a14f1f Geert Uytterhoeven 2017-11-30  2685  	if (ret < 0)
+bcd931f298d4a5 Ulf Hansson        2018-05-31  2686  		return ret;
+aa42240ab2544a Tomasz Figa        2014-09-19  2687  
+19efa5ff63dc5e Jon Hunter         2016-09-12  2688  	mutex_lock(&gpd_list_lock);
+f58d4e5ab0ca34 Jon Hunter         2016-09-12  2689  	pd = genpd_get_from_provider(&pd_args);
+265e2cf672aaa9 Eric Anholt        2015-12-01  2690  	of_node_put(pd_args.np);
+aa42240ab2544a Tomasz Figa        2014-09-19  2691  	if (IS_ERR(pd)) {
+19efa5ff63dc5e Jon Hunter         2016-09-12  2692  		mutex_unlock(&gpd_list_lock);
+aa42240ab2544a Tomasz Figa        2014-09-19  2693  		dev_dbg(dev, "%s() failed to find PM domain: %ld\n",
+aa42240ab2544a Tomasz Figa        2014-09-19  2694  			__func__, PTR_ERR(pd));
+e20813dcdc05aa Saravana Kannan    2022-08-19  2695  		return driver_deferred_probe_check_state(base_dev);
+aa42240ab2544a Tomasz Figa        2014-09-19  2696  	}
+aa42240ab2544a Tomasz Figa        2014-09-19  2697  
+aa42240ab2544a Tomasz Figa        2014-09-19  2698  	dev_dbg(dev, "adding to PM domain %s\n", pd->name);
+aa42240ab2544a Tomasz Figa        2014-09-19  2699  
+f9ccd7c3a1d87c Ulf Hansson        2019-04-25  2700  	ret = genpd_add_device(pd, dev, base_dev);
+19efa5ff63dc5e Jon Hunter         2016-09-12  2701  	mutex_unlock(&gpd_list_lock);
+aa42240ab2544a Tomasz Figa        2014-09-19  2702  
+9a6582b839281e Ahmad Fatoum       2022-02-23  2703  	if (ret < 0)
+9a6582b839281e Ahmad Fatoum       2022-02-23  2704  		return dev_err_probe(dev, ret, "failed to add to PM domain %s\n", pd->name);
+aa42240ab2544a Tomasz Figa        2014-09-19  2705  
+aa42240ab2544a Tomasz Figa        2014-09-19  2706  	dev->pm_domain->detach = genpd_dev_pm_detach;
+632f7ce3f9b650 Russell King       2015-03-20  2707  	dev->pm_domain->sync = genpd_dev_pm_sync;
+aa42240ab2544a Tomasz Figa        2014-09-19  2708  
+c016baf7dc58e7 Rajendra Nayak     2021-08-12  2709  	/* Set the default performance state */
+c016baf7dc58e7 Rajendra Nayak     2021-08-12  2710  	pstate = of_get_required_opp_performance_state(dev->of_node, index);
+656164181eece6 Geert Uytterhoeven 2021-08-24  2711  	if (pstate < 0 && pstate != -ENODEV && pstate != -EOPNOTSUPP) {
+c016baf7dc58e7 Rajendra Nayak     2021-08-12  2712  		ret = pstate;
+c016baf7dc58e7 Rajendra Nayak     2021-08-12  2713  		goto err;
+c016baf7dc58e7 Rajendra Nayak     2021-08-12  2714  	} else if (pstate > 0) {
+c016baf7dc58e7 Rajendra Nayak     2021-08-12  2715  		ret = dev_pm_genpd_set_performance_state(dev, pstate);
+c016baf7dc58e7 Rajendra Nayak     2021-08-12  2716  		if (ret)
+c016baf7dc58e7 Rajendra Nayak     2021-08-12  2717  			goto err;
+c016baf7dc58e7 Rajendra Nayak     2021-08-12  2718  		dev_gpd_data(dev)->default_pstate = pstate;
+c016baf7dc58e7 Rajendra Nayak     2021-08-12  2719  	}
+ae8ac19655e0cd Abel Vesa          2022-11-15  2720  
+ae8ac19655e0cd Abel Vesa          2022-11-15  2721  	if (power_on) {
+ae8ac19655e0cd Abel Vesa          2022-11-15  2722  		genpd_lock(pd);
+ae8ac19655e0cd Abel Vesa          2022-11-15  2723  		ret = genpd_power_on(pd, 0);
+ae8ac19655e0cd Abel Vesa          2022-11-15  2724  		genpd_unlock(pd);
+ae8ac19655e0cd Abel Vesa          2022-11-15  2725  	}
+ae8ac19655e0cd Abel Vesa          2022-11-15  2726  
+ae8ac19655e0cd Abel Vesa          2022-11-15  2727  	if (ret) {
+ae8ac19655e0cd Abel Vesa          2022-11-15  2728  		/* Drop the default performance state */
+ae8ac19655e0cd Abel Vesa          2022-11-15 @2729  		if (dev_gpd_data(dev)->default_pstate) {
+ae8ac19655e0cd Abel Vesa          2022-11-15  2730  			dev_pm_genpd_set_performance_state(dev, 0);
+ae8ac19655e0cd Abel Vesa          2022-11-15  2731  			dev_gpd_data(dev)->default_pstate = 0;
+ae8ac19655e0cd Abel Vesa          2022-11-15  2732  		}
+ae8ac19655e0cd Abel Vesa          2022-11-15  2733  
+ae8ac19655e0cd Abel Vesa          2022-11-15  2734  		genpd_remove_device(pd, dev);
+ae8ac19655e0cd Abel Vesa          2022-11-15  2735  		return -EPROBE_DEFER;
+ae8ac19655e0cd Abel Vesa          2022-11-15  2736  	}
+ae8ac19655e0cd Abel Vesa          2022-11-15  2737  
+c016baf7dc58e7 Rajendra Nayak     2021-08-12  2738  	return 1;
+c016baf7dc58e7 Rajendra Nayak     2021-08-12  2739  
+c016baf7dc58e7 Rajendra Nayak     2021-08-12  2740  err:
+c016baf7dc58e7 Rajendra Nayak     2021-08-12  2741  	dev_err(dev, "failed to set required performance state for power-domain %s: %d\n",
+c016baf7dc58e7 Rajendra Nayak     2021-08-12  2742  		pd->name, ret);
+c016baf7dc58e7 Rajendra Nayak     2021-08-12  2743  	genpd_remove_device(pd, dev);
+c016baf7dc58e7 Rajendra Nayak     2021-08-12  2744  	return ret;
+aa42240ab2544a Tomasz Figa        2014-09-19  2745  }
+8cb1cbd644d5bb Ulf Hansson        2018-05-31  2746  
 
 -- 
 0-DAY CI Kernel Test Service
