@@ -1,42 +1,42 @@
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE33D624
-	for <oe-kbuild@lists.linux.dev>; Sun, 19 Feb 2023 01:21:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53AFC622
+	for <oe-kbuild@lists.linux.dev>; Sun, 19 Feb 2023 03:03:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676769683; x=1708305683;
+  t=1676775805; x=1708311805;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=FuWi3hJfRbNRukHyu8zu9I79wfhzUQ6zoQ1BTkRJfPE=;
-  b=Bp43Yb294Js6q+WYNT/tP5gctdxPY/QLmeVHUl1oh32MHDTAa/wlK4mx
-   Tff6mbXSsDfuEPFAuazBhuQZWbcjhhgDmc3+NYCP0OGHUzgG5ZJlxSoex
-   DxddIjH3XXXLJTfc6nuyagpoPkgb3y2fz/EBtOI2zaYPcIvo/jX+7/Ihk
-   6e5ZSXnshJ/23MasWirqMmb1krcslAFvqhLbz13BCw2ddFSrJOxsw5o74
-   znvsHV1KU/+3l4kXb6vAK6etFCVmnQUWP8OCeI3aIR7lHtfrfvDXsDSDo
-   cLTOnatTGisN+evz9JRZOTdK5hIyPJl8/BPN8vwy1WcSCpGbQ9nwT9drb
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10625"; a="359674075"
+  bh=XUnFyyIkEoDQw+RZlbfJmOYbnNYqvG7eSkSwkJisYW4=;
+  b=YwakyLynIu9mme6442hL4mnLz3dbvx36864aucVQ5qkVTgwSTDSdqV45
+   YbI01FRGd9uo8A+RQ/SCO6R8Zr4oVgdD7U081ibTYssfwbOB3xyGgSF85
+   0XQn1ksR/Rd0qgTEjmH5D5k519kOD7q7bknbtXLUE87stu0UUvtKvpkgM
+   SO/HaCZlzilmTBHiS46pJc8NpMIcv0OG/Q0OnYx56aZ6z++iyKpbufORz
+   8B4HW+3ZNbaHitc2ueF2FkuQlsAczB48T6CrOA95dIkeVMZLrnghvYaKq
+   TXRAvRt7Z+N1iId5WZh7HQjaGsIxhegNBVfVg9g8oji5Jr8O/3/0YuvZX
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10625"; a="359679309"
 X-IronPort-AV: E=Sophos;i="5.97,309,1669104000"; 
-   d="scan'208";a="359674075"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Feb 2023 17:21:23 -0800
+   d="scan'208";a="359679309"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Feb 2023 19:03:24 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10625"; a="794817123"
+X-IronPort-AV: E=McAfee;i="6500,9779,10625"; a="673007402"
 X-IronPort-AV: E=Sophos;i="5.97,309,1669104000"; 
-   d="scan'208";a="794817123"
+   d="scan'208";a="673007402"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 18 Feb 2023 17:21:21 -0800
+  by fmsmga007.fm.intel.com with ESMTP; 18 Feb 2023 19:03:23 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pTYOG-000Cuv-2m;
-	Sun, 19 Feb 2023 01:21:20 +0000
-Date: Sun, 19 Feb 2023 09:20:53 +0800
+	id 1pTZz1-000Cyf-0Z;
+	Sun, 19 Feb 2023 03:03:23 +0000
+Date: Sun, 19 Feb 2023 11:02:29 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/gpu/drm/i915/i915_hwmon.c:77 hwm_field_read_and_scale()
- error: uninitialized symbol 'reg_value'.
-Message-ID: <202302190930.Xa8Gg6Cg-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [stable:linux-5.4.y 3888/9999] ERROR: "devm_ioremap"
+ [drivers/input/misc/msm-vibrator.ko] undefined!
+Message-ID: <202302191047.YBfZZMeM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -46,60 +46,54 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "low confidence static check first_new_problem: ERROR: "devm_ioremap" [drivers/input/misc/msm-vibrator.ko] undefined!"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Dale B Stimson <dale.b.stimson@intel.com>
-CC: Anshuman Gupta <anshuman.gupta@intel.com>
-CC: Ashutosh Dixit <ashutosh.dixit@intel.com>
-CC: Riana Tauro <riana.tauro@intel.com>
-CC: Badal Nilawar <badal.nilawar@intel.com>
-CC: Andi Shyti <andi.shyti@linux.intel.com>
+TO: Guenter Roeck <linux@roeck-us.net>
+CC: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+CC: Wim Van Sebroeck <wim@linux-watchdog.org>
+CC: Sasha Levin <sashal@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   5e725d112e1a54c2611d5dffd124a79415d0f0de
-commit: 99f55efb79114f7bc38e9c769f06f5bacb5e9d21 drm/i915/hwmon: Power PL1 limit and TDP setting
-date:   4 months ago
-:::::: branch date: 6 hours ago
-:::::: commit date: 4 months ago
-config: x86_64-randconfig-m001-20230213 (https://download.01.org/0day-ci/archive/20230219/202302190930.Xa8Gg6Cg-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+Hi Guenter,
+
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git linux-5.4.y
+head:   59342376e8f0c704299dc7a2c14fed07ffb962e2
+commit: 4a4b31e8b5a73fd5e0527d929f66ee83005b77ad [3888/9999] watchdog: sirfsoc: Add missing dependency on HAS_IOMEM
+:::::: branch date: 13 days ago
+:::::: commit date: 2 years, 2 months ago
+config: s390-randconfig-s052-20230219 (https://download.01.org/0day-ci/archive/20230219/202302191047.YBfZZMeM-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 12.1.0
+reproduce:
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git/commit/?id=4a4b31e8b5a73fd5e0527d929f66ee83005b77ad
+        git remote add stable https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git
+        git fetch --no-tags stable linux-5.4.y
+        git checkout 4a4b31e8b5a73fd5e0527d929f66ee83005b77ad
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=s390 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=s390 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202302190930.Xa8Gg6Cg-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202302191047.YBfZZMeM-lkp@intel.com/
 
-New smatch warnings:
-drivers/gpu/drm/i915/i915_hwmon.c:77 hwm_field_read_and_scale() error: uninitialized symbol 'reg_value'.
+All errors (new ones prefixed by >>):
 
-Old smatch warnings:
-drivers/gpu/drm/i915/i915_hwmon.c:132 hwm_in_read() error: uninitialized symbol 'reg_value'.
-
-vim +/reg_value +77 drivers/gpu/drm/i915/i915_hwmon.c
-
-99f55efb79114f Dale B Stimson 2022-10-13  60  
-99f55efb79114f Dale B Stimson 2022-10-13  61  /*
-99f55efb79114f Dale B Stimson 2022-10-13  62   * This function's return type of u64 allows for the case where the scaling
-99f55efb79114f Dale B Stimson 2022-10-13  63   * of the field taken from the 32-bit register value might cause a result to
-99f55efb79114f Dale B Stimson 2022-10-13  64   * exceed 32 bits.
-99f55efb79114f Dale B Stimson 2022-10-13  65   */
-99f55efb79114f Dale B Stimson 2022-10-13  66  static u64
-99f55efb79114f Dale B Stimson 2022-10-13  67  hwm_field_read_and_scale(struct hwm_drvdata *ddat, i915_reg_t rgadr,
-99f55efb79114f Dale B Stimson 2022-10-13  68  			 u32 field_msk, int nshift, u32 scale_factor)
-99f55efb79114f Dale B Stimson 2022-10-13  69  {
-99f55efb79114f Dale B Stimson 2022-10-13  70  	struct intel_uncore *uncore = ddat->uncore;
-99f55efb79114f Dale B Stimson 2022-10-13  71  	intel_wakeref_t wakeref;
-99f55efb79114f Dale B Stimson 2022-10-13  72  	u32 reg_value;
-99f55efb79114f Dale B Stimson 2022-10-13  73  
-99f55efb79114f Dale B Stimson 2022-10-13  74  	with_intel_runtime_pm(uncore->rpm, wakeref)
-99f55efb79114f Dale B Stimson 2022-10-13  75  		reg_value = intel_uncore_read(uncore, rgadr);
-99f55efb79114f Dale B Stimson 2022-10-13  76  
-99f55efb79114f Dale B Stimson 2022-10-13 @77  	reg_value = REG_FIELD_GET(field_msk, reg_value);
-99f55efb79114f Dale B Stimson 2022-10-13  78  
-99f55efb79114f Dale B Stimson 2022-10-13  79  	return mul_u64_u32_shr(reg_value, scale_factor, nshift);
-99f55efb79114f Dale B Stimson 2022-10-13  80  }
-99f55efb79114f Dale B Stimson 2022-10-13  81  
+>> ERROR: "devm_ioremap" [drivers/input/misc/msm-vibrator.ko] undefined!
+   ERROR: "ioremap" [drivers/pcmcia/pcmcia.ko] undefined!
+   ERROR: "iounmap" [drivers/pcmcia/pcmcia.ko] undefined!
+   ERROR: "devm_ioremap_resource" [drivers/char/hw_random/mtk-rng.ko] undefined!
+   ERROR: "devm_ioremap_resource" [drivers/char/hw_random/meson-rng.ko] undefined!
+   ERROR: "devm_ioremap_resource" [drivers/char/hw_random/exynos-trng.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
