@@ -1,43 +1,43 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7196A1119
-	for <oe-kbuild@lists.linux.dev>; Mon, 20 Feb 2023 09:17:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33D2C2F4B
+	for <oe-kbuild@lists.linux.dev>; Mon, 20 Feb 2023 13:02:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676884632; x=1708420632;
+  t=1676898146; x=1708434146;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=N0U7hZb4I0ZPBDzlah6Hk3/LH2RHDQAkH5SCD1BeHwA=;
-  b=OKpKEDJZ4hPhnCRNTn4g8sPvSCLzQHb9PCMQyngTGRndMm5a4OthBNND
-   Tj2epcPea1WEejxa4Cna9csUUs4qv3eG/+IkcCoQHVnomotIH5EOA65/e
-   zcU1/lwuCBlE++kq/n0KjxuF9vhsz73VlXhjN9zbruZzN834pyz8d/PIh
-   JrUpQb3Mly3ekfSpFIh8eIRfrjdB7707Zh2fOoaogIO7JUfG2w/YZZquv
-   cqQoSTV+xJPgrv0Y27gfPNAJlR2UeWXpVMYOMf8n/bT3WdAvVEiaaa3wm
-   daxyFrcZB4ywcMJKCSPelbU1kXr+/KxiEPbKLLFGYPDhPqwKA4fCd3lM2
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10626"; a="394842375"
+  bh=PBiuBgnXw3jxn0AFmfJ5Kt8EfcQs75DgitWzJcjpniI=;
+  b=IqqbWr9Czn5JdLVL7hwGLgOdPgSpYZHhIOh7bTuDDZ0cOUaBWNaO/NbP
+   LMKwrqhQ8k3CfaO3QCnRzCoS8FdH1GBEiRDwOofZi8v5HT50pt7mIwJTl
+   ymwrbv/IlQuVDhQAUOdwxxQ7cv4WdUBeADpgrr3guAsGnSh+H5od+BU+L
+   gmctL+KWUcpCr71iPI96jk8pyY1hD3MQ69gV0+OHv1jpsyt6vib6/ICjD
+   rqUWn4f+CcBYCjfcjoprg8W00xBQLQK4AXXOtopgIDmnTsJHUcxVIfNGK
+   +No9zyWFl3uCp86WPJsXm58PaAEcAxZKiWoual/htPPQuKi4MuwaT2B9G
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10626"; a="333756186"
 X-IronPort-AV: E=Sophos;i="5.97,312,1669104000"; 
-   d="scan'208";a="394842375"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2023 01:17:11 -0800
+   d="scan'208";a="333756186"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2023 05:02:18 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10626"; a="664574163"
+X-IronPort-AV: E=McAfee;i="6500,9779,10626"; a="795170110"
 X-IronPort-AV: E=Sophos;i="5.97,312,1669104000"; 
-   d="scan'208";a="664574163"
+   d="scan'208";a="795170110"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 20 Feb 2023 01:17:09 -0800
+  by orsmga004.jf.intel.com with ESMTP; 20 Feb 2023 05:02:17 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pU2IH-000Dp3-0i;
-	Mon, 20 Feb 2023 09:17:09 +0000
-Date: Mon, 20 Feb 2023 17:16:39 +0800
+	id 1pU5o8-000DvZ-1F;
+	Mon, 20 Feb 2023 13:02:16 +0000
+Date: Mon, 20 Feb 2023 21:01:30 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [linux-next:master 2492/13681]
- drivers/infiniband/hw/hfi1/verbs.c:1661 hfi1_alloc_hw_device_stats() error:
- we previously assumed 'dev_cntr_descs' could be null (see line 1650)
-Message-ID: <202302201710.aojo2ybx-lkp@intel.com>
+Subject: [linux-next:master 681/13681]
+ drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_8188e.c:1678
+ rtl8188e_handle_ra_tx_report2() warn: ignoring unreachable code.
+Message-ID: <202302202035.jgGt65Cj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -50,50 +50,101 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Dean Luick <dean.luick@cornelisnetworks.com>
-CC: Leon Romanovsky <leon@kernel.org>
-CC: Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>
+TO: Bitterblue Smith <rtl8821cerfe2@gmail.com>
+CC: Kalle Valo <kvalo@kernel.org>
+CC: "Ping-Ke Shih" <pkshih@realtek.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
 head:   d2af0fa4bfa4ec29d03b449ccd43fee39501112d
-commit: ef90f0a1913e8b60101c374010847615172a77d1 [2492/13681] IB/hfi1: Split IB counter allocation
-:::::: branch date: 4 hours ago
-:::::: commit date: 6 weeks ago
-config: x86_64-randconfig-m001-20230213 (https://download.01.org/0day-ci/archive/20230220/202302201710.aojo2ybx-lkp@intel.com/config)
+commit: 8b9754b28f0f231736667e1751f1fc6f18c80ad4 [681/13681] wifi: rtl8xxxu: Add rate control code for RTL8188EU
+:::::: branch date: 7 hours ago
+:::::: commit date: 9 weeks ago
+config: x86_64-randconfig-m001-20230213 (https://download.01.org/0day-ci/archive/20230220/202302202035.jgGt65Cj-lkp@intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202302201710.aojo2ybx-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202302202035.jgGt65Cj-lkp@intel.com/
 
 smatch warnings:
-drivers/infiniband/hw/hfi1/verbs.c:1661 hfi1_alloc_hw_device_stats() error: we previously assumed 'dev_cntr_descs' could be null (see line 1650)
+drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_8188e.c:1678 rtl8188e_handle_ra_tx_report2() warn: ignoring unreachable code.
 
-vim +/dev_cntr_descs +1661 drivers/infiniband/hw/hfi1/verbs.c
+vim +1678 drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_8188e.c
 
-b7481944b06e99 Jianxin Xiong   2016-12-07  1647  
-ef90f0a1913e8b Dean Luick      2023-01-09  1648  static struct rdma_hw_stats *hfi1_alloc_hw_device_stats(struct ib_device *ibdev)
-b7481944b06e99 Jianxin Xiong   2016-12-07  1649  {
-ef90f0a1913e8b Dean Luick      2023-01-09 @1650  	if (!dev_cntr_descs) {
-4b5f4d3fb40898 Jason Gunthorpe 2021-06-11  1651  		struct hfi1_devdata *dd = dd_from_ibdev(ibdev);
-ef90f0a1913e8b Dean Luick      2023-01-09  1652  		int i, err;
-b7481944b06e99 Jianxin Xiong   2016-12-07  1653  
-ef90f0a1913e8b Dean Luick      2023-01-09  1654  		err = init_cntr_names(dd->cntrnames, dd->cntrnameslen,
-ef90f0a1913e8b Dean Luick      2023-01-09  1655  				      num_driver_cntrs,
-13f30b0fa0a9fa Aharon Landau   2021-10-08  1656  				      &num_dev_cntrs, &dev_cntr_descs);
-4b5f4d3fb40898 Jason Gunthorpe 2021-06-11  1657  		if (err)
-ef90f0a1913e8b Dean Luick      2023-01-09  1658  			return NULL;
-b7481944b06e99 Jianxin Xiong   2016-12-07  1659  
-b7481944b06e99 Jianxin Xiong   2016-12-07  1660  		for (i = 0; i < num_driver_cntrs; i++)
-ef90f0a1913e8b Dean Luick      2023-01-09 @1661  			dev_cntr_descs[num_dev_cntrs + i].name =
-ef90f0a1913e8b Dean Luick      2023-01-09  1662  							driver_cntr_names[i];
-b7481944b06e99 Jianxin Xiong   2016-12-07  1663  	}
-13f30b0fa0a9fa Aharon Landau   2021-10-08  1664  	return rdma_alloc_hw_stats_struct(dev_cntr_descs,
-b7481944b06e99 Jianxin Xiong   2016-12-07  1665  					  num_dev_cntrs + num_driver_cntrs,
-b7481944b06e99 Jianxin Xiong   2016-12-07  1666  					  RDMA_HW_STATS_DEFAULT_LIFESPAN);
-4b5f4d3fb40898 Jason Gunthorpe 2021-06-11  1667  }
-4b5f4d3fb40898 Jason Gunthorpe 2021-06-11  1668  
+8b9754b28f0f23 Bitterblue Smith 2022-12-17  1661  
+8b9754b28f0f23 Bitterblue Smith 2022-12-17  1662  void rtl8188e_handle_ra_tx_report2(struct rtl8xxxu_priv *priv, struct sk_buff *skb)
+8b9754b28f0f23 Bitterblue Smith 2022-12-17  1663  {
+8b9754b28f0f23 Bitterblue Smith 2022-12-17  1664  	u32 *_rx_desc = (u32 *)(skb->data - sizeof(struct rtl8xxxu_rxdesc16));
+8b9754b28f0f23 Bitterblue Smith 2022-12-17  1665  	struct rtl8xxxu_rxdesc16 *rx_desc = (struct rtl8xxxu_rxdesc16 *)_rx_desc;
+8b9754b28f0f23 Bitterblue Smith 2022-12-17  1666  	struct device *dev = &priv->udev->dev;
+8b9754b28f0f23 Bitterblue Smith 2022-12-17  1667  	struct rtl8xxxu_ra_info *ra = &priv->ra_info;
+8b9754b28f0f23 Bitterblue Smith 2022-12-17  1668  	u32 tx_rpt_len = rx_desc->pktlen & 0x3ff;
+8b9754b28f0f23 Bitterblue Smith 2022-12-17  1669  	u32 items = tx_rpt_len / TX_RPT2_ITEM_SIZE;
+8b9754b28f0f23 Bitterblue Smith 2022-12-17  1670  	u64 macid_valid = ((u64)_rx_desc[5] << 32) | _rx_desc[4];
+8b9754b28f0f23 Bitterblue Smith 2022-12-17  1671  	u32 macid;
+8b9754b28f0f23 Bitterblue Smith 2022-12-17  1672  	u8 *rpt = skb->data;
+8b9754b28f0f23 Bitterblue Smith 2022-12-17  1673  	bool valid;
+8b9754b28f0f23 Bitterblue Smith 2022-12-17  1674  	u16 min_rpt_time = 0x927c;
+8b9754b28f0f23 Bitterblue Smith 2022-12-17  1675  
+8b9754b28f0f23 Bitterblue Smith 2022-12-17  1676  	dev_dbg(dev, "%s: len: %d items: %d\n", __func__, tx_rpt_len, items);
+8b9754b28f0f23 Bitterblue Smith 2022-12-17  1677  
+8b9754b28f0f23 Bitterblue Smith 2022-12-17 @1678  	for (macid = 0; macid < items; macid++) {
+8b9754b28f0f23 Bitterblue Smith 2022-12-17  1679  		valid = false;
+8b9754b28f0f23 Bitterblue Smith 2022-12-17  1680  
+8b9754b28f0f23 Bitterblue Smith 2022-12-17  1681  		if (macid < 64)
+8b9754b28f0f23 Bitterblue Smith 2022-12-17  1682  			valid = macid_valid & BIT(macid);
+8b9754b28f0f23 Bitterblue Smith 2022-12-17  1683  
+8b9754b28f0f23 Bitterblue Smith 2022-12-17  1684  		if (valid) {
+8b9754b28f0f23 Bitterblue Smith 2022-12-17  1685  			ra->retry[0] = le16_to_cpu(*(__le16 *)rpt);
+8b9754b28f0f23 Bitterblue Smith 2022-12-17  1686  			ra->retry[1] = rpt[2];
+8b9754b28f0f23 Bitterblue Smith 2022-12-17  1687  			ra->retry[2] = rpt[3];
+8b9754b28f0f23 Bitterblue Smith 2022-12-17  1688  			ra->retry[3] = rpt[4];
+8b9754b28f0f23 Bitterblue Smith 2022-12-17  1689  			ra->retry[4] = rpt[5];
+8b9754b28f0f23 Bitterblue Smith 2022-12-17  1690  			ra->drop = rpt[6];
+8b9754b28f0f23 Bitterblue Smith 2022-12-17  1691  			ra->total = ra->retry[0] + ra->retry[1] + ra->retry[2] +
+8b9754b28f0f23 Bitterblue Smith 2022-12-17  1692  				    ra->retry[3] + ra->retry[4] + ra->drop;
+8b9754b28f0f23 Bitterblue Smith 2022-12-17  1693  
+8b9754b28f0f23 Bitterblue Smith 2022-12-17  1694  			if (ra->total > 0) {
+8b9754b28f0f23 Bitterblue Smith 2022-12-17  1695  				if (ra->ra_stage < 5)
+8b9754b28f0f23 Bitterblue Smith 2022-12-17  1696  					rtl8188e_rate_decision(ra);
+8b9754b28f0f23 Bitterblue Smith 2022-12-17  1697  				else if (ra->ra_stage == 5)
+8b9754b28f0f23 Bitterblue Smith 2022-12-17  1698  					rtl8188e_power_training_try_state(ra);
+8b9754b28f0f23 Bitterblue Smith 2022-12-17  1699  				else /* ra->ra_stage == 6 */
+8b9754b28f0f23 Bitterblue Smith 2022-12-17  1700  					rtl8188e_power_training_decision(ra);
+8b9754b28f0f23 Bitterblue Smith 2022-12-17  1701  
+8b9754b28f0f23 Bitterblue Smith 2022-12-17  1702  				if (ra->ra_stage <= 5)
+8b9754b28f0f23 Bitterblue Smith 2022-12-17  1703  					ra->ra_stage++;
+8b9754b28f0f23 Bitterblue Smith 2022-12-17  1704  				else
+8b9754b28f0f23 Bitterblue Smith 2022-12-17  1705  					ra->ra_stage = 0;
+8b9754b28f0f23 Bitterblue Smith 2022-12-17  1706  			}
+8b9754b28f0f23 Bitterblue Smith 2022-12-17  1707  		} else if (macid == 0) {
+8b9754b28f0f23 Bitterblue Smith 2022-12-17  1708  			dev_warn(dev, "%s: TX report item 0 not valid\n", __func__);
+8b9754b28f0f23 Bitterblue Smith 2022-12-17  1709  		}
+8b9754b28f0f23 Bitterblue Smith 2022-12-17  1710  
+8b9754b28f0f23 Bitterblue Smith 2022-12-17  1711  		dev_dbg(dev, "%s:  valid: %d retry: %d %d %d %d %d drop: %d\n",
+8b9754b28f0f23 Bitterblue Smith 2022-12-17  1712  			__func__, valid,
+8b9754b28f0f23 Bitterblue Smith 2022-12-17  1713  			ra->retry[0], ra->retry[1], ra->retry[2],
+8b9754b28f0f23 Bitterblue Smith 2022-12-17  1714  			ra->retry[3], ra->retry[4], ra->drop);
+8b9754b28f0f23 Bitterblue Smith 2022-12-17  1715  
+8b9754b28f0f23 Bitterblue Smith 2022-12-17  1716  		if (min_rpt_time > ra->rpt_time)
+8b9754b28f0f23 Bitterblue Smith 2022-12-17  1717  			min_rpt_time = ra->rpt_time;
+8b9754b28f0f23 Bitterblue Smith 2022-12-17  1718  
+8b9754b28f0f23 Bitterblue Smith 2022-12-17  1719  		rpt += TX_RPT2_ITEM_SIZE;
+8b9754b28f0f23 Bitterblue Smith 2022-12-17  1720  
+8b9754b28f0f23 Bitterblue Smith 2022-12-17  1721  		/*
+8b9754b28f0f23 Bitterblue Smith 2022-12-17  1722  		 * We only use macid 0, so only the first item is relevant.
+8b9754b28f0f23 Bitterblue Smith 2022-12-17  1723  		 * AP mode will use more of them if it's ever implemented.
+8b9754b28f0f23 Bitterblue Smith 2022-12-17  1724  		 */
+8b9754b28f0f23 Bitterblue Smith 2022-12-17  1725  		break;
+8b9754b28f0f23 Bitterblue Smith 2022-12-17  1726  	}
+8b9754b28f0f23 Bitterblue Smith 2022-12-17  1727  
+8b9754b28f0f23 Bitterblue Smith 2022-12-17  1728  	if (min_rpt_time != ra->pre_min_rpt_time) {
+8b9754b28f0f23 Bitterblue Smith 2022-12-17  1729  		rtl8xxxu_write16(priv, REG_TX_REPORT_TIME, min_rpt_time);
+8b9754b28f0f23 Bitterblue Smith 2022-12-17  1730  		ra->pre_min_rpt_time = min_rpt_time;
+8b9754b28f0f23 Bitterblue Smith 2022-12-17  1731  	}
+8b9754b28f0f23 Bitterblue Smith 2022-12-17  1732  }
+8b9754b28f0f23 Bitterblue Smith 2022-12-17  1733  
 
 -- 
 0-DAY CI Kernel Test Service
