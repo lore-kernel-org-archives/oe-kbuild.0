@@ -1,42 +1,43 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB328ED0
-	for <oe-kbuild@lists.linux.dev>; Mon, 20 Feb 2023 08:05:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7196A1119
+	for <oe-kbuild@lists.linux.dev>; Mon, 20 Feb 2023 09:17:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676880309; x=1708416309;
+  t=1676884632; x=1708420632;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=B0sepjZZykmnbYXuGHLs4a/owZLIGkC/LmGhVPzjHow=;
-  b=LzN3VIRssIT7jrfOti7tohcuCBfwHOGRwMPCqKlM0cwegs24kOzngH44
-   v8hFowiVI5Bi3Ce/aTE5HfUeF945dlXlye2DFJ7NrQ+xy6AUlapWaBPub
-   79OQ8d/TaXtockKnpSGyox9aC7HSSUmiL1oYLLyQdsrehCWnLYnpMELn/
-   oNnOUFWqlqOpXoexZSBqkAoOxv8IIpNnDVPeWKONE3WaurmDFI2yehmN3
-   H2oTydmzOVrloMOzygZTrtaESRXywtseylMWATZzVog9lwovsNGzF4wJ+
-   aDRmsCvTJmMKAQ+DhK1jR0PeEjegVDRdBhMEzPEC8E6rD9gP9i9AzRwZj
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10626"; a="320467994"
-X-IronPort-AV: E=Sophos;i="5.97,311,1669104000"; 
-   d="scan'208";a="320467994"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2023 00:05:09 -0800
+  bh=N0U7hZb4I0ZPBDzlah6Hk3/LH2RHDQAkH5SCD1BeHwA=;
+  b=OKpKEDJZ4hPhnCRNTn4g8sPvSCLzQHb9PCMQyngTGRndMm5a4OthBNND
+   Tj2epcPea1WEejxa4Cna9csUUs4qv3eG/+IkcCoQHVnomotIH5EOA65/e
+   zcU1/lwuCBlE++kq/n0KjxuF9vhsz73VlXhjN9zbruZzN834pyz8d/PIh
+   JrUpQb3Mly3ekfSpFIh8eIRfrjdB7707Zh2fOoaogIO7JUfG2w/YZZquv
+   cqQoSTV+xJPgrv0Y27gfPNAJlR2UeWXpVMYOMf8n/bT3WdAvVEiaaa3wm
+   daxyFrcZB4ywcMJKCSPelbU1kXr+/KxiEPbKLLFGYPDhPqwKA4fCd3lM2
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10626"; a="394842375"
+X-IronPort-AV: E=Sophos;i="5.97,312,1669104000"; 
+   d="scan'208";a="394842375"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2023 01:17:11 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10626"; a="735041495"
-X-IronPort-AV: E=Sophos;i="5.97,311,1669104000"; 
-   d="scan'208";a="735041495"
+X-IronPort-AV: E=McAfee;i="6500,9779,10626"; a="664574163"
+X-IronPort-AV: E=Sophos;i="5.97,312,1669104000"; 
+   d="scan'208";a="664574163"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 20 Feb 2023 00:05:07 -0800
+  by orsmga007.jf.intel.com with ESMTP; 20 Feb 2023 01:17:09 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pU1AZ-000DmN-1A;
-	Mon, 20 Feb 2023 08:05:07 +0000
-Date: Mon, 20 Feb 2023 16:05:02 +0800
+	id 1pU2IH-000Dp3-0i;
+	Mon, 20 Feb 2023 09:17:09 +0000
+Date: Mon, 20 Feb 2023 17:16:39 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/gpu/drm/i915/gem/i915_gem_stolen.c:173 request_smem_stolen()
- warn: consider using resource_size() here
-Message-ID: <202302201520.4Ia2vbeF-lkp@intel.com>
+Subject: [linux-next:master 2492/13681]
+ drivers/infiniband/hw/hfi1/verbs.c:1661 hfi1_alloc_hw_device_stats() error:
+ we previously assumed 'dev_cntr_descs' could be null (see line 1650)
+Message-ID: <202302201710.aojo2ybx-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -48,87 +49,51 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Lucas De Marchi <lucas.demarchi@intel.com>
-CC: Wayne Boyer <wayne.boyer@intel.com>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Dean Luick <dean.luick@cornelisnetworks.com>
+CC: Leon Romanovsky <leon@kernel.org>
+CC: Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   c9c3395d5e3dcc6daee66c6908354d47bf98cb0c
-commit: 3d99597c6496b9319f7522e0d073afab314d518a drm/i915: Split i915_gem_init_stolen()
-date:   5 months ago
-:::::: branch date: 10 hours ago
-:::::: commit date: 5 months ago
-config: x86_64-randconfig-m001-20230213 (https://download.01.org/0day-ci/archive/20230220/202302201520.4Ia2vbeF-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   d2af0fa4bfa4ec29d03b449ccd43fee39501112d
+commit: ef90f0a1913e8b60101c374010847615172a77d1 [2492/13681] IB/hfi1: Split IB counter allocation
+:::::: branch date: 4 hours ago
+:::::: commit date: 6 weeks ago
+config: x86_64-randconfig-m001-20230213 (https://download.01.org/0day-ci/archive/20230220/202302201710.aojo2ybx-lkp@intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202302201520.4Ia2vbeF-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202302201710.aojo2ybx-lkp@intel.com/
 
 smatch warnings:
-drivers/gpu/drm/i915/gem/i915_gem_stolen.c:173 request_smem_stolen() warn: consider using resource_size() here
-drivers/gpu/drm/i915/gem/i915_gem_stolen.c:455 init_reserved_stolen() warn: missing error code 'ret'
+drivers/infiniband/hw/hfi1/verbs.c:1661 hfi1_alloc_hw_device_stats() error: we previously assumed 'dev_cntr_descs' could be null (see line 1650)
 
-vim +173 drivers/gpu/drm/i915/gem/i915_gem_stolen.c
+vim +/dev_cntr_descs +1661 drivers/infiniband/hw/hfi1/verbs.c
 
-3d99597c6496b9 drivers/gpu/drm/i915/gem/i915_gem_stolen.c Lucas De Marchi 2022-09-16  141  
-3d99597c6496b9 drivers/gpu/drm/i915/gem/i915_gem_stolen.c Lucas De Marchi 2022-09-16  142  static int request_smem_stolen(struct drm_i915_private *i915,
-3d99597c6496b9 drivers/gpu/drm/i915/gem/i915_gem_stolen.c Lucas De Marchi 2022-09-16  143  			       struct resource *dsm)
-3d99597c6496b9 drivers/gpu/drm/i915/gem/i915_gem_stolen.c Lucas De Marchi 2022-09-16  144  {
-3d99597c6496b9 drivers/gpu/drm/i915/gem/i915_gem_stolen.c Lucas De Marchi 2022-09-16  145  	struct resource *r;
-3d99597c6496b9 drivers/gpu/drm/i915/gem/i915_gem_stolen.c Lucas De Marchi 2022-09-16  146  
-d57d4a1daf5e83 drivers/gpu/drm/i915/gem/i915_gem_stolen.c CQ Tang         2021-04-21  147  	/*
-3d99597c6496b9 drivers/gpu/drm/i915/gem/i915_gem_stolen.c Lucas De Marchi 2022-09-16  148  	 * With stolen lmem, we don't need to request system memory for the
-3d99597c6496b9 drivers/gpu/drm/i915/gem/i915_gem_stolen.c Lucas De Marchi 2022-09-16  149  	 * address range since it's local to the gpu.
-d57d4a1daf5e83 drivers/gpu/drm/i915/gem/i915_gem_stolen.c CQ Tang         2021-04-21  150  	 */
-d57d4a1daf5e83 drivers/gpu/drm/i915/gem/i915_gem_stolen.c CQ Tang         2021-04-21  151  	if (HAS_LMEM(i915))
-d57d4a1daf5e83 drivers/gpu/drm/i915/gem/i915_gem_stolen.c CQ Tang         2021-04-21  152  		return 0;
-d57d4a1daf5e83 drivers/gpu/drm/i915/gem/i915_gem_stolen.c CQ Tang         2021-04-21  153  
-7789422665f599 drivers/gpu/drm/i915/i915_gem_stolen.c     Matthew Auld    2017-12-11  154  	/*
-7789422665f599 drivers/gpu/drm/i915/i915_gem_stolen.c     Matthew Auld    2017-12-11  155  	 * Verify that nothing else uses this physical address. Stolen
-eaba1b8f3379b5 drivers/gpu/drm/i915/i915_gem_stolen.c     Chris Wilson    2013-07-04  156  	 * memory should be reserved by the BIOS and hidden from the
-eaba1b8f3379b5 drivers/gpu/drm/i915/i915_gem_stolen.c     Chris Wilson    2013-07-04  157  	 * kernel. So if the region is already marked as busy, something
-eaba1b8f3379b5 drivers/gpu/drm/i915/i915_gem_stolen.c     Chris Wilson    2013-07-04  158  	 * is seriously wrong.
-eaba1b8f3379b5 drivers/gpu/drm/i915/i915_gem_stolen.c     Chris Wilson    2013-07-04  159  	 */
-bdce2bea0f5e6b drivers/gpu/drm/i915/gem/i915_gem_stolen.c Chris Wilson    2019-11-11  160  	r = devm_request_mem_region(i915->drm.dev, dsm->start,
-7789422665f599 drivers/gpu/drm/i915/i915_gem_stolen.c     Matthew Auld    2017-12-11  161  				    resource_size(dsm),
-eaba1b8f3379b5 drivers/gpu/drm/i915/i915_gem_stolen.c     Chris Wilson    2013-07-04  162  				    "Graphics Stolen Memory");
-3617dc9675f018 drivers/gpu/drm/i915/i915_gem_stolen.c     Akash Goel      2014-01-13  163  	if (r == NULL) {
-3617dc9675f018 drivers/gpu/drm/i915/i915_gem_stolen.c     Akash Goel      2014-01-13  164  		/*
-3617dc9675f018 drivers/gpu/drm/i915/i915_gem_stolen.c     Akash Goel      2014-01-13  165  		 * One more attempt but this time requesting region from
-7789422665f599 drivers/gpu/drm/i915/i915_gem_stolen.c     Matthew Auld    2017-12-11  166  		 * start + 1, as we have seen that this resolves the region
-3617dc9675f018 drivers/gpu/drm/i915/i915_gem_stolen.c     Akash Goel      2014-01-13  167  		 * conflict with the PCI Bus.
-3617dc9675f018 drivers/gpu/drm/i915/i915_gem_stolen.c     Akash Goel      2014-01-13  168  		 * This is a BIOS w/a: Some BIOS wrap stolen in the root
-3617dc9675f018 drivers/gpu/drm/i915/i915_gem_stolen.c     Akash Goel      2014-01-13  169  		 * PCI bus, but have an off-by-one error. Hence retry the
-3617dc9675f018 drivers/gpu/drm/i915/i915_gem_stolen.c     Akash Goel      2014-01-13  170  		 * reservation starting from 1 instead of 0.
-023f807989f4d6 drivers/gpu/drm/i915/i915_gem_stolen.c     Daniel Vetter   2017-07-19  171  		 * There's also BIOS with off-by-one on the other end.
-3617dc9675f018 drivers/gpu/drm/i915/i915_gem_stolen.c     Akash Goel      2014-01-13  172  		 */
-bdce2bea0f5e6b drivers/gpu/drm/i915/gem/i915_gem_stolen.c Chris Wilson    2019-11-11 @173  		r = devm_request_mem_region(i915->drm.dev, dsm->start + 1,
-7789422665f599 drivers/gpu/drm/i915/i915_gem_stolen.c     Matthew Auld    2017-12-11  174  					    resource_size(dsm) - 2,
-3617dc9675f018 drivers/gpu/drm/i915/i915_gem_stolen.c     Akash Goel      2014-01-13  175  					    "Graphics Stolen Memory");
-0b6d24c01932db drivers/gpu/drm/i915/i915_gem_stolen.c     Daniel Vetter   2014-04-11  176  		/*
-0b6d24c01932db drivers/gpu/drm/i915/i915_gem_stolen.c     Daniel Vetter   2014-04-11  177  		 * GEN3 firmware likes to smash pci bridges into the stolen
-0b6d24c01932db drivers/gpu/drm/i915/i915_gem_stolen.c     Daniel Vetter   2014-04-11  178  		 * range. Apparently this works.
-0b6d24c01932db drivers/gpu/drm/i915/i915_gem_stolen.c     Daniel Vetter   2014-04-11  179  		 */
-40e1956ec505a1 drivers/gpu/drm/i915/gem/i915_gem_stolen.c Lucas De Marchi 2021-06-05  180  		if (!r && GRAPHICS_VER(i915) != 3) {
-baa89ba3f1feda drivers/gpu/drm/i915/gem/i915_gem_stolen.c Wambui Karuga   2020-01-22  181  			drm_err(&i915->drm,
-baa89ba3f1feda drivers/gpu/drm/i915/gem/i915_gem_stolen.c Wambui Karuga   2020-01-22  182  				"conflict detected with stolen region: %pR\n",
-7789422665f599 drivers/gpu/drm/i915/i915_gem_stolen.c     Matthew Auld    2017-12-11  183  				dsm);
-920bcd1820a696 drivers/gpu/drm/i915/i915_gem_stolen.c     Paulo Zanoni    2017-01-26  184  
-7789422665f599 drivers/gpu/drm/i915/i915_gem_stolen.c     Matthew Auld    2017-12-11  185  			return -EBUSY;
-eaba1b8f3379b5 drivers/gpu/drm/i915/i915_gem_stolen.c     Chris Wilson    2013-07-04  186  		}
-3617dc9675f018 drivers/gpu/drm/i915/i915_gem_stolen.c     Akash Goel      2014-01-13  187  	}
-eaba1b8f3379b5 drivers/gpu/drm/i915/i915_gem_stolen.c     Chris Wilson    2013-07-04  188  
-7789422665f599 drivers/gpu/drm/i915/i915_gem_stolen.c     Matthew Auld    2017-12-11  189  	return 0;
-9797fbfbcfe251 drivers/gpu/drm/i915/i915_gem_stolen.c     Chris Wilson    2012-04-24  190  }
-9797fbfbcfe251 drivers/gpu/drm/i915/i915_gem_stolen.c     Chris Wilson    2012-04-24  191  
-
-:::::: The code at line 173 was first introduced by commit
-:::::: bdce2bea0f5e6bd3e3fa85278cc2fb8632f71572 drm/i915/gem: Replace implicit dev_priv->uncore for stolen init
-
-:::::: TO: Chris Wilson <chris@chris-wilson.co.uk>
-:::::: CC: Chris Wilson <chris@chris-wilson.co.uk>
+b7481944b06e99 Jianxin Xiong   2016-12-07  1647  
+ef90f0a1913e8b Dean Luick      2023-01-09  1648  static struct rdma_hw_stats *hfi1_alloc_hw_device_stats(struct ib_device *ibdev)
+b7481944b06e99 Jianxin Xiong   2016-12-07  1649  {
+ef90f0a1913e8b Dean Luick      2023-01-09 @1650  	if (!dev_cntr_descs) {
+4b5f4d3fb40898 Jason Gunthorpe 2021-06-11  1651  		struct hfi1_devdata *dd = dd_from_ibdev(ibdev);
+ef90f0a1913e8b Dean Luick      2023-01-09  1652  		int i, err;
+b7481944b06e99 Jianxin Xiong   2016-12-07  1653  
+ef90f0a1913e8b Dean Luick      2023-01-09  1654  		err = init_cntr_names(dd->cntrnames, dd->cntrnameslen,
+ef90f0a1913e8b Dean Luick      2023-01-09  1655  				      num_driver_cntrs,
+13f30b0fa0a9fa Aharon Landau   2021-10-08  1656  				      &num_dev_cntrs, &dev_cntr_descs);
+4b5f4d3fb40898 Jason Gunthorpe 2021-06-11  1657  		if (err)
+ef90f0a1913e8b Dean Luick      2023-01-09  1658  			return NULL;
+b7481944b06e99 Jianxin Xiong   2016-12-07  1659  
+b7481944b06e99 Jianxin Xiong   2016-12-07  1660  		for (i = 0; i < num_driver_cntrs; i++)
+ef90f0a1913e8b Dean Luick      2023-01-09 @1661  			dev_cntr_descs[num_dev_cntrs + i].name =
+ef90f0a1913e8b Dean Luick      2023-01-09  1662  							driver_cntr_names[i];
+b7481944b06e99 Jianxin Xiong   2016-12-07  1663  	}
+13f30b0fa0a9fa Aharon Landau   2021-10-08  1664  	return rdma_alloc_hw_stats_struct(dev_cntr_descs,
+b7481944b06e99 Jianxin Xiong   2016-12-07  1665  					  num_dev_cntrs + num_driver_cntrs,
+b7481944b06e99 Jianxin Xiong   2016-12-07  1666  					  RDMA_HW_STATS_DEFAULT_LIFESPAN);
+4b5f4d3fb40898 Jason Gunthorpe 2021-06-11  1667  }
+4b5f4d3fb40898 Jason Gunthorpe 2021-06-11  1668  
 
 -- 
 0-DAY CI Kernel Test Service
