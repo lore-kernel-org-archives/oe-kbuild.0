@@ -1,43 +1,44 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33D2C2F4B
-	for <oe-kbuild@lists.linux.dev>; Mon, 20 Feb 2023 13:02:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B94DE63BB
+	for <oe-kbuild@lists.linux.dev>; Mon, 20 Feb 2023 14:27:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676898146; x=1708434146;
+  t=1676903241; x=1708439241;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=PBiuBgnXw3jxn0AFmfJ5Kt8EfcQs75DgitWzJcjpniI=;
-  b=IqqbWr9Czn5JdLVL7hwGLgOdPgSpYZHhIOh7bTuDDZ0cOUaBWNaO/NbP
-   LMKwrqhQ8k3CfaO3QCnRzCoS8FdH1GBEiRDwOofZi8v5HT50pt7mIwJTl
-   ymwrbv/IlQuVDhQAUOdwxxQ7cv4WdUBeADpgrr3guAsGnSh+H5od+BU+L
-   gmctL+KWUcpCr71iPI96jk8pyY1hD3MQ69gV0+OHv1jpsyt6vib6/ICjD
-   rqUWn4f+CcBYCjfcjoprg8W00xBQLQK4AXXOtopgIDmnTsJHUcxVIfNGK
-   +No9zyWFl3uCp86WPJsXm58PaAEcAxZKiWoual/htPPQuKi4MuwaT2B9G
+  bh=36DzIBFncHuy6Tiu9PGo5kVbAlB9ibe+2yjX/UV+xps=;
+  b=O5QJ4LXs7NpTqdOOGc+8NN2xym2K0/IQrfw8Nnb0UiWSYBIg4Ll5vO4J
+   n4+3JQ+VDXlQCbPNY/yff00lnFrtvJ4YA1Sw/09ybyUwsere4wUDJ0XZ4
+   ESppcZpuTiFGQ8NgGAihyc4ia2ikzFJDODSVREUH0ZwDlstoth2VXD34+
+   hmQ9oSc5sCIHK/le4fxROMFVXd5nmH7kejdrPnkK4BUtf0nh5sR+Nd9x6
+   BjCoi0hQ0xeRZAdu+cWJKMYvN9AaCRaHUeKN5uN+Q7CJk7dYd5Deo3xRf
+   /d6hF/Hz5JwZn2mGPlQu1NMTXNk5R4hPl0OTYYoYCepdxkf4H2hysJeZk
    w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10626"; a="333756186"
+X-IronPort-AV: E=McAfee;i="6500,9779,10627"; a="330125276"
 X-IronPort-AV: E=Sophos;i="5.97,312,1669104000"; 
-   d="scan'208";a="333756186"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2023 05:02:18 -0800
+   d="scan'208";a="330125276"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2023 06:27:21 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10626"; a="795170110"
+X-IronPort-AV: E=McAfee;i="6500,9779,10627"; a="814158557"
 X-IronPort-AV: E=Sophos;i="5.97,312,1669104000"; 
-   d="scan'208";a="795170110"
+   d="scan'208";a="814158557"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 20 Feb 2023 05:02:17 -0800
+  by fmsmga001.fm.intel.com with ESMTP; 20 Feb 2023 06:27:19 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pU5o8-000DvZ-1F;
-	Mon, 20 Feb 2023 13:02:16 +0000
-Date: Mon, 20 Feb 2023 21:01:30 +0800
+	id 1pU78Q-000Dyr-2w;
+	Mon, 20 Feb 2023 14:27:18 +0000
+Date: Mon, 20 Feb 2023 22:26:33 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [linux-next:master 681/13681]
- drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_8188e.c:1678
- rtl8188e_handle_ra_tx_report2() warn: ignoring unreachable code.
-Message-ID: <202302202035.jgGt65Cj-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: lib/stackinit_kunit.c:333:1: warning: Address of stack memory
+ associated with local variable 'var' is still referred to by the global
+ variable 'fill_start' upon returning to the caller.  This will be a dangling
+ reference [clang-analyzer-core.StackAddressE...
+Message-ID: <202302202200.M9IKs9N5-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -47,104 +48,400 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Bitterblue Smith <rtl8821cerfe2@gmail.com>
-CC: Kalle Valo <kvalo@kernel.org>
-CC: "Ping-Ke Shih" <pkshih@realtek.com>
+:::::: 
+:::::: Manual check reason: "low confidence static check warning: lib/stackinit_kunit.c:333:1: warning: Address of stack memory associated with local variable 'var' is still referred to by the global variable 'fill_start' upon returning to the caller.  This will be a dangling reference [clang-analyzer-core.StackAddressEscape]"
+:::::: 
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   d2af0fa4bfa4ec29d03b449ccd43fee39501112d
-commit: 8b9754b28f0f231736667e1751f1fc6f18c80ad4 [681/13681] wifi: rtl8xxxu: Add rate control code for RTL8188EU
-:::::: branch date: 7 hours ago
-:::::: commit date: 9 weeks ago
-config: x86_64-randconfig-m001-20230213 (https://download.01.org/0day-ci/archive/20230220/202302202035.jgGt65Cj-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+BCC: lkp@intel.com
+CC: llvm@lists.linux.dev
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+TO: Kees Cook <keescook@chromium.org>
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   c9c3395d5e3dcc6daee66c6908354d47bf98cb0c
+commit: 02788ebcf521fe78c24eb221fd1ed7f86792c330 lib: stackinit: Convert to KUnit
+date:   11 months ago
+:::::: branch date: 16 hours ago
+:::::: commit date: 11 months ago
+config: arm-randconfig-c002-20230219 (https://download.01.org/0day-ci/archive/20230220/202302202200.M9IKs9N5-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project db89896bbbd2251fff457699635acbbedeead27f)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=02788ebcf521fe78c24eb221fd1ed7f86792c330
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 02788ebcf521fe78c24eb221fd1ed7f86792c330
+        # save the config file
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=arm clang-analyzer  olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=arm clang-analyzer 
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202302202035.jgGt65Cj-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202302202200.M9IKs9N5-lkp@intel.com/
 
-smatch warnings:
-drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_8188e.c:1678 rtl8188e_handle_ra_tx_report2() warn: ignoring unreachable code.
+clang_analyzer warnings: (new ones prefixed by >>)
+                                                 ^~~
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   lib/raid6/algos.c:149:6: warning: Value stored to 'start' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           int start = (disks>>1)-1, stop = disks-3;       /* work on the second half of the disks */
+               ^~~~~   ~~~~~~~~~~~~
+   lib/raid6/algos.c:149:6: note: Value stored to 'start' during its initialization is never read
+           int start = (disks>>1)-1, stop = disks-3;       /* work on the second half of the disks */
+               ^~~~~   ~~~~~~~~~~~~
+   lib/raid6/algos.c:149:28: warning: Value stored to 'stop' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           int start = (disks>>1)-1, stop = disks-3;       /* work on the second half of the disks */
+                                     ^~~~   ~~~~~~~
+   lib/raid6/algos.c:149:28: note: Value stored to 'stop' during its initialization is never read
+           int start = (disks>>1)-1, stop = disks-3;       /* work on the second half of the disks */
+                                     ^~~~   ~~~~~~~
+   lib/raid6/algos.c:153:7: warning: Value stored to 'bestgenperf' is never read [clang-analyzer-deadcode.DeadStores]
+           for (bestgenperf = 0, best = NULL, algo = raid6_algos; *algo; algo++) {
+                ^             ~
+   lib/raid6/algos.c:153:7: note: Value stored to 'bestgenperf' is never read
+           for (bestgenperf = 0, best = NULL, algo = raid6_algos; *algo; algo++) {
+                ^             ~
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   fs/xfs/libxfs/xfs_refcount.c:114:19: warning: Value stored to 'agno' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           xfs_agnumber_t                  agno = cur->bc_ag.pag->pag_agno;
+                                           ^~~~   ~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/xfs/libxfs/xfs_refcount.c:114:19: note: Value stored to 'agno' during its initialization is never read
+           xfs_agnumber_t                  agno = cur->bc_ag.pag->pag_agno;
+                                           ^~~~   ~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (6 in non-user code, 2 with check filters).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   135 warnings generated.
+   lib/stackinit_kunit.c:259:8: warning: Excessive padding in 'struct test_big_hole' (124 padding bytes, where 60 is optimal). Optimal fields order: four, one, two, three, consider reordering the fields or adding explicit padding members [clang-analyzer-optin.performance.Padding]
+   struct test_big_hole {
+   ~~~~~~~^~~~~~~~~~~~~~~
+   lib/stackinit_kunit.c:259:8: note: Excessive padding in 'struct test_big_hole' (124 padding bytes, where 60 is optimal). Optimal fields order: four, one, two, three, consider reordering the fields or adding explicit padding members
+   struct test_big_hole {
+   ~~~~~~~^~~~~~~~~~~~~~~
+>> lib/stackinit_kunit.c:333:1: warning: Address of stack memory associated with local variable 'var' is still referred to by the global variable 'fill_start' upon returning to the caller.  This will be a dangling reference [clang-analyzer-core.StackAddressEscape]
+   DEFINE_SCALAR_TESTS(zero, ALWAYS_PASS);
+   ^
+   lib/stackinit_kunit.c:309:3: note: expanded from macro 'DEFINE_SCALAR_TESTS'
+                   DEFINE_SCALAR_TEST(u8, init, xfail);            \
+                   ^
+   lib/stackinit_kunit.c:305:3: note: expanded from macro 'DEFINE_SCALAR_TEST'
+                   DEFINE_TEST(name ## _ ## init, name, SCALAR,    \
+                   ^
+   lib/stackinit_kunit.c:237:2: note: expanded from macro 'DEFINE_TEST'
+           return (int)buf[0] | (int)buf[sizeof(buf) - 1];         \
+           ^
+   lib/stackinit_kunit.c:333:1: note: Taking false branch
+   DEFINE_SCALAR_TESTS(zero, ALWAYS_PASS);
+   ^
+   lib/stackinit_kunit.c:309:3: note: expanded from macro 'DEFINE_SCALAR_TESTS'
+                   DEFINE_SCALAR_TEST(u8, init, xfail);            \
+                   ^
+   lib/stackinit_kunit.c:305:3: note: expanded from macro 'DEFINE_SCALAR_TEST'
+                   DEFINE_TEST(name ## _ ## init, name, SCALAR,    \
+                   ^
+   lib/stackinit_kunit.c:238:10: note: expanded from macro 'DEFINE_TEST'
+   }                                                               \
+                                                                   ^
+   note: (skipping 3 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/compiler_types.h:346:2: note: expanded from macro 'compiletime_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+           ^
+   include/linux/compiler_types.h:334:2: note: expanded from macro '_compiletime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:326:3: note: expanded from macro '__compiletime_assert'
+                   if (!(condition))                                       \
+                   ^
+   lib/stackinit_kunit.c:333:1: note: Loop condition is false.  Exiting loop
+   DEFINE_SCALAR_TESTS(zero, ALWAYS_PASS);
+   ^
+   lib/stackinit_kunit.c:309:3: note: expanded from macro 'DEFINE_SCALAR_TESTS'
+                   DEFINE_SCALAR_TEST(u8, init, xfail);            \
+                   ^
+   lib/stackinit_kunit.c:305:3: note: expanded from macro 'DEFINE_SCALAR_TEST'
+                   DEFINE_TEST(name ## _ ## init, name, SCALAR,    \
+                   ^
+   lib/stackinit_kunit.c:238:10: note: expanded from macro 'DEFINE_TEST'
+   }                                                               \
+                                                                   ^
+   note: (skipping 3 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/compiler_types.h:346:2: note: expanded from macro 'compiletime_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+           ^
+   include/linux/compiler_types.h:334:2: note: expanded from macro '_compiletime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:318:2: note: expanded from macro '__compiletime_assert'
+           do {                                                            \
+           ^
+   lib/stackinit_kunit.c:333:1: note: Calling 'leaf_u8_zero'
+   DEFINE_SCALAR_TESTS(zero, ALWAYS_PASS);
+   ^
+   lib/stackinit_kunit.c:309:3: note: expanded from macro 'DEFINE_SCALAR_TESTS'
+                   DEFINE_SCALAR_TEST(u8, init, xfail);            \
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/stackinit_kunit.c:305:3: note: expanded from macro 'DEFINE_SCALAR_TEST'
+                   DEFINE_TEST(name ## _ ## init, name, SCALAR,    \
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/stackinit_kunit.c:238:10: note: expanded from macro 'DEFINE_TEST'
+   }                                                               \
+                                                                   ^
+   lib/stackinit_kunit.c:163:12: note: expanded from macro '\
+   DEFINE_TEST_DRIVER'
+           ignored = leaf_ ##name((unsigned long)&ignored, 1,      \
+                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   note: expanded from here
+   lib/stackinit_kunit.c:333:1: note: 'fill' is true
+   DEFINE_SCALAR_TESTS(zero, ALWAYS_PASS);
+   ^
+   lib/stackinit_kunit.c:309:3: note: expanded from macro 'DEFINE_SCALAR_TESTS'
+                   DEFINE_SCALAR_TEST(u8, init, xfail);            \
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/stackinit_kunit.c:305:3: note: expanded from macro 'DEFINE_SCALAR_TEST'
+                   DEFINE_TEST(name ## _ ## init, name, SCALAR,    \
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/stackinit_kunit.c:223:6: note: expanded from macro 'DEFINE_TEST'
+           if (fill) {                                             \
+               ^~~~
+   lib/stackinit_kunit.c:333:1: note: Taking true branch
+   DEFINE_SCALAR_TESTS(zero, ALWAYS_PASS);
+   ^
+   lib/stackinit_kunit.c:309:3: note: expanded from macro 'DEFINE_SCALAR_TESTS'
+                   DEFINE_SCALAR_TEST(u8, init, xfail);            \
+                   ^
+   lib/stackinit_kunit.c:305:3: note: expanded from macro 'DEFINE_SCALAR_TEST'
+                   DEFINE_TEST(name ## _ ## init, name, SCALAR,    \
+                   ^
+   lib/stackinit_kunit.c:223:2: note: expanded from macro 'DEFINE_TEST'
+           if (fill) {                                             \
+           ^
+   lib/stackinit_kunit.c:333:1: note: Address of stack memory associated with local variable 'var' is still referred to by the global variable 'fill_start' upon returning to the caller.  This will be a dangling reference
+   DEFINE_SCALAR_TESTS(zero, ALWAYS_PASS);
+   ^
+   lib/stackinit_kunit.c:309:3: note: expanded from macro 'DEFINE_SCALAR_TESTS'
+                   DEFINE_SCALAR_TEST(u8, init, xfail);            \
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/stackinit_kunit.c:305:3: note: expanded from macro 'DEFINE_SCALAR_TEST'
+                   DEFINE_TEST(name ## _ ## init, name, SCALAR,    \
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/stackinit_kunit.c:237:2: note: expanded from macro 'DEFINE_TEST'
+           return (int)buf[0] | (int)buf[sizeof(buf) - 1];         \
+           ^
+>> lib/stackinit_kunit.c:333:1: warning: Address of stack memory associated with local variable 'var' is still referred to by the global variable 'target_start' upon returning to the caller.  This will be a dangling reference [clang-analyzer-core.StackAddressEscape]
+   DEFINE_SCALAR_TESTS(zero, ALWAYS_PASS);
+   ^
+   lib/stackinit_kunit.c:309:3: note: expanded from macro 'DEFINE_SCALAR_TESTS'
+                   DEFINE_SCALAR_TEST(u8, init, xfail);            \
+                   ^
+   lib/stackinit_kunit.c:305:3: note: expanded from macro 'DEFINE_SCALAR_TEST'
+                   DEFINE_TEST(name ## _ ## init, name, SCALAR,    \
+                   ^
+   lib/stackinit_kunit.c:237:2: note: expanded from macro 'DEFINE_TEST'
+           return (int)buf[0] | (int)buf[sizeof(buf) - 1];         \
+           ^
+   lib/stackinit_kunit.c:333:1: note: Taking false branch
+   DEFINE_SCALAR_TESTS(zero, ALWAYS_PASS);
+   ^
+   lib/stackinit_kunit.c:309:3: note: expanded from macro 'DEFINE_SCALAR_TESTS'
+                   DEFINE_SCALAR_TEST(u8, init, xfail);            \
+                   ^
+   lib/stackinit_kunit.c:305:3: note: expanded from macro 'DEFINE_SCALAR_TEST'
+                   DEFINE_TEST(name ## _ ## init, name, SCALAR,    \
+                   ^
+   lib/stackinit_kunit.c:238:10: note: expanded from macro 'DEFINE_TEST'
+   }                                                               \
+                                                                   ^
+   note: (skipping 3 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/compiler_types.h:346:2: note: expanded from macro 'compiletime_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+           ^
+   include/linux/compiler_types.h:334:2: note: expanded from macro '_compiletime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:326:3: note: expanded from macro '__compiletime_assert'
+                   if (!(condition))                                       \
+                   ^
+   lib/stackinit_kunit.c:333:1: note: Loop condition is false.  Exiting loop
+   DEFINE_SCALAR_TESTS(zero, ALWAYS_PASS);
+   ^
+   lib/stackinit_kunit.c:309:3: note: expanded from macro 'DEFINE_SCALAR_TESTS'
+                   DEFINE_SCALAR_TEST(u8, init, xfail);            \
+                   ^
+   lib/stackinit_kunit.c:305:3: note: expanded from macro 'DEFINE_SCALAR_TEST'
+                   DEFINE_TEST(name ## _ ## init, name, SCALAR,    \
+                   ^
+   lib/stackinit_kunit.c:238:10: note: expanded from macro 'DEFINE_TEST'
+   }                                                               \
+                                                                   ^
+   note: (skipping 3 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/compiler_types.h:346:2: note: expanded from macro 'compiletime_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+           ^
+   include/linux/compiler_types.h:334:2: note: expanded from macro '_compiletime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:318:2: note: expanded from macro '__compiletime_assert'
+           do {                                                            \
+           ^
+   lib/stackinit_kunit.c:333:1: note: Calling 'leaf_u8_zero'
+   DEFINE_SCALAR_TESTS(zero, ALWAYS_PASS);
+   ^
+   lib/stackinit_kunit.c:309:3: note: expanded from macro 'DEFINE_SCALAR_TESTS'
+                   DEFINE_SCALAR_TEST(u8, init, xfail);            \
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/stackinit_kunit.c:305:3: note: expanded from macro 'DEFINE_SCALAR_TEST'
+                   DEFINE_TEST(name ## _ ## init, name, SCALAR,    \
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/stackinit_kunit.c:238:10: note: expanded from macro 'DEFINE_TEST'
+   }                                                               \
+                                                                   ^
+   lib/stackinit_kunit.c:163:12: note: expanded from macro '\
+   DEFINE_TEST_DRIVER'
+           ignored = leaf_ ##name((unsigned long)&ignored, 1,      \
+                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   note: expanded from here
+   lib/stackinit_kunit.c:333:1: note: 'fill' is true
+   DEFINE_SCALAR_TESTS(zero, ALWAYS_PASS);
+   ^
+   lib/stackinit_kunit.c:309:3: note: expanded from macro 'DEFINE_SCALAR_TESTS'
+                   DEFINE_SCALAR_TEST(u8, init, xfail);            \
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/stackinit_kunit.c:305:3: note: expanded from macro 'DEFINE_SCALAR_TEST'
+                   DEFINE_TEST(name ## _ ## init, name, SCALAR,    \
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/stackinit_kunit.c:223:6: note: expanded from macro 'DEFINE_TEST'
+           if (fill) {                                             \
+               ^~~~
+   lib/stackinit_kunit.c:333:1: note: Taking true branch
+   DEFINE_SCALAR_TESTS(zero, ALWAYS_PASS);
+   ^
+   lib/stackinit_kunit.c:309:3: note: expanded from macro 'DEFINE_SCALAR_TESTS'
+                   DEFINE_SCALAR_TEST(u8, init, xfail);            \
+                   ^
+   lib/stackinit_kunit.c:305:3: note: expanded from macro 'DEFINE_SCALAR_TEST'
+                   DEFINE_TEST(name ## _ ## init, name, SCALAR,    \
+                   ^
+   lib/stackinit_kunit.c:223:2: note: expanded from macro 'DEFINE_TEST'
+           if (fill) {                                             \
+           ^
+   lib/stackinit_kunit.c:333:1: note: Address of stack memory associated with local variable 'var' is still referred to by the global variable 'target_start' upon returning to the caller.  This will be a dangling reference
+   DEFINE_SCALAR_TESTS(zero, ALWAYS_PASS);
+   ^
+   lib/stackinit_kunit.c:309:3: note: expanded from macro 'DEFINE_SCALAR_TESTS'
 
-vim +1678 drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_8188e.c
+vim +333 lib/stackinit_kunit.c
 
-8b9754b28f0f23 Bitterblue Smith 2022-12-17  1661  
-8b9754b28f0f23 Bitterblue Smith 2022-12-17  1662  void rtl8188e_handle_ra_tx_report2(struct rtl8xxxu_priv *priv, struct sk_buff *skb)
-8b9754b28f0f23 Bitterblue Smith 2022-12-17  1663  {
-8b9754b28f0f23 Bitterblue Smith 2022-12-17  1664  	u32 *_rx_desc = (u32 *)(skb->data - sizeof(struct rtl8xxxu_rxdesc16));
-8b9754b28f0f23 Bitterblue Smith 2022-12-17  1665  	struct rtl8xxxu_rxdesc16 *rx_desc = (struct rtl8xxxu_rxdesc16 *)_rx_desc;
-8b9754b28f0f23 Bitterblue Smith 2022-12-17  1666  	struct device *dev = &priv->udev->dev;
-8b9754b28f0f23 Bitterblue Smith 2022-12-17  1667  	struct rtl8xxxu_ra_info *ra = &priv->ra_info;
-8b9754b28f0f23 Bitterblue Smith 2022-12-17  1668  	u32 tx_rpt_len = rx_desc->pktlen & 0x3ff;
-8b9754b28f0f23 Bitterblue Smith 2022-12-17  1669  	u32 items = tx_rpt_len / TX_RPT2_ITEM_SIZE;
-8b9754b28f0f23 Bitterblue Smith 2022-12-17  1670  	u64 macid_valid = ((u64)_rx_desc[5] << 32) | _rx_desc[4];
-8b9754b28f0f23 Bitterblue Smith 2022-12-17  1671  	u32 macid;
-8b9754b28f0f23 Bitterblue Smith 2022-12-17  1672  	u8 *rpt = skb->data;
-8b9754b28f0f23 Bitterblue Smith 2022-12-17  1673  	bool valid;
-8b9754b28f0f23 Bitterblue Smith 2022-12-17  1674  	u16 min_rpt_time = 0x927c;
-8b9754b28f0f23 Bitterblue Smith 2022-12-17  1675  
-8b9754b28f0f23 Bitterblue Smith 2022-12-17  1676  	dev_dbg(dev, "%s: len: %d items: %d\n", __func__, tx_rpt_len, items);
-8b9754b28f0f23 Bitterblue Smith 2022-12-17  1677  
-8b9754b28f0f23 Bitterblue Smith 2022-12-17 @1678  	for (macid = 0; macid < items; macid++) {
-8b9754b28f0f23 Bitterblue Smith 2022-12-17  1679  		valid = false;
-8b9754b28f0f23 Bitterblue Smith 2022-12-17  1680  
-8b9754b28f0f23 Bitterblue Smith 2022-12-17  1681  		if (macid < 64)
-8b9754b28f0f23 Bitterblue Smith 2022-12-17  1682  			valid = macid_valid & BIT(macid);
-8b9754b28f0f23 Bitterblue Smith 2022-12-17  1683  
-8b9754b28f0f23 Bitterblue Smith 2022-12-17  1684  		if (valid) {
-8b9754b28f0f23 Bitterblue Smith 2022-12-17  1685  			ra->retry[0] = le16_to_cpu(*(__le16 *)rpt);
-8b9754b28f0f23 Bitterblue Smith 2022-12-17  1686  			ra->retry[1] = rpt[2];
-8b9754b28f0f23 Bitterblue Smith 2022-12-17  1687  			ra->retry[2] = rpt[3];
-8b9754b28f0f23 Bitterblue Smith 2022-12-17  1688  			ra->retry[3] = rpt[4];
-8b9754b28f0f23 Bitterblue Smith 2022-12-17  1689  			ra->retry[4] = rpt[5];
-8b9754b28f0f23 Bitterblue Smith 2022-12-17  1690  			ra->drop = rpt[6];
-8b9754b28f0f23 Bitterblue Smith 2022-12-17  1691  			ra->total = ra->retry[0] + ra->retry[1] + ra->retry[2] +
-8b9754b28f0f23 Bitterblue Smith 2022-12-17  1692  				    ra->retry[3] + ra->retry[4] + ra->drop;
-8b9754b28f0f23 Bitterblue Smith 2022-12-17  1693  
-8b9754b28f0f23 Bitterblue Smith 2022-12-17  1694  			if (ra->total > 0) {
-8b9754b28f0f23 Bitterblue Smith 2022-12-17  1695  				if (ra->ra_stage < 5)
-8b9754b28f0f23 Bitterblue Smith 2022-12-17  1696  					rtl8188e_rate_decision(ra);
-8b9754b28f0f23 Bitterblue Smith 2022-12-17  1697  				else if (ra->ra_stage == 5)
-8b9754b28f0f23 Bitterblue Smith 2022-12-17  1698  					rtl8188e_power_training_try_state(ra);
-8b9754b28f0f23 Bitterblue Smith 2022-12-17  1699  				else /* ra->ra_stage == 6 */
-8b9754b28f0f23 Bitterblue Smith 2022-12-17  1700  					rtl8188e_power_training_decision(ra);
-8b9754b28f0f23 Bitterblue Smith 2022-12-17  1701  
-8b9754b28f0f23 Bitterblue Smith 2022-12-17  1702  				if (ra->ra_stage <= 5)
-8b9754b28f0f23 Bitterblue Smith 2022-12-17  1703  					ra->ra_stage++;
-8b9754b28f0f23 Bitterblue Smith 2022-12-17  1704  				else
-8b9754b28f0f23 Bitterblue Smith 2022-12-17  1705  					ra->ra_stage = 0;
-8b9754b28f0f23 Bitterblue Smith 2022-12-17  1706  			}
-8b9754b28f0f23 Bitterblue Smith 2022-12-17  1707  		} else if (macid == 0) {
-8b9754b28f0f23 Bitterblue Smith 2022-12-17  1708  			dev_warn(dev, "%s: TX report item 0 not valid\n", __func__);
-8b9754b28f0f23 Bitterblue Smith 2022-12-17  1709  		}
-8b9754b28f0f23 Bitterblue Smith 2022-12-17  1710  
-8b9754b28f0f23 Bitterblue Smith 2022-12-17  1711  		dev_dbg(dev, "%s:  valid: %d retry: %d %d %d %d %d drop: %d\n",
-8b9754b28f0f23 Bitterblue Smith 2022-12-17  1712  			__func__, valid,
-8b9754b28f0f23 Bitterblue Smith 2022-12-17  1713  			ra->retry[0], ra->retry[1], ra->retry[2],
-8b9754b28f0f23 Bitterblue Smith 2022-12-17  1714  			ra->retry[3], ra->retry[4], ra->drop);
-8b9754b28f0f23 Bitterblue Smith 2022-12-17  1715  
-8b9754b28f0f23 Bitterblue Smith 2022-12-17  1716  		if (min_rpt_time > ra->rpt_time)
-8b9754b28f0f23 Bitterblue Smith 2022-12-17  1717  			min_rpt_time = ra->rpt_time;
-8b9754b28f0f23 Bitterblue Smith 2022-12-17  1718  
-8b9754b28f0f23 Bitterblue Smith 2022-12-17  1719  		rpt += TX_RPT2_ITEM_SIZE;
-8b9754b28f0f23 Bitterblue Smith 2022-12-17  1720  
-8b9754b28f0f23 Bitterblue Smith 2022-12-17  1721  		/*
-8b9754b28f0f23 Bitterblue Smith 2022-12-17  1722  		 * We only use macid 0, so only the first item is relevant.
-8b9754b28f0f23 Bitterblue Smith 2022-12-17  1723  		 * AP mode will use more of them if it's ever implemented.
-8b9754b28f0f23 Bitterblue Smith 2022-12-17  1724  		 */
-8b9754b28f0f23 Bitterblue Smith 2022-12-17  1725  		break;
-8b9754b28f0f23 Bitterblue Smith 2022-12-17  1726  	}
-8b9754b28f0f23 Bitterblue Smith 2022-12-17  1727  
-8b9754b28f0f23 Bitterblue Smith 2022-12-17  1728  	if (min_rpt_time != ra->pre_min_rpt_time) {
-8b9754b28f0f23 Bitterblue Smith 2022-12-17  1729  		rtl8xxxu_write16(priv, REG_TX_REPORT_TIME, min_rpt_time);
-8b9754b28f0f23 Bitterblue Smith 2022-12-17  1730  		ra->pre_min_rpt_time = min_rpt_time;
-8b9754b28f0f23 Bitterblue Smith 2022-12-17  1731  	}
-8b9754b28f0f23 Bitterblue Smith 2022-12-17  1732  }
-8b9754b28f0f23 Bitterblue Smith 2022-12-17  1733  
+02788ebcf521fe7 lib/stackinit_kunit.c Kees Cook 2022-02-16  303  
+a8fc576d4af2f23 lib/test_stackinit.c  Kees Cook 2021-07-23  304  #define DEFINE_SCALAR_TEST(name, init, xfail)			\
+a8fc576d4af2f23 lib/test_stackinit.c  Kees Cook 2021-07-23  305  		DEFINE_TEST(name ## _ ## init, name, SCALAR,	\
+a8fc576d4af2f23 lib/test_stackinit.c  Kees Cook 2021-07-23  306  			    init, xfail)
+50ceaa95ea09703 lib/test_stackinit.c  Kees Cook 2019-01-23  307  
+a8fc576d4af2f23 lib/test_stackinit.c  Kees Cook 2021-07-23  308  #define DEFINE_SCALAR_TESTS(init, xfail)			\
+a8fc576d4af2f23 lib/test_stackinit.c  Kees Cook 2021-07-23  309  		DEFINE_SCALAR_TEST(u8, init, xfail);		\
+a8fc576d4af2f23 lib/test_stackinit.c  Kees Cook 2021-07-23  310  		DEFINE_SCALAR_TEST(u16, init, xfail);		\
+a8fc576d4af2f23 lib/test_stackinit.c  Kees Cook 2021-07-23  311  		DEFINE_SCALAR_TEST(u32, init, xfail);		\
+a8fc576d4af2f23 lib/test_stackinit.c  Kees Cook 2021-07-23  312  		DEFINE_SCALAR_TEST(u64, init, xfail);		\
+a8fc576d4af2f23 lib/test_stackinit.c  Kees Cook 2021-07-23  313  		DEFINE_TEST(char_array_ ## init, unsigned char,	\
+a8fc576d4af2f23 lib/test_stackinit.c  Kees Cook 2021-07-23  314  			    STRING, init, xfail)
+50ceaa95ea09703 lib/test_stackinit.c  Kees Cook 2019-01-23  315  
+a8fc576d4af2f23 lib/test_stackinit.c  Kees Cook 2021-07-23  316  #define DEFINE_STRUCT_TEST(name, init, xfail)			\
+50ceaa95ea09703 lib/test_stackinit.c  Kees Cook 2019-01-23  317  		DEFINE_TEST(name ## _ ## init,			\
+a8fc576d4af2f23 lib/test_stackinit.c  Kees Cook 2021-07-23  318  			    struct test_ ## name, STRUCT, init, \
+a8fc576d4af2f23 lib/test_stackinit.c  Kees Cook 2021-07-23  319  			    xfail)
+a8fc576d4af2f23 lib/test_stackinit.c  Kees Cook 2021-07-23  320  
+a8fc576d4af2f23 lib/test_stackinit.c  Kees Cook 2021-07-23  321  #define DEFINE_STRUCT_TESTS(init, xfail)			\
+a8fc576d4af2f23 lib/test_stackinit.c  Kees Cook 2021-07-23  322  		DEFINE_STRUCT_TEST(small_hole, init, xfail);	\
+a8fc576d4af2f23 lib/test_stackinit.c  Kees Cook 2021-07-23  323  		DEFINE_STRUCT_TEST(big_hole, init, xfail);	\
+a8fc576d4af2f23 lib/test_stackinit.c  Kees Cook 2021-07-23  324  		DEFINE_STRUCT_TEST(trailing_hole, init, xfail);	\
+a8fc576d4af2f23 lib/test_stackinit.c  Kees Cook 2021-07-23  325  		DEFINE_STRUCT_TEST(packed, init, xfail)
+50ceaa95ea09703 lib/test_stackinit.c  Kees Cook 2019-01-23  326  
+02788ebcf521fe7 lib/stackinit_kunit.c Kees Cook 2022-02-16  327  #define DEFINE_STRUCT_INITIALIZER_TESTS(base, xfail)		\
+a8fc576d4af2f23 lib/test_stackinit.c  Kees Cook 2021-07-23  328  		DEFINE_STRUCT_TESTS(base ## _ ## partial,	\
+02788ebcf521fe7 lib/stackinit_kunit.c Kees Cook 2022-02-16  329  				    xfail);			\
+02788ebcf521fe7 lib/stackinit_kunit.c Kees Cook 2022-02-16  330  		DEFINE_STRUCT_TESTS(base ## _ ## all, xfail)
+50ceaa95ea09703 lib/test_stackinit.c  Kees Cook 2019-01-23  331  
+50ceaa95ea09703 lib/test_stackinit.c  Kees Cook 2019-01-23  332  /* These should be fully initialized all the time! */
+02788ebcf521fe7 lib/stackinit_kunit.c Kees Cook 2022-02-16 @333  DEFINE_SCALAR_TESTS(zero, ALWAYS_PASS);
+02788ebcf521fe7 lib/stackinit_kunit.c Kees Cook 2022-02-16  334  DEFINE_STRUCT_TESTS(zero, ALWAYS_PASS);
+a8fc576d4af2f23 lib/test_stackinit.c  Kees Cook 2021-07-23  335  /* Struct initializers: padding may be left uninitialized. */
+02788ebcf521fe7 lib/stackinit_kunit.c Kees Cook 2022-02-16  336  DEFINE_STRUCT_INITIALIZER_TESTS(static, STRONG_PASS);
+02788ebcf521fe7 lib/stackinit_kunit.c Kees Cook 2022-02-16  337  DEFINE_STRUCT_INITIALIZER_TESTS(dynamic, STRONG_PASS);
+02788ebcf521fe7 lib/stackinit_kunit.c Kees Cook 2022-02-16  338  DEFINE_STRUCT_INITIALIZER_TESTS(runtime, STRONG_PASS);
+02788ebcf521fe7 lib/stackinit_kunit.c Kees Cook 2022-02-16  339  DEFINE_STRUCT_INITIALIZER_TESTS(assigned_static, STRONG_PASS);
+02788ebcf521fe7 lib/stackinit_kunit.c Kees Cook 2022-02-16  340  DEFINE_STRUCT_INITIALIZER_TESTS(assigned_dynamic, STRONG_PASS);
+02788ebcf521fe7 lib/stackinit_kunit.c Kees Cook 2022-02-16  341  DEFINE_STRUCT_TESTS(assigned_copy, ALWAYS_FAIL);
+50ceaa95ea09703 lib/test_stackinit.c  Kees Cook 2019-01-23  342  /* No initialization without compiler instrumentation. */
+02788ebcf521fe7 lib/stackinit_kunit.c Kees Cook 2022-02-16  343  DEFINE_SCALAR_TESTS(none, STRONG_PASS);
+02788ebcf521fe7 lib/stackinit_kunit.c Kees Cook 2022-02-16  344  DEFINE_STRUCT_TESTS(none, BYREF_PASS);
+a8fc576d4af2f23 lib/test_stackinit.c  Kees Cook 2021-07-23  345  /* Initialization of members with __user attribute. */
+02788ebcf521fe7 lib/stackinit_kunit.c Kees Cook 2022-02-16  346  DEFINE_TEST(user, struct test_user, STRUCT, none, USER_PASS);
+50ceaa95ea09703 lib/test_stackinit.c  Kees Cook 2019-01-23  347  
 
 -- 
 0-DAY CI Kernel Test Service
