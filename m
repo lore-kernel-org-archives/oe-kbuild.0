@@ -1,44 +1,44 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD15FEA4
-	for <oe-kbuild@lists.linux.dev>; Tue, 21 Feb 2023 01:09:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEBD310F6
+	for <oe-kbuild@lists.linux.dev>; Tue, 21 Feb 2023 05:30:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676941778; x=1708477778;
+  t=1676957448; x=1708493448;
   h=date:from:to:cc:subject:message-id:mime-version:
    content-transfer-encoding;
-  bh=7demd9hfnbERLB+rwDqYN8XNHvXVvuF0OIxpMApZq88=;
-  b=GHuSwWzFJhLfuUdDdTWAMtM4beOcBjnsjybfFx4SzSxeKragYu95p9pz
-   1EA+fzVEAOtKSmvyAHPeg9CGDrlnKtUFYOYhvkh3E3b+YE5xpmMddYAE4
-   Se57Kv5F4TIGAzG0NRybaVl1I3uFo2T1rLpPo4fnrUdQjoXWOMJeppshN
-   AGAl8YmLomdislfNbSeAFx1EPaqCev2iG1US5AtzBteLH6g1IZGu6y0MT
-   QGKS0dx4A/D2G8r/MWhwdeBWOHwfJtthYy52WVdO3SD6TDrYODTlGn8Ii
-   Vj90FG5HJq2X41bK0H+Pj4Teb4ylUVMNczUIs+MQEwXjaar8TdlmlMomT
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10627"; a="332524656"
+  bh=tIpWPfD7DJy+1C31TkEgFT1dpaat8GVB4SRs+wmCuR8=;
+  b=BFKAyLmBGzgH8rQTcxQcfkvaYJak7jJWa1WrY23EFtT1xGTy51om6mok
+   Kpysh6PULDgWk4ebznDVx9CjE8Cqph60Bh/pfVF3FiYxd0Q7//zHUPWlZ
+   lLIWnhVrglnmMpLE8RF2CFlChyBShvCO6E7Nw6RAIMos4i1JNstjh6ovn
+   SoxP3n546d3yavkR7Gckhm8H0XexAnaMFEVUC3Tpob5ezSqeX68hJ5CJ9
+   BUT3GxNKHDkiVhd0JAdEa0Y0x12yPZyVi4p/HCHXoqJ/ghlBOWzJ/cGaz
+   VnwQjgz8wqsk7W89IJHo+sLLWp1wxm8fzuK5C9y5z0LaNv6X9ubE0IGOI
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10627"; a="312919474"
 X-IronPort-AV: E=Sophos;i="5.97,314,1669104000"; 
-   d="scan'208";a="332524656"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2023 17:09:37 -0800
+   d="scan'208";a="312919474"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2023 21:30:47 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10627"; a="671462961"
+X-IronPort-AV: E=McAfee;i="6500,9779,10627"; a="760391135"
 X-IronPort-AV: E=Sophos;i="5.97,314,1669104000"; 
-   d="scan'208";a="671462961"
+   d="scan'208";a="760391135"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 20 Feb 2023 17:09:36 -0800
+  by FMSMGA003.fm.intel.com with ESMTP; 20 Feb 2023 21:30:46 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pUH9z-000EIN-2h;
-	Tue, 21 Feb 2023 01:09:35 +0000
-Date: Tue, 21 Feb 2023 09:08:40 +0800
+	id 1pULEk-000EUE-0S;
+	Tue, 21 Feb 2023 05:30:46 +0000
+Date: Tue, 21 Feb 2023 13:30:16 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [linux-next:master 172/13681]
- drivers/gpu/drm/i915/display/intel_color.c:2514 i9xx_read_lut_10() error:
- uninitialized symbol 'ldw'.
-Message-ID: <202302210918.x3iR0xr8-lkp@intel.com>
+Subject: [linux-next:master 441/13681]
+ drivers/gpu/drm/i915/display/intel_pps.c:1538 intel_pps_init() error:
+ uninitialized symbol 'ret'.
+Message-ID: <202302211337.O4uSKJZn-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -53,56 +53,48 @@ BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: Linux Memory Management List <linux-mm@kvack.org>
 TO: "Ville Syrjälä" <ville.syrjala@linux.intel.com>
+CC: Animesh Manna <animesh.manna@intel.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
 head:   d2af0fa4bfa4ec29d03b449ccd43fee39501112d
-commit: 67630bacae2354c3ae20b10cf25bc7e274882200 [172/13681] drm/i915: Add 10bit gamma mode for gen2/3
-:::::: branch date: 20 hours ago
-:::::: commit date: 3 months ago
-config: x86_64-randconfig-m001-20230213 (https://download.01.org/0day-ci/archive/20230221/202302210918.x3iR0xr8-lkp@intel.com/config)
+commit: ba21bb24810f8b49b83ee3f49b60953445e79f8f [441/13681] drm/i915: Reject unusable power sequencers
+:::::: branch date: 24 hours ago
+:::::: commit date: 2 months ago
+config: x86_64-randconfig-m001-20230213 (https://download.01.org/0day-ci/archive/20230221/202302211337.O4uSKJZn-lkp@intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202302210918.x3iR0xr8-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202302211337.O4uSKJZn-lkp@intel.com/
 
 smatch warnings:
-drivers/gpu/drm/i915/display/intel_color.c:2514 i9xx_read_lut_10() error: uninitialized symbol 'ldw'.
-drivers/gpu/drm/i915/display/intel_color.c:2514 i9xx_read_lut_10() error: uninitialized symbol 'udw'.
+drivers/gpu/drm/i915/display/intel_pps.c:1538 intel_pps_init() error: uninitialized symbol 'ret'.
 
-vim +/ldw +2514 drivers/gpu/drm/i915/display/intel_color.c
+vim +/ret +1538 drivers/gpu/drm/i915/display/intel_pps.c
 
-1af22383829864 Swati Sharma  2019-09-04  2489  
-67630bacae2354 Ville Syrjälä 2022-11-14  2490  static struct drm_property_blob *i9xx_read_lut_10(struct intel_crtc *crtc)
-67630bacae2354 Ville Syrjälä 2022-11-14  2491  {
-67630bacae2354 Ville Syrjälä 2022-11-14  2492  	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
-67630bacae2354 Ville Syrjälä 2022-11-14  2493  	u32 lut_size = INTEL_INFO(dev_priv)->display.color.gamma_lut_size;
-67630bacae2354 Ville Syrjälä 2022-11-14  2494  	enum pipe pipe = crtc->pipe;
-67630bacae2354 Ville Syrjälä 2022-11-14  2495  	struct drm_property_blob *blob;
-67630bacae2354 Ville Syrjälä 2022-11-14  2496  	struct drm_color_lut *lut;
-67630bacae2354 Ville Syrjälä 2022-11-14  2497  	u32 ldw, udw;
-67630bacae2354 Ville Syrjälä 2022-11-14  2498  	int i;
-67630bacae2354 Ville Syrjälä 2022-11-14  2499  
-67630bacae2354 Ville Syrjälä 2022-11-14  2500  	blob = drm_property_create_blob(&dev_priv->drm,
-67630bacae2354 Ville Syrjälä 2022-11-14  2501  					lut_size * sizeof(lut[0]), NULL);
-67630bacae2354 Ville Syrjälä 2022-11-14  2502  	if (IS_ERR(blob))
-67630bacae2354 Ville Syrjälä 2022-11-14  2503  		return NULL;
-67630bacae2354 Ville Syrjälä 2022-11-14  2504  
-67630bacae2354 Ville Syrjälä 2022-11-14  2505  	lut = blob->data;
-67630bacae2354 Ville Syrjälä 2022-11-14  2506  
-67630bacae2354 Ville Syrjälä 2022-11-14  2507  	for (i = 0; i < lut_size - 1; i++) {
-67630bacae2354 Ville Syrjälä 2022-11-14  2508  		ldw = intel_de_read_fw(dev_priv, PALETTE(pipe, 2 * i + 0));
-67630bacae2354 Ville Syrjälä 2022-11-14  2509  		udw = intel_de_read_fw(dev_priv, PALETTE(pipe, 2 * i + 1));
-67630bacae2354 Ville Syrjälä 2022-11-14  2510  
-67630bacae2354 Ville Syrjälä 2022-11-14  2511  		i9xx_lut_10_pack(&lut[i], ldw, udw);
-67630bacae2354 Ville Syrjälä 2022-11-14  2512  	}
-67630bacae2354 Ville Syrjälä 2022-11-14  2513  
-67630bacae2354 Ville Syrjälä 2022-11-14 @2514  	i9xx_lut_10_pack_slope(&lut[i], ldw, udw);
-67630bacae2354 Ville Syrjälä 2022-11-14  2515  
-67630bacae2354 Ville Syrjälä 2022-11-14  2516  	return blob;
-67630bacae2354 Ville Syrjälä 2022-11-14  2517  }
-67630bacae2354 Ville Syrjälä 2022-11-14  2518  
+73bb78b5ba681f Jani Nikula   2021-01-08  1519  
+ba21bb24810f8b Ville Syrjälä 2022-11-25  1520  bool intel_pps_init(struct intel_dp *intel_dp)
+c520869ac4ef1a Jani Nikula   2021-01-08  1521  {
+8e75e8f573e1ff Ville Syrjälä 2022-05-10  1522  	intel_wakeref_t wakeref;
+ba21bb24810f8b Ville Syrjälä 2022-11-25  1523  	bool ret;
+8e75e8f573e1ff Ville Syrjälä 2022-05-10  1524  
+50759c13735dab Ville Syrjälä 2022-05-10  1525  	intel_dp->pps.initializing = true;
+45f8a8ceb9aff5 Jani Nikula   2021-01-20  1526  	INIT_DELAYED_WORK(&intel_dp->pps.panel_vdd_work, edp_panel_vdd_work);
+c520869ac4ef1a Jani Nikula   2021-01-08  1527  
+d70920adf9f29a Jani Nikula   2021-01-08  1528  	pps_init_timestamps(intel_dp);
+97b70144b2502a Jani Nikula   2021-01-20  1529  
+8e75e8f573e1ff Ville Syrjälä 2022-05-10  1530  	with_intel_pps_lock(intel_dp, wakeref) {
+ba21bb24810f8b Ville Syrjälä 2022-11-25  1531  		ret = pps_initial_setup(intel_dp);
+8e75e8f573e1ff Ville Syrjälä 2022-05-10  1532  
+8e75e8f573e1ff Ville Syrjälä 2022-05-10  1533  		pps_init_delays(intel_dp);
+8e75e8f573e1ff Ville Syrjälä 2022-05-10  1534  		pps_init_registers(intel_dp, false);
+8e75e8f573e1ff Ville Syrjälä 2022-05-10  1535  		pps_vdd_init(intel_dp);
+8e75e8f573e1ff Ville Syrjälä 2022-05-10  1536  	}
+ba21bb24810f8b Ville Syrjälä 2022-11-25  1537  
+ba21bb24810f8b Ville Syrjälä 2022-11-25 @1538  	return ret;
+8e75e8f573e1ff Ville Syrjälä 2022-05-10  1539  }
+8e75e8f573e1ff Ville Syrjälä 2022-05-10  1540  
 
 -- 
 0-DAY CI Kernel Test Service
