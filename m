@@ -1,44 +1,43 @@
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3320D10F6
-	for <oe-kbuild@lists.linux.dev>; Tue, 21 Feb 2023 06:11:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61E891381
+	for <oe-kbuild@lists.linux.dev>; Tue, 21 Feb 2023 08:16:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676959910; x=1708495910;
+  t=1676967414; x=1708503414;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=8pm2FEYAoaKmDFRZx9XdTmzy4+SUtXURukSjn7yRCA8=;
-  b=JGMiGLVQE+6UqAmB1HbQJ7TzCTbo7EuPdN1NvrVuCBOCe4xiOOyML/Ju
-   zMAwZBTas/3brc2QBHP+OdZyPoPUxgy1qajEEHjtycmWqrcA8+wcb6FBY
-   zV2eDjQei5Py1OalJAk2yy9q1MN19sN/+M4BaY4JGMzpSnG6A6OmgERJ5
-   bhUCwkuU4zIMZVXENkxCRhTYKyPj20OLpMZ2QzeWiAV0LihZ88/B5vDtV
-   NGvxQzO5tYIcrsK6ZIqKlkOJMO9RknDsuU9OoS7CThYYwyo/taEEYTyOH
-   eIBCZeS2kzWfEawZOAQe5umBvUNDBaGwibLFAu/zOJjLq7cpELTJx/+QZ
+  bh=I/5Iyqg814UCUV7TWH7F/cCnHVwsywwwRy9CKn0IbNM=;
+  b=I3nEZ+XYEuto6E29TgPK89tx1L/+0enTkfA4uMqqefNNSpBTUL6unBJV
+   E8OdEKXZu0eIfigwVw72xOq+Qn8AvawRTH70ZGHCYQ0Wk7C0Kt9hfSGz1
+   TOXGCfJrwIJGM9RWq0A/w7TGZ91yHFuY0Q4qNFJoZX5VODkS4SBjurbof
+   VzF9ZrE2D+xC75V2kmYOHphgYggC/cOoElEj9wnXZOrpBXpnv1jZNWO6/
+   HWcq1n6IE8D2r/DXCsALZ2n5GijkTBgh0RU2SCkr2rQAQRxPc7GwE1idW
+   8vV0UJ9pScGSCIudqG4TsgD1MB20K2GOFdLoa90EToAqBIixYUHu8RcRN
    g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10627"; a="330272316"
-X-IronPort-AV: E=Sophos;i="5.97,314,1669104000"; 
-   d="scan'208";a="330272316"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2023 22:11:49 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10627"; a="330295948"
+X-IronPort-AV: E=Sophos;i="5.97,315,1669104000"; 
+   d="scan'208";a="330295948"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2023 00:16:53 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10627"; a="760399518"
-X-IronPort-AV: E=Sophos;i="5.97,314,1669104000"; 
-   d="scan'208";a="760399518"
+X-IronPort-AV: E=McAfee;i="6500,9779,10627"; a="814415268"
+X-IronPort-AV: E=Sophos;i="5.97,315,1669104000"; 
+   d="scan'208";a="814415268"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 20 Feb 2023 22:11:48 -0800
+  by fmsmga001.fm.intel.com with ESMTP; 21 Feb 2023 00:16:52 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pULsR-000EVh-10;
-	Tue, 21 Feb 2023 06:11:47 +0000
-Date: Tue, 21 Feb 2023 14:11:07 +0800
+	id 1pUNpT-000EZv-1t;
+	Tue, 21 Feb 2023 08:16:51 +0000
+Date: Tue, 21 Feb 2023 16:15:57 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: sound/drivers/serial-generic.c:303:2: warning: Call to function
- 'strcpy' is insecure as it does not provide bounding of the memory buffer.
- Replace unbounded copy functions with analogous functions that support
- length arguments such as 'strlcpy'. CWE-119 [...
-Message-ID: <202302211437.NbXiPuyh-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [jpoimboe:noreturn-start-kernel 27/28]
+ arch/x86/kernel/doublefault_32.c:81 doublefault_shim() warn: ignoring
+ unreachable code.
+Message-ID: <202302211629.IPKThxKV-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -48,281 +47,100 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "low confidence static check warning: sound/drivers/serial-generic.c:303:2: warning: Call to function 'strcpy' is insecure as it does not provide bounding of the memory buffer. Replace unbounded copy functions with analogous functions that support length arguments such as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]"
-:::::: 
-
 BCC: lkp@intel.com
-CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Daniel Kaehn <kaehndan@gmail.com>
-CC: Takashi Iwai <tiwai@suse.de>
-CC: Rob Herring <robh@kernel.org>
+TO: Josh Poimboeuf <jpoimboe@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   1f2d9ffc7a5f916935749ffc6e93fb33bfe94d2f
-commit: 542350509499fed057a2a56921a383888a6f4fd3 ALSA: Add generic serial MIDI driver using serial bus API
-date:   10 months ago
-:::::: branch date: 4 hours ago
-:::::: commit date: 10 months ago
-config: arm-randconfig-c002-20230219 (https://download.01.org/0day-ci/archive/20230221/202302211437.NbXiPuyh-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project db89896bbbd2251fff457699635acbbedeead27f)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=542350509499fed057a2a56921a383888a6f4fd3
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 542350509499fed057a2a56921a383888a6f4fd3
-        # save the config file
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=arm clang-analyzer  olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=arm clang-analyzer 
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git noreturn-start-kernel
+head:   397ac3f03606c948ea7e0166e75be998f48899f8
+commit: e2f525d08b1ac947d6db89beef1e3dc77e7825d1 [27/28] Make exc_double_fault __noreturn
+:::::: branch date: 21 hours ago
+:::::: commit date: 21 hours ago
+config: i386-randconfig-m021 (https://download.01.org/0day-ci/archive/20230221/202302211629.IPKThxKV-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/r/202302211437.NbXiPuyh-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Link: https://lore.kernel.org/r/202302211629.IPKThxKV-lkp@intel.com/
 
-clang_analyzer warnings: (new ones prefixed by >>)
-   drivers/media/dvb-frontends/stv6110.c:125:2: note: Call to function 'memcpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memcpy_s' in case of C11
-           memcpy(&priv->regs[start], regs, len);
-           ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__fortify_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__underlying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   drivers/media/dvb-frontends/stv6110.c:206:2: warning: Call to function 'memcpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(priv->regs, buf0, 8);
-           ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__fortify_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__underlying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   drivers/media/dvb-frontends/stv6110.c:206:2: note: Call to function 'memcpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memcpy_s' in case of C11
-           memcpy(priv->regs, buf0, 8);
-           ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__fortify_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__underlying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   drivers/media/dvb-frontends/stv6110.c:421:2: warning: Call to function 'memcpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(&priv->regs, &reg0[1], 8);
-           ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__fortify_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__underlying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   drivers/media/dvb-frontends/stv6110.c:421:2: note: Call to function 'memcpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memcpy_s' in case of C11
-           memcpy(&priv->regs, &reg0[1], 8);
-           ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__fortify_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__underlying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   drivers/media/dvb-frontends/stv6110.c:423:2: warning: Call to function 'memcpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(&fe->ops.tuner_ops, &stv6110_tuner_ops,
-           ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__fortify_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__underlying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   drivers/media/dvb-frontends/stv6110.c:423:2: note: Call to function 'memcpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memcpy_s' in case of C11
-           memcpy(&fe->ops.tuner_ops, &stv6110_tuner_ops,
-           ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__fortify_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__underlying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   Suppressed 49 warnings (48 in non-user code, 1 with check filters).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   30 warnings generated.
-   sound/drivers/serial-generic.c:283:3: warning: Call to function 'sprintf' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'sprintf_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   sprintf(substream->name, "Serial MIDI %d-%d", dev_num, substream->number);
-                   ^~~~~~~
-   sound/drivers/serial-generic.c:283:3: note: Call to function 'sprintf' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'sprintf_s' in case of C11
-                   sprintf(substream->name, "Serial MIDI %d-%d", dev_num, substream->number);
-                   ^~~~~~~
->> sound/drivers/serial-generic.c:303:2: warning: Call to function 'strcpy' is insecure as it does not provide bounding of the memory buffer. Replace unbounded copy functions with analogous functions that support length arguments such as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-           strcpy(rrawmidi->name, drvdata->card->shortname);
-           ^~~~~~
-   sound/drivers/serial-generic.c:303:2: note: Call to function 'strcpy' is insecure as it does not provide bounding of the memory buffer. Replace unbounded copy functions with analogous functions that support length arguments such as 'strlcpy'. CWE-119
-           strcpy(rrawmidi->name, drvdata->card->shortname);
-           ^~~~~~
-   sound/drivers/serial-generic.c:333:2: warning: Call to function 'sprintf' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'sprintf_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           sprintf(card->shortname, "SerialMIDI-%d", serdev->ctrl->nr);
-           ^~~~~~~
-   sound/drivers/serial-generic.c:333:2: note: Call to function 'sprintf' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'sprintf_s' in case of C11
-           sprintf(card->shortname, "SerialMIDI-%d", serdev->ctrl->nr);
-           ^~~~~~~
-   sound/drivers/serial-generic.c:334:2: warning: Call to function 'sprintf' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'sprintf_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           sprintf(card->longname, "Serial MIDI device at serial%d", serdev->ctrl->nr);
-           ^~~~~~~
-   sound/drivers/serial-generic.c:334:2: note: Call to function 'sprintf' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'sprintf_s' in case of C11
-           sprintf(card->longname, "Serial MIDI device at serial%d", serdev->ctrl->nr);
-           ^~~~~~~
-   Suppressed 26 warnings (26 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   44 warnings generated.
-   sound/core/seq/seq_memory.c:118:2: warning: Call to function 'memcpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(*bufptr, src, size);
-           ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__fortify_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__underlying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   sound/core/seq/seq_memory.c:118:2: note: Call to function 'memcpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memcpy_s' in case of C11
-           memcpy(*bufptr, src, size);
-           ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__fortify_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__underlying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   sound/core/seq/seq_memory.c:345:5: warning: Call to function 'memcpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                                   memcpy(&tmp->event, buf, size);
-                                   ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__fortify_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__underlying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   sound/core/seq/seq_memory.c:345:5: note: Call to function 'memcpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memcpy_s' in case of C11
-                                   memcpy(&tmp->event, buf, size);
-                                   ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__fortify_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__underlying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   sound/core/seq/seq_memory.c:345:5: warning: Null pointer passed as 2nd argument to memory copy function [clang-analyzer-unix.cstring.NullArg]
-                                   memcpy(&tmp->event, buf, size);
-                                   ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^                       ~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__fortify_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^                    ~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__underlying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^
-   sound/core/seq/seq_memory.c:293:6: note: Assuming the condition is true
-           if (snd_seq_ev_is_variable(event)) {
-               ^
-   include/sound/asequencer.h:55:37: note: expanded from macro 'snd_seq_ev_is_variable'
-   #define snd_seq_ev_is_variable(ev)      (snd_seq_ev_length_type(ev) == SNDRV_SEQ_EVENT_LENGTH_VARIABLE)
-                                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/sound/asequencer.h:53:36: note: expanded from macro 'snd_seq_ev_length_type'
-   #define snd_seq_ev_length_type(ev)      ((ev)->flags & SNDRV_SEQ_EVENT_LENGTH_MASK)
-                                           ^
-   sound/core/seq/seq_memory.c:293:2: note: Taking true branch
-           if (snd_seq_ev_is_variable(event)) {
-           ^
-   sound/core/seq/seq_memory.c:297:6: note: Assuming 'ncells' is < field 'total_elements'
-           if (ncells >= pool->total_elements)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+smatch warnings:
+arch/x86/kernel/doublefault_32.c:81 doublefault_shim() warn: ignoring unreachable code.
 
-vim +303 sound/drivers/serial-generic.c
+vim +81 arch/x86/kernel/doublefault_32.c
 
-542350509499fe Daniel Kaehn 2022-05-09  286  
-542350509499fe Daniel Kaehn 2022-05-09  287  static int snd_serial_generic_rmidi(struct snd_serial_generic *drvdata,
-542350509499fe Daniel Kaehn 2022-05-09  288  				int outs, int ins, struct snd_rawmidi **rmidi)
-542350509499fe Daniel Kaehn 2022-05-09  289  {
-542350509499fe Daniel Kaehn 2022-05-09  290  	struct snd_rawmidi *rrawmidi;
-542350509499fe Daniel Kaehn 2022-05-09  291  	int err;
-542350509499fe Daniel Kaehn 2022-05-09  292  
-542350509499fe Daniel Kaehn 2022-05-09  293  	err = snd_rawmidi_new(drvdata->card, drvdata->card->driver, 0,
-542350509499fe Daniel Kaehn 2022-05-09  294  				outs, ins, &rrawmidi);
-542350509499fe Daniel Kaehn 2022-05-09  295  
-542350509499fe Daniel Kaehn 2022-05-09  296  	if (err < 0)
-542350509499fe Daniel Kaehn 2022-05-09  297  		return err;
-542350509499fe Daniel Kaehn 2022-05-09  298  
-542350509499fe Daniel Kaehn 2022-05-09  299  	snd_rawmidi_set_ops(rrawmidi, SNDRV_RAWMIDI_STREAM_INPUT,
-542350509499fe Daniel Kaehn 2022-05-09  300  				&snd_serial_generic_input);
-542350509499fe Daniel Kaehn 2022-05-09  301  	snd_rawmidi_set_ops(rrawmidi, SNDRV_RAWMIDI_STREAM_OUTPUT,
-542350509499fe Daniel Kaehn 2022-05-09  302  				&snd_serial_generic_output);
-542350509499fe Daniel Kaehn 2022-05-09 @303  	strcpy(rrawmidi->name, drvdata->card->shortname);
-542350509499fe Daniel Kaehn 2022-05-09  304  
-542350509499fe Daniel Kaehn 2022-05-09  305  	snd_serial_generic_substreams(&rrawmidi->streams[SNDRV_RAWMIDI_STREAM_OUTPUT],
-542350509499fe Daniel Kaehn 2022-05-09  306  					drvdata->serdev->ctrl->nr);
-542350509499fe Daniel Kaehn 2022-05-09  307  	snd_serial_generic_substreams(&rrawmidi->streams[SNDRV_RAWMIDI_STREAM_INPUT],
-542350509499fe Daniel Kaehn 2022-05-09  308  					drvdata->serdev->ctrl->nr);
-542350509499fe Daniel Kaehn 2022-05-09  309  
-542350509499fe Daniel Kaehn 2022-05-09  310  	rrawmidi->info_flags = SNDRV_RAWMIDI_INFO_OUTPUT |
-542350509499fe Daniel Kaehn 2022-05-09  311  			       SNDRV_RAWMIDI_INFO_INPUT |
-542350509499fe Daniel Kaehn 2022-05-09  312  			       SNDRV_RAWMIDI_INFO_DUPLEX;
-542350509499fe Daniel Kaehn 2022-05-09  313  
-542350509499fe Daniel Kaehn 2022-05-09  314  	if (rmidi)
-542350509499fe Daniel Kaehn 2022-05-09  315  		*rmidi = rrawmidi;
-542350509499fe Daniel Kaehn 2022-05-09  316  	return 0;
-542350509499fe Daniel Kaehn 2022-05-09  317  }
-542350509499fe Daniel Kaehn 2022-05-09  318  
+dc4e0021b00b5a arch/x86/kernel/doublefault_32.c Andy Lutomirski 2019-11-26  18  
+7d8d8cfdee9a7b arch/x86/kernel/doublefault_32.c Andy Lutomirski 2019-11-20  19  /*
+7d8d8cfdee9a7b arch/x86/kernel/doublefault_32.c Andy Lutomirski 2019-11-20  20   * Called by double_fault with CR0.TS and EFLAGS.NT cleared.  The CPU thinks
+7d8d8cfdee9a7b arch/x86/kernel/doublefault_32.c Andy Lutomirski 2019-11-20  21   * we're running the doublefault task.  Cannot return.
+7d8d8cfdee9a7b arch/x86/kernel/doublefault_32.c Andy Lutomirski 2019-11-20  22   */
+c29c775a554f70 arch/x86/kernel/doublefault_32.c Thomas Gleixner 2020-02-25  23  asmlinkage noinstr void __noreturn doublefault_shim(void)
+7d8d8cfdee9a7b arch/x86/kernel/doublefault_32.c Andy Lutomirski 2019-11-20  24  {
+7d8d8cfdee9a7b arch/x86/kernel/doublefault_32.c Andy Lutomirski 2019-11-20  25  	unsigned long cr2;
+7d8d8cfdee9a7b arch/x86/kernel/doublefault_32.c Andy Lutomirski 2019-11-20  26  	struct pt_regs regs;
+^1da177e4c3f41 arch/i386/kernel/doublefault.c   Linus Torvalds  2005-04-16  27  
+7d8d8cfdee9a7b arch/x86/kernel/doublefault_32.c Andy Lutomirski 2019-11-20  28  	BUILD_BUG_ON(sizeof(struct doublefault_stack) != PAGE_SIZE);
+^1da177e4c3f41 arch/i386/kernel/doublefault.c   Linus Torvalds  2005-04-16  29  
+7d8d8cfdee9a7b arch/x86/kernel/doublefault_32.c Andy Lutomirski 2019-11-20  30  	cr2 = native_read_cr2();
+^1da177e4c3f41 arch/i386/kernel/doublefault.c   Linus Torvalds  2005-04-16  31  
+7d8d8cfdee9a7b arch/x86/kernel/doublefault_32.c Andy Lutomirski 2019-11-20  32  	/* Reset back to the normal kernel task. */
+7d8d8cfdee9a7b arch/x86/kernel/doublefault_32.c Andy Lutomirski 2019-11-20  33  	force_reload_TR();
+7d8d8cfdee9a7b arch/x86/kernel/doublefault_32.c Andy Lutomirski 2019-11-20  34  	set_df_gdt_entry(smp_processor_id());
+^1da177e4c3f41 arch/i386/kernel/doublefault.c   Linus Torvalds  2005-04-16  35  
+7d8d8cfdee9a7b arch/x86/kernel/doublefault_32.c Andy Lutomirski 2019-11-20  36  	trace_hardirqs_off();
+^1da177e4c3f41 arch/i386/kernel/doublefault.c   Linus Torvalds  2005-04-16  37  
+7d8d8cfdee9a7b arch/x86/kernel/doublefault_32.c Andy Lutomirski 2019-11-20  38  	/*
+7d8d8cfdee9a7b arch/x86/kernel/doublefault_32.c Andy Lutomirski 2019-11-20  39  	 * Fill in pt_regs.  A downside of doing this in C is that the unwinder
+7d8d8cfdee9a7b arch/x86/kernel/doublefault_32.c Andy Lutomirski 2019-11-20  40  	 * won't see it (no ENCODE_FRAME_POINTER), so a nested stack dump
+7d8d8cfdee9a7b arch/x86/kernel/doublefault_32.c Andy Lutomirski 2019-11-20  41  	 * won't successfully unwind to the source of the double fault.
+c29c775a554f70 arch/x86/kernel/doublefault_32.c Thomas Gleixner 2020-02-25  42  	 * The main dump from exc_double_fault() is fine, though, since it
+7d8d8cfdee9a7b arch/x86/kernel/doublefault_32.c Andy Lutomirski 2019-11-20  43  	 * uses these regs directly.
+7d8d8cfdee9a7b arch/x86/kernel/doublefault_32.c Andy Lutomirski 2019-11-20  44  	 *
+7d8d8cfdee9a7b arch/x86/kernel/doublefault_32.c Andy Lutomirski 2019-11-20  45  	 * If anyone ever cares, this could be moved to asm.
+7d8d8cfdee9a7b arch/x86/kernel/doublefault_32.c Andy Lutomirski 2019-11-20  46  	 */
+7d8d8cfdee9a7b arch/x86/kernel/doublefault_32.c Andy Lutomirski 2019-11-20  47  	regs.ss		= TSS(ss);
+7d8d8cfdee9a7b arch/x86/kernel/doublefault_32.c Andy Lutomirski 2019-11-20  48  	regs.__ssh	= 0;
+7d8d8cfdee9a7b arch/x86/kernel/doublefault_32.c Andy Lutomirski 2019-11-20  49  	regs.sp		= TSS(sp);
+7d8d8cfdee9a7b arch/x86/kernel/doublefault_32.c Andy Lutomirski 2019-11-20  50  	regs.flags	= TSS(flags);
+7d8d8cfdee9a7b arch/x86/kernel/doublefault_32.c Andy Lutomirski 2019-11-20  51  	regs.cs		= TSS(cs);
+7d8d8cfdee9a7b arch/x86/kernel/doublefault_32.c Andy Lutomirski 2019-11-20  52  	/* We won't go through the entry asm, so we can leave __csh as 0. */
+7d8d8cfdee9a7b arch/x86/kernel/doublefault_32.c Andy Lutomirski 2019-11-20  53  	regs.__csh	= 0;
+7d8d8cfdee9a7b arch/x86/kernel/doublefault_32.c Andy Lutomirski 2019-11-20  54  	regs.ip		= TSS(ip);
+7d8d8cfdee9a7b arch/x86/kernel/doublefault_32.c Andy Lutomirski 2019-11-20  55  	regs.orig_ax	= 0;
+7d8d8cfdee9a7b arch/x86/kernel/doublefault_32.c Andy Lutomirski 2019-11-20  56  	regs.gs		= TSS(gs);
+7d8d8cfdee9a7b arch/x86/kernel/doublefault_32.c Andy Lutomirski 2019-11-20  57  	regs.__gsh	= 0;
+7d8d8cfdee9a7b arch/x86/kernel/doublefault_32.c Andy Lutomirski 2019-11-20  58  	regs.fs		= TSS(fs);
+7d8d8cfdee9a7b arch/x86/kernel/doublefault_32.c Andy Lutomirski 2019-11-20  59  	regs.__fsh	= 0;
+7d8d8cfdee9a7b arch/x86/kernel/doublefault_32.c Andy Lutomirski 2019-11-20  60  	regs.es		= TSS(es);
+7d8d8cfdee9a7b arch/x86/kernel/doublefault_32.c Andy Lutomirski 2019-11-20  61  	regs.__esh	= 0;
+7d8d8cfdee9a7b arch/x86/kernel/doublefault_32.c Andy Lutomirski 2019-11-20  62  	regs.ds		= TSS(ds);
+7d8d8cfdee9a7b arch/x86/kernel/doublefault_32.c Andy Lutomirski 2019-11-20  63  	regs.__dsh	= 0;
+7d8d8cfdee9a7b arch/x86/kernel/doublefault_32.c Andy Lutomirski 2019-11-20  64  	regs.ax		= TSS(ax);
+7d8d8cfdee9a7b arch/x86/kernel/doublefault_32.c Andy Lutomirski 2019-11-20  65  	regs.bp		= TSS(bp);
+7d8d8cfdee9a7b arch/x86/kernel/doublefault_32.c Andy Lutomirski 2019-11-20  66  	regs.di		= TSS(di);
+7d8d8cfdee9a7b arch/x86/kernel/doublefault_32.c Andy Lutomirski 2019-11-20  67  	regs.si		= TSS(si);
+7d8d8cfdee9a7b arch/x86/kernel/doublefault_32.c Andy Lutomirski 2019-11-20  68  	regs.dx		= TSS(dx);
+7d8d8cfdee9a7b arch/x86/kernel/doublefault_32.c Andy Lutomirski 2019-11-20  69  	regs.cx		= TSS(cx);
+7d8d8cfdee9a7b arch/x86/kernel/doublefault_32.c Andy Lutomirski 2019-11-20  70  	regs.bx		= TSS(bx);
+7d8d8cfdee9a7b arch/x86/kernel/doublefault_32.c Andy Lutomirski 2019-11-20  71  
+c29c775a554f70 arch/x86/kernel/doublefault_32.c Thomas Gleixner 2020-02-25  72  	exc_double_fault(&regs, 0, cr2);
+^1da177e4c3f41 arch/i386/kernel/doublefault.c   Linus Torvalds  2005-04-16  73  
+7d8d8cfdee9a7b arch/x86/kernel/doublefault_32.c Andy Lutomirski 2019-11-20  74  	/*
+7d8d8cfdee9a7b arch/x86/kernel/doublefault_32.c Andy Lutomirski 2019-11-20  75  	 * x86_32 does not save the original CR3 anywhere on a task switch.
+7d8d8cfdee9a7b arch/x86/kernel/doublefault_32.c Andy Lutomirski 2019-11-20  76  	 * This means that, even if we wanted to return, we would need to find
+7d8d8cfdee9a7b arch/x86/kernel/doublefault_32.c Andy Lutomirski 2019-11-20  77  	 * some way to reconstruct CR3.  We could make a credible guess based
+7d8d8cfdee9a7b arch/x86/kernel/doublefault_32.c Andy Lutomirski 2019-11-20  78  	 * on cpu_tlbstate, but that would be racy and would not account for
+7d8d8cfdee9a7b arch/x86/kernel/doublefault_32.c Andy Lutomirski 2019-11-20  79  	 * PTI.
+7d8d8cfdee9a7b arch/x86/kernel/doublefault_32.c Andy Lutomirski 2019-11-20  80  	 */
+7d8d8cfdee9a7b arch/x86/kernel/doublefault_32.c Andy Lutomirski 2019-11-20 @81  	panic("cannot return from double fault\n");
+^1da177e4c3f41 arch/i386/kernel/doublefault.c   Linus Torvalds  2005-04-16  82  }
+^1da177e4c3f41 arch/i386/kernel/doublefault.c   Linus Torvalds  2005-04-16  83  
+
+:::::: The code at line 81 was first introduced by commit
+:::::: 7d8d8cfdee9a7bd6f9682f253fa98efdd8048a9e x86/doublefault/32: Rewrite the x86_32 #DF handler and unify with 64-bit
+
+:::::: TO: Andy Lutomirski <luto@kernel.org>
+:::::: CC: Ingo Molnar <mingo@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
