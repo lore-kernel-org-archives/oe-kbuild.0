@@ -1,51 +1,43 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 445A96FAB;
-	Tue, 21 Feb 2023 16:54:11 +0000 (UTC)
-Received: by mail-wr1-f48.google.com with SMTP id 6so4764137wrb.11;
-        Tue, 21 Feb 2023 08:54:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=AbWYngeCadFKqGA240sb/SJZ7hSohNtA8+THdt0x0kQ=;
-        b=NtrRvvA9p13aaDnw/gLcpRXCK671TeMD953mHwXMILgjMf9iv6l3IsyrVJkEV7vq3x
-         ZYVyP6tAmFIrmQC3PtSA0ljL5BNrMJoZg5ZF/RK2qpC5OYRywyb9UqmKP39vVD1aUo/h
-         aYWG/qc/YG/eab1bM9Mdv5Ucr8EeKOjDBTAl7fDFxg1V3ibb4FMRnmBiI/hLc+bg7c/n
-         Qng44Ma/SvRjY+ZyzPcIVgo20NlTh7TPfRVsW6enQl7cNLjmUpF3UyqBPybw6cy3IfCb
-         gL4iz+oHB0AcluVdCWZVaYVS4t0IV/x9pKdJESs8ErMT7kq8SBbFFv7iapTXg5iU0HJ9
-         716Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=AbWYngeCadFKqGA240sb/SJZ7hSohNtA8+THdt0x0kQ=;
-        b=16QLz+3iqkUkot4FqBHJGYTmaAKJZYSxioW++FiTlCpIKyBKL4dX3EfG+UQuPoeJBl
-         0ez+RsX4/qFJKiMhOjIOo+FKiYD4oqC9a1wNf60ch63U6c3m1pdlH4MIjv6QVFDIhYSU
-         mXe+pDphISxPPTQ9zMJO6Wq7YxkeMjLSB8f4vgUGFpW1p7sfVYMH6wtcm/U3USt63x/w
-         llrJ8eBGzMw2wN1pjRpV4T0F4sWkKBzuJfBa3Rhlz7p69eJzQlQDca7+LLx/6BhlaAPq
-         c2H6vtOnbBVbs0UFNt5huGJaMnHUZcL4FTL/2baR80h6JvMTFVlgxoRSlxKn0Dnyq6ua
-         4jyg==
-X-Gm-Message-State: AO0yUKX0d8I2hKcvrp90RPt62D5PHASNdJW0QVrKGtyTkmVYrcY6JPlq
-	5QUZlyn/mxuD/7QQofR0w4scydDglEI=
-X-Google-Smtp-Source: AK7set/uAQKy4a0Mvt24/CBiYkwqUkucbiaw0h/70ehgHb9VoQH5b5hK76IyvTxywyeBIns7qnXnLg==
-X-Received: by 2002:a5d:6950:0:b0:2bf:cfb4:2e1 with SMTP id r16-20020a5d6950000000b002bfcfb402e1mr4520958wrw.45.1676998449100;
-        Tue, 21 Feb 2023 08:54:09 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id q6-20020a05600c46c600b003dc47d458cdsm5629715wmo.15.2023.02.21.08.54.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Feb 2023 08:54:08 -0800 (PST)
-Date: Tue, 21 Feb 2023 19:54:04 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, Parav Pandit <parav@nvidia.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Saeed Mahameed <saeedm@nvidia.com>, Shay Drory <shayd@nvidia.com>,
-	Maciej Fijalkowski <maciej.fijalkowski@intel.com>
-Subject: [linux-next:master 13057/13664]
- drivers/net/ethernet/mellanox/mlx5/core/eq.c:1010
- mlx5_comp_irq_get_affinity_mask() warn: iterator used outside loop: 'eq'
-Message-ID: <202302220006.nXIY6No9-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFBB779C1
+	for <oe-kbuild@lists.linux.dev>; Tue, 21 Feb 2023 17:52:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1677001954; x=1708537954;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=yiZKUJKhUFZlE3mtwbfbbrrV0r2VQmSpRJ5voR7NOPk=;
+  b=XXyaCA4s4nBl1LriZHQEjn9pz7ZAgYY3ComOc3KK/PJVqZXMWbGr5WJa
+   mhYTH768uEHrrXsFnZ833Gt9YtYterE8tv43y1sjo0j5HPHw/Ow9q1D1+
+   cIMPon55BIgbrR9BLVjtkOfXQeAd91cI3hA9IviLJupNhVuGioFmNITIS
+   4WwMQy7ddetES6OX0yKqkDour5epdsKisc6kZQmxGRh/uUXJh8Q43CRBQ
+   SCPFrSA05e1xE9y/L7ToPFmgqwAGoWSwefMmtFaQSa2VeXB96zgvBxfrU
+   mm0LGlvJxBxmzT5teq/NXY54bSrZ/YSv+rBjJk6EC4l/+DjNL6UFz7C2X
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10628"; a="316428378"
+X-IronPort-AV: E=Sophos;i="5.97,315,1669104000"; 
+   d="scan'208";a="316428378"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2023 09:52:34 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10628"; a="760636119"
+X-IronPort-AV: E=Sophos;i="5.97,315,1669104000"; 
+   d="scan'208";a="760636119"
+Received: from lkp-server01.sh.intel.com (HELO eac18b5d7d93) ([10.239.97.150])
+  by FMSMGA003.fm.intel.com with ESMTP; 21 Feb 2023 09:52:32 -0800
+Received: from kbuild by eac18b5d7d93 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pUWoZ-00006P-1K;
+	Tue, 21 Feb 2023 17:52:31 +0000
+Date: Wed, 22 Feb 2023 01:52:22 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [linux-next:master 8112/13664]
+ drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c:4393
+ guc_init_global_schedule_policy() error: uninitialized symbol 'ret'.
+Message-ID: <202302220135.ye19kgIY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -54,44 +46,74 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Message-ID: <20230221165404.OV_ofO9zRNmiot4VodtivwE_0aGtjePOWO6RgmGVn_8@z>
+
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Michal Wajdeczko <michal.wajdeczko@intel.com>
+CC: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+CC: John Harrison <John.C.Harrison@Intel.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
 head:   465461cf48465b8a0a54025db5ae2b3df7a04577
-commit: 3ac0b6aa892a1961d3bc62c87e3e3c9646e9d309 [13057/13664] net/mlx5: Simplify eq list traversal
-config: s390-randconfig-m031-20230219 (https://download.01.org/0day-ci/archive/20230222/202302220006.nXIY6No9-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 12.1.0
+commit: f0c4fc416e5ea21cfb8f4b3f8d0955bd5a69b154 [8112/13664] drm/i915/guc: Update GuC messages in intel_guc_submission.c
+:::::: branch date: 12 hours ago
+:::::: commit date: 3 weeks ago
+config: x86_64-randconfig-m001-20230213 (https://download.01.org/0day-ci/archive/20230222/202302220135.ye19kgIY-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202302220006.nXIY6No9-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202302220135.ye19kgIY-lkp@intel.com/
 
-smatch warnings:
-drivers/net/ethernet/mellanox/mlx5/core/eq.c:1010 mlx5_comp_irq_get_affinity_mask() warn: iterator used outside loop: 'eq'
+New smatch warnings:
+drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c:4393 guc_init_global_schedule_policy() error: uninitialized symbol 'ret'.
 
-vim +/eq +1010 drivers/net/ethernet/mellanox/mlx5/core/eq.c
+Old smatch warnings:
+drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c:1264 gpm_timestamp_shift() error: uninitialized symbol 'reg'.
+drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c:1667 __unwind_incomplete_requests() error: uninitialized symbol 'pl'.
+drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c:5342 guc_create_virtual() warn: assigning (-2) to unsigned variable 've->base.instance'
+drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c:5343 guc_create_virtual() warn: assigning (-2) to unsigned variable 've->base.uabi_instance'
 
-f2f3df5501391b Saeed Mahameed 2018-11-19   998  struct cpumask *
-f2f3df5501391b Saeed Mahameed 2018-11-19   999  mlx5_comp_irq_get_affinity_mask(struct mlx5_core_dev *dev, int vector)
-f2f3df5501391b Saeed Mahameed 2018-11-19  1000  {
-fc63dd2a85be1f Shay Drory     2021-02-23  1001  	struct mlx5_eq_table *table = dev->priv.eq_table;
-3ac0b6aa892a19 Parav Pandit   2023-02-15  1002  	struct mlx5_eq_comp *eq;
-fc63dd2a85be1f Shay Drory     2021-02-23  1003  	int i = 0;
-fc63dd2a85be1f Shay Drory     2021-02-23  1004  
-3ac0b6aa892a19 Parav Pandit   2023-02-15  1005  	list_for_each_entry(eq, &table->comp_eqs_list, list) {
-fc63dd2a85be1f Shay Drory     2021-02-23  1006  		if (i++ == vector)
-fc63dd2a85be1f Shay Drory     2021-02-23  1007  			break;
-fc63dd2a85be1f Shay Drory     2021-02-23  1008  	}
-561aa15ad69e9d Yuval Avnery   2019-06-10  1009  
-fc63dd2a85be1f Shay Drory     2021-02-23 @1010  	return mlx5_irq_get_affinity_mask(eq->core.irq);
-                                                                                          ^^^^
-Iterator points to bogus memory if we exited the loop without finding
-if (i++ == vector) and hitting the break.
+vim +/ret +4393 drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
 
-f2f3df5501391b Saeed Mahameed 2018-11-19  1011  }
+1e88da4f6d8938 John Harrison    2022-09-22  4367  
+1e88da4f6d8938 John Harrison    2022-09-22  4368  static int guc_init_global_schedule_policy(struct intel_guc *guc)
+1e88da4f6d8938 John Harrison    2022-09-22  4369  {
+1e88da4f6d8938 John Harrison    2022-09-22  4370  	struct scheduling_policy policy;
+1e88da4f6d8938 John Harrison    2022-09-22  4371  	struct intel_gt *gt = guc_to_gt(guc);
+1e88da4f6d8938 John Harrison    2022-09-22  4372  	intel_wakeref_t wakeref;
+f0c4fc416e5ea2 Michal Wajdeczko 2023-01-28  4373  	int ret;
+1e88da4f6d8938 John Harrison    2022-09-22  4374  
+9bbba0667f3779 John Harrison    2022-11-29  4375  	if (GUC_SUBMIT_VER(guc) < MAKE_GUC_VER(1, 1, 0))
+1e88da4f6d8938 John Harrison    2022-09-22  4376  		return 0;
+1e88da4f6d8938 John Harrison    2022-09-22  4377  
+1e88da4f6d8938 John Harrison    2022-09-22  4378  	__guc_scheduling_policy_start_klv(&policy);
+1e88da4f6d8938 John Harrison    2022-09-22  4379  
+1e88da4f6d8938 John Harrison    2022-09-22  4380  	with_intel_runtime_pm(&gt->i915->runtime_pm, wakeref) {
+1e88da4f6d8938 John Harrison    2022-09-22  4381  		u32 yield[] = {
+1e88da4f6d8938 John Harrison    2022-09-22  4382  			GLOBAL_SCHEDULE_POLICY_RC_YIELD_DURATION,
+1e88da4f6d8938 John Harrison    2022-09-22  4383  			GLOBAL_SCHEDULE_POLICY_RC_YIELD_RATIO,
+1e88da4f6d8938 John Harrison    2022-09-22  4384  		};
+1e88da4f6d8938 John Harrison    2022-09-22  4385  
+1e88da4f6d8938 John Harrison    2022-09-22  4386  		__guc_scheduling_policy_add_klv(&policy,
+1e88da4f6d8938 John Harrison    2022-09-22  4387  						GUC_SCHEDULING_POLICIES_KLV_ID_RENDER_COMPUTE_YIELD,
+1e88da4f6d8938 John Harrison    2022-09-22  4388  						yield, ARRAY_SIZE(yield));
+1e88da4f6d8938 John Harrison    2022-09-22  4389  
+1e88da4f6d8938 John Harrison    2022-09-22  4390  		ret = __guc_action_set_scheduling_policies(guc, &policy);
+1e88da4f6d8938 John Harrison    2022-09-22  4391  	}
+1e88da4f6d8938 John Harrison    2022-09-22  4392  
+1e88da4f6d8938 John Harrison    2022-09-22 @4393  	return ret;
+1e88da4f6d8938 John Harrison    2022-09-22  4394  }
+1e88da4f6d8938 John Harrison    2022-09-22  4395  
+
+:::::: The code at line 4393 was first introduced by commit
+:::::: 1e88da4f6d8938bef42b3bc6e9c68c795b46ce0f drm/i915/guc: Enable compute scheduling on DG2
+
+:::::: TO: John Harrison <John.C.Harrison@Intel.com>
+:::::: CC: John Harrison <John.C.Harrison@Intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
-
