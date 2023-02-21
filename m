@@ -1,101 +1,105 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B396B1878
-	for <oe-kbuild@lists.linux.dev>; Tue, 21 Feb 2023 09:28:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676971739; x=1708507739;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=PwEcfDVtE23iag4E+nBnVidQy6S4t+Y9km5RfIQWGKM=;
-  b=NAo7oL4BEYL2OylyL+a6rsBDgsK6S1nAGlkqhF+YRbCIAGDtT8J11oEw
-   pmop+H572f4L9NCqHgUXTI7AZLH8yg5BgVzdePl/QWobSuY2i4FiKOwHV
-   wVcI3vwbKXIa+leUydLJ9KxZx2mevRzE7wUVXQ1Idz6J2rwhevGD8cU2t
-   FUUPLYh+3EkKLNwtYwShUmnVqbZNFv690HatzXVYEgVQ3Cg9K3bfPr/9Z
-   Hs8MHuy+TJz+fmoEOJjsnlgS5Tz9A2fpGHoblAzu7CmM1ydxPMR3PlMkG
-   SS0pNM/OLhQAEauXapZ50BokYojoptNQ2mxy8ZP6NORLJjpeEbGFzSrkQ
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10627"; a="334782270"
-X-IronPort-AV: E=Sophos;i="5.97,315,1669104000"; 
-   d="scan'208";a="334782270"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2023 01:28:59 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10627"; a="780937586"
-X-IronPort-AV: E=Sophos;i="5.97,315,1669104000"; 
-   d="scan'208";a="780937586"
-Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 21 Feb 2023 01:28:54 -0800
-Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pUOxB-000EcZ-2X;
-	Tue, 21 Feb 2023 09:28:53 +0000
-Date: Tue, 21 Feb 2023 17:28:14 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [linux-next:master 488/13664]
- drivers/gpu/drm/i915/display/intel_color.c:1400 intel_color_prepare_commit()
- warn: ignoring unreachable code.
-Message-ID: <202302211707.9malP4N2-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C18B1FBF;
+	Tue, 21 Feb 2023 11:34:05 +0000 (UTC)
+Received: by mail-wr1-f46.google.com with SMTP id bo30so3507403wrb.0;
+        Tue, 21 Feb 2023 03:34:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=6XsM0lGHivc0yEIzrABocCb5n6PCCHzh9jbspZYVW3E=;
+        b=d2V2v1iq2xek5TnH5u2vns+V1eoYobLZ5+KZcnvnrbOQTq0OW+YBk+69EmWB4MNwuT
+         ZEeYQYVkmKqPFKca2diwEWS8ewGbhFsdLierwD7vQUXdi+m5gfIKGfgZYk0RfJQ3UgLG
+         P+8tenUbOcpwX+I/32XYZYoYSt/DPlzjKR9q0+sMxliQaFVWyZexKRhP9xkajvQGbr/T
+         1bKVaVhVSqG0Ap/JCj3xqr4jx9wQiT4ToY78lbRCef2tGILfUavpY4Y4OOG0G7fDqpQ6
+         pEA7zOmxt6jviuXAflWhafPZMUBfFsOEfeqhbKsNUD/8iL8xvlUNd33y+cEVjTEtNfBC
+         yudA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=6XsM0lGHivc0yEIzrABocCb5n6PCCHzh9jbspZYVW3E=;
+        b=EaxQqSUGaa43lMW/8+RMGmBhm8tb7bt6NE50MOkWQOsxeivpPOZM2XyFcqCBE1tLvC
+         ekRLOuHuyYAleSekjvgAPbi1gR6L/g2XT/5XqG5+7DnBtr/0ZgJiVtOdnVhhsOtop5pR
+         QjLIhU2s6VMZy+eGv6Ws4TpCAzflUwF7A2H9FjlP7ONV5duZc/uj9KkjZQtcg0/M6KUG
+         e9uFwnp7l+rFzOl3R66RYjNhfPMaulkx+0T99WEBtJwBOrdECocAXdePKIeFBpe7V3kX
+         VgVXC8SO7gGY+a4V3NCLLmkJeyIq3vf9Ju59qz9e/f5EOjbazrcgs5UbOv8UBbptaoh3
+         FgvA==
+X-Gm-Message-State: AO0yUKUW9bgS8TMgmafFoDRJ2AxlS17S+35KbXMlYdRDAVFt9zNP5+HL
+	BFmvPN3VqLcoJuHG3XmUpvOF+S68vzY=
+X-Google-Smtp-Source: AK7set9wM4xZBZZnPY6KhCGayNouoiFTHLpWSJvXIQA40gwOfeS6c9KABP+9hO4fPX2eVchIxlg39g==
+X-Received: by 2002:a5d:58d9:0:b0:2c6:e87f:30cc with SMTP id o25-20020a5d58d9000000b002c6e87f30ccmr2407363wrf.48.1676979243303;
+        Tue, 21 Feb 2023 03:34:03 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id m12-20020adff38c000000b002c567881dbcsm1432993wro.48.2023.02.21.03.34.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 21 Feb 2023 03:34:02 -0800 (PST)
+Date: Tue, 21 Feb 2023 14:33:59 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev, cros-kernel-buildreports@googlegroups.com
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android14-6.1 6539/7267]
+ kernel/trace/ring_buffer.c:2177 ring_buffer_resize() warn: variable
+ dereferenced before check 'buffer' (see line 2172)
+Message-ID: <202302181230.X9lCS0f6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+Message-ID: <20230221113359.xne0kg3UtcorP3lj_HstS8WG3n8Loe7crISAM5gCFwM@z>
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: "Ville Syrjälä" <ville.syrjala@linux.intel.com>
-CC: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
-CC: Uma Shankar <uma.shankar@intel.com>
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   465461cf48465b8a0a54025db5ae2b3df7a04577
-commit: 2487ae0bcb53a7d4180c551c02b1f318ea590c84 [488/13664] drm/i915: Disable DSB usage specifically for LUTs
-:::::: branch date: 3 hours ago
-:::::: commit date: 2 months ago
-config: x86_64-randconfig-m001-20230213 (https://download.01.org/0day-ci/archive/20230221/202302211707.9malP4N2-lkp@intel.com/config)
+tree:   https://android.googlesource.com/kernel/common android14-6.1
+head:   26f2032cc476b6d61f4a694fca4feb8e9e2cb5c7
+commit: 5ecbcb61e172d82faf1bd8c00b17837d3c658c59 [6539/7267] ANDROID: ring-buffer: Introducing external writer support
+config: x86_64-randconfig-m001 (https://download.01.org/0day-ci/archive/20230218/202302181230.X9lCS0f6-lkp@intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202302211707.9malP4N2-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202302181230.X9lCS0f6-lkp@intel.com/
 
-New smatch warnings:
-drivers/gpu/drm/i915/display/intel_color.c:1400 intel_color_prepare_commit() warn: ignoring unreachable code.
+smatch warnings:
+kernel/trace/ring_buffer.c:2177 ring_buffer_resize() warn: variable dereferenced before check 'buffer' (see line 2172)
 
-Old smatch warnings:
-drivers/gpu/drm/i915/display/intel_color.c:2579 i9xx_read_lut_10() error: uninitialized symbol 'ldw'.
-drivers/gpu/drm/i915/display/intel_color.c:2579 i9xx_read_lut_10() error: uninitialized symbol 'udw'.
+vim +/buffer +2177 kernel/trace/ring_buffer.c
 
-vim +1400 drivers/gpu/drm/i915/display/intel_color.c
+13292494379f92 Steven Rostedt (VMware    2019-12-13  2165) int ring_buffer_resize(struct trace_buffer *buffer, unsigned long size,
+438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2166  			int cpu_id)
+7a8e76a3829f10 Steven Rostedt            2008-09-29  2167  {
+7a8e76a3829f10 Steven Rostedt            2008-09-29  2168  	struct ring_buffer_per_cpu *cpu_buffer;
+9b94a8fba501f3 Steven Rostedt (Red Hat   2016-05-12  2169) 	unsigned long nr_pages;
+0a1754b2a97efa Qiujun Huang              2020-10-19  2170  	int cpu, err;
+7a8e76a3829f10 Steven Rostedt            2008-09-29  2171  
+5ecbcb61e172d8 Vincent Donnefort         2022-08-24 @2172  	if (unlikely(has_ext_writer(buffer)))
+                                                                                            ^^^^^^
+Patch adds an dereference
 
-4d8ed54c044703 drivers/gpu/drm/i915/intel_color.c         Ville Syrjälä 2019-02-05  1392  
-efb2b57edf20c3 drivers/gpu/drm/i915/display/intel_color.c Ville Syrjälä 2022-11-23  1393  void intel_color_prepare_commit(struct intel_crtc_state *crtc_state)
-efb2b57edf20c3 drivers/gpu/drm/i915/display/intel_color.c Ville Syrjälä 2022-11-23  1394  {
-b358c3b98813b1 drivers/gpu/drm/i915/display/intel_color.c Ville Syrjälä 2022-11-23  1395  	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
-b358c3b98813b1 drivers/gpu/drm/i915/display/intel_color.c Ville Syrjälä 2022-11-23  1396  
-2487ae0bcb53a7 drivers/gpu/drm/i915/display/intel_color.c Ville Syrjälä 2022-11-23  1397  	/* FIXME DSB has issues loading LUTs, disable it for now */
-2487ae0bcb53a7 drivers/gpu/drm/i915/display/intel_color.c Ville Syrjälä 2022-11-23  1398  	return;
-2487ae0bcb53a7 drivers/gpu/drm/i915/display/intel_color.c Ville Syrjälä 2022-11-23  1399  
-b358c3b98813b1 drivers/gpu/drm/i915/display/intel_color.c Ville Syrjälä 2022-11-23 @1400  	crtc_state->dsb = intel_dsb_prepare(crtc);
-efb2b57edf20c3 drivers/gpu/drm/i915/display/intel_color.c Ville Syrjälä 2022-11-23  1401  }
-efb2b57edf20c3 drivers/gpu/drm/i915/display/intel_color.c Ville Syrjälä 2022-11-23  1402  
+5ecbcb61e172d8 Vincent Donnefort         2022-08-24  2173  		return -EINVAL;
+ee51a1de7e3837 Ingo Molnar               2008-11-13  2174  	/*
+ee51a1de7e3837 Ingo Molnar               2008-11-13  2175  	 * Always succeed at resizing a non-existent buffer:
+ee51a1de7e3837 Ingo Molnar               2008-11-13  2176  	 */
+ee51a1de7e3837 Ingo Molnar               2008-11-13 @2177  	if (!buffer)
+                                                                    ^^^^^^^
+Checked too late.
 
-:::::: The code at line 1400 was first introduced by commit
-:::::: b358c3b98813b1557588a11c894b22915251a2ce drm/i915: Make DSB lower level
-
-:::::: TO: Ville Syrjälä <ville.syrjala@linux.intel.com>
-:::::: CC: Ville Syrjälä <ville.syrjala@linux.intel.com>
+0a1754b2a97efa Qiujun Huang              2020-10-19  2178  		return 0;
+ee51a1de7e3837 Ingo Molnar               2008-11-13  2179  
+6a31e1f135d1ab Steven Rostedt            2012-05-23  2180  	/* Make sure the requested buffer exists */
+6a31e1f135d1ab Steven Rostedt            2012-05-23  2181  	if (cpu_id != RING_BUFFER_ALL_CPUS &&
+6a31e1f135d1ab Steven Rostedt            2012-05-23  2182  	    !cpumask_test_cpu(cpu_id, buffer->cpumask))
+0a1754b2a97efa Qiujun Huang              2020-10-19  2183  		return 0;
+6a31e1f135d1ab Steven Rostedt            2012-05-23  2184  
+59643d1535eb22 Steven Rostedt (Red Hat   2016-05-13  2185) 	nr_pages = DIV_ROUND_UP(size, BUF_PAGE_SIZE);
+7a8e76a3829f10 Steven Rostedt            2008-09-29  2186  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
+
