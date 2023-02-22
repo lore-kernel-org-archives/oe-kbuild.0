@@ -1,50 +1,42 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 438E77460;
-	Wed, 22 Feb 2023 14:25:22 +0000 (UTC)
-Received: by mail-wm1-f41.google.com with SMTP id az11-20020a05600c600b00b003dc4fd6e61dso6480859wmb.5;
-        Wed, 22 Feb 2023 06:25:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=fe6a6DR7iJ0PT2fChlekqUqMNerUT/Y83IgJ2x3bO7E=;
-        b=Kn1nSWwsrrEZU2DlMWsnNChWrOvVv1Rl4YT0tl8Y2PIGHDN/RIDJjhjz8zYoHIzxrf
-         fhrlMPyWjULoWG6OH7HaR3Q6vKoKJq+wc4zKO2WEfpnZ6IoRlKdI6SmgC3mxce0KiYni
-         qhCZzYY5P40oda0ILX7vllYrs24I8t4dnUy0HIBwOIxFoFyh7UK3Vu7eTc8DeAr886mX
-         jYAbcWBMHyWapNkObxrL3UvhqVLNuoLuLVytwyXMsRCeM/+O8rflhZeWXvsCgFesjYr4
-         RlNO+bEOUvxMAMmDYy8UE8XNnSp5BmE/ZS2EcCjt9L9CCEMQhTtu8yOSs96kfTwFYc1g
-         6w+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=fe6a6DR7iJ0PT2fChlekqUqMNerUT/Y83IgJ2x3bO7E=;
-        b=QpuVqHyYPfY8mxHuGMz84ZFIIT4YColY4aQplJoRkX9Kw8n62Vl2l3PJ9lOn0w4Lkj
-         1TfGQLZjbhQimdY6JYY80wotYf85AGUbFMQg7CUS3BC4UBffYYSX7sReDUHUUsO8Uccc
-         mPb/W4Fryoo+b28v9ZEgmhFe94iOC9GzedB6mIhmx5GY5QOz5Xd5/0CwvpmvXtHEFvgC
-         Tbbo0YXHQt7f4JXuaiwqIbdBd40SKvsS7RpUabkgtJabPoMHI2yqEkKzVN12arg1DOiE
-         KlLjkuvfG4lIEnj142Nx/MLnWLDQOmBgkTSmElbH4AODVCwEZUDyKItBid0KmnqOx7V5
-         5myQ==
-X-Gm-Message-State: AO0yUKX5HlNxUBkhJ3hC6XmMZXD2UnqQAKkRAew/FSlygdbcO5DGvpss
-	jgp2kyisQVnezvfhE5dnFC3yBJusc+I=
-X-Google-Smtp-Source: AK7set+YxruGjVZGokdAaAVs9PutkAVI7lsMeJX7C3YOa2WhzByjkep0oKXtVdK3g8R5somAUnmVFQ==
-X-Received: by 2002:a05:600c:511b:b0:3da:2ba4:b97 with SMTP id o27-20020a05600c511b00b003da2ba40b97mr7563724wms.19.1677075920132;
-        Wed, 22 Feb 2023 06:25:20 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id p13-20020a1c544d000000b003e208cec49bsm2096421wmi.3.2023.02.22.06.25.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Feb 2023 06:25:19 -0800 (PST)
-Date: Wed, 22 Feb 2023 17:25:01 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, Johan Hovold <johan+linaro@kernel.org>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Steev Klimaszewski <steev@kali.org>
-Subject: [steev:lenovo-x13s-v6.2 114/188] drivers/interconnect/core.c:853
- icc_node_destroy() error: we previously assumed 'node' could be null (see
- line 846)
-Message-ID: <202302222118.nGz1F0oJ-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CE192F3F
+	for <oe-kbuild@lists.linux.dev>; Wed, 22 Feb 2023 15:06:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1677078382; x=1708614382;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=3ZnL1l1qok/izto5hI7aoAu1aiWUVjeIhPqjsRU30xk=;
+  b=SyTZBJ+SLzpOtaQjA0Scz1QYMAKkd365BrgPbiBx17A3S7tpSrEqpdK9
+   8QIDn5P+NiSnF19HnMEjBrDpzC9f2X/Vo/+BL0qJAEpFV9/Xr4795MydA
+   1TdvMfick52Vi7CfQ+8FBGHxxhSCAXvqYtAt414AKNb/YDhCustwiT895
+   HNiDxlfWai+sai9+cTNiq6R56trjv6XwzuArCJUxw0UYzHvT5gaYptgQH
+   gfGbW51F8aI0oBMxzcs7wlq9vuT12WozR26slLs/o8uE0PewRaGA/PWxn
+   kf15YrFEbwjTzJOiYGS5PCDucXFo7TH0GO+d2WZCPYWPH3ZP1EXvlI+qL
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10629"; a="331612791"
+X-IronPort-AV: E=Sophos;i="5.97,319,1669104000"; 
+   d="scan'208";a="331612791"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2023 07:06:21 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10629"; a="846174160"
+X-IronPort-AV: E=Sophos;i="5.97,319,1669104000"; 
+   d="scan'208";a="846174160"
+Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
+  by orsmga005.jf.intel.com with ESMTP; 22 Feb 2023 07:06:20 -0800
+Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pUqhH-0000Tr-1W;
+	Wed, 22 Feb 2023 15:06:19 +0000
+Date: Wed, 22 Feb 2023 23:05:25 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCH 7/7] ext4: improve inode table blocks counting in
+ ext4_num_overhead_clusters
+Message-ID: <202302222219.u328sqfs-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -53,49 +45,132 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Message-ID: <20230222142501.e2Ww9rIEWNpya_SgX_trPNyvabnXSc0GO0nguCT9crU@z>
 
-tree:   https://github.com/steev/linux lenovo-x13s-v6.2
-head:   b9925baa3e5cf7919e9736257505a214b66dcdd2
-commit: f89ce4d6ffc2c5e73c476d0d264951feef193f17 [114/188] interconnect: fix mem leak when freeing nodes
-config: microblaze-randconfig-m031-20230222 (https://download.01.org/0day-ci/archive/20230222/202302222118.nGz1F0oJ-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 12.1.0
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20230221115919.1918161-8-shikemeng@huaweicloud.com>
+References: <20230221115919.1918161-8-shikemeng@huaweicloud.com>
+TO: Kemeng Shi <shikemeng@huaweicloud.com>
+TO: tytso@mit.edu
+TO: adilger.kernel@dilger.ca
+CC: linux-ext4@vger.kernel.org
+CC: linux-kernel@vger.kernel.org
+CC: shikemeng@huaweicloud.com
+
+Hi Kemeng,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on tytso-ext4/dev]
+[also build test WARNING on linus/master v6.2 next-20230222]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Kemeng-Shi/ext4-properly-handle-error-of-ext4_init_block_bitmap-in-ext4_read_block_bitmap_nowait/20230221-115830
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/tytso/ext4.git dev
+patch link:    https://lore.kernel.org/r/20230221115919.1918161-8-shikemeng%40huaweicloud.com
+patch subject: [PATCH 7/7] ext4: improve inode table blocks counting in ext4_num_overhead_clusters
+:::::: branch date: 35 hours ago
+:::::: commit date: 35 hours ago
+config: riscv-randconfig-m031-20230219 (https://download.01.org/0day-ci/archive/20230222/202302222219.u328sqfs-lkp@intel.com/config)
+compiler: riscv32-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202302222118.nGz1F0oJ-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202302222219.u328sqfs-lkp@intel.com/
 
-smatch warnings:
-drivers/interconnect/core.c:853 icc_node_destroy() error: we previously assumed 'node' could be null (see line 846)
+New smatch warnings:
+fs/ext4/balloc.c:153 ext4_num_overhead_clusters() error: uninitialized symbol 'block_cluster'.
 
-vim +/node +853 drivers/interconnect/core.c
+Old smatch warnings:
+arch/riscv/include/asm/atomic.h:204 arch_atomic_fetch_add_unless() warn: inconsistent indenting
 
-11f1ceca7031de Georgi Djakov 2019-01-16  839  void icc_node_destroy(int id)
-11f1ceca7031de Georgi Djakov 2019-01-16  840  {
-11f1ceca7031de Georgi Djakov 2019-01-16  841  	struct icc_node *node;
-11f1ceca7031de Georgi Djakov 2019-01-16  842  
-11f1ceca7031de Georgi Djakov 2019-01-16  843  	mutex_lock(&icc_lock);
-11f1ceca7031de Georgi Djakov 2019-01-16  844  
-11f1ceca7031de Georgi Djakov 2019-01-16  845  	node = node_find(id);
-11f1ceca7031de Georgi Djakov 2019-01-16 @846  	if (node) {
+vim +/block_cluster +153 fs/ext4/balloc.c
 
-If node is NULL
-
-11f1ceca7031de Georgi Djakov 2019-01-16  847  		idr_remove(&icc_idr, node->id);
-11f1ceca7031de Georgi Djakov 2019-01-16  848  		WARN_ON(!hlist_empty(&node->req_list));
-11f1ceca7031de Georgi Djakov 2019-01-16  849  	}
-11f1ceca7031de Georgi Djakov 2019-01-16  850  
-11f1ceca7031de Georgi Djakov 2019-01-16  851  	mutex_unlock(&icc_lock);
-11f1ceca7031de Georgi Djakov 2019-01-16  852  
-f89ce4d6ffc2c5 Johan Hovold  2023-01-31 @853  	kfree(node->links);
-
-then this will crash
-
-11f1ceca7031de Georgi Djakov 2019-01-16  854  	kfree(node);
-11f1ceca7031de Georgi Djakov 2019-01-16  855  }
+0bf7e8379ce7e0 Jose R. Santos    2008-06-03   82  
+2b59a2fd93873a Kemeng Shi        2023-02-21   83  /*
+2b59a2fd93873a Kemeng Shi        2023-02-21   84   * Return the number of clusters used for file system metadata; this
+d5b8f31007a937 Theodore Ts'o     2011-09-09   85   * represents the overhead needed by the file system.
+d5b8f31007a937 Theodore Ts'o     2011-09-09   86   */
+c197855ea14175 Stephen Hemminger 2014-05-12   87  static unsigned ext4_num_overhead_clusters(struct super_block *sb,
+e187c6588d6ef3 Theodore Ts'o     2009-02-06   88  					   ext4_group_t block_group,
+e187c6588d6ef3 Theodore Ts'o     2009-02-06   89  					   struct ext4_group_desc *gdp)
+0bf7e8379ce7e0 Jose R. Santos    2008-06-03   90  {
+2b59a2fd93873a Kemeng Shi        2023-02-21   91  	unsigned base_clusters, num_clusters;
+2b59a2fd93873a Kemeng Shi        2023-02-21   92  	int block_cluster, inode_cluster;
+2b59a2fd93873a Kemeng Shi        2023-02-21   93  	int itbl_cluster_start = -1, itbl_cluster_end = -1;
+d5b8f31007a937 Theodore Ts'o     2011-09-09   94  	ext4_fsblk_t start = ext4_group_first_block_no(sb, block_group);
+2b59a2fd93873a Kemeng Shi        2023-02-21   95  	ext4_fsblk_t end = start + EXT4_BLOCKS_PER_GROUP(sb) - 1;
+2b59a2fd93873a Kemeng Shi        2023-02-21   96  	ext4_fsblk_t itbl_blk_start, itbl_blk_end;
+0bf7e8379ce7e0 Jose R. Santos    2008-06-03   97  	struct ext4_sb_info *sbi = EXT4_SB(sb);
+0bf7e8379ce7e0 Jose R. Santos    2008-06-03   98  
+d5b8f31007a937 Theodore Ts'o     2011-09-09   99  	/* This is the number of clusters used by the superblock,
+d5b8f31007a937 Theodore Ts'o     2011-09-09  100  	 * block group descriptors, and reserved block group
+d5b8f31007a937 Theodore Ts'o     2011-09-09  101  	 * descriptor blocks */
+2b59a2fd93873a Kemeng Shi        2023-02-21  102  	base_clusters = ext4_num_base_meta_clusters(sb, block_group);
+2b59a2fd93873a Kemeng Shi        2023-02-21  103  	num_clusters = base_clusters;
+2b59a2fd93873a Kemeng Shi        2023-02-21  104  
+2b59a2fd93873a Kemeng Shi        2023-02-21  105  	/*
+2b59a2fd93873a Kemeng Shi        2023-02-21  106  	 * Account and record inode table clusters if any cluster
+2b59a2fd93873a Kemeng Shi        2023-02-21  107  	 * is in the block group, or inode table cluster range is
+2b59a2fd93873a Kemeng Shi        2023-02-21  108  	 * [-1, -1] and won't overlap with block/inode bitmap cluster
+2b59a2fd93873a Kemeng Shi        2023-02-21  109  	 * accounted below.
+2b59a2fd93873a Kemeng Shi        2023-02-21  110  	 */
+2b59a2fd93873a Kemeng Shi        2023-02-21  111  	itbl_blk_start = ext4_inode_table(sb, gdp);
+2b59a2fd93873a Kemeng Shi        2023-02-21  112  	itbl_blk_end = itbl_blk_start + sbi->s_itb_per_group - 1;
+2b59a2fd93873a Kemeng Shi        2023-02-21  113  	if (itbl_blk_start <= end && itbl_blk_end >= start) {
+2b59a2fd93873a Kemeng Shi        2023-02-21  114  		itbl_blk_start = itbl_blk_start >= start ?
+2b59a2fd93873a Kemeng Shi        2023-02-21  115  			itbl_blk_start : start;
+2b59a2fd93873a Kemeng Shi        2023-02-21  116  		itbl_blk_end = itbl_blk_end <= end ?
+2b59a2fd93873a Kemeng Shi        2023-02-21  117  			itbl_blk_end : end;
+2b59a2fd93873a Kemeng Shi        2023-02-21  118  
+2b59a2fd93873a Kemeng Shi        2023-02-21  119  		itbl_cluster_start = EXT4_B2C(sbi, itbl_blk_start - start);
+2b59a2fd93873a Kemeng Shi        2023-02-21  120  		itbl_cluster_end = EXT4_B2C(sbi, itbl_blk_end - start);
+2b59a2fd93873a Kemeng Shi        2023-02-21  121  
+2b59a2fd93873a Kemeng Shi        2023-02-21  122  		num_clusters += itbl_cluster_end - itbl_cluster_start + 1;
+2b59a2fd93873a Kemeng Shi        2023-02-21  123  		/* check if border cluster is overlapped */
+2b59a2fd93873a Kemeng Shi        2023-02-21  124  		if (itbl_cluster_start == base_clusters - 1)
+2b59a2fd93873a Kemeng Shi        2023-02-21  125  			num_clusters--;
+2b59a2fd93873a Kemeng Shi        2023-02-21  126  	}
+0bf7e8379ce7e0 Jose R. Santos    2008-06-03  127  
+d5b8f31007a937 Theodore Ts'o     2011-09-09  128  	/*
+2b59a2fd93873a Kemeng Shi        2023-02-21  129  	 * For the allocation bitmaps, we first need to check to see
+2b59a2fd93873a Kemeng Shi        2023-02-21  130  	 * if the block is in the block group.  If it is, then check
+2b59a2fd93873a Kemeng Shi        2023-02-21  131  	 * to see if the cluster is already accounted for in the clusters
+2b59a2fd93873a Kemeng Shi        2023-02-21  132  	 * used for the base metadata cluster and inode tables cluster.
+d5b8f31007a937 Theodore Ts'o     2011-09-09  133  	 * Normally all of these blocks are contiguous, so the special
+d5b8f31007a937 Theodore Ts'o     2011-09-09  134  	 * case handling shouldn't be necessary except for *very*
+d5b8f31007a937 Theodore Ts'o     2011-09-09  135  	 * unusual file system layouts.
+d5b8f31007a937 Theodore Ts'o     2011-09-09  136  	 */
+d5b8f31007a937 Theodore Ts'o     2011-09-09  137  	if (ext4_block_in_group(sb, ext4_block_bitmap(sb, gdp), block_group)) {
+b0dd6b70f0fda1 Theodore Ts'o     2012-06-07  138  		block_cluster = EXT4_B2C(sbi,
+b0dd6b70f0fda1 Theodore Ts'o     2012-06-07  139  					 ext4_block_bitmap(sb, gdp) - start);
+2b59a2fd93873a Kemeng Shi        2023-02-21  140  		if (block_cluster >= base_clusters &&
+2b59a2fd93873a Kemeng Shi        2023-02-21  141  		    (block_cluster < itbl_cluster_start ||
+2b59a2fd93873a Kemeng Shi        2023-02-21  142  		    block_cluster > itbl_cluster_end))
+d5b8f31007a937 Theodore Ts'o     2011-09-09  143  			num_clusters++;
+d5b8f31007a937 Theodore Ts'o     2011-09-09  144  	}
+d5b8f31007a937 Theodore Ts'o     2011-09-09  145  
+d5b8f31007a937 Theodore Ts'o     2011-09-09  146  	if (ext4_block_in_group(sb, ext4_inode_bitmap(sb, gdp), block_group)) {
+d5b8f31007a937 Theodore Ts'o     2011-09-09  147  		inode_cluster = EXT4_B2C(sbi,
+b0dd6b70f0fda1 Theodore Ts'o     2012-06-07  148  					 ext4_inode_bitmap(sb, gdp) - start);
+2b59a2fd93873a Kemeng Shi        2023-02-21  149  		/*
+2b59a2fd93873a Kemeng Shi        2023-02-21  150  		 * Additional check if inode bitmap is in just accounted
+2b59a2fd93873a Kemeng Shi        2023-02-21  151  		 * block_cluster
+2b59a2fd93873a Kemeng Shi        2023-02-21  152  		 */
+2b59a2fd93873a Kemeng Shi        2023-02-21 @153  		if (inode_cluster != block_cluster &&
+2b59a2fd93873a Kemeng Shi        2023-02-21  154  		    inode_cluster >= base_clusters &&
+2b59a2fd93873a Kemeng Shi        2023-02-21  155  		    (inode_cluster < itbl_cluster_start ||
+2b59a2fd93873a Kemeng Shi        2023-02-21  156  		    inode_cluster > itbl_cluster_end))
+d5b8f31007a937 Theodore Ts'o     2011-09-09  157  			num_clusters++;
+0bf7e8379ce7e0 Jose R. Santos    2008-06-03  158  	}
+d5b8f31007a937 Theodore Ts'o     2011-09-09  159  
+d5b8f31007a937 Theodore Ts'o     2011-09-09  160  	return num_clusters;
+0bf7e8379ce7e0 Jose R. Santos    2008-06-03  161  }
+c2ea3fde61f1df Theodore Ts'o     2008-10-10  162  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
-
