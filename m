@@ -1,39 +1,49 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CE192F3F
-	for <oe-kbuild@lists.linux.dev>; Wed, 22 Feb 2023 15:06:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677078382; x=1708614382;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=3ZnL1l1qok/izto5hI7aoAu1aiWUVjeIhPqjsRU30xk=;
-  b=SyTZBJ+SLzpOtaQjA0Scz1QYMAKkd365BrgPbiBx17A3S7tpSrEqpdK9
-   8QIDn5P+NiSnF19HnMEjBrDpzC9f2X/Vo/+BL0qJAEpFV9/Xr4795MydA
-   1TdvMfick52Vi7CfQ+8FBGHxxhSCAXvqYtAt414AKNb/YDhCustwiT895
-   HNiDxlfWai+sai9+cTNiq6R56trjv6XwzuArCJUxw0UYzHvT5gaYptgQH
-   gfGbW51F8aI0oBMxzcs7wlq9vuT12WozR26slLs/o8uE0PewRaGA/PWxn
-   kf15YrFEbwjTzJOiYGS5PCDucXFo7TH0GO+d2WZCPYWPH3ZP1EXvlI+qL
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10629"; a="331612791"
-X-IronPort-AV: E=Sophos;i="5.97,319,1669104000"; 
-   d="scan'208";a="331612791"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2023 07:06:21 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10629"; a="846174160"
-X-IronPort-AV: E=Sophos;i="5.97,319,1669104000"; 
-   d="scan'208";a="846174160"
-Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 22 Feb 2023 07:06:20 -0800
-Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pUqhH-0000Tr-1W;
-	Wed, 22 Feb 2023 15:06:19 +0000
-Date: Wed, 22 Feb 2023 23:05:25 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C3F32F3F;
+	Wed, 22 Feb 2023 15:14:03 +0000 (UTC)
+Received: by mail-wm1-f54.google.com with SMTP id j19-20020a05600c1c1300b003e9b564fae9so771004wms.2;
+        Wed, 22 Feb 2023 07:14:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=HkaxeYhyJCWKI+iCl7pvg7H2rt01JeowCIL7n4FAO0Q=;
+        b=AguK+BWlwz3zrXlQyvM2aiRghQwbl5dyMcNVkMjmecRjnOHdoL/QIXr8OoqFTLfalY
+         1VYfvve8fefZrlGO0rouPRQvXyLe6W/NjA0tw+n4/mzrLrm5lNfBj6x2ar8wQ+A3OMHH
+         XOcSNMryFp336zqTbVWuFoGBX6DzK93mkUmUW37CUiVLbYP7uyAdo+03E/J6bblXQECk
+         oH4E/x7eDThJkimkOtww0d6EpQcxg/MiBxVq2hxMB1/M1hO3pRctDinIuYPlIuskNPTd
+         cNZdX5Y75u+w+UfexlvZv64fxvshX4zwFliJWpxXVmRaqgC0wQD++h7g7TMJvPw8UbUk
+         EPfA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=HkaxeYhyJCWKI+iCl7pvg7H2rt01JeowCIL7n4FAO0Q=;
+        b=QsV/6BNrRXZP13FadM8mXVSuf4yvBabYXa5393zqteIbsIGTp3+BywZGG7KWumtwin
+         R1xwD4nkTdmPj17l3vX+2hcvg4ewd3jaVXLz8330qau0pELzsZTdjMMNzfoCLb4ag1QH
+         /TQyN2Lzr43iDO66xc5Ejgop639n9JGuE5U0Bnk2Yrc5D7BeYTUDzS/xfVPyUjaGvqVp
+         HimNpzsM5nWuq/NpFKKOL8TRKpOhbBf2eoxdsFVOmp4DvdQlRkgkGNfFUXM8xDxAyxHK
+         w5N+nvyhs1lfpGUkZoa16zUhv3lmyZKQBKex62Qv4hvo8Mf8mfk8fIdNzHhjOp+lYow4
+         iltw==
+X-Gm-Message-State: AO0yUKXkeDRrCnzPhQdQHDj3hhYRjNBg/Anww7KNliGhZGK9D+2qDkFN
+	uIZRDfE8enW1sl7bKwFXkuUOtXL9Q9gO9g==
+X-Google-Smtp-Source: AK7set+ltF+ZntzbSmcyHqL7HMnw2q2Vf54UvAMiQB932c0IKSyLIFdRxk3wK9yrEfB8UMHAmDWDaQ==
+X-Received: by 2002:a05:600c:755:b0:3dc:59ee:7978 with SMTP id j21-20020a05600c075500b003dc59ee7978mr6944055wmn.38.1677078841354;
+        Wed, 22 Feb 2023 07:14:01 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id j7-20020a05600c42c700b003db012d49b7sm2630173wme.2.2023.02.22.07.13.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 22 Feb 2023 07:14:00 -0800 (PST)
+Date: Wed, 22 Feb 2023 18:13:55 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev, Kemeng Shi <shikemeng@huaweicloud.com>,
+	tytso@mit.edu, adilger.kernel@dilger.ca
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-ext4@vger.kernel.org, linux-kernel@vger.kernel.org,
+	shikemeng@huaweicloud.com
 Subject: Re: [PATCH 7/7] ext4: improve inode table blocks counting in
  ext4_num_overhead_clusters
 Message-ID: <202302222219.u328sqfs-lkp@intel.com>
@@ -45,34 +55,17 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
 In-Reply-To: <20230221115919.1918161-8-shikemeng@huaweicloud.com>
-References: <20230221115919.1918161-8-shikemeng@huaweicloud.com>
-TO: Kemeng Shi <shikemeng@huaweicloud.com>
-TO: tytso@mit.edu
-TO: adilger.kernel@dilger.ca
-CC: linux-ext4@vger.kernel.org
-CC: linux-kernel@vger.kernel.org
-CC: shikemeng@huaweicloud.com
+Message-ID: <20230222151355.HtNnsNxcrMBwoyjGYN3nMmOXHEOiQ24Dyasesersi8w@z>
 
 Hi Kemeng,
 
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on tytso-ext4/dev]
-[also build test WARNING on linus/master v6.2 next-20230222]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
 url:    https://github.com/intel-lab-lkp/linux/commits/Kemeng-Shi/ext4-properly-handle-error-of-ext4_init_block_bitmap-in-ext4_read_block_bitmap_nowait/20230221-115830
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/tytso/ext4.git dev
 patch link:    https://lore.kernel.org/r/20230221115919.1918161-8-shikemeng%40huaweicloud.com
 patch subject: [PATCH 7/7] ext4: improve inode table blocks counting in ext4_num_overhead_clusters
-:::::: branch date: 35 hours ago
-:::::: commit date: 35 hours ago
 config: riscv-randconfig-m031-20230219 (https://download.01.org/0day-ci/archive/20230222/202302222219.u328sqfs-lkp@intel.com/config)
 compiler: riscv32-linux-gcc (GCC) 12.1.0
 
@@ -84,16 +77,8 @@ If you fix the issue, kindly add following tag where applicable
 New smatch warnings:
 fs/ext4/balloc.c:153 ext4_num_overhead_clusters() error: uninitialized symbol 'block_cluster'.
 
-Old smatch warnings:
-arch/riscv/include/asm/atomic.h:204 arch_atomic_fetch_add_unless() warn: inconsistent indenting
-
 vim +/block_cluster +153 fs/ext4/balloc.c
 
-0bf7e8379ce7e0 Jose R. Santos    2008-06-03   82  
-2b59a2fd93873a Kemeng Shi        2023-02-21   83  /*
-2b59a2fd93873a Kemeng Shi        2023-02-21   84   * Return the number of clusters used for file system metadata; this
-d5b8f31007a937 Theodore Ts'o     2011-09-09   85   * represents the overhead needed by the file system.
-d5b8f31007a937 Theodore Ts'o     2011-09-09   86   */
 c197855ea14175 Stephen Hemminger 2014-05-12   87  static unsigned ext4_num_overhead_clusters(struct super_block *sb,
 e187c6588d6ef3 Theodore Ts'o     2009-02-06   88  					   ext4_group_t block_group,
 e187c6588d6ef3 Theodore Ts'o     2009-02-06   89  					   struct ext4_group_desc *gdp)
@@ -154,6 +139,11 @@ d5b8f31007a937 Theodore Ts'o     2011-09-09  143  			num_clusters++;
 d5b8f31007a937 Theodore Ts'o     2011-09-09  144  	}
 d5b8f31007a937 Theodore Ts'o     2011-09-09  145  
 d5b8f31007a937 Theodore Ts'o     2011-09-09  146  	if (ext4_block_in_group(sb, ext4_inode_bitmap(sb, gdp), block_group)) {
+
+These two conditions are exactly the same so I don't see why they can't
+be combined into one condition.  I have read the comment, but I guess I
+don't understand ext4 well enough to really understand it.
+
 d5b8f31007a937 Theodore Ts'o     2011-09-09  147  		inode_cluster = EXT4_B2C(sbi,
 b0dd6b70f0fda1 Theodore Ts'o     2012-06-07  148  					 ext4_inode_bitmap(sb, gdp) - start);
 2b59a2fd93873a Kemeng Shi        2023-02-21  149  		/*
@@ -161,6 +151,10 @@ b0dd6b70f0fda1 Theodore Ts'o     2012-06-07  148  					 ext4_inode_bitmap(sb, gd
 2b59a2fd93873a Kemeng Shi        2023-02-21  151  		 * block_cluster
 2b59a2fd93873a Kemeng Shi        2023-02-21  152  		 */
 2b59a2fd93873a Kemeng Shi        2023-02-21 @153  		if (inode_cluster != block_cluster &&
+
+So this seems like a false positive to me.  But the code is puzzling for
+a human or for a static checker.
+
 2b59a2fd93873a Kemeng Shi        2023-02-21  154  		    inode_cluster >= base_clusters &&
 2b59a2fd93873a Kemeng Shi        2023-02-21  155  		    (inode_cluster < itbl_cluster_start ||
 2b59a2fd93873a Kemeng Shi        2023-02-21  156  		    inode_cluster > itbl_cluster_end))
@@ -169,8 +163,8 @@ d5b8f31007a937 Theodore Ts'o     2011-09-09  157  			num_clusters++;
 d5b8f31007a937 Theodore Ts'o     2011-09-09  159  
 d5b8f31007a937 Theodore Ts'o     2011-09-09  160  	return num_clusters;
 0bf7e8379ce7e0 Jose R. Santos    2008-06-03  161  }
-c2ea3fde61f1df Theodore Ts'o     2008-10-10  162  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
+
