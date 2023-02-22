@@ -1,43 +1,51 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E59BD2F45
-	for <oe-kbuild@lists.linux.dev>; Wed, 22 Feb 2023 11:12:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677064334; x=1708600334;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=M3P1zOzQ8CIVIdeiet8Vk+YgCc8sQj5JL/PnATAPn1I=;
-  b=bAa3s5ECrB8ALWtdnUjmSAlxDp5mgN2y10AmJ6XaRy/PotV05tmcu3HG
-   JRbe/E8/hfLDxp6TmkMVaankZyiURSFkbGmfbrRoIz9MdjPhI/CFkMb2H
-   thqZ9GSNyt2U9T4Gs0u91eer7hZEagDhx4qAXXQCes+M6OkTNR60BvZ4H
-   ulW4v280P9jNJi3/PrVtaMS4WZxBIg5H0D8ZyQMg9ZidVN57dAoFdwc5y
-   q3Dj0JWTpxG4yFMcvRB9WPZmCElNzsZavElZXNS+jiXWoDj4kT96d5HTK
-   4gLYxrF9uxv0zhcjXYMvkPSfyZrmpD1dHEgolTAkyopuu9UJv1QywowX/
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10628"; a="330623508"
-X-IronPort-AV: E=Sophos;i="5.97,318,1669104000"; 
-   d="scan'208";a="330623508"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2023 03:12:12 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10628"; a="760921989"
-X-IronPort-AV: E=Sophos;i="5.97,318,1669104000"; 
-   d="scan'208";a="760921989"
-Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 22 Feb 2023 03:12:11 -0800
-Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pUn2g-0000Hz-0X;
-	Wed, 22 Feb 2023 11:12:10 +0000
-Date: Wed, 22 Feb 2023 19:11:33 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [linux-next:master 13464/13727]
- drivers/net/ethernet/mellanox/mlx5/core/lag/lag.c:1087:28: warning:
- 'tracker' is used uninitialized
-Message-ID: <202302221930.bAs2WwY1-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A09445392;
+	Wed, 22 Feb 2023 13:53:59 +0000 (UTC)
+Received: by mail-wm1-f43.google.com with SMTP id bg37-20020a05600c3ca500b003e21e018039so7171644wmb.3;
+        Wed, 22 Feb 2023 05:53:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=p9RB48KEAWbHAtCefbOrjQ1m5aljxgCXAYZywn/lFIM=;
+        b=PLzHbO3h35jRkYwW/EHAj6BMoqKxrRxiKjxgsIMU5mA11YKLrUby39FipTzQ4DS+3H
+         N5GVR8SnZiVGDOoTVloKjz50DVUWDkk4bmbyUo40YkMeltzeES1avuhX/UYHX3x5wB1J
+         bcYcnFNuGGWg8znml5BY8FUDUO05elTRjAH1DbS33xWGfAO9xfo8aW0zpBJelO1gx/CO
+         N17+WRcCjrRRE5oNBhETja0IhWgk+6frsPHfUbAaYVHAvQ1XKfFvbTfNAyuYWintAPYy
+         c+fFDOYCx9RSGGHpT2ebOgrJ30/88nJBetJQ27fT8tfi1V7bsw0OphCYY2Rw3fAuCA0+
+         or2Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=p9RB48KEAWbHAtCefbOrjQ1m5aljxgCXAYZywn/lFIM=;
+        b=Y+zN7Brwwi95a3yvkOUojnVkgxtoaEA0lPntdx3WLPc2Qz0e7Y9UoLxSeviwydyYtc
+         +gwyaGbNLGFYHMvrrH291tNd/6F07SmNzKG4ybkL6yeggGhdslfQL45FdF5IX4sdIEGx
+         672R5NwivcSXTTV3XN1EFQDAu6rIShFLQv1DYpheRmRhHQrMm0d95fCWAGi9tJ4CtPPg
+         zFQplSDHPfvdlB9S7oqA4bmMZBMfMo3bjsz2ok9GieSQOXtSj8jv3OCsvX6kdJEXyYB1
+         /cbCjdtEroRCTUqCDZBavuiM0BgzTA0HA8yZMoMpRLFNKduqC6QWSxMtjaTGB7Hn8BDO
+         cwZA==
+X-Gm-Message-State: AO0yUKWLy2jVuSNa2k4kzv9nIHJgCNnEJBALtGSEwKwcTF44kAj2U0eK
+	2prdwxzkO4HuqqJjFCOx1oRsmNUyX9E=
+X-Google-Smtp-Source: AK7set9ccwdpRMP992urQgI3oh4x7bVKRvDfDvwGPDIhpMjVMdHkHgjKnsb8bsjTR2L2/tevLzN9KQ==
+X-Received: by 2002:a05:600c:2ed3:b0:3e0:b1:c118 with SMTP id q19-20020a05600c2ed300b003e000b1c118mr6780291wmn.5.1677074037530;
+        Wed, 22 Feb 2023 05:53:57 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id v9-20020a05600c444900b003e21f01c426sm7853653wmn.9.2023.02.22.05.53.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 22 Feb 2023 05:53:56 -0800 (PST)
+Date: Wed, 22 Feb 2023 16:53:53 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev, Besar Wicaksono <bwicaksono@nvidia.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Will Deacon <will@kernel.org>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>
+Subject: drivers/perf/arm_cspmu/arm_cspmu.c:1075
+ arm_cspmu_find_cpu_container() warn: variable dereferenced before check
+ 'cpu_dev' (see line 1073)
+Message-ID: <202302191227.kc0V8fM7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -46,100 +54,53 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+Message-ID: <20230222135353.-HVUOBh2l6xDRYslHJ-i6zsI417w_bgIQCv9QIhDFw8@z>
 
-:::::: 
-:::::: Manual check reason: "low confidence static check first_new_problem: drivers/net/ethernet/mellanox/mlx5/core/lag/lag.c:1087:28: warning: 'tracker' is used uninitialized [-Wuninitialized]"
-:::::: 
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Huacai Chen <chenhuacai@loongson.cn>
-CC: Arnd Bergmann <arnd@arndb.de>
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   aaf70d5ad5e2b06a8050c51e278b0c3a14fabef5
-commit: bf367e296ce8b3b714984f827db8b086f9738098 [13464/13727] LoongArch: Make -mstrict-align configurable
-:::::: branch date: 7 hours ago
-:::::: commit date: 23 hours ago
-config: loongarch-randconfig-c024-20230222 (https://download.01.org/0day-ci/archive/20230222/202302221930.bAs2WwY1-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=bf367e296ce8b3b714984f827db8b086f9738098
-        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
-        git fetch --no-tags linux-next master
-        git checkout bf367e296ce8b3b714984f827db8b086f9738098
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=loongarch olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=loongarch SHELL=/bin/bash drivers/net/ethernet/mellanox/mlx5/core/
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   925cf0457d7e62ce08878ffb789189ac08ca8677
+commit: e37dfd65731dc4f001fa7dfa7f705e6840017d5a perf: arm_cspmu: Add support for ARM CoreSight PMU driver
+config: arm64-randconfig-m031-20230219 (https://download.01.org/0day-ci/archive/20230219/202302191227.kc0V8fM7-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/r/202302221930.bAs2WwY1-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Link: https://lore.kernel.org/r/202302191227.kc0V8fM7-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+drivers/perf/arm_cspmu/arm_cspmu.c:1075 arm_cspmu_find_cpu_container() warn: variable dereferenced before check 'cpu_dev' (see line 1073)
 
-   drivers/net/ethernet/mellanox/mlx5/core/lag/lag.c: In function 'mlx5_lag_netdev_event':
->> drivers/net/ethernet/mellanox/mlx5/core/lag/lag.c:1087:28: warning: 'tracker' is used uninitialized [-Wuninitialized]
-    1087 |         struct lag_tracker tracker;
-         |                            ^~~~~~~
-   drivers/net/ethernet/mellanox/mlx5/core/lag/lag.c:1087:28: note: 'tracker' declared here
-    1087 |         struct lag_tracker tracker;
-         |                            ^~~~~~~
+vim +/cpu_dev +1075 drivers/perf/arm_cspmu/arm_cspmu.c
 
+e37dfd65731dc4 Besar Wicaksono 2022-11-11  1069  static inline int arm_cspmu_find_cpu_container(int cpu, u32 container_uid)
+e37dfd65731dc4 Besar Wicaksono 2022-11-11  1070  {
+e37dfd65731dc4 Besar Wicaksono 2022-11-11  1071  	u32 acpi_uid;
+e37dfd65731dc4 Besar Wicaksono 2022-11-11  1072  	struct device *cpu_dev = get_cpu_device(cpu);
+e37dfd65731dc4 Besar Wicaksono 2022-11-11 @1073  	struct acpi_device *acpi_dev = ACPI_COMPANION(cpu_dev);
+                                                                                                      ^^^^^^^
+Dereference
 
-vim +/tracker +1087 drivers/net/ethernet/mellanox/mlx5/core/lag/lag.c
+e37dfd65731dc4 Besar Wicaksono 2022-11-11  1074  
+e37dfd65731dc4 Besar Wicaksono 2022-11-11 @1075  	if (!cpu_dev)
+                                                             ^^^^^^^
+Checked too late.
 
-54493a08e21f46 drivers/net/ethernet/mellanox/mlx5/core/lag/lag.c Mark Bloch  2022-01-12  1081  
-94db3317781922 drivers/net/ethernet/mellanox/mlx5/core/lag/lag.c Eli Cohen   2022-01-31  1082  /* this handler is always registered to netdev events */
-7907f23adc1867 drivers/net/ethernet/mellanox/mlx5/core/lag.c     Aviv Heller 2016-04-17  1083  static int mlx5_lag_netdev_event(struct notifier_block *this,
-7907f23adc1867 drivers/net/ethernet/mellanox/mlx5/core/lag.c     Aviv Heller 2016-04-17  1084  				 unsigned long event, void *ptr)
-7907f23adc1867 drivers/net/ethernet/mellanox/mlx5/core/lag.c     Aviv Heller 2016-04-17  1085  {
-7907f23adc1867 drivers/net/ethernet/mellanox/mlx5/core/lag.c     Aviv Heller 2016-04-17  1086  	struct net_device *ndev = netdev_notifier_info_to_dev(ptr);
-7907f23adc1867 drivers/net/ethernet/mellanox/mlx5/core/lag.c     Aviv Heller 2016-04-17 @1087  	struct lag_tracker tracker;
-7907f23adc1867 drivers/net/ethernet/mellanox/mlx5/core/lag.c     Aviv Heller 2016-04-17  1088  	struct mlx5_lag *ldev;
-7907f23adc1867 drivers/net/ethernet/mellanox/mlx5/core/lag.c     Aviv Heller 2016-04-17  1089  	int changed = 0;
-7907f23adc1867 drivers/net/ethernet/mellanox/mlx5/core/lag.c     Aviv Heller 2016-04-17  1090  
-54493a08e21f46 drivers/net/ethernet/mellanox/mlx5/core/lag/lag.c Mark Bloch  2022-01-12  1091  	if (event != NETDEV_CHANGEUPPER &&
-54493a08e21f46 drivers/net/ethernet/mellanox/mlx5/core/lag/lag.c Mark Bloch  2022-01-12  1092  	    event != NETDEV_CHANGELOWERSTATE &&
-54493a08e21f46 drivers/net/ethernet/mellanox/mlx5/core/lag/lag.c Mark Bloch  2022-01-12  1093  	    event != NETDEV_CHANGEINFODATA)
-7907f23adc1867 drivers/net/ethernet/mellanox/mlx5/core/lag.c     Aviv Heller 2016-04-17  1094  		return NOTIFY_DONE;
-7907f23adc1867 drivers/net/ethernet/mellanox/mlx5/core/lag.c     Aviv Heller 2016-04-17  1095  
-7907f23adc1867 drivers/net/ethernet/mellanox/mlx5/core/lag.c     Aviv Heller 2016-04-17  1096  	ldev    = container_of(this, struct mlx5_lag, nb);
-9b412cc35f0025 drivers/net/ethernet/mellanox/mlx5/core/lag.c     Jianbo Liu  2020-04-17  1097  
-7907f23adc1867 drivers/net/ethernet/mellanox/mlx5/core/lag.c     Aviv Heller 2016-04-17  1098  	tracker = ldev->tracker;
-7907f23adc1867 drivers/net/ethernet/mellanox/mlx5/core/lag.c     Aviv Heller 2016-04-17  1099  
-7907f23adc1867 drivers/net/ethernet/mellanox/mlx5/core/lag.c     Aviv Heller 2016-04-17  1100  	switch (event) {
-7907f23adc1867 drivers/net/ethernet/mellanox/mlx5/core/lag.c     Aviv Heller 2016-04-17  1101  	case NETDEV_CHANGEUPPER:
-a4a9c87ebb689c drivers/net/ethernet/mellanox/mlx5/core/lag/lag.c Eli Cohen   2022-02-06  1102  		changed = mlx5_handle_changeupper_event(ldev, &tracker, ptr);
-7907f23adc1867 drivers/net/ethernet/mellanox/mlx5/core/lag.c     Aviv Heller 2016-04-17  1103  		break;
-7907f23adc1867 drivers/net/ethernet/mellanox/mlx5/core/lag.c     Aviv Heller 2016-04-17  1104  	case NETDEV_CHANGELOWERSTATE:
-7907f23adc1867 drivers/net/ethernet/mellanox/mlx5/core/lag.c     Aviv Heller 2016-04-17  1105  		changed = mlx5_handle_changelowerstate_event(ldev, &tracker,
-7907f23adc1867 drivers/net/ethernet/mellanox/mlx5/core/lag.c     Aviv Heller 2016-04-17  1106  							     ndev, ptr);
-7907f23adc1867 drivers/net/ethernet/mellanox/mlx5/core/lag.c     Aviv Heller 2016-04-17  1107  		break;
-54493a08e21f46 drivers/net/ethernet/mellanox/mlx5/core/lag/lag.c Mark Bloch  2022-01-12  1108  	case NETDEV_CHANGEINFODATA:
-54493a08e21f46 drivers/net/ethernet/mellanox/mlx5/core/lag/lag.c Mark Bloch  2022-01-12  1109  		changed = mlx5_handle_changeinfodata_event(ldev, &tracker, ndev);
-54493a08e21f46 drivers/net/ethernet/mellanox/mlx5/core/lag/lag.c Mark Bloch  2022-01-12  1110  		break;
-7907f23adc1867 drivers/net/ethernet/mellanox/mlx5/core/lag.c     Aviv Heller 2016-04-17  1111  	}
-7907f23adc1867 drivers/net/ethernet/mellanox/mlx5/core/lag.c     Aviv Heller 2016-04-17  1112  
-7907f23adc1867 drivers/net/ethernet/mellanox/mlx5/core/lag.c     Aviv Heller 2016-04-17  1113  	ldev->tracker = tracker;
-7907f23adc1867 drivers/net/ethernet/mellanox/mlx5/core/lag.c     Aviv Heller 2016-04-17  1114  
-7907f23adc1867 drivers/net/ethernet/mellanox/mlx5/core/lag.c     Aviv Heller 2016-04-17  1115  	if (changed)
-7907f23adc1867 drivers/net/ethernet/mellanox/mlx5/core/lag.c     Aviv Heller 2016-04-17  1116  		mlx5_queue_bond_work(ldev, 0);
-7907f23adc1867 drivers/net/ethernet/mellanox/mlx5/core/lag.c     Aviv Heller 2016-04-17  1117  
-7907f23adc1867 drivers/net/ethernet/mellanox/mlx5/core/lag.c     Aviv Heller 2016-04-17  1118  	return NOTIFY_DONE;
-7907f23adc1867 drivers/net/ethernet/mellanox/mlx5/core/lag.c     Aviv Heller 2016-04-17  1119  }
-7907f23adc1867 drivers/net/ethernet/mellanox/mlx5/core/lag.c     Aviv Heller 2016-04-17  1120  
-
-:::::: The code at line 1087 was first introduced by commit
-:::::: 7907f23adc186700efbe56c032527e47485c86ab net/mlx5: Implement RoCE LAG feature
-
-:::::: TO: Aviv Heller <avivh@mellanox.com>
-:::::: CC: Leon Romanovsky <leon@kernel.org>
+e37dfd65731dc4 Besar Wicaksono 2022-11-11  1076  		return -ENODEV;
+e37dfd65731dc4 Besar Wicaksono 2022-11-11  1077  
+e37dfd65731dc4 Besar Wicaksono 2022-11-11  1078  	while (acpi_dev) {
+e37dfd65731dc4 Besar Wicaksono 2022-11-11  1079  		if (!strcmp(acpi_device_hid(acpi_dev),
+e37dfd65731dc4 Besar Wicaksono 2022-11-11  1080  			    ACPI_PROCESSOR_CONTAINER_HID) &&
+e37dfd65731dc4 Besar Wicaksono 2022-11-11  1081  		    !kstrtouint(acpi_device_uid(acpi_dev), 0, &acpi_uid) &&
+e37dfd65731dc4 Besar Wicaksono 2022-11-11  1082  		    acpi_uid == container_uid)
+e37dfd65731dc4 Besar Wicaksono 2022-11-11  1083  			return 0;
+e37dfd65731dc4 Besar Wicaksono 2022-11-11  1084  
+e37dfd65731dc4 Besar Wicaksono 2022-11-11  1085  		acpi_dev = acpi_dev_parent(acpi_dev);
+e37dfd65731dc4 Besar Wicaksono 2022-11-11  1086  	}
+e37dfd65731dc4 Besar Wicaksono 2022-11-11  1087  
+e37dfd65731dc4 Besar Wicaksono 2022-11-11  1088  	return -ENODEV;
+e37dfd65731dc4 Besar Wicaksono 2022-11-11  1089  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
+
