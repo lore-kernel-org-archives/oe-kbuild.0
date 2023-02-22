@@ -1,52 +1,42 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C3F32F3F;
-	Wed, 22 Feb 2023 15:14:03 +0000 (UTC)
-Received: by mail-wm1-f54.google.com with SMTP id j19-20020a05600c1c1300b003e9b564fae9so771004wms.2;
-        Wed, 22 Feb 2023 07:14:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=HkaxeYhyJCWKI+iCl7pvg7H2rt01JeowCIL7n4FAO0Q=;
-        b=AguK+BWlwz3zrXlQyvM2aiRghQwbl5dyMcNVkMjmecRjnOHdoL/QIXr8OoqFTLfalY
-         1VYfvve8fefZrlGO0rouPRQvXyLe6W/NjA0tw+n4/mzrLrm5lNfBj6x2ar8wQ+A3OMHH
-         XOcSNMryFp336zqTbVWuFoGBX6DzK93mkUmUW37CUiVLbYP7uyAdo+03E/J6bblXQECk
-         oH4E/x7eDThJkimkOtww0d6EpQcxg/MiBxVq2hxMB1/M1hO3pRctDinIuYPlIuskNPTd
-         cNZdX5Y75u+w+UfexlvZv64fxvshX4zwFliJWpxXVmRaqgC0wQD++h7g7TMJvPw8UbUk
-         EPfA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=HkaxeYhyJCWKI+iCl7pvg7H2rt01JeowCIL7n4FAO0Q=;
-        b=QsV/6BNrRXZP13FadM8mXVSuf4yvBabYXa5393zqteIbsIGTp3+BywZGG7KWumtwin
-         R1xwD4nkTdmPj17l3vX+2hcvg4ewd3jaVXLz8330qau0pELzsZTdjMMNzfoCLb4ag1QH
-         /TQyN2Lzr43iDO66xc5Ejgop639n9JGuE5U0Bnk2Yrc5D7BeYTUDzS/xfVPyUjaGvqVp
-         HimNpzsM5nWuq/NpFKKOL8TRKpOhbBf2eoxdsFVOmp4DvdQlRkgkGNfFUXM8xDxAyxHK
-         w5N+nvyhs1lfpGUkZoa16zUhv3lmyZKQBKex62Qv4hvo8Mf8mfk8fIdNzHhjOp+lYow4
-         iltw==
-X-Gm-Message-State: AO0yUKXkeDRrCnzPhQdQHDj3hhYRjNBg/Anww7KNliGhZGK9D+2qDkFN
-	uIZRDfE8enW1sl7bKwFXkuUOtXL9Q9gO9g==
-X-Google-Smtp-Source: AK7set+ltF+ZntzbSmcyHqL7HMnw2q2Vf54UvAMiQB932c0IKSyLIFdRxk3wK9yrEfB8UMHAmDWDaQ==
-X-Received: by 2002:a05:600c:755:b0:3dc:59ee:7978 with SMTP id j21-20020a05600c075500b003dc59ee7978mr6944055wmn.38.1677078841354;
-        Wed, 22 Feb 2023 07:14:01 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id j7-20020a05600c42c700b003db012d49b7sm2630173wme.2.2023.02.22.07.13.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Feb 2023 07:14:00 -0800 (PST)
-Date: Wed, 22 Feb 2023 18:13:55 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, Kemeng Shi <shikemeng@huaweicloud.com>,
-	tytso@mit.edu, adilger.kernel@dilger.ca
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-ext4@vger.kernel.org, linux-kernel@vger.kernel.org,
-	shikemeng@huaweicloud.com
-Subject: Re: [PATCH 7/7] ext4: improve inode table blocks counting in
- ext4_num_overhead_clusters
-Message-ID: <202302222219.u328sqfs-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 450B62F3F
+	for <oe-kbuild@lists.linux.dev>; Wed, 22 Feb 2023 15:27:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1677079642; x=1708615642;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=WLNw0YyxxsvSF1pSsyxpZLf8Rnq3BejAHspd4S0tsm0=;
+  b=OSAwAfbPl2MtgjgjuEJyDp9h3fxIvHDSvtsTTQAnl+9qZC+VPWPinxMd
+   63E/Sr6iwpa1zjts0lmVU7bX5LZ9vHVuORW9fSX7JQB6i+eIYqh+EGH7v
+   98ECeX3pVMmzt8EQhhWwEll3K6th44idXBS3ysbJ15gK86NObNzvMKF4s
+   2Z0ZQUMKX33KPaoAoKXWGfnW+GsyuEBqVSJ1/yKMyyqpAoLd9lL2CtWz7
+   AMP9H6AzVTCARh5TCgwF+WOxoB+vpyCYt6JdvyF4BjJeKG7wXpwz/HcpI
+   aIu0SRguGZYKkjCwVPB7lBjCx+u4hFDxZWN4SCLX95jLOS5YnVNFBsk3m
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10629"; a="312578198"
+X-IronPort-AV: E=Sophos;i="5.97,319,1669104000"; 
+   d="scan'208";a="312578198"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2023 07:27:21 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10629"; a="1001033901"
+X-IronPort-AV: E=Sophos;i="5.97,319,1669104000"; 
+   d="scan'208";a="1001033901"
+Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
+  by fmsmga005.fm.intel.com with ESMTP; 22 Feb 2023 07:27:20 -0800
+Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pUr1c-0000Up-04;
+	Wed, 22 Feb 2023 15:27:20 +0000
+Date: Wed, 22 Feb 2023 23:26:26 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: drivers/iommu/iommufd/device.c:192:29: warning: Parameter 'group'
+ can be declared as pointer to const [constParameter]
+Message-ID: <202302222303.ENqQr5eq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -55,116 +45,181 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230221115919.1918161-8-shikemeng@huaweicloud.com>
-Message-ID: <20230222151355.HtNnsNxcrMBwoyjGYN3nMmOXHEOiQ24Dyasesersi8w@z>
 
-Hi Kemeng,
+:::::: 
+:::::: Manual check reason: "low confidence static check warning: drivers/iommu/iommufd/device.c:192:29: warning: Parameter 'group' can be declared as pointer to const [constParameter]"
+:::::: 
 
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+TO: Jason Gunthorpe <jgg@nvidia.com>
+CC: Kevin Tian <kevin.tian@intel.com>
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Kemeng-Shi/ext4-properly-handle-error-of-ext4_init_block_bitmap-in-ext4_read_block_bitmap_nowait/20230221-115830
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/tytso/ext4.git dev
-patch link:    https://lore.kernel.org/r/20230221115919.1918161-8-shikemeng%40huaweicloud.com
-patch subject: [PATCH 7/7] ext4: improve inode table blocks counting in ext4_num_overhead_clusters
-config: riscv-randconfig-m031-20230219 (https://download.01.org/0day-ci/archive/20230222/202302222219.u328sqfs-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   5b7c4cabbb65f5c469464da6c5f614cbd7f730f2
+commit: e8d57210035b6377d424ba964961892d01127cf6 iommufd: Add kAPI toward external drivers for physical devices
+date:   3 months ago
+:::::: branch date: 13 hours ago
+:::::: commit date: 3 months ago
 compiler: riscv32-linux-gcc (GCC) 12.1.0
+reproduce (cppcheck warning):
+        # apt-get install cppcheck
+        git checkout e8d57210035b6377d424ba964961892d01127cf6
+        cppcheck --quiet --enable=style,performance,portability --template=gcc FILE
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202302222219.u328sqfs-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202302222303.ENqQr5eq-lkp@intel.com/
 
-New smatch warnings:
-fs/ext4/balloc.c:153 ext4_num_overhead_clusters() error: uninitialized symbol 'block_cluster'.
 
-vim +/block_cluster +153 fs/ext4/balloc.c
+cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
-c197855ea14175 Stephen Hemminger 2014-05-12   87  static unsigned ext4_num_overhead_clusters(struct super_block *sb,
-e187c6588d6ef3 Theodore Ts'o     2009-02-06   88  					   ext4_group_t block_group,
-e187c6588d6ef3 Theodore Ts'o     2009-02-06   89  					   struct ext4_group_desc *gdp)
-0bf7e8379ce7e0 Jose R. Santos    2008-06-03   90  {
-2b59a2fd93873a Kemeng Shi        2023-02-21   91  	unsigned base_clusters, num_clusters;
-2b59a2fd93873a Kemeng Shi        2023-02-21   92  	int block_cluster, inode_cluster;
-2b59a2fd93873a Kemeng Shi        2023-02-21   93  	int itbl_cluster_start = -1, itbl_cluster_end = -1;
-d5b8f31007a937 Theodore Ts'o     2011-09-09   94  	ext4_fsblk_t start = ext4_group_first_block_no(sb, block_group);
-2b59a2fd93873a Kemeng Shi        2023-02-21   95  	ext4_fsblk_t end = start + EXT4_BLOCKS_PER_GROUP(sb) - 1;
-2b59a2fd93873a Kemeng Shi        2023-02-21   96  	ext4_fsblk_t itbl_blk_start, itbl_blk_end;
-0bf7e8379ce7e0 Jose R. Santos    2008-06-03   97  	struct ext4_sb_info *sbi = EXT4_SB(sb);
-0bf7e8379ce7e0 Jose R. Santos    2008-06-03   98  
-d5b8f31007a937 Theodore Ts'o     2011-09-09   99  	/* This is the number of clusters used by the superblock,
-d5b8f31007a937 Theodore Ts'o     2011-09-09  100  	 * block group descriptors, and reserved block group
-d5b8f31007a937 Theodore Ts'o     2011-09-09  101  	 * descriptor blocks */
-2b59a2fd93873a Kemeng Shi        2023-02-21  102  	base_clusters = ext4_num_base_meta_clusters(sb, block_group);
-2b59a2fd93873a Kemeng Shi        2023-02-21  103  	num_clusters = base_clusters;
-2b59a2fd93873a Kemeng Shi        2023-02-21  104  
-2b59a2fd93873a Kemeng Shi        2023-02-21  105  	/*
-2b59a2fd93873a Kemeng Shi        2023-02-21  106  	 * Account and record inode table clusters if any cluster
-2b59a2fd93873a Kemeng Shi        2023-02-21  107  	 * is in the block group, or inode table cluster range is
-2b59a2fd93873a Kemeng Shi        2023-02-21  108  	 * [-1, -1] and won't overlap with block/inode bitmap cluster
-2b59a2fd93873a Kemeng Shi        2023-02-21  109  	 * accounted below.
-2b59a2fd93873a Kemeng Shi        2023-02-21  110  	 */
-2b59a2fd93873a Kemeng Shi        2023-02-21  111  	itbl_blk_start = ext4_inode_table(sb, gdp);
-2b59a2fd93873a Kemeng Shi        2023-02-21  112  	itbl_blk_end = itbl_blk_start + sbi->s_itb_per_group - 1;
-2b59a2fd93873a Kemeng Shi        2023-02-21  113  	if (itbl_blk_start <= end && itbl_blk_end >= start) {
-2b59a2fd93873a Kemeng Shi        2023-02-21  114  		itbl_blk_start = itbl_blk_start >= start ?
-2b59a2fd93873a Kemeng Shi        2023-02-21  115  			itbl_blk_start : start;
-2b59a2fd93873a Kemeng Shi        2023-02-21  116  		itbl_blk_end = itbl_blk_end <= end ?
-2b59a2fd93873a Kemeng Shi        2023-02-21  117  			itbl_blk_end : end;
-2b59a2fd93873a Kemeng Shi        2023-02-21  118  
-2b59a2fd93873a Kemeng Shi        2023-02-21  119  		itbl_cluster_start = EXT4_B2C(sbi, itbl_blk_start - start);
-2b59a2fd93873a Kemeng Shi        2023-02-21  120  		itbl_cluster_end = EXT4_B2C(sbi, itbl_blk_end - start);
-2b59a2fd93873a Kemeng Shi        2023-02-21  121  
-2b59a2fd93873a Kemeng Shi        2023-02-21  122  		num_clusters += itbl_cluster_end - itbl_cluster_start + 1;
-2b59a2fd93873a Kemeng Shi        2023-02-21  123  		/* check if border cluster is overlapped */
-2b59a2fd93873a Kemeng Shi        2023-02-21  124  		if (itbl_cluster_start == base_clusters - 1)
-2b59a2fd93873a Kemeng Shi        2023-02-21  125  			num_clusters--;
-2b59a2fd93873a Kemeng Shi        2023-02-21  126  	}
-0bf7e8379ce7e0 Jose R. Santos    2008-06-03  127  
-d5b8f31007a937 Theodore Ts'o     2011-09-09  128  	/*
-2b59a2fd93873a Kemeng Shi        2023-02-21  129  	 * For the allocation bitmaps, we first need to check to see
-2b59a2fd93873a Kemeng Shi        2023-02-21  130  	 * if the block is in the block group.  If it is, then check
-2b59a2fd93873a Kemeng Shi        2023-02-21  131  	 * to see if the cluster is already accounted for in the clusters
-2b59a2fd93873a Kemeng Shi        2023-02-21  132  	 * used for the base metadata cluster and inode tables cluster.
-d5b8f31007a937 Theodore Ts'o     2011-09-09  133  	 * Normally all of these blocks are contiguous, so the special
-d5b8f31007a937 Theodore Ts'o     2011-09-09  134  	 * case handling shouldn't be necessary except for *very*
-d5b8f31007a937 Theodore Ts'o     2011-09-09  135  	 * unusual file system layouts.
-d5b8f31007a937 Theodore Ts'o     2011-09-09  136  	 */
-d5b8f31007a937 Theodore Ts'o     2011-09-09  137  	if (ext4_block_in_group(sb, ext4_block_bitmap(sb, gdp), block_group)) {
-b0dd6b70f0fda1 Theodore Ts'o     2012-06-07  138  		block_cluster = EXT4_B2C(sbi,
-b0dd6b70f0fda1 Theodore Ts'o     2012-06-07  139  					 ext4_block_bitmap(sb, gdp) - start);
-2b59a2fd93873a Kemeng Shi        2023-02-21  140  		if (block_cluster >= base_clusters &&
-2b59a2fd93873a Kemeng Shi        2023-02-21  141  		    (block_cluster < itbl_cluster_start ||
-2b59a2fd93873a Kemeng Shi        2023-02-21  142  		    block_cluster > itbl_cluster_end))
-d5b8f31007a937 Theodore Ts'o     2011-09-09  143  			num_clusters++;
-d5b8f31007a937 Theodore Ts'o     2011-09-09  144  	}
-d5b8f31007a937 Theodore Ts'o     2011-09-09  145  
-d5b8f31007a937 Theodore Ts'o     2011-09-09  146  	if (ext4_block_in_group(sb, ext4_inode_bitmap(sb, gdp), block_group)) {
+>> drivers/iommu/iommufd/device.c:192:29: warning: Parameter 'group' can be declared as pointer to const [constParameter]
+           struct iommu_group *group)
+                               ^
+>> drivers/iommu/iommufd/device.c:287:14: warning: Uninitialized variable: hwpt->auto_domain [uninitvar]
+     if (!hwpt->auto_domain)
+                ^
 
-These two conditions are exactly the same so I don't see why they can't
-be combined into one condition.  I have read the comment, but I guess I
-don't understand ext4 well enough to really understand it.
+vim +/group +192 drivers/iommu/iommufd/device.c
 
-d5b8f31007a937 Theodore Ts'o     2011-09-09  147  		inode_cluster = EXT4_B2C(sbi,
-b0dd6b70f0fda1 Theodore Ts'o     2012-06-07  148  					 ext4_inode_bitmap(sb, gdp) - start);
-2b59a2fd93873a Kemeng Shi        2023-02-21  149  		/*
-2b59a2fd93873a Kemeng Shi        2023-02-21  150  		 * Additional check if inode bitmap is in just accounted
-2b59a2fd93873a Kemeng Shi        2023-02-21  151  		 * block_cluster
-2b59a2fd93873a Kemeng Shi        2023-02-21  152  		 */
-2b59a2fd93873a Kemeng Shi        2023-02-21 @153  		if (inode_cluster != block_cluster &&
-
-So this seems like a false positive to me.  But the code is puzzling for
-a human or for a static checker.
-
-2b59a2fd93873a Kemeng Shi        2023-02-21  154  		    inode_cluster >= base_clusters &&
-2b59a2fd93873a Kemeng Shi        2023-02-21  155  		    (inode_cluster < itbl_cluster_start ||
-2b59a2fd93873a Kemeng Shi        2023-02-21  156  		    inode_cluster > itbl_cluster_end))
-d5b8f31007a937 Theodore Ts'o     2011-09-09  157  			num_clusters++;
-0bf7e8379ce7e0 Jose R. Santos    2008-06-03  158  	}
-d5b8f31007a937 Theodore Ts'o     2011-09-09  159  
-d5b8f31007a937 Theodore Ts'o     2011-09-09  160  	return num_clusters;
-0bf7e8379ce7e0 Jose R. Santos    2008-06-03  161  }
+e8d57210035b63 Jason Gunthorpe 2022-11-29  190  
+e8d57210035b63 Jason Gunthorpe 2022-11-29  191  static bool iommufd_hw_pagetable_has_group(struct iommufd_hw_pagetable *hwpt,
+e8d57210035b63 Jason Gunthorpe 2022-11-29 @192  					   struct iommu_group *group)
+e8d57210035b63 Jason Gunthorpe 2022-11-29  193  {
+e8d57210035b63 Jason Gunthorpe 2022-11-29  194  	struct iommufd_device *cur_dev;
+e8d57210035b63 Jason Gunthorpe 2022-11-29  195  
+e8d57210035b63 Jason Gunthorpe 2022-11-29  196  	list_for_each_entry(cur_dev, &hwpt->devices, devices_item)
+e8d57210035b63 Jason Gunthorpe 2022-11-29  197  		if (cur_dev->group == group)
+e8d57210035b63 Jason Gunthorpe 2022-11-29  198  			return true;
+e8d57210035b63 Jason Gunthorpe 2022-11-29  199  	return false;
+e8d57210035b63 Jason Gunthorpe 2022-11-29  200  }
+e8d57210035b63 Jason Gunthorpe 2022-11-29  201  
+e8d57210035b63 Jason Gunthorpe 2022-11-29  202  static int iommufd_device_do_attach(struct iommufd_device *idev,
+e8d57210035b63 Jason Gunthorpe 2022-11-29  203  				    struct iommufd_hw_pagetable *hwpt)
+e8d57210035b63 Jason Gunthorpe 2022-11-29  204  {
+e8d57210035b63 Jason Gunthorpe 2022-11-29  205  	phys_addr_t sw_msi_start = 0;
+e8d57210035b63 Jason Gunthorpe 2022-11-29  206  	int rc;
+e8d57210035b63 Jason Gunthorpe 2022-11-29  207  
+e8d57210035b63 Jason Gunthorpe 2022-11-29  208  	mutex_lock(&hwpt->devices_lock);
+e8d57210035b63 Jason Gunthorpe 2022-11-29  209  
+e8d57210035b63 Jason Gunthorpe 2022-11-29  210  	/*
+e8d57210035b63 Jason Gunthorpe 2022-11-29  211  	 * Try to upgrade the domain we have, it is an iommu driver bug to
+e8d57210035b63 Jason Gunthorpe 2022-11-29  212  	 * report IOMMU_CAP_ENFORCE_CACHE_COHERENCY but fail
+e8d57210035b63 Jason Gunthorpe 2022-11-29  213  	 * enforce_cache_coherency when there are no devices attached to the
+e8d57210035b63 Jason Gunthorpe 2022-11-29  214  	 * domain.
+e8d57210035b63 Jason Gunthorpe 2022-11-29  215  	 */
+e8d57210035b63 Jason Gunthorpe 2022-11-29  216  	if (idev->enforce_cache_coherency && !hwpt->enforce_cache_coherency) {
+e8d57210035b63 Jason Gunthorpe 2022-11-29  217  		if (hwpt->domain->ops->enforce_cache_coherency)
+e8d57210035b63 Jason Gunthorpe 2022-11-29  218  			hwpt->enforce_cache_coherency =
+e8d57210035b63 Jason Gunthorpe 2022-11-29  219  				hwpt->domain->ops->enforce_cache_coherency(
+e8d57210035b63 Jason Gunthorpe 2022-11-29  220  					hwpt->domain);
+e8d57210035b63 Jason Gunthorpe 2022-11-29  221  		if (!hwpt->enforce_cache_coherency) {
+e8d57210035b63 Jason Gunthorpe 2022-11-29  222  			WARN_ON(list_empty(&hwpt->devices));
+e8d57210035b63 Jason Gunthorpe 2022-11-29  223  			rc = -EINVAL;
+e8d57210035b63 Jason Gunthorpe 2022-11-29  224  			goto out_unlock;
+e8d57210035b63 Jason Gunthorpe 2022-11-29  225  		}
+e8d57210035b63 Jason Gunthorpe 2022-11-29  226  	}
+e8d57210035b63 Jason Gunthorpe 2022-11-29  227  
+e8d57210035b63 Jason Gunthorpe 2022-11-29  228  	rc = iopt_table_enforce_group_resv_regions(&hwpt->ioas->iopt, idev->dev,
+e8d57210035b63 Jason Gunthorpe 2022-11-29  229  						   idev->group, &sw_msi_start);
+e8d57210035b63 Jason Gunthorpe 2022-11-29  230  	if (rc)
+e8d57210035b63 Jason Gunthorpe 2022-11-29  231  		goto out_unlock;
+e8d57210035b63 Jason Gunthorpe 2022-11-29  232  
+e8d57210035b63 Jason Gunthorpe 2022-11-29  233  	rc = iommufd_device_setup_msi(idev, hwpt, sw_msi_start);
+e8d57210035b63 Jason Gunthorpe 2022-11-29  234  	if (rc)
+e8d57210035b63 Jason Gunthorpe 2022-11-29  235  		goto out_iova;
+e8d57210035b63 Jason Gunthorpe 2022-11-29  236  
+e8d57210035b63 Jason Gunthorpe 2022-11-29  237  	/*
+e8d57210035b63 Jason Gunthorpe 2022-11-29  238  	 * FIXME: Hack around missing a device-centric iommu api, only attach to
+e8d57210035b63 Jason Gunthorpe 2022-11-29  239  	 * the group once for the first device that is in the group.
+e8d57210035b63 Jason Gunthorpe 2022-11-29  240  	 */
+e8d57210035b63 Jason Gunthorpe 2022-11-29  241  	if (!iommufd_hw_pagetable_has_group(hwpt, idev->group)) {
+e8d57210035b63 Jason Gunthorpe 2022-11-29  242  		rc = iommu_attach_group(hwpt->domain, idev->group);
+e8d57210035b63 Jason Gunthorpe 2022-11-29  243  		if (rc)
+e8d57210035b63 Jason Gunthorpe 2022-11-29  244  			goto out_iova;
+e8d57210035b63 Jason Gunthorpe 2022-11-29  245  
+e8d57210035b63 Jason Gunthorpe 2022-11-29  246  		if (list_empty(&hwpt->devices)) {
+e8d57210035b63 Jason Gunthorpe 2022-11-29  247  			rc = iopt_table_add_domain(&hwpt->ioas->iopt,
+e8d57210035b63 Jason Gunthorpe 2022-11-29  248  						   hwpt->domain);
+e8d57210035b63 Jason Gunthorpe 2022-11-29  249  			if (rc)
+e8d57210035b63 Jason Gunthorpe 2022-11-29  250  				goto out_detach;
+e8d57210035b63 Jason Gunthorpe 2022-11-29  251  		}
+e8d57210035b63 Jason Gunthorpe 2022-11-29  252  	}
+e8d57210035b63 Jason Gunthorpe 2022-11-29  253  
+e8d57210035b63 Jason Gunthorpe 2022-11-29  254  	idev->hwpt = hwpt;
+e8d57210035b63 Jason Gunthorpe 2022-11-29  255  	refcount_inc(&hwpt->obj.users);
+e8d57210035b63 Jason Gunthorpe 2022-11-29  256  	list_add(&idev->devices_item, &hwpt->devices);
+e8d57210035b63 Jason Gunthorpe 2022-11-29  257  	mutex_unlock(&hwpt->devices_lock);
+e8d57210035b63 Jason Gunthorpe 2022-11-29  258  	return 0;
+e8d57210035b63 Jason Gunthorpe 2022-11-29  259  
+e8d57210035b63 Jason Gunthorpe 2022-11-29  260  out_detach:
+e8d57210035b63 Jason Gunthorpe 2022-11-29  261  	iommu_detach_group(hwpt->domain, idev->group);
+e8d57210035b63 Jason Gunthorpe 2022-11-29  262  out_iova:
+e8d57210035b63 Jason Gunthorpe 2022-11-29  263  	iopt_remove_reserved_iova(&hwpt->ioas->iopt, idev->dev);
+e8d57210035b63 Jason Gunthorpe 2022-11-29  264  out_unlock:
+e8d57210035b63 Jason Gunthorpe 2022-11-29  265  	mutex_unlock(&hwpt->devices_lock);
+e8d57210035b63 Jason Gunthorpe 2022-11-29  266  	return rc;
+e8d57210035b63 Jason Gunthorpe 2022-11-29  267  }
+e8d57210035b63 Jason Gunthorpe 2022-11-29  268  
+e8d57210035b63 Jason Gunthorpe 2022-11-29  269  /*
+e8d57210035b63 Jason Gunthorpe 2022-11-29  270   * When automatically managing the domains we search for a compatible domain in
+e8d57210035b63 Jason Gunthorpe 2022-11-29  271   * the iopt and if one is found use it, otherwise create a new domain.
+e8d57210035b63 Jason Gunthorpe 2022-11-29  272   * Automatic domain selection will never pick a manually created domain.
+e8d57210035b63 Jason Gunthorpe 2022-11-29  273   */
+e8d57210035b63 Jason Gunthorpe 2022-11-29  274  static int iommufd_device_auto_get_domain(struct iommufd_device *idev,
+e8d57210035b63 Jason Gunthorpe 2022-11-29  275  					  struct iommufd_ioas *ioas)
+e8d57210035b63 Jason Gunthorpe 2022-11-29  276  {
+e8d57210035b63 Jason Gunthorpe 2022-11-29  277  	struct iommufd_hw_pagetable *hwpt;
+e8d57210035b63 Jason Gunthorpe 2022-11-29  278  	int rc;
+e8d57210035b63 Jason Gunthorpe 2022-11-29  279  
+e8d57210035b63 Jason Gunthorpe 2022-11-29  280  	/*
+e8d57210035b63 Jason Gunthorpe 2022-11-29  281  	 * There is no differentiation when domains are allocated, so any domain
+e8d57210035b63 Jason Gunthorpe 2022-11-29  282  	 * that is willing to attach to the device is interchangeable with any
+e8d57210035b63 Jason Gunthorpe 2022-11-29  283  	 * other.
+e8d57210035b63 Jason Gunthorpe 2022-11-29  284  	 */
+e8d57210035b63 Jason Gunthorpe 2022-11-29  285  	mutex_lock(&ioas->mutex);
+e8d57210035b63 Jason Gunthorpe 2022-11-29  286  	list_for_each_entry(hwpt, &ioas->hwpt_list, hwpt_item) {
+e8d57210035b63 Jason Gunthorpe 2022-11-29 @287  		if (!hwpt->auto_domain)
+e8d57210035b63 Jason Gunthorpe 2022-11-29  288  			continue;
+e8d57210035b63 Jason Gunthorpe 2022-11-29  289  
+e8d57210035b63 Jason Gunthorpe 2022-11-29  290  		rc = iommufd_device_do_attach(idev, hwpt);
+e8d57210035b63 Jason Gunthorpe 2022-11-29  291  
+e8d57210035b63 Jason Gunthorpe 2022-11-29  292  		/*
+e8d57210035b63 Jason Gunthorpe 2022-11-29  293  		 * -EINVAL means the domain is incompatible with the device.
+e8d57210035b63 Jason Gunthorpe 2022-11-29  294  		 * Other error codes should propagate to userspace as failure.
+e8d57210035b63 Jason Gunthorpe 2022-11-29  295  		 * Success means the domain is attached.
+e8d57210035b63 Jason Gunthorpe 2022-11-29  296  		 */
+e8d57210035b63 Jason Gunthorpe 2022-11-29  297  		if (rc == -EINVAL)
+e8d57210035b63 Jason Gunthorpe 2022-11-29  298  			continue;
+e8d57210035b63 Jason Gunthorpe 2022-11-29  299  		goto out_unlock;
+e8d57210035b63 Jason Gunthorpe 2022-11-29  300  	}
+e8d57210035b63 Jason Gunthorpe 2022-11-29  301  
+e8d57210035b63 Jason Gunthorpe 2022-11-29  302  	hwpt = iommufd_hw_pagetable_alloc(idev->ictx, ioas, idev->dev);
+e8d57210035b63 Jason Gunthorpe 2022-11-29  303  	if (IS_ERR(hwpt)) {
+e8d57210035b63 Jason Gunthorpe 2022-11-29  304  		rc = PTR_ERR(hwpt);
+e8d57210035b63 Jason Gunthorpe 2022-11-29  305  		goto out_unlock;
+e8d57210035b63 Jason Gunthorpe 2022-11-29  306  	}
+e8d57210035b63 Jason Gunthorpe 2022-11-29  307  	hwpt->auto_domain = true;
+e8d57210035b63 Jason Gunthorpe 2022-11-29  308  
+e8d57210035b63 Jason Gunthorpe 2022-11-29  309  	rc = iommufd_device_do_attach(idev, hwpt);
+e8d57210035b63 Jason Gunthorpe 2022-11-29  310  	if (rc)
+e8d57210035b63 Jason Gunthorpe 2022-11-29  311  		goto out_abort;
+e8d57210035b63 Jason Gunthorpe 2022-11-29  312  	list_add_tail(&hwpt->hwpt_item, &ioas->hwpt_list);
+e8d57210035b63 Jason Gunthorpe 2022-11-29  313  
+e8d57210035b63 Jason Gunthorpe 2022-11-29  314  	mutex_unlock(&ioas->mutex);
+e8d57210035b63 Jason Gunthorpe 2022-11-29  315  	iommufd_object_finalize(idev->ictx, &hwpt->obj);
+e8d57210035b63 Jason Gunthorpe 2022-11-29  316  	return 0;
+e8d57210035b63 Jason Gunthorpe 2022-11-29  317  
+e8d57210035b63 Jason Gunthorpe 2022-11-29  318  out_abort:
+e8d57210035b63 Jason Gunthorpe 2022-11-29  319  	iommufd_object_abort_and_destroy(idev->ictx, &hwpt->obj);
+e8d57210035b63 Jason Gunthorpe 2022-11-29  320  out_unlock:
+e8d57210035b63 Jason Gunthorpe 2022-11-29  321  	mutex_unlock(&ioas->mutex);
+e8d57210035b63 Jason Gunthorpe 2022-11-29  322  	return rc;
+e8d57210035b63 Jason Gunthorpe 2022-11-29  323  }
+e8d57210035b63 Jason Gunthorpe 2022-11-29  324  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
-
