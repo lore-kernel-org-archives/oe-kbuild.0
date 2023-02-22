@@ -1,43 +1,52 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D15B85392
-	for <oe-kbuild@lists.linux.dev>; Wed, 22 Feb 2023 14:05:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677074717; x=1708610717;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=10YZXfMFNDztSNGLdXiGW4SIqMV9TkdAB+1A3YMMIA0=;
-  b=bgVzFHSw22fZQAAk47E63JFSL4tNsXft60SrwXWk1AQgOCotidULXxHo
-   piyF1EDMrgNJYh37fsnNtQbL0VEODJp2i2iBwGldstp3Xsa2rraY4XWhm
-   +eT8xDaKeUcHTj/DucjE5X6IBlWrjxVpDHJmpcKVg5sFufbpaqocRsk6k
-   tIik6OQb3ouScFj0Pe/4eHlDM/P2gX/OibEIm+qr+WCgqyE/kC947oxFB
-   1S9jc17WmfI8l1P+WcJ4peIV54h2/uByMAhrhRHhlmJIKh195cDknwjEA
-   HLdsTIFpFcNB/oYMy0Kwv5ZIN8gACqug0XweYsshXgoyOGl6K4kNrivj6
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10629"; a="397616130"
-X-IronPort-AV: E=Sophos;i="5.97,318,1669104000"; 
-   d="scan'208";a="397616130"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2023 06:05:17 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10629"; a="740829768"
-X-IronPort-AV: E=Sophos;i="5.97,318,1669104000"; 
-   d="scan'208";a="740829768"
-Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 22 Feb 2023 06:05:16 -0800
-Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pUpkB-0000P3-10;
-	Wed, 22 Feb 2023 14:05:15 +0000
-Date: Wed, 22 Feb 2023 22:04:16 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [steev:lenovo-x13s-v6.2 114/188] drivers/interconnect/core.c:853
- icc_node_destroy() error: we previously assumed 'node' could be null (see
- line 846)
-Message-ID: <202302222118.nGz1F0oJ-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3727F7460;
+	Wed, 22 Feb 2023 14:18:19 +0000 (UTC)
+Received: by mail-wm1-f41.google.com with SMTP id k37so2838716wms.0;
+        Wed, 22 Feb 2023 06:18:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=/9AYv4MZ0PVdleCTLJmIdfXhLpHP301LVOycmvvAP8k=;
+        b=MEZmwJwuozbgU2BGHEe6dTjKLaFjN2r0XVnwx90M1y0zW1HAbrl2S5ba/42kntuO5W
+         FCOD3KcgaT7O/cKD3iymSEmo+42I0qpvzrv9oXrWZ+oyp1sa59hHKtydyN8RX8BLoIEq
+         KqsfxbtvGIy1aF5AShWqaXdcwD4cCdQiTBV6CpFXXxKsGcWot5wBqMFtsSR6Je61wUGt
+         Cct+Jxr4Pc3kQ+haKOXeS6hKijXyUmqIZNDg27K9MZ/46HRXicMlo7NtCpE1b84zeUor
+         YwwTYN/qOPj+jitlxNBArAdZ2PBIRt7iC8mfl4wQgWWSn8wTz6GL++i2NWVcADmQgTrL
+         U8IA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=/9AYv4MZ0PVdleCTLJmIdfXhLpHP301LVOycmvvAP8k=;
+        b=J9rteN2M/o6Oy2KGkGlhlN14vGTHFctfRX4XZkCEGmvRH3jdy2yhLysEzyPJ0okWSE
+         oMohNcvkRD88bLpJwCFSUxi9cwRU8j92ppl6xOu5BSD6ymgzhP2RbVdxdWh/pH4/NMWu
+         ZrsyBxD8/7QdyKOyqOfN2AnIwzClv4bNArfv8iwZV9EDxVm6PYWFeeFzhOCVs6rsbqkn
+         +lFvpd918emU2RTOtUP3/9EsexscjEScr4Lz2cLPuBO21bVLFvP0ABXKXE/Nq2DbJ3F+
+         C5sGKsbzfzNmvYiB5sK4FFp3Ap11AsFDStH2uB0mh21W/fPqs2wHURxrw1lWcrT3Of77
+         Mtiw==
+X-Gm-Message-State: AO0yUKXC6aKyRdZClLAoegT1rornBpmUmJlItfWxF6RQf8Dbewk+NtJl
+	uuNwZRZELThgJ1Xnur7L2smorTrAFOGAsA==
+X-Google-Smtp-Source: AK7set+CmRx93TMsiUA4vCV6SODXbE8jzm5WDn5sIGkpTrZ+gi3QeUMO7ui5hmhh8w0HklpUx/VN1A==
+X-Received: by 2002:a05:600c:4b30:b0:3e2:147f:ac1a with SMTP id i48-20020a05600c4b3000b003e2147fac1amr4335527wmp.21.1677075497154;
+        Wed, 22 Feb 2023 06:18:17 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id d1-20020a5d4f81000000b002c5526234d2sm7025740wru.8.2023.02.22.06.18.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 22 Feb 2023 06:18:16 -0800 (PST)
+Date: Wed, 22 Feb 2023 17:18:13 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev, Geetha sowjanya <gakula@marvell.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Vamsi Attunuru <vattunuru@marvell.com>,
+	Sunil Goutham <sgoutham@marvell.com>,
+	Subbaraya Sundeep <sbhatta@marvell.com>
+Subject: drivers/net/ethernet/marvell/octeontx2/af/mcs_rvu_if.c:29
+ rvu_mcs_set_lmac_bmap() error: uninitialized symbol 'lmac_bmap'.
+Message-ID: <202302191621.sVquZwLz-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -46,55 +55,44 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+Message-ID: <20230222141813.PGHPKV4yyOET7u_jhGZW0fgn5P_GLKwJJ3l_DHFZiWQ@z>
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: Johan Hovold <johan+linaro@kernel.org>
-CC: Steev Klimaszewski <steev@kali.org>
-
-tree:   https://github.com/steev/linux lenovo-x13s-v6.2
-head:   b9925baa3e5cf7919e9736257505a214b66dcdd2
-commit: f89ce4d6ffc2c5e73c476d0d264951feef193f17 [114/188] interconnect: fix mem leak when freeing nodes
-:::::: branch date: 10 hours ago
-:::::: commit date: 10 hours ago
-config: microblaze-randconfig-m031-20230222 (https://download.01.org/0day-ci/archive/20230222/202302222118.nGz1F0oJ-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   925cf0457d7e62ce08878ffb789189ac08ca8677
+commit: ca7f49ff884677f97858c3934806e0e666425af0 octeontx2-af: cn10k: Introduce driver for macsec block.
+config: s390-randconfig-m031-20230219 (https://download.01.org/0day-ci/archive/20230219/202302191621.sVquZwLz-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202302222118.nGz1F0oJ-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202302191621.sVquZwLz-lkp@intel.com/
 
 smatch warnings:
-drivers/interconnect/core.c:853 icc_node_destroy() error: we previously assumed 'node' could be null (see line 846)
+drivers/net/ethernet/marvell/octeontx2/af/mcs_rvu_if.c:29 rvu_mcs_set_lmac_bmap() error: uninitialized symbol 'lmac_bmap'.
 
-vim +/node +853 drivers/interconnect/core.c
+vim +/lmac_bmap +29 drivers/net/ethernet/marvell/octeontx2/af/mcs_rvu_if.c
 
-11f1ceca7031de Georgi Djakov 2019-01-16  834  
-11f1ceca7031de Georgi Djakov 2019-01-16  835  /**
-11f1ceca7031de Georgi Djakov 2019-01-16  836   * icc_node_destroy() - destroy a node
-11f1ceca7031de Georgi Djakov 2019-01-16  837   * @id: node id
-11f1ceca7031de Georgi Djakov 2019-01-16  838   */
-11f1ceca7031de Georgi Djakov 2019-01-16  839  void icc_node_destroy(int id)
-11f1ceca7031de Georgi Djakov 2019-01-16  840  {
-11f1ceca7031de Georgi Djakov 2019-01-16  841  	struct icc_node *node;
-11f1ceca7031de Georgi Djakov 2019-01-16  842  
-11f1ceca7031de Georgi Djakov 2019-01-16  843  	mutex_lock(&icc_lock);
-11f1ceca7031de Georgi Djakov 2019-01-16  844  
-11f1ceca7031de Georgi Djakov 2019-01-16  845  	node = node_find(id);
-11f1ceca7031de Georgi Djakov 2019-01-16 @846  	if (node) {
-11f1ceca7031de Georgi Djakov 2019-01-16  847  		idr_remove(&icc_idr, node->id);
-11f1ceca7031de Georgi Djakov 2019-01-16  848  		WARN_ON(!hlist_empty(&node->req_list));
-11f1ceca7031de Georgi Djakov 2019-01-16  849  	}
-11f1ceca7031de Georgi Djakov 2019-01-16  850  
-11f1ceca7031de Georgi Djakov 2019-01-16  851  	mutex_unlock(&icc_lock);
-11f1ceca7031de Georgi Djakov 2019-01-16  852  
-f89ce4d6ffc2c5 Johan Hovold  2023-01-31 @853  	kfree(node->links);
-11f1ceca7031de Georgi Djakov 2019-01-16  854  	kfree(node);
-11f1ceca7031de Georgi Djakov 2019-01-16  855  }
-11f1ceca7031de Georgi Djakov 2019-01-16  856  EXPORT_SYMBOL_GPL(icc_node_destroy);
-11f1ceca7031de Georgi Djakov 2019-01-16  857  
+ca7f49ff884677 Geetha sowjanya 2022-10-01  16  static void rvu_mcs_set_lmac_bmap(struct rvu *rvu)
+ca7f49ff884677 Geetha sowjanya 2022-10-01  17  {
+ca7f49ff884677 Geetha sowjanya 2022-10-01  18  	struct mcs *mcs = mcs_get_pdata(0);
+ca7f49ff884677 Geetha sowjanya 2022-10-01  19  	unsigned long lmac_bmap;
+ca7f49ff884677 Geetha sowjanya 2022-10-01  20  	int cgx, lmac, port;
+ca7f49ff884677 Geetha sowjanya 2022-10-01  21  
+ca7f49ff884677 Geetha sowjanya 2022-10-01  22  	for (port = 0; port < mcs->hw->lmac_cnt; port++) {
+ca7f49ff884677 Geetha sowjanya 2022-10-01  23  		cgx = port / rvu->hw->lmac_per_cgx;
+ca7f49ff884677 Geetha sowjanya 2022-10-01  24  		lmac = port % rvu->hw->lmac_per_cgx;
+ca7f49ff884677 Geetha sowjanya 2022-10-01  25  		if (!is_lmac_valid(rvu_cgx_pdata(cgx, rvu), lmac))
+ca7f49ff884677 Geetha sowjanya 2022-10-01  26  			continue;
+ca7f49ff884677 Geetha sowjanya 2022-10-01  27  		set_bit(port, &lmac_bmap);
+
+This doesn't work.  lmac_bmap needs to be initialized to zero.
+
+ca7f49ff884677 Geetha sowjanya 2022-10-01  28  	}
+ca7f49ff884677 Geetha sowjanya 2022-10-01 @29  	mcs->hw->lmac_bmap = lmac_bmap;
+ca7f49ff884677 Geetha sowjanya 2022-10-01  30  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
+
