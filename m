@@ -1,216 +1,108 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from dggsgout12.his.huawei.com (unknown [45.249.212.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53F43A92D
-	for <oe-kbuild@lists.linux.dev>; Wed, 22 Feb 2023 21:56:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677102998; x=1708638998;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=VvDp/4Xzk0qThVfGshx2s6SvMlkd8wHjylp1qvnfpF0=;
-  b=HAHxxVZ7TVYGQaZV/WQQgfYTl5DzKEDp4kQh3WIt7TMc76n+CmvOt2G0
-   3h+xdsDhRQYPUL+RaG5UkFqnefADVYc59pZvSBUR1z//jgjv9Wx8R24lU
-   YhjhZt/MzN8guRrdvZaTuHiGELUv7n8ZEEyYSUSWEi8qgpEceD3eydl7O
-   gyJ0hPkqYZH2lsXyyyH/Vsw1gSgPhJ06CxhC2tm+tETRpt0+8gQWpVxEl
-   D3b/anlynKXit1jn8ih0DN1CGtlA6OKxLJdjjXUZBzrclC2O3P5jObI2l
-   QM5wdX8XcW2fJGcC5/JglRVFIeRdfTqzGl43nHUVYcr0NFnerqCpkk2oG
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10629"; a="331715284"
-X-IronPort-AV: E=Sophos;i="5.97,319,1669104000"; 
-   d="scan'208";a="331715284"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2023 13:56:35 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10629"; a="622094591"
-X-IronPort-AV: E=Sophos;i="5.97,319,1669104000"; 
-   d="scan'208";a="622094591"
-Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 22 Feb 2023 13:56:33 -0800
-Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pUx6G-0000l5-37;
-	Wed, 22 Feb 2023 21:56:32 +0000
-Date: Thu, 23 Feb 2023 05:56:15 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [android-common:android13-5.15-2023-01 2601/16422] undefined
- reference to `phy_disconnect'
-Message-ID: <202302230559.F1LeNTeX-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E7A515B7;
+	Thu, 23 Feb 2023 01:51:52 +0000 (UTC)
+Received: from mail02.huawei.com (unknown [172.30.67.143])
+	by dggsgout12.his.huawei.com (SkyGuard) with ESMTP id 4PMb990NWYz4f3mJ5;
+	Thu, 23 Feb 2023 09:31:57 +0800 (CST)
+Received: from [10.174.178.129] (unknown [10.174.178.129])
+	by APP2 (Coremail) with SMTP id Syh0CgAXB+UKwvZjQ_FXEA--.62830S2;
+	Thu, 23 Feb 2023 09:31:55 +0800 (CST)
+Subject: Re: [PATCH 7/7] ext4: improve inode table blocks counting in
+ ext4_num_overhead_clusters
+To: Dan Carpenter <error27@gmail.com>, oe-kbuild@lists.linux.dev,
+ tytso@mit.edu, adilger.kernel@dilger.ca
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, linux-ext4@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <202302222219.u328sqfs-lkp@intel.com>
+From: Kemeng Shi <shikemeng@huaweicloud.com>
+Message-ID: <1802222f-9c10-9ea3-93fb-6fce086e201a@huaweicloud.com>
+Date: Thu, 23 Feb 2023 09:31:54 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.5.0
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+In-Reply-To: <202302222219.u328sqfs-lkp@intel.com>
+Content-Type: text/plain; charset=gbk
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID:Syh0CgAXB+UKwvZjQ_FXEA--.62830S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxGr13XryUKF4kCr47Wr17Jrb_yoW5tFyrpr
+	4jgFn5Jry3Ww429Fs7tw4kX3WrGw1kKw1DJF1rGw13ZF9rWryxurn2gF98uFW2grn8K3ZF
+	vrZ7CryUu3Z8Z3DanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUyEb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k2
+	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
+	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7Cj
+	xVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x
+	0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG
+	6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFV
+	Cjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxk0xIA0c2IEe2xFo4CEbIxvr21l42xK82IYc2Ij
+	64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x
+	8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE
+	2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42
+	xK8VAvwI8IcIk0rVWrZr1j6s0DMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIE
+	c7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IU1zuWJUUUUU==
+X-CM-SenderInfo: 5vklyvpphqwq5kxd4v5lfo033gof0z/
+X-CFilter-Loop: Reflected
 
-:::::: 
-:::::: Manual check reason: "low confidence static check first_new_problem: (.text+0x614): undefined reference to `phy_disconnect'"
-:::::: 
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: cros-kernel-buildreports@googlegroups.com
 
-Hi Chanho,
-
-FYI, the error/warning still remains.
-
-tree:   https://android.googlesource.com/kernel/common android13-5.15-2023-01
-head:   827c689fc2059484f5052cca1080ffb375e87d02
-commit: 9c2efcb127bb2168f3f523892a41b969ee3070ce [2601/16422] ANDROID: GKI: Kconfig.gki: Add GKI_HIDDEN_ETHERNET_CONFIGS
-:::::: branch date: 8 hours ago
-:::::: commit date: 1 year, 8 months ago
-config: arm-randconfig-s031-20230221 (https://download.01.org/0day-ci/archive/20230223/202302230559.F1LeNTeX-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
-reproduce:
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        git remote add android-common https://android.googlesource.com/kernel/common
-        git fetch --no-tags android-common android13-5.15-2023-01
-        git checkout 9c2efcb127bb2168f3f523892a41b969ee3070ce
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arm SHELL=/bin/bash
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/r/202302230559.F1LeNTeX-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   arm-linux-gnueabi-ld: lib/decompress_unlz4.o: in function `unlz4':
-   decompress_unlz4.c:(.init.text+0x434): undefined reference to `LZ4_decompress_safe'
-   arm-linux-gnueabi-ld: drivers/net/phy/phylink.o: in function `phylink_get_fixed_state':
-   phylink.c:(.text+0x224): undefined reference to `linkmode_resolve_pause'
-   arm-linux-gnueabi-ld: drivers/net/phy/phylink.o: in function `phylink_disconnect_phy':
->> (.text+0x614): undefined reference to `phy_disconnect'
-   arm-linux-gnueabi-ld: drivers/net/phy/phylink.o: in function `phylink_ethtool_get_wol':
->> (.text+0x6d8): undefined reference to `phy_ethtool_get_wol'
-   arm-linux-gnueabi-ld: drivers/net/phy/phylink.o: in function `phylink_ethtool_set_wol':
->> (.text+0x790): undefined reference to `phy_ethtool_set_wol'
-   arm-linux-gnueabi-ld: drivers/net/phy/phylink.o: in function `phylink_ethtool_ksettings_get':
->> (.text+0x908): undefined reference to `phy_ethtool_ksettings_get'
-   arm-linux-gnueabi-ld: drivers/net/phy/phylink.o: in function `phylink_get_eee_err':
->> (.text+0xa6c): undefined reference to `phy_get_eee_err'
-   arm-linux-gnueabi-ld: drivers/net/phy/phylink.o: in function `phylink_init_eee':
->> (.text+0xb08): undefined reference to `phy_init_eee'
-   arm-linux-gnueabi-ld: drivers/net/phy/phylink.o: in function `phylink_ethtool_get_eee':
->> (.text+0xb78): undefined reference to `phy_ethtool_get_eee'
-   arm-linux-gnueabi-ld: drivers/net/phy/phylink.o: in function `phylink_ethtool_set_eee':
->> (.text+0xc40): undefined reference to `phy_ethtool_set_eee'
-   arm-linux-gnueabi-ld: drivers/net/phy/phylink.o: in function `phylink_mii_c22_pcs_set_advertisement':
->> (.text+0xd58): undefined reference to `mdiobus_read'
->> arm-linux-gnueabi-ld: (.text+0xdb0): undefined reference to `mdiobus_read'
->> arm-linux-gnueabi-ld: (.text+0xdf8): undefined reference to `mdiobus_write'
-   arm-linux-gnueabi-ld: drivers/net/phy/phylink.o: in function `phylink_mii_c22_pcs_an_restart':
-   (.text+0xe54): undefined reference to `mdiobus_read'
-   arm-linux-gnueabi-ld: (.text+0xe88): undefined reference to `mdiobus_write'
-   arm-linux-gnueabi-ld: drivers/net/phy/phylink.o: in function `phylink_mii_emul_read':
-   phylink.c:(.text+0xeec): undefined reference to `swphy_read_reg'
-   arm-linux-gnueabi-ld: drivers/net/phy/phylink.o: in function `phylink_mii_ioctl':
->> (.text+0xfe4): undefined reference to `phy_mii_ioctl'
-   arm-linux-gnueabi-ld: (.text+0x10d8): undefined reference to `mdiobus_read'
-   arm-linux-gnueabi-ld: (.text+0x1394): undefined reference to `mdiobus_write'
-   arm-linux-gnueabi-ld: drivers/net/phy/phylink.o: in function `phylink_speed_down':
->> (.text+0x1508): undefined reference to `phy_speed_down'
-   arm-linux-gnueabi-ld: drivers/net/phy/phylink.o: in function `phylink_mii_c22_pcs_config':
->> (.text+0x15f4): undefined reference to `mdiobus_modify'
-   arm-linux-gnueabi-ld: drivers/net/phy/phylink.o: in function `phylink_ethtool_set_pauseparam':
->> (.text+0x1cb0): undefined reference to `linkmode_set_pause'
->> arm-linux-gnueabi-ld: (.text+0x1d3c): undefined reference to `phy_set_asym_pause'
-   arm-linux-gnueabi-ld: drivers/net/phy/phylink.o: in function `phylink_mii_c45_pcs_get_state':
-   (.text+0x1f14): undefined reference to `mdiobus_read'
-   arm-linux-gnueabi-ld: drivers/net/phy/phylink.o: in function `phylink_speed_up':
->> (.text+0x2038): undefined reference to `phy_speed_up'
-   arm-linux-gnueabi-ld: drivers/net/phy/phylink.o: in function `phylink_stop':
->> (.text+0x20f0): undefined reference to `phy_stop'
-   arm-linux-gnueabi-ld: drivers/net/phy/phylink.o: in function `phylink_decode_c37_word':
-   phylink.c:(.text+0x2380): undefined reference to `linkmode_resolve_pause'
-   arm-linux-gnueabi-ld: drivers/net/phy/phylink.o: in function `phylink_mii_c22_pcs_get_state':
-   (.text+0x2438): undefined reference to `mdiobus_read'
-   arm-linux-gnueabi-ld: (.text+0x244c): undefined reference to `mdiobus_read'
-   arm-linux-gnueabi-ld: drivers/net/phy/phylink.o: in function `phylink_ethtool_ksettings_set':
->> (.text+0x2808): undefined reference to `phy_ethtool_ksettings_set'
->> arm-linux-gnueabi-ld: (.text+0x2918): undefined reference to `phy_lookup_setting'
-   arm-linux-gnueabi-ld: drivers/net/phy/phylink.o: in function `phylink_phy_change':
-   phylink.c:(.text+0x2c84): undefined reference to `phy_get_pause'
-   arm-linux-gnueabi-ld: drivers/net/phy/phylink.o: in function `phylink_start':
-   (.text+0x2e80): undefined reference to `phy_start'
-   arm-linux-gnueabi-ld: drivers/net/phy/phylink.o: in function `phylink_resolve':
-   phylink.c:(.text+0x3708): undefined reference to `phy_speed_to_str'
-   arm-linux-gnueabi-ld: phylink.c:(.text+0x3710): undefined reference to `phy_duplex_to_str'
-   arm-linux-gnueabi-ld: phylink.c:(.text+0x377c): undefined reference to `phy_speed_to_str'
-   arm-linux-gnueabi-ld: phylink.c:(.text+0x378c): undefined reference to `phy_duplex_to_str'
-   arm-linux-gnueabi-ld: drivers/net/phy/phylink.o: in function `phylink_bringup_phy':
-   phylink.c:(.text+0x3850): undefined reference to `phy_support_asym_pause'
-   arm-linux-gnueabi-ld: phylink.c:(.text+0x3958): undefined reference to `phy_attached_info_irq'
-   arm-linux-gnueabi-ld: phylink.c:(.text+0x3a7c): undefined reference to `phy_request_interrupt'
-   arm-linux-gnueabi-ld: drivers/net/phy/phylink.o: in function `phylink_connect_phy':
-   (.text+0x3c00): undefined reference to `phy_attach_direct'
-   arm-linux-gnueabi-ld: (.text+0x3c9c): undefined reference to `phy_detach'
-   arm-linux-gnueabi-ld: drivers/net/phy/phylink.o: in function `phylink_parse_fixedlink':
-   phylink.c:(.text+0x434c): undefined reference to `phy_lookup_setting'
-   arm-linux-gnueabi-ld: drivers/net/phy/phylink.o: in function `phylink_ethtool_nway_reset':
-   (.text+0x4934): undefined reference to `phy_restart_aneg'
-   arm-linux-gnueabi-ld: net/socket.o: in function `sock_ioctl':
-   socket.c:(.text+0x312c): undefined reference to `wext_handle_ioctl'
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for USB_PHY
-   Depends on [n]: USB_SUPPORT [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_USB_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for WEXT_PROC
-   Depends on [n]: NET [=y] && WIRELESS [=n] && PROC_FS [=n] && WEXT_CORE [=y]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for WEXT_PRIV
-   Depends on [n]: NET [=y] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for WEXT_SPY
-   Depends on [n]: NET [=y] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for PHYLINK
-   Depends on [n]: NETDEVICES [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_ETHERNET_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for WIRELESS_EXT
-   Depends on [n]: NET [=y] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for WEXT_CORE
-   Depends on [n]: NET [=y] && WIRELESS [=n] && (CFG80211_WEXT [=n] || WIRELESS_EXT [=y])
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for SND_JACK
-   Depends on [n]: SOUND [=y] && !UML && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_VMASTER
-   Depends on [n]: SOUND [=y] && !UML && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_PCM_IEC958
-   Depends on [n]: SOUND [=y] && !UML && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_SOC_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_JACK_INPUT_DEV
-   Depends on [n]: SOUND [=y] && !UML && SND [=n] && SND_JACK [=y]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_PCM_ELD
-   Depends on [n]: SOUND [=y] && !UML && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
+on 2/22/2023 11:13 PM, Dan Carpenter wrote:
+> Hi Kemeng,
+> 
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Kemeng-Shi/ext4-properly-handle-error-of-ext4_init_block_bitmap-in-ext4_read_block_bitmap_nowait/20230221-115830
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/tytso/ext4.git dev
+> patch link:    https://lore.kernel.org/r/20230221115919.1918161-8-shikemeng%40huaweicloud.com
+> patch subject: [PATCH 7/7] ext4: improve inode table blocks counting in ext4_num_overhead_clusters
+> config: riscv-randconfig-m031-20230219 (https://download.01.org/0day-ci/archive/20230222/202302222219.u328sqfs-lkp@intel.com/config)
+> compiler: riscv32-linux-gcc (GCC) 12.1.0
+> 
+> If you fix the issue, kindly add following tag where applicable
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <error27@gmail.com>
+> | Link: https://lore.kernel.org/r/202302222219.u328sqfs-lkp@intel.com/
+> 
+> New smatch warnings:
+> fs/ext4/balloc.c:153 ext4_num_overhead_clusters() error: uninitialized symbol 'block_cluster'.
+> 
+> vim +/block_cluster +153 fs/ext4/balloc.c
+[...]
+> d5b8f31007a937 Theodore Ts'o     2011-09-09  128  	/*
+> 2b59a2fd93873a Kemeng Shi        2023-02-21  129  	 * For the allocation bitmaps, we first need to check to see
+> 2b59a2fd93873a Kemeng Shi        2023-02-21  130  	 * if the block is in the block group.  If it is, then check
+> 2b59a2fd93873a Kemeng Shi        2023-02-21  131  	 * to see if the cluster is already accounted for in the clusters
+> 2b59a2fd93873a Kemeng Shi        2023-02-21  132  	 * used for the base metadata cluster and inode tables cluster.
+> d5b8f31007a937 Theodore Ts'o     2011-09-09  133  	 * Normally all of these blocks are contiguous, so the special
+> d5b8f31007a937 Theodore Ts'o     2011-09-09  134  	 * case handling shouldn't be necessary except for *very*
+> d5b8f31007a937 Theodore Ts'o     2011-09-09  135  	 * unusual file system layouts.
+> d5b8f31007a937 Theodore Ts'o     2011-09-09  136  	 */
+> d5b8f31007a937 Theodore Ts'o     2011-09-09  137  	if (ext4_block_in_group(sb, ext4_block_bitmap(sb, gdp), block_group)) {
+> b0dd6b70f0fda1 Theodore Ts'o     2012-06-07  138  		block_cluster = EXT4_B2C(sbi,
+> b0dd6b70f0fda1 Theodore Ts'o     2012-06-07  139  					 ext4_block_bitmap(sb, gdp) - start);
+> 2b59a2fd93873a Kemeng Shi        2023-02-21  140  		if (block_cluster >= base_clusters &&
+> 2b59a2fd93873a Kemeng Shi        2023-02-21  141  		    (block_cluster < itbl_cluster_start ||
+> 2b59a2fd93873a Kemeng Shi        2023-02-21  142  		    block_cluster > itbl_cluster_end))
+> d5b8f31007a937 Theodore Ts'o     2011-09-09  143  			num_clusters++;
+> d5b8f31007a937 Theodore Ts'o     2011-09-09  144  	}
+> d5b8f31007a937 Theodore Ts'o     2011-09-09  145  
+> d5b8f31007a937 Theodore Ts'o     2011-09-09  146  	if (ext4_block_in_group(sb, ext4_inode_bitmap(sb, gdp), block_group)) {
+> 
+> These two conditions are exactly the same so I don't see why they can't
+> be combined into one condition.  I have read the comment, but I guess I
+> don't understand ext4 well enough to really understand it.
+These two conditions check two kinds of bitmap block: *block* bitmap block
+and *inode* bitmap block. For case that block bitmap in the block group
+while inode bitmap in a different group, there is a risk to access
+uninitialized  block_cluster.
+I will fix this in next version, Thanks!
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+Best wishes
+Kemeng Shi
+
