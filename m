@@ -1,53 +1,52 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84D3015CA;
-	Thu, 23 Feb 2023 04:04:41 +0000 (UTC)
-Received: by mail-wm1-f45.google.com with SMTP id j19-20020a05600c1c1300b003e9b564fae9so2710075wms.2;
-        Wed, 22 Feb 2023 20:04:41 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D042A1FA2;
+	Thu, 23 Feb 2023 05:48:17 +0000 (UTC)
+Received: by mail-wr1-f43.google.com with SMTP id r7so9569057wrz.6;
+        Wed, 22 Feb 2023 21:48:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Y8To/H78yTZd9LcMUadl3BIzH4V/slxywotjiMrN3r4=;
-        b=o1HfscIQJCjgVCd5hYUh26OcPHizZ5M2fUPOAzI2VhcOC/xLKjGGbFhBjD6r4NN691
-         ksofcihZiLa/50yf+G3ytaKA22JrL4aVoiS0d6xvhYkTKkunv0nKyfxAe9ITNAL4uiw4
-         0E7ktlJk7Eq/eN7Q5oejnu/sNlw7qq5RtfdlP6YNJYPTqtA7dA1Yp9jybYGUwgaT2BMR
-         rer5IJhQGfkn+Dnd25z6rfEakUF1uhPIfF1TPZoguC9KaEfDtr69TIQgkPpNKZgHLdtH
-         /YUZPS5Zgcfa7Q66RpJE+DMrWarAQGm7sewJSdCio3cmTmgBa+IgToVgr8g82OunuKzy
-         Ei9w==
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=dH4zWI71gzYFegH27VmtZoaCO9J50O+AZGM8+yuOejo=;
+        b=JsICSauQ2Xlqkr4a93nk3v/DKUoZ/gOzaKzGNwzJhrASxAVQ3Oh87tI6B3WYV0vw7e
+         CARNIqgVMSJZEwS2ODac9XQVmUe5FANNXSTpTNDwMBXFAVLGz+2dhkb3IogaaQnJEqLd
+         +TVDLLfCrhLPA6TAsoKkTuG0gqgc2pnp55UzDAiWcPEu8i1suJ/c4z3HVAz1sl2xsyUI
+         qcmW7zJ4xNvGiLho/QnaGWVUilbG5Xt04tCkG6fpJd2ZEmBQp6EfblZvqhA1a0c2pPC4
+         GxnOyQbVvsDciQuPwvYmLvVKo47gP2KqYIyvZfFKZwWmZoRtQAPLHpM3WjUtWDMWtEqe
+         f88g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Y8To/H78yTZd9LcMUadl3BIzH4V/slxywotjiMrN3r4=;
-        b=5Bf83bY9VmO2kIjOgmZ3iKZc5oQ1/5fjq4XDN3fThbxHSpDOUUZTmGmIzMs7N4SspE
-         Rv3iNl2sNzricEpIofDh8j6OILgKNst7H0U7TlkX+tXR8Is1pcya1XxtH8CL63swwiUg
-         F7h7W7bwlu7KHJWBt91Ph+Y7SLVgfbb67X9dFYc664TjShsGOMiPnn1X6W7hrm3w80ky
-         HrO2ue58JK7BJ2c5hE19uSjf7VyfSlzivHO/NPEPeyGYzE+ZawJvZfDGTIgrFmBp9IIa
-         pfvzYUrXB1i/2dZJr2/nIR39LntumnjJEQmge492r7zgR0f9r70wueqQ5DXzE0SmdyXO
-         porQ==
-X-Gm-Message-State: AO0yUKVt7wJYCOpar3hTjrfwIb2e3ujix+VYLwSmf2Y1VcI4ENzSunEE
-	PisMBWkc2dj145kBiqEVT2E=
-X-Google-Smtp-Source: AK7set8lUfwhlzbXCtwlmrIXwAi6xDALa5tCJgndDsO1par4fyPiz+VkoSeL+uaFG8HiH9ECUi9obw==
-X-Received: by 2002:a05:600c:2ad6:b0:3e8:fade:3795 with SMTP id t22-20020a05600c2ad600b003e8fade3795mr3343342wme.17.1677125079485;
-        Wed, 22 Feb 2023 20:04:39 -0800 (PST)
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=dH4zWI71gzYFegH27VmtZoaCO9J50O+AZGM8+yuOejo=;
+        b=Qx5hu4lEd3ohw2AoQ+112lIxJxU2UiPsKmsYyKR/pJYDPGxVDjfAdAJjc95sU/v+Qr
+         beIayGBH2SD2IX0lXGOOblDuYavWM26O2rfzyMDlaumH4ar0KGX07uxdbLTs2zqdTKVq
+         /MYOTLJHkXjVtE0aNEs+mfccs7sy/MxHBApzVUzxSlo2bG47yXfma+2ZQ9VQELYWP+Hy
+         QM1QUbyDjJYKb+ts6v3Hv5rQsKJLTioLQRVtT7iWthdo5rgf9L00hAdEfS1pXJO5m7mZ
+         Tiblh7UVjdmqRNC0CK3UOgYA4scA1Cdncp17fOuF1tlSplObsiempwXk9K2CBJOjRavf
+         RKxQ==
+X-Gm-Message-State: AO0yUKWDD7dwWDxSuf2ZdYl/72lykHjYcvBKVyF4o5LoTBlNqWEXafPu
+	aOm0q+Cdj+3XlJEhKp73nxtjfqf2O4zXkw==
+X-Google-Smtp-Source: AK7set/etG+wbWS4SPICBmykjWg5qmNmUo2G+5g0V6vtMU5QCEsRGZRQmo5sFcBNQFwxjBF+lBFsNA==
+X-Received: by 2002:a05:6000:1cc:b0:2c5:598a:dd05 with SMTP id t12-20020a05600001cc00b002c5598add05mr9479277wrx.2.1677131295567;
+        Wed, 22 Feb 2023 21:48:15 -0800 (PST)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id k17-20020a7bc411000000b003dfee43863fsm8986413wmi.26.2023.02.22.20.04.38
+        by smtp.gmail.com with ESMTPSA id c5-20020a5d4cc5000000b002c59f18674asm8631239wrt.22.2023.02.22.21.48.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Feb 2023 20:04:38 -0800 (PST)
-Date: Thu, 23 Feb 2023 07:04:35 +0300
+        Wed, 22 Feb 2023 21:48:15 -0800 (PST)
+Date: Thu, 23 Feb 2023 08:48:12 +0300
 From: Dan Carpenter <error27@gmail.com>
-To: Kemeng Shi <shikemeng@huaweicloud.com>
-Cc: oe-kbuild@lists.linux.dev, tytso@mit.edu, adilger.kernel@dilger.ca,
-	lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-ext4@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 7/7] ext4: improve inode table blocks counting in
- ext4_num_overhead_clusters
-Message-ID: <Y/bl05WBDNT8FPoi@kadam>
-References: <202302222219.u328sqfs-lkp@intel.com>
- <1802222f-9c10-9ea3-93fb-6fce086e201a@huaweicloud.com>
+To: oe-kbuild@lists.linux.dev, Kemeng Shi <shikemeng@huaweicloud.com>,
+	paolo.valente@linaro.org, axboe@kernel.dk, jack@suse.cz
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+	shikemeng@huaweicloud.com
+Subject: Re: [PATCH 17/17] block, bfq: remove unnecessary local variable
+ __bfqq in bfq_setup_merge
+Message-ID: <202302200841.9zinyY7i-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -56,65 +55,114 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1802222f-9c10-9ea3-93fb-6fce086e201a@huaweicloud.com>
+In-Reply-To: <20230219104309.1511562-18-shikemeng@huaweicloud.com>
+Message-ID: <20230223054812.JVqH_Bg8xJHCpqu__zVH6lA7ZlR0dmW9kW_bGf8lzc4@z>
 
-On Thu, Feb 23, 2023 at 09:31:54AM +0800, Kemeng Shi wrote:
-> 
-> 
-> on 2/22/2023 11:13 PM, Dan Carpenter wrote:
-> > Hi Kemeng,
-> > 
-> > https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> > 
-> > url:    https://github.com/intel-lab-lkp/linux/commits/Kemeng-Shi/ext4-properly-handle-error-of-ext4_init_block_bitmap-in-ext4_read_block_bitmap_nowait/20230221-115830
-> > base:   https://git.kernel.org/pub/scm/linux/kernel/git/tytso/ext4.git dev
-> > patch link:    https://lore.kernel.org/r/20230221115919.1918161-8-shikemeng%40huaweicloud.com
-> > patch subject: [PATCH 7/7] ext4: improve inode table blocks counting in ext4_num_overhead_clusters
-> > config: riscv-randconfig-m031-20230219 (https://download.01.org/0day-ci/archive/20230222/202302222219.u328sqfs-lkp@intel.com/config)
-> > compiler: riscv32-linux-gcc (GCC) 12.1.0
-> > 
-> > If you fix the issue, kindly add following tag where applicable
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Reported-by: Dan Carpenter <error27@gmail.com>
-> > | Link: https://lore.kernel.org/r/202302222219.u328sqfs-lkp@intel.com/
-> > 
-> > New smatch warnings:
-> > fs/ext4/balloc.c:153 ext4_num_overhead_clusters() error: uninitialized symbol 'block_cluster'.
-> > 
-> > vim +/block_cluster +153 fs/ext4/balloc.c
-> [...]
-> > d5b8f31007a937 Theodore Ts'o     2011-09-09  128  	/*
-> > 2b59a2fd93873a Kemeng Shi        2023-02-21  129  	 * For the allocation bitmaps, we first need to check to see
-> > 2b59a2fd93873a Kemeng Shi        2023-02-21  130  	 * if the block is in the block group.  If it is, then check
-> > 2b59a2fd93873a Kemeng Shi        2023-02-21  131  	 * to see if the cluster is already accounted for in the clusters
-> > 2b59a2fd93873a Kemeng Shi        2023-02-21  132  	 * used for the base metadata cluster and inode tables cluster.
-> > d5b8f31007a937 Theodore Ts'o     2011-09-09  133  	 * Normally all of these blocks are contiguous, so the special
-> > d5b8f31007a937 Theodore Ts'o     2011-09-09  134  	 * case handling shouldn't be necessary except for *very*
-> > d5b8f31007a937 Theodore Ts'o     2011-09-09  135  	 * unusual file system layouts.
-> > d5b8f31007a937 Theodore Ts'o     2011-09-09  136  	 */
-> > d5b8f31007a937 Theodore Ts'o     2011-09-09  137  	if (ext4_block_in_group(sb, ext4_block_bitmap(sb, gdp), block_group)) {
-> > b0dd6b70f0fda1 Theodore Ts'o     2012-06-07  138  		block_cluster = EXT4_B2C(sbi,
-> > b0dd6b70f0fda1 Theodore Ts'o     2012-06-07  139  					 ext4_block_bitmap(sb, gdp) - start);
-> > 2b59a2fd93873a Kemeng Shi        2023-02-21  140  		if (block_cluster >= base_clusters &&
-> > 2b59a2fd93873a Kemeng Shi        2023-02-21  141  		    (block_cluster < itbl_cluster_start ||
-> > 2b59a2fd93873a Kemeng Shi        2023-02-21  142  		    block_cluster > itbl_cluster_end))
-> > d5b8f31007a937 Theodore Ts'o     2011-09-09  143  			num_clusters++;
-> > d5b8f31007a937 Theodore Ts'o     2011-09-09  144  	}
-> > d5b8f31007a937 Theodore Ts'o     2011-09-09  145  
-> > d5b8f31007a937 Theodore Ts'o     2011-09-09  146  	if (ext4_block_in_group(sb, ext4_inode_bitmap(sb, gdp), block_group)) {
-> > 
-> > These two conditions are exactly the same so I don't see why they can't
-> > be combined into one condition.  I have read the comment, but I guess I
-> > don't understand ext4 well enough to really understand it.
-> These two conditions check two kinds of bitmap block: *block* bitmap block
-> and *inode* bitmap block.
+Hi Kemeng,
 
-Ah right.  When I was reviewing this code, I copy and pasted the if
-conditions so they were exactly lined up with each other and I still
-didn't see the block vs inode difference until you pointed it out.  :P
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Thanks!
+url:    https://github.com/intel-lab-lkp/linux/commits/Kemeng-Shi/block-bfq-properly-mark-bfqq-remained-idle/20230219-104312
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-next
+patch link:    https://lore.kernel.org/r/20230219104309.1511562-18-shikemeng%40huaweicloud.com
+patch subject: [PATCH 17/17] block, bfq: remove unnecessary local variable __bfqq in bfq_setup_merge
+config: openrisc-randconfig-m041-20230219 (https://download.01.org/0day-ci/archive/20230220/202302200841.9zinyY7i-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 12.1.0
 
-regards,
-dan carpenter
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Link: https://lore.kernel.org/r/202302200841.9zinyY7i-lkp@intel.com/
+
+New smatch warnings:
+block/bfq-iosched.c:2785 bfq_setup_merge() error: we previously assumed 'new_bfqq' could be null (see line 2766)
+
+Old smatch warnings:
+block/bfq-iosched.c:6195 __bfq_insert_request() warn: variable dereferenced before check 'bfqq' (see line 6191)
+
+vim +/new_bfqq +2785 block/bfq-iosched.c
+
+36eca894832351 Arianna Avanzini 2017-04-12  2751  static struct bfq_queue *
+36eca894832351 Arianna Avanzini 2017-04-12  2752  bfq_setup_merge(struct bfq_queue *bfqq, struct bfq_queue *new_bfqq)
+36eca894832351 Arianna Avanzini 2017-04-12  2753  {
+36eca894832351 Arianna Avanzini 2017-04-12  2754  	int process_refs, new_process_refs;
+36eca894832351 Arianna Avanzini 2017-04-12  2755  
+36eca894832351 Arianna Avanzini 2017-04-12  2756  	/*
+36eca894832351 Arianna Avanzini 2017-04-12  2757  	 * If there are no process references on the new_bfqq, then it is
+36eca894832351 Arianna Avanzini 2017-04-12  2758  	 * unsafe to follow the ->new_bfqq chain as other bfqq's in the chain
+36eca894832351 Arianna Avanzini 2017-04-12  2759  	 * may have dropped their last reference (not just their last process
+36eca894832351 Arianna Avanzini 2017-04-12  2760  	 * reference).
+36eca894832351 Arianna Avanzini 2017-04-12  2761  	 */
+36eca894832351 Arianna Avanzini 2017-04-12  2762  	if (!bfqq_process_refs(new_bfqq))
+36eca894832351 Arianna Avanzini 2017-04-12  2763  		return NULL;
+36eca894832351 Arianna Avanzini 2017-04-12  2764  
+36eca894832351 Arianna Avanzini 2017-04-12  2765  	/* Avoid a circular list and skip interim queue merges. */
+114533e1e26a36 Kemeng Shi       2023-02-19 @2766  	while ((new_bfqq = new_bfqq->new_bfqq)) {
+114533e1e26a36 Kemeng Shi       2023-02-19  2767  		if (new_bfqq == bfqq)
+36eca894832351 Arianna Avanzini 2017-04-12  2768  			return NULL;
+36eca894832351 Arianna Avanzini 2017-04-12  2769  	}
+
+This now loops until new_bfqq is NULL.
+
+36eca894832351 Arianna Avanzini 2017-04-12  2770  
+36eca894832351 Arianna Avanzini 2017-04-12  2771  	process_refs = bfqq_process_refs(bfqq);
+36eca894832351 Arianna Avanzini 2017-04-12  2772  	new_process_refs = bfqq_process_refs(new_bfqq);
+
+What?
+
+36eca894832351 Arianna Avanzini 2017-04-12  2773  	/*
+36eca894832351 Arianna Avanzini 2017-04-12  2774  	 * If the process for the bfqq has gone away, there is no
+36eca894832351 Arianna Avanzini 2017-04-12  2775  	 * sense in merging the queues.
+36eca894832351 Arianna Avanzini 2017-04-12  2776  	 */
+36eca894832351 Arianna Avanzini 2017-04-12  2777  	if (process_refs == 0 || new_process_refs == 0)
+36eca894832351 Arianna Avanzini 2017-04-12  2778  		return NULL;
+36eca894832351 Arianna Avanzini 2017-04-12  2779  
+c1cee4ab36acef Jan Kara         2022-04-01  2780  	/*
+c1cee4ab36acef Jan Kara         2022-04-01  2781  	 * Make sure merged queues belong to the same parent. Parents could
+c1cee4ab36acef Jan Kara         2022-04-01  2782  	 * have changed since the time we decided the two queues are suitable
+c1cee4ab36acef Jan Kara         2022-04-01  2783  	 * for merging.
+c1cee4ab36acef Jan Kara         2022-04-01  2784  	 */
+c1cee4ab36acef Jan Kara         2022-04-01 @2785  	if (new_bfqq->entity.parent != bfqq->entity.parent)
+c1cee4ab36acef Jan Kara         2022-04-01  2786  		return NULL;
+c1cee4ab36acef Jan Kara         2022-04-01  2787  
+36eca894832351 Arianna Avanzini 2017-04-12  2788  	bfq_log_bfqq(bfqq->bfqd, bfqq, "scheduling merge with queue %d",
+36eca894832351 Arianna Avanzini 2017-04-12  2789  		new_bfqq->pid);
+36eca894832351 Arianna Avanzini 2017-04-12  2790  
+36eca894832351 Arianna Avanzini 2017-04-12  2791  	/*
+36eca894832351 Arianna Avanzini 2017-04-12  2792  	 * Merging is just a redirection: the requests of the process
+36eca894832351 Arianna Avanzini 2017-04-12  2793  	 * owning one of the two queues are redirected to the other queue.
+36eca894832351 Arianna Avanzini 2017-04-12  2794  	 * The latter queue, in its turn, is set as shared if this is the
+36eca894832351 Arianna Avanzini 2017-04-12  2795  	 * first time that the requests of some process are redirected to
+36eca894832351 Arianna Avanzini 2017-04-12  2796  	 * it.
+36eca894832351 Arianna Avanzini 2017-04-12  2797  	 *
+6fa3e8d34204d5 Paolo Valente    2017-04-12  2798  	 * We redirect bfqq to new_bfqq and not the opposite, because
+6fa3e8d34204d5 Paolo Valente    2017-04-12  2799  	 * we are in the context of the process owning bfqq, thus we
+6fa3e8d34204d5 Paolo Valente    2017-04-12  2800  	 * have the io_cq of this process. So we can immediately
+6fa3e8d34204d5 Paolo Valente    2017-04-12  2801  	 * configure this io_cq to redirect the requests of the
+6fa3e8d34204d5 Paolo Valente    2017-04-12  2802  	 * process to new_bfqq. In contrast, the io_cq of new_bfqq is
+6fa3e8d34204d5 Paolo Valente    2017-04-12  2803  	 * not available any more (new_bfqq->bic == NULL).
+6fa3e8d34204d5 Paolo Valente    2017-04-12  2804  	 *
+6fa3e8d34204d5 Paolo Valente    2017-04-12  2805  	 * Anyway, even in case new_bfqq coincides with the in-service
+6fa3e8d34204d5 Paolo Valente    2017-04-12  2806  	 * queue, redirecting requests the in-service queue is the
+6fa3e8d34204d5 Paolo Valente    2017-04-12  2807  	 * best option, as we feed the in-service queue with new
+6fa3e8d34204d5 Paolo Valente    2017-04-12  2808  	 * requests close to the last request served and, by doing so,
+6fa3e8d34204d5 Paolo Valente    2017-04-12  2809  	 * are likely to increase the throughput.
+36eca894832351 Arianna Avanzini 2017-04-12  2810  	 */
+36eca894832351 Arianna Avanzini 2017-04-12  2811  	bfqq->new_bfqq = new_bfqq;
+15729ff8143f81 Paolo Valente    2021-11-25  2812  	/*
+15729ff8143f81 Paolo Valente    2021-11-25  2813  	 * The above assignment schedules the following redirections:
+15729ff8143f81 Paolo Valente    2021-11-25  2814  	 * each time some I/O for bfqq arrives, the process that
+15729ff8143f81 Paolo Valente    2021-11-25  2815  	 * generated that I/O is disassociated from bfqq and
+15729ff8143f81 Paolo Valente    2021-11-25  2816  	 * associated with new_bfqq. Here we increases new_bfqq->ref
+15729ff8143f81 Paolo Valente    2021-11-25  2817  	 * in advance, adding the number of processes that are
+15729ff8143f81 Paolo Valente    2021-11-25  2818  	 * expected to be associated with new_bfqq as they happen to
+15729ff8143f81 Paolo Valente    2021-11-25  2819  	 * issue I/O.
+15729ff8143f81 Paolo Valente    2021-11-25  2820  	 */
+36eca894832351 Arianna Avanzini 2017-04-12  2821  	new_bfqq->ref += process_refs;
+36eca894832351 Arianna Avanzini 2017-04-12  2822  	return new_bfqq;
+36eca894832351 Arianna Avanzini 2017-04-12  2823  }
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
 
