@@ -1,41 +1,42 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EFAB53A0
-	for <oe-kbuild@lists.linux.dev>; Fri, 24 Feb 2023 21:25:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5DE43D8F
+	for <oe-kbuild@lists.linux.dev>; Fri, 24 Feb 2023 23:00:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677273911; x=1708809911;
+  t=1677279621; x=1708815621;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=12x7vxLV2jWFDRA1P6LoeasEcgKq+Oyo6ZfV+08aaNE=;
-  b=fa/MDpNOvUFSSWQvLawHP2IS7e7KalbckmZBSkXK7s7+ZDQtB4/MZypY
-   fognfRWTs1v7NS5GTyWZAIWwL4ukRxY8IC2zPjbulJ7BeqEuE9b6h85zs
-   pmIYJQhBXzfV5hXZGnxzW8V/sYQSucnPeRFdGzJ5ZdpJqjAL8MFzlF4dA
-   xViBixJr1DDnrh9Nd8LDkZtfEcKeE+Yj5XgMYDdNuaGY350Pjlw4+6243
-   AOcU4OhfCeEKWmiEZC++5sDvA1kps4b9OlThPMmlb0kPFL917p59mlWvO
-   2wSKiFXxZ+wZsCpPaAMY5EGiQfV5PwT0wEdVmNP9heKLTcZyNGRL9BwFS
+  bh=o0sG5g3/0/q/lnMcghVAxvXF177eA4RpdSOrDP8YF1M=;
+  b=dTnyqx2dCL386TD3AVCtXoLVm3lpOLlvVCNTSwSrFYi3FJlzJUVu3cCR
+   e/7HADJBXBkFINXLzDJ11t7q0+1l/Jtb7iTPbEBb80bq/aP35M8ianhGZ
+   hj+dnQMWPrhk1jIKs9axozGdFRVDbGMXX3MlF5/QQON2N1aUbu18siODQ
+   tSi8q7W0+QyVZXKyRbJ9dGz2SSMQu7M/IuPOv9zX3WBDRUU4fahdJF7n3
+   V9pwVl9tgwatmgsGp/Z+1P6urHRW0ng0JvzcPKR262wYJv+LrEXaEZAcD
+   8OTS5lZMbsytErsrftHaGz5Srol2K8i39FR6Swtm4keitPuG7qek1q3Of
    w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10631"; a="396094664"
-X-IronPort-AV: E=Sophos;i="5.97,325,1669104000"; 
-   d="scan'208";a="396094664"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2023 13:25:10 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10631"; a="313987544"
+X-IronPort-AV: E=Sophos;i="5.97,326,1669104000"; 
+   d="scan'208";a="313987544"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2023 15:00:12 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10631"; a="782517015"
-X-IronPort-AV: E=Sophos;i="5.97,325,1669104000"; 
-   d="scan'208";a="782517015"
+X-IronPort-AV: E=McAfee;i="6500,9779,10631"; a="705435729"
+X-IronPort-AV: E=Sophos;i="5.97,326,1669104000"; 
+   d="scan'208";a="705435729"
 Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 24 Feb 2023 13:25:08 -0800
+  by orsmga001.jf.intel.com with ESMTP; 24 Feb 2023 15:00:10 -0800
 Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pVfYx-0002jb-2l;
-	Fri, 24 Feb 2023 21:25:07 +0000
-Date: Sat, 25 Feb 2023 05:24:35 +0800
+	id 1pVh2v-0002mh-2q;
+	Fri, 24 Feb 2023 23:00:09 +0000
+Date: Sat, 25 Feb 2023 07:00:00 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: mm/page-writeback.c:1413:28: warning: shift by negative count ('-1')
-Message-ID: <202302250542.DrZaQQ8x-lkp@intel.com>
+Subject: drivers/hwmon/emc2305.c:386:23: warning: Value stored to 'data'
+ during its initialization is never read [clang-analyzer-deadcode.DeadStores]
+Message-ID: <202302250637.OIfs3zDQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -46,269 +47,295 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "low confidence bisect report"
-:::::: Manual check reason: "low confidence static check first_new_problem: mm/page-writeback.c:1413:28: warning: shift by negative count ('-1') [-Wanalyzer-shift-count-negative]"
+:::::: Manual check reason: "low confidence static check warning: drivers/hwmon/emc2305.c:386:23: warning: Value stored to 'data' during its initialization is never read [clang-analyzer-deadcode.DeadStores]"
 :::::: 
 
 BCC: lkp@intel.com
+CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Christophe Leroy <christophe.leroy@csgroup.eu>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Michael Shych <michaelsh@nvidia.com>
+CC: Guenter Roeck <linux@roeck-us.net>
+CC: Vadim Pasternak <vadimp@nvidia.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   d2980d8d826554fa6981d621e569a453787472f8
-commit: f334f5668bedf7307f6df1d98b14f55902931926 ilog2: force inlining of __ilog2_u32() and __ilog2_u64()
-date:   11 months ago
-:::::: branch date: 19 hours ago
-:::::: commit date: 11 months ago
-config: arm-randconfig-c002-20230222 (https://download.01.org/0day-ci/archive/20230225/202302250542.DrZaQQ8x-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+commit: 0d8400c5a2ce1595f31b2f99e3139cf5bc5f35fd hwmon: (emc2305) add support for EMC2301/2/3/5 RPM-based PWM Fan Speed Controller.
+date:   5 months ago
+:::::: branch date: 21 hours ago
+:::::: commit date: 5 months ago
+config: arm-randconfig-c002-20230219 (https://download.01.org/0day-ci/archive/20230225/202302250637.OIfs3zDQ-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project db89896bbbd2251fff457699635acbbedeead27f)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=f334f5668bedf7307f6df1d98b14f55902931926
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=0d8400c5a2ce1595f31b2f99e3139cf5bc5f35fd
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout f334f5668bedf7307f6df1d98b14f55902931926
+        git checkout 0d8400c5a2ce1595f31b2f99e3139cf5bc5f35fd
         # save the config file
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross ARCH=arm KBUILD_USERCFLAGS='-fanalyzer -Wno-error'  olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross ARCH=arm KBUILD_USERCFLAGS='-fanalyzer -Wno-error' 
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=arm clang-analyzer  olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=arm clang-analyzer 
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/r/202302250542.DrZaQQ8x-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202302250637.OIfs3zDQ-lkp@intel.com/
 
-gcc_analyzer warnings: (new ones prefixed by >>)
-       |      |      |
-       |      |      (1) entry to 'wb_over_bg_thresh'
-       |
-     'wb_over_bg_thresh': event 2
-       |
-       |include/linux/compiler.h:56:26:
-       |   56 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-       |      |                          ^
-       |      |                          |
-       |      |                          (2) following 'false' branch...
-   mm/page-writeback.c:1960:9: note: in expansion of macro 'if'
-       | 1960 |         if (gdtc->dirty > gdtc->bg_thresh)
-       |      |         ^~
-       |
-     'wb_over_bg_thresh': events 3-4
-       |
-       | 1963 |         thresh = wb_calc_thresh(gdtc->wb, gdtc->bg_thresh);
-       |      |         ^~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |         |        |
-       |      |         |        (4) calling 'wb_calc_thresh' from 'wb_over_bg_thresh'
-       |      |         (3) ...to here
-       |
-       +--> 'wb_calc_thresh': events 5-6
-              |
-              |  779 | unsigned long wb_calc_thresh(struct bdi_writeback *wb, unsigned long thresh)
-              |      |               ^~~~~~~~~~~~~~
-              |      |               |
-              |      |               (5) entry to 'wb_calc_thresh'
-              |......
-              |  783 |         return __wb_calc_thresh(&gdtc);
-              |      |                ~~~~~~~~~~~~~~~~~~~~~~~
-              |      |                |
-              |      |                (6) calling '__wb_calc_thresh' from 'wb_calc_thresh'
-              |
-              +--> '__wb_calc_thresh': events 7-8
-                     |
-                     |  752 | static unsigned long __wb_calc_thresh(struct dirty_throttle_control *dtc)
-                     |      |                      ^~~~~~~~~~~~~~~~
-                     |      |                      |
-                     |      |                      (7) entry to '__wb_calc_thresh'
-                     |......
-                     |  757 |         unsigned long numerator, denominator;
-                     |      |                       ~~~~~~~~~
-                     |      |                       |
-                     |      |                       (8) use of uninitialized value '<unknown>' here
-                     |
-   mm/page-writeback.c:757:34: warning: use of uninitialized value '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-     757 |         unsigned long numerator, denominator;
-         |                                  ^~~~~~~~~~~
-     'wb_over_bg_thresh': event 1
-       |
-       | 1942 | bool wb_over_bg_thresh(struct bdi_writeback *wb)
-       |      |      ^~~~~~~~~~~~~~~~~
-       |      |      |
-       |      |      (1) entry to 'wb_over_bg_thresh'
-       |
-     'wb_over_bg_thresh': event 2
-       |
-       |include/linux/compiler.h:56:26:
-       |   56 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-       |      |                          ^
-       |      |                          |
-       |      |                          (2) following 'false' branch...
-   mm/page-writeback.c:1960:9: note: in expansion of macro 'if'
-       | 1960 |         if (gdtc->dirty > gdtc->bg_thresh)
-       |      |         ^~
-       |
-     'wb_over_bg_thresh': events 3-4
-       |
-       | 1963 |         thresh = wb_calc_thresh(gdtc->wb, gdtc->bg_thresh);
-       |      |         ^~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |         |        |
-       |      |         |        (4) calling 'wb_calc_thresh' from 'wb_over_bg_thresh'
-       |      |         (3) ...to here
-       |
-       +--> 'wb_calc_thresh': events 5-6
-              |
-              |  779 | unsigned long wb_calc_thresh(struct bdi_writeback *wb, unsigned long thresh)
-              |      |               ^~~~~~~~~~~~~~
-              |      |               |
-              |      |               (5) entry to 'wb_calc_thresh'
-              |......
-              |  783 |         return __wb_calc_thresh(&gdtc);
-              |      |                ~~~~~~~~~~~~~~~~~~~~~~~
-              |      |                |
-              |      |                (6) calling '__wb_calc_thresh' from 'wb_calc_thresh'
-              |
-              +--> '__wb_calc_thresh': events 7-8
-                     |
-                     |  752 | static unsigned long __wb_calc_thresh(struct dirty_throttle_control *dtc)
-                     |      |                      ^~~~~~~~~~~~~~~~
-                     |      |                      |
-                     |      |                      (7) entry to '__wb_calc_thresh'
-                     |......
-                     |  757 |         unsigned long numerator, denominator;
-                     |      |                                  ~~~~~~~~~~~
-                     |      |                                  |
-                     |      |                                  (8) use of uninitialized value '<unknown>' here
-                     |
-   mm/page-writeback.c: In function 'dirty_poll_interval.part.0':
->> mm/page-writeback.c:1413:28: warning: shift by negative count ('-1') [-Wanalyzer-shift-count-negative]
-    1413 |                 return 1UL << (ilog2(thresh - dirty) >> 1);
-         |                        ~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     'dirty_poll_interval.part.0': event 1
-       |
-       | 1413 |                 return 1UL << (ilog2(thresh - dirty) >> 1);
-       |      |                        ~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |                            |
-       |      |                            (1) following 'false' branch...
-       |
-     'dirty_poll_interval.part.0': event 2
-       |
-       |include/linux/log2.h:24:9:
-       |   24 |         return fls(n) - 1;
-       |      |         ^~~~~~
-       |      |         |
-       |      |         (2) ...to here
-       |
-     'dirty_poll_interval.part.0': event 3
-       |
-       |include/asm-generic/bitops/builtin-fls.h:14:53:
-       |   14 |         return x ? sizeof(x) * 8 - __builtin_clz(x) : 0;
-       |      |                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~
-       |      |                                                     |
-       |      |                                                     (3) following 'false' branch...
-       |
-     'dirty_poll_interval.part.0': event 4
-       |
-       |include/linux/log2.h:24:23:
-       |   24 |         return fls(n) - 1;
-       |      |                ~~~~~~~^~~
-       |      |                       |
-       |      |                       (4) ...to here
-       |
-     'dirty_poll_interval.part.0': event 5
-       |
-       |mm/page-writeback.c:1413:28:
-       | 1413 |                 return 1UL << (ilog2(thresh - dirty) >> 1);
-       |      |                        ~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |                            |
-       |      |                            (5) shift by negative amount here ('-1')
-       |
-   mm/page-writeback.c: In function 'balance_dirty_pages':
-   mm/page-writeback.c:1574:13: warning: use of uninitialized value '<unknown>' [CWE-457] [-Wanalyzer-use-of-uninitialized-value]
-    1574 |         int nr_dirtied_pause;
-         |             ^~~~~~~~~~~~~~~~
-     'balance_dirty_pages_ratelimited': event 1
-       |
-       | 1878 | void balance_dirty_pages_ratelimited(struct address_space *mapping)
-       |      |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |      |
-       |      |      (1) entry to 'balance_dirty_pages_ratelimited'
-       |
-     'balance_dirty_pages_ratelimited': event 2
-       |
-       |include/linux/compiler.h:56:26:
-       |   56 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-       |      |                          ^
-       |      |                          |
-       |      |                          (2) following 'false' branch...
-   mm/page-writeback.c:1886:9: note: in expansion of macro 'if'
-       | 1886 |         if (!(bdi->capabilities & BDI_CAP_WRITEBACK))
-       |      |         ^~
-       |
-     'balance_dirty_pages_ratelimited': event 3
-       |
-       |include/linux/compiler.h:56:23:
-       |   56 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-       |      |                       ^~
-       |      |                       |
-       |      |                       (3) ...to here
-   mm/page-writeback.c:1889:9: note: in expansion of macro 'if'
-       | 1889 |         if (inode_cgwb_enabled(inode))
-       |      |         ^~
-       |
-     'balance_dirty_pages_ratelimited': event 4
-       |
-       |include/linux/compiler.h:70:46:
-       |   69 |         (cond) ?                                        \
-       |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |   70 |                 (__if_trace.miss_hit[1]++,1) :          \
-       |      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~
-       |      |                                              |
-       |      |                                              (4) following 'true' branch (when '______r != 0')...
-       |   71 |                 (__if_trace.miss_hit[0]++,0);           \
-       |      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~  
-   include/linux/compiler.h:58:69: note: in expansion of macro '__trace_if_value'
-       |   58 | #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
-       |      |                                                                     ^~~~~~~~~~~~~~~~
-   include/linux/compiler.h:56:28: note: in expansion of macro '__trace_if_var'
-       |   56 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-       |      |                            ^~~~~~~~~~~~~~
-   mm/page-writeback.c:1926:9: note: in expansion of macro 'if'
-       | 1926 |         if (unlikely(current->nr_dirtied >= ratelimit))
-       |      |         ^~
-       |
-     'balance_dirty_pages_ratelimited': event 5
-       |
-       |include/linux/compiler.h:70:37:
-       |   70 |                 (__if_trace.miss_hit[1]++,1) :          \
-       |      |                  ~~~~~~~~~~~~~~~~~~~^~~
+clang_analyzer warnings: (new ones prefixed by >>)
+           ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/log2.h:57:16: note: Calling 'fls_long'
+           return 1UL << fls_long(n - 1);
+                         ^~~~~~~~~~~~~~~
+   include/linux/bitops.h:205:2: note: Taking true branch
+           if (sizeof(l) == 4)
+           ^
+   include/linux/bitops.h:206:10: note: Calling 'fls'
+                   return fls(l);
+                          ^~~~~~
+   include/asm-generic/bitops/fls.h:15:2: note: 'r' initialized to 32
+           int r = 32;
+           ^~~~~
+   include/asm-generic/bitops/fls.h:17:6: note: Assuming 'x' is not equal to 0, which participates in a condition later
+           if (!x)
+               ^~
+   include/asm-generic/bitops/fls.h:17:2: note: Taking false branch
+           if (!x)
+           ^
+   include/asm-generic/bitops/fls.h:19:6: note: Assuming the condition is false
+           if (!(x & 0xffff0000u)) {
+               ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/bitops/fls.h:19:2: note: Taking false branch
+           if (!(x & 0xffff0000u)) {
+           ^
+   include/asm-generic/bitops/fls.h:23:6: note: Assuming the condition is false
+           if (!(x & 0xff000000u)) {
+               ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/bitops/fls.h:23:2: note: Taking false branch
+           if (!(x & 0xff000000u)) {
+           ^
+   include/asm-generic/bitops/fls.h:27:6: note: Assuming the condition is false
+           if (!(x & 0xf0000000u)) {
+               ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/bitops/fls.h:27:2: note: Taking false branch
+           if (!(x & 0xf0000000u)) {
+           ^
+   include/asm-generic/bitops/fls.h:31:6: note: Assuming the condition is false
+           if (!(x & 0xc0000000u)) {
+               ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/bitops/fls.h:31:2: note: Taking false branch
+           if (!(x & 0xc0000000u)) {
+           ^
+   include/asm-generic/bitops/fls.h:35:6: note: Assuming the condition is false
+           if (!(x & 0x80000000u)) {
+               ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/bitops/fls.h:35:2: note: Taking false branch
+           if (!(x & 0x80000000u)) {
+           ^
+   include/asm-generic/bitops/fls.h:39:2: note: Returning the value 32 (loaded from 'r')
+           return r;
+           ^~~~~~~~
+   include/linux/bitops.h:206:10: note: Returning from 'fls'
+                   return fls(l);
+                          ^~~~~~
+   include/linux/bitops.h:206:3: note: Returning the value 32
+                   return fls(l);
+                   ^~~~~~~~~~~~~
+   include/linux/log2.h:57:16: note: Returning from 'fls_long'
+           return 1UL << fls_long(n - 1);
+                         ^~~~~~~~~~~~~~~
+   include/linux/log2.h:57:13: note: The result of the left shift is undefined due to shifting by '32', which is greater or equal to the width of type 'unsigned long'
+           return 1UL << fls_long(n - 1);
+                      ^  ~~~~~~~~~~~~~~~
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   11 warnings generated.
+>> drivers/hwmon/emc2305.c:386:23: warning: Value stored to 'data' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct emc2305_data *data = dev_get_drvdata(dev);
+                                ^~~~   ~~~~~~~~~~~~~~~~~~~~
+   drivers/hwmon/emc2305.c:386:23: note: Value stored to 'data' during its initialization is never read
+           struct emc2305_data *data = dev_get_drvdata(dev);
+                                ^~~~   ~~~~~~~~~~~~~~~~~~~~
+>> drivers/hwmon/emc2305.c:602:17: warning: Value stored to 'dev' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct device *dev = &client->dev;
+                          ^~~   ~~~~~~~~~~~~
+   drivers/hwmon/emc2305.c:602:17: note: Value stored to 'dev' during its initialization is never read
+           struct device *dev = &client->dev;
+                          ^~~   ~~~~~~~~~~~~
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   10 warnings generated.
+   Suppressed 10 warnings (9 in non-user code, 1 with check filters).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   10 warnings generated.
+   Suppressed 10 warnings (9 in non-user code, 1 with check filters).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   17 warnings generated.
+   drivers/media/tuners/mt20xx.c:253:2: warning: Value stored to 'ret' is never read [clang-analyzer-deadcode.DeadStores]
+           ret=tuner_i2c_xfer_send(&priv->i2c_props,buf,1);
+           ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/tuners/mt20xx.c:253:2: note: Value stored to 'ret' is never read
+           ret=tuner_i2c_xfer_send(&priv->i2c_props,buf,1);
+           ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/tuners/mt20xx.c:263:2: warning: Value stored to 'ret' is never read [clang-analyzer-deadcode.DeadStores]
+           ret=tuner_i2c_xfer_send(&priv->i2c_props,buf,4);
+           ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/tuners/mt20xx.c:263:2: note: Value stored to 'ret' is never read
+           ret=tuner_i2c_xfer_send(&priv->i2c_props,buf,4);
+           ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/tuners/mt20xx.c:265:2: warning: Value stored to 'ret' is never read [clang-analyzer-deadcode.DeadStores]
+           ret=tuner_i2c_xfer_send(&priv->i2c_props,buf+5,4);
+           ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/tuners/mt20xx.c:265:2: note: Value stored to 'ret' is never read
+           ret=tuner_i2c_xfer_send(&priv->i2c_props,buf+5,4);
+           ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/tuners/mt20xx.c:383:2: warning: Value stored to 'ret' is never read [clang-analyzer-deadcode.DeadStores]
+           ret=tuner_i2c_xfer_send(&priv->i2c_props,buf+1,4);
+           ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/tuners/mt20xx.c:383:2: note: Value stored to 'ret' is never read
+           ret=tuner_i2c_xfer_send(&priv->i2c_props,buf+1,4);
+           ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/tuners/mt20xx.c:391:2: warning: Value stored to 'ret' is never read [clang-analyzer-deadcode.DeadStores]
+           ret=tuner_i2c_xfer_send(&priv->i2c_props,buf+5,6);
+           ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/tuners/mt20xx.c:391:2: note: Value stored to 'ret' is never read
+           ret=tuner_i2c_xfer_send(&priv->i2c_props,buf+5,6);
+           ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/tuners/mt20xx.c:395:2: warning: Value stored to 'ret' is never read [clang-analyzer-deadcode.DeadStores]
+           ret=tuner_i2c_xfer_send(&priv->i2c_props,buf+12,2);
+           ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/tuners/mt20xx.c:395:2: note: Value stored to 'ret' is never read
+           ret=tuner_i2c_xfer_send(&priv->i2c_props,buf+12,2);
+           ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 11 warnings (9 in non-user code, 2 with check filters).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   10 warnings generated.
+   Suppressed 10 warnings (9 in non-user code, 1 with check filters).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   26 warnings generated.
+   drivers/media/tuners/mxl5005s.c:2668:3: warning: Value stored to 'Fmax' is never read [clang-analyzer-deadcode.DeadStores]
+                   Fmax = FmaxBin ;
+                   ^      ~~~~~~~
+   drivers/media/tuners/mxl5005s.c:2668:3: note: Value stored to 'Fmax' is never read
+                   Fmax = FmaxBin ;
+                   ^      ~~~~~~~
+   drivers/media/tuners/mxl5005s.c:2669:3: warning: Value stored to 'Fmin' is never read [clang-analyzer-deadcode.DeadStores]
+                   Fmin = FminBin ;
+                   ^      ~~~~~~~
+   drivers/media/tuners/mxl5005s.c:2669:3: note: Value stored to 'Fmin' is never read
+                   Fmin = FminBin ;
+                   ^      ~~~~~~~
+   drivers/media/tuners/mxl5005s.c:2677:3: warning: Value stored to 'Fmax' is never read [clang-analyzer-deadcode.DeadStores]
+                   Fmax = FmaxBin ;
+                   ^      ~~~~~~~
+   drivers/media/tuners/mxl5005s.c:2677:3: note: Value stored to 'Fmax' is never read
+                   Fmax = FmaxBin ;
+                   ^      ~~~~~~~
+   drivers/media/tuners/mxl5005s.c:2678:3: warning: Value stored to 'Fmin' is never read [clang-analyzer-deadcode.DeadStores]
+                   Fmin = FminBin ;
+                   ^      ~~~~~~~
+   drivers/media/tuners/mxl5005s.c:2678:3: note: Value stored to 'Fmin' is never read
+                   Fmin = FminBin ;
+                   ^      ~~~~~~~
+   drivers/media/tuners/mxl5005s.c:2686:3: warning: Value stored to 'Fmax' is never read [clang-analyzer-deadcode.DeadStores]
+                   Fmax = FmaxBin ;
+                   ^      ~~~~~~~
+   drivers/media/tuners/mxl5005s.c:2686:3: note: Value stored to 'Fmax' is never read
+                   Fmax = FmaxBin ;
+                   ^      ~~~~~~~
+   drivers/media/tuners/mxl5005s.c:2687:3: warning: Value stored to 'Fmin' is never read [clang-analyzer-deadcode.DeadStores]
+                   Fmin = FminBin ;
+                   ^      ~~~~~~~
+   drivers/media/tuners/mxl5005s.c:2687:3: note: Value stored to 'Fmin' is never read
+                   Fmin = FminBin ;
+                   ^      ~~~~~~~
+   drivers/media/tuners/mxl5005s.c:2695:3: warning: Value stored to 'Fmax' is never read [clang-analyzer-deadcode.DeadStores]
+                   Fmax = FmaxBin ;
+                   ^      ~~~~~~~
+   drivers/media/tuners/mxl5005s.c:2695:3: note: Value stored to 'Fmax' is never read
+                   Fmax = FmaxBin ;
 
-vim +1413 mm/page-writeback.c
+vim +/data +386 drivers/hwmon/emc2305.c
 
-e98be2d599207c6 Wu Fengguang 2010-08-29  1400  
-9d823e8f6b1b7b3 Wu Fengguang 2011-06-11  1401  /*
-d0e1d66b5aa1ec9 Namjae Jeon  2012-12-11  1402   * After a task dirtied this many pages, balance_dirty_pages_ratelimited()
-9d823e8f6b1b7b3 Wu Fengguang 2011-06-11  1403   * will look to see if it needs to start dirty throttling.
-9d823e8f6b1b7b3 Wu Fengguang 2011-06-11  1404   *
-9d823e8f6b1b7b3 Wu Fengguang 2011-06-11  1405   * If dirty_poll_interval is too low, big NUMA machines will call the expensive
-c41f012ade0b95b Michal Hocko 2017-09-06  1406   * global_zone_page_state() too often. So scale it near-sqrt to the safety margin
-9d823e8f6b1b7b3 Wu Fengguang 2011-06-11  1407   * (the number of pages we may dirty without exceeding the dirty limits).
-9d823e8f6b1b7b3 Wu Fengguang 2011-06-11  1408   */
-9d823e8f6b1b7b3 Wu Fengguang 2011-06-11  1409  static unsigned long dirty_poll_interval(unsigned long dirty,
-9d823e8f6b1b7b3 Wu Fengguang 2011-06-11  1410  					 unsigned long thresh)
-9d823e8f6b1b7b3 Wu Fengguang 2011-06-11  1411  {
-9d823e8f6b1b7b3 Wu Fengguang 2011-06-11  1412  	if (thresh > dirty)
-9d823e8f6b1b7b3 Wu Fengguang 2011-06-11 @1413  		return 1UL << (ilog2(thresh - dirty) >> 1);
-9d823e8f6b1b7b3 Wu Fengguang 2011-06-11  1414  
-9d823e8f6b1b7b3 Wu Fengguang 2011-06-11  1415  	return 1;
-9d823e8f6b1b7b3 Wu Fengguang 2011-06-11  1416  }
-9d823e8f6b1b7b3 Wu Fengguang 2011-06-11  1417  
-
-:::::: The code at line 1413 was first introduced by commit
-:::::: 9d823e8f6b1b7b39f952d7d1795f29162143a433 writeback: per task dirty rate limit
-
-:::::: TO: Wu Fengguang <fengguang.wu@intel.com>
-:::::: CC: Wu Fengguang <fengguang.wu@intel.com>
+0d8400c5a2ce15 Michael Shych 2022-08-10  382  
+0d8400c5a2ce15 Michael Shych 2022-08-10  383  static int
+0d8400c5a2ce15 Michael Shych 2022-08-10  384  emc2305_write(struct device *dev, enum hwmon_sensor_types type, u32 attr, int channel, long val)
+0d8400c5a2ce15 Michael Shych 2022-08-10  385  {
+0d8400c5a2ce15 Michael Shych 2022-08-10 @386  	struct emc2305_data *data = dev_get_drvdata(dev);
+0d8400c5a2ce15 Michael Shych 2022-08-10  387  	int cdev_idx;
+0d8400c5a2ce15 Michael Shych 2022-08-10  388  
+0d8400c5a2ce15 Michael Shych 2022-08-10  389  	switch (type) {
+0d8400c5a2ce15 Michael Shych 2022-08-10  390  	case hwmon_pwm:
+0d8400c5a2ce15 Michael Shych 2022-08-10  391  		switch (attr) {
+0d8400c5a2ce15 Michael Shych 2022-08-10  392  		case hwmon_pwm_input:
+0d8400c5a2ce15 Michael Shych 2022-08-10  393  			/* If thermal is configured - handle PWM limit setting. */
+0d8400c5a2ce15 Michael Shych 2022-08-10  394  			if (IS_REACHABLE(CONFIG_THERMAL)) {
+0d8400c5a2ce15 Michael Shych 2022-08-10  395  				if (data->pwm_separate)
+0d8400c5a2ce15 Michael Shych 2022-08-10  396  					cdev_idx = channel;
+0d8400c5a2ce15 Michael Shych 2022-08-10  397  				else
+0d8400c5a2ce15 Michael Shych 2022-08-10  398  					cdev_idx = 0;
+0d8400c5a2ce15 Michael Shych 2022-08-10  399  				data->cdev_data[cdev_idx].last_hwmon_state =
+0d8400c5a2ce15 Michael Shych 2022-08-10  400  					EMC2305_PWM_DUTY2STATE(val, data->max_state,
+0d8400c5a2ce15 Michael Shych 2022-08-10  401  							       EMC2305_FAN_MAX);
+0d8400c5a2ce15 Michael Shych 2022-08-10  402  				/*
+0d8400c5a2ce15 Michael Shych 2022-08-10  403  				 * Update PWM only in case requested state is not less than the
+0d8400c5a2ce15 Michael Shych 2022-08-10  404  				 * last thermal state.
+0d8400c5a2ce15 Michael Shych 2022-08-10  405  				 */
+0d8400c5a2ce15 Michael Shych 2022-08-10  406  				if (data->cdev_data[cdev_idx].last_hwmon_state >=
+0d8400c5a2ce15 Michael Shych 2022-08-10  407  				    data->cdev_data[cdev_idx].last_thermal_state)
+0d8400c5a2ce15 Michael Shych 2022-08-10  408  					return emc2305_set_cur_state(data->cdev_data[cdev_idx].cdev,
+0d8400c5a2ce15 Michael Shych 2022-08-10  409  							data->cdev_data[cdev_idx].last_hwmon_state);
+0d8400c5a2ce15 Michael Shych 2022-08-10  410  				return 0;
+0d8400c5a2ce15 Michael Shych 2022-08-10  411  			}
+0d8400c5a2ce15 Michael Shych 2022-08-10  412  			return emc2305_set_pwm(dev, val, channel);
+0d8400c5a2ce15 Michael Shych 2022-08-10  413  		default:
+0d8400c5a2ce15 Michael Shych 2022-08-10  414  			break;
+0d8400c5a2ce15 Michael Shych 2022-08-10  415  		}
+0d8400c5a2ce15 Michael Shych 2022-08-10  416  		break;
+0d8400c5a2ce15 Michael Shych 2022-08-10  417  	default:
+0d8400c5a2ce15 Michael Shych 2022-08-10  418  		break;
+0d8400c5a2ce15 Michael Shych 2022-08-10  419  	}
+0d8400c5a2ce15 Michael Shych 2022-08-10  420  
+0d8400c5a2ce15 Michael Shych 2022-08-10  421  	return -EOPNOTSUPP;
+0d8400c5a2ce15 Michael Shych 2022-08-10  422  };
+0d8400c5a2ce15 Michael Shych 2022-08-10  423  
 
 -- 
 0-DAY CI Kernel Test Service
