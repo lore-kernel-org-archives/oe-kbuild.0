@@ -1,49 +1,42 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8D2E7C;
-	Fri, 24 Feb 2023 07:11:49 +0000 (UTC)
-Received: by mail-wr1-f48.google.com with SMTP id bo30so12345841wrb.0;
-        Thu, 23 Feb 2023 23:11:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=h3LRZ8mvAO6quO+JJpd60L6H+aiSKf01chUtzcmVmaA=;
-        b=C8jI72GdyTZ62v5gmRgKDUqc0irV/9Oxs2vXimY4iI6OSenIMYg4k2vch+om9IFSjb
-         nMFX7yT91kn7gV2dyqFAnISPFMPbVX53FyinAAoUKMOnvZFjEdhsmh4NXlEEgqed+zuW
-         dd9ph3/wbpROYsaf9SbP/oQNnJByWoxlN1XmNxax/fAYqshiTsP3qiDSqf9eRKQ/b85P
-         pLhifXd/QoIlQtCD4Z2yWnhd+SGFPimKSgNkH29uLiTWcyvIk+yOLH+eb5aXyVK0UxwQ
-         44o5AUJJHimraW+ZPwmdnqdS4PbJeS44U+RQLS2VFeml73pplPmcvRtDb9xkuXK/gr7W
-         QBcA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=h3LRZ8mvAO6quO+JJpd60L6H+aiSKf01chUtzcmVmaA=;
-        b=YTetuJsJtVnXOIlRHqlXnyDTaV+zz4nO/s/wKNhVqxcxaP/CXNU3SE7E7bPCXNGGfN
-         AZJLnC0223j/Q/SWJSpzAKYY/GbrSfQ0HON8WuOjE4WU6dK/Gvz449y+QDy5uuG9SCmi
-         HW+2Wv9wDd7RkQRjvLSEkqIwaowblQIPTP9EiUPScpXSMYhdqLN+vx4z5jhNpRTpXgQj
-         mhlDlLMWazUDxS8g8NBC5TsPlDIPFcwSjbLzYxvvfdzh01xrpINY0RD3ahwDsMW8W8AD
-         4UBPkfw5PWShAcIHB+MfA23kwxGLd2B/v1Ma7489WpmmHlHIOK5Ox+IYvVYXFVKSrk5X
-         I3KQ==
-X-Gm-Message-State: AO0yUKUTQ9eg/hQ0MextoMySq0ruuyfZ9g0v3hK77F3hL3IxODjSBaLu
-	Fw1nUNhi6wi8AZ2/r+q1H+1gAnbEdH8=
-X-Google-Smtp-Source: AK7set9n0NDG4ZKwIhYLJ3nQMyGaNk6tcwQ0oORSvb7bKAJUC4Go/ZArnVn9OE7HwhRipK3sXYW8DA==
-X-Received: by 2002:adf:f344:0:b0:2c7:1740:629b with SMTP id e4-20020adff344000000b002c71740629bmr2674969wrp.13.1677222707669;
-        Thu, 23 Feb 2023 23:11:47 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id l7-20020a5d5267000000b002c71a32394dsm1571657wrc.64.2023.02.23.23.11.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Feb 2023 23:11:47 -0800 (PST)
-Date: Fri, 24 Feb 2023 10:11:43 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, Pavel Begunkov <asml.silence@gmail.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Jens Axboe <axboe@kernel.dk>
-Subject: [linux-next:master 13574/13939] io_uring/rsrc.c:1262
- io_sqe_buffer_register() error: uninitialized symbol 'folio'.
-Message-ID: <202302241432.YML1CD5C-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C630AD58
+	for <oe-kbuild@lists.linux.dev>; Fri, 24 Feb 2023 19:41:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1677267670; x=1708803670;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=P31nZ7PvQ56fRLHd6dtz8thps3sRZ78UQ26ig9n5VpU=;
+  b=dhJqWCpfBQr0hhhzLsO2kIGiabpeSWCcVQVLyIQvB8FbxqZiKTozLM5K
+   UBEHMgKXDV/ybQEsyNKYxkD8IkMbBPMmYhTIeueICLHBCP+CiO2ZRmCOl
+   1MERU0gQqkN7vx9T7ChKdTY+ilXjeWiw3Rmn8+zc/CDZvLOCJlsyjyR7z
+   VRxjHyERqICnAVObizl6rg7b1HgG58PvlfZMpJziK0cwVONyohUWLRYly
+   HuPU1qAGuMsTAdVVBAiUqgCzEOlderHQoGocJ65mZdr0MOak0DYWKq9sH
+   rHDBsaXD9s5GK37QUdrqzJY53fIJM/cLsEeiiiuNvhrWk7DB0y/IwwGME
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10631"; a="334993550"
+X-IronPort-AV: E=Sophos;i="5.97,325,1669104000"; 
+   d="scan'208";a="334993550"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2023 11:41:08 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10631"; a="736918451"
+X-IronPort-AV: E=Sophos;i="5.97,325,1669104000"; 
+   d="scan'208";a="736918451"
+Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
+  by fmsmga008.fm.intel.com with ESMTP; 24 Feb 2023 11:41:06 -0800
+Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pVdwH-0002gh-1M;
+	Fri, 24 Feb 2023 19:41:05 +0000
+Date: Sat, 25 Feb 2023 03:40:53 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: drivers/net/phy/phy-c45.c:712:2: warning: Undefined or garbage value
+ returned to caller [clang-analyzer-core.uninitialized.UndefReturn]
+Message-ID: <202302250318.305zLwFv-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -52,105 +45,300 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Message-ID: <20230224071143.lI3bRPWkBysFQcjm9uSbiWnYyLloi2fVl8BLBzqzNHI@z>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   4d6d7ce9baaf9e67a85a53afc69a36af716f7670
-commit: 57bebf807e2abcf87d96b9de1266104ee2d8fc2f [13574/13939] io_uring/rsrc: optimise registered huge pages
-config: x86_64-randconfig-m001 (https://download.01.org/0day-ci/archive/20230224/202302241432.YML1CD5C-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+:::::: 
+:::::: Manual check reason: "low confidence static check warning: drivers/net/phy/phy-c45.c:712:2: warning: Undefined or garbage value returned to caller [clang-analyzer-core.uninitialized.UndefReturn]"
+:::::: 
+
+BCC: lkp@intel.com
+CC: llvm@lists.linux.dev
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+TO: Oleksij Rempel <o.rempel@pengutronix.de>
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   d2980d8d826554fa6981d621e569a453787472f8
+commit: 022c3f87f88e2d68e90be7687d981c9cb893a3b1 net: phy: add genphy_c45_ethtool_get/set_eee() support
+date:   11 days ago
+:::::: branch date: 18 hours ago
+:::::: commit date: 11 days ago
+config: s390-randconfig-c005-20230222 (https://download.01.org/0day-ci/archive/20230225/202302250318.305zLwFv-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project db89896bbbd2251fff457699635acbbedeead27f)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install s390 cross compiling tool for clang build
+        # apt-get install binutils-s390x-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=022c3f87f88e2d68e90be7687d981c9cb893a3b1
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 022c3f87f88e2d68e90be7687d981c9cb893a3b1
+        # save the config file
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=s390 clang-analyzer  olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=s390 clang-analyzer 
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202302241432.YML1CD5C-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202302250318.305zLwFv-lkp@intel.com/
 
-smatch warnings:
-io_uring/rsrc.c:1262 io_sqe_buffer_register() error: uninitialized symbol 'folio'.
+clang_analyzer warnings: (new ones prefixed by >>)
+                   ^
+   drivers/comedi/comedi_fops.c:1542:25: note: Assuming '__UNIQUE_ID___x275' is <= '__UNIQUE_ID___y276'
+                   max_n_data_required = max(max_n_data_required, insns[i].n);
+                                         ^
+   include/linux/minmax.h:74:19: note: expanded from macro 'max'
+   #define max(x, y)       __careful_cmp(x, y, >)
+                           ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:38:3: note: expanded from macro '__careful_cmp'
+                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:33:3: note: expanded from macro '__cmp_once'
+                   __cmp(unique_x, unique_y, op); })
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:28:26: note: expanded from macro '__cmp'
+   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
+                            ^~~~~~~~~~
+   drivers/comedi/comedi_fops.c:1542:25: note: '?' condition is false
+                   max_n_data_required = max(max_n_data_required, insns[i].n);
+                                         ^
+   include/linux/minmax.h:74:19: note: expanded from macro 'max'
+   #define max(x, y)       __careful_cmp(x, y, >)
+                           ^
+   include/linux/minmax.h:38:3: note: expanded from macro '__careful_cmp'
+                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
+                   ^
+   include/linux/minmax.h:33:3: note: expanded from macro '__cmp_once'
+                   __cmp(unique_x, unique_y, op); })
+                   ^
+   include/linux/minmax.h:28:26: note: expanded from macro '__cmp'
+   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
+                            ^
+   drivers/comedi/comedi_fops.c:1535:14: note: Assuming 'i' is >= 'n_insns'
+           for (i = 0; i < n_insns; ++i) {
+                       ^~~~~~~~~~~
+   drivers/comedi/comedi_fops.c:1535:2: note: Loop condition is false. Execution continues on line 1546
+           for (i = 0; i < n_insns; ++i) {
+           ^
+   drivers/comedi/comedi_fops.c:1548:6: note: Assuming 'data' is non-null
+           if (!data) {
+               ^~~~~
+   drivers/comedi/comedi_fops.c:1548:2: note: Taking false branch
+           if (!data) {
+           ^
+   drivers/comedi/comedi_fops.c:1553:2: note: Loop condition is true.  Entering loop body
+           for (i = 0; i < n_insns; ++i) {
+           ^
+   drivers/comedi/comedi_fops.c:1554:7: note: Assuming the condition is false
+                   if (insns[i].insn & INSN_MASK_WRITE) {
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/comedi/comedi_fops.c:1554:3: note: Taking false branch
+                   if (insns[i].insn & INSN_MASK_WRITE) {
+                   ^
+   drivers/comedi/comedi_fops.c:1564:7: note: Assuming 'ret' is >= 0
+                   if (ret < 0)
+                       ^~~~~~~
+   drivers/comedi/comedi_fops.c:1564:3: note: Taking false branch
+                   if (ret < 0)
+                   ^
+   drivers/comedi/comedi_fops.c:1566:7: note: Assuming the condition is false
+                   if (insns[i].insn & INSN_MASK_READ) {
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/comedi/comedi_fops.c:1566:3: note: Taking false branch
+                   if (insns[i].insn & INSN_MASK_READ) {
+                   ^
+   drivers/comedi/comedi_fops.c:1575:7: note: Calling 'need_resched'
+                   if (need_resched())
+                       ^~~~~~~~~~~~~~
+   include/linux/sched.h:2223:18: note: Dereference of null pointer
+           return unlikely(tif_need_resched());
+                           ^
+   include/linux/thread_info.h:180:28: note: expanded from macro 'tif_need_resched'
+   #define tif_need_resched() test_thread_flag(TIF_NEED_RESCHED)
+                              ^
+   include/linux/thread_info.h:141:22: note: expanded from macro 'test_thread_flag'
+           test_ti_thread_flag(current_thread_info(), flag)
+                               ^
+   include/linux/thread_info.h:24:54: note: expanded from macro 'current_thread_info'
+   #define current_thread_info() ((struct thread_info *)current)
+                                                        ^
+   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'current'
+   #define current ((struct task_struct *const)S390_lowcore.current_task)
+                                               ^
+   arch/s390/include/asm/lowcore.h:215:22: note: expanded from macro 'S390_lowcore'
+   #define S390_lowcore (*((struct lowcore *) 0))
+                        ^
+   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   Suppressed 19 warnings (7 in non-user code, 12 with check filters).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   20 warnings generated.
+   Suppressed 20 warnings (8 in non-user code, 12 with check filters).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   20 warnings generated.
+   Suppressed 20 warnings (8 in non-user code, 12 with check filters).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   28 warnings generated.
+   Suppressed 28 warnings (16 in non-user code, 12 with check filters).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   21 warnings generated.
+>> drivers/net/phy/phy-c45.c:712:2: warning: Undefined or garbage value returned to caller [clang-analyzer-core.uninitialized.UndefReturn]
+           return changed;
+           ^
+   drivers/net/phy/phy-c45.c:1418:6: note: Assuming field 'eee_enabled' is 0
+           if (data->eee_enabled) {
+               ^~~~~~~~~~~~~~~~~
+   drivers/net/phy/phy-c45.c:1418:2: note: Taking false branch
+           if (data->eee_enabled) {
+           ^
+   drivers/net/phy/phy-c45.c:1425:8: note: Calling 'genphy_c45_write_eee_adv'
+           ret = genphy_c45_write_eee_adv(phydev, adv);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/phy/phy-c45.c:671:11: note: 'changed' declared without an initial value
+           int val, changed;
+                    ^~~~~~~
+   drivers/net/phy/phy-c45.c:673:6: note: Assuming the condition is false
+           if (linkmode_intersects(phydev->supported, PHY_EEE_CAP1_FEATURES)) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/phy/phy-c45.c:673:2: note: Taking false branch
+           if (linkmode_intersects(phydev->supported, PHY_EEE_CAP1_FEATURES)) {
+           ^
+   drivers/net/phy/phy-c45.c:696:6: note: Assuming the condition is false
+           if (linkmode_test_bit(ETHTOOL_LINK_MODE_10baseT1L_Full_BIT,
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/phy/phy-c45.c:696:2: note: Taking false branch
+           if (linkmode_test_bit(ETHTOOL_LINK_MODE_10baseT1L_Full_BIT,
+           ^
+   drivers/net/phy/phy-c45.c:712:2: note: Undefined or garbage value returned to caller
+           return changed;
+           ^      ~~~~~~~
+   Suppressed 20 warnings (8 in non-user code, 12 with check filters).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   27 warnings generated.
+   Suppressed 27 warnings (15 in non-user code, 12 with check filters).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   42 warnings generated.
+   include/linux/audit.h:314:9: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]
+           return current->audit_context;
+                  ^
+   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'current'
+   #define current ((struct task_struct *const)S390_lowcore.current_task)
+                                               ^
+   arch/s390/include/asm/lowcore.h:215:22: note: expanded from macro 'S390_lowcore'
+   #define S390_lowcore (*((struct lowcore *) 0))
+                        ^
+   net/socket.c:2025:1: note: Calling '__do_sys_connect'
+   SYSCALL_DEFINE3(connect, int, fd, struct sockaddr __user *, uservaddr,
+   ^
+   include/linux/syscalls.h:219:36: note: expanded from macro 'SYSCALL_DEFINE3'
+   #define SYSCALL_DEFINE3(name, ...) SYSCALL_DEFINEx(3, _##name, __VA_ARGS__)
+                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/syscalls.h:228:2: note: expanded from macro 'SYSCALL_DEFINEx'
+           __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/s390/include/asm/syscall_wrapper.h:157:14: note: expanded from macro '__SYSCALL_DEFINEx'
+                   long ret = __do_sys##name(SYSCALL_PT_ARGS(x, regs,                      \
+                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   note: expanded from here
+   net/socket.c:2028:9: note: Calling '__sys_connect'
+           return __sys_connect(fd, uservaddr, addrlen);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/socket.c:2013:6: note: Assuming field 'file' is non-null
+           if (f.file) {
+               ^~~~~~
+   net/socket.c:2013:2: note: Taking true branch
+           if (f.file) {
+           ^
+   net/socket.c:2016:9: note: Calling 'move_addr_to_kernel'
+                   ret = move_addr_to_kernel(uservaddr, addrlen, &address);
+                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/socket.c:246:6: note: Assuming 'ulen' is >= 0
+           if (ulen < 0 || ulen > sizeof(struct sockaddr_storage))
+               ^~~~~~~~
+   net/socket.c:246:6: note: Left side of '||' is false
+   net/socket.c:246:18: note: Assuming the condition is false
+           if (ulen < 0 || ulen > sizeof(struct sockaddr_storage))
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/socket.c:246:2: note: Taking false branch
+           if (ulen < 0 || ulen > sizeof(struct sockaddr_storage))
+           ^
+   net/socket.c:248:6: note: Assuming 'ulen' is not equal to 0
+           if (ulen == 0)
+               ^~~~~~~~~
+   net/socket.c:248:2: note: Taking false branch
+           if (ulen == 0)
+           ^
+   net/socket.c:250:2: note: Taking false branch
+           if (copy_from_user(kaddr, uaddr, ulen))
+           ^
+   net/socket.c:252:9: note: Calling 'audit_sockaddr'
+           return audit_sockaddr(ulen, kaddr);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-vim +/folio +1262 io_uring/rsrc.c
+vim +712 drivers/net/phy/phy-c45.c
 
-73572984481907 Jens Axboe        2022-06-13  1204  static int io_sqe_buffer_register(struct io_ring_ctx *ctx, struct iovec *iov,
-73572984481907 Jens Axboe        2022-06-13  1205  				  struct io_mapped_ubuf **pimu,
-73572984481907 Jens Axboe        2022-06-13  1206  				  struct page **last_hpage)
-73572984481907 Jens Axboe        2022-06-13  1207  {
-73572984481907 Jens Axboe        2022-06-13  1208  	struct io_mapped_ubuf *imu = NULL;
-73572984481907 Jens Axboe        2022-06-13  1209  	struct page **pages = NULL;
-73572984481907 Jens Axboe        2022-06-13  1210  	unsigned long off;
-73572984481907 Jens Axboe        2022-06-13  1211  	size_t size;
-73572984481907 Jens Axboe        2022-06-13  1212  	int ret, nr_pages, i;
-57bebf807e2abc Pavel Begunkov    2023-02-22  1213  	struct folio *folio;
-73572984481907 Jens Axboe        2022-06-13  1214  
-73572984481907 Jens Axboe        2022-06-13  1215  	*pimu = ctx->dummy_ubuf;
-5ff4fdffad483d Pavel Begunkov    2022-06-15  1216  	if (!iov->iov_base)
-73572984481907 Jens Axboe        2022-06-13  1217  		return 0;
-73572984481907 Jens Axboe        2022-06-13  1218  
-73572984481907 Jens Axboe        2022-06-13  1219  	ret = -ENOMEM;
-73572984481907 Jens Axboe        2022-06-13  1220  	pages = io_pin_pages((unsigned long) iov->iov_base, iov->iov_len,
-73572984481907 Jens Axboe        2022-06-13  1221  				&nr_pages);
-73572984481907 Jens Axboe        2022-06-13  1222  	if (IS_ERR(pages)) {
-73572984481907 Jens Axboe        2022-06-13  1223  		ret = PTR_ERR(pages);
-73572984481907 Jens Axboe        2022-06-13  1224  		pages = NULL;
-73572984481907 Jens Axboe        2022-06-13  1225  		goto done;
-73572984481907 Jens Axboe        2022-06-13  1226  	}
-73572984481907 Jens Axboe        2022-06-13  1227  
-57bebf807e2abc Pavel Begunkov    2023-02-22  1228  	/* If it's a huge page, try to coalesce them into a single bvec entry */
-57bebf807e2abc Pavel Begunkov    2023-02-22  1229  	if (nr_pages > 1) {
-57bebf807e2abc Pavel Begunkov    2023-02-22  1230  		folio = page_folio(pages[0]);
-57bebf807e2abc Pavel Begunkov    2023-02-22  1231  		for (i = 1; i < nr_pages; i++) {
-57bebf807e2abc Pavel Begunkov    2023-02-22  1232  			if (page_folio(pages[i]) != folio) {
-57bebf807e2abc Pavel Begunkov    2023-02-22  1233  				folio = NULL;
-57bebf807e2abc Pavel Begunkov    2023-02-22  1234  				break;
-57bebf807e2abc Pavel Begunkov    2023-02-22  1235  			}
-57bebf807e2abc Pavel Begunkov    2023-02-22  1236  		}
-57bebf807e2abc Pavel Begunkov    2023-02-22  1237  		if (folio) {
-57bebf807e2abc Pavel Begunkov    2023-02-22  1238  			folio_put_refs(folio, nr_pages - 1);
-57bebf807e2abc Pavel Begunkov    2023-02-22  1239  			nr_pages = 1;
-57bebf807e2abc Pavel Begunkov    2023-02-22  1240  		}
-57bebf807e2abc Pavel Begunkov    2023-02-22  1241  	}
-
-folio not initialized on else path.
-
-57bebf807e2abc Pavel Begunkov    2023-02-22  1242  
-73572984481907 Jens Axboe        2022-06-13  1243  	imu = kvmalloc(struct_size(imu, bvec, nr_pages), GFP_KERNEL);
-73572984481907 Jens Axboe        2022-06-13  1244  	if (!imu)
-73572984481907 Jens Axboe        2022-06-13  1245  		goto done;
-73572984481907 Jens Axboe        2022-06-13  1246  
-73572984481907 Jens Axboe        2022-06-13  1247  	ret = io_buffer_account_pin(ctx, pages, nr_pages, imu, last_hpage);
-73572984481907 Jens Axboe        2022-06-13  1248  	if (ret) {
-73572984481907 Jens Axboe        2022-06-13  1249  		unpin_user_pages(pages, nr_pages);
-73572984481907 Jens Axboe        2022-06-13  1250  		goto done;
-73572984481907 Jens Axboe        2022-06-13  1251  	}
-73572984481907 Jens Axboe        2022-06-13  1252  
-73572984481907 Jens Axboe        2022-06-13  1253  	off = (unsigned long) iov->iov_base & ~PAGE_MASK;
-73572984481907 Jens Axboe        2022-06-13  1254  	size = iov->iov_len;
-57bebf807e2abc Pavel Begunkov    2023-02-22  1255  	/* store original address for later verification */
-57bebf807e2abc Pavel Begunkov    2023-02-22  1256  	imu->ubuf = (unsigned long) iov->iov_base;
-57bebf807e2abc Pavel Begunkov    2023-02-22  1257  	imu->ubuf_end = imu->ubuf + iov->iov_len;
-57bebf807e2abc Pavel Begunkov    2023-02-22  1258  	imu->nr_bvecs = nr_pages;
-57bebf807e2abc Pavel Begunkov    2023-02-22  1259  	*pimu = imu;
-57bebf807e2abc Pavel Begunkov    2023-02-22  1260  	ret = 0;
-57bebf807e2abc Pavel Begunkov    2023-02-22  1261  
-57bebf807e2abc Pavel Begunkov    2023-02-22 @1262  	if (folio) {
-57bebf807e2abc Pavel Begunkov    2023-02-22  1263  		bvec_set_page(&imu->bvec[0], pages[0], size, off);
-57bebf807e2abc Pavel Begunkov    2023-02-22  1264  		goto done;
-57bebf807e2abc Pavel Begunkov    2023-02-22  1265  	}
-73572984481907 Jens Axboe        2022-06-13  1266  	for (i = 0; i < nr_pages; i++) {
-73572984481907 Jens Axboe        2022-06-13  1267  		size_t vec_len;
-73572984481907 Jens Axboe        2022-06-13  1268  
-73572984481907 Jens Axboe        2022-06-13  1269  		vec_len = min_t(size_t, size, PAGE_SIZE - off);
-cc342a21930f0e Christoph Hellwig 2023-02-03  1270  		bvec_set_page(&imu->bvec[i], pages[i], vec_len, off);
-73572984481907 Jens Axboe        2022-06-13  1271  		off = 0;
-73572984481907 Jens Axboe        2022-06-13  1272  		size -= vec_len;
-73572984481907 Jens Axboe        2022-06-13  1273  	}
-73572984481907 Jens Axboe        2022-06-13  1274  done:
-73572984481907 Jens Axboe        2022-06-13  1275  	if (ret)
-73572984481907 Jens Axboe        2022-06-13  1276  		kvfree(imu);
-73572984481907 Jens Axboe        2022-06-13  1277  	kvfree(pages);
-73572984481907 Jens Axboe        2022-06-13  1278  	return ret;
-73572984481907 Jens Axboe        2022-06-13  1279  }
+ea4efe25ec937a Russell King   2017-12-29  663  
+022c3f87f88e2d Oleksij Rempel 2023-02-11  664  /**
+022c3f87f88e2d Oleksij Rempel 2023-02-11  665   * genphy_c45_write_eee_adv - write advertised EEE link modes
+022c3f87f88e2d Oleksij Rempel 2023-02-11  666   * @phydev: target phy_device struct
+022c3f87f88e2d Oleksij Rempel 2023-02-11  667   * @adv: the linkmode advertisement settings
+022c3f87f88e2d Oleksij Rempel 2023-02-11  668   */
+022c3f87f88e2d Oleksij Rempel 2023-02-11  669  int genphy_c45_write_eee_adv(struct phy_device *phydev, unsigned long *adv)
+022c3f87f88e2d Oleksij Rempel 2023-02-11  670  {
+022c3f87f88e2d Oleksij Rempel 2023-02-11  671  	int val, changed;
+022c3f87f88e2d Oleksij Rempel 2023-02-11  672  
+022c3f87f88e2d Oleksij Rempel 2023-02-11  673  	if (linkmode_intersects(phydev->supported, PHY_EEE_CAP1_FEATURES)) {
+022c3f87f88e2d Oleksij Rempel 2023-02-11  674  		val = linkmode_to_mii_eee_cap1_t(adv);
+022c3f87f88e2d Oleksij Rempel 2023-02-11  675  
+022c3f87f88e2d Oleksij Rempel 2023-02-11  676  		/* In eee_broken_modes are stored MDIO_AN_EEE_ADV specific raw
+022c3f87f88e2d Oleksij Rempel 2023-02-11  677  		 * register values.
+022c3f87f88e2d Oleksij Rempel 2023-02-11  678  		 */
+022c3f87f88e2d Oleksij Rempel 2023-02-11  679  		val &= ~phydev->eee_broken_modes;
+022c3f87f88e2d Oleksij Rempel 2023-02-11  680  
+022c3f87f88e2d Oleksij Rempel 2023-02-11  681  		/* IEEE 802.3-2018 45.2.7.13 EEE advertisement 1
+022c3f87f88e2d Oleksij Rempel 2023-02-11  682  		 * (Register 7.60)
+022c3f87f88e2d Oleksij Rempel 2023-02-11  683  		 */
+022c3f87f88e2d Oleksij Rempel 2023-02-11  684  		val = phy_modify_mmd_changed(phydev, MDIO_MMD_AN,
+022c3f87f88e2d Oleksij Rempel 2023-02-11  685  					     MDIO_AN_EEE_ADV,
+022c3f87f88e2d Oleksij Rempel 2023-02-11  686  					     MDIO_EEE_100TX | MDIO_EEE_1000T |
+022c3f87f88e2d Oleksij Rempel 2023-02-11  687  					     MDIO_EEE_10GT | MDIO_EEE_1000KX |
+022c3f87f88e2d Oleksij Rempel 2023-02-11  688  					     MDIO_EEE_10GKX4 | MDIO_EEE_10GKR,
+022c3f87f88e2d Oleksij Rempel 2023-02-11  689  					     val);
+022c3f87f88e2d Oleksij Rempel 2023-02-11  690  		if (val < 0)
+022c3f87f88e2d Oleksij Rempel 2023-02-11  691  			return val;
+022c3f87f88e2d Oleksij Rempel 2023-02-11  692  		if (val > 0)
+022c3f87f88e2d Oleksij Rempel 2023-02-11  693  			changed = 1;
+022c3f87f88e2d Oleksij Rempel 2023-02-11  694  	}
+022c3f87f88e2d Oleksij Rempel 2023-02-11  695  
+022c3f87f88e2d Oleksij Rempel 2023-02-11  696  	if (linkmode_test_bit(ETHTOOL_LINK_MODE_10baseT1L_Full_BIT,
+022c3f87f88e2d Oleksij Rempel 2023-02-11  697  			      phydev->supported_eee)) {
+022c3f87f88e2d Oleksij Rempel 2023-02-11  698  		val = linkmode_adv_to_mii_10base_t1_t(adv);
+022c3f87f88e2d Oleksij Rempel 2023-02-11  699  		/* IEEE 802.3cg-2019 45.2.7.25 10BASE-T1 AN control register
+022c3f87f88e2d Oleksij Rempel 2023-02-11  700  		 * (Register 7.526)
+022c3f87f88e2d Oleksij Rempel 2023-02-11  701  		 */
+022c3f87f88e2d Oleksij Rempel 2023-02-11  702  		val = phy_modify_mmd_changed(phydev, MDIO_MMD_AN,
+022c3f87f88e2d Oleksij Rempel 2023-02-11  703  					     MDIO_AN_10BT1_AN_CTRL,
+022c3f87f88e2d Oleksij Rempel 2023-02-11  704  					     MDIO_AN_10BT1_AN_CTRL_ADV_EEE_T1L,
+022c3f87f88e2d Oleksij Rempel 2023-02-11  705  					     val);
+022c3f87f88e2d Oleksij Rempel 2023-02-11  706  		if (val < 0)
+022c3f87f88e2d Oleksij Rempel 2023-02-11  707  			return val;
+022c3f87f88e2d Oleksij Rempel 2023-02-11  708  		if (val > 0)
+022c3f87f88e2d Oleksij Rempel 2023-02-11  709  			changed = 1;
+022c3f87f88e2d Oleksij Rempel 2023-02-11  710  	}
+022c3f87f88e2d Oleksij Rempel 2023-02-11  711  
+022c3f87f88e2d Oleksij Rempel 2023-02-11 @712  	return changed;
+022c3f87f88e2d Oleksij Rempel 2023-02-11  713  }
+022c3f87f88e2d Oleksij Rempel 2023-02-11  714  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
-
