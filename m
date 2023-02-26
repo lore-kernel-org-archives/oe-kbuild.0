@@ -1,42 +1,42 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9101F20EC
-	for <oe-kbuild@lists.linux.dev>; Sun, 26 Feb 2023 12:27:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3E0429A9
+	for <oe-kbuild@lists.linux.dev>; Sun, 26 Feb 2023 15:30:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677414479; x=1708950479;
+  t=1677425402; x=1708961402;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=p4uxMfxqKiz5R7c7pAkmHVn8jj6s0I6tZS4WxExsNGw=;
-  b=eDoLMTkBF80uQVZ/rZUns8WBZ3oe1TC6b+v4OOdnfjThKH9E/YHljFQP
-   H1tuk1l8fUk8wmI1uKsvxNfHOBv5kxiEHmrQ1fqcjvfGfVOm6G8W4gzhx
-   Zjxuzo8yfj0wSLJ/REyxTjnADGfdk9kaTv8TSY3dirxF1ADN1JMwSISwq
-   Tj7JjzpRWtf6pfHz8jj+sPMcVerhczZBj1n8iA3HEF/4IMrYgxWWQx2xK
-   rHpJGFnpUrf3pRY6nua642apDYlQEeOE5U2chxHKQnq3d0XwvvTcmy2Uo
-   OxfqXvd+KUN72BI0aKD34DbIFt+q9azI1FwF/JQS6dVuMYuEofZhh+b18
+  bh=nErdiGpLXz/3EorlRmltEYJEp/qeEfgZwVTm/Hj/GlI=;
+  b=iXu4k1g6KUPQGaEgJC64BmG45dSQTNMSkGbiEtEMwoiPhqf2UC0n2Cyv
+   MwuJZokUJBQEJKb5pnBM+dAGZwDEAv3NiWHT8vT5wEPOBo/bhxJUKhcM/
+   KqrVmtfcBxhSm+f6aasf65B5Wvz4tAFdfH363TSzYNdlIwbqlvU4ldGi7
+   /cg3IeZ5r7SYO2Qgoegw2wBtGXyfUG8PEdjOuek56M7qhlk7x89wtsu7W
+   Ton538Fzppb3Tx495sdNXPAKLjl6tY4o2pO/69OEYdh4fSo9DCLqEinrz
+   smHlshtCu0G+8/QY8l5ZpDTXRla7pmqGSQMVyA43QKXzP/eUSLYGqdpFi
    Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10632"; a="333749275"
+X-IronPort-AV: E=McAfee;i="6500,9779,10633"; a="419988053"
 X-IronPort-AV: E=Sophos;i="5.97,329,1669104000"; 
-   d="scan'208";a="333749275"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2023 04:27:58 -0800
+   d="scan'208";a="419988053"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2023 07:30:02 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10632"; a="762328956"
+X-IronPort-AV: E=McAfee;i="6500,9779,10633"; a="623295342"
 X-IronPort-AV: E=Sophos;i="5.97,329,1669104000"; 
-   d="scan'208";a="762328956"
+   d="scan'208";a="623295342"
 Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 26 Feb 2023 04:27:57 -0800
+  by orsmga003.jf.intel.com with ESMTP; 26 Feb 2023 07:30:00 -0800
 Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pWG8D-0003kB-04;
-	Sun, 26 Feb 2023 12:27:57 +0000
-Date: Sun, 26 Feb 2023 20:27:37 +0800
+	id 1pWIyN-0003nT-1l;
+	Sun, 26 Feb 2023 15:29:59 +0000
+Date: Sun, 26 Feb 2023 23:29:53 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/firmware/efi/earlycon.c:178 efi_earlycon_write() error:
- potentially dereferencing uninitialized 's'.
-Message-ID: <202302262047.z95WyxLH-lkp@intel.com>
+Subject: mm/vmalloc.c:3609 vread() error: we previously assumed 'vm' could be
+ null (see line 3591)
+Message-ID: <202302262345.cyAD2tEI-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -49,102 +49,136 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-CC: Ard Biesheuvel <ardb@kernel.org>
+TO: Baoquan He <bhe@redhat.com>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+CC: Lorenzo Stoakes <lstoakes@gmail.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   2fcd07b7ccd5fd10b2120d298363e4e6c53ccf9c
-commit: b7a1cd243839cc1459fbc83a7a62e3b57f29f497 efi/earlycon: Replace open coded strnchrnul()
-date:   7 weeks ago
-:::::: branch date: 8 hours ago
-:::::: commit date: 7 weeks ago
-config: x86_64-randconfig-m001 (https://download.01.org/0day-ci/archive/20230226/202302262047.z95WyxLH-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+commit: 06c8994626d1b7d8c26dfd06992d67703a274054 mm/vmalloc.c: allow vread() to read out vm_map_ram areas
+date:   2 weeks ago
+:::::: branch date: 11 hours ago
+:::::: commit date: 2 weeks ago
+config: powerpc-randconfig-m031-20230226 (https://download.01.org/0day-ci/archive/20230226/202302262345.cyAD2tEI-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202302262047.z95WyxLH-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202302262345.cyAD2tEI-lkp@intel.com/
 
-smatch warnings:
-drivers/firmware/efi/earlycon.c:178 efi_earlycon_write() error: potentially dereferencing uninitialized 's'.
+New smatch warnings:
+mm/vmalloc.c:3609 vread() error: we previously assumed 'vm' could be null (see line 3591)
 
-vim +/s +178 drivers/firmware/efi/earlycon.c
+Old smatch warnings:
+arch/powerpc/include/asm/mmu.h:265 mmu_has_feature() warn: bitwise AND condition is false here
+arch/powerpc/include/asm/mmu.h:234 early_mmu_has_feature() warn: bitwise AND condition is false here
 
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  134  
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  135  static void
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  136  efi_earlycon_write(struct console *con, const char *str, unsigned int num)
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  137  {
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  138  	struct screen_info *si;
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  139  	unsigned int len;
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  140  	const char *s;
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  141  	void *dst;
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  142  
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  143  	si = &screen_info;
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  144  	len = si->lfb_linelength;
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  145  
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  146  	while (num) {
-b7a1cd243839cc Andy Shevchenko 2022-12-09  147  		unsigned int linemax = (si->lfb_width - efi_x) / font->width;
-b7a1cd243839cc Andy Shevchenko 2022-12-09  148  		unsigned int h, count;
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  149  
-b7a1cd243839cc Andy Shevchenko 2022-12-09  150  		count = strnchrnul(str, num, '\n') - str;
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  151  		if (count > linemax)
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  152  			count = linemax;
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  153  
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  154  		for (h = 0; h < font->height; h++) {
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  155  			unsigned int n, x;
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  156  
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  157  			dst = efi_earlycon_map((efi_y + h) * len, len);
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  158  			if (!dst)
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  159  				return;
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  160  
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  161  			s = str;
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  162  			n = count;
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  163  			x = efi_x;
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  164  
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  165  			while (n-- > 0) {
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  166  				efi_earlycon_write_char(dst + x*4, *s, h);
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  167  				x += font->width;
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  168  				s++;
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  169  			}
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  170  
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  171  			efi_earlycon_unmap(dst, len);
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  172  		}
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  173  
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  174  		num -= count;
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  175  		efi_x += count * font->width;
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  176  		str += count;
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  177  
-69c1f396f25b80 Ard Biesheuvel  2019-02-02 @178  		if (num > 0 && *s == '\n') {
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  179  			efi_x = 0;
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  180  			efi_y += font->height;
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  181  			str++;
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  182  			num--;
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  183  		}
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  184  
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  185  		if (efi_x + font->width > si->lfb_width) {
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  186  			efi_x = 0;
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  187  			efi_y += font->height;
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  188  		}
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  189  
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  190  		if (efi_y + font->height > si->lfb_height) {
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  191  			u32 i;
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  192  
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  193  			efi_y -= font->height;
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  194  			efi_earlycon_scroll_up();
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  195  
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  196  			for (i = 0; i < font->height; i++)
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  197  				efi_earlycon_clear_scanline(efi_y + i);
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  198  		}
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  199  	}
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  200  }
-69c1f396f25b80 Ard Biesheuvel  2019-02-02  201  
+vim +/vm +3609 mm/vmalloc.c
 
-:::::: The code at line 178 was first introduced by commit
-:::::: 69c1f396f25b805aeff08f06d2e992c315ee5b1e efi/x86: Convert x86 EFI earlyprintk into generic earlycon implementation
-
-:::::: TO: Ard Biesheuvel <ard.biesheuvel@linaro.org>
-:::::: CC: Ingo Molnar <mingo@kernel.org>
+06c8994626d1b7 Baoquan He              2023-02-06  3527  
+d0107eb07320b5 KAMEZAWA Hiroyuki       2009-09-21  3528  /**
+d0107eb07320b5 KAMEZAWA Hiroyuki       2009-09-21  3529   * vread() - read vmalloc area in a safe way.
+d0107eb07320b5 KAMEZAWA Hiroyuki       2009-09-21  3530   * @buf:     buffer for reading data
+d0107eb07320b5 KAMEZAWA Hiroyuki       2009-09-21  3531   * @addr:    vm address.
+d0107eb07320b5 KAMEZAWA Hiroyuki       2009-09-21  3532   * @count:   number of bytes to be read.
+d0107eb07320b5 KAMEZAWA Hiroyuki       2009-09-21  3533   *
+d0107eb07320b5 KAMEZAWA Hiroyuki       2009-09-21  3534   * This function checks that addr is a valid vmalloc'ed area, and
+d0107eb07320b5 KAMEZAWA Hiroyuki       2009-09-21  3535   * copy data from that area to a given buffer. If the given memory range
+d0107eb07320b5 KAMEZAWA Hiroyuki       2009-09-21  3536   * of [addr...addr+count) includes some valid address, data is copied to
+d0107eb07320b5 KAMEZAWA Hiroyuki       2009-09-21  3537   * proper area of @buf. If there are memory holes, they'll be zero-filled.
+d0107eb07320b5 KAMEZAWA Hiroyuki       2009-09-21  3538   * IOREMAP area is treated as memory hole and no copy is done.
+d0107eb07320b5 KAMEZAWA Hiroyuki       2009-09-21  3539   *
+d0107eb07320b5 KAMEZAWA Hiroyuki       2009-09-21  3540   * If [addr...addr+count) doesn't includes any intersects with alive
+a8e5202d09c1ba Cong Wang               2012-06-23  3541   * vm_struct area, returns 0. @buf should be kernel's buffer.
+d0107eb07320b5 KAMEZAWA Hiroyuki       2009-09-21  3542   *
+d0107eb07320b5 KAMEZAWA Hiroyuki       2009-09-21  3543   * Note: In usual ops, vread() is never necessary because the caller
+d0107eb07320b5 KAMEZAWA Hiroyuki       2009-09-21  3544   * should know vmalloc() area is valid and can use memcpy().
+d0107eb07320b5 KAMEZAWA Hiroyuki       2009-09-21  3545   * This is for routines which have to access vmalloc area without
+bbcd53c9607135 David Hildenbrand       2021-05-06  3546   * any information, as /proc/kcore.
+a862f68a8b3600 Mike Rapoport           2019-03-05  3547   *
+a862f68a8b3600 Mike Rapoport           2019-03-05  3548   * Return: number of bytes for which addr and buf should be increased
+a862f68a8b3600 Mike Rapoport           2019-03-05  3549   * (same number as @count) or %0 if [addr...addr+count) doesn't
+a862f68a8b3600 Mike Rapoport           2019-03-05  3550   * include any intersection with valid vmalloc area
+d0107eb07320b5 KAMEZAWA Hiroyuki       2009-09-21  3551   */
+^1da177e4c3f41 Linus Torvalds          2005-04-16  3552  long vread(char *buf, char *addr, unsigned long count)
+^1da177e4c3f41 Linus Torvalds          2005-04-16  3553  {
+e81ce85f960c2e Joonsoo Kim             2013-04-29  3554  	struct vmap_area *va;
+e81ce85f960c2e Joonsoo Kim             2013-04-29  3555  	struct vm_struct *vm;
+^1da177e4c3f41 Linus Torvalds          2005-04-16  3556  	char *vaddr, *buf_start = buf;
+d0107eb07320b5 KAMEZAWA Hiroyuki       2009-09-21  3557  	unsigned long buflen = count;
+06c8994626d1b7 Baoquan He              2023-02-06  3558  	unsigned long n, size, flags;
+^1da177e4c3f41 Linus Torvalds          2005-04-16  3559  
+4aff1dc4fb3a5a Andrey Konovalov        2022-03-24  3560  	addr = kasan_reset_tag(addr);
+4aff1dc4fb3a5a Andrey Konovalov        2022-03-24  3561  
+^1da177e4c3f41 Linus Torvalds          2005-04-16  3562  	/* Don't allow overflow */
+^1da177e4c3f41 Linus Torvalds          2005-04-16  3563  	if ((unsigned long) addr + count < count)
+^1da177e4c3f41 Linus Torvalds          2005-04-16  3564  		count = -(unsigned long) addr;
+^1da177e4c3f41 Linus Torvalds          2005-04-16  3565  
+e81ce85f960c2e Joonsoo Kim             2013-04-29  3566  	spin_lock(&vmap_area_lock);
+f181234a5a21fd Chen Wandun             2021-09-02  3567  	va = find_vmap_area_exceed_addr((unsigned long)addr);
+f608788cd2d6ca Serapheim Dimitropoulos 2021-04-29  3568  	if (!va)
+f608788cd2d6ca Serapheim Dimitropoulos 2021-04-29  3569  		goto finished;
+f181234a5a21fd Chen Wandun             2021-09-02  3570  
+f181234a5a21fd Chen Wandun             2021-09-02  3571  	/* no intersects with alive vmap_area */
+f181234a5a21fd Chen Wandun             2021-09-02  3572  	if ((unsigned long)addr + count <= va->va_start)
+f181234a5a21fd Chen Wandun             2021-09-02  3573  		goto finished;
+f181234a5a21fd Chen Wandun             2021-09-02  3574  
+f608788cd2d6ca Serapheim Dimitropoulos 2021-04-29  3575  	list_for_each_entry_from(va, &vmap_area_list, list) {
+e81ce85f960c2e Joonsoo Kim             2013-04-29  3576  		if (!count)
+e81ce85f960c2e Joonsoo Kim             2013-04-29  3577  			break;
+e81ce85f960c2e Joonsoo Kim             2013-04-29  3578  
+06c8994626d1b7 Baoquan He              2023-02-06  3579  		vm = va->vm;
+06c8994626d1b7 Baoquan He              2023-02-06  3580  		flags = va->flags & VMAP_FLAGS_MASK;
+06c8994626d1b7 Baoquan He              2023-02-06  3581  		/*
+06c8994626d1b7 Baoquan He              2023-02-06  3582  		 * VMAP_BLOCK indicates a sub-type of vm_map_ram area, need
+06c8994626d1b7 Baoquan He              2023-02-06  3583  		 * be set together with VMAP_RAM.
+06c8994626d1b7 Baoquan He              2023-02-06  3584  		 */
+06c8994626d1b7 Baoquan He              2023-02-06  3585  		WARN_ON(flags == VMAP_BLOCK);
+06c8994626d1b7 Baoquan He              2023-02-06  3586  
+06c8994626d1b7 Baoquan He              2023-02-06  3587  		if (!vm && !flags)
+e81ce85f960c2e Joonsoo Kim             2013-04-29  3588  			continue;
+e81ce85f960c2e Joonsoo Kim             2013-04-29  3589  
+06c8994626d1b7 Baoquan He              2023-02-06  3590  		vaddr = (char *) va->va_start;
+06c8994626d1b7 Baoquan He              2023-02-06 @3591  		size = vm ? get_vm_area_size(vm) : va_size(va);
+06c8994626d1b7 Baoquan He              2023-02-06  3592  
+06c8994626d1b7 Baoquan He              2023-02-06  3593  		if (addr >= vaddr + size)
+^1da177e4c3f41 Linus Torvalds          2005-04-16  3594  			continue;
+^1da177e4c3f41 Linus Torvalds          2005-04-16  3595  		while (addr < vaddr) {
+^1da177e4c3f41 Linus Torvalds          2005-04-16  3596  			if (count == 0)
+^1da177e4c3f41 Linus Torvalds          2005-04-16  3597  				goto finished;
+^1da177e4c3f41 Linus Torvalds          2005-04-16  3598  			*buf = '\0';
+^1da177e4c3f41 Linus Torvalds          2005-04-16  3599  			buf++;
+^1da177e4c3f41 Linus Torvalds          2005-04-16  3600  			addr++;
+^1da177e4c3f41 Linus Torvalds          2005-04-16  3601  			count--;
+^1da177e4c3f41 Linus Torvalds          2005-04-16  3602  		}
+06c8994626d1b7 Baoquan He              2023-02-06  3603  		n = vaddr + size - addr;
+d0107eb07320b5 KAMEZAWA Hiroyuki       2009-09-21  3604  		if (n > count)
+d0107eb07320b5 KAMEZAWA Hiroyuki       2009-09-21  3605  			n = count;
+06c8994626d1b7 Baoquan He              2023-02-06  3606  
+06c8994626d1b7 Baoquan He              2023-02-06  3607  		if (flags & VMAP_RAM)
+06c8994626d1b7 Baoquan He              2023-02-06  3608  			vmap_ram_vread(buf, addr, n, flags);
+06c8994626d1b7 Baoquan He              2023-02-06 @3609  		else if (!(vm->flags & VM_IOREMAP))
+d0107eb07320b5 KAMEZAWA Hiroyuki       2009-09-21  3610  			aligned_vread(buf, addr, n);
+d0107eb07320b5 KAMEZAWA Hiroyuki       2009-09-21  3611  		else /* IOREMAP area is treated as memory hole */
+d0107eb07320b5 KAMEZAWA Hiroyuki       2009-09-21  3612  			memset(buf, 0, n);
+d0107eb07320b5 KAMEZAWA Hiroyuki       2009-09-21  3613  		buf += n;
+d0107eb07320b5 KAMEZAWA Hiroyuki       2009-09-21  3614  		addr += n;
+d0107eb07320b5 KAMEZAWA Hiroyuki       2009-09-21  3615  		count -= n;
+^1da177e4c3f41 Linus Torvalds          2005-04-16  3616  	}
+^1da177e4c3f41 Linus Torvalds          2005-04-16  3617  finished:
+e81ce85f960c2e Joonsoo Kim             2013-04-29  3618  	spin_unlock(&vmap_area_lock);
+d0107eb07320b5 KAMEZAWA Hiroyuki       2009-09-21  3619  
+d0107eb07320b5 KAMEZAWA Hiroyuki       2009-09-21  3620  	if (buf == buf_start)
+d0107eb07320b5 KAMEZAWA Hiroyuki       2009-09-21  3621  		return 0;
+d0107eb07320b5 KAMEZAWA Hiroyuki       2009-09-21  3622  	/* zero-fill memory holes */
+d0107eb07320b5 KAMEZAWA Hiroyuki       2009-09-21  3623  	if (buf != buf_start + buflen)
+d0107eb07320b5 KAMEZAWA Hiroyuki       2009-09-21  3624  		memset(buf, 0, buflen - (buf - buf_start));
+d0107eb07320b5 KAMEZAWA Hiroyuki       2009-09-21  3625  
+d0107eb07320b5 KAMEZAWA Hiroyuki       2009-09-21  3626  	return buflen;
+^1da177e4c3f41 Linus Torvalds          2005-04-16  3627  }
+^1da177e4c3f41 Linus Torvalds          2005-04-16  3628  
 
 -- 
 0-DAY CI Kernel Test Service
