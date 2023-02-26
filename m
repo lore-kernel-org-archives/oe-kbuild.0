@@ -1,42 +1,42 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 854487B
-	for <oe-kbuild@lists.linux.dev>; Sat, 25 Feb 2023 23:00:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73C9E36E
+	for <oe-kbuild@lists.linux.dev>; Sun, 26 Feb 2023 01:12:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677366046; x=1708902046;
+  t=1677373968; x=1708909968;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=4RbK+J9SOYo1XLAvAtVL5+3eC06uKKNJBrEbwzqn24s=;
-  b=AGot06oPQOBjsP0CV10qmmtnLuwKrzoenjdh4aUCfuh0QdZo2IU5gUoA
-   aYwiddS9BwlNkdaHqzBelTverIxxPUATn5/RDb1+6Mp98AMreGObS1xzd
-   9beV6AFuRZlEXN4wbcSqUnpnNSegAZYwjF1MVugzm6oQU8OW76AceLS5b
-   K3XSystwR2uK4k0k7O0ne2X3l9BCbIFI2VBElWZkXd3UkbAUWLvNznGgy
-   JRTx1Ry7xre8tp2QtlYXuAxLYsrrn2175dbsSecWeKvBRfQ8VO/3e+JXD
-   VDXp3WjuWbTEfJx+5oURdkc2ngiuqPbTONce41Kzt5OIDLod0lKa9qnmc
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10632"; a="419935881"
+  bh=qoTudXp3gXf7lXW+9kvrSNDA4q7LmRQK44BASTapoiM=;
+  b=k4aV17gS31IayJwzCzbdgp1PWesAietIgplSFZGwxeTZ8HNZYBCxgQKp
+   PwxPvNldFMjRnG+lMSvmoO3vfsddCjWS0q0oOTL+GF65BEhjbb8FIG0fA
+   aT1xv/7Q6bZOgF53pKCX+jQi2oa8kUg18hdRkrXSoYMrWuX3mwkmU3ELU
+   dTAM4EYxEwmtxO4mYTd8nYxz1QxLcVWCXhAtV/QO8Py6nHVmCHqg4qPvV
+   h+npATlj8NYw5FLwW3XUNT8MrBGCbBl9eE51AwO8FIFzgFEq4p/RPMwwQ
+   MwSCy+hlBPKZBCE0Kth7h6fWjijlQP9Tf1r4zVsuZGZzFe3gmc+q5VqQm
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10632"; a="361225909"
 X-IronPort-AV: E=Sophos;i="5.97,328,1669104000"; 
-   d="scan'208";a="419935881"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Feb 2023 15:00:45 -0800
+   d="scan'208";a="361225909"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Feb 2023 17:12:47 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10632"; a="650748159"
+X-IronPort-AV: E=McAfee;i="6500,9779,10632"; a="673305424"
 X-IronPort-AV: E=Sophos;i="5.97,328,1669104000"; 
-   d="scan'208";a="650748159"
+   d="scan'208";a="673305424"
 Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 25 Feb 2023 15:00:44 -0800
+  by orsmga002.jf.intel.com with ESMTP; 25 Feb 2023 17:12:46 -0800
 Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pW3X1-0003Rr-2V;
-	Sat, 25 Feb 2023 23:00:43 +0000
-Date: Sun, 26 Feb 2023 06:59:55 +0800
+	id 1pW5an-0003U3-0e;
+	Sun, 26 Feb 2023 01:12:45 +0000
+Date: Sun, 26 Feb 2023 09:12:21 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: arch/powerpc/perf/mpc7450-pmu.c:422 init_mpc7450_pmu() warn: masked
- condition '((pvr >> 16) & 65535) != 2147483648' is always true.
-Message-ID: <202302260657.7dM9Uwev-lkp@intel.com>
+Subject: net/sunrpc/auth_gss/svcauth_gss.c:1165 gss_read_proxy_verf() warn:
+ potential spectre issue 'in_token->pages' [r]
+Message-ID: <202302260958.02CzNMiS-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -49,41 +49,105 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Rashmica Gupta <rashmica.g@gmail.com>
-CC: Michael Ellerman <mpe@ellerman.id.au>
-CC: Christophe Leroy <christophe.leroy@csgroup.eu>
-CC: Madhavan Srinivasan <maddy@linux.vnet.ibm.com>
+TO: Chuck Lever <chuck.lever@oracle.com>
+CC: Jeff Layton <jlayton@kernel.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   116b41162f8b267987ea9a73eb7e73eaa7c2cce5
-commit: ec3eb9d941a98f4c0dac263110729680a734279b powerpc/perf: Use PVR rather than oprofile field to determine CPU version
-date:   7 months ago
+head:   1ec35eadc3b448c91a6b763371a7073444e95f9d
+commit: c020fa695af64093acf689beaa39d9e956a55f23 SUNRPC: Convert server-side GSS upcall helpers to use xdr_stream
+date:   5 days ago
 :::::: branch date: 2 hours ago
-:::::: commit date: 7 months ago
-config: powerpc-randconfig-m031-20230226 (https://download.01.org/0day-ci/archive/20230226/202302260657.7dM9Uwev-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 12.1.0
+:::::: commit date: 5 days ago
+config: i386-randconfig-m021 (https://download.01.org/0day-ci/archive/20230226/202302260958.02CzNMiS-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202302260657.7dM9Uwev-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202302260958.02CzNMiS-lkp@intel.com/
 
 smatch warnings:
-arch/powerpc/perf/mpc7450-pmu.c:422 init_mpc7450_pmu() warn: masked condition '((pvr >> 16) & 65535) != 2147483648' is always true.
+net/sunrpc/auth_gss/svcauth_gss.c:1165 gss_read_proxy_verf() warn: potential spectre issue 'in_token->pages' [r]
 
-vim +422 arch/powerpc/perf/mpc7450-pmu.c
+vim +1165 net/sunrpc/auth_gss/svcauth_gss.c
 
-7325927e5a20bf arch/powerpc/kernel/mpc7450-pmu.c Paul Mackerras   2009-06-17  417  
-77c2342a578c11 arch/powerpc/kernel/mpc7450-pmu.c Dmitry Baryshkov 2011-06-29  418  static int __init init_mpc7450_pmu(void)
-7325927e5a20bf arch/powerpc/kernel/mpc7450-pmu.c Paul Mackerras   2009-06-17  419  {
-ec3eb9d941a98f arch/powerpc/perf/mpc7450-pmu.c   Rashmica Gupta   2022-07-07  420  	unsigned int pvr = mfspr(SPRN_PVR);
-ec3eb9d941a98f arch/powerpc/perf/mpc7450-pmu.c   Rashmica Gupta   2022-07-07  421  
-ec3eb9d941a98f arch/powerpc/perf/mpc7450-pmu.c   Rashmica Gupta   2022-07-07 @422  	if (PVR_VER(pvr) != PVR_7450)
-7325927e5a20bf arch/powerpc/kernel/mpc7450-pmu.c Paul Mackerras   2009-06-17  423  		return -ENODEV;
-7325927e5a20bf arch/powerpc/kernel/mpc7450-pmu.c Paul Mackerras   2009-06-17  424  
-7325927e5a20bf arch/powerpc/kernel/mpc7450-pmu.c Paul Mackerras   2009-06-17  425  	return register_power_pmu(&mpc7450_pmu);
-7325927e5a20bf arch/powerpc/kernel/mpc7450-pmu.c Paul Mackerras   2009-06-17  426  }
-7325927e5a20bf arch/powerpc/kernel/mpc7450-pmu.c Paul Mackerras   2009-06-17  427  
+5866efa8cbfbad Chuck Lever     2019-10-24  1109  
+5866efa8cbfbad Chuck Lever     2019-10-24  1110  static int gss_read_proxy_verf(struct svc_rqst *rqstp,
+438623a06bacd6 Chuck Lever     2021-07-15  1111  			       struct rpc_gss_wire_cred *gc,
+030d794bf49855 Simo Sorce      2012-05-25  1112  			       struct xdr_netobj *in_handle,
+030d794bf49855 Simo Sorce      2012-05-25  1113  			       struct gssp_in_token *in_token)
+030d794bf49855 Simo Sorce      2012-05-25  1114  {
+c020fa695af640 Chuck Lever     2023-01-02  1115  	struct xdr_stream *xdr = &rqstp->rq_arg_stream;
+d48c8124749c9a Martijn de Gouw 2020-10-19  1116  	unsigned int length, pgto_offs, pgfrom_offs;
+4d51366deeb4e2 Chuck Lever     2023-01-02  1117  	int pages, i, pgto, pgfrom;
+c020fa695af640 Chuck Lever     2023-01-02  1118  	size_t to_offs, from_offs;
+c020fa695af640 Chuck Lever     2023-01-02  1119  	u32 inlen;
+030d794bf49855 Simo Sorce      2012-05-25  1120  
+4d51366deeb4e2 Chuck Lever     2023-01-02  1121  	if (dup_netobj(in_handle, &gc->gc_ctx))
+4d51366deeb4e2 Chuck Lever     2023-01-02  1122  		return SVC_CLOSE;
+030d794bf49855 Simo Sorce      2012-05-25  1123  
+c020fa695af640 Chuck Lever     2023-01-02  1124  	/*
+c020fa695af640 Chuck Lever     2023-01-02  1125  	 *  RFC 2203 Section 5.2.2
+c020fa695af640 Chuck Lever     2023-01-02  1126  	 *
+c020fa695af640 Chuck Lever     2023-01-02  1127  	 *	struct rpc_gss_init_arg {
+c020fa695af640 Chuck Lever     2023-01-02  1128  	 *		opaque gss_token<>;
+c020fa695af640 Chuck Lever     2023-01-02  1129  	 *	};
+c020fa695af640 Chuck Lever     2023-01-02  1130  	 */
+c020fa695af640 Chuck Lever     2023-01-02  1131  	if (xdr_stream_decode_u32(xdr, &inlen) < 0)
+c020fa695af640 Chuck Lever     2023-01-02  1132  		goto out_denied_free;
+c020fa695af640 Chuck Lever     2023-01-02  1133  	if (inlen > xdr_stream_remaining(xdr))
+c020fa695af640 Chuck Lever     2023-01-02  1134  		goto out_denied_free;
+030d794bf49855 Simo Sorce      2012-05-25  1135  
+5866efa8cbfbad Chuck Lever     2019-10-24  1136  	pages = DIV_ROUND_UP(inlen, PAGE_SIZE);
+5866efa8cbfbad Chuck Lever     2019-10-24  1137  	in_token->pages = kcalloc(pages, sizeof(struct page *), GFP_KERNEL);
+c020fa695af640 Chuck Lever     2023-01-02  1138  	if (!in_token->pages)
+c020fa695af640 Chuck Lever     2023-01-02  1139  		goto out_denied_free;
+5866efa8cbfbad Chuck Lever     2019-10-24  1140  	in_token->page_base = 0;
+030d794bf49855 Simo Sorce      2012-05-25  1141  	in_token->page_len = inlen;
+5866efa8cbfbad Chuck Lever     2019-10-24  1142  	for (i = 0; i < pages; i++) {
+5866efa8cbfbad Chuck Lever     2019-10-24  1143  		in_token->pages[i] = alloc_page(GFP_KERNEL);
+5866efa8cbfbad Chuck Lever     2019-10-24  1144  		if (!in_token->pages[i]) {
+5866efa8cbfbad Chuck Lever     2019-10-24  1145  			gss_free_in_token_pages(in_token);
+c020fa695af640 Chuck Lever     2023-01-02  1146  			goto out_denied_free;
+5866efa8cbfbad Chuck Lever     2019-10-24  1147  		}
+5866efa8cbfbad Chuck Lever     2019-10-24  1148  	}
+5866efa8cbfbad Chuck Lever     2019-10-24  1149  
+c020fa695af640 Chuck Lever     2023-01-02  1150  	length = min_t(unsigned int, inlen, (char *)xdr->end - (char *)xdr->p);
+c020fa695af640 Chuck Lever     2023-01-02  1151  	memcpy(page_address(in_token->pages[0]), xdr->p, length);
+5866efa8cbfbad Chuck Lever     2019-10-24  1152  	inlen -= length;
+5866efa8cbfbad Chuck Lever     2019-10-24  1153  
+d48c8124749c9a Martijn de Gouw 2020-10-19  1154  	to_offs = length;
+d48c8124749c9a Martijn de Gouw 2020-10-19  1155  	from_offs = rqstp->rq_arg.page_base;
+5866efa8cbfbad Chuck Lever     2019-10-24  1156  	while (inlen) {
+d48c8124749c9a Martijn de Gouw 2020-10-19  1157  		pgto = to_offs >> PAGE_SHIFT;
+d48c8124749c9a Martijn de Gouw 2020-10-19  1158  		pgfrom = from_offs >> PAGE_SHIFT;
+d48c8124749c9a Martijn de Gouw 2020-10-19  1159  		pgto_offs = to_offs & ~PAGE_MASK;
+d48c8124749c9a Martijn de Gouw 2020-10-19  1160  		pgfrom_offs = from_offs & ~PAGE_MASK;
+d48c8124749c9a Martijn de Gouw 2020-10-19  1161  
+d48c8124749c9a Martijn de Gouw 2020-10-19  1162  		length = min_t(unsigned int, inlen,
+d48c8124749c9a Martijn de Gouw 2020-10-19  1163  			 min_t(unsigned int, PAGE_SIZE - pgto_offs,
+d48c8124749c9a Martijn de Gouw 2020-10-19  1164  			       PAGE_SIZE - pgfrom_offs));
+d48c8124749c9a Martijn de Gouw 2020-10-19 @1165  		memcpy(page_address(in_token->pages[pgto]) + pgto_offs,
+d48c8124749c9a Martijn de Gouw 2020-10-19  1166  		       page_address(rqstp->rq_arg.pages[pgfrom]) + pgfrom_offs,
+5866efa8cbfbad Chuck Lever     2019-10-24  1167  		       length);
+030d794bf49855 Simo Sorce      2012-05-25  1168  
+d48c8124749c9a Martijn de Gouw 2020-10-19  1169  		to_offs += length;
+d48c8124749c9a Martijn de Gouw 2020-10-19  1170  		from_offs += length;
+5866efa8cbfbad Chuck Lever     2019-10-24  1171  		inlen -= length;
+5866efa8cbfbad Chuck Lever     2019-10-24  1172  	}
+030d794bf49855 Simo Sorce      2012-05-25  1173  	return 0;
+c020fa695af640 Chuck Lever     2023-01-02  1174  
+c020fa695af640 Chuck Lever     2023-01-02  1175  out_denied_free:
+c020fa695af640 Chuck Lever     2023-01-02  1176  	kfree(in_handle->data);
+c020fa695af640 Chuck Lever     2023-01-02  1177  	return SVC_DENIED;
+030d794bf49855 Simo Sorce      2012-05-25  1178  }
+030d794bf49855 Simo Sorce      2012-05-25  1179  
+
+:::::: The code at line 1165 was first introduced by commit
+:::::: d48c8124749c9a5081fe68680f83605e272c984b SUNRPC: fix copying of multiple pages in gss_read_proxy_verf()
+
+:::::: TO: Martijn de Gouw <martijn.de.gouw@prodrive-technologies.com>
+:::::: CC: J. Bruce Fields <bfields@redhat.com>
 
 -- 
 0-DAY CI Kernel Test Service
