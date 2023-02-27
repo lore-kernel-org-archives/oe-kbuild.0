@@ -1,51 +1,50 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C48AD628;
-	Mon, 27 Feb 2023 04:25:22 +0000 (UTC)
-Received: by mail-wm1-f47.google.com with SMTP id k37so3435533wms.0;
-        Sun, 26 Feb 2023 20:25:22 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3051E373;
+	Mon, 27 Feb 2023 04:31:13 +0000 (UTC)
+Received: by mail-wm1-f51.google.com with SMTP id c18so3396262wmr.3;
+        Sun, 26 Feb 2023 20:31:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=WKY+nM73n92PPNk57uTNynvXNt+CICVYCNxlZP1mrDg=;
-        b=LmtQWJBHze3Ia9GRyyQvObT5COCtGlIGbDHu4nrcLEWds3cgWjt54fAM6XPL2HNGrH
-         SIAF2DU6TLGPrpGEfUgwz7SdolMaLJ+Fu3+moyUSsy73hK8mBSBUJbzAZTFIAgCxBLQB
-         2hp+9ZKBn080PrOhSYpDAf7odWHoHOM8ohp6GMftzAXNo3zP77ChH7FwnlUtjqSPns6q
-         CvQ5ey+g75CO/gr42zA+vGvOLN8Z943WfsHnUKvnZIlJ1x9oX0FmWTjs41/I+UNK4wyn
-         3BIJ+NZ4dLcCYHORGLH3MJjMi7PoN48i4sqIDyKVsKaNJ0IQ8pV9zNBoeNu+X/T0MFSD
-         mGnQ==
+        bh=2nWXThMyntgQC2vaXxzGqflN0E53HdUGqETRp0fNNDI=;
+        b=YLmEtQu8tXOoN7pb1/o2lo+ceTJ2Zc4UW7ifEgy0sZGpGIAyu2MCE3ZBlE+VlbDCdo
+         AeDK1pg7hlUBwHa7Q0n/57/hXhMkEODq2nKWJTO1UYXIZ3k75qprALUfujkJ9u5JDOeQ
+         RUofWHmmcOKiWl8/KQiU5m1qXkFPHtMG36U8GnK4hlDhokaszDQz33PNqvWIG4n8rtjq
+         OlymhKx3PcZiWw6kO3A0jll4F11ZataTP1KkHG4xZAPa46Uilu0BcgODnFKqmVGi2279
+         wmZbw5YenjaHD5k/rpbOv0tl5O8JSUaUsCWQ60lpRsOCxnMFGTgWCoh0Rd8cPGSKJlrv
+         xCeg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=WKY+nM73n92PPNk57uTNynvXNt+CICVYCNxlZP1mrDg=;
-        b=Eq8riI4OIWDJ2KTZDBpMjgPeClBnMBsHpm/EDi/pSjL5Z31eg6QKV5xhb3niBm+o63
-         vvvepxnSpVCNy5bsvOyzREe7FOCHYTDNRrQpbxsK1uToCD1G8eFHBOJ6eTnhaFs29kuy
-         Gmu+wmRim58kubl5o2TA+a5w5jTy2NmCP3Q8Lu3P12kAK5QHDUSIXT3NpPjIMuoF86Pb
-         3FchZkgPl4xFUXl6LZQCmls11Qg4coOz71/W3B4og1UfLXG68ps4ZQhqjbEJ/KlRoA8w
-         WO5AlNLjwDFkhcexQgBQmZh4PXHKs1QJ3yIoce4Pk/KKUAhFE13ZoC82HWPX4lCUdT4L
-         /ZRQ==
-X-Gm-Message-State: AO0yUKUUC6s7GNmakrWlS6ErWic/v8CybhGGz8kJfjzEud9dB8cBCmJr
-	aDBaTJ3ZSmnb8AOoBNq169rqH/Ss/ZA=
-X-Google-Smtp-Source: AK7set9oWKWHoPK378Dz39H2oIP6OLjKI/lm5WT5tSFlk4qAGO0cK8EJfXNPz67Cf15Re5mQAZrXHg==
-X-Received: by 2002:a05:600c:1e1f:b0:3ea:fca4:8c48 with SMTP id ay31-20020a05600c1e1f00b003eafca48c48mr7590460wmb.23.1677471920607;
-        Sun, 26 Feb 2023 20:25:20 -0800 (PST)
+        bh=2nWXThMyntgQC2vaXxzGqflN0E53HdUGqETRp0fNNDI=;
+        b=4OYaLOX1qFD3E7HtbXW0Bo0YLzQQHGqHKS5XRt6g7GJY/s46ishfv00L0sLYA6m7EO
+         V5cPj5SkZM24S5zmSMqhuWEMnVFPVR7aHu7v/5WhFjQQ2LXYlR+Puc9nikbXp44y4WfH
+         wr0vXzwCvUXMv0/Agt2LTLplVgjJNgiRRqmWTg6ms5LQ1meQfZRmGIzprGCvuoE+W0qh
+         xUYgAGMzn7qYhJkp8pR2RZHIwubA7mzhEGXlYvprg+BQOr+J5etkjYE5/BS/pNXrjpzq
+         cc7ykF3xuzn8dg+UH/e27Va5XmYLGB9MhPBZ3Sz5AUXs9ssaPbCXWtCKGgWrocTNH4qI
+         5dAQ==
+X-Gm-Message-State: AO0yUKXiTXZAzx3qGloCf5jwYQjaBg1yyTRZh/sdva07RX/SvOh+nRpb
+	U+rz8s4/u2Bq+jYE7jPL9uc9jfGEgkU=
+X-Google-Smtp-Source: AK7set+R4ajGY6eMxmTFIQiqgVZm1aR8Le6A9D+3/4ZoQL++6+MxuIvy73S/5XOhYL9XyQcIHEjU9g==
+X-Received: by 2002:a05:600c:3d9b:b0:3ea:f6c4:5f28 with SMTP id bi27-20020a05600c3d9b00b003eaf6c45f28mr7938892wmb.36.1677472270859;
+        Sun, 26 Feb 2023 20:31:10 -0800 (PST)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id p13-20020a1c544d000000b003e208cec49bsm17688381wmi.3.2023.02.26.20.25.19
+        by smtp.gmail.com with ESMTPSA id hn6-20020a05600ca38600b003e21f01c426sm7928143wmb.9.2023.02.26.20.31.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 26 Feb 2023 20:25:19 -0800 (PST)
-Date: Mon, 27 Feb 2023 07:25:16 +0300
+        Sun, 26 Feb 2023 20:31:10 -0800 (PST)
+Date: Mon, 27 Feb 2023 07:31:07 +0300
 From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, Rashmica Gupta <rashmica.g@gmail.com>
+To: oe-kbuild@lists.linux.dev, Neal Liu <neal_liu@aspeedtech.com>
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Michael Ellerman <mpe@ellerman.id.au>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Madhavan Srinivasan <maddy@linux.vnet.ibm.com>
-Subject: arch/powerpc/perf/mpc7450-pmu.c:422 init_mpc7450_pmu() warn: masked
- condition '((pvr >> 16) & 65535) != 2147483648' is always true.
-Message-ID: <202302260657.7dM9Uwev-lkp@intel.com>
+	linux-kernel@vger.kernel.org,
+	Herbert Xu <herbert@gondor.apana.org.au>
+Subject: drivers/crypto/aspeed/aspeed-acry.c:295 aspeed_acry_rsa_ctx_copy()
+ error: uninitialized symbol 'idx'.
+Message-ID: <202302261052.CVFRyq6F-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -54,36 +53,81 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Message-ID: <20230227042516.-VZojSSJh45L7NGrOeoNirUEyJGJySgDkrYKa_I_-e4@z>
+Message-ID: <20230227043107.LIU1W11Hyins-etLn5p7wZuCHYgk5Y1ylQ3lhDphwDg@z>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   116b41162f8b267987ea9a73eb7e73eaa7c2cce5
-commit: ec3eb9d941a98f4c0dac263110729680a734279b powerpc/perf: Use PVR rather than oprofile field to determine CPU version
-config: powerpc-randconfig-m031-20230226 (https://download.01.org/0day-ci/archive/20230226/202302260657.7dM9Uwev-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 12.1.0
+head:   1ec35eadc3b448c91a6b763371a7073444e95f9d
+commit: 2f1cf4e50c956f882c9fc209c7cded832b67b8a3 crypto: aspeed - Add ACRY RSA driver
+config: m68k-randconfig-m031-20230226 (https://download.01.org/0day-ci/archive/20230226/202302261052.CVFRyq6F-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202302260657.7dM9Uwev-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202302261052.CVFRyq6F-lkp@intel.com/
 
 smatch warnings:
-arch/powerpc/perf/mpc7450-pmu.c:422 init_mpc7450_pmu() warn: masked condition '((pvr >> 16) & 65535) != 2147483648' is always true.
+drivers/crypto/aspeed/aspeed-acry.c:295 aspeed_acry_rsa_ctx_copy() error: uninitialized symbol 'idx'.
 
-vim +422 arch/powerpc/perf/mpc7450-pmu.c
+vim +/idx +295 drivers/crypto/aspeed/aspeed-acry.c
 
-77c2342a578c11 arch/powerpc/kernel/mpc7450-pmu.c Dmitry Baryshkov 2011-06-29  418  static int __init init_mpc7450_pmu(void)
-7325927e5a20bf arch/powerpc/kernel/mpc7450-pmu.c Paul Mackerras   2009-06-17  419  {
-ec3eb9d941a98f arch/powerpc/perf/mpc7450-pmu.c   Rashmica Gupta   2022-07-07  420  	unsigned int pvr = mfspr(SPRN_PVR);
-ec3eb9d941a98f arch/powerpc/perf/mpc7450-pmu.c   Rashmica Gupta   2022-07-07  421  
-ec3eb9d941a98f arch/powerpc/perf/mpc7450-pmu.c   Rashmica Gupta   2022-07-07 @422  	if (PVR_VER(pvr) != PVR_7450)
-                                                                                            ^^^^^^^^^^^^^^^^^^^^^^^^
-Impossible.  Unclear what was intended.
+2f1cf4e50c956f Neal Liu 2023-01-04  250  static int aspeed_acry_rsa_ctx_copy(struct aspeed_acry_dev *acry_dev, void *buf,
+2f1cf4e50c956f Neal Liu 2023-01-04  251  				    const void *xbuf, size_t nbytes,
+2f1cf4e50c956f Neal Liu 2023-01-04  252  				    enum aspeed_rsa_key_mode mode)
+2f1cf4e50c956f Neal Liu 2023-01-04  253  {
+2f1cf4e50c956f Neal Liu 2023-01-04  254  	const u8 *src = xbuf;
+2f1cf4e50c956f Neal Liu 2023-01-04  255  	u32 *dw_buf = (u32 *)buf;
+2f1cf4e50c956f Neal Liu 2023-01-04  256  	int nbits, ndw;
+2f1cf4e50c956f Neal Liu 2023-01-04  257  	int i, j, idx;
+2f1cf4e50c956f Neal Liu 2023-01-04  258  	u32 data = 0;
+2f1cf4e50c956f Neal Liu 2023-01-04  259  
+2f1cf4e50c956f Neal Liu 2023-01-04  260  	ACRY_DBG(acry_dev, "nbytes:%zu, mode:%d\n", nbytes, mode);
+2f1cf4e50c956f Neal Liu 2023-01-04  261  
+2f1cf4e50c956f Neal Liu 2023-01-04  262  	if (nbytes > ASPEED_ACRY_RSA_MAX_KEY_LEN)
+2f1cf4e50c956f Neal Liu 2023-01-04  263  		return -ENOMEM;
+2f1cf4e50c956f Neal Liu 2023-01-04  264  
+2f1cf4e50c956f Neal Liu 2023-01-04  265  	/* Remove the leading zeros */
+2f1cf4e50c956f Neal Liu 2023-01-04  266  	while (nbytes > 0 && src[0] == 0) {
+2f1cf4e50c956f Neal Liu 2023-01-04  267  		src++;
+2f1cf4e50c956f Neal Liu 2023-01-04  268  		nbytes--;
+2f1cf4e50c956f Neal Liu 2023-01-04  269  	}
+2f1cf4e50c956f Neal Liu 2023-01-04  270  
+2f1cf4e50c956f Neal Liu 2023-01-04  271  	nbits = nbytes * 8;
+2f1cf4e50c956f Neal Liu 2023-01-04  272  	if (nbytes > 0)
+2f1cf4e50c956f Neal Liu 2023-01-04  273  		nbits -= count_leading_zeros(src[0]) - (BITS_PER_LONG - 8);
+2f1cf4e50c956f Neal Liu 2023-01-04  274  
+2f1cf4e50c956f Neal Liu 2023-01-04  275  	/* double-world alignment */
+2f1cf4e50c956f Neal Liu 2023-01-04  276  	ndw = DIV_ROUND_UP(nbytes, BYTES_PER_DWORD);
+2f1cf4e50c956f Neal Liu 2023-01-04  277  
+2f1cf4e50c956f Neal Liu 2023-01-04  278  	if (nbytes > 0) {
+2f1cf4e50c956f Neal Liu 2023-01-04  279  		i = BYTES_PER_DWORD - nbytes % BYTES_PER_DWORD;
+2f1cf4e50c956f Neal Liu 2023-01-04  280  		i %= BYTES_PER_DWORD;
+2f1cf4e50c956f Neal Liu 2023-01-04  281  
+2f1cf4e50c956f Neal Liu 2023-01-04  282  		for (j = ndw; j > 0; j--) {
+2f1cf4e50c956f Neal Liu 2023-01-04  283  			for (; i < BYTES_PER_DWORD; i++) {
+2f1cf4e50c956f Neal Liu 2023-01-04  284  				data <<= 8;
+2f1cf4e50c956f Neal Liu 2023-01-04  285  				data |= *src++;
+2f1cf4e50c956f Neal Liu 2023-01-04  286  			}
+2f1cf4e50c956f Neal Liu 2023-01-04  287  
+2f1cf4e50c956f Neal Liu 2023-01-04  288  			i = 0;
+2f1cf4e50c956f Neal Liu 2023-01-04  289  
+2f1cf4e50c956f Neal Liu 2023-01-04  290  			if (mode == ASPEED_RSA_EXP_MODE)
+2f1cf4e50c956f Neal Liu 2023-01-04  291  				idx = acry_dev->exp_dw_mapping[j - 1];
+2f1cf4e50c956f Neal Liu 2023-01-04  292  			else if (mode == ASPEED_RSA_MOD_MODE)
+2f1cf4e50c956f Neal Liu 2023-01-04  293  				idx = acry_dev->mod_dw_mapping[j - 1];
 
-7325927e5a20bf arch/powerpc/kernel/mpc7450-pmu.c Paul Mackerras   2009-06-17  423  		return -ENODEV;
-7325927e5a20bf arch/powerpc/kernel/mpc7450-pmu.c Paul Mackerras   2009-06-17  424  
-7325927e5a20bf arch/powerpc/kernel/mpc7450-pmu.c Paul Mackerras   2009-06-17  425  	return register_power_pmu(&mpc7450_pmu);
-7325927e5a20bf arch/powerpc/kernel/mpc7450-pmu.c Paul Mackerras   2009-06-17  426  }
+idx not initialized for if it's not EXPR and not MOD.  Just do:
+	} else { /* mode == ASPEED_RSA_MOD_MODE */
+		idx = acry_dev->mod_dw_mapping[j - 1];
+	}
+
+2f1cf4e50c956f Neal Liu 2023-01-04  294  
+2f1cf4e50c956f Neal Liu 2023-01-04 @295  			dw_buf[idx] = cpu_to_le32(data);
+2f1cf4e50c956f Neal Liu 2023-01-04  296  		}
+2f1cf4e50c956f Neal Liu 2023-01-04  297  	}
+2f1cf4e50c956f Neal Liu 2023-01-04  298  
+2f1cf4e50c956f Neal Liu 2023-01-04  299  	return nbits;
+2f1cf4e50c956f Neal Liu 2023-01-04  300  }
 
 -- 
 0-DAY CI Kernel Test Service
