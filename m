@@ -1,50 +1,52 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3051E373;
-	Mon, 27 Feb 2023 04:31:13 +0000 (UTC)
-Received: by mail-wm1-f51.google.com with SMTP id c18so3396262wmr.3;
-        Sun, 26 Feb 2023 20:31:12 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88F83640;
+	Mon, 27 Feb 2023 04:35:56 +0000 (UTC)
+Received: by mail-wr1-f48.google.com with SMTP id j2so4806116wrh.9;
+        Sun, 26 Feb 2023 20:35:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=2nWXThMyntgQC2vaXxzGqflN0E53HdUGqETRp0fNNDI=;
-        b=YLmEtQu8tXOoN7pb1/o2lo+ceTJ2Zc4UW7ifEgy0sZGpGIAyu2MCE3ZBlE+VlbDCdo
-         AeDK1pg7hlUBwHa7Q0n/57/hXhMkEODq2nKWJTO1UYXIZ3k75qprALUfujkJ9u5JDOeQ
-         RUofWHmmcOKiWl8/KQiU5m1qXkFPHtMG36U8GnK4hlDhokaszDQz33PNqvWIG4n8rtjq
-         OlymhKx3PcZiWw6kO3A0jll4F11ZataTP1KkHG4xZAPa46Uilu0BcgODnFKqmVGi2279
-         wmZbw5YenjaHD5k/rpbOv0tl5O8JSUaUsCWQ60lpRsOCxnMFGTgWCoh0Rd8cPGSKJlrv
-         xCeg==
+        bh=jPDUgfWIJpqXibCa/CpfzA6vX/+eetr76UO3gYXulag=;
+        b=Y2c2pMHOdmAWtt42WXGHxZoHXdY5+0HknEEl4m1pey2F2mtxesIX9SOYzYDaLOeWhL
+         jb9MSlJ+U9vQRnnInMmuXKIZtanhroJ1RSITM/Txt7mZnPNHynjG528tgmkATXIPYlIt
+         BiPO7RmKAm+DAqsNjcLd52ySPrJVkahzo6PF3pXHJTgpSN/L6aHpAM0FZMwvbZDz/SH9
+         +A1wLlM8TgaJFC71etHyIN8Q/2JvS3g+5+I8SoBzB8tLuWCUgyTkQj7IaPIGl9tNjVSK
+         q60vADlahLPKfbRV4qKSCz+Fnr7zJmIJgx3nDeUkWsguhUHHjS+bZXCb/vduaLtPgss0
+         KVHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=2nWXThMyntgQC2vaXxzGqflN0E53HdUGqETRp0fNNDI=;
-        b=4OYaLOX1qFD3E7HtbXW0Bo0YLzQQHGqHKS5XRt6g7GJY/s46ishfv00L0sLYA6m7EO
-         V5cPj5SkZM24S5zmSMqhuWEMnVFPVR7aHu7v/5WhFjQQ2LXYlR+Puc9nikbXp44y4WfH
-         wr0vXzwCvUXMv0/Agt2LTLplVgjJNgiRRqmWTg6ms5LQ1meQfZRmGIzprGCvuoE+W0qh
-         xUYgAGMzn7qYhJkp8pR2RZHIwubA7mzhEGXlYvprg+BQOr+J5etkjYE5/BS/pNXrjpzq
-         cc7ykF3xuzn8dg+UH/e27Va5XmYLGB9MhPBZ3Sz5AUXs9ssaPbCXWtCKGgWrocTNH4qI
-         5dAQ==
-X-Gm-Message-State: AO0yUKXiTXZAzx3qGloCf5jwYQjaBg1yyTRZh/sdva07RX/SvOh+nRpb
-	U+rz8s4/u2Bq+jYE7jPL9uc9jfGEgkU=
-X-Google-Smtp-Source: AK7set+R4ajGY6eMxmTFIQiqgVZm1aR8Le6A9D+3/4ZoQL++6+MxuIvy73S/5XOhYL9XyQcIHEjU9g==
-X-Received: by 2002:a05:600c:3d9b:b0:3ea:f6c4:5f28 with SMTP id bi27-20020a05600c3d9b00b003eaf6c45f28mr7938892wmb.36.1677472270859;
-        Sun, 26 Feb 2023 20:31:10 -0800 (PST)
+        bh=jPDUgfWIJpqXibCa/CpfzA6vX/+eetr76UO3gYXulag=;
+        b=AZvrsuJZan2vKztUN7FSP3VnE4bPvSL4puSjUD1DsK/63t47LjfSgqUJGWL+/XeI8K
+         Wej20XNjcSUa9RmnrMd9Y7u4RKe4heD1Q/s3C8jlJtpdyOy75XvUoplivzyWRruBE/Lp
+         m6zORCUsA6sqJD5n+K6ZRjAvvC/h1GAgp4rlqsOxePw72T/THp4qbLcDZwTUaDeFMJY+
+         lxQD+9NRYiTQSffiaDlf7ldyh6nOJEkt3d4D9E2xsVqKUceR8e1+Il/qFCTr14AI+rB3
+         gVY/7g9ugWFuO+K+Oc2VhAk5BbZo7oNQ88TE+YVaLDpqjlGsN0Rw0lBs/0ew3PpAA+YD
+         7/ww==
+X-Gm-Message-State: AO0yUKVtO48JOelgyfBkhPZVYTmM3g/KMDWG/dgDpZBFeUlNr3yAD78v
+	jc+dj3RMDR1SYPBhKE17mkoLXLHLV/A=
+X-Google-Smtp-Source: AK7set8Qbgx8pnWq50BGUT5t8DZU+nfGoMdvWrb1ybtBTDMXnROu0Tshyv2lNkjH3G9h5ryYHM1q3A==
+X-Received: by 2002:a5d:6c66:0:b0:2c7:d7c:7d7 with SMTP id r6-20020a5d6c66000000b002c70d7c07d7mr5308365wrz.22.1677472554501;
+        Sun, 26 Feb 2023 20:35:54 -0800 (PST)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id hn6-20020a05600ca38600b003e21f01c426sm7928143wmb.9.2023.02.26.20.31.09
+        by smtp.gmail.com with ESMTPSA id l3-20020a05600012c300b002c5694aef92sm5863340wrx.21.2023.02.26.20.35.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 26 Feb 2023 20:31:10 -0800 (PST)
-Date: Mon, 27 Feb 2023 07:31:07 +0300
+        Sun, 26 Feb 2023 20:35:54 -0800 (PST)
+Date: Mon, 27 Feb 2023 07:35:51 +0300
 From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, Neal Liu <neal_liu@aspeedtech.com>
+To: oe-kbuild@lists.linux.dev, Wenjing Liu <wenjing.liu@amd.com>
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Herbert Xu <herbert@gondor.apana.org.au>
-Subject: drivers/crypto/aspeed/aspeed-acry.c:295 aspeed_acry_rsa_ctx_copy()
- error: uninitialized symbol 'idx'.
-Message-ID: <202302261052.CVFRyq6F-lkp@intel.com>
+	Alex Deucher <alexander.deucher@amd.com>,
+	George Shen <George.Shen@amd.com>
+Subject: drivers/gpu/drm/amd/amdgpu/../display/dc/link/link_factory.c:365
+ dc_link_construct_phy() warn: variable dereferenced before check
+ 'link->link_enc' (see line 362)
+Message-ID: <202302261837.dKavRZA5-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -53,81 +55,66 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Message-ID: <20230227043107.LIU1W11Hyins-etLn5p7wZuCHYgk5Y1ylQ3lhDphwDg@z>
+Message-ID: <20230227043551.Qo7DAABdAW0ccRATeib3jzjjtd80-kTS2NmQvlPBcTs@z>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   1ec35eadc3b448c91a6b763371a7073444e95f9d
-commit: 2f1cf4e50c956f882c9fc209c7cded832b67b8a3 crypto: aspeed - Add ACRY RSA driver
-config: m68k-randconfig-m031-20230226 (https://download.01.org/0day-ci/archive/20230226/202302261052.CVFRyq6F-lkp@intel.com/config)
+head:   2fcd07b7ccd5fd10b2120d298363e4e6c53ccf9c
+commit: 54618888d1ea7a26f8bccfb89e3c2420350c8047 drm/amd/display: break down dc_link.c
+config: m68k-randconfig-m031-20230226 (https://download.01.org/0day-ci/archive/20230226/202302261837.dKavRZA5-lkp@intel.com/config)
 compiler: m68k-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202302261052.CVFRyq6F-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202302261837.dKavRZA5-lkp@intel.com/
 
-smatch warnings:
-drivers/crypto/aspeed/aspeed-acry.c:295 aspeed_acry_rsa_ctx_copy() error: uninitialized symbol 'idx'.
+New smatch warnings:
+drivers/gpu/drm/amd/amdgpu/../display/dc/link/link_factory.c:365 dc_link_construct_phy() warn: variable dereferenced before check 'link->link_enc' (see line 362)
+drivers/gpu/drm/amd/amdgpu/../display/dc/link/link_dpms.c:2307 link_set_dpms_on() warn: if statement not indented
 
-vim +/idx +295 drivers/crypto/aspeed/aspeed-acry.c
+Old smatch warnings:
+drivers/gpu/drm/amd/amdgpu/../display/dc/link/link_factory.c:145 get_ddc_line() warn: inconsistent indenting
+drivers/gpu/drm/amd/amdgpu/../display/dc/link/link_factory.c:201 dc_link_construct_phy() warn: inconsistent indenting
 
-2f1cf4e50c956f Neal Liu 2023-01-04  250  static int aspeed_acry_rsa_ctx_copy(struct aspeed_acry_dev *acry_dev, void *buf,
-2f1cf4e50c956f Neal Liu 2023-01-04  251  				    const void *xbuf, size_t nbytes,
-2f1cf4e50c956f Neal Liu 2023-01-04  252  				    enum aspeed_rsa_key_mode mode)
-2f1cf4e50c956f Neal Liu 2023-01-04  253  {
-2f1cf4e50c956f Neal Liu 2023-01-04  254  	const u8 *src = xbuf;
-2f1cf4e50c956f Neal Liu 2023-01-04  255  	u32 *dw_buf = (u32 *)buf;
-2f1cf4e50c956f Neal Liu 2023-01-04  256  	int nbits, ndw;
-2f1cf4e50c956f Neal Liu 2023-01-04  257  	int i, j, idx;
-2f1cf4e50c956f Neal Liu 2023-01-04  258  	u32 data = 0;
-2f1cf4e50c956f Neal Liu 2023-01-04  259  
-2f1cf4e50c956f Neal Liu 2023-01-04  260  	ACRY_DBG(acry_dev, "nbytes:%zu, mode:%d\n", nbytes, mode);
-2f1cf4e50c956f Neal Liu 2023-01-04  261  
-2f1cf4e50c956f Neal Liu 2023-01-04  262  	if (nbytes > ASPEED_ACRY_RSA_MAX_KEY_LEN)
-2f1cf4e50c956f Neal Liu 2023-01-04  263  		return -ENOMEM;
-2f1cf4e50c956f Neal Liu 2023-01-04  264  
-2f1cf4e50c956f Neal Liu 2023-01-04  265  	/* Remove the leading zeros */
-2f1cf4e50c956f Neal Liu 2023-01-04  266  	while (nbytes > 0 && src[0] == 0) {
-2f1cf4e50c956f Neal Liu 2023-01-04  267  		src++;
-2f1cf4e50c956f Neal Liu 2023-01-04  268  		nbytes--;
-2f1cf4e50c956f Neal Liu 2023-01-04  269  	}
-2f1cf4e50c956f Neal Liu 2023-01-04  270  
-2f1cf4e50c956f Neal Liu 2023-01-04  271  	nbits = nbytes * 8;
-2f1cf4e50c956f Neal Liu 2023-01-04  272  	if (nbytes > 0)
-2f1cf4e50c956f Neal Liu 2023-01-04  273  		nbits -= count_leading_zeros(src[0]) - (BITS_PER_LONG - 8);
-2f1cf4e50c956f Neal Liu 2023-01-04  274  
-2f1cf4e50c956f Neal Liu 2023-01-04  275  	/* double-world alignment */
-2f1cf4e50c956f Neal Liu 2023-01-04  276  	ndw = DIV_ROUND_UP(nbytes, BYTES_PER_DWORD);
-2f1cf4e50c956f Neal Liu 2023-01-04  277  
-2f1cf4e50c956f Neal Liu 2023-01-04  278  	if (nbytes > 0) {
-2f1cf4e50c956f Neal Liu 2023-01-04  279  		i = BYTES_PER_DWORD - nbytes % BYTES_PER_DWORD;
-2f1cf4e50c956f Neal Liu 2023-01-04  280  		i %= BYTES_PER_DWORD;
-2f1cf4e50c956f Neal Liu 2023-01-04  281  
-2f1cf4e50c956f Neal Liu 2023-01-04  282  		for (j = ndw; j > 0; j--) {
-2f1cf4e50c956f Neal Liu 2023-01-04  283  			for (; i < BYTES_PER_DWORD; i++) {
-2f1cf4e50c956f Neal Liu 2023-01-04  284  				data <<= 8;
-2f1cf4e50c956f Neal Liu 2023-01-04  285  				data |= *src++;
-2f1cf4e50c956f Neal Liu 2023-01-04  286  			}
-2f1cf4e50c956f Neal Liu 2023-01-04  287  
-2f1cf4e50c956f Neal Liu 2023-01-04  288  			i = 0;
-2f1cf4e50c956f Neal Liu 2023-01-04  289  
-2f1cf4e50c956f Neal Liu 2023-01-04  290  			if (mode == ASPEED_RSA_EXP_MODE)
-2f1cf4e50c956f Neal Liu 2023-01-04  291  				idx = acry_dev->exp_dw_mapping[j - 1];
-2f1cf4e50c956f Neal Liu 2023-01-04  292  			else if (mode == ASPEED_RSA_MOD_MODE)
-2f1cf4e50c956f Neal Liu 2023-01-04  293  				idx = acry_dev->mod_dw_mapping[j - 1];
+vim +365 drivers/gpu/drm/amd/amdgpu/../display/dc/link/link_factory.c
 
-idx not initialized for if it's not EXPR and not MOD.  Just do:
-	} else { /* mode == ASPEED_RSA_MOD_MODE */
-		idx = acry_dev->mod_dw_mapping[j - 1];
-	}
+54618888d1ea7a Wenjing Liu 2023-01-18  348  	enc_init_data.ctx = dc_ctx;
+54618888d1ea7a Wenjing Liu 2023-01-18  349  	bp_funcs->get_src_obj(dc_ctx->dc_bios, link->link_id, 0,
+54618888d1ea7a Wenjing Liu 2023-01-18  350  			      &enc_init_data.encoder);
+54618888d1ea7a Wenjing Liu 2023-01-18  351  	enc_init_data.connector = link->link_id;
+54618888d1ea7a Wenjing Liu 2023-01-18  352  	enc_init_data.channel = get_ddc_line(link);
+54618888d1ea7a Wenjing Liu 2023-01-18  353  	enc_init_data.hpd_source = get_hpd_line(link);
+54618888d1ea7a Wenjing Liu 2023-01-18  354  
+54618888d1ea7a Wenjing Liu 2023-01-18  355  	link->hpd_src = enc_init_data.hpd_source;
+54618888d1ea7a Wenjing Liu 2023-01-18  356  
+54618888d1ea7a Wenjing Liu 2023-01-18  357  	enc_init_data.transmitter =
+54618888d1ea7a Wenjing Liu 2023-01-18  358  		translate_encoder_to_transmitter(enc_init_data.encoder);
+54618888d1ea7a Wenjing Liu 2023-01-18  359  	link->link_enc =
+54618888d1ea7a Wenjing Liu 2023-01-18  360  		link->dc->res_pool->funcs->link_enc_create(dc_ctx, &enc_init_data);
+54618888d1ea7a Wenjing Liu 2023-01-18  361  
+54618888d1ea7a Wenjing Liu 2023-01-18 @362  	DC_LOG_DC("BIOS object table - DP_IS_USB_C: %d", link->link_enc->features.flags.bits.DP_IS_USB_C);
+                                                                                                 ^^^^^^^^^^^^^^^^
 
-2f1cf4e50c956f Neal Liu 2023-01-04  294  
-2f1cf4e50c956f Neal Liu 2023-01-04 @295  			dw_buf[idx] = cpu_to_le32(data);
-2f1cf4e50c956f Neal Liu 2023-01-04  296  		}
-2f1cf4e50c956f Neal Liu 2023-01-04  297  	}
-2f1cf4e50c956f Neal Liu 2023-01-04  298  
-2f1cf4e50c956f Neal Liu 2023-01-04  299  	return nbits;
-2f1cf4e50c956f Neal Liu 2023-01-04  300  }
+54618888d1ea7a Wenjing Liu 2023-01-18  363  	DC_LOG_DC("BIOS object table - IS_DP2_CAPABLE: %d", link->link_enc->features.flags.bits.IS_DP2_CAPABLE);
+                                                                                                    ^^^^^^^^^^^^^^^^
+
+54618888d1ea7a Wenjing Liu 2023-01-18  364  
+54618888d1ea7a Wenjing Liu 2023-01-18 @365  	if (!link->link_enc) {
+                                                     ^^^^^^^^^^^^^^
+Too late.
+
+54618888d1ea7a Wenjing Liu 2023-01-18  366  		DC_ERROR("Failed to create link encoder!\n");
+54618888d1ea7a Wenjing Liu 2023-01-18  367  		goto link_enc_create_fail;
+54618888d1ea7a Wenjing Liu 2023-01-18  368  	}
+54618888d1ea7a Wenjing Liu 2023-01-18  369  
+54618888d1ea7a Wenjing Liu 2023-01-18  370  	/* Update link encoder tracking variables. These are used for the dynamic
+54618888d1ea7a Wenjing Liu 2023-01-18  371  	 * assignment of link encoders to streams.
+54618888d1ea7a Wenjing Liu 2023-01-18  372  	 */
+54618888d1ea7a Wenjing Liu 2023-01-18  373  	link->eng_id = link->link_enc->preferred_engine;
+54618888d1ea7a Wenjing Liu 2023-01-18  374  	link->dc->res_pool->link_encoders[link->eng_id - ENGINE_ID_DIGA] = link->link_enc;
+54618888d1ea7a Wenjing Liu 2023-01-18  375  	link->dc->res_pool->dig_link_enc_count++;
+54618888d1ea7a Wenjing Liu 2023-01-18  376  
+54618888d1ea7a Wenjing Liu 2023-01-18  377  	link->link_enc_hw_inst = link->link_enc->transmitter;
 
 -- 
 0-DAY CI Kernel Test Service
