@@ -1,42 +1,42 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D0A828E1
-	for <oe-kbuild@lists.linux.dev>; Mon, 27 Feb 2023 20:36:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B552623
+	for <oe-kbuild@lists.linux.dev>; Tue, 28 Feb 2023 02:36:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677530163; x=1709066163;
+  t=1677551775; x=1709087775;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=BuK9KG39Ido/txhdo74UUlNFlZHz6ileoGcGEB2V9W0=;
-  b=RELIl0ju5YhLkbedcGIWnDpW9tuA0qh2yw5NO1gN7KHm1PSSnOsAWGRL
-   vAo64xDZM6lFUc76t/HXxI8coyii+sPR5eeD8JTXNUFZqHQ+CQg+GIpve
-   63Qq53Vc8cByTCW0/slg4uOPE7SfnnEiWeWRMBTOGKc5FQijvLRYJ8w8F
-   V9AWrVYm67hOXo2QmmcN5CxnnPrWPL2dSnJ89TdOikHZbxQZO9eeg/LFt
-   mYVtGwJ4QWSaEracJXN8IctHZa+7cOB2ny4Ptd3cNRV26yp9PoZ/2ltTc
-   bn6PWGMOe4rkMdjCn56TPMAuPTcO9nq3E7sZJv6oM9DI7vfNGSIOU62Ae
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="317761909"
-X-IronPort-AV: E=Sophos;i="5.98,219,1673942400"; 
-   d="scan'208";a="317761909"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2023 12:36:02 -0800
+  bh=VIfiV2bcXA1qjrwFC1nvio4Tcq6dlohJR2Q8zehfCuQ=;
+  b=JWAEoaYV0YtPMR4zTD8M9fClNG+XmZvM48PwAXNVhnv+1+tAQrSXvOwA
+   Vghxd6fI86aoPzxPhME3sai3QLYSAGx9IXL2BKaBG5H2W/XwxvyUu/qhN
+   U8WR8im/lg8i9z4yadt2DROi0eBPDExKqKhcAG/reokTHR5KlGOwXEBi1
+   tAXRKlOM4aCrIs6RcK2LypaQ8/B+DX0s383Jw+j1A55Kxbr1VteVvDczq
+   nBA1Bjyvp/naXmHHFksw/vU713oWgEQZniGC+RiGJDw2Xh52xZeZW/M7X
+   gJuVSOc8pIsiphGbrYtUhvzS5saYWmGEkpaCEWth2n0HBUIkhlfkAH4Fc
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="313703423"
+X-IronPort-AV: E=Sophos;i="5.98,220,1673942400"; 
+   d="scan'208";a="313703423"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2023 18:36:14 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="706318319"
-X-IronPort-AV: E=Sophos;i="5.98,219,1673942400"; 
-   d="scan'208";a="706318319"
+X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="676131684"
+X-IronPort-AV: E=Sophos;i="5.98,220,1673942400"; 
+   d="scan'208";a="676131684"
 Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 27 Feb 2023 12:36:00 -0800
+  by fmsmga007.fm.intel.com with ESMTP; 27 Feb 2023 18:36:13 -0800
 Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pWkE2-0004lt-34;
-	Mon, 27 Feb 2023 20:35:58 +0000
-Date: Tue, 28 Feb 2023 04:35:30 +0800
+	id 1pWpqe-00050l-2r;
+	Tue, 28 Feb 2023 02:36:12 +0000
+Date: Tue, 28 Feb 2023 10:35:16 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: drivers/block/virtio_blk.c:708:9: sparse: sparse: no generic
- selection for 'restricted __le32 virtio_cread_v'
-Message-ID: <202302280446.iJuW5NR5-lkp@intel.com>
+Subject: drivers/media/platform/ti/omap3isp/ispccp2.c:678:17: warning: use of
+ NULL where non-null expected [CWE-476]
+Message-ID: <202302281022.wo26ejd3-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -47,193 +47,872 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "low confidence static check first_new_problem: drivers/block/virtio_blk.c:708:9: sparse: sparse: no generic selection for 'restricted __le32 virtio_cread_v'"
+:::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "low confidence static check first_new_problem: drivers/media/platform/ti/omap3isp/ispccp2.c:678:17: warning: use of NULL where non-null expected [CWE-476] [-Wanalyzer-null-argument]"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: "Michael S. Tsirkin" <mst@redhat.com>
-
-Hi Michael,
-
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+TO: Sakari Ailus <sakari.ailus@linux.intel.com>
+CC: Mauro Carvalho Chehab <mchehab@kernel.org>
+CC: linux-media@vger.kernel.org
+CC: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   982818426a0ffaf93b0621826ed39a84be3d7d62
-commit: b16a1756c716235891e298beabd68f3cd6bb5952 virtio_blk: mark all zone fields LE
-date:   12 days ago
-:::::: branch date: 2 hours ago
-:::::: commit date: 12 days ago
-config: nios2-randconfig-s053-20230226 (https://download.01.org/0day-ci/archive/20230228/202302280446.iJuW5NR5-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 12.1.0
-reproduce:
+head:   32ff6831cdecd828bd8be9cdfb6c4a3d1feb8f8a
+commit: 2ba3e38517f5a4ebf9c997168079dca01b7f9fc6 media: v4l: subdev: Fail graciously when getting try data for NULL state
+date:   5 months ago
+:::::: branch date: 4 hours ago
+:::::: commit date: 5 months ago
+config: arm-randconfig-c002-20230226 (https://download.01.org/0day-ci/archive/20230228/202302281022.wo26ejd3-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=b16a1756c716235891e298beabd68f3cd6bb5952
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=2ba3e38517f5a4ebf9c997168079dca01b7f9fc6
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout b16a1756c716235891e298beabd68f3cd6bb5952
+        git checkout 2ba3e38517f5a4ebf9c997168079dca01b7f9fc6
         # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=nios2 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=nios2 SHELL=/bin/bash drivers/block/ mm/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross ARCH=arm KBUILD_USERCFLAGS='-fanalyzer -Wno-error'  olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross ARCH=arm KBUILD_USERCFLAGS='-fanalyzer -Wno-error' 
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/r/202302280446.iJuW5NR5-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202302281022.wo26ejd3-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/block/virtio_blk.c:708:9: sparse: sparse: no generic selection for 'restricted __le32 virtio_cread_v'
->> drivers/block/virtio_blk.c:708:9: sparse: sparse: incompatible types in comparison expression (different base types):
->> drivers/block/virtio_blk.c:708:9: sparse:    bad type *
->> drivers/block/virtio_blk.c:708:9: sparse:    unsigned int *
->> drivers/block/virtio_blk.c:708:9: sparse: sparse: no generic selection for 'restricted __le32 [addressable] virtio_cread_v'
-   drivers/block/virtio_blk.c:714:9: sparse: sparse: no generic selection for 'restricted __le32 virtio_cread_v'
-   drivers/block/virtio_blk.c:714:9: sparse: sparse: incompatible types in comparison expression (different base types):
-   drivers/block/virtio_blk.c:714:9: sparse:    bad type *
-   drivers/block/virtio_blk.c:714:9: sparse:    unsigned int *
-   drivers/block/virtio_blk.c:714:9: sparse: sparse: no generic selection for 'restricted __le32 [addressable] virtio_cread_v'
-   drivers/block/virtio_blk.c:719:9: sparse: sparse: no generic selection for 'restricted __le32 virtio_cread_v'
-   drivers/block/virtio_blk.c:719:9: sparse: sparse: incompatible types in comparison expression (different base types):
-   drivers/block/virtio_blk.c:719:9: sparse:    bad type *
-   drivers/block/virtio_blk.c:719:9: sparse:    unsigned int *
-   drivers/block/virtio_blk.c:719:9: sparse: sparse: no generic selection for 'restricted __le32 [addressable] virtio_cread_v'
-   drivers/block/virtio_blk.c:734:9: sparse: sparse: no generic selection for 'restricted __le32 virtio_cread_v'
-   drivers/block/virtio_blk.c:734:9: sparse: sparse: incompatible types in comparison expression (different base types):
-   drivers/block/virtio_blk.c:734:9: sparse:    bad type *
-   drivers/block/virtio_blk.c:734:9: sparse:    unsigned int *
-   drivers/block/virtio_blk.c:734:9: sparse: sparse: no generic selection for 'restricted __le32 [addressable] virtio_cread_v'
-   drivers/block/virtio_blk.c:752:17: sparse: sparse: no generic selection for 'restricted __le32 virtio_cread_v'
-   drivers/block/virtio_blk.c:752:17: sparse: sparse: incompatible types in comparison expression (different base types):
-   drivers/block/virtio_blk.c:752:17: sparse:    bad type *
-   drivers/block/virtio_blk.c:752:17: sparse:    unsigned int *
-   drivers/block/virtio_blk.c:752:17: sparse: sparse: no generic selection for 'restricted __le32 [addressable] virtio_cread_v'
-   drivers/block/virtio_blk.c: note: in included file (through include/uapi/linux/swab.h, include/linux/swab.h, include/uapi/linux/byteorder/little_endian.h, ...):
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
+gcc_analyzer warnings: (new ones prefixed by >>)
+   drivers/media/platform/ti/omap3isp/ispccp2.c: In function 'ccp2_try_format':
+>> drivers/media/platform/ti/omap3isp/ispccp2.c:678:17: warning: use of NULL where non-null expected [CWE-476] [-Wanalyzer-null-argument]
+     678 |                 memcpy(fmt, format, sizeof(*fmt));
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     'ccp2_try_format': events 1-4
+       |
+       |  625 |         if (which == V4L2_SUBDEV_FORMAT_TRY)
+       |      |            ~ 
+       |      |            |
+       |      |            (3) ...to here
+       |      |            (4) following 'true' branch (when 'which == 0')...
+       |......
+       |  640 | static void ccp2_try_format(struct isp_ccp2_device *ccp2,
+       |      |             ^~~~~~~~~~~~~~~
+       |      |             |
+       |      |             (1) entry to 'ccp2_try_format'
+       |......
+       |  648 |         switch (pad) {
+       |      |         ~~~~~~
+       |      |         |
+       |      |         (2) following 'case 1:' branch...
+       |
+     'ccp2_try_format': event 5
+       |
+       |include/media/v4l2-subdev.h:1101:9:
+       | 1101 |         v4l2_subdev_get_pad_format(sd, state, pad)
+       |      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |         |
+       |      |         (5) ...to here
+   drivers/media/platform/ti/omap3isp/ispccp2.c:626:24: note: in expansion of macro 'v4l2_subdev_get_try_format'
+       |  626 |                 return v4l2_subdev_get_try_format(&ccp2->subdev, sd_state,
+       |      |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~
+       |
+     'ccp2_try_format': event 6
+       |
+       |include/media/v4l2-subdev.h:1101:9:
+       | 1101 |         v4l2_subdev_get_pad_format(sd, state, pad)
+       |      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |         |
+       |      |         (6) calling 'v4l2_subdev_get_pad_format' from 'ccp2_try_format'
+   drivers/media/platform/ti/omap3isp/ispccp2.c:626:24: note: in expansion of macro 'v4l2_subdev_get_try_format'
+       |  626 |                 return v4l2_subdev_get_try_format(&ccp2->subdev, sd_state,
+       |      |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~
+       |
+       +--> 'v4l2_subdev_get_pad_format': events 7-8
+              |
+              |include/media/v4l2-subdev.h:1045:1:
+              | 1045 | v4l2_subdev_get_pad_format(struct v4l2_subdev *sd,
+              |      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      | |
+              |      | (7) entry to 'v4l2_subdev_get_pad_format'
+              |......
+              | 1049 |         if (WARN_ON(!state))
+              |      |            ~
+              |      |            |
+              |      |            (8) following 'true' branch...
+              |
+            'v4l2_subdev_get_pad_format': event 9
+              |
+              |cc1:
+              | (9): ...to here
+              |
+       <------+
+       |
+     'ccp2_try_format': event 10
+       |
+       | 1101 |         v4l2_subdev_get_pad_format(sd, state, pad)
+       |      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |         |
+       |      |         (10) returning to 'ccp2_try_format' from 'v4l2_subdev_get_pad_format'
+   drivers/media/platform/ti/omap3isp/ispccp2.c:626:24: note: in expansion of macro 'v4l2_subdev_get_try_format'
+       |  626 |                 return v4l2_subdev_get_try_format(&ccp2->subdev, sd_state,
+       |      |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~
+       |
+     'ccp2_try_format': event 11
+       |
+       |  678 |                 memcpy(fmt, format, sizeof(*fmt));
+       |      |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |                 |
+       |      |                 (11) argument 2 ('<unknown>') NULL where non-null expected
+       |
+   In file included from include/linux/string.h:20,
+                    from include/linux/bitmap.h:11,
+                    from include/linux/cpumask.h:12,
+                    from include/linux/smp.h:13,
+                    from include/linux/lockdep.h:14,
+                    from include/linux/rcupdate.h:29,
+                    from include/linux/rculist.h:11,
+                    from include/linux/pid.h:5,
+                    from include/linux/sched.h:14,
+                    from include/linux/delay.h:23,
+                    from drivers/media/platform/ti/omap3isp/ispccp2.c:14:
+   arch/arm/include/asm/string.h:20:15: note: argument 2 of 'memcpy' must be non-null
+      20 | extern void * memcpy(void *, const void *, __kernel_size_t);
+         |               ^~~~~~
+>> drivers/media/platform/ti/omap3isp/ispccp2.c:678:17: warning: use of NULL 'fmt' where non-null expected [CWE-476] [-Wanalyzer-null-argument]
+     678 |                 memcpy(fmt, format, sizeof(*fmt));
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     'ccp2_set_format': events 1-6
+       |
+       |  625 |         if (which == V4L2_SUBDEV_FORMAT_TRY)
+       |      |            ~
+       |      |            |
+       |      |            (6) following 'true' branch...
+       |......
+       |  777 | static int ccp2_set_format(struct v4l2_subdev *sd,
+       |      |            ^~~~~~~~~~~~~~~
+       |      |            |
+       |      |            (1) entry to 'ccp2_set_format'
+       |......
+       |  785 |         if (format == NULL)
+       |      |            ~
+       |      |            |
+       |      |            (2) following 'false' branch...
+       |......
+       |  788 |         ccp2_try_format(ccp2, sd_state, fmt->pad, &fmt->format, fmt->which);
+       |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |         |
+       |      |         (3) ...to here
+       |......
+       |  792 |         if (fmt->pad == CCP2_PAD_SINK) {
+       |      |            ~
+       |      |            |
+       |      |            (4) following 'true' branch...
+       |  793 |                 format = __ccp2_get_format(ccp2, sd_state, CCP2_PAD_SOURCE,
+       |  794 |                                            fmt->which);
+       |      |                                            ~~~~~~~~~~
+       |      |                                               |
+       |      |                                               (5) ...to here
+       |
+     'ccp2_set_format': event 7
+       |
+       |include/media/v4l2-subdev.h:1101:9:
+       | 1101 |         v4l2_subdev_get_pad_format(sd, state, pad)
+       |      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |         |
+       |      |         (7) ...to here
+   drivers/media/platform/ti/omap3isp/ispccp2.c:626:24: note: in expansion of macro 'v4l2_subdev_get_try_format'
+       |  626 |                 return v4l2_subdev_get_try_format(&ccp2->subdev, sd_state,
+       |      |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~
+       |
+     'ccp2_set_format': event 8
+       |
+       |include/media/v4l2-subdev.h:1101:9:
+       | 1101 |         v4l2_subdev_get_pad_format(sd, state, pad)
+       |      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |         |
+       |      |         (8) calling 'v4l2_subdev_get_pad_format' from 'ccp2_set_format'
+   drivers/media/platform/ti/omap3isp/ispccp2.c:626:24: note: in expansion of macro 'v4l2_subdev_get_try_format'
+       |  626 |                 return v4l2_subdev_get_try_format(&ccp2->subdev, sd_state,
+       |      |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~
+       |
+       +--> 'v4l2_subdev_get_pad_format': events 9-10
+              |
+              |include/media/v4l2-subdev.h:1045:1:
+              | 1045 | v4l2_subdev_get_pad_format(struct v4l2_subdev *sd,
+              |      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      | |
+              |      | (9) entry to 'v4l2_subdev_get_pad_format'
+              |......
+              | 1049 |         if (WARN_ON(!state))
+              |      |            ~
+              |      |            |
+              |      |            (10) following 'true' branch...
+              |
+            'v4l2_subdev_get_pad_format': event 11
+              |
+              |cc1:
+              | (11): ...to here
+              |
+       <------+
+       |
+     'ccp2_set_format': event 12
+       |
+       | 1101 |         v4l2_subdev_get_pad_format(sd, state, pad)
+       |      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |         |
+       |      |         (12) returning to 'ccp2_set_format' from 'v4l2_subdev_get_pad_format'
+   drivers/media/platform/ti/omap3isp/ispccp2.c:626:24: note: in expansion of macro 'v4l2_subdev_get_try_format'
+       |  626 |                 return v4l2_subdev_get_try_format(&ccp2->subdev, sd_state,
+       |      |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~
+       |
+     'ccp2_set_format': event 13
+       |
+       |  796 |                 ccp2_try_format(ccp2, sd_state, CCP2_PAD_SOURCE, format,
+       |      |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |                 |
+       |      |                 (13) calling 'ccp2_try_format' from 'ccp2_set_format'
+       |  797 |                                 fmt->which);
+       |      |                                 ~~~~~~~~~~~
+       |
+       +--> 'ccp2_try_format': events 14-17
+              |
+              |  625 |         if (which == V4L2_SUBDEV_FORMAT_TRY)
+              |      |            ~ 
+              |      |            |
+              |      |            (16) ...to here
+              |      |            (17) following 'true' branch (when 'which == 0')...
+              |......
+              |  640 | static void ccp2_try_format(struct isp_ccp2_device *ccp2,
+              |      |             ^~~~~~~~~~~~~~~
+              |      |             |
+              |      |             (14) entry to 'ccp2_try_format'
+              |......
+              |  648 |         switch (pad) {
+              |      |         ~~~~~~
+              |      |         |
+              |      |         (15) following 'case 1:' branch...
+              |
+            'ccp2_try_format': event 18
+              |
+              |include/media/v4l2-subdev.h:1101:9:
+              | 1101 |         v4l2_subdev_get_pad_format(sd, state, pad)
+              |      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |         |
+              |      |         (18) ...to here
+   drivers/media/platform/ti/omap3isp/ispccp2.c:626:24: note: in expansion of macro 'v4l2_subdev_get_try_format'
+              |  626 |                 return v4l2_subdev_get_try_format(&ccp2->subdev, sd_state,
+              |      |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~
+              |
+            'ccp2_try_format': event 19
+              |
+              |include/media/v4l2-subdev.h:1101:9:
+              | 1101 |         v4l2_subdev_get_pad_format(sd, state, pad)
+              |      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |         |
+              |      |         (19) calling 'v4l2_subdev_get_pad_format' from 'ccp2_try_format'
+   drivers/media/platform/ti/omap3isp/ispccp2.c:626:24: note: in expansion of macro 'v4l2_subdev_get_try_format'
+              |  626 |                 return v4l2_subdev_get_try_format(&ccp2->subdev, sd_state,
+              |      |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~
+              |
+              +--> 'v4l2_subdev_get_pad_format': event 20
+                     |
+                     |include/media/v4l2-subdev.h:1045:1:
+                     | 1045 | v4l2_subdev_get_pad_format(struct v4l2_subdev *sd,
+                     |      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+                     |      | |
+                     |      | (20) entry to 'v4l2_subdev_get_pad_format'
+                     |
+                   'v4l2_subdev_get_pad_format': event 21
+                     |
+                     |include/asm-generic/bug.h:123:12:
+                     |  123 |         if (unlikely(__ret_warn_on))                                    \
+                     |      |            ^
+                     |      |            |
+                     |      |            (21) following 'true' branch...
+   include/media/v4l2-subdev.h:1049:13: note: in expansion of macro 'WARN_ON'
+                     | 1049 |         if (WARN_ON(!state))
+                     |      |             ^~~~~~~
+                     |
+                   'v4l2_subdev_get_pad_format': event 22
+                     |
+                     |cc1:
+                     | (22): ...to here
+                     |
+              <------+
+              |
+            'ccp2_try_format': event 23
+              |
+              | 1101 |         v4l2_subdev_get_pad_format(sd, state, pad)
+              |      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |         |
+              |      |         (23) returning to 'ccp2_try_format' from 'v4l2_subdev_get_pad_format'
+   drivers/media/platform/ti/omap3isp/ispccp2.c:626:24: note: in expansion of macro 'v4l2_subdev_get_try_format'
+              |  626 |                 return v4l2_subdev_get_try_format(&ccp2->subdev, sd_state,
+              |      |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~
+              |
+            'ccp2_try_format': event 24
+              |
+              |  678 |                 memcpy(fmt, format, sizeof(*fmt));
+              |      |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |                 |
+              |      |                 (24) argument 2 ('<unknown>') NULL where non-null expected
+              |
+   arch/arm/include/asm/string.h:20:15: note: argument 2 of 'memcpy' must be non-null
+      20 | extern void * memcpy(void *, const void *, __kernel_size_t);
+         |               ^~~~~~
+>> drivers/media/platform/ti/omap3isp/ispccp2.c:678:17: warning: use of NULL 'fmt' where non-null expected [CWE-476] [-Wanalyzer-null-argument]
+     678 |                 memcpy(fmt, format, sizeof(*fmt));
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     'ccp2_set_format': events 1-6
+       |
+       |  625 |         if (which == V4L2_SUBDEV_FORMAT_TRY)
+       |      |            ~
+       |      |            |
+       |      |            (6) following 'true' branch...
+       |......
+       |  777 | static int ccp2_set_format(struct v4l2_subdev *sd,
+       |      |            ^~~~~~~~~~~~~~~
+       |      |            |
+       |      |            (1) entry to 'ccp2_set_format'
+       |......
+       |  785 |         if (format == NULL)
+       |      |            ~
+       |      |            |
+       |      |            (2) following 'false' branch...
+       |......
+       |  788 |         ccp2_try_format(ccp2, sd_state, fmt->pad, &fmt->format, fmt->which);
+       |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |         |
+       |      |         (3) ...to here
+       |......
+       |  792 |         if (fmt->pad == CCP2_PAD_SINK) {
+       |      |            ~
+       |      |            |
+       |      |            (4) following 'true' branch...
+       |  793 |                 format = __ccp2_get_format(ccp2, sd_state, CCP2_PAD_SOURCE,
+       |  794 |                                            fmt->which);
+       |      |                                            ~~~~~~~~~~
+       |      |                                               |
+       |      |                                               (5) ...to here
+       |
+     'ccp2_set_format': event 7
+       |
+       |include/media/v4l2-subdev.h:1101:9:
+       | 1101 |         v4l2_subdev_get_pad_format(sd, state, pad)
+       |      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |         |
+       |      |         (7) ...to here
+   drivers/media/platform/ti/omap3isp/ispccp2.c:626:24: note: in expansion of macro 'v4l2_subdev_get_try_format'
+       |  626 |                 return v4l2_subdev_get_try_format(&ccp2->subdev, sd_state,
+       |      |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~
+       |
+     'ccp2_set_format': event 8
+       |
+       |include/media/v4l2-subdev.h:1101:9:
+       | 1101 |         v4l2_subdev_get_pad_format(sd, state, pad)
+       |      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |         |
+       |      |         (8) calling 'v4l2_subdev_get_pad_format' from 'ccp2_set_format'
+   drivers/media/platform/ti/omap3isp/ispccp2.c:626:24: note: in expansion of macro 'v4l2_subdev_get_try_format'
+       |  626 |                 return v4l2_subdev_get_try_format(&ccp2->subdev, sd_state,
+       |      |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~
+       |
+       +--> 'v4l2_subdev_get_pad_format': events 9-10
+              |
+              |include/media/v4l2-subdev.h:1045:1:
+              | 1045 | v4l2_subdev_get_pad_format(struct v4l2_subdev *sd,
+              |      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      | |
+              |      | (9) entry to 'v4l2_subdev_get_pad_format'
+              |......
+              | 1049 |         if (WARN_ON(!state))
+              |      |            ~
+              |      |            |
+              |      |            (10) following 'true' branch...
+              |
+            'v4l2_subdev_get_pad_format': event 11
+              |
+              |cc1:
+              | (11): ...to here
+              |
+       <------+
+       |
+     'ccp2_set_format': event 12
+       |
+       | 1101 |         v4l2_subdev_get_pad_format(sd, state, pad)
+       |      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |         |
+       |      |         (12) returning to 'ccp2_set_format' from 'v4l2_subdev_get_pad_format'
+   drivers/media/platform/ti/omap3isp/ispccp2.c:626:24: note: in expansion of macro 'v4l2_subdev_get_try_format'
+       |  626 |                 return v4l2_subdev_get_try_format(&ccp2->subdev, sd_state,
+       |      |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~
+       |
+     'ccp2_set_format': event 13
+       |
+       |  796 |                 ccp2_try_format(ccp2, sd_state, CCP2_PAD_SOURCE, format,
+       |      |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |                 |
+       |      |                 (13) calling 'ccp2_try_format' from 'ccp2_set_format'
+       |  797 |                                 fmt->which);
+       |      |                                 ~~~~~~~~~~~
+       |
+       +--> 'ccp2_try_format': events 14-17
+              |
+              |  625 |         if (which == V4L2_SUBDEV_FORMAT_TRY)
+              |      |            ~ 
+              |      |            |
+--
+   drivers/media/platform/ti/omap3isp/ispcsi2.c: In function 'csi2_try_format':
+>> drivers/media/platform/ti/omap3isp/ispcsi2.c:875:17: warning: use of NULL where non-null expected [CWE-476] [-Wanalyzer-null-argument]
+     875 |                 memcpy(fmt, format, sizeof(*fmt));
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     'csi2_try_format': events 1-4
+       |
+       |  834 |         if (which == V4L2_SUBDEV_FORMAT_TRY)
+       |      |            ~
+       |      |            |
+       |      |            (4) following 'true' branch (when 'which == 0')...
+       |......
+       |  842 | csi2_try_format(struct isp_csi2_device *csi2,
+       |      | ^~~~~~~~~~~~~~~
+       |      | |
+       |      | (1) entry to 'csi2_try_format'
+       |......
+       |  852 |         switch (pad) {
+       |      |         ~~~~~~
+       |      |         |
+       |      |         (2) following 'case 1:' branch...
+       |......
+       |  868 |         case CSI2_PAD_SOURCE:
+       |      |         ~~~~
+       |      |         |
+       |      |         (3) ...to here
+       |
+     'csi2_try_format': event 5
+       |
+       |include/media/v4l2-subdev.h:1101:9:
+       | 1101 |         v4l2_subdev_get_pad_format(sd, state, pad)
+       |      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |         |
+       |      |         (5) ...to here
+   drivers/media/platform/ti/omap3isp/ispcsi2.c:835:24: note: in expansion of macro 'v4l2_subdev_get_try_format'
+       |  835 |                 return v4l2_subdev_get_try_format(&csi2->subdev, sd_state,
+       |      |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~
+       |
+     'csi2_try_format': event 6
+       |
+       |include/media/v4l2-subdev.h:1101:9:
+       | 1101 |         v4l2_subdev_get_pad_format(sd, state, pad)
+       |      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |         |
+       |      |         (6) calling 'v4l2_subdev_get_pad_format' from 'csi2_try_format'
+   drivers/media/platform/ti/omap3isp/ispcsi2.c:835:24: note: in expansion of macro 'v4l2_subdev_get_try_format'
+       |  835 |                 return v4l2_subdev_get_try_format(&csi2->subdev, sd_state,
+       |      |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~
+       |
+       +--> 'v4l2_subdev_get_pad_format': events 7-8
+              |
+              |include/media/v4l2-subdev.h:1045:1:
+              | 1045 | v4l2_subdev_get_pad_format(struct v4l2_subdev *sd,
+              |      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      | |
+              |      | (7) entry to 'v4l2_subdev_get_pad_format'
+              |......
+              | 1049 |         if (WARN_ON(!state))
+              |      |            ~
+              |      |            |
+              |      |            (8) following 'true' branch...
+              |
+            'v4l2_subdev_get_pad_format': event 9
+              |
+              |cc1:
+              | (9): ...to here
+              |
+       <------+
+       |
+     'csi2_try_format': event 10
+       |
+       | 1101 |         v4l2_subdev_get_pad_format(sd, state, pad)
+       |      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |         |
+       |      |         (10) returning to 'csi2_try_format' from 'v4l2_subdev_get_pad_format'
+   drivers/media/platform/ti/omap3isp/ispcsi2.c:835:24: note: in expansion of macro 'v4l2_subdev_get_try_format'
+       |  835 |                 return v4l2_subdev_get_try_format(&csi2->subdev, sd_state,
+       |      |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~
+       |
+     'csi2_try_format': event 11
+       |
+       |  875 |                 memcpy(fmt, format, sizeof(*fmt));
+       |      |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |                 |
+       |      |                 (11) argument 2 ('<unknown>') NULL where non-null expected
+       |
+   In file included from include/linux/string.h:20,
+                    from include/linux/bitmap.h:11,
+                    from include/linux/cpumask.h:12,
+                    from include/linux/smp.h:13,
+                    from include/linux/lockdep.h:14,
+                    from include/linux/rcupdate.h:29,
+                    from include/linux/rculist.h:11,
+                    from include/linux/pid.h:5,
+                    from include/linux/sched.h:14,
+                    from include/linux/delay.h:23,
+                    from drivers/media/platform/ti/omap3isp/ispcsi2.c:13:
+   arch/arm/include/asm/string.h:20:15: note: argument 2 of 'memcpy' must be non-null
+      20 | extern void * memcpy(void *, const void *, __kernel_size_t);
+         |               ^~~~~~
+>> drivers/media/platform/ti/omap3isp/ispcsi2.c:875:17: warning: use of NULL 'fmt' where non-null expected [CWE-476] [-Wanalyzer-null-argument]
+     875 |                 memcpy(fmt, format, sizeof(*fmt));
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     'csi2_set_format': events 1-6
+       |
+       |  834 |         if (which == V4L2_SUBDEV_FORMAT_TRY)
+       |      |            ~
+       |      |            |
+       |      |            (6) following 'true' branch...
+       |......
+       |  995 | static int csi2_set_format(struct v4l2_subdev *sd,
+       |      |            ^~~~~~~~~~~~~~~
+       |      |            |
+       |      |            (1) entry to 'csi2_set_format'
+       |......
+       | 1003 |         if (format == NULL)
+       |      |            ~
+       |      |            |
+       |      |            (2) following 'false' branch...
+       |......
+       | 1006 |         csi2_try_format(csi2, sd_state, fmt->pad, &fmt->format, fmt->which);
+       |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |         |
+       |      |         (3) ...to here
+       |......
+       | 1010 |         if (fmt->pad == CSI2_PAD_SINK) {
+       |      |            ~
+       |      |            |
+       |      |            (4) following 'true' branch...
+       | 1011 |                 format = __csi2_get_format(csi2, sd_state, CSI2_PAD_SOURCE,
+       | 1012 |                                            fmt->which);
+       |      |                                            ~~~~~~~~~~
+       |      |                                               |
+       |      |                                               (5) ...to here
+       |
+     'csi2_set_format': event 7
+       |
+       |include/media/v4l2-subdev.h:1101:9:
+       | 1101 |         v4l2_subdev_get_pad_format(sd, state, pad)
+       |      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |         |
+       |      |         (7) ...to here
+   drivers/media/platform/ti/omap3isp/ispcsi2.c:835:24: note: in expansion of macro 'v4l2_subdev_get_try_format'
+       |  835 |                 return v4l2_subdev_get_try_format(&csi2->subdev, sd_state,
+       |      |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~
+       |
+     'csi2_set_format': event 8
+       |
+       |include/media/v4l2-subdev.h:1101:9:
+       | 1101 |         v4l2_subdev_get_pad_format(sd, state, pad)
+       |      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |         |
+       |      |         (8) calling 'v4l2_subdev_get_pad_format' from 'csi2_set_format'
+   drivers/media/platform/ti/omap3isp/ispcsi2.c:835:24: note: in expansion of macro 'v4l2_subdev_get_try_format'
+       |  835 |                 return v4l2_subdev_get_try_format(&csi2->subdev, sd_state,
+       |      |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~
+       |
+       +--> 'v4l2_subdev_get_pad_format': events 9-10
+              |
+              |include/media/v4l2-subdev.h:1045:1:
+              | 1045 | v4l2_subdev_get_pad_format(struct v4l2_subdev *sd,
+              |      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      | |
+              |      | (9) entry to 'v4l2_subdev_get_pad_format'
+              |......
+              | 1049 |         if (WARN_ON(!state))
+              |      |            ~
+              |      |            |
+              |      |            (10) following 'true' branch...
+              |
+            'v4l2_subdev_get_pad_format': event 11
+              |
+              |cc1:
+              | (11): ...to here
+              |
+       <------+
+       |
+     'csi2_set_format': event 12
+       |
+       | 1101 |         v4l2_subdev_get_pad_format(sd, state, pad)
+       |      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |         |
+       |      |         (12) returning to 'csi2_set_format' from 'v4l2_subdev_get_pad_format'
+   drivers/media/platform/ti/omap3isp/ispcsi2.c:835:24: note: in expansion of macro 'v4l2_subdev_get_try_format'
+       |  835 |                 return v4l2_subdev_get_try_format(&csi2->subdev, sd_state,
+       |      |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~
+       |
+     'csi2_set_format': event 13
+       |
+       | 1014 |                 csi2_try_format(csi2, sd_state, CSI2_PAD_SOURCE, format,
+       |      |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |                 |
+       |      |                 (13) calling 'csi2_try_format' from 'csi2_set_format'
+       | 1015 |                                 fmt->which);
+       |      |                                 ~~~~~~~~~~~
+       |
+       +--> 'csi2_try_format': events 14-17
+              |
+              |  834 |         if (which == V4L2_SUBDEV_FORMAT_TRY)
+              |      |            ~
+              |      |            |
+              |      |            (17) following 'true' branch (when 'which == 0')...
+              |......
+              |  842 | csi2_try_format(struct isp_csi2_device *csi2,
+              |      | ^~~~~~~~~~~~~~~
+              |      | |
+              |      | (14) entry to 'csi2_try_format'
+              |......
+              |  852 |         switch (pad) {
+              |      |         ~~~~~~
+              |      |         |
+              |      |         (15) following 'case 1:' branch...
+              |......
+              |  868 |         case CSI2_PAD_SOURCE:
+              |      |         ~~~~
+              |      |         |
+              |      |         (16) ...to here
+              |
+            'csi2_try_format': event 18
+              |
+              |include/media/v4l2-subdev.h:1101:9:
+              | 1101 |         v4l2_subdev_get_pad_format(sd, state, pad)
+              |      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |         |
+              |      |         (18) ...to here
+   drivers/media/platform/ti/omap3isp/ispcsi2.c:835:24: note: in expansion of macro 'v4l2_subdev_get_try_format'
+              |  835 |                 return v4l2_subdev_get_try_format(&csi2->subdev, sd_state,
+              |      |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~
+              |
+            'csi2_try_format': event 19
+              |
+              |include/media/v4l2-subdev.h:1101:9:
+              | 1101 |         v4l2_subdev_get_pad_format(sd, state, pad)
+              |      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |         |
+              |      |         (19) calling 'v4l2_subdev_get_pad_format' from 'csi2_try_format'
+   drivers/media/platform/ti/omap3isp/ispcsi2.c:835:24: note: in expansion of macro 'v4l2_subdev_get_try_format'
+              |  835 |                 return v4l2_subdev_get_try_format(&csi2->subdev, sd_state,
+              |      |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~
+              |
+              +--> 'v4l2_subdev_get_pad_format': event 20
+                     |
+                     |include/media/v4l2-subdev.h:1045:1:
+                     | 1045 | v4l2_subdev_get_pad_format(struct v4l2_subdev *sd,
+                     |      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+                     |      | |
+                     |      | (20) entry to 'v4l2_subdev_get_pad_format'
+                     |
+                   'v4l2_subdev_get_pad_format': event 21
+                     |
+                     |include/asm-generic/bug.h:123:12:
+                     |  123 |         if (unlikely(__ret_warn_on))                                    \
+                     |      |            ^
+                     |      |            |
+                     |      |            (21) following 'true' branch...
+   include/media/v4l2-subdev.h:1049:13: note: in expansion of macro 'WARN_ON'
+                     | 1049 |         if (WARN_ON(!state))
+                     |      |             ^~~~~~~
+                     |
+                   'v4l2_subdev_get_pad_format': event 22
+                     |
+                     |cc1:
+                     | (22): ...to here
+                     |
+              <------+
+              |
+            'csi2_try_format': event 23
+              |
+              | 1101 |         v4l2_subdev_get_pad_format(sd, state, pad)
+              |      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |         |
+              |      |         (23) returning to 'csi2_try_format' from 'v4l2_subdev_get_pad_format'
+   drivers/media/platform/ti/omap3isp/ispcsi2.c:835:24: note: in expansion of macro 'v4l2_subdev_get_try_format'
+              |  835 |                 return v4l2_subdev_get_try_format(&csi2->subdev, sd_state,
+              |      |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~
+              |
+            'csi2_try_format': event 24
+              |
+              |  875 |                 memcpy(fmt, format, sizeof(*fmt));
+              |      |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |                 |
+              |      |                 (24) argument 2 ('<unknown>') NULL where non-null expected
+              |
+   arch/arm/include/asm/string.h:20:15: note: argument 2 of 'memcpy' must be non-null
+      20 | extern void * memcpy(void *, const void *, __kernel_size_t);
+         |               ^~~~~~
+>> drivers/media/platform/ti/omap3isp/ispcsi2.c:875:17: warning: use of NULL 'fmt' where non-null expected [CWE-476] [-Wanalyzer-null-argument]
+     875 |                 memcpy(fmt, format, sizeof(*fmt));
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     'csi2_set_format': events 1-6
+       |
+       |  834 |         if (which == V4L2_SUBDEV_FORMAT_TRY)
+       |      |            ~
+       |      |            |
+       |      |            (6) following 'true' branch...
+       |......
+       |  995 | static int csi2_set_format(struct v4l2_subdev *sd,
+       |      |            ^~~~~~~~~~~~~~~
+       |      |            |
+       |      |            (1) entry to 'csi2_set_format'
+       |......
+       | 1003 |         if (format == NULL)
+       |      |            ~
+       |      |            |
+       |      |            (2) following 'false' branch...
+       |......
+       | 1006 |         csi2_try_format(csi2, sd_state, fmt->pad, &fmt->format, fmt->which);
+       |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |         |
+       |      |         (3) ...to here
+       |......
+       | 1010 |         if (fmt->pad == CSI2_PAD_SINK) {
+       |      |            ~
+       |      |            |
+       |      |            (4) following 'true' branch...
+       | 1011 |                 format = __csi2_get_format(csi2, sd_state, CSI2_PAD_SOURCE,
+       | 1012 |                                            fmt->which);
+       |      |                                            ~~~~~~~~~~
+       |      |                                               |
+       |      |                                               (5) ...to here
+       |
+     'csi2_set_format': event 7
+       |
+       |include/media/v4l2-subdev.h:1101:9:
+       | 1101 |         v4l2_subdev_get_pad_format(sd, state, pad)
+       |      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |         |
+       |      |         (7) ...to here
+   drivers/media/platform/ti/omap3isp/ispcsi2.c:835:24: note: in expansion of macro 'v4l2_subdev_get_try_format'
+       |  835 |                 return v4l2_subdev_get_try_format(&csi2->subdev, sd_state,
+       |      |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~
+       |
+     'csi2_set_format': event 8
+       |
+       |include/media/v4l2-subdev.h:1101:9:
+       | 1101 |         v4l2_subdev_get_pad_format(sd, state, pad)
+       |      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |         |
+       |      |         (8) calling 'v4l2_subdev_get_pad_format' from 'csi2_set_format'
+   drivers/media/platform/ti/omap3isp/ispcsi2.c:835:24: note: in expansion of macro 'v4l2_subdev_get_try_format'
+       |  835 |                 return v4l2_subdev_get_try_format(&csi2->subdev, sd_state,
+       |      |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~
+       |
+       +--> 'v4l2_subdev_get_pad_format': events 9-10
+              |
+              |include/media/v4l2-subdev.h:1045:1:
+              | 1045 | v4l2_subdev_get_pad_format(struct v4l2_subdev *sd,
+              |      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      | |
+              |      | (9) entry to 'v4l2_subdev_get_pad_format'
+              |......
+              | 1049 |         if (WARN_ON(!state))
+              |      |            ~
+              |      |            |
+              |      |            (10) following 'true' branch...
+              |
+            'v4l2_subdev_get_pad_format': event 11
+              |
+              |cc1:
+              | (11): ...to here
+              |
+       <------+
+       |
+     'csi2_set_format': event 12
+       |
+       | 1101 |         v4l2_subdev_get_pad_format(sd, state, pad)
+       |      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |         |
+       |      |         (12) returning to 'csi2_set_format' from 'v4l2_subdev_get_pad_format'
+   drivers/media/platform/ti/omap3isp/ispcsi2.c:835:24: note: in expansion of macro 'v4l2_subdev_get_try_format'
+       |  835 |                 return v4l2_subdev_get_try_format(&csi2->subdev, sd_state,
+       |      |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~
+       |
+     'csi2_set_format': event 13
+       |
+       | 1014 |                 csi2_try_format(csi2, sd_state, CSI2_PAD_SOURCE, format,
+       |      |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |                 |
+       |      |                 (13) calling 'csi2_try_format' from 'csi2_set_format'
+       | 1015 |                                 fmt->which);
+       |      |                                 ~~~~~~~~~~~
+       |
+       +--> 'csi2_try_format': events 14-17
+              |
+              |  834 |         if (which == V4L2_SUBDEV_FORMAT_TRY)
+              |      |            ~
+              |      |            |
 
-vim +708 drivers/block/virtio_blk.c
+vim +678 drivers/media/platform/ti/omap3isp/ispccp2.c
 
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  674  
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  675  static int virtblk_probe_zoned_device(struct virtio_device *vdev,
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  676  				       struct virtio_blk *vblk,
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  677  				       struct request_queue *q)
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  678  {
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  679  	u32 v;
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  680  	u8 model;
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  681  	int ret;
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  682  
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  683  	virtio_cread(vdev, struct virtio_blk_config,
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  684  		     zoned.model, &model);
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  685  
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  686  	switch (model) {
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  687  	case VIRTIO_BLK_Z_NONE:
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  688  		return 0;
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  689  	case VIRTIO_BLK_Z_HM:
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  690  		break;
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  691  	case VIRTIO_BLK_Z_HA:
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  692  		/*
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  693  		 * Present the host-aware device as a regular drive.
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  694  		 * TODO It is possible to add an option to make it appear
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  695  		 * in the system as a zoned drive.
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  696  		 */
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  697  		return 0;
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  698  	default:
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  699  		dev_err(&vdev->dev, "unsupported zone model %d\n", model);
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  700  		return -EINVAL;
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  701  	}
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  702  
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  703  	dev_dbg(&vdev->dev, "probing host-managed zoned device\n");
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  704  
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  705  	disk_set_zoned(vblk->disk, BLK_ZONED_HM);
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  706  	blk_queue_flag_set(QUEUE_FLAG_ZONE_RESETALL, q);
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  707  
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15 @708  	virtio_cread(vdev, struct virtio_blk_config,
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  709  		     zoned.max_open_zones, &v);
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  710  	disk_set_max_open_zones(vblk->disk, le32_to_cpu(v));
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  711  
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  712  	dev_dbg(&vdev->dev, "max open zones = %u\n", le32_to_cpu(v));
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  713  
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  714  	virtio_cread(vdev, struct virtio_blk_config,
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  715  		     zoned.max_active_zones, &v);
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  716  	disk_set_max_active_zones(vblk->disk, le32_to_cpu(v));
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  717  	dev_dbg(&vdev->dev, "max active zones = %u\n", le32_to_cpu(v));
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  718  
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  719  	virtio_cread(vdev, struct virtio_blk_config,
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  720  		     zoned.write_granularity, &v);
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  721  	if (!v) {
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  722  		dev_warn(&vdev->dev, "zero write granularity reported\n");
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  723  		return -ENODEV;
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  724  	}
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  725  	blk_queue_physical_block_size(q, le32_to_cpu(v));
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  726  	blk_queue_io_min(q, le32_to_cpu(v));
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  727  
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  728  	dev_dbg(&vdev->dev, "write granularity = %u\n", le32_to_cpu(v));
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  729  
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  730  	/*
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  731  	 * virtio ZBD specification doesn't require zones to be a power of
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  732  	 * two sectors in size, but the code in this driver expects that.
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  733  	 */
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  734  	virtio_cread(vdev, struct virtio_blk_config, zoned.zone_sectors, &v);
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  735  	vblk->zone_sectors = le32_to_cpu(v);
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  736  	if (vblk->zone_sectors == 0 || !is_power_of_2(vblk->zone_sectors)) {
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  737  		dev_err(&vdev->dev,
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  738  			"zoned device with non power of two zone size %u\n",
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  739  			vblk->zone_sectors);
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  740  		return -ENODEV;
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  741  	}
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  742  	dev_dbg(&vdev->dev, "zone sectors = %u\n", vblk->zone_sectors);
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  743  
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  744  	if (virtio_has_feature(vdev, VIRTIO_BLK_F_DISCARD)) {
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  745  		dev_warn(&vblk->vdev->dev,
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  746  			 "ignoring negotiated F_DISCARD for zoned device\n");
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  747  		blk_queue_max_discard_sectors(q, 0);
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  748  	}
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  749  
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  750  	ret = blk_revalidate_disk_zones(vblk->disk, NULL);
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  751  	if (!ret) {
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  752  		virtio_cread(vdev, struct virtio_blk_config,
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  753  			     zoned.max_append_sectors, &v);
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  754  		if (!v) {
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  755  			dev_warn(&vdev->dev, "zero max_append_sectors reported\n");
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  756  			return -ENODEV;
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  757  		}
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  758  		blk_queue_max_zone_append_sectors(q, le32_to_cpu(v));
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  759  		dev_dbg(&vdev->dev, "max append sectors = %u\n", le32_to_cpu(v));
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  760  	}
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  761  
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  762  	return ret;
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  763  }
-95bfec41bd3d39 Dmitry Fomichev 2022-10-15  764  
+121e9f1c4c49c7 drivers/media/video/omap3isp/ispccp2.c    Laurent Pinchart 2011-02-12  631  
+121e9f1c4c49c7 drivers/media/video/omap3isp/ispccp2.c    Laurent Pinchart 2011-02-12  632  /*
+121e9f1c4c49c7 drivers/media/video/omap3isp/ispccp2.c    Laurent Pinchart 2011-02-12  633   * ccp2_try_format - Handle try format by pad subdev method
+121e9f1c4c49c7 drivers/media/video/omap3isp/ispccp2.c    Laurent Pinchart 2011-02-12  634   * @ccp2  : Pointer to ISP CCP2 device
+f7234138f14c22 drivers/media/platform/omap3isp/ispccp2.c Hans Verkuil     2015-03-04  635   * @cfg: V4L2 subdev pad configuration
+121e9f1c4c49c7 drivers/media/video/omap3isp/ispccp2.c    Laurent Pinchart 2011-02-12  636   * @pad   : pad num
+121e9f1c4c49c7 drivers/media/video/omap3isp/ispccp2.c    Laurent Pinchart 2011-02-12  637   * @fmt   : pointer to v4l2 mbus format structure
+121e9f1c4c49c7 drivers/media/video/omap3isp/ispccp2.c    Laurent Pinchart 2011-02-12  638   * @which : wanted subdev format
+121e9f1c4c49c7 drivers/media/video/omap3isp/ispccp2.c    Laurent Pinchart 2011-02-12  639   */
+121e9f1c4c49c7 drivers/media/video/omap3isp/ispccp2.c    Laurent Pinchart 2011-02-12  640  static void ccp2_try_format(struct isp_ccp2_device *ccp2,
+0d346d2a6f54f0 drivers/media/platform/omap3isp/ispccp2.c Tomi Valkeinen   2021-06-10  641  			       struct v4l2_subdev_state *sd_state,
+0d346d2a6f54f0 drivers/media/platform/omap3isp/ispccp2.c Tomi Valkeinen   2021-06-10  642  			       unsigned int pad,
+121e9f1c4c49c7 drivers/media/video/omap3isp/ispccp2.c    Laurent Pinchart 2011-02-12  643  			       struct v4l2_mbus_framefmt *fmt,
+121e9f1c4c49c7 drivers/media/video/omap3isp/ispccp2.c    Laurent Pinchart 2011-02-12  644  			       enum v4l2_subdev_format_whence which)
+121e9f1c4c49c7 drivers/media/video/omap3isp/ispccp2.c    Laurent Pinchart 2011-02-12  645  {
+121e9f1c4c49c7 drivers/media/video/omap3isp/ispccp2.c    Laurent Pinchart 2011-02-12  646  	struct v4l2_mbus_framefmt *format;
+121e9f1c4c49c7 drivers/media/video/omap3isp/ispccp2.c    Laurent Pinchart 2011-02-12  647  
+121e9f1c4c49c7 drivers/media/video/omap3isp/ispccp2.c    Laurent Pinchart 2011-02-12  648  	switch (pad) {
+121e9f1c4c49c7 drivers/media/video/omap3isp/ispccp2.c    Laurent Pinchart 2011-02-12  649  	case CCP2_PAD_SINK:
+27ffaeb0ab1608 drivers/media/platform/omap3isp/ispccp2.c Boris Brezillon  2014-11-10  650  		if (fmt->code != MEDIA_BUS_FMT_SGRBG10_DPCM8_1X8)
+27ffaeb0ab1608 drivers/media/platform/omap3isp/ispccp2.c Boris Brezillon  2014-11-10  651  			fmt->code = MEDIA_BUS_FMT_SGRBG10_1X10;
+121e9f1c4c49c7 drivers/media/video/omap3isp/ispccp2.c    Laurent Pinchart 2011-02-12  652  
+121e9f1c4c49c7 drivers/media/video/omap3isp/ispccp2.c    Laurent Pinchart 2011-02-12  653  		if (ccp2->input == CCP2_INPUT_SENSOR) {
+121e9f1c4c49c7 drivers/media/video/omap3isp/ispccp2.c    Laurent Pinchart 2011-02-12  654  			fmt->width = clamp_t(u32, fmt->width,
+121e9f1c4c49c7 drivers/media/video/omap3isp/ispccp2.c    Laurent Pinchart 2011-02-12  655  					     ISPCCP2_DAT_START_MIN,
+121e9f1c4c49c7 drivers/media/video/omap3isp/ispccp2.c    Laurent Pinchart 2011-02-12  656  					     ISPCCP2_DAT_START_MAX);
+121e9f1c4c49c7 drivers/media/video/omap3isp/ispccp2.c    Laurent Pinchart 2011-02-12  657  			fmt->height = clamp_t(u32, fmt->height,
+121e9f1c4c49c7 drivers/media/video/omap3isp/ispccp2.c    Laurent Pinchart 2011-02-12  658  					      ISPCCP2_DAT_SIZE_MIN,
+121e9f1c4c49c7 drivers/media/video/omap3isp/ispccp2.c    Laurent Pinchart 2011-02-12  659  					      ISPCCP2_DAT_SIZE_MAX);
+121e9f1c4c49c7 drivers/media/video/omap3isp/ispccp2.c    Laurent Pinchart 2011-02-12  660  		} else if (ccp2->input == CCP2_INPUT_MEMORY) {
+121e9f1c4c49c7 drivers/media/video/omap3isp/ispccp2.c    Laurent Pinchart 2011-02-12  661  			fmt->width = clamp_t(u32, fmt->width,
+121e9f1c4c49c7 drivers/media/video/omap3isp/ispccp2.c    Laurent Pinchart 2011-02-12  662  					     ISPCCP2_LCM_HSIZE_COUNT_MIN,
+121e9f1c4c49c7 drivers/media/video/omap3isp/ispccp2.c    Laurent Pinchart 2011-02-12  663  					     ISPCCP2_LCM_HSIZE_COUNT_MAX);
+121e9f1c4c49c7 drivers/media/video/omap3isp/ispccp2.c    Laurent Pinchart 2011-02-12  664  			fmt->height = clamp_t(u32, fmt->height,
+121e9f1c4c49c7 drivers/media/video/omap3isp/ispccp2.c    Laurent Pinchart 2011-02-12  665  					      ISPCCP2_LCM_VSIZE_MIN,
+121e9f1c4c49c7 drivers/media/video/omap3isp/ispccp2.c    Laurent Pinchart 2011-02-12  666  					      ISPCCP2_LCM_VSIZE_MAX);
+121e9f1c4c49c7 drivers/media/video/omap3isp/ispccp2.c    Laurent Pinchart 2011-02-12  667  		}
+121e9f1c4c49c7 drivers/media/video/omap3isp/ispccp2.c    Laurent Pinchart 2011-02-12  668  		break;
+121e9f1c4c49c7 drivers/media/video/omap3isp/ispccp2.c    Laurent Pinchart 2011-02-12  669  
+121e9f1c4c49c7 drivers/media/video/omap3isp/ispccp2.c    Laurent Pinchart 2011-02-12  670  	case CCP2_PAD_SOURCE:
+121e9f1c4c49c7 drivers/media/video/omap3isp/ispccp2.c    Laurent Pinchart 2011-02-12  671  		/* Source format - copy sink format and change pixel code
+121e9f1c4c49c7 drivers/media/video/omap3isp/ispccp2.c    Laurent Pinchart 2011-02-12  672  		 * to SGRBG10_1X10 as we don't support CCP2 write to memory.
+121e9f1c4c49c7 drivers/media/video/omap3isp/ispccp2.c    Laurent Pinchart 2011-02-12  673  		 * When CCP2 write to memory feature will be added this
+121e9f1c4c49c7 drivers/media/video/omap3isp/ispccp2.c    Laurent Pinchart 2011-02-12  674  		 * should be changed properly.
+121e9f1c4c49c7 drivers/media/video/omap3isp/ispccp2.c    Laurent Pinchart 2011-02-12  675  		 */
+0d346d2a6f54f0 drivers/media/platform/omap3isp/ispccp2.c Tomi Valkeinen   2021-06-10  676  		format = __ccp2_get_format(ccp2, sd_state, CCP2_PAD_SINK,
+0d346d2a6f54f0 drivers/media/platform/omap3isp/ispccp2.c Tomi Valkeinen   2021-06-10  677  					   which);
+121e9f1c4c49c7 drivers/media/video/omap3isp/ispccp2.c    Laurent Pinchart 2011-02-12 @678  		memcpy(fmt, format, sizeof(*fmt));
+27ffaeb0ab1608 drivers/media/platform/omap3isp/ispccp2.c Boris Brezillon  2014-11-10  679  		fmt->code = MEDIA_BUS_FMT_SGRBG10_1X10;
+121e9f1c4c49c7 drivers/media/video/omap3isp/ispccp2.c    Laurent Pinchart 2011-02-12  680  		break;
+121e9f1c4c49c7 drivers/media/video/omap3isp/ispccp2.c    Laurent Pinchart 2011-02-12  681  	}
+121e9f1c4c49c7 drivers/media/video/omap3isp/ispccp2.c    Laurent Pinchart 2011-02-12  682  
+121e9f1c4c49c7 drivers/media/video/omap3isp/ispccp2.c    Laurent Pinchart 2011-02-12  683  	fmt->field = V4L2_FIELD_NONE;
+121e9f1c4c49c7 drivers/media/video/omap3isp/ispccp2.c    Laurent Pinchart 2011-02-12  684  	fmt->colorspace = V4L2_COLORSPACE_SRGB;
+121e9f1c4c49c7 drivers/media/video/omap3isp/ispccp2.c    Laurent Pinchart 2011-02-12  685  }
+121e9f1c4c49c7 drivers/media/video/omap3isp/ispccp2.c    Laurent Pinchart 2011-02-12  686  
 
-:::::: The code at line 708 was first introduced by commit
-:::::: 95bfec41bd3d39b7659cba65b72080420bf5691e virtio-blk: add support for zoned block devices
+:::::: The code at line 678 was first introduced by commit
+:::::: 121e9f1c4c49c76aac2425e3a9baef70f73f50a4 [media] omap3isp: CCP2/CSI2 receivers
 
-:::::: TO: Dmitry Fomichev <dmitry.fomichev@wdc.com>
-:::::: CC: Michael S. Tsirkin <mst@redhat.com>
+:::::: TO: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+:::::: CC: Mauro Carvalho Chehab <mchehab@redhat.com>
 
 -- 
 0-DAY CI Kernel Test Service
