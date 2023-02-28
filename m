@@ -1,144 +1,145 @@
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD203944B
-	for <oe-kbuild@lists.linux.dev>; Tue, 28 Feb 2023 18:05:01 +0000 (UTC)
-Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-536be69eadfso297485487b3.1
-        for <oe-kbuild@lists.linux.dev>; Tue, 28 Feb 2023 10:05:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=rpV99OKSTpIRzIpX89x9E7KBkQmTINaa7AEfKXJe4DE=;
-        b=EuHDnDxAN39r4+yOuGdRF5UMA037GmTcY1WDH060nxXx4LzWSy+M3htrEsuL5FcfAz
-         Rj6frPsLMdQF2246BJygq37UEUu30Bh6j8KXwoxqTeJkhOkibLzoBVk8hLxSDFroydUV
-         kB061OnkFleByRyVQsg2kT7f6oVYGCMz1z9ePbHTaK7OT3eR/40qdzY9nKUbCtArHKRB
-         gYOboQcc/ha0yIwiaAtYcssiaDzaqUgEVyfSBj15mv0ztWy6iGA/bRtTK0V0Z8v7f/1+
-         vItc3NKAhWbIgRcLaDON1SGxs2vX7qpEAROD8bw4VcjuEpu4Cm2H+ejVd/efGQXNhSUV
-         sgsg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=rpV99OKSTpIRzIpX89x9E7KBkQmTINaa7AEfKXJe4DE=;
-        b=jHDnCxIoGAFT8W0RT7DDrQOWF/X6Bl3syCJG4u3WNcrUe0v/FNNtLr/KNJLb2cMmI+
-         NfnDrRsyk/5PFiGXeJyRTsnrY9+oayEM/4lP7nByxUl682hkzv4ijEuHZ1C1j9SE9Ct8
-         03Zo/qmsceaGclVT3dfeD42ttWpJpVfVYWagY12S4wKJRH1BvM/pnKeUZu8IhE11S4x8
-         uZ4NkyY85/9WIUK9CHj+bjlBQ0D+N/sh1iEulRGEObRPFSeHhLxG2djVqhx5366dbU4v
-         N8yfdIIm9NIcb2WWfQjglLkWVQy/8kbQaNnW+O2WthHq1xlaljOyTcDO+uRxDdf1UVfR
-         iL7Q==
-X-Gm-Message-State: AO0yUKXov114FVf0W4+lPhYSYUTCjdMRRY+guB2cM6Sj2k4Rqu19pHaN
-	qFowoAYxwkBmAmh2fDWqG2dM5CCJVdpGKKCkNuYmxQ==
-X-Google-Smtp-Source: AK7set+9MztI9r7zEzAu1vny2Hg5q1wq3BcKzf3IYbntzcbRXNrbfMh8bwEdnJMVwNIM6qCS4Nmr3QMhP+bkyI9Bdfg=
-X-Received: by 2002:a81:ad03:0:b0:530:bbd3:798b with SMTP id
- l3-20020a81ad03000000b00530bbd3798bmr2233090ywh.0.1677607500530; Tue, 28 Feb
- 2023 10:05:00 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA2713224
+	for <oe-kbuild@lists.linux.dev>; Tue, 28 Feb 2023 19:08:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1677611330; x=1709147330;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=B1R3yQBqxxA2+QNJCunKgv2A+BPQ9O5dc9rZDSotq/w=;
+  b=hiSjVPRyPH6s2WCeAWKrOkql8s/OsQWwpMj0EASrctVA/sm4LiuXRQza
+   vU64rGzQ3tWyJ83sArhwjRIhvNBtyLVt8HRyf28nG6xNq0tCkxgsIvk8o
+   ygATC1k1KP7ZrDURLC3u17OY4ku/NqGLMbNVZ+1hozexCNRe+ZA/V2DKU
+   B9x7UyshSbr8qvZLQ+KigeF8BdcEVmz5eZm8B9Zo2B3t2nX60vfsfWluD
+   +ynfarWgcOOvS0Q5FLrIr5FoZQrg1HSppl5uqR1mFx7fLHYPPbQ8n3jnS
+   gxHL+DjSqtU2k9hXG6At63Dsxt6SXME90cio4LpVr/c1lFcbM9UCzYYEH
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10635"; a="420486049"
+X-IronPort-AV: E=Sophos;i="5.98,222,1673942400"; 
+   d="scan'208";a="420486049"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2023 11:08:50 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10635"; a="783982761"
+X-IronPort-AV: E=Sophos;i="5.98,222,1673942400"; 
+   d="scan'208";a="783982761"
+Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
+  by fmsmga002.fm.intel.com with ESMTP; 28 Feb 2023 11:08:49 -0800
+Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pX5LE-0005aZ-2u;
+	Tue, 28 Feb 2023 19:08:48 +0000
+Date: Wed, 1 Mar 2023 03:07:49 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: drivers/scsi/scsi_transport_spi.c:117:22: warning: Uninitialized
+ variable: &sshdr_tmp [uninitvar]
+Message-ID: <202303010344.OvkX9B9I-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202302281802.J93Nma7q-lkp@intel.com>
-In-Reply-To: <202302281802.J93Nma7q-lkp@intel.com>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Tue, 28 Feb 2023 10:04:49 -0800
-Message-ID: <CAJuCfpHz3uECOuk6rRrV6Vn5r7+vn8HnC5cY7OZVHtGsAeE11A@mail.gmail.com>
-Subject: Re: [ammarfaizi2-block:akpm/mm/mm-unstable 82/99] mm/mmap.c:516
- vma_prepare() error: we previously assumed 'vp->vma' could be null (see line 505)
-To: Dan Carpenter <error27@gmail.com>
-Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev, 
-	Ammar Faizi <ammarfaizi2@gnuweeb.org>, "GNU/Weeb Mailing List" <gwml@vger.gnuweeb.org>, 
-	Andrew Morton <akpm@linux-foundation.org>, 
-	Linux Memory Management List <linux-mm@kvack.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Tue, Feb 28, 2023 at 6:24 AM Dan Carpenter <error27@gmail.com> wrote:
->
-> tree:   https://github.com/ammarfaizi2/linux-block akpm/mm/mm-unstable
-> head:   61edd3b68c3185673c9b05dfe48038692964c73b
-> commit: f517f7ae341d933856cdf4d9d773027681ed5dff [82/99] mm/mmap: write-lock VMAs in vma_prepare before modifying them
-> config: i386-randconfig-m021 (https://download.01.org/0day-ci/archive/20230228/202302281802.J93Nma7q-lkp@intel.com/config)
-> compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
->
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <error27@gmail.com>
-> | Link: https://lore.kernel.org/r/202302281802.J93Nma7q-lkp@intel.com/
+:::::: 
+:::::: Manual check reason: "low confidence static check warning: drivers/scsi/scsi_transport_spi.c:117:22: warning: Uninitialized variable: &sshdr_tmp [uninitvar]"
+:::::: 
 
-Thanks for reporting!
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+TO: Mike Christie <michael.christie@oracle.com>
+CC: "Martin K. Petersen" <martin.petersen@oracle.com>
+CC: John Garry <john.g.garry@oracle.com>
+CC: Bart Van Assche <bvanassche@acm.org>
+CC: Christoph Hellwig <hch@lst.de>
 
->
-> smatch warnings:
-> mm/mmap.c:516 vma_prepare() error: we previously assumed 'vp->vma' could be null (see line 505)
->
-> vim +516 mm/mmap.c
->
-> 440703e082b9c7 Liam R. Howlett    2023-01-20  503  static inline void vma_prepare(struct vma_prepare *vp)
-> 440703e082b9c7 Liam R. Howlett    2023-01-20  504  {
-> f517f7ae341d93 Suren Baghdasaryan 2023-02-27 @505       if (vp->vma)
->
-> Check presumes that vp->vma can be NULL.  On my other system (with
-> yesterday's linux-next code) vp->vma can never be NULL.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   e492250d5252635b6c97d52eddf2792ec26f1ec1
+commit: c9ee828aad6919b7eee7ef2059489c7221edf68a scsi: spi: Convert to scsi_execute_cmd()
+date:   7 weeks ago
+:::::: branch date: 2 hours ago
+:::::: commit date: 7 weeks ago
+compiler: hppa-linux-gcc (GCC) 12.1.0
+reproduce (cppcheck warning):
+        # apt-get install cppcheck
+        git checkout c9ee828aad6919b7eee7ef2059489c7221edf68a
+        cppcheck --quiet --enable=style,performance,portability --template=gcc FILE
 
-I think the check here is not needed since vp->vma should always be
-non-NULL. I'll double-check and will remove it if that is confirmed.
-Thanks,
-Suren.
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/r/202303010344.OvkX9B9I-lkp@intel.com/
 
->
-> f517f7ae341d93 Suren Baghdasaryan 2023-02-27  506               vma_start_write(vp->vma);
-> f517f7ae341d93 Suren Baghdasaryan 2023-02-27  507       if (vp->adj_next)
-> f517f7ae341d93 Suren Baghdasaryan 2023-02-27  508               vma_start_write(vp->adj_next);
-> f517f7ae341d93 Suren Baghdasaryan 2023-02-27  509       /* vp->insert is always a newly created VMA, no need for locking */
-> f517f7ae341d93 Suren Baghdasaryan 2023-02-27  510       if (vp->remove)
-> f517f7ae341d93 Suren Baghdasaryan 2023-02-27  511               vma_start_write(vp->remove);
-> f517f7ae341d93 Suren Baghdasaryan 2023-02-27  512       if (vp->remove2)
-> f517f7ae341d93 Suren Baghdasaryan 2023-02-27  513               vma_start_write(vp->remove2);
-> f517f7ae341d93 Suren Baghdasaryan 2023-02-27  514
-> 440703e082b9c7 Liam R. Howlett    2023-01-20  515       if (vp->file) {
-> 440703e082b9c7 Liam R. Howlett    2023-01-20 @516               uprobe_munmap(vp->vma, vp->vma->vm_start, vp->vma->vm_end);
->                                                                                        ^^^^^^^
-> Uncheck dereference.
->
-> 440703e082b9c7 Liam R. Howlett    2023-01-20  517
-> 440703e082b9c7 Liam R. Howlett    2023-01-20  518               if (vp->adj_next)
-> 440703e082b9c7 Liam R. Howlett    2023-01-20  519                       uprobe_munmap(vp->adj_next, vp->adj_next->vm_start,
-> 440703e082b9c7 Liam R. Howlett    2023-01-20  520                                     vp->adj_next->vm_end);
-> 440703e082b9c7 Liam R. Howlett    2023-01-20  521
-> 440703e082b9c7 Liam R. Howlett    2023-01-20  522               i_mmap_lock_write(vp->mapping);
-> 440703e082b9c7 Liam R. Howlett    2023-01-20  523               if (vp->insert && vp->insert->vm_file) {
-> 440703e082b9c7 Liam R. Howlett    2023-01-20  524                       /*
-> 440703e082b9c7 Liam R. Howlett    2023-01-20  525                        * Put into interval tree now, so instantiated pages
-> 440703e082b9c7 Liam R. Howlett    2023-01-20  526                        * are visible to arm/parisc __flush_dcache_page
-> 440703e082b9c7 Liam R. Howlett    2023-01-20  527                        * throughout; but we cannot insert into address
-> 440703e082b9c7 Liam R. Howlett    2023-01-20  528                        * space until vma start or end is updated.
-> 440703e082b9c7 Liam R. Howlett    2023-01-20  529                        */
-> 440703e082b9c7 Liam R. Howlett    2023-01-20  530                       __vma_link_file(vp->insert,
-> 440703e082b9c7 Liam R. Howlett    2023-01-20  531                                       vp->insert->vm_file->f_mapping);
-> 440703e082b9c7 Liam R. Howlett    2023-01-20  532               }
-> 440703e082b9c7 Liam R. Howlett    2023-01-20  533       }
-> 440703e082b9c7 Liam R. Howlett    2023-01-20  534
-> 440703e082b9c7 Liam R. Howlett    2023-01-20  535       if (vp->anon_vma) {
-> 440703e082b9c7 Liam R. Howlett    2023-01-20  536               anon_vma_lock_write(vp->anon_vma);
-> 440703e082b9c7 Liam R. Howlett    2023-01-20  537               anon_vma_interval_tree_pre_update_vma(vp->vma);
->
-> More unchecked dereferences.
->
-> 440703e082b9c7 Liam R. Howlett    2023-01-20  538               if (vp->adj_next)
-> 440703e082b9c7 Liam R. Howlett    2023-01-20  539                       anon_vma_interval_tree_pre_update_vma(vp->adj_next);
-> 440703e082b9c7 Liam R. Howlett    2023-01-20  540       }
-> 440703e082b9c7 Liam R. Howlett    2023-01-20  541
-> 440703e082b9c7 Liam R. Howlett    2023-01-20  542       if (vp->file) {
-> 440703e082b9c7 Liam R. Howlett    2023-01-20  543               flush_dcache_mmap_lock(vp->mapping);
-> 440703e082b9c7 Liam R. Howlett    2023-01-20  544               vma_interval_tree_remove(vp->vma, &vp->mapping->i_mmap);
-> 440703e082b9c7 Liam R. Howlett    2023-01-20  545               if (vp->adj_next)
-> 440703e082b9c7 Liam R. Howlett    2023-01-20  546                       vma_interval_tree_remove(vp->adj_next,
-> 440703e082b9c7 Liam R. Howlett    2023-01-20  547                                                &vp->mapping->i_mmap);
-> 440703e082b9c7 Liam R. Howlett    2023-01-20  548       }
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests
->
+
+cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+
+>> drivers/scsi/virtio_scsi.c:857:53: warning: AST broken, ternary operator missing operand(s) [internalAstError]
+    num_queues = virtscsi_config_get(vdev, num_queues) ? : 1;
+                                                       ^
+--
+   drivers/scsi/scsi_transport_spi.c:189:55: warning: Parameter 'cont' can be declared as pointer to const [constParameter]
+   static int spi_host_match(struct attribute_container *cont,
+                                                         ^
+   drivers/scsi/scsi_transport_spi.c:1400:57: warning: Parameter 'cont' can be declared as pointer to const [constParameter]
+   static int spi_target_match(struct attribute_container *cont,
+                                                           ^
+   drivers/scsi/scsi_transport_spi.c:1469:26: warning: Parameter 'attr' can be declared as pointer to const [constParameter]
+          struct attribute *attr, int i)
+                            ^
+>> drivers/scsi/scsi_transport_spi.c:117:22: warning: Uninitialized variable: &sshdr_tmp [uninitvar]
+     .sshdr = sshdr ? : &sshdr_tmp,
+                        ^
+>> drivers/scsi/sd.c:1196:14: warning: Operator '|' with one operand equal to zero is redundant. [badBitmaskCheck]
+        protect | fua);
+                ^
+>> drivers/scsi/sd.c:2214:75: warning: Parameter 'buffer' can be declared as pointer to const [constParameter]
+   static int sd_read_protection_type(struct scsi_disk *sdkp, unsigned char *buffer)
+                                                                             ^
+>> drivers/scsi/sd.c:2923:46: warning: Shifting signed 32-bit value by 31 bits is implementation-defined behaviour [shiftTooManyBitsSigned]
+       get_unaligned_be32(&vpd->data[32]) & ~(1 << 31);
+                                                ^
+>> drivers/scsi/sd.c:2923:46: warning: Signed integer overflow for expression '1<<31'. [integerOverflow]
+       get_unaligned_be32(&vpd->data[32]) & ~(1 << 31);
+                                                ^
+
+vim +117 drivers/scsi/scsi_transport_spi.c
+
+^1da177e4c3f41 Linus Torvalds    2005-04-16  106  
+33aa687db90dd8 James Bottomley   2005-08-28  107  static int spi_execute(struct scsi_device *sdev, const void *cmd,
+c9ee828aad6919 Mike Christie     2022-12-29  108  		       enum req_op op, void *buffer, unsigned int bufflen,
+33aa687db90dd8 James Bottomley   2005-08-28  109  		       struct scsi_sense_hdr *sshdr)
+949bf797595fc9 James Bottomley   2005-05-01  110  {
+33aa687db90dd8 James Bottomley   2005-08-28  111  	int i, result;
+76aaf87b4cdc7f Christoph Hellwig 2017-02-23  112  	struct scsi_sense_hdr sshdr_tmp;
+c9ee828aad6919 Mike Christie     2022-12-29  113  	blk_opf_t opf = op | REQ_FAILFAST_DEV | REQ_FAILFAST_TRANSPORT |
+c9ee828aad6919 Mike Christie     2022-12-29  114  			REQ_FAILFAST_DRIVER;
+c9ee828aad6919 Mike Christie     2022-12-29  115  	const struct scsi_exec_args exec_args = {
+c9ee828aad6919 Mike Christie     2022-12-29  116  		.req_flags = BLK_MQ_REQ_PM,
+c9ee828aad6919 Mike Christie     2022-12-29 @117  		.sshdr = sshdr ? : &sshdr_tmp,
+c9ee828aad6919 Mike Christie     2022-12-29  118  	};
+76aaf87b4cdc7f Christoph Hellwig 2017-02-23  119  
+c9ee828aad6919 Mike Christie     2022-12-29  120  	sshdr = exec_args.sshdr;
+949bf797595fc9 James Bottomley   2005-05-01  121  
+949bf797595fc9 James Bottomley   2005-05-01  122  	for(i = 0; i < DV_RETRIES; i++) {
+cfefd9f8240a7b Bart Van Assche   2020-12-08  123  		/*
+cfefd9f8240a7b Bart Van Assche   2020-12-08  124  		 * The purpose of the RQF_PM flag below is to bypass the
+cfefd9f8240a7b Bart Van Assche   2020-12-08  125  		 * SDEV_QUIESCE state.
+cfefd9f8240a7b Bart Van Assche   2020-12-08  126  		 */
+c9ee828aad6919 Mike Christie     2022-12-29  127  		result = scsi_execute_cmd(sdev, cmd, opf, buffer, bufflen,
+c9ee828aad6919 Mike Christie     2022-12-29  128  					  DV_TIMEOUT, 1, &exec_args);
+464a00c9e0ad45 Hannes Reinecke   2021-04-27  129  		if (result < 0 || !scsi_sense_valid(sshdr) ||
+76aaf87b4cdc7f Christoph Hellwig 2017-02-23  130  		    sshdr->sense_key != UNIT_ATTENTION)
+949bf797595fc9 James Bottomley   2005-05-01  131  			break;
+949bf797595fc9 James Bottomley   2005-05-01  132  	}
+33aa687db90dd8 James Bottomley   2005-08-28  133  	return result;
+949bf797595fc9 James Bottomley   2005-05-01  134  }
+949bf797595fc9 James Bottomley   2005-05-01  135  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
