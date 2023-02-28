@@ -1,42 +1,42 @@
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 192A9A38
-	for <oe-kbuild@lists.linux.dev>; Tue, 28 Feb 2023 07:45:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED5102583
+	for <oe-kbuild@lists.linux.dev>; Tue, 28 Feb 2023 08:26:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677570334; x=1709106334;
+  t=1677572785; x=1709108785;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=hOYpVWCn3jLGfPAztzM1pgKwKRtqlpf/DOug/eRW6Kc=;
-  b=OcFTwYUVkEHP+ARS05oYWxpntnckl3Tat89XTbcnB/xhI42nCzkbRSFt
-   8krp9CbLX8bsJ2Zlo04B1wi7Sx4rqzlwnyFH/mGdFUH91cONj/jv9sJfb
-   W1ehRg09DTYOgzEkPimhqkHiDRxvz9L/GMeVWfvEAAULl8DPiczOFVm4+
-   90j+Q0KjlqBqrlhEYqThI2nUsZc1/GqqxxjRU3ZiatBkgFbHCmIFbs3G8
-   z4lL2pvMIN055m2iyefjC12JjZOFXNP0c/ikzCDbujPsl4Zki950Ou6bO
-   zj3f4fwNtr1NyL08c+Lz+2JznZUQEF9Bo0PhsLjVIhnj42qExQiMDG5+G
+  bh=lMuY6TtfEF1eSvdYMntLiRkjZOogtQezWbuqpnE3G1g=;
+  b=IN3gX/FZ5rTgkq2O1rWZGCN/pLucOEDzs5MPHXUtMRLCN1cfE1qCyAYQ
+   Yt7t9xCa0KoL8x8c1qyO/5yrjxIUSmsJ1xT0Zej48XHgfPymv1i4FBVxU
+   QQi3iStErg8gzNxMn6t6ftyTO6UEHvseN5rXFFthDP7Gvk833fa7q6axw
+   rJn4dZ9h8BcCtmoRoF69ZpbrutjxgDwQTH0ctlG8BLe97vj12mFt7fgAO
+   dS1KT92rvpnSEiEIt7eweDpCQQqyEfUlUTYWZ/FW7h3DREQwrcDiOdukM
+   txk3dhfcd5+gJWDivqtZdW0x2hDTeawbi9eCRUsGk/UPw+aCdgDVHtITo
    g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="331550215"
+X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="331559911"
 X-IronPort-AV: E=Sophos;i="5.98,221,1673942400"; 
-   d="scan'208";a="331550215"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2023 23:45:25 -0800
+   d="scan'208";a="331559911"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2023 00:26:25 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="704312374"
+X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="783740710"
 X-IronPort-AV: E=Sophos;i="5.98,221,1673942400"; 
-   d="scan'208";a="704312374"
+   d="scan'208";a="783740710"
 Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 27 Feb 2023 23:45:23 -0800
+  by fmsmga002.fm.intel.com with ESMTP; 28 Feb 2023 00:26:23 -0800
 Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pWufq-0005C7-0D;
-	Tue, 28 Feb 2023 07:45:22 +0000
-Date: Tue, 28 Feb 2023 15:45:06 +0800
+	id 1pWvJX-0005E3-0x;
+	Tue, 28 Feb 2023 08:26:23 +0000
+Date: Tue, 28 Feb 2023 16:26:18 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [linux-next:master 13796/14141] arch/parisc/mm/fault.c:427
- do_page_fault() error: uninitialized symbol 'msg'.
-Message-ID: <202302281542.7n0td9mi-lkp@intel.com>
+Subject: drivers/media/i2c/max9286.c:771 max9286_s_stream() error: buffer
+ overflow 'priv->fmt' 4 <= 32
+Message-ID: <202302281647.wVs5FQHY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -48,213 +48,111 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Al Viro <viro@zeniv.linux.org.uk>
+CC: linux-kernel@vger.kernel.org
+TO: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+CC: Mauro Carvalho Chehab <mchehab@kernel.org>
+CC: linux-media@vger.kernel.org
+CC: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   058f4df42121baadbb8a980c06011e912784dbd2
-commit: 4f2fdfbfa1519deb957686ecd4898fbf1b57624a [13796/14141] parisc: fix livelock in uaccess
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   ae3419fbac845b4d3f3a9fae4cc80c68d82cdf6e
+commit: f1403802d5117651f0b8fd1ec3ba2e0515ab17ad media: i2c: max9286: Support 12-bit raw bayer formats
+date:   5 weeks ago
 :::::: branch date: 6 hours ago
-:::::: commit date: 3 days ago
-config: parisc-randconfig-m041-20230226 (https://download.01.org/0day-ci/archive/20230228/202302281542.7n0td9mi-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 12.1.0
+:::::: commit date: 5 weeks ago
+config: powerpc-randconfig-m031-20230226 (https://download.01.org/0day-ci/archive/20230228/202302281647.wVs5FQHY-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202302281542.7n0td9mi-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202302281647.wVs5FQHY-lkp@intel.com/
 
-New smatch warnings:
-arch/parisc/mm/fault.c:427 do_page_fault() error: uninitialized symbol 'msg'.
+smatch warnings:
+drivers/media/i2c/max9286.c:771 max9286_s_stream() error: buffer overflow 'priv->fmt' 4 <= 32
 
-Old smatch warnings:
-arch/parisc/mm/fault.c:435 do_page_fault() warn: inconsistent returns '&mm->mmap_lock'.
+vim +771 drivers/media/i2c/max9286.c
 
-vim +/msg +427 arch/parisc/mm/fault.c
-
-fef47e2a2e1e75 Helge Deller        2014-05-05  261  
-^1da177e4c3f41 Linus Torvalds      2005-04-16  262  void do_page_fault(struct pt_regs *regs, unsigned long code,
-^1da177e4c3f41 Linus Torvalds      2005-04-16  263  			      unsigned long address)
-^1da177e4c3f41 Linus Torvalds      2005-04-16  264  {
-^1da177e4c3f41 Linus Torvalds      2005-04-16  265  	struct vm_area_struct *vma, *prev_vma;
-2d8b22de6e5241 John David Anglin   2013-10-05  266  	struct task_struct *tsk;
-2d8b22de6e5241 John David Anglin   2013-10-05  267  	struct mm_struct *mm;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  268  	unsigned long acc_type;
-50a7ca3c6fc869 Souptick Joarder    2018-08-17  269  	vm_fault_t fault = 0;
-2d8b22de6e5241 John David Anglin   2013-10-05  270  	unsigned int flags;
-20dda87bdc6567 John David Anglin   2022-01-04  271  	char *msg;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  272  
-2d8b22de6e5241 John David Anglin   2013-10-05  273  	tsk = current;
-2d8b22de6e5241 John David Anglin   2013-10-05  274  	mm = tsk->mm;
-20dda87bdc6567 John David Anglin   2022-01-04  275  	if (!mm) {
-20dda87bdc6567 John David Anglin   2022-01-04  276  		msg = "Page fault: no context";
-2d8b22de6e5241 John David Anglin   2013-10-05  277  		goto no_context;
-20dda87bdc6567 John David Anglin   2022-01-04  278  	}
-2d8b22de6e5241 John David Anglin   2013-10-05  279  
-dde1607248328c Peter Xu            2020-04-01  280  	flags = FAULT_FLAG_DEFAULT;
-759496ba6407c6 Johannes Weiner     2013-09-12  281  	if (user_mode(regs))
-759496ba6407c6 Johannes Weiner     2013-09-12  282  		flags |= FAULT_FLAG_USER;
-0772dac1dc28ab Felipe Pena         2013-09-30  283  
-0772dac1dc28ab Felipe Pena         2013-09-30  284  	acc_type = parisc_acctyp(code, regs->iir);
-759496ba6407c6 Johannes Weiner     2013-09-12  285  	if (acc_type & VM_WRITE)
-759496ba6407c6 Johannes Weiner     2013-09-12  286  		flags |= FAULT_FLAG_WRITE;
-af8a7926273645 Peter Xu            2020-08-11  287  	perf_sw_event(PERF_COUNT_SW_PAGE_FAULTS, 1, regs, address);
-38057477b98712 Kautuk Consul       2012-03-20  288  retry:
-d8ed45c5dcd455 Michel Lespinasse   2020-06-08  289  	mmap_read_lock(mm);
-^1da177e4c3f41 Linus Torvalds      2005-04-16  290  	vma = find_vma_prev(mm, address, &prev_vma);
-^1da177e4c3f41 Linus Torvalds      2005-04-16  291  	if (!vma || address < vma->vm_start)
-^1da177e4c3f41 Linus Torvalds      2005-04-16  292  		goto check_expansion;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  293  /*
-^1da177e4c3f41 Linus Torvalds      2005-04-16  294   * Ok, we have a good vm_area for this memory access. We still need to
-^1da177e4c3f41 Linus Torvalds      2005-04-16  295   * check the access permissions.
-^1da177e4c3f41 Linus Torvalds      2005-04-16  296   */
-^1da177e4c3f41 Linus Torvalds      2005-04-16  297  
-^1da177e4c3f41 Linus Torvalds      2005-04-16  298  good_area:
-^1da177e4c3f41 Linus Torvalds      2005-04-16  299  
-^1da177e4c3f41 Linus Torvalds      2005-04-16  300  	if ((vma->vm_flags & acc_type) != acc_type)
-^1da177e4c3f41 Linus Torvalds      2005-04-16  301  		goto bad_area;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  302  
-^1da177e4c3f41 Linus Torvalds      2005-04-16  303  	/*
-^1da177e4c3f41 Linus Torvalds      2005-04-16  304  	 * If for any reason at all we couldn't handle the fault, make
-^1da177e4c3f41 Linus Torvalds      2005-04-16  305  	 * sure we exit gracefully rather than endlessly redo the
-^1da177e4c3f41 Linus Torvalds      2005-04-16  306  	 * fault.
-^1da177e4c3f41 Linus Torvalds      2005-04-16  307  	 */
-^1da177e4c3f41 Linus Torvalds      2005-04-16  308  
-af8a7926273645 Peter Xu            2020-08-11  309  	fault = handle_mm_fault(vma, address, flags, regs);
-38057477b98712 Kautuk Consul       2012-03-20  310  
-4f2fdfbfa1519d Al Viro             2023-01-30  311  	if (fault_signal_pending(fault, regs)) {
-4f2fdfbfa1519d Al Viro             2023-01-30  312  		if (!user_mode(regs))
-4f2fdfbfa1519d Al Viro             2023-01-30  313  			goto no_context;
-38057477b98712 Kautuk Consul       2012-03-20  314  		return;
-4f2fdfbfa1519d Al Viro             2023-01-30  315  	}
-38057477b98712 Kautuk Consul       2012-03-20  316  
-d92725256b4f22 Peter Xu            2022-05-30  317  	/* The fault is fully completed (including releasing mmap lock) */
-d92725256b4f22 Peter Xu            2022-05-30  318  	if (fault & VM_FAULT_COMPLETED)
-d92725256b4f22 Peter Xu            2022-05-30  319  		return;
-d92725256b4f22 Peter Xu            2022-05-30  320  
-83c54070ee1a2d Nicholas Piggin     2007-07-19  321  	if (unlikely(fault & VM_FAULT_ERROR)) {
-^1da177e4c3f41 Linus Torvalds      2005-04-16  322  		/*
-67a5a59d330194 Helge Deller        2006-03-27  323  		 * We hit a shared mapping outside of the file, or some
-6e346228c76506 Linus Torvalds      2005-08-04  324  		 * other thing happened to us that made us unable to
-6e346228c76506 Linus Torvalds      2005-08-04  325  		 * handle the page fault gracefully.
-^1da177e4c3f41 Linus Torvalds      2005-04-16  326  		 */
-83c54070ee1a2d Nicholas Piggin     2007-07-19  327  		if (fault & VM_FAULT_OOM)
-^1da177e4c3f41 Linus Torvalds      2005-04-16  328  			goto out_of_memory;
-33692f27597fca Linus Torvalds      2015-01-29  329  		else if (fault & VM_FAULT_SIGSEGV)
-33692f27597fca Linus Torvalds      2015-01-29  330  			goto bad_area;
-606f95e4255845 Helge Deller        2017-09-21  331  		else if (fault & (VM_FAULT_SIGBUS|VM_FAULT_HWPOISON|
-606f95e4255845 Helge Deller        2017-09-21  332  				  VM_FAULT_HWPOISON_LARGE))
-83c54070ee1a2d Nicholas Piggin     2007-07-19  333  			goto bad_area;
-83c54070ee1a2d Nicholas Piggin     2007-07-19  334  		BUG();
-^1da177e4c3f41 Linus Torvalds      2005-04-16  335  	}
-38057477b98712 Kautuk Consul       2012-03-20  336  	if (fault & VM_FAULT_RETRY) {
-38057477b98712 Kautuk Consul       2012-03-20  337  		/*
-3e4e28c5a8f01e Michel Lespinasse   2020-06-08  338  		 * No need to mmap_read_unlock(mm) as we would
-38057477b98712 Kautuk Consul       2012-03-20  339  		 * have already released it in __lock_page_or_retry
-38057477b98712 Kautuk Consul       2012-03-20  340  		 * in mm/filemap.c.
-38057477b98712 Kautuk Consul       2012-03-20  341  		 */
-4064b982706375 Peter Xu            2020-04-01  342  		flags |= FAULT_FLAG_TRIED;
-38057477b98712 Kautuk Consul       2012-03-20  343  		goto retry;
-38057477b98712 Kautuk Consul       2012-03-20  344  	}
-d8ed45c5dcd455 Michel Lespinasse   2020-06-08  345  	mmap_read_unlock(mm);
-^1da177e4c3f41 Linus Torvalds      2005-04-16  346  	return;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  347  
-^1da177e4c3f41 Linus Torvalds      2005-04-16  348  check_expansion:
-^1da177e4c3f41 Linus Torvalds      2005-04-16  349  	vma = prev_vma;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  350  	if (vma && (expand_stack(vma, address) == 0))
-^1da177e4c3f41 Linus Torvalds      2005-04-16  351  		goto good_area;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  352  
-^1da177e4c3f41 Linus Torvalds      2005-04-16  353  /*
-^1da177e4c3f41 Linus Torvalds      2005-04-16  354   * Something tried to access memory that isn't in our memory map..
-^1da177e4c3f41 Linus Torvalds      2005-04-16  355   */
-^1da177e4c3f41 Linus Torvalds      2005-04-16  356  bad_area:
-d8ed45c5dcd455 Michel Lespinasse   2020-06-08  357  	mmap_read_unlock(mm);
-^1da177e4c3f41 Linus Torvalds      2005-04-16  358  
-^1da177e4c3f41 Linus Torvalds      2005-04-16  359  	if (user_mode(regs)) {
-ccf75290cc6463 Eric W. Biederman   2018-04-19  360  		int signo, si_code;
-fef47e2a2e1e75 Helge Deller        2014-05-05  361  
-1f2048fd8bc421 Helge Deller        2013-11-07  362  		switch (code) {
-1f2048fd8bc421 Helge Deller        2013-11-07  363  		case 15:	/* Data TLB miss fault/Data page fault */
-49d1cb2bcadfc5 Helge Deller        2013-11-18  364  			/* send SIGSEGV when outside of vma */
-49d1cb2bcadfc5 Helge Deller        2013-11-18  365  			if (!vma ||
-247462316f85a9 Helge Deller        2017-07-02  366  			    address < vma->vm_start || address >= vma->vm_end) {
-ccf75290cc6463 Eric W. Biederman   2018-04-19  367  				signo = SIGSEGV;
-ccf75290cc6463 Eric W. Biederman   2018-04-19  368  				si_code = SEGV_MAPERR;
-49d1cb2bcadfc5 Helge Deller        2013-11-18  369  				break;
-49d1cb2bcadfc5 Helge Deller        2013-11-18  370  			}
-49d1cb2bcadfc5 Helge Deller        2013-11-18  371  
-49d1cb2bcadfc5 Helge Deller        2013-11-18  372  			/* send SIGSEGV for wrong permissions */
-49d1cb2bcadfc5 Helge Deller        2013-11-18  373  			if ((vma->vm_flags & acc_type) != acc_type) {
-ccf75290cc6463 Eric W. Biederman   2018-04-19  374  				signo = SIGSEGV;
-ccf75290cc6463 Eric W. Biederman   2018-04-19  375  				si_code = SEGV_ACCERR;
-49d1cb2bcadfc5 Helge Deller        2013-11-18  376  				break;
-49d1cb2bcadfc5 Helge Deller        2013-11-18  377  			}
-49d1cb2bcadfc5 Helge Deller        2013-11-18  378  
-49d1cb2bcadfc5 Helge Deller        2013-11-18  379  			/* probably address is outside of mapped file */
-df561f6688fef7 Gustavo A. R. Silva 2020-08-23  380  			fallthrough;
-1f2048fd8bc421 Helge Deller        2013-11-07  381  		case 17:	/* NA data TLB miss / page fault */
-1f2048fd8bc421 Helge Deller        2013-11-07  382  		case 18:	/* Unaligned access - PCXS only */
-ccf75290cc6463 Eric W. Biederman   2018-04-19  383  			signo = SIGBUS;
-ccf75290cc6463 Eric W. Biederman   2018-04-19  384  			si_code = (code == 18) ? BUS_ADRALN : BUS_ADRERR;
-1f2048fd8bc421 Helge Deller        2013-11-07  385  			break;
-1f2048fd8bc421 Helge Deller        2013-11-07  386  		case 16:	/* Non-access instruction TLB miss fault */
-1f2048fd8bc421 Helge Deller        2013-11-07  387  		case 26:	/* PCXL: Data memory access rights trap */
-1f2048fd8bc421 Helge Deller        2013-11-07  388  		default:
-ccf75290cc6463 Eric W. Biederman   2018-04-19  389  			signo = SIGSEGV;
-ccf75290cc6463 Eric W. Biederman   2018-04-19  390  			si_code = (code == 26) ? SEGV_ACCERR : SEGV_MAPERR;
-49d1cb2bcadfc5 Helge Deller        2013-11-18  391  			break;
-1f2048fd8bc421 Helge Deller        2013-11-07  392  		}
-606f95e4255845 Helge Deller        2017-09-21  393  #ifdef CONFIG_MEMORY_FAILURE
-606f95e4255845 Helge Deller        2017-09-21  394  		if (fault & (VM_FAULT_HWPOISON|VM_FAULT_HWPOISON_LARGE)) {
-c2b0e0d33b5573 Eric W. Biederman   2018-04-19  395  			unsigned int lsb = 0;
-606f95e4255845 Helge Deller        2017-09-21  396  			printk(KERN_ERR
-606f95e4255845 Helge Deller        2017-09-21  397  	"MCE: Killing %s:%d due to hardware memory corruption fault at %08lx\n",
-606f95e4255845 Helge Deller        2017-09-21  398  			tsk->comm, tsk->pid, address);
-606f95e4255845 Helge Deller        2017-09-21  399  			/*
-606f95e4255845 Helge Deller        2017-09-21  400  			 * Either small page or large page may be poisoned.
-606f95e4255845 Helge Deller        2017-09-21  401  			 * In other words, VM_FAULT_HWPOISON_LARGE and
-606f95e4255845 Helge Deller        2017-09-21  402  			 * VM_FAULT_HWPOISON are mutually exclusive.
-606f95e4255845 Helge Deller        2017-09-21  403  			 */
-606f95e4255845 Helge Deller        2017-09-21  404  			if (fault & VM_FAULT_HWPOISON_LARGE)
-606f95e4255845 Helge Deller        2017-09-21  405  				lsb = hstate_index_to_shift(VM_FAULT_GET_HINDEX(fault));
-606f95e4255845 Helge Deller        2017-09-21  406  			else if (fault & VM_FAULT_HWPOISON)
-606f95e4255845 Helge Deller        2017-09-21  407  				lsb = PAGE_SHIFT;
-c2b0e0d33b5573 Eric W. Biederman   2018-04-19  408  
-c2b0e0d33b5573 Eric W. Biederman   2018-04-19  409  			force_sig_mceerr(BUS_MCEERR_AR, (void __user *) address,
-f8eac9011b6be5 Eric W. Biederman   2019-02-05  410  					 lsb);
-c2b0e0d33b5573 Eric W. Biederman   2018-04-19  411  			return;
-c2b0e0d33b5573 Eric W. Biederman   2018-04-19  412  		}
-c2b0e0d33b5573 Eric W. Biederman   2018-04-19  413  #endif
-606f95e4255845 Helge Deller        2017-09-21  414  		show_signal_msg(regs, code, address, tsk, vma);
-606f95e4255845 Helge Deller        2017-09-21  415  
-2e1661d2673667 Eric W. Biederman   2019-05-23  416  		force_sig_fault(signo, si_code, (void __user *) address);
-^1da177e4c3f41 Linus Torvalds      2005-04-16  417  		return;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  418  	}
-20dda87bdc6567 John David Anglin   2022-01-04  419  	msg = "Page fault: bad address";
-^1da177e4c3f41 Linus Torvalds      2005-04-16  420  
-^1da177e4c3f41 Linus Torvalds      2005-04-16  421  no_context:
-^1da177e4c3f41 Linus Torvalds      2005-04-16  422  
-c61c25eb02757e Kyle McMartin       2008-12-20  423  	if (!user_mode(regs) && fixup_exception(regs)) {
-^1da177e4c3f41 Linus Torvalds      2005-04-16  424  		return;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  425  	}
-^1da177e4c3f41 Linus Torvalds      2005-04-16  426  
-20dda87bdc6567 John David Anglin   2022-01-04 @427  	parisc_terminate(msg, regs, code, address);
-^1da177e4c3f41 Linus Torvalds      2005-04-16  428  
-^1da177e4c3f41 Linus Torvalds      2005-04-16  429  out_of_memory:
-d8ed45c5dcd455 Michel Lespinasse   2020-06-08  430  	mmap_read_unlock(mm);
-20dda87bdc6567 John David Anglin   2022-01-04  431  	if (!user_mode(regs)) {
-20dda87bdc6567 John David Anglin   2022-01-04  432  		msg = "Page fault: out of memory";
-^1da177e4c3f41 Linus Torvalds      2005-04-16  433  		goto no_context;
-20dda87bdc6567 John David Anglin   2022-01-04  434  	}
-53e30d02276943 Nicholas Piggin     2010-04-22  435  	pagefault_out_of_memory();
-^1da177e4c3f41 Linus Torvalds      2005-04-16  436  }
-e00b0a2ab8ec01 John David Anglin   2022-03-09  437  
-
-:::::: The code at line 427 was first introduced by commit
-:::::: 20dda87bdc6567e864942ead40bc149ebbe3ae79 parisc: Enhance page fault termination message
-
-:::::: TO: John David Anglin <dave.anglin@bell.net>
-:::::: CC: Helge Deller <deller@gmx.de>
+66d8c9d2422da2 Kieran Bingham   2020-06-12  755  
+66d8c9d2422da2 Kieran Bingham   2020-06-12  756  static int max9286_s_stream(struct v4l2_subdev *sd, int enable)
+66d8c9d2422da2 Kieran Bingham   2020-06-12  757  {
+66d8c9d2422da2 Kieran Bingham   2020-06-12  758  	struct max9286_priv *priv = sd_to_max9286(sd);
+66d8c9d2422da2 Kieran Bingham   2020-06-12  759  	struct max9286_source *source;
+66d8c9d2422da2 Kieran Bingham   2020-06-12  760  	unsigned int i;
+66d8c9d2422da2 Kieran Bingham   2020-06-12  761  	bool sync = false;
+66d8c9d2422da2 Kieran Bingham   2020-06-12  762  	int ret;
+66d8c9d2422da2 Kieran Bingham   2020-06-12  763  
+66d8c9d2422da2 Kieran Bingham   2020-06-12  764  	if (enable) {
+f1403802d51176 Laurent Pinchart 2022-01-01  765  		const struct v4l2_mbus_framefmt *format;
+f1403802d51176 Laurent Pinchart 2022-01-01  766  
+f1403802d51176 Laurent Pinchart 2022-01-01  767  		/*
+f1403802d51176 Laurent Pinchart 2022-01-01  768  		 * Get the format from the first used sink pad, as all sink
+f1403802d51176 Laurent Pinchart 2022-01-01  769  		 * formats must be identical.
+f1403802d51176 Laurent Pinchart 2022-01-01  770  		 */
+f1403802d51176 Laurent Pinchart 2022-01-01 @771  		format = &priv->fmt[__ffs(priv->bound_sources)];
+f1403802d51176 Laurent Pinchart 2022-01-01  772  
+f1403802d51176 Laurent Pinchart 2022-01-01  773  		max9286_set_video_format(priv, format);
+cffc9fb1ed6c5c Laurent Pinchart 2022-01-01  774  		max9286_set_fsync_period(priv);
+cffc9fb1ed6c5c Laurent Pinchart 2022-01-01  775  
+66d8c9d2422da2 Kieran Bingham   2020-06-12  776  		/*
+66d8c9d2422da2 Kieran Bingham   2020-06-12  777  		 * The frame sync between cameras is transmitted across the
+66d8c9d2422da2 Kieran Bingham   2020-06-12  778  		 * reverse channel as GPIO. We must open all channels while
+66d8c9d2422da2 Kieran Bingham   2020-06-12  779  		 * streaming to allow this synchronisation signal to be shared.
+66d8c9d2422da2 Kieran Bingham   2020-06-12  780  		 */
+66d8c9d2422da2 Kieran Bingham   2020-06-12  781  		max9286_i2c_mux_open(priv);
+66d8c9d2422da2 Kieran Bingham   2020-06-12  782  
+66d8c9d2422da2 Kieran Bingham   2020-06-12  783  		/* Start all cameras. */
+66d8c9d2422da2 Kieran Bingham   2020-06-12  784  		for_each_source(priv, source) {
+66d8c9d2422da2 Kieran Bingham   2020-06-12  785  			ret = v4l2_subdev_call(source->sd, video, s_stream, 1);
+66d8c9d2422da2 Kieran Bingham   2020-06-12  786  			if (ret)
+66d8c9d2422da2 Kieran Bingham   2020-06-12  787  				return ret;
+66d8c9d2422da2 Kieran Bingham   2020-06-12  788  		}
+66d8c9d2422da2 Kieran Bingham   2020-06-12  789  
+66d8c9d2422da2 Kieran Bingham   2020-06-12  790  		ret = max9286_check_video_links(priv);
+66d8c9d2422da2 Kieran Bingham   2020-06-12  791  		if (ret)
+66d8c9d2422da2 Kieran Bingham   2020-06-12  792  			return ret;
+66d8c9d2422da2 Kieran Bingham   2020-06-12  793  
+66d8c9d2422da2 Kieran Bingham   2020-06-12  794  		/*
+66d8c9d2422da2 Kieran Bingham   2020-06-12  795  		 * Wait until frame synchronization is locked.
+66d8c9d2422da2 Kieran Bingham   2020-06-12  796  		 *
+66d8c9d2422da2 Kieran Bingham   2020-06-12  797  		 * Manual says frame sync locking should take ~6 VTS.
+66d8c9d2422da2 Kieran Bingham   2020-06-12  798  		 * From practical experience at least 8 are required. Give
+66d8c9d2422da2 Kieran Bingham   2020-06-12  799  		 * 12 complete frames time (~400ms at 30 fps) to achieve frame
+66d8c9d2422da2 Kieran Bingham   2020-06-12  800  		 * locking before returning error.
+66d8c9d2422da2 Kieran Bingham   2020-06-12  801  		 */
+66d8c9d2422da2 Kieran Bingham   2020-06-12  802  		for (i = 0; i < 40; i++) {
+66d8c9d2422da2 Kieran Bingham   2020-06-12  803  			if (max9286_read(priv, 0x31) & MAX9286_FSYNC_LOCKED) {
+66d8c9d2422da2 Kieran Bingham   2020-06-12  804  				sync = true;
+66d8c9d2422da2 Kieran Bingham   2020-06-12  805  				break;
+66d8c9d2422da2 Kieran Bingham   2020-06-12  806  			}
+66d8c9d2422da2 Kieran Bingham   2020-06-12  807  			usleep_range(9000, 11000);
+66d8c9d2422da2 Kieran Bingham   2020-06-12  808  		}
+66d8c9d2422da2 Kieran Bingham   2020-06-12  809  
+66d8c9d2422da2 Kieran Bingham   2020-06-12  810  		if (!sync) {
+66d8c9d2422da2 Kieran Bingham   2020-06-12  811  			dev_err(&priv->client->dev,
+66d8c9d2422da2 Kieran Bingham   2020-06-12  812  				"Failed to get frame synchronization\n");
+66d8c9d2422da2 Kieran Bingham   2020-06-12  813  			return -EXDEV; /* Invalid cross-device link */
+66d8c9d2422da2 Kieran Bingham   2020-06-12  814  		}
+66d8c9d2422da2 Kieran Bingham   2020-06-12  815  
+66d8c9d2422da2 Kieran Bingham   2020-06-12  816  		/*
+66d8c9d2422da2 Kieran Bingham   2020-06-12  817  		 * Enable CSI output, VC set according to link number.
+66d8c9d2422da2 Kieran Bingham   2020-06-12  818  		 * Bit 7 must be set (chip manual says it's 0 and reserved).
+66d8c9d2422da2 Kieran Bingham   2020-06-12  819  		 */
+66d8c9d2422da2 Kieran Bingham   2020-06-12  820  		max9286_write(priv, 0x15, 0x80 | MAX9286_VCTYPE |
+66d8c9d2422da2 Kieran Bingham   2020-06-12  821  			      MAX9286_CSIOUTEN | MAX9286_0X15_RESV);
+66d8c9d2422da2 Kieran Bingham   2020-06-12  822  	} else {
+66d8c9d2422da2 Kieran Bingham   2020-06-12  823  		max9286_write(priv, 0x15, MAX9286_VCTYPE | MAX9286_0X15_RESV);
+66d8c9d2422da2 Kieran Bingham   2020-06-12  824  
+66d8c9d2422da2 Kieran Bingham   2020-06-12  825  		/* Stop all cameras. */
+66d8c9d2422da2 Kieran Bingham   2020-06-12  826  		for_each_source(priv, source)
+66d8c9d2422da2 Kieran Bingham   2020-06-12  827  			v4l2_subdev_call(source->sd, video, s_stream, 0);
+66d8c9d2422da2 Kieran Bingham   2020-06-12  828  
+66d8c9d2422da2 Kieran Bingham   2020-06-12  829  		max9286_i2c_mux_close(priv);
+66d8c9d2422da2 Kieran Bingham   2020-06-12  830  	}
+66d8c9d2422da2 Kieran Bingham   2020-06-12  831  
+66d8c9d2422da2 Kieran Bingham   2020-06-12  832  	return 0;
+66d8c9d2422da2 Kieran Bingham   2020-06-12  833  }
+66d8c9d2422da2 Kieran Bingham   2020-06-12  834  
 
 -- 
 0-DAY CI Kernel Test Service
