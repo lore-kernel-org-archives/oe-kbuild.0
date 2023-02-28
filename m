@@ -1,42 +1,42 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA2713224
-	for <oe-kbuild@lists.linux.dev>; Tue, 28 Feb 2023 19:08:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B0BE9459
+	for <oe-kbuild@lists.linux.dev>; Tue, 28 Feb 2023 19:38:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677611330; x=1709147330;
+  t=1677613132; x=1709149132;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=B1R3yQBqxxA2+QNJCunKgv2A+BPQ9O5dc9rZDSotq/w=;
-  b=hiSjVPRyPH6s2WCeAWKrOkql8s/OsQWwpMj0EASrctVA/sm4LiuXRQza
-   vU64rGzQ3tWyJ83sArhwjRIhvNBtyLVt8HRyf28nG6xNq0tCkxgsIvk8o
-   ygATC1k1KP7ZrDURLC3u17OY4ku/NqGLMbNVZ+1hozexCNRe+ZA/V2DKU
-   B9x7UyshSbr8qvZLQ+KigeF8BdcEVmz5eZm8B9Zo2B3t2nX60vfsfWluD
-   +ynfarWgcOOvS0Q5FLrIr5FoZQrg1HSppl5uqR1mFx7fLHYPPbQ8n3jnS
-   gxHL+DjSqtU2k9hXG6At63Dsxt6SXME90cio4LpVr/c1lFcbM9UCzYYEH
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10635"; a="420486049"
+  bh=/U3LbuPov+dNWInaRofRjUOX+52VXnK174vZGyWr3P8=;
+  b=WPXkEq8tUnUAxlajODXkDJ3MG55HWCbVD6FDhWw3GfZR6wWLeHDovSkG
+   gKJclNXqOProgxZCajjJv758a2x/M3st7LS1JggxH7fRsOLmuAYVE9sah
+   Jphe6IZMfGA0ZsrebmD0x7DHNPqzip3d3otKRjdTjwOKJo0LfWHDEGc72
+   DOQXc8UWapuSneSJw0t2wYG+XoB4RPxXSUx19xhsGs0UCeXavq1MdPy+0
+   5/EAtNceFbMsDfrlRjQUkkQcjLRknOCU1feZwA2KEq4tBEBgEV7fM8Arw
+   H3PvsbpiS9CjaYmxyS5J9WN1/Zv8d2h8tTjvezdl+ulNecIUrNxUIp9fG
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10635"; a="322487861"
 X-IronPort-AV: E=Sophos;i="5.98,222,1673942400"; 
-   d="scan'208";a="420486049"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2023 11:08:50 -0800
+   d="scan'208";a="322487861"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2023 11:38:51 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10635"; a="783982761"
+X-IronPort-AV: E=McAfee;i="6500,9779,10635"; a="1003348988"
 X-IronPort-AV: E=Sophos;i="5.98,222,1673942400"; 
-   d="scan'208";a="783982761"
+   d="scan'208";a="1003348988"
 Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 28 Feb 2023 11:08:49 -0800
+  by fmsmga005.fm.intel.com with ESMTP; 28 Feb 2023 11:38:50 -0800
 Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pX5LE-0005aZ-2u;
-	Tue, 28 Feb 2023 19:08:48 +0000
-Date: Wed, 1 Mar 2023 03:07:49 +0800
+	id 1pX5oH-0005bf-2J;
+	Tue, 28 Feb 2023 19:38:49 +0000
+Date: Wed, 1 Mar 2023 03:38:19 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: drivers/scsi/scsi_transport_spi.c:117:22: warning: Uninitialized
- variable: &sshdr_tmp [uninitvar]
-Message-ID: <202303010344.OvkX9B9I-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: drivers/target/iscsi/cxgbit/cxgbit_target.c:1441
+ cxgbit_lro_skb_merge() warn: potential spectre issue 'ssi->frags' [r]
+Message-ID: <202303010331.AqRvJJHI-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -46,99 +46,108 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "low confidence static check warning: drivers/scsi/scsi_transport_spi.c:117:22: warning: Uninitialized variable: &sshdr_tmp [uninitvar]"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Mike Christie <michael.christie@oracle.com>
-CC: "Martin K. Petersen" <martin.petersen@oracle.com>
-CC: John Garry <john.g.garry@oracle.com>
-CC: Bart Van Assche <bvanassche@acm.org>
-CC: Christoph Hellwig <hch@lst.de>
+TO: Kees Cook <keescook@chromium.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   e492250d5252635b6c97d52eddf2792ec26f1ec1
-commit: c9ee828aad6919b7eee7ef2059489c7221edf68a scsi: spi: Convert to scsi_execute_cmd()
-date:   7 weeks ago
+commit: 54d9469bc515dc5fcbc20eecbe19cea868b70d68 fortify: Add run-time WARN for cross-field memcpy()
+date:   6 months ago
 :::::: branch date: 2 hours ago
-:::::: commit date: 7 weeks ago
-compiler: hppa-linux-gcc (GCC) 12.1.0
-reproduce (cppcheck warning):
-        # apt-get install cppcheck
-        git checkout c9ee828aad6919b7eee7ef2059489c7221edf68a
-        cppcheck --quiet --enable=style,performance,portability --template=gcc FILE
+:::::: commit date: 6 months ago
+config: x86_64-randconfig-m001-20230227 (https://download.01.org/0day-ci/archive/20230301/202303010331.AqRvJJHI-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/r/202303010344.OvkX9B9I-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Link: https://lore.kernel.org/r/202303010331.AqRvJJHI-lkp@intel.com/
 
+smatch warnings:
+drivers/target/iscsi/cxgbit/cxgbit_target.c:1441 cxgbit_lro_skb_merge() warn: potential spectre issue 'ssi->frags' [r]
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+vim +1441 drivers/target/iscsi/cxgbit/cxgbit_target.c
 
->> drivers/scsi/virtio_scsi.c:857:53: warning: AST broken, ternary operator missing operand(s) [internalAstError]
-    num_queues = virtscsi_config_get(vdev, num_queues) ? : 1;
-                                                       ^
---
-   drivers/scsi/scsi_transport_spi.c:189:55: warning: Parameter 'cont' can be declared as pointer to const [constParameter]
-   static int spi_host_match(struct attribute_container *cont,
-                                                         ^
-   drivers/scsi/scsi_transport_spi.c:1400:57: warning: Parameter 'cont' can be declared as pointer to const [constParameter]
-   static int spi_target_match(struct attribute_container *cont,
-                                                           ^
-   drivers/scsi/scsi_transport_spi.c:1469:26: warning: Parameter 'attr' can be declared as pointer to const [constParameter]
-          struct attribute *attr, int i)
-                            ^
->> drivers/scsi/scsi_transport_spi.c:117:22: warning: Uninitialized variable: &sshdr_tmp [uninitvar]
-     .sshdr = sshdr ? : &sshdr_tmp,
-                        ^
->> drivers/scsi/sd.c:1196:14: warning: Operator '|' with one operand equal to zero is redundant. [badBitmaskCheck]
-        protect | fua);
-                ^
->> drivers/scsi/sd.c:2214:75: warning: Parameter 'buffer' can be declared as pointer to const [constParameter]
-   static int sd_read_protection_type(struct scsi_disk *sdkp, unsigned char *buffer)
-                                                                             ^
->> drivers/scsi/sd.c:2923:46: warning: Shifting signed 32-bit value by 31 bits is implementation-defined behaviour [shiftTooManyBitsSigned]
-       get_unaligned_be32(&vpd->data[32]) & ~(1 << 31);
-                                                ^
->> drivers/scsi/sd.c:2923:46: warning: Signed integer overflow for expression '1<<31'. [integerOverflow]
-       get_unaligned_be32(&vpd->data[32]) & ~(1 << 31);
-                                                ^
+9730ffcb8957e1 Varun Prakash           2016-04-20  1422  
+9730ffcb8957e1 Varun Prakash           2016-04-20  1423  static void
+9730ffcb8957e1 Varun Prakash           2016-04-20  1424  cxgbit_lro_skb_merge(struct cxgbit_sock *csk, struct sk_buff *skb, u8 pdu_idx)
+9730ffcb8957e1 Varun Prakash           2016-04-20  1425  {
+9730ffcb8957e1 Varun Prakash           2016-04-20  1426  	struct sk_buff *hskb = csk->lro_hskb;
+9730ffcb8957e1 Varun Prakash           2016-04-20  1427  	struct cxgbit_lro_pdu_cb *hpdu_cb = cxgbit_skb_lro_pdu_cb(hskb, 0);
+9730ffcb8957e1 Varun Prakash           2016-04-20  1428  	struct cxgbit_lro_pdu_cb *pdu_cb = cxgbit_skb_lro_pdu_cb(skb, pdu_idx);
+9730ffcb8957e1 Varun Prakash           2016-04-20  1429  	struct skb_shared_info *hssi = skb_shinfo(hskb);
+9730ffcb8957e1 Varun Prakash           2016-04-20  1430  	struct skb_shared_info *ssi = skb_shinfo(skb);
+9730ffcb8957e1 Varun Prakash           2016-04-20  1431  	unsigned int len = 0;
+9730ffcb8957e1 Varun Prakash           2016-04-20  1432  
+9730ffcb8957e1 Varun Prakash           2016-04-20  1433  	if (pdu_cb->flags & PDUCBF_RX_HDR) {
+79e57cfe00f40d Varun Prakash           2017-01-13  1434  		u8 hfrag_idx = hssi->nr_frags;
+79e57cfe00f40d Varun Prakash           2017-01-13  1435  
+79e57cfe00f40d Varun Prakash           2017-01-13  1436  		hpdu_cb->flags |= pdu_cb->flags;
+9730ffcb8957e1 Varun Prakash           2016-04-20  1437  		hpdu_cb->seq = pdu_cb->seq;
+9730ffcb8957e1 Varun Prakash           2016-04-20  1438  		hpdu_cb->hdr = pdu_cb->hdr;
+9730ffcb8957e1 Varun Prakash           2016-04-20  1439  		hpdu_cb->hlen = pdu_cb->hlen;
+9730ffcb8957e1 Varun Prakash           2016-04-20  1440  
+79e57cfe00f40d Varun Prakash           2017-01-13 @1441  		memcpy(&hssi->frags[hfrag_idx], &ssi->frags[pdu_cb->hfrag_idx],
+9730ffcb8957e1 Varun Prakash           2016-04-20  1442  		       sizeof(skb_frag_t));
+9730ffcb8957e1 Varun Prakash           2016-04-20  1443  
+79e57cfe00f40d Varun Prakash           2017-01-13  1444  		get_page(skb_frag_page(&hssi->frags[hfrag_idx]));
+79e57cfe00f40d Varun Prakash           2017-01-13  1445  		hssi->nr_frags++;
+79e57cfe00f40d Varun Prakash           2017-01-13  1446  		hpdu_cb->frags++;
+79e57cfe00f40d Varun Prakash           2017-01-13  1447  		hpdu_cb->hfrag_idx = hfrag_idx;
+9730ffcb8957e1 Varun Prakash           2016-04-20  1448  
+92493a2f8a8d5a Matthew Wilcox (Oracle  2019-07-24  1449) 		len = skb_frag_size(&hssi->frags[hfrag_idx]);
+79e57cfe00f40d Varun Prakash           2017-01-13  1450  		hskb->len += len;
+79e57cfe00f40d Varun Prakash           2017-01-13  1451  		hskb->data_len += len;
+79e57cfe00f40d Varun Prakash           2017-01-13  1452  		hskb->truesize += len;
+9730ffcb8957e1 Varun Prakash           2016-04-20  1453  	}
+9730ffcb8957e1 Varun Prakash           2016-04-20  1454  
+9730ffcb8957e1 Varun Prakash           2016-04-20  1455  	if (pdu_cb->flags & PDUCBF_RX_DATA) {
+79e57cfe00f40d Varun Prakash           2017-01-13  1456  		u8 dfrag_idx = hssi->nr_frags, i;
+9730ffcb8957e1 Varun Prakash           2016-04-20  1457  
+9730ffcb8957e1 Varun Prakash           2016-04-20  1458  		hpdu_cb->flags |= pdu_cb->flags;
+79e57cfe00f40d Varun Prakash           2017-01-13  1459  		hpdu_cb->dfrag_idx = dfrag_idx;
+9730ffcb8957e1 Varun Prakash           2016-04-20  1460  
+9730ffcb8957e1 Varun Prakash           2016-04-20  1461  		len = 0;
+79e57cfe00f40d Varun Prakash           2017-01-13  1462  		for (i = 0; i < pdu_cb->nr_dfrags; dfrag_idx++, i++) {
+79e57cfe00f40d Varun Prakash           2017-01-13  1463  			memcpy(&hssi->frags[dfrag_idx],
+9730ffcb8957e1 Varun Prakash           2016-04-20  1464  			       &ssi->frags[pdu_cb->dfrag_idx + i],
+9730ffcb8957e1 Varun Prakash           2016-04-20  1465  			       sizeof(skb_frag_t));
+9730ffcb8957e1 Varun Prakash           2016-04-20  1466  
+79e57cfe00f40d Varun Prakash           2017-01-13  1467  			get_page(skb_frag_page(&hssi->frags[dfrag_idx]));
+9730ffcb8957e1 Varun Prakash           2016-04-20  1468  
+d7840976e39156 Matthew Wilcox (Oracle  2019-07-22  1469) 			len += skb_frag_size(&hssi->frags[dfrag_idx]);
+9730ffcb8957e1 Varun Prakash           2016-04-20  1470  
+9730ffcb8957e1 Varun Prakash           2016-04-20  1471  			hssi->nr_frags++;
+9730ffcb8957e1 Varun Prakash           2016-04-20  1472  			hpdu_cb->frags++;
+9730ffcb8957e1 Varun Prakash           2016-04-20  1473  		}
+9730ffcb8957e1 Varun Prakash           2016-04-20  1474  
+9730ffcb8957e1 Varun Prakash           2016-04-20  1475  		hpdu_cb->dlen = pdu_cb->dlen;
+9730ffcb8957e1 Varun Prakash           2016-04-20  1476  		hpdu_cb->doffset = hpdu_cb->hlen;
+9730ffcb8957e1 Varun Prakash           2016-04-20  1477  		hpdu_cb->nr_dfrags = pdu_cb->nr_dfrags;
+9730ffcb8957e1 Varun Prakash           2016-04-20  1478  		hskb->len += len;
+9730ffcb8957e1 Varun Prakash           2016-04-20  1479  		hskb->data_len += len;
+9730ffcb8957e1 Varun Prakash           2016-04-20  1480  		hskb->truesize += len;
+9730ffcb8957e1 Varun Prakash           2016-04-20  1481  	}
+9730ffcb8957e1 Varun Prakash           2016-04-20  1482  
+9730ffcb8957e1 Varun Prakash           2016-04-20  1483  	if (pdu_cb->flags & PDUCBF_RX_STATUS) {
+9730ffcb8957e1 Varun Prakash           2016-04-20  1484  		hpdu_cb->flags |= pdu_cb->flags;
+9730ffcb8957e1 Varun Prakash           2016-04-20  1485  
+9730ffcb8957e1 Varun Prakash           2016-04-20  1486  		if (hpdu_cb->flags & PDUCBF_RX_DATA)
+9730ffcb8957e1 Varun Prakash           2016-04-20  1487  			hpdu_cb->flags &= ~PDUCBF_RX_DATA_DDPD;
+9730ffcb8957e1 Varun Prakash           2016-04-20  1488  
+9730ffcb8957e1 Varun Prakash           2016-04-20  1489  		hpdu_cb->ddigest = pdu_cb->ddigest;
+9730ffcb8957e1 Varun Prakash           2016-04-20  1490  		hpdu_cb->pdulen = pdu_cb->pdulen;
+9730ffcb8957e1 Varun Prakash           2016-04-20  1491  	}
+9730ffcb8957e1 Varun Prakash           2016-04-20  1492  }
+9730ffcb8957e1 Varun Prakash           2016-04-20  1493  
 
-vim +117 drivers/scsi/scsi_transport_spi.c
+:::::: The code at line 1441 was first introduced by commit
+:::::: 79e57cfe00f40d509e2d007a5662db26cdbc74db target/cxgbit: add T6 iSCSI DDP completion feature
 
-^1da177e4c3f41 Linus Torvalds    2005-04-16  106  
-33aa687db90dd8 James Bottomley   2005-08-28  107  static int spi_execute(struct scsi_device *sdev, const void *cmd,
-c9ee828aad6919 Mike Christie     2022-12-29  108  		       enum req_op op, void *buffer, unsigned int bufflen,
-33aa687db90dd8 James Bottomley   2005-08-28  109  		       struct scsi_sense_hdr *sshdr)
-949bf797595fc9 James Bottomley   2005-05-01  110  {
-33aa687db90dd8 James Bottomley   2005-08-28  111  	int i, result;
-76aaf87b4cdc7f Christoph Hellwig 2017-02-23  112  	struct scsi_sense_hdr sshdr_tmp;
-c9ee828aad6919 Mike Christie     2022-12-29  113  	blk_opf_t opf = op | REQ_FAILFAST_DEV | REQ_FAILFAST_TRANSPORT |
-c9ee828aad6919 Mike Christie     2022-12-29  114  			REQ_FAILFAST_DRIVER;
-c9ee828aad6919 Mike Christie     2022-12-29  115  	const struct scsi_exec_args exec_args = {
-c9ee828aad6919 Mike Christie     2022-12-29  116  		.req_flags = BLK_MQ_REQ_PM,
-c9ee828aad6919 Mike Christie     2022-12-29 @117  		.sshdr = sshdr ? : &sshdr_tmp,
-c9ee828aad6919 Mike Christie     2022-12-29  118  	};
-76aaf87b4cdc7f Christoph Hellwig 2017-02-23  119  
-c9ee828aad6919 Mike Christie     2022-12-29  120  	sshdr = exec_args.sshdr;
-949bf797595fc9 James Bottomley   2005-05-01  121  
-949bf797595fc9 James Bottomley   2005-05-01  122  	for(i = 0; i < DV_RETRIES; i++) {
-cfefd9f8240a7b Bart Van Assche   2020-12-08  123  		/*
-cfefd9f8240a7b Bart Van Assche   2020-12-08  124  		 * The purpose of the RQF_PM flag below is to bypass the
-cfefd9f8240a7b Bart Van Assche   2020-12-08  125  		 * SDEV_QUIESCE state.
-cfefd9f8240a7b Bart Van Assche   2020-12-08  126  		 */
-c9ee828aad6919 Mike Christie     2022-12-29  127  		result = scsi_execute_cmd(sdev, cmd, opf, buffer, bufflen,
-c9ee828aad6919 Mike Christie     2022-12-29  128  					  DV_TIMEOUT, 1, &exec_args);
-464a00c9e0ad45 Hannes Reinecke   2021-04-27  129  		if (result < 0 || !scsi_sense_valid(sshdr) ||
-76aaf87b4cdc7f Christoph Hellwig 2017-02-23  130  		    sshdr->sense_key != UNIT_ATTENTION)
-949bf797595fc9 James Bottomley   2005-05-01  131  			break;
-949bf797595fc9 James Bottomley   2005-05-01  132  	}
-33aa687db90dd8 James Bottomley   2005-08-28  133  	return result;
-949bf797595fc9 James Bottomley   2005-05-01  134  }
-949bf797595fc9 James Bottomley   2005-05-01  135  
+:::::: TO: Varun Prakash <varun@chelsio.com>
+:::::: CC: Nicholas Bellinger <nab@linux-iscsi.org>
 
 -- 
 0-DAY CI Kernel Test Service
