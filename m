@@ -1,189 +1,359 @@
-Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44280A35
-	for <oe-kbuild@lists.linux.dev>; Wed,  1 Mar 2023 02:28:49 +0000 (UTC)
-Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-536af432ee5so330342717b3.0
-        for <oe-kbuild@lists.linux.dev>; Tue, 28 Feb 2023 18:28:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112; t=1677637728;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=SXY1oQ2WsIXXjJ4DmWxT7PSEH+wyquFSNk71L82ApRs=;
-        b=RcF5H4kBvVfqB5A0I3tNEGPRQprdQKaQuAzsuavQlVaHm3M/SESH3b13I9mje2K4pf
-         VD2+gtFthWzu33EspmSNdK4UvMtwXYAmyMSJN5sstc9tduhs+26gUpQUyJjo84vhLr3i
-         TPJd9LLHAo+uCnWiitlnPkHfTYLrpg01a3s5BHWbnVuM9n6Scu/JgxmfREHT8qC9PmUr
-         /mjAoBrk9d//cLeGukuCUlnE93zl2kmUXMZMytO5CW+vp/1Rh1ZU2GsbB3Vj0Vr5K6Dy
-         mL7ff8du0FEs01FLkWzlJPGUufXH0fX13xxxiHxPTQvCxMRmo/aKPtCsb3aTttCO6FKb
-         ltKw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1677637728;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=SXY1oQ2WsIXXjJ4DmWxT7PSEH+wyquFSNk71L82ApRs=;
-        b=BT93tbMEWYtLZ7vYzjayV58pkHbd6AzJGNCflb/9zYtfAIZckEdlevN6Z8PLvBOFHn
-         CpaNVuFJFmbvtnFMlrIl9/HpcSThozx1tUSH61iLkHcpfVEuNgKcK05hqfwKVxgCSGUQ
-         zH2cWHXbDtqQBg3trDm09pfxvTvvQSFneJfINWGaIVTtnW+Is1GOMrJa7h5gRjuVojUm
-         4sz0Icd5fzy9VkmQ1ILVzZZwNwMW8TSzezqSch/RiLyKcf8idog4aM7oHNvGbd6bH7nM
-         stjpd6nc5E/r+HRaHE4j5a9vsg5YmKR3m8BufLNPDVLZCaPe45Ba46wgW+XgH4/LXEhA
-         Gxzg==
-X-Gm-Message-State: AO0yUKVOWUYu+V81n/XZ/9g6uV6RoAdEiiWbzUo5xkuLQNSH26yRKE25
-	8OwOx5OvJTI+Cmol8rvCSJDBo5z0pN2LrRl0trTpdQ==
-X-Google-Smtp-Source: AK7set+h/4aN4tQrM4x93hI3rpnN6ZQ+Fnu7g9uZNflO6E6VEAIC/i2bGKklkKw0hPCZfm62bqguZXRGNAuj6gb3ZNg=
-X-Received: by 2002:a81:ae23:0:b0:533:9c5b:7278 with SMTP id
- m35-20020a81ae23000000b005339c5b7278mr2930762ywh.0.1677637727951; Tue, 28 Feb
- 2023 18:28:47 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E64B7A3F
+	for <oe-kbuild@lists.linux.dev>; Wed,  1 Mar 2023 04:02:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1677643333; x=1709179333;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=VmBXkRoMoAcwArJ33O8tK0jPHXI2dBIlYsUtDCY7Y9Q=;
+  b=J2NuVdO1Q/Xu2fH0Eb6JaeiZDTVuWntDk1RKs0kuEZvKo6BBkoJZ5n9z
+   9OQCPNWiNpv23Wh9oFCWo6K/O9fGncxPUPZp6tPMmFoLhq+RkrS7d1ojY
+   KaTMnPhod0IZwRBDTX/pUiQ3mDWf4LhgcHxa7+kcntZoEg09JuMj5Kl/J
+   k6lmiLwH0i8DtjJzEKRZn7fFaUKpKyh+jlW3JC000/RWIjRNWa8KyO7TT
+   wO+20cjOfG8Jkmwnca3gg0S0xAqTk8iyASPGEqC3BWB4QbuXEYhIQWEbO
+   miitCfW5b6jOzoUzxYyR0CIbWaq5ebsJ/L1MseixuEGLZatunxcl+TvgU
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10635"; a="333043860"
+X-IronPort-AV: E=Sophos;i="5.98,223,1673942400"; 
+   d="scan'208";a="333043860"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2023 20:02:04 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10635"; a="784170829"
+X-IronPort-AV: E=Sophos;i="5.98,223,1673942400"; 
+   d="scan'208";a="784170829"
+Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
+  by fmsmga002.fm.intel.com with ESMTP; 28 Feb 2023 20:02:03 -0800
+Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pXDfG-0005rn-2u;
+	Wed, 01 Mar 2023 04:02:02 +0000
+Date: Wed, 1 Mar 2023 12:01:04 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: drivers/media/platform/ti/omap3isp/ispccp2.c:678:17: warning: use of
+ NULL where non-null expected [CWE-476]
+Message-ID: <202303011134.WWB2KW3l-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202302281802.J93Nma7q-lkp@intel.com> <CAJuCfpHz3uECOuk6rRrV6Vn5r7+vn8HnC5cY7OZVHtGsAeE11A@mail.gmail.com>
-In-Reply-To: <CAJuCfpHz3uECOuk6rRrV6Vn5r7+vn8HnC5cY7OZVHtGsAeE11A@mail.gmail.com>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Tue, 28 Feb 2023 18:28:36 -0800
-Message-ID: <CAJuCfpHZS8_QNDoNLO2Ti2ZY26h7E8RrBtiKZ2zhY2cEvXQ1kw@mail.gmail.com>
-Subject: Re: [ammarfaizi2-block:akpm/mm/mm-unstable 82/99] mm/mmap.c:516
- vma_prepare() error: we previously assumed 'vp->vma' could be null (see line 505)
-To: Dan Carpenter <error27@gmail.com>
-Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev, 
-	Ammar Faizi <ammarfaizi2@gnuweeb.org>, "GNU/Weeb Mailing List" <gwml@vger.gnuweeb.org>, 
-	Andrew Morton <akpm@linux-foundation.org>, 
-	Linux Memory Management List <linux-mm@kvack.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Tue, Feb 28, 2023 at 10:04=E2=80=AFAM Suren Baghdasaryan <surenb@google.=
-com> wrote:
->
-> On Tue, Feb 28, 2023 at 6:24 AM Dan Carpenter <error27@gmail.com> wrote:
-> >
-> > tree:   https://github.com/ammarfaizi2/linux-block akpm/mm/mm-unstable
-> > head:   61edd3b68c3185673c9b05dfe48038692964c73b
-> > commit: f517f7ae341d933856cdf4d9d773027681ed5dff [82/99] mm/mmap: write=
--lock VMAs in vma_prepare before modifying them
-> > config: i386-randconfig-m021 (https://download.01.org/0day-ci/archive/2=
-0230228/202302281802.J93Nma7q-lkp@intel.com/config)
-> > compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-> >
-> > If you fix the issue, kindly add following tag where applicable
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Reported-by: Dan Carpenter <error27@gmail.com>
-> > | Link: https://lore.kernel.org/r/202302281802.J93Nma7q-lkp@intel.com/
->
-> Thanks for reporting!
->
-> >
-> > smatch warnings:
-> > mm/mmap.c:516 vma_prepare() error: we previously assumed 'vp->vma' coul=
-d be null (see line 505)
-> >
-> > vim +516 mm/mmap.c
-> >
-> > 440703e082b9c7 Liam R. Howlett    2023-01-20  503  static inline void v=
-ma_prepare(struct vma_prepare *vp)
-> > 440703e082b9c7 Liam R. Howlett    2023-01-20  504  {
-> > f517f7ae341d93 Suren Baghdasaryan 2023-02-27 @505       if (vp->vma)
-> >
-> > Check presumes that vp->vma can be NULL.  On my other system (with
-> > yesterday's linux-next code) vp->vma can never be NULL.
->
-> I think the check here is not needed since vp->vma should always be
-> non-NULL. I'll double-check and will remove it if that is confirmed.
+:::::: 
+:::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "low confidence static check first_new_problem: drivers/media/platform/ti/omap3isp/ispccp2.c:678:17: warning: use of NULL where non-null expected [CWE-476] [-Wanalyzer-null-argument]"
+:::::: 
 
-Fix is posted at
-https://lore.kernel.org/all/20230301022720.1380780-1-surenb@google.com/
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+TO: Sakari Ailus <sakari.ailus@linux.intel.com>
+CC: Mauro Carvalho Chehab <mchehab@kernel.org>
+CC: linux-media@vger.kernel.org
+CC: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
-> Thanks,
-> Suren.
->
-> >
-> > f517f7ae341d93 Suren Baghdasaryan 2023-02-27  506               vma_sta=
-rt_write(vp->vma);
-> > f517f7ae341d93 Suren Baghdasaryan 2023-02-27  507       if (vp->adj_nex=
-t)
-> > f517f7ae341d93 Suren Baghdasaryan 2023-02-27  508               vma_sta=
-rt_write(vp->adj_next);
-> > f517f7ae341d93 Suren Baghdasaryan 2023-02-27  509       /* vp->insert i=
-s always a newly created VMA, no need for locking */
-> > f517f7ae341d93 Suren Baghdasaryan 2023-02-27  510       if (vp->remove)
-> > f517f7ae341d93 Suren Baghdasaryan 2023-02-27  511               vma_sta=
-rt_write(vp->remove);
-> > f517f7ae341d93 Suren Baghdasaryan 2023-02-27  512       if (vp->remove2=
-)
-> > f517f7ae341d93 Suren Baghdasaryan 2023-02-27  513               vma_sta=
-rt_write(vp->remove2);
-> > f517f7ae341d93 Suren Baghdasaryan 2023-02-27  514
-> > 440703e082b9c7 Liam R. Howlett    2023-01-20  515       if (vp->file) {
-> > 440703e082b9c7 Liam R. Howlett    2023-01-20 @516               uprobe_=
-munmap(vp->vma, vp->vma->vm_start, vp->vma->vm_end);
-> >                                                                        =
-                ^^^^^^^
-> > Uncheck dereference.
-> >
-> > 440703e082b9c7 Liam R. Howlett    2023-01-20  517
-> > 440703e082b9c7 Liam R. Howlett    2023-01-20  518               if (vp-=
->adj_next)
-> > 440703e082b9c7 Liam R. Howlett    2023-01-20  519                      =
- uprobe_munmap(vp->adj_next, vp->adj_next->vm_start,
-> > 440703e082b9c7 Liam R. Howlett    2023-01-20  520                      =
-               vp->adj_next->vm_end);
-> > 440703e082b9c7 Liam R. Howlett    2023-01-20  521
-> > 440703e082b9c7 Liam R. Howlett    2023-01-20  522               i_mmap_=
-lock_write(vp->mapping);
-> > 440703e082b9c7 Liam R. Howlett    2023-01-20  523               if (vp-=
->insert && vp->insert->vm_file) {
-> > 440703e082b9c7 Liam R. Howlett    2023-01-20  524                      =
- /*
-> > 440703e082b9c7 Liam R. Howlett    2023-01-20  525                      =
-  * Put into interval tree now, so instantiated pages
-> > 440703e082b9c7 Liam R. Howlett    2023-01-20  526                      =
-  * are visible to arm/parisc __flush_dcache_page
-> > 440703e082b9c7 Liam R. Howlett    2023-01-20  527                      =
-  * throughout; but we cannot insert into address
-> > 440703e082b9c7 Liam R. Howlett    2023-01-20  528                      =
-  * space until vma start or end is updated.
-> > 440703e082b9c7 Liam R. Howlett    2023-01-20  529                      =
-  */
-> > 440703e082b9c7 Liam R. Howlett    2023-01-20  530                      =
- __vma_link_file(vp->insert,
-> > 440703e082b9c7 Liam R. Howlett    2023-01-20  531                      =
-                 vp->insert->vm_file->f_mapping);
-> > 440703e082b9c7 Liam R. Howlett    2023-01-20  532               }
-> > 440703e082b9c7 Liam R. Howlett    2023-01-20  533       }
-> > 440703e082b9c7 Liam R. Howlett    2023-01-20  534
-> > 440703e082b9c7 Liam R. Howlett    2023-01-20  535       if (vp->anon_vm=
-a) {
-> > 440703e082b9c7 Liam R. Howlett    2023-01-20  536               anon_vm=
-a_lock_write(vp->anon_vma);
-> > 440703e082b9c7 Liam R. Howlett    2023-01-20  537               anon_vm=
-a_interval_tree_pre_update_vma(vp->vma);
-> >
-> > More unchecked dereferences.
-> >
-> > 440703e082b9c7 Liam R. Howlett    2023-01-20  538               if (vp-=
->adj_next)
-> > 440703e082b9c7 Liam R. Howlett    2023-01-20  539                      =
- anon_vma_interval_tree_pre_update_vma(vp->adj_next);
-> > 440703e082b9c7 Liam R. Howlett    2023-01-20  540       }
-> > 440703e082b9c7 Liam R. Howlett    2023-01-20  541
-> > 440703e082b9c7 Liam R. Howlett    2023-01-20  542       if (vp->file) {
-> > 440703e082b9c7 Liam R. Howlett    2023-01-20  543               flush_d=
-cache_mmap_lock(vp->mapping);
-> > 440703e082b9c7 Liam R. Howlett    2023-01-20  544               vma_int=
-erval_tree_remove(vp->vma, &vp->mapping->i_mmap);
-> > 440703e082b9c7 Liam R. Howlett    2023-01-20  545               if (vp-=
->adj_next)
-> > 440703e082b9c7 Liam R. Howlett    2023-01-20  546                      =
- vma_interval_tree_remove(vp->adj_next,
-> > 440703e082b9c7 Liam R. Howlett    2023-01-20  547                      =
-                          &vp->mapping->i_mmap);
-> > 440703e082b9c7 Liam R. Howlett    2023-01-20  548       }
-> >
-> > --
-> > 0-DAY CI Kernel Test Service
-> > https://github.com/intel/lkp-tests
-> >
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   e492250d5252635b6c97d52eddf2792ec26f1ec1
+commit: 2ba3e38517f5a4ebf9c997168079dca01b7f9fc6 media: v4l: subdev: Fail graciously when getting try data for NULL state
+date:   5 months ago
+:::::: branch date: 11 hours ago
+:::::: commit date: 5 months ago
+config: arm-randconfig-c002-20230226 (https://download.01.org/0day-ci/archive/20230301/202303011134.WWB2KW3l-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=2ba3e38517f5a4ebf9c997168079dca01b7f9fc6
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 2ba3e38517f5a4ebf9c997168079dca01b7f9fc6
+        # save the config file
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross ARCH=arm KBUILD_USERCFLAGS='-fanalyzer -Wno-error'  olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross ARCH=arm KBUILD_USERCFLAGS='-fanalyzer -Wno-error' 
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/r/202303011134.WWB2KW3l-lkp@intel.com/
+
+gcc_analyzer warnings: (new ones prefixed by >>)
+   drivers/media/platform/ti/omap3isp/ispccp2.c: In function 'ccp2_try_format':
+>> drivers/media/platform/ti/omap3isp/ispccp2.c:678:17: warning: use of NULL where non-null expected [CWE-476] [-Wanalyzer-null-argument]
+     678 |                 memcpy(fmt, format, sizeof(*fmt));
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     'ccp2_try_format': events 1-4
+       |
+       |  625 |         if (which == V4L2_SUBDEV_FORMAT_TRY)
+       |      |            ~ 
+       |      |            |
+       |      |            (3) ...to here
+       |      |            (4) following 'true' branch (when 'which == 0')...
+       |......
+       |  640 | static void ccp2_try_format(struct isp_ccp2_device *ccp2,
+       |      |             ^~~~~~~~~~~~~~~
+       |      |             |
+       |      |             (1) entry to 'ccp2_try_format'
+       |......
+       |  648 |         switch (pad) {
+       |      |         ~~~~~~
+       |      |         |
+       |      |         (2) following 'case 1:' branch...
+       |
+     'ccp2_try_format': event 5
+       |
+       |include/media/v4l2-subdev.h:1101:9:
+       | 1101 |         v4l2_subdev_get_pad_format(sd, state, pad)
+       |      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |         |
+       |      |         (5) ...to here
+   drivers/media/platform/ti/omap3isp/ispccp2.c:626:24: note: in expansion of macro 'v4l2_subdev_get_try_format'
+       |  626 |                 return v4l2_subdev_get_try_format(&ccp2->subdev, sd_state,
+       |      |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~
+       |
+     'ccp2_try_format': event 6
+       |
+       |include/media/v4l2-subdev.h:1101:9:
+       | 1101 |         v4l2_subdev_get_pad_format(sd, state, pad)
+       |      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |         |
+       |      |         (6) calling 'v4l2_subdev_get_pad_format' from 'ccp2_try_format'
+   drivers/media/platform/ti/omap3isp/ispccp2.c:626:24: note: in expansion of macro 'v4l2_subdev_get_try_format'
+       |  626 |                 return v4l2_subdev_get_try_format(&ccp2->subdev, sd_state,
+       |      |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~
+       |
+       +--> 'v4l2_subdev_get_pad_format': events 7-8
+              |
+              |include/media/v4l2-subdev.h:1045:1:
+              | 1045 | v4l2_subdev_get_pad_format(struct v4l2_subdev *sd,
+              |      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      | |
+              |      | (7) entry to 'v4l2_subdev_get_pad_format'
+              |......
+              | 1049 |         if (WARN_ON(!state))
+              |      |            ~
+              |      |            |
+              |      |            (8) following 'true' branch...
+              |
+            'v4l2_subdev_get_pad_format': event 9
+              |
+              |cc1:
+              | (9): ...to here
+              |
+       <------+
+       |
+     'ccp2_try_format': event 10
+       |
+       | 1101 |         v4l2_subdev_get_pad_format(sd, state, pad)
+       |      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |         |
+       |      |         (10) returning to 'ccp2_try_format' from 'v4l2_subdev_get_pad_format'
+   drivers/media/platform/ti/omap3isp/ispccp2.c:626:24: note: in expansion of macro 'v4l2_subdev_get_try_format'
+       |  626 |                 return v4l2_subdev_get_try_format(&ccp2->subdev, sd_state,
+       |      |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~
+       |
+     'ccp2_try_format': event 11
+       |
+       |  678 |                 memcpy(fmt, format, sizeof(*fmt));
+       |      |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |                 |
+       |      |                 (11) argument 2 ('<unknown>') NULL where non-null expected
+       |
+   In file included from include/linux/string.h:20,
+                    from include/linux/bitmap.h:11,
+                    from include/linux/cpumask.h:12,
+                    from include/linux/smp.h:13,
+                    from include/linux/lockdep.h:14,
+                    from include/linux/rcupdate.h:29,
+                    from include/linux/rculist.h:11,
+                    from include/linux/pid.h:5,
+                    from include/linux/sched.h:14,
+                    from include/linux/delay.h:23,
+                    from drivers/media/platform/ti/omap3isp/ispccp2.c:14:
+   arch/arm/include/asm/string.h:20:15: note: argument 2 of 'memcpy' must be non-null
+      20 | extern void * memcpy(void *, const void *, __kernel_size_t);
+         |               ^~~~~~
+   drivers/media/platform/ti/omap3isp/ispccp2.c:678:17: warning: use of NULL 'fmt' where non-null expected [CWE-476] [-Wanalyzer-null-argument]
+     678 |                 memcpy(fmt, format, sizeof(*fmt));
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     'ccp2_set_format': events 1-6
+       |
+       |  625 |         if (which == V4L2_SUBDEV_FORMAT_TRY)
+       |      |            ~
+--
+   drivers/media/platform/ti/omap3isp/ispcsi2.c: In function 'csi2_try_format':
+>> drivers/media/platform/ti/omap3isp/ispcsi2.c:875:17: warning: use of NULL where non-null expected [CWE-476] [-Wanalyzer-null-argument]
+     875 |                 memcpy(fmt, format, sizeof(*fmt));
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     'csi2_try_format': events 1-4
+       |
+       |  834 |         if (which == V4L2_SUBDEV_FORMAT_TRY)
+       |      |            ~
+       |      |            |
+       |      |            (4) following 'true' branch (when 'which == 0')...
+       |......
+       |  842 | csi2_try_format(struct isp_csi2_device *csi2,
+       |      | ^~~~~~~~~~~~~~~
+       |      | |
+       |      | (1) entry to 'csi2_try_format'
+       |......
+       |  852 |         switch (pad) {
+       |      |         ~~~~~~
+       |      |         |
+       |      |         (2) following 'case 1:' branch...
+       |......
+       |  868 |         case CSI2_PAD_SOURCE:
+       |      |         ~~~~
+       |      |         |
+       |      |         (3) ...to here
+       |
+     'csi2_try_format': event 5
+       |
+       |include/media/v4l2-subdev.h:1101:9:
+       | 1101 |         v4l2_subdev_get_pad_format(sd, state, pad)
+       |      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |         |
+       |      |         (5) ...to here
+   drivers/media/platform/ti/omap3isp/ispcsi2.c:835:24: note: in expansion of macro 'v4l2_subdev_get_try_format'
+       |  835 |                 return v4l2_subdev_get_try_format(&csi2->subdev, sd_state,
+       |      |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~
+       |
+     'csi2_try_format': event 6
+       |
+       |include/media/v4l2-subdev.h:1101:9:
+       | 1101 |         v4l2_subdev_get_pad_format(sd, state, pad)
+       |      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |         |
+       |      |         (6) calling 'v4l2_subdev_get_pad_format' from 'csi2_try_format'
+   drivers/media/platform/ti/omap3isp/ispcsi2.c:835:24: note: in expansion of macro 'v4l2_subdev_get_try_format'
+       |  835 |                 return v4l2_subdev_get_try_format(&csi2->subdev, sd_state,
+       |      |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~
+       |
+       +--> 'v4l2_subdev_get_pad_format': events 7-8
+              |
+              |include/media/v4l2-subdev.h:1045:1:
+              | 1045 | v4l2_subdev_get_pad_format(struct v4l2_subdev *sd,
+              |      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      | |
+              |      | (7) entry to 'v4l2_subdev_get_pad_format'
+              |......
+              | 1049 |         if (WARN_ON(!state))
+              |      |            ~
+              |      |            |
+              |      |            (8) following 'true' branch...
+              |
+            'v4l2_subdev_get_pad_format': event 9
+              |
+              |cc1:
+              | (9): ...to here
+              |
+       <------+
+       |
+     'csi2_try_format': event 10
+       |
+       | 1101 |         v4l2_subdev_get_pad_format(sd, state, pad)
+       |      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |         |
+       |      |         (10) returning to 'csi2_try_format' from 'v4l2_subdev_get_pad_format'
+   drivers/media/platform/ti/omap3isp/ispcsi2.c:835:24: note: in expansion of macro 'v4l2_subdev_get_try_format'
+       |  835 |                 return v4l2_subdev_get_try_format(&csi2->subdev, sd_state,
+       |      |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~
+       |
+     'csi2_try_format': event 11
+       |
+       |  875 |                 memcpy(fmt, format, sizeof(*fmt));
+       |      |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |                 |
+       |      |                 (11) argument 2 ('<unknown>') NULL where non-null expected
+       |
+   In file included from include/linux/string.h:20,
+                    from include/linux/bitmap.h:11,
+                    from include/linux/cpumask.h:12,
+                    from include/linux/smp.h:13,
+                    from include/linux/lockdep.h:14,
+                    from include/linux/rcupdate.h:29,
+                    from include/linux/rculist.h:11,
+                    from include/linux/pid.h:5,
+                    from include/linux/sched.h:14,
+                    from include/linux/delay.h:23,
+                    from drivers/media/platform/ti/omap3isp/ispcsi2.c:13:
+   arch/arm/include/asm/string.h:20:15: note: argument 2 of 'memcpy' must be non-null
+      20 | extern void * memcpy(void *, const void *, __kernel_size_t);
+         |               ^~~~~~
+   drivers/media/platform/ti/omap3isp/ispcsi2.c:875:17: warning: use of NULL 'fmt' where non-null expected [CWE-476] [-Wanalyzer-null-argument]
+     875 |                 memcpy(fmt, format, sizeof(*fmt));
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+vim +678 drivers/media/platform/ti/omap3isp/ispccp2.c
+
+121e9f1c4c49c7 drivers/media/video/omap3isp/ispccp2.c    Laurent Pinchart 2011-02-12  631  
+121e9f1c4c49c7 drivers/media/video/omap3isp/ispccp2.c    Laurent Pinchart 2011-02-12  632  /*
+121e9f1c4c49c7 drivers/media/video/omap3isp/ispccp2.c    Laurent Pinchart 2011-02-12  633   * ccp2_try_format - Handle try format by pad subdev method
+121e9f1c4c49c7 drivers/media/video/omap3isp/ispccp2.c    Laurent Pinchart 2011-02-12  634   * @ccp2  : Pointer to ISP CCP2 device
+f7234138f14c22 drivers/media/platform/omap3isp/ispccp2.c Hans Verkuil     2015-03-04  635   * @cfg: V4L2 subdev pad configuration
+121e9f1c4c49c7 drivers/media/video/omap3isp/ispccp2.c    Laurent Pinchart 2011-02-12  636   * @pad   : pad num
+121e9f1c4c49c7 drivers/media/video/omap3isp/ispccp2.c    Laurent Pinchart 2011-02-12  637   * @fmt   : pointer to v4l2 mbus format structure
+121e9f1c4c49c7 drivers/media/video/omap3isp/ispccp2.c    Laurent Pinchart 2011-02-12  638   * @which : wanted subdev format
+121e9f1c4c49c7 drivers/media/video/omap3isp/ispccp2.c    Laurent Pinchart 2011-02-12  639   */
+121e9f1c4c49c7 drivers/media/video/omap3isp/ispccp2.c    Laurent Pinchart 2011-02-12  640  static void ccp2_try_format(struct isp_ccp2_device *ccp2,
+0d346d2a6f54f0 drivers/media/platform/omap3isp/ispccp2.c Tomi Valkeinen   2021-06-10  641  			       struct v4l2_subdev_state *sd_state,
+0d346d2a6f54f0 drivers/media/platform/omap3isp/ispccp2.c Tomi Valkeinen   2021-06-10  642  			       unsigned int pad,
+121e9f1c4c49c7 drivers/media/video/omap3isp/ispccp2.c    Laurent Pinchart 2011-02-12  643  			       struct v4l2_mbus_framefmt *fmt,
+121e9f1c4c49c7 drivers/media/video/omap3isp/ispccp2.c    Laurent Pinchart 2011-02-12  644  			       enum v4l2_subdev_format_whence which)
+121e9f1c4c49c7 drivers/media/video/omap3isp/ispccp2.c    Laurent Pinchart 2011-02-12  645  {
+121e9f1c4c49c7 drivers/media/video/omap3isp/ispccp2.c    Laurent Pinchart 2011-02-12  646  	struct v4l2_mbus_framefmt *format;
+121e9f1c4c49c7 drivers/media/video/omap3isp/ispccp2.c    Laurent Pinchart 2011-02-12  647  
+121e9f1c4c49c7 drivers/media/video/omap3isp/ispccp2.c    Laurent Pinchart 2011-02-12  648  	switch (pad) {
+121e9f1c4c49c7 drivers/media/video/omap3isp/ispccp2.c    Laurent Pinchart 2011-02-12  649  	case CCP2_PAD_SINK:
+27ffaeb0ab1608 drivers/media/platform/omap3isp/ispccp2.c Boris Brezillon  2014-11-10  650  		if (fmt->code != MEDIA_BUS_FMT_SGRBG10_DPCM8_1X8)
+27ffaeb0ab1608 drivers/media/platform/omap3isp/ispccp2.c Boris Brezillon  2014-11-10  651  			fmt->code = MEDIA_BUS_FMT_SGRBG10_1X10;
+121e9f1c4c49c7 drivers/media/video/omap3isp/ispccp2.c    Laurent Pinchart 2011-02-12  652  
+121e9f1c4c49c7 drivers/media/video/omap3isp/ispccp2.c    Laurent Pinchart 2011-02-12  653  		if (ccp2->input == CCP2_INPUT_SENSOR) {
+121e9f1c4c49c7 drivers/media/video/omap3isp/ispccp2.c    Laurent Pinchart 2011-02-12  654  			fmt->width = clamp_t(u32, fmt->width,
+121e9f1c4c49c7 drivers/media/video/omap3isp/ispccp2.c    Laurent Pinchart 2011-02-12  655  					     ISPCCP2_DAT_START_MIN,
+121e9f1c4c49c7 drivers/media/video/omap3isp/ispccp2.c    Laurent Pinchart 2011-02-12  656  					     ISPCCP2_DAT_START_MAX);
+121e9f1c4c49c7 drivers/media/video/omap3isp/ispccp2.c    Laurent Pinchart 2011-02-12  657  			fmt->height = clamp_t(u32, fmt->height,
+121e9f1c4c49c7 drivers/media/video/omap3isp/ispccp2.c    Laurent Pinchart 2011-02-12  658  					      ISPCCP2_DAT_SIZE_MIN,
+121e9f1c4c49c7 drivers/media/video/omap3isp/ispccp2.c    Laurent Pinchart 2011-02-12  659  					      ISPCCP2_DAT_SIZE_MAX);
+121e9f1c4c49c7 drivers/media/video/omap3isp/ispccp2.c    Laurent Pinchart 2011-02-12  660  		} else if (ccp2->input == CCP2_INPUT_MEMORY) {
+121e9f1c4c49c7 drivers/media/video/omap3isp/ispccp2.c    Laurent Pinchart 2011-02-12  661  			fmt->width = clamp_t(u32, fmt->width,
+121e9f1c4c49c7 drivers/media/video/omap3isp/ispccp2.c    Laurent Pinchart 2011-02-12  662  					     ISPCCP2_LCM_HSIZE_COUNT_MIN,
+121e9f1c4c49c7 drivers/media/video/omap3isp/ispccp2.c    Laurent Pinchart 2011-02-12  663  					     ISPCCP2_LCM_HSIZE_COUNT_MAX);
+121e9f1c4c49c7 drivers/media/video/omap3isp/ispccp2.c    Laurent Pinchart 2011-02-12  664  			fmt->height = clamp_t(u32, fmt->height,
+121e9f1c4c49c7 drivers/media/video/omap3isp/ispccp2.c    Laurent Pinchart 2011-02-12  665  					      ISPCCP2_LCM_VSIZE_MIN,
+121e9f1c4c49c7 drivers/media/video/omap3isp/ispccp2.c    Laurent Pinchart 2011-02-12  666  					      ISPCCP2_LCM_VSIZE_MAX);
+121e9f1c4c49c7 drivers/media/video/omap3isp/ispccp2.c    Laurent Pinchart 2011-02-12  667  		}
+121e9f1c4c49c7 drivers/media/video/omap3isp/ispccp2.c    Laurent Pinchart 2011-02-12  668  		break;
+121e9f1c4c49c7 drivers/media/video/omap3isp/ispccp2.c    Laurent Pinchart 2011-02-12  669  
+121e9f1c4c49c7 drivers/media/video/omap3isp/ispccp2.c    Laurent Pinchart 2011-02-12  670  	case CCP2_PAD_SOURCE:
+121e9f1c4c49c7 drivers/media/video/omap3isp/ispccp2.c    Laurent Pinchart 2011-02-12  671  		/* Source format - copy sink format and change pixel code
+121e9f1c4c49c7 drivers/media/video/omap3isp/ispccp2.c    Laurent Pinchart 2011-02-12  672  		 * to SGRBG10_1X10 as we don't support CCP2 write to memory.
+121e9f1c4c49c7 drivers/media/video/omap3isp/ispccp2.c    Laurent Pinchart 2011-02-12  673  		 * When CCP2 write to memory feature will be added this
+121e9f1c4c49c7 drivers/media/video/omap3isp/ispccp2.c    Laurent Pinchart 2011-02-12  674  		 * should be changed properly.
+121e9f1c4c49c7 drivers/media/video/omap3isp/ispccp2.c    Laurent Pinchart 2011-02-12  675  		 */
+0d346d2a6f54f0 drivers/media/platform/omap3isp/ispccp2.c Tomi Valkeinen   2021-06-10  676  		format = __ccp2_get_format(ccp2, sd_state, CCP2_PAD_SINK,
+0d346d2a6f54f0 drivers/media/platform/omap3isp/ispccp2.c Tomi Valkeinen   2021-06-10  677  					   which);
+121e9f1c4c49c7 drivers/media/video/omap3isp/ispccp2.c    Laurent Pinchart 2011-02-12 @678  		memcpy(fmt, format, sizeof(*fmt));
+27ffaeb0ab1608 drivers/media/platform/omap3isp/ispccp2.c Boris Brezillon  2014-11-10  679  		fmt->code = MEDIA_BUS_FMT_SGRBG10_1X10;
+121e9f1c4c49c7 drivers/media/video/omap3isp/ispccp2.c    Laurent Pinchart 2011-02-12  680  		break;
+121e9f1c4c49c7 drivers/media/video/omap3isp/ispccp2.c    Laurent Pinchart 2011-02-12  681  	}
+121e9f1c4c49c7 drivers/media/video/omap3isp/ispccp2.c    Laurent Pinchart 2011-02-12  682  
+121e9f1c4c49c7 drivers/media/video/omap3isp/ispccp2.c    Laurent Pinchart 2011-02-12  683  	fmt->field = V4L2_FIELD_NONE;
+121e9f1c4c49c7 drivers/media/video/omap3isp/ispccp2.c    Laurent Pinchart 2011-02-12  684  	fmt->colorspace = V4L2_COLORSPACE_SRGB;
+121e9f1c4c49c7 drivers/media/video/omap3isp/ispccp2.c    Laurent Pinchart 2011-02-12  685  }
+121e9f1c4c49c7 drivers/media/video/omap3isp/ispccp2.c    Laurent Pinchart 2011-02-12  686  
+
+:::::: The code at line 678 was first introduced by commit
+:::::: 121e9f1c4c49c76aac2425e3a9baef70f73f50a4 [media] omap3isp: CCP2/CSI2 receivers
+
+:::::: TO: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+:::::: CC: Mauro Carvalho Chehab <mchehab@redhat.com>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
