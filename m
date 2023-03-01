@@ -1,43 +1,42 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E062A3B
-	for <oe-kbuild@lists.linux.dev>; Wed,  1 Mar 2023 05:03:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E07A7EC8
+	for <oe-kbuild@lists.linux.dev>; Wed,  1 Mar 2023 06:47:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677646987; x=1709182987;
+  t=1677653230; x=1709189230;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ntD34ENgU1DweAHVYA/Kvgmk9Uh+w5pbwqToZCZAdcE=;
-  b=ZH+UQsV5icbFhHUzYRuLeoFgbEh9wpx7/yE+qV1eoMTNzZKhz7QnRqVL
-   sfcwptlka02xU7zP55B/YArpAf9BtXX0GzmccjS1eVIHh439ctUikd6/N
-   X14yotAllzeChT+RHK67YBqk3Z47pAADcBaxL0WZ1kNskLV+swtTJfzYQ
-   MtpJhrapM3xmJxyI9UVVcya+8nWZ7rd4tE4n1dVHY4wa1eaORYmUZZaig
-   5nf7PThswRbUDz462MRsSbf3+XTKdJkrCJS3HmiqY4CMu/zOlfGCFo+Tj
-   I0q6DtjQXeyzw0jCDW87S99IJBubbziAzd/0TTh2w6z+FR1n0zv2Tq+tS
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10635"; a="318122561"
-X-IronPort-AV: E=Sophos;i="5.98,223,1673942400"; 
-   d="scan'208";a="318122561"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2023 21:03:06 -0800
+  bh=z7ZinH8Tabmt2/pIXHJzQsuUuvOxI6oOv8hjxe7LJJ4=;
+  b=ADo+GSX45VpIfJMMtYMYt8qEbt3ewtL+9LNe3J0INCxbopnqREAgS2bk
+   wSaSsMeTHFP7+EMdGEXJJ/ckVHYGnk5R2aJIHZS5FlEQeV9QJ2/fz6TxO
+   I64Y694E0dFDWM0s9vrkXrk6NJYU9h0Q6TknNg8Sd2znsTVXnNWm4Oobl
+   o2jPRxZDM7fsYayMVLehTsDMNIhjzANkn9Lj5lxdA+4RXAwxwkhLeajMq
+   HHI7zVOHOQQKtgM7dRPShKURhu+FI4fCcqCJLXNt3jIO5rqS0LlBCPwV1
+   OGZ1Unl71ZHurLojutf69hKS3wdTOPCoxUtC8NrjHi8PSjTV7lNIZd2/V
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10635"; a="334373085"
+X-IronPort-AV: E=Sophos;i="5.98,224,1673942400"; 
+   d="scan'208";a="334373085"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2023 22:47:10 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10635"; a="624343618"
-X-IronPort-AV: E=Sophos;i="5.98,223,1673942400"; 
-   d="scan'208";a="624343618"
+X-IronPort-AV: E=McAfee;i="6500,9779,10635"; a="651894791"
+X-IronPort-AV: E=Sophos;i="5.98,224,1673942400"; 
+   d="scan'208";a="651894791"
 Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 28 Feb 2023 21:03:05 -0800
+  by orsmga006.jf.intel.com with ESMTP; 28 Feb 2023 22:47:08 -0800
 Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pXEcL-0005tn-07;
-	Wed, 01 Mar 2023 05:03:05 +0000
-Date: Wed, 1 Mar 2023 13:02:50 +0800
+	id 1pXGF1-0005y9-2d;
+	Wed, 01 Mar 2023 06:47:07 +0000
+Date: Wed, 1 Mar 2023 14:46:38 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: drivers/media/platform/renesas/sh_vou.c:483:23: warning: The right
- operand of '|' is a garbage value due to array index out of bounds
- [clang-analyzer-core.UndefinedBinaryOperatorResult]
-Message-ID: <202303011204.qGrT4psP-lkp@intel.com>
+Subject: kernel/bpf/bpf_local_storage.c:473:2: warning: Potential leak of
+ memory pointed to by 'selem' [clang-analyzer-unix.Malloc]
+Message-ID: <202303011421.kWXb1eSp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -48,331 +47,389 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "low confidence static check warning: drivers/media/platform/renesas/sh_vou.c:483:23: warning: The right operand of '|' is a garbage value due to array index out of bounds [clang-analyzer-core.UndefinedBinaryOperatorResult]"
+:::::: Manual check reason: "low confidence static check warning: kernel/bpf/bpf_local_storage.c:473:2: warning: Potential leak of memory pointed to by 'selem' [clang-analyzer-unix.Malloc]"
 :::::: 
 
 BCC: lkp@intel.com
 CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Mauro Carvalho Chehab <mchehab@kernel.org>
-CC: linux-media@vger.kernel.org
-CC: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+TO: Joanne Koong <joannelkoong@gmail.com>
+CC: Alexei Starovoitov <ast@kernel.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   c0927a7a5391f7d8e593e5e50ead7505a23cadf9
-commit: ee4a77a32b39064fdab0aa2b36bbd35ebf57e077 media: platform: place Renesas drivers on a separate dir
+commit: b00fa38a9c1cba044a32a601b49a55a18ed719d1 bpf: Enable non-atomic allocations in local storage
 date:   12 months ago
-:::::: branch date: 5 hours ago
+:::::: branch date: 7 hours ago
 :::::: commit date: 12 months ago
-config: arm-randconfig-c002-20230226 (https://download.01.org/0day-ci/archive/20230301/202303011204.qGrT4psP-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project db89896bbbd2251fff457699635acbbedeead27f)
+config: i386-randconfig-c001 (https://download.01.org/0day-ci/archive/20230301/202303011421.kWXb1eSp-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=ee4a77a32b39064fdab0aa2b36bbd35ebf57e077
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=b00fa38a9c1cba044a32a601b49a55a18ed719d1
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout ee4a77a32b39064fdab0aa2b36bbd35ebf57e077
+        git checkout b00fa38a9c1cba044a32a601b49a55a18ed719d1
         # save the config file
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=arm clang-analyzer  olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=arm clang-analyzer 
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=i386 clang-analyzer  olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=i386 clang-analyzer 
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/r/202303011204.qGrT4psP-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202303011421.kWXb1eSp-lkp@intel.com/
 
 clang_analyzer warnings: (new ones prefixed by >>)
-           ^
-   include/linux/kernel.h:180:24: note: expanded from macro 'might_sleep'
-   # define might_sleep() do { might_resched(); } while (0)
-                          ^
-   include/linux/pagemap.h:790:21: note: Passing null pointer value via 1st parameter 'page'
-           folio = page_folio(page);
-                              ^
-   include/linux/page-flags.h:219:49: note: expanded from macro 'page_folio'
-           struct page *:          (struct folio *)_compound_head(p)))
-                                                                  ^
-   include/linux/pagemap.h:790:10: note: Calling '_compound_head'
-           folio = page_folio(page);
+   kernel/ucount.c:215:3: note: Memory is released
+                   kfree(ucounts);
+                   ^~~~~~~~~~~~~~
+   kernel/ucount.c:162:3: note: Returning; memory was released via 1st parameter
+                   put_ucounts(ucounts);
+                   ^~~~~~~~~~~~~~~~~~~~
+   kernel/ucount.c:334:8: note: Returning; memory was released via 1st parameter
+                   if (!get_ucounts(iter))
+                        ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_var'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+                                                                                        ^~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_value'
+           (cond) ?                                        \
+            ^~~~
+   kernel/ucount.c:334:3: note: '?' condition is true
+                   if (!get_ucounts(iter))
                    ^
-   include/linux/page-flags.h:219:34: note: expanded from macro 'page_folio'
-           struct page *:          (struct folio *)_compound_head(p)))
-                                                   ^~~~~~~~~~~~~~~~~
-   include/linux/page-flags.h:195:23: note: Left side of '||' is false
-           unsigned long head = READ_ONCE(page->compound_head);
-                                ^
-   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
-           compiletime_assert_rwonce_type(x);                              \
-           ^
-   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compiletime_assert_rwonce_type'
-           compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
                               ^
-   include/linux/compiler_types.h:313:3: note: expanded from macro '__native_word'
-           (sizeof(t) == sizeof(char) || sizeof(t) == sizeof(short) || \
-            ^
-   include/linux/page-flags.h:195:23: note: Left side of '||' is false
-           unsigned long head = READ_ONCE(page->compound_head);
-                                ^
-   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
-           compiletime_assert_rwonce_type(x);                              \
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_var'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_value'
+           (cond) ?                                        \
            ^
-   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compiletime_assert_rwonce_type'
-           compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-                              ^
-   include/linux/compiler_types.h:313:3: note: expanded from macro '__native_word'
-           (sizeof(t) == sizeof(char) || sizeof(t) == sizeof(short) || \
-            ^
-   include/linux/page-flags.h:195:23: note: Left side of '||' is true
-           unsigned long head = READ_ONCE(page->compound_head);
-                                ^
-   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
-           compiletime_assert_rwonce_type(x);                              \
-           ^
-   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compiletime_assert_rwonce_type'
-           compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-                              ^
-   include/linux/compiler_types.h:314:28: note: expanded from macro '__native_word'
-            sizeof(t) == sizeof(int) || sizeof(t) == sizeof(long))
-                                     ^
-   include/linux/page-flags.h:195:23: note: Taking false branch
-           unsigned long head = READ_ONCE(page->compound_head);
-                                ^
-   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
-           compiletime_assert_rwonce_type(x);                              \
-           ^
-   include/asm-generic/rwonce.h:36:2: note: expanded from macro 'compiletime_assert_rwonce_type'
-           compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-           ^
-   include/linux/compiler_types.h:346:2: note: expanded from macro 'compiletime_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-           ^
-   include/linux/compiler_types.h:334:2: note: expanded from macro '_compiletime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:326:3: note: expanded from macro '__compiletime_assert'
-                   if (!(condition))                                       \
+   kernel/ucount.c:334:3: note: Taking true branch
+                   if (!get_ucounts(iter))
                    ^
-   include/linux/page-flags.h:195:23: note: Loop condition is false.  Exiting loop
-           unsigned long head = READ_ONCE(page->compound_head);
-                                ^
-   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
-           compiletime_assert_rwonce_type(x);                              \
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   kernel/ucount.c:335:4: note: Control jumps to line 339
+                           goto dec_unwind;
+                           ^
+   kernel/ucount.c:340:15: note: Assuming 'dec' is >= 0
+           WARN_ON_ONCE(dec < 0);
+                        ^
+   include/asm-generic/bug.h:104:25: note: expanded from macro 'WARN_ON_ONCE'
+           int __ret_warn_on = !!(condition);                      \
+                                  ^~~~~~~~~
+   kernel/ucount.c:340:2: note: '?' condition is false
+           WARN_ON_ONCE(dec < 0);
            ^
-   include/asm-generic/rwonce.h:36:2: note: expanded from macro 'compiletime_assert_rwonce_type'
-           compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+   include/asm-generic/bug.h:105:2: note: expanded from macro 'WARN_ON_ONCE'
+           if (unlikely(__ret_warn_on))                            \
            ^
-   include/linux/compiler_types.h:346:2: note: expanded from macro 'compiletime_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_var'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+                                 ^
+   kernel/ucount.c:340:2: note: '?' condition is false
+           WARN_ON_ONCE(dec < 0);
            ^
-   include/linux/compiler_types.h:334:2: note: expanded from macro '_compiletime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
+   include/asm-generic/bug.h:105:2: note: expanded from macro 'WARN_ON_ONCE'
+           if (unlikely(__ret_warn_on))                            \
            ^
-   include/linux/compiler_types.h:318:2: note: expanded from macro '__compiletime_assert'
-           do {                                                            \
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_var'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_value'
+           (cond) ?                                        \
            ^
-   include/linux/page-flags.h:195:23: note: Dereference of null pointer
-           unsigned long head = READ_ONCE(page->compound_head);
-                                ^
-   include/asm-generic/rwonce.h:50:2: note: expanded from macro 'READ_ONCE'
-           __READ_ONCE(x);                                                 \
-           ^~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:44:24: note: expanded from macro '__READ_ONCE'
-   #define __READ_ONCE(x)  (*(const volatile __unqual_scalar_typeof(x) *)&(x))
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/ucount.c:340:2: note: Taking false branch
+           WARN_ON_ONCE(dec < 0);
+           ^
+   include/asm-generic/bug.h:105:2: note: expanded from macro 'WARN_ON_ONCE'
+           if (unlikely(__ret_warn_on))                            \
+           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   kernel/ucount.c:342:2: note: Use of memory after it is freed
+           do_dec_rlimit_put_ucounts(ucounts, iter, type);
+           ^                         ~~~~~~~
    1 warning generated.
-   Suppressed 1 warnings (1 with check filters).
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
    2 warnings generated.
->> drivers/media/platform/renesas/sh_vou.c:483:23: warning: The right operand of '|' is a garbage value due to array index out of bounds [clang-analyzer-core.UndefinedBinaryOperatorResult]
-                   vouvcr |= (1 << 14) | vou_scale_v_fld[h_idx - 1];
-                                       ^
-   drivers/media/platform/renesas/sh_vou.c:1234:6: note: Assuming 'vou_pdata' is non-null
-           if (!vou_pdata || !reg_res || irq <= 0) {
-               ^~~~~~~~~~
-   drivers/media/platform/renesas/sh_vou.c:1234:6: note: Left side of '||' is false
-   drivers/media/platform/renesas/sh_vou.c:1234:20: note: Assuming 'reg_res' is non-null
-           if (!vou_pdata || !reg_res || irq <= 0) {
-                             ^~~~~~~~
-   drivers/media/platform/renesas/sh_vou.c:1234:6: note: Left side of '||' is false
-           if (!vou_pdata || !reg_res || irq <= 0) {
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   3 warnings generated.
+>> kernel/bpf/bpf_local_storage.c:473:2: warning: Potential leak of memory pointed to by 'selem' [clang-analyzer-unix.Malloc]
+           raw_spin_unlock_irqrestore(&local_storage->lock, flags);
+           ^
+   include/linux/spinlock.h:279:13: note: expanded from macro 'raw_spin_unlock_irqrestore'
+                   typecheck(unsigned long, flags);                \
+                             ^
+   kernel/bpf/bpf_local_storage.c:363:15: note: Assuming the condition is false
+           if (unlikely((map_flags & ~BPF_F_LOCK) > BPF_EXIST) ||
+                        ^
+   include/linux/compiler.h:48:41: note: expanded from macro 'unlikely'
+   #  define unlikely(x)   (__branch_check__(x, 0, __builtin_constant_p(x)))
+                                             ^
+   include/linux/compiler.h:33:34: note: expanded from macro '__branch_check__'
+                           ______r = __builtin_expect(!!(x), expect);      \
+                                                         ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_var'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+                                                      ^~~~
+   kernel/bpf/bpf_local_storage.c:363:6: note: Left side of '||' is false
+           if (unlikely((map_flags & ~BPF_F_LOCK) > BPF_EXIST) ||
                ^
-   drivers/media/platform/renesas/sh_vou.c:1234:32: note: Assuming 'irq' is > 0
-           if (!vou_pdata || !reg_res || irq <= 0) {
-                                         ^~~~~~~~
-   drivers/media/platform/renesas/sh_vou.c:1234:2: note: Taking false branch
-           if (!vou_pdata || !reg_res || irq <= 0) {
+   include/linux/compiler.h:48:23: note: expanded from macro 'unlikely'
+   #  define unlikely(x)   (__branch_check__(x, 0, __builtin_constant_p(x)))
+                           ^
+   kernel/bpf/bpf_local_storage.c:365:16: note: Assuming the condition is true
+               unlikely((map_flags & BPF_F_LOCK) &&
+                         ^
+   include/linux/compiler.h:48:41: note: expanded from macro 'unlikely'
+   #  define unlikely(x)   (__branch_check__(x, 0, __builtin_constant_p(x)))
+                                             ^
+   include/linux/compiler.h:33:34: note: expanded from macro '__branch_check__'
+                           ______r = __builtin_expect(!!(x), expect);      \
+                                                         ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_var'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+                                                      ^~~~
+   kernel/bpf/bpf_local_storage.c:365:15: note: Left side of '&&' is true
+               unlikely((map_flags & BPF_F_LOCK) &&
+                        ^
+   kernel/bpf/bpf_local_storage.c:365:15: note: Left side of '&&' is true
+   kernel/bpf/bpf_local_storage.c:363:2: note: '?' condition is false
+           if (unlikely((map_flags & ~BPF_F_LOCK) > BPF_EXIST) ||
            ^
-   drivers/media/platform/renesas/sh_vou.c:1240:6: note: Assuming 'vou_dev' is non-null
-           if (!vou_dev)
-               ^~~~~~~~
-   drivers/media/platform/renesas/sh_vou.c:1240:2: note: Taking false branch
-           if (!vou_dev)
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_var'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+                                 ^
+   kernel/bpf/bpf_local_storage.c:363:6: note: Left side of '||' is false
+           if (unlikely((map_flags & ~BPF_F_LOCK) > BPF_EXIST) ||
+               ^
+   include/linux/compiler.h:48:23: note: expanded from macro 'unlikely'
+   #  define unlikely(x)   (__branch_check__(x, 0, __builtin_constant_p(x)))
+                           ^
+   kernel/bpf/bpf_local_storage.c:365:15: note: Left side of '&&' is true
+               unlikely((map_flags & BPF_F_LOCK) &&
+                        ^
+   kernel/bpf/bpf_local_storage.c:365:15: note: Left side of '&&' is true
+   kernel/bpf/bpf_local_storage.c:363:2: note: '?' condition is false
+           if (unlikely((map_flags & ~BPF_F_LOCK) > BPF_EXIST) ||
            ^
-   drivers/media/platform/renesas/sh_vou.c:1244:2: note: Loop condition is false.  Exiting loop
-           spin_lock_init(&vou_dev->lock);
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_var'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_value'
+           (cond) ?                                        \
            ^
-   include/linux/spinlock.h:339:34: note: expanded from macro 'spin_lock_init'
-   # define spin_lock_init(_lock)                  \
-                                                   ^
-   drivers/media/platform/renesas/sh_vou.c:1245:2: note: Loop condition is false.  Exiting loop
-           mutex_init(&vou_dev->fop_lock);
+   kernel/bpf/bpf_local_storage.c:363:2: note: Taking false branch
+           if (unlikely((map_flags & ~BPF_F_LOCK) > BPF_EXIST) ||
            ^
-   include/linux/mutex.h:101:32: note: expanded from macro 'mutex_init'
-   #define mutex_init(mutex)                                               \
-                                                                           ^
-   drivers/media/platform/renesas/sh_vou.c:1268:2: note: Taking false branch
-           if (IS_ERR(vou_dev->base))
-           ^
-   drivers/media/platform/renesas/sh_vou.c:1272:6: note: Assuming 'ret' is >= 0
-           if (ret < 0)
-               ^~~~~~~
-   drivers/media/platform/renesas/sh_vou.c:1272:2: note: Taking false branch
-           if (ret < 0)
-           ^
-   drivers/media/platform/renesas/sh_vou.c:1276:6: note: Assuming 'ret' is >= 0
-           if (ret < 0) {
-               ^~~~~~~
-   drivers/media/platform/renesas/sh_vou.c:1276:2: note: Taking false branch
-           if (ret < 0) {
-           ^
-   drivers/media/platform/renesas/sh_vou.c:1283:6: note: Assuming field 'bus_fmt' is not equal to SH_VOU_BUS_8BIT
-           if (vou_pdata->bus_fmt == SH_VOU_BUS_8BIT)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/renesas/sh_vou.c:1283:2: note: Taking false branch
-           if (vou_pdata->bus_fmt == SH_VOU_BUS_8BIT)
-           ^
-   drivers/media/platform/renesas/sh_vou.c:1304:6: note: Assuming 'ret' is 0
-           if (ret)
-               ^~~
-   drivers/media/platform/renesas/sh_vou.c:1304:2: note: Taking false branch
-           if (ret)
-           ^
-   drivers/media/platform/renesas/sh_vou.c:1314:6: note: Assuming 'i2c_adap' is non-null
-           if (!i2c_adap) {
-               ^~~~~~~~~
-   drivers/media/platform/renesas/sh_vou.c:1314:2: note: Taking false branch
-           if (!i2c_adap) {
-           ^
-   drivers/media/platform/renesas/sh_vou.c:1319:8: note: Calling 'sh_vou_hw_init'
-           ret = sh_vou_hw_init(vou_dev);
-                 ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/renesas/sh_vou.c:1095:9: note: Left side of '&&' is true
-           while (--i && (sh_vou_reg_a_read(vou_dev, VOUSRR) & 0x101))
-                  ^
-   drivers/media/platform/renesas/sh_vou.c:1095:2: note: Loop condition is false. Execution continues on line 1098
-           while (--i && (sh_vou_reg_a_read(vou_dev, VOUSRR) & 0x101))
-           ^
-   drivers/media/platform/renesas/sh_vou.c:1098:7: note: 'i' is 99
-           if (!i)
-                ^
-   drivers/media/platform/renesas/sh_vou.c:1098:2: note: Taking false branch
-           if (!i)
-           ^
-   drivers/media/platform/renesas/sh_vou.c:1101:2: note: Taking false branch
-           dev_dbg(vou_dev->v4l2_dev.dev, "Reset took %dus\n", 100 - i);
-           ^
-   include/linux/dev_printk.h:155:2: note: expanded from macro 'dev_dbg'
-           dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-           ^
-   include/linux/dynamic_debug.h:166:2: note: expanded from macro 'dynamic_dev_dbg'
-           _dynamic_func_call(fmt,__dynamic_dev_dbg,               \
-           ^
-   include/linux/dynamic_debug.h:152:2: note: expanded from macro '_dynamic_func_call'
-           __dynamic_func_call(__UNIQUE_ID(ddebug), fmt, func, ##__VA_ARGS__)
-           ^
-   include/linux/dynamic_debug.h:133:2: note: expanded from macro '__dynamic_func_call'
-           if (DYNAMIC_DEBUG_BRANCH(id))                   \
-           ^
-   drivers/media/platform/renesas/sh_vou.c:1101:2: note: Loop condition is false.  Exiting loop
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   kernel/bpf/bpf_local_storage.c:369:6: note: Assuming the condition is true
+           if (gfp_flags == GFP_KERNEL && (map_flags & ~BPF_F_LOCK) != BPF_NOEXIST)
+               ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_var'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+                                                      ^~~~
+   kernel/bpf/bpf_local_storage.c:369:6: note: Left side of '&&' is true
+           if (gfp_flags == GFP_KERNEL && (map_flags & ~BPF_F_LOCK) != BPF_NOEXIST)
+               ^
+   kernel/bpf/bpf_local_storage.c:369:33: note: Assuming the condition is false
+           if (gfp_flags == GFP_KERNEL && (map_flags & ~BPF_F_LOCK) != BPF_NOEXIST)
+                                          ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
 
-vim +483 drivers/media/platform/renesas/sh_vou.c
+vim +/selem +473 kernel/bpf/bpf_local_storage.c
 
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  416  
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  417  static void sh_vou_configure_geometry(struct sh_vou_device *vou_dev,
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  418  				      int pix_idx, int w_idx, int h_idx)
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  419  {
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  420  	struct sh_vou_fmt *fmt = vou_fmt + pix_idx;
-a622cc51879f70 drivers/media/platform/sh_vou.c Mauro Carvalho Chehab 2014-01-13  421  	unsigned int black_left, black_top, width_max,
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  422  		frame_in_height, frame_out_height, frame_out_top;
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  423  	struct v4l2_rect *rect = &vou_dev->rect;
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  424  	struct v4l2_pix_format *pix = &vou_dev->pix;
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  425  	u32 vouvcr = 0, dsr_h, dsr_v;
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  426  
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  427  	if (vou_dev->std & V4L2_STD_525_60) {
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  428  		width_max = 858;
-a622cc51879f70 drivers/media/platform/sh_vou.c Mauro Carvalho Chehab 2014-01-13  429  		/* height_max = 262; */
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  430  	} else {
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  431  		width_max = 864;
-a622cc51879f70 drivers/media/platform/sh_vou.c Mauro Carvalho Chehab 2014-01-13  432  		/* height_max = 312; */
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  433  	}
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  434  
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  435  	frame_in_height = pix->height / 2;
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  436  	frame_out_height = rect->height / 2;
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  437  	frame_out_top = rect->top / 2;
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  438  
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  439  	/*
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  440  	 * Cropping scheme: max useful image is 720x480, and the total video
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  441  	 * area is 858x525 (NTSC) or 864x625 (PAL). AK8813 / 8814 starts
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  442  	 * sampling data beginning with fixed 276th (NTSC) / 288th (PAL) clock,
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  443  	 * of which the first 33 / 25 clocks HSYNC must be held active. This
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  444  	 * has to be configured in CR[HW]. 1 pixel equals 2 clock periods.
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  445  	 * This gives CR[HW] = 16 / 12, VPR[HVP] = 138 / 144, which gives
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  446  	 * exactly 858 - 138 = 864 - 144 = 720! We call the out-of-display area,
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  447  	 * beyond DSR, specified on the left and top by the VPR register "black
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  448  	 * pixels" and out-of-image area (DPR) "background pixels." We fix VPR
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  449  	 * at 138 / 144 : 20, because that's the HSYNC timing, that our first
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  450  	 * client requires, and that's exactly what leaves us 720 pixels for the
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  451  	 * image; we leave VPR[VVP] at default 20 for now, because the client
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  452  	 * doesn't seem to have any special requirements for it. Otherwise we
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  453  	 * could also set it to max - 240 = 22 / 72. Thus VPR depends only on
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  454  	 * the selected standard, and DPR and DSR are selected according to
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  455  	 * cropping. Q: how does the client detect the first valid line? Does
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  456  	 * HSYNC stay inactive during invalid (black) lines?
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  457  	 */
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  458  	black_left = width_max - VOU_MAX_IMAGE_WIDTH;
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  459  	black_top = 20;
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  460  
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  461  	dsr_h = rect->width + rect->left;
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  462  	dsr_v = frame_out_height + frame_out_top;
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  463  
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  464  	dev_dbg(vou_dev->v4l2_dev.dev,
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  465  		"image %ux%u, black %u:%u, offset %u:%u, display %ux%u\n",
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  466  		pix->width, frame_in_height, black_left, black_top,
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  467  		rect->left, frame_out_top, dsr_h, dsr_v);
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  468  
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  469  	/* VOUISR height - half of a frame height in frame mode */
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  470  	sh_vou_reg_ab_write(vou_dev, VOUISR, (pix->width << 16) | frame_in_height);
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  471  	sh_vou_reg_ab_write(vou_dev, VOUVPR, (black_left << 16) | black_top);
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  472  	sh_vou_reg_ab_write(vou_dev, VOUDPR, (rect->left << 16) | frame_out_top);
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  473  	sh_vou_reg_ab_write(vou_dev, VOUDSR, (dsr_h << 16) | dsr_v);
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  474  
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  475  	/*
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  476  	 * if necessary, we could set VOUHIR to
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  477  	 * max(black_left + dsr_h, width_max) here
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  478  	 */
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  479  
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  480  	if (w_idx)
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  481  		vouvcr |= (1 << 15) | (vou_scale_h_fld[w_idx - 1] << 4);
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  482  	if (h_idx)
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17 @483  		vouvcr |= (1 << 14) | vou_scale_v_fld[h_idx - 1];
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  484  
-59fe916c84f891 drivers/media/platform/sh_vou.c Hans Verkuil          2019-06-11  485  	dev_dbg(vou_dev->v4l2_dev.dev, "0x%08x: scaling 0x%x\n",
-59fe916c84f891 drivers/media/platform/sh_vou.c Hans Verkuil          2019-06-11  486  		fmt->pfmt, vouvcr);
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  487  
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  488  	/* To produce a colour bar for testing set bit 23 of VOUVCR */
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  489  	sh_vou_reg_ab_write(vou_dev, VOUVCR, vouvcr);
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  490  	sh_vou_reg_ab_write(vou_dev, VOUDFR,
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  491  			    fmt->pkf | (fmt->yf << 8) | (fmt->rgb << 16));
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  492  }
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  493  
+450af8d0f6be2e KP Singh     2020-08-25  346  
+450af8d0f6be2e KP Singh     2020-08-25  347  /* sk cannot be going away because it is linking new elem
+450af8d0f6be2e KP Singh     2020-08-25  348   * to sk->sk_bpf_storage. (i.e. sk->sk_refcnt cannot be 0).
+450af8d0f6be2e KP Singh     2020-08-25  349   * Otherwise, it will become a leak (and other memory issues
+450af8d0f6be2e KP Singh     2020-08-25  350   * during map destruction).
+450af8d0f6be2e KP Singh     2020-08-25  351   */
+450af8d0f6be2e KP Singh     2020-08-25  352  struct bpf_local_storage_data *
+450af8d0f6be2e KP Singh     2020-08-25  353  bpf_local_storage_update(void *owner, struct bpf_local_storage_map *smap,
+b00fa38a9c1cba Joanne Koong 2022-03-17  354  			 void *value, u64 map_flags, gfp_t gfp_flags)
+450af8d0f6be2e KP Singh     2020-08-25  355  {
+450af8d0f6be2e KP Singh     2020-08-25  356  	struct bpf_local_storage_data *old_sdata = NULL;
+b00fa38a9c1cba Joanne Koong 2022-03-17  357  	struct bpf_local_storage_elem *selem = NULL;
+450af8d0f6be2e KP Singh     2020-08-25  358  	struct bpf_local_storage *local_storage;
+a10787e6d58c24 Song Liu     2021-02-25  359  	unsigned long flags;
+450af8d0f6be2e KP Singh     2020-08-25  360  	int err;
+450af8d0f6be2e KP Singh     2020-08-25  361  
+450af8d0f6be2e KP Singh     2020-08-25  362  	/* BPF_EXIST and BPF_NOEXIST cannot be both set */
+450af8d0f6be2e KP Singh     2020-08-25  363  	if (unlikely((map_flags & ~BPF_F_LOCK) > BPF_EXIST) ||
+450af8d0f6be2e KP Singh     2020-08-25  364  	    /* BPF_F_LOCK can only be used in a value with spin_lock */
+450af8d0f6be2e KP Singh     2020-08-25  365  	    unlikely((map_flags & BPF_F_LOCK) &&
+450af8d0f6be2e KP Singh     2020-08-25  366  		     !map_value_has_spin_lock(&smap->map)))
+450af8d0f6be2e KP Singh     2020-08-25  367  		return ERR_PTR(-EINVAL);
+450af8d0f6be2e KP Singh     2020-08-25  368  
+b00fa38a9c1cba Joanne Koong 2022-03-17  369  	if (gfp_flags == GFP_KERNEL && (map_flags & ~BPF_F_LOCK) != BPF_NOEXIST)
+b00fa38a9c1cba Joanne Koong 2022-03-17  370  		return ERR_PTR(-EINVAL);
+b00fa38a9c1cba Joanne Koong 2022-03-17  371  
+0fe4b381a59ebc KP Singh     2021-12-24  372  	local_storage = rcu_dereference_check(*owner_storage(smap, owner),
+0fe4b381a59ebc KP Singh     2021-12-24  373  					      bpf_rcu_lock_held());
+450af8d0f6be2e KP Singh     2020-08-25  374  	if (!local_storage || hlist_empty(&local_storage->list)) {
+450af8d0f6be2e KP Singh     2020-08-25  375  		/* Very first elem for the owner */
+450af8d0f6be2e KP Singh     2020-08-25  376  		err = check_flags(NULL, map_flags);
+450af8d0f6be2e KP Singh     2020-08-25  377  		if (err)
+450af8d0f6be2e KP Singh     2020-08-25  378  			return ERR_PTR(err);
+450af8d0f6be2e KP Singh     2020-08-25  379  
+b00fa38a9c1cba Joanne Koong 2022-03-17  380  		selem = bpf_selem_alloc(smap, owner, value, true, gfp_flags);
+450af8d0f6be2e KP Singh     2020-08-25  381  		if (!selem)
+450af8d0f6be2e KP Singh     2020-08-25  382  			return ERR_PTR(-ENOMEM);
+450af8d0f6be2e KP Singh     2020-08-25  383  
+b00fa38a9c1cba Joanne Koong 2022-03-17  384  		err = bpf_local_storage_alloc(owner, smap, selem, gfp_flags);
+450af8d0f6be2e KP Singh     2020-08-25  385  		if (err) {
+450af8d0f6be2e KP Singh     2020-08-25  386  			kfree(selem);
+450af8d0f6be2e KP Singh     2020-08-25  387  			mem_uncharge(smap, owner, smap->elem_size);
+450af8d0f6be2e KP Singh     2020-08-25  388  			return ERR_PTR(err);
+450af8d0f6be2e KP Singh     2020-08-25  389  		}
+450af8d0f6be2e KP Singh     2020-08-25  390  
+450af8d0f6be2e KP Singh     2020-08-25  391  		return SDATA(selem);
+450af8d0f6be2e KP Singh     2020-08-25  392  	}
+450af8d0f6be2e KP Singh     2020-08-25  393  
+450af8d0f6be2e KP Singh     2020-08-25  394  	if ((map_flags & BPF_F_LOCK) && !(map_flags & BPF_NOEXIST)) {
+450af8d0f6be2e KP Singh     2020-08-25  395  		/* Hoping to find an old_sdata to do inline update
+450af8d0f6be2e KP Singh     2020-08-25  396  		 * such that it can avoid taking the local_storage->lock
+450af8d0f6be2e KP Singh     2020-08-25  397  		 * and changing the lists.
+450af8d0f6be2e KP Singh     2020-08-25  398  		 */
+450af8d0f6be2e KP Singh     2020-08-25  399  		old_sdata =
+450af8d0f6be2e KP Singh     2020-08-25  400  			bpf_local_storage_lookup(local_storage, smap, false);
+450af8d0f6be2e KP Singh     2020-08-25  401  		err = check_flags(old_sdata, map_flags);
+450af8d0f6be2e KP Singh     2020-08-25  402  		if (err)
+450af8d0f6be2e KP Singh     2020-08-25  403  			return ERR_PTR(err);
+450af8d0f6be2e KP Singh     2020-08-25  404  		if (old_sdata && selem_linked_to_storage(SELEM(old_sdata))) {
+450af8d0f6be2e KP Singh     2020-08-25  405  			copy_map_value_locked(&smap->map, old_sdata->data,
+450af8d0f6be2e KP Singh     2020-08-25  406  					      value, false);
+450af8d0f6be2e KP Singh     2020-08-25  407  			return old_sdata;
+450af8d0f6be2e KP Singh     2020-08-25  408  		}
+450af8d0f6be2e KP Singh     2020-08-25  409  	}
+450af8d0f6be2e KP Singh     2020-08-25  410  
+b00fa38a9c1cba Joanne Koong 2022-03-17  411  	if (gfp_flags == GFP_KERNEL) {
+b00fa38a9c1cba Joanne Koong 2022-03-17  412  		selem = bpf_selem_alloc(smap, owner, value, true, gfp_flags);
+b00fa38a9c1cba Joanne Koong 2022-03-17  413  		if (!selem)
+b00fa38a9c1cba Joanne Koong 2022-03-17  414  			return ERR_PTR(-ENOMEM);
+b00fa38a9c1cba Joanne Koong 2022-03-17  415  	}
+b00fa38a9c1cba Joanne Koong 2022-03-17  416  
+a10787e6d58c24 Song Liu     2021-02-25  417  	raw_spin_lock_irqsave(&local_storage->lock, flags);
+450af8d0f6be2e KP Singh     2020-08-25  418  
+450af8d0f6be2e KP Singh     2020-08-25  419  	/* Recheck local_storage->list under local_storage->lock */
+450af8d0f6be2e KP Singh     2020-08-25  420  	if (unlikely(hlist_empty(&local_storage->list))) {
+450af8d0f6be2e KP Singh     2020-08-25  421  		/* A parallel del is happening and local_storage is going
+450af8d0f6be2e KP Singh     2020-08-25  422  		 * away.  It has just been checked before, so very
+450af8d0f6be2e KP Singh     2020-08-25  423  		 * unlikely.  Return instead of retry to keep things
+450af8d0f6be2e KP Singh     2020-08-25  424  		 * simple.
+450af8d0f6be2e KP Singh     2020-08-25  425  		 */
+450af8d0f6be2e KP Singh     2020-08-25  426  		err = -EAGAIN;
+450af8d0f6be2e KP Singh     2020-08-25  427  		goto unlock_err;
+450af8d0f6be2e KP Singh     2020-08-25  428  	}
+450af8d0f6be2e KP Singh     2020-08-25  429  
+450af8d0f6be2e KP Singh     2020-08-25  430  	old_sdata = bpf_local_storage_lookup(local_storage, smap, false);
+450af8d0f6be2e KP Singh     2020-08-25  431  	err = check_flags(old_sdata, map_flags);
+450af8d0f6be2e KP Singh     2020-08-25  432  	if (err)
+450af8d0f6be2e KP Singh     2020-08-25  433  		goto unlock_err;
+450af8d0f6be2e KP Singh     2020-08-25  434  
+450af8d0f6be2e KP Singh     2020-08-25  435  	if (old_sdata && (map_flags & BPF_F_LOCK)) {
+450af8d0f6be2e KP Singh     2020-08-25  436  		copy_map_value_locked(&smap->map, old_sdata->data, value,
+450af8d0f6be2e KP Singh     2020-08-25  437  				      false);
+450af8d0f6be2e KP Singh     2020-08-25  438  		selem = SELEM(old_sdata);
+450af8d0f6be2e KP Singh     2020-08-25  439  		goto unlock;
+450af8d0f6be2e KP Singh     2020-08-25  440  	}
+450af8d0f6be2e KP Singh     2020-08-25  441  
+b00fa38a9c1cba Joanne Koong 2022-03-17  442  	if (gfp_flags != GFP_KERNEL) {
+450af8d0f6be2e KP Singh     2020-08-25  443  		/* local_storage->lock is held.  Hence, we are sure
+450af8d0f6be2e KP Singh     2020-08-25  444  		 * we can unlink and uncharge the old_sdata successfully
+450af8d0f6be2e KP Singh     2020-08-25  445  		 * later.  Hence, instead of charging the new selem now
+450af8d0f6be2e KP Singh     2020-08-25  446  		 * and then uncharge the old selem later (which may cause
+450af8d0f6be2e KP Singh     2020-08-25  447  		 * a potential but unnecessary charge failure),  avoid taking
+450af8d0f6be2e KP Singh     2020-08-25  448  		 * a charge at all here (the "!old_sdata" check) and the
+450af8d0f6be2e KP Singh     2020-08-25  449  		 * old_sdata will not be uncharged later during
+450af8d0f6be2e KP Singh     2020-08-25  450  		 * bpf_selem_unlink_storage_nolock().
+450af8d0f6be2e KP Singh     2020-08-25  451  		 */
+b00fa38a9c1cba Joanne Koong 2022-03-17  452  		selem = bpf_selem_alloc(smap, owner, value, !old_sdata, gfp_flags);
+450af8d0f6be2e KP Singh     2020-08-25  453  		if (!selem) {
+450af8d0f6be2e KP Singh     2020-08-25  454  			err = -ENOMEM;
+450af8d0f6be2e KP Singh     2020-08-25  455  			goto unlock_err;
+450af8d0f6be2e KP Singh     2020-08-25  456  		}
+b00fa38a9c1cba Joanne Koong 2022-03-17  457  	}
+450af8d0f6be2e KP Singh     2020-08-25  458  
+450af8d0f6be2e KP Singh     2020-08-25  459  	/* First, link the new selem to the map */
+450af8d0f6be2e KP Singh     2020-08-25  460  	bpf_selem_link_map(smap, selem);
+450af8d0f6be2e KP Singh     2020-08-25  461  
+450af8d0f6be2e KP Singh     2020-08-25  462  	/* Second, link (and publish) the new selem to local_storage */
+450af8d0f6be2e KP Singh     2020-08-25  463  	bpf_selem_link_storage_nolock(local_storage, selem);
+450af8d0f6be2e KP Singh     2020-08-25  464  
+450af8d0f6be2e KP Singh     2020-08-25  465  	/* Third, remove old selem, SELEM(old_sdata) */
+450af8d0f6be2e KP Singh     2020-08-25  466  	if (old_sdata) {
+450af8d0f6be2e KP Singh     2020-08-25  467  		bpf_selem_unlink_map(SELEM(old_sdata));
+450af8d0f6be2e KP Singh     2020-08-25  468  		bpf_selem_unlink_storage_nolock(local_storage, SELEM(old_sdata),
+450af8d0f6be2e KP Singh     2020-08-25  469  						false);
+450af8d0f6be2e KP Singh     2020-08-25  470  	}
+450af8d0f6be2e KP Singh     2020-08-25  471  
+450af8d0f6be2e KP Singh     2020-08-25  472  unlock:
+a10787e6d58c24 Song Liu     2021-02-25 @473  	raw_spin_unlock_irqrestore(&local_storage->lock, flags);
+450af8d0f6be2e KP Singh     2020-08-25  474  	return SDATA(selem);
+450af8d0f6be2e KP Singh     2020-08-25  475  
+450af8d0f6be2e KP Singh     2020-08-25  476  unlock_err:
+a10787e6d58c24 Song Liu     2021-02-25  477  	raw_spin_unlock_irqrestore(&local_storage->lock, flags);
+b00fa38a9c1cba Joanne Koong 2022-03-17  478  	if (selem) {
+b00fa38a9c1cba Joanne Koong 2022-03-17  479  		mem_uncharge(smap, owner, smap->elem_size);
+b00fa38a9c1cba Joanne Koong 2022-03-17  480  		kfree(selem);
+b00fa38a9c1cba Joanne Koong 2022-03-17  481  	}
+450af8d0f6be2e KP Singh     2020-08-25  482  	return ERR_PTR(err);
+450af8d0f6be2e KP Singh     2020-08-25  483  }
+450af8d0f6be2e KP Singh     2020-08-25  484  
 
-:::::: The code at line 483 was first introduced by commit
-:::::: a81fb9b223508f5773d8d7e226b1574d1b068642 V4L/DVB: V4L: SuperH Video Output Unit (VOU) driver
+:::::: The code at line 473 was first introduced by commit
+:::::: a10787e6d58c24b51e91c19c6d16c5da89fcaa4b bpf: Enable task local storage for tracing programs
 
-:::::: TO: Guennadi Liakhovetski <g.liakhovetski@gmx.de>
-:::::: CC: Mauro Carvalho Chehab <mchehab@redhat.com>
+:::::: TO: Song Liu <songliubraving@fb.com>
+:::::: CC: Alexei Starovoitov <ast@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
