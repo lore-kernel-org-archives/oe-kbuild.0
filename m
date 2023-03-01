@@ -1,42 +1,42 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E07A7EC8
-	for <oe-kbuild@lists.linux.dev>; Wed,  1 Mar 2023 06:47:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9844E10E1
+	for <oe-kbuild@lists.linux.dev>; Wed,  1 Mar 2023 08:29:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677653230; x=1709189230;
+  t=1677659352; x=1709195352;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=z7ZinH8Tabmt2/pIXHJzQsuUuvOxI6oOv8hjxe7LJJ4=;
-  b=ADo+GSX45VpIfJMMtYMYt8qEbt3ewtL+9LNe3J0INCxbopnqREAgS2bk
-   wSaSsMeTHFP7+EMdGEXJJ/ckVHYGnk5R2aJIHZS5FlEQeV9QJ2/fz6TxO
-   I64Y694E0dFDWM0s9vrkXrk6NJYU9h0Q6TknNg8Sd2znsTVXnNWm4Oobl
-   o2jPRxZDM7fsYayMVLehTsDMNIhjzANkn9Lj5lxdA+4RXAwxwkhLeajMq
-   HHI7zVOHOQQKtgM7dRPShKURhu+FI4fCcqCJLXNt3jIO5rqS0LlBCPwV1
-   OGZ1Unl71ZHurLojutf69hKS3wdTOPCoxUtC8NrjHi8PSjTV7lNIZd2/V
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10635"; a="334373085"
+  bh=thtjTNMUzqsMWh2PTfEJUxgFuvUM9wlX2gcJjj/pCfI=;
+  b=fmlkGiuD16jH3HpAX0GkWHnL3lPs4NjYub6dyN08X8cuNARoEKJeLvuc
+   39yrzIaGlF23qci41pYDi9HAx10ZoqAAa7/amRrn5RQzdP+KxcotCkprq
+   qDz3M57S+rUQPtrEuWGnVKzLCDRvwTjDYtCEG5Mmhbli9klqQKIIvRCg4
+   HxwKZ9Ki6K5t5kwnnLd1s0DIJcHFF/fUglx7l6z7DU8j/vr+j1ThUhX3p
+   nk29z4aE9HvdMxJ1qwDUGpTYyTfcYqPe4rNyb74GGgV62iBlWrO34IP83
+   Eww6/kfPfoTDjEcQ8M2bQ9EvE2Jc9z8cWeNJIzJn0FmcTHGwv7DnXvRCz
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10635"; a="399134363"
 X-IronPort-AV: E=Sophos;i="5.98,224,1673942400"; 
-   d="scan'208";a="334373085"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2023 22:47:10 -0800
+   d="scan'208";a="399134363"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2023 00:29:12 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10635"; a="651894791"
+X-IronPort-AV: E=McAfee;i="6500,9779,10635"; a="920151868"
 X-IronPort-AV: E=Sophos;i="5.98,224,1673942400"; 
-   d="scan'208";a="651894791"
+   d="scan'208";a="920151868"
 Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 28 Feb 2023 22:47:08 -0800
+  by fmsmga006.fm.intel.com with ESMTP; 01 Mar 2023 00:29:10 -0800
 Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pXGF1-0005y9-2d;
-	Wed, 01 Mar 2023 06:47:07 +0000
-Date: Wed, 1 Mar 2023 14:46:38 +0800
+	id 1pXHpm-00060x-0t;
+	Wed, 01 Mar 2023 08:29:10 +0000
+Date: Wed, 1 Mar 2023 16:28:55 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: kernel/bpf/bpf_local_storage.c:473:2: warning: Potential leak of
- memory pointed to by 'selem' [clang-analyzer-unix.Malloc]
-Message-ID: <202303011421.kWXb1eSp-lkp@intel.com>
+Subject: [stable:linux-5.15.y 8748/9999] ld:
+ drivers/gpu/drm/drm_fb_helper.c:839: undefined reference to `cfb_imageblit'
+Message-ID: <202303011634.6MVTUCtm-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -47,389 +47,111 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "low confidence static check warning: kernel/bpf/bpf_local_storage.c:473:2: warning: Potential leak of memory pointed to by 'selem' [clang-analyzer-unix.Malloc]"
+:::::: Manual check reason: "low confidence static check first_new_problem: ld: drivers/gpu/drm/drm_fb_helper.c:839: undefined reference to `cfb_imageblit'"
 :::::: 
 
 BCC: lkp@intel.com
-CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Joanne Koong <joannelkoong@gmail.com>
-CC: Alexei Starovoitov <ast@kernel.org>
+TO: Kees Cook <keescook@chromium.org>
+CC: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+CC: Sasha Levin <sashal@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   c0927a7a5391f7d8e593e5e50ead7505a23cadf9
-commit: b00fa38a9c1cba044a32a601b49a55a18ed719d1 bpf: Enable non-atomic allocations in local storage
-date:   12 months ago
-:::::: branch date: 7 hours ago
-:::::: commit date: 12 months ago
-config: i386-randconfig-c001 (https://download.01.org/0day-ci/archive/20230301/202303011421.kWXb1eSp-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=b00fa38a9c1cba044a32a601b49a55a18ed719d1
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout b00fa38a9c1cba044a32a601b49a55a18ed719d1
+Hi Kees,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git linux-5.15.y
+head:   d383d0f28ecac0f3375bdfb9a0c4bfac979f6f8f
+commit: 30f20ceb87f78a14645acd7996397af7fee6e518 [8748/9999] overflow: Implement size_t saturating arithmetic helpers
+:::::: branch date: 4 days ago
+:::::: commit date: 9 weeks ago
+config: i386-randconfig-s001 (https://download.01.org/0day-ci/archive/20230301/202303011634.6MVTUCtm-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+reproduce:
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git/commit/?id=30f20ceb87f78a14645acd7996397af7fee6e518
+        git remote add stable https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git
+        git fetch --no-tags stable linux-5.15.y
+        git checkout 30f20ceb87f78a14645acd7996397af7fee6e518
         # save the config file
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=i386 clang-analyzer  olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=i386 clang-analyzer 
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 olddefconfig
+        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/r/202303011421.kWXb1eSp-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202303011634.6MVTUCtm-lkp@intel.com/
 
-clang_analyzer warnings: (new ones prefixed by >>)
-   kernel/ucount.c:215:3: note: Memory is released
-                   kfree(ucounts);
-                   ^~~~~~~~~~~~~~
-   kernel/ucount.c:162:3: note: Returning; memory was released via 1st parameter
-                   put_ucounts(ucounts);
-                   ^~~~~~~~~~~~~~~~~~~~
-   kernel/ucount.c:334:8: note: Returning; memory was released via 1st parameter
-                   if (!get_ucounts(iter))
-                        ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_var'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
-                                                                                        ^~~~
-   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_value'
-           (cond) ?                                        \
-            ^~~~
-   kernel/ucount.c:334:3: note: '?' condition is true
-                   if (!get_ucounts(iter))
-                   ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_var'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_value'
-           (cond) ?                                        \
-           ^
-   kernel/ucount.c:334:3: note: Taking true branch
-                   if (!get_ucounts(iter))
-                   ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   kernel/ucount.c:335:4: note: Control jumps to line 339
-                           goto dec_unwind;
-                           ^
-   kernel/ucount.c:340:15: note: Assuming 'dec' is >= 0
-           WARN_ON_ONCE(dec < 0);
-                        ^
-   include/asm-generic/bug.h:104:25: note: expanded from macro 'WARN_ON_ONCE'
-           int __ret_warn_on = !!(condition);                      \
-                                  ^~~~~~~~~
-   kernel/ucount.c:340:2: note: '?' condition is false
-           WARN_ON_ONCE(dec < 0);
-           ^
-   include/asm-generic/bug.h:105:2: note: expanded from macro 'WARN_ON_ONCE'
-           if (unlikely(__ret_warn_on))                            \
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_var'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
-                                 ^
-   kernel/ucount.c:340:2: note: '?' condition is false
-           WARN_ON_ONCE(dec < 0);
-           ^
-   include/asm-generic/bug.h:105:2: note: expanded from macro 'WARN_ON_ONCE'
-           if (unlikely(__ret_warn_on))                            \
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_var'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_value'
-           (cond) ?                                        \
-           ^
-   kernel/ucount.c:340:2: note: Taking false branch
-           WARN_ON_ONCE(dec < 0);
-           ^
-   include/asm-generic/bug.h:105:2: note: expanded from macro 'WARN_ON_ONCE'
-           if (unlikely(__ret_warn_on))                            \
-           ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   kernel/ucount.c:342:2: note: Use of memory after it is freed
-           do_dec_rlimit_put_ucounts(ucounts, iter, type);
-           ^                         ~~~~~~~
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   3 warnings generated.
->> kernel/bpf/bpf_local_storage.c:473:2: warning: Potential leak of memory pointed to by 'selem' [clang-analyzer-unix.Malloc]
-           raw_spin_unlock_irqrestore(&local_storage->lock, flags);
-           ^
-   include/linux/spinlock.h:279:13: note: expanded from macro 'raw_spin_unlock_irqrestore'
-                   typecheck(unsigned long, flags);                \
-                             ^
-   kernel/bpf/bpf_local_storage.c:363:15: note: Assuming the condition is false
-           if (unlikely((map_flags & ~BPF_F_LOCK) > BPF_EXIST) ||
-                        ^
-   include/linux/compiler.h:48:41: note: expanded from macro 'unlikely'
-   #  define unlikely(x)   (__branch_check__(x, 0, __builtin_constant_p(x)))
-                                             ^
-   include/linux/compiler.h:33:34: note: expanded from macro '__branch_check__'
-                           ______r = __builtin_expect(!!(x), expect);      \
-                                                         ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_var'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
-                                                      ^~~~
-   kernel/bpf/bpf_local_storage.c:363:6: note: Left side of '||' is false
-           if (unlikely((map_flags & ~BPF_F_LOCK) > BPF_EXIST) ||
-               ^
-   include/linux/compiler.h:48:23: note: expanded from macro 'unlikely'
-   #  define unlikely(x)   (__branch_check__(x, 0, __builtin_constant_p(x)))
-                           ^
-   kernel/bpf/bpf_local_storage.c:365:16: note: Assuming the condition is true
-               unlikely((map_flags & BPF_F_LOCK) &&
-                         ^
-   include/linux/compiler.h:48:41: note: expanded from macro 'unlikely'
-   #  define unlikely(x)   (__branch_check__(x, 0, __builtin_constant_p(x)))
-                                             ^
-   include/linux/compiler.h:33:34: note: expanded from macro '__branch_check__'
-                           ______r = __builtin_expect(!!(x), expect);      \
-                                                         ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_var'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
-                                                      ^~~~
-   kernel/bpf/bpf_local_storage.c:365:15: note: Left side of '&&' is true
-               unlikely((map_flags & BPF_F_LOCK) &&
-                        ^
-   kernel/bpf/bpf_local_storage.c:365:15: note: Left side of '&&' is true
-   kernel/bpf/bpf_local_storage.c:363:2: note: '?' condition is false
-           if (unlikely((map_flags & ~BPF_F_LOCK) > BPF_EXIST) ||
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_var'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
-                                 ^
-   kernel/bpf/bpf_local_storage.c:363:6: note: Left side of '||' is false
-           if (unlikely((map_flags & ~BPF_F_LOCK) > BPF_EXIST) ||
-               ^
-   include/linux/compiler.h:48:23: note: expanded from macro 'unlikely'
-   #  define unlikely(x)   (__branch_check__(x, 0, __builtin_constant_p(x)))
-                           ^
-   kernel/bpf/bpf_local_storage.c:365:15: note: Left side of '&&' is true
-               unlikely((map_flags & BPF_F_LOCK) &&
-                        ^
-   kernel/bpf/bpf_local_storage.c:365:15: note: Left side of '&&' is true
-   kernel/bpf/bpf_local_storage.c:363:2: note: '?' condition is false
-           if (unlikely((map_flags & ~BPF_F_LOCK) > BPF_EXIST) ||
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_var'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_value'
-           (cond) ?                                        \
-           ^
-   kernel/bpf/bpf_local_storage.c:363:2: note: Taking false branch
-           if (unlikely((map_flags & ~BPF_F_LOCK) > BPF_EXIST) ||
-           ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   kernel/bpf/bpf_local_storage.c:369:6: note: Assuming the condition is true
-           if (gfp_flags == GFP_KERNEL && (map_flags & ~BPF_F_LOCK) != BPF_NOEXIST)
-               ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_var'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
-                                                      ^~~~
-   kernel/bpf/bpf_local_storage.c:369:6: note: Left side of '&&' is true
-           if (gfp_flags == GFP_KERNEL && (map_flags & ~BPF_F_LOCK) != BPF_NOEXIST)
-               ^
-   kernel/bpf/bpf_local_storage.c:369:33: note: Assuming the condition is false
-           if (gfp_flags == GFP_KERNEL && (map_flags & ~BPF_F_LOCK) != BPF_NOEXIST)
-                                          ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
+All errors (new ones prefixed by >>):
 
-vim +/selem +473 kernel/bpf/bpf_local_storage.c
-
-450af8d0f6be2e KP Singh     2020-08-25  346  
-450af8d0f6be2e KP Singh     2020-08-25  347  /* sk cannot be going away because it is linking new elem
-450af8d0f6be2e KP Singh     2020-08-25  348   * to sk->sk_bpf_storage. (i.e. sk->sk_refcnt cannot be 0).
-450af8d0f6be2e KP Singh     2020-08-25  349   * Otherwise, it will become a leak (and other memory issues
-450af8d0f6be2e KP Singh     2020-08-25  350   * during map destruction).
-450af8d0f6be2e KP Singh     2020-08-25  351   */
-450af8d0f6be2e KP Singh     2020-08-25  352  struct bpf_local_storage_data *
-450af8d0f6be2e KP Singh     2020-08-25  353  bpf_local_storage_update(void *owner, struct bpf_local_storage_map *smap,
-b00fa38a9c1cba Joanne Koong 2022-03-17  354  			 void *value, u64 map_flags, gfp_t gfp_flags)
-450af8d0f6be2e KP Singh     2020-08-25  355  {
-450af8d0f6be2e KP Singh     2020-08-25  356  	struct bpf_local_storage_data *old_sdata = NULL;
-b00fa38a9c1cba Joanne Koong 2022-03-17  357  	struct bpf_local_storage_elem *selem = NULL;
-450af8d0f6be2e KP Singh     2020-08-25  358  	struct bpf_local_storage *local_storage;
-a10787e6d58c24 Song Liu     2021-02-25  359  	unsigned long flags;
-450af8d0f6be2e KP Singh     2020-08-25  360  	int err;
-450af8d0f6be2e KP Singh     2020-08-25  361  
-450af8d0f6be2e KP Singh     2020-08-25  362  	/* BPF_EXIST and BPF_NOEXIST cannot be both set */
-450af8d0f6be2e KP Singh     2020-08-25  363  	if (unlikely((map_flags & ~BPF_F_LOCK) > BPF_EXIST) ||
-450af8d0f6be2e KP Singh     2020-08-25  364  	    /* BPF_F_LOCK can only be used in a value with spin_lock */
-450af8d0f6be2e KP Singh     2020-08-25  365  	    unlikely((map_flags & BPF_F_LOCK) &&
-450af8d0f6be2e KP Singh     2020-08-25  366  		     !map_value_has_spin_lock(&smap->map)))
-450af8d0f6be2e KP Singh     2020-08-25  367  		return ERR_PTR(-EINVAL);
-450af8d0f6be2e KP Singh     2020-08-25  368  
-b00fa38a9c1cba Joanne Koong 2022-03-17  369  	if (gfp_flags == GFP_KERNEL && (map_flags & ~BPF_F_LOCK) != BPF_NOEXIST)
-b00fa38a9c1cba Joanne Koong 2022-03-17  370  		return ERR_PTR(-EINVAL);
-b00fa38a9c1cba Joanne Koong 2022-03-17  371  
-0fe4b381a59ebc KP Singh     2021-12-24  372  	local_storage = rcu_dereference_check(*owner_storage(smap, owner),
-0fe4b381a59ebc KP Singh     2021-12-24  373  					      bpf_rcu_lock_held());
-450af8d0f6be2e KP Singh     2020-08-25  374  	if (!local_storage || hlist_empty(&local_storage->list)) {
-450af8d0f6be2e KP Singh     2020-08-25  375  		/* Very first elem for the owner */
-450af8d0f6be2e KP Singh     2020-08-25  376  		err = check_flags(NULL, map_flags);
-450af8d0f6be2e KP Singh     2020-08-25  377  		if (err)
-450af8d0f6be2e KP Singh     2020-08-25  378  			return ERR_PTR(err);
-450af8d0f6be2e KP Singh     2020-08-25  379  
-b00fa38a9c1cba Joanne Koong 2022-03-17  380  		selem = bpf_selem_alloc(smap, owner, value, true, gfp_flags);
-450af8d0f6be2e KP Singh     2020-08-25  381  		if (!selem)
-450af8d0f6be2e KP Singh     2020-08-25  382  			return ERR_PTR(-ENOMEM);
-450af8d0f6be2e KP Singh     2020-08-25  383  
-b00fa38a9c1cba Joanne Koong 2022-03-17  384  		err = bpf_local_storage_alloc(owner, smap, selem, gfp_flags);
-450af8d0f6be2e KP Singh     2020-08-25  385  		if (err) {
-450af8d0f6be2e KP Singh     2020-08-25  386  			kfree(selem);
-450af8d0f6be2e KP Singh     2020-08-25  387  			mem_uncharge(smap, owner, smap->elem_size);
-450af8d0f6be2e KP Singh     2020-08-25  388  			return ERR_PTR(err);
-450af8d0f6be2e KP Singh     2020-08-25  389  		}
-450af8d0f6be2e KP Singh     2020-08-25  390  
-450af8d0f6be2e KP Singh     2020-08-25  391  		return SDATA(selem);
-450af8d0f6be2e KP Singh     2020-08-25  392  	}
-450af8d0f6be2e KP Singh     2020-08-25  393  
-450af8d0f6be2e KP Singh     2020-08-25  394  	if ((map_flags & BPF_F_LOCK) && !(map_flags & BPF_NOEXIST)) {
-450af8d0f6be2e KP Singh     2020-08-25  395  		/* Hoping to find an old_sdata to do inline update
-450af8d0f6be2e KP Singh     2020-08-25  396  		 * such that it can avoid taking the local_storage->lock
-450af8d0f6be2e KP Singh     2020-08-25  397  		 * and changing the lists.
-450af8d0f6be2e KP Singh     2020-08-25  398  		 */
-450af8d0f6be2e KP Singh     2020-08-25  399  		old_sdata =
-450af8d0f6be2e KP Singh     2020-08-25  400  			bpf_local_storage_lookup(local_storage, smap, false);
-450af8d0f6be2e KP Singh     2020-08-25  401  		err = check_flags(old_sdata, map_flags);
-450af8d0f6be2e KP Singh     2020-08-25  402  		if (err)
-450af8d0f6be2e KP Singh     2020-08-25  403  			return ERR_PTR(err);
-450af8d0f6be2e KP Singh     2020-08-25  404  		if (old_sdata && selem_linked_to_storage(SELEM(old_sdata))) {
-450af8d0f6be2e KP Singh     2020-08-25  405  			copy_map_value_locked(&smap->map, old_sdata->data,
-450af8d0f6be2e KP Singh     2020-08-25  406  					      value, false);
-450af8d0f6be2e KP Singh     2020-08-25  407  			return old_sdata;
-450af8d0f6be2e KP Singh     2020-08-25  408  		}
-450af8d0f6be2e KP Singh     2020-08-25  409  	}
-450af8d0f6be2e KP Singh     2020-08-25  410  
-b00fa38a9c1cba Joanne Koong 2022-03-17  411  	if (gfp_flags == GFP_KERNEL) {
-b00fa38a9c1cba Joanne Koong 2022-03-17  412  		selem = bpf_selem_alloc(smap, owner, value, true, gfp_flags);
-b00fa38a9c1cba Joanne Koong 2022-03-17  413  		if (!selem)
-b00fa38a9c1cba Joanne Koong 2022-03-17  414  			return ERR_PTR(-ENOMEM);
-b00fa38a9c1cba Joanne Koong 2022-03-17  415  	}
-b00fa38a9c1cba Joanne Koong 2022-03-17  416  
-a10787e6d58c24 Song Liu     2021-02-25  417  	raw_spin_lock_irqsave(&local_storage->lock, flags);
-450af8d0f6be2e KP Singh     2020-08-25  418  
-450af8d0f6be2e KP Singh     2020-08-25  419  	/* Recheck local_storage->list under local_storage->lock */
-450af8d0f6be2e KP Singh     2020-08-25  420  	if (unlikely(hlist_empty(&local_storage->list))) {
-450af8d0f6be2e KP Singh     2020-08-25  421  		/* A parallel del is happening and local_storage is going
-450af8d0f6be2e KP Singh     2020-08-25  422  		 * away.  It has just been checked before, so very
-450af8d0f6be2e KP Singh     2020-08-25  423  		 * unlikely.  Return instead of retry to keep things
-450af8d0f6be2e KP Singh     2020-08-25  424  		 * simple.
-450af8d0f6be2e KP Singh     2020-08-25  425  		 */
-450af8d0f6be2e KP Singh     2020-08-25  426  		err = -EAGAIN;
-450af8d0f6be2e KP Singh     2020-08-25  427  		goto unlock_err;
-450af8d0f6be2e KP Singh     2020-08-25  428  	}
-450af8d0f6be2e KP Singh     2020-08-25  429  
-450af8d0f6be2e KP Singh     2020-08-25  430  	old_sdata = bpf_local_storage_lookup(local_storage, smap, false);
-450af8d0f6be2e KP Singh     2020-08-25  431  	err = check_flags(old_sdata, map_flags);
-450af8d0f6be2e KP Singh     2020-08-25  432  	if (err)
-450af8d0f6be2e KP Singh     2020-08-25  433  		goto unlock_err;
-450af8d0f6be2e KP Singh     2020-08-25  434  
-450af8d0f6be2e KP Singh     2020-08-25  435  	if (old_sdata && (map_flags & BPF_F_LOCK)) {
-450af8d0f6be2e KP Singh     2020-08-25  436  		copy_map_value_locked(&smap->map, old_sdata->data, value,
-450af8d0f6be2e KP Singh     2020-08-25  437  				      false);
-450af8d0f6be2e KP Singh     2020-08-25  438  		selem = SELEM(old_sdata);
-450af8d0f6be2e KP Singh     2020-08-25  439  		goto unlock;
-450af8d0f6be2e KP Singh     2020-08-25  440  	}
-450af8d0f6be2e KP Singh     2020-08-25  441  
-b00fa38a9c1cba Joanne Koong 2022-03-17  442  	if (gfp_flags != GFP_KERNEL) {
-450af8d0f6be2e KP Singh     2020-08-25  443  		/* local_storage->lock is held.  Hence, we are sure
-450af8d0f6be2e KP Singh     2020-08-25  444  		 * we can unlink and uncharge the old_sdata successfully
-450af8d0f6be2e KP Singh     2020-08-25  445  		 * later.  Hence, instead of charging the new selem now
-450af8d0f6be2e KP Singh     2020-08-25  446  		 * and then uncharge the old selem later (which may cause
-450af8d0f6be2e KP Singh     2020-08-25  447  		 * a potential but unnecessary charge failure),  avoid taking
-450af8d0f6be2e KP Singh     2020-08-25  448  		 * a charge at all here (the "!old_sdata" check) and the
-450af8d0f6be2e KP Singh     2020-08-25  449  		 * old_sdata will not be uncharged later during
-450af8d0f6be2e KP Singh     2020-08-25  450  		 * bpf_selem_unlink_storage_nolock().
-450af8d0f6be2e KP Singh     2020-08-25  451  		 */
-b00fa38a9c1cba Joanne Koong 2022-03-17  452  		selem = bpf_selem_alloc(smap, owner, value, !old_sdata, gfp_flags);
-450af8d0f6be2e KP Singh     2020-08-25  453  		if (!selem) {
-450af8d0f6be2e KP Singh     2020-08-25  454  			err = -ENOMEM;
-450af8d0f6be2e KP Singh     2020-08-25  455  			goto unlock_err;
-450af8d0f6be2e KP Singh     2020-08-25  456  		}
-b00fa38a9c1cba Joanne Koong 2022-03-17  457  	}
-450af8d0f6be2e KP Singh     2020-08-25  458  
-450af8d0f6be2e KP Singh     2020-08-25  459  	/* First, link the new selem to the map */
-450af8d0f6be2e KP Singh     2020-08-25  460  	bpf_selem_link_map(smap, selem);
-450af8d0f6be2e KP Singh     2020-08-25  461  
-450af8d0f6be2e KP Singh     2020-08-25  462  	/* Second, link (and publish) the new selem to local_storage */
-450af8d0f6be2e KP Singh     2020-08-25  463  	bpf_selem_link_storage_nolock(local_storage, selem);
-450af8d0f6be2e KP Singh     2020-08-25  464  
-450af8d0f6be2e KP Singh     2020-08-25  465  	/* Third, remove old selem, SELEM(old_sdata) */
-450af8d0f6be2e KP Singh     2020-08-25  466  	if (old_sdata) {
-450af8d0f6be2e KP Singh     2020-08-25  467  		bpf_selem_unlink_map(SELEM(old_sdata));
-450af8d0f6be2e KP Singh     2020-08-25  468  		bpf_selem_unlink_storage_nolock(local_storage, SELEM(old_sdata),
-450af8d0f6be2e KP Singh     2020-08-25  469  						false);
-450af8d0f6be2e KP Singh     2020-08-25  470  	}
-450af8d0f6be2e KP Singh     2020-08-25  471  
-450af8d0f6be2e KP Singh     2020-08-25  472  unlock:
-a10787e6d58c24 Song Liu     2021-02-25 @473  	raw_spin_unlock_irqrestore(&local_storage->lock, flags);
-450af8d0f6be2e KP Singh     2020-08-25  474  	return SDATA(selem);
-450af8d0f6be2e KP Singh     2020-08-25  475  
-450af8d0f6be2e KP Singh     2020-08-25  476  unlock_err:
-a10787e6d58c24 Song Liu     2021-02-25  477  	raw_spin_unlock_irqrestore(&local_storage->lock, flags);
-b00fa38a9c1cba Joanne Koong 2022-03-17  478  	if (selem) {
-b00fa38a9c1cba Joanne Koong 2022-03-17  479  		mem_uncharge(smap, owner, smap->elem_size);
-b00fa38a9c1cba Joanne Koong 2022-03-17  480  		kfree(selem);
-b00fa38a9c1cba Joanne Koong 2022-03-17  481  	}
-450af8d0f6be2e KP Singh     2020-08-25  482  	return ERR_PTR(err);
-450af8d0f6be2e KP Singh     2020-08-25  483  }
-450af8d0f6be2e KP Singh     2020-08-25  484  
-
-:::::: The code at line 473 was first introduced by commit
-:::::: a10787e6d58c24b51e91c19c6d16c5da89fcaa4b bpf: Enable task local storage for tracing programs
-
-:::::: TO: Song Liu <songliubraving@fb.com>
-:::::: CC: Alexei Starovoitov <ast@kernel.org>
+   ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_resume_worker':
+   drivers/gpu/drm/drm_fb_helper.c:370: undefined reference to `fb_set_suspend'
+   ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_unregister_fbi':
+   drivers/gpu/drm/drm_fb_helper.c:605: undefined reference to `unregister_framebuffer'
+   ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_fini':
+   drivers/gpu/drm/drm_fb_helper.c:634: undefined reference to `framebuffer_release'
+   ld: drivers/gpu/drm/drm_fb_helper.c:633: undefined reference to `fb_dealloc_cmap'
+   ld: drivers/gpu/drm/drm_fb_helper.o: in function `__drm_fb_helper_initial_config_and_unlock':
+   drivers/gpu/drm/drm_fb_helper.c:1867: undefined reference to `register_framebuffer'
+   ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_alloc_fbi':
+   drivers/gpu/drm/drm_fb_helper.c:559: undefined reference to `framebuffer_alloc'
+   ld: drivers/gpu/drm/drm_fb_helper.c:563: undefined reference to `fb_alloc_cmap'
+   ld: drivers/gpu/drm/drm_fb_helper.c:589: undefined reference to `framebuffer_release'
+   ld: drivers/gpu/drm/drm_fb_helper.c:587: undefined reference to `fb_dealloc_cmap'
+   ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_generic_probe':
+   drivers/gpu/drm/drm_fb_helper.c:2360: undefined reference to `fb_deferred_io_init'
+   ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_cfb_fillrect':
+   drivers/gpu/drm/drm_fb_helper.c:809: undefined reference to `cfb_fillrect'
+   ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_cfb_copyarea':
+   drivers/gpu/drm/drm_fb_helper.c:824: undefined reference to `cfb_copyarea'
+   ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_cfb_imageblit':
+   drivers/gpu/drm/drm_fb_helper.c:839: undefined reference to `cfb_imageblit'
+>> ld: drivers/gpu/drm/drm_fb_helper.c:839: undefined reference to `cfb_imageblit'
+   ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_sys_imageblit':
+   drivers/gpu/drm/drm_fb_helper.c:794: undefined reference to `sys_imageblit'
+   ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_cfb_copyarea':
+   drivers/gpu/drm/drm_fb_helper.c:824: undefined reference to `cfb_copyarea'
+   ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_sys_copyarea':
+   drivers/gpu/drm/drm_fb_helper.c:779: undefined reference to `sys_copyarea'
+   ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_cfb_fillrect':
+   drivers/gpu/drm/drm_fb_helper.c:809: undefined reference to `cfb_fillrect'
+   ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_sys_fillrect':
+   drivers/gpu/drm/drm_fb_helper.c:764: undefined reference to `sys_fillrect'
+   ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fbdev_cleanup':
+   drivers/gpu/drm/drm_fb_helper.c:2054: undefined reference to `fb_deferred_io_cleanup'
+   ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_unregister_fbi':
+   drivers/gpu/drm/drm_fb_helper.c:605: undefined reference to `unregister_framebuffer'
+   ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_sys_read':
+   drivers/gpu/drm/drm_fb_helper.c:728: undefined reference to `fb_sys_read'
+   ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_sys_write':
+   drivers/gpu/drm/drm_fb_helper.c:746: undefined reference to `fb_sys_write'
+   ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_sys_fillrect':
+   drivers/gpu/drm/drm_fb_helper.c:764: undefined reference to `sys_fillrect'
+   ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_sys_copyarea':
+   drivers/gpu/drm/drm_fb_helper.c:779: undefined reference to `sys_copyarea'
+   ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_sys_imageblit':
+   drivers/gpu/drm/drm_fb_helper.c:794: undefined reference to `sys_imageblit'
+   ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_set_suspend':
+   drivers/gpu/drm/drm_fb_helper.c:856: undefined reference to `fb_set_suspend'
+   ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_set_suspend_unlocked':
+   drivers/gpu/drm/drm_fb_helper.c:901: undefined reference to `fb_set_suspend'
+   ld: drivers/gpu/drm/vmwgfx/vmwgfx_fb.o: in function `vmw_fb_imageblit':
+   drivers/gpu/drm/vmwgfx/vmwgfx_fb.c:382: undefined reference to `cfb_imageblit'
+   ld: drivers/gpu/drm/vmwgfx/vmwgfx_fb.o: in function `vmw_fb_copyarea':
+   drivers/gpu/drm/vmwgfx/vmwgfx_fb.c:375: undefined reference to `cfb_copyarea'
+   ld: drivers/gpu/drm/vmwgfx/vmwgfx_fb.o: in function `vmw_fb_fillrect':
+   drivers/gpu/drm/vmwgfx/vmwgfx_fb.c:368: undefined reference to `cfb_fillrect'
+   ld: drivers/gpu/drm/vmwgfx/vmwgfx_fb.o: in function `vmw_fb_init':
+   drivers/gpu/drm/vmwgfx/vmwgfx_fb.c:650: undefined reference to `framebuffer_alloc'
+   ld: drivers/gpu/drm/vmwgfx/vmwgfx_fb.c:759: undefined reference to `framebuffer_release'
+   ld: drivers/gpu/drm/vmwgfx/vmwgfx_fb.c:743: undefined reference to `fb_deferred_io_init'
+   ld: drivers/gpu/drm/vmwgfx/vmwgfx_fb.c:745: undefined reference to `register_framebuffer'
+   ld: drivers/gpu/drm/vmwgfx/vmwgfx_fb.c:754: undefined reference to `fb_deferred_io_cleanup'
+   ld: drivers/gpu/drm/vmwgfx/vmwgfx_fb.o: in function `vmw_fb_close':
+   drivers/gpu/drm/vmwgfx/vmwgfx_fb.c:777: undefined reference to `fb_deferred_io_cleanup'
+   ld: drivers/gpu/drm/vmwgfx/vmwgfx_fb.c:779: undefined reference to `unregister_framebuffer'
+   ld: drivers/gpu/drm/vmwgfx/vmwgfx_fb.c:786: undefined reference to `framebuffer_release'
 
 -- 
 0-DAY CI Kernel Test Service
