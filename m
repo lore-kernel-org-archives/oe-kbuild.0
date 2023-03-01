@@ -1,42 +1,53 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 771C9A3B
-	for <oe-kbuild@lists.linux.dev>; Wed,  1 Mar 2023 04:53:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677646388; x=1709182388;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=YpcHp/JWbb516cFFiEBT7GmuUIIYSUfSe8pNTMmGbbU=;
-  b=NHT6KOrPgqkulecYSPZ8hRbjhPeHeFG50m1kruGFvwQYk/zTEBXrL1oT
-   ACawk32+vYHXnJxLZPaHjsPCmybeb+TGIiFpkDKp2TqM2JvfOB8NFoU7U
-   iuz8N6j8EpBAXEPxVGeppv/rB0mtiNBKXbUbh51NrAC/p5NvPrSWvZY/t
-   yilLbVym62zWCAzJrJ0He/qqDEhdi94hVl8AYXBog4t6Zk29ArYDNLYgn
-   erkZ1kSFOhc3eLPmHgtFmu7VvCf6pIcDCdz/DHEK1o5XD8tWgVo7XRkmC
-   w99n44HxBkd9P5Sw0A9xTTuxy0GfdbXnUSzdVYpbewkagXgyeiwmXnKqG
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10635"; a="334357324"
-X-IronPort-AV: E=Sophos;i="5.98,223,1673942400"; 
-   d="scan'208";a="334357324"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2023 20:53:07 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10635"; a="624342201"
-X-IronPort-AV: E=Sophos;i="5.98,223,1673942400"; 
-   d="scan'208";a="624342201"
-Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 28 Feb 2023 20:53:05 -0800
-Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pXESe-0005t9-2C;
-	Wed, 01 Mar 2023 04:53:04 +0000
-Date: Wed, 1 Mar 2023 12:52:29 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: mm/memfd.c:321:16: warning: Dereference of null pointer
- [clang-analyzer-core.NullDereference]
-Message-ID: <202303011209.NzYt6MdP-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF427A3B;
+	Wed,  1 Mar 2023 05:00:13 +0000 (UTC)
+Received: by mail-ed1-f44.google.com with SMTP id o15so46524295edr.13;
+        Tue, 28 Feb 2023 21:00:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1677646812;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=+XUQml6mB6fyElWn5fahuEubA6/oRTgl8hnq3v9WlNo=;
+        b=LcBCQcqKE1J8v+3Jd8o7twV9tvZ5mwFaQMMyMOdYjiYwYZPdfmtL9z2ouiXMbzJKvt
+         r2WTKLB8vc6/SL76Ky28oM3rNx2PkEPnXxVt+DGJOaYyIH3C6msLBqRrD7ECsFf1aupy
+         GtgPxWZPx+zCj5k7kQrzxeNWa+9IOh71NOMDZC70IIHQ++9QOo3T1Elyo6kv0azuBVpJ
+         /l+LGiiOLAWlidRXdDFxen1KFp06GZbUMC4UCTBF/giRMrsH99kLc1ZLKfh52MCJbyZT
+         gzLps63yZZGUB2pWWdgN2smf99n3FN7ExHIg+yxCIvyKevDhpYyOw8U7LyaWtxtpaUhU
+         6xjA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1677646812;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=+XUQml6mB6fyElWn5fahuEubA6/oRTgl8hnq3v9WlNo=;
+        b=Aa0okbZfsVK69U6FZZKu/iz3a9i9Hf1mkOlwL1yODCBgInE2IlG24FI605i9DoHJEK
+         EEyF1QBoj7YDSYXJYEaNTOd4XJ74NZYVUjXgMEJOHbiL/LiCHWsX4GGvHrZbYKWycMOD
+         Ik/CDh2qSDqQhqstN3gH35+t7ktZRBkheffkmsB/C8WsGVvM938ERXHiyzUSt4byvmFc
+         PkfvQOT1BFdDb+8n3yuXSJqy3tDDCRPZG5dP4aFtn1ka2pPB645ypjvf+3ATJx82jLhy
+         e4e0cX84WcdF+12tS0+x6NTtMksvcnjNMtsy1mxGYFYTVe0kZPK1mHn8ZHtFMUMCOfou
+         O0rA==
+X-Gm-Message-State: AO0yUKXss2QQ+hDQt4IGVLywzwKsdPLefekR7R2ZfznXTCe0CponZG7N
+	yZ3G/rBu/vfl1D07NsZcJgvri4Md0c0=
+X-Google-Smtp-Source: AK7set/ZO69aTBKO5vnuvPpDlhnkEum3ye8i7RIFRWjDXxAkY7gyhlmcT68is9ayH7VQIEA7vJl6uQ==
+X-Received: by 2002:a17:906:1441:b0:8ae:e82a:3230 with SMTP id q1-20020a170906144100b008aee82a3230mr5345367ejc.70.1677646811712;
+        Tue, 28 Feb 2023 21:00:11 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id mf27-20020a170906cb9b00b008b1fc5abd0esm5278354ejb.71.2023.02.28.21.00.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 28 Feb 2023 21:00:11 -0800 (PST)
+Date: Wed, 1 Mar 2023 08:00:07 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev,
+	Maciej Fijalkowski <maciej.fijalkowski@intel.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Martyna Szapar-Mudlaw <martyna.szapar-mudlaw@linux.intel.com>,
+	Alexander Lobakin <alexandr.lobakin@intel.com>
+Subject: drivers/net/ethernet/intel/ice/ice_txrx.c:1304 ice_clean_rx_irq()
+ error: uninitialized symbol 'cached_ntu'.
+Message-ID: <202303011231.SEfXSwLT-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -45,306 +56,195 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-
-:::::: 
-:::::: Manual check reason: "low confidence static check warning: mm/memfd.c:321:16: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]"
-:::::: 
-
-BCC: lkp@intel.com
-CC: llvm@lists.linux.dev
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Jeff Xu <jeffxu@google.com>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
-CC: Daniel Verkamp <dverkamp@chromium.org>
-CC: Kees Cook <keescook@chromium.org>
+Message-ID: <20230301050007.qIiGSrsiBA0NAtzz1zmmwMI_bJpGlpX7OMamLv0M5gE@z>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   c0927a7a5391f7d8e593e5e50ead7505a23cadf9
-commit: 105ff5339f498af74e60d7662c8f1c4d21f1342d mm/memfd: add MFD_NOEXEC_SEAL and MFD_EXEC
-date:   6 weeks ago
-:::::: branch date: 5 hours ago
-:::::: commit date: 6 weeks ago
-config: s390-randconfig-c005-20230226 (https://download.01.org/0day-ci/archive/20230301/202303011209.NzYt6MdP-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project db89896bbbd2251fff457699635acbbedeead27f)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install s390 cross compiling tool for clang build
-        # apt-get install binutils-s390x-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=105ff5339f498af74e60d7662c8f1c4d21f1342d
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 105ff5339f498af74e60d7662c8f1c4d21f1342d
-        # save the config file
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=s390 clang-analyzer  olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=s390 clang-analyzer 
+commit: 3246a10752a7120878740f345f3956997777b3d6 ice: Add support for XDP multi-buffer on Tx side
+config: x86_64-randconfig-m001-20230227 (https://download.01.org/0day-ci/archive/20230301/202303011231.SEfXSwLT-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/r/202303011209.NzYt6MdP-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Link: https://lore.kernel.org/r/202303011231.SEfXSwLT-lkp@intel.com/
 
-clang_analyzer warnings: (new ones prefixed by >>)
-                                               ^
-   arch/s390/include/asm/lowcore.h:215:22: note: expanded from macro 'S390_lowcore'
-   #define S390_lowcore (*((struct lowcore *) 0))
-                        ^
-   arch/s390/kernel/signal.c:458:21: note: Calling 'sigmask_to_save'
-           sigset_t *oldset = sigmask_to_save();
-                              ^~~~~~~~~~~~~~~~~
-   include/linux/sched/signal.h:565:19: note: Dereference of null pointer
-           sigset_t *res = &current->blocked;
-                            ^
-   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'current'
-   #define current ((struct task_struct *const)S390_lowcore.current_task)
-                                               ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/s390/include/asm/lowcore.h:215:22: note: expanded from macro 'S390_lowcore'
-   #define S390_lowcore (*((struct lowcore *) 0))
-                        ^
-   include/linux/sched/signal.h:605:6: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]
-           if (current->sas_ss_flags & SS_AUTODISARM)
-               ^
-   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'current'
-   #define current ((struct task_struct *const)S390_lowcore.current_task)
-                                               ^
-   arch/s390/include/asm/lowcore.h:215:22: note: expanded from macro 'S390_lowcore'
-   #define S390_lowcore (*((struct lowcore *) 0))
-                        ^
-   arch/s390/kernel/signal.c:276:6: note: Calling 'on_sig_stack'
-           if (on_sig_stack(sp) && !on_sig_stack((sp - frame_size) & -8UL))
-               ^~~~~~~~~~~~~~~~
-   include/linux/sched/signal.h:605:6: note: Dereference of null pointer
-           if (current->sas_ss_flags & SS_AUTODISARM)
-               ^
-   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'current'
-   #define current ((struct task_struct *const)S390_lowcore.current_task)
-                                               ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/s390/include/asm/lowcore.h:215:22: note: expanded from macro 'S390_lowcore'
-   #define S390_lowcore (*((struct lowcore *) 0))
-                        ^
-   Suppressed 16 warnings (4 in non-user code, 12 with check filters).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   mm/usercopy.c:39:45: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]
-           const void * const stack = task_stack_page(current);
-                                                      ^
-   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'current'
-   #define current ((struct task_struct *const)S390_lowcore.current_task)
-                                               ^
-   arch/s390/include/asm/lowcore.h:215:22: note: expanded from macro 'S390_lowcore'
-   #define S390_lowcore (*((struct lowcore *) 0))
-                        ^
-   mm/usercopy.c:215:6: note: Left side of '&&' is false
-           if (static_branch_unlikely(&bypass_usercopy_checks))
-               ^
-   include/linux/jump_label.h:509:52: note: expanded from macro 'static_branch_unlikely'
-   #define static_branch_unlikely(x)       unlikely_notrace(static_key_enabled(&(x)->key))
-                                                            ^
-   include/linux/jump_label.h:417:67: note: expanded from macro 'static_key_enabled'
-           if (!__builtin_types_compatible_p(typeof(*x), struct static_key) &&     \
-                                                                            ^
-   mm/usercopy.c:215:6: note: Assuming the condition is false
-           if (static_branch_unlikely(&bypass_usercopy_checks))
-               ^
-   include/linux/jump_label.h:509:35: note: expanded from macro 'static_branch_unlikely'
-   #define static_branch_unlikely(x)       unlikely_notrace(static_key_enabled(&(x)->key))
-                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:80:30: note: expanded from macro 'unlikely_notrace'
-   # define unlikely_notrace(x)    unlikely(x)
-                                   ^~~~~~~~~~~
-   include/linux/compiler.h:78:22: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/usercopy.c:215:2: note: Taking false branch
-           if (static_branch_unlikely(&bypass_usercopy_checks))
-           ^
-   mm/usercopy.c:219:6: note: Assuming 'n' is not equal to 0
-           if (!n)
-               ^~
-   mm/usercopy.c:219:2: note: Taking false branch
-           if (!n)
-           ^
-   mm/usercopy.c:226:10: note: Calling 'check_stack_object'
-           switch (check_stack_object(ptr, n)) {
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/usercopy.c:39:45: note: Dereference of null pointer
-           const void * const stack = task_stack_page(current);
-                                                      ^
-   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'current'
-   #define current ((struct task_struct *const)S390_lowcore.current_task)
-                                               ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/s390/include/asm/lowcore.h:215:22: note: expanded from macro 'S390_lowcore'
-   #define S390_lowcore (*((struct lowcore *) 0))
-                        ^
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   7 warnings generated.
->> mm/memfd.c:321:16: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]
-                           task_pid_nr(current), get_task_comm(comm, current));
-                                       ^
-   mm/memfd.c:269:1: note: Calling '__do_sys_memfd_create'
-   SYSCALL_DEFINE2(memfd_create,
-   ^
-   include/linux/syscalls.h:218:36: note: expanded from macro 'SYSCALL_DEFINE2'
-   #define SYSCALL_DEFINE2(name, ...) SYSCALL_DEFINEx(2, _##name, __VA_ARGS__)
-                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/syscalls.h:228:2: note: expanded from macro 'SYSCALL_DEFINEx'
-           __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/s390/include/asm/syscall_wrapper.h:157:14: note: expanded from macro '__SYSCALL_DEFINEx'
-                   long ret = __do_sys##name(SYSCALL_PT_ARGS(x, regs,                      \
-                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   note: expanded from here
-   mm/memfd.c:280:6: note: Assuming the condition is false
-           if (!(flags & MFD_HUGETLB)) {
-               ^~~~~~~~~~~~~~~~~~~~~~
-   mm/memfd.c:280:2: note: Taking false branch
-           if (!(flags & MFD_HUGETLB)) {
-           ^
-   mm/memfd.c:285:7: note: Assuming the condition is false
-                   if (flags & ~(unsigned int)(MFD_ALL_FLAGS |
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/memfd.c:285:3: note: Taking false branch
-                   if (flags & ~(unsigned int)(MFD_ALL_FLAGS |
-                   ^
-   mm/memfd.c:291:7: note: Assuming the condition is false
-           if ((flags & MFD_EXEC) && (flags & MFD_NOEXEC_SEAL))
-                ^~~~~~~~~~~~~~~~
-   mm/memfd.c:291:25: note: Left side of '&&' is false
-           if ((flags & MFD_EXEC) && (flags & MFD_NOEXEC_SEAL))
-                                  ^
-   mm/memfd.c:294:6: note: Assuming the condition is true
-           if (!(flags & (MFD_EXEC | MFD_NOEXEC_SEAL))) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/memfd.c:294:2: note: Taking true branch
-           if (!(flags & (MFD_EXEC | MFD_NOEXEC_SEAL))) {
-           ^
-   mm/memfd.c:319:3: note: '__ret_cond' is true
-                   pr_warn_once(
-                   ^
-   include/linux/printk.h:615:2: note: expanded from macro 'pr_warn_once'
-           printk_once(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/printk.h:596:2: note: expanded from macro 'printk_once'
-           DO_ONCE_LITE(printk, fmt, ##__VA_ARGS__)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/once_lite.h:11:2: note: expanded from macro 'DO_ONCE_LITE'
-           DO_ONCE_LITE_IF(true, func, ##__VA_ARGS__)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/once_lite.h:30:7: note: expanded from macro 'DO_ONCE_LITE_IF'
-                   if (__ONCE_LITE_IF(__ret_do_once))                      \
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/once_lite.h:19:16: note: expanded from macro '__ONCE_LITE_IF'
-                   if (unlikely(__ret_cond && !__already_done)) {          \
-                                ^~~~~~~~~~
-   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                               ^
-   mm/memfd.c:319:3: note: Left side of '&&' is true
-                   pr_warn_once(
-                   ^
-   include/linux/printk.h:615:2: note: expanded from macro 'pr_warn_once'
-           printk_once(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
-           ^
-   include/linux/printk.h:596:2: note: expanded from macro 'printk_once'
-           DO_ONCE_LITE(printk, fmt, ##__VA_ARGS__)
-           ^
-   include/linux/once_lite.h:11:2: note: expanded from macro 'DO_ONCE_LITE'
-           DO_ONCE_LITE_IF(true, func, ##__VA_ARGS__)
-           ^
-   include/linux/once_lite.h:30:7: note: expanded from macro 'DO_ONCE_LITE_IF'
-                   if (__ONCE_LITE_IF(__ret_do_once))                      \
-                       ^
-   include/linux/once_lite.h:19:16: note: expanded from macro '__ONCE_LITE_IF'
-                   if (unlikely(__ret_cond && !__already_done)) {          \
-                                ^
-   mm/memfd.c:319:3: note: Taking true branch
-                   pr_warn_once(
-                   ^
-   include/linux/printk.h:615:2: note: expanded from macro 'pr_warn_once'
-           printk_once(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
-           ^
-   include/linux/printk.h:596:2: note: expanded from macro 'printk_once'
-           DO_ONCE_LITE(printk, fmt, ##__VA_ARGS__)
-           ^
-   include/linux/once_lite.h:11:2: note: expanded from macro 'DO_ONCE_LITE'
-           DO_ONCE_LITE_IF(true, func, ##__VA_ARGS__)
-           ^
-   include/linux/once_lite.h:30:7: note: expanded from macro 'DO_ONCE_LITE_IF'
-                   if (__ONCE_LITE_IF(__ret_do_once))                      \
-                       ^
-   include/linux/once_lite.h:19:3: note: expanded from macro '__ONCE_LITE_IF'
-                   if (unlikely(__ret_cond && !__already_done)) {          \
-                   ^
-   mm/memfd.c:319:3: note: Taking true branch
-                   pr_warn_once(
-                   ^
-   include/linux/printk.h:615:2: note: expanded from macro 'pr_warn_once'
+New smatch warnings:
+drivers/net/ethernet/intel/ice/ice_txrx.c:1304 ice_clean_rx_irq() error: uninitialized symbol 'cached_ntu'.
 
-vim +321 mm/memfd.c
+vim +/cached_ntu +1304 drivers/net/ethernet/intel/ice/ice_txrx.c
 
-5d752600a8c373 Mike Kravetz 2018-06-07  268  
-5d752600a8c373 Mike Kravetz 2018-06-07  269  SYSCALL_DEFINE2(memfd_create,
-5d752600a8c373 Mike Kravetz 2018-06-07  270  		const char __user *, uname,
-5d752600a8c373 Mike Kravetz 2018-06-07  271  		unsigned int, flags)
-5d752600a8c373 Mike Kravetz 2018-06-07  272  {
-105ff5339f498a Jeff Xu      2022-12-15  273  	char comm[TASK_COMM_LEN];
-5d752600a8c373 Mike Kravetz 2018-06-07  274  	unsigned int *file_seals;
-5d752600a8c373 Mike Kravetz 2018-06-07  275  	struct file *file;
-5d752600a8c373 Mike Kravetz 2018-06-07  276  	int fd, error;
-5d752600a8c373 Mike Kravetz 2018-06-07  277  	char *name;
-5d752600a8c373 Mike Kravetz 2018-06-07  278  	long len;
-5d752600a8c373 Mike Kravetz 2018-06-07  279  
-5d752600a8c373 Mike Kravetz 2018-06-07  280  	if (!(flags & MFD_HUGETLB)) {
-5d752600a8c373 Mike Kravetz 2018-06-07  281  		if (flags & ~(unsigned int)MFD_ALL_FLAGS)
-5d752600a8c373 Mike Kravetz 2018-06-07  282  			return -EINVAL;
-5d752600a8c373 Mike Kravetz 2018-06-07  283  	} else {
-5d752600a8c373 Mike Kravetz 2018-06-07  284  		/* Allow huge page size encoding in flags. */
-5d752600a8c373 Mike Kravetz 2018-06-07  285  		if (flags & ~(unsigned int)(MFD_ALL_FLAGS |
-5d752600a8c373 Mike Kravetz 2018-06-07  286  				(MFD_HUGE_MASK << MFD_HUGE_SHIFT)))
-5d752600a8c373 Mike Kravetz 2018-06-07  287  			return -EINVAL;
-5d752600a8c373 Mike Kravetz 2018-06-07  288  	}
-5d752600a8c373 Mike Kravetz 2018-06-07  289  
-105ff5339f498a Jeff Xu      2022-12-15  290  	/* Invalid if both EXEC and NOEXEC_SEAL are set.*/
-105ff5339f498a Jeff Xu      2022-12-15  291  	if ((flags & MFD_EXEC) && (flags & MFD_NOEXEC_SEAL))
-105ff5339f498a Jeff Xu      2022-12-15  292  		return -EINVAL;
-105ff5339f498a Jeff Xu      2022-12-15  293  
-105ff5339f498a Jeff Xu      2022-12-15  294  	if (!(flags & (MFD_EXEC | MFD_NOEXEC_SEAL))) {
-105ff5339f498a Jeff Xu      2022-12-15  295  #ifdef CONFIG_SYSCTL
-105ff5339f498a Jeff Xu      2022-12-15  296  		int sysctl = MEMFD_NOEXEC_SCOPE_EXEC;
-105ff5339f498a Jeff Xu      2022-12-15  297  		struct pid_namespace *ns;
-105ff5339f498a Jeff Xu      2022-12-15  298  
-105ff5339f498a Jeff Xu      2022-12-15  299  		ns = task_active_pid_ns(current);
-105ff5339f498a Jeff Xu      2022-12-15  300  		if (ns)
-105ff5339f498a Jeff Xu      2022-12-15  301  			sysctl = ns->memfd_noexec_scope;
-105ff5339f498a Jeff Xu      2022-12-15  302  
-105ff5339f498a Jeff Xu      2022-12-15  303  		switch (sysctl) {
-105ff5339f498a Jeff Xu      2022-12-15  304  		case MEMFD_NOEXEC_SCOPE_EXEC:
-105ff5339f498a Jeff Xu      2022-12-15  305  			flags |= MFD_EXEC;
-105ff5339f498a Jeff Xu      2022-12-15  306  			break;
-105ff5339f498a Jeff Xu      2022-12-15  307  		case MEMFD_NOEXEC_SCOPE_NOEXEC_SEAL:
-105ff5339f498a Jeff Xu      2022-12-15  308  			flags |= MFD_NOEXEC_SEAL;
-105ff5339f498a Jeff Xu      2022-12-15  309  			break;
-105ff5339f498a Jeff Xu      2022-12-15  310  		default:
-105ff5339f498a Jeff Xu      2022-12-15  311  			pr_warn_once(
-105ff5339f498a Jeff Xu      2022-12-15  312  				"memfd_create(): MFD_NOEXEC_SEAL is enforced, pid=%d '%s'\n",
-105ff5339f498a Jeff Xu      2022-12-15  313  				task_pid_nr(current), get_task_comm(comm, current));
-105ff5339f498a Jeff Xu      2022-12-15  314  			return -EINVAL;
-105ff5339f498a Jeff Xu      2022-12-15  315  		}
-105ff5339f498a Jeff Xu      2022-12-15  316  #else
-105ff5339f498a Jeff Xu      2022-12-15  317  		flags |= MFD_EXEC;
-105ff5339f498a Jeff Xu      2022-12-15  318  #endif
-105ff5339f498a Jeff Xu      2022-12-15  319  		pr_warn_once(
-105ff5339f498a Jeff Xu      2022-12-15  320  			"memfd_create() without MFD_EXEC nor MFD_NOEXEC_SEAL, pid=%d '%s'\n",
-105ff5339f498a Jeff Xu      2022-12-15 @321  			task_pid_nr(current), get_task_comm(comm, current));
+efc2214b6047b6 Maciej Fijalkowski     2019-11-04  1150  
+eb087cd828648d Maciej Fijalkowski     2021-08-19  1151  	xdp_prog = READ_ONCE(rx_ring->xdp_prog);
+3246a10752a712 Maciej Fijalkowski     2023-01-31  1152  	if (xdp_prog) {
+eb087cd828648d Maciej Fijalkowski     2021-08-19  1153  		xdp_ring = rx_ring->xdp_ring;
+3246a10752a712 Maciej Fijalkowski     2023-01-31  1154  		cached_ntu = xdp_ring->next_to_use;
+3246a10752a712 Maciej Fijalkowski     2023-01-31  1155  	}
+
+Uninitialized on else path.
+
+eb087cd828648d Maciej Fijalkowski     2021-08-19  1156  
+f9867df6d96593 Anirudh Venkataramanan 2019-02-19  1157  	/* start the loop to process Rx packets bounded by 'budget' */
+2b245cb29421ab Anirudh Venkataramanan 2018-03-20  1158  	while (likely(total_rx_pkts < (unsigned int)budget)) {
+2b245cb29421ab Anirudh Venkataramanan 2018-03-20  1159  		union ice_32b_rx_flex_desc *rx_desc;
+6c869cb7a8f02b Maciej Fijalkowski     2019-02-13  1160  		struct ice_rx_buf *rx_buf;
+2fba7dc5157b6f Maciej Fijalkowski     2023-01-31  1161  		struct sk_buff *skb;
+6c869cb7a8f02b Maciej Fijalkowski     2019-02-13  1162  		unsigned int size;
+2b245cb29421ab Anirudh Venkataramanan 2018-03-20  1163  		u16 stat_err_bits;
+2b245cb29421ab Anirudh Venkataramanan 2018-03-20  1164  		u16 vlan_tag = 0;
+dda90cb90a5ced Jesse Brandeburg       2021-02-23  1165  		u16 rx_ptype;
+2b245cb29421ab Anirudh Venkataramanan 2018-03-20  1166  
+f9867df6d96593 Anirudh Venkataramanan 2019-02-19  1167  		/* get the Rx desc from Rx ring based on 'next_to_clean' */
+d7956d81f1502d Maciej Fijalkowski     2023-01-31  1168  		rx_desc = ICE_RX_DESC(rx_ring, ntc);
+2b245cb29421ab Anirudh Venkataramanan 2018-03-20  1169  
+2b245cb29421ab Anirudh Venkataramanan 2018-03-20  1170  		/* status_error_len will always be zero for unused descriptors
+2b245cb29421ab Anirudh Venkataramanan 2018-03-20  1171  		 * because it's cleared in cleanup, and overlaps with hdr_addr
+2b245cb29421ab Anirudh Venkataramanan 2018-03-20  1172  		 * which is always zero because packet split isn't used, if the
+2b245cb29421ab Anirudh Venkataramanan 2018-03-20  1173  		 * hardware wrote DD then it will be non-zero
+2b245cb29421ab Anirudh Venkataramanan 2018-03-20  1174  		 */
+2b245cb29421ab Anirudh Venkataramanan 2018-03-20  1175  		stat_err_bits = BIT(ICE_RX_FLEX_DESC_STATUS0_DD_S);
+0d54d8f7a16de0 Brett Creeley          2021-12-02  1176  		if (!ice_test_staterr(rx_desc->wb.status_error0, stat_err_bits))
+2b245cb29421ab Anirudh Venkataramanan 2018-03-20  1177  			break;
+2b245cb29421ab Anirudh Venkataramanan 2018-03-20  1178  
+2b245cb29421ab Anirudh Venkataramanan 2018-03-20  1179  		/* This memory barrier is needed to keep us from reading
+2b245cb29421ab Anirudh Venkataramanan 2018-03-20  1180  		 * any other fields out of the rx_desc until we know the
+2b245cb29421ab Anirudh Venkataramanan 2018-03-20  1181  		 * DD bit is set.
+2b245cb29421ab Anirudh Venkataramanan 2018-03-20  1182  		 */
+2b245cb29421ab Anirudh Venkataramanan 2018-03-20  1183  		dma_rmb();
+2b245cb29421ab Anirudh Venkataramanan 2018-03-20  1184  
+3089cf6d3caa1e Jesse Brandeburg       2021-06-08  1185  		ice_trace(clean_rx_irq, rx_ring, rx_desc);
+148beb61203125 Henry Tieman           2020-05-11  1186  		if (rx_desc->wb.rxdid == FDIR_DESC_RXDID || !rx_ring->netdev) {
+d6218317e2eff8 Qi Zhang               2021-03-09  1187  			struct ice_vsi *ctrl_vsi = rx_ring->vsi;
+d6218317e2eff8 Qi Zhang               2021-03-09  1188  
+d6218317e2eff8 Qi Zhang               2021-03-09  1189  			if (rx_desc->wb.rxdid == FDIR_DESC_RXDID &&
+b03d519d3460f3 Jacob Keller           2022-02-16  1190  			    ctrl_vsi->vf)
+d6218317e2eff8 Qi Zhang               2021-03-09  1191  				ice_vc_fdir_irq_handler(ctrl_vsi, rx_desc);
+d7956d81f1502d Maciej Fijalkowski     2023-01-31  1192  			if (++ntc == cnt)
+d7956d81f1502d Maciej Fijalkowski     2023-01-31  1193  				ntc = 0;
+148beb61203125 Henry Tieman           2020-05-11  1194  			continue;
+148beb61203125 Henry Tieman           2020-05-11  1195  		}
+148beb61203125 Henry Tieman           2020-05-11  1196  
+6c869cb7a8f02b Maciej Fijalkowski     2019-02-13  1197  		size = le16_to_cpu(rx_desc->wb.pkt_len) &
+6c869cb7a8f02b Maciej Fijalkowski     2019-02-13  1198  			ICE_RX_FLX_DESC_PKT_LEN_M;
+6c869cb7a8f02b Maciej Fijalkowski     2019-02-13  1199  
+ac6f733a7bd5e2 Mitch Williams         2019-07-25  1200  		/* retrieve a buffer from the ring */
+d7956d81f1502d Maciej Fijalkowski     2023-01-31  1201  		rx_buf = ice_get_rx_buf(rx_ring, size, ntc);
+ac6f733a7bd5e2 Mitch Williams         2019-07-25  1202  
+2fba7dc5157b6f Maciej Fijalkowski     2023-01-31  1203  		if (!xdp->data) {
+2fba7dc5157b6f Maciej Fijalkowski     2023-01-31  1204  			void *hard_start;
+efc2214b6047b6 Maciej Fijalkowski     2019-11-04  1205  
+be9df4aff65f18 Lorenzo Bianconi       2020-12-22  1206  			hard_start = page_address(rx_buf->page) + rx_buf->page_offset -
+be9df4aff65f18 Lorenzo Bianconi       2020-12-22  1207  				     offset;
+cb0473e0e9dcca Maciej Fijalkowski     2023-01-31  1208  			xdp_prepare_buff(xdp, hard_start, offset, size, !!offset);
+d4ecdbf7aa2fa4 Jesper Dangaard Brouer 2020-05-14  1209  #if (PAGE_SIZE > 4096)
+d4ecdbf7aa2fa4 Jesper Dangaard Brouer 2020-05-14  1210  			/* At larger PAGE_SIZE, frame_sz depend on len size */
+cb0473e0e9dcca Maciej Fijalkowski     2023-01-31  1211  			xdp->frame_sz = ice_rx_frame_truesize(rx_ring, size);
+d4ecdbf7aa2fa4 Jesper Dangaard Brouer 2020-05-14  1212  #endif
+2fba7dc5157b6f Maciej Fijalkowski     2023-01-31  1213  			xdp_buff_clear_frags_flag(xdp);
+2fba7dc5157b6f Maciej Fijalkowski     2023-01-31  1214  		} else if (ice_add_xdp_frag(rx_ring, xdp, rx_buf, size)) {
+2fba7dc5157b6f Maciej Fijalkowski     2023-01-31  1215  			break;
+2fba7dc5157b6f Maciej Fijalkowski     2023-01-31  1216  		}
+2fba7dc5157b6f Maciej Fijalkowski     2023-01-31  1217  		if (++ntc == cnt)
+2fba7dc5157b6f Maciej Fijalkowski     2023-01-31  1218  			ntc = 0;
+2fba7dc5157b6f Maciej Fijalkowski     2023-01-31  1219  
+2fba7dc5157b6f Maciej Fijalkowski     2023-01-31  1220  		/* skip if it is NOP desc */
+2fba7dc5157b6f Maciej Fijalkowski     2023-01-31  1221  		if (ice_is_non_eop(rx_ring, rx_desc))
+2fba7dc5157b6f Maciej Fijalkowski     2023-01-31  1222  			continue;
+efc2214b6047b6 Maciej Fijalkowski     2019-11-04  1223  
+1dc1a7e7f4108b Maciej Fijalkowski     2023-01-31  1224  		ice_run_xdp(rx_ring, xdp, xdp_prog, xdp_ring, rx_buf);
+1dc1a7e7f4108b Maciej Fijalkowski     2023-01-31  1225  		if (rx_buf->act == ICE_XDP_PASS)
+59bb0808055758 Maciej Fijalkowski     2019-10-24  1226  			goto construct_skb;
+2fba7dc5157b6f Maciej Fijalkowski     2023-01-31  1227  		total_rx_bytes += xdp_get_buff_len(xdp);
+efc2214b6047b6 Maciej Fijalkowski     2019-11-04  1228  		total_rx_pkts++;
+efc2214b6047b6 Maciej Fijalkowski     2019-11-04  1229  
+2fba7dc5157b6f Maciej Fijalkowski     2023-01-31  1230  		xdp->data = NULL;
+2fba7dc5157b6f Maciej Fijalkowski     2023-01-31  1231  		rx_ring->first_desc = ntc;
+efc2214b6047b6 Maciej Fijalkowski     2019-11-04  1232  		continue;
+efc2214b6047b6 Maciej Fijalkowski     2019-11-04  1233  construct_skb:
+2fba7dc5157b6f Maciej Fijalkowski     2023-01-31  1234  		if (likely(ice_ring_uses_build_skb(rx_ring)))
+2fba7dc5157b6f Maciej Fijalkowski     2023-01-31  1235  			skb = ice_build_skb(rx_ring, xdp);
+712edbbb67d404 Maciej Fijalkowski     2019-02-13  1236  		else
+2fba7dc5157b6f Maciej Fijalkowski     2023-01-31  1237  			skb = ice_construct_skb(rx_ring, xdp);
+712edbbb67d404 Maciej Fijalkowski     2019-02-13  1238  		/* exit if we failed to retrieve a buffer */
+712edbbb67d404 Maciej Fijalkowski     2019-02-13  1239  		if (!skb) {
+2fba7dc5157b6f Maciej Fijalkowski     2023-01-31  1240  			rx_ring->ring_stats->rx_stats.alloc_page_failed++;
+2fba7dc5157b6f Maciej Fijalkowski     2023-01-31  1241  			rx_buf->act = ICE_XDP_CONSUMED;
+2fba7dc5157b6f Maciej Fijalkowski     2023-01-31  1242  			if (unlikely(xdp_buff_has_frags(xdp)))
+2fba7dc5157b6f Maciej Fijalkowski     2023-01-31  1243  				ice_set_rx_bufs_act(xdp, rx_ring,
+2fba7dc5157b6f Maciej Fijalkowski     2023-01-31  1244  						    ICE_XDP_CONSUMED);
+2fba7dc5157b6f Maciej Fijalkowski     2023-01-31  1245  			xdp->data = NULL;
+2fba7dc5157b6f Maciej Fijalkowski     2023-01-31  1246  			rx_ring->first_desc = ntc;
+2b245cb29421ab Anirudh Venkataramanan 2018-03-20  1247  			break;
+712edbbb67d404 Maciej Fijalkowski     2019-02-13  1248  		}
+2fba7dc5157b6f Maciej Fijalkowski     2023-01-31  1249  		xdp->data = NULL;
+2fba7dc5157b6f Maciej Fijalkowski     2023-01-31  1250  		rx_ring->first_desc = ntc;
+2b245cb29421ab Anirudh Venkataramanan 2018-03-20  1251  
+2b245cb29421ab Anirudh Venkataramanan 2018-03-20  1252  		stat_err_bits = BIT(ICE_RX_FLEX_DESC_STATUS0_RXE_S);
+0d54d8f7a16de0 Brett Creeley          2021-12-02  1253  		if (unlikely(ice_test_staterr(rx_desc->wb.status_error0,
+0d54d8f7a16de0 Brett Creeley          2021-12-02  1254  					      stat_err_bits))) {
+2b245cb29421ab Anirudh Venkataramanan 2018-03-20  1255  			dev_kfree_skb_any(skb);
+2b245cb29421ab Anirudh Venkataramanan 2018-03-20  1256  			continue;
+2b245cb29421ab Anirudh Venkataramanan 2018-03-20  1257  		}
+2b245cb29421ab Anirudh Venkataramanan 2018-03-20  1258  
+0d54d8f7a16de0 Brett Creeley          2021-12-02  1259  		vlan_tag = ice_get_vlan_tag_from_rx_desc(rx_desc);
+2b245cb29421ab Anirudh Venkataramanan 2018-03-20  1260  
+133f4883f90668 Krzysztof Kazimierczak 2019-10-09  1261  		/* pad the skb if needed, to make a valid ethernet frame */
+2fba7dc5157b6f Maciej Fijalkowski     2023-01-31  1262  		if (eth_skb_pad(skb))
+2b245cb29421ab Anirudh Venkataramanan 2018-03-20  1263  			continue;
+2b245cb29421ab Anirudh Venkataramanan 2018-03-20  1264  
+2b245cb29421ab Anirudh Venkataramanan 2018-03-20  1265  		/* probably a little skewed due to removing CRC */
+2b245cb29421ab Anirudh Venkataramanan 2018-03-20  1266  		total_rx_bytes += skb->len;
+2b245cb29421ab Anirudh Venkataramanan 2018-03-20  1267  
+d76a60ba7afb89 Anirudh Venkataramanan 2018-03-20  1268  		/* populate checksum, VLAN, and protocol */
+6503b659302893 Jesse Brandeburg       2019-08-08  1269  		rx_ptype = le16_to_cpu(rx_desc->wb.ptype_flex_flags0) &
+6503b659302893 Jesse Brandeburg       2019-08-08  1270  			ICE_RX_FLEX_DESC_PTYPE_M;
+6503b659302893 Jesse Brandeburg       2019-08-08  1271  
+d76a60ba7afb89 Anirudh Venkataramanan 2018-03-20  1272  		ice_process_skb_fields(rx_ring, rx_desc, skb, rx_ptype);
+d76a60ba7afb89 Anirudh Venkataramanan 2018-03-20  1273  
+3089cf6d3caa1e Jesse Brandeburg       2021-06-08  1274  		ice_trace(clean_rx_irq_indicate, rx_ring, rx_desc, skb);
+2b245cb29421ab Anirudh Venkataramanan 2018-03-20  1275  		/* send completed skb up the stack */
+2b245cb29421ab Anirudh Venkataramanan 2018-03-20  1276  		ice_receive_skb(rx_ring, skb, vlan_tag);
+2b245cb29421ab Anirudh Venkataramanan 2018-03-20  1277  
+2b245cb29421ab Anirudh Venkataramanan 2018-03-20  1278  		/* update budget accounting */
+2b245cb29421ab Anirudh Venkataramanan 2018-03-20  1279  		total_rx_pkts++;
+2b245cb29421ab Anirudh Venkataramanan 2018-03-20  1280  	}
+2b245cb29421ab Anirudh Venkataramanan 2018-03-20  1281  
+2fba7dc5157b6f Maciej Fijalkowski     2023-01-31  1282  	first = rx_ring->first_desc;
+2fba7dc5157b6f Maciej Fijalkowski     2023-01-31  1283  	while (cached_ntc != first) {
+1dc1a7e7f4108b Maciej Fijalkowski     2023-01-31  1284  		struct ice_rx_buf *buf = &rx_ring->rx_buf[cached_ntc];
+1dc1a7e7f4108b Maciej Fijalkowski     2023-01-31  1285  
+1dc1a7e7f4108b Maciej Fijalkowski     2023-01-31  1286  		if (buf->act & (ICE_XDP_TX | ICE_XDP_REDIR)) {
+1dc1a7e7f4108b Maciej Fijalkowski     2023-01-31  1287  			ice_rx_buf_adjust_pg_offset(buf, xdp->frame_sz);
+1dc1a7e7f4108b Maciej Fijalkowski     2023-01-31  1288  			xdp_xmit |= buf->act;
+1dc1a7e7f4108b Maciej Fijalkowski     2023-01-31  1289  		} else if (buf->act & ICE_XDP_CONSUMED) {
+1dc1a7e7f4108b Maciej Fijalkowski     2023-01-31  1290  			buf->pagecnt_bias++;
+1dc1a7e7f4108b Maciej Fijalkowski     2023-01-31  1291  		} else if (buf->act == ICE_XDP_PASS) {
+1dc1a7e7f4108b Maciej Fijalkowski     2023-01-31  1292  			ice_rx_buf_adjust_pg_offset(buf, xdp->frame_sz);
+1dc1a7e7f4108b Maciej Fijalkowski     2023-01-31  1293  		}
+1dc1a7e7f4108b Maciej Fijalkowski     2023-01-31  1294  
+1dc1a7e7f4108b Maciej Fijalkowski     2023-01-31  1295  		ice_put_rx_buf(rx_ring, buf);
+1dc1a7e7f4108b Maciej Fijalkowski     2023-01-31  1296  		if (++cached_ntc >= cnt)
+1dc1a7e7f4108b Maciej Fijalkowski     2023-01-31  1297  			cached_ntc = 0;
+1dc1a7e7f4108b Maciej Fijalkowski     2023-01-31  1298  	}
+d7956d81f1502d Maciej Fijalkowski     2023-01-31  1299  	rx_ring->next_to_clean = ntc;
+cb7db35641c9a5 Brett Creeley          2019-06-26  1300  	/* return up to cleaned_count buffers to hardware */
+2fba7dc5157b6f Maciej Fijalkowski     2023-01-31  1301  	failure = ice_alloc_rx_bufs(rx_ring, ICE_RX_DESC_UNUSED(rx_ring));
+cb7db35641c9a5 Brett Creeley          2019-06-26  1302  
+9070fe3da0b126 Maciej Fijalkowski     2023-01-31  1303  	if (xdp_xmit)
+3246a10752a712 Maciej Fijalkowski     2023-01-31 @1304  		ice_finalize_xdp_rx(xdp_ring, xdp_xmit, cached_ntu);
+                                                                                                                ^^^^^^^^^^
+
+
+efc2214b6047b6 Maciej Fijalkowski     2019-11-04  1305  
+288ecf491b1654 Benjamin Mikailenko    2022-11-18  1306  	if (rx_ring->ring_stats)
+288ecf491b1654 Benjamin Mikailenko    2022-11-18  1307  		ice_update_rx_ring_stats(rx_ring, total_rx_pkts,
+288ecf491b1654 Benjamin Mikailenko    2022-11-18  1308  					 total_rx_bytes);
+2b245cb29421ab Anirudh Venkataramanan 2018-03-20  1309  
+2b245cb29421ab Anirudh Venkataramanan 2018-03-20  1310  	/* guarantee a trip back through this routine if there was a failure */
+2b245cb29421ab Anirudh Venkataramanan 2018-03-20  1311  	return failure ? budget : (int)total_rx_pkts;
+2b245cb29421ab Anirudh Venkataramanan 2018-03-20  1312  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
+
