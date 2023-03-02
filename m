@@ -1,43 +1,42 @@
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8630A8C11
-	for <oe-kbuild@lists.linux.dev>; Thu,  2 Mar 2023 16:50:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 841A08C11
+	for <oe-kbuild@lists.linux.dev>; Thu,  2 Mar 2023 17:00:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677775828; x=1709311828;
+  t=1677776428; x=1709312428;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ORgbL4aGvlYhgoycE2nKr7deQ8xzUm6VryCkSh3F4ek=;
-  b=lvAb+uKFK1WXta2Pu6qXSnCTQPMRetPjlkpnXpgcdei4LwhtFpzAZfYV
-   6w0/cJ8GON0bAiOIpbW54oVdowoRc3VsLT9VJnU9SsK3ujPgYWKsT+9ZK
-   DczTxpJvG6ZOxmJx5j8DpwA0RBq6MNyisZ2vJI4tdvYdK+yWaQtCQVsFx
-   Iyapw8M3DHOKNKcRLM5Ql7BpRK+S0EnU2WR+AxYzWV8tXtTJ4NDDsFhpa
-   nyPZXBNUSpSVMtm5nuuSKY99Hdg+lWw2aHC/P/GJAWO8gBqv3UVWY6s8g
-   3og1ZGSFqE8UGpPsLxvojyUVzAwAA/yKd/2OusNtuQwVzd7hSiqRDstCq
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10637"; a="323071009"
+  bh=NFShtg2ju6UVRt1B7milDjtqwmAMlHZn5hUuQz9KCKM=;
+  b=gYW1rryEX7h7QXNB4uBTc9c7xYvHMz4Myp9e3htdf4cwc+P0VoALCc6q
+   SFOP9ruV2dPAcoNbkrmt747YINg+Wm740XlHhQWuNCI/DhvnvLBy3M+dV
+   TfKxbrOscwuhcav/uCkKH9wcJhmmIgMJ1Uo1DzWqabqUM9pI+UMV5xcfo
+   ZiNsO1e1iw6nVKUYv+1B/gZ7RxMI9tIxfLI2YDUPvbkSkzUnQ+O5xmz/p
+   AmxIQk9eiLUTZ7kFjfex0+4scdv9OKVkyInfLrLhABkaoZDfD6zwYq2lo
+   IpKC3ZAXPjt/lCHA++8s0bf36ATU12ExJLUWZmdz2tfG9yjxilRDggs4e
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10637"; a="323074895"
 X-IronPort-AV: E=Sophos;i="5.98,228,1673942400"; 
-   d="scan'208";a="323071009"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2023 08:50:26 -0800
+   d="scan'208";a="323074895"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2023 09:00:27 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10637"; a="818112414"
+X-IronPort-AV: E=McAfee;i="6500,9779,10637"; a="677298278"
 X-IronPort-AV: E=Sophos;i="5.98,228,1673942400"; 
-   d="scan'208";a="818112414"
+   d="scan'208";a="677298278"
 Received: from lkp-server01.sh.intel.com (HELO 776573491cc5) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 02 Mar 2023 08:50:23 -0800
+  by fmsmga007.fm.intel.com with ESMTP; 02 Mar 2023 09:00:26 -0800
 Received: from kbuild by 776573491cc5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pXm8M-0000gQ-1P;
-	Thu, 02 Mar 2023 16:50:22 +0000
-Date: Fri, 3 Mar 2023 00:50:08 +0800
+	id 1pXmI5-0000ha-23;
+	Thu, 02 Mar 2023 17:00:25 +0000
+Date: Fri, 3 Mar 2023 01:00:19 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: drivers/media/platform/renesas/sh_vou.c:483:23: warning: The right
- operand of '|' is a garbage value due to array index out of bounds
- [clang-analyzer-core.UndefinedBinaryOperatorResult]
-Message-ID: <202303030007.lkjLclAD-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: lib/zstd/compress/zstd_lazy.c:1605 ZSTD_compressBlock_lazy_generic()
+ warn: Function too hairy.  No more merges.
+Message-ID: <202303030053.Al76o7SR-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -47,332 +46,283 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "low confidence static check warning: drivers/media/platform/renesas/sh_vou.c:483:23: warning: The right operand of '|' is a garbage value due to array index out of bounds [clang-analyzer-core.UndefinedBinaryOperatorResult]"
-:::::: 
-
 BCC: lkp@intel.com
-CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Mauro Carvalho Chehab <mchehab@kernel.org>
-CC: linux-media@vger.kernel.org
-CC: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+TO: Nick Terrell <terrelln@fb.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   ee3f96b164688dae21e2466a57f2e806b64e8a37
-commit: ee4a77a32b39064fdab0aa2b36bbd35ebf57e077 media: platform: place Renesas drivers on a separate dir
-date:   12 months ago
+commit: 2aa14b1ab2c41a4fe41efae80d58bb77da91f19f zstd: import usptream v1.5.2
+date:   4 months ago
 :::::: branch date: 22 hours ago
-:::::: commit date: 12 months ago
-config: arm-randconfig-c002-20230226 (https://download.01.org/0day-ci/archive/20230303/202303030007.lkjLclAD-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project db89896bbbd2251fff457699635acbbedeead27f)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=ee4a77a32b39064fdab0aa2b36bbd35ebf57e077
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout ee4a77a32b39064fdab0aa2b36bbd35ebf57e077
-        # save the config file
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=arm clang-analyzer  olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=arm clang-analyzer 
+:::::: commit date: 4 months ago
+config: x86_64-randconfig-m001 (https://download.01.org/0day-ci/archive/20230303/202303030053.Al76o7SR-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/r/202303030007.lkjLclAD-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Link: https://lore.kernel.org/r/202303030053.Al76o7SR-lkp@intel.com/
 
-clang_analyzer warnings: (new ones prefixed by >>)
-                     ^
-   drivers/block/rbd.c:6443:2: note: Taking false branch
-           if (!pctx.spec)
-           ^
-   drivers/block/rbd.c:6447:18: note: Field 'pool_name' is non-null
-           if (!pctx.spec->pool_name)
-                           ^
-   drivers/block/rbd.c:6447:2: note: Taking false branch
-           if (!pctx.spec->pool_name)
-           ^
-   drivers/block/rbd.c:6449:6: note: Assuming the condition is false
-           if (!*pctx.spec->pool_name) {
-               ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/block/rbd.c:6449:2: note: Taking false branch
-           if (!*pctx.spec->pool_name) {
-           ^
-   drivers/block/rbd.c:6455:18: note: Field 'image_name' is non-null
-           if (!pctx.spec->image_name)
-                           ^
-   drivers/block/rbd.c:6455:2: note: Taking false branch
-           if (!pctx.spec->image_name)
-           ^
-   drivers/block/rbd.c:6457:6: note: Assuming the condition is false
-           if (!*pctx.spec->image_name) {
-               ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/block/rbd.c:6457:2: note: Taking false branch
-           if (!*pctx.spec->image_name) {
-           ^
-   drivers/block/rbd.c:6467:6: note: Assuming 'len' is not equal to 0
-           if (!len) {
-               ^~~~
-   drivers/block/rbd.c:6467:2: note: Taking false branch
-           if (!len) {
-           ^
-   drivers/block/rbd.c:6470:13: note: Assuming the condition is false
-           } else if (len > RBD_MAX_SNAP_NAME_LEN) {
-                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/block/rbd.c:6470:9: note: Taking false branch
-           } else if (len > RBD_MAX_SNAP_NAME_LEN) {
-                  ^
-   drivers/block/rbd.c:6475:6: note: Assuming 'snap_name' is non-null
-           if (!snap_name)
-               ^~~~~~~~~~
-   drivers/block/rbd.c:6475:2: note: Taking false branch
-           if (!snap_name)
-           ^
-   drivers/block/rbd.c:6481:6: note: Assuming field 'copts' is non-null
-           if (!pctx.copts)
-               ^~~~~~~~~~~
-   drivers/block/rbd.c:6481:2: note: Taking false branch
-           if (!pctx.copts)
-           ^
-   drivers/block/rbd.c:6487:6: note: Assuming field 'opts' is non-null
-           if (!pctx.opts)
-               ^~~~~~~~~~
-   drivers/block/rbd.c:6487:2: note: Taking false branch
-           if (!pctx.opts)
-           ^
-   drivers/block/rbd.c:6500:6: note: Assuming 'ret' is not equal to 0
-           if (ret)
-               ^~~
-   drivers/block/rbd.c:6500:2: note: Taking true branch
-           if (ret)
-           ^
-   drivers/block/rbd.c:6501:3: note: Control jumps to line 6516
-                   goto out_err;
-                   ^
-   drivers/block/rbd.c:6520:2: note: Returning without writing to '*rbd_spec'
-           return ret;
-           ^
-   drivers/block/rbd.c:6993:7: note: Returning from 'rbd_add_parse_args'
-           rc = rbd_add_parse_args(buf, &ceph_opts, &rbd_opts, &spec);
-                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/block/rbd.c:6994:6: note: Assuming 'rc' is >= 0
-           if (rc < 0)
-               ^~~~~~
-   drivers/block/rbd.c:6994:2: note: Taking false branch
-           if (rc < 0)
-           ^
-   drivers/block/rbd.c:6998:2: note: Taking false branch
-           if (IS_ERR(rbdc)) {
-           ^
-   drivers/block/rbd.c:7004:57: note: Access to field 'pool_name' results in a dereference of a null pointer (loaded from variable 'spec')
-           rc = ceph_pg_poolid_by_name(rbdc->client->osdc.osdmap, spec->pool_name);
-                                                                  ^~~~
-   6 warnings generated.
-   Suppressed 6 warnings (6 with check filters).
-   2 warnings generated.
-   Suppressed 2 warnings (2 with check filters).
-   6 warnings generated.
-   Suppressed 6 warnings (6 with check filters).
-   1 warning generated.
-   Suppressed 1 warnings (1 with check filters).
-   2 warnings generated.
-   Suppressed 2 warnings (2 with check filters).
-   1 warning generated.
-   Suppressed 1 warnings (1 with check filters).
-   1 warning generated.
-   Suppressed 1 warnings (1 with check filters).
-   2 warnings generated.
->> drivers/media/platform/renesas/sh_vou.c:483:23: warning: The right operand of '|' is a garbage value due to array index out of bounds [clang-analyzer-core.UndefinedBinaryOperatorResult]
-                   vouvcr |= (1 << 14) | vou_scale_v_fld[h_idx - 1];
-                                       ^
-   drivers/media/platform/renesas/sh_vou.c:1234:6: note: Assuming 'vou_pdata' is non-null
-           if (!vou_pdata || !reg_res || irq <= 0) {
-               ^~~~~~~~~~
-   drivers/media/platform/renesas/sh_vou.c:1234:6: note: Left side of '||' is false
-   drivers/media/platform/renesas/sh_vou.c:1234:20: note: Assuming 'reg_res' is non-null
-           if (!vou_pdata || !reg_res || irq <= 0) {
-                             ^~~~~~~~
-   drivers/media/platform/renesas/sh_vou.c:1234:6: note: Left side of '||' is false
-           if (!vou_pdata || !reg_res || irq <= 0) {
-               ^
-   drivers/media/platform/renesas/sh_vou.c:1234:32: note: Assuming 'irq' is > 0
-           if (!vou_pdata || !reg_res || irq <= 0) {
-                                         ^~~~~~~~
-   drivers/media/platform/renesas/sh_vou.c:1234:2: note: Taking false branch
-           if (!vou_pdata || !reg_res || irq <= 0) {
-           ^
-   drivers/media/platform/renesas/sh_vou.c:1240:6: note: Assuming 'vou_dev' is non-null
-           if (!vou_dev)
-               ^~~~~~~~
-   drivers/media/platform/renesas/sh_vou.c:1240:2: note: Taking false branch
-           if (!vou_dev)
-           ^
-   drivers/media/platform/renesas/sh_vou.c:1244:2: note: Loop condition is false.  Exiting loop
-           spin_lock_init(&vou_dev->lock);
-           ^
-   include/linux/spinlock.h:339:34: note: expanded from macro 'spin_lock_init'
-   # define spin_lock_init(_lock)                  \
-                                                   ^
-   drivers/media/platform/renesas/sh_vou.c:1245:2: note: Loop condition is false.  Exiting loop
-           mutex_init(&vou_dev->fop_lock);
-           ^
-   include/linux/mutex.h:101:32: note: expanded from macro 'mutex_init'
-   #define mutex_init(mutex)                                               \
-                                                                           ^
-   drivers/media/platform/renesas/sh_vou.c:1268:2: note: Taking false branch
-           if (IS_ERR(vou_dev->base))
-           ^
-   drivers/media/platform/renesas/sh_vou.c:1272:6: note: Assuming 'ret' is >= 0
-           if (ret < 0)
-               ^~~~~~~
-   drivers/media/platform/renesas/sh_vou.c:1272:2: note: Taking false branch
-           if (ret < 0)
-           ^
-   drivers/media/platform/renesas/sh_vou.c:1276:6: note: Assuming 'ret' is >= 0
-           if (ret < 0) {
-               ^~~~~~~
-   drivers/media/platform/renesas/sh_vou.c:1276:2: note: Taking false branch
-           if (ret < 0) {
-           ^
-   drivers/media/platform/renesas/sh_vou.c:1283:6: note: Assuming field 'bus_fmt' is not equal to SH_VOU_BUS_8BIT
-           if (vou_pdata->bus_fmt == SH_VOU_BUS_8BIT)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/renesas/sh_vou.c:1283:2: note: Taking false branch
-           if (vou_pdata->bus_fmt == SH_VOU_BUS_8BIT)
-           ^
-   drivers/media/platform/renesas/sh_vou.c:1304:6: note: Assuming 'ret' is 0
-           if (ret)
-               ^~~
-   drivers/media/platform/renesas/sh_vou.c:1304:2: note: Taking false branch
-           if (ret)
-           ^
-   drivers/media/platform/renesas/sh_vou.c:1314:6: note: Assuming 'i2c_adap' is non-null
-           if (!i2c_adap) {
-               ^~~~~~~~~
-   drivers/media/platform/renesas/sh_vou.c:1314:2: note: Taking false branch
-           if (!i2c_adap) {
-           ^
-   drivers/media/platform/renesas/sh_vou.c:1319:8: note: Calling 'sh_vou_hw_init'
-           ret = sh_vou_hw_init(vou_dev);
-                 ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/renesas/sh_vou.c:1095:9: note: Left side of '&&' is true
-           while (--i && (sh_vou_reg_a_read(vou_dev, VOUSRR) & 0x101))
-                  ^
-   drivers/media/platform/renesas/sh_vou.c:1095:2: note: Loop condition is false. Execution continues on line 1098
-           while (--i && (sh_vou_reg_a_read(vou_dev, VOUSRR) & 0x101))
-           ^
-   drivers/media/platform/renesas/sh_vou.c:1098:7: note: 'i' is 99
-           if (!i)
-                ^
-   drivers/media/platform/renesas/sh_vou.c:1098:2: note: Taking false branch
-           if (!i)
-           ^
-   drivers/media/platform/renesas/sh_vou.c:1101:2: note: Taking false branch
-           dev_dbg(vou_dev->v4l2_dev.dev, "Reset took %dus\n", 100 - i);
-           ^
-   include/linux/dev_printk.h:155:2: note: expanded from macro 'dev_dbg'
-           dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-           ^
-   include/linux/dynamic_debug.h:166:2: note: expanded from macro 'dynamic_dev_dbg'
-           _dynamic_func_call(fmt,__dynamic_dev_dbg,               \
-           ^
-   include/linux/dynamic_debug.h:152:2: note: expanded from macro '_dynamic_func_call'
-           __dynamic_func_call(__UNIQUE_ID(ddebug), fmt, func, ##__VA_ARGS__)
-           ^
-   include/linux/dynamic_debug.h:133:2: note: expanded from macro '__dynamic_func_call'
-           if (DYNAMIC_DEBUG_BRANCH(id))                   \
-           ^
-   drivers/media/platform/renesas/sh_vou.c:1101:2: note: Loop condition is false.  Exiting loop
+New smatch warnings:
+lib/zstd/compress/zstd_lazy.c:1605 ZSTD_compressBlock_lazy_generic() warn: Function too hairy.  No more merges.
 
-vim +483 drivers/media/platform/renesas/sh_vou.c
+Old smatch warnings:
+lib/zstd/compress/zstd_lazy.c:1577 ZSTD_compressBlock_lazy_generic() warn: if statement not indented
+lib/zstd/compress/zstd_lazy.c:1915 ZSTD_compressBlock_lazy_extDict_generic() warn: if statement not indented
+lib/zstd/compress/zstd_lazy.c:1937 ZSTD_compressBlock_lazy_extDict_generic() warn: if statement not indented
+lib/zstd/compress/zstd_lazy.c:1947 ZSTD_compressBlock_lazy_extDict_generic() warn: if statement not indented
+lib/zstd/compress/zstd_lazy.c:1979 ZSTD_compressBlock_lazy_extDict_generic() warn: if statement not indented
+lib/zstd/compress/zstd_lazy.c:2026 ZSTD_compressBlock_lazy_extDict_generic() warn: if statement not indented
 
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  416  
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  417  static void sh_vou_configure_geometry(struct sh_vou_device *vou_dev,
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  418  				      int pix_idx, int w_idx, int h_idx)
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  419  {
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  420  	struct sh_vou_fmt *fmt = vou_fmt + pix_idx;
-a622cc51879f70 drivers/media/platform/sh_vou.c Mauro Carvalho Chehab 2014-01-13  421  	unsigned int black_left, black_top, width_max,
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  422  		frame_in_height, frame_out_height, frame_out_top;
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  423  	struct v4l2_rect *rect = &vou_dev->rect;
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  424  	struct v4l2_pix_format *pix = &vou_dev->pix;
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  425  	u32 vouvcr = 0, dsr_h, dsr_v;
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  426  
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  427  	if (vou_dev->std & V4L2_STD_525_60) {
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  428  		width_max = 858;
-a622cc51879f70 drivers/media/platform/sh_vou.c Mauro Carvalho Chehab 2014-01-13  429  		/* height_max = 262; */
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  430  	} else {
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  431  		width_max = 864;
-a622cc51879f70 drivers/media/platform/sh_vou.c Mauro Carvalho Chehab 2014-01-13  432  		/* height_max = 312; */
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  433  	}
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  434  
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  435  	frame_in_height = pix->height / 2;
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  436  	frame_out_height = rect->height / 2;
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  437  	frame_out_top = rect->top / 2;
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  438  
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  439  	/*
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  440  	 * Cropping scheme: max useful image is 720x480, and the total video
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  441  	 * area is 858x525 (NTSC) or 864x625 (PAL). AK8813 / 8814 starts
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  442  	 * sampling data beginning with fixed 276th (NTSC) / 288th (PAL) clock,
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  443  	 * of which the first 33 / 25 clocks HSYNC must be held active. This
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  444  	 * has to be configured in CR[HW]. 1 pixel equals 2 clock periods.
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  445  	 * This gives CR[HW] = 16 / 12, VPR[HVP] = 138 / 144, which gives
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  446  	 * exactly 858 - 138 = 864 - 144 = 720! We call the out-of-display area,
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  447  	 * beyond DSR, specified on the left and top by the VPR register "black
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  448  	 * pixels" and out-of-image area (DPR) "background pixels." We fix VPR
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  449  	 * at 138 / 144 : 20, because that's the HSYNC timing, that our first
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  450  	 * client requires, and that's exactly what leaves us 720 pixels for the
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  451  	 * image; we leave VPR[VVP] at default 20 for now, because the client
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  452  	 * doesn't seem to have any special requirements for it. Otherwise we
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  453  	 * could also set it to max - 240 = 22 / 72. Thus VPR depends only on
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  454  	 * the selected standard, and DPR and DSR are selected according to
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  455  	 * cropping. Q: how does the client detect the first valid line? Does
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  456  	 * HSYNC stay inactive during invalid (black) lines?
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  457  	 */
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  458  	black_left = width_max - VOU_MAX_IMAGE_WIDTH;
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  459  	black_top = 20;
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  460  
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  461  	dsr_h = rect->width + rect->left;
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  462  	dsr_v = frame_out_height + frame_out_top;
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  463  
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  464  	dev_dbg(vou_dev->v4l2_dev.dev,
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  465  		"image %ux%u, black %u:%u, offset %u:%u, display %ux%u\n",
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  466  		pix->width, frame_in_height, black_left, black_top,
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  467  		rect->left, frame_out_top, dsr_h, dsr_v);
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  468  
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  469  	/* VOUISR height - half of a frame height in frame mode */
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  470  	sh_vou_reg_ab_write(vou_dev, VOUISR, (pix->width << 16) | frame_in_height);
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  471  	sh_vou_reg_ab_write(vou_dev, VOUVPR, (black_left << 16) | black_top);
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  472  	sh_vou_reg_ab_write(vou_dev, VOUDPR, (rect->left << 16) | frame_out_top);
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  473  	sh_vou_reg_ab_write(vou_dev, VOUDSR, (dsr_h << 16) | dsr_v);
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  474  
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  475  	/*
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  476  	 * if necessary, we could set VOUHIR to
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  477  	 * max(black_left + dsr_h, width_max) here
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  478  	 */
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  479  
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  480  	if (w_idx)
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  481  		vouvcr |= (1 << 15) | (vou_scale_h_fld[w_idx - 1] << 4);
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  482  	if (h_idx)
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17 @483  		vouvcr |= (1 << 14) | vou_scale_v_fld[h_idx - 1];
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  484  
-59fe916c84f891 drivers/media/platform/sh_vou.c Hans Verkuil          2019-06-11  485  	dev_dbg(vou_dev->v4l2_dev.dev, "0x%08x: scaling 0x%x\n",
-59fe916c84f891 drivers/media/platform/sh_vou.c Hans Verkuil          2019-06-11  486  		fmt->pfmt, vouvcr);
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  487  
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  488  	/* To produce a colour bar for testing set bit 23 of VOUVCR */
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  489  	sh_vou_reg_ab_write(vou_dev, VOUVCR, vouvcr);
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  490  	sh_vou_reg_ab_write(vou_dev, VOUDFR,
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  491  			    fmt->pkf | (fmt->yf << 8) | (fmt->rgb << 16));
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  492  }
-a81fb9b223508f drivers/media/video/sh_vou.c    Guennadi Liakhovetski 2010-03-17  493  
+vim +1605 lib/zstd/compress/zstd_lazy.c
 
-:::::: The code at line 483 was first introduced by commit
-:::::: a81fb9b223508f5773d8d7e226b1574d1b068642 V4L/DVB: V4L: SuperH Video Output Unit (VOU) driver
-
-:::::: TO: Guennadi Liakhovetski <g.liakhovetski@gmx.de>
-:::::: CC: Mauro Carvalho Chehab <mchehab@redhat.com>
+e0c1b49f5b674c Nick Terrell 2020-09-11  1474  
+e0c1b49f5b674c Nick Terrell 2020-09-11  1475  FORCE_INLINE_TEMPLATE size_t
+e0c1b49f5b674c Nick Terrell 2020-09-11  1476  ZSTD_compressBlock_lazy_generic(
+e0c1b49f5b674c Nick Terrell 2020-09-11  1477                          ZSTD_matchState_t* ms, seqStore_t* seqStore,
+e0c1b49f5b674c Nick Terrell 2020-09-11  1478                          U32 rep[ZSTD_REP_NUM],
+e0c1b49f5b674c Nick Terrell 2020-09-11  1479                          const void* src, size_t srcSize,
+e0c1b49f5b674c Nick Terrell 2020-09-11  1480                          const searchMethod_e searchMethod, const U32 depth,
+e0c1b49f5b674c Nick Terrell 2020-09-11  1481                          ZSTD_dictMode_e const dictMode)
+e0c1b49f5b674c Nick Terrell 2020-09-11  1482  {
+e0c1b49f5b674c Nick Terrell 2020-09-11  1483      const BYTE* const istart = (const BYTE*)src;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1484      const BYTE* ip = istart;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1485      const BYTE* anchor = istart;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1486      const BYTE* const iend = istart + srcSize;
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1487      const BYTE* const ilimit = (searchMethod == search_rowHash) ? iend - 8 - ZSTD_ROW_HASH_CACHE_SIZE : iend - 8;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1488      const BYTE* const base = ms->window.base;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1489      const U32 prefixLowestIndex = ms->window.dictLimit;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1490      const BYTE* const prefixLowest = base + prefixLowestIndex;
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1491      const U32 mls = BOUNDED(4, ms->cParams.minMatch, 6);
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1492      const U32 rowLog = BOUNDED(4, ms->cParams.searchLog, 6);
+e0c1b49f5b674c Nick Terrell 2020-09-11  1493  
+e0c1b49f5b674c Nick Terrell 2020-09-11  1494      U32 offset_1 = rep[0], offset_2 = rep[1], savedOffset=0;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1495  
+e0c1b49f5b674c Nick Terrell 2020-09-11  1496      const int isDMS = dictMode == ZSTD_dictMatchState;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1497      const int isDDS = dictMode == ZSTD_dedicatedDictSearch;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1498      const int isDxS = isDMS || isDDS;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1499      const ZSTD_matchState_t* const dms = ms->dictMatchState;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1500      const U32 dictLowestIndex      = isDxS ? dms->window.dictLimit : 0;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1501      const BYTE* const dictBase     = isDxS ? dms->window.base : NULL;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1502      const BYTE* const dictLowest   = isDxS ? dictBase + dictLowestIndex : NULL;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1503      const BYTE* const dictEnd      = isDxS ? dms->window.nextSrc : NULL;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1504      const U32 dictIndexDelta       = isDxS ?
+e0c1b49f5b674c Nick Terrell 2020-09-11  1505                                       prefixLowestIndex - (U32)(dictEnd - dictBase) :
+e0c1b49f5b674c Nick Terrell 2020-09-11  1506                                       0;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1507      const U32 dictAndPrefixLength = (U32)((ip - prefixLowest) + (dictEnd - dictLowest));
+e0c1b49f5b674c Nick Terrell 2020-09-11  1508  
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1509      DEBUGLOG(5, "ZSTD_compressBlock_lazy_generic (dictMode=%u) (searchFunc=%u)", (U32)dictMode, (U32)searchMethod);
+e0c1b49f5b674c Nick Terrell 2020-09-11  1510      ip += (dictAndPrefixLength == 0);
+e0c1b49f5b674c Nick Terrell 2020-09-11  1511      if (dictMode == ZSTD_noDict) {
+e0c1b49f5b674c Nick Terrell 2020-09-11  1512          U32 const curr = (U32)(ip - base);
+e0c1b49f5b674c Nick Terrell 2020-09-11  1513          U32 const windowLow = ZSTD_getLowestPrefixIndex(ms, curr, ms->cParams.windowLog);
+e0c1b49f5b674c Nick Terrell 2020-09-11  1514          U32 const maxRep = curr - windowLow;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1515          if (offset_2 > maxRep) savedOffset = offset_2, offset_2 = 0;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1516          if (offset_1 > maxRep) savedOffset = offset_1, offset_1 = 0;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1517      }
+e0c1b49f5b674c Nick Terrell 2020-09-11  1518      if (isDxS) {
+e0c1b49f5b674c Nick Terrell 2020-09-11  1519          /* dictMatchState repCode checks don't currently handle repCode == 0
+e0c1b49f5b674c Nick Terrell 2020-09-11  1520           * disabling. */
+e0c1b49f5b674c Nick Terrell 2020-09-11  1521          assert(offset_1 <= dictAndPrefixLength);
+e0c1b49f5b674c Nick Terrell 2020-09-11  1522          assert(offset_2 <= dictAndPrefixLength);
+e0c1b49f5b674c Nick Terrell 2020-09-11  1523      }
+e0c1b49f5b674c Nick Terrell 2020-09-11  1524  
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1525      if (searchMethod == search_rowHash) {
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1526          ZSTD_row_fillHashCache(ms, base, rowLog,
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1527                              MIN(ms->cParams.minMatch, 6 /* mls caps out at 6 */),
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1528                              ms->nextToUpdate, ilimit);
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1529      }
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1530  
+e0c1b49f5b674c Nick Terrell 2020-09-11  1531      /* Match Loop */
+e0c1b49f5b674c Nick Terrell 2020-09-11  1532  #if defined(__x86_64__)
+e0c1b49f5b674c Nick Terrell 2020-09-11  1533      /* I've measured random a 5% speed loss on levels 5 & 6 (greedy) when the
+e0c1b49f5b674c Nick Terrell 2020-09-11  1534       * code alignment is perturbed. To fix the instability align the loop on 32-bytes.
+e0c1b49f5b674c Nick Terrell 2020-09-11  1535       */
+e0c1b49f5b674c Nick Terrell 2020-09-11  1536      __asm__(".p2align 5");
+e0c1b49f5b674c Nick Terrell 2020-09-11  1537  #endif
+e0c1b49f5b674c Nick Terrell 2020-09-11  1538      while (ip < ilimit) {
+e0c1b49f5b674c Nick Terrell 2020-09-11  1539          size_t matchLength=0;
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1540          size_t offcode=STORE_REPCODE_1;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1541          const BYTE* start=ip+1;
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1542          DEBUGLOG(7, "search baseline (depth 0)");
+e0c1b49f5b674c Nick Terrell 2020-09-11  1543  
+e0c1b49f5b674c Nick Terrell 2020-09-11  1544          /* check repCode */
+e0c1b49f5b674c Nick Terrell 2020-09-11  1545          if (isDxS) {
+e0c1b49f5b674c Nick Terrell 2020-09-11  1546              const U32 repIndex = (U32)(ip - base) + 1 - offset_1;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1547              const BYTE* repMatch = ((dictMode == ZSTD_dictMatchState || dictMode == ZSTD_dedicatedDictSearch)
+e0c1b49f5b674c Nick Terrell 2020-09-11  1548                                  && repIndex < prefixLowestIndex) ?
+e0c1b49f5b674c Nick Terrell 2020-09-11  1549                                     dictBase + (repIndex - dictIndexDelta) :
+e0c1b49f5b674c Nick Terrell 2020-09-11  1550                                     base + repIndex;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1551              if (((U32)((prefixLowestIndex-1) - repIndex) >= 3 /* intentional underflow */)
+e0c1b49f5b674c Nick Terrell 2020-09-11  1552                  && (MEM_read32(repMatch) == MEM_read32(ip+1)) ) {
+e0c1b49f5b674c Nick Terrell 2020-09-11  1553                  const BYTE* repMatchEnd = repIndex < prefixLowestIndex ? dictEnd : iend;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1554                  matchLength = ZSTD_count_2segments(ip+1+4, repMatch+4, iend, repMatchEnd, prefixLowest) + 4;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1555                  if (depth==0) goto _storeSequence;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1556              }
+e0c1b49f5b674c Nick Terrell 2020-09-11  1557          }
+e0c1b49f5b674c Nick Terrell 2020-09-11  1558          if ( dictMode == ZSTD_noDict
+e0c1b49f5b674c Nick Terrell 2020-09-11  1559            && ((offset_1 > 0) & (MEM_read32(ip+1-offset_1) == MEM_read32(ip+1)))) {
+e0c1b49f5b674c Nick Terrell 2020-09-11  1560              matchLength = ZSTD_count(ip+1+4, ip+1+4-offset_1, iend) + 4;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1561              if (depth==0) goto _storeSequence;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1562          }
+e0c1b49f5b674c Nick Terrell 2020-09-11  1563  
+e0c1b49f5b674c Nick Terrell 2020-09-11  1564          /* first search (depth 0) */
+e0c1b49f5b674c Nick Terrell 2020-09-11  1565          {   size_t offsetFound = 999999999;
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1566              size_t const ml2 = ZSTD_searchMax(ms, ip, iend, &offsetFound, mls, rowLog, searchMethod, dictMode);
+e0c1b49f5b674c Nick Terrell 2020-09-11  1567              if (ml2 > matchLength)
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1568                  matchLength = ml2, start = ip, offcode=offsetFound;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1569          }
+e0c1b49f5b674c Nick Terrell 2020-09-11  1570  
+e0c1b49f5b674c Nick Terrell 2020-09-11  1571          if (matchLength < 4) {
+e0c1b49f5b674c Nick Terrell 2020-09-11  1572              ip += ((ip-anchor) >> kSearchStrength) + 1;   /* jump faster over incompressible sections */
+e0c1b49f5b674c Nick Terrell 2020-09-11  1573              continue;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1574          }
+e0c1b49f5b674c Nick Terrell 2020-09-11  1575  
+e0c1b49f5b674c Nick Terrell 2020-09-11  1576          /* let's try to find a better solution */
+e0c1b49f5b674c Nick Terrell 2020-09-11  1577          if (depth>=1)
+e0c1b49f5b674c Nick Terrell 2020-09-11  1578          while (ip<ilimit) {
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1579              DEBUGLOG(7, "search depth 1");
+e0c1b49f5b674c Nick Terrell 2020-09-11  1580              ip ++;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1581              if ( (dictMode == ZSTD_noDict)
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1582                && (offcode) && ((offset_1>0) & (MEM_read32(ip) == MEM_read32(ip - offset_1)))) {
+e0c1b49f5b674c Nick Terrell 2020-09-11  1583                  size_t const mlRep = ZSTD_count(ip+4, ip+4-offset_1, iend) + 4;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1584                  int const gain2 = (int)(mlRep * 3);
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1585                  int const gain1 = (int)(matchLength*3 - ZSTD_highbit32((U32)STORED_TO_OFFBASE(offcode)) + 1);
+e0c1b49f5b674c Nick Terrell 2020-09-11  1586                  if ((mlRep >= 4) && (gain2 > gain1))
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1587                      matchLength = mlRep, offcode = STORE_REPCODE_1, start = ip;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1588              }
+e0c1b49f5b674c Nick Terrell 2020-09-11  1589              if (isDxS) {
+e0c1b49f5b674c Nick Terrell 2020-09-11  1590                  const U32 repIndex = (U32)(ip - base) - offset_1;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1591                  const BYTE* repMatch = repIndex < prefixLowestIndex ?
+e0c1b49f5b674c Nick Terrell 2020-09-11  1592                                 dictBase + (repIndex - dictIndexDelta) :
+e0c1b49f5b674c Nick Terrell 2020-09-11  1593                                 base + repIndex;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1594                  if (((U32)((prefixLowestIndex-1) - repIndex) >= 3 /* intentional underflow */)
+e0c1b49f5b674c Nick Terrell 2020-09-11  1595                      && (MEM_read32(repMatch) == MEM_read32(ip)) ) {
+e0c1b49f5b674c Nick Terrell 2020-09-11  1596                      const BYTE* repMatchEnd = repIndex < prefixLowestIndex ? dictEnd : iend;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1597                      size_t const mlRep = ZSTD_count_2segments(ip+4, repMatch+4, iend, repMatchEnd, prefixLowest) + 4;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1598                      int const gain2 = (int)(mlRep * 3);
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1599                      int const gain1 = (int)(matchLength*3 - ZSTD_highbit32((U32)STORED_TO_OFFBASE(offcode)) + 1);
+e0c1b49f5b674c Nick Terrell 2020-09-11  1600                      if ((mlRep >= 4) && (gain2 > gain1))
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1601                          matchLength = mlRep, offcode = STORE_REPCODE_1, start = ip;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1602                  }
+e0c1b49f5b674c Nick Terrell 2020-09-11  1603              }
+e0c1b49f5b674c Nick Terrell 2020-09-11  1604              {   size_t offset2=999999999;
+2aa14b1ab2c41a Nick Terrell 2022-10-17 @1605                  size_t const ml2 = ZSTD_searchMax(ms, ip, iend, &offset2, mls, rowLog, searchMethod, dictMode);
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1606                  int const gain2 = (int)(ml2*4 - ZSTD_highbit32((U32)STORED_TO_OFFBASE(offset2)));   /* raw approx */
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1607                  int const gain1 = (int)(matchLength*4 - ZSTD_highbit32((U32)STORED_TO_OFFBASE(offcode)) + 4);
+e0c1b49f5b674c Nick Terrell 2020-09-11  1608                  if ((ml2 >= 4) && (gain2 > gain1)) {
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1609                      matchLength = ml2, offcode = offset2, start = ip;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1610                      continue;   /* search a better one */
+e0c1b49f5b674c Nick Terrell 2020-09-11  1611              }   }
+e0c1b49f5b674c Nick Terrell 2020-09-11  1612  
+e0c1b49f5b674c Nick Terrell 2020-09-11  1613              /* let's find an even better one */
+e0c1b49f5b674c Nick Terrell 2020-09-11  1614              if ((depth==2) && (ip<ilimit)) {
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1615                  DEBUGLOG(7, "search depth 2");
+e0c1b49f5b674c Nick Terrell 2020-09-11  1616                  ip ++;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1617                  if ( (dictMode == ZSTD_noDict)
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1618                    && (offcode) && ((offset_1>0) & (MEM_read32(ip) == MEM_read32(ip - offset_1)))) {
+e0c1b49f5b674c Nick Terrell 2020-09-11  1619                      size_t const mlRep = ZSTD_count(ip+4, ip+4-offset_1, iend) + 4;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1620                      int const gain2 = (int)(mlRep * 4);
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1621                      int const gain1 = (int)(matchLength*4 - ZSTD_highbit32((U32)STORED_TO_OFFBASE(offcode)) + 1);
+e0c1b49f5b674c Nick Terrell 2020-09-11  1622                      if ((mlRep >= 4) && (gain2 > gain1))
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1623                          matchLength = mlRep, offcode = STORE_REPCODE_1, start = ip;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1624                  }
+e0c1b49f5b674c Nick Terrell 2020-09-11  1625                  if (isDxS) {
+e0c1b49f5b674c Nick Terrell 2020-09-11  1626                      const U32 repIndex = (U32)(ip - base) - offset_1;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1627                      const BYTE* repMatch = repIndex < prefixLowestIndex ?
+e0c1b49f5b674c Nick Terrell 2020-09-11  1628                                     dictBase + (repIndex - dictIndexDelta) :
+e0c1b49f5b674c Nick Terrell 2020-09-11  1629                                     base + repIndex;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1630                      if (((U32)((prefixLowestIndex-1) - repIndex) >= 3 /* intentional underflow */)
+e0c1b49f5b674c Nick Terrell 2020-09-11  1631                          && (MEM_read32(repMatch) == MEM_read32(ip)) ) {
+e0c1b49f5b674c Nick Terrell 2020-09-11  1632                          const BYTE* repMatchEnd = repIndex < prefixLowestIndex ? dictEnd : iend;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1633                          size_t const mlRep = ZSTD_count_2segments(ip+4, repMatch+4, iend, repMatchEnd, prefixLowest) + 4;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1634                          int const gain2 = (int)(mlRep * 4);
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1635                          int const gain1 = (int)(matchLength*4 - ZSTD_highbit32((U32)STORED_TO_OFFBASE(offcode)) + 1);
+e0c1b49f5b674c Nick Terrell 2020-09-11  1636                          if ((mlRep >= 4) && (gain2 > gain1))
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1637                              matchLength = mlRep, offcode = STORE_REPCODE_1, start = ip;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1638                      }
+e0c1b49f5b674c Nick Terrell 2020-09-11  1639                  }
+e0c1b49f5b674c Nick Terrell 2020-09-11  1640                  {   size_t offset2=999999999;
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1641                      size_t const ml2 = ZSTD_searchMax(ms, ip, iend, &offset2, mls, rowLog, searchMethod, dictMode);
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1642                      int const gain2 = (int)(ml2*4 - ZSTD_highbit32((U32)STORED_TO_OFFBASE(offset2)));   /* raw approx */
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1643                      int const gain1 = (int)(matchLength*4 - ZSTD_highbit32((U32)STORED_TO_OFFBASE(offcode)) + 7);
+e0c1b49f5b674c Nick Terrell 2020-09-11  1644                      if ((ml2 >= 4) && (gain2 > gain1)) {
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1645                          matchLength = ml2, offcode = offset2, start = ip;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1646                          continue;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1647              }   }   }
+e0c1b49f5b674c Nick Terrell 2020-09-11  1648              break;  /* nothing found : store previous solution */
+e0c1b49f5b674c Nick Terrell 2020-09-11  1649          }
+e0c1b49f5b674c Nick Terrell 2020-09-11  1650  
+e0c1b49f5b674c Nick Terrell 2020-09-11  1651          /* NOTE:
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1652           * Pay attention that `start[-value]` can lead to strange undefined behavior
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1653           * notably if `value` is unsigned, resulting in a large positive `-value`.
+e0c1b49f5b674c Nick Terrell 2020-09-11  1654           */
+e0c1b49f5b674c Nick Terrell 2020-09-11  1655          /* catch up */
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1656          if (STORED_IS_OFFSET(offcode)) {
+e0c1b49f5b674c Nick Terrell 2020-09-11  1657              if (dictMode == ZSTD_noDict) {
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1658                  while ( ((start > anchor) & (start - STORED_OFFSET(offcode) > prefixLowest))
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1659                       && (start[-1] == (start-STORED_OFFSET(offcode))[-1]) )  /* only search for offset within prefix */
+e0c1b49f5b674c Nick Terrell 2020-09-11  1660                      { start--; matchLength++; }
+e0c1b49f5b674c Nick Terrell 2020-09-11  1661              }
+e0c1b49f5b674c Nick Terrell 2020-09-11  1662              if (isDxS) {
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1663                  U32 const matchIndex = (U32)((size_t)(start-base) - STORED_OFFSET(offcode));
+e0c1b49f5b674c Nick Terrell 2020-09-11  1664                  const BYTE* match = (matchIndex < prefixLowestIndex) ? dictBase + matchIndex - dictIndexDelta : base + matchIndex;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1665                  const BYTE* const mStart = (matchIndex < prefixLowestIndex) ? dictLowest : prefixLowest;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1666                  while ((start>anchor) && (match>mStart) && (start[-1] == match[-1])) { start--; match--; matchLength++; }  /* catch up */
+e0c1b49f5b674c Nick Terrell 2020-09-11  1667              }
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1668              offset_2 = offset_1; offset_1 = (U32)STORED_OFFSET(offcode);
+e0c1b49f5b674c Nick Terrell 2020-09-11  1669          }
+e0c1b49f5b674c Nick Terrell 2020-09-11  1670          /* store sequence */
+e0c1b49f5b674c Nick Terrell 2020-09-11  1671  _storeSequence:
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1672          {   size_t const litLength = (size_t)(start - anchor);
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1673              ZSTD_storeSeq(seqStore, litLength, anchor, iend, (U32)offcode, matchLength);
+e0c1b49f5b674c Nick Terrell 2020-09-11  1674              anchor = ip = start + matchLength;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1675          }
+e0c1b49f5b674c Nick Terrell 2020-09-11  1676  
+e0c1b49f5b674c Nick Terrell 2020-09-11  1677          /* check immediate repcode */
+e0c1b49f5b674c Nick Terrell 2020-09-11  1678          if (isDxS) {
+e0c1b49f5b674c Nick Terrell 2020-09-11  1679              while (ip <= ilimit) {
+e0c1b49f5b674c Nick Terrell 2020-09-11  1680                  U32 const current2 = (U32)(ip-base);
+e0c1b49f5b674c Nick Terrell 2020-09-11  1681                  U32 const repIndex = current2 - offset_2;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1682                  const BYTE* repMatch = repIndex < prefixLowestIndex ?
+e0c1b49f5b674c Nick Terrell 2020-09-11  1683                          dictBase - dictIndexDelta + repIndex :
+e0c1b49f5b674c Nick Terrell 2020-09-11  1684                          base + repIndex;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1685                  if ( ((U32)((prefixLowestIndex-1) - (U32)repIndex) >= 3 /* intentional overflow */)
+e0c1b49f5b674c Nick Terrell 2020-09-11  1686                     && (MEM_read32(repMatch) == MEM_read32(ip)) ) {
+e0c1b49f5b674c Nick Terrell 2020-09-11  1687                      const BYTE* const repEnd2 = repIndex < prefixLowestIndex ? dictEnd : iend;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1688                      matchLength = ZSTD_count_2segments(ip+4, repMatch+4, iend, repEnd2, prefixLowest) + 4;
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1689                      offcode = offset_2; offset_2 = offset_1; offset_1 = (U32)offcode;   /* swap offset_2 <=> offset_1 */
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1690                      ZSTD_storeSeq(seqStore, 0, anchor, iend, STORE_REPCODE_1, matchLength);
+e0c1b49f5b674c Nick Terrell 2020-09-11  1691                      ip += matchLength;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1692                      anchor = ip;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1693                      continue;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1694                  }
+e0c1b49f5b674c Nick Terrell 2020-09-11  1695                  break;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1696              }
+e0c1b49f5b674c Nick Terrell 2020-09-11  1697          }
+e0c1b49f5b674c Nick Terrell 2020-09-11  1698  
+e0c1b49f5b674c Nick Terrell 2020-09-11  1699          if (dictMode == ZSTD_noDict) {
+e0c1b49f5b674c Nick Terrell 2020-09-11  1700              while ( ((ip <= ilimit) & (offset_2>0))
+e0c1b49f5b674c Nick Terrell 2020-09-11  1701                   && (MEM_read32(ip) == MEM_read32(ip - offset_2)) ) {
+e0c1b49f5b674c Nick Terrell 2020-09-11  1702                  /* store sequence */
+e0c1b49f5b674c Nick Terrell 2020-09-11  1703                  matchLength = ZSTD_count(ip+4, ip+4-offset_2, iend) + 4;
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1704                  offcode = offset_2; offset_2 = offset_1; offset_1 = (U32)offcode; /* swap repcodes */
+2aa14b1ab2c41a Nick Terrell 2022-10-17  1705                  ZSTD_storeSeq(seqStore, 0, anchor, iend, STORE_REPCODE_1, matchLength);
+e0c1b49f5b674c Nick Terrell 2020-09-11  1706                  ip += matchLength;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1707                  anchor = ip;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1708                  continue;   /* faster when present ... (?) */
+e0c1b49f5b674c Nick Terrell 2020-09-11  1709      }   }   }
+e0c1b49f5b674c Nick Terrell 2020-09-11  1710  
+e0c1b49f5b674c Nick Terrell 2020-09-11  1711      /* Save reps for next block */
+e0c1b49f5b674c Nick Terrell 2020-09-11  1712      rep[0] = offset_1 ? offset_1 : savedOffset;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1713      rep[1] = offset_2 ? offset_2 : savedOffset;
+e0c1b49f5b674c Nick Terrell 2020-09-11  1714  
+e0c1b49f5b674c Nick Terrell 2020-09-11  1715      /* Return the last literals size */
+e0c1b49f5b674c Nick Terrell 2020-09-11  1716      return (size_t)(iend - anchor);
+e0c1b49f5b674c Nick Terrell 2020-09-11  1717  }
+e0c1b49f5b674c Nick Terrell 2020-09-11  1718  
 
 -- 
 0-DAY CI Kernel Test Service
