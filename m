@@ -1,44 +1,41 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F15D2916
-	for <oe-kbuild@lists.linux.dev>; Sat,  4 Mar 2023 21:35:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 691512CAB
+	for <oe-kbuild@lists.linux.dev>; Sat,  4 Mar 2023 21:45:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677965709; x=1709501709;
+  t=1677966309; x=1709502309;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=dxTLkJx4J3oZnl123PR99kybKxbLrN4zBnbuRPATHbY=;
-  b=VuA96x6k9mR3+hCpcsqkPRdRgERNZAtmDZ92XLn/zteahrrjjDQpvspC
-   LTtE05MwXpMFM34RWFpuSZxf+e8yJj5oUJsQXY0sHp5/motc9pjVh/ken
-   wp/YXvNKZkovldU8ij0GdiCJYN+Tei29bzbe5VLgyrMuGpeF2J3VI32cg
-   W771aWq1Gr5gHI8gaMDl0rsgL2YOwDIoLoOH6U5jqBUrpuWAvPi52kOTu
-   BHbwfjaD0yolmcz60EKxIJ5QwTzspyIWmnF12G8A/snp3CXGhNW1wfbeg
-   5UibogHORb6P2nNe7C5T0+r++k0Ni1Wq6mMsO8Qogiwiv58x8uF+yIrXe
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10639"; a="400129865"
+  bh=HktUDOtdhSDrMcpt24EWJPGPSm+TU4f83sp7+2pxXQw=;
+  b=DYw54WXKJiuNWaMGSwiZxPmsyYEAPj7nOobAOIP43r5r/7/zyDE7BPIG
+   fervg1RwqdFoQNsrSLkC4CUvogmvGHo6M8FQCEmriCCJsndBwneSevIQ4
+   X4ziXx8gh1l34bTebVcmyK3duvzkN6eXQRjNq0PyPHfRO86nj5BKrsy9a
+   HRth86oWIM7RUNwzR8laut9E6VNBHy6X87GiGHugNgH2nfr0RRmSTaD3E
+   hi3E9FwhurFGtBHCXXUIjKY+K8Q8HawH8LOgPQrYHpj9W3NLXMQppUqqI
+   5joDpoKpvoUKL0lZeBfnv4dnq2rA5bn6Vgesv8X9uQNNw49bscNqMMXYn
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10639"; a="323616088"
 X-IronPort-AV: E=Sophos;i="5.98,234,1673942400"; 
-   d="scan'208";a="400129865"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2023 13:35:08 -0800
+   d="scan'208";a="323616088"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2023 13:45:08 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10639"; a="799589114"
+X-IronPort-AV: E=McAfee;i="6500,9779,10639"; a="744621730"
 X-IronPort-AV: E=Sophos;i="5.98,234,1673942400"; 
-   d="scan'208";a="799589114"
+   d="scan'208";a="744621730"
 Received: from lkp-server01.sh.intel.com (HELO 776573491cc5) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 04 Mar 2023 13:35:07 -0800
+  by fmsmga004.fm.intel.com with ESMTP; 04 Mar 2023 13:45:07 -0800
 Received: from kbuild by 776573491cc5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pYZX0-0002N4-0t;
-	Sat, 04 Mar 2023 21:35:06 +0000
-Date: Sun, 5 Mar 2023 05:34:10 +0800
+	id 1pYZgg-0002NW-2G;
+	Sat, 04 Mar 2023 21:45:06 +0000
+Date: Sun, 5 Mar 2023 05:44:29 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: fs/ksmbd/misc.c:188:3: warning: Call to function 'strcpy' is
- insecure as it does not provide bounding of the memory buffer. Replace
- unbounded copy functions with analogous functions that support length
- arguments such as 'strlcpy'. CWE-119 [clang-analyzer-...
-Message-ID: <202303050501.Pn4ckHYC-lkp@intel.com>
+Subject: Re: [PATCH v7 2/4] Bluetooth: Add vhci devcoredump support
+Message-ID: <202303050505.mZjJnVJW-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -49,300 +46,290 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "low confidence static check warning: fs/ksmbd/misc.c:188:3: warning: Call to function 'strcpy' is insecure as it does not provide bounding of the memory buffer. Replace unbounded copy functions with analogous functions that support length arguments such as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]"
+:::::: Manual check reason: "low confidence static check warning: drivers/bluetooth/hci_vhci.c:306:2: warning: Value stored to 'ptr' is never read [clang-analyzer-deadcode.DeadStores]"
 :::::: 
 
 BCC: lkp@intel.com
 CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20230302151413.v7.2.Ief9a81a3643d2291f6db2b3695c3a6e0159467dc@changeid>
+References: <20230302151413.v7.2.Ief9a81a3643d2291f6db2b3695c3a6e0159467dc@changeid>
+TO: Manish Mandlik <mmandlik@google.com>
+TO: marcel@holtmann.org
+TO: luiz.dentz@gmail.com
+CC: chromeos-bluetooth-upstreaming@chromium.org
+CC: linux-bluetooth@vger.kernel.org
+CC: Manish Mandlik <mmandlik@google.com>
+CC: Johan Hedberg <johan.hedberg@gmail.com>
 CC: linux-kernel@vger.kernel.org
-TO: Namjae Jeon <linkinjeon@kernel.org>
-CC: Steve French <stfrench@microsoft.com>
-CC: Hyunchul Lee <hyc.lee@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   0988a0ea791999ebbf95693f2676381825b05033
-commit: 50f500b7f6335404b18bbffa93e3a905a08d061a ksmbd: remove filename in ksmbd_file
-date:   11 months ago
-:::::: branch date: 21 hours ago
-:::::: commit date: 11 months ago
-config: arm-randconfig-c002-20230302 (https://download.01.org/0day-ci/archive/20230305/202303050501.Pn4ckHYC-lkp@intel.com/config)
+Hi Manish,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on bluetooth-next/master]
+[also build test WARNING on v6.2 next-20230303]
+[cannot apply to bluetooth/master]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Manish-Mandlik/Bluetooth-Add-vhci-devcoredump-support/20230303-071806
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth-next.git master
+patch link:    https://lore.kernel.org/r/20230302151413.v7.2.Ief9a81a3643d2291f6db2b3695c3a6e0159467dc%40changeid
+patch subject: [PATCH v7 2/4] Bluetooth: Add vhci devcoredump support
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: riscv-randconfig-c006-20230302 (https://download.01.org/0day-ci/archive/20230305/202303050505.mZjJnVJW-lkp@intel.com/config)
 compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=50f500b7f6335404b18bbffa93e3a905a08d061a
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 50f500b7f6335404b18bbffa93e3a905a08d061a
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        # https://github.com/intel-lab-lkp/linux/commit/f7880b2804b595a12f5d3f7437f75d5ffd3e6420
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Manish-Mandlik/Bluetooth-Add-vhci-devcoredump-support/20230303-071806
+        git checkout f7880b2804b595a12f5d3f7437f75d5ffd3e6420
         # save the config file
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=arm clang-analyzer  olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=arm clang-analyzer 
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=riscv clang-analyzer  olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=riscv clang-analyzer 
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/r/202303050501.Pn4ckHYC-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202303050505.mZjJnVJW-lkp@intel.com/
 
 clang_analyzer warnings: (new ones prefixed by >>)
-           ^~~~~~~~
-   drivers/media/test-drivers/vivid/vivid-core.c:1751:2: note: Call to function 'snprintf' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'snprintf_s' in case of C11
-           snprintf(dev->mdev.bus_info, sizeof(dev->mdev.bus_info),
-           ^~~~~~~~
-   drivers/media/test-drivers/vivid/vivid-core.c:1759:2: warning: Call to function 'snprintf' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'snprintf_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           snprintf(dev->v4l2_dev.name, sizeof(dev->v4l2_dev.name),
-           ^~~~~~~~
-   drivers/media/test-drivers/vivid/vivid-core.c:1759:2: note: Call to function 'snprintf' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'snprintf_s' in case of C11
-           snprintf(dev->v4l2_dev.name, sizeof(dev->v4l2_dev.name),
-           ^~~~~~~~
-   drivers/media/test-drivers/vivid/vivid-core.c:1836:2: warning: Call to function 'memcpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(dev->edid, vivid_hdmi_edid, sizeof(vivid_hdmi_edid));
-           ^~~~~~
-   drivers/media/test-drivers/vivid/vivid-core.c:1836:2: note: Call to function 'memcpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memcpy_s' in case of C11
-           memcpy(dev->edid, vivid_hdmi_edid, sizeof(vivid_hdmi_edid));
-           ^~~~~~
-   Suppressed 59 warnings (58 in non-user code, 1 with check filters).
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
    Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   12 warnings generated.
-   drivers/power/supply/ds2781_battery.c:459:9: warning: Call to function 'sprintf' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'sprintf_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           return sprintf(buf, "%d\n",
-                  ^~~~~~~
-   drivers/power/supply/ds2781_battery.c:459:9: note: Call to function 'sprintf' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'sprintf_s' in case of C11
-           return sprintf(buf, "%d\n",
-                  ^~~~~~~
-   drivers/power/supply/ds2781_battery.c:512:8: warning: Call to function 'sprintf' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'sprintf_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           ret = sprintf(buf, "%d\n", sense_resistor);
-                 ^~~~~~~
-   drivers/power/supply/ds2781_battery.c:512:8: note: Call to function 'sprintf' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'sprintf_s' in case of C11
-           ret = sprintf(buf, "%d\n", sense_resistor);
-                 ^~~~~~~
-   drivers/power/supply/ds2781_battery.c:550:9: warning: Call to function 'sprintf' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'sprintf_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           return sprintf(buf, "%d\n", rsgain);
-                  ^~~~~~~
-   drivers/power/supply/ds2781_battery.c:550:9: note: Call to function 'sprintf' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'sprintf_s' in case of C11
-           return sprintf(buf, "%d\n", rsgain);
-                  ^~~~~~~
-   drivers/power/supply/ds2781_battery.c:593:8: warning: Call to function 'sprintf' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'sprintf_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           ret = sprintf(buf, "%d\n", sfr & DS2781_SFR_PIOSC);
-                 ^~~~~~~
-   drivers/power/supply/ds2781_battery.c:593:8: note: Call to function 'sprintf' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'sprintf_s' in case of C11
-           ret = sprintf(buf, "%d\n", sfr & DS2781_SFR_PIOSC);
-                 ^~~~~~~
-   Suppressed 8 warnings (8 in non-user code).
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
    Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   29 warnings generated.
-   Suppressed 29 warnings (29 in non-user code).
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
    Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   42 warnings generated.
-   drivers/gpu/drm/panel/panel-xinpeng-xpp055c272.c:74:17: warning: Value stored to 'dev' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct device *dev = ctx->dev;
-                          ^~~   ~~~~~~~~
-   drivers/gpu/drm/panel/panel-xinpeng-xpp055c272.c:74:17: note: Value stored to 'dev' during its initialization is never read
-           struct device *dev = ctx->dev;
-                          ^~~   ~~~~~~~~
-   Suppressed 41 warnings (41 in non-user code).
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
    Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   41 warnings generated.
-   Suppressed 41 warnings (41 in non-user code).
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
    Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   44 warnings generated.
-   drivers/media/i2c/mt9v111.c:492:13: warning: Although the value stored to 'vb' is used in the enclosing expression, the value is never actually read from 'vb' [clang-analyzer-deadcode.DeadStores]
-           best_fps = vb = hb = 0;
-                      ^    ~~~~~~
-   drivers/media/i2c/mt9v111.c:492:13: note: Although the value stored to 'vb' is used in the enclosing expression, the value is never actually read from 'vb'
-           best_fps = vb = hb = 0;
-                      ^    ~~~~~~
-   Suppressed 43 warnings (42 in non-user code, 1 with check filters).
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
    Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   43 warnings generated.
-   Suppressed 43 warnings (42 in non-user code, 1 with check filters).
+   6 warnings generated.
+   drivers/gpu/drm/drm_framebuffer.c:855:2: warning: Call to function 'strcpy' is insecure as it does not provide bounding of the memory buffer. Replace unbounded copy functions with analogous functions that support length arguments such as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+           strcpy(fb->comm, current->comm);
+           ^~~~~~
+   drivers/gpu/drm/drm_framebuffer.c:855:2: note: Call to function 'strcpy' is insecure as it does not provide bounding of the memory buffer. Replace unbounded copy functions with analogous functions that support length arguments such as 'strlcpy'. CWE-119
+           strcpy(fb->comm, current->comm);
+           ^~~~~~
+   Suppressed 5 warnings (5 in non-user code).
    Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   43 warnings generated.
-   Suppressed 43 warnings (42 in non-user code, 1 with check filters).
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
    Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   43 warnings generated.
-   Suppressed 43 warnings (42 in non-user code, 1 with check filters).
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
    Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   43 warnings generated.
-   Suppressed 43 warnings (42 in non-user code, 1 with check filters).
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
    Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   43 warnings generated.
-   Suppressed 43 warnings (42 in non-user code, 1 with check filters).
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
    Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   44 warnings generated.
-   drivers/media/i2c/ov5640.c:1007:2: warning: Value stored to 'ret' is never read [clang-analyzer-deadcode.DeadStores]
-           ret = ov5640_mod_reg(sensor, OV5640_REG_SC_PLL_CTRL0,
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/ov5640.c:1007:2: note: Value stored to 'ret' is never read
-           ret = ov5640_mod_reg(sensor, OV5640_REG_SC_PLL_CTRL0,
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 43 warnings (42 in non-user code, 1 with check filters).
+   6 warnings generated.
+   Suppressed 6 warnings (3 in non-user code, 3 with check filters).
    Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   43 warnings generated.
-   Suppressed 43 warnings (42 in non-user code, 1 with check filters).
+   6 warnings generated.
+   drivers/gpu/drm/drm_mode_config.c:444:4: warning: Value stored to 'ret' is never read [clang-analyzer-deadcode.DeadStores]
+                           ret = drm_modeset_backoff(&modeset_ctx);
+                           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/drm_mode_config.c:444:4: note: Value stored to 'ret' is never read
+                           ret = drm_modeset_backoff(&modeset_ctx);
+                           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 5 warnings (5 in non-user code).
    Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   43 warnings generated.
-   Suppressed 43 warnings (42 in non-user code, 1 with check filters).
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
    Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   103 warnings generated.
->> fs/ksmbd/misc.c:188:3: warning: Call to function 'strcpy' is insecure as it does not provide bounding of the memory buffer. Replace unbounded copy functions with analogous functions that support length arguments such as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-                   strcpy(nt_pathname, "/");
-                   ^~~~~~
-   fs/ksmbd/misc.c:188:3: note: Call to function 'strcpy' is insecure as it does not provide bounding of the memory buffer. Replace unbounded copy functions with analogous functions that support length arguments such as 'strlcpy'. CWE-119
-                   strcpy(nt_pathname, "/");
-                   ^~~~~~
->> fs/ksmbd/misc.c:189:2: warning: Call to function 'strcat' is insecure as it does not provide bounding of the memory buffer. Replace unbounded copy functions with analogous functions that support length arguments such as 'strlcat'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-           strcat(nt_pathname, &ab_pathname[share_path_len]);
-           ^~~~~~
-   fs/ksmbd/misc.c:189:2: note: Call to function 'strcat' is insecure as it does not provide bounding of the memory buffer. Replace unbounded copy functions with analogous functions that support length arguments such as 'strlcat'. CWE-119
-           strcat(nt_pathname, &ab_pathname[share_path_len]);
-           ^~~~~~
-   fs/ksmbd/misc.c:272:2: warning: Call to function 'memcpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(new_name, share->path, path_len);
-           ^~~~~~
-   fs/ksmbd/misc.c:272:2: note: Call to function 'memcpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memcpy_s' in case of C11
-           memcpy(new_name, share->path, path_len);
-           ^~~~~~
-   fs/ksmbd/misc.c:278:2: warning: Call to function 'memcpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(new_name + path_len + no_slash, name, name_len);
-           ^~~~~~
-   fs/ksmbd/misc.c:278:2: note: Call to function 'memcpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memcpy_s' in case of C11
-           memcpy(new_name + path_len + no_slash, name, name_len);
-           ^~~~~~
-   Suppressed 99 warnings (98 in non-user code, 1 with check filters).
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
    Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   125 warnings generated.
-   fs/ksmbd/oplock.c:99:2: warning: Call to function 'memcpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(lease->lease_key, lctx->lease_key, SMB2_LEASE_KEY_SIZE);
-           ^~~~~~
-   fs/ksmbd/oplock.c:99:2: note: Call to function 'memcpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memcpy_s' in case of C11
-           memcpy(lease->lease_key, lctx->lease_key, SMB2_LEASE_KEY_SIZE);
-           ^~~~~~
-   fs/ksmbd/oplock.c:104:2: warning: Call to function 'memcpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(lease->parent_lease_key, lctx->parent_lease_key, SMB2_LEASE_KEY_SIZE);
-           ^~~~~~
-   fs/ksmbd/oplock.c:104:2: note: Call to function 'memcpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memcpy_s' in case of C11
-           memcpy(lease->parent_lease_key, lctx->parent_lease_key, SMB2_LEASE_KEY_SIZE);
-           ^~~~~~
-   fs/ksmbd/oplock.c:412:3: warning: Call to function 'memcpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   memcpy(lease->lease_key, lctx->lease_key, SMB2_LEASE_KEY_SIZE);
-                   ^~~~~~
-   fs/ksmbd/oplock.c:412:3: note: Call to function 'memcpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memcpy_s' in case of C11
-                   memcpy(lease->lease_key, lctx->lease_key, SMB2_LEASE_KEY_SIZE);
-                   ^~~~~~
-   fs/ksmbd/oplock.c:434:3: warning: Call to function 'memcpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   memcpy(lease->lease_key, lctx->lease_key, SMB2_LEASE_KEY_SIZE);
-                   ^~~~~~
-   fs/ksmbd/oplock.c:434:3: note: Call to function 'memcpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memcpy_s' in case of C11
-                   memcpy(lease->lease_key, lctx->lease_key, SMB2_LEASE_KEY_SIZE);
-                   ^~~~~~
-   fs/ksmbd/oplock.c:454:3: warning: Call to function 'memcpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   memcpy(lease->lease_key, lctx->lease_key, SMB2_LEASE_KEY_SIZE);
-                   ^~~~~~
-   fs/ksmbd/oplock.c:454:3: note: Call to function 'memcpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memcpy_s' in case of C11
-                   memcpy(lease->lease_key, lctx->lease_key, SMB2_LEASE_KEY_SIZE);
-                   ^~~~~~
-   fs/ksmbd/oplock.c:633:2: warning: Call to function 'memset' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(rsp_hdr, 0, sizeof(struct smb2_hdr) + 2);
-           ^~~~~~
-   fs/ksmbd/oplock.c:633:2: note: Call to function 'memset' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memset_s' in case of C11
-           memset(rsp_hdr, 0, sizeof(struct smb2_hdr) + 2);
-           ^~~~~~
-   fs/ksmbd/oplock.c:646:2: warning: Call to function 'memset' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(rsp_hdr->Signature, 0, 16);
-           ^~~~~~
-   fs/ksmbd/oplock.c:646:2: note: Call to function 'memset' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memset_s' in case of C11
-           memset(rsp_hdr->Signature, 0, 16);
-           ^~~~~~
-   fs/ksmbd/oplock.c:740:2: warning: Call to function 'memset' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(rsp_hdr, 0, sizeof(struct smb2_hdr) + 2);
-           ^~~~~~
-   fs/ksmbd/oplock.c:740:2: note: Call to function 'memset' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memset_s' in case of C11
-           memset(rsp_hdr, 0, sizeof(struct smb2_hdr) + 2);
-           ^~~~~~
-   fs/ksmbd/oplock.c:753:2: warning: Call to function 'memset' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(rsp_hdr->Signature, 0, 16);
-           ^~~~~~
-   fs/ksmbd/oplock.c:753:2: note: Call to function 'memset' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memset_s' in case of C11
-           memset(rsp_hdr->Signature, 0, 16);
-           ^~~~~~
-   fs/ksmbd/oplock.c:764:2: warning: Call to function 'memcpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(rsp->LeaseKey, br_info->lease_key, SMB2_LEASE_KEY_SIZE);
-           ^~~~~~
-   fs/ksmbd/oplock.c:764:2: note: Call to function 'memcpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memcpy_s' in case of C11
-           memcpy(rsp->LeaseKey, br_info->lease_key, SMB2_LEASE_KEY_SIZE);
-           ^~~~~~
-   fs/ksmbd/oplock.c:809:2: warning: Call to function 'memcpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(br_info->lease_key, lease->lease_key, SMB2_LEASE_KEY_SIZE);
-           ^~~~~~
-   fs/ksmbd/oplock.c:809:2: note: Call to function 'memcpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memcpy_s' in case of C11
-           memcpy(br_info->lease_key, lease->lease_key, SMB2_LEASE_KEY_SIZE);
-           ^~~~~~
-   fs/ksmbd/oplock.c:1018:2: warning: Call to function 'memcpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(lease2->lease_key, lease1->lease_key,
-           ^~~~~~
-   fs/ksmbd/oplock.c:1018:2: note: Call to function 'memcpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memcpy_s' in case of C11
-           memcpy(lease2->lease_key, lease1->lease_key,
-           ^~~~~~
-   fs/ksmbd/oplock.c:1044:2: warning: Call to function 'memcpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(lb->client_guid, opinfo->conn->ClientGUID,
-           ^~~~~~
-   fs/ksmbd/oplock.c:1044:2: note: Call to function 'memcpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memcpy_s' in case of C11
-           memcpy(lb->client_guid, opinfo->conn->ClientGUID,
-           ^~~~~~
-   fs/ksmbd/oplock.c:1341:3: warning: Call to function 'memset' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   memset(buf, 0, sizeof(struct create_lease_v2));
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   5 warnings generated.
+>> drivers/bluetooth/hci_vhci.c:306:2: warning: Value stored to 'ptr' is never read [clang-analyzer-deadcode.DeadStores]
+           ptr += read;
+           ^      ~~~~
+   drivers/bluetooth/hci_vhci.c:306:2: note: Value stored to 'ptr' is never read
+           ptr += read;
+           ^      ~~~~
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   drivers/bluetooth/btmrvl_sdio.c:1267:5: warning: Value stored to 'ptr' is never read [clang-analyzer-deadcode.DeadStores]
+                                   ptr += sprintf(ptr, "ERR");
+                                   ^      ~~~~~~~~~~~~~~~~~~~
+   drivers/bluetooth/btmrvl_sdio.c:1267:5: note: Value stored to 'ptr' is never read
+                                   ptr += sprintf(ptr, "ERR");
+                                   ^      ~~~~~~~~~~~~~~~~~~~
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   drivers/hwtracing/intel_th/sth.c:73:15: warning: Value stored to 'outp' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           u64 __iomem *outp = &out->Dn;
+                        ^~~~   ~~~~~~~~
+   drivers/hwtracing/intel_th/sth.c:73:15: note: Value stored to 'outp' during its initialization is never read
+           u64 __iomem *outp = &out->Dn;
+                        ^~~~   ~~~~~~~~
+   include/linux/log2.h:67:13: warning: The result of the left shift is undefined due to shifting by '4294967295', which is greater or equal to the width of type 'unsigned long' [clang-analyzer-core.UndefinedBinaryOperatorResult]
+           return 1UL << (fls_long(n) - 1);
+                      ^
+   drivers/hwtracing/intel_th/sth.c:81:9: note: '?' condition is false
+           size = rounddown_pow_of_two(size);
+                  ^
+   include/linux/log2.h:193:2: note: expanded from macro 'rounddown_pow_of_two'
+           __builtin_constant_p(n) ? (             \
+           ^
+   drivers/hwtracing/intel_th/sth.c:81:9: note: Calling '__rounddown_pow_of_two'
+           size = rounddown_pow_of_two(size);
+                  ^
+   include/linux/log2.h:195:2: note: expanded from macro 'rounddown_pow_of_two'
+           __rounddown_pow_of_two(n)               \
+           ^~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/log2.h:67:13: note: The result of the left shift is undefined due to shifting by '4294967295', which is greater or equal to the width of type 'unsigned long'
+           return 1UL << (fls_long(n) - 1);
+                      ^  ~~~~~~~~~~~~~~~~~
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   net/ax25/ax25_dev.c:141:2: warning: Use of memory after it is freed [clang-analyzer-unix.Malloc]
+           ax25_dev_put(ax25_dev);
+           ^            ~~~~~~~~
+   net/ax25/ax25_dev.c:100:6: note: Assuming the condition is false
+           if ((ax25_dev = ax25_dev_ax25dev(dev)) == NULL)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/ax25/ax25_dev.c:100:2: note: Taking false branch
+           if ((ax25_dev = ax25_dev_ax25dev(dev)) == NULL)
+           ^
+   net/ax25/ax25_dev.c:114:26: note: Assuming 's' is not equal to NULL
+           for (s = ax25_dev_list; s != NULL; s = s->next)
+                                   ^~~~~~~~~
+   net/ax25/ax25_dev.c:114:2: note: Loop condition is true.  Entering loop body
+           for (s = ax25_dev_list; s != NULL; s = s->next)
 
-vim +188 fs/ksmbd/misc.c
+vim +/ptr +306 drivers/bluetooth/hci_vhci.c
 
-e2f34481b24db2 fs/cifsd/misc.c Namjae Jeon   2021-03-16  151  
-e2f34481b24db2 fs/cifsd/misc.c Namjae Jeon   2021-03-16  152  /**
-e2f34481b24db2 fs/cifsd/misc.c Namjae Jeon   2021-03-16  153   * convert_to_nt_pathname() - extract and return windows path string
-e2f34481b24db2 fs/cifsd/misc.c Namjae Jeon   2021-03-16  154   *      whose share directory prefix was removed from file path
-e2f34481b24db2 fs/cifsd/misc.c Namjae Jeon   2021-03-16  155   * @filename : unix filename
-e2f34481b24db2 fs/cifsd/misc.c Namjae Jeon   2021-03-16  156   * @sharepath: share path string
-e2f34481b24db2 fs/cifsd/misc.c Namjae Jeon   2021-03-16  157   *
-e2f34481b24db2 fs/cifsd/misc.c Namjae Jeon   2021-03-16  158   * Return : windows path string or error
-e2f34481b24db2 fs/cifsd/misc.c Namjae Jeon   2021-03-16  159   */
-e2f34481b24db2 fs/cifsd/misc.c Namjae Jeon   2021-03-16  160  
-50f500b7f63354 fs/ksmbd/misc.c Namjae Jeon   2022-02-24  161  char *convert_to_nt_pathname(struct ksmbd_share_config *share,
-50f500b7f63354 fs/ksmbd/misc.c Namjae Jeon   2022-02-24  162  			     struct path *path)
-e2f34481b24db2 fs/cifsd/misc.c Namjae Jeon   2021-03-16  163  {
-50f500b7f63354 fs/ksmbd/misc.c Namjae Jeon   2022-02-24  164  	char *pathname, *ab_pathname, *nt_pathname;
-50f500b7f63354 fs/ksmbd/misc.c Namjae Jeon   2022-02-24  165  	int share_path_len = share->path_sz;
-e2f34481b24db2 fs/cifsd/misc.c Namjae Jeon   2021-03-16  166  
-50f500b7f63354 fs/ksmbd/misc.c Namjae Jeon   2022-02-24  167  	pathname = kmalloc(PATH_MAX, GFP_KERNEL);
-50f500b7f63354 fs/ksmbd/misc.c Namjae Jeon   2022-02-24  168  	if (!pathname)
-50f500b7f63354 fs/ksmbd/misc.c Namjae Jeon   2022-02-24  169  		return ERR_PTR(-EACCES);
-87ffb310d5e8a4 fs/ksmbd/misc.c Dan Carpenter 2021-09-30  170  
-50f500b7f63354 fs/ksmbd/misc.c Namjae Jeon   2022-02-24  171  	ab_pathname = d_path(path, pathname, PATH_MAX);
-50f500b7f63354 fs/ksmbd/misc.c Namjae Jeon   2022-02-24  172  	if (IS_ERR(ab_pathname)) {
-50f500b7f63354 fs/ksmbd/misc.c Namjae Jeon   2022-02-24  173  		nt_pathname = ERR_PTR(-EACCES);
-50f500b7f63354 fs/ksmbd/misc.c Namjae Jeon   2022-02-24  174  		goto free_pathname;
-50f500b7f63354 fs/ksmbd/misc.c Namjae Jeon   2022-02-24  175  	}
-50f500b7f63354 fs/ksmbd/misc.c Namjae Jeon   2022-02-24  176  
-50f500b7f63354 fs/ksmbd/misc.c Namjae Jeon   2022-02-24  177  	if (strncmp(ab_pathname, share->path, share_path_len)) {
-50f500b7f63354 fs/ksmbd/misc.c Namjae Jeon   2022-02-24  178  		nt_pathname = ERR_PTR(-EACCES);
-50f500b7f63354 fs/ksmbd/misc.c Namjae Jeon   2022-02-24  179  		goto free_pathname;
-50f500b7f63354 fs/ksmbd/misc.c Namjae Jeon   2022-02-24  180  	}
-50f500b7f63354 fs/ksmbd/misc.c Namjae Jeon   2022-02-24  181  
-50f500b7f63354 fs/ksmbd/misc.c Namjae Jeon   2022-02-24  182  	nt_pathname = kzalloc(strlen(&ab_pathname[share_path_len]) + 2, GFP_KERNEL);
-50f500b7f63354 fs/ksmbd/misc.c Namjae Jeon   2022-02-24  183  	if (!nt_pathname) {
-50f500b7f63354 fs/ksmbd/misc.c Namjae Jeon   2022-02-24  184  		nt_pathname = ERR_PTR(-ENOMEM);
-50f500b7f63354 fs/ksmbd/misc.c Namjae Jeon   2022-02-24  185  		goto free_pathname;
-50f500b7f63354 fs/ksmbd/misc.c Namjae Jeon   2022-02-24  186  	}
-50f500b7f63354 fs/ksmbd/misc.c Namjae Jeon   2022-02-24  187  	if (ab_pathname[share_path_len] == '\0')
-50f500b7f63354 fs/ksmbd/misc.c Namjae Jeon   2022-02-24 @188  		strcpy(nt_pathname, "/");
-50f500b7f63354 fs/ksmbd/misc.c Namjae Jeon   2022-02-24 @189  	strcat(nt_pathname, &ab_pathname[share_path_len]);
-50f500b7f63354 fs/ksmbd/misc.c Namjae Jeon   2022-02-24  190  
-50f500b7f63354 fs/ksmbd/misc.c Namjae Jeon   2022-02-24  191  	ksmbd_conv_path_to_windows(nt_pathname);
-e2f34481b24db2 fs/cifsd/misc.c Namjae Jeon   2021-03-16  192  
-50f500b7f63354 fs/ksmbd/misc.c Namjae Jeon   2022-02-24  193  free_pathname:
-50f500b7f63354 fs/ksmbd/misc.c Namjae Jeon   2022-02-24  194  	kfree(pathname);
-50f500b7f63354 fs/ksmbd/misc.c Namjae Jeon   2022-02-24  195  	return nt_pathname;
-e2f34481b24db2 fs/cifsd/misc.c Namjae Jeon   2021-03-16  196  }
-e2f34481b24db2 fs/cifsd/misc.c Namjae Jeon   2021-03-16  197  
+f7880b2804b595 Manish Mandlik 2023-03-02  285  
+f7880b2804b595 Manish Mandlik 2023-03-02  286  static int vhci_coredump_hdr(struct hci_dev *hdev, char *buf, size_t size)
+f7880b2804b595 Manish Mandlik 2023-03-02  287  {
+f7880b2804b595 Manish Mandlik 2023-03-02  288  	char *ptr = buf;
+f7880b2804b595 Manish Mandlik 2023-03-02  289  	size_t rem = size;
+f7880b2804b595 Manish Mandlik 2023-03-02  290  	size_t read = 0;
+f7880b2804b595 Manish Mandlik 2023-03-02  291  
+f7880b2804b595 Manish Mandlik 2023-03-02  292  	read = snprintf(ptr, rem, "Controller Name: vhci_ctrl\n");
+f7880b2804b595 Manish Mandlik 2023-03-02  293  	rem -= read;
+f7880b2804b595 Manish Mandlik 2023-03-02  294  	ptr += read;
+f7880b2804b595 Manish Mandlik 2023-03-02  295  
+f7880b2804b595 Manish Mandlik 2023-03-02  296  	read = snprintf(ptr, rem, "Firmware Version: vhci_fw\n");
+f7880b2804b595 Manish Mandlik 2023-03-02  297  	rem -= read;
+f7880b2804b595 Manish Mandlik 2023-03-02  298  	ptr += read;
+f7880b2804b595 Manish Mandlik 2023-03-02  299  
+f7880b2804b595 Manish Mandlik 2023-03-02  300  	read = snprintf(ptr, rem, "Driver: vhci_drv\n");
+f7880b2804b595 Manish Mandlik 2023-03-02  301  	rem -= read;
+f7880b2804b595 Manish Mandlik 2023-03-02  302  	ptr += read;
+f7880b2804b595 Manish Mandlik 2023-03-02  303  
+f7880b2804b595 Manish Mandlik 2023-03-02  304  	read = snprintf(ptr, rem, "Vendor: vhci\n");
+f7880b2804b595 Manish Mandlik 2023-03-02  305  	rem -= read;
+f7880b2804b595 Manish Mandlik 2023-03-02 @306  	ptr += read;
+f7880b2804b595 Manish Mandlik 2023-03-02  307  
+f7880b2804b595 Manish Mandlik 2023-03-02  308  	return size - rem;
+f7880b2804b595 Manish Mandlik 2023-03-02  309  }
+f7880b2804b595 Manish Mandlik 2023-03-02  310  
 
 -- 
 0-DAY CI Kernel Test Service
