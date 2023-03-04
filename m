@@ -1,42 +1,43 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 668DC1FD0
-	for <oe-kbuild@lists.linux.dev>; Sat,  4 Mar 2023 11:18:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DF1A23CF
+	for <oe-kbuild@lists.linux.dev>; Sat,  4 Mar 2023 13:11:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677928733; x=1709464733;
+  t=1677935518; x=1709471518;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=iGi9BgXR8PtS+pBLz7u4MzGxskncoXqdfNkxx3DFCj4=;
-  b=XeVayih7I0O2pGx35Y4NaOKulTTt6DS2Pi/ZFsoUkEAdr28QNzB9qGNq
-   fyB6ETxeU2TQBi5g20+GtcpkdgbC1yIXhHP+RTWzCe8R2OK875qNITmB/
-   4GJjCrq0gDqFEngY+CbnWggFybJ0xVyD6uK8K7K629X9Vlin9mUsMwzuH
-   2dZddqazG75u6WA4G1BnLt7jIxkuXwaGBAtC2avWzKVo8xmMwxfnwRlZP
-   cPWb87e+Jn6MgodDqj1jGphsc3C1EgQWussFlnhVyVYEYvXDvUUf60Lw2
-   szgtyBmqADGDqUpbyJjJxT+8yXArHepkP7LhW2VddQl40VE8/ADgjQ37L
+  bh=1VW/y9hqu/QPrYSZ2/vrcEdSUkRLZi5RLBARMZ2hXkA=;
+  b=LefeMn7bkFnilElXGCDHBzuHnPXzJtD7Pgo/D37NJh+n4XleGOo/O70+
+   3zOZyDIUlcHTybu4DZ6S2CTuQ6OFsZkGQD8NB1z16znwDUog4LFlzsARM
+   yFk3fC6kA36e3aHk4AZVtYXZ4KiIogxrotIXoI3ErmWMVVbbELip2G+gd
+   wSsNJD05IRHSqhbwbBkMwY7jlZhQvqL4ZoMbBzEkXyS7agLijlqsf3CVd
+   YrFH/hrNMET+k2LRQzKF8svAKZN10at64qO8oTW4dkMcpi/c0ige0PluC
+   OUrz1tNusgv0jpnL4GiJcEERH5ThlZLMd5SFsfKIaSt271sWw4K6OfaOA
    w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10638"; a="336769540"
+X-IronPort-AV: E=McAfee;i="6500,9779,10638"; a="400076840"
 X-IronPort-AV: E=Sophos;i="5.98,233,1673942400"; 
-   d="scan'208";a="336769540"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2023 03:18:52 -0800
+   d="scan'208";a="400076840"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2023 05:11:55 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10638"; a="799499912"
+X-IronPort-AV: E=McAfee;i="6500,9779,10638"; a="818810240"
 X-IronPort-AV: E=Sophos;i="5.98,233,1673942400"; 
-   d="scan'208";a="799499912"
+   d="scan'208";a="818810240"
 Received: from lkp-server01.sh.intel.com (HELO 776573491cc5) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 04 Mar 2023 03:18:51 -0800
+  by fmsmga001.fm.intel.com with ESMTP; 04 Mar 2023 05:11:54 -0800
 Received: from kbuild by 776573491cc5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pYPuc-00026q-1r;
-	Sat, 04 Mar 2023 11:18:50 +0000
-Date: Sat, 4 Mar 2023 19:18:27 +0800
+	id 1pYRg1-0002BE-1x;
+	Sat, 04 Mar 2023 13:11:53 +0000
+Date: Sat, 4 Mar 2023 21:11:31 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: kernel/bpf/bpf_local_storage.c:473:2: warning: Potential leak of
- memory pointed to by 'selem' [clang-analyzer-unix.Malloc]
-Message-ID: <202303041959.sXwu8Fkf-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [leon-rdma:rdma-next 3/10] drivers/infiniband/core/umem.c:201
+ __ib_umem_get() warn: impossible condition '(npages > (~0)) => (0-u32max >
+ u32max)'
+Message-ID: <202303042131.cnzLQjcg-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -46,390 +47,183 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "low confidence static check warning: kernel/bpf/bpf_local_storage.c:473:2: warning: Potential leak of memory pointed to by 'selem' [clang-analyzer-unix.Malloc]"
-:::::: 
-
 BCC: lkp@intel.com
-CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Joanne Koong <joannelkoong@gmail.com>
-CC: Alexei Starovoitov <ast@kernel.org>
+TO: Jason Gunthorpe <jgg@nvidia.com>
+CC: Leon Romanovsky <leon@kernel.org>
+CC: Yishai Hadas <yishaih@mellanox.com>
+CC: Feras Daoud <ferasda@mellanox.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   0988a0ea791999ebbf95693f2676381825b05033
-commit: b00fa38a9c1cba044a32a601b49a55a18ed719d1 bpf: Enable non-atomic allocations in local storage
-date:   12 months ago
-:::::: branch date: 11 hours ago
-:::::: commit date: 12 months ago
-config: i386-randconfig-c001 (https://download.01.org/0day-ci/archive/20230304/202303041959.sXwu8Fkf-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=b00fa38a9c1cba044a32a601b49a55a18ed719d1
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout b00fa38a9c1cba044a32a601b49a55a18ed719d1
-        # save the config file
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=i386 clang-analyzer  olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=i386 clang-analyzer 
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git rdma-next
+head:   d01ee3d1bd30a1d48d2c0318d807d0a9e9d24e4b
+commit: 8b14b6e3f45f43c75f5f9362e0e8cd057240fc56 [3/10] RDMA/core: Introduce peer memory interface
+:::::: branch date: 9 days ago
+:::::: commit date: 13 days ago
+config: microblaze-randconfig-m031-20230302 (https://download.01.org/0day-ci/archive/20230304/202303042131.cnzLQjcg-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/r/202303041959.sXwu8Fkf-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Link: https://lore.kernel.org/r/202303042131.cnzLQjcg-lkp@intel.com/
 
-clang_analyzer warnings: (new ones prefixed by >>)
-                           ^
-   include/asm-generic/bug.h:122:2: note: expanded from macro 'WARN_ON'
-           if (unlikely(__ret_warn_on))                                    \
-           ^
-   kernel/trace/ring_buffer.c:3499:3: note: Loop condition is false.  Exiting loop
-                   RB_WARN_ON(cpu_buffer, !s_ok);
-                   ^
-   kernel/trace/ring_buffer.c:1061:4: note: expanded from macro 'RB_WARN_ON'
-                           WARN_ON(1);                                     \
-                           ^
-   include/asm-generic/bug.h:123:3: note: expanded from macro 'WARN_ON'
-                   __WARN();                                               \
-                   ^
-   include/asm-generic/bug.h:96:19: note: expanded from macro '__WARN'
-   #define __WARN()                __WARN_FLAGS(BUGFLAG_TAINT(TAINT_WARN))
-                                   ^
-   arch/x86/include/asm/bug.h:81:2: note: expanded from macro '__WARN_FLAGS'
-           instrumentation_begin();                                \
-           ^
-   include/linux/instrumentation.h:57:34: note: expanded from macro 'instrumentation_begin'
-   # define instrumentation_begin()        do { } while(0)
-                                           ^
-   kernel/trace/ring_buffer.c:3499:3: note: Loop condition is false.  Exiting loop
-                   RB_WARN_ON(cpu_buffer, !s_ok);
-                   ^
-   kernel/trace/ring_buffer.c:1061:4: note: expanded from macro 'RB_WARN_ON'
-                           WARN_ON(1);                                     \
-                           ^
-   include/asm-generic/bug.h:123:3: note: expanded from macro 'WARN_ON'
-                   __WARN();                                               \
-                   ^
-   include/asm-generic/bug.h:96:19: note: expanded from macro '__WARN'
-   #define __WARN()                __WARN_FLAGS(BUGFLAG_TAINT(TAINT_WARN))
-                                   ^
-   arch/x86/include/asm/bug.h:82:2: note: expanded from macro '__WARN_FLAGS'
-           _BUG_FLAGS(ASM_UD2, f, ASM_REACHABLE);                  \
-           ^
-   arch/x86/include/asm/bug.h:25:43: note: expanded from macro '_BUG_FLAGS'
-   #define _BUG_FLAGS(ins, flags, extra)                                   \
-                                                                           ^
-   kernel/trace/ring_buffer.c:3499:3: note: Loop condition is false.  Exiting loop
-                   RB_WARN_ON(cpu_buffer, !s_ok);
-                   ^
-   kernel/trace/ring_buffer.c:1061:4: note: expanded from macro 'RB_WARN_ON'
-                           WARN_ON(1);                                     \
-                           ^
-   include/asm-generic/bug.h:123:3: note: expanded from macro 'WARN_ON'
-                   __WARN();                                               \
-                   ^
-   include/asm-generic/bug.h:96:19: note: expanded from macro '__WARN'
-   #define __WARN()                __WARN_FLAGS(BUGFLAG_TAINT(TAINT_WARN))
-                                   ^
-   arch/x86/include/asm/bug.h:83:2: note: expanded from macro '__WARN_FLAGS'
-           instrumentation_end();                                  \
-           ^
-   include/linux/instrumentation.h:58:33: note: expanded from macro 'instrumentation_end'
-   # define instrumentation_end()          do { } while(0)
-                                           ^
-   kernel/trace/ring_buffer.c:3499:3: note: Loop condition is false.  Exiting loop
-                   RB_WARN_ON(cpu_buffer, !s_ok);
-                   ^
-   kernel/trace/ring_buffer.c:1061:4: note: expanded from macro 'RB_WARN_ON'
-                           WARN_ON(1);                                     \
-                           ^
-   include/asm-generic/bug.h:123:3: note: expanded from macro 'WARN_ON'
-                   __WARN();                                               \
-                   ^
-   include/asm-generic/bug.h:96:19: note: expanded from macro '__WARN'
-   #define __WARN()                __WARN_FLAGS(BUGFLAG_TAINT(TAINT_WARN))
-                                   ^
-   arch/x86/include/asm/bug.h:78:33: note: expanded from macro '__WARN_FLAGS'
-   #define __WARN_FLAGS(flags)                                     \
-                                                                   ^
-   kernel/trace/ring_buffer.c:3500:3: note: Taking false branch
-                   if (likely(!(info->add_timestamp &
-                   ^
-   kernel/trace/ring_buffer.c:3509:25: note: The right operand of '!=' is a garbage value
-                   if (unlikely(info->ts != save_before)) {
-                                         ^
-   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                               ^
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   3 warnings generated.
->> kernel/bpf/bpf_local_storage.c:473:2: warning: Potential leak of memory pointed to by 'selem' [clang-analyzer-unix.Malloc]
-           raw_spin_unlock_irqrestore(&local_storage->lock, flags);
-           ^
-   include/linux/spinlock.h:279:13: note: expanded from macro 'raw_spin_unlock_irqrestore'
-                   typecheck(unsigned long, flags);                \
-                             ^
-   kernel/bpf/bpf_local_storage.c:363:15: note: Assuming the condition is false
-           if (unlikely((map_flags & ~BPF_F_LOCK) > BPF_EXIST) ||
-                        ^
-   include/linux/compiler.h:48:41: note: expanded from macro 'unlikely'
-   #  define unlikely(x)   (__branch_check__(x, 0, __builtin_constant_p(x)))
-                                             ^
-   include/linux/compiler.h:33:34: note: expanded from macro '__branch_check__'
-                           ______r = __builtin_expect(!!(x), expect);      \
-                                                         ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_var'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
-                                                      ^~~~
-   kernel/bpf/bpf_local_storage.c:363:6: note: Left side of '||' is false
-           if (unlikely((map_flags & ~BPF_F_LOCK) > BPF_EXIST) ||
-               ^
-   include/linux/compiler.h:48:23: note: expanded from macro 'unlikely'
-   #  define unlikely(x)   (__branch_check__(x, 0, __builtin_constant_p(x)))
-                           ^
-   kernel/bpf/bpf_local_storage.c:365:16: note: Assuming the condition is true
-               unlikely((map_flags & BPF_F_LOCK) &&
-                         ^
-   include/linux/compiler.h:48:41: note: expanded from macro 'unlikely'
-   #  define unlikely(x)   (__branch_check__(x, 0, __builtin_constant_p(x)))
-                                             ^
-   include/linux/compiler.h:33:34: note: expanded from macro '__branch_check__'
-                           ______r = __builtin_expect(!!(x), expect);      \
-                                                         ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_var'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
-                                                      ^~~~
-   kernel/bpf/bpf_local_storage.c:365:15: note: Left side of '&&' is true
-               unlikely((map_flags & BPF_F_LOCK) &&
-                        ^
-   kernel/bpf/bpf_local_storage.c:365:15: note: Left side of '&&' is true
-   kernel/bpf/bpf_local_storage.c:363:2: note: '?' condition is false
-           if (unlikely((map_flags & ~BPF_F_LOCK) > BPF_EXIST) ||
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_var'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
-                                 ^
-   kernel/bpf/bpf_local_storage.c:363:6: note: Left side of '||' is false
-           if (unlikely((map_flags & ~BPF_F_LOCK) > BPF_EXIST) ||
-               ^
-   include/linux/compiler.h:48:23: note: expanded from macro 'unlikely'
-   #  define unlikely(x)   (__branch_check__(x, 0, __builtin_constant_p(x)))
-                           ^
-   kernel/bpf/bpf_local_storage.c:365:15: note: Left side of '&&' is true
-               unlikely((map_flags & BPF_F_LOCK) &&
-                        ^
-   kernel/bpf/bpf_local_storage.c:365:15: note: Left side of '&&' is true
-   kernel/bpf/bpf_local_storage.c:363:2: note: '?' condition is false
-           if (unlikely((map_flags & ~BPF_F_LOCK) > BPF_EXIST) ||
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_var'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_value'
-           (cond) ?                                        \
-           ^
-   kernel/bpf/bpf_local_storage.c:363:2: note: Taking false branch
-           if (unlikely((map_flags & ~BPF_F_LOCK) > BPF_EXIST) ||
-           ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   kernel/bpf/bpf_local_storage.c:369:6: note: Assuming the condition is true
-           if (gfp_flags == GFP_KERNEL && (map_flags & ~BPF_F_LOCK) != BPF_NOEXIST)
-               ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_var'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
-                                                      ^~~~
-   kernel/bpf/bpf_local_storage.c:369:6: note: Left side of '&&' is true
-           if (gfp_flags == GFP_KERNEL && (map_flags & ~BPF_F_LOCK) != BPF_NOEXIST)
-               ^
-   kernel/bpf/bpf_local_storage.c:369:33: note: Assuming the condition is false
-           if (gfp_flags == GFP_KERNEL && (map_flags & ~BPF_F_LOCK) != BPF_NOEXIST)
-                                          ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
+smatch warnings:
+drivers/infiniband/core/umem.c:201 __ib_umem_get() warn: impossible condition '(npages > (~0)) => (0-u32max > u32max)'
 
-vim +/selem +473 kernel/bpf/bpf_local_storage.c
+vim +201 drivers/infiniband/core/umem.c
 
-450af8d0f6be2e KP Singh     2020-08-25  346  
-450af8d0f6be2e KP Singh     2020-08-25  347  /* sk cannot be going away because it is linking new elem
-450af8d0f6be2e KP Singh     2020-08-25  348   * to sk->sk_bpf_storage. (i.e. sk->sk_refcnt cannot be 0).
-450af8d0f6be2e KP Singh     2020-08-25  349   * Otherwise, it will become a leak (and other memory issues
-450af8d0f6be2e KP Singh     2020-08-25  350   * during map destruction).
-450af8d0f6be2e KP Singh     2020-08-25  351   */
-450af8d0f6be2e KP Singh     2020-08-25  352  struct bpf_local_storage_data *
-450af8d0f6be2e KP Singh     2020-08-25  353  bpf_local_storage_update(void *owner, struct bpf_local_storage_map *smap,
-b00fa38a9c1cba Joanne Koong 2022-03-17  354  			 void *value, u64 map_flags, gfp_t gfp_flags)
-450af8d0f6be2e KP Singh     2020-08-25  355  {
-450af8d0f6be2e KP Singh     2020-08-25  356  	struct bpf_local_storage_data *old_sdata = NULL;
-b00fa38a9c1cba Joanne Koong 2022-03-17  357  	struct bpf_local_storage_elem *selem = NULL;
-450af8d0f6be2e KP Singh     2020-08-25  358  	struct bpf_local_storage *local_storage;
-a10787e6d58c24 Song Liu     2021-02-25  359  	unsigned long flags;
-450af8d0f6be2e KP Singh     2020-08-25  360  	int err;
-450af8d0f6be2e KP Singh     2020-08-25  361  
-450af8d0f6be2e KP Singh     2020-08-25  362  	/* BPF_EXIST and BPF_NOEXIST cannot be both set */
-450af8d0f6be2e KP Singh     2020-08-25  363  	if (unlikely((map_flags & ~BPF_F_LOCK) > BPF_EXIST) ||
-450af8d0f6be2e KP Singh     2020-08-25  364  	    /* BPF_F_LOCK can only be used in a value with spin_lock */
-450af8d0f6be2e KP Singh     2020-08-25  365  	    unlikely((map_flags & BPF_F_LOCK) &&
-450af8d0f6be2e KP Singh     2020-08-25  366  		     !map_value_has_spin_lock(&smap->map)))
-450af8d0f6be2e KP Singh     2020-08-25  367  		return ERR_PTR(-EINVAL);
-450af8d0f6be2e KP Singh     2020-08-25  368  
-b00fa38a9c1cba Joanne Koong 2022-03-17  369  	if (gfp_flags == GFP_KERNEL && (map_flags & ~BPF_F_LOCK) != BPF_NOEXIST)
-b00fa38a9c1cba Joanne Koong 2022-03-17  370  		return ERR_PTR(-EINVAL);
-b00fa38a9c1cba Joanne Koong 2022-03-17  371  
-0fe4b381a59ebc KP Singh     2021-12-24  372  	local_storage = rcu_dereference_check(*owner_storage(smap, owner),
-0fe4b381a59ebc KP Singh     2021-12-24  373  					      bpf_rcu_lock_held());
-450af8d0f6be2e KP Singh     2020-08-25  374  	if (!local_storage || hlist_empty(&local_storage->list)) {
-450af8d0f6be2e KP Singh     2020-08-25  375  		/* Very first elem for the owner */
-450af8d0f6be2e KP Singh     2020-08-25  376  		err = check_flags(NULL, map_flags);
-450af8d0f6be2e KP Singh     2020-08-25  377  		if (err)
-450af8d0f6be2e KP Singh     2020-08-25  378  			return ERR_PTR(err);
-450af8d0f6be2e KP Singh     2020-08-25  379  
-b00fa38a9c1cba Joanne Koong 2022-03-17  380  		selem = bpf_selem_alloc(smap, owner, value, true, gfp_flags);
-450af8d0f6be2e KP Singh     2020-08-25  381  		if (!selem)
-450af8d0f6be2e KP Singh     2020-08-25  382  			return ERR_PTR(-ENOMEM);
-450af8d0f6be2e KP Singh     2020-08-25  383  
-b00fa38a9c1cba Joanne Koong 2022-03-17  384  		err = bpf_local_storage_alloc(owner, smap, selem, gfp_flags);
-450af8d0f6be2e KP Singh     2020-08-25  385  		if (err) {
-450af8d0f6be2e KP Singh     2020-08-25  386  			kfree(selem);
-450af8d0f6be2e KP Singh     2020-08-25  387  			mem_uncharge(smap, owner, smap->elem_size);
-450af8d0f6be2e KP Singh     2020-08-25  388  			return ERR_PTR(err);
-450af8d0f6be2e KP Singh     2020-08-25  389  		}
-450af8d0f6be2e KP Singh     2020-08-25  390  
-450af8d0f6be2e KP Singh     2020-08-25  391  		return SDATA(selem);
-450af8d0f6be2e KP Singh     2020-08-25  392  	}
-450af8d0f6be2e KP Singh     2020-08-25  393  
-450af8d0f6be2e KP Singh     2020-08-25  394  	if ((map_flags & BPF_F_LOCK) && !(map_flags & BPF_NOEXIST)) {
-450af8d0f6be2e KP Singh     2020-08-25  395  		/* Hoping to find an old_sdata to do inline update
-450af8d0f6be2e KP Singh     2020-08-25  396  		 * such that it can avoid taking the local_storage->lock
-450af8d0f6be2e KP Singh     2020-08-25  397  		 * and changing the lists.
-450af8d0f6be2e KP Singh     2020-08-25  398  		 */
-450af8d0f6be2e KP Singh     2020-08-25  399  		old_sdata =
-450af8d0f6be2e KP Singh     2020-08-25  400  			bpf_local_storage_lookup(local_storage, smap, false);
-450af8d0f6be2e KP Singh     2020-08-25  401  		err = check_flags(old_sdata, map_flags);
-450af8d0f6be2e KP Singh     2020-08-25  402  		if (err)
-450af8d0f6be2e KP Singh     2020-08-25  403  			return ERR_PTR(err);
-450af8d0f6be2e KP Singh     2020-08-25  404  		if (old_sdata && selem_linked_to_storage(SELEM(old_sdata))) {
-450af8d0f6be2e KP Singh     2020-08-25  405  			copy_map_value_locked(&smap->map, old_sdata->data,
-450af8d0f6be2e KP Singh     2020-08-25  406  					      value, false);
-450af8d0f6be2e KP Singh     2020-08-25  407  			return old_sdata;
-450af8d0f6be2e KP Singh     2020-08-25  408  		}
-450af8d0f6be2e KP Singh     2020-08-25  409  	}
-450af8d0f6be2e KP Singh     2020-08-25  410  
-b00fa38a9c1cba Joanne Koong 2022-03-17  411  	if (gfp_flags == GFP_KERNEL) {
-b00fa38a9c1cba Joanne Koong 2022-03-17  412  		selem = bpf_selem_alloc(smap, owner, value, true, gfp_flags);
-b00fa38a9c1cba Joanne Koong 2022-03-17  413  		if (!selem)
-b00fa38a9c1cba Joanne Koong 2022-03-17  414  			return ERR_PTR(-ENOMEM);
-b00fa38a9c1cba Joanne Koong 2022-03-17  415  	}
-b00fa38a9c1cba Joanne Koong 2022-03-17  416  
-a10787e6d58c24 Song Liu     2021-02-25  417  	raw_spin_lock_irqsave(&local_storage->lock, flags);
-450af8d0f6be2e KP Singh     2020-08-25  418  
-450af8d0f6be2e KP Singh     2020-08-25  419  	/* Recheck local_storage->list under local_storage->lock */
-450af8d0f6be2e KP Singh     2020-08-25  420  	if (unlikely(hlist_empty(&local_storage->list))) {
-450af8d0f6be2e KP Singh     2020-08-25  421  		/* A parallel del is happening and local_storage is going
-450af8d0f6be2e KP Singh     2020-08-25  422  		 * away.  It has just been checked before, so very
-450af8d0f6be2e KP Singh     2020-08-25  423  		 * unlikely.  Return instead of retry to keep things
-450af8d0f6be2e KP Singh     2020-08-25  424  		 * simple.
-450af8d0f6be2e KP Singh     2020-08-25  425  		 */
-450af8d0f6be2e KP Singh     2020-08-25  426  		err = -EAGAIN;
-450af8d0f6be2e KP Singh     2020-08-25  427  		goto unlock_err;
-450af8d0f6be2e KP Singh     2020-08-25  428  	}
-450af8d0f6be2e KP Singh     2020-08-25  429  
-450af8d0f6be2e KP Singh     2020-08-25  430  	old_sdata = bpf_local_storage_lookup(local_storage, smap, false);
-450af8d0f6be2e KP Singh     2020-08-25  431  	err = check_flags(old_sdata, map_flags);
-450af8d0f6be2e KP Singh     2020-08-25  432  	if (err)
-450af8d0f6be2e KP Singh     2020-08-25  433  		goto unlock_err;
-450af8d0f6be2e KP Singh     2020-08-25  434  
-450af8d0f6be2e KP Singh     2020-08-25  435  	if (old_sdata && (map_flags & BPF_F_LOCK)) {
-450af8d0f6be2e KP Singh     2020-08-25  436  		copy_map_value_locked(&smap->map, old_sdata->data, value,
-450af8d0f6be2e KP Singh     2020-08-25  437  				      false);
-450af8d0f6be2e KP Singh     2020-08-25  438  		selem = SELEM(old_sdata);
-450af8d0f6be2e KP Singh     2020-08-25  439  		goto unlock;
-450af8d0f6be2e KP Singh     2020-08-25  440  	}
-450af8d0f6be2e KP Singh     2020-08-25  441  
-b00fa38a9c1cba Joanne Koong 2022-03-17  442  	if (gfp_flags != GFP_KERNEL) {
-450af8d0f6be2e KP Singh     2020-08-25  443  		/* local_storage->lock is held.  Hence, we are sure
-450af8d0f6be2e KP Singh     2020-08-25  444  		 * we can unlink and uncharge the old_sdata successfully
-450af8d0f6be2e KP Singh     2020-08-25  445  		 * later.  Hence, instead of charging the new selem now
-450af8d0f6be2e KP Singh     2020-08-25  446  		 * and then uncharge the old selem later (which may cause
-450af8d0f6be2e KP Singh     2020-08-25  447  		 * a potential but unnecessary charge failure),  avoid taking
-450af8d0f6be2e KP Singh     2020-08-25  448  		 * a charge at all here (the "!old_sdata" check) and the
-450af8d0f6be2e KP Singh     2020-08-25  449  		 * old_sdata will not be uncharged later during
-450af8d0f6be2e KP Singh     2020-08-25  450  		 * bpf_selem_unlink_storage_nolock().
-450af8d0f6be2e KP Singh     2020-08-25  451  		 */
-b00fa38a9c1cba Joanne Koong 2022-03-17  452  		selem = bpf_selem_alloc(smap, owner, value, !old_sdata, gfp_flags);
-450af8d0f6be2e KP Singh     2020-08-25  453  		if (!selem) {
-450af8d0f6be2e KP Singh     2020-08-25  454  			err = -ENOMEM;
-450af8d0f6be2e KP Singh     2020-08-25  455  			goto unlock_err;
-450af8d0f6be2e KP Singh     2020-08-25  456  		}
-b00fa38a9c1cba Joanne Koong 2022-03-17  457  	}
-450af8d0f6be2e KP Singh     2020-08-25  458  
-450af8d0f6be2e KP Singh     2020-08-25  459  	/* First, link the new selem to the map */
-450af8d0f6be2e KP Singh     2020-08-25  460  	bpf_selem_link_map(smap, selem);
-450af8d0f6be2e KP Singh     2020-08-25  461  
-450af8d0f6be2e KP Singh     2020-08-25  462  	/* Second, link (and publish) the new selem to local_storage */
-450af8d0f6be2e KP Singh     2020-08-25  463  	bpf_selem_link_storage_nolock(local_storage, selem);
-450af8d0f6be2e KP Singh     2020-08-25  464  
-450af8d0f6be2e KP Singh     2020-08-25  465  	/* Third, remove old selem, SELEM(old_sdata) */
-450af8d0f6be2e KP Singh     2020-08-25  466  	if (old_sdata) {
-450af8d0f6be2e KP Singh     2020-08-25  467  		bpf_selem_unlink_map(SELEM(old_sdata));
-450af8d0f6be2e KP Singh     2020-08-25  468  		bpf_selem_unlink_storage_nolock(local_storage, SELEM(old_sdata),
-450af8d0f6be2e KP Singh     2020-08-25  469  						false);
-450af8d0f6be2e KP Singh     2020-08-25  470  	}
-450af8d0f6be2e KP Singh     2020-08-25  471  
-450af8d0f6be2e KP Singh     2020-08-25  472  unlock:
-a10787e6d58c24 Song Liu     2021-02-25 @473  	raw_spin_unlock_irqrestore(&local_storage->lock, flags);
-450af8d0f6be2e KP Singh     2020-08-25  474  	return SDATA(selem);
-450af8d0f6be2e KP Singh     2020-08-25  475  
-450af8d0f6be2e KP Singh     2020-08-25  476  unlock_err:
-a10787e6d58c24 Song Liu     2021-02-25  477  	raw_spin_unlock_irqrestore(&local_storage->lock, flags);
-b00fa38a9c1cba Joanne Koong 2022-03-17  478  	if (selem) {
-b00fa38a9c1cba Joanne Koong 2022-03-17  479  		mem_uncharge(smap, owner, smap->elem_size);
-b00fa38a9c1cba Joanne Koong 2022-03-17  480  		kfree(selem);
-b00fa38a9c1cba Joanne Koong 2022-03-17  481  	}
-450af8d0f6be2e KP Singh     2020-08-25  482  	return ERR_PTR(err);
-450af8d0f6be2e KP Singh     2020-08-25  483  }
-450af8d0f6be2e KP Singh     2020-08-25  484  
+4a35339958f16d drivers/infiniband/core/umem.c       Shiraz Saleem     2019-05-06  140  
+f7c6a7b5d59980 drivers/infiniband/core/umem.c       Roland Dreier     2007-03-04  141  /**
+8b14b6e3f45f43 drivers/infiniband/core/umem.c       Jason Gunthorpe   2020-11-26  142   * __ib_umem_get - Pin and DMA map userspace memory.
+8ada2c1c0c1d75 drivers/infiniband/core/umem.c       Shachar Raindel   2014-12-11  143   *
+c320e527e15483 drivers/infiniband/core/umem.c       Moni Shoua        2020-01-15  144   * @device: IB device to connect UMEM
+f7c6a7b5d59980 drivers/infiniband/core/umem.c       Roland Dreier     2007-03-04  145   * @addr: userspace virtual address to start at
+f7c6a7b5d59980 drivers/infiniband/core/umem.c       Roland Dreier     2007-03-04  146   * @size: length of region to pin
+f7c6a7b5d59980 drivers/infiniband/core/umem.c       Roland Dreier     2007-03-04  147   * @access: IB_ACCESS_xxx flags for memory being pinned
+8b14b6e3f45f43 drivers/infiniband/core/umem.c       Jason Gunthorpe   2020-11-26  148   * @peer_mem_flags: IB_PEER_MEM_xxx flags for memory being used
+f7c6a7b5d59980 drivers/infiniband/core/umem.c       Roland Dreier     2007-03-04  149   */
+8b14b6e3f45f43 drivers/infiniband/core/umem.c       Jason Gunthorpe   2020-11-26  150  static struct ib_umem *__ib_umem_get(struct ib_device *device,
+8b14b6e3f45f43 drivers/infiniband/core/umem.c       Jason Gunthorpe   2020-11-26  151  				    unsigned long addr, size_t size, int access,
+8b14b6e3f45f43 drivers/infiniband/core/umem.c       Jason Gunthorpe   2020-11-26  152  				    unsigned long peer_mem_flags)
+eb8ffbfed50e79 drivers/infiniband/core/uverbs_mem.c Roland Dreier     2005-07-07  153  {
+f7c6a7b5d59980 drivers/infiniband/core/umem.c       Roland Dreier     2007-03-04  154  	struct ib_umem *umem;
+eb8ffbfed50e79 drivers/infiniband/core/uverbs_mem.c Roland Dreier     2005-07-07  155  	struct page **page_list;
+eb8ffbfed50e79 drivers/infiniband/core/uverbs_mem.c Roland Dreier     2005-07-07  156  	unsigned long lock_limit;
+c6ce580716372d drivers/infiniband/core/umem.c       Doug Ledford      2018-09-21  157  	unsigned long new_pinned;
+eb8ffbfed50e79 drivers/infiniband/core/uverbs_mem.c Roland Dreier     2005-07-07  158  	unsigned long cur_base;
+f03d9fadfe13a7 drivers/infiniband/core/umem.c       Michael Guralnik  2020-02-12  159  	unsigned long dma_attr = 0;
+d4b4dd1b9706e4 drivers/infiniband/core/umem.c       Jason Gunthorpe   2018-09-16  160  	struct mm_struct *mm;
+eb8ffbfed50e79 drivers/infiniband/core/uverbs_mem.c Roland Dreier     2005-07-07  161  	unsigned long npages;
+3e302dbc6774a2 drivers/infiniband/core/umem.c       Maor Gottlieb     2021-08-24  162  	int pinned, ret;
+b40656aa7d559a drivers/infiniband/core/umem.c       David Hildenbrand 2022-11-16  163  	unsigned int gup_flags = FOLL_LONGTERM;
+cb9fbc5c37b69a drivers/infiniband/core/umem.c       Arthur Kepner     2008-04-29  164  
+8494057ab5e40d drivers/infiniband/core/umem.c       Shachar Raindel   2015-03-18  165  	/*
+8494057ab5e40d drivers/infiniband/core/umem.c       Shachar Raindel   2015-03-18  166  	 * If the combination of the addr and size requested for this memory
+8494057ab5e40d drivers/infiniband/core/umem.c       Shachar Raindel   2015-03-18  167  	 * region causes an integer overflow, return error.
+8494057ab5e40d drivers/infiniband/core/umem.c       Shachar Raindel   2015-03-18  168  	 */
+66578b0b2f6965 drivers/infiniband/core/umem.c       Yann Droneaud     2015-04-13  169  	if (((addr + size) < addr) ||
+66578b0b2f6965 drivers/infiniband/core/umem.c       Yann Droneaud     2015-04-13  170  	    PAGE_ALIGN(addr + size) < (addr + size))
+8494057ab5e40d drivers/infiniband/core/umem.c       Shachar Raindel   2015-03-18  171  		return ERR_PTR(-EINVAL);
+8494057ab5e40d drivers/infiniband/core/umem.c       Shachar Raindel   2015-03-18  172  
+eb8ffbfed50e79 drivers/infiniband/core/uverbs_mem.c Roland Dreier     2005-07-07  173  	if (!can_do_mlock())
+f7c6a7b5d59980 drivers/infiniband/core/umem.c       Roland Dreier     2007-03-04  174  		return ERR_PTR(-EPERM);
+eb8ffbfed50e79 drivers/infiniband/core/uverbs_mem.c Roland Dreier     2005-07-07  175  
+261dc53f8ee037 drivers/infiniband/core/umem.c       Jason Gunthorpe   2019-08-19  176  	if (access & IB_ACCESS_ON_DEMAND)
+261dc53f8ee037 drivers/infiniband/core/umem.c       Jason Gunthorpe   2019-08-19  177  		return ERR_PTR(-EOPNOTSUPP);
+261dc53f8ee037 drivers/infiniband/core/umem.c       Jason Gunthorpe   2019-08-19  178  
+41b4deeaa123e6 drivers/infiniband/core/umem.c       Jason Gunthorpe   2018-09-16  179  	umem = kzalloc(sizeof(*umem), GFP_KERNEL);
+41b4deeaa123e6 drivers/infiniband/core/umem.c       Jason Gunthorpe   2018-09-16  180  	if (!umem)
+41b4deeaa123e6 drivers/infiniband/core/umem.c       Jason Gunthorpe   2018-09-16  181  		return ERR_PTR(-ENOMEM);
+c320e527e15483 drivers/infiniband/core/umem.c       Moni Shoua        2020-01-15  182  	umem->ibdev      = device;
+f7c6a7b5d59980 drivers/infiniband/core/umem.c       Roland Dreier     2007-03-04  183  	umem->length     = size;
+406f9e5fa9a7a6 drivers/infiniband/core/umem.c       Haggai Eran       2014-12-11  184  	umem->address    = addr;
+a665aca89a4111 drivers/infiniband/core/umem.c       Jason Gunthorpe   2020-09-04  185  	/*
+a665aca89a4111 drivers/infiniband/core/umem.c       Jason Gunthorpe   2020-09-04  186  	 * Drivers should call ib_umem_find_best_pgsz() to set the iova
+a665aca89a4111 drivers/infiniband/core/umem.c       Jason Gunthorpe   2020-09-04  187  	 * correctly.
+a665aca89a4111 drivers/infiniband/core/umem.c       Jason Gunthorpe   2020-09-04  188  	 */
+a665aca89a4111 drivers/infiniband/core/umem.c       Jason Gunthorpe   2020-09-04  189  	umem->iova = addr;
+08bb558ac11ab9 drivers/infiniband/core/umem.c       Jack Morgenstein  2018-05-23  190  	umem->writable   = ib_access_writable(access);
+41b4deeaa123e6 drivers/infiniband/core/umem.c       Jason Gunthorpe   2018-09-16  191  	umem->owning_mm = mm = current->mm;
+41b4deeaa123e6 drivers/infiniband/core/umem.c       Jason Gunthorpe   2018-09-16  192  	mmgrab(mm);
+eb8ffbfed50e79 drivers/infiniband/core/uverbs_mem.c Roland Dreier     2005-07-07  193  
+f7c6a7b5d59980 drivers/infiniband/core/umem.c       Roland Dreier     2007-03-04  194  	page_list = (struct page **) __get_free_page(GFP_KERNEL);
+f7c6a7b5d59980 drivers/infiniband/core/umem.c       Roland Dreier     2007-03-04  195  	if (!page_list) {
+1215cb7c88ec88 drivers/infiniband/core/umem.c       Leon Romanovsky   2018-07-10  196  		ret = -ENOMEM;
+41b4deeaa123e6 drivers/infiniband/core/umem.c       Jason Gunthorpe   2018-09-16  197  		goto umem_kfree;
+f7c6a7b5d59980 drivers/infiniband/core/umem.c       Roland Dreier     2007-03-04  198  	}
+eb8ffbfed50e79 drivers/infiniband/core/uverbs_mem.c Roland Dreier     2005-07-07  199  
+406f9e5fa9a7a6 drivers/infiniband/core/umem.c       Haggai Eran       2014-12-11  200  	npages = ib_umem_num_pages(umem);
+3312d1c6bdee6a drivers/infiniband/core/umem.c       Doug Ledford      2018-09-21 @201  	if (npages == 0 || npages > UINT_MAX) {
+3312d1c6bdee6a drivers/infiniband/core/umem.c       Doug Ledford      2018-09-21  202  		ret = -EINVAL;
+3312d1c6bdee6a drivers/infiniband/core/umem.c       Doug Ledford      2018-09-21  203  		goto out;
+3312d1c6bdee6a drivers/infiniband/core/umem.c       Doug Ledford      2018-09-21  204  	}
+eb8ffbfed50e79 drivers/infiniband/core/uverbs_mem.c Roland Dreier     2005-07-07  205  
+ccbe9f0b11b137 drivers/infiniband/core/umem.c       Jiri Slaby        2010-02-11  206  	lock_limit = rlimit(RLIMIT_MEMLOCK) >> PAGE_SHIFT;
+eb8ffbfed50e79 drivers/infiniband/core/uverbs_mem.c Roland Dreier     2005-07-07  207  
+b95df5e3e45914 drivers/infiniband/core/umem.c       Davidlohr Bueso   2019-02-06  208  	new_pinned = atomic64_add_return(npages, &mm->pinned_vm);
+70f8a3ca68d3e1 drivers/infiniband/core/umem.c       Davidlohr Bueso   2019-02-06  209  	if (new_pinned > lock_limit && !capable(CAP_IPC_LOCK)) {
+b95df5e3e45914 drivers/infiniband/core/umem.c       Davidlohr Bueso   2019-02-06  210  		atomic64_sub(npages, &mm->pinned_vm);
+eb8ffbfed50e79 drivers/infiniband/core/uverbs_mem.c Roland Dreier     2005-07-07  211  		ret = -ENOMEM;
+c6ce580716372d drivers/infiniband/core/umem.c       Doug Ledford      2018-09-21  212  		goto out;
+eb8ffbfed50e79 drivers/infiniband/core/uverbs_mem.c Roland Dreier     2005-07-07  213  	}
+eb8ffbfed50e79 drivers/infiniband/core/uverbs_mem.c Roland Dreier     2005-07-07  214  
+f7c6a7b5d59980 drivers/infiniband/core/umem.c       Roland Dreier     2007-03-04  215  	cur_base = addr & PAGE_MASK;
+eb8ffbfed50e79 drivers/infiniband/core/uverbs_mem.c Roland Dreier     2005-07-07  216  
+b40656aa7d559a drivers/infiniband/core/umem.c       David Hildenbrand 2022-11-16  217  	if (umem->writable)
+b40656aa7d559a drivers/infiniband/core/umem.c       David Hildenbrand 2022-11-16  218  		gup_flags |= FOLL_WRITE;
+768ae309a96103 drivers/infiniband/core/umem.c       Lorenzo Stoakes   2016-10-13  219  
+eb8ffbfed50e79 drivers/infiniband/core/uverbs_mem.c Roland Dreier     2005-07-07  220  	while (npages) {
+928da37a229f34 drivers/infiniband/core/umem.c       Eric Dumazet      2020-07-29  221  		cond_resched();
+3e302dbc6774a2 drivers/infiniband/core/umem.c       Maor Gottlieb     2021-08-24  222  		pinned = pin_user_pages_fast(cur_base,
+8079ffa0e18baa drivers/infiniband/core/umem.c       Roland Dreier     2008-06-06  223  					  min_t(unsigned long, npages,
+4789fcdd140952 drivers/infiniband/core/umem.c       John Hubbard      2020-01-30  224  						PAGE_SIZE /
+4789fcdd140952 drivers/infiniband/core/umem.c       John Hubbard      2020-01-30  225  						sizeof(struct page *)),
+b40656aa7d559a drivers/infiniband/core/umem.c       David Hildenbrand 2022-11-16  226  					  gup_flags, page_list);
+3e302dbc6774a2 drivers/infiniband/core/umem.c       Maor Gottlieb     2021-08-24  227  		if (pinned < 0) {
+3e302dbc6774a2 drivers/infiniband/core/umem.c       Maor Gottlieb     2021-08-24  228  			ret = pinned;
+1215cb7c88ec88 drivers/infiniband/core/umem.c       Leon Romanovsky   2018-07-10  229  			goto umem_release;
+3e302dbc6774a2 drivers/infiniband/core/umem.c       Maor Gottlieb     2021-08-24  230  		}
+eb8ffbfed50e79 drivers/infiniband/core/uverbs_mem.c Roland Dreier     2005-07-07  231  
+3e302dbc6774a2 drivers/infiniband/core/umem.c       Maor Gottlieb     2021-08-24  232  		cur_base += pinned * PAGE_SIZE;
+3e302dbc6774a2 drivers/infiniband/core/umem.c       Maor Gottlieb     2021-08-24  233  		npages -= pinned;
+3e302dbc6774a2 drivers/infiniband/core/umem.c       Maor Gottlieb     2021-08-24  234  		ret = sg_alloc_append_table_from_pages(
+3e302dbc6774a2 drivers/infiniband/core/umem.c       Maor Gottlieb     2021-08-24  235  			&umem->sgt_append, page_list, pinned, 0,
+3e302dbc6774a2 drivers/infiniband/core/umem.c       Maor Gottlieb     2021-08-24  236  			pinned << PAGE_SHIFT, ib_dma_max_seg_size(device),
+3e302dbc6774a2 drivers/infiniband/core/umem.c       Maor Gottlieb     2021-08-24  237  			npages, GFP_KERNEL);
+3e302dbc6774a2 drivers/infiniband/core/umem.c       Maor Gottlieb     2021-08-24  238  		if (ret) {
+3e302dbc6774a2 drivers/infiniband/core/umem.c       Maor Gottlieb     2021-08-24  239  			unpin_user_pages_dirty_lock(page_list, pinned, 0);
+0c16d9635e3a51 drivers/infiniband/core/umem.c       Maor Gottlieb     2020-10-04  240  			goto umem_release;
+0c16d9635e3a51 drivers/infiniband/core/umem.c       Maor Gottlieb     2020-10-04  241  		}
+eb8ffbfed50e79 drivers/infiniband/core/uverbs_mem.c Roland Dreier     2005-07-07  242  	}
+d10bcf947a3ea2 drivers/infiniband/core/umem.c       Shiraz Saleem     2019-04-02  243  
+f03d9fadfe13a7 drivers/infiniband/core/umem.c       Michael Guralnik  2020-02-12  244  	if (access & IB_ACCESS_RELAXED_ORDERING)
+f03d9fadfe13a7 drivers/infiniband/core/umem.c       Michael Guralnik  2020-02-12  245  		dma_attr |= DMA_ATTR_WEAK_ORDERING;
+f03d9fadfe13a7 drivers/infiniband/core/umem.c       Michael Guralnik  2020-02-12  246  
+79fbd3e1241cea drivers/infiniband/core/umem.c       Maor Gottlieb     2021-08-24  247  	ret = ib_dma_map_sgtable_attrs(device, &umem->sgt_append.sgt,
+f03d9fadfe13a7 drivers/infiniband/core/umem.c       Michael Guralnik  2020-02-12  248  				       DMA_BIDIRECTIONAL, dma_attr);
+79fbd3e1241cea drivers/infiniband/core/umem.c       Maor Gottlieb     2021-08-24  249  	if (ret)
+1215cb7c88ec88 drivers/infiniband/core/umem.c       Leon Romanovsky   2018-07-10  250  		goto umem_release;
+1215cb7c88ec88 drivers/infiniband/core/umem.c       Leon Romanovsky   2018-07-10  251  	goto out;
+eb8ffbfed50e79 drivers/infiniband/core/uverbs_mem.c Roland Dreier     2005-07-07  252  
+1215cb7c88ec88 drivers/infiniband/core/umem.c       Leon Romanovsky   2018-07-10  253  umem_release:
+c320e527e15483 drivers/infiniband/core/umem.c       Moni Shoua        2020-01-15  254  	__ib_umem_release(device, umem, 0);
+8b14b6e3f45f43 drivers/infiniband/core/umem.c       Jason Gunthorpe   2020-11-26  255  
+8b14b6e3f45f43 drivers/infiniband/core/umem.c       Jason Gunthorpe   2020-11-26  256  	/*
+8b14b6e3f45f43 drivers/infiniband/core/umem.c       Jason Gunthorpe   2020-11-26  257  	 * If the address belongs to peer memory client, then the first
+8b14b6e3f45f43 drivers/infiniband/core/umem.c       Jason Gunthorpe   2020-11-26  258  	 * call to get_user_pages will fail. In this case, try to get
+8b14b6e3f45f43 drivers/infiniband/core/umem.c       Jason Gunthorpe   2020-11-26  259  	 * these pages from the peers.
+8b14b6e3f45f43 drivers/infiniband/core/umem.c       Jason Gunthorpe   2020-11-26  260  	 */
+8b14b6e3f45f43 drivers/infiniband/core/umem.c       Jason Gunthorpe   2020-11-26  261  	//FIXME: this placement is horrible
+8b14b6e3f45f43 drivers/infiniband/core/umem.c       Jason Gunthorpe   2020-11-26  262  	if (ret < 0 && peer_mem_flags & IB_PEER_MEM_ALLOW) {
+8b14b6e3f45f43 drivers/infiniband/core/umem.c       Jason Gunthorpe   2020-11-26  263  		struct ib_umem *new_umem;
+8b14b6e3f45f43 drivers/infiniband/core/umem.c       Jason Gunthorpe   2020-11-26  264  
+8b14b6e3f45f43 drivers/infiniband/core/umem.c       Jason Gunthorpe   2020-11-26  265  		new_umem = ib_peer_umem_get(umem, ret, peer_mem_flags);
+8b14b6e3f45f43 drivers/infiniband/core/umem.c       Jason Gunthorpe   2020-11-26  266  		if (IS_ERR(new_umem)) {
+8b14b6e3f45f43 drivers/infiniband/core/umem.c       Jason Gunthorpe   2020-11-26  267  			ret = PTR_ERR(new_umem);
+8b14b6e3f45f43 drivers/infiniband/core/umem.c       Jason Gunthorpe   2020-11-26  268  			goto vma;
+8b14b6e3f45f43 drivers/infiniband/core/umem.c       Jason Gunthorpe   2020-11-26  269  		}
+8b14b6e3f45f43 drivers/infiniband/core/umem.c       Jason Gunthorpe   2020-11-26  270  		umem = new_umem;
+8b14b6e3f45f43 drivers/infiniband/core/umem.c       Jason Gunthorpe   2020-11-26  271  		ret = 0;
+8b14b6e3f45f43 drivers/infiniband/core/umem.c       Jason Gunthorpe   2020-11-26  272  		goto out;
+8b14b6e3f45f43 drivers/infiniband/core/umem.c       Jason Gunthorpe   2020-11-26  273  	}
+8b14b6e3f45f43 drivers/infiniband/core/umem.c       Jason Gunthorpe   2020-11-26  274  vma:
+70f8a3ca68d3e1 drivers/infiniband/core/umem.c       Davidlohr Bueso   2019-02-06  275  	atomic64_sub(ib_umem_num_pages(umem), &mm->pinned_vm);
+1215cb7c88ec88 drivers/infiniband/core/umem.c       Leon Romanovsky   2018-07-10  276  out:
+eb8ffbfed50e79 drivers/infiniband/core/uverbs_mem.c Roland Dreier     2005-07-07  277  	free_page((unsigned long) page_list);
+1215cb7c88ec88 drivers/infiniband/core/umem.c       Leon Romanovsky   2018-07-10  278  umem_kfree:
+41b4deeaa123e6 drivers/infiniband/core/umem.c       Jason Gunthorpe   2018-09-16  279  	if (ret) {
+41b4deeaa123e6 drivers/infiniband/core/umem.c       Jason Gunthorpe   2018-09-16  280  		mmdrop(umem->owning_mm);
+1215cb7c88ec88 drivers/infiniband/core/umem.c       Leon Romanovsky   2018-07-10  281  		kfree(umem);
+41b4deeaa123e6 drivers/infiniband/core/umem.c       Jason Gunthorpe   2018-09-16  282  	}
+1215cb7c88ec88 drivers/infiniband/core/umem.c       Leon Romanovsky   2018-07-10  283  	return ret ? ERR_PTR(ret) : umem;
+eb8ffbfed50e79 drivers/infiniband/core/uverbs_mem.c Roland Dreier     2005-07-07  284  }
+8b14b6e3f45f43 drivers/infiniband/core/umem.c       Jason Gunthorpe   2020-11-26  285  
 
-:::::: The code at line 473 was first introduced by commit
-:::::: a10787e6d58c24b51e91c19c6d16c5da89fcaa4b bpf: Enable task local storage for tracing programs
+:::::: The code at line 201 was first introduced by commit
+:::::: 3312d1c6bdee6aa912c099c0ac0662d197c52842 RDMA/umem: Minor optimizations
 
-:::::: TO: Song Liu <songliubraving@fb.com>
-:::::: CC: Alexei Starovoitov <ast@kernel.org>
+:::::: TO: Doug Ledford <dledford@redhat.com>
+:::::: CC: Jason Gunthorpe <jgg@mellanox.com>
 
 -- 
 0-DAY CI Kernel Test Service
