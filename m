@@ -1,43 +1,42 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DF1A23CF
-	for <oe-kbuild@lists.linux.dev>; Sat,  4 Mar 2023 13:11:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A20D5184F
+	for <oe-kbuild@lists.linux.dev>; Sat,  4 Mar 2023 13:22:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677935518; x=1709471518;
+  t=1677936176; x=1709472176;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=1VW/y9hqu/QPrYSZ2/vrcEdSUkRLZi5RLBARMZ2hXkA=;
-  b=LefeMn7bkFnilElXGCDHBzuHnPXzJtD7Pgo/D37NJh+n4XleGOo/O70+
-   3zOZyDIUlcHTybu4DZ6S2CTuQ6OFsZkGQD8NB1z16znwDUog4LFlzsARM
-   yFk3fC6kA36e3aHk4AZVtYXZ4KiIogxrotIXoI3ErmWMVVbbELip2G+gd
-   wSsNJD05IRHSqhbwbBkMwY7jlZhQvqL4ZoMbBzEkXyS7agLijlqsf3CVd
-   YrFH/hrNMET+k2LRQzKF8svAKZN10at64qO8oTW4dkMcpi/c0ige0PluC
-   OUrz1tNusgv0jpnL4GiJcEERH5ThlZLMd5SFsfKIaSt271sWw4K6OfaOA
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10638"; a="400076840"
+  bh=dVJmQsx92fbH1TJpfhKSfVMJDEYu9C1WyQzin8F8igE=;
+  b=bngAEIOAznMTO8ERcWDEXUdQTStYTlT+Ik0W9pbXWg0nxNig5zlJfv6j
+   fPpVOAQ/DP7YgICneWiEDQBfQk6m2R1RvwyGvKwTmGpKybjy1mqFsgT3t
+   mIUQgQ3AcqkjS1eZNm2GJXnFr2cXpFZ+I3VLc+tMzPEvr5108PlbXVmMR
+   Un0qCSfKB6WYWjmWZeQUUgRW0muYj9Mtb21JZkUIPnax26tGnzD71O2ln
+   WJEP+nFLtIXmBSTaDRIRGAEMrRC1x8BgecyyH1cJElPPEV9/4JLMPGjVe
+   Xg+FpF0QegnQ4g0KmmxLqNrPETv2BWE4/gZ/mFypkmKafzryrthXXnn9R
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10638"; a="397846030"
 X-IronPort-AV: E=Sophos;i="5.98,233,1673942400"; 
-   d="scan'208";a="400076840"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2023 05:11:55 -0800
+   d="scan'208";a="397846030"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2023 05:22:55 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10638"; a="818810240"
+X-IronPort-AV: E=McAfee;i="6500,9779,10638"; a="668959854"
 X-IronPort-AV: E=Sophos;i="5.98,233,1673942400"; 
-   d="scan'208";a="818810240"
+   d="scan'208";a="668959854"
 Received: from lkp-server01.sh.intel.com (HELO 776573491cc5) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 04 Mar 2023 05:11:54 -0800
+  by orsmga007.jf.intel.com with ESMTP; 04 Mar 2023 05:22:54 -0800
 Received: from kbuild by 776573491cc5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pYRg1-0002BE-1x;
-	Sat, 04 Mar 2023 13:11:53 +0000
-Date: Sat, 4 Mar 2023 21:11:31 +0800
+	id 1pYRqf-0002BU-2Q;
+	Sat, 04 Mar 2023 13:22:53 +0000
+Date: Sat, 4 Mar 2023 21:21:54 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [leon-rdma:rdma-next 3/10] drivers/infiniband/core/umem.c:201
- __ib_umem_get() warn: impossible condition '(npages > (~0)) => (0-u32max >
- u32max)'
-Message-ID: <202303042131.cnzLQjcg-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: fs/verity/enable.c:29:2: warning: Null pointer passed as 1st
+ argument to memory set function [clang-analyzer-unix.cstring.NullArg]
+Message-ID: <202303042132.WsItO8Zc-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -47,183 +46,269 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: Jason Gunthorpe <jgg@nvidia.com>
-CC: Leon Romanovsky <leon@kernel.org>
-CC: Yishai Hadas <yishaih@mellanox.com>
-CC: Feras Daoud <ferasda@mellanox.com>
+:::::: 
+:::::: Manual check reason: "low confidence static check warning: fs/verity/enable.c:29:2: warning: Null pointer passed as 1st argument to memory set function [clang-analyzer-unix.cstring.NullArg]"
+:::::: 
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git rdma-next
-head:   d01ee3d1bd30a1d48d2c0318d807d0a9e9d24e4b
-commit: 8b14b6e3f45f43c75f5f9362e0e8cd057240fc56 [3/10] RDMA/core: Introduce peer memory interface
-:::::: branch date: 9 days ago
-:::::: commit date: 13 days ago
-config: microblaze-randconfig-m031-20230302 (https://download.01.org/0day-ci/archive/20230304/202303042131.cnzLQjcg-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 12.1.0
+BCC: lkp@intel.com
+CC: llvm@lists.linux.dev
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+TO: Eric Biggers <ebiggers@google.com>
+CC: Andrey Albershteyn <aalbersh@redhat.com>
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   0988a0ea791999ebbf95693f2676381825b05033
+commit: 56124d6c87fd749477425110d2564166621a89c4 fsverity: support enabling with tree block size < PAGE_SIZE
+date:   8 weeks ago
+:::::: branch date: 13 hours ago
+:::::: commit date: 8 weeks ago
+config: s390-randconfig-c005-20230302 (https://download.01.org/0day-ci/archive/20230304/202303042132.WsItO8Zc-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install s390 cross compiling tool for clang build
+        # apt-get install binutils-s390x-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=56124d6c87fd749477425110d2564166621a89c4
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 56124d6c87fd749477425110d2564166621a89c4
+        # save the config file
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=s390 clang-analyzer  olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=s390 clang-analyzer 
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202303042131.cnzLQjcg-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202303042132.WsItO8Zc-lkp@intel.com/
 
-smatch warnings:
-drivers/infiniband/core/umem.c:201 __ib_umem_get() warn: impossible condition '(npages > (~0)) => (0-u32max > u32max)'
+clang_analyzer warnings: (new ones prefixed by >>)
+   21 warnings generated.
+   include/linux/uaccess.h:188:2: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]
+           current->pagefault_disabled++;
+           ^
+   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'current'
+   #define current ((struct task_struct *const)S390_lowcore.current_task)
+                                               ^
+   arch/s390/include/asm/lowcore.h:215:22: note: expanded from macro 'S390_lowcore'
+   #define S390_lowcore (*((struct lowcore *) 0))
+                        ^
+   kernel/futex/core.c:455:2: note: Calling 'pagefault_disable'
+           pagefault_disable();
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/uaccess.h:205:2: note: Calling 'pagefault_disabled_inc'
+           pagefault_disabled_inc();
+           ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/uaccess.h:188:2: note: Dereference of null pointer
+           current->pagefault_disabled++;
+           ^
+   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'current'
+   #define current ((struct task_struct *const)S390_lowcore.current_task)
+                                               ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/s390/include/asm/lowcore.h:215:22: note: expanded from macro 'S390_lowcore'
+   #define S390_lowcore (*((struct lowcore *) 0))
+                        ^
+   kernel/futex/core.c:224:25: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]
+           struct mm_struct *mm = current->mm;
+                                  ^
+   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'current'
+   #define current ((struct task_struct *const)S390_lowcore.current_task)
+                                               ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/s390/include/asm/lowcore.h:215:22: note: expanded from macro 'S390_lowcore'
+   #define S390_lowcore (*((struct lowcore *) 0))
+                        ^
+   kernel/futex/core.c:224:25: note: Dereference of null pointer
+           struct mm_struct *mm = current->mm;
+                                  ^
+   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'current'
+   #define current ((struct task_struct *const)S390_lowcore.current_task)
+                                               ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/s390/include/asm/lowcore.h:215:22: note: expanded from macro 'S390_lowcore'
+   #define S390_lowcore (*((struct lowcore *) 0))
+                        ^
+   kernel/futex/core.c:411:25: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]
+           struct mm_struct *mm = current->mm;
+                                  ^
+   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'current'
+   #define current ((struct task_struct *const)S390_lowcore.current_task)
+                                               ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/s390/include/asm/lowcore.h:215:22: note: expanded from macro 'S390_lowcore'
+   #define S390_lowcore (*((struct lowcore *) 0))
+                        ^
+   kernel/futex/core.c:411:25: note: Dereference of null pointer
+           struct mm_struct *mm = current->mm;
+                                  ^
+   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'current'
+   #define current ((struct task_struct *const)S390_lowcore.current_task)
+                                               ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/s390/include/asm/lowcore.h:215:22: note: expanded from macro 'S390_lowcore'
+   #define S390_lowcore (*((struct lowcore *) 0))
+                        ^
+   kernel/futex/core.c:555:13: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]
+           prio = min(current->normal_prio, MAX_RT_PRIO);
+                      ^
+   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'current'
+   #define current ((struct task_struct *const)S390_lowcore.current_task)
+                                               ^
+   arch/s390/include/asm/lowcore.h:215:22: note: expanded from macro 'S390_lowcore'
+   #define S390_lowcore (*((struct lowcore *) 0))
+                        ^
+   include/linux/minmax.h:67:33: note: expanded from macro 'min'
+   #define min(x, y)       __careful_cmp(x, y, <)
+                           ~~~~~~~~~~~~~~^~~~~~~~
+   include/linux/minmax.h:38:14: note: expanded from macro '__careful_cmp'
+                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
+                   ~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:31:25: note: expanded from macro '__cmp_once'
+                   typeof(x) unique_x = (x);               \
+                                         ^
+   kernel/futex/core.c:555:13: note: Dereference of null pointer
+           prio = min(current->normal_prio, MAX_RT_PRIO);
+                      ^
+   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'current'
+   #define current ((struct task_struct *const)S390_lowcore.current_task)
+                                               ^
+   arch/s390/include/asm/lowcore.h:215:22: note: expanded from macro 'S390_lowcore'
+   #define S390_lowcore (*((struct lowcore *) 0))
+                        ^
+   include/linux/minmax.h:67:33: note: expanded from macro 'min'
+   #define min(x, y)       __careful_cmp(x, y, <)
+                           ~~~~~~~~~~~~~~^~~~~~~~
+   include/linux/minmax.h:38:14: note: expanded from macro '__careful_cmp'
+                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
+                   ~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:31:25: note: expanded from macro '__cmp_once'
+                   typeof(x) unique_x = (x);               \
+                                         ^
+   Suppressed 17 warnings (5 in non-user code, 12 with check filters).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   7 warnings generated.
+>> fs/verity/enable.c:29:2: warning: Null pointer passed as 1st argument to memory set function [clang-analyzer-unix.cstring.NullArg]
+           memset(&cur->data[cur->filled], 0, params->block_size - cur->filled);
+           ^
+   fs/verity/enable.c:322:2: note: Taking false branch
+           if (copy_from_user(&arg, uarg, sizeof(arg)))
+           ^
+   fs/verity/enable.c:325:6: note: Assuming field 'version' is equal to 1
+           if (arg.version != 1)
+               ^~~~~~~~~~~~~~~~
+   fs/verity/enable.c:325:2: note: Taking false branch
+           if (arg.version != 1)
+           ^
+   fs/verity/enable.c:328:6: note: Assuming field '__reserved1' is 0
+           if (arg.__reserved1 ||
+               ^~~~~~~~~~~~~~~
+   fs/verity/enable.c:328:6: note: Left side of '||' is false
+   fs/verity/enable.c:329:6: note: Assuming the condition is false
+               memchr_inv(arg.__reserved2, 0, sizeof(arg.__reserved2)))
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/verity/enable.c:328:2: note: Taking false branch
+           if (arg.__reserved1 ||
+           ^
+   fs/verity/enable.c:332:2: note: Taking false branch
+           if (!is_power_of_2(arg.block_size))
+           ^
+   fs/verity/enable.c:335:6: note: Assuming the condition is false
+           if (arg.salt_size > sizeof_field(struct fsverity_descriptor, salt))
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/verity/enable.c:335:2: note: Taking false branch
+           if (arg.salt_size > sizeof_field(struct fsverity_descriptor, salt))
+           ^
+   fs/verity/enable.c:338:6: note: Assuming the condition is false
+           if (arg.sig_size > FS_VERITY_MAX_SIGNATURE_SIZE)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/verity/enable.c:338:2: note: Taking false branch
+           if (arg.sig_size > FS_VERITY_MAX_SIGNATURE_SIZE)
+           ^
+   fs/verity/enable.c:349:6: note: Assuming 'err' is 0
+           if (err)
+               ^~~
+   fs/verity/enable.c:349:2: note: Taking false branch
+           if (err)
+           ^
+   fs/verity/enable.c:352:6: note: Assuming the condition is false
+           if (IS_APPEND(inode))
+               ^
+   include/linux/fs.h:2307:27: note: expanded from macro 'IS_APPEND'
+   #define IS_APPEND(inode)        ((inode)->i_flags & S_APPEND)
+                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/verity/enable.c:352:2: note: Taking false branch
+           if (IS_APPEND(inode))
+           ^
+   fs/verity/enable.c:355:6: note: Assuming the condition is false
+           if (S_ISDIR(inode->i_mode))
+               ^
+   include/uapi/linux/stat.h:23:21: note: expanded from macro 'S_ISDIR'
+   #define S_ISDIR(m)      (((m) & S_IFMT) == S_IFDIR)
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/verity/enable.c:355:2: note: Taking false branch
+           if (S_ISDIR(inode->i_mode))
+           ^
+   fs/verity/enable.c:358:7: note: Assuming the condition is true
+           if (!S_ISREG(inode->i_mode))
+                ^
+   include/uapi/linux/stat.h:22:21: note: expanded from macro 'S_ISREG'
+   #define S_ISREG(m)      (((m) & S_IFMT) == S_IFREG)
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/verity/enable.c:358:2: note: Taking false branch
+           if (!S_ISREG(inode->i_mode))
+           ^
+   fs/verity/enable.c:362:6: note: Assuming 'err' is 0
+           if (err) /* -EROFS */
+               ^~~
+   fs/verity/enable.c:362:2: note: Taking false branch
+           if (err) /* -EROFS */
+           ^
+   fs/verity/enable.c:366:6: note: 'err' is 0
+           if (err) /* -ETXTBSY */
+               ^~~
+   fs/verity/enable.c:366:2: note: Taking false branch
+           if (err) /* -ETXTBSY */
+           ^
+   fs/verity/enable.c:369:8: note: Calling 'enable_verity'
+           err = enable_verity(filp, &arg);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/verity/enable.c:194:6: note: Assuming 'desc' is non-null
+           if (!desc)
+               ^~~~~
+   fs/verity/enable.c:194:2: note: Taking false branch
+           if (!desc)
+           ^
+   fs/verity/enable.c:198:24: note: '?' condition is false
+           desc->log_blocksize = ilog2(arg->block_size);
+                                 ^
+   include/linux/log2.h:158:2: note: expanded from macro 'ilog2'
+           __builtin_constant_p(n) ?       \
+           ^
+   fs/verity/enable.c:198:24: note: '?' condition is true
+           desc->log_blocksize = ilog2(arg->block_size);
+                                 ^
+   include/linux/log2.h:161:2: note: expanded from macro 'ilog2'
 
-vim +201 drivers/infiniband/core/umem.c
+vim +29 fs/verity/enable.c
 
-4a35339958f16d drivers/infiniband/core/umem.c       Shiraz Saleem     2019-05-06  140  
-f7c6a7b5d59980 drivers/infiniband/core/umem.c       Roland Dreier     2007-03-04  141  /**
-8b14b6e3f45f43 drivers/infiniband/core/umem.c       Jason Gunthorpe   2020-11-26  142   * __ib_umem_get - Pin and DMA map userspace memory.
-8ada2c1c0c1d75 drivers/infiniband/core/umem.c       Shachar Raindel   2014-12-11  143   *
-c320e527e15483 drivers/infiniband/core/umem.c       Moni Shoua        2020-01-15  144   * @device: IB device to connect UMEM
-f7c6a7b5d59980 drivers/infiniband/core/umem.c       Roland Dreier     2007-03-04  145   * @addr: userspace virtual address to start at
-f7c6a7b5d59980 drivers/infiniband/core/umem.c       Roland Dreier     2007-03-04  146   * @size: length of region to pin
-f7c6a7b5d59980 drivers/infiniband/core/umem.c       Roland Dreier     2007-03-04  147   * @access: IB_ACCESS_xxx flags for memory being pinned
-8b14b6e3f45f43 drivers/infiniband/core/umem.c       Jason Gunthorpe   2020-11-26  148   * @peer_mem_flags: IB_PEER_MEM_xxx flags for memory being used
-f7c6a7b5d59980 drivers/infiniband/core/umem.c       Roland Dreier     2007-03-04  149   */
-8b14b6e3f45f43 drivers/infiniband/core/umem.c       Jason Gunthorpe   2020-11-26  150  static struct ib_umem *__ib_umem_get(struct ib_device *device,
-8b14b6e3f45f43 drivers/infiniband/core/umem.c       Jason Gunthorpe   2020-11-26  151  				    unsigned long addr, size_t size, int access,
-8b14b6e3f45f43 drivers/infiniband/core/umem.c       Jason Gunthorpe   2020-11-26  152  				    unsigned long peer_mem_flags)
-eb8ffbfed50e79 drivers/infiniband/core/uverbs_mem.c Roland Dreier     2005-07-07  153  {
-f7c6a7b5d59980 drivers/infiniband/core/umem.c       Roland Dreier     2007-03-04  154  	struct ib_umem *umem;
-eb8ffbfed50e79 drivers/infiniband/core/uverbs_mem.c Roland Dreier     2005-07-07  155  	struct page **page_list;
-eb8ffbfed50e79 drivers/infiniband/core/uverbs_mem.c Roland Dreier     2005-07-07  156  	unsigned long lock_limit;
-c6ce580716372d drivers/infiniband/core/umem.c       Doug Ledford      2018-09-21  157  	unsigned long new_pinned;
-eb8ffbfed50e79 drivers/infiniband/core/uverbs_mem.c Roland Dreier     2005-07-07  158  	unsigned long cur_base;
-f03d9fadfe13a7 drivers/infiniband/core/umem.c       Michael Guralnik  2020-02-12  159  	unsigned long dma_attr = 0;
-d4b4dd1b9706e4 drivers/infiniband/core/umem.c       Jason Gunthorpe   2018-09-16  160  	struct mm_struct *mm;
-eb8ffbfed50e79 drivers/infiniband/core/uverbs_mem.c Roland Dreier     2005-07-07  161  	unsigned long npages;
-3e302dbc6774a2 drivers/infiniband/core/umem.c       Maor Gottlieb     2021-08-24  162  	int pinned, ret;
-b40656aa7d559a drivers/infiniband/core/umem.c       David Hildenbrand 2022-11-16  163  	unsigned int gup_flags = FOLL_LONGTERM;
-cb9fbc5c37b69a drivers/infiniband/core/umem.c       Arthur Kepner     2008-04-29  164  
-8494057ab5e40d drivers/infiniband/core/umem.c       Shachar Raindel   2015-03-18  165  	/*
-8494057ab5e40d drivers/infiniband/core/umem.c       Shachar Raindel   2015-03-18  166  	 * If the combination of the addr and size requested for this memory
-8494057ab5e40d drivers/infiniband/core/umem.c       Shachar Raindel   2015-03-18  167  	 * region causes an integer overflow, return error.
-8494057ab5e40d drivers/infiniband/core/umem.c       Shachar Raindel   2015-03-18  168  	 */
-66578b0b2f6965 drivers/infiniband/core/umem.c       Yann Droneaud     2015-04-13  169  	if (((addr + size) < addr) ||
-66578b0b2f6965 drivers/infiniband/core/umem.c       Yann Droneaud     2015-04-13  170  	    PAGE_ALIGN(addr + size) < (addr + size))
-8494057ab5e40d drivers/infiniband/core/umem.c       Shachar Raindel   2015-03-18  171  		return ERR_PTR(-EINVAL);
-8494057ab5e40d drivers/infiniband/core/umem.c       Shachar Raindel   2015-03-18  172  
-eb8ffbfed50e79 drivers/infiniband/core/uverbs_mem.c Roland Dreier     2005-07-07  173  	if (!can_do_mlock())
-f7c6a7b5d59980 drivers/infiniband/core/umem.c       Roland Dreier     2007-03-04  174  		return ERR_PTR(-EPERM);
-eb8ffbfed50e79 drivers/infiniband/core/uverbs_mem.c Roland Dreier     2005-07-07  175  
-261dc53f8ee037 drivers/infiniband/core/umem.c       Jason Gunthorpe   2019-08-19  176  	if (access & IB_ACCESS_ON_DEMAND)
-261dc53f8ee037 drivers/infiniband/core/umem.c       Jason Gunthorpe   2019-08-19  177  		return ERR_PTR(-EOPNOTSUPP);
-261dc53f8ee037 drivers/infiniband/core/umem.c       Jason Gunthorpe   2019-08-19  178  
-41b4deeaa123e6 drivers/infiniband/core/umem.c       Jason Gunthorpe   2018-09-16  179  	umem = kzalloc(sizeof(*umem), GFP_KERNEL);
-41b4deeaa123e6 drivers/infiniband/core/umem.c       Jason Gunthorpe   2018-09-16  180  	if (!umem)
-41b4deeaa123e6 drivers/infiniband/core/umem.c       Jason Gunthorpe   2018-09-16  181  		return ERR_PTR(-ENOMEM);
-c320e527e15483 drivers/infiniband/core/umem.c       Moni Shoua        2020-01-15  182  	umem->ibdev      = device;
-f7c6a7b5d59980 drivers/infiniband/core/umem.c       Roland Dreier     2007-03-04  183  	umem->length     = size;
-406f9e5fa9a7a6 drivers/infiniband/core/umem.c       Haggai Eran       2014-12-11  184  	umem->address    = addr;
-a665aca89a4111 drivers/infiniband/core/umem.c       Jason Gunthorpe   2020-09-04  185  	/*
-a665aca89a4111 drivers/infiniband/core/umem.c       Jason Gunthorpe   2020-09-04  186  	 * Drivers should call ib_umem_find_best_pgsz() to set the iova
-a665aca89a4111 drivers/infiniband/core/umem.c       Jason Gunthorpe   2020-09-04  187  	 * correctly.
-a665aca89a4111 drivers/infiniband/core/umem.c       Jason Gunthorpe   2020-09-04  188  	 */
-a665aca89a4111 drivers/infiniband/core/umem.c       Jason Gunthorpe   2020-09-04  189  	umem->iova = addr;
-08bb558ac11ab9 drivers/infiniband/core/umem.c       Jack Morgenstein  2018-05-23  190  	umem->writable   = ib_access_writable(access);
-41b4deeaa123e6 drivers/infiniband/core/umem.c       Jason Gunthorpe   2018-09-16  191  	umem->owning_mm = mm = current->mm;
-41b4deeaa123e6 drivers/infiniband/core/umem.c       Jason Gunthorpe   2018-09-16  192  	mmgrab(mm);
-eb8ffbfed50e79 drivers/infiniband/core/uverbs_mem.c Roland Dreier     2005-07-07  193  
-f7c6a7b5d59980 drivers/infiniband/core/umem.c       Roland Dreier     2007-03-04  194  	page_list = (struct page **) __get_free_page(GFP_KERNEL);
-f7c6a7b5d59980 drivers/infiniband/core/umem.c       Roland Dreier     2007-03-04  195  	if (!page_list) {
-1215cb7c88ec88 drivers/infiniband/core/umem.c       Leon Romanovsky   2018-07-10  196  		ret = -ENOMEM;
-41b4deeaa123e6 drivers/infiniband/core/umem.c       Jason Gunthorpe   2018-09-16  197  		goto umem_kfree;
-f7c6a7b5d59980 drivers/infiniband/core/umem.c       Roland Dreier     2007-03-04  198  	}
-eb8ffbfed50e79 drivers/infiniband/core/uverbs_mem.c Roland Dreier     2005-07-07  199  
-406f9e5fa9a7a6 drivers/infiniband/core/umem.c       Haggai Eran       2014-12-11  200  	npages = ib_umem_num_pages(umem);
-3312d1c6bdee6a drivers/infiniband/core/umem.c       Doug Ledford      2018-09-21 @201  	if (npages == 0 || npages > UINT_MAX) {
-3312d1c6bdee6a drivers/infiniband/core/umem.c       Doug Ledford      2018-09-21  202  		ret = -EINVAL;
-3312d1c6bdee6a drivers/infiniband/core/umem.c       Doug Ledford      2018-09-21  203  		goto out;
-3312d1c6bdee6a drivers/infiniband/core/umem.c       Doug Ledford      2018-09-21  204  	}
-eb8ffbfed50e79 drivers/infiniband/core/uverbs_mem.c Roland Dreier     2005-07-07  205  
-ccbe9f0b11b137 drivers/infiniband/core/umem.c       Jiri Slaby        2010-02-11  206  	lock_limit = rlimit(RLIMIT_MEMLOCK) >> PAGE_SHIFT;
-eb8ffbfed50e79 drivers/infiniband/core/uverbs_mem.c Roland Dreier     2005-07-07  207  
-b95df5e3e45914 drivers/infiniband/core/umem.c       Davidlohr Bueso   2019-02-06  208  	new_pinned = atomic64_add_return(npages, &mm->pinned_vm);
-70f8a3ca68d3e1 drivers/infiniband/core/umem.c       Davidlohr Bueso   2019-02-06  209  	if (new_pinned > lock_limit && !capable(CAP_IPC_LOCK)) {
-b95df5e3e45914 drivers/infiniband/core/umem.c       Davidlohr Bueso   2019-02-06  210  		atomic64_sub(npages, &mm->pinned_vm);
-eb8ffbfed50e79 drivers/infiniband/core/uverbs_mem.c Roland Dreier     2005-07-07  211  		ret = -ENOMEM;
-c6ce580716372d drivers/infiniband/core/umem.c       Doug Ledford      2018-09-21  212  		goto out;
-eb8ffbfed50e79 drivers/infiniband/core/uverbs_mem.c Roland Dreier     2005-07-07  213  	}
-eb8ffbfed50e79 drivers/infiniband/core/uverbs_mem.c Roland Dreier     2005-07-07  214  
-f7c6a7b5d59980 drivers/infiniband/core/umem.c       Roland Dreier     2007-03-04  215  	cur_base = addr & PAGE_MASK;
-eb8ffbfed50e79 drivers/infiniband/core/uverbs_mem.c Roland Dreier     2005-07-07  216  
-b40656aa7d559a drivers/infiniband/core/umem.c       David Hildenbrand 2022-11-16  217  	if (umem->writable)
-b40656aa7d559a drivers/infiniband/core/umem.c       David Hildenbrand 2022-11-16  218  		gup_flags |= FOLL_WRITE;
-768ae309a96103 drivers/infiniband/core/umem.c       Lorenzo Stoakes   2016-10-13  219  
-eb8ffbfed50e79 drivers/infiniband/core/uverbs_mem.c Roland Dreier     2005-07-07  220  	while (npages) {
-928da37a229f34 drivers/infiniband/core/umem.c       Eric Dumazet      2020-07-29  221  		cond_resched();
-3e302dbc6774a2 drivers/infiniband/core/umem.c       Maor Gottlieb     2021-08-24  222  		pinned = pin_user_pages_fast(cur_base,
-8079ffa0e18baa drivers/infiniband/core/umem.c       Roland Dreier     2008-06-06  223  					  min_t(unsigned long, npages,
-4789fcdd140952 drivers/infiniband/core/umem.c       John Hubbard      2020-01-30  224  						PAGE_SIZE /
-4789fcdd140952 drivers/infiniband/core/umem.c       John Hubbard      2020-01-30  225  						sizeof(struct page *)),
-b40656aa7d559a drivers/infiniband/core/umem.c       David Hildenbrand 2022-11-16  226  					  gup_flags, page_list);
-3e302dbc6774a2 drivers/infiniband/core/umem.c       Maor Gottlieb     2021-08-24  227  		if (pinned < 0) {
-3e302dbc6774a2 drivers/infiniband/core/umem.c       Maor Gottlieb     2021-08-24  228  			ret = pinned;
-1215cb7c88ec88 drivers/infiniband/core/umem.c       Leon Romanovsky   2018-07-10  229  			goto umem_release;
-3e302dbc6774a2 drivers/infiniband/core/umem.c       Maor Gottlieb     2021-08-24  230  		}
-eb8ffbfed50e79 drivers/infiniband/core/uverbs_mem.c Roland Dreier     2005-07-07  231  
-3e302dbc6774a2 drivers/infiniband/core/umem.c       Maor Gottlieb     2021-08-24  232  		cur_base += pinned * PAGE_SIZE;
-3e302dbc6774a2 drivers/infiniband/core/umem.c       Maor Gottlieb     2021-08-24  233  		npages -= pinned;
-3e302dbc6774a2 drivers/infiniband/core/umem.c       Maor Gottlieb     2021-08-24  234  		ret = sg_alloc_append_table_from_pages(
-3e302dbc6774a2 drivers/infiniband/core/umem.c       Maor Gottlieb     2021-08-24  235  			&umem->sgt_append, page_list, pinned, 0,
-3e302dbc6774a2 drivers/infiniband/core/umem.c       Maor Gottlieb     2021-08-24  236  			pinned << PAGE_SHIFT, ib_dma_max_seg_size(device),
-3e302dbc6774a2 drivers/infiniband/core/umem.c       Maor Gottlieb     2021-08-24  237  			npages, GFP_KERNEL);
-3e302dbc6774a2 drivers/infiniband/core/umem.c       Maor Gottlieb     2021-08-24  238  		if (ret) {
-3e302dbc6774a2 drivers/infiniband/core/umem.c       Maor Gottlieb     2021-08-24  239  			unpin_user_pages_dirty_lock(page_list, pinned, 0);
-0c16d9635e3a51 drivers/infiniband/core/umem.c       Maor Gottlieb     2020-10-04  240  			goto umem_release;
-0c16d9635e3a51 drivers/infiniband/core/umem.c       Maor Gottlieb     2020-10-04  241  		}
-eb8ffbfed50e79 drivers/infiniband/core/uverbs_mem.c Roland Dreier     2005-07-07  242  	}
-d10bcf947a3ea2 drivers/infiniband/core/umem.c       Shiraz Saleem     2019-04-02  243  
-f03d9fadfe13a7 drivers/infiniband/core/umem.c       Michael Guralnik  2020-02-12  244  	if (access & IB_ACCESS_RELAXED_ORDERING)
-f03d9fadfe13a7 drivers/infiniband/core/umem.c       Michael Guralnik  2020-02-12  245  		dma_attr |= DMA_ATTR_WEAK_ORDERING;
-f03d9fadfe13a7 drivers/infiniband/core/umem.c       Michael Guralnik  2020-02-12  246  
-79fbd3e1241cea drivers/infiniband/core/umem.c       Maor Gottlieb     2021-08-24  247  	ret = ib_dma_map_sgtable_attrs(device, &umem->sgt_append.sgt,
-f03d9fadfe13a7 drivers/infiniband/core/umem.c       Michael Guralnik  2020-02-12  248  				       DMA_BIDIRECTIONAL, dma_attr);
-79fbd3e1241cea drivers/infiniband/core/umem.c       Maor Gottlieb     2021-08-24  249  	if (ret)
-1215cb7c88ec88 drivers/infiniband/core/umem.c       Leon Romanovsky   2018-07-10  250  		goto umem_release;
-1215cb7c88ec88 drivers/infiniband/core/umem.c       Leon Romanovsky   2018-07-10  251  	goto out;
-eb8ffbfed50e79 drivers/infiniband/core/uverbs_mem.c Roland Dreier     2005-07-07  252  
-1215cb7c88ec88 drivers/infiniband/core/umem.c       Leon Romanovsky   2018-07-10  253  umem_release:
-c320e527e15483 drivers/infiniband/core/umem.c       Moni Shoua        2020-01-15  254  	__ib_umem_release(device, umem, 0);
-8b14b6e3f45f43 drivers/infiniband/core/umem.c       Jason Gunthorpe   2020-11-26  255  
-8b14b6e3f45f43 drivers/infiniband/core/umem.c       Jason Gunthorpe   2020-11-26  256  	/*
-8b14b6e3f45f43 drivers/infiniband/core/umem.c       Jason Gunthorpe   2020-11-26  257  	 * If the address belongs to peer memory client, then the first
-8b14b6e3f45f43 drivers/infiniband/core/umem.c       Jason Gunthorpe   2020-11-26  258  	 * call to get_user_pages will fail. In this case, try to get
-8b14b6e3f45f43 drivers/infiniband/core/umem.c       Jason Gunthorpe   2020-11-26  259  	 * these pages from the peers.
-8b14b6e3f45f43 drivers/infiniband/core/umem.c       Jason Gunthorpe   2020-11-26  260  	 */
-8b14b6e3f45f43 drivers/infiniband/core/umem.c       Jason Gunthorpe   2020-11-26  261  	//FIXME: this placement is horrible
-8b14b6e3f45f43 drivers/infiniband/core/umem.c       Jason Gunthorpe   2020-11-26  262  	if (ret < 0 && peer_mem_flags & IB_PEER_MEM_ALLOW) {
-8b14b6e3f45f43 drivers/infiniband/core/umem.c       Jason Gunthorpe   2020-11-26  263  		struct ib_umem *new_umem;
-8b14b6e3f45f43 drivers/infiniband/core/umem.c       Jason Gunthorpe   2020-11-26  264  
-8b14b6e3f45f43 drivers/infiniband/core/umem.c       Jason Gunthorpe   2020-11-26  265  		new_umem = ib_peer_umem_get(umem, ret, peer_mem_flags);
-8b14b6e3f45f43 drivers/infiniband/core/umem.c       Jason Gunthorpe   2020-11-26  266  		if (IS_ERR(new_umem)) {
-8b14b6e3f45f43 drivers/infiniband/core/umem.c       Jason Gunthorpe   2020-11-26  267  			ret = PTR_ERR(new_umem);
-8b14b6e3f45f43 drivers/infiniband/core/umem.c       Jason Gunthorpe   2020-11-26  268  			goto vma;
-8b14b6e3f45f43 drivers/infiniband/core/umem.c       Jason Gunthorpe   2020-11-26  269  		}
-8b14b6e3f45f43 drivers/infiniband/core/umem.c       Jason Gunthorpe   2020-11-26  270  		umem = new_umem;
-8b14b6e3f45f43 drivers/infiniband/core/umem.c       Jason Gunthorpe   2020-11-26  271  		ret = 0;
-8b14b6e3f45f43 drivers/infiniband/core/umem.c       Jason Gunthorpe   2020-11-26  272  		goto out;
-8b14b6e3f45f43 drivers/infiniband/core/umem.c       Jason Gunthorpe   2020-11-26  273  	}
-8b14b6e3f45f43 drivers/infiniband/core/umem.c       Jason Gunthorpe   2020-11-26  274  vma:
-70f8a3ca68d3e1 drivers/infiniband/core/umem.c       Davidlohr Bueso   2019-02-06  275  	atomic64_sub(ib_umem_num_pages(umem), &mm->pinned_vm);
-1215cb7c88ec88 drivers/infiniband/core/umem.c       Leon Romanovsky   2018-07-10  276  out:
-eb8ffbfed50e79 drivers/infiniband/core/uverbs_mem.c Roland Dreier     2005-07-07  277  	free_page((unsigned long) page_list);
-1215cb7c88ec88 drivers/infiniband/core/umem.c       Leon Romanovsky   2018-07-10  278  umem_kfree:
-41b4deeaa123e6 drivers/infiniband/core/umem.c       Jason Gunthorpe   2018-09-16  279  	if (ret) {
-41b4deeaa123e6 drivers/infiniband/core/umem.c       Jason Gunthorpe   2018-09-16  280  		mmdrop(umem->owning_mm);
-1215cb7c88ec88 drivers/infiniband/core/umem.c       Leon Romanovsky   2018-07-10  281  		kfree(umem);
-41b4deeaa123e6 drivers/infiniband/core/umem.c       Jason Gunthorpe   2018-09-16  282  	}
-1215cb7c88ec88 drivers/infiniband/core/umem.c       Leon Romanovsky   2018-07-10  283  	return ret ? ERR_PTR(ret) : umem;
-eb8ffbfed50e79 drivers/infiniband/core/uverbs_mem.c Roland Dreier     2005-07-07  284  }
-8b14b6e3f45f43 drivers/infiniband/core/umem.c       Jason Gunthorpe   2020-11-26  285  
-
-:::::: The code at line 201 was first introduced by commit
-:::::: 3312d1c6bdee6aa912c099c0ac0662d197c52842 RDMA/umem: Minor optimizations
-
-:::::: TO: Doug Ledford <dledford@redhat.com>
-:::::: CC: Jason Gunthorpe <jgg@mellanox.com>
+c22415d333fbab Eric Biggers 2020-01-06  19  
+56124d6c87fd74 Eric Biggers 2022-12-23  20  /* Hash a block, writing the result to the next level's pending block buffer. */
+56124d6c87fd74 Eric Biggers 2022-12-23  21  static int hash_one_block(struct inode *inode,
+3fda4c617e84c2 Eric Biggers 2019-07-22  22  			  const struct merkle_tree_params *params,
+56124d6c87fd74 Eric Biggers 2022-12-23  23  			  struct ahash_request *req, struct block_buffer *cur)
+3fda4c617e84c2 Eric Biggers 2019-07-22  24  {
+56124d6c87fd74 Eric Biggers 2022-12-23  25  	struct block_buffer *next = cur + 1;
+3fda4c617e84c2 Eric Biggers 2019-07-22  26  	int err;
+3fda4c617e84c2 Eric Biggers 2019-07-22  27  
+56124d6c87fd74 Eric Biggers 2022-12-23  28  	/* Zero-pad the block if it's shorter than the block size. */
+56124d6c87fd74 Eric Biggers 2022-12-23 @29  	memset(&cur->data[cur->filled], 0, params->block_size - cur->filled);
+c22415d333fbab Eric Biggers 2020-01-06  30  
+56124d6c87fd74 Eric Biggers 2022-12-23  31  	err = fsverity_hash_block(params, inode, req, virt_to_page(cur->data),
+56124d6c87fd74 Eric Biggers 2022-12-23  32  				  offset_in_page(cur->data),
+56124d6c87fd74 Eric Biggers 2022-12-23  33  				  &next->data[next->filled]);
+3fda4c617e84c2 Eric Biggers 2019-07-22  34  	if (err)
+3fda4c617e84c2 Eric Biggers 2019-07-22  35  		return err;
+56124d6c87fd74 Eric Biggers 2022-12-23  36  	next->filled += params->digest_size;
+56124d6c87fd74 Eric Biggers 2022-12-23  37  	cur->filled = 0;
+3fda4c617e84c2 Eric Biggers 2019-07-22  38  	return 0;
+56124d6c87fd74 Eric Biggers 2022-12-23  39  }
+3fda4c617e84c2 Eric Biggers 2019-07-22  40  
 
 -- 
 0-DAY CI Kernel Test Service
