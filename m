@@ -1,42 +1,42 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47C99D2E8
-	for <oe-kbuild@lists.linux.dev>; Sun,  5 Mar 2023 10:52:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58B7D23DB
+	for <oe-kbuild@lists.linux.dev>; Sun,  5 Mar 2023 11:32:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678013522; x=1709549522;
+  t=1678015947; x=1709551947;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=fiqcZ7Pi+iHCc2+KpQ6LkUcJXoadPXBN7XMPgpi3C/E=;
-  b=iNnWDYPygjHuxuErGlVfMwbRq9NvaqpzDcdrdnVSEHC6PVtEA6Kf6aL5
-   drh2psxpqVidj0wunXLPd8nUK1F3O04+UKWsFy0GUsBeNu1BPoAcj8hD6
-   fGYxI+xAaZO3iSvViIjuZc13rzNDZkqBpPrDwAEjF0y6ses8Fi8ay/2hK
-   6W8NlmFKsHnnhlpDWpe3Fs4i+OwR8FKua9AAH/FtFH3gyGs5DkLpsqq2R
-   EJo5jUi+Kl6qdC0kLjh3TGOnSF75d+7MG138hb/vMH+JnSJq5fg+OFM2J
-   /wkW94v5MIwvBIMTqpRT8k5PpF7RXFPudxxmIlrNtQfiwAfPL9LorCktZ
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10639"; a="421643258"
+  bh=kXm3J7bSBPQjZG5RCQsMPF/2CZlCcfu04DfZazCv55w=;
+  b=eZBeS9+rMPuJdOShWEqLeJPXLbicRfV8mFErVJYGZUQOboVDlwhV57SL
+   ph/vHmRWlY0NbZ7qyeFi44RNImaWDCpsMNcPaVWbrTv9XGxva3Ugw0dzY
+   RP3rM/sAJXuxTO3zFiO2geDJul14t+4Y0c6cmfMC5ECfw6/hF9dcAOf+0
+   Ze8+jMoFKARWHkVPinlwr4TWzfT35g90/+GYI+Ds6a3EqWRkbzUrJNKfr
+   2JIMqxc6D7F1wyZBlJNnuR1CKG7B+0i+Mit5yQrWbkwr2G0RpJo/yFgBd
+   X4o60KVhkW1xXU3sE5hBD3Ao4Ub+WQlIfmXpsSluWhvUCoUGs+sfzYSj7
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10639"; a="362976709"
 X-IronPort-AV: E=Sophos;i="5.98,235,1673942400"; 
-   d="scan'208";a="421643258"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2023 02:51:23 -0800
+   d="scan'208";a="362976709"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2023 03:32:26 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10639"; a="764919857"
+X-IronPort-AV: E=McAfee;i="6500,9779,10639"; a="799714678"
 X-IronPort-AV: E=Sophos;i="5.98,235,1673942400"; 
-   d="scan'208";a="764919857"
+   d="scan'208";a="799714678"
 Received: from lkp-server01.sh.intel.com (HELO 776573491cc5) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 05 Mar 2023 02:51:22 -0800
+  by orsmga004.jf.intel.com with ESMTP; 05 Mar 2023 03:32:24 -0800
 Received: from kbuild by 776573491cc5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pYlxZ-0002gI-2G;
-	Sun, 05 Mar 2023 10:51:21 +0000
-Date: Sun, 5 Mar 2023 18:51:16 +0800
+	id 1pYmbH-0002j4-36;
+	Sun, 05 Mar 2023 11:32:23 +0000
+Date: Sun, 5 Mar 2023 19:31:59 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: [mcgrof:modules-next 7/12] kernel/module/main.c:2578:1-11: second
- lock on line 2591
-Message-ID: <202303051802.lUI3TlTX-lkp@intel.com>
+Subject: [jfern:staging 8/8] kernel/rcu/update.c:248:2-8: preceding lock on
+ line 244
+Message-ID: <202303051957.c7kQywF0-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -48,94 +48,54 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Song Liu <song@kernel.org>
-CC: Luis Chamberlain <mcgrof@kernel.org>
-CC: Thomas Gleixner <tglx@linutronix.de>
-CC: Christophe Leroy <christophe.leroy@csgroup.eu>
+TO: "Joel Fernandes (Google)" <joel@joelfernandes.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux.git modules-next
-head:   b1ec22f8dc85bb0b2e82a528a7ebca377f46d4cb
-commit: a76b092b56554ac80f8d2540355b8978f91ce107 [7/12] module: replace module_layout with module_memory
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jfern/linux.git staging
+head:   e6d2024fa329f41ffba24f06090ea57e3b0041ed
+commit: e6d2024fa329f41ffba24f06090ea57e3b0041ed [8/8] rcu: Add a minimum time for marking boot as completed
 :::::: branch date: 2 days ago
-:::::: commit date: 12 days ago
-config: csky-randconfig-c034-20230305 (https://download.01.org/0day-ci/archive/20230305/202303051802.lUI3TlTX-lkp@intel.com/config)
+:::::: commit date: 2 days ago
+config: csky-randconfig-c034-20230305 (https://download.01.org/0day-ci/archive/20230305/202303051957.c7kQywF0-lkp@intel.com/config)
 compiler: csky-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Link: https://lore.kernel.org/r/202303051802.lUI3TlTX-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202303051957.c7kQywF0-lkp@intel.com/
 
 cocci warnings: (new ones prefixed by >>)
->> kernel/module/main.c:2578:1-11: second lock on line 2591
-   kernel/module/main.c:1215:1-11: second lock on line 1235
-   kernel/module/main.c:2885:1-11: second lock on line 2901
---
->> kernel/module/main.c:2617:1-7: preceding lock on line 2578
+>> kernel/rcu/update.c:248:2-8: preceding lock on line 244
 
-vim +2578 kernel/module/main.c
+vim +248 kernel/rcu/update.c
 
-34e1169d996ab1 kernel/module.c      Kees Cook      2012-10-16  2565  
-a3535c7e4f4495 kernel/module.c      Rusty Russell  2013-01-21  2566  /*
-a3535c7e4f4495 kernel/module.c      Rusty Russell  2013-01-21  2567   * We try to place it in the list now to make sure it's unique before
-a3535c7e4f4495 kernel/module.c      Rusty Russell  2013-01-21  2568   * we dedicate too many resources.  In particular, temporary percpu
-a3535c7e4f4495 kernel/module.c      Rusty Russell  2013-01-21  2569   * memory exhaustion.
-a3535c7e4f4495 kernel/module.c      Rusty Russell  2013-01-21  2570   */
-a3535c7e4f4495 kernel/module.c      Rusty Russell  2013-01-21  2571  static int add_unformed_module(struct module *mod)
-a3535c7e4f4495 kernel/module.c      Rusty Russell  2013-01-21  2572  {
-a3535c7e4f4495 kernel/module.c      Rusty Russell  2013-01-21  2573  	int err;
-a3535c7e4f4495 kernel/module.c      Rusty Russell  2013-01-21  2574  	struct module *old;
-a3535c7e4f4495 kernel/module.c      Rusty Russell  2013-01-21  2575  
-a3535c7e4f4495 kernel/module.c      Rusty Russell  2013-01-21  2576  	mod->state = MODULE_STATE_UNFORMED;
-a3535c7e4f4495 kernel/module.c      Rusty Russell  2013-01-21  2577  
-a3535c7e4f4495 kernel/module.c      Rusty Russell  2013-01-21 @2578  	mutex_lock(&module_mutex);
-4f6de4d51f4a3a kernel/module.c      Mathias Krause 2013-07-02  2579  	old = find_module_all(mod->name, strlen(mod->name), true);
-4f6de4d51f4a3a kernel/module.c      Mathias Krause 2013-07-02  2580  	if (old != NULL) {
-0254127ab977e7 kernel/module/main.c Petr Pavlu     2022-12-05  2581  		if (old->state == MODULE_STATE_COMING
-0254127ab977e7 kernel/module/main.c Petr Pavlu     2022-12-05  2582  		    || old->state == MODULE_STATE_UNFORMED) {
-a3535c7e4f4495 kernel/module.c      Rusty Russell  2013-01-21  2583  			/* Wait in case it fails to load. */
-a3535c7e4f4495 kernel/module.c      Rusty Russell  2013-01-21  2584  			mutex_unlock(&module_mutex);
-9cc019b8c94fa5 kernel/module.c      Peter Zijlstra 2015-02-11  2585  			err = wait_event_interruptible(module_wq,
-9cc019b8c94fa5 kernel/module.c      Peter Zijlstra 2015-02-11  2586  					       finished_loading(mod->name));
-a3535c7e4f4495 kernel/module.c      Rusty Russell  2013-01-21  2587  			if (err)
-a3535c7e4f4495 kernel/module.c      Rusty Russell  2013-01-21  2588  				goto out_unlocked;
-0254127ab977e7 kernel/module/main.c Petr Pavlu     2022-12-05  2589  
-0254127ab977e7 kernel/module/main.c Petr Pavlu     2022-12-05  2590  			/* The module might have gone in the meantime. */
-0254127ab977e7 kernel/module/main.c Petr Pavlu     2022-12-05 @2591  			mutex_lock(&module_mutex);
-0254127ab977e7 kernel/module/main.c Petr Pavlu     2022-12-05  2592  			old = find_module_all(mod->name, strlen(mod->name),
-0254127ab977e7 kernel/module/main.c Petr Pavlu     2022-12-05  2593  					      true);
-a3535c7e4f4495 kernel/module.c      Rusty Russell  2013-01-21  2594  		}
-0254127ab977e7 kernel/module/main.c Petr Pavlu     2022-12-05  2595  
-0254127ab977e7 kernel/module/main.c Petr Pavlu     2022-12-05  2596  		/*
-0254127ab977e7 kernel/module/main.c Petr Pavlu     2022-12-05  2597  		 * We are here only when the same module was being loaded. Do
-0254127ab977e7 kernel/module/main.c Petr Pavlu     2022-12-05  2598  		 * not try to load it again right now. It prevents long delays
-0254127ab977e7 kernel/module/main.c Petr Pavlu     2022-12-05  2599  		 * caused by serialized module load failures. It might happen
-0254127ab977e7 kernel/module/main.c Petr Pavlu     2022-12-05  2600  		 * when more devices of the same type trigger load of
-0254127ab977e7 kernel/module/main.c Petr Pavlu     2022-12-05  2601  		 * a particular module.
-0254127ab977e7 kernel/module/main.c Petr Pavlu     2022-12-05  2602  		 */
-0254127ab977e7 kernel/module/main.c Petr Pavlu     2022-12-05  2603  		if (old && old->state == MODULE_STATE_LIVE)
-a3535c7e4f4495 kernel/module.c      Rusty Russell  2013-01-21  2604  			err = -EEXIST;
-0254127ab977e7 kernel/module/main.c Petr Pavlu     2022-12-05  2605  		else
-0254127ab977e7 kernel/module/main.c Petr Pavlu     2022-12-05  2606  			err = -EBUSY;
-a3535c7e4f4495 kernel/module.c      Rusty Russell  2013-01-21  2607  		goto out;
-a3535c7e4f4495 kernel/module.c      Rusty Russell  2013-01-21  2608  	}
-4f666546d04775 kernel/module.c      Peter Zijlstra 2015-05-27  2609  	mod_update_bounds(mod);
-a3535c7e4f4495 kernel/module.c      Rusty Russell  2013-01-21  2610  	list_add_rcu(&mod->list, &modules);
-93c2e105f6bcee kernel/module.c      Peter Zijlstra 2015-05-27  2611  	mod_tree_insert(mod);
-a3535c7e4f4495 kernel/module.c      Rusty Russell  2013-01-21  2612  	err = 0;
-a3535c7e4f4495 kernel/module.c      Rusty Russell  2013-01-21  2613  
-a3535c7e4f4495 kernel/module.c      Rusty Russell  2013-01-21  2614  out:
-a3535c7e4f4495 kernel/module.c      Rusty Russell  2013-01-21  2615  	mutex_unlock(&module_mutex);
-a3535c7e4f4495 kernel/module.c      Rusty Russell  2013-01-21  2616  out_unlocked:
-a3535c7e4f4495 kernel/module.c      Rusty Russell  2013-01-21 @2617  	return err;
-a3535c7e4f4495 kernel/module.c      Rusty Russell  2013-01-21  2618  }
-a3535c7e4f4495 kernel/module.c      Rusty Russell  2013-01-21  2619  
-
-:::::: The code at line 2578 was first introduced by commit
-:::::: a3535c7e4f4495fe947f7901d25447d80e04fe52 module: clean up load_module a little more.
-
-:::::: TO: Rusty Russell <rusty@rustcorp.com.au>
-:::::: CC: Rusty Russell <rusty@rustcorp.com.au>
+e6d2024fa329f4 Joel Fernandes (Google  2023-02-25  241) 
+ee42571f4381f1 Paul E. McKenney        2015-02-19  242  void rcu_end_inkernel_boot(void)
+ee42571f4381f1 Paul E. McKenney        2015-02-19  243  {
+e6d2024fa329f4 Joel Fernandes (Google  2023-02-25 @244) 	mutex_lock(&rcu_boot_end_lock);
+e6d2024fa329f4 Joel Fernandes (Google  2023-02-25  245) 	rcu_boot_end_called = true;
+e6d2024fa329f4 Joel Fernandes (Google  2023-02-25  246) 
+e6d2024fa329f4 Joel Fernandes (Google  2023-02-25  247) 	if (rcu_boot_ended)
+e6d2024fa329f4 Joel Fernandes (Google  2023-02-25 @248) 		return;
+e6d2024fa329f4 Joel Fernandes (Google  2023-02-25  249) 
+e6d2024fa329f4 Joel Fernandes (Google  2023-02-25  250) 	if (rcu_boot_end_delay) {
+e6d2024fa329f4 Joel Fernandes (Google  2023-02-25  251) 		u64 boot_ms = div_u64(ktime_get_boot_fast_ns(), 1000000UL);
+e6d2024fa329f4 Joel Fernandes (Google  2023-02-25  252) 
+e6d2024fa329f4 Joel Fernandes (Google  2023-02-25  253) 		if (boot_ms < rcu_boot_end_delay) {
+e6d2024fa329f4 Joel Fernandes (Google  2023-02-25  254) 			schedule_delayed_work(&rcu_boot_end_work,
+e6d2024fa329f4 Joel Fernandes (Google  2023-02-25  255) 					rcu_boot_end_delay - boot_ms);
+e6d2024fa329f4 Joel Fernandes (Google  2023-02-25  256) 			mutex_unlock(&rcu_boot_end_lock);
+e6d2024fa329f4 Joel Fernandes (Google  2023-02-25  257) 			return;
+e6d2024fa329f4 Joel Fernandes (Google  2023-02-25  258) 		}
+e6d2024fa329f4 Joel Fernandes (Google  2023-02-25  259) 	}
+e6d2024fa329f4 Joel Fernandes (Google  2023-02-25  260) 
+e6d2024fa329f4 Joel Fernandes (Google  2023-02-25  261) 	cancel_delayed_work(&rcu_boot_end_work);
+ee42571f4381f1 Paul E. McKenney        2015-02-19  262  	rcu_unexpedite_gp();
+3e42ec1aa716f1 Paul E. McKenney        2015-11-25  263  	if (rcu_normal_after_boot)
+3e42ec1aa716f1 Paul E. McKenney        2015-11-25  264  		WRITE_ONCE(rcu_normal, 1);
+e40bb921119814 Jules Irenge            2020-06-01  265  	rcu_boot_ended = true;
+e6d2024fa329f4 Joel Fernandes (Google  2023-02-25  266) 	mutex_unlock(&rcu_boot_end_lock);
+ee42571f4381f1 Paul E. McKenney        2015-02-19  267  }
+0d39482c3db13a Paul E. McKenney        2015-02-18  268  
 
 -- 
 0-DAY CI Kernel Test Service
