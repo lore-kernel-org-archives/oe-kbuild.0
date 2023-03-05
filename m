@@ -1,56 +1,49 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41AFF7E;
-	Mon,  6 Mar 2023 08:32:00 +0000 (UTC)
-Received: by mail-ed1-f53.google.com with SMTP id a25so35340390edb.0;
-        Mon, 06 Mar 2023 00:32:00 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD0397E;
+	Mon,  6 Mar 2023 08:32:03 +0000 (UTC)
+Received: by mail-ed1-f41.google.com with SMTP id x3so34978317edb.10;
+        Mon, 06 Mar 2023 00:32:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678091518;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=l9LP7bOG1M0J7nDrxY/rPNDyeXRjQxGxyQ2mWu+wlb0=;
-        b=R79rh8cvsq/BotA7SR/qy1NbOqU5r5GPQiW9SsnU0rQ2gmdV07G9BqGwwW+lNsFcMS
-         5Agkz/rdka2zcFhFAgcOS9zvd3oL6hD621/IWVbha+M+vCVSylYzQXDgg+5uy/uuRcB+
-         Gc07ZSXHdIUIYT0Yp9XaYCVb5LpKJsDutCcY0DDl5SOCSsG8VkRpsmkVUdesvHnKoavl
-         YNVQcpYREsUPzQIpfFpeMmV4gmVn5blMdzWFHSqxWKEGiRxpjC7luLHPTWJF4AtYrv4a
-         ybrcX2AUWPLTueL1pg9e2k7egNucZJj2JDR40vCrCrW67WhBfBU4i85A69FsZv7X/wko
-         ldgg==
+        d=gmail.com; s=20210112; t=1678091522;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=09+mPuVZfcZ9rLMBatGSj0PpAH+webEkKaDfeisbFXc=;
+        b=d56BDuQb45uz65ASd9qDibDiSzprvqRGyH6LBLABcXN8Kn4ONYSgsVhbhuCMH3iA9N
+         u68sODmaGpqHv6mRxY7G4q5SzD+Glb1f1cH0iG38XKVubUo9ZheC0hRUomegSehmSHov
+         GZeMHpmMyrvpuZD7Jxlb8FB6KZfEh1zDvKjNNSXl+feP/BQ86LqIkyDJFWc4Sm3MtFBr
+         NOm3kqQYEDUo9xatIYdBiOvY9T2NmuzJ6Fw+J4VOAJVhlDl20OpWEjS1gI8R7O7ZvoFP
+         vpFbuNfRK1hPJrS50R/qQmbO0Z5+lzMPuGHFXpgn1IcAKNKk+o+I67DdxcbeKAA5MTSx
+         10wQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678091518;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=l9LP7bOG1M0J7nDrxY/rPNDyeXRjQxGxyQ2mWu+wlb0=;
-        b=Y2+X0rYc2h/hOCzHqeQuOJNJa5f8/YGWKxqrudQzHeAgPaxHg8PAXrXGpCsSTgOJFB
-         8vOmx2Fkf5GsQfJYiP6Aqh83iw9aLc2QePqqWlUd6aOgIwS974le0K2Il6hakybXErnE
-         mGkuq6PFxa4u6cpsr55NNXdJpoXVqZP23l+3ypIIfbNsLUg/mix+msxorhBbubuFDf5W
-         CZiywuJm+EIaptXhEZf299St5/c62uKU5/aFKKUBa2BZUYnqug5i9jsez7hH/xawryOn
-         PCyQ8zxT4Rw1QMYGrKDWtOxXpBMoM1xVO8CSRI0cdwa9dHC6icvzQ6RCAUDIf00UsL4W
-         J5sQ==
-X-Gm-Message-State: AO0yUKVWRvZ6g9mw1N1LSOGxr7YZKXfPAmRrvdIguSyKRjSLK603tZ68
-	zW62yZbijtFeFnIBTl8OD4bMWZ9oYLXDMA==
-X-Google-Smtp-Source: AK7set9qotnlsbz5yc0qVnc49U4ouzoOZ0iySrvzB7SZ0KUHh9LNdwGGMFF3oYw8OnyX4EhVRmfwoA==
-X-Received: by 2002:a17:907:1c15:b0:8af:2fa1:2226 with SMTP id nc21-20020a1709071c1500b008af2fa12226mr12771669ejc.6.1678091518019;
-        Mon, 06 Mar 2023 00:31:58 -0800 (PST)
+        d=1e100.net; s=20210112; t=1678091522;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=09+mPuVZfcZ9rLMBatGSj0PpAH+webEkKaDfeisbFXc=;
+        b=ZnlWqQV0n6toszSa8wv8N+hFQXT05wgK2/jiP+0wlgBIvVYypVWaFtcrF7aMJjZWv0
+         OIkCCfmaB7LncJI1GNf23W7o+J6gNjgGC3luwroKiFLCoPItmDNeytl3y98K3JeWZN7F
+         jbUgtNKv86zE2CqkDL8UhWDgt4FzLlo+er1/LRniNjoymnDbR86H/CjM3aSuEqckZvwh
+         uAlH2I3coRD3fB4rE7qmGuiQ4TKTGh/BsZY/aB3yvQG5+BBizTskITSJeJzLsiKfYsLA
+         g/zzahjllPUfRdN5wZrLv8SBcti8aDQwE+7W2kHrIyWlVHanVe2AFnShki8mDNBqKygn
+         YHKg==
+X-Gm-Message-State: AO0yUKURtycxUnb2d+SB+RFpCYpVcEvDcOjjdCIOV1QsaJMKLKdECEAD
+	nxTHHtSlmH4VdxWg/Wgbkc36FFJ4tlP9mg==
+X-Google-Smtp-Source: AK7set+Ghl+AJMfORMvDcY+tD6udFtPddvgleb38tQOQE/SDIRJNy+UDHopeeBaCccffAPueiFi5dQ==
+X-Received: by 2002:a17:906:3ac1:b0:8af:1a8c:eaa0 with SMTP id z1-20020a1709063ac100b008af1a8ceaa0mr9353980ejd.75.1678091521670;
+        Mon, 06 Mar 2023 00:32:01 -0800 (PST)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id gq15-20020a170906e24f00b008b17b123a47sm4205223ejb.208.2023.03.06.00.31.56
+        by smtp.gmail.com with ESMTPSA id y21-20020a50ce15000000b004af71e8cc3dsm4705937edi.60.2023.03.06.00.32.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Mar 2023 00:31:57 -0800 (PST)
-Date: Mon, 6 Mar 2023 11:31:52 +0300
+        Mon, 06 Mar 2023 00:32:01 -0800 (PST)
+Date: Sun, 5 Mar 2023 11:04:52 +0300
 From: Dan Carpenter <error27@gmail.com>
 To: oe-kbuild@lists.linux.dev,
-	William Breathitt Gray <william.gray@linaro.org>,
-	linus.walleij@linaro.org, brgl@bgdev.pl
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
-	broonie@kernel.org,
-	William Breathitt Gray <william.gray@linaro.org>,
-	Arnaud de Turckheim <quarium@gmail.com>,
-	John Hentges <jhentges@accesio.com>,
-	Jay Dolan <jay.dolan@accesio.com>
-Subject: Re: [PATCH v3 2/3] gpio: pcie-idio-24: Migrate to the regmap API
-Message-ID: <179ed443-a67b-4633-b62c-a4dda0f0f088@kili.mountain>
+	"Joel Fernandes (Google)" <joel@joelfernandes.org>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [jfern:staging 8/8] kernel/rcu/update.c:266 rcu_end_inkernel_boot()
+ warn: inconsistent returns '&rcu_boot_end_lock'.
+Message-ID: <2afabe18-23c7-4f26-8547-4f77636422ff@kili.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -59,85 +52,52 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <278e328cd1689a4e331e7515050c12c29f2a4785.1678034378.git.william.gray@linaro.org>
 
-Hi William,
-
-url:    https://github.com/intel-lab-lkp/linux/commits/William-Breathitt-Gray/regmap-Pass-irq_drv_data-as-a-parameter-for-set_type_config/20230306-010313
-base:   4827aae061337251bb91801b316157a78b845ec7
-patch link:    https://lore.kernel.org/r/278e328cd1689a4e331e7515050c12c29f2a4785.1678034378.git.william.gray%40linaro.org
-patch subject: [PATCH v3 2/3] gpio: pcie-idio-24: Migrate to the regmap API
-config: loongarch-randconfig-m041-20230305 (https://download.01.org/0day-ci/archive/20230306/202303060606.ooBzB3pr-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jfern/linux.git staging
+head:   e6d2024fa329f41ffba24f06090ea57e3b0041ed
+commit: e6d2024fa329f41ffba24f06090ea57e3b0041ed [8/8] rcu: Add a minimum time for marking boot as completed
+config: i386-randconfig-m021 (https://download.01.org/0day-ci/archive/20230305/202303050636.Qhxwao0u-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202303060606.ooBzB3pr-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202303050636.Qhxwao0u-lkp@intel.com/
 
 smatch warnings:
-drivers/gpio/gpio-pcie-idio-24.c:365 idio_24_probe() error: potentially dereferencing uninitialized 'idio24gpio'.
+kernel/rcu/update.c:266 rcu_end_inkernel_boot() warn: inconsistent returns '&rcu_boot_end_lock'.
 
-vim +/idio24gpio +365 drivers/gpio/gpio-pcie-idio-24.c
+vim +266 kernel/rcu/update.c
 
-58556204662812 William Breathitt Gray 2018-01-09  330  static int idio_24_probe(struct pci_dev *pdev, const struct pci_device_id *id)
-58556204662812 William Breathitt Gray 2018-01-09  331  {
-58556204662812 William Breathitt Gray 2018-01-09  332  	struct device *const dev = &pdev->dev;
-58556204662812 William Breathitt Gray 2018-01-09  333  	struct idio_24_gpio *idio24gpio;
-58556204662812 William Breathitt Gray 2018-01-09  334  	int err;
-10a2f11d3c9e48 Arnaud de Turckheim    2020-11-04  335  	const size_t pci_plx_bar_index = 1;
-58556204662812 William Breathitt Gray 2018-01-09  336  	const size_t pci_bar_index = 2;
-58556204662812 William Breathitt Gray 2018-01-09  337  	const char *const name = pci_name(pdev);
-e60d5c32ff098c William Breathitt Gray 2023-03-05  338  	struct gpio_regmap_config gpio_config = {};
-e60d5c32ff098c William Breathitt Gray 2023-03-05  339  	void __iomem *pex8311_intcsr;
-e60d5c32ff098c William Breathitt Gray 2023-03-05  340  	void __iomem *idio_24_regs;
-e60d5c32ff098c William Breathitt Gray 2023-03-05  341  	struct regmap *pex8311_intcsr_map;
-e60d5c32ff098c William Breathitt Gray 2023-03-05  342  	struct regmap_irq_chip *chip;
-e60d5c32ff098c William Breathitt Gray 2023-03-05  343  	struct regmap_irq_chip_data *chip_data;
-58556204662812 William Breathitt Gray 2018-01-09  344  
-58556204662812 William Breathitt Gray 2018-01-09  345  	err = pcim_enable_device(pdev);
-58556204662812 William Breathitt Gray 2018-01-09  346  	if (err) {
-58556204662812 William Breathitt Gray 2018-01-09  347  		dev_err(dev, "Failed to enable PCI device (%d)\n", err);
-58556204662812 William Breathitt Gray 2018-01-09  348  		return err;
-58556204662812 William Breathitt Gray 2018-01-09  349  	}
-58556204662812 William Breathitt Gray 2018-01-09  350  
-10a2f11d3c9e48 Arnaud de Turckheim    2020-11-04  351  	err = pcim_iomap_regions(pdev, BIT(pci_plx_bar_index) | BIT(pci_bar_index), name);
-58556204662812 William Breathitt Gray 2018-01-09  352  	if (err) {
-58556204662812 William Breathitt Gray 2018-01-09  353  		dev_err(dev, "Unable to map PCI I/O addresses (%d)\n", err);
-58556204662812 William Breathitt Gray 2018-01-09  354  		return err;
-58556204662812 William Breathitt Gray 2018-01-09  355  	}
-58556204662812 William Breathitt Gray 2018-01-09  356  
-e60d5c32ff098c William Breathitt Gray 2023-03-05  357  	pex8311_intcsr = pcim_iomap_table(pdev)[pci_plx_bar_index] + PLX_PEX8311_PCI_LCS_INTCSR;
-e60d5c32ff098c William Breathitt Gray 2023-03-05  358  	idio_24_regs = pcim_iomap_table(pdev)[pci_bar_index];
-e60d5c32ff098c William Breathitt Gray 2023-03-05  359  
-e60d5c32ff098c William Breathitt Gray 2023-03-05  360  	pex8311_intcsr_map = devm_regmap_init_mmio(dev, pex8311_intcsr,
-e60d5c32ff098c William Breathitt Gray 2023-03-05  361  						   &pex8311_intcsr_regmap_config);
-e60d5c32ff098c William Breathitt Gray 2023-03-05  362  	if (IS_ERR(pex8311_intcsr_map))
-e60d5c32ff098c William Breathitt Gray 2023-03-05  363  		return dev_err_probe(dev, PTR_ERR(pex8311_intcsr_map),
-e60d5c32ff098c William Breathitt Gray 2023-03-05  364  				     "Unable to initialize PEX8311 register map\n");
-e60d5c32ff098c William Breathitt Gray 2023-03-05 @365  	idio24gpio->map = devm_regmap_init_mmio(dev, idio_24_regs,
-e60d5c32ff098c William Breathitt Gray 2023-03-05  366  					    &idio_24_regmap_config);
+ee42571f4381f1 Paul E. McKenney        2015-02-19  242  void rcu_end_inkernel_boot(void)
+ee42571f4381f1 Paul E. McKenney        2015-02-19  243  {
+e6d2024fa329f4 Joel Fernandes (Google  2023-02-25  244) 	mutex_lock(&rcu_boot_end_lock);
+e6d2024fa329f4 Joel Fernandes (Google  2023-02-25  245) 	rcu_boot_end_called = true;
+e6d2024fa329f4 Joel Fernandes (Google  2023-02-25  246) 
+e6d2024fa329f4 Joel Fernandes (Google  2023-02-25  247) 	if (rcu_boot_ended)
+e6d2024fa329f4 Joel Fernandes (Google  2023-02-25  248) 		return;
 
-Heh.  This needs to be after the idio24gpio = devm_kzalloc().
+mutex_unlock(&rcu_boot_end_lock);?
 
-e60d5c32ff098c William Breathitt Gray 2023-03-05  367  	if (IS_ERR(idio24gpio->map))
-e60d5c32ff098c William Breathitt Gray 2023-03-05  368  		return dev_err_probe(dev, PTR_ERR(idio24gpio->map),
-e60d5c32ff098c William Breathitt Gray 2023-03-05  369  				     "Unable to initialize register map\n");
-e60d5c32ff098c William Breathitt Gray 2023-03-05  370  
-e60d5c32ff098c William Breathitt Gray 2023-03-05  371  	idio24gpio = devm_kzalloc(dev, sizeof(*idio24gpio), GFP_KERNEL);
-e60d5c32ff098c William Breathitt Gray 2023-03-05  372  	if (!idio24gpio)
-e60d5c32ff098c William Breathitt Gray 2023-03-05  373  		return -ENOMEM;
-e60d5c32ff098c William Breathitt Gray 2023-03-05  374  
-e60d5c32ff098c William Breathitt Gray 2023-03-05  375  	mutex_init(&idio24gpio->lock);
-e60d5c32ff098c William Breathitt Gray 2023-03-05  376  
-e60d5c32ff098c William Breathitt Gray 2023-03-05  377  	/* Initialize all IRQ type configuration to IRQ_TYPE_EDGE_BOTH */
-e60d5c32ff098c William Breathitt Gray 2023-03-05  378  	idio24gpio->irq_type = GENMASK(7, 0);
-e60d5c32ff098c William Breathitt Gray 2023-03-05  379  
-e60d5c32ff098c William Breathitt Gray 2023-03-05  380  	chip = devm_kzalloc(dev, sizeof(*chip), GFP_KERNEL);
-e60d5c32ff098c William Breathitt Gray 2023-03-05  381  	if (!chip)
-e60d5c32ff098c William Breathitt Gray 2023-03-05  382  		return -ENOMEM;
-e60d5c32ff098c William Breathitt Gray 2023-03-05  383  
-e60d5c32ff098c William Breathitt Gray 2023-03-05  384  	chip->name = name;
+e6d2024fa329f4 Joel Fernandes (Google  2023-02-25  249) 
+e6d2024fa329f4 Joel Fernandes (Google  2023-02-25  250) 	if (rcu_boot_end_delay) {
+e6d2024fa329f4 Joel Fernandes (Google  2023-02-25  251) 		u64 boot_ms = div_u64(ktime_get_boot_fast_ns(), 1000000UL);
+e6d2024fa329f4 Joel Fernandes (Google  2023-02-25  252) 
+e6d2024fa329f4 Joel Fernandes (Google  2023-02-25  253) 		if (boot_ms < rcu_boot_end_delay) {
+e6d2024fa329f4 Joel Fernandes (Google  2023-02-25  254) 			schedule_delayed_work(&rcu_boot_end_work,
+e6d2024fa329f4 Joel Fernandes (Google  2023-02-25  255) 					rcu_boot_end_delay - boot_ms);
+e6d2024fa329f4 Joel Fernandes (Google  2023-02-25  256) 			mutex_unlock(&rcu_boot_end_lock);
+e6d2024fa329f4 Joel Fernandes (Google  2023-02-25  257) 			return;
+e6d2024fa329f4 Joel Fernandes (Google  2023-02-25  258) 		}
+e6d2024fa329f4 Joel Fernandes (Google  2023-02-25  259) 	}
+e6d2024fa329f4 Joel Fernandes (Google  2023-02-25  260) 
+e6d2024fa329f4 Joel Fernandes (Google  2023-02-25  261) 	cancel_delayed_work(&rcu_boot_end_work);
+ee42571f4381f1 Paul E. McKenney        2015-02-19  262  	rcu_unexpedite_gp();
+3e42ec1aa716f1 Paul E. McKenney        2015-11-25  263  	if (rcu_normal_after_boot)
+3e42ec1aa716f1 Paul E. McKenney        2015-11-25  264  		WRITE_ONCE(rcu_normal, 1);
+e40bb921119814 Jules Irenge            2020-06-01  265  	rcu_boot_ended = true;
+e6d2024fa329f4 Joel Fernandes (Google  2023-02-25 @266) 	mutex_unlock(&rcu_boot_end_lock);
+ee42571f4381f1 Paul E. McKenney        2015-02-19  267  }
 
 -- 
 0-DAY CI Kernel Test Service
