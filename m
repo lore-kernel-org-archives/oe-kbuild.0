@@ -1,48 +1,42 @@
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 407077E;
-	Mon,  6 Mar 2023 10:01:58 +0000 (UTC)
-Received: by mail-ed1-f50.google.com with SMTP id i34so36049800eda.7;
-        Mon, 06 Mar 2023 02:01:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678096916;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=kq1clThUbgbr8WdzVV5xDXULfFJ5dul214xrROqf+EU=;
-        b=Hfd4UUH/G11XBUdWHUJGvWiboHM41Jth2zOQFO1IQ6IxzRYxhcyM8LnVeflCzb7fLk
-         KB1iJCW9QglolfMdlLjF7jlVSCa2LPkRr3cm5W9gxMHenMJ6f9K1nVyGiRgnx/rEEI9t
-         JIqPZsEIA9MD85Ec0fua8zuSwfwZNSJpR2tIBCv8h6kscsLr5NatXslGZVUegOBvTcvH
-         cAoNqYMODvyKFc39k/qfbM8//R15ndGoelWpklK3f8HN6VIYEfgGC/v247/DMau6yCAw
-         mGo573FzyY3pECxiLiEVBMKwtkq+dZHz/gnBUpy2BPiur9aprZfVlj0zPl6YK6maxR9s
-         Jkfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678096916;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=kq1clThUbgbr8WdzVV5xDXULfFJ5dul214xrROqf+EU=;
-        b=UXDo3xInvNA5lWzXWZCEvfnC9YcglK+52WSqSbbdMfE1y5wB1hrKrXLihy1VjBu2Y+
-         oBWTmA0YCvjM5+HriBoz0AczvSvyivLmaz3p+4AVcQpu2GgbQu3VOGc4sIkskAB8R1o1
-         Gf339sPYkn+e8mMIG/9+aKky3A/sN+5RDBZ0yrAYd/NQnt2GXVu7kEw9uJTouQiGhWM9
-         +1+fzsBcC3CC7aGTPpodI+5nC/GY+Ibmk6fEZEISZiZP1z4ZtgngV53xpzgyH69XQo2I
-         1FkrUnvS1CHcNlqbtF8bKT6iJnrLmDHkRIozp9ALwe1nNzRQ7MjpEYEgRL4RSb3NNtJc
-         Ak0A==
-X-Gm-Message-State: AO0yUKUAbq38/F7TumqZxdlwu8CZ8+X8QXX5VDzNjIxjbd6uSjzYkeGj
-	udmtoXirum6MYOtOLZTT/8KxlpC3gaJA7A==
-X-Google-Smtp-Source: AK7set83VXFhaBB77ubYbvJklMiNq43hQgxHNy6ulApAqKu6U0coVznabOm8gG+hniBDisLnyTngbw==
-X-Received: by 2002:aa7:cf0d:0:b0:4bc:ab52:ac70 with SMTP id a13-20020aa7cf0d000000b004bcab52ac70mr9322899edy.8.1678096916155;
-        Mon, 06 Mar 2023 02:01:56 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id w21-20020a50d795000000b004d8287c775fsm2865547edi.8.2023.03.06.02.01.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Mar 2023 02:01:55 -0800 (PST)
-Date: Mon, 6 Mar 2023 13:01:52 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, Chuck Lever <chuck.lever@oracle.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [cel:topic-rpc-with-tls-upcall 1/18] net/handshake/netlink.c:187
- handshake_nl_accept_doit() error: uninitialized symbol 'req'.
-Message-ID: <85ee6966-32b0-4ff2-8af0-2678ecf77609@kili.mountain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 568D97E
+	for <oe-kbuild@lists.linux.dev>; Mon,  6 Mar 2023 10:06:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1678097219; x=1709633219;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=wRxwIywQg6a7q3mOZ2Ui8dx285Dz2gvR3IXm0WsCJpU=;
+  b=m20Cisle52K0ELClN6iVfnjHGE1xKmczn1cW6s/LsS5bi4v4YMSCXPnT
+   SVBRRAMWnn+YbU69Rkhb9HA8XE1oA2+t2lK9gEdVpBH070V7Rq70C98aQ
+   F8C4Z04eWK2YIVUXxCH+zXpL+fLDOtoPpQQOfGAlkGf3bzGmfBzMjPjCy
+   Q5tP+ngEYg2vF6ak7OS0esIBc2dHdVThWM1x8KGTL+AiXE7mTzMOEJYFW
+   DFTRSAA4ugSyEQE+YV0k1VsgM5B9UI/41NzhjOTyordyqowlFhGePC91A
+   KGV8DQD/LWfGrJqRVvwivzfy6yq4NCQ535AtM5HB8pjYOCbxl+iFvidbK
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10640"; a="337034711"
+X-IronPort-AV: E=Sophos;i="5.98,236,1673942400"; 
+   d="scan'208";a="337034711"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2023 02:06:58 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10640"; a="786162295"
+X-IronPort-AV: E=Sophos;i="5.98,236,1673942400"; 
+   d="scan'208";a="786162295"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by fmsmga002.fm.intel.com with ESMTP; 06 Mar 2023 02:06:57 -0800
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pZ7k9-0000ER-1M;
+	Mon, 06 Mar 2023 10:06:57 +0000
+Date: Mon, 6 Mar 2023 18:06:35 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: drivers/pci/pcie/portdrv.c:753:51: warning: Operator '|' with one
+ operand equal to zero is redundant. [badBitmaskCheck]
+Message-ID: <202303061820.2Latimfv-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -52,133 +46,97 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   git://git.kernel.org/pub/scm/linux/kernel/git/cel/linux topic-rpc-with-tls-upcall
-head:   88897fb973ffb2448e3452ca4e9283908bd257f6
-commit: d166e9ec5e3800de085444eca5883ce1738f6cb3 [1/18] net/handshake: Create a NETLINK service for handling handshake requests
-config: i386-randconfig-m021 (https://download.01.org/0day-ci/archive/20230306/202303061707.ICwrtQsr-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+:::::: 
+:::::: Manual check reason: "low confidence static check warning: drivers/pci/pcie/portdrv.c:753:51: warning: Operator '|' with one operand equal to zero is redundant. [badBitmaskCheck]"
+:::::: 
+
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+TO: Bjorn Helgaas <helgaas@kernel.org>
+CC: Christoph Hellwig <hch@lst.de>
+CC: Keith Busch <kbusch@kernel.org>
+
+Hi Bjorn,
+
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   fe15c26ee26efa11741a7b632e9f23b01aca4cc6
+commit: a1ccd3d911382f68753033c6adcf69663c2a9fc5 PCI/portdrv: Squash into portdrv.c
+date:   4 months ago
+:::::: branch date: 11 hours ago
+:::::: commit date: 4 months ago
+compiler: loongarch64-linux-gcc (GCC) 12.1.0
+reproduce (cppcheck warning):
+        # apt-get install cppcheck
+        git checkout a1ccd3d911382f68753033c6adcf69663c2a9fc5
+        cppcheck --quiet --enable=style,performance,portability --template=gcc FILE
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202303061707.ICwrtQsr-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202303061820.2Latimfv-lkp@intel.com/
 
-smatch warnings:
-net/handshake/netlink.c:187 handshake_nl_accept_doit() error: uninitialized symbol 'req'.
-net/handshake/netlink.c:240 handshake_nl_done_doit() error: uninitialized symbol 'req'.
-net/handshake/request.c:193 handshake_complete() warn: test_and_set_bit() takes a bit number
-net/handshake/request.c:236 handshake_req_cancel() warn: test_and_set_bit() takes a bit number
+cppcheck warnings: (new ones prefixed by >>)
+>> drivers/tty/serial/pch_uart.c:1464:16: warning: Local variable 'tmout' shadows outer variable [shadowVariable]
+     unsigned int tmout;
+                  ^
+   drivers/tty/serial/pch_uart.c:1449:23: note: Shadowed declaration
+    unsigned int status, tmout = 10000;
+                         ^
+   drivers/tty/serial/pch_uart.c:1464:16: note: Shadow variable
+     unsigned int tmout;
+                  ^
+--
 
-vim +/req +187 net/handshake/netlink.c
+cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
-d166e9ec5e3800 Chuck Lever 2023-02-19  142  static int handshake_nl_accept_doit(struct sk_buff *skb, struct genl_info *gi)
-d166e9ec5e3800 Chuck Lever 2023-02-19  143  {
-d166e9ec5e3800 Chuck Lever 2023-02-19  144  	struct nlattr *tb[HANDSHAKE_A_ACCEPT_MAX + 1];
-d166e9ec5e3800 Chuck Lever 2023-02-19  145  	struct net *net = sock_net(skb->sk);
-d166e9ec5e3800 Chuck Lever 2023-02-19  146  	struct handshake_req *pos, *req;
-d166e9ec5e3800 Chuck Lever 2023-02-19  147  	int fd, err;
-d166e9ec5e3800 Chuck Lever 2023-02-19  148  
-d166e9ec5e3800 Chuck Lever 2023-02-19  149  	err = -EINVAL;
-d166e9ec5e3800 Chuck Lever 2023-02-19  150  	if (genlmsg_parse(nlmsg_hdr(skb), &handshake_genl_family, tb,
-d166e9ec5e3800 Chuck Lever 2023-02-19  151  			  HANDSHAKE_A_ACCEPT_HANDLER_CLASS,
-d166e9ec5e3800 Chuck Lever 2023-02-19  152  			  handshake_accept_nl_policy, NULL))
-d166e9ec5e3800 Chuck Lever 2023-02-19  153  		goto out_status;
-d166e9ec5e3800 Chuck Lever 2023-02-19  154  	if (!tb[HANDSHAKE_A_ACCEPT_HANDLER_CLASS])
-d166e9ec5e3800 Chuck Lever 2023-02-19  155  		goto out_status;
-                                                        ^^^^^^^^^^^^^^^
+>> drivers/pci/pcie/portdrv.c:753:51: warning: Operator '|' with one operand equal to zero is redundant. [badBitmaskCheck]
+    { PCI_DEVICE_CLASS(((PCI_CLASS_SYSTEM_RCEC << 8) | 0x00), ~0) },
+                                                     ^
+>> drivers/usb/core/usb-acpi.c:175:24: warning: Shifting signed 32-bit value by 31 bits is implementation-defined behaviour [shiftTooManyBitsSigned]
+     port_dev->location = USB_ACPI_LOCATION_VALID
+                          ^
+>> drivers/usb/core/usb-acpi.c:175:24: warning: Signed integer overflow for expression '1<<31'. [integerOverflow]
+     port_dev->location = USB_ACPI_LOCATION_VALID
+                          ^
+--
+>> net/core/sock.c:630:6: warning: Redundant initialization for 'ret'. The initialized value is overwritten before it is read. [redundantInitialization]
+    ret = -EPERM;
+        ^
+   net/core/sock.c:625:10: note: ret is initialized
+    int ret = -ENOPROTOOPT;
+            ^
+   net/core/sock.c:630:6: note: ret is overwritten
+    ret = -EPERM;
+        ^
+   net/core/sock.c:675:6: warning: Redundant initialization for 'ret'. The initialized value is overwritten before it is read. [redundantInitialization]
+    ret = -EINVAL;
+        ^
+   net/core/sock.c:669:10: note: ret is initialized
+    int ret = -ENOPROTOOPT;
+            ^
+   net/core/sock.c:675:6: note: ret is overwritten
+    ret = -EINVAL;
+        ^
 
-d166e9ec5e3800 Chuck Lever 2023-02-19  156  
-d166e9ec5e3800 Chuck Lever 2023-02-19  157  	req = NULL;
-d166e9ec5e3800 Chuck Lever 2023-02-19  158  	spin_lock(&net->hs_lock);
-d166e9ec5e3800 Chuck Lever 2023-02-19  159  	list_for_each_entry(pos, &net->hs_requests, hr_list) {
-d166e9ec5e3800 Chuck Lever 2023-02-19  160  		if (pos->hr_proto->hp_handler_class !=
-d166e9ec5e3800 Chuck Lever 2023-02-19  161  		    nla_get_u32(tb[HANDSHAKE_A_ACCEPT_HANDLER_CLASS]))
-d166e9ec5e3800 Chuck Lever 2023-02-19  162  			continue;
-d166e9ec5e3800 Chuck Lever 2023-02-19  163  		__remove_pending_locked(net, pos);
-d166e9ec5e3800 Chuck Lever 2023-02-19  164  		req = pos;
-d166e9ec5e3800 Chuck Lever 2023-02-19  165  		break;
-d166e9ec5e3800 Chuck Lever 2023-02-19  166  	}
-d166e9ec5e3800 Chuck Lever 2023-02-19  167  	spin_unlock(&net->hs_lock);
-d166e9ec5e3800 Chuck Lever 2023-02-19  168  	if (!req)
-d166e9ec5e3800 Chuck Lever 2023-02-19  169  		goto out_status;
-d166e9ec5e3800 Chuck Lever 2023-02-19  170  
-d166e9ec5e3800 Chuck Lever 2023-02-19  171  	fd = handshake_dup(req->hr_sock);
-d166e9ec5e3800 Chuck Lever 2023-02-19  172  	if (fd < 0) {
-d166e9ec5e3800 Chuck Lever 2023-02-19  173  		err = fd;
-d166e9ec5e3800 Chuck Lever 2023-02-19  174  		goto out_complete;
-d166e9ec5e3800 Chuck Lever 2023-02-19  175  	}
-d166e9ec5e3800 Chuck Lever 2023-02-19  176  	err = req->hr_proto->hp_accept(req, gi, fd);
-d166e9ec5e3800 Chuck Lever 2023-02-19  177  	if (err)
-d166e9ec5e3800 Chuck Lever 2023-02-19  178  		goto out_complete;
-d166e9ec5e3800 Chuck Lever 2023-02-19  179  
-d166e9ec5e3800 Chuck Lever 2023-02-19  180  	trace_handshake_cmd_accept(net, req, req->hr_sock, fd);
-d166e9ec5e3800 Chuck Lever 2023-02-19  181  	return 0;
-d166e9ec5e3800 Chuck Lever 2023-02-19  182  
-d166e9ec5e3800 Chuck Lever 2023-02-19  183  out_complete:
-d166e9ec5e3800 Chuck Lever 2023-02-19  184  	handshake_complete(req, -EIO, NULL);
-d166e9ec5e3800 Chuck Lever 2023-02-19  185  	fput(req->hr_sock->file);
-d166e9ec5e3800 Chuck Lever 2023-02-19  186  out_status:
-d166e9ec5e3800 Chuck Lever 2023-02-19 @187  	trace_handshake_cmd_accept_err(net, req, NULL, err);
-d166e9ec5e3800 Chuck Lever 2023-02-19  188  	return handshake_status_reply(skb, gi, err);
-d166e9ec5e3800 Chuck Lever 2023-02-19  189  }
-d166e9ec5e3800 Chuck Lever 2023-02-19  190  
-d166e9ec5e3800 Chuck Lever 2023-02-19  191  static const struct nla_policy
-d166e9ec5e3800 Chuck Lever 2023-02-19  192  handshake_done_nl_policy[HANDSHAKE_A_DONE_MAX + 1] = {
-d166e9ec5e3800 Chuck Lever 2023-02-19  193  	[HANDSHAKE_A_DONE_SOCKFD] = { .type = NLA_U32, },
-d166e9ec5e3800 Chuck Lever 2023-02-19  194  	[HANDSHAKE_A_DONE_STATUS] = { .type = NLA_U32, },
-d166e9ec5e3800 Chuck Lever 2023-02-19  195  	[HANDSHAKE_A_DONE_REMOTE_AUTH] = { .type = NLA_U32, },
-d166e9ec5e3800 Chuck Lever 2023-02-19  196  };
-d166e9ec5e3800 Chuck Lever 2023-02-19  197  
-d166e9ec5e3800 Chuck Lever 2023-02-19  198  static int handshake_nl_done_doit(struct sk_buff *skb, struct genl_info *gi)
-d166e9ec5e3800 Chuck Lever 2023-02-19  199  {
-d166e9ec5e3800 Chuck Lever 2023-02-19  200  	struct nlattr *tb[HANDSHAKE_A_DONE_MAX + 1];
-d166e9ec5e3800 Chuck Lever 2023-02-19  201  	struct net *net = sock_net(skb->sk);
-d166e9ec5e3800 Chuck Lever 2023-02-19  202  	struct socket *sock = NULL;
-d166e9ec5e3800 Chuck Lever 2023-02-19  203  	struct handshake_req *req;
-d166e9ec5e3800 Chuck Lever 2023-02-19  204  	int fd, status, err;
-d166e9ec5e3800 Chuck Lever 2023-02-19  205  
-d166e9ec5e3800 Chuck Lever 2023-02-19  206  	err = genlmsg_parse(nlmsg_hdr(skb), &handshake_genl_family, tb,
-d166e9ec5e3800 Chuck Lever 2023-02-19  207  			    HANDSHAKE_A_DONE_MAX, handshake_done_nl_policy,
-d166e9ec5e3800 Chuck Lever 2023-02-19  208  			    NULL);
-d166e9ec5e3800 Chuck Lever 2023-02-19  209  	if (err || !tb[HANDSHAKE_A_DONE_SOCKFD]) {
-d166e9ec5e3800 Chuck Lever 2023-02-19  210  		err = -EINVAL;
-d166e9ec5e3800 Chuck Lever 2023-02-19  211  		goto out_status;
-d166e9ec5e3800 Chuck Lever 2023-02-19  212  	}
-d166e9ec5e3800 Chuck Lever 2023-02-19  213  
-d166e9ec5e3800 Chuck Lever 2023-02-19  214  	fd = nla_get_u32(tb[HANDSHAKE_A_DONE_SOCKFD]);
-d166e9ec5e3800 Chuck Lever 2023-02-19  215  
-d166e9ec5e3800 Chuck Lever 2023-02-19  216  	err = 0;
-d166e9ec5e3800 Chuck Lever 2023-02-19  217  	sock = sockfd_lookup(fd, &err);
-d166e9ec5e3800 Chuck Lever 2023-02-19  218  	if (err) {
-d166e9ec5e3800 Chuck Lever 2023-02-19  219  		err = -EBADF;
-d166e9ec5e3800 Chuck Lever 2023-02-19  220  		goto out_status;
-d166e9ec5e3800 Chuck Lever 2023-02-19  221  	}
-d166e9ec5e3800 Chuck Lever 2023-02-19  222  
-d166e9ec5e3800 Chuck Lever 2023-02-19  223  	req = sock->sk->sk_handshake_req;
-d166e9ec5e3800 Chuck Lever 2023-02-19  224  	if (!req) {
-d166e9ec5e3800 Chuck Lever 2023-02-19  225  		err = -EBUSY;
-d166e9ec5e3800 Chuck Lever 2023-02-19  226  		goto out_status;
-d166e9ec5e3800 Chuck Lever 2023-02-19  227  	}
-d166e9ec5e3800 Chuck Lever 2023-02-19  228  
-d166e9ec5e3800 Chuck Lever 2023-02-19  229  	trace_handshake_cmd_done(net, req, sock, fd);
-d166e9ec5e3800 Chuck Lever 2023-02-19  230  
-d166e9ec5e3800 Chuck Lever 2023-02-19  231  	status = -EIO;
-d166e9ec5e3800 Chuck Lever 2023-02-19  232  	if (tb[HANDSHAKE_A_DONE_STATUS])
-d166e9ec5e3800 Chuck Lever 2023-02-19  233  		status = nla_get_u32(tb[HANDSHAKE_A_DONE_STATUS]);
-d166e9ec5e3800 Chuck Lever 2023-02-19  234  
-d166e9ec5e3800 Chuck Lever 2023-02-19  235  	handshake_complete(req, status, tb);
-d166e9ec5e3800 Chuck Lever 2023-02-19  236  	fput(sock->file);
-d166e9ec5e3800 Chuck Lever 2023-02-19  237  	return 0;
-d166e9ec5e3800 Chuck Lever 2023-02-19  238  
-d166e9ec5e3800 Chuck Lever 2023-02-19  239  out_status:
-d166e9ec5e3800 Chuck Lever 2023-02-19 @240  	trace_handshake_cmd_done_err(net, req, sock, err);
-                                                                                  ^^^
-Uninitialized.
+vim +753 drivers/pci/pcie/portdrv.c
 
-d166e9ec5e3800 Chuck Lever 2023-02-19  241  	return 0;
-d166e9ec5e3800 Chuck Lever 2023-02-19  242  }
+a1ccd3d911382f Bjorn Helgaas 2022-10-19  743  
+a1ccd3d911382f Bjorn Helgaas 2022-10-19  744  /*
+a1ccd3d911382f Bjorn Helgaas 2022-10-19  745   * LINUX Device Driver Model
+a1ccd3d911382f Bjorn Helgaas 2022-10-19  746   */
+a1ccd3d911382f Bjorn Helgaas 2022-10-19  747  static const struct pci_device_id port_pci_ids[] = {
+a1ccd3d911382f Bjorn Helgaas 2022-10-19  748  	/* handle any PCI-Express port */
+a1ccd3d911382f Bjorn Helgaas 2022-10-19  749  	{ PCI_DEVICE_CLASS(PCI_CLASS_BRIDGE_PCI_NORMAL, ~0) },
+a1ccd3d911382f Bjorn Helgaas 2022-10-19  750  	/* subtractive decode PCI-to-PCI bridge, class type is 060401h */
+a1ccd3d911382f Bjorn Helgaas 2022-10-19  751  	{ PCI_DEVICE_CLASS(PCI_CLASS_BRIDGE_PCI_SUBTRACTIVE, ~0) },
+a1ccd3d911382f Bjorn Helgaas 2022-10-19  752  	/* handle any Root Complex Event Collector */
+a1ccd3d911382f Bjorn Helgaas 2022-10-19 @753  	{ PCI_DEVICE_CLASS(((PCI_CLASS_SYSTEM_RCEC << 8) | 0x00), ~0) },
+a1ccd3d911382f Bjorn Helgaas 2022-10-19  754  	{ },
+a1ccd3d911382f Bjorn Helgaas 2022-10-19  755  };
+a1ccd3d911382f Bjorn Helgaas 2022-10-19  756  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
-
