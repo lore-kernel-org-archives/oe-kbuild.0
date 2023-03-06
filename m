@@ -1,42 +1,53 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94FE87E
-	for <oe-kbuild@lists.linux.dev>; Mon,  6 Mar 2023 08:53:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678092839; x=1709628839;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=tvel5ud0cbp5ubCP2LBAJFWofJOYnczaDScUZL8EQ9w=;
-  b=N6S8XgnmwcPCjeh89sxbMUuA1HEypE1h1HmJdcb37hJuKZqwBxvUEF+B
-   1XbUOjpNCEOAYquv6slqqfvp0wr72pfH6ekuUYeeMFlnixl1THqgA65Lu
-   OKpgxcWyfD0AFjaMj9yiJawh6qn/JNYIY3TFiArSMEm/BDNHuqQF14M62
-   8qhYcmQr8l6lPtJKcurss7w/ABOSTHgnc8lXIi9uysfwvMG64EAuPnTRt
-   tWGeZbTz1ZctzkYwCcR2dSJfmAfXCcyrDeeah9iGudGh5VqnV5KsIdo9x
-   fDjnSFf1DS1vku2vH+VQ/OxxMU0C8GW6h1XwSh8M69TJwp1/ey4kSdYCx
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10640"; a="421779127"
-X-IronPort-AV: E=Sophos;i="5.98,236,1673942400"; 
-   d="scan'208";a="421779127"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2023 00:53:57 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10640"; a="706366477"
-X-IronPort-AV: E=Sophos;i="5.98,236,1673942400"; 
-   d="scan'208";a="706366477"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 06 Mar 2023 00:53:55 -0800
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pZ6bT-0000An-0N;
-	Mon, 06 Mar 2023 08:53:55 +0000
-Date: Mon, 6 Mar 2023 16:53:12 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: net/bluetooth/hci_core.c:3179:18: warning: Value stored to 'hdev'
- during its initialization is never read [clang-analyzer-deadcode.DeadStores]
-Message-ID: <202303061617.Qy7vptcz-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4E7F7E;
+	Mon,  6 Mar 2023 09:07:44 +0000 (UTC)
+Received: by mail-ed1-f48.google.com with SMTP id o12so35401728edb.9;
+        Mon, 06 Mar 2023 01:07:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1678093662;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=5QOo+TQsiEWoJ/GqhB51kIfy6Mh7x0FFj/TSz1DnawY=;
+        b=IOgie4aED1NrYa3+IOHHvQXvIafGEl4R8feVPNlNmYkZ+U5U+FJBtuhY0EvMFuo7vL
+         8PGaNufrx8qkOGRSi4otl/v6FZUYJUuh7bUVSGREMkqq5BuHKwsdzyyiminh4DgXMzA6
+         oB5BSkLi9oC7j8KoCo9pmD1MrQ3UVSW/aICyFVfP4JljYypPtV5VkYBsow32kIw6upnY
+         SDoOyJ70ZloC+eFbKwY6NznBYDjZgPQJ5pZIYmCVuHSpe4qZRry+FcMjCsF299wVxtr0
+         DviZm23Yzc+VM38MQaY2QIx7+k5umvVustGP62spvrUIk2Pc8Uvha9DJBjG0WFjWckXe
+         g7CQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678093662;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=5QOo+TQsiEWoJ/GqhB51kIfy6Mh7x0FFj/TSz1DnawY=;
+        b=HJtYoam3YbRS6SBbp83hqwh70G6XqlJ6tBoxizLiVPBxtB0LpLXQjjKUW36SSJghoL
+         0d2GndKbakI0/SYwR8IjUkqt/9zbnGLN/yQm58u8T17arFa2+iafI4fdXlf53SQsDqPH
+         kz+Dw8EmSKQ2hfhvuDPufBvx2RcOgnY7+7ddqP0otIvmoY/eQWdeVvHJyWix7piRQ8UN
+         iZ6SbV43FNhl9vXmqeooCnFoz68OqqbmCw4QZG0sU0JicmHWZaiPvJx9UNqgkQ5gAEj/
+         ZHUnVsnyDRS5QLjpEOgDZjXpJqs6Esfs4nmCMOvSkfOpe2OW2swsG5suB8yL8pihfONj
+         BRKw==
+X-Gm-Message-State: AO0yUKUw5xxTNwqW2By6onN5JSXwqO/baLgOa9/EERL9h3sesZX3DRxn
+	qNlTU+akFESAuZHcIT8fmYMqdbmMNXrsCg==
+X-Google-Smtp-Source: AK7set8rLHJ2MONYnSI5rQ8GjmVmyTt0oaZgLIn0ANI9toSNd2BzT3eR3O6xJSLk3LrGcYUn7m4EvA==
+X-Received: by 2002:aa7:da49:0:b0:4bf:3cdb:fb42 with SMTP id w9-20020aa7da49000000b004bf3cdbfb42mr8833735eds.6.1678093662526;
+        Mon, 06 Mar 2023 01:07:42 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id q10-20020a50c34a000000b004bda465da32sm4829047edb.1.2023.03.06.01.07.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 06 Mar 2023 01:07:42 -0800 (PST)
+Date: Mon, 6 Mar 2023 12:07:38 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev, John Ogness <john.ogness@linutronix.de>,
+	Petr Mladek <pmladek@suse.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Thomas Gleixner <tglx@linutronix.de>, linux-kernel@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH printk v1 06/18] printk: nobkl: Add acquire/release logic
+Message-ID: <0a7e5230-3a8d-496a-a42b-bda2dc82ea9a@kili.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -45,294 +56,158 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230302195618.156940-7-john.ogness@linutronix.de>
 
-:::::: 
-:::::: Manual check reason: "low confidence static check warning: net/bluetooth/hci_core.c:3179:18: warning: Value stored to 'hdev' during its initialization is never read [clang-analyzer-deadcode.DeadStores]"
-:::::: 
+Hi John,
 
-BCC: lkp@intel.com
-CC: llvm@lists.linux.dev
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Luiz Augusto von Dentz <luiz.von.dentz@intel.com>
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   fe15c26ee26efa11741a7b632e9f23b01aca4cc6
-commit: 26afbd826ee326e63a334c37fd45e82e50a615ec Bluetooth: Add initial implementation of CIS connections
-date:   8 months ago
-:::::: branch date: 10 hours ago
-:::::: commit date: 8 months ago
-config: arm-randconfig-c002-20230302 (https://download.01.org/0day-ci/archive/20230306/202303061617.Qy7vptcz-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=26afbd826ee326e63a334c37fd45e82e50a615ec
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 26afbd826ee326e63a334c37fd45e82e50a615ec
-        # save the config file
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=arm clang-analyzer  olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=arm clang-analyzer 
+url:    https://github.com/intel-lab-lkp/linux/commits/John-Ogness/kdb-do-not-assume-write-callback-available/20230303-040039
+base:   10d639febe5629687dac17c4a7500a96537ce11a
+patch link:    https://lore.kernel.org/r/20230302195618.156940-7-john.ogness%40linutronix.de
+patch subject: [PATCH printk v1 06/18] printk: nobkl: Add acquire/release logic
+config: i386-randconfig-m021 (https://download.01.org/0day-ci/archive/20230305/202303051319.m55kZE3v-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/r/202303061617.Qy7vptcz-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Link: https://lore.kernel.org/r/202303051319.m55kZE3v-lkp@intel.com/
 
-clang_analyzer warnings: (new ones prefixed by >>)
-                   ^~~~~~
-   net/bluetooth/hci_core.c:1580:3: note: Call to function 'memcpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memcpy_s' in case of C11
-                   memcpy(data->rand192, rand192, sizeof(data->rand192));
-                   ^~~~~~
-   net/bluetooth/hci_core.c:1584:3: warning: Call to function 'memset' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   memset(data->hash192, 0, sizeof(data->hash192));
-                   ^~~~~~
-   net/bluetooth/hci_core.c:1584:3: note: Call to function 'memset' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memset_s' in case of C11
-                   memset(data->hash192, 0, sizeof(data->hash192));
-                   ^~~~~~
-   net/bluetooth/hci_core.c:1585:3: warning: Call to function 'memset' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   memset(data->rand192, 0, sizeof(data->rand192));
-                   ^~~~~~
-   net/bluetooth/hci_core.c:1585:3: note: Call to function 'memset' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memset_s' in case of C11
-                   memset(data->rand192, 0, sizeof(data->rand192));
-                   ^~~~~~
-   net/bluetooth/hci_core.c:1593:3: warning: Call to function 'memcpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   memcpy(data->hash256, hash256, sizeof(data->hash256));
-                   ^~~~~~
-   net/bluetooth/hci_core.c:1593:3: note: Call to function 'memcpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memcpy_s' in case of C11
-                   memcpy(data->hash256, hash256, sizeof(data->hash256));
-                   ^~~~~~
-   net/bluetooth/hci_core.c:1594:3: warning: Call to function 'memcpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   memcpy(data->rand256, rand256, sizeof(data->rand256));
-                   ^~~~~~
-   net/bluetooth/hci_core.c:1594:3: note: Call to function 'memcpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memcpy_s' in case of C11
-                   memcpy(data->rand256, rand256, sizeof(data->rand256));
-                   ^~~~~~
-   net/bluetooth/hci_core.c:1596:3: warning: Call to function 'memset' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   memset(data->hash256, 0, sizeof(data->hash256));
-                   ^~~~~~
-   net/bluetooth/hci_core.c:1596:3: note: Call to function 'memset' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memset_s' in case of C11
-                   memset(data->hash256, 0, sizeof(data->hash256));
-                   ^~~~~~
-   net/bluetooth/hci_core.c:1597:3: warning: Call to function 'memset' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   memset(data->rand256, 0, sizeof(data->rand256));
-                   ^~~~~~
-   net/bluetooth/hci_core.c:1597:3: note: Call to function 'memset' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memset_s' in case of C11
-                   memset(data->rand256, 0, sizeof(data->rand256));
-                   ^~~~~~
-   net/bluetooth/hci_core.c:1715:3: warning: Call to function 'memset' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   memset(adv_instance->adv_data, 0,
-                   ^~~~~~
-   net/bluetooth/hci_core.c:1715:3: note: Call to function 'memset' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memset_s' in case of C11
-                   memset(adv_instance->adv_data, 0,
-                   ^~~~~~
-   net/bluetooth/hci_core.c:1717:3: warning: Call to function 'memset' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   memset(adv_instance->scan_rsp_data, 0,
-                   ^~~~~~
-   net/bluetooth/hci_core.c:1717:3: note: Call to function 'memset' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memset_s' in case of C11
-                   memset(adv_instance->scan_rsp_data, 0,
-                   ^~~~~~
-   net/bluetooth/hci_core.c:1772:3: warning: Call to function 'memset' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   memset(adv->adv_data, 0, sizeof(adv->adv_data));
-                   ^~~~~~
-   net/bluetooth/hci_core.c:1772:3: note: Call to function 'memset' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memset_s' in case of C11
-                   memset(adv->adv_data, 0, sizeof(adv->adv_data));
-                   ^~~~~~
-   net/bluetooth/hci_core.c:1773:3: warning: Call to function 'memcpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   memcpy(adv->adv_data, adv_data, adv_data_len);
-                   ^~~~~~
-   net/bluetooth/hci_core.c:1773:3: note: Call to function 'memcpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memcpy_s' in case of C11
-                   memcpy(adv->adv_data, adv_data, adv_data_len);
-                   ^~~~~~
-   net/bluetooth/hci_core.c:1779:3: warning: Call to function 'memset' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   memset(adv->scan_rsp_data, 0, sizeof(adv->scan_rsp_data));
-                   ^~~~~~
-   net/bluetooth/hci_core.c:1779:3: note: Call to function 'memset' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memset_s' in case of C11
-                   memset(adv->scan_rsp_data, 0, sizeof(adv->scan_rsp_data));
-                   ^~~~~~
-   net/bluetooth/hci_core.c:1780:3: warning: Call to function 'memcpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   memcpy(adv->scan_rsp_data, scan_rsp_data, scan_rsp_len);
-                   ^~~~~~
-   net/bluetooth/hci_core.c:1780:3: note: Call to function 'memcpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memcpy_s' in case of C11
-                   memcpy(adv->scan_rsp_data, scan_rsp_data, scan_rsp_len);
-                   ^~~~~~
-   net/bluetooth/hci_core.c:2108:3: warning: Call to function 'memcpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   memcpy(entry->peer_irk, peer_irk, 16);
-                   ^~~~~~
-   net/bluetooth/hci_core.c:2108:3: note: Call to function 'memcpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memcpy_s' in case of C11
-                   memcpy(entry->peer_irk, peer_irk, 16);
-                   ^~~~~~
-   net/bluetooth/hci_core.c:2111:3: warning: Call to function 'memcpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   memcpy(entry->local_irk, local_irk, 16);
-                   ^~~~~~
-   net/bluetooth/hci_core.c:2111:3: note: Call to function 'memcpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memcpy_s' in case of C11
-                   memcpy(entry->local_irk, local_irk, 16);
-                   ^~~~~~
-   net/bluetooth/hci_core.c:2549:2: warning: Call to function 'snprintf' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'snprintf_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           snprintf(hdev->name, sizeof(hdev->name), "hci%d", id);
-           ^~~~~~~~
-   net/bluetooth/hci_core.c:2549:2: note: Call to function 'snprintf' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'snprintf_s' in case of C11
-           snprintf(hdev->name, sizeof(hdev->name), "hci%d", id);
-           ^~~~~~~~
-   net/bluetooth/hci_core.c:3155:2: warning: Call to function 'memcpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(skb_transport_header(skb), &hdr, HCI_SCO_HDR_SIZE);
-           ^~~~~~
-   net/bluetooth/hci_core.c:3155:2: note: Call to function 'memcpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memcpy_s' in case of C11
-           memcpy(skb_transport_header(skb), &hdr, HCI_SCO_HDR_SIZE);
-           ^~~~~~
->> net/bluetooth/hci_core.c:3179:18: warning: Value stored to 'hdev' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct hci_dev *hdev = conn->hdev;
-                           ^~~~   ~~~~~~~~~~
-   net/bluetooth/hci_core.c:3179:18: note: Value stored to 'hdev' during its initialization is never read
-           struct hci_dev *hdev = conn->hdev;
-                           ^~~~   ~~~~~~~~~~
-   net/bluetooth/hci_core.c:3815:2: warning: Value stored to 'flags' is never read [clang-analyzer-deadcode.DeadStores]
-           flags  = hci_flags(handle);
-           ^
-   net/bluetooth/hci_core.c:3815:2: note: Value stored to 'flags' is never read
-   Suppressed 68 warnings (68 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   118 warnings generated.
-   net/core/rtnetlink.c:204:9: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]
-           return rcu_dereference_rtnl(tab[msgtype]);
-                  ^
-   include/linux/rtnetlink.h:61:2: note: expanded from macro 'rcu_dereference_rtnl'
-           rcu_dereference_check(p, lockdep_rtnl_is_held())
-           ^
-   include/linux/rcupdate.h:532:2: note: expanded from macro 'rcu_dereference_check'
-           __rcu_dereference_check((p), __UNIQUE_ID(rcu), \
-           ^
-   include/linux/rcupdate.h:392:43: note: expanded from macro '__rcu_dereference_check'
-           typeof(*p) *local = (typeof(*p) *__force)READ_ONCE(p); \
-                                                    ^
-   include/asm-generic/rwonce.h:50:2: note: expanded from macro 'READ_ONCE'
-           __READ_ONCE(x);                                                 \
-           ^
-   include/asm-generic/rwonce.h:44:24: note: expanded from macro '__READ_ONCE'
-   #define __READ_ONCE(x)  (*(const volatile __unqual_scalar_typeof(x) *)&(x))
-                           ^
-   net/core/rtnetlink.c:5998:6: note: Assuming the condition is false
-           if (type > RTM_MAX)
-               ^~~~~~~~~~~~~~
-   net/core/rtnetlink.c:5998:2: note: Taking false branch
-           if (type > RTM_MAX)
-           ^
-   net/core/rtnetlink.c:6004:6: note: Assuming the condition is false
-           if (nlmsg_len(nlh) < sizeof(struct rtgenmsg))
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/core/rtnetlink.c:6004:2: note: Taking false branch
-           if (nlmsg_len(nlh) < sizeof(struct rtgenmsg))
-           ^
-   net/core/rtnetlink.c:6010:6: note: Assuming 'kind' is equal to RTNL_KIND_GET
-           if (kind != RTNL_KIND_GET && !netlink_net_capable(skb, CAP_NET_ADMIN))
-               ^~~~~~~~~~~~~~~~~~~~~
-   net/core/rtnetlink.c:6010:28: note: Left side of '&&' is false
-           if (kind != RTNL_KIND_GET && !netlink_net_capable(skb, CAP_NET_ADMIN))
-                                     ^
-   net/core/rtnetlink.c:6014:6: note: 'kind' is equal to RTNL_KIND_GET
-           if (kind == RTNL_KIND_GET && (nlh->nlmsg_flags & NLM_F_DUMP)) {
-               ^~~~
-   net/core/rtnetlink.c:6014:6: note: Left side of '&&' is true
-   net/core/rtnetlink.c:6014:32: note: Assuming the condition is false
-           if (kind == RTNL_KIND_GET && (nlh->nlmsg_flags & NLM_F_DUMP)) {
-                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/core/rtnetlink.c:6014:2: note: Taking false branch
-           if (kind == RTNL_KIND_GET && (nlh->nlmsg_flags & NLM_F_DUMP)) {
-           ^
-   net/core/rtnetlink.c:6055:9: note: Calling 'rtnl_get_link'
-           link = rtnl_get_link(family, type);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/core/rtnetlink.c:197:6: note: Assuming the condition is true
-           if (protocol >= ARRAY_SIZE(rtnl_msg_handlers))
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/core/rtnetlink.c:197:2: note: Taking true branch
-           if (protocol >= ARRAY_SIZE(rtnl_msg_handlers))
-           ^
-   net/core/rtnetlink.c:200:8: note: Left side of '||' is false
-           tab = rcu_dereference_rtnl(rtnl_msg_handlers[protocol]);
-                 ^
-   include/linux/rtnetlink.h:61:2: note: expanded from macro 'rcu_dereference_rtnl'
-           rcu_dereference_check(p, lockdep_rtnl_is_held())
-           ^
-   include/linux/rcupdate.h:532:2: note: expanded from macro 'rcu_dereference_check'
-           __rcu_dereference_check((p), __UNIQUE_ID(rcu), \
-           ^
-   include/linux/rcupdate.h:392:43: note: expanded from macro '__rcu_dereference_check'
-           typeof(*p) *local = (typeof(*p) *__force)READ_ONCE(p); \
-                                                    ^
-   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
-           compiletime_assert_rwonce_type(x);                              \
-           ^
-   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compiletime_assert_rwonce_type'
-           compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-                              ^
-   include/linux/compiler_types.h:321:3: note: expanded from macro '__native_word'
-           (sizeof(t) == sizeof(char) || sizeof(t) == sizeof(short) || \
-            ^
-   net/core/rtnetlink.c:200:8: note: Left side of '||' is false
-           tab = rcu_dereference_rtnl(rtnl_msg_handlers[protocol]);
-                 ^
-   include/linux/rtnetlink.h:61:2: note: expanded from macro 'rcu_dereference_rtnl'
-           rcu_dereference_check(p, lockdep_rtnl_is_held())
-           ^
-   include/linux/rcupdate.h:532:2: note: expanded from macro 'rcu_dereference_check'
-           __rcu_dereference_check((p), __UNIQUE_ID(rcu), \
-           ^
-   include/linux/rcupdate.h:392:43: note: expanded from macro '__rcu_dereference_check'
-           typeof(*p) *local = (typeof(*p) *__force)READ_ONCE(p); \
-                                                    ^
+smatch warnings:
+kernel/printk/printk_nobkl.c:391 cons_try_acquire_spin() warn: signedness bug returning '(-16)'
 
-vim +/hdev +3179 net/bluetooth/hci_core.c
+vim +391 kernel/printk/printk_nobkl.c
 
-26afbd826ee326 Luiz Augusto von Dentz 2019-07-29  3175  
-26afbd826ee326 Luiz Augusto von Dentz 2019-07-29  3176  static void hci_queue_iso(struct hci_conn *conn, struct sk_buff_head *queue,
-26afbd826ee326 Luiz Augusto von Dentz 2019-07-29  3177  			  struct sk_buff *skb)
-26afbd826ee326 Luiz Augusto von Dentz 2019-07-29  3178  {
-26afbd826ee326 Luiz Augusto von Dentz 2019-07-29 @3179  	struct hci_dev *hdev = conn->hdev;
-26afbd826ee326 Luiz Augusto von Dentz 2019-07-29  3180  	struct sk_buff *list;
-26afbd826ee326 Luiz Augusto von Dentz 2019-07-29  3181  	__u16 flags;
-26afbd826ee326 Luiz Augusto von Dentz 2019-07-29  3182  
-26afbd826ee326 Luiz Augusto von Dentz 2019-07-29  3183  	skb->len = skb_headlen(skb);
-26afbd826ee326 Luiz Augusto von Dentz 2019-07-29  3184  	skb->data_len = 0;
-26afbd826ee326 Luiz Augusto von Dentz 2019-07-29  3185  
-26afbd826ee326 Luiz Augusto von Dentz 2019-07-29  3186  	hci_skb_pkt_type(skb) = HCI_ISODATA_PKT;
-26afbd826ee326 Luiz Augusto von Dentz 2019-07-29  3187  
-26afbd826ee326 Luiz Augusto von Dentz 2019-07-29  3188  	list = skb_shinfo(skb)->frag_list;
-26afbd826ee326 Luiz Augusto von Dentz 2019-07-29  3189  
-26afbd826ee326 Luiz Augusto von Dentz 2019-07-29  3190  	flags = hci_iso_flags_pack(list ? ISO_START : ISO_SINGLE, 0x00);
-26afbd826ee326 Luiz Augusto von Dentz 2019-07-29  3191  	hci_add_iso_hdr(skb, conn->handle, flags);
-26afbd826ee326 Luiz Augusto von Dentz 2019-07-29  3192  
-26afbd826ee326 Luiz Augusto von Dentz 2019-07-29  3193  	if (!list) {
-26afbd826ee326 Luiz Augusto von Dentz 2019-07-29  3194  		/* Non fragmented */
-26afbd826ee326 Luiz Augusto von Dentz 2019-07-29  3195  		BT_DBG("%s nonfrag skb %p len %d", hdev->name, skb, skb->len);
-26afbd826ee326 Luiz Augusto von Dentz 2019-07-29  3196  
-26afbd826ee326 Luiz Augusto von Dentz 2019-07-29  3197  		skb_queue_tail(queue, skb);
-26afbd826ee326 Luiz Augusto von Dentz 2019-07-29  3198  	} else {
-26afbd826ee326 Luiz Augusto von Dentz 2019-07-29  3199  		/* Fragmented */
-26afbd826ee326 Luiz Augusto von Dentz 2019-07-29  3200  		BT_DBG("%s frag %p len %d", hdev->name, skb, skb->len);
-26afbd826ee326 Luiz Augusto von Dentz 2019-07-29  3201  
-26afbd826ee326 Luiz Augusto von Dentz 2019-07-29  3202  		skb_shinfo(skb)->frag_list = NULL;
-26afbd826ee326 Luiz Augusto von Dentz 2019-07-29  3203  
-26afbd826ee326 Luiz Augusto von Dentz 2019-07-29  3204  		__skb_queue_tail(queue, skb);
-26afbd826ee326 Luiz Augusto von Dentz 2019-07-29  3205  
-26afbd826ee326 Luiz Augusto von Dentz 2019-07-29  3206  		do {
-26afbd826ee326 Luiz Augusto von Dentz 2019-07-29  3207  			skb = list; list = list->next;
-26afbd826ee326 Luiz Augusto von Dentz 2019-07-29  3208  
-26afbd826ee326 Luiz Augusto von Dentz 2019-07-29  3209  			hci_skb_pkt_type(skb) = HCI_ISODATA_PKT;
-26afbd826ee326 Luiz Augusto von Dentz 2019-07-29  3210  			flags = hci_iso_flags_pack(list ? ISO_CONT : ISO_END,
-26afbd826ee326 Luiz Augusto von Dentz 2019-07-29  3211  						   0x00);
-26afbd826ee326 Luiz Augusto von Dentz 2019-07-29  3212  			hci_add_iso_hdr(skb, conn->handle, flags);
-26afbd826ee326 Luiz Augusto von Dentz 2019-07-29  3213  
-26afbd826ee326 Luiz Augusto von Dentz 2019-07-29  3214  			BT_DBG("%s frag %p len %d", hdev->name, skb, skb->len);
-26afbd826ee326 Luiz Augusto von Dentz 2019-07-29  3215  
-26afbd826ee326 Luiz Augusto von Dentz 2019-07-29  3216  			__skb_queue_tail(queue, skb);
-26afbd826ee326 Luiz Augusto von Dentz 2019-07-29  3217  		} while (list);
-26afbd826ee326 Luiz Augusto von Dentz 2019-07-29  3218  	}
-26afbd826ee326 Luiz Augusto von Dentz 2019-07-29  3219  }
-26afbd826ee326 Luiz Augusto von Dentz 2019-07-29  3220  
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  284  /**
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  285   * cons_try_acquire_spin - Complete the spinwait attempt
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  286   * @ctxt:	Pointer to an acquire context that contains
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  287   *		all information about the acquire mode
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  288   *
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  289   * @ctxt->hov_state contains the handover state that was set in
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  290   * state[REQ]
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  291   * @ctxt->req_state contains the request state that was set in
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  292   * state[CUR]
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  293   *
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  294   * Returns: 0 if successfully locked. -EBUSY on timeout. -EAGAIN on
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  295   * unexpected state values.
+
+Out of date comments.
+
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  296   *
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  297   * On success @ctxt->state contains the new state that was set in
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  298   * state[CUR]
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  299   *
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  300   * On -EBUSY failure this context timed out. This context should either
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  301   * give up or attempt a hostile takeover.
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  302   *
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  303   * On -EAGAIN failure this context encountered unexpected state values.
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  304   * This context should retry the full handover request setup process (the
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  305   * handover request setup by cons_setup_handover() is now invalidated and
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  306   * must be performed again).
+
+Out of date.
+
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  307   */
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  308  static bool cons_try_acquire_spin(struct cons_context *ctxt)
+                                                       ^^^^
+After reviewing the code, it looks the intention was the bool should be
+changed to int.
+
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  309  {
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  310  	struct console *con = ctxt->console;
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  311  	struct cons_state cur;
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  312  	struct cons_state new;
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  313  	int err = -EAGAIN;
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  314  	int timeout;
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  315  
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  316  	/* Now wait for the other side to hand over */
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  317  	for (timeout = ctxt->spinwait_max_us; timeout >= 0; timeout--) {
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  318  		/* Timeout immediately if a remote panic is detected. */
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  319  		if (cons_check_panic())
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  320  			break;
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  321  
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  322  		cons_state_read(con, CON_STATE_CUR, &cur);
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  323  
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  324  		/*
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  325  		 * If the real state of the console matches the handover state
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  326  		 * that this context setup, then the handover was a success
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  327  		 * and this context is now the owner.
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  328  		 *
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  329  		 * Note that this might have raced with a new higher priority
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  330  		 * requester coming in after the lock was handed over.
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  331  		 * However, that requester will see that the owner changes and
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  332  		 * setup a new request for the current owner (this context).
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  333  		 */
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  334  		if (cons_state_bits_match(cur, ctxt->hov_state))
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  335  			goto success;
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  336  
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  337  		/*
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  338  		 * If state changed since the request was made, give up as
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  339  		 * it is no longer consistent. This must include
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  340  		 * state::req_prio since there could be a higher priority
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  341  		 * request available.
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  342  		 */
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  343  		if (cur.bits != ctxt->req_state.bits)
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  344  			goto cleanup;
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  345  
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  346  		/*
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  347  		 * Finally check whether the handover state is still
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  348  		 * the same.
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  349  		 */
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  350  		cons_state_read(con, CON_STATE_REQ, &cur);
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  351  		if (cur.atom != ctxt->hov_state.atom)
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  352  			goto cleanup;
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  353  
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  354  		/* Account time */
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  355  		if (timeout > 0)
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  356  			udelay(1);
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  357  	}
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  358  
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  359  	/*
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  360  	 * Timeout. Cleanup the handover state and carefully try to reset
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  361  	 * req_prio in the real state. The reset is important to ensure
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  362  	 * that the owner does not hand over the lock after this context
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  363  	 * has given up waiting.
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  364  	 */
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  365  	cons_cleanup_handover(ctxt);
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  366  
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  367  	cons_state_read(con, CON_STATE_CUR, &cur);
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  368  	do {
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  369  		/*
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  370  		 * The timeout might have raced with the owner coming late
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  371  		 * and handing it over gracefully.
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  372  		 */
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  373  		if (cons_state_bits_match(cur, ctxt->hov_state))
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  374  			goto success;
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  375  
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  376  		/*
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  377  		 * Validate that the state matches with the state at request
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  378  		 * time. If this check fails, there is already a higher
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  379  		 * priority context waiting or the owner has changed (either
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  380  		 * by higher priority or by hostile takeover). In all fail
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  381  		 * cases this context is no longer in line for a handover to
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  382  		 * take place, so no reset is necessary.
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  383  		 */
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  384  		if (cur.bits != ctxt->req_state.bits)
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  385  			goto cleanup;
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  386  
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  387  		copy_full_state(new, cur);
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  388  		new.req_prio = 0;
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  389  	} while (!cons_state_try_cmpxchg(con, CON_STATE_CUR, &cur, &new));
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  390  	/* Reset worked. Report timeout. */
+d444c8549ebdf3 Thomas Gleixner 2023-03-02 @391  	return -EBUSY;
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  392  
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  393  success:
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  394  	/* Store the real state */
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  395  	copy_full_state(ctxt->state, cur);
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  396  	ctxt->hostile = false;
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  397  	err = 0;
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  398  
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  399  cleanup:
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  400  	cons_cleanup_handover(ctxt);
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  401  	return err;
+d444c8549ebdf3 Thomas Gleixner 2023-03-02  402  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
+
