@@ -1,43 +1,56 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4D85D30B
-	for <oe-kbuild@lists.linux.dev>; Mon,  6 Mar 2023 05:06:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678079161; x=1709615161;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=hwiLkud+fuKao4JtN4s0CJ5K2ymnafo6m5GkCKGbrvU=;
-  b=FDEcPoqEvPDNImrZID8c6KCCbaJZR/23utg4cdqc4tz01WBLUom4sUae
-   0mRNJeMLmTgnDxn62wj2eA/rZTdQtfzI/IWSxK4WfNqr1itquix0CLOxs
-   z9IO1mz0g+K56+pZgR2Pp0grktP2+nQNK4a0qoxyvYV5xcwLAzB7s5nBX
-   FB+XI5saMboHbOF7502+0s2lo1NVwIULBMtCPCewMictiCc1kVKbGjmz9
-   c3MAHdVGuFOPVM31bHpxgnfQL9XRk960d8/PwmTAXOENy8kN+2fa+EER6
-   Z/UZ7NnP8lPo6CsMHQm5rP3DiILqXc5+NTOEo7ewsKcTq1bpn4N8Ec4Vi
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10640"; a="334189376"
-X-IronPort-AV: E=Sophos;i="5.98,236,1673942400"; 
-   d="scan'208";a="334189376"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2023 21:06:01 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10640"; a="765097880"
-X-IronPort-AV: E=Sophos;i="5.98,236,1673942400"; 
-   d="scan'208";a="765097880"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 05 Mar 2023 21:05:48 -0800
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pZ32h-00002n-2g;
-	Mon, 06 Mar 2023 05:05:47 +0000
-Date: Mon, 6 Mar 2023 13:05:32 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: io_uring/io_uring.c:10999:3: warning: Argument to kfree() is the
- address of the local variable 'list', which is not memory allocated by
- malloc() [clang-analyzer-unix.Malloc]
-Message-ID: <202303061313.W9qVh3BN-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41AFF7E;
+	Mon,  6 Mar 2023 08:32:00 +0000 (UTC)
+Received: by mail-ed1-f53.google.com with SMTP id a25so35340390edb.0;
+        Mon, 06 Mar 2023 00:32:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1678091518;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=l9LP7bOG1M0J7nDrxY/rPNDyeXRjQxGxyQ2mWu+wlb0=;
+        b=R79rh8cvsq/BotA7SR/qy1NbOqU5r5GPQiW9SsnU0rQ2gmdV07G9BqGwwW+lNsFcMS
+         5Agkz/rdka2zcFhFAgcOS9zvd3oL6hD621/IWVbha+M+vCVSylYzQXDgg+5uy/uuRcB+
+         Gc07ZSXHdIUIYT0Yp9XaYCVb5LpKJsDutCcY0DDl5SOCSsG8VkRpsmkVUdesvHnKoavl
+         YNVQcpYREsUPzQIpfFpeMmV4gmVn5blMdzWFHSqxWKEGiRxpjC7luLHPTWJF4AtYrv4a
+         ybrcX2AUWPLTueL1pg9e2k7egNucZJj2JDR40vCrCrW67WhBfBU4i85A69FsZv7X/wko
+         ldgg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678091518;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=l9LP7bOG1M0J7nDrxY/rPNDyeXRjQxGxyQ2mWu+wlb0=;
+        b=Y2+X0rYc2h/hOCzHqeQuOJNJa5f8/YGWKxqrudQzHeAgPaxHg8PAXrXGpCsSTgOJFB
+         8vOmx2Fkf5GsQfJYiP6Aqh83iw9aLc2QePqqWlUd6aOgIwS974le0K2Il6hakybXErnE
+         mGkuq6PFxa4u6cpsr55NNXdJpoXVqZP23l+3ypIIfbNsLUg/mix+msxorhBbubuFDf5W
+         CZiywuJm+EIaptXhEZf299St5/c62uKU5/aFKKUBa2BZUYnqug5i9jsez7hH/xawryOn
+         PCyQ8zxT4Rw1QMYGrKDWtOxXpBMoM1xVO8CSRI0cdwa9dHC6icvzQ6RCAUDIf00UsL4W
+         J5sQ==
+X-Gm-Message-State: AO0yUKVWRvZ6g9mw1N1LSOGxr7YZKXfPAmRrvdIguSyKRjSLK603tZ68
+	zW62yZbijtFeFnIBTl8OD4bMWZ9oYLXDMA==
+X-Google-Smtp-Source: AK7set9qotnlsbz5yc0qVnc49U4ouzoOZ0iySrvzB7SZ0KUHh9LNdwGGMFF3oYw8OnyX4EhVRmfwoA==
+X-Received: by 2002:a17:907:1c15:b0:8af:2fa1:2226 with SMTP id nc21-20020a1709071c1500b008af2fa12226mr12771669ejc.6.1678091518019;
+        Mon, 06 Mar 2023 00:31:58 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id gq15-20020a170906e24f00b008b17b123a47sm4205223ejb.208.2023.03.06.00.31.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 06 Mar 2023 00:31:57 -0800 (PST)
+Date: Mon, 6 Mar 2023 11:31:52 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev,
+	William Breathitt Gray <william.gray@linaro.org>,
+	linus.walleij@linaro.org, brgl@bgdev.pl
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
+	broonie@kernel.org,
+	William Breathitt Gray <william.gray@linaro.org>,
+	Arnaud de Turckheim <quarium@gmail.com>,
+	John Hentges <jhentges@accesio.com>,
+	Jay Dolan <jay.dolan@accesio.com>
+Subject: Re: [PATCH v3 2/3] gpio: pcie-idio-24: Migrate to the regmap API
+Message-ID: <179ed443-a67b-4633-b62c-a4dda0f0f088@kili.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -46,280 +59,87 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <278e328cd1689a4e331e7515050c12c29f2a4785.1678034378.git.william.gray@linaro.org>
 
-:::::: 
-:::::: Manual check reason: "low confidence static check warning: io_uring/io_uring.c:10999:3: warning: Argument to kfree() is the address of the local variable 'list', which is not memory allocated by malloc() [clang-analyzer-unix.Malloc]"
-:::::: 
+Hi William,
 
-BCC: lkp@intel.com
-CC: llvm@lists.linux.dev
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Jens Axboe <axboe@kernel.dk>
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   fe15c26ee26efa11741a7b632e9f23b01aca4cc6
-commit: ed29b0b4fd835b058ddd151c49d021e28d631ee6 io_uring: move to separate directory
-date:   7 months ago
-:::::: branch date: 6 hours ago
-:::::: commit date: 7 months ago
-config: i386-randconfig-c001 (https://download.01.org/0day-ci/archive/20230306/202303061313.W9qVh3BN-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=ed29b0b4fd835b058ddd151c49d021e28d631ee6
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout ed29b0b4fd835b058ddd151c49d021e28d631ee6
-        # save the config file
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=i386 clang-analyzer  olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=i386 clang-analyzer 
+url:    https://github.com/intel-lab-lkp/linux/commits/William-Breathitt-Gray/regmap-Pass-irq_drv_data-as-a-parameter-for-set_type_config/20230306-010313
+base:   4827aae061337251bb91801b316157a78b845ec7
+patch link:    https://lore.kernel.org/r/278e328cd1689a4e331e7515050c12c29f2a4785.1678034378.git.william.gray%40linaro.org
+patch subject: [PATCH v3 2/3] gpio: pcie-idio-24: Migrate to the regmap API
+config: loongarch-randconfig-m041-20230305 (https://download.01.org/0day-ci/archive/20230306/202303060606.ooBzB3pr-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/r/202303061313.W9qVh3BN-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Link: https://lore.kernel.org/r/202303060606.ooBzB3pr-lkp@intel.com/
 
-clang_analyzer warnings: (new ones prefixed by >>)
-                                 ^
-   io_uring/io_uring.c:10986:3: note: Assuming the condition is false
-                   if (io_match_task_safe(de->req, task, cancel_all)) {
-                   ^
-   include/linux/compiler.h:56:45: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_var'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
-                                                                       ~~~~~~~~~~~~~~~~~^~~~~
-   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_value'
-           (cond) ?                                        \
-            ^~~~
-   io_uring/io_uring.c:10986:3: note: '?' condition is true
-                   if (io_match_task_safe(de->req, task, cancel_all)) {
-                   ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_var'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_value'
-           (cond) ?                                        \
-           ^
-   io_uring/io_uring.c:10986:3: note: Taking true branch
-                   if (io_match_task_safe(de->req, task, cancel_all)) {
-                   ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   io_uring/io_uring.c:10988:4: note:  Execution continues on line 10991
-                           break;
-                           ^
-   io_uring/io_uring.c:10992:2: note: Assuming the condition is false
-           if (list_empty(&list))
-           ^
-   include/linux/compiler.h:56:45: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_var'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
-                                                      ^~~~
-   io_uring/io_uring.c:10992:2: note: '?' condition is false
-           if (list_empty(&list))
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_var'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
-                                 ^
-   io_uring/io_uring.c:10992:2: note: Assuming the condition is true
-           if (list_empty(&list))
-           ^
-   include/linux/compiler.h:56:45: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_var'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
-                                                                       ~~~~~~~~~~~~~~~~~^~~~~
-   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_value'
-           (cond) ?                                        \
-            ^~~~
-   io_uring/io_uring.c:10992:2: note: '?' condition is false
-           if (list_empty(&list))
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_var'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_value'
-           (cond) ?                                        \
-           ^
-   io_uring/io_uring.c:10992:2: note: Taking false branch
-           if (list_empty(&list))
-           ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   io_uring/io_uring.c:10995:9: note: Assuming the condition is true
-           while (!list_empty(&list)) {
-                  ^~~~~~~~~~~~~~~~~~
-   io_uring/io_uring.c:10995:2: note: Loop condition is true.  Entering loop body
-           while (!list_empty(&list)) {
-           ^
-   io_uring/io_uring.c:10999:3: note: Memory is released
-                   kfree(de);
-                   ^~~~~~~~~
-   io_uring/io_uring.c:10995:9: note: Assuming the condition is true
-           while (!list_empty(&list)) {
-                  ^~~~~~~~~~~~~~~~~~
-   io_uring/io_uring.c:10995:2: note: Loop condition is true.  Entering loop body
-           while (!list_empty(&list)) {
-           ^
-   io_uring/io_uring.c:10998:26: note: Use of memory after it is freed
-                   io_req_complete_failed(de->req, -ECANCELED);
-                                          ^~~~~~~
->> io_uring/io_uring.c:10999:3: warning: Argument to kfree() is the address of the local variable 'list', which is not memory allocated by malloc() [clang-analyzer-unix.Malloc]
-                   kfree(de);
-                   ^
-   io_uring/io_uring.c:11033:31: note: Assuming 'task' is null
-           struct io_uring_task *tctx = task ? task->io_uring : NULL;
-                                        ^~~~
-   io_uring/io_uring.c:11033:31: note: '?' condition is false
-   io_uring/io_uring.c:11036:6: note: Assuming field 'rings' is non-null
-           if (!ctx->rings)
-               ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_var'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
-                                                      ^~~~
-   io_uring/io_uring.c:11036:2: note: '?' condition is false
-           if (!ctx->rings)
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_var'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
-                                 ^
-   io_uring/io_uring.c:11036:12: note: Field 'rings' is non-null
-           if (!ctx->rings)
-                     ^
-   io_uring/io_uring.c:11036:2: note: '?' condition is false
-           if (!ctx->rings)
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_var'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_value'
-           (cond) ?                                        \
-           ^
-   io_uring/io_uring.c:11036:2: note: Taking false branch
-           if (!ctx->rings)
-           ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   io_uring/io_uring.c:11039:2: note: Loop condition is true.  Entering loop body
-           while (1) {
-           ^
-   io_uring/io_uring.c:11043:3: note: '?' condition is false
-                   if (!task) {
-                   ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_var'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
-                                 ^
-   io_uring/io_uring.c:11043:8: note: 'task' is null
-                   if (!task) {
-                        ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_var'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
-                                                                                        ^~~~
-   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_value'
-           (cond) ?                                        \
-            ^~~~
-   io_uring/io_uring.c:11043:3: note: '?' condition is true
-                   if (!task) {
-                   ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_var'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_value'
-           (cond) ?                                        \
-           ^
-   io_uring/io_uring.c:11043:3: note: Taking true branch
-                   if (!task) {
-                   ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   io_uring/io_uring.c:11056:8: note: Assuming the condition is false
-                   if ((!(ctx->flags & IORING_SETUP_SQPOLL) && cancel_all) ||
-                        ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_var'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
-                                                      ^~~~
-   io_uring/io_uring.c:11056:44: note: Left side of '&&' is false
-                   if ((!(ctx->flags & IORING_SETUP_SQPOLL) && cancel_all) ||
-                                                            ^
-   io_uring/io_uring.c:11057:8: note: Assuming field 'sq_data' is null
+smatch warnings:
+drivers/gpio/gpio-pcie-idio-24.c:365 idio_24_probe() error: potentially dereferencing uninitialized 'idio24gpio'.
 
-vim +/list +10999 io_uring/io_uring.c
+vim +/idio24gpio +365 drivers/gpio/gpio-pcie-idio-24.c
 
-b711d4eaf0c408 fs/io_uring.c Jens Axboe     2020-08-16  10976  
-c072481ded14bc fs/io_uring.c Pavel Begunkov 2021-10-04  10977  static __cold bool io_cancel_defer_files(struct io_ring_ctx *ctx,
-c072481ded14bc fs/io_uring.c Pavel Begunkov 2021-10-04  10978  					 struct task_struct *task,
-c072481ded14bc fs/io_uring.c Pavel Begunkov 2021-10-04  10979  					 bool cancel_all)
-b7ddce3cbf010e fs/io_uring.c Pavel Begunkov 2020-09-06  10980  {
-e1915f76a8981f fs/io_uring.c Pavel Begunkov 2021-03-11  10981  	struct io_defer_entry *de;
-b7ddce3cbf010e fs/io_uring.c Pavel Begunkov 2020-09-06  10982  	LIST_HEAD(list);
-b7ddce3cbf010e fs/io_uring.c Pavel Begunkov 2020-09-06  10983  
-79ebeaee8a21a0 fs/io_uring.c Jens Axboe     2021-08-10  10984  	spin_lock(&ctx->completion_lock);
-b7ddce3cbf010e fs/io_uring.c Pavel Begunkov 2020-09-06  10985  	list_for_each_entry_reverse(de, &ctx->defer_list, list) {
-6af3f48bf6156a fs/io_uring.c Pavel Begunkov 2021-11-26  10986  		if (io_match_task_safe(de->req, task, cancel_all)) {
-b7ddce3cbf010e fs/io_uring.c Pavel Begunkov 2020-09-06  10987  			list_cut_position(&list, &ctx->defer_list, &de->list);
-b7ddce3cbf010e fs/io_uring.c Pavel Begunkov 2020-09-06  10988  			break;
-b7ddce3cbf010e fs/io_uring.c Pavel Begunkov 2020-09-06  10989  		}
-b7ddce3cbf010e fs/io_uring.c Pavel Begunkov 2020-09-06  10990  	}
-79ebeaee8a21a0 fs/io_uring.c Jens Axboe     2021-08-10  10991  	spin_unlock(&ctx->completion_lock);
-e1915f76a8981f fs/io_uring.c Pavel Begunkov 2021-03-11  10992  	if (list_empty(&list))
-e1915f76a8981f fs/io_uring.c Pavel Begunkov 2021-03-11  10993  		return false;
-b7ddce3cbf010e fs/io_uring.c Pavel Begunkov 2020-09-06  10994  
-b7ddce3cbf010e fs/io_uring.c Pavel Begunkov 2020-09-06 @10995  	while (!list_empty(&list)) {
-b7ddce3cbf010e fs/io_uring.c Pavel Begunkov 2020-09-06  10996  		de = list_first_entry(&list, struct io_defer_entry, list);
-b7ddce3cbf010e fs/io_uring.c Pavel Begunkov 2020-09-06  10997  		list_del_init(&de->list);
-f41db2732d4835 fs/io_uring.c Pavel Begunkov 2021-02-28  10998  		io_req_complete_failed(de->req, -ECANCELED);
-b7ddce3cbf010e fs/io_uring.c Pavel Begunkov 2020-09-06 @10999  		kfree(de);
-b7ddce3cbf010e fs/io_uring.c Pavel Begunkov 2020-09-06  11000  	}
-e1915f76a8981f fs/io_uring.c Pavel Begunkov 2021-03-11  11001  	return true;
-b7ddce3cbf010e fs/io_uring.c Pavel Begunkov 2020-09-06  11002  }
-b7ddce3cbf010e fs/io_uring.c Pavel Begunkov 2020-09-06  11003  
+58556204662812 William Breathitt Gray 2018-01-09  330  static int idio_24_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+58556204662812 William Breathitt Gray 2018-01-09  331  {
+58556204662812 William Breathitt Gray 2018-01-09  332  	struct device *const dev = &pdev->dev;
+58556204662812 William Breathitt Gray 2018-01-09  333  	struct idio_24_gpio *idio24gpio;
+58556204662812 William Breathitt Gray 2018-01-09  334  	int err;
+10a2f11d3c9e48 Arnaud de Turckheim    2020-11-04  335  	const size_t pci_plx_bar_index = 1;
+58556204662812 William Breathitt Gray 2018-01-09  336  	const size_t pci_bar_index = 2;
+58556204662812 William Breathitt Gray 2018-01-09  337  	const char *const name = pci_name(pdev);
+e60d5c32ff098c William Breathitt Gray 2023-03-05  338  	struct gpio_regmap_config gpio_config = {};
+e60d5c32ff098c William Breathitt Gray 2023-03-05  339  	void __iomem *pex8311_intcsr;
+e60d5c32ff098c William Breathitt Gray 2023-03-05  340  	void __iomem *idio_24_regs;
+e60d5c32ff098c William Breathitt Gray 2023-03-05  341  	struct regmap *pex8311_intcsr_map;
+e60d5c32ff098c William Breathitt Gray 2023-03-05  342  	struct regmap_irq_chip *chip;
+e60d5c32ff098c William Breathitt Gray 2023-03-05  343  	struct regmap_irq_chip_data *chip_data;
+58556204662812 William Breathitt Gray 2018-01-09  344  
+58556204662812 William Breathitt Gray 2018-01-09  345  	err = pcim_enable_device(pdev);
+58556204662812 William Breathitt Gray 2018-01-09  346  	if (err) {
+58556204662812 William Breathitt Gray 2018-01-09  347  		dev_err(dev, "Failed to enable PCI device (%d)\n", err);
+58556204662812 William Breathitt Gray 2018-01-09  348  		return err;
+58556204662812 William Breathitt Gray 2018-01-09  349  	}
+58556204662812 William Breathitt Gray 2018-01-09  350  
+10a2f11d3c9e48 Arnaud de Turckheim    2020-11-04  351  	err = pcim_iomap_regions(pdev, BIT(pci_plx_bar_index) | BIT(pci_bar_index), name);
+58556204662812 William Breathitt Gray 2018-01-09  352  	if (err) {
+58556204662812 William Breathitt Gray 2018-01-09  353  		dev_err(dev, "Unable to map PCI I/O addresses (%d)\n", err);
+58556204662812 William Breathitt Gray 2018-01-09  354  		return err;
+58556204662812 William Breathitt Gray 2018-01-09  355  	}
+58556204662812 William Breathitt Gray 2018-01-09  356  
+e60d5c32ff098c William Breathitt Gray 2023-03-05  357  	pex8311_intcsr = pcim_iomap_table(pdev)[pci_plx_bar_index] + PLX_PEX8311_PCI_LCS_INTCSR;
+e60d5c32ff098c William Breathitt Gray 2023-03-05  358  	idio_24_regs = pcim_iomap_table(pdev)[pci_bar_index];
+e60d5c32ff098c William Breathitt Gray 2023-03-05  359  
+e60d5c32ff098c William Breathitt Gray 2023-03-05  360  	pex8311_intcsr_map = devm_regmap_init_mmio(dev, pex8311_intcsr,
+e60d5c32ff098c William Breathitt Gray 2023-03-05  361  						   &pex8311_intcsr_regmap_config);
+e60d5c32ff098c William Breathitt Gray 2023-03-05  362  	if (IS_ERR(pex8311_intcsr_map))
+e60d5c32ff098c William Breathitt Gray 2023-03-05  363  		return dev_err_probe(dev, PTR_ERR(pex8311_intcsr_map),
+e60d5c32ff098c William Breathitt Gray 2023-03-05  364  				     "Unable to initialize PEX8311 register map\n");
+e60d5c32ff098c William Breathitt Gray 2023-03-05 @365  	idio24gpio->map = devm_regmap_init_mmio(dev, idio_24_regs,
+e60d5c32ff098c William Breathitt Gray 2023-03-05  366  					    &idio_24_regmap_config);
 
-:::::: The code at line 10999 was first introduced by commit
-:::::: b7ddce3cbf010edbfac6c6d8cc708560a7bcd7a4 io_uring: fix cancel of deferred reqs with ->files
+Heh.  This needs to be after the idio24gpio = devm_kzalloc().
 
-:::::: TO: Pavel Begunkov <asml.silence@gmail.com>
-:::::: CC: Jens Axboe <axboe@kernel.dk>
+e60d5c32ff098c William Breathitt Gray 2023-03-05  367  	if (IS_ERR(idio24gpio->map))
+e60d5c32ff098c William Breathitt Gray 2023-03-05  368  		return dev_err_probe(dev, PTR_ERR(idio24gpio->map),
+e60d5c32ff098c William Breathitt Gray 2023-03-05  369  				     "Unable to initialize register map\n");
+e60d5c32ff098c William Breathitt Gray 2023-03-05  370  
+e60d5c32ff098c William Breathitt Gray 2023-03-05  371  	idio24gpio = devm_kzalloc(dev, sizeof(*idio24gpio), GFP_KERNEL);
+e60d5c32ff098c William Breathitt Gray 2023-03-05  372  	if (!idio24gpio)
+e60d5c32ff098c William Breathitt Gray 2023-03-05  373  		return -ENOMEM;
+e60d5c32ff098c William Breathitt Gray 2023-03-05  374  
+e60d5c32ff098c William Breathitt Gray 2023-03-05  375  	mutex_init(&idio24gpio->lock);
+e60d5c32ff098c William Breathitt Gray 2023-03-05  376  
+e60d5c32ff098c William Breathitt Gray 2023-03-05  377  	/* Initialize all IRQ type configuration to IRQ_TYPE_EDGE_BOTH */
+e60d5c32ff098c William Breathitt Gray 2023-03-05  378  	idio24gpio->irq_type = GENMASK(7, 0);
+e60d5c32ff098c William Breathitt Gray 2023-03-05  379  
+e60d5c32ff098c William Breathitt Gray 2023-03-05  380  	chip = devm_kzalloc(dev, sizeof(*chip), GFP_KERNEL);
+e60d5c32ff098c William Breathitt Gray 2023-03-05  381  	if (!chip)
+e60d5c32ff098c William Breathitt Gray 2023-03-05  382  		return -ENOMEM;
+e60d5c32ff098c William Breathitt Gray 2023-03-05  383  
+e60d5c32ff098c William Breathitt Gray 2023-03-05  384  	chip->name = name;
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
+
