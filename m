@@ -1,42 +1,52 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DA9C6FC5
-	for <oe-kbuild@lists.linux.dev>; Mon,  6 Mar 2023 20:00:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678132836; x=1709668836;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=xpPFqotH5kavjw3fnjeK+JXWkm81EWUsLJyFl2lZ2Ak=;
-  b=g+4k54bNj85txysMPOuITHmEF34+bvyzgv95esf6lMxejON9iL1rjp/x
-   4KsPBbmphXvBjGsjvEDHwLnm1eZTHMSq1wpXyRsr/gNJmeWuG1Dw+4kD0
-   E9lJ08o2/EATY8WuH98rDxKTUaLN+QAVmvY2QpaaJQjnVsfD9AkavKzQ+
-   Ame/KyCL6s/HMRaJRL4dEgl8IuY5C6Gq71yIOeDK7c7khGg2gewJ5AFGJ
-   WA+nATxZ2cur9eU4lz3dEd2RVLNftfLNXvNOsx8fuzLm43lyRpgaGS5yy
-   kj/b3lK6pEy4RzyfTsRFXKG0GeERPR+XSEcrpnB7BRQ0yz8zFmhMmwc6b
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10641"; a="400485133"
-X-IronPort-AV: E=Sophos;i="5.98,238,1673942400"; 
-   d="scan'208";a="400485133"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2023 12:00:34 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10641"; a="800115379"
-X-IronPort-AV: E=Sophos;i="5.98,238,1673942400"; 
-   d="scan'208";a="800115379"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 06 Mar 2023 12:00:32 -0800
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pZH0Z-0000b2-1s;
-	Mon, 06 Mar 2023 20:00:31 +0000
-Date: Tue, 7 Mar 2023 04:00:27 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E25D9625;
+	Tue,  7 Mar 2023 07:00:51 +0000 (UTC)
+Received: by mail-ed1-f43.google.com with SMTP id cw28so48385453edb.5;
+        Mon, 06 Mar 2023 23:00:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1678172450;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=OllWu/x0YS4IDyiEOBxjIGHj9Rwgxd9t7kuEaBnnn2A=;
+        b=AtnN0aEcuukaA7JJL6bRVsTaKgHKxjE/WWKr51lYDTkcnJtB+wFDyZAz+Z29+VPRbZ
+         mUNOgX4V9jjJkr8/dd8iyV/SH5WKB668dz94N65NOsQBJtqUbT0Dm+zN1VLYvHKqDHyN
+         IBG0h/5A9i6qgJQAgMmWiQTTIQGAotlYAqpr/VEzjJmt2Hls0PSSWMVEqhlF5OJPB+EA
+         T7+HVrjBo0vzh1QrPw4pGXTpp3Pz5a3AFRt/PQD86p+kVoYfKtVEtaQ2VA+DUxOjNxqI
+         psjIYjoaldQ5jBu8CXgAA3SCzaCNA5LgAYvC1zne/biU6bxL3bepqPFxByVYPixL2LuF
+         gbDQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678172450;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=OllWu/x0YS4IDyiEOBxjIGHj9Rwgxd9t7kuEaBnnn2A=;
+        b=izV9NkYnqy7Ajg+6G+eMdAT3a9/Y2NiZTBcPn2LOjjVVGW/jBT4Q0eo9c2cOcguLX8
+         lxixUiSrW0DbOIOr0e4KAlIQ/OKL12DivyrjZNeZn686PwukpujGk0+g7c4wHJBZxdQp
+         EAZq1qH8weXMY+VmF2IFORa9VsPHtfQ2KUKsTLBjCVEzgWhJ1sDvpLurFf5/LcrsMatA
+         8e0KOeLadQsiNf71eogSe6cByiCcVQauNMG/zgGhrqzKSZfD9HBa4kBgI/FVV18OS2xt
+         Nxuy5X9sq+P4nm+wVoYzU3ANTWed20gd1j6VWz1mbuVwPvRrMrL0Tbi6u3LOcr9yFyZq
+         hpCA==
+X-Gm-Message-State: AO0yUKXdUccQeUjNY/oLQzzucpOj9D4GsHidhTs6TxbRPbuiN/tuqxvr
+	AAjFyFIwZVAgLv0CejDP5O+bk50R3v4=
+X-Google-Smtp-Source: AK7set8eOf5f3ly9d4Y2tK0fzarAMT/WCgjUjCGgf63PPf90Dz6aNKNvWatx22KAH9xZfLlmw+ly5g==
+X-Received: by 2002:a17:907:9713:b0:861:7a02:1046 with SMTP id jg19-20020a170907971300b008617a021046mr18778561ejc.37.1678172449732;
+        Mon, 06 Mar 2023 23:00:49 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id a8-20020a17090680c800b008cd1f773754sm5551939ejx.5.2023.03.06.23.00.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 06 Mar 2023 23:00:49 -0800 (PST)
+Date: Tue, 7 Mar 2023 10:00:46 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Stephen Boyd <sboyd@kernel.org>,
+	Miles Chen <miles.chen@mediatek.com>,
+	Chen-Yu Tsai <wenst@chromium.org>
 Subject: drivers/clk/mediatek/clk-mtk.c:573 mtk_clk_simple_probe() error:
  uninitialized symbol 'base'.
-Message-ID: <202303070308.4CPgt9yI-lkp@intel.com>
+Message-ID: <45712506-eea6-4ac9-950f-aea5bcb30e46@kili.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -46,20 +56,9 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-CC: Stephen Boyd <sboyd@kernel.org>
-CC: Miles Chen <miles.chen@mediatek.com>
-CC: "Chen-Yu Tsai" <wenst@chromium.org>
-
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   fe15c26ee26efa11741a7b632e9f23b01aca4cc6
 commit: 7b6183108c8ccf0dc295f39cdf78bd8078455636 clk: mediatek: clk-mtk: Extend mtk_clk_simple_probe()
-date:   5 weeks ago
-:::::: branch date: 21 hours ago
-:::::: commit date: 5 weeks ago
 config: microblaze-randconfig-m031-20230305 (https://download.01.org/0day-ci/archive/20230307/202303070308.4CPgt9yI-lkp@intel.com/config)
 compiler: microblaze-linux-gcc (GCC) 12.1.0
 
@@ -73,13 +72,14 @@ drivers/clk/mediatek/clk-mtk.c:573 mtk_clk_simple_probe() error: uninitialized s
 
 vim +/base +573 drivers/clk/mediatek/clk-mtk.c
 
-b87385eb5a8ed2 Chen-Yu Tsai               2022-02-08  465  
 c58cd0e40ffac6 Chun-Jie Chen              2021-07-26  466  int mtk_clk_simple_probe(struct platform_device *pdev)
 c58cd0e40ffac6 Chun-Jie Chen              2021-07-26  467  {
 c58cd0e40ffac6 Chun-Jie Chen              2021-07-26  468  	const struct mtk_clk_desc *mcd;
 609cc5e1a82394 Chen-Yu Tsai               2022-05-19  469  	struct clk_hw_onecell_data *clk_data;
 c58cd0e40ffac6 Chun-Jie Chen              2021-07-26  470  	struct device_node *node = pdev->dev.of_node;
 7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  471  	void __iomem *base;
+                                                                              ^^^^
+
 7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  472  	int num_clks, r;
 c58cd0e40ffac6 Chun-Jie Chen              2021-07-26  473  
 c58cd0e40ffac6 Chun-Jie Chen              2021-07-26  474  	mcd = of_device_get_match_data(&pdev->dev);
@@ -182,12 +182,14 @@ c58cd0e40ffac6 Chun-Jie Chen              2021-07-26  551
 6203815bf97eea Chun-Jie Chen              2021-09-14  571  free_data:
 6203815bf97eea Chun-Jie Chen              2021-09-14  572  	mtk_free_clk_data(clk_data);
 7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20 @573  	if (mcd->shared_io && base)
+                                                                                      ^^^^
+"base" is either valid or unitialized.
+
 7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  574  		iounmap(base);
 6203815bf97eea Chun-Jie Chen              2021-09-14  575  	return r;
 c58cd0e40ffac6 Chun-Jie Chen              2021-07-26  576  }
-7cbe5cb291fa3c AngeloGioacchino Del Regno 2022-09-21  577  EXPORT_SYMBOL_GPL(mtk_clk_simple_probe);
-32b028fb1d09a0 Miles Chen                 2021-09-02  578  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
+
