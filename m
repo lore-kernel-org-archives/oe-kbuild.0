@@ -1,42 +1,42 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 472F58462
-	for <oe-kbuild@lists.linux.dev>; Wed,  8 Mar 2023 18:06:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B95548BED
+	for <oe-kbuild@lists.linux.dev>; Wed,  8 Mar 2023 18:47:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678298764; x=1709834764;
+  t=1678301277; x=1709837277;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=uoyhJJVz8mRhmwNb2nUh1dNxjRLaV9YmQRQANujVc3w=;
-  b=G4t0hps8Vn97JbGiTuZkcpW8TNnNucZ5lKVLn0r/82AMuGElky+zwFwC
-   rXRANQ3D84aKoOPKjvZ6tLICW0upvgdy1UINbqbBux69/cG9ddT/+WfEC
-   E04C56yIy0O3St7Xlh6YR156NPqvHaNY40jBiNXgesUPmQEg+5rcxnePT
-   bs5Kk1KrhUQZ/nkOZsSHQTIBsO8Q3Eafw5buScZUib6qDm2FvSuqCun80
-   HpWF4F4Pc7dl07Lczzho6Yp3BdCg+CxbGK5rV3nZSRh4yqPhYqgKrDAgN
-   FXLbB9seRQFbZLC6bp01BFtE649dLFePDG2t2vQAlJNmGM+wtWhBIVP8a
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="324546698"
+  bh=1ZPJJx8ZyiC7qyjmcKUroUWGv6XZYUBxWVgi/eS083Y=;
+  b=JzsmJ+AzM0xt1Fc90t7h+hsCtRJi2d7U1TyLzvqrlHqNCIbJq/xznNIA
+   4lX9eJ9hH3Z/tV5zK5aNzkP0BBGrQuT24xENAQwPn/pfa2p1Maezv5Gcz
+   mU6eAImcUAH8gLDHhwZsz7iIepwKdY1Fwh2UY8Jlj49PGUFtW3HoXQqyX
+   +uKK9YsljVQfx5eA34IRzuc7SZ1Y2tG4dvBeHnDzlhwAAkvBNMXlFUgdo
+   B0SnW7PA5npYq6uMgwTvoz0HoQ4VXT+3IO0iqfG/CDZHrFld/7W33n2JH
+   4jDbPMl0JioV1qw7tzaO2srNsPJEbcfbcbElr3izhOgoOlea/5gxNtglP
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="316640985"
 X-IronPort-AV: E=Sophos;i="5.98,244,1673942400"; 
-   d="scan'208";a="324546698"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2023 10:06:03 -0800
+   d="scan'208";a="316640985"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2023 10:47:57 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="709520510"
+X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="1006432658"
 X-IronPort-AV: E=Sophos;i="5.98,244,1673942400"; 
-   d="scan'208";a="709520510"
+   d="scan'208";a="1006432658"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 08 Mar 2023 10:05:55 -0800
+  by fmsmga005.fm.intel.com with ESMTP; 08 Mar 2023 10:47:56 -0800
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pZyAk-0002KH-2M;
-	Wed, 08 Mar 2023 18:05:54 +0000
-Date: Thu, 9 Mar 2023 02:05:46 +0800
+	id 1pZypP-0002LR-1Z;
+	Wed, 08 Mar 2023 18:47:55 +0000
+Date: Thu, 9 Mar 2023 02:47:00 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH v4 bpf-next 3/8] bpf: add support for open-coded iterator
- loops
-Message-ID: <202303090153.YeswNcW4-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [linux-next:master 896/1915] ERROR: modpost: "fsi_driver_register"
+ [drivers/spi/spi-fsi.ko] undefined!
+Message-ID: <202303090232.opOTPBM1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -46,70 +46,50 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "low confidence static check first_new_problem: ERROR: modpost: "fsi_driver_register" [drivers/spi/spi-fsi.ko] undefined!"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20230308035416.2591326-4-andrii@kernel.org>
-References: <20230308035416.2591326-4-andrii@kernel.org>
-TO: Andrii Nakryiko <andrii@kernel.org>
-TO: bpf@vger.kernel.org
-TO: ast@kernel.org
-TO: daniel@iogearbox.net
-CC: andrii@kernel.org
-CC: kernel-team@meta.com
-CC: Tejun Heo <tj@kernel.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Mark Brown <broonie@kernel.org>
 
-Hi Andrii,
+Hi Mark,
 
-I love your patch! Perhaps something to improve:
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
 
-[auto build test WARNING on bpf-next/master]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Andrii-Nakryiko/bpf-factor-out-fetching-basic-kfunc-metadata/20230308-115539
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20230308035416.2591326-4-andrii%40kernel.org
-patch subject: [PATCH v4 bpf-next 3/8] bpf: add support for open-coded iterator loops
-:::::: branch date: 14 hours ago
-:::::: commit date: 14 hours ago
-config: loongarch-randconfig-m041-20230305 (https://download.01.org/0day-ci/archive/20230309/202303090153.YeswNcW4-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   fc31900c948610e7b5c2f15fb7795832c8325327
+commit: f916c7080d28831493518364492e33fc6a437907 [896/1915] spi: fsi: Make available for build test
+:::::: branch date: 17 hours ago
+:::::: commit date: 3 days ago
+config: mips-randconfig-s043-20230308 (https://download.01.org/0day-ci/archive/20230309/202303090232.opOTPBM1-lkp@intel.com/config)
+compiler: mips64-linux-gcc (GCC) 12.1.0
+reproduce:
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=f916c7080d28831493518364492e33fc6a437907
+        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+        git fetch --no-tags linux-next master
+        git checkout f916c7080d28831493518364492e33fc6a437907
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=mips olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=mips SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202303090153.YeswNcW4-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202303090232.opOTPBM1-lkp@intel.com/
 
-smatch warnings:
-kernel/bpf/verifier.c:1244 is_iter_reg_valid_uninit() error: uninitialized symbol 'j'.
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-vim +/j +1244 kernel/bpf/verifier.c
-
-8f263e1296a91f Andrii Nakryiko 2023-03-07  1224  
-8f263e1296a91f Andrii Nakryiko 2023-03-07  1225  static bool is_iter_reg_valid_uninit(struct bpf_verifier_env *env,
-8f263e1296a91f Andrii Nakryiko 2023-03-07  1226  				     struct bpf_reg_state *reg, int nr_slots)
-8f263e1296a91f Andrii Nakryiko 2023-03-07  1227  {
-8f263e1296a91f Andrii Nakryiko 2023-03-07  1228  	struct bpf_func_state *state = func(env, reg);
-8f263e1296a91f Andrii Nakryiko 2023-03-07  1229  	int spi, i, j;
-8f263e1296a91f Andrii Nakryiko 2023-03-07  1230  
-8f263e1296a91f Andrii Nakryiko 2023-03-07  1231  	/* For -ERANGE (i.e. spi not falling into allocated stack slots), we
-8f263e1296a91f Andrii Nakryiko 2023-03-07  1232  	 * will do check_mem_access to check and update stack bounds later, so
-8f263e1296a91f Andrii Nakryiko 2023-03-07  1233  	 * return true for that case.
-8f263e1296a91f Andrii Nakryiko 2023-03-07  1234  	 */
-8f263e1296a91f Andrii Nakryiko 2023-03-07  1235  	spi = iter_get_spi(env, reg, nr_slots);
-8f263e1296a91f Andrii Nakryiko 2023-03-07  1236  	if (spi == -ERANGE)
-8f263e1296a91f Andrii Nakryiko 2023-03-07  1237  		return true;
-8f263e1296a91f Andrii Nakryiko 2023-03-07  1238  	if (spi < 0)
-8f263e1296a91f Andrii Nakryiko 2023-03-07  1239  		return spi;
-8f263e1296a91f Andrii Nakryiko 2023-03-07  1240  
-8f263e1296a91f Andrii Nakryiko 2023-03-07  1241  	for (i = 0; i < nr_slots; i++) {
-8f263e1296a91f Andrii Nakryiko 2023-03-07  1242  		struct bpf_stack_state *slot = &state->stack[spi - i];
-8f263e1296a91f Andrii Nakryiko 2023-03-07  1243  
-8f263e1296a91f Andrii Nakryiko 2023-03-07 @1244  		if (slot->slot_type[j] == STACK_ITER)
-8f263e1296a91f Andrii Nakryiko 2023-03-07  1245  			return false;
-8f263e1296a91f Andrii Nakryiko 2023-03-07  1246  	}
-8f263e1296a91f Andrii Nakryiko 2023-03-07  1247  
-8f263e1296a91f Andrii Nakryiko 2023-03-07  1248  	return true;
-8f263e1296a91f Andrii Nakryiko 2023-03-07  1249  }
-8f263e1296a91f Andrii Nakryiko 2023-03-07  1250  
+>> ERROR: modpost: "fsi_driver_register" [drivers/spi/spi-fsi.ko] undefined!
+>> ERROR: modpost: "fsi_driver_unregister" [drivers/spi/spi-fsi.ko] undefined!
+>> ERROR: modpost: "fsi_slave_read" [drivers/spi/spi-fsi.ko] undefined!
+>> ERROR: modpost: "fsi_bus_type" [drivers/spi/spi-fsi.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
