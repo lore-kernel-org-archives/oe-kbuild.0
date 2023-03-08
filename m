@@ -1,120 +1,94 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E6517B;
-	Wed,  8 Mar 2023 07:25:27 +0000 (UTC)
-Received: by mail-wm1-f54.google.com with SMTP id d41-20020a05600c4c2900b003e9e066550fso518861wmp.4;
-        Tue, 07 Mar 2023 23:25:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678260325;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ouKSKcEVxqIc1215zyjz9fsubwtImmKL7ZeW1HVjv5A=;
-        b=Ar1Kw+3Cd8R9WsbkF8PpjiTEkqaWgDtMf9g8slDb1drzA+acsM5DiVLC2Q8Pxou7HN
-         WHYA5jAGtWiNm6JGZ7ls9imUThUG3zYND/kC0ovl9mOhu4mx73N8VCIQ0UspL9AFrZV/
-         d6SrsVfeeOSFMNOnmWMPU/Ka52g3KksoYU7fa9kzEV+0OONRXm07PI0J6i3WpWervYxR
-         4umc31qGg4bSZ9r+9kC+OwV4nDQRCLUZPmz11OIFYF3UceMfMyB8MYjJ8TX7cxSEiiYh
-         Y6S9jpvybYUhk4QvxKxHueiUZP7wjiEXL7l1kv7uHbiSp4JEDTHSXSsM0Y/uIk8KuO1C
-         QUEg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678260325;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ouKSKcEVxqIc1215zyjz9fsubwtImmKL7ZeW1HVjv5A=;
-        b=hZflS03RVoropZH+DAWUIDcgMpq+HegnEW27m/OQpbU7QwdXTFJamTE24leD0+MzjD
-         prb3r11oF/R6mkwBiBYq5bYHrXPodOUN7dfm8UcbX29vxzlqkHx7CMjKS3RKNX92/mIg
-         cpkxqDyjbz/XVa4WMHxOk0RxlRNsAznfVFvx27Q15n8nuAQl6e61khIHW2LWhQlWwSBz
-         BSABahtCTgHQAY7GaoRlum8aH0t4d7Pvg9tdXeQeh65k10k/ceDMchE/0iDg1M8wOXTC
-         rvdMY31lNqysg7pzyRZyKQnHn0bxt0qkFBMKAqIqd4z5XexAPMcxqSpppPv9TCjbabgk
-         Hf2A==
-X-Gm-Message-State: AO0yUKVbA0v9fj4glOGGWA9vfXHdyqYmLpp5ndvn2u8KFlgx2EH8NXor
-	xGpP88J/E7J/mH0k3c4HpDL5tPEyq0A=
-X-Google-Smtp-Source: AK7set80Sf5TgjubnRfPClcG0YQkC7SpHnnE6aUHOpcXOKzbncuY3weU4cMxaZXyW5pt2RTOk/xalA==
-X-Received: by 2002:a05:600c:1c95:b0:3e2:1dac:b071 with SMTP id k21-20020a05600c1c9500b003e21dacb071mr12083247wms.13.1678260325104;
-        Tue, 07 Mar 2023 23:25:25 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id hu21-20020a05600ca29500b003eaee9e0d22sm14940691wmb.33.2023.03.07.23.25.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Mar 2023 23:25:24 -0800 (PST)
-Date: Wed, 8 Mar 2023 10:25:20 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev,
-	Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [intel-tdx:guest-filter-upstream 5/31]
- drivers/base/da_firmware.c:189 parse_firmware_data() warn: variable
- dereferenced before check 'bnode' (see line 187)
-Message-ID: <8034dfc2-f83d-4f75-b7e1-40ae52bacaf8@kili.mountain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1E7C7B
+	for <oe-kbuild@lists.linux.dev>; Wed,  8 Mar 2023 07:52:21 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id D8392219CB;
+	Wed,  8 Mar 2023 07:52:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1678261933; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ajLJgfxVW7toycKUmqFHYGhNrFyJxe76oJOYl0j9fF4=;
+	b=yJWtV8QqKc/IUYslYDebBr+swXwwAaEjnkg/dULLsk7E2Jg6BgtZ56eOmdrvgtFkfyHWrF
+	8fpLROVh7eW0zbN4m1dGAnbY9JmlwdMJxc5KMLEebj0EjyOFW6acfHeqrXzJoLS5LqxPcX
+	VH83sRJZe6sJH73cfp1vNaAtachqLRU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1678261933;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ajLJgfxVW7toycKUmqFHYGhNrFyJxe76oJOYl0j9fF4=;
+	b=SpWznofVbE8h/bHADY7wN1pEKYEVByRT1rFyCYQ8JDeq12nPH3Jo/qN4n1JbPAQNH/cHhO
+	UGskiNJ2aSz3mLAw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A2D451391B;
+	Wed,  8 Mar 2023 07:52:13 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id B6apJq0+CGSQAwAAMHmgww
+	(envelope-from <vbabka@suse.cz>); Wed, 08 Mar 2023 07:52:13 +0000
+Message-ID: <651ee4e5-b298-606e-938f-0e49fdf295c3@suse.cz>
+Date: Wed, 8 Mar 2023 08:52:33 +0100
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: Who is looking at CVEs to prevent them?
+To: Dan Carpenter <error27@gmail.com>, oe-kbuild@lists.linux.dev,
+ lkp@intel.com
+Cc: Hillf Danton <hdanton@sina.com>,
+ Masami Ichikawa <masami.ichikawa@miraclelinux.com>,
+ cip-dev <cip-dev@lists.cip-project.org>, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, lwn@lwn.net, smatch@vger.kernel.org
+References: <CAODzB9qjdhQkZ+tALHpDLHoK7GAf8Uybfzp8mxXt=Dwnn_0RjA@mail.gmail.com>
+ <20230307110029.1947-1-hdanton@sina.com>
+ <b27c7950-873a-f0e9-d7b4-322bb941a11f@suse.cz>
+ <6d1ad8e9-2bec-4cd4-b4dd-595c88855274@kili.mountain>
+Content-Language: en-US
+From: Vlastimil Babka <vbabka@suse.cz>
+In-Reply-To: <6d1ad8e9-2bec-4cd4-b4dd-595c88855274@kili.mountain>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-tree:   https://github.com/intel/tdx.git guest-filter-upstream
-head:   6bcd8bef8871c6a80cb55b1cbb2651111da10890
-commit: d0c26c6546ae5c1271597dc8fa1633456881afab [5/31] driver core: Add support to parse device authorize firmware
-config: loongarch-randconfig-m041-20230305 (https://download.01.org/0day-ci/archive/20230308/202303080452.BPTZeOyI-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 12.1.0
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202303080452.BPTZeOyI-lkp@intel.com/
 
-New smatch warnings:
-drivers/base/da_firmware.c:189 parse_firmware_data() warn: variable dereferenced before check 'bnode' (see line 187)
+On 3/7/23 12:53, Dan Carpenter wrote:
+> On Tue, Mar 07, 2023 at 12:42:03PM +0100, Vlastimil Babka wrote:
+>> Why do you keep adding linux-mm to the Cc list of random threads that are
+>> not about MM?
+> 
+> That's kbuild-bot stuff.  The kbuild-bot generates those emails and I
+> just look them over and hit send.
 
-Old smatch warnings:
-drivers/base/da_firmware.c:146 parse_firmware_devices() warn: Please consider using kcalloc instead of kmalloc_array
+Sorry, wasn't clear that I was asking Hillf who did the Cc on this
+thread and other threads (not only kbuild bot threads).
 
-vim +/bnode +189 drivers/base/da_firmware.c
+> I don't why the kbuild bot CCs linux-mm either...  Let me ask the devs
+> about that.  A lot of the -mm warning are correct but just the CC list
+> is weird.
 
-d0c26c6546ae5c Kuppuswamy Sathyanarayanan 2022-12-22  169  static int __init parse_firmware_data(struct cpio_data *cpio)
-d0c26c6546ae5c Kuppuswamy Sathyanarayanan 2022-12-22  170  {
-d0c26c6546ae5c Kuppuswamy Sathyanarayanan 2022-12-22  171  	struct da_firmware_hdr *fhdr = cpio->data;
-d0c26c6546ae5c Kuppuswamy Sathyanarayanan 2022-12-22  172  	void *cur = cpio->data, *end;
-d0c26c6546ae5c Kuppuswamy Sathyanarayanan 2022-12-22  173  	struct da_bus_node *bnode;
-d0c26c6546ae5c Kuppuswamy Sathyanarayanan 2022-12-22  174  	struct da_bus_hdr *bhdr;
-d0c26c6546ae5c Kuppuswamy Sathyanarayanan 2022-12-22  175  	size_t size;
-d0c26c6546ae5c Kuppuswamy Sathyanarayanan 2022-12-22  176  
-d0c26c6546ae5c Kuppuswamy Sathyanarayanan 2022-12-22  177  	pr_debug("firmware version: %d.%d type: %d count: %d\n",
-d0c26c6546ae5c Kuppuswamy Sathyanarayanan 2022-12-22  178  		 fhdr->major_ver, fhdr->minor_ver, fhdr->type, fhdr->count);
-d0c26c6546ae5c Kuppuswamy Sathyanarayanan 2022-12-22  179  
-d0c26c6546ae5c Kuppuswamy Sathyanarayanan 2022-12-22  180  	cur = cur + sizeof(*fhdr);
-d0c26c6546ae5c Kuppuswamy Sathyanarayanan 2022-12-22  181  	end = cur + cpio->size - sizeof(struct da_bus_hdr);
-d0c26c6546ae5c Kuppuswamy Sathyanarayanan 2022-12-22  182  
-d0c26c6546ae5c Kuppuswamy Sathyanarayanan 2022-12-22  183  	while (cur <= end) {
-d0c26c6546ae5c Kuppuswamy Sathyanarayanan 2022-12-22  184  		bhdr = (struct da_bus_hdr *)cur;
-d0c26c6546ae5c Kuppuswamy Sathyanarayanan 2022-12-22  185  		bnode = alloc_bus_node(bhdr->bus, bhdr->count);
-d0c26c6546ae5c Kuppuswamy Sathyanarayanan 2022-12-22  186  		list_add_tail(&bnode->list, &platform_da_list);
-                                                                                       ^^^^^^^^^^^
+Sure, it's fine if a bug is suspected to be mm related that linux-mm is
+Cc'd, even if it turns out a wrong guess in the end.
 
-d0c26c6546ae5c Kuppuswamy Sathyanarayanan 2022-12-22 @187  		pr_debug("parsing %s node count:%d\n", bnode->name, bnode->count);
-                                                                                                               ^^^^^^^^^^^^^^^^^^^^^^^^^
-Dereferences.
-
-d0c26c6546ae5c Kuppuswamy Sathyanarayanan 2022-12-22  188  		cur =  cur + sizeof(*bhdr);
-d0c26c6546ae5c Kuppuswamy Sathyanarayanan 2022-12-22 @189  		if (!bnode)
-                                                                            ^^^^^^^
-Check needs to be earlier.
-
-d0c26c6546ae5c Kuppuswamy Sathyanarayanan 2022-12-22  190  			goto out;
-d0c26c6546ae5c Kuppuswamy Sathyanarayanan 2022-12-22  191  		size = parse_firmware_devices(bnode, cur);
-d0c26c6546ae5c Kuppuswamy Sathyanarayanan 2022-12-22  192  		cur = cur + size;
-d0c26c6546ae5c Kuppuswamy Sathyanarayanan 2022-12-22  193  	}
-d0c26c6546ae5c Kuppuswamy Sathyanarayanan 2022-12-22  194  
-d0c26c6546ae5c Kuppuswamy Sathyanarayanan 2022-12-22  195  	return 0;
-d0c26c6546ae5c Kuppuswamy Sathyanarayanan 2022-12-22  196  
-d0c26c6546ae5c Kuppuswamy Sathyanarayanan 2022-12-22  197  out:
-d0c26c6546ae5c Kuppuswamy Sathyanarayanan 2022-12-22  198  	free_da_list(&platform_da_list);
-d0c26c6546ae5c Kuppuswamy Sathyanarayanan 2022-12-22  199  	return -EINVAL;
-d0c26c6546ae5c Kuppuswamy Sathyanarayanan 2022-12-22  200  }
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
-
+> The kbuild-bot stuff is really nice for me.  The kbuild-bot doesn't use
+> the cross function DB so everything is local to the function and easy to
+> review.
+> 
+> regards,
+> dan carpenter
+> 
+> 
