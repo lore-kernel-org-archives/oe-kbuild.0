@@ -1,42 +1,51 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4B3163D
-	for <oe-kbuild@lists.linux.dev>; Thu,  9 Mar 2023 04:30:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678336211; x=1709872211;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=nyUbugMFVkDnDrlOscHXqvjChRs5UVQe8hvagdAOZME=;
-  b=Zou7npqikOvhji7Vifq1eYPNHAs7dohau78jOJfkooh7WCoCwJ28QDta
-   DYffKNOujLvi4FBcPFVTnCvqBoSZQySBDmdyHzjkRkux6ZFvdEAVBL8oF
-   rnl7FGLKyMagKH0362ueMKBxaf7oqIt3Fyo8F5sGoEs3v+41z8wGvJzE8
-   WYbBndA1I6YiXGfVnAWQyzM7LCg0iJhvX8YAfVz0m8G+3nNXwNZusSVNC
-   PejI3i3uDyxZQvxpcxM2NWdJY8+3qLHsjVXSW6HcUUUVDUxLDLBsUxzal
-   A/E6Sk4/XoKTiQh13gaO7OpqiV6pRILbqoN4fdeh6iUDQZebYuEtKEJVJ
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="422621365"
-X-IronPort-AV: E=Sophos;i="5.98,245,1673942400"; 
-   d="scan'208";a="422621365"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2023 20:30:10 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="670588644"
-X-IronPort-AV: E=Sophos;i="5.98,245,1673942400"; 
-   d="scan'208";a="670588644"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 08 Mar 2023 20:30:09 -0800
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pa7ur-0002dp-0m;
-	Thu, 09 Mar 2023 04:30:09 +0000
-Date: Thu, 9 Mar 2023 12:30:07 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: arch/riscv/kernel/cpufeature.c:288:27: warning: Parameter 'end' can
- be declared as pointer to const [constParameter]
-Message-ID: <202303091248.PQ683Wew-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD58363D;
+	Thu,  9 Mar 2023 04:35:21 +0000 (UTC)
+Received: by mail-wr1-f54.google.com with SMTP id v16so680986wrn.0;
+        Wed, 08 Mar 2023 20:35:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1678336520;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=b2Xo/xHwfvK/YSqpt09zcRTWTIvjKdi+fUryvtYFyDA=;
+        b=W7F+YKl5SZ+OmXzAToWTmFulNeX8DrYioVxTKcfu9zRpDimDUgIwZgDlvmnLcg4Md+
+         wZuQEteq1k6uKzkesk5K0L4tiIl1wiRNGjEPjVG1l6yhOpCnj3sdw0YF8aZ2BHxGtLCv
+         D7J8mkQ+8D4SzpNdNxEqxMePNK/lDlzpQklO0/0WErMTJyywL/x7nl314oBnFlWmmdFL
+         jGrQetHC0HOCkVwlFEjL6+C2k1BQyjAQCUySFDE+9nu+1ZVjklnGpuEQJVXUt/1mwc7S
+         fPQBDYo+4/pWdnpHt5vm0MgAbo7prJPPwFQKo0F57ALVEOXc53M0TFhoMY+rmg7Li8wf
+         7MzQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678336520;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=b2Xo/xHwfvK/YSqpt09zcRTWTIvjKdi+fUryvtYFyDA=;
+        b=6fNWqm5tdupGj9yI3GU5l06Qj0wMUUfxuL9JlEK15fqkXvzODDygXVPm9yxEvb09Ub
+         HqVBT+CiRMmeSXSZ0BKyUZEtMXVnzcHKy2rGh5HlCdwAcHUBXVyic7rkKwHnJcWzNwyG
+         yHW4kK4JBliyBmpeXGoVh5i4aCkwfAKvOOaOJweaRmKMPSfRf5l15QAoQlrruVGGyrVI
+         hZOcZjIEpdkCuXSqlICrEF0ywAX2eu+sivRafYUId0SkdOawGskCdQmBELMwlwQmiiGO
+         xMhODbBE20Rk+bRAF91AdHt9fayKHKkrbYSYA92dmhwZ3ZVdnN+bqojdVxEy+oWShorY
+         5CfA==
+X-Gm-Message-State: AO0yUKU9wqsM8ZJsp+t7ZrBdMqZC4lOlKeuF0Gen0GRIShzFt/h4mVT8
+	8cZrd+j5Ewi7bCmN/Z7kxltW+cGdVyB4wEyo
+X-Google-Smtp-Source: AK7set+8w9p9l1w+yOEp7qFdAf9LqEuXB0fQZvT2WFR+hUuvO6kKQpFCVz8biYkYYKowkY/tUKkNqA==
+X-Received: by 2002:adf:e641:0:b0:2cd:e125:4559 with SMTP id b1-20020adfe641000000b002cde1254559mr14423735wrn.29.1678336519689;
+        Wed, 08 Mar 2023 20:35:19 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id c10-20020adffb0a000000b002ce72cff2ecsm7158846wrr.72.2023.03.08.20.35.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 08 Mar 2023 20:35:19 -0800 (PST)
+Date: Thu, 9 Mar 2023 07:35:15 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev, Andrii Nakryiko <andrii@kernel.org>,
+	bpf@vger.kernel.org, ast@kernel.org, daniel@iogearbox.net
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, andrii@kernel.org,
+	kernel-team@meta.com, Tejun Heo <tj@kernel.org>
+Subject: Re: [PATCH v4 bpf-next 3/8] bpf: add support for open-coded iterator
+ loops
+Message-ID: <1399021d-b06a-447c-94ca-6cc657c9c0b2@kili.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -45,59 +54,57 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230308035416.2591326-4-andrii@kernel.org>
 
-:::::: 
-:::::: Manual check reason: "low confidence static check warning: arch/riscv/kernel/cpufeature.c:288:27: warning: Parameter 'end' can be declared as pointer to const [constParameter]"
-:::::: 
+Hi Andrii,
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Heiko Stuebner <heiko@sntech.de>
-CC: Palmer Dabbelt <palmer@rivosinc.com>
-CC: Wei Fu <wefu@redhat.com>
-CC: Liu Shaohua <liush@allwinnertech.com>
-CC: Guo Ren <guoren@kernel.org>
-CC: Philipp Tomsich <philipp.tomsich@vrull.eu>
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   6a98c9cae232800c319ed69e1063480d31430887
-commit: ff689fd21cb13098305bae3f8d0c0065df2e2fc1 riscv: add RISC-V Svpbmt extension support
-date:   10 months ago
-:::::: branch date: 8 hours ago
-:::::: commit date: 10 months ago
-compiler: riscv64-linux-gcc (GCC) 12.1.0
-reproduce (cppcheck warning):
-        # apt-get install cppcheck
-        git checkout ff689fd21cb13098305bae3f8d0c0065df2e2fc1
-        cppcheck --quiet --enable=style,performance,portability --template=gcc FILE
+url:    https://github.com/intel-lab-lkp/linux/commits/Andrii-Nakryiko/bpf-factor-out-fetching-basic-kfunc-metadata/20230308-115539
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20230308035416.2591326-4-andrii%40kernel.org
+patch subject: [PATCH v4 bpf-next 3/8] bpf: add support for open-coded iterator loops
+config: loongarch-randconfig-m041-20230305 (https://download.01.org/0day-ci/archive/20230309/202303090153.YeswNcW4-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/r/202303091248.PQ683Wew-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Link: https://lore.kernel.org/r/202303090153.YeswNcW4-lkp@intel.com/
 
+smatch warnings:
+kernel/bpf/verifier.c:1244 is_iter_reg_valid_uninit() error: uninitialized symbol 'j'.
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+vim +/j +1244 kernel/bpf/verifier.c
 
->> arch/riscv/kernel/cpufeature.c:288:27: warning: Parameter 'end' can be declared as pointer to const [constParameter]
-           struct alt_entry *end,
-                             ^
->> arch/riscv/kernel/patch.c:68:8: warning: Redundant initialization for 'waddr'. The initialized value is overwritten before it is read. [redundantInitialization]
-    waddr = patch_map(addr, FIX_TEXT_POKE0);
-          ^
-   arch/riscv/kernel/patch.c:54:14: note: waddr is initialized
-    void *waddr = addr;
-                ^
-   arch/riscv/kernel/patch.c:68:8: note: waddr is overwritten
-    waddr = patch_map(addr, FIX_TEXT_POKE0);
-          ^
+8f263e1296a91f Andrii Nakryiko 2023-03-07  1225  static bool is_iter_reg_valid_uninit(struct bpf_verifier_env *env,
+8f263e1296a91f Andrii Nakryiko 2023-03-07  1226  				     struct bpf_reg_state *reg, int nr_slots)
+8f263e1296a91f Andrii Nakryiko 2023-03-07  1227  {
+8f263e1296a91f Andrii Nakryiko 2023-03-07  1228  	struct bpf_func_state *state = func(env, reg);
+8f263e1296a91f Andrii Nakryiko 2023-03-07  1229  	int spi, i, j;
+8f263e1296a91f Andrii Nakryiko 2023-03-07  1230  
+8f263e1296a91f Andrii Nakryiko 2023-03-07  1231  	/* For -ERANGE (i.e. spi not falling into allocated stack slots), we
+8f263e1296a91f Andrii Nakryiko 2023-03-07  1232  	 * will do check_mem_access to check and update stack bounds later, so
+8f263e1296a91f Andrii Nakryiko 2023-03-07  1233  	 * return true for that case.
+8f263e1296a91f Andrii Nakryiko 2023-03-07  1234  	 */
+8f263e1296a91f Andrii Nakryiko 2023-03-07  1235  	spi = iter_get_spi(env, reg, nr_slots);
+8f263e1296a91f Andrii Nakryiko 2023-03-07  1236  	if (spi == -ERANGE)
+8f263e1296a91f Andrii Nakryiko 2023-03-07  1237  		return true;
+8f263e1296a91f Andrii Nakryiko 2023-03-07  1238  	if (spi < 0)
+8f263e1296a91f Andrii Nakryiko 2023-03-07  1239  		return spi;
+8f263e1296a91f Andrii Nakryiko 2023-03-07  1240  
+8f263e1296a91f Andrii Nakryiko 2023-03-07  1241  	for (i = 0; i < nr_slots; i++) {
+8f263e1296a91f Andrii Nakryiko 2023-03-07  1242  		struct bpf_stack_state *slot = &state->stack[spi - i];
+8f263e1296a91f Andrii Nakryiko 2023-03-07  1243  
+8f263e1296a91f Andrii Nakryiko 2023-03-07 @1244  		if (slot->slot_type[j] == STACK_ITER)
+                                                                                    ^
+s/j/i/?
 
-vim +/end +288 arch/riscv/kernel/cpufeature.c
-
-ff689fd21cb130 Heiko Stuebner 2022-05-11  286  
-ff689fd21cb130 Heiko Stuebner 2022-05-11  287  void __init_or_module riscv_cpufeature_patch_func(struct alt_entry *begin,
-ff689fd21cb130 Heiko Stuebner 2022-05-11 @288  						  struct alt_entry *end,
+8f263e1296a91f Andrii Nakryiko 2023-03-07  1245  			return false;
+8f263e1296a91f Andrii Nakryiko 2023-03-07  1246  	}
+8f263e1296a91f Andrii Nakryiko 2023-03-07  1247  
+8f263e1296a91f Andrii Nakryiko 2023-03-07  1248  	return true;
+8f263e1296a91f Andrii Nakryiko 2023-03-07  1249  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
+
