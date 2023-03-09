@@ -1,42 +1,42 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 741A0C28E
-	for <oe-kbuild@lists.linux.dev>; Thu,  9 Mar 2023 19:58:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36526C297
+	for <oe-kbuild@lists.linux.dev>; Thu,  9 Mar 2023 21:31:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678391920; x=1709927920;
+  t=1678397503; x=1709933503;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=RFjHAvXLASyyOSuU/NQ56cDdghqCl/F606OMqZe7lv8=;
-  b=LgaOkHcytKC+/ajvfz0RiR0x5wHZJgGFjntawpLMqUqV4hqk5Ma3bI6f
-   ML5LnByh1PQYku07Lrp1z4IGf12l3wdOWTd8WQAf8cCvXlDX5SSFq88yT
-   Vov/KzWAVed2486RR//wfnnBMO02GVyW9CbmrZuiHmYn38VBFE7401Msl
-   pgCLaJrzciyJC/9N1SQBEQ/L2TazjKirJPFprpmsBJpogoK+dvBUNwL2Y
-   SrzrNKzATTt34JTLZM5OEYJZAe/qidoKl0fYFHgbdaZ9qIp9uCSQorLz3
-   LjD2tTiWu8QWvmhJwba6FF6uR+OIHUjfoQh9CU4KWFOoNMGIA3QmDdaf+
+  bh=X1qVsYInYWTsoWUq2QGQYc/AEQAwD0Es/kYF5zuNuw0=;
+  b=Glo2iXNm1XNJowQO0bP+kbtEvLbB9sE7LafQuYXHnvR9opIqA5RvvCy5
+   pT5AQFV09/CwEy2is1CLVpsp6E8jJ/lj4RMcfu3jQWZZGFem2JHbcOv7a
+   jFqXikNhth8lzxxVUV55V8R4YvNqmqRRo1wBkSaYkQDVM7PEiB1EwaKgv
+   YktLrY0mIeYCfLU58cmyFCn7VJNYeSk+KmGpvz5GhOLmZz5704ImDD2IT
+   l+/QEY7TYevBAilugqQOKDNBwlteAYUf8s47xZd6n2TtXEAIfyr9hkqUC
+   8T7d8K5aIFuEOde0djYRjgfFy5NuFuE0/ojct7M0+5HxLIyA0dADslPCO
    g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10644"; a="338919945"
+X-IronPort-AV: E=McAfee;i="6500,9779,10644"; a="324924253"
 X-IronPort-AV: E=Sophos;i="5.98,247,1673942400"; 
-   d="scan'208";a="338919945"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2023 11:58:40 -0800
+   d="scan'208";a="324924253"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2023 13:31:42 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10644"; a="707752477"
+X-IronPort-AV: E=McAfee;i="6500,9779,10644"; a="746474007"
 X-IronPort-AV: E=Sophos;i="5.98,247,1673942400"; 
-   d="scan'208";a="707752477"
+   d="scan'208";a="746474007"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 09 Mar 2023 11:58:39 -0800
+  by fmsmga004.fm.intel.com with ESMTP; 09 Mar 2023 13:31:41 -0800
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1paMPO-0003Bb-0h;
-	Thu, 09 Mar 2023 19:58:38 +0000
-Date: Fri, 10 Mar 2023 03:58:23 +0800
+	id 1paNrQ-0003ET-0K;
+	Thu, 09 Mar 2023 21:31:40 +0000
+Date: Fri, 10 Mar 2023 05:31:11 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: fs/erofs/super.c:748:27: warning: Value stored to 'ctx' during its
- initialization is never read [clang-analyzer-deadcode.DeadStores]
-Message-ID: <202303100313.UgUH3LS9-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: drivers/input/misc/iqs7222.c:1404 iqs7222_dev_init() error:
+ uninitialized symbol 'error'.
+Message-ID: <202303100507.ZnIZTMW6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -46,258 +46,132 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "low confidence static check warning: fs/erofs/super.c:748:27: warning: Value stored to 'ctx' during its initialization is never read [clang-analyzer-deadcode.DeadStores]"
-:::::: 
-
 BCC: lkp@intel.com
-CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Jeffle Xu <jefflexu@linux.alibaba.com>
-CC: Gao Xiang <hsiangkao@linux.alibaba.com>
+TO: Jeff LaBundy <jeff@labundy.com>
+CC: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   6a98c9cae232800c319ed69e1063480d31430887
-commit: 9c0cc9c729657446ed001a99488a9d82f5124af4 erofs: add 'fsid' mount option
-date:   10 months ago
-:::::: branch date: 24 hours ago
-:::::: commit date: 10 months ago
-config: arm-randconfig-c002-20230308 (https://download.01.org/0day-ci/archive/20230310/202303100313.UgUH3LS9-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=9c0cc9c729657446ed001a99488a9d82f5124af4
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 9c0cc9c729657446ed001a99488a9d82f5124af4
-        # save the config file
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=arm clang-analyzer  olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=arm clang-analyzer 
+head:   44889ba56cbb3d51154660ccd15818bc77276696
+commit: e505edaedcb9e7d16eefddc62d2189afaea0febc Input: add support for Azoteq IQS7222A/B/C
+date:   11 months ago
+:::::: branch date: 3 hours ago
+:::::: commit date: 11 months ago
+config: ia64-randconfig-m041-20230308 (https://download.01.org/0day-ci/archive/20230310/202303100507.ZnIZTMW6-lkp@intel.com/config)
+compiler: ia64-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/r/202303100313.UgUH3LS9-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Link: https://lore.kernel.org/r/202303100507.ZnIZTMW6-lkp@intel.com/
 
-clang_analyzer warnings: (new ones prefixed by >>)
-   include/linux/minmax.h:45:19: note: expanded from macro 'min'
-   #define min(x, y)       __careful_cmp(x, y, <)
-                           ^
-   include/linux/minmax.h:38:3: note: expanded from macro '__careful_cmp'
-                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
-                   ^
-   include/linux/minmax.h:33:3: note: expanded from macro '__cmp_once'
-                   __cmp(unique_x, unique_y, op); })
-                   ^
-   include/linux/minmax.h:28:26: note: expanded from macro '__cmp'
-   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
-                            ^
-   fs/fuse/dev.c:1679:6: note: Assuming 'file_size' is >= field 'offset'
-           if (outarg->offset > file_size)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/fuse/dev.c:1679:2: note: Taking false branch
-           if (outarg->offset > file_size)
-           ^
-   fs/fuse/dev.c:1681:11: note: Assuming the condition is false
-           else if (outarg->offset + num > file_size)
-                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/fuse/dev.c:1681:7: note: Taking false branch
-           else if (outarg->offset + num > file_size)
-                ^
-   fs/fuse/dev.c:1685:14: note: Assuming '__UNIQUE_ID___x254' is >= '__UNIQUE_ID___y255'
-           num_pages = min(num_pages, fc->max_pages);
-                       ^
-   include/linux/minmax.h:45:19: note: expanded from macro 'min'
-   #define min(x, y)       __careful_cmp(x, y, <)
-                           ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:38:3: note: expanded from macro '__careful_cmp'
-                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:33:3: note: expanded from macro '__cmp_once'
-                   __cmp(unique_x, unique_y, op); })
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:28:26: note: expanded from macro '__cmp'
-   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
-                            ^~~~~~~~~~
-   fs/fuse/dev.c:1685:14: note: '?' condition is false
-           num_pages = min(num_pages, fc->max_pages);
-                       ^
-   include/linux/minmax.h:45:19: note: expanded from macro 'min'
-   #define min(x, y)       __careful_cmp(x, y, <)
-                           ^
-   include/linux/minmax.h:38:3: note: expanded from macro '__careful_cmp'
-                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
-                   ^
-   include/linux/minmax.h:33:3: note: expanded from macro '__cmp_once'
-                   __cmp(unique_x, unique_y, op); })
-                   ^
-   include/linux/minmax.h:28:26: note: expanded from macro '__cmp'
-   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
-                            ^
-   fs/fuse/dev.c:1689:7: note: Calling 'kzalloc'
-           ra = kzalloc(args_size, GFP_KERNEL);
-                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/slab.h:714:9: note: Uninitialized value stored to field 'num_pages'
-           return kmalloc(size, flags | __GFP_ZERO);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/slab.h:714:2: note: Returning pointer, which participates in a condition later
-           return kmalloc(size, flags | __GFP_ZERO);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/fuse/dev.c:1689:7: note: Returning from 'kzalloc'
-           ra = kzalloc(args_size, GFP_KERNEL);
-                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/fuse/dev.c:1690:6: note: Assuming 'ra' is non-null
-           if (!ra)
-               ^~~
-   fs/fuse/dev.c:1690:2: note: Taking false branch
-           if (!ra)
-           ^
-   fs/fuse/dev.c:1706:9: note: Assuming 'num' is not equal to 0
-           while (num && ap->num_pages < num_pages) {
-                  ^~~
-   fs/fuse/dev.c:1706:9: note: Left side of '&&' is true
-   fs/fuse/dev.c:1706:30: note: The left operand of '<' is a garbage value
-           while (num && ap->num_pages < num_pages) {
-                         ~~~~~~~~~~~~~ ^
-   Suppressed 42 warnings (42 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   46 warnings generated.
-   fs/erofs/super.c:94:2: warning: Call to function 'memset' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(vi, 0, offsetof(struct erofs_inode, vfs_inode));
-           ^~~~~~
-   fs/erofs/super.c:94:2: note: Call to function 'memset' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memset_s' in case of C11
-           memset(vi, 0, offsetof(struct erofs_inode, vfs_inode));
-           ^~~~~~
-   fs/erofs/super.c:157:3: warning: Call to function 'memcpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   memcpy(buffer + i, ptr + erofs_blkoff(*offset), cnt);
-                   ^~~~~~
-   fs/erofs/super.c:157:3: note: Call to function 'memcpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memcpy_s' in case of C11
-                   memcpy(buffer + i, ptr + erofs_blkoff(*offset), cnt);
-                   ^~~~~~
-   fs/erofs/super.c:352:2: warning: Call to function 'memcpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(&sb->s_uuid, dsb->uuid, sizeof(dsb->uuid));
-           ^~~~~~
-   fs/erofs/super.c:352:2: note: Call to function 'memcpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memcpy_s' in case of C11
-           memcpy(&sb->s_uuid, dsb->uuid, sizeof(dsb->uuid));
-           ^~~~~~
->> fs/erofs/super.c:748:27: warning: Value stored to 'ctx' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct erofs_fs_context *ctx = fc->fs_private;
-                                    ^~~   ~~~~~~~~~~~~~~
-   fs/erofs/super.c:748:27: note: Value stored to 'ctx' during its initialization is never read
-           struct erofs_fs_context *ctx = fc->fs_private;
-                                    ^~~   ~~~~~~~~~~~~~~
-   Suppressed 42 warnings (42 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   51 warnings generated.
-   fs/erofs/inode.c:45:3: warning: Value stored to 'err' is never read [clang-analyzer-deadcode.DeadStores]
-                   err = -EOPNOTSUPP;
-                   ^     ~~~~~~~~~~~
-   fs/erofs/inode.c:45:3: note: Value stored to 'err' is never read
-                   err = -EOPNOTSUPP;
-                   ^     ~~~~~~~~~~~
-   fs/erofs/inode.c:53:3: warning: Value stored to 'err' is never read [clang-analyzer-deadcode.DeadStores]
-                   err = -EOPNOTSUPP;
-                   ^     ~~~~~~~~~~~
-   fs/erofs/inode.c:53:3: note: Value stored to 'err' is never read
-                   err = -EOPNOTSUPP;
-                   ^     ~~~~~~~~~~~
-   fs/erofs/inode.c:69:5: warning: Value stored to 'err' is never read [clang-analyzer-deadcode.DeadStores]
-                                   err = -ENOMEM;
-                                   ^     ~~~~~~~
-   fs/erofs/inode.c:69:5: note: Value stored to 'err' is never read
-                                   err = -ENOMEM;
-                                   ^     ~~~~~~~
-   fs/erofs/inode.c:72:4: warning: Call to function 'memcpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                           memcpy(copied, dic, gotten);
-                           ^~~~~~
-   fs/erofs/inode.c:72:4: note: Call to function 'memcpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memcpy_s' in case of C11
-                           memcpy(copied, dic, gotten);
-                           ^~~~~~
-   fs/erofs/inode.c:82:4: warning: Call to function 'memcpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                           memcpy((u8 *)copied + gotten, kaddr, *ofs);
-                           ^~~~~~
-   fs/erofs/inode.c:82:4: note: Call to function 'memcpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memcpy_s' in case of C11
-                           memcpy((u8 *)copied + gotten, kaddr, *ofs);
-                           ^~~~~~
-   fs/erofs/inode.c:167:3: warning: Value stored to 'err' is never read [clang-analyzer-deadcode.DeadStores]
-                   err = -EOPNOTSUPP;
-                   ^     ~~~~~~~~~~~
-   fs/erofs/inode.c:167:3: note: Value stored to 'err' is never read
-                   err = -EOPNOTSUPP;
-                   ^     ~~~~~~~~~~~
-   fs/erofs/inode.c:176:4: warning: Value stored to 'err' is never read [clang-analyzer-deadcode.DeadStores]
-                           err = -EOPNOTSUPP;
-                           ^     ~~~~~~~~~~~
-   fs/erofs/inode.c:176:4: note: Value stored to 'err' is never read
-                           err = -EOPNOTSUPP;
-                           ^     ~~~~~~~~~~~
-   fs/erofs/inode.c:201:2: warning: Value stored to 'err' is never read [clang-analyzer-deadcode.DeadStores]
-           err = -EFSCORRUPTED;
-           ^     ~~~~~~~~~~~~~
-   fs/erofs/inode.c:201:2: note: Value stored to 'err' is never read
-           err = -EFSCORRUPTED;
-           ^     ~~~~~~~~~~~~~
-   fs/erofs/inode.c:236:2: warning: Call to function 'memcpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(lnk, kaddr + m_pofs, inode->i_size);
-           ^~~~~~
-   fs/erofs/inode.c:236:2: note: Call to function 'memcpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memcpy_s' in case of C11
-           memcpy(lnk, kaddr + m_pofs, inode->i_size);
-           ^~~~~~
-   Suppressed 42 warnings (42 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   31 warnings generated.
-   crypto/curve25519-generic.c:18:3: warning: Call to function 'memcpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   memcpy(secret, buf, CURVE25519_KEY_SIZE);
-                   ^~~~~~
-   crypto/curve25519-generic.c:18:3: note: Call to function 'memcpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memcpy_s' in case of C11
-                   memcpy(secret, buf, CURVE25519_KEY_SIZE);
-                   ^~~~~~
-   Suppressed 30 warnings (30 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   31 warnings generated.
-   crypto/ecdh.c:40:2: warning: Call to function 'memcpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(ctx->private_key, params.key, params.key_size);
-           ^~~~~~
-   crypto/ecdh.c:40:2: note: Call to function 'memcpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memcpy_s' in case of C11
-           memcpy(ctx->private_key, params.key, params.key_size);
-           ^~~~~~
-   Suppressed 30 warnings (30 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   crypto/ecdh_helper.c:17:2: warning: Call to function 'memcpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(dst, src, sz);
-           ^~~~~~
-   crypto/ecdh_helper.c:17:2: note: Call to function 'memcpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memcpy_s' in case of C11
-           memcpy(dst, src, sz);
-           ^~~~~~
-   crypto/ecdh_helper.c:23:2: warning: Call to function 'memcpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(dst, src, sz);
-           ^~~~~~
-   crypto/ecdh_helper.c:23:2: note: Call to function 'memcpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memcpy_s' in case of C11
-           memcpy(dst, src, sz);
-           ^~~~~~
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   43 warnings generated.
-   Suppressed 43 warnings (43 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+smatch warnings:
+drivers/input/misc/iqs7222.c:1404 iqs7222_dev_init() error: uninitialized symbol 'error'.
 
-vim +/ctx +748 fs/erofs/super.c
+vim +/error +1404 drivers/input/misc/iqs7222.c
 
-f57a3fe44995a38 Chao Yu   2020-05-29  745  
-f57a3fe44995a38 Chao Yu   2020-05-29  746  static int erofs_fc_get_tree(struct fs_context *fc)
-f57a3fe44995a38 Chao Yu   2020-05-29  747  {
-9c0cc9c72965744 Jeffle Xu 2022-04-25 @748  	struct erofs_fs_context *ctx = fc->fs_private;
-9c0cc9c72965744 Jeffle Xu 2022-04-25  749  
-9c0cc9c72965744 Jeffle Xu 2022-04-25  750  	if (IS_ENABLED(CONFIG_EROFS_FS_ONDEMAND) && ctx->opt.fsid)
-9c0cc9c72965744 Jeffle Xu 2022-04-25  751  		return get_tree_nodev(fc, erofs_fc_fill_super);
-9c0cc9c72965744 Jeffle Xu 2022-04-25  752  
-f57a3fe44995a38 Chao Yu   2020-05-29  753  	return get_tree_bdev(fc, erofs_fc_fill_super);
-f57a3fe44995a38 Chao Yu   2020-05-29  754  }
-f57a3fe44995a38 Chao Yu   2020-05-29  755  
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1329  
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1330  static int iqs7222_dev_init(struct iqs7222_private *iqs7222, int dir)
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1331  {
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1332  	const struct iqs7222_dev_desc *dev_desc = iqs7222->dev_desc;
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1333  	int comms_offset = dev_desc->comms_offset;
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1334  	int error, i, j, k;
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1335  
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1336  	/*
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1337  	 * Take advantage of the stop-bit disable function, if available, to
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1338  	 * save the trouble of having to reopen a communication window after
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1339  	 * each burst read or write.
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1340  	 */
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1341  	if (comms_offset) {
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1342  		u16 comms_setup;
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1343  
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1344  		error = iqs7222_read_word(iqs7222,
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1345  					  IQS7222_SYS_SETUP + comms_offset,
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1346  					  &comms_setup);
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1347  		if (error)
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1348  			return error;
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1349  
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1350  		error = iqs7222_write_word(iqs7222,
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1351  					   IQS7222_SYS_SETUP + comms_offset,
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1352  					   comms_setup | IQS7222_COMMS_HOLD);
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1353  		if (error)
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1354  			return error;
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1355  	}
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1356  
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1357  	for (i = 0; i < IQS7222_NUM_REG_GRPS; i++) {
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1358  		int num_row = dev_desc->reg_grps[i].num_row;
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1359  		int num_col = dev_desc->reg_grps[i].num_col;
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1360  		u16 reg = dev_desc->reg_grps[i].base;
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1361  		__le16 *val_buf;
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1362  		u16 *val;
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1363  
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1364  		if (!num_col)
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1365  			continue;
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1366  
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1367  		val = iqs7222_setup(iqs7222, i, 0);
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1368  		if (!val)
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1369  			continue;
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1370  
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1371  		val_buf = kcalloc(num_col, sizeof(__le16), GFP_KERNEL);
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1372  		if (!val_buf)
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1373  			return -ENOMEM;
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1374  
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1375  		for (j = 0; j < num_row; j++) {
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1376  			switch (dir) {
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1377  			case READ:
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1378  				error = iqs7222_read_burst(iqs7222, reg,
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1379  							   val_buf, num_col);
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1380  				for (k = 0; k < num_col; k++)
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1381  					val[k] = le16_to_cpu(val_buf[k]);
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1382  				break;
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1383  
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1384  			case WRITE:
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1385  				for (k = 0; k < num_col; k++)
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1386  					val_buf[k] = cpu_to_le16(val[k]);
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1387  				error = iqs7222_write_burst(iqs7222, reg,
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1388  							    val_buf, num_col);
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1389  				break;
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1390  
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1391  			default:
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1392  				error = -EINVAL;
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1393  			}
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1394  
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1395  			if (error)
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1396  				break;
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1397  
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1398  			reg += IQS7222_REG_OFFSET;
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1399  			val += iqs7222_max_cols[i];
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1400  		}
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1401  
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1402  		kfree(val_buf);
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1403  
+e505edaedcb9e7 Jeff LaBundy 2022-04-08 @1404  		if (error)
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1405  			return error;
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1406  	}
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1407  
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1408  	if (comms_offset) {
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1409  		u16 comms_setup;
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1410  
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1411  		error = iqs7222_read_word(iqs7222,
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1412  					  IQS7222_SYS_SETUP + comms_offset,
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1413  					  &comms_setup);
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1414  		if (error)
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1415  			return error;
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1416  
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1417  		error = iqs7222_write_word(iqs7222,
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1418  					   IQS7222_SYS_SETUP + comms_offset,
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1419  					   comms_setup & ~IQS7222_COMMS_HOLD);
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1420  		if (error)
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1421  			return error;
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1422  	}
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1423  
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1424  	if (dir == READ)
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1425  		return 0;
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1426  
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1427  	return iqs7222_ati_trigger(iqs7222);
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1428  }
+e505edaedcb9e7 Jeff LaBundy 2022-04-08  1429  
 
 -- 
 0-DAY CI Kernel Test Service
