@@ -1,41 +1,42 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE88C622
-	for <oe-kbuild@lists.linux.dev>; Thu,  9 Mar 2023 06:34:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73E1563A7
+	for <oe-kbuild@lists.linux.dev>; Thu,  9 Mar 2023 10:12:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678343654; x=1709879654;
+  t=1678356742; x=1709892742;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=TPZHRb5TskPOk9/yxxxZhVml1DBS15QLwj360gqO9f0=;
-  b=Q2X38rs8Dpg7dJPU8R+H/GYdysWulKfA5OCVlPvVgzYdjeBGdUEpJ6Uq
-   26pPjBrkTgLHS57bp+5lQ+1+4kSgDioGXC9ikRnfwy6m42cupYZ1od/kc
-   y6QEKIZx9IjKqUVnJ3M4a3x7b6ViGu/LApPlT7PD79hKPEBnLDl9QRlCg
-   3I4qxfZf1IHN9wKRpf3yrHnmLvSf52IDg6uMxoXKxAoePaAkUbyYsvC69
-   FGEThsUWJPQU/dpzkePQ6FpNdRNEubAnz7RiMsN04kEBAm2/lGsJJiV1l
-   DAJhNT9sRQ7BJGn/GLJGvUoCYbEy4vl+fugbgEo2eDARiw8inlD/I52Ya
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="316024905"
-X-IronPort-AV: E=Sophos;i="5.98,245,1673942400"; 
-   d="scan'208";a="316024905"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2023 22:34:14 -0800
+  bh=uvIwkVllPONhZu4Tf8G/gPAMpk35ppZoJFJMgSqRuaQ=;
+  b=AKXXfdIWlg4+WpuoDxXhRn3Yn9LSyVJFeXWL5LFSWg/U86QW+d18BB0z
+   nXW6MhfmAMzHgTkKnmM7anXM9ioDU0Qz6kl492/CfruKoO5FfkN/AmDVr
+   ByK6VZJhgo4mL1Q6UJ9pNj82+jFB93fFuOI42kXJxiMuabRuMSexpQCQ+
+   ZO+7tjq3rkvxVWBZouB8zMjNhcrgsex4Ul7s+G0nftbdoVSv94ypuy0qN
+   ICZk7sMK3K+Yi4EFVl5Cq9NrUDtAOFd6q/emGhsIzoUtt4eLCeh1o5A6V
+   rZ3wXbl03SK5R3ztTcHEjlBWLhdLiHrbbRTPzVmfaClGxGMC9hgegJONJ
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="316802671"
+X-IronPort-AV: E=Sophos;i="5.98,246,1673942400"; 
+   d="scan'208";a="316802671"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2023 02:12:21 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="741429966"
-X-IronPort-AV: E=Sophos;i="5.98,245,1673942400"; 
-   d="scan'208";a="741429966"
+X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="820552288"
+X-IronPort-AV: E=Sophos;i="5.98,246,1673942400"; 
+   d="scan'208";a="820552288"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 08 Mar 2023 22:34:12 -0800
+  by fmsmga001.fm.intel.com with ESMTP; 09 Mar 2023 02:12:20 -0800
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pa9qu-0002i5-15;
-	Thu, 09 Mar 2023 06:34:12 +0000
-Date: Thu, 9 Mar 2023 14:33:52 +0800
+	id 1paDG0-0002rd-0c;
+	Thu, 09 Mar 2023 10:12:20 +0000
+Date: Thu, 9 Mar 2023 18:12:07 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: Re: [PATCH V2 12/17] block: ublk_drv: cleanup ublk_copy_user_pages
-Message-ID: <202303091446.8Qq0qZi9-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: drivers/block/brd.c:459:32: warning: shift by count ('32') >=
+ precision of type ('32')
+Message-ID: <202303091854.jfBtlkgn-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -45,88 +46,100 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "low confidence static check first_new_problem: drivers/block/brd.c:459:32: warning: shift by count ('32') >= precision of type ('32') [-Wanalyzer-shift-count-overflow]"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20230307141520.793891-13-ming.lei@redhat.com>
-References: <20230307141520.793891-13-ming.lei@redhat.com>
-TO: Ming Lei <ming.lei@redhat.com>
-TO: Jens Axboe <axboe@kernel.dk>
-TO: io-uring@vger.kernel.org
-CC: linux-block@vger.kernel.org
-CC: Miklos Szeredi <mszeredi@redhat.com>
-CC: ZiyangZhang <ZiyangZhang@linux.alibaba.com>
-CC: Xiaoguang Wang <xiaoguang.wang@linux.alibaba.com>
-CC: Bernd Schubert <bschubert@ddn.com>
-CC: Ming Lei <ming.lei@redhat.com>
+CC: linux-kernel@vger.kernel.org
+TO: "Seung-Woo Kim" <sw0312.kim@samsung.com>
+CC: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
+CC: Florian Fainelli <f.fainelli@gmail.com>
 
-Hi Ming,
-
-I love your patch! Perhaps something to improve:
-
-[auto build test WARNING on axboe-block/for-next]
-[also build test WARNING on linus/master v6.3-rc1 next-20230309]
-[cannot apply to char-misc/char-misc-testing char-misc/char-misc-next char-misc/char-misc-linus]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ming-Lei/io_uring-add-IO_URING_F_FUSED-and-prepare-for-supporting-OP_FUSED_CMD/20230307-222928
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-next
-patch link:    https://lore.kernel.org/r/20230307141520.793891-13-ming.lei%40redhat.com
-patch subject: [PATCH V2 12/17] block: ublk_drv: cleanup ublk_copy_user_pages
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: alpha-randconfig-c041-20230308 (https://download.01.org/0day-ci/archive/20230309/202303091446.8Qq0qZi9-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   6a98c9cae232800c319ed69e1063480d31430887
+commit: d539fee9f825b0c8eac049732c83562b28a483b5 ARM: 9253/1: ubsan: select ARCH_HAS_UBSAN_SANITIZE_ALL
+date:   4 months ago
+:::::: branch date: 14 hours ago
+:::::: commit date: 4 months ago
+config: arm-randconfig-c002-20230308 (https://download.01.org/0day-ci/archive/20230309/202303091854.jfBtlkgn-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=d539fee9f825b0c8eac049732c83562b28a483b5
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout d539fee9f825b0c8eac049732c83562b28a483b5
+        # save the config file
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross ARCH=arm KBUILD_USERCFLAGS='-fanalyzer -Wno-error'  olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross ARCH=arm KBUILD_USERCFLAGS='-fanalyzer -Wno-error' 
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Link: https://lore.kernel.org/r/202303091446.8Qq0qZi9-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202303091854.jfBtlkgn-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/block/ublk_drv.c:491:6-9: WARNING: Unsigned expression compared with zero: len     <=     0
+gcc_analyzer warnings: (new ones prefixed by >>)
+   drivers/block/brd.c: In function 'brd_check_and_reset_par':
+>> drivers/block/brd.c:459:32: warning: shift by count ('32') >= precision of type ('32') [-Wanalyzer-shift-count-overflow]
+     459 |                 max_part = 1UL << fls(max_part);
+         |                                ^~
+     'brd_check_and_reset_par': event 1
+       |
+       |  458 |         if ((1U << MINORBITS) % max_part != 0)
+       |      |            ^
+       |      |            |
+       |      |            (1) following 'true' branch...
+       |
+     'brd_check_and_reset_par': event 2
+       |
+       |include/asm-generic/bitops/builtin-fls.h:14:36:
+       |   14 |         return x ? sizeof(x) * 8 - __builtin_clz(x) : 0;
+       |      |                                    ^~~~~~~~~~~~~~~~
+       |      |                                    |
+       |      |                                    (2) ...to here
+       |
+     'brd_check_and_reset_par': events 3-5
+       |
+       |drivers/block/brd.c:459:26:
+       |  459 |                 max_part = 1UL << fls(max_part);
+       |      |                 ~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~
+       |      |                          |     |
+       |      |                          |     (4) ...to here
+       |      |                          |     (5) shift by count '32' here
+       |      |                          (3) following 'true' branch...
+       |
 
-vim +491 drivers/block/ublk_drv.c
+vim +459 drivers/block/brd.c
 
-71f28f3136aff5 Ming Lei 2022-07-13  469  
-c375364124e3c6 Ming Lei 2023-03-07  470  /*
-c375364124e3c6 Ming Lei 2023-03-07  471   * Copy data between request pages and io_iter, and 'offset'
-c375364124e3c6 Ming Lei 2023-03-07  472   * is the start point of linear offset of request.
-c375364124e3c6 Ming Lei 2023-03-07  473   */
-c375364124e3c6 Ming Lei 2023-03-07  474  static size_t ublk_copy_user_pages(const struct request *req,
-c375364124e3c6 Ming Lei 2023-03-07  475  		struct iov_iter *uiter, int dir)
-71f28f3136aff5 Ming Lei 2022-07-13  476  {
-71f28f3136aff5 Ming Lei 2022-07-13  477  	struct ublk_io_iter iter = {
-c375364124e3c6 Ming Lei 2023-03-07  478  		.bio	= req->bio,
-c375364124e3c6 Ming Lei 2023-03-07  479  		.iter	= req->bio->bi_iter,
-71f28f3136aff5 Ming Lei 2022-07-13  480  	};
-c375364124e3c6 Ming Lei 2023-03-07  481  	size_t done = 0;
-c375364124e3c6 Ming Lei 2023-03-07  482  
-c375364124e3c6 Ming Lei 2023-03-07  483  	while (iov_iter_count(uiter) && iter.bio) {
-c375364124e3c6 Ming Lei 2023-03-07  484  		unsigned nr_pages;
-c375364124e3c6 Ming Lei 2023-03-07  485  		size_t len, off;
-c375364124e3c6 Ming Lei 2023-03-07  486  		int i;
-c375364124e3c6 Ming Lei 2023-03-07  487  
-c375364124e3c6 Ming Lei 2023-03-07  488  		len = iov_iter_get_pages2(uiter, iter.pages,
-c375364124e3c6 Ming Lei 2023-03-07  489  				iov_iter_count(uiter),
-c375364124e3c6 Ming Lei 2023-03-07  490  				UBLK_MAX_PIN_PAGES, &off);
-c375364124e3c6 Ming Lei 2023-03-07 @491  		if (len <= 0)
-c375364124e3c6 Ming Lei 2023-03-07  492  			return done;
-c375364124e3c6 Ming Lei 2023-03-07  493  
-c375364124e3c6 Ming Lei 2023-03-07  494  		ublk_copy_io_pages(&iter, len, off, dir);
-c375364124e3c6 Ming Lei 2023-03-07  495  		nr_pages = DIV_ROUND_UP(len + off, PAGE_SIZE);
-c375364124e3c6 Ming Lei 2023-03-07  496  		for (i = 0; i < nr_pages; i++) {
-c375364124e3c6 Ming Lei 2023-03-07  497  			if (dir == ITER_DEST)
-71f28f3136aff5 Ming Lei 2022-07-13  498  				set_page_dirty(iter.pages[i]);
-71f28f3136aff5 Ming Lei 2022-07-13  499  			put_page(iter.pages[i]);
-71f28f3136aff5 Ming Lei 2022-07-13  500  		}
-c375364124e3c6 Ming Lei 2023-03-07  501  		done += len;
-71f28f3136aff5 Ming Lei 2022-07-13  502  	}
-71f28f3136aff5 Ming Lei 2022-07-13  503  
-71f28f3136aff5 Ming Lei 2022-07-13  504  	return done;
-71f28f3136aff5 Ming Lei 2022-07-13  505  }
-71f28f3136aff5 Ming Lei 2022-07-13  506  
+9db5579be4bb532 Nicholas Piggin 2008-02-08  448  
+c8ab422553c81a0 Zhiqiang Liu    2020-02-04  449  static inline void brd_check_and_reset_par(void)
+c8ab422553c81a0 Zhiqiang Liu    2020-02-04  450  {
+c8ab422553c81a0 Zhiqiang Liu    2020-02-04  451  	if (unlikely(!max_part))
+c8ab422553c81a0 Zhiqiang Liu    2020-02-04  452  		max_part = 1;
+c8ab422553c81a0 Zhiqiang Liu    2020-02-04  453  
+c8ab422553c81a0 Zhiqiang Liu    2020-02-04  454  	/*
+c8ab422553c81a0 Zhiqiang Liu    2020-02-04  455  	 * make sure 'max_part' can be divided exactly by (1U << MINORBITS),
+c8ab422553c81a0 Zhiqiang Liu    2020-02-04  456  	 * otherwise, it is possiable to get same dev_t when adding partitions.
+c8ab422553c81a0 Zhiqiang Liu    2020-02-04  457  	 */
+c8ab422553c81a0 Zhiqiang Liu    2020-02-04  458  	if ((1U << MINORBITS) % max_part != 0)
+c8ab422553c81a0 Zhiqiang Liu    2020-02-04 @459  		max_part = 1UL << fls(max_part);
+c8ab422553c81a0 Zhiqiang Liu    2020-02-04  460  
+c8ab422553c81a0 Zhiqiang Liu    2020-02-04  461  	if (max_part > DISK_MAX_PARTS) {
+c8ab422553c81a0 Zhiqiang Liu    2020-02-04  462  		pr_info("brd: max_part can't be larger than %d, reset max_part = %d.\n",
+c8ab422553c81a0 Zhiqiang Liu    2020-02-04  463  			DISK_MAX_PARTS, DISK_MAX_PARTS);
+c8ab422553c81a0 Zhiqiang Liu    2020-02-04  464  		max_part = DISK_MAX_PARTS;
+c8ab422553c81a0 Zhiqiang Liu    2020-02-04  465  	}
+c8ab422553c81a0 Zhiqiang Liu    2020-02-04  466  }
+c8ab422553c81a0 Zhiqiang Liu    2020-02-04  467  
+
+:::::: The code at line 459 was first introduced by commit
+:::::: c8ab422553c81a0eb070329c63725df1cd1425bc brd: check and limit max_part par
+
+:::::: TO: Zhiqiang Liu <liuzhiqiang26@huawei.com>
+:::::: CC: Jens Axboe <axboe@kernel.dk>
 
 -- 
 0-DAY CI Kernel Test Service
