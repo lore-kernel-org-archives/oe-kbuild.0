@@ -1,42 +1,42 @@
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 435B18838
-	for <oe-kbuild@lists.linux.dev>; Fri, 10 Mar 2023 16:24:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7885DA9A
+	for <oe-kbuild@lists.linux.dev>; Fri, 10 Mar 2023 19:28:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678465466; x=1710001466;
+  t=1678476509; x=1710012509;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=HUxXHszIWWLUFhHUIKUwagZ1K4+4H4zFITblu8+58VA=;
-  b=O5E+Z0uFFHzQhnm+t9BkiS3byf625+9HAVmE6MNDKxJnPOohJPFlPOp8
-   hNqc3DzIZ8Dai7OMEVmch1rd8ayJOecDZezb1lfKPi56FDVTAK2JDJhwd
-   YOwiNc5/IPAwgNufLoIQEpXoOXTwxJsgUUawTPKA/7QcxMamSIrGe07iD
-   R+uKpJqdOxXvT9Zu17HSqi+d1e9DMTFK/vZhXWR3mU2q7lerPY6HqAI5N
-   jZWai80rsV5dItKTvNY68A8ozFVPeJydWmWU3fHYfY9UWrwgWmhw9eLY9
-   jd2j3N31Iz7bM01UYe4GyQ+M1FuFdR+crQVC5WSlJM+QSbPpIh5mbljZ3
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10645"; a="334241618"
+  bh=hBwJGF4A0d62jrzcU7ZsllaHRhl/FdSOpkbs5QRcY4s=;
+  b=jw4BTe78XWyJobuf4gAMMOdVyupuAjAX/XA/dufGQivtYmUMRNSRl/Pk
+   IOCvlg/Irr74HVjSXaHvSCTS/VIN/Ysc+kCCJbgKm6RqXFpn5Y82S+2mF
+   nieksfvEstB2ve0nbv2BGcxsokT1gbdlQHa88QjCaqe1fsOfSBI8wRuoi
+   Ae2Lwe1AodEUlSXsqoVnypWYsDxXQkYmU8fsdWKiPwSQbBNhkUgHwWe8J
+   BMc5S7FRluGbjCbtIBXrJE4KhxbZDozN+gj3h49YLRSu8fwpcOWXwAbaT
+   G4JtiOVI+3Re27uE+M1evaJ3U1bQ4KnDLV606wYjTGeZcUO1XmKxB7ltY
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10645"; a="334288844"
 X-IronPort-AV: E=Sophos;i="5.98,250,1673942400"; 
-   d="scan'208";a="334241618"
+   d="scan'208";a="334288844"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2023 08:24:25 -0800
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2023 11:28:29 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10645"; a="742037310"
+X-IronPort-AV: E=McAfee;i="6500,9779,10645"; a="742098324"
 X-IronPort-AV: E=Sophos;i="5.98,250,1673942400"; 
-   d="scan'208";a="742037310"
+   d="scan'208";a="742098324"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 10 Mar 2023 08:24:24 -0800
+  by fmsmga008.fm.intel.com with ESMTP; 10 Mar 2023 11:28:28 -0800
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pafXb-0003zj-2c;
-	Fri, 10 Mar 2023 16:24:23 +0000
-Date: Sat, 11 Mar 2023 00:23:37 +0800
+	id 1paiPj-00044F-0B;
+	Fri, 10 Mar 2023 19:28:27 +0000
+Date: Sat, 11 Mar 2023 03:27:56 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/nfc/st21nfca/se.c:343 st21nfca_connectivity_event_received()
- warn: possible spectre second half.  'params_len'
-Message-ID: <202303110021.z36kxnV1-lkp@intel.com>
+Subject: drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:2222 mxc_jpeg_probe()
+ warn: missing unwind goto?
+Message-ID: <202303110336.NN6svpAR-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -49,109 +49,190 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Martin Faltesek <mfaltesek@google.com>
-CC: Jakub Kicinski <kuba@kernel.org>
-CC: Guenter Roeck <groeck@chromium.org>
-CC: Krzysztof Kozlowski <krzk@kernel.org>
+TO: Jian Zhang <zhangjian210@huawei.com>
+CC: Mauro Carvalho Chehab <mchehab@kernel.org>
+CC: linux-media@vger.kernel.org
+CC: Hans Verkuil <hverkuil@xs4all.nl>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   44889ba56cbb3d51154660ccd15818bc77276696
-commit: f2e19b36593caed4c977c2f55aeba7408aeb2132 nfc: st21nfca: fix incorrect sizing calculations in EVT_TRANSACTION
+head:   55a21105ecc156495446d8ae75d7d73f66baed7b
+commit: 5b304046a81eda221b5d06a9c62f7b5e45530fa5 media: driver/nxp/imx-jpeg: fix a unexpected return value problem
 date:   9 months ago
-:::::: branch date: 21 hours ago
+:::::: branch date: 2 hours ago
 :::::: commit date: 9 months ago
-config: s390-randconfig-m031-20230310 (https://download.01.org/0day-ci/archive/20230311/202303110021.z36kxnV1-lkp@intel.com/config)
+config: s390-randconfig-m031-20230310 (https://download.01.org/0day-ci/archive/20230311/202303110336.NN6svpAR-lkp@intel.com/config)
 compiler: s390-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202303110021.z36kxnV1-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202303110336.NN6svpAR-lkp@intel.com/
 
-New smatch warnings:
-drivers/nfc/st21nfca/se.c:343 st21nfca_connectivity_event_received() warn: possible spectre second half.  'params_len'
+smatch warnings:
+drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:2222 mxc_jpeg_probe() warn: missing unwind goto?
 
-Old smatch warnings:
-drivers/nfc/st21nfca/se.c:337 st21nfca_connectivity_event_received() warn: potential spectre issue 'skb->data' [r]
+vim +2222 drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c
 
-vim +/params_len +343 drivers/nfc/st21nfca/se.c
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2154  
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2155  static int mxc_jpeg_probe(struct platform_device *pdev)
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2156  {
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2157  	struct mxc_jpeg_dev *jpeg;
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2158  	struct device *dev = &pdev->dev;
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2159  	int dec_irq;
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2160  	int ret;
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2161  	int mode;
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2162  	const struct of_device_id *of_id;
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2163  	unsigned int slot;
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2164  
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2165  	of_id = of_match_node(mxc_jpeg_match, dev->of_node);
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2166  	mode = *(const int *)of_id->data;
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2167  
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2168  	jpeg = devm_kzalloc(dev, sizeof(struct mxc_jpeg_dev), GFP_KERNEL);
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2169  	if (!jpeg)
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2170  		return -ENOMEM;
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2171  
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2172  	mutex_init(&jpeg->lock);
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2173  	spin_lock_init(&jpeg->hw_lock);
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2174  
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2175  	ret = dma_set_mask_and_coherent(dev, DMA_BIT_MASK(32));
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2176  	if (ret) {
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2177  		dev_err(&pdev->dev, "No suitable DMA available.\n");
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2178  		goto err_irq;
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2179  	}
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2180  
+a498a4e7af5022 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Cai Huoqing        2021-09-01  2181  	jpeg->base_reg = devm_platform_ioremap_resource(pdev, 0);
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2182  	if (IS_ERR(jpeg->base_reg))
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2183  		return PTR_ERR(jpeg->base_reg);
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2184  
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2185  	for (slot = 0; slot < MXC_MAX_SLOTS; slot++) {
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2186  		dec_irq = platform_get_irq(pdev, slot);
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2187  		if (dec_irq < 0) {
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2188  			ret = dec_irq;
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2189  			goto err_irq;
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2190  		}
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2191  		ret = devm_request_irq(&pdev->dev, dec_irq, mxc_jpeg_dec_irq,
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2192  				       0, pdev->name, jpeg);
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2193  		if (ret) {
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2194  			dev_err(&pdev->dev, "Failed to request irq %d (%d)\n",
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2195  				dec_irq, ret);
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2196  			goto err_irq;
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2197  		}
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2198  	}
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2199  
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2200  	jpeg->pdev = pdev;
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2201  	jpeg->dev = dev;
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2202  	jpeg->mode = mode;
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2203  
+4c2e5156d9fa63 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-10-07  2204  	/* Get clocks */
+4c2e5156d9fa63 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-10-07  2205  	jpeg->clk_ipg = devm_clk_get(dev, "ipg");
+4c2e5156d9fa63 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-10-07  2206  	if (IS_ERR(jpeg->clk_ipg)) {
+4c2e5156d9fa63 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-10-07  2207  		dev_err(dev, "failed to get clock: ipg\n");
+5b304046a81eda drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c Jian Zhang         2022-06-20  2208  		ret = PTR_ERR(jpeg->clk_ipg);
+4c2e5156d9fa63 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-10-07  2209  		goto err_clk;
+4c2e5156d9fa63 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-10-07  2210  	}
+4c2e5156d9fa63 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-10-07  2211  
+4c2e5156d9fa63 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-10-07  2212  	jpeg->clk_per = devm_clk_get(dev, "per");
+4c2e5156d9fa63 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-10-07  2213  	if (IS_ERR(jpeg->clk_per)) {
+4c2e5156d9fa63 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-10-07  2214  		dev_err(dev, "failed to get clock: per\n");
+5b304046a81eda drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c Jian Zhang         2022-06-20  2215  		ret = PTR_ERR(jpeg->clk_per);
+4c2e5156d9fa63 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-10-07  2216  		goto err_clk;
+4c2e5156d9fa63 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-10-07  2217  	}
+4c2e5156d9fa63 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-10-07  2218  
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2219  	ret = mxc_jpeg_attach_pm_domains(jpeg);
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2220  	if (ret < 0) {
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2221  		dev_err(dev, "failed to attach power domains %d\n", ret);
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11 @2222  		return ret;
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2223  	}
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2224  
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2225  	/* v4l2 */
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2226  	ret = v4l2_device_register(dev, &jpeg->v4l2_dev);
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2227  	if (ret) {
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2228  		dev_err(dev, "failed to register v4l2 device\n");
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2229  		goto err_register;
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2230  	}
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2231  	jpeg->m2m_dev = v4l2_m2m_init(&mxc_jpeg_m2m_ops);
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2232  	if (IS_ERR(jpeg->m2m_dev)) {
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2233  		dev_err(dev, "failed to register v4l2 device\n");
+fb3b597abdcec8 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Wei Yongjun        2021-03-23  2234  		ret = PTR_ERR(jpeg->m2m_dev);
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2235  		goto err_m2m;
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2236  	}
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2237  
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2238  	jpeg->dec_vdev = video_device_alloc();
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2239  	if (!jpeg->dec_vdev) {
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2240  		dev_err(dev, "failed to register v4l2 device\n");
+fb3b597abdcec8 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Wei Yongjun        2021-03-23  2241  		ret = -ENOMEM;
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2242  		goto err_vdev_alloc;
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2243  	}
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2244  	if (mode == MXC_JPEG_ENCODE)
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2245  		snprintf(jpeg->dec_vdev->name,
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2246  			 sizeof(jpeg->dec_vdev->name),
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2247  			 "%s-enc", MXC_JPEG_NAME);
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2248  	else
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2249  		snprintf(jpeg->dec_vdev->name,
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2250  			 sizeof(jpeg->dec_vdev->name),
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2251  			 "%s-dec", MXC_JPEG_NAME);
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2252  
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2253  	jpeg->dec_vdev->fops = &mxc_jpeg_fops;
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2254  	jpeg->dec_vdev->ioctl_ops = &mxc_jpeg_ioctl_ops;
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2255  	jpeg->dec_vdev->minor = -1;
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2256  	jpeg->dec_vdev->release = video_device_release;
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2257  	jpeg->dec_vdev->lock = &jpeg->lock; /* lock for ioctl serialization */
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2258  	jpeg->dec_vdev->v4l2_dev = &jpeg->v4l2_dev;
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2259  	jpeg->dec_vdev->vfl_dir = VFL_DIR_M2M;
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2260  	jpeg->dec_vdev->device_caps = V4L2_CAP_STREAMING |
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2261  					V4L2_CAP_VIDEO_M2M_MPLANE;
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2262  	if (mode == MXC_JPEG_ENCODE) {
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2263  		v4l2_disable_ioctl(jpeg->dec_vdev, VIDIOC_DECODER_CMD);
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2264  		v4l2_disable_ioctl(jpeg->dec_vdev, VIDIOC_TRY_DECODER_CMD);
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2265  	} else {
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2266  		v4l2_disable_ioctl(jpeg->dec_vdev, VIDIOC_ENCODER_CMD);
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2267  		v4l2_disable_ioctl(jpeg->dec_vdev, VIDIOC_TRY_ENCODER_CMD);
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2268  	}
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2269  	ret = video_register_device(jpeg->dec_vdev, VFL_TYPE_VIDEO, -1);
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2270  	if (ret) {
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2271  		dev_err(dev, "failed to register video device\n");
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2272  		goto err_vdev_register;
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2273  	}
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2274  	video_set_drvdata(jpeg->dec_vdev, jpeg);
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2275  	if (mode == MXC_JPEG_ENCODE)
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2276  		v4l2_info(&jpeg->v4l2_dev,
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2277  			  "encoder device registered as /dev/video%d (%d,%d)\n",
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2278  			  jpeg->dec_vdev->num, VIDEO_MAJOR,
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2279  			  jpeg->dec_vdev->minor);
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2280  	else
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2281  		v4l2_info(&jpeg->v4l2_dev,
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2282  			  "decoder device registered as /dev/video%d (%d,%d)\n",
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2283  			  jpeg->dec_vdev->num, VIDEO_MAJOR,
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2284  			  jpeg->dec_vdev->minor);
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2285  
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2286  	platform_set_drvdata(pdev, jpeg);
+4c2e5156d9fa63 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-10-07  2287  	pm_runtime_enable(dev);
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2288  
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2289  	return 0;
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2290  
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2291  err_vdev_register:
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2292  	video_device_release(jpeg->dec_vdev);
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2293  
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2294  err_vdev_alloc:
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2295  	v4l2_m2m_release(jpeg->m2m_dev);
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2296  
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2297  err_m2m:
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2298  	v4l2_device_unregister(&jpeg->v4l2_dev);
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2299  
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2300  err_register:
+5c47dc6657543b drivers/media/platform/imx-jpeg/mxc-jpeg.c     Christophe JAILLET 2021-08-21  2301  	mxc_jpeg_detach_pm_domains(jpeg);
+5c47dc6657543b drivers/media/platform/imx-jpeg/mxc-jpeg.c     Christophe JAILLET 2021-08-21  2302  
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2303  err_irq:
+4c2e5156d9fa63 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-10-07  2304  err_clk:
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2305  	return ret;
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2306  }
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c     Mirela Rabulea     2021-03-11  2307  
 
-2130fb97fecf9a drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-01-27  291  
-2130fb97fecf9a drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-01-27  292  /*
-2130fb97fecf9a drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-01-27  293   * Returns:
-2130fb97fecf9a drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-01-27  294   * <= 0: driver handled the event, skb consumed
-2130fb97fecf9a drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-01-27  295   *    1: driver does not handle the event, please do standard processing
-2130fb97fecf9a drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-01-27  296   */
-2130fb97fecf9a drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-01-27  297  int st21nfca_connectivity_event_received(struct nfc_hci_dev *hdev, u8 host,
-2130fb97fecf9a drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-01-27  298  				u8 event, struct sk_buff *skb)
-2130fb97fecf9a drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-01-27  299  {
-2130fb97fecf9a drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-01-27  300  	int r = 0;
-26fc6c7f02cb26 drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-02-01  301  	struct device *dev = &hdev->ndev->dev;
-26fc6c7f02cb26 drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-02-01  302  	struct nfc_evt_transaction *transaction;
-f2e19b36593cae drivers/nfc/st21nfca/se.c          Martin Faltesek   2022-06-06  303  	u32 aid_len;
-f2e19b36593cae drivers/nfc/st21nfca/se.c          Martin Faltesek   2022-06-06  304  	u8 params_len;
-2130fb97fecf9a drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-01-27  305  
-2130fb97fecf9a drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-01-27  306  	pr_debug("connectivity gate event: %x\n", event);
-2130fb97fecf9a drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-01-27  307  
-2130fb97fecf9a drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-01-27  308  	switch (event) {
-2130fb97fecf9a drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-01-27  309  	case ST21NFCA_EVT_CONNECTIVITY:
-72c54c42b29439 drivers/nfc/st21nfca/se.c          Christophe Ricard 2015-12-23  310  		r = nfc_se_connectivity(hdev->ndev, host);
-2130fb97fecf9a drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-01-27  311  	break;
-2130fb97fecf9a drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-01-27  312  	case ST21NFCA_EVT_TRANSACTION:
-f2e19b36593cae drivers/nfc/st21nfca/se.c          Martin Faltesek   2022-06-06  313  		/* According to specification etsi 102 622
-9dbe776338e7f9 drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-03-31  314  		 * 11.2.2.4 EVT_TRANSACTION Table 52
-9dbe776338e7f9 drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-03-31  315  		 * Description	Tag	Length
-9dbe776338e7f9 drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-03-31  316  		 * AID		81	5 to 16
-9dbe776338e7f9 drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-03-31  317  		 * PARAMETERS	82	0 to 255
-f2e19b36593cae drivers/nfc/st21nfca/se.c          Martin Faltesek   2022-06-06  318  		 *
-f2e19b36593cae drivers/nfc/st21nfca/se.c          Martin Faltesek   2022-06-06  319  		 * The key differences are aid storage length is variably sized
-f2e19b36593cae drivers/nfc/st21nfca/se.c          Martin Faltesek   2022-06-06  320  		 * in the packet, but fixed in nfc_evt_transaction, and that the aid_len
-f2e19b36593cae drivers/nfc/st21nfca/se.c          Martin Faltesek   2022-06-06  321  		 * is u8 in the packet, but u32 in the structure, and the tags in
-f2e19b36593cae drivers/nfc/st21nfca/se.c          Martin Faltesek   2022-06-06  322  		 * the packet are not included in nfc_evt_transaction.
-f2e19b36593cae drivers/nfc/st21nfca/se.c          Martin Faltesek   2022-06-06  323  		 *
-f2e19b36593cae drivers/nfc/st21nfca/se.c          Martin Faltesek   2022-06-06  324  		 * size in bytes: 1          1       5-16 1             1           0-255
-f2e19b36593cae drivers/nfc/st21nfca/se.c          Martin Faltesek   2022-06-06  325  		 * offset:        0          1       2    aid_len + 2   aid_len + 3 aid_len + 4
-f2e19b36593cae drivers/nfc/st21nfca/se.c          Martin Faltesek   2022-06-06  326  		 * member name:   aid_tag(M) aid_len aid  params_tag(M) params_len  params
-f2e19b36593cae drivers/nfc/st21nfca/se.c          Martin Faltesek   2022-06-06  327  		 * example:       0x81       5-16    X    0x82 0-255    X
-9dbe776338e7f9 drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-03-31  328  		 */
-f2e19b36593cae drivers/nfc/st21nfca/se.c          Martin Faltesek   2022-06-06  329  		if (skb->len < 2 || skb->data[0] != NFC_EVT_TRANSACTION_AID_TAG)
-26fc6c7f02cb26 drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-02-01  330  			return -EPROTO;
-26fc6c7f02cb26 drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-02-01  331  
-f2e19b36593cae drivers/nfc/st21nfca/se.c          Martin Faltesek   2022-06-06  332  		aid_len = skb->data[1];
-4fbcc1a4cb20fe drivers/nfc/st21nfca/se.c          Jordy Zomer       2022-01-11  333  
-f2e19b36593cae drivers/nfc/st21nfca/se.c          Martin Faltesek   2022-06-06  334  		if (skb->len < aid_len + 4 || aid_len > sizeof(transaction->aid))
-f2e19b36593cae drivers/nfc/st21nfca/se.c          Martin Faltesek   2022-06-06  335  			return -EPROTO;
-4fbcc1a4cb20fe drivers/nfc/st21nfca/se.c          Jordy Zomer       2022-01-11  336  
-f2e19b36593cae drivers/nfc/st21nfca/se.c          Martin Faltesek   2022-06-06  337  		params_len = skb->data[aid_len + 3];
-26fc6c7f02cb26 drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-02-01  338  
-f2e19b36593cae drivers/nfc/st21nfca/se.c          Martin Faltesek   2022-06-06  339  		/* Verify PARAMETERS tag is (82), and final check that there is enough
-f2e19b36593cae drivers/nfc/st21nfca/se.c          Martin Faltesek   2022-06-06  340  		 * space in the packet to read everything.
-f2e19b36593cae drivers/nfc/st21nfca/se.c          Martin Faltesek   2022-06-06  341  		 */
-f2e19b36593cae drivers/nfc/st21nfca/se.c          Martin Faltesek   2022-06-06  342  		if ((skb->data[aid_len + 2] != NFC_EVT_TRANSACTION_PARAMS_TAG) ||
-f2e19b36593cae drivers/nfc/st21nfca/se.c          Martin Faltesek   2022-06-06 @343  		    (skb->len < aid_len + 4 + params_len))
-26fc6c7f02cb26 drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-02-01  344  			return -EPROTO;
-26fc6c7f02cb26 drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-02-01  345  
-f2e19b36593cae drivers/nfc/st21nfca/se.c          Martin Faltesek   2022-06-06  346  		transaction = devm_kzalloc(dev, sizeof(*transaction) + params_len, GFP_KERNEL);
-f2e19b36593cae drivers/nfc/st21nfca/se.c          Martin Faltesek   2022-06-06  347  		if (!transaction)
-f2e19b36593cae drivers/nfc/st21nfca/se.c          Martin Faltesek   2022-06-06  348  			return -ENOMEM;
-4fbcc1a4cb20fe drivers/nfc/st21nfca/se.c          Jordy Zomer       2022-01-11  349  
-f2e19b36593cae drivers/nfc/st21nfca/se.c          Martin Faltesek   2022-06-06  350  		transaction->aid_len = aid_len;
-f2e19b36593cae drivers/nfc/st21nfca/se.c          Martin Faltesek   2022-06-06  351  		transaction->params_len = params_len;
-4fbcc1a4cb20fe drivers/nfc/st21nfca/se.c          Jordy Zomer       2022-01-11  352  
-f2e19b36593cae drivers/nfc/st21nfca/se.c          Martin Faltesek   2022-06-06  353  		memcpy(transaction->aid, &skb->data[2], aid_len);
-f2e19b36593cae drivers/nfc/st21nfca/se.c          Martin Faltesek   2022-06-06  354  		memcpy(transaction->params, &skb->data[aid_len + 4], params_len);
-26fc6c7f02cb26 drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-02-01  355  
-26fc6c7f02cb26 drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-02-01  356  		r = nfc_se_transaction(hdev->ndev, host, transaction);
-2130fb97fecf9a drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-01-27  357  	break;
-2130fb97fecf9a drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-01-27  358  	default:
-a9e062d0599f49 drivers/nfc/st21nfca/se.c          Christophe Ricard 2015-10-25  359  		nfc_err(&hdev->ndev->dev, "Unexpected event on connectivity gate\n");
-2130fb97fecf9a drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-01-27  360  		return 1;
-2130fb97fecf9a drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-01-27  361  	}
-2130fb97fecf9a drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-01-27  362  	kfree_skb(skb);
-2130fb97fecf9a drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-01-27  363  	return r;
-2130fb97fecf9a drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-01-27  364  }
-2130fb97fecf9a drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-01-27  365  EXPORT_SYMBOL(st21nfca_connectivity_event_received);
-2130fb97fecf9a drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-01-27  366  
+:::::: The code at line 2222 was first introduced by commit
+:::::: 2db16c6ed72ce644d5639b3ed15e5817442db4ba media: imx-jpeg: Add V4L2 driver for i.MX8 JPEG Encoder/Decoder
+
+:::::: TO: Mirela Rabulea <mirela.rabulea@nxp.com>
+:::::: CC: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
