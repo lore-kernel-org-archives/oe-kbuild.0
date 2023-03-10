@@ -1,42 +1,42 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72500882C
-	for <oe-kbuild@lists.linux.dev>; Fri, 10 Mar 2023 15:23:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 435B18838
+	for <oe-kbuild@lists.linux.dev>; Fri, 10 Mar 2023 16:24:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678461804; x=1709997804;
+  t=1678465466; x=1710001466;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=BQ25im7Idh6wBE/+bRkXhRbydVHWyrfXW0GSWzM+RVs=;
-  b=iMrHgVd3gDQ9SR1dvajKBDRltdhXjLYgamoh9qD6ycwLrxixl+6U9ka8
-   Fzs6TTM6SvXIzrKJ+CqeZQRz+bEbj/GtEqwEESx+y5fMuDBNZqBsIMou5
-   qPysszGhfTKugpsKKE3hCUOeYq71nkLtv8CPYWmlG2WIWfQQIiTQPTWpK
-   4QBdLmwZ6IuUn4R1s/D2sLJRbXljQH/6puq6x5SxRHeNrTekleIg0pwhs
-   76UcFBei8YWfu+5WFsv9MvsH74CjM2PEqpRDX/qxJJvDw1fvSwnHQ8tnT
-   0sUPTM/aYcBLeHqvHImAPo4EKAsteYixvSKEJBetJdyf4F7APX44yU4+7
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10645"; a="338302147"
+  bh=HUxXHszIWWLUFhHUIKUwagZ1K4+4H4zFITblu8+58VA=;
+  b=O5E+Z0uFFHzQhnm+t9BkiS3byf625+9HAVmE6MNDKxJnPOohJPFlPOp8
+   hNqc3DzIZ8Dai7OMEVmch1rd8ayJOecDZezb1lfKPi56FDVTAK2JDJhwd
+   YOwiNc5/IPAwgNufLoIQEpXoOXTwxJsgUUawTPKA/7QcxMamSIrGe07iD
+   R+uKpJqdOxXvT9Zu17HSqi+d1e9DMTFK/vZhXWR3mU2q7lerPY6HqAI5N
+   jZWai80rsV5dItKTvNY68A8ozFVPeJydWmWU3fHYfY9UWrwgWmhw9eLY9
+   jd2j3N31Iz7bM01UYe4GyQ+M1FuFdR+crQVC5WSlJM+QSbPpIh5mbljZ3
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10645"; a="334241618"
 X-IronPort-AV: E=Sophos;i="5.98,250,1673942400"; 
-   d="scan'208";a="338302147"
+   d="scan'208";a="334241618"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2023 07:23:23 -0800
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2023 08:24:25 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10645"; a="742018775"
+X-IronPort-AV: E=McAfee;i="6500,9779,10645"; a="742037310"
 X-IronPort-AV: E=Sophos;i="5.98,250,1673942400"; 
-   d="scan'208";a="742018775"
+   d="scan'208";a="742037310"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 10 Mar 2023 07:23:22 -0800
+  by fmsmga008.fm.intel.com with ESMTP; 10 Mar 2023 08:24:24 -0800
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1paeaX-0003wr-2R;
-	Fri, 10 Mar 2023 15:23:21 +0000
-Date: Fri, 10 Mar 2023 23:22:28 +0800
+	id 1pafXb-0003zj-2c;
+	Fri, 10 Mar 2023 16:24:23 +0000
+Date: Sat, 11 Mar 2023 00:23:37 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/input/misc/iqs7222.c:1404 iqs7222_dev_init() error:
- uninitialized symbol 'error'.
-Message-ID: <202303102326.SfXa4BT9-lkp@intel.com>
+Subject: drivers/nfc/st21nfca/se.c:343 st21nfca_connectivity_event_received()
+ warn: possible spectre second half.  'params_len'
+Message-ID: <202303110021.z36kxnV1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -49,129 +49,109 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Jeff LaBundy <jeff@labundy.com>
-CC: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+TO: Martin Faltesek <mfaltesek@google.com>
+CC: Jakub Kicinski <kuba@kernel.org>
+CC: Guenter Roeck <groeck@chromium.org>
+CC: Krzysztof Kozlowski <krzk@kernel.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   44889ba56cbb3d51154660ccd15818bc77276696
-commit: e505edaedcb9e7d16eefddc62d2189afaea0febc Input: add support for Azoteq IQS7222A/B/C
-date:   11 months ago
-:::::: branch date: 20 hours ago
-:::::: commit date: 11 months ago
-config: ia64-randconfig-m041-20230308 (https://download.01.org/0day-ci/archive/20230310/202303102326.SfXa4BT9-lkp@intel.com/config)
-compiler: ia64-linux-gcc (GCC) 12.1.0
+commit: f2e19b36593caed4c977c2f55aeba7408aeb2132 nfc: st21nfca: fix incorrect sizing calculations in EVT_TRANSACTION
+date:   9 months ago
+:::::: branch date: 21 hours ago
+:::::: commit date: 9 months ago
+config: s390-randconfig-m031-20230310 (https://download.01.org/0day-ci/archive/20230311/202303110021.z36kxnV1-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202303102326.SfXa4BT9-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202303110021.z36kxnV1-lkp@intel.com/
 
-smatch warnings:
-drivers/input/misc/iqs7222.c:1404 iqs7222_dev_init() error: uninitialized symbol 'error'.
+New smatch warnings:
+drivers/nfc/st21nfca/se.c:343 st21nfca_connectivity_event_received() warn: possible spectre second half.  'params_len'
 
-vim +/error +1404 drivers/input/misc/iqs7222.c
+Old smatch warnings:
+drivers/nfc/st21nfca/se.c:337 st21nfca_connectivity_event_received() warn: potential spectre issue 'skb->data' [r]
 
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1329  
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1330  static int iqs7222_dev_init(struct iqs7222_private *iqs7222, int dir)
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1331  {
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1332  	const struct iqs7222_dev_desc *dev_desc = iqs7222->dev_desc;
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1333  	int comms_offset = dev_desc->comms_offset;
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1334  	int error, i, j, k;
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1335  
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1336  	/*
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1337  	 * Take advantage of the stop-bit disable function, if available, to
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1338  	 * save the trouble of having to reopen a communication window after
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1339  	 * each burst read or write.
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1340  	 */
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1341  	if (comms_offset) {
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1342  		u16 comms_setup;
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1343  
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1344  		error = iqs7222_read_word(iqs7222,
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1345  					  IQS7222_SYS_SETUP + comms_offset,
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1346  					  &comms_setup);
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1347  		if (error)
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1348  			return error;
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1349  
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1350  		error = iqs7222_write_word(iqs7222,
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1351  					   IQS7222_SYS_SETUP + comms_offset,
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1352  					   comms_setup | IQS7222_COMMS_HOLD);
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1353  		if (error)
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1354  			return error;
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1355  	}
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1356  
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1357  	for (i = 0; i < IQS7222_NUM_REG_GRPS; i++) {
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1358  		int num_row = dev_desc->reg_grps[i].num_row;
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1359  		int num_col = dev_desc->reg_grps[i].num_col;
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1360  		u16 reg = dev_desc->reg_grps[i].base;
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1361  		__le16 *val_buf;
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1362  		u16 *val;
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1363  
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1364  		if (!num_col)
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1365  			continue;
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1366  
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1367  		val = iqs7222_setup(iqs7222, i, 0);
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1368  		if (!val)
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1369  			continue;
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1370  
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1371  		val_buf = kcalloc(num_col, sizeof(__le16), GFP_KERNEL);
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1372  		if (!val_buf)
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1373  			return -ENOMEM;
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1374  
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1375  		for (j = 0; j < num_row; j++) {
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1376  			switch (dir) {
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1377  			case READ:
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1378  				error = iqs7222_read_burst(iqs7222, reg,
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1379  							   val_buf, num_col);
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1380  				for (k = 0; k < num_col; k++)
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1381  					val[k] = le16_to_cpu(val_buf[k]);
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1382  				break;
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1383  
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1384  			case WRITE:
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1385  				for (k = 0; k < num_col; k++)
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1386  					val_buf[k] = cpu_to_le16(val[k]);
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1387  				error = iqs7222_write_burst(iqs7222, reg,
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1388  							    val_buf, num_col);
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1389  				break;
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1390  
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1391  			default:
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1392  				error = -EINVAL;
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1393  			}
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1394  
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1395  			if (error)
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1396  				break;
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1397  
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1398  			reg += IQS7222_REG_OFFSET;
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1399  			val += iqs7222_max_cols[i];
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1400  		}
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1401  
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1402  		kfree(val_buf);
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1403  
-e505edaedcb9e7 Jeff LaBundy 2022-04-08 @1404  		if (error)
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1405  			return error;
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1406  	}
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1407  
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1408  	if (comms_offset) {
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1409  		u16 comms_setup;
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1410  
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1411  		error = iqs7222_read_word(iqs7222,
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1412  					  IQS7222_SYS_SETUP + comms_offset,
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1413  					  &comms_setup);
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1414  		if (error)
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1415  			return error;
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1416  
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1417  		error = iqs7222_write_word(iqs7222,
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1418  					   IQS7222_SYS_SETUP + comms_offset,
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1419  					   comms_setup & ~IQS7222_COMMS_HOLD);
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1420  		if (error)
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1421  			return error;
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1422  	}
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1423  
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1424  	if (dir == READ)
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1425  		return 0;
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1426  
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1427  	return iqs7222_ati_trigger(iqs7222);
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1428  }
-e505edaedcb9e7 Jeff LaBundy 2022-04-08  1429  
+vim +/params_len +343 drivers/nfc/st21nfca/se.c
+
+2130fb97fecf9a drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-01-27  291  
+2130fb97fecf9a drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-01-27  292  /*
+2130fb97fecf9a drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-01-27  293   * Returns:
+2130fb97fecf9a drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-01-27  294   * <= 0: driver handled the event, skb consumed
+2130fb97fecf9a drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-01-27  295   *    1: driver does not handle the event, please do standard processing
+2130fb97fecf9a drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-01-27  296   */
+2130fb97fecf9a drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-01-27  297  int st21nfca_connectivity_event_received(struct nfc_hci_dev *hdev, u8 host,
+2130fb97fecf9a drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-01-27  298  				u8 event, struct sk_buff *skb)
+2130fb97fecf9a drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-01-27  299  {
+2130fb97fecf9a drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-01-27  300  	int r = 0;
+26fc6c7f02cb26 drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-02-01  301  	struct device *dev = &hdev->ndev->dev;
+26fc6c7f02cb26 drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-02-01  302  	struct nfc_evt_transaction *transaction;
+f2e19b36593cae drivers/nfc/st21nfca/se.c          Martin Faltesek   2022-06-06  303  	u32 aid_len;
+f2e19b36593cae drivers/nfc/st21nfca/se.c          Martin Faltesek   2022-06-06  304  	u8 params_len;
+2130fb97fecf9a drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-01-27  305  
+2130fb97fecf9a drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-01-27  306  	pr_debug("connectivity gate event: %x\n", event);
+2130fb97fecf9a drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-01-27  307  
+2130fb97fecf9a drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-01-27  308  	switch (event) {
+2130fb97fecf9a drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-01-27  309  	case ST21NFCA_EVT_CONNECTIVITY:
+72c54c42b29439 drivers/nfc/st21nfca/se.c          Christophe Ricard 2015-12-23  310  		r = nfc_se_connectivity(hdev->ndev, host);
+2130fb97fecf9a drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-01-27  311  	break;
+2130fb97fecf9a drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-01-27  312  	case ST21NFCA_EVT_TRANSACTION:
+f2e19b36593cae drivers/nfc/st21nfca/se.c          Martin Faltesek   2022-06-06  313  		/* According to specification etsi 102 622
+9dbe776338e7f9 drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-03-31  314  		 * 11.2.2.4 EVT_TRANSACTION Table 52
+9dbe776338e7f9 drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-03-31  315  		 * Description	Tag	Length
+9dbe776338e7f9 drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-03-31  316  		 * AID		81	5 to 16
+9dbe776338e7f9 drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-03-31  317  		 * PARAMETERS	82	0 to 255
+f2e19b36593cae drivers/nfc/st21nfca/se.c          Martin Faltesek   2022-06-06  318  		 *
+f2e19b36593cae drivers/nfc/st21nfca/se.c          Martin Faltesek   2022-06-06  319  		 * The key differences are aid storage length is variably sized
+f2e19b36593cae drivers/nfc/st21nfca/se.c          Martin Faltesek   2022-06-06  320  		 * in the packet, but fixed in nfc_evt_transaction, and that the aid_len
+f2e19b36593cae drivers/nfc/st21nfca/se.c          Martin Faltesek   2022-06-06  321  		 * is u8 in the packet, but u32 in the structure, and the tags in
+f2e19b36593cae drivers/nfc/st21nfca/se.c          Martin Faltesek   2022-06-06  322  		 * the packet are not included in nfc_evt_transaction.
+f2e19b36593cae drivers/nfc/st21nfca/se.c          Martin Faltesek   2022-06-06  323  		 *
+f2e19b36593cae drivers/nfc/st21nfca/se.c          Martin Faltesek   2022-06-06  324  		 * size in bytes: 1          1       5-16 1             1           0-255
+f2e19b36593cae drivers/nfc/st21nfca/se.c          Martin Faltesek   2022-06-06  325  		 * offset:        0          1       2    aid_len + 2   aid_len + 3 aid_len + 4
+f2e19b36593cae drivers/nfc/st21nfca/se.c          Martin Faltesek   2022-06-06  326  		 * member name:   aid_tag(M) aid_len aid  params_tag(M) params_len  params
+f2e19b36593cae drivers/nfc/st21nfca/se.c          Martin Faltesek   2022-06-06  327  		 * example:       0x81       5-16    X    0x82 0-255    X
+9dbe776338e7f9 drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-03-31  328  		 */
+f2e19b36593cae drivers/nfc/st21nfca/se.c          Martin Faltesek   2022-06-06  329  		if (skb->len < 2 || skb->data[0] != NFC_EVT_TRANSACTION_AID_TAG)
+26fc6c7f02cb26 drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-02-01  330  			return -EPROTO;
+26fc6c7f02cb26 drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-02-01  331  
+f2e19b36593cae drivers/nfc/st21nfca/se.c          Martin Faltesek   2022-06-06  332  		aid_len = skb->data[1];
+4fbcc1a4cb20fe drivers/nfc/st21nfca/se.c          Jordy Zomer       2022-01-11  333  
+f2e19b36593cae drivers/nfc/st21nfca/se.c          Martin Faltesek   2022-06-06  334  		if (skb->len < aid_len + 4 || aid_len > sizeof(transaction->aid))
+f2e19b36593cae drivers/nfc/st21nfca/se.c          Martin Faltesek   2022-06-06  335  			return -EPROTO;
+4fbcc1a4cb20fe drivers/nfc/st21nfca/se.c          Jordy Zomer       2022-01-11  336  
+f2e19b36593cae drivers/nfc/st21nfca/se.c          Martin Faltesek   2022-06-06  337  		params_len = skb->data[aid_len + 3];
+26fc6c7f02cb26 drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-02-01  338  
+f2e19b36593cae drivers/nfc/st21nfca/se.c          Martin Faltesek   2022-06-06  339  		/* Verify PARAMETERS tag is (82), and final check that there is enough
+f2e19b36593cae drivers/nfc/st21nfca/se.c          Martin Faltesek   2022-06-06  340  		 * space in the packet to read everything.
+f2e19b36593cae drivers/nfc/st21nfca/se.c          Martin Faltesek   2022-06-06  341  		 */
+f2e19b36593cae drivers/nfc/st21nfca/se.c          Martin Faltesek   2022-06-06  342  		if ((skb->data[aid_len + 2] != NFC_EVT_TRANSACTION_PARAMS_TAG) ||
+f2e19b36593cae drivers/nfc/st21nfca/se.c          Martin Faltesek   2022-06-06 @343  		    (skb->len < aid_len + 4 + params_len))
+26fc6c7f02cb26 drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-02-01  344  			return -EPROTO;
+26fc6c7f02cb26 drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-02-01  345  
+f2e19b36593cae drivers/nfc/st21nfca/se.c          Martin Faltesek   2022-06-06  346  		transaction = devm_kzalloc(dev, sizeof(*transaction) + params_len, GFP_KERNEL);
+f2e19b36593cae drivers/nfc/st21nfca/se.c          Martin Faltesek   2022-06-06  347  		if (!transaction)
+f2e19b36593cae drivers/nfc/st21nfca/se.c          Martin Faltesek   2022-06-06  348  			return -ENOMEM;
+4fbcc1a4cb20fe drivers/nfc/st21nfca/se.c          Jordy Zomer       2022-01-11  349  
+f2e19b36593cae drivers/nfc/st21nfca/se.c          Martin Faltesek   2022-06-06  350  		transaction->aid_len = aid_len;
+f2e19b36593cae drivers/nfc/st21nfca/se.c          Martin Faltesek   2022-06-06  351  		transaction->params_len = params_len;
+4fbcc1a4cb20fe drivers/nfc/st21nfca/se.c          Jordy Zomer       2022-01-11  352  
+f2e19b36593cae drivers/nfc/st21nfca/se.c          Martin Faltesek   2022-06-06  353  		memcpy(transaction->aid, &skb->data[2], aid_len);
+f2e19b36593cae drivers/nfc/st21nfca/se.c          Martin Faltesek   2022-06-06  354  		memcpy(transaction->params, &skb->data[aid_len + 4], params_len);
+26fc6c7f02cb26 drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-02-01  355  
+26fc6c7f02cb26 drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-02-01  356  		r = nfc_se_transaction(hdev->ndev, host, transaction);
+2130fb97fecf9a drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-01-27  357  	break;
+2130fb97fecf9a drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-01-27  358  	default:
+a9e062d0599f49 drivers/nfc/st21nfca/se.c          Christophe Ricard 2015-10-25  359  		nfc_err(&hdev->ndev->dev, "Unexpected event on connectivity gate\n");
+2130fb97fecf9a drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-01-27  360  		return 1;
+2130fb97fecf9a drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-01-27  361  	}
+2130fb97fecf9a drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-01-27  362  	kfree_skb(skb);
+2130fb97fecf9a drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-01-27  363  	return r;
+2130fb97fecf9a drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-01-27  364  }
+2130fb97fecf9a drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-01-27  365  EXPORT_SYMBOL(st21nfca_connectivity_event_received);
+2130fb97fecf9a drivers/nfc/st21nfca/st21nfca_se.c Christophe Ricard 2015-01-27  366  
 
 -- 
 0-DAY CI Kernel Test Service
