@@ -1,71 +1,42 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1EE17B;
-	Sat, 11 Mar 2023 13:54:39 +0000 (UTC)
-Received: by mail-wm1-f48.google.com with SMTP id j19-20020a05600c191300b003eb3e1eb0caso7976491wmq.1;
-        Sat, 11 Mar 2023 05:54:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678542877;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=w6VNgsWjX3Wuvimz8g5dmkPK1Cy/m4ikAbDoLw6beJQ=;
-        b=EgpADp9mPyWPriOHQHt/ftRejPRpNulP0dfOXzeleBhIPgj1NGQIJbytBzJ2k1iF4R
-         CyITUZOvJLHKAPxgRdheh7BTJmNg+LH8xo7nE4cpnK/TrtstTxkyuMZEe6QB0uKZbsho
-         bha6cNC4l0ab+HfNrdxjVgcV4nNCXjrWHLvd5AgmtK0unzXSSZWpk338fqWEaWfbfDXc
-         gS8s4MTSvK5KviuS4DzupSZgdAs7GDKSC97xY/DJNQkr+LExD4sU3rKuRX3/o8kJ1rWj
-         n5Cc6BbMqxbQX9xXF/Ai+zkDgJk3y+PUHE9rOyhjFvIaxai7o22SnhvFxKXJxhQbJB/I
-         C2Xg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678542877;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=w6VNgsWjX3Wuvimz8g5dmkPK1Cy/m4ikAbDoLw6beJQ=;
-        b=RhDf3pHuZvH/t4A3Ia09WRt7TeNXX0NuxT6o6If2HAkUbNoQ55ZW0WlQg+34zYBDiL
-         oKizxhfnyd6l+GEYSH54FbqehPKPjMZYq+ADSNjBmzKmVwxXioRtd7feD84REC+I+OGh
-         xyo3VmgTOhKQwNCQwSReDjJKtnnRcge4jhrAKjIo2BDsnKRiG3trquhTD++dHyVMx9nM
-         wAFtAi5owo1+G3Bl4xQJkALFJ1C/fmt1PA6vIxrQc9RyRYrWZ1YZtM25MCl4xa9pC/y8
-         enQUJ+0IsKu5qJhIJr3kJm4bfSjOO7aGNMFcJBhbL1xI/kV4rcYQKQwdzHhGugTIBjqN
-         6tlQ==
-X-Gm-Message-State: AO0yUKXxLiAS9IDzc9t3Y8UB/FQOBJxaDY5CkroTTrsk92hieepMLRyy
-	zMUcOVTwdbT1caumIP/jQIn1zjOkyiXXOujI
-X-Google-Smtp-Source: AK7set8Q/kmI9mpEEdXrr7E14surqp2hrZc9WFbOGPYrv2F11V19h1lecKjCq/bjwK7VwWka+od15A==
-X-Received: by 2002:a05:600c:4e8c:b0:3eb:4cb5:dfa with SMTP id f12-20020a05600c4e8c00b003eb4cb50dfamr5440417wmq.31.1678542877399;
-        Sat, 11 Mar 2023 05:54:37 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id hn4-20020a05600ca38400b003dc1d668866sm2899772wmb.10.2023.03.11.05.54.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 11 Mar 2023 05:54:37 -0800 (PST)
-Date: Sat, 11 Mar 2023 16:54:32 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	=?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>,
-	Mika Westerberg <mika.westerberg@linux.intel.com>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Randy Dunlap <rdunlap@infradead.org>, Arnd Bergmann <arnd@arndb.de>,
-	Bjorn Helgaas <helgaas@kernel.org>,
-	"Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-	Niklas Schnelle <schnelle@linux.ibm.com>,
-	Pali =?iso-8859-1?Q?Roh=E1r?= <pali@kernel.org>,
-	"Maciej W. Rozycki" <macro@orcam.me.uk>,
-	Juergen Gross <jgross@suse.com>,
-	Dominik Brodowski <linux@dominikbrodowski.net>,
-	linux-kernel@vger.kernel.org, linux-alpha@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org, linux-sh@vger.kernel.org,
-	sparclinux@vger.kernel.org, linux-pci@vger.kernel.org,
-	xen-devel@lists.xenproject.org, linux-acpi@vger.kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Richard Henderson <richard.henderson@linaro.org>,
-	Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-	Matt Turner <mattst88@gmail.com>,
-	Russell King <linux@armlinux.org.uk>, Andrew Lunn <andrew@lunn.ch>
-Subject: Re: [PATCH v4 1/4] PCI: Introduce pci_dev_for_each_resource()
-Message-ID: <d057ac5c-5947-41e1-abc7-9428fbd2fbe2@kili.mountain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F1817B
+	for <oe-kbuild@lists.linux.dev>; Sat, 11 Mar 2023 14:03:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1678543435; x=1710079435;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=7HGkoBwQ3zupk1LdhywMpBusyNMLCCdJ+Y/vuTpVrRA=;
+  b=WGGhPC8xXDV7cvydpkdvjZh7VeHOBQfBiTjoQ/vs3KmjmEqh99H9L8/c
+   rqLDkaqBWeq6cNbLfgs7xm/XSZDr10gdaES59pzd8doG5ynLy67i8u5RO
+   iWfUH1cnoVHdLTM5XKwcBPt7VmxuW8+WShoSqFauUvZabtGJ6vyjfDwb0
+   MONCnYmWKYQGJBRk/zwlSSX7zYQ7zyxwHOrnW8KoQGsTA9TAGfVc+/wF2
+   l8YfJu9oNNu8L5smUuvPHf1tJ9t+zkzdG2HnOjBuZ2roRhtTa5vMglx4C
+   jlcbqyINP1KapD9v2m3h2a1XDIrGe5KK0YHyquKzvuvnYyZWzN7tTVwRO
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10646"; a="320757758"
+X-IronPort-AV: E=Sophos;i="5.98,252,1673942400"; 
+   d="scan'208";a="320757758"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2023 06:03:54 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10646"; a="628133768"
+X-IronPort-AV: E=Sophos;i="5.98,252,1673942400"; 
+   d="scan'208";a="628133768"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by orsmga003.jf.intel.com with ESMTP; 11 Mar 2023 06:03:53 -0800
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pazpA-0004cP-2N;
+	Sat, 11 Mar 2023 14:03:52 +0000
+Date: Sat, 11 Mar 2023 22:03:29 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: [linux-next:master 1240/2655] fs/9p/vfs_dir.c:220:4: warning: Value
+ stored to 'retval' is never read [clang-analyzer-deadcode.DeadStores]
+Message-ID: <202303112142.VOUngch0-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -74,96 +45,290 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230310171416.23356-2-andriy.shevchenko@linux.intel.com>
 
-Hi Andy,
+:::::: 
+:::::: Manual check reason: "low confidence static check warning: fs/9p/vfs_dir.c:220:4: warning: Value stored to 'retval' is never read [clang-analyzer-deadcode.DeadStores]"
+:::::: 
 
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+BCC: lkp@intel.com
+CC: llvm@lists.linux.dev
+CC: oe-kbuild-all@lists.linux.dev
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Eric Van Hensbergen <ericvh@kernel.org>
+CC: Dominique Martinet <asmadeus@codewreck.org>
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Shevchenko/PCI-Introduce-pci_dev_for_each_resource/20230311-011642
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
-patch link:    https://lore.kernel.org/r/20230310171416.23356-2-andriy.shevchenko%40linux.intel.com
-patch subject: [PATCH v4 1/4] PCI: Introduce pci_dev_for_each_resource()
-config: x86_64-randconfig-m001 (https://download.01.org/0day-ci/archive/20230311/202303112149.xD47qKOY-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   24469a0e5052ba01a35a15f104717a82b7a4798b
+commit: 02dbb44c1108b8cb81a71cafede50a17ea32937d [1240/2655] fs/9p: Consolidate file operations and add readahead and writeback
+:::::: branch date: 2 days ago
+:::::: commit date: 5 days ago
+config: arm-randconfig-c002-20230310 (https://download.01.org/0day-ci/archive/20230311/202303112142.VOUngch0-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=02dbb44c1108b8cb81a71cafede50a17ea32937d
+        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+        git fetch --no-tags linux-next master
+        git checkout 02dbb44c1108b8cb81a71cafede50a17ea32937d
+        # save the config file
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=arm clang-analyzer  olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=arm clang-analyzer 
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202303112149.xD47qKOY-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202303112142.VOUngch0-lkp@intel.com/
 
-smatch warnings:
-drivers/pnp/quirks.c:248 quirk_system_pci_resources() warn: was && intended here instead of ||?
+clang_analyzer warnings: (new ones prefixed by >>)
+                ^~~~
+   drivers/i3c/master/dw-i3c-master.c:793:2: note: Taking false branch
+           if (!xfer)
+           ^
+   drivers/i3c/master/dw-i3c-master.c:796:8: note: Calling 'dw_i3c_master_get_free_pos'
+           pos = dw_i3c_master_get_free_pos(master);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/i3c/master/dw-i3c-master.c:327:27: note: The result of the right shift is undefined due to shifting by '32', which is greater or equal to the width of type 'unsigned long'
+           if (!(master->free_pos & GENMASK(master->maxdevs - 1, 0)))
+                                    ^
+   include/linux/bits.h:37:31: note: expanded from macro 'GENMASK'
+           (GENMASK_INPUT_CHECK(h, l) + __GENMASK(h, l))
+                                        ^~~~~~~~~~~~~~~
+   include/linux/bits.h:35:11: note: expanded from macro '__GENMASK'
+            (~UL(0) >> (BITS_PER_LONG - 1 - (h))))
+                    ^  ~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 warning generated.
+   drivers/i3c/master/mipi-i3c-hci/ext_caps.c:78:7: warning: Value stored to 'mode_entry' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
+                   u32 mode_entry = readl(base);
+                       ^~~~~~~~~~
+   drivers/i3c/master/mipi-i3c-hci/ext_caps.c:78:7: note: Value stored to 'mode_entry' during its initialization is never read
+                   u32 mode_entry = readl(base);
+                       ^~~~~~~~~~
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 with check filters).
+   1 warning generated.
+   Suppressed 1 warnings (1 with check filters).
+   1 warning generated.
+   Suppressed 1 warnings (1 with check filters).
+   2 warnings generated.
+   Suppressed 2 warnings (1 in non-user code, 1 with check filters).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (1 in non-user code, 1 with check filters).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   drivers/gpu/host1x/dev.c:520:17: warning: The left operand of '<' is a garbage value [clang-analyzer-core.UndefinedBinaryOperatorResult]
+           if (syncpt_irq < 0)
+               ~~~~~~~~~~ ^
+   drivers/gpu/host1x/dev.c:490:2: note: 'syncpt_irq' declared without an initial value
+           int syncpt_irq;
+           ^~~~~~~~~~~~~~
+   drivers/gpu/host1x/dev.c:494:6: note: Assuming 'host' is non-null
+           if (!host)
+               ^~~~~
+   drivers/gpu/host1x/dev.c:494:2: note: Taking false branch
+           if (!host)
+           ^
+   drivers/gpu/host1x/dev.c:499:6: note: Assuming field 'has_hypervisor' is false
+           if (host->info->has_hypervisor) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/host1x/dev.c:499:2: note: Taking false branch
+           if (host->info->has_hypervisor) {
+           ^
+   drivers/gpu/host1x/dev.c:515:3: note: Taking false branch
+                   if (IS_ERR(host->regs))
+                   ^
+   drivers/gpu/host1x/dev.c:520:17: note: The left operand of '<' is a garbage value
+           if (syncpt_irq < 0)
+               ~~~~~~~~~~ ^
+   Suppressed 1 warnings (1 with check filters).
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 with check filters).
+   1 warning generated.
+   net/core/netdev-genl.c:126:10: warning: The left operand of '!=' is a garbage value [clang-analyzer-core.UndefinedBinaryOperatorResult]
+           if (err != -EMSGSIZE)
+               ~~~ ^
+   net/core/netdev-genl.c:98:2: note: 'err' declared without an initial value
+           int err;
+           ^~~~~~~
+   net/core/netdev-genl.c:105:16: note: Assuming the condition is false
+           for (h = s_h; h < NETDEV_HASHENTRIES; h++, s_idx = 0) {
+                         ^~~~~~~~~~~~~~~~~~~~~~
+   net/core/netdev-genl.c:105:2: note: Loop condition is false. Execution continues on line 124
+           for (h = s_h; h < NETDEV_HASHENTRIES; h++, s_idx = 0) {
+           ^
+   net/core/netdev-genl.c:126:10: note: The left operand of '!=' is a garbage value
+           if (err != -EMSGSIZE)
+               ~~~ ^
+   2 warnings generated.
+   net/core/net-sysfs.c:1810:2: warning: Value stored to 'txq' is never read [clang-analyzer-deadcode.DeadStores]
+           txq = real_tx;
+           ^     ~~~~~~~
+   net/core/net-sysfs.c:1810:2: note: Value stored to 'txq' is never read
+           txq = real_tx;
+           ^     ~~~~~~~
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 with check filters).
+   1 warning generated.
+>> fs/9p/vfs_dir.c:220:4: warning: Value stored to 'retval' is never read [clang-analyzer-deadcode.DeadStores]
+                           retval = filemap_fdatawrite(inode->i_mapping);
+                           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/9p/vfs_dir.c:220:4: note: Value stored to 'retval' is never read
+                           retval = filemap_fdatawrite(inode->i_mapping);
+                           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   2 warnings generated.
+   Suppressed 2 warnings (1 in non-user code, 1 with check filters).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (1 in non-user code, 1 with check filters).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   net/ipv4/ipconfig.c:374:2: warning: Call to function 'strcpy' is insecure as it does not provide bounding of the memory buffer. Replace unbounded copy functions with analogous functions that support length arguments such as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+           strcpy(ir.ifr_ifrn.ifrn_name, ic_dev->dev->name);
+           ^~~~~~
+   net/ipv4/ipconfig.c:374:2: note: Call to function 'strcpy' is insecure as it does not provide bounding of the memory buffer. Replace unbounded copy functions with analogous functions that support length arguments such as 'strlcpy'. CWE-119
+           strcpy(ir.ifr_ifrn.ifrn_name, ic_dev->dev->name);
+           ^~~~~~
+   net/ipv4/ipconfig.c:1045:2: warning: Value stored to 'h' is never read [clang-analyzer-deadcode.DeadStores]
+           h = &b->iph;
+           ^   ~~~~~~~
+   net/ipv4/ipconfig.c:1045:2: note: Value stored to 'h' is never read
+           h = &b->iph;
+           ^   ~~~~~~~
+   Suppressed 1 warnings (1 with check filters).
+   2 warnings generated.
+   drivers/regulator/qcom_spmi-regulator.c:437:8: warning: Excessive padding in 'struct spmi_regulator_data' (4 padding bytes, where 0 is optimal). Optimal fields order: name, supply, ocp, base, force_type, consider reordering the fields or adding explicit padding members [clang-analyzer-optin.performance.Padding]
+   struct spmi_regulator_data {
+   ~~~~~~~^~~~~~~~~~~~~~~~~~~~~
+   drivers/regulator/qcom_spmi-regulator.c:437:8: note: Excessive padding in 'struct spmi_regulator_data' (4 padding bytes, where 0 is optimal). Optimal fields order: name, supply, ocp, base, force_type, consider reordering the fields or adding explicit padding members
+   struct spmi_regulator_data {
+   ~~~~~~~^~~~~~~~~~~~~~~~~~~~~
+   drivers/regulator/qcom_spmi-regulator.c:1268:2: warning: Value stored to 'ret' is never read [clang-analyzer-deadcode.DeadStores]
+           ret = spmi_vreg_update_bits(vreg, SPMI_COMMON_REG_ENABLE,
+           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/regulator/qcom_spmi-regulator.c:1268:2: note: Value stored to 'ret' is never read
+           ret = spmi_vreg_update_bits(vreg, SPMI_COMMON_REG_ENABLE,
+           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 warning generated.
+   drivers/regulator/palmas-regulator.c:1598:36: warning: Value stored to 'pdata' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct palmas_pmic_platform_data *pdata = dev_get_platdata(&pdev->dev);
+                                             ^~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/regulator/palmas-regulator.c:1598:36: note: Value stored to 'pdata' during its initialization is never read
+           struct palmas_pmic_platform_data *pdata = dev_get_platdata(&pdev->dev);
+                                             ^~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 warning generated.
+   drivers/iio/adc/ingenic-adc.c:660:3: warning: 3rd function call argument is an uninitialized value [clang-analyzer-core.CallAndMessage]
+                   ingenic_adc_set_config(adc, JZ_ADC_REG_CFG_AUX_MD, cmd);
+                   ^
+   drivers/iio/adc/ingenic-adc.c:694:2: note: Control jumps to 'case IIO_CHAN_INFO_RAW:'  at line 695
+           switch (m) {
+           ^
+   drivers/iio/adc/ingenic-adc.c:696:10: note: Calling 'ingenic_adc_read_chan_info_raw'
+                   return ingenic_adc_read_chan_info_raw(iio_dev, chan, val);
+                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iio/adc/ingenic-adc.c:635:6: note: 'cmd' declared without an initial value
+           int cmd, ret, engine = (chan->channel == INGENIC_ADC_BATTERY);
+               ^~~
+   drivers/iio/adc/ingenic-adc.c:635:26: note: Assuming field 'channel' is not equal to INGENIC_ADC_BATTERY
+           int cmd, ret, engine = (chan->channel == INGENIC_ADC_BATTERY);
+                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iio/adc/ingenic-adc.c:639:6: note: Assuming 'ret' is 0
+           if (ret) {
+               ^~~
+   drivers/iio/adc/ingenic-adc.c:639:2: note: Taking false branch
+           if (ret) {
+           ^
+   drivers/iio/adc/ingenic-adc.c:647:6: note: Assuming field 'has_aux_md' is not equal to 0
+           if (adc->soc_data->has_aux_md && engine == 0) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iio/adc/ingenic-adc.c:647:6: note: Left side of '&&' is true
+   drivers/iio/adc/ingenic-adc.c:647:35: note: 'engine' is equal to 0
+           if (adc->soc_data->has_aux_md && engine == 0) {
+                                            ^~~~~~
+   drivers/iio/adc/ingenic-adc.c:647:2: note: Taking true branch
+           if (adc->soc_data->has_aux_md && engine == 0) {
+           ^
+   drivers/iio/adc/ingenic-adc.c:648:3: note: 'Default' branch taken. Execution continues on line 660
+                   switch (chan->channel) {
+                   ^
+   drivers/iio/adc/ingenic-adc.c:660:3: note: 3rd function call argument is an uninitialized value
+                   ingenic_adc_set_config(adc, JZ_ADC_REG_CFG_AUX_MD, cmd);
+                   ^                                                  ~~~
+   1 warning generated.
+   Suppressed 1 warnings (1 with check filters).
+   2 warnings generated.
+   Suppressed 2 warnings (1 in non-user code, 1 with check filters).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   net/dccp/feat.c:128:14: warning: Excessive padding in 'struct (unnamed at net/dccp/feat.c:128:14)' (6 padding bytes, where 2 is optimal). Optimal fields order: rxtx, reconciliation, activation_hdlr, feat_num, default_value, consider reordering the fields or adding explicit padding members [clang-analyzer-optin.performance.Padding]
+   static const struct {
+                ^~~~~~~~
+   net/dccp/feat.c:128:14: note: Excessive padding in 'struct (unnamed at net/dccp/feat.c:128:14)' (6 padding bytes, where 2 is optimal). Optimal fields order: rxtx, reconciliation, activation_hdlr, feat_num, default_value, consider reordering the fields or adding explicit padding members
+   static const struct {
+                ^~~~~~~~
+   Suppressed 2 warnings (1 in non-user code, 1 with check filters).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (1 in non-user code, 1 with check filters).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
 
-vim +248 drivers/pnp/quirks.c
+vim +/retval +220 fs/9p/vfs_dir.c
 
-0509ad5e1a7d92 Bjorn Helgaas   2008-03-11  229  static void quirk_system_pci_resources(struct pnp_dev *dev)
-0509ad5e1a7d92 Bjorn Helgaas   2008-03-11  230  {
-0509ad5e1a7d92 Bjorn Helgaas   2008-03-11  231  	struct pci_dev *pdev = NULL;
-059b4a086017fb Mika Westerberg 2023-03-10  232  	struct resource *res, *r;
-0509ad5e1a7d92 Bjorn Helgaas   2008-03-11  233  	int i, j;
-0509ad5e1a7d92 Bjorn Helgaas   2008-03-11  234  
-0509ad5e1a7d92 Bjorn Helgaas   2008-03-11  235  	/*
-0509ad5e1a7d92 Bjorn Helgaas   2008-03-11  236  	 * Some BIOSes have PNP motherboard devices with resources that
-0509ad5e1a7d92 Bjorn Helgaas   2008-03-11  237  	 * partially overlap PCI BARs.  The PNP system driver claims these
-0509ad5e1a7d92 Bjorn Helgaas   2008-03-11  238  	 * motherboard resources, which prevents the normal PCI driver from
-0509ad5e1a7d92 Bjorn Helgaas   2008-03-11  239  	 * requesting them later.
-0509ad5e1a7d92 Bjorn Helgaas   2008-03-11  240  	 *
-0509ad5e1a7d92 Bjorn Helgaas   2008-03-11  241  	 * This patch disables the PNP resources that conflict with PCI BARs
-0509ad5e1a7d92 Bjorn Helgaas   2008-03-11  242  	 * so they won't be claimed by the PNP system driver.
-0509ad5e1a7d92 Bjorn Helgaas   2008-03-11  243  	 */
-0509ad5e1a7d92 Bjorn Helgaas   2008-03-11  244  	for_each_pci_dev(pdev) {
-059b4a086017fb Mika Westerberg 2023-03-10  245  		pci_dev_for_each_resource(pdev, r, i) {
-059b4a086017fb Mika Westerberg 2023-03-10  246  			unsigned long type = resource_type(r);
-999ed65ad12e37 Rene Herman     2008-07-25  247  
-059b4a086017fb Mika Westerberg 2023-03-10 @248  			if (type != IORESOURCE_IO || type != IORESOURCE_MEM ||
-                                                                                                  ^^
-This || needs to be &&.  This loop will always hit the continue path
-without doing anything.
-
-059b4a086017fb Mika Westerberg 2023-03-10  249  			    resource_size(r) == 0)
-0509ad5e1a7d92 Bjorn Helgaas   2008-03-11  250  				continue;
-0509ad5e1a7d92 Bjorn Helgaas   2008-03-11  251  
-059b4a086017fb Mika Westerberg 2023-03-10  252  			if (r->flags & IORESOURCE_UNSET)
-f7834c092c4299 Bjorn Helgaas   2015-03-03  253  				continue;
-f7834c092c4299 Bjorn Helgaas   2015-03-03  254  
-95ab3669f78306 Bjorn Helgaas   2008-04-28  255  			for (j = 0;
-999ed65ad12e37 Rene Herman     2008-07-25  256  			     (res = pnp_get_resource(dev, type, j)); j++) {
-aee3ad815dd291 Bjorn Helgaas   2008-06-27  257  				if (res->start == 0 && res->end == 0)
-0509ad5e1a7d92 Bjorn Helgaas   2008-03-11  258  					continue;
-0509ad5e1a7d92 Bjorn Helgaas   2008-03-11  259  
-0509ad5e1a7d92 Bjorn Helgaas   2008-03-11  260  				/*
-0509ad5e1a7d92 Bjorn Helgaas   2008-03-11  261  				 * If the PNP region doesn't overlap the PCI
-0509ad5e1a7d92 Bjorn Helgaas   2008-03-11  262  				 * region at all, there's no problem.
-0509ad5e1a7d92 Bjorn Helgaas   2008-03-11  263  				 */
-059b4a086017fb Mika Westerberg 2023-03-10  264  				if (!resource_overlaps(res, r))
-0509ad5e1a7d92 Bjorn Helgaas   2008-03-11  265  					continue;
-0509ad5e1a7d92 Bjorn Helgaas   2008-03-11  266  
-0509ad5e1a7d92 Bjorn Helgaas   2008-03-11  267  				/*
-0509ad5e1a7d92 Bjorn Helgaas   2008-03-11  268  				 * If the PNP region completely encloses (or is
-0509ad5e1a7d92 Bjorn Helgaas   2008-03-11  269  				 * at least as large as) the PCI region, that's
-0509ad5e1a7d92 Bjorn Helgaas   2008-03-11  270  				 * also OK.  For example, this happens when the
-0509ad5e1a7d92 Bjorn Helgaas   2008-03-11  271  				 * PNP device describes a bridge with PCI
-0509ad5e1a7d92 Bjorn Helgaas   2008-03-11  272  				 * behind it.
-0509ad5e1a7d92 Bjorn Helgaas   2008-03-11  273  				 */
-059b4a086017fb Mika Westerberg 2023-03-10  274  				if (res->start <= r->start && res->end >= r->end)
-0509ad5e1a7d92 Bjorn Helgaas   2008-03-11  275  					continue;
-0509ad5e1a7d92 Bjorn Helgaas   2008-03-11  276  
-0509ad5e1a7d92 Bjorn Helgaas   2008-03-11  277  				/*
-0509ad5e1a7d92 Bjorn Helgaas   2008-03-11  278  				 * Otherwise, the PNP region overlaps *part* of
-0509ad5e1a7d92 Bjorn Helgaas   2008-03-11  279  				 * the PCI region, and that might prevent a PCI
-0509ad5e1a7d92 Bjorn Helgaas   2008-03-11  280  				 * driver from requesting its resources.
-0509ad5e1a7d92 Bjorn Helgaas   2008-03-11  281  				 */
-c7dabef8a2c59e Bjorn Helgaas   2009-10-27  282  				dev_warn(&dev->dev,
-059b4a086017fb Mika Westerberg 2023-03-10  283  					 "disabling %pR because it overlaps %s BAR %d %pR\n",
-059b4a086017fb Mika Westerberg 2023-03-10  284  					 res, pci_name(pdev), i, r);
-4b34fe156455d2 Bjorn Helgaas   2008-06-02  285  				res->flags |= IORESOURCE_DISABLED;
-0509ad5e1a7d92 Bjorn Helgaas   2008-03-11  286  			}
-0509ad5e1a7d92 Bjorn Helgaas   2008-03-11  287  		}
-0509ad5e1a7d92 Bjorn Helgaas   2008-03-11  288  	}
-0509ad5e1a7d92 Bjorn Helgaas   2008-03-11  289  }
+7751bdb3a095ad Sripathi Kodi       2010-06-04  197  
+e69e7fe5b0c86b Eric Van Hensbergen 2005-09-09  198  
+e69e7fe5b0c86b Eric Van Hensbergen 2005-09-09  199  /**
+02dbb44c1108b8 Eric Van Hensbergen 2022-12-08  200   * v9fs_dir_release - close a directory or a file
+02dbb44c1108b8 Eric Van Hensbergen 2022-12-08  201   * @inode: inode of the directory or file
+02dbb44c1108b8 Eric Van Hensbergen 2022-12-08  202   * @filp: file pointer to a directory or file
+e69e7fe5b0c86b Eric Van Hensbergen 2005-09-09  203   *
+e69e7fe5b0c86b Eric Van Hensbergen 2005-09-09  204   */
+e69e7fe5b0c86b Eric Van Hensbergen 2005-09-09  205  
+e69e7fe5b0c86b Eric Van Hensbergen 2005-09-09  206  int v9fs_dir_release(struct inode *inode, struct file *filp)
+e69e7fe5b0c86b Eric Van Hensbergen 2005-09-09  207  {
+24e42e32d347f0 David Howells       2020-11-18  208  	struct v9fs_inode *v9inode = V9FS_I(inode);
+bd238fb431f319 Latchesar Ionkov    2007-07-10  209  	struct p9_fid *fid;
+24e42e32d347f0 David Howells       2020-11-18  210  	__le32 version;
+24e42e32d347f0 David Howells       2020-11-18  211  	loff_t i_size;
+89c58cb395ec0f Eric Van Hensbergen 2022-12-18  212  	int retval = 0;
+e69e7fe5b0c86b Eric Van Hensbergen 2005-09-09  213  
+bd238fb431f319 Latchesar Ionkov    2007-07-10  214  	fid = filp->private_data;
+5d3851530d6d68 Joe Perches         2011-11-28  215  	p9_debug(P9_DEBUG_VFS, "inode: %p filp: %p fid: %d\n",
+62726a7ab3a6a3 jvrao               2010-08-25  216  		 inode, filp, fid ? fid->fid : -1);
+02dbb44c1108b8 Eric Van Hensbergen 2022-12-08  217  
+6636b6dcc3db22 Jianyong Wu         2020-09-23  218  	if (fid) {
+02dbb44c1108b8 Eric Van Hensbergen 2022-12-08  219  		if ((S_ISREG(inode->i_mode)) && (filp->f_mode & FMODE_WRITE))
+02dbb44c1108b8 Eric Van Hensbergen 2022-12-08 @220  			retval = filemap_fdatawrite(inode->i_mapping);
+02dbb44c1108b8 Eric Van Hensbergen 2022-12-08  221  
+987a64850996db Greg Kurz           2020-09-23  222  		spin_lock(&inode->i_lock);
+987a64850996db Greg Kurz           2020-09-23  223  		hlist_del(&fid->ilist);
+987a64850996db Greg Kurz           2020-09-23  224  		spin_unlock(&inode->i_lock);
+89c58cb395ec0f Eric Van Hensbergen 2022-12-18  225  		retval = p9_fid_put(fid);
+6636b6dcc3db22 Jianyong Wu         2020-09-23  226  	}
+24e42e32d347f0 David Howells       2020-11-18  227  
+24e42e32d347f0 David Howells       2020-11-18  228  	if ((filp->f_mode & FMODE_WRITE)) {
+24e42e32d347f0 David Howells       2020-11-18  229  		version = cpu_to_le32(v9inode->qid.version);
+24e42e32d347f0 David Howells       2020-11-18  230  		i_size = i_size_read(inode);
+24e42e32d347f0 David Howells       2020-11-18  231  		fscache_unuse_cookie(v9fs_inode_cookie(v9inode),
+24e42e32d347f0 David Howells       2020-11-18  232  				     &version, &i_size);
+24e42e32d347f0 David Howells       2020-11-18  233  	} else {
+24e42e32d347f0 David Howells       2020-11-18  234  		fscache_unuse_cookie(v9fs_inode_cookie(v9inode), NULL, NULL);
+24e42e32d347f0 David Howells       2020-11-18  235  	}
+89c58cb395ec0f Eric Van Hensbergen 2022-12-18  236  	return retval;
+e69e7fe5b0c86b Eric Van Hensbergen 2005-09-09  237  }
+e69e7fe5b0c86b Eric Van Hensbergen 2005-09-09  238  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
-
