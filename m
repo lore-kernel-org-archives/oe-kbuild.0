@@ -1,42 +1,50 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D35C7B
-	for <oe-kbuild@lists.linux.dev>; Sat, 11 Mar 2023 10:39:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678531191; x=1710067191;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=4Jih5SxHfeQiTLm4bG0PK+ctNgr4s2r+iZX96xqBhko=;
-  b=W3hMc54Ib3jMnX4GwQVEPWXYME00gMj5NliIn142s4V9xagpghpKmool
-   4FKD4cqPwp/TdBD6MJqcppM3q9ONe9utVCHNFf8OupaJcdwNFsl84sxmH
-   QpiJSOtTxKd1QNaEcgpv0jUIURsxzDTn0iSUq0UgPc/C9HsLvCvBDHKg8
-   pl/VRIlGUEwyMwq0QmP43MAbs0GEhz6T8aXucZi9lY1aNMTZWnzDJSC9y
-   uPg7nCtwSZJDK6ksFsx4Rsf77ZryI2N5tpF9tgxAdrZaUuCqVsb3tgzGn
-   IAurfeAEFYYibLQA9FW4DHFT/Gabb1CT0QJMxeJObTppyzvXDcYzOmE7M
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10645"; a="320744655"
-X-IronPort-AV: E=Sophos;i="5.98,252,1673942400"; 
-   d="scan'208";a="320744655"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2023 02:39:50 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10645"; a="747027101"
-X-IronPort-AV: E=Sophos;i="5.98,252,1673942400"; 
-   d="scan'208";a="747027101"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 11 Mar 2023 02:39:48 -0800
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pawdf-0004Vt-3A;
-	Sat, 11 Mar 2023 10:39:47 +0000
-Date: Sat, 11 Mar 2023 18:39:23 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F20397B;
+	Sat, 11 Mar 2023 12:36:10 +0000 (UTC)
+Received: by mail-wr1-f53.google.com with SMTP id l1so7390693wry.12;
+        Sat, 11 Mar 2023 04:36:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1678538169;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Xbudqc+X9nQFu7LvEovdqULMbT6ys9vA1FimI/Gc8HI=;
+        b=CBig7JRmIh/kblQwrj/koR1QGPirr1tBnKUOWoeAIN2GvFSyI79mJ3MEuT+OVEEI21
+         2B5L5S9+jwdSUsnASWa9i0ya9XT3neWJwWh7mXu6nvvBONL1gblfKYms8MOobsTae0/c
+         f73068OBNefQ3IotKQjS4chkRkI+f+E3JYk/A+j1O/lKm+61Jh+y01UH+mMbY2EgPTbp
+         XY2P3BH9R/UMEwBLVtPsZxI/xU5AEvDsXdTwVYC1kd1Q2g1leVvTGiL9D+ACaw5IYy9u
+         50sJAhTo7PLB9TiLYTBx5s6r3U/OCDmxRyynaLDmzC/awg+r8p3lfaQBrbsG0+C31Pqp
+         FKQA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678538169;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Xbudqc+X9nQFu7LvEovdqULMbT6ys9vA1FimI/Gc8HI=;
+        b=MqF9rqbNKWU+1AkPns1tvLnA2jR1A6i//yr9TAeWZ/vEgvbLsttOcrX/mM8zIzFVAR
+         WuFlXs5bFvBB8xAqMp4qdGjTpEHnB8emsFT/9AneekqbLrovIq6iO43YnQxq/NQInUs+
+         CmGjIqeQ1Mpm7Hro0jS6Knny0H+fC79zwxvULK15vbSBXg2VQVVVK0qY4qdwVHzc2zPH
+         x1rvCChPdj+V1xRIVG6A5B/6KIBp6MOBZdTyhAQrjo/T4KQ26d6PuZoqBrXhvLSsC69b
+         CRJWgZ/gCp13nyab8zDAH6Cdkh6SRFEbOA05VPU5+87C5aCiyXjzSVqFzGX/o0FsKffl
+         TgoQ==
+X-Gm-Message-State: AO0yUKVqA1EpZNuSKKpgALBX/vnWzGQn4DarOdh60lHqNJvrFxyAV0Ob
+	OiXlUFOjQD3QpdCnjFR5Hb5GwS6LBCokO0lE
+X-Google-Smtp-Source: AK7set8+68NgFBmkUTQJ+QCHQTKCXTskWK0JnVngMy13TLfwfrXl0rHJhkZSziFFv6OutMxHes44GA==
+X-Received: by 2002:a5d:664e:0:b0:2c5:3ccf:e99a with SMTP id f14-20020a5d664e000000b002c53ccfe99amr19361166wrw.6.1678538168811;
+        Sat, 11 Mar 2023 04:36:08 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id h11-20020adff4cb000000b002c70ce264bfsm2400063wrp.76.2023.03.11.04.36.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 11 Mar 2023 04:36:08 -0800 (PST)
+Date: Sat, 11 Mar 2023 15:36:03 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev, Ondrej Zary <linux@zary.sk>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Damien Le Moal <damien.lemoal@opensource.wdc.com>
 Subject: drivers/ata/pata_parport/pata_parport.c:446 pi_init_one() warn:
  possible memory leak of 'pi'
-Message-ID: <202303111822.IHNchbkp-lkp@intel.com>
+Message-ID: <3ab89ddc-cb60-47c4-86ad-cdad94a8a3d7@kili.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -46,18 +54,9 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Ondrej Zary <linux@zary.sk>
-CC: Damien Le Moal <damien.lemoal@opensource.wdc.com>
-
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   ef5f68cc1f829b492b19cd4df5af4454aa816b93
 commit: 72f2b0b2185099dce354c805009f591dda3ab73d drivers/block: Move PARIDE protocol modules to drivers/ata/pata_parport
-date:   6 weeks ago
-:::::: branch date: 6 hours ago
-:::::: commit date: 6 weeks ago
 config: ia64-randconfig-m041-20230308 (https://download.01.org/0day-ci/archive/20230311/202303111822.IHNchbkp-lkp@intel.com/config)
 compiler: ia64-linux-gcc (GCC) 12.1.0
 
@@ -78,7 +77,6 @@ drivers/ata/pata_parport/comm.c:172 comm_write_block() warn: inconsistent indent
 
 vim +/pi +446 drivers/ata/pata_parport/pata_parport.c
 
-246a1c4c6b7ffb drivers/ata/pata_parport.c Ondrej Zary 2023-01-23  417  
 246a1c4c6b7ffb drivers/ata/pata_parport.c Ondrej Zary 2023-01-23  418  static struct pi_adapter *pi_init_one(struct parport *parport,
 246a1c4c6b7ffb drivers/ata/pata_parport.c Ondrej Zary 2023-01-23  419  			struct pi_protocol *pr, int mode, int unit, int delay)
 246a1c4c6b7ffb drivers/ata/pata_parport.c Ondrej Zary 2023-01-23  420  {
@@ -108,6 +106,11 @@ vim +/pi +446 drivers/ata/pata_parport/pata_parport.c
 246a1c4c6b7ffb drivers/ata/pata_parport.c Ondrej Zary 2023-01-23  444  	pi->dev.id = ida_alloc(&pata_parport_bus_dev_ids, GFP_KERNEL);
 246a1c4c6b7ffb drivers/ata/pata_parport.c Ondrej Zary 2023-01-23  445  	if (pi->dev.id < 0)
 246a1c4c6b7ffb drivers/ata/pata_parport.c Ondrej Zary 2023-01-23 @446  		return NULL; /* pata_parport_dev_release will do kfree(pi) */
+
+The comment says that pata_parport_dev_release() will free "pi" but
+that's impossible because pi is a local variable and we haven't called
+device_register().
+
 246a1c4c6b7ffb drivers/ata/pata_parport.c Ondrej Zary 2023-01-23  447  	dev_set_name(&pi->dev, "pata_parport.%u", pi->dev.id);
 246a1c4c6b7ffb drivers/ata/pata_parport.c Ondrej Zary 2023-01-23  448  	if (device_register(&pi->dev)) {
 246a1c4c6b7ffb drivers/ata/pata_parport.c Ondrej Zary 2023-01-23  449  		put_device(&pi->dev);
@@ -166,14 +169,8 @@ vim +/pi +446 drivers/ata/pata_parport/pata_parport.c
 246a1c4c6b7ffb drivers/ata/pata_parport.c Ondrej Zary 2023-01-23  502  	ida_free(&pata_parport_bus_dev_ids, pi->dev.id);
 246a1c4c6b7ffb drivers/ata/pata_parport.c Ondrej Zary 2023-01-23  503  	return NULL;
 246a1c4c6b7ffb drivers/ata/pata_parport.c Ondrej Zary 2023-01-23  504  }
-246a1c4c6b7ffb drivers/ata/pata_parport.c Ondrej Zary 2023-01-23  505  
-
-:::::: The code at line 446 was first introduced by commit
-:::::: 246a1c4c6b7ffba88a2553d2b88f7b6280f253a2 ata: pata_parport: add driver (PARIDE replacement)
-
-:::::: TO: Ondrej Zary <linux@zary.sk>
-:::::: CC: Damien Le Moal <damien.lemoal@opensource.wdc.com>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
+
