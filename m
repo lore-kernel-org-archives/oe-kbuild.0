@@ -1,105 +1,89 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 594FC7B
-	for <oe-kbuild@lists.linux.dev>; Sat, 11 Mar 2023 13:42:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678542174; x=1710078174;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=ZBJhYJPrN+RCQynnHei321mbBiqN1qIomclVh0jg1Vc=;
-  b=hck19b7hjbeB3ZssGi1ORPJQTFFIfg9swSuuBmq6ChPXjWGuvRpslrmt
-   hW6DaC91awEJyeWpIGUIzafMb5NWImEP7k4CqUArssddLmhrSXhi1w1/O
-   Ddq0hoQq7cAAlHPLpqgPZqjAIUC+MoA6e7nxCCphrv0bj02/fbfuUkppH
-   /KsjS4npUyRuMwcRkbHWFHaggHzLJaT9jXkWyZTf7PogcaexvTJmEBhBl
-   jXBEhHTt4vsuM46d6SG4o7DY+llc6m4m667wYtJJQO5478dJuLVZVRWHl
-   vN6UZ4vZdGflD2ofHnueuBbywMalmvp/M9bwpuVXuYZtA66Mg2RyoMrLm
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10646"; a="338459916"
-X-IronPort-AV: E=Sophos;i="5.98,252,1673942400"; 
-   d="scan'208";a="338459916"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2023 05:42:53 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10646"; a="680507402"
-X-IronPort-AV: E=Sophos;i="5.98,252,1673942400"; 
-   d="scan'208";a="680507402"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 11 Mar 2023 05:42:52 -0800
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pazUq-0004bT-0T;
-	Sat, 11 Mar 2023 13:42:52 +0000
-Date: Sat, 11 Mar 2023 21:42:48 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1EE17B;
+	Sat, 11 Mar 2023 13:54:39 +0000 (UTC)
+Received: by mail-wm1-f48.google.com with SMTP id j19-20020a05600c191300b003eb3e1eb0caso7976491wmq.1;
+        Sat, 11 Mar 2023 05:54:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1678542877;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=w6VNgsWjX3Wuvimz8g5dmkPK1Cy/m4ikAbDoLw6beJQ=;
+        b=EgpADp9mPyWPriOHQHt/ftRejPRpNulP0dfOXzeleBhIPgj1NGQIJbytBzJ2k1iF4R
+         CyITUZOvJLHKAPxgRdheh7BTJmNg+LH8xo7nE4cpnK/TrtstTxkyuMZEe6QB0uKZbsho
+         bha6cNC4l0ab+HfNrdxjVgcV4nNCXjrWHLvd5AgmtK0unzXSSZWpk338fqWEaWfbfDXc
+         gS8s4MTSvK5KviuS4DzupSZgdAs7GDKSC97xY/DJNQkr+LExD4sU3rKuRX3/o8kJ1rWj
+         n5Cc6BbMqxbQX9xXF/Ai+zkDgJk3y+PUHE9rOyhjFvIaxai7o22SnhvFxKXJxhQbJB/I
+         C2Xg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678542877;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=w6VNgsWjX3Wuvimz8g5dmkPK1Cy/m4ikAbDoLw6beJQ=;
+        b=RhDf3pHuZvH/t4A3Ia09WRt7TeNXX0NuxT6o6If2HAkUbNoQ55ZW0WlQg+34zYBDiL
+         oKizxhfnyd6l+GEYSH54FbqehPKPjMZYq+ADSNjBmzKmVwxXioRtd7feD84REC+I+OGh
+         xyo3VmgTOhKQwNCQwSReDjJKtnnRcge4jhrAKjIo2BDsnKRiG3trquhTD++dHyVMx9nM
+         wAFtAi5owo1+G3Bl4xQJkALFJ1C/fmt1PA6vIxrQc9RyRYrWZ1YZtM25MCl4xa9pC/y8
+         enQUJ+0IsKu5qJhIJr3kJm4bfSjOO7aGNMFcJBhbL1xI/kV4rcYQKQwdzHhGugTIBjqN
+         6tlQ==
+X-Gm-Message-State: AO0yUKXxLiAS9IDzc9t3Y8UB/FQOBJxaDY5CkroTTrsk92hieepMLRyy
+	zMUcOVTwdbT1caumIP/jQIn1zjOkyiXXOujI
+X-Google-Smtp-Source: AK7set8Q/kmI9mpEEdXrr7E14surqp2hrZc9WFbOGPYrv2F11V19h1lecKjCq/bjwK7VwWka+od15A==
+X-Received: by 2002:a05:600c:4e8c:b0:3eb:4cb5:dfa with SMTP id f12-20020a05600c4e8c00b003eb4cb50dfamr5440417wmq.31.1678542877399;
+        Sat, 11 Mar 2023 05:54:37 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id hn4-20020a05600ca38400b003dc1d668866sm2899772wmb.10.2023.03.11.05.54.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 11 Mar 2023 05:54:37 -0800 (PST)
+Date: Sat, 11 Mar 2023 16:54:32 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	=?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>,
+	Mika Westerberg <mika.westerberg@linux.intel.com>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Randy Dunlap <rdunlap@infradead.org>, Arnd Bergmann <arnd@arndb.de>,
+	Bjorn Helgaas <helgaas@kernel.org>,
+	"Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+	Niklas Schnelle <schnelle@linux.ibm.com>,
+	Pali =?iso-8859-1?Q?Roh=E1r?= <pali@kernel.org>,
+	"Maciej W. Rozycki" <macro@orcam.me.uk>,
+	Juergen Gross <jgross@suse.com>,
+	Dominik Brodowski <linux@dominikbrodowski.net>,
+	linux-kernel@vger.kernel.org, linux-alpha@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org, linux-sh@vger.kernel.org,
+	sparclinux@vger.kernel.org, linux-pci@vger.kernel.org,
+	xen-devel@lists.xenproject.org, linux-acpi@vger.kernel.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Richard Henderson <richard.henderson@linaro.org>,
+	Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+	Matt Turner <mattst88@gmail.com>,
+	Russell King <linux@armlinux.org.uk>, Andrew Lunn <andrew@lunn.ch>
 Subject: Re: [PATCH v4 1/4] PCI: Introduce pci_dev_for_each_resource()
-Message-ID: <202303112149.xD47qKOY-lkp@intel.com>
+Message-ID: <d057ac5c-5947-41e1-abc7-9428fbd2fbe2@kili.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
 In-Reply-To: <20230310171416.23356-2-andriy.shevchenko@linux.intel.com>
-References: <20230310171416.23356-2-andriy.shevchenko@linux.intel.com>
-TO: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-TO: "Mickaël Salaün" <mic@digikod.net>
-TO: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-TO: Mika Westerberg <mika.westerberg@linux.intel.com>
-TO: "Krzysztof Wilczyński" <kw@linux.com>
-TO: Michael Ellerman <mpe@ellerman.id.au>
-TO: Randy Dunlap <rdunlap@infradead.org>
-TO: Arnd Bergmann <arnd@arndb.de>
-TO: Bjorn Helgaas <helgaas@kernel.org>
-TO: "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>
-TO: Niklas Schnelle <schnelle@linux.ibm.com>
-TO: "Pali Rohár" <pali@kernel.org>
-TO: "Maciej W. Rozycki" <macro@orcam.me.uk>
-TO: Juergen Gross <jgross@suse.com>
-TO: Dominik Brodowski <linux@dominikbrodowski.net>
-TO: linux-kernel@vger.kernel.org
-TO: linux-alpha@vger.kernel.org
-TO: linux-arm-kernel@lists.infradead.org
-TO: linux-mips@vger.kernel.org
-TO: linuxppc-dev@lists.ozlabs.org
-TO: linux-sh@vger.kernel.org
-TO: sparclinux@vger.kernel.org
-TO: linux-pci@vger.kernel.org
-TO: xen-devel@lists.xenproject.org
-TO: linux-acpi@vger.kernel.org
-CC: Miguel Ojeda <ojeda@kernel.org>
-CC: Richard Henderson <richard.henderson@linaro.org>
-CC: Ivan Kokshaysky <ink@jurassic.park.msu.ru>
-CC: Matt Turner <mattst88@gmail.com>
-CC: Russell King <linux@armlinux.org.uk>
-CC: Andrew Lunn <andrew@lunn.ch>
 
 Hi Andy,
 
-I love your patch! Perhaps something to improve:
-
-[auto build test WARNING on pci/next]
-[also build test WARNING on pci/for-linus powerpc/next powerpc/fixes linus/master v6.3-rc1 next-20230310]
-[cannot apply to soc/for-next davem-sparc/master]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
 url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Shevchenko/PCI-Introduce-pci_dev_for_each_resource/20230311-011642
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
 patch link:    https://lore.kernel.org/r/20230310171416.23356-2-andriy.shevchenko%40linux.intel.com
 patch subject: [PATCH v4 1/4] PCI: Introduce pci_dev_for_each_resource()
-:::::: branch date: 20 hours ago
-:::::: commit date: 20 hours ago
 config: x86_64-randconfig-m001 (https://download.01.org/0day-ci/archive/20230311/202303112149.xD47qKOY-lkp@intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 
@@ -113,7 +97,6 @@ drivers/pnp/quirks.c:248 quirk_system_pci_resources() warn: was && intended here
 
 vim +248 drivers/pnp/quirks.c
 
-0509ad5e1a7d92 Bjorn Helgaas   2008-03-11  228  
 0509ad5e1a7d92 Bjorn Helgaas   2008-03-11  229  static void quirk_system_pci_resources(struct pnp_dev *dev)
 0509ad5e1a7d92 Bjorn Helgaas   2008-03-11  230  {
 0509ad5e1a7d92 Bjorn Helgaas   2008-03-11  231  	struct pci_dev *pdev = NULL;
@@ -134,6 +117,10 @@ vim +248 drivers/pnp/quirks.c
 059b4a086017fb Mika Westerberg 2023-03-10  246  			unsigned long type = resource_type(r);
 999ed65ad12e37 Rene Herman     2008-07-25  247  
 059b4a086017fb Mika Westerberg 2023-03-10 @248  			if (type != IORESOURCE_IO || type != IORESOURCE_MEM ||
+                                                                                                  ^^
+This || needs to be &&.  This loop will always hit the continue path
+without doing anything.
+
 059b4a086017fb Mika Westerberg 2023-03-10  249  			    resource_size(r) == 0)
 0509ad5e1a7d92 Bjorn Helgaas   2008-03-11  250  				continue;
 0509ad5e1a7d92 Bjorn Helgaas   2008-03-11  251  
@@ -175,8 +162,8 @@ c7dabef8a2c59e Bjorn Helgaas   2009-10-27  282  				dev_warn(&dev->dev,
 0509ad5e1a7d92 Bjorn Helgaas   2008-03-11  287  		}
 0509ad5e1a7d92 Bjorn Helgaas   2008-03-11  288  	}
 0509ad5e1a7d92 Bjorn Helgaas   2008-03-11  289  }
-0509ad5e1a7d92 Bjorn Helgaas   2008-03-11  290  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
+
