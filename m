@@ -1,42 +1,41 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F1817B
-	for <oe-kbuild@lists.linux.dev>; Sat, 11 Mar 2023 14:03:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0F147B
+	for <oe-kbuild@lists.linux.dev>; Sat, 11 Mar 2023 18:19:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678543435; x=1710079435;
+  t=1678558741; x=1710094741;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=7HGkoBwQ3zupk1LdhywMpBusyNMLCCdJ+Y/vuTpVrRA=;
-  b=WGGhPC8xXDV7cvydpkdvjZh7VeHOBQfBiTjoQ/vs3KmjmEqh99H9L8/c
-   rqLDkaqBWeq6cNbLfgs7xm/XSZDr10gdaES59pzd8doG5ynLy67i8u5RO
-   iWfUH1cnoVHdLTM5XKwcBPt7VmxuW8+WShoSqFauUvZabtGJ6vyjfDwb0
-   MONCnYmWKYQGJBRk/zwlSSX7zYQ7zyxwHOrnW8KoQGsTA9TAGfVc+/wF2
-   l8YfJu9oNNu8L5smUuvPHf1tJ9t+zkzdG2HnOjBuZ2roRhtTa5vMglx4C
-   jlcbqyINP1KapD9v2m3h2a1XDIrGe5KK0YHyquKzvuvnYyZWzN7tTVwRO
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10646"; a="320757758"
-X-IronPort-AV: E=Sophos;i="5.98,252,1673942400"; 
-   d="scan'208";a="320757758"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2023 06:03:54 -0800
+  bh=+wieuzJbSxKpOc8+G1LKvErBscoeVqonnxl/730AK/c=;
+  b=j0lPC1mOo9cNpCbfXsIsro23ejQFHlm5Jjxj6PPoUmAdtrBPWqPmlQRE
+   RcFD/hS5DFWCnneIhyI+Fttjk7ZvZfDXJWh15zLKgkguAiYydOpro6WxK
+   W2/fD2jxCrrysVD39y8+nKXjM26szGu5yqPPuLGvrchB7ErDHEe4SM+QF
+   PztJfs3+SCNDy8QhgwVJYfTBBtnnNlNfjaKKF8l4pLT+sEDi2tDqCa/98
+   eZk/+m8oKcw23NIto5VmRPYuz58wcaanpn95eMdT7znl0csbMJKV+yT3D
+   LTHYl+TPv8KlVxKHXlrUarzcpgdmfbBoFABj64WewTFc03bjcQ2TW6Ar/
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10646"; a="339294569"
+X-IronPort-AV: E=Sophos;i="5.98,253,1673942400"; 
+   d="scan'208";a="339294569"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2023 10:19:00 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10646"; a="628133768"
-X-IronPort-AV: E=Sophos;i="5.98,252,1673942400"; 
-   d="scan'208";a="628133768"
+X-IronPort-AV: E=McAfee;i="6500,9779,10646"; a="742369185"
+X-IronPort-AV: E=Sophos;i="5.98,253,1673942400"; 
+   d="scan'208";a="742369185"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 11 Mar 2023 06:03:53 -0800
+  by fmsmga008.fm.intel.com with ESMTP; 11 Mar 2023 10:18:59 -0800
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pazpA-0004cP-2N;
-	Sat, 11 Mar 2023 14:03:52 +0000
-Date: Sat, 11 Mar 2023 22:03:29 +0800
+	id 1pb3o2-0004k3-2V;
+	Sat, 11 Mar 2023 18:18:58 +0000
+Date: Sun, 12 Mar 2023 02:18:16 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [linux-next:master 1240/2655] fs/9p/vfs_dir.c:220:4: warning: Value
- stored to 'retval' is never read [clang-analyzer-deadcode.DeadStores]
-Message-ID: <202303112142.VOUngch0-lkp@intel.com>
+Subject: Re: [PATCH V2 03/17] io_uring: add IORING_OP_FUSED_CMD
+Message-ID: <202303120203.sqqL7XCB-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -47,287 +46,309 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "low confidence static check warning: fs/9p/vfs_dir.c:220:4: warning: Value stored to 'retval' is never read [clang-analyzer-deadcode.DeadStores]"
+:::::: Manual check reason: "low confidence static check warning: include/linux/io_uring_types.h:475:35: sparse: sparse: bad constant expression"
 :::::: 
 
 BCC: lkp@intel.com
-CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Eric Van Hensbergen <ericvh@kernel.org>
-CC: Dominique Martinet <asmadeus@codewreck.org>
+In-Reply-To: <20230307141520.793891-4-ming.lei@redhat.com>
+References: <20230307141520.793891-4-ming.lei@redhat.com>
+TO: Ming Lei <ming.lei@redhat.com>
+TO: Jens Axboe <axboe@kernel.dk>
+TO: io-uring@vger.kernel.org
+CC: linux-block@vger.kernel.org
+CC: Miklos Szeredi <mszeredi@redhat.com>
+CC: ZiyangZhang <ZiyangZhang@linux.alibaba.com>
+CC: Xiaoguang Wang <xiaoguang.wang@linux.alibaba.com>
+CC: Bernd Schubert <bschubert@ddn.com>
+CC: Ming Lei <ming.lei@redhat.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   24469a0e5052ba01a35a15f104717a82b7a4798b
-commit: 02dbb44c1108b8cb81a71cafede50a17ea32937d [1240/2655] fs/9p: Consolidate file operations and add readahead and writeback
-:::::: branch date: 2 days ago
-:::::: commit date: 5 days ago
-config: arm-randconfig-c002-20230310 (https://download.01.org/0day-ci/archive/20230311/202303112142.VOUngch0-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
-reproduce (this is a W=1 build):
+Hi Ming,
+
+I love your patch! Perhaps something to improve:
+
+[auto build test WARNING on axboe-block/for-next]
+[also build test WARNING on char-misc/char-misc-testing char-misc/char-misc-next char-misc/char-misc-linus linus/master v6.3-rc1 next-20230310]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ming-Lei/io_uring-add-IO_URING_F_FUSED-and-prepare-for-supporting-OP_FUSED_CMD/20230307-222928
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-next
+patch link:    https://lore.kernel.org/r/20230307141520.793891-4-ming.lei%40redhat.com
+patch subject: [PATCH V2 03/17] io_uring: add IORING_OP_FUSED_CMD
+:::::: branch date: 4 days ago
+:::::: commit date: 4 days ago
+config: microblaze-randconfig-s033-20230308 (https://download.01.org/0day-ci/archive/20230312/202303120203.sqqL7XCB-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 12.1.0
+reproduce:
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=02dbb44c1108b8cb81a71cafede50a17ea32937d
-        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
-        git fetch --no-tags linux-next master
-        git checkout 02dbb44c1108b8cb81a71cafede50a17ea32937d
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://github.com/intel-lab-lkp/linux/commit/5e0eebd84413d4545e5fc0cc0ede6052cc8df81b
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Ming-Lei/io_uring-add-IO_URING_F_FUSED-and-prepare-for-supporting-OP_FUSED_CMD/20230307-222928
+        git checkout 5e0eebd84413d4545e5fc0cc0ede6052cc8df81b
         # save the config file
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=arm clang-analyzer  olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=arm clang-analyzer 
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=microblaze olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=microblaze SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/r/202303112142.VOUngch0-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202303120203.sqqL7XCB-lkp@intel.com/
 
-clang_analyzer warnings: (new ones prefixed by >>)
-                ^~~~
-   drivers/i3c/master/dw-i3c-master.c:793:2: note: Taking false branch
-           if (!xfer)
-           ^
-   drivers/i3c/master/dw-i3c-master.c:796:8: note: Calling 'dw_i3c_master_get_free_pos'
-           pos = dw_i3c_master_get_free_pos(master);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/i3c/master/dw-i3c-master.c:327:27: note: The result of the right shift is undefined due to shifting by '32', which is greater or equal to the width of type 'unsigned long'
-           if (!(master->free_pos & GENMASK(master->maxdevs - 1, 0)))
-                                    ^
-   include/linux/bits.h:37:31: note: expanded from macro 'GENMASK'
-           (GENMASK_INPUT_CHECK(h, l) + __GENMASK(h, l))
-                                        ^~~~~~~~~~~~~~~
-   include/linux/bits.h:35:11: note: expanded from macro '__GENMASK'
-            (~UL(0) >> (BITS_PER_LONG - 1 - (h))))
-                    ^  ~~~~~~~~~~~~~~~~~~~~~~~~~
-   1 warning generated.
-   drivers/i3c/master/mipi-i3c-hci/ext_caps.c:78:7: warning: Value stored to 'mode_entry' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
-                   u32 mode_entry = readl(base);
-                       ^~~~~~~~~~
-   drivers/i3c/master/mipi-i3c-hci/ext_caps.c:78:7: note: Value stored to 'mode_entry' during its initialization is never read
-                   u32 mode_entry = readl(base);
-                       ^~~~~~~~~~
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 with check filters).
-   1 warning generated.
-   Suppressed 1 warnings (1 with check filters).
-   1 warning generated.
-   Suppressed 1 warnings (1 with check filters).
-   2 warnings generated.
-   Suppressed 2 warnings (1 in non-user code, 1 with check filters).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (1 in non-user code, 1 with check filters).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   drivers/gpu/host1x/dev.c:520:17: warning: The left operand of '<' is a garbage value [clang-analyzer-core.UndefinedBinaryOperatorResult]
-           if (syncpt_irq < 0)
-               ~~~~~~~~~~ ^
-   drivers/gpu/host1x/dev.c:490:2: note: 'syncpt_irq' declared without an initial value
-           int syncpt_irq;
-           ^~~~~~~~~~~~~~
-   drivers/gpu/host1x/dev.c:494:6: note: Assuming 'host' is non-null
-           if (!host)
-               ^~~~~
-   drivers/gpu/host1x/dev.c:494:2: note: Taking false branch
-           if (!host)
-           ^
-   drivers/gpu/host1x/dev.c:499:6: note: Assuming field 'has_hypervisor' is false
-           if (host->info->has_hypervisor) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/host1x/dev.c:499:2: note: Taking false branch
-           if (host->info->has_hypervisor) {
-           ^
-   drivers/gpu/host1x/dev.c:515:3: note: Taking false branch
-                   if (IS_ERR(host->regs))
-                   ^
-   drivers/gpu/host1x/dev.c:520:17: note: The left operand of '<' is a garbage value
-           if (syncpt_irq < 0)
-               ~~~~~~~~~~ ^
-   Suppressed 1 warnings (1 with check filters).
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 with check filters).
-   1 warning generated.
-   net/core/netdev-genl.c:126:10: warning: The left operand of '!=' is a garbage value [clang-analyzer-core.UndefinedBinaryOperatorResult]
-           if (err != -EMSGSIZE)
-               ~~~ ^
-   net/core/netdev-genl.c:98:2: note: 'err' declared without an initial value
-           int err;
-           ^~~~~~~
-   net/core/netdev-genl.c:105:16: note: Assuming the condition is false
-           for (h = s_h; h < NETDEV_HASHENTRIES; h++, s_idx = 0) {
-                         ^~~~~~~~~~~~~~~~~~~~~~
-   net/core/netdev-genl.c:105:2: note: Loop condition is false. Execution continues on line 124
-           for (h = s_h; h < NETDEV_HASHENTRIES; h++, s_idx = 0) {
-           ^
-   net/core/netdev-genl.c:126:10: note: The left operand of '!=' is a garbage value
-           if (err != -EMSGSIZE)
-               ~~~ ^
-   2 warnings generated.
-   net/core/net-sysfs.c:1810:2: warning: Value stored to 'txq' is never read [clang-analyzer-deadcode.DeadStores]
-           txq = real_tx;
-           ^     ~~~~~~~
-   net/core/net-sysfs.c:1810:2: note: Value stored to 'txq' is never read
-           txq = real_tx;
-           ^     ~~~~~~~
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 with check filters).
-   1 warning generated.
->> fs/9p/vfs_dir.c:220:4: warning: Value stored to 'retval' is never read [clang-analyzer-deadcode.DeadStores]
-                           retval = filemap_fdatawrite(inode->i_mapping);
-                           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/9p/vfs_dir.c:220:4: note: Value stored to 'retval' is never read
-                           retval = filemap_fdatawrite(inode->i_mapping);
-                           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   2 warnings generated.
-   Suppressed 2 warnings (1 in non-user code, 1 with check filters).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (1 in non-user code, 1 with check filters).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   net/ipv4/ipconfig.c:374:2: warning: Call to function 'strcpy' is insecure as it does not provide bounding of the memory buffer. Replace unbounded copy functions with analogous functions that support length arguments such as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-           strcpy(ir.ifr_ifrn.ifrn_name, ic_dev->dev->name);
-           ^~~~~~
-   net/ipv4/ipconfig.c:374:2: note: Call to function 'strcpy' is insecure as it does not provide bounding of the memory buffer. Replace unbounded copy functions with analogous functions that support length arguments such as 'strlcpy'. CWE-119
-           strcpy(ir.ifr_ifrn.ifrn_name, ic_dev->dev->name);
-           ^~~~~~
-   net/ipv4/ipconfig.c:1045:2: warning: Value stored to 'h' is never read [clang-analyzer-deadcode.DeadStores]
-           h = &b->iph;
-           ^   ~~~~~~~
-   net/ipv4/ipconfig.c:1045:2: note: Value stored to 'h' is never read
-           h = &b->iph;
-           ^   ~~~~~~~
-   Suppressed 1 warnings (1 with check filters).
-   2 warnings generated.
-   drivers/regulator/qcom_spmi-regulator.c:437:8: warning: Excessive padding in 'struct spmi_regulator_data' (4 padding bytes, where 0 is optimal). Optimal fields order: name, supply, ocp, base, force_type, consider reordering the fields or adding explicit padding members [clang-analyzer-optin.performance.Padding]
-   struct spmi_regulator_data {
-   ~~~~~~~^~~~~~~~~~~~~~~~~~~~~
-   drivers/regulator/qcom_spmi-regulator.c:437:8: note: Excessive padding in 'struct spmi_regulator_data' (4 padding bytes, where 0 is optimal). Optimal fields order: name, supply, ocp, base, force_type, consider reordering the fields or adding explicit padding members
-   struct spmi_regulator_data {
-   ~~~~~~~^~~~~~~~~~~~~~~~~~~~~
-   drivers/regulator/qcom_spmi-regulator.c:1268:2: warning: Value stored to 'ret' is never read [clang-analyzer-deadcode.DeadStores]
-           ret = spmi_vreg_update_bits(vreg, SPMI_COMMON_REG_ENABLE,
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/regulator/qcom_spmi-regulator.c:1268:2: note: Value stored to 'ret' is never read
-           ret = spmi_vreg_update_bits(vreg, SPMI_COMMON_REG_ENABLE,
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   1 warning generated.
-   drivers/regulator/palmas-regulator.c:1598:36: warning: Value stored to 'pdata' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct palmas_pmic_platform_data *pdata = dev_get_platdata(&pdev->dev);
-                                             ^~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/regulator/palmas-regulator.c:1598:36: note: Value stored to 'pdata' during its initialization is never read
-           struct palmas_pmic_platform_data *pdata = dev_get_platdata(&pdev->dev);
-                                             ^~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   1 warning generated.
-   drivers/iio/adc/ingenic-adc.c:660:3: warning: 3rd function call argument is an uninitialized value [clang-analyzer-core.CallAndMessage]
-                   ingenic_adc_set_config(adc, JZ_ADC_REG_CFG_AUX_MD, cmd);
-                   ^
-   drivers/iio/adc/ingenic-adc.c:694:2: note: Control jumps to 'case IIO_CHAN_INFO_RAW:'  at line 695
-           switch (m) {
-           ^
-   drivers/iio/adc/ingenic-adc.c:696:10: note: Calling 'ingenic_adc_read_chan_info_raw'
-                   return ingenic_adc_read_chan_info_raw(iio_dev, chan, val);
-                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iio/adc/ingenic-adc.c:635:6: note: 'cmd' declared without an initial value
-           int cmd, ret, engine = (chan->channel == INGENIC_ADC_BATTERY);
-               ^~~
-   drivers/iio/adc/ingenic-adc.c:635:26: note: Assuming field 'channel' is not equal to INGENIC_ADC_BATTERY
-           int cmd, ret, engine = (chan->channel == INGENIC_ADC_BATTERY);
-                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iio/adc/ingenic-adc.c:639:6: note: Assuming 'ret' is 0
-           if (ret) {
-               ^~~
-   drivers/iio/adc/ingenic-adc.c:639:2: note: Taking false branch
-           if (ret) {
-           ^
-   drivers/iio/adc/ingenic-adc.c:647:6: note: Assuming field 'has_aux_md' is not equal to 0
-           if (adc->soc_data->has_aux_md && engine == 0) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iio/adc/ingenic-adc.c:647:6: note: Left side of '&&' is true
-   drivers/iio/adc/ingenic-adc.c:647:35: note: 'engine' is equal to 0
-           if (adc->soc_data->has_aux_md && engine == 0) {
-                                            ^~~~~~
-   drivers/iio/adc/ingenic-adc.c:647:2: note: Taking true branch
-           if (adc->soc_data->has_aux_md && engine == 0) {
-           ^
-   drivers/iio/adc/ingenic-adc.c:648:3: note: 'Default' branch taken. Execution continues on line 660
-                   switch (chan->channel) {
-                   ^
-   drivers/iio/adc/ingenic-adc.c:660:3: note: 3rd function call argument is an uninitialized value
-                   ingenic_adc_set_config(adc, JZ_ADC_REG_CFG_AUX_MD, cmd);
-                   ^                                                  ~~~
-   1 warning generated.
-   Suppressed 1 warnings (1 with check filters).
-   2 warnings generated.
-   Suppressed 2 warnings (1 in non-user code, 1 with check filters).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   net/dccp/feat.c:128:14: warning: Excessive padding in 'struct (unnamed at net/dccp/feat.c:128:14)' (6 padding bytes, where 2 is optimal). Optimal fields order: rxtx, reconciliation, activation_hdlr, feat_num, default_value, consider reordering the fields or adding explicit padding members [clang-analyzer-optin.performance.Padding]
-   static const struct {
-                ^~~~~~~~
-   net/dccp/feat.c:128:14: note: Excessive padding in 'struct (unnamed at net/dccp/feat.c:128:14)' (6 padding bytes, where 2 is optimal). Optimal fields order: rxtx, reconciliation, activation_hdlr, feat_num, default_value, consider reordering the fields or adding explicit padding members
-   static const struct {
-                ^~~~~~~~
-   Suppressed 2 warnings (1 in non-user code, 1 with check filters).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (1 in non-user code, 1 with check filters).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+sparse warnings: (new ones prefixed by >>)
+   kernel/sched/core.c: note: in included file (through kernel/sched/../../io_uring/io-wq.h):
+>> include/linux/io_uring_types.h:475:35: sparse: sparse: bad constant expression
+   kernel/sched/core.c:7040:17: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/core.c:7040:17: sparse:    struct task_struct *
+   kernel/sched/core.c:7040:17: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/core.c:7256:22: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/core.c:7256:22: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/core.c:7256:22: sparse:    struct task_struct *
+   kernel/sched/core.c: note: in included file:
+   kernel/sched/sched.h:2073:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2073:25: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2073:25: sparse:    struct task_struct *
+   kernel/sched/sched.h:2073:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2073:25: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2073:25: sparse:    struct task_struct *
+   kernel/sched/sched.h:2231:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2231:9: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2231:9: sparse:    struct task_struct *
+   kernel/sched/sched.h:2231:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2231:9: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2231:9: sparse:    struct task_struct *
+   kernel/sched/sched.h:2073:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2073:25: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2073:25: sparse:    struct task_struct *
+   kernel/sched/sched.h:2231:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2231:9: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2231:9: sparse:    struct task_struct *
+   kernel/sched/sched.h:2073:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2073:25: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2073:25: sparse:    struct task_struct *
+   kernel/sched/sched.h:2231:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2231:9: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2231:9: sparse:    struct task_struct *
+   kernel/sched/sched.h:2073:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2073:25: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2073:25: sparse:    struct task_struct *
+   kernel/sched/sched.h:2231:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2231:9: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2231:9: sparse:    struct task_struct *
+   kernel/sched/sched.h:2073:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2073:25: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2073:25: sparse:    struct task_struct *
+--
+   io_uring/epoll.c: note: in included file (through io_uring/io_uring.h):
+   io_uring/slist.h:116:29: sparse: sparse: no newline at end of file
+   io_uring/epoll.c: note: in included file (through io_uring/io_uring.h):
+>> include/linux/io_uring_types.h:475:35: sparse: sparse: bad constant expression
+--
+   io_uring/uring_cmd.c: note: in included file (through io_uring/io_uring.h):
+   io_uring/slist.h:116:29: sparse: sparse: no newline at end of file
+   io_uring/uring_cmd.c: note: in included file (through io_uring/io_uring.h):
+>> include/linux/io_uring_types.h:475:35: sparse: sparse: bad constant expression
+--
+   io_uring/statx.c: note: in included file (through io_uring/io_uring.h):
+   io_uring/slist.h:116:29: sparse: sparse: no newline at end of file
+   io_uring/statx.c: note: in included file (through io_uring/io_uring.h):
+>> include/linux/io_uring_types.h:475:35: sparse: sparse: bad constant expression
+--
+   io_uring/net.c: note: in included file (through io_uring/io_uring.h):
+   io_uring/slist.h:116:29: sparse: sparse: no newline at end of file
+   io_uring/net.c: note: in included file (through io_uring/io_uring.h):
+>> include/linux/io_uring_types.h:475:35: sparse: sparse: bad constant expression
+--
+   io_uring/msg_ring.c: note: in included file (through io_uring/io_uring.h):
+   io_uring/slist.h:116:29: sparse: sparse: no newline at end of file
+   io_uring/msg_ring.c: note: in included file (through io_uring/io_uring.h):
+>> include/linux/io_uring_types.h:475:35: sparse: sparse: bad constant expression
+--
+   io_uring/timeout.c: note: in included file (through io_uring/io_uring.h):
+   io_uring/slist.h:116:29: sparse: sparse: no newline at end of file
+   io_uring/timeout.c: note: in included file (through include/trace/events/io_uring.h):
+>> include/linux/io_uring_types.h:475:35: sparse: sparse: bad constant expression
+--
+   io_uring/sqpoll.c: note: in included file (through io_uring/io_uring.h):
+   io_uring/slist.h:116:29: sparse: sparse: no newline at end of file
+   io_uring/sqpoll.c: note: in included file (through io_uring/io_uring.h):
+>> include/linux/io_uring_types.h:475:35: sparse: sparse: bad constant expression
+--
+   io_uring/fdinfo.c: note: in included file (through io_uring/io_uring.h):
+   io_uring/slist.h:116:29: sparse: sparse: no newline at end of file
+   io_uring/fdinfo.c: note: in included file (through io_uring/io_uring.h):
+>> include/linux/io_uring_types.h:475:35: sparse: sparse: bad constant expression
+--
+   io_uring/openclose.c: note: in included file (through io_uring/io_uring.h):
+   io_uring/slist.h:116:29: sparse: sparse: no newline at end of file
+   io_uring/openclose.c: note: in included file (through io_uring/io_uring.h):
+>> include/linux/io_uring_types.h:475:35: sparse: sparse: bad constant expression
+--
+   io_uring/tctx.c: note: in included file (through io_uring/io_uring.h):
+   io_uring/slist.h:116:29: sparse: sparse: no newline at end of file
+   io_uring/tctx.c: note: in included file (through io_uring/io_uring.h):
+>> include/linux/io_uring_types.h:475:35: sparse: sparse: bad constant expression
+--
+   io_uring/cancel.c: note: in included file (through io_uring/io_uring.h):
+   io_uring/slist.h:116:29: sparse: sparse: no newline at end of file
+   io_uring/cancel.c: note: in included file (through io_uring/io_uring.h):
+>> include/linux/io_uring_types.h:475:35: sparse: sparse: bad constant expression
+--
+   io_uring/poll.c: note: in included file (through io_uring/io_uring.h):
+   io_uring/slist.h:116:29: sparse: sparse: no newline at end of file
+   io_uring/poll.c: note: in included file (through include/trace/events/io_uring.h):
+>> include/linux/io_uring_types.h:475:35: sparse: sparse: bad constant expression
+--
+   io_uring/kbuf.c: note: in included file (through io_uring/io_uring.h):
+   io_uring/slist.h:116:29: sparse: sparse: no newline at end of file
+   io_uring/kbuf.c: note: in included file (through io_uring/io_uring.h):
+>> include/linux/io_uring_types.h:475:35: sparse: sparse: bad constant expression
+--
+   io_uring/rsrc.c: note: in included file (through io_uring/io_uring.h):
+   io_uring/slist.h:116:29: sparse: sparse: no newline at end of file
+   io_uring/rsrc.c: note: in included file (through io_uring/io_uring.h):
+>> include/linux/io_uring_types.h:475:35: sparse: sparse: bad constant expression
+--
+   io_uring/opdef.c: note: in included file (through io_uring/io_uring.h):
+   io_uring/slist.h:116:29: sparse: sparse: no newline at end of file
+   io_uring/opdef.c: note: in included file (through io_uring/io_uring.h):
+>> include/linux/io_uring_types.h:475:35: sparse: sparse: bad constant expression
+--
+   io_uring/rw.c: note: in included file (through io_uring/io_uring.h):
+   io_uring/slist.h:116:29: sparse: sparse: no newline at end of file
+   io_uring/rw.c: note: in included file (through io_uring/io_uring.h):
+>> include/linux/io_uring_types.h:475:35: sparse: sparse: bad constant expression
+--
+   io_uring/io_uring.c: note: in included file (through io_uring/io_uring.h):
+   io_uring/slist.h:116:29: sparse: sparse: no newline at end of file
+   io_uring/io_uring.c: note: in included file (through include/trace/events/io_uring.h):
+>> include/linux/io_uring_types.h:475:35: sparse: sparse: bad constant expression
+--
+   io_uring/nop.c: note: in included file (through io_uring/io_uring.h):
+   io_uring/slist.h:116:29: sparse: sparse: no newline at end of file
+   io_uring/nop.c: note: in included file (through io_uring/io_uring.h):
+>> include/linux/io_uring_types.h:475:35: sparse: sparse: bad constant expression
+--
+   io_uring/xattr.c: note: in included file (through io_uring/io_uring.h):
+   io_uring/slist.h:116:29: sparse: sparse: no newline at end of file
+   io_uring/xattr.c: note: in included file (through io_uring/io_uring.h):
+>> include/linux/io_uring_types.h:475:35: sparse: sparse: bad constant expression
+--
+   io_uring/fs.c: note: in included file (through io_uring/io_uring.h):
+   io_uring/slist.h:116:29: sparse: sparse: no newline at end of file
+   io_uring/fs.c: note: in included file (through io_uring/io_uring.h):
+>> include/linux/io_uring_types.h:475:35: sparse: sparse: bad constant expression
+--
+   io_uring/splice.c: note: in included file (through io_uring/io_uring.h):
+   io_uring/slist.h:116:29: sparse: sparse: no newline at end of file
+   io_uring/splice.c: note: in included file (through io_uring/io_uring.h):
+>> include/linux/io_uring_types.h:475:35: sparse: sparse: bad constant expression
+--
+   io_uring/notif.c: note: in included file (through io_uring/io_uring.h):
+   io_uring/slist.h:116:29: sparse: sparse: no newline at end of file
+   io_uring/notif.c: note: in included file (through io_uring/io_uring.h):
+>> include/linux/io_uring_types.h:475:35: sparse: sparse: bad constant expression
+--
+   io_uring/sync.c: note: in included file (through io_uring/io_uring.h):
+   io_uring/slist.h:116:29: sparse: sparse: no newline at end of file
+   io_uring/sync.c: note: in included file (through io_uring/io_uring.h):
+>> include/linux/io_uring_types.h:475:35: sparse: sparse: bad constant expression
+--
+   io_uring/advise.c: note: in included file (through io_uring/io_uring.h):
+   io_uring/slist.h:116:29: sparse: sparse: no newline at end of file
+   io_uring/advise.c: note: in included file (through io_uring/io_uring.h):
+>> include/linux/io_uring_types.h:475:35: sparse: sparse: bad constant expression
+--
+   io_uring/filetable.c: note: in included file (through io_uring/io_uring.h):
+   io_uring/slist.h:116:29: sparse: sparse: no newline at end of file
+   io_uring/filetable.c: note: in included file (through io_uring/io_uring.h):
+>> include/linux/io_uring_types.h:475:35: sparse: sparse: bad constant expression
+--
+   io_uring/fused_cmd.c: note: in included file (through io_uring/io_uring.h):
+   io_uring/slist.h:116:29: sparse: sparse: no newline at end of file
+   io_uring/fused_cmd.c: note: in included file (through io_uring/io_uring.h):
+>> include/linux/io_uring_types.h:475:35: sparse: sparse: bad constant expression
+--
+   io_uring/io-wq.c: note: in included file:
+   io_uring/slist.h:116:29: sparse: sparse: no newline at end of file
+   io_uring/io-wq.c: note: in included file (through io_uring/io-wq.h):
+>> include/linux/io_uring_types.h:475:35: sparse: sparse: bad constant expression
 
-vim +/retval +220 fs/9p/vfs_dir.c
+vim +475 include/linux/io_uring_types.h
 
-7751bdb3a095ad Sripathi Kodi       2010-06-04  197  
-e69e7fe5b0c86b Eric Van Hensbergen 2005-09-09  198  
-e69e7fe5b0c86b Eric Van Hensbergen 2005-09-09  199  /**
-02dbb44c1108b8 Eric Van Hensbergen 2022-12-08  200   * v9fs_dir_release - close a directory or a file
-02dbb44c1108b8 Eric Van Hensbergen 2022-12-08  201   * @inode: inode of the directory or file
-02dbb44c1108b8 Eric Van Hensbergen 2022-12-08  202   * @filp: file pointer to a directory or file
-e69e7fe5b0c86b Eric Van Hensbergen 2005-09-09  203   *
-e69e7fe5b0c86b Eric Van Hensbergen 2005-09-09  204   */
-e69e7fe5b0c86b Eric Van Hensbergen 2005-09-09  205  
-e69e7fe5b0c86b Eric Van Hensbergen 2005-09-09  206  int v9fs_dir_release(struct inode *inode, struct file *filp)
-e69e7fe5b0c86b Eric Van Hensbergen 2005-09-09  207  {
-24e42e32d347f0 David Howells       2020-11-18  208  	struct v9fs_inode *v9inode = V9FS_I(inode);
-bd238fb431f319 Latchesar Ionkov    2007-07-10  209  	struct p9_fid *fid;
-24e42e32d347f0 David Howells       2020-11-18  210  	__le32 version;
-24e42e32d347f0 David Howells       2020-11-18  211  	loff_t i_size;
-89c58cb395ec0f Eric Van Hensbergen 2022-12-18  212  	int retval = 0;
-e69e7fe5b0c86b Eric Van Hensbergen 2005-09-09  213  
-bd238fb431f319 Latchesar Ionkov    2007-07-10  214  	fid = filp->private_data;
-5d3851530d6d68 Joe Perches         2011-11-28  215  	p9_debug(P9_DEBUG_VFS, "inode: %p filp: %p fid: %d\n",
-62726a7ab3a6a3 jvrao               2010-08-25  216  		 inode, filp, fid ? fid->fid : -1);
-02dbb44c1108b8 Eric Van Hensbergen 2022-12-08  217  
-6636b6dcc3db22 Jianyong Wu         2020-09-23  218  	if (fid) {
-02dbb44c1108b8 Eric Van Hensbergen 2022-12-08  219  		if ((S_ISREG(inode->i_mode)) && (filp->f_mode & FMODE_WRITE))
-02dbb44c1108b8 Eric Van Hensbergen 2022-12-08 @220  			retval = filemap_fdatawrite(inode->i_mapping);
-02dbb44c1108b8 Eric Van Hensbergen 2022-12-08  221  
-987a64850996db Greg Kurz           2020-09-23  222  		spin_lock(&inode->i_lock);
-987a64850996db Greg Kurz           2020-09-23  223  		hlist_del(&fid->ilist);
-987a64850996db Greg Kurz           2020-09-23  224  		spin_unlock(&inode->i_lock);
-89c58cb395ec0f Eric Van Hensbergen 2022-12-18  225  		retval = p9_fid_put(fid);
-6636b6dcc3db22 Jianyong Wu         2020-09-23  226  	}
-24e42e32d347f0 David Howells       2020-11-18  227  
-24e42e32d347f0 David Howells       2020-11-18  228  	if ((filp->f_mode & FMODE_WRITE)) {
-24e42e32d347f0 David Howells       2020-11-18  229  		version = cpu_to_le32(v9inode->qid.version);
-24e42e32d347f0 David Howells       2020-11-18  230  		i_size = i_size_read(inode);
-24e42e32d347f0 David Howells       2020-11-18  231  		fscache_unuse_cookie(v9fs_inode_cookie(v9inode),
-24e42e32d347f0 David Howells       2020-11-18  232  				     &version, &i_size);
-24e42e32d347f0 David Howells       2020-11-18  233  	} else {
-24e42e32d347f0 David Howells       2020-11-18  234  		fscache_unuse_cookie(v9fs_inode_cookie(v9inode), NULL, NULL);
-24e42e32d347f0 David Howells       2020-11-18  235  	}
-89c58cb395ec0f Eric Van Hensbergen 2022-12-18  236  	return retval;
-e69e7fe5b0c86b Eric Van Hensbergen 2005-09-09  237  }
-e69e7fe5b0c86b Eric Van Hensbergen 2005-09-09  238  
+e27f928ee1cb068 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  409  
+e27f928ee1cb068 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  410  enum {
+e27f928ee1cb068 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  411  	/* ctx owns file */
+e27f928ee1cb068 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  412  	REQ_F_FIXED_FILE	= BIT(REQ_F_FIXED_FILE_BIT),
+e27f928ee1cb068 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  413  	/* drain existing IO first */
+e27f928ee1cb068 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  414  	REQ_F_IO_DRAIN		= BIT(REQ_F_IO_DRAIN_BIT),
+e27f928ee1cb068 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  415  	/* linked sqes */
+e27f928ee1cb068 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  416  	REQ_F_LINK		= BIT(REQ_F_LINK_BIT),
+e27f928ee1cb068 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  417  	/* doesn't sever on completion < 0 */
+e27f928ee1cb068 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  418  	REQ_F_HARDLINK		= BIT(REQ_F_HARDLINK_BIT),
+e27f928ee1cb068 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  419  	/* IOSQE_ASYNC */
+e27f928ee1cb068 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  420  	REQ_F_FORCE_ASYNC	= BIT(REQ_F_FORCE_ASYNC_BIT),
+e27f928ee1cb068 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  421  	/* IOSQE_BUFFER_SELECT */
+e27f928ee1cb068 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  422  	REQ_F_BUFFER_SELECT	= BIT(REQ_F_BUFFER_SELECT_BIT),
+e27f928ee1cb068 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  423  	/* IOSQE_CQE_SKIP_SUCCESS */
+e27f928ee1cb068 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  424  	REQ_F_CQE_SKIP		= BIT(REQ_F_CQE_SKIP_BIT),
+e27f928ee1cb068 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  425  
+e27f928ee1cb068 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  426  	/* fail rest of links */
+e27f928ee1cb068 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  427  	REQ_F_FAIL		= BIT(REQ_F_FAIL_BIT),
+e27f928ee1cb068 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  428  	/* on inflight list, should be cancelled and waited on exit reliably */
+e27f928ee1cb068 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  429  	REQ_F_INFLIGHT		= BIT(REQ_F_INFLIGHT_BIT),
+e27f928ee1cb068 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  430  	/* read/write uses file position */
+e27f928ee1cb068 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  431  	REQ_F_CUR_POS		= BIT(REQ_F_CUR_POS_BIT),
+e27f928ee1cb068 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  432  	/* must not punt to workers */
+e27f928ee1cb068 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  433  	REQ_F_NOWAIT		= BIT(REQ_F_NOWAIT_BIT),
+e27f928ee1cb068 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  434  	/* has or had linked timeout */
+e27f928ee1cb068 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  435  	REQ_F_LINK_TIMEOUT	= BIT(REQ_F_LINK_TIMEOUT_BIT),
+e27f928ee1cb068 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  436  	/* needs cleanup */
+e27f928ee1cb068 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  437  	REQ_F_NEED_CLEANUP	= BIT(REQ_F_NEED_CLEANUP_BIT),
+e27f928ee1cb068 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  438  	/* already went through poll handler */
+e27f928ee1cb068 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  439  	REQ_F_POLLED		= BIT(REQ_F_POLLED_BIT),
+e27f928ee1cb068 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  440  	/* buffer already selected */
+e27f928ee1cb068 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  441  	REQ_F_BUFFER_SELECTED	= BIT(REQ_F_BUFFER_SELECTED_BIT),
+e27f928ee1cb068 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  442  	/* buffer selected from ring, needs commit */
+e27f928ee1cb068 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  443  	REQ_F_BUFFER_RING	= BIT(REQ_F_BUFFER_RING_BIT),
+e27f928ee1cb068 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  444  	/* caller should reissue async */
+e27f928ee1cb068 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  445  	REQ_F_REISSUE		= BIT(REQ_F_REISSUE_BIT),
+e27f928ee1cb068 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  446  	/* supports async reads/writes */
+e27f928ee1cb068 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  447  	REQ_F_SUPPORT_NOWAIT	= BIT(REQ_F_SUPPORT_NOWAIT_BIT),
+e27f928ee1cb068 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  448  	/* regular file */
+e27f928ee1cb068 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  449  	REQ_F_ISREG		= BIT(REQ_F_ISREG_BIT),
+e27f928ee1cb068 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  450  	/* has creds assigned */
+e27f928ee1cb068 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  451  	REQ_F_CREDS		= BIT(REQ_F_CREDS_BIT),
+e27f928ee1cb068 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  452  	/* skip refcounting if not set */
+e27f928ee1cb068 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  453  	REQ_F_REFCOUNT		= BIT(REQ_F_REFCOUNT_BIT),
+e27f928ee1cb068 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  454  	/* there is a linked timeout that has to be armed */
+e27f928ee1cb068 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  455  	REQ_F_ARM_LTIMEOUT	= BIT(REQ_F_ARM_LTIMEOUT_BIT),
+e27f928ee1cb068 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  456  	/* ->async_data allocated */
+e27f928ee1cb068 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  457  	REQ_F_ASYNC_DATA	= BIT(REQ_F_ASYNC_DATA_BIT),
+e27f928ee1cb068 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  458  	/* don't post CQEs while failing linked requests */
+e27f928ee1cb068 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  459  	REQ_F_SKIP_LINK_CQES	= BIT(REQ_F_SKIP_LINK_CQES_BIT),
+e27f928ee1cb068 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  460  	/* single poll may be active */
+e27f928ee1cb068 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  461  	REQ_F_SINGLE_POLL	= BIT(REQ_F_SINGLE_POLL_BIT),
+e27f928ee1cb068 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  462  	/* double poll may active */
+e27f928ee1cb068 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  463  	REQ_F_DOUBLE_POLL	= BIT(REQ_F_DOUBLE_POLL_BIT),
+e27f928ee1cb068 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  464  	/* request has already done partial IO */
+e27f928ee1cb068 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  465  	REQ_F_PARTIAL_IO	= BIT(REQ_F_PARTIAL_IO_BIT),
+e27f928ee1cb068 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  466  	/* fast poll multishot mode */
+e27f928ee1cb068 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  467  	REQ_F_APOLL_MULTISHOT	= BIT(REQ_F_APOLL_MULTISHOT_BIT),
+e27f928ee1cb068 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  468  	/* ->extra1 and ->extra2 are initialised */
+e27f928ee1cb068 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  469  	REQ_F_CQE32_INIT	= BIT(REQ_F_CQE32_INIT_BIT),
+e27f928ee1cb068 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  470  	/* recvmsg special flag, clear EPOLLIN */
+e27f928ee1cb068 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  471  	REQ_F_CLEAR_POLLIN	= BIT(REQ_F_CLEAR_POLLIN_BIT),
+9ca9fb24d5febcc io_uring/io_uring_types.h      Pavel Begunkov 2022-06-16  472  	/* hashed into ->cancel_hash_locked, protected by ->uring_lock */
+9ca9fb24d5febcc io_uring/io_uring_types.h      Pavel Begunkov 2022-06-16  473  	REQ_F_HASH_LOCKED	= BIT(REQ_F_HASH_LOCKED_BIT),
+5e0eebd84413d45 include/linux/io_uring_types.h Ming Lei       2023-03-07  474  	/* slave request in fused cmd, won't be one uring cmd */
+5e0eebd84413d45 include/linux/io_uring_types.h Ming Lei       2023-03-07 @475  	REQ_F_FUSED_SLAVE	= BIT(REQ_F_FUSED_SLAVE_BIT),
+e27f928ee1cb068 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  476  };
+e27f928ee1cb068 io_uring/io_uring_types.h      Jens Axboe     2022-05-24  477  
 
 -- 
 0-DAY CI Kernel Test Service
