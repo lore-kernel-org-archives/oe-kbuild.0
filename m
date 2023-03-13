@@ -1,42 +1,61 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A963F7E5
-	for <oe-kbuild@lists.linux.dev>; Sat, 11 Mar 2023 23:15:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678576506; x=1710112506;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ENVDCvHAusf3A/DaUPMkNhu2PlfiWWppgCYncyiZ/Ws=;
-  b=C3mlD/bmn8z3qkMnR9oXQYn636kfGBEej4Nc9YlbRBvruJsAnNY9AfUA
-   BA+wQYJR38m/ocx24WfGS7YC1A8Zzhxz4OhSubpKTFEr9rhUvAgb1N0Jo
-   pJzmZsvoio6ylm5ph/nCUaLPWoIa58ZeUjiYydsRlvvSEeZfnRTTA8XFx
-   Alpm2q81yNK7JmrvvGKeXygzFIJfwWIwx/yJ27ty8YO8WAHSaXH4g08YK
-   e8VJyzxyNmK/pjrBRSyx+LN6acjW1JUp3s6R9vSw1M5qX/ukYHRNBRMP3
-   F/OZcOmCiX98yUjIMfUE+5540dcjOxuETW0G3H3w4haJM2i8or8LJfddh
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10646"; a="334420917"
-X-IronPort-AV: E=Sophos;i="5.98,253,1673942400"; 
-   d="scan'208";a="334420917"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2023 15:15:05 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10646"; a="788461892"
-X-IronPort-AV: E=Sophos;i="5.98,253,1673942400"; 
-   d="scan'208";a="788461892"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 11 Mar 2023 15:15:04 -0800
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pb8Qa-0004qf-0q;
-	Sat, 11 Mar 2023 23:15:04 +0000
-Date: Sun, 12 Mar 2023 07:15:04 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [linux-next:master 1161/2655] drivers/soc/mediatek/mtk-svs.c:1740
- svs_get_efuse_data() warn: passing zero to 'PTR_ERR'
-Message-ID: <202303120758.x4oFgtr4-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5BF2184F;
+	Mon, 13 Mar 2023 04:36:44 +0000 (UTC)
+Received: by mail-wm1-f44.google.com with SMTP id ay8so1726446wmb.1;
+        Sun, 12 Mar 2023 21:36:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1678682203;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=RPkjKDsBb71nKpudtxtcqtlqrtUYMaoaA2+YW5pgk20=;
+        b=o8UFDtry4uG1JbWAltEud3mIbYrFjovuA16M/p1MxxmdZzNiBEhexzUGojCZBwEFlp
+         fJcPjpPXs4mQeTB5Yr+z85ztvyu4LL3T8+KrUqp5t5GDqI910fvVlZ878MJuAH2qCKKf
+         NCeklxFow7mAXbMUVIRT0gH1UY0HjcyZnRehs6Q+NCloAR4y5fSOZL/H4dLqf13/Mmc4
+         XLlfwl6mgJSvFVcLtRvQzrQqbC8IAB8qBDGwoaye5gbsF8iS8wSeMETb31PfD17oiI03
+         6TxCm900m+1G5hzyf28lu2ozkICGb0eUnEPUZH8s+qNCB0M2Tqz3AZJzl9Y/ZC6+Pc2P
+         WIWA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678682203;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=RPkjKDsBb71nKpudtxtcqtlqrtUYMaoaA2+YW5pgk20=;
+        b=OTtgWu12RTPOi/u6IcrTYu/oB1luiCXwZYwMyjDNhP+GDZ3dg2FE+Pd7p0qE5kYpeY
+         i292zdvpd5u9atiXrqDT/iwjuMs0Fj21ghkcFlHEht8VurzyJcAhv2k/fHWg2gWIjTT3
+         RxOOcg0QFDQLj8iN24wXYgQkU1VjxnYbYV0ypOeOAoJNuBaK7efCLV3pqVJFmF1qxCeL
+         P/v0OBVXk26OKhaH9AgkRSWTBHVwVJb+i/83evZfmuOwmpQng4JIAF+GujIBOc4O4LOI
+         urPjTjd311MiorWNukr4kqcpYsNkzou+0fwuigBMVFvywdiLv536ThK1Vjl3PaE0caYv
+         kyKg==
+X-Gm-Message-State: AO0yUKUucysch7qhMFAWAnSRrs2jfOE6IAt+IaAyblVmjCdA5mdB5DoK
+	OiDDMcQ0vrG6DYZWh6kFnuStllswoU8=
+X-Google-Smtp-Source: AK7set+92T7zGiAWcx1G/zea8syZ/x/ZAOEQVX1oETWHiO4OPz7n5Ubnyu927iW/B/MnO5SdkvhlxQ==
+X-Received: by 2002:a05:600c:4751:b0:3ea:f0d6:5d36 with SMTP id w17-20020a05600c475100b003eaf0d65d36mr9722929wmo.29.1678682202670;
+        Sun, 12 Mar 2023 21:36:42 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id l26-20020a1c791a000000b003eb68bb61c8sm7659421wme.3.2023.03.12.21.36.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 12 Mar 2023 21:36:42 -0700 (PDT)
+Date: Mon, 13 Mar 2023 07:36:39 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev,
+	Christian Hewitt <christianshewitt@gmail.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	linux-amlogic@lists.infradead.org, linux-staging@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-media@vger.kernel.org,
+	Christian Hewitt <christianshewitt@gmail.com>,
+	Maxime Jourdan <mjourdan@baylibre.com>,
+	Benjamin Roszak <benjamin545@gmail.com>
+Subject: Re: [PATCH v2 2/2] media: meson: vdec: add HEVC decode codec
+Message-ID: <84114d96-87ac-4fc1-842d-aefb1da49914@kili.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -45,63 +64,66 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230124034058.3407235-3-christianshewitt@gmail.com>
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Roger Lu <roger.lu@mediatek.com>
-CC: Matthias Brugger <matthias.bgg@gmail.com>
+Hi Christian,
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   24469a0e5052ba01a35a15f104717a82b7a4798b
-commit: 9f195f3a1e696b6576988c1e58fa7389beae3351 [1161/2655] soc: mediatek: mtk-svs: use svs get efuse common function
-:::::: branch date: 2 days ago
-:::::: commit date: 5 days ago
-config: s390-randconfig-m031-20230310 (https://download.01.org/0day-ci/archive/20230312/202303120758.x4oFgtr4-lkp@intel.com/config)
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Christian-Hewitt/media-meson-vdec-implement-10bit-bitstream-handling/20230124-114201
+base:   git://linuxtv.org/media_tree.git master
+patch link:    https://lore.kernel.org/r/20230124034058.3407235-3-christianshewitt%40gmail.com
+patch subject: [PATCH v2 2/2] media: meson: vdec: add HEVC decode codec
+config: s390-randconfig-m031-20230310 (https://download.01.org/0day-ci/archive/20230312/202303120441.YFGHDOya-lkp@intel.com/config)
 compiler: s390-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202303120758.x4oFgtr4-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202303120441.YFGHDOya-lkp@intel.com/
 
-New smatch warnings:
-drivers/soc/mediatek/mtk-svs.c:1740 svs_get_efuse_data() warn: passing zero to 'PTR_ERR'
+smatch warnings:
+drivers/staging/media/meson/vdec/codec_hevc.c:734 codec_hevc_prepare_new_frame() warn: possible memory leak of 'new_frame'
 
-Old smatch warnings:
-drivers/soc/mediatek/mtk-svs.c:1742 svs_get_efuse_data() warn: passing zero to 'PTR_ERR'
+vim +/new_frame +734 drivers/staging/media/meson/vdec/codec_hevc.c
 
-vim +/PTR_ERR +1740 drivers/soc/mediatek/mtk-svs.c
+015f7814a5a991 Maxime Jourdan 2023-01-24  718  static struct hevc_frame *
+015f7814a5a991 Maxime Jourdan 2023-01-24  719  codec_hevc_prepare_new_frame(struct amvdec_session *sess)
+015f7814a5a991 Maxime Jourdan 2023-01-24  720  {
+015f7814a5a991 Maxime Jourdan 2023-01-24  721  	struct amvdec_core *core = sess->core;
+015f7814a5a991 Maxime Jourdan 2023-01-24  722  	struct hevc_frame *new_frame = NULL;
+015f7814a5a991 Maxime Jourdan 2023-01-24  723  	struct codec_hevc *hevc = sess->priv;
+015f7814a5a991 Maxime Jourdan 2023-01-24  724  	struct vb2_v4l2_buffer *vbuf;
+015f7814a5a991 Maxime Jourdan 2023-01-24  725  	union rpm_param *params = &hevc->rpm_param;
+015f7814a5a991 Maxime Jourdan 2023-01-24  726  
+015f7814a5a991 Maxime Jourdan 2023-01-24  727  	new_frame = kzalloc(sizeof(*new_frame), GFP_KERNEL);
+015f7814a5a991 Maxime Jourdan 2023-01-24  728  	if (!new_frame)
+015f7814a5a991 Maxime Jourdan 2023-01-24  729  		return NULL;
+015f7814a5a991 Maxime Jourdan 2023-01-24  730  
+015f7814a5a991 Maxime Jourdan 2023-01-24  731  	vbuf = v4l2_m2m_dst_buf_remove(sess->m2m_ctx);
+015f7814a5a991 Maxime Jourdan 2023-01-24  732  	if (!vbuf) {
+015f7814a5a991 Maxime Jourdan 2023-01-24  733  		dev_err(sess->core->dev, "No dst buffer available\n");
+015f7814a5a991 Maxime Jourdan 2023-01-24 @734  		return NULL;
 
-681a02e9500073 Roger Lu                   2022-05-16  1731  
-9f195f3a1e696b Roger Lu                   2023-02-02  1732  static int svs_get_efuse_data(struct svs_platform *svsp,
-9f195f3a1e696b Roger Lu                   2023-02-02  1733  			      const char *nvmem_cell_name,
-9f195f3a1e696b Roger Lu                   2023-02-02  1734  			      u32 **svsp_efuse, size_t *svsp_efuse_max)
-43819e38533066 AngeloGioacchino Del Regno 2022-08-25  1735  {
-43819e38533066 AngeloGioacchino Del Regno 2022-08-25  1736  	struct nvmem_cell *cell;
-43819e38533066 AngeloGioacchino Del Regno 2022-08-25  1737  
-9f195f3a1e696b Roger Lu                   2023-02-02  1738  	cell = nvmem_cell_get(svsp->dev, nvmem_cell_name);
-43819e38533066 AngeloGioacchino Del Regno 2022-08-25  1739  	if (IS_ERR_OR_NULL(cell)) {
-9f195f3a1e696b Roger Lu                   2023-02-02 @1740  		dev_err(svsp->dev, "no \"%s\"? %ld\n",
-9f195f3a1e696b Roger Lu                   2023-02-02  1741  			nvmem_cell_name, PTR_ERR(cell));
-43819e38533066 AngeloGioacchino Del Regno 2022-08-25  1742  		return PTR_ERR(cell);
-43819e38533066 AngeloGioacchino Del Regno 2022-08-25  1743  	}
-43819e38533066 AngeloGioacchino Del Regno 2022-08-25  1744  
-9f195f3a1e696b Roger Lu                   2023-02-02  1745  	*svsp_efuse = nvmem_cell_read(cell, svsp_efuse_max);
-9f195f3a1e696b Roger Lu                   2023-02-02  1746  	if (IS_ERR(*svsp_efuse)) {
-9f195f3a1e696b Roger Lu                   2023-02-02  1747  		dev_err(svsp->dev, "cannot read \"%s\" efuse: %ld\n",
-9f195f3a1e696b Roger Lu                   2023-02-02  1748  			nvmem_cell_name, PTR_ERR(*svsp_efuse));
-43819e38533066 AngeloGioacchino Del Regno 2022-08-25  1749  		nvmem_cell_put(cell);
-9f195f3a1e696b Roger Lu                   2023-02-02  1750  		return PTR_ERR(*svsp_efuse);
-43819e38533066 AngeloGioacchino Del Regno 2022-08-25  1751  	}
-43819e38533066 AngeloGioacchino Del Regno 2022-08-25  1752  
-9f195f3a1e696b Roger Lu                   2023-02-02  1753  	*svsp_efuse_max /= sizeof(u32);
-43819e38533066 AngeloGioacchino Del Regno 2022-08-25  1754  	nvmem_cell_put(cell);
-43819e38533066 AngeloGioacchino Del Regno 2022-08-25  1755  
-43819e38533066 AngeloGioacchino Del Regno 2022-08-25  1756  	return 0;
-43819e38533066 AngeloGioacchino Del Regno 2022-08-25  1757  }
-43819e38533066 AngeloGioacchino Del Regno 2022-08-25  1758  
+kfree(new_frame);
+
+015f7814a5a991 Maxime Jourdan 2023-01-24  735  	}
+015f7814a5a991 Maxime Jourdan 2023-01-24  736  
+015f7814a5a991 Maxime Jourdan 2023-01-24  737  	new_frame->vbuf = vbuf;
+015f7814a5a991 Maxime Jourdan 2023-01-24  738  	new_frame->referenced = 1;
+015f7814a5a991 Maxime Jourdan 2023-01-24  739  	new_frame->show = 1;
+015f7814a5a991 Maxime Jourdan 2023-01-24  740  	new_frame->poc = hevc->curr_poc;
+015f7814a5a991 Maxime Jourdan 2023-01-24  741  	new_frame->cur_slice_type = params->p.slice_type;
+015f7814a5a991 Maxime Jourdan 2023-01-24  742  	new_frame->num_reorder_pic = params->p.sps_num_reorder_pics_0;
+015f7814a5a991 Maxime Jourdan 2023-01-24  743  	new_frame->offset = amvdec_read_dos(core, HEVC_SHIFT_BYTE_COUNT);
+015f7814a5a991 Maxime Jourdan 2023-01-24  744  
+015f7814a5a991 Maxime Jourdan 2023-01-24  745  	list_add_tail(&new_frame->list, &hevc->ref_frames_list);
+015f7814a5a991 Maxime Jourdan 2023-01-24  746  	hevc->frames_num++;
+015f7814a5a991 Maxime Jourdan 2023-01-24  747  
+015f7814a5a991 Maxime Jourdan 2023-01-24  748  	return new_frame;
+015f7814a5a991 Maxime Jourdan 2023-01-24  749  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
+
