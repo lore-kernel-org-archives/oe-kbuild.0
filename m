@@ -1,143 +1,155 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8ED228EF
-	for <oe-kbuild@lists.linux.dev>; Tue, 14 Mar 2023 09:03:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B4F428EF
+	for <oe-kbuild@lists.linux.dev>; Tue, 14 Mar 2023 09:34:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678784613; x=1710320613;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+vhGe7G1WGOOfJWFM/GS1oz0MCw0+Nmcjp7RAmMkfqA=;
-  b=blnt0N2ybbxTMfk4BugPQ1M5YvwsER0GIlCGTQbRO7I/BnbnqUnUtTVH
-   Ji3+QDllink7v706uQD70uzFPYRDnucVEV6H1D3g3woiE73BUvZaKfNti
-   E4mS7jKKA2cNrGUc6mJy9doSQKNzsZJbhRzw4/ApcaujdClI4Jdfk2ULK
-   H98+O7YzjbRClxGvNpmsmCpbhIJscecF+bSGF6bzGhhwk9MMbpqZ5HS5i
-   3yifdjXUYvAHRu1J0EvCyNxH3+tKo2JnHqEPO+iiGBNyNDdMiAh0uepPn
-   uP+RLnlj3Y52EanprvyD4/3L01EyKtxlKVQyk3o6xWppG766mf8qMtHw+
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10648"; a="334851189"
+  t=1678786470; x=1710322470;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=kIwfBMgmXJdcFZ6qAJ5xJb78W30q/gYlAKJBCptN5G8=;
+  b=WJSvcHTxU4j4YiP1yMKfTgcAgaPYuvcGA/JJS56DjC0KQ85QeM/w5V3S
+   /Gih7H6buUiIDfC5+3ps/Uq3+FkbheK564HK2wjJ41CHionYx1Qw2yupY
+   ++j8hn+jKcx98fMEi+5MCdpCtGQdh9VUOrPacEgL+ObNEbHh6yJ5IFFLg
+   CRRMMuhjK740V+4nX7b4+Pqj34WESs3riCe0DeKqqHjoJutyzhUpjn1gQ
+   f9bQQrRqbQ+OGimmKOEDPAkfa8koeMxF1VWxFpaOehluTIftefl86CTub
+   jhBSTQfn5cl1jCRNr+gDCJrE6ZPJQgmCz8jERvZJxOZQsgc4E/hfUQ84C
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10648"; a="339741406"
 X-IronPort-AV: E=Sophos;i="5.98,259,1673942400"; 
-   d="scan'208";a="334851189"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2023 02:03:29 -0700
+   d="scan'208";a="339741406"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2023 02:34:29 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10648"; a="628974313"
+X-IronPort-AV: E=McAfee;i="6500,9779,10648"; a="802778373"
 X-IronPort-AV: E=Sophos;i="5.98,259,1673942400"; 
-   d="scan'208";a="628974313"
+   d="scan'208";a="802778373"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 14 Mar 2023 02:03:27 -0700
+  by orsmga004.jf.intel.com with ESMTP; 14 Mar 2023 02:34:28 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pc0Z5-0006kO-0I;
-	Tue, 14 Mar 2023 09:03:27 +0000
-Date: Tue, 14 Mar 2023 17:02:37 +0800
+	id 1pc135-0006lw-3A;
+	Tue, 14 Mar 2023 09:34:27 +0000
+Date: Tue, 14 Mar 2023 17:33:34 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: drivers/thermal/k3_j72xx_bandgap.c:83:12: warning: Parameter
- 'ref_table' can be declared as pointer to const [constParameter]
-Message-ID: <202303141639.7guDliPu-lkp@intel.com>
+Subject: drivers/fpga/intel-m10-bmc-sec-update.c:370:31: warning:
+ Uninitialized variable: doorbell_reg [uninitvar]
+Message-ID: <202303141737.1IlNOtee-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
 :::::: 
-:::::: Manual check reason: "low confidence static check warning: drivers/thermal/k3_j72xx_bandgap.c:83:12: warning: Parameter 'ref_table' can be declared as pointer to const [constParameter]"
+:::::: Manual check reason: "low confidence static check warning: drivers/fpga/intel-m10-bmc-sec-update.c:370:31: warning: Uninitialized variable: doorbell_reg [uninitvar]"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Keerthy <j-keerthy@ti.com>
-CC: Daniel Lezcano <daniel.lezcano@linaro.org>
+TO: "Ilpo Järvinen" <ilpo.jarvinen@linux.intel.com>
+CC: Lee Jones <lee@kernel.org>
+CC: Tianfei zhang <tianfei.zhang@intel.com>
+CC: Russ Weight <russell.h.weight@intel.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   fc89d7fb499b0162e081f434d45e8d1b47e82ece
-commit: ffcb2fc86eb7ebc9f5524525fb57e1cccfbd1fc0 thermal: k3_j72xx_bandgap: Add the bandgap driver support
-date:   10 months ago
-:::::: branch date: 15 hours ago
-:::::: commit date: 10 months ago
-compiler: alpha-linux-gcc (GCC) 12.1.0
+commit: 001a734a55d09aa1716eb2cd5ccab8b4d7a068a2 fpga: m10bmc-sec: Make rsu status type specific
+date:   7 weeks ago
+:::::: branch date: 16 hours ago
+:::::: commit date: 7 weeks ago
+compiler: ia64-linux-gcc (GCC) 12.1.0
 reproduce (cppcheck warning):
         # apt-get install cppcheck
-        git checkout ffcb2fc86eb7ebc9f5524525fb57e1cccfbd1fc0
+        git checkout 001a734a55d09aa1716eb2cd5ccab8b4d7a068a2
         cppcheck --quiet --enable=style,performance,portability --template=gcc FILE
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/r/202303141639.7guDliPu-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202303141737.1IlNOtee-lkp@intel.com/
 
 
 cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
->> drivers/thermal/k3_j72xx_bandgap.c:83:12: warning: Parameter 'ref_table' can be declared as pointer to const [constParameter]
-         int *ref_table)
-              ^
---
->> drivers/thermal/rockchip_thermal.c:665:21: warning: Operator '|' with one operand equal to zero is redundant. [badBitmaskCheck]
-     writel_relaxed(0U | TSADCV2_AUTO_TSHUT_POLARITY_HIGH,
-                       ^
-   drivers/thermal/rockchip_thermal.c:739:21: warning: Operator '|' with one operand equal to zero is redundant. [badBitmaskCheck]
-     writel_relaxed(0U | TSADCV2_AUTO_TSHUT_POLARITY_HIGH,
-                       ^
-   drivers/thermal/rockchip_thermal.c:766:21: warning: Operator '|' with one operand equal to zero is redundant. [badBitmaskCheck]
-     writel_relaxed(0U | TSADCV2_AUTO_TSHUT_POLARITY_HIGH,
-                       ^
+>> drivers/fpga/intel-m10-bmc-sec-update.c:370:31: warning: Uninitialized variable: doorbell_reg [uninitvar]
+       err < 0 || rsu_start_done(doorbell_reg, progress, status),
+                                 ^
+   drivers/fpga/intel-m10-bmc-sec-update.c:366:6: note: Assuming condition is false
+    if (ret)
+        ^
+   drivers/fpga/intel-m10-bmc-sec-update.c:370:31: note: Uninitialized variable: doorbell_reg
+       err < 0 || rsu_start_done(doorbell_reg, progress, status),
+                                 ^
+>> drivers/fpga/intel-m10-bmc-sec-update.c:370:45: warning: Uninitialized variable: progress [uninitvar]
+       err < 0 || rsu_start_done(doorbell_reg, progress, status),
+                                               ^
+   drivers/fpga/intel-m10-bmc-sec-update.c:366:6: note: Assuming condition is false
+    if (ret)
+        ^
+   drivers/fpga/intel-m10-bmc-sec-update.c:370:45: note: Uninitialized variable: progress
+       err < 0 || rsu_start_done(doorbell_reg, progress, status),
+                                               ^
+>> drivers/fpga/intel-m10-bmc-sec-update.c:370:55: warning: Uninitialized variable: status [uninitvar]
+       err < 0 || rsu_start_done(doorbell_reg, progress, status),
+                                                         ^
+   drivers/fpga/intel-m10-bmc-sec-update.c:366:6: note: Assuming condition is false
+    if (ret)
+        ^
+   drivers/fpga/intel-m10-bmc-sec-update.c:370:55: note: Uninitialized variable: status
+       err < 0 || rsu_start_done(doorbell_reg, progress, status),
+                                                         ^
 
-vim +/ref_table +83 drivers/thermal/k3_j72xx_bandgap.c
+vim +370 drivers/fpga/intel-m10-bmc-sec-update.c
 
-ffcb2fc86eb7eb Keerthy 2022-05-17   81  
-ffcb2fc86eb7eb Keerthy 2022-05-17   82  static void create_table_segments(struct err_values *err_vals, int seg,
-ffcb2fc86eb7eb Keerthy 2022-05-17  @83  				  int *ref_table)
-ffcb2fc86eb7eb Keerthy 2022-05-17   84  {
-ffcb2fc86eb7eb Keerthy 2022-05-17   85  	int m = 0, c, num, den, i, err, idx1, idx2, err1, err2, ref1, ref2;
-ffcb2fc86eb7eb Keerthy 2022-05-17   86  
-ffcb2fc86eb7eb Keerthy 2022-05-17   87  	if (seg == 0)
-ffcb2fc86eb7eb Keerthy 2022-05-17   88  		idx1 = 0;
-ffcb2fc86eb7eb Keerthy 2022-05-17   89  	else
-ffcb2fc86eb7eb Keerthy 2022-05-17   90  		idx1 = err_vals->refs[seg];
-ffcb2fc86eb7eb Keerthy 2022-05-17   91  
-ffcb2fc86eb7eb Keerthy 2022-05-17   92  	idx2 = err_vals->refs[seg + 1];
-ffcb2fc86eb7eb Keerthy 2022-05-17   93  	err1 = err_vals->errs[seg];
-ffcb2fc86eb7eb Keerthy 2022-05-17   94  	err2 = err_vals->errs[seg + 1];
-ffcb2fc86eb7eb Keerthy 2022-05-17   95  	ref1 = err_vals->refs[seg];
-ffcb2fc86eb7eb Keerthy 2022-05-17   96  	ref2 = err_vals->refs[seg + 1];
-ffcb2fc86eb7eb Keerthy 2022-05-17   97  
-ffcb2fc86eb7eb Keerthy 2022-05-17   98  	/*
-ffcb2fc86eb7eb Keerthy 2022-05-17   99  	 * Calculate the slope with adc values read from the register
-ffcb2fc86eb7eb Keerthy 2022-05-17  100  	 * as the y-axis param and err in adc value as x-axis param
-ffcb2fc86eb7eb Keerthy 2022-05-17  101  	 */
-ffcb2fc86eb7eb Keerthy 2022-05-17  102  	num = ref2 - ref1;
-ffcb2fc86eb7eb Keerthy 2022-05-17  103  	den = err2 - err1;
-ffcb2fc86eb7eb Keerthy 2022-05-17  104  	if (den)
-ffcb2fc86eb7eb Keerthy 2022-05-17  105  		m = num / den;
-ffcb2fc86eb7eb Keerthy 2022-05-17  106  	c = ref2 - m * err2;
-ffcb2fc86eb7eb Keerthy 2022-05-17  107  
-ffcb2fc86eb7eb Keerthy 2022-05-17  108  	/*
-ffcb2fc86eb7eb Keerthy 2022-05-17  109  	 * Take care of divide by zero error if error values are same
-ffcb2fc86eb7eb Keerthy 2022-05-17  110  	 * Or when the slope is 0
-ffcb2fc86eb7eb Keerthy 2022-05-17  111  	 */
-ffcb2fc86eb7eb Keerthy 2022-05-17  112  	if (den != 0 && m != 0) {
-ffcb2fc86eb7eb Keerthy 2022-05-17  113  		for (i = idx1; i <= idx2; i++) {
-ffcb2fc86eb7eb Keerthy 2022-05-17  114  			err = (i - c) / m;
-ffcb2fc86eb7eb Keerthy 2022-05-17  115  			if (((i + err) < 0) || ((i + err) >= TABLE_SIZE))
-ffcb2fc86eb7eb Keerthy 2022-05-17  116  				continue;
-ffcb2fc86eb7eb Keerthy 2022-05-17  117  			derived_table[i] = ref_table[i + err];
-ffcb2fc86eb7eb Keerthy 2022-05-17  118  		}
-ffcb2fc86eb7eb Keerthy 2022-05-17  119  	} else { /* Constant error take care of divide by zero */
-ffcb2fc86eb7eb Keerthy 2022-05-17  120  		for (i = idx1; i <= idx2; i++) {
-ffcb2fc86eb7eb Keerthy 2022-05-17  121  			if (((i + err1) < 0) || ((i + err1) >= TABLE_SIZE))
-ffcb2fc86eb7eb Keerthy 2022-05-17  122  				continue;
-ffcb2fc86eb7eb Keerthy 2022-05-17  123  			derived_table[i] = ref_table[i + err1];
-ffcb2fc86eb7eb Keerthy 2022-05-17  124  		}
-ffcb2fc86eb7eb Keerthy 2022-05-17  125  	}
-ffcb2fc86eb7eb Keerthy 2022-05-17  126  }
-ffcb2fc86eb7eb Keerthy 2022-05-17  127  
+5cd339b370e29b Russ Weight   2022-06-06  353  
+5cd339b370e29b Russ Weight   2022-06-06  354  static enum fw_upload_err rsu_update_init(struct m10bmc_sec *sec)
+5cd339b370e29b Russ Weight   2022-06-06  355  {
+6052a005caf9cd Ilpo Järvinen 2023-01-16  356  	const struct m10bmc_csr_map *csr_map = sec->m10bmc->info->csr_map;
+001a734a55d09a Ilpo Järvinen 2023-01-16  357  	u32 doorbell_reg, progress, status;
+001a734a55d09a Ilpo Järvinen 2023-01-16  358  	int ret, err;
+5cd339b370e29b Russ Weight   2022-06-06  359  
+5cd339b370e29b Russ Weight   2022-06-06  360  	ret = regmap_update_bits(sec->m10bmc->regmap,
+6052a005caf9cd Ilpo Järvinen 2023-01-16  361  				 csr_map->base + csr_map->doorbell,
+5cd339b370e29b Russ Weight   2022-06-06  362  				 DRBL_RSU_REQUEST | DRBL_HOST_STATUS,
+5cd339b370e29b Russ Weight   2022-06-06  363  				 DRBL_RSU_REQUEST |
+5cd339b370e29b Russ Weight   2022-06-06  364  				 FIELD_PREP(DRBL_HOST_STATUS,
+5cd339b370e29b Russ Weight   2022-06-06  365  					    HOST_STATUS_IDLE));
+5cd339b370e29b Russ Weight   2022-06-06  366  	if (ret)
+5cd339b370e29b Russ Weight   2022-06-06  367  		return FW_UPLOAD_ERR_RW_ERROR;
+5cd339b370e29b Russ Weight   2022-06-06  368  
+001a734a55d09a Ilpo Järvinen 2023-01-16  369  	ret = read_poll_timeout(m10bmc_sec_progress_status, err,
+001a734a55d09a Ilpo Järvinen 2023-01-16 @370  				err < 0 || rsu_start_done(doorbell_reg, progress, status),
+5cd339b370e29b Russ Weight   2022-06-06  371  				NIOS_HANDSHAKE_INTERVAL_US,
+001a734a55d09a Ilpo Järvinen 2023-01-16  372  				NIOS_HANDSHAKE_TIMEOUT_US,
+001a734a55d09a Ilpo Järvinen 2023-01-16  373  				false,
+001a734a55d09a Ilpo Järvinen 2023-01-16  374  				sec, &doorbell_reg, &progress, &status);
+5cd339b370e29b Russ Weight   2022-06-06  375  
+5cd339b370e29b Russ Weight   2022-06-06  376  	if (ret == -ETIMEDOUT) {
+001a734a55d09a Ilpo Järvinen 2023-01-16  377  		log_error_regs(sec, doorbell_reg);
+5cd339b370e29b Russ Weight   2022-06-06  378  		return FW_UPLOAD_ERR_TIMEOUT;
+001a734a55d09a Ilpo Järvinen 2023-01-16  379  	} else if (err) {
+5cd339b370e29b Russ Weight   2022-06-06  380  		return FW_UPLOAD_ERR_RW_ERROR;
+5cd339b370e29b Russ Weight   2022-06-06  381  	}
+5cd339b370e29b Russ Weight   2022-06-06  382  
+5cd339b370e29b Russ Weight   2022-06-06  383  	if (status == RSU_STAT_WEAROUT) {
+5cd339b370e29b Russ Weight   2022-06-06  384  		dev_warn(sec->dev, "Excessive flash update count detected\n");
+5cd339b370e29b Russ Weight   2022-06-06  385  		return FW_UPLOAD_ERR_WEAROUT;
+5cd339b370e29b Russ Weight   2022-06-06  386  	} else if (status == RSU_STAT_ERASE_FAIL) {
+001a734a55d09a Ilpo Järvinen 2023-01-16  387  		log_error_regs(sec, doorbell_reg);
+5cd339b370e29b Russ Weight   2022-06-06  388  		return FW_UPLOAD_ERR_HW_ERROR;
+5cd339b370e29b Russ Weight   2022-06-06  389  	}
+5cd339b370e29b Russ Weight   2022-06-06  390  
+5cd339b370e29b Russ Weight   2022-06-06  391  	return FW_UPLOAD_ERR_NONE;
+5cd339b370e29b Russ Weight   2022-06-06  392  }
+5cd339b370e29b Russ Weight   2022-06-06  393  
 
 -- 
 0-DAY CI Kernel Test Service
