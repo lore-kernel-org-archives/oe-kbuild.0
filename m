@@ -1,42 +1,67 @@
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AD893C30
-	for <oe-kbuild@lists.linux.dev>; Tue, 14 Mar 2023 18:07:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D20B9A939;
+	Tue, 14 Mar 2023 18:43:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678817269; x=1710353269;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=k0W2Obv9c0aTDZR7GulzWAidPSsUH5ymmkAUvoy0Lj8=;
-  b=Awomneh6iFnQ5YXs/ytgdqKRH0dTQFIFg5DxciLLr8IK//3dP0ujYUjT
-   DAeEDa/3mlePaAumBaa/VQrwk9ACP4xHYTrXgTpMI88NA9R3U0IXifapr
-   4G+sONoKfDfrY5NEUElzOidEd4iXMp84IVR25SYCCadE1kAC6F2qXyLFF
-   J+uf4bff4Bsct5I8yn6x5Fnfeb+RgMpHom+hY0hIe1eaS/M3UVc3eCze2
-   af6DUpprr4kBjAYjjqDOugLMYdX6Ty2esakPUmhpPhYOoOCVXUZ+NJK+u
-   2pYdUCkYvCEkEi5GJQz4+sIRbtvQcH1O3PYehvp5Y1pYmESRAWMLTcJz9
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10649"; a="365175928"
+  t=1678819420; x=1710355420;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=HcDoA6lnkNndAAvLyrmktLzn4ToTWYKaGtwl/HFFUFk=;
+  b=UktC0TMTICYs2x/9ZrAa1GjF7LKx8IOHkk0xaqq7MUG1Hj/V60+IQ43v
+   FXhQc2Lkt0T4MHwpfFnmeYtismGwRq1tFAYS98Dxwnk/kU5gR0Pz669AZ
+   fT3DJ6qHRmVAqaMiN9C9sP0vw5ALKUThll7uUXXr9K/4wIH/eSeN/w6OZ
+   wgJd2cfw09UtwgKawYSUztMZNFgKtvoZ/pD8JRUxyoWqwipJuuLcmHPk1
+   rVm9l9M34dDU3BG1Imh9TYyId7fJUwQEKg9F7bUWMXkpb6oMoCz9AwHzs
+   MjyFySE3zGDwVBp7wE7ntpo1FI706Ok4JPvmt0ErfrKlGKVI8q88RMt4J
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10649"; a="365185420"
 X-IronPort-AV: E=Sophos;i="5.98,260,1673942400"; 
-   d="scan'208";a="365175928"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2023 11:07:48 -0700
+   d="scan'208";a="365185420"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2023 11:43:39 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10649"; a="925030693"
+X-IronPort-AV: E=McAfee;i="6500,9779,10649"; a="802973476"
 X-IronPort-AV: E=Sophos;i="5.98,260,1673942400"; 
-   d="scan'208";a="925030693"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 14 Mar 2023 11:07:47 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pc93q-00075T-2t;
-	Tue, 14 Mar 2023 18:07:46 +0000
-Date: Wed, 15 Mar 2023 02:07:25 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [stable:linux-5.15.y 340/9999] undefined reference to
- `fb_set_suspend'
-Message-ID: <202303150232.MBonYhiv-lkp@intel.com>
+   d="scan'208";a="802973476"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by orsmga004.jf.intel.com with ESMTP; 14 Mar 2023 11:43:32 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1pc9cO-003NLi-0Q;
+	Tue, 14 Mar 2023 20:43:28 +0200
+Date: Tue, 14 Mar 2023 20:43:27 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Dan Carpenter <error27@gmail.com>
+Cc: oe-kbuild@lists.linux.dev,
+	=?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>,
+	Mika Westerberg <mika.westerberg@linux.intel.com>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Randy Dunlap <rdunlap@infradead.org>, Arnd Bergmann <arnd@arndb.de>,
+	Bjorn Helgaas <helgaas@kernel.org>,
+	"Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+	Niklas Schnelle <schnelle@linux.ibm.com>,
+	Pali =?iso-8859-1?Q?Roh=E1r?= <pali@kernel.org>,
+	"Maciej W. Rozycki" <macro@orcam.me.uk>,
+	Juergen Gross <jgross@suse.com>,
+	Dominik Brodowski <linux@dominikbrodowski.net>,
+	linux-kernel@vger.kernel.org, linux-alpha@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org, linux-sh@vger.kernel.org,
+	sparclinux@vger.kernel.org, linux-pci@vger.kernel.org,
+	xen-devel@lists.xenproject.org, linux-acpi@vger.kernel.org,
+	lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Richard Henderson <richard.henderson@linaro.org>,
+	Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+	Matt Turner <mattst88@gmail.com>,
+	Russell King <linux@armlinux.org.uk>, Andrew Lunn <andrew@lunn.ch>
+Subject: Re: [PATCH v4 1/4] PCI: Introduce pci_dev_for_each_resource()
+Message-ID: <ZBDAT4MJO+fBy61n@smile.fi.intel.com>
+References: <20230310171416.23356-2-andriy.shevchenko@linux.intel.com>
+ <d057ac5c-5947-41e1-abc7-9428fbd2fbe2@kili.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -45,96 +70,25 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <d057ac5c-5947-41e1-abc7-9428fbd2fbe2@kili.mountain>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-:::::: 
-:::::: Manual check reason: "low confidence static check first_new_problem: (.text+0x772): undefined reference to `fb_set_suspend'"
-:::::: 
+On Sat, Mar 11, 2023 at 04:54:32PM +0300, Dan Carpenter wrote:
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: Gwendal Grignou <gwendal@chromium.org>
-CC: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
-CC: Benson Leung <bleung@chromium.org>
+> 059b4a086017fb Mika Westerberg 2023-03-10  246  			unsigned long type = resource_type(r);
+> 999ed65ad12e37 Rene Herman     2008-07-25  247  
+> 059b4a086017fb Mika Westerberg 2023-03-10 @248  			if (type != IORESOURCE_IO || type != IORESOURCE_MEM ||
+>                                                                                                   ^^
+> This || needs to be &&.  This loop will always hit the continue path
+> without doing anything.
+> 
+> 059b4a086017fb Mika Westerberg 2023-03-10  249  			    resource_size(r) == 0)
+> 0509ad5e1a7d92 Bjorn Helgaas   2008-03-11  250  				continue;
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git linux-5.15.y
-head:   2ddbd0f967b34872290e0f98fae32b91b4de7b87
-commit: 81e5b16de862866e7f09a1b00b49f97a9bc23a78 [340/9999] platform: chrome: Split trace include file
-:::::: branch date: 33 hours ago
-:::::: commit date: 11 months ago
-config: ia64-randconfig-s043-20230313 (https://download.01.org/0day-ci/archive/20230315/202303150232.MBonYhiv-lkp@intel.com/config)
-compiler: ia64-linux-gcc (GCC) 12.1.0
-reproduce:
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git/commit/?id=81e5b16de862866e7f09a1b00b49f97a9bc23a78
-        git remote add stable https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git
-        git fetch --no-tags stable linux-5.15.y
-        git checkout 81e5b16de862866e7f09a1b00b49f97a9bc23a78
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=ia64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=ia64 SHELL=/bin/bash
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/r/202303150232.MBonYhiv-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   ia64-linux-ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_set_suspend':
->> (.text+0x772): undefined reference to `fb_set_suspend'
-   ia64-linux-ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_resume_worker':
-   drm_fb_helper.c:(.text+0x7d2): undefined reference to `fb_set_suspend'
-   ia64-linux-ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_unregister_fbi':
->> (.text+0x952): undefined reference to `unregister_framebuffer'
-   ia64-linux-ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_sys_read':
->> (.text+0x9a2): undefined reference to `fb_sys_read'
-   ia64-linux-ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_fini':
->> (.text+0x2842): undefined reference to `fb_dealloc_cmap'
->> ia64-linux-ld: (.text+0x2852): undefined reference to `framebuffer_release'
-   ia64-linux-ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_alloc_fbi':
->> (.text+0x2da2): undefined reference to `framebuffer_alloc'
->> ia64-linux-ld: (.text+0x2de2): undefined reference to `fb_alloc_cmap'
-   ia64-linux-ld: (.text+0x2e22): undefined reference to `framebuffer_release'
->> ia64-linux-ld: (.text+0x2eb2): undefined reference to `fb_dealloc_cmap'
-   ia64-linux-ld: (.text+0x2ec2): undefined reference to `framebuffer_release'
-   ia64-linux-ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_generic_probe':
-   drm_fb_helper.c:(.text+0x31f2): undefined reference to `fb_deferred_io_init'
-   ia64-linux-ld: drivers/gpu/drm/drm_fb_helper.o: in function `__drm_fb_helper_initial_config_and_unlock':
-   drm_fb_helper.c:(.text+0x34d2): undefined reference to `register_framebuffer'
-   ia64-linux-ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_set_suspend_unlocked':
-   (.text+0x4c72): undefined reference to `fb_set_suspend'
->> ia64-linux-ld: (.text+0x4cd2): undefined reference to `fb_set_suspend'
-   ia64-linux-ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_sys_write':
->> (.text+0x6362): undefined reference to `fb_sys_write'
-   ia64-linux-ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_sys_fillrect':
->> (.text+0x6402): undefined reference to `sys_fillrect'
-   ia64-linux-ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_sys_copyarea':
->> (.text+0x64a2): undefined reference to `sys_copyarea'
-   ia64-linux-ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_sys_imageblit':
->> (.text+0x6542): undefined reference to `sys_imageblit'
-   ia64-linux-ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_cfb_fillrect':
->> (.text+0x65e2): undefined reference to `cfb_fillrect'
-   ia64-linux-ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_cfb_copyarea':
->> (.text+0x6682): undefined reference to `cfb_copyarea'
-   ia64-linux-ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_cfb_imageblit':
->> (.text+0x6722): undefined reference to `cfb_imageblit'
-   ia64-linux-ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fbdev_fb_copyarea':
-   drm_fb_helper.c:(.text+0x67f2): undefined reference to `cfb_copyarea'
-   ia64-linux-ld: drm_fb_helper.c:(.text+0x6862): undefined reference to `sys_copyarea'
-   ia64-linux-ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fbdev_fb_fillrect':
-   drm_fb_helper.c:(.text+0x6932): undefined reference to `cfb_fillrect'
-   ia64-linux-ld: drm_fb_helper.c:(.text+0x69a2): undefined reference to `sys_fillrect'
-   ia64-linux-ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fbdev_fb_imageblit':
-   drm_fb_helper.c:(.text+0x6a72): undefined reference to `cfb_imageblit'
-   ia64-linux-ld: drm_fb_helper.c:(.text+0x6ae2): undefined reference to `sys_imageblit'
-   ia64-linux-ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fbdev_cleanup':
-   drm_fb_helper.c:(.text+0x7162): undefined reference to `fb_deferred_io_cleanup'
-   ia64-linux-ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fbdev_client_unregister':
-   drm_fb_helper.c:(.text+0x7342): undefined reference to `unregister_framebuffer'
+Thanks, I'll fix in v5.
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+With Best Regards,
+Andy Shevchenko
+
+
