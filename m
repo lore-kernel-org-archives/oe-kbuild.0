@@ -1,52 +1,42 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 663A52563;
-	Wed, 15 Mar 2023 08:14:43 +0000 (UTC)
-Received: by mail-wr1-f43.google.com with SMTP id p4so10282043wre.11;
-        Wed, 15 Mar 2023 01:14:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678868081;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=RnS1+be68J1nluByb+XXU0ItPiehWkZXgb65rC4PPPk=;
-        b=o+vaLG5ZNKvKGPMXjpbOW8ZDIvKaVZ4QKhAoHrWTGdmM6bf/6+0rwo2PV4CASDJ2d0
-         GmUPpNgnx6x3Mc67TKxchEdHRc5tAPfnVqOcBvlnP6zYtk6UufKuUXbpP69FqkKNK+EZ
-         8Icv9AgOl7TuPfEBZX+coNpqF87D3H/8S62IwBHB84siUWFlZSPZoZV3dRTdOcra3Jc2
-         +pQfWr0Kb+M5z3H2n2J2yv3otknIOD90LM8EKkqNk0VtKIgfJVNlsyZWAK+5zQtBygSr
-         EUM4kR2KlZ6uWPNjkvRQZrN4EY7TCbF3sKBofInENceJnRxB1Z7xlxm7q4J4ms1aLQsz
-         F+MQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678868081;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=RnS1+be68J1nluByb+XXU0ItPiehWkZXgb65rC4PPPk=;
-        b=SxioUggnkAZuyZGFBhSMdImMKGhv9oUz508KzWWDftH/0KQY/AN2GDfmeXUr1mgv/h
-         tyfgS7ct5HB/aj/tpWzsMFp/H7Tvz/b+716bGBvoMVRFtEtldjS/JgZAqIRJQeLNNACh
-         BQsj5e09pJ/83R4Dq8Bory2H4RapaZI7JShEBBTeXd4czoQhfaxQeCEArUOY9IExwA9Q
-         jgCN/jFl5NT1k4fJUWuQqDcC/kxRi00ji3bB8gIGRvO26tkE4/iYEMVFpKPljnWgW7BS
-         C+kYaaewW0g1CvqORJFK/lEEeNwCsjA0Oxm1zjtcRcq8dFisDKoanqKED80r7TB3p4kX
-         DB7A==
-X-Gm-Message-State: AO0yUKVEYR7cxhhswWzaqHxfifokG9KCpyZ+6wBgFxtKlGJXB0VlV+ju
-	5mRQ/sUE+jH3CFfCSFYMYeZC7w5mQKeC2g==
-X-Google-Smtp-Source: AK7set8KHfgGUqfzhiJBuhvENBgCtrY56RR4YUOENS10rigWVuiSPOj1PfifK3ZW3hExgA7CqUmUHA==
-X-Received: by 2002:adf:d0cb:0:b0:2ce:aa69:c9a7 with SMTP id z11-20020adfd0cb000000b002ceaa69c9a7mr1311972wrh.8.1678868081140;
-        Wed, 15 Mar 2023 01:14:41 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id u1-20020adfed41000000b002c6e8cb612fsm3929580wro.92.2023.03.15.01.14.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Mar 2023 01:14:40 -0700 (PDT)
-Date: Wed, 15 Mar 2023 11:14:37 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Stephen Boyd <sboyd@kernel.org>,
-	Miles Chen <miles.chen@mediatek.com>,
-	Chen-Yu Tsai <wenst@chromium.org>
-Subject: drivers/clk/mediatek/clk-mtk.c:575 mtk_clk_simple_probe() warn:
- 'base' from of_iomap() not released on lines: 496.
-Message-ID: <4113d653-7291-4d6e-8d40-4b5a2f09c6ec@kili.mountain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FFB133D5
+	for <oe-kbuild@lists.linux.dev>; Wed, 15 Mar 2023 10:50:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1678877448; x=1710413448;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=jTR6by5dVHF2P8N3q0Kp0jGu8hsgmGjrhrt0crzQIXg=;
+  b=H+IhzrVbpKWeLofEhNp8sr220kzK7Yizb/y7m+C3p5zMJHGmqlEG05r/
+   PPPo3wwwr9gQAHQ+kJ2EJJ59Zn11cRYDJoCcDyB57rCAvyd6X4prjAK2+
+   ijo598j91u2lAESAV97nCHq1ler4A3PdtAzC4FFL5N1N9K+OGDkWsHaHQ
+   UKfcVyf7yhn9cZeYLHmrPe6nKQzIyqO76hvjppxppEcJJdrkok9rb6MAc
+   X+Fs0yjTe/+VPocJkL0fLVm64c+W5UsiQPKlJWg0DfZ5nRASy1GJFa38D
+   XwSg1rexOeuI1pSAGxi3W6sXSvIvSlFBYjVm2XurKqotKgu5x3NdizpnL
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10649"; a="340034096"
+X-IronPort-AV: E=Sophos;i="5.98,262,1673942400"; 
+   d="scan'208";a="340034096"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2023 03:50:45 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10649"; a="711884232"
+X-IronPort-AV: E=Sophos;i="5.98,262,1673942400"; 
+   d="scan'208";a="711884232"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by orsmga001.jf.intel.com with ESMTP; 15 Mar 2023 03:50:44 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pcOiR-0007cX-0u;
+	Wed, 15 Mar 2023 10:50:43 +0000
+Date: Wed, 15 Mar 2023 18:50:31 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCH v2 3/3] userfaultfd: convert __mcopy_atomic() to use a
+ folio
+Message-ID: <202303151800.E99FNcRY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -56,145 +46,177 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   fc89d7fb499b0162e081f434d45e8d1b47e82ece
-commit: 7b6183108c8ccf0dc295f39cdf78bd8078455636 clk: mediatek: clk-mtk: Extend mtk_clk_simple_probe()
-config: openrisc-randconfig-m031-20230313 (https://download.01.org/0day-ci/archive/20230314/202303142331.mAJDR88r-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 12.1.0
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20230314131350.924377-4-zhangpeng362@huawei.com>
+References: <20230314131350.924377-4-zhangpeng362@huawei.com>
+TO: Peng Zhang <zhangpeng362@huawei.com>
+TO: linux-mm@kvack.org
+TO: linux-kernel@vger.kernel.org
+TO: willy@infradead.org
+CC: akpm@linux-foundation.org
+CC: mike.kravetz@oracle.com
+CC: vishal.moola@gmail.com
+CC: sidhartha.kumar@oracle.com
+CC: wangkefeng.wang@huawei.com
+CC: sunnanyong@huawei.com
+CC: ZhangPeng <zhangpeng362@huawei.com>
+
+Hi Peng,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.3-rc2 next-20230315]
+[cannot apply to akpm-mm/mm-everything]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Peng-Zhang/userfaultfd-convert-mcopy_atomic_pte-to-use-a-folio/20230314-211824
+patch link:    https://lore.kernel.org/r/20230314131350.924377-4-zhangpeng362%40huawei.com
+patch subject: [PATCH v2 3/3] userfaultfd: convert __mcopy_atomic() to use a folio
+:::::: branch date: 21 hours ago
+:::::: commit date: 21 hours ago
+config: microblaze-randconfig-m041-20230312 (https://download.01.org/0day-ci/archive/20230315/202303151800.E99FNcRY-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202303142331.mAJDR88r-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202303151800.E99FNcRY-lkp@intel.com/
 
 New smatch warnings:
-drivers/clk/mediatek/clk-mtk.c:575 mtk_clk_simple_probe() warn: 'base' from of_iomap() not released on lines: 496.
+mm/shmem.c:2492 shmem_mfill_atomic_pte() error: uninitialized symbol 'folio'.
+mm/userfaultfd.c:181 mcopy_atomic_pte() error: uninitialized symbol 'folio'.
 
 Old smatch warnings:
-drivers/clk/mediatek/clk-mtk.c:573 mtk_clk_simple_probe() error: uninitialized symbol 'base'.
+arch/microblaze/include/asm/thread_info.h:85 current_thread_info() error: uninitialized symbol 'sp'.
+include/linux/userfaultfd_k.h:149 vma_can_userfault() warn: bitwise AND condition is false here
 
-vim +/base +575 drivers/clk/mediatek/clk-mtk.c
+vim +/folio +2492 mm/shmem.c
 
-c58cd0e40ffac6 Chun-Jie Chen              2021-07-26  466  int mtk_clk_simple_probe(struct platform_device *pdev)
-c58cd0e40ffac6 Chun-Jie Chen              2021-07-26  467  {
-c58cd0e40ffac6 Chun-Jie Chen              2021-07-26  468  	const struct mtk_clk_desc *mcd;
-609cc5e1a82394 Chen-Yu Tsai               2022-05-19  469  	struct clk_hw_onecell_data *clk_data;
-c58cd0e40ffac6 Chun-Jie Chen              2021-07-26  470  	struct device_node *node = pdev->dev.of_node;
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  471  	void __iomem *base;
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  472  	int num_clks, r;
-c58cd0e40ffac6 Chun-Jie Chen              2021-07-26  473  
-c58cd0e40ffac6 Chun-Jie Chen              2021-07-26  474  	mcd = of_device_get_match_data(&pdev->dev);
-c58cd0e40ffac6 Chun-Jie Chen              2021-07-26  475  	if (!mcd)
-c58cd0e40ffac6 Chun-Jie Chen              2021-07-26  476  		return -EINVAL;
-c58cd0e40ffac6 Chun-Jie Chen              2021-07-26  477  
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  478  	/* Composite clocks needs us to pass iomem pointer */
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  479  	if (mcd->composite_clks) {
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  480  		if (!mcd->shared_io)
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  481  			base = devm_platform_ioremap_resource(pdev, 0);
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  482  		else
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  483  			base = of_iomap(node, 0);
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  484  
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  485  		if (IS_ERR_OR_NULL(base))
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  486  			return IS_ERR(base) ? PTR_ERR(base) : -ENOMEM;
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  487  	}
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  488  
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  489  	/* Calculate how many clk_hw_onecell_data entries to allocate */
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  490  	num_clks = mcd->num_clks + mcd->num_composite_clks;
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  491  	num_clks += mcd->num_fixed_clks + mcd->num_factor_clks;
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  492  	num_clks += mcd->num_mux_clks;
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  493  
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  494  	clk_data = mtk_alloc_clk_data(num_clks);
-c58cd0e40ffac6 Chun-Jie Chen              2021-07-26  495  	if (!clk_data)
-c58cd0e40ffac6 Chun-Jie Chen              2021-07-26  496  		return -ENOMEM;
-c58cd0e40ffac6 Chun-Jie Chen              2021-07-26  497  
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  498  	if (mcd->fixed_clks) {
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  499  		r = mtk_clk_register_fixed_clks(mcd->fixed_clks,
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  500  						mcd->num_fixed_clks, clk_data);
-c58cd0e40ffac6 Chun-Jie Chen              2021-07-26  501  		if (r)
-6203815bf97eea Chun-Jie Chen              2021-09-14  502  			goto free_data;
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  503  	}
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  504  
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  505  	if (mcd->factor_clks) {
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  506  		r = mtk_clk_register_factors(mcd->factor_clks,
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  507  					     mcd->num_factor_clks, clk_data);
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  508  		if (r)
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  509  			goto unregister_fixed_clks;
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  510  	}
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  511  
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  512  	if (mcd->mux_clks) {
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  513  		r = mtk_clk_register_muxes(&pdev->dev, mcd->mux_clks,
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  514  					   mcd->num_mux_clks, node,
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  515  					   mcd->clk_lock, clk_data);
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  516  		if (r)
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  517  			goto unregister_factors;
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  518  	};
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  519  
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  520  	if (mcd->composite_clks) {
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  521  		/* We don't check composite_lock because it's optional */
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  522  		r = mtk_clk_register_composites(&pdev->dev,
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  523  						mcd->composite_clks,
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  524  						mcd->num_composite_clks,
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  525  						base, mcd->clk_lock, clk_data);
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  526  		if (r)
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  527  			goto unregister_muxes;
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  528  	}
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  529  
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  530  	if (mcd->clks) {
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  531  		r = mtk_clk_register_gates(&pdev->dev, node, mcd->clks,
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  532  					   mcd->num_clks, clk_data);
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  533  		if (r)
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  534  			goto unregister_composites;
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  535  	}
-6203815bf97eea Chun-Jie Chen              2021-09-14  536  
-609cc5e1a82394 Chen-Yu Tsai               2022-05-19  537  	r = of_clk_add_hw_provider(node, of_clk_hw_onecell_get, clk_data);
-6203815bf97eea Chun-Jie Chen              2021-09-14  538  	if (r)
-2d18b7e31aa804 Chen-Yu Tsai               2022-02-08  539  		goto unregister_clks;
-6203815bf97eea Chun-Jie Chen              2021-09-14  540  
-2204d96b191912 Chen-Yu Tsai               2022-02-08  541  	platform_set_drvdata(pdev, clk_data);
-2204d96b191912 Chen-Yu Tsai               2022-02-08  542  
-b27a604a579310 Rex-BC Chen                2022-05-23  543  	if (mcd->rst_desc) {
-b27a604a579310 Rex-BC Chen                2022-05-23  544  		r = mtk_register_reset_controller_with_dev(&pdev->dev,
-b27a604a579310 Rex-BC Chen                2022-05-23  545  							   mcd->rst_desc);
-b27a604a579310 Rex-BC Chen                2022-05-23  546  		if (r)
-b27a604a579310 Rex-BC Chen                2022-05-23  547  			goto unregister_clks;
-b27a604a579310 Rex-BC Chen                2022-05-23  548  	}
-b27a604a579310 Rex-BC Chen                2022-05-23  549  
-c58cd0e40ffac6 Chun-Jie Chen              2021-07-26  550  	return r;
-c58cd0e40ffac6 Chun-Jie Chen              2021-07-26  551  
-2d18b7e31aa804 Chen-Yu Tsai               2022-02-08  552  unregister_clks:
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  553  	if (mcd->clks)
-2d18b7e31aa804 Chen-Yu Tsai               2022-02-08  554  		mtk_clk_unregister_gates(mcd->clks, mcd->num_clks, clk_data);
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  555  unregister_composites:
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  556  	if (mcd->composite_clks)
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  557  		mtk_clk_unregister_composites(mcd->composite_clks,
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  558  					      mcd->num_composite_clks, clk_data);
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  559  unregister_muxes:
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  560  	if (mcd->mux_clks)
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  561  		mtk_clk_unregister_muxes(mcd->mux_clks,
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  562  					 mcd->num_mux_clks, clk_data);
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  563  unregister_factors:
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  564  	if (mcd->factor_clks)
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  565  		mtk_clk_unregister_factors(mcd->factor_clks,
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  566  					   mcd->num_factor_clks, clk_data);
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  567  unregister_fixed_clks:
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  568  	if (mcd->fixed_clks)
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  569  		mtk_clk_unregister_fixed_clks(mcd->fixed_clks,
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  570  					      mcd->num_fixed_clks, clk_data);
-6203815bf97eea Chun-Jie Chen              2021-09-14  571  free_data:
-6203815bf97eea Chun-Jie Chen              2021-09-14  572  	mtk_free_clk_data(clk_data);
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  573  	if (mcd->shared_io && base)
-
-"base" is either valid or uninitialized.  Perhaps:
-
--	if (mcd->shared_io && base)
-+	if (mcd->composite_clks && mcd->shared_io)
-
-
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  574  		iounmap(base);
-6203815bf97eea Chun-Jie Chen              2021-09-14 @575  	return r;
-c58cd0e40ffac6 Chun-Jie Chen              2021-07-26  576  }
+^1da177e4c3f41 Linus Torvalds          2005-04-16  2416  
+3460f6e5c1ed94 Axel Rasmussen          2021-06-30  2417  #ifdef CONFIG_USERFAULTFD
+3460f6e5c1ed94 Axel Rasmussen          2021-06-30  2418  int shmem_mfill_atomic_pte(struct mm_struct *dst_mm,
+4c27fe4c4c84f3 Mike Rapoport           2017-02-22  2419  			   pmd_t *dst_pmd,
+4c27fe4c4c84f3 Mike Rapoport           2017-02-22  2420  			   struct vm_area_struct *dst_vma,
+4c27fe4c4c84f3 Mike Rapoport           2017-02-22  2421  			   unsigned long dst_addr,
+4c27fe4c4c84f3 Mike Rapoport           2017-02-22  2422  			   unsigned long src_addr,
+8ee79edff6d3b4 Peter Xu                2022-05-12  2423  			   bool zeropage, bool wp_copy,
+732542eb883709 ZhangPeng               2023-03-14  2424  			   struct folio **foliop)
+4c27fe4c4c84f3 Mike Rapoport           2017-02-22  2425  {
+4c27fe4c4c84f3 Mike Rapoport           2017-02-22  2426  	struct inode *inode = file_inode(dst_vma->vm_file);
+4c27fe4c4c84f3 Mike Rapoport           2017-02-22  2427  	struct shmem_inode_info *info = SHMEM_I(inode);
+4c27fe4c4c84f3 Mike Rapoport           2017-02-22  2428  	struct address_space *mapping = inode->i_mapping;
+4c27fe4c4c84f3 Mike Rapoport           2017-02-22  2429  	gfp_t gfp = mapping_gfp_mask(mapping);
+4c27fe4c4c84f3 Mike Rapoport           2017-02-22  2430  	pgoff_t pgoff = linear_page_index(dst_vma, dst_addr);
+4c27fe4c4c84f3 Mike Rapoport           2017-02-22  2431  	void *page_kaddr;
+b7dd44a12cf266 Matthew Wilcox (Oracle  2022-05-12  2432) 	struct folio *folio;
+4c27fe4c4c84f3 Mike Rapoport           2017-02-22  2433  	int ret;
+3460f6e5c1ed94 Axel Rasmussen          2021-06-30  2434  	pgoff_t max_off;
+4c27fe4c4c84f3 Mike Rapoport           2017-02-22  2435  
+7ed9d238c7dbb1 Axel Rasmussen          2021-05-14  2436  	if (!shmem_inode_acct_block(inode, 1)) {
+7ed9d238c7dbb1 Axel Rasmussen          2021-05-14  2437  		/*
+7ed9d238c7dbb1 Axel Rasmussen          2021-05-14  2438  		 * We may have got a page, returned -ENOENT triggering a retry,
+7ed9d238c7dbb1 Axel Rasmussen          2021-05-14  2439  		 * and now we find ourselves with -ENOMEM. Release the page, to
+7ed9d238c7dbb1 Axel Rasmussen          2021-05-14  2440  		 * avoid a BUG_ON in our caller.
+7ed9d238c7dbb1 Axel Rasmussen          2021-05-14  2441  		 */
+732542eb883709 ZhangPeng               2023-03-14  2442  		if (unlikely(*foliop)) {
+732542eb883709 ZhangPeng               2023-03-14  2443  			folio_put(*foliop);
+732542eb883709 ZhangPeng               2023-03-14  2444  			*foliop = NULL;
+7ed9d238c7dbb1 Axel Rasmussen          2021-05-14  2445  		}
+7d64ae3ab648a9 Axel Rasmussen          2021-06-30  2446  		return -ENOMEM;
+7ed9d238c7dbb1 Axel Rasmussen          2021-05-14  2447  	}
+4c27fe4c4c84f3 Mike Rapoport           2017-02-22  2448  
+732542eb883709 ZhangPeng               2023-03-14  2449  	if (!*foliop) {
+7d64ae3ab648a9 Axel Rasmussen          2021-06-30  2450  		ret = -ENOMEM;
+7a7256d5f512b6 Matthew Wilcox (Oracle  2022-09-02  2451) 		folio = shmem_alloc_folio(gfp, info, pgoff);
+7a7256d5f512b6 Matthew Wilcox (Oracle  2022-09-02  2452) 		if (!folio)
+0f0796945614b7 Mike Rapoport           2017-09-06  2453  			goto out_unacct_blocks;
+4c27fe4c4c84f3 Mike Rapoport           2017-02-22  2454  
+3460f6e5c1ed94 Axel Rasmussen          2021-06-30  2455  		if (!zeropage) {	/* COPY */
+7a7256d5f512b6 Matthew Wilcox (Oracle  2022-09-02  2456) 			page_kaddr = kmap_local_folio(folio, 0);
+5dc21f0c0b1c02 Ira Weiny               2022-10-25  2457  			/*
+5dc21f0c0b1c02 Ira Weiny               2022-10-25  2458  			 * The read mmap_lock is held here.  Despite the
+5dc21f0c0b1c02 Ira Weiny               2022-10-25  2459  			 * mmap_lock being read recursive a deadlock is still
+5dc21f0c0b1c02 Ira Weiny               2022-10-25  2460  			 * possible if a writer has taken a lock.  For example:
+5dc21f0c0b1c02 Ira Weiny               2022-10-25  2461  			 *
+5dc21f0c0b1c02 Ira Weiny               2022-10-25  2462  			 * process A thread 1 takes read lock on own mmap_lock
+5dc21f0c0b1c02 Ira Weiny               2022-10-25  2463  			 * process A thread 2 calls mmap, blocks taking write lock
+5dc21f0c0b1c02 Ira Weiny               2022-10-25  2464  			 * process B thread 1 takes page fault, read lock on own mmap lock
+5dc21f0c0b1c02 Ira Weiny               2022-10-25  2465  			 * process B thread 2 calls mmap, blocks taking write lock
+5dc21f0c0b1c02 Ira Weiny               2022-10-25  2466  			 * process A thread 1 blocks taking read lock on process B
+5dc21f0c0b1c02 Ira Weiny               2022-10-25  2467  			 * process B thread 1 blocks taking read lock on process A
+5dc21f0c0b1c02 Ira Weiny               2022-10-25  2468  			 *
+5dc21f0c0b1c02 Ira Weiny               2022-10-25  2469  			 * Disable page faults to prevent potential deadlock
+5dc21f0c0b1c02 Ira Weiny               2022-10-25  2470  			 * and retry the copy outside the mmap_lock.
+5dc21f0c0b1c02 Ira Weiny               2022-10-25  2471  			 */
+5dc21f0c0b1c02 Ira Weiny               2022-10-25  2472  			pagefault_disable();
+8d10396342063c Mike Rapoport           2017-09-06  2473  			ret = copy_from_user(page_kaddr,
+8d10396342063c Mike Rapoport           2017-09-06  2474  					     (const void __user *)src_addr,
+4c27fe4c4c84f3 Mike Rapoport           2017-02-22  2475  					     PAGE_SIZE);
+5dc21f0c0b1c02 Ira Weiny               2022-10-25  2476  			pagefault_enable();
+7a7256d5f512b6 Matthew Wilcox (Oracle  2022-09-02  2477) 			kunmap_local(page_kaddr);
+4c27fe4c4c84f3 Mike Rapoport           2017-02-22  2478  
+c1e8d7c6a7a682 Michel Lespinasse       2020-06-08  2479  			/* fallback to copy_from_user outside mmap_lock */
+4c27fe4c4c84f3 Mike Rapoport           2017-02-22  2480  			if (unlikely(ret)) {
+732542eb883709 ZhangPeng               2023-03-14  2481  				*foliop = folio;
+7d64ae3ab648a9 Axel Rasmussen          2021-06-30  2482  				ret = -ENOENT;
+4c27fe4c4c84f3 Mike Rapoport           2017-02-22  2483  				/* don't free the page */
+7d64ae3ab648a9 Axel Rasmussen          2021-06-30  2484  				goto out_unacct_blocks;
+4c27fe4c4c84f3 Mike Rapoport           2017-02-22  2485  			}
+19b482c29b6f38 Muchun Song             2022-03-22  2486  
+7a7256d5f512b6 Matthew Wilcox (Oracle  2022-09-02  2487) 			flush_dcache_folio(folio);
+3460f6e5c1ed94 Axel Rasmussen          2021-06-30  2488  		} else {		/* ZEROPAGE */
+7a7256d5f512b6 Matthew Wilcox (Oracle  2022-09-02  2489) 			clear_user_highpage(&folio->page, dst_addr);
+8d10396342063c Mike Rapoport           2017-09-06  2490  		}
+4c27fe4c4c84f3 Mike Rapoport           2017-02-22  2491  	} else {
+732542eb883709 ZhangPeng               2023-03-14 @2492  		VM_BUG_ON_FOLIO(folio_test_large(*foliop), folio);
+732542eb883709 ZhangPeng               2023-03-14  2493  		*foliop = NULL;
+4c27fe4c4c84f3 Mike Rapoport           2017-02-22  2494  	}
+4c27fe4c4c84f3 Mike Rapoport           2017-02-22  2495  
+7a7256d5f512b6 Matthew Wilcox (Oracle  2022-09-02  2496) 	VM_BUG_ON(folio_test_locked(folio));
+7a7256d5f512b6 Matthew Wilcox (Oracle  2022-09-02  2497) 	VM_BUG_ON(folio_test_swapbacked(folio));
+7a7256d5f512b6 Matthew Wilcox (Oracle  2022-09-02  2498) 	__folio_set_locked(folio);
+7a7256d5f512b6 Matthew Wilcox (Oracle  2022-09-02  2499) 	__folio_set_swapbacked(folio);
+7a7256d5f512b6 Matthew Wilcox (Oracle  2022-09-02  2500) 	__folio_mark_uptodate(folio);
+9cc90c664a65f9 Andrea Arcangeli        2017-02-22  2501  
+e2a50c1f64145a Andrea Arcangeli        2018-11-30  2502  	ret = -EFAULT;
+e2a50c1f64145a Andrea Arcangeli        2018-11-30  2503  	max_off = DIV_ROUND_UP(i_size_read(inode), PAGE_SIZE);
+3460f6e5c1ed94 Axel Rasmussen          2021-06-30  2504  	if (unlikely(pgoff >= max_off))
+e2a50c1f64145a Andrea Arcangeli        2018-11-30  2505  		goto out_release;
+e2a50c1f64145a Andrea Arcangeli        2018-11-30  2506  
+b7dd44a12cf266 Matthew Wilcox (Oracle  2022-05-12  2507) 	ret = shmem_add_to_page_cache(folio, mapping, pgoff, NULL,
+3fea5a499d57de Johannes Weiner         2020-06-03  2508  				      gfp & GFP_RECLAIM_MASK, dst_mm);
+4c27fe4c4c84f3 Mike Rapoport           2017-02-22  2509  	if (ret)
+3fea5a499d57de Johannes Weiner         2020-06-03  2510  		goto out_release;
+4c27fe4c4c84f3 Mike Rapoport           2017-02-22  2511  
+7d64ae3ab648a9 Axel Rasmussen          2021-06-30  2512  	ret = mfill_atomic_install_pte(dst_mm, dst_pmd, dst_vma, dst_addr,
+7a7256d5f512b6 Matthew Wilcox (Oracle  2022-09-02  2513) 				       &folio->page, true, wp_copy);
+7d64ae3ab648a9 Axel Rasmussen          2021-06-30  2514  	if (ret)
+7d64ae3ab648a9 Axel Rasmussen          2021-06-30  2515  		goto out_delete_from_cache;
+4c27fe4c4c84f3 Mike Rapoport           2017-02-22  2516  
+94b7cc01da5a3c Yang Shi                2020-04-20  2517  	spin_lock_irq(&info->lock);
+4c27fe4c4c84f3 Mike Rapoport           2017-02-22  2518  	info->alloced++;
+4c27fe4c4c84f3 Mike Rapoport           2017-02-22  2519  	inode->i_blocks += BLOCKS_PER_PAGE;
+4c27fe4c4c84f3 Mike Rapoport           2017-02-22  2520  	shmem_recalc_inode(inode);
+94b7cc01da5a3c Yang Shi                2020-04-20  2521  	spin_unlock_irq(&info->lock);
+4c27fe4c4c84f3 Mike Rapoport           2017-02-22  2522  
+7a7256d5f512b6 Matthew Wilcox (Oracle  2022-09-02  2523) 	folio_unlock(folio);
+7d64ae3ab648a9 Axel Rasmussen          2021-06-30  2524  	return 0;
+7d64ae3ab648a9 Axel Rasmussen          2021-06-30  2525  out_delete_from_cache:
+7a7256d5f512b6 Matthew Wilcox (Oracle  2022-09-02  2526) 	filemap_remove_folio(folio);
+4c27fe4c4c84f3 Mike Rapoport           2017-02-22  2527  out_release:
+7a7256d5f512b6 Matthew Wilcox (Oracle  2022-09-02  2528) 	folio_unlock(folio);
+7a7256d5f512b6 Matthew Wilcox (Oracle  2022-09-02  2529) 	folio_put(folio);
+4c27fe4c4c84f3 Mike Rapoport           2017-02-22  2530  out_unacct_blocks:
+0f0796945614b7 Mike Rapoport           2017-09-06  2531  	shmem_inode_unacct_blocks(inode, 1);
+7d64ae3ab648a9 Axel Rasmussen          2021-06-30  2532  	return ret;
+8d10396342063c Mike Rapoport           2017-09-06  2533  }
+3460f6e5c1ed94 Axel Rasmussen          2021-06-30  2534  #endif /* CONFIG_USERFAULTFD */
+8d10396342063c Mike Rapoport           2017-09-06  2535  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
-
