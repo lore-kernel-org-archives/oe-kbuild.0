@@ -1,42 +1,43 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FFB133D5
-	for <oe-kbuild@lists.linux.dev>; Wed, 15 Mar 2023 10:50:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A15B028EA
+	for <oe-kbuild@lists.linux.dev>; Wed, 15 Mar 2023 10:50:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678877448; x=1710413448;
+  t=1678877453; x=1710413453;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=jTR6by5dVHF2P8N3q0Kp0jGu8hsgmGjrhrt0crzQIXg=;
-  b=H+IhzrVbpKWeLofEhNp8sr220kzK7Yizb/y7m+C3p5zMJHGmqlEG05r/
-   PPPo3wwwr9gQAHQ+kJ2EJJ59Zn11cRYDJoCcDyB57rCAvyd6X4prjAK2+
-   ijo598j91u2lAESAV97nCHq1ler4A3PdtAzC4FFL5N1N9K+OGDkWsHaHQ
-   UKfcVyf7yhn9cZeYLHmrPe6nKQzIyqO76hvjppxppEcJJdrkok9rb6MAc
-   X+Fs0yjTe/+VPocJkL0fLVm64c+W5UsiQPKlJWg0DfZ5nRASy1GJFa38D
-   XwSg1rexOeuI1pSAGxi3W6sXSvIvSlFBYjVm2XurKqotKgu5x3NdizpnL
+  bh=WigwdiAKzKBweGLkvnTSMxWRRxu6ZKgdv2f1evzn5Dk=;
+  b=HV9c0ODJqGzBVBaJnLEFhDq2dUYphEzTa9N/qXI39YyW/mHBTK9gzksp
+   60wHUoRrNSYDjhwB/giDADK40vbTuDBzLiJVng1U6TGyK6bOzDi61bvT5
+   SBS2vIqVbSPunzpGRVnlH7GTFzJ+CFXFjoRj+Rjs7RPH76xBta+FrYa3j
+   YV//0j8vSmeiXy9/JJVYSSt8Ubv4MVduNlJ2q59Uy765KlFCmMxAFAhIZ
+   kIJA8LBWEKHz/K05r1DUr3Y2hv4dxjmTpjZ/Im4NIkt3lEiiBLTE+rNXh
+   Hiheex1KovQbsQOYCkKGsj/ImM4zDrn+j/r8WhDmj7QQbDvqZvUv9od/7
    g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10649"; a="340034096"
+X-IronPort-AV: E=McAfee;i="6500,9779,10649"; a="336358287"
 X-IronPort-AV: E=Sophos;i="5.98,262,1673942400"; 
-   d="scan'208";a="340034096"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2023 03:50:45 -0700
+   d="scan'208";a="336358287"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2023 03:50:45 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10649"; a="711884232"
+X-IronPort-AV: E=McAfee;i="6500,9779,10649"; a="768446127"
 X-IronPort-AV: E=Sophos;i="5.98,262,1673942400"; 
-   d="scan'208";a="711884232"
+   d="scan'208";a="768446127"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 15 Mar 2023 03:50:44 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 15 Mar 2023 03:50:43 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pcOiR-0007cX-0u;
+	id 1pcOiR-0007ca-0y;
 	Wed, 15 Mar 2023 10:50:43 +0000
-Date: Wed, 15 Mar 2023 18:50:31 +0800
+Date: Wed, 15 Mar 2023 18:50:30 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH v2 3/3] userfaultfd: convert __mcopy_atomic() to use a
- folio
-Message-ID: <202303151800.E99FNcRY-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [linux-next:master 2395/3406] crypto/akcipher.c:135:32: warning:
+ Value stored to 'istat' during its initialization is never read
+ [clang-analyzer-deadcode.DeadStores]
+Message-ID: <202303151857.zyV9ituS-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -46,176 +47,259 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "low confidence static check warning: crypto/akcipher.c:135:32: warning: Value stored to 'istat' during its initialization is never read [clang-analyzer-deadcode.DeadStores]"
+:::::: 
+
 BCC: lkp@intel.com
+CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20230314131350.924377-4-zhangpeng362@huawei.com>
-References: <20230314131350.924377-4-zhangpeng362@huawei.com>
-TO: Peng Zhang <zhangpeng362@huawei.com>
-TO: linux-mm@kvack.org
-TO: linux-kernel@vger.kernel.org
-TO: willy@infradead.org
-CC: akpm@linux-foundation.org
-CC: mike.kravetz@oracle.com
-CC: vishal.moola@gmail.com
-CC: sidhartha.kumar@oracle.com
-CC: wangkefeng.wang@huawei.com
-CC: sunnanyong@huawei.com
-CC: ZhangPeng <zhangpeng362@huawei.com>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Herbert Xu <herbert@gondor.apana.org.au>
 
-Hi Peng,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.3-rc2 next-20230315]
-[cannot apply to akpm-mm/mm-everything]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Peng-Zhang/userfaultfd-convert-mcopy_atomic_pte-to-use-a-folio/20230314-211824
-patch link:    https://lore.kernel.org/r/20230314131350.924377-4-zhangpeng362%40huawei.com
-patch subject: [PATCH v2 3/3] userfaultfd: convert __mcopy_atomic() to use a folio
-:::::: branch date: 21 hours ago
-:::::: commit date: 21 hours ago
-config: microblaze-randconfig-m041-20230312 (https://download.01.org/0day-ci/archive/20230315/202303151800.E99FNcRY-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   225b6b81afe63b3850b7cee0a3590f51144f2a75
+commit: 49be9316310d89c790d13979ea727d32e2fd3ec4 [2395/3406] crypto: akcipher - Count error stats differently
+:::::: branch date: 9 hours ago
+:::::: commit date: 5 days ago
+config: riscv-randconfig-c006-20230310 (https://download.01.org/0day-ci/archive/20230315/202303151857.zyV9ituS-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=49be9316310d89c790d13979ea727d32e2fd3ec4
+        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+        git fetch --no-tags linux-next master
+        git checkout 49be9316310d89c790d13979ea727d32e2fd3ec4
+        # save the config file
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=riscv clang-analyzer  olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=riscv clang-analyzer 
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202303151800.E99FNcRY-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202303151857.zyV9ituS-lkp@intel.com/
 
-New smatch warnings:
-mm/shmem.c:2492 shmem_mfill_atomic_pte() error: uninitialized symbol 'folio'.
-mm/userfaultfd.c:181 mcopy_atomic_pte() error: uninitialized symbol 'folio'.
+clang_analyzer warnings: (new ones prefixed by >>)
+           ^
+   include/linux/rcupdate.h:418:48: note: expanded from macro 'RCU_LOCKDEP_WARN'
+   #define RCU_LOCKDEP_WARN(c, s) do { } while (0 && (c))
+                                                  ^
+   fs/affs/super.c:198:16: note: Loop condition is false.  Exiting loop
+           *uid        = current_uid();
+                         ^
+   include/linux/cred.h:381:25: note: expanded from macro 'current_uid'
+   #define current_uid()           (current_cred_xxx(uid))
+                                    ^
+   include/linux/cred.h:378:2: note: expanded from macro 'current_cred_xxx'
+           current_cred()->xxx;                    \
+           ^
+   include/linux/cred.h:299:2: note: expanded from macro 'current_cred'
+           rcu_dereference_protected(current->cred, 1)
+           ^
+   include/linux/rcupdate.h:673:2: note: expanded from macro 'rcu_dereference_protected'
+           __rcu_dereference_protected((p), __UNIQUE_ID(rcu), (c), __rcu)
+           ^
+   include/linux/rcupdate.h:469:2: note: expanded from macro '__rcu_dereference_protected'
+           RCU_LOCKDEP_WARN(!(c), "suspicious rcu_dereference_protected() usage"); \
+           ^
+   include/linux/rcupdate.h:418:32: note: expanded from macro 'RCU_LOCKDEP_WARN'
+   #define RCU_LOCKDEP_WARN(c, s) do { } while (0 && (c))
+                                  ^
+   fs/affs/super.c:199:16: note: Left side of '&&' is false
+           *gid        = current_gid();
+                         ^
+   include/linux/cred.h:382:25: note: expanded from macro 'current_gid'
+   #define current_gid()           (current_cred_xxx(gid))
+                                    ^
+   include/linux/cred.h:378:2: note: expanded from macro 'current_cred_xxx'
+           current_cred()->xxx;                    \
+           ^
+   include/linux/cred.h:299:2: note: expanded from macro 'current_cred'
+           rcu_dereference_protected(current->cred, 1)
+           ^
+   include/linux/rcupdate.h:673:2: note: expanded from macro 'rcu_dereference_protected'
+           __rcu_dereference_protected((p), __UNIQUE_ID(rcu), (c), __rcu)
+           ^
+   include/linux/rcupdate.h:469:2: note: expanded from macro '__rcu_dereference_protected'
+           RCU_LOCKDEP_WARN(!(c), "suspicious rcu_dereference_protected() usage"); \
+           ^
+   include/linux/rcupdate.h:418:48: note: expanded from macro 'RCU_LOCKDEP_WARN'
+   #define RCU_LOCKDEP_WARN(c, s) do { } while (0 && (c))
+                                                  ^
+   fs/affs/super.c:199:16: note: Loop condition is false.  Exiting loop
+           *gid        = current_gid();
+                         ^
+   include/linux/cred.h:382:25: note: expanded from macro 'current_gid'
+   #define current_gid()           (current_cred_xxx(gid))
+                                    ^
+   include/linux/cred.h:378:2: note: expanded from macro 'current_cred_xxx'
+           current_cred()->xxx;                    \
+           ^
+   include/linux/cred.h:299:2: note: expanded from macro 'current_cred'
+           rcu_dereference_protected(current->cred, 1)
+           ^
+   include/linux/rcupdate.h:673:2: note: expanded from macro 'rcu_dereference_protected'
+           __rcu_dereference_protected((p), __UNIQUE_ID(rcu), (c), __rcu)
+           ^
+   include/linux/rcupdate.h:469:2: note: expanded from macro '__rcu_dereference_protected'
+           RCU_LOCKDEP_WARN(!(c), "suspicious rcu_dereference_protected() usage"); \
+           ^
+   include/linux/rcupdate.h:418:32: note: expanded from macro 'RCU_LOCKDEP_WARN'
+   #define RCU_LOCKDEP_WARN(c, s) do { } while (0 && (c))
+                                  ^
+   fs/affs/super.c:206:6: note: Assuming 'options' is null
+           if (!options)
+               ^~~~~~~~
+   fs/affs/super.c:206:2: note: Taking true branch
+           if (!options)
+           ^
+   fs/affs/super.c:207:3: note: Returning without writing to '*mode'
+                   return 1;
+                   ^
+   fs/affs/super.c:573:7: note: Returning from 'parse_options'
+           if (!parse_options(data, &uid, &gid, &mode, &reserved, &root_block,
+                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/affs/super.c:573:2: note: Taking false branch
+           if (!parse_options(data, &uid, &gid, &mode, &reserved, &root_block,
+           ^
+   fs/affs/super.c:583:15: note: Assigned value is garbage or undefined
+           sbi->s_mode  = mode;
+                        ^ ~~~~
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   8 warnings generated.
+>> crypto/akcipher.c:135:32: warning: Value stored to 'istat' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct crypto_istat_akcipher *istat = akcipher_get_stat(alg);
+                                         ^~~~~   ~~~~~~~~~~~~~~~~~~~~~~
+   crypto/akcipher.c:135:32: note: Value stored to 'istat' during its initialization is never read
+           struct crypto_istat_akcipher *istat = akcipher_get_stat(alg);
+                                         ^~~~~   ~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   include/linux/log2.h:57:13: warning: The result of the left shift is undefined due to shifting by '32', which is greater or equal to the width of type 'unsigned long' [clang-analyzer-core.UndefinedBinaryOperatorResult]
+           return 1UL << fls_long(n - 1);
+                      ^
+   crypto/dh.c:467:6: note: Assuming 'buffer' is null
+           if (buffer) {
+               ^~~~~~
+   crypto/dh.c:467:2: note: Taking false branch
+           if (buffer) {
+           ^
+   crypto/dh.c:480:14: note: Field 'key_size' is 0
+           if (!params.key_size) {
+                       ^
+   crypto/dh.c:480:2: note: Taking true branch
+           if (!params.key_size) {
+           ^
+   crypto/dh.c:481:9: note: Calling 'dh_safe_prime_gen_privkey'
+                   key = dh_safe_prime_gen_privkey(inst_ctx->safe_prime,
+                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   crypto/dh.c:373:6: note: '?' condition is false
+           n = roundup_pow_of_two(2 * safe_prime->max_strength);
+               ^
+   include/linux/log2.h:176:2: note: expanded from macro 'roundup_pow_of_two'
+           __builtin_constant_p(n) ? (             \
+           ^
+   crypto/dh.c:373:6: note: Calling '__roundup_pow_of_two'
+           n = roundup_pow_of_two(2 * safe_prime->max_strength);
+               ^
+   include/linux/log2.h:180:2: note: expanded from macro 'roundup_pow_of_two'
+           __roundup_pow_of_two(n)                 \
+           ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/log2.h:57:16: note: Calling 'fls_long'
+           return 1UL << fls_long(n - 1);
+                         ^~~~~~~~~~~~~~~
+   include/linux/bitops.h:205:2: note: Taking true branch
+           if (sizeof(l) == 4)
+           ^
+   include/linux/bitops.h:206:10: note: Calling 'fls'
+                   return fls(l);
+                          ^~~~~~
+   include/asm-generic/bitops/fls.h:15:2: note: 'r' initialized to 32
+           int r = 32;
+           ^~~~~
+   include/asm-generic/bitops/fls.h:17:6: note: Assuming 'x' is not equal to 0, which participates in a condition later
+           if (!x)
+               ^~
+   include/asm-generic/bitops/fls.h:17:2: note: Taking false branch
+           if (!x)
+           ^
+   include/asm-generic/bitops/fls.h:19:6: note: Assuming the condition is false
+           if (!(x & 0xffff0000u)) {
+               ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/bitops/fls.h:19:2: note: Taking false branch
+           if (!(x & 0xffff0000u)) {
+           ^
+   include/asm-generic/bitops/fls.h:23:6: note: Assuming the condition is false
+           if (!(x & 0xff000000u)) {
+               ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/bitops/fls.h:23:2: note: Taking false branch
+           if (!(x & 0xff000000u)) {
+           ^
+   include/asm-generic/bitops/fls.h:27:6: note: Assuming the condition is false
+           if (!(x & 0xf0000000u)) {
+               ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/bitops/fls.h:27:2: note: Taking false branch
+           if (!(x & 0xf0000000u)) {
+           ^
+   include/asm-generic/bitops/fls.h:31:6: note: Assuming the condition is false
+           if (!(x & 0xc0000000u)) {
+               ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/bitops/fls.h:31:2: note: Taking false branch
+           if (!(x & 0xc0000000u)) {
+           ^
+   include/asm-generic/bitops/fls.h:35:6: note: Assuming the condition is false
+           if (!(x & 0x80000000u)) {
+               ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/bitops/fls.h:35:2: note: Taking false branch
+           if (!(x & 0x80000000u)) {
+           ^
+   include/asm-generic/bitops/fls.h:39:2: note: Returning the value 32 (loaded from 'r')
+           return r;
+           ^~~~~~~~
+   include/linux/bitops.h:206:10: note: Returning from 'fls'
+                   return fls(l);
+                          ^~~~~~
+   include/linux/bitops.h:206:3: note: Returning the value 32
+                   return fls(l);
+                   ^~~~~~~~~~~~~
+   include/linux/log2.h:57:16: note: Returning from 'fls_long'
+           return 1UL << fls_long(n - 1);
 
-Old smatch warnings:
-arch/microblaze/include/asm/thread_info.h:85 current_thread_info() error: uninitialized symbol 'sp'.
-include/linux/userfaultfd_k.h:149 vma_can_userfault() warn: bitwise AND condition is false here
+vim +/istat +135 crypto/akcipher.c
 
-vim +/folio +2492 mm/shmem.c
-
-^1da177e4c3f41 Linus Torvalds          2005-04-16  2416  
-3460f6e5c1ed94 Axel Rasmussen          2021-06-30  2417  #ifdef CONFIG_USERFAULTFD
-3460f6e5c1ed94 Axel Rasmussen          2021-06-30  2418  int shmem_mfill_atomic_pte(struct mm_struct *dst_mm,
-4c27fe4c4c84f3 Mike Rapoport           2017-02-22  2419  			   pmd_t *dst_pmd,
-4c27fe4c4c84f3 Mike Rapoport           2017-02-22  2420  			   struct vm_area_struct *dst_vma,
-4c27fe4c4c84f3 Mike Rapoport           2017-02-22  2421  			   unsigned long dst_addr,
-4c27fe4c4c84f3 Mike Rapoport           2017-02-22  2422  			   unsigned long src_addr,
-8ee79edff6d3b4 Peter Xu                2022-05-12  2423  			   bool zeropage, bool wp_copy,
-732542eb883709 ZhangPeng               2023-03-14  2424  			   struct folio **foliop)
-4c27fe4c4c84f3 Mike Rapoport           2017-02-22  2425  {
-4c27fe4c4c84f3 Mike Rapoport           2017-02-22  2426  	struct inode *inode = file_inode(dst_vma->vm_file);
-4c27fe4c4c84f3 Mike Rapoport           2017-02-22  2427  	struct shmem_inode_info *info = SHMEM_I(inode);
-4c27fe4c4c84f3 Mike Rapoport           2017-02-22  2428  	struct address_space *mapping = inode->i_mapping;
-4c27fe4c4c84f3 Mike Rapoport           2017-02-22  2429  	gfp_t gfp = mapping_gfp_mask(mapping);
-4c27fe4c4c84f3 Mike Rapoport           2017-02-22  2430  	pgoff_t pgoff = linear_page_index(dst_vma, dst_addr);
-4c27fe4c4c84f3 Mike Rapoport           2017-02-22  2431  	void *page_kaddr;
-b7dd44a12cf266 Matthew Wilcox (Oracle  2022-05-12  2432) 	struct folio *folio;
-4c27fe4c4c84f3 Mike Rapoport           2017-02-22  2433  	int ret;
-3460f6e5c1ed94 Axel Rasmussen          2021-06-30  2434  	pgoff_t max_off;
-4c27fe4c4c84f3 Mike Rapoport           2017-02-22  2435  
-7ed9d238c7dbb1 Axel Rasmussen          2021-05-14  2436  	if (!shmem_inode_acct_block(inode, 1)) {
-7ed9d238c7dbb1 Axel Rasmussen          2021-05-14  2437  		/*
-7ed9d238c7dbb1 Axel Rasmussen          2021-05-14  2438  		 * We may have got a page, returned -ENOENT triggering a retry,
-7ed9d238c7dbb1 Axel Rasmussen          2021-05-14  2439  		 * and now we find ourselves with -ENOMEM. Release the page, to
-7ed9d238c7dbb1 Axel Rasmussen          2021-05-14  2440  		 * avoid a BUG_ON in our caller.
-7ed9d238c7dbb1 Axel Rasmussen          2021-05-14  2441  		 */
-732542eb883709 ZhangPeng               2023-03-14  2442  		if (unlikely(*foliop)) {
-732542eb883709 ZhangPeng               2023-03-14  2443  			folio_put(*foliop);
-732542eb883709 ZhangPeng               2023-03-14  2444  			*foliop = NULL;
-7ed9d238c7dbb1 Axel Rasmussen          2021-05-14  2445  		}
-7d64ae3ab648a9 Axel Rasmussen          2021-06-30  2446  		return -ENOMEM;
-7ed9d238c7dbb1 Axel Rasmussen          2021-05-14  2447  	}
-4c27fe4c4c84f3 Mike Rapoport           2017-02-22  2448  
-732542eb883709 ZhangPeng               2023-03-14  2449  	if (!*foliop) {
-7d64ae3ab648a9 Axel Rasmussen          2021-06-30  2450  		ret = -ENOMEM;
-7a7256d5f512b6 Matthew Wilcox (Oracle  2022-09-02  2451) 		folio = shmem_alloc_folio(gfp, info, pgoff);
-7a7256d5f512b6 Matthew Wilcox (Oracle  2022-09-02  2452) 		if (!folio)
-0f0796945614b7 Mike Rapoport           2017-09-06  2453  			goto out_unacct_blocks;
-4c27fe4c4c84f3 Mike Rapoport           2017-02-22  2454  
-3460f6e5c1ed94 Axel Rasmussen          2021-06-30  2455  		if (!zeropage) {	/* COPY */
-7a7256d5f512b6 Matthew Wilcox (Oracle  2022-09-02  2456) 			page_kaddr = kmap_local_folio(folio, 0);
-5dc21f0c0b1c02 Ira Weiny               2022-10-25  2457  			/*
-5dc21f0c0b1c02 Ira Weiny               2022-10-25  2458  			 * The read mmap_lock is held here.  Despite the
-5dc21f0c0b1c02 Ira Weiny               2022-10-25  2459  			 * mmap_lock being read recursive a deadlock is still
-5dc21f0c0b1c02 Ira Weiny               2022-10-25  2460  			 * possible if a writer has taken a lock.  For example:
-5dc21f0c0b1c02 Ira Weiny               2022-10-25  2461  			 *
-5dc21f0c0b1c02 Ira Weiny               2022-10-25  2462  			 * process A thread 1 takes read lock on own mmap_lock
-5dc21f0c0b1c02 Ira Weiny               2022-10-25  2463  			 * process A thread 2 calls mmap, blocks taking write lock
-5dc21f0c0b1c02 Ira Weiny               2022-10-25  2464  			 * process B thread 1 takes page fault, read lock on own mmap lock
-5dc21f0c0b1c02 Ira Weiny               2022-10-25  2465  			 * process B thread 2 calls mmap, blocks taking write lock
-5dc21f0c0b1c02 Ira Weiny               2022-10-25  2466  			 * process A thread 1 blocks taking read lock on process B
-5dc21f0c0b1c02 Ira Weiny               2022-10-25  2467  			 * process B thread 1 blocks taking read lock on process A
-5dc21f0c0b1c02 Ira Weiny               2022-10-25  2468  			 *
-5dc21f0c0b1c02 Ira Weiny               2022-10-25  2469  			 * Disable page faults to prevent potential deadlock
-5dc21f0c0b1c02 Ira Weiny               2022-10-25  2470  			 * and retry the copy outside the mmap_lock.
-5dc21f0c0b1c02 Ira Weiny               2022-10-25  2471  			 */
-5dc21f0c0b1c02 Ira Weiny               2022-10-25  2472  			pagefault_disable();
-8d10396342063c Mike Rapoport           2017-09-06  2473  			ret = copy_from_user(page_kaddr,
-8d10396342063c Mike Rapoport           2017-09-06  2474  					     (const void __user *)src_addr,
-4c27fe4c4c84f3 Mike Rapoport           2017-02-22  2475  					     PAGE_SIZE);
-5dc21f0c0b1c02 Ira Weiny               2022-10-25  2476  			pagefault_enable();
-7a7256d5f512b6 Matthew Wilcox (Oracle  2022-09-02  2477) 			kunmap_local(page_kaddr);
-4c27fe4c4c84f3 Mike Rapoport           2017-02-22  2478  
-c1e8d7c6a7a682 Michel Lespinasse       2020-06-08  2479  			/* fallback to copy_from_user outside mmap_lock */
-4c27fe4c4c84f3 Mike Rapoport           2017-02-22  2480  			if (unlikely(ret)) {
-732542eb883709 ZhangPeng               2023-03-14  2481  				*foliop = folio;
-7d64ae3ab648a9 Axel Rasmussen          2021-06-30  2482  				ret = -ENOENT;
-4c27fe4c4c84f3 Mike Rapoport           2017-02-22  2483  				/* don't free the page */
-7d64ae3ab648a9 Axel Rasmussen          2021-06-30  2484  				goto out_unacct_blocks;
-4c27fe4c4c84f3 Mike Rapoport           2017-02-22  2485  			}
-19b482c29b6f38 Muchun Song             2022-03-22  2486  
-7a7256d5f512b6 Matthew Wilcox (Oracle  2022-09-02  2487) 			flush_dcache_folio(folio);
-3460f6e5c1ed94 Axel Rasmussen          2021-06-30  2488  		} else {		/* ZEROPAGE */
-7a7256d5f512b6 Matthew Wilcox (Oracle  2022-09-02  2489) 			clear_user_highpage(&folio->page, dst_addr);
-8d10396342063c Mike Rapoport           2017-09-06  2490  		}
-4c27fe4c4c84f3 Mike Rapoport           2017-02-22  2491  	} else {
-732542eb883709 ZhangPeng               2023-03-14 @2492  		VM_BUG_ON_FOLIO(folio_test_large(*foliop), folio);
-732542eb883709 ZhangPeng               2023-03-14  2493  		*foliop = NULL;
-4c27fe4c4c84f3 Mike Rapoport           2017-02-22  2494  	}
-4c27fe4c4c84f3 Mike Rapoport           2017-02-22  2495  
-7a7256d5f512b6 Matthew Wilcox (Oracle  2022-09-02  2496) 	VM_BUG_ON(folio_test_locked(folio));
-7a7256d5f512b6 Matthew Wilcox (Oracle  2022-09-02  2497) 	VM_BUG_ON(folio_test_swapbacked(folio));
-7a7256d5f512b6 Matthew Wilcox (Oracle  2022-09-02  2498) 	__folio_set_locked(folio);
-7a7256d5f512b6 Matthew Wilcox (Oracle  2022-09-02  2499) 	__folio_set_swapbacked(folio);
-7a7256d5f512b6 Matthew Wilcox (Oracle  2022-09-02  2500) 	__folio_mark_uptodate(folio);
-9cc90c664a65f9 Andrea Arcangeli        2017-02-22  2501  
-e2a50c1f64145a Andrea Arcangeli        2018-11-30  2502  	ret = -EFAULT;
-e2a50c1f64145a Andrea Arcangeli        2018-11-30  2503  	max_off = DIV_ROUND_UP(i_size_read(inode), PAGE_SIZE);
-3460f6e5c1ed94 Axel Rasmussen          2021-06-30  2504  	if (unlikely(pgoff >= max_off))
-e2a50c1f64145a Andrea Arcangeli        2018-11-30  2505  		goto out_release;
-e2a50c1f64145a Andrea Arcangeli        2018-11-30  2506  
-b7dd44a12cf266 Matthew Wilcox (Oracle  2022-05-12  2507) 	ret = shmem_add_to_page_cache(folio, mapping, pgoff, NULL,
-3fea5a499d57de Johannes Weiner         2020-06-03  2508  				      gfp & GFP_RECLAIM_MASK, dst_mm);
-4c27fe4c4c84f3 Mike Rapoport           2017-02-22  2509  	if (ret)
-3fea5a499d57de Johannes Weiner         2020-06-03  2510  		goto out_release;
-4c27fe4c4c84f3 Mike Rapoport           2017-02-22  2511  
-7d64ae3ab648a9 Axel Rasmussen          2021-06-30  2512  	ret = mfill_atomic_install_pte(dst_mm, dst_pmd, dst_vma, dst_addr,
-7a7256d5f512b6 Matthew Wilcox (Oracle  2022-09-02  2513) 				       &folio->page, true, wp_copy);
-7d64ae3ab648a9 Axel Rasmussen          2021-06-30  2514  	if (ret)
-7d64ae3ab648a9 Axel Rasmussen          2021-06-30  2515  		goto out_delete_from_cache;
-4c27fe4c4c84f3 Mike Rapoport           2017-02-22  2516  
-94b7cc01da5a3c Yang Shi                2020-04-20  2517  	spin_lock_irq(&info->lock);
-4c27fe4c4c84f3 Mike Rapoport           2017-02-22  2518  	info->alloced++;
-4c27fe4c4c84f3 Mike Rapoport           2017-02-22  2519  	inode->i_blocks += BLOCKS_PER_PAGE;
-4c27fe4c4c84f3 Mike Rapoport           2017-02-22  2520  	shmem_recalc_inode(inode);
-94b7cc01da5a3c Yang Shi                2020-04-20  2521  	spin_unlock_irq(&info->lock);
-4c27fe4c4c84f3 Mike Rapoport           2017-02-22  2522  
-7a7256d5f512b6 Matthew Wilcox (Oracle  2022-09-02  2523) 	folio_unlock(folio);
-7d64ae3ab648a9 Axel Rasmussen          2021-06-30  2524  	return 0;
-7d64ae3ab648a9 Axel Rasmussen          2021-06-30  2525  out_delete_from_cache:
-7a7256d5f512b6 Matthew Wilcox (Oracle  2022-09-02  2526) 	filemap_remove_folio(folio);
-4c27fe4c4c84f3 Mike Rapoport           2017-02-22  2527  out_release:
-7a7256d5f512b6 Matthew Wilcox (Oracle  2022-09-02  2528) 	folio_unlock(folio);
-7a7256d5f512b6 Matthew Wilcox (Oracle  2022-09-02  2529) 	folio_put(folio);
-4c27fe4c4c84f3 Mike Rapoport           2017-02-22  2530  out_unacct_blocks:
-0f0796945614b7 Mike Rapoport           2017-09-06  2531  	shmem_inode_unacct_blocks(inode, 1);
-7d64ae3ab648a9 Axel Rasmussen          2021-06-30  2532  	return ret;
-8d10396342063c Mike Rapoport           2017-09-06  2533  }
-3460f6e5c1ed94 Axel Rasmussen          2021-06-30  2534  #endif /* CONFIG_USERFAULTFD */
-8d10396342063c Mike Rapoport           2017-09-06  2535  
+3c339ab83fc09d Tadeusz Struk      2015-06-16  132  
+28a4618ad14cf1 Andrzej Zaborowski 2015-12-05  133  static void akcipher_prepare_alg(struct akcipher_alg *alg)
+3c339ab83fc09d Tadeusz Struk      2015-06-16  134  {
+49be9316310d89 Herbert Xu         2023-02-16 @135  	struct crypto_istat_akcipher *istat = akcipher_get_stat(alg);
+3c339ab83fc09d Tadeusz Struk      2015-06-16  136  	struct crypto_alg *base = &alg->base;
+3c339ab83fc09d Tadeusz Struk      2015-06-16  137  
+3c339ab83fc09d Tadeusz Struk      2015-06-16  138  	base->cra_type = &crypto_akcipher_type;
+3c339ab83fc09d Tadeusz Struk      2015-06-16  139  	base->cra_flags &= ~CRYPTO_ALG_TYPE_MASK;
+3c339ab83fc09d Tadeusz Struk      2015-06-16  140  	base->cra_flags |= CRYPTO_ALG_TYPE_AKCIPHER;
+49be9316310d89 Herbert Xu         2023-02-16  141  
+49be9316310d89 Herbert Xu         2023-02-16  142  	if (IS_ENABLED(CONFIG_CRYPTO_STATS))
+49be9316310d89 Herbert Xu         2023-02-16  143  		memset(istat, 0, sizeof(*istat));
+28a4618ad14cf1 Andrzej Zaborowski 2015-12-05  144  }
+28a4618ad14cf1 Andrzej Zaborowski 2015-12-05  145  
 
 -- 
 0-DAY CI Kernel Test Service
