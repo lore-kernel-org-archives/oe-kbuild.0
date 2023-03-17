@@ -1,43 +1,42 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 787792C9D
-	for <oe-kbuild@lists.linux.dev>; Fri, 17 Mar 2023 23:15:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A09C52C9D
+	for <oe-kbuild@lists.linux.dev>; Fri, 17 Mar 2023 23:25:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679094940; x=1710630940;
+  t=1679095526; x=1710631526;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=M1RDgGn2pQl2ReRY9ByLU6e8XlRk4p+FkK15Pa36CbY=;
-  b=EjCJhDFwASFLsO/4T71IPYYxWWtkL7CJ052HPqw/YFnPHNZ5Ous8EQ9U
-   /oN93b2lwOXHlbDJ008vR24s6zcn6/57tCaK/2e60cQyiwz+m2A43KcE/
-   yFKl0AA4qGIW2la2hYZPIinIAURUZrWYhWxna/BJQsy1B7o+jHfv00Uma
-   7Sirks+TsKxRmv1k7D14PTCz2k9V2JlCiesCUcyz8bu7lT/El4iNkP6hj
-   gLKt1KjfLoKiPuTeZ7wkegOpyeyRjrpppL5XRfGUH/Yci6hgIrcy6dBix
-   E7CStJabvTFvoH2d3TpFT9lHwnr3oBLXdNEbax69pyOBejOU5TW7UQlim
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10652"; a="318036890"
+  bh=uVHIbbCP7dXne0fmNi14Gsq4C0Q/4VyTxdz/2jaJOxo=;
+  b=Nt2fJ4Oayw23fFP7w0zgpvUacp8ejm7E5u2yKPtTKunfULoQa35ki7dh
+   NOeQzRxsXdky0PIiVGQftvH7Xsk4aJvnxl/NoS4zlzf2g7xwgBcKFb+8i
+   FfF+xJu+UsH3vduLHP+XMZyJsQrWyJjq/iLjLkS4t3dSrWwE/ojWurCjc
+   MBhkQkL668dnIaJtIjpZVh8yL84hhRo98uL1FEgTJqsXi46xhH7FsUwEq
+   Yw4ozL816u6Vpx+gcoSf/M/7FqZ9lchdYhIk3sGGOzU6hnWiFXaKYkGGR
+   8ST5sHdSPfIwyLX+XVFnite/6tFvdpxO3oYuQcQOHsLPycZN8X/6Uahr1
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10652"; a="318782822"
 X-IronPort-AV: E=Sophos;i="5.98,270,1673942400"; 
-   d="scan'208";a="318036890"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2023 16:15:24 -0700
+   d="scan'208";a="318782822"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2023 16:25:25 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10652"; a="673728427"
+X-IronPort-AV: E=McAfee;i="6600,9927,10652"; a="804271554"
 X-IronPort-AV: E=Sophos;i="5.98,270,1673942400"; 
-   d="scan'208";a="673728427"
+   d="scan'208";a="804271554"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 17 Mar 2023 16:15:23 -0700
+  by orsmga004.jf.intel.com with ESMTP; 17 Mar 2023 16:25:23 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pdJIA-0009e6-1w;
-	Fri, 17 Mar 2023 23:15:22 +0000
-Date: Sat, 18 Mar 2023 07:14:48 +0800
+	id 1pdJRr-0009eU-09;
+	Fri, 17 Mar 2023 23:25:23 +0000
+Date: Sat, 18 Mar 2023 07:25:10 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [efi:urgent 12/12]
- drivers/firmware/efi/libstub/efi-stub-helper.c:528 efi_load_initrd_lf2()
- error: uninitialized symbol 'dp'.
-Message-ID: <202303180724.UexnVEeA-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [linux-next:master 3815/4413] include/trace/events/notifier.h:33:1:
+ warning: Dereference of null pointer [clang-analyzer-core.NullDereference]
+Message-ID: <202303180739.bKXY3XtY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -47,98 +46,261 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-efi@vger.kernel.org
-TO: Ard Biesheuvel <ardb@kernel.org>
-CC: Ilias Apalodimas <ilias.apalodimas@linaro.org>
+:::::: 
+:::::: Manual check reason: "low confidence static check warning: include/trace/events/notifier.h:33:1: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]"
+:::::: 
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/efi/efi.git urgent
-head:   86237b46f2b202331c07e4c6c2633ce3d3ba7f13
-commit: 86237b46f2b202331c07e4c6c2633ce3d3ba7f13 [12/12] efi: libstub: Look for initrd LoadFile2 protocol on image handle
-:::::: branch date: 13 hours ago
-:::::: commit date: 13 hours ago
-config: x86_64-randconfig-m001 (https://download.01.org/0day-ci/archive/20230318/202303180724.UexnVEeA-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+BCC: lkp@intel.com
+CC: llvm@lists.linux.dev
+CC: oe-kbuild-all@lists.linux.dev
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: "Guilherme G. Piccoli" <gpiccoli@igalia.com>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   6f08c1de13a9403341c18b66638a05588b2663ce
+commit: 9db243bc3d81f9fa34bba6f4c94972fdac8ce355 [3815/4413] notifiers: add tracepoints to the notifiers infrastructure
+:::::: branch date: 21 hours ago
+:::::: commit date: 2 days ago
+config: s390-randconfig-c005-20230312 (https://download.01.org/0day-ci/archive/20230318/202303180739.bKXY3XtY-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install s390 cross compiling tool for clang build
+        # apt-get install binutils-s390x-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=9db243bc3d81f9fa34bba6f4c94972fdac8ce355
+        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+        git fetch --no-tags linux-next master
+        git checkout 9db243bc3d81f9fa34bba6f4c94972fdac8ce355
+        # save the config file
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=s390 clang-analyzer  olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=s390 clang-analyzer 
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202303180724.UexnVEeA-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202303180739.bKXY3XtY-lkp@intel.com/
 
-smatch warnings:
-drivers/firmware/efi/libstub/efi-stub-helper.c:528 efi_load_initrd_lf2() error: uninitialized symbol 'dp'.
+clang_analyzer warnings: (new ones prefixed by >>)
+           if (connection->state == GB_CONNECTION_STATE_DISABLED)
+           ^
+   drivers/greybus/connection.c:862:2: note: Calling 'trace_gb_connection_disable'
+           trace_gb_connection_disable(connection);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/greybus/greybus_trace.h:233:1: note: Taking true branch
+   DEFINE_CONNECTION_EVENT(gb_connection_disable);
+   ^
+   drivers/greybus/greybus_trace.h:194:3: note: expanded from macro 'DEFINE_CONNECTION_EVENT'
+                   DEFINE_EVENT(gb_connection, name,                       \
+                   ^
+   include/linux/tracepoint.h:553:2: note: expanded from macro 'DEFINE_EVENT'
+           DECLARE_TRACE(name, PARAMS(proto), PARAMS(args))
+           ^
+   include/linux/tracepoint.h:430:2: note: expanded from macro 'DECLARE_TRACE'
+           __DECLARE_TRACE(name, PARAMS(proto), PARAMS(args),              \
+           ^
+   include/linux/tracepoint.h:258:3: note: expanded from macro '__DECLARE_TRACE'
+                   if (static_key_false(&__tracepoint_##name.key))         \
+                   ^
+   drivers/greybus/greybus_trace.h:233:1: note: Dereference of null pointer
+   DEFINE_CONNECTION_EVENT(gb_connection_disable);
+   ^
+   drivers/greybus/greybus_trace.h:194:3: note: expanded from macro 'DEFINE_CONNECTION_EVENT'
+                   DEFINE_EVENT(gb_connection, name,                       \
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/tracepoint.h:553:2: note: expanded from macro 'DEFINE_EVENT'
+           DECLARE_TRACE(name, PARAMS(proto), PARAMS(args))
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/tracepoint.h:431:15: note: expanded from macro 'DECLARE_TRACE'
+                           cpu_online(raw_smp_processor_id()),             \
+   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/tracepoint.h:261:18: note: expanded from macro '__DECLARE_TRACE'
+                                   TP_CONDITION(cond), 0);                 \
+   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~
+   include/linux/tracepoint.h:149:31: note: expanded from macro 'TP_CONDITION'
+   #define TP_CONDITION(args...)   args
+                                   ^
+   include/linux/tracepoint.h:199:9: note: expanded from macro '__DO_TRACE'
+                   if (!(cond))                                            \
+                         ^~~~
+   drivers/greybus/greybus_trace.h:486:1: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]
+   DEFINE_HD_EVENT(gb_hd_in);
+   ^
+   drivers/greybus/greybus_trace.h:453:3: note: expanded from macro 'DEFINE_HD_EVENT'
+                   DEFINE_EVENT(gb_host_device, name,                      \
+                   ^
+   include/linux/tracepoint.h:553:2: note: expanded from macro 'DEFINE_EVENT'
+           DECLARE_TRACE(name, PARAMS(proto), PARAMS(args))
+           ^
+   include/linux/tracepoint.h:431:15: note: expanded from macro 'DECLARE_TRACE'
+                           cpu_online(raw_smp_processor_id()),             \
+                                      ^
+   arch/s390/include/asm/smp.h:14:32: note: expanded from macro 'raw_smp_processor_id'
+   #define raw_smp_processor_id()  (S390_lowcore.cpu_nr)
+                                   ^
+   drivers/greybus/connection.c:81:2: note: Calling 'trace_gb_hd_in'
+           trace_gb_hd_in(hd);
+           ^~~~~~~~~~~~~~~~~~
+   drivers/greybus/greybus_trace.h:486:1: note: Taking true branch
+   DEFINE_HD_EVENT(gb_hd_in);
+   ^
+   drivers/greybus/greybus_trace.h:453:3: note: expanded from macro 'DEFINE_HD_EVENT'
+                   DEFINE_EVENT(gb_host_device, name,                      \
+                   ^
+   include/linux/tracepoint.h:553:2: note: expanded from macro 'DEFINE_EVENT'
+           DECLARE_TRACE(name, PARAMS(proto), PARAMS(args))
+           ^
+   include/linux/tracepoint.h:430:2: note: expanded from macro 'DECLARE_TRACE'
+           __DECLARE_TRACE(name, PARAMS(proto), PARAMS(args),              \
+           ^
+   include/linux/tracepoint.h:258:3: note: expanded from macro '__DECLARE_TRACE'
+                   if (static_key_false(&__tracepoint_##name.key))         \
+                   ^
+   drivers/greybus/greybus_trace.h:486:1: note: Dereference of null pointer
+   DEFINE_HD_EVENT(gb_hd_in);
+   ^
+   drivers/greybus/greybus_trace.h:453:3: note: expanded from macro 'DEFINE_HD_EVENT'
+                   DEFINE_EVENT(gb_host_device, name,                      \
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/tracepoint.h:553:2: note: expanded from macro 'DEFINE_EVENT'
+           DECLARE_TRACE(name, PARAMS(proto), PARAMS(args))
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/tracepoint.h:431:15: note: expanded from macro 'DECLARE_TRACE'
+                           cpu_online(raw_smp_processor_id()),             \
+   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/tracepoint.h:261:18: note: expanded from macro '__DECLARE_TRACE'
+                                   TP_CONDITION(cond), 0);                 \
+   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~
+   include/linux/tracepoint.h:149:31: note: expanded from macro 'TP_CONDITION'
+   #define TP_CONDITION(args...)   args
+                                   ^
+   include/linux/tracepoint.h:199:9: note: expanded from macro '__DO_TRACE'
+                   if (!(cond))                                            \
+                         ^~~~
+   Suppressed 21 warnings (9 in non-user code, 12 with check filters).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   15 warnings generated.
+>> include/trace/events/notifier.h:33:1: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]
+   DEFINE_EVENT(notifier_info, notifier_register,
+   ^
+   include/linux/tracepoint.h:553:2: note: expanded from macro 'DEFINE_EVENT'
+           DECLARE_TRACE(name, PARAMS(proto), PARAMS(args))
+           ^
+   include/linux/tracepoint.h:431:15: note: expanded from macro 'DECLARE_TRACE'
+                           cpu_online(raw_smp_processor_id()),             \
+                                      ^
+   arch/s390/include/asm/smp.h:14:32: note: expanded from macro 'raw_smp_processor_id'
+   #define raw_smp_processor_id()  (S390_lowcore.cpu_nr)
+                                   ^
+   kernel/notifier.c:602:9: note: Calling 'atomic_notifier_chain_register'
+           return atomic_notifier_chain_register(&die_chain, nb);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/notifier.c:155:2: note: Loop condition is false.  Exiting loop
+           spin_lock_irqsave(&nh->lock, flags);
+           ^
+   include/linux/spinlock.h:380:2: note: expanded from macro 'spin_lock_irqsave'
+           raw_spin_lock_irqsave(spinlock_check(lock), flags);     \
+           ^
+   include/linux/spinlock.h:241:2: note: expanded from macro 'raw_spin_lock_irqsave'
+           do {                                            \
+           ^
+   kernel/notifier.c:155:2: note: Loop condition is false.  Exiting loop
+           spin_lock_irqsave(&nh->lock, flags);
+           ^
+   include/linux/spinlock.h:378:43: note: expanded from macro 'spin_lock_irqsave'
+   #define spin_lock_irqsave(lock, flags)                          \
+                                                                   ^
+   kernel/notifier.c:156:8: note: Calling 'notifier_chain_register'
+           ret = notifier_chain_register(&nh->head, n, false);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/notifier.c:29:9: note: Assuming the condition is false
+           while ((*nl) != NULL) {
+                  ^~~~~~~~~~~~~
+   kernel/notifier.c:29:2: note: Loop condition is false. Execution continues on line 41
+           while ((*nl) != NULL) {
+           ^
+   kernel/notifier.c:42:2: note: Left side of '&&' is false
+           rcu_assign_pointer(*nl, n);
+           ^
+   include/linux/rcupdate.h:523:30: note: expanded from macro 'rcu_assign_pointer'
+           if (__builtin_constant_p(v) && (_r_a_p__v) == (uintptr_t)NULL)        \
+                                       ^
+   kernel/notifier.c:42:2: note: Loop condition is false.  Exiting loop
+           rcu_assign_pointer(*nl, n);
+           ^
+   include/linux/rcupdate.h:526:3: note: expanded from macro 'rcu_assign_pointer'
+                   smp_store_release(&p, RCU_INITIALIZER((typeof(p))_r_a_p__v)); \
+                   ^
+   include/asm-generic/barrier.h:172:38: note: expanded from macro 'smp_store_release'
+   #define smp_store_release(p, v) do { kcsan_release(); __smp_store_release(p, v); } while (0)
+                                        ^
+   include/linux/kcsan-checks.h:267:25: note: expanded from macro 'kcsan_release'
+   #define kcsan_release() do { } while (0)
+                           ^
+   kernel/notifier.c:42:2: note: Left side of '||' is false
+           rcu_assign_pointer(*nl, n);
+           ^
+   include/linux/rcupdate.h:526:3: note: expanded from macro 'rcu_assign_pointer'
+                   smp_store_release(&p, RCU_INITIALIZER((typeof(p))_r_a_p__v)); \
+                   ^
+   include/asm-generic/barrier.h:172:55: note: expanded from macro 'smp_store_release'
+   #define smp_store_release(p, v) do { kcsan_release(); __smp_store_release(p, v); } while (0)
+                                                         ^
+   arch/s390/include/asm/barrier.h:40:2: note: expanded from macro '__smp_store_release'
+           compiletime_assert_atomic_type(*p);                             \
+           ^
+   include/linux/compiler_types.h:400:21: note: expanded from macro 'compiletime_assert_atomic_type'
+           compiletime_assert(__native_word(t),                            \
+                              ^
+   include/linux/compiler_types.h:364:3: note: expanded from macro '__native_word'
+           (sizeof(t) == sizeof(char) || sizeof(t) == sizeof(short) || \
+            ^
+   kernel/notifier.c:42:2: note: Left side of '||' is false
+           rcu_assign_pointer(*nl, n);
+           ^
+   include/linux/rcupdate.h:526:3: note: expanded from macro 'rcu_assign_pointer'
+                   smp_store_release(&p, RCU_INITIALIZER((typeof(p))_r_a_p__v)); \
+                   ^
+   include/asm-generic/barrier.h:172:55: note: expanded from macro 'smp_store_release'
+   #define smp_store_release(p, v) do { kcsan_release(); __smp_store_release(p, v); } while (0)
+                                                         ^
+   arch/s390/include/asm/barrier.h:40:2: note: expanded from macro '__smp_store_release'
+           compiletime_assert_atomic_type(*p);                             \
+           ^
+   include/linux/compiler_types.h:400:21: note: expanded from macro 'compiletime_assert_atomic_type'
+           compiletime_assert(__native_word(t),                            \
+                              ^
+   include/linux/compiler_types.h:364:3: note: expanded from macro '__native_word'
+           (sizeof(t) == sizeof(char) || sizeof(t) == sizeof(short) || \
+            ^
+   kernel/notifier.c:42:2: note: Left side of '||' is false
+           rcu_assign_pointer(*nl, n);
+           ^
+   include/linux/rcupdate.h:526:3: note: expanded from macro 'rcu_assign_pointer'
+                   smp_store_release(&p, RCU_INITIALIZER((typeof(p))_r_a_p__v)); \
+                   ^
+   include/asm-generic/barrier.h:172:55: note: expanded from macro 'smp_store_release'
+   #define smp_store_release(p, v) do { kcsan_release(); __smp_store_release(p, v); } while (0)
 
-vim +/dp +528 drivers/firmware/efi/libstub/efi-stub-helper.c
+vim +33 include/trace/events/notifier.h
 
-ec93fc371f014a Ard Biesheuvel      2020-02-03  483  
-ec93fc371f014a Ard Biesheuvel      2020-02-03  484  /**
-86237b46f2b202 Ard Biesheuvel      2023-03-10  485   * efi_load_initrd_lf2() - load the initrd from the Linux initrd device path
-86237b46f2b202 Ard Biesheuvel      2023-03-10  486   * @image_handle: EFI handle of the loaded image
-86237b46f2b202 Ard Biesheuvel      2023-03-10  487   * @initrd:	  pointer of struct to store the address where the initrd was
-86237b46f2b202 Ard Biesheuvel      2023-03-10  488   *                loaded and the size of the loaded initrd
-ec93fc371f014a Ard Biesheuvel      2020-02-03  489   * @max:	  upper limit for the initrd memory allocation
-8c0a839c2bccb7 Heinrich Schuchardt 2020-06-16  490   *
-8c0a839c2bccb7 Heinrich Schuchardt 2020-06-16  491   * Return:
-8c0a839c2bccb7 Heinrich Schuchardt 2020-06-16  492   * * %EFI_SUCCESS if the initrd was loaded successfully, in which
-ec93fc371f014a Ard Biesheuvel      2020-02-03  493   *   case @load_addr and @load_size are assigned accordingly
-8c0a839c2bccb7 Heinrich Schuchardt 2020-06-16  494   * * %EFI_NOT_FOUND if no LoadFile2 protocol exists on the initrd device path
-8c0a839c2bccb7 Heinrich Schuchardt 2020-06-16  495   * * %EFI_OUT_OF_RESOURCES if memory allocation failed
-8c0a839c2bccb7 Heinrich Schuchardt 2020-06-16  496   * * %EFI_LOAD_ERROR in all other cases
-ec93fc371f014a Ard Biesheuvel      2020-02-03  497   */
-f61900fd0ebf6c Arvind Sankar       2020-04-30  498  static
-86237b46f2b202 Ard Biesheuvel      2023-03-10  499  efi_status_t efi_load_initrd_lf2(efi_handle_t image_handle,
-86237b46f2b202 Ard Biesheuvel      2023-03-10  500  				 struct linux_efi_initrd *initrd,
-ec93fc371f014a Ard Biesheuvel      2020-02-03  501  				 unsigned long max)
-ec93fc371f014a Ard Biesheuvel      2020-02-03  502  {
-ec93fc371f014a Ard Biesheuvel      2020-02-03  503  	efi_guid_t lf2_proto_guid = EFI_LOAD_FILE2_PROTOCOL_GUID;
-86237b46f2b202 Ard Biesheuvel      2023-03-10  504  	efi_guid_t initrd_lf2_proto_guid = LINUX_EFI_INITRD_LF2_PROTOCOL_GUID;
-ec93fc371f014a Ard Biesheuvel      2020-02-03  505  	efi_device_path_protocol_t *dp;
-ec93fc371f014a Ard Biesheuvel      2020-02-03  506  	efi_load_file2_protocol_t *lf2;
-ec93fc371f014a Ard Biesheuvel      2020-02-03  507  	efi_handle_t handle;
-ec93fc371f014a Ard Biesheuvel      2020-02-03  508  	efi_status_t status;
-ec93fc371f014a Ard Biesheuvel      2020-02-03  509  
-86237b46f2b202 Ard Biesheuvel      2023-03-10  510  	/* first look for a initrd loading protocol specific to this image */
-86237b46f2b202 Ard Biesheuvel      2023-03-10  511  	status = efi_bs_call(handle_protocol, image_handle, &initrd_lf2_proto_guid,
-86237b46f2b202 Ard Biesheuvel      2023-03-10  512  			     (void **)&lf2);
-86237b46f2b202 Ard Biesheuvel      2023-03-10  513  	if (status != EFI_SUCCESS) {
-86237b46f2b202 Ard Biesheuvel      2023-03-10  514  		/* look for the global singleton initrd loading protocol */
-ec93fc371f014a Ard Biesheuvel      2020-02-03  515  		dp = (efi_device_path_protocol_t *)&initrd_dev_path;
-86237b46f2b202 Ard Biesheuvel      2023-03-10  516  		status = efi_bs_call(locate_device_path, &lf2_proto_guid, &dp,
-86237b46f2b202 Ard Biesheuvel      2023-03-10  517  				     &handle);
-ec93fc371f014a Ard Biesheuvel      2020-02-03  518  		if (status != EFI_SUCCESS)
-ec93fc371f014a Ard Biesheuvel      2020-02-03  519  			return status;
-ec93fc371f014a Ard Biesheuvel      2020-02-03  520  
-ec93fc371f014a Ard Biesheuvel      2020-02-03  521  		status = efi_bs_call(handle_protocol, handle, &lf2_proto_guid,
-ec93fc371f014a Ard Biesheuvel      2020-02-03  522  				     (void **)&lf2);
-ec93fc371f014a Ard Biesheuvel      2020-02-03  523  		if (status != EFI_SUCCESS)
-ec93fc371f014a Ard Biesheuvel      2020-02-03  524  			return status;
-86237b46f2b202 Ard Biesheuvel      2023-03-10  525  	}
-ec93fc371f014a Ard Biesheuvel      2020-02-03  526  
-f4dc7fffa9873d Ard Biesheuvel      2022-09-16  527  	initrd->size = 0;
-f4dc7fffa9873d Ard Biesheuvel      2022-09-16 @528  	status = efi_call_proto(lf2, load_file, dp, false, &initrd->size, NULL);
-ec93fc371f014a Ard Biesheuvel      2020-02-03  529  	if (status != EFI_BUFFER_TOO_SMALL)
-ec93fc371f014a Ard Biesheuvel      2020-02-03  530  		return EFI_LOAD_ERROR;
-ec93fc371f014a Ard Biesheuvel      2020-02-03  531  
-f4dc7fffa9873d Ard Biesheuvel      2022-09-16  532  	status = efi_allocate_pages(initrd->size, &initrd->base, max);
-ec93fc371f014a Ard Biesheuvel      2020-02-03  533  	if (status != EFI_SUCCESS)
-ec93fc371f014a Ard Biesheuvel      2020-02-03  534  		return status;
-ec93fc371f014a Ard Biesheuvel      2020-02-03  535  
-f4dc7fffa9873d Ard Biesheuvel      2022-09-16  536  	status = efi_call_proto(lf2, load_file, dp, false, &initrd->size,
-f4dc7fffa9873d Ard Biesheuvel      2022-09-16  537  				(void *)initrd->base);
-ec93fc371f014a Ard Biesheuvel      2020-02-03  538  	if (status != EFI_SUCCESS) {
-f4dc7fffa9873d Ard Biesheuvel      2022-09-16  539  		efi_free(initrd->size, initrd->base);
-ec93fc371f014a Ard Biesheuvel      2020-02-03  540  		return EFI_LOAD_ERROR;
-ec93fc371f014a Ard Biesheuvel      2020-02-03  541  	}
-ec93fc371f014a Ard Biesheuvel      2020-02-03  542  	return EFI_SUCCESS;
-ec93fc371f014a Ard Biesheuvel      2020-02-03  543  }
-f61900fd0ebf6c Arvind Sankar       2020-04-30  544  
-
-:::::: The code at line 528 was first introduced by commit
-:::::: f4dc7fffa9873db50ec25624572f8217a6225de8 efi: libstub: unify initrd loading between architectures
-
-:::::: TO: Ard Biesheuvel <ardb@kernel.org>
-:::::: CC: Ard Biesheuvel <ardb@kernel.org>
+9db243bc3d81f9 Guilherme G. Piccoli 2023-03-14  26  
+9db243bc3d81f9 Guilherme G. Piccoli 2023-03-14  27  /*
+9db243bc3d81f9 Guilherme G. Piccoli 2023-03-14  28   * notifier_register - called upon notifier callback registration
+9db243bc3d81f9 Guilherme G. Piccoli 2023-03-14  29   *
+9db243bc3d81f9 Guilherme G. Piccoli 2023-03-14  30   * @cb:		callback pointer
+9db243bc3d81f9 Guilherme G. Piccoli 2023-03-14  31   *
+9db243bc3d81f9 Guilherme G. Piccoli 2023-03-14  32   */
+9db243bc3d81f9 Guilherme G. Piccoli 2023-03-14 @33  DEFINE_EVENT(notifier_info, notifier_register,
+9db243bc3d81f9 Guilherme G. Piccoli 2023-03-14  34  
+9db243bc3d81f9 Guilherme G. Piccoli 2023-03-14  35  	TP_PROTO(void *cb),
+9db243bc3d81f9 Guilherme G. Piccoli 2023-03-14  36  
+9db243bc3d81f9 Guilherme G. Piccoli 2023-03-14  37  	TP_ARGS(cb)
+9db243bc3d81f9 Guilherme G. Piccoli 2023-03-14  38  );
+9db243bc3d81f9 Guilherme G. Piccoli 2023-03-14  39  
 
 -- 
 0-DAY CI Kernel Test Service
