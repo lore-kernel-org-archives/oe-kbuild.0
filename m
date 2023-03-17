@@ -1,43 +1,43 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7B8679EB
-	for <oe-kbuild@lists.linux.dev>; Fri, 17 Mar 2023 21:42:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 787792C9D
+	for <oe-kbuild@lists.linux.dev>; Fri, 17 Mar 2023 23:15:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679089344; x=1710625344;
+  t=1679094940; x=1710630940;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=jtWkU87PKGAJPZmJESJzUO3bHcNFGQNjuWkrCswQyOw=;
-  b=HNxDiCh1VabrQUX6tFBE+RpZqmSecyHhdFhaCsmfBuYbvFnPncE4KDIr
-   bK5YEJvkGbFdmRz150XZ1yCMFqRn8kAYEmJShWUAtvjPQ4LI40WyvpYW9
-   0s/O9xPleQIVsQbZIcq4smkk7QZ3wLWiSTebkfgUbpvpSX5y3wMyVi0MK
-   cScCsaqdb9O8eTr2/cRRYlucf+VQMgwLPr0i9365RdmzWsURr0AieDR1S
-   n6ttSI1p46Gr7NWj5zpCSPJmhoOJjMCFBHpU7Uu1ShXfgPCm4k3EXlbh+
-   Sg/sFtIOP8isbXuLxqP9XTQONCStiP+LGZIoWCXlpVlQ13fi/yNf8A6D4
+  bh=M1RDgGn2pQl2ReRY9ByLU6e8XlRk4p+FkK15Pa36CbY=;
+  b=EjCJhDFwASFLsO/4T71IPYYxWWtkL7CJ052HPqw/YFnPHNZ5Ous8EQ9U
+   /oN93b2lwOXHlbDJ008vR24s6zcn6/57tCaK/2e60cQyiwz+m2A43KcE/
+   yFKl0AA4qGIW2la2hYZPIinIAURUZrWYhWxna/BJQsy1B7o+jHfv00Uma
+   7Sirks+TsKxRmv1k7D14PTCz2k9V2JlCiesCUcyz8bu7lT/El4iNkP6hj
+   gLKt1KjfLoKiPuTeZ7wkegOpyeyRjrpppL5XRfGUH/Yci6hgIrcy6dBix
+   E7CStJabvTFvoH2d3TpFT9lHwnr3oBLXdNEbax69pyOBejOU5TW7UQlim
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10652"; a="340725199"
+X-IronPort-AV: E=McAfee;i="6600,9927,10652"; a="318036890"
 X-IronPort-AV: E=Sophos;i="5.98,270,1673942400"; 
-   d="scan'208";a="340725199"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2023 14:42:22 -0700
+   d="scan'208";a="318036890"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2023 16:15:24 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10652"; a="744686538"
+X-IronPort-AV: E=McAfee;i="6600,9927,10652"; a="673728427"
 X-IronPort-AV: E=Sophos;i="5.98,270,1673942400"; 
-   d="scan'208";a="744686538"
+   d="scan'208";a="673728427"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 17 Mar 2023 14:42:20 -0700
+  by orsmga007.jf.intel.com with ESMTP; 17 Mar 2023 16:15:23 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pdHq7-0009aS-20;
-	Fri, 17 Mar 2023 21:42:19 +0000
-Date: Sat, 18 Mar 2023 05:41:22 +0800
+	id 1pdJIA-0009e6-1w;
+	Fri, 17 Mar 2023 23:15:22 +0000
+Date: Sat, 18 Mar 2023 07:14:48 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [djwong-xfs:vectorized-scrub 448/501]
- fs/xfs/libxfs/xfs_refcount.c:161 xfs_refcount_check_rtgroup_irec() warn:
- impossible condition '(irec->rc_blockcount > (~0)) => (0-u32max > u32max)'
-Message-ID: <202303180551.L8gyDz7R-lkp@intel.com>
+Subject: [efi:urgent 12/12]
+ drivers/firmware/efi/libstub/efi-stub-helper.c:528 efi_load_initrd_lf2()
+ error: uninitialized symbol 'dp'.
+Message-ID: <202303180724.UexnVEeA-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -49,53 +49,96 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: "Darrick J. Wong" <darrick.wong@oracle.com>
+CC: linux-efi@vger.kernel.org
+TO: Ard Biesheuvel <ardb@kernel.org>
+CC: Ilias Apalodimas <ilias.apalodimas@linaro.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git vectorized-scrub
-head:   0575173bd35d9a7418eaa4ead4126d1c7fe9961c
-commit: 920801eeb88261304c231405cf093633e041d6e3 [448/501] xfs: prepare refcount functions to deal with rtrefcountbt
-:::::: branch date: 3 days ago
-:::::: commit date: 3 days ago
-config: ia64-randconfig-m031-20230312 (https://download.01.org/0day-ci/archive/20230318/202303180551.L8gyDz7R-lkp@intel.com/config)
-compiler: ia64-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/efi/efi.git urgent
+head:   86237b46f2b202331c07e4c6c2633ce3d3ba7f13
+commit: 86237b46f2b202331c07e4c6c2633ce3d3ba7f13 [12/12] efi: libstub: Look for initrd LoadFile2 protocol on image handle
+:::::: branch date: 13 hours ago
+:::::: commit date: 13 hours ago
+config: x86_64-randconfig-m001 (https://download.01.org/0day-ci/archive/20230318/202303180724.UexnVEeA-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202303180551.L8gyDz7R-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202303180724.UexnVEeA-lkp@intel.com/
 
-New smatch warnings:
-fs/xfs/libxfs/xfs_refcount.c:161 xfs_refcount_check_rtgroup_irec() warn: impossible condition '(irec->rc_blockcount > (~0)) => (0-u32max > u32max)'
-fs/xfs/libxfs/xfs_refcount.c:171 xfs_refcount_check_rtgroup_irec() warn: impossible condition '(irec->rc_refcount > (~0)) => (0-u32max > u32max)'
+smatch warnings:
+drivers/firmware/efi/libstub/efi-stub-helper.c:528 efi_load_initrd_lf2() error: uninitialized symbol 'dp'.
 
-Old smatch warnings:
-fs/xfs/libxfs/xfs_refcount.c:140 xfs_refcount_check_perag_irec() warn: impossible condition '(irec->rc_blockcount > (~0)) => (0-u32max > u32max)'
-fs/xfs/libxfs/xfs_refcount.c:150 xfs_refcount_check_perag_irec() warn: impossible condition '(irec->rc_refcount > (~0)) => (0-u32max > u32max)'
+vim +/dp +528 drivers/firmware/efi/libstub/efi-stub-helper.c
 
-vim +161 fs/xfs/libxfs/xfs_refcount.c
+ec93fc371f014a Ard Biesheuvel      2020-02-03  483  
+ec93fc371f014a Ard Biesheuvel      2020-02-03  484  /**
+86237b46f2b202 Ard Biesheuvel      2023-03-10  485   * efi_load_initrd_lf2() - load the initrd from the Linux initrd device path
+86237b46f2b202 Ard Biesheuvel      2023-03-10  486   * @image_handle: EFI handle of the loaded image
+86237b46f2b202 Ard Biesheuvel      2023-03-10  487   * @initrd:	  pointer of struct to store the address where the initrd was
+86237b46f2b202 Ard Biesheuvel      2023-03-10  488   *                loaded and the size of the loaded initrd
+ec93fc371f014a Ard Biesheuvel      2020-02-03  489   * @max:	  upper limit for the initrd memory allocation
+8c0a839c2bccb7 Heinrich Schuchardt 2020-06-16  490   *
+8c0a839c2bccb7 Heinrich Schuchardt 2020-06-16  491   * Return:
+8c0a839c2bccb7 Heinrich Schuchardt 2020-06-16  492   * * %EFI_SUCCESS if the initrd was loaded successfully, in which
+ec93fc371f014a Ard Biesheuvel      2020-02-03  493   *   case @load_addr and @load_size are assigned accordingly
+8c0a839c2bccb7 Heinrich Schuchardt 2020-06-16  494   * * %EFI_NOT_FOUND if no LoadFile2 protocol exists on the initrd device path
+8c0a839c2bccb7 Heinrich Schuchardt 2020-06-16  495   * * %EFI_OUT_OF_RESOURCES if memory allocation failed
+8c0a839c2bccb7 Heinrich Schuchardt 2020-06-16  496   * * %EFI_LOAD_ERROR in all other cases
+ec93fc371f014a Ard Biesheuvel      2020-02-03  497   */
+f61900fd0ebf6c Arvind Sankar       2020-04-30  498  static
+86237b46f2b202 Ard Biesheuvel      2023-03-10  499  efi_status_t efi_load_initrd_lf2(efi_handle_t image_handle,
+86237b46f2b202 Ard Biesheuvel      2023-03-10  500  				 struct linux_efi_initrd *initrd,
+ec93fc371f014a Ard Biesheuvel      2020-02-03  501  				 unsigned long max)
+ec93fc371f014a Ard Biesheuvel      2020-02-03  502  {
+ec93fc371f014a Ard Biesheuvel      2020-02-03  503  	efi_guid_t lf2_proto_guid = EFI_LOAD_FILE2_PROTOCOL_GUID;
+86237b46f2b202 Ard Biesheuvel      2023-03-10  504  	efi_guid_t initrd_lf2_proto_guid = LINUX_EFI_INITRD_LF2_PROTOCOL_GUID;
+ec93fc371f014a Ard Biesheuvel      2020-02-03  505  	efi_device_path_protocol_t *dp;
+ec93fc371f014a Ard Biesheuvel      2020-02-03  506  	efi_load_file2_protocol_t *lf2;
+ec93fc371f014a Ard Biesheuvel      2020-02-03  507  	efi_handle_t handle;
+ec93fc371f014a Ard Biesheuvel      2020-02-03  508  	efi_status_t status;
+ec93fc371f014a Ard Biesheuvel      2020-02-03  509  
+86237b46f2b202 Ard Biesheuvel      2023-03-10  510  	/* first look for a initrd loading protocol specific to this image */
+86237b46f2b202 Ard Biesheuvel      2023-03-10  511  	status = efi_bs_call(handle_protocol, image_handle, &initrd_lf2_proto_guid,
+86237b46f2b202 Ard Biesheuvel      2023-03-10  512  			     (void **)&lf2);
+86237b46f2b202 Ard Biesheuvel      2023-03-10  513  	if (status != EFI_SUCCESS) {
+86237b46f2b202 Ard Biesheuvel      2023-03-10  514  		/* look for the global singleton initrd loading protocol */
+ec93fc371f014a Ard Biesheuvel      2020-02-03  515  		dp = (efi_device_path_protocol_t *)&initrd_dev_path;
+86237b46f2b202 Ard Biesheuvel      2023-03-10  516  		status = efi_bs_call(locate_device_path, &lf2_proto_guid, &dp,
+86237b46f2b202 Ard Biesheuvel      2023-03-10  517  				     &handle);
+ec93fc371f014a Ard Biesheuvel      2020-02-03  518  		if (status != EFI_SUCCESS)
+ec93fc371f014a Ard Biesheuvel      2020-02-03  519  			return status;
+ec93fc371f014a Ard Biesheuvel      2020-02-03  520  
+ec93fc371f014a Ard Biesheuvel      2020-02-03  521  		status = efi_bs_call(handle_protocol, handle, &lf2_proto_guid,
+ec93fc371f014a Ard Biesheuvel      2020-02-03  522  				     (void **)&lf2);
+ec93fc371f014a Ard Biesheuvel      2020-02-03  523  		if (status != EFI_SUCCESS)
+ec93fc371f014a Ard Biesheuvel      2020-02-03  524  			return status;
+86237b46f2b202 Ard Biesheuvel      2023-03-10  525  	}
+ec93fc371f014a Ard Biesheuvel      2020-02-03  526  
+f4dc7fffa9873d Ard Biesheuvel      2022-09-16  527  	initrd->size = 0;
+f4dc7fffa9873d Ard Biesheuvel      2022-09-16 @528  	status = efi_call_proto(lf2, load_file, dp, false, &initrd->size, NULL);
+ec93fc371f014a Ard Biesheuvel      2020-02-03  529  	if (status != EFI_BUFFER_TOO_SMALL)
+ec93fc371f014a Ard Biesheuvel      2020-02-03  530  		return EFI_LOAD_ERROR;
+ec93fc371f014a Ard Biesheuvel      2020-02-03  531  
+f4dc7fffa9873d Ard Biesheuvel      2022-09-16  532  	status = efi_allocate_pages(initrd->size, &initrd->base, max);
+ec93fc371f014a Ard Biesheuvel      2020-02-03  533  	if (status != EFI_SUCCESS)
+ec93fc371f014a Ard Biesheuvel      2020-02-03  534  		return status;
+ec93fc371f014a Ard Biesheuvel      2020-02-03  535  
+f4dc7fffa9873d Ard Biesheuvel      2022-09-16  536  	status = efi_call_proto(lf2, load_file, dp, false, &initrd->size,
+f4dc7fffa9873d Ard Biesheuvel      2022-09-16  537  				(void *)initrd->base);
+ec93fc371f014a Ard Biesheuvel      2020-02-03  538  	if (status != EFI_SUCCESS) {
+f4dc7fffa9873d Ard Biesheuvel      2022-09-16  539  		efi_free(initrd->size, initrd->base);
+ec93fc371f014a Ard Biesheuvel      2020-02-03  540  		return EFI_LOAD_ERROR;
+ec93fc371f014a Ard Biesheuvel      2020-02-03  541  	}
+ec93fc371f014a Ard Biesheuvel      2020-02-03  542  	return EFI_SUCCESS;
+ec93fc371f014a Ard Biesheuvel      2020-02-03  543  }
+f61900fd0ebf6c Arvind Sankar       2020-04-30  544  
 
-491feafe7bd3d5 Darrick J. Wong 2023-03-06  155  
-920801eeb88261 Darrick J. Wong 2023-03-06  156  static inline xfs_failaddr_t
-920801eeb88261 Darrick J. Wong 2023-03-06  157  xfs_refcount_check_rtgroup_irec(
-920801eeb88261 Darrick J. Wong 2023-03-06  158  	struct xfs_rtgroup		*rtg,
-920801eeb88261 Darrick J. Wong 2023-03-06  159  	const struct xfs_refcount_irec	*irec)
-920801eeb88261 Darrick J. Wong 2023-03-06  160  {
-920801eeb88261 Darrick J. Wong 2023-03-06 @161  	if (irec->rc_blockcount == 0 || irec->rc_blockcount > XFS_REFC_LEN_MAX)
-920801eeb88261 Darrick J. Wong 2023-03-06  162  		return __this_address;
-920801eeb88261 Darrick J. Wong 2023-03-06  163  
-920801eeb88261 Darrick J. Wong 2023-03-06  164  	if (!xfs_refcount_check_domain(irec))
-920801eeb88261 Darrick J. Wong 2023-03-06  165  		return __this_address;
-920801eeb88261 Darrick J. Wong 2023-03-06  166  
-920801eeb88261 Darrick J. Wong 2023-03-06  167  	/* check for valid extent range, including overflow */
-920801eeb88261 Darrick J. Wong 2023-03-06  168  	if (!xfs_verify_rgbext(rtg, irec->rc_startblock, irec->rc_blockcount))
-920801eeb88261 Darrick J. Wong 2023-03-06  169  		return __this_address;
-920801eeb88261 Darrick J. Wong 2023-03-06  170  
-920801eeb88261 Darrick J. Wong 2023-03-06 @171  	if (irec->rc_refcount == 0 || irec->rc_refcount > XFS_REFC_REFCOUNT_MAX)
-920801eeb88261 Darrick J. Wong 2023-03-06  172  		return __this_address;
-920801eeb88261 Darrick J. Wong 2023-03-06  173  
-920801eeb88261 Darrick J. Wong 2023-03-06  174  	return NULL;
-920801eeb88261 Darrick J. Wong 2023-03-06  175  }
-920801eeb88261 Darrick J. Wong 2023-03-06  176  
+:::::: The code at line 528 was first introduced by commit
+:::::: f4dc7fffa9873db50ec25624572f8217a6225de8 efi: libstub: unify initrd loading between architectures
+
+:::::: TO: Ard Biesheuvel <ardb@kernel.org>
+:::::: CC: Ard Biesheuvel <ardb@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
