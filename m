@@ -1,42 +1,42 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E91B641
-	for <oe-kbuild@lists.linux.dev>; Fri, 17 Mar 2023 05:59:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B748265A
+	for <oe-kbuild@lists.linux.dev>; Fri, 17 Mar 2023 07:00:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679032749; x=1710568749;
+  t=1679036402; x=1710572402;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=k6RaQ8NkoKAtpjDKtpLF5Uxt2tkbMSdSGH3Yco61JWw=;
-  b=MvYIyd8ralDUboS/kOkIC+CIwNlEK9iI0eRlWZZYr9BWLhjwc988fbLt
-   9h2OrH6+h0tSn+Er2pROceG2DfKw0sVBMrYeODfnEOjj24rIRGxmsAOqx
-   JNt7vJr1QmmsZ+5rhP9MUJjBU5Op1lvIxK85p9EG8NIf+qKmSX3ffntfr
-   d2jZjgsqKbW5b1fBiQJA7g5iYmHAIP+ALmuaaF7RgkIoBC8yg3KgFMWYf
-   BPXll7/+/eXg0sb7GMVOKYDe3x8S+vmPrBqiLiu+UmuAGPA3TGziHhzoy
-   X9At54JCGkIPrtlKb5fQfl2XGV2/ykehPq4b+rCJwDOtjEEnOjFBlSKxu
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10651"; a="335680323"
+  bh=ef/PUcWGFqb3cHr/iX5C1Ri800Bzz2BSY7UJtv3pefo=;
+  b=Q3kkznRiweQN5jCSdle25Yecry97nsLhQSq7EWB/mD1wWkIoIJIRZThA
+   Bzp3pVPTayP+zpk8AHRpfoIomHWN/Sq/on6VjpUdYQsrMdA5kwUV0SJhs
+   JMDzBjV3IWyW8ASiEWWD5yeZhvJEOaLdwsWXv7OwDFcjy5bhvWIVDTIQ1
+   ms14fOVTlmwQudGJdZiKB1uCBoplCwmdvrZlfBSDwADNOXGfznG18C3Ka
+   Dw1Q58XR2ojEOP67ppvs1n0Xhv7Ma0E//lb7UINfipHOcz4NORLLr5ErR
+   HjR4AGmholyaH1ggkfLbriSsXbLzwwVm6vxrO0svRX43KwTYmFabcjb8k
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10651"; a="318592989"
 X-IronPort-AV: E=Sophos;i="5.98,268,1673942400"; 
-   d="scan'208";a="335680323"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2023 22:59:00 -0700
+   d="scan'208";a="318592989"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2023 00:00:01 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10651"; a="769241049"
+X-IronPort-AV: E=McAfee;i="6600,9927,10651"; a="657456572"
 X-IronPort-AV: E=Sophos;i="5.98,268,1673942400"; 
-   d="scan'208";a="769241049"
+   d="scan'208";a="657456572"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 16 Mar 2023 22:58:59 -0700
+  by orsmga006.jf.intel.com with ESMTP; 17 Mar 2023 00:00:00 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pd37C-000998-1u;
-	Fri, 17 Mar 2023 05:58:58 +0000
-Date: Fri, 17 Mar 2023 13:58:23 +0800
+	id 1pd44F-0009AE-1c;
+	Fri, 17 Mar 2023 06:59:59 +0000
+Date: Fri, 17 Mar 2023 14:59:42 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: drivers/clk/mediatek/clk-mtk.c:573:24: warning: Branch condition
- evaluates to a garbage value [clang-analyzer-core.uninitialized.Branch]
-Message-ID: <202303171310.O6nQiso3-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [tytso-ext4:dev 16/43] fs/ext4/balloc.c:153
+ ext4_num_overhead_clusters() error: uninitialized symbol 'block_cluster'.
+Message-ID: <202303171446.eLEhZzAu-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -46,363 +46,111 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "low confidence static check warning: drivers/clk/mediatek/clk-mtk.c:573:24: warning: Branch condition evaluates to a garbage value [clang-analyzer-core.uninitialized.Branch]"
-:::::: 
-
 BCC: lkp@intel.com
-CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-CC: Stephen Boyd <sboyd@kernel.org>
-CC: Miles Chen <miles.chen@mediatek.com>
-CC: "Chen-Yu Tsai" <wenst@chromium.org>
+CC: linux-ext4@vger.kernel.org
+TO: Kemeng Shi <shikemeng@huaweicloud.com>
+CC: "Theodore Ts'o" <tytso@mit.edu>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   38e04b3e4240a6d8fb43129ebad41608db64bc6f
-commit: 7b6183108c8ccf0dc295f39cdf78bd8078455636 clk: mediatek: clk-mtk: Extend mtk_clk_simple_probe()
-date:   6 weeks ago
-:::::: branch date: 8 hours ago
-:::::: commit date: 6 weeks ago
-config: arm-randconfig-c002-20230310 (https://download.01.org/0day-ci/archive/20230317/202303171310.O6nQiso3-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=7b6183108c8ccf0dc295f39cdf78bd8078455636
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 7b6183108c8ccf0dc295f39cdf78bd8078455636
-        # save the config file
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=arm clang-analyzer  olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=arm clang-analyzer 
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tytso/ext4.git dev
+head:   da8c7d2105be0c0028cfad712da9e17adf9a26eb
+commit: e3c70113e2cbeb3dadb3768964920337eff290f6 [16/43] ext4: improve inode table blocks counting in ext4_num_overhead_clusters
+:::::: branch date: 10 hours ago
+:::::: commit date: 2 days ago
+config: ia64-randconfig-m031-20230312 (https://download.01.org/0day-ci/archive/20230317/202303171446.eLEhZzAu-lkp@intel.com/config)
+compiler: ia64-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/r/202303171310.O6nQiso3-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Link: https://lore.kernel.org/r/202303171446.eLEhZzAu-lkp@intel.com/
 
-clang_analyzer warnings: (new ones prefixed by >>)
-   # define __cond_lock(x,c) (c)
-                              ^
-   kernel/ucount.c:207:2: note: Taking true branch
-           if (atomic_dec_and_lock_irqsave(&ucounts->count, &ucounts_lock, flags)) {
-           ^
-   kernel/ucount.c:208:18: note: Passing null pointer value via 1st parameter 'n'
-                   hlist_del_init(&ucounts->node);
-                                  ^~~~~~~~~~~~~~
-   kernel/ucount.c:208:3: note: Calling 'hlist_del_init'
-                   hlist_del_init(&ucounts->node);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/list.h:911:22: note: Passing null pointer value via 1st parameter 'h'
-           if (!hlist_unhashed(n)) {
-                               ^
-   include/linux/list.h:911:7: note: Calling 'hlist_unhashed'
-           if (!hlist_unhashed(n)) {
-                ^~~~~~~~~~~~~~~~~
-   include/linux/list.h:854:10: note: Access to field 'pprev' results in a dereference of a null pointer (loaded from variable 'h')
-           return !h->pprev;
-                   ^
-   kernel/ucount.c:338:2: warning: Use of memory after it is freed [clang-analyzer-unix.Malloc]
-           do_dec_rlimit_put_ucounts(ucounts, iter, type);
-           ^                         ~~~~~~~
-   kernel/ucount.c:317:2: note: Loop condition is true.  Entering loop body
-           for (iter = ucounts; iter; iter = iter->ns->ucounts) {
-           ^
-   kernel/ucount.c:319:7: note: Assuming 'new' is >= 0
-                   if (new < 0 || new > max)
-                       ^~~~~~~
-   kernel/ucount.c:319:7: note: Left side of '||' is false
-   kernel/ucount.c:319:18: note: 'new' is <= 'max'
-                   if (new < 0 || new > max)
-                                  ^~~
-   kernel/ucount.c:319:3: note: Taking false branch
-                   if (new < 0 || new > max)
-                   ^
-   kernel/ucount.c:321:7: note: 'iter' is equal to 'ucounts'
-                   if (iter == ucounts)
-                       ^~~~
-   kernel/ucount.c:321:3: note: Taking true branch
-                   if (iter == ucounts)
-                   ^
-   kernel/ucount.c:328:7: note: Assuming 'new' is equal to 1
-                   if (new != 1)
-                       ^~~~~~~~
-   kernel/ucount.c:328:3: note: Taking false branch
-                   if (new != 1)
-                   ^
-   kernel/ucount.c:330:8: note: Calling 'get_ucounts'
-                   if (!get_ucounts(iter))
-                        ^~~~~~~~~~~~~~~~~
-   kernel/ucount.c:157:2: note: Taking true branch
-           if (!get_ucounts_or_wrap(ucounts)) {
-           ^
-   kernel/ucount.c:158:3: note: Calling 'put_ucounts'
-                   put_ucounts(ucounts);
-                   ^~~~~~~~~~~~~~~~~~~~
-   kernel/ucount.c:207:6: note: Assuming the condition is true
-           if (atomic_dec_and_lock_irqsave(&ucounts->count, &ucounts_lock, flags)) {
-               ^
-   include/linux/spinlock.h:477:21: note: expanded from macro 'atomic_dec_and_lock_irqsave'
-                   __cond_lock(lock, _atomic_dec_and_lock_irqsave(atomic, lock, &(flags)))
-                   ~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:63:28: note: expanded from macro '__cond_lock'
-   # define __cond_lock(x,c) (c)
-                              ^
-   kernel/ucount.c:207:2: note: Taking true branch
-           if (atomic_dec_and_lock_irqsave(&ucounts->count, &ucounts_lock, flags)) {
-           ^
-   kernel/ucount.c:211:3: note: Memory is released
-                   kfree(ucounts);
-                   ^~~~~~~~~~~~~~
-   kernel/ucount.c:158:3: note: Returning; memory was released via 1st parameter
-                   put_ucounts(ucounts);
-                   ^~~~~~~~~~~~~~~~~~~~
-   kernel/ucount.c:330:8: note: Returning; memory was released via 1st parameter
-                   if (!get_ucounts(iter))
-                        ^~~~~~~~~~~~~~~~~
-   kernel/ucount.c:330:3: note: Taking true branch
-                   if (!get_ucounts(iter))
-                   ^
-   kernel/ucount.c:331:4: note: Control jumps to line 335
-                           goto dec_unwind;
-                           ^
-   kernel/ucount.c:336:15: note: Assuming 'dec' is >= 0
-           WARN_ON_ONCE(dec < 0);
-                        ^
-   include/asm-generic/bug.h:180:41: note: expanded from macro 'WARN_ON_ONCE'
-   #define WARN_ON_ONCE(condition) WARN_ON(condition)
-                                           ^~~~~~~~~
-   include/asm-generic/bug.h:167:25: note: expanded from macro 'WARN_ON'
-           int __ret_warn_on = !!(condition);                              \
-                                  ^~~~~~~~~
-   kernel/ucount.c:338:2: note: Use of memory after it is freed
-           do_dec_rlimit_put_ucounts(ucounts, iter, type);
-           ^                         ~~~~~~~
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   1 warning generated.
->> drivers/clk/mediatek/clk-mtk.c:573:24: warning: Branch condition evaluates to a garbage value [clang-analyzer-core.uninitialized.Branch]
-           if (mcd->shared_io && base)
-                                 ^~~~
-   drivers/clk/mediatek/clk-mtk.c:471:2: note: 'base' declared without an initial value
-           void __iomem *base;
-           ^~~~~~~~~~~~~~~~~~
-   drivers/clk/mediatek/clk-mtk.c:475:6: note: Assuming 'mcd' is non-null
-           if (!mcd)
-               ^~~~
-   drivers/clk/mediatek/clk-mtk.c:475:2: note: Taking false branch
-           if (!mcd)
-           ^
-   drivers/clk/mediatek/clk-mtk.c:479:6: note: Assuming field 'composite_clks' is null
-           if (mcd->composite_clks) {
-               ^~~~~~~~~~~~~~~~~~~
-   drivers/clk/mediatek/clk-mtk.c:479:2: note: Taking false branch
-           if (mcd->composite_clks) {
-           ^
-   drivers/clk/mediatek/clk-mtk.c:494:13: note: Calling 'mtk_alloc_clk_data'
-           clk_data = mtk_alloc_clk_data(num_clks);
-                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/clk/mediatek/clk-mtk.c:70:13: note: Calling 'kzalloc'
-           clk_data = kzalloc(struct_size(clk_data, hws, clk_num), GFP_KERNEL);
-                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/slab.h:720:9: note: Calling 'kmalloc'
-           return kmalloc(size, flags | __GFP_ZERO);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/slab.h:573:33: note: Left side of '&&' is false
-           if (__builtin_constant_p(size) && size) {
-                                          ^
-   include/linux/slab.h:584:2: note: Returning pointer, which participates in a condition later
-           return __kmalloc(size, flags);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/slab.h:720:9: note: Returning from 'kmalloc'
-           return kmalloc(size, flags | __GFP_ZERO);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/slab.h:720:2: note: Returning pointer, which participates in a condition later
-           return kmalloc(size, flags | __GFP_ZERO);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/clk/mediatek/clk-mtk.c:70:13: note: Returning from 'kzalloc'
-           clk_data = kzalloc(struct_size(clk_data, hws, clk_num), GFP_KERNEL);
-                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/clk/mediatek/clk-mtk.c:71:6: note: Assuming 'clk_data' is non-null, which participates in a condition later
-           if (!clk_data)
-               ^~~~~~~~~
-   drivers/clk/mediatek/clk-mtk.c:71:2: note: Taking false branch
-           if (!clk_data)
-           ^
-   drivers/clk/mediatek/clk-mtk.c:76:2: note: Returning pointer (loaded from 'clk_data'), which participates in a condition later
-           return clk_data;
-           ^~~~~~~~~~~~~~~
-   drivers/clk/mediatek/clk-mtk.c:494:13: note: Returning from 'mtk_alloc_clk_data'
-           clk_data = mtk_alloc_clk_data(num_clks);
-                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/clk/mediatek/clk-mtk.c:495:7: note: 'clk_data' is non-null
-           if (!clk_data)
-                ^~~~~~~~
-   drivers/clk/mediatek/clk-mtk.c:495:2: note: Taking false branch
-           if (!clk_data)
-           ^
-   drivers/clk/mediatek/clk-mtk.c:498:6: note: Assuming field 'fixed_clks' is non-null
-           if (mcd->fixed_clks) {
-               ^~~~~~~~~~~~~~~
-   drivers/clk/mediatek/clk-mtk.c:498:2: note: Taking true branch
-           if (mcd->fixed_clks) {
-           ^
-   drivers/clk/mediatek/clk-mtk.c:501:7: note: Assuming 'r' is not equal to 0
-                   if (r)
-                       ^
-   drivers/clk/mediatek/clk-mtk.c:501:3: note: Taking true branch
-                   if (r)
-                   ^
-   drivers/clk/mediatek/clk-mtk.c:502:4: note: Control jumps to line 572
-                           goto free_data;
-                           ^
-   drivers/clk/mediatek/clk-mtk.c:573:6: note: Assuming field 'shared_io' is true
-           if (mcd->shared_io && base)
-               ^~~~~~~~~~~~~~
-   drivers/clk/mediatek/clk-mtk.c:573:6: note: Left side of '&&' is true
-   drivers/clk/mediatek/clk-mtk.c:573:24: note: Branch condition evaluates to a garbage value
-           if (mcd->shared_io && base)
-                                 ^~~~
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   kernel/bpf/lpm_trie.c:705:24: warning: Access to field 'prefixlen' results in a dereference of a null pointer (loaded from variable 'next_node') [clang-analyzer-core.NullDereference]
-           next_key->prefixlen = next_node->prefixlen;
-                                 ^~~~~~~~~
-   kernel/bpf/lpm_trie.c:617:31: note: 'next_node' initialized to a null pointer value
-           struct lpm_trie_node *node, *next_node = NULL, *parent, *search_root;
-                                        ^~~~~~~~~
-   kernel/bpf/lpm_trie.c:637:16: note: Left side of '||' is false
-           search_root = rcu_dereference(trie->root);
-                         ^
-   include/linux/rcupdate.h:673:28: note: expanded from macro 'rcu_dereference'
-   #define rcu_dereference(p) rcu_dereference_check(p, 0)
-                              ^
-   include/linux/rcupdate.h:601:2: note: expanded from macro 'rcu_dereference_check'
-           __rcu_dereference_check((p), __UNIQUE_ID(rcu), \
-           ^
+smatch warnings:
+fs/ext4/balloc.c:153 ext4_num_overhead_clusters() error: uninitialized symbol 'block_cluster'.
 
-vim +573 drivers/clk/mediatek/clk-mtk.c
+vim +/block_cluster +153 fs/ext4/balloc.c
 
-b87385eb5a8ed2 Chen-Yu Tsai               2022-02-08  465  
-c58cd0e40ffac6 Chun-Jie Chen              2021-07-26  466  int mtk_clk_simple_probe(struct platform_device *pdev)
-c58cd0e40ffac6 Chun-Jie Chen              2021-07-26  467  {
-c58cd0e40ffac6 Chun-Jie Chen              2021-07-26  468  	const struct mtk_clk_desc *mcd;
-609cc5e1a82394 Chen-Yu Tsai               2022-05-19  469  	struct clk_hw_onecell_data *clk_data;
-c58cd0e40ffac6 Chun-Jie Chen              2021-07-26  470  	struct device_node *node = pdev->dev.of_node;
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  471  	void __iomem *base;
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  472  	int num_clks, r;
-c58cd0e40ffac6 Chun-Jie Chen              2021-07-26  473  
-c58cd0e40ffac6 Chun-Jie Chen              2021-07-26  474  	mcd = of_device_get_match_data(&pdev->dev);
-c58cd0e40ffac6 Chun-Jie Chen              2021-07-26  475  	if (!mcd)
-c58cd0e40ffac6 Chun-Jie Chen              2021-07-26  476  		return -EINVAL;
-c58cd0e40ffac6 Chun-Jie Chen              2021-07-26  477  
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  478  	/* Composite clocks needs us to pass iomem pointer */
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  479  	if (mcd->composite_clks) {
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  480  		if (!mcd->shared_io)
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  481  			base = devm_platform_ioremap_resource(pdev, 0);
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  482  		else
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  483  			base = of_iomap(node, 0);
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  484  
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  485  		if (IS_ERR_OR_NULL(base))
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  486  			return IS_ERR(base) ? PTR_ERR(base) : -ENOMEM;
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  487  	}
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  488  
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  489  	/* Calculate how many clk_hw_onecell_data entries to allocate */
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  490  	num_clks = mcd->num_clks + mcd->num_composite_clks;
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  491  	num_clks += mcd->num_fixed_clks + mcd->num_factor_clks;
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  492  	num_clks += mcd->num_mux_clks;
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  493  
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  494  	clk_data = mtk_alloc_clk_data(num_clks);
-c58cd0e40ffac6 Chun-Jie Chen              2021-07-26  495  	if (!clk_data)
-c58cd0e40ffac6 Chun-Jie Chen              2021-07-26  496  		return -ENOMEM;
-c58cd0e40ffac6 Chun-Jie Chen              2021-07-26  497  
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  498  	if (mcd->fixed_clks) {
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  499  		r = mtk_clk_register_fixed_clks(mcd->fixed_clks,
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  500  						mcd->num_fixed_clks, clk_data);
-c58cd0e40ffac6 Chun-Jie Chen              2021-07-26  501  		if (r)
-6203815bf97eea Chun-Jie Chen              2021-09-14  502  			goto free_data;
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  503  	}
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  504  
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  505  	if (mcd->factor_clks) {
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  506  		r = mtk_clk_register_factors(mcd->factor_clks,
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  507  					     mcd->num_factor_clks, clk_data);
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  508  		if (r)
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  509  			goto unregister_fixed_clks;
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  510  	}
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  511  
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  512  	if (mcd->mux_clks) {
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  513  		r = mtk_clk_register_muxes(&pdev->dev, mcd->mux_clks,
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  514  					   mcd->num_mux_clks, node,
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  515  					   mcd->clk_lock, clk_data);
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  516  		if (r)
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  517  			goto unregister_factors;
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  518  	};
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  519  
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  520  	if (mcd->composite_clks) {
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  521  		/* We don't check composite_lock because it's optional */
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  522  		r = mtk_clk_register_composites(&pdev->dev,
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  523  						mcd->composite_clks,
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  524  						mcd->num_composite_clks,
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  525  						base, mcd->clk_lock, clk_data);
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  526  		if (r)
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  527  			goto unregister_muxes;
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  528  	}
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  529  
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  530  	if (mcd->clks) {
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  531  		r = mtk_clk_register_gates(&pdev->dev, node, mcd->clks,
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  532  					   mcd->num_clks, clk_data);
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  533  		if (r)
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  534  			goto unregister_composites;
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  535  	}
-6203815bf97eea Chun-Jie Chen              2021-09-14  536  
-609cc5e1a82394 Chen-Yu Tsai               2022-05-19  537  	r = of_clk_add_hw_provider(node, of_clk_hw_onecell_get, clk_data);
-6203815bf97eea Chun-Jie Chen              2021-09-14  538  	if (r)
-2d18b7e31aa804 Chen-Yu Tsai               2022-02-08  539  		goto unregister_clks;
-6203815bf97eea Chun-Jie Chen              2021-09-14  540  
-2204d96b191912 Chen-Yu Tsai               2022-02-08  541  	platform_set_drvdata(pdev, clk_data);
-2204d96b191912 Chen-Yu Tsai               2022-02-08  542  
-b27a604a579310 Rex-BC Chen                2022-05-23  543  	if (mcd->rst_desc) {
-b27a604a579310 Rex-BC Chen                2022-05-23  544  		r = mtk_register_reset_controller_with_dev(&pdev->dev,
-b27a604a579310 Rex-BC Chen                2022-05-23  545  							   mcd->rst_desc);
-b27a604a579310 Rex-BC Chen                2022-05-23  546  		if (r)
-b27a604a579310 Rex-BC Chen                2022-05-23  547  			goto unregister_clks;
-b27a604a579310 Rex-BC Chen                2022-05-23  548  	}
-b27a604a579310 Rex-BC Chen                2022-05-23  549  
-c58cd0e40ffac6 Chun-Jie Chen              2021-07-26  550  	return r;
-c58cd0e40ffac6 Chun-Jie Chen              2021-07-26  551  
-2d18b7e31aa804 Chen-Yu Tsai               2022-02-08  552  unregister_clks:
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  553  	if (mcd->clks)
-2d18b7e31aa804 Chen-Yu Tsai               2022-02-08  554  		mtk_clk_unregister_gates(mcd->clks, mcd->num_clks, clk_data);
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  555  unregister_composites:
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  556  	if (mcd->composite_clks)
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  557  		mtk_clk_unregister_composites(mcd->composite_clks,
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  558  					      mcd->num_composite_clks, clk_data);
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  559  unregister_muxes:
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  560  	if (mcd->mux_clks)
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  561  		mtk_clk_unregister_muxes(mcd->mux_clks,
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  562  					 mcd->num_mux_clks, clk_data);
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  563  unregister_factors:
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  564  	if (mcd->factor_clks)
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  565  		mtk_clk_unregister_factors(mcd->factor_clks,
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  566  					   mcd->num_factor_clks, clk_data);
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  567  unregister_fixed_clks:
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  568  	if (mcd->fixed_clks)
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  569  		mtk_clk_unregister_fixed_clks(mcd->fixed_clks,
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  570  					      mcd->num_fixed_clks, clk_data);
-6203815bf97eea Chun-Jie Chen              2021-09-14  571  free_data:
-6203815bf97eea Chun-Jie Chen              2021-09-14  572  	mtk_free_clk_data(clk_data);
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20 @573  	if (mcd->shared_io && base)
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  574  		iounmap(base);
-6203815bf97eea Chun-Jie Chen              2021-09-14  575  	return r;
-c58cd0e40ffac6 Chun-Jie Chen              2021-07-26  576  }
-7cbe5cb291fa3c AngeloGioacchino Del Regno 2022-09-21  577  EXPORT_SYMBOL_GPL(mtk_clk_simple_probe);
-32b028fb1d09a0 Miles Chen                 2021-09-02  578  
+0bf7e8379ce7e01 Jose R. Santos    2008-06-03   82  
+e3c70113e2cbeb3 Kemeng Shi        2023-02-21   83  /*
+e3c70113e2cbeb3 Kemeng Shi        2023-02-21   84   * Return the number of clusters used for file system metadata; this
+d5b8f31007a9377 Theodore Ts'o     2011-09-09   85   * represents the overhead needed by the file system.
+d5b8f31007a9377 Theodore Ts'o     2011-09-09   86   */
+c197855ea14175a Stephen Hemminger 2014-05-12   87  static unsigned ext4_num_overhead_clusters(struct super_block *sb,
+e187c6588d6ef31 Theodore Ts'o     2009-02-06   88  					   ext4_group_t block_group,
+e187c6588d6ef31 Theodore Ts'o     2009-02-06   89  					   struct ext4_group_desc *gdp)
+0bf7e8379ce7e01 Jose R. Santos    2008-06-03   90  {
+e3c70113e2cbeb3 Kemeng Shi        2023-02-21   91  	unsigned base_clusters, num_clusters;
+e3c70113e2cbeb3 Kemeng Shi        2023-02-21   92  	int block_cluster, inode_cluster;
+e3c70113e2cbeb3 Kemeng Shi        2023-02-21   93  	int itbl_cluster_start = -1, itbl_cluster_end = -1;
+d5b8f31007a9377 Theodore Ts'o     2011-09-09   94  	ext4_fsblk_t start = ext4_group_first_block_no(sb, block_group);
+e3c70113e2cbeb3 Kemeng Shi        2023-02-21   95  	ext4_fsblk_t end = start + EXT4_BLOCKS_PER_GROUP(sb) - 1;
+e3c70113e2cbeb3 Kemeng Shi        2023-02-21   96  	ext4_fsblk_t itbl_blk_start, itbl_blk_end;
+0bf7e8379ce7e01 Jose R. Santos    2008-06-03   97  	struct ext4_sb_info *sbi = EXT4_SB(sb);
+0bf7e8379ce7e01 Jose R. Santos    2008-06-03   98  
+d5b8f31007a9377 Theodore Ts'o     2011-09-09   99  	/* This is the number of clusters used by the superblock,
+d5b8f31007a9377 Theodore Ts'o     2011-09-09  100  	 * block group descriptors, and reserved block group
+d5b8f31007a9377 Theodore Ts'o     2011-09-09  101  	 * descriptor blocks */
+e3c70113e2cbeb3 Kemeng Shi        2023-02-21  102  	base_clusters = ext4_num_base_meta_clusters(sb, block_group);
+e3c70113e2cbeb3 Kemeng Shi        2023-02-21  103  	num_clusters = base_clusters;
+e3c70113e2cbeb3 Kemeng Shi        2023-02-21  104  
+e3c70113e2cbeb3 Kemeng Shi        2023-02-21  105  	/*
+e3c70113e2cbeb3 Kemeng Shi        2023-02-21  106  	 * Account and record inode table clusters if any cluster
+e3c70113e2cbeb3 Kemeng Shi        2023-02-21  107  	 * is in the block group, or inode table cluster range is
+e3c70113e2cbeb3 Kemeng Shi        2023-02-21  108  	 * [-1, -1] and won't overlap with block/inode bitmap cluster
+e3c70113e2cbeb3 Kemeng Shi        2023-02-21  109  	 * accounted below.
+e3c70113e2cbeb3 Kemeng Shi        2023-02-21  110  	 */
+e3c70113e2cbeb3 Kemeng Shi        2023-02-21  111  	itbl_blk_start = ext4_inode_table(sb, gdp);
+e3c70113e2cbeb3 Kemeng Shi        2023-02-21  112  	itbl_blk_end = itbl_blk_start + sbi->s_itb_per_group - 1;
+e3c70113e2cbeb3 Kemeng Shi        2023-02-21  113  	if (itbl_blk_start <= end && itbl_blk_end >= start) {
+e3c70113e2cbeb3 Kemeng Shi        2023-02-21  114  		itbl_blk_start = itbl_blk_start >= start ?
+e3c70113e2cbeb3 Kemeng Shi        2023-02-21  115  			itbl_blk_start : start;
+e3c70113e2cbeb3 Kemeng Shi        2023-02-21  116  		itbl_blk_end = itbl_blk_end <= end ?
+e3c70113e2cbeb3 Kemeng Shi        2023-02-21  117  			itbl_blk_end : end;
+e3c70113e2cbeb3 Kemeng Shi        2023-02-21  118  
+e3c70113e2cbeb3 Kemeng Shi        2023-02-21  119  		itbl_cluster_start = EXT4_B2C(sbi, itbl_blk_start - start);
+e3c70113e2cbeb3 Kemeng Shi        2023-02-21  120  		itbl_cluster_end = EXT4_B2C(sbi, itbl_blk_end - start);
+e3c70113e2cbeb3 Kemeng Shi        2023-02-21  121  
+e3c70113e2cbeb3 Kemeng Shi        2023-02-21  122  		num_clusters += itbl_cluster_end - itbl_cluster_start + 1;
+e3c70113e2cbeb3 Kemeng Shi        2023-02-21  123  		/* check if border cluster is overlapped */
+e3c70113e2cbeb3 Kemeng Shi        2023-02-21  124  		if (itbl_cluster_start == base_clusters - 1)
+e3c70113e2cbeb3 Kemeng Shi        2023-02-21  125  			num_clusters--;
+e3c70113e2cbeb3 Kemeng Shi        2023-02-21  126  	}
+0bf7e8379ce7e01 Jose R. Santos    2008-06-03  127  
+d5b8f31007a9377 Theodore Ts'o     2011-09-09  128  	/*
+e3c70113e2cbeb3 Kemeng Shi        2023-02-21  129  	 * For the allocation bitmaps, we first need to check to see
+e3c70113e2cbeb3 Kemeng Shi        2023-02-21  130  	 * if the block is in the block group.  If it is, then check
+e3c70113e2cbeb3 Kemeng Shi        2023-02-21  131  	 * to see if the cluster is already accounted for in the clusters
+e3c70113e2cbeb3 Kemeng Shi        2023-02-21  132  	 * used for the base metadata cluster and inode tables cluster.
+d5b8f31007a9377 Theodore Ts'o     2011-09-09  133  	 * Normally all of these blocks are contiguous, so the special
+d5b8f31007a9377 Theodore Ts'o     2011-09-09  134  	 * case handling shouldn't be necessary except for *very*
+d5b8f31007a9377 Theodore Ts'o     2011-09-09  135  	 * unusual file system layouts.
+d5b8f31007a9377 Theodore Ts'o     2011-09-09  136  	 */
+d5b8f31007a9377 Theodore Ts'o     2011-09-09  137  	if (ext4_block_in_group(sb, ext4_block_bitmap(sb, gdp), block_group)) {
+b0dd6b70f0fda17 Theodore Ts'o     2012-06-07  138  		block_cluster = EXT4_B2C(sbi,
+b0dd6b70f0fda17 Theodore Ts'o     2012-06-07  139  					 ext4_block_bitmap(sb, gdp) - start);
+e3c70113e2cbeb3 Kemeng Shi        2023-02-21  140  		if (block_cluster >= base_clusters &&
+e3c70113e2cbeb3 Kemeng Shi        2023-02-21  141  		    (block_cluster < itbl_cluster_start ||
+e3c70113e2cbeb3 Kemeng Shi        2023-02-21  142  		    block_cluster > itbl_cluster_end))
+d5b8f31007a9377 Theodore Ts'o     2011-09-09  143  			num_clusters++;
+d5b8f31007a9377 Theodore Ts'o     2011-09-09  144  	}
+d5b8f31007a9377 Theodore Ts'o     2011-09-09  145  
+d5b8f31007a9377 Theodore Ts'o     2011-09-09  146  	if (ext4_block_in_group(sb, ext4_inode_bitmap(sb, gdp), block_group)) {
+d5b8f31007a9377 Theodore Ts'o     2011-09-09  147  		inode_cluster = EXT4_B2C(sbi,
+b0dd6b70f0fda17 Theodore Ts'o     2012-06-07  148  					 ext4_inode_bitmap(sb, gdp) - start);
+e3c70113e2cbeb3 Kemeng Shi        2023-02-21  149  		/*
+e3c70113e2cbeb3 Kemeng Shi        2023-02-21  150  		 * Additional check if inode bitmap is in just accounted
+e3c70113e2cbeb3 Kemeng Shi        2023-02-21  151  		 * block_cluster
+e3c70113e2cbeb3 Kemeng Shi        2023-02-21  152  		 */
+e3c70113e2cbeb3 Kemeng Shi        2023-02-21 @153  		if (inode_cluster != block_cluster &&
+e3c70113e2cbeb3 Kemeng Shi        2023-02-21  154  		    inode_cluster >= base_clusters &&
+e3c70113e2cbeb3 Kemeng Shi        2023-02-21  155  		    (inode_cluster < itbl_cluster_start ||
+e3c70113e2cbeb3 Kemeng Shi        2023-02-21  156  		    inode_cluster > itbl_cluster_end))
+d5b8f31007a9377 Theodore Ts'o     2011-09-09  157  			num_clusters++;
+0bf7e8379ce7e01 Jose R. Santos    2008-06-03  158  	}
+d5b8f31007a9377 Theodore Ts'o     2011-09-09  159  
+d5b8f31007a9377 Theodore Ts'o     2011-09-09  160  	return num_clusters;
+0bf7e8379ce7e01 Jose R. Santos    2008-06-03  161  }
+c2ea3fde61f1df1 Theodore Ts'o     2008-10-10  162  
 
 -- 
 0-DAY CI Kernel Test Service
