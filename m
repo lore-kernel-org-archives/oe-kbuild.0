@@ -1,43 +1,42 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E617F7F1
-	for <oe-kbuild@lists.linux.dev>; Fri, 17 Mar 2023 08:02:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 322AD1FBD
+	for <oe-kbuild@lists.linux.dev>; Fri, 17 Mar 2023 09:37:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679040132; x=1710576132;
+  t=1679045826; x=1710581826;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=R7aBSnIJcaRAuBG54vmR7YqoXX7iZqANwYgJpm3mC7M=;
-  b=QwYIG49peV0IVlu2yiOj5CtLux0ns+7lmwvoZyAkacUvheZTKGAyTDfx
-   nqBjN5aElRXwSqirmjgU4mto1OfT54RslHE0ftZ/ZM7cTvz2zS51eNHiO
-   /RPTeVeyvj69fo3Y8hE1ZxYsHS73TPEAjochRqr3MIzUGoy7vRqY4v+A1
-   8US7mJCGukzBZdPVFhMtn0DLu47VK+UyBHyPUQ49NJz68i+kDmx7Y4w6W
-   ad8UmxqVW0jTmvH7FBY83lmMgYeDgLb9+ta0ZLNLhGAmkxHTEhQbrvPdH
-   dhQqcmSKVxYiGpcuwAbjciAoqKHpNBW26c+utaGIXw9JnLAU83jDSVC/m
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10651"; a="424478114"
+  bh=J4xlK8t08GXhkAl29OFDHCs9Wqq/BJ2yNPjQdnPNy3A=;
+  b=bdHyUbHk//4qh1aGJ3oBvf7YFtdkFYc4f1qWMbA2GoZjVVE7OwWnr3ym
+   ftBkiRSRNJa7bQvR4znsZJi9kWjVHFiRGEwkHkfims/PQ6AMU6dz2+IeF
+   FrIZZbKQL9wOQTU8T0lKwcIN3m7J0mvb6XCDQBGXuaoRKgJ8DSDqJTF3d
+   faO7eJtX2cTbRuIEpJn2A0QtZC1djeGJE62fRpfDsz+PhxGLMicBwcTFQ
+   4JyVWH9MIeUgVBK0VJ9Cpb/L1KAVpc1bp8vztJOaLmOSuSm/H+bNdNcAF
+   nRG1IXvjCdgdml+PyVWDmG896SyXhedEDm+24xeMKYFJ8GEnVLsWM6C9Q
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10651"; a="340586772"
 X-IronPort-AV: E=Sophos;i="5.98,268,1673942400"; 
-   d="scan'208";a="424478114"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2023 01:02:03 -0700
+   d="scan'208";a="340586772"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2023 02:37:05 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10651"; a="854358377"
+X-IronPort-AV: E=McAfee;i="6600,9927,10651"; a="673497716"
 X-IronPort-AV: E=Sophos;i="5.98,268,1673942400"; 
-   d="scan'208";a="854358377"
+   d="scan'208";a="673497716"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 17 Mar 2023 01:02:02 -0700
+  by orsmga007.jf.intel.com with ESMTP; 17 Mar 2023 02:37:03 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pd52H-0009D8-0W;
-	Fri, 17 Mar 2023 08:02:01 +0000
-Date: Fri, 17 Mar 2023 16:01:23 +0800
+	id 1pd6WF-0009GU-0Z;
+	Fri, 17 Mar 2023 09:37:03 +0000
+Date: Fri, 17 Mar 2023 17:36:12 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [linux-next:master 2400/3406] crypto/rng.c:206:27: warning: Value
- stored to 'istat' during its initialization is never read
- [clang-analyzer-deadcode.DeadStores]
-Message-ID: <202303171604.IC5KepFy-lkp@intel.com>
+Subject: Re: [PATCH v4] notifiers: Add tracepoints to the notifiers
+ infrastructure
+Message-ID: <202303171713.fai0WuRp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -48,232 +47,187 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "low confidence static check warning: crypto/rng.c:206:27: warning: Value stored to 'istat' during its initialization is never read [clang-analyzer-deadcode.DeadStores]"
+:::::: Manual check reason: "low confidence static check warning: include/trace/events/notifiers.h:33:1: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]"
 :::::: 
 
 BCC: lkp@intel.com
 CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Herbert Xu <herbert@gondor.apana.org.au>
+In-Reply-To: <20230314200058.1326909-1-gpiccoli@igalia.com>
+References: <20230314200058.1326909-1-gpiccoli@igalia.com>
+TO: "Guilherme G. Piccoli" <gpiccoli@igalia.com>
+TO: akpm@linux-foundation.org
+TO: linux-kernel@vger.kernel.org
+CC: kexec@lists.infradead.org
+CC: bhe@redhat.com
+CC: pmladek@suse.com
+CC: xiyou.wangcong@gmail.com
+CC: dmitry.osipenko@collabora.com
+CC: rafael.j.wysocki@intel.com
+CC: bigeasy@linutronix.de
+CC: valentin.schneider@arm.com
+CC: kernel-dev@igalia.com
+CC: kernel@gpiccoli.net
+CC: "Guilherme G. Piccoli" <gpiccoli@igalia.com>
+CC: Arjan van de Ven <arjan@linux.intel.com>
+CC: Michael Kelley <mikelley@microsoft.com>
+CC: Steven Rostedt <rostedt@goodmis.org>
+CC: Xiaoming Ni <nixiaoming@huawei.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   6f08c1de13a9403341c18b66638a05588b2663ce
-commit: ecf24a1070b3259a81feabe5d5b18153921c0a10 [2400/3406] crypto: rng - Count error stats differently
-:::::: branch date: 5 hours ago
-:::::: commit date: 7 days ago
-config: arm-randconfig-c002-20230312 (https://download.01.org/0day-ci/archive/20230317/202303171604.IC5KepFy-lkp@intel.com/config)
+Hi Guilherme,
+
+I love your patch! Perhaps something to improve:
+
+[auto build test WARNING on akpm-mm/mm-everything]
+[also build test WARNING on linus/master v6.3-rc2]
+[cannot apply to next-20230317]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Guilherme-G-Piccoli/notifiers-Add-tracepoints-to-the-notifiers-infrastructure/20230315-040322
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20230314200058.1326909-1-gpiccoli%40igalia.com
+patch subject: [PATCH v4] notifiers: Add tracepoints to the notifiers infrastructure
+:::::: branch date: 3 days ago
+:::::: commit date: 3 days ago
+config: s390-randconfig-c005-20230312 (https://download.01.org/0day-ci/archive/20230317/202303171713.fai0WuRp-lkp@intel.com/config)
 compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=ecf24a1070b3259a81feabe5d5b18153921c0a10
-        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
-        git fetch --no-tags linux-next master
-        git checkout ecf24a1070b3259a81feabe5d5b18153921c0a10
+        # install s390 cross compiling tool for clang build
+        # apt-get install binutils-s390x-linux-gnu
+        # https://github.com/intel-lab-lkp/linux/commit/910a57f151b89a119a198bf1fc6c398481cd0cdd
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Guilherme-G-Piccoli/notifiers-Add-tracepoints-to-the-notifiers-infrastructure/20230315-040322
+        git checkout 910a57f151b89a119a198bf1fc6c398481cd0cdd
         # save the config file
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=arm clang-analyzer  olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=arm clang-analyzer 
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=s390 clang-analyzer  olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=s390 clang-analyzer 
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/r/202303171604.IC5KepFy-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202303171713.fai0WuRp-lkp@intel.com/
 
 clang_analyzer warnings: (new ones prefixed by >>)
-           ^
-   fs/ubifs/lpt.c:281:2: note: Loop condition is false.  Exiting loop
-           ubifs_assert(c, nrbits > 0);
-           ^
-   fs/ubifs/debug.h:142:31: note: expanded from macro 'ubifs_assert'
-   #define ubifs_assert(c, expr) do {                                             \
-                                 ^
-   fs/ubifs/lpt.c:282:18: note: Assuming 'nrbits' is <= 32
-           ubifs_assert(c, nrbits <= 32);
-                           ^
-   fs/ubifs/debug.h:143:17: note: expanded from macro 'ubifs_assert'
-           if (unlikely(!(expr))) {                                               \
-                          ^~~~
-   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                               ^
-   fs/ubifs/lpt.c:282:2: note: Taking false branch
-           ubifs_assert(c, nrbits <= 32);
-           ^
-   fs/ubifs/debug.h:143:2: note: expanded from macro 'ubifs_assert'
-           if (unlikely(!(expr))) {                                               \
-           ^
-   fs/ubifs/lpt.c:282:2: note: Loop condition is false.  Exiting loop
-           ubifs_assert(c, nrbits <= 32);
-           ^
-   fs/ubifs/debug.h:142:31: note: expanded from macro 'ubifs_assert'
-   #define ubifs_assert(c, expr) do {                                             \
-                                 ^
-   fs/ubifs/lpt.c:283:18: note: Assuming the condition is true
-           ubifs_assert(c, *pos >= 0);
-                           ^
-   fs/ubifs/debug.h:143:17: note: expanded from macro 'ubifs_assert'
-           if (unlikely(!(expr))) {                                               \
-                          ^~~~
-   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                               ^
-   fs/ubifs/lpt.c:283:2: note: Taking false branch
-           ubifs_assert(c, *pos >= 0);
-           ^
-   fs/ubifs/debug.h:143:2: note: expanded from macro 'ubifs_assert'
-           if (unlikely(!(expr))) {                                               \
-           ^
-   fs/ubifs/lpt.c:283:2: note: Loop condition is false.  Exiting loop
-           ubifs_assert(c, *pos >= 0);
-           ^
-   fs/ubifs/debug.h:142:31: note: expanded from macro 'ubifs_assert'
-   #define ubifs_assert(c, expr) do {                                             \
-                                 ^
-   fs/ubifs/lpt.c:284:2: note: Taking false branch
-           ubifs_assert(c, *pos < 8);
-           ^
-   fs/ubifs/debug.h:143:2: note: expanded from macro 'ubifs_assert'
-           if (unlikely(!(expr))) {                                               \
-           ^
-   fs/ubifs/lpt.c:284:2: note: Loop condition is false.  Exiting loop
-           ubifs_assert(c, *pos < 8);
-           ^
-   fs/ubifs/debug.h:142:31: note: expanded from macro 'ubifs_assert'
-   #define ubifs_assert(c, expr) do {                                             \
-                                 ^
-   fs/ubifs/lpt.c:285:6: note: Assuming 'b' is 0
-           if (b) {
+   drivers/input/serio/ps2-gpio.c:135:6: note: Calling 'preempt_count'
+           if (in_task()) {
                ^
-   fs/ubifs/lpt.c:285:2: note: Taking false branch
-           if (b) {
+   include/linux/preempt.h:121:23: note: expanded from macro 'in_task'
+   #define in_task()               (!(in_nmi() | in_hardirq() | in_serving_softirq()))
+                                      ^~~~~~~~
+   include/linux/preempt.h:118:20: note: expanded from macro 'in_nmi'
+   #define in_nmi()                (nmi_count())
+                                    ^~~~~~~~~~~
+   include/linux/preempt.h:101:22: note: expanded from macro 'nmi_count'
+   #define nmi_count()     (preempt_count() & NMI_MASK)
+                            ^~~~~~~~~~~~~~~
+   arch/s390/include/asm/preempt.h:17:9: note: Left side of '||' is false
+           return READ_ONCE(S390_lowcore.preempt_count) & ~PREEMPT_NEED_RESCHED;
+                  ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
            ^
-   fs/ubifs/lpt.c:306:3: note: 'Default' branch taken. Execution continues on line 324
-                   switch (bytes) {
+   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compiletime_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+                              ^
+   include/linux/compiler_types.h:364:3: note: expanded from macro '__native_word'
+           (sizeof(t) == sizeof(char) || sizeof(t) == sizeof(short) || \
+            ^
+   arch/s390/include/asm/preempt.h:17:9: note: Left side of '||' is false
+           return READ_ONCE(S390_lowcore.preempt_count) & ~PREEMPT_NEED_RESCHED;
+                  ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compiletime_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+                              ^
+   include/linux/compiler_types.h:364:3: note: expanded from macro '__native_word'
+           (sizeof(t) == sizeof(char) || sizeof(t) == sizeof(short) || \
+            ^
+   arch/s390/include/asm/preempt.h:17:9: note: Left side of '||' is true
+           return READ_ONCE(S390_lowcore.preempt_count) & ~PREEMPT_NEED_RESCHED;
+                  ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compiletime_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+                              ^
+   include/linux/compiler_types.h:365:28: note: expanded from macro '__native_word'
+            sizeof(t) == sizeof(int) || sizeof(t) == sizeof(long))
+                                     ^
+   arch/s390/include/asm/preempt.h:17:9: note: Taking false branch
+           return READ_ONCE(S390_lowcore.preempt_count) & ~PREEMPT_NEED_RESCHED;
+                  ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:2: note: expanded from macro 'compiletime_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+           ^
+   include/linux/compiler_types.h:397:2: note: expanded from macro 'compiletime_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+           ^
+   include/linux/compiler_types.h:385:2: note: expanded from macro '_compiletime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:377:3: note: expanded from macro '__compiletime_assert'
+                   if (!(condition))                                       \
                    ^
-   fs/ubifs/lpt.c:324:6: note: The left expression of the compound assignment is an uninitialized value. The computed value will also be garbage
-           val <<= k;
-           ~~~ ^
-   Suppressed 18 warnings (18 in non-user code).
+   arch/s390/include/asm/preempt.h:17:9: note: Loop condition is false.  Exiting loop
+           return READ_ONCE(S390_lowcore.preempt_count) & ~PREEMPT_NEED_RESCHED;
+                  ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:2: note: expanded from macro 'compiletime_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+           ^
+   include/linux/compiler_types.h:397:2: note: expanded from macro 'compiletime_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+           ^
+   include/linux/compiler_types.h:385:2: note: expanded from macro '_compiletime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:369:2: note: expanded from macro '__compiletime_assert'
+           do {                                                            \
+           ^
+   arch/s390/include/asm/preempt.h:17:9: note: Dereference of null pointer
+           return READ_ONCE(S390_lowcore.preempt_count) & ~PREEMPT_NEED_RESCHED;
+                  ^
+   include/asm-generic/rwonce.h:50:2: note: expanded from macro 'READ_ONCE'
+           __READ_ONCE(x);                                                 \
+           ^~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:44:24: note: expanded from macro '__READ_ONCE'
+   #define __READ_ONCE(x)  (*(const volatile __unqual_scalar_typeof(x) *)&(x))
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/input/serio/ps2-gpio.c:223:4: warning: Value stored to 'rxflags' is never read [clang-analyzer-deadcode.DeadStores]
+                           rxflags |= SERIO_PARITY;
+                           ^
+   drivers/input/serio/ps2-gpio.c:223:4: note: Value stored to 'rxflags' is never read
+   Suppressed 9 warnings (9 in non-user code).
    Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   18 warnings generated.
-   Suppressed 18 warnings (18 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   18 warnings generated.
-   Suppressed 18 warnings (18 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   18 warnings generated.
-   Suppressed 18 warnings (18 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   18 warnings generated.
-   Suppressed 18 warnings (18 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   19 warnings generated.
->> crypto/rng.c:206:27: warning: Value stored to 'istat' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct crypto_istat_rng *istat = rng_get_stat(alg);
-                                    ^~~~~   ~~~~~~~~~~~~~~~~~
-   crypto/rng.c:206:27: note: Value stored to 'istat' during its initialization is never read
-           struct crypto_istat_rng *istat = rng_get_stat(alg);
-                                    ^~~~~   ~~~~~~~~~~~~~~~~~
-   Suppressed 18 warnings (18 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   20 warnings generated.
-   crypto/drbg.c:246:17: warning: Value stored to 'entropylen' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           unsigned short entropylen = drbg_sec_strength(drbg->core->flags);
-                          ^~~~~~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   crypto/drbg.c:246:17: note: Value stored to 'entropylen' during its initialization is never read
-           unsigned short entropylen = drbg_sec_strength(drbg->core->flags);
-                          ^~~~~~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   crypto/drbg.c:1200:4: warning: Value stored to 'ret' is never read [clang-analyzer-deadcode.DeadStores]
-                           ret = crypto_rng_get_bytes(drbg->jent,
-                           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   crypto/drbg.c:1200:4: note: Value stored to 'ret' is never read
-                           ret = crypto_rng_get_bytes(drbg->jent,
-                           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 18 warnings (18 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   18 warnings generated.
-   Suppressed 18 warnings (18 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   18 warnings generated.
-   Suppressed 18 warnings (18 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   drivers/pwm/sysfs.c:159:14: warning: Value stored to 'polarity' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           const char *polarity = "unknown";
-                       ^~~~~~~~   ~~~~~~~~~
-   drivers/pwm/sysfs.c:159:14: note: Value stored to 'polarity' during its initialization is never read
-           const char *polarity = "unknown";
-                       ^~~~~~~~   ~~~~~~~~~
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   18 warnings generated.
-   Suppressed 18 warnings (18 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   18 warnings generated.
-   Suppressed 18 warnings (18 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   drivers/clk/at91/clk-master.c:197:7: warning: Division by zero [clang-analyzer-core.DivideZero]
-           rate /= characteristics->divisors[div_index];
-                ^
-   drivers/clk/at91/clk-master.c:260:2: note: Loop condition is false.  Exiting loop
-           spin_lock_irqsave(master_div->lock, flags);
+   15 warnings generated.
+>> include/trace/events/notifiers.h:33:1: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]
+   DEFINE_EVENT(notifiers_info, notifiers_register,
+   ^
+   include/linux/tracepoint.h:553:2: note: expanded from macro 'DEFINE_EVENT'
+           DECLARE_TRACE(name, PARAMS(proto), PARAMS(args))
+           ^
+   include/linux/tracepoint.h:431:15: note: expanded from macro 'DECLARE_TRACE'
+                           cpu_online(raw_smp_processor_id()),             \
+                                      ^
+   arch/s390/include/asm/smp.h:14:32: note: expanded from macro 'raw_smp_processor_id'
+   #define raw_smp_processor_id()  (S390_lowcore.cpu_nr)
+                                   ^
+   kernel/notifier.c:602:9: note: Calling 'atomic_notifier_chain_register'
+           return atomic_notifier_chain_register(&die_chain, nb);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/notifier.c:155:2: note: Loop condition is false.  Exiting loop
+           spin_lock_irqsave(&nh->lock, flags);
            ^
    include/linux/spinlock.h:380:2: note: expanded from macro 'spin_lock_irqsave'
            raw_spin_lock_irqsave(spinlock_check(lock), flags);     \
@@ -281,31 +235,100 @@ clang_analyzer warnings: (new ones prefixed by >>)
    include/linux/spinlock.h:241:2: note: expanded from macro 'raw_spin_lock_irqsave'
            do {                                            \
            ^
-   drivers/clk/at91/clk-master.c:260:2: note: Loop condition is false.  Exiting loop
-           spin_lock_irqsave(master_div->lock, flags);
+   kernel/notifier.c:155:2: note: Loop condition is false.  Exiting loop
+           spin_lock_irqsave(&nh->lock, flags);
+           ^
+   include/linux/spinlock.h:378:43: note: expanded from macro 'spin_lock_irqsave'
+   #define spin_lock_irqsave(lock, flags)                          \
+                                                                   ^
+   kernel/notifier.c:156:8: note: Calling 'notifier_chain_register'
+           ret = notifier_chain_register(&nh->head, n, false);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/notifier.c:29:9: note: Assuming the condition is false
+           while ((*nl) != NULL) {
+                  ^~~~~~~~~~~~~
+   kernel/notifier.c:29:2: note: Loop condition is false. Execution continues on line 41
+           while ((*nl) != NULL) {
+           ^
+   kernel/notifier.c:42:2: note: Left side of '&&' is false
+           rcu_assign_pointer(*nl, n);
+           ^
+   include/linux/rcupdate.h:523:30: note: expanded from macro 'rcu_assign_pointer'
+           if (__builtin_constant_p(v) && (_r_a_p__v) == (uintptr_t)NULL)        \
+                                       ^
+   kernel/notifier.c:42:2: note: Loop condition is false.  Exiting loop
+           rcu_assign_pointer(*nl, n);
+           ^
+   include/linux/rcupdate.h:526:3: note: expanded from macro 'rcu_assign_pointer'
+                   smp_store_release(&p, RCU_INITIALIZER((typeof(p))_r_a_p__v)); \
+                   ^
+   include/asm-generic/barrier.h:172:38: note: expanded from macro 'smp_store_release'
+   #define smp_store_release(p, v) do { kcsan_release(); __smp_store_release(p, v); } while (0)
+                                        ^
+   include/linux/kcsan-checks.h:267:25: note: expanded from macro 'kcsan_release'
+   #define kcsan_release() do { } while (0)
+                           ^
+   kernel/notifier.c:42:2: note: Left side of '||' is false
+           rcu_assign_pointer(*nl, n);
+           ^
+   include/linux/rcupdate.h:526:3: note: expanded from macro 'rcu_assign_pointer'
+                   smp_store_release(&p, RCU_INITIALIZER((typeof(p))_r_a_p__v)); \
+                   ^
+   include/asm-generic/barrier.h:172:55: note: expanded from macro 'smp_store_release'
+   #define smp_store_release(p, v) do { kcsan_release(); __smp_store_release(p, v); } while (0)
+                                                         ^
+   arch/s390/include/asm/barrier.h:40:2: note: expanded from macro '__smp_store_release'
+           compiletime_assert_atomic_type(*p);                             \
+           ^
+   include/linux/compiler_types.h:400:21: note: expanded from macro 'compiletime_assert_atomic_type'
+           compiletime_assert(__native_word(t),                            \
+                              ^
+   include/linux/compiler_types.h:364:3: note: expanded from macro '__native_word'
+           (sizeof(t) == sizeof(char) || sizeof(t) == sizeof(short) || \
+            ^
+   kernel/notifier.c:42:2: note: Left side of '||' is false
+           rcu_assign_pointer(*nl, n);
+           ^
+   include/linux/rcupdate.h:526:3: note: expanded from macro 'rcu_assign_pointer'
+                   smp_store_release(&p, RCU_INITIALIZER((typeof(p))_r_a_p__v)); \
+                   ^
+   include/asm-generic/barrier.h:172:55: note: expanded from macro 'smp_store_release'
+   #define smp_store_release(p, v) do { kcsan_release(); __smp_store_release(p, v); } while (0)
+                                                         ^
+   arch/s390/include/asm/barrier.h:40:2: note: expanded from macro '__smp_store_release'
+           compiletime_assert_atomic_type(*p);                             \
+           ^
+   include/linux/compiler_types.h:400:21: note: expanded from macro 'compiletime_assert_atomic_type'
+           compiletime_assert(__native_word(t),                            \
+                              ^
+   include/linux/compiler_types.h:364:3: note: expanded from macro '__native_word'
+           (sizeof(t) == sizeof(char) || sizeof(t) == sizeof(short) || \
+            ^
+   kernel/notifier.c:42:2: note: Left side of '||' is false
+           rcu_assign_pointer(*nl, n);
+           ^
+   include/linux/rcupdate.h:526:3: note: expanded from macro 'rcu_assign_pointer'
+                   smp_store_release(&p, RCU_INITIALIZER((typeof(p))_r_a_p__v)); \
+                   ^
+   include/asm-generic/barrier.h:172:55: note: expanded from macro 'smp_store_release'
+   #define smp_store_release(p, v) do { kcsan_release(); __smp_store_release(p, v); } while (0)
 
-vim +/istat +206 crypto/rng.c
+vim +33 include/trace/events/notifiers.h
 
-17f0f4a47df9ae Neil Horman 2008-08-14  203  
-acec27ff35af9c Herbert Xu  2015-04-21  204  int crypto_register_rng(struct rng_alg *alg)
-acec27ff35af9c Herbert Xu  2015-04-21  205  {
-ecf24a1070b325 Herbert Xu  2023-02-16 @206  	struct crypto_istat_rng *istat = rng_get_stat(alg);
-acec27ff35af9c Herbert Xu  2015-04-21  207  	struct crypto_alg *base = &alg->base;
-acec27ff35af9c Herbert Xu  2015-04-21  208  
-acec27ff35af9c Herbert Xu  2015-04-21  209  	if (alg->seedsize > PAGE_SIZE / 8)
-acec27ff35af9c Herbert Xu  2015-04-21  210  		return -EINVAL;
-acec27ff35af9c Herbert Xu  2015-04-21  211  
-acec27ff35af9c Herbert Xu  2015-04-21  212  	base->cra_type = &crypto_rng_type;
-acec27ff35af9c Herbert Xu  2015-04-21  213  	base->cra_flags &= ~CRYPTO_ALG_TYPE_MASK;
-acec27ff35af9c Herbert Xu  2015-04-21  214  	base->cra_flags |= CRYPTO_ALG_TYPE_RNG;
-acec27ff35af9c Herbert Xu  2015-04-21  215  
-ecf24a1070b325 Herbert Xu  2023-02-16  216  	if (IS_ENABLED(CONFIG_CRYPTO_STATS))
-ecf24a1070b325 Herbert Xu  2023-02-16  217  		memset(istat, 0, sizeof(*istat));
-ecf24a1070b325 Herbert Xu  2023-02-16  218  
-acec27ff35af9c Herbert Xu  2015-04-21  219  	return crypto_register_alg(base);
-acec27ff35af9c Herbert Xu  2015-04-21  220  }
-acec27ff35af9c Herbert Xu  2015-04-21  221  EXPORT_SYMBOL_GPL(crypto_register_rng);
-acec27ff35af9c Herbert Xu  2015-04-21  222  
+910a57f151b89a Guilherme G. Piccoli 2023-03-14  26  
+910a57f151b89a Guilherme G. Piccoli 2023-03-14  27  /*
+910a57f151b89a Guilherme G. Piccoli 2023-03-14  28   * notifiers_register - called upon notifier callback registration
+910a57f151b89a Guilherme G. Piccoli 2023-03-14  29   *
+910a57f151b89a Guilherme G. Piccoli 2023-03-14  30   * @cb:		callback pointer
+910a57f151b89a Guilherme G. Piccoli 2023-03-14  31   *
+910a57f151b89a Guilherme G. Piccoli 2023-03-14  32   */
+910a57f151b89a Guilherme G. Piccoli 2023-03-14 @33  DEFINE_EVENT(notifiers_info, notifiers_register,
+910a57f151b89a Guilherme G. Piccoli 2023-03-14  34  
+910a57f151b89a Guilherme G. Piccoli 2023-03-14  35  	TP_PROTO(void *cb),
+910a57f151b89a Guilherme G. Piccoli 2023-03-14  36  
+910a57f151b89a Guilherme G. Piccoli 2023-03-14  37  	TP_ARGS(cb)
+910a57f151b89a Guilherme G. Piccoli 2023-03-14  38  );
+910a57f151b89a Guilherme G. Piccoli 2023-03-14  39  
 
 -- 
 0-DAY CI Kernel Test Service
