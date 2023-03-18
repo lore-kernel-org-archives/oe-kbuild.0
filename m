@@ -1,41 +1,52 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4048A4D
-	for <oe-kbuild@lists.linux.dev>; Sat, 18 Mar 2023 09:02:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679130161; x=1710666161;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ykJMuu52kU8pM/FyOa4vF4OjdyqGBQO4aA3fEaefiPk=;
-  b=eshhkVhLCSlpk8DZRChOsv9r8qSaTHloUss1C2G7Cg1xnFtp0EbMIaVL
-   8Q9nCE/gQ2pFn69Y18vg+iQWBjSPpl8czR1hUfY8OaFmJIvd5nx0ju+E3
-   qaKKkXnn+O/kNJHQTBCcmVoggr1OrkPEXrTBDbuOjngPTowL0eMNmk4y1
-   lvlaRwyX7+yOeNvD2Qrg7bezPYbVHRCMs7jBl3nOAZDcnMNqH5QXrgl13
-   6lVNZROa2fV3Srg/HTvEaHzrcd9VPDxl8tVmskYMnTUUQ1WRwirAfUvxL
-   N766qaBqJpWz5+wm3SBeL713RSVrzrTaTY06y7iirPmVYMIsIA8URIA0y
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10652"; a="366126885"
-X-IronPort-AV: E=Sophos;i="5.98,271,1673942400"; 
-   d="scan'208";a="366126885"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2023 02:02:41 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10652"; a="744816955"
-X-IronPort-AV: E=Sophos;i="5.98,271,1673942400"; 
-   d="scan'208";a="744816955"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 18 Mar 2023 02:02:40 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pdSSV-0009xa-1o;
-	Sat, 18 Mar 2023 09:02:39 +0000
-Date: Sat, 18 Mar 2023 17:02:13 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [RFC PATCH v2 4/4] fpga: add initial KUnit test suites
-Message-ID: <202303181604.tXQ4uHom-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BBBEA4D;
+	Sat, 18 Mar 2023 09:07:30 +0000 (UTC)
+Received: by mail-wr1-f49.google.com with SMTP id q16so6309710wrw.2;
+        Sat, 18 Mar 2023 02:07:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1679130448;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=StiB05oWOtccfBFyxUOqwfZL6UP5KdhkEBJ9XeVGvs0=;
+        b=d+QVCxbm+Lx/zFV2tcIUb6aoyA/qcw2F47zcO+ynVvVJq/g/phfdUiylBUAeZ6efKC
+         WXjsNt7PA2U2XM72lXerVGEiw936tOtcKMoSZ9M+SS4I9Kw7G+2WGKOvKihEkt0dwB3r
+         0lAVaZ48iigDf8nGIaj5k05l1p3seOujxeXhoZZPmSD3hP6WZyQqP2BEUDNBKzoyeDND
+         anojXKyn3qsHp7ZzE8ogpuGj8HbnZW4g2BUinAEKA659RDjjzS9JfyBKb7tcsDCK5ITv
+         ntcQI3CCiNUilsqYR57L1Aoyxe79/mRuQgc1O2EhAyBFA9ppFTYOWSyJNPLlk0bG//uV
+         J3sw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679130448;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=StiB05oWOtccfBFyxUOqwfZL6UP5KdhkEBJ9XeVGvs0=;
+        b=PJSNSaJ7qlaYlc3Z97d/BWegNXzjqv8lPVCigh+FaQCKKKR8kUjkxp873eyCBhaV55
+         hGf3J4N+KSu19zpyqVQ3x1oU1TmeJwBa8hIIbJ/3P/J9smOMJToWo2GRR5clYVsPzjkO
+         24s6OaquGqoptbPgwN0xlg+V6sWyu+H6DfGqmPVpCzxuyHSpBt28kEVaxsc1EWq97P1a
+         IHm24yMifAYvD2RlrF0yX8iyPtS+dzXQbuvLtjWRhFGJHk178w30xStQwUOouqWDuF40
+         5zCLVwi9+L4znTyD6na8Z9BNZRyanEowlt0GzRWzZ8Z5/E4c8eb85HqqcK8iAFVnU/N8
+         1IdQ==
+X-Gm-Message-State: AO0yUKVnhIFg18xOjSinSDI3+5gVQ4J8+kmzaPEhwn6Bj8yr/9SAR9Hw
+	QxARxwGqA1OHeuWLXIDpesDlRuPGSmI=
+X-Google-Smtp-Source: AK7set+3sxNjpfXrvGwG/TLnFV2s6obmuQe/MwcEbzCyaLkj3kYO3i3Rw0yRVqBZD8fpE3tPCF9P1w==
+X-Received: by 2002:adf:f2d1:0:b0:2c5:5a65:79a0 with SMTP id d17-20020adff2d1000000b002c55a6579a0mr9818015wrp.53.1679130448103;
+        Sat, 18 Mar 2023 02:07:28 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id a18-20020a5d4d52000000b002d1e49cff35sm3862137wru.40.2023.03.18.02.07.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 18 Mar 2023 02:07:27 -0700 (PDT)
+Date: Sat, 18 Mar 2023 12:07:14 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev, Daniel Lezcano <daniel.lezcano@linaro.org>,
+	rafael@kernel.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, rui.zhang@intel.com,
+	amitk@kernel.org, linux-pm@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 10/11] thermal/core: Alloc-copy-free the thermal zone
+ parameters structure
+Message-ID: <1a1d6830-85f3-413e-af01-029c75580c65@kili.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -44,278 +55,215 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230307133735.90772-11-daniel.lezcano@linaro.org>
 
-:::::: 
-:::::: Manual check reason: "low confidence static check first_new_problem: drivers/fpga/tests/fake-fpga-region.c:146:2: warning: Undefined or garbage value returned to caller [clang-analyzer-core.uninitialized.UndefReturn]"
-:::::: 
+Hi Daniel,
 
-BCC: lkp@intel.com
-CC: llvm@lists.linux.dev
-CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20230310170412.708363-5-marpagan@redhat.com>
-References: <20230310170412.708363-5-marpagan@redhat.com>
-TO: Marco Pagani <marpagan@redhat.com>
-
-Hi Marco,
-
-[FYI, it's a private test report for your RFC patch.]
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.3-rc2 next-20230317]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Marco-Pagani/fpga-add-fake-FPGA-manager/20230311-010757
-patch link:    https://lore.kernel.org/r/20230310170412.708363-5-marpagan%40redhat.com
-patch subject: [RFC PATCH v2 4/4] fpga: add initial KUnit test suites
-:::::: branch date: 8 days ago
-:::::: commit date: 8 days ago
-config: s390-randconfig-c005-20230312 (https://download.01.org/0day-ci/archive/20230318/202303181604.tXQ4uHom-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install s390 cross compiling tool for clang build
-        # apt-get install binutils-s390x-linux-gnu
-        # https://github.com/intel-lab-lkp/linux/commit/6af16afaf84ee6f061e6953eebca1a786c5be576
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Marco-Pagani/fpga-add-fake-FPGA-manager/20230311-010757
-        git checkout 6af16afaf84ee6f061e6953eebca1a786c5be576
-        # save the config file
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=s390 clang-analyzer  olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=s390 clang-analyzer 
+url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Lezcano/thermal-drivers-intel_pch_thermal-Use-thermal-driver-device-to-write-a-trace/20230307-223759
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
+patch link:    https://lore.kernel.org/r/20230307133735.90772-11-daniel.lezcano%40linaro.org
+patch subject: [PATCH v1 10/11] thermal/core: Alloc-copy-free the thermal zone parameters structure
+config: i386-randconfig-m021 (https://download.01.org/0day-ci/archive/20230316/202303160005.1BnLbm4F-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/r/202303181604.tXQ4uHom-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Link: https://lore.kernel.org/r/202303160005.1BnLbm4F-lkp@intel.com/
 
-clang_analyzer warnings: (new ones prefixed by >>)
-               ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/hwtracing/stm/core.c:633:2: note: Taking true branch
-           if (!stmf->output.nr_chans) {
-           ^
-   drivers/hwtracing/stm/core.c:637:3: note: Taking false branch
-                   get_task_comm(comm, current);
-                   ^
-   include/linux/sched.h:1989:2: note: expanded from macro 'get_task_comm'
-           BUILD_BUG_ON(sizeof(buf) != TASK_COMM_LEN);     \
-           ^
-   include/linux/build_bug.h:50:2: note: expanded from macro 'BUILD_BUG_ON'
-           BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-           ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON_MSG'
-   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                       ^
-   include/linux/compiler_types.h:397:2: note: expanded from macro 'compiletime_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-           ^
-   include/linux/compiler_types.h:385:2: note: expanded from macro '_compiletime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:377:3: note: expanded from macro '__compiletime_assert'
-                   if (!(condition))                                       \
-                   ^
-   drivers/hwtracing/stm/core.c:637:3: note: Loop condition is false.  Exiting loop
-                   get_task_comm(comm, current);
-                   ^
-   include/linux/sched.h:1989:2: note: expanded from macro 'get_task_comm'
-           BUILD_BUG_ON(sizeof(buf) != TASK_COMM_LEN);     \
-           ^
-   include/linux/build_bug.h:50:2: note: expanded from macro 'BUILD_BUG_ON'
-           BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-           ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON_MSG'
-   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                       ^
-   include/linux/compiler_types.h:397:2: note: expanded from macro 'compiletime_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-           ^
-   include/linux/compiler_types.h:385:2: note: expanded from macro '_compiletime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:369:2: note: expanded from macro '__compiletime_assert'
-           do {                                                            \
-           ^
-   drivers/hwtracing/stm/core.c:637:23: note: Dereference of null pointer
-                   get_task_comm(comm, current);
-                                       ^
-   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'current'
-   #define current ((struct task_struct *const)S390_lowcore.current_task)
-                                               ^
-   arch/s390/include/asm/lowcore.h:215:22: note: expanded from macro 'S390_lowcore'
-   #define S390_lowcore (*((struct lowcore *) 0))
-                        ^
-   include/linux/sched.h:1990:36: note: expanded from macro 'get_task_comm'
-           __get_task_comm(buf, sizeof(buf), tsk);         \
-                                             ^~~
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   21 warnings generated.
-   Suppressed 21 warnings (9 in non-user code, 12 with check filters).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   21 warnings generated.
-   Suppressed 21 warnings (9 in non-user code, 12 with check filters).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   21 warnings generated.
-   Suppressed 21 warnings (9 in non-user code, 12 with check filters).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   21 warnings generated.
-   Suppressed 21 warnings (9 in non-user code, 12 with check filters).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   22 warnings generated.
-   drivers/fpga/altera-pr-ip-core.c:188:2: warning: Value stored to 'val' is never read [clang-analyzer-deadcode.DeadStores]
-           val = readl(priv->reg_base + ALT_PR_CSR_OFST);
-           ^
-   drivers/fpga/altera-pr-ip-core.c:188:2: note: Value stored to 'val' is never read
-   Suppressed 21 warnings (9 in non-user code, 12 with check filters).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   23 warnings generated.
-   drivers/fpga/altera-freeze-bridge.c:69:4: warning: Value stored to 'ctrl' is never read [clang-analyzer-deadcode.DeadStores]
-                           ctrl = readl(priv->base_addr + FREEZE_CSR_CTRL_OFFSET);
-                           ^
-   drivers/fpga/altera-freeze-bridge.c:69:4: note: Value stored to 'ctrl' is never read
-   drivers/fpga/altera-freeze-bridge.c:150:2: warning: Value stored to 'status' is never read [clang-analyzer-deadcode.DeadStores]
-           status = readl(priv->base_addr + FREEZE_CSR_STATUS_OFFSET);
-           ^
-   drivers/fpga/altera-freeze-bridge.c:150:2: note: Value stored to 'status' is never read
-   Suppressed 21 warnings (9 in non-user code, 12 with check filters).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   10 warnings generated.
->> drivers/fpga/tests/fake-fpga-region.c:146:2: warning: Undefined or garbage value returned to caller [clang-analyzer-core.uninitialized.UndefReturn]
-           return ret;
-           ^      ~~~
-   drivers/fpga/tests/fake-fpga-region.c:133:2: note: 'ret' declared without an initial value
-           int ret;
-           ^~~~~~~
-   drivers/fpga/tests/fake-fpga-region.c:137:2: note: Loop condition is false. Execution continues on line 146
-           list_for_each_entry_safe(bridge, tmp, &priv->bridge_list, node) {
-           ^
-   include/linux/list.h:776:2: note: expanded from macro 'list_for_each_entry_safe'
-           for (pos = list_first_entry(head, typeof(*pos), member),        \
-           ^
-   drivers/fpga/tests/fake-fpga-region.c:146:2: note: Undefined or garbage value returned to caller
-           return ret;
-           ^      ~~~
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   23 warnings generated.
-   Suppressed 23 warnings (11 in non-user code, 12 with check filters).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   23 warnings generated.
-   Suppressed 23 warnings (11 in non-user code, 12 with check filters).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   21 warnings generated.
-   Suppressed 21 warnings (9 in non-user code, 12 with check filters).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (10 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (10 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   21 warnings generated.
-   Suppressed 21 warnings (9 in non-user code, 12 with check filters).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   22 warnings generated.
-   Suppressed 22 warnings (10 in non-user code, 12 with check filters).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (10 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (10 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (10 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   22 warnings generated.
-   Suppressed 22 warnings (10 in non-user code, 12 with check filters).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   22 warnings generated.
-   Suppressed 22 warnings (10 in non-user code, 12 with check filters).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   22 warnings generated.
-   Suppressed 22 warnings (10 in non-user code, 12 with check filters).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   23 warnings generated.
-   drivers/iio/light/ltr501.c:139:8: warning: Excessive padding in 'struct ltr501_chip_info' (16 padding bytes, where 0 is optimal). Optimal fields order: als_gain, ps_gain, channels, info, info_no_irq, als_gain_tbl_size, ps_gain_tbl_size, no_channels, partid, als_mode_active, als_gain_mask, als_gain_shift, consider reordering the fields or adding explicit padding members [clang-analyzer-optin.performance.Padding]
-   struct ltr501_chip_info {
-   ~~~~~~~^~~~~~~~~~~~~~~~~~
-   drivers/iio/light/ltr501.c:139:8: note: Excessive padding in 'struct ltr501_chip_info' (16 padding bytes, where 0 is optimal). Optimal fields order: als_gain, ps_gain, channels, info, info_no_irq, als_gain_tbl_size, ps_gain_tbl_size, no_channels, partid, als_mode_active, als_gain_mask, als_gain_shift, consider reordering the fields or adding explicit padding members
-   struct ltr501_chip_info {
-   ~~~~~~~^~~~~~~~~~~~~~~~~~
-   Suppressed 22 warnings (10 in non-user code, 12 with check filters).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   22 warnings generated.
-   drivers/parport/share.c:1124:23: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]
-                           if (signal_pending(current))
-                                              ^
-   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'current'
-   #define current ((struct task_struct *const)S390_lowcore.current_task)
-                                               ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/s390/include/asm/lowcore.h:215:22: note: expanded from macro 'S390_lowcore'
-   #define S390_lowcore (*((struct lowcore *) 0))
-                        ^
-   drivers/parport/share.c:1103:6: note: Assuming the condition is true
-           if (r == -EAGAIN) {
-               ^~~~~~~~~~~~
-   drivers/parport/share.c:1103:2: note: Taking true branch
-           if (r == -EAGAIN) {
-           ^
-   drivers/parport/share.c:1121:7: note: Assuming field 'waiting' is not equal to 0
-                   if (dev->waiting) {
-                       ^~~~~~~~~~~~
-   drivers/parport/share.c:1121:3: note: Taking true branch
-                   if (dev->waiting) {
-                   ^
-   drivers/parport/share.c:1122:4: note: Loop condition is false.  Exiting loop
-                           wait_event_interruptible(dev->wait_q,
-                           ^
-   include/linux/wait.h:499:2: note: expanded from macro 'wait_event_interruptible'
-           might_sleep();                                                          \
-           ^
-   include/linux/kernel.h:143:42: note: expanded from macro 'might_sleep'
-           do { __might_sleep(__FILE__, __LINE__); might_resched(); } while (0)
-                                                   ^
-   include/linux/kernel.h:120:26: note: expanded from macro 'might_resched'
-   # define might_resched() do { } while (0)
-                            ^
-   drivers/parport/share.c:1122:4: note: Loop condition is false.  Exiting loop
-                           wait_event_interruptible(dev->wait_q,
+smatch warnings:
+drivers/thermal/thermal_core.c:1388 thermal_zone_device_register_with_trips() error: uninitialized symbol 'result'.
 
-vim +146 drivers/fpga/tests/fake-fpga-region.c
+vim +/result +1388 drivers/thermal/thermal_core.c
 
-318b50638db45d Marco Pagani 2023-03-10  128  
-318b50638db45d Marco Pagani 2023-03-10  129  static int fake_region_get_bridges(struct fpga_region *region)
-318b50638db45d Marco Pagani 2023-03-10  130  {
-318b50638db45d Marco Pagani 2023-03-10  131  	struct fake_region_priv *priv;
-318b50638db45d Marco Pagani 2023-03-10  132  	struct fpga_bridge *bridge, *tmp;
-318b50638db45d Marco Pagani 2023-03-10  133  	int ret;
-318b50638db45d Marco Pagani 2023-03-10  134  
-318b50638db45d Marco Pagani 2023-03-10  135  	priv = region->priv;
-318b50638db45d Marco Pagani 2023-03-10  136  
-318b50638db45d Marco Pagani 2023-03-10  137  	list_for_each_entry_safe(bridge, tmp, &priv->bridge_list, node) {
-318b50638db45d Marco Pagani 2023-03-10  138  		list_del(&bridge->node);
-318b50638db45d Marco Pagani 2023-03-10  139  		ret = fpga_bridge_get_to_list(bridge->dev.parent,
-318b50638db45d Marco Pagani 2023-03-10  140  					      region->info,
-318b50638db45d Marco Pagani 2023-03-10  141  					      &region->bridge_list);
-318b50638db45d Marco Pagani 2023-03-10  142  		if (ret)
-318b50638db45d Marco Pagani 2023-03-10  143  			break;
-318b50638db45d Marco Pagani 2023-03-10  144  	}
-318b50638db45d Marco Pagani 2023-03-10  145  
-318b50638db45d Marco Pagani 2023-03-10 @146  	return ret;
-318b50638db45d Marco Pagani 2023-03-10  147  }
-318b50638db45d Marco Pagani 2023-03-10  148  
+eb7be329bd93b7 drivers/thermal/thermal_core.c Eduardo Valentin    2016-11-07  1209  struct thermal_zone_device *
+fae11de507f0e4 drivers/thermal/thermal_core.c Daniel Lezcano      2022-07-22  1210  thermal_zone_device_register_with_trips(const char *type, struct thermal_trip *trips, int num_trips, int mask,
+eb7be329bd93b7 drivers/thermal/thermal_core.c Eduardo Valentin    2016-11-07  1211  					void *devdata, struct thermal_zone_device_ops *ops,
+eb7be329bd93b7 drivers/thermal/thermal_core.c Eduardo Valentin    2016-11-07  1212  					struct thermal_zone_params *tzp, int passive_delay,
+eb7be329bd93b7 drivers/thermal/thermal_core.c Eduardo Valentin    2016-11-07  1213  					int polling_delay)
+203d3d4aa48233 drivers/thermal/thermal.c      Zhang Rui           2008-01-17  1214  {
+203d3d4aa48233 drivers/thermal/thermal.c      Zhang Rui           2008-01-17  1215  	struct thermal_zone_device *tz;
+adc8749b150c51 drivers/thermal/thermal_core.c Yue Hu              2019-08-07  1216  	int id;
+203d3d4aa48233 drivers/thermal/thermal.c      Zhang Rui           2008-01-17  1217  	int result;
+203d3d4aa48233 drivers/thermal/thermal.c      Zhang Rui           2008-01-17  1218  	int count;
+e33df1d2f3a014 drivers/thermal/thermal_core.c Javi Merino         2015-02-26  1219  	struct thermal_governor *governor;
+203d3d4aa48233 drivers/thermal/thermal.c      Zhang Rui           2008-01-17  1220  
+67eed44b8a8ae7 drivers/thermal/thermal_core.c Amit Kucheria       2019-07-12  1221  	if (!type || strlen(type) == 0) {
+3f95ac324535ea drivers/thermal/thermal_core.c Daniel Lezcano      2022-07-22  1222  		pr_err("No thermal zone type defined\n");
+54fa38cc2eda43 drivers/thermal/thermal_core.c Eduardo Valentin    2016-11-07  1223  		return ERR_PTR(-EINVAL);
+67eed44b8a8ae7 drivers/thermal/thermal_core.c Amit Kucheria       2019-07-12  1224  	}
+54fa38cc2eda43 drivers/thermal/thermal_core.c Eduardo Valentin    2016-11-07  1225  
+c71d8035f1b77d drivers/thermal/thermal_core.c Lad Prabhakar       2022-09-09  1226  	if (strlen(type) >= THERMAL_NAME_LENGTH) {
+3f95ac324535ea drivers/thermal/thermal_core.c Daniel Lezcano      2022-07-22  1227  		pr_err("Thermal zone name (%s) too long, should be under %d chars\n",
+67eed44b8a8ae7 drivers/thermal/thermal_core.c Amit Kucheria       2019-07-12  1228  		       type, THERMAL_NAME_LENGTH);
+3e6fda5c115982 drivers/thermal/thermal.c      Thomas Sujith       2008-02-15  1229  		return ERR_PTR(-EINVAL);
+67eed44b8a8ae7 drivers/thermal/thermal_core.c Amit Kucheria       2019-07-12  1230  	}
+203d3d4aa48233 drivers/thermal/thermal.c      Zhang Rui           2008-01-17  1231  
+82b1ec794d7014 drivers/thermal/thermal_core.c Sumeet Pawnikar     2022-09-27  1232  	/*
+82b1ec794d7014 drivers/thermal/thermal_core.c Sumeet Pawnikar     2022-09-27  1233  	 * Max trip count can't exceed 31 as the "mask >> num_trips" condition.
+82b1ec794d7014 drivers/thermal/thermal_core.c Sumeet Pawnikar     2022-09-27  1234  	 * For example, shifting by 32 will result in compiler warning:
+82b1ec794d7014 drivers/thermal/thermal_core.c Sumeet Pawnikar     2022-09-27  1235  	 * warning: right shift count >= width of type [-Wshift-count- overflow]
+82b1ec794d7014 drivers/thermal/thermal_core.c Sumeet Pawnikar     2022-09-27  1236  	 *
+82b1ec794d7014 drivers/thermal/thermal_core.c Sumeet Pawnikar     2022-09-27  1237  	 * Also "mask >> num_trips" will always be true with 32 bit shift.
+82b1ec794d7014 drivers/thermal/thermal_core.c Sumeet Pawnikar     2022-09-27  1238  	 * E.g. mask = 0x80000000 for trip id 31 to be RW. Then
+82b1ec794d7014 drivers/thermal/thermal_core.c Sumeet Pawnikar     2022-09-27  1239  	 * mask >> 32 = 0x80000000
+82b1ec794d7014 drivers/thermal/thermal_core.c Sumeet Pawnikar     2022-09-27  1240  	 * This will result in failure for the below condition.
+82b1ec794d7014 drivers/thermal/thermal_core.c Sumeet Pawnikar     2022-09-27  1241  	 *
+82b1ec794d7014 drivers/thermal/thermal_core.c Sumeet Pawnikar     2022-09-27  1242  	 * Check will be true when the bit 31 of the mask is set.
+82b1ec794d7014 drivers/thermal/thermal_core.c Sumeet Pawnikar     2022-09-27  1243  	 * 32 bit shift will cause overflow of 4 byte integer.
+82b1ec794d7014 drivers/thermal/thermal_core.c Sumeet Pawnikar     2022-09-27  1244  	 */
+82b1ec794d7014 drivers/thermal/thermal_core.c Sumeet Pawnikar     2022-09-27  1245  	if (num_trips > (BITS_PER_TYPE(int) - 1) || num_trips < 0 || mask >> num_trips) {
+3f95ac324535ea drivers/thermal/thermal_core.c Daniel Lezcano      2022-07-22  1246  		pr_err("Incorrect number of thermal trips\n");
+3e6fda5c115982 drivers/thermal/thermal.c      Thomas Sujith       2008-02-15  1247  		return ERR_PTR(-EINVAL);
+67eed44b8a8ae7 drivers/thermal/thermal_core.c Amit Kucheria       2019-07-12  1248  	}
+203d3d4aa48233 drivers/thermal/thermal.c      Zhang Rui           2008-01-17  1249  
+67eed44b8a8ae7 drivers/thermal/thermal_core.c Amit Kucheria       2019-07-12  1250  	if (!ops) {
+3f95ac324535ea drivers/thermal/thermal_core.c Daniel Lezcano      2022-07-22  1251  		pr_err("Thermal zone device ops not defined\n");
+3e6fda5c115982 drivers/thermal/thermal.c      Thomas Sujith       2008-02-15  1252  		return ERR_PTR(-EINVAL);
+67eed44b8a8ae7 drivers/thermal/thermal_core.c Amit Kucheria       2019-07-12  1253  	}
+203d3d4aa48233 drivers/thermal/thermal.c      Zhang Rui           2008-01-17  1254  
+7c3d5c20dc169e drivers/thermal/thermal_core.c Daniel Lezcano      2022-10-03  1255  	if (num_trips > 0 && (!ops->get_trip_type || !ops->get_trip_temp) && !trips)
+6b2aa51d698492 drivers/thermal/thermal_sys.c  Eduardo Valentin    2013-01-02  1256  		return ERR_PTR(-EINVAL);
+6b2aa51d698492 drivers/thermal/thermal_sys.c  Eduardo Valentin    2013-01-02  1257  
+9e0a9be24bdd61 drivers/thermal/thermal_core.c Rafael J. Wysocki   2023-01-23  1258  	if (!thermal_class)
+9e0a9be24bdd61 drivers/thermal/thermal_core.c Rafael J. Wysocki   2023-01-23  1259  		return ERR_PTR(-ENODEV);
+9e0a9be24bdd61 drivers/thermal/thermal_core.c Rafael J. Wysocki   2023-01-23  1260  
+95e3ed1513494a drivers/thermal/thermal_core.c Eduardo Valentin    2016-11-07  1261  	tz = kzalloc(sizeof(*tz), GFP_KERNEL);
+203d3d4aa48233 drivers/thermal/thermal.c      Zhang Rui           2008-01-17  1262  	if (!tz)
+3e6fda5c115982 drivers/thermal/thermal.c      Thomas Sujith       2008-02-15  1263  		return ERR_PTR(-ENOMEM);
+203d3d4aa48233 drivers/thermal/thermal.c      Zhang Rui           2008-01-17  1264  
+a9813bacf35314 drivers/thermal/thermal_core.c Daniel Lezcano      2023-03-07  1265  	if (tzp) {
+a9813bacf35314 drivers/thermal/thermal_core.c Daniel Lezcano      2023-03-07  1266  		tz->tzp = kmemdup(tzp, sizeof(*tzp), GFP_KERNEL);
+a9813bacf35314 drivers/thermal/thermal_core.c Daniel Lezcano      2023-03-07  1267  		if (!tz->tzp)
+a9813bacf35314 drivers/thermal/thermal_core.c Daniel Lezcano      2023-03-07  1268  			goto free_tz;
+
+result = -ENOMEM;
+
+a9813bacf35314 drivers/thermal/thermal_core.c Daniel Lezcano      2023-03-07  1269  	}
+a9813bacf35314 drivers/thermal/thermal_core.c Daniel Lezcano      2023-03-07  1270  	
+2d374139d5b0b5 drivers/thermal/thermal_sys.c  Zhang Rui           2012-06-27  1271  	INIT_LIST_HEAD(&tz->thermal_instances);
+b31ef8285b19ec drivers/thermal/thermal_core.c Matthew Wilcox      2016-12-21  1272  	ida_init(&tz->ida);
+203d3d4aa48233 drivers/thermal/thermal.c      Zhang Rui           2008-01-17  1273  	mutex_init(&tz->lock);
+5a5b7d8d541684 drivers/thermal/thermal_core.c keliu               2022-05-27  1274  	id = ida_alloc(&thermal_tz_ida, GFP_KERNEL);
+adc8749b150c51 drivers/thermal/thermal_core.c Yue Hu              2019-08-07  1275  	if (id < 0) {
+adc8749b150c51 drivers/thermal/thermal_core.c Yue Hu              2019-08-07  1276  		result = id;
+a9813bacf35314 drivers/thermal/thermal_core.c Daniel Lezcano      2023-03-07  1277  		goto free_tzp;
+adc8749b150c51 drivers/thermal/thermal_core.c Yue Hu              2019-08-07  1278  	}
+203d3d4aa48233 drivers/thermal/thermal.c      Zhang Rui           2008-01-17  1279  
+adc8749b150c51 drivers/thermal/thermal_core.c Yue Hu              2019-08-07  1280  	tz->id = id;
+1e6c8fb8b8d3e9 drivers/thermal/thermal_core.c Wolfram Sang        2022-08-18  1281  	strscpy(tz->type, type, sizeof(tz->type));
+d7203eedf4f68e drivers/thermal/thermal_core.c Daniel Lezcano      2020-12-10  1282  
+d7203eedf4f68e drivers/thermal/thermal_core.c Daniel Lezcano      2020-12-10  1283  	if (!ops->critical)
+d7203eedf4f68e drivers/thermal/thermal_core.c Daniel Lezcano      2020-12-10  1284  		ops->critical = thermal_zone_device_critical;
+d7203eedf4f68e drivers/thermal/thermal_core.c Daniel Lezcano      2020-12-10  1285  
+203d3d4aa48233 drivers/thermal/thermal.c      Zhang Rui           2008-01-17  1286  	tz->ops = ops;
+9e0a9be24bdd61 drivers/thermal/thermal_core.c Rafael J. Wysocki   2023-01-23  1287  	tz->device.class = thermal_class;
+203d3d4aa48233 drivers/thermal/thermal.c      Zhang Rui           2008-01-17  1288  	tz->devdata = devdata;
+203d3d4aa48233 drivers/thermal/thermal.c      Zhang Rui           2008-01-17  1289  	tz->trips = trips;
+e5bfcd30f88fdb drivers/thermal/thermal_core.c Daniel Lezcano      2022-07-22  1290  	tz->num_trips = num_trips;
+1c600861fa6fd8 drivers/thermal/thermal_core.c Eduardo Valentin    2016-11-07  1291  
+17d399cd9c8936 drivers/thermal/thermal_core.c Daniel Lezcano      2020-12-16  1292  	thermal_set_delay_jiffies(&tz->passive_delay_jiffies, passive_delay);
+17d399cd9c8936 drivers/thermal/thermal_core.c Daniel Lezcano      2020-12-16  1293  	thermal_set_delay_jiffies(&tz->polling_delay_jiffies, polling_delay);
+17d399cd9c8936 drivers/thermal/thermal_core.c Daniel Lezcano      2020-12-16  1294  
+4d0fe7490d7f4d drivers/thermal/thermal_core.c Eduardo Valentin    2016-11-07  1295  	/* sys I/F */
+1c600861fa6fd8 drivers/thermal/thermal_core.c Eduardo Valentin    2016-11-07  1296  	/* Add nodes that are always present via .groups */
+4d0fe7490d7f4d drivers/thermal/thermal_core.c Eduardo Valentin    2016-11-07  1297  	result = thermal_zone_create_device_groups(tz, mask);
+4d0fe7490d7f4d drivers/thermal/thermal_core.c Eduardo Valentin    2016-11-07  1298  	if (result)
+9d9ca1f9f04cf1 drivers/thermal/thermal_core.c Christophe Jaillet  2017-08-08  1299  		goto remove_id;
+4d0fe7490d7f4d drivers/thermal/thermal_core.c Eduardo Valentin    2016-11-07  1300  
+4511f7166a2deb drivers/thermal/thermal_core.c Chen Yu             2015-10-30  1301  	/* A new thermal zone needs to be updated anyway. */
+4511f7166a2deb drivers/thermal/thermal_core.c Chen Yu             2015-10-30  1302  	atomic_set(&tz->need_update, 1);
+b1569e99c795bf drivers/thermal/thermal_sys.c  Matthew Garrett     2008-12-03  1303  
+4748f9687caaee drivers/thermal/thermal_core.c Yang Yingliang      2022-11-15  1304  	result = dev_set_name(&tz->device, "thermal_zone%d", tz->id);
+4748f9687caaee drivers/thermal/thermal_core.c Yang Yingliang      2022-11-15  1305  	if (result) {
+4748f9687caaee drivers/thermal/thermal_core.c Yang Yingliang      2022-11-15  1306  		thermal_zone_destroy_device_groups(tz);
+4748f9687caaee drivers/thermal/thermal_core.c Yang Yingliang      2022-11-15  1307  		goto remove_id;
+4748f9687caaee drivers/thermal/thermal_core.c Yang Yingliang      2022-11-15  1308  	}
+203d3d4aa48233 drivers/thermal/thermal.c      Zhang Rui           2008-01-17  1309  	result = device_register(&tz->device);
+9d9ca1f9f04cf1 drivers/thermal/thermal_core.c Christophe Jaillet  2017-08-08  1310  	if (result)
+adc8749b150c51 drivers/thermal/thermal_core.c Yue Hu              2019-08-07  1311  		goto release_device;
+203d3d4aa48233 drivers/thermal/thermal.c      Zhang Rui           2008-01-17  1312  
+e5bfcd30f88fdb drivers/thermal/thermal_core.c Daniel Lezcano      2022-07-22  1313  	for (count = 0; count < num_trips; count++) {
+7c3d5c20dc169e drivers/thermal/thermal_core.c Daniel Lezcano      2022-10-03  1314  		struct thermal_trip trip;
+7c3d5c20dc169e drivers/thermal/thermal_core.c Daniel Lezcano      2022-10-03  1315  
+7c3d5c20dc169e drivers/thermal/thermal_core.c Daniel Lezcano      2022-10-03  1316  		result = thermal_zone_get_trip(tz, count, &trip);
+7c3d5c20dc169e drivers/thermal/thermal_core.c Daniel Lezcano      2022-10-03  1317  		if (result)
+81ad4276b505e9 drivers/thermal/thermal_core.c Zhang Rui           2016-03-18  1318  			set_bit(count, &tz->trips_disabled);
+203d3d4aa48233 drivers/thermal/thermal.c      Zhang Rui           2008-01-17  1319  	}
+203d3d4aa48233 drivers/thermal/thermal.c      Zhang Rui           2008-01-17  1320  
+a4a15485fbba44 drivers/thermal/thermal_sys.c  Durgadoss R         2012-09-18  1321  	/* Update 'this' zone's governor information */
+a4a15485fbba44 drivers/thermal/thermal_sys.c  Durgadoss R         2012-09-18  1322  	mutex_lock(&thermal_governor_lock);
+a4a15485fbba44 drivers/thermal/thermal_sys.c  Durgadoss R         2012-09-18  1323  
+a4a15485fbba44 drivers/thermal/thermal_sys.c  Durgadoss R         2012-09-18  1324  	if (tz->tzp)
+e33df1d2f3a014 drivers/thermal/thermal_core.c Javi Merino         2015-02-26  1325  		governor = __find_governor(tz->tzp->governor_name);
+a4a15485fbba44 drivers/thermal/thermal_sys.c  Durgadoss R         2012-09-18  1326  	else
+e33df1d2f3a014 drivers/thermal/thermal_core.c Javi Merino         2015-02-26  1327  		governor = def_governor;
+e33df1d2f3a014 drivers/thermal/thermal_core.c Javi Merino         2015-02-26  1328  
+e33df1d2f3a014 drivers/thermal/thermal_core.c Javi Merino         2015-02-26  1329  	result = thermal_set_governor(tz, governor);
+e33df1d2f3a014 drivers/thermal/thermal_core.c Javi Merino         2015-02-26  1330  	if (result) {
+e33df1d2f3a014 drivers/thermal/thermal_core.c Javi Merino         2015-02-26  1331  		mutex_unlock(&thermal_governor_lock);
+e33df1d2f3a014 drivers/thermal/thermal_core.c Javi Merino         2015-02-26  1332  		goto unregister;
+e33df1d2f3a014 drivers/thermal/thermal_core.c Javi Merino         2015-02-26  1333  	}
+a4a15485fbba44 drivers/thermal/thermal_sys.c  Durgadoss R         2012-09-18  1334  
+a4a15485fbba44 drivers/thermal/thermal_sys.c  Durgadoss R         2012-09-18  1335  	mutex_unlock(&thermal_governor_lock);
+a4a15485fbba44 drivers/thermal/thermal_sys.c  Durgadoss R         2012-09-18  1336  
+ccba4ffd9eff61 drivers/thermal/thermal_core.c Eduardo Valentin    2013-08-15  1337  	if (!tz->tzp || !tz->tzp->no_hwmon) {
+e68b16abd91dca drivers/thermal/thermal.c      Zhang Rui           2008-04-21  1338  		result = thermal_add_hwmon_sysfs(tz);
+e68b16abd91dca drivers/thermal/thermal.c      Zhang Rui           2008-04-21  1339  		if (result)
+e68b16abd91dca drivers/thermal/thermal.c      Zhang Rui           2008-04-21  1340  			goto unregister;
+ccba4ffd9eff61 drivers/thermal/thermal_core.c Eduardo Valentin    2013-08-15  1341  	}
+e68b16abd91dca drivers/thermal/thermal.c      Zhang Rui           2008-04-21  1342  
+203d3d4aa48233 drivers/thermal/thermal.c      Zhang Rui           2008-01-17  1343  	mutex_lock(&thermal_list_lock);
+203d3d4aa48233 drivers/thermal/thermal.c      Zhang Rui           2008-01-17  1344  	list_add_tail(&tz->node, &thermal_tz_list);
+203d3d4aa48233 drivers/thermal/thermal.c      Zhang Rui           2008-01-17  1345  	mutex_unlock(&thermal_list_lock);
+203d3d4aa48233 drivers/thermal/thermal.c      Zhang Rui           2008-01-17  1346  
+70edc3ef596502 drivers/thermal/thermal_core.c Daniel Lezcano      2023-03-07  1347  	if (tzp && tzp->linked_dev) {
+70edc3ef596502 drivers/thermal/thermal_core.c Daniel Lezcano      2023-03-07  1348  		result = sysfs_create_link(&tzp->linked_dev->kobj,
+70edc3ef596502 drivers/thermal/thermal_core.c Daniel Lezcano      2023-03-07  1349  					   &tz->device.kobj, "thermal_zone");
+70edc3ef596502 drivers/thermal/thermal_core.c Daniel Lezcano      2023-03-07  1350  		if (result)
+70edc3ef596502 drivers/thermal/thermal_core.c Daniel Lezcano      2023-03-07  1351  			goto out_list_del;
+70edc3ef596502 drivers/thermal/thermal_core.c Daniel Lezcano      2023-03-07  1352  
+70edc3ef596502 drivers/thermal/thermal_core.c Daniel Lezcano      2023-03-07  1353  		result = sysfs_create_link(&tz->device.kobj,
+70edc3ef596502 drivers/thermal/thermal_core.c Daniel Lezcano      2023-03-07  1354  					   &tzp->linked_dev->kobj, "device");
+70edc3ef596502 drivers/thermal/thermal_core.c Daniel Lezcano      2023-03-07  1355  		if (result)
+70edc3ef596502 drivers/thermal/thermal_core.c Daniel Lezcano      2023-03-07  1356  			goto out_del_link;
+70edc3ef596502 drivers/thermal/thermal_core.c Daniel Lezcano      2023-03-07  1357  	}
+70edc3ef596502 drivers/thermal/thermal_core.c Daniel Lezcano      2023-03-07  1358  
+7e8ee1e9d7561f drivers/thermal/thermal_sys.c  Durgadoss R         2012-09-18  1359  	/* Bind cooling devices for this zone */
+7e8ee1e9d7561f drivers/thermal/thermal_sys.c  Durgadoss R         2012-09-18  1360  	bind_tz(tz);
+7e8ee1e9d7561f drivers/thermal/thermal_sys.c  Durgadoss R         2012-09-18  1361  
+b659a30d7bdd5d drivers/thermal/thermal_core.c Eduardo Valentin    2016-11-07  1362  	INIT_DELAYED_WORK(&tz->poll_queue, thermal_zone_device_check);
+b1569e99c795bf drivers/thermal/thermal_sys.c  Matthew Garrett     2008-12-03  1363  
+d0df264fbd3c53 drivers/thermal/thermal_core.c Daniel Lezcano      2020-12-22  1364  	thermal_zone_device_init(tz);
+4511f7166a2deb drivers/thermal/thermal_core.c Chen Yu             2015-10-30  1365  	/* Update the new thermal zone and mark it as already updated. */
+4511f7166a2deb drivers/thermal/thermal_core.c Chen Yu             2015-10-30  1366  	if (atomic_cmpxchg(&tz->need_update, 1, 0))
+0e70f466fb910a drivers/thermal/thermal_core.c Srinivas Pandruvada 2016-08-26  1367  		thermal_zone_device_update(tz, THERMAL_EVENT_UNSPECIFIED);
+b1569e99c795bf drivers/thermal/thermal_sys.c  Matthew Garrett     2008-12-03  1368  
+55cdf0a283b876 drivers/thermal/thermal_core.c Daniel Lezcano      2020-07-06  1369  	thermal_notify_tz_create(tz->id, tz->type);
+55cdf0a283b876 drivers/thermal/thermal_core.c Daniel Lezcano      2020-07-06  1370  
+203d3d4aa48233 drivers/thermal/thermal.c      Zhang Rui           2008-01-17  1371  	return tz;
+203d3d4aa48233 drivers/thermal/thermal.c      Zhang Rui           2008-01-17  1372  
+70edc3ef596502 drivers/thermal/thermal_core.c Daniel Lezcano      2023-03-07  1373  out_del_link:
+70edc3ef596502 drivers/thermal/thermal_core.c Daniel Lezcano      2023-03-07  1374  	sysfs_remove_link(&tz->device.kobj, "thermal_zone");
+70edc3ef596502 drivers/thermal/thermal_core.c Daniel Lezcano      2023-03-07  1375  out_list_del:
+70edc3ef596502 drivers/thermal/thermal_core.c Daniel Lezcano      2023-03-07  1376  	list_del(&tz->node);
+203d3d4aa48233 drivers/thermal/thermal.c      Zhang Rui           2008-01-17  1377  unregister:
+adc8749b150c51 drivers/thermal/thermal_core.c Yue Hu              2019-08-07  1378  	device_del(&tz->device);
+adc8749b150c51 drivers/thermal/thermal_core.c Yue Hu              2019-08-07  1379  release_device:
+adc8749b150c51 drivers/thermal/thermal_core.c Yue Hu              2019-08-07  1380  	put_device(&tz->device);
+adc8749b150c51 drivers/thermal/thermal_core.c Yue Hu              2019-08-07  1381  	tz = NULL;
+9d9ca1f9f04cf1 drivers/thermal/thermal_core.c Christophe Jaillet  2017-08-08  1382  remove_id:
+5a5b7d8d541684 drivers/thermal/thermal_core.c keliu               2022-05-27  1383  	ida_free(&thermal_tz_ida, id);
+a9813bacf35314 drivers/thermal/thermal_core.c Daniel Lezcano      2023-03-07  1384  free_tzp:
+a9813bacf35314 drivers/thermal/thermal_core.c Daniel Lezcano      2023-03-07  1385  	kfree(tz->tzp);
+9d9ca1f9f04cf1 drivers/thermal/thermal_core.c Christophe Jaillet  2017-08-08  1386  free_tz:
+9d9ca1f9f04cf1 drivers/thermal/thermal_core.c Christophe Jaillet  2017-08-08  1387  	kfree(tz);
+9d9ca1f9f04cf1 drivers/thermal/thermal_core.c Christophe Jaillet  2017-08-08 @1388  	return ERR_PTR(result);
+203d3d4aa48233 drivers/thermal/thermal.c      Zhang Rui           2008-01-17  1389  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
+
