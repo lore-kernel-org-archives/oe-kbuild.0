@@ -1,42 +1,43 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED9172C9D
-	for <oe-kbuild@lists.linux.dev>; Fri, 17 Mar 2023 23:36:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 429B47C
+	for <oe-kbuild@lists.linux.dev>; Sat, 18 Mar 2023 00:37:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679096185; x=1710632185;
+  t=1679099848; x=1710635848;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=tmVipv5ajtE+TXdScJim3oYbOsaAfetKjSl5WT8ToGU=;
-  b=bLBr4icwP9EtDEYpFjdZ3gtyLfKJr5YPxant0MpvyizVKLBOc9pk4r9t
-   Y3E+StYSb9+khfbNIt+EvPLcbig2FttK2bdUHuziRB+mFC1CZl+gh/FvC
-   iRW/8sH40HLE7BYBhprmFYX/XjKjmlsAhUWQWvGRPUxdyf028nM+5kqEV
-   mUjs3YeH6eeo73rZBjRaSP/b3NPQO9JgNaQf3nnXkdocIK/pAUsRdnKHz
-   7mVYpvuVcw4ZpW2tsI0npTgOLDq/cxgMsPrBi8Aiksn0au4KhR1rU/rOl
-   PC1LdmZDk5M1JcA0erihDQJ3Dm8MxE3IEp06vyCuNL79fSscso7sXKC0B
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10652"; a="335879451"
+  bh=mJ22aSaBXZ3NImVwaixjIs7xR636sLeKbvNw1hIfMVc=;
+  b=Eal5lQO+rE1/aDS38qQe4vu4o3nfwRAFyldT2Wt3Od9KVMNwsoA1LsDA
+   EZcfgS7r07yw87BdpkW3epcqBAmAEkY61rQWSVSf45yPA81KggrB27hRX
+   tawprhu7jhAFC7aIDuBr0eifTt3beqDkOiOm9Lg3agan4h9l9Snu28nNr
+   uoGSQhgM5Ml+DDbw8y70761e79mYWWOXwZ5UDuwVXgbEmKCGDjRanb0WZ
+   uwU7yWDDoSRywdUAwt6HeNL9hxpzIGAfPfbkt2uiC7+Y5D6NRbnWhWqi0
+   iGJTCddTHPla1eqjwHJqMv5vk3PR/pdnUtJLwSsYLtuk6gmtUzP5tfHSJ
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10652"; a="337096993"
 X-IronPort-AV: E=Sophos;i="5.98,270,1673942400"; 
-   d="scan'208";a="335879451"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2023 16:36:25 -0700
+   d="scan'208";a="337096993"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2023 17:37:27 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10652"; a="657732587"
+X-IronPort-AV: E=McAfee;i="6600,9927,10652"; a="804298902"
 X-IronPort-AV: E=Sophos;i="5.98,270,1673942400"; 
-   d="scan'208";a="657732587"
+   d="scan'208";a="804298902"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 17 Mar 2023 16:36:23 -0700
+  by orsmga004.jf.intel.com with ESMTP; 17 Mar 2023 17:37:26 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pdJcV-0009ek-0w;
-	Fri, 17 Mar 2023 23:36:23 +0000
-Date: Sat, 18 Mar 2023 07:35:34 +0800
+	id 1pdKZZ-0009gn-2Q;
+	Sat, 18 Mar 2023 00:37:25 +0000
+Date: Sat, 18 Mar 2023 08:36:58 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: drivers/firmware/arm_scmi/driver.c:2508:2: warning: Attempt to free
- released memory [clang-analyzer-unix.Malloc]
-Message-ID: <202303180736.06LdKRke-lkp@intel.com>
+Subject: [cel:topic-rpc-with-tls-upcall 7/20]
+ include/linux/fortify-string.h:63:33: warning: use of NULL 'str' where
+ non-null expected [CWE-476]
+Message-ID: <202303180848.RjzP787J-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -47,259 +48,150 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "low confidence static check warning: drivers/firmware/arm_scmi/driver.c:2508:2: warning: Attempt to free released memory [clang-analyzer-unix.Malloc]"
+:::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "low confidence static check first_new_problem: include/linux/fortify-string.h:63:33: warning: use of NULL 'str' where non-null expected [CWE-476] [-Wanalyzer-null-argument]"
 :::::: 
 
 BCC: lkp@intel.com
-CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Cristian Marussi <cristian.marussi@arm.com>
-CC: Sudeep Holla <sudeep.holla@arm.com>
+TO: Chuck Lever <chuck.lever@oracle.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   8d3c682a5e3d9dfc2448ecbb22f4cd48359b9e21
-commit: c3d4aed763ce4a39f8ed36c7b7cd9a6a35971329 firmware: arm_scmi: Populate a common SCMI debugfs root
-date:   8 weeks ago
-:::::: branch date: 5 hours ago
-:::::: commit date: 8 weeks ago
-config: arm-randconfig-c002-20230310 (https://download.01.org/0day-ci/archive/20230318/202303180736.06LdKRke-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
+tree:   git://git.kernel.org/pub/scm/linux/kernel/git/cel/linux topic-rpc-with-tls-upcall
+head:   12050f1a9e648a9a557c8e5b1c635a2af6a29202
+commit: 29aac75ee9d33d88511d1452d6b14bcf94734589 [7/20] SUNRPC: Add RPC client support for the RPC_AUTH_TLS auth flavor
+:::::: branch date: 28 hours ago
+:::::: commit date: 28 hours ago
+config: i386-randconfig-c001-20230313 (https://download.01.org/0day-ci/archive/20230318/202303180848.RjzP787J-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=c3d4aed763ce4a39f8ed36c7b7cd9a6a35971329
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout c3d4aed763ce4a39f8ed36c7b7cd9a6a35971329
+        # https://git.kernel.org/pub/scm/linux/kernel/git/cel/linux.git/commit/?id=29aac75ee9d33d88511d1452d6b14bcf94734589
+        git remote add cel git://git.kernel.org/pub/scm/linux/kernel/git/cel/linux
+        git fetch --no-tags cel topic-rpc-with-tls-upcall
+        git checkout 29aac75ee9d33d88511d1452d6b14bcf94734589
         # save the config file
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=arm clang-analyzer  olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=arm clang-analyzer 
+        make ARCH=i386 KBUILD_USERCFLAGS='-fanalyzer -Wno-error'  olddefconfig
+        make ARCH=i386 KBUILD_USERCFLAGS='-fanalyzer -Wno-error' 
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/r/202303180736.06LdKRke-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202303180848.RjzP787J-lkp@intel.com/
 
-clang_analyzer warnings: (new ones prefixed by >>)
-           ^
-   drivers/memory/tegra/tegra210-emc-cc-r21021.c:179:6: note: 'dvfs_pt1' is true
-           if (dvfs_pt1 || periodic_training_update) {
-               ^~~~~~~~
-   drivers/memory/tegra/tegra210-emc-cc-r21021.c:179:15: note: Left side of '||' is true
-           if (dvfs_pt1 || periodic_training_update) {
-                        ^
-   drivers/memory/tegra/tegra210-emc-cc-r21021.c:185:6: note: 'dvfs_pt1' is true
-           if (dvfs_pt1)
-               ^~~~~~~~
-   drivers/memory/tegra/tegra210-emc-cc-r21021.c:185:2: note: Taking true branch
-           if (dvfs_pt1)
-           ^
-   drivers/memory/tegra/tegra210-emc-cc-r21021.c:192:6: note: 'dvfs_update' is false
-           if (dvfs_update || periodic_training_update) {
-               ^~~~~~~~~~~
-   drivers/memory/tegra/tegra210-emc-cc-r21021.c:192:6: note: Left side of '||' is false
-   drivers/memory/tegra/tegra210-emc-cc-r21021.c:192:21: note: 'periodic_training_update' is false
-           if (dvfs_update || periodic_training_update) {
-                              ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/memory/tegra/tegra210-emc-cc-r21021.c:192:2: note: Taking false branch
-           if (dvfs_update || periodic_training_update) {
-           ^
-   drivers/memory/tegra/tegra210-emc-cc-r21021.c:206:11: note: Field 'num_channels' is <= 1
-           if (emc->num_channels > 1) {
-                    ^
-   drivers/memory/tegra/tegra210-emc-cc-r21021.c:206:2: note: Taking false branch
-           if (emc->num_channels > 1) {
-           ^
-   drivers/memory/tegra/tegra210-emc-cc-r21021.c:262:6: note: Assuming field 'num_devices' is >= 2
-           if (emc->num_devices < 2)
-               ^~~~~~~~~~~~~~~~~~~~
-   drivers/memory/tegra/tegra210-emc-cc-r21021.c:262:2: note: Taking false branch
-           if (emc->num_devices < 2)
-           ^
-   drivers/memory/tegra/tegra210-emc-cc-r21021.c:268:6: note: 'dvfs_pt1' is true
-           if (dvfs_pt1 || periodic_training_update) {
-               ^~~~~~~~
-   drivers/memory/tegra/tegra210-emc-cc-r21021.c:268:15: note: Left side of '||' is true
-           if (dvfs_pt1 || periodic_training_update) {
-                        ^
-   drivers/memory/tegra/tegra210-emc-cc-r21021.c:271:15: note: Assuming 'i' is >= field 'num_channels'
-                   for (i = 0; i < emc->num_channels; i++) {
-                               ^~~~~~~~~~~~~~~~~~~~~
-   drivers/memory/tegra/tegra210-emc-cc-r21021.c:271:3: note: Loop condition is false. Execution continues on line 280
-                   for (i = 0; i < emc->num_channels; i++) {
-                   ^
-   drivers/memory/tegra/tegra210-emc-cc-r21021.c:282:15: note: Assuming 'i' is < field 'num_channels'
-                   for (i = 0; i < emc->num_channels; i++) {
-                               ^~~~~~~~~~~~~~~~~~~~~
-   drivers/memory/tegra/tegra210-emc-cc-r21021.c:282:3: note: Loop condition is true.  Entering loop body
-                   for (i = 0; i < emc->num_channels; i++) {
-                   ^
-   drivers/memory/tegra/tegra210-emc-cc-r21021.c:282:15: note: Assuming 'i' is < field 'num_channels'
-                   for (i = 0; i < emc->num_channels; i++) {
-                               ^~~~~~~~~~~~~~~~~~~~~
-   drivers/memory/tegra/tegra210-emc-cc-r21021.c:282:3: note: Loop condition is true.  Entering loop body
-                   for (i = 0; i < emc->num_channels; i++) {
-                   ^
-   drivers/memory/tegra/tegra210-emc-cc-r21021.c:283:15: note: The left expression of the compound assignment is an uninitialized value. The computed value will also be garbage
-                           temp[i][0] |= (value & 0x00ff) >> 0;
-                           ~~~~~~~~~~ ^
-   drivers/memory/tegra/tegra210-emc-cc-r21021.c:456:5: warning: Value stored to 'adel' is never read [clang-analyzer-deadcode.DeadStores]
-                                   adel = update_clock_tree_delay(emc, DVFS_PT1);
-                                   ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/memory/tegra/tegra210-emc-cc-r21021.c:456:5: note: Value stored to 'adel' is never read
-                                   adel = update_clock_tree_delay(emc, DVFS_PT1);
-                                   ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/memory/tegra/tegra210-emc-cc-r21021.c:500:3: warning: Value stored to 'value' is never read [clang-analyzer-deadcode.DeadStores]
-                   value = emc_readl(emc, EMC_DBG);
-                   ^       ~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/memory/tegra/tegra210-emc-cc-r21021.c:500:3: note: Value stored to 'value' is never read
-                   value = emc_readl(emc, EMC_DBG);
-                   ^       ~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/memory/tegra/tegra210-emc-cc-r21021.c:875:3: warning: Value stored to 'zq_wait_long' is never read [clang-analyzer-deadcode.DeadStores]
-                   zq_wait_long = max((u32)1, div_o3(1000000, dst_clk_period));
-                   ^
-   drivers/memory/tegra/tegra210-emc-cc-r21021.c:875:3: note: Value stored to 'zq_wait_long' is never read
-   drivers/memory/tegra/tegra210-emc-cc-r21021.c:877:3: warning: Value stored to 'zq_wait_long' is never read [clang-analyzer-deadcode.DeadStores]
-                   zq_wait_long = max(next->min_mrs_wait,
-                   ^
-   drivers/memory/tegra/tegra210-emc-cc-r21021.c:877:3: note: Value stored to 'zq_wait_long' is never read
-   drivers/memory/tegra/tegra210-emc-cc-r21021.c:880:3: warning: Value stored to 'zq_wait_long' is never read [clang-analyzer-deadcode.DeadStores]
-                   zq_wait_long = max((u32)256,
-                   ^
-   drivers/memory/tegra/tegra210-emc-cc-r21021.c:880:3: note: Value stored to 'zq_wait_long' is never read
-   drivers/memory/tegra/tegra210-emc-cc-r21021.c:883:3: warning: Value stored to 'zq_wait_long' is never read [clang-analyzer-deadcode.DeadStores]
-                   zq_wait_long = 0;
-                   ^              ~
-   drivers/memory/tegra/tegra210-emc-cc-r21021.c:883:3: note: Value stored to 'zq_wait_long' is never read
-                   zq_wait_long = 0;
-                   ^              ~
-   1 warning generated.
-   drivers/input/misc/atmel_captouch.c:68:8: warning: Excessive padding in 'struct atmel_captouch_device' (43 padding bytes, where 11 is optimal). Optimal fields order: xfer_buf, client, input, num_btn, keycodes, prev_btn, consider reordering the fields or adding explicit padding members [clang-analyzer-optin.performance.Padding]
-   struct atmel_captouch_device {
-   ~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/input/misc/atmel_captouch.c:68:8: note: Excessive padding in 'struct atmel_captouch_device' (43 padding bytes, where 11 is optimal). Optimal fields order: xfer_buf, client, input, num_btn, keycodes, prev_btn, consider reordering the fields or adding explicit padding members
-   struct atmel_captouch_device {
-   ~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~
-   1 warning generated.
->> drivers/firmware/arm_scmi/driver.c:2508:2: warning: Attempt to free released memory [clang-analyzer-unix.Malloc]
-           kfree(dbg->name);
-           ^
-   drivers/firmware/arm_scmi/driver.c:2587:6: note: Assuming 'desc' is non-null
-           if (!desc)
-               ^~~~~
-   drivers/firmware/arm_scmi/driver.c:2587:2: note: Taking false branch
-           if (!desc)
-           ^
-   drivers/firmware/arm_scmi/driver.c:2591:6: note: Assuming 'info' is non-null
-           if (!info)
-               ^~~~~
-   drivers/firmware/arm_scmi/driver.c:2591:2: note: Taking false branch
-           if (!info)
-           ^
-   drivers/firmware/arm_scmi/driver.c:2595:6: note: Assuming field 'id' is >= 0
-           if (info->id < 0)
-               ^~~~~~~~~~~~
-   drivers/firmware/arm_scmi/driver.c:2595:2: note: Taking false branch
-           if (info->id < 0)
-           ^
-   drivers/firmware/arm_scmi/driver.c:2604:2: note: Loop condition is false.  Exiting loop
-           mutex_init(&info->protocols_mtx);
-           ^
-   include/linux/mutex.h:101:32: note: expanded from macro 'mutex_init'
-   #define mutex_init(mutex)                                               \
-                                                                           ^
-   drivers/firmware/arm_scmi/driver.c:2606:2: note: Loop condition is false.  Exiting loop
-           mutex_init(&info->devreq_mtx);
-           ^
-   include/linux/mutex.h:101:32: note: expanded from macro 'mutex_init'
-   #define mutex_init(mutex)                                               \
-                                                                           ^
-   drivers/firmware/arm_scmi/driver.c:2620:2: note: Taking false branch
-           if (!of_property_read_u32(np, "atomic-threshold-us",
-           ^
-   drivers/firmware/arm_scmi/driver.c:2627:6: note: Assuming field 'link_supplier' is null
-           if (desc->ops->link_supplier) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/firmware/arm_scmi/driver.c:2627:2: note: Taking false branch
-           if (desc->ops->link_supplier) {
-           ^
-   drivers/firmware/arm_scmi/driver.c:2635:6: note: Assuming 'ret' is 0
-           if (ret)
-               ^~~
-   drivers/firmware/arm_scmi/driver.c:2635:2: note: Taking false branch
-           if (ret)
-           ^
-   drivers/firmware/arm_scmi/driver.c:2639:6: note: Assuming 'ret' is 0
-           if (ret)
-               ^~~
-   drivers/firmware/arm_scmi/driver.c:2639:2: note: Taking false branch
-           if (ret)
-           ^
-   drivers/firmware/arm_scmi/driver.c:2644:6: note: Assuming 'ret' is 0
-           if (ret)
-               ^~~
-   drivers/firmware/arm_scmi/driver.c:2644:2: note: Taking false branch
-           if (ret)
-           ^
-   drivers/firmware/arm_scmi/driver.c:2648:6: note: 'ret' is 0
-           if (ret)
-               ^~~
-   drivers/firmware/arm_scmi/driver.c:2648:2: note: Taking false branch
-           if (ret)
-           ^
-   drivers/firmware/arm_scmi/driver.c:2651:6: note: Assuming 'scmi_top_dentry' is non-null
-           if (scmi_top_dentry) {
-               ^~~~~~~~~~~~~~~
-   drivers/firmware/arm_scmi/driver.c:2651:2: note: Taking true branch
-           if (scmi_top_dentry) {
-           ^
-   drivers/firmware/arm_scmi/driver.c:2652:15: note: Calling 'scmi_debugfs_common_setup'
-                   info->dbg = scmi_debugfs_common_setup(info);
-                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/firmware/arm_scmi/driver.c:2520:6: note: Assuming 'dbg' is non-null
-           if (!dbg)
-               ^~~~
-   drivers/firmware/arm_scmi/driver.c:2520:2: note: Taking false branch
-           if (!dbg)
-           ^
-   drivers/firmware/arm_scmi/driver.c:2524:6: note: Assuming field 'name' is non-null
-           if (!dbg->name) {
-               ^~~~~~~~~~
-   drivers/firmware/arm_scmi/driver.c:2524:2: note: Taking false branch
-           if (!dbg->name) {
-           ^
-   drivers/firmware/arm_scmi/driver.c:2531:6: note: Assuming field 'type' is non-null
-           if (!dbg->type) {
-               ^~~~~~~~~~
-   drivers/firmware/arm_scmi/driver.c:2531:2: note: Taking false branch
-           if (!dbg->type) {
-           ^
-   drivers/firmware/arm_scmi/driver.c:2541:19: note: Assuming field 'atomic_enabled' is false
-           dbg->is_atomic = info->desc->atomic_enabled &&
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/firmware/arm_scmi/driver.c:2541:46: note: Left side of '&&' is false
-           dbg->is_atomic = info->desc->atomic_enabled &&
-                                                       ^
-   drivers/firmware/arm_scmi/driver.c:2568:6: note: Calling 'devm_add_action_or_reset'
-           if (devm_add_action_or_reset(info->dev,
+gcc_analyzer warnings: (new ones prefixed by >>)
+   In file included from include/linux/string.h:254,
+                    from arch/x86/include/asm/page_32.h:18,
+                    from arch/x86/include/asm/page.h:14,
+                    from arch/x86/include/asm/processor.h:20,
+                    from arch/x86/include/asm/timex.h:5,
+                    from include/linux/timex.h:67,
+                    from include/linux/time32.h:13,
+                    from include/linux/time.h:60,
+                    from include/linux/stat.h:19,
+                    from include/linux/module.h:13,
+                    from net/sunrpc/auth_tls.c:10:
+   include/linux/fortify-string.h: In function 'tls_validate':
+>> include/linux/fortify-string.h:63:33: warning: use of NULL 'str' where non-null expected [CWE-476] [-Wanalyzer-null-argument]
+      63 | #define __underlying_memcmp     __builtin_memcmp
+         |                                 ^
+   include/linux/fortify-string.h:665:16: note: in expansion of macro '__underlying_memcmp'
+     665 |         return __underlying_memcmp(p, q, size);
+         |                ^~~~~~~~~~~~~~~~~~~
+     'tls_validate': events 1-6
+       |
+       |net/sunrpc/auth_tls.c:67:12:
+       |   67 | static int tls_validate(struct rpc_task *task, struct xdr_stream *xdr)
+       |      |            ^~~~~~~~~~~~
+       |      |            |
+       |      |            (1) entry to 'tls_validate'
+       |......
+       |   73 |         if (!p)
+       |      |            ~
+       |      |            |
+       |      |            (2) following 'false' branch (when 'p' is non-NULL)...
+       |   74 |                 return -EIO;
+       |   75 |         if (*p != rpc_auth_null)
+       |      |         ~~ ~
+       |      |         |  |
+       |      |         |  (4) following 'false' branch...
+       |      |         (3) ...to here
+       |   76 |                 return -EIO;
+       |   77 |         if (xdr_stream_decode_opaque_inline(xdr, &str, starttls_len) != starttls_len)
+       |      |         ~~  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |         |   |
+       |      |         |   (6) calling 'xdr_stream_decode_opaque_inline' from 'tls_validate'
+       |      |         (5) ...to here
+       |
+       +--> 'xdr_stream_decode_opaque_inline': event 7
+              |
+              |include/linux/sunrpc/xdr.h:739:1:
+              |  739 | xdr_stream_decode_opaque_inline(struct xdr_stream *xdr, void **ptr, size_t maxlen)
+              |      | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      | |
+              |      | (7) entry to 'xdr_stream_decode_opaque_inline'
+              |
+            'xdr_stream_decode_opaque_inline': event 8
+              |
+              |  744 |         *ptr = NULL;
+              |
+       <------+
+       |
+     'tls_validate': events 9-12
+       |
+       |net/sunrpc/auth_tls.c:77:13:
+       |   77 |         if (xdr_stream_decode_opaque_inline(xdr, &str, starttls_len) != starttls_len)
+       |      |            ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |            ||
+       |      |            |(9) returning to 'tls_validate' from 'xdr_stream_decode_opaque_inline'
+       |      |            (10) following 'false' branch...
+       |   78 |                 return -EIO;
+       |   79 |         if (memcmp(str, starttls_token, starttls_len))
+       |      |         ~~  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |         |   |
+       |      |         |   (12) 'str' is NULL
+       |      |         (11) ...to here
+       |
+     'tls_validate': events 13-14
+       |
+       |include/linux/fortify-string.h:663:12:
+       |  663 |         if (p_size < size || q_size < size)
+       |      |            ^
+       |      |            |
+       |      |            (13) following 'false' branch...
+       |  664 |                 fortify_panic(__func__);
+       |  665 |         return __underlying_memcmp(p, q, size);
+       |      |         ~~~~~~
+       |      |         |
+       |      |         (14) ...to here
+       |
+     'tls_validate': event 15
+       |
+       |   63 | #define __underlying_memcmp     __builtin_memcmp
+       |      |                                 ^
+       |      |                                 |
+       |      |                                 (15) argument 1 ('str') NULL where non-null expected
+   include/linux/fortify-string.h:665:16: note: in expansion of macro '__underlying_memcmp'
+       |  665 |         return __underlying_memcmp(p, q, size);
+       |      |                ^~~~~~~~~~~~~~~~~~~
+       |
+   <built-in>: note: argument 1 of '__builtin_memcmp' must be non-null
 
-vim +2508 drivers/firmware/arm_scmi/driver.c
+vim +/str +63 include/linux/fortify-string.h
 
-53b8c25df7082e Cristian Marussi 2022-12-22  2499  
-c3d4aed763ce4a Cristian Marussi 2023-01-18  2500  static void scmi_debugfs_common_cleanup(void *d)
-c3d4aed763ce4a Cristian Marussi 2023-01-18  2501  {
-c3d4aed763ce4a Cristian Marussi 2023-01-18  2502  	struct scmi_debug_info *dbg = d;
-c3d4aed763ce4a Cristian Marussi 2023-01-18  2503  
-c3d4aed763ce4a Cristian Marussi 2023-01-18  2504  	if (!dbg)
-c3d4aed763ce4a Cristian Marussi 2023-01-18  2505  		return;
-c3d4aed763ce4a Cristian Marussi 2023-01-18  2506  
-c3d4aed763ce4a Cristian Marussi 2023-01-18  2507  	debugfs_remove_recursive(dbg->top_dentry);
-c3d4aed763ce4a Cristian Marussi 2023-01-18 @2508  	kfree(dbg->name);
-c3d4aed763ce4a Cristian Marussi 2023-01-18  2509  	kfree(dbg->type);
-c3d4aed763ce4a Cristian Marussi 2023-01-18  2510  }
-c3d4aed763ce4a Cristian Marussi 2023-01-18  2511  
+78a498c3a227f2 Alexander Potapenko 2022-10-24  61  
+78a498c3a227f2 Alexander Potapenko 2022-10-24  62  #define __underlying_memchr	__builtin_memchr
+78a498c3a227f2 Alexander Potapenko 2022-10-24 @63  #define __underlying_memcmp	__builtin_memcmp
+a28a6e860c6cf2 Francis Laniel      2021-02-25  64  #define __underlying_strcat	__builtin_strcat
+a28a6e860c6cf2 Francis Laniel      2021-02-25  65  #define __underlying_strcpy	__builtin_strcpy
+a28a6e860c6cf2 Francis Laniel      2021-02-25  66  #define __underlying_strlen	__builtin_strlen
+a28a6e860c6cf2 Francis Laniel      2021-02-25  67  #define __underlying_strncat	__builtin_strncat
+a28a6e860c6cf2 Francis Laniel      2021-02-25  68  #define __underlying_strncpy	__builtin_strncpy
+a28a6e860c6cf2 Francis Laniel      2021-02-25  69  #endif
+a28a6e860c6cf2 Francis Laniel      2021-02-25  70  
+
+:::::: The code at line 63 was first introduced by commit
+:::::: 78a498c3a227f2ac773a8234b2ce092a4403f2c3 x86: fortify: kmsan: fix KMSAN fortify builds
+
+:::::: TO: Alexander Potapenko <glider@google.com>
+:::::: CC: Andrew Morton <akpm@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
