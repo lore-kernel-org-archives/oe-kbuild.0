@@ -1,42 +1,49 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC57263B
-	for <oe-kbuild@lists.linux.dev>; Sat, 18 Mar 2023 03:32:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679110352; x=1710646352;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=sRF3uFGCxvaBVEQUg9DZm2ewcXQfWdOoz32Js/uMX7s=;
-  b=hAsrr3HDR2cBlV0GXGCF+JFPZBMNYs23wFZpbTYiT+G8MkJP9F9Nebim
-   f2tFvqssXy5jhTxeaAtdUxUDKQMrBxRch3xd4doJ6uqLgIcr6Ppe1Tt2E
-   RBky1fLWYERo84bwHnOFeHmctOin4Q9ICCFWCHfHB5FyAZwdwfB/0ZEK1
-   DsF1v9nNYvQv3QiU7FTmdul6rpy9wRI1hGYb5g2XUkxoWvdkTjXrAVTtH
-   VwHdlbK3IhewppcjIVMV22J4GLmYuNjXD5WuGWO4chefQ05Ks9X+GA4DH
-   c9Zg5HC72jXPiIPMwzoPSJqeZcX9kingqw7ZXI4KUiJYyrnlI6BQCG9b3
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10652"; a="337109121"
-X-IronPort-AV: E=Sophos;i="5.98,270,1673942400"; 
-   d="scan'208";a="337109121"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2023 20:32:32 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10652"; a="673784701"
-X-IronPort-AV: E=Sophos;i="5.98,270,1673942400"; 
-   d="scan'208";a="673784701"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 17 Mar 2023 20:32:30 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pdNJ0-0009ly-0F;
-	Sat, 18 Mar 2023 03:32:30 +0000
-Date: Sat, 18 Mar 2023 11:31:33 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [djwong-xfs:djwong-wtf 507/508] fs/xfs/xfs_bmap_util.c:1359
- xfs_map_free_extent() warn: missing error code 'error'
-Message-ID: <202303181154.TIQzFk7R-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D09687F8;
+	Sat, 18 Mar 2023 07:39:11 +0000 (UTC)
+Received: by mail-wr1-f51.google.com with SMTP id v1so96646wrv.1;
+        Sat, 18 Mar 2023 00:39:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1679125150;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=WGRUJKIQoHXkQjwwVjpDxkiO2kTUlbFAUX9F4IQp8wc=;
+        b=U5r8Da9v/kmeiC5DkFc/WbYGFkamnIlb+3lI4bKcnlqCtddsJmluBOY/uM+etn1PRN
+         WW/6IhiLo8hX3o8Guv/Ymqo+50NsmQZ/ENkkZFu6bmK3tYyj2jwfaGEi+SwC6tTidmkk
+         RyfGGcbpmW4RsqBmj5ZWB89+Keaj6/IzUysS6MOoFUON2fI99PPKFeTiqJvW6+iafy9b
+         1tZ+UA4V8c3whXe2dvtHSpcA6XrIAiFsbdUlAqH0I8JyKLKlUQH9y3qSV41ONXPQLM3U
+         7eKEXHXtsI8Mt9ymSyGQSU0vf3ZCDDhdQFK+rtPS0iKcjMuaTqbO1w3qFGQdNcwGt16w
+         J+1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679125150;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=WGRUJKIQoHXkQjwwVjpDxkiO2kTUlbFAUX9F4IQp8wc=;
+        b=rMFjFwx9FzgLdEA60W7aUC3h3YRvtkACYSzRDwTUaeZsObucIlXZ1krUF5hsbGP+MM
+         NQn1P+66B7+ZBBZI4DqTGsPbxMIVMIIruIKCT9pxTME4U9IcbutK2A2OaxoPGn0xTyh9
+         enSUhm9doRkS/rrpRcVkcCkoY2gBXz64NFtZmEjsPd7RSpmGt4KpVDSnias4F2/+pzBR
+         oXRr731FtM6uHhq6HUlOdgznegMHI5LvnwRKCXH2/xl8FH6NRf8Y2z3f/8SBo6Uf0WB9
+         RXNatw7Wgt5p7l3Q6tiV06y93P473bjdn+jVegwVEvg4EncCEs931U8RMDPxK8UR6ejp
+         WJFA==
+X-Gm-Message-State: AO0yUKVy155BerfFzk9ro1F7WIGKlaShEbxTocqk0aRK+XstAxZdgX77
+	9WiW8NaH8ji0SUvr3PKOBeGYtF/gipI=
+X-Google-Smtp-Source: AK7set+1z5YUW0paK8ARmaDE+tXL2FQKsLmZfk3kcP4Nhqhigz+Xs38VSbe0zhCSYL0tNA6RMGPBnA==
+X-Received: by 2002:a5d:470f:0:b0:2d4:53d7:ea7f with SMTP id y15-20020a5d470f000000b002d453d7ea7fmr1941898wrq.3.1679125149625;
+        Sat, 18 Mar 2023 00:39:09 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id f9-20020adff989000000b002cea392f000sm3666303wrr.69.2023.03.18.00.39.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 18 Mar 2023 00:39:09 -0700 (PDT)
+Date: Sat, 18 Mar 2023 10:39:04 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev, Jens Axboe <axboe@kernel.dk>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [linux-next:master 3570/3780] io_uring/kbuf.c:221
+ __io_remove_buffers() warn: variable dereferenced before check
+ 'bl->buf_ring' (see line 219)
+Message-ID: <76b6e52e-884c-4292-8c32-e4baa84d1508@kili.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -46,122 +53,80 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: "Darrick J. Wong" <darrick.wong@oracle.com>
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git djwong-wtf
-head:   41909af7f21d1455bbc2842b9f104d9cccdb872f
-commit: 77b9587945b6a594ccfc85a26f9cf17ebb94f295 [507/508] xfs: fallocate free space into a file
-:::::: branch date: 3 days ago
-:::::: commit date: 3 days ago
-config: ia64-randconfig-m031-20230312 (https://download.01.org/0day-ci/archive/20230318/202303181154.TIQzFk7R-lkp@intel.com/config)
-compiler: ia64-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   6f72958a49f68553f2b6ff713e8c8e51a34c1e1e
+commit: 5d04a480457850f58b9d3ff87b7e766674eac4c4 [3570/3780] io_uring: add support for user mapped provided buffer ring
+config: x86_64-randconfig-m001 (https://download.01.org/0day-ci/archive/20230316/202303161837.uG7iAfji-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202303181154.TIQzFk7R-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202303161837.uG7iAfji-lkp@intel.com/
 
-New smatch warnings:
-fs/xfs/xfs_bmap_util.c:1359 xfs_map_free_extent() warn: missing error code 'error'
+smatch warnings:
+io_uring/kbuf.c:221 __io_remove_buffers() warn: variable dereferenced before check 'bl->buf_ring' (see line 219)
 
-Old smatch warnings:
-fs/xfs/xfs_buf.h:449 xfs_buftarg_zeroout() warn: bitwise AND condition is false here
+vim +221 io_uring/kbuf.c
 
-vim +/error +1359 fs/xfs/xfs_bmap_util.c
+3b77495a97239f Jens Axboe 2022-06-13  209  static int __io_remove_buffers(struct io_ring_ctx *ctx,
+3b77495a97239f Jens Axboe 2022-06-13  210  			       struct io_buffer_list *bl, unsigned nbufs)
+3b77495a97239f Jens Axboe 2022-06-13  211  {
+3b77495a97239f Jens Axboe 2022-06-13  212  	unsigned i = 0;
+3b77495a97239f Jens Axboe 2022-06-13  213  
+3b77495a97239f Jens Axboe 2022-06-13  214  	/* shouldn't happen */
+3b77495a97239f Jens Axboe 2022-06-13  215  	if (!nbufs)
+3b77495a97239f Jens Axboe 2022-06-13  216  		return 0;
+3b77495a97239f Jens Axboe 2022-06-13  217  
+5d04a480457850 Jens Axboe 2023-03-14  218  	if (bl->is_mapped) {
+5d04a480457850 Jens Axboe 2023-03-14 @219  		i = bl->buf_ring->tail - bl->head;
+                                                            ^^^^^^^^^^^^^^
+Dereference.
 
-77b9587945b6a5 Darrick J. Wong 2023-03-06  1327  
-77b9587945b6a5 Darrick J. Wong 2023-03-06  1328  /* Find a free extent in this AG and map it into the file. */
-77b9587945b6a5 Darrick J. Wong 2023-03-06  1329  STATIC int
-77b9587945b6a5 Darrick J. Wong 2023-03-06  1330  xfs_map_free_extent(
-77b9587945b6a5 Darrick J. Wong 2023-03-06  1331  	struct xfs_inode	*ip,
-77b9587945b6a5 Darrick J. Wong 2023-03-06  1332  	struct xfs_perag	*pag,
-77b9587945b6a5 Darrick J. Wong 2023-03-06  1333  	xfs_agblock_t		*cursor,
-77b9587945b6a5 Darrick J. Wong 2023-03-06  1334  	xfs_agblock_t		end_agbno,
-77b9587945b6a5 Darrick J. Wong 2023-03-06  1335  	xfs_agblock_t		*last_enospc_agbno)
-77b9587945b6a5 Darrick J. Wong 2023-03-06  1336  {
-77b9587945b6a5 Darrick J. Wong 2023-03-06  1337  	struct xfs_bmbt_irec	irec;
-77b9587945b6a5 Darrick J. Wong 2023-03-06  1338  	struct xfs_mount	*mp = ip->i_mount;
-77b9587945b6a5 Darrick J. Wong 2023-03-06  1339  	struct xfs_trans	*tp;
-77b9587945b6a5 Darrick J. Wong 2023-03-06  1340  	xfs_off_t		endpos;
-77b9587945b6a5 Darrick J. Wong 2023-03-06  1341  	xfs_fsblock_t		fsbno;
-77b9587945b6a5 Darrick J. Wong 2023-03-06  1342  	xfs_extlen_t		len;
-77b9587945b6a5 Darrick J. Wong 2023-03-06  1343  	int			error;
-77b9587945b6a5 Darrick J. Wong 2023-03-06  1344  
-77b9587945b6a5 Darrick J. Wong 2023-03-06  1345  	if (fatal_signal_pending(current))
-77b9587945b6a5 Darrick J. Wong 2023-03-06  1346  		return -EINTR;
-77b9587945b6a5 Darrick J. Wong 2023-03-06  1347  
-77b9587945b6a5 Darrick J. Wong 2023-03-06  1348  	error = xfs_trans_alloc_inode(ip, &M_RES(mp)->tr_write, 0, 0, false,
-77b9587945b6a5 Darrick J. Wong 2023-03-06  1349  			&tp);
-77b9587945b6a5 Darrick J. Wong 2023-03-06  1350  	if (error)
-77b9587945b6a5 Darrick J. Wong 2023-03-06  1351  		return error;
-77b9587945b6a5 Darrick J. Wong 2023-03-06  1352  
-77b9587945b6a5 Darrick J. Wong 2023-03-06  1353  	error = xfs_alloc_find_freesp(tp, pag, cursor, end_agbno, &len);
-77b9587945b6a5 Darrick J. Wong 2023-03-06  1354  	if (error)
-77b9587945b6a5 Darrick J. Wong 2023-03-06  1355  		goto out_cancel;
-77b9587945b6a5 Darrick J. Wong 2023-03-06  1356  
-77b9587945b6a5 Darrick J. Wong 2023-03-06  1357  	/* Bail out if the cursor is beyond what we asked for. */
-77b9587945b6a5 Darrick J. Wong 2023-03-06  1358  	if (*cursor >= end_agbno)
-77b9587945b6a5 Darrick J. Wong 2023-03-06 @1359  		goto out_cancel;
-77b9587945b6a5 Darrick J. Wong 2023-03-06  1360  
-77b9587945b6a5 Darrick J. Wong 2023-03-06  1361  	error = xfs_map_free_reserve_more(tp, ip, &len);
-77b9587945b6a5 Darrick J. Wong 2023-03-06  1362  	if (error)
-77b9587945b6a5 Darrick J. Wong 2023-03-06  1363  		goto out_cancel;
-77b9587945b6a5 Darrick J. Wong 2023-03-06  1364  
-77b9587945b6a5 Darrick J. Wong 2023-03-06  1365  	fsbno = XFS_AGB_TO_FSB(mp, pag->pag_agno, *cursor);
-77b9587945b6a5 Darrick J. Wong 2023-03-06  1366  	do {
-77b9587945b6a5 Darrick J. Wong 2023-03-06  1367  		error = xfs_bmapi_freesp(tp, ip, fsbno, len, &irec);
-77b9587945b6a5 Darrick J. Wong 2023-03-06  1368  		if (error == -EAGAIN) {
-77b9587945b6a5 Darrick J. Wong 2023-03-06  1369  			/* Failed to map space but were told to try again. */
-77b9587945b6a5 Darrick J. Wong 2023-03-06  1370  			error = xfs_trans_commit(tp);
-77b9587945b6a5 Darrick J. Wong 2023-03-06  1371  			goto out;
-77b9587945b6a5 Darrick J. Wong 2023-03-06  1372  		}
-77b9587945b6a5 Darrick J. Wong 2023-03-06  1373  		if (error != -ENOSPC)
-77b9587945b6a5 Darrick J. Wong 2023-03-06  1374  			break;
-77b9587945b6a5 Darrick J. Wong 2023-03-06  1375  		/*
-77b9587945b6a5 Darrick J. Wong 2023-03-06  1376  		 * If we can't get the space, try asking for successively less
-77b9587945b6a5 Darrick J. Wong 2023-03-06  1377  		 * space in case we're bumping up against per-AG metadata
-77b9587945b6a5 Darrick J. Wong 2023-03-06  1378  		 * reservation limits...
-77b9587945b6a5 Darrick J. Wong 2023-03-06  1379  		 */
-77b9587945b6a5 Darrick J. Wong 2023-03-06  1380  		len >>= 1;
-77b9587945b6a5 Darrick J. Wong 2023-03-06  1381  	} while (len > 0);
-77b9587945b6a5 Darrick J. Wong 2023-03-06  1382  	if (error == -ENOSPC && *last_enospc_agbno != *cursor) {
-77b9587945b6a5 Darrick J. Wong 2023-03-06  1383  		/*
-77b9587945b6a5 Darrick J. Wong 2023-03-06  1384  		 * ...but even that might not work if an AGFL fixup allocated
-77b9587945b6a5 Darrick J. Wong 2023-03-06  1385  		 * the block at *cursor.  The first time this happens, remember
-77b9587945b6a5 Darrick J. Wong 2023-03-06  1386  		 * that we ran out of space here, and try again.
-77b9587945b6a5 Darrick J. Wong 2023-03-06  1387  		 */
-77b9587945b6a5 Darrick J. Wong 2023-03-06  1388  		*last_enospc_agbno = *cursor;
-77b9587945b6a5 Darrick J. Wong 2023-03-06  1389  		error = 0;
-77b9587945b6a5 Darrick J. Wong 2023-03-06  1390  		goto out_cancel;
-77b9587945b6a5 Darrick J. Wong 2023-03-06  1391  	}
-77b9587945b6a5 Darrick J. Wong 2023-03-06  1392  	if (error)
-77b9587945b6a5 Darrick J. Wong 2023-03-06  1393  		goto out_cancel;
-77b9587945b6a5 Darrick J. Wong 2023-03-06  1394  
-77b9587945b6a5 Darrick J. Wong 2023-03-06  1395  	/* Update isize if needed. */
-77b9587945b6a5 Darrick J. Wong 2023-03-06  1396  	endpos = XFS_FSB_TO_B(mp, irec.br_startoff + irec.br_blockcount);
-77b9587945b6a5 Darrick J. Wong 2023-03-06  1397  	if (endpos > i_size_read(VFS_I(ip))) {
-77b9587945b6a5 Darrick J. Wong 2023-03-06  1398  		i_size_write(VFS_I(ip), endpos);
-77b9587945b6a5 Darrick J. Wong 2023-03-06  1399  		ip->i_disk_size = endpos;
-77b9587945b6a5 Darrick J. Wong 2023-03-06  1400  		xfs_trans_log_inode(tp, ip, XFS_ILOG_CORE);
-77b9587945b6a5 Darrick J. Wong 2023-03-06  1401  	}
-77b9587945b6a5 Darrick J. Wong 2023-03-06  1402  
-77b9587945b6a5 Darrick J. Wong 2023-03-06  1403  	error = xfs_trans_commit(tp);
-77b9587945b6a5 Darrick J. Wong 2023-03-06  1404  	xfs_iunlock(ip, XFS_ILOCK_EXCL);
-77b9587945b6a5 Darrick J. Wong 2023-03-06  1405  	if (error)
-77b9587945b6a5 Darrick J. Wong 2023-03-06  1406  		return error;
-77b9587945b6a5 Darrick J. Wong 2023-03-06  1407  
-77b9587945b6a5 Darrick J. Wong 2023-03-06  1408  	*cursor += irec.br_blockcount;
-77b9587945b6a5 Darrick J. Wong 2023-03-06  1409  	return 0;
-77b9587945b6a5 Darrick J. Wong 2023-03-06  1410  out_cancel:
-77b9587945b6a5 Darrick J. Wong 2023-03-06  1411  	xfs_trans_cancel(tp);
-77b9587945b6a5 Darrick J. Wong 2023-03-06  1412  out:
-77b9587945b6a5 Darrick J. Wong 2023-03-06  1413  	xfs_iunlock(ip, XFS_ILOCK_EXCL);
-77b9587945b6a5 Darrick J. Wong 2023-03-06  1414  	return error;
-77b9587945b6a5 Darrick J. Wong 2023-03-06  1415  }
-77b9587945b6a5 Darrick J. Wong 2023-03-06  1416  
+5d04a480457850 Jens Axboe 2023-03-14  220  		if (bl->is_mmap) {
+5d04a480457850 Jens Axboe 2023-03-14 @221  			if (bl->buf_ring) {
+                                                                    ^^^^^^^^^^^^
+Checked too late.
+
+5d04a480457850 Jens Axboe 2023-03-14  222  				struct page *page;
+5d04a480457850 Jens Axboe 2023-03-14  223  
+5d04a480457850 Jens Axboe 2023-03-14  224  				page = virt_to_head_page(bl->buf_ring);
+5d04a480457850 Jens Axboe 2023-03-14  225  				if (put_page_testzero(page))
+5d04a480457850 Jens Axboe 2023-03-14  226  					free_compound_page(page);
+5d04a480457850 Jens Axboe 2023-03-14  227  				bl->buf_ring = NULL;
+5d04a480457850 Jens Axboe 2023-03-14  228  			}
+5d04a480457850 Jens Axboe 2023-03-14  229  			bl->is_mmap = 0;
+5d04a480457850 Jens Axboe 2023-03-14  230  		} else if (bl->buf_nr_pages) {
+3b77495a97239f Jens Axboe 2022-06-13  231  			int j;
+3b77495a97239f Jens Axboe 2022-06-13  232  
+3b77495a97239f Jens Axboe 2022-06-13  233  			for (j = 0; j < bl->buf_nr_pages; j++)
+3b77495a97239f Jens Axboe 2022-06-13  234  				unpin_user_page(bl->buf_pages[j]);
+3b77495a97239f Jens Axboe 2022-06-13  235  			kvfree(bl->buf_pages);
+3b77495a97239f Jens Axboe 2022-06-13  236  			bl->buf_pages = NULL;
+3b77495a97239f Jens Axboe 2022-06-13  237  			bl->buf_nr_pages = 0;
+5d04a480457850 Jens Axboe 2023-03-14  238  		}
+3b77495a97239f Jens Axboe 2022-06-13  239  		/* make sure it's seen as empty */
+3b77495a97239f Jens Axboe 2022-06-13  240  		INIT_LIST_HEAD(&bl->buf_list);
+fe19437061eda5 Jens Axboe 2023-03-14  241  		bl->is_mapped = 0;
+3b77495a97239f Jens Axboe 2022-06-13  242  		return i;
+3b77495a97239f Jens Axboe 2022-06-13  243  	}
+3b77495a97239f Jens Axboe 2022-06-13  244  
+3b77495a97239f Jens Axboe 2022-06-13  245  	/* the head kbuf is the list itself */
+3b77495a97239f Jens Axboe 2022-06-13  246  	while (!list_empty(&bl->buf_list)) {
+3b77495a97239f Jens Axboe 2022-06-13  247  		struct io_buffer *nxt;
+3b77495a97239f Jens Axboe 2022-06-13  248  
+3b77495a97239f Jens Axboe 2022-06-13  249  		nxt = list_first_entry(&bl->buf_list, struct io_buffer, list);
+3b77495a97239f Jens Axboe 2022-06-13  250  		list_del(&nxt->list);
+3b77495a97239f Jens Axboe 2022-06-13  251  		if (++i == nbufs)
+3b77495a97239f Jens Axboe 2022-06-13  252  			return i;
+3b77495a97239f Jens Axboe 2022-06-13  253  		cond_resched();
+3b77495a97239f Jens Axboe 2022-06-13  254  	}
+3b77495a97239f Jens Axboe 2022-06-13  255  	i++;
+3b77495a97239f Jens Axboe 2022-06-13  256  
+3b77495a97239f Jens Axboe 2022-06-13  257  	return i;
+3b77495a97239f Jens Axboe 2022-06-13  258  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
+
