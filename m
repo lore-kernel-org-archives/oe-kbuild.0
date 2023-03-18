@@ -1,49 +1,50 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF95A7F8;
-	Sat, 18 Mar 2023 07:43:39 +0000 (UTC)
-Received: by mail-wm1-f53.google.com with SMTP id ay8so4562464wmb.1;
-        Sat, 18 Mar 2023 00:43:39 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73AC67F8;
+	Sat, 18 Mar 2023 07:46:31 +0000 (UTC)
+Received: by mail-wr1-f52.google.com with SMTP id v1so103542wrv.1;
+        Sat, 18 Mar 2023 00:46:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679125418;
+        d=gmail.com; s=20210112; t=1679125589;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=n/2WZTvOIngdjOKJgPvf13lVmCmjnUXMQ8Ott2W4iUA=;
-        b=T056L/dEuIAcdbyAOAUMiexYvhiIz9zUVBYBuKCC0hZ+6hfCorZTBo7BTQCEa7CSHH
-         5B1YiKI+CP7Ns9Paz3S4hWIfBkhbRSNBYJFr5BSOliNVakjcYlWK3SPo3l1L1S2eyLo2
-         1dtSmHfMYZ+jt8xBtechM9+V1rCZCtH2M6wEl335xtlrDhCl/2IybY5CdjoHDIrWuOrE
-         b99bbprZ80kPfpt01L0G2VdDNZ/xeme92P0uBTxwm5mozsPQBbZzmL6TdP22pYY2wAx9
-         GABfLKsjS+U70dpYBzi1tXj1u0O5km7q6jAi9maARh7nxYzCAjAcY1aEa4pk1gUEMrJt
-         Hd4g==
+        bh=wJG+HeIYp0jlCsU57nqAtVc/BpbEs4HHqnEOglHSve4=;
+        b=egbedtTmTGSku15uf1eS0tR3sxiDscwdkI/hqwJ1X2ywGk5oAZO2EWuGoNzSHb3Ve3
+         hM9KqxJGTVJHyqEQ+YPc9vFDVBuvA/+C4PXEX3to+iYTQ7ezgTQlsumR1XiN725LFgKW
+         kEjKvaVQlFkrj8lC5aw6aaCvX9R20Yz1zkJdtSBK5xbx/Qjq2ewwfj9X0ic3vm1zgRvK
+         J4GAYg3RKqtcEbJY50CpgA2ETarKFZR9DHVQtwxQhaq3Q2q3E0qHWEf6aSigAo07d6xP
+         0hoa0LVFNU+CY17mVFkoJQTo9gMf2NnXTKsPRYkl7o70V4Is8VFqdDS1dKDERVWnzW8L
+         s7sQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679125418;
+        d=1e100.net; s=20210112; t=1679125589;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=n/2WZTvOIngdjOKJgPvf13lVmCmjnUXMQ8Ott2W4iUA=;
-        b=CvLnsvuK3MBqkO2TORAP7iGWtUh9QXAOalODxbb+H988ilGVDkXqMcXXBUINhWCpeG
-         GZ/zuQGQeZmAMazjCNiyW4V0J0xqEBkDHBbstnWCbmsO2QaEMmcNN1bHpjCCjaO3+tSR
-         i8pRBDPRJ7mKo8nj0NURVlQo24yq2HgAAXl+xLbnfyLWiAakBLAM/UeD+8ft7mP4YAKN
-         ZS+zgfH46uf5IaiqMMSHfqmySaP4zlbLD7F7JhB8cElRlnqguu8I+Ds6diiGZEiC3v/x
-         kGlOGkznQMfu9p5/VFT6FVoBhD/nD1RT5z+Xlka0Q/Tvi0ZiNsDel5JzcqXz2fEv3Frf
-         QrAA==
-X-Gm-Message-State: AO0yUKXxCObVvQXqaXJj/kl2PnLGCp6nsOGLVg0jAkAwaoeKanYIK4ao
-	QgdTDvDWFIOkn/bYU8HdPntETlcroN8=
-X-Google-Smtp-Source: AK7set9sKYTwiQtLQdASyGKGYAMz10RZbFAtdmTNxJC1L+/miSaCAPxYp1Ow8oC5WpuIf1ZGj76okA==
-X-Received: by 2002:a05:600c:c6:b0:3ed:5cf9:9f16 with SMTP id u6-20020a05600c00c600b003ed5cf99f16mr4770649wmm.16.1679125417814;
-        Sat, 18 Mar 2023 00:43:37 -0700 (PDT)
+        bh=wJG+HeIYp0jlCsU57nqAtVc/BpbEs4HHqnEOglHSve4=;
+        b=UDnmO+7mzXrobBnAyBvcQuEiGpYRfSe3rYHLE8bGMeY9654EFOg3OSIBkNrqkLvnE5
+         XarQKijpfcsBWnGJuy71VOV0FD3LhKMyFMlqTEgsgVr8Hkg7q1LEJ/8AayawoS1MiaAZ
+         6NHvvdb49Lk+9QLQt84FnX+DvASGRq8WKawQYk8TsVs6IQyRjhkZva6sEiJ7O8MVBzPS
+         IbHAvGcwK1kmk5MxuI+ADNL8h/i/XogrHdU1NxPXODY5uJgJXRtJfTuCfnPbXZT5KNsc
+         CUDdGNrl9lvU+1EiFmNMdHhtjUgD2fQfJoijBitUomOutiPN1H6jU3f3gbEqukpoPOZ+
+         Z9UQ==
+X-Gm-Message-State: AO0yUKU4gsIrjf3Sro1dYmvcLR9eyL9FoXbTfu73vqttMx3cyw/GU82v
+	xZIqxINHjMQa+3R/389ic0rJZnBOGa0=
+X-Google-Smtp-Source: AK7set+Esz11LwXuMXhG8hd0Wq7sCRH63yXM2TOrV3WOH6mDFq+YPCLmhdaEm7VA3XYJ43Ag1rIsrg==
+X-Received: by 2002:adf:ee91:0:b0:2ce:ae7d:f818 with SMTP id b17-20020adfee91000000b002ceae7df818mr9611082wro.23.1679125589245;
+        Sat, 18 Mar 2023 00:46:29 -0700 (PDT)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id c9-20020a7bc009000000b003ed3084669asm9963888wmb.14.2023.03.18.00.43.36
+        by smtp.gmail.com with ESMTPSA id b7-20020a5d4d87000000b002c707785da4sm3673675wru.107.2023.03.18.00.46.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 18 Mar 2023 00:43:37 -0700 (PDT)
-Date: Sat, 18 Mar 2023 10:43:31 +0300
+        Sat, 18 Mar 2023 00:46:28 -0700 (PDT)
+Date: Sat, 18 Mar 2023 10:46:24 +0300
 From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, Kemeng Shi <shikemeng@huaweicloud.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-ext4@vger.kernel.org, Theodore Ts'o <tytso@mit.edu>
-Subject: [tytso-ext4:dev 16/43] fs/ext4/balloc.c:153
- ext4_num_overhead_clusters() error: uninitialized symbol 'block_cluster'.
-Message-ID: <0ba2ac34-19f4-4c98-b3f0-1dcf2bf962f6@kili.mountain>
+To: oe-kbuild@lists.linux.dev, Ard Biesheuvel <ardb@kernel.org>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, linux-efi@vger.kernel.org,
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>
+Subject: [efi:urgent 12/12]
+ drivers/firmware/efi/libstub/efi-stub-helper.c:528 efi_load_initrd_lf2()
+ error: uninitialized symbol 'dp'.
+Message-ID: <206b582a-476f-4f43-a029-7a652d3e53f1@kili.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -53,101 +54,74 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tytso/ext4.git dev
-head:   da8c7d2105be0c0028cfad712da9e17adf9a26eb
-commit: e3c70113e2cbeb3dadb3768964920337eff290f6 [16/43] ext4: improve inode table blocks counting in ext4_num_overhead_clusters
-config: ia64-randconfig-m031-20230312 (https://download.01.org/0day-ci/archive/20230317/202303171446.eLEhZzAu-lkp@intel.com/config)
-compiler: ia64-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/efi/efi.git urgent
+head:   86237b46f2b202331c07e4c6c2633ce3d3ba7f13
+commit: 86237b46f2b202331c07e4c6c2633ce3d3ba7f13 [12/12] efi: libstub: Look for initrd LoadFile2 protocol on image handle
+config: x86_64-randconfig-m001 (https://download.01.org/0day-ci/archive/20230318/202303180724.UexnVEeA-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202303171446.eLEhZzAu-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202303180724.UexnVEeA-lkp@intel.com/
 
 smatch warnings:
-fs/ext4/balloc.c:153 ext4_num_overhead_clusters() error: uninitialized symbol 'block_cluster'.
+drivers/firmware/efi/libstub/efi-stub-helper.c:528 efi_load_initrd_lf2() error: uninitialized symbol 'dp'.
 
-vim +/block_cluster +153 fs/ext4/balloc.c
+vim +/dp +528 drivers/firmware/efi/libstub/efi-stub-helper.c
 
-c197855ea14175a Stephen Hemminger 2014-05-12   87  static unsigned ext4_num_overhead_clusters(struct super_block *sb,
-e187c6588d6ef31 Theodore Ts'o     2009-02-06   88  					   ext4_group_t block_group,
-e187c6588d6ef31 Theodore Ts'o     2009-02-06   89  					   struct ext4_group_desc *gdp)
-0bf7e8379ce7e01 Jose R. Santos    2008-06-03   90  {
-e3c70113e2cbeb3 Kemeng Shi        2023-02-21   91  	unsigned base_clusters, num_clusters;
-e3c70113e2cbeb3 Kemeng Shi        2023-02-21   92  	int block_cluster, inode_cluster;
-e3c70113e2cbeb3 Kemeng Shi        2023-02-21   93  	int itbl_cluster_start = -1, itbl_cluster_end = -1;
-d5b8f31007a9377 Theodore Ts'o     2011-09-09   94  	ext4_fsblk_t start = ext4_group_first_block_no(sb, block_group);
-e3c70113e2cbeb3 Kemeng Shi        2023-02-21   95  	ext4_fsblk_t end = start + EXT4_BLOCKS_PER_GROUP(sb) - 1;
-e3c70113e2cbeb3 Kemeng Shi        2023-02-21   96  	ext4_fsblk_t itbl_blk_start, itbl_blk_end;
-0bf7e8379ce7e01 Jose R. Santos    2008-06-03   97  	struct ext4_sb_info *sbi = EXT4_SB(sb);
-0bf7e8379ce7e01 Jose R. Santos    2008-06-03   98  
-d5b8f31007a9377 Theodore Ts'o     2011-09-09   99  	/* This is the number of clusters used by the superblock,
-d5b8f31007a9377 Theodore Ts'o     2011-09-09  100  	 * block group descriptors, and reserved block group
-d5b8f31007a9377 Theodore Ts'o     2011-09-09  101  	 * descriptor blocks */
-e3c70113e2cbeb3 Kemeng Shi        2023-02-21  102  	base_clusters = ext4_num_base_meta_clusters(sb, block_group);
-e3c70113e2cbeb3 Kemeng Shi        2023-02-21  103  	num_clusters = base_clusters;
-e3c70113e2cbeb3 Kemeng Shi        2023-02-21  104  
-e3c70113e2cbeb3 Kemeng Shi        2023-02-21  105  	/*
-e3c70113e2cbeb3 Kemeng Shi        2023-02-21  106  	 * Account and record inode table clusters if any cluster
-e3c70113e2cbeb3 Kemeng Shi        2023-02-21  107  	 * is in the block group, or inode table cluster range is
-e3c70113e2cbeb3 Kemeng Shi        2023-02-21  108  	 * [-1, -1] and won't overlap with block/inode bitmap cluster
-e3c70113e2cbeb3 Kemeng Shi        2023-02-21  109  	 * accounted below.
-e3c70113e2cbeb3 Kemeng Shi        2023-02-21  110  	 */
-e3c70113e2cbeb3 Kemeng Shi        2023-02-21  111  	itbl_blk_start = ext4_inode_table(sb, gdp);
-e3c70113e2cbeb3 Kemeng Shi        2023-02-21  112  	itbl_blk_end = itbl_blk_start + sbi->s_itb_per_group - 1;
-e3c70113e2cbeb3 Kemeng Shi        2023-02-21  113  	if (itbl_blk_start <= end && itbl_blk_end >= start) {
-e3c70113e2cbeb3 Kemeng Shi        2023-02-21  114  		itbl_blk_start = itbl_blk_start >= start ?
-e3c70113e2cbeb3 Kemeng Shi        2023-02-21  115  			itbl_blk_start : start;
-e3c70113e2cbeb3 Kemeng Shi        2023-02-21  116  		itbl_blk_end = itbl_blk_end <= end ?
-e3c70113e2cbeb3 Kemeng Shi        2023-02-21  117  			itbl_blk_end : end;
-e3c70113e2cbeb3 Kemeng Shi        2023-02-21  118  
-e3c70113e2cbeb3 Kemeng Shi        2023-02-21  119  		itbl_cluster_start = EXT4_B2C(sbi, itbl_blk_start - start);
-e3c70113e2cbeb3 Kemeng Shi        2023-02-21  120  		itbl_cluster_end = EXT4_B2C(sbi, itbl_blk_end - start);
-e3c70113e2cbeb3 Kemeng Shi        2023-02-21  121  
-e3c70113e2cbeb3 Kemeng Shi        2023-02-21  122  		num_clusters += itbl_cluster_end - itbl_cluster_start + 1;
-e3c70113e2cbeb3 Kemeng Shi        2023-02-21  123  		/* check if border cluster is overlapped */
-e3c70113e2cbeb3 Kemeng Shi        2023-02-21  124  		if (itbl_cluster_start == base_clusters - 1)
-e3c70113e2cbeb3 Kemeng Shi        2023-02-21  125  			num_clusters--;
-e3c70113e2cbeb3 Kemeng Shi        2023-02-21  126  	}
-0bf7e8379ce7e01 Jose R. Santos    2008-06-03  127  
-d5b8f31007a9377 Theodore Ts'o     2011-09-09  128  	/*
-e3c70113e2cbeb3 Kemeng Shi        2023-02-21  129  	 * For the allocation bitmaps, we first need to check to see
-e3c70113e2cbeb3 Kemeng Shi        2023-02-21  130  	 * if the block is in the block group.  If it is, then check
-e3c70113e2cbeb3 Kemeng Shi        2023-02-21  131  	 * to see if the cluster is already accounted for in the clusters
-e3c70113e2cbeb3 Kemeng Shi        2023-02-21  132  	 * used for the base metadata cluster and inode tables cluster.
-d5b8f31007a9377 Theodore Ts'o     2011-09-09  133  	 * Normally all of these blocks are contiguous, so the special
-d5b8f31007a9377 Theodore Ts'o     2011-09-09  134  	 * case handling shouldn't be necessary except for *very*
-d5b8f31007a9377 Theodore Ts'o     2011-09-09  135  	 * unusual file system layouts.
-d5b8f31007a9377 Theodore Ts'o     2011-09-09  136  	 */
-d5b8f31007a9377 Theodore Ts'o     2011-09-09  137  	if (ext4_block_in_group(sb, ext4_block_bitmap(sb, gdp), block_group)) {
-b0dd6b70f0fda17 Theodore Ts'o     2012-06-07  138  		block_cluster = EXT4_B2C(sbi,
-b0dd6b70f0fda17 Theodore Ts'o     2012-06-07  139  					 ext4_block_bitmap(sb, gdp) - start);
-e3c70113e2cbeb3 Kemeng Shi        2023-02-21  140  		if (block_cluster >= base_clusters &&
-e3c70113e2cbeb3 Kemeng Shi        2023-02-21  141  		    (block_cluster < itbl_cluster_start ||
-e3c70113e2cbeb3 Kemeng Shi        2023-02-21  142  		    block_cluster > itbl_cluster_end))
-d5b8f31007a9377 Theodore Ts'o     2011-09-09  143  			num_clusters++;
-d5b8f31007a9377 Theodore Ts'o     2011-09-09  144  	}
+f61900fd0ebf6c Arvind Sankar       2020-04-30  498  static
+86237b46f2b202 Ard Biesheuvel      2023-03-10  499  efi_status_t efi_load_initrd_lf2(efi_handle_t image_handle,
+86237b46f2b202 Ard Biesheuvel      2023-03-10  500  				 struct linux_efi_initrd *initrd,
+ec93fc371f014a Ard Biesheuvel      2020-02-03  501  				 unsigned long max)
+ec93fc371f014a Ard Biesheuvel      2020-02-03  502  {
+ec93fc371f014a Ard Biesheuvel      2020-02-03  503  	efi_guid_t lf2_proto_guid = EFI_LOAD_FILE2_PROTOCOL_GUID;
+86237b46f2b202 Ard Biesheuvel      2023-03-10  504  	efi_guid_t initrd_lf2_proto_guid = LINUX_EFI_INITRD_LF2_PROTOCOL_GUID;
+ec93fc371f014a Ard Biesheuvel      2020-02-03  505  	efi_device_path_protocol_t *dp;
+ec93fc371f014a Ard Biesheuvel      2020-02-03  506  	efi_load_file2_protocol_t *lf2;
+ec93fc371f014a Ard Biesheuvel      2020-02-03  507  	efi_handle_t handle;
+ec93fc371f014a Ard Biesheuvel      2020-02-03  508  	efi_status_t status;
+ec93fc371f014a Ard Biesheuvel      2020-02-03  509  
+86237b46f2b202 Ard Biesheuvel      2023-03-10  510  	/* first look for a initrd loading protocol specific to this image */
+86237b46f2b202 Ard Biesheuvel      2023-03-10  511  	status = efi_bs_call(handle_protocol, image_handle, &initrd_lf2_proto_guid,
+86237b46f2b202 Ard Biesheuvel      2023-03-10  512  			     (void **)&lf2);
+86237b46f2b202 Ard Biesheuvel      2023-03-10  513  	if (status != EFI_SUCCESS) {
+86237b46f2b202 Ard Biesheuvel      2023-03-10  514  		/* look for the global singleton initrd loading protocol */
+ec93fc371f014a Ard Biesheuvel      2020-02-03  515  		dp = (efi_device_path_protocol_t *)&initrd_dev_path;
+86237b46f2b202 Ard Biesheuvel      2023-03-10  516  		status = efi_bs_call(locate_device_path, &lf2_proto_guid, &dp,
+86237b46f2b202 Ard Biesheuvel      2023-03-10  517  				     &handle);
+ec93fc371f014a Ard Biesheuvel      2020-02-03  518  		if (status != EFI_SUCCESS)
+ec93fc371f014a Ard Biesheuvel      2020-02-03  519  			return status;
+ec93fc371f014a Ard Biesheuvel      2020-02-03  520  
+ec93fc371f014a Ard Biesheuvel      2020-02-03  521  		status = efi_bs_call(handle_protocol, handle, &lf2_proto_guid,
+ec93fc371f014a Ard Biesheuvel      2020-02-03  522  				     (void **)&lf2);
+ec93fc371f014a Ard Biesheuvel      2020-02-03  523  		if (status != EFI_SUCCESS)
+ec93fc371f014a Ard Biesheuvel      2020-02-03  524  			return status;
+86237b46f2b202 Ard Biesheuvel      2023-03-10  525  	}
 
-block_cluster not initialized on else path.  We discussed this in the
-past but I don't see on lore if it was actually fixed.
+dp not initialized on else path.
 
-d5b8f31007a9377 Theodore Ts'o     2011-09-09  145  
-d5b8f31007a9377 Theodore Ts'o     2011-09-09  146  	if (ext4_block_in_group(sb, ext4_inode_bitmap(sb, gdp), block_group)) {
-d5b8f31007a9377 Theodore Ts'o     2011-09-09  147  		inode_cluster = EXT4_B2C(sbi,
-b0dd6b70f0fda17 Theodore Ts'o     2012-06-07  148  					 ext4_inode_bitmap(sb, gdp) - start);
-e3c70113e2cbeb3 Kemeng Shi        2023-02-21  149  		/*
-e3c70113e2cbeb3 Kemeng Shi        2023-02-21  150  		 * Additional check if inode bitmap is in just accounted
-e3c70113e2cbeb3 Kemeng Shi        2023-02-21  151  		 * block_cluster
-e3c70113e2cbeb3 Kemeng Shi        2023-02-21  152  		 */
-e3c70113e2cbeb3 Kemeng Shi        2023-02-21 @153  		if (inode_cluster != block_cluster &&
-e3c70113e2cbeb3 Kemeng Shi        2023-02-21  154  		    inode_cluster >= base_clusters &&
-e3c70113e2cbeb3 Kemeng Shi        2023-02-21  155  		    (inode_cluster < itbl_cluster_start ||
-e3c70113e2cbeb3 Kemeng Shi        2023-02-21  156  		    inode_cluster > itbl_cluster_end))
-d5b8f31007a9377 Theodore Ts'o     2011-09-09  157  			num_clusters++;
-0bf7e8379ce7e01 Jose R. Santos    2008-06-03  158  	}
-d5b8f31007a9377 Theodore Ts'o     2011-09-09  159  
-d5b8f31007a9377 Theodore Ts'o     2011-09-09  160  	return num_clusters;
-0bf7e8379ce7e01 Jose R. Santos    2008-06-03  161  }
+ec93fc371f014a Ard Biesheuvel      2020-02-03  526  
+f4dc7fffa9873d Ard Biesheuvel      2022-09-16  527  	initrd->size = 0;
+f4dc7fffa9873d Ard Biesheuvel      2022-09-16 @528  	status = efi_call_proto(lf2, load_file, dp, false, &initrd->size, NULL);
+                                                                                                ^^
+Uninitialized.
+
+ec93fc371f014a Ard Biesheuvel      2020-02-03  529  	if (status != EFI_BUFFER_TOO_SMALL)
+ec93fc371f014a Ard Biesheuvel      2020-02-03  530  		return EFI_LOAD_ERROR;
+ec93fc371f014a Ard Biesheuvel      2020-02-03  531  
+f4dc7fffa9873d Ard Biesheuvel      2022-09-16  532  	status = efi_allocate_pages(initrd->size, &initrd->base, max);
+ec93fc371f014a Ard Biesheuvel      2020-02-03  533  	if (status != EFI_SUCCESS)
+ec93fc371f014a Ard Biesheuvel      2020-02-03  534  		return status;
+ec93fc371f014a Ard Biesheuvel      2020-02-03  535  
+f4dc7fffa9873d Ard Biesheuvel      2022-09-16  536  	status = efi_call_proto(lf2, load_file, dp, false, &initrd->size,
+f4dc7fffa9873d Ard Biesheuvel      2022-09-16  537  				(void *)initrd->base);
+ec93fc371f014a Ard Biesheuvel      2020-02-03  538  	if (status != EFI_SUCCESS) {
+f4dc7fffa9873d Ard Biesheuvel      2022-09-16  539  		efi_free(initrd->size, initrd->base);
+ec93fc371f014a Ard Biesheuvel      2020-02-03  540  		return EFI_LOAD_ERROR;
+ec93fc371f014a Ard Biesheuvel      2020-02-03  541  	}
+ec93fc371f014a Ard Biesheuvel      2020-02-03  542  	return EFI_SUCCESS;
+ec93fc371f014a Ard Biesheuvel      2020-02-03  543  }
 
 -- 
 0-DAY CI Kernel Test Service
