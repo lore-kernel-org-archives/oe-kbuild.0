@@ -1,43 +1,42 @@
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB22B7494
-	for <oe-kbuild@lists.linux.dev>; Sat, 18 Mar 2023 21:51:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF2AB7494
+	for <oe-kbuild@lists.linux.dev>; Sat, 18 Mar 2023 21:51:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679176316; x=1710712316;
+  t=1679176318; x=1710712318;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=5gY1TgIUiMXYaLEPz+kC9aEmNS1u5YB5hwxRNfOAe+o=;
-  b=KQjGvOWP0m7HF3gSEHakRu+fB2jFaRty1X3TxJ4xKsbsYuVJP8J2oUb0
-   E5v3iTwczEsbI37sc4LERLYPNquF9Aj8+jVynCpnwqUhkQbUYwhJEc8Cb
-   JmlNDYDLZsu2rDSs2164HGlHD9Dj1q6gUIzQ0rDCsEXGiWEO6R/HLDVOA
-   ReLBHqPLQOVVgNdT1wxlJ12sXW/LoWNbd9ApgwI1WHjFQKQgTiXKBRwrK
-   7fcsvApU8xHsdjHsm3FdLVExw8XusfoP2UQZrlBk+TEXDZhreJUeK7wT7
-   FYqZzdgtyuz+b3miz0yD4R792sHoAWrhM07QFOhBjt4y16Gy2zDp0YS+F
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10653"; a="340821343"
+  bh=AGbebjw+0eH4VlxDKHapKO8++REt1FDZfDWWTA7GF04=;
+  b=UI9CuLW/ZZQeOZWH5i04Jy3mAy3HF+9WK+qtoShlqmSny2UYQ/EtqYJD
+   6S8/RAMATyuDyIzvNBeMexfzgaydDBXrLN447l6jQ6K6SEZIG0Iw2ggCr
+   KUQa2+erYBmDFbVZ7BsCVTzLimbrKdkmtmBCyZa78veFWhT7Pz/0MbPWY
+   gipUSD87buEWuO67Rg96qoUWtElLFKPaO/UxGFzVjDlCtCgwgNxuCm1qA
+   KvBWubx0THAQRPedL6HBptTUXHCaYsc2N6+E9Ap+9S2RpEmYnpdVXp7ih
+   ci/o5wR1n2AmMD0GJREecRgNuupaRJPaFeZFagSKjZUINVfkOPz1F1UM4
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10653"; a="340821344"
 X-IronPort-AV: E=Sophos;i="5.98,272,1673942400"; 
-   d="scan'208";a="340821343"
+   d="scan'208";a="340821344"
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
   by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2023 14:51:56 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10653"; a="854836223"
+X-IronPort-AV: E=McAfee;i="6600,9927,10653"; a="854836225"
 X-IronPort-AV: E=Sophos;i="5.98,272,1673942400"; 
-   d="scan'208";a="854836223"
+   d="scan'208";a="854836225"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
   by orsmga005.jf.intel.com with ESMTP; 18 Mar 2023 14:51:55 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pdeSw-000AHa-0i;
+	id 1pdeSw-000AHc-0n;
 	Sat, 18 Mar 2023 21:51:54 +0000
 Date: Sun, 19 Mar 2023 05:51:04 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [rt-devel:linux-6.1.y-rt-rebase 32/51]
- kernel/trace/trace_output.c:485 trace_print_lat_fmt() warn: bitwise AND
- condition is false here
-Message-ID: <202303190541.Fju427V8-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [linux-next:master 816/4413] drivers/soc/fsl/qe/qmc.c:334:12:
+ sparse: sparse: incorrect type in assignment (different address spaces)
+Message-ID: <202303190505.tz2cAKHR-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -47,114 +46,369 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "low confidence bisect report"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Thomas Gleixner <tglx@linutronix.de>
-CC: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Herve Codina <herve.codina@bootlin.com>
+CC: Mark Brown <broonie@kernel.org>
+CC: Christophe Leroy <christophe.leroy@csgroup.eu>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rt/linux-rt-devel.git linux-6.1.y-rt-rebase
-head:   90d96fee668dc306dd748393383c0fc74b798eee
-commit: 7707fc9d0d972426584f7bbba712d1574f33740a [32/51] sched: Add support for lazy preemption
-:::::: branch date: 4 weeks ago
-:::::: commit date: 5 months ago
-config: i386-randconfig-m021 (https://download.01.org/0day-ci/archive/20230319/202303190541.Fju427V8-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   6f08c1de13a9403341c18b66638a05588b2663ce
+commit: 3178d58e0b9772d690456c0bdf8c9f5e191d45f1 [816/4413] soc: fsl: cpm1: Add support for QMC
+:::::: branch date: 2 days ago
+:::::: commit date: 13 days ago
+config: powerpc-randconfig-s051-20230319 (https://download.01.org/0day-ci/archive/20230319/202303190505.tz2cAKHR-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 12.1.0
+reproduce:
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=3178d58e0b9772d690456c0bdf8c9f5e191d45f1
+        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+        git fetch --no-tags linux-next master
+        git checkout 3178d58e0b9772d690456c0bdf8c9f5e191d45f1
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=powerpc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=powerpc SHELL=/bin/bash drivers/soc/fsl/qe/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202303190541.Fju427V8-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202303190505.tz2cAKHR-lkp@intel.com/
 
-smatch warnings:
-kernel/trace/trace_output.c:485 trace_print_lat_fmt() warn: bitwise AND condition is false here
+sparse warnings: (new ones prefixed by >>)
+>> drivers/soc/fsl/qe/qmc.c:334:12: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct cpm_buf_desc [usertype] *[noderef] __iomem bd @@     got struct cpm_buf_desc [noderef] [usertype] __iomem *txbd_free @@
+   drivers/soc/fsl/qe/qmc.c:334:12: sparse:     expected struct cpm_buf_desc [usertype] *[noderef] __iomem bd
+   drivers/soc/fsl/qe/qmc.c:334:12: sparse:     got struct cpm_buf_desc [noderef] [usertype] __iomem *txbd_free
+>> drivers/soc/fsl/qe/qmc.c:346:39: sparse: sparse: subtraction of different types can't work (different address spaces)
+   drivers/soc/fsl/qe/qmc.c:389:12: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct cpm_buf_desc [usertype] *[noderef] __iomem bd @@     got struct cpm_buf_desc [noderef] [usertype] __iomem *txbd_done @@
+   drivers/soc/fsl/qe/qmc.c:389:12: sparse:     expected struct cpm_buf_desc [usertype] *[noderef] __iomem bd
+   drivers/soc/fsl/qe/qmc.c:389:12: sparse:     got struct cpm_buf_desc [noderef] [usertype] __iomem *txbd_done
+   drivers/soc/fsl/qe/qmc.c:396:47: sparse: sparse: subtraction of different types can't work (different address spaces)
+   drivers/soc/fsl/qe/qmc.c:441:12: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct cpm_buf_desc [usertype] *[noderef] __iomem bd @@     got struct cpm_buf_desc [noderef] [usertype] __iomem *rxbd_free @@
+   drivers/soc/fsl/qe/qmc.c:453:39: sparse: sparse: subtraction of different types can't work (different address spaces)
+   drivers/soc/fsl/qe/qmc.c:505:12: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct cpm_buf_desc [usertype] *[noderef] __iomem bd @@     got struct cpm_buf_desc [noderef] [usertype] __iomem *rxbd_done @@
+   drivers/soc/fsl/qe/qmc.c:505:12: sparse:     expected struct cpm_buf_desc [usertype] *[noderef] __iomem bd
+   drivers/soc/fsl/qe/qmc.c:505:12: sparse:     got struct cpm_buf_desc [noderef] [usertype] __iomem *rxbd_done
+   drivers/soc/fsl/qe/qmc.c:512:47: sparse: sparse: subtraction of different types can't work (different address spaces)
+   drivers/soc/fsl/qe/qmc.c:670:12: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct cpm_buf_desc [usertype] *[noderef] __iomem bd @@     got struct cpm_buf_desc [noderef] [usertype] __iomem *rxbds @@
+   drivers/soc/fsl/qe/qmc.c:675:47: sparse: sparse: subtraction of different types can't work (different address spaces)
+   drivers/soc/fsl/qe/qmc.c:705:12: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct cpm_buf_desc [usertype] *[noderef] __iomem bd @@     got struct cpm_buf_desc [noderef] [usertype] __iomem *txbds @@
+   drivers/soc/fsl/qe/qmc.c:705:12: sparse:     expected struct cpm_buf_desc [usertype] *[noderef] __iomem bd
+   drivers/soc/fsl/qe/qmc.c:705:12: sparse:     got struct cpm_buf_desc [noderef] [usertype] __iomem *txbds
+   drivers/soc/fsl/qe/qmc.c:710:47: sparse: sparse: subtraction of different types can't work (different address spaces)
+>> drivers/soc/fsl/qe/qmc.c:1104:30: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *[noderef] __iomem addr @@     got unsigned short [noderef] __iomem * @@
+   drivers/soc/fsl/qe/qmc.c:1104:30: sparse:     expected void *[noderef] __iomem addr
+   drivers/soc/fsl/qe/qmc.c:1104:30: sparse:     got unsigned short [noderef] __iomem *
+   drivers/soc/fsl/qe/qmc.c:1107:22: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *[noderef] __iomem addr @@     got unsigned short [noderef] __iomem * @@
+   drivers/soc/fsl/qe/qmc.c:1107:22: sparse:     expected void *[noderef] __iomem addr
+   drivers/soc/fsl/qe/qmc.c:1107:22: sparse:     got unsigned short [noderef] __iomem *
+   drivers/soc/fsl/qe/qmc.c:1116:30: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *[noderef] __iomem addr @@     got unsigned short [noderef] __iomem * @@
+   drivers/soc/fsl/qe/qmc.c:1116:30: sparse:     expected void *[noderef] __iomem addr
+   drivers/soc/fsl/qe/qmc.c:1116:30: sparse:     got unsigned short [noderef] __iomem *
+   drivers/soc/fsl/qe/qmc.c:1119:22: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *[noderef] __iomem addr @@     got unsigned short [noderef] __iomem * @@
+   drivers/soc/fsl/qe/qmc.c:1119:22: sparse:     expected void *[noderef] __iomem addr
+   drivers/soc/fsl/qe/qmc.c:1119:22: sparse:     got unsigned short [noderef] __iomem *
+>> drivers/soc/fsl/qe/qmc.c:1172:44: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *[noderef] __iomem addr @@     got unsigned short [noderef] [usertype] __iomem * @@
+   drivers/soc/fsl/qe/qmc.c:1172:44: sparse:     expected void *[noderef] __iomem addr
+   drivers/soc/fsl/qe/qmc.c:1172:44: sparse:     got unsigned short [noderef] [usertype] __iomem *
+>> drivers/soc/fsl/qe/qmc.c:1177:29: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *[noderef] __iomem addr @@     got unsigned short [noderef] [usertype] __iomem *[assigned] last @@
+   drivers/soc/fsl/qe/qmc.c:1177:29: sparse:     expected void *[noderef] __iomem addr
+   drivers/soc/fsl/qe/qmc.c:1177:29: sparse:     got unsigned short [noderef] [usertype] __iomem *[assigned] last
+>> drivers/soc/fsl/qe/qmc.c:1190:35: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *[noderef] __iomem addr @@     got unsigned short [noderef] [usertype] __iomem *int_curr @@
+   drivers/soc/fsl/qe/qmc.c:1190:35: sparse:     expected void *[noderef] __iomem addr
+   drivers/soc/fsl/qe/qmc.c:1190:35: sparse:     got unsigned short [noderef] [usertype] __iomem *int_curr
+   drivers/soc/fsl/qe/qmc.c:1193:32: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *[noderef] __iomem addr @@     got unsigned short [noderef] [usertype] __iomem *int_curr @@
+   drivers/soc/fsl/qe/qmc.c:1193:32: sparse:     expected void *[noderef] __iomem addr
+   drivers/soc/fsl/qe/qmc.c:1193:32: sparse:     got unsigned short [noderef] [usertype] __iomem *int_curr
+   drivers/soc/fsl/qe/qmc.c:1238:43: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *[noderef] __iomem addr @@     got unsigned short [noderef] [usertype] __iomem *int_curr @@
+   drivers/soc/fsl/qe/qmc.c:1238:43: sparse:     expected void *[noderef] __iomem addr
+   drivers/soc/fsl/qe/qmc.c:1238:43: sparse:     got unsigned short [noderef] [usertype] __iomem *int_curr
+>> drivers/soc/fsl/qe/qmc.c:1282:23: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *[noderef] scc_regs @@     got void [noderef] __iomem * @@
+   drivers/soc/fsl/qe/qmc.c:1282:23: sparse:     expected void *[noderef] scc_regs
+   drivers/soc/fsl/qe/qmc.c:1282:23: sparse:     got void [noderef] __iomem *
+>> drivers/soc/fsl/qe/qmc.c:1291:23: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *[noderef] scc_pram @@     got void [noderef] __iomem * @@
+   drivers/soc/fsl/qe/qmc.c:1291:23: sparse:     expected void *[noderef] scc_pram
+   drivers/soc/fsl/qe/qmc.c:1291:23: sparse:     got void [noderef] __iomem *
+>> drivers/soc/fsl/qe/qmc.c:1295:21: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *[noderef] dpram @@     got void [noderef] __iomem * @@
+   drivers/soc/fsl/qe/qmc.c:1295:21: sparse:     expected void *[noderef] dpram
+   drivers/soc/fsl/qe/qmc.c:1295:21: sparse:     got void [noderef] __iomem *
+>> drivers/soc/fsl/qe/qmc.c:1331:23: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct cpm_buf_desc [noderef] [usertype] __iomem *bd_table @@     got void * @@
+   drivers/soc/fsl/qe/qmc.c:1331:23: sparse:     expected struct cpm_buf_desc [noderef] [usertype] __iomem *bd_table
+   drivers/soc/fsl/qe/qmc.c:1331:23: sparse:     got void *
+>> drivers/soc/fsl/qe/qmc.c:1338:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *s @@     got struct cpm_buf_desc [noderef] [usertype] __iomem *bd_table @@
+   drivers/soc/fsl/qe/qmc.c:1338:9: sparse:     expected void *s
+   drivers/soc/fsl/qe/qmc.c:1338:9: sparse:     got struct cpm_buf_desc [noderef] [usertype] __iomem *bd_table
+>> drivers/soc/fsl/qe/qmc.c:1344:24: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected unsigned short [noderef] [usertype] __iomem *int_table @@     got void * @@
+   drivers/soc/fsl/qe/qmc.c:1344:24: sparse:     expected unsigned short [noderef] [usertype] __iomem *int_table
+   drivers/soc/fsl/qe/qmc.c:1344:24: sparse:     got void *
+>> drivers/soc/fsl/qe/qmc.c:1351:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *s @@     got unsigned short [noderef] [usertype] __iomem *int_table @@
+   drivers/soc/fsl/qe/qmc.c:1351:9: sparse:     expected void *s
+   drivers/soc/fsl/qe/qmc.c:1351:9: sparse:     got unsigned short [noderef] [usertype] __iomem *int_table
+>> drivers/soc/fsl/qe/qmc.c:290:33: sparse: sparse: dereference of noderef expression
+>> drivers/soc/fsl/qe/qmc.c:223:26: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem *addr @@     got void *[noderef] __iomem addr @@
+   drivers/soc/fsl/qe/qmc.c:223:26: sparse:     expected void [noderef] __iomem *addr
+   drivers/soc/fsl/qe/qmc.c:223:26: sparse:     got void *[noderef] __iomem addr
+>> drivers/soc/fsl/qe/qmc.c:290:33: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/qmc.c:223:26: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/qmc.c:223:26: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/qmc.c:292:29: sparse: sparse: dereference of noderef expression
+>> drivers/soc/fsl/qe/qmc.c:223:26: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem *addr @@     got void *[noderef] __iomem addr @@
+   drivers/soc/fsl/qe/qmc.c:223:26: sparse:     expected void [noderef] __iomem *addr
+   drivers/soc/fsl/qe/qmc.c:223:26: sparse:     got void *[noderef] __iomem addr
+   drivers/soc/fsl/qe/qmc.c:292:29: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/qmc.c:223:26: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/qmc.c:223:26: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/qmc.c:295:39: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/qmc.c:295:39: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/qmc.c:233:21: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/qmc.c:233:38: sparse: sparse: dereference of noderef expression
+>> drivers/soc/fsl/qe/qmc.c:228:27: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __iomem *addr @@     got void *[noderef] __iomem addr @@
+   drivers/soc/fsl/qe/qmc.c:228:27: sparse:     expected void const [noderef] __iomem *addr
+   drivers/soc/fsl/qe/qmc.c:228:27: sparse:     got void *[noderef] __iomem addr
+   drivers/soc/fsl/qe/qmc.c:233:38: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/qmc.c:228:27: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/qmc.c:228:27: sparse: sparse: dereference of noderef expression
+>> drivers/soc/fsl/qe/qmc.c:223:26: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem *addr @@     got void *[noderef] __iomem addr @@
+   drivers/soc/fsl/qe/qmc.c:223:26: sparse:     expected void [noderef] __iomem *addr
+   drivers/soc/fsl/qe/qmc.c:223:26: sparse:     got void *[noderef] __iomem addr
+   drivers/soc/fsl/qe/qmc.c:233:21: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/qmc.c:233:38: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/qmc.c:228:27: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/qmc.c:223:26: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/qmc.c:223:26: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/qmc.c:298:39: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/qmc.c:298:39: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/qmc.c:238:21: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/qmc.c:238:38: sparse: sparse: dereference of noderef expression
+>> drivers/soc/fsl/qe/qmc.c:228:27: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __iomem *addr @@     got void *[noderef] __iomem addr @@
+   drivers/soc/fsl/qe/qmc.c:228:27: sparse:     expected void const [noderef] __iomem *addr
+   drivers/soc/fsl/qe/qmc.c:228:27: sparse:     got void *[noderef] __iomem addr
+   drivers/soc/fsl/qe/qmc.c:238:38: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/qmc.c:228:27: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/qmc.c:228:27: sparse: sparse: dereference of noderef expression
+>> drivers/soc/fsl/qe/qmc.c:223:26: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem *addr @@     got void *[noderef] __iomem addr @@
+   drivers/soc/fsl/qe/qmc.c:223:26: sparse:     expected void [noderef] __iomem *addr
+   drivers/soc/fsl/qe/qmc.c:223:26: sparse:     got void *[noderef] __iomem addr
+   drivers/soc/fsl/qe/qmc.c:238:21: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/qmc.c:238:38: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/qmc.c:228:27: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/qmc.c:223:26: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/qmc.c:223:26: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/qmc.c:304:29: sparse: sparse: dereference of noderef expression
+>> drivers/soc/fsl/qe/qmc.c:223:26: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem *addr @@     got void *[noderef] __iomem addr @@
+   drivers/soc/fsl/qe/qmc.c:223:26: sparse:     expected void [noderef] __iomem *addr
+   drivers/soc/fsl/qe/qmc.c:223:26: sparse:     got void *[noderef] __iomem addr
+   drivers/soc/fsl/qe/qmc.c:304:29: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/qmc.c:223:26: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/qmc.c:223:26: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/qmc.c:336:28: sparse: sparse: dereference of noderef expression
+>> drivers/soc/fsl/qe/qmc.c:228:27: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __iomem *addr @@     got void *[noderef] __iomem addr @@
+   drivers/soc/fsl/qe/qmc.c:228:27: sparse:     expected void const [noderef] __iomem *addr
+   drivers/soc/fsl/qe/qmc.c:228:27: sparse:     got void *[noderef] __iomem addr
+   drivers/soc/fsl/qe/qmc.c:336:28: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/qmc.c:228:27: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/qmc.c:228:27: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/qmc.c:343:22: sparse: sparse: dereference of noderef expression
+>> drivers/soc/fsl/qe/qmc.c:223:26: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem *addr @@     got void *[noderef] __iomem addr @@
+   drivers/soc/fsl/qe/qmc.c:223:26: sparse:     expected void [noderef] __iomem *addr
+   drivers/soc/fsl/qe/qmc.c:223:26: sparse:     got void *[noderef] __iomem addr
+   drivers/soc/fsl/qe/qmc.c:343:22: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/qmc.c:223:26: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/qmc.c:223:26: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/qmc.c:344:22: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/qmc.c:243:26: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem *addr @@     got void *[noderef] __iomem addr @@
+   drivers/soc/fsl/qe/qmc.c:243:26: sparse:     expected void [noderef] __iomem *addr
+   drivers/soc/fsl/qe/qmc.c:243:26: sparse:     got void *[noderef] __iomem addr
+   drivers/soc/fsl/qe/qmc.c:344:22: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/qmc.c:243:26: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/qmc.c:243:26: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/qmc.c:346:36: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/qmc.c:353:22: sparse: sparse: dereference of noderef expression
+>> drivers/soc/fsl/qe/qmc.c:223:26: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem *addr @@     got void *[noderef] __iomem addr @@
+   drivers/soc/fsl/qe/qmc.c:223:26: sparse:     expected void [noderef] __iomem *addr
+   drivers/soc/fsl/qe/qmc.c:223:26: sparse:     got void *[noderef] __iomem addr
+   drivers/soc/fsl/qe/qmc.c:353:22: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/qmc.c:223:26: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/qmc.c:223:26: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/qmc.c:356:31: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/qmc.c:356:31: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/qmc.c:233:21: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/qmc.c:233:38: sparse: sparse: dereference of noderef expression
+>> drivers/soc/fsl/qe/qmc.c:228:27: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __iomem *addr @@     got void *[noderef] __iomem addr @@
+   drivers/soc/fsl/qe/qmc.c:228:27: sparse:     expected void const [noderef] __iomem *addr
+   drivers/soc/fsl/qe/qmc.c:228:27: sparse:     got void *[noderef] __iomem addr
+   drivers/soc/fsl/qe/qmc.c:233:38: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/qmc.c:228:27: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/qmc.c:228:27: sparse: sparse: dereference of noderef expression
+>> drivers/soc/fsl/qe/qmc.c:223:26: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem *addr @@     got void *[noderef] __iomem addr @@
+   drivers/soc/fsl/qe/qmc.c:223:26: sparse:     expected void [noderef] __iomem *addr
+   drivers/soc/fsl/qe/qmc.c:223:26: sparse:     got void *[noderef] __iomem addr
+   drivers/soc/fsl/qe/qmc.c:233:21: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/qmc.c:233:38: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/qmc.c:228:27: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/qmc.c:223:26: sparse: sparse: dereference of noderef expression
+   drivers/soc/fsl/qe/qmc.c:223:26: sparse: sparse: too many warnings
 
-vim +485 kernel/trace/trace_output.c
+vim +334 drivers/soc/fsl/qe/qmc.c
 
-f0868d1e23a8ef Steven Rostedt            2008-12-23  432  
-f81c972d27c367 Steven Rostedt            2009-09-11  433  /**
-f81c972d27c367 Steven Rostedt            2009-09-11  434   * trace_print_lat_fmt - print the irq, preempt and lockdep fields
-f81c972d27c367 Steven Rostedt            2009-09-11  435   * @s: trace seq struct to write to
-f81c972d27c367 Steven Rostedt            2009-09-11  436   * @entry: The trace entry field from the ring buffer
-f81c972d27c367 Steven Rostedt            2009-09-11  437   *
-f81c972d27c367 Steven Rostedt            2009-09-11  438   * Prints the generic fields of irqs off, in hard or softirq, preempt
-e6e1e2593592a8 Steven Rostedt            2011-03-09  439   * count.
-f81c972d27c367 Steven Rostedt            2009-09-11  440   */
-f81c972d27c367 Steven Rostedt            2009-09-11  441  int trace_print_lat_fmt(struct trace_seq *s, struct trace_entry *entry)
-c4a8e8be2d43cc Frederic Weisbecker       2009-02-02  442  {
-10da37a645b5e9 David Sharp               2010-12-03  443  	char hardsoft_irq;
-10da37a645b5e9 David Sharp               2010-12-03  444  	char need_resched;
-7707fc9d0d9724 Thomas Gleixner           2012-10-26  445  	char need_resched_lazy;
-10da37a645b5e9 David Sharp               2010-12-03  446  	char irqs_off;
-10da37a645b5e9 David Sharp               2010-12-03  447  	int hardirq;
-10da37a645b5e9 David Sharp               2010-12-03  448  	int softirq;
-289e7b0f7eb47b Sebastian Andrzej Siewior 2021-12-13  449  	int bh_off;
-7e6867bf831c71 Peter Zijlstra            2016-03-18  450  	int nmi;
-c4a8e8be2d43cc Frederic Weisbecker       2009-02-02  451  
-7e6867bf831c71 Peter Zijlstra            2016-03-18  452  	nmi = entry->flags & TRACE_FLAG_NMI;
-c4a8e8be2d43cc Frederic Weisbecker       2009-02-02  453  	hardirq = entry->flags & TRACE_FLAG_HARDIRQ;
-c4a8e8be2d43cc Frederic Weisbecker       2009-02-02  454  	softirq = entry->flags & TRACE_FLAG_SOFTIRQ;
-289e7b0f7eb47b Sebastian Andrzej Siewior 2021-12-13  455  	bh_off = entry->flags & TRACE_FLAG_BH_OFF;
-d9793bd8018f83 Arnaldo Carvalho de Melo  2009-02-03  456  
-10da37a645b5e9 David Sharp               2010-12-03  457  	irqs_off =
-289e7b0f7eb47b Sebastian Andrzej Siewior 2021-12-13  458  		(entry->flags & TRACE_FLAG_IRQS_OFF && bh_off) ? 'D' :
-d9793bd8018f83 Arnaldo Carvalho de Melo  2009-02-03  459  		(entry->flags & TRACE_FLAG_IRQS_OFF) ? 'd' :
-289e7b0f7eb47b Sebastian Andrzej Siewior 2021-12-13  460  		bh_off ? 'b' :
-10da37a645b5e9 David Sharp               2010-12-03  461  		(entry->flags & TRACE_FLAG_IRQS_NOSUPPORT) ? 'X' :
-10da37a645b5e9 David Sharp               2010-12-03  462  		'.';
-e5137b50a06400 Peter Zijlstra            2013-10-04  463  
-e5137b50a06400 Peter Zijlstra            2013-10-04  464  	switch (entry->flags & (TRACE_FLAG_NEED_RESCHED |
-e5137b50a06400 Peter Zijlstra            2013-10-04  465  				TRACE_FLAG_PREEMPT_RESCHED)) {
-7707fc9d0d9724 Thomas Gleixner           2012-10-26  466  #ifndef CONFIG_PREEMPT_LAZY
-e5137b50a06400 Peter Zijlstra            2013-10-04  467  	case TRACE_FLAG_NEED_RESCHED | TRACE_FLAG_PREEMPT_RESCHED:
-e5137b50a06400 Peter Zijlstra            2013-10-04  468  		need_resched = 'N';
-e5137b50a06400 Peter Zijlstra            2013-10-04  469  		break;
-7707fc9d0d9724 Thomas Gleixner           2012-10-26  470  #endif
-e5137b50a06400 Peter Zijlstra            2013-10-04  471  	case TRACE_FLAG_NEED_RESCHED:
-e5137b50a06400 Peter Zijlstra            2013-10-04  472  		need_resched = 'n';
-e5137b50a06400 Peter Zijlstra            2013-10-04  473  		break;
-7707fc9d0d9724 Thomas Gleixner           2012-10-26  474  #ifndef CONFIG_PREEMPT_LAZY
-e5137b50a06400 Peter Zijlstra            2013-10-04  475  	case TRACE_FLAG_PREEMPT_RESCHED:
-e5137b50a06400 Peter Zijlstra            2013-10-04  476  		need_resched = 'p';
-e5137b50a06400 Peter Zijlstra            2013-10-04  477  		break;
-7707fc9d0d9724 Thomas Gleixner           2012-10-26  478  #endif
-e5137b50a06400 Peter Zijlstra            2013-10-04  479  	default:
-e5137b50a06400 Peter Zijlstra            2013-10-04  480  		need_resched = '.';
-e5137b50a06400 Peter Zijlstra            2013-10-04  481  		break;
-e5137b50a06400 Peter Zijlstra            2013-10-04  482  	}
-e5137b50a06400 Peter Zijlstra            2013-10-04  483  
-7707fc9d0d9724 Thomas Gleixner           2012-10-26  484  	need_resched_lazy =
-7707fc9d0d9724 Thomas Gleixner           2012-10-26 @485  		(entry->flags & TRACE_FLAG_NEED_RESCHED_LAZY) ? 'L' : '.';
-7707fc9d0d9724 Thomas Gleixner           2012-10-26  486  
-10da37a645b5e9 David Sharp               2010-12-03  487  	hardsoft_irq =
-7e6867bf831c71 Peter Zijlstra            2016-03-18  488  		(nmi && hardirq)     ? 'Z' :
-7e6867bf831c71 Peter Zijlstra            2016-03-18  489  		nmi                  ? 'z' :
-d9793bd8018f83 Arnaldo Carvalho de Melo  2009-02-03  490  		(hardirq && softirq) ? 'H' :
-10da37a645b5e9 David Sharp               2010-12-03  491  		hardirq              ? 'h' :
-10da37a645b5e9 David Sharp               2010-12-03  492  		softirq              ? 's' :
-10da37a645b5e9 David Sharp               2010-12-03  493  		                       '.' ;
-10da37a645b5e9 David Sharp               2010-12-03  494  
-7707fc9d0d9724 Thomas Gleixner           2012-10-26  495  	trace_seq_printf(s, "%c%c%c%c",
-7707fc9d0d9724 Thomas Gleixner           2012-10-26  496  			 irqs_off, need_resched, need_resched_lazy,
-7707fc9d0d9724 Thomas Gleixner           2012-10-26  497  			 hardsoft_irq);
-c4a8e8be2d43cc Frederic Weisbecker       2009-02-02  498  
-54357f0c9149c8 Thomas Gleixner           2021-08-10  499  	if (entry->preempt_count & 0xf)
-54357f0c9149c8 Thomas Gleixner           2021-08-10  500  		trace_seq_printf(s, "%x", entry->preempt_count & 0xf);
-54357f0c9149c8 Thomas Gleixner           2021-08-10  501  	else
-54357f0c9149c8 Thomas Gleixner           2021-08-10  502  		trace_seq_putc(s, '.');
-54357f0c9149c8 Thomas Gleixner           2021-08-10  503  
-7707fc9d0d9724 Thomas Gleixner           2012-10-26  504  	if (entry->preempt_lazy_count)
-7707fc9d0d9724 Thomas Gleixner           2012-10-26  505  		trace_seq_printf(s, "%x", entry->preempt_lazy_count);
-7707fc9d0d9724 Thomas Gleixner           2012-10-26  506  	else
-7707fc9d0d9724 Thomas Gleixner           2012-10-26  507  		trace_seq_putc(s, '.');
-7707fc9d0d9724 Thomas Gleixner           2012-10-26  508  
-54357f0c9149c8 Thomas Gleixner           2021-08-10  509  	if (entry->preempt_count & 0xf0)
-54357f0c9149c8 Thomas Gleixner           2021-08-10  510  		trace_seq_printf(s, "%x", entry->preempt_count >> 4);
-637e7e864103a7 Steven Rostedt            2009-09-11  511  	else
-19a7fe206232cc Steven Rostedt (Red Hat   2014-11-12  512) 		trace_seq_putc(s, '.');
-829b876dfc94ea Steven Rostedt            2009-09-27  513  
-19a7fe206232cc Steven Rostedt (Red Hat   2014-11-12  514) 	return !trace_seq_has_overflowed(s);
-c4a8e8be2d43cc Frederic Weisbecker       2009-02-02  515  }
-c4a8e8be2d43cc Frederic Weisbecker       2009-02-02  516  
+3178d58e0b9772 Herve Codina 2023-02-17  220  
+3178d58e0b9772 Herve Codina 2023-02-17  221  static inline void qmc_write16(void *__iomem addr, u16 val)
+3178d58e0b9772 Herve Codina 2023-02-17  222  {
+3178d58e0b9772 Herve Codina 2023-02-17 @223  	iowrite16be(val, addr);
+3178d58e0b9772 Herve Codina 2023-02-17  224  }
+3178d58e0b9772 Herve Codina 2023-02-17  225  
+3178d58e0b9772 Herve Codina 2023-02-17  226  static inline u16 qmc_read16(void *__iomem addr)
+3178d58e0b9772 Herve Codina 2023-02-17  227  {
+3178d58e0b9772 Herve Codina 2023-02-17 @228  	return ioread16be(addr);
+3178d58e0b9772 Herve Codina 2023-02-17  229  }
+3178d58e0b9772 Herve Codina 2023-02-17  230  
+3178d58e0b9772 Herve Codina 2023-02-17  231  static inline void qmc_setbits16(void *__iomem addr, u16 set)
+3178d58e0b9772 Herve Codina 2023-02-17  232  {
+3178d58e0b9772 Herve Codina 2023-02-17  233  	qmc_write16(addr, qmc_read16(addr) | set);
+3178d58e0b9772 Herve Codina 2023-02-17  234  }
+3178d58e0b9772 Herve Codina 2023-02-17  235  
+3178d58e0b9772 Herve Codina 2023-02-17  236  static inline void qmc_clrbits16(void *__iomem addr, u16 clr)
+3178d58e0b9772 Herve Codina 2023-02-17  237  {
+3178d58e0b9772 Herve Codina 2023-02-17  238  	qmc_write16(addr, qmc_read16(addr) & ~clr);
+3178d58e0b9772 Herve Codina 2023-02-17  239  }
+3178d58e0b9772 Herve Codina 2023-02-17  240  
+3178d58e0b9772 Herve Codina 2023-02-17  241  static inline void qmc_write32(void *__iomem addr, u32 val)
+3178d58e0b9772 Herve Codina 2023-02-17  242  {
+3178d58e0b9772 Herve Codina 2023-02-17  243  	iowrite32be(val, addr);
+3178d58e0b9772 Herve Codina 2023-02-17  244  }
+3178d58e0b9772 Herve Codina 2023-02-17  245  
+3178d58e0b9772 Herve Codina 2023-02-17  246  static inline u32 qmc_read32(void *__iomem addr)
+3178d58e0b9772 Herve Codina 2023-02-17  247  {
+3178d58e0b9772 Herve Codina 2023-02-17  248  	return ioread32be(addr);
+3178d58e0b9772 Herve Codina 2023-02-17  249  }
+3178d58e0b9772 Herve Codina 2023-02-17  250  
+3178d58e0b9772 Herve Codina 2023-02-17  251  static inline void qmc_setbits32(void *__iomem addr, u32 set)
+3178d58e0b9772 Herve Codina 2023-02-17  252  {
+3178d58e0b9772 Herve Codina 2023-02-17  253  	qmc_write32(addr, qmc_read32(addr) | set);
+3178d58e0b9772 Herve Codina 2023-02-17  254  }
+3178d58e0b9772 Herve Codina 2023-02-17  255  
+3178d58e0b9772 Herve Codina 2023-02-17  256  
+3178d58e0b9772 Herve Codina 2023-02-17  257  int qmc_chan_get_info(struct qmc_chan *chan, struct qmc_chan_info *info)
+3178d58e0b9772 Herve Codina 2023-02-17  258  {
+3178d58e0b9772 Herve Codina 2023-02-17  259  	struct tsa_serial_info tsa_info;
+3178d58e0b9772 Herve Codina 2023-02-17  260  	int ret;
+3178d58e0b9772 Herve Codina 2023-02-17  261  
+3178d58e0b9772 Herve Codina 2023-02-17  262  	/* Retrieve info from the TSA related serial */
+3178d58e0b9772 Herve Codina 2023-02-17  263  	ret = tsa_serial_get_info(chan->qmc->tsa_serial, &tsa_info);
+3178d58e0b9772 Herve Codina 2023-02-17  264  	if (ret)
+3178d58e0b9772 Herve Codina 2023-02-17  265  		return ret;
+3178d58e0b9772 Herve Codina 2023-02-17  266  
+3178d58e0b9772 Herve Codina 2023-02-17  267  	info->mode = chan->mode;
+3178d58e0b9772 Herve Codina 2023-02-17  268  	info->rx_fs_rate = tsa_info.rx_fs_rate;
+3178d58e0b9772 Herve Codina 2023-02-17  269  	info->rx_bit_rate = tsa_info.rx_bit_rate;
+3178d58e0b9772 Herve Codina 2023-02-17  270  	info->nb_tx_ts = hweight64(chan->tx_ts_mask);
+3178d58e0b9772 Herve Codina 2023-02-17  271  	info->tx_fs_rate = tsa_info.tx_fs_rate;
+3178d58e0b9772 Herve Codina 2023-02-17  272  	info->tx_bit_rate = tsa_info.tx_bit_rate;
+3178d58e0b9772 Herve Codina 2023-02-17  273  	info->nb_rx_ts = hweight64(chan->rx_ts_mask);
+3178d58e0b9772 Herve Codina 2023-02-17  274  
+3178d58e0b9772 Herve Codina 2023-02-17  275  	return 0;
+3178d58e0b9772 Herve Codina 2023-02-17  276  }
+3178d58e0b9772 Herve Codina 2023-02-17  277  EXPORT_SYMBOL(qmc_chan_get_info);
+3178d58e0b9772 Herve Codina 2023-02-17  278  
+3178d58e0b9772 Herve Codina 2023-02-17  279  int qmc_chan_set_param(struct qmc_chan *chan, const struct qmc_chan_param *param)
+3178d58e0b9772 Herve Codina 2023-02-17  280  {
+3178d58e0b9772 Herve Codina 2023-02-17  281  	if (param->mode != chan->mode)
+3178d58e0b9772 Herve Codina 2023-02-17  282  		return -EINVAL;
+3178d58e0b9772 Herve Codina 2023-02-17  283  
+3178d58e0b9772 Herve Codina 2023-02-17  284  	switch (param->mode) {
+3178d58e0b9772 Herve Codina 2023-02-17  285  	case QMC_HDLC:
+3178d58e0b9772 Herve Codina 2023-02-17  286  		if ((param->hdlc.max_rx_buf_size % 4) ||
+3178d58e0b9772 Herve Codina 2023-02-17  287  		    (param->hdlc.max_rx_buf_size < 8))
+3178d58e0b9772 Herve Codina 2023-02-17  288  			return -EINVAL;
+3178d58e0b9772 Herve Codina 2023-02-17  289  
+3178d58e0b9772 Herve Codina 2023-02-17 @290  		qmc_write16(chan->qmc->scc_pram + QMC_GBL_MRBLR,
+3178d58e0b9772 Herve Codina 2023-02-17  291  			    param->hdlc.max_rx_buf_size - 8);
+3178d58e0b9772 Herve Codina 2023-02-17  292  		qmc_write16(chan->s_param + QMC_SPE_MFLR,
+3178d58e0b9772 Herve Codina 2023-02-17  293  			    param->hdlc.max_rx_frame_size);
+3178d58e0b9772 Herve Codina 2023-02-17  294  		if (param->hdlc.is_crc32) {
+3178d58e0b9772 Herve Codina 2023-02-17  295  			qmc_setbits16(chan->s_param + QMC_SPE_CHAMR,
+3178d58e0b9772 Herve Codina 2023-02-17  296  				      QMC_SPE_CHAMR_HDLC_CRC);
+3178d58e0b9772 Herve Codina 2023-02-17  297  		} else {
+3178d58e0b9772 Herve Codina 2023-02-17  298  			qmc_clrbits16(chan->s_param + QMC_SPE_CHAMR,
+3178d58e0b9772 Herve Codina 2023-02-17  299  				      QMC_SPE_CHAMR_HDLC_CRC);
+3178d58e0b9772 Herve Codina 2023-02-17  300  		}
+3178d58e0b9772 Herve Codina 2023-02-17  301  		break;
+3178d58e0b9772 Herve Codina 2023-02-17  302  
+3178d58e0b9772 Herve Codina 2023-02-17  303  	case QMC_TRANSPARENT:
+3178d58e0b9772 Herve Codina 2023-02-17  304  		qmc_write16(chan->s_param + QMC_SPE_TMRBLR,
+3178d58e0b9772 Herve Codina 2023-02-17  305  			    param->transp.max_rx_buf_size);
+3178d58e0b9772 Herve Codina 2023-02-17  306  		break;
+3178d58e0b9772 Herve Codina 2023-02-17  307  
+3178d58e0b9772 Herve Codina 2023-02-17  308  	default:
+3178d58e0b9772 Herve Codina 2023-02-17  309  		return -EINVAL;
+3178d58e0b9772 Herve Codina 2023-02-17  310  	}
+3178d58e0b9772 Herve Codina 2023-02-17  311  
+3178d58e0b9772 Herve Codina 2023-02-17  312  	return 0;
+3178d58e0b9772 Herve Codina 2023-02-17  313  }
+3178d58e0b9772 Herve Codina 2023-02-17  314  EXPORT_SYMBOL(qmc_chan_set_param);
+3178d58e0b9772 Herve Codina 2023-02-17  315  
+3178d58e0b9772 Herve Codina 2023-02-17  316  int qmc_chan_write_submit(struct qmc_chan *chan, dma_addr_t addr, size_t length,
+3178d58e0b9772 Herve Codina 2023-02-17  317  			  void (*complete)(void *context), void *context)
+3178d58e0b9772 Herve Codina 2023-02-17  318  {
+3178d58e0b9772 Herve Codina 2023-02-17  319  	struct qmc_xfer_desc *xfer_desc;
+3178d58e0b9772 Herve Codina 2023-02-17  320  	unsigned long flags;
+3178d58e0b9772 Herve Codina 2023-02-17  321  	cbd_t *__iomem bd;
+3178d58e0b9772 Herve Codina 2023-02-17  322  	u16 ctrl;
+3178d58e0b9772 Herve Codina 2023-02-17  323  	int ret;
+3178d58e0b9772 Herve Codina 2023-02-17  324  
+3178d58e0b9772 Herve Codina 2023-02-17  325  	/*
+3178d58e0b9772 Herve Codina 2023-02-17  326  	 * R bit  UB bit
+3178d58e0b9772 Herve Codina 2023-02-17  327  	 *   0       0  : The BD is free
+3178d58e0b9772 Herve Codina 2023-02-17  328  	 *   1       1  : The BD is in used, waiting for transfer
+3178d58e0b9772 Herve Codina 2023-02-17  329  	 *   0       1  : The BD is in used, waiting for completion
+3178d58e0b9772 Herve Codina 2023-02-17  330  	 *   1       0  : Should not append
+3178d58e0b9772 Herve Codina 2023-02-17  331  	 */
+3178d58e0b9772 Herve Codina 2023-02-17  332  
+3178d58e0b9772 Herve Codina 2023-02-17  333  	spin_lock_irqsave(&chan->tx_lock, flags);
+3178d58e0b9772 Herve Codina 2023-02-17 @334  	bd = chan->txbd_free;
+3178d58e0b9772 Herve Codina 2023-02-17  335  
+3178d58e0b9772 Herve Codina 2023-02-17  336  	ctrl = qmc_read16(&bd->cbd_sc);
+3178d58e0b9772 Herve Codina 2023-02-17  337  	if (ctrl & (QMC_BD_TX_R | QMC_BD_TX_UB)) {
+3178d58e0b9772 Herve Codina 2023-02-17  338  		/* We are full ... */
+3178d58e0b9772 Herve Codina 2023-02-17  339  		ret = -EBUSY;
+3178d58e0b9772 Herve Codina 2023-02-17  340  		goto end;
+3178d58e0b9772 Herve Codina 2023-02-17  341  	}
+3178d58e0b9772 Herve Codina 2023-02-17  342  
+3178d58e0b9772 Herve Codina 2023-02-17  343  	qmc_write16(&bd->cbd_datlen, length);
+3178d58e0b9772 Herve Codina 2023-02-17  344  	qmc_write32(&bd->cbd_bufaddr, addr);
+3178d58e0b9772 Herve Codina 2023-02-17  345  
+3178d58e0b9772 Herve Codina 2023-02-17 @346  	xfer_desc = &chan->tx_desc[bd - chan->txbds];
+3178d58e0b9772 Herve Codina 2023-02-17  347  	xfer_desc->tx_complete = complete;
+3178d58e0b9772 Herve Codina 2023-02-17  348  	xfer_desc->context = context;
+3178d58e0b9772 Herve Codina 2023-02-17  349  
+3178d58e0b9772 Herve Codina 2023-02-17  350  	/* Activate the descriptor */
+3178d58e0b9772 Herve Codina 2023-02-17  351  	ctrl |= (QMC_BD_TX_R | QMC_BD_TX_UB);
+3178d58e0b9772 Herve Codina 2023-02-17  352  	wmb(); /* Be sure to flush the descriptor before control update */
+3178d58e0b9772 Herve Codina 2023-02-17  353  	qmc_write16(&bd->cbd_sc, ctrl);
+3178d58e0b9772 Herve Codina 2023-02-17  354  
+3178d58e0b9772 Herve Codina 2023-02-17  355  	if (!chan->is_tx_stopped)
+3178d58e0b9772 Herve Codina 2023-02-17  356  		qmc_setbits16(chan->s_param + QMC_SPE_CHAMR, QMC_SPE_CHAMR_POL);
+3178d58e0b9772 Herve Codina 2023-02-17  357  
+3178d58e0b9772 Herve Codina 2023-02-17  358  	if (ctrl & QMC_BD_TX_W)
+3178d58e0b9772 Herve Codina 2023-02-17  359  		chan->txbd_free = chan->txbds;
+3178d58e0b9772 Herve Codina 2023-02-17  360  	else
+3178d58e0b9772 Herve Codina 2023-02-17  361  		chan->txbd_free++;
+3178d58e0b9772 Herve Codina 2023-02-17  362  
+3178d58e0b9772 Herve Codina 2023-02-17  363  	ret = 0;
+3178d58e0b9772 Herve Codina 2023-02-17  364  
+3178d58e0b9772 Herve Codina 2023-02-17  365  end:
+3178d58e0b9772 Herve Codina 2023-02-17  366  	spin_unlock_irqrestore(&chan->tx_lock, flags);
+3178d58e0b9772 Herve Codina 2023-02-17  367  	return ret;
+3178d58e0b9772 Herve Codina 2023-02-17  368  }
+3178d58e0b9772 Herve Codina 2023-02-17  369  EXPORT_SYMBOL(qmc_chan_write_submit);
+3178d58e0b9772 Herve Codina 2023-02-17  370  
 
 -- 
 0-DAY CI Kernel Test Service
