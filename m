@@ -1,50 +1,41 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73AC67F8;
-	Sat, 18 Mar 2023 07:46:31 +0000 (UTC)
-Received: by mail-wr1-f52.google.com with SMTP id v1so103542wrv.1;
-        Sat, 18 Mar 2023 00:46:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679125589;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=wJG+HeIYp0jlCsU57nqAtVc/BpbEs4HHqnEOglHSve4=;
-        b=egbedtTmTGSku15uf1eS0tR3sxiDscwdkI/hqwJ1X2ywGk5oAZO2EWuGoNzSHb3Ve3
-         hM9KqxJGTVJHyqEQ+YPc9vFDVBuvA/+C4PXEX3to+iYTQ7ezgTQlsumR1XiN725LFgKW
-         kEjKvaVQlFkrj8lC5aw6aaCvX9R20Yz1zkJdtSBK5xbx/Qjq2ewwfj9X0ic3vm1zgRvK
-         J4GAYg3RKqtcEbJY50CpgA2ETarKFZR9DHVQtwxQhaq3Q2q3E0qHWEf6aSigAo07d6xP
-         0hoa0LVFNU+CY17mVFkoJQTo9gMf2NnXTKsPRYkl7o70V4Is8VFqdDS1dKDERVWnzW8L
-         s7sQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679125589;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=wJG+HeIYp0jlCsU57nqAtVc/BpbEs4HHqnEOglHSve4=;
-        b=UDnmO+7mzXrobBnAyBvcQuEiGpYRfSe3rYHLE8bGMeY9654EFOg3OSIBkNrqkLvnE5
-         XarQKijpfcsBWnGJuy71VOV0FD3LhKMyFMlqTEgsgVr8Hkg7q1LEJ/8AayawoS1MiaAZ
-         6NHvvdb49Lk+9QLQt84FnX+DvASGRq8WKawQYk8TsVs6IQyRjhkZva6sEiJ7O8MVBzPS
-         IbHAvGcwK1kmk5MxuI+ADNL8h/i/XogrHdU1NxPXODY5uJgJXRtJfTuCfnPbXZT5KNsc
-         CUDdGNrl9lvU+1EiFmNMdHhtjUgD2fQfJoijBitUomOutiPN1H6jU3f3gbEqukpoPOZ+
-         Z9UQ==
-X-Gm-Message-State: AO0yUKU4gsIrjf3Sro1dYmvcLR9eyL9FoXbTfu73vqttMx3cyw/GU82v
-	xZIqxINHjMQa+3R/389ic0rJZnBOGa0=
-X-Google-Smtp-Source: AK7set+Esz11LwXuMXhG8hd0Wq7sCRH63yXM2TOrV3WOH6mDFq+YPCLmhdaEm7VA3XYJ43Ag1rIsrg==
-X-Received: by 2002:adf:ee91:0:b0:2ce:ae7d:f818 with SMTP id b17-20020adfee91000000b002ceae7df818mr9611082wro.23.1679125589245;
-        Sat, 18 Mar 2023 00:46:29 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id b7-20020a5d4d87000000b002c707785da4sm3673675wru.107.2023.03.18.00.46.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 18 Mar 2023 00:46:28 -0700 (PDT)
-Date: Sat, 18 Mar 2023 10:46:24 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, Ard Biesheuvel <ardb@kernel.org>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, linux-efi@vger.kernel.org,
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>
-Subject: [efi:urgent 12/12]
- drivers/firmware/efi/libstub/efi-stub-helper.c:528 efi_load_initrd_lf2()
- error: uninitialized symbol 'dp'.
-Message-ID: <206b582a-476f-4f43-a029-7a652d3e53f1@kili.mountain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4048A4D
+	for <oe-kbuild@lists.linux.dev>; Sat, 18 Mar 2023 09:02:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1679130161; x=1710666161;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ykJMuu52kU8pM/FyOa4vF4OjdyqGBQO4aA3fEaefiPk=;
+  b=eshhkVhLCSlpk8DZRChOsv9r8qSaTHloUss1C2G7Cg1xnFtp0EbMIaVL
+   8Q9nCE/gQ2pFn69Y18vg+iQWBjSPpl8czR1hUfY8OaFmJIvd5nx0ju+E3
+   qaKKkXnn+O/kNJHQTBCcmVoggr1OrkPEXrTBDbuOjngPTowL0eMNmk4y1
+   lvlaRwyX7+yOeNvD2Qrg7bezPYbVHRCMs7jBl3nOAZDcnMNqH5QXrgl13
+   6lVNZROa2fV3Srg/HTvEaHzrcd9VPDxl8tVmskYMnTUUQ1WRwirAfUvxL
+   N766qaBqJpWz5+wm3SBeL713RSVrzrTaTY06y7iirPmVYMIsIA8URIA0y
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10652"; a="366126885"
+X-IronPort-AV: E=Sophos;i="5.98,271,1673942400"; 
+   d="scan'208";a="366126885"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2023 02:02:41 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10652"; a="744816955"
+X-IronPort-AV: E=Sophos;i="5.98,271,1673942400"; 
+   d="scan'208";a="744816955"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by fmsmga008.fm.intel.com with ESMTP; 18 Mar 2023 02:02:40 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pdSSV-0009xa-1o;
+	Sat, 18 Mar 2023 09:02:39 +0000
+Date: Sat, 18 Mar 2023 17:02:13 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: Re: [RFC PATCH v2 4/4] fpga: add initial KUnit test suites
+Message-ID: <202303181604.tXQ4uHom-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -54,76 +45,277 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/efi/efi.git urgent
-head:   86237b46f2b202331c07e4c6c2633ce3d3ba7f13
-commit: 86237b46f2b202331c07e4c6c2633ce3d3ba7f13 [12/12] efi: libstub: Look for initrd LoadFile2 protocol on image handle
-config: x86_64-randconfig-m001 (https://download.01.org/0day-ci/archive/20230318/202303180724.UexnVEeA-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+:::::: 
+:::::: Manual check reason: "low confidence static check first_new_problem: drivers/fpga/tests/fake-fpga-region.c:146:2: warning: Undefined or garbage value returned to caller [clang-analyzer-core.uninitialized.UndefReturn]"
+:::::: 
+
+BCC: lkp@intel.com
+CC: llvm@lists.linux.dev
+CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20230310170412.708363-5-marpagan@redhat.com>
+References: <20230310170412.708363-5-marpagan@redhat.com>
+TO: Marco Pagani <marpagan@redhat.com>
+
+Hi Marco,
+
+[FYI, it's a private test report for your RFC patch.]
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.3-rc2 next-20230317]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Marco-Pagani/fpga-add-fake-FPGA-manager/20230311-010757
+patch link:    https://lore.kernel.org/r/20230310170412.708363-5-marpagan%40redhat.com
+patch subject: [RFC PATCH v2 4/4] fpga: add initial KUnit test suites
+:::::: branch date: 8 days ago
+:::::: commit date: 8 days ago
+config: s390-randconfig-c005-20230312 (https://download.01.org/0day-ci/archive/20230318/202303181604.tXQ4uHom-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install s390 cross compiling tool for clang build
+        # apt-get install binutils-s390x-linux-gnu
+        # https://github.com/intel-lab-lkp/linux/commit/6af16afaf84ee6f061e6953eebca1a786c5be576
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Marco-Pagani/fpga-add-fake-FPGA-manager/20230311-010757
+        git checkout 6af16afaf84ee6f061e6953eebca1a786c5be576
+        # save the config file
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=s390 clang-analyzer  olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=s390 clang-analyzer 
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202303180724.UexnVEeA-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202303181604.tXQ4uHom-lkp@intel.com/
 
-smatch warnings:
-drivers/firmware/efi/libstub/efi-stub-helper.c:528 efi_load_initrd_lf2() error: uninitialized symbol 'dp'.
+clang_analyzer warnings: (new ones prefixed by >>)
+               ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/hwtracing/stm/core.c:633:2: note: Taking true branch
+           if (!stmf->output.nr_chans) {
+           ^
+   drivers/hwtracing/stm/core.c:637:3: note: Taking false branch
+                   get_task_comm(comm, current);
+                   ^
+   include/linux/sched.h:1989:2: note: expanded from macro 'get_task_comm'
+           BUILD_BUG_ON(sizeof(buf) != TASK_COMM_LEN);     \
+           ^
+   include/linux/build_bug.h:50:2: note: expanded from macro 'BUILD_BUG_ON'
+           BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+           ^
+   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON_MSG'
+   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+                                       ^
+   include/linux/compiler_types.h:397:2: note: expanded from macro 'compiletime_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+           ^
+   include/linux/compiler_types.h:385:2: note: expanded from macro '_compiletime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:377:3: note: expanded from macro '__compiletime_assert'
+                   if (!(condition))                                       \
+                   ^
+   drivers/hwtracing/stm/core.c:637:3: note: Loop condition is false.  Exiting loop
+                   get_task_comm(comm, current);
+                   ^
+   include/linux/sched.h:1989:2: note: expanded from macro 'get_task_comm'
+           BUILD_BUG_ON(sizeof(buf) != TASK_COMM_LEN);     \
+           ^
+   include/linux/build_bug.h:50:2: note: expanded from macro 'BUILD_BUG_ON'
+           BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+           ^
+   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON_MSG'
+   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+                                       ^
+   include/linux/compiler_types.h:397:2: note: expanded from macro 'compiletime_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+           ^
+   include/linux/compiler_types.h:385:2: note: expanded from macro '_compiletime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:369:2: note: expanded from macro '__compiletime_assert'
+           do {                                                            \
+           ^
+   drivers/hwtracing/stm/core.c:637:23: note: Dereference of null pointer
+                   get_task_comm(comm, current);
+                                       ^
+   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'current'
+   #define current ((struct task_struct *const)S390_lowcore.current_task)
+                                               ^
+   arch/s390/include/asm/lowcore.h:215:22: note: expanded from macro 'S390_lowcore'
+   #define S390_lowcore (*((struct lowcore *) 0))
+                        ^
+   include/linux/sched.h:1990:36: note: expanded from macro 'get_task_comm'
+           __get_task_comm(buf, sizeof(buf), tsk);         \
+                                             ^~~
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   21 warnings generated.
+   Suppressed 21 warnings (9 in non-user code, 12 with check filters).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   21 warnings generated.
+   Suppressed 21 warnings (9 in non-user code, 12 with check filters).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   21 warnings generated.
+   Suppressed 21 warnings (9 in non-user code, 12 with check filters).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   21 warnings generated.
+   Suppressed 21 warnings (9 in non-user code, 12 with check filters).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   22 warnings generated.
+   drivers/fpga/altera-pr-ip-core.c:188:2: warning: Value stored to 'val' is never read [clang-analyzer-deadcode.DeadStores]
+           val = readl(priv->reg_base + ALT_PR_CSR_OFST);
+           ^
+   drivers/fpga/altera-pr-ip-core.c:188:2: note: Value stored to 'val' is never read
+   Suppressed 21 warnings (9 in non-user code, 12 with check filters).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   23 warnings generated.
+   drivers/fpga/altera-freeze-bridge.c:69:4: warning: Value stored to 'ctrl' is never read [clang-analyzer-deadcode.DeadStores]
+                           ctrl = readl(priv->base_addr + FREEZE_CSR_CTRL_OFFSET);
+                           ^
+   drivers/fpga/altera-freeze-bridge.c:69:4: note: Value stored to 'ctrl' is never read
+   drivers/fpga/altera-freeze-bridge.c:150:2: warning: Value stored to 'status' is never read [clang-analyzer-deadcode.DeadStores]
+           status = readl(priv->base_addr + FREEZE_CSR_STATUS_OFFSET);
+           ^
+   drivers/fpga/altera-freeze-bridge.c:150:2: note: Value stored to 'status' is never read
+   Suppressed 21 warnings (9 in non-user code, 12 with check filters).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   10 warnings generated.
+>> drivers/fpga/tests/fake-fpga-region.c:146:2: warning: Undefined or garbage value returned to caller [clang-analyzer-core.uninitialized.UndefReturn]
+           return ret;
+           ^      ~~~
+   drivers/fpga/tests/fake-fpga-region.c:133:2: note: 'ret' declared without an initial value
+           int ret;
+           ^~~~~~~
+   drivers/fpga/tests/fake-fpga-region.c:137:2: note: Loop condition is false. Execution continues on line 146
+           list_for_each_entry_safe(bridge, tmp, &priv->bridge_list, node) {
+           ^
+   include/linux/list.h:776:2: note: expanded from macro 'list_for_each_entry_safe'
+           for (pos = list_first_entry(head, typeof(*pos), member),        \
+           ^
+   drivers/fpga/tests/fake-fpga-region.c:146:2: note: Undefined or garbage value returned to caller
+           return ret;
+           ^      ~~~
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   23 warnings generated.
+   Suppressed 23 warnings (11 in non-user code, 12 with check filters).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   23 warnings generated.
+   Suppressed 23 warnings (11 in non-user code, 12 with check filters).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   21 warnings generated.
+   Suppressed 21 warnings (9 in non-user code, 12 with check filters).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   10 warnings generated.
+   Suppressed 10 warnings (10 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   10 warnings generated.
+   Suppressed 10 warnings (10 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   21 warnings generated.
+   Suppressed 21 warnings (9 in non-user code, 12 with check filters).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   22 warnings generated.
+   Suppressed 22 warnings (10 in non-user code, 12 with check filters).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   10 warnings generated.
+   Suppressed 10 warnings (10 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   10 warnings generated.
+   Suppressed 10 warnings (10 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   10 warnings generated.
+   Suppressed 10 warnings (10 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   22 warnings generated.
+   Suppressed 22 warnings (10 in non-user code, 12 with check filters).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   22 warnings generated.
+   Suppressed 22 warnings (10 in non-user code, 12 with check filters).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   22 warnings generated.
+   Suppressed 22 warnings (10 in non-user code, 12 with check filters).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   23 warnings generated.
+   drivers/iio/light/ltr501.c:139:8: warning: Excessive padding in 'struct ltr501_chip_info' (16 padding bytes, where 0 is optimal). Optimal fields order: als_gain, ps_gain, channels, info, info_no_irq, als_gain_tbl_size, ps_gain_tbl_size, no_channels, partid, als_mode_active, als_gain_mask, als_gain_shift, consider reordering the fields or adding explicit padding members [clang-analyzer-optin.performance.Padding]
+   struct ltr501_chip_info {
+   ~~~~~~~^~~~~~~~~~~~~~~~~~
+   drivers/iio/light/ltr501.c:139:8: note: Excessive padding in 'struct ltr501_chip_info' (16 padding bytes, where 0 is optimal). Optimal fields order: als_gain, ps_gain, channels, info, info_no_irq, als_gain_tbl_size, ps_gain_tbl_size, no_channels, partid, als_mode_active, als_gain_mask, als_gain_shift, consider reordering the fields or adding explicit padding members
+   struct ltr501_chip_info {
+   ~~~~~~~^~~~~~~~~~~~~~~~~~
+   Suppressed 22 warnings (10 in non-user code, 12 with check filters).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   22 warnings generated.
+   drivers/parport/share.c:1124:23: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]
+                           if (signal_pending(current))
+                                              ^
+   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'current'
+   #define current ((struct task_struct *const)S390_lowcore.current_task)
+                                               ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/s390/include/asm/lowcore.h:215:22: note: expanded from macro 'S390_lowcore'
+   #define S390_lowcore (*((struct lowcore *) 0))
+                        ^
+   drivers/parport/share.c:1103:6: note: Assuming the condition is true
+           if (r == -EAGAIN) {
+               ^~~~~~~~~~~~
+   drivers/parport/share.c:1103:2: note: Taking true branch
+           if (r == -EAGAIN) {
+           ^
+   drivers/parport/share.c:1121:7: note: Assuming field 'waiting' is not equal to 0
+                   if (dev->waiting) {
+                       ^~~~~~~~~~~~
+   drivers/parport/share.c:1121:3: note: Taking true branch
+                   if (dev->waiting) {
+                   ^
+   drivers/parport/share.c:1122:4: note: Loop condition is false.  Exiting loop
+                           wait_event_interruptible(dev->wait_q,
+                           ^
+   include/linux/wait.h:499:2: note: expanded from macro 'wait_event_interruptible'
+           might_sleep();                                                          \
+           ^
+   include/linux/kernel.h:143:42: note: expanded from macro 'might_sleep'
+           do { __might_sleep(__FILE__, __LINE__); might_resched(); } while (0)
+                                                   ^
+   include/linux/kernel.h:120:26: note: expanded from macro 'might_resched'
+   # define might_resched() do { } while (0)
+                            ^
+   drivers/parport/share.c:1122:4: note: Loop condition is false.  Exiting loop
+                           wait_event_interruptible(dev->wait_q,
 
-vim +/dp +528 drivers/firmware/efi/libstub/efi-stub-helper.c
+vim +146 drivers/fpga/tests/fake-fpga-region.c
 
-f61900fd0ebf6c Arvind Sankar       2020-04-30  498  static
-86237b46f2b202 Ard Biesheuvel      2023-03-10  499  efi_status_t efi_load_initrd_lf2(efi_handle_t image_handle,
-86237b46f2b202 Ard Biesheuvel      2023-03-10  500  				 struct linux_efi_initrd *initrd,
-ec93fc371f014a Ard Biesheuvel      2020-02-03  501  				 unsigned long max)
-ec93fc371f014a Ard Biesheuvel      2020-02-03  502  {
-ec93fc371f014a Ard Biesheuvel      2020-02-03  503  	efi_guid_t lf2_proto_guid = EFI_LOAD_FILE2_PROTOCOL_GUID;
-86237b46f2b202 Ard Biesheuvel      2023-03-10  504  	efi_guid_t initrd_lf2_proto_guid = LINUX_EFI_INITRD_LF2_PROTOCOL_GUID;
-ec93fc371f014a Ard Biesheuvel      2020-02-03  505  	efi_device_path_protocol_t *dp;
-ec93fc371f014a Ard Biesheuvel      2020-02-03  506  	efi_load_file2_protocol_t *lf2;
-ec93fc371f014a Ard Biesheuvel      2020-02-03  507  	efi_handle_t handle;
-ec93fc371f014a Ard Biesheuvel      2020-02-03  508  	efi_status_t status;
-ec93fc371f014a Ard Biesheuvel      2020-02-03  509  
-86237b46f2b202 Ard Biesheuvel      2023-03-10  510  	/* first look for a initrd loading protocol specific to this image */
-86237b46f2b202 Ard Biesheuvel      2023-03-10  511  	status = efi_bs_call(handle_protocol, image_handle, &initrd_lf2_proto_guid,
-86237b46f2b202 Ard Biesheuvel      2023-03-10  512  			     (void **)&lf2);
-86237b46f2b202 Ard Biesheuvel      2023-03-10  513  	if (status != EFI_SUCCESS) {
-86237b46f2b202 Ard Biesheuvel      2023-03-10  514  		/* look for the global singleton initrd loading protocol */
-ec93fc371f014a Ard Biesheuvel      2020-02-03  515  		dp = (efi_device_path_protocol_t *)&initrd_dev_path;
-86237b46f2b202 Ard Biesheuvel      2023-03-10  516  		status = efi_bs_call(locate_device_path, &lf2_proto_guid, &dp,
-86237b46f2b202 Ard Biesheuvel      2023-03-10  517  				     &handle);
-ec93fc371f014a Ard Biesheuvel      2020-02-03  518  		if (status != EFI_SUCCESS)
-ec93fc371f014a Ard Biesheuvel      2020-02-03  519  			return status;
-ec93fc371f014a Ard Biesheuvel      2020-02-03  520  
-ec93fc371f014a Ard Biesheuvel      2020-02-03  521  		status = efi_bs_call(handle_protocol, handle, &lf2_proto_guid,
-ec93fc371f014a Ard Biesheuvel      2020-02-03  522  				     (void **)&lf2);
-ec93fc371f014a Ard Biesheuvel      2020-02-03  523  		if (status != EFI_SUCCESS)
-ec93fc371f014a Ard Biesheuvel      2020-02-03  524  			return status;
-86237b46f2b202 Ard Biesheuvel      2023-03-10  525  	}
-
-dp not initialized on else path.
-
-ec93fc371f014a Ard Biesheuvel      2020-02-03  526  
-f4dc7fffa9873d Ard Biesheuvel      2022-09-16  527  	initrd->size = 0;
-f4dc7fffa9873d Ard Biesheuvel      2022-09-16 @528  	status = efi_call_proto(lf2, load_file, dp, false, &initrd->size, NULL);
-                                                                                                ^^
-Uninitialized.
-
-ec93fc371f014a Ard Biesheuvel      2020-02-03  529  	if (status != EFI_BUFFER_TOO_SMALL)
-ec93fc371f014a Ard Biesheuvel      2020-02-03  530  		return EFI_LOAD_ERROR;
-ec93fc371f014a Ard Biesheuvel      2020-02-03  531  
-f4dc7fffa9873d Ard Biesheuvel      2022-09-16  532  	status = efi_allocate_pages(initrd->size, &initrd->base, max);
-ec93fc371f014a Ard Biesheuvel      2020-02-03  533  	if (status != EFI_SUCCESS)
-ec93fc371f014a Ard Biesheuvel      2020-02-03  534  		return status;
-ec93fc371f014a Ard Biesheuvel      2020-02-03  535  
-f4dc7fffa9873d Ard Biesheuvel      2022-09-16  536  	status = efi_call_proto(lf2, load_file, dp, false, &initrd->size,
-f4dc7fffa9873d Ard Biesheuvel      2022-09-16  537  				(void *)initrd->base);
-ec93fc371f014a Ard Biesheuvel      2020-02-03  538  	if (status != EFI_SUCCESS) {
-f4dc7fffa9873d Ard Biesheuvel      2022-09-16  539  		efi_free(initrd->size, initrd->base);
-ec93fc371f014a Ard Biesheuvel      2020-02-03  540  		return EFI_LOAD_ERROR;
-ec93fc371f014a Ard Biesheuvel      2020-02-03  541  	}
-ec93fc371f014a Ard Biesheuvel      2020-02-03  542  	return EFI_SUCCESS;
-ec93fc371f014a Ard Biesheuvel      2020-02-03  543  }
+318b50638db45d Marco Pagani 2023-03-10  128  
+318b50638db45d Marco Pagani 2023-03-10  129  static int fake_region_get_bridges(struct fpga_region *region)
+318b50638db45d Marco Pagani 2023-03-10  130  {
+318b50638db45d Marco Pagani 2023-03-10  131  	struct fake_region_priv *priv;
+318b50638db45d Marco Pagani 2023-03-10  132  	struct fpga_bridge *bridge, *tmp;
+318b50638db45d Marco Pagani 2023-03-10  133  	int ret;
+318b50638db45d Marco Pagani 2023-03-10  134  
+318b50638db45d Marco Pagani 2023-03-10  135  	priv = region->priv;
+318b50638db45d Marco Pagani 2023-03-10  136  
+318b50638db45d Marco Pagani 2023-03-10  137  	list_for_each_entry_safe(bridge, tmp, &priv->bridge_list, node) {
+318b50638db45d Marco Pagani 2023-03-10  138  		list_del(&bridge->node);
+318b50638db45d Marco Pagani 2023-03-10  139  		ret = fpga_bridge_get_to_list(bridge->dev.parent,
+318b50638db45d Marco Pagani 2023-03-10  140  					      region->info,
+318b50638db45d Marco Pagani 2023-03-10  141  					      &region->bridge_list);
+318b50638db45d Marco Pagani 2023-03-10  142  		if (ret)
+318b50638db45d Marco Pagani 2023-03-10  143  			break;
+318b50638db45d Marco Pagani 2023-03-10  144  	}
+318b50638db45d Marco Pagani 2023-03-10  145  
+318b50638db45d Marco Pagani 2023-03-10 @146  	return ret;
+318b50638db45d Marco Pagani 2023-03-10  147  }
+318b50638db45d Marco Pagani 2023-03-10  148  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
-
