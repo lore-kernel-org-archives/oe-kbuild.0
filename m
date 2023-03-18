@@ -1,42 +1,48 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A895F2560
-	for <oe-kbuild@lists.linux.dev>; Sat, 18 Mar 2023 12:58:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679144326; x=1710680326;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=lz9kavoxITeN2jXH9uFOfBAenVTl3BnsXmIiVXcir54=;
-  b=frbdmUtRDmomRZCphU9wqab2CBDNgmpfeCzpByHua8YvA4nXQ0vtiirS
-   QlpvoEftdqRa+NHhMK6AHitoyb5Ym+f1Og6x+uoixRBZpdEaUKkchXA2X
-   dt8/sYdnP5WsD62IRygOlovX7oeFV9ejtZLcmAnhZ6dL2E5otwua3/VUn
-   9RTiMGo8vhHLZSsHFHRelzpWC28ZR3oYCa1kzNrxVSxNlSc6dHOgEn2qC
-   YMzM+A1LTXEko+Ef0dBm+WgHnMMzU+iOydX0v2sByTUuuOfL0O3y6o1sH
-   33WlAfLpNpLPK9eRjQJJoVgWB0WwQDGsJf78Ii/7NbMXrpD6S8PlRWH1R
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10652"; a="326796135"
-X-IronPort-AV: E=Sophos;i="5.98,271,1673942400"; 
-   d="scan'208";a="326796135"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2023 05:58:46 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10652"; a="657864964"
-X-IronPort-AV: E=Sophos;i="5.98,271,1673942400"; 
-   d="scan'208";a="657864964"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 18 Mar 2023 05:58:44 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pdW8y-000A5K-07;
-	Sat, 18 Mar 2023 12:58:44 +0000
-Date: Sat, 18 Mar 2023 20:58:04 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F5AB2917;
+	Sat, 18 Mar 2023 14:13:05 +0000 (UTC)
+Received: by mail-wr1-f49.google.com with SMTP id p4so6694474wre.11;
+        Sat, 18 Mar 2023 07:13:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1679148783;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=DieDvloehk2ELZvk5Km8dotRjtej3CMAm156VBnhhAs=;
+        b=fyLfUyEgS48RZWcn4JQ8nzUPSZr+O8ZPQv3heF//gxuKjS4Nz0yJKYUH76GuosDdNx
+         5vs3sVo0zOZVkZwmngbiCFSlWLjQsophtr+T+eJsZl9OlcZ4kXFx8WAILgkmsvveUV6y
+         h25wNTf3IYd11JVgxHf4dZCZIz4pa6Xj5wGodDUyZae8Fbdtlt2jZh9FOpmxDADRmjYs
+         CtBczAD11OmLeFocjflGtKwdQdwlDPeSTnefljcOqmWU2RWSwMRga7DGKb+7ROkGyEDb
+         7N+so9fub7zKpFyNVvIDqCy4q7/jQsONSM83LUR1LqbjKENdQEmtPjglJ1w4dsJsh8UI
+         Dirg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679148783;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=DieDvloehk2ELZvk5Km8dotRjtej3CMAm156VBnhhAs=;
+        b=SJQrlrsAkPyFWCZ+OciYLJ4iS5kdWKSwmprTaELzIC3xH2/3k5cFUlNo9tPYZ5rqNG
+         QEWANs8I4QcNWVFFr1ufYjkxi1tW9M9E0KYwdD38DXTexBdy+CnuI+d2QPyGI+Krxz7J
+         MneEV44dho7kBlvThxt9LlIcr5P9ihStgGTptRhd2/DhZvcIBTttCOwKJ6JHvKKPt5UX
+         QRuBcLBJZBLU99yCNe9Qtv3ON9q09moKjw+4Ul1CLkNgG7exqJ9iZVBx7y7xJVjCI1C1
+         zmGRmNyRK19B7YmqKBeyp3DZ3aNTLfX2mBWOmxMMj9qG7S4pGX+/LdNvXxutviuARQ0J
+         vxGQ==
+X-Gm-Message-State: AO0yUKULJvce2dL44Q6vtn3GpbYewtOhlmGZpxetf+mrHEn3JRYtB+Ip
+	tIdIORMgnNBtg191TdxbzSaCFeq9KY8=
+X-Google-Smtp-Source: AK7set9p80FNm8T4nJ99mycbGazIFjXcEFzaOxxJpxXa3uxDe1r9+aT5VMUzlKlHQHy7j8KC5YWKZQ==
+X-Received: by 2002:a5d:4802:0:b0:2d3:f610:8417 with SMTP id l2-20020a5d4802000000b002d3f6108417mr3383242wrq.0.1679148782951;
+        Sat, 18 Mar 2023 07:13:02 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id a4-20020adffb84000000b002d322b9a7f5sm4415988wrr.88.2023.03.18.07.13.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 18 Mar 2023 07:13:02 -0700 (PDT)
+Date: Sat, 18 Mar 2023 17:12:58 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev, Luis Chamberlain <mcgrof@kernel.org>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
 Subject: [mcgrof:20230317-module-alloc-opts 27/31] kernel/module/main.c:2280
  move_module() error: uninitialized symbol 't'.
-Message-ID: <202303182034.J3BFg2Yd-lkp@intel.com>
+Message-ID: <e597c167-62fa-4040-a1b4-63d842332a2b@kili.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -46,15 +52,9 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: Luis Chamberlain <mcgrof@kernel.org>
-
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux.git 20230317-module-alloc-opts
 head:   68dfd11f7ebeb379312f4fc89c2792ce52d71ab4
 commit: 139e5ac36c4aa1e28a51bf98a7304d3040c6da6b [27/31] module: add stop-grap sanity check on module memcpy()
-:::::: branch date: 13 hours ago
-:::::: commit date: 13 hours ago
 config: i386-randconfig-m021 (https://download.01.org/0day-ci/archive/20230318/202303182034.J3BFg2Yd-lkp@intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 
@@ -68,7 +68,6 @@ kernel/module/main.c:2280 move_module() error: uninitialized symbol 't'.
 
 vim +/t +2280 kernel/module/main.c
 
-f91a13bb99b739 kernel/module.c      Linus Torvalds   2010-08-05  2211  
 49668688dd5a5f kernel/module.c      Rusty Russell    2010-08-05  2212  static int move_module(struct module *mod, struct load_info *info)
 65b8a9b4d55253 kernel/module.c      Linus Torvalds   2010-08-05  2213  {
 65b8a9b4d55253 kernel/module.c      Linus Torvalds   2010-08-05  2214  	int i;
@@ -121,6 +120,9 @@ ac3b4328392344 kernel/module/main.c Song Liu         2023-02-06  2251  		dest = 
 139e5ac36c4aa1 kernel/module/main.c Luis Chamberlain 2023-03-17  2261  			   (WARN_ON_ONCE(shdr->sh_size != sizeof(struct module)))) {
 139e5ac36c4aa1 kernel/module/main.c Luis Chamberlain 2023-03-17  2262  				ret = -ENOEXEC;
 139e5ac36c4aa1 kernel/module/main.c Luis Chamberlain 2023-03-17  2263  				goto out_enomem;
+
+t is uninitialized here.
+
 139e5ac36c4aa1 kernel/module/main.c Luis Chamberlain 2023-03-17  2264  			}
 49668688dd5a5f kernel/module.c      Rusty Russell    2010-08-05  2265  			memcpy(dest, (void *)shdr->sh_addr, shdr->sh_size);
 139e5ac36c4aa1 kernel/module/main.c Luis Chamberlain 2023-03-17  2266  		}
@@ -141,14 +143,8 @@ ac3b4328392344 kernel/module/main.c Song Liu         2023-02-06 @2280  	for (t--
 ac3b4328392344 kernel/module/main.c Song Liu         2023-02-06  2281  		module_memory_free(mod->mem[t].base, t);
 ac3b4328392344 kernel/module/main.c Song Liu         2023-02-06  2282  	return -ENOMEM;
 65b8a9b4d55253 kernel/module.c      Linus Torvalds   2010-08-05  2283  }
-65b8a9b4d55253 kernel/module.c      Linus Torvalds   2010-08-05  2284  
-
-:::::: The code at line 2280 was first introduced by commit
-:::::: ac3b43283923440900b4f36ca5f9f0b1ca43b70e module: replace module_layout with module_memory
-
-:::::: TO: Song Liu <song@kernel.org>
-:::::: CC: Luis Chamberlain <mcgrof@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
+
