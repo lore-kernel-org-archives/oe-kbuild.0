@@ -1,41 +1,42 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A93241373
-	for <oe-kbuild@lists.linux.dev>; Sun, 19 Mar 2023 12:24:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E10DE4C5
+	for <oe-kbuild@lists.linux.dev>; Sun, 19 Mar 2023 13:56:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679228648; x=1710764648;
+  t=1679234170; x=1710770170;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=DqCXFOUY8n36E8HYzXZ5oNAjsaA7FOJTsg0niXf2/GA=;
-  b=EEdmBOTQ64d+xcactmXjPSWgNo5WCdraOyFFhQIU3/s0tZc5n3pwjeGU
-   tnubNvPvgkI0zk0XCOv5ZGi5VBQ+8rOjkodoKARVxOKu80gE99tmxffjK
-   3Be3yf9BHLHMfW7+NSALw+VEO/5118IHJ6Hahpu86TnV421z1WyzjyXBE
-   kZoq9aumPkVVBHwMUM1HWqsAolFzIbS2vKTlu44hOzll9j0b7Q9inhhpS
-   mBtKJlQgcDSKlRRzqQlMWr2QZ1Qj2IYdqHGJJ/QsnEuXekUsnNJ5PX3Qw
-   MSgsObXfpJRpT7hF7BUVO9RTyqjJ324uBU3g04hwMAyrlpI9K/6OELwW/
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10653"; a="336001172"
+  bh=SS1Blruy02m9sKT2xWDhTPUdJ4VPMJoe5YALSJ8Xjek=;
+  b=P9oZIypxSJc8S5UaP3ci6c2dla9haIpfgohfMZV5IzxNHkujGlggpJWI
+   jKYbF/xAW/Za3PWKy9ENRKepHqhZupuoig5SEjsx2u97keK/K2g2hI9NF
+   crXnz9NQxQMS6T5ms6oRYoYGzarvKlTVVtPsq93PFTkennCzQTStYoLU4
+   ZMWwM7dnRZwdB/4mJiP0r+0ns+Rql1iL7675aDoaB69rFJw66KQ0e6Pn6
+   ZfZYcuR8hNMTwzc7XcQ5yu9NsKAfp0VSfNphln67uy6bt4iblHIr9NfiY
+   489s+mr9rnxTq2zge5pIPrbLyPOpRph8KvYdElSsUR08H0CvbcU1QOter
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10654"; a="326877744"
 X-IronPort-AV: E=Sophos;i="5.98,273,1673942400"; 
-   d="scan'208";a="336001172"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2023 05:24:08 -0700
+   d="scan'208";a="326877744"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2023 06:56:10 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10653"; a="926679237"
+X-IronPort-AV: E=McAfee;i="6600,9927,10654"; a="658088830"
 X-IronPort-AV: E=Sophos;i="5.98,273,1673942400"; 
-   d="scan'208";a="926679237"
+   d="scan'208";a="658088830"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 19 Mar 2023 05:24:06 -0700
+  by orsmga006.jf.intel.com with ESMTP; 19 Mar 2023 06:56:08 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pds50-000AWY-0e;
-	Sun, 19 Mar 2023 12:24:06 +0000
-Date: Sun, 19 Mar 2023 20:23:28 +0800
+	id 1pdtW3-000AXK-2S;
+	Sun, 19 Mar 2023 13:56:07 +0000
+Date: Sun, 19 Mar 2023 21:55:20 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH v11 07/13] phy: fsl: Add Lynx 10G SerDes driver
-Message-ID: <202303192055.7yJgw1E3-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: fs/btrfs/send.c:8344 btrfs_ioctl_send() warn: Function too hairy.
+  No more merges.
+Message-ID: <202303192151.4STwHGD6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -45,323 +46,374 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "low confidence static check first_new_problem: drivers/clk/clk-fsl-lynx-10g.c:273:19: warning: Value stored to 'clk' during its initialization is never read [clang-analyzer-deadcode.DeadStores]"
-:::::: 
-
 BCC: lkp@intel.com
-CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20230313161138.3598068-8-sean.anderson@seco.com>
-References: <20230313161138.3598068-8-sean.anderson@seco.com>
-TO: Sean Anderson <sean.anderson@seco.com>
-TO: Vinod Koul <vkoul@kernel.org>
-TO: Kishon Vijay Abraham I <kishon@kernel.org>
-TO: linux-phy@lists.infradead.org
-CC: Krzysztof Kozlowski <krzk@kernel.org>
-CC: Rob Herring <robh+dt@kernel.org>
-CC: linux-arm-kernel@lists.infradead.org
-CC: devicetree@vger.kernel.org
-CC: Camelia Alexandra Groza <camelia.groza@nxp.com>
-CC: Madalin Bucur <madalin.bucur@nxp.com>
-CC: Bagas Sanjaya <bagasdotme@gmail.com>
-CC: Ioana Ciornei <ioana.ciornei@nxp.com>
-CC: linuxppc-dev@lists.ozlabs.org
-CC: Sean Anderson <sean.anderson@seco.com>
-CC: Jonathan Corbet <corbet@lwn.net>
-CC: linux-doc@vger.kernel.org
+CC: linux-kernel@vger.kernel.org
+TO: Filipe Manana <fdmanana@suse.com>
+CC: David Sterba <dsterba@suse.com>
 
-Hi Sean,
-
-I love your patch! Perhaps something to improve:
-
-[auto build test WARNING on shawnguo/for-next]
-[also build test WARNING on brgl/gpio/for-next clk/clk-next linus/master v6.3-rc2 next-20230317]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Sean-Anderson/dt-bindings-phy-Add-2500BASE-X-and-10GBASE-R/20230314-001522
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/shawnguo/linux.git for-next
-patch link:    https://lore.kernel.org/r/20230313161138.3598068-8-sean.anderson%40seco.com
-patch subject: [PATCH v11 07/13] phy: fsl: Add Lynx 10G SerDes driver
-:::::: branch date: 6 days ago
-:::::: commit date: 6 days ago
-config: arm-randconfig-c002-20230318 (https://download.01.org/0day-ci/archive/20230319/202303192055.7yJgw1E3-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        # https://github.com/intel-lab-lkp/linux/commit/90cd7f9d314637a1b610cf895137b83c89a53d7e
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Sean-Anderson/dt-bindings-phy-Add-2500BASE-X-and-10GBASE-R/20230314-001522
-        git checkout 90cd7f9d314637a1b610cf895137b83c89a53d7e
-        # save the config file
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=arm clang-analyzer  olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=arm clang-analyzer 
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   a3671bd86a9770e34969522d29bb30a1b66fd88a
+commit: 66d04209e5a8d3fc47900de6bd0c319790a52b3e btrfs: send: cache leaf to roots mapping during backref walking
+date:   3 months ago
+:::::: branch date: 15 hours ago
+:::::: commit date: 3 months ago
+config: riscv-randconfig-m031-20230319 (https://download.01.org/0day-ci/archive/20230319/202303192151.4STwHGD6-lkp@intel.com/config)
+compiler: riscv32-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/r/202303192055.7yJgw1E3-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Link: https://lore.kernel.org/r/202303192151.4STwHGD6-lkp@intel.com/
 
-clang_analyzer warnings: (new ones prefixed by >>)
-                   ^
-   drivers/target/target_core_sbc.c:1047:12: note: Field 'execute_cmd' is non-null
-           if (!cmd->execute_cmd)
-                     ^
-   drivers/target/target_core_sbc.c:1047:2: note: Taking false branch
-           if (!cmd->execute_cmd)
-           ^
-   drivers/target/target_core_sbc.c:1050:6: note: Assuming the condition is false
-           if (cmd->se_cmd_flags & SCF_SCSI_DATA_CDB) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/target/target_core_sbc.c:1050:2: note: Taking false branch
-           if (cmd->se_cmd_flags & SCF_SCSI_DATA_CDB) {
-           ^
-   drivers/target/target_core_sbc.c:1066:9: note: 2nd function call argument is an uninitialized value
-           return target_cmd_size_check(cmd, size);
-                  ^                          ~~~~
-   drivers/target/target_core_sbc.c:1107:2: warning: Value stored to 'dl' is never read [clang-analyzer-deadcode.DeadStores]
-           dl = get_unaligned_be16(&buf[0]);
-           ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/target/target_core_sbc.c:1107:2: note: Value stored to 'dl' is never read
-           dl = get_unaligned_be16(&buf[0]);
-           ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 15 warnings (15 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   15 warnings generated.
-   Suppressed 15 warnings (15 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   15 warnings generated.
-   Suppressed 15 warnings (15 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   15 warnings generated.
-   Suppressed 15 warnings (15 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   15 warnings generated.
-   Suppressed 15 warnings (15 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   15 warnings generated.
-   Suppressed 15 warnings (15 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   15 warnings generated.
-   Suppressed 15 warnings (15 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   15 warnings generated.
-   Suppressed 15 warnings (15 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   15 warnings generated.
-   Suppressed 15 warnings (15 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   15 warnings generated.
-   Suppressed 15 warnings (15 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   15 warnings generated.
-   Suppressed 15 warnings (15 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   21 warnings generated.
-   drivers/scsi/scsi_logging.c:75:3: warning: Value stored to 'off' is never read [clang-analyzer-deadcode.DeadStores]
-                   off += vscnprintf(logbuf + off, logbuf_len - off, fmt, args);
-                   ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/scsi/scsi_logging.c:75:3: note: Value stored to 'off' is never read
-                   off += vscnprintf(logbuf + off, logbuf_len - off, fmt, args);
-                   ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/scsi/scsi_logging.c:100:3: warning: Value stored to 'off' is never read [clang-analyzer-deadcode.DeadStores]
-                   off += vscnprintf(logbuf + off, logbuf_len - off, fmt, args);
-                   ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/scsi/scsi_logging.c:100:3: note: Value stored to 'off' is never read
-                   off += vscnprintf(logbuf + off, logbuf_len - off, fmt, args);
-                   ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/scsi/scsi_logging.c:206:3: warning: Value stored to 'off' is never read [clang-analyzer-deadcode.DeadStores]
-                   off += scnprintf(logbuf + off, logbuf_len - off, "\n");
-                   ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/scsi/scsi_logging.c:206:3: note: Value stored to 'off' is never read
-                   off += scnprintf(logbuf + off, logbuf_len - off, "\n");
-                   ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/scsi/scsi_logging.c:328:2: warning: Value stored to 'off' is never read [clang-analyzer-deadcode.DeadStores]
-           off += scsi_format_sense_hdr(logbuf + off, logbuf_len - off, sshdr);
-           ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/scsi/scsi_logging.c:328:2: note: Value stored to 'off' is never read
-           off += scsi_format_sense_hdr(logbuf + off, logbuf_len - off, sshdr);
-           ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/scsi/scsi_logging.c:336:2: warning: Value stored to 'off' is never read [clang-analyzer-deadcode.DeadStores]
-           off += scsi_format_extd_sense(logbuf + off, logbuf_len - off,
-           ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/scsi/scsi_logging.c:336:2: note: Value stored to 'off' is never read
-           off += scsi_format_extd_sense(logbuf + off, logbuf_len - off,
-           ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/scsi/scsi_logging.c:432:2: warning: Value stored to 'off' is never read [clang-analyzer-deadcode.DeadStores]
-           off += scnprintf(logbuf + off, logbuf_len - off,
-           ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/scsi/scsi_logging.c:432:2: note: Value stored to 'off' is never read
-           off += scnprintf(logbuf + off, logbuf_len - off,
-           ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 15 warnings (15 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   15 warnings generated.
-   Suppressed 15 warnings (15 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   15 warnings generated.
-   Suppressed 15 warnings (15 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   1 warning generated.
->> drivers/clk/clk-fsl-lynx-10g.c:273:19: warning: Value stored to 'clk' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct lynx_clk *clk = lynx_pll_to_clk(hw);
-                            ^~~   ~~~~~~~~~~~~~~~~~~~
-   drivers/clk/clk-fsl-lynx-10g.c:273:19: note: Value stored to 'clk' during its initialization is never read
-           struct lynx_clk *clk = lynx_pll_to_clk(hw);
-                            ^~~   ~~~~~~~~~~~~~~~~~~~
-   2 warnings generated.
-   drivers/clk/clk-aspeed.c:609:2: warning: Value stored to 'hw' is never read [clang-analyzer-deadcode.DeadStores]
-           hw = clk_hw_register_fixed_rate(NULL, "clkin", NULL, 0, clkin);
-           ^
-   drivers/clk/clk-aspeed.c:609:2: note: Value stored to 'hw' is never read
-   drivers/clk/clk-aspeed.c:662:2: warning: Value stored to 'hw' is never read [clang-analyzer-deadcode.DeadStores]
-           hw = clk_hw_register_fixed_rate(NULL, "clkin", NULL, 0, freq);
-           ^
-   drivers/clk/clk-aspeed.c:662:2: note: Value stored to 'hw' is never read
-   15 warnings generated.
-   Suppressed 15 warnings (15 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   16 warnings generated.
-   drivers/clk/clk-max9485.c:199:9: warning: Access to field 'out' results in a dereference of a null pointer (loaded from variable 'prev') [clang-analyzer-core.NullDereference]
-           return prev->out;
-                  ^~~~
-   drivers/clk/clk-max9485.c:165:36: note: 'prev' initialized to a null pointer value
-           const struct max9485_rate *curr, *prev = NULL;
-                                             ^~~~
-   drivers/clk/clk-max9485.c:167:29: note: Assuming field 'out' is equal to 0
-           for (curr = max9485_rates; curr->out != 0; curr++) {
-                                      ^~~~~~~~~~~~~~
-   drivers/clk/clk-max9485.c:167:2: note: Loop condition is false. Execution continues on line 199
-           for (curr = max9485_rates; curr->out != 0; curr++) {
-           ^
-   drivers/clk/clk-max9485.c:199:9: note: Access to field 'out' results in a dereference of a null pointer (loaded from variable 'prev')
-           return prev->out;
-                  ^~~~
-   Suppressed 15 warnings (15 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   15 warnings generated.
-   Suppressed 15 warnings (15 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   15 warnings generated.
-   Suppressed 15 warnings (15 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   16 warnings generated.
-   Suppressed 16 warnings (16 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   15 warnings generated.
-   Suppressed 15 warnings (15 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   16 warnings generated.
-   Suppressed 16 warnings (16 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   15 warnings generated.
-   Suppressed 15 warnings (15 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   15 warnings generated.
-   Suppressed 15 warnings (15 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   1 warning generated.
-   drivers/soc/qcom/rpmh.c:94:3: warning: Argument to kfree() is the address of a local stack variable, which is not memory allocated by malloc() [clang-analyzer-unix.Malloc]
-                   kfree(rpm_msg);
-                   ^
-   drivers/soc/qcom/rpmh.c:262:6: note: 'ret' is 0
-           if (ret)
-               ^~~
-   drivers/soc/qcom/rpmh.c:262:2: note: Taking false branch
-           if (ret)
-           ^
-   drivers/soc/qcom/rpmh.c:265:8: note: Calling '__rpmh_write'
-           ret = __rpmh_write(dev, state, &rpm_msg);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/soc/qcom/rpmh.c:179:14: note: 'i' is < field 'num_cmds'
-           for (i = 0; i < rpm_msg->msg.num_cmds; i++) {
-                       ^
-   drivers/soc/qcom/rpmh.c:179:2: note: Loop condition is true.  Entering loop body
-           for (i = 0; i < rpm_msg->msg.num_cmds; i++) {
-           ^
-   drivers/soc/qcom/rpmh.c:181:3: note: Taking false branch
-                   if (IS_ERR(req))
-                   ^
-   drivers/soc/qcom/rpmh.c:179:14: note: Assuming 'i' is < field 'num_cmds'
-           for (i = 0; i < rpm_msg->msg.num_cmds; i++) {
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/soc/qcom/rpmh.c:179:2: note: Loop condition is true.  Entering loop body
-           for (i = 0; i < rpm_msg->msg.num_cmds; i++) {
-           ^
-   drivers/soc/qcom/rpmh.c:181:3: note: Taking false branch
-                   if (IS_ERR(req))
-                   ^
-   drivers/soc/qcom/rpmh.c:179:14: note: Assuming 'i' is >= field 'num_cmds'
-           for (i = 0; i < rpm_msg->msg.num_cmds; i++) {
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/soc/qcom/rpmh.c:179:2: note: Loop condition is false. Execution continues on line 185
-           for (i = 0; i < rpm_msg->msg.num_cmds; i++) {
-           ^
-   drivers/soc/qcom/rpmh.c:185:6: note: 'state' is not equal to RPMH_ACTIVE_ONLY_STATE
-           if (state == RPMH_ACTIVE_ONLY_STATE) {
-               ^~~~~
-   drivers/soc/qcom/rpmh.c:185:2: note: Taking false branch
-           if (state == RPMH_ACTIVE_ONLY_STATE) {
-           ^
-   drivers/soc/qcom/rpmh.c:191:3: note: Calling 'rpmh_tx_done'
+smatch warnings:
+fs/btrfs/send.c:8344 btrfs_ioctl_send() warn: Function too hairy.  No more merges.
 
-vim +/clk +273 drivers/clk/clk-fsl-lynx-10g.c
+vim +8344 fs/btrfs/send.c
 
-91fc603231db36 Sean Anderson 2023-03-13  268  
-91fc603231db36 Sean Anderson 2023-03-13  269  static int lynx_pll_determine_rate(struct clk_hw *hw,
-91fc603231db36 Sean Anderson 2023-03-13  270  				   struct clk_rate_request *req)
-91fc603231db36 Sean Anderson 2023-03-13  271  {
-91fc603231db36 Sean Anderson 2023-03-13  272  	int frate_sel, rfclk_sel;
-91fc603231db36 Sean Anderson 2023-03-13 @273  	struct lynx_clk *clk = lynx_pll_to_clk(hw);
-91fc603231db36 Sean Anderson 2023-03-13  274  	u32 ratio;
-91fc603231db36 Sean Anderson 2023-03-13  275  
-91fc603231db36 Sean Anderson 2023-03-13  276  	dev_dbg(clk->dev, "round pll%d new=%llu parent=%lu\n", clk->idx,
-91fc603231db36 Sean Anderson 2023-03-13  277  		(u64)req->rate * HZ_PER_KHZ, req->best_parent_rate);
-91fc603231db36 Sean Anderson 2023-03-13  278  
-91fc603231db36 Sean Anderson 2023-03-13  279  	frate_sel = lynx_frate_to_sel(req->rate);
-91fc603231db36 Sean Anderson 2023-03-13  280  	if (frate_sel < 0)
-91fc603231db36 Sean Anderson 2023-03-13  281  		return frate_sel;
-91fc603231db36 Sean Anderson 2023-03-13  282  
-91fc603231db36 Sean Anderson 2023-03-13  283  	/* Try the current parent rate */
-91fc603231db36 Sean Anderson 2023-03-13  284  	rfclk_sel = lynx_rfclk_to_sel(req->best_parent_rate);
-91fc603231db36 Sean Anderson 2023-03-13  285  	if (rfclk_sel >= 0) {
-91fc603231db36 Sean Anderson 2023-03-13  286  		ratio = lynx_pll_ratio(frate_sel, rfclk_sel);
-91fc603231db36 Sean Anderson 2023-03-13  287  		if (ratio) {
-91fc603231db36 Sean Anderson 2023-03-13  288  			req->rate = mult_frac(req->best_parent_rate, ratio,
-91fc603231db36 Sean Anderson 2023-03-13  289  					      HZ_PER_KHZ);
-91fc603231db36 Sean Anderson 2023-03-13  290  			return 0;
-91fc603231db36 Sean Anderson 2023-03-13  291  		}
-91fc603231db36 Sean Anderson 2023-03-13  292  	}
-91fc603231db36 Sean Anderson 2023-03-13  293  
-91fc603231db36 Sean Anderson 2023-03-13  294  	/* Try all possible parent rates */
-91fc603231db36 Sean Anderson 2023-03-13  295  	for (rfclk_sel = 0;
-91fc603231db36 Sean Anderson 2023-03-13  296  	     rfclk_sel < ARRAY_SIZE(rfclk_sel_map);
-91fc603231db36 Sean Anderson 2023-03-13  297  	     rfclk_sel++) {
-91fc603231db36 Sean Anderson 2023-03-13  298  		unsigned long new_parent_rate;
-91fc603231db36 Sean Anderson 2023-03-13  299  
-91fc603231db36 Sean Anderson 2023-03-13  300  		ratio = lynx_pll_ratio(frate_sel, rfclk_sel);
-91fc603231db36 Sean Anderson 2023-03-13  301  		if (!ratio)
-91fc603231db36 Sean Anderson 2023-03-13  302  			continue;
-91fc603231db36 Sean Anderson 2023-03-13  303  
-91fc603231db36 Sean Anderson 2023-03-13  304  		/* Ensure the reference clock can produce this rate */
-91fc603231db36 Sean Anderson 2023-03-13  305  		new_parent_rate = rfclk_sel_map[rfclk_sel];
-91fc603231db36 Sean Anderson 2023-03-13  306  		new_parent_rate = clk_hw_round_rate(req->best_parent_hw,
-91fc603231db36 Sean Anderson 2023-03-13  307  						    new_parent_rate);
-91fc603231db36 Sean Anderson 2023-03-13  308  		if (rfclk_sel != lynx_rfclk_to_sel(new_parent_rate))
-91fc603231db36 Sean Anderson 2023-03-13  309  			continue;
-91fc603231db36 Sean Anderson 2023-03-13  310  
-91fc603231db36 Sean Anderson 2023-03-13  311  		req->rate = mult_frac(new_parent_rate, ratio, HZ_PER_KHZ);
-91fc603231db36 Sean Anderson 2023-03-13  312  		req->best_parent_rate = new_parent_rate;
-91fc603231db36 Sean Anderson 2023-03-13  313  		return 0;
-91fc603231db36 Sean Anderson 2023-03-13  314  	}
-91fc603231db36 Sean Anderson 2023-03-13  315  
-91fc603231db36 Sean Anderson 2023-03-13  316  	return -EINVAL;
-91fc603231db36 Sean Anderson 2023-03-13  317  }
-91fc603231db36 Sean Anderson 2023-03-13  318  
+62d54f3a7fa27e Filipe Manana             2019-04-22  8008  
+9ad1230533efb6 Sahil Kang                2022-01-15  8009  long btrfs_ioctl_send(struct inode *inode, struct btrfs_ioctl_send_args *arg)
+31db9f7c23fbf7 Alexander Block           2012-07-25  8010  {
+31db9f7c23fbf7 Alexander Block           2012-07-25  8011  	int ret = 0;
+9ad1230533efb6 Sahil Kang                2022-01-15  8012  	struct btrfs_root *send_root = BTRFS_I(inode)->root;
+0b246afa62b0cf Jeff Mahoney              2016-06-22  8013  	struct btrfs_fs_info *fs_info = send_root->fs_info;
+31db9f7c23fbf7 Alexander Block           2012-07-25  8014  	struct btrfs_root *clone_root;
+31db9f7c23fbf7 Alexander Block           2012-07-25  8015  	struct send_ctx *sctx = NULL;
+31db9f7c23fbf7 Alexander Block           2012-07-25  8016  	u32 i;
+31db9f7c23fbf7 Alexander Block           2012-07-25  8017  	u64 *clone_sources_tmp = NULL;
+2c68653787f91c David Sterba              2013-12-16  8018  	int clone_sources_to_rollback = 0;
+bae12df966f0e1 Denis Efremov             2020-09-21  8019  	size_t alloc_size;
+896c14f97f700a Wang Shilong              2014-01-07  8020  	int sort_clone_roots = 0;
+31db9f7c23fbf7 Alexander Block           2012-07-25  8021  
+31db9f7c23fbf7 Alexander Block           2012-07-25  8022  	if (!capable(CAP_SYS_ADMIN))
+31db9f7c23fbf7 Alexander Block           2012-07-25  8023  		return -EPERM;
+31db9f7c23fbf7 Alexander Block           2012-07-25  8024  
+2c68653787f91c David Sterba              2013-12-16  8025  	/*
+2c68653787f91c David Sterba              2013-12-16  8026  	 * The subvolume must remain read-only during send, protect against
+521e0546c970c3 David Sterba              2014-04-15  8027  	 * making it RW. This also protects against deletion.
+2c68653787f91c David Sterba              2013-12-16  8028  	 */
+2c68653787f91c David Sterba              2013-12-16  8029  	spin_lock(&send_root->root_item_lock);
+62d54f3a7fa27e Filipe Manana             2019-04-22  8030  	if (btrfs_root_readonly(send_root) && send_root->dedupe_in_progress) {
+62d54f3a7fa27e Filipe Manana             2019-04-22  8031  		dedupe_in_progress_warn(send_root);
+62d54f3a7fa27e Filipe Manana             2019-04-22  8032  		spin_unlock(&send_root->root_item_lock);
+62d54f3a7fa27e Filipe Manana             2019-04-22  8033  		return -EAGAIN;
+62d54f3a7fa27e Filipe Manana             2019-04-22  8034  	}
+2c68653787f91c David Sterba              2013-12-16  8035  	send_root->send_in_progress++;
+2c68653787f91c David Sterba              2013-12-16  8036  	spin_unlock(&send_root->root_item_lock);
+2c68653787f91c David Sterba              2013-12-16  8037  
+2c68653787f91c David Sterba              2013-12-16  8038  	/*
+2c68653787f91c David Sterba              2013-12-16  8039  	 * Userspace tools do the checks and warn the user if it's
+2c68653787f91c David Sterba              2013-12-16  8040  	 * not RO.
+2c68653787f91c David Sterba              2013-12-16  8041  	 */
+2c68653787f91c David Sterba              2013-12-16  8042  	if (!btrfs_root_readonly(send_root)) {
+2c68653787f91c David Sterba              2013-12-16  8043  		ret = -EPERM;
+2c68653787f91c David Sterba              2013-12-16  8044  		goto out;
+2c68653787f91c David Sterba              2013-12-16  8045  	}
+2c68653787f91c David Sterba              2013-12-16  8046  
+457ae7268b29c3 Dan Carpenter             2017-03-17  8047  	/*
+457ae7268b29c3 Dan Carpenter             2017-03-17  8048  	 * Check that we don't overflow at later allocations, we request
+457ae7268b29c3 Dan Carpenter             2017-03-17  8049  	 * clone_sources_count + 1 items, and compare to unsigned long inside
+457ae7268b29c3 Dan Carpenter             2017-03-17  8050  	 * access_ok.
+457ae7268b29c3 Dan Carpenter             2017-03-17  8051  	 */
+f5ecec3ce21f70 Dan Carpenter             2016-04-13  8052  	if (arg->clone_sources_count >
+457ae7268b29c3 Dan Carpenter             2017-03-17  8053  	    ULONG_MAX / sizeof(struct clone_root) - 1) {
+f5ecec3ce21f70 Dan Carpenter             2016-04-13  8054  		ret = -EINVAL;
+f5ecec3ce21f70 Dan Carpenter             2016-04-13  8055  		goto out;
+f5ecec3ce21f70 Dan Carpenter             2016-04-13  8056  	}
+f5ecec3ce21f70 Dan Carpenter             2016-04-13  8057  
+c2c71324ecb471 Stefan Behrens            2013-04-10  8058  	if (arg->flags & ~BTRFS_SEND_FLAG_MASK) {
+cb95e7bf7ba481 Mark Fasheh               2013-02-04  8059  		ret = -EINVAL;
+cb95e7bf7ba481 Mark Fasheh               2013-02-04  8060  		goto out;
+cb95e7bf7ba481 Mark Fasheh               2013-02-04  8061  	}
+cb95e7bf7ba481 Mark Fasheh               2013-02-04  8062  
+e780b0d1c1523e David Sterba              2016-01-18  8063  	sctx = kzalloc(sizeof(struct send_ctx), GFP_KERNEL);
+31db9f7c23fbf7 Alexander Block           2012-07-25  8064  	if (!sctx) {
+31db9f7c23fbf7 Alexander Block           2012-07-25  8065  		ret = -ENOMEM;
+31db9f7c23fbf7 Alexander Block           2012-07-25  8066  		goto out;
+31db9f7c23fbf7 Alexander Block           2012-07-25  8067  	}
+31db9f7c23fbf7 Alexander Block           2012-07-25  8068  
+31db9f7c23fbf7 Alexander Block           2012-07-25  8069  	INIT_LIST_HEAD(&sctx->new_refs);
+31db9f7c23fbf7 Alexander Block           2012-07-25  8070  	INIT_LIST_HEAD(&sctx->deleted_refs);
+5b8418b84303d9 David Sterba              2022-07-15  8071  	INIT_RADIX_TREE(&sctx->name_cache, GFP_KERNEL);
+31db9f7c23fbf7 Alexander Block           2012-07-25  8072  	INIT_LIST_HEAD(&sctx->name_cache_list);
+31db9f7c23fbf7 Alexander Block           2012-07-25  8073  
+66d04209e5a8d3 Filipe Manana             2022-11-01  8074  	INIT_LIST_HEAD(&sctx->backref_cache.lru_list);
+66d04209e5a8d3 Filipe Manana             2022-11-01  8075  	mt_init(&sctx->backref_cache.entries);
+66d04209e5a8d3 Filipe Manana             2022-11-01  8076  
+cb95e7bf7ba481 Mark Fasheh               2013-02-04  8077  	sctx->flags = arg->flags;
+cb95e7bf7ba481 Mark Fasheh               2013-02-04  8078  
+e77fbf990316d4 David Sterba              2021-10-22  8079  	if (arg->flags & BTRFS_SEND_FLAG_VERSION) {
+e77fbf990316d4 David Sterba              2021-10-22  8080  		if (arg->version > BTRFS_SEND_STREAM_VERSION) {
+e77fbf990316d4 David Sterba              2021-10-22  8081  			ret = -EPROTO;
+e77fbf990316d4 David Sterba              2021-10-22  8082  			goto out;
+e77fbf990316d4 David Sterba              2021-10-22  8083  		}
+e77fbf990316d4 David Sterba              2021-10-22  8084  		/* Zero means "use the highest version" */
+e77fbf990316d4 David Sterba              2021-10-22  8085  		sctx->proto = arg->version ?: BTRFS_SEND_STREAM_VERSION;
+e77fbf990316d4 David Sterba              2021-10-22  8086  	} else {
+e77fbf990316d4 David Sterba              2021-10-22  8087  		sctx->proto = 1;
+e77fbf990316d4 David Sterba              2021-10-22  8088  	}
+d6815592806f48 Omar Sandoval             2022-03-17  8089  	if ((arg->flags & BTRFS_SEND_FLAG_COMPRESSED) && sctx->proto < 2) {
+d6815592806f48 Omar Sandoval             2022-03-17  8090  		ret = -EINVAL;
+d6815592806f48 Omar Sandoval             2022-03-17  8091  		goto out;
+d6815592806f48 Omar Sandoval             2022-03-17  8092  	}
+e77fbf990316d4 David Sterba              2021-10-22  8093  
+31db9f7c23fbf7 Alexander Block           2012-07-25  8094  	sctx->send_filp = fget(arg->send_fd);
+ecc7ada77b5cd1 Tsutomu Itoh              2013-04-19  8095  	if (!sctx->send_filp) {
+ecc7ada77b5cd1 Tsutomu Itoh              2013-04-19  8096  		ret = -EBADF;
+31db9f7c23fbf7 Alexander Block           2012-07-25  8097  		goto out;
+31db9f7c23fbf7 Alexander Block           2012-07-25  8098  	}
+31db9f7c23fbf7 Alexander Block           2012-07-25  8099  
+31db9f7c23fbf7 Alexander Block           2012-07-25  8100  	sctx->send_root = send_root;
+521e0546c970c3 David Sterba              2014-04-15  8101  	/*
+521e0546c970c3 David Sterba              2014-04-15  8102  	 * Unlikely but possible, if the subvolume is marked for deletion but
+521e0546c970c3 David Sterba              2014-04-15  8103  	 * is slow to remove the directory entry, send can still be started
+521e0546c970c3 David Sterba              2014-04-15  8104  	 */
+521e0546c970c3 David Sterba              2014-04-15  8105  	if (btrfs_root_dead(sctx->send_root)) {
+521e0546c970c3 David Sterba              2014-04-15  8106  		ret = -EPERM;
+521e0546c970c3 David Sterba              2014-04-15  8107  		goto out;
+521e0546c970c3 David Sterba              2014-04-15  8108  	}
+521e0546c970c3 David Sterba              2014-04-15  8109  
+31db9f7c23fbf7 Alexander Block           2012-07-25  8110  	sctx->clone_roots_cnt = arg->clone_sources_count;
+31db9f7c23fbf7 Alexander Block           2012-07-25  8111  
+a4b333f2277b13 Omar Sandoval             2022-04-04  8112  	if (sctx->proto >= 2) {
+a4b333f2277b13 Omar Sandoval             2022-04-04  8113  		u32 send_buf_num_pages;
+a4b333f2277b13 Omar Sandoval             2022-04-04  8114  
+875c627c5f2045 Wang Yugui                2022-10-19  8115  		sctx->send_max_size = BTRFS_SEND_BUF_SIZE_V2;
+a4b333f2277b13 Omar Sandoval             2022-04-04  8116  		sctx->send_buf = vmalloc(sctx->send_max_size);
+a4b333f2277b13 Omar Sandoval             2022-04-04  8117  		if (!sctx->send_buf) {
+a4b333f2277b13 Omar Sandoval             2022-04-04  8118  			ret = -ENOMEM;
+a4b333f2277b13 Omar Sandoval             2022-04-04  8119  			goto out;
+a4b333f2277b13 Omar Sandoval             2022-04-04  8120  		}
+a4b333f2277b13 Omar Sandoval             2022-04-04  8121  		send_buf_num_pages = sctx->send_max_size >> PAGE_SHIFT;
+a4b333f2277b13 Omar Sandoval             2022-04-04  8122  		sctx->send_buf_pages = kcalloc(send_buf_num_pages,
+a4b333f2277b13 Omar Sandoval             2022-04-04  8123  					       sizeof(*sctx->send_buf_pages),
+a4b333f2277b13 Omar Sandoval             2022-04-04  8124  					       GFP_KERNEL);
+a4b333f2277b13 Omar Sandoval             2022-04-04  8125  		if (!sctx->send_buf_pages) {
+a4b333f2277b13 Omar Sandoval             2022-04-04  8126  			ret = -ENOMEM;
+a4b333f2277b13 Omar Sandoval             2022-04-04  8127  			goto out;
+a4b333f2277b13 Omar Sandoval             2022-04-04  8128  		}
+a4b333f2277b13 Omar Sandoval             2022-04-04  8129  		for (i = 0; i < send_buf_num_pages; i++) {
+a4b333f2277b13 Omar Sandoval             2022-04-04  8130  			sctx->send_buf_pages[i] =
+a4b333f2277b13 Omar Sandoval             2022-04-04  8131  				vmalloc_to_page(sctx->send_buf + (i << PAGE_SHIFT));
+a4b333f2277b13 Omar Sandoval             2022-04-04  8132  		}
+a4b333f2277b13 Omar Sandoval             2022-04-04  8133  	} else {
+b7c14f23fb604f Omar Sandoval             2022-03-17  8134  		sctx->send_max_size = BTRFS_SEND_BUF_SIZE_V1;
+752ade68cbd81d Michal Hocko              2017-05-08  8135  		sctx->send_buf = kvmalloc(sctx->send_max_size, GFP_KERNEL);
+a4b333f2277b13 Omar Sandoval             2022-04-04  8136  	}
+31db9f7c23fbf7 Alexander Block           2012-07-25  8137  	if (!sctx->send_buf) {
+31db9f7c23fbf7 Alexander Block           2012-07-25  8138  		ret = -ENOMEM;
+31db9f7c23fbf7 Alexander Block           2012-07-25  8139  		goto out;
+31db9f7c23fbf7 Alexander Block           2012-07-25  8140  	}
+31db9f7c23fbf7 Alexander Block           2012-07-25  8141  
+9f03740a956d7a Filipe David Borba Manana 2014-01-22  8142  	sctx->pending_dir_moves = RB_ROOT;
+9f03740a956d7a Filipe David Borba Manana 2014-01-22  8143  	sctx->waiting_dir_moves = RB_ROOT;
+9dc442143b9874 Filipe Manana             2014-02-19  8144  	sctx->orphan_dirs = RB_ROOT;
+3aa5bd367fa5a3 BingJing Chang            2022-07-12  8145  	sctx->rbtree_new_refs = RB_ROOT;
+3aa5bd367fa5a3 BingJing Chang            2022-07-12  8146  	sctx->rbtree_deleted_refs = RB_ROOT;
+9f03740a956d7a Filipe David Borba Manana 2014-01-22  8147  
+bae12df966f0e1 Denis Efremov             2020-09-21  8148  	sctx->clone_roots = kvcalloc(sizeof(*sctx->clone_roots),
+bae12df966f0e1 Denis Efremov             2020-09-21  8149  				     arg->clone_sources_count + 1,
+bae12df966f0e1 Denis Efremov             2020-09-21  8150  				     GFP_KERNEL);
+31db9f7c23fbf7 Alexander Block           2012-07-25  8151  	if (!sctx->clone_roots) {
+31db9f7c23fbf7 Alexander Block           2012-07-25  8152  		ret = -ENOMEM;
+31db9f7c23fbf7 Alexander Block           2012-07-25  8153  		goto out;
+31db9f7c23fbf7 Alexander Block           2012-07-25  8154  	}
+31db9f7c23fbf7 Alexander Block           2012-07-25  8155  
+bae12df966f0e1 Denis Efremov             2020-09-21  8156  	alloc_size = array_size(sizeof(*arg->clone_sources),
+bae12df966f0e1 Denis Efremov             2020-09-21  8157  				arg->clone_sources_count);
+e55d1153dbf484 David Sterba              2016-04-11  8158  
+31db9f7c23fbf7 Alexander Block           2012-07-25  8159  	if (arg->clone_sources_count) {
+752ade68cbd81d Michal Hocko              2017-05-08  8160  		clone_sources_tmp = kvmalloc(alloc_size, GFP_KERNEL);
+31db9f7c23fbf7 Alexander Block           2012-07-25  8161  		if (!clone_sources_tmp) {
+31db9f7c23fbf7 Alexander Block           2012-07-25  8162  			ret = -ENOMEM;
+31db9f7c23fbf7 Alexander Block           2012-07-25  8163  			goto out;
+31db9f7c23fbf7 Alexander Block           2012-07-25  8164  		}
+31db9f7c23fbf7 Alexander Block           2012-07-25  8165  
+31db9f7c23fbf7 Alexander Block           2012-07-25  8166  		ret = copy_from_user(clone_sources_tmp, arg->clone_sources,
+e55d1153dbf484 David Sterba              2016-04-11  8167  				alloc_size);
+31db9f7c23fbf7 Alexander Block           2012-07-25  8168  		if (ret) {
+31db9f7c23fbf7 Alexander Block           2012-07-25  8169  			ret = -EFAULT;
+31db9f7c23fbf7 Alexander Block           2012-07-25  8170  			goto out;
+31db9f7c23fbf7 Alexander Block           2012-07-25  8171  		}
+31db9f7c23fbf7 Alexander Block           2012-07-25  8172  
+31db9f7c23fbf7 Alexander Block           2012-07-25  8173  		for (i = 0; i < arg->clone_sources_count; i++) {
+56e9357a1e8167 David Sterba              2020-05-15  8174  			clone_root = btrfs_get_fs_root(fs_info,
+56e9357a1e8167 David Sterba              2020-05-15  8175  						clone_sources_tmp[i], true);
+31db9f7c23fbf7 Alexander Block           2012-07-25  8176  			if (IS_ERR(clone_root)) {
+31db9f7c23fbf7 Alexander Block           2012-07-25  8177  				ret = PTR_ERR(clone_root);
+31db9f7c23fbf7 Alexander Block           2012-07-25  8178  				goto out;
+31db9f7c23fbf7 Alexander Block           2012-07-25  8179  			}
+2c68653787f91c David Sterba              2013-12-16  8180  			spin_lock(&clone_root->root_item_lock);
+5cc2b17e80cf57 Filipe Manana             2015-03-02  8181  			if (!btrfs_root_readonly(clone_root) ||
+5cc2b17e80cf57 Filipe Manana             2015-03-02  8182  			    btrfs_root_dead(clone_root)) {
+2c68653787f91c David Sterba              2013-12-16  8183  				spin_unlock(&clone_root->root_item_lock);
+0024652895e347 Josef Bacik               2020-01-24  8184  				btrfs_put_root(clone_root);
+2c68653787f91c David Sterba              2013-12-16  8185  				ret = -EPERM;
+2c68653787f91c David Sterba              2013-12-16  8186  				goto out;
+2c68653787f91c David Sterba              2013-12-16  8187  			}
+62d54f3a7fa27e Filipe Manana             2019-04-22  8188  			if (clone_root->dedupe_in_progress) {
+62d54f3a7fa27e Filipe Manana             2019-04-22  8189  				dedupe_in_progress_warn(clone_root);
+62d54f3a7fa27e Filipe Manana             2019-04-22  8190  				spin_unlock(&clone_root->root_item_lock);
+0024652895e347 Josef Bacik               2020-01-24  8191  				btrfs_put_root(clone_root);
+62d54f3a7fa27e Filipe Manana             2019-04-22  8192  				ret = -EAGAIN;
+62d54f3a7fa27e Filipe Manana             2019-04-22  8193  				goto out;
+62d54f3a7fa27e Filipe Manana             2019-04-22  8194  			}
+2f1f465ae6da24 Filipe Manana             2015-03-02  8195  			clone_root->send_in_progress++;
+2c68653787f91c David Sterba              2013-12-16  8196  			spin_unlock(&clone_root->root_item_lock);
+18f687d5384493 Wang Shilong              2014-01-07  8197  
+31db9f7c23fbf7 Alexander Block           2012-07-25  8198  			sctx->clone_roots[i].root = clone_root;
+2f1f465ae6da24 Filipe Manana             2015-03-02  8199  			clone_sources_to_rollback = i + 1;
+31db9f7c23fbf7 Alexander Block           2012-07-25  8200  		}
+2f91306a378099 David Sterba              2016-04-11  8201  		kvfree(clone_sources_tmp);
+31db9f7c23fbf7 Alexander Block           2012-07-25  8202  		clone_sources_tmp = NULL;
+31db9f7c23fbf7 Alexander Block           2012-07-25  8203  	}
+31db9f7c23fbf7 Alexander Block           2012-07-25  8204  
+31db9f7c23fbf7 Alexander Block           2012-07-25  8205  	if (arg->parent_root) {
+56e9357a1e8167 David Sterba              2020-05-15  8206  		sctx->parent_root = btrfs_get_fs_root(fs_info, arg->parent_root,
+56e9357a1e8167 David Sterba              2020-05-15  8207  						      true);
+b1b195969fe6d9 Stefan Behrens            2013-05-13  8208  		if (IS_ERR(sctx->parent_root)) {
+b1b195969fe6d9 Stefan Behrens            2013-05-13  8209  			ret = PTR_ERR(sctx->parent_root);
+31db9f7c23fbf7 Alexander Block           2012-07-25  8210  			goto out;
+31db9f7c23fbf7 Alexander Block           2012-07-25  8211  		}
+18f687d5384493 Wang Shilong              2014-01-07  8212  
+2c68653787f91c David Sterba              2013-12-16  8213  		spin_lock(&sctx->parent_root->root_item_lock);
+2c68653787f91c David Sterba              2013-12-16  8214  		sctx->parent_root->send_in_progress++;
+521e0546c970c3 David Sterba              2014-04-15  8215  		if (!btrfs_root_readonly(sctx->parent_root) ||
+521e0546c970c3 David Sterba              2014-04-15  8216  				btrfs_root_dead(sctx->parent_root)) {
+2c68653787f91c David Sterba              2013-12-16  8217  			spin_unlock(&sctx->parent_root->root_item_lock);
+2c68653787f91c David Sterba              2013-12-16  8218  			ret = -EPERM;
+2c68653787f91c David Sterba              2013-12-16  8219  			goto out;
+2c68653787f91c David Sterba              2013-12-16  8220  		}
+62d54f3a7fa27e Filipe Manana             2019-04-22  8221  		if (sctx->parent_root->dedupe_in_progress) {
+62d54f3a7fa27e Filipe Manana             2019-04-22  8222  			dedupe_in_progress_warn(sctx->parent_root);
+62d54f3a7fa27e Filipe Manana             2019-04-22  8223  			spin_unlock(&sctx->parent_root->root_item_lock);
+62d54f3a7fa27e Filipe Manana             2019-04-22  8224  			ret = -EAGAIN;
+62d54f3a7fa27e Filipe Manana             2019-04-22  8225  			goto out;
+62d54f3a7fa27e Filipe Manana             2019-04-22  8226  		}
+2c68653787f91c David Sterba              2013-12-16  8227  		spin_unlock(&sctx->parent_root->root_item_lock);
+31db9f7c23fbf7 Alexander Block           2012-07-25  8228  	}
+31db9f7c23fbf7 Alexander Block           2012-07-25  8229  
+31db9f7c23fbf7 Alexander Block           2012-07-25  8230  	/*
+31db9f7c23fbf7 Alexander Block           2012-07-25  8231  	 * Clones from send_root are allowed, but only if the clone source
+31db9f7c23fbf7 Alexander Block           2012-07-25  8232  	 * is behind the current send position. This is checked while searching
+31db9f7c23fbf7 Alexander Block           2012-07-25  8233  	 * for possible clone sources.
+31db9f7c23fbf7 Alexander Block           2012-07-25  8234  	 */
+6f9a3da5da9e7e Josef Bacik               2020-01-24  8235  	sctx->clone_roots[sctx->clone_roots_cnt++].root =
+0024652895e347 Josef Bacik               2020-01-24  8236  		btrfs_grab_root(sctx->send_root);
+31db9f7c23fbf7 Alexander Block           2012-07-25  8237  
+31db9f7c23fbf7 Alexander Block           2012-07-25  8238  	/* We do a bsearch later */
+31db9f7c23fbf7 Alexander Block           2012-07-25  8239  	sort(sctx->clone_roots, sctx->clone_roots_cnt,
+31db9f7c23fbf7 Alexander Block           2012-07-25  8240  			sizeof(*sctx->clone_roots), __clone_root_cmp_sort,
+31db9f7c23fbf7 Alexander Block           2012-07-25  8241  			NULL);
+896c14f97f700a Wang Shilong              2014-01-07  8242  	sort_clone_roots = 1;
+31db9f7c23fbf7 Alexander Block           2012-07-25  8243  
+9f89d5de8631c7 Filipe Manana             2019-04-15  8244  	ret = flush_delalloc_roots(sctx);
+9f89d5de8631c7 Filipe Manana             2019-04-15  8245  	if (ret)
+9f89d5de8631c7 Filipe Manana             2019-04-15  8246  		goto out;
+9f89d5de8631c7 Filipe Manana             2019-04-15  8247  
+e5fa8f865b3324 Filipe Manana             2014-10-21  8248  	ret = ensure_commit_roots_uptodate(sctx);
+e5fa8f865b3324 Filipe Manana             2014-10-21  8249  	if (ret)
+e5fa8f865b3324 Filipe Manana             2014-10-21  8250  		goto out;
+e5fa8f865b3324 Filipe Manana             2014-10-21  8251  
+31db9f7c23fbf7 Alexander Block           2012-07-25  8252  	ret = send_subvol(sctx);
+31db9f7c23fbf7 Alexander Block           2012-07-25  8253  	if (ret < 0)
+31db9f7c23fbf7 Alexander Block           2012-07-25  8254  		goto out;
+31db9f7c23fbf7 Alexander Block           2012-07-25  8255  
+c2c71324ecb471 Stefan Behrens            2013-04-10  8256  	if (!(sctx->flags & BTRFS_SEND_FLAG_OMIT_END_CMD)) {
+31db9f7c23fbf7 Alexander Block           2012-07-25  8257  		ret = begin_cmd(sctx, BTRFS_SEND_C_END);
+31db9f7c23fbf7 Alexander Block           2012-07-25  8258  		if (ret < 0)
+31db9f7c23fbf7 Alexander Block           2012-07-25  8259  			goto out;
+31db9f7c23fbf7 Alexander Block           2012-07-25  8260  		ret = send_cmd(sctx);
+31db9f7c23fbf7 Alexander Block           2012-07-25  8261  		if (ret < 0)
+31db9f7c23fbf7 Alexander Block           2012-07-25  8262  			goto out;
+c2c71324ecb471 Stefan Behrens            2013-04-10  8263  	}
+31db9f7c23fbf7 Alexander Block           2012-07-25  8264  
+31db9f7c23fbf7 Alexander Block           2012-07-25  8265  out:
+9f03740a956d7a Filipe David Borba Manana 2014-01-22  8266  	WARN_ON(sctx && !ret && !RB_EMPTY_ROOT(&sctx->pending_dir_moves));
+9f03740a956d7a Filipe David Borba Manana 2014-01-22  8267  	while (sctx && !RB_EMPTY_ROOT(&sctx->pending_dir_moves)) {
+9f03740a956d7a Filipe David Borba Manana 2014-01-22  8268  		struct rb_node *n;
+9f03740a956d7a Filipe David Borba Manana 2014-01-22  8269  		struct pending_dir_move *pm;
+9f03740a956d7a Filipe David Borba Manana 2014-01-22  8270  
+9f03740a956d7a Filipe David Borba Manana 2014-01-22  8271  		n = rb_first(&sctx->pending_dir_moves);
+9f03740a956d7a Filipe David Borba Manana 2014-01-22  8272  		pm = rb_entry(n, struct pending_dir_move, node);
+9f03740a956d7a Filipe David Borba Manana 2014-01-22  8273  		while (!list_empty(&pm->list)) {
+9f03740a956d7a Filipe David Borba Manana 2014-01-22  8274  			struct pending_dir_move *pm2;
+9f03740a956d7a Filipe David Borba Manana 2014-01-22  8275  
+9f03740a956d7a Filipe David Borba Manana 2014-01-22  8276  			pm2 = list_first_entry(&pm->list,
+9f03740a956d7a Filipe David Borba Manana 2014-01-22  8277  					       struct pending_dir_move, list);
+9f03740a956d7a Filipe David Borba Manana 2014-01-22  8278  			free_pending_move(sctx, pm2);
+9f03740a956d7a Filipe David Borba Manana 2014-01-22  8279  		}
+9f03740a956d7a Filipe David Borba Manana 2014-01-22  8280  		free_pending_move(sctx, pm);
+9f03740a956d7a Filipe David Borba Manana 2014-01-22  8281  	}
+9f03740a956d7a Filipe David Borba Manana 2014-01-22  8282  
+9f03740a956d7a Filipe David Borba Manana 2014-01-22  8283  	WARN_ON(sctx && !ret && !RB_EMPTY_ROOT(&sctx->waiting_dir_moves));
+9f03740a956d7a Filipe David Borba Manana 2014-01-22  8284  	while (sctx && !RB_EMPTY_ROOT(&sctx->waiting_dir_moves)) {
+9f03740a956d7a Filipe David Borba Manana 2014-01-22  8285  		struct rb_node *n;
+9f03740a956d7a Filipe David Borba Manana 2014-01-22  8286  		struct waiting_dir_move *dm;
+9f03740a956d7a Filipe David Borba Manana 2014-01-22  8287  
+9f03740a956d7a Filipe David Borba Manana 2014-01-22  8288  		n = rb_first(&sctx->waiting_dir_moves);
+9f03740a956d7a Filipe David Borba Manana 2014-01-22  8289  		dm = rb_entry(n, struct waiting_dir_move, node);
+9f03740a956d7a Filipe David Borba Manana 2014-01-22  8290  		rb_erase(&dm->node, &sctx->waiting_dir_moves);
+9f03740a956d7a Filipe David Borba Manana 2014-01-22  8291  		kfree(dm);
+9f03740a956d7a Filipe David Borba Manana 2014-01-22  8292  	}
+9f03740a956d7a Filipe David Borba Manana 2014-01-22  8293  
+9dc442143b9874 Filipe Manana             2014-02-19  8294  	WARN_ON(sctx && !ret && !RB_EMPTY_ROOT(&sctx->orphan_dirs));
+9dc442143b9874 Filipe Manana             2014-02-19  8295  	while (sctx && !RB_EMPTY_ROOT(&sctx->orphan_dirs)) {
+9dc442143b9874 Filipe Manana             2014-02-19  8296  		struct rb_node *n;
+9dc442143b9874 Filipe Manana             2014-02-19  8297  		struct orphan_dir_info *odi;
+9dc442143b9874 Filipe Manana             2014-02-19  8298  
+9dc442143b9874 Filipe Manana             2014-02-19  8299  		n = rb_first(&sctx->orphan_dirs);
+9dc442143b9874 Filipe Manana             2014-02-19  8300  		odi = rb_entry(n, struct orphan_dir_info, node);
+9dc442143b9874 Filipe Manana             2014-02-19  8301  		free_orphan_dir_info(sctx, odi);
+9dc442143b9874 Filipe Manana             2014-02-19  8302  	}
+9dc442143b9874 Filipe Manana             2014-02-19  8303  
+896c14f97f700a Wang Shilong              2014-01-07  8304  	if (sort_clone_roots) {
+6f9a3da5da9e7e Josef Bacik               2020-01-24  8305  		for (i = 0; i < sctx->clone_roots_cnt; i++) {
+896c14f97f700a Wang Shilong              2014-01-07  8306  			btrfs_root_dec_send_in_progress(
+896c14f97f700a Wang Shilong              2014-01-07  8307  					sctx->clone_roots[i].root);
+0024652895e347 Josef Bacik               2020-01-24  8308  			btrfs_put_root(sctx->clone_roots[i].root);
+6f9a3da5da9e7e Josef Bacik               2020-01-24  8309  		}
+896c14f97f700a Wang Shilong              2014-01-07  8310  	} else {
+6f9a3da5da9e7e Josef Bacik               2020-01-24  8311  		for (i = 0; sctx && i < clone_sources_to_rollback; i++) {
+896c14f97f700a Wang Shilong              2014-01-07  8312  			btrfs_root_dec_send_in_progress(
+896c14f97f700a Wang Shilong              2014-01-07  8313  					sctx->clone_roots[i].root);
+0024652895e347 Josef Bacik               2020-01-24  8314  			btrfs_put_root(sctx->clone_roots[i].root);
+6f9a3da5da9e7e Josef Bacik               2020-01-24  8315  		}
+896c14f97f700a Wang Shilong              2014-01-07  8316  
+896c14f97f700a Wang Shilong              2014-01-07  8317  		btrfs_root_dec_send_in_progress(send_root);
+896c14f97f700a Wang Shilong              2014-01-07  8318  	}
+6f9a3da5da9e7e Josef Bacik               2020-01-24  8319  	if (sctx && !IS_ERR_OR_NULL(sctx->parent_root)) {
+66ef7d65c3fc6e David Sterba              2013-12-17  8320  		btrfs_root_dec_send_in_progress(sctx->parent_root);
+0024652895e347 Josef Bacik               2020-01-24  8321  		btrfs_put_root(sctx->parent_root);
+6f9a3da5da9e7e Josef Bacik               2020-01-24  8322  	}
+2c68653787f91c David Sterba              2013-12-16  8323  
+2f91306a378099 David Sterba              2016-04-11  8324  	kvfree(clone_sources_tmp);
+31db9f7c23fbf7 Alexander Block           2012-07-25  8325  
+31db9f7c23fbf7 Alexander Block           2012-07-25  8326  	if (sctx) {
+31db9f7c23fbf7 Alexander Block           2012-07-25  8327  		if (sctx->send_filp)
+31db9f7c23fbf7 Alexander Block           2012-07-25  8328  			fput(sctx->send_filp);
+31db9f7c23fbf7 Alexander Block           2012-07-25  8329  
+c03d01f3404282 David Sterba              2016-04-11  8330  		kvfree(sctx->clone_roots);
+a4b333f2277b13 Omar Sandoval             2022-04-04  8331  		kfree(sctx->send_buf_pages);
+6ff48ce06b0725 David Sterba              2016-04-11  8332  		kvfree(sctx->send_buf);
+38622010a6de3a Boris Burkov              2022-08-15  8333  		kvfree(sctx->verity_descriptor);
+31db9f7c23fbf7 Alexander Block           2012-07-25  8334  
+31db9f7c23fbf7 Alexander Block           2012-07-25  8335  		name_cache_free(sctx);
+31db9f7c23fbf7 Alexander Block           2012-07-25  8336  
+152555b39cebda Filipe Manana             2022-05-17  8337  		close_current_inode(sctx);
+521b6803f22e7f Filipe Manana             2022-05-05  8338  
+66d04209e5a8d3 Filipe Manana             2022-11-01  8339  		empty_backref_cache(sctx);
+66d04209e5a8d3 Filipe Manana             2022-11-01  8340  
+31db9f7c23fbf7 Alexander Block           2012-07-25  8341  		kfree(sctx);
+31db9f7c23fbf7 Alexander Block           2012-07-25  8342  	}
+31db9f7c23fbf7 Alexander Block           2012-07-25  8343  
+31db9f7c23fbf7 Alexander Block           2012-07-25 @8344  	return ret;
+
+:::::: The code at line 8344 was first introduced by commit
+:::::: 31db9f7c23fbf7e95026143f79645de6507b583b Btrfs: introduce BTRFS_IOC_SEND for btrfs send/receive
+
+:::::: TO: Alexander Block <ablock84@googlemail.com>
+:::::: CC: Alexander Block <ablock84@googlemail.com>
 
 -- 
 0-DAY CI Kernel Test Service
