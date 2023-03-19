@@ -1,42 +1,43 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20DA97C
-	for <oe-kbuild@lists.linux.dev>; Sun, 19 Mar 2023 20:34:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 458DF7C
+	for <oe-kbuild@lists.linux.dev>; Sun, 19 Mar 2023 22:05:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679258061; x=1710794061;
+  t=1679263524; x=1710799524;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=yc9xzSkpI2tVBuaiBza6k00/gbRU9UM2LyOrySvde/Q=;
-  b=IS+9TfNezv3UI28Ne0Yp204wjY/Fo2m5l9dqdYTZGQIIebI1V45XNb05
-   KXMY061q0dTngmd01F7SktLeSHBlETLaJ0C116hqAm7fbHWVuCyPVksI4
-   Dgkn3admEfT4x+Y0aWXyLSxtfWHoa0OXjs2wuBiV30Dyajeb6sOnED1bE
-   wUxcUIoKzas7OL76QjHaKrovPz2AJEq7OJv7qiIzhJpvoNM/nq6ef5gH9
-   dlSVdyM6tALtiI1vTRYkJYw7nkSS+63cZUkf2NsgM4YJ004ySt/yg/7rU
-   QrSgcxo+xi36X6rIPHU4fEiliJofgtaSKzz03RGcdEimp1gg2Rvtof4Zf
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10654"; a="322380883"
+  bh=boeTuxsiYph15XGoqiJmS9dGiau/A6BmYbn0j02AhpQ=;
+  b=b+DMKVklZiZ6WWFvz6Jq2EX1hiy2gCRjrHsen78ATJGl6bvuJ2FAxj2i
+   Fj1esNJbke1AvsSp5x4rWDut1beYDTc+oHrEJXMVh01fN62oaCnKW716U
+   fxl4CJEzyiFy9eMGEU+qUKacVMX+zuKBcM0GI4ns53i2miuWp0G/7n+ug
+   wbct6ibHRxZFTvWPRT8+F2uHLETHn+LXrkQ8U3t92GkCXRFtQxgA3PizW
+   WxTXwXT4drzvFJFavEU1CxXj3sgTfNkmAe7BRC7ezSoPmAlvbd3GEsjI+
+   MRx9Kroj5aXvmNvcflzb3wjRd2rHeQ03xFQpyl8ASsMASE/FoGnqaZqTU
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10654"; a="326912377"
 X-IronPort-AV: E=Sophos;i="5.98,274,1673942400"; 
-   d="scan'208";a="322380883"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2023 13:34:20 -0700
+   d="scan'208";a="326912377"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2023 15:05:23 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10654"; a="749860643"
+X-IronPort-AV: E=McAfee;i="6600,9927,10654"; a="926770059"
 X-IronPort-AV: E=Sophos;i="5.98,274,1673942400"; 
-   d="scan'208";a="749860643"
+   d="scan'208";a="926770059"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 19 Mar 2023 13:34:19 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 19 Mar 2023 15:05:22 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pdzjO-000AeE-0q;
-	Sun, 19 Mar 2023 20:34:18 +0000
-Date: Mon, 20 Mar 2023 04:33:25 +0800
+	id 1pe19V-000Ag4-21;
+	Sun, 19 Mar 2023 22:05:21 +0000
+Date: Mon, 20 Mar 2023 06:05:15 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/block/nbd.c:1563 nbd_open() warn: passing a valid pointer to
- 'PTR_ERR'
-Message-ID: <202303200401.f9MokspP-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [avpatel:riscv_timer_imp_v1 5/40] kernel/irq/ipi-mux.c:56:22:
+ warning: Value stored to 'icpu' during its initialization is never read
+ [clang-analyzer-deadcode.DeadStores]
+Message-ID: <202303200644.uVeiR05f-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -46,82 +47,288 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Yu Kuai <yukuai3@huawei.com>
-CC: Jens Axboe <axboe@kernel.dk>
-CC: Hou Tao <houtao1@huawei.com>
-CC: Josef Bacik <josef@toxicpanda.com>
+:::::: 
+:::::: Manual check reason: "low confidence static check first_new_problem: kernel/irq/ipi-mux.c:56:22: warning: Value stored to 'icpu' during its initialization is never read [clang-analyzer-deadcode.DeadStores]"
+:::::: 
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   eaba52d63bfcf0047ce3a1bb011b35d4f066df8e
-commit: c55b2b983b0fa012942c3eb16384b2b722caa810 nbd: fix race between nbd_alloc_config() and module removal
-date:   10 months ago
-:::::: branch date: 3 hours ago
-:::::: commit date: 10 months ago
-config: riscv-randconfig-m031-20230319 (https://download.01.org/0day-ci/archive/20230320/202303200401.f9MokspP-lkp@intel.com/config)
-compiler: riscv32-linux-gcc (GCC) 12.1.0
+BCC: lkp@intel.com
+CC: llvm@lists.linux.dev
+CC: oe-kbuild-all@lists.linux.dev
+TO: Anup Patel <apatel@ventanamicro.com>
+
+tree:   https://github.com/avpatel/linux.git riscv_timer_imp_v1
+head:   4857c17859cb86c385e7e17acd52266dad120e81
+commit: 302039ad1384af843559886391042dc0b3e81f92 [5/40] RISC-V: Treat IPIs as normal Linux IRQs
+:::::: branch date: 9 days ago
+:::::: commit date: 2 weeks ago
+config: riscv-randconfig-c006-20230312 (https://download.01.org/0day-ci/archive/20230320/202303200644.uVeiR05f-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        # https://github.com/avpatel/linux/commit/302039ad1384af843559886391042dc0b3e81f92
+        git remote add avpatel https://github.com/avpatel/linux.git
+        git fetch --no-tags avpatel riscv_timer_imp_v1
+        git checkout 302039ad1384af843559886391042dc0b3e81f92
+        # save the config file
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=riscv clang-analyzer  olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=riscv clang-analyzer 
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202303200401.f9MokspP-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202303200644.uVeiR05f-lkp@intel.com/
 
-New smatch warnings:
-drivers/block/nbd.c:1563 nbd_open() warn: passing a valid pointer to 'PTR_ERR'
-drivers/block/nbd.c:1978 nbd_genl_connect() warn: passing a valid pointer to 'PTR_ERR'
+clang_analyzer warnings: (new ones prefixed by >>)
+   26 warnings generated.
+   Suppressed 26 warnings (13 in non-user code, 13 with check filters).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   20 warnings generated.
+   Suppressed 20 warnings (7 in non-user code, 13 with check filters).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   20 warnings generated.
+   Suppressed 20 warnings (7 in non-user code, 13 with check filters).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   21 warnings generated.
+   include/asm-generic/bitops/generic-non-atomic.h:128:16: warning: Array access (from variable 'addr') results in a null pointer dereference [clang-analyzer-core.NullDereference]
+           return 1UL & (addr[BIT_WORD(nr)] >> (nr & (BITS_PER_LONG-1)));
+                         ^
+   kernel/time/alarmtimer.c:92:6: note: Assuming 'rtcdev' is null
+           if (rtcdev)
+               ^~~~~~
+   kernel/time/alarmtimer.c:92:2: note: Taking false branch
+           if (rtcdev)
+           ^
+   kernel/time/alarmtimer.c:95:7: note: Left side of '&&' is true
+           if (!test_bit(RTC_FEATURE_ALARM, rtc->features))
+                ^
+   include/linux/bitops.h:61:29: note: expanded from macro 'test_bit'
+   #define test_bit(nr, addr)              bitop(_test_bit, nr, addr)
+                                           ^
+   include/linux/bitops.h:49:4: note: expanded from macro 'bitop'
+           ((__builtin_constant_p(nr) &&                                   \
+             ^
+   kernel/time/alarmtimer.c:95:7: note: Assuming field 'features' is equal to 0
+           if (!test_bit(RTC_FEATURE_ALARM, rtc->features))
+                ^
+   include/linux/bitops.h:61:29: note: expanded from macro 'test_bit'
+   #define test_bit(nr, addr)              bitop(_test_bit, nr, addr)
+                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/bitops.h:50:25: note: expanded from macro 'bitop'
+             __builtin_constant_p((uintptr_t)(addr) != (uintptr_t)NULL) && \
+                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/time/alarmtimer.c:95:7: note: Left side of '&&' is false
+           if (!test_bit(RTC_FEATURE_ALARM, rtc->features))
+                ^
+   include/linux/bitops.h:61:29: note: expanded from macro 'test_bit'
+   #define test_bit(nr, addr)              bitop(_test_bit, nr, addr)
+                                           ^
+   include/linux/bitops.h:50:63: note: expanded from macro 'bitop'
+             __builtin_constant_p((uintptr_t)(addr) != (uintptr_t)NULL) && \
+                                                                        ^
+   kernel/time/alarmtimer.c:95:35: note: Passing null pointer value via 2nd parameter 'addr'
+           if (!test_bit(RTC_FEATURE_ALARM, rtc->features))
+                                            ^
+   include/linux/bitops.h:61:50: note: expanded from macro 'test_bit'
+   #define test_bit(nr, addr)              bitop(_test_bit, nr, addr)
+                                                                ^~~~
+   include/linux/bitops.h:53:32: note: expanded from macro 'bitop'
+            const##op(nr, addr) : op(nr, addr))
+                                         ^~~~
+   kernel/time/alarmtimer.c:95:7: note: Calling 'generic_test_bit'
+           if (!test_bit(RTC_FEATURE_ALARM, rtc->features))
+                ^
+   include/linux/bitops.h:61:35: note: expanded from macro 'test_bit'
+   #define test_bit(nr, addr)              bitop(_test_bit, nr, addr)
+                                           ~~~~~~^~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/bitops/non-instrumented-non-atomic.h:14:20: note: expanded from macro '_test_bit'
+   #define _test_bit               arch_test_bit
+                                   ^
+   include/asm-generic/bitops/non-atomic.h:15:23: note: expanded from macro 'arch_test_bit'
+   #define arch_test_bit generic_test_bit
+                         ^
+   include/linux/bitops.h:53:25: note: expanded from macro 'bitop'
+            const##op(nr, addr) : op(nr, addr))
+                                  ^~~~~~~~~~~~
+   include/asm-generic/bitops/generic-non-atomic.h:128:16: note: Array access (from variable 'addr') results in a null pointer dereference
+           return 1UL & (addr[BIT_WORD(nr)] >> (nr & (BITS_PER_LONG-1)));
+                         ^~~~
+   Suppressed 20 warnings (7 in non-user code, 13 with check filters).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   21 warnings generated.
+   kernel/irq/irqdomain.c:640:2: warning: Value stored to 'of_node' is never read [clang-analyzer-deadcode.DeadStores]
+           of_node = irq_domain_get_of_node(domain);
+           ^         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/irq/irqdomain.c:640:2: note: Value stored to 'of_node' is never read
+           of_node = irq_domain_get_of_node(domain);
+           ^         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 20 warnings (7 in non-user code, 13 with check filters).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   20 warnings generated.
+   Suppressed 20 warnings (7 in non-user code, 13 with check filters).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   20 warnings generated.
+   Suppressed 20 warnings (7 in non-user code, 13 with check filters).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   20 warnings generated.
+   Suppressed 20 warnings (7 in non-user code, 13 with check filters).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   19 warnings generated.
+   Suppressed 19 warnings (6 in non-user code, 13 with check filters).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   21 warnings generated.
+>> kernel/irq/ipi-mux.c:56:22: warning: Value stored to 'icpu' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct ipi_mux_cpu *icpu = this_cpu_ptr(ipi_mux_pcpu);
+                               ^~~~
+   kernel/irq/ipi-mux.c:56:22: note: Value stored to 'icpu' during its initialization is never read
+           struct ipi_mux_cpu *icpu = this_cpu_ptr(ipi_mux_pcpu);
+                               ^~~~
+   Suppressed 20 warnings (7 in non-user code, 13 with check filters).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   20 warnings generated.
+   Suppressed 20 warnings (7 in non-user code, 13 with check filters).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   20 warnings generated.
+   Suppressed 20 warnings (7 in non-user code, 13 with check filters).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   kernel/rcu/srcutree.c:226:30: warning: Access to field 'grplo' results in a dereference of a null pointer (loaded from field 'mynode') [clang-analyzer-core.NullDereference]
+                   sdp->grpmask = 1 << (cpu - sdp->mynode->grplo);
+                                              ^
+   kernel/rcu/srcutree.c:1904:2: note: Control jumps to 'case MODULE_STATE_COMING:'  at line 1905
+           switch (val) {
+           ^
+   kernel/rcu/srcutree.c:1906:9: note: Calling 'srcu_module_coming'
+                   ret = srcu_module_coming(mod);
+                         ^~~~~~~~~~~~~~~~~~~~~~~
+   kernel/rcu/srcutree.c:1879:14: note: Assuming 'i' is < field 'num_srcu_structs'
+           for (i = 0; i < mod->num_srcu_structs; i++) {
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/rcu/srcutree.c:1879:2: note: Loop condition is true.  Entering loop body
+           for (i = 0; i < mod->num_srcu_structs; i++) {
+           ^
+   kernel/rcu/srcutree.c:1880:9: note: Calling '__init_srcu_struct'
+                   ret = init_srcu_struct(*(sspp++));
+                         ^
+   include/linux/srcu.h:35:2: note: expanded from macro 'init_srcu_struct'
+           __init_srcu_struct((ssp), #ssp, &__srcu_key); \
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/rcu/srcutree.c:280:2: note: Loop condition is false.  Exiting loop
+           spin_lock_init(&ACCESS_PRIVATE(ssp, lock));
+           ^
+   include/linux/spinlock.h:330:35: note: expanded from macro 'spin_lock_init'
+   # define spin_lock_init(lock)                                   \
+                                                                   ^
+   kernel/rcu/srcutree.c:281:9: note: Calling 'init_srcu_struct_fields'
+           return init_srcu_struct_fields(ssp, false);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/rcu/srcutree.c:241:2: note: Loop condition is false.  Exiting loop
+           mutex_init(&ssp->srcu_cb_mutex);
+           ^
+   include/linux/mutex.h:101:32: note: expanded from macro 'mutex_init'
+   #define mutex_init(mutex)                                               \
+                                                                           ^
+   kernel/rcu/srcutree.c:242:2: note: Loop condition is false.  Exiting loop
+           mutex_init(&ssp->srcu_gp_mutex);
+           ^
+   include/linux/mutex.h:101:32: note: expanded from macro 'mutex_init'
+   #define mutex_init(mutex)                                               \
+                                                                           ^
+   kernel/rcu/srcutree.c:246:2: note: Loop condition is false.  Exiting loop
+           mutex_init(&ssp->srcu_barrier_mutex);
+           ^
+   include/linux/mutex.h:101:32: note: expanded from macro 'mutex_init'
+   #define mutex_init(mutex)                                               \
+                                                                           ^
+   kernel/rcu/srcutree.c:248:2: note: Loop condition is false.  Exiting loop
+           INIT_DELAYED_WORK(&ssp->work, process_srcu);
+           ^
+   include/linux/workqueue.h:267:2: note: expanded from macro 'INIT_DELAYED_WORK'
+           __INIT_DELAYED_WORK(_work, _func, 0)
+           ^
+   include/linux/workqueue.h:252:3: note: expanded from macro '__INIT_DELAYED_WORK'
+                   INIT_WORK(&(_work)->work, (_func));                     \
+                   ^
+   include/linux/workqueue.h:245:2: note: expanded from macro 'INIT_WORK'
+           __INIT_WORK((_work), (_func), 0)
+           ^
+   include/linux/workqueue.h:225:2: note: expanded from macro '__INIT_WORK'
+           do {                                                            \
+           ^
+   kernel/rcu/srcutree.c:248:2: note: Loop condition is false.  Exiting loop
+           INIT_DELAYED_WORK(&ssp->work, process_srcu);
+           ^
+   include/linux/workqueue.h:267:2: note: expanded from macro 'INIT_DELAYED_WORK'
+           __INIT_DELAYED_WORK(_work, _func, 0)
+           ^
+   include/linux/workqueue.h:253:3: note: expanded from macro '__INIT_DELAYED_WORK'
+                   __init_timer(&(_work)->timer,                           \
+                   ^
+   include/linux/timer.h:113:2: note: expanded from macro '__init_timer'
+           do {                                                            \
+           ^
+   kernel/rcu/srcutree.c:248:2: note: Loop condition is false.  Exiting loop
+           INIT_DELAYED_WORK(&ssp->work, process_srcu);
+           ^
+   include/linux/workqueue.h:267:2: note: expanded from macro 'INIT_DELAYED_WORK'
+           __INIT_DELAYED_WORK(_work, _func, 0)
+           ^
+   include/linux/workqueue.h:251:2: note: expanded from macro '__INIT_DELAYED_WORK'
+           do {                                                            \
 
-Old smatch warnings:
-arch/riscv/include/asm/atomic.h:204 arch_atomic_fetch_add_unless() warn: inconsistent indenting
+vim +/icpu +56 kernel/irq/ipi-mux.c
 
-vim +/PTR_ERR +1563 drivers/block/nbd.c
+835a486cd9f557 Anup Patel 2023-01-03  53  
+835a486cd9f557 Anup Patel 2023-01-03  54  static void ipi_mux_send_mask(struct irq_data *d, const struct cpumask *mask)
+835a486cd9f557 Anup Patel 2023-01-03  55  {
+835a486cd9f557 Anup Patel 2023-01-03 @56  	struct ipi_mux_cpu *icpu = this_cpu_ptr(ipi_mux_pcpu);
+835a486cd9f557 Anup Patel 2023-01-03  57  	u32 ibit = BIT(irqd_to_hwirq(d));
+835a486cd9f557 Anup Patel 2023-01-03  58  	unsigned long pending;
+835a486cd9f557 Anup Patel 2023-01-03  59  	int cpu;
+835a486cd9f557 Anup Patel 2023-01-03  60  
+835a486cd9f557 Anup Patel 2023-01-03  61  	for_each_cpu(cpu, mask) {
+835a486cd9f557 Anup Patel 2023-01-03  62  		icpu = per_cpu_ptr(ipi_mux_pcpu, cpu);
+835a486cd9f557 Anup Patel 2023-01-03  63  
+835a486cd9f557 Anup Patel 2023-01-03  64  		/*
+835a486cd9f557 Anup Patel 2023-01-03  65  		 * This sequence is the mirror of the one in ipi_mux_unmask();
+835a486cd9f557 Anup Patel 2023-01-03  66  		 * see the comment there. Additionally, release semantics
+835a486cd9f557 Anup Patel 2023-01-03  67  		 * ensure that the vIPI flag set is ordered after any shared
+835a486cd9f557 Anup Patel 2023-01-03  68  		 * memory accesses that precede it. This therefore also pairs
+835a486cd9f557 Anup Patel 2023-01-03  69  		 * with the atomic_fetch_andnot in ipi_mux_process().
+835a486cd9f557 Anup Patel 2023-01-03  70  		 */
+835a486cd9f557 Anup Patel 2023-01-03  71  		pending = atomic_fetch_or_release(ibit, &icpu->bits);
+835a486cd9f557 Anup Patel 2023-01-03  72  
+835a486cd9f557 Anup Patel 2023-01-03  73  		/*
+835a486cd9f557 Anup Patel 2023-01-03  74  		 * The atomic_fetch_or_release() above must complete
+835a486cd9f557 Anup Patel 2023-01-03  75  		 * before the atomic_read() below to avoid racing with
+835a486cd9f557 Anup Patel 2023-01-03  76  		 * ipi_mux_unmask().
+835a486cd9f557 Anup Patel 2023-01-03  77  		 */
+835a486cd9f557 Anup Patel 2023-01-03  78  		smp_mb__after_atomic();
+835a486cd9f557 Anup Patel 2023-01-03  79  
+835a486cd9f557 Anup Patel 2023-01-03  80  		/*
+835a486cd9f557 Anup Patel 2023-01-03  81  		 * The flag writes must complete before the physical IPI is
+835a486cd9f557 Anup Patel 2023-01-03  82  		 * issued to another CPU. This is implied by the control
+835a486cd9f557 Anup Patel 2023-01-03  83  		 * dependency on the result of atomic_read() below, which is
+835a486cd9f557 Anup Patel 2023-01-03  84  		 * itself already ordered after the vIPI flag write.
+835a486cd9f557 Anup Patel 2023-01-03  85  		 */
+835a486cd9f557 Anup Patel 2023-01-03  86  		if (!(pending & ibit) && (atomic_read(&icpu->enable) & ibit))
+835a486cd9f557 Anup Patel 2023-01-03  87  			ipi_mux_send(cpu);
+835a486cd9f557 Anup Patel 2023-01-03  88  	}
+835a486cd9f557 Anup Patel 2023-01-03  89  }
+835a486cd9f557 Anup Patel 2023-01-03  90  
 
-5ea8d10802ec4c Josef Bacik       2017-04-06  1537  
-5ea8d10802ec4c Josef Bacik       2017-04-06  1538  static int nbd_open(struct block_device *bdev, fmode_t mode)
-5ea8d10802ec4c Josef Bacik       2017-04-06  1539  {
-5ea8d10802ec4c Josef Bacik       2017-04-06  1540  	struct nbd_device *nbd;
-5ea8d10802ec4c Josef Bacik       2017-04-06  1541  	int ret = 0;
-5ea8d10802ec4c Josef Bacik       2017-04-06  1542  
-5ea8d10802ec4c Josef Bacik       2017-04-06  1543  	mutex_lock(&nbd_index_mutex);
-5ea8d10802ec4c Josef Bacik       2017-04-06  1544  	nbd = bdev->bd_disk->private_data;
-5ea8d10802ec4c Josef Bacik       2017-04-06  1545  	if (!nbd) {
-5ea8d10802ec4c Josef Bacik       2017-04-06  1546  		ret = -ENXIO;
-5ea8d10802ec4c Josef Bacik       2017-04-06  1547  		goto out;
-5ea8d10802ec4c Josef Bacik       2017-04-06  1548  	}
-c6a4759ea0c9a7 Josef Bacik       2017-04-06  1549  	if (!refcount_inc_not_zero(&nbd->refs)) {
-c6a4759ea0c9a7 Josef Bacik       2017-04-06  1550  		ret = -ENXIO;
-c6a4759ea0c9a7 Josef Bacik       2017-04-06  1551  		goto out;
-c6a4759ea0c9a7 Josef Bacik       2017-04-06  1552  	}
-5ea8d10802ec4c Josef Bacik       2017-04-06  1553  	if (!refcount_inc_not_zero(&nbd->config_refs)) {
-5ea8d10802ec4c Josef Bacik       2017-04-06  1554  		struct nbd_config *config;
-5ea8d10802ec4c Josef Bacik       2017-04-06  1555  
-5ea8d10802ec4c Josef Bacik       2017-04-06  1556  		mutex_lock(&nbd->config_lock);
-5ea8d10802ec4c Josef Bacik       2017-04-06  1557  		if (refcount_inc_not_zero(&nbd->config_refs)) {
-5ea8d10802ec4c Josef Bacik       2017-04-06  1558  			mutex_unlock(&nbd->config_lock);
-5ea8d10802ec4c Josef Bacik       2017-04-06  1559  			goto out;
-5ea8d10802ec4c Josef Bacik       2017-04-06  1560  		}
-c55b2b983b0fa0 Yu Kuai           2022-05-21  1561  		config = nbd_alloc_config();
-c55b2b983b0fa0 Yu Kuai           2022-05-21  1562  		if (IS_ERR(config)) {
-c55b2b983b0fa0 Yu Kuai           2022-05-21 @1563  			ret = PTR_ERR(config);
-5ea8d10802ec4c Josef Bacik       2017-04-06  1564  			mutex_unlock(&nbd->config_lock);
-5ea8d10802ec4c Josef Bacik       2017-04-06  1565  			goto out;
-5ea8d10802ec4c Josef Bacik       2017-04-06  1566  		}
-c55b2b983b0fa0 Yu Kuai           2022-05-21  1567  		nbd->config = config;
-5ea8d10802ec4c Josef Bacik       2017-04-06  1568  		refcount_set(&nbd->config_refs, 1);
-c6a4759ea0c9a7 Josef Bacik       2017-04-06  1569  		refcount_inc(&nbd->refs);
-5ea8d10802ec4c Josef Bacik       2017-04-06  1570  		mutex_unlock(&nbd->config_lock);
-1aba169e770911 Josh Triplett     2020-12-17  1571  		if (max_part)
-38430f0876fa8b Christoph Hellwig 2020-09-21  1572  			set_bit(GD_NEED_PART_SCAN, &bdev->bd_disk->state);
-fe1f9e6659ca61 Josef Bacik       2018-05-16  1573  	} else if (nbd_disconnected(nbd->config)) {
-1aba169e770911 Josh Triplett     2020-12-17  1574  		if (max_part)
-38430f0876fa8b Christoph Hellwig 2020-09-21  1575  			set_bit(GD_NEED_PART_SCAN, &bdev->bd_disk->state);
-5ea8d10802ec4c Josef Bacik       2017-04-06  1576  	}
-5ea8d10802ec4c Josef Bacik       2017-04-06  1577  out:
-5ea8d10802ec4c Josef Bacik       2017-04-06  1578  	mutex_unlock(&nbd_index_mutex);
-5ea8d10802ec4c Josef Bacik       2017-04-06  1579  	return ret;
-5ea8d10802ec4c Josef Bacik       2017-04-06  1580  }
-5ea8d10802ec4c Josef Bacik       2017-04-06  1581  
+:::::: The code at line 56 was first introduced by commit
+:::::: 835a486cd9f55790dee9f6b67ce0057d49f15da5 genirq: Add mechanism to multiplex a single HW IPI
+
+:::::: TO: Anup Patel <apatel@ventanamicro.com>
+:::::: CC: Marc Zyngier <maz@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
