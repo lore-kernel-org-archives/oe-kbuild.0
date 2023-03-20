@@ -1,285 +1,173 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02B64E4F1;
-	Mon, 20 Mar 2023 12:57:12 +0000 (UTC)
-Received: by mail-wm1-f54.google.com with SMTP id l15-20020a05600c4f0f00b003ed58a9a15eso7433320wmq.5;
-        Mon, 20 Mar 2023 05:57:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679317031;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=HvL+slkyTsieeGJof5szMQgGH5S7JIZZEhTxRggeytU=;
-        b=b/Sj5ljK6PeZaqOEElQ967UiYgmJ2F8dRTNzsgaFau/bb4dJLCWd4N2pqlyHmOHyaw
-         9YwWksQXtuE3LlemF7rOPPkXwJsePmE0kGv6OyOirVM9tRQ2S4yzBc5ZBNnqAulScmf4
-         tBV46Ds0D0UfVkfmfzeS1QtwW8yOS9sUW7//w7jOAtLo7skkE5Of6vGjcI01vIxZXPuX
-         Y5RXtH9ubPHjIF4gzuXb66y+UBe5lo3YAc+tf7atqpig8KTU52/+UI2RIuP12ZOH0wlx
-         wDD8X02BXWPfGuDW9OUHMCqBieJ1gDgdefjNfijgqhPnblQUEkZ9BJyWc9AdwbxyV1i9
-         EnjQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679317031;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=HvL+slkyTsieeGJof5szMQgGH5S7JIZZEhTxRggeytU=;
-        b=Ytcc04lFjMNHytmIFWbGJRnpZepyQa3KFoT+TMJEo3spxIirLWRJ1a6HSvzUEo/FbG
-         1QoARZv5B1+ifq0dMKmvGNBt9qUPu3+j4rGFh0X3L0zCIZy+PVeXUTBV52gXadB1qIj9
-         f4mu+VwxeFlNzgL+r9flDx/u+JX9XorWSMD8ETei/Sr3GgzVBdPczLEmVOiya7g9WacM
-         6fC5eTA2tmkPxTrnhYbypmbgIWfJzuDSRPvSnP1Mv5tyE/G5lfB02npV5QTLu7Tvf8cA
-         bREcBW+V3Dk6IetHnogZ+LQmPn+9ZtfFNrSmAFB6yN9kO1wovklpefj9FoWHsAe2Xxhs
-         A+sQ==
-X-Gm-Message-State: AO0yUKURhFLQclAHfGv949U8yq4VDUvk/Ev/5CUwdSmZ8Soe2dhLShzM
-	HnoN73ShSKGgVSnLLR78h67BNifZCCA=
-X-Google-Smtp-Source: AK7set8KpoqgiJp9ENsmyYOoWci7QkyWDOKsRPDdrTJJK/aIAJnQ05T2f2QvRg8e+aD6u/mjk9C9Vw==
-X-Received: by 2002:a05:600c:474c:b0:3ed:355c:4610 with SMTP id w12-20020a05600c474c00b003ed355c4610mr16014104wmo.35.1679317030794;
-        Mon, 20 Mar 2023 05:57:10 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id q13-20020a05600c46cd00b003e1202744f2sm16773764wmo.31.2023.03.20.05.57.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Mar 2023 05:57:10 -0700 (PDT)
-Date: Mon, 20 Mar 2023 15:57:04 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev,
-	Sreekanth Reddy <sreekanth.reddy@broadcom.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	Himanshu Madhani <himanshu.madhani@oracle.com>
-Subject: drivers/scsi/mpi3mr/mpi3mr_transport.c:1449 mpi3mr_expander_add()
- warn: returning -1 instead of -ENOMEM is sloppy
-Message-ID: <97d00233-15d8-46b6-b9e7-36c3c73b3a0f@kili.mountain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44FC81C32;
+	Mon, 20 Mar 2023 15:54:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1679327661; x=1710863661;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=1QQtvAeTM9j/+Tx7gMwDfl/kEyrL7ObcydT0LJn8Fps=;
+  b=nLPw4M6mdPwnXtIK3N1QO7xOtSWtojfjswAmIRvIzkXsmJ8/Gn9gb8qZ
+   pnDz9dcH5HuPf2M58W/zkOpHJnxDK5bEsPt+30egh2a/t1AipuhTeJn3U
+   rZNGyeUYTFnS6HsZMdO7w9IUtNEdwB1S/hAcHWlgT8eCSJ3fm8nbx8XQL
+   1y4/YGC4RMik2SZ6LBMdQsaGzLNKAR6Esuyo3aMyph/R/XU2q8hGYSAV+
+   kjQzD7FiQ0jkm2RQddJZgJFEo5iCTj1ygc1Ste2jAkwcgFGo2Sd4XX9wx
+   RqQVbW1imtvxBo2dZ2Fex9yQtcYrN2uwoBnoMwZ/iIi2TpZVHsD/1Q0Tf
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="318348836"
+X-IronPort-AV: E=Sophos;i="5.98,276,1673942400"; 
+   d="scan'208";a="318348836"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2023 08:54:20 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="855317217"
+X-IronPort-AV: E=Sophos;i="5.98,276,1673942400"; 
+   d="scan'208";a="855317217"
+Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
+  by orsmga005.jf.intel.com with ESMTP; 20 Mar 2023 08:54:19 -0700
+Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21; Mon, 20 Mar 2023 08:53:28 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21; Mon, 20 Mar 2023 08:53:27 -0700
+Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21 via Frontend Transport; Mon, 20 Mar 2023 08:53:27 -0700
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.100)
+ by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.21; Mon, 20 Mar 2023 08:53:27 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=F/UQ3N+Lk0NTCD8jq1YDtGT6dh/rY0tXw71Qzdfef//ZqlEzEVxjkutkNN9C7Y2q/8ILk5NPNGP9xMbsGzTQqlbsV7EiYerQdFsOyiVwUi8l0GipmbWxkAQpLT0Q1yINUvKHCWD/Zyo19CpkQZSTnxt0uFonrZmzI9J9YGs+siL5PfySbTe4OgpUqyW2q1+DdWH0cvKu2iIx58mEg0X6liw3LLFfWunKl8wpSYbqh+T2UW820dbDZU6KPjFLvBVSZweSME7hS8PxrognsN2/F2zT5Ofot6M5PU3WUn481gR1LImKMdCIcHOW9DtgmxKG7oqjDFQaBVnNpdo6KQ7hMQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=JV763nqBWsORUrfluLDY5P47599CBrmznFO9o9/2vnE=;
+ b=Q+i/sefwbarbmaZGA7BdhgFFpF1FCe0/QssEL59aH9bQqYpq5RDHNzhJMeCw9I0zA5Dh5uno1Ojh3Mzc5yNyrQ3cMaDcNwS88v+e7F/fsnovtr9KYJqbY2Zu37oT4Z0kppLVFBg/pg2NRNMReYOB5+VvoewlkbfLc6S7jVIKxCooBzcAgq5mD3G5lH/CjNYR/eLMznSrOkoU1G748fWEnVTlsL5pw129CYkWXjgLzHF1ujmtQlxzDeK06rW2ntJm8eoVFsNbKgSmq1ymIiTX/eKSTY2hBTYZEJBQDng6xsFeAvAAgzENNLK5TCzdkz57daoXKoY9x/LqVp0U9OSRmA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from CY4PR11MB1862.namprd11.prod.outlook.com (2603:10b6:903:124::18)
+ by SJ2PR11MB7716.namprd11.prod.outlook.com (2603:10b6:a03:4f2::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.37; Mon, 20 Mar
+ 2023 15:53:25 +0000
+Received: from CY4PR11MB1862.namprd11.prod.outlook.com
+ ([fe80::d651:ac39:526d:604f]) by CY4PR11MB1862.namprd11.prod.outlook.com
+ ([fe80::d651:ac39:526d:604f%12]) with mapi id 15.20.6178.037; Mon, 20 Mar
+ 2023 15:53:25 +0000
+Message-ID: <ea6b0739-61a7-0267-bc3b-b9218dc9c89f@intel.com>
+Date: Mon, 20 Mar 2023 08:53:22 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Firefox/102.0 Thunderbird/102.9.0
+Subject: Re: [RFC PATCH 7/8] vfio/pci: Support dynamic MSI-x
+Content-Language: en-US
+To: Dan Carpenter <error27@gmail.com>, <oe-kbuild@lists.linux.dev>
+CC: <lkp@intel.com>, <oe-kbuild-all@lists.linux.dev>
+References: <13a125f5-4481-46f4-b809-a90e35e1a561@kili.mountain>
+From: Reinette Chatre <reinette.chatre@intel.com>
+In-Reply-To: <13a125f5-4481-46f4-b809-a90e35e1a561@kili.mountain>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MW4PR04CA0374.namprd04.prod.outlook.com
+ (2603:10b6:303:81::19) To CY4PR11MB1862.namprd11.prod.outlook.com
+ (2603:10b6:903:124::18)
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY4PR11MB1862:EE_|SJ2PR11MB7716:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0c68a236-4b12-4a60-d055-08db295b3d2c
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: ZbLG+Th16A5ktOxsv7ZWxU7NV3H/EvwHtqEt62vgwsp7bvRxGD2XhpQNCWSPN2BNF+6QsXTkafEZVjVMu6Osy1cG8X247aykQ+rrMrLIp+SXOz6SecXjVPGGuiILOlzGy4bzXteJMyj+mWaEbAlPAy8vCRI0cO84EoumTx8Pbbc/iSZO/PCTrlR0IPsJc7R0egLLQ+cJDIZsjVn1YjTTXpu82UeHnHUZL/e7G4BKK6ZCKeEBU6/2zAIM7QtWuy12uCG92UVZgujfsVueOH32xHmkZkRdvfYApJg7l+KLnboEs9pVmaIst31SozhowrTXsYqkv7Wwv3pn1RZxhL+d3fgfcGNEAHYEpeHQTXUqe/CSJx0iKs9VPsHcs9wd7Nx2I8YJG0D0iYaqzJzjryZsaJ9ql3YX8nf27hp5NwW5caaTMkaxPGC320dF2sq6m/03ycBx/BeepQnNne2DiYLJggLVxywNYRtJv+wgwo948MZcygK4NUsp8AOjdWxauU1AFG3515BrNkhdn7xEDtbG2PtQfr+XqSiP3zUyV3UvfElWpom9FcMTGnLiRgCqoEa5KH9ZTeI1CBP8iVdWReM3xWQh/w+Ma1Ynjq0a11w4rdQZ5mchtGH+ThYAVnwzHEMkc3Jp4z+Pt3sMYUAIYeuqMxetakJQH3PVU+HfHsS3GzPX00DVI8jVr3iDE+y47HkahsnKW9JLTfadBu0tX05D5I6R/cF65IaAKaLWeO+3W0fJUhvrmaCibbngLtxPTjzJEYMYrl8jMaLhR0ctLvNyeg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY4PR11MB1862.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(376002)(136003)(346002)(366004)(39860400002)(396003)(451199018)(6506007)(186003)(6512007)(53546011)(26005)(6486002)(31686004)(966005)(2616005)(83380400001)(316002)(478600001)(6666004)(4326008)(8676002)(66556008)(66476007)(66946007)(41300700001)(8936002)(36756003)(44832011)(82960400001)(5660300002)(2906002)(38100700002)(31696002)(86362001)(45980500001)(43740500002);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?OXdaWEtBVnRncmRHcGNiTnJUT2p1MmRCV3VRY3h2azE1cmoxMnFVQWM4T09k?=
+ =?utf-8?B?STNhMWZuOE52WHRVS2dsRGRKd2I5YWpSUjRpNSthaU1UKytwWkxOUG96c0ox?=
+ =?utf-8?B?LzloaHJHZ1lYdkQyWmdNaGd3Q2R0eGovUlpzY0JLeDBySHNsa3pXeXM0UWJQ?=
+ =?utf-8?B?WGdXVVJIRGUyQWJ5N1dzQlp2bVVsSWk5NkViMXliekF5RVNxQkZxN05lVmVX?=
+ =?utf-8?B?bE1QdGRub1dhZDVsS2NVOVdoeGtuNEdaWXlRZ0lkRUNmZEZTY015c09JdUdE?=
+ =?utf-8?B?UTZ4RnZjV3RKL2IxYmZUa3RVN1h2ZzUxVDhzUlBYdkVaclI4S1QrV1FWZ2Zh?=
+ =?utf-8?B?bWJkVFc0YVQ0WWZFbmFnNGJsVGcwb3VjRVdqUmZwUjdlL1NVVjZiZmVscE5l?=
+ =?utf-8?B?Z29aaW1COFJjeXRDZDE3VU0wc0RIZVMwUHpPdTcvRXo2UGVtZ3B0ZU5iTFpo?=
+ =?utf-8?B?ZHRwUjdvcmdUNGxENU5KdG9IZGlWQzdHK1MzVXF2Y1Yzd09oR21vTHdoNGEy?=
+ =?utf-8?B?OHg2QkpFS29sK2owWTFucytCdWppQ2lXZVczTHpVTXFZYk85UlVENS9Icjla?=
+ =?utf-8?B?SGdrVFlEckdVcFJ5NzNxSDVUelFFcW5JMzhZMWlVY2dtd0ZIT2RBQmpNQVh2?=
+ =?utf-8?B?YXh6Qjc4ZCtEd3J3NEl1TGdKSklzeEdDaXNqb1ZaY2t3Q3lYSUQxbklydnJa?=
+ =?utf-8?B?cWNoRlQ0SHk2R3hmYkpndUo3aExkZ1VEakZBNHdLVnpBYkFPWVZqQUJUZVlN?=
+ =?utf-8?B?Mi9YVVN5ajJZQlA3TVVXVGw0bEVJMlRCYmU1L2VNdTYwem1kVldtclBvTmlN?=
+ =?utf-8?B?UFFOMWJjYUJPU0dHME5RNnlyMFcxRXYyZ2xNc00zc0ZPZXlFdVRPaDQ0Uk1Q?=
+ =?utf-8?B?cVpqK2wwQWlhWWlQV1RQQWdWdU9UQVkyU0xsakM1bTBWY2x6UHVpenFFQ2hD?=
+ =?utf-8?B?RSszV1NkQjR5RTFTdjkyMDlqUlNFQ0ZCMmhJbmJwZE5jbkJBV3c2cGliYlVV?=
+ =?utf-8?B?MWc0bGJNWUNjeDRUc2U5KzhBcE5JMUhzTXNQVDRwM3FGdU9KT1lIbXJSRGdk?=
+ =?utf-8?B?YVV5VnRwRHhaODhpNHdSb2ZIVUxJT054OUEyNTRpbVpKT0FmYzlaRnRkMkVO?=
+ =?utf-8?B?VjhoMlV5MUZTZDcvM25zaUc4aHRIdXRvS1lDeGE0aStLbVBjclcyVHkrM21x?=
+ =?utf-8?B?OWVYN1hDcFNKRlcwNUVLdHdySXJyVk9VN1ZEQ0tNekJRNDJqZEMvR0hKR3VR?=
+ =?utf-8?B?SmNpRm1GMTB0U2VzVHBuczVZYmUwNHBDL1JBN3Q4bFNpWjd2ZlJOb0pJWitG?=
+ =?utf-8?B?c0F3QnhiNDB4c1Q5WjhqV0R0RDlzUVRaUG5NOGZyZ2xGeFJGVmNmYlBzZlEr?=
+ =?utf-8?B?a3hnR2c1TEhobjB4d3RYdnp2OWFTU2VaZzR5UW9xZVJpUnNxazVINDBZbk9K?=
+ =?utf-8?B?QUFKc2hjaGs2TFhhUi8vMzFVb3NIZmNJdFU4S2MvSUJ3Q1BSRE9hSVhHR0Jr?=
+ =?utf-8?B?UEVFZjA0TmdZVkdXcU1NSjMvaUh5ZmpZcGlQZU9qWU1ITEJ5MTZFeGR4cEtQ?=
+ =?utf-8?B?cWJtWjQrS0ZoWmpmSC95THBybTNpL0JETExEVVBIR1EzTmhvOEVJRTZubkZH?=
+ =?utf-8?B?eTdJYys0MXZSNXl5RUl0N1lMOE1nMHo0NUNjNEhMTXpMUzQzRjFYVVRtTUkv?=
+ =?utf-8?B?dUlRa1ZhbU81VzBaTnB2bUpHOVFMdUJPbFVDb2tidEVSS1YzNXpVQXR2bzZ1?=
+ =?utf-8?B?SFRCWjhQRE1NWVZKSkxkbUdyUVFtMm0wTzVLZWd2L0VBTlEwemRyaU9kQmFu?=
+ =?utf-8?B?Zkkzb3pxMzliUUdKYlozWUdpK3Z5bEdGWm9nMjFFTlJPaXFDS2FZN2grd0RG?=
+ =?utf-8?B?dFRodS9BUDJqM1FMRnpGc0h3RnN2Y3hRam5oMWVxZG1Rd3lkSnlVVFYwYU0w?=
+ =?utf-8?B?cHl2QnBKdFRsQjM3REUrcUZ5Y1paVi96MWtsMFRJVVo2ZUZrbGNLNzllb2V5?=
+ =?utf-8?B?eG5zN2RFUy9WR3BhRUgxUndFVm81NWpZMFgrNUg3K1BmcE5YdjNxd0pPY0gx?=
+ =?utf-8?B?RE9nS1JDZFFCMGozWE51dk1vMzVxTW83QmphZ3dDRHdHNS9FUUZvNDk3NzhR?=
+ =?utf-8?B?STlQMXlvSGl2Ry9oVHM3K3N6MEp1M2tOZmtPeHpWZStyK2ZTVFlqSVFVK0xi?=
+ =?utf-8?B?L2c9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0c68a236-4b12-4a60-d055-08db295b3d2c
+X-MS-Exchange-CrossTenant-AuthSource: CY4PR11MB1862.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Mar 2023 15:53:25.0198
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: FsCeyw1cMbBxk53FHsItg0gnsZyxDI9ilRz9rMfoV13Td3SO6Pi+MRauUh/QpgYRNeMCUw0nG9IUvalHA/oKGs1LOkSvY6DSJ5K1eQGrmhU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR11MB7716
+X-OriginatorOrg: intel.com
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   e8d018dd0257f744ca50a729e3d042cf2ec9da65
-commit: e22bae30667a7e74ed057e00fb6e8c79e0738de3 scsi: mpi3mr: Add expander devices to STL
-config: riscv-randconfig-m031-20230319 (https://download.01.org/0day-ci/archive/20230320/202303202027.ZeDQE5Ug-lkp@intel.com/config)
-compiler: riscv32-linux-gcc (GCC) 12.1.0
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202303202027.ZeDQE5Ug-lkp@intel.com/
 
-smatch warnings:
-drivers/scsi/mpi3mr/mpi3mr_transport.c:1449 mpi3mr_expander_add() warn: returning -1 instead of -ENOMEM is sloppy
+On 3/18/2023 12:40 AM, Dan Carpenter wrote:
+> Hi Reinette,
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Reinette-Chatre/vfio-pci-Consolidate-irq-cleanup-on-MSI-MSI-X-disable/20230316-050150
+> base:   eeac8ede17557680855031c6f305ece2378af326
+> patch link:    https://lore.kernel.org/r/591ce11f4a33e022fc9242324ebdc077202bedaf.1678911529.git.reinette.chatre%40intel.com
+> patch subject: [RFC PATCH 7/8] vfio/pci: Support dynamic MSI-x
+> config: ia64-randconfig-m031-20230312 (https://download.01.org/0day-ci/archive/20230316/202303162207.6AD9wdJd-lkp@intel.com/config)
+> compiler: ia64-linux-gcc (GCC) 12.1.0
+> 
+> If you fix the issue, kindly add following tag where applicable
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <error27@gmail.com>
+> | Link: https://lore.kernel.org/r/202303162207.6AD9wdJd-lkp@intel.com/
+> 
+> New smatch warnings:
+> drivers/vfio/pci/vfio_pci_intrs.c:557 vfio_msi_set_vector_signal() error: uninitialized symbol 'new_ctx'.
+> 
+> Old smatch warnings:
+> drivers/vfio/pci/vfio_pci_intrs.c:569 vfio_msi_set_vector_signal() error: uninitialized symbol 'new_ctx'.
 
-vim +1449 drivers/scsi/mpi3mr/mpi3mr_transport.c
+Thank you very much Dan. 
 
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1337  int mpi3mr_expander_add(struct mpi3mr_ioc *mrioc, u16 handle)
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1338  {
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1339  	struct mpi3mr_sas_node *sas_expander;
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1340  	struct mpi3mr_enclosure_node *enclosure_dev;
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1341  	struct mpi3_sas_expander_page0 expander_pg0;
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1342  	struct mpi3_sas_expander_page1 expander_pg1;
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1343  	u16 ioc_status, parent_handle, temp_handle;
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1344  	u64 sas_address, sas_address_parent = 0;
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1345  	int i;
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1346  	unsigned long flags;
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1347  	u8 port_id, link_rate;
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1348  	struct mpi3mr_sas_port *mr_sas_port = NULL;
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1349  	struct mpi3mr_hba_port *hba_port;
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1350  	u32 phynum_handle;
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1351  	int rc = 0;
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1352  
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1353  	if (!handle)
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1354  		return -1;
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1355  
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1356  	if (mrioc->reset_in_progress)
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1357  		return -1;
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1358  
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1359  	if ((mpi3mr_cfg_get_sas_exp_pg0(mrioc, &ioc_status, &expander_pg0,
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1360  	    sizeof(expander_pg0), MPI3_SAS_EXPAND_PGAD_FORM_HANDLE, handle))) {
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1361  		ioc_err(mrioc, "failure at %s:%d/%s()!\n",
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1362  		    __FILE__, __LINE__, __func__);
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1363  		return -1;
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1364  	}
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1365  
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1366  	if (ioc_status != MPI3_IOCSTATUS_SUCCESS) {
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1367  		ioc_err(mrioc, "failure at %s:%d/%s()!\n",
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1368  		    __FILE__, __LINE__, __func__);
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1369  		return -1;
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1370  	}
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1371  
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1372  	parent_handle = le16_to_cpu(expander_pg0.parent_dev_handle);
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1373  	if (mpi3mr_get_sas_address(mrioc, parent_handle, &sas_address_parent)
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1374  	    != 0) {
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1375  		ioc_err(mrioc, "failure at %s:%d/%s()!\n",
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1376  		    __FILE__, __LINE__, __func__);
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1377  		return -1;
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1378  	}
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1379  
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1380  	port_id = expander_pg0.io_unit_port;
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1381  	hba_port = mpi3mr_get_hba_port_by_id(mrioc, port_id);
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1382  	if (!hba_port) {
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1383  		ioc_err(mrioc, "failure at %s:%d/%s()!\n",
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1384  		    __FILE__, __LINE__, __func__);
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1385  		return -1;
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1386  	}
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1387  
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1388  	if (sas_address_parent != mrioc->sas_hba.sas_address) {
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1389  		spin_lock_irqsave(&mrioc->sas_node_lock, flags);
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1390  		sas_expander =
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1391  		   mpi3mr_expander_find_by_sas_address(mrioc,
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1392  		    sas_address_parent, hba_port);
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1393  		spin_unlock_irqrestore(&mrioc->sas_node_lock, flags);
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1394  		if (!sas_expander) {
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1395  			rc = mpi3mr_expander_add(mrioc, parent_handle);
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1396  			if (rc != 0)
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1397  				return rc;
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1398  		} else {
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1399  			/*
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1400  			 * When there is a parent expander present, update it's
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1401  			 * phys where child expander is connected with the link
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1402  			 * speed, attached dev handle and sas address.
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1403  			 */
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1404  			for (i = 0 ; i < sas_expander->num_phys ; i++) {
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1405  				phynum_handle =
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1406  				    (i << MPI3_SAS_EXPAND_PGAD_PHYNUM_SHIFT) |
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1407  				    parent_handle;
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1408  				if (mpi3mr_cfg_get_sas_exp_pg1(mrioc,
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1409  				    &ioc_status, &expander_pg1,
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1410  				    sizeof(expander_pg1),
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1411  				    MPI3_SAS_EXPAND_PGAD_FORM_HANDLE_PHY_NUM,
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1412  				    phynum_handle)) {
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1413  					ioc_err(mrioc, "failure at %s:%d/%s()!\n",
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1414  					    __FILE__, __LINE__, __func__);
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1415  					rc = -1;
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1416  					return rc;
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1417  				}
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1418  				if (ioc_status != MPI3_IOCSTATUS_SUCCESS) {
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1419  					ioc_err(mrioc, "failure at %s:%d/%s()!\n",
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1420  					    __FILE__, __LINE__, __func__);
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1421  					rc = -1;
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1422  					return rc;
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1423  				}
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1424  				temp_handle = le16_to_cpu(
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1425  				    expander_pg1.attached_dev_handle);
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1426  				if (temp_handle != handle)
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1427  					continue;
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1428  				link_rate = (expander_pg1.negotiated_link_rate &
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1429  				    MPI3_SAS_NEG_LINK_RATE_LOGICAL_MASK) >>
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1430  				    MPI3_SAS_NEG_LINK_RATE_LOGICAL_SHIFT;
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1431  				mpi3mr_update_links(mrioc, sas_address_parent,
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1432  				    handle, i, link_rate, hba_port);
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1433  			}
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1434  		}
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1435  	}
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1436  
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1437  	spin_lock_irqsave(&mrioc->sas_node_lock, flags);
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1438  	sas_address = le64_to_cpu(expander_pg0.sas_address);
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1439  	sas_expander = mpi3mr_expander_find_by_sas_address(mrioc,
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1440  	    sas_address, hba_port);
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1441  	spin_unlock_irqrestore(&mrioc->sas_node_lock, flags);
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1442  
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1443  	if (sas_expander)
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1444  		return 0;
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1445  
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1446  	sas_expander = kzalloc(sizeof(struct mpi3mr_sas_node),
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1447  	    GFP_KERNEL);
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1448  	if (!sas_expander)
-e22bae30667a7e Sreekanth Reddy 2022-08-04 @1449  		return -1;
-
-return -ENOMEM;
-
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1450  
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1451  	sas_expander->handle = handle;
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1452  	sas_expander->num_phys = expander_pg0.num_phys;
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1453  	sas_expander->sas_address_parent = sas_address_parent;
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1454  	sas_expander->sas_address = sas_address;
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1455  	sas_expander->hba_port = hba_port;
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1456  
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1457  	ioc_info(mrioc,
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1458  	    "expander_add: handle(0x%04x), parent(0x%04x), sas_addr(0x%016llx), phys(%d)\n",
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1459  	    handle, parent_handle, (unsigned long long)
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1460  	    sas_expander->sas_address, sas_expander->num_phys);
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1461  
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1462  	if (!sas_expander->num_phys) {
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1463  		rc = -1;
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1464  		goto out_fail;
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1465  	}
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1466  	sas_expander->phy = kcalloc(sas_expander->num_phys,
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1467  	    sizeof(struct mpi3mr_sas_phy), GFP_KERNEL);
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1468  	if (!sas_expander->phy) {
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1469  		rc = -1;
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1470  		goto out_fail;
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1471  	}
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1472  
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1473  	INIT_LIST_HEAD(&sas_expander->sas_port_list);
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1474  	mr_sas_port = mpi3mr_sas_port_add(mrioc, handle, sas_address_parent,
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1475  	    sas_expander->hba_port);
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1476  	if (!mr_sas_port) {
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1477  		ioc_err(mrioc, "failure at %s:%d/%s()!\n",
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1478  		    __FILE__, __LINE__, __func__);
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1479  		rc = -1;
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1480  		goto out_fail;
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1481  	}
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1482  	sas_expander->parent_dev = &mr_sas_port->rphy->dev;
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1483  	sas_expander->rphy = mr_sas_port->rphy;
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1484  
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1485  	for (i = 0 ; i < sas_expander->num_phys ; i++) {
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1486  		phynum_handle = (i << MPI3_SAS_EXPAND_PGAD_PHYNUM_SHIFT) |
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1487  		    handle;
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1488  		if (mpi3mr_cfg_get_sas_exp_pg1(mrioc, &ioc_status,
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1489  		    &expander_pg1, sizeof(expander_pg1),
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1490  		    MPI3_SAS_EXPAND_PGAD_FORM_HANDLE_PHY_NUM,
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1491  		    phynum_handle)) {
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1492  			ioc_err(mrioc, "failure at %s:%d/%s()!\n",
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1493  			    __FILE__, __LINE__, __func__);
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1494  			rc = -1;
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1495  			goto out_fail;
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1496  		}
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1497  		if (ioc_status != MPI3_IOCSTATUS_SUCCESS) {
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1498  			ioc_err(mrioc, "failure at %s:%d/%s()!\n",
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1499  			    __FILE__, __LINE__, __func__);
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1500  			rc = -1;
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1501  			goto out_fail;
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1502  		}
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1503  
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1504  		sas_expander->phy[i].handle = handle;
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1505  		sas_expander->phy[i].phy_id = i;
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1506  		sas_expander->phy[i].hba_port = hba_port;
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1507  
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1508  		if ((mpi3mr_add_expander_phy(mrioc, &sas_expander->phy[i],
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1509  		    expander_pg1, sas_expander->parent_dev))) {
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1510  			ioc_err(mrioc, "failure at %s:%d/%s()!\n",
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1511  			    __FILE__, __LINE__, __func__);
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1512  			rc = -1;
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1513  			goto out_fail;
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1514  		}
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1515  	}
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1516  
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1517  	if (sas_expander->enclosure_handle) {
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1518  		enclosure_dev =
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1519  			mpi3mr_enclosure_find_by_handle(mrioc,
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1520  						sas_expander->enclosure_handle);
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1521  		if (enclosure_dev)
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1522  			sas_expander->enclosure_logical_id = le64_to_cpu(
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1523  			    enclosure_dev->pg0.enclosure_logical_id);
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1524  	}
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1525  
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1526  	mpi3mr_expander_node_add(mrioc, sas_expander);
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1527  	return 0;
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1528  
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1529  out_fail:
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1530  
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1531  	if (mr_sas_port)
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1532  		mpi3mr_sas_port_remove(mrioc,
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1533  		    sas_expander->sas_address,
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1534  		    sas_address_parent, sas_expander->hba_port);
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1535  	kfree(sas_expander->phy);
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1536  	kfree(sas_expander);
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1537  	return rc;
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1538  }
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1539  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
-
+Reinette
