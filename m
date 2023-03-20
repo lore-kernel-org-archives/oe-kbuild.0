@@ -1,42 +1,42 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67DA11383
-	for <oe-kbuild@lists.linux.dev>; Mon, 20 Mar 2023 08:37:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAC497E5
+	for <oe-kbuild@lists.linux.dev>; Mon, 20 Mar 2023 12:32:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679301457; x=1710837457;
+  t=1679315564; x=1710851564;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=TgetXrrf5vnpCc+scgo09FHQxUUmsJv5hFa65mmddFQ=;
-  b=KRg383l4ighSO/IF01sF2BmFxswVemwf4HJ9K9yDCUc1zVHoshhrWUXG
-   JUpM6COclBatnH6/IvLsF84PKjM1Amzb58rHYIDa3s+sZYmSSKGMAPIy4
-   RuflHBKJ8ujEef7iDjr9h0PEkHcfZ29IkU5yOx1MnpQt0mG6ou5cpCDbn
-   I/gCcB+7gV+6bX4yjTezCcA07RHvhtjuFEJ2QGv6kcNpkYE4PZtnemme1
-   eJ8qyPl3p0L9xIp37IjBI8IVInWxhymWsvRu/JkNWbKb+WSvjKDLeYUx+
-   2/D7gNSGqKHrmsjFor9wezreCAR0hB3uJImLfTDf8eYe3FIXMZ14RxVzN
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10654"; a="326976284"
+  bh=dwvQkyDXN7axi6TpUWNTJ3l6aM5fOFj9JBk9k3iRO4I=;
+  b=dhbqnwbd/oE1CmYo5MttH/lVqqxWAGMarMEJ7aZii6CePds7aByu86pe
+   izBedLGLFbvuulBSGZsSUO/ycssD8xTOhsX5IqyXqaS/OXAba++jEkVFK
+   8AG/uvSh8txX3xhdZBLVe+nNTkA1th5yLNyQ/ffG9dhwrxgGO0vLVRi3v
+   QbP1Qe9r6Fcb2egB++dBv6qo1qn6+j+u2hV7EZJq8Ic1tcduhKwO/Usb5
+   MGXjjyEQRhB/q31J+nOmovJgLjrqmyWD/mGmy27bxUVAOwmI8Ezf/YZOP
+   Vz5ZKYSve96pNTAeIoWyomhmaYo7CGnW36RblAZcf+zTBA38StSnJffrG
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10654"; a="322489020"
 X-IronPort-AV: E=Sophos;i="5.98,274,1673942400"; 
-   d="scan'208";a="326976284"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2023 01:37:36 -0700
+   d="scan'208";a="322489020"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2023 05:32:44 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10654"; a="791529383"
+X-IronPort-AV: E=McAfee;i="6600,9927,10654"; a="770187550"
 X-IronPort-AV: E=Sophos;i="5.98,274,1673942400"; 
-   d="scan'208";a="791529383"
+   d="scan'208";a="770187550"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 20 Mar 2023 01:37:35 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 20 Mar 2023 05:32:42 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1peB1K-000Av8-2D;
-	Mon, 20 Mar 2023 08:37:34 +0000
-Date: Mon, 20 Mar 2023 16:37:15 +0800
+	id 1peEgs-000B2I-0L;
+	Mon, 20 Mar 2023 12:32:42 +0000
+Date: Mon, 20 Mar 2023 20:32:33 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/staging/rtl8192e/rtllib_rx.c:2195 rtllib_parse_info_param()
- warn: Function too hairy.  No more merges.
-Message-ID: <202303201603.x91ppUmM-lkp@intel.com>
+Subject: drivers/scsi/mpi3mr/mpi3mr_transport.c:1449 mpi3mr_expander_add()
+ warn: returning -1 instead of -ENOMEM is sloppy
+Message-ID: <202303202027.ZeDQE5Ug-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -49,296 +49,244 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Kees Cook <keescook@chromium.org>
+TO: Sreekanth Reddy <sreekanth.reddy@broadcom.com>
+CC: "Martin K. Petersen" <martin.petersen@oracle.com>
+CC: Himanshu Madhani <himanshu.madhani@oracle.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   e8d018dd0257f744ca50a729e3d042cf2ec9da65
-commit: 54d9469bc515dc5fcbc20eecbe19cea868b70d68 fortify: Add run-time WARN for cross-field memcpy()
-date:   6 months ago
-:::::: branch date: 12 hours ago
-:::::: commit date: 6 months ago
-config: riscv-randconfig-m031-20230319 (https://download.01.org/0day-ci/archive/20230320/202303201603.x91ppUmM-lkp@intel.com/config)
+commit: e22bae30667a7e74ed057e00fb6e8c79e0738de3 scsi: mpi3mr: Add expander devices to STL
+date:   7 months ago
+:::::: branch date: 16 hours ago
+:::::: commit date: 7 months ago
+config: riscv-randconfig-m031-20230319 (https://download.01.org/0day-ci/archive/20230320/202303202027.ZeDQE5Ug-lkp@intel.com/config)
 compiler: riscv32-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202303201603.x91ppUmM-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202303202027.ZeDQE5Ug-lkp@intel.com/
 
-New smatch warnings:
-drivers/staging/rtl8192e/rtllib_rx.c:2195 rtllib_parse_info_param() warn: Function too hairy.  No more merges.
+smatch warnings:
+drivers/scsi/mpi3mr/mpi3mr_transport.c:1449 mpi3mr_expander_add() warn: returning -1 instead of -ENOMEM is sloppy
 
-Old smatch warnings:
-drivers/staging/rtl8192e/rtllib_rx.c:512 rtllib_indicate_packets() warn: variable dereferenced before check 'sub_skb' (see line 488)
-drivers/staging/rtl8192e/rtllib_rx.c:1054 rtllib_rx_get_crypt() warn: potential spectre issue 'ieee->crypt_info.crypt' [r]
-drivers/staging/rtl8192e/rtllib_rx.c:1058 rtllib_rx_get_crypt() warn: possible spectre second half.  '*crypt'
-drivers/staging/rtl8192e/rtllib_rx.c:1494 rtllib_rx_Monitor() error: dereferencing freed memory 'skb'
+vim +1449 drivers/scsi/mpi3mr/mpi3mr_transport.c
 
-vim +2195 drivers/staging/rtl8192e/rtllib_rx.c
-
-310852327ab3b5 Mateusz Kulikowski 2015-05-31  2020  
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2021  int rtllib_parse_info_param(struct rtllib_device *ieee,
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2022  		struct rtllib_info_element *info_element,
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2023  		u16 length,
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2024  		struct rtllib_network *network,
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2025  		struct rtllib_rx_stats *stats)
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2026  {
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2027  	u8 i;
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2028  	short offset;
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2029  	u16	tmp_htcap_len = 0;
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2030  	u16	tmp_htinfo_len = 0;
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2031  	char rates_str[64];
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2032  	char *p;
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2033  
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2034  	while (length >= sizeof(*info_element)) {
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2035  		if (sizeof(*info_element) + info_element->len > length) {
-e9fea2ecb018e5 Mateusz Kulikowski 2015-05-31  2036  			netdev_dbg(ieee->dev,
-e9fea2ecb018e5 Mateusz Kulikowski 2015-05-31  2037  				   "Info elem: parse failed: info_element->len + 2 > left : info_element->len+2=%zd left=%d, id=%d.\n",
-e9fea2ecb018e5 Mateusz Kulikowski 2015-05-31  2038  				   info_element->len + sizeof(*info_element),
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2039  				   length, info_element->id);
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2040  			/* We stop processing but don't return an error here
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2041  			 * because some misbehaviour APs break this rule. ie.
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2042  			 * Orinoco AP1000.
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2043  			 */
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2044  			break;
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2045  		}
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2046  
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2047  		switch (info_element->id) {
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2048  		case MFIE_TYPE_SSID:
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2049  			if (rtllib_is_empty_essid(info_element->data,
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2050  						     info_element->len)) {
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2051  				network->flags |= NETWORK_EMPTY_ESSID;
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2052  				break;
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2053  			}
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2054  
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2055  			network->ssid_len = min(info_element->len,
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2056  						(u8)IW_ESSID_MAX_SIZE);
-35e33b0468ab3b Mateusz Kulikowski 2015-05-31  2057  			memcpy(network->ssid, info_element->data,
-35e33b0468ab3b Mateusz Kulikowski 2015-05-31  2058  			       network->ssid_len);
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2059  			if (network->ssid_len < IW_ESSID_MAX_SIZE)
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2060  				memset(network->ssid + network->ssid_len, 0,
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2061  				       IW_ESSID_MAX_SIZE - network->ssid_len);
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2062  
-e9fea2ecb018e5 Mateusz Kulikowski 2015-05-31  2063  			netdev_dbg(ieee->dev, "MFIE_TYPE_SSID: '%s' len=%d.\n",
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2064  				   network->ssid, network->ssid_len);
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2065  			break;
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2066  
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2067  		case MFIE_TYPE_RATES:
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2068  			p = rates_str;
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2069  			network->rates_len = min(info_element->len,
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2070  						 MAX_RATES_LENGTH);
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2071  			for (i = 0; i < network->rates_len; i++) {
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2072  				network->rates[i] = info_element->data[i];
-39ddadf14da77c Takashi Iwai       2020-03-11  2073  				p += scnprintf(p, sizeof(rates_str) -
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2074  					      (p - rates_str), "%02X ",
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2075  					      network->rates[i]);
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2076  				if (rtllib_is_ofdm_rate
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2077  				    (info_element->data[i])) {
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2078  					network->flags |= NETWORK_HAS_OFDM;
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2079  					if (info_element->data[i] &
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2080  					    RTLLIB_BASIC_RATE_MASK)
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2081  						network->flags &=
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2082  						    ~NETWORK_HAS_CCK;
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2083  				}
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2084  
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2085  				if (rtllib_is_cck_rate
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2086  				    (info_element->data[i])) {
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2087  					network->flags |= NETWORK_HAS_CCK;
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2088  				}
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2089  			}
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2090  
-e9fea2ecb018e5 Mateusz Kulikowski 2015-05-31  2091  			netdev_dbg(ieee->dev, "MFIE_TYPE_RATES: '%s' (%d)\n",
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2092  				   rates_str, network->rates_len);
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2093  			break;
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2094  
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2095  		case MFIE_TYPE_RATES_EX:
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2096  			p = rates_str;
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2097  			network->rates_ex_len = min(info_element->len,
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2098  						    MAX_RATES_EX_LENGTH);
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2099  			for (i = 0; i < network->rates_ex_len; i++) {
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2100  				network->rates_ex[i] = info_element->data[i];
-39ddadf14da77c Takashi Iwai       2020-03-11  2101  				p += scnprintf(p, sizeof(rates_str) -
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2102  					      (p - rates_str), "%02X ",
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2103  					      network->rates_ex[i]);
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2104  				if (rtllib_is_ofdm_rate
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2105  				    (info_element->data[i])) {
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2106  					network->flags |= NETWORK_HAS_OFDM;
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2107  					if (info_element->data[i] &
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2108  					    RTLLIB_BASIC_RATE_MASK)
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2109  						network->flags &=
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2110  						    ~NETWORK_HAS_CCK;
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2111  				}
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2112  			}
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2113  
-e9fea2ecb018e5 Mateusz Kulikowski 2015-05-31  2114  			netdev_dbg(ieee->dev, "MFIE_TYPE_RATES_EX: '%s' (%d)\n",
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2115  				   rates_str, network->rates_ex_len);
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2116  			break;
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2117  
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2118  		case MFIE_TYPE_DS_SET:
-e9fea2ecb018e5 Mateusz Kulikowski 2015-05-31  2119  			netdev_dbg(ieee->dev, "MFIE_TYPE_DS_SET: %d\n",
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2120  				   info_element->data[0]);
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2121  			network->channel = info_element->data[0];
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2122  			break;
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2123  
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2124  		case MFIE_TYPE_FH_SET:
-e9fea2ecb018e5 Mateusz Kulikowski 2015-05-31  2125  			netdev_dbg(ieee->dev, "MFIE_TYPE_FH_SET: ignored\n");
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2126  			break;
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2127  
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2128  		case MFIE_TYPE_CF_SET:
-e9fea2ecb018e5 Mateusz Kulikowski 2015-05-31  2129  			netdev_dbg(ieee->dev, "MFIE_TYPE_CF_SET: ignored\n");
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2130  			break;
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2131  
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2132  		case MFIE_TYPE_TIM:
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2133  			if (info_element->len < 4)
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2134  				break;
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2135  
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2136  			network->tim.tim_count = info_element->data[0];
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2137  			network->tim.tim_period = info_element->data[1];
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2138  
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2139  			network->dtim_period = info_element->data[1];
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2140  			if (ieee->state != RTLLIB_LINKED)
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2141  				break;
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2142  			network->last_dtim_sta_time = jiffies;
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2143  
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2144  			network->dtim_data = RTLLIB_DTIM_VALID;
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2145  
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2146  
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2147  			if (info_element->data[2] & 1)
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2148  				network->dtim_data |= RTLLIB_DTIM_MBCAST;
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2149  
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2150  			offset = (info_element->data[2] >> 1)*2;
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2151  
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2152  
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2153  			if (ieee->assoc_id < 8*offset ||
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2154  			    ieee->assoc_id > 8*(offset + info_element->len - 3))
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2155  				break;
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2156  
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2157  			offset = (ieee->assoc_id / 8) - offset;
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2158  			if (info_element->data[3 + offset] &
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2159  			   (1 << (ieee->assoc_id % 8)))
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2160  				network->dtim_data |= RTLLIB_DTIM_UCAST;
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2161  
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2162  			network->listen_interval = network->dtim_period;
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2163  			break;
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2164  
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2165  		case MFIE_TYPE_ERP:
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2166  			network->erp_value = info_element->data[0];
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2167  			network->flags |= NETWORK_HAS_ERP_VALUE;
-e9fea2ecb018e5 Mateusz Kulikowski 2015-05-31  2168  			netdev_dbg(ieee->dev, "MFIE_TYPE_ERP_SET: %d\n",
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2169  				   network->erp_value);
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2170  			break;
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2171  		case MFIE_TYPE_IBSS_SET:
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2172  			network->atim_window = info_element->data[0];
-e9fea2ecb018e5 Mateusz Kulikowski 2015-05-31  2173  			netdev_dbg(ieee->dev, "MFIE_TYPE_IBSS_SET: %d\n",
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2174  				   network->atim_window);
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2175  			break;
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2176  
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2177  		case MFIE_TYPE_CHALLENGE:
-e9fea2ecb018e5 Mateusz Kulikowski 2015-05-31  2178  			netdev_dbg(ieee->dev, "MFIE_TYPE_CHALLENGE: ignored\n");
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2179  			break;
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2180  
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2181  		case MFIE_TYPE_GENERIC:
-e9fea2ecb018e5 Mateusz Kulikowski 2015-05-31  2182  			netdev_dbg(ieee->dev, "MFIE_TYPE_GENERIC: %d bytes\n",
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2183  				   info_element->len);
-e9fea2ecb018e5 Mateusz Kulikowski 2015-05-31  2184  
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2185  			rtllib_parse_mife_generic(ieee, info_element, network,
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2186  						  &tmp_htcap_len,
-80d2579d8608f5 Mateusz Kulikowski 2015-05-31  2187  						  &tmp_htinfo_len);
-94a799425eee82 Larry Finger       2011-08-23  2188  			break;
-94a799425eee82 Larry Finger       2011-08-23  2189  
-94a799425eee82 Larry Finger       2011-08-23  2190  		case MFIE_TYPE_RSN:
-e9fea2ecb018e5 Mateusz Kulikowski 2015-05-31  2191  			netdev_dbg(ieee->dev, "MFIE_TYPE_RSN: %d bytes\n",
-94a799425eee82 Larry Finger       2011-08-23  2192  				   info_element->len);
-94a799425eee82 Larry Finger       2011-08-23  2193  			network->rsn_ie_len = min(info_element->len + 2,
-94a799425eee82 Larry Finger       2011-08-23  2194  						  MAX_WPA_IE_LEN);
-94a799425eee82 Larry Finger       2011-08-23 @2195  			memcpy(network->rsn_ie, info_element,
-94a799425eee82 Larry Finger       2011-08-23  2196  			       network->rsn_ie_len);
-94a799425eee82 Larry Finger       2011-08-23  2197  			break;
-94a799425eee82 Larry Finger       2011-08-23  2198  
-94a799425eee82 Larry Finger       2011-08-23  2199  		case MFIE_TYPE_HT_CAP:
-521a9cbdb27142 Mateusz Kulikowski 2015-05-31  2200  			netdev_dbg(ieee->dev, "MFIE_TYPE_HT_CAP: %d bytes\n",
-94a799425eee82 Larry Finger       2011-08-23  2201  				   info_element->len);
-94a799425eee82 Larry Finger       2011-08-23  2202  
-310852327ab3b5 Mateusz Kulikowski 2015-05-31  2203  			rtllib_parse_mfie_ht_cap(info_element, network,
-310852327ab3b5 Mateusz Kulikowski 2015-05-31  2204  						 &tmp_htcap_len);
-94a799425eee82 Larry Finger       2011-08-23  2205  			break;
-94a799425eee82 Larry Finger       2011-08-23  2206  
-94a799425eee82 Larry Finger       2011-08-23  2207  
-94a799425eee82 Larry Finger       2011-08-23  2208  		case MFIE_TYPE_HT_INFO:
-521a9cbdb27142 Mateusz Kulikowski 2015-05-31  2209  			netdev_dbg(ieee->dev, "MFIE_TYPE_HT_INFO: %d bytes\n",
-94a799425eee82 Larry Finger       2011-08-23  2210  				   info_element->len);
-35e33b0468ab3b Mateusz Kulikowski 2015-05-31  2211  			tmp_htinfo_len = min_t(u8, info_element->len,
-35e33b0468ab3b Mateusz Kulikowski 2015-05-31  2212  					       MAX_IE_LEN);
-94a799425eee82 Larry Finger       2011-08-23  2213  			if (tmp_htinfo_len) {
-2fbcd6ded92bee William Durand     2021-02-20  2214  				network->bssht.bd_ht_spec_ver = HT_SPEC_VER_IEEE;
-060d3f6cb8ba57 William Durand     2021-02-20  2215  				network->bssht.bd_ht_info_len = tmp_htinfo_len >
-2408ee9e3ce07d William Durand     2021-02-20  2216  					sizeof(network->bssht.bd_ht_info_buf) ?
-2408ee9e3ce07d William Durand     2021-02-20  2217  					sizeof(network->bssht.bd_ht_info_buf) :
-db8971b618ed96 Larry Finger       2011-08-25  2218  					tmp_htinfo_len;
-2408ee9e3ce07d William Durand     2021-02-20  2219  				memcpy(network->bssht.bd_ht_info_buf,
-db8971b618ed96 Larry Finger       2011-08-25  2220  				       info_element->data,
-060d3f6cb8ba57 William Durand     2021-02-20  2221  				       network->bssht.bd_ht_info_len);
-94a799425eee82 Larry Finger       2011-08-23  2222  			}
-94a799425eee82 Larry Finger       2011-08-23  2223  			break;
-94a799425eee82 Larry Finger       2011-08-23  2224  
-94a799425eee82 Larry Finger       2011-08-23  2225  		case MFIE_TYPE_AIRONET:
-521a9cbdb27142 Mateusz Kulikowski 2015-05-31  2226  			netdev_dbg(ieee->dev, "MFIE_TYPE_AIRONET: %d bytes\n",
-94a799425eee82 Larry Finger       2011-08-23  2227  				   info_element->len);
-db8971b618ed96 Larry Finger       2011-08-25  2228  			if (info_element->len > IE_CISCO_FLAG_POSITION) {
-94a799425eee82 Larry Finger       2011-08-23  2229  				network->bWithAironetIE = true;
-94a799425eee82 Larry Finger       2011-08-23  2230  
-db8971b618ed96 Larry Finger       2011-08-25  2231  				if ((info_element->data[IE_CISCO_FLAG_POSITION]
-db8971b618ed96 Larry Finger       2011-08-25  2232  				     & SUPPORT_CKIP_MIC) ||
-db8971b618ed96 Larry Finger       2011-08-25  2233  				     (info_element->data[IE_CISCO_FLAG_POSITION]
-db8971b618ed96 Larry Finger       2011-08-25  2234  				     & SUPPORT_CKIP_PK))
-94a799425eee82 Larry Finger       2011-08-23  2235  					network->bCkipSupported = true;
-94a799425eee82 Larry Finger       2011-08-23  2236  				else
-94a799425eee82 Larry Finger       2011-08-23  2237  					network->bCkipSupported = false;
-db8971b618ed96 Larry Finger       2011-08-25  2238  			} else {
-94a799425eee82 Larry Finger       2011-08-23  2239  				network->bWithAironetIE = false;
-94a799425eee82 Larry Finger       2011-08-23  2240  				network->bCkipSupported = false;
-94a799425eee82 Larry Finger       2011-08-23  2241  			}
-94a799425eee82 Larry Finger       2011-08-23  2242  			break;
-94a799425eee82 Larry Finger       2011-08-23  2243  		case MFIE_TYPE_QOS_PARAMETER:
-d69d20549be9e4 Mateusz Kulikowski 2015-03-17  2244  			netdev_err(ieee->dev,
-94a799425eee82 Larry Finger       2011-08-23  2245  				   "QoS Error need to parse QOS_PARAMETER IE\n");
-94a799425eee82 Larry Finger       2011-08-23  2246  			break;
-94a799425eee82 Larry Finger       2011-08-23  2247  
-94a799425eee82 Larry Finger       2011-08-23  2248  		case MFIE_TYPE_COUNTRY:
-521a9cbdb27142 Mateusz Kulikowski 2015-05-31  2249  			netdev_dbg(ieee->dev, "MFIE_TYPE_COUNTRY: %d bytes\n",
-94a799425eee82 Larry Finger       2011-08-23  2250  				   info_element->len);
-db8971b618ed96 Larry Finger       2011-08-25  2251  			rtllib_extract_country_ie(ieee, info_element, network,
-db8971b618ed96 Larry Finger       2011-08-25  2252  						  network->bssid);
-94a799425eee82 Larry Finger       2011-08-23  2253  			break;
-94a799425eee82 Larry Finger       2011-08-23  2254  /* TODO */
-94a799425eee82 Larry Finger       2011-08-23  2255  		default:
-e9fea2ecb018e5 Mateusz Kulikowski 2015-05-31  2256  			netdev_dbg(ieee->dev,
-e9fea2ecb018e5 Mateusz Kulikowski 2015-05-31  2257  				   "Unsupported info element: %s (%d)\n",
-94a799425eee82 Larry Finger       2011-08-23  2258  				   get_info_element_string(info_element->id),
-94a799425eee82 Larry Finger       2011-08-23  2259  				   info_element->id);
-94a799425eee82 Larry Finger       2011-08-23  2260  			break;
-94a799425eee82 Larry Finger       2011-08-23  2261  		}
-94a799425eee82 Larry Finger       2011-08-23  2262  
-94a799425eee82 Larry Finger       2011-08-23  2263  		length -= sizeof(*info_element) + info_element->len;
-94a799425eee82 Larry Finger       2011-08-23  2264  		info_element =
-1ba6d8dc50df0b Ojaswin Mujoo      2021-05-10  2265  		    (struct rtllib_info_element *)&info_element->data[info_element->len];
-94a799425eee82 Larry Finger       2011-08-23  2266  	}
-94a799425eee82 Larry Finger       2011-08-23  2267  
-94a799425eee82 Larry Finger       2011-08-23  2268  	if (!network->atheros_cap_exist && !network->broadcom_cap_exist &&
-db8971b618ed96 Larry Finger       2011-08-25  2269  	    !network->cisco_cap_exist && !network->ralink_cap_exist &&
-3f1f39fb6c4a42 William Durand     2021-02-20  2270  	    !network->bssht.bd_rt2rt_aggregation)
-94a799425eee82 Larry Finger       2011-08-23  2271  		network->unknown_cap_exist = true;
-94a799425eee82 Larry Finger       2011-08-23  2272  	else
-94a799425eee82 Larry Finger       2011-08-23  2273  		network->unknown_cap_exist = false;
-94a799425eee82 Larry Finger       2011-08-23  2274  	return 0;
-94a799425eee82 Larry Finger       2011-08-23  2275  }
-94a799425eee82 Larry Finger       2011-08-23  2276  
-
-:::::: The code at line 2195 was first introduced by commit
-:::::: 94a799425eee8225a1e3fbe5f473d2ef04002577 From: wlanfae <wlanfae@realtek.com> [PATCH 1/8] rtl8192e: Import new version of driver from realtek
-
-:::::: TO: Larry Finger <Larry.Finger@lwfinger.net>
-:::::: CC: Larry Finger <Larry.Finger@lwfinger.net>
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1325  
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1326  /**
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1327   * mpi3mr_expander_add -  Create expander object
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1328   * @mrioc: Adapter instance reference
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1329   * @handle: Expander firmware device handle
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1330   *
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1331   * This function creating expander object, stored in
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1332   * sas_expander_list and expose it to the SAS transport
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1333   * layer.
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1334   *
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1335   * Return: 0 for success, non-zero for failure.
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1336   */
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1337  int mpi3mr_expander_add(struct mpi3mr_ioc *mrioc, u16 handle)
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1338  {
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1339  	struct mpi3mr_sas_node *sas_expander;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1340  	struct mpi3mr_enclosure_node *enclosure_dev;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1341  	struct mpi3_sas_expander_page0 expander_pg0;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1342  	struct mpi3_sas_expander_page1 expander_pg1;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1343  	u16 ioc_status, parent_handle, temp_handle;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1344  	u64 sas_address, sas_address_parent = 0;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1345  	int i;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1346  	unsigned long flags;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1347  	u8 port_id, link_rate;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1348  	struct mpi3mr_sas_port *mr_sas_port = NULL;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1349  	struct mpi3mr_hba_port *hba_port;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1350  	u32 phynum_handle;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1351  	int rc = 0;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1352  
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1353  	if (!handle)
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1354  		return -1;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1355  
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1356  	if (mrioc->reset_in_progress)
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1357  		return -1;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1358  
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1359  	if ((mpi3mr_cfg_get_sas_exp_pg0(mrioc, &ioc_status, &expander_pg0,
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1360  	    sizeof(expander_pg0), MPI3_SAS_EXPAND_PGAD_FORM_HANDLE, handle))) {
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1361  		ioc_err(mrioc, "failure at %s:%d/%s()!\n",
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1362  		    __FILE__, __LINE__, __func__);
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1363  		return -1;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1364  	}
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1365  
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1366  	if (ioc_status != MPI3_IOCSTATUS_SUCCESS) {
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1367  		ioc_err(mrioc, "failure at %s:%d/%s()!\n",
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1368  		    __FILE__, __LINE__, __func__);
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1369  		return -1;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1370  	}
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1371  
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1372  	parent_handle = le16_to_cpu(expander_pg0.parent_dev_handle);
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1373  	if (mpi3mr_get_sas_address(mrioc, parent_handle, &sas_address_parent)
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1374  	    != 0) {
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1375  		ioc_err(mrioc, "failure at %s:%d/%s()!\n",
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1376  		    __FILE__, __LINE__, __func__);
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1377  		return -1;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1378  	}
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1379  
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1380  	port_id = expander_pg0.io_unit_port;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1381  	hba_port = mpi3mr_get_hba_port_by_id(mrioc, port_id);
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1382  	if (!hba_port) {
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1383  		ioc_err(mrioc, "failure at %s:%d/%s()!\n",
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1384  		    __FILE__, __LINE__, __func__);
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1385  		return -1;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1386  	}
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1387  
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1388  	if (sas_address_parent != mrioc->sas_hba.sas_address) {
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1389  		spin_lock_irqsave(&mrioc->sas_node_lock, flags);
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1390  		sas_expander =
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1391  		   mpi3mr_expander_find_by_sas_address(mrioc,
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1392  		    sas_address_parent, hba_port);
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1393  		spin_unlock_irqrestore(&mrioc->sas_node_lock, flags);
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1394  		if (!sas_expander) {
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1395  			rc = mpi3mr_expander_add(mrioc, parent_handle);
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1396  			if (rc != 0)
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1397  				return rc;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1398  		} else {
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1399  			/*
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1400  			 * When there is a parent expander present, update it's
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1401  			 * phys where child expander is connected with the link
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1402  			 * speed, attached dev handle and sas address.
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1403  			 */
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1404  			for (i = 0 ; i < sas_expander->num_phys ; i++) {
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1405  				phynum_handle =
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1406  				    (i << MPI3_SAS_EXPAND_PGAD_PHYNUM_SHIFT) |
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1407  				    parent_handle;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1408  				if (mpi3mr_cfg_get_sas_exp_pg1(mrioc,
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1409  				    &ioc_status, &expander_pg1,
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1410  				    sizeof(expander_pg1),
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1411  				    MPI3_SAS_EXPAND_PGAD_FORM_HANDLE_PHY_NUM,
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1412  				    phynum_handle)) {
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1413  					ioc_err(mrioc, "failure at %s:%d/%s()!\n",
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1414  					    __FILE__, __LINE__, __func__);
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1415  					rc = -1;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1416  					return rc;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1417  				}
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1418  				if (ioc_status != MPI3_IOCSTATUS_SUCCESS) {
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1419  					ioc_err(mrioc, "failure at %s:%d/%s()!\n",
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1420  					    __FILE__, __LINE__, __func__);
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1421  					rc = -1;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1422  					return rc;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1423  				}
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1424  				temp_handle = le16_to_cpu(
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1425  				    expander_pg1.attached_dev_handle);
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1426  				if (temp_handle != handle)
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1427  					continue;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1428  				link_rate = (expander_pg1.negotiated_link_rate &
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1429  				    MPI3_SAS_NEG_LINK_RATE_LOGICAL_MASK) >>
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1430  				    MPI3_SAS_NEG_LINK_RATE_LOGICAL_SHIFT;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1431  				mpi3mr_update_links(mrioc, sas_address_parent,
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1432  				    handle, i, link_rate, hba_port);
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1433  			}
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1434  		}
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1435  	}
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1436  
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1437  	spin_lock_irqsave(&mrioc->sas_node_lock, flags);
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1438  	sas_address = le64_to_cpu(expander_pg0.sas_address);
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1439  	sas_expander = mpi3mr_expander_find_by_sas_address(mrioc,
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1440  	    sas_address, hba_port);
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1441  	spin_unlock_irqrestore(&mrioc->sas_node_lock, flags);
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1442  
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1443  	if (sas_expander)
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1444  		return 0;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1445  
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1446  	sas_expander = kzalloc(sizeof(struct mpi3mr_sas_node),
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1447  	    GFP_KERNEL);
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1448  	if (!sas_expander)
+e22bae30667a7e Sreekanth Reddy 2022-08-04 @1449  		return -1;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1450  
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1451  	sas_expander->handle = handle;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1452  	sas_expander->num_phys = expander_pg0.num_phys;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1453  	sas_expander->sas_address_parent = sas_address_parent;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1454  	sas_expander->sas_address = sas_address;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1455  	sas_expander->hba_port = hba_port;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1456  
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1457  	ioc_info(mrioc,
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1458  	    "expander_add: handle(0x%04x), parent(0x%04x), sas_addr(0x%016llx), phys(%d)\n",
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1459  	    handle, parent_handle, (unsigned long long)
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1460  	    sas_expander->sas_address, sas_expander->num_phys);
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1461  
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1462  	if (!sas_expander->num_phys) {
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1463  		rc = -1;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1464  		goto out_fail;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1465  	}
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1466  	sas_expander->phy = kcalloc(sas_expander->num_phys,
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1467  	    sizeof(struct mpi3mr_sas_phy), GFP_KERNEL);
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1468  	if (!sas_expander->phy) {
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1469  		rc = -1;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1470  		goto out_fail;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1471  	}
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1472  
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1473  	INIT_LIST_HEAD(&sas_expander->sas_port_list);
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1474  	mr_sas_port = mpi3mr_sas_port_add(mrioc, handle, sas_address_parent,
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1475  	    sas_expander->hba_port);
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1476  	if (!mr_sas_port) {
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1477  		ioc_err(mrioc, "failure at %s:%d/%s()!\n",
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1478  		    __FILE__, __LINE__, __func__);
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1479  		rc = -1;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1480  		goto out_fail;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1481  	}
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1482  	sas_expander->parent_dev = &mr_sas_port->rphy->dev;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1483  	sas_expander->rphy = mr_sas_port->rphy;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1484  
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1485  	for (i = 0 ; i < sas_expander->num_phys ; i++) {
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1486  		phynum_handle = (i << MPI3_SAS_EXPAND_PGAD_PHYNUM_SHIFT) |
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1487  		    handle;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1488  		if (mpi3mr_cfg_get_sas_exp_pg1(mrioc, &ioc_status,
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1489  		    &expander_pg1, sizeof(expander_pg1),
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1490  		    MPI3_SAS_EXPAND_PGAD_FORM_HANDLE_PHY_NUM,
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1491  		    phynum_handle)) {
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1492  			ioc_err(mrioc, "failure at %s:%d/%s()!\n",
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1493  			    __FILE__, __LINE__, __func__);
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1494  			rc = -1;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1495  			goto out_fail;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1496  		}
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1497  		if (ioc_status != MPI3_IOCSTATUS_SUCCESS) {
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1498  			ioc_err(mrioc, "failure at %s:%d/%s()!\n",
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1499  			    __FILE__, __LINE__, __func__);
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1500  			rc = -1;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1501  			goto out_fail;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1502  		}
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1503  
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1504  		sas_expander->phy[i].handle = handle;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1505  		sas_expander->phy[i].phy_id = i;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1506  		sas_expander->phy[i].hba_port = hba_port;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1507  
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1508  		if ((mpi3mr_add_expander_phy(mrioc, &sas_expander->phy[i],
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1509  		    expander_pg1, sas_expander->parent_dev))) {
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1510  			ioc_err(mrioc, "failure at %s:%d/%s()!\n",
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1511  			    __FILE__, __LINE__, __func__);
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1512  			rc = -1;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1513  			goto out_fail;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1514  		}
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1515  	}
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1516  
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1517  	if (sas_expander->enclosure_handle) {
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1518  		enclosure_dev =
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1519  			mpi3mr_enclosure_find_by_handle(mrioc,
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1520  						sas_expander->enclosure_handle);
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1521  		if (enclosure_dev)
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1522  			sas_expander->enclosure_logical_id = le64_to_cpu(
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1523  			    enclosure_dev->pg0.enclosure_logical_id);
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1524  	}
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1525  
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1526  	mpi3mr_expander_node_add(mrioc, sas_expander);
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1527  	return 0;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1528  
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1529  out_fail:
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1530  
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1531  	if (mr_sas_port)
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1532  		mpi3mr_sas_port_remove(mrioc,
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1533  		    sas_expander->sas_address,
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1534  		    sas_address_parent, sas_expander->hba_port);
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1535  	kfree(sas_expander->phy);
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1536  	kfree(sas_expander);
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1537  	return rc;
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1538  }
+e22bae30667a7e Sreekanth Reddy 2022-08-04  1539  
 
 -- 
 0-DAY CI Kernel Test Service
