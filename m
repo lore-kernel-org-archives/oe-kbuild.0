@@ -1,51 +1,51 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF51E10E5;
-	Mon, 20 Mar 2023 05:44:53 +0000 (UTC)
-Received: by mail-wr1-f43.google.com with SMTP id j24so262667wrd.0;
-        Sun, 19 Mar 2023 22:44:53 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70AED10E5;
+	Mon, 20 Mar 2023 05:55:59 +0000 (UTC)
+Received: by mail-wr1-f50.google.com with SMTP id t15so9178628wrz.7;
+        Sun, 19 Mar 2023 22:55:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679291092;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=tRuUVGSib6JEyEmuvmz5jbeu7IJd8ilenJrI8qajkpk=;
-        b=KMEDfqzXbj4j85AgI9jbSWqxqcmuw6A49DM47WxQ+I/3irsTDK05u3z3N+T0GkUh5Q
-         WItfluFm5yB/xlzhqaagz+1W8j6OOABczFlEdm9S78BXigJY5kh5PlnVT5a44HKyfHRM
-         Oumfx0mpQoDz/5i+cFFiMHDt/Ea/aYBzfqi+c8JBN+ounm7djVtexP/Km/ixGWSTtp3w
-         ncUvf3T0WRSkUm/d6bjyk2fvCy0Qhr4REjnRuvcGTMi9HGvcAHj1V3kExYhokLC3ipLF
-         UZWiCN4i814Qt1lesrVA8GBdJRCHtoqPYd78wAb/1RkRc5kOVqHbB88PwjmeeYiFeJFm
-         TfkQ==
+        d=gmail.com; s=20210112; t=1679291757;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=QtJkCtqb2bB+MWR+u3Gmp/ztE97N0qX+dLRTfM+HQno=;
+        b=Y8W2POq43d9PZxpw/Chip8Rt29MbxPOWW3RRojLfpt9PXGMwEQqOyI4LeSXFFtZh3s
+         YOkMYf5gUJSlNsPtj354+Ph4O9zlpaZeErdnMbNOWUjzcJk5uTeDBLbnKsGx7TUhyohs
+         DPQOPe1qLiUELRNVlL0ZvoiV5ldFT/bAkPMm34GU2hV4a459noXFsdAU0P+o8gQT94dK
+         eBNKxVI9wfXHYz9Tu9dHWzpcuxBExIbvk0SYal5Mag98AbN+Co0RW5V5u7aHVk66Mxnn
+         3mLvh4oI3UYFynfpgchQRaflKJ6NkR8PEq91n4Cjm25kq8EqtJMcE0Z1PzbC5M66auQf
+         s5wQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679291092;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=tRuUVGSib6JEyEmuvmz5jbeu7IJd8ilenJrI8qajkpk=;
-        b=CoSKxaTxx7Ala+JBqOhUWMKhmK+WuOqdDlvmEcZr3wceb3uHU0AUWM+N3+saL0GfMA
-         gYJ//WNu494vFBAdhW3XzhkQvPkbQROKaFyoraToJ9b5og2ZLziDdGUxl4RQ5u5zNx/k
-         pkkXUc70c8WS5nta7AxNA+r716WJqRnfrFHAFIkKkpK0pwK3hMIckNsJaHt3+7ujeM/1
-         lyC4ZutXMd9a9e5kqHHJARSHLcY6Bqhw/MAE9UTcgvnEfbZYwssEhP8ec0HqGMsaislM
-         eh8mxHQen+7u+H/OfWtAjqRtWZIfp3lwIZ7G/U5EDXFE6MHy9960I3mJ7uP2yvAx6IyU
-         1yBg==
-X-Gm-Message-State: AO0yUKVhcmJQaQBnOcQrjgmPAPbpMOsQb9Vra50j7qwkxV/9CiEpw7Bn
-	Q0BOpQVg3mwC5wtPmhOQ6cph6jy7oQw=
-X-Google-Smtp-Source: AK7set++jZ9k6qrn3I/QaHRxiafuTR9DdvqnuPbYHZzt6IwW7cRcbAR4ZjNU4pFTjcz1c4KBUgRJTA==
-X-Received: by 2002:a5d:4ecc:0:b0:2d0:c73d:ef2a with SMTP id s12-20020a5d4ecc000000b002d0c73def2amr11554417wrv.24.1679291091639;
-        Sun, 19 Mar 2023 22:44:51 -0700 (PDT)
+        d=1e100.net; s=20210112; t=1679291757;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=QtJkCtqb2bB+MWR+u3Gmp/ztE97N0qX+dLRTfM+HQno=;
+        b=w3mD6zZ/YmB1tx/s91zjEuiE48d+j/C95lNGJv3CxxEKKi/vRNjxn2VFaNg5AWyVgR
+         hHxdwuj0xixVxH1RqgUOINVwh3O+EDBrBNO/OzohzY9aQshIjqofJ1wJXIB4PBpWZQhU
+         99Nq2vCWBuwzS/rKvar9xDB/uOJZfyg5UJ14HKamaQ+fbFLRh+QexaD3ynegFcBPvMjp
+         Ctg7QK849stHAWrmTrSuVbts7DNy6tG+MGM7l8WreUPojoCLMKSI8BIeEG9EAx+5c3KX
+         ATHdvBpPn5Q2UKBpBG34FyMARnIo8GsGGZp24BUUECjKF8yy/5RYFD9516j8PsmVJA7m
+         OH2A==
+X-Gm-Message-State: AO0yUKWH0eFrEKmEz17w9x/F5j8bBLbPmPkOKVgpzw2X7Xa8e3I5KqwJ
+	GN8II2V+/cxJS+PQpgwPksBifwXsNE8=
+X-Google-Smtp-Source: AK7set/WH0FKeZbzMjkrVVepWxHIpvD3zUB2eBPb4v1+GHJS39m0q3R4OjFd8+1nkWP1u92Ah0DnUg==
+X-Received: by 2002:a5d:4708:0:b0:2cb:29eb:a35e with SMTP id y8-20020a5d4708000000b002cb29eba35emr9407803wrq.11.1679291757422;
+        Sun, 19 Mar 2023 22:55:57 -0700 (PDT)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id k6-20020a5d6d46000000b002c5598c14acsm8096854wri.6.2023.03.19.22.44.50
+        by smtp.gmail.com with ESMTPSA id p5-20020adfce05000000b002d64fcb362dsm2725967wrn.111.2023.03.19.22.55.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 19 Mar 2023 22:44:51 -0700 (PDT)
-Date: Mon, 20 Mar 2023 08:44:48 +0300
+        Sun, 19 Mar 2023 22:55:57 -0700 (PDT)
+Date: Mon, 20 Mar 2023 08:55:51 +0300
 From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev,
-	Damien Le Moal <damien.lemoal@opensource.wdc.com>
+To: oe-kbuild@lists.linux.dev, Sherry Sun <sherry.sun@nxp.com>,
+	gregkh@linuxfoundation.org, jirislaby@kernel.org, robh@kernel.org
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Johannes Thumshirn <johannes.thumshirn@wdc.com>
-Subject: fs/zonefs/file.c:441 zonefs_file_dio_append() error: uninitialized
- symbol 'size'.
-Message-ID: <30200c4e-21e8-4454-a947-01d228f154a1@kili.mountain>
+	linux-serial@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-imx@nxp.com
+Subject: Re: [PATCH] tty: serdev: serdev-ttyport: add devt for ctrl->dev
+Message-ID: <d2c39186-9641-4aaa-90cb-bce92b2331f6@kili.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -54,99 +54,76 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230315105400.23426-1-sherry.sun@nxp.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   a3671bd86a9770e34969522d29bb30a1b66fd88a
-commit: 4008e2a0b01aba982356fd15b128a47bf11bd9c7 zonefs: Reorganize code
-config: nios2-randconfig-m031-20230319 (https://download.01.org/0day-ci/archive/20230319/202303191227.GL8Dprbi-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 12.1.0
+Hi Sherry,
+
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Sherry-Sun/tty-serdev-serdev-ttyport-add-devt-for-ctrl-dev/20230315-185913
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-testing
+patch link:    https://lore.kernel.org/r/20230315105400.23426-1-sherry.sun%40nxp.com
+patch subject: [PATCH] tty: serdev: serdev-ttyport: add devt for ctrl->dev
+config: x86_64-randconfig-m001 (https://download.01.org/0day-ci/archive/20230316/202303160201.bnmM2caW-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202303191227.GL8Dprbi-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202303160201.bnmM2caW-lkp@intel.com/
 
-New smatch warnings:
-fs/zonefs/file.c:441 zonefs_file_dio_append() error: uninitialized symbol 'size'.
+smatch warnings:
+drivers/tty/serdev/serdev-ttyport.c:273 serdev_tty_port_register() warn: variable dereferenced before check 'drv' (see line 270)
 
-vim +/size +441 fs/zonefs/file.c
+vim +/drv +273 drivers/tty/serdev/serdev-ttyport.c
 
-4008e2a0b01aba Damien Le Moal 2022-11-25  378  static ssize_t zonefs_file_dio_append(struct kiocb *iocb, struct iov_iter *from)
-4008e2a0b01aba Damien Le Moal 2022-11-25  379  {
-4008e2a0b01aba Damien Le Moal 2022-11-25  380  	struct inode *inode = file_inode(iocb->ki_filp);
-4008e2a0b01aba Damien Le Moal 2022-11-25  381  	struct zonefs_inode_info *zi = ZONEFS_I(inode);
-4008e2a0b01aba Damien Le Moal 2022-11-25  382  	struct block_device *bdev = inode->i_sb->s_bdev;
-4008e2a0b01aba Damien Le Moal 2022-11-25  383  	unsigned int max = bdev_max_zone_append_sectors(bdev);
-4008e2a0b01aba Damien Le Moal 2022-11-25  384  	struct bio *bio;
-4008e2a0b01aba Damien Le Moal 2022-11-25  385  	ssize_t size;
-4008e2a0b01aba Damien Le Moal 2022-11-25  386  	int nr_pages;
-4008e2a0b01aba Damien Le Moal 2022-11-25  387  	ssize_t ret;
-4008e2a0b01aba Damien Le Moal 2022-11-25  388  
-4008e2a0b01aba Damien Le Moal 2022-11-25  389  	max = ALIGN_DOWN(max << SECTOR_SHIFT, inode->i_sb->s_blocksize);
-4008e2a0b01aba Damien Le Moal 2022-11-25  390  	iov_iter_truncate(from, max);
-4008e2a0b01aba Damien Le Moal 2022-11-25  391  
-4008e2a0b01aba Damien Le Moal 2022-11-25  392  	nr_pages = iov_iter_npages(from, BIO_MAX_VECS);
-4008e2a0b01aba Damien Le Moal 2022-11-25  393  	if (!nr_pages)
-4008e2a0b01aba Damien Le Moal 2022-11-25  394  		return 0;
-4008e2a0b01aba Damien Le Moal 2022-11-25  395  
-4008e2a0b01aba Damien Le Moal 2022-11-25  396  	bio = bio_alloc(bdev, nr_pages,
-4008e2a0b01aba Damien Le Moal 2022-11-25  397  			REQ_OP_ZONE_APPEND | REQ_SYNC | REQ_IDLE, GFP_NOFS);
-4008e2a0b01aba Damien Le Moal 2022-11-25  398  	bio->bi_iter.bi_sector = zi->i_zsector;
-4008e2a0b01aba Damien Le Moal 2022-11-25  399  	bio->bi_ioprio = iocb->ki_ioprio;
-4008e2a0b01aba Damien Le Moal 2022-11-25  400  	if (iocb_is_dsync(iocb))
-4008e2a0b01aba Damien Le Moal 2022-11-25  401  		bio->bi_opf |= REQ_FUA;
-4008e2a0b01aba Damien Le Moal 2022-11-25  402  
-4008e2a0b01aba Damien Le Moal 2022-11-25  403  	ret = bio_iov_iter_get_pages(bio, from);
-4008e2a0b01aba Damien Le Moal 2022-11-25  404  	if (unlikely(ret))
-4008e2a0b01aba Damien Le Moal 2022-11-25  405  		goto out_release;
+bed35c6dfa6a36 Rob Herring  2017-02-02  264  struct device *serdev_tty_port_register(struct tty_port *port,
+bed35c6dfa6a36 Rob Herring  2017-02-02  265  					struct device *parent,
+bed35c6dfa6a36 Rob Herring  2017-02-02  266  					struct tty_driver *drv, int idx)
+bed35c6dfa6a36 Rob Herring  2017-02-02  267  {
+bed35c6dfa6a36 Rob Herring  2017-02-02  268  	struct serdev_controller *ctrl;
+bed35c6dfa6a36 Rob Herring  2017-02-02  269  	struct serport *serport;
+225acc66b125b9 Sherry Sun   2023-03-15 @270  	dev_t devt = MKDEV(drv->major, drv->minor_start) + idx;
+                                                                   ^^^^^       ^^^^^
+Dereferences.
 
-This is a false positive because bio_iov_iter_get_pages() is returning
-negatives on this error path.  Building the cross function database
-would silence this warning.  Still it's not just Smatch which is going
-to complain and GCC extensions are most likely going to initialize size
-to zero anyway.
+bed35c6dfa6a36 Rob Herring  2017-02-02  271  	int ret;
+bed35c6dfa6a36 Rob Herring  2017-02-02  272  
+bed35c6dfa6a36 Rob Herring  2017-02-02 @273  	if (!port || !drv || !parent)
+                                                             ^^^^
+Checked too late.  Are these checks really required?
 
-4008e2a0b01aba Damien Le Moal 2022-11-25  406  
-4008e2a0b01aba Damien Le Moal 2022-11-25  407  	size = bio->bi_iter.bi_size;
-4008e2a0b01aba Damien Le Moal 2022-11-25  408  	task_io_account_write(size);
-4008e2a0b01aba Damien Le Moal 2022-11-25  409  
-4008e2a0b01aba Damien Le Moal 2022-11-25  410  	if (iocb->ki_flags & IOCB_HIPRI)
-4008e2a0b01aba Damien Le Moal 2022-11-25  411  		bio_set_polled(bio, iocb);
-4008e2a0b01aba Damien Le Moal 2022-11-25  412  
-4008e2a0b01aba Damien Le Moal 2022-11-25  413  	ret = submit_bio_wait(bio);
-4008e2a0b01aba Damien Le Moal 2022-11-25  414  
-4008e2a0b01aba Damien Le Moal 2022-11-25  415  	/*
-4008e2a0b01aba Damien Le Moal 2022-11-25  416  	 * If the file zone was written underneath the file system, the zone
-4008e2a0b01aba Damien Le Moal 2022-11-25  417  	 * write pointer may not be where we expect it to be, but the zone
-4008e2a0b01aba Damien Le Moal 2022-11-25  418  	 * append write can still succeed. So check manually that we wrote where
-4008e2a0b01aba Damien Le Moal 2022-11-25  419  	 * we intended to, that is, at zi->i_wpoffset.
-4008e2a0b01aba Damien Le Moal 2022-11-25  420  	 */
-4008e2a0b01aba Damien Le Moal 2022-11-25  421  	if (!ret) {
-4008e2a0b01aba Damien Le Moal 2022-11-25  422  		sector_t wpsector =
-4008e2a0b01aba Damien Le Moal 2022-11-25  423  			zi->i_zsector + (zi->i_wpoffset >> SECTOR_SHIFT);
-4008e2a0b01aba Damien Le Moal 2022-11-25  424  
-4008e2a0b01aba Damien Le Moal 2022-11-25  425  		if (bio->bi_iter.bi_sector != wpsector) {
-4008e2a0b01aba Damien Le Moal 2022-11-25  426  			zonefs_warn(inode->i_sb,
-4008e2a0b01aba Damien Le Moal 2022-11-25  427  				"Corrupted write pointer %llu for zone at %llu\n",
-4008e2a0b01aba Damien Le Moal 2022-11-25  428  				wpsector, zi->i_zsector);
-4008e2a0b01aba Damien Le Moal 2022-11-25  429  			ret = -EIO;
-4008e2a0b01aba Damien Le Moal 2022-11-25  430  		}
-4008e2a0b01aba Damien Le Moal 2022-11-25  431  	}
-4008e2a0b01aba Damien Le Moal 2022-11-25  432  
-4008e2a0b01aba Damien Le Moal 2022-11-25  433  	zonefs_file_write_dio_end_io(iocb, size, ret, 0);
-4008e2a0b01aba Damien Le Moal 2022-11-25  434  	trace_zonefs_file_dio_append(inode, size, ret);
-4008e2a0b01aba Damien Le Moal 2022-11-25  435  
-4008e2a0b01aba Damien Le Moal 2022-11-25  436  out_release:
-4008e2a0b01aba Damien Le Moal 2022-11-25  437  	bio_release_pages(bio, false);
-4008e2a0b01aba Damien Le Moal 2022-11-25  438  	bio_put(bio);
-4008e2a0b01aba Damien Le Moal 2022-11-25  439  
-4008e2a0b01aba Damien Le Moal 2022-11-25  440  	if (ret >= 0) {
-4008e2a0b01aba Damien Le Moal 2022-11-25 @441  		iocb->ki_pos += size;
-4008e2a0b01aba Damien Le Moal 2022-11-25  442  		return size;
-4008e2a0b01aba Damien Le Moal 2022-11-25  443  	}
-4008e2a0b01aba Damien Le Moal 2022-11-25  444  
-4008e2a0b01aba Damien Le Moal 2022-11-25  445  	return ret;
-4008e2a0b01aba Damien Le Moal 2022-11-25  446  }
+bed35c6dfa6a36 Rob Herring  2017-02-02  274  		return ERR_PTR(-ENODEV);
+bed35c6dfa6a36 Rob Herring  2017-02-02  275  
+bed35c6dfa6a36 Rob Herring  2017-02-02  276  	ctrl = serdev_controller_alloc(parent, sizeof(struct serport));
+bed35c6dfa6a36 Rob Herring  2017-02-02  277  	if (!ctrl)
+bed35c6dfa6a36 Rob Herring  2017-02-02  278  		return ERR_PTR(-ENOMEM);
+bed35c6dfa6a36 Rob Herring  2017-02-02  279  	serport = serdev_controller_get_drvdata(ctrl);
+bed35c6dfa6a36 Rob Herring  2017-02-02  280  
+bed35c6dfa6a36 Rob Herring  2017-02-02  281  	serport->port = port;
+bed35c6dfa6a36 Rob Herring  2017-02-02  282  	serport->tty_idx = idx;
+bed35c6dfa6a36 Rob Herring  2017-02-02  283  	serport->tty_drv = drv;
+bed35c6dfa6a36 Rob Herring  2017-02-02  284  
+225acc66b125b9 Sherry Sun   2023-03-15  285  	ctrl->dev.devt = devt;
+bed35c6dfa6a36 Rob Herring  2017-02-02  286  	ctrl->ops = &ctrl_ops;
+bed35c6dfa6a36 Rob Herring  2017-02-02  287  
+aee5da7838787f Johan Hovold 2017-04-11  288  	port->client_ops = &client_ops;
+aee5da7838787f Johan Hovold 2017-04-11  289  	port->client_data = ctrl;
+aee5da7838787f Johan Hovold 2017-04-11  290  
+bed35c6dfa6a36 Rob Herring  2017-02-02  291  	ret = serdev_controller_add(ctrl);
+bed35c6dfa6a36 Rob Herring  2017-02-02  292  	if (ret)
+aee5da7838787f Johan Hovold 2017-04-11  293  		goto err_reset_data;
+bed35c6dfa6a36 Rob Herring  2017-02-02  294  
+bed35c6dfa6a36 Rob Herring  2017-02-02  295  	dev_info(&ctrl->dev, "tty port %s%d registered\n", drv->name, idx);
+bed35c6dfa6a36 Rob Herring  2017-02-02  296  	return &ctrl->dev;
+bed35c6dfa6a36 Rob Herring  2017-02-02  297  
+aee5da7838787f Johan Hovold 2017-04-11  298  err_reset_data:
+aee5da7838787f Johan Hovold 2017-04-11  299  	port->client_data = NULL;
+0c5aae59270fb1 Johan Hovold 2020-02-10  300  	port->client_ops = &tty_port_default_client_ops;
+bed35c6dfa6a36 Rob Herring  2017-02-02  301  	serdev_controller_put(ctrl);
+aee5da7838787f Johan Hovold 2017-04-11  302  
+bed35c6dfa6a36 Rob Herring  2017-02-02  303  	return ERR_PTR(ret);
+bed35c6dfa6a36 Rob Herring  2017-02-02  304  }
 
 -- 
 0-DAY CI Kernel Test Service
