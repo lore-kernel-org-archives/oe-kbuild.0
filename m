@@ -1,43 +1,42 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F28F46D1B
-	for <oe-kbuild@lists.linux.dev>; Mon, 20 Mar 2023 19:36:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D494F8477
+	for <oe-kbuild@lists.linux.dev>; Mon, 20 Mar 2023 21:38:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679341006; x=1710877006;
+  t=1679348280; x=1710884280;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ZlPDR1zFhaOR4zJv2rNRzsolXiyRCCJYtYlX6daG3Z4=;
-  b=bj5NIywl5OZZ8VToxehVZvh1rTWMxes45v6O25NFyky4k/LJ138FN3fi
-   EcNY4iIymN29fXVJCgcJr3lHocB0dHYPY1GRPckpUbw/3RfJpe0TOduAe
-   1VNbgPXpH4e7l06EKclGPejqPAUaX0nkEBXjncCa7kqx8FKZZBH/uaur3
-   vFNwQLJ/rFfDiVzOnc40ljGkq9JnalkK1Hc2trpGaE0xZE0RRJ/PFpkRZ
-   HDbOyHQ/sO5PpNt02VZssnPzXblNE9+WMMrDQo58WF4GLWcl+I7fePmAU
-   UUo07exxPeqc+vrsjvNyNDek3U2cyhH9R8da2U7Xzo2mDZJlPG1POUc3Y
+  bh=2G/tFk+TioCw6yLA4+Qva4JdEJNyd+zLlUQmLi7nfIQ=;
+  b=iUq2oIqKUBspruFYssEyL6Ev9xyY+bfvC1YK1zBTijxmfMWKcUjZ+XPJ
+   8Ewmm+G4NMxheN1aaQlvOQEEsTCpTdI6WwpkvPhgWRIvFin3nErk9yuhy
+   3ktGwECvcq13Vzgb/HRvjnkR5mSuAeVXQMbkXiaWmc5z7LxNkQOqUdZai
+   xZ2AeLq1SE778va++NXGTCvIAH0dQ+lvcrP0nqsXU8k3aQ61xR1wVK2Cq
+   Efr5PEO1J0VXN2CxRcMQJAh77k1oWqGE8ni6H4EKE9/Ml4C2S1VI54v9O
+   CgMjshbrK+/3h/NeQxmzwNu4iXJPyiKihePhvXnJhkLRG38mgIkkfNHnk
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="341121098"
+X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="336288588"
 X-IronPort-AV: E=Sophos;i="5.98,276,1673942400"; 
-   d="scan'208";a="341121098"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2023 12:32:57 -0700
+   d="scan'208";a="336288588"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2023 14:37:59 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="824615835"
+X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="805056695"
 X-IronPort-AV: E=Sophos;i="5.98,276,1673942400"; 
-   d="scan'208";a="824615835"
+   d="scan'208";a="805056695"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 20 Mar 2023 12:32:55 -0700
+  by orsmga004.jf.intel.com with ESMTP; 20 Mar 2023 14:37:58 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1peLFW-000BGM-2n;
-	Mon, 20 Mar 2023 19:32:54 +0000
-Date: Tue, 21 Mar 2023 03:32:29 +0800
+	id 1peNCX-000BL0-2u;
+	Mon, 20 Mar 2023 21:37:57 +0000
+Date: Tue, 21 Mar 2023 05:37:42 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: arch/riscv/kvm/../../../virt/kvm/kvm_main.c:1651
- kvm_commit_memory_region() error: we previously assumed 'old' could be null
- (see line 1644)
-Message-ID: <202303210344.6CnhmgNx-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [stable:linux-5.15.y 7872/9999] ld:
+ drivers/gpu/drm/drm_fb_helper.c:839: undefined reference to `cfb_imageblit'
+Message-ID: <202303210515.cvHN9Obv-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -47,94 +46,112 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "low confidence static check first_new_problem: ld: drivers/gpu/drm/drm_fb_helper.c:839: undefined reference to `cfb_imageblit'"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Paolo Bonzini <pbonzini@redhat.com>
+TO: Kees Cook <keescook@chromium.org>
+CC: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+CC: Sasha Levin <sashal@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   7d31677bb7b1944ac89e9155110dc1b9acbb3895
-commit: 6c7b2202e4d11572ab23a89aeec49005b94bb966 KVM: x86: avoid memslot check in NX hugepage recovery if it cannot succeed
-date:   4 months ago
-:::::: branch date: 71 minutes ago
-:::::: commit date: 4 months ago
-config: riscv-randconfig-m031-20230319 (https://download.01.org/0day-ci/archive/20230321/202303210344.6CnhmgNx-lkp@intel.com/config)
-compiler: riscv32-linux-gcc (GCC) 12.1.0
+Hi Kees,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git linux-5.15.y
+head:   8020ae3c051d1c9ec7b7a872e226f9720547649b
+commit: 30f20ceb87f78a14645acd7996397af7fee6e518 [7872/9999] overflow: Implement size_t saturating arithmetic helpers
+:::::: branch date: 4 days ago
+:::::: commit date: 3 months ago
+config: i386-randconfig-s001 (https://download.01.org/0day-ci/archive/20230321/202303210515.cvHN9Obv-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+reproduce:
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git/commit/?id=30f20ceb87f78a14645acd7996397af7fee6e518
+        git remote add stable https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git
+        git fetch --no-tags stable linux-5.15.y
+        git checkout 30f20ceb87f78a14645acd7996397af7fee6e518
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 olddefconfig
+        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202303210344.6CnhmgNx-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202303210515.cvHN9Obv-lkp@intel.com/
 
-New smatch warnings:
-arch/riscv/kvm/../../../virt/kvm/kvm_main.c:1651 kvm_commit_memory_region() error: we previously assumed 'old' could be null (see line 1644)
-arch/riscv/kvm/../../../virt/kvm/kvm_main.c:1653 kvm_commit_memory_region() error: we previously assumed 'new' could be null (see line 1645)
+All errors (new ones prefixed by >>):
 
-Old smatch warnings:
-arch/riscv/include/asm/atomic.h:204 arch_atomic_fetch_add_unless() warn: inconsistent indenting
-
-vim +/old +1651 arch/riscv/kvm/../../../virt/kvm/kvm_main.c
-
-36947254e5f981 Sean Christopherson 2020-02-18  1638  
-07921665a65191 Sean Christopherson 2021-12-06  1639  static void kvm_commit_memory_region(struct kvm *kvm,
-07921665a65191 Sean Christopherson 2021-12-06  1640  				     struct kvm_memory_slot *old,
-07921665a65191 Sean Christopherson 2021-12-06  1641  				     const struct kvm_memory_slot *new,
-cf47f50b5c2e24 Sean Christopherson 2020-02-18  1642  				     enum kvm_mr_change change)
-cf47f50b5c2e24 Sean Christopherson 2020-02-18  1643  {
-6c7b2202e4d115 Paolo Bonzini       2022-11-17 @1644  	int old_flags = old ? old->flags : 0;
-6c7b2202e4d115 Paolo Bonzini       2022-11-17 @1645  	int new_flags = new ? new->flags : 0;
-07921665a65191 Sean Christopherson 2021-12-06  1646  	/*
-07921665a65191 Sean Christopherson 2021-12-06  1647  	 * Update the total number of memslot pages before calling the arch
-07921665a65191 Sean Christopherson 2021-12-06  1648  	 * hook so that architectures can consume the result directly.
-07921665a65191 Sean Christopherson 2021-12-06  1649  	 */
-07921665a65191 Sean Christopherson 2021-12-06  1650  	if (change == KVM_MR_DELETE)
-07921665a65191 Sean Christopherson 2021-12-06 @1651  		kvm->nr_memslot_pages -= old->npages;
-07921665a65191 Sean Christopherson 2021-12-06  1652  	else if (change == KVM_MR_CREATE)
-07921665a65191 Sean Christopherson 2021-12-06 @1653  		kvm->nr_memslot_pages += new->npages;
-cf47f50b5c2e24 Sean Christopherson 2020-02-18  1654  
-6c7b2202e4d115 Paolo Bonzini       2022-11-17  1655  	if ((old_flags ^ new_flags) & KVM_MEM_LOG_DIRTY_PAGES) {
-6c7b2202e4d115 Paolo Bonzini       2022-11-17  1656  		int change = (new_flags & KVM_MEM_LOG_DIRTY_PAGES) ? 1 : -1;
-6c7b2202e4d115 Paolo Bonzini       2022-11-17  1657  		atomic_set(&kvm->nr_memslots_dirty_logging,
-6c7b2202e4d115 Paolo Bonzini       2022-11-17  1658  			   atomic_read(&kvm->nr_memslots_dirty_logging) + change);
-6c7b2202e4d115 Paolo Bonzini       2022-11-17  1659  	}
-6c7b2202e4d115 Paolo Bonzini       2022-11-17  1660  
-07921665a65191 Sean Christopherson 2021-12-06  1661  	kvm_arch_commit_memory_region(kvm, old, new, change);
-07921665a65191 Sean Christopherson 2021-12-06  1662  
-a54d806688fe1e Maciej S. Szmigiero 2021-12-06  1663  	switch (change) {
-a54d806688fe1e Maciej S. Szmigiero 2021-12-06  1664  	case KVM_MR_CREATE:
-a54d806688fe1e Maciej S. Szmigiero 2021-12-06  1665  		/* Nothing more to do. */
-a54d806688fe1e Maciej S. Szmigiero 2021-12-06  1666  		break;
-a54d806688fe1e Maciej S. Szmigiero 2021-12-06  1667  	case KVM_MR_DELETE:
-a54d806688fe1e Maciej S. Szmigiero 2021-12-06  1668  		/* Free the old memslot and all its metadata. */
-a54d806688fe1e Maciej S. Szmigiero 2021-12-06  1669  		kvm_free_memslot(kvm, old);
-a54d806688fe1e Maciej S. Szmigiero 2021-12-06  1670  		break;
-a54d806688fe1e Maciej S. Szmigiero 2021-12-06  1671  	case KVM_MR_MOVE:
-a54d806688fe1e Maciej S. Szmigiero 2021-12-06  1672  	case KVM_MR_FLAGS_ONLY:
-b10a038e84d188 Ben Gardon          2021-05-18  1673  		/*
-a54d806688fe1e Maciej S. Szmigiero 2021-12-06  1674  		 * Free the dirty bitmap as needed; the below check encompasses
-a54d806688fe1e Maciej S. Szmigiero 2021-12-06  1675  		 * both the flags and whether a ring buffer is being used)
-07921665a65191 Sean Christopherson 2021-12-06  1676  		 */
-a54d806688fe1e Maciej S. Szmigiero 2021-12-06  1677  		if (old->dirty_bitmap && !new->dirty_bitmap)
-07921665a65191 Sean Christopherson 2021-12-06  1678  			kvm_destroy_dirty_bitmap(old);
-07921665a65191 Sean Christopherson 2021-12-06  1679  
-a54d806688fe1e Maciej S. Szmigiero 2021-12-06  1680  		/*
-a54d806688fe1e Maciej S. Szmigiero 2021-12-06  1681  		 * The final quirk.  Free the detached, old slot, but only its
-a54d806688fe1e Maciej S. Szmigiero 2021-12-06  1682  		 * memory, not any metadata.  Metadata, including arch specific
-a54d806688fe1e Maciej S. Szmigiero 2021-12-06  1683  		 * data, may be reused by @new.
-a54d806688fe1e Maciej S. Szmigiero 2021-12-06  1684  		 */
-a54d806688fe1e Maciej S. Szmigiero 2021-12-06  1685  		kfree(old);
-a54d806688fe1e Maciej S. Szmigiero 2021-12-06  1686  		break;
-a54d806688fe1e Maciej S. Szmigiero 2021-12-06  1687  	default:
-a54d806688fe1e Maciej S. Szmigiero 2021-12-06  1688  		BUG();
-a54d806688fe1e Maciej S. Szmigiero 2021-12-06  1689  	}
-a54d806688fe1e Maciej S. Szmigiero 2021-12-06  1690  }
-cf47f50b5c2e24 Sean Christopherson 2020-02-18  1691  
-
-:::::: The code at line 1651 was first introduced by commit
-:::::: 07921665a651918350bc6653d4ca8a516a867b4b KVM: Use prepare/commit hooks to handle generic memslot metadata updates
-
-:::::: TO: Sean Christopherson <seanjc@google.com>
-:::::: CC: Paolo Bonzini <pbonzini@redhat.com>
+   ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_resume_worker':
+   drivers/gpu/drm/drm_fb_helper.c:370: undefined reference to `fb_set_suspend'
+   ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_unregister_fbi':
+   drivers/gpu/drm/drm_fb_helper.c:605: undefined reference to `unregister_framebuffer'
+   ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_fini':
+   drivers/gpu/drm/drm_fb_helper.c:634: undefined reference to `framebuffer_release'
+   ld: drivers/gpu/drm/drm_fb_helper.c:633: undefined reference to `fb_dealloc_cmap'
+   ld: drivers/gpu/drm/drm_fb_helper.o: in function `__drm_fb_helper_initial_config_and_unlock':
+   drivers/gpu/drm/drm_fb_helper.c:1867: undefined reference to `register_framebuffer'
+   ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_alloc_fbi':
+   drivers/gpu/drm/drm_fb_helper.c:559: undefined reference to `framebuffer_alloc'
+   ld: drivers/gpu/drm/drm_fb_helper.c:563: undefined reference to `fb_alloc_cmap'
+   ld: drivers/gpu/drm/drm_fb_helper.c:589: undefined reference to `framebuffer_release'
+   ld: drivers/gpu/drm/drm_fb_helper.c:587: undefined reference to `fb_dealloc_cmap'
+   ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_generic_probe':
+   drivers/gpu/drm/drm_fb_helper.c:2360: undefined reference to `fb_deferred_io_init'
+   ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_cfb_fillrect':
+   drivers/gpu/drm/drm_fb_helper.c:809: undefined reference to `cfb_fillrect'
+   ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_cfb_copyarea':
+   drivers/gpu/drm/drm_fb_helper.c:824: undefined reference to `cfb_copyarea'
+   ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_cfb_imageblit':
+   drivers/gpu/drm/drm_fb_helper.c:839: undefined reference to `cfb_imageblit'
+>> ld: drivers/gpu/drm/drm_fb_helper.c:839: undefined reference to `cfb_imageblit'
+   ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_sys_imageblit':
+   drivers/gpu/drm/drm_fb_helper.c:794: undefined reference to `sys_imageblit'
+   ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_cfb_copyarea':
+   drivers/gpu/drm/drm_fb_helper.c:824: undefined reference to `cfb_copyarea'
+   ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_sys_copyarea':
+   drivers/gpu/drm/drm_fb_helper.c:779: undefined reference to `sys_copyarea'
+   ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_cfb_fillrect':
+   drivers/gpu/drm/drm_fb_helper.c:809: undefined reference to `cfb_fillrect'
+   ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_sys_fillrect':
+   drivers/gpu/drm/drm_fb_helper.c:764: undefined reference to `sys_fillrect'
+   ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fbdev_cleanup':
+   drivers/gpu/drm/drm_fb_helper.c:2054: undefined reference to `fb_deferred_io_cleanup'
+   ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_unregister_fbi':
+   drivers/gpu/drm/drm_fb_helper.c:605: undefined reference to `unregister_framebuffer'
+   ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_sys_read':
+   drivers/gpu/drm/drm_fb_helper.c:728: undefined reference to `fb_sys_read'
+   ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_sys_write':
+   drivers/gpu/drm/drm_fb_helper.c:746: undefined reference to `fb_sys_write'
+   ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_sys_fillrect':
+   drivers/gpu/drm/drm_fb_helper.c:764: undefined reference to `sys_fillrect'
+   ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_sys_copyarea':
+   drivers/gpu/drm/drm_fb_helper.c:779: undefined reference to `sys_copyarea'
+   ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_sys_imageblit':
+   drivers/gpu/drm/drm_fb_helper.c:794: undefined reference to `sys_imageblit'
+   ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_set_suspend':
+   drivers/gpu/drm/drm_fb_helper.c:856: undefined reference to `fb_set_suspend'
+   ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_set_suspend_unlocked':
+   drivers/gpu/drm/drm_fb_helper.c:901: undefined reference to `fb_set_suspend'
+   ld: drivers/gpu/drm/vmwgfx/vmwgfx_fb.o: in function `vmw_fb_imageblit':
+   drivers/gpu/drm/vmwgfx/vmwgfx_fb.c:382: undefined reference to `cfb_imageblit'
+   ld: drivers/gpu/drm/vmwgfx/vmwgfx_fb.o: in function `vmw_fb_copyarea':
+   drivers/gpu/drm/vmwgfx/vmwgfx_fb.c:375: undefined reference to `cfb_copyarea'
+   ld: drivers/gpu/drm/vmwgfx/vmwgfx_fb.o: in function `vmw_fb_fillrect':
+   drivers/gpu/drm/vmwgfx/vmwgfx_fb.c:368: undefined reference to `cfb_fillrect'
+   ld: drivers/gpu/drm/vmwgfx/vmwgfx_fb.o: in function `vmw_fb_init':
+   drivers/gpu/drm/vmwgfx/vmwgfx_fb.c:650: undefined reference to `framebuffer_alloc'
+   ld: drivers/gpu/drm/vmwgfx/vmwgfx_fb.c:759: undefined reference to `framebuffer_release'
+   ld: drivers/gpu/drm/vmwgfx/vmwgfx_fb.c:743: undefined reference to `fb_deferred_io_init'
+   ld: drivers/gpu/drm/vmwgfx/vmwgfx_fb.c:745: undefined reference to `register_framebuffer'
+   ld: drivers/gpu/drm/vmwgfx/vmwgfx_fb.c:754: undefined reference to `fb_deferred_io_cleanup'
+   ld: drivers/gpu/drm/vmwgfx/vmwgfx_fb.o: in function `vmw_fb_close':
+   drivers/gpu/drm/vmwgfx/vmwgfx_fb.c:777: undefined reference to `fb_deferred_io_cleanup'
+   ld: drivers/gpu/drm/vmwgfx/vmwgfx_fb.c:779: undefined reference to `unregister_framebuffer'
+   ld: drivers/gpu/drm/vmwgfx/vmwgfx_fb.c:786: undefined reference to `framebuffer_release'
 
 -- 
 0-DAY CI Kernel Test Service
