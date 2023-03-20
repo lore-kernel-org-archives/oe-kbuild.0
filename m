@@ -1,51 +1,51 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70AED10E5;
-	Mon, 20 Mar 2023 05:55:59 +0000 (UTC)
-Received: by mail-wr1-f50.google.com with SMTP id t15so9178628wrz.7;
-        Sun, 19 Mar 2023 22:55:59 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2226E10E5;
+	Mon, 20 Mar 2023 05:57:46 +0000 (UTC)
+Received: by mail-wr1-f44.google.com with SMTP id t15so9180819wrz.7;
+        Sun, 19 Mar 2023 22:57:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679291757;
+        d=gmail.com; s=20210112; t=1679291864;
         h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
          :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=QtJkCtqb2bB+MWR+u3Gmp/ztE97N0qX+dLRTfM+HQno=;
-        b=Y8W2POq43d9PZxpw/Chip8Rt29MbxPOWW3RRojLfpt9PXGMwEQqOyI4LeSXFFtZh3s
-         YOkMYf5gUJSlNsPtj354+Ph4O9zlpaZeErdnMbNOWUjzcJk5uTeDBLbnKsGx7TUhyohs
-         DPQOPe1qLiUELRNVlL0ZvoiV5ldFT/bAkPMm34GU2hV4a459noXFsdAU0P+o8gQT94dK
-         eBNKxVI9wfXHYz9Tu9dHWzpcuxBExIbvk0SYal5Mag98AbN+Co0RW5V5u7aHVk66Mxnn
-         3mLvh4oI3UYFynfpgchQRaflKJ6NkR8PEq91n4Cjm25kq8EqtJMcE0Z1PzbC5M66auQf
-         s5wQ==
+        bh=qbg38UI5KVdEKx+KRq8dQdKCq0U8r0lUrbsZ9T//vGY=;
+        b=ACtjxju/9DB+4FxNemTwsBGJIV5gf3r/uvyvKIX8JbAiG3Py4zsYm7OJFpLLtIOQkZ
+         HfN8c6or1uJ26c78UlkTuXtzZVSLTZG3V2IyJ9fPfC4xcIwzdjacbtMC87PaN6fSVa64
+         ROgabRPdtGEiTnHHU4qu34iStT2aHJUTKPbOCxDLUOLZJNBOxvxc92CKJnMMTnRLQb+E
+         4hcwumd+DB4EmVfd8Of+3RZxjBdeQTBWN0l3d3dJe3/gS05q/A66TRnsc5ib8BwA+a3z
+         9TgDErhFvjKBj/9kVLvGtiPBBIIxHz21ZnPWdbYL1HXcEpfjz+kdR5lOtb7my6btz68n
+         EoBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679291757;
+        d=1e100.net; s=20210112; t=1679291864;
         h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
          :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=QtJkCtqb2bB+MWR+u3Gmp/ztE97N0qX+dLRTfM+HQno=;
-        b=w3mD6zZ/YmB1tx/s91zjEuiE48d+j/C95lNGJv3CxxEKKi/vRNjxn2VFaNg5AWyVgR
-         hHxdwuj0xixVxH1RqgUOINVwh3O+EDBrBNO/OzohzY9aQshIjqofJ1wJXIB4PBpWZQhU
-         99Nq2vCWBuwzS/rKvar9xDB/uOJZfyg5UJ14HKamaQ+fbFLRh+QexaD3ynegFcBPvMjp
-         Ctg7QK849stHAWrmTrSuVbts7DNy6tG+MGM7l8WreUPojoCLMKSI8BIeEG9EAx+5c3KX
-         ATHdvBpPn5Q2UKBpBG34FyMARnIo8GsGGZp24BUUECjKF8yy/5RYFD9516j8PsmVJA7m
-         OH2A==
-X-Gm-Message-State: AO0yUKWH0eFrEKmEz17w9x/F5j8bBLbPmPkOKVgpzw2X7Xa8e3I5KqwJ
-	GN8II2V+/cxJS+PQpgwPksBifwXsNE8=
-X-Google-Smtp-Source: AK7set/WH0FKeZbzMjkrVVepWxHIpvD3zUB2eBPb4v1+GHJS39m0q3R4OjFd8+1nkWP1u92Ah0DnUg==
-X-Received: by 2002:a5d:4708:0:b0:2cb:29eb:a35e with SMTP id y8-20020a5d4708000000b002cb29eba35emr9407803wrq.11.1679291757422;
-        Sun, 19 Mar 2023 22:55:57 -0700 (PDT)
+        bh=qbg38UI5KVdEKx+KRq8dQdKCq0U8r0lUrbsZ9T//vGY=;
+        b=O+/MYnAC4kRxT4+PCtJZSLL/evHcQo75XmwUd7KYd2/hkKSBUJ9My4KsgaS71+Qz7l
+         HrqcTndUD7wuXxC0Ez97tjWvaggDUvk55wknRZJEfimSCTpLaaPk3Fc19I6o+HqlIcRJ
+         +REB7gD5FhcorEluhlkT14yn1VeypafNsJDgNbe6Zaw4mHVZNcKcRiE7w1F0jrrvkfh5
+         D/4c6RWSOcFcqmvEeGguHQg5NO7F2myPzAPUM1cWmYIwhJxQL5eyAP9EyCZ8CReMhxCb
+         Td02Hi26Ljsogc9qh6eGfzuSP8MLJ6EfjgDEa52ua1E4E0XyIGYc/GIXAEv3koM3RdCK
+         ZDPQ==
+X-Gm-Message-State: AO0yUKWbArYiYaRBQgk5Qkxuah8vqcr+tQDndkFporjTD3NosHJarlZ7
+	pa40r7Hy1sGuLROGhsSpUIcFVaQmiQg=
+X-Google-Smtp-Source: AK7set/WBfJIoDSl0NLHCe8duFNZTKMOp1bGRMu5G512DBrixD5skVRVUVOESNONHhjKviL7jfrEqA==
+X-Received: by 2002:adf:e102:0:b0:2cf:f4cc:cbac with SMTP id t2-20020adfe102000000b002cff4cccbacmr13057488wrz.23.1679291864170;
+        Sun, 19 Mar 2023 22:57:44 -0700 (PDT)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id p5-20020adfce05000000b002d64fcb362dsm2725967wrn.111.2023.03.19.22.55.56
+        by smtp.gmail.com with ESMTPSA id j10-20020adff00a000000b002d1bfe3269esm8018489wro.59.2023.03.19.22.57.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 19 Mar 2023 22:55:57 -0700 (PDT)
-Date: Mon, 20 Mar 2023 08:55:51 +0300
+        Sun, 19 Mar 2023 22:57:43 -0700 (PDT)
+Date: Mon, 20 Mar 2023 08:57:32 +0300
 From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, Sherry Sun <sherry.sun@nxp.com>,
-	gregkh@linuxfoundation.org, jirislaby@kernel.org, robh@kernel.org
+To: oe-kbuild@lists.linux.dev, Volker Lendecke <vl@samba.org>,
+	linux-cifs@vger.kernel.org
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-serial@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-imx@nxp.com
-Subject: Re: [PATCH] tty: serdev: serdev-ttyport: add devt for ctrl->dev
-Message-ID: <d2c39186-9641-4aaa-90cb-bce92b2331f6@kili.mountain>
+	Volker Lendecke <vl@samba.org>
+Subject: Re: [PATCH 02/10] cifs: Make "resp_buf_type" initialization
+ consistent
+Message-ID: <0c9a0f8e-dfbb-4778-92f7-e9f3b63680af@kili.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -54,76 +54,66 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230315105400.23426-1-sherry.sun@nxp.com>
+In-Reply-To: <715459412f19853c56156b8c0ce39fe74f148860.1678885349.git.vl@samba.org>
 
-Hi Sherry,
+Hi Volker,
 
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Sherry-Sun/tty-serdev-serdev-ttyport-add-devt-for-ctrl-dev/20230315-185913
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-testing
-patch link:    https://lore.kernel.org/r/20230315105400.23426-1-sherry.sun%40nxp.com
-patch subject: [PATCH] tty: serdev: serdev-ttyport: add devt for ctrl->dev
-config: x86_64-randconfig-m001 (https://download.01.org/0day-ci/archive/20230316/202303160201.bnmM2caW-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Volker-Lendecke/cifs-Simplify-some-callers-of-compound_send_recv/20230315-212751
+base:   git://git.samba.org/sfrench/cifs-2.6.git for-next
+patch link:    https://lore.kernel.org/r/715459412f19853c56156b8c0ce39fe74f148860.1678885349.git.vl%40samba.org
+patch subject: [PATCH 02/10] cifs: Make "resp_buf_type" initialization consistent
+config: x86_64-randconfig-m001 (https://download.01.org/0day-ci/archive/20230316/202303160920.kX2EmZmU-lkp@intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202303160201.bnmM2caW-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202303160920.kX2EmZmU-lkp@intel.com/
 
-smatch warnings:
-drivers/tty/serdev/serdev-ttyport.c:273 serdev_tty_port_register() warn: variable dereferenced before check 'drv' (see line 270)
+New smatch warnings:
+fs/cifs/smb2pdu.c:3031 SMB2_open() error: uninitialized symbol 'resp_buftype'.
+fs/cifs/smb2pdu.c:3258 SMB2_ioctl() error: uninitialized symbol 'resp_buftype'.
+fs/cifs/smb2pdu.c:3385 __SMB2_close() error: uninitialized symbol 'resp_buftype'.
+fs/cifs/smb2pdu.c:3590 query_info() error: uninitialized symbol 'resp_buftype'.
+fs/cifs/smb2pdu.c:3756 SMB2_change_notify() error: uninitialized symbol 'resp_buftype'.
+fs/cifs/smb2pdu.c:4021 SMB2_flush() error: uninitialized symbol 'resp_buftype'.
+fs/cifs/smb2pdu.c:5077 SMB2_query_directory() error: uninitialized symbol 'resp_buftype'.
+fs/cifs/cifssmb.c:2079 CIFSSMBPosixLock() error: uninitialized symbol 'resp_buf_type'.
 
-vim +/drv +273 drivers/tty/serdev/serdev-ttyport.c
+Old smatch warnings:
+fs/cifs/smb2pdu.c:3750 SMB2_change_notify() error: we previously assumed 'plen' could be null (see line 3709)
+fs/cifs/cifssmb.c:4082 CIFSFindFirst() warn: missing error code? 'rc'
+fs/cifs/cifssmb.c:4209 CIFSFindNext() warn: missing error code? 'rc'
 
-bed35c6dfa6a36 Rob Herring  2017-02-02  264  struct device *serdev_tty_port_register(struct tty_port *port,
-bed35c6dfa6a36 Rob Herring  2017-02-02  265  					struct device *parent,
-bed35c6dfa6a36 Rob Herring  2017-02-02  266  					struct tty_driver *drv, int idx)
-bed35c6dfa6a36 Rob Herring  2017-02-02  267  {
-bed35c6dfa6a36 Rob Herring  2017-02-02  268  	struct serdev_controller *ctrl;
-bed35c6dfa6a36 Rob Herring  2017-02-02  269  	struct serport *serport;
-225acc66b125b9 Sherry Sun   2023-03-15 @270  	dev_t devt = MKDEV(drv->major, drv->minor_start) + idx;
-                                                                   ^^^^^       ^^^^^
-Dereferences.
+vim +/resp_buftype +3031 fs/cifs/smb2pdu.c
 
-bed35c6dfa6a36 Rob Herring  2017-02-02  271  	int ret;
-bed35c6dfa6a36 Rob Herring  2017-02-02  272  
-bed35c6dfa6a36 Rob Herring  2017-02-02 @273  	if (!port || !drv || !parent)
-                                                             ^^^^
-Checked too late.  Are these checks really required?
+f0df737ee820ec Pavel Shilovsky 2012-09-18  3013  
+f0df737ee820ec Pavel Shilovsky 2012-09-18  3014  	if (buf) {
+fbcff33d4204cb Kees Cook       2021-06-21  3015  		buf->CreationTime = rsp->CreationTime;
+fbcff33d4204cb Kees Cook       2021-06-21  3016  		buf->LastAccessTime = rsp->LastAccessTime;
+fbcff33d4204cb Kees Cook       2021-06-21  3017  		buf->LastWriteTime = rsp->LastWriteTime;
+fbcff33d4204cb Kees Cook       2021-06-21  3018  		buf->ChangeTime = rsp->ChangeTime;
+f0df737ee820ec Pavel Shilovsky 2012-09-18  3019  		buf->AllocationSize = rsp->AllocationSize;
+f0df737ee820ec Pavel Shilovsky 2012-09-18  3020  		buf->EndOfFile = rsp->EndofFile;
+f0df737ee820ec Pavel Shilovsky 2012-09-18  3021  		buf->Attributes = rsp->FileAttributes;
+f0df737ee820ec Pavel Shilovsky 2012-09-18  3022  		buf->NumberOfLinks = cpu_to_le32(1);
+f0df737ee820ec Pavel Shilovsky 2012-09-18  3023  		buf->DeletePending = 0;
+f0df737ee820ec Pavel Shilovsky 2012-09-18  3024  	}
+2e44b288788213 Pavel Shilovsky 2012-09-18  3025  
+89a5bfa350faf8 Steve French    2019-07-18  3026  
+89a5bfa350faf8 Steve French    2019-07-18  3027  	smb2_parse_contexts(server, rsp, &oparms->fid->epoch,
+69dda3059e7a4d Aurelien Aptel  2020-03-02  3028  			    oparms->fid->lease_key, oplock, buf, posix);
+2503a0dba98948 Pavel Shilovsky 2011-12-26  3029  creat_exit:
+1eb9fb52040fc6 Ronnie Sahlberg 2018-08-08  3030  	SMB2_open_free(&rqst);
+2503a0dba98948 Pavel Shilovsky 2011-12-26 @3031  	free_rsp_buf(resp_buftype, rsp);
 
-bed35c6dfa6a36 Rob Herring  2017-02-02  274  		return ERR_PTR(-ENODEV);
-bed35c6dfa6a36 Rob Herring  2017-02-02  275  
-bed35c6dfa6a36 Rob Herring  2017-02-02  276  	ctrl = serdev_controller_alloc(parent, sizeof(struct serport));
-bed35c6dfa6a36 Rob Herring  2017-02-02  277  	if (!ctrl)
-bed35c6dfa6a36 Rob Herring  2017-02-02  278  		return ERR_PTR(-ENOMEM);
-bed35c6dfa6a36 Rob Herring  2017-02-02  279  	serport = serdev_controller_get_drvdata(ctrl);
-bed35c6dfa6a36 Rob Herring  2017-02-02  280  
-bed35c6dfa6a36 Rob Herring  2017-02-02  281  	serport->port = port;
-bed35c6dfa6a36 Rob Herring  2017-02-02  282  	serport->tty_idx = idx;
-bed35c6dfa6a36 Rob Herring  2017-02-02  283  	serport->tty_drv = drv;
-bed35c6dfa6a36 Rob Herring  2017-02-02  284  
-225acc66b125b9 Sherry Sun   2023-03-15  285  	ctrl->dev.devt = devt;
-bed35c6dfa6a36 Rob Herring  2017-02-02  286  	ctrl->ops = &ctrl_ops;
-bed35c6dfa6a36 Rob Herring  2017-02-02  287  
-aee5da7838787f Johan Hovold 2017-04-11  288  	port->client_ops = &client_ops;
-aee5da7838787f Johan Hovold 2017-04-11  289  	port->client_data = ctrl;
-aee5da7838787f Johan Hovold 2017-04-11  290  
-bed35c6dfa6a36 Rob Herring  2017-02-02  291  	ret = serdev_controller_add(ctrl);
-bed35c6dfa6a36 Rob Herring  2017-02-02  292  	if (ret)
-aee5da7838787f Johan Hovold 2017-04-11  293  		goto err_reset_data;
-bed35c6dfa6a36 Rob Herring  2017-02-02  294  
-bed35c6dfa6a36 Rob Herring  2017-02-02  295  	dev_info(&ctrl->dev, "tty port %s%d registered\n", drv->name, idx);
-bed35c6dfa6a36 Rob Herring  2017-02-02  296  	return &ctrl->dev;
-bed35c6dfa6a36 Rob Herring  2017-02-02  297  
-aee5da7838787f Johan Hovold 2017-04-11  298  err_reset_data:
-aee5da7838787f Johan Hovold 2017-04-11  299  	port->client_data = NULL;
-0c5aae59270fb1 Johan Hovold 2020-02-10  300  	port->client_ops = &tty_port_default_client_ops;
-bed35c6dfa6a36 Rob Herring  2017-02-02  301  	serdev_controller_put(ctrl);
-aee5da7838787f Johan Hovold 2017-04-11  302  
-bed35c6dfa6a36 Rob Herring  2017-02-02  303  	return ERR_PTR(ret);
-bed35c6dfa6a36 Rob Herring  2017-02-02  304  }
+Hard to tell if this is a false positive without more context, but it
+looks properly sus.
+
+2503a0dba98948 Pavel Shilovsky 2011-12-26  3032  	return rc;
+2503a0dba98948 Pavel Shilovsky 2011-12-26  3033  }
 
 -- 
 0-DAY CI Kernel Test Service
