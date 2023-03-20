@@ -1,42 +1,44 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E189EA1
-	for <oe-kbuild@lists.linux.dev>; Mon, 20 Mar 2023 01:40:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53DBEA2C
+	for <oe-kbuild@lists.linux.dev>; Mon, 20 Mar 2023 02:51:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679276427; x=1710812427;
+  t=1679280690; x=1710816690;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=m7uWqVkgBGyhK1/yFHFqIFLitfS19LcHXKjfYDg1hnE=;
-  b=Ba8Xg4AUvfqIguHcDrwF1Pud76lWeXEmldIGt9l/sJtyV+aL3mdmbTch
-   3Iu2bJpm1UAhFxncEsnnaVoDds7m/FiEKgLU4PumokMJ7FNcbxeh5FPxu
-   RRo68yYecgKJSvhLPok//SKetr7pvy3KUKCmp7eWZuNocKd1HQlM5Xcm0
-   y7QZkAhROtS42ry5ksjZ0mGwPYa3xLpyxo/BW+plnC33qHbP6fSoSp2R0
-   46lhSE3tYLCkmrRXLGWrgXJcan3I4VKCSzGrcjfa9rcIyOtIGcMZ0iths
-   r9v2UnMJqoEOWM0XSR3DMWh2hWExfNbgaxG60t8594iOKopPpB2OxeX1y
+  bh=SAuWFEtQAzDulVuS4/kyDN6n8P2n5h7Pj/OzCkYYhs8=;
+  b=ChVvCouWjWjtB+eNJUCz6BYAJ+XL8q4NFZx+pepEP2LLH9U3sPOEuSer
+   oP2B7idbodEgM+C/wQw6XUkJFEqfknquyMaLgmY6w1w26c1ha3h7g4VmD
+   xXhvuz6D5Zx3CR0Ln4/7pWwXKQZQLoSD2Yqy3w+1uGkx2yCFfaS/JJKuM
+   87NYoeb183WlLYhMkMOgLvBhyNsDtWiP/uUXZy1xEneMomNIfI7/bgHj1
+   4mjxw8kCsAONqAdCVr/irLoZRthD9Q96uSvSucOrEWYYmDhrN7pYRMmEg
+   ilJNuk+eX8JIJooxpYlMaBtYirfvp5dXZ+sI3uFMWzbEx7bVXoltlxkc/
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10654"; a="340915228"
+X-IronPort-AV: E=McAfee;i="6600,9927,10654"; a="403434474"
 X-IronPort-AV: E=Sophos;i="5.98,274,1673942400"; 
-   d="scan'208";a="340915228"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2023 18:40:27 -0700
+   d="scan'208";a="403434474"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2023 19:51:29 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10654"; a="683301313"
+X-IronPort-AV: E=McAfee;i="6600,9927,10654"; a="745203132"
 X-IronPort-AV: E=Sophos;i="5.98,274,1673942400"; 
-   d="scan'208";a="683301313"
+   d="scan'208";a="745203132"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 19 Mar 2023 18:40:25 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 19 Mar 2023 19:51:28 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pe4Vd-000Ajm-0g;
-	Mon, 20 Mar 2023 01:40:25 +0000
-Date: Mon, 20 Mar 2023 09:39:35 +0800
+	id 1pe5cN-000Amk-2t;
+	Mon, 20 Mar 2023 02:51:27 +0000
+Date: Mon, 20 Mar 2023 10:50:30 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/perf/riscv_pmu_sbi.c:802 pmu_sbi_device_probe() warn:
- missing unwind goto?
-Message-ID: <202303200941.4TSDQb89-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: drivers/clocksource/timer-goldfish.c:12:8: warning: Excessive
+ padding in 'struct goldfish_timer' (96 padding bytes, where 32 is optimal).
+ Optimal fields order: ced, base, res, cs, consider reordering the fields or
+ adding explicit padding members [clang-an...
+Message-ID: <202303201005.Z4ScI7rn-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -46,100 +48,255 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "low confidence static check warning: drivers/clocksource/timer-goldfish.c:12:8: warning: Excessive padding in 'struct goldfish_timer' (96 padding bytes, where 32 is optimal). Optimal fields order: ced, base, res, cs, consider reordering the fields or adding explicit padding members [clang-analyzer-optin.performance.Padding]"
+:::::: 
+
 BCC: lkp@intel.com
+CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Eric Lin <eric.lin@sifive.com>
-CC: Will Deacon <will@kernel.org>
+TO: Laurent Vivier <laurent@vivier.eu>
+CC: Geert Uytterhoeven <geert@linux-m68k.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   e8d018dd0257f744ca50a729e3d042cf2ec9da65
-commit: e9a023f2b73ac35ff5cfbefe8524c64d8173d65f drivers/perf: riscv_pmu: Add riscv pmu pm notifier
-date:   9 months ago
-:::::: branch date: 5 hours ago
-:::::: commit date: 9 months ago
-config: riscv-randconfig-m031-20230319 (https://download.01.org/0day-ci/archive/20230320/202303200941.4TSDQb89-lkp@intel.com/config)
-compiler: riscv32-linux-gcc (GCC) 12.1.0
+commit: c92e7ef16400bf035e8b49c7dd091bfce4f99773 clocksource/drivers: Add a goldfish-timer clocksource
+date:   11 months ago
+:::::: branch date: 6 hours ago
+:::::: commit date: 11 months ago
+config: riscv-randconfig-c006-20230318 (https://download.01.org/0day-ci/archive/20230320/202303201005.Z4ScI7rn-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=c92e7ef16400bf035e8b49c7dd091bfce4f99773
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout c92e7ef16400bf035e8b49c7dd091bfce4f99773
+        # save the config file
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=riscv clang-analyzer  olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=riscv clang-analyzer 
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202303200941.4TSDQb89-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202303201005.Z4ScI7rn-lkp@intel.com/
 
-New smatch warnings:
-drivers/perf/riscv_pmu_sbi.c:802 pmu_sbi_device_probe() warn: missing unwind goto?
+clang_analyzer warnings: (new ones prefixed by >>)
+                                   ^~~~~~~~~~~~~~~~
+   drivers/devfreq/devfreq.c:1750:2: note: Call to function 'memset' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memset_s' in case of C11
+           memset(df->stats.time_in_state, 0, (df->profile->max_state *
+           ^
+   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:265:2: note: expanded from macro '__fortify_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__underlying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+   drivers/devfreq/devfreq.c:1752:2: warning: Call to function 'memset' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(df->stats.trans_table, 0, array3_size(sizeof(unsigned int),
+           ^
+   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:265:2: note: expanded from macro '__fortify_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__underlying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+   drivers/devfreq/devfreq.c:1752:2: note: Call to function 'memset' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memset_s' in case of C11
+           memset(df->stats.trans_table, 0, array3_size(sizeof(unsigned int),
+           ^
+   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:265:2: note: expanded from macro '__fortify_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__underlying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+   drivers/devfreq/devfreq.c:1785:9: warning: Call to function 'sprintf' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'sprintf_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           return sprintf(buf, "%d\n", df->profile->polling_ms);
+                  ^~~~~~~
+   drivers/devfreq/devfreq.c:1785:9: note: Call to function 'sprintf' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'sprintf_s' in case of C11
+           return sprintf(buf, "%d\n", df->profile->polling_ms);
+                  ^~~~~~~
+   drivers/devfreq/devfreq.c:1799:8: warning: Call to function 'sscanf' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'sscanf_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           ret = sscanf(buf, "%u", &value);
+                 ^~~~~~
+   drivers/devfreq/devfreq.c:1799:8: note: Call to function 'sscanf' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'sscanf_s' in case of C11
+           ret = sscanf(buf, "%u", &value);
+                 ^~~~~~
+   drivers/devfreq/devfreq.c:1818:9: warning: Call to function 'sprintf' is insecure as it does not provide bounding of the memory buffer or security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'sprintf_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           return sprintf(buf, "%s\n", timer_name[df->profile->timer]);
+                  ^~~~~~~
+   drivers/devfreq/devfreq.c:1818:9: note: Call to function 'sprintf' is insecure as it does not provide bounding of the memory buffer or security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'sprintf_s' in case of C11
+           return sprintf(buf, "%s\n", timer_name[df->profile->timer]);
+                  ^~~~~~~
+   drivers/devfreq/devfreq.c:1832:8: warning: Call to function 'sscanf' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'sscanf_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           ret = sscanf(buf, "%16s", str_timer);
+                 ^~~~~~
+   drivers/devfreq/devfreq.c:1832:8: note: Call to function 'sscanf' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'sscanf_s' in case of C11
+           ret = sscanf(buf, "%16s", str_timer);
+                 ^~~~~~
+   Suppressed 46 warnings (46 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   42 warnings generated.
+   Suppressed 42 warnings (42 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   19 warnings generated.
+   Suppressed 19 warnings (19 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   19 warnings generated.
+   Suppressed 19 warnings (19 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   19 warnings generated.
+   Suppressed 19 warnings (19 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   19 warnings generated.
+   Suppressed 19 warnings (19 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   19 warnings generated.
+   Suppressed 19 warnings (19 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   19 warnings generated.
+   Suppressed 19 warnings (19 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   19 warnings generated.
+   Suppressed 19 warnings (19 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   19 warnings generated.
+   Suppressed 19 warnings (19 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   19 warnings generated.
+   Suppressed 19 warnings (19 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   19 warnings generated.
+   Suppressed 19 warnings (19 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   19 warnings generated.
+   Suppressed 19 warnings (19 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   43 warnings generated.
+>> drivers/clocksource/timer-goldfish.c:12:8: warning: Excessive padding in 'struct goldfish_timer' (96 padding bytes, where 32 is optimal). Optimal fields order: ced, base, res, cs, consider reordering the fields or adding explicit padding members [clang-analyzer-optin.performance.Padding]
+   struct goldfish_timer {
+   ~~~~~~~^~~~~~~~~~~~~~~~
+   drivers/clocksource/timer-goldfish.c:12:8: note: Excessive padding in 'struct goldfish_timer' (96 padding bytes, where 32 is optimal). Optimal fields order: ced, base, res, cs, consider reordering the fields or adding explicit padding members
+   struct goldfish_timer {
+   ~~~~~~~^~~~~~~~~~~~~~~~
+   Suppressed 42 warnings (42 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   40 warnings generated.
+   drivers/of/base.c:1296:2: warning: Call to function 'memset' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(it, 0, sizeof(*it));
+           ^
+   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:265:2: note: expanded from macro '__fortify_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__underlying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+   drivers/of/base.c:1296:2: note: Call to function 'memset' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memset_s' in case of C11
+           memset(it, 0, sizeof(*it));
+           ^
+   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:265:2: note: expanded from macro '__fortify_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__underlying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+   drivers/of/base.c:1886:2: warning: Call to function 'strncpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'strncpy_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           strncpy(ap->stem, stem, stem_len);
+           ^~~~~~~
+   drivers/of/base.c:1886:2: note: Call to function 'strncpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'strncpy_s' in case of C11
+           strncpy(ap->stem, stem, stem_len);
+           ^~~~~~~
+   drivers/of/base.c:1957:3: warning: Call to function 'memset' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   memset(ap, 0, sizeof(*ap) + len + 1);
+                   ^
+   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:265:2: note: expanded from macro '__fortify_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__underlying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+   drivers/of/base.c:1957:3: note: Call to function 'memset' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memset_s' in case of C11
+                   memset(ap, 0, sizeof(*ap) + len + 1);
+                   ^
+   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:265:2: note: expanded from macro '__fortify_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__underlying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+   Suppressed 37 warnings (37 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   54 warnings generated.
+   Suppressed 54 warnings (54 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   56 warnings generated.
+   Suppressed 56 warnings (56 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   54 warnings generated.
+   Suppressed 54 warnings (54 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   54 warnings generated.
+   Suppressed 54 warnings (54 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   54 warnings generated.
+   Suppressed 54 warnings (54 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   54 warnings generated.
+   Suppressed 54 warnings (54 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   54 warnings generated.
+   Suppressed 54 warnings (54 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   54 warnings generated.
+   Suppressed 54 warnings (54 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   47 warnings generated.
+   drivers/of/address.c:89:2: warning: Call to function 'memset' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(addr, 0, na * 4);
+           ^
+   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:265:2: note: expanded from macro '__fortify_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__underlying_memset'
+   #define __underlying_memset     __builtin_memset
 
-Old smatch warnings:
-drivers/perf/riscv_pmu_sbi.c:471 pmu_sbi_get_ctrinfo() warn: potentially one past the end of array 'pmu_ctr_list[i]'
-drivers/perf/riscv_pmu_sbi.c:471 pmu_sbi_get_ctrinfo() warn: potentially one past the end of array 'pmu_ctr_list[i]'
+vim +12 drivers/clocksource/timer-goldfish.c
 
-vim +802 drivers/perf/riscv_pmu_sbi.c
-
-e9a023f2b73ac3 Eric Lin    2022-07-05  763  
-e9991434596f53 Atish Patra 2022-02-18  764  static int pmu_sbi_device_probe(struct platform_device *pdev)
-e9991434596f53 Atish Patra 2022-02-18  765  {
-e9991434596f53 Atish Patra 2022-02-18  766  	struct riscv_pmu *pmu = NULL;
-e9991434596f53 Atish Patra 2022-02-18  767  	int num_counters;
-4905ec2fb7e642 Atish Patra 2022-02-18  768  	int ret = -ENODEV;
-e9991434596f53 Atish Patra 2022-02-18  769  
-e9991434596f53 Atish Patra 2022-02-18  770  	pr_info("SBI PMU extension is available\n");
-e9991434596f53 Atish Patra 2022-02-18  771  	pmu = riscv_pmu_alloc();
-e9991434596f53 Atish Patra 2022-02-18  772  	if (!pmu)
-e9991434596f53 Atish Patra 2022-02-18  773  		return -ENOMEM;
-e9991434596f53 Atish Patra 2022-02-18  774  
-e9991434596f53 Atish Patra 2022-02-18  775  	num_counters = pmu_sbi_find_num_ctrs();
-e9991434596f53 Atish Patra 2022-02-18  776  	if (num_counters < 0) {
-e9991434596f53 Atish Patra 2022-02-18  777  		pr_err("SBI PMU extension doesn't provide any counters\n");
-4905ec2fb7e642 Atish Patra 2022-02-18  778  		goto out_free;
-e9991434596f53 Atish Patra 2022-02-18  779  	}
-e9991434596f53 Atish Patra 2022-02-18  780  
-e9991434596f53 Atish Patra 2022-02-18  781  	/* cache all the information about counters now */
-e9991434596f53 Atish Patra 2022-02-18  782  	if (pmu_sbi_get_ctrinfo(num_counters))
-4905ec2fb7e642 Atish Patra 2022-02-18  783  		goto out_free;
-e9991434596f53 Atish Patra 2022-02-18  784  
-4905ec2fb7e642 Atish Patra 2022-02-18  785  	ret = pmu_sbi_setup_irqs(pmu, pdev);
-4905ec2fb7e642 Atish Patra 2022-02-18  786  	if (ret < 0) {
-4905ec2fb7e642 Atish Patra 2022-02-18  787  		pr_info("Perf sampling/filtering is not supported as sscof extension is not available\n");
-4905ec2fb7e642 Atish Patra 2022-02-18  788  		pmu->pmu.capabilities |= PERF_PMU_CAP_NO_INTERRUPT;
-4905ec2fb7e642 Atish Patra 2022-02-18  789  		pmu->pmu.capabilities |= PERF_PMU_CAP_NO_EXCLUDE;
-4905ec2fb7e642 Atish Patra 2022-02-18  790  	}
-e9991434596f53 Atish Patra 2022-02-18  791  	pmu->num_counters = num_counters;
-e9991434596f53 Atish Patra 2022-02-18  792  	pmu->ctr_start = pmu_sbi_ctr_start;
-e9991434596f53 Atish Patra 2022-02-18  793  	pmu->ctr_stop = pmu_sbi_ctr_stop;
-e9991434596f53 Atish Patra 2022-02-18  794  	pmu->event_map = pmu_sbi_event_map;
-e9991434596f53 Atish Patra 2022-02-18  795  	pmu->ctr_get_idx = pmu_sbi_ctr_get_idx;
-e9991434596f53 Atish Patra 2022-02-18  796  	pmu->ctr_get_width = pmu_sbi_ctr_get_width;
-e9991434596f53 Atish Patra 2022-02-18  797  	pmu->ctr_clear_idx = pmu_sbi_ctr_clear_idx;
-e9991434596f53 Atish Patra 2022-02-18  798  	pmu->ctr_read = pmu_sbi_ctr_read;
-e9991434596f53 Atish Patra 2022-02-18  799  
-e9991434596f53 Atish Patra 2022-02-18  800  	ret = cpuhp_state_add_instance(CPUHP_AP_PERF_RISCV_STARTING, &pmu->node);
-e9991434596f53 Atish Patra 2022-02-18  801  	if (ret)
-e9991434596f53 Atish Patra 2022-02-18 @802  		return ret;
-e9991434596f53 Atish Patra 2022-02-18  803  
-e9a023f2b73ac3 Eric Lin    2022-07-05  804  	ret = riscv_pm_pmu_register(pmu);
-e9a023f2b73ac3 Eric Lin    2022-07-05  805  	if (ret)
-e9a023f2b73ac3 Eric Lin    2022-07-05  806  		goto out_unregister;
-e9a023f2b73ac3 Eric Lin    2022-07-05  807  
-e9991434596f53 Atish Patra 2022-02-18  808  	ret = perf_pmu_register(&pmu->pmu, "cpu", PERF_TYPE_RAW);
-e9a023f2b73ac3 Eric Lin    2022-07-05  809  	if (ret)
-e9a023f2b73ac3 Eric Lin    2022-07-05  810  		goto out_unregister;
-e9991434596f53 Atish Patra 2022-02-18  811  
-e9991434596f53 Atish Patra 2022-02-18  812  	return 0;
-4905ec2fb7e642 Atish Patra 2022-02-18  813  
-e9a023f2b73ac3 Eric Lin    2022-07-05  814  out_unregister:
-e9a023f2b73ac3 Eric Lin    2022-07-05  815  	riscv_pmu_destroy(pmu);
-e9a023f2b73ac3 Eric Lin    2022-07-05  816  
-4905ec2fb7e642 Atish Patra 2022-02-18  817  out_free:
-4905ec2fb7e642 Atish Patra 2022-02-18  818  	kfree(pmu);
-4905ec2fb7e642 Atish Patra 2022-02-18  819  	return ret;
-e9991434596f53 Atish Patra 2022-02-18  820  }
-e9991434596f53 Atish Patra 2022-02-18  821  
-
-:::::: The code at line 802 was first introduced by commit
-:::::: e9991434596f5373dfd75857b445eb92a9253c56 RISC-V: Add perf platform driver based on SBI PMU extension
-
-:::::: TO: Atish Patra <atish.patra@wdc.com>
-:::::: CC: Palmer Dabbelt <palmer@rivosinc.com>
+c92e7ef16400bf Laurent Vivier 2022-04-06  11  
+c92e7ef16400bf Laurent Vivier 2022-04-06 @12  struct goldfish_timer {
+c92e7ef16400bf Laurent Vivier 2022-04-06  13  	struct clocksource cs;
+c92e7ef16400bf Laurent Vivier 2022-04-06  14  	struct clock_event_device ced;
+c92e7ef16400bf Laurent Vivier 2022-04-06  15  	struct resource res;
+c92e7ef16400bf Laurent Vivier 2022-04-06  16  	void __iomem *base;
+c92e7ef16400bf Laurent Vivier 2022-04-06  17  };
+c92e7ef16400bf Laurent Vivier 2022-04-06  18  
 
 -- 
 0-DAY CI Kernel Test Service
