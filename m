@@ -1,42 +1,52 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAC497E5
-	for <oe-kbuild@lists.linux.dev>; Mon, 20 Mar 2023 12:32:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679315564; x=1710851564;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=dwvQkyDXN7axi6TpUWNTJ3l6aM5fOFj9JBk9k3iRO4I=;
-  b=dhbqnwbd/oE1CmYo5MttH/lVqqxWAGMarMEJ7aZii6CePds7aByu86pe
-   izBedLGLFbvuulBSGZsSUO/ycssD8xTOhsX5IqyXqaS/OXAba++jEkVFK
-   8AG/uvSh8txX3xhdZBLVe+nNTkA1th5yLNyQ/ffG9dhwrxgGO0vLVRi3v
-   QbP1Qe9r6Fcb2egB++dBv6qo1qn6+j+u2hV7EZJq8Ic1tcduhKwO/Usb5
-   MGXjjyEQRhB/q31J+nOmovJgLjrqmyWD/mGmy27bxUVAOwmI8Ezf/YZOP
-   Vz5ZKYSve96pNTAeIoWyomhmaYo7CGnW36RblAZcf+zTBA38StSnJffrG
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10654"; a="322489020"
-X-IronPort-AV: E=Sophos;i="5.98,274,1673942400"; 
-   d="scan'208";a="322489020"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2023 05:32:44 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10654"; a="770187550"
-X-IronPort-AV: E=Sophos;i="5.98,274,1673942400"; 
-   d="scan'208";a="770187550"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 20 Mar 2023 05:32:42 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1peEgs-000B2I-0L;
-	Mon, 20 Mar 2023 12:32:42 +0000
-Date: Mon, 20 Mar 2023 20:32:33 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02B64E4F1;
+	Mon, 20 Mar 2023 12:57:12 +0000 (UTC)
+Received: by mail-wm1-f54.google.com with SMTP id l15-20020a05600c4f0f00b003ed58a9a15eso7433320wmq.5;
+        Mon, 20 Mar 2023 05:57:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1679317031;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=HvL+slkyTsieeGJof5szMQgGH5S7JIZZEhTxRggeytU=;
+        b=b/Sj5ljK6PeZaqOEElQ967UiYgmJ2F8dRTNzsgaFau/bb4dJLCWd4N2pqlyHmOHyaw
+         9YwWksQXtuE3LlemF7rOPPkXwJsePmE0kGv6OyOirVM9tRQ2S4yzBc5ZBNnqAulScmf4
+         tBV46Ds0D0UfVkfmfzeS1QtwW8yOS9sUW7//w7jOAtLo7skkE5Of6vGjcI01vIxZXPuX
+         Y5RXtH9ubPHjIF4gzuXb66y+UBe5lo3YAc+tf7atqpig8KTU52/+UI2RIuP12ZOH0wlx
+         wDD8X02BXWPfGuDW9OUHMCqBieJ1gDgdefjNfijgqhPnblQUEkZ9BJyWc9AdwbxyV1i9
+         EnjQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679317031;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=HvL+slkyTsieeGJof5szMQgGH5S7JIZZEhTxRggeytU=;
+        b=Ytcc04lFjMNHytmIFWbGJRnpZepyQa3KFoT+TMJEo3spxIirLWRJ1a6HSvzUEo/FbG
+         1QoARZv5B1+ifq0dMKmvGNBt9qUPu3+j4rGFh0X3L0zCIZy+PVeXUTBV52gXadB1qIj9
+         f4mu+VwxeFlNzgL+r9flDx/u+JX9XorWSMD8ETei/Sr3GgzVBdPczLEmVOiya7g9WacM
+         6fC5eTA2tmkPxTrnhYbypmbgIWfJzuDSRPvSnP1Mv5tyE/G5lfB02npV5QTLu7Tvf8cA
+         bREcBW+V3Dk6IetHnogZ+LQmPn+9ZtfFNrSmAFB6yN9kO1wovklpefj9FoWHsAe2Xxhs
+         A+sQ==
+X-Gm-Message-State: AO0yUKURhFLQclAHfGv949U8yq4VDUvk/Ev/5CUwdSmZ8Soe2dhLShzM
+	HnoN73ShSKGgVSnLLR78h67BNifZCCA=
+X-Google-Smtp-Source: AK7set8KpoqgiJp9ENsmyYOoWci7QkyWDOKsRPDdrTJJK/aIAJnQ05T2f2QvRg8e+aD6u/mjk9C9Vw==
+X-Received: by 2002:a05:600c:474c:b0:3ed:355c:4610 with SMTP id w12-20020a05600c474c00b003ed355c4610mr16014104wmo.35.1679317030794;
+        Mon, 20 Mar 2023 05:57:10 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id q13-20020a05600c46cd00b003e1202744f2sm16773764wmo.31.2023.03.20.05.57.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 20 Mar 2023 05:57:10 -0700 (PDT)
+Date: Mon, 20 Mar 2023 15:57:04 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev,
+	Sreekanth Reddy <sreekanth.reddy@broadcom.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	Himanshu Madhani <himanshu.madhani@oracle.com>
 Subject: drivers/scsi/mpi3mr/mpi3mr_transport.c:1449 mpi3mr_expander_add()
  warn: returning -1 instead of -ENOMEM is sloppy
-Message-ID: <202303202027.ZeDQE5Ug-lkp@intel.com>
+Message-ID: <97d00233-15d8-46b6-b9e7-36c3c73b3a0f@kili.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -46,19 +56,9 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Sreekanth Reddy <sreekanth.reddy@broadcom.com>
-CC: "Martin K. Petersen" <martin.petersen@oracle.com>
-CC: Himanshu Madhani <himanshu.madhani@oracle.com>
-
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   e8d018dd0257f744ca50a729e3d042cf2ec9da65
 commit: e22bae30667a7e74ed057e00fb6e8c79e0738de3 scsi: mpi3mr: Add expander devices to STL
-date:   7 months ago
-:::::: branch date: 16 hours ago
-:::::: commit date: 7 months ago
 config: riscv-randconfig-m031-20230319 (https://download.01.org/0day-ci/archive/20230320/202303202027.ZeDQE5Ug-lkp@intel.com/config)
 compiler: riscv32-linux-gcc (GCC) 12.1.0
 
@@ -72,18 +72,6 @@ drivers/scsi/mpi3mr/mpi3mr_transport.c:1449 mpi3mr_expander_add() warn: returnin
 
 vim +1449 drivers/scsi/mpi3mr/mpi3mr_transport.c
 
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1325  
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1326  /**
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1327   * mpi3mr_expander_add -  Create expander object
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1328   * @mrioc: Adapter instance reference
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1329   * @handle: Expander firmware device handle
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1330   *
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1331   * This function creating expander object, stored in
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1332   * sas_expander_list and expose it to the SAS transport
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1333   * layer.
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1334   *
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1335   * Return: 0 for success, non-zero for failure.
-e22bae30667a7e Sreekanth Reddy 2022-08-04  1336   */
 e22bae30667a7e Sreekanth Reddy 2022-08-04  1337  int mpi3mr_expander_add(struct mpi3mr_ioc *mrioc, u16 handle)
 e22bae30667a7e Sreekanth Reddy 2022-08-04  1338  {
 e22bae30667a7e Sreekanth Reddy 2022-08-04  1339  	struct mpi3mr_sas_node *sas_expander;
@@ -197,6 +185,9 @@ e22bae30667a7e Sreekanth Reddy 2022-08-04  1446  	sas_expander = kzalloc(sizeof(
 e22bae30667a7e Sreekanth Reddy 2022-08-04  1447  	    GFP_KERNEL);
 e22bae30667a7e Sreekanth Reddy 2022-08-04  1448  	if (!sas_expander)
 e22bae30667a7e Sreekanth Reddy 2022-08-04 @1449  		return -1;
+
+return -ENOMEM;
+
 e22bae30667a7e Sreekanth Reddy 2022-08-04  1450  
 e22bae30667a7e Sreekanth Reddy 2022-08-04  1451  	sas_expander->handle = handle;
 e22bae30667a7e Sreekanth Reddy 2022-08-04  1452  	sas_expander->num_phys = expander_pg0.num_phys;
@@ -291,3 +282,4 @@ e22bae30667a7e Sreekanth Reddy 2022-08-04  1539
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
+
