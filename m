@@ -1,243 +1,284 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DF402F2B;
-	Tue, 21 Mar 2023 08:12:06 +0000 (UTC)
-Received: by mail-wm1-f47.google.com with SMTP id u11-20020a05600c19cb00b003edcc414997so4045138wmq.3;
-        Tue, 21 Mar 2023 01:12:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679386324;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=8aDzrMXQdV9J471YpQnPMGExzHql6OoocK9G5mNgnzM=;
-        b=dzVn+Ae2Zyo9CxmjF9Rm2FdEWEZ75+p+aInqZaR+yZIsoicphru4jHUx8LPnFR9drp
-         4DjXdDadwCuBXRKku7l4v9WydOUdJBC8Hrh1v+Uj49ouTf48SGjwuGILJgAv9F8EwdOo
-         y4djaqYExOYPD1ZrHBxeDVj7U1IQNX3KmhGepumakSxybmTV9UhsYZ1FZQT30u2XEJUy
-         7duXlwC5tDDm3cpavvBDI0Myl4BrKDgr7ZmVz/zCuHjUcIgkpQkj6ScLWLQ/hWw1vBBe
-         ihRw6zvGa3OHkGUK73dytOfYqxWB462WubLEE+YA4jLjNUVQb7ArEnd0rgK7y0qzjkjy
-         ttaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679386324;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:message-id:subject:cc:to:from:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=8aDzrMXQdV9J471YpQnPMGExzHql6OoocK9G5mNgnzM=;
-        b=sxwSBCxV1Vv1byKSvXcCxr1OrM9Lu5gJqg4Ww3zYVtLb5XtpGG5+MbhVwB0/s8dMxq
-         0u3j963Ts0qaVQ6V5sPgyRdpPrSfcxzM4ZEZm6j/V/9dSFuojMSbv6a9cfJCIMrqAGgb
-         2D/BlEyqxXaEOyrisFq6VU9XaGFX1YA/D/r+2Wfy6nGED93+8+/PG1dNJhqnyQyg163A
-         jFHYbhLhdf38qhkcol2ZIlMTc5ReykgvpdrADhRoLGPki7CvV+T33wMUAChRJfhrlN6D
-         7WeSICQQ+1Bl2XmX5FNiYgoF97+aOwuGvcMW/S5O8032tYC5s4DvBqB5E15BG55YxOr7
-         wzYA==
-X-Gm-Message-State: AO0yUKUbf5MHyzNgXccHmm/c/wA2jsq9J043vYbP+UI7QsB1PeplOAht
-	7+bDkM1lhc5KbaGR0znCaprdB0OoP9hC6w==
-X-Google-Smtp-Source: AK7set+KN4Us/vSp94x/rHx+6HRRhEssUtYVF57P0e+mtEzkVI95x4Q1Qm1GKwvXRB3LuekEMz4JcQ==
-X-Received: by 2002:a1c:f603:0:b0:3eb:39e7:35fe with SMTP id w3-20020a1cf603000000b003eb39e735femr1512860wmc.30.1679386324310;
-        Tue, 21 Mar 2023 01:12:04 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id s20-20020a7bc394000000b003ee3e075d1csm538583wmj.22.2023.03.21.01.12.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Mar 2023 01:12:03 -0700 (PDT)
-Date: Tue, 21 Mar 2023 11:12:00 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, Elson Roy Serrao <quic_eserrao@quicinc.com>,
-	gregkh@linuxfoundation.org, Thinh.Nguyen@synopsys.com
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-	quic_wcheng@quicinc.com, quic_jackp@quicinc.com,
-	Elson Roy Serrao <quic_eserrao@quicinc.com>
-Subject: Re: [PATCH v12 6/6] usb: gadget: f_ecm: Add suspend/resume and
- remote wakeup support
-Message-ID: <c38b6275-e137-4f32-9232-697b1f188494@kili.mountain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53A401078E
+	for <oe-kbuild@lists.linux.dev>; Tue, 21 Mar 2023 23:21:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1679440876; x=1710976876;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=VEtYw5WPadHi8f2UUxvtTTYGjWXzLvifdBm0aCwCcho=;
+  b=hBCBaXP7DuZ14H0754G/gMcIP5aW9AuFEi4v05Upzve1wg+0qRrQw8Jd
+   3Cb6MO4zd+irJGisE4JC4E48Oj+Uw9AmxMahNZjGfVVeIltmaM9MZOurj
+   BOEeAHLAvPuCPHyZ4bPxf5IXXhCBr9vMcucobq5GgDmvG50p2qyfJR2+L
+   mWTPNUxaEU/8Cx7efhZPrUW2viBHoFAT/eqsZL4aGJE2jstLRsdgufEGF
+   84RgR2SKhDPldfivD/072xA3Mno7tigCnqoqPURW/vPGNTKCP2yDt93iY
+   AzIOJzTowhaSUCLEcTsPocK1AcEkT0Bj5DW7Y5A4JGfuKEO7uBc27zUmq
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="327460201"
+X-IronPort-AV: E=Sophos;i="5.98,279,1673942400"; 
+   d="scan'208";a="327460201"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2023 16:21:01 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="792307088"
+X-IronPort-AV: E=Sophos;i="5.98,279,1673942400"; 
+   d="scan'208";a="792307088"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by fmsmga002.fm.intel.com with ESMTP; 21 Mar 2023 16:21:00 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pelHn-000CXA-2h;
+	Tue, 21 Mar 2023 23:20:59 +0000
+Date: Wed, 22 Mar 2023 07:20:41 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [android-common:android14-5.15 2/11] kernel/trace/ring_buffer.c:2141
+ ring_buffer_resize() warn: variable dereferenced before check 'buffer' (see
+ line 2136)
+Message-ID: <202303220748.j1ALZI9J-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <1679009888-8239-7-git-send-email-quic_eserrao@quicinc.com>
 
-Hi Elson,
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: cros-kernel-buildreports@googlegroups.com
 
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Elson-Roy-Serrao/usb-gadget-Properly-configure-the-device-for-remote-wakeup/20230317-074030
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-patch link:    https://lore.kernel.org/r/1679009888-8239-7-git-send-email-quic_eserrao%40quicinc.com
-patch subject: [PATCH v12 6/6] usb: gadget: f_ecm: Add suspend/resume and remote wakeup support
-config: riscv-randconfig-m031-20230319 (https://download.01.org/0day-ci/archive/20230321/202303211515.XaO8YKCz-lkp@intel.com/config)
-compiler: riscv32-linux-gcc (GCC) 12.1.0
+tree:   https://android.googlesource.com/kernel/common android14-5.15
+head:   01e5d4c8d9b1dc42d6b576c3574398c465ea56a4
+commit: 13188635cc6b5d06a3c78b1200d28511b7221385 [2/11] ANDROID: ring-buffer: Introducing external writer support
+:::::: branch date: 5 hours ago
+:::::: commit date: 8 weeks ago
+config: i386-randconfig-m021 (https://download.01.org/0day-ci/archive/20230322/202303220748.j1ALZI9J-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202303211515.XaO8YKCz-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202303220748.j1ALZI9J-lkp@intel.com/
 
-New smatch warnings:
-drivers/usb/gadget/function/u_ether.c:474 eth_start_xmit() error: we previously assumed 'dev->port_usb' could be null (see line 466)
-drivers/usb/gadget/function/u_ether.c:539 eth_start_xmit() warn: variable dereferenced before check 'dev->port_usb' (see line 474)
+smatch warnings:
+kernel/trace/ring_buffer.c:2141 ring_buffer_resize() warn: variable dereferenced before check 'buffer' (see line 2136)
 
-Old smatch warnings:
-drivers/usb/gadget/function/u_ether.c:553 eth_start_xmit() error: we previously assumed 'skb' could be null (see line 491)
+vim +/buffer +2141 kernel/trace/ring_buffer.c
 
-vim +474 drivers/usb/gadget/function/u_ether.c
+438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2118  
+7a8e76a3829f10 Steven Rostedt            2008-09-29  2119  /**
+7a8e76a3829f10 Steven Rostedt            2008-09-29  2120   * ring_buffer_resize - resize the ring buffer
+7a8e76a3829f10 Steven Rostedt            2008-09-29  2121   * @buffer: the buffer to resize.
+7a8e76a3829f10 Steven Rostedt            2008-09-29  2122   * @size: the new size.
+d611851b421731 zhangwei(Jovi             2013-07-15  2123)  * @cpu_id: the cpu buffer to resize
+7a8e76a3829f10 Steven Rostedt            2008-09-29  2124   *
+7a8e76a3829f10 Steven Rostedt            2008-09-29  2125   * Minimum size is 2 * BUF_PAGE_SIZE.
+7a8e76a3829f10 Steven Rostedt            2008-09-29  2126   *
+83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2127   * Returns 0 on success and < 0 on failure.
+7a8e76a3829f10 Steven Rostedt            2008-09-29  2128   */
+13292494379f92 Steven Rostedt (VMware    2019-12-13  2129) int ring_buffer_resize(struct trace_buffer *buffer, unsigned long size,
+438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2130  			int cpu_id)
+7a8e76a3829f10 Steven Rostedt            2008-09-29  2131  {
+7a8e76a3829f10 Steven Rostedt            2008-09-29  2132  	struct ring_buffer_per_cpu *cpu_buffer;
+9b94a8fba501f3 Steven Rostedt (Red Hat   2016-05-12  2133) 	unsigned long nr_pages;
+0a1754b2a97efa Qiujun Huang              2020-10-19  2134  	int cpu, err;
+7a8e76a3829f10 Steven Rostedt            2008-09-29  2135  
+13188635cc6b5d Vincent Donnefort         2022-08-24 @2136  	if (unlikely(has_ext_writer(buffer)))
+13188635cc6b5d Vincent Donnefort         2022-08-24  2137  		return -EINVAL;
+ee51a1de7e3837 Ingo Molnar               2008-11-13  2138  	/*
+ee51a1de7e3837 Ingo Molnar               2008-11-13  2139  	 * Always succeed at resizing a non-existent buffer:
+ee51a1de7e3837 Ingo Molnar               2008-11-13  2140  	 */
+ee51a1de7e3837 Ingo Molnar               2008-11-13 @2141  	if (!buffer)
+0a1754b2a97efa Qiujun Huang              2020-10-19  2142  		return 0;
+ee51a1de7e3837 Ingo Molnar               2008-11-13  2143  
+6a31e1f135d1ab Steven Rostedt            2012-05-23  2144  	/* Make sure the requested buffer exists */
+6a31e1f135d1ab Steven Rostedt            2012-05-23  2145  	if (cpu_id != RING_BUFFER_ALL_CPUS &&
+6a31e1f135d1ab Steven Rostedt            2012-05-23  2146  	    !cpumask_test_cpu(cpu_id, buffer->cpumask))
+0a1754b2a97efa Qiujun Huang              2020-10-19  2147  		return 0;
+6a31e1f135d1ab Steven Rostedt            2012-05-23  2148  
+59643d1535eb22 Steven Rostedt (Red Hat   2016-05-13  2149) 	nr_pages = DIV_ROUND_UP(size, BUF_PAGE_SIZE);
+7a8e76a3829f10 Steven Rostedt            2008-09-29  2150  
+7a8e76a3829f10 Steven Rostedt            2008-09-29  2151  	/* we need a minimum of two pages */
+59643d1535eb22 Steven Rostedt (Red Hat   2016-05-13  2152) 	if (nr_pages < 2)
+59643d1535eb22 Steven Rostedt (Red Hat   2016-05-13  2153) 		nr_pages = 2;
+7a8e76a3829f10 Steven Rostedt            2008-09-29  2154  
+07b8b10ec94f85 Steven Rostedt (VMware    2020-03-27  2155) 	/* prevent another thread from changing buffer sizes */
+07b8b10ec94f85 Steven Rostedt (VMware    2020-03-27  2156) 	mutex_lock(&buffer->mutex);
+07b8b10ec94f85 Steven Rostedt (VMware    2020-03-27  2157) 
+07b8b10ec94f85 Steven Rostedt (VMware    2020-03-27  2158) 
+07b8b10ec94f85 Steven Rostedt (VMware    2020-03-27  2159) 	if (cpu_id == RING_BUFFER_ALL_CPUS) {
+83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2160  		/*
+83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2161  		 * Don't succeed if resizing is disabled, as a reader might be
+83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2162  		 * manipulating the ring buffer and is expecting a sane state while
+83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2163  		 * this is true.
+83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2164  		 */
+07b8b10ec94f85 Steven Rostedt (VMware    2020-03-27  2165) 		for_each_buffer_cpu(buffer, cpu) {
+07b8b10ec94f85 Steven Rostedt (VMware    2020-03-27  2166) 			cpu_buffer = buffer->buffers[cpu];
+07b8b10ec94f85 Steven Rostedt (VMware    2020-03-27  2167) 			if (atomic_read(&cpu_buffer->resize_disabled)) {
+07b8b10ec94f85 Steven Rostedt (VMware    2020-03-27  2168) 				err = -EBUSY;
+07b8b10ec94f85 Steven Rostedt (VMware    2020-03-27  2169) 				goto out_err_unlock;
+07b8b10ec94f85 Steven Rostedt (VMware    2020-03-27  2170) 			}
+07b8b10ec94f85 Steven Rostedt (VMware    2020-03-27  2171) 		}
+7a8e76a3829f10 Steven Rostedt            2008-09-29  2172  
+438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2173  		/* calculate the pages to update */
+7a8e76a3829f10 Steven Rostedt            2008-09-29  2174  		for_each_buffer_cpu(buffer, cpu) {
+7a8e76a3829f10 Steven Rostedt            2008-09-29  2175  			cpu_buffer = buffer->buffers[cpu];
+7a8e76a3829f10 Steven Rostedt            2008-09-29  2176  
+438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2177  			cpu_buffer->nr_pages_to_update = nr_pages -
+438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2178  							cpu_buffer->nr_pages;
+438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2179  			/*
+438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2180  			 * nothing more to do for removing pages or no update
+438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2181  			 */
+438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2182  			if (cpu_buffer->nr_pages_to_update <= 0)
+438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2183  				continue;
+d7ec4bfed6c974 Vaibhav Nagarnaik         2011-06-07  2184  			/*
+438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2185  			 * to add pages, make sure all new pages can be
+438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2186  			 * allocated without receiving ENOMEM
+d7ec4bfed6c974 Vaibhav Nagarnaik         2011-06-07  2187  			 */
+438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2188  			INIT_LIST_HEAD(&cpu_buffer->new_pages);
+74e2afc6df5782 Qiujun Huang              2020-10-15  2189  			if (__rb_allocate_pages(cpu_buffer, cpu_buffer->nr_pages_to_update,
+74e2afc6df5782 Qiujun Huang              2020-10-15  2190  						&cpu_buffer->new_pages)) {
+438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2191  				/* not enough memory for new pages */
+83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2192  				err = -ENOMEM;
+83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2193  				goto out_err;
+83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2194  			}
+7a8e76a3829f10 Steven Rostedt            2008-09-29  2195  		}
+7a8e76a3829f10 Steven Rostedt            2008-09-29  2196  
+99c37d1a63eafc Sebastian Andrzej Siewior 2021-08-03  2197  		cpus_read_lock();
+83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2198  		/*
+83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2199  		 * Fire off all the required work handlers
+05fdd70d2fe1e3 Vaibhav Nagarnaik         2012-05-18  2200  		 * We can't schedule on offline CPUs, but it's not necessary
+83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2201  		 * since we can change their buffer sizes without any race.
+83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2202  		 */
+83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2203  		for_each_buffer_cpu(buffer, cpu) {
+83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2204  			cpu_buffer = buffer->buffers[cpu];
+05fdd70d2fe1e3 Vaibhav Nagarnaik         2012-05-18  2205  			if (!cpu_buffer->nr_pages_to_update)
+83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2206  				continue;
+83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2207  
+021c5b34452d52 Corey Minyard             2014-07-16  2208  			/* Can't run something on an offline CPU. */
+021c5b34452d52 Corey Minyard             2014-07-16  2209  			if (!cpu_online(cpu)) {
+f5eb5588262cab Steven Rostedt (Red Hat   2013-03-07  2210) 				rb_update_pages(cpu_buffer);
+f5eb5588262cab Steven Rostedt (Red Hat   2013-03-07  2211) 				cpu_buffer->nr_pages_to_update = 0;
+f5eb5588262cab Steven Rostedt (Red Hat   2013-03-07  2212) 			} else {
+05fdd70d2fe1e3 Vaibhav Nagarnaik         2012-05-18  2213  				schedule_work_on(cpu,
+05fdd70d2fe1e3 Vaibhav Nagarnaik         2012-05-18  2214  						&cpu_buffer->update_pages_work);
+f5eb5588262cab Steven Rostedt (Red Hat   2013-03-07  2215) 			}
+438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2216  		}
+83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2217  
+83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2218  		/* wait for all the updates to complete */
+83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2219  		for_each_buffer_cpu(buffer, cpu) {
+83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2220  			cpu_buffer = buffer->buffers[cpu];
+05fdd70d2fe1e3 Vaibhav Nagarnaik         2012-05-18  2221  			if (!cpu_buffer->nr_pages_to_update)
+83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2222  				continue;
+83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2223  
+05fdd70d2fe1e3 Vaibhav Nagarnaik         2012-05-18  2224  			if (cpu_online(cpu))
+05fdd70d2fe1e3 Vaibhav Nagarnaik         2012-05-18  2225  				wait_for_completion(&cpu_buffer->update_done);
+83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2226  			cpu_buffer->nr_pages_to_update = 0;
+7a8e76a3829f10 Steven Rostedt            2008-09-29  2227  		}
+83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2228  
+99c37d1a63eafc Sebastian Andrzej Siewior 2021-08-03  2229  		cpus_read_unlock();
+438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2230  	} else {
+438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2231  		cpu_buffer = buffer->buffers[cpu_id];
+83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2232  
+438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2233  		if (nr_pages == cpu_buffer->nr_pages)
+438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2234  			goto out;
+7a8e76a3829f10 Steven Rostedt            2008-09-29  2235  
+07b8b10ec94f85 Steven Rostedt (VMware    2020-03-27  2236) 		/*
+07b8b10ec94f85 Steven Rostedt (VMware    2020-03-27  2237) 		 * Don't succeed if resizing is disabled, as a reader might be
+07b8b10ec94f85 Steven Rostedt (VMware    2020-03-27  2238) 		 * manipulating the ring buffer and is expecting a sane state while
+07b8b10ec94f85 Steven Rostedt (VMware    2020-03-27  2239) 		 * this is true.
+07b8b10ec94f85 Steven Rostedt (VMware    2020-03-27  2240) 		 */
+07b8b10ec94f85 Steven Rostedt (VMware    2020-03-27  2241) 		if (atomic_read(&cpu_buffer->resize_disabled)) {
+07b8b10ec94f85 Steven Rostedt (VMware    2020-03-27  2242) 			err = -EBUSY;
+07b8b10ec94f85 Steven Rostedt (VMware    2020-03-27  2243) 			goto out_err_unlock;
+07b8b10ec94f85 Steven Rostedt (VMware    2020-03-27  2244) 		}
+07b8b10ec94f85 Steven Rostedt (VMware    2020-03-27  2245) 
+438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2246  		cpu_buffer->nr_pages_to_update = nr_pages -
+438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2247  						cpu_buffer->nr_pages;
+438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2248  
+438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2249  		INIT_LIST_HEAD(&cpu_buffer->new_pages);
+438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2250  		if (cpu_buffer->nr_pages_to_update > 0 &&
+74e2afc6df5782 Qiujun Huang              2020-10-15  2251  			__rb_allocate_pages(cpu_buffer, cpu_buffer->nr_pages_to_update,
+74e2afc6df5782 Qiujun Huang              2020-10-15  2252  					    &cpu_buffer->new_pages)) {
+83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2253  			err = -ENOMEM;
+83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2254  			goto out_err;
+83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2255  		}
+438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2256  
+99c37d1a63eafc Sebastian Andrzej Siewior 2021-08-03  2257  		cpus_read_lock();
+83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2258  
+021c5b34452d52 Corey Minyard             2014-07-16  2259  		/* Can't run something on an offline CPU. */
+021c5b34452d52 Corey Minyard             2014-07-16  2260  		if (!cpu_online(cpu_id))
+f5eb5588262cab Steven Rostedt (Red Hat   2013-03-07  2261) 			rb_update_pages(cpu_buffer);
+f5eb5588262cab Steven Rostedt (Red Hat   2013-03-07  2262) 		else {
+83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2263  			schedule_work_on(cpu_id,
+83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2264  					 &cpu_buffer->update_pages_work);
+05fdd70d2fe1e3 Vaibhav Nagarnaik         2012-05-18  2265  			wait_for_completion(&cpu_buffer->update_done);
+f5eb5588262cab Steven Rostedt (Red Hat   2013-03-07  2266) 		}
+83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2267  
+83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2268  		cpu_buffer->nr_pages_to_update = 0;
+99c37d1a63eafc Sebastian Andrzej Siewior 2021-08-03  2269  		cpus_read_unlock();
+438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2270  	}
+7a8e76a3829f10 Steven Rostedt            2008-09-29  2271  
+7a8e76a3829f10 Steven Rostedt            2008-09-29  2272   out:
+659f451ff21315 Steven Rostedt            2012-05-14  2273  	/*
+659f451ff21315 Steven Rostedt            2012-05-14  2274  	 * The ring buffer resize can happen with the ring buffer
+659f451ff21315 Steven Rostedt            2012-05-14  2275  	 * enabled, so that the update disturbs the tracing as little
+659f451ff21315 Steven Rostedt            2012-05-14  2276  	 * as possible. But if the buffer is disabled, we do not need
+659f451ff21315 Steven Rostedt            2012-05-14  2277  	 * to worry about that, and we can take the time to verify
+659f451ff21315 Steven Rostedt            2012-05-14  2278  	 * that the buffer is not corrupt.
+659f451ff21315 Steven Rostedt            2012-05-14  2279  	 */
+659f451ff21315 Steven Rostedt            2012-05-14  2280  	if (atomic_read(&buffer->record_disabled)) {
+659f451ff21315 Steven Rostedt            2012-05-14  2281  		atomic_inc(&buffer->record_disabled);
+659f451ff21315 Steven Rostedt            2012-05-14  2282  		/*
+659f451ff21315 Steven Rostedt            2012-05-14  2283  		 * Even though the buffer was disabled, we must make sure
+659f451ff21315 Steven Rostedt            2012-05-14  2284  		 * that it is truly disabled before calling rb_check_pages.
+659f451ff21315 Steven Rostedt            2012-05-14  2285  		 * There could have been a race between checking
+659f451ff21315 Steven Rostedt            2012-05-14  2286  		 * record_disable and incrementing it.
+659f451ff21315 Steven Rostedt            2012-05-14  2287  		 */
+7440172974e85b Paul E. McKenney          2018-11-06  2288  		synchronize_rcu();
+659f451ff21315 Steven Rostedt            2012-05-14  2289  		for_each_buffer_cpu(buffer, cpu) {
+659f451ff21315 Steven Rostedt            2012-05-14  2290  			cpu_buffer = buffer->buffers[cpu];
+659f451ff21315 Steven Rostedt            2012-05-14  2291  			rb_check_pages(cpu_buffer);
+659f451ff21315 Steven Rostedt            2012-05-14  2292  		}
+659f451ff21315 Steven Rostedt            2012-05-14  2293  		atomic_dec(&buffer->record_disabled);
+659f451ff21315 Steven Rostedt            2012-05-14  2294  	}
+659f451ff21315 Steven Rostedt            2012-05-14  2295  
+7a8e76a3829f10 Steven Rostedt            2008-09-29  2296  	mutex_unlock(&buffer->mutex);
+0a1754b2a97efa Qiujun Huang              2020-10-19  2297  	return 0;
+7a8e76a3829f10 Steven Rostedt            2008-09-29  2298  
+83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2299   out_err:
+438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2300  	for_each_buffer_cpu(buffer, cpu) {
+438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2301  		struct buffer_page *bpage, *tmp;
+83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2302  
+438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2303  		cpu_buffer = buffer->buffers[cpu];
+438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2304  		cpu_buffer->nr_pages_to_update = 0;
+83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2305  
+438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2306  		if (list_empty(&cpu_buffer->new_pages))
+438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2307  			continue;
+83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2308  
+438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2309  		list_for_each_entry_safe(bpage, tmp, &cpu_buffer->new_pages,
+438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2310  					list) {
+044fa782ebb947 Steven Rostedt            2008-12-02  2311  			list_del_init(&bpage->list);
+044fa782ebb947 Steven Rostedt            2008-12-02  2312  			free_buffer_page(bpage);
+7a8e76a3829f10 Steven Rostedt            2008-09-29  2313  		}
+438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2314  	}
+07b8b10ec94f85 Steven Rostedt (VMware    2020-03-27  2315)  out_err_unlock:
+641d2f63cfe245 Vegard Nossum             2008-11-18  2316  	mutex_unlock(&buffer->mutex);
+83f40318dab00e Vaibhav Nagarnaik         2012-05-03  2317  	return err;
+7a8e76a3829f10 Steven Rostedt            2008-09-29  2318  }
+c4f50183f90fb1 Robert Richter            2008-12-11  2319  EXPORT_SYMBOL_GPL(ring_buffer_resize);
+7a8e76a3829f10 Steven Rostedt            2008-09-29  2320  
 
-25a79c41ce0ce8 drivers/usb/gadget/u_ether.c          Stephen Hemminger   2009-08-31  454  static netdev_tx_t eth_start_xmit(struct sk_buff *skb,
-25a79c41ce0ce8 drivers/usb/gadget/u_ether.c          Stephen Hemminger   2009-08-31  455  					struct net_device *net)
-2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  456  {
-2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  457  	struct eth_dev		*dev = netdev_priv(net);
-6d3865f9d41f15 drivers/usb/gadget/u_ether.c          Jim Baxter          2014-07-07  458  	int			length = 0;
-2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  459  	int			retval;
-2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  460  	struct usb_request	*req = NULL;
-2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  461  	unsigned long		flags;
-2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  462  	struct usb_ep		*in;
-2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  463  	u16			cdc_filter;
-2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  464  
-2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  465  	spin_lock_irqsave(&dev->lock, flags);
-2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19 @466  	if (dev->port_usb) {
-2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  467  		in = dev->port_usb->in_ep;
-2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  468  		cdc_filter = dev->port_usb->cdc_filter;
-2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  469  	} else {
-2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  470  		in = NULL;
-2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  471  		cdc_filter = 0;
+:::::: The code at line 2141 was first introduced by commit
+:::::: ee51a1de7e3837577412be269e0100038068e691 tracing: fix mmiotrace resizing crash
 
-NULL on this path.
-
-2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  472  	}
-11f254fc796c87 drivers/usb/gadget/function/u_ether.c Elson Roy Serrao    2023-03-16  473  
-11f254fc796c87 drivers/usb/gadget/function/u_ether.c Elson Roy Serrao    2023-03-16 @474  	if (dev->port_usb->is_suspend) {
-                                                                                                    ^^^^^^^^^^^^^^^
-Dead.  (Both ->port_usb warnings are caused by this dereference).
-
-11f254fc796c87 drivers/usb/gadget/function/u_ether.c Elson Roy Serrao    2023-03-16  475  		DBG(dev, "Port suspended. Triggering wakeup\n");
-11f254fc796c87 drivers/usb/gadget/function/u_ether.c Elson Roy Serrao    2023-03-16  476  		netif_stop_queue(net);
-11f254fc796c87 drivers/usb/gadget/function/u_ether.c Elson Roy Serrao    2023-03-16  477  		spin_unlock_irqrestore(&dev->lock, flags);
-11f254fc796c87 drivers/usb/gadget/function/u_ether.c Elson Roy Serrao    2023-03-16  478  		ether_wakeup_host(dev->port_usb);
-11f254fc796c87 drivers/usb/gadget/function/u_ether.c Elson Roy Serrao    2023-03-16  479  		return NETDEV_TX_BUSY;
-11f254fc796c87 drivers/usb/gadget/function/u_ether.c Elson Roy Serrao    2023-03-16  480  	}
-11f254fc796c87 drivers/usb/gadget/function/u_ether.c Elson Roy Serrao    2023-03-16  481  
-2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  482  	spin_unlock_irqrestore(&dev->lock, flags);
-2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  483  
-8ae01239609b29 drivers/usb/gadget/function/u_ether.c Maciej Żenczykowski 2021-07-01  484  	if (!in) {
-8ae01239609b29 drivers/usb/gadget/function/u_ether.c Maciej Żenczykowski 2021-07-01  485  		if (skb)
-2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  486  			dev_kfree_skb_any(skb);
-6ed106549d1747 drivers/usb/gadget/u_ether.c          Patrick McHardy     2009-06-23  487  		return NETDEV_TX_OK;
-2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  488  	}
-2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  489  
-2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  490  	/* apply outgoing CDC or RNDIS filters */
-6d3865f9d41f15 drivers/usb/gadget/u_ether.c          Jim Baxter          2014-07-07  491  	if (skb && !is_promisc(cdc_filter)) {
-2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  492  		u8		*dest = skb->data;
-2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  493  
-2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  494  		if (is_multicast_ether_addr(dest)) {
-2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  495  			u16	type;
-2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  496  
-2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  497  			/* ignores USB_CDC_PACKET_TYPE_MULTICAST and host
-2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  498  			 * SET_ETHERNET_MULTICAST_FILTERS requests
-2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  499  			 */
-2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  500  			if (is_broadcast_ether_addr(dest))
-2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  501  				type = USB_CDC_PACKET_TYPE_BROADCAST;
-2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  502  			else
-2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  503  				type = USB_CDC_PACKET_TYPE_ALL_MULTICAST;
-2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  504  			if (!(cdc_filter & type)) {
-2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  505  				dev_kfree_skb_any(skb);
-6ed106549d1747 drivers/usb/gadget/u_ether.c          Patrick McHardy     2009-06-23  506  				return NETDEV_TX_OK;
-2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  507  			}
-2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  508  		}
-2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  509  		/* ignores USB_CDC_PACKET_TYPE_DIRECTED */
-2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  510  	}
-2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  511  
-2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  512  	spin_lock_irqsave(&dev->req_lock, flags);
-2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  513  	/*
-2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  514  	 * this freelist can be empty if an interrupt triggered disconnect()
-2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  515  	 * and reconfigured the gadget (shutting down this queue) after the
-2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  516  	 * network stack decided to xmit but before we got the spinlock.
-2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  517  	 */
-2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  518  	if (list_empty(&dev->tx_reqs)) {
-2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  519  		spin_unlock_irqrestore(&dev->req_lock, flags);
-5b548140225c6b drivers/usb/gadget/u_ether.c          Patrick McHardy     2009-06-12  520  		return NETDEV_TX_BUSY;
-2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  521  	}
-2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  522  
-fea14e68ff5e11 drivers/usb/gadget/function/u_ether.c Felipe Balbi        2017-03-22  523  	req = list_first_entry(&dev->tx_reqs, struct usb_request, list);
-2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  524  	list_del(&req->list);
-2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  525  
-2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  526  	/* temporarily stop TX queue when the freelist empties */
-2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  527  	if (list_empty(&dev->tx_reqs))
-2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  528  		netif_stop_queue(net);
-2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  529  	spin_unlock_irqrestore(&dev->req_lock, flags);
-2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  530  
-2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  531  	/* no buffer copies needed, unless the network stack did it
-2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  532  	 * or the hardware can't use skb buffers.
-2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  533  	 * or there's not enough space for extra headers we need
-2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  534  	 */
-2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  535  	if (dev->wrap) {
-9b39e9ddedeef4 drivers/usb/gadget/u_ether.c          Brian Niebuhr       2009-08-14  536  		unsigned long	flags;
-2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  537  
-9b39e9ddedeef4 drivers/usb/gadget/u_ether.c          Brian Niebuhr       2009-08-14  538  		spin_lock_irqsave(&dev->lock, flags);
-9b39e9ddedeef4 drivers/usb/gadget/u_ether.c          Brian Niebuhr       2009-08-14 @539  		if (dev->port_usb)
-9b39e9ddedeef4 drivers/usb/gadget/u_ether.c          Brian Niebuhr       2009-08-14  540  			skb = dev->wrap(dev->port_usb, skb);
-3a383cc0b8cc33 drivers/usb/gadget/function/u_ether.c Greg Kroah-Hartman  2016-09-19  541  		spin_unlock_irqrestore(&dev->lock, flags);
-6d3865f9d41f15 drivers/usb/gadget/u_ether.c          Jim Baxter          2014-07-07  542  		if (!skb) {
-6d3865f9d41f15 drivers/usb/gadget/u_ether.c          Jim Baxter          2014-07-07  543  			/* Multi frame CDC protocols may store the frame for
-6d3865f9d41f15 drivers/usb/gadget/u_ether.c          Jim Baxter          2014-07-07  544  			 * later which is not a dropped frame.
-6d3865f9d41f15 drivers/usb/gadget/u_ether.c          Jim Baxter          2014-07-07  545  			 */
-88c09eacf560c3 drivers/usb/gadget/function/u_ether.c Peter Chen          2016-07-01  546  			if (dev->port_usb &&
-3a383cc0b8cc33 drivers/usb/gadget/function/u_ether.c Greg Kroah-Hartman  2016-09-19  547  					dev->port_usb->supports_multi_frame)
-6d3865f9d41f15 drivers/usb/gadget/u_ether.c          Jim Baxter          2014-07-07  548  				goto multiframe;
-2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  549  			goto drop;
-6d3865f9d41f15 drivers/usb/gadget/u_ether.c          Jim Baxter          2014-07-07  550  		}
-6d3865f9d41f15 drivers/usb/gadget/u_ether.c          Jim Baxter          2014-07-07  551  	}
-2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  552  
-2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  553  	length = skb->len;
-2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  554  	req->buf = skb->data;
-2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  555  	req->context = skb;
-2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  556  	req->complete = tx_complete;
-2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  557  
-5c1168dbc50828 drivers/usb/gadget/u_ether.c          Yauheni Kaliuta     2010-12-08  558  	/* NCM requires no zlp if transfer is dwNtbInMaxSize */
-79775f44183840 drivers/usb/gadget/function/u_ether.c Harish Jenny K N    2016-09-09  559  	if (dev->port_usb &&
-79775f44183840 drivers/usb/gadget/function/u_ether.c Harish Jenny K N    2016-09-09  560  	    dev->port_usb->is_fixed &&
-5c1168dbc50828 drivers/usb/gadget/u_ether.c          Yauheni Kaliuta     2010-12-08  561  	    length == dev->port_usb->fixed_in_len &&
-5c1168dbc50828 drivers/usb/gadget/u_ether.c          Yauheni Kaliuta     2010-12-08  562  	    (length % in->maxpacket) == 0)
-5c1168dbc50828 drivers/usb/gadget/u_ether.c          Yauheni Kaliuta     2010-12-08  563  		req->zero = 0;
-5c1168dbc50828 drivers/usb/gadget/u_ether.c          Yauheni Kaliuta     2010-12-08  564  	else
-5c1168dbc50828 drivers/usb/gadget/u_ether.c          Yauheni Kaliuta     2010-12-08  565  		req->zero = 1;
-5c1168dbc50828 drivers/usb/gadget/u_ether.c          Yauheni Kaliuta     2010-12-08  566  
-2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  567  	/* use zlp framing on tx for strict CDC-Ether conformance,
-2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  568  	 * though any robust network rx path ignores extra padding.
-2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  569  	 * and some hardware doesn't like to write zlps.
-2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  570  	 */
-5c1168dbc50828 drivers/usb/gadget/u_ether.c          Yauheni Kaliuta     2010-12-08  571  	if (req->zero && !dev->zlp && (length % in->maxpacket) == 0)
-2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  572  		length++;
-2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  573  
-2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  574  	req->length = length;
-2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  575  
-2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  576  	retval = usb_ep_queue(in, req, GFP_ATOMIC);
-2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  577  	switch (retval) {
-2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  578  	default:
-2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  579  		DBG(dev, "tx queue err %d\n", retval);
-2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  580  		break;
-2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  581  	case 0:
-860e9538a9482b drivers/usb/gadget/function/u_ether.c Florian Westphal    2016-05-03  582  		netif_trans_update(net);
-2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  583  		atomic_inc(&dev->tx_qlen);
-2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  584  	}
-2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  585  
-2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  586  	if (retval) {
-9b39e9ddedeef4 drivers/usb/gadget/u_ether.c          Brian Niebuhr       2009-08-14  587  		dev_kfree_skb_any(skb);
-2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  588  drop:
-2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  589  		dev->net->stats.tx_dropped++;
-6d3865f9d41f15 drivers/usb/gadget/u_ether.c          Jim Baxter          2014-07-07  590  multiframe:
-2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  591  		spin_lock_irqsave(&dev->req_lock, flags);
-2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  592  		if (list_empty(&dev->tx_reqs))
-2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  593  			netif_start_queue(net);
-2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  594  		list_add(&req->list, &dev->tx_reqs);
-2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  595  		spin_unlock_irqrestore(&dev->req_lock, flags);
-2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  596  	}
-6ed106549d1747 drivers/usb/gadget/u_ether.c          Patrick McHardy     2009-06-23  597  	return NETDEV_TX_OK;
-2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  598  }
+:::::: TO: Ingo Molnar <mingo@elte.hu>
+:::::: CC: Ingo Molnar <mingo@elte.hu>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
-
