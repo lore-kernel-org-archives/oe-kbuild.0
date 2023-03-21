@@ -1,152 +1,247 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2D3C185D;
-	Tue, 21 Mar 2023 04:53:39 +0000 (UTC)
-Received: by mail-wm1-f46.google.com with SMTP id az3-20020a05600c600300b003ed2920d585so10366266wmb.2;
-        Mon, 20 Mar 2023 21:53:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679374417;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=GX92zv5VKe7ckWl7sGbnyvzQGMyhv0ppTgbomfq1PHk=;
-        b=qF3P8D4CRjzvhUxLVQgRiz6W+/M1ImZhcGKi9Pa0nX1Ff6WYPi63iF4XyriDoUaYvb
-         QnB3UVfLFdHHSS6XYstKNll0YwK6hb3vEAh13/HkjvahLtPX+piikYURGlt/NGF6rytO
-         nq7Bbt4QUIr2WNIQC/V5JWShA/iygKlM8vouw3PhLJeDPHu9S3vLcc3iux3BvtyjfrVT
-         6nt0zQBJhnkTcuy9lSpW/1Rv2qCgBBvXsUSsdrMqvy2WTIZQsOxMqnAvhhENYjQqTMcP
-         M25KrjljExnmI1mbMoAG1TkTQwaBwXvm5mevcQ7qY3Q3+EgAnZOyzxDdlQKsvgYOZFcT
-         /PSw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679374417;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=GX92zv5VKe7ckWl7sGbnyvzQGMyhv0ppTgbomfq1PHk=;
-        b=xN/CFh/c/FtwprilvRPS7zHIFrlQ038jRBcvw9fImQ2k9RjnfRfPnbLFk/Hmrk6nW4
-         Kiaosqdpsbza0Tgl0cDBxG1aE8HLmIx7N9A6gOyWsjPJzOTu7DuRccL+2Y87HGRiAabG
-         OT1Ll61KIMs9IhSNg0VuhmGspjBbNEtyumMUDNWXymzKX7f4eWjWopOlYfVZxMIhNzuc
-         Rz48ztv0iLpG8Gcabp7DhX1kyRRxsCQ8mbCFfPd73quP7g5wZxjoSjbKUgVXuBxRN404
-         dRjaVY4Ich+7CFN7biM7kGgbZWLrtNGGj41IouBKU8bkcBghNKk138UXZjK+uwTd23wB
-         GV+A==
-X-Gm-Message-State: AO0yUKUMdrW0DnP0y2bpUpIByNck51+/nPpcms/NnGAgjtZyzAOiledX
-	VLMEwSUzJUvw2GZLw0Jv782b79QGL/D2kA==
-X-Google-Smtp-Source: AK7set87NeoiO5ioLPK68M5XrIbeQVoFDpjKadoZoPnR87tYfA6zznLp86hd1TMPB583S2T+TthuaA==
-X-Received: by 2002:a05:600c:21c7:b0:3dc:4042:5c21 with SMTP id x7-20020a05600c21c700b003dc40425c21mr1263182wmj.6.1679374417390;
-        Mon, 20 Mar 2023 21:53:37 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id h20-20020a1ccc14000000b003dc522dd25esm12244259wmb.30.2023.03.20.21.53.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Mar 2023 21:53:36 -0700 (PDT)
-Date: Tue, 21 Mar 2023 07:53:32 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, Rob Clark <robdclark@gmail.com>,
-	dri-devel@lists.freedesktop.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Rob Clark <robdclark@chromium.org>, Len Brown <len.brown@intel.com>,
-	Pavel Machek <pavel@ucw.cz>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	linux-arm-msm@vger.kernel.org,
-	"open list:POWER MANAGEMENT CORE" <linux-pm@vger.kernel.org>,
-	open list <linux-kernel@vger.kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	freedreno@lists.freedesktop.org
-Subject: Re: [PATCH v2 18/23] PM / QoS: Decouple request alloc from
- dev_pm_qos_mtx
-Message-ID: <155085b0-d2e4-4503-b75b-1a71193c2587@kili.mountain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75A701FB8
+	for <oe-kbuild@lists.linux.dev>; Tue, 21 Mar 2023 08:08:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1679386115; x=1710922115;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=pBYZwVcXwj+vg3v3FrSBW6V/S8z2Xj7uKHPeQ9XzcmI=;
+  b=kI9b0g99qRkx8yNgFz86szDZdYFrXnxJv+LAzOo15+Xu6QMOBIvtVVSA
+   zM2/fduV6mYRF2iRcR4ZZKhAHzz9IzLHUvKO2zWik7Ki28zGK++fIJEPo
+   qHgSMHKEBTLOxjaPGF3t/3f/FFRd/EwFyyFEyVOUS0YOYqtF4vUgqXWQY
+   UERRhs5KLOmDCrcSWD5AQoj78AFvY3BDDneVPbfU79sdWIwOUURtFokuz
+   idWY8m0ePYb9LczNPs8pxl6Zh658h5uXqdTvWcBX9K/HtXao3GDb4bd0k
+   kSgDAx/zJB4NxZikiEMME8Bu2yvF7bi5pGbSxW5Xp/R5Kieeoegt0pyso
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="338912214"
+X-IronPort-AV: E=Sophos;i="5.98,278,1673942400"; 
+   d="scan'208";a="338912214"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2023 01:08:33 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="750446038"
+X-IronPort-AV: E=Sophos;i="5.98,278,1673942400"; 
+   d="scan'208";a="750446038"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by fmsmga004.fm.intel.com with ESMTP; 21 Mar 2023 01:08:19 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1peX2Z-000BkO-0g;
+	Tue, 21 Mar 2023 08:08:19 +0000
+Date: Tue, 21 Mar 2023 16:07:25 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCH v12 6/6] usb: gadget: f_ecm: Add suspend/resume and
+ remote wakeup support
+Message-ID: <202303211515.XaO8YKCz-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230320144356.803762-19-robdclark@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Rob,
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <1679009888-8239-7-git-send-email-quic_eserrao@quicinc.com>
+References: <1679009888-8239-7-git-send-email-quic_eserrao@quicinc.com>
+TO: Elson Roy Serrao <quic_eserrao@quicinc.com>
+TO: gregkh@linuxfoundation.org
+TO: Thinh.Nguyen@synopsys.com
+CC: linux-kernel@vger.kernel.org
+CC: linux-usb@vger.kernel.org
+CC: quic_wcheng@quicinc.com
+CC: quic_jackp@quicinc.com
+CC: Elson Roy Serrao <quic_eserrao@quicinc.com>
 
+Hi Elson,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on usb/usb-testing]
+[also build test WARNING on usb/usb-next usb/usb-linus linus/master v6.3-rc3 next-20230321]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Rob-Clark/drm-msm-Pre-allocate-hw_fence/20230320-224826
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20230320144356.803762-19-robdclark%40gmail.com
-patch subject: [PATCH v2 18/23] PM / QoS: Decouple request alloc from dev_pm_qos_mtx
-config: arm64-randconfig-m041-20230319 (https://download.01.org/0day-ci/archive/20230321/202303211207.mUCSt3CK-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.1.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Elson-Roy-Serrao/usb-gadget-Properly-configure-the-device-for-remote-wakeup/20230317-074030
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+patch link:    https://lore.kernel.org/r/1679009888-8239-7-git-send-email-quic_eserrao%40quicinc.com
+patch subject: [PATCH v12 6/6] usb: gadget: f_ecm: Add suspend/resume and remote wakeup support
+:::::: branch date: 4 days ago
+:::::: commit date: 4 days ago
+config: riscv-randconfig-m031-20230319 (https://download.01.org/0day-ci/archive/20230321/202303211515.XaO8YKCz-lkp@intel.com/config)
+compiler: riscv32-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202303211207.mUCSt3CK-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202303211515.XaO8YKCz-lkp@intel.com/
 
-smatch warnings:
-drivers/base/power/qos.c:947 dev_pm_qos_update_user_latency_tolerance() error: uninitialized symbol 'req'.
-drivers/base/power/qos.c:975 dev_pm_qos_update_user_latency_tolerance() warn: possible memory leak of 'req'
+New smatch warnings:
+drivers/usb/gadget/function/u_ether.c:474 eth_start_xmit() error: we previously assumed 'dev->port_usb' could be null (see line 466)
+drivers/usb/gadget/function/u_ether.c:539 eth_start_xmit() warn: variable dereferenced before check 'dev->port_usb' (see line 474)
 
-vim +/req +947 drivers/base/power/qos.c
+Old smatch warnings:
+drivers/usb/gadget/function/u_ether.c:553 eth_start_xmit() error: we previously assumed 'skb' could be null (see line 491)
 
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  923  int dev_pm_qos_update_user_latency_tolerance(struct device *dev, s32 val)
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  924  {
-2d7e4629d7265d Rob Clark         2023-03-20  925  	struct dev_pm_qos_request *req = NULL;
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  926  	int ret;
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  927  
-00dd582e52a535 Rob Clark         2023-03-20  928  	ret = dev_pm_qos_constraints_ensure_allocated(dev);
-00dd582e52a535 Rob Clark         2023-03-20  929  	if (ret)
-00dd582e52a535 Rob Clark         2023-03-20  930  		return ret;
-00dd582e52a535 Rob Clark         2023-03-20  931  
-2d7e4629d7265d Rob Clark         2023-03-20  932  	if (!dev->power.qos->latency_tolerance_req)
-2d7e4629d7265d Rob Clark         2023-03-20  933  		req = kzalloc(sizeof(*req), GFP_KERNEL);
-2d7e4629d7265d Rob Clark         2023-03-20  934  
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  935  	mutex_lock(&dev_pm_qos_mtx);
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  936  
-00dd582e52a535 Rob Clark         2023-03-20  937  	if (!dev->power.qos->latency_tolerance_req) {
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  938  		struct dev_pm_qos_request *req;
+vim +474 drivers/usb/gadget/function/u_ether.c
 
-This "req" shadows the ealier req.
-
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  939  
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  940  		if (val < 0) {
-80a6f7c79b7822 Andrew Lutomirski 2016-11-29  941  			if (val == PM_QOS_LATENCY_TOLERANCE_NO_CONSTRAINT)
-80a6f7c79b7822 Andrew Lutomirski 2016-11-29  942  				ret = 0;
-80a6f7c79b7822 Andrew Lutomirski 2016-11-29  943  			else
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  944  				ret = -EINVAL;
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  945  			goto out;
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  946  		}
-2d984ad132a87c Rafael J. Wysocki 2014-02-11 @947  		if (!req) {
-
-So it leads to an unintialized variable and a leak.
-
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  948  			ret = -ENOMEM;
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  949  			goto out;
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  950  		}
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  951  		ret = __dev_pm_qos_add_request(dev, req, DEV_PM_QOS_LATENCY_TOLERANCE, val);
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  952  		if (ret < 0) {
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  953  			kfree(req);
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  954  			goto out;
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  955  		}
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  956  		dev->power.qos->latency_tolerance_req = req;
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  957  	} else {
-2d7e4629d7265d Rob Clark         2023-03-20  958  		/*
-2d7e4629d7265d Rob Clark         2023-03-20  959  		 * If we raced with another thread to allocate the request,
-2d7e4629d7265d Rob Clark         2023-03-20  960  		 * simply free the redundant allocation and move on.
-2d7e4629d7265d Rob Clark         2023-03-20  961  		 */
-2d7e4629d7265d Rob Clark         2023-03-20  962  		if (req)
-2d7e4629d7265d Rob Clark         2023-03-20  963  			kfree(req);
-2d7e4629d7265d Rob Clark         2023-03-20  964  
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  965  		if (val < 0) {
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  966  			__dev_pm_qos_drop_user_request(dev, DEV_PM_QOS_LATENCY_TOLERANCE);
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  967  			ret = 0;
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  968  		} else {
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  969  			ret = __dev_pm_qos_update_request(dev->power.qos->latency_tolerance_req, val);
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  970  		}
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  971  	}
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  972  
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  973   out:
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  974  	mutex_unlock(&dev_pm_qos_mtx);
-2d984ad132a87c Rafael J. Wysocki 2014-02-11 @975  	return ret;
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  976  }
+11f254fc796c87 drivers/usb/gadget/function/u_ether.c Elson Roy Serrao    2023-03-16  453  
+25a79c41ce0ce8 drivers/usb/gadget/u_ether.c          Stephen Hemminger   2009-08-31  454  static netdev_tx_t eth_start_xmit(struct sk_buff *skb,
+25a79c41ce0ce8 drivers/usb/gadget/u_ether.c          Stephen Hemminger   2009-08-31  455  					struct net_device *net)
+2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  456  {
+2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  457  	struct eth_dev		*dev = netdev_priv(net);
+6d3865f9d41f15 drivers/usb/gadget/u_ether.c          Jim Baxter          2014-07-07  458  	int			length = 0;
+2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  459  	int			retval;
+2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  460  	struct usb_request	*req = NULL;
+2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  461  	unsigned long		flags;
+2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  462  	struct usb_ep		*in;
+2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  463  	u16			cdc_filter;
+2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  464  
+2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  465  	spin_lock_irqsave(&dev->lock, flags);
+2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19 @466  	if (dev->port_usb) {
+2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  467  		in = dev->port_usb->in_ep;
+2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  468  		cdc_filter = dev->port_usb->cdc_filter;
+2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  469  	} else {
+2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  470  		in = NULL;
+2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  471  		cdc_filter = 0;
+2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  472  	}
+11f254fc796c87 drivers/usb/gadget/function/u_ether.c Elson Roy Serrao    2023-03-16  473  
+11f254fc796c87 drivers/usb/gadget/function/u_ether.c Elson Roy Serrao    2023-03-16 @474  	if (dev->port_usb->is_suspend) {
+11f254fc796c87 drivers/usb/gadget/function/u_ether.c Elson Roy Serrao    2023-03-16  475  		DBG(dev, "Port suspended. Triggering wakeup\n");
+11f254fc796c87 drivers/usb/gadget/function/u_ether.c Elson Roy Serrao    2023-03-16  476  		netif_stop_queue(net);
+11f254fc796c87 drivers/usb/gadget/function/u_ether.c Elson Roy Serrao    2023-03-16  477  		spin_unlock_irqrestore(&dev->lock, flags);
+11f254fc796c87 drivers/usb/gadget/function/u_ether.c Elson Roy Serrao    2023-03-16  478  		ether_wakeup_host(dev->port_usb);
+11f254fc796c87 drivers/usb/gadget/function/u_ether.c Elson Roy Serrao    2023-03-16  479  		return NETDEV_TX_BUSY;
+11f254fc796c87 drivers/usb/gadget/function/u_ether.c Elson Roy Serrao    2023-03-16  480  	}
+11f254fc796c87 drivers/usb/gadget/function/u_ether.c Elson Roy Serrao    2023-03-16  481  
+2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  482  	spin_unlock_irqrestore(&dev->lock, flags);
+2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  483  
+8ae01239609b29 drivers/usb/gadget/function/u_ether.c Maciej Żenczykowski 2021-07-01  484  	if (!in) {
+8ae01239609b29 drivers/usb/gadget/function/u_ether.c Maciej Żenczykowski 2021-07-01  485  		if (skb)
+2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  486  			dev_kfree_skb_any(skb);
+6ed106549d1747 drivers/usb/gadget/u_ether.c          Patrick McHardy     2009-06-23  487  		return NETDEV_TX_OK;
+2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  488  	}
+2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  489  
+2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  490  	/* apply outgoing CDC or RNDIS filters */
+6d3865f9d41f15 drivers/usb/gadget/u_ether.c          Jim Baxter          2014-07-07  491  	if (skb && !is_promisc(cdc_filter)) {
+2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  492  		u8		*dest = skb->data;
+2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  493  
+2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  494  		if (is_multicast_ether_addr(dest)) {
+2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  495  			u16	type;
+2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  496  
+2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  497  			/* ignores USB_CDC_PACKET_TYPE_MULTICAST and host
+2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  498  			 * SET_ETHERNET_MULTICAST_FILTERS requests
+2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  499  			 */
+2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  500  			if (is_broadcast_ether_addr(dest))
+2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  501  				type = USB_CDC_PACKET_TYPE_BROADCAST;
+2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  502  			else
+2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  503  				type = USB_CDC_PACKET_TYPE_ALL_MULTICAST;
+2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  504  			if (!(cdc_filter & type)) {
+2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  505  				dev_kfree_skb_any(skb);
+6ed106549d1747 drivers/usb/gadget/u_ether.c          Patrick McHardy     2009-06-23  506  				return NETDEV_TX_OK;
+2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  507  			}
+2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  508  		}
+2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  509  		/* ignores USB_CDC_PACKET_TYPE_DIRECTED */
+2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  510  	}
+2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  511  
+2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  512  	spin_lock_irqsave(&dev->req_lock, flags);
+2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  513  	/*
+2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  514  	 * this freelist can be empty if an interrupt triggered disconnect()
+2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  515  	 * and reconfigured the gadget (shutting down this queue) after the
+2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  516  	 * network stack decided to xmit but before we got the spinlock.
+2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  517  	 */
+2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  518  	if (list_empty(&dev->tx_reqs)) {
+2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  519  		spin_unlock_irqrestore(&dev->req_lock, flags);
+5b548140225c6b drivers/usb/gadget/u_ether.c          Patrick McHardy     2009-06-12  520  		return NETDEV_TX_BUSY;
+2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  521  	}
+2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  522  
+fea14e68ff5e11 drivers/usb/gadget/function/u_ether.c Felipe Balbi        2017-03-22  523  	req = list_first_entry(&dev->tx_reqs, struct usb_request, list);
+2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  524  	list_del(&req->list);
+2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  525  
+2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  526  	/* temporarily stop TX queue when the freelist empties */
+2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  527  	if (list_empty(&dev->tx_reqs))
+2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  528  		netif_stop_queue(net);
+2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  529  	spin_unlock_irqrestore(&dev->req_lock, flags);
+2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  530  
+2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  531  	/* no buffer copies needed, unless the network stack did it
+2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  532  	 * or the hardware can't use skb buffers.
+2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  533  	 * or there's not enough space for extra headers we need
+2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  534  	 */
+2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  535  	if (dev->wrap) {
+9b39e9ddedeef4 drivers/usb/gadget/u_ether.c          Brian Niebuhr       2009-08-14  536  		unsigned long	flags;
+2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  537  
+9b39e9ddedeef4 drivers/usb/gadget/u_ether.c          Brian Niebuhr       2009-08-14  538  		spin_lock_irqsave(&dev->lock, flags);
+9b39e9ddedeef4 drivers/usb/gadget/u_ether.c          Brian Niebuhr       2009-08-14 @539  		if (dev->port_usb)
+9b39e9ddedeef4 drivers/usb/gadget/u_ether.c          Brian Niebuhr       2009-08-14  540  			skb = dev->wrap(dev->port_usb, skb);
+3a383cc0b8cc33 drivers/usb/gadget/function/u_ether.c Greg Kroah-Hartman  2016-09-19  541  		spin_unlock_irqrestore(&dev->lock, flags);
+6d3865f9d41f15 drivers/usb/gadget/u_ether.c          Jim Baxter          2014-07-07  542  		if (!skb) {
+6d3865f9d41f15 drivers/usb/gadget/u_ether.c          Jim Baxter          2014-07-07  543  			/* Multi frame CDC protocols may store the frame for
+6d3865f9d41f15 drivers/usb/gadget/u_ether.c          Jim Baxter          2014-07-07  544  			 * later which is not a dropped frame.
+6d3865f9d41f15 drivers/usb/gadget/u_ether.c          Jim Baxter          2014-07-07  545  			 */
+88c09eacf560c3 drivers/usb/gadget/function/u_ether.c Peter Chen          2016-07-01  546  			if (dev->port_usb &&
+3a383cc0b8cc33 drivers/usb/gadget/function/u_ether.c Greg Kroah-Hartman  2016-09-19  547  					dev->port_usb->supports_multi_frame)
+6d3865f9d41f15 drivers/usb/gadget/u_ether.c          Jim Baxter          2014-07-07  548  				goto multiframe;
+2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  549  			goto drop;
+6d3865f9d41f15 drivers/usb/gadget/u_ether.c          Jim Baxter          2014-07-07  550  		}
+6d3865f9d41f15 drivers/usb/gadget/u_ether.c          Jim Baxter          2014-07-07  551  	}
+2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  552  
+2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  553  	length = skb->len;
+2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  554  	req->buf = skb->data;
+2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  555  	req->context = skb;
+2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  556  	req->complete = tx_complete;
+2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  557  
+5c1168dbc50828 drivers/usb/gadget/u_ether.c          Yauheni Kaliuta     2010-12-08  558  	/* NCM requires no zlp if transfer is dwNtbInMaxSize */
+79775f44183840 drivers/usb/gadget/function/u_ether.c Harish Jenny K N    2016-09-09  559  	if (dev->port_usb &&
+79775f44183840 drivers/usb/gadget/function/u_ether.c Harish Jenny K N    2016-09-09  560  	    dev->port_usb->is_fixed &&
+5c1168dbc50828 drivers/usb/gadget/u_ether.c          Yauheni Kaliuta     2010-12-08  561  	    length == dev->port_usb->fixed_in_len &&
+5c1168dbc50828 drivers/usb/gadget/u_ether.c          Yauheni Kaliuta     2010-12-08  562  	    (length % in->maxpacket) == 0)
+5c1168dbc50828 drivers/usb/gadget/u_ether.c          Yauheni Kaliuta     2010-12-08  563  		req->zero = 0;
+5c1168dbc50828 drivers/usb/gadget/u_ether.c          Yauheni Kaliuta     2010-12-08  564  	else
+5c1168dbc50828 drivers/usb/gadget/u_ether.c          Yauheni Kaliuta     2010-12-08  565  		req->zero = 1;
+5c1168dbc50828 drivers/usb/gadget/u_ether.c          Yauheni Kaliuta     2010-12-08  566  
+2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  567  	/* use zlp framing on tx for strict CDC-Ether conformance,
+2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  568  	 * though any robust network rx path ignores extra padding.
+2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  569  	 * and some hardware doesn't like to write zlps.
+2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  570  	 */
+5c1168dbc50828 drivers/usb/gadget/u_ether.c          Yauheni Kaliuta     2010-12-08  571  	if (req->zero && !dev->zlp && (length % in->maxpacket) == 0)
+2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  572  		length++;
+2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  573  
+2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  574  	req->length = length;
+2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  575  
+2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  576  	retval = usb_ep_queue(in, req, GFP_ATOMIC);
+2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  577  	switch (retval) {
+2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  578  	default:
+2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  579  		DBG(dev, "tx queue err %d\n", retval);
+2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  580  		break;
+2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  581  	case 0:
+860e9538a9482b drivers/usb/gadget/function/u_ether.c Florian Westphal    2016-05-03  582  		netif_trans_update(net);
+2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  583  		atomic_inc(&dev->tx_qlen);
+2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  584  	}
+2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  585  
+2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  586  	if (retval) {
+9b39e9ddedeef4 drivers/usb/gadget/u_ether.c          Brian Niebuhr       2009-08-14  587  		dev_kfree_skb_any(skb);
+2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  588  drop:
+2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  589  		dev->net->stats.tx_dropped++;
+6d3865f9d41f15 drivers/usb/gadget/u_ether.c          Jim Baxter          2014-07-07  590  multiframe:
+2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  591  		spin_lock_irqsave(&dev->req_lock, flags);
+2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  592  		if (list_empty(&dev->tx_reqs))
+2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  593  			netif_start_queue(net);
+2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  594  		list_add(&req->list, &dev->tx_reqs);
+2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  595  		spin_unlock_irqrestore(&dev->req_lock, flags);
+2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  596  	}
+6ed106549d1747 drivers/usb/gadget/u_ether.c          Patrick McHardy     2009-06-23  597  	return NETDEV_TX_OK;
+2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  598  }
+2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  599  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
-
