@@ -1,43 +1,54 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75A701FB8
-	for <oe-kbuild@lists.linux.dev>; Tue, 21 Mar 2023 08:08:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679386115; x=1710922115;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=pBYZwVcXwj+vg3v3FrSBW6V/S8z2Xj7uKHPeQ9XzcmI=;
-  b=kI9b0g99qRkx8yNgFz86szDZdYFrXnxJv+LAzOo15+Xu6QMOBIvtVVSA
-   zM2/fduV6mYRF2iRcR4ZZKhAHzz9IzLHUvKO2zWik7Ki28zGK++fIJEPo
-   qHgSMHKEBTLOxjaPGF3t/3f/FFRd/EwFyyFEyVOUS0YOYqtF4vUgqXWQY
-   UERRhs5KLOmDCrcSWD5AQoj78AFvY3BDDneVPbfU79sdWIwOUURtFokuz
-   idWY8m0ePYb9LczNPs8pxl6Zh658h5uXqdTvWcBX9K/HtXao3GDb4bd0k
-   kSgDAx/zJB4NxZikiEMME8Bu2yvF7bi5pGbSxW5Xp/R5Kieeoegt0pyso
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="338912214"
-X-IronPort-AV: E=Sophos;i="5.98,278,1673942400"; 
-   d="scan'208";a="338912214"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2023 01:08:33 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="750446038"
-X-IronPort-AV: E=Sophos;i="5.98,278,1673942400"; 
-   d="scan'208";a="750446038"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 21 Mar 2023 01:08:19 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1peX2Z-000BkO-0g;
-	Tue, 21 Mar 2023 08:08:19 +0000
-Date: Tue, 21 Mar 2023 16:07:25 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DF402F2B;
+	Tue, 21 Mar 2023 08:12:06 +0000 (UTC)
+Received: by mail-wm1-f47.google.com with SMTP id u11-20020a05600c19cb00b003edcc414997so4045138wmq.3;
+        Tue, 21 Mar 2023 01:12:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1679386324;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=8aDzrMXQdV9J471YpQnPMGExzHql6OoocK9G5mNgnzM=;
+        b=dzVn+Ae2Zyo9CxmjF9Rm2FdEWEZ75+p+aInqZaR+yZIsoicphru4jHUx8LPnFR9drp
+         4DjXdDadwCuBXRKku7l4v9WydOUdJBC8Hrh1v+Uj49ouTf48SGjwuGILJgAv9F8EwdOo
+         y4djaqYExOYPD1ZrHBxeDVj7U1IQNX3KmhGepumakSxybmTV9UhsYZ1FZQT30u2XEJUy
+         7duXlwC5tDDm3cpavvBDI0Myl4BrKDgr7ZmVz/zCuHjUcIgkpQkj6ScLWLQ/hWw1vBBe
+         ihRw6zvGa3OHkGUK73dytOfYqxWB462WubLEE+YA4jLjNUVQb7ArEnd0rgK7y0qzjkjy
+         ttaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679386324;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:message-id:subject:cc:to:from:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=8aDzrMXQdV9J471YpQnPMGExzHql6OoocK9G5mNgnzM=;
+        b=sxwSBCxV1Vv1byKSvXcCxr1OrM9Lu5gJqg4Ww3zYVtLb5XtpGG5+MbhVwB0/s8dMxq
+         0u3j963Ts0qaVQ6V5sPgyRdpPrSfcxzM4ZEZm6j/V/9dSFuojMSbv6a9cfJCIMrqAGgb
+         2D/BlEyqxXaEOyrisFq6VU9XaGFX1YA/D/r+2Wfy6nGED93+8+/PG1dNJhqnyQyg163A
+         jFHYbhLhdf38qhkcol2ZIlMTc5ReykgvpdrADhRoLGPki7CvV+T33wMUAChRJfhrlN6D
+         7WeSICQQ+1Bl2XmX5FNiYgoF97+aOwuGvcMW/S5O8032tYC5s4DvBqB5E15BG55YxOr7
+         wzYA==
+X-Gm-Message-State: AO0yUKUbf5MHyzNgXccHmm/c/wA2jsq9J043vYbP+UI7QsB1PeplOAht
+	7+bDkM1lhc5KbaGR0znCaprdB0OoP9hC6w==
+X-Google-Smtp-Source: AK7set+KN4Us/vSp94x/rHx+6HRRhEssUtYVF57P0e+mtEzkVI95x4Q1Qm1GKwvXRB3LuekEMz4JcQ==
+X-Received: by 2002:a1c:f603:0:b0:3eb:39e7:35fe with SMTP id w3-20020a1cf603000000b003eb39e735femr1512860wmc.30.1679386324310;
+        Tue, 21 Mar 2023 01:12:04 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id s20-20020a7bc394000000b003ee3e075d1csm538583wmj.22.2023.03.21.01.12.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 21 Mar 2023 01:12:03 -0700 (PDT)
+Date: Tue, 21 Mar 2023 11:12:00 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev, Elson Roy Serrao <quic_eserrao@quicinc.com>,
+	gregkh@linuxfoundation.org, Thinh.Nguyen@synopsys.com
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+	quic_wcheng@quicinc.com, quic_jackp@quicinc.com,
+	Elson Roy Serrao <quic_eserrao@quicinc.com>
 Subject: Re: [PATCH v12 6/6] usb: gadget: f_ecm: Add suspend/resume and
  remote wakeup support
-Message-ID: <202303211515.XaO8YKCz-lkp@intel.com>
+Message-ID: <c38b6275-e137-4f32-9232-697b1f188494@kili.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -47,36 +58,16 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
 In-Reply-To: <1679009888-8239-7-git-send-email-quic_eserrao@quicinc.com>
-References: <1679009888-8239-7-git-send-email-quic_eserrao@quicinc.com>
-TO: Elson Roy Serrao <quic_eserrao@quicinc.com>
-TO: gregkh@linuxfoundation.org
-TO: Thinh.Nguyen@synopsys.com
-CC: linux-kernel@vger.kernel.org
-CC: linux-usb@vger.kernel.org
-CC: quic_wcheng@quicinc.com
-CC: quic_jackp@quicinc.com
-CC: Elson Roy Serrao <quic_eserrao@quicinc.com>
 
 Hi Elson,
 
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on usb/usb-testing]
-[also build test WARNING on usb/usb-next usb/usb-linus linus/master v6.3-rc3 next-20230321]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
 url:    https://github.com/intel-lab-lkp/linux/commits/Elson-Roy-Serrao/usb-gadget-Properly-configure-the-device-for-remote-wakeup/20230317-074030
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
 patch link:    https://lore.kernel.org/r/1679009888-8239-7-git-send-email-quic_eserrao%40quicinc.com
 patch subject: [PATCH v12 6/6] usb: gadget: f_ecm: Add suspend/resume and remote wakeup support
-:::::: branch date: 4 days ago
-:::::: commit date: 4 days ago
 config: riscv-randconfig-m031-20230319 (https://download.01.org/0day-ci/archive/20230321/202303211515.XaO8YKCz-lkp@intel.com/config)
 compiler: riscv32-linux-gcc (GCC) 12.1.0
 
@@ -94,7 +85,6 @@ drivers/usb/gadget/function/u_ether.c:553 eth_start_xmit() error: we previously 
 
 vim +474 drivers/usb/gadget/function/u_ether.c
 
-11f254fc796c87 drivers/usb/gadget/function/u_ether.c Elson Roy Serrao    2023-03-16  453  
 25a79c41ce0ce8 drivers/usb/gadget/u_ether.c          Stephen Hemminger   2009-08-31  454  static netdev_tx_t eth_start_xmit(struct sk_buff *skb,
 25a79c41ce0ce8 drivers/usb/gadget/u_ether.c          Stephen Hemminger   2009-08-31  455  					struct net_device *net)
 2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  456  {
@@ -113,9 +103,15 @@ vim +474 drivers/usb/gadget/function/u_ether.c
 2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  469  	} else {
 2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  470  		in = NULL;
 2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  471  		cdc_filter = 0;
+
+NULL on this path.
+
 2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  472  	}
 11f254fc796c87 drivers/usb/gadget/function/u_ether.c Elson Roy Serrao    2023-03-16  473  
 11f254fc796c87 drivers/usb/gadget/function/u_ether.c Elson Roy Serrao    2023-03-16 @474  	if (dev->port_usb->is_suspend) {
+                                                                                                    ^^^^^^^^^^^^^^^
+Dead.  (Both ->port_usb warnings are caused by this dereference).
+
 11f254fc796c87 drivers/usb/gadget/function/u_ether.c Elson Roy Serrao    2023-03-16  475  		DBG(dev, "Port suspended. Triggering wakeup\n");
 11f254fc796c87 drivers/usb/gadget/function/u_ether.c Elson Roy Serrao    2023-03-16  476  		netif_stop_queue(net);
 11f254fc796c87 drivers/usb/gadget/function/u_ether.c Elson Roy Serrao    2023-03-16  477  		spin_unlock_irqrestore(&dev->lock, flags);
@@ -240,8 +236,8 @@ fea14e68ff5e11 drivers/usb/gadget/function/u_ether.c Felipe Balbi        2017-03
 2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  596  	}
 6ed106549d1747 drivers/usb/gadget/u_ether.c          Patrick McHardy     2009-06-23  597  	return NETDEV_TX_OK;
 2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  598  }
-2b3d942c487808 drivers/usb/gadget/u_ether.c          David Brownell      2008-06-19  599  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
+
