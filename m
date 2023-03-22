@@ -1,52 +1,41 @@
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADCA82566;
-	Wed, 22 Mar 2023 11:52:53 +0000 (UTC)
-Received: by mail-ed1-f51.google.com with SMTP id eh3so71707258edb.11;
-        Wed, 22 Mar 2023 04:52:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679485971;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ho4jVBmPA9BFJ1NRBlIYYugOjZKS7BAlkcBVP60WOFY=;
-        b=E3Oh+auU0oU56o4Ag9yCvnQ/NujkTP0f/ZvGt/y7CLtux5D3nolsuSjsF/3blUbsfJ
-         eV8kejmE8d95Y+1LNWWto+mgd7RcuFW/gnnl2oipW2ky6GwDEwTAITvLoQwIRCVr1XuF
-         TrpxFzJ2iuDLJPEaATm4qvd+ofG2nx3KYegE/6EmnVs7SxIQfhSr9y3C6/uOqZnWhMhX
-         zuY2iDo1tXjCg3gilbwxs6aj5nBIuOAqJjZx5sgfi0aP0HhadSDasNAGTyOLjgAGY7+J
-         0bl338AYEXDfQgAsGdE0oJ0mikj3pCgQEMIfVKT3kQSNSKFQ1RGdrCXR6Ac1hTNiqRHu
-         ulzQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679485971;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ho4jVBmPA9BFJ1NRBlIYYugOjZKS7BAlkcBVP60WOFY=;
-        b=09emRSaAdwO0VLPPcL8cbT7LbB9mF/SryG86tRgvnMXObo0RvTtMfvdPldQAQVdJrX
-         kA6rBlmKfj3ID4ug28VHk6LxhN3iAqF4D9EtSMLiEMl/u9H2kD4W8S0lmfVaEiqjdtl2
-         yz69NXEuAHDg5G80XUywaSB46hx7KFgUH+eIUTKh3Q9vCzOul7aNH3hHKwyhhn64mdJU
-         36Bk1aRcMwwuY3FTz4GSQzD4QnNxD8Xpe6jOMRpTaehNacDrT3SzjmgWX+wNwwTyQtuk
-         yT0ea4zKfQNHIIKpyW7QLx/rx9ezTyE2Y6iC/CZG43441MVLw+E2Opb+vh1AJ3MeuSmu
-         Vf4A==
-X-Gm-Message-State: AO0yUKW75eIOkUTsYYfrHB8NBGw1aRhWUWkgE4v/91UujQEbevpbwpmx
-	vDPW9vQtNR363NUbQUiBidRHkcZKHD/DpA==
-X-Google-Smtp-Source: AK7set8jk6V8+fNpBSGtiZGLG7GpUDRiZlz/urB9685AOQ4i8HnPZa4QlvotQ+Sk+/vEAa04Pr3snQ==
-X-Received: by 2002:a17:906:eb8b:b0:884:930:b017 with SMTP id mh11-20020a170906eb8b00b008840930b017mr7424514ejb.60.1679485971523;
-        Wed, 22 Mar 2023 04:52:51 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id d8-20020a170906c20800b0093a2160168esm1984974ejz.35.2023.03.22.04.52.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Mar 2023 04:52:51 -0700 (PDT)
-Date: Wed, 22 Mar 2023 14:52:45 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, Tanmay Shah <tanmay.shah@amd.com>,
-	andersson@kernel.org, mathieu.poirier@linaro.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-remoteproc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Tanmay Shah <tanmay.shah@amd.com>,
-	Tarak Reddy <tarak.reddy@amd.com>
-Subject: Re: [PATCH v2 2/2] remoteproc: enhance rproc_put() for clusters
-Message-ID: <82ff071d-cd00-47f8-bc72-4d78bfed731d@kili.mountain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA5F52566
+	for <oe-kbuild@lists.linux.dev>; Wed, 22 Mar 2023 12:29:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1679488181; x=1711024181;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=OX2YRFQSvNCQ73iDQsis53iLHXkZa/Ldqy78+992ncw=;
+  b=nLQ5bGkTZueoYMTfYzwO6zX+SeWUIajM1iW1PYG6VQfyd67eR/nXRDXP
+   82s0T9w/2YAXS0X78W8Yp+UjvhB+sF2rGWICUlgoIRzV4DdrfpLfSOuPZ
+   LJKlUEfoA21SXDVHNt1abImRM1+So4ZXKYJLYcxRTabOR9CVG3Kv9gBB9
+   CCJ4scD7mzJ1f82paVZBr7sHffbz+2GaOPDrhqq8t30RygYIRV8z1trvK
+   nHURQ2QEKGleg0ZyoFfY3Pd+QlkL7HAmGFeV0Vo4BdFKAG4sScI7EoO6a
+   Ou32Zy44CYVqia4Uq922FpyJawNB9t3Dx69TrHWnrGTVkxjV7tomihV7a
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="425485990"
+X-IronPort-AV: E=Sophos;i="5.98,281,1673942400"; 
+   d="scan'208";a="425485990"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2023 05:29:38 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="805793051"
+X-IronPort-AV: E=Sophos;i="5.98,281,1673942400"; 
+   d="scan'208";a="805793051"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by orsmga004.jf.intel.com with ESMTP; 22 Mar 2023 05:29:37 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pexay-000DJ0-30;
+	Wed, 22 Mar 2023 12:29:36 +0000
+Date: Wed, 22 Mar 2023 20:29:32 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCH v5] NFSv3: handle out-of-order write replies.
+Message-ID: <202303222016.Fc6hb6N9-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -55,56 +44,93 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230322040933.924813-3-tanmay.shah@amd.com>
 
-Hi Tanmay,
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <167943762461.8008.3152357340238024342@noble.neil.brown.name>
+References: <167943762461.8008.3152357340238024342@noble.neil.brown.name>
+TO: NeilBrown <neilb@suse.de>
+TO: "trond.myklebust@hammerspace.com" <trond.myklebust@hammerspace.com>
+TO: Anna Schumaker <anna@kernel.org>
+CC: Linux NFS Mailing List <linux-nfs@vger.kernel.org>
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Tanmay-Shah/remoteproc-Make-rproc_get_by_phandle-work-for-clusters/20230322-121102
-base:   e19967994d342a5986d950a1bfddf19d7e1191b7
-patch link:    https://lore.kernel.org/r/20230322040933.924813-3-tanmay.shah%40amd.com
-patch subject: [PATCH v2 2/2] remoteproc: enhance rproc_put() for clusters
-config: powerpc-randconfig-m041-20230322 (https://download.01.org/0day-ci/archive/20230322/202303221916.LgKkr8Gk-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 12.1.0
+Hi NeilBrown,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on trondmy-nfs/linux-next]
+[also build test WARNING on linus/master v6.3-rc3 next-20230322]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/NeilBrown/NFSv3-handle-out-of-order-write-replies/20230322-062808
+base:   git://git.linux-nfs.org/projects/trondmy/linux-nfs.git linux-next
+patch link:    https://lore.kernel.org/r/167943762461.8008.3152357340238024342%40noble.neil.brown.name
+patch subject: [PATCH v5] NFSv3: handle out-of-order write replies.
+:::::: branch date: 14 hours ago
+:::::: commit date: 14 hours ago
+config: x86_64-randconfig-m001 (https://download.01.org/0day-ci/archive/20230322/202303222016.Fc6hb6N9-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202303221916.LgKkr8Gk-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202303222016.Fc6hb6N9-lkp@intel.com/
 
 smatch warnings:
-drivers/remoteproc/remoteproc_core.c:2565 rproc_put() warn: variable dereferenced before check 'rproc->dev.parent' (see line 2562)
-drivers/remoteproc/remoteproc_core.c:2566 rproc_put() warn: variable dereferenced before check 'rproc->dev.parent->driver' (see line 2562)
+fs/nfs/inode.c:1854 nfs_ooo_merge() error: testing array offset 'cnt' after use.
 
-vim +2565 drivers/remoteproc/remoteproc_core.c
+vim +/cnt +1854 fs/nfs/inode.c
 
-160e7c840fe858 Ohad Ben-Cohen  2012-07-04  2560  void rproc_put(struct rproc *rproc)
-400e64df6b237e Ohad Ben-Cohen  2011-10-20  2561  {
-fbb6aacb078285 Bjorn Andersson 2016-10-02 @2562  	module_put(rproc->dev.parent->driver->owner);
-                                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Unchecked dereferences.
-
-573d22d13a6970 Tanmay Shah     2023-03-21  2563  	struct platform_device *cluster_pdev;
-573d22d13a6970 Tanmay Shah     2023-03-21  2564  
-573d22d13a6970 Tanmay Shah     2023-03-21 @2565  	if (rproc->dev.parent) {
-                                                            ^^^^^^^^^^^^^^^^^
-Checked too late.
-
-573d22d13a6970 Tanmay Shah     2023-03-21 @2566  		if (rproc->dev.parent->driver) {
-                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^
-
-573d22d13a6970 Tanmay Shah     2023-03-21  2567  			module_put(rproc->dev.parent->driver->owner);
-573d22d13a6970 Tanmay Shah     2023-03-21  2568  		} else {
-573d22d13a6970 Tanmay Shah     2023-03-21  2569  			cluster_pdev = of_find_device_by_node(rproc->dev.parent->of_node->parent);
-573d22d13a6970 Tanmay Shah     2023-03-21  2570  			if (cluster_pdev) {
-573d22d13a6970 Tanmay Shah     2023-03-21  2571  				module_put(cluster_pdev->dev.driver->owner);
-573d22d13a6970 Tanmay Shah     2023-03-21  2572  				put_device(&cluster_pdev->dev);
-573d22d13a6970 Tanmay Shah     2023-03-21  2573  			}
-573d22d13a6970 Tanmay Shah     2023-03-21  2574  		}
-573d22d13a6970 Tanmay Shah     2023-03-21  2575  	}
-b5ab5e24e960b9 Ohad Ben-Cohen  2012-05-30  2576  	put_device(&rproc->dev);
-400e64df6b237e Ohad Ben-Cohen  2011-10-20  2577  }
+7b24dacf084005 Trond Myklebust 2021-04-09  1820  
+4bd0ae11044aa9 NeilBrown       2023-03-22  1821  static void nfs_ooo_merge(struct nfs_inode *nfsi,
+4bd0ae11044aa9 NeilBrown       2023-03-22  1822  			  u64 start, u64 end)
+4bd0ae11044aa9 NeilBrown       2023-03-22  1823  {
+4bd0ae11044aa9 NeilBrown       2023-03-22  1824  	int i, cnt;
+4bd0ae11044aa9 NeilBrown       2023-03-22  1825  
+4bd0ae11044aa9 NeilBrown       2023-03-22  1826  	if (nfsi->cache_validity & NFS_INO_DATA_INVAL_DEFER)
+4bd0ae11044aa9 NeilBrown       2023-03-22  1827  		/* No point merging anything */
+4bd0ae11044aa9 NeilBrown       2023-03-22  1828  		return;
+4bd0ae11044aa9 NeilBrown       2023-03-22  1829  
+4bd0ae11044aa9 NeilBrown       2023-03-22  1830  	if (!nfsi->ooo) {
+4bd0ae11044aa9 NeilBrown       2023-03-22  1831  		nfsi->ooo = kmalloc(sizeof(*nfsi->ooo), GFP_ATOMIC);
+4bd0ae11044aa9 NeilBrown       2023-03-22  1832  		if (!nfsi->ooo) {
+4bd0ae11044aa9 NeilBrown       2023-03-22  1833  			nfsi->cache_validity |= NFS_INO_DATA_INVAL_DEFER;
+4bd0ae11044aa9 NeilBrown       2023-03-22  1834  			return;
+4bd0ae11044aa9 NeilBrown       2023-03-22  1835  		}
+4bd0ae11044aa9 NeilBrown       2023-03-22  1836  		nfsi->ooo->cnt = 0;
+4bd0ae11044aa9 NeilBrown       2023-03-22  1837  	}
+4bd0ae11044aa9 NeilBrown       2023-03-22  1838  
+4bd0ae11044aa9 NeilBrown       2023-03-22  1839  	/* add this range, merging if possible */
+4bd0ae11044aa9 NeilBrown       2023-03-22  1840  	cnt = nfsi->ooo->cnt;
+4bd0ae11044aa9 NeilBrown       2023-03-22  1841  	for (i = 0; i < cnt; i++) {
+4bd0ae11044aa9 NeilBrown       2023-03-22  1842  		if (end == nfsi->ooo->gap[i].start)
+4bd0ae11044aa9 NeilBrown       2023-03-22  1843  			end = nfsi->ooo->gap[i].end;
+4bd0ae11044aa9 NeilBrown       2023-03-22  1844  		else if (start == nfsi->ooo->gap[i].end)
+4bd0ae11044aa9 NeilBrown       2023-03-22  1845  			start = nfsi->ooo->gap[i].start;
+4bd0ae11044aa9 NeilBrown       2023-03-22  1846  		else
+4bd0ae11044aa9 NeilBrown       2023-03-22  1847  			continue;
+4bd0ae11044aa9 NeilBrown       2023-03-22  1848  		/* Remove 'i' from table and loop to insert the new range */
+4bd0ae11044aa9 NeilBrown       2023-03-22  1849  		cnt -= 1;
+4bd0ae11044aa9 NeilBrown       2023-03-22  1850  		nfsi->ooo->gap[i] = nfsi->ooo->gap[cnt];
+4bd0ae11044aa9 NeilBrown       2023-03-22  1851  		i = -1;
+4bd0ae11044aa9 NeilBrown       2023-03-22  1852  	}
+4bd0ae11044aa9 NeilBrown       2023-03-22  1853  	if (start != end) {
+4bd0ae11044aa9 NeilBrown       2023-03-22 @1854  		if (cnt >= ARRAY_SIZE(nfsi->ooo->gap)) {
+4bd0ae11044aa9 NeilBrown       2023-03-22  1855  			nfsi->cache_validity |= NFS_INO_DATA_INVAL_DEFER;
+4bd0ae11044aa9 NeilBrown       2023-03-22  1856  			kfree(nfsi->ooo);
+4bd0ae11044aa9 NeilBrown       2023-03-22  1857  			nfsi->ooo = NULL;
+4bd0ae11044aa9 NeilBrown       2023-03-22  1858  			return;
+4bd0ae11044aa9 NeilBrown       2023-03-22  1859  		}
+4bd0ae11044aa9 NeilBrown       2023-03-22  1860  		nfsi->ooo->gap[cnt].start = start;
+4bd0ae11044aa9 NeilBrown       2023-03-22  1861  		nfsi->ooo->gap[cnt].end = end;
+4bd0ae11044aa9 NeilBrown       2023-03-22  1862  		cnt += 1;
+4bd0ae11044aa9 NeilBrown       2023-03-22  1863  	}
+4bd0ae11044aa9 NeilBrown       2023-03-22  1864  	nfsi->ooo->cnt = cnt;
+4bd0ae11044aa9 NeilBrown       2023-03-22  1865  }
+4bd0ae11044aa9 NeilBrown       2023-03-22  1866  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
-
