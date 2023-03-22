@@ -1,41 +1,42 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA5F52566
-	for <oe-kbuild@lists.linux.dev>; Wed, 22 Mar 2023 12:29:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6B2E2584
+	for <oe-kbuild@lists.linux.dev>; Wed, 22 Mar 2023 12:29:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679488181; x=1711024181;
+  t=1679488182; x=1711024182;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=OX2YRFQSvNCQ73iDQsis53iLHXkZa/Ldqy78+992ncw=;
-  b=nLQ5bGkTZueoYMTfYzwO6zX+SeWUIajM1iW1PYG6VQfyd67eR/nXRDXP
-   82s0T9w/2YAXS0X78W8Yp+UjvhB+sF2rGWICUlgoIRzV4DdrfpLfSOuPZ
-   LJKlUEfoA21SXDVHNt1abImRM1+So4ZXKYJLYcxRTabOR9CVG3Kv9gBB9
-   CCJ4scD7mzJ1f82paVZBr7sHffbz+2GaOPDrhqq8t30RygYIRV8z1trvK
-   nHURQ2QEKGleg0ZyoFfY3Pd+QlkL7HAmGFeV0Vo4BdFKAG4sScI7EoO6a
-   Ou32Zy44CYVqia4Uq922FpyJawNB9t3Dx69TrHWnrGTVkxjV7tomihV7a
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="425485990"
+  bh=SnSzvN2q8UDWy5PcrkbsIRtuoYYx8QX8A9N27o7vqaM=;
+  b=ZvkNHhRbvisnNJ/PaQPXVzBasRKeQBVRy0rxvc5Ez6NLM5/o8wMFDXTU
+   vsSpxRQrAumzEuDpqRY4fAgYlKH6mbOLGnM2d6YDzomDwUXsZ4ZQcNeXx
+   IH+uej2twIX53e7wgKJtNb1aSxK6v9it3fz7nFspu/WXQnYC1bAlw49bO
+   te8ww8Fs5P4AAcvQ4UkerB47KXV9bMt+enFvs2AQbmUIPRgpweCrZ2hHj
+   W2sA+tE8g2AzpZJwu6YWLgFEQJa/IUy9WFr9d9069olKgfGabu3W0yHQ9
+   DbyspSN7IJCxwaIR7aSzBkNKL6LTf2AOAy32o/5iuIn+fnDsPiRqs0Fu0
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="366935066"
 X-IronPort-AV: E=Sophos;i="5.98,281,1673942400"; 
-   d="scan'208";a="425485990"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2023 05:29:38 -0700
+   d="scan'208";a="366935066"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2023 05:29:40 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="805793051"
+X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="771021585"
 X-IronPort-AV: E=Sophos;i="5.98,281,1673942400"; 
-   d="scan'208";a="805793051"
+   d="scan'208";a="771021585"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 22 Mar 2023 05:29:37 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 22 Mar 2023 05:29:37 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pexay-000DJ0-30;
+	id 1pexay-000DJ2-36;
 	Wed, 22 Mar 2023 12:29:36 +0000
 Date: Wed, 22 Mar 2023 20:29:32 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH v5] NFSv3: handle out-of-order write replies.
-Message-ID: <202303222016.Fc6hb6N9-lkp@intel.com>
+Subject: [tip:x86/shstk 21/40] include/linux/mm.h:3145
+ stack_guard_start_gap() warn: bitwise AND condition is false here
+Message-ID: <202303222047.1AP5Kdjv-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -47,89 +48,45 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <167943762461.8008.3152357340238024342@noble.neil.brown.name>
-References: <167943762461.8008.3152357340238024342@noble.neil.brown.name>
-TO: NeilBrown <neilb@suse.de>
-TO: "trond.myklebust@hammerspace.com" <trond.myklebust@hammerspace.com>
-TO: Anna Schumaker <anna@kernel.org>
-CC: Linux NFS Mailing List <linux-nfs@vger.kernel.org>
+CC: linux-kernel@vger.kernel.org
+CC: x86@kernel.org
+TO: Rick Edgecombe <rick.p.edgecombe@intel.com>
+CC: Dave Hansen <dave.hansen@linux.intel.com>
+CC: "Yu-cheng Yu" <yu-cheng.yu@intel.com>
+CC: "Borislav Petkov (AMD)" <bp@alien8.de>
+CC: Kees Cook <keescook@chromium.org>
 
-Hi NeilBrown,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on trondmy-nfs/linux-next]
-[also build test WARNING on linus/master v6.3-rc3 next-20230322]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/NeilBrown/NFSv3-handle-out-of-order-write-replies/20230322-062808
-base:   git://git.linux-nfs.org/projects/trondmy/linux-nfs.git linux-next
-patch link:    https://lore.kernel.org/r/167943762461.8008.3152357340238024342%40noble.neil.brown.name
-patch subject: [PATCH v5] NFSv3: handle out-of-order write replies.
-:::::: branch date: 14 hours ago
-:::::: commit date: 14 hours ago
-config: x86_64-randconfig-m001 (https://download.01.org/0day-ci/archive/20230322/202303222016.Fc6hb6N9-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git x86/shstk
+head:   b642e9e5f0dc797f543b431d4ba910a3da72a074
+commit: 2d4ef66720386d567e64e95008d4bdd0812bcbd2 [21/40] mm: Add guard pages around a shadow stack.
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: x86_64-randconfig-m001 (https://download.01.org/0day-ci/archive/20230322/202303222047.1AP5Kdjv-lkp@intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202303222016.Fc6hb6N9-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202303222047.1AP5Kdjv-lkp@intel.com/
 
 smatch warnings:
-fs/nfs/inode.c:1854 nfs_ooo_merge() error: testing array offset 'cnt' after use.
+include/linux/mm.h:3145 stack_guard_start_gap() warn: bitwise AND condition is false here
 
-vim +/cnt +1854 fs/nfs/inode.c
+vim +3145 include/linux/mm.h
 
-7b24dacf084005 Trond Myklebust 2021-04-09  1820  
-4bd0ae11044aa9 NeilBrown       2023-03-22  1821  static void nfs_ooo_merge(struct nfs_inode *nfsi,
-4bd0ae11044aa9 NeilBrown       2023-03-22  1822  			  u64 start, u64 end)
-4bd0ae11044aa9 NeilBrown       2023-03-22  1823  {
-4bd0ae11044aa9 NeilBrown       2023-03-22  1824  	int i, cnt;
-4bd0ae11044aa9 NeilBrown       2023-03-22  1825  
-4bd0ae11044aa9 NeilBrown       2023-03-22  1826  	if (nfsi->cache_validity & NFS_INO_DATA_INVAL_DEFER)
-4bd0ae11044aa9 NeilBrown       2023-03-22  1827  		/* No point merging anything */
-4bd0ae11044aa9 NeilBrown       2023-03-22  1828  		return;
-4bd0ae11044aa9 NeilBrown       2023-03-22  1829  
-4bd0ae11044aa9 NeilBrown       2023-03-22  1830  	if (!nfsi->ooo) {
-4bd0ae11044aa9 NeilBrown       2023-03-22  1831  		nfsi->ooo = kmalloc(sizeof(*nfsi->ooo), GFP_ATOMIC);
-4bd0ae11044aa9 NeilBrown       2023-03-22  1832  		if (!nfsi->ooo) {
-4bd0ae11044aa9 NeilBrown       2023-03-22  1833  			nfsi->cache_validity |= NFS_INO_DATA_INVAL_DEFER;
-4bd0ae11044aa9 NeilBrown       2023-03-22  1834  			return;
-4bd0ae11044aa9 NeilBrown       2023-03-22  1835  		}
-4bd0ae11044aa9 NeilBrown       2023-03-22  1836  		nfsi->ooo->cnt = 0;
-4bd0ae11044aa9 NeilBrown       2023-03-22  1837  	}
-4bd0ae11044aa9 NeilBrown       2023-03-22  1838  
-4bd0ae11044aa9 NeilBrown       2023-03-22  1839  	/* add this range, merging if possible */
-4bd0ae11044aa9 NeilBrown       2023-03-22  1840  	cnt = nfsi->ooo->cnt;
-4bd0ae11044aa9 NeilBrown       2023-03-22  1841  	for (i = 0; i < cnt; i++) {
-4bd0ae11044aa9 NeilBrown       2023-03-22  1842  		if (end == nfsi->ooo->gap[i].start)
-4bd0ae11044aa9 NeilBrown       2023-03-22  1843  			end = nfsi->ooo->gap[i].end;
-4bd0ae11044aa9 NeilBrown       2023-03-22  1844  		else if (start == nfsi->ooo->gap[i].end)
-4bd0ae11044aa9 NeilBrown       2023-03-22  1845  			start = nfsi->ooo->gap[i].start;
-4bd0ae11044aa9 NeilBrown       2023-03-22  1846  		else
-4bd0ae11044aa9 NeilBrown       2023-03-22  1847  			continue;
-4bd0ae11044aa9 NeilBrown       2023-03-22  1848  		/* Remove 'i' from table and loop to insert the new range */
-4bd0ae11044aa9 NeilBrown       2023-03-22  1849  		cnt -= 1;
-4bd0ae11044aa9 NeilBrown       2023-03-22  1850  		nfsi->ooo->gap[i] = nfsi->ooo->gap[cnt];
-4bd0ae11044aa9 NeilBrown       2023-03-22  1851  		i = -1;
-4bd0ae11044aa9 NeilBrown       2023-03-22  1852  	}
-4bd0ae11044aa9 NeilBrown       2023-03-22  1853  	if (start != end) {
-4bd0ae11044aa9 NeilBrown       2023-03-22 @1854  		if (cnt >= ARRAY_SIZE(nfsi->ooo->gap)) {
-4bd0ae11044aa9 NeilBrown       2023-03-22  1855  			nfsi->cache_validity |= NFS_INO_DATA_INVAL_DEFER;
-4bd0ae11044aa9 NeilBrown       2023-03-22  1856  			kfree(nfsi->ooo);
-4bd0ae11044aa9 NeilBrown       2023-03-22  1857  			nfsi->ooo = NULL;
-4bd0ae11044aa9 NeilBrown       2023-03-22  1858  			return;
-4bd0ae11044aa9 NeilBrown       2023-03-22  1859  		}
-4bd0ae11044aa9 NeilBrown       2023-03-22  1860  		nfsi->ooo->gap[cnt].start = start;
-4bd0ae11044aa9 NeilBrown       2023-03-22  1861  		nfsi->ooo->gap[cnt].end = end;
-4bd0ae11044aa9 NeilBrown       2023-03-22  1862  		cnt += 1;
-4bd0ae11044aa9 NeilBrown       2023-03-22  1863  	}
-4bd0ae11044aa9 NeilBrown       2023-03-22  1864  	nfsi->ooo->cnt = cnt;
-4bd0ae11044aa9 NeilBrown       2023-03-22  1865  }
-4bd0ae11044aa9 NeilBrown       2023-03-22  1866  
+ce6d42f2e4a2d9 Liam Howlett   2021-06-28  3138  
+2d4ef66720386d Rick Edgecombe 2023-03-18  3139  static inline unsigned long stack_guard_start_gap(struct vm_area_struct *vma)
+2d4ef66720386d Rick Edgecombe 2023-03-18  3140  {
+2d4ef66720386d Rick Edgecombe 2023-03-18  3141  	if (vma->vm_flags & VM_GROWSDOWN)
+2d4ef66720386d Rick Edgecombe 2023-03-18  3142  		return stack_guard_gap;
+2d4ef66720386d Rick Edgecombe 2023-03-18  3143  
+2d4ef66720386d Rick Edgecombe 2023-03-18  3144  	/* See reasoning around the VM_SHADOW_STACK definition */
+2d4ef66720386d Rick Edgecombe 2023-03-18 @3145  	if (vma->vm_flags & VM_SHADOW_STACK)
+2d4ef66720386d Rick Edgecombe 2023-03-18  3146  		return PAGE_SIZE;
+2d4ef66720386d Rick Edgecombe 2023-03-18  3147  
+2d4ef66720386d Rick Edgecombe 2023-03-18  3148  	return 0;
+2d4ef66720386d Rick Edgecombe 2023-03-18  3149  }
+2d4ef66720386d Rick Edgecombe 2023-03-18  3150  
 
 -- 
 0-DAY CI Kernel Test Service
