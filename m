@@ -1,41 +1,42 @@
 Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1D782566
-	for <oe-kbuild@lists.linux.dev>; Wed, 22 Mar 2023 11:28:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 559442566
+	for <oe-kbuild@lists.linux.dev>; Wed, 22 Mar 2023 11:39:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679484516; x=1711020516;
+  t=1679485177; x=1711021177;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=7p7PV0YshYbccETWtZFqtpHjGQnjdVs8I1RkCwj0J04=;
-  b=nq7pLYnboPMxUNA/umbty0GD3FUJVTdpu5NUs/ZCfa8e/rDw+/wAmB9c
-   z0BFfU6oZMBXypDIzP8WvZQ861xZHFnHbp/dXaRtkGHPmT5azhuVj0i63
-   Y+oV7nhiAKO04p0rwVN+J6Oc6N6xJ9UN3WubHEsodCZ7CCmzSrTGxG/bu
-   QwAYJU0+L/JladwbJjl80dE+n3xcjuKDVW9dRfDmM4XCs0nxNSAy4zus/
-   fxg04uK+M1MLdRrll+DoXKtg584DNXjm6h4kBk788UPUlVc0v9dZo2AX1
-   bXVdnlJPfmn/VSo8YC8HIm8oDmmB71Tb0m6lJvsyORr8SKea5GaHXd7o5
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="319580015"
+  bh=dpkLSV8nSoIrww4xxDPoO+mkAS845T1I3dri50v4wSg=;
+  b=P23s9uEK4+fgKt6gWJ2v8lo09O0fG14TgzvyI0rXwyEXRUkImTGjPuFy
+   m6qjspmxH5OrPffRxX7B5++EoLiSZNZJtnkCFYt/BAqHxIeUYxXd1kmj/
+   k1KIK6FrIpb0b5WdNUo3GYC7ZlAb1WesAhQhWokxea8+f9kMiWYsUw8/K
+   ZHzYe7ZNd3jvWYVkeoLK9aGNt+OROd01aNT70yS5UwAUBMTfjbSKwk7pU
+   2+8wRSq43ZhsCMfU/4e1X4dDQ6Z42wIyNzaaKCfTdW3bF/RtncgeWXfrY
+   cUKLBVanGu2khsQzNec0DYmnyiSmLbStSyMa0DTQBYZaEJs7fQiI4KH4f
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="319581958"
 X-IronPort-AV: E=Sophos;i="5.98,281,1673942400"; 
-   d="scan'208";a="319580015"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2023 04:28:36 -0700
+   d="scan'208";a="319581958"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2023 04:39:36 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="792515012"
+X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="1011327718"
 X-IronPort-AV: E=Sophos;i="5.98,281,1673942400"; 
-   d="scan'208";a="792515012"
+   d="scan'208";a="1011327718"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 22 Mar 2023 04:28:35 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 22 Mar 2023 04:39:35 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pewdu-000DEM-1G;
-	Wed, 22 Mar 2023 11:28:34 +0000
-Date: Wed, 22 Mar 2023 19:28:09 +0800
+	id 1pewoY-000DFQ-3B;
+	Wed, 22 Mar 2023 11:39:34 +0000
+Date: Wed, 22 Mar 2023 19:38:38 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH v2 2/2] remoteproc: enhance rproc_put() for clusters
-Message-ID: <202303221916.LgKkr8Gk-lkp@intel.com>
+Subject: arch/riscv/kernel/compat_signal.c:116 compat_restore_sigcontext()
+ warn: maybe return -EFAULT instead of the bytes remaining?
+Message-ID: <202303221911.0Y0bXa7A-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -47,72 +48,116 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20230322040933.924813-3-tanmay.shah@amd.com>
-References: <20230322040933.924813-3-tanmay.shah@amd.com>
-TO: Tanmay Shah <tanmay.shah@amd.com>
-TO: andersson@kernel.org
-TO: mathieu.poirier@linaro.org
-CC: linux-remoteproc@vger.kernel.org
 CC: linux-kernel@vger.kernel.org
-CC: Tanmay Shah <tanmay.shah@amd.com>
-CC: Tarak Reddy <tarak.reddy@amd.com>
+TO: Guo Ren <guoren@linux.alibaba.com>
+CC: Palmer Dabbelt <palmer@rivosinc.com>
+CC: Arnd Bergmann <arnd@arndb.de>
 
-Hi Tanmay,
+Hi Guo,
 
-Thank you for the patch! Perhaps something to improve:
+First bad commit (maybe != root cause):
 
-[auto build test WARNING on e19967994d342a5986d950a1bfddf19d7e1191b7]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Tanmay-Shah/remoteproc-Make-rproc_get_by_phandle-work-for-clusters/20230322-121102
-base:   e19967994d342a5986d950a1bfddf19d7e1191b7
-patch link:    https://lore.kernel.org/r/20230322040933.924813-3-tanmay.shah%40amd.com
-patch subject: [PATCH v2 2/2] remoteproc: enhance rproc_put() for clusters
-:::::: branch date: 7 hours ago
-:::::: commit date: 7 hours ago
-config: powerpc-randconfig-m041-20230322 (https://download.01.org/0day-ci/archive/20230322/202303221916.LgKkr8Gk-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   a1effab7a3a35a837dd9d2b974a1bc4939df1ad5
+commit: 9be8459298eadb39b9fe9974b890239e9c123107 riscv: compat: Add COMPAT Kbuild skeletal support
+date:   10 months ago
+:::::: branch date: 13 hours ago
+:::::: commit date: 10 months ago
+config: riscv-randconfig-m031-20230322 (https://download.01.org/0day-ci/archive/20230322/202303221911.0Y0bXa7A-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202303221916.LgKkr8Gk-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202303221911.0Y0bXa7A-lkp@intel.com/
 
 smatch warnings:
-drivers/remoteproc/remoteproc_core.c:2565 rproc_put() warn: variable dereferenced before check 'rproc->dev.parent' (see line 2562)
-drivers/remoteproc/remoteproc_core.c:2566 rproc_put() warn: variable dereferenced before check 'rproc->dev.parent->driver' (see line 2562)
+arch/riscv/kernel/compat_signal.c:116 compat_restore_sigcontext() warn: maybe return -EFAULT instead of the bytes remaining?
+arch/riscv/kernel/compat_signal.c:173 compat_setup_sigcontext() warn: maybe return -EFAULT instead of the bytes remaining?
 
-vim +2565 drivers/remoteproc/remoteproc_core.c
+vim +116 arch/riscv/kernel/compat_signal.c
 
-433c0e04bc06da Bjorn Andersson 2016-10-02  2550  
-433c0e04bc06da Bjorn Andersson 2016-10-02  2551  /**
-433c0e04bc06da Bjorn Andersson 2016-10-02  2552   * rproc_put() - release rproc reference
-400e64df6b237e Ohad Ben-Cohen  2011-10-20  2553   * @rproc: the remote processor handle
-400e64df6b237e Ohad Ben-Cohen  2011-10-20  2554   *
-c6b5a27628faf6 Ohad Ben-Cohen  2012-07-02  2555   * This function decrements the rproc dev refcount.
-400e64df6b237e Ohad Ben-Cohen  2011-10-20  2556   *
-c6b5a27628faf6 Ohad Ben-Cohen  2012-07-02  2557   * If no one holds any reference to rproc anymore, then its refcount would
-c6b5a27628faf6 Ohad Ben-Cohen  2012-07-02  2558   * now drop to zero, and it would be freed.
-400e64df6b237e Ohad Ben-Cohen  2011-10-20  2559   */
-160e7c840fe858 Ohad Ben-Cohen  2012-07-04  2560  void rproc_put(struct rproc *rproc)
-400e64df6b237e Ohad Ben-Cohen  2011-10-20  2561  {
-fbb6aacb078285 Bjorn Andersson 2016-10-02 @2562  	module_put(rproc->dev.parent->driver->owner);
-573d22d13a6970 Tanmay Shah     2023-03-21  2563  	struct platform_device *cluster_pdev;
-573d22d13a6970 Tanmay Shah     2023-03-21  2564  
-573d22d13a6970 Tanmay Shah     2023-03-21 @2565  	if (rproc->dev.parent) {
-573d22d13a6970 Tanmay Shah     2023-03-21 @2566  		if (rproc->dev.parent->driver) {
-573d22d13a6970 Tanmay Shah     2023-03-21  2567  			module_put(rproc->dev.parent->driver->owner);
-573d22d13a6970 Tanmay Shah     2023-03-21  2568  		} else {
-573d22d13a6970 Tanmay Shah     2023-03-21  2569  			cluster_pdev = of_find_device_by_node(rproc->dev.parent->of_node->parent);
-573d22d13a6970 Tanmay Shah     2023-03-21  2570  			if (cluster_pdev) {
-573d22d13a6970 Tanmay Shah     2023-03-21  2571  				module_put(cluster_pdev->dev.driver->owner);
-573d22d13a6970 Tanmay Shah     2023-03-21  2572  				put_device(&cluster_pdev->dev);
-573d22d13a6970 Tanmay Shah     2023-03-21  2573  			}
-573d22d13a6970 Tanmay Shah     2023-03-21  2574  		}
-573d22d13a6970 Tanmay Shah     2023-03-21  2575  	}
-b5ab5e24e960b9 Ohad Ben-Cohen  2012-05-30  2576  	put_device(&rproc->dev);
-400e64df6b237e Ohad Ben-Cohen  2011-10-20  2577  }
-160e7c840fe858 Ohad Ben-Cohen  2012-07-04  2578  EXPORT_SYMBOL(rproc_put);
-400e64df6b237e Ohad Ben-Cohen  2011-10-20  2579  
+7383ee05314be5 Guo Ren 2022-04-05  101  
+7383ee05314be5 Guo Ren 2022-04-05  102  static long compat_restore_sigcontext(struct pt_regs *regs,
+7383ee05314be5 Guo Ren 2022-04-05  103  	struct compat_sigcontext __user *sc)
+7383ee05314be5 Guo Ren 2022-04-05  104  {
+7383ee05314be5 Guo Ren 2022-04-05  105  	long err;
+7383ee05314be5 Guo Ren 2022-04-05  106  	struct compat_user_regs_struct cregs;
+7383ee05314be5 Guo Ren 2022-04-05  107  
+7383ee05314be5 Guo Ren 2022-04-05  108  	/* sc_regs is structured the same as the start of pt_regs */
+7383ee05314be5 Guo Ren 2022-04-05  109  	err = __copy_from_user(&cregs, &sc->sc_regs, sizeof(sc->sc_regs));
+7383ee05314be5 Guo Ren 2022-04-05  110  
+7383ee05314be5 Guo Ren 2022-04-05  111  	cregs_to_regs(&cregs, regs);
+7383ee05314be5 Guo Ren 2022-04-05  112  
+7383ee05314be5 Guo Ren 2022-04-05  113  	/* Restore the floating-point state. */
+7383ee05314be5 Guo Ren 2022-04-05  114  	if (has_fpu())
+7383ee05314be5 Guo Ren 2022-04-05  115  		err |= compat_restore_fp_state(regs, &sc->sc_fpregs);
+7383ee05314be5 Guo Ren 2022-04-05 @116  	return err;
+7383ee05314be5 Guo Ren 2022-04-05  117  }
+7383ee05314be5 Guo Ren 2022-04-05  118  
+7383ee05314be5 Guo Ren 2022-04-05  119  COMPAT_SYSCALL_DEFINE0(rt_sigreturn)
+7383ee05314be5 Guo Ren 2022-04-05  120  {
+7383ee05314be5 Guo Ren 2022-04-05  121  	struct pt_regs *regs = current_pt_regs();
+7383ee05314be5 Guo Ren 2022-04-05  122  	struct compat_rt_sigframe __user *frame;
+7383ee05314be5 Guo Ren 2022-04-05  123  	struct task_struct *task;
+7383ee05314be5 Guo Ren 2022-04-05  124  	sigset_t set;
+7383ee05314be5 Guo Ren 2022-04-05  125  
+7383ee05314be5 Guo Ren 2022-04-05  126  	/* Always make any pending restarted system calls return -EINTR */
+7383ee05314be5 Guo Ren 2022-04-05  127  	current->restart_block.fn = do_no_restart_syscall;
+7383ee05314be5 Guo Ren 2022-04-05  128  
+7383ee05314be5 Guo Ren 2022-04-05  129  	frame = (struct compat_rt_sigframe __user *)regs->sp;
+7383ee05314be5 Guo Ren 2022-04-05  130  
+7383ee05314be5 Guo Ren 2022-04-05  131  	if (!access_ok(frame, sizeof(*frame)))
+7383ee05314be5 Guo Ren 2022-04-05  132  		goto badframe;
+7383ee05314be5 Guo Ren 2022-04-05  133  
+7383ee05314be5 Guo Ren 2022-04-05  134  	if (__copy_from_user(&set, &frame->uc.uc_sigmask, sizeof(set)))
+7383ee05314be5 Guo Ren 2022-04-05  135  		goto badframe;
+7383ee05314be5 Guo Ren 2022-04-05  136  
+7383ee05314be5 Guo Ren 2022-04-05  137  	set_current_blocked(&set);
+7383ee05314be5 Guo Ren 2022-04-05  138  
+7383ee05314be5 Guo Ren 2022-04-05  139  	if (compat_restore_sigcontext(regs, &frame->uc.uc_mcontext))
+7383ee05314be5 Guo Ren 2022-04-05  140  		goto badframe;
+7383ee05314be5 Guo Ren 2022-04-05  141  
+7383ee05314be5 Guo Ren 2022-04-05  142  	if (compat_restore_altstack(&frame->uc.uc_stack))
+7383ee05314be5 Guo Ren 2022-04-05  143  		goto badframe;
+7383ee05314be5 Guo Ren 2022-04-05  144  
+7383ee05314be5 Guo Ren 2022-04-05  145  	return regs->a0;
+7383ee05314be5 Guo Ren 2022-04-05  146  
+7383ee05314be5 Guo Ren 2022-04-05  147  badframe:
+7383ee05314be5 Guo Ren 2022-04-05  148  	task = current;
+7383ee05314be5 Guo Ren 2022-04-05  149  	if (show_unhandled_signals) {
+7383ee05314be5 Guo Ren 2022-04-05  150  		pr_info_ratelimited(
+7383ee05314be5 Guo Ren 2022-04-05  151  			"%s[%d]: bad frame in %s: frame=%p pc=%p sp=%p\n",
+7383ee05314be5 Guo Ren 2022-04-05  152  			task->comm, task_pid_nr(task), __func__,
+7383ee05314be5 Guo Ren 2022-04-05  153  			frame, (void *)regs->epc, (void *)regs->sp);
+7383ee05314be5 Guo Ren 2022-04-05  154  	}
+7383ee05314be5 Guo Ren 2022-04-05  155  	force_sig(SIGSEGV);
+7383ee05314be5 Guo Ren 2022-04-05  156  	return 0;
+7383ee05314be5 Guo Ren 2022-04-05  157  }
+7383ee05314be5 Guo Ren 2022-04-05  158  
+7383ee05314be5 Guo Ren 2022-04-05  159  static long compat_setup_sigcontext(struct compat_rt_sigframe __user *frame,
+7383ee05314be5 Guo Ren 2022-04-05  160  	struct pt_regs *regs)
+7383ee05314be5 Guo Ren 2022-04-05  161  {
+7383ee05314be5 Guo Ren 2022-04-05  162  	struct compat_sigcontext __user *sc = &frame->uc.uc_mcontext;
+7383ee05314be5 Guo Ren 2022-04-05  163  	struct compat_user_regs_struct cregs;
+7383ee05314be5 Guo Ren 2022-04-05  164  	long err;
+7383ee05314be5 Guo Ren 2022-04-05  165  
+7383ee05314be5 Guo Ren 2022-04-05  166  	regs_to_cregs(&cregs, regs);
+7383ee05314be5 Guo Ren 2022-04-05  167  
+7383ee05314be5 Guo Ren 2022-04-05  168  	/* sc_regs is structured the same as the start of pt_regs */
+7383ee05314be5 Guo Ren 2022-04-05  169  	err = __copy_to_user(&sc->sc_regs, &cregs, sizeof(sc->sc_regs));
+7383ee05314be5 Guo Ren 2022-04-05  170  	/* Save the floating-point state. */
+7383ee05314be5 Guo Ren 2022-04-05  171  	if (has_fpu())
+7383ee05314be5 Guo Ren 2022-04-05  172  		err |= compat_save_fp_state(regs, &sc->sc_fpregs);
+7383ee05314be5 Guo Ren 2022-04-05 @173  	return err;
+7383ee05314be5 Guo Ren 2022-04-05  174  }
+7383ee05314be5 Guo Ren 2022-04-05  175  
+
+:::::: The code at line 116 was first introduced by commit
+:::::: 7383ee05314be58f8f9f018ee0ac53bef3808aea riscv: compat: signal: Add rt_frame implementation
+
+:::::: TO: Guo Ren <guoren@linux.alibaba.com>
+:::::: CC: Palmer Dabbelt <palmer@rivosinc.com>
 
 -- 
 0-DAY CI Kernel Test Service
