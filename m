@@ -1,42 +1,43 @@
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6B2E2584
-	for <oe-kbuild@lists.linux.dev>; Wed, 22 Mar 2023 12:29:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28B2E2584
+	for <oe-kbuild@lists.linux.dev>; Wed, 22 Mar 2023 12:29:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679488182; x=1711024182;
+  t=1679488185; x=1711024185;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=SnSzvN2q8UDWy5PcrkbsIRtuoYYx8QX8A9N27o7vqaM=;
-  b=ZvkNHhRbvisnNJ/PaQPXVzBasRKeQBVRy0rxvc5Ez6NLM5/o8wMFDXTU
-   vsSpxRQrAumzEuDpqRY4fAgYlKH6mbOLGnM2d6YDzomDwUXsZ4ZQcNeXx
-   IH+uej2twIX53e7wgKJtNb1aSxK6v9it3fz7nFspu/WXQnYC1bAlw49bO
-   te8ww8Fs5P4AAcvQ4UkerB47KXV9bMt+enFvs2AQbmUIPRgpweCrZ2hHj
-   W2sA+tE8g2AzpZJwu6YWLgFEQJa/IUy9WFr9d9069olKgfGabu3W0yHQ9
-   DbyspSN7IJCxwaIR7aSzBkNKL6LTf2AOAy32o/5iuIn+fnDsPiRqs0Fu0
+  bh=h8hPhoihBqd+zJqDUsd1dMvBaRfBTst6PqfztGz+Rxk=;
+  b=m+htHpjqvD605oDTDqok8L1JccicPtztWTo0l+b4uEYAn7q2f/swPc7e
+   AM1mGXF6PiJ207O07nD0Dixm9tK//xLnH64f2JYKPgt9TTIpYhZx9jyh2
+   xviwIIEvDDK/5JinmsOCUpNl6ySCDO5SWSbypAp1MJpuLmPkugnuzFsJG
+   CQkFM1Dhozi4WRGRho9qNChWpIvhf3YbZgITlHDdZmxz4xyUtqlAm/tZl
+   Guh15OoTFpn7Ad798FCBbz4Rx45hhAkEKpg/NLIzY7TunPHFaUbl+JfpM
+   zQaKEBXhlBbeGG4+9AAS6/XOz9mzuoNX0sHHRXBz2WJydcE/v7/a4srC0
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="366935066"
+X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="366935064"
 X-IronPort-AV: E=Sophos;i="5.98,281,1673942400"; 
-   d="scan'208";a="366935066"
+   d="scan'208";a="366935064"
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2023 05:29:40 -0700
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2023 05:29:39 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="771021585"
+X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="771021587"
 X-IronPort-AV: E=Sophos;i="5.98,281,1673942400"; 
-   d="scan'208";a="771021585"
+   d="scan'208";a="771021587"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
   by FMSMGA003.fm.intel.com with ESMTP; 22 Mar 2023 05:29:37 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pexay-000DJ2-36;
-	Wed, 22 Mar 2023 12:29:36 +0000
-Date: Wed, 22 Mar 2023 20:29:32 +0800
+	id 1pexaz-000DJB-05;
+	Wed, 22 Mar 2023 12:29:37 +0000
+Date: Wed, 22 Mar 2023 20:29:33 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [tip:x86/shstk 21/40] include/linux/mm.h:3145
- stack_guard_start_gap() warn: bitwise AND condition is false here
-Message-ID: <202303222047.1AP5Kdjv-lkp@intel.com>
+Subject: [broonie-sound:for-6.4 258/267] sound/soc/sof/ipc4-topology.c:2176
+ sof_ipc4_widget_free() warn: inconsistent returns
+ '&ipc4_data->pipeline_state_mutex'.
+Message-ID: <202303222050.dCw0fPCW-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -48,45 +49,84 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-CC: x86@kernel.org
-TO: Rick Edgecombe <rick.p.edgecombe@intel.com>
-CC: Dave Hansen <dave.hansen@linux.intel.com>
-CC: "Yu-cheng Yu" <yu-cheng.yu@intel.com>
-CC: "Borislav Petkov (AMD)" <bp@alien8.de>
-CC: Kees Cook <keescook@chromium.org>
+TO: Jyri Sarha <jyri.sarha@intel.com>
+CC: Mark Brown <broonie@kernel.org>
+CC: Rander Wang <rander.wang@intel.com>
+CC: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git x86/shstk
-head:   b642e9e5f0dc797f543b431d4ba910a3da72a074
-commit: 2d4ef66720386d567e64e95008d4bdd0812bcbd2 [21/40] mm: Add guard pages around a shadow stack.
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: x86_64-randconfig-m001 (https://download.01.org/0day-ci/archive/20230322/202303222047.1AP5Kdjv-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-6.4
+head:   e3057eb574bae296665f7dfdb1692acc101b3727
+commit: ca5ce0caa67fa9eeecaa29d895c2e4c3151c159e [258/267] ASoC: SOF: ipc4/intel: Add support for chained DMA
+:::::: branch date: 17 hours ago
+:::::: commit date: 24 hours ago
+config: s390-randconfig-m031-20230321 (https://download.01.org/0day-ci/archive/20230322/202303222050.dCw0fPCW-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202303222047.1AP5Kdjv-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202303222050.dCw0fPCW-lkp@intel.com/
 
-smatch warnings:
-include/linux/mm.h:3145 stack_guard_start_gap() warn: bitwise AND condition is false here
+New smatch warnings:
+sound/soc/sof/ipc4-topology.c:2176 sof_ipc4_widget_free() warn: inconsistent returns '&ipc4_data->pipeline_state_mutex'.
 
-vim +3145 include/linux/mm.h
+Old smatch warnings:
+sound/soc/sof/ipc4-topology.c:1332 ipc4_copier_set_capture_fmt() error: uninitialized symbol 'sample_valid_bits'.
 
-ce6d42f2e4a2d9 Liam Howlett   2021-06-28  3138  
-2d4ef66720386d Rick Edgecombe 2023-03-18  3139  static inline unsigned long stack_guard_start_gap(struct vm_area_struct *vma)
-2d4ef66720386d Rick Edgecombe 2023-03-18  3140  {
-2d4ef66720386d Rick Edgecombe 2023-03-18  3141  	if (vma->vm_flags & VM_GROWSDOWN)
-2d4ef66720386d Rick Edgecombe 2023-03-18  3142  		return stack_guard_gap;
-2d4ef66720386d Rick Edgecombe 2023-03-18  3143  
-2d4ef66720386d Rick Edgecombe 2023-03-18  3144  	/* See reasoning around the VM_SHADOW_STACK definition */
-2d4ef66720386d Rick Edgecombe 2023-03-18 @3145  	if (vma->vm_flags & VM_SHADOW_STACK)
-2d4ef66720386d Rick Edgecombe 2023-03-18  3146  		return PAGE_SIZE;
-2d4ef66720386d Rick Edgecombe 2023-03-18  3147  
-2d4ef66720386d Rick Edgecombe 2023-03-18  3148  	return 0;
-2d4ef66720386d Rick Edgecombe 2023-03-18  3149  }
-2d4ef66720386d Rick Edgecombe 2023-03-18  3150  
+vim +2176 sound/soc/sof/ipc4-topology.c
+
+6e9257a13c75b2 Ranjani Sridharan 2022-06-08  2133  
+6e9257a13c75b2 Ranjani Sridharan 2022-06-08  2134  static int sof_ipc4_widget_free(struct snd_sof_dev *sdev, struct snd_sof_widget *swidget)
+6e9257a13c75b2 Ranjani Sridharan 2022-06-08  2135  {
+711d0427c7134c Bard Liao         2022-07-15  2136  	struct sof_ipc4_fw_module *fw_module = swidget->module_info;
+6bc4d1b714aafc Ranjani Sridharan 2023-01-27  2137  	struct sof_ipc4_fw_data *ipc4_data = sdev->private;
+6e9257a13c75b2 Ranjani Sridharan 2022-06-08  2138  	int ret = 0;
+6e9257a13c75b2 Ranjani Sridharan 2022-06-08  2139  
+6bc4d1b714aafc Ranjani Sridharan 2023-01-27  2140  	mutex_lock(&ipc4_data->pipeline_state_mutex);
+6bc4d1b714aafc Ranjani Sridharan 2023-01-27  2141  
+6e9257a13c75b2 Ranjani Sridharan 2022-06-08  2142  	/* freeing a pipeline frees all the widgets associated with it */
+6e9257a13c75b2 Ranjani Sridharan 2022-06-08  2143  	if (swidget->id == snd_soc_dapm_scheduler) {
+6e9257a13c75b2 Ranjani Sridharan 2022-06-08  2144  		struct sof_ipc4_pipeline *pipeline = swidget->private;
+6e9257a13c75b2 Ranjani Sridharan 2022-06-08  2145  		struct sof_ipc4_msg msg = {{ 0 }};
+6e9257a13c75b2 Ranjani Sridharan 2022-06-08  2146  		u32 header;
+6e9257a13c75b2 Ranjani Sridharan 2022-06-08  2147  
+ca5ce0caa67fa9 Jyri Sarha        2023-03-21  2148  		if (pipeline->use_chain_dma)
+ca5ce0caa67fa9 Jyri Sarha        2023-03-21  2149  			return 0;
+ca5ce0caa67fa9 Jyri Sarha        2023-03-21  2150  
+a2ba1f70b301b3 Bard Liao         2022-11-08  2151  		header = SOF_IPC4_GLB_PIPE_INSTANCE_ID(swidget->instance_id);
+6e9257a13c75b2 Ranjani Sridharan 2022-06-08  2152  		header |= SOF_IPC4_MSG_TYPE_SET(SOF_IPC4_GLB_DELETE_PIPELINE);
+6e9257a13c75b2 Ranjani Sridharan 2022-06-08  2153  		header |= SOF_IPC4_MSG_DIR(SOF_IPC4_MSG_REQUEST);
+6e9257a13c75b2 Ranjani Sridharan 2022-06-08  2154  		header |= SOF_IPC4_MSG_TARGET(SOF_IPC4_FW_GEN_MSG);
+6e9257a13c75b2 Ranjani Sridharan 2022-06-08  2155  
+6e9257a13c75b2 Ranjani Sridharan 2022-06-08  2156  		msg.primary = header;
+6e9257a13c75b2 Ranjani Sridharan 2022-06-08  2157  
+6e9257a13c75b2 Ranjani Sridharan 2022-06-08  2158  		ret = sof_ipc_tx_message(sdev->ipc, &msg, 0, NULL, 0);
+6e9257a13c75b2 Ranjani Sridharan 2022-06-08  2159  		if (ret < 0)
+6e9257a13c75b2 Ranjani Sridharan 2022-06-08  2160  			dev_err(sdev->dev, "failed to free pipeline widget %s\n",
+6e9257a13c75b2 Ranjani Sridharan 2022-06-08  2161  				swidget->widget->name);
+6e9257a13c75b2 Ranjani Sridharan 2022-06-08  2162  
+6e9257a13c75b2 Ranjani Sridharan 2022-06-08  2163  		pipeline->mem_usage = 0;
+6e9257a13c75b2 Ranjani Sridharan 2022-06-08  2164  		pipeline->state = SOF_IPC4_PIPE_UNINITIALIZED;
+a2ba1f70b301b3 Bard Liao         2022-11-08  2165  		ida_free(&pipeline_ida, swidget->instance_id);
+711d0427c7134c Bard Liao         2022-07-15  2166  	} else {
+ca5ce0caa67fa9 Jyri Sarha        2023-03-21  2167  		struct snd_sof_widget *pipe_widget = swidget->spipe->pipe_widget;
+ca5ce0caa67fa9 Jyri Sarha        2023-03-21  2168  		struct sof_ipc4_pipeline *pipeline = pipe_widget->private;
+ca5ce0caa67fa9 Jyri Sarha        2023-03-21  2169  
+ca5ce0caa67fa9 Jyri Sarha        2023-03-21  2170  		if (!pipeline->use_chain_dma)
+711d0427c7134c Bard Liao         2022-07-15  2171  			ida_free(&fw_module->m_ida, swidget->instance_id);
+6e9257a13c75b2 Ranjani Sridharan 2022-06-08  2172  	}
+6e9257a13c75b2 Ranjani Sridharan 2022-06-08  2173  
+6bc4d1b714aafc Ranjani Sridharan 2023-01-27  2174  	mutex_unlock(&ipc4_data->pipeline_state_mutex);
+6bc4d1b714aafc Ranjani Sridharan 2023-01-27  2175  
+6e9257a13c75b2 Ranjani Sridharan 2022-06-08 @2176  	return ret;
+6e9257a13c75b2 Ranjani Sridharan 2022-06-08  2177  }
+6e9257a13c75b2 Ranjani Sridharan 2022-06-08  2178  
+
+:::::: The code at line 2176 was first introduced by commit
+:::::: 6e9257a13c75b2e4fc33477f9de4912fdfae81e1 ASoC: SOF: ipc4-topology: Add widget_setup/widget_free ops
+
+:::::: TO: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
+:::::: CC: Mark Brown <broonie@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
