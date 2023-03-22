@@ -1,55 +1,42 @@
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6850D1FB1;
-	Wed, 22 Mar 2023 08:08:43 +0000 (UTC)
-Received: by mail-ed1-f52.google.com with SMTP id cy23so69232716edb.12;
-        Wed, 22 Mar 2023 01:08:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679472521;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=KOS/AQ9Mxky4fQ6rjcr9RElvh14G5SX1SO150d01EVk=;
-        b=k1NSpqSY2Ai+jnahWTFmKmP0dJYXCS29JrRHwmQtyJ+pUPr2a481l1UM+wijV2Mfg3
-         x8pctI8fqa0K7NmHzxIpB9uRuH+tsev4TknN5cc0xh0mEBdn55Dyu+y5/cB+cwps/qgw
-         mOa06INvmc5XgU8XLkdwISoF1jYcnix0X9wkXZkDCqahkOCU9PrprT3y8ijqIZtUuz6P
-         Fo/OcN1Auz4IVkHINGtEymYfOq6QXugwDLdRLZP4fYOJ0tQjoyXTQEE86BaUiTcLmcDc
-         pKhLHw61mxSthSeEurPA8tLQHi5NwFjDv9E4GSubehHe44Fcq3UYbGDa4g7tFcvk32cF
-         00uw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679472521;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=KOS/AQ9Mxky4fQ6rjcr9RElvh14G5SX1SO150d01EVk=;
-        b=T2QjoPTILZk0Vp4dD4BljA8lGx6FeUm93turTk0rx9RkKpzu6ITAzshuTfGR0wG9NA
-         HyzSoedA4Jdcu7PJgX7Y5W4JynjfkuzqbrShrj7R1mIMKwqlTBjpHmq8smGdoDKP37nD
-         ub5KQQhVyB3z3yn2s+/Pu8PBnl13L2JXbxk7adNPnpcjCiUzQAMl5JjPNl8NQa52Y3Hl
-         Dgn2cWF+4O1TcXPqkieJlzPhmTPpuVUOcNs87MaCfp5xCXau24CO3gTeC/38zkXyywT+
-         c2adAnvPD5v0XM6DGMJGMxGhiKU92iPGh1Gy3buyWSj+u9CWsvTX+h6RLrdGGwae64E5
-         itQA==
-X-Gm-Message-State: AO0yUKXDls3FjARY2/RKIg5xMdLGbOQaVotZMN2zvtnBLXJQ4EwIndrf
-	36rVTtkDOyGiHrtMuw7gVOl47JJ13rC3yA==
-X-Google-Smtp-Source: AK7set+JBeg3sdmWOIbqfYUGokDkx//K3duJycIWzBJMP2SHTMm6PvPV/HFnnoPEtzSLX78EEb8/JQ==
-X-Received: by 2002:a17:906:9b8f:b0:8af:22b4:99d2 with SMTP id dd15-20020a1709069b8f00b008af22b499d2mr1592331ejc.5.1679472521466;
-        Wed, 22 Mar 2023 01:08:41 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id ot9-20020a170906ccc900b009331450d04esm5683871ejb.178.2023.03.22.01.08.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Mar 2023 01:08:41 -0700 (PDT)
-Date: Wed, 22 Mar 2023 11:08:37 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev,
-	Horatiu Vultur <horatiu.vultur@microchip.com>,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, andrew@lunn.ch,
-	hkallweit1@gmail.com, linux@armlinux.org.uk, davem@davemloft.net,
-	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
-	richardcochran@gmail.com,
-	Horatiu Vultur <horatiu.vultur@microchip.com>
-Subject: Re: [PATCH net-next] net: phy: micrel: Add support for PTP_PF_EXTTS
- for lan8841
-Message-ID: <1e989615-79f9-483c-9229-6f1e22c0fd8c@kili.mountain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0459323AD
+	for <oe-kbuild@lists.linux.dev>; Wed, 22 Mar 2023 09:46:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1679478393; x=1711014393;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=XjumlXAsLqHB4Mw1UeZaTyFLY44ynAvohLnJlPNJI0o=;
+  b=BUPrSzRlqVYhlqwAJqjw8eUWneRVjejRQr0DwbE4RbHEwToNsQDhosme
+   EvmfucbMsCLifAwyKsSOZHvRd+A8CLLgDEiRV1IcZnkMkiltMvGesMKZd
+   C8+LEpJUxPsz67r/pHqMqIbCGOllpBNIrOOxETpQGE6bIVSChwIUHNV3i
+   1UbRUjq3ZyNLtAOoxu1z/F5jTBUs9ElpHBUJC3WT4vLQbSqYtcvRGe8Sz
+   Rrzq5syW9usFmma86Q6fsYBgV01s7VEJKKmQ3QQ2fxQtsi5ipgv18yqHL
+   PidlMKEQdmoKC+XLWEZeF3rktjK6PTJN4wb//y/rUllbL2LFCCxfj0xsM
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="341530668"
+X-IronPort-AV: E=Sophos;i="5.98,281,1673942400"; 
+   d="scan'208";a="341530668"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2023 02:46:33 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="927770875"
+X-IronPort-AV: E=Sophos;i="5.98,281,1673942400"; 
+   d="scan'208";a="927770875"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by fmsmga006.fm.intel.com with ESMTP; 22 Mar 2023 02:46:31 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pev39-000D8g-0T;
+	Wed, 22 Mar 2023 09:46:31 +0000
+Date: Wed, 22 Mar 2023 17:45:47 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [tip:x86/shstk 20/40] arch/x86/mm/pgtable.c:886 pte_mkwrite() warn:
+ bitwise AND condition is false here
+Message-ID: <202303221730.usl3ok51-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -58,57 +45,57 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230321115541.4187912-1-horatiu.vultur@microchip.com>
 
-Hi Horatiu,
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+CC: x86@kernel.org
+TO: Rick Edgecombe <rick.p.edgecombe@intel.com>
+CC: Dave Hansen <dave.hansen@linux.intel.com>
+CC: "Borislav Petkov (AMD)" <bp@alien8.de>
+CC: Kees Cook <keescook@chromium.org>
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Horatiu-Vultur/net-phy-micrel-Add-support-for-PTP_PF_EXTTS-for-lan8841/20230321-195743
-patch link:    https://lore.kernel.org/r/20230321115541.4187912-1-horatiu.vultur%40microchip.com
-patch subject: [PATCH net-next] net: phy: micrel: Add support for PTP_PF_EXTTS for lan8841
-config: riscv-randconfig-m031-20230319 (https://download.01.org/0day-ci/archive/20230322/202303221128.KLPNcDLt-lkp@intel.com/config)
-compiler: riscv32-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git x86/shstk
+head:   b642e9e5f0dc797f543b431d4ba910a3da72a074
+commit: a1d44091f03ed23e7e137eaeea3424996c7d72eb [20/40] x86/mm: Teach pte_mkwrite() about stack memory
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: x86_64-randconfig-m001 (https://download.01.org/0day-ci/archive/20230322/202303221730.usl3ok51-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202303221128.KLPNcDLt-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202303221730.usl3ok51-lkp@intel.com/
 
 New smatch warnings:
-drivers/net/phy/micrel.c:3480 lan8841_gpio_process_cap() warn: impossible condition '(tmp < 0) => (0-u16max < 0)'
+arch/x86/mm/pgtable.c:886 pte_mkwrite() warn: bitwise AND condition is false here
+arch/x86/mm/pgtable.c:899 pmd_mkwrite() warn: bitwise AND condition is false here
 
 Old smatch warnings:
-drivers/net/phy/micrel.c:1683 ksz9x31_cable_test_get_status() error: uninitialized symbol 'ret'.
+arch/x86/mm/pgtable.c:281 pgd_mop_up_pmds() warn: we never enter this loop
+arch/x86/mm/pgtable.c:305 pgd_prepopulate_pmd() warn: we never enter this loop
 
-vim +3480 drivers/net/phy/micrel.c
+vim +886 arch/x86/mm/pgtable.c
 
-25cbf94843ee0b7 Horatiu Vultur 2023-03-21  3467  static void lan8841_gpio_process_cap(struct kszphy_ptp_priv *ptp_priv)
-25cbf94843ee0b7 Horatiu Vultur 2023-03-21  3468  {
-25cbf94843ee0b7 Horatiu Vultur 2023-03-21  3469  	struct phy_device *phydev = ptp_priv->phydev;
-25cbf94843ee0b7 Horatiu Vultur 2023-03-21  3470  	struct ptp_clock_event ptp_event = {0};
-25cbf94843ee0b7 Horatiu Vultur 2023-03-21  3471  	s32 sec, nsec;
-25cbf94843ee0b7 Horatiu Vultur 2023-03-21  3472  	int pin, ret;
-25cbf94843ee0b7 Horatiu Vultur 2023-03-21  3473  	u16 tmp;
-                                                        ^^^^^^^
-
-25cbf94843ee0b7 Horatiu Vultur 2023-03-21  3474  
-25cbf94843ee0b7 Horatiu Vultur 2023-03-21  3475  	pin = ptp_find_pin_unlocked(ptp_priv->ptp_clock, PTP_PF_EXTTS, 0);
-25cbf94843ee0b7 Horatiu Vultur 2023-03-21  3476  	if (pin == -1)
-25cbf94843ee0b7 Horatiu Vultur 2023-03-21  3477  		return;
-25cbf94843ee0b7 Horatiu Vultur 2023-03-21  3478  
-25cbf94843ee0b7 Horatiu Vultur 2023-03-21  3479  	tmp = phy_read_mmd(phydev, 2, LAN8841_PTP_GPIO_CAP_STS);
-25cbf94843ee0b7 Horatiu Vultur 2023-03-21 @3480  	if (tmp < 0)
-                                                            ^^^^^^^
-u16 can't be negative.
-
-25cbf94843ee0b7 Horatiu Vultur 2023-03-21  3481  		return;
-25cbf94843ee0b7 Horatiu Vultur 2023-03-21  3482  
-25cbf94843ee0b7 Horatiu Vultur 2023-03-21  3483  	ret = phy_write_mmd(phydev, 2, LAN8841_PTP_GPIO_SEL,
-25cbf94843ee0b7 Horatiu Vultur 2023-03-21  3484  			    LAN8841_PTP_GPIO_SEL_GPIO_SEL(pin));
-25cbf94843ee0b7 Horatiu Vultur 2023-03-21  3485  	if (ret)
-25cbf94843ee0b7 Horatiu Vultur 2023-03-21  3486  		return;
-25cbf94843ee0b7 Horatiu Vultur 2023-03-21  3487  
+a1d44091f03ed2 Rick Edgecombe 2023-03-18  883  
+a1d44091f03ed2 Rick Edgecombe 2023-03-18  884  pte_t pte_mkwrite(pte_t pte, struct vm_area_struct *vma)
+a1d44091f03ed2 Rick Edgecombe 2023-03-18  885  {
+a1d44091f03ed2 Rick Edgecombe 2023-03-18 @886  	if (vma->vm_flags & VM_SHADOW_STACK)
+a1d44091f03ed2 Rick Edgecombe 2023-03-18  887  		return pte_mkwrite_shstk(pte);
+a1d44091f03ed2 Rick Edgecombe 2023-03-18  888  
+a1d44091f03ed2 Rick Edgecombe 2023-03-18  889  	pte = pte_mkwrite_kernel(pte);
+a1d44091f03ed2 Rick Edgecombe 2023-03-18  890  
+a1d44091f03ed2 Rick Edgecombe 2023-03-18  891  	if (pte_dirty(pte))
+a1d44091f03ed2 Rick Edgecombe 2023-03-18  892  		pte = pte_clear_saveddirty(pte);
+a1d44091f03ed2 Rick Edgecombe 2023-03-18  893  
+a1d44091f03ed2 Rick Edgecombe 2023-03-18  894  	return pte;
+a1d44091f03ed2 Rick Edgecombe 2023-03-18  895  }
+a1d44091f03ed2 Rick Edgecombe 2023-03-18  896  
+a1d44091f03ed2 Rick Edgecombe 2023-03-18  897  pmd_t pmd_mkwrite(pmd_t pmd, struct vm_area_struct *vma)
+a1d44091f03ed2 Rick Edgecombe 2023-03-18  898  {
+a1d44091f03ed2 Rick Edgecombe 2023-03-18 @899  	if (vma->vm_flags & VM_SHADOW_STACK)
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
-
