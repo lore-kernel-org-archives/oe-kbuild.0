@@ -1,42 +1,49 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2305F15BA
-	for <oe-kbuild@lists.linux.dev>; Wed, 22 Mar 2023 03:58:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679457500; x=1710993500;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=x97eE0YRjmxrHhPhz7uKvPq5eIjnB9IIlmN3TiOkp2c=;
-  b=UI22IB6ANKDkYVnwjSL9U1If5s7TQNPShdn5JlwwIGzmuktRtgykS6kg
-   1KXcanCqqr6pUF3DYPEqXyv+xac4XvE0dILyG7doewKPBnqzAftWY2Eyy
-   bve4DMm/WH1U1g3JJUI91Rh6Y8vMbYTK+9g36zlsDdUCWGup60ogmeIvP
-   xPGQEIPW5mrKb7TfmOUFhHt3Wbjkgoypi6OxO26hAqWbOhywAEvVYWUWw
-   4vZDPP3dkMG7r7pe05tnNuAr27UV+/gwWXQbLb1DYT5ckCPzjRF01NIim
-   7pt2KuQOHsvQ5swWmOnQTfKMNl0a/EInq+/NG9ThHt7IV70VcJEwbThWe
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="337846124"
-X-IronPort-AV: E=Sophos;i="5.98,280,1673942400"; 
-   d="scan'208";a="337846124"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2023 20:58:16 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="770901496"
-X-IronPort-AV: E=Sophos;i="5.98,280,1673942400"; 
-   d="scan'208";a="770901496"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 21 Mar 2023 20:58:15 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pepc7-000Cqa-0D;
-	Wed, 22 Mar 2023 03:58:15 +0000
-Date: Wed, 22 Mar 2023 11:57:45 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH net-next] net: phy: micrel: Add support for PTP_PF_EXTTS
- for lan8841
-Message-ID: <202303221128.KLPNcDLt-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BACC41FB1;
+	Wed, 22 Mar 2023 07:33:10 +0000 (UTC)
+Received: by mail-ed1-f50.google.com with SMTP id ew6so6075152edb.7;
+        Wed, 22 Mar 2023 00:33:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1679470388;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=xqNzgWiBUA36Qen24Z9C+QGoIdehi0yPWXL+YEro/V4=;
+        b=XcvBZi8vPQ5vdPiAzQfWNqMrwC1jF7MTx6JvUwIbPMBllInDJHxR/IO82RlWL7fT1d
+         Ivq0/tfjvK1TQcCb/WVcTcMbTA/XOPUQwvu71IpeKcGFaJQYOp94Fy30CX6tPETHEBIc
+         19isc/PrruIXLCQ2x7/YrnGxOzhQLsTi9/pKKgMQwCuWfaDwhvKlAxbGtQZ9azwJJI0z
+         y0gQV2TcOsxqi6ZK/bSSi1N9e7jdpb0+LCEbWbqbYsvGkaT2wY3/wLTxZ6o3JriaJdTT
+         DgHs69tx/hdc2M1qgNquv2giS5W7339XmPHiVs6Fqq70v0umslSjH1XIe9UxTuPiBYn4
+         lQ+Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679470388;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=xqNzgWiBUA36Qen24Z9C+QGoIdehi0yPWXL+YEro/V4=;
+        b=hR648PGsKQhQ/utu/SRgN+YYhr9y+hRGaZELg78xf5w7Uc6Q3trqr81ICdjxj5vzem
+         oNuxdJuYV7Bmqtl1WXP0HxriNfKL88cQ6lR5cVK4C6joGfhRYw0dz5opWokb/dLNUyCD
+         LYRXBh74v8od8Wt0WMv050JuBRZY8eT7nUU5fpAla5NSh1ii472R4PtOf20PmtDxri9o
+         KfqrYVWneb9EWcoVBOQMRnmYL2w1OATvnwXS2lwbCKw05d/KZ0svY101YBoP0pesYC5x
+         BA8bwqr8gGdl/+vJSKIZhYLt83CevujoEaH5eq2dC039lJ0VGM2/BjWzJq+JiPMbPeE5
+         RdIw==
+X-Gm-Message-State: AO0yUKX/tTHQVhhCJhmxq35jP1QOFpYgGYPM8HbCjr8LWVTSn/6v2wnY
+	l6xI26JUIot91HWnoW+5AWEr84C32mQ=
+X-Google-Smtp-Source: AK7set9adudA8KhKVn8L7TAZacyRexVyYlPqsW5vYeBps6Hpo0C++3qZNMAzCmdGTXRphkkAtojNPg==
+X-Received: by 2002:a17:907:20e7:b0:932:8dc:5afe with SMTP id rh7-20020a17090720e700b0093208dc5afemr6001272ejb.67.1679470388363;
+        Wed, 22 Mar 2023 00:33:08 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id rh26-20020a17090720fa00b00930ba362216sm6859135ejb.176.2023.03.22.00.33.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 22 Mar 2023 00:33:07 -0700 (PDT)
+Date: Wed, 22 Mar 2023 10:33:02 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev, cros-kernel-buildreports@googlegroups.com
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android14-5.15 2/11] kernel/trace/ring_buffer.c:2141
+ ring_buffer_resize() warn: variable dereferenced before check 'buffer' (see
+ line 2136)
+Message-ID: <c2694580-410a-4860-9c51-2f132751ff0f@kili.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -46,102 +53,53 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20230321115541.4187912-1-horatiu.vultur@microchip.com>
-References: <20230321115541.4187912-1-horatiu.vultur@microchip.com>
-TO: Horatiu Vultur <horatiu.vultur@microchip.com>
-TO: netdev@vger.kernel.org
-TO: linux-kernel@vger.kernel.org
-CC: andrew@lunn.ch
-CC: hkallweit1@gmail.com
-CC: linux@armlinux.org.uk
-CC: davem@davemloft.net
-CC: edumazet@google.com
-CC: kuba@kernel.org
-CC: pabeni@redhat.com
-CC: richardcochran@gmail.com
-CC: Horatiu Vultur <horatiu.vultur@microchip.com>
-
-Hi Horatiu,
-
-I love your patch! Perhaps something to improve:
-
-[auto build test WARNING on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Horatiu-Vultur/net-phy-micrel-Add-support-for-PTP_PF_EXTTS-for-lan8841/20230321-195743
-patch link:    https://lore.kernel.org/r/20230321115541.4187912-1-horatiu.vultur%40microchip.com
-patch subject: [PATCH net-next] net: phy: micrel: Add support for PTP_PF_EXTTS for lan8841
-:::::: branch date: 16 hours ago
-:::::: commit date: 16 hours ago
-config: riscv-randconfig-m031-20230319 (https://download.01.org/0day-ci/archive/20230322/202303221128.KLPNcDLt-lkp@intel.com/config)
-compiler: riscv32-linux-gcc (GCC) 12.1.0
+tree:   https://android.googlesource.com/kernel/common android14-5.15
+head:   01e5d4c8d9b1dc42d6b576c3574398c465ea56a4
+commit: 13188635cc6b5d06a3c78b1200d28511b7221385 [2/11] ANDROID: ring-buffer: Introducing external writer support
+config: i386-randconfig-m021 (https://download.01.org/0day-ci/archive/20230322/202303220748.j1ALZI9J-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202303221128.KLPNcDLt-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202303220748.j1ALZI9J-lkp@intel.com/
 
-New smatch warnings:
-drivers/net/phy/micrel.c:3480 lan8841_gpio_process_cap() warn: impossible condition '(tmp < 0) => (0-u16max < 0)'
+smatch warnings:
+kernel/trace/ring_buffer.c:2141 ring_buffer_resize() warn: variable dereferenced before check 'buffer' (see line 2136)
 
-Old smatch warnings:
-drivers/net/phy/micrel.c:1683 ksz9x31_cable_test_get_status() error: uninitialized symbol 'ret'.
+vim +/buffer +2141 kernel/trace/ring_buffer.c
 
-vim +3480 drivers/net/phy/micrel.c
+13292494379f92 Steven Rostedt (VMware    2019-12-13  2129) int ring_buffer_resize(struct trace_buffer *buffer, unsigned long size,
+438ced1720b584 Vaibhav Nagarnaik         2012-02-02  2130  			int cpu_id)
+7a8e76a3829f10 Steven Rostedt            2008-09-29  2131  {
+7a8e76a3829f10 Steven Rostedt            2008-09-29  2132  	struct ring_buffer_per_cpu *cpu_buffer;
+9b94a8fba501f3 Steven Rostedt (Red Hat   2016-05-12  2133) 	unsigned long nr_pages;
+0a1754b2a97efa Qiujun Huang              2020-10-19  2134  	int cpu, err;
+7a8e76a3829f10 Steven Rostedt            2008-09-29  2135  
+13188635cc6b5d Vincent Donnefort         2022-08-24 @2136  	if (unlikely(has_ext_writer(buffer)))
+                                                                                            ^^^^^^
+Dereferenced inside function.
 
-25cbf94843ee0b7 Horatiu Vultur 2023-03-21  3466  
-25cbf94843ee0b7 Horatiu Vultur 2023-03-21  3467  static void lan8841_gpio_process_cap(struct kszphy_ptp_priv *ptp_priv)
-25cbf94843ee0b7 Horatiu Vultur 2023-03-21  3468  {
-25cbf94843ee0b7 Horatiu Vultur 2023-03-21  3469  	struct phy_device *phydev = ptp_priv->phydev;
-25cbf94843ee0b7 Horatiu Vultur 2023-03-21  3470  	struct ptp_clock_event ptp_event = {0};
-25cbf94843ee0b7 Horatiu Vultur 2023-03-21  3471  	s32 sec, nsec;
-25cbf94843ee0b7 Horatiu Vultur 2023-03-21  3472  	int pin, ret;
-25cbf94843ee0b7 Horatiu Vultur 2023-03-21  3473  	u16 tmp;
-25cbf94843ee0b7 Horatiu Vultur 2023-03-21  3474  
-25cbf94843ee0b7 Horatiu Vultur 2023-03-21  3475  	pin = ptp_find_pin_unlocked(ptp_priv->ptp_clock, PTP_PF_EXTTS, 0);
-25cbf94843ee0b7 Horatiu Vultur 2023-03-21  3476  	if (pin == -1)
-25cbf94843ee0b7 Horatiu Vultur 2023-03-21  3477  		return;
-25cbf94843ee0b7 Horatiu Vultur 2023-03-21  3478  
-25cbf94843ee0b7 Horatiu Vultur 2023-03-21  3479  	tmp = phy_read_mmd(phydev, 2, LAN8841_PTP_GPIO_CAP_STS);
-25cbf94843ee0b7 Horatiu Vultur 2023-03-21 @3480  	if (tmp < 0)
-25cbf94843ee0b7 Horatiu Vultur 2023-03-21  3481  		return;
-25cbf94843ee0b7 Horatiu Vultur 2023-03-21  3482  
-25cbf94843ee0b7 Horatiu Vultur 2023-03-21  3483  	ret = phy_write_mmd(phydev, 2, LAN8841_PTP_GPIO_SEL,
-25cbf94843ee0b7 Horatiu Vultur 2023-03-21  3484  			    LAN8841_PTP_GPIO_SEL_GPIO_SEL(pin));
-25cbf94843ee0b7 Horatiu Vultur 2023-03-21  3485  	if (ret)
-25cbf94843ee0b7 Horatiu Vultur 2023-03-21  3486  		return;
-25cbf94843ee0b7 Horatiu Vultur 2023-03-21  3487  
-25cbf94843ee0b7 Horatiu Vultur 2023-03-21  3488  	mutex_lock(&ptp_priv->ptp_lock);
-25cbf94843ee0b7 Horatiu Vultur 2023-03-21  3489  	if (tmp & BIT(pin)) {
-25cbf94843ee0b7 Horatiu Vultur 2023-03-21  3490  		sec = phy_read_mmd(phydev, 2, LAN8841_PTP_GPIO_RE_LTC_SEC_HI_CAP);
-25cbf94843ee0b7 Horatiu Vultur 2023-03-21  3491  		sec <<= 16;
-25cbf94843ee0b7 Horatiu Vultur 2023-03-21  3492  		sec |= phy_read_mmd(phydev, 2, LAN8841_PTP_GPIO_RE_LTC_SEC_LO_CAP);
-25cbf94843ee0b7 Horatiu Vultur 2023-03-21  3493  
-25cbf94843ee0b7 Horatiu Vultur 2023-03-21  3494  		nsec = phy_read_mmd(phydev, 2, LAN8841_PTP_GPIO_RE_LTC_NS_HI_CAP) & 0x3fff;
-25cbf94843ee0b7 Horatiu Vultur 2023-03-21  3495  		nsec <<= 16;
-25cbf94843ee0b7 Horatiu Vultur 2023-03-21  3496  		nsec |= phy_read_mmd(phydev, 2, LAN8841_PTP_GPIO_RE_LTC_NS_LO_CAP);
-25cbf94843ee0b7 Horatiu Vultur 2023-03-21  3497  	} else {
-25cbf94843ee0b7 Horatiu Vultur 2023-03-21  3498  		sec = phy_read_mmd(phydev, 2, LAN8841_PTP_GPIO_FE_LTC_SEC_HI_CAP);
-25cbf94843ee0b7 Horatiu Vultur 2023-03-21  3499  		sec <<= 16;
-25cbf94843ee0b7 Horatiu Vultur 2023-03-21  3500  		sec |= phy_read_mmd(phydev, 2, LAN8841_PTP_GPIO_FE_LTC_SEC_LO_CAP);
-25cbf94843ee0b7 Horatiu Vultur 2023-03-21  3501  
-25cbf94843ee0b7 Horatiu Vultur 2023-03-21  3502  		nsec = phy_read_mmd(phydev, 2, LAN8841_PTP_GPIO_FE_LTC_NS_HI_CAP) & 0x3fff;
-25cbf94843ee0b7 Horatiu Vultur 2023-03-21  3503  		nsec <<= 16;
-25cbf94843ee0b7 Horatiu Vultur 2023-03-21  3504  		nsec |= phy_read_mmd(phydev, 2, LAN8841_PTP_GPIO_FE_LTC_NS_LO_CAP);
-25cbf94843ee0b7 Horatiu Vultur 2023-03-21  3505  	}
-25cbf94843ee0b7 Horatiu Vultur 2023-03-21  3506  	mutex_unlock(&ptp_priv->ptp_lock);
-25cbf94843ee0b7 Horatiu Vultur 2023-03-21  3507  	ret = phy_write_mmd(phydev, 2, LAN8841_PTP_GPIO_SEL, 0);
-25cbf94843ee0b7 Horatiu Vultur 2023-03-21  3508  	if (ret)
-25cbf94843ee0b7 Horatiu Vultur 2023-03-21  3509  		return;
-25cbf94843ee0b7 Horatiu Vultur 2023-03-21  3510  
-25cbf94843ee0b7 Horatiu Vultur 2023-03-21  3511  	ptp_event.index = 0;
-25cbf94843ee0b7 Horatiu Vultur 2023-03-21  3512  	ptp_event.timestamp = ktime_set(sec, nsec);
-25cbf94843ee0b7 Horatiu Vultur 2023-03-21  3513  	ptp_event.type = PTP_CLOCK_EXTTS;
-25cbf94843ee0b7 Horatiu Vultur 2023-03-21  3514  	ptp_clock_event(ptp_priv->ptp_clock, &ptp_event);
-25cbf94843ee0b7 Horatiu Vultur 2023-03-21  3515  }
-25cbf94843ee0b7 Horatiu Vultur 2023-03-21  3516  
+13188635cc6b5d Vincent Donnefort         2022-08-24  2137  		return -EINVAL;
+ee51a1de7e3837 Ingo Molnar               2008-11-13  2138  	/*
+ee51a1de7e3837 Ingo Molnar               2008-11-13  2139  	 * Always succeed at resizing a non-existent buffer:
+ee51a1de7e3837 Ingo Molnar               2008-11-13  2140  	 */
+ee51a1de7e3837 Ingo Molnar               2008-11-13 @2141  	if (!buffer)
+                                                                     ^^^^^^
+Checked too late.
+
+0a1754b2a97efa Qiujun Huang              2020-10-19  2142  		return 0;
+ee51a1de7e3837 Ingo Molnar               2008-11-13  2143  
+6a31e1f135d1ab Steven Rostedt            2012-05-23  2144  	/* Make sure the requested buffer exists */
+6a31e1f135d1ab Steven Rostedt            2012-05-23  2145  	if (cpu_id != RING_BUFFER_ALL_CPUS &&
+6a31e1f135d1ab Steven Rostedt            2012-05-23  2146  	    !cpumask_test_cpu(cpu_id, buffer->cpumask))
+0a1754b2a97efa Qiujun Huang              2020-10-19  2147  		return 0;
+6a31e1f135d1ab Steven Rostedt            2012-05-23  2148  
+59643d1535eb22 Steven Rostedt (Red Hat   2016-05-13  2149) 	nr_pages = DIV_ROUND_UP(size, BUF_PAGE_SIZE);
+7a8e76a3829f10 Steven Rostedt            2008-09-29  2150  
+7a8e76a3829f10 Steven Rostedt            2008-09-29  2151  	/* we need a minimum of two pages */
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
+
