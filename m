@@ -1,44 +1,54 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B0C58C01
-	for <oe-kbuild@lists.linux.dev>; Wed, 22 Mar 2023 15:14:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679498089; x=1711034089;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=asaArA1b3o/cy+0liO0LBU8crdB+pmRMRk8iUXYWEHw=;
-  b=VgRbvsDlo4ouN1lSMwukTt+SCrjCqWnX1irisF10iYzqa5p0VIQ3yEnn
-   rHfp7NVnfkaj9c9ZyVWjuWJNz6ykb+JKCcAzoGEEXg3wYd7hYIazYfXzh
-   3cpcoX9jWkOe78F6bscaY6gTfSFlugK3GJKc/mUkDZWZnFYVWtP6pc8xm
-   EdIJJ2ldutILTwYNGs+X3mXzNQtg5e+6X+PUf35LO1zge7n0eSu2pWtMy
-   VrKEFsuacs/dGMK2UbvXc46uKS2Vom5VWShmpjn7mE2t2AlNb8Bwaz40j
-   6xUyKXQTOFkAlzM/CG9Lpt52QFm0hXliKbORNavtLIvbFeVoQqkkGsNbV
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="404125979"
-X-IronPort-AV: E=Sophos;i="5.98,282,1673942400"; 
-   d="scan'208";a="404125979"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2023 08:12:44 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="712258309"
-X-IronPort-AV: E=Sophos;i="5.98,282,1673942400"; 
-   d="scan'208";a="712258309"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 22 Mar 2023 08:12:42 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pf08o-000DQI-0E;
-	Wed, 22 Mar 2023 15:12:42 +0000
-Date: Wed, 22 Mar 2023 23:12:16 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1489B8C01;
+	Wed, 22 Mar 2023 15:27:56 +0000 (UTC)
+Received: by mail-ed1-f45.google.com with SMTP id r11so74543149edd.5;
+        Wed, 22 Mar 2023 08:27:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1679498875;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=HJ47atBnDcevMrGRcw1g+2ViQEBHvjetn66KKty8N7E=;
+        b=LwbUNHS1XYorMeez09Zc//CbWWBSxXuTpmYLAUEZj5y9HUyyrCYvzXUOOdLEACmXFM
+         fz629nuIjPa0/S+NcZ8KYfCAtyBpQ7P+nlDNI3TgDFekCP+92JRHvnGggXhhmCcz9T1z
+         +fadNuuYB1qnstpnSH3lNCZwFgfpl8CuLztxNP4ErR4uCs0517wG+fNnadFXWl+CigPf
+         gEjlo+aQY6p84Ybu3XmKpCQcxdyGmw3asPvCgKy7jFDDxvdZd6SpSNjeCdR8HE3OkJAP
+         y55QAA/ThlCEgHJp5+VP/d3b9Y5PaBky3aOfFmURVYZNMm1Hq4Th1oqjBn+uqaQ7LMVS
+         hTOQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679498875;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:message-id:subject:cc:to:from:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=HJ47atBnDcevMrGRcw1g+2ViQEBHvjetn66KKty8N7E=;
+        b=EateGDSw1a+9RVs99kvFGmAdSKKTQAtoXDrSHxsMHp8QfHKSn1qKao3RQR+oNbsKed
+         jIjdD+Ey0JNu76Qn+Px7K6FTDSjRLArvToFrIJUpPeER1rvMHiNr5PtqmhNNbf7mFEnW
+         H/GHT2h+Y3oZnf8DZizIG6eaEDsL3aQQzg345TzyqOradaNvmxGc6IBtLQc+7Nx/23yG
+         nunOblBP/+vyiUBgOQUTgPQoQenvsCJoZ+9LynLv67IVBwV+cQw+TxBpVHKOnv4V30VT
+         YkrV3lGrQbJwb06IH481phkHWmeQf+GDr3E3vufFdTq1Q/SRIBMgP/ayf/8BLXpmwq78
+         ezmQ==
+X-Gm-Message-State: AO0yUKXFqWfFm4007lGvZyFHOi8itArR8YcdVy0w3drtaK/VwVWpMjAj
+	sD7tIw7Z3hI2tbh3P6/fscS84heqPIv1/g==
+X-Google-Smtp-Source: AK7set8qHxg2ktsv1HU9aTuEOsFLJZ3a4ePGvfomsEXyX5Nr+0ZfBHecAVx51iq390gUmprcop2YUQ==
+X-Received: by 2002:a17:906:7d43:b0:92b:e1ff:be4e with SMTP id l3-20020a1709067d4300b0092be1ffbe4emr6898733ejp.1.1679498874793;
+        Wed, 22 Mar 2023 08:27:54 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id lj24-20020a170906f9d800b00932ba722482sm6494166ejb.149.2023.03.22.08.27.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 22 Mar 2023 08:27:54 -0700 (PDT)
+Date: Wed, 22 Mar 2023 18:27:50 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev, ye.xingchen@zte.com.cn,
+	miquel.raynal@bootlin.com
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, richard@nod.at,
+	vigneshr@ti.com, linux-mtd@lists.infradead.org,
+	linux-kernel@vger.kernel.org
 Subject: Re: [PATCH] mtd: rawnand: =?iso-8859-1?Q?f?=
  =?iso-8859-1?Q?smc=3A_use=A0devm=5Fplatform=5Fioremap=5Fresource=5Fbyname?=
  =?iso-8859-1?B?KCk=?=
-Message-ID: <202303222207.HGERupOc-lkp@intel.com>
+Message-ID: <e0254438-9683-4d47-8c4d-a27f2b356f83@kili.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -48,34 +58,16 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
 In-Reply-To: <202303211954042531445@zte.com.cn>
-References: <202303211954042531445@zte.com.cn>
-TO: ye.xingchen@zte.com.cn
-TO: miquel.raynal@bootlin.com
-CC: richard@nod.at
-CC: vigneshr@ti.com
-CC: linux-mtd@lists.infradead.org
-CC: linux-kernel@vger.kernel.org
 
 Hi,
 
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on mtd/nand/next]
-[also build test WARNING on linus/master v6.3-rc3 next-20230322]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
 url:    https://github.com/intel-lab-lkp/linux/commits/ye-xingchen-zte-com-cn/mtd-rawnand-fsmc-use-devm_platform_ioremap_resource_byname/20230321-195547
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git nand/next
 patch link:    https://lore.kernel.org/r/202303211954042531445%40zte.com.cn
 patch subject: [PATCH] mtd: rawnand: fsmc: use devm_platform_ioremap_resource_byname()
-:::::: branch date: 27 hours ago
-:::::: commit date: 27 hours ago
 config: s390-randconfig-m031-20230321 (https://download.01.org/0day-ci/archive/20230322/202303222207.HGERupOc-lkp@intel.com/config)
 compiler: s390-linux-gcc (GCC) 12.1.0
 
@@ -87,18 +79,8 @@ If you fix the issue, kindly add following tag where applicable
 New smatch warnings:
 drivers/mtd/nand/raw/fsmc_nand.c:1048 fsmc_nand_probe() error: potentially dereferencing uninitialized 'res'.
 
-Old smatch warnings:
-drivers/mtd/nand/raw/fsmc_nand.c:318 fsmc_calc_timings() warn: impossible condition '(tims->thold > 255) => (0-255 > 255)'
-drivers/mtd/nand/raw/fsmc_nand.c:326 fsmc_calc_timings() warn: impossible condition '(tims->tset > 255) => (0-255 > 255)'
-drivers/mtd/nand/raw/fsmc_nand.c:341 fsmc_calc_timings() warn: impossible condition '(tims->twait > 255) => (0-255 > 255)'
-
 vim +/res +1048 drivers/mtd/nand/raw/fsmc_nand.c
 
-ab3ab7b654ae69 drivers/mtd/nand/raw/fsmc_nand.c Linus Walleij                    2019-01-26  1016  
-6c009ab89a212b drivers/mtd/nand/fsmc_nand.c     Linus Walleij                    2010-09-13  1017  /*
-6c009ab89a212b drivers/mtd/nand/fsmc_nand.c     Linus Walleij                    2010-09-13  1018   * fsmc_nand_probe - Probe function
-6c009ab89a212b drivers/mtd/nand/fsmc_nand.c     Linus Walleij                    2010-09-13  1019   * @pdev:       platform device structure
-6c009ab89a212b drivers/mtd/nand/fsmc_nand.c     Linus Walleij                    2010-09-13  1020   */
 6c009ab89a212b drivers/mtd/nand/fsmc_nand.c     Linus Walleij                    2010-09-13  1021  static int __init fsmc_nand_probe(struct platform_device *pdev)
 6c009ab89a212b drivers/mtd/nand/fsmc_nand.c     Linus Walleij                    2010-09-13  1022  {
 6c009ab89a212b drivers/mtd/nand/fsmc_nand.c     Linus Walleij                    2010-09-13  1023  	struct fsmc_nand_data *host;
@@ -127,6 +109,9 @@ b0de774c6334dc drivers/mtd/nand/fsmc_nand.c     Thierry Reding                  
 b0de774c6334dc drivers/mtd/nand/fsmc_nand.c     Thierry Reding                   2013-01-21  1046  		return PTR_ERR(host->data_va);
 b0de774c6334dc drivers/mtd/nand/fsmc_nand.c     Thierry Reding                   2013-01-21  1047  
 6d7b42a447f92e drivers/mtd/nand/fsmc_nand.c     Jean-Christophe PLAGNIOL-VILLARD 2012-10-04 @1048  	host->data_pa = (dma_addr_t)res->start;
+
+"res" is never initialized.  Part of the commit missing?
+
 6c009ab89a212b drivers/mtd/nand/fsmc_nand.c     Linus Walleij                    2010-09-13  1049  
 21cf7720019aa3 drivers/mtd/nand/raw/fsmc_nand.c Ye Xingchen                      2023-03-21  1050  	host->addr_va = devm_platform_ioremap_resource_byname(pdev, "nand_addr");
 b0de774c6334dc drivers/mtd/nand/fsmc_nand.c     Thierry Reding                   2013-01-21  1051  	if (IS_ERR(host->addr_va))
@@ -238,8 +223,8 @@ e25da1c07dfb31 drivers/mtd/nand/fsmc_nand.c     Viresh Kumar                    
 43fab011e93fea drivers/mtd/nand/raw/fsmc_nand.c Miquel Raynal                    2018-04-21  1157  
 6c009ab89a212b drivers/mtd/nand/fsmc_nand.c     Linus Walleij                    2010-09-13  1158  	return ret;
 6c009ab89a212b drivers/mtd/nand/fsmc_nand.c     Linus Walleij                    2010-09-13  1159  }
-6c009ab89a212b drivers/mtd/nand/fsmc_nand.c     Linus Walleij                    2010-09-13  1160  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
+
