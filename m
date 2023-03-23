@@ -1,42 +1,51 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E9D9320A
-	for <oe-kbuild@lists.linux.dev>; Thu, 23 Mar 2023 09:38:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679564302; x=1711100302;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=mTSG/YI5xYa3kJmLu6QHeP8WBcrQZy6dYQp6nUcXW98=;
-  b=YMRSqa+8wPXbuZe1A3TCLMxebaDksZgsmcAcNM/7K0S1JiUFDeg9rkRI
-   qFD03CFOoJ7anMoyXSAL98po7F/795K3qeS49w1UxjbkqR7/AzqzqctmI
-   gewhHxPe9dCNseb1qMRUD9Zutn6KDOhRi1BmWT2IB/FUwnNLyYngtevRI
-   FwhTwFpIYKxP/LZfjQ7dHX/DEx9cUuyigxHy33rQhmTIJYtz4tVqpYBOd
-   xU0RRQ+rxjxDWaG33jbEx7Ff2vupPhdDr/klVOJ7ytrDAWdo0CSwI4yxO
-   AEQJuIwZLjxxLCnIglzs7Bh1YLS5K4bDbn3+awgsYdxy6oY1xPk181Ai8
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="340980657"
-X-IronPort-AV: E=Sophos;i="5.98,283,1673942400"; 
-   d="scan'208";a="340980657"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2023 02:38:21 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="659531821"
-X-IronPort-AV: E=Sophos;i="5.98,283,1673942400"; 
-   d="scan'208";a="659531821"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 23 Mar 2023 02:38:20 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pfHOl-000EDX-2x;
-	Thu, 23 Mar 2023 09:38:19 +0000
-Date: Thu, 23 Mar 2023 17:38:12 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [linux-next:master 782/6100] drivers/soc/fsl/qe/tsa.c:150:27:
- sparse: sparse: incorrect type in argument 1 (different address spaces)
-Message-ID: <202303231740.AmdW9zxo-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D437633E3;
+	Thu, 23 Mar 2023 09:40:50 +0000 (UTC)
+Received: by mail-wm1-f43.google.com with SMTP id bg16-20020a05600c3c9000b003eb34e21bdfso727062wmb.0;
+        Thu, 23 Mar 2023 02:40:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1679564449;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=1dc71n6w+9AtXwX5pmfSAmpwLU8+6HzhreJnHCiNOl8=;
+        b=LpwYyvVRlpx2YviORmEEynV/lkdNjscom47lUIw72AmtLtD2yLdk3LC5tm3f7orYR4
+         g/4Qj+0QMOkUn1agFDxdAGur3PaQs3MXyWKIc+SJniiZbJs3TseNiExiysfIthgDG6DU
+         464uIQkXK781/x32Ryds40ayR+RfA0M+YtGlfj5zI7O4LJandJzwBKrpBnmyBRsDE+YH
+         95pZgj58QMsh+Dq9k3Tj5D7D5sk5snr2Jw13aZVFbYf3LA+Hxi/E5M+qLOrhmOk1O4rx
+         EgzXRD3ITDqjFqgl+GOjzKXY3BAJPLViUwckbX82Dzom9Ile9MQFf0+tbSOskK7tlF/g
+         sIMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679564449;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=1dc71n6w+9AtXwX5pmfSAmpwLU8+6HzhreJnHCiNOl8=;
+        b=NRqnXVqaDw+zsM8VVX5D02Ax59YxyrdoCfMm0GSMGUnOLkfm5kPEv9ksC84zW0rrr2
+         1/qXHfy3v0LWh+tQw8U1mxw533TNRaZ3G+p9VrMAp04OQJ06PM96hds7LWAVDXvqEDmt
+         X0AWcfX7UqQ8XZM9f+jTaqQpeVuYkXF2QZYJBIDJyb3Y6Iy8OxakFYMFXojnZrH8crE7
+         ZYMuOoDsl7Y5F4wTALTxQgiMa6I3vBSodd+V2DacZIeYzterwqxwNWfzB0bZVaYDyTYS
+         PPpU4+KLTDWIvNskNKeXsy0sYc0upZ12VV6yCpO/aH7zW6IpkIwLe5qiACKPPA5N/IRt
+         MBbQ==
+X-Gm-Message-State: AO0yUKVHzZDjn/ME90/r5kd6LGP6Zr+luO+TEn8EVxFDGzOZv7Ldp0By
+	+O30xTkP/5KZ7gk8S48vbH3DTlD3ldU=
+X-Google-Smtp-Source: AK7set+z9Ru9H1vQo7mn/7dqfLJ3GZKc/ihGqVjV6GE7VqDuvOO+r2UZ4eTj1lsv/azheLhF+UQaTw==
+X-Received: by 2002:a1c:f418:0:b0:3e2:2467:d3f5 with SMTP id z24-20020a1cf418000000b003e22467d3f5mr1735229wma.25.1679564448781;
+        Thu, 23 Mar 2023 02:40:48 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id 14-20020a05600c024e00b003ed2384566fsm1354616wmj.21.2023.03.23.02.40.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 23 Mar 2023 02:40:48 -0700 (PDT)
+Date: Thu, 23 Mar 2023 12:40:44 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev, Shyam Prasad N <sprasad@microsoft.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-cifs@vger.kernel.org, samba-technical@lists.samba.org,
+	Steve French <stfrench@microsoft.com>,
+	"Paulo Alcantara (SUSE)" <pc@manguebit.com>
+Subject: [cifs:for-next 3/8] fs/cifs/connect.c:1303 cifs_ipaddr_cmp() error:
+ memcmp() '&saddr4->sin_addr.s_addr' too small (4 vs 16)
+Message-ID: <13de0bf0-aa74-46a3-8389-3c70fe77be1f@kili.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -46,185 +55,88 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "low confidence bisect report"
-:::::: 
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Herve Codina <herve.codina@bootlin.com>
-CC: Mark Brown <broonie@kernel.org>
-CC: Christophe Leroy <christophe.leroy@csgroup.eu>
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   7c4a254d78f89546d0e74a40617ef24c6151c8d1
-commit: 1d4ba0b81c1cf2bfc0c55658f53809846ae9de52 [782/6100] soc: fsl: cpm1: Add support for TSA
-:::::: branch date: 6 hours ago
-:::::: commit date: 2 weeks ago
-config: m68k-randconfig-s041-20230323 (https://download.01.org/0day-ci/archive/20230323/202303231740.AmdW9zxo-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.1.0
-reproduce:
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=1d4ba0b81c1cf2bfc0c55658f53809846ae9de52
-        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
-        git fetch --no-tags linux-next master
-        git checkout 1d4ba0b81c1cf2bfc0c55658f53809846ae9de52
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=m68k olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=m68k SHELL=/bin/bash drivers/nvmem/ drivers/soc/fsl/qe/
+tree:   git://git.samba.org/sfrench/cifs-2.6.git for-next
+head:   96114df697dfaef2ce29c14089a83e4a5777e915
+commit: 010c4e0a894e6a3dee3176aa2f654fce632d0346 [3/8] cifs: fix sockaddr comparison in iface_cmp
+config: i386-randconfig-m021 (https://download.01.org/0day-ci/archive/20230323/202303230210.ufS9gVzi-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/r/202303231740.AmdW9zxo-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Link: https://lore.kernel.org/r/202303230210.ufS9gVzi-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/soc/fsl/qe/tsa.c:663:22: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *[noderef] si_regs @@     got void [noderef] __iomem * @@
-   drivers/soc/fsl/qe/tsa.c:663:22: sparse:     expected void *[noderef] si_regs
-   drivers/soc/fsl/qe/tsa.c:663:22: sparse:     got void [noderef] __iomem *
-   drivers/soc/fsl/qe/tsa.c:673:21: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *[noderef] si_ram @@     got void [noderef] __iomem * @@
-   drivers/soc/fsl/qe/tsa.c:673:21: sparse:     expected void *[noderef] si_ram
-   drivers/soc/fsl/qe/tsa.c:673:21: sparse:     got void [noderef] __iomem *
-   drivers/soc/fsl/qe/tsa.c:189:26: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:189:26: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:160:21: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:160:39: sparse: sparse: dereference of noderef expression
->> drivers/soc/fsl/qe/tsa.c:150:27: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __iomem * @@     got void *[noderef] __iomem addr @@
-   drivers/soc/fsl/qe/tsa.c:150:27: sparse:     expected void const [noderef] __iomem *
-   drivers/soc/fsl/qe/tsa.c:150:27: sparse:     got void *[noderef] __iomem addr
-   drivers/soc/fsl/qe/tsa.c:160:39: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:150:27: sparse: sparse: dereference of noderef expression
->> drivers/soc/fsl/qe/tsa.c:140:26: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem * @@     got void *[noderef] __iomem addr @@
-   drivers/soc/fsl/qe/tsa.c:140:26: sparse:     expected void [noderef] __iomem *
-   drivers/soc/fsl/qe/tsa.c:140:26: sparse:     got void *[noderef] __iomem addr
-   drivers/soc/fsl/qe/tsa.c:160:21: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:160:39: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:150:27: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:140:26: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:218:26: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:218:26: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:160:21: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:160:39: sparse: sparse: dereference of noderef expression
->> drivers/soc/fsl/qe/tsa.c:150:27: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __iomem * @@     got void *[noderef] __iomem addr @@
-   drivers/soc/fsl/qe/tsa.c:150:27: sparse:     expected void const [noderef] __iomem *
-   drivers/soc/fsl/qe/tsa.c:150:27: sparse:     got void *[noderef] __iomem addr
-   drivers/soc/fsl/qe/tsa.c:160:39: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:150:27: sparse: sparse: dereference of noderef expression
->> drivers/soc/fsl/qe/tsa.c:140:26: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem * @@     got void *[noderef] __iomem addr @@
-   drivers/soc/fsl/qe/tsa.c:140:26: sparse:     expected void [noderef] __iomem *
-   drivers/soc/fsl/qe/tsa.c:140:26: sparse:     got void *[noderef] __iomem addr
-   drivers/soc/fsl/qe/tsa.c:160:21: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:160:39: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:150:27: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:140:26: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:245:25: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:245:47: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:246:25: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:246:46: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:247:25: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:250:25: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:250:47: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:251:25: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:251:46: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:252:25: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:259:33: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:259:55: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:260:33: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:260:54: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:261:33: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:264:33: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:264:55: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:265:33: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:265:54: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:266:33: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:271:33: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:271:55: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:272:33: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:272:54: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:273:33: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:276:33: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:276:55: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:277:33: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:277:54: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:278:33: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:322:9: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:322:16: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:322:35: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:322:58: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:325:14: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:325:33: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:330:13: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:332:31: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:332:31: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:155:21: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:155:38: sparse: sparse: dereference of noderef expression
->> drivers/soc/fsl/qe/tsa.c:150:27: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __iomem * @@     got void *[noderef] __iomem addr @@
-   drivers/soc/fsl/qe/tsa.c:150:27: sparse:     expected void const [noderef] __iomem *
-   drivers/soc/fsl/qe/tsa.c:150:27: sparse:     got void *[noderef] __iomem addr
-   drivers/soc/fsl/qe/tsa.c:155:38: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:150:27: sparse: sparse: dereference of noderef expression
->> drivers/soc/fsl/qe/tsa.c:140:26: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem * @@     got void *[noderef] __iomem addr @@
-   drivers/soc/fsl/qe/tsa.c:140:26: sparse:     expected void [noderef] __iomem *
-   drivers/soc/fsl/qe/tsa.c:140:26: sparse:     got void *[noderef] __iomem addr
-   drivers/soc/fsl/qe/tsa.c:155:21: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:155:38: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:150:27: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:140:26: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:344:25: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:344:44: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:348:29: sparse: sparse: dereference of noderef expression
->> drivers/soc/fsl/qe/tsa.c:140:26: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem * @@     got void *[noderef] __iomem addr @@
-   drivers/soc/fsl/qe/tsa.c:140:26: sparse:     expected void [noderef] __iomem *
-   drivers/soc/fsl/qe/tsa.c:140:26: sparse:     got void *[noderef] __iomem addr
-   drivers/soc/fsl/qe/tsa.c:348:29: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:140:26: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:349:17: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:640:29: sparse: sparse: dereference of noderef expression
->> drivers/soc/fsl/qe/tsa.c:140:26: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem * @@     got void *[noderef] __iomem addr @@
-   drivers/soc/fsl/qe/tsa.c:140:26: sparse:     expected void [noderef] __iomem *
-   drivers/soc/fsl/qe/tsa.c:140:26: sparse:     got void *[noderef] __iomem addr
-   drivers/soc/fsl/qe/tsa.c:640:29: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:140:26: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:664:20: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:664:20: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:665:32: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:665:32: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:674:20: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:674:20: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:675:32: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:675:32: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:690:26: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:690:26: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:160:21: sparse: sparse: dereference of noderef expression
-   drivers/soc/fsl/qe/tsa.c:160:39: sparse: sparse: dereference of noderef expression
->> drivers/soc/fsl/qe/tsa.c:150:27: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __iomem * @@     got void *[noderef] __iomem addr @@
-   drivers/soc/fsl/qe/tsa.c:150:27: sparse:     expected void const [noderef] __iomem *
-   drivers/soc/fsl/qe/tsa.c:150:27: sparse:     got void *[noderef] __iomem addr
-   drivers/soc/fsl/qe/tsa.c:160:39: sparse: sparse: too many warnings
+New smatch warnings:
+fs/cifs/connect.c:1303 cifs_ipaddr_cmp() error: memcmp() '&saddr4->sin_addr.s_addr' too small (4 vs 16)
+fs/cifs/connect.c:1318 cifs_ipaddr_cmp() error: memcmp() '&saddr6->sin6_addr' too small (16 vs 28)
 
-vim +150 drivers/soc/fsl/qe/tsa.c
+Old smatch warnings:
+fs/cifs/connect.c:1303 cifs_ipaddr_cmp() error: memcmp() '&vaddr4->sin_addr.s_addr' too small (4 vs 16)
+fs/cifs/connect.c:1318 cifs_ipaddr_cmp() error: memcmp() '&vaddr6->sin6_addr' too small (16 vs 28)
+fs/cifs/connect.c:2937 generic_ip_connect() error: we previously assumed 'socket' could be null (see line 2925)
 
-1d4ba0b81c1cf2 Herve Codina 2023-02-17  137  
-1d4ba0b81c1cf2 Herve Codina 2023-02-17  138  static inline void tsa_write32(void *__iomem addr, u32 val)
-1d4ba0b81c1cf2 Herve Codina 2023-02-17  139  {
-1d4ba0b81c1cf2 Herve Codina 2023-02-17 @140  	iowrite32be(val, addr);
-1d4ba0b81c1cf2 Herve Codina 2023-02-17  141  }
-1d4ba0b81c1cf2 Herve Codina 2023-02-17  142  
-1d4ba0b81c1cf2 Herve Codina 2023-02-17  143  static inline void tsa_write8(void *__iomem addr, u32 val)
-1d4ba0b81c1cf2 Herve Codina 2023-02-17  144  {
-1d4ba0b81c1cf2 Herve Codina 2023-02-17  145  	iowrite8(val, addr);
-1d4ba0b81c1cf2 Herve Codina 2023-02-17  146  }
-1d4ba0b81c1cf2 Herve Codina 2023-02-17  147  
-1d4ba0b81c1cf2 Herve Codina 2023-02-17  148  static inline u32 tsa_read32(void *__iomem addr)
-1d4ba0b81c1cf2 Herve Codina 2023-02-17  149  {
-1d4ba0b81c1cf2 Herve Codina 2023-02-17 @150  	return ioread32be(addr);
-1d4ba0b81c1cf2 Herve Codina 2023-02-17  151  }
-1d4ba0b81c1cf2 Herve Codina 2023-02-17  152  
+vim +1303 fs/cifs/connect.c
+
+010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1279  int
+010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1280  cifs_ipaddr_cmp(struct sockaddr *srcaddr, struct sockaddr *rhs)
+010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1281  {
+010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1282  	struct sockaddr_in *saddr4 = (struct sockaddr_in *)srcaddr;
+010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1283  	struct sockaddr_in *vaddr4 = (struct sockaddr_in *)rhs;
+010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1284  	struct sockaddr_in6 *saddr6 = (struct sockaddr_in6 *)srcaddr;
+010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1285  	struct sockaddr_in6 *vaddr6 = (struct sockaddr_in6 *)rhs;
+010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1286  
+010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1287  	switch (srcaddr->sa_family) {
+010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1288  	case AF_UNSPEC:
+010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1289  		switch (rhs->sa_family) {
+010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1290  		case AF_UNSPEC:
+010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1291  			return 0;
+010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1292  		case AF_INET:
+010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1293  		case AF_INET6:
+010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1294  			return 1;
+010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1295  		default:
+010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1296  			return -1;
+010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1297  		}
+010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1298  	case AF_INET: {
+010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1299  		switch (rhs->sa_family) {
+010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1300  		case AF_UNSPEC:
+010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1301  			return -1;
+010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1302  		case AF_INET:
+010c4e0a894e6a3 Shyam Prasad N 2022-12-27 @1303  			return memcmp(&saddr4->sin_addr.s_addr,
+010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1304  			       &vaddr4->sin_addr.s_addr,
+010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1305  			       sizeof(struct sockaddr_in));
+
+saddr4 and vaddr4 are type sockaddr_in.  But sin_addr.s_addr is an
+offset into the struct.  This looks like a read overflow.  I would think
+it should be sizeof(struct in_addr).
+
+010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1306  		case AF_INET6:
+010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1307  			return 1;
+010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1308  		default:
+010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1309  			return -1;
+010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1310  		}
+010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1311  	}
+010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1312  	case AF_INET6: {
+010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1313  		switch (rhs->sa_family) {
+010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1314  		case AF_UNSPEC:
+010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1315  		case AF_INET:
+010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1316  			return -1;
+010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1317  		case AF_INET6:
+010c4e0a894e6a3 Shyam Prasad N 2022-12-27 @1318  			return memcmp(&saddr6->sin6_addr,
+010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1319  				      &vaddr6->sin6_addr,
+010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1320  				      sizeof(struct sockaddr_in6));
+
+Same.
+
+010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1321  		default:
+010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1322  			return -1;
+010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1323  		}
+010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1324  	}
+010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1325  	default:
+010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1326  		return -1; /* don't expect to be here */
+010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1327  	}
+010c4e0a894e6a3 Shyam Prasad N 2022-12-27  1328  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
+
