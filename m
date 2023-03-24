@@ -1,165 +1,122 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 325077E;
-	Fri, 24 Mar 2023 08:01:37 +0000 (UTC)
-Received: by mail-wm1-f42.google.com with SMTP id v20-20020a05600c471400b003ed8826253aso2640554wmo.0;
-        Fri, 24 Mar 2023 01:01:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679644895;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=7TZflQcry/zVbKgGN8VXhySI4kAf9LcbB6zEK3sU8LA=;
-        b=TUJ1gjZlY4cdfXMGFw+W2SH5lHAQF+7+P5xsVBbtwrTPsQqzOXZuRaWTUGDrc+ptEl
-         D/IR/t51lNkl54yZ+NDArRinRwipvAw0VWM46bbcUFnoIDGpX430r/neTjF8CkJG7EYA
-         nkFNGN5TfDQTMrclAUMHNlkL5fkBRrmNLfjgmLG50miiSq5EdwMgU3Mtu//EYMFGKnG3
-         IcwsH9MUSzBwlwAso0Az9lZQNtNDrFIMiTeyIuypNI+/xWszkLy/vkMWjATik6SAPYGZ
-         Q8ZYjjcyO8+aYCoNxsyQHb/IazvuTb0ipS6aKxiSvM9w6eku1g38ddhE9s2LzJgrYAMP
-         8krA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679644895;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=7TZflQcry/zVbKgGN8VXhySI4kAf9LcbB6zEK3sU8LA=;
-        b=QLxq3ZlPw/Q2U0/HB0kc8mlzGI3uc7/dwPPrL0gR0RAbcP6GJEBJ34SP19W9BdU+pm
-         0gr6jpdDEBclT4eVS7jbjoarc2Wl7lcgku6SA+2THN2jfoK6HfJpP8uE8x3ioCq7kUXV
-         xMduDssP6MQzgYkTyUXhCTmjGr0ABGmXNjnJT0bmMySLZDzFQCr0R7iVyJacxvQjFQKH
-         KjxNt/MeOFSKM0PBQfE9nfDDQOPdjv1mZ1jnWtkCEZZ4dhhhDcCmcKcqM6xl/sQzHon9
-         GA2uV9MwCEEAsvRuqxvqRVxK+dn1byWh8OQxh1TM8mTi5HAfiuNJAhGCTdjZTCPHqDfW
-         ES0g==
-X-Gm-Message-State: AO0yUKWkgQMJbQ3Assg2r+OlS32nVdCaSeZ0BZY5MOP4ClZ0vJJ3v5Ka
-	Xq72ArJ+o1OPU2883fEuWSk=
-X-Google-Smtp-Source: AK7set8/Iq04QHghAHUv0aUGEuupYMtG42PzDbNIUIgAUBFYjhUCeOX+gd+RXJvzA27We3mS/L7eag==
-X-Received: by 2002:a05:600c:254:b0:3ed:dc11:1a74 with SMTP id 20-20020a05600c025400b003eddc111a74mr1727596wmj.5.1679644894952;
-        Fri, 24 Mar 2023 01:01:34 -0700 (PDT)
-Received: from localhost (host86-156-84-164.range86-156.btcentralplus.com. [86.156.84.164])
-        by smtp.gmail.com with ESMTPSA id w4-20020a05600c474400b003edc9a5f98asm4262205wmo.44.2023.03.24.01.01.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Mar 2023 01:01:33 -0700 (PDT)
-Date: Fri, 24 Mar 2023 08:01:32 +0000
-From: Lorenzo Stoakes <lstoakes@gmail.com>
-To: Dan Carpenter <error27@gmail.com>
-Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Andrew Morton <akpm@linux-foundation.org>
-Subject: Re: [linux-next:master 5496/6100] mm/mmap.c:962 vma_merge() error:
- uninitialized symbol 'next'.
-Message-ID: <51b0a7d2-0f9a-4104-b9c0-a1aa307cb028@lucifer.local>
-References: <7c7e59d2-435e-4677-b278-c066cae80616@kili.mountain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8B5F7E;
+	Fri, 24 Mar 2023 08:11:45 +0000 (UTC)
+Received: from [IPV6:2a01:e0a:120:3210:1cb3:11e4:5834:9d5a] (unknown [IPv6:2a01:e0a:120:3210:1cb3:11e4:5834:9d5a])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
+	(No client certificate requested)
+	(Authenticated sender: benjamin.gaignard)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id 6BCE66603103;
+	Fri, 24 Mar 2023 08:11:37 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1679645498;
+	bh=3Mr86UDy3UpNufjt21Ufqdk3iHtyAj7hnO+u3KjB708=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=mnKwthLEv+tlfb7ktpXfQvkMYedJR8yf4IqgZX78OzHBsb3TXu0cXugvy4Tly1zQo
+	 T559lOJFKtJKlc5TrAvI/G7z02NG3Zw5H9zTdNntrzJ6WRCUa5ZOfMF+6ak+B5hYRQ
+	 0EU351Y7+sj8DXpHNRkpvvVU2JmsmcZCv7YN/hb+EfppmoltHjTd82Xz3hGp5fSQuh
+	 JXjn5XZhtu358kjzylV8DCcNzShYzFfxEiwlJ9sy1xu1Qgfmb8C8oSYABUGDCo6bNi
+	 TmnC5WYWGJMw2VFJ4ri7+hmLy6b0+HnNNczgw9Ff6SVwpnRXjus4LbzhUT6M+Ru8XG
+	 sZWzWQx6uyvWA==
+Message-ID: <a88b93cc-a81f-6186-09fc-02223867e677@collabora.com>
+Date: Fri, 24 Mar 2023 09:11:34 +0100
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v2 2/8] media: videobuf2: Make bufs array dynamic
+ allocated
+Content-Language: en-US
+To: Dan Carpenter <error27@gmail.com>, oe-kbuild@lists.linux.dev,
+ tfiga@chromium.org, m.szyprowski@samsung.com, mchehab@kernel.org,
+ ming.qian@nxp.com, shijie.qin@nxp.com, eagle.zhou@nxp.com,
+ bin.liu@mediatek.com, matthias.bgg@gmail.com,
+ angelogioacchino.delregno@collabora.com, tiffany.lin@mediatek.com,
+ andrew-ct.chen@mediatek.com, yunfei.dong@mediatek.com,
+ stanimir.k.varbanov@gmail.com, quic_vgarodia@quicinc.com, agross@kernel.org,
+ andersson@kernel.org, konrad.dybcio@linaro.org,
+ ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
+ daniel.almeida@collabora.com, hverkuil-cisco@xs4all.nl,
+ laurent.pinchart@ideasonboard.com, jernel@kernel.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+ linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ linux-arm-msm@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ kernel@collabora.com
+References: <4e2cb832-de83-4ba6-bd8a-119a19038cfe@kili.mountain>
+From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+In-Reply-To: <4e2cb832-de83-4ba6-bd8a-119a19038cfe@kili.mountain>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <7c7e59d2-435e-4677-b278-c066cae80616@kili.mountain>
 
-On Fri, Mar 24, 2023 at 08:03:52AM +0300, Dan Carpenter wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> head:   7c4a254d78f89546d0e74a40617ef24c6151c8d1
-> commit: e887ecae997ebaaad4d9b93e6a01fd5495ec1bc3 [5496/6100] mm/mmap/vma_merge: set next to NULL if not applicable
-> config: i386-randconfig-m021 (https://download.01.org/0day-ci/archive/20230324/202303240246.9rvyIPWZ-lkp@intel.com/config)
-> compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+
+Le 24/03/2023 à 06:01, Dan Carpenter a écrit :
+> Hi Benjamin,
+>
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Benjamin-Gaignard/media-videobuf2-Access-vb2_queue-bufs-array-through-helper-functions/20230321-183154
+> base:   git://linuxtv.org/media_tree.git master
+> patch link:    https://lore.kernel.org/r/20230321102855.346732-3-benjamin.gaignard%40collabora.com
+> patch subject: [PATCH v2 2/8] media: videobuf2: Make bufs array dynamic allocated
+> config: arm64-randconfig-m041-20230319 (https://download.01.org/0day-ci/archive/20230324/202303240148.lKRnUqW9-lkp@intel.com/config)
+> compiler: aarch64-linux-gcc (GCC) 12.1.0
 >
 > If you fix the issue, kindly add following tag where applicable
 > | Reported-by: kernel test robot <lkp@intel.com>
 > | Reported-by: Dan Carpenter <error27@gmail.com>
-> | Link: https://lore.kernel.org/r/202303240246.9rvyIPWZ-lkp@intel.com/
+> | Link: https://lore.kernel.org/r/202303240148.lKRnUqW9-lkp@intel.com/
 >
 > smatch warnings:
-> mm/mmap.c:962 vma_merge() error: uninitialized symbol 'next'.
+> include/media/videobuf2-core.h:1272 vb2_queue_add_buffer() warn: sleeping in atomic context
+> drivers/media/common/videobuf2/videobuf2-core.c:2456 vb2_core_queue_init() warn: Please consider using kcalloc instead of kmalloc_array
 >
+> vim +1272 include/media/videobuf2-core.h
+>
+> 625d46c1c1fe8e Benjamin Gaignard 2023-03-21  1263  static inline bool vb2_queue_add_buffer(struct vb2_queue *q, struct vb2_buffer *vb)
+> 625d46c1c1fe8e Benjamin Gaignard 2023-03-21  1264  {
+> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1265  	bool ret = false;
+> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1266
+> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1267  	spin_lock(&q->bufs_lock);
+>                                                          ^^^^^^^^^^^^^^^^^^^^^^^
+> Holding a spin lock.
+>
+> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1268
+> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1269  	if (vb->index >= q->max_num_bufs) {
+> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1270  		struct vb2_buffer **tmp;
+> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1271
+> 487d3f14d12ecf Benjamin Gaignard 2023-03-21 @1272  		tmp = krealloc_array(q->bufs, q->max_num_bufs * 2, sizeof(*q->bufs), GFP_KERNEL);
+>                                                                                                                                       ^^^^^^^^^^
+> Sleeping allocation.  GFP_ATOMIC?  Or is there a way to move the
+> allocation outside the lock?
 
-Hi, sorry for breaking -next (this is the nth report for this :) but this
-is a mistake that accidentally slipped in a while ago, it was fixed in v3
-of the patch series which is currently in mm-unstable and should land in
--next when mm is next integrated (no pun intended).
+I will add GFP_ATOMIC flag in next version.
 
-See https://lore.kernel.org/all/cover.1679516210.git.lstoakes@gmail.com for
-the latest version of the series in question.
+Thanks for your help,
+Benjamin
 
-Thanks for the report and it's really nice to see how many people are on
-top of these things!
-
-> vim +/next +962 mm/mmap.c
 >
-> 9760ebffbf5507 Liam R. Howlett    2023-01-20   904  struct vm_area_struct *vma_merge(struct vma_iterator *vmi, struct mm_struct *mm,
-> ^1da177e4c3f41 Linus Torvalds     2005-04-16   905  			struct vm_area_struct *prev, unsigned long addr,
-> ^1da177e4c3f41 Linus Torvalds     2005-04-16   906  			unsigned long end, unsigned long vm_flags,
-> ^1da177e4c3f41 Linus Torvalds     2005-04-16   907  			struct anon_vma *anon_vma, struct file *file,
-> 19a809afe2fe08 Andrea Arcangeli   2015-09-04   908  			pgoff_t pgoff, struct mempolicy *policy,
-> 9a10064f5625d5 Colin Cross        2022-01-14   909  			struct vm_userfaultfd_ctx vm_userfaultfd_ctx,
-> 5c26f6ac9416b6 Suren Baghdasaryan 2022-03-04   910  			struct anon_vma_name *anon_name)
-> ^1da177e4c3f41 Linus Torvalds     2005-04-16   911  {
-> ^1da177e4c3f41 Linus Torvalds     2005-04-16   912  	pgoff_t pglen = (end - addr) >> PAGE_SHIFT;
-> 0503ea8f5ba73e Liam R. Howlett    2023-01-20   913  	pgoff_t vma_pgoff;
-> 721076b86904d4 Lorenzo Stoakes    2023-03-21   914  	struct vm_area_struct *curr, *next, *res = NULL;
-> 0503ea8f5ba73e Liam R. Howlett    2023-01-20   915  	struct vm_area_struct *vma, *adjust, *remove, *remove2;
-> eef199440df950 Jakub Matěna       2022-06-03   916  	int err = -1;
-> eef199440df950 Jakub Matěna       2022-06-03   917  	bool merge_prev = false;
-> eef199440df950 Jakub Matěna       2022-06-03   918  	bool merge_next = false;
-> 0503ea8f5ba73e Liam R. Howlett    2023-01-20   919  	bool vma_expanded = false;
-> 0503ea8f5ba73e Liam R. Howlett    2023-01-20   920  	struct vma_prepare vp;
-> 0503ea8f5ba73e Liam R. Howlett    2023-01-20   921  	unsigned long vma_end = end;
-> 27d6788ee67b59 Vlastimil Babka    2023-03-09   922  	long adj_start = 0;
-> 0503ea8f5ba73e Liam R. Howlett    2023-01-20   923  	unsigned long vma_start = addr;
-> ^1da177e4c3f41 Linus Torvalds     2005-04-16   924
-> 0503ea8f5ba73e Liam R. Howlett    2023-01-20   925  	validate_mm(mm);
-> ^1da177e4c3f41 Linus Torvalds     2005-04-16   926  	/*
-> ^1da177e4c3f41 Linus Torvalds     2005-04-16   927  	 * We later require that vma->vm_flags == vm_flags,
-> ^1da177e4c3f41 Linus Torvalds     2005-04-16   928  	 * so this tests vma->vm_flags & VM_SPECIAL, too.
-> ^1da177e4c3f41 Linus Torvalds     2005-04-16   929  	 */
-> ^1da177e4c3f41 Linus Torvalds     2005-04-16   930  	if (vm_flags & VM_SPECIAL)
-> ^1da177e4c3f41 Linus Torvalds     2005-04-16   931  		return NULL;
-> ^1da177e4c3f41 Linus Torvalds     2005-04-16   932
-> e887ecae997eba Lorenzo Stoakes    2023-03-21   933  	/* Does the input range span an existing VMA? (cases 5 - 8) */
-> e887ecae997eba Lorenzo Stoakes    2023-03-21   934  	curr = find_vma_intersection(mm, prev ? prev->vm_end : 0, end);
-> ^1da177e4c3f41 Linus Torvalds     2005-04-16   935
-> e887ecae997eba Lorenzo Stoakes    2023-03-21   936  	if (curr && end == curr->vm_end)
-> e887ecae997eba Lorenzo Stoakes    2023-03-21   937  		/* Is there is a VMA immediately adjacent (cases 6 - 8)? */
-> e887ecae997eba Lorenzo Stoakes    2023-03-21   938  		next = vma_lookup(mm, curr->vm_end);
-> e887ecae997eba Lorenzo Stoakes    2023-03-21   939  	else if (!curr)
-> e887ecae997eba Lorenzo Stoakes    2023-03-21   940  		/* Is there a VMA next to a hole (case 1 - 3) or prev (4)? */
-> e887ecae997eba Lorenzo Stoakes    2023-03-21   941  		next = vma_lookup(mm, end);
->
-> next not initialized on else path.
->
-> 759224a5ffcfa1 Vlastimil Babka    2023-03-09   942
-> e86f15ee64d8ee Andrea Arcangeli   2016-10-07   943  	/* verify some invariant that must be enforced by the caller */
-> e86f15ee64d8ee Andrea Arcangeli   2016-10-07   944  	VM_WARN_ON(prev && addr <= prev->vm_start);
-> 721076b86904d4 Lorenzo Stoakes    2023-03-21   945  	VM_WARN_ON(curr && end > curr->vm_end);
-> e86f15ee64d8ee Andrea Arcangeli   2016-10-07   946  	VM_WARN_ON(addr >= end);
-> e86f15ee64d8ee Andrea Arcangeli   2016-10-07   947
-> 0503ea8f5ba73e Liam R. Howlett    2023-01-20   948  	if (prev) {
-> 0503ea8f5ba73e Liam R. Howlett    2023-01-20   949  		res = prev;
-> 0503ea8f5ba73e Liam R. Howlett    2023-01-20   950  		vma = prev;
-> 0503ea8f5ba73e Liam R. Howlett    2023-01-20   951  		vma_start = prev->vm_start;
-> 0503ea8f5ba73e Liam R. Howlett    2023-01-20   952  		vma_pgoff = prev->vm_pgoff;
-> eef199440df950 Jakub Matěna       2022-06-03   953  		/* Can we merge the predecessor? */
-> 0503ea8f5ba73e Liam R. Howlett    2023-01-20   954  		if (prev->vm_end == addr && mpol_equal(vma_policy(prev), policy)
-> 0503ea8f5ba73e Liam R. Howlett    2023-01-20   955  		    && can_vma_merge_after(prev, vm_flags, anon_vma, file,
-> 0503ea8f5ba73e Liam R. Howlett    2023-01-20   956  				   pgoff, vm_userfaultfd_ctx, anon_name)) {
-> eef199440df950 Jakub Matěna       2022-06-03   957  			merge_prev = true;
-> 18b098af2890cd Liam R. Howlett    2023-01-20   958  			vma_prev(vmi);
-> eef199440df950 Jakub Matěna       2022-06-03   959  		}
-> 0503ea8f5ba73e Liam R. Howlett    2023-01-20   960  	}
-> eef199440df950 Jakub Matěna       2022-06-03   961  	/* Can we merge the successor? */
-> e887ecae997eba Lorenzo Stoakes    2023-03-21  @962  	if (next && mpol_equal(policy, vma_policy(next)) &&
->                                                             ^^^^
->
-> ^1da177e4c3f41 Linus Torvalds     2005-04-16   963  	    can_vma_merge_before(next, vm_flags,
-> eef199440df950 Jakub Matěna       2022-06-03   964  				 anon_vma, file, pgoff+pglen,
-> eef199440df950 Jakub Matěna       2022-06-03   965  				 vm_userfaultfd_ctx, anon_name)) {
-> eef199440df950 Jakub Matěna       2022-06-03   966  		merge_next = true;
-> eef199440df950 Jakub Matěna       2022-06-03   967  	}
-> 0503ea8f5ba73e Liam R. Howlett    2023-01-20   968
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests
+> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1273  		if (!tmp)
+> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1274  			goto realloc_failed;
+> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1275
+> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1276  		q->max_num_bufs *= 2;
+> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1277  		q->bufs = tmp;
+> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1278  	}
+> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1279
+> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1280  	if (vb->index < q->max_num_bufs) {
+> 625d46c1c1fe8e Benjamin Gaignard 2023-03-21  1281  		q->bufs[vb->index] = vb;
+> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1282  		ret = true;
+> 625d46c1c1fe8e Benjamin Gaignard 2023-03-21  1283  	}
+> 625d46c1c1fe8e Benjamin Gaignard 2023-03-21  1284
+> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1285  realloc_failed:
+> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1286  	spin_unlock(&q->bufs_lock);
+> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1287
+> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1288  	return ret;
+> 625d46c1c1fe8e Benjamin Gaignard 2023-03-21  1289  }
 >
