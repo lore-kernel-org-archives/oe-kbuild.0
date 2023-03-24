@@ -1,409 +1,165 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A57A20F5
-	for <oe-kbuild@lists.linux.dev>; Fri, 24 Mar 2023 05:29:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679635744; x=1711171744;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=8eiQOvDJuONxoP8jBNttAPyOVsl1xKcPex+U5Sfr3Ic=;
-  b=KMSALj7+djnYJqQX4D5PF1gH8+iBZpgHX88k139os09U8zXbHKRKhQV7
-   q1utW7z8+Cu8OKo9Y6O4do/oa61XCK5pfrPUnGVd4e9AAHfoSVKFuGsiW
-   JG2lBRK5aZaB/2UUBSVg08UNUE8bGjWz4Dy5ssv86gCaKhd4RSUbJp42x
-   AHHgy7Q2adBvJzfY3iOXsfHYuz2rfzObx6i9gguLixxtqdHUll0DaDris
-   eE++FjntK7nFiSUjWrXvYR++6JGQ8ysdBWBoX6igI8tQhK23TIK092KQE
-   Ge8HwSMGEaYagrxwmxZJa+llRnpU48T17QVK08ymSYnFBF6a8Fu71gDsV
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10658"; a="339729157"
-X-IronPort-AV: E=Sophos;i="5.98,286,1673942400"; 
-   d="scan'208";a="339729157"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2023 22:29:02 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10658"; a="712953145"
-X-IronPort-AV: E=Sophos;i="5.98,286,1673942400"; 
-   d="scan'208";a="712953145"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 23 Mar 2023 22:29:00 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pfZz2-000F0i-16;
-	Fri, 24 Mar 2023 05:29:00 +0000
-Date: Fri, 24 Mar 2023 13:28:43 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH v3 2/6] mfd: Add support for the Lantiq PEF2256 framer
-Message-ID: <202303241313.pYnyzYXe-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 325077E;
+	Fri, 24 Mar 2023 08:01:37 +0000 (UTC)
+Received: by mail-wm1-f42.google.com with SMTP id v20-20020a05600c471400b003ed8826253aso2640554wmo.0;
+        Fri, 24 Mar 2023 01:01:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1679644895;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=7TZflQcry/zVbKgGN8VXhySI4kAf9LcbB6zEK3sU8LA=;
+        b=TUJ1gjZlY4cdfXMGFw+W2SH5lHAQF+7+P5xsVBbtwrTPsQqzOXZuRaWTUGDrc+ptEl
+         D/IR/t51lNkl54yZ+NDArRinRwipvAw0VWM46bbcUFnoIDGpX430r/neTjF8CkJG7EYA
+         nkFNGN5TfDQTMrclAUMHNlkL5fkBRrmNLfjgmLG50miiSq5EdwMgU3Mtu//EYMFGKnG3
+         IcwsH9MUSzBwlwAso0Az9lZQNtNDrFIMiTeyIuypNI+/xWszkLy/vkMWjATik6SAPYGZ
+         Q8ZYjjcyO8+aYCoNxsyQHb/IazvuTb0ipS6aKxiSvM9w6eku1g38ddhE9s2LzJgrYAMP
+         8krA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679644895;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=7TZflQcry/zVbKgGN8VXhySI4kAf9LcbB6zEK3sU8LA=;
+        b=QLxq3ZlPw/Q2U0/HB0kc8mlzGI3uc7/dwPPrL0gR0RAbcP6GJEBJ34SP19W9BdU+pm
+         0gr6jpdDEBclT4eVS7jbjoarc2Wl7lcgku6SA+2THN2jfoK6HfJpP8uE8x3ioCq7kUXV
+         xMduDssP6MQzgYkTyUXhCTmjGr0ABGmXNjnJT0bmMySLZDzFQCr0R7iVyJacxvQjFQKH
+         KjxNt/MeOFSKM0PBQfE9nfDDQOPdjv1mZ1jnWtkCEZZ4dhhhDcCmcKcqM6xl/sQzHon9
+         GA2uV9MwCEEAsvRuqxvqRVxK+dn1byWh8OQxh1TM8mTi5HAfiuNJAhGCTdjZTCPHqDfW
+         ES0g==
+X-Gm-Message-State: AO0yUKWkgQMJbQ3Assg2r+OlS32nVdCaSeZ0BZY5MOP4ClZ0vJJ3v5Ka
+	Xq72ArJ+o1OPU2883fEuWSk=
+X-Google-Smtp-Source: AK7set8/Iq04QHghAHUv0aUGEuupYMtG42PzDbNIUIgAUBFYjhUCeOX+gd+RXJvzA27We3mS/L7eag==
+X-Received: by 2002:a05:600c:254:b0:3ed:dc11:1a74 with SMTP id 20-20020a05600c025400b003eddc111a74mr1727596wmj.5.1679644894952;
+        Fri, 24 Mar 2023 01:01:34 -0700 (PDT)
+Received: from localhost (host86-156-84-164.range86-156.btcentralplus.com. [86.156.84.164])
+        by smtp.gmail.com with ESMTPSA id w4-20020a05600c474400b003edc9a5f98asm4262205wmo.44.2023.03.24.01.01.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 24 Mar 2023 01:01:33 -0700 (PDT)
+Date: Fri, 24 Mar 2023 08:01:32 +0000
+From: Lorenzo Stoakes <lstoakes@gmail.com>
+To: Dan Carpenter <error27@gmail.com>
+Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Andrew Morton <akpm@linux-foundation.org>
+Subject: Re: [linux-next:master 5496/6100] mm/mmap.c:962 vma_merge() error:
+ uninitialized symbol 'next'.
+Message-ID: <51b0a7d2-0f9a-4104-b9c0-a1aa307cb028@lucifer.local>
+References: <7c7e59d2-435e-4677-b278-c066cae80616@kili.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <7c7e59d2-435e-4677-b278-c066cae80616@kili.mountain>
 
-:::::: 
-:::::: Manual check reason: "low confidence bisect report"
-:::::: 
+On Fri, Mar 24, 2023 at 08:03:52AM +0300, Dan Carpenter wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+> head:   7c4a254d78f89546d0e74a40617ef24c6151c8d1
+> commit: e887ecae997ebaaad4d9b93e6a01fd5495ec1bc3 [5496/6100] mm/mmap/vma_merge: set next to NULL if not applicable
+> config: i386-randconfig-m021 (https://download.01.org/0day-ci/archive/20230324/202303240246.9rvyIPWZ-lkp@intel.com/config)
+> compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+>
+> If you fix the issue, kindly add following tag where applicable
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <error27@gmail.com>
+> | Link: https://lore.kernel.org/r/202303240246.9rvyIPWZ-lkp@intel.com/
+>
+> smatch warnings:
+> mm/mmap.c:962 vma_merge() error: uninitialized symbol 'next'.
+>
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <167949286900.26.3992817728812049195@mailman-core.alsa-project.org>
-References: <167949286900.26.3992817728812049195@mailman-core.alsa-project.org>
-TO: "Herve Codina via Alsa-devel" <alsa-devel@alsa-project.org>
-TO: Herve Codina <herve.codina@bootlin.com>
-TO: Lee Jones <lee@kernel.org>
-TO: Rob Herring <robh+dt@kernel.org>
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-TO: Liam Girdwood <lgirdwood@gmail.com>
-TO: Mark Brown <broonie@kernel.org>
-TO: Jaroslav Kysela <perex@perex.cz>
-TO: Takashi Iwai <tiwai@suse.com>
-CC: linux-kernel@vger.kernel.org
-CC: devicetree@vger.kernel.org
-CC: alsa-devel@alsa-project.org
-CC: Christophe Leroy <christophe.leroy@csgroup.eu>
-CC: Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Hi, sorry for breaking -next (this is the nth report for this :) but this
+is a mistake that accidentally slipped in a while ago, it was fixed in v3
+of the patch series which is currently in mm-unstable and should land in
+-next when mm is next integrated (no pun intended).
 
-Hi Herve,
+See https://lore.kernel.org/all/cover.1679516210.git.lstoakes@gmail.com for
+the latest version of the series in question.
 
-Thank you for the patch! Perhaps something to improve:
+Thanks for the report and it's really nice to see how many people are on
+top of these things!
 
-[auto build test WARNING on lee-mfd/for-mfd-next]
-[also build test WARNING on broonie-sound/for-next lee-leds/for-leds-next robh/for-next linus/master v6.3-rc3 next-20230323]
-[cannot apply to lee-mfd/for-mfd-fixes]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Herve-Codina-via-Alsa-devel/mfd-Add-support-for-the-Lantiq-PEF2256-framer/20230322-215208
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git for-mfd-next
-patch link:    https://lore.kernel.org/r/167949286900.26.3992817728812049195%40mailman-core.alsa-project.org
-patch subject: [PATCH v3 2/6] mfd: Add support for the Lantiq PEF2256 framer
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: openrisc-randconfig-s033-20230324 (https://download.01.org/0day-ci/archive/20230324/202303241313.pYnyzYXe-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 12.1.0
-reproduce:
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://github.com/intel-lab-lkp/linux/commit/d60948895815b59306d870e7c189741b7d14d5e2
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Herve-Codina-via-Alsa-devel/mfd-Add-support-for-the-Lantiq-PEF2256-framer/20230322-215208
-        git checkout d60948895815b59306d870e7c189741b7d14d5e2
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=openrisc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=openrisc SHELL=/bin/bash drivers/mfd/
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/r/202303241313.pYnyzYXe-lkp@intel.com/
-
-sparse warnings: (new ones prefixed by >>)
->> drivers/mfd/pef2256.c:1192:23: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *[noderef] regs @@     got void [noderef] __iomem * @@
-   drivers/mfd/pef2256.c:1192:23: sparse:     expected void *[noderef] regs
-   drivers/mfd/pef2256.c:1192:23: sparse:     got void [noderef] __iomem *
->> drivers/mfd/pef2256.c:303:38: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
-   drivers/mfd/pef2256.c:303:38: sparse:     expected void const volatile [noderef] __iomem *addr
-   drivers/mfd/pef2256.c:303:38: sparse:     got void *
->> drivers/mfd/pef2256.c:303:24: sparse: sparse: dereference of noderef expression
->> drivers/mfd/pef2256.c:303:24: sparse: sparse: dereference of noderef expression
->> drivers/mfd/pef2256.c:303:38: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
-   drivers/mfd/pef2256.c:303:38: sparse:     expected void const volatile [noderef] __iomem *addr
-   drivers/mfd/pef2256.c:303:38: sparse:     got void *
->> drivers/mfd/pef2256.c:303:24: sparse: sparse: dereference of noderef expression
->> drivers/mfd/pef2256.c:303:24: sparse: sparse: dereference of noderef expression
->> drivers/mfd/pef2256.c:308:37: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
-   drivers/mfd/pef2256.c:308:37: sparse:     expected void volatile [noderef] __iomem *addr
-   drivers/mfd/pef2256.c:308:37: sparse:     got void *
-   drivers/mfd/pef2256.c:308:23: sparse: sparse: dereference of noderef expression
-   drivers/mfd/pef2256.c:308:23: sparse: sparse: dereference of noderef expression
->> drivers/mfd/pef2256.c:308:37: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
-   drivers/mfd/pef2256.c:308:37: sparse:     expected void volatile [noderef] __iomem *addr
-   drivers/mfd/pef2256.c:308:37: sparse:     got void *
-   drivers/mfd/pef2256.c:308:23: sparse: sparse: dereference of noderef expression
-   drivers/mfd/pef2256.c:308:23: sparse: sparse: dereference of noderef expression
->> drivers/mfd/pef2256.c:308:37: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
-   drivers/mfd/pef2256.c:308:37: sparse:     expected void volatile [noderef] __iomem *addr
-   drivers/mfd/pef2256.c:308:37: sparse:     got void *
-   drivers/mfd/pef2256.c:308:23: sparse: sparse: dereference of noderef expression
-   drivers/mfd/pef2256.c:308:23: sparse: sparse: dereference of noderef expression
->> drivers/mfd/pef2256.c:308:37: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
-   drivers/mfd/pef2256.c:308:37: sparse:     expected void volatile [noderef] __iomem *addr
-   drivers/mfd/pef2256.c:308:37: sparse:     got void *
-   drivers/mfd/pef2256.c:308:23: sparse: sparse: dereference of noderef expression
-   drivers/mfd/pef2256.c:308:23: sparse: sparse: dereference of noderef expression
->> drivers/mfd/pef2256.c:308:37: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
-   drivers/mfd/pef2256.c:308:37: sparse:     expected void volatile [noderef] __iomem *addr
-   drivers/mfd/pef2256.c:308:37: sparse:     got void *
-   drivers/mfd/pef2256.c:308:23: sparse: sparse: dereference of noderef expression
-   drivers/mfd/pef2256.c:308:23: sparse: sparse: dereference of noderef expression
->> drivers/mfd/pef2256.c:308:37: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
-   drivers/mfd/pef2256.c:308:37: sparse:     expected void volatile [noderef] __iomem *addr
-   drivers/mfd/pef2256.c:308:37: sparse:     got void *
-   drivers/mfd/pef2256.c:308:23: sparse: sparse: dereference of noderef expression
-   drivers/mfd/pef2256.c:308:23: sparse: sparse: dereference of noderef expression
->> drivers/mfd/pef2256.c:308:37: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
-   drivers/mfd/pef2256.c:308:37: sparse:     expected void volatile [noderef] __iomem *addr
-   drivers/mfd/pef2256.c:308:37: sparse:     got void *
-   drivers/mfd/pef2256.c:308:23: sparse: sparse: dereference of noderef expression
-   drivers/mfd/pef2256.c:308:23: sparse: sparse: dereference of noderef expression
->> drivers/mfd/pef2256.c:308:37: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
-   drivers/mfd/pef2256.c:308:37: sparse:     expected void volatile [noderef] __iomem *addr
-   drivers/mfd/pef2256.c:308:37: sparse:     got void *
-   drivers/mfd/pef2256.c:308:23: sparse: sparse: dereference of noderef expression
-   drivers/mfd/pef2256.c:308:23: sparse: sparse: dereference of noderef expression
->> drivers/mfd/pef2256.c:303:38: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
-   drivers/mfd/pef2256.c:303:38: sparse:     expected void const volatile [noderef] __iomem *addr
-   drivers/mfd/pef2256.c:303:38: sparse:     got void *
->> drivers/mfd/pef2256.c:303:24: sparse: sparse: dereference of noderef expression
->> drivers/mfd/pef2256.c:303:24: sparse: sparse: dereference of noderef expression
->> drivers/mfd/pef2256.c:308:37: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
-   drivers/mfd/pef2256.c:308:37: sparse:     expected void volatile [noderef] __iomem *addr
-   drivers/mfd/pef2256.c:308:37: sparse:     got void *
->> drivers/mfd/pef2256.c:303:24: sparse: sparse: dereference of noderef expression
-   drivers/mfd/pef2256.c:308:23: sparse: sparse: dereference of noderef expression
-   drivers/mfd/pef2256.c:308:23: sparse: sparse: dereference of noderef expression
->> drivers/mfd/pef2256.c:308:37: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
-   drivers/mfd/pef2256.c:308:37: sparse:     expected void volatile [noderef] __iomem *addr
-   drivers/mfd/pef2256.c:308:37: sparse:     got void *
-   drivers/mfd/pef2256.c:308:23: sparse: sparse: dereference of noderef expression
-   drivers/mfd/pef2256.c:308:23: sparse: sparse: dereference of noderef expression
->> drivers/mfd/pef2256.c:308:37: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
-   drivers/mfd/pef2256.c:308:37: sparse:     expected void volatile [noderef] __iomem *addr
-   drivers/mfd/pef2256.c:308:37: sparse:     got void *
-   drivers/mfd/pef2256.c:308:23: sparse: sparse: dereference of noderef expression
-   drivers/mfd/pef2256.c:308:23: sparse: sparse: dereference of noderef expression
->> drivers/mfd/pef2256.c:308:37: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
-   drivers/mfd/pef2256.c:308:37: sparse:     expected void volatile [noderef] __iomem *addr
-   drivers/mfd/pef2256.c:308:37: sparse:     got void *
-   drivers/mfd/pef2256.c:308:23: sparse: sparse: dereference of noderef expression
-   drivers/mfd/pef2256.c:308:23: sparse: sparse: dereference of noderef expression
->> drivers/mfd/pef2256.c:308:37: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
-   drivers/mfd/pef2256.c:308:37: sparse:     expected void volatile [noderef] __iomem *addr
-   drivers/mfd/pef2256.c:308:37: sparse:     got void *
-   drivers/mfd/pef2256.c:308:23: sparse: sparse: dereference of noderef expression
-   drivers/mfd/pef2256.c:308:23: sparse: sparse: dereference of noderef expression
->> drivers/mfd/pef2256.c:308:37: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
-   drivers/mfd/pef2256.c:308:37: sparse:     expected void volatile [noderef] __iomem *addr
-   drivers/mfd/pef2256.c:308:37: sparse:     got void *
-   drivers/mfd/pef2256.c:308:23: sparse: sparse: dereference of noderef expression
-   drivers/mfd/pef2256.c:308:23: sparse: sparse: dereference of noderef expression
->> drivers/mfd/pef2256.c:308:37: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
-   drivers/mfd/pef2256.c:308:37: sparse:     expected void volatile [noderef] __iomem *addr
-   drivers/mfd/pef2256.c:308:37: sparse:     got void *
-   drivers/mfd/pef2256.c:308:23: sparse: sparse: dereference of noderef expression
-   drivers/mfd/pef2256.c:308:23: sparse: sparse: dereference of noderef expression
->> drivers/mfd/pef2256.c:308:37: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
-   drivers/mfd/pef2256.c:308:37: sparse:     expected void volatile [noderef] __iomem *addr
-   drivers/mfd/pef2256.c:308:37: sparse:     got void *
-   drivers/mfd/pef2256.c:308:23: sparse: sparse: dereference of noderef expression
-   drivers/mfd/pef2256.c:308:23: sparse: sparse: dereference of noderef expression
->> drivers/mfd/pef2256.c:308:37: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
-   drivers/mfd/pef2256.c:308:37: sparse:     expected void volatile [noderef] __iomem *addr
-   drivers/mfd/pef2256.c:308:37: sparse:     got void *
-   drivers/mfd/pef2256.c:308:23: sparse: sparse: dereference of noderef expression
-   drivers/mfd/pef2256.c:308:23: sparse: sparse: dereference of noderef expression
->> drivers/mfd/pef2256.c:308:37: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
-   drivers/mfd/pef2256.c:308:37: sparse:     expected void volatile [noderef] __iomem *addr
-   drivers/mfd/pef2256.c:308:37: sparse:     got void *
-   drivers/mfd/pef2256.c:308:23: sparse: sparse: dereference of noderef expression
-   drivers/mfd/pef2256.c:308:23: sparse: sparse: dereference of noderef expression
->> drivers/mfd/pef2256.c:308:37: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
-   drivers/mfd/pef2256.c:308:37: sparse:     expected void volatile [noderef] __iomem *addr
-   drivers/mfd/pef2256.c:308:37: sparse:     got void *
-   drivers/mfd/pef2256.c:308:23: sparse: sparse: dereference of noderef expression
-   drivers/mfd/pef2256.c:308:23: sparse: sparse: dereference of noderef expression
->> drivers/mfd/pef2256.c:308:37: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
-   drivers/mfd/pef2256.c:308:37: sparse:     expected void volatile [noderef] __iomem *addr
-   drivers/mfd/pef2256.c:308:37: sparse:     got void *
-   drivers/mfd/pef2256.c:308:23: sparse: sparse: dereference of noderef expression
-   drivers/mfd/pef2256.c:308:23: sparse: sparse: dereference of noderef expression
->> drivers/mfd/pef2256.c:308:37: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
-   drivers/mfd/pef2256.c:308:37: sparse:     expected void volatile [noderef] __iomem *addr
-   drivers/mfd/pef2256.c:308:37: sparse:     got void *
-   drivers/mfd/pef2256.c:308:23: sparse: sparse: dereference of noderef expression
-   drivers/mfd/pef2256.c:308:23: sparse: sparse: dereference of noderef expression
->> drivers/mfd/pef2256.c:308:37: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
-   drivers/mfd/pef2256.c:308:37: sparse:     expected void volatile [noderef] __iomem *addr
-   drivers/mfd/pef2256.c:308:37: sparse:     got void *
-   drivers/mfd/pef2256.c:308:23: sparse: sparse: dereference of noderef expression
-   drivers/mfd/pef2256.c:308:23: sparse: sparse: dereference of noderef expression
->> drivers/mfd/pef2256.c:308:37: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
-   drivers/mfd/pef2256.c:308:37: sparse:     expected void volatile [noderef] __iomem *addr
-   drivers/mfd/pef2256.c:308:37: sparse:     got void *
-   drivers/mfd/pef2256.c:308:23: sparse: sparse: dereference of noderef expression
-   drivers/mfd/pef2256.c:308:23: sparse: sparse: dereference of noderef expression
->> drivers/mfd/pef2256.c:308:37: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
-   drivers/mfd/pef2256.c:308:37: sparse:     expected void volatile [noderef] __iomem *addr
-   drivers/mfd/pef2256.c:308:37: sparse:     got void *
-   drivers/mfd/pef2256.c:308:23: sparse: sparse: dereference of noderef expression
-   drivers/mfd/pef2256.c:308:23: sparse: sparse: dereference of noderef expression
->> drivers/mfd/pef2256.c:308:37: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
-   drivers/mfd/pef2256.c:308:37: sparse:     expected void volatile [noderef] __iomem *addr
-   drivers/mfd/pef2256.c:308:37: sparse:     got void *
-   drivers/mfd/pef2256.c:308:23: sparse: sparse: dereference of noderef expression
-   drivers/mfd/pef2256.c:308:23: sparse: sparse: dereference of noderef expression
->> drivers/mfd/pef2256.c:308:37: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
-   drivers/mfd/pef2256.c:308:37: sparse:     expected void volatile [noderef] __iomem *addr
-   drivers/mfd/pef2256.c:308:37: sparse:     got void *
-   drivers/mfd/pef2256.c:308:23: sparse: sparse: dereference of noderef expression
-   drivers/mfd/pef2256.c:308:23: sparse: sparse: dereference of noderef expression
->> drivers/mfd/pef2256.c:308:37: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
-   drivers/mfd/pef2256.c:308:37: sparse:     expected void volatile [noderef] __iomem *addr
-   drivers/mfd/pef2256.c:308:37: sparse:     got void *
-   drivers/mfd/pef2256.c:308:23: sparse: sparse: dereference of noderef expression
-   drivers/mfd/pef2256.c:308:23: sparse: sparse: dereference of noderef expression
->> drivers/mfd/pef2256.c:308:37: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
-   drivers/mfd/pef2256.c:308:37: sparse:     expected void volatile [noderef] __iomem *addr
-   drivers/mfd/pef2256.c:308:37: sparse:     got void *
-   drivers/mfd/pef2256.c:308:23: sparse: sparse: dereference of noderef expression
-   drivers/mfd/pef2256.c:308:23: sparse: sparse: dereference of noderef expression
->> drivers/mfd/pef2256.c:308:37: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
-   drivers/mfd/pef2256.c:308:37: sparse:     expected void volatile [noderef] __iomem *addr
-   drivers/mfd/pef2256.c:308:37: sparse:     got void *
-   drivers/mfd/pef2256.c:308:23: sparse: sparse: dereference of noderef expression
-   drivers/mfd/pef2256.c:308:23: sparse: sparse: dereference of noderef expression
->> drivers/mfd/pef2256.c:303:38: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
-   drivers/mfd/pef2256.c:303:38: sparse:     expected void const volatile [noderef] __iomem *addr
-   drivers/mfd/pef2256.c:303:38: sparse:     got void *
-   drivers/mfd/pef2256.c:303:24: sparse: sparse: too many warnings
-
-vim +1192 drivers/mfd/pef2256.c
-
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1176  
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1177  static int pef2256_probe(struct platform_device *pdev)
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1178  {
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1179  	struct device_node *np = pdev->dev.of_node;
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1180  	unsigned long sclkr_rate, sclkx_rate;
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1181  	struct pef2256 *pef2256;
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1182  	int ret;
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1183  	int irq;
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1184  
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1185  	pef2256 = devm_kzalloc(&pdev->dev, sizeof(*pef2256), GFP_KERNEL);
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1186  	if (!pef2256)
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1187  		return -ENOMEM;
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1188  
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1189  	pef2256->dev = &pdev->dev;
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1190  	ATOMIC_INIT_NOTIFIER_HEAD(&pef2256->event_notifier_list);
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1191  
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22 @1192  	pef2256->regs = devm_platform_ioremap_resource(pdev, 0);
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1193  	if (IS_ERR(pef2256->regs))
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1194  		return PTR_ERR(pef2256->regs);
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1195  
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1196  	pef2256->mclk = devm_clk_get_enabled(&pdev->dev, "mclk");
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1197  	if (IS_ERR(pef2256->mclk))
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1198  		return PTR_ERR(pef2256->mclk);
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1199  	dev_dbg(pef2256->dev, "mclk %lu Hz\n", clk_get_rate(pef2256->mclk));
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1200  
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1201  	pef2256->sclkr = devm_clk_get_enabled(&pdev->dev, "sclkr");
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1202  	if (IS_ERR(pef2256->sclkr))
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1203  		return PTR_ERR(pef2256->sclkr);
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1204  
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1205  	pef2256->sclkx = devm_clk_get_enabled(&pdev->dev, "sclkx");
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1206  	if (IS_ERR(pef2256->sclkx))
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1207  		return PTR_ERR(pef2256->sclkx);
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1208  
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1209  	/*
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1210  	 * Both SCLKR (receive) and SCLKX (transmit) must have the same rate,
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1211  	 * stored as sysclk_rate.
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1212  	 * The exact value will be checked at pef2256_check_rates()
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1213  	 */
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1214  	sclkr_rate = clk_get_rate(pef2256->sclkr);
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1215  	sclkx_rate = clk_get_rate(pef2256->sclkx);
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1216  	dev_dbg(pef2256->dev, "sclkr %lu Hz\n", sclkr_rate);
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1217  	dev_dbg(pef2256->dev, "sclkx %lu Hz\n", sclkx_rate);
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1218  	if (sclkr_rate != sclkx_rate) {
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1219  		dev_err(pef2256->dev, "clk rate mismatch. sclkr %lu Hz, sclkx %lu Hz\n",
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1220  			sclkr_rate, sclkx_rate);
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1221  		return -EINVAL;
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1222  	}
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1223  	pef2256->sysclk_rate = sclkr_rate;
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1224  
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1225  	/* Reset the component. The MCLK clock must be active during reset */
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1226  	pef2256->reset_gpio = devm_gpiod_get_optional(&pdev->dev, "reset", GPIOD_OUT_LOW);
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1227  	if (IS_ERR(pef2256->reset_gpio))
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1228  		return PTR_ERR(pef2256->reset_gpio);
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1229  	if (pef2256->reset_gpio) {
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1230  		gpiod_set_value_cansleep(pef2256->reset_gpio, 1);
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1231  		udelay(10);
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1232  		gpiod_set_value_cansleep(pef2256->reset_gpio, 0);
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1233  		udelay(10);
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1234  	}
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1235  
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1236  	pef2256->version = pef2256_get_version(pef2256);
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1237  	if (pef2256->version == PEF2256_VERSION_UNKNOWN)
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1238  		return -ENODEV;
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1239  
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1240  	ret = pef2556_of_parse(pef2256, np);
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1241  	if (ret)
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1242  		return ret;
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1243  
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1244  	/* Disable interrupts */
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1245  	pef2256_write8(pef2256, PEF2256_IMR0, 0xff);
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1246  	pef2256_write8(pef2256, PEF2256_IMR1, 0xff);
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1247  	pef2256_write8(pef2256, PEF2256_IMR2, 0xff);
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1248  	pef2256_write8(pef2256, PEF2256_IMR3, 0xff);
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1249  	pef2256_write8(pef2256, PEF2256_IMR4, 0xff);
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1250  	pef2256_write8(pef2256, PEF2256_IMR5, 0xff);
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1251  
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1252  	/* Clear any pending interrupts */
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1253  	pef2256_read8(pef2256, PEF2256_ISR0);
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1254  	pef2256_read8(pef2256, PEF2256_ISR1);
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1255  	pef2256_read8(pef2256, PEF2256_ISR2);
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1256  	pef2256_read8(pef2256, PEF2256_ISR3);
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1257  	pef2256_read8(pef2256, PEF2256_ISR4);
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1258  	pef2256_read8(pef2256, PEF2256_ISR5);
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1259  
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1260  	irq = platform_get_irq(pdev, 0);
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1261  	if (irq < 0)
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1262  		return irq;
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1263  	ret = devm_request_irq(pef2256->dev, irq, pef2256_irq_handler, 0, "pef2256", pef2256);
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1264  	if (ret < 0)
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1265  		return ret;
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1266  
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1267  	pef2256_reset_pinmux(pef2256);
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1268  	ret = pef2256_register_pinctrl(pef2256);
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1269  	if (ret)
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1270  		return ret;
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1271  
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1272  	/*
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1273  	 * We are going to reset the E1 lines during setup() call and the ISR2
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1274  	 * interrupt used to detect the carrier state changed is masked.
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1275  	 * It is time to initialize our internal carrier state flag.
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1276  	 */
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1277  	atomic_set(&pef2256->carrier, 0);
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1278  
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1279  	ret = pef2256_setup(pef2256);
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1280  	if (ret)
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1281  		return ret;
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1282  
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1283  	platform_set_drvdata(pdev, pef2256);
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1284  
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1285  	ret = sysfs_create_group(&pef2256->dev->kobj, &pef2256_attribute_group);
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1286  	if (ret < 0) {
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1287  		dev_err(pef2256->dev, "sysfs registration failed (%d)\n", ret);
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1288  		platform_set_drvdata(pdev, NULL);
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1289  		return ret;
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1290  	}
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1291  
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1292  	ret = devm_of_platform_populate(pef2256->dev);
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1293  	if (ret < 0) {
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1294  		dev_err(pef2256->dev, "platform populate failed (%d)\n", ret);
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1295  		platform_set_drvdata(pdev, NULL);
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1296  		return ret;
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1297  	}
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1298  
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1299  	return 0;
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1300  }
-d60948895815b5 Herve Codina via Alsa-devel 2023-03-22  1301  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+> vim +/next +962 mm/mmap.c
+>
+> 9760ebffbf5507 Liam R. Howlett    2023-01-20   904  struct vm_area_struct *vma_merge(struct vma_iterator *vmi, struct mm_struct *mm,
+> ^1da177e4c3f41 Linus Torvalds     2005-04-16   905  			struct vm_area_struct *prev, unsigned long addr,
+> ^1da177e4c3f41 Linus Torvalds     2005-04-16   906  			unsigned long end, unsigned long vm_flags,
+> ^1da177e4c3f41 Linus Torvalds     2005-04-16   907  			struct anon_vma *anon_vma, struct file *file,
+> 19a809afe2fe08 Andrea Arcangeli   2015-09-04   908  			pgoff_t pgoff, struct mempolicy *policy,
+> 9a10064f5625d5 Colin Cross        2022-01-14   909  			struct vm_userfaultfd_ctx vm_userfaultfd_ctx,
+> 5c26f6ac9416b6 Suren Baghdasaryan 2022-03-04   910  			struct anon_vma_name *anon_name)
+> ^1da177e4c3f41 Linus Torvalds     2005-04-16   911  {
+> ^1da177e4c3f41 Linus Torvalds     2005-04-16   912  	pgoff_t pglen = (end - addr) >> PAGE_SHIFT;
+> 0503ea8f5ba73e Liam R. Howlett    2023-01-20   913  	pgoff_t vma_pgoff;
+> 721076b86904d4 Lorenzo Stoakes    2023-03-21   914  	struct vm_area_struct *curr, *next, *res = NULL;
+> 0503ea8f5ba73e Liam R. Howlett    2023-01-20   915  	struct vm_area_struct *vma, *adjust, *remove, *remove2;
+> eef199440df950 Jakub Matěna       2022-06-03   916  	int err = -1;
+> eef199440df950 Jakub Matěna       2022-06-03   917  	bool merge_prev = false;
+> eef199440df950 Jakub Matěna       2022-06-03   918  	bool merge_next = false;
+> 0503ea8f5ba73e Liam R. Howlett    2023-01-20   919  	bool vma_expanded = false;
+> 0503ea8f5ba73e Liam R. Howlett    2023-01-20   920  	struct vma_prepare vp;
+> 0503ea8f5ba73e Liam R. Howlett    2023-01-20   921  	unsigned long vma_end = end;
+> 27d6788ee67b59 Vlastimil Babka    2023-03-09   922  	long adj_start = 0;
+> 0503ea8f5ba73e Liam R. Howlett    2023-01-20   923  	unsigned long vma_start = addr;
+> ^1da177e4c3f41 Linus Torvalds     2005-04-16   924
+> 0503ea8f5ba73e Liam R. Howlett    2023-01-20   925  	validate_mm(mm);
+> ^1da177e4c3f41 Linus Torvalds     2005-04-16   926  	/*
+> ^1da177e4c3f41 Linus Torvalds     2005-04-16   927  	 * We later require that vma->vm_flags == vm_flags,
+> ^1da177e4c3f41 Linus Torvalds     2005-04-16   928  	 * so this tests vma->vm_flags & VM_SPECIAL, too.
+> ^1da177e4c3f41 Linus Torvalds     2005-04-16   929  	 */
+> ^1da177e4c3f41 Linus Torvalds     2005-04-16   930  	if (vm_flags & VM_SPECIAL)
+> ^1da177e4c3f41 Linus Torvalds     2005-04-16   931  		return NULL;
+> ^1da177e4c3f41 Linus Torvalds     2005-04-16   932
+> e887ecae997eba Lorenzo Stoakes    2023-03-21   933  	/* Does the input range span an existing VMA? (cases 5 - 8) */
+> e887ecae997eba Lorenzo Stoakes    2023-03-21   934  	curr = find_vma_intersection(mm, prev ? prev->vm_end : 0, end);
+> ^1da177e4c3f41 Linus Torvalds     2005-04-16   935
+> e887ecae997eba Lorenzo Stoakes    2023-03-21   936  	if (curr && end == curr->vm_end)
+> e887ecae997eba Lorenzo Stoakes    2023-03-21   937  		/* Is there is a VMA immediately adjacent (cases 6 - 8)? */
+> e887ecae997eba Lorenzo Stoakes    2023-03-21   938  		next = vma_lookup(mm, curr->vm_end);
+> e887ecae997eba Lorenzo Stoakes    2023-03-21   939  	else if (!curr)
+> e887ecae997eba Lorenzo Stoakes    2023-03-21   940  		/* Is there a VMA next to a hole (case 1 - 3) or prev (4)? */
+> e887ecae997eba Lorenzo Stoakes    2023-03-21   941  		next = vma_lookup(mm, end);
+>
+> next not initialized on else path.
+>
+> 759224a5ffcfa1 Vlastimil Babka    2023-03-09   942
+> e86f15ee64d8ee Andrea Arcangeli   2016-10-07   943  	/* verify some invariant that must be enforced by the caller */
+> e86f15ee64d8ee Andrea Arcangeli   2016-10-07   944  	VM_WARN_ON(prev && addr <= prev->vm_start);
+> 721076b86904d4 Lorenzo Stoakes    2023-03-21   945  	VM_WARN_ON(curr && end > curr->vm_end);
+> e86f15ee64d8ee Andrea Arcangeli   2016-10-07   946  	VM_WARN_ON(addr >= end);
+> e86f15ee64d8ee Andrea Arcangeli   2016-10-07   947
+> 0503ea8f5ba73e Liam R. Howlett    2023-01-20   948  	if (prev) {
+> 0503ea8f5ba73e Liam R. Howlett    2023-01-20   949  		res = prev;
+> 0503ea8f5ba73e Liam R. Howlett    2023-01-20   950  		vma = prev;
+> 0503ea8f5ba73e Liam R. Howlett    2023-01-20   951  		vma_start = prev->vm_start;
+> 0503ea8f5ba73e Liam R. Howlett    2023-01-20   952  		vma_pgoff = prev->vm_pgoff;
+> eef199440df950 Jakub Matěna       2022-06-03   953  		/* Can we merge the predecessor? */
+> 0503ea8f5ba73e Liam R. Howlett    2023-01-20   954  		if (prev->vm_end == addr && mpol_equal(vma_policy(prev), policy)
+> 0503ea8f5ba73e Liam R. Howlett    2023-01-20   955  		    && can_vma_merge_after(prev, vm_flags, anon_vma, file,
+> 0503ea8f5ba73e Liam R. Howlett    2023-01-20   956  				   pgoff, vm_userfaultfd_ctx, anon_name)) {
+> eef199440df950 Jakub Matěna       2022-06-03   957  			merge_prev = true;
+> 18b098af2890cd Liam R. Howlett    2023-01-20   958  			vma_prev(vmi);
+> eef199440df950 Jakub Matěna       2022-06-03   959  		}
+> 0503ea8f5ba73e Liam R. Howlett    2023-01-20   960  	}
+> eef199440df950 Jakub Matěna       2022-06-03   961  	/* Can we merge the successor? */
+> e887ecae997eba Lorenzo Stoakes    2023-03-21  @962  	if (next && mpol_equal(policy, vma_policy(next)) &&
+>                                                             ^^^^
+>
+> ^1da177e4c3f41 Linus Torvalds     2005-04-16   963  	    can_vma_merge_before(next, vm_flags,
+> eef199440df950 Jakub Matěna       2022-06-03   964  				 anon_vma, file, pgoff+pglen,
+> eef199440df950 Jakub Matěna       2022-06-03   965  				 vm_userfaultfd_ctx, anon_name)) {
+> eef199440df950 Jakub Matěna       2022-06-03   966  		merge_next = true;
+> eef199440df950 Jakub Matěna       2022-06-03   967  	}
+> 0503ea8f5ba73e Liam R. Howlett    2023-01-20   968
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests
+>
