@@ -1,142 +1,306 @@
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D2CF2F2D;
-	Fri, 24 Mar 2023 08:56:40 +0000 (UTC)
-Received: from [IPV6:2a01:e0a:120:3210:1cb3:11e4:5834:9d5a] (unknown [IPv6:2a01:e0a:120:3210:1cb3:11e4:5834:9d5a])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: benjamin.gaignard)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id B52946603111;
-	Fri, 24 Mar 2023 08:56:37 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1679648198;
-	bh=fSTAJcZ+stux5F7CVDxrYSB6CjZcdcUM5EQHkwSolOQ=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=KKVdO9t0sYkHaJ1tstArEyba/Fvd76PT+Bb8whfZp36eVUKPCYx6dyCpSzgaHNQp9
-	 PwavG2SpFEZPWYNj8NHCvb7hfu0czslZWU1neac/udmuLbgOdOevERU3lx0d2roFkM
-	 ZY0njDbuL4MOMUmrRdEc5kyjlWN3steO1fR3FNSalz3wH+kgoCxB5l3b0+K9JA11ie
-	 uTdtvV2M3vKrzlUSFuJPpYcGZke6Dw4wZkh9VCo4R2VAC5dhhRE0+5YHyERpLZc6cH
-	 Ky37tKSoz4+Si/+YVszJgLXCKE1wq4wvSl/WETQfTQAiot7Ys4CfAsugbkirmU2Inz
-	 cbMAAZQAM0FiA==
-Message-ID: <7ad524a1-c54f-a01c-3453-2cf1f0f82a13@collabora.com>
-Date: Fri, 24 Mar 2023 09:56:34 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81EFF525F
+	for <oe-kbuild@lists.linux.dev>; Fri, 24 Mar 2023 11:58:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1679659096; x=1711195096;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Ag7wst2/2qf2caXbibuxz23hznK1AT3yi3UcAf7PDF4=;
+  b=Kdr4TXFhARpVMn8ElVBYZVKnC8KQuh+Q/TSJpzozP33s4IewC5rX2tVI
+   WGooPUTFsVk0nLFeLrI/FB5xqr4CC3VXKkG0cxazt9G0eFEchfxOrgPuj
+   BdN2IUaLYdr6JDZbgfl24dt5XUj9WE5kt65McZ+HpvuL5+sFgsgZuJNmf
+   UOr9Z2r90q/wrsRzBE3vk5liJtIG47cSSWdvokAN27X44Ku/IWl6M97ZD
+   gdL1cD0r+HsoF3l+EDMKyepN6J2HZV61fOQM+1QAny57k/p6KWEn45C0i
+   lNua+ZjtpAZ4FhjDpJG0cSyvV+4PIeQYM+47/dl0v7xSqqI8fkvyzCfU9
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10658"; a="402347233"
+X-IronPort-AV: E=Sophos;i="5.98,287,1673942400"; 
+   d="scan'208";a="402347233"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2023 04:58:15 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10658"; a="826239963"
+X-IronPort-AV: E=Sophos;i="5.98,287,1673942400"; 
+   d="scan'208";a="826239963"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by fmsmga001.fm.intel.com with ESMTP; 24 Mar 2023 04:58:14 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pfg3h-000FGw-2C;
+	Fri, 24 Mar 2023 11:58:13 +0000
+Date: Fri, 24 Mar 2023 19:57:24 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: [saeed:testing/vdpa-posted-interrupt 1/15] lib/cpu_rmap.c:272:2:
+ warning: Use of memory after it is freed [clang-analyzer-unix.Malloc]
+Message-ID: <202303241946.7yCLC1gs-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v2 2/8] media: videobuf2: Make bufs array dynamic
- allocated
-Content-Language: en-US
-To: Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Dan Carpenter <error27@gmail.com>, oe-kbuild@lists.linux.dev,
- tfiga@chromium.org, m.szyprowski@samsung.com, mchehab@kernel.org,
- ming.qian@nxp.com, shijie.qin@nxp.com, eagle.zhou@nxp.com,
- bin.liu@mediatek.com, matthias.bgg@gmail.com,
- angelogioacchino.delregno@collabora.com, tiffany.lin@mediatek.com,
- andrew-ct.chen@mediatek.com, yunfei.dong@mediatek.com,
- stanimir.k.varbanov@gmail.com, quic_vgarodia@quicinc.com, agross@kernel.org,
- andersson@kernel.org, konrad.dybcio@linaro.org,
- ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
- daniel.almeida@collabora.com, lkp@intel.com, oe-kbuild-all@lists.linux.dev,
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- linux-arm-msm@vger.kernel.org, linux-rockchip@lists.infradead.org,
- kernel@collabora.com
-References: <4e2cb832-de83-4ba6-bd8a-119a19038cfe@kili.mountain>
- <a88b93cc-a81f-6186-09fc-02223867e677@collabora.com>
- <b0018f7b-0556-0ac1-d2fa-89787a27fba1@xs4all.nl>
- <20230324084830.GA18895@pendragon.ideasonboard.com>
- <d4b6ad10-1889-0a63-5a14-cb1320e2dc09@xs4all.nl>
-From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-In-Reply-To: <d4b6ad10-1889-0a63-5a14-cb1320e2dc09@xs4all.nl>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "low confidence static check warning: lib/cpu_rmap.c:272:2: warning: Use of memory after it is freed [clang-analyzer-unix.Malloc]"
+:::::: 
 
-Le 24/03/2023 à 09:52, Hans Verkuil a écrit :
-> On 24/03/2023 09:48, Laurent Pinchart wrote:
->> On Fri, Mar 24, 2023 at 09:31:35AM +0100, Hans Verkuil wrote:
->>> On 24/03/2023 09:11, Benjamin Gaignard wrote:
->>>> Le 24/03/2023 à 06:01, Dan Carpenter a écrit :
->>>>> Hi Benjamin,
->>>>>
->>>>> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->>>>>
->>>>> url:    https://github.com/intel-lab-lkp/linux/commits/Benjamin-Gaignard/media-videobuf2-Access-vb2_queue-bufs-array-through-helper-functions/20230321-183154
->>>>> base:   git://linuxtv.org/media_tree.git master
->>>>> patch link:    https://lore.kernel.org/r/20230321102855.346732-3-benjamin.gaignard%40collabora.com
->>>>> patch subject: [PATCH v2 2/8] media: videobuf2: Make bufs array dynamic allocated
->>>>> config: arm64-randconfig-m041-20230319 (https://download.01.org/0day-ci/archive/20230324/202303240148.lKRnUqW9-lkp@intel.com/config)
->>>>> compiler: aarch64-linux-gcc (GCC) 12.1.0
->>>>>
->>>>> If you fix the issue, kindly add following tag where applicable
->>>>> | Reported-by: kernel test robot <lkp@intel.com>
->>>>> | Reported-by: Dan Carpenter <error27@gmail.com>
->>>>> | Link: https://lore.kernel.org/r/202303240148.lKRnUqW9-lkp@intel.com/
->>>>>
->>>>> smatch warnings:
->>>>> include/media/videobuf2-core.h:1272 vb2_queue_add_buffer() warn: sleeping in atomic context
->>>>> drivers/media/common/videobuf2/videobuf2-core.c:2456 vb2_core_queue_init() warn: Please consider using kcalloc instead of kmalloc_array
->>>>>
->>>>> vim +1272 include/media/videobuf2-core.h
->>>>>
->>>>> 625d46c1c1fe8e Benjamin Gaignard 2023-03-21  1263  static inline bool vb2_queue_add_buffer(struct vb2_queue *q, struct vb2_buffer *vb)
->>>>> 625d46c1c1fe8e Benjamin Gaignard 2023-03-21  1264  {
->>>>> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1265      bool ret = false;
->>>>> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1266
->>>>> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1267      spin_lock(&q->bufs_lock);
->>>>>                                                           ^^^^^^^^^^^^^^^^^^^^^^^
->>>>> Holding a spin lock.
->>>>>
->>>>> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1268
->>>>> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1269      if (vb->index >= q->max_num_bufs) {
->>>>> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1270          struct vb2_buffer **tmp;
->>>>> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1271
->>>>> 487d3f14d12ecf Benjamin Gaignard 2023-03-21 @1272          tmp = krealloc_array(q->bufs, q->max_num_bufs * 2, sizeof(*q->bufs), GFP_KERNEL);
->>>>>                                                                                                                                        ^^^^^^^^^^
->>>>> Sleeping allocation.  GFP_ATOMIC?  Or is there a way to move the
->>>>> allocation outside the lock?
->>>> I will add GFP_ATOMIC flag in next version.
->>> No need. Instead, don't use realloc here, just allocate a new array, copy over all
->>> the data from the old, and then switch q->bufs with the spinlock held. Then you
->>> can free the old one.
->>>
->>> It's only when you update q->bufs that you need the lock.
->> The copy also needs to be protected by the lock.
-> I suspect that that is not needed, since you shouldn't be able to add buffers here
-> since a mutex should be held at this time.
->
-> That said, it's something that Benjamin needs to analyze.
+BCC: lkp@intel.com
+CC: llvm@lists.linux.dev
+CC: oe-kbuild-all@lists.linux.dev
+TO: Eli Cohen <elic@nvidia.com>
+CC: Saeed Mahameed <saeedm@nvidia.com>
 
-Does using GFP_ATOMIC is problematic ?
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/saeed/linux.git testing/vdpa-posted-interrupt
+head:   fa4692657f1fab7ab4169159d3f37ba4d016c02c
+commit: 4a6ecee2a92e19585b970b8bf5699ef33ea5d716 [1/15] lib: cpu_rmap: Avoid use after free on rmap->obj array entries
+:::::: branch date: 4 days ago
+:::::: commit date: 4 days ago
+config: s390-randconfig-c005-20230322 (https://download.01.org/0day-ci/archive/20230324/202303241946.7yCLC1gs-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install s390 cross compiling tool for clang build
+        # apt-get install binutils-s390x-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/saeed/linux.git/commit/?id=4a6ecee2a92e19585b970b8bf5699ef33ea5d716
+        git remote add saeed https://git.kernel.org/pub/scm/linux/kernel/git/saeed/linux.git
+        git fetch --no-tags saeed testing/vdpa-posted-interrupt
+        git checkout 4a6ecee2a92e19585b970b8bf5699ef33ea5d716
+        # save the config file
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=s390 clang-analyzer  olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=s390 clang-analyzer 
 
->
-> Regards,
->
-> 	Hans
->
->>>>> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1273          if (!tmp)
->>>>> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1274              goto realloc_failed;
->>>>> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1275
->>>>> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1276          q->max_num_bufs *= 2;
->>>>> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1277          q->bufs = tmp;
->>>>> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1278      }
->>>>> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1279
->>>>> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1280      if (vb->index < q->max_num_bufs) {
->>>>> 625d46c1c1fe8e Benjamin Gaignard 2023-03-21  1281          q->bufs[vb->index] = vb;
->>>>> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1282          ret = true;
->>>>> 625d46c1c1fe8e Benjamin Gaignard 2023-03-21  1283      }
->>>>> 625d46c1c1fe8e Benjamin Gaignard 2023-03-21  1284
->>>>> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1285  realloc_failed:
->>>>> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1286      spin_unlock(&q->bufs_lock);
->>>>> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1287
->>>>> 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1288      return ret;
->>>>> 625d46c1c1fe8e Benjamin Gaignard 2023-03-21  1289  }
->
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/r/202303241946.7yCLC1gs-lkp@intel.com/
+
+clang_analyzer warnings: (new ones prefixed by >>)
+           ^
+   include/linux/lockdep.h:313:7: note: expanded from macro 'lockdep_assert'
+           do { WARN_ON(debug_locks && !(cond)); } while (0)
+                ^
+   arch/s390/include/asm/bug.h:55:2: note: expanded from macro 'WARN_ON'
+           if (__builtin_constant_p(__ret_warn_on)) {      \
+           ^
+   drivers/iommu/iommu.c:389:2: note: Taking false branch
+           lockdep_assert_held(&dev->iommu_group->mutex);
+           ^
+   include/linux/lockdep.h:319:2: note: expanded from macro 'lockdep_assert_held'
+           lockdep_assert(lockdep_is_held(l) != LOCK_STATE_NOT_HELD)
+           ^
+   include/linux/lockdep.h:313:7: note: expanded from macro 'lockdep_assert'
+           do { WARN_ON(debug_locks && !(cond)); } while (0)
+                ^
+   arch/s390/include/asm/bug.h:59:3: note: expanded from macro 'WARN_ON'
+                   if (unlikely(__ret_warn_on))            \
+                   ^
+   drivers/iommu/iommu.c:389:2: note: Loop condition is false.  Exiting loop
+           lockdep_assert_held(&dev->iommu_group->mutex);
+           ^
+   include/linux/lockdep.h:319:2: note: expanded from macro 'lockdep_assert_held'
+           lockdep_assert(lockdep_is_held(l) != LOCK_STATE_NOT_HELD)
+           ^
+   include/linux/lockdep.h:313:2: note: expanded from macro 'lockdep_assert'
+           do { WARN_ON(debug_locks && !(cond)); } while (0)
+           ^
+   drivers/iommu/iommu.c:391:2: note: Taking false branch
+           if (iommu_is_attach_deferred(dev)) {
+           ^
+   drivers/iommu/iommu.c:396:9: note: Calling '__iommu_attach_device'
+           return __iommu_attach_device(domain, dev);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iommu/iommu.c:2017:15: note: Assuming field 'attach_dev' is not equal to null
+           if (unlikely(domain->ops->attach_dev == NULL))
+                        ^
+   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   drivers/iommu/iommu.c:2017:2: note: Taking false branch
+           if (unlikely(domain->ops->attach_dev == NULL))
+           ^
+   drivers/iommu/iommu.c:2021:6: note: Assuming 'ret' is 0
+           if (ret)
+               ^~~
+   drivers/iommu/iommu.c:2021:2: note: Taking false branch
+           if (ret)
+           ^
+   drivers/iommu/iommu.c:2024:2: note: Calling 'trace_attach_device_to_domain'
+           trace_attach_device_to_domain(dev);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/trace/events/iommu.h:72:1: note: Assuming the condition is true
+   DEFINE_EVENT(iommu_device_event, attach_device_to_domain,
+   ^
+   include/linux/tracepoint.h:550:2: note: expanded from macro 'DEFINE_EVENT'
+           DECLARE_TRACE(name, PARAMS(proto), PARAMS(args))
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/tracepoint.h:427:2: note: expanded from macro 'DECLARE_TRACE'
+           __DECLARE_TRACE(name, PARAMS(proto), PARAMS(args),              \
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/tracepoint.h:257:7: note: expanded from macro '__DECLARE_TRACE'
+                   if (static_key_false(&__tracepoint_##name.key))         \
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/trace/events/iommu.h:72:1: note: Taking true branch
+   DEFINE_EVENT(iommu_device_event, attach_device_to_domain,
+   ^
+   include/linux/tracepoint.h:550:2: note: expanded from macro 'DEFINE_EVENT'
+           DECLARE_TRACE(name, PARAMS(proto), PARAMS(args))
+           ^
+   include/linux/tracepoint.h:427:2: note: expanded from macro 'DECLARE_TRACE'
+           __DECLARE_TRACE(name, PARAMS(proto), PARAMS(args),              \
+           ^
+   include/linux/tracepoint.h:257:3: note: expanded from macro '__DECLARE_TRACE'
+                   if (static_key_false(&__tracepoint_##name.key))         \
+                   ^
+   include/trace/events/iommu.h:72:1: note: Dereference of null pointer
+   DEFINE_EVENT(iommu_device_event, attach_device_to_domain,
+   ^
+   include/linux/tracepoint.h:550:2: note: expanded from macro 'DEFINE_EVENT'
+           DECLARE_TRACE(name, PARAMS(proto), PARAMS(args))
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/tracepoint.h:428:15: note: expanded from macro 'DECLARE_TRACE'
+                           cpu_online(raw_smp_processor_id()),             \
+   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/s390/include/asm/smp.h:14:32: note: expanded from macro 'raw_smp_processor_id'
+   #define raw_smp_processor_id()  (S390_lowcore.cpu_nr)
+                                   ^
+   include/linux/tracepoint.h:260:18: note: expanded from macro '__DECLARE_TRACE'
+                                   TP_CONDITION(cond), 0);                 \
+   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~
+   include/linux/tracepoint.h:149:31: note: expanded from macro 'TP_CONDITION'
+   #define TP_CONDITION(args...)   args
+                                   ^
+   include/linux/tracepoint.h:199:9: note: expanded from macro '__DO_TRACE'
+                   if (!(cond))                                            \
+                         ^~~~
+   Suppressed 19 warnings (7 in non-user code, 12 with check filters).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   5 warnings generated.
+>> lib/cpu_rmap.c:272:2: warning: Use of memory after it is freed [clang-analyzer-unix.Malloc]
+           glue->rmap->obj[glue->index] = NULL;
+           ^~~~~~~~~~~~~~~
+   lib/cpu_rmap.c:271:2: note: Calling 'cpu_rmap_put'
+           cpu_rmap_put(glue->rmap);
+           ^~~~~~~~~~~~~~~~~~~~~~~~
+   lib/cpu_rmap.c:87:9: note: Calling 'kref_put'
+           return kref_put(&rmap->refcount, cpu_rmap_release);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/kref.h:64:2: note: Taking true branch
+           if (refcount_dec_and_test(&kref->refcount)) {
+           ^
+   include/linux/kref.h:65:3: note: Calling 'cpu_rmap_release'
+                   release(kref);
+                   ^~~~~~~~~~~~~
+   lib/cpu_rmap.c:69:2: note: Memory is released
+           kfree(rmap);
+           ^~~~~~~~~~~
+   include/linux/kref.h:65:3: note: Returning; memory was released
+                   release(kref);
+                   ^~~~~~~~~~~~~
+   lib/cpu_rmap.c:87:9: note: Returning; memory was released
+           return kref_put(&rmap->refcount, cpu_rmap_release);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/cpu_rmap.c:271:2: note: Returning; memory was released via 1st parameter
+           cpu_rmap_put(glue->rmap);
+           ^~~~~~~~~~~~~~~~~~~~~~~~
+   lib/cpu_rmap.c:272:2: note: Use of memory after it is freed
+           glue->rmap->obj[glue->index] = NULL;
+           ^~~~~~~~~~~~~~~
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   18 warnings generated.
+   Suppressed 18 warnings (6 in non-user code, 12 with check filters).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   14 warnings generated.
+   kernel/trace/synth_event_gen_test.c:117:12: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]
+           vals[4] = raw_smp_processor_id(); /* cpu */
+                     ^
+   arch/s390/include/asm/smp.h:14:32: note: expanded from macro 'raw_smp_processor_id'
+   #define raw_smp_processor_id()  (S390_lowcore.cpu_nr)
+                                   ^
+   kernel/trace/synth_event_gen_test.c:442:8: note: Calling 'test_gen_synth_cmd'
+           ret = test_gen_synth_cmd();
+                 ^~~~~~~~~~~~~~~~~~~~
+   kernel/trace/synth_event_gen_test.c:53:8: note: Calling 'kzalloc'
+           buf = kzalloc(MAX_DYNEVENT_CMD_LEN, GFP_KERNEL);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/slab.h:720:9: note: Calling 'kmalloc'
+           return kmalloc(size, flags | __GFP_ZERO);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/slab.h:573:33: note: Left side of '&&' is false
+           if (__builtin_constant_p(size) && size) {
+                                          ^
+   include/linux/slab.h:584:2: note: Returning pointer, which participates in a condition later
+           return __kmalloc(size, flags);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/slab.h:720:9: note: Returning from 'kmalloc'
+           return kmalloc(size, flags | __GFP_ZERO);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/slab.h:720:2: note: Returning pointer, which participates in a condition later
+           return kmalloc(size, flags | __GFP_ZERO);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/trace/synth_event_gen_test.c:53:8: note: Returning from 'kzalloc'
+           buf = kzalloc(MAX_DYNEVENT_CMD_LEN, GFP_KERNEL);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/trace/synth_event_gen_test.c:54:6: note: Assuming 'buf' is non-null
+           if (!buf)
+               ^~~~
+   kernel/trace/synth_event_gen_test.c:54:2: note: Taking false branch
+           if (!buf)
+           ^
+   kernel/trace/synth_event_gen_test.c:69:6: note: Assuming 'ret' is 0
+           if (ret)
+               ^~~
+   kernel/trace/synth_event_gen_test.c:69:2: note: Taking false branch
+           if (ret)
+           ^
+   kernel/trace/synth_event_gen_test.c:75:6: note: Assuming 'ret' is 0
+           if (ret)
+               ^~~
+   kernel/trace/synth_event_gen_test.c:75:2: note: Taking false branch
+           if (ret)
+           ^
+   kernel/trace/synth_event_gen_test.c:79:6: note: Assuming 'ret' is 0
+           if (ret)
+               ^~~
+   kernel/trace/synth_event_gen_test.c:79:2: note: Taking false branch
+           if (ret)
+           ^
+   kernel/trace/synth_event_gen_test.c:83:6: note: Assuming 'ret' is 0
+           if (ret)
+               ^~~
+   kernel/trace/synth_event_gen_test.c:83:2: note: Taking false branch
+           if (ret)
+
+vim +272 lib/cpu_rmap.c
+
+c39649c331c709 Ben Hutchings   2011-01-19  261  
+896f97ea95c1d2 David Decotigny 2013-01-11  262  /**
+896f97ea95c1d2 David Decotigny 2013-01-11  263   * irq_cpu_rmap_release - reclaiming callback for IRQ subsystem
+896f97ea95c1d2 David Decotigny 2013-01-11  264   * @ref: kref to struct irq_affinity_notify passed by irq/manage.c
+896f97ea95c1d2 David Decotigny 2013-01-11  265   */
+c39649c331c709 Ben Hutchings   2011-01-19  266  static void irq_cpu_rmap_release(struct kref *ref)
+c39649c331c709 Ben Hutchings   2011-01-19  267  {
+c39649c331c709 Ben Hutchings   2011-01-19  268  	struct irq_glue *glue =
+c39649c331c709 Ben Hutchings   2011-01-19  269  		container_of(ref, struct irq_glue, notify.kref);
+896f97ea95c1d2 David Decotigny 2013-01-11  270  
+896f97ea95c1d2 David Decotigny 2013-01-11  271  	cpu_rmap_put(glue->rmap);
+4a6ecee2a92e19 Eli Cohen       2023-02-08 @272  	glue->rmap->obj[glue->index] = NULL;
+c39649c331c709 Ben Hutchings   2011-01-19  273  	kfree(glue);
+c39649c331c709 Ben Hutchings   2011-01-19  274  }
+c39649c331c709 Ben Hutchings   2011-01-19  275  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
