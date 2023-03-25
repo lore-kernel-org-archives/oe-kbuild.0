@@ -1,320 +1,360 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C9D920E1
-	for <oe-kbuild@lists.linux.dev>; Sat, 25 Mar 2023 08:58:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAF6628EB
+	for <oe-kbuild@lists.linux.dev>; Sat, 25 Mar 2023 13:43:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679734737; x=1711270737;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=MnbaiUTm+L+uRHdZFEWNwRmej3A5iTGz+WzCLv2fP8A=;
-  b=jzdwvM7WXnqMDYdZ1H0uLrf+qlKDyryw+lc5470zdXM7CP8BZfE9Q7Mt
-   KVc3oL3YuTqS9zVJwvG/ZD6ywGAQ7qJfy2zm+z6NZS2ZhLLi9Yv++h796
-   pfvfJkWzqXOYGrHyawwoPqZ2UsYulc4cl/R5zuBQE8AgGig/CJWzilDr3
-   M5JRu8Ph+8RQwZ0+2/WOAar0a7hs64sG3N5GQjXD9aqRxGal+7WTU8Q4D
-   bWLi7fvmASoKW6Zk/KfCl2bXcRn6sgAb2FFevm+jlPheHcHS/glB9VR5l
-   eag24KQ63YHb+iI4jE6zJ6QGILEcfyj/Ks6m+9beZfiP3jArbwNsHUNMZ
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10659"; a="402551869"
+  t=1679751785; x=1711287785;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=l/NMitHy81wli4rANswFv4gAewwCaXj5c60rC2DqwLQ=;
+  b=cuD5qXa6hColb3PuInH8BAFnEfimviuSUBor5KYiyT4vRQQIFXwZBHEj
+   w6UEAG5nPhcdVWyQM7rC0yYYdQxxsGYafAo9Q6boy7bG7UXCA3usZ0MyQ
+   wfcM8sFiP88B0asDP8cd/CpEFpqp6p/kuL3BHDyQ/S0Sglh3fMV+HJaXm
+   Sq1Wzvp5SINQXe5YIudf+kYgfH8UIqAs3AwHxix0sdepKdbzHymIqyL+L
+   3+lPNAgVEO0IWbOwrPzpsZEo+KmM2chfKuBdV4sfeyZVaS5TFQNwjkIEG
+   9z10TQHuyp7Szu2VLHXosSINdQlOb1tAPD+ExZGQs9csKQAhn/0hy1ruy
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10659"; a="367704580"
 X-IronPort-AV: E=Sophos;i="5.98,290,1673942400"; 
-   d="scan'208";a="402551869"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2023 01:58:57 -0700
+   d="scan'208";a="367704580"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2023 06:43:05 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10659"; a="713319231"
+X-IronPort-AV: E=McAfee;i="6600,9927,10659"; a="633139530"
 X-IronPort-AV: E=Sophos;i="5.98,290,1673942400"; 
-   d="scan'208";a="713319231"
+   d="scan'208";a="633139530"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 25 Mar 2023 01:58:56 -0700
+  by orsmga003.jf.intel.com with ESMTP; 25 Mar 2023 06:43:03 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pfzjj-000G8N-1I;
-	Sat, 25 Mar 2023 08:58:55 +0000
-Date: Sat, 25 Mar 2023 16:58:00 +0800
+	id 1pg4Ag-000GIN-2L;
+	Sat, 25 Mar 2023 13:43:02 +0000
+Date: Sat, 25 Mar 2023 21:42:46 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: kernel/trace/trace_events_hist.c:5363:30: warning: Dereference of
- null pointer [clang-analyzer-core.NullDereference]
-Message-ID: <202303251659.IdQnvYVz-lkp@intel.com>
+Subject: [linux-next:master 623/6819]
+ drivers/net/wireless/broadcom/brcm80211/brcmfmac/common.c:138:3: warning:
+ Value stored to 'err' is never read [clang-analyzer-deadcode.DeadStores]
+Message-ID: <202303252105.g1PWFa26-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
 :::::: 
-:::::: Manual check reason: "low confidence static check warning: kernel/trace/trace_events_hist.c:5363:30: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]"
+:::::: Manual check reason: "low confidence static check warning: drivers/net/wireless/broadcom/brcm80211/brcmfmac/common.c:138:3: warning: Value stored to 'err' is never read [clang-analyzer-deadcode.DeadStores]"
 :::::: 
 
 BCC: lkp@intel.com
 CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
-CC: "Steven Rostedt (Google)" <rostedt@goodmis.org>
-CC: Tom Zanussi <zanussi@kernel.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Hector Martin <marcan@marcan.st>
+CC: Kalle Valo <kvalo@kernel.org>
+CC: Arend van Spriel <arend.vanspriel@broadcom.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   65aca32efdcb0965502d3db2f1fa33838c070952
-commit: a2c54256dec7510477e2b4f4db187e638f7cac37 tracing: Add .graph suffix option to histogram value
-date:   4 months ago
-:::::: branch date: 8 hours ago
-:::::: commit date: 4 months ago
-config: arm-randconfig-c002-20230322 (https://download.01.org/0day-ci/archive/20230325/202303251659.IdQnvYVz-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   e5dbf24e8b9e6aa0a185d86ce46a7a9c79ebb40f
+commit: dd7e55401fec58a2d03e5fdcb0c6d20e8fbe450a [623/6819] wifi: brcmfmac: common: Add support for downloading TxCap blobs
+:::::: branch date: 33 hours ago
+:::::: commit date: 4 weeks ago
+config: riscv-randconfig-c006-20230322 (https://download.01.org/0day-ci/archive/20230325/202303252105.g1PWFa26-lkp@intel.com/config)
 compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=a2c54256dec7510477e2b4f4db187e638f7cac37
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout a2c54256dec7510477e2b4f4db187e638f7cac37
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=dd7e55401fec58a2d03e5fdcb0c6d20e8fbe450a
+        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+        git fetch --no-tags linux-next master
+        git checkout dd7e55401fec58a2d03e5fdcb0c6d20e8fbe450a
         # save the config file
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=arm clang-analyzer  olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=arm clang-analyzer 
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=riscv clang-analyzer  olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=riscv clang-analyzer 
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/r/202303251659.IdQnvYVz-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202303252105.g1PWFa26-lkp@intel.com/
 
 clang_analyzer warnings: (new ones prefixed by >>)
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/trace/trace_events_hist.c:2186:6: note: 'ref_field' is non-null
-           if (ref_field) {
-               ^~~~~~~~~
-   kernel/trace/trace_events_hist.c:2186:2: note: Taking true branch
-           if (ref_field) {
            ^
-   kernel/trace/trace_events_hist.c:2187:7: note: Calling 'init_var_ref'
-                   if (init_var_ref(ref_field, var_field, system, event_name)) {
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/trace/trace_events_hist.c:2090:6: note: 'system' is non-null
-           if (system) {
-               ^~~~~~
-   kernel/trace/trace_events_hist.c:2090:2: note: Taking true branch
-           if (system) {
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_var'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+                                 ^
+   drivers/spmi/spmi-pmic-arb.c:585:3: note: Assuming the condition is true
+                   dev_err_ratelimited(&pmic_arb->spmic->dev, "failed irqchip transaction on %x\n",
+                   ^
+   include/linux/dev_printk.h:218:2: note: expanded from macro 'dev_err_ratelimited'
+           dev_level_ratelimited(dev_err, dev, fmt, ##__VA_ARGS__)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:207:2: note: expanded from macro 'dev_level_ratelimited'
+           if (__ratelimit(&_rs))                                          \
+           ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:56:45: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_var'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+                                                                       ~~~~~~~~~~~~~~~~~^~~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_value'
+           (cond) ?                                        \
+            ^~~~
+   drivers/spmi/spmi-pmic-arb.c:585:3: note: '?' condition is false
+                   dev_err_ratelimited(&pmic_arb->spmic->dev, "failed irqchip transaction on %x\n",
+                   ^
+   include/linux/dev_printk.h:218:2: note: expanded from macro 'dev_err_ratelimited'
+           dev_level_ratelimited(dev_err, dev, fmt, ##__VA_ARGS__)
            ^
-   kernel/trace/trace_events_hist.c:2092:7: note: Assuming field 'system' is null
-                   if (!ref_field->system)
-                       ^~~~~~~~~~~~~~~~~~
-   kernel/trace/trace_events_hist.c:2092:3: note: Taking true branch
-                   if (!ref_field->system)
+   include/linux/dev_printk.h:207:2: note: expanded from macro 'dev_level_ratelimited'
+           if (__ratelimit(&_rs))                                          \
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_var'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_value'
+           (cond) ?                                        \
+           ^
+   drivers/spmi/spmi-pmic-arb.c:585:3: note: Taking false branch
+                   dev_err_ratelimited(&pmic_arb->spmic->dev, "failed irqchip transaction on %x\n",
                    ^
-   kernel/trace/trace_events_hist.c:2093:4: note: Returning without deallocating memory or storing the pointer for later deallocation
-                           return -ENOMEM;
-                           ^
-   kernel/trace/trace_events_hist.c:2187:7: note: Returning from 'init_var_ref'
-                   if (init_var_ref(ref_field, var_field, system, event_name)) {
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/trace/trace_events_hist.c:2187:3: note: Taking true branch
-                   if (init_var_ref(ref_field, var_field, system, event_name)) {
+   include/linux/dev_printk.h:218:2: note: expanded from macro 'dev_err_ratelimited'
+           dev_level_ratelimited(dev_err, dev, fmt, ##__VA_ARGS__)
+           ^
+   include/linux/dev_printk.h:207:2: note: expanded from macro 'dev_level_ratelimited'
+           if (__ratelimit(&_rs))                                          \
+           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   drivers/spmi/spmi-pmic-arb.c:585:3: note: Loop condition is false.  Exiting loop
+                   dev_err_ratelimited(&pmic_arb->spmic->dev, "failed irqchip transaction on %x\n",
                    ^
-   kernel/trace/trace_events_hist.c:2189:4: note: Potential leak of memory pointed to by 'ref_field'
-                           return NULL;
-                           ^
-   kernel/trace/trace_events_hist.c:2911:2: warning: Call to function 'strcpy' is insecure as it does not provide bounding of the memory buffer. Replace unbounded copy functions with analogous functions that support length arguments such as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-           strcpy(synthetic_name, "synthetic_");
-           ^~~~~~
-   kernel/trace/trace_events_hist.c:2911:2: note: Call to function 'strcpy' is insecure as it does not provide bounding of the memory buffer. Replace unbounded copy functions with analogous functions that support length arguments such as 'strlcpy'. CWE-119
-           strcpy(synthetic_name, "synthetic_");
-           ^~~~~~
-   kernel/trace/trace_events_hist.c:2912:2: warning: Call to function 'strcat' is insecure as it does not provide bounding of the memory buffer. Replace unbounded copy functions with analogous functions that support length arguments such as 'strlcat'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-           strcat(synthetic_name, field_name);
-           ^~~~~~
-   kernel/trace/trace_events_hist.c:2912:2: note: Call to function 'strcat' is insecure as it does not provide bounding of the memory buffer. Replace unbounded copy functions with analogous functions that support length arguments such as 'strlcat'. CWE-119
-           strcat(synthetic_name, field_name);
-           ^~~~~~
-   kernel/trace/trace_events_hist.c:3003:2: warning: Call to function 'strcat' is insecure as it does not provide bounding of the memory buffer. Replace unbounded copy functions with analogous functions that support length arguments such as 'strlcat'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-           strcat(cmd, "keys=");
-           ^~~~~~
-   kernel/trace/trace_events_hist.c:3003:2: note: Call to function 'strcat' is insecure as it does not provide bounding of the memory buffer. Replace unbounded copy functions with analogous functions that support length arguments such as 'strlcat'. CWE-119
-           strcat(cmd, "keys=");
-           ^~~~~~
-   kernel/trace/trace_events_hist.c:3008:4: warning: Call to function 'strcat' is insecure as it does not provide bounding of the memory buffer. Replace unbounded copy functions with analogous functions that support length arguments such as 'strlcat'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-                           strcat(cmd, ",");
-                           ^~~~~~
-   kernel/trace/trace_events_hist.c:3008:4: note: Call to function 'strcat' is insecure as it does not provide bounding of the memory buffer. Replace unbounded copy functions with analogous functions that support length arguments such as 'strlcat'. CWE-119
-                           strcat(cmd, ",");
-                           ^~~~~~
-   kernel/trace/trace_events_hist.c:3009:3: warning: Call to function 'strcat' is insecure as it does not provide bounding of the memory buffer. Replace unbounded copy functions with analogous functions that support length arguments such as 'strlcat'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-                   strcat(cmd, key_field->field->name);
-                   ^~~~~~
-   kernel/trace/trace_events_hist.c:3009:3: note: Call to function 'strcat' is insecure as it does not provide bounding of the memory buffer. Replace unbounded copy functions with analogous functions that support length arguments such as 'strlcat'. CWE-119
-                   strcat(cmd, key_field->field->name);
-                   ^~~~~~
-   kernel/trace/trace_events_hist.c:3014:2: warning: Call to function 'strcat' is insecure as it does not provide bounding of the memory buffer. Replace unbounded copy functions with analogous functions that support length arguments such as 'strlcat'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-           strcat(cmd, ":synthetic_");
-           ^~~~~~
-   kernel/trace/trace_events_hist.c:3014:2: note: Call to function 'strcat' is insecure as it does not provide bounding of the memory buffer. Replace unbounded copy functions with analogous functions that support length arguments such as 'strlcat'. CWE-119
-           strcat(cmd, ":synthetic_");
-           ^~~~~~
-   kernel/trace/trace_events_hist.c:3015:2: warning: Call to function 'strcat' is insecure as it does not provide bounding of the memory buffer. Replace unbounded copy functions with analogous functions that support length arguments such as 'strlcat'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-           strcat(cmd, field_name);
-           ^~~~~~
-   kernel/trace/trace_events_hist.c:3015:2: note: Call to function 'strcat' is insecure as it does not provide bounding of the memory buffer. Replace unbounded copy functions with analogous functions that support length arguments such as 'strlcat'. CWE-119
-           strcat(cmd, field_name);
-           ^~~~~~
-   kernel/trace/trace_events_hist.c:3016:2: warning: Call to function 'strcat' is insecure as it does not provide bounding of the memory buffer. Replace unbounded copy functions with analogous functions that support length arguments such as 'strlcat'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-           strcat(cmd, "=");
-           ^~~~~~
-   kernel/trace/trace_events_hist.c:3016:2: note: Call to function 'strcat' is insecure as it does not provide bounding of the memory buffer. Replace unbounded copy functions with analogous functions that support length arguments such as 'strlcat'. CWE-119
-           strcat(cmd, "=");
-           ^~~~~~
-   kernel/trace/trace_events_hist.c:3017:2: warning: Call to function 'strcat' is insecure as it does not provide bounding of the memory buffer. Replace unbounded copy functions with analogous functions that support length arguments such as 'strlcat'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-           strcat(cmd, field_name);
-           ^~~~~~
-   kernel/trace/trace_events_hist.c:3017:2: note: Call to function 'strcat' is insecure as it does not provide bounding of the memory buffer. Replace unbounded copy functions with analogous functions that support length arguments such as 'strlcat'. CWE-119
-           strcat(cmd, field_name);
-           ^~~~~~
-   kernel/trace/trace_events_hist.c:3022:3: warning: Call to function 'strcat' is insecure as it does not provide bounding of the memory buffer. Replace unbounded copy functions with analogous functions that support length arguments such as 'strlcat'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-                   strcat(cmd, " if ");
-                   ^~~~~~
-   kernel/trace/trace_events_hist.c:3022:3: note: Call to function 'strcat' is insecure as it does not provide bounding of the memory buffer. Replace unbounded copy functions with analogous functions that support length arguments such as 'strlcat'. CWE-119
-                   strcat(cmd, " if ");
-                   ^~~~~~
-   kernel/trace/trace_events_hist.c:3023:3: warning: Call to function 'strcat' is insecure as it does not provide bounding of the memory buffer. Replace unbounded copy functions with analogous functions that support length arguments such as 'strlcat'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-                   strcat(cmd, saved_filter);
-                   ^~~~~~
-   kernel/trace/trace_events_hist.c:3023:3: note: Call to function 'strcat' is insecure as it does not provide bounding of the memory buffer. Replace unbounded copy functions with analogous functions that support length arguments such as 'strlcat'. CWE-119
-                   strcat(cmd, saved_filter);
-                   ^~~~~~
->> kernel/trace/trace_events_hist.c:5363:30: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]
-                   pc = __get_percentage(val, stats[idx].total);
-                                              ^
-   kernel/trace/trace_events_hist.c:5492:15: note: Assuming 'event_file' is non-null
-           if (unlikely(!event_file)) {
+   include/linux/dev_printk.h:218:2: note: expanded from macro 'dev_err_ratelimited'
+           dev_level_ratelimited(dev_err, dev, fmt, ##__VA_ARGS__)
+           ^
+   include/linux/dev_printk.h:202:59: note: expanded from macro 'dev_level_ratelimited'
+   #define dev_level_ratelimited(dev_level, dev, fmt, ...)                 \
+                                                                           ^
+   drivers/spmi/spmi-pmic-arb.c:587:1: note: Returning without writing to '*buf'
+   }
+   ^
+   drivers/spmi/spmi-pmic-arb.c:747:2: note: Returning from 'qpnpint_spmi_read'
+           qpnpint_spmi_read(d, QPNPINT_REG_EN_SET, &buf[0], 1);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/spmi/spmi-pmic-arb.c:748:15: note: The left operand of '&' is a garbage value
+           if (!(buf[0] & BIT(irq))) {
                         ^
-   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                               ^
-   kernel/trace/trace_events_hist.c:5492:2: note: Taking false branch
-           if (unlikely(!event_file)) {
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_var'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+                                                      ^~~~
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   13 warnings generated.
+   Suppressed 13 warnings (13 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   14 warnings generated.
+   drivers/net/wireless/broadcom/brcm80211/brcmfmac/fweh.c:271:4: warning: Value stored to 'err' is never read [clang-analyzer-deadcode.DeadStores]
+                           err = 0;
+                           ^     ~
+   drivers/net/wireless/broadcom/brcm80211/brcmfmac/fweh.c:271:4: note: Value stored to 'err' is never read
+                           err = 0;
+                           ^     ~
+   Suppressed 13 warnings (13 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   13 warnings generated.
+   Suppressed 13 warnings (13 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   13 warnings generated.
+   Suppressed 13 warnings (13 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   14 warnings generated.
+>> drivers/net/wireless/broadcom/brcm80211/brcmfmac/common.c:138:3: warning: Value stored to 'err' is never read [clang-analyzer-deadcode.DeadStores]
+                   err = -ENOMEM;
+                   ^     ~~~~~~~
+   drivers/net/wireless/broadcom/brcm80211/brcmfmac/common.c:138:3: note: Value stored to 'err' is never read
+                   err = -ENOMEM;
+                   ^     ~~~~~~~
+   Suppressed 13 warnings (13 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   14 warnings generated.
+   Suppressed 14 warnings (14 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   15 warnings generated.
+   drivers/net/wireless/broadcom/brcm80211/brcmfmac/firmware.c:212:12: warning: Potential memory leak [clang-analyzer-unix.Malloc]
+           nvp->data = data;
+                     ^
+   drivers/net/wireless/broadcom/brcm80211/brcmfmac/firmware.c:549:2: note: Loop condition is false.  Exiting loop
+           brcmf_dbg(TRACE, "enter: dev=%s\n", dev_name(fwctx->dev));
            ^
-   kernel/trace/trace_events_hist.c:5497:2: note: Loop condition is true.  Entering loop body
-           list_for_each_entry(data, &event_file->triggers, list) {
-           ^
-   include/linux/list.h:674:2: note: expanded from macro 'list_for_each_entry'
-           for (pos = list_first_entry(head, typeof(*pos), member);        \
-           ^
-   kernel/trace/trace_events_hist.c:5498:7: note: Assuming field 'trigger_type' is equal to ETT_EVENT_HIST
-                   if (data->cmd_ops->trigger_type == ETT_EVENT_HIST)
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/trace/trace_events_hist.c:5498:3: note: Taking true branch
-                   if (data->cmd_ops->trigger_type == ETT_EVENT_HIST)
-                   ^
-   kernel/trace/trace_events_hist.c:5499:4: note: Calling 'hist_trigger_show'
-                           hist_trigger_show(m, data, n++);
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/trace/trace_events_hist.c:5464:6: note: 'n' is <= 0
-           if (n > 0)
+   drivers/net/wireless/broadcom/brcm80211/brcmfmac/debug.h:74:39: note: expanded from macro 'brcmf_dbg'
+   #define brcmf_dbg(level, fmt, ...)                              \
+                                                                   ^
+   drivers/net/wireless/broadcom/brcm80211/brcmfmac/firmware.c:553:6: note: Assuming 'fw' is non-null
+           if (fw && fw->data) {
                ^
-   kernel/trace/trace_events_hist.c:5464:2: note: Taking false branch
-           if (n > 0)
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_var'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+                                                      ^~~~
+   drivers/net/wireless/broadcom/brcm80211/brcmfmac/firmware.c:553:6: note: Left side of '&&' is true
+           if (fw && fw->data) {
+               ^
+   drivers/net/wireless/broadcom/brcm80211/brcmfmac/firmware.c:553:2: note: Assuming the condition is false
+           if (fw && fw->data) {
            ^
-   kernel/trace/trace_events_hist.c:5472:14: note: Calling 'print_entries'
-           n_entries = print_entries(m, hist_data);
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/trace/trace_events_hist.c:5416:2: note: 'stats' initialized to a null pointer value
-           struct hist_val_stat *stats = NULL;
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/trace/trace_events_hist.c:5422:6: note: Assuming 'n_entries' is >= 0
-           if (n_entries < 0)
-               ^~~~~~~~~~~~~
-   kernel/trace/trace_events_hist.c:5422:2: note: Taking false branch
-           if (n_entries < 0)
+   include/linux/compiler.h:56:45: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_var'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+                                                      ^~~~
+   drivers/net/wireless/broadcom/brcm80211/brcmfmac/firmware.c:553:2: note: '?' condition is false
+           if (fw && fw->data) {
            ^
-   kernel/trace/trace_events_hist.c:5426:14: note: Assuming 'j' is >= field 'n_vals'
-           for (j = 0; j < hist_data->n_vals; j++) {
-                       ^~~~~~~~~~~~~~~~~~~~~
-   kernel/trace/trace_events_hist.c:5426:2: note: Loop condition is false. Execution continues on line 5446
-           for (j = 0; j < hist_data->n_vals; j++) {
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_var'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+                                 ^
+   drivers/net/wireless/broadcom/brcm80211/brcmfmac/firmware.c:553:6: note: 'fw' is non-null
+           if (fw && fw->data) {
+               ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_var'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+                                                                                        ^~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_value'
+           (cond) ?                                        \
+            ^~~~
+   drivers/net/wireless/broadcom/brcm80211/brcmfmac/firmware.c:553:6: note: Left side of '&&' is true
+           if (fw && fw->data) {
+               ^
+   drivers/net/wireless/broadcom/brcm80211/brcmfmac/firmware.c:553:2: note: '?' condition is true
+           if (fw && fw->data) {
            ^
-   kernel/trace/trace_events_hist.c:5446:14: note: Assuming 'i' is < 'n_entries'
-           for (i = 0; i < n_entries; i++)
-                       ^~~~~~~~~~~~~
-   kernel/trace/trace_events_hist.c:5446:2: note: Loop condition is true.  Entering loop body
-           for (i = 0; i < n_entries; i++)
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_var'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_value'
+           (cond) ?                                        \
            ^
-   kernel/trace/trace_events_hist.c:5446:14: note: Assuming 'i' is < 'n_entries'
-           for (i = 0; i < n_entries; i++)
-                       ^~~~~~~~~~~~~
-   kernel/trace/trace_events_hist.c:5446:2: note: Loop condition is true.  Entering loop body
-           for (i = 0; i < n_entries; i++)
+   drivers/net/wireless/broadcom/brcm80211/brcmfmac/firmware.c:553:2: note: Taking true branch
+           if (fw && fw->data) {
            ^
-   kernel/trace/trace_events_hist.c:5447:42: note: Passing null pointer value via 3rd parameter 'stats'
-                   hist_trigger_entry_print(m, hist_data, stats,
-                                                          ^~~~~
-   kernel/trace/trace_events_hist.c:5447:3: note: Calling 'hist_trigger_entry_print'
-                   hist_trigger_entry_print(m, hist_data, stats,
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/trace/trace_events_hist.c:5394:14: note: Assuming 'i' is < field 'n_vals'
-           for (i = 1; i < hist_data->n_vals; i++) {
-                       ^~~~~~~~~~~~~~~~~~~~~
-   kernel/trace/trace_events_hist.c:5394:2: note: Loop condition is true.  Entering loop body
-           for (i = 1; i < hist_data->n_vals; i++) {
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   drivers/net/wireless/broadcom/brcm80211/brcmfmac/firmware.c:565:6: note: 'data' is non-null
+           if (data)
+               ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_var'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+                                                      ^~~~
+   drivers/net/wireless/broadcom/brcm80211/brcmfmac/firmware.c:565:2: note: '?' condition is false
+           if (data)
            ^
-   kernel/trace/trace_events_hist.c:5398:7: note: Assuming the condition is false
-                   if (flags & HIST_FIELD_FL_VAR || flags & HIST_FIELD_FL_EXPR)
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/trace/trace_events_hist.c:5398:7: note: Left side of '||' is false
-   kernel/trace/trace_events_hist.c:5398:36: note: Assuming the condition is false
-                   if (flags & HIST_FIELD_FL_VAR || flags & HIST_FIELD_FL_EXPR)
-                                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/trace/trace_events_hist.c:5398:3: note: Taking false branch
-                   if (flags & HIST_FIELD_FL_VAR || flags & HIST_FIELD_FL_EXPR)
-                   ^
-   kernel/trace/trace_events_hist.c:5402:51: note: Passing null pointer value via 5th parameter 'stats'
-                   hist_trigger_print_val(m, i, field_name, flags, stats, elt);
-                                                                   ^~~~~
-   kernel/trace/trace_events_hist.c:5402:3: note: Calling 'hist_trigger_print_val'
-                   hist_trigger_print_val(m, i, field_name, flags, stats, elt);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/trace/trace_events_hist.c:5362:6: note: Assuming the condition is true
-           if (flags & HIST_FIELD_FL_PERCENT) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/trace/trace_events_hist.c:5362:2: note: Taking true branch
-           if (flags & HIST_FIELD_FL_PERCENT) {
-           ^
-   kernel/trace/trace_events_hist.c:5363:30: note: Dereference of null pointer
-                   pc = __get_percentage(val, stats[idx].total);
-                                              ^~~~~~~~~~~~~~~~
-   kernel/trace/trace_events_hist.c:5371:36: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_var'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
 
-vim +5363 kernel/trace/trace_events_hist.c
+vim +/err +138 drivers/net/wireless/broadcom/brcm80211/brcmfmac/common.c
 
-a2c54256dec751 Masami Hiramatsu (Google  2022-10-20  5352) 
-abaa5258ce5e58 Masami Hiramatsu (Google  2022-10-20  5353) static void hist_trigger_print_val(struct seq_file *m, unsigned int idx,
-abaa5258ce5e58 Masami Hiramatsu (Google  2022-10-20  5354) 				   const char *field_name, unsigned long flags,
-a2c54256dec751 Masami Hiramatsu (Google  2022-10-20  5355) 				   struct hist_val_stat *stats,
-a2c54256dec751 Masami Hiramatsu (Google  2022-10-20  5356) 				   struct tracing_map_elt *elt)
-abaa5258ce5e58 Masami Hiramatsu (Google  2022-10-20  5357) {
-abaa5258ce5e58 Masami Hiramatsu (Google  2022-10-20  5358) 	u64 val = tracing_map_read_sum(elt, idx);
-abaa5258ce5e58 Masami Hiramatsu (Google  2022-10-20  5359) 	unsigned int pc;
-a2c54256dec751 Masami Hiramatsu (Google  2022-10-20  5360) 	char bar[21];
-abaa5258ce5e58 Masami Hiramatsu (Google  2022-10-20  5361) 
-abaa5258ce5e58 Masami Hiramatsu (Google  2022-10-20  5362) 	if (flags & HIST_FIELD_FL_PERCENT) {
-a2c54256dec751 Masami Hiramatsu (Google  2022-10-20 @5363) 		pc = __get_percentage(val, stats[idx].total);
-abaa5258ce5e58 Masami Hiramatsu (Google  2022-10-20  5364) 		if (pc == UINT_MAX)
-abaa5258ce5e58 Masami Hiramatsu (Google  2022-10-20  5365) 			seq_printf(m, " %s (%%):[ERROR]", field_name);
-abaa5258ce5e58 Masami Hiramatsu (Google  2022-10-20  5366) 		else
-abaa5258ce5e58 Masami Hiramatsu (Google  2022-10-20  5367) 			seq_printf(m, " %s (%%): %3u.%02u", field_name,
-abaa5258ce5e58 Masami Hiramatsu (Google  2022-10-20  5368) 					pc / 100, pc % 100);
-a2c54256dec751 Masami Hiramatsu (Google  2022-10-20  5369) 	} else if (flags & HIST_FIELD_FL_GRAPH) {
-a2c54256dec751 Masami Hiramatsu (Google  2022-10-20  5370) 		seq_printf(m, " %s: %20s", field_name,
-a2c54256dec751 Masami Hiramatsu (Google  2022-10-20  5371) 			   __fill_bar_str(bar, 20, val, stats[idx].max));
-abaa5258ce5e58 Masami Hiramatsu (Google  2022-10-20  5372) 	} else if (flags & HIST_FIELD_FL_HEX) {
-abaa5258ce5e58 Masami Hiramatsu (Google  2022-10-20  5373) 		seq_printf(m, " %s: %10llx", field_name, val);
-abaa5258ce5e58 Masami Hiramatsu (Google  2022-10-20  5374) 	} else {
-abaa5258ce5e58 Masami Hiramatsu (Google  2022-10-20  5375) 		seq_printf(m, " %s: %10llu", field_name, val);
-abaa5258ce5e58 Masami Hiramatsu (Google  2022-10-20  5376) 	}
-abaa5258ce5e58 Masami Hiramatsu (Google  2022-10-20  5377) }
-abaa5258ce5e58 Masami Hiramatsu (Google  2022-10-20  5378) 
+fdd0bd88ceaecf Chung-Hsien Hsu     2017-11-10  119  
+dd7e55401fec58 Hector Martin       2023-02-14  120  static int brcmf_c_download_blob(struct brcmf_if *ifp,
+dd7e55401fec58 Hector Martin       2023-02-14  121  				 const void *data, size_t size,
+dd7e55401fec58 Hector Martin       2023-02-14  122  				 const char *loadvar, const char *statvar)
+fdd0bd88ceaecf Chung-Hsien Hsu     2017-11-10  123  {
+dcb1471bc6d054 Rafał Miłecki       2019-02-19  124  	struct brcmf_pub *drvr = ifp->drvr;
+fdd0bd88ceaecf Chung-Hsien Hsu     2017-11-10  125  	struct brcmf_dload_data_le *chunk_buf;
+fdd0bd88ceaecf Chung-Hsien Hsu     2017-11-10  126  	u32 chunk_len;
+fdd0bd88ceaecf Chung-Hsien Hsu     2017-11-10  127  	u32 datalen;
+fdd0bd88ceaecf Chung-Hsien Hsu     2017-11-10  128  	u32 cumulative_len;
+fdd0bd88ceaecf Chung-Hsien Hsu     2017-11-10  129  	u16 dl_flag = DL_BEGIN;
+fdd0bd88ceaecf Chung-Hsien Hsu     2017-11-10  130  	u32 status;
+fdd0bd88ceaecf Chung-Hsien Hsu     2017-11-10  131  	s32 err;
+fdd0bd88ceaecf Chung-Hsien Hsu     2017-11-10  132  
+fdd0bd88ceaecf Chung-Hsien Hsu     2017-11-10  133  	brcmf_dbg(TRACE, "Enter\n");
+fdd0bd88ceaecf Chung-Hsien Hsu     2017-11-10  134  
+633a9b6f514c12 Gustavo A. R. Silva 2022-11-15  135  	chunk_buf = kzalloc(struct_size(chunk_buf, data, MAX_CHUNK_LEN),
+633a9b6f514c12 Gustavo A. R. Silva 2022-11-15  136  			    GFP_KERNEL);
+fdd0bd88ceaecf Chung-Hsien Hsu     2017-11-10  137  	if (!chunk_buf) {
+fdd0bd88ceaecf Chung-Hsien Hsu     2017-11-10 @138  		err = -ENOMEM;
+dd7e55401fec58 Hector Martin       2023-02-14  139  		return -ENOMEM;
+fdd0bd88ceaecf Chung-Hsien Hsu     2017-11-10  140  	}
+fdd0bd88ceaecf Chung-Hsien Hsu     2017-11-10  141  
+dd7e55401fec58 Hector Martin       2023-02-14  142  	datalen = size;
+fdd0bd88ceaecf Chung-Hsien Hsu     2017-11-10  143  	cumulative_len = 0;
+fdd0bd88ceaecf Chung-Hsien Hsu     2017-11-10  144  	do {
+fdd0bd88ceaecf Chung-Hsien Hsu     2017-11-10  145  		if (datalen > MAX_CHUNK_LEN) {
+fdd0bd88ceaecf Chung-Hsien Hsu     2017-11-10  146  			chunk_len = MAX_CHUNK_LEN;
+fdd0bd88ceaecf Chung-Hsien Hsu     2017-11-10  147  		} else {
+fdd0bd88ceaecf Chung-Hsien Hsu     2017-11-10  148  			chunk_len = datalen;
+fdd0bd88ceaecf Chung-Hsien Hsu     2017-11-10  149  			dl_flag |= DL_END;
+fdd0bd88ceaecf Chung-Hsien Hsu     2017-11-10  150  		}
+dd7e55401fec58 Hector Martin       2023-02-14  151  		memcpy(chunk_buf->data, data + cumulative_len, chunk_len);
+fdd0bd88ceaecf Chung-Hsien Hsu     2017-11-10  152  
+dd7e55401fec58 Hector Martin       2023-02-14  153  		err = brcmf_c_download(ifp, dl_flag, chunk_buf, chunk_len,
+dd7e55401fec58 Hector Martin       2023-02-14  154  				       loadvar);
+fdd0bd88ceaecf Chung-Hsien Hsu     2017-11-10  155  
+fdd0bd88ceaecf Chung-Hsien Hsu     2017-11-10  156  		dl_flag &= ~DL_BEGIN;
+fdd0bd88ceaecf Chung-Hsien Hsu     2017-11-10  157  
+fdd0bd88ceaecf Chung-Hsien Hsu     2017-11-10  158  		cumulative_len += chunk_len;
+fdd0bd88ceaecf Chung-Hsien Hsu     2017-11-10  159  		datalen -= chunk_len;
+fdd0bd88ceaecf Chung-Hsien Hsu     2017-11-10  160  	} while ((datalen > 0) && (err == 0));
+fdd0bd88ceaecf Chung-Hsien Hsu     2017-11-10  161  
+fdd0bd88ceaecf Chung-Hsien Hsu     2017-11-10  162  	if (err) {
+dd7e55401fec58 Hector Martin       2023-02-14  163  		bphy_err(drvr, "%s (%zu byte file) failed (%d)\n",
+dd7e55401fec58 Hector Martin       2023-02-14  164  			 loadvar, size, err);
+dd7e55401fec58 Hector Martin       2023-02-14  165  		/* Retrieve status and print */
+dd7e55401fec58 Hector Martin       2023-02-14  166  		err = brcmf_fil_iovar_int_get(ifp, statvar, &status);
+fdd0bd88ceaecf Chung-Hsien Hsu     2017-11-10  167  		if (err)
+dd7e55401fec58 Hector Martin       2023-02-14  168  			bphy_err(drvr, "get %s failed (%d)\n", statvar, err);
+fdd0bd88ceaecf Chung-Hsien Hsu     2017-11-10  169  		else
+dd7e55401fec58 Hector Martin       2023-02-14  170  			brcmf_dbg(INFO, "%s=%d\n", statvar, status);
+fdd0bd88ceaecf Chung-Hsien Hsu     2017-11-10  171  		err = -EIO;
+fdd0bd88ceaecf Chung-Hsien Hsu     2017-11-10  172  	}
+fdd0bd88ceaecf Chung-Hsien Hsu     2017-11-10  173  
+fdd0bd88ceaecf Chung-Hsien Hsu     2017-11-10  174  	kfree(chunk_buf);
+dd7e55401fec58 Hector Martin       2023-02-14  175  	return err;
+dd7e55401fec58 Hector Martin       2023-02-14  176  }
+dd7e55401fec58 Hector Martin       2023-02-14  177  
+
+:::::: The code at line 138 was first introduced by commit
+:::::: fdd0bd88ceaecf729db103ac8836af5805dd2dc1 brcmfmac: add CLM download support
+
+:::::: TO: Chung-Hsien Hsu <stanley.hsu@cypress.com>
+:::::: CC: Kalle Valo <kvalo@codeaurora.org>
 
 -- 
 0-DAY CI Kernel Test Service
