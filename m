@@ -1,53 +1,42 @@
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A61A27F;
-	Sat, 25 Mar 2023 07:19:10 +0000 (UTC)
-Received: by mail-ed1-f45.google.com with SMTP id t10so16030215edd.12;
-        Sat, 25 Mar 2023 00:19:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679728748;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=G2Lakoiqf+b405RhNeKhA8+8uQ9GhOVChZGkG8jYViM=;
-        b=SHk/jwp+5LHO2Q1bXXdIh01NJhcQUBU7Ayk+q2PUnHkU8WIhKVV5SjHGf3B9eg2d0u
-         3jmmJQv0ZYlmPwKNgFmFjyBcfqvlf5idxpmr7P95stObGQK6DXDgffOLTxbyOM+S1NVy
-         v9qtwy29u+irKAaM4spqhiS7MLysiP9kVCw7ZOEGeRHplxVxulmtJ3cON2T4wqnMOb/3
-         J0uVuotcndB5LIlxiKFZR01FMrrPr5DYLebY8iiaOKjqr7rCxC6h6yKgKkocEGKqrYi4
-         ML51gq9OI8b6Vq2rpfrdn19OfB2cTPcT3lo+82Z4dmfM6V2vUR1HD7DtuvS2P6wucBFg
-         DCTw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679728748;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=G2Lakoiqf+b405RhNeKhA8+8uQ9GhOVChZGkG8jYViM=;
-        b=e4wvsHOpaQ1iJBP8yPlaEMTdMks357p7MgBCT+z6i90dlZ8+g/QNoT1VScg7CS3lfp
-         YHDfQsDdnhnHUL89ZQEXwDpSTY6WBxfD7rq9/mkx0SAgEMrVUn1mzlTOUX6+A/wrK6y6
-         0gZFNYVNoOy1lkKWpT2GFLOk/3cyf7lH1Yym5mdDryV+Xd9NBjNeXBx9IY0XggZEZIMB
-         PvUBuv5lbyJvZvzmdisPjW/JScjrcz5hBi/WsCa1Fz5uhH+GlFwOvvY1fL1PTDXxJxah
-         PmnfSzCv7w6cjfLm44ngYGTX2fBCGMIOIeCJRDcttArmnjXmLdGwI7cXytDQmj8EM1ys
-         du6g==
-X-Gm-Message-State: AAQBX9dfrgXHDBJtPaBYFWqdIWQveqBXMo0GQNjcq2ruzg1SAA0Zduib
-	RkNqYU9w3VnTscy53l6z+y4k7Wut2Uod1A==
-X-Google-Smtp-Source: AKy350bAvZiVj8oCyeLBH3lywneVzJCRC7A5JS/wA4y8/HL77c3bNppjANrDX3ohUTzGwfy3EO5oAQ==
-X-Received: by 2002:a05:6402:1143:b0:502:25ac:c72a with SMTP id g3-20020a056402114300b0050225acc72amr2920578edw.1.1679728748455;
-        Sat, 25 Mar 2023 00:19:08 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id s30-20020a50ab1e000000b004c5d1a15bd5sm11724665edc.69.2023.03.25.00.19.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 25 Mar 2023 00:19:08 -0700 (PDT)
-Date: Sat, 25 Mar 2023 10:18:48 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, Dan Williams <dan.j.williams@intel.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Alison Schofield <alison.schofield@intel.com>,
-	Vishal Verma <vishal.l.verma@intel.com>,
-	Ira Weiny <ira.weiny@intel.com>,
-	Ben Widawsky <ben.widawsky@intel.com>,
-	Dan Williams <dan.j.williams@intel.com>, linux-cxl@vger.kernel.org
-Subject: [cxl:for-6.4/cxl-type-2 10/22] drivers/cxl/core/pci.c:493
- cxl_probe_link() warn: right shifting more than type allows 16 vs 16
-Message-ID: <cb1319e7-e4ef-4358-9b3e-cca489395f3f@kili.mountain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C9D920E1
+	for <oe-kbuild@lists.linux.dev>; Sat, 25 Mar 2023 08:58:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1679734737; x=1711270737;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=MnbaiUTm+L+uRHdZFEWNwRmej3A5iTGz+WzCLv2fP8A=;
+  b=jzdwvM7WXnqMDYdZ1H0uLrf+qlKDyryw+lc5470zdXM7CP8BZfE9Q7Mt
+   KVc3oL3YuTqS9zVJwvG/ZD6ywGAQ7qJfy2zm+z6NZS2ZhLLi9Yv++h796
+   pfvfJkWzqXOYGrHyawwoPqZ2UsYulc4cl/R5zuBQE8AgGig/CJWzilDr3
+   M5JRu8Ph+8RQwZ0+2/WOAar0a7hs64sG3N5GQjXD9aqRxGal+7WTU8Q4D
+   bWLi7fvmASoKW6Zk/KfCl2bXcRn6sgAb2FFevm+jlPheHcHS/glB9VR5l
+   eag24KQ63YHb+iI4jE6zJ6QGILEcfyj/Ks6m+9beZfiP3jArbwNsHUNMZ
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10659"; a="402551869"
+X-IronPort-AV: E=Sophos;i="5.98,290,1673942400"; 
+   d="scan'208";a="402551869"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2023 01:58:57 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10659"; a="713319231"
+X-IronPort-AV: E=Sophos;i="5.98,290,1673942400"; 
+   d="scan'208";a="713319231"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by orsmga008.jf.intel.com with ESMTP; 25 Mar 2023 01:58:56 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pfzjj-000G8N-1I;
+	Sat, 25 Mar 2023 08:58:55 +0000
+Date: Sat, 25 Mar 2023 16:58:00 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: kernel/trace/trace_events_hist.c:5363:30: warning: Dereference of
+ null pointer [clang-analyzer-core.NullDereference]
+Message-ID: <202303251659.IdQnvYVz-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -57,99 +46,276 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cxl/cxl.git for-6.4/cxl-type-2
-head:   0b80e8b55828313bcd08c4740646689e648de444
-commit: 45bbde21f573f287d5828b5e3ff1eac0320acc3d [10/22] cxl/port: Enumerate flit mode capability
-config: i386-randconfig-m021 (https://download.01.org/0day-ci/archive/20230325/202303251253.yCqOttoG-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+:::::: 
+:::::: Manual check reason: "low confidence static check warning: kernel/trace/trace_events_hist.c:5363:30: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]"
+:::::: 
+
+BCC: lkp@intel.com
+CC: llvm@lists.linux.dev
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+TO: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
+CC: "Steven Rostedt (Google)" <rostedt@goodmis.org>
+CC: Tom Zanussi <zanussi@kernel.org>
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   65aca32efdcb0965502d3db2f1fa33838c070952
+commit: a2c54256dec7510477e2b4f4db187e638f7cac37 tracing: Add .graph suffix option to histogram value
+date:   4 months ago
+:::::: branch date: 8 hours ago
+:::::: commit date: 4 months ago
+config: arm-randconfig-c002-20230322 (https://download.01.org/0day-ci/archive/20230325/202303251659.IdQnvYVz-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=a2c54256dec7510477e2b4f4db187e638f7cac37
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout a2c54256dec7510477e2b4f4db187e638f7cac37
+        # save the config file
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=arm clang-analyzer  olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=arm clang-analyzer 
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202303251253.yCqOttoG-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202303251659.IdQnvYVz-lkp@intel.com/
 
-New smatch warnings:
-drivers/cxl/core/pci.c:493 cxl_probe_link() warn: right shifting more than type allows 16 vs 16
+clang_analyzer warnings: (new ones prefixed by >>)
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/trace/trace_events_hist.c:2186:6: note: 'ref_field' is non-null
+           if (ref_field) {
+               ^~~~~~~~~
+   kernel/trace/trace_events_hist.c:2186:2: note: Taking true branch
+           if (ref_field) {
+           ^
+   kernel/trace/trace_events_hist.c:2187:7: note: Calling 'init_var_ref'
+                   if (init_var_ref(ref_field, var_field, system, event_name)) {
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/trace/trace_events_hist.c:2090:6: note: 'system' is non-null
+           if (system) {
+               ^~~~~~
+   kernel/trace/trace_events_hist.c:2090:2: note: Taking true branch
+           if (system) {
+           ^
+   kernel/trace/trace_events_hist.c:2092:7: note: Assuming field 'system' is null
+                   if (!ref_field->system)
+                       ^~~~~~~~~~~~~~~~~~
+   kernel/trace/trace_events_hist.c:2092:3: note: Taking true branch
+                   if (!ref_field->system)
+                   ^
+   kernel/trace/trace_events_hist.c:2093:4: note: Returning without deallocating memory or storing the pointer for later deallocation
+                           return -ENOMEM;
+                           ^
+   kernel/trace/trace_events_hist.c:2187:7: note: Returning from 'init_var_ref'
+                   if (init_var_ref(ref_field, var_field, system, event_name)) {
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/trace/trace_events_hist.c:2187:3: note: Taking true branch
+                   if (init_var_ref(ref_field, var_field, system, event_name)) {
+                   ^
+   kernel/trace/trace_events_hist.c:2189:4: note: Potential leak of memory pointed to by 'ref_field'
+                           return NULL;
+                           ^
+   kernel/trace/trace_events_hist.c:2911:2: warning: Call to function 'strcpy' is insecure as it does not provide bounding of the memory buffer. Replace unbounded copy functions with analogous functions that support length arguments such as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+           strcpy(synthetic_name, "synthetic_");
+           ^~~~~~
+   kernel/trace/trace_events_hist.c:2911:2: note: Call to function 'strcpy' is insecure as it does not provide bounding of the memory buffer. Replace unbounded copy functions with analogous functions that support length arguments such as 'strlcpy'. CWE-119
+           strcpy(synthetic_name, "synthetic_");
+           ^~~~~~
+   kernel/trace/trace_events_hist.c:2912:2: warning: Call to function 'strcat' is insecure as it does not provide bounding of the memory buffer. Replace unbounded copy functions with analogous functions that support length arguments such as 'strlcat'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+           strcat(synthetic_name, field_name);
+           ^~~~~~
+   kernel/trace/trace_events_hist.c:2912:2: note: Call to function 'strcat' is insecure as it does not provide bounding of the memory buffer. Replace unbounded copy functions with analogous functions that support length arguments such as 'strlcat'. CWE-119
+           strcat(synthetic_name, field_name);
+           ^~~~~~
+   kernel/trace/trace_events_hist.c:3003:2: warning: Call to function 'strcat' is insecure as it does not provide bounding of the memory buffer. Replace unbounded copy functions with analogous functions that support length arguments such as 'strlcat'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+           strcat(cmd, "keys=");
+           ^~~~~~
+   kernel/trace/trace_events_hist.c:3003:2: note: Call to function 'strcat' is insecure as it does not provide bounding of the memory buffer. Replace unbounded copy functions with analogous functions that support length arguments such as 'strlcat'. CWE-119
+           strcat(cmd, "keys=");
+           ^~~~~~
+   kernel/trace/trace_events_hist.c:3008:4: warning: Call to function 'strcat' is insecure as it does not provide bounding of the memory buffer. Replace unbounded copy functions with analogous functions that support length arguments such as 'strlcat'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+                           strcat(cmd, ",");
+                           ^~~~~~
+   kernel/trace/trace_events_hist.c:3008:4: note: Call to function 'strcat' is insecure as it does not provide bounding of the memory buffer. Replace unbounded copy functions with analogous functions that support length arguments such as 'strlcat'. CWE-119
+                           strcat(cmd, ",");
+                           ^~~~~~
+   kernel/trace/trace_events_hist.c:3009:3: warning: Call to function 'strcat' is insecure as it does not provide bounding of the memory buffer. Replace unbounded copy functions with analogous functions that support length arguments such as 'strlcat'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+                   strcat(cmd, key_field->field->name);
+                   ^~~~~~
+   kernel/trace/trace_events_hist.c:3009:3: note: Call to function 'strcat' is insecure as it does not provide bounding of the memory buffer. Replace unbounded copy functions with analogous functions that support length arguments such as 'strlcat'. CWE-119
+                   strcat(cmd, key_field->field->name);
+                   ^~~~~~
+   kernel/trace/trace_events_hist.c:3014:2: warning: Call to function 'strcat' is insecure as it does not provide bounding of the memory buffer. Replace unbounded copy functions with analogous functions that support length arguments such as 'strlcat'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+           strcat(cmd, ":synthetic_");
+           ^~~~~~
+   kernel/trace/trace_events_hist.c:3014:2: note: Call to function 'strcat' is insecure as it does not provide bounding of the memory buffer. Replace unbounded copy functions with analogous functions that support length arguments such as 'strlcat'. CWE-119
+           strcat(cmd, ":synthetic_");
+           ^~~~~~
+   kernel/trace/trace_events_hist.c:3015:2: warning: Call to function 'strcat' is insecure as it does not provide bounding of the memory buffer. Replace unbounded copy functions with analogous functions that support length arguments such as 'strlcat'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+           strcat(cmd, field_name);
+           ^~~~~~
+   kernel/trace/trace_events_hist.c:3015:2: note: Call to function 'strcat' is insecure as it does not provide bounding of the memory buffer. Replace unbounded copy functions with analogous functions that support length arguments such as 'strlcat'. CWE-119
+           strcat(cmd, field_name);
+           ^~~~~~
+   kernel/trace/trace_events_hist.c:3016:2: warning: Call to function 'strcat' is insecure as it does not provide bounding of the memory buffer. Replace unbounded copy functions with analogous functions that support length arguments such as 'strlcat'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+           strcat(cmd, "=");
+           ^~~~~~
+   kernel/trace/trace_events_hist.c:3016:2: note: Call to function 'strcat' is insecure as it does not provide bounding of the memory buffer. Replace unbounded copy functions with analogous functions that support length arguments such as 'strlcat'. CWE-119
+           strcat(cmd, "=");
+           ^~~~~~
+   kernel/trace/trace_events_hist.c:3017:2: warning: Call to function 'strcat' is insecure as it does not provide bounding of the memory buffer. Replace unbounded copy functions with analogous functions that support length arguments such as 'strlcat'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+           strcat(cmd, field_name);
+           ^~~~~~
+   kernel/trace/trace_events_hist.c:3017:2: note: Call to function 'strcat' is insecure as it does not provide bounding of the memory buffer. Replace unbounded copy functions with analogous functions that support length arguments such as 'strlcat'. CWE-119
+           strcat(cmd, field_name);
+           ^~~~~~
+   kernel/trace/trace_events_hist.c:3022:3: warning: Call to function 'strcat' is insecure as it does not provide bounding of the memory buffer. Replace unbounded copy functions with analogous functions that support length arguments such as 'strlcat'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+                   strcat(cmd, " if ");
+                   ^~~~~~
+   kernel/trace/trace_events_hist.c:3022:3: note: Call to function 'strcat' is insecure as it does not provide bounding of the memory buffer. Replace unbounded copy functions with analogous functions that support length arguments such as 'strlcat'. CWE-119
+                   strcat(cmd, " if ");
+                   ^~~~~~
+   kernel/trace/trace_events_hist.c:3023:3: warning: Call to function 'strcat' is insecure as it does not provide bounding of the memory buffer. Replace unbounded copy functions with analogous functions that support length arguments such as 'strlcat'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+                   strcat(cmd, saved_filter);
+                   ^~~~~~
+   kernel/trace/trace_events_hist.c:3023:3: note: Call to function 'strcat' is insecure as it does not provide bounding of the memory buffer. Replace unbounded copy functions with analogous functions that support length arguments such as 'strlcat'. CWE-119
+                   strcat(cmd, saved_filter);
+                   ^~~~~~
+>> kernel/trace/trace_events_hist.c:5363:30: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]
+                   pc = __get_percentage(val, stats[idx].total);
+                                              ^
+   kernel/trace/trace_events_hist.c:5492:15: note: Assuming 'event_file' is non-null
+           if (unlikely(!event_file)) {
+                        ^
+   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   kernel/trace/trace_events_hist.c:5492:2: note: Taking false branch
+           if (unlikely(!event_file)) {
+           ^
+   kernel/trace/trace_events_hist.c:5497:2: note: Loop condition is true.  Entering loop body
+           list_for_each_entry(data, &event_file->triggers, list) {
+           ^
+   include/linux/list.h:674:2: note: expanded from macro 'list_for_each_entry'
+           for (pos = list_first_entry(head, typeof(*pos), member);        \
+           ^
+   kernel/trace/trace_events_hist.c:5498:7: note: Assuming field 'trigger_type' is equal to ETT_EVENT_HIST
+                   if (data->cmd_ops->trigger_type == ETT_EVENT_HIST)
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/trace/trace_events_hist.c:5498:3: note: Taking true branch
+                   if (data->cmd_ops->trigger_type == ETT_EVENT_HIST)
+                   ^
+   kernel/trace/trace_events_hist.c:5499:4: note: Calling 'hist_trigger_show'
+                           hist_trigger_show(m, data, n++);
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/trace/trace_events_hist.c:5464:6: note: 'n' is <= 0
+           if (n > 0)
+               ^
+   kernel/trace/trace_events_hist.c:5464:2: note: Taking false branch
+           if (n > 0)
+           ^
+   kernel/trace/trace_events_hist.c:5472:14: note: Calling 'print_entries'
+           n_entries = print_entries(m, hist_data);
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/trace/trace_events_hist.c:5416:2: note: 'stats' initialized to a null pointer value
+           struct hist_val_stat *stats = NULL;
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/trace/trace_events_hist.c:5422:6: note: Assuming 'n_entries' is >= 0
+           if (n_entries < 0)
+               ^~~~~~~~~~~~~
+   kernel/trace/trace_events_hist.c:5422:2: note: Taking false branch
+           if (n_entries < 0)
+           ^
+   kernel/trace/trace_events_hist.c:5426:14: note: Assuming 'j' is >= field 'n_vals'
+           for (j = 0; j < hist_data->n_vals; j++) {
+                       ^~~~~~~~~~~~~~~~~~~~~
+   kernel/trace/trace_events_hist.c:5426:2: note: Loop condition is false. Execution continues on line 5446
+           for (j = 0; j < hist_data->n_vals; j++) {
+           ^
+   kernel/trace/trace_events_hist.c:5446:14: note: Assuming 'i' is < 'n_entries'
+           for (i = 0; i < n_entries; i++)
+                       ^~~~~~~~~~~~~
+   kernel/trace/trace_events_hist.c:5446:2: note: Loop condition is true.  Entering loop body
+           for (i = 0; i < n_entries; i++)
+           ^
+   kernel/trace/trace_events_hist.c:5446:14: note: Assuming 'i' is < 'n_entries'
+           for (i = 0; i < n_entries; i++)
+                       ^~~~~~~~~~~~~
+   kernel/trace/trace_events_hist.c:5446:2: note: Loop condition is true.  Entering loop body
+           for (i = 0; i < n_entries; i++)
+           ^
+   kernel/trace/trace_events_hist.c:5447:42: note: Passing null pointer value via 3rd parameter 'stats'
+                   hist_trigger_entry_print(m, hist_data, stats,
+                                                          ^~~~~
+   kernel/trace/trace_events_hist.c:5447:3: note: Calling 'hist_trigger_entry_print'
+                   hist_trigger_entry_print(m, hist_data, stats,
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/trace/trace_events_hist.c:5394:14: note: Assuming 'i' is < field 'n_vals'
+           for (i = 1; i < hist_data->n_vals; i++) {
+                       ^~~~~~~~~~~~~~~~~~~~~
+   kernel/trace/trace_events_hist.c:5394:2: note: Loop condition is true.  Entering loop body
+           for (i = 1; i < hist_data->n_vals; i++) {
+           ^
+   kernel/trace/trace_events_hist.c:5398:7: note: Assuming the condition is false
+                   if (flags & HIST_FIELD_FL_VAR || flags & HIST_FIELD_FL_EXPR)
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/trace/trace_events_hist.c:5398:7: note: Left side of '||' is false
+   kernel/trace/trace_events_hist.c:5398:36: note: Assuming the condition is false
+                   if (flags & HIST_FIELD_FL_VAR || flags & HIST_FIELD_FL_EXPR)
+                                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/trace/trace_events_hist.c:5398:3: note: Taking false branch
+                   if (flags & HIST_FIELD_FL_VAR || flags & HIST_FIELD_FL_EXPR)
+                   ^
+   kernel/trace/trace_events_hist.c:5402:51: note: Passing null pointer value via 5th parameter 'stats'
+                   hist_trigger_print_val(m, i, field_name, flags, stats, elt);
+                                                                   ^~~~~
+   kernel/trace/trace_events_hist.c:5402:3: note: Calling 'hist_trigger_print_val'
+                   hist_trigger_print_val(m, i, field_name, flags, stats, elt);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/trace/trace_events_hist.c:5362:6: note: Assuming the condition is true
+           if (flags & HIST_FIELD_FL_PERCENT) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/trace/trace_events_hist.c:5362:2: note: Taking true branch
+           if (flags & HIST_FIELD_FL_PERCENT) {
+           ^
+   kernel/trace/trace_events_hist.c:5363:30: note: Dereference of null pointer
+                   pc = __get_percentage(val, stats[idx].total);
+                                              ^~~~~~~~~~~~~~~~
+   kernel/trace/trace_events_hist.c:5371:36: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]
 
-Old smatch warnings:
-drivers/cxl/core/pci.c:496 cxl_probe_link() warn: right shifting more than type allows 16 vs 16
+vim +5363 kernel/trace/trace_events_hist.c
 
-vim +493 drivers/cxl/core/pci.c
-
-45bbde21f573f2 Dan Williams 2023-03-05  451  int cxl_probe_link(struct cxl_port *port)
-45bbde21f573f2 Dan Williams 2023-03-05  452  {
-45bbde21f573f2 Dan Williams 2023-03-05  453  	struct pci_dev *pdev = cxl_port_to_pci(port);
-45bbde21f573f2 Dan Williams 2023-03-05  454  	u16 cap, en, hdr, parent_features;
-                                                ^^^          ^^^
-hdr is a u16.
-
-45bbde21f573f2 Dan Williams 2023-03-05  455  	struct cxl_port *parent_port;
-45bbde21f573f2 Dan Williams 2023-03-05  456  	struct device *dev;
-45bbde21f573f2 Dan Williams 2023-03-05  457  	int rc, dvsec;
-45bbde21f573f2 Dan Williams 2023-03-05  458  
-45bbde21f573f2 Dan Williams 2023-03-05  459  	if (!pdev) {
-45bbde21f573f2 Dan Williams 2023-03-05  460  		/*
-45bbde21f573f2 Dan Williams 2023-03-05  461  		 * Assume host bridges support all features, the root
-45bbde21f573f2 Dan Williams 2023-03-05  462  		 * port will dictate the actual enabled set to endpoints.
-45bbde21f573f2 Dan Williams 2023-03-05  463  		 */
-45bbde21f573f2 Dan Williams 2023-03-05  464  		return 0;
-45bbde21f573f2 Dan Williams 2023-03-05  465  	}
-45bbde21f573f2 Dan Williams 2023-03-05  466  
-45bbde21f573f2 Dan Williams 2023-03-05  467  	dev = &pdev->dev;
-45bbde21f573f2 Dan Williams 2023-03-05  468  	dvsec = pci_find_dvsec_capability(pdev, PCI_DVSEC_VENDOR_ID_CXL,
-45bbde21f573f2 Dan Williams 2023-03-05  469  					  CXL_DVSEC_FLEXBUS_PORT);
-45bbde21f573f2 Dan Williams 2023-03-05  470  	if (!dvsec) {
-45bbde21f573f2 Dan Williams 2023-03-05  471  		dev_err(dev, "Failed to enumerate port capabilities\n");
-45bbde21f573f2 Dan Williams 2023-03-05  472  		return -ENXIO;
-45bbde21f573f2 Dan Williams 2023-03-05  473  	}
-45bbde21f573f2 Dan Williams 2023-03-05  474  
-45bbde21f573f2 Dan Williams 2023-03-05  475  	/*
-45bbde21f573f2 Dan Williams 2023-03-05  476  	 * Cache the link features for future determination of HDM-D or
-45bbde21f573f2 Dan Williams 2023-03-05  477  	 * HDM-DB support
-45bbde21f573f2 Dan Williams 2023-03-05  478  	 */
-45bbde21f573f2 Dan Williams 2023-03-05  479  	rc = pci_read_config_word(pdev, dvsec + PCI_DVSEC_HEADER1, &hdr);
-45bbde21f573f2 Dan Williams 2023-03-05  480  	if (rc)
-45bbde21f573f2 Dan Williams 2023-03-05  481  		return rc;
-45bbde21f573f2 Dan Williams 2023-03-05  482  
-45bbde21f573f2 Dan Williams 2023-03-05  483  	rc = pci_read_config_word(pdev, dvsec + CXL_DVSEC_FLEXBUS_CAP_OFFSET,
-45bbde21f573f2 Dan Williams 2023-03-05  484  				  &cap);
-45bbde21f573f2 Dan Williams 2023-03-05  485  	if (rc)
-45bbde21f573f2 Dan Williams 2023-03-05  486  		return rc;
-45bbde21f573f2 Dan Williams 2023-03-05  487  
-45bbde21f573f2 Dan Williams 2023-03-05  488  	rc = pci_read_config_word(pdev, dvsec + CXL_DVSEC_FLEXBUS_STATUS_OFFSET,
-45bbde21f573f2 Dan Williams 2023-03-05  489  				  &en);
-45bbde21f573f2 Dan Williams 2023-03-05  490  	if (rc)
-45bbde21f573f2 Dan Williams 2023-03-05  491  		return rc;
-45bbde21f573f2 Dan Williams 2023-03-05  492  
-45bbde21f573f2 Dan Williams 2023-03-05 @493  	if (PCI_DVSEC_HEADER1_REV(hdr) < 2)
-
-PCI_DVSEC_HEADER1_REV() does a >> 16 so the result is always zero.
-
-45bbde21f573f2 Dan Williams 2023-03-05  494  		cap &= ~CXL_DVSEC_FLEXBUS_REV2_MASK;
-45bbde21f573f2 Dan Williams 2023-03-05  495  
-45bbde21f573f2 Dan Williams 2023-03-05  496  	if (PCI_DVSEC_HEADER1_REV(hdr) < 1)
-45bbde21f573f2 Dan Williams 2023-03-05  497  		cap &= ~CXL_DVSEC_FLEXBUS_REV1_MASK;
-45bbde21f573f2 Dan Williams 2023-03-05  498  
-45bbde21f573f2 Dan Williams 2023-03-05  499  	en &= cap;
-45bbde21f573f2 Dan Williams 2023-03-05  500  	parent_port = to_cxl_port(port->dev.parent);
-45bbde21f573f2 Dan Williams 2023-03-05  501  	parent_features = parent_port->features;
-45bbde21f573f2 Dan Williams 2023-03-05  502  
-45bbde21f573f2 Dan Williams 2023-03-05  503  	/* Enforce port features are plumbed through to the host bridge */
-45bbde21f573f2 Dan Williams 2023-03-05  504  	port->features = en & CXL_DVSEC_FLEXBUS_ENABLE_MASK & parent_features;
-45bbde21f573f2 Dan Williams 2023-03-05  505  
-45bbde21f573f2 Dan Williams 2023-03-05  506  	dev_dbg(dev, "features:%s%s%s%s%s%s%s\n",
-45bbde21f573f2 Dan Williams 2023-03-05  507  		en & CXL_DVSEC_FLEXBUS_CACHE_ENABLED ? " cache" : "",
-45bbde21f573f2 Dan Williams 2023-03-05  508  		en & CXL_DVSEC_FLEXBUS_IO_ENABLED ? " io" : "",
-45bbde21f573f2 Dan Williams 2023-03-05  509  		en & CXL_DVSEC_FLEXBUS_MEM_ENABLED ? " mem" : "",
-45bbde21f573f2 Dan Williams 2023-03-05  510  		en & CXL_DVSEC_FLEXBUS_FLIT68_ENABLED ? " flit68" : "",
-45bbde21f573f2 Dan Williams 2023-03-05  511  		en & CXL_DVSEC_FLEXBUS_MLD_ENABLED ? " mld" : "",
-45bbde21f573f2 Dan Williams 2023-03-05  512  		en & CXL_DVSEC_FLEXBUS_FLIT256_ENABLED ? " flit256" : "",
-45bbde21f573f2 Dan Williams 2023-03-05  513  		en & CXL_DVSEC_FLEXBUS_PBR_ENABLED ? " pbr" : "");
-45bbde21f573f2 Dan Williams 2023-03-05  514  
-45bbde21f573f2 Dan Williams 2023-03-05  515  	return 0;
-45bbde21f573f2 Dan Williams 2023-03-05  516  }
+a2c54256dec751 Masami Hiramatsu (Google  2022-10-20  5352) 
+abaa5258ce5e58 Masami Hiramatsu (Google  2022-10-20  5353) static void hist_trigger_print_val(struct seq_file *m, unsigned int idx,
+abaa5258ce5e58 Masami Hiramatsu (Google  2022-10-20  5354) 				   const char *field_name, unsigned long flags,
+a2c54256dec751 Masami Hiramatsu (Google  2022-10-20  5355) 				   struct hist_val_stat *stats,
+a2c54256dec751 Masami Hiramatsu (Google  2022-10-20  5356) 				   struct tracing_map_elt *elt)
+abaa5258ce5e58 Masami Hiramatsu (Google  2022-10-20  5357) {
+abaa5258ce5e58 Masami Hiramatsu (Google  2022-10-20  5358) 	u64 val = tracing_map_read_sum(elt, idx);
+abaa5258ce5e58 Masami Hiramatsu (Google  2022-10-20  5359) 	unsigned int pc;
+a2c54256dec751 Masami Hiramatsu (Google  2022-10-20  5360) 	char bar[21];
+abaa5258ce5e58 Masami Hiramatsu (Google  2022-10-20  5361) 
+abaa5258ce5e58 Masami Hiramatsu (Google  2022-10-20  5362) 	if (flags & HIST_FIELD_FL_PERCENT) {
+a2c54256dec751 Masami Hiramatsu (Google  2022-10-20 @5363) 		pc = __get_percentage(val, stats[idx].total);
+abaa5258ce5e58 Masami Hiramatsu (Google  2022-10-20  5364) 		if (pc == UINT_MAX)
+abaa5258ce5e58 Masami Hiramatsu (Google  2022-10-20  5365) 			seq_printf(m, " %s (%%):[ERROR]", field_name);
+abaa5258ce5e58 Masami Hiramatsu (Google  2022-10-20  5366) 		else
+abaa5258ce5e58 Masami Hiramatsu (Google  2022-10-20  5367) 			seq_printf(m, " %s (%%): %3u.%02u", field_name,
+abaa5258ce5e58 Masami Hiramatsu (Google  2022-10-20  5368) 					pc / 100, pc % 100);
+a2c54256dec751 Masami Hiramatsu (Google  2022-10-20  5369) 	} else if (flags & HIST_FIELD_FL_GRAPH) {
+a2c54256dec751 Masami Hiramatsu (Google  2022-10-20  5370) 		seq_printf(m, " %s: %20s", field_name,
+a2c54256dec751 Masami Hiramatsu (Google  2022-10-20  5371) 			   __fill_bar_str(bar, 20, val, stats[idx].max));
+abaa5258ce5e58 Masami Hiramatsu (Google  2022-10-20  5372) 	} else if (flags & HIST_FIELD_FL_HEX) {
+abaa5258ce5e58 Masami Hiramatsu (Google  2022-10-20  5373) 		seq_printf(m, " %s: %10llx", field_name, val);
+abaa5258ce5e58 Masami Hiramatsu (Google  2022-10-20  5374) 	} else {
+abaa5258ce5e58 Masami Hiramatsu (Google  2022-10-20  5375) 		seq_printf(m, " %s: %10llu", field_name, val);
+abaa5258ce5e58 Masami Hiramatsu (Google  2022-10-20  5376) 	}
+abaa5258ce5e58 Masami Hiramatsu (Google  2022-10-20  5377) }
+abaa5258ce5e58 Masami Hiramatsu (Google  2022-10-20  5378) 
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
-
