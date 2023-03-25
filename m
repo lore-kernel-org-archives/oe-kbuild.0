@@ -1,42 +1,53 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC737631
-	for <oe-kbuild@lists.linux.dev>; Sat, 25 Mar 2023 05:34:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679722498; x=1711258498;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=5+tt40YqRrAEFpsQvQ2kStIohPccnzaAkadin0/rKm4=;
-  b=PHfavoAmCwSGYyQlIPXhp3TGwroWveWCXYlGN9Top6LNCQG8TJ2dnj6R
-   vluuL31UtrRiJNjztGzOfg/m4VZcnNqQ9d2FpsAgCPcTUAPYwjpYNOzYJ
-   5f7eglLPNP2SbQwmSjEJNeycQoXcD3RXvNCK6RPiSNZdn3dSX33zITzU5
-   0G79mDB8k9oVAQhocQHfUn4/tf9DWDEE3zu0K+h132UZDyYl89e9G/cEY
-   5V3yiwUlMAltDcCzu+G0lW5sgtd5z2QRAzDwU2AHeLQ8CZnJr63Iunolx
-   1YiSNAzT+mNYNBag/RZ8VBhAeRCEETTUu6kqVL8j8NItUaYscYgsbPuMj
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10659"; a="339962223"
-X-IronPort-AV: E=Sophos;i="5.98,289,1673942400"; 
-   d="scan'208";a="339962223"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2023 22:34:49 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10659"; a="685426362"
-X-IronPort-AV: E=Sophos;i="5.98,289,1673942400"; 
-   d="scan'208";a="685426362"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 24 Mar 2023 22:34:48 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pfwYB-000Fz1-30;
-	Sat, 25 Mar 2023 05:34:47 +0000
-Date: Sat, 25 Mar 2023 13:34:04 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [cxl:for-6.4/cxl-type-2 17/22] drivers/cxl/core/memdev.c:414
- cxl_acquire_endpoint() warn: inconsistent returns '&cxlmd->dev.mutex'.
-Message-ID: <202303251356.rx03HcjE-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A61A27F;
+	Sat, 25 Mar 2023 07:19:10 +0000 (UTC)
+Received: by mail-ed1-f45.google.com with SMTP id t10so16030215edd.12;
+        Sat, 25 Mar 2023 00:19:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1679728748;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=G2Lakoiqf+b405RhNeKhA8+8uQ9GhOVChZGkG8jYViM=;
+        b=SHk/jwp+5LHO2Q1bXXdIh01NJhcQUBU7Ayk+q2PUnHkU8WIhKVV5SjHGf3B9eg2d0u
+         3jmmJQv0ZYlmPwKNgFmFjyBcfqvlf5idxpmr7P95stObGQK6DXDgffOLTxbyOM+S1NVy
+         v9qtwy29u+irKAaM4spqhiS7MLysiP9kVCw7ZOEGeRHplxVxulmtJ3cON2T4wqnMOb/3
+         J0uVuotcndB5LIlxiKFZR01FMrrPr5DYLebY8iiaOKjqr7rCxC6h6yKgKkocEGKqrYi4
+         ML51gq9OI8b6Vq2rpfrdn19OfB2cTPcT3lo+82Z4dmfM6V2vUR1HD7DtuvS2P6wucBFg
+         DCTw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679728748;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=G2Lakoiqf+b405RhNeKhA8+8uQ9GhOVChZGkG8jYViM=;
+        b=e4wvsHOpaQ1iJBP8yPlaEMTdMks357p7MgBCT+z6i90dlZ8+g/QNoT1VScg7CS3lfp
+         YHDfQsDdnhnHUL89ZQEXwDpSTY6WBxfD7rq9/mkx0SAgEMrVUn1mzlTOUX6+A/wrK6y6
+         0gZFNYVNoOy1lkKWpT2GFLOk/3cyf7lH1Yym5mdDryV+Xd9NBjNeXBx9IY0XggZEZIMB
+         PvUBuv5lbyJvZvzmdisPjW/JScjrcz5hBi/WsCa1Fz5uhH+GlFwOvvY1fL1PTDXxJxah
+         PmnfSzCv7w6cjfLm44ngYGTX2fBCGMIOIeCJRDcttArmnjXmLdGwI7cXytDQmj8EM1ys
+         du6g==
+X-Gm-Message-State: AAQBX9dfrgXHDBJtPaBYFWqdIWQveqBXMo0GQNjcq2ruzg1SAA0Zduib
+	RkNqYU9w3VnTscy53l6z+y4k7Wut2Uod1A==
+X-Google-Smtp-Source: AKy350bAvZiVj8oCyeLBH3lywneVzJCRC7A5JS/wA4y8/HL77c3bNppjANrDX3ohUTzGwfy3EO5oAQ==
+X-Received: by 2002:a05:6402:1143:b0:502:25ac:c72a with SMTP id g3-20020a056402114300b0050225acc72amr2920578edw.1.1679728748455;
+        Sat, 25 Mar 2023 00:19:08 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id s30-20020a50ab1e000000b004c5d1a15bd5sm11724665edc.69.2023.03.25.00.19.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 25 Mar 2023 00:19:08 -0700 (PDT)
+Date: Sat, 25 Mar 2023 10:18:48 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev, Dan Williams <dan.j.williams@intel.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Alison Schofield <alison.schofield@intel.com>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	Ira Weiny <ira.weiny@intel.com>,
+	Ben Widawsky <ben.widawsky@intel.com>,
+	Dan Williams <dan.j.williams@intel.com>, linux-cxl@vger.kernel.org
+Subject: [cxl:for-6.4/cxl-type-2 10/22] drivers/cxl/core/pci.c:493
+ cxl_probe_link() warn: right shifting more than type allows 16 vs 16
+Message-ID: <cb1319e7-e4ef-4358-9b3e-cca489395f3f@kili.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -46,70 +57,99 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: Alison Schofield <alison.schofield@intel.com>
-CC: Vishal Verma <vishal.l.verma@intel.com>
-CC: Ira Weiny <ira.weiny@intel.com>
-CC: Ben Widawsky <ben.widawsky@intel.com>
-CC: Dan Williams <dan.j.williams@intel.com>
-CC: linux-cxl@vger.kernel.org
-TO: Dan Williams <dan.j.williams@intel.com>
-
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cxl/cxl.git for-6.4/cxl-type-2
 head:   0b80e8b55828313bcd08c4740646689e648de444
-commit: 61f6d520258ef0a4e558e7d00442ae9297c6c107 [17/22] cxl/memdev: Indicate probe deferral
-:::::: branch date: 5 hours ago
-:::::: commit date: 9 hours ago
-config: i386-randconfig-m021 (https://download.01.org/0day-ci/archive/20230325/202303251356.rx03HcjE-lkp@intel.com/config)
+commit: 45bbde21f573f287d5828b5e3ff1eac0320acc3d [10/22] cxl/port: Enumerate flit mode capability
+config: i386-randconfig-m021 (https://download.01.org/0day-ci/archive/20230325/202303251253.yCqOttoG-lkp@intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202303251356.rx03HcjE-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202303251253.yCqOttoG-lkp@intel.com/
 
-smatch warnings:
-drivers/cxl/core/memdev.c:414 cxl_acquire_endpoint() warn: inconsistent returns '&cxlmd->dev.mutex'.
+New smatch warnings:
+drivers/cxl/core/pci.c:493 cxl_probe_link() warn: right shifting more than type allows 16 vs 16
 
-vim +414 drivers/cxl/core/memdev.c
+Old smatch warnings:
+drivers/cxl/core/pci.c:496 cxl_probe_link() warn: right shifting more than type allows 16 vs 16
 
-3d135db510240f Ben Widawsky 2021-08-02  383  
-61f6d520258ef0 Dan Williams 2023-03-22  384  /*
-61f6d520258ef0 Dan Williams 2023-03-22  385   * Try to get a locked reference on a memdev's CXL port topology
-61f6d520258ef0 Dan Williams 2023-03-22  386   * connection. Be careful to observe when cxl_mem_probe() has deposited
-61f6d520258ef0 Dan Williams 2023-03-22  387   * a probe deferral awaiting the arrival of the CXL root driver
-61f6d520258ef0 Dan Williams 2023-03-22  388   */
-61f6d520258ef0 Dan Williams 2023-03-22  389  struct cxl_port *cxl_acquire_endpoint(struct cxl_memdev *cxlmd)
-61f6d520258ef0 Dan Williams 2023-03-22  390  {
-61f6d520258ef0 Dan Williams 2023-03-22  391  	struct cxl_port *endpoint;
-61f6d520258ef0 Dan Williams 2023-03-22  392  	int rc = -ENXIO;
-61f6d520258ef0 Dan Williams 2023-03-22  393  
-61f6d520258ef0 Dan Williams 2023-03-22  394  	device_lock(&cxlmd->dev);
-61f6d520258ef0 Dan Williams 2023-03-22  395  	endpoint = cxlmd->endpoint;
-61f6d520258ef0 Dan Williams 2023-03-22  396  	if (!endpoint)
-61f6d520258ef0 Dan Williams 2023-03-22  397  		goto err;
-61f6d520258ef0 Dan Williams 2023-03-22  398  
-61f6d520258ef0 Dan Williams 2023-03-22  399  	if (IS_ERR(endpoint)) {
-61f6d520258ef0 Dan Williams 2023-03-22  400  		rc = PTR_ERR(endpoint);
-61f6d520258ef0 Dan Williams 2023-03-22  401  		goto err;
-61f6d520258ef0 Dan Williams 2023-03-22  402  	}
-61f6d520258ef0 Dan Williams 2023-03-22  403  
-61f6d520258ef0 Dan Williams 2023-03-22  404  	device_lock(&endpoint->dev);
-61f6d520258ef0 Dan Williams 2023-03-22  405  	if (!endpoint->dev.driver)
-61f6d520258ef0 Dan Williams 2023-03-22  406  		goto err_endpoint;
-61f6d520258ef0 Dan Williams 2023-03-22  407  
-61f6d520258ef0 Dan Williams 2023-03-22  408  	return endpoint;
-61f6d520258ef0 Dan Williams 2023-03-22  409  
-61f6d520258ef0 Dan Williams 2023-03-22  410  err_endpoint:
-61f6d520258ef0 Dan Williams 2023-03-22  411  	device_unlock(&endpoint->dev);
-61f6d520258ef0 Dan Williams 2023-03-22  412  err:
-61f6d520258ef0 Dan Williams 2023-03-22  413  	device_unlock(&cxlmd->dev);
-61f6d520258ef0 Dan Williams 2023-03-22 @414  	return ERR_PTR(rc);
-61f6d520258ef0 Dan Williams 2023-03-22  415  }
-61f6d520258ef0 Dan Williams 2023-03-22  416  EXPORT_SYMBOL_NS(cxl_acquire_endpoint, CXL);
-61f6d520258ef0 Dan Williams 2023-03-22  417  
+vim +493 drivers/cxl/core/pci.c
+
+45bbde21f573f2 Dan Williams 2023-03-05  451  int cxl_probe_link(struct cxl_port *port)
+45bbde21f573f2 Dan Williams 2023-03-05  452  {
+45bbde21f573f2 Dan Williams 2023-03-05  453  	struct pci_dev *pdev = cxl_port_to_pci(port);
+45bbde21f573f2 Dan Williams 2023-03-05  454  	u16 cap, en, hdr, parent_features;
+                                                ^^^          ^^^
+hdr is a u16.
+
+45bbde21f573f2 Dan Williams 2023-03-05  455  	struct cxl_port *parent_port;
+45bbde21f573f2 Dan Williams 2023-03-05  456  	struct device *dev;
+45bbde21f573f2 Dan Williams 2023-03-05  457  	int rc, dvsec;
+45bbde21f573f2 Dan Williams 2023-03-05  458  
+45bbde21f573f2 Dan Williams 2023-03-05  459  	if (!pdev) {
+45bbde21f573f2 Dan Williams 2023-03-05  460  		/*
+45bbde21f573f2 Dan Williams 2023-03-05  461  		 * Assume host bridges support all features, the root
+45bbde21f573f2 Dan Williams 2023-03-05  462  		 * port will dictate the actual enabled set to endpoints.
+45bbde21f573f2 Dan Williams 2023-03-05  463  		 */
+45bbde21f573f2 Dan Williams 2023-03-05  464  		return 0;
+45bbde21f573f2 Dan Williams 2023-03-05  465  	}
+45bbde21f573f2 Dan Williams 2023-03-05  466  
+45bbde21f573f2 Dan Williams 2023-03-05  467  	dev = &pdev->dev;
+45bbde21f573f2 Dan Williams 2023-03-05  468  	dvsec = pci_find_dvsec_capability(pdev, PCI_DVSEC_VENDOR_ID_CXL,
+45bbde21f573f2 Dan Williams 2023-03-05  469  					  CXL_DVSEC_FLEXBUS_PORT);
+45bbde21f573f2 Dan Williams 2023-03-05  470  	if (!dvsec) {
+45bbde21f573f2 Dan Williams 2023-03-05  471  		dev_err(dev, "Failed to enumerate port capabilities\n");
+45bbde21f573f2 Dan Williams 2023-03-05  472  		return -ENXIO;
+45bbde21f573f2 Dan Williams 2023-03-05  473  	}
+45bbde21f573f2 Dan Williams 2023-03-05  474  
+45bbde21f573f2 Dan Williams 2023-03-05  475  	/*
+45bbde21f573f2 Dan Williams 2023-03-05  476  	 * Cache the link features for future determination of HDM-D or
+45bbde21f573f2 Dan Williams 2023-03-05  477  	 * HDM-DB support
+45bbde21f573f2 Dan Williams 2023-03-05  478  	 */
+45bbde21f573f2 Dan Williams 2023-03-05  479  	rc = pci_read_config_word(pdev, dvsec + PCI_DVSEC_HEADER1, &hdr);
+45bbde21f573f2 Dan Williams 2023-03-05  480  	if (rc)
+45bbde21f573f2 Dan Williams 2023-03-05  481  		return rc;
+45bbde21f573f2 Dan Williams 2023-03-05  482  
+45bbde21f573f2 Dan Williams 2023-03-05  483  	rc = pci_read_config_word(pdev, dvsec + CXL_DVSEC_FLEXBUS_CAP_OFFSET,
+45bbde21f573f2 Dan Williams 2023-03-05  484  				  &cap);
+45bbde21f573f2 Dan Williams 2023-03-05  485  	if (rc)
+45bbde21f573f2 Dan Williams 2023-03-05  486  		return rc;
+45bbde21f573f2 Dan Williams 2023-03-05  487  
+45bbde21f573f2 Dan Williams 2023-03-05  488  	rc = pci_read_config_word(pdev, dvsec + CXL_DVSEC_FLEXBUS_STATUS_OFFSET,
+45bbde21f573f2 Dan Williams 2023-03-05  489  				  &en);
+45bbde21f573f2 Dan Williams 2023-03-05  490  	if (rc)
+45bbde21f573f2 Dan Williams 2023-03-05  491  		return rc;
+45bbde21f573f2 Dan Williams 2023-03-05  492  
+45bbde21f573f2 Dan Williams 2023-03-05 @493  	if (PCI_DVSEC_HEADER1_REV(hdr) < 2)
+
+PCI_DVSEC_HEADER1_REV() does a >> 16 so the result is always zero.
+
+45bbde21f573f2 Dan Williams 2023-03-05  494  		cap &= ~CXL_DVSEC_FLEXBUS_REV2_MASK;
+45bbde21f573f2 Dan Williams 2023-03-05  495  
+45bbde21f573f2 Dan Williams 2023-03-05  496  	if (PCI_DVSEC_HEADER1_REV(hdr) < 1)
+45bbde21f573f2 Dan Williams 2023-03-05  497  		cap &= ~CXL_DVSEC_FLEXBUS_REV1_MASK;
+45bbde21f573f2 Dan Williams 2023-03-05  498  
+45bbde21f573f2 Dan Williams 2023-03-05  499  	en &= cap;
+45bbde21f573f2 Dan Williams 2023-03-05  500  	parent_port = to_cxl_port(port->dev.parent);
+45bbde21f573f2 Dan Williams 2023-03-05  501  	parent_features = parent_port->features;
+45bbde21f573f2 Dan Williams 2023-03-05  502  
+45bbde21f573f2 Dan Williams 2023-03-05  503  	/* Enforce port features are plumbed through to the host bridge */
+45bbde21f573f2 Dan Williams 2023-03-05  504  	port->features = en & CXL_DVSEC_FLEXBUS_ENABLE_MASK & parent_features;
+45bbde21f573f2 Dan Williams 2023-03-05  505  
+45bbde21f573f2 Dan Williams 2023-03-05  506  	dev_dbg(dev, "features:%s%s%s%s%s%s%s\n",
+45bbde21f573f2 Dan Williams 2023-03-05  507  		en & CXL_DVSEC_FLEXBUS_CACHE_ENABLED ? " cache" : "",
+45bbde21f573f2 Dan Williams 2023-03-05  508  		en & CXL_DVSEC_FLEXBUS_IO_ENABLED ? " io" : "",
+45bbde21f573f2 Dan Williams 2023-03-05  509  		en & CXL_DVSEC_FLEXBUS_MEM_ENABLED ? " mem" : "",
+45bbde21f573f2 Dan Williams 2023-03-05  510  		en & CXL_DVSEC_FLEXBUS_FLIT68_ENABLED ? " flit68" : "",
+45bbde21f573f2 Dan Williams 2023-03-05  511  		en & CXL_DVSEC_FLEXBUS_MLD_ENABLED ? " mld" : "",
+45bbde21f573f2 Dan Williams 2023-03-05  512  		en & CXL_DVSEC_FLEXBUS_FLIT256_ENABLED ? " flit256" : "",
+45bbde21f573f2 Dan Williams 2023-03-05  513  		en & CXL_DVSEC_FLEXBUS_PBR_ENABLED ? " pbr" : "");
+45bbde21f573f2 Dan Williams 2023-03-05  514  
+45bbde21f573f2 Dan Williams 2023-03-05  515  	return 0;
+45bbde21f573f2 Dan Williams 2023-03-05  516  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
+
