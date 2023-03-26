@@ -1,43 +1,42 @@
 Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B9EE6ABD
-	for <oe-kbuild@lists.linux.dev>; Sun, 26 Mar 2023 23:48:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEAD96ABD
+	for <oe-kbuild@lists.linux.dev>; Sun, 26 Mar 2023 23:59:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679874538; x=1711410538;
+  t=1679875198; x=1711411198;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=7peHcGrWB6YIeI8DoskSiClc1VeLQK0c5CPRuOuq6n0=;
-  b=eLTCZ9DRl/3q7rpY6iZ6q0Fujz18ahlEBzQGDbAcKi1tB7wL8VM/YdeO
-   6HjaEb9bg+sJPGJQHepudb8jJlzY+vr+he0+HpjAGubodIIjNwMWK2vrA
-   iRFHbcl2JVo0LSFGoSdGJOXdupsFs1kf0LqbXbx5oIAqjFPBhsRaavpCO
-   ryiL7fby9EzcVSx/iHLNKCDsk4tsY+FvpVUlyTeQeAoGk1U6hNmomDgf5
-   iN3K2baJ+vzpBwZGM20Chahg4X7h+ZW+drf+9vCZezABEwJH+0UT+kymP
-   enxLJFF/l1D1f4ZgRvae4fkGdm7/CJ2a0gOHMPnBZXzvbVHehQ961yIGK
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10661"; a="324029384"
+  bh=k5TtfMx6aK5X7BbHCuYU+gB1/4BwQKAmwf+9CJgCf6Y=;
+  b=G1otPJDCO6HjzYVfCEI2/iwV12wevKgqvngnhRPd1mgtG1/zmZcmhkU3
+   hCckxyEBh3NFuSLslny/aXQfgHK0BYBUtosdNGP7ubOzRvVXInlq9DBwU
+   BuwUqIS/lkBg4bNkWjCrmu00y/Cg/j6xTpe6TWqrI2DwYS9alhaj1JNHK
+   istgVYXgzQ3SKgUGZbq/fD/Ug9mlIK3KvMmAXHJsznXTLMcOfwysIhlM/
+   neJ9arusdDqtHSEJLmWYpq3Xrgc0HCcUi3HVx+GPAn/e7hw56o/opaJE0
+   O4TVkGKy+q9eCq3hQLXqqSHHz7sJ6iP2+hOmyMNuZ0gI66o8sDuOtUjFP
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10661"; a="324030769"
 X-IronPort-AV: E=Sophos;i="5.98,293,1673942400"; 
-   d="scan'208";a="324029384"
+   d="scan'208";a="324030769"
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2023 16:48:57 -0700
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2023 16:59:57 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10661"; a="794109309"
+X-IronPort-AV: E=McAfee;i="6600,9927,10661"; a="794111798"
 X-IronPort-AV: E=Sophos;i="5.98,293,1673942400"; 
-   d="scan'208";a="794109309"
+   d="scan'208";a="794111798"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 26 Mar 2023 16:48:56 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 26 Mar 2023 16:59:56 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pga6Z-000HPj-1n;
-	Sun, 26 Mar 2023 23:48:55 +0000
-Date: Mon, 27 Mar 2023 07:48:34 +0800
+	id 1pgaHD-000HQ3-2T;
+	Sun, 26 Mar 2023 23:59:55 +0000
+Date: Mon, 27 Mar 2023 07:59:05 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [sre-misc:rk3588 9/27] drivers/pinctrl/pinctrl-rk805.c:415:6:
- warning: Assigned value is garbage or undefined
- [clang-analyzer-core.uninitialized.Assign]
-Message-ID: <202303270742.Wal21p6i-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCH 2/2] misc: fastrpc: support complete DMA pool access to
+ the DSP
+Message-ID: <202303270739.ODb2LA29-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -47,268 +46,185 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "low confidence static check warning: drivers/pinctrl/pinctrl-rk805.c:415:6: warning: Assigned value is garbage or undefined [clang-analyzer-core.uninitialized.Assign]"
-:::::: 
-
 BCC: lkp@intel.com
-CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-TO: Sebastian Reichel <sebastian.reichel@collabora.com>
-CC: shengfei Xu <xsf@rock-chips.com>
-CC: Linus Walleij <linus.walleij@linaro.org>
+In-Reply-To: <20230325134410.21092-3-me@dylanvanassche.be>
+References: <20230325134410.21092-3-me@dylanvanassche.be>
+TO: Dylan Van Assche <me@dylanvanassche.be>
+TO: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+TO: Amol Maheshwari <amahesh@qti.qualcomm.com>
+TO: Andy Gross <agross@kernel.org>
+TO: Bjorn Andersson <andersson@kernel.org>
+TO: Rob Herring <robh+dt@kernel.org>
+TO: Krzysztof Kozlowski <krzk@kernel.org>
+CC: Konrad Dybcio <konrad.dybcio@linaro.org>
+CC: Arnd Bergmann <arnd@arndb.de>
+CC: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+CC: linux-arm-msm@vger.kernel.org
+CC: devicetree@vger.kernel.org
+CC: linux-kernel@vger.kernel.org
+CC: ~postmarketos/upstreaming@lists.sr.ht
+CC: phone-devel@vger.kernel.org
+CC: Dylan Van Assche <me@dylanvanassche.be>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sre/linux-misc.git rk3588
-head:   02c4e267f34f8166d3fb2fb681b865a9b66e2dfb
-commit: 22ca4cdaaf4e07661723b2aab606a3012d830b29 [9/27] pinctrl: rk805: add rk806 pinctrl support
-:::::: branch date: 4 days ago
-:::::: commit date: 3 weeks ago
-config: riscv-randconfig-c006-20230322 (https://download.01.org/0day-ci/archive/20230327/202303270742.Wal21p6i-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/sre/linux-misc.git/commit/?id=22ca4cdaaf4e07661723b2aab606a3012d830b29
-        git remote add sre-misc https://git.kernel.org/pub/scm/linux/kernel/git/sre/linux-misc.git
-        git fetch --no-tags sre-misc rk3588
-        git checkout 22ca4cdaaf4e07661723b2aab606a3012d830b29
-        # save the config file
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=riscv clang-analyzer  olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=riscv clang-analyzer 
+Hi Dylan,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on robh/for-next]
+[also build test WARNING on char-misc/char-misc-testing char-misc/char-misc-next char-misc/char-misc-linus linus/master v6.3-rc3 next-20230324]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Dylan-Van-Assche/dt-bindings-misc-qcom-fastrpc-add-qcom-assign-all-memory-property/20230325-214518
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20230325134410.21092-3-me%40dylanvanassche.be
+patch subject: [PATCH 2/2] misc: fastrpc: support complete DMA pool access to the DSP
+:::::: branch date: 34 hours ago
+:::::: commit date: 34 hours ago
+config: microblaze-randconfig-m041-20230326 (https://download.01.org/0day-ci/archive/20230327/202303270739.ODb2LA29-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/r/202303270742.Wal21p6i-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Link: https://lore.kernel.org/r/202303270739.ODb2LA29-lkp@intel.com/
 
-clang_analyzer warnings: (new ones prefixed by >>)
-   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_var'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
-                                                                                        ^~~~
-   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_value'
-           (cond) ?                                        \
-            ^~~~
-   drivers/tty/serial/8250/8250_mid.c:158:8: note: '?' condition is true
-                   else if (err == 0)
-                        ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_var'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_value'
-           (cond) ?                                        \
-           ^
-   drivers/tty/serial/8250/8250_mid.c:158:8: note: Taking true branch
-                   else if (err == 0)
-                        ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   drivers/tty/serial/8250/8250_mid.c:159:11: note: 3rd function call argument is an uninitialized value
-                           ret |= hsu_dma_do_irq(&mid->dma_chip, 0, status);
-                                  ^                                 ~~~~~~
-   include/linux/log2.h:67:13: warning: The result of the left shift is undefined due to shifting by '4294967295', which is greater or equal to the width of type 'unsigned long' [clang-analyzer-core.UndefinedBinaryOperatorResult]
-           return 1UL << (fls_long(n) - 1);
-                      ^
-   drivers/tty/serial/8250/8250_mid.c:220:10: note: Assuming 'fuart' is 0
-           fuart = fuart ? fuart : 9600 * 16;
-                   ^~~~~
-   drivers/tty/serial/8250/8250_mid.c:220:10: note: '?' condition is false
-   drivers/tty/serial/8250/8250_mid.c:222:6: note: Assuming 'fuart' is <= field 'freq'
-           if (mid->board->freq < fuart) {
-               ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_var'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
-                                                      ^~~~
-   drivers/tty/serial/8250/8250_mid.c:222:2: note: '?' condition is false
-           if (mid->board->freq < fuart) {
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_var'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
-                                 ^
-   drivers/tty/serial/8250/8250_mid.c:222:25: note: 'fuart' is <= field 'freq'
-           if (mid->board->freq < fuart) {
-                                  ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_var'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
-                                                                                        ^~~~
-   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_value'
-           (cond) ?                                        \
-            ^~~~
-   drivers/tty/serial/8250/8250_mid.c:222:2: note: '?' condition is false
-           if (mid->board->freq < fuart) {
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_var'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_value'
-           (cond) ?                                        \
-           ^
-   drivers/tty/serial/8250/8250_mid.c:222:2: note: Taking false branch
-           if (mid->board->freq < fuart) {
-           ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   drivers/tty/serial/8250/8250_mid.c:231:12: note: '?' condition is false
-                   fuart *= rounddown_pow_of_two(mid->board->freq / fuart);
-                            ^
-   include/linux/log2.h:193:2: note: expanded from macro 'rounddown_pow_of_two'
-           __builtin_constant_p(n) ? (             \
-           ^
-   drivers/tty/serial/8250/8250_mid.c:231:12: note: Calling '__rounddown_pow_of_two'
-                   fuart *= rounddown_pow_of_two(mid->board->freq / fuart);
-                            ^
-   include/linux/log2.h:195:2: note: expanded from macro 'rounddown_pow_of_two'
-           __rounddown_pow_of_two(n)               \
-           ^~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/log2.h:67:13: note: The result of the left shift is undefined due to shifting by '4294967295', which is greater or equal to the width of type 'unsigned long'
-           return 1UL << (fls_long(n) - 1);
-                      ^  ~~~~~~~~~~~~~~~~~
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   10 warnings generated.
->> drivers/pinctrl/pinctrl-rk805.c:415:6: warning: Assigned value is garbage or undefined [clang-analyzer-core.uninitialized.Assign]
-           mux <<= ffs(pci->pin_cfg[offset].fun_msk) - 1;
-               ^
-   drivers/pinctrl/pinctrl-rk805.c:443:2: note: Control jumps to 'case RK806_ID:'  at line 446
-           switch (pci->rk808->variant) {
-           ^
-   drivers/pinctrl/pinctrl-rk805.c:447:10: note: Calling '_rk805_pinctrl_set_mux'
-                   return _rk805_pinctrl_set_mux(pctldev, offset, RK806_PINMUX_FUN5);
-                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/pinctrl/pinctrl-rk805.c:412:6: note: Assuming field 'fun_msk' is not equal to 0
-           if (!pci->pin_cfg[offset].fun_msk)
-               ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_var'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
-                                                      ^~~~
-   drivers/pinctrl/pinctrl-rk805.c:412:2: note: '?' condition is false
-           if (!pci->pin_cfg[offset].fun_msk)
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_var'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
-                                 ^
-   drivers/pinctrl/pinctrl-rk805.c:412:28: note: Field 'fun_msk' is not equal to 0
-           if (!pci->pin_cfg[offset].fun_msk)
-                                     ^
-   drivers/pinctrl/pinctrl-rk805.c:412:2: note: '?' condition is false
-           if (!pci->pin_cfg[offset].fun_msk)
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_var'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_value'
-           (cond) ?                                        \
-           ^
-   drivers/pinctrl/pinctrl-rk805.c:412:2: note: Taking false branch
-           if (!pci->pin_cfg[offset].fun_msk)
-           ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   drivers/pinctrl/pinctrl-rk805.c:415:6: note: Assigned value is garbage or undefined
-           mux <<= ffs(pci->pin_cfg[offset].fun_msk) - 1;
-               ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   13 warnings generated.
-   block/bfq-wf2q.c:274:7: warning: Access to field 'my_sched_data' results in a dereference of a null pointer (loaded from variable 'entity') [clang-analyzer-core.NullDereference]
-           if (!entity->my_sched_data)
-                ^
-   block/bfq-wf2q.c:1456:2: note: 'entity' initialized to a null pointer value
-           struct bfq_entity *entity = NULL;
-           ^~~~~~~~~~~~~~~~~~~~~~~~~
-   block/bfq-wf2q.c:1460:6: note: Assuming the condition is false
-           if (bfq_tot_busy_queues(bfqd) == 0)
-               ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_var'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
-                                                      ^~~~
-   block/bfq-wf2q.c:1460:2: note: '?' condition is false
-           if (bfq_tot_busy_queues(bfqd) == 0)
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_var'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
-                                 ^
-   block/bfq-wf2q.c:1460:2: note: '?' condition is false
-           if (bfq_tot_busy_queues(bfqd) == 0)
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_var'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_value'
-           (cond) ?                                        \
-           ^
-   block/bfq-wf2q.c:1460:2: note: Taking false branch
-           if (bfq_tot_busy_queues(bfqd) == 0)
-           ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   block/bfq-wf2q.c:1469:2: note: Loop condition is false. Execution continues on line 1530
-           for (; sd ; sd = entity->my_sched_data) {
-           ^
-   block/bfq-wf2q.c:1530:28: note: Passing null pointer value via 1st parameter 'entity'
-           bfqq = bfq_entity_to_bfqq(entity);
+New smatch warnings:
+drivers/misc/fastrpc.c:2273 fastrpc_rpmsg_probe() warn: possible memory leak of 'data'
 
-vim +415 drivers/pinctrl/pinctrl-rk805.c
+Old smatch warnings:
+drivers/misc/fastrpc.c:1269 fastrpc_init_create_static_process() error: we previously assumed 'fl->cctx->remote_heap' could be null (see line 1261)
 
-ea479996c79bbd Joseph Chen       2017-08-21  404  
-ea479996c79bbd Joseph Chen       2017-08-21  405  static int _rk805_pinctrl_set_mux(struct pinctrl_dev *pctldev,
-ea479996c79bbd Joseph Chen       2017-08-21  406  				  unsigned int offset,
-ea479996c79bbd Joseph Chen       2017-08-21  407  				  int mux)
-ea479996c79bbd Joseph Chen       2017-08-21  408  {
-ea479996c79bbd Joseph Chen       2017-08-21  409  	struct rk805_pctrl_info *pci = pinctrl_dev_get_drvdata(pctldev);
-ea479996c79bbd Joseph Chen       2017-08-21  410  	int ret;
-ea479996c79bbd Joseph Chen       2017-08-21  411  
-ea479996c79bbd Joseph Chen       2017-08-21  412  	if (!pci->pin_cfg[offset].fun_msk)
-ea479996c79bbd Joseph Chen       2017-08-21  413  		return 0;
-ea479996c79bbd Joseph Chen       2017-08-21  414  
-22ca4cdaaf4e07 Sebastian Reichel 2022-07-04 @415  	mux <<= ffs(pci->pin_cfg[offset].fun_msk) - 1;
-ea479996c79bbd Joseph Chen       2017-08-21  416  	ret = regmap_update_bits(pci->rk808->regmap,
-22ca4cdaaf4e07 Sebastian Reichel 2022-07-04  417  				 pci->pin_cfg[offset].fun_reg,
-22ca4cdaaf4e07 Sebastian Reichel 2022-07-04  418  				 pci->pin_cfg[offset].fun_msk, mux);
-22ca4cdaaf4e07 Sebastian Reichel 2022-07-04  419  
-22ca4cdaaf4e07 Sebastian Reichel 2022-07-04  420  	if (ret)
-22ca4cdaaf4e07 Sebastian Reichel 2022-07-04  421  		dev_err(pci->dev, "set gpio%d func%d failed\n", offset, mux);
-ea479996c79bbd Joseph Chen       2017-08-21  422  
-ea479996c79bbd Joseph Chen       2017-08-21  423  	return 0;
-ea479996c79bbd Joseph Chen       2017-08-21  424  }
-ea479996c79bbd Joseph Chen       2017-08-21  425  
+vim +/data +2273 drivers/misc/fastrpc.c
+
+965602eabb57d0 Srinivas Kandagatla      2022-02-14  2226  
+f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2227  static int fastrpc_rpmsg_probe(struct rpmsg_device *rpdev)
+f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2228  {
+f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2229  	struct device *rdev = &rpdev->dev;
+f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2230  	struct fastrpc_channel_ctx *data;
+e90d911906196b Vamsi Krishna Gattupalli 2022-02-14  2231  	int i, err, domain_id = -1, vmcount;
+f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2232  	const char *domain;
+99edd50174e519 Dylan Van Assche         2023-03-25  2233  	bool secure_dsp, assign_all_mem;
+99edd50174e519 Dylan Van Assche         2023-03-25  2234  	struct device_node *rmem_node;
+99edd50174e519 Dylan Van Assche         2023-03-25  2235  	struct reserved_mem *rmem;
+e90d911906196b Vamsi Krishna Gattupalli 2022-02-14  2236  	unsigned int vmids[FASTRPC_MAX_VMIDS];
+f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2237  
+f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2238  	err = of_property_read_string(rdev->of_node, "label", &domain);
+f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2239  	if (err) {
+f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2240  		dev_info(rdev, "FastRPC Domain not specified in DT\n");
+f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2241  		return err;
+f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2242  	}
+f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2243  
+f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2244  	for (i = 0; i <= CDSP_DOMAIN_ID; i++) {
+f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2245  		if (!strcmp(domains[i], domain)) {
+f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2246  			domain_id = i;
+f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2247  			break;
+f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2248  		}
+f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2249  	}
+f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2250  
+f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2251  	if (domain_id < 0) {
+f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2252  		dev_info(rdev, "FastRPC Invalid Domain ID %d\n", domain_id);
+f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2253  		return -EINVAL;
+f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2254  	}
+f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2255  
+1ce91d45ba77a4 Abel Vesa                2022-11-25  2256  	if (of_reserved_mem_device_init_by_idx(rdev, rdev->of_node, 0))
+1ce91d45ba77a4 Abel Vesa                2022-11-25  2257  		dev_info(rdev, "no reserved DMA memory for FASTRPC\n");
+1ce91d45ba77a4 Abel Vesa                2022-11-25  2258  
+e90d911906196b Vamsi Krishna Gattupalli 2022-02-14  2259  	vmcount = of_property_read_variable_u32_array(rdev->of_node,
+e90d911906196b Vamsi Krishna Gattupalli 2022-02-14  2260  				"qcom,vmids", &vmids[0], 0, FASTRPC_MAX_VMIDS);
+e90d911906196b Vamsi Krishna Gattupalli 2022-02-14  2261  	if (vmcount < 0)
+e90d911906196b Vamsi Krishna Gattupalli 2022-02-14  2262  		vmcount = 0;
+e90d911906196b Vamsi Krishna Gattupalli 2022-02-14  2263  	else if (!qcom_scm_is_available())
+e90d911906196b Vamsi Krishna Gattupalli 2022-02-14  2264  		return -EPROBE_DEFER;
+e90d911906196b Vamsi Krishna Gattupalli 2022-02-14  2265  
+278d56f970ae6e Bjorn Andersson          2019-08-29  2266  	data = kzalloc(sizeof(*data), GFP_KERNEL);
+278d56f970ae6e Bjorn Andersson          2019-08-29  2267  	if (!data)
+278d56f970ae6e Bjorn Andersson          2019-08-29  2268  		return -ENOMEM;
+278d56f970ae6e Bjorn Andersson          2019-08-29  2269  
+99edd50174e519 Dylan Van Assche         2023-03-25  2270  	assign_all_mem = of_property_read_bool(rdev->of_node, "qcom,assign-all-mem");
+99edd50174e519 Dylan Van Assche         2023-03-25  2271  
+99edd50174e519 Dylan Van Assche         2023-03-25  2272  	if (assign_all_mem && !vmcount)
+99edd50174e519 Dylan Van Assche         2023-03-25 @2273  		return -EINVAL;
+99edd50174e519 Dylan Van Assche         2023-03-25  2274  
+e90d911906196b Vamsi Krishna Gattupalli 2022-02-14  2275  	if (vmcount) {
+e90d911906196b Vamsi Krishna Gattupalli 2022-02-14  2276  		data->vmcount = vmcount;
+e90d911906196b Vamsi Krishna Gattupalli 2022-02-14  2277  		data->perms = BIT(QCOM_SCM_VMID_HLOS);
+e90d911906196b Vamsi Krishna Gattupalli 2022-02-14  2278  		for (i = 0; i < data->vmcount; i++) {
+e90d911906196b Vamsi Krishna Gattupalli 2022-02-14  2279  			data->vmperms[i].vmid = vmids[i];
+e90d911906196b Vamsi Krishna Gattupalli 2022-02-14  2280  			data->vmperms[i].perm = QCOM_SCM_PERM_RWX;
+e90d911906196b Vamsi Krishna Gattupalli 2022-02-14  2281  		}
+e90d911906196b Vamsi Krishna Gattupalli 2022-02-14  2282  	}
+3abe3ab3cdab71 Srinivas Kandagatla      2022-02-14  2283  
+99edd50174e519 Dylan Van Assche         2023-03-25  2284  	if (assign_all_mem) {
+99edd50174e519 Dylan Van Assche         2023-03-25  2285  		rmem_node = of_parse_phandle(rdev->of_node, "memory-region", 0);
+99edd50174e519 Dylan Van Assche         2023-03-25  2286  		if (rmem_node) {
+99edd50174e519 Dylan Van Assche         2023-03-25  2287  			rmem = of_reserved_mem_lookup(rmem_node);
+99edd50174e519 Dylan Van Assche         2023-03-25  2288  			if (rmem)
+99edd50174e519 Dylan Van Assche         2023-03-25  2289  				qcom_scm_assign_mem(rmem->base, rmem->size, &data->perms,
+99edd50174e519 Dylan Van Assche         2023-03-25  2290  						    data->vmperms, data->vmcount);
+99edd50174e519 Dylan Van Assche         2023-03-25  2291  		}
+99edd50174e519 Dylan Van Assche         2023-03-25  2292  	}
+99edd50174e519 Dylan Van Assche         2023-03-25  2293  
+3abe3ab3cdab71 Srinivas Kandagatla      2022-02-14  2294  	secure_dsp = !(of_property_read_bool(rdev->of_node, "qcom,non-secure-domain"));
+3abe3ab3cdab71 Srinivas Kandagatla      2022-02-14  2295  	data->secure = secure_dsp;
+3abe3ab3cdab71 Srinivas Kandagatla      2022-02-14  2296  
+3abe3ab3cdab71 Srinivas Kandagatla      2022-02-14  2297  	switch (domain_id) {
+3abe3ab3cdab71 Srinivas Kandagatla      2022-02-14  2298  	case ADSP_DOMAIN_ID:
+3abe3ab3cdab71 Srinivas Kandagatla      2022-02-14  2299  	case MDSP_DOMAIN_ID:
+3abe3ab3cdab71 Srinivas Kandagatla      2022-02-14  2300  	case SDSP_DOMAIN_ID:
+7f1f481263c3ce Jeya R                   2022-02-14  2301  		/* Unsigned PD offloading is only supported on CDSP*/
+7f1f481263c3ce Jeya R                   2022-02-14  2302  		data->unsigned_support = false;
+3abe3ab3cdab71 Srinivas Kandagatla      2022-02-14  2303  		err = fastrpc_device_register(rdev, data, secure_dsp, domains[domain_id]);
+3abe3ab3cdab71 Srinivas Kandagatla      2022-02-14  2304  		if (err)
+3abe3ab3cdab71 Srinivas Kandagatla      2022-02-14  2305  			goto fdev_error;
+3abe3ab3cdab71 Srinivas Kandagatla      2022-02-14  2306  		break;
+3abe3ab3cdab71 Srinivas Kandagatla      2022-02-14  2307  	case CDSP_DOMAIN_ID:
+7f1f481263c3ce Jeya R                   2022-02-14  2308  		data->unsigned_support = true;
+3abe3ab3cdab71 Srinivas Kandagatla      2022-02-14  2309  		/* Create both device nodes so that we can allow both Signed and Unsigned PD */
+3abe3ab3cdab71 Srinivas Kandagatla      2022-02-14  2310  		err = fastrpc_device_register(rdev, data, true, domains[domain_id]);
+3abe3ab3cdab71 Srinivas Kandagatla      2022-02-14  2311  		if (err)
+3abe3ab3cdab71 Srinivas Kandagatla      2022-02-14  2312  			goto fdev_error;
+3abe3ab3cdab71 Srinivas Kandagatla      2022-02-14  2313  
+3abe3ab3cdab71 Srinivas Kandagatla      2022-02-14  2314  		err = fastrpc_device_register(rdev, data, false, domains[domain_id]);
+3abe3ab3cdab71 Srinivas Kandagatla      2022-02-14  2315  		if (err)
+3abe3ab3cdab71 Srinivas Kandagatla      2022-02-14  2316  			goto fdev_error;
+3abe3ab3cdab71 Srinivas Kandagatla      2022-02-14  2317  		break;
+3abe3ab3cdab71 Srinivas Kandagatla      2022-02-14  2318  	default:
+3abe3ab3cdab71 Srinivas Kandagatla      2022-02-14  2319  		err = -EINVAL;
+3abe3ab3cdab71 Srinivas Kandagatla      2022-02-14  2320  		goto fdev_error;
+0978de9fc7335c Srinivas Kandagatla      2020-05-11  2321  	}
+f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2322  
+278d56f970ae6e Bjorn Andersson          2019-08-29  2323  	kref_init(&data->refcount);
+278d56f970ae6e Bjorn Andersson          2019-08-29  2324  
+f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2325  	dev_set_drvdata(&rpdev->dev, data);
+9bde43a0e2f469 Abel Vesa                2022-11-25  2326  	rdev->dma_mask = &data->dma_mask;
+f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2327  	dma_set_mask_and_coherent(rdev, DMA_BIT_MASK(32));
+f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2328  	INIT_LIST_HEAD(&data->users);
+76e8e4ace1ed2c Abel Vesa                2022-11-25  2329  	INIT_LIST_HEAD(&data->invoke_interrupted_mmaps);
+f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2330  	spin_lock_init(&data->lock);
+f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2331  	idr_init(&data->ctx_idr);
+f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2332  	data->domain_id = domain_id;
+f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2333  	data->rpdev = rpdev;
+f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2334  
+11819ed2b70da9 Christophe JAILLET       2022-11-25  2335  	err = of_platform_populate(rdev->of_node, NULL, NULL, rdev);
+11819ed2b70da9 Christophe JAILLET       2022-11-25  2336  	if (err)
+11819ed2b70da9 Christophe JAILLET       2022-11-25  2337  		goto populate_error;
+11819ed2b70da9 Christophe JAILLET       2022-11-25  2338  
+11819ed2b70da9 Christophe JAILLET       2022-11-25  2339  	return 0;
+11819ed2b70da9 Christophe JAILLET       2022-11-25  2340  
+11819ed2b70da9 Christophe JAILLET       2022-11-25  2341  populate_error:
+11819ed2b70da9 Christophe JAILLET       2022-11-25  2342  	if (data->fdevice)
+11819ed2b70da9 Christophe JAILLET       2022-11-25  2343  		misc_deregister(&data->fdevice->miscdev);
+11819ed2b70da9 Christophe JAILLET       2022-11-25  2344  	if (data->secure_fdevice)
+11819ed2b70da9 Christophe JAILLET       2022-11-25  2345  		misc_deregister(&data->secure_fdevice->miscdev);
+11819ed2b70da9 Christophe JAILLET       2022-11-25  2346  
+3abe3ab3cdab71 Srinivas Kandagatla      2022-02-14  2347  fdev_error:
+3abe3ab3cdab71 Srinivas Kandagatla      2022-02-14  2348  	kfree(data);
+3abe3ab3cdab71 Srinivas Kandagatla      2022-02-14  2349  	return err;
+f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2350  }
+f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2351  
 
 -- 
 0-DAY CI Kernel Test Service
