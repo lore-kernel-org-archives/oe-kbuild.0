@@ -1,42 +1,43 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B23736AAE
-	for <oe-kbuild@lists.linux.dev>; Sun, 26 Mar 2023 21:56:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B9EE6ABD
+	for <oe-kbuild@lists.linux.dev>; Sun, 26 Mar 2023 23:48:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679867814; x=1711403814;
+  t=1679874538; x=1711410538;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=pw9pcXSZkzZSm3Gw8fQA2UC4k6sDoXxMzmREK6VoP7k=;
-  b=B7TawRcY9/RKY0IRNk86RGNz6U8uDEqQZoPalD1D54v98sJNoEzTZGhZ
-   IU6usFNc07NnVg7tGbC8TcX8GNhAUHVqJWz7nip2UM2zPTyAcHHTa6JW5
-   FkexDKvK3bxvE6wyBSO+aTz3dOofYuf4kJyQxhh76GUsOEZicORXoyjn/
-   QiXimPMWGwlDpaC+GRfN5dx2QyjRGgkxCat0d2WuyIGsva77sbgj2SHWd
-   V7z+cxBY80/VzuBplWNBi5yEv+hJNlBOD1Tqz5awViianYRE/HmhmbfJo
-   RwSnXpD4FV1t11Oqjc8HpYXo6v/GuNqn9dFz0CDm7dvjtVGrsg+WLhsGV
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10661"; a="367875663"
+  bh=7peHcGrWB6YIeI8DoskSiClc1VeLQK0c5CPRuOuq6n0=;
+  b=eLTCZ9DRl/3q7rpY6iZ6q0Fujz18ahlEBzQGDbAcKi1tB7wL8VM/YdeO
+   6HjaEb9bg+sJPGJQHepudb8jJlzY+vr+he0+HpjAGubodIIjNwMWK2vrA
+   iRFHbcl2JVo0LSFGoSdGJOXdupsFs1kf0LqbXbx5oIAqjFPBhsRaavpCO
+   ryiL7fby9EzcVSx/iHLNKCDsk4tsY+FvpVUlyTeQeAoGk1U6hNmomDgf5
+   iN3K2baJ+vzpBwZGM20Chahg4X7h+ZW+drf+9vCZezABEwJH+0UT+kymP
+   enxLJFF/l1D1f4ZgRvae4fkGdm7/CJ2a0gOHMPnBZXzvbVHehQ961yIGK
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10661"; a="324029384"
 X-IronPort-AV: E=Sophos;i="5.98,293,1673942400"; 
-   d="scan'208";a="367875663"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2023 14:56:54 -0700
+   d="scan'208";a="324029384"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2023 16:48:57 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10661"; a="1012887314"
+X-IronPort-AV: E=McAfee;i="6600,9927,10661"; a="794109309"
 X-IronPort-AV: E=Sophos;i="5.98,293,1673942400"; 
-   d="scan'208";a="1012887314"
+   d="scan'208";a="794109309"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 26 Mar 2023 14:56:52 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 26 Mar 2023 16:48:56 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pgYM8-000HNP-0t;
-	Sun, 26 Mar 2023 21:56:52 +0000
-Date: Mon, 27 Mar 2023 05:56:06 +0800
+	id 1pga6Z-000HPj-1n;
+	Sun, 26 Mar 2023 23:48:55 +0000
+Date: Mon, 27 Mar 2023 07:48:34 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [peterz-queue:sched/eevdf 18/18] kernel/sched/fair.c:828
- __print_se() warn: argument 5 to %lx specifier is cast from pointer
-Message-ID: <202303270521.gVX8m0fJ-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [sre-misc:rk3588 9/27] drivers/pinctrl/pinctrl-rk805.c:415:6:
+ warning: Assigned value is garbage or undefined
+ [clang-analyzer-core.uninitialized.Assign]
+Message-ID: <202303270742.Wal21p6i-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -46,108 +47,268 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: Peter Zijlstra <peterz@infradead.org>
+:::::: 
+:::::: Manual check reason: "low confidence static check warning: drivers/pinctrl/pinctrl-rk805.c:415:6: warning: Assigned value is garbage or undefined [clang-analyzer-core.uninitialized.Assign]"
+:::::: 
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git sched/eevdf
-head:   757a8ca40738a90f69ec65470ddae5f4d5e5256c
-commit: 757a8ca40738a90f69ec65470ddae5f4d5e5256c [18/18] sched/eevdf: Debug / validation crud
-:::::: branch date: 5 hours ago
-:::::: commit date: 5 hours ago
-config: i386-randconfig-m021 (https://download.01.org/0day-ci/archive/20230327/202303270521.gVX8m0fJ-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+BCC: lkp@intel.com
+CC: llvm@lists.linux.dev
+CC: oe-kbuild-all@lists.linux.dev
+TO: Sebastian Reichel <sebastian.reichel@collabora.com>
+CC: shengfei Xu <xsf@rock-chips.com>
+CC: Linus Walleij <linus.walleij@linaro.org>
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sre/linux-misc.git rk3588
+head:   02c4e267f34f8166d3fb2fb681b865a9b66e2dfb
+commit: 22ca4cdaaf4e07661723b2aab606a3012d830b29 [9/27] pinctrl: rk805: add rk806 pinctrl support
+:::::: branch date: 4 days ago
+:::::: commit date: 3 weeks ago
+config: riscv-randconfig-c006-20230322 (https://download.01.org/0day-ci/archive/20230327/202303270742.Wal21p6i-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/sre/linux-misc.git/commit/?id=22ca4cdaaf4e07661723b2aab606a3012d830b29
+        git remote add sre-misc https://git.kernel.org/pub/scm/linux/kernel/git/sre/linux-misc.git
+        git fetch --no-tags sre-misc rk3588
+        git checkout 22ca4cdaaf4e07661723b2aab606a3012d830b29
+        # save the config file
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=riscv clang-analyzer  olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=riscv clang-analyzer 
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202303270521.gVX8m0fJ-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202303270742.Wal21p6i-lkp@intel.com/
 
-smatch warnings:
-kernel/sched/fair.c:828 __print_se() warn: argument 5 to %lx specifier is cast from pointer
-kernel/sched/fair.c:882 validate_cfs_rq() warn: argument 3 to %lx specifier is cast from pointer
+clang_analyzer warnings: (new ones prefixed by >>)
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_var'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+                                                                                        ^~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_value'
+           (cond) ?                                        \
+            ^~~~
+   drivers/tty/serial/8250/8250_mid.c:158:8: note: '?' condition is true
+                   else if (err == 0)
+                        ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_var'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_value'
+           (cond) ?                                        \
+           ^
+   drivers/tty/serial/8250/8250_mid.c:158:8: note: Taking true branch
+                   else if (err == 0)
+                        ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   drivers/tty/serial/8250/8250_mid.c:159:11: note: 3rd function call argument is an uninitialized value
+                           ret |= hsu_dma_do_irq(&mid->dma_chip, 0, status);
+                                  ^                                 ~~~~~~
+   include/linux/log2.h:67:13: warning: The result of the left shift is undefined due to shifting by '4294967295', which is greater or equal to the width of type 'unsigned long' [clang-analyzer-core.UndefinedBinaryOperatorResult]
+           return 1UL << (fls_long(n) - 1);
+                      ^
+   drivers/tty/serial/8250/8250_mid.c:220:10: note: Assuming 'fuart' is 0
+           fuart = fuart ? fuart : 9600 * 16;
+                   ^~~~~
+   drivers/tty/serial/8250/8250_mid.c:220:10: note: '?' condition is false
+   drivers/tty/serial/8250/8250_mid.c:222:6: note: Assuming 'fuart' is <= field 'freq'
+           if (mid->board->freq < fuart) {
+               ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_var'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+                                                      ^~~~
+   drivers/tty/serial/8250/8250_mid.c:222:2: note: '?' condition is false
+           if (mid->board->freq < fuart) {
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_var'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+                                 ^
+   drivers/tty/serial/8250/8250_mid.c:222:25: note: 'fuart' is <= field 'freq'
+           if (mid->board->freq < fuart) {
+                                  ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_var'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+                                                                                        ^~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_value'
+           (cond) ?                                        \
+            ^~~~
+   drivers/tty/serial/8250/8250_mid.c:222:2: note: '?' condition is false
+           if (mid->board->freq < fuart) {
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_var'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_value'
+           (cond) ?                                        \
+           ^
+   drivers/tty/serial/8250/8250_mid.c:222:2: note: Taking false branch
+           if (mid->board->freq < fuart) {
+           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   drivers/tty/serial/8250/8250_mid.c:231:12: note: '?' condition is false
+                   fuart *= rounddown_pow_of_two(mid->board->freq / fuart);
+                            ^
+   include/linux/log2.h:193:2: note: expanded from macro 'rounddown_pow_of_two'
+           __builtin_constant_p(n) ? (             \
+           ^
+   drivers/tty/serial/8250/8250_mid.c:231:12: note: Calling '__rounddown_pow_of_two'
+                   fuart *= rounddown_pow_of_two(mid->board->freq / fuart);
+                            ^
+   include/linux/log2.h:195:2: note: expanded from macro 'rounddown_pow_of_two'
+           __rounddown_pow_of_two(n)               \
+           ^~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/log2.h:67:13: note: The result of the left shift is undefined due to shifting by '4294967295', which is greater or equal to the width of type 'unsigned long'
+           return 1UL << (fls_long(n) - 1);
+                      ^  ~~~~~~~~~~~~~~~~~
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   10 warnings generated.
+>> drivers/pinctrl/pinctrl-rk805.c:415:6: warning: Assigned value is garbage or undefined [clang-analyzer-core.uninitialized.Assign]
+           mux <<= ffs(pci->pin_cfg[offset].fun_msk) - 1;
+               ^
+   drivers/pinctrl/pinctrl-rk805.c:443:2: note: Control jumps to 'case RK806_ID:'  at line 446
+           switch (pci->rk808->variant) {
+           ^
+   drivers/pinctrl/pinctrl-rk805.c:447:10: note: Calling '_rk805_pinctrl_set_mux'
+                   return _rk805_pinctrl_set_mux(pctldev, offset, RK806_PINMUX_FUN5);
+                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/pinctrl/pinctrl-rk805.c:412:6: note: Assuming field 'fun_msk' is not equal to 0
+           if (!pci->pin_cfg[offset].fun_msk)
+               ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_var'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+                                                      ^~~~
+   drivers/pinctrl/pinctrl-rk805.c:412:2: note: '?' condition is false
+           if (!pci->pin_cfg[offset].fun_msk)
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_var'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+                                 ^
+   drivers/pinctrl/pinctrl-rk805.c:412:28: note: Field 'fun_msk' is not equal to 0
+           if (!pci->pin_cfg[offset].fun_msk)
+                                     ^
+   drivers/pinctrl/pinctrl-rk805.c:412:2: note: '?' condition is false
+           if (!pci->pin_cfg[offset].fun_msk)
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_var'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_value'
+           (cond) ?                                        \
+           ^
+   drivers/pinctrl/pinctrl-rk805.c:412:2: note: Taking false branch
+           if (!pci->pin_cfg[offset].fun_msk)
+           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   drivers/pinctrl/pinctrl-rk805.c:415:6: note: Assigned value is garbage or undefined
+           mux <<= ffs(pci->pin_cfg[offset].fun_msk) - 1;
+               ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   13 warnings generated.
+   block/bfq-wf2q.c:274:7: warning: Access to field 'my_sched_data' results in a dereference of a null pointer (loaded from variable 'entity') [clang-analyzer-core.NullDereference]
+           if (!entity->my_sched_data)
+                ^
+   block/bfq-wf2q.c:1456:2: note: 'entity' initialized to a null pointer value
+           struct bfq_entity *entity = NULL;
+           ^~~~~~~~~~~~~~~~~~~~~~~~~
+   block/bfq-wf2q.c:1460:6: note: Assuming the condition is false
+           if (bfq_tot_busy_queues(bfqd) == 0)
+               ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_var'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+                                                      ^~~~
+   block/bfq-wf2q.c:1460:2: note: '?' condition is false
+           if (bfq_tot_busy_queues(bfqd) == 0)
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_var'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+                                 ^
+   block/bfq-wf2q.c:1460:2: note: '?' condition is false
+           if (bfq_tot_busy_queues(bfqd) == 0)
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_var'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_value'
+           (cond) ?                                        \
+           ^
+   block/bfq-wf2q.c:1460:2: note: Taking false branch
+           if (bfq_tot_busy_queues(bfqd) == 0)
+           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   block/bfq-wf2q.c:1469:2: note: Loop condition is false. Execution continues on line 1530
+           for (; sd ; sd = entity->my_sched_data) {
+           ^
+   block/bfq-wf2q.c:1530:28: note: Passing null pointer value via 1st parameter 'entity'
+           bfqq = bfq_entity_to_bfqq(entity);
 
-vim +828 kernel/sched/fair.c
+vim +415 drivers/pinctrl/pinctrl-rk805.c
 
-757a8ca40738a9 Peter Zijlstra 2023-03-24  809  
-757a8ca40738a9 Peter Zijlstra 2023-03-24  810  static void __print_se(struct cfs_rq *cfs_rq, struct sched_entity *se, int level,
-757a8ca40738a9 Peter Zijlstra 2023-03-24  811  		       struct validate_data *data)
-757a8ca40738a9 Peter Zijlstra 2023-03-24  812  {
-757a8ca40738a9 Peter Zijlstra 2023-03-24  813  	static const char indent[] = "                                           ";
-757a8ca40738a9 Peter Zijlstra 2023-03-24  814  	unsigned long weight = scale_load_down(se->load.weight);
-757a8ca40738a9 Peter Zijlstra 2023-03-24  815  	struct task_struct *p = NULL;
-757a8ca40738a9 Peter Zijlstra 2023-03-24  816  
-757a8ca40738a9 Peter Zijlstra 2023-03-24  817  	s64 v = se->vruntime - cfs_rq->min_vruntime;
-757a8ca40738a9 Peter Zijlstra 2023-03-24  818  	s64 d = se->deadline - cfs_rq->min_vruntime;
-757a8ca40738a9 Peter Zijlstra 2023-03-24  819  
-757a8ca40738a9 Peter Zijlstra 2023-03-24  820  	data->avg_vruntime += v * weight;
-757a8ca40738a9 Peter Zijlstra 2023-03-24  821  	data->avg_load += weight;
-757a8ca40738a9 Peter Zijlstra 2023-03-24  822  
-757a8ca40738a9 Peter Zijlstra 2023-03-24  823  	data->min_deadline = min(data->min_deadline, d);
-757a8ca40738a9 Peter Zijlstra 2023-03-24  824  
-757a8ca40738a9 Peter Zijlstra 2023-03-24  825  	if (entity_is_task(se))
-757a8ca40738a9 Peter Zijlstra 2023-03-24  826  		p = task_of(se);
-757a8ca40738a9 Peter Zijlstra 2023-03-24  827  
-757a8ca40738a9 Peter Zijlstra 2023-03-24 @828  	trace_printk("%.*s%lx w: %ld ve: %Ld lag: %Ld vd: %Ld vmd: %Ld %s (%d/%s)\n",
-757a8ca40738a9 Peter Zijlstra 2023-03-24  829  		     level*2, indent, (unsigned long)se,
-757a8ca40738a9 Peter Zijlstra 2023-03-24  830  		     weight,
-757a8ca40738a9 Peter Zijlstra 2023-03-24  831  		     v, data->va - se->vruntime, d,
-757a8ca40738a9 Peter Zijlstra 2023-03-24  832  		     se->min_deadline - cfs_rq->min_vruntime,
-757a8ca40738a9 Peter Zijlstra 2023-03-24  833  		     entity_eligible(cfs_rq, se) ? "E" : "N",
-757a8ca40738a9 Peter Zijlstra 2023-03-24  834  		     p ? p->pid : -1,
-757a8ca40738a9 Peter Zijlstra 2023-03-24  835  		     p ? p->comm : "(null)");
-757a8ca40738a9 Peter Zijlstra 2023-03-24  836  }
-757a8ca40738a9 Peter Zijlstra 2023-03-24  837  
-757a8ca40738a9 Peter Zijlstra 2023-03-24  838  static void __print_node(struct cfs_rq *cfs_rq, struct rb_node *node, int level,
-757a8ca40738a9 Peter Zijlstra 2023-03-24  839  			 struct validate_data *data)
-757a8ca40738a9 Peter Zijlstra 2023-03-24  840  {
-757a8ca40738a9 Peter Zijlstra 2023-03-24  841  	if (!node)
-757a8ca40738a9 Peter Zijlstra 2023-03-24  842  		return;
-757a8ca40738a9 Peter Zijlstra 2023-03-24  843  
-757a8ca40738a9 Peter Zijlstra 2023-03-24  844  	__print_se(cfs_rq, __node_2_se(node), level, data);
-757a8ca40738a9 Peter Zijlstra 2023-03-24  845  	__print_node(cfs_rq, node->rb_left, level+1, data);
-757a8ca40738a9 Peter Zijlstra 2023-03-24  846  	__print_node(cfs_rq, node->rb_right, level+1, data);
-757a8ca40738a9 Peter Zijlstra 2023-03-24  847  }
-757a8ca40738a9 Peter Zijlstra 2023-03-24  848  
-757a8ca40738a9 Peter Zijlstra 2023-03-24  849  static struct sched_entity *pick_eevdf(struct cfs_rq *cfs_rq);
-757a8ca40738a9 Peter Zijlstra 2023-03-24  850  
-757a8ca40738a9 Peter Zijlstra 2023-03-24  851  static void validate_cfs_rq(struct cfs_rq *cfs_rq, bool pick)
-757a8ca40738a9 Peter Zijlstra 2023-03-24  852  {
-757a8ca40738a9 Peter Zijlstra 2023-03-24  853  	struct sched_entity *curr = cfs_rq->curr;
-757a8ca40738a9 Peter Zijlstra 2023-03-24  854  	struct rb_node *root = cfs_rq->tasks_timeline.rb_root.rb_node;
-757a8ca40738a9 Peter Zijlstra 2023-03-24  855  	struct validate_data _data = {
-757a8ca40738a9 Peter Zijlstra 2023-03-24  856  		.va = avg_vruntime(cfs_rq),
-757a8ca40738a9 Peter Zijlstra 2023-03-24  857  		.min_deadline = (~0ULL) >> 1,
-757a8ca40738a9 Peter Zijlstra 2023-03-24  858  	}, *data = &_data;
-757a8ca40738a9 Peter Zijlstra 2023-03-24  859  
-757a8ca40738a9 Peter Zijlstra 2023-03-24  860  	trace_printk("---\n");
-757a8ca40738a9 Peter Zijlstra 2023-03-24  861  
-757a8ca40738a9 Peter Zijlstra 2023-03-24  862  	__print_node(cfs_rq, root, 0, data);
-757a8ca40738a9 Peter Zijlstra 2023-03-24  863  
-757a8ca40738a9 Peter Zijlstra 2023-03-24  864  	trace_printk("min_deadline: %Ld avg_vruntime: %Ld / %Ld = %Ld\n",
-757a8ca40738a9 Peter Zijlstra 2023-03-24  865  		     data->min_deadline,
-757a8ca40738a9 Peter Zijlstra 2023-03-24  866  		     data->avg_vruntime, data->avg_load,
-757a8ca40738a9 Peter Zijlstra 2023-03-24  867  		     data->avg_load ? div_s64(data->avg_vruntime, data->avg_load) : 0);
-757a8ca40738a9 Peter Zijlstra 2023-03-24  868  
-757a8ca40738a9 Peter Zijlstra 2023-03-24  869  	if (WARN_ON_ONCE(cfs_rq->avg_vruntime != data->avg_vruntime))
-757a8ca40738a9 Peter Zijlstra 2023-03-24  870  		cfs_rq->avg_vruntime = data->avg_vruntime;
-757a8ca40738a9 Peter Zijlstra 2023-03-24  871  
-757a8ca40738a9 Peter Zijlstra 2023-03-24  872  	if (WARN_ON_ONCE(cfs_rq->avg_load != data->avg_load))
-757a8ca40738a9 Peter Zijlstra 2023-03-24  873  		cfs_rq->avg_load = data->avg_load;
-757a8ca40738a9 Peter Zijlstra 2023-03-24  874  
-757a8ca40738a9 Peter Zijlstra 2023-03-24  875  	data->min_deadline += cfs_rq->min_vruntime;
-757a8ca40738a9 Peter Zijlstra 2023-03-24  876  	WARN_ON_ONCE(cfs_rq->avg_load && __node_2_se(root)->min_deadline != data->min_deadline);
-757a8ca40738a9 Peter Zijlstra 2023-03-24  877  
-757a8ca40738a9 Peter Zijlstra 2023-03-24  878  	if (curr && curr->on_rq)
-757a8ca40738a9 Peter Zijlstra 2023-03-24  879  		__print_se(cfs_rq, curr, 0, data);
-757a8ca40738a9 Peter Zijlstra 2023-03-24  880  
-757a8ca40738a9 Peter Zijlstra 2023-03-24  881  	if (pick)
-757a8ca40738a9 Peter Zijlstra 2023-03-24 @882  		trace_printk("pick: %lx\n", (unsigned long)pick_eevdf(cfs_rq));
-757a8ca40738a9 Peter Zijlstra 2023-03-24  883  }
-757a8ca40738a9 Peter Zijlstra 2023-03-24  884  #else
-757a8ca40738a9 Peter Zijlstra 2023-03-24  885  static inline void validate_cfs_rq(struct cfs_rq *cfs_rq, bool pick) { }
-757a8ca40738a9 Peter Zijlstra 2023-03-24  886  #endif
-757a8ca40738a9 Peter Zijlstra 2023-03-24  887  
+ea479996c79bbd Joseph Chen       2017-08-21  404  
+ea479996c79bbd Joseph Chen       2017-08-21  405  static int _rk805_pinctrl_set_mux(struct pinctrl_dev *pctldev,
+ea479996c79bbd Joseph Chen       2017-08-21  406  				  unsigned int offset,
+ea479996c79bbd Joseph Chen       2017-08-21  407  				  int mux)
+ea479996c79bbd Joseph Chen       2017-08-21  408  {
+ea479996c79bbd Joseph Chen       2017-08-21  409  	struct rk805_pctrl_info *pci = pinctrl_dev_get_drvdata(pctldev);
+ea479996c79bbd Joseph Chen       2017-08-21  410  	int ret;
+ea479996c79bbd Joseph Chen       2017-08-21  411  
+ea479996c79bbd Joseph Chen       2017-08-21  412  	if (!pci->pin_cfg[offset].fun_msk)
+ea479996c79bbd Joseph Chen       2017-08-21  413  		return 0;
+ea479996c79bbd Joseph Chen       2017-08-21  414  
+22ca4cdaaf4e07 Sebastian Reichel 2022-07-04 @415  	mux <<= ffs(pci->pin_cfg[offset].fun_msk) - 1;
+ea479996c79bbd Joseph Chen       2017-08-21  416  	ret = regmap_update_bits(pci->rk808->regmap,
+22ca4cdaaf4e07 Sebastian Reichel 2022-07-04  417  				 pci->pin_cfg[offset].fun_reg,
+22ca4cdaaf4e07 Sebastian Reichel 2022-07-04  418  				 pci->pin_cfg[offset].fun_msk, mux);
+22ca4cdaaf4e07 Sebastian Reichel 2022-07-04  419  
+22ca4cdaaf4e07 Sebastian Reichel 2022-07-04  420  	if (ret)
+22ca4cdaaf4e07 Sebastian Reichel 2022-07-04  421  		dev_err(pci->dev, "set gpio%d func%d failed\n", offset, mux);
+ea479996c79bbd Joseph Chen       2017-08-21  422  
+ea479996c79bbd Joseph Chen       2017-08-21  423  	return 0;
+ea479996c79bbd Joseph Chen       2017-08-21  424  }
+ea479996c79bbd Joseph Chen       2017-08-21  425  
 
 -- 
 0-DAY CI Kernel Test Service
