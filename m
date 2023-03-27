@@ -1,42 +1,50 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AE323C0F
-	for <oe-kbuild@lists.linux.dev>; Mon, 27 Mar 2023 15:28:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679930898; x=1711466898;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=BhRE/RIDL/4VmXdGCeM2O8PTD7Qu3PF5y1uYTWKjX0k=;
-  b=MzqOohhPHADdzIWjau6R7JjE3jNOYYIPTiGscuccAamviHi25yItRD12
-   d+r1oQj0zysKWLhYLhYdJH/kFkLvdVVo5WsWBWFJR2FkEQ98QNsCoIyyK
-   2GSlvXfZ991hio6Brrke02jJqSXg7HpwGb40JzyrFd3RYoLMxB1pgRCvX
-   gGjU7KQ7k4WdzXgmbehYDQbwuSeD6Zu0ChX68MLxVdpBT0+UYtSHlSK4x
-   zoZ054oEzof/4kvfo3FCvfUlYVK0ZRo0HZs2AQ86UNl0VDBgMBSLrZPm0
-   ZtOLjc5Bc8AvNN/2gHcW5+UB5HI+T7x2juUUqnIrbjCVOHwBI+510GYhN
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10662"; a="339018811"
-X-IronPort-AV: E=Sophos;i="5.98,295,1673942400"; 
-   d="scan'208";a="339018811"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2023 08:28:17 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10662"; a="827074832"
-X-IronPort-AV: E=Sophos;i="5.98,295,1673942400"; 
-   d="scan'208";a="827074832"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 27 Mar 2023 08:28:16 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pgolb-000HoB-1S;
-	Mon, 27 Mar 2023 15:28:15 +0000
-Date: Mon, 27 Mar 2023 23:28:01 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 887F03C0F;
+	Mon, 27 Mar 2023 15:30:43 +0000 (UTC)
+Received: by mail-wm1-f42.google.com with SMTP id p34so5277834wms.3;
+        Mon, 27 Mar 2023 08:30:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1679931041;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=AXK7oru0AfEDzPeFckyjSP+WN6K9DgaXywL/sEsWdG8=;
+        b=Zc+L1zUKJ0H3CT88qLp3HiweUNg3om2uvYGypmY+vW/4ISbpztkS5Y6CEuxrhsHCYr
+         ofbLcfvMD1ofC4/pAU9iqPJjJmsTeBpwMRiWkyAfrbN5FMVPosSGklzDcjucDraoKEn1
+         6es2Zy6Cu/L8CdUKGR4feg5+6atAL5dUU/e6qCEbR4PvACs5obMleYYMFHFo8EqAwIVd
+         tCT9irmFk/r7tRg7Bz1MYe+eYhMnwqZlLznc71J/MpsOPUmYprhUZuzXslsxhX9GYXAd
+         PlFAhVNLjqCaxG3UJU7zzj/sAxHifrWDUbO1jR+Ta2OZqVuoz82e8Xp3lnkQU7+TMGDQ
+         /GSQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679931041;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=AXK7oru0AfEDzPeFckyjSP+WN6K9DgaXywL/sEsWdG8=;
+        b=47QPmC7AHrifx5ctTDIBTGmrGybXnET+JCZVd3MLP3vbykAJCsLsB+7jew23j8I1az
+         Dt9Z2p8iYA3aB9LTxV07xPLy1fJHXxF5FkFXRUCnW46ZTM+REGwVzFeYRY/46iIPbjC1
+         vLiccc7nm43lU4b614DM/mxk81Apzd29nrWokTSMWAvGJMQn/eBvpQ3r4xVPEhAwlWB1
+         MDnNZzkOamV/Gc0jE+CEueOL1z5Zz4hkUUGMpPkjVubmPT0fbT0Mml7Opznv8CQf+u9b
+         yMkXUgy8yuphu/r5lQhcigehnxYYo1SskCjlCJ0ujLihziGI163YOYjhL36ztILhFhSc
+         AJpA==
+X-Gm-Message-State: AO0yUKVa4m2w++shu2Kd/0cWoFOLu7wDFL7rpzdiFBJMjxtqpHCpgkSa
+	yEk7oEZOlzms5AsRAXsDs5GBYlD/014=
+X-Google-Smtp-Source: AK7set9keKbzHNTF+88AoF2fitfnHHHTCS0FOElmF4LDzPt3fRfceuc1GqEfKtAbtzUEgQhGGmslCg==
+X-Received: by 2002:a1c:ed05:0:b0:3eb:395b:8b62 with SMTP id l5-20020a1ced05000000b003eb395b8b62mr9292509wmh.39.1679931041322;
+        Mon, 27 Mar 2023 08:30:41 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id m31-20020a05600c3b1f00b003ef5bb63f13sm9426633wms.10.2023.03.27.08.30.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 27 Mar 2023 08:30:40 -0700 (PDT)
+Date: Mon, 27 Mar 2023 18:30:32 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev, Sunil V L <sunilvl@ventanamicro.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Anup Patel <anup@brainfault.org>,
+	Andrew Jones <ajones@ventanamicro.com>
 Subject: [avpatel:alexghiti_test 30/78] arch/riscv/kernel/cpufeature.c:141
  riscv_fill_hwcap() error: uninitialized symbol 'isa'.
-Message-ID: <202303272310.T2uiCm4o-lkp@intel.com>
+Message-ID: <13017ff9-8e1a-40a9-a23f-4568bf566053@kili.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -46,17 +54,9 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: Sunil V L <sunilvl@ventanamicro.com>
-CC: Anup Patel <anup@brainfault.org>
-CC: Andrew Jones <ajones@ventanamicro.com>
-
 tree:   https://github.com/avpatel/linux.git alexghiti_test
 head:   93aaa7cba9ba7ae91a47812465117e2f9b9e3712
 commit: 0f713f9456748d534d3fedde51fe941454109f7f [30/78] RISC-V: cpufeature: Add ACPI support in riscv_fill_hwcap()
-:::::: branch date: 4 days ago
-:::::: commit date: 7 days ago
 config: riscv-randconfig-m031-20230326 (https://download.01.org/0day-ci/archive/20230327/202303272310.T2uiCm4o-lkp@intel.com/config)
 compiler: riscv64-linux-gcc (GCC) 12.1.0
 
@@ -70,7 +70,6 @@ arch/riscv/kernel/cpufeature.c:141 riscv_fill_hwcap() error: uninitialized symbo
 
 vim +/isa +141 arch/riscv/kernel/cpufeature.c
 
-fb0ff0a95d61f6 Andrew Jones   2022-11-29   89  
 3df952ae2ac81f Jisheng Zhang  2021-05-16   90  void __init riscv_fill_hwcap(void)
 e2c0cdfba7f699 Palmer Dabbelt 2017-07-10   91  {
 dd81c8ab819d36 Johan Hovold   2019-01-18   92  	struct device_node *node;
@@ -114,6 +113,9 @@ fbdc6193dc706c Atish Patra    2019-02-22  122
 fbdc6193dc706c Atish Patra    2019-02-22  130  					continue;
 e2c0cdfba7f699 Palmer Dabbelt 2017-07-10  131  				}
 0f713f9456748d Sunil V L      2023-03-06  132  			}
+
+"isa" not initialized if of_cpu_device_node_get() return NULL.
+
 0f713f9456748d Sunil V L      2023-03-06  133  		} else {
 0f713f9456748d Sunil V L      2023-03-06  134  			rc = acpi_get_riscv_isa(rhct, cpu, &isa);
 0f713f9456748d Sunil V L      2023-03-06  135  			if (rc < 0) {
@@ -137,82 +139,8 @@ e2c0cdfba7f699 Palmer Dabbelt 2017-07-10  140
 2a31c54be097c7 Tsukasa OI     2022-03-14  153  		for (; *isa; ++isa) {
 2a31c54be097c7 Tsukasa OI     2022-03-14  154  			const char *ext = isa++;
 2a31c54be097c7 Tsukasa OI     2022-03-14  155  			const char *ext_end = isa;
-2a31c54be097c7 Tsukasa OI     2022-03-14  156  			bool ext_long = false, ext_err = false;
-2a31c54be097c7 Tsukasa OI     2022-03-14  157  
-2a31c54be097c7 Tsukasa OI     2022-03-14  158  			switch (*ext) {
-2a31c54be097c7 Tsukasa OI     2022-03-14  159  			case 's':
-2a31c54be097c7 Tsukasa OI     2022-03-14  160  				/**
-2a31c54be097c7 Tsukasa OI     2022-03-14  161  				 * Workaround for invalid single-letter 's' & 'u'(QEMU).
-2a31c54be097c7 Tsukasa OI     2022-03-14  162  				 * No need to set the bit in riscv_isa as 's' & 'u' are
-2a31c54be097c7 Tsukasa OI     2022-03-14  163  				 * not valid ISA extensions. It works until multi-letter
-2a31c54be097c7 Tsukasa OI     2022-03-14  164  				 * extension starting with "Su" appears.
-2a31c54be097c7 Tsukasa OI     2022-03-14  165  				 */
-2a31c54be097c7 Tsukasa OI     2022-03-14  166  				if (ext[-1] != '_' && ext[1] == 'u') {
-2a31c54be097c7 Tsukasa OI     2022-03-14  167  					++isa;
-2a31c54be097c7 Tsukasa OI     2022-03-14  168  					ext_err = true;
-2a31c54be097c7 Tsukasa OI     2022-03-14  169  					break;
-2a31c54be097c7 Tsukasa OI     2022-03-14  170  				}
-2a31c54be097c7 Tsukasa OI     2022-03-14  171  				fallthrough;
-2a31c54be097c7 Tsukasa OI     2022-03-14  172  			case 'x':
-2a31c54be097c7 Tsukasa OI     2022-03-14  173  			case 'z':
-2a31c54be097c7 Tsukasa OI     2022-03-14  174  				ext_long = true;
-2a31c54be097c7 Tsukasa OI     2022-03-14  175  				/* Multi-letter extension must be delimited */
-2a31c54be097c7 Tsukasa OI     2022-03-14  176  				for (; *isa && *isa != '_'; ++isa)
-40a4d0dfbcf00c Tsukasa OI     2022-03-14  177  					if (unlikely(!islower(*isa)
-40a4d0dfbcf00c Tsukasa OI     2022-03-14  178  						     && !isdigit(*isa)))
-2a31c54be097c7 Tsukasa OI     2022-03-14  179  						ext_err = true;
-40a4d0dfbcf00c Tsukasa OI     2022-03-14  180  				/* Parse backwards */
-40a4d0dfbcf00c Tsukasa OI     2022-03-14  181  				ext_end = isa;
-40a4d0dfbcf00c Tsukasa OI     2022-03-14  182  				if (unlikely(ext_err))
-40a4d0dfbcf00c Tsukasa OI     2022-03-14  183  					break;
-40a4d0dfbcf00c Tsukasa OI     2022-03-14  184  				if (!isdigit(ext_end[-1]))
-40a4d0dfbcf00c Tsukasa OI     2022-03-14  185  					break;
-40a4d0dfbcf00c Tsukasa OI     2022-03-14  186  				/* Skip the minor version */
-40a4d0dfbcf00c Tsukasa OI     2022-03-14  187  				while (isdigit(*--ext_end))
-40a4d0dfbcf00c Tsukasa OI     2022-03-14  188  					;
-40a4d0dfbcf00c Tsukasa OI     2022-03-14  189  				if (ext_end[0] != 'p'
-40a4d0dfbcf00c Tsukasa OI     2022-03-14  190  				    || !isdigit(ext_end[-1])) {
-40a4d0dfbcf00c Tsukasa OI     2022-03-14  191  					/* Advance it to offset the pre-decrement */
-40a4d0dfbcf00c Tsukasa OI     2022-03-14  192  					++ext_end;
-40a4d0dfbcf00c Tsukasa OI     2022-03-14  193  					break;
-40a4d0dfbcf00c Tsukasa OI     2022-03-14  194  				}
-40a4d0dfbcf00c Tsukasa OI     2022-03-14  195  				/* Skip the major version */
-40a4d0dfbcf00c Tsukasa OI     2022-03-14  196  				while (isdigit(*--ext_end))
-40a4d0dfbcf00c Tsukasa OI     2022-03-14  197  					;
-40a4d0dfbcf00c Tsukasa OI     2022-03-14  198  				++ext_end;
-2a31c54be097c7 Tsukasa OI     2022-03-14  199  				break;
-2a31c54be097c7 Tsukasa OI     2022-03-14  200  			default:
-2a31c54be097c7 Tsukasa OI     2022-03-14  201  				if (unlikely(!islower(*ext))) {
-2a31c54be097c7 Tsukasa OI     2022-03-14  202  					ext_err = true;
-2a31c54be097c7 Tsukasa OI     2022-03-14  203  					break;
-2a31c54be097c7 Tsukasa OI     2022-03-14  204  				}
-2a31c54be097c7 Tsukasa OI     2022-03-14  205  				/* Find next extension */
-2a31c54be097c7 Tsukasa OI     2022-03-14  206  				if (!isdigit(*isa))
-2a31c54be097c7 Tsukasa OI     2022-03-14  207  					break;
-2a31c54be097c7 Tsukasa OI     2022-03-14  208  				/* Skip the minor version */
-2a31c54be097c7 Tsukasa OI     2022-03-14  209  				while (isdigit(*++isa))
-2a31c54be097c7 Tsukasa OI     2022-03-14  210  					;
-2a31c54be097c7 Tsukasa OI     2022-03-14  211  				if (*isa != 'p')
-2a31c54be097c7 Tsukasa OI     2022-03-14  212  					break;
-2a31c54be097c7 Tsukasa OI     2022-03-14  213  				if (!isdigit(*++isa)) {
-2a31c54be097c7 Tsukasa OI     2022-03-14  214  					--isa;
-2a31c54be097c7 Tsukasa OI     2022-03-14  215  					break;
-2a31c54be097c7 Tsukasa OI     2022-03-14  216  				}
-2a31c54be097c7 Tsukasa OI     2022-03-14  217  				/* Skip the major version */
-2a31c54be097c7 Tsukasa OI     2022-03-14  218  				while (isdigit(*++isa))
-2a31c54be097c7 Tsukasa OI     2022-03-14  219  					;
-2a31c54be097c7 Tsukasa OI     2022-03-14  220  				break;
-2a31c54be097c7 Tsukasa OI     2022-03-14  221  			}
-2a31c54be097c7 Tsukasa OI     2022-03-14  222  			if (*isa != '_')
-2a31c54be097c7 Tsukasa OI     2022-03-14  223  				--isa;
-40a4d0dfbcf00c Tsukasa OI     2022-03-14  224  
-
-:::::: The code at line 141 was first introduced by commit
-:::::: 3f96db125d68127ffef6fdeeb777d94ccf95c09f RISC-V: Do no continue isa string parsing without correct XLEN
-
-:::::: TO: Atish Patra <atishp@rivosinc.com>
-:::::: CC: Palmer Dabbelt <palmer@rivosinc.com>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
+
