@@ -1,62 +1,48 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A077622;
-	Mon, 27 Mar 2023 04:09:51 +0000 (UTC)
-Received: by mail-wr1-f54.google.com with SMTP id j24so7242683wrd.0;
-        Sun, 26 Mar 2023 21:09:51 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F1CA620;
+	Mon, 27 Mar 2023 04:54:15 +0000 (UTC)
+Received: by mail-wr1-f49.google.com with SMTP id l27so7274444wrb.2;
+        Sun, 26 Mar 2023 21:54:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679890189;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=l7ijLTIesAOEpn36Fs42xeH/9XS1VZZGszE+oGRCXj0=;
-        b=nRFIUVWQPecoMEHzKmyeLvjTcp/yjMztl4Pg0OOaG8c+ImjWC64i/lOL7hFiE1UqSX
-         U4IGBSV4MEE8UmS8xQN+/sgPQ11QMkGhQhatGpXJHvAIhOxJoo8GFV+KXI6pFBeYFhTD
-         D5J3r6GOqCIRV5KXr393hmZr/jh280QtfOE5I/RitL7occNpSq3UPSBipgTiOdj4ltxt
-         2H8v98bxRssnPxcUlpQhnHs0snHLhZ03REm/Vy7kVsOxbq5Hlbgwl93q0rB5MZZTqFn8
-         yhDWWFDeW1BCsZGPuUygdPsmdGQuT6rrkbzxnZnGjtKVuxCKHCZKuzXoLiGCRDXJhtW6
-         yJ1Q==
+        d=gmail.com; s=20210112; t=1679892853;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ki2sGeiFMwbLjnJ1yFxWqw3YtVUVc0x0y5uMvRjSTi4=;
+        b=Rl7I5lpON0khMy6kFkTIaGTO3XlhQ6uIqZ9YZgBsTmrDhUrM9QRSWkSksQb8t2oTFv
+         OdDuMyWVTOFtgCaE/+B4aFrDPZseBFG3+kq4Q9EIFszhPsn+8E2+hKdNOnxp5bsz9SuC
+         YCZqAUaFR6AxY1ce7WJ+9KGKHko3wzH+o9MFR+3GrvHvaqIu2IqaglracGpGQngPvnTz
+         2yib40S5dNzfPeTuSMVu6gNpMPfs0w8V3dduzIqSOGw4GdXS2t8QlAMxkbx82rbJBSbG
+         z7JhZ5GJnrZdxFZSURS64uwOVhKC0A8+3in3/XDc7L/iMZUuBlyuDlQ37zO0nuZtSa0i
+         1KUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679890189;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=l7ijLTIesAOEpn36Fs42xeH/9XS1VZZGszE+oGRCXj0=;
-        b=wj7EwyLb3pmrZ5TSKExpEtOuTi0vEU/U/cuWj0G+BKvreUqCAKp5osljEEU4ZNjvuC
-         2COs5gp7noW8NBx5R41SqfB1FW3ch+UV1hrWUp8l7bObLEtj0jXKEwuPTJ24jN4DZPHz
-         F0xhOVVhvWR+5szKJCXHHZhTmeqQeChjKS5Qfae6nLumGIrasLKyCc6ZYcpzT5c7HKPA
-         Bvwwn/mmEj6yCnA0tkD2oAITQBQ95oK4M+ktk4P16o77cE5fuKwUw7+kJexXJlhk2t+2
-         RtsmOixJ8CQUtmSvMk1k+Kd0AO4B1XjCbs3EUtGdx49moYuGd0e1iM3Q+4YxgILheIXl
-         CW9w==
-X-Gm-Message-State: AAQBX9fqkcIANZGc9ZhEMn/PLIOEgHafZO6/NG++72ebh0GUcfrLus6c
-	I/NUGJc9q/ZPooxxdSwOrPj5M0oOkOQ=
-X-Google-Smtp-Source: AKy350aPtQ3/HJnPD7bxSqU78HCNLeKUq9YcfPVBKGfxJ65U31vR/MXIZDGYGxEq5i77c837P1WT5Q==
-X-Received: by 2002:adf:f2c6:0:b0:2d1:5b75:28f0 with SMTP id d6-20020adff2c6000000b002d15b7528f0mr8409709wrp.39.1679890189402;
-        Sun, 26 Mar 2023 21:09:49 -0700 (PDT)
+        d=1e100.net; s=20210112; t=1679892853;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ki2sGeiFMwbLjnJ1yFxWqw3YtVUVc0x0y5uMvRjSTi4=;
+        b=N2zWiTxaPWG2chYzqxELVauxSiHSIIXp5WmjEnUuxpFy71KMBkNUt8Fdp7jjIr0bZc
+         VSZL7JnA0gYfSyxkZaiiJnwDimHvI+ApfxcBlDNCwOy9WQSLbkXYym1/HhMB8IV+6vyr
+         elhjeXm6sEIlU6vUqEGLv43CIWwXhKZ1bhMmMpt/Cec1IMsBvktyXwstLNaVEbBkXP39
+         I642NRhGw8Xk3XHumpwVfowXVR5JTzeh4dcdKMZtWSUbHGdbdOHRazOXNdUWcxcU3EF7
+         gCJXJ1qLoZtxO3Kq+GbxrZ6vKlcPhzxeHKCv1mKbs/jvDJWEJUW1AJolICUwnPdu+LIA
+         3jCQ==
+X-Gm-Message-State: AAQBX9ccps5ejZsl8wxOnypEuD06KkJZbld+vbB0MIcmPn5H4Ykd6IWt
+	+AsM2JLKCw6xE/0LQRxvyHqgi2exBmo=
+X-Google-Smtp-Source: AKy350aytas9sJ0GE9YqO9FaAwRpAWR12BQoCYFsTdcci0tg1SdW8LHv3SbglHIRTg2lA++uNwJhPw==
+X-Received: by 2002:a5d:6901:0:b0:2ce:9877:5120 with SMTP id t1-20020a5d6901000000b002ce98775120mr7626083wru.21.1679892853058;
+        Sun, 26 Mar 2023 21:54:13 -0700 (PDT)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id s2-20020a5d5102000000b002c71b4d476asm23832783wrt.106.2023.03.26.21.09.48
+        by smtp.gmail.com with ESMTPSA id c15-20020adfef4f000000b002c7066a6f77sm23950466wrp.31.2023.03.26.21.54.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 26 Mar 2023 21:09:48 -0700 (PDT)
-Date: Mon, 27 Mar 2023 07:09:45 +0300
+        Sun, 26 Mar 2023 21:54:12 -0700 (PDT)
+Date: Mon, 27 Mar 2023 07:54:09 +0300
 From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, Dylan Van Assche <me@dylanvanassche.be>,
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-	Amol Maheshwari <amahesh@qti.qualcomm.com>,
-	Andy Gross <agross@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht,
-	phone-devel@vger.kernel.org,
-	Dylan Van Assche <me@dylanvanassche.be>
-Subject: Re: [PATCH 2/2] misc: fastrpc: support complete DMA pool access to
- the DSP
-Message-ID: <c138a832-4b10-4f7b-9e7e-4386e8de0465@kili.mountain>
+To: oe-kbuild@lists.linux.dev, "Darrick J. Wong" <darrick.wong@oracle.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [djwong-xfs:xfile-page-caching 246/287] fs/xfs/xfs_rtalloc.c:1552
+ xfs_rtfile_convert_one() warn: missing error code 'error'
+Message-ID: <f2b1eaf2-fe7f-4997-a6d8-b50fc24789cb@kili.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,87 +51,97 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230325134410.21092-3-me@dylanvanassche.be>
 
-Hi Dylan,
-
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Dylan-Van-Assche/dt-bindings-misc-qcom-fastrpc-add-qcom-assign-all-memory-property/20230325-214518
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20230325134410.21092-3-me%40dylanvanassche.be
-patch subject: [PATCH 2/2] misc: fastrpc: support complete DMA pool access to the DSP
-config: microblaze-randconfig-m041-20230326 (https://download.01.org/0day-ci/archive/20230327/202303270739.ODb2LA29-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git xfile-page-caching
+head:   10b2657dfdd633f83d3de6eba27b8e093cf0caa6
+commit: 88d3de0890a01c4e858eb498cfe5ccfa846c9915 [246/287] xfs: make atomic extent swapping support realtime files
+config: microblaze-randconfig-m041-20230326 (https://download.01.org/0day-ci/archive/20230326/202303260959.tQV2vson-lkp@intel.com/config)
 compiler: microblaze-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202303270739.ODb2LA29-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202303260959.tQV2vson-lkp@intel.com/
 
 New smatch warnings:
-drivers/misc/fastrpc.c:2273 fastrpc_rpmsg_probe() warn: possible memory leak of 'data'
+fs/xfs/xfs_rtalloc.c:1552 xfs_rtfile_convert_one() warn: missing error code 'error'
 
-vim +/data +2273 drivers/misc/fastrpc.c
+Old smatch warnings:
+fs/xfs/xfs_rtalloc.c:847 xfs_growfs_rt_alloc() warn: missing unwind goto?
 
-f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2227  static int fastrpc_rpmsg_probe(struct rpmsg_device *rpdev)
-f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2228  {
-f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2229  	struct device *rdev = &rpdev->dev;
-f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2230  	struct fastrpc_channel_ctx *data;
-e90d911906196b Vamsi Krishna Gattupalli 2022-02-14  2231  	int i, err, domain_id = -1, vmcount;
-f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2232  	const char *domain;
-99edd50174e519 Dylan Van Assche         2023-03-25  2233  	bool secure_dsp, assign_all_mem;
-99edd50174e519 Dylan Van Assche         2023-03-25  2234  	struct device_node *rmem_node;
-99edd50174e519 Dylan Van Assche         2023-03-25  2235  	struct reserved_mem *rmem;
-e90d911906196b Vamsi Krishna Gattupalli 2022-02-14  2236  	unsigned int vmids[FASTRPC_MAX_VMIDS];
-f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2237  
-f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2238  	err = of_property_read_string(rdev->of_node, "label", &domain);
-f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2239  	if (err) {
-f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2240  		dev_info(rdev, "FastRPC Domain not specified in DT\n");
-f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2241  		return err;
-f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2242  	}
-f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2243  
-f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2244  	for (i = 0; i <= CDSP_DOMAIN_ID; i++) {
-f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2245  		if (!strcmp(domains[i], domain)) {
-f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2246  			domain_id = i;
-f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2247  			break;
-f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2248  		}
-f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2249  	}
-f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2250  
-f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2251  	if (domain_id < 0) {
-f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2252  		dev_info(rdev, "FastRPC Invalid Domain ID %d\n", domain_id);
-f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2253  		return -EINVAL;
-f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2254  	}
-f6f9279f2bf0e3 Srinivas Kandagatla      2019-02-08  2255  
-1ce91d45ba77a4 Abel Vesa                2022-11-25  2256  	if (of_reserved_mem_device_init_by_idx(rdev, rdev->of_node, 0))
-1ce91d45ba77a4 Abel Vesa                2022-11-25  2257  		dev_info(rdev, "no reserved DMA memory for FASTRPC\n");
-1ce91d45ba77a4 Abel Vesa                2022-11-25  2258  
-e90d911906196b Vamsi Krishna Gattupalli 2022-02-14  2259  	vmcount = of_property_read_variable_u32_array(rdev->of_node,
-e90d911906196b Vamsi Krishna Gattupalli 2022-02-14  2260  				"qcom,vmids", &vmids[0], 0, FASTRPC_MAX_VMIDS);
-e90d911906196b Vamsi Krishna Gattupalli 2022-02-14  2261  	if (vmcount < 0)
-e90d911906196b Vamsi Krishna Gattupalli 2022-02-14  2262  		vmcount = 0;
-e90d911906196b Vamsi Krishna Gattupalli 2022-02-14  2263  	else if (!qcom_scm_is_available())
-e90d911906196b Vamsi Krishna Gattupalli 2022-02-14  2264  		return -EPROBE_DEFER;
-e90d911906196b Vamsi Krishna Gattupalli 2022-02-14  2265  
-278d56f970ae6e Bjorn Andersson          2019-08-29  2266  	data = kzalloc(sizeof(*data), GFP_KERNEL);
-278d56f970ae6e Bjorn Andersson          2019-08-29  2267  	if (!data)
-278d56f970ae6e Bjorn Andersson          2019-08-29  2268  		return -ENOMEM;
-278d56f970ae6e Bjorn Andersson          2019-08-29  2269  
-99edd50174e519 Dylan Van Assche         2023-03-25  2270  	assign_all_mem = of_property_read_bool(rdev->of_node, "qcom,assign-all-mem");
-99edd50174e519 Dylan Van Assche         2023-03-25  2271  
-99edd50174e519 Dylan Van Assche         2023-03-25  2272  	if (assign_all_mem && !vmcount)
-99edd50174e519 Dylan Van Assche         2023-03-25 @2273  		return -EINVAL;
+vim +/error +1552 fs/xfs/xfs_rtalloc.c
 
-Move this code before the data = kzalloc() allocation to avoid a memory
-leak.
+88d3de0890a01c Darrick J. Wong 2023-03-06  1517  STATIC int
+88d3de0890a01c Darrick J. Wong 2023-03-06  1518  xfs_rtfile_convert_one(
+88d3de0890a01c Darrick J. Wong 2023-03-06  1519  	struct xfs_inode	*ip,
+88d3de0890a01c Darrick J. Wong 2023-03-06  1520  	xfs_fileoff_t		*offp,
+88d3de0890a01c Darrick J. Wong 2023-03-06  1521  	xfs_fileoff_t		endoff)
+88d3de0890a01c Darrick J. Wong 2023-03-06  1522  {
+88d3de0890a01c Darrick J. Wong 2023-03-06  1523  	struct xfs_bmbt_irec	irec;
+88d3de0890a01c Darrick J. Wong 2023-03-06  1524  	struct xfs_mount	*mp = ip->i_mount;
+88d3de0890a01c Darrick J. Wong 2023-03-06  1525  	struct xfs_trans	*tp;
+88d3de0890a01c Darrick J. Wong 2023-03-06  1526  	unsigned int		resblks;
+88d3de0890a01c Darrick J. Wong 2023-03-06  1527  	int			nmap;
+88d3de0890a01c Darrick J. Wong 2023-03-06  1528  	int			error;
+88d3de0890a01c Darrick J. Wong 2023-03-06  1529  
+88d3de0890a01c Darrick J. Wong 2023-03-06  1530  	resblks = XFS_DIOSTRAT_SPACE_RES(mp, 1);
+88d3de0890a01c Darrick J. Wong 2023-03-06  1531  	error = xfs_trans_alloc(mp, &M_RES(mp)->tr_write, resblks, 0, 0, &tp);
+88d3de0890a01c Darrick J. Wong 2023-03-06  1532  	if (error)
+88d3de0890a01c Darrick J. Wong 2023-03-06  1533  		return error;
+88d3de0890a01c Darrick J. Wong 2023-03-06  1534  
+88d3de0890a01c Darrick J. Wong 2023-03-06  1535  	xfs_ilock(ip, XFS_ILOCK_EXCL);
+88d3de0890a01c Darrick J. Wong 2023-03-06  1536  	xfs_trans_ijoin(tp, ip, 0);
+88d3de0890a01c Darrick J. Wong 2023-03-06  1537  
+88d3de0890a01c Darrick J. Wong 2023-03-06  1538  	/*
+88d3de0890a01c Darrick J. Wong 2023-03-06  1539  	 * Read the mapping.  If we find an unwritten extent that isn't aligned
+88d3de0890a01c Darrick J. Wong 2023-03-06  1540  	 * to an rt extent boundary...
+88d3de0890a01c Darrick J. Wong 2023-03-06  1541  	 */
+88d3de0890a01c Darrick J. Wong 2023-03-06  1542  retry:
+88d3de0890a01c Darrick J. Wong 2023-03-06  1543  	nmap = 1;
+88d3de0890a01c Darrick J. Wong 2023-03-06  1544  	error = xfs_bmapi_read(ip, *offp, endoff - *offp, &irec, &nmap, 0);
+88d3de0890a01c Darrick J. Wong 2023-03-06  1545  	if (error)
+88d3de0890a01c Darrick J. Wong 2023-03-06  1546  		goto out_cancel;
+88d3de0890a01c Darrick J. Wong 2023-03-06  1547  	ASSERT(nmap == 1);
+88d3de0890a01c Darrick J. Wong 2023-03-06  1548  	ASSERT(irec.br_startoff == *offp);
+88d3de0890a01c Darrick J. Wong 2023-03-06  1549  	if (!xfs_rtfile_want_conversion(mp, &irec)) {
+88d3de0890a01c Darrick J. Wong 2023-03-06  1550  		*offp = irec.br_startoff + irec.br_blockcount;
+88d3de0890a01c Darrick J. Wong 2023-03-06  1551  		if (*offp >= endoff)
+88d3de0890a01c Darrick J. Wong 2023-03-06 @1552  			goto out_cancel;
 
-99edd50174e519 Dylan Van Assche         2023-03-25  2274  
-e90d911906196b Vamsi Krishna Gattupalli 2022-02-14  2275  	if (vmcount) {
-e90d911906196b Vamsi Krishna Gattupalli 2022-02-14  2276  		data->vmcount = vmcount;
-e90d911906196b Vamsi Krishna Gattupalli 2022-02-14  2277  		data->perms = BIT(QCOM_SCM_VMID_HLOS);
-e90d911906196b Vamsi Krishna Gattupalli 2022-02-14  2278  		for (i = 0; i < data->vmcount; i++) {
-e90d911906196b Vamsi Krishna Gattupalli 2022-02-14  2279  			data->vmperms[i].vmid = vmids[i];
-e90d911906196b Vamsi Krishna Gattupalli 2022-02-14  2280  			data->vmperms[i].perm = QCOM_SCM_PERM_RWX;
+error code?
+
+88d3de0890a01c Darrick J. Wong 2023-03-06  1553  		goto retry;
+88d3de0890a01c Darrick J. Wong 2023-03-06  1554  	}
+88d3de0890a01c Darrick J. Wong 2023-03-06  1555  
+88d3de0890a01c Darrick J. Wong 2023-03-06  1556  	/*
+88d3de0890a01c Darrick J. Wong 2023-03-06  1557  	 * ...make sure this partially unwritten rt extent gets converted to a
+88d3de0890a01c Darrick J. Wong 2023-03-06  1558  	 * zeroed written extent that we can remap.
+88d3de0890a01c Darrick J. Wong 2023-03-06  1559  	 */
+88d3de0890a01c Darrick J. Wong 2023-03-06  1560  	nmap = 1;
+88d3de0890a01c Darrick J. Wong 2023-03-06  1561  	error = xfs_bmapi_write(tp, ip, irec.br_startoff, irec.br_blockcount,
+88d3de0890a01c Darrick J. Wong 2023-03-06  1562  			XFS_BMAPI_CONVERT | XFS_BMAPI_ZERO, 0, &irec, &nmap);
+88d3de0890a01c Darrick J. Wong 2023-03-06  1563  	if (error)
+88d3de0890a01c Darrick J. Wong 2023-03-06  1564  		goto out_cancel;
+88d3de0890a01c Darrick J. Wong 2023-03-06  1565  	ASSERT(nmap == 1);
+88d3de0890a01c Darrick J. Wong 2023-03-06  1566  	if (irec.br_state != XFS_EXT_NORM) {
+88d3de0890a01c Darrick J. Wong 2023-03-06  1567  		ASSERT(0);
+88d3de0890a01c Darrick J. Wong 2023-03-06  1568  		error = -EIO;
+88d3de0890a01c Darrick J. Wong 2023-03-06  1569  		goto out_cancel;
+88d3de0890a01c Darrick J. Wong 2023-03-06  1570  	}
+88d3de0890a01c Darrick J. Wong 2023-03-06  1571  	error = xfs_trans_commit(tp);
+88d3de0890a01c Darrick J. Wong 2023-03-06  1572  	if (error)
+88d3de0890a01c Darrick J. Wong 2023-03-06  1573  		goto out_unlock;
+88d3de0890a01c Darrick J. Wong 2023-03-06  1574  
+88d3de0890a01c Darrick J. Wong 2023-03-06  1575  	xfs_iunlock(ip, XFS_ILOCK_EXCL);
+88d3de0890a01c Darrick J. Wong 2023-03-06  1576  	*offp = irec.br_startoff + irec.br_blockcount;
+88d3de0890a01c Darrick J. Wong 2023-03-06  1577  	return 0;
+88d3de0890a01c Darrick J. Wong 2023-03-06  1578  
+88d3de0890a01c Darrick J. Wong 2023-03-06  1579  out_cancel:
+88d3de0890a01c Darrick J. Wong 2023-03-06  1580  	xfs_trans_cancel(tp);
+88d3de0890a01c Darrick J. Wong 2023-03-06  1581  out_unlock:
+88d3de0890a01c Darrick J. Wong 2023-03-06  1582  	xfs_iunlock(ip, XFS_ILOCK_EXCL);
+88d3de0890a01c Darrick J. Wong 2023-03-06  1583  	return error;
+88d3de0890a01c Darrick J. Wong 2023-03-06  1584  }
 
 -- 
 0-DAY CI Kernel Test Service
