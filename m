@@ -1,42 +1,42 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1021433D9
-	for <oe-kbuild@lists.linux.dev>; Tue, 28 Mar 2023 13:08:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A47788BFB
+	for <oe-kbuild@lists.linux.dev>; Tue, 28 Mar 2023 15:31:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680008893; x=1711544893;
+  t=1680017483; x=1711553483;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=9L52U1zoez8LNk/6uLl2dSmp3Ox8WY6RtXhXWT/9lfY=;
-  b=LnkN6icsiUOiMekH6bUPjsl+MiO13j3XbyaTwD2DDlxlfRWGp1lg4tqR
-   jt+zZ1e8k/8orRNZRIWCLQvOd0pZV8Ds2JiNKyrQ2G2MKspdAQmMqfN/U
-   VtMek7jhL2DeFdib+lN7ityQtYGPAzvIyxuHyWBUA02WxJSmYNiLKNo4I
-   QSIgdqKUoM/HjEoWJvH9eAz/t7J1m4QvZvtJ+XFDv12voGPJ4iDeODPFT
-   ID4uge8QpgNpU8TEBDbZRhjqMc69a6mLFeiPs9AR9LusRVzHxGMrJ7x8c
-   JP5d0VkAMat8JE+bg9zZDSxpegjiNOB047Gv+6+SXfgS/ZYObHYL/ECKh
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10662"; a="342967144"
+  bh=j2jxhv1ZY8nkSztwyEoBS/aXdQdWKVeBO78eCtxzlSk=;
+  b=fd5F3WkNgMnj+EZSqM16My3V0N6VQ5xwmkCjTInla11ydUp6Upx6v47j
+   gjmfQoACqpvDN+PntyR5rpfnPOiHqW2Xi+td0PgObVr+sjsRRYDsgN9AY
+   FtVI6phJEHm+LVckkGHxUkD2+j50iRepxfT3CxFL984d1+rv0kqpYiIme
+   Y7tN2gR9M/aoIw2InnQiodyNZLxwEfY4i4VrzDtiLWxa9MqoygEl+hAKI
+   kl6c3qDD1rv1+0XlTbqML8IbeSC5uWgFLNQGD4EA8M7wA7Z6vQAjmZRsj
+   3UxXNCV9J4Vj1GwPCgkRX7YilQ/ffdF6ykYV8Jn28nI3ro+Zek3lI1oP1
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="405540642"
 X-IronPort-AV: E=Sophos;i="5.98,297,1673942400"; 
-   d="scan'208";a="342967144"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2023 06:08:05 -0700
+   d="scan'208";a="405540642"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2023 08:31:16 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10662"; a="716486674"
+X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="773183669"
 X-IronPort-AV: E=Sophos;i="5.98,297,1673942400"; 
-   d="scan'208";a="716486674"
+   d="scan'208";a="773183669"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 28 Mar 2023 06:08:04 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 28 Mar 2023 08:31:15 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ph93U-000IXz-0c;
-	Tue, 28 Mar 2023 13:08:04 +0000
-Date: Tue, 28 Mar 2023 21:07:22 +0800
+	id 1phBHx-000Ien-2H;
+	Tue, 28 Mar 2023 15:31:09 +0000
+Date: Tue, 28 Mar 2023 23:30:46 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: lib/zstd/compress/zstd_lazy.c:1605 ZSTD_compressBlock_lazy_generic()
- warn: Function too hairy.  No more merges.
-Message-ID: <202303282119.TmgXfBb2-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: Re: [PATCH 6/6] Input: cyttsp5: implement proper sleep and wakeup
+ procedures
+Message-ID: <202303282312.j5hmFKVi-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -46,283 +46,277 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Nick Terrell <terrelln@fb.com>
+:::::: 
+:::::: Manual check reason: "low confidence static check warning: drivers/input/touchscreen/cyttsp5.c:1003:21: warning: Value stored to 'client' during its initialization is never read [clang-analyzer-deadcode.DeadStores]"
+:::::: 
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   3a93e40326c8f470e71d20b4c42d36767450f38f
-commit: 2aa14b1ab2c41a4fe41efae80d58bb77da91f19f zstd: import usptream v1.5.2
-date:   5 months ago
-:::::: branch date: 18 hours ago
-:::::: commit date: 5 months ago
-config: x86_64-randconfig-m001 (https://download.01.org/0day-ci/archive/20230328/202303282119.TmgXfBb2-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+BCC: lkp@intel.com
+CC: llvm@lists.linux.dev
+CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20230323135205.1160879-7-mweigand@mweigand.net>
+References: <20230323135205.1160879-7-mweigand@mweigand.net>
+TO: Maximilian Weigand <mweigand@mweigand.net>
+TO: Linus Walleij <linus.walleij@linaro.org>
+TO: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+TO: linux-input@vger.kernel.org
+TO: linux-kernel@vger.kernel.org
+TO: devicetree@vger.kernel.org
+CC: Maximilian Weigand <mweigand@mweigand.net>
+CC: Alistair Francis <alistair@alistair23.me>
+
+Hi Maximilian,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on dtor-input/next]
+[also build test WARNING on dtor-input/for-linus linus/master v6.3-rc4 next-20230328]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Maximilian-Weigand/Input-cyttsp5-fix-array-length/20230323-215957
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
+patch link:    https://lore.kernel.org/r/20230323135205.1160879-7-mweigand%40mweigand.net
+patch subject: [PATCH 6/6] Input: cyttsp5: implement proper sleep and wakeup procedures
+:::::: branch date: 5 days ago
+:::::: commit date: 5 days ago
+config: riscv-randconfig-c006-20230322 (https://download.01.org/0day-ci/archive/20230328/202303282312.j5hmFKVi-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        # https://github.com/intel-lab-lkp/linux/commit/9988f8132aa9a4e8c9f0eb3093b06a9f02d90ec9
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Maximilian-Weigand/Input-cyttsp5-fix-array-length/20230323-215957
+        git checkout 9988f8132aa9a4e8c9f0eb3093b06a9f02d90ec9
+        # save the config file
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=riscv clang-analyzer  olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=riscv clang-analyzer 
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202303282119.TmgXfBb2-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202303282312.j5hmFKVi-lkp@intel.com/
 
-New smatch warnings:
-lib/zstd/compress/zstd_lazy.c:1605 ZSTD_compressBlock_lazy_generic() warn: Function too hairy.  No more merges.
+clang_analyzer warnings: (new ones prefixed by >>)
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_var'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+                                 ^
+   drivers/input/mouse/psmouse-base.c:712:6: note: 'set_properties' is true
+           if (set_properties) {
+               ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_var'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+                                                                                        ^~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_value'
+           (cond) ?                                        \
+            ^~~~
+   drivers/input/mouse/psmouse-base.c:712:2: note: '?' condition is true
+           if (set_properties) {
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_var'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_value'
+           (cond) ?                                        \
+           ^
+   drivers/input/mouse/psmouse-base.c:712:2: note: Taking true branch
+           if (set_properties) {
+           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   drivers/input/mouse/psmouse-base.c:716:3: note: Left side of '&&' is true
+                   __set_bit(BTN_MIDDLE, psmouse->dev->keybit);
+                   ^
+   include/linux/bitops.h:55:30: note: expanded from macro '__set_bit'
+   #define __set_bit(nr, addr)             bitop(___set_bit, nr, addr)
+                                           ^
+   include/linux/bitops.h:49:4: note: expanded from macro 'bitop'
+           ((__builtin_constant_p(nr) &&                                   \
+             ^
+   drivers/input/mouse/psmouse-base.c:716:3: note: Assuming field 'keybit' is equal to 0
+                   __set_bit(BTN_MIDDLE, psmouse->dev->keybit);
+                   ^
+   include/linux/bitops.h:55:30: note: expanded from macro '__set_bit'
+   #define __set_bit(nr, addr)             bitop(___set_bit, nr, addr)
+                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/bitops.h:50:25: note: expanded from macro 'bitop'
+             __builtin_constant_p((uintptr_t)(addr) != (uintptr_t)NULL) && \
+                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/input/mouse/psmouse-base.c:716:3: note: Left side of '&&' is false
+                   __set_bit(BTN_MIDDLE, psmouse->dev->keybit);
+                   ^
+   include/linux/bitops.h:55:30: note: expanded from macro '__set_bit'
+   #define __set_bit(nr, addr)             bitop(___set_bit, nr, addr)
+                                           ^
+   include/linux/bitops.h:50:63: note: expanded from macro 'bitop'
+             __builtin_constant_p((uintptr_t)(addr) != (uintptr_t)NULL) && \
+                                                                        ^
+   drivers/input/mouse/psmouse-base.c:716:25: note: Passing null pointer value via 2nd parameter 'addr'
+                   __set_bit(BTN_MIDDLE, psmouse->dev->keybit);
+                                         ^
+   include/linux/bitops.h:55:52: note: expanded from macro '__set_bit'
+   #define __set_bit(nr, addr)             bitop(___set_bit, nr, addr)
+                                                                 ^~~~
+   include/linux/bitops.h:53:32: note: expanded from macro 'bitop'
+            const##op(nr, addr) : op(nr, addr))
+                                         ^~~~
+   drivers/input/mouse/psmouse-base.c:716:3: note: Calling 'generic___set_bit'
+                   __set_bit(BTN_MIDDLE, psmouse->dev->keybit);
+                   ^
+   include/linux/bitops.h:55:36: note: expanded from macro '__set_bit'
+   #define __set_bit(nr, addr)             bitop(___set_bit, nr, addr)
+                                           ~~~~~~^~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/bitops/non-instrumented-non-atomic.h:6:21: note: expanded from macro '___set_bit'
+   #define ___set_bit              arch___set_bit
+                                   ^
+   include/asm-generic/bitops/non-atomic.h:7:24: note: expanded from macro 'arch___set_bit'
+   #define arch___set_bit generic___set_bit
+                          ^
+   include/linux/bitops.h:53:25: note: expanded from macro 'bitop'
+            const##op(nr, addr) : op(nr, addr))
+                                  ^~~~~~~~~~~~
+   include/asm-generic/bitops/generic-non-atomic.h:31:2: note: 'p' initialized to a null pointer value
+           unsigned long *p = ((unsigned long *)addr) + BIT_WORD(nr);
+           ^~~~~~~~~~~~~~~~
+   include/asm-generic/bitops/generic-non-atomic.h:33:6: note: Dereference of null pointer (loaded from variable 'p')
+           *p  |= mask;
+            ~  ^
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   15 warnings generated.
+>> drivers/input/touchscreen/cyttsp5.c:1003:21: warning: Value stored to 'client' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct i2c_client *client = to_i2c_client(dev);
+                              ^~~~~~
+   drivers/input/touchscreen/cyttsp5.c:1003:21: note: Value stored to 'client' during its initialization is never read
+           struct i2c_client *client = to_i2c_client(dev);
+                              ^~~~~~
+   include/asm-generic/bitops/generic-non-atomic.h:33:6: warning: Dereference of null pointer (loaded from variable 'p') [clang-analyzer-core.NullDereference]
+           *p  |= mask;
+               ^
+   drivers/input/touchscreen/cyttsp5.c:877:6: note: Assuming 'ts' is non-null
+           if (!ts)
+               ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_var'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+                                                      ^~~~
+   drivers/input/touchscreen/cyttsp5.c:877:2: note: '?' condition is false
+           if (!ts)
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_var'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+                                 ^
+   drivers/input/touchscreen/cyttsp5.c:877:7: note: 'ts' is non-null
+           if (!ts)
+                ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_var'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+                                                                                        ^~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_value'
+           (cond) ?                                        \
+            ^~~~
+   drivers/input/touchscreen/cyttsp5.c:877:2: note: '?' condition is false
+           if (!ts)
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_var'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_value'
+           (cond) ?                                        \
+           ^
+   drivers/input/touchscreen/cyttsp5.c:877:2: note: Taking false branch
+           if (!ts)
+           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   drivers/input/touchscreen/cyttsp5.c:891:2: note: '?' condition is false
+           if (IS_ERR(ts->vdd)) {
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_var'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+                                 ^
+   drivers/input/touchscreen/cyttsp5.c:891:2: note: '?' condition is false
+           if (IS_ERR(ts->vdd)) {
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_var'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_value'
+           (cond) ?                                        \
+           ^
+   drivers/input/touchscreen/cyttsp5.c:891:2: note: Taking false branch
+           if (IS_ERR(ts->vdd)) {
+           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   drivers/input/touchscreen/cyttsp5.c:897:2: note: '?' condition is false
+           if (error)
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_var'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+                                 ^
+   drivers/input/touchscreen/cyttsp5.c:897:6: note: 'error' is 0
+           if (error)
+               ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_var'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
 
-Old smatch warnings:
-lib/zstd/compress/zstd_lazy.c:1577 ZSTD_compressBlock_lazy_generic() warn: if statement not indented
-lib/zstd/compress/zstd_lazy.c:1915 ZSTD_compressBlock_lazy_extDict_generic() warn: if statement not indented
-lib/zstd/compress/zstd_lazy.c:1937 ZSTD_compressBlock_lazy_extDict_generic() warn: if statement not indented
-lib/zstd/compress/zstd_lazy.c:1947 ZSTD_compressBlock_lazy_extDict_generic() warn: if statement not indented
-lib/zstd/compress/zstd_lazy.c:1979 ZSTD_compressBlock_lazy_extDict_generic() warn: if statement not indented
-lib/zstd/compress/zstd_lazy.c:2026 ZSTD_compressBlock_lazy_extDict_generic() warn: if statement not indented
+vim +/client +1003 drivers/input/touchscreen/cyttsp5.c
 
-vim +1605 lib/zstd/compress/zstd_lazy.c
-
-e0c1b49f5b674c Nick Terrell 2020-09-11  1474  
-e0c1b49f5b674c Nick Terrell 2020-09-11  1475  FORCE_INLINE_TEMPLATE size_t
-e0c1b49f5b674c Nick Terrell 2020-09-11  1476  ZSTD_compressBlock_lazy_generic(
-e0c1b49f5b674c Nick Terrell 2020-09-11  1477                          ZSTD_matchState_t* ms, seqStore_t* seqStore,
-e0c1b49f5b674c Nick Terrell 2020-09-11  1478                          U32 rep[ZSTD_REP_NUM],
-e0c1b49f5b674c Nick Terrell 2020-09-11  1479                          const void* src, size_t srcSize,
-e0c1b49f5b674c Nick Terrell 2020-09-11  1480                          const searchMethod_e searchMethod, const U32 depth,
-e0c1b49f5b674c Nick Terrell 2020-09-11  1481                          ZSTD_dictMode_e const dictMode)
-e0c1b49f5b674c Nick Terrell 2020-09-11  1482  {
-e0c1b49f5b674c Nick Terrell 2020-09-11  1483      const BYTE* const istart = (const BYTE*)src;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1484      const BYTE* ip = istart;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1485      const BYTE* anchor = istart;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1486      const BYTE* const iend = istart + srcSize;
-2aa14b1ab2c41a Nick Terrell 2022-10-17  1487      const BYTE* const ilimit = (searchMethod == search_rowHash) ? iend - 8 - ZSTD_ROW_HASH_CACHE_SIZE : iend - 8;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1488      const BYTE* const base = ms->window.base;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1489      const U32 prefixLowestIndex = ms->window.dictLimit;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1490      const BYTE* const prefixLowest = base + prefixLowestIndex;
-2aa14b1ab2c41a Nick Terrell 2022-10-17  1491      const U32 mls = BOUNDED(4, ms->cParams.minMatch, 6);
-2aa14b1ab2c41a Nick Terrell 2022-10-17  1492      const U32 rowLog = BOUNDED(4, ms->cParams.searchLog, 6);
-e0c1b49f5b674c Nick Terrell 2020-09-11  1493  
-e0c1b49f5b674c Nick Terrell 2020-09-11  1494      U32 offset_1 = rep[0], offset_2 = rep[1], savedOffset=0;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1495  
-e0c1b49f5b674c Nick Terrell 2020-09-11  1496      const int isDMS = dictMode == ZSTD_dictMatchState;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1497      const int isDDS = dictMode == ZSTD_dedicatedDictSearch;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1498      const int isDxS = isDMS || isDDS;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1499      const ZSTD_matchState_t* const dms = ms->dictMatchState;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1500      const U32 dictLowestIndex      = isDxS ? dms->window.dictLimit : 0;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1501      const BYTE* const dictBase     = isDxS ? dms->window.base : NULL;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1502      const BYTE* const dictLowest   = isDxS ? dictBase + dictLowestIndex : NULL;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1503      const BYTE* const dictEnd      = isDxS ? dms->window.nextSrc : NULL;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1504      const U32 dictIndexDelta       = isDxS ?
-e0c1b49f5b674c Nick Terrell 2020-09-11  1505                                       prefixLowestIndex - (U32)(dictEnd - dictBase) :
-e0c1b49f5b674c Nick Terrell 2020-09-11  1506                                       0;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1507      const U32 dictAndPrefixLength = (U32)((ip - prefixLowest) + (dictEnd - dictLowest));
-e0c1b49f5b674c Nick Terrell 2020-09-11  1508  
-2aa14b1ab2c41a Nick Terrell 2022-10-17  1509      DEBUGLOG(5, "ZSTD_compressBlock_lazy_generic (dictMode=%u) (searchFunc=%u)", (U32)dictMode, (U32)searchMethod);
-e0c1b49f5b674c Nick Terrell 2020-09-11  1510      ip += (dictAndPrefixLength == 0);
-e0c1b49f5b674c Nick Terrell 2020-09-11  1511      if (dictMode == ZSTD_noDict) {
-e0c1b49f5b674c Nick Terrell 2020-09-11  1512          U32 const curr = (U32)(ip - base);
-e0c1b49f5b674c Nick Terrell 2020-09-11  1513          U32 const windowLow = ZSTD_getLowestPrefixIndex(ms, curr, ms->cParams.windowLog);
-e0c1b49f5b674c Nick Terrell 2020-09-11  1514          U32 const maxRep = curr - windowLow;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1515          if (offset_2 > maxRep) savedOffset = offset_2, offset_2 = 0;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1516          if (offset_1 > maxRep) savedOffset = offset_1, offset_1 = 0;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1517      }
-e0c1b49f5b674c Nick Terrell 2020-09-11  1518      if (isDxS) {
-e0c1b49f5b674c Nick Terrell 2020-09-11  1519          /* dictMatchState repCode checks don't currently handle repCode == 0
-e0c1b49f5b674c Nick Terrell 2020-09-11  1520           * disabling. */
-e0c1b49f5b674c Nick Terrell 2020-09-11  1521          assert(offset_1 <= dictAndPrefixLength);
-e0c1b49f5b674c Nick Terrell 2020-09-11  1522          assert(offset_2 <= dictAndPrefixLength);
-e0c1b49f5b674c Nick Terrell 2020-09-11  1523      }
-e0c1b49f5b674c Nick Terrell 2020-09-11  1524  
-2aa14b1ab2c41a Nick Terrell 2022-10-17  1525      if (searchMethod == search_rowHash) {
-2aa14b1ab2c41a Nick Terrell 2022-10-17  1526          ZSTD_row_fillHashCache(ms, base, rowLog,
-2aa14b1ab2c41a Nick Terrell 2022-10-17  1527                              MIN(ms->cParams.minMatch, 6 /* mls caps out at 6 */),
-2aa14b1ab2c41a Nick Terrell 2022-10-17  1528                              ms->nextToUpdate, ilimit);
-2aa14b1ab2c41a Nick Terrell 2022-10-17  1529      }
-2aa14b1ab2c41a Nick Terrell 2022-10-17  1530  
-e0c1b49f5b674c Nick Terrell 2020-09-11  1531      /* Match Loop */
-e0c1b49f5b674c Nick Terrell 2020-09-11  1532  #if defined(__x86_64__)
-e0c1b49f5b674c Nick Terrell 2020-09-11  1533      /* I've measured random a 5% speed loss on levels 5 & 6 (greedy) when the
-e0c1b49f5b674c Nick Terrell 2020-09-11  1534       * code alignment is perturbed. To fix the instability align the loop on 32-bytes.
-e0c1b49f5b674c Nick Terrell 2020-09-11  1535       */
-e0c1b49f5b674c Nick Terrell 2020-09-11  1536      __asm__(".p2align 5");
-e0c1b49f5b674c Nick Terrell 2020-09-11  1537  #endif
-e0c1b49f5b674c Nick Terrell 2020-09-11  1538      while (ip < ilimit) {
-e0c1b49f5b674c Nick Terrell 2020-09-11  1539          size_t matchLength=0;
-2aa14b1ab2c41a Nick Terrell 2022-10-17  1540          size_t offcode=STORE_REPCODE_1;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1541          const BYTE* start=ip+1;
-2aa14b1ab2c41a Nick Terrell 2022-10-17  1542          DEBUGLOG(7, "search baseline (depth 0)");
-e0c1b49f5b674c Nick Terrell 2020-09-11  1543  
-e0c1b49f5b674c Nick Terrell 2020-09-11  1544          /* check repCode */
-e0c1b49f5b674c Nick Terrell 2020-09-11  1545          if (isDxS) {
-e0c1b49f5b674c Nick Terrell 2020-09-11  1546              const U32 repIndex = (U32)(ip - base) + 1 - offset_1;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1547              const BYTE* repMatch = ((dictMode == ZSTD_dictMatchState || dictMode == ZSTD_dedicatedDictSearch)
-e0c1b49f5b674c Nick Terrell 2020-09-11  1548                                  && repIndex < prefixLowestIndex) ?
-e0c1b49f5b674c Nick Terrell 2020-09-11  1549                                     dictBase + (repIndex - dictIndexDelta) :
-e0c1b49f5b674c Nick Terrell 2020-09-11  1550                                     base + repIndex;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1551              if (((U32)((prefixLowestIndex-1) - repIndex) >= 3 /* intentional underflow */)
-e0c1b49f5b674c Nick Terrell 2020-09-11  1552                  && (MEM_read32(repMatch) == MEM_read32(ip+1)) ) {
-e0c1b49f5b674c Nick Terrell 2020-09-11  1553                  const BYTE* repMatchEnd = repIndex < prefixLowestIndex ? dictEnd : iend;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1554                  matchLength = ZSTD_count_2segments(ip+1+4, repMatch+4, iend, repMatchEnd, prefixLowest) + 4;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1555                  if (depth==0) goto _storeSequence;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1556              }
-e0c1b49f5b674c Nick Terrell 2020-09-11  1557          }
-e0c1b49f5b674c Nick Terrell 2020-09-11  1558          if ( dictMode == ZSTD_noDict
-e0c1b49f5b674c Nick Terrell 2020-09-11  1559            && ((offset_1 > 0) & (MEM_read32(ip+1-offset_1) == MEM_read32(ip+1)))) {
-e0c1b49f5b674c Nick Terrell 2020-09-11  1560              matchLength = ZSTD_count(ip+1+4, ip+1+4-offset_1, iend) + 4;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1561              if (depth==0) goto _storeSequence;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1562          }
-e0c1b49f5b674c Nick Terrell 2020-09-11  1563  
-e0c1b49f5b674c Nick Terrell 2020-09-11  1564          /* first search (depth 0) */
-e0c1b49f5b674c Nick Terrell 2020-09-11  1565          {   size_t offsetFound = 999999999;
-2aa14b1ab2c41a Nick Terrell 2022-10-17  1566              size_t const ml2 = ZSTD_searchMax(ms, ip, iend, &offsetFound, mls, rowLog, searchMethod, dictMode);
-e0c1b49f5b674c Nick Terrell 2020-09-11  1567              if (ml2 > matchLength)
-2aa14b1ab2c41a Nick Terrell 2022-10-17  1568                  matchLength = ml2, start = ip, offcode=offsetFound;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1569          }
-e0c1b49f5b674c Nick Terrell 2020-09-11  1570  
-e0c1b49f5b674c Nick Terrell 2020-09-11  1571          if (matchLength < 4) {
-e0c1b49f5b674c Nick Terrell 2020-09-11  1572              ip += ((ip-anchor) >> kSearchStrength) + 1;   /* jump faster over incompressible sections */
-e0c1b49f5b674c Nick Terrell 2020-09-11  1573              continue;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1574          }
-e0c1b49f5b674c Nick Terrell 2020-09-11  1575  
-e0c1b49f5b674c Nick Terrell 2020-09-11  1576          /* let's try to find a better solution */
-e0c1b49f5b674c Nick Terrell 2020-09-11  1577          if (depth>=1)
-e0c1b49f5b674c Nick Terrell 2020-09-11  1578          while (ip<ilimit) {
-2aa14b1ab2c41a Nick Terrell 2022-10-17  1579              DEBUGLOG(7, "search depth 1");
-e0c1b49f5b674c Nick Terrell 2020-09-11  1580              ip ++;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1581              if ( (dictMode == ZSTD_noDict)
-2aa14b1ab2c41a Nick Terrell 2022-10-17  1582                && (offcode) && ((offset_1>0) & (MEM_read32(ip) == MEM_read32(ip - offset_1)))) {
-e0c1b49f5b674c Nick Terrell 2020-09-11  1583                  size_t const mlRep = ZSTD_count(ip+4, ip+4-offset_1, iend) + 4;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1584                  int const gain2 = (int)(mlRep * 3);
-2aa14b1ab2c41a Nick Terrell 2022-10-17  1585                  int const gain1 = (int)(matchLength*3 - ZSTD_highbit32((U32)STORED_TO_OFFBASE(offcode)) + 1);
-e0c1b49f5b674c Nick Terrell 2020-09-11  1586                  if ((mlRep >= 4) && (gain2 > gain1))
-2aa14b1ab2c41a Nick Terrell 2022-10-17  1587                      matchLength = mlRep, offcode = STORE_REPCODE_1, start = ip;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1588              }
-e0c1b49f5b674c Nick Terrell 2020-09-11  1589              if (isDxS) {
-e0c1b49f5b674c Nick Terrell 2020-09-11  1590                  const U32 repIndex = (U32)(ip - base) - offset_1;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1591                  const BYTE* repMatch = repIndex < prefixLowestIndex ?
-e0c1b49f5b674c Nick Terrell 2020-09-11  1592                                 dictBase + (repIndex - dictIndexDelta) :
-e0c1b49f5b674c Nick Terrell 2020-09-11  1593                                 base + repIndex;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1594                  if (((U32)((prefixLowestIndex-1) - repIndex) >= 3 /* intentional underflow */)
-e0c1b49f5b674c Nick Terrell 2020-09-11  1595                      && (MEM_read32(repMatch) == MEM_read32(ip)) ) {
-e0c1b49f5b674c Nick Terrell 2020-09-11  1596                      const BYTE* repMatchEnd = repIndex < prefixLowestIndex ? dictEnd : iend;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1597                      size_t const mlRep = ZSTD_count_2segments(ip+4, repMatch+4, iend, repMatchEnd, prefixLowest) + 4;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1598                      int const gain2 = (int)(mlRep * 3);
-2aa14b1ab2c41a Nick Terrell 2022-10-17  1599                      int const gain1 = (int)(matchLength*3 - ZSTD_highbit32((U32)STORED_TO_OFFBASE(offcode)) + 1);
-e0c1b49f5b674c Nick Terrell 2020-09-11  1600                      if ((mlRep >= 4) && (gain2 > gain1))
-2aa14b1ab2c41a Nick Terrell 2022-10-17  1601                          matchLength = mlRep, offcode = STORE_REPCODE_1, start = ip;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1602                  }
-e0c1b49f5b674c Nick Terrell 2020-09-11  1603              }
-e0c1b49f5b674c Nick Terrell 2020-09-11  1604              {   size_t offset2=999999999;
-2aa14b1ab2c41a Nick Terrell 2022-10-17 @1605                  size_t const ml2 = ZSTD_searchMax(ms, ip, iend, &offset2, mls, rowLog, searchMethod, dictMode);
-2aa14b1ab2c41a Nick Terrell 2022-10-17  1606                  int const gain2 = (int)(ml2*4 - ZSTD_highbit32((U32)STORED_TO_OFFBASE(offset2)));   /* raw approx */
-2aa14b1ab2c41a Nick Terrell 2022-10-17  1607                  int const gain1 = (int)(matchLength*4 - ZSTD_highbit32((U32)STORED_TO_OFFBASE(offcode)) + 4);
-e0c1b49f5b674c Nick Terrell 2020-09-11  1608                  if ((ml2 >= 4) && (gain2 > gain1)) {
-2aa14b1ab2c41a Nick Terrell 2022-10-17  1609                      matchLength = ml2, offcode = offset2, start = ip;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1610                      continue;   /* search a better one */
-e0c1b49f5b674c Nick Terrell 2020-09-11  1611              }   }
-e0c1b49f5b674c Nick Terrell 2020-09-11  1612  
-e0c1b49f5b674c Nick Terrell 2020-09-11  1613              /* let's find an even better one */
-e0c1b49f5b674c Nick Terrell 2020-09-11  1614              if ((depth==2) && (ip<ilimit)) {
-2aa14b1ab2c41a Nick Terrell 2022-10-17  1615                  DEBUGLOG(7, "search depth 2");
-e0c1b49f5b674c Nick Terrell 2020-09-11  1616                  ip ++;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1617                  if ( (dictMode == ZSTD_noDict)
-2aa14b1ab2c41a Nick Terrell 2022-10-17  1618                    && (offcode) && ((offset_1>0) & (MEM_read32(ip) == MEM_read32(ip - offset_1)))) {
-e0c1b49f5b674c Nick Terrell 2020-09-11  1619                      size_t const mlRep = ZSTD_count(ip+4, ip+4-offset_1, iend) + 4;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1620                      int const gain2 = (int)(mlRep * 4);
-2aa14b1ab2c41a Nick Terrell 2022-10-17  1621                      int const gain1 = (int)(matchLength*4 - ZSTD_highbit32((U32)STORED_TO_OFFBASE(offcode)) + 1);
-e0c1b49f5b674c Nick Terrell 2020-09-11  1622                      if ((mlRep >= 4) && (gain2 > gain1))
-2aa14b1ab2c41a Nick Terrell 2022-10-17  1623                          matchLength = mlRep, offcode = STORE_REPCODE_1, start = ip;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1624                  }
-e0c1b49f5b674c Nick Terrell 2020-09-11  1625                  if (isDxS) {
-e0c1b49f5b674c Nick Terrell 2020-09-11  1626                      const U32 repIndex = (U32)(ip - base) - offset_1;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1627                      const BYTE* repMatch = repIndex < prefixLowestIndex ?
-e0c1b49f5b674c Nick Terrell 2020-09-11  1628                                     dictBase + (repIndex - dictIndexDelta) :
-e0c1b49f5b674c Nick Terrell 2020-09-11  1629                                     base + repIndex;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1630                      if (((U32)((prefixLowestIndex-1) - repIndex) >= 3 /* intentional underflow */)
-e0c1b49f5b674c Nick Terrell 2020-09-11  1631                          && (MEM_read32(repMatch) == MEM_read32(ip)) ) {
-e0c1b49f5b674c Nick Terrell 2020-09-11  1632                          const BYTE* repMatchEnd = repIndex < prefixLowestIndex ? dictEnd : iend;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1633                          size_t const mlRep = ZSTD_count_2segments(ip+4, repMatch+4, iend, repMatchEnd, prefixLowest) + 4;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1634                          int const gain2 = (int)(mlRep * 4);
-2aa14b1ab2c41a Nick Terrell 2022-10-17  1635                          int const gain1 = (int)(matchLength*4 - ZSTD_highbit32((U32)STORED_TO_OFFBASE(offcode)) + 1);
-e0c1b49f5b674c Nick Terrell 2020-09-11  1636                          if ((mlRep >= 4) && (gain2 > gain1))
-2aa14b1ab2c41a Nick Terrell 2022-10-17  1637                              matchLength = mlRep, offcode = STORE_REPCODE_1, start = ip;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1638                      }
-e0c1b49f5b674c Nick Terrell 2020-09-11  1639                  }
-e0c1b49f5b674c Nick Terrell 2020-09-11  1640                  {   size_t offset2=999999999;
-2aa14b1ab2c41a Nick Terrell 2022-10-17  1641                      size_t const ml2 = ZSTD_searchMax(ms, ip, iend, &offset2, mls, rowLog, searchMethod, dictMode);
-2aa14b1ab2c41a Nick Terrell 2022-10-17  1642                      int const gain2 = (int)(ml2*4 - ZSTD_highbit32((U32)STORED_TO_OFFBASE(offset2)));   /* raw approx */
-2aa14b1ab2c41a Nick Terrell 2022-10-17  1643                      int const gain1 = (int)(matchLength*4 - ZSTD_highbit32((U32)STORED_TO_OFFBASE(offcode)) + 7);
-e0c1b49f5b674c Nick Terrell 2020-09-11  1644                      if ((ml2 >= 4) && (gain2 > gain1)) {
-2aa14b1ab2c41a Nick Terrell 2022-10-17  1645                          matchLength = ml2, offcode = offset2, start = ip;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1646                          continue;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1647              }   }   }
-e0c1b49f5b674c Nick Terrell 2020-09-11  1648              break;  /* nothing found : store previous solution */
-e0c1b49f5b674c Nick Terrell 2020-09-11  1649          }
-e0c1b49f5b674c Nick Terrell 2020-09-11  1650  
-e0c1b49f5b674c Nick Terrell 2020-09-11  1651          /* NOTE:
-2aa14b1ab2c41a Nick Terrell 2022-10-17  1652           * Pay attention that `start[-value]` can lead to strange undefined behavior
-2aa14b1ab2c41a Nick Terrell 2022-10-17  1653           * notably if `value` is unsigned, resulting in a large positive `-value`.
-e0c1b49f5b674c Nick Terrell 2020-09-11  1654           */
-e0c1b49f5b674c Nick Terrell 2020-09-11  1655          /* catch up */
-2aa14b1ab2c41a Nick Terrell 2022-10-17  1656          if (STORED_IS_OFFSET(offcode)) {
-e0c1b49f5b674c Nick Terrell 2020-09-11  1657              if (dictMode == ZSTD_noDict) {
-2aa14b1ab2c41a Nick Terrell 2022-10-17  1658                  while ( ((start > anchor) & (start - STORED_OFFSET(offcode) > prefixLowest))
-2aa14b1ab2c41a Nick Terrell 2022-10-17  1659                       && (start[-1] == (start-STORED_OFFSET(offcode))[-1]) )  /* only search for offset within prefix */
-e0c1b49f5b674c Nick Terrell 2020-09-11  1660                      { start--; matchLength++; }
-e0c1b49f5b674c Nick Terrell 2020-09-11  1661              }
-e0c1b49f5b674c Nick Terrell 2020-09-11  1662              if (isDxS) {
-2aa14b1ab2c41a Nick Terrell 2022-10-17  1663                  U32 const matchIndex = (U32)((size_t)(start-base) - STORED_OFFSET(offcode));
-e0c1b49f5b674c Nick Terrell 2020-09-11  1664                  const BYTE* match = (matchIndex < prefixLowestIndex) ? dictBase + matchIndex - dictIndexDelta : base + matchIndex;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1665                  const BYTE* const mStart = (matchIndex < prefixLowestIndex) ? dictLowest : prefixLowest;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1666                  while ((start>anchor) && (match>mStart) && (start[-1] == match[-1])) { start--; match--; matchLength++; }  /* catch up */
-e0c1b49f5b674c Nick Terrell 2020-09-11  1667              }
-2aa14b1ab2c41a Nick Terrell 2022-10-17  1668              offset_2 = offset_1; offset_1 = (U32)STORED_OFFSET(offcode);
-e0c1b49f5b674c Nick Terrell 2020-09-11  1669          }
-e0c1b49f5b674c Nick Terrell 2020-09-11  1670          /* store sequence */
-e0c1b49f5b674c Nick Terrell 2020-09-11  1671  _storeSequence:
-2aa14b1ab2c41a Nick Terrell 2022-10-17  1672          {   size_t const litLength = (size_t)(start - anchor);
-2aa14b1ab2c41a Nick Terrell 2022-10-17  1673              ZSTD_storeSeq(seqStore, litLength, anchor, iend, (U32)offcode, matchLength);
-e0c1b49f5b674c Nick Terrell 2020-09-11  1674              anchor = ip = start + matchLength;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1675          }
-e0c1b49f5b674c Nick Terrell 2020-09-11  1676  
-e0c1b49f5b674c Nick Terrell 2020-09-11  1677          /* check immediate repcode */
-e0c1b49f5b674c Nick Terrell 2020-09-11  1678          if (isDxS) {
-e0c1b49f5b674c Nick Terrell 2020-09-11  1679              while (ip <= ilimit) {
-e0c1b49f5b674c Nick Terrell 2020-09-11  1680                  U32 const current2 = (U32)(ip-base);
-e0c1b49f5b674c Nick Terrell 2020-09-11  1681                  U32 const repIndex = current2 - offset_2;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1682                  const BYTE* repMatch = repIndex < prefixLowestIndex ?
-e0c1b49f5b674c Nick Terrell 2020-09-11  1683                          dictBase - dictIndexDelta + repIndex :
-e0c1b49f5b674c Nick Terrell 2020-09-11  1684                          base + repIndex;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1685                  if ( ((U32)((prefixLowestIndex-1) - (U32)repIndex) >= 3 /* intentional overflow */)
-e0c1b49f5b674c Nick Terrell 2020-09-11  1686                     && (MEM_read32(repMatch) == MEM_read32(ip)) ) {
-e0c1b49f5b674c Nick Terrell 2020-09-11  1687                      const BYTE* const repEnd2 = repIndex < prefixLowestIndex ? dictEnd : iend;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1688                      matchLength = ZSTD_count_2segments(ip+4, repMatch+4, iend, repEnd2, prefixLowest) + 4;
-2aa14b1ab2c41a Nick Terrell 2022-10-17  1689                      offcode = offset_2; offset_2 = offset_1; offset_1 = (U32)offcode;   /* swap offset_2 <=> offset_1 */
-2aa14b1ab2c41a Nick Terrell 2022-10-17  1690                      ZSTD_storeSeq(seqStore, 0, anchor, iend, STORE_REPCODE_1, matchLength);
-e0c1b49f5b674c Nick Terrell 2020-09-11  1691                      ip += matchLength;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1692                      anchor = ip;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1693                      continue;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1694                  }
-e0c1b49f5b674c Nick Terrell 2020-09-11  1695                  break;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1696              }
-e0c1b49f5b674c Nick Terrell 2020-09-11  1697          }
-e0c1b49f5b674c Nick Terrell 2020-09-11  1698  
-e0c1b49f5b674c Nick Terrell 2020-09-11  1699          if (dictMode == ZSTD_noDict) {
-e0c1b49f5b674c Nick Terrell 2020-09-11  1700              while ( ((ip <= ilimit) & (offset_2>0))
-e0c1b49f5b674c Nick Terrell 2020-09-11  1701                   && (MEM_read32(ip) == MEM_read32(ip - offset_2)) ) {
-e0c1b49f5b674c Nick Terrell 2020-09-11  1702                  /* store sequence */
-e0c1b49f5b674c Nick Terrell 2020-09-11  1703                  matchLength = ZSTD_count(ip+4, ip+4-offset_2, iend) + 4;
-2aa14b1ab2c41a Nick Terrell 2022-10-17  1704                  offcode = offset_2; offset_2 = offset_1; offset_1 = (U32)offcode; /* swap repcodes */
-2aa14b1ab2c41a Nick Terrell 2022-10-17  1705                  ZSTD_storeSeq(seqStore, 0, anchor, iend, STORE_REPCODE_1, matchLength);
-e0c1b49f5b674c Nick Terrell 2020-09-11  1706                  ip += matchLength;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1707                  anchor = ip;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1708                  continue;   /* faster when present ... (?) */
-e0c1b49f5b674c Nick Terrell 2020-09-11  1709      }   }   }
-e0c1b49f5b674c Nick Terrell 2020-09-11  1710  
-e0c1b49f5b674c Nick Terrell 2020-09-11  1711      /* Save reps for next block */
-e0c1b49f5b674c Nick Terrell 2020-09-11  1712      rep[0] = offset_1 ? offset_1 : savedOffset;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1713      rep[1] = offset_2 ? offset_2 : savedOffset;
-e0c1b49f5b674c Nick Terrell 2020-09-11  1714  
-e0c1b49f5b674c Nick Terrell 2020-09-11  1715      /* Return the last literals size */
-e0c1b49f5b674c Nick Terrell 2020-09-11  1716      return (size_t)(iend - anchor);
-e0c1b49f5b674c Nick Terrell 2020-09-11  1717  }
-e0c1b49f5b674c Nick Terrell 2020-09-11  1718  
+9988f8132aa9a4 Maximilian Weigand 2023-03-23   999  
+9988f8132aa9a4 Maximilian Weigand 2023-03-23  1000  static int __maybe_unused cyttsp5_resume(struct device *dev)
+9988f8132aa9a4 Maximilian Weigand 2023-03-23  1001  {
+9988f8132aa9a4 Maximilian Weigand 2023-03-23  1002  	struct cyttsp5 *ts = dev_get_drvdata(dev);
+9988f8132aa9a4 Maximilian Weigand 2023-03-23 @1003  	struct i2c_client *client = to_i2c_client(dev);
+9988f8132aa9a4 Maximilian Weigand 2023-03-23  1004  	int error;
+9988f8132aa9a4 Maximilian Weigand 2023-03-23  1005  
+9988f8132aa9a4 Maximilian Weigand 2023-03-23  1006  	if (!ts->is_wakeup_source)
+9988f8132aa9a4 Maximilian Weigand 2023-03-23  1007  		cyttsp5_wakeup(ts);
+9988f8132aa9a4 Maximilian Weigand 2023-03-23  1008  
+9988f8132aa9a4 Maximilian Weigand 2023-03-23  1009  	return 0;
+9988f8132aa9a4 Maximilian Weigand 2023-03-23  1010  }
+9988f8132aa9a4 Maximilian Weigand 2023-03-23  1011  
 
 -- 
 0-DAY CI Kernel Test Service
