@@ -1,42 +1,49 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30C0DE4C4
-	for <oe-kbuild@lists.linux.dev>; Tue, 28 Mar 2023 09:42:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679996526; x=1711532526;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ryICEvj5OMmk1l1K9LRy4YU7ajDGGU19UexHPoQu2pQ=;
-  b=HRsFUj470Wx0jspO4+025pU4M0h67KamrZefoTA50xXuKRdqUZajGelm
-   v8MnOgN5MjPY//T3Z6Stvdq7FICcIuSW/4++FgkjIppci2aEKYOZiFuJH
-   66fn8SJiibrcL0ENSumOY28HmxqWEhLIinlVvEOuA84IBUg25TNPU16QE
-   qrr0mBWp717qFBsMW4QP7wrTyLG4q8kyzv2RzfH47kbL9riKZ43oPSUJd
-   38t6Y2AZBmjw8FBiITyXFqNW2CliKz1aNO94LA0F2/6ayZtaCz/zkNYrl
-   VVGodMDlzoFgtfcTnjOFfeRUri+vNJ6+uSHKIYhUxDPuGGV1Am/cj/QxP
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10662"; a="324416441"
-X-IronPort-AV: E=Sophos;i="5.98,297,1673942400"; 
-   d="scan'208";a="324416441"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2023 02:42:05 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10662"; a="753070962"
-X-IronPort-AV: E=Sophos;i="5.98,297,1673942400"; 
-   d="scan'208";a="753070962"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 28 Mar 2023 02:42:04 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1ph5q2-000IRH-1q;
-	Tue, 28 Mar 2023 09:41:58 +0000
-Date: Tue, 28 Mar 2023 17:41:30 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED10CE4D7;
+	Tue, 28 Mar 2023 10:23:20 +0000 (UTC)
+Received: by mail-wr1-f50.google.com with SMTP id y14so11601107wrq.4;
+        Tue, 28 Mar 2023 03:23:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1679998999;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=QxW+TJpjbXUrQvGW9LH42fLHdtZaS20MnFJP7Kr0zKU=;
+        b=Ln+mpSpPsb1fk+fi+4p1JCMWBC315xiyWnd7AAKrEYHJnB+RdZ98n+TppdBbli+UOG
+         ppJsYsnbJlqMEIURSmp3tPUio4F2pN8vXRz9oN2xkuMAaiuUnkoWD6BNeQrYuB03C12Q
+         fZq9tFZA6AbDPfXBMX33MR9+j0A4HhStg7ZhnYOGLg3xSDyJE8/1Ecz2js6wSVqBkzde
+         Jo18FQkACTY3cM0OxZjDMd5AF0OH3QgMnI8Qeu3DiIOTxsVyc/7vjBzyJF1XmDAkuDOh
+         9FwoXwuPwmJst2+T2PC5lb3ktUrdeEpEhew+OFb6sa/TphMeUUnRkGuur1s3CByideD+
+         DTHg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679998999;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=QxW+TJpjbXUrQvGW9LH42fLHdtZaS20MnFJP7Kr0zKU=;
+        b=GrmcdDQtG34ybczgzm+y4WE6DRx+4J2wAjS4oEXeVKDSXC+ivJc5mfnWue79HMeF8Y
+         ++9q+Au2pmaGKa0cIZYPVdfXUCVyvv5SOXXONWn8yabzGjAtPecf+4m8kT3cTOTc1JUG
+         Bf3Ek5tPileTpJesSUnt/rSRBpGzIX5nAIJIh/3uYUnS9UqGrK3ecw2DkfBHQ5ScPEhg
+         ppj7uo8JhpENEhfi3GCdcsyWQI7ODWWWAF6n8w4+2XineAx9lD5kifdjcOvxbub0rVuP
+         Vvm3m/4xQR33zGLj812NC9yhLWRxvGszC8/rdwHidXX3fSHQeu2nHrhJVrlci3klBlXT
+         dgJQ==
+X-Gm-Message-State: AAQBX9d+2hHhA3ZBr8g01jaP3tN8bu9RwWV7ySwmQnir2HE31QrsE9Vt
+	PazlmTOxkVBWDkSmLAJTCuHKUseTwK3QzA==
+X-Google-Smtp-Source: AKy350YF7JgD271VSAGSNM2YUiKgqLFuq1d1+WSAvuT/yGqv2GqXaYYfvPuomwvkPdlf4lQyE/HwEQ==
+X-Received: by 2002:adf:dbc8:0:b0:2c7:a3c:5bd6 with SMTP id e8-20020adfdbc8000000b002c70a3c5bd6mr12727822wrj.52.1679998998810;
+        Tue, 28 Mar 2023 03:23:18 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id o11-20020adfeacb000000b002cfefad9c1dsm27244816wrn.66.2023.03.28.03.23.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 28 Mar 2023 03:23:18 -0700 (PDT)
+Date: Tue, 28 Mar 2023 13:23:14 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev, "Guilherme G. Piccoli" <gpiccoli@igalia.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Helge Deller <deller@gmx.de>
 Subject: [linux-next:master 646/7309] arch/parisc/kernel/firmware.c:1271
  pdc_soft_power_button_panic() error: uninitialized symbol 'flags'.
-Message-ID: <202303281743.gzT66f6u-lkp@intel.com>
+Message-ID: <acbcffb2-5913-45c2-98ef-fe2f06501807@kili.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -46,17 +53,9 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: "Guilherme G. Piccoli" <gpiccoli@igalia.com>
-CC: Helge Deller <deller@gmx.de>
-
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
 head:   a6faf7ea9fcb7267d06116d4188947f26e00e57e
 commit: cf559f6a9e3a7228f402dc43cff08d0a47ee8b7c [646/7309] parisc: Replace regular spinlock with spin_trylock on panic path
-:::::: branch date: 6 hours ago
-:::::: commit date: 4 weeks ago
 config: parisc-randconfig-m031-20230326 (https://download.01.org/0day-ci/archive/20230328/202303281743.gzT66f6u-lkp@intel.com/config)
 compiler: hppa-linux-gcc (GCC) 12.1.0
 
@@ -77,7 +76,6 @@ arch/parisc/kernel/firmware.c:869 pdc_stable_initialize() warn: inconsistent ind
 
 vim +/flags +1271 arch/parisc/kernel/firmware.c
 
-^1da177e4c3f41 Linus Torvalds       2005-04-16  1259  
 cf559f6a9e3a72 Guilherme G. Piccoli 2023-02-20  1260  int pdc_soft_power_button_panic(int sw_control)
 cf559f6a9e3a72 Guilherme G. Piccoli 2023-02-20  1261  {
 cf559f6a9e3a72 Guilherme G. Piccoli 2023-02-20  1262  	int retval;
@@ -90,11 +88,28 @@ cf559f6a9e3a72 Guilherme G. Piccoli 2023-02-20  1268  	}
 cf559f6a9e3a72 Guilherme G. Piccoli 2023-02-20  1269  
 cf559f6a9e3a72 Guilherme G. Piccoli 2023-02-20  1270  	retval = mem_pdc_call(PDC_SOFT_POWER, PDC_SOFT_POWER_ENABLE, __pa(pdc_result), sw_control);
 cf559f6a9e3a72 Guilherme G. Piccoli 2023-02-20 @1271  	spin_unlock_irqrestore(&pdc_lock, flags);
+
+This is a weird warning.  I wonder if it has to do with the BOOTLOADER
+stuff at the start of the file:
+
+arch/parisc/kernel/firmware.c
+    67  
+    68  #if defined(BOOTLOADER)
+    69  # undef  spin_lock_irqsave
+    70  # define spin_lock_irqsave(a, b) { b = 1; }
+    71  # undef  spin_unlock_irqrestore
+    72  # define spin_unlock_irqrestore(a, b)
+    73  #else
+    74  static DEFINE_SPINLOCK(pdc_lock);
+    75  #endif
+
+No idea about parisc stuff though so I might be very wrong.
+
 cf559f6a9e3a72 Guilherme G. Piccoli 2023-02-20  1272  
 cf559f6a9e3a72 Guilherme G. Piccoli 2023-02-20  1273  	return retval;
 cf559f6a9e3a72 Guilherme G. Piccoli 2023-02-20  1274  }
-cf559f6a9e3a72 Guilherme G. Piccoli 2023-02-20  1275  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
+
