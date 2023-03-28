@@ -1,351 +1,494 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 979A07E6
-	for <oe-kbuild@lists.linux.dev>; Tue, 28 Mar 2023 01:13:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3871EBB
+	for <oe-kbuild@lists.linux.dev>; Tue, 28 Mar 2023 06:41:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679966027; x=1711502027;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=UEsZJOHtkBbwtcpQI3+4xHqqQAlZ9rgjIi2Z2QjpyoM=;
-  b=XlFs+b/yL586eflsgVg9VfM59BGxDv3o4V4jOto9WPJrJqKsAL0OPHVN
-   ajOni0yUeK48mkIbLE/44l8kWzrqEGDrCzpkG+DzIjKsc7kcLitj4aO+y
-   qjGxZDUrk1KxUqx4/xKlEm4ps92GT+/QXesjc81oFM4HU3NXlqTi6920T
-   HizP1NhFmcnFdKrpfnsTVIct8vQS3qzvmM/UAU8vbuLs6lqLBPErSzXpc
-   I76X1IvJDEgQ2TADTgUW2rL3yOa9T33aD+X1SgtYjemOg7vqL21UNFNrv
-   ic3aaUulH8mWWcjy0a3/pal7QO5t4p0YwIVRjmzQ+3BvrikKtth0ljh3Y
+  t=1679985663; x=1711521663;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=mcYtIJfi5WwG5jPEOl37BWtE40KLn66K4AVoQ4Iywco=;
+  b=HWJ10FgHR8UlJUeOChJ2h4M1ztyP1aQHLmTkrNmyalRTOeWjkFAo+fOL
+   S3BIRJ3oItRuCs8tu/SYrhSJxF3tP63HriA5KQiGvxxLfr+U4iB5n96xP
+   rsvQTiBpPo6NkJw7UjHwB58YOn+yvRj6h5I9pO5GLmq+6QBzA+IQPce1K
+   fvM+Xl9RSp2p0s8gO2ev8qv1/qFN3XbnDQ+MR/hekTQmf34vdHhOLdsvq
+   i226ptuOHUbFUQTboKgXz/uL92FXDD3OfBaLjJ4DMBikEWVVwsWgO2NmV
+   eaW7S4sUeqFk6Nywq2mPDk6mSJA5d0lQg6QYfrLJqRaZVD+XAoFLFACbU
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10662"; a="324322630"
-X-IronPort-AV: E=Sophos;i="5.98,295,1673942400"; 
-   d="scan'208";a="324322630"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2023 18:13:47 -0700
+X-IronPort-AV: E=McAfee;i="6600,9927,10662"; a="337989888"
+X-IronPort-AV: E=Sophos;i="5.98,296,1673942400"; 
+   d="scan'208";a="337989888"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2023 23:40:54 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10662"; a="752927638"
-X-IronPort-AV: E=Sophos;i="5.98,295,1673942400"; 
-   d="scan'208";a="752927638"
+X-IronPort-AV: E=McAfee;i="6600,9927,10662"; a="857946884"
+X-IronPort-AV: E=Sophos;i="5.98,296,1673942400"; 
+   d="scan'208";a="857946884"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 27 Mar 2023 18:13:45 -0700
+  by orsmga005.jf.intel.com with ESMTP; 27 Mar 2023 23:40:53 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pgxu7-000I8j-2y;
-	Tue, 28 Mar 2023 01:13:39 +0000
-Date: Tue, 28 Mar 2023 09:13:33 +0800
+	id 1ph30m-000ILL-2U;
+	Tue, 28 Mar 2023 06:40:52 +0000
+Date: Tue, 28 Mar 2023 14:40:29 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [linux-next:master 5258/7305] drivers/virtio/virtio_ring.c:2784:3:
- warning: Value stored to 'err' is never read
- [clang-analyzer-deadcode.DeadStores]
-Message-ID: <202303280916.WwCImqoA-lkp@intel.com>
+Subject: Re: [PATCH v2 3/3] usb: gadget: functionfs: Add DMABUF import
+ interface
+Message-ID: <202303281400.NHh6MgV2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
 :::::: 
-:::::: Manual check reason: "low confidence static check warning: drivers/virtio/virtio_ring.c:2784:3: warning: Value stored to 'err' is never read [clang-analyzer-deadcode.DeadStores]"
+:::::: Manual check reason: "low confidence static check warning: drivers/usb/gadget/function/f_fs.c:1325:38: warning: Use of memory after it is freed [clang-analyzer-unix.Malloc]"
 :::::: 
 
 BCC: lkp@intel.com
 CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
-CC: "Michael S. Tsirkin" <mst@redhat.com>
+In-Reply-To: <20230322092118.9213-4-paul@crapouillou.net>
+References: <20230322092118.9213-4-paul@crapouillou.net>
+TO: Paul Cercueil <paul@crapouillou.net>
+TO: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+TO: Sumit Semwal <sumit.semwal@linaro.org>
+TO: "Christian König" <christian.koenig@amd.com>
+CC: Paul Cercueil <paul@crapouillou.net>
+CC: michael.hennerich@analog.com
+CC: linux-usb@vger.kernel.org
+CC: linux-kernel@vger.kernel.org
+CC: dri-devel@lists.freedesktop.org
+CC: nuno.sa@analog.com
+CC: linaro-mm-sig@lists.linaro.org
+CC: linux-media@vger.kernel.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   011eb7443621f49ca1e8cdf9c74c215f25019118
-commit: 22fd569675a4158b3d5a6e1f872aa87ae3ecd06b [5258/7305] virtio_ring: separate the logic of reset/enable from virtqueue_resize
-:::::: branch date: 24 hours ago
+Hi Paul,
+
+I love your patch! Perhaps something to improve:
+
+[auto build test WARNING on usb/usb-testing]
+[also build test WARNING on usb/usb-next usb/usb-linus linus/master v6.3-rc4 next-20230327]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Paul-Cercueil/usb-gadget-Support-already-mapped-DMA-SGs/20230322-172408
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+patch link:    https://lore.kernel.org/r/20230322092118.9213-4-paul%40crapouillou.net
+patch subject: [PATCH v2 3/3] usb: gadget: functionfs: Add DMABUF import interface
+:::::: branch date: 6 days ago
 :::::: commit date: 6 days ago
-config: riscv-randconfig-c006-20230326 (https://download.01.org/0day-ci/archive/20230328/202303280916.WwCImqoA-lkp@intel.com/config)
+config: riscv-randconfig-c006-20230326 (https://download.01.org/0day-ci/archive/20230328/202303281400.NHh6MgV2-lkp@intel.com/config)
 compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
         # install riscv cross compiling tool for clang build
         # apt-get install binutils-riscv64-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=22fd569675a4158b3d5a6e1f872aa87ae3ecd06b
-        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
-        git fetch --no-tags linux-next master
-        git checkout 22fd569675a4158b3d5a6e1f872aa87ae3ecd06b
+        # https://github.com/intel-lab-lkp/linux/commit/80c5660d9135823b24d5d7adf0e32e201189822e
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Paul-Cercueil/usb-gadget-Support-already-mapped-DMA-SGs/20230322-172408
+        git checkout 80c5660d9135823b24d5d7adf0e32e201189822e
         # save the config file
         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=riscv clang-analyzer  olddefconfig
         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=riscv clang-analyzer 
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/r/202303280916.WwCImqoA-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202303281400.NHh6MgV2-lkp@intel.com/
 
 clang_analyzer warnings: (new ones prefixed by >>)
-               ^
-   include/linux/compiler.h:78:40: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                             ^~~~
-   drivers/virtio/virtio_ring.c:1460:2: note: Taking false branch
-           if (unlikely(vq->broken)) {
+   drivers/usb/gadget/function/rndis.c:1113:14: note: Value stored to 's' during its initialization is never read
+                            ({ char *s = "?";
+                                     ^   ~~~
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   drivers/usb/gadget/function/f_mass_storage.c:932:2: warning: Value stored to 'rc' is never read [clang-analyzer-deadcode.DeadStores]
+           rc = invalidate_mapping_pages(inode->i_mapping, 0, -1);
+           ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/usb/gadget/function/f_mass_storage.c:932:2: note: Value stored to 'rc' is never read
+           rc = invalidate_mapping_pages(inode->i_mapping, 0, -1);
+           ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/usb/gadget/function/f_mass_storage.c:1664:3: warning: Value stored to 'sdinfo' is never read [clang-analyzer-deadcode.DeadStores]
+                   sdinfo = curlun->sense_data_info;
+                   ^        ~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/usb/gadget/function/f_mass_storage.c:1664:3: note: Value stored to 'sdinfo' is never read
+                   sdinfo = curlun->sense_data_info;
+                   ^        ~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/usb/gadget/function/f_mass_storage.c:1673:3: warning: Value stored to 'sd' is never read [clang-analyzer-deadcode.DeadStores]
+                   sd = SS_INVALID_COMMAND;
+                   ^
+   drivers/usb/gadget/function/f_mass_storage.c:1673:3: note: Value stored to 'sd' is never read
+   Suppressed 4 warnings (3 in non-user code, 1 with check filters).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   11 warnings generated.
+   drivers/usb/gadget/function/f_fs.c:1267:3: warning: Argument to kfree() is the address of the local variable 'io_data', which is not memory allocated by malloc() [clang-analyzer-unix.Malloc]
+                   kfree(p);
+                   ^     ~
+   drivers/usb/gadget/function/f_fs.c:1241:2: note: Loop condition is false.  Exiting loop
+           ENTER();
            ^
-   drivers/virtio/virtio_ring.c:1467:9: note: Assuming 'total_sg' is not equal to 0
-           BUG_ON(total_sg == 0);
+   drivers/usb/gadget/function/u_fs.h:35:20: note: expanded from macro 'ENTER'
+   #define ENTER()    pr_vdebug("%s()\n", __func__)
+                      ^
+   drivers/usb/gadget/function/u_fs.h:30:42: note: expanded from macro 'pr_vdebug'
+   #  define pr_vdebug(...)                 do { } while (0)
+                                            ^
+   drivers/usb/gadget/function/f_fs.c:1243:2: note: Taking false branch
+           if (!is_sync_kiocb(kiocb)) {
+           ^
+   drivers/usb/gadget/function/f_fs.c:1260:9: note: Field 'aio' is false
+           if (p->aio)
                   ^
-   include/asm-generic/bug.h:71:45: note: expanded from macro 'BUG_ON'
-   #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (0)
-                                               ^~~~~~~~~
-   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
+   drivers/usb/gadget/function/f_fs.c:1260:2: note: Taking false branch
+           if (p->aio)
+           ^
+   drivers/usb/gadget/function/f_fs.c:1264:2: note: Taking false branch
+           if (res == -EIOCBQUEUED)
+           ^
+   drivers/usb/gadget/function/f_fs.c:1266:6: note: Assuming field 'aio' is true
+           if (p->aio)
+               ^~~~~~
+   drivers/usb/gadget/function/f_fs.c:1266:2: note: Taking true branch
+           if (p->aio)
+           ^
+   drivers/usb/gadget/function/f_fs.c:1267:3: note: Argument to kfree() is the address of the local variable 'io_data', which is not memory allocated by malloc()
+                   kfree(p);
+                   ^     ~
+   drivers/usb/gadget/function/f_fs.c:1315:3: warning: Argument to kfree() is the address of the local variable 'io_data', which is not memory allocated by malloc() [clang-analyzer-unix.Malloc]
+                   kfree(p);
+                   ^     ~
+   drivers/usb/gadget/function/f_fs.c:1278:2: note: Loop condition is false.  Exiting loop
+           ENTER();
+           ^
+   drivers/usb/gadget/function/u_fs.h:35:20: note: expanded from macro 'ENTER'
+   #define ENTER()    pr_vdebug("%s()\n", __func__)
+                      ^
+   drivers/usb/gadget/function/u_fs.h:30:42: note: expanded from macro 'pr_vdebug'
+   #  define pr_vdebug(...)                 do { } while (0)
+                                            ^
+   drivers/usb/gadget/function/f_fs.c:1280:2: note: Taking false branch
+           if (!is_sync_kiocb(kiocb)) {
+           ^
+   drivers/usb/gadget/function/f_fs.c:1292:9: note: Field 'aio' is false
+           if (p->aio) {
+                  ^
+   drivers/usb/gadget/function/f_fs.c:1292:2: note: Taking false branch
+           if (p->aio) {
+           ^
+   drivers/usb/gadget/function/f_fs.c:1306:9: note: Field 'aio' is false
+           if (p->aio)
+                  ^
+   drivers/usb/gadget/function/f_fs.c:1306:2: note: Taking false branch
+           if (p->aio)
+           ^
+   drivers/usb/gadget/function/f_fs.c:1310:2: note: Taking false branch
+           if (res == -EIOCBQUEUED)
+           ^
+   drivers/usb/gadget/function/f_fs.c:1313:6: note: Assuming field 'aio' is true
+           if (p->aio) {
+               ^~~~~~
+   drivers/usb/gadget/function/f_fs.c:1313:2: note: Taking true branch
+           if (p->aio) {
+           ^
+   drivers/usb/gadget/function/f_fs.c:1315:3: note: Argument to kfree() is the address of the local variable 'io_data', which is not memory allocated by malloc()
+                   kfree(p);
+                   ^     ~
+>> drivers/usb/gadget/function/f_fs.c:1325:38: warning: Use of memory after it is freed [clang-analyzer-unix.Malloc]
+           struct dma_buf_attachment *attach = priv->attach;
                                                ^
-   drivers/virtio/virtio_ring.c:1467:2: note: Taking false branch
-           BUG_ON(total_sg == 0);
+   drivers/usb/gadget/function/f_fs.c:1697:2: note: Loop condition is false.  Exiting loop
+           ENTER();
            ^
-   include/asm-generic/bug.h:71:32: note: expanded from macro 'BUG_ON'
-   #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (0)
-                                  ^
-   drivers/virtio/virtio_ring.c:1467:2: note: Loop condition is false.  Exiting loop
-           BUG_ON(total_sg == 0);
-           ^
-   include/asm-generic/bug.h:71:27: note: expanded from macro 'BUG_ON'
-   #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (0)
-                             ^
-   drivers/virtio/virtio_ring.c:1469:2: note: Taking false branch
-           if (virtqueue_use_indirect(vq, total_sg)) {
-           ^
-   drivers/virtio/virtio_ring.c:1482:15: note: Assuming 'total_sg' is <= field 'num'
-           WARN_ON_ONCE(total_sg > vq->packed.vring.num && !vq->indirect);
-                        ^
-   include/asm-generic/bug.h:110:25: note: expanded from macro 'WARN_ON_ONCE'
-           int __ret_warn_on = !!(condition);                      \
+   drivers/usb/gadget/function/u_fs.h:35:20: note: expanded from macro 'ENTER'
+   #define ENTER()    pr_vdebug("%s()\n", __func__)
+                      ^
+   drivers/usb/gadget/function/u_fs.h:30:42: note: expanded from macro 'pr_vdebug'
+   #  define pr_vdebug(...)                 do { } while (0)
+                                            ^
+   drivers/usb/gadget/function/f_fs.c:1699:14: note: Assuming field 'state' is equal to FFS_ACTIVE
+           if (WARN_ON(epfile->ffs->state != FFS_ACTIVE))
+                       ^
+   include/asm-generic/bug.h:122:25: note: expanded from macro 'WARN_ON'
+           int __ret_warn_on = !!(condition);                              \
                                   ^~~~~~~~~
-   drivers/virtio/virtio_ring.c:1482:47: note: Left side of '&&' is false
-           WARN_ON_ONCE(total_sg > vq->packed.vring.num && !vq->indirect);
-                                                        ^
-   drivers/virtio/virtio_ring.c:1482:2: note: Taking false branch
-           WARN_ON_ONCE(total_sg > vq->packed.vring.num && !vq->indirect);
-           ^
-   include/asm-generic/bug.h:111:2: note: expanded from macro 'WARN_ON_ONCE'
-           if (unlikely(__ret_warn_on))                            \
-           ^
-   drivers/virtio/virtio_ring.c:1488:15: note: Assuming 'descs_used' is <= field 'num_free'
-           if (unlikely(vq->vq.num_free < descs_used)) {
-                        ^
-   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                               ^
-   drivers/virtio/virtio_ring.c:1488:2: note: Taking false branch
-           if (unlikely(vq->vq.num_free < descs_used)) {
-           ^
-   drivers/virtio/virtio_ring.c:1496:9: note: Assuming 'id' is not equal to field 'num'
-           BUG_ON(id == vq->packed.vring.num);
-                  ^
-   include/asm-generic/bug.h:71:45: note: expanded from macro 'BUG_ON'
-   #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (0)
-                                               ^~~~~~~~~
-   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                               ^
-   drivers/virtio/virtio_ring.c:1496:2: note: Taking false branch
-           BUG_ON(id == vq->packed.vring.num);
-           ^
-   include/asm-generic/bug.h:71:32: note: expanded from macro 'BUG_ON'
-   #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (0)
-                                  ^
-   drivers/virtio/virtio_ring.c:1496:2: note: Loop condition is false.  Exiting loop
-           BUG_ON(id == vq->packed.vring.num);
-           ^
-   include/asm-generic/bug.h:71:27: note: expanded from macro 'BUG_ON'
-   #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (0)
-                             ^
-   drivers/virtio/virtio_ring.c:1498:14: note: Assuming field 'dma_address' is not equal to 0
-           map_inter = !sgs[0]->dma_address;
-                       ^~~~~~~~~~~~~~~~~~~~
-   drivers/virtio/virtio_ring.c:1499:6: note: 'map_inter' is false
-           if (map_inter && virtqueue_map_sgs(vq, sgs, total_sg, out_sgs, in_sgs))
-               ^~~~~~~~~
-   drivers/virtio/virtio_ring.c:1499:16: note: Left side of '&&' is false
-           if (map_inter && virtqueue_map_sgs(vq, sgs, total_sg, out_sgs, in_sgs))
-                         ^
-   drivers/virtio/virtio_ring.c:1504:14: note: Assuming the condition is false
-           for (n = 0; n < out_sgs + in_sgs; n++) {
-                       ^~~~~~~~~~~~~~~~~~~~
-   drivers/virtio/virtio_ring.c:1504:2: note: Loop condition is false. Execution continues on line 1536
-           for (n = 0; n < out_sgs + in_sgs; n++) {
-           ^
-   drivers/virtio/virtio_ring.c:1536:6: note: 'i' is >= 'head'
-           if (i < head)
+   drivers/usb/gadget/function/f_fs.c:1699:6: note: Taking false branch
+           if (WARN_ON(epfile->ffs->state != FFS_ACTIVE))
                ^
-   drivers/virtio/virtio_ring.c:1536:2: note: Taking false branch
-           if (i < head)
+   include/asm-generic/bug.h:123:2: note: expanded from macro 'WARN_ON'
+           if (unlikely(__ret_warn_on))                                    \
            ^
-   drivers/virtio/virtio_ring.c:1559:36: note: Assigned value is garbage or undefined
-           vq->packed.vring.desc[head].flags = head_flags;
-                                             ^ ~~~~~~~~~~
->> drivers/virtio/virtio_ring.c:2784:3: warning: Value stored to 'err' is never read [clang-analyzer-deadcode.DeadStores]
-                   err = virtqueue_resize_packed(_vq, num);
-                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/virtio/virtio_ring.c:2784:3: note: Value stored to 'err' is never read
-                   err = virtqueue_resize_packed(_vq, num);
-                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/virtio/virtio_ring.c:2786:3: warning: Value stored to 'err' is never read [clang-analyzer-deadcode.DeadStores]
-                   err = virtqueue_resize_split(_vq, num);
-                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/virtio/virtio_ring.c:2786:3: note: Value stored to 'err' is never read
-                   err = virtqueue_resize_split(_vq, num);
-                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 with check filters).
-   1 warning generated.
-   lib/zstd/compress/../common/bitstream.h:190:34: warning: The right operand of '&' is a garbage value due to array index out of bounds [clang-analyzer-core.UndefinedBinaryOperatorResult]
-       bitC->bitContainer |= (value & BIT_mask[nbBits]) << bitC->bitPos;
-                                    ^
-   lib/zstd/compress/zstd_compress_sequences.c:437:12: note: Calling 'ZSTD_encodeSequences_default'
-       return ZSTD_encodeSequences_default(dst, dstCapacity,
-              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/zstd/compress/zstd_compress_sequences.c:392:12: note: Calling 'ZSTD_encodeSequences_body'
-       return ZSTD_encodeSequences_body(dst, dstCapacity,
-              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/zstd/compress/zstd_compress_sequences.c:303:5: note: Taking false branch
-       RETURN_ERROR_IF(
-       ^
-   lib/zstd/compress/../common/error_private.h:102:3: note: expanded from macro 'RETURN_ERROR_IF'
-     if (cond) { \
-     ^
-   lib/zstd/compress/zstd_compress_sequences.c:315:5: note: Taking false branch
-       if (MEM_32bits()) BIT_flushBits(&blockStream);
-       ^
-   lib/zstd/compress/zstd_compress_sequences.c:317:5: note: Taking false branch
-       if (MEM_32bits()) BIT_flushBits(&blockStream);
-       ^
-   lib/zstd/compress/zstd_compress_sequences.c:318:9: note: Assuming 'longOffsets' is not equal to 0
-       if (longOffsets) {
+   drivers/usb/gadget/function/f_fs.c:1699:2: note: Taking false branch
+           if (WARN_ON(epfile->ffs->state != FFS_ACTIVE))
+           ^
+   drivers/usb/gadget/function/f_fs.c:1702:2: note: Control jumps to 'case 1074030468:'  at line 1714
+           switch (code) {
+           ^
+   drivers/usb/gadget/function/f_fs.c:1718:7: note: Assuming the condition is false
+                   if (copy_from_user(&fd, (void __user *)value, sizeof(fd))) {
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/usb/gadget/function/f_fs.c:1718:3: note: Taking false branch
+                   if (copy_from_user(&fd, (void __user *)value, sizeof(fd))) {
+                   ^
+   drivers/usb/gadget/function/f_fs.c:1723:10: note: Calling 'ffs_dmabuf_detach'
+                   return ffs_dmabuf_detach(file, fd);
+                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/usb/gadget/function/f_fs.c:1519:2: note: Taking false branch
+           if (IS_ERR(dmabuf))
+           ^
+   drivers/usb/gadget/function/f_fs.c:1524:2: note: Taking false branch
+           if (IS_ERR(attach)) {
+           ^
+   drivers/usb/gadget/function/f_fs.c:1529:2: note: Calling 'ffs_dmabuf_put'
+           ffs_dmabuf_put(attach);
+           ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/usb/gadget/function/f_fs.c:1347:2: note: Calling 'kref_put'
+           kref_put(&priv->ref, ffs_dmabuf_release);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/kref.h:64:2: note: Taking true branch
+           if (refcount_dec_and_test(&kref->refcount)) {
+           ^
+   include/linux/kref.h:65:3: note: Calling 'ffs_dmabuf_release'
+                   release(kref);
+                   ^~~~~~~~~~~~~
+   drivers/usb/gadget/function/f_fs.c:1328:2: note: Taking false branch
+           pr_debug("FFS DMABUF release\n");
+           ^
+   include/linux/printk.h:579:2: note: expanded from macro 'pr_debug'
+           dynamic_pr_debug(fmt, ##__VA_ARGS__)
+           ^
+   include/linux/dynamic_debug.h:268:2: note: expanded from macro 'dynamic_pr_debug'
+           _dynamic_func_call(fmt, __dynamic_pr_debug,             \
+           ^
+   include/linux/dynamic_debug.h:249:2: note: expanded from macro '_dynamic_func_call'
+           _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
+           ^
+   note: (skipping 4 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/compiler_types.h:397:2: note: expanded from macro 'compiletime_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+           ^
+   include/linux/compiler_types.h:385:2: note: expanded from macro '_compiletime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:377:3: note: expanded from macro '__compiletime_assert'
+                   if (!(condition))                                       \
+                   ^
+   drivers/usb/gadget/function/f_fs.c:1328:2: note: Loop condition is false.  Exiting loop
+           pr_debug("FFS DMABUF release\n");
+           ^
+   include/linux/printk.h:579:2: note: expanded from macro 'pr_debug'
+           dynamic_pr_debug(fmt, ##__VA_ARGS__)
+           ^
+   include/linux/dynamic_debug.h:268:2: note: expanded from macro 'dynamic_pr_debug'
+           _dynamic_func_call(fmt, __dynamic_pr_debug,             \
+           ^
+   include/linux/dynamic_debug.h:249:2: note: expanded from macro '_dynamic_func_call'
+           _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
+           ^
+   note: (skipping 4 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/compiler_types.h:397:2: note: expanded from macro 'compiletime_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+           ^
+   include/linux/compiler_types.h:385:2: note: expanded from macro '_compiletime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:369:2: note: expanded from macro '__compiletime_assert'
+           do {                                                            \
+           ^
+   drivers/usb/gadget/function/f_fs.c:1328:2: note: Taking true branch
+           pr_debug("FFS DMABUF release\n");
+           ^
+   include/linux/printk.h:579:2: note: expanded from macro 'pr_debug'
+           dynamic_pr_debug(fmt, ##__VA_ARGS__)
+           ^
+   include/linux/dynamic_debug.h:268:2: note: expanded from macro 'dynamic_pr_debug'
+           _dynamic_func_call(fmt, __dynamic_pr_debug,             \
+           ^
+   include/linux/dynamic_debug.h:249:2: note: expanded from macro '_dynamic_func_call'
+           _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
+           ^
+   include/linux/dynamic_debug.h:247:2: note: expanded from macro '_dynamic_func_call_cls'
+           __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
+           ^
+   include/linux/dynamic_debug.h:222:2: note: expanded from macro '__dynamic_func_call_cls'
+           if (DYNAMIC_DEBUG_BRANCH(id))                           \
+           ^
+   drivers/usb/gadget/function/f_fs.c:1328:2: note: Loop condition is false.  Exiting loop
+           pr_debug("FFS DMABUF release\n");
+           ^
+   include/linux/printk.h:579:2: note: expanded from macro 'pr_debug'
+           dynamic_pr_debug(fmt, ##__VA_ARGS__)
+           ^
+   include/linux/dynamic_debug.h:268:2: note: expanded from macro 'dynamic_pr_debug'
+           _dynamic_func_call(fmt, __dynamic_pr_debug,             \
+           ^
+   include/linux/dynamic_debug.h:249:2: note: expanded from macro '_dynamic_func_call'
+           _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
+           ^
+   include/linux/dynamic_debug.h:247:2: note: expanded from macro '_dynamic_func_call_cls'
+           __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
+           ^
+   include/linux/dynamic_debug.h:220:58: note: expanded from macro '__dynamic_func_call_cls'
+   #define __dynamic_func_call_cls(id, cls, fmt, func, ...) do {   \
+                                                            ^
+   drivers/usb/gadget/function/f_fs.c:1333:2: note: Memory is released
+           kfree(priv);
            ^~~~~~~~~~~
-   lib/zstd/compress/zstd_compress_sequences.c:318:5: note: Taking true branch
-       if (longOffsets) {
-       ^
-   lib/zstd/compress/zstd_compress_sequences.c:320:57: note: '?' condition is false
-           unsigned const extraBits = ofBits - MIN(ofBits, STREAM_ACCUMULATOR_MIN-1);
-                                                           ^
-   lib/zstd/compress/../common/bitstream.h:38:42: note: expanded from macro 'STREAM_ACCUMULATOR_MIN'
-   #define STREAM_ACCUMULATOR_MIN    ((U32)(MEM_32bits() ? STREAM_ACCUMULATOR_MIN_32 : STREAM_ACCUMULATOR_MIN_64))
-                                            ^
-   lib/zstd/compress/zstd_compress_sequences.c:320:45: note: Assuming the condition is false
-           unsigned const extraBits = ofBits - MIN(ofBits, STREAM_ACCUMULATOR_MIN-1);
-                                               ^
-   lib/zstd/compress/../common/zstd_internal.h:49:19: note: expanded from macro 'MIN'
-   #define MIN(a,b) ((a)<(b) ? (a) : (b))
-                     ^~~~~~~
-   lib/zstd/compress/zstd_compress_sequences.c:320:45: note: '?' condition is false
-           unsigned const extraBits = ofBits - MIN(ofBits, STREAM_ACCUMULATOR_MIN-1);
-                                               ^
-   lib/zstd/compress/../common/zstd_internal.h:49:19: note: expanded from macro 'MIN'
-   #define MIN(a,b) ((a)<(b) ? (a) : (b))
-                     ^
-   lib/zstd/compress/zstd_compress_sequences.c:320:57: note: '?' condition is false
-           unsigned const extraBits = ofBits - MIN(ofBits, STREAM_ACCUMULATOR_MIN-1);
-                                                           ^
-   lib/zstd/compress/../common/bitstream.h:38:42: note: expanded from macro 'STREAM_ACCUMULATOR_MIN'
-   #define STREAM_ACCUMULATOR_MIN    ((U32)(MEM_32bits() ? STREAM_ACCUMULATOR_MIN_32 : STREAM_ACCUMULATOR_MIN_64))
-                                            ^
-   lib/zstd/compress/zstd_compress_sequences.c:321:13: note: Assuming 'extraBits' is 0
-           if (extraBits) {
-               ^~~~~~~~~
-   lib/zstd/compress/zstd_compress_sequences.c:321:9: note: Taking false branch
-           if (extraBits) {
+   include/linux/kref.h:65:3: note: Returning; memory was released
+                   release(kref);
+                   ^~~~~~~~~~~~~
+   drivers/usb/gadget/function/f_fs.c:1347:2: note: Returning; memory was released
+           kref_put(&priv->ref, ffs_dmabuf_release);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/usb/gadget/function/f_fs.c:1529:2: note: Returning; memory was released
+           ffs_dmabuf_put(attach);
+           ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/usb/gadget/function/f_fs.c:1530:2: note: Calling 'ffs_dmabuf_put'
+           ffs_dmabuf_put(attach);
+           ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/usb/gadget/function/f_fs.c:1347:2: note: Calling 'kref_put'
+           kref_put(&priv->ref, ffs_dmabuf_release);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/kref.h:64:2: note: Taking true branch
+           if (refcount_dec_and_test(&kref->refcount)) {
            ^
-   lib/zstd/compress/zstd_compress_sequences.c:326:21: note: Passing the value 56 via 3rd parameter 'nbBits'
-                       ofBits - extraBits);
-                       ^~~~~~~~~~~~~~~~~~
-   lib/zstd/compress/zstd_compress_sequences.c:325:9: note: Calling 'BIT_addBits'
-           BIT_addBits(&blockStream, sequences[nbSeq-1].offBase >> extraBits,
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/zstd/compress/../common/bitstream.h:190:34: note: The right operand of '&' is a garbage value due to array index out of bounds
-       bitC->bitContainer |= (value & BIT_mask[nbBits]) << bitC->bitPos;
-                                    ^ ~~~~~~~~~~~~~~~~
-   10 warnings generated.
-   fs/btrfs/extent-tree.c:2033:5: warning: Value stored to 'ret' is never read [clang-analyzer-deadcode.DeadStores]
-                                   ret = 0;
-                                   ^     ~
-   fs/btrfs/extent-tree.c:2033:5: note: Value stored to 'ret' is never read
-                                   ret = 0;
+   include/linux/kref.h:65:3: note: Calling 'ffs_dmabuf_release'
+                   release(kref);
+                   ^~~~~~~~~~~~~
+   drivers/usb/gadget/function/f_fs.c:1325:38: note: Use of memory after it is freed
+           struct dma_buf_attachment *attach = priv->attach;
+                                               ^~~~~~~~~~~~
+>> drivers/usb/gadget/function/f_fs.c:1708:4: warning: Value stored to 'ret' is never read [clang-analyzer-deadcode.DeadStores]
+                           ret = -EFAULT;
+                           ^     ~~~~~~~
+   drivers/usb/gadget/function/f_fs.c:1708:4: note: Value stored to 'ret' is never read
+                           ret = -EFAULT;
+                           ^     ~~~~~~~
+   drivers/usb/gadget/function/f_fs.c:1719:4: warning: Value stored to 'ret' is never read [clang-analyzer-deadcode.DeadStores]
+                           ret = -EFAULT;
+                           ^     ~~~~~~~
+   drivers/usb/gadget/function/f_fs.c:1719:4: note: Value stored to 'ret' is never read
+                           ret = -EFAULT;
+                           ^     ~~~~~~~
+   drivers/usb/gadget/function/f_fs.c:1730:4: warning: Value stored to 'ret' is never read [clang-analyzer-deadcode.DeadStores]
+                           ret = -EFAULT;
+                           ^     ~~~~~~~
+   drivers/usb/gadget/function/f_fs.c:1730:4: note: Value stored to 'ret' is never read
+                           ret = -EFAULT;
+                           ^     ~~~~~~~
+   include/linux/spinlock.h:325:2: warning: Use of memory after it is freed [clang-analyzer-unix.Malloc]
+           return &lock->rlock;
+           ^
+   drivers/usb/gadget/function/f_fs.c:4044:2: note: Loop condition is false.  Exiting loop
+           ENTER();
+           ^
+   drivers/usb/gadget/function/u_fs.h:35:20: note: expanded from macro 'ENTER'
+   #define ENTER()    pr_vdebug("%s()\n", __func__)
+                      ^
+   drivers/usb/gadget/function/u_fs.h:30:42: note: expanded from macro 'pr_vdebug'
+   #  define pr_vdebug(...)                 do { } while (0)
+                                            ^
+   drivers/usb/gadget/function/f_fs.c:4045:6: note: Assuming 'func' is not equal to field 'func'
+           if (ffs->func == func) {
+               ^~~~~~~~~~~~~~~~~
+   drivers/usb/gadget/function/f_fs.c:4045:2: note: Taking false branch
+           if (ffs->func == func) {
+           ^
+   drivers/usb/gadget/function/f_fs.c:4053:6: note: Assuming the condition is true
+           if (!--opts->refcnt)
+               ^~~~~~~~~~~~~~~
+   drivers/usb/gadget/function/f_fs.c:4053:2: note: Taking true branch
+           if (!--opts->refcnt)
+           ^
+   drivers/usb/gadget/function/f_fs.c:4054:3: note: Calling 'functionfs_unbind'
+                   functionfs_unbind(ffs);
+                   ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/usb/gadget/function/f_fs.c:2323:2: note: Loop condition is false.  Exiting loop
+           ENTER();
+           ^
+   drivers/usb/gadget/function/u_fs.h:35:20: note: expanded from macro 'ENTER'
+   #define ENTER()    pr_vdebug("%s()\n", __func__)
+                      ^
+   drivers/usb/gadget/function/u_fs.h:30:42: note: expanded from macro 'pr_vdebug'
+   #  define pr_vdebug(...)                 do { } while (0)
+                                            ^
+   drivers/usb/gadget/function/f_fs.c:2325:15: note: Assuming field 'gadget' is non-null
+           if (!WARN_ON(!ffs->gadget)) {
+                        ^
+   include/asm-generic/bug.h:122:25: note: expanded from macro 'WARN_ON'
+           int __ret_warn_on = !!(condition);                              \
+                                  ^~~~~~~~~
+   drivers/usb/gadget/function/f_fs.c:2325:7: note: Taking false branch
+           if (!WARN_ON(!ffs->gadget)) {
+                ^
+   include/asm-generic/bug.h:123:2: note: expanded from macro 'WARN_ON'
+           if (unlikely(__ret_warn_on))                                    \
+           ^
+   drivers/usb/gadget/function/f_fs.c:2325:2: note: Taking true branch
+           if (!WARN_ON(!ffs->gadget)) {
+           ^
+   drivers/usb/gadget/function/f_fs.c:2334:3: note: Calling 'ffs_data_put'
+                   ffs_data_put(ffs);
+                   ^~~~~~~~~~~~~~~~~
+   drivers/usb/gadget/function/f_fs.c:2138:2: note: Loop condition is false.  Exiting loop
+           ENTER();
+           ^
+   drivers/usb/gadget/function/u_fs.h:35:20: note: expanded from macro 'ENTER'
+   #define ENTER()    pr_vdebug("%s()\n", __func__)
+                      ^
+   drivers/usb/gadget/function/u_fs.h:30:42: note: expanded from macro 'pr_vdebug'
+   #  define pr_vdebug(...)                 do { } while (0)
+                                            ^
+   drivers/usb/gadget/function/f_fs.c:2140:2: note: Taking true branch
+           if (refcount_dec_and_test(&ffs->ref)) {
+           ^
+   drivers/usb/gadget/function/f_fs.c:2141:3: note: Loop condition is false.  Exiting loop
+                   pr_info("%s(): freeing\n", __func__);
+                   ^
+   include/linux/printk.h:528:2: note: expanded from macro 'pr_info'
+           printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
+           ^
+   include/linux/printk.h:455:26: note: expanded from macro 'printk'
+   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
+                            ^
+   include/linux/printk.h:426:3: note: expanded from macro 'printk_index_wrap'
+                   __printk_index_emit(_fmt, NULL, NULL);                  \
+                   ^
+   include/linux/printk.h:401:34: note: expanded from macro '__printk_index_emit'
+   #define __printk_index_emit(...) do {} while (0)
+                                    ^
+   drivers/usb/gadget/function/f_fs.c:2144:10: note: Assuming the condition is true
+                   BUG_ON(waitqueue_active(&ffs->ev.waitq) ||
 
-vim +/err +2784 drivers/virtio/virtio_ring.c
+vim +1325 drivers/usb/gadget/function/f_fs.c
 
-2713ea3c7d930a Jason Wang 2023-01-19  2739  
-c790e8e1817f1a Xuan Zhuo  2022-08-01  2740  /**
-c790e8e1817f1a Xuan Zhuo  2022-08-01  2741   * virtqueue_resize - resize the vring of vq
-c790e8e1817f1a Xuan Zhuo  2022-08-01  2742   * @_vq: the struct virtqueue we're talking about.
-c790e8e1817f1a Xuan Zhuo  2022-08-01  2743   * @num: new ring num
-0f7a1c4e5d1f59 Xuan Zhuo  2023-03-21  2744   * @recycle: callback to recycle unused buffers
-c790e8e1817f1a Xuan Zhuo  2022-08-01  2745   *
-c790e8e1817f1a Xuan Zhuo  2022-08-01  2746   * When it is really necessary to create a new vring, it will set the current vq
-c790e8e1817f1a Xuan Zhuo  2022-08-01  2747   * into the reset state. Then call the passed callback to recycle the buffer
-c790e8e1817f1a Xuan Zhuo  2022-08-01  2748   * that is no longer used. Only after the new vring is successfully created, the
-c790e8e1817f1a Xuan Zhuo  2022-08-01  2749   * old vring will be released.
-c790e8e1817f1a Xuan Zhuo  2022-08-01  2750   *
-c790e8e1817f1a Xuan Zhuo  2022-08-01  2751   * Caller must ensure we don't call this with other virtqueue operations
-c790e8e1817f1a Xuan Zhuo  2022-08-01  2752   * at the same time (except where noted).
-c790e8e1817f1a Xuan Zhuo  2022-08-01  2753   *
-c790e8e1817f1a Xuan Zhuo  2022-08-01  2754   * Returns zero or a negative error.
-c790e8e1817f1a Xuan Zhuo  2022-08-01  2755   * 0: success.
-c790e8e1817f1a Xuan Zhuo  2022-08-01  2756   * -ENOMEM: Failed to allocate a new ring, fall back to the original ring size.
-c790e8e1817f1a Xuan Zhuo  2022-08-01  2757   *  vq can still work normally
-c790e8e1817f1a Xuan Zhuo  2022-08-01  2758   * -EBUSY: Failed to sync with device, vq may not work properly
-c790e8e1817f1a Xuan Zhuo  2022-08-01  2759   * -ENOENT: Transport or device not supported
-c790e8e1817f1a Xuan Zhuo  2022-08-01  2760   * -E2BIG/-EINVAL: num error
-c790e8e1817f1a Xuan Zhuo  2022-08-01  2761   * -EPERM: Operation not permitted
-c790e8e1817f1a Xuan Zhuo  2022-08-01  2762   *
-c790e8e1817f1a Xuan Zhuo  2022-08-01  2763   */
-c790e8e1817f1a Xuan Zhuo  2022-08-01  2764  int virtqueue_resize(struct virtqueue *_vq, u32 num,
-c790e8e1817f1a Xuan Zhuo  2022-08-01  2765  		     void (*recycle)(struct virtqueue *vq, void *buf))
-c790e8e1817f1a Xuan Zhuo  2022-08-01  2766  {
-c790e8e1817f1a Xuan Zhuo  2022-08-01  2767  	struct vring_virtqueue *vq = to_vvq(_vq);
-c790e8e1817f1a Xuan Zhuo  2022-08-01  2768  	int err;
-c790e8e1817f1a Xuan Zhuo  2022-08-01  2769  
-c790e8e1817f1a Xuan Zhuo  2022-08-01  2770  	if (num > vq->vq.num_max)
-c790e8e1817f1a Xuan Zhuo  2022-08-01  2771  		return -E2BIG;
-c790e8e1817f1a Xuan Zhuo  2022-08-01  2772  
-c790e8e1817f1a Xuan Zhuo  2022-08-01  2773  	if (!num)
-c790e8e1817f1a Xuan Zhuo  2022-08-01  2774  		return -EINVAL;
-c790e8e1817f1a Xuan Zhuo  2022-08-01  2775  
-c790e8e1817f1a Xuan Zhuo  2022-08-01  2776  	if ((vq->packed_ring ? vq->packed.vring.num : vq->split.vring.num) == num)
-c790e8e1817f1a Xuan Zhuo  2022-08-01  2777  		return 0;
-c790e8e1817f1a Xuan Zhuo  2022-08-01  2778  
-22fd569675a415 Xuan Zhuo  2023-03-21  2779  	err = virtqueue_disable_and_recycle(_vq, recycle);
-c790e8e1817f1a Xuan Zhuo  2022-08-01  2780  	if (err)
-c790e8e1817f1a Xuan Zhuo  2022-08-01  2781  		return err;
-c790e8e1817f1a Xuan Zhuo  2022-08-01  2782  
-c790e8e1817f1a Xuan Zhuo  2022-08-01  2783  	if (vq->packed_ring)
-c790e8e1817f1a Xuan Zhuo  2022-08-01 @2784  		err = virtqueue_resize_packed(_vq, num);
-c790e8e1817f1a Xuan Zhuo  2022-08-01  2785  	else
-c790e8e1817f1a Xuan Zhuo  2022-08-01  2786  		err = virtqueue_resize_split(_vq, num);
-c790e8e1817f1a Xuan Zhuo  2022-08-01  2787  
-22fd569675a415 Xuan Zhuo  2023-03-21  2788  	return virtqueue_enable_after_reset(_vq);
-c790e8e1817f1a Xuan Zhuo  2022-08-01  2789  }
-c790e8e1817f1a Xuan Zhuo  2022-08-01  2790  EXPORT_SYMBOL_GPL(virtqueue_resize);
-c790e8e1817f1a Xuan Zhuo  2022-08-01  2791  
-
-:::::: The code at line 2784 was first introduced by commit
-:::::: c790e8e1817f1a17c05e64f1c4f16f231b8529d5 virtio_ring: introduce virtqueue_resize()
-
-:::::: TO: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
-:::::: CC: Michael S. Tsirkin <mst@redhat.com>
+2e4c7553cd6f9c6 drivers/usb/gadget/f_fs.c          Robert Baldyga 2014-02-10  1321  
+80c5660d9135823 drivers/usb/gadget/function/f_fs.c Paul Cercueil  2023-03-22  1322  static void ffs_dmabuf_release(struct kref *ref)
+80c5660d9135823 drivers/usb/gadget/function/f_fs.c Paul Cercueil  2023-03-22  1323  {
+80c5660d9135823 drivers/usb/gadget/function/f_fs.c Paul Cercueil  2023-03-22  1324  	struct ffs_dmabuf_priv *priv = container_of(ref, struct ffs_dmabuf_priv, ref);
+80c5660d9135823 drivers/usb/gadget/function/f_fs.c Paul Cercueil  2023-03-22 @1325  	struct dma_buf_attachment *attach = priv->attach;
+80c5660d9135823 drivers/usb/gadget/function/f_fs.c Paul Cercueil  2023-03-22  1326  	struct dma_buf *dmabuf = attach->dmabuf;
+80c5660d9135823 drivers/usb/gadget/function/f_fs.c Paul Cercueil  2023-03-22  1327  
+80c5660d9135823 drivers/usb/gadget/function/f_fs.c Paul Cercueil  2023-03-22  1328  	pr_debug("FFS DMABUF release\n");
+80c5660d9135823 drivers/usb/gadget/function/f_fs.c Paul Cercueil  2023-03-22  1329  	dma_buf_detach(attach->dmabuf, attach);
+80c5660d9135823 drivers/usb/gadget/function/f_fs.c Paul Cercueil  2023-03-22  1330  	dma_buf_put(dmabuf);
+80c5660d9135823 drivers/usb/gadget/function/f_fs.c Paul Cercueil  2023-03-22  1331  
+80c5660d9135823 drivers/usb/gadget/function/f_fs.c Paul Cercueil  2023-03-22  1332  	list_del(&priv->entry);
+80c5660d9135823 drivers/usb/gadget/function/f_fs.c Paul Cercueil  2023-03-22  1333  	kfree(priv);
+80c5660d9135823 drivers/usb/gadget/function/f_fs.c Paul Cercueil  2023-03-22  1334  }
+80c5660d9135823 drivers/usb/gadget/function/f_fs.c Paul Cercueil  2023-03-22  1335  
 
 -- 
 0-DAY CI Kernel Test Service
