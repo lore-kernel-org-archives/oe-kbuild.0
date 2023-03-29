@@ -1,43 +1,43 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D4FD10E3
-	for <oe-kbuild@lists.linux.dev>; Wed, 29 Mar 2023 06:03:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C7962582
+	for <oe-kbuild@lists.linux.dev>; Wed, 29 Mar 2023 14:49:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680069831; x=1711605831;
+  t=1680101347; x=1711637347;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=2k+NJGABhy+BusyJ2BulLaVfhqgSkEMX8JktUT+2ukk=;
-  b=kD7Xl5IHJfL5KyHJwbEU8wEPRbzYbhS524YFQZX8h5eK8j8sod8Egr7l
-   /pr9wBWrKfmFzw+G0aNzjt1etIPhNfa5aUjSqc+quL6IHEChJKKIYet4J
-   FjXuSZsG+C65ukU5uZKRmqr7frf+I9Q0rOUe0srVeR9/aufiwHM4bMCaB
-   VezcV79or3NBtJMRY2eCrPaMskVU2FJju4bXiWt6sqShJXuZf7qMdwVO9
-   poaHUIHoKFhzkSif40AgoYY/cZU/Bzuhcn2uDJDvRR7M3Xz93dyKl9PiS
-   oBcjvCX+6A8AoGNAAclqYHZCaT04ehLPlWP95rl+Fp+5Msvwu7j8LDQIE
+  bh=eJ450fnCxJgMa4wXlX9OBTyFXUqxnnUsg0L4fXjoy90=;
+  b=YSChah3a21alecGb9YxOfUZA3Fy3a3bBVfzzqN+6q11bTL5iKM4G+G/t
+   voOLGgquIFBs5TQbNmiEX1aZwtUh7Eg5sjuYUD8lvY50fPSCU4Ts4aK3W
+   cJQycEjPJJYBZyOjBfK2bQwbHUMpcQZcU+dm9fKq0tLRi03NcnoXgYgeZ
+   d9Fr6FRZFKHuQf+clY5mSercHGyGC9iMeeoDUE0lNqIaOAEvN9bbpxk/a
+   1Y6vW5wkStK4l0vr2ifsV4NAXdD+LYHxPSbdGFgPgo3VLpIwIPm1qWsPf
+   tXkx9he+5t886Y3vObwMfBpRcw4LbQaoCcLowdiIcus0oJlWylRM4a8mv
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="339513634"
-X-IronPort-AV: E=Sophos;i="5.98,299,1673942400"; 
-   d="scan'208";a="339513634"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2023 23:03:50 -0700
+X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="427170719"
+X-IronPort-AV: E=Sophos;i="5.98,301,1673942400"; 
+   d="scan'208";a="427170719"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2023 07:49:07 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="716754192"
-X-IronPort-AV: E=Sophos;i="5.98,299,1673942400"; 
-   d="scan'208";a="716754192"
+X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="1014042151"
+X-IronPort-AV: E=Sophos;i="5.98,301,1673942400"; 
+   d="scan'208";a="1014042151"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 28 Mar 2023 23:03:49 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 29 Mar 2023 07:48:56 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1phOuI-000JH0-2X;
-	Wed, 29 Mar 2023 06:03:38 +0000
-Date: Wed, 29 Mar 2023 14:03:21 +0800
+	id 1phX6d-000Jdi-1f;
+	Wed, 29 Mar 2023 14:48:55 +0000
+Date: Wed, 29 Mar 2023 22:48:40 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [linux-next:master 5115/7607] net/mac80211/mesh_pathtbl.c:616:24:
- warning: Value stored to 'cache' during its initialization is never read
+Subject: [linux-next:master 4934/7607] drivers/virtio/virtio_ring.c:2784:3:
+ warning: Value stored to 'err' is never read
  [clang-analyzer-deadcode.DeadStores]
-Message-ID: <202303291438.MdIGMvgu-lkp@intel.com>
+Message-ID: <202303292249.Z69ZRNzZ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -48,262 +48,304 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "low confidence static check warning: net/mac80211/mesh_pathtbl.c:616:24: warning: Value stored to 'cache' during its initialization is never read [clang-analyzer-deadcode.DeadStores]"
+:::::: Manual check reason: "low confidence static check warning: drivers/virtio/virtio_ring.c:2784:3: warning: Value stored to 'err' is never read [clang-analyzer-deadcode.DeadStores]"
 :::::: 
 
 BCC: lkp@intel.com
 CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
 CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Felix Fietkau <nbd@nbd.name>
-CC: Johannes Berg <johannes.berg@intel.com>
-CC: Ryder Lee <ryder.lee@mediatek.com>
+TO: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+CC: "Michael S. Tsirkin" <mst@redhat.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
 head:   198925fae644b0099b66fac1d972721e6e563b17
-commit: d5edb9ae8d568745f893c5c5fa3837d85311b131 [5115/7607] wifi: mac80211: mesh fast xmit support
-:::::: branch date: 4 hours ago
-:::::: commit date: 7 days ago
-config: riscv-randconfig-c006-20230326 (https://download.01.org/0day-ci/archive/20230329/202303291438.MdIGMvgu-lkp@intel.com/config)
+commit: 22fd569675a4158b3d5a6e1f872aa87ae3ecd06b [4934/7607] virtio_ring: separate the logic of reset/enable from virtqueue_resize
+:::::: branch date: 13 hours ago
+:::::: commit date: 8 days ago
+config: riscv-randconfig-c006-20230326 (https://download.01.org/0day-ci/archive/20230329/202303292249.Z69ZRNzZ-lkp@intel.com/config)
 compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
         # install riscv cross compiling tool for clang build
         # apt-get install binutils-riscv64-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=d5edb9ae8d568745f893c5c5fa3837d85311b131
+        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=22fd569675a4158b3d5a6e1f872aa87ae3ecd06b
         git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
         git fetch --no-tags linux-next master
-        git checkout d5edb9ae8d568745f893c5c5fa3837d85311b131
+        git checkout 22fd569675a4158b3d5a6e1f872aa87ae3ecd06b
         # save the config file
         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=riscv clang-analyzer  olddefconfig
         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=riscv clang-analyzer 
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/r/202303291438.MdIGMvgu-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202303292249.Z69ZRNzZ-lkp@intel.com/
 
 clang_analyzer warnings: (new ones prefixed by >>)
-           ^
-   net/wireless/chan.c:394:10: note: 'c1->width' is not equal to 'c2->width'
-           if (c1->width == c2->width)
-                   ^
-   net/wireless/chan.c:394:2: note: Taking false branch
-           if (c1->width == c2->width)
-           ^
-   net/wireless/chan.c:401:6: note: Assuming field 'width' is not equal to NL80211_CHAN_WIDTH_5
-           if (c1->width == NL80211_CHAN_WIDTH_5 ||
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/wireless/chan.c:401:6: note: Left side of '||' is false
-   net/wireless/chan.c:402:6: note: Assuming field 'width' is not equal to NL80211_CHAN_WIDTH_10
-               c1->width == NL80211_CHAN_WIDTH_10 ||
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/wireless/chan.c:401:6: note: Left side of '||' is false
-           if (c1->width == NL80211_CHAN_WIDTH_5 ||
                ^
-   net/wireless/chan.c:403:6: note: Assuming field 'width' is not equal to NL80211_CHAN_WIDTH_5
-               c2->width == NL80211_CHAN_WIDTH_5 ||
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/wireless/chan.c:401:6: note: Left side of '||' is false
-           if (c1->width == NL80211_CHAN_WIDTH_5 ||
-               ^
-   net/wireless/chan.c:404:6: note: Assuming field 'width' is not equal to NL80211_CHAN_WIDTH_10
-               c2->width == NL80211_CHAN_WIDTH_10)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/wireless/chan.c:401:2: note: Taking false branch
-           if (c1->width == NL80211_CHAN_WIDTH_5 ||
+   include/linux/compiler.h:78:40: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                             ^~~~
+   drivers/virtio/virtio_ring.c:1460:2: note: Taking false branch
+           if (unlikely(vq->broken)) {
            ^
-   net/wireless/chan.c:407:6: note: Assuming field 'width' is not equal to NL80211_CHAN_WIDTH_20_NOHT
-           if (c1->width == NL80211_CHAN_WIDTH_20_NOHT ||
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/wireless/chan.c:407:6: note: Left side of '||' is false
-   net/wireless/chan.c:408:6: note: Assuming field 'width' is not equal to NL80211_CHAN_WIDTH_20
-               c1->width == NL80211_CHAN_WIDTH_20)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/wireless/chan.c:407:2: note: Taking false branch
-           if (c1->width == NL80211_CHAN_WIDTH_20_NOHT ||
+   drivers/virtio/virtio_ring.c:1467:9: note: Assuming 'total_sg' is not equal to 0
+           BUG_ON(total_sg == 0);
+                  ^
+   include/asm-generic/bug.h:71:45: note: expanded from macro 'BUG_ON'
+   #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (0)
+                                               ^~~~~~~~~
+   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   drivers/virtio/virtio_ring.c:1467:2: note: Taking false branch
+           BUG_ON(total_sg == 0);
            ^
-   net/wireless/chan.c:411:6: note: Assuming field 'width' is not equal to NL80211_CHAN_WIDTH_20_NOHT
-           if (c2->width == NL80211_CHAN_WIDTH_20_NOHT ||
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/wireless/chan.c:411:6: note: Left side of '||' is false
-   net/wireless/chan.c:412:6: note: Assuming field 'width' is not equal to NL80211_CHAN_WIDTH_20
-               c2->width == NL80211_CHAN_WIDTH_20)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/wireless/chan.c:411:2: note: Taking false branch
-           if (c2->width == NL80211_CHAN_WIDTH_20_NOHT ||
+   include/asm-generic/bug.h:71:32: note: expanded from macro 'BUG_ON'
+   #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (0)
+                                  ^
+   drivers/virtio/virtio_ring.c:1467:2: note: Loop condition is false.  Exiting loop
+           BUG_ON(total_sg == 0);
            ^
-   net/wireless/chan.c:416:2: note: Calling 'chandef_primary_freqs'
-           chandef_primary_freqs(c2, &c2_pri40, &c2_pri80, &c2_pri160);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/wireless/chan.c:328:2: note: Control jumps to the 'default' case at line 371
-           switch (c->width) {
+   include/asm-generic/bug.h:71:27: note: expanded from macro 'BUG_ON'
+   #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (0)
+                             ^
+   drivers/virtio/virtio_ring.c:1469:2: note: Taking false branch
+           if (virtqueue_use_indirect(vq, total_sg)) {
            ^
-   net/wireless/chan.c:372:3: note: Taking true branch
-                   WARN_ON_ONCE(1);
-                   ^
+   drivers/virtio/virtio_ring.c:1482:15: note: Assuming 'total_sg' is <= field 'num'
+           WARN_ON_ONCE(total_sg > vq->packed.vring.num && !vq->indirect);
+                        ^
+   include/asm-generic/bug.h:110:25: note: expanded from macro 'WARN_ON_ONCE'
+           int __ret_warn_on = !!(condition);                      \
+                                  ^~~~~~~~~
+   drivers/virtio/virtio_ring.c:1482:47: note: Left side of '&&' is false
+           WARN_ON_ONCE(total_sg > vq->packed.vring.num && !vq->indirect);
+                                                        ^
+   drivers/virtio/virtio_ring.c:1482:2: note: Taking false branch
+           WARN_ON_ONCE(total_sg > vq->packed.vring.num && !vq->indirect);
+           ^
    include/asm-generic/bug.h:111:2: note: expanded from macro 'WARN_ON_ONCE'
            if (unlikely(__ret_warn_on))                            \
            ^
-   net/wireless/chan.c:372:3: note: Loop condition is false.  Exiting loop
-                   WARN_ON_ONCE(1);
-                   ^
-   include/asm-generic/bug.h:112:3: note: expanded from macro 'WARN_ON_ONCE'
-                   __WARN_FLAGS(BUGFLAG_ONCE |                     \
-                   ^
-   arch/riscv/include/asm/bug.h:79:29: note: expanded from macro '__WARN_FLAGS'
-   #define __WARN_FLAGS(flags) __BUG_FLAGS(BUGFLAG_WARNING|(flags))
-                               ^
-   arch/riscv/include/asm/bug.h:53:32: note: expanded from macro '__BUG_FLAGS'
-   #define __BUG_FLAGS(flags)                                      \
-                                                                   ^
-   net/wireless/chan.c:374:1: note: Returning without writing to '*pri40'
-   }
-   ^
-   net/wireless/chan.c:416:2: note: Returning from 'chandef_primary_freqs'
-           chandef_primary_freqs(c2, &c2_pri40, &c2_pri80, &c2_pri160);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/wireless/chan.c:418:15: note: The right operand of '!=' is a garbage value
-           if (c1_pri40 != c2_pri40)
-                        ^  ~~~~~~~~
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   net/mac80211/mesh.c:1004:3: warning: Value stored to 'pos' is never read [clang-analyzer-deadcode.DeadStores]
-                   pos += 2;
-                   ^      ~
-   net/mac80211/mesh.c:1004:3: note: Value stored to 'pos' is never read
-                   pos += 2;
-                   ^      ~
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   9 warnings generated.
->> net/mac80211/mesh_pathtbl.c:616:24: warning: Value stored to 'cache' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct mesh_tx_cache *cache = &sdata->u.mesh.tx_cache;
-                                 ^~~~~   ~~~~~~~~~~~~~~~~~~~~~~~
-   net/mac80211/mesh_pathtbl.c:616:24: note: Value stored to 'cache' during its initialization is never read
-           struct mesh_tx_cache *cache = &sdata->u.mesh.tx_cache;
-                                 ^~~~~   ~~~~~~~~~~~~~~~~~~~~~~~
-   net/mac80211/mesh_pathtbl.c:631:24: warning: Value stored to 'cache' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct mesh_tx_cache *cache = &sdata->u.mesh.tx_cache;
-                                 ^~~~~   ~~~~~~~~~~~~~~~~~~~~~~~
-   net/mac80211/mesh_pathtbl.c:631:24: note: Value stored to 'cache' during its initialization is never read
-           struct mesh_tx_cache *cache = &sdata->u.mesh.tx_cache;
-                                 ^~~~~   ~~~~~~~~~~~~~~~~~~~~~~~
-   net/mac80211/mesh_pathtbl.c:646:24: warning: Value stored to 'cache' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct mesh_tx_cache *cache = &sdata->u.mesh.tx_cache;
-                                 ^~~~~   ~~~~~~~~~~~~~~~~~~~~~~~
-   net/mac80211/mesh_pathtbl.c:646:24: note: Value stored to 'cache' during its initialization is never read
-           struct mesh_tx_cache *cache = &sdata->u.mesh.tx_cache;
-                                 ^~~~~   ~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   net/mac80211/key.c:117:18: warning: Access to field 'local' results in a dereference of a null pointer (loaded from variable 'sdata') [clang-analyzer-core.NullDereference]
-           assert_key_lock(sdata->local);
-                           ^
-   net/mac80211/key.c:1354:6: note: Assuming the condition is false
-           if (key->flags & KEY_FLAG_UPLOADED_TO_HARDWARE) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/mac80211/key.c:1354:2: note: Taking false branch
-           if (key->flags & KEY_FLAG_UPLOADED_TO_HARDWARE) {
+   drivers/virtio/virtio_ring.c:1488:15: note: Assuming 'descs_used' is <= field 'num_free'
+           if (unlikely(vq->vq.num_free < descs_used)) {
+                        ^
+   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   drivers/virtio/virtio_ring.c:1488:2: note: Taking false branch
+           if (unlikely(vq->vq.num_free < descs_used)) {
            ^
-   net/mac80211/key.c:1363:2: note: Calling 'ieee80211_key_free'
-           ieee80211_key_free(key, false);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/mac80211/key.c:937:7: note: 'key' is non-null
-           if (!key)
-                ^~~
-   net/mac80211/key.c:937:2: note: Taking false branch
-           if (!key)
+   drivers/virtio/virtio_ring.c:1496:9: note: Assuming 'id' is not equal to field 'num'
+           BUG_ON(id == vq->packed.vring.num);
+                  ^
+   include/asm-generic/bug.h:71:45: note: expanded from macro 'BUG_ON'
+   #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (0)
+                                               ^~~~~~~~~
+   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   drivers/virtio/virtio_ring.c:1496:2: note: Taking false branch
+           BUG_ON(id == vq->packed.vring.num);
            ^
-   net/mac80211/key.c:943:6: note: Assuming field 'sdata' is null
-           if (key->sdata)
-               ^~~~~~~~~~
-   net/mac80211/key.c:943:2: note: Taking false branch
-           if (key->sdata)
+   include/asm-generic/bug.h:71:32: note: expanded from macro 'BUG_ON'
+   #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (0)
+                                  ^
+   drivers/virtio/virtio_ring.c:1496:2: note: Loop condition is false.  Exiting loop
+           BUG_ON(id == vq->packed.vring.num);
            ^
-   net/mac80211/key.c:947:2: note: Calling 'ieee80211_key_destroy'
-           ieee80211_key_destroy(key, delay_tailroom);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/mac80211/key.c:787:7: note: 'key' is non-null
-           if (!key)
-                ^~~
-   net/mac80211/key.c:787:2: note: Taking false branch
-           if (!key)
+   include/asm-generic/bug.h:71:27: note: expanded from macro 'BUG_ON'
+   #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (0)
+                             ^
+   drivers/virtio/virtio_ring.c:1498:14: note: Assuming field 'dma_address' is not equal to 0
+           map_inter = !sgs[0]->dma_address;
+                       ^~~~~~~~~~~~~~~~~~~~
+   drivers/virtio/virtio_ring.c:1499:6: note: 'map_inter' is false
+           if (map_inter && virtqueue_map_sgs(vq, sgs, total_sg, out_sgs, in_sgs))
+               ^~~~~~~~~
+   drivers/virtio/virtio_ring.c:1499:16: note: Left side of '&&' is false
+           if (map_inter && virtqueue_map_sgs(vq, sgs, total_sg, out_sgs, in_sgs))
+                         ^
+   drivers/virtio/virtio_ring.c:1504:14: note: Assuming the condition is false
+           for (n = 0; n < out_sgs + in_sgs; n++) {
+                       ^~~~~~~~~~~~~~~~~~~~
+   drivers/virtio/virtio_ring.c:1504:2: note: Loop condition is false. Execution continues on line 1536
+           for (n = 0; n < out_sgs + in_sgs; n++) {
            ^
-   net/mac80211/key.c:796:2: note: Calling '__ieee80211_key_destroy'
-           __ieee80211_key_destroy(key, delay_tailroom);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/mac80211/key.c:766:6: note: Assuming field 'local' is non-null
-           if (key->local) {
-               ^~~~~~~~~~
-   net/mac80211/key.c:766:2: note: Taking true branch
-           if (key->local) {
-           ^
-   net/mac80211/key.c:767:3: note: 'sdata' initialized to a null pointer value
-                   struct ieee80211_sub_if_data *sdata = key->sdata;
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/mac80211/key.c:771:7: note: 'delay_tailroom' is false
-                   if (delay_tailroom) {
-                       ^~~~~~~~~~~~~~
-   net/mac80211/key.c:771:3: note: Taking false branch
-                   if (delay_tailroom) {
-                   ^
-   net/mac80211/key.c:777:33: note: Passing null pointer value via 1st parameter 'sdata'
-                           decrease_tailroom_need_count(sdata, 1);
-                                                        ^~~~~
-   net/mac80211/key.c:777:4: note: Calling 'decrease_tailroom_need_count'
-                           decrease_tailroom_need_count(sdata, 1);
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/mac80211/key.c:117:18: note: Access to field 'local' results in a dereference of a null pointer (loaded from variable 'sdata')
-           assert_key_lock(sdata->local);
-                           ^~~~~
-   net/mac80211/key.c:773:4: warning: Access to field 'crypto_tx_tailroom_pending_dec' results in a dereference of a null pointer (loaded from variable 'sdata') [clang-analyzer-core.NullDereference]
-                           sdata->crypto_tx_tailroom_pending_dec++;
-                           ^
-   net/mac80211/key.c:1376:14: note: Assuming field 'wowlan' is true
-           if (WARN_ON(!local->wowlan))
-                       ^
-   include/asm-generic/bug.h:122:25: note: expanded from macro 'WARN_ON'
-           int __ret_warn_on = !!(condition);                              \
-                                  ^~~~~~~~~
-   net/mac80211/key.c:1376:6: note: Taking false branch
-           if (WARN_ON(!local->wowlan))
+   drivers/virtio/virtio_ring.c:1536:6: note: 'i' is >= 'head'
+           if (i < head)
                ^
-   include/asm-generic/bug.h:123:2: note: expanded from macro 'WARN_ON'
-           if (unlikely(__ret_warn_on))                                    \
+   drivers/virtio/virtio_ring.c:1536:2: note: Taking false branch
+           if (i < head)
            ^
-   net/mac80211/key.c:1376:2: note: Taking false branch
-           if (WARN_ON(!local->wowlan))
+   drivers/virtio/virtio_ring.c:1559:36: note: Assigned value is garbage or undefined
+           vq->packed.vring.desc[head].flags = head_flags;
+                                             ^ ~~~~~~~~~~
+>> drivers/virtio/virtio_ring.c:2784:3: warning: Value stored to 'err' is never read [clang-analyzer-deadcode.DeadStores]
+                   err = virtqueue_resize_packed(_vq, num);
+                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/virtio/virtio_ring.c:2784:3: note: Value stored to 'err' is never read
+                   err = virtqueue_resize_packed(_vq, num);
+                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/virtio/virtio_ring.c:2786:3: warning: Value stored to 'err' is never read [clang-analyzer-deadcode.DeadStores]
+                   err = virtqueue_resize_split(_vq, num);
+                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/virtio/virtio_ring.c:2786:3: note: Value stored to 'err' is never read
+                   err = virtqueue_resize_split(_vq, num);
+                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   13 warnings generated.
+   fs/f2fs/super.c:1153:4: warning: Call to function 'strcpy' is insecure as it does not provide bounding of the memory buffer. Replace unbounded copy functions with analogous functions that support length arguments such as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+                           strcpy(ext[ext_cnt], name);
+                           ^~~~~~
+   fs/f2fs/super.c:1153:4: note: Call to function 'strcpy' is insecure as it does not provide bounding of the memory buffer. Replace unbounded copy functions with analogous functions that support length arguments such as 'strlcpy'. CWE-119
+                           strcpy(ext[ext_cnt], name);
+                           ^~~~~~
+   fs/f2fs/super.c:1177:4: warning: Call to function 'strcpy' is insecure as it does not provide bounding of the memory buffer. Replace unbounded copy functions with analogous functions that support length arguments such as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+                           strcpy(noext[noext_cnt], name);
+                           ^~~~~~
+   fs/f2fs/super.c:1177:4: note: Call to function 'strcpy' is insecure as it does not provide bounding of the memory buffer. Replace unbounded copy functions with analogous functions that support length arguments such as 'strlcpy'. CWE-119
+                           strcpy(noext[noext_cnt], name);
+                           ^~~~~~
+   Suppressed 11 warnings (11 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   drivers/input/joystick/cobra.c:159:28: warning: The right operand of '&' is a garbage value [clang-analyzer-core.UndefinedBinaryOperatorResult]
+                   if ((cobra->exists >> i) & data[i] & 1) {
+                                            ^ ~~~~~~~
+   drivers/input/joystick/cobra.c:144:10: note: Calling 'kzalloc'
+           cobra = kzalloc(sizeof(struct cobra), GFP_KERNEL);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/slab.h:720:9: note: Calling 'kmalloc'
+           return kmalloc(size, flags | __GFP_ZERO);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/slab.h:573:33: note: Left side of '&&' is false
+           if (__builtin_constant_p(size) && size) {
+                                          ^
+   include/linux/slab.h:584:2: note: Returning pointer, which participates in a condition later
+           return __kmalloc(size, flags);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/slab.h:720:9: note: Returning from 'kmalloc'
+           return kmalloc(size, flags | __GFP_ZERO);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/slab.h:720:2: note: Returning pointer, which participates in a condition later
+           return kmalloc(size, flags | __GFP_ZERO);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/input/joystick/cobra.c:144:10: note: Returning from 'kzalloc'
+           cobra = kzalloc(sizeof(struct cobra), GFP_KERNEL);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/input/joystick/cobra.c:145:6: note: Assuming 'cobra' is non-null
+           if (!cobra)
+               ^~~~~~
+   drivers/input/joystick/cobra.c:145:2: note: Taking false branch
+           if (!cobra)
            ^
-   net/mac80211/key.c:1379:14: note: Assuming field 'type' is equal to NL80211_IFTYPE_STATION
-           if (WARN_ON(vif->type != NL80211_IFTYPE_STATION))
+   drivers/input/joystick/cobra.c:153:6: note: Assuming 'err' is 0
+           if (err)
+               ^~~
+   drivers/input/joystick/cobra.c:153:2: note: Taking false branch
+           if (err)
+           ^
+   drivers/input/joystick/cobra.c:156:18: note: Calling 'cobra_read_packet'
+           cobra->exists = cobra_read_packet(gameport, data);
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/input/joystick/cobra.c:47:2: note: Loop condition is true.  Entering loop body
+           for (i = 0; i < 2; i++) {
+           ^
+   drivers/input/joystick/cobra.c:47:2: note: Loop condition is true.  Entering loop body
+   drivers/input/joystick/cobra.c:47:2: note: Loop condition is false. Execution continues on line 52
+   drivers/input/joystick/cobra.c:52:2: note: Loop condition is false.  Exiting loop
+           local_irq_save(flags);
+           ^
+   include/linux/irqflags.h:221:3: note: expanded from macro 'local_irq_save'
+                   raw_local_irq_save(flags);              \
+                   ^
+   include/linux/irqflags.h:176:2: note: expanded from macro 'raw_local_irq_save'
+           do {                                            \
+           ^
+   drivers/input/joystick/cobra.c:52:2: note: Taking false branch
+           local_irq_save(flags);
+           ^
+   include/linux/irqflags.h:222:3: note: expanded from macro 'local_irq_save'
+                   if (!raw_irqs_disabled_flags(flags))    \
+                   ^
 
-vim +/cache +616 net/mac80211/mesh_pathtbl.c
+vim +/err +2784 drivers/virtio/virtio_ring.c
 
-d5edb9ae8d56874 Felix Fietkau 2023-03-14  612  
-d5edb9ae8d56874 Felix Fietkau 2023-03-14  613  void mesh_fast_tx_flush_mpath(struct mesh_path *mpath)
-d5edb9ae8d56874 Felix Fietkau 2023-03-14  614  {
-d5edb9ae8d56874 Felix Fietkau 2023-03-14  615  	struct ieee80211_sub_if_data *sdata = mpath->sdata;
-d5edb9ae8d56874 Felix Fietkau 2023-03-14 @616  	struct mesh_tx_cache *cache = &sdata->u.mesh.tx_cache;
-d5edb9ae8d56874 Felix Fietkau 2023-03-14  617  	struct ieee80211_mesh_fast_tx *entry;
-d5edb9ae8d56874 Felix Fietkau 2023-03-14  618  	struct hlist_node *n;
-d5edb9ae8d56874 Felix Fietkau 2023-03-14  619  
-d5edb9ae8d56874 Felix Fietkau 2023-03-14  620  	cache = &sdata->u.mesh.tx_cache;
-d5edb9ae8d56874 Felix Fietkau 2023-03-14  621  	spin_lock_bh(&cache->walk_lock);
-d5edb9ae8d56874 Felix Fietkau 2023-03-14  622  	hlist_for_each_entry_safe(entry, n, &cache->walk_head, walk_list)
-d5edb9ae8d56874 Felix Fietkau 2023-03-14  623  		if (entry->mpath == mpath)
-d5edb9ae8d56874 Felix Fietkau 2023-03-14  624  			mesh_fast_tx_entry_free(cache, entry);
-d5edb9ae8d56874 Felix Fietkau 2023-03-14  625  	spin_unlock_bh(&cache->walk_lock);
-d5edb9ae8d56874 Felix Fietkau 2023-03-14  626  }
-d5edb9ae8d56874 Felix Fietkau 2023-03-14  627  
+2713ea3c7d930a Jason Wang 2023-01-19  2739  
+c790e8e1817f1a Xuan Zhuo  2022-08-01  2740  /**
+c790e8e1817f1a Xuan Zhuo  2022-08-01  2741   * virtqueue_resize - resize the vring of vq
+c790e8e1817f1a Xuan Zhuo  2022-08-01  2742   * @_vq: the struct virtqueue we're talking about.
+c790e8e1817f1a Xuan Zhuo  2022-08-01  2743   * @num: new ring num
+0f7a1c4e5d1f59 Xuan Zhuo  2023-03-21  2744   * @recycle: callback to recycle unused buffers
+c790e8e1817f1a Xuan Zhuo  2022-08-01  2745   *
+c790e8e1817f1a Xuan Zhuo  2022-08-01  2746   * When it is really necessary to create a new vring, it will set the current vq
+c790e8e1817f1a Xuan Zhuo  2022-08-01  2747   * into the reset state. Then call the passed callback to recycle the buffer
+c790e8e1817f1a Xuan Zhuo  2022-08-01  2748   * that is no longer used. Only after the new vring is successfully created, the
+c790e8e1817f1a Xuan Zhuo  2022-08-01  2749   * old vring will be released.
+c790e8e1817f1a Xuan Zhuo  2022-08-01  2750   *
+c790e8e1817f1a Xuan Zhuo  2022-08-01  2751   * Caller must ensure we don't call this with other virtqueue operations
+c790e8e1817f1a Xuan Zhuo  2022-08-01  2752   * at the same time (except where noted).
+c790e8e1817f1a Xuan Zhuo  2022-08-01  2753   *
+c790e8e1817f1a Xuan Zhuo  2022-08-01  2754   * Returns zero or a negative error.
+c790e8e1817f1a Xuan Zhuo  2022-08-01  2755   * 0: success.
+c790e8e1817f1a Xuan Zhuo  2022-08-01  2756   * -ENOMEM: Failed to allocate a new ring, fall back to the original ring size.
+c790e8e1817f1a Xuan Zhuo  2022-08-01  2757   *  vq can still work normally
+c790e8e1817f1a Xuan Zhuo  2022-08-01  2758   * -EBUSY: Failed to sync with device, vq may not work properly
+c790e8e1817f1a Xuan Zhuo  2022-08-01  2759   * -ENOENT: Transport or device not supported
+c790e8e1817f1a Xuan Zhuo  2022-08-01  2760   * -E2BIG/-EINVAL: num error
+c790e8e1817f1a Xuan Zhuo  2022-08-01  2761   * -EPERM: Operation not permitted
+c790e8e1817f1a Xuan Zhuo  2022-08-01  2762   *
+c790e8e1817f1a Xuan Zhuo  2022-08-01  2763   */
+c790e8e1817f1a Xuan Zhuo  2022-08-01  2764  int virtqueue_resize(struct virtqueue *_vq, u32 num,
+c790e8e1817f1a Xuan Zhuo  2022-08-01  2765  		     void (*recycle)(struct virtqueue *vq, void *buf))
+c790e8e1817f1a Xuan Zhuo  2022-08-01  2766  {
+c790e8e1817f1a Xuan Zhuo  2022-08-01  2767  	struct vring_virtqueue *vq = to_vvq(_vq);
+c790e8e1817f1a Xuan Zhuo  2022-08-01  2768  	int err;
+c790e8e1817f1a Xuan Zhuo  2022-08-01  2769  
+c790e8e1817f1a Xuan Zhuo  2022-08-01  2770  	if (num > vq->vq.num_max)
+c790e8e1817f1a Xuan Zhuo  2022-08-01  2771  		return -E2BIG;
+c790e8e1817f1a Xuan Zhuo  2022-08-01  2772  
+c790e8e1817f1a Xuan Zhuo  2022-08-01  2773  	if (!num)
+c790e8e1817f1a Xuan Zhuo  2022-08-01  2774  		return -EINVAL;
+c790e8e1817f1a Xuan Zhuo  2022-08-01  2775  
+c790e8e1817f1a Xuan Zhuo  2022-08-01  2776  	if ((vq->packed_ring ? vq->packed.vring.num : vq->split.vring.num) == num)
+c790e8e1817f1a Xuan Zhuo  2022-08-01  2777  		return 0;
+c790e8e1817f1a Xuan Zhuo  2022-08-01  2778  
+22fd569675a415 Xuan Zhuo  2023-03-21  2779  	err = virtqueue_disable_and_recycle(_vq, recycle);
+c790e8e1817f1a Xuan Zhuo  2022-08-01  2780  	if (err)
+c790e8e1817f1a Xuan Zhuo  2022-08-01  2781  		return err;
+c790e8e1817f1a Xuan Zhuo  2022-08-01  2782  
+c790e8e1817f1a Xuan Zhuo  2022-08-01  2783  	if (vq->packed_ring)
+c790e8e1817f1a Xuan Zhuo  2022-08-01 @2784  		err = virtqueue_resize_packed(_vq, num);
+c790e8e1817f1a Xuan Zhuo  2022-08-01  2785  	else
+c790e8e1817f1a Xuan Zhuo  2022-08-01  2786  		err = virtqueue_resize_split(_vq, num);
+c790e8e1817f1a Xuan Zhuo  2022-08-01  2787  
+22fd569675a415 Xuan Zhuo  2023-03-21  2788  	return virtqueue_enable_after_reset(_vq);
+c790e8e1817f1a Xuan Zhuo  2022-08-01  2789  }
+c790e8e1817f1a Xuan Zhuo  2022-08-01  2790  EXPORT_SYMBOL_GPL(virtqueue_resize);
+c790e8e1817f1a Xuan Zhuo  2022-08-01  2791  
+
+:::::: The code at line 2784 was first introduced by commit
+:::::: c790e8e1817f1a17c05e64f1c4f16f231b8529d5 virtio_ring: introduce virtqueue_resize()
+
+:::::: TO: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+:::::: CC: Michael S. Tsirkin <mst@redhat.com>
 
 -- 
 0-DAY CI Kernel Test Service
