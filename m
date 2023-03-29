@@ -1,399 +1,309 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C436AD51
-	for <oe-kbuild@lists.linux.dev>; Tue, 28 Mar 2023 19:39:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D4FD10E3
+	for <oe-kbuild@lists.linux.dev>; Wed, 29 Mar 2023 06:03:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680032361; x=1711568361;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=c7dSve5GWgWDYYpDS9+MdU1ktLFSZa9D1RNg9vvmmjw=;
-  b=W3mA5jI9cmQJMkTNo4IK6YehvKnayB718s0D0T5CjnYEWmXu4VQgWVbK
-   KDfukNKW9jdx+gD1MNmJs/+h0PPYdr+mpsn+2Qu1z8dK9se6ej3lxVIJJ
-   4S3j3GpODCSWIuxkoRHkmMBpIhBMyhwoZoM2ALzaD+2cr+0jit0ynwXEd
-   dey7363zAuRIRzDnp7F0JXAxak/C+x0fbaAU2zeCXFS7udid4wZP0KDav
-   76Wnn6mIHMFMJ7RH3qL/6srORDj1Sgr1159fhIosHK0Lp5WU3IqmzPpaG
-   bAYWCr/CMWmNaNf/YJJGwVS7d//nEAoGCXkiTCR6CPEWtGxAVgamdzWay
+  t=1680069831; x=1711605831;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=2k+NJGABhy+BusyJ2BulLaVfhqgSkEMX8JktUT+2ukk=;
+  b=kD7Xl5IHJfL5KyHJwbEU8wEPRbzYbhS524YFQZX8h5eK8j8sod8Egr7l
+   /pr9wBWrKfmFzw+G0aNzjt1etIPhNfa5aUjSqc+quL6IHEChJKKIYet4J
+   FjXuSZsG+C65ukU5uZKRmqr7frf+I9Q0rOUe0srVeR9/aufiwHM4bMCaB
+   VezcV79or3NBtJMRY2eCrPaMskVU2FJju4bXiWt6sqShJXuZf7qMdwVO9
+   poaHUIHoKFhzkSif40AgoYY/cZU/Bzuhcn2uDJDvRR7M3Xz93dyKl9PiS
+   oBcjvCX+6A8AoGNAAclqYHZCaT04ehLPlWP95rl+Fp+5Msvwu7j8LDQIE
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="405613006"
-X-IronPort-AV: E=Sophos;i="5.98,297,1673942400"; 
-   d="scan'208";a="405613006"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2023 12:39:20 -0700
+X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="339513634"
+X-IronPort-AV: E=Sophos;i="5.98,299,1673942400"; 
+   d="scan'208";a="339513634"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2023 23:03:50 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="1013687253"
-X-IronPort-AV: E=Sophos;i="5.98,297,1673942400"; 
-   d="scan'208";a="1013687253"
+X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="716754192"
+X-IronPort-AV: E=Sophos;i="5.98,299,1673942400"; 
+   d="scan'208";a="716754192"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 28 Mar 2023 12:39:19 -0700
+  by orsmga001.jf.intel.com with ESMTP; 28 Mar 2023 23:03:49 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1phFA6-000IrN-0v;
-	Tue, 28 Mar 2023 19:39:18 +0000
-Date: Wed, 29 Mar 2023 03:39:02 +0800
+	id 1phOuI-000JH0-2X;
+	Wed, 29 Mar 2023 06:03:38 +0000
+Date: Wed, 29 Mar 2023 14:03:21 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [kdave-btrfs-devel:misc-next 54/97] fs/btrfs/lzo.c:413:3: warning:
- Value stored to 'ret' is never read [clang-analyzer-deadcode.DeadStores]
-Message-ID: <202303290324.qNjBaZMR-lkp@intel.com>
+Subject: [linux-next:master 5115/7607] net/mac80211/mesh_pathtbl.c:616:24:
+ warning: Value stored to 'cache' during its initialization is never read
+ [clang-analyzer-deadcode.DeadStores]
+Message-ID: <202303291438.MdIGMvgu-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
 :::::: 
-:::::: Manual check reason: "low confidence static check warning: fs/btrfs/lzo.c:413:3: warning: Value stored to 'ret' is never read [clang-analyzer-deadcode.DeadStores]"
+:::::: Manual check reason: "low confidence static check warning: net/mac80211/mesh_pathtbl.c:616:24: warning: Value stored to 'cache' during its initialization is never read [clang-analyzer-deadcode.DeadStores]"
 :::::: 
 
 BCC: lkp@intel.com
 CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-TO: Christoph Hellwig <hch@lst.de>
-CC: David Sterba <dsterba@suse.com>
-CC: Anand Jain <anand.jain@oracle.com>
-CC: Johannes Thumshirn <johannes.thumshirn@wdc.com>
-CC: Qu Wenruo <wqu@suse.com>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Felix Fietkau <nbd@nbd.name>
+CC: Johannes Berg <johannes.berg@intel.com>
+CC: Ryder Lee <ryder.lee@mediatek.com>
 
-tree:   https://github.com/kdave/btrfs-devel.git misc-next
-head:   3523b1568d7b3866333638bd02bd72d984a5c6d9
-commit: 0a793f2ddff44513947dc68779095877b6db2b61 [54/97] btrfs: move zero filling of compressed read bios into common code
-:::::: branch date: 27 hours ago
-:::::: commit date: 8 days ago
-config: riscv-randconfig-c006-20230326 (https://download.01.org/0day-ci/archive/20230329/202303290324.qNjBaZMR-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   198925fae644b0099b66fac1d972721e6e563b17
+commit: d5edb9ae8d568745f893c5c5fa3837d85311b131 [5115/7607] wifi: mac80211: mesh fast xmit support
+:::::: branch date: 4 hours ago
+:::::: commit date: 7 days ago
+config: riscv-randconfig-c006-20230326 (https://download.01.org/0day-ci/archive/20230329/202303291438.MdIGMvgu-lkp@intel.com/config)
 compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
         # install riscv cross compiling tool for clang build
         # apt-get install binutils-riscv64-linux-gnu
-        # https://github.com/kdave/btrfs-devel/commit/0a793f2ddff44513947dc68779095877b6db2b61
-        git remote add kdave-btrfs-devel https://github.com/kdave/btrfs-devel.git
-        git fetch --no-tags kdave-btrfs-devel misc-next
-        git checkout 0a793f2ddff44513947dc68779095877b6db2b61
+        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=d5edb9ae8d568745f893c5c5fa3837d85311b131
+        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+        git fetch --no-tags linux-next master
+        git checkout d5edb9ae8d568745f893c5c5fa3837d85311b131
         # save the config file
         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=riscv clang-analyzer  olddefconfig
         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=riscv clang-analyzer 
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/r/202303290324.qNjBaZMR-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202303291438.MdIGMvgu-lkp@intel.com/
 
 clang_analyzer warnings: (new ones prefixed by >>)
-           ^              ~~~~~~~~~~~~~
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   crypto/pcbc.c:74:10: warning: Although the value stored to 'nbytes' is used in the enclosing expression, the value is never actually read from 'nbytes' [clang-analyzer-deadcode.DeadStores]
-           while ((nbytes = walk.nbytes)) {
-                   ^        ~~~~~~~~~~~
-   crypto/pcbc.c:74:10: note: Although the value stored to 'nbytes' is used in the enclosing expression, the value is never actually read from 'nbytes'
-           while ((nbytes = walk.nbytes)) {
-                   ^        ~~~~~~~~~~~
-   crypto/pcbc.c:141:10: warning: Although the value stored to 'nbytes' is used in the enclosing expression, the value is never actually read from 'nbytes' [clang-analyzer-deadcode.DeadStores]
-           while ((nbytes = walk.nbytes)) {
-                   ^        ~~~~~~~~~~~
-   crypto/pcbc.c:141:10: note: Although the value stored to 'nbytes' is used in the enclosing expression, the value is never actually read from 'nbytes'
-           while ((nbytes = walk.nbytes)) {
-                   ^        ~~~~~~~~~~~
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   fs/btrfs/free-space-cache.c:785:2: warning: Value stored to 'ret' is never read [clang-analyzer-deadcode.DeadStores]
-           ret = -1;
-           ^     ~~
-   fs/btrfs/free-space-cache.c:785:2: note: Value stored to 'ret' is never read
-           ret = -1;
-           ^     ~~
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   fs/btrfs/zlib.c:225:13: warning: The left operand of '!=' is a garbage value [clang-analyzer-core.UndefinedBinaryOperatorResult]
-           while (ret != Z_STREAM_END) {
-                  ~~~ ^
-   fs/btrfs/zlib.c:99:2: note: 'ret' declared without an initial value
-           int ret;
-           ^~~~~~~
-   fs/btrfs/zlib.c:115:6: note: Assuming the condition is false
-           if (Z_OK != zlib_deflateInit(&workspace->strm, workspace->level)) {
+           ^
+   net/wireless/chan.c:394:10: note: 'c1->width' is not equal to 'c2->width'
+           if (c1->width == c2->width)
+                   ^
+   net/wireless/chan.c:394:2: note: Taking false branch
+           if (c1->width == c2->width)
+           ^
+   net/wireless/chan.c:401:6: note: Assuming field 'width' is not equal to NL80211_CHAN_WIDTH_5
+           if (c1->width == NL80211_CHAN_WIDTH_5 ||
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/wireless/chan.c:401:6: note: Left side of '||' is false
+   net/wireless/chan.c:402:6: note: Assuming field 'width' is not equal to NL80211_CHAN_WIDTH_10
+               c1->width == NL80211_CHAN_WIDTH_10 ||
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/wireless/chan.c:401:6: note: Left side of '||' is false
+           if (c1->width == NL80211_CHAN_WIDTH_5 ||
                ^
-   include/linux/zlib.h:148:25: note: expanded from macro 'Z_OK'
-   #define Z_OK            0
-                           ^
-   fs/btrfs/zlib.c:115:2: note: Taking false branch
-           if (Z_OK != zlib_deflateInit(&workspace->strm, workspace->level)) {
+   net/wireless/chan.c:403:6: note: Assuming field 'width' is not equal to NL80211_CHAN_WIDTH_5
+               c2->width == NL80211_CHAN_WIDTH_5 ||
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/wireless/chan.c:401:6: note: Left side of '||' is false
+           if (c1->width == NL80211_CHAN_WIDTH_5 ||
+               ^
+   net/wireless/chan.c:404:6: note: Assuming field 'width' is not equal to NL80211_CHAN_WIDTH_10
+               c2->width == NL80211_CHAN_WIDTH_10)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/wireless/chan.c:401:2: note: Taking false branch
+           if (c1->width == NL80211_CHAN_WIDTH_5 ||
            ^
-   fs/btrfs/zlib.c:125:6: note: Assuming 'out_page' is not equal to NULL
-           if (out_page == NULL) {
-               ^~~~~~~~~~~~~~~~
-   fs/btrfs/zlib.c:125:2: note: Taking false branch
-           if (out_page == NULL) {
+   net/wireless/chan.c:407:6: note: Assuming field 'width' is not equal to NL80211_CHAN_WIDTH_20_NOHT
+           if (c1->width == NL80211_CHAN_WIDTH_20_NOHT ||
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/wireless/chan.c:407:6: note: Left side of '||' is false
+   net/wireless/chan.c:408:6: note: Assuming field 'width' is not equal to NL80211_CHAN_WIDTH_20
+               c1->width == NL80211_CHAN_WIDTH_20)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/wireless/chan.c:407:2: note: Taking false branch
+           if (c1->width == NL80211_CHAN_WIDTH_20_NOHT ||
            ^
-   fs/btrfs/zlib.c:138:9: note: Assuming 'len' is <= field 'total_in'
-           while (workspace->strm.total_in < len) {
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/btrfs/zlib.c:138:2: note: Loop condition is false. Execution continues on line 220
-           while (workspace->strm.total_in < len) {
+   net/wireless/chan.c:411:6: note: Assuming field 'width' is not equal to NL80211_CHAN_WIDTH_20_NOHT
+           if (c2->width == NL80211_CHAN_WIDTH_20_NOHT ||
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/wireless/chan.c:411:6: note: Left side of '||' is false
+   net/wireless/chan.c:412:6: note: Assuming field 'width' is not equal to NL80211_CHAN_WIDTH_20
+               c2->width == NL80211_CHAN_WIDTH_20)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/wireless/chan.c:411:2: note: Taking false branch
+           if (c2->width == NL80211_CHAN_WIDTH_20_NOHT ||
            ^
-   fs/btrfs/zlib.c:225:13: note: The left operand of '!=' is a garbage value
-           while (ret != Z_STREAM_END) {
-                  ~~~ ^
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   4 warnings generated.
->> fs/btrfs/lzo.c:413:3: warning: Value stored to 'ret' is never read [clang-analyzer-deadcode.DeadStores]
-                   ret = 0;
-                   ^     ~
-   fs/btrfs/lzo.c:413:3: note: Value stored to 'ret' is never read
-                   ret = 0;
-                   ^     ~
+   net/wireless/chan.c:416:2: note: Calling 'chandef_primary_freqs'
+           chandef_primary_freqs(c2, &c2_pri40, &c2_pri80, &c2_pri160);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/wireless/chan.c:328:2: note: Control jumps to the 'default' case at line 371
+           switch (c->width) {
+           ^
+   net/wireless/chan.c:372:3: note: Taking true branch
+                   WARN_ON_ONCE(1);
+                   ^
+   include/asm-generic/bug.h:111:2: note: expanded from macro 'WARN_ON_ONCE'
+           if (unlikely(__ret_warn_on))                            \
+           ^
+   net/wireless/chan.c:372:3: note: Loop condition is false.  Exiting loop
+                   WARN_ON_ONCE(1);
+                   ^
+   include/asm-generic/bug.h:112:3: note: expanded from macro 'WARN_ON_ONCE'
+                   __WARN_FLAGS(BUGFLAG_ONCE |                     \
+                   ^
+   arch/riscv/include/asm/bug.h:79:29: note: expanded from macro '__WARN_FLAGS'
+   #define __WARN_FLAGS(flags) __BUG_FLAGS(BUGFLAG_WARNING|(flags))
+                               ^
+   arch/riscv/include/asm/bug.h:53:32: note: expanded from macro '__BUG_FLAGS'
+   #define __BUG_FLAGS(flags)                                      \
+                                                                   ^
+   net/wireless/chan.c:374:1: note: Returning without writing to '*pri40'
+   }
+   ^
+   net/wireless/chan.c:416:2: note: Returning from 'chandef_primary_freqs'
+           chandef_primary_freqs(c2, &c2_pri40, &c2_pri80, &c2_pri160);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/wireless/chan.c:418:15: note: The right operand of '!=' is a garbage value
+           if (c1_pri40 != c2_pri40)
+                        ^  ~~~~~~~~
    Suppressed 3 warnings (3 in non-user code).
    Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
    6 warnings generated.
-   fs/btrfs/zstd.c:444:4: warning: Value stored to 'tot_out' is never read [clang-analyzer-deadcode.DeadStores]
-                           tot_out += workspace->out_buf.pos;
-                           ^          ~~~~~~~~~~~~~~~~~~~~~~
-   fs/btrfs/zstd.c:444:4: note: Value stored to 'tot_out' is never read
-                           tot_out += workspace->out_buf.pos;
-                           ^          ~~~~~~~~~~~~~~~~~~~~~~
-   fs/btrfs/zstd.c:503:4: warning: Value stored to 'tot_out' is never read [clang-analyzer-deadcode.DeadStores]
-                           tot_out += workspace->out_buf.pos;
-                           ^          ~~~~~~~~~~~~~~~~~~~~~~
-   fs/btrfs/zstd.c:503:4: note: Value stored to 'tot_out' is never read
-                           tot_out += workspace->out_buf.pos;
-                           ^          ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/page-flags.h:251:23: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]
-           unsigned long head = READ_ONCE(page->compound_head);
-                                ^
-   include/asm-generic/rwonce.h:50:2: note: expanded from macro 'READ_ONCE'
-           __READ_ONCE(x);                                                 \
-           ^
-   include/asm-generic/rwonce.h:44:24: note: expanded from macro '__READ_ONCE'
-   #define __READ_ONCE(x)  (*(const volatile __unqual_scalar_typeof(x) *)&(x))
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   net/mac80211/mesh.c:1004:3: warning: Value stored to 'pos' is never read [clang-analyzer-deadcode.DeadStores]
+                   pos += 2;
+                   ^      ~
+   net/mac80211/mesh.c:1004:3: note: Value stored to 'pos' is never read
+                   pos += 2;
+                   ^      ~
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   9 warnings generated.
+>> net/mac80211/mesh_pathtbl.c:616:24: warning: Value stored to 'cache' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct mesh_tx_cache *cache = &sdata->u.mesh.tx_cache;
+                                 ^~~~~   ~~~~~~~~~~~~~~~~~~~~~~~
+   net/mac80211/mesh_pathtbl.c:616:24: note: Value stored to 'cache' during its initialization is never read
+           struct mesh_tx_cache *cache = &sdata->u.mesh.tx_cache;
+                                 ^~~~~   ~~~~~~~~~~~~~~~~~~~~~~~
+   net/mac80211/mesh_pathtbl.c:631:24: warning: Value stored to 'cache' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct mesh_tx_cache *cache = &sdata->u.mesh.tx_cache;
+                                 ^~~~~   ~~~~~~~~~~~~~~~~~~~~~~~
+   net/mac80211/mesh_pathtbl.c:631:24: note: Value stored to 'cache' during its initialization is never read
+           struct mesh_tx_cache *cache = &sdata->u.mesh.tx_cache;
+                                 ^~~~~   ~~~~~~~~~~~~~~~~~~~~~~~
+   net/mac80211/mesh_pathtbl.c:646:24: warning: Value stored to 'cache' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct mesh_tx_cache *cache = &sdata->u.mesh.tx_cache;
+                                 ^~~~~   ~~~~~~~~~~~~~~~~~~~~~~~
+   net/mac80211/mesh_pathtbl.c:646:24: note: Value stored to 'cache' during its initialization is never read
+           struct mesh_tx_cache *cache = &sdata->u.mesh.tx_cache;
+                                 ^~~~~   ~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   net/mac80211/key.c:117:18: warning: Access to field 'local' results in a dereference of a null pointer (loaded from variable 'sdata') [clang-analyzer-core.NullDereference]
+           assert_key_lock(sdata->local);
                            ^
-   fs/btrfs/zstd.c:381:2: note: 'in_page' initialized to a null pointer value
-           struct page *in_page = NULL;  /* The current page to read */
-           ^~~~~~~~~~~~~~~~~~~~
-   fs/btrfs/zstd.c:398:6: note: Assuming 'stream' is null
-           if (!stream) {
-               ^~~~~~~
-   fs/btrfs/zstd.c:398:2: note: Taking true branch
-           if (!stream) {
+   net/mac80211/key.c:1354:6: note: Assuming the condition is false
+           if (key->flags & KEY_FLAG_UPLOADED_TO_HARDWARE) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/mac80211/key.c:1354:2: note: Taking false branch
+           if (key->flags & KEY_FLAG_UPLOADED_TO_HARDWARE) {
            ^
-   fs/btrfs/zstd.c:399:3: note: Loop condition is false.  Exiting loop
-                   pr_warn("BTRFS: zstd_init_cstream failed\n");
+   net/mac80211/key.c:1363:2: note: Calling 'ieee80211_key_free'
+           ieee80211_key_free(key, false);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/mac80211/key.c:937:7: note: 'key' is non-null
+           if (!key)
+                ^~~
+   net/mac80211/key.c:937:2: note: Taking false branch
+           if (!key)
+           ^
+   net/mac80211/key.c:943:6: note: Assuming field 'sdata' is null
+           if (key->sdata)
+               ^~~~~~~~~~
+   net/mac80211/key.c:943:2: note: Taking false branch
+           if (key->sdata)
+           ^
+   net/mac80211/key.c:947:2: note: Calling 'ieee80211_key_destroy'
+           ieee80211_key_destroy(key, delay_tailroom);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/mac80211/key.c:787:7: note: 'key' is non-null
+           if (!key)
+                ^~~
+   net/mac80211/key.c:787:2: note: Taking false branch
+           if (!key)
+           ^
+   net/mac80211/key.c:796:2: note: Calling '__ieee80211_key_destroy'
+           __ieee80211_key_destroy(key, delay_tailroom);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/mac80211/key.c:766:6: note: Assuming field 'local' is non-null
+           if (key->local) {
+               ^~~~~~~~~~
+   net/mac80211/key.c:766:2: note: Taking true branch
+           if (key->local) {
+           ^
+   net/mac80211/key.c:767:3: note: 'sdata' initialized to a null pointer value
+                   struct ieee80211_sub_if_data *sdata = key->sdata;
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/mac80211/key.c:771:7: note: 'delay_tailroom' is false
+                   if (delay_tailroom) {
+                       ^~~~~~~~~~~~~~
+   net/mac80211/key.c:771:3: note: Taking false branch
+                   if (delay_tailroom) {
                    ^
-   include/linux/printk.h:508:2: note: expanded from macro 'pr_warn'
-           printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
+   net/mac80211/key.c:777:33: note: Passing null pointer value via 1st parameter 'sdata'
+                           decrease_tailroom_need_count(sdata, 1);
+                                                        ^~~~~
+   net/mac80211/key.c:777:4: note: Calling 'decrease_tailroom_need_count'
+                           decrease_tailroom_need_count(sdata, 1);
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/mac80211/key.c:117:18: note: Access to field 'local' results in a dereference of a null pointer (loaded from variable 'sdata')
+           assert_key_lock(sdata->local);
+                           ^~~~~
+   net/mac80211/key.c:773:4: warning: Access to field 'crypto_tx_tailroom_pending_dec' results in a dereference of a null pointer (loaded from variable 'sdata') [clang-analyzer-core.NullDereference]
+                           sdata->crypto_tx_tailroom_pending_dec++;
+                           ^
+   net/mac80211/key.c:1376:14: note: Assuming field 'wowlan' is true
+           if (WARN_ON(!local->wowlan))
+                       ^
+   include/asm-generic/bug.h:122:25: note: expanded from macro 'WARN_ON'
+           int __ret_warn_on = !!(condition);                              \
+                                  ^~~~~~~~~
+   net/mac80211/key.c:1376:6: note: Taking false branch
+           if (WARN_ON(!local->wowlan))
+               ^
+   include/asm-generic/bug.h:123:2: note: expanded from macro 'WARN_ON'
+           if (unlikely(__ret_warn_on))                                    \
            ^
-   include/linux/printk.h:455:26: note: expanded from macro 'printk'
-   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-                            ^
-   include/linux/printk.h:426:3: note: expanded from macro 'printk_index_wrap'
-                   __printk_index_emit(_fmt, NULL, NULL);                  \
-                   ^
-   include/linux/printk.h:401:34: note: expanded from macro '__printk_index_emit'
-   #define __printk_index_emit(...) do {} while (0)
-                                    ^
-   fs/btrfs/zstd.c:401:3: note: Control jumps to line 534
-                   goto out;
-                   ^
-   fs/btrfs/zstd.c:535:6: note: Assuming field 'src' is non-null
-           if (workspace->in_buf.src) {
-               ^~~~~~~~~~~~~~~~~~~~~
-   fs/btrfs/zstd.c:535:2: note: Taking true branch
-           if (workspace->in_buf.src) {
+   net/mac80211/key.c:1376:2: note: Taking false branch
+           if (WARN_ON(!local->wowlan))
            ^
-   fs/btrfs/zstd.c:536:3: note: Taking false branch
-                   kunmap_local(workspace->in_buf.src);
-                   ^
-   include/linux/highmem-internal.h:286:2: note: expanded from macro 'kunmap_local'
-           BUILD_BUG_ON(__same_type((__addr), struct page *));     \
-           ^
-   include/linux/build_bug.h:50:2: note: expanded from macro 'BUILD_BUG_ON'
-           BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-           ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON_MSG'
-   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                       ^
-   include/linux/compiler_types.h:397:2: note: expanded from macro 'compiletime_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-           ^
-   include/linux/compiler_types.h:385:2: note: expanded from macro '_compiletime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:377:3: note: expanded from macro '__compiletime_assert'
-                   if (!(condition))                                       \
-                   ^
-   fs/btrfs/zstd.c:536:3: note: Loop condition is false.  Exiting loop
-                   kunmap_local(workspace->in_buf.src);
-                   ^
-   include/linux/highmem-internal.h:286:2: note: expanded from macro 'kunmap_local'
-           BUILD_BUG_ON(__same_type((__addr), struct page *));     \
-           ^
-   include/linux/build_bug.h:50:2: note: expanded from macro 'BUILD_BUG_ON'
-           BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-           ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON_MSG'
-   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                       ^
-   include/linux/compiler_types.h:397:2: note: expanded from macro 'compiletime_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-           ^
-   include/linux/compiler_types.h:385:2: note: expanded from macro '_compiletime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
+   net/mac80211/key.c:1379:14: note: Assuming field 'type' is equal to NL80211_IFTYPE_STATION
+           if (WARN_ON(vif->type != NL80211_IFTYPE_STATION))
 
-vim +/ret +413 fs/btrfs/lzo.c
+vim +/cache +616 net/mac80211/mesh_pathtbl.c
 
-a6fa6fae40ec33 Li Zefan              2010-10-25  329  
-a6e66e6f8c1b68 Qu Wenruo             2021-07-26  330  int lzo_decompress_bio(struct list_head *ws, struct compressed_bio *cb)
-a6e66e6f8c1b68 Qu Wenruo             2021-07-26  331  {
-a6e66e6f8c1b68 Qu Wenruo             2021-07-26  332  	struct workspace *workspace = list_entry(ws, struct workspace, list);
-80f96b2a77e63b Christoph Hellwig     2023-02-10  333  	const struct btrfs_fs_info *fs_info = cb->bbio.inode->root->fs_info;
-a6e66e6f8c1b68 Qu Wenruo             2021-07-26  334  	const u32 sectorsize = fs_info->sectorsize;
-ccaa66c8dd277a David Sterba          2021-10-27  335  	char *kaddr;
-a6e66e6f8c1b68 Qu Wenruo             2021-07-26  336  	int ret;
-a6e66e6f8c1b68 Qu Wenruo             2021-07-26  337  	/* Compressed data length, can be unaligned */
-a6e66e6f8c1b68 Qu Wenruo             2021-07-26  338  	u32 len_in;
-a6e66e6f8c1b68 Qu Wenruo             2021-07-26  339  	/* Offset inside the compressed data */
-a6e66e6f8c1b68 Qu Wenruo             2021-07-26  340  	u32 cur_in = 0;
-a6e66e6f8c1b68 Qu Wenruo             2021-07-26  341  	/* Bytes decompressed so far */
-a6e66e6f8c1b68 Qu Wenruo             2021-07-26  342  	u32 cur_out = 0;
-a6e66e6f8c1b68 Qu Wenruo             2021-07-26  343  
-51c0674a56f982 Fabio M. De Francesco 2022-05-31  344  	kaddr = kmap_local_page(cb->compressed_pages[0]);
-ccaa66c8dd277a David Sterba          2021-10-27  345  	len_in = read_compress_length(kaddr);
-51c0674a56f982 Fabio M. De Francesco 2022-05-31  346  	kunmap_local(kaddr);
-a6e66e6f8c1b68 Qu Wenruo             2021-07-26  347  	cur_in += LZO_LEN;
-a6fa6fae40ec33 Li Zefan              2010-10-25  348  
-a6e66e6f8c1b68 Qu Wenruo             2021-07-26  349  	/*
-a6e66e6f8c1b68 Qu Wenruo             2021-07-26  350  	 * LZO header length check
-a6e66e6f8c1b68 Qu Wenruo             2021-07-26  351  	 *
-a6e66e6f8c1b68 Qu Wenruo             2021-07-26  352  	 * The total length should not exceed the maximum extent length,
-a6e66e6f8c1b68 Qu Wenruo             2021-07-26  353  	 * and all sectors should be used.
-a6e66e6f8c1b68 Qu Wenruo             2021-07-26  354  	 * If this happens, it means the compressed extent is corrupted.
-a6e66e6f8c1b68 Qu Wenruo             2021-07-26  355  	 */
-a6e66e6f8c1b68 Qu Wenruo             2021-07-26  356  	if (len_in > min_t(size_t, BTRFS_MAX_COMPRESSED, cb->compressed_len) ||
-a6e66e6f8c1b68 Qu Wenruo             2021-07-26  357  	    round_up(len_in, sectorsize) < cb->compressed_len) {
-a6e66e6f8c1b68 Qu Wenruo             2021-07-26  358  		btrfs_err(fs_info,
-a6e66e6f8c1b68 Qu Wenruo             2021-07-26  359  			"invalid lzo header, lzo len %u compressed len %u",
-a6e66e6f8c1b68 Qu Wenruo             2021-07-26  360  			len_in, cb->compressed_len);
-a6e66e6f8c1b68 Qu Wenruo             2021-07-26  361  		return -EUCLEAN;
-a6fa6fae40ec33 Li Zefan              2010-10-25  362  	}
-ca9b688c1c9a21 Li Zefan              2011-02-16  363  
-a6e66e6f8c1b68 Qu Wenruo             2021-07-26  364  	/* Go through each lzo segment */
-a6e66e6f8c1b68 Qu Wenruo             2021-07-26  365  	while (cur_in < len_in) {
-a6e66e6f8c1b68 Qu Wenruo             2021-07-26  366  		struct page *cur_page;
-a6e66e6f8c1b68 Qu Wenruo             2021-07-26  367  		/* Length of the compressed segment */
-a6e66e6f8c1b68 Qu Wenruo             2021-07-26  368  		u32 seg_len;
-a6e66e6f8c1b68 Qu Wenruo             2021-07-26  369  		u32 sector_bytes_left;
-a6e66e6f8c1b68 Qu Wenruo             2021-07-26  370  		size_t out_len = lzo1x_worst_compress(sectorsize);
-a6fa6fae40ec33 Li Zefan              2010-10-25  371  
-a6e66e6f8c1b68 Qu Wenruo             2021-07-26  372  		/*
-a6e66e6f8c1b68 Qu Wenruo             2021-07-26  373  		 * We should always have enough space for one segment header
-a6e66e6f8c1b68 Qu Wenruo             2021-07-26  374  		 * inside current sector.
-a6e66e6f8c1b68 Qu Wenruo             2021-07-26  375  		 */
-a6e66e6f8c1b68 Qu Wenruo             2021-07-26  376  		ASSERT(cur_in / sectorsize ==
-a6e66e6f8c1b68 Qu Wenruo             2021-07-26  377  		       (cur_in + LZO_LEN - 1) / sectorsize);
-a6e66e6f8c1b68 Qu Wenruo             2021-07-26  378  		cur_page = cb->compressed_pages[cur_in / PAGE_SIZE];
-a6e66e6f8c1b68 Qu Wenruo             2021-07-26  379  		ASSERT(cur_page);
-51c0674a56f982 Fabio M. De Francesco 2022-05-31  380  		kaddr = kmap_local_page(cur_page);
-ccaa66c8dd277a David Sterba          2021-10-27  381  		seg_len = read_compress_length(kaddr + offset_in_page(cur_in));
-51c0674a56f982 Fabio M. De Francesco 2022-05-31  382  		kunmap_local(kaddr);
-a6e66e6f8c1b68 Qu Wenruo             2021-07-26  383  		cur_in += LZO_LEN;
-a6e66e6f8c1b68 Qu Wenruo             2021-07-26  384  
-dc4a4bdb3f22f9 Dāvis Mosāns          2022-02-02  385  		if (seg_len > WORKSPACE_CBUF_LENGTH) {
-741b23a970a79d Dāvis Mosāns          2022-02-02  386  			/*
-741b23a970a79d Dāvis Mosāns          2022-02-02  387  			 * seg_len shouldn't be larger than we have allocated
-741b23a970a79d Dāvis Mosāns          2022-02-02  388  			 * for workspace->cbuf
-741b23a970a79d Dāvis Mosāns          2022-02-02  389  			 */
-741b23a970a79d Dāvis Mosāns          2022-02-02  390  			btrfs_err(fs_info, "unexpectedly large lzo segment len %u",
-741b23a970a79d Dāvis Mosāns          2022-02-02  391  					seg_len);
-0a793f2ddff445 Christoph Hellwig     2023-03-07  392  			return -EIO;
-741b23a970a79d Dāvis Mosāns          2022-02-02  393  		}
-741b23a970a79d Dāvis Mosāns          2022-02-02  394  
-a6e66e6f8c1b68 Qu Wenruo             2021-07-26  395  		/* Copy the compressed segment payload into workspace */
-a6e66e6f8c1b68 Qu Wenruo             2021-07-26  396  		copy_compressed_segment(cb, workspace->cbuf, seg_len, &cur_in);
-a6e66e6f8c1b68 Qu Wenruo             2021-07-26  397  
-a6e66e6f8c1b68 Qu Wenruo             2021-07-26  398  		/* Decompress the data */
-a6e66e6f8c1b68 Qu Wenruo             2021-07-26  399  		ret = lzo1x_decompress_safe(workspace->cbuf, seg_len,
-a6e66e6f8c1b68 Qu Wenruo             2021-07-26  400  					    workspace->buf, &out_len);
-a6fa6fae40ec33 Li Zefan              2010-10-25  401  		if (ret != LZO_E_OK) {
-a6e66e6f8c1b68 Qu Wenruo             2021-07-26  402  			btrfs_err(fs_info, "failed to decompress");
-0a793f2ddff445 Christoph Hellwig     2023-03-07  403  			return -EIO;
-a6fa6fae40ec33 Li Zefan              2010-10-25  404  		}
-a6fa6fae40ec33 Li Zefan              2010-10-25  405  
-a6e66e6f8c1b68 Qu Wenruo             2021-07-26  406  		/* Copy the data into inode pages */
-a6e66e6f8c1b68 Qu Wenruo             2021-07-26  407  		ret = btrfs_decompress_buf2page(workspace->buf, out_len, cb, cur_out);
-a6e66e6f8c1b68 Qu Wenruo             2021-07-26  408  		cur_out += out_len;
-a6fa6fae40ec33 Li Zefan              2010-10-25  409  
-a6e66e6f8c1b68 Qu Wenruo             2021-07-26  410  		/* All data read, exit */
-a6e66e6f8c1b68 Qu Wenruo             2021-07-26  411  		if (ret == 0)
-0a793f2ddff445 Christoph Hellwig     2023-03-07  412  			return 0;
-a6e66e6f8c1b68 Qu Wenruo             2021-07-26 @413  		ret = 0;
-a6e66e6f8c1b68 Qu Wenruo             2021-07-26  414  
-a6e66e6f8c1b68 Qu Wenruo             2021-07-26  415  		/* Check if the sector has enough space for a segment header */
-a6e66e6f8c1b68 Qu Wenruo             2021-07-26  416  		sector_bytes_left = sectorsize - (cur_in % sectorsize);
-a6e66e6f8c1b68 Qu Wenruo             2021-07-26  417  		if (sector_bytes_left >= LZO_LEN)
-a6e66e6f8c1b68 Qu Wenruo             2021-07-26  418  			continue;
-a6e66e6f8c1b68 Qu Wenruo             2021-07-26  419  
-a6e66e6f8c1b68 Qu Wenruo             2021-07-26  420  		/* Skip the padding zeros */
-a6e66e6f8c1b68 Qu Wenruo             2021-07-26  421  		cur_in += sector_bytes_left;
-a6fa6fae40ec33 Li Zefan              2010-10-25  422  	}
-0a793f2ddff445 Christoph Hellwig     2023-03-07  423  
-0a793f2ddff445 Christoph Hellwig     2023-03-07  424  	return 0;
-a6fa6fae40ec33 Li Zefan              2010-10-25  425  }
-a6fa6fae40ec33 Li Zefan              2010-10-25  426  
-
-:::::: The code at line 413 was first introduced by commit
-:::::: a6e66e6f8c1b685e11b778bef614480a9c1a5278 btrfs: rework lzo_decompress_bio() to make it subpage compatible
-
-:::::: TO: Qu Wenruo <wqu@suse.com>
-:::::: CC: David Sterba <dsterba@suse.com>
+d5edb9ae8d56874 Felix Fietkau 2023-03-14  612  
+d5edb9ae8d56874 Felix Fietkau 2023-03-14  613  void mesh_fast_tx_flush_mpath(struct mesh_path *mpath)
+d5edb9ae8d56874 Felix Fietkau 2023-03-14  614  {
+d5edb9ae8d56874 Felix Fietkau 2023-03-14  615  	struct ieee80211_sub_if_data *sdata = mpath->sdata;
+d5edb9ae8d56874 Felix Fietkau 2023-03-14 @616  	struct mesh_tx_cache *cache = &sdata->u.mesh.tx_cache;
+d5edb9ae8d56874 Felix Fietkau 2023-03-14  617  	struct ieee80211_mesh_fast_tx *entry;
+d5edb9ae8d56874 Felix Fietkau 2023-03-14  618  	struct hlist_node *n;
+d5edb9ae8d56874 Felix Fietkau 2023-03-14  619  
+d5edb9ae8d56874 Felix Fietkau 2023-03-14  620  	cache = &sdata->u.mesh.tx_cache;
+d5edb9ae8d56874 Felix Fietkau 2023-03-14  621  	spin_lock_bh(&cache->walk_lock);
+d5edb9ae8d56874 Felix Fietkau 2023-03-14  622  	hlist_for_each_entry_safe(entry, n, &cache->walk_head, walk_list)
+d5edb9ae8d56874 Felix Fietkau 2023-03-14  623  		if (entry->mpath == mpath)
+d5edb9ae8d56874 Felix Fietkau 2023-03-14  624  			mesh_fast_tx_entry_free(cache, entry);
+d5edb9ae8d56874 Felix Fietkau 2023-03-14  625  	spin_unlock_bh(&cache->walk_lock);
+d5edb9ae8d56874 Felix Fietkau 2023-03-14  626  }
+d5edb9ae8d56874 Felix Fietkau 2023-03-14  627  
 
 -- 
 0-DAY CI Kernel Test Service
