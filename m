@@ -1,41 +1,41 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67D3C6ADB
-	for <oe-kbuild@lists.linux.dev>; Wed, 29 Mar 2023 18:47:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB1B66FA2
+	for <oe-kbuild@lists.linux.dev>; Wed, 29 Mar 2023 18:58:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680115629; x=1711651629;
+  t=1680116294; x=1711652294;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=qr4VJF+TguXemwvpVIMlPFU0cdlRTTVW5bww7+BEbig=;
-  b=HHBGp7UxROEPyiSdHUPQpIUHCXcSFVShZzzCESEHQTRRDz3C1aOr9AtD
-   YviVkRdFMGLwuf2qqirMBgbvuZZHSJ42MFSSk/hW52CMJXcl6XjjOARcg
-   a9Jn5LM6lcJRl+mEJ347qMZvTJQ3Rqf79h5G7FYQ7x66ewVVPgNzQc0ul
-   6GnixPzcOOXj4Xerby1/tImo0bB29wRA4TBJeHtuwdEeFmFru9OAHspgv
-   57lSiyvSbjAds2TZ855GscjSdkZQI+yuJLjQiJvjKyEyY04JPw21ZD4Uq
-   2FL7F3aBsiAtI9ResKxjI1mDnwJiPiN5joKegrtrPIkBOQOhZDyqVp2mi
+  bh=WQ74gnpZe689ranKQA4ALZe+YTvjjs0xaByzipoPsWs=;
+  b=HWKh1KiRxZPUq1vNqdg6gGmLilPfLV8r9QnvetrWNAMBwHKy3XyOwM02
+   UOKnJ4UxyDpfDF4VVG5RQLAWJ6pz95VxSsWpfxqd46uvP0199Efk5L86n
+   ZScaZ/79eKRRt2QydvnuP7tQPOVUqQ7prCOnwEMBR8sawKJ67ICg/5btV
+   9pTgzeexYKFxCe/w4Ewr2fO3w4LCWoGYfhrFXmQqvThd2+NPmC9SGI3ge
+   /kWb41LbA2kv8fjLuYRb7+licUTYeTCH2+bJTlw/EGgRsFhLbY2w5JP05
+   0TM4PqnjeQje/ppX6GpmHf6UtnDQ3eALKGK6FKoyvnvNcXebR4stYOwFI
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="427246139"
+X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="405925403"
 X-IronPort-AV: E=Sophos;i="5.98,301,1673942400"; 
-   d="scan'208";a="427246139"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2023 11:47:08 -0700
+   d="scan'208";a="405925403"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2023 11:58:13 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="1014144476"
+X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="748886480"
 X-IronPort-AV: E=Sophos;i="5.98,301,1673942400"; 
-   d="scan'208";a="1014144476"
+   d="scan'208";a="748886480"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 29 Mar 2023 11:47:07 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 29 Mar 2023 11:58:13 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1phap9-000Jpk-0D;
-	Wed, 29 Mar 2023 18:47:07 +0000
-Date: Thu, 30 Mar 2023 02:46:53 +0800
+	id 1phazn-000JqY-1m;
+	Wed, 29 Mar 2023 18:58:07 +0000
+Date: Thu, 30 Mar 2023 02:57:28 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH v8 2/9] block: Add copy offload support infrastructure
-Message-ID: <202303300206.mamLH2Ps-lkp@intel.com>
+Subject: mm/vmscan.c:4080:29: sparse: sparse: cast to non-scalar
+Message-ID: <202303300235.oenPLURB-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -46,120 +46,99 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "low confidence static check warning: block/blk-lib.c:342:6: warning: Redundant initialization for 'ret'. The initialized value is overwritten before it is read. [redundantInitialization]"
+:::::: Manual check reason: "low confidence static check warning: mm/vmscan.c:4080:29: sparse: sparse: cast to non-scalar"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20230327084103.21601-3-anuj20.g@samsung.com>
-References: <20230327084103.21601-3-anuj20.g@samsung.com>
-TO: Anuj Gupta <anuj20.g@samsung.com>
-TO: Jens Axboe <axboe@kernel.dk>
-TO: Alasdair Kergon <agk@redhat.com>
-TO: Mike Snitzer <snitzer@kernel.org>
-TO: dm-devel@redhat.com
-TO: Keith Busch <kbusch@kernel.org>
-TO: Christoph Hellwig <hch@lst.de>
-TO: Sagi Grimberg <sagi@grimberg.me>
-TO: James Smart <james.smart@broadcom.com>
-TO: Chaitanya Kulkarni <kch@nvidia.com>
-TO: Alexander Viro <viro@zeniv.linux.org.uk>
-TO: Christian Brauner <brauner@kernel.org>
-CC: bvanassche@acm.org
-CC: hare@suse.de
-CC: ming.lei@redhat.com
-CC: damien.lemoal@opensource.wdc.com
-CC: anuj20.g@samsung.com
-CC: joshi.k@samsung.com
-CC: nitheshshetty@gmail.com
-CC: gost.dev@samsung.com
-CC: Nitesh Shetty <nj.shetty@samsung.com>
-CC: linux-block@vger.kernel.org
 CC: linux-kernel@vger.kernel.org
-CC: linux-nvme@lists.infradead.org
-CC: linux-fsdevel@vger.kernel.org
+TO: Yu Zhao <yuzhao@google.com>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
 
-Hi Anuj,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on axboe-block/for-next]
-[also build test WARNING on device-mapper-dm/for-next linus/master v6.3-rc4 next-20230329]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Anuj-Gupta/block-Add-copy-offload-support-infrastructure/20230329-162018
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-next
-patch link:    https://lore.kernel.org/r/20230327084103.21601-3-anuj20.g%40samsung.com
-patch subject: [PATCH v8 2/9] block: Add copy offload support infrastructure
-:::::: branch date: 10 hours ago
-:::::: commit date: 10 hours ago
-compiler: ia64-linux-gcc (GCC) 12.1.0
-reproduce (cppcheck warning):
-        # apt-get install cppcheck
-        git checkout f1e67115ee4c790bb5abd365c7e126bb09752ef1
-        cppcheck --quiet --enable=style,performance,portability --template=gcc FILE
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   ffe78bbd512166e0ef1cc4858010b128c510ed7d
+commit: bd74fdaea146029e4fa12c6de89adbe0779348a9 mm: multi-gen LRU: support page table walks
+date:   6 months ago
+:::::: branch date: 89 minutes ago
+:::::: commit date: 6 months ago
+config: alpha-randconfig-s052-20230329 (https://download.01.org/0day-ci/archive/20230330/202303300235.oenPLURB-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 12.1.0
+reproduce:
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=bd74fdaea146029e4fa12c6de89adbe0779348a9
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout bd74fdaea146029e4fa12c6de89adbe0779348a9
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=alpha olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=alpha SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/r/202303300206.mamLH2Ps-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202303300235.oenPLURB-lkp@intel.com/
 
+sparse warnings: (new ones prefixed by >>)
+>> mm/vmscan.c:4080:29: sparse: sparse: cast to non-scalar
+>> mm/vmscan.c:4080:29: sparse: sparse: cast from non-scalar
+   mm/vmscan.c: note: in included file (through include/linux/rbtree.h, include/linux/mm_types.h, include/linux/mmzone.h, ...):
+   include/linux/rcupdate.h:737:9: sparse: sparse: context imbalance in 'lru_gen_look_around' - different lock contexts for basic block
+   mm/vmscan.c: note: in included file (through include/linux/swap.h):
+   include/linux/memcontrol.h:1663:39: sparse: sparse: context imbalance in 'check_move_unevictable_folios' - unexpected unlock
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+vim +4080 mm/vmscan.c
 
->> block/blk-lib.c:342:6: warning: Redundant initialization for 'ret'. The initialized value is overwritten before it is read. [redundantInitialization]
-    ret = blk_copy_sanity_check(bdev_in, pos_in, bdev_out, pos_out, len);
-        ^
-   block/blk-lib.c:340:10: note: ret is initialized
-    int ret = -EINVAL;
-            ^
-   block/blk-lib.c:342:6: note: ret is overwritten
-    ret = blk_copy_sanity_check(bdev_in, pos_in, bdev_out, pos_out, len);
-        ^
-
-vim +/ret +342 block/blk-lib.c
-
-f1e67115ee4c790 Nitesh Shetty 2023-03-27  314  
-f1e67115ee4c790 Nitesh Shetty 2023-03-27  315  /*
-f1e67115ee4c790 Nitesh Shetty 2023-03-27  316   * @bdev_in:	source block device
-f1e67115ee4c790 Nitesh Shetty 2023-03-27  317   * @pos_in:	source offset
-f1e67115ee4c790 Nitesh Shetty 2023-03-27  318   * @bdev_out:	destination block device
-f1e67115ee4c790 Nitesh Shetty 2023-03-27  319   * @pos_out:	destination offset
-f1e67115ee4c790 Nitesh Shetty 2023-03-27  320   * @len:	length in bytes to be copied
-f1e67115ee4c790 Nitesh Shetty 2023-03-27  321   * @end_io:	end_io function to be called on completion of copy operation,
-f1e67115ee4c790 Nitesh Shetty 2023-03-27  322   *		for synchronous operation this should be NULL
-f1e67115ee4c790 Nitesh Shetty 2023-03-27  323   * @private:	end_io function will be called with this private data, should be
-f1e67115ee4c790 Nitesh Shetty 2023-03-27  324   *		NULL, if operation is synchronous in nature
-f1e67115ee4c790 Nitesh Shetty 2023-03-27  325   * @gfp_mask:   memory allocation flags (for bio_alloc)
-f1e67115ee4c790 Nitesh Shetty 2023-03-27  326   *
-f1e67115ee4c790 Nitesh Shetty 2023-03-27  327   * Returns the length of bytes copied or a negative error value
-f1e67115ee4c790 Nitesh Shetty 2023-03-27  328   *
-f1e67115ee4c790 Nitesh Shetty 2023-03-27  329   * Description:
-f1e67115ee4c790 Nitesh Shetty 2023-03-27  330   *	Copy source offset from source block device to destination block
-f1e67115ee4c790 Nitesh Shetty 2023-03-27  331   *	device. length of a source range cannot be zero. Max total length of
-f1e67115ee4c790 Nitesh Shetty 2023-03-27  332   *	copy is limited to MAX_COPY_TOTAL_LENGTH
-f1e67115ee4c790 Nitesh Shetty 2023-03-27  333   */
-f1e67115ee4c790 Nitesh Shetty 2023-03-27  334  int blkdev_issue_copy(struct block_device *bdev_in, loff_t pos_in,
-f1e67115ee4c790 Nitesh Shetty 2023-03-27  335  		      struct block_device *bdev_out, loff_t pos_out, size_t len,
-f1e67115ee4c790 Nitesh Shetty 2023-03-27  336  		      cio_iodone_t end_io, void *private, gfp_t gfp_mask)
-f1e67115ee4c790 Nitesh Shetty 2023-03-27  337  {
-f1e67115ee4c790 Nitesh Shetty 2023-03-27  338  	struct request_queue *q_in = bdev_get_queue(bdev_in);
-f1e67115ee4c790 Nitesh Shetty 2023-03-27  339  	struct request_queue *q_out = bdev_get_queue(bdev_out);
-f1e67115ee4c790 Nitesh Shetty 2023-03-27  340  	int ret = -EINVAL;
-f1e67115ee4c790 Nitesh Shetty 2023-03-27  341  
-f1e67115ee4c790 Nitesh Shetty 2023-03-27 @342  	ret = blk_copy_sanity_check(bdev_in, pos_in, bdev_out, pos_out, len);
-f1e67115ee4c790 Nitesh Shetty 2023-03-27  343  	if (ret)
-f1e67115ee4c790 Nitesh Shetty 2023-03-27  344  		return ret;
-f1e67115ee4c790 Nitesh Shetty 2023-03-27  345  
-f1e67115ee4c790 Nitesh Shetty 2023-03-27  346  	if (blk_check_copy_offload(q_in, q_out))
-f1e67115ee4c790 Nitesh Shetty 2023-03-27  347  		ret = __blk_copy_offload(bdev_in, pos_in, bdev_out, pos_out,
-f1e67115ee4c790 Nitesh Shetty 2023-03-27  348  			   len, end_io, private, gfp_mask);
-f1e67115ee4c790 Nitesh Shetty 2023-03-27  349  
-f1e67115ee4c790 Nitesh Shetty 2023-03-27  350  	return ret;
-f1e67115ee4c790 Nitesh Shetty 2023-03-27  351  }
-f1e67115ee4c790 Nitesh Shetty 2023-03-27  352  EXPORT_SYMBOL_GPL(blkdev_issue_copy);
-f1e67115ee4c790 Nitesh Shetty 2023-03-27  353  
+bd74fdaea14602 Yu Zhao 2022-09-18  4065  
+bd74fdaea14602 Yu Zhao 2022-09-18  4066  static int walk_pud_range(p4d_t *p4d, unsigned long start, unsigned long end,
+bd74fdaea14602 Yu Zhao 2022-09-18  4067  			  struct mm_walk *args)
+bd74fdaea14602 Yu Zhao 2022-09-18  4068  {
+bd74fdaea14602 Yu Zhao 2022-09-18  4069  	int i;
+bd74fdaea14602 Yu Zhao 2022-09-18  4070  	pud_t *pud;
+bd74fdaea14602 Yu Zhao 2022-09-18  4071  	unsigned long addr;
+bd74fdaea14602 Yu Zhao 2022-09-18  4072  	unsigned long next;
+bd74fdaea14602 Yu Zhao 2022-09-18  4073  	struct lru_gen_mm_walk *walk = args->private;
+bd74fdaea14602 Yu Zhao 2022-09-18  4074  
+bd74fdaea14602 Yu Zhao 2022-09-18  4075  	VM_WARN_ON_ONCE(p4d_leaf(*p4d));
+bd74fdaea14602 Yu Zhao 2022-09-18  4076  
+bd74fdaea14602 Yu Zhao 2022-09-18  4077  	pud = pud_offset(p4d, start & P4D_MASK);
+bd74fdaea14602 Yu Zhao 2022-09-18  4078  restart:
+bd74fdaea14602 Yu Zhao 2022-09-18  4079  	for (i = pud_index(start), addr = start; addr != end; i++, addr = next) {
+bd74fdaea14602 Yu Zhao 2022-09-18 @4080  		pud_t val = READ_ONCE(pud[i]);
+bd74fdaea14602 Yu Zhao 2022-09-18  4081  
+bd74fdaea14602 Yu Zhao 2022-09-18  4082  		next = pud_addr_end(addr, end);
+bd74fdaea14602 Yu Zhao 2022-09-18  4083  
+bd74fdaea14602 Yu Zhao 2022-09-18  4084  		if (!pud_present(val) || WARN_ON_ONCE(pud_leaf(val)))
+bd74fdaea14602 Yu Zhao 2022-09-18  4085  			continue;
+bd74fdaea14602 Yu Zhao 2022-09-18  4086  
+bd74fdaea14602 Yu Zhao 2022-09-18  4087  		walk_pmd_range(&val, addr, next, args);
+bd74fdaea14602 Yu Zhao 2022-09-18  4088  
+bd74fdaea14602 Yu Zhao 2022-09-18  4089  		/* a racy check to curtail the waiting time */
+bd74fdaea14602 Yu Zhao 2022-09-18  4090  		if (wq_has_sleeper(&walk->lruvec->mm_state.wait))
+bd74fdaea14602 Yu Zhao 2022-09-18  4091  			return 1;
+bd74fdaea14602 Yu Zhao 2022-09-18  4092  
+bd74fdaea14602 Yu Zhao 2022-09-18  4093  		if (need_resched() || walk->batched >= MAX_LRU_BATCH) {
+bd74fdaea14602 Yu Zhao 2022-09-18  4094  			end = (addr | ~PUD_MASK) + 1;
+bd74fdaea14602 Yu Zhao 2022-09-18  4095  			goto done;
+bd74fdaea14602 Yu Zhao 2022-09-18  4096  		}
+bd74fdaea14602 Yu Zhao 2022-09-18  4097  	}
+bd74fdaea14602 Yu Zhao 2022-09-18  4098  
+bd74fdaea14602 Yu Zhao 2022-09-18  4099  	if (i < PTRS_PER_PUD && get_next_vma(P4D_MASK, PUD_SIZE, args, &start, &end))
+bd74fdaea14602 Yu Zhao 2022-09-18  4100  		goto restart;
+bd74fdaea14602 Yu Zhao 2022-09-18  4101  
+bd74fdaea14602 Yu Zhao 2022-09-18  4102  	end = round_up(end, P4D_SIZE);
+bd74fdaea14602 Yu Zhao 2022-09-18  4103  done:
+bd74fdaea14602 Yu Zhao 2022-09-18  4104  	if (!end || !args->vma)
+bd74fdaea14602 Yu Zhao 2022-09-18  4105  		return 1;
+bd74fdaea14602 Yu Zhao 2022-09-18  4106  
+bd74fdaea14602 Yu Zhao 2022-09-18  4107  	walk->next_addr = max(end, args->vma->vm_start);
+bd74fdaea14602 Yu Zhao 2022-09-18  4108  
+bd74fdaea14602 Yu Zhao 2022-09-18  4109  	return -EAGAIN;
+bd74fdaea14602 Yu Zhao 2022-09-18  4110  }
+bd74fdaea14602 Yu Zhao 2022-09-18  4111  
 
 -- 
 0-DAY CI Kernel Test Service
