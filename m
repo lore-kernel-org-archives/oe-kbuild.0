@@ -1,41 +1,41 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB1B66FA2
-	for <oe-kbuild@lists.linux.dev>; Wed, 29 Mar 2023 18:58:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97F0E6FA2
+	for <oe-kbuild@lists.linux.dev>; Wed, 29 Mar 2023 19:29:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680116294; x=1711652294;
+  t=1680118158; x=1711654158;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=WQ74gnpZe689ranKQA4ALZe+YTvjjs0xaByzipoPsWs=;
-  b=HWKh1KiRxZPUq1vNqdg6gGmLilPfLV8r9QnvetrWNAMBwHKy3XyOwM02
-   UOKnJ4UxyDpfDF4VVG5RQLAWJ6pz95VxSsWpfxqd46uvP0199Efk5L86n
-   ZScaZ/79eKRRt2QydvnuP7tQPOVUqQ7prCOnwEMBR8sawKJ67ICg/5btV
-   9pTgzeexYKFxCe/w4Ewr2fO3w4LCWoGYfhrFXmQqvThd2+NPmC9SGI3ge
-   /kWb41LbA2kv8fjLuYRb7+licUTYeTCH2+bJTlw/EGgRsFhLbY2w5JP05
-   0TM4PqnjeQje/ppX6GpmHf6UtnDQ3eALKGK6FKoyvnvNcXebR4stYOwFI
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="405925403"
+  bh=UrWtTP2vtTFbmHdL2VTRrzqbmR8m2V6fIuQRihLGe+g=;
+  b=i5Z+aD8n8EHi5zMrmmrp6pdaedv36HJJ4vdCKX4EqU6/X9k4REK6iFLI
+   wEkrHCTjbxON7QR/9G293nXwymJgj0cfs98NOmkIA+2AslLS6suDPRF89
+   hx7AYXbvY9yuzMQ1CkESx3+WEa0ja0X7DWA4JazF8rn2Lx8zgR51kcZsJ
+   NRGVsE8v4YFjMqvaob+ph+PXLkunF8ps6b3i5I9bGCIpseed869euA3l4
+   w+Ri4H2nRd0LlKfdEzNAWdB8ZYHlh/hcq/lf4S+Hcrqj/e8b5D1u318Vq
+   zq0b2moyyUa96wRq27YErXTtfcHG9jz2900lQy1UKyVuHpbiabWN8sMH+
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="329466249"
 X-IronPort-AV: E=Sophos;i="5.98,301,1673942400"; 
-   d="scan'208";a="405925403"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2023 11:58:13 -0700
+   d="scan'208";a="329466249"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2023 12:29:16 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="748886480"
+X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="808348323"
 X-IronPort-AV: E=Sophos;i="5.98,301,1673942400"; 
-   d="scan'208";a="748886480"
+   d="scan'208";a="808348323"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 29 Mar 2023 11:58:13 -0700
+  by orsmga004.jf.intel.com with ESMTP; 29 Mar 2023 12:29:15 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1phazn-000JqY-1m;
-	Wed, 29 Mar 2023 18:58:07 +0000
-Date: Thu, 30 Mar 2023 02:57:28 +0800
+	id 1phbTp-000JsO-2J;
+	Wed, 29 Mar 2023 19:29:09 +0000
+Date: Thu, 30 Mar 2023 03:28:37 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
 Subject: mm/vmscan.c:4080:29: sparse: sparse: cast to non-scalar
-Message-ID: <202303300235.oenPLURB-lkp@intel.com>
+Message-ID: <202303300325.Mp5ACtcb-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -60,9 +60,9 @@ tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git maste
 head:   ffe78bbd512166e0ef1cc4858010b128c510ed7d
 commit: bd74fdaea146029e4fa12c6de89adbe0779348a9 mm: multi-gen LRU: support page table walks
 date:   6 months ago
-:::::: branch date: 89 minutes ago
+:::::: branch date: 2 hours ago
 :::::: commit date: 6 months ago
-config: alpha-randconfig-s052-20230329 (https://download.01.org/0day-ci/archive/20230330/202303300235.oenPLURB-lkp@intel.com/config)
+config: alpha-randconfig-s052-20230329 (https://download.01.org/0day-ci/archive/20230330/202303300325.Mp5ACtcb-lkp@intel.com/config)
 compiler: alpha-linux-gcc (GCC) 12.1.0
 reproduce:
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
@@ -80,7 +80,7 @@ reproduce:
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/r/202303300235.oenPLURB-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202303300325.Mp5ACtcb-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
 >> mm/vmscan.c:4080:29: sparse: sparse: cast to non-scalar
