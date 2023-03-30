@@ -1,54 +1,41 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47EC979C6;
-	Thu, 30 Mar 2023 15:27:56 +0000 (UTC)
-Received: by mail-wm1-f51.google.com with SMTP id r19-20020a05600c459300b003eb3e2a5e7bso12052502wmo.0;
-        Thu, 30 Mar 2023 08:27:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680190074;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ugAmLJblkYMugEo7tfI+icr2H8SDN/QMTqfPS9Pdgjo=;
-        b=A44BlkQDQ7N2zVdqRxC0isCQGdigI1SNxHICLB5Te0OaNAhTzUqOU3fXpGMpN9Mrrx
-         16wpg/ZDZzSZbMB+PZyzz5LjPXiWSRX5nKCXvRlbMxxbvP839agd1ifIDZy9TAysKPWD
-         V5kC908V8ZkcCScJZ9Br8fhwrtH22KblL7nGQwijPSIn5N1MDo4eQxXeNLJFhMjKDga/
-         5J1c3KtjAxa8fJZzsP2Go+oPHw3yIy0odwD/AtgxawbSTbTkE+X0+5ZM290469AK/QUf
-         PsvIDvanw8B+VkULGYhmkO6VkqILXrAjGiJDL/pkC96KnGgUjIn5SmqQbCIm0VVDvFaF
-         iZ8w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680190074;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ugAmLJblkYMugEo7tfI+icr2H8SDN/QMTqfPS9Pdgjo=;
-        b=3wM+wCGvfTCDzHyUv6b4ceDw48qs5V+FJTTRJrjlcGWVqZOd+d55YXigK0W6Kw0CWn
-         ED4mriG9sXY2t6h0xn92looFyAXVf1y0HgclXdzSHptvV2EwiprULgpGMmneuqJ4lCSg
-         RLv6TtmbQOs9bPZTja/UHd00c5UGvA+F0P512hRrLMWtWd9sQmrg5bSp1ZxTMreOWrc7
-         UL3mPRJZ0H1obn7bL6TSZc923FgcrSn9pkzR5Z72ZJRl72lFSgtTNLPk5RWQ0cdlAXbT
-         IbBZfBmQGwBwy+LNigVxgGNlSN43YpG5vMpAYK4wBe/Ck02f7CkUrI2d6L7Ho8v6OirN
-         yTLw==
-X-Gm-Message-State: AO0yUKWOzxhUJANQQSGkzs3Nu297mduhGBOeuI3PwTvLPA/DOjSTy1Go
-	TEh+4XnBdzYx29OgV8h07yDkd8E+GA8=
-X-Google-Smtp-Source: AK7set9CzWMbpFkxw8byP8zOEJzHj/hUibEgy5nYYaciVm0s2mkNKVRPXh1b2EftFefmV84mZU6tQA==
-X-Received: by 2002:a05:600c:2110:b0:3ed:2b27:5bcc with SMTP id u16-20020a05600c211000b003ed2b275bccmr17827101wml.38.1680190074112;
-        Thu, 30 Mar 2023 08:27:54 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id i22-20020a05600c355600b003ede6540190sm6788865wmq.0.2023.03.30.08.27.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Mar 2023 08:27:53 -0700 (PDT)
-Date: Thu, 30 Mar 2023 18:27:50 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, ChiaEn Wu <chiaen_wu@richtek.com>,
-	jic23@kernel.org, lars@metafoo.de, matthias.bgg@gmail.com,
-	angelogioacchino.delregno@collabora.com
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, linux-iio@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, peterwu.pub@gmail.com,
-	cy_huang@richtek.com, ChiaEn Wu <chiaen_wu@richtek.com>
-Subject: Re: [PATCH] iio: adc: mt6370: Fix ibus and ibat scaling value of
- some specific vendor ID chips
-Message-ID: <75f27c56-5e35-40dc-a320-66bf6a8ed36f@kili.mountain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC3308BEE
+	for <oe-kbuild@lists.linux.dev>; Thu, 30 Mar 2023 17:09:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1680196145; x=1711732145;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=a63eULiiHFGOJbnZaNylcfclWv9AQuok4dXkG8qzoDQ=;
+  b=MBE3WaM1Kw4Qu3d7DatDCwyptpzHxxeVyKtK+ePq2EyqRKTD9WaWqnoj
+   bfVsCEJrUpG+ctsJgWAnSGNZsBy5oHWrxqB0rgzs3xWEVLDS5v0+a8E7e
+   04e2lYNgo+lUtQ3/l58UFKfQLh43RsGpdxnt/Q88P+fhxFZ1QvyON7/IQ
+   Sms+A351mKQyz+NvT5WvphuRFSQsG+HrOO+L4AL0mb9U6S1lY4sGG/aSY
+   oNCSH1fmzJSENDg6RvIElXFrHTbUDNWTlY/sViv4kM63QUdDQc24Fn1Bu
+   f00s9rj+WnelIaaoZpH/xyRg+MQ7k3j+kZ7BKJNrk++RskzMyBcoELqRc
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10665"; a="329750695"
+X-IronPort-AV: E=Sophos;i="5.98,305,1673942400"; 
+   d="scan'208";a="329750695"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2023 10:09:04 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10665"; a="687321377"
+X-IronPort-AV: E=Sophos;i="5.98,305,1673942400"; 
+   d="scan'208";a="687321377"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by fmsmga007.fm.intel.com with ESMTP; 30 Mar 2023 10:09:03 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1phvlm-000L23-0Z;
+	Thu, 30 Mar 2023 17:09:02 +0000
+Date: Fri, 31 Mar 2023 01:08:22 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: Re: [Patch V9 2/3] tpm_tis-spi: Add hardware wait polling
+Message-ID: <202303310004.Ul47LRPD-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -57,60 +44,125 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1679667167-16261-1-git-send-email-chiaen_wu@richtek.com>
 
-Hi ChiaEn,
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20230325183409.7695-3-kyarlagadda@nvidia.com>
+References: <20230325183409.7695-3-kyarlagadda@nvidia.com>
+TO: Krishna Yarlagadda <kyarlagadda@nvidia.com>
+TO: robh+dt@kernel.org
+TO: broonie@kernel.org
+TO: peterhuewe@gmx.de
+TO: jgg@ziepe.ca
+TO: jarkko@kernel.org
+TO: krzysztof.kozlowski+dt@linaro.org
+TO: linux-spi@vger.kernel.org
+TO: linux-tegra@vger.kernel.org
+TO: linux-integrity@vger.kernel.org
+TO: linux-kernel@vger.kernel.org
+CC: thierry.reding@gmail.com
+CC: jonathanh@nvidia.com
+CC: skomatineni@nvidia.com
+CC: ldewangan@nvidia.com
+CC: Krishna Yarlagadda <kyarlagadda@nvidia.com>
 
+Hi Krishna,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on broonie-spi/for-next]
+[also build test WARNING on char-misc/char-misc-testing char-misc/char-misc-next char-misc/char-misc-linus linus/master v6.3-rc4 next-20230330]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/ChiaEn-Wu/iio-adc-mt6370-Fix-ibus-and-ibat-scaling-value-of-some-specific-vendor-ID-chips/20230324-221545
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
-patch link:    https://lore.kernel.org/r/1679667167-16261-1-git-send-email-chiaen_wu%40richtek.com
-patch subject: [PATCH] iio: adc: mt6370: Fix ibus and ibat scaling value of some specific vendor ID chips
-config: m68k-randconfig-m041-20230329 (https://download.01.org/0day-ci/archive/20230330/202303302231.gNdPKrtD-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Krishna-Yarlagadda/spi-Add-TPM-HW-flow-flag/20230326-023635
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
+patch link:    https://lore.kernel.org/r/20230325183409.7695-3-kyarlagadda%40nvidia.com
+patch subject: [Patch V9 2/3] tpm_tis-spi: Add hardware wait polling
+:::::: branch date: 5 days ago
+:::::: commit date: 5 days ago
+config: m68k-randconfig-m041-20230329 (https://download.01.org/0day-ci/archive/20230331/202303310004.Ul47LRPD-lkp@intel.com/config)
 compiler: m68k-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202303302231.gNdPKrtD-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202303310004.Ul47LRPD-lkp@intel.com/
 
 smatch warnings:
-drivers/iio/adc/mt6370-adc.c:306 mt6370_adc_probe() error: uninitialized symbol 'priv'.
+drivers/char/tpm/tpm_tis_spi_main.c:137 tpm_tis_spi_transfer_half() error: uninitialized symbol 'ret'.
 
-vim +/priv +306 drivers/iio/adc/mt6370-adc.c
+vim +/ret +137 drivers/char/tpm/tpm_tis_spi_main.c
 
-c1404d1b659fe3d ChiaEn Wu 2022-10-11  294  static int mt6370_adc_probe(struct platform_device *pdev)
-c1404d1b659fe3d ChiaEn Wu 2022-10-11  295  {
-c1404d1b659fe3d ChiaEn Wu 2022-10-11  296  	struct device *dev = &pdev->dev;
-c1404d1b659fe3d ChiaEn Wu 2022-10-11  297  	struct mt6370_adc_data *priv;
-c1404d1b659fe3d ChiaEn Wu 2022-10-11  298  	struct iio_dev *indio_dev;
-c1404d1b659fe3d ChiaEn Wu 2022-10-11  299  	struct regmap *regmap;
-c1404d1b659fe3d ChiaEn Wu 2022-10-11  300  	int ret;
-c1404d1b659fe3d ChiaEn Wu 2022-10-11  301  
-c1404d1b659fe3d ChiaEn Wu 2022-10-11  302  	regmap = dev_get_regmap(pdev->dev.parent, NULL);
-c1404d1b659fe3d ChiaEn Wu 2022-10-11  303  	if (!regmap)
-c1404d1b659fe3d ChiaEn Wu 2022-10-11  304  		return dev_err_probe(dev, -ENODEV, "Failed to get regmap\n");
-c1404d1b659fe3d ChiaEn Wu 2022-10-11  305  
-9822359d5de2dba ChiaEn Wu 2023-03-24 @306  	ret = mt6370_get_vendor_info(priv);
-
-"priv" is uninitialized.
-
-9822359d5de2dba ChiaEn Wu 2023-03-24  307  	if (ret)
-9822359d5de2dba ChiaEn Wu 2023-03-24  308  		return dev_err_probe(dev, ret, "Failed to get vid\n");
-9822359d5de2dba ChiaEn Wu 2023-03-24  309  
-c1404d1b659fe3d ChiaEn Wu 2022-10-11  310  	indio_dev = devm_iio_device_alloc(dev, sizeof(*priv));
-c1404d1b659fe3d ChiaEn Wu 2022-10-11  311  	if (!indio_dev)
-c1404d1b659fe3d ChiaEn Wu 2022-10-11  312  		return -ENOMEM;
-c1404d1b659fe3d ChiaEn Wu 2022-10-11  313  
-c1404d1b659fe3d ChiaEn Wu 2022-10-11  314  	priv = iio_priv(indio_dev);
-                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-c1404d1b659fe3d ChiaEn Wu 2022-10-11  315  	priv->dev = dev;
-c1404d1b659fe3d ChiaEn Wu 2022-10-11  316  	priv->regmap = regmap;
-c1404d1b659fe3d ChiaEn Wu 2022-10-11  317  	mutex_init(&priv->adc_lock);
+8ab5e82afa969b6 drivers/char/tpm/tpm_tis_spi.c      Stephen Boyd       2019-09-20   73  
+9e4db447b009ec2 drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-03-26   74  /*
+9e4db447b009ec2 drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-03-26   75   * Half duplex controller with support for TPM wait state detection like
+9e4db447b009ec2 drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-03-26   76   * Tegra QSPI need CMD, ADDR & DATA sent in single message to manage HW flow
+9e4db447b009ec2 drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-03-26   77   * control. Each phase sent in different transfer for controller to idenity
+9e4db447b009ec2 drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-03-26   78   * phase.
+9e4db447b009ec2 drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-03-26   79   */
+9e4db447b009ec2 drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-03-26   80  static int tpm_tis_spi_transfer_half(struct tpm_tis_data *data,	u32 addr,
+9e4db447b009ec2 drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-03-26   81  				     u16 len, u8 *in, const u8 *out)
+9e4db447b009ec2 drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-03-26   82  {
+9e4db447b009ec2 drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-03-26   83  	struct tpm_tis_spi_phy *phy = to_tpm_tis_spi_phy(data);
+9e4db447b009ec2 drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-03-26   84  	struct spi_transfer spi_xfer[3];
+9e4db447b009ec2 drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-03-26   85  	struct spi_message m;
+9e4db447b009ec2 drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-03-26   86  	u8 transfer_len;
+9e4db447b009ec2 drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-03-26   87  	int ret;
+9e4db447b009ec2 drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-03-26   88  
+9e4db447b009ec2 drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-03-26   89  	while (len) {
+9e4db447b009ec2 drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-03-26   90  		transfer_len = min_t(u16, len, MAX_SPI_FRAMESIZE);
+9e4db447b009ec2 drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-03-26   91  
+9e4db447b009ec2 drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-03-26   92  		spi_message_init(&m);
+9e4db447b009ec2 drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-03-26   93  		phy->iobuf[0] = (in ? 0x80 : 0) | (transfer_len - 1);
+9e4db447b009ec2 drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-03-26   94  		phy->iobuf[1] = 0xd4;
+9e4db447b009ec2 drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-03-26   95  		phy->iobuf[2] = addr >> 8;
+9e4db447b009ec2 drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-03-26   96  		phy->iobuf[3] = addr;
+9e4db447b009ec2 drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-03-26   97  
+9e4db447b009ec2 drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-03-26   98  		memset(&spi_xfer, 0, sizeof(spi_xfer));
+9e4db447b009ec2 drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-03-26   99  
+9e4db447b009ec2 drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-03-26  100  		spi_xfer[0].tx_buf = phy->iobuf;
+9e4db447b009ec2 drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-03-26  101  		spi_xfer[0].len = 1;
+9e4db447b009ec2 drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-03-26  102  		spi_message_add_tail(&spi_xfer[0], &m);
+9e4db447b009ec2 drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-03-26  103  
+9e4db447b009ec2 drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-03-26  104  		spi_xfer[1].tx_buf = phy->iobuf + 1;
+9e4db447b009ec2 drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-03-26  105  		spi_xfer[1].len = 3;
+9e4db447b009ec2 drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-03-26  106  		spi_message_add_tail(&spi_xfer[1], &m);
+9e4db447b009ec2 drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-03-26  107  
+9e4db447b009ec2 drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-03-26  108  		if (out) {
+9e4db447b009ec2 drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-03-26  109  			spi_xfer[2].tx_buf = &phy->iobuf[4];
+9e4db447b009ec2 drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-03-26  110  			spi_xfer[2].rx_buf = NULL;
+9e4db447b009ec2 drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-03-26  111  			memcpy(&phy->iobuf[4], out, transfer_len);
+9e4db447b009ec2 drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-03-26  112  			out += transfer_len;
+9e4db447b009ec2 drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-03-26  113  		}
+9e4db447b009ec2 drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-03-26  114  
+9e4db447b009ec2 drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-03-26  115  		if (in) {
+9e4db447b009ec2 drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-03-26  116  			spi_xfer[2].tx_buf = NULL;
+9e4db447b009ec2 drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-03-26  117  			spi_xfer[2].rx_buf = &phy->iobuf[4];
+9e4db447b009ec2 drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-03-26  118  		}
+9e4db447b009ec2 drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-03-26  119  
+9e4db447b009ec2 drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-03-26  120  		spi_xfer[2].len = transfer_len;
+9e4db447b009ec2 drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-03-26  121  		spi_message_add_tail(&spi_xfer[2], &m);
+9e4db447b009ec2 drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-03-26  122  
+9e4db447b009ec2 drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-03-26  123  		reinit_completion(&phy->ready);
+9e4db447b009ec2 drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-03-26  124  
+9e4db447b009ec2 drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-03-26  125  		ret = spi_sync_locked(phy->spi_device, &m);
+9e4db447b009ec2 drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-03-26  126  		if (ret < 0)
+9e4db447b009ec2 drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-03-26  127  			return ret;
+9e4db447b009ec2 drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-03-26  128  
+9e4db447b009ec2 drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-03-26  129  		if (in) {
+9e4db447b009ec2 drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-03-26  130  			memcpy(in, &phy->iobuf[4], transfer_len);
+9e4db447b009ec2 drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-03-26  131  			in += transfer_len;
+9e4db447b009ec2 drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-03-26  132  		}
+9e4db447b009ec2 drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-03-26  133  
+9e4db447b009ec2 drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-03-26  134  		len -= transfer_len;
+9e4db447b009ec2 drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-03-26  135  	}
+9e4db447b009ec2 drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-03-26  136  
+9e4db447b009ec2 drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-03-26 @137  	return ret;
+9e4db447b009ec2 drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-03-26  138  }
+9e4db447b009ec2 drivers/char/tpm/tpm_tis_spi_main.c Krishna Yarlagadda 2023-03-26  139  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
-
