@@ -1,42 +1,43 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C77A7C2E2
-	for <oe-kbuild@lists.linux.dev>; Thu, 30 Mar 2023 07:39:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F536C2ED
+	for <oe-kbuild@lists.linux.dev>; Thu, 30 Mar 2023 09:31:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680161981; x=1711697981;
+  t=1680168707; x=1711704707;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=R87z6Iyt6KFKlEWS6NYOm6brWXUfYsioDabws1YN3BU=;
-  b=V9OUledOVsr4UhIZb9eFcD4IZB2mCu/71afo1MQ2Yy32gLyxxkge/ldR
-   UzxXOx/XBvlXBq21fQFNdLuHssgXU/xYZg86j7v1fMA7rtTV34Fo81Wfe
-   HH9ReeGodfRWOIHH45CycWBdF63pFllz5qQATE5nop/MrObHfg/59n0IF
-   TTK1v785x3fSM74GAEabsbbRAn/2A3rDQzbXvG5Dy71qoAJ7+deHoUCQU
-   hKfstTIwDIZn+UFSzWKFGxG315oskw2rgI9igTHqSpS3kM0Taq/jN4e/O
-   bYe/sXTOXAv9ECNIIDEkffqlit9cNCK8PeeapWnuuNXDxV/DqnHro+Ee7
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="320745709"
+  bh=f+RE9+9RtxlyGdofYIO+OmUf1pK6awIEaDb1RlnvpsU=;
+  b=jgKlW1GGBZK2ejcgpLe9A7cNwlcg8a9TtKnPc8VGwUvxv9q772CSLte6
+   v7HWhTNK/jC8k3bild1g6NUHsN47VuVLEXV5hZw89fhVa7IQuHBPHsHSE
+   9NzBC1i7ikBE2GpHcDvrGdcDKFPUywQ/UWckYd3eONVxK0OZKf6Z7KGjE
+   m3o+Gc8O0surISPYTC8nD7zsVKIohIN4Y1eriS6NtlOyom8stGbth2wC8
+   jgq2WworpSSpnrPsI5FQxB+0fEtWHvkl99jtCSjsG3R8o/YIQ3e6ZNAAo
+   6/1ATAeq9eIWp6c0zBBdl9UllOiIa1UGbN9LN1CH0WAOs1AP/GMvDLo7O
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="338617174"
 X-IronPort-AV: E=Sophos;i="5.98,303,1673942400"; 
-   d="scan'208";a="320745709"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2023 00:39:41 -0700
+   d="scan'208";a="338617174"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2023 02:31:46 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="1014339991"
+X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="795587691"
 X-IronPort-AV: E=Sophos;i="5.98,303,1673942400"; 
-   d="scan'208";a="1014339991"
+   d="scan'208";a="795587691"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 30 Mar 2023 00:39:39 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 30 Mar 2023 02:31:45 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1phmsl-000KYC-0R;
-	Thu, 30 Mar 2023 07:39:39 +0000
-Date: Thu, 30 Mar 2023 15:39:31 +0800
+	id 1phodE-000Kgu-28;
+	Thu, 30 Mar 2023 09:31:44 +0000
+Date: Thu, 30 Mar 2023 17:31:20 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/cpufreq/mediatek-cpufreq.c:405 mtk_cpu_dvfs_info_init()
- warn: passing zero to 'PTR_ERR'
-Message-ID: <202303301536.QrtLXIcz-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [linux-next:master 5035/7844] net/mac80211/mesh_pathtbl.c:616:24:
+ warning: Value stored to 'cache' during its initialization is never read
+ [clang-analyzer-deadcode.DeadStores]
+Message-ID: <202303301711.LjiQ6GKs-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -46,200 +47,263 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: "Rex-BC Chen" <rex-bc.chen@mediatek.com>
-CC: Viresh Kumar <viresh.kumar@linaro.org>
-CC: "Jia-Wei Chang" <jia-wei.chang@mediatek.com>
-CC: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-CC: Kevin Hilman <khilman@baylibre.com>
+:::::: 
+:::::: Manual check reason: "low confidence static check warning: net/mac80211/mesh_pathtbl.c:616:24: warning: Value stored to 'cache' during its initialization is never read [clang-analyzer-deadcode.DeadStores]"
+:::::: 
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   ffe78bbd512166e0ef1cc4858010b128c510ed7d
-commit: 0daa47325baee6bb1412498462fd0a0477c32cc6 cpufreq: mediatek: Link CCI device to CPU
-date:   11 months ago
-:::::: branch date: 14 hours ago
-:::::: commit date: 11 months ago
-config: arm64-randconfig-m041-20230329 (https://download.01.org/0day-ci/archive/20230330/202303301536.QrtLXIcz-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.1.0
+BCC: lkp@intel.com
+CC: llvm@lists.linux.dev
+CC: oe-kbuild-all@lists.linux.dev
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Felix Fietkau <nbd@nbd.name>
+CC: Johannes Berg <johannes.berg@intel.com>
+CC: Ryder Lee <ryder.lee@mediatek.com>
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   a6d9e3034536ba4b68ac34490c02267e6eec9c05
+commit: d5edb9ae8d568745f893c5c5fa3837d85311b131 [5035/7844] wifi: mac80211: mesh fast xmit support
+:::::: branch date: 6 hours ago
+:::::: commit date: 8 days ago
+config: riscv-randconfig-c006-20230326 (https://download.01.org/0day-ci/archive/20230330/202303301711.LjiQ6GKs-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=d5edb9ae8d568745f893c5c5fa3837d85311b131
+        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+        git fetch --no-tags linux-next master
+        git checkout d5edb9ae8d568745f893c5c5fa3837d85311b131
+        # save the config file
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=riscv clang-analyzer  olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=riscv clang-analyzer 
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202303301536.QrtLXIcz-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202303301711.LjiQ6GKs-lkp@intel.com/
 
-New smatch warnings:
-drivers/cpufreq/mediatek-cpufreq.c:405 mtk_cpu_dvfs_info_init() warn: passing zero to 'PTR_ERR'
+clang_analyzer warnings: (new ones prefixed by >>)
+           ^
+   arch/riscv/include/asm/mmio.h:120:67: note: expanded from macro 'writel_relaxed'
+   #define writel_relaxed(v, c)    ({ __io_rbw(); writel_cpu((v), (c)); __io_raw(); })
+                                                                        ^
+   arch/riscv/include/asm/mmio.h:112:21: note: expanded from macro '__io_raw'
+   #define __io_raw()              do {} while (0)
+                                   ^
+   drivers/mmc/host/dw_mmc.c:3567:2: note: Loop condition is false.  Exiting loop
+           mci_writel(host, RINTSTS, 0xFFFFFFFF);
+           ^
+   drivers/mmc/host/dw_mmc.h:478:2: note: expanded from macro 'mci_writel'
+           writel_relaxed((value), (dev)->regs + SDMMC_##reg)
+           ^
+   arch/riscv/include/asm/mmio.h:120:33: note: expanded from macro 'writel_relaxed'
+   #define writel_relaxed(v, c)    ({ __io_rbw(); writel_cpu((v), (c)); __io_raw(); })
+                                      ^
+   arch/riscv/include/asm/mmio.h:111:21: note: expanded from macro '__io_rbw'
+   #define __io_rbw()              do {} while (0)
+                                   ^
+   drivers/mmc/host/dw_mmc.c:3567:2: note: Loop condition is false.  Exiting loop
+           mci_writel(host, RINTSTS, 0xFFFFFFFF);
+           ^
+   drivers/mmc/host/dw_mmc.h:478:2: note: expanded from macro 'mci_writel'
+           writel_relaxed((value), (dev)->regs + SDMMC_##reg)
+           ^
+   arch/riscv/include/asm/mmio.h:120:67: note: expanded from macro 'writel_relaxed'
+   #define writel_relaxed(v, c)    ({ __io_rbw(); writel_cpu((v), (c)); __io_raw(); })
+                                                                        ^
+   arch/riscv/include/asm/mmio.h:112:21: note: expanded from macro '__io_raw'
+   #define __io_raw()              do {} while (0)
+                                   ^
+   drivers/mmc/host/dw_mmc.c:3568:2: note: Loop condition is false.  Exiting loop
+           mci_writel(host, INTMASK, SDMMC_INT_CMD_DONE | SDMMC_INT_DATA_OVER |
+           ^
+   drivers/mmc/host/dw_mmc.h:478:2: note: expanded from macro 'mci_writel'
+           writel_relaxed((value), (dev)->regs + SDMMC_##reg)
+           ^
+   arch/riscv/include/asm/mmio.h:120:33: note: expanded from macro 'writel_relaxed'
+   #define writel_relaxed(v, c)    ({ __io_rbw(); writel_cpu((v), (c)); __io_raw(); })
+                                      ^
+   arch/riscv/include/asm/mmio.h:111:21: note: expanded from macro '__io_rbw'
+   #define __io_rbw()              do {} while (0)
+                                   ^
+   drivers/mmc/host/dw_mmc.c:3568:2: note: Loop condition is false.  Exiting loop
+           mci_writel(host, INTMASK, SDMMC_INT_CMD_DONE | SDMMC_INT_DATA_OVER |
+           ^
+   drivers/mmc/host/dw_mmc.h:478:2: note: expanded from macro 'mci_writel'
+           writel_relaxed((value), (dev)->regs + SDMMC_##reg)
+           ^
+   arch/riscv/include/asm/mmio.h:120:67: note: expanded from macro 'writel_relaxed'
+   #define writel_relaxed(v, c)    ({ __io_rbw(); writel_cpu((v), (c)); __io_raw(); })
+                                                                        ^
+   arch/riscv/include/asm/mmio.h:112:21: note: expanded from macro '__io_raw'
+   #define __io_raw()              do {} while (0)
+                                   ^
+   drivers/mmc/host/dw_mmc.c:3571:2: note: Loop condition is false.  Exiting loop
+           mci_writel(host, CTRL, SDMMC_CTRL_INT_ENABLE);
+           ^
+   drivers/mmc/host/dw_mmc.h:478:2: note: expanded from macro 'mci_writel'
+           writel_relaxed((value), (dev)->regs + SDMMC_##reg)
+           ^
+   arch/riscv/include/asm/mmio.h:120:33: note: expanded from macro 'writel_relaxed'
+   #define writel_relaxed(v, c)    ({ __io_rbw(); writel_cpu((v), (c)); __io_raw(); })
+                                      ^
+   arch/riscv/include/asm/mmio.h:111:21: note: expanded from macro '__io_rbw'
+   #define __io_rbw()              do {} while (0)
+                                   ^
+   drivers/mmc/host/dw_mmc.c:3571:2: note: Loop condition is false.  Exiting loop
+           mci_writel(host, CTRL, SDMMC_CTRL_INT_ENABLE);
+           ^
+   drivers/mmc/host/dw_mmc.h:478:2: note: expanded from macro 'mci_writel'
+           writel_relaxed((value), (dev)->regs + SDMMC_##reg)
+           ^
+   arch/riscv/include/asm/mmio.h:120:67: note: expanded from macro 'writel_relaxed'
+   #define writel_relaxed(v, c)    ({ __io_rbw(); writel_cpu((v), (c)); __io_raw(); })
+                                                                        ^
+   arch/riscv/include/asm/mmio.h:112:21: note: expanded from macro '__io_raw'
+   #define __io_raw()              do {} while (0)
+                                   ^
+   drivers/mmc/host/dw_mmc.c:3574:12: note: Field 'slot' is null
+           if (host->slot && host->slot->mmc->pm_flags & MMC_PM_KEEP_POWER)
+                     ^
+   drivers/mmc/host/dw_mmc.c:3574:17: note: Left side of '&&' is false
+           if (host->slot && host->slot->mmc->pm_flags & MMC_PM_KEEP_POWER)
+                          ^
+   drivers/mmc/host/dw_mmc.c:3581:23: note: Access to field 'mmc' results in a dereference of a null pointer (loaded from field 'slot')
+           if (sdio_irq_claimed(host->slot->mmc))
+                                ^     ~~~~
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   net/mac80211/mesh.c:1004:3: warning: Value stored to 'pos' is never read [clang-analyzer-deadcode.DeadStores]
+                   pos += 2;
+                   ^      ~
+   net/mac80211/mesh.c:1004:3: note: Value stored to 'pos' is never read
+                   pos += 2;
+                   ^      ~
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   9 warnings generated.
+>> net/mac80211/mesh_pathtbl.c:616:24: warning: Value stored to 'cache' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct mesh_tx_cache *cache = &sdata->u.mesh.tx_cache;
+                                 ^~~~~   ~~~~~~~~~~~~~~~~~~~~~~~
+   net/mac80211/mesh_pathtbl.c:616:24: note: Value stored to 'cache' during its initialization is never read
+           struct mesh_tx_cache *cache = &sdata->u.mesh.tx_cache;
+                                 ^~~~~   ~~~~~~~~~~~~~~~~~~~~~~~
+   net/mac80211/mesh_pathtbl.c:631:24: warning: Value stored to 'cache' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct mesh_tx_cache *cache = &sdata->u.mesh.tx_cache;
+                                 ^~~~~   ~~~~~~~~~~~~~~~~~~~~~~~
+   net/mac80211/mesh_pathtbl.c:631:24: note: Value stored to 'cache' during its initialization is never read
+           struct mesh_tx_cache *cache = &sdata->u.mesh.tx_cache;
+                                 ^~~~~   ~~~~~~~~~~~~~~~~~~~~~~~
+   net/mac80211/mesh_pathtbl.c:646:24: warning: Value stored to 'cache' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct mesh_tx_cache *cache = &sdata->u.mesh.tx_cache;
+                                 ^~~~~   ~~~~~~~~~~~~~~~~~~~~~~~
+   net/mac80211/mesh_pathtbl.c:646:24: note: Value stored to 'cache' during its initialization is never read
+           struct mesh_tx_cache *cache = &sdata->u.mesh.tx_cache;
+                                 ^~~~~   ~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   include/asm-generic/bitops/generic-non-atomic.h:128:16: warning: Array access (from variable 'addr') results in a null pointer dereference [clang-analyzer-core.NullDereference]
+           return 1UL & (addr[BIT_WORD(nr)] >> (nr & (BITS_PER_LONG-1)));
+                         ^
+   net/bluetooth/hci_sync.c:6197:9: note: Calling 'hci_cmd_sync_queue'
+           return hci_cmd_sync_queue(hdev, _update_adv_data_sync,
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/bluetooth/hci_sync.c:689:6: note: Left side of '&&' is true
+           if (hci_dev_test_flag(hdev, HCI_UNREGISTER))
+               ^
+   include/net/bluetooth/hci_core.h:822:48: note: expanded from macro 'hci_dev_test_flag'
+   #define hci_dev_test_flag(hdev, nr)            test_bit((nr), (hdev)->dev_flags)
+                                                  ^
+   include/linux/bitops.h:61:29: note: expanded from macro 'test_bit'
+   #define test_bit(nr, addr)              bitop(_test_bit, nr, addr)
+                                           ^
+   include/linux/bitops.h:49:4: note: expanded from macro 'bitop'
+           ((__builtin_constant_p(nr) &&                                   \
+             ^
+   net/bluetooth/hci_sync.c:689:6: note: Assuming field 'dev_flags' is equal to 0
+           if (hci_dev_test_flag(hdev, HCI_UNREGISTER))
+               ^
+   include/net/bluetooth/hci_core.h:822:48: note: expanded from macro 'hci_dev_test_flag'
+   #define hci_dev_test_flag(hdev, nr)            test_bit((nr), (hdev)->dev_flags)
+                                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/bitops.h:61:29: note: expanded from macro 'test_bit'
+   #define test_bit(nr, addr)              bitop(_test_bit, nr, addr)
+                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/bitops.h:50:25: note: expanded from macro 'bitop'
+             __builtin_constant_p((uintptr_t)(addr) != (uintptr_t)NULL) && \
+                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/bluetooth/hci_sync.c:689:6: note: Left side of '&&' is false
+           if (hci_dev_test_flag(hdev, HCI_UNREGISTER))
+               ^
+   include/net/bluetooth/hci_core.h:822:48: note: expanded from macro 'hci_dev_test_flag'
+   #define hci_dev_test_flag(hdev, nr)            test_bit((nr), (hdev)->dev_flags)
+                                                  ^
+   include/linux/bitops.h:61:29: note: expanded from macro 'test_bit'
+   #define test_bit(nr, addr)              bitop(_test_bit, nr, addr)
+                                           ^
+   include/linux/bitops.h:50:63: note: expanded from macro 'bitop'
+             __builtin_constant_p((uintptr_t)(addr) != (uintptr_t)NULL) && \
+                                                                        ^
+   net/bluetooth/hci_sync.c:689:6: note: Passing null pointer value via 2nd parameter 'addr'
+           if (hci_dev_test_flag(hdev, HCI_UNREGISTER))
+               ^
+   include/net/bluetooth/hci_core.h:822:63: note: expanded from macro 'hci_dev_test_flag'
+   #define hci_dev_test_flag(hdev, nr)            test_bit((nr), (hdev)->dev_flags)
+                                                  ~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~
+   include/linux/bitops.h:61:50: note: expanded from macro 'test_bit'
+   #define test_bit(nr, addr)              bitop(_test_bit, nr, addr)
+                                           ~~~~~~~~~~~~~~~~~~~~~^~~~~
+   include/linux/bitops.h:53:32: note: expanded from macro 'bitop'
+            const##op(nr, addr) : op(nr, addr))
+                                         ^~~~
+   net/bluetooth/hci_sync.c:689:6: note: Calling 'generic_test_bit'
+           if (hci_dev_test_flag(hdev, HCI_UNREGISTER))
+               ^
+   include/net/bluetooth/hci_core.h:822:48: note: expanded from macro 'hci_dev_test_flag'
+   #define hci_dev_test_flag(hdev, nr)            test_bit((nr), (hdev)->dev_flags)
+                                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/bitops.h:61:35: note: expanded from macro 'test_bit'
+   #define test_bit(nr, addr)              bitop(_test_bit, nr, addr)
+                                           ~~~~~~^~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/bitops/non-instrumented-non-atomic.h:14:20: note: expanded from macro '_test_bit'
+   #define _test_bit               arch_test_bit
+                                   ^
+   include/asm-generic/bitops/non-atomic.h:15:23: note: expanded from macro 'arch_test_bit'
+   #define arch_test_bit generic_test_bit
+                         ^
+   include/linux/bitops.h:53:25: note: expanded from macro 'bitop'
+            const##op(nr, addr) : op(nr, addr))
+                                  ^~~~~~~~~~~~
+   include/asm-generic/bitops/generic-non-atomic.h:128:16: note: Array access (from variable 'addr') results in a null pointer dereference
+           return 1UL & (addr[BIT_WORD(nr)] >> (nr & (BITS_PER_LONG-1)));
+                         ^~~~
+   net/bluetooth/hci_sync.c:2367:2: warning: Undefined or garbage value returned to caller [clang-analyzer-core.uninitialized.UndefReturn]
+           return err;
+           ^
+   net/bluetooth/hci_sync.c:5989:6: note: Assuming field 'role' is equal to HCI_ROLE_SLAVE
+           if (conn->role == HCI_ROLE_SLAVE) {
 
-Old smatch warnings:
-drivers/cpufreq/mediatek-cpufreq.c:479 mtk_cpu_dvfs_info_init() warn: missing error code 'ret'
+vim +/cache +616 net/mac80211/mesh_pathtbl.c
 
-vim +/PTR_ERR +405 drivers/cpufreq/mediatek-cpufreq.c
-
-0daa47325baee6b drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  386  
-1453863fb02a189 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19  387  static int mtk_cpu_dvfs_info_init(struct mtk_cpu_dvfs_info *info, int cpu)
-1453863fb02a189 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19  388  {
-1453863fb02a189 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19  389  	struct device *cpu_dev;
-1453863fb02a189 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19  390  	struct dev_pm_opp *opp;
-1453863fb02a189 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19  391  	unsigned long rate;
-1453863fb02a189 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19  392  	int ret;
-1453863fb02a189 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19  393  
-1453863fb02a189 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19  394  	cpu_dev = get_cpu_device(cpu);
-1453863fb02a189 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19  395  	if (!cpu_dev) {
-396dee972a1c616 drivers/cpufreq/mediatek-cpufreq.c Jia-Wei Chang 2022-04-08  396  		dev_err(cpu_dev, "failed to get cpu%d device\n", cpu);
-1453863fb02a189 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19  397  		return -ENODEV;
-1453863fb02a189 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19  398  	}
-396dee972a1c616 drivers/cpufreq/mediatek-cpufreq.c Jia-Wei Chang 2022-04-08  399  	info->cpu_dev = cpu_dev;
-1453863fb02a189 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19  400  
-0daa47325baee6b drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  401  	info->ccifreq_bound = false;
-0daa47325baee6b drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  402  	if (info->soc_data->ccifreq_supported) {
-0daa47325baee6b drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  403  		info->cci_dev = of_get_cci(info->cpu_dev);
-0daa47325baee6b drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  404  		if (IS_ERR_OR_NULL(info->cci_dev)) {
-0daa47325baee6b drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05 @405  			ret = PTR_ERR(info->cci_dev);
-0daa47325baee6b drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  406  			dev_err(cpu_dev, "cpu%d: failed to get cci device\n", cpu);
-0daa47325baee6b drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  407  			return -ENODEV;
-0daa47325baee6b drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  408  		}
-0daa47325baee6b drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  409  	}
-0daa47325baee6b drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  410  
-396dee972a1c616 drivers/cpufreq/mediatek-cpufreq.c Jia-Wei Chang 2022-04-08  411  	info->cpu_clk = clk_get(cpu_dev, "cpu");
-396dee972a1c616 drivers/cpufreq/mediatek-cpufreq.c Jia-Wei Chang 2022-04-08  412  	if (IS_ERR(info->cpu_clk)) {
-396dee972a1c616 drivers/cpufreq/mediatek-cpufreq.c Jia-Wei Chang 2022-04-08  413  		ret = PTR_ERR(info->cpu_clk);
-396dee972a1c616 drivers/cpufreq/mediatek-cpufreq.c Jia-Wei Chang 2022-04-08  414  		return dev_err_probe(cpu_dev, ret,
-396dee972a1c616 drivers/cpufreq/mediatek-cpufreq.c Jia-Wei Chang 2022-04-08  415  				     "cpu%d: failed to get cpu clk\n", cpu);
-1453863fb02a189 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19  416  	}
-1453863fb02a189 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19  417  
-396dee972a1c616 drivers/cpufreq/mediatek-cpufreq.c Jia-Wei Chang 2022-04-08  418  	info->inter_clk = clk_get(cpu_dev, "intermediate");
-396dee972a1c616 drivers/cpufreq/mediatek-cpufreq.c Jia-Wei Chang 2022-04-08  419  	if (IS_ERR(info->inter_clk)) {
-396dee972a1c616 drivers/cpufreq/mediatek-cpufreq.c Jia-Wei Chang 2022-04-08  420  		ret = PTR_ERR(info->inter_clk);
-396dee972a1c616 drivers/cpufreq/mediatek-cpufreq.c Jia-Wei Chang 2022-04-08  421  		dev_err_probe(cpu_dev, ret,
-396dee972a1c616 drivers/cpufreq/mediatek-cpufreq.c Jia-Wei Chang 2022-04-08  422  			      "cpu%d: failed to get intermediate clk\n", cpu);
-1453863fb02a189 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19  423  		goto out_free_resources;
-1453863fb02a189 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19  424  	}
-1453863fb02a189 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19  425  
-396dee972a1c616 drivers/cpufreq/mediatek-cpufreq.c Jia-Wei Chang 2022-04-08  426  	info->proc_reg = regulator_get_optional(cpu_dev, "proc");
-396dee972a1c616 drivers/cpufreq/mediatek-cpufreq.c Jia-Wei Chang 2022-04-08  427  	if (IS_ERR(info->proc_reg)) {
-396dee972a1c616 drivers/cpufreq/mediatek-cpufreq.c Jia-Wei Chang 2022-04-08  428  		ret = PTR_ERR(info->proc_reg);
-396dee972a1c616 drivers/cpufreq/mediatek-cpufreq.c Jia-Wei Chang 2022-04-08  429  		dev_err_probe(cpu_dev, ret,
-396dee972a1c616 drivers/cpufreq/mediatek-cpufreq.c Jia-Wei Chang 2022-04-08  430  			      "cpu%d: failed to get proc regulator\n", cpu);
-1453863fb02a189 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19  431  		goto out_free_resources;
-1453863fb02a189 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19  432  	}
-1453863fb02a189 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19  433  
-4b9ceb757bbb4e8 drivers/cpufreq/mediatek-cpufreq.c Jia-Wei Chang 2022-04-08  434  	ret = regulator_enable(info->proc_reg);
-4b9ceb757bbb4e8 drivers/cpufreq/mediatek-cpufreq.c Jia-Wei Chang 2022-04-08  435  	if (ret) {
-4b9ceb757bbb4e8 drivers/cpufreq/mediatek-cpufreq.c Jia-Wei Chang 2022-04-08  436  		dev_warn(cpu_dev, "cpu%d: failed to enable vproc\n", cpu);
-4b9ceb757bbb4e8 drivers/cpufreq/mediatek-cpufreq.c Jia-Wei Chang 2022-04-08  437  		goto out_free_resources;
-4b9ceb757bbb4e8 drivers/cpufreq/mediatek-cpufreq.c Jia-Wei Chang 2022-04-08  438  	}
-4b9ceb757bbb4e8 drivers/cpufreq/mediatek-cpufreq.c Jia-Wei Chang 2022-04-08  439  
-1453863fb02a189 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19  440  	/* Both presence and absence of sram regulator are valid cases. */
-ffa7bdf7f344477 drivers/cpufreq/mediatek-cpufreq.c Jia-Wei Chang 2022-04-22  441  	info->sram_reg = regulator_get_optional(cpu_dev, "sram");
-396dee972a1c616 drivers/cpufreq/mediatek-cpufreq.c Jia-Wei Chang 2022-04-08  442  	if (IS_ERR(info->sram_reg))
-396dee972a1c616 drivers/cpufreq/mediatek-cpufreq.c Jia-Wei Chang 2022-04-08  443  		info->sram_reg = NULL;
-4b9ceb757bbb4e8 drivers/cpufreq/mediatek-cpufreq.c Jia-Wei Chang 2022-04-08  444  	else {
-4b9ceb757bbb4e8 drivers/cpufreq/mediatek-cpufreq.c Jia-Wei Chang 2022-04-08  445  		ret = regulator_enable(info->sram_reg);
-4b9ceb757bbb4e8 drivers/cpufreq/mediatek-cpufreq.c Jia-Wei Chang 2022-04-08  446  		if (ret) {
-4b9ceb757bbb4e8 drivers/cpufreq/mediatek-cpufreq.c Jia-Wei Chang 2022-04-08  447  			dev_warn(cpu_dev, "cpu%d: failed to enable vsram\n", cpu);
-4b9ceb757bbb4e8 drivers/cpufreq/mediatek-cpufreq.c Jia-Wei Chang 2022-04-08  448  			goto out_free_resources;
-4b9ceb757bbb4e8 drivers/cpufreq/mediatek-cpufreq.c Jia-Wei Chang 2022-04-08  449  		}
-4b9ceb757bbb4e8 drivers/cpufreq/mediatek-cpufreq.c Jia-Wei Chang 2022-04-08  450  	}
-1453863fb02a189 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19  451  
-a889331d759453f drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-12-27  452  	/* Get OPP-sharing information from "operating-points-v2" bindings */
-a889331d759453f drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-12-27  453  	ret = dev_pm_opp_of_get_sharing_cpus(cpu_dev, &info->cpus);
-a889331d759453f drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-12-27  454  	if (ret) {
-396dee972a1c616 drivers/cpufreq/mediatek-cpufreq.c Jia-Wei Chang 2022-04-08  455  		dev_err(cpu_dev,
-396dee972a1c616 drivers/cpufreq/mediatek-cpufreq.c Jia-Wei Chang 2022-04-08  456  			"cpu%d: failed to get OPP-sharing information\n", cpu);
-a889331d759453f drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-12-27  457  		goto out_free_resources;
-a889331d759453f drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-12-27  458  	}
-a889331d759453f drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-12-27  459  
-a889331d759453f drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-12-27  460  	ret = dev_pm_opp_of_cpumask_add_table(&info->cpus);
-1453863fb02a189 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19  461  	if (ret) {
-396dee972a1c616 drivers/cpufreq/mediatek-cpufreq.c Jia-Wei Chang 2022-04-08  462  		dev_warn(cpu_dev, "cpu%d: no OPP table\n", cpu);
-1453863fb02a189 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19  463  		goto out_free_resources;
-1453863fb02a189 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19  464  	}
-1453863fb02a189 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19  465  
-4b9ceb757bbb4e8 drivers/cpufreq/mediatek-cpufreq.c Jia-Wei Chang 2022-04-08  466  	ret = clk_prepare_enable(info->cpu_clk);
-4b9ceb757bbb4e8 drivers/cpufreq/mediatek-cpufreq.c Jia-Wei Chang 2022-04-08  467  	if (ret)
-4b9ceb757bbb4e8 drivers/cpufreq/mediatek-cpufreq.c Jia-Wei Chang 2022-04-08  468  		goto out_free_opp_table;
-4b9ceb757bbb4e8 drivers/cpufreq/mediatek-cpufreq.c Jia-Wei Chang 2022-04-08  469  
-4b9ceb757bbb4e8 drivers/cpufreq/mediatek-cpufreq.c Jia-Wei Chang 2022-04-08  470  	ret = clk_prepare_enable(info->inter_clk);
-4b9ceb757bbb4e8 drivers/cpufreq/mediatek-cpufreq.c Jia-Wei Chang 2022-04-08  471  	if (ret)
-4b9ceb757bbb4e8 drivers/cpufreq/mediatek-cpufreq.c Jia-Wei Chang 2022-04-08  472  		goto out_disable_mux_clock;
-4b9ceb757bbb4e8 drivers/cpufreq/mediatek-cpufreq.c Jia-Wei Chang 2022-04-08  473  
-0daa47325baee6b drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  474  	if (info->soc_data->ccifreq_supported) {
-0daa47325baee6b drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  475  		info->vproc_on_boot = regulator_get_voltage(info->proc_reg);
-0daa47325baee6b drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  476  		if (info->vproc_on_boot < 0) {
-0daa47325baee6b drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  477  			dev_err(info->cpu_dev,
-0daa47325baee6b drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  478  				"invalid Vproc value: %d\n", info->vproc_on_boot);
-0daa47325baee6b drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  479  			goto out_disable_inter_clock;
-0daa47325baee6b drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  480  		}
-0daa47325baee6b drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  481  	}
-0daa47325baee6b drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  482  
-1453863fb02a189 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19  483  	/* Search a safe voltage for intermediate frequency. */
-396dee972a1c616 drivers/cpufreq/mediatek-cpufreq.c Jia-Wei Chang 2022-04-08  484  	rate = clk_get_rate(info->inter_clk);
-1453863fb02a189 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19  485  	opp = dev_pm_opp_find_freq_ceil(cpu_dev, &rate);
-1453863fb02a189 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19  486  	if (IS_ERR(opp)) {
-396dee972a1c616 drivers/cpufreq/mediatek-cpufreq.c Jia-Wei Chang 2022-04-08  487  		dev_err(cpu_dev, "cpu%d: failed to get intermediate opp\n", cpu);
-1453863fb02a189 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19  488  		ret = PTR_ERR(opp);
-4b9ceb757bbb4e8 drivers/cpufreq/mediatek-cpufreq.c Jia-Wei Chang 2022-04-08  489  		goto out_disable_inter_clock;
-1453863fb02a189 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19  490  	}
-1453863fb02a189 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19  491  	info->intermediate_voltage = dev_pm_opp_get_voltage(opp);
-8a31d9d94297b1e drivers/cpufreq/mt8173-cpufreq.c   Viresh Kumar  2017-01-23  492  	dev_pm_opp_put(opp);
-1453863fb02a189 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19  493  
-c210063b40acab7 drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  494  	mutex_init(&info->reg_lock);
-c210063b40acab7 drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  495  	info->current_freq = clk_get_rate(info->cpu_clk);
-c210063b40acab7 drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  496  
-c210063b40acab7 drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  497  	info->opp_cpu = cpu;
-c210063b40acab7 drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  498  	info->opp_nb.notifier_call = mtk_cpufreq_opp_notifier;
-c210063b40acab7 drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  499  	ret = dev_pm_opp_register_notifier(cpu_dev, &info->opp_nb);
-c210063b40acab7 drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  500  	if (ret) {
-c210063b40acab7 drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  501  		dev_err(cpu_dev, "cpu%d: failed to register opp notifier\n", cpu);
-c210063b40acab7 drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  502  		goto out_disable_inter_clock;
-c210063b40acab7 drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  503  	}
-c210063b40acab7 drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  504  
-1453863fb02a189 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19  505  	/*
-1453863fb02a189 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19  506  	 * If SRAM regulator is present, software "voltage tracking" is needed
-1453863fb02a189 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19  507  	 * for this CPU power domain.
-1453863fb02a189 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19  508  	 */
-396dee972a1c616 drivers/cpufreq/mediatek-cpufreq.c Jia-Wei Chang 2022-04-08  509  	info->need_voltage_tracking = (info->sram_reg != NULL);
-1453863fb02a189 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19  510  
-6a17b3876bc8303 drivers/cpufreq/mediatek-cpufreq.c Jia-Wei Chang 2022-05-05  511  	/*
-6a17b3876bc8303 drivers/cpufreq/mediatek-cpufreq.c Jia-Wei Chang 2022-05-05  512  	 * We assume min voltage is 0 and tracking target voltage using
-6a17b3876bc8303 drivers/cpufreq/mediatek-cpufreq.c Jia-Wei Chang 2022-05-05  513  	 * min_volt_shift for each iteration.
-6a17b3876bc8303 drivers/cpufreq/mediatek-cpufreq.c Jia-Wei Chang 2022-05-05  514  	 * The vtrack_max is 3 times of expeted iteration count.
-6a17b3876bc8303 drivers/cpufreq/mediatek-cpufreq.c Jia-Wei Chang 2022-05-05  515  	 */
-6a17b3876bc8303 drivers/cpufreq/mediatek-cpufreq.c Jia-Wei Chang 2022-05-05  516  	info->vtrack_max = 3 * DIV_ROUND_UP(max(info->soc_data->sram_max_volt,
-6a17b3876bc8303 drivers/cpufreq/mediatek-cpufreq.c Jia-Wei Chang 2022-05-05  517  						info->soc_data->proc_max_volt),
-6a17b3876bc8303 drivers/cpufreq/mediatek-cpufreq.c Jia-Wei Chang 2022-05-05  518  					    info->soc_data->min_volt_shift);
-6a17b3876bc8303 drivers/cpufreq/mediatek-cpufreq.c Jia-Wei Chang 2022-05-05  519  
-1453863fb02a189 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19  520  	return 0;
-1453863fb02a189 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19  521  
-4b9ceb757bbb4e8 drivers/cpufreq/mediatek-cpufreq.c Jia-Wei Chang 2022-04-08  522  out_disable_inter_clock:
-4b9ceb757bbb4e8 drivers/cpufreq/mediatek-cpufreq.c Jia-Wei Chang 2022-04-08  523  	clk_disable_unprepare(info->inter_clk);
-4b9ceb757bbb4e8 drivers/cpufreq/mediatek-cpufreq.c Jia-Wei Chang 2022-04-08  524  
-4b9ceb757bbb4e8 drivers/cpufreq/mediatek-cpufreq.c Jia-Wei Chang 2022-04-08  525  out_disable_mux_clock:
-4b9ceb757bbb4e8 drivers/cpufreq/mediatek-cpufreq.c Jia-Wei Chang 2022-04-08  526  	clk_disable_unprepare(info->cpu_clk);
-4b9ceb757bbb4e8 drivers/cpufreq/mediatek-cpufreq.c Jia-Wei Chang 2022-04-08  527  
-1453863fb02a189 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19  528  out_free_opp_table:
-a889331d759453f drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-12-27  529  	dev_pm_opp_of_cpumask_remove_table(&info->cpus);
-1453863fb02a189 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19  530  
-1453863fb02a189 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19  531  out_free_resources:
-4b9ceb757bbb4e8 drivers/cpufreq/mediatek-cpufreq.c Jia-Wei Chang 2022-04-08  532  	if (regulator_is_enabled(info->proc_reg))
-4b9ceb757bbb4e8 drivers/cpufreq/mediatek-cpufreq.c Jia-Wei Chang 2022-04-08  533  		regulator_disable(info->proc_reg);
-4b9ceb757bbb4e8 drivers/cpufreq/mediatek-cpufreq.c Jia-Wei Chang 2022-04-08  534  	if (info->sram_reg && regulator_is_enabled(info->sram_reg))
-4b9ceb757bbb4e8 drivers/cpufreq/mediatek-cpufreq.c Jia-Wei Chang 2022-04-08  535  		regulator_disable(info->sram_reg);
-4b9ceb757bbb4e8 drivers/cpufreq/mediatek-cpufreq.c Jia-Wei Chang 2022-04-08  536  
-396dee972a1c616 drivers/cpufreq/mediatek-cpufreq.c Jia-Wei Chang 2022-04-08  537  	if (!IS_ERR(info->proc_reg))
-396dee972a1c616 drivers/cpufreq/mediatek-cpufreq.c Jia-Wei Chang 2022-04-08  538  		regulator_put(info->proc_reg);
-396dee972a1c616 drivers/cpufreq/mediatek-cpufreq.c Jia-Wei Chang 2022-04-08  539  	if (!IS_ERR(info->sram_reg))
-396dee972a1c616 drivers/cpufreq/mediatek-cpufreq.c Jia-Wei Chang 2022-04-08  540  		regulator_put(info->sram_reg);
-396dee972a1c616 drivers/cpufreq/mediatek-cpufreq.c Jia-Wei Chang 2022-04-08  541  	if (!IS_ERR(info->cpu_clk))
-396dee972a1c616 drivers/cpufreq/mediatek-cpufreq.c Jia-Wei Chang 2022-04-08  542  		clk_put(info->cpu_clk);
-396dee972a1c616 drivers/cpufreq/mediatek-cpufreq.c Jia-Wei Chang 2022-04-08  543  	if (!IS_ERR(info->inter_clk))
-396dee972a1c616 drivers/cpufreq/mediatek-cpufreq.c Jia-Wei Chang 2022-04-08  544  		clk_put(info->inter_clk);
-1453863fb02a189 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19  545  
-1453863fb02a189 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19  546  	return ret;
-1453863fb02a189 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19  547  }
-1453863fb02a189 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19  548  
+d5edb9ae8d5687 Felix Fietkau 2023-03-14  612  
+d5edb9ae8d5687 Felix Fietkau 2023-03-14  613  void mesh_fast_tx_flush_mpath(struct mesh_path *mpath)
+d5edb9ae8d5687 Felix Fietkau 2023-03-14  614  {
+d5edb9ae8d5687 Felix Fietkau 2023-03-14  615  	struct ieee80211_sub_if_data *sdata = mpath->sdata;
+d5edb9ae8d5687 Felix Fietkau 2023-03-14 @616  	struct mesh_tx_cache *cache = &sdata->u.mesh.tx_cache;
+d5edb9ae8d5687 Felix Fietkau 2023-03-14  617  	struct ieee80211_mesh_fast_tx *entry;
+d5edb9ae8d5687 Felix Fietkau 2023-03-14  618  	struct hlist_node *n;
+d5edb9ae8d5687 Felix Fietkau 2023-03-14  619  
+d5edb9ae8d5687 Felix Fietkau 2023-03-14  620  	cache = &sdata->u.mesh.tx_cache;
+d5edb9ae8d5687 Felix Fietkau 2023-03-14  621  	spin_lock_bh(&cache->walk_lock);
+d5edb9ae8d5687 Felix Fietkau 2023-03-14  622  	hlist_for_each_entry_safe(entry, n, &cache->walk_head, walk_list)
+d5edb9ae8d5687 Felix Fietkau 2023-03-14  623  		if (entry->mpath == mpath)
+d5edb9ae8d5687 Felix Fietkau 2023-03-14  624  			mesh_fast_tx_entry_free(cache, entry);
+d5edb9ae8d5687 Felix Fietkau 2023-03-14  625  	spin_unlock_bh(&cache->walk_lock);
+d5edb9ae8d5687 Felix Fietkau 2023-03-14  626  }
+d5edb9ae8d5687 Felix Fietkau 2023-03-14  627  
 
 -- 
 0-DAY CI Kernel Test Service
