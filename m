@@ -1,43 +1,42 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19D319455
-	for <oe-kbuild@lists.linux.dev>; Thu, 30 Mar 2023 20:03:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1490C10E7
+	for <oe-kbuild@lists.linux.dev>; Thu, 30 Mar 2023 21:26:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680206591; x=1711742591;
+  t=1680211578; x=1711747578;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=gr9Ebg0ya5GXPpsDIPBm2LcTKmkiGQI0G0IK+z3Uxy0=;
-  b=T+BIz1wk/JOtvNhS6m7N4KD6Gw6CTHo6Tawq32Gyln0U/t54gN2TBHCa
-   LuS30wTbUFbKvq88sn2zzgR0nojt1MfUTkqeKdRK218NtNkqXAIPBpK/6
-   8WuTJrodN8u8N/iC6h7fKLj0NnGfe3Pzc5GC2pOY4er8/3a3tAFtJAFZh
-   tMEHNr6vmnSQYJYFY1FYZkyx98s0oX2fZqELdT0uS0vC8FFay/UR5ZnP8
-   +vfIMojQFKs9imVYK5yZp8jGiitZCBX0J2pB/TZ3RELm0LAa/8URMw5ZD
-   b34TDhMwR9rasKx5EDFegbaM5/er8VlNU/5l8ayKTnsJPivoGG2pcE0Op
+  bh=ToUO1coEhoYRrfQIvXisBOgCYJdRjTWeR3hOp7tcsbA=;
+  b=fsrawqCMlGCw+A9wTIJGwHAdBdEEfrz6RMf+3xbQow2t9i4j2dVAtZ8a
+   uIn+ntl70Fb9DvLvIUMRm8B339N/mbSbpOTJvMYPTTKKOHk64IQkNJnAf
+   3XmYby2tY7An/P+trtXH5DVNULr2/bm+dn76zWYU81kH6enEo6IyWkLnv
+   DBv5FVsuWOEEKxQUhz20qZf4LvBGpyCE9r2QVorAMOBnTOb6EGPXgxs0n
+   waZ+SMsft+a/XvB3rJA/LwXq/XkJtgYINtE2XGFla2xzzB/9Y6cTxP2b1
+   d3irhIr4UsSvLjSfnX1FtlD2oawQlLqwoORtOuuwpXFhOLz757eBnsnuU
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10665"; a="403970579"
-X-IronPort-AV: E=Sophos;i="5.98,305,1673942400"; 
-   d="scan'208";a="403970579"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2023 13:03:10 -0700
+X-IronPort-AV: E=McAfee;i="6600,9927,10665"; a="340016080"
+X-IronPort-AV: E=Sophos;i="5.98,306,1673942400"; 
+   d="scan'208";a="340016080"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2023 14:26:17 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10665"; a="662154350"
-X-IronPort-AV: E=Sophos;i="5.98,305,1673942400"; 
-   d="scan'208";a="662154350"
+X-IronPort-AV: E=McAfee;i="6600,9927,10665"; a="678353820"
+X-IronPort-AV: E=Sophos;i="5.98,306,1673942400"; 
+   d="scan'208";a="678353820"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 30 Mar 2023 13:03:09 -0700
+  by orsmga007.jf.intel.com with ESMTP; 30 Mar 2023 14:26:16 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1phyUG-000LAq-1J;
-	Thu, 30 Mar 2023 20:03:08 +0000
-Date: Fri, 31 Mar 2023 04:03:07 +0800
+	id 1phzmc-000LDm-1p;
+	Thu, 30 Mar 2023 21:26:10 +0000
+Date: Fri, 31 Mar 2023 05:25:17 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/net/ethernet/microchip/sparx5/sparx5_switchdev.c:500
- sparx5_handle_port_mdb_add() error: we previously assumed 'entry' could be
- null (see line 493)
-Message-ID: <202303310341.kyGezXTB-lkp@intel.com>
+Subject: drivers/ata/libahci_platform.c:551 ahci_platform_get_resources()
+ warn: passing zero to 'ERR_PTR'
+Message-ID: <202303310509.vTRnuZuL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -50,74 +49,78 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Casper Andersson <casper.casan@gmail.com>
+TO: Serge Semin <Sergey.Semin@baikalelectronics.ru>
+CC: Damien Le Moal <damien.lemoal@opensource.wdc.com>
+CC: Hannes Reinecke <hare@suse.de>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   8bb95a1662f8b97c443984550a7aefbe5a1a064e
-commit: c8a3ea43b5cb5a7db48130a32384f7e48b148de9 net: sparx5: add list for mdb entries in driver
+commit: e28b3abf8020a884bd3b7758ea8915365af8fadf ata: libahci_platform: Convert to using devm bulk clocks API
 date:   7 months ago
-:::::: branch date: 4 hours ago
+:::::: branch date: 5 hours ago
 :::::: commit date: 7 months ago
-config: arm64-randconfig-m041-20230329 (https://download.01.org/0day-ci/archive/20230331/202303310341.kyGezXTB-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.1.0
+config: parisc-randconfig-m041-20230329 (https://download.01.org/0day-ci/archive/20230331/202303310509.vTRnuZuL-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202303310341.kyGezXTB-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202303310509.vTRnuZuL-lkp@intel.com/
 
 smatch warnings:
-drivers/net/ethernet/microchip/sparx5/sparx5_switchdev.c:500 sparx5_handle_port_mdb_add() error: we previously assumed 'entry' could be null (see line 493)
+drivers/ata/libahci_platform.c:551 ahci_platform_get_resources() warn: passing zero to 'ERR_PTR'
 
-vim +/entry +500 drivers/net/ethernet/microchip/sparx5/sparx5_switchdev.c
+vim +/ERR_PTR +551 drivers/ata/libahci_platform.c
 
-c8a3ea43b5cb5a Casper Andersson 2022-08-25  467  
-3bacfccdcb2d32 Casper Andersson 2022-03-21  468  static int sparx5_handle_port_mdb_add(struct net_device *dev,
-3bacfccdcb2d32 Casper Andersson 2022-03-21  469  				      struct notifier_block *nb,
-3bacfccdcb2d32 Casper Andersson 2022-03-21  470  				      const struct switchdev_obj_port_mdb *v)
-3bacfccdcb2d32 Casper Andersson 2022-03-21  471  {
-3bacfccdcb2d32 Casper Andersson 2022-03-21  472  	struct sparx5_port *port = netdev_priv(dev);
-3bacfccdcb2d32 Casper Andersson 2022-03-21  473  	struct sparx5 *spx5 = port->sparx5;
-c8a3ea43b5cb5a Casper Andersson 2022-08-25  474  	struct sparx5_mdb_entry *entry;
-fbb89d02e33a8c Casper Andersson 2022-06-14  475  	bool is_host;
-c8a3ea43b5cb5a Casper Andersson 2022-08-25  476  	int err;
-c8a3ea43b5cb5a Casper Andersson 2022-08-25  477  	u16 vid;
-3bacfccdcb2d32 Casper Andersson 2022-03-21  478  
-9c5de246c1dbe7 Casper Andersson 2022-06-30  479  	if (!sparx5_netdevice_check(dev))
-9c5de246c1dbe7 Casper Andersson 2022-06-30  480  		return -EOPNOTSUPP;
-9c5de246c1dbe7 Casper Andersson 2022-06-30  481  
-fbb89d02e33a8c Casper Andersson 2022-06-14  482  	is_host = netif_is_bridge_master(v->obj.orig_dev);
-1c1ed5a48411e1 Casper Andersson 2022-05-03  483  
-3bacfccdcb2d32 Casper Andersson 2022-03-21  484  	/* When VLAN unaware the vlan value is not parsed and we receive vid 0.
-3bacfccdcb2d32 Casper Andersson 2022-03-21  485  	 * Fall back to bridge vid 1.
-3bacfccdcb2d32 Casper Andersson 2022-03-21  486  	 */
-3bacfccdcb2d32 Casper Andersson 2022-03-21  487  	if (!br_vlan_enabled(spx5->hw_bridge_dev))
-3bacfccdcb2d32 Casper Andersson 2022-03-21  488  		vid = 1;
-3bacfccdcb2d32 Casper Andersson 2022-03-21  489  	else
-3bacfccdcb2d32 Casper Andersson 2022-03-21  490  		vid = v->vid;
-3bacfccdcb2d32 Casper Andersson 2022-03-21  491  
-c8a3ea43b5cb5a Casper Andersson 2022-08-25  492  	entry = sparx5_mdb_get_entry(spx5, v->addr, vid);
-c8a3ea43b5cb5a Casper Andersson 2022-08-25 @493  	if (!entry) {
-c8a3ea43b5cb5a Casper Andersson 2022-08-25  494  		err = sparx5_alloc_mdb_entry(spx5, v->addr, vid, &entry);
-c8a3ea43b5cb5a Casper Andersson 2022-08-25  495  		if (err)
-3bacfccdcb2d32 Casper Andersson 2022-03-21  496  			return err;
-3bacfccdcb2d32 Casper Andersson 2022-03-21  497  	}
-3bacfccdcb2d32 Casper Andersson 2022-03-21  498  
-c8a3ea43b5cb5a Casper Andersson 2022-08-25  499  	mutex_lock(&spx5->mdb_lock);
-c8a3ea43b5cb5a Casper Andersson 2022-08-25 @500  	if (is_host && !entry->cpu_copy) {
-c8a3ea43b5cb5a Casper Andersson 2022-08-25  501  		sparx5_cpu_copy_ena(spx5, entry->pgid_idx, true);
-c8a3ea43b5cb5a Casper Andersson 2022-08-25  502  		entry->cpu_copy = true;
-c8a3ea43b5cb5a Casper Andersson 2022-08-25  503  	} else if (!is_host) {
-c8a3ea43b5cb5a Casper Andersson 2022-08-25  504  		sparx5_pgid_update_mask(port, entry->pgid_idx, true);
-c8a3ea43b5cb5a Casper Andersson 2022-08-25  505  		set_bit(port->portno, entry->port_mask);
-3bacfccdcb2d32 Casper Andersson 2022-03-21  506  	}
-c8a3ea43b5cb5a Casper Andersson 2022-08-25  507  	mutex_unlock(&spx5->mdb_lock);
-3bacfccdcb2d32 Casper Andersson 2022-03-21  508  
-c8a3ea43b5cb5a Casper Andersson 2022-08-25  509  	sparx5_mact_learn(spx5, entry->pgid_idx, entry->addr, entry->vid);
-3bacfccdcb2d32 Casper Andersson 2022-03-21  510  
-3bacfccdcb2d32 Casper Andersson 2022-03-21  511  	return 0;
-3bacfccdcb2d32 Casper Andersson 2022-03-21  512  }
-3bacfccdcb2d32 Casper Andersson 2022-03-21  513  
+b1a9edbda040a4 Antoine Tenart            2014-07-30  512  
+c7d7ddee7e24ee Gregory CLEMENT           2015-01-15  513  			rc = ahci_platform_get_phy(hpriv, port, dev, child);
+d7f76f36a8b4dc Nishka Dasgupta           2019-08-15  514  			if (rc) {
+d7f76f36a8b4dc Nishka Dasgupta           2019-08-15  515  				of_node_put(child);
+c7d7ddee7e24ee Gregory CLEMENT           2015-01-15  516  				goto err_out;
+d7f76f36a8b4dc Nishka Dasgupta           2019-08-15  517  			}
+c7d7ddee7e24ee Gregory CLEMENT           2015-01-15  518  
+b1a9edbda040a4 Antoine Tenart            2014-07-30  519  			enabled_ports++;
+b1a9edbda040a4 Antoine Tenart            2014-07-30  520  		}
+b1a9edbda040a4 Antoine Tenart            2014-07-30  521  		if (!enabled_ports) {
+b1a9edbda040a4 Antoine Tenart            2014-07-30  522  			dev_warn(dev, "No port enabled\n");
+b1a9edbda040a4 Antoine Tenart            2014-07-30  523  			rc = -ENODEV;
+b1a9edbda040a4 Antoine Tenart            2014-07-30  524  			goto err_out;
+b1a9edbda040a4 Antoine Tenart            2014-07-30  525  		}
+b1a9edbda040a4 Antoine Tenart            2014-07-30  526  
+b1a9edbda040a4 Antoine Tenart            2014-07-30  527  		if (!hpriv->mask_port_map)
+b1a9edbda040a4 Antoine Tenart            2014-07-30  528  			hpriv->mask_port_map = mask_port_map;
+b1a9edbda040a4 Antoine Tenart            2014-07-30  529  	} else {
+b1a9edbda040a4 Antoine Tenart            2014-07-30  530  		/*
+b1a9edbda040a4 Antoine Tenart            2014-07-30  531  		 * If no sub-node was found, keep this for device tree
+b1a9edbda040a4 Antoine Tenart            2014-07-30  532  		 * compatibility
+b1a9edbda040a4 Antoine Tenart            2014-07-30  533  		 */
+c7d7ddee7e24ee Gregory CLEMENT           2015-01-15  534  		rc = ahci_platform_get_phy(hpriv, 0, dev, dev->of_node);
+c7d7ddee7e24ee Gregory CLEMENT           2015-01-15  535  		if (rc)
+acbd573354bb7b Mikko Perttunen           2014-06-17  536  			goto err_out;
+fd990556f0fa25 Bartlomiej Zolnierkiewicz 2014-03-25  537  
+c7d7ddee7e24ee Gregory CLEMENT           2015-01-15  538  		rc = ahci_platform_get_regulator(hpriv, 0, dev);
+c7d7ddee7e24ee Gregory CLEMENT           2015-01-15  539  		if (rc == -EPROBE_DEFER)
+fd990556f0fa25 Bartlomiej Zolnierkiewicz 2014-03-25  540  			goto err_out;
+b1a9edbda040a4 Antoine Tenart            2014-07-30  541  	}
+fd990556f0fa25 Bartlomiej Zolnierkiewicz 2014-03-25  542  	pm_runtime_enable(dev);
+eac7e072d7e99f Tejun Heo                 2018-08-06  543  	pm_runtime_get_sync(dev);
+fd990556f0fa25 Bartlomiej Zolnierkiewicz 2014-03-25  544  	hpriv->got_runtime_pm = true;
+fd990556f0fa25 Bartlomiej Zolnierkiewicz 2014-03-25  545  
+fd990556f0fa25 Bartlomiej Zolnierkiewicz 2014-03-25  546  	devres_remove_group(dev, NULL);
+fd990556f0fa25 Bartlomiej Zolnierkiewicz 2014-03-25  547  	return hpriv;
+fd990556f0fa25 Bartlomiej Zolnierkiewicz 2014-03-25  548  
+fd990556f0fa25 Bartlomiej Zolnierkiewicz 2014-03-25  549  err_out:
+fd990556f0fa25 Bartlomiej Zolnierkiewicz 2014-03-25  550  	devres_release_group(dev, NULL);
+fd990556f0fa25 Bartlomiej Zolnierkiewicz 2014-03-25 @551  	return ERR_PTR(rc);
+fd990556f0fa25 Bartlomiej Zolnierkiewicz 2014-03-25  552  }
+fd990556f0fa25 Bartlomiej Zolnierkiewicz 2014-03-25  553  EXPORT_SYMBOL_GPL(ahci_platform_get_resources);
+fd990556f0fa25 Bartlomiej Zolnierkiewicz 2014-03-25  554  
+
+:::::: The code at line 551 was first introduced by commit
+:::::: fd990556f0fa25446c6bfa9cf4c9e49d387d4472 ata: move library code from ahci_platform.c to libahci_platform.c
+
+:::::: TO: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+:::::: CC: Tejun Heo <tj@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
