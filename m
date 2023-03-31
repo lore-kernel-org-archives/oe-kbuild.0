@@ -1,315 +1,146 @@
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9819310E6
-	for <oe-kbuild@lists.linux.dev>; Fri, 31 Mar 2023 02:32:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21A0015B9
+	for <oe-kbuild@lists.linux.dev>; Fri, 31 Mar 2023 02:32:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680229942; x=1711765942;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+nVQOse/Ql8GciRv5DXVXRaNqa0LQDi3Pogz3iWui3Q=;
-  b=XFsTNnXRbs3EJijS8yZb56gfiTWNmEJiEKM1U3ROWKcJ4eR6I2CVhLW2
-   zt6oqT7wuU5fBQsHI/KADzgnf6Y6QuiLWddq2GsPnCyZ1xXFhEdhVYdKJ
-   n73Px7z+OKTGarMSbz611owocTiPowa7/0KcILkVXNMKr8oWrHTFU7YOf
-   caw27meuAcOBWrLM0FupnKhcn2joz6XGw065pO2ARLJdbo6N/Mh4oiHaJ
-   MSOJoJpsuHDAy5m9IjaX3Fyq5oWt4EdFKK4aP/ji8RKU2JkyPIxcym+37
-   5bcV3+0FW6tjytD/Ehmbj3ZFoulJIbjWqZlXEJTVuMKbj55rYfvKmqy/w
+  t=1680229945; x=1711765945;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=+eZ7eAL/ve/vDTft3MZ0v1bqL3yGbUzjaVhOIP9x6yE=;
+  b=RU4y3OvOdcHFl9XlPf5102GRmynDXjqlz/01BLpzTXAiscv/cGIBgB1T
+   7Jzt1yP6XxQb5vCGeTklPDu1raPKON5FZ21hdfliNc5Gd/R0DAKMBkZeT
+   NYWfixNJ/ps7SZxtbMXe7EeyEy11XpPI1jjRUvrEgFt5l1tQ/09y1BgdA
+   7J8TER57Kc7zhmN+ovQTN7Od+6AjrAo5pD/cgj4vS+fjsRJeRT9dCJJ4E
+   pxQUXSwBZy5amJgRs64hJ59TW58Prn4YDEkA0vtIje2PZMn5MjFB7RMv5
+   ThmsCYltAhp5Yimub/MFsOv8OVxoN7pQTUQWe4t6wwFE/j8uAkIXaVWJu
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10665"; a="342985489"
+X-IronPort-AV: E=McAfee;i="6600,9927,10665"; a="342985491"
 X-IronPort-AV: E=Sophos;i="5.98,306,1673942400"; 
-   d="scan'208";a="342985489"
+   d="scan'208";a="342985491"
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
   by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2023 19:32:21 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10665"; a="1014665246"
+X-IronPort-AV: E=McAfee;i="6600,9927,10665"; a="1014665248"
 X-IronPort-AV: E=Sophos;i="5.98,306,1673942400"; 
-   d="scan'208";a="1014665246"
+   d="scan'208";a="1014665248"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
   by fmsmga005.fm.intel.com with ESMTP; 30 Mar 2023 19:32:20 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pi4Yt-000LQQ-2P;
+	id 1pi4Yt-000LQO-2L;
 	Fri, 31 Mar 2023 02:32:19 +0000
-Date: Fri, 31 Mar 2023 10:32:07 +0800
+Date: Fri, 31 Mar 2023 10:32:08 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: drivers/video/fbdev/omap/omapfb_main.c:1811:16: warning: Use of
- memory after it is freed [clang-analyzer-unix.Malloc]
-Message-ID: <202303311047.2rVOzYjo-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [tty:tty-next 6/24] drivers/tty/n_gsm.c:3751 gsmld_ioctl() warn:
+ potential spectre issue 'gsm->dlci' [r] (local cap)
+Message-ID: <202303311049.D00HXznH-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-
-:::::: 
-:::::: Manual check reason: "low confidence static check warning: drivers/video/fbdev/omap/omapfb_main.c:1811:16: warning: Use of memory after it is freed [clang-analyzer-unix.Malloc]"
-:::::: 
+Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
-CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Arnd Bergmann <arnd@arndb.de>
+CC: linux-serial@vger.kernel.org
+TO: Daniel Starke <daniel.starke@siemens.com>
+CC: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   62bad54b26db8bc98e28749cd76b2d890edb4258
-commit: 804f7f19c2e2928aeb8eafef8379fe8b8d13f98b fbdev: omap: avoid using mach/*.h files
-date:   11 months ago
-:::::: branch date: 3 hours ago
-:::::: commit date: 11 months ago
-config: arm-randconfig-c002-20230329 (https://download.01.org/0day-ci/archive/20230331/202303311047.2rVOzYjo-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=804f7f19c2e2928aeb8eafef8379fe8b8d13f98b
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 804f7f19c2e2928aeb8eafef8379fe8b8d13f98b
-        # save the config file
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=arm clang-analyzer  olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=arm clang-analyzer 
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-next
+head:   d30a28a764a8221874ab53b7cbe79f842c30b671
+commit: afe3154ba87e798de87ab65c72d6e3f6cd32d9d1 [6/24] tty: n_gsm: add ioctl for DLC config via ldisc handle
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: parisc-randconfig-m041-20230329 (https://download.01.org/0day-ci/archive/20230331/202303311049.D00HXznH-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/r/202303311047.2rVOzYjo-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Link: https://lore.kernel.org/r/202303311049.D00HXznH-lkp@intel.com/
 
-clang_analyzer warnings: (new ones prefixed by >>)
-   fs/namespace.c:3868:1: note: Calling '__do_sys_pivot_root'
-   SYSCALL_DEFINE2(pivot_root, const char __user *, new_root,
-   ^
-   include/linux/syscalls.h:218:36: note: expanded from macro 'SYSCALL_DEFINE2'
-   #define SYSCALL_DEFINE2(name, ...) SYSCALL_DEFINEx(2, _##name, __VA_ARGS__)
-                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/syscalls.h:228:2: note: expanded from macro 'SYSCALL_DEFINEx'
-           __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/syscalls.h:249:14: note: expanded from macro '__SYSCALL_DEFINEx'
-                   long ret = __do_sys##name(__MAP(x,__SC_CAST,__VA_ARGS__));\
-                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   note: expanded from here
-   fs/namespace.c:3876:2: note: Taking false branch
-           if (!may_mount())
-           ^
-   fs/namespace.c:3881:6: note: Assuming 'error' is 0
-           if (error)
-               ^~~~~
-   fs/namespace.c:3881:2: note: Taking false branch
-           if (error)
-           ^
-   fs/namespace.c:3886:6: note: Assuming 'error' is 0
-           if (error)
-               ^~~~~
-   fs/namespace.c:3886:2: note: Taking false branch
-           if (error)
-           ^
-   fs/namespace.c:3890:6: note: 'error' is 0
-           if (error)
-               ^~~~~
-   fs/namespace.c:3890:2: note: Taking false branch
-           if (error)
-           ^
-   fs/namespace.c:3894:11: note: Calling 'lock_mount'
-           old_mp = lock_mount(&old);
-                    ^~~~~~~~~~~~~~~~
-   fs/namespace.c:2293:6: note: Assuming the condition is true
-           if (unlikely(cant_mount(dentry))) {
-               ^
-   include/linux/compiler.h:48:24: note: expanded from macro 'unlikely'
-   #  define unlikely(x)   (__branch_check__(x, 0, __builtin_constant_p(x)))
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:33:32: note: expanded from macro '__branch_check__'
-                           ______r = __builtin_expect(!!(x), expect);      \
-                                                       ^~~~
-   fs/namespace.c:2293:2: note: Taking false branch
-           if (unlikely(cant_mount(dentry))) {
-           ^
-   fs/namespace.c:2299:14: note: 'mnt' is non-null
-           if (likely(!mnt)) {
-                       ^
-   include/linux/compiler.h:45:39: note: expanded from macro 'likely'
-   #  define likely(x)     (__branch_check__(x, 1, __builtin_constant_p(x)))
-                                             ^
-   include/linux/compiler.h:33:34: note: expanded from macro '__branch_check__'
-                           ______r = __builtin_expect(!!(x), expect);      \
-                                                         ^
-   fs/namespace.c:2299:14: note: 'mnt' is non-null
-           if (likely(!mnt)) {
-                       ^
-   include/linux/compiler.h:45:66: note: expanded from macro 'likely'
-   #  define likely(x)     (__branch_check__(x, 1, __builtin_constant_p(x)))
-                                                                        ^
-   include/linux/compiler.h:35:19: note: expanded from macro '__branch_check__'
-                                                expect, is_constant);      \
-                                                        ^~~~~~~~~~~
-   fs/namespace.c:2299:2: note: Taking false branch
-           if (likely(!mnt)) {
-           ^
-   fs/namespace.c:2312:2: note: Null pointer value stored to 'dentry'
-           dentry = path->dentry = dget(mnt->mnt_root);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/namespace.c:2313:2: note: Control jumps to line 2292
-           goto retry;
-           ^
-   fs/namespace.c:2292:13: note: Access to field 'd_inode' results in a dereference of a null pointer (loaded from variable 'dentry')
-           inode_lock(dentry->d_inode);
-                      ^~~~~~
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   drivers/video/fbdev/omap/omapfb_main.c:1334:7: warning: Call to function 'sscanf' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'sscanf_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   if (sscanf(buf, "%10d", &level) == 1) {
-                       ^~~~~~
-   drivers/video/fbdev/omap/omapfb_main.c:1334:7: note: Call to function 'sscanf' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'sscanf_s' in case of C11
-                   if (sscanf(buf, "%10d", &level) == 1) {
-                       ^~~~~~
-   drivers/video/fbdev/omap/omapfb_main.c:1451:2: warning: Call to function 'strncpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'strncpy_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           strncpy(fix->id, MODULE_NAME, sizeof(fix->id));
-           ^~~~~~~
-   drivers/video/fbdev/omap/omapfb_main.c:1451:2: note: Call to function 'strncpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'strncpy_s' in case of C11
-           strncpy(fix->id, MODULE_NAME, sizeof(fix->id));
-           ^~~~~~~
-   drivers/video/fbdev/omap/omapfb_main.c:1577:2: warning: Call to function 'strncpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'strncpy_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           strncpy(name, conf->lcd.ctrl_name, sizeof(name) - 1);
-           ^~~~~~~
-   drivers/video/fbdev/omap/omapfb_main.c:1577:2: note: Call to function 'strncpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'strncpy_s' in case of C11
-           strncpy(name, conf->lcd.ctrl_name, sizeof(name) - 1);
-           ^~~~~~~
->> drivers/video/fbdev/omap/omapfb_main.c:1811:16: warning: Use of memory after it is freed [clang-analyzer-unix.Malloc]
-           fbdev->dssdev = NULL;
-           ~~~~~~~~~~~~~ ^
-   drivers/video/fbdev/omap/omapfb_main.c:1808:2: note: Calling 'omapfb_free_resources'
-           omapfb_free_resources(fbdev, saved_state);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/video/fbdev/omap/omapfb_main.c:1530:2: note: Control jumps to 'case 1:'  at line 1555
-           switch (state) {
-           ^
-   drivers/video/fbdev/omap/omapfb_main.c:1557:3: note: Memory is released
-                   kfree(fbdev);
-                   ^~~~~~~~~~~~
-   drivers/video/fbdev/omap/omapfb_main.c:1558:3: note:  Execution continues on line 1557
-                   break;
-                   ^
-   drivers/video/fbdev/omap/omapfb_main.c:1808:2: note: Returning; memory was released via 1st parameter
-           omapfb_free_resources(fbdev, saved_state);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/video/fbdev/omap/omapfb_main.c:1811:16: note: Use of memory after it is freed
-           fbdev->dssdev = NULL;
-           ~~~~~~~~~~~~~ ^
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   lib/zstd/compress/zstd_compress_sequences.c:260:9: warning: Call to function 'memcpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           ZSTD_memcpy(nextCTable, prevCTable, prevCTableSize);
-           ^
-   lib/zstd/compress/../common/zstd_deps.h:32:28: note: expanded from macro 'ZSTD_memcpy'
-   #define ZSTD_memcpy(d,s,n) __builtin_memcpy((d),(s),(n))
-                              ^~~~~~~~~~~~~~~~
-   lib/zstd/compress/zstd_compress_sequences.c:260:9: note: Call to function 'memcpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memcpy_s' in case of C11
-           ZSTD_memcpy(nextCTable, prevCTable, prevCTableSize);
-           ^
-   lib/zstd/compress/../common/zstd_deps.h:32:28: note: expanded from macro 'ZSTD_memcpy'
-   #define ZSTD_memcpy(d,s,n) __builtin_memcpy((d),(s),(n))
-                              ^~~~~~~~~~~~~~~~
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   20 warnings generated.
-   lib/zstd/compress/zstd_compress_superblock.c:82:5: warning: Call to function 'memcpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-       ZSTD_memcpy(nextHuf, prevHuf, sizeof(*prevHuf));
-       ^
-   lib/zstd/compress/../common/zstd_deps.h:32:28: note: expanded from macro 'ZSTD_memcpy'
-   #define ZSTD_memcpy(d,s,n) __builtin_memcpy((d),(s),(n))
-                              ^~~~~~~~~~~~~~~~
-   lib/zstd/compress/zstd_compress_superblock.c:82:5: note: Call to function 'memcpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memcpy_s' in case of C11
-       ZSTD_memcpy(nextHuf, prevHuf, sizeof(*prevHuf));
-       ^
-   lib/zstd/compress/../common/zstd_deps.h:32:28: note: expanded from macro 'ZSTD_memcpy'
-   #define ZSTD_memcpy(d,s,n) __builtin_memcpy((d),(s),(n))
-                              ^~~~~~~~~~~~~~~~
-   lib/zstd/compress/zstd_compress_superblock.c:121:5: warning: Call to function 'memset' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-       ZSTD_memset(nextHuf->CTable, 0, sizeof(nextHuf->CTable));
-       ^
-   lib/zstd/compress/../common/zstd_deps.h:34:28: note: expanded from macro 'ZSTD_memset'
-   #define ZSTD_memset(d,s,n) __builtin_memset((d),(s),(n))
-                              ^~~~~~~~~~~~~~~~
-   lib/zstd/compress/zstd_compress_superblock.c:121:5: note: Call to function 'memset' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memset_s' in case of C11
-       ZSTD_memset(nextHuf->CTable, 0, sizeof(nextHuf->CTable));
-       ^
-   lib/zstd/compress/../common/zstd_deps.h:34:28: note: expanded from macro 'ZSTD_memset'
-   #define ZSTD_memset(d,s,n) __builtin_memset((d),(s),(n))
-                              ^~~~~~~~~~~~~~~~
-   lib/zstd/compress/zstd_compress_superblock.c:141:21: warning: Call to function 'memcpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                       ZSTD_memcpy(nextHuf, prevHuf, sizeof(*prevHuf));
-                       ^
-   lib/zstd/compress/../common/zstd_deps.h:32:28: note: expanded from macro 'ZSTD_memcpy'
-   #define ZSTD_memcpy(d,s,n) __builtin_memcpy((d),(s),(n))
-                              ^~~~~~~~~~~~~~~~
-   lib/zstd/compress/zstd_compress_superblock.c:141:21: note: Call to function 'memcpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memcpy_s' in case of C11
-                       ZSTD_memcpy(nextHuf, prevHuf, sizeof(*prevHuf));
-                       ^
-   lib/zstd/compress/../common/zstd_deps.h:32:28: note: expanded from macro 'ZSTD_memcpy'
-   #define ZSTD_memcpy(d,s,n) __builtin_memcpy((d),(s),(n))
-                              ^~~~~~~~~~~~~~~~
-   lib/zstd/compress/zstd_compress_superblock.c:148:17: warning: Call to function 'memcpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   ZSTD_memcpy(nextHuf, prevHuf, sizeof(*prevHuf));
-                   ^
-   lib/zstd/compress/../common/zstd_deps.h:32:28: note: expanded from macro 'ZSTD_memcpy'
-   #define ZSTD_memcpy(d,s,n) __builtin_memcpy((d),(s),(n))
-                              ^~~~~~~~~~~~~~~~
-   lib/zstd/compress/zstd_compress_superblock.c:148:17: note: Call to function 'memcpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memcpy_s' in case of C11
-                   ZSTD_memcpy(nextHuf, prevHuf, sizeof(*prevHuf));
-                   ^
-   lib/zstd/compress/../common/zstd_deps.h:32:28: note: expanded from macro 'ZSTD_memcpy'
-   #define ZSTD_memcpy(d,s,n) __builtin_memcpy((d),(s),(n))
-                              ^~~~~~~~~~~~~~~~
-   lib/zstd/compress/zstd_compress_superblock.c:192:5: warning: Call to function 'memset' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-       ZSTD_memset(workspace, 0, wkspSize);
-       ^
-   lib/zstd/compress/../common/zstd_deps.h:34:28: note: expanded from macro 'ZSTD_memset'
-   #define ZSTD_memset(d,s,n) __builtin_memset((d),(s),(n))
-                              ^~~~~~~~~~~~~~~~
-   lib/zstd/compress/zstd_compress_superblock.c:192:5: note: Call to function 'memset' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memset_s' in case of C11
-       ZSTD_memset(workspace, 0, wkspSize);
-       ^
-   lib/zstd/compress/../common/zstd_deps.h:34:28: note: expanded from macro 'ZSTD_memset'
-   #define ZSTD_memset(d,s,n) __builtin_memset((d),(s),(n))
-                              ^~~~~~~~~~~~~~~~
-   lib/zstd/compress/zstd_compress_superblock.c:352:9: warning: Call to function 'memcpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           ZSTD_memcpy(op, hufMetadata->hufDesBuffer, hufMetadata->hufDesSize);
+New smatch warnings:
+drivers/tty/n_gsm.c:3751 gsmld_ioctl() warn: potential spectre issue 'gsm->dlci' [r] (local cap)
+drivers/tty/n_gsm.c:3752 gsmld_ioctl() warn: possible spectre second half.  'dlci'
 
-vim +1811 drivers/video/fbdev/omap/omapfb_main.c
+Old smatch warnings:
+drivers/tty/n_gsm.c:3767 gsmld_ioctl() warn: possible spectre second half.  'dlci'
 
-8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak      2007-07-17  1798  
-8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak      2007-07-17  1799  /* Called when the device is being detached from the driver */
-8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak      2007-07-17  1800  static int omapfb_remove(struct platform_device *pdev)
-8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak      2007-07-17  1801  {
-8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak      2007-07-17  1802  	struct omapfb_device *fbdev = platform_get_drvdata(pdev);
-8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak      2007-07-17  1803  	enum omapfb_state saved_state = fbdev->state;
-8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak      2007-07-17  1804  
-8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak      2007-07-17  1805  	/* FIXME: wait till completion of pending events */
-8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak      2007-07-17  1806  
-8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak      2007-07-17  1807  	fbdev->state = OMAPFB_DISABLED;
-8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak      2007-07-17  1808  	omapfb_free_resources(fbdev, saved_state);
-8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak      2007-07-17  1809  
-f778a12dd33200 drivers/video/omap/omapfb_main.c Tomi Valkeinen 2009-12-16  1810  	platform_device_unregister(&omapdss_device);
-f778a12dd33200 drivers/video/omap/omapfb_main.c Tomi Valkeinen 2009-12-16 @1811  	fbdev->dssdev = NULL;
-f778a12dd33200 drivers/video/omap/omapfb_main.c Tomi Valkeinen 2009-12-16  1812  
-8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak      2007-07-17  1813  	return 0;
-8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak      2007-07-17  1814  }
-8b08cf2b64f5a6 drivers/video/omap/omapfb_main.c Imre Deak      2007-07-17  1815  
+vim +3751 drivers/tty/n_gsm.c
 
-:::::: The code at line 1811 was first introduced by commit
-:::::: f778a12dd33200513596a0d4d3ba4d5f09e79c09 OMAP: OMAPFB: fix clk_get for RFBI
-
-:::::: TO: Tomi Valkeinen <tomi.valkeinen@nokia.com>
-:::::: CC: Tomi Valkeinen <tomi.valkeinen@nokia.com>
+e1eaea46bb4020 drivers/char/n_gsm.c Alan Cox         2010-03-26  3713  
+d78328bcc4d0e6 drivers/tty/n_gsm.c  Jiri Slaby       2021-11-22  3714  static int gsmld_ioctl(struct tty_struct *tty, unsigned int cmd,
+d78328bcc4d0e6 drivers/tty/n_gsm.c  Jiri Slaby       2021-11-22  3715  		       unsigned long arg)
+e1eaea46bb4020 drivers/char/n_gsm.c Alan Cox         2010-03-26  3716  {
+e1eaea46bb4020 drivers/char/n_gsm.c Alan Cox         2010-03-26  3717  	struct gsm_config c;
+72206cc730b5c9 drivers/tty/n_gsm.c  Daniel Starke    2023-02-14  3718  	struct gsm_config_ext ce;
+afe3154ba87e79 drivers/tty/n_gsm.c  Daniel Starke    2023-03-15  3719  	struct gsm_dlci_config dc;
+e1eaea46bb4020 drivers/char/n_gsm.c Alan Cox         2010-03-26  3720  	struct gsm_mux *gsm = tty->disc_data;
+afe3154ba87e79 drivers/tty/n_gsm.c  Daniel Starke    2023-03-15  3721  	struct gsm_dlci *dlci;
+a7b121b4b8b0bc drivers/tty/n_gsm.c  Martin Hundebøll 2019-08-12  3722  	unsigned int base;
+e1eaea46bb4020 drivers/char/n_gsm.c Alan Cox         2010-03-26  3723  
+e1eaea46bb4020 drivers/char/n_gsm.c Alan Cox         2010-03-26  3724  	switch (cmd) {
+e1eaea46bb4020 drivers/char/n_gsm.c Alan Cox         2010-03-26  3725  	case GSMIOC_GETCONF:
+3384104082467e drivers/tty/n_gsm.c  Tony Lindgren    2019-01-13  3726  		gsm_copy_config_values(gsm, &c);
+edd05a735a391d drivers/tty/n_gsm.c  Jiri Slaby       2020-02-19  3727  		if (copy_to_user((void __user *)arg, &c, sizeof(c)))
+e1eaea46bb4020 drivers/char/n_gsm.c Alan Cox         2010-03-26  3728  			return -EFAULT;
+e1eaea46bb4020 drivers/char/n_gsm.c Alan Cox         2010-03-26  3729  		return 0;
+e1eaea46bb4020 drivers/char/n_gsm.c Alan Cox         2010-03-26  3730  	case GSMIOC_SETCONF:
+edd05a735a391d drivers/tty/n_gsm.c  Jiri Slaby       2020-02-19  3731  		if (copy_from_user(&c, (void __user *)arg, sizeof(c)))
+e1eaea46bb4020 drivers/char/n_gsm.c Alan Cox         2010-03-26  3732  			return -EFAULT;
+3384104082467e drivers/tty/n_gsm.c  Tony Lindgren    2019-01-13  3733  		return gsm_config(gsm, &c);
+a7b121b4b8b0bc drivers/tty/n_gsm.c  Martin Hundebøll 2019-08-12  3734  	case GSMIOC_GETFIRST:
+a7b121b4b8b0bc drivers/tty/n_gsm.c  Martin Hundebøll 2019-08-12  3735  		base = mux_num_to_base(gsm);
+a7b121b4b8b0bc drivers/tty/n_gsm.c  Martin Hundebøll 2019-08-12  3736  		return put_user(base + 1, (__u32 __user *)arg);
+72206cc730b5c9 drivers/tty/n_gsm.c  Daniel Starke    2023-02-14  3737  	case GSMIOC_GETCONF_EXT:
+72206cc730b5c9 drivers/tty/n_gsm.c  Daniel Starke    2023-02-14  3738  		gsm_copy_config_ext_values(gsm, &ce);
+72206cc730b5c9 drivers/tty/n_gsm.c  Daniel Starke    2023-02-14  3739  		if (copy_to_user((void __user *)arg, &ce, sizeof(ce)))
+72206cc730b5c9 drivers/tty/n_gsm.c  Daniel Starke    2023-02-14  3740  			return -EFAULT;
+72206cc730b5c9 drivers/tty/n_gsm.c  Daniel Starke    2023-02-14  3741  		return 0;
+72206cc730b5c9 drivers/tty/n_gsm.c  Daniel Starke    2023-02-14  3742  	case GSMIOC_SETCONF_EXT:
+72206cc730b5c9 drivers/tty/n_gsm.c  Daniel Starke    2023-02-14  3743  		if (copy_from_user(&ce, (void __user *)arg, sizeof(ce)))
+72206cc730b5c9 drivers/tty/n_gsm.c  Daniel Starke    2023-02-14  3744  			return -EFAULT;
+72206cc730b5c9 drivers/tty/n_gsm.c  Daniel Starke    2023-02-14  3745  		return gsm_config_ext(gsm, &ce);
+afe3154ba87e79 drivers/tty/n_gsm.c  Daniel Starke    2023-03-15  3746  	case GSMIOC_GETCONF_DLCI:
+afe3154ba87e79 drivers/tty/n_gsm.c  Daniel Starke    2023-03-15  3747  		if (copy_from_user(&dc, (void __user *)arg, sizeof(dc)))
+afe3154ba87e79 drivers/tty/n_gsm.c  Daniel Starke    2023-03-15  3748  			return -EFAULT;
+afe3154ba87e79 drivers/tty/n_gsm.c  Daniel Starke    2023-03-15  3749  		if (dc.channel == 0 || dc.channel >= NUM_DLCI)
+afe3154ba87e79 drivers/tty/n_gsm.c  Daniel Starke    2023-03-15  3750  			return -EINVAL;
+afe3154ba87e79 drivers/tty/n_gsm.c  Daniel Starke    2023-03-15 @3751  		dlci = gsm->dlci[dc.channel];
+afe3154ba87e79 drivers/tty/n_gsm.c  Daniel Starke    2023-03-15 @3752  		if (!dlci) {
+afe3154ba87e79 drivers/tty/n_gsm.c  Daniel Starke    2023-03-15  3753  			dlci = gsm_dlci_alloc(gsm, dc.channel);
+afe3154ba87e79 drivers/tty/n_gsm.c  Daniel Starke    2023-03-15  3754  			if (!dlci)
+afe3154ba87e79 drivers/tty/n_gsm.c  Daniel Starke    2023-03-15  3755  				return -ENOMEM;
+afe3154ba87e79 drivers/tty/n_gsm.c  Daniel Starke    2023-03-15  3756  		}
+afe3154ba87e79 drivers/tty/n_gsm.c  Daniel Starke    2023-03-15  3757  		gsm_dlci_copy_config_values(dlci, &dc);
+afe3154ba87e79 drivers/tty/n_gsm.c  Daniel Starke    2023-03-15  3758  		if (copy_to_user((void __user *)arg, &dc, sizeof(dc)))
+afe3154ba87e79 drivers/tty/n_gsm.c  Daniel Starke    2023-03-15  3759  			return -EFAULT;
+afe3154ba87e79 drivers/tty/n_gsm.c  Daniel Starke    2023-03-15  3760  		return 0;
+afe3154ba87e79 drivers/tty/n_gsm.c  Daniel Starke    2023-03-15  3761  	case GSMIOC_SETCONF_DLCI:
+afe3154ba87e79 drivers/tty/n_gsm.c  Daniel Starke    2023-03-15  3762  		if (copy_from_user(&dc, (void __user *)arg, sizeof(dc)))
+afe3154ba87e79 drivers/tty/n_gsm.c  Daniel Starke    2023-03-15  3763  			return -EFAULT;
+afe3154ba87e79 drivers/tty/n_gsm.c  Daniel Starke    2023-03-15  3764  		if (dc.channel == 0 || dc.channel >= NUM_DLCI)
+afe3154ba87e79 drivers/tty/n_gsm.c  Daniel Starke    2023-03-15  3765  			return -EINVAL;
+afe3154ba87e79 drivers/tty/n_gsm.c  Daniel Starke    2023-03-15  3766  		dlci = gsm->dlci[dc.channel];
+afe3154ba87e79 drivers/tty/n_gsm.c  Daniel Starke    2023-03-15  3767  		if (!dlci) {
+afe3154ba87e79 drivers/tty/n_gsm.c  Daniel Starke    2023-03-15  3768  			dlci = gsm_dlci_alloc(gsm, dc.channel);
+afe3154ba87e79 drivers/tty/n_gsm.c  Daniel Starke    2023-03-15  3769  			if (!dlci)
+afe3154ba87e79 drivers/tty/n_gsm.c  Daniel Starke    2023-03-15  3770  				return -ENOMEM;
+afe3154ba87e79 drivers/tty/n_gsm.c  Daniel Starke    2023-03-15  3771  		}
+afe3154ba87e79 drivers/tty/n_gsm.c  Daniel Starke    2023-03-15  3772  		return gsm_dlci_config(dlci, &dc, 0);
+e1eaea46bb4020 drivers/char/n_gsm.c Alan Cox         2010-03-26  3773  	default:
+7c783601a3bc22 drivers/tty/n_gsm.c  Jiri Slaby       2021-09-14  3774  		return n_tty_ioctl_helper(tty, cmd, arg);
+e1eaea46bb4020 drivers/char/n_gsm.c Alan Cox         2010-03-26  3775  	}
+e1eaea46bb4020 drivers/char/n_gsm.c Alan Cox         2010-03-26  3776  }
+e1eaea46bb4020 drivers/char/n_gsm.c Alan Cox         2010-03-26  3777  
 
 -- 
 0-DAY CI Kernel Test Service
