@@ -1,43 +1,43 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 124F71365
-	for <oe-kbuild@lists.linux.dev>; Fri, 31 Mar 2023 01:51:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9455F15A8
+	for <oe-kbuild@lists.linux.dev>; Fri, 31 Mar 2023 02:01:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680227482; x=1711763482;
+  t=1680228100; x=1711764100;
   h=date:from:to:cc:subject:message-id:mime-version:
    content-transfer-encoding;
-  bh=Gm1tL/cNomyp8JImpMDdOaM9sJDswg6vRs2zT2GINJk=;
-  b=SiS2HXaDWmC8bho1VQp8gvxP9mcLWC2Fvus9DnGgm8NV2PtYoJiK99S3
-   47LcX5wg77T6uQYCCh6mFanHc12z6fU8gT7tPiM9QZvxB6us4NJULog3f
-   zZCSr8QfGaIaGVDQC7xKVuhijfK4wmj1gVf7ZMBRKATJ0Df4EeiEAdPPT
-   V6N/+Qs2Pu/aQm10neoPCDPztWdbUbzlHt5yGkI914HU8qnlSuxJ88sCY
-   yLTt7YIjsG24uvdSGOLyB2zkH0CKIvHJspfz8bboDoi0ITZ/MtRksxIsM
-   almGLDlaqgT4lWrbrDffsb6MR0B14/T3QbqnJj3trP2hEPMS2AhyPbMGP
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10665"; a="343835367"
+  bh=InzHYiCKEI/F+/1gzfx9/6JmjXJ12W2yFhG0FOgSKlQ=;
+  b=WFYGvhv8zjCVmkMmj/pitQ3QGk0v+4n7bsgAwNyLsemCg9vmSipE8UiT
+   elrrYUWRU38DkLEi/xD7nxV5tt/U2xON/EAVPCoPuMYRzBoQ5buX2HC4p
+   uS+NDhK51hOKVPaCUH1VInRsLRYsQ9fHGcYdkDrIQjeF4AwRd9JKhdYeu
+   9hKNWhFBEUvCn5hthEwD4UJqAcZ0Rf9kU0ZhRHVo+hWuBdpr0Objc7l3z
+   xjU7nDx9GbSYSWdynY8pZ8YWU4+QT+BR5Caz0LoUqYVgHboysLv2QO1z5
+   l3GPKk2JV221QF577qmJasrJcxKPIznHz6nJjMSAz5MaxaoWr22ybg2NX
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10665"; a="338831073"
 X-IronPort-AV: E=Sophos;i="5.98,306,1673942400"; 
-   d="scan'208";a="343835367"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2023 18:51:21 -0700
+   d="scan'208";a="338831073"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2023 19:01:26 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10665"; a="662256595"
+X-IronPort-AV: E=McAfee;i="6600,9927,10665"; a="684922542"
 X-IronPort-AV: E=Sophos;i="5.98,306,1673942400"; 
-   d="scan'208";a="662256595"
+   d="scan'208";a="684922542"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 30 Mar 2023 18:51:20 -0700
+  by orsmga002.jf.intel.com with ESMTP; 30 Mar 2023 19:01:24 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pi3vD-000LP8-0N;
-	Fri, 31 Mar 2023 01:51:19 +0000
-Date: Fri, 31 Mar 2023 09:50:41 +0800
+	id 1pi44t-000LPT-0t;
+	Fri, 31 Mar 2023 02:01:19 +0000
+Date: Fri, 31 Mar 2023 10:01:15 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c:1080
- amdgpu_debugfs_gfxoff_residency_read() warn: ignoring unreachable code.
-Message-ID: <202303310939.ueFbvcJr-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: drivers/base/regmap/regmap-spi-avmm.c:324:9: warning: use of NULL
+ 'pb_eop' where non-null expected [CWE-476]
+Message-ID: <202303310938.qKUBoxg9-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -48,195 +48,271 @@ Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 
+:::::: 
+:::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "low confidence static check first_new_problem: drivers/base/regmap/regmap-spi-avmm.c:324:9: warning: use of NULL 'pb_eop' where non-null expected [CWE-476] [-Wanalyzer-null-argument]"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: "André Almeida" <andrealmeid@igalia.com>
-CC: Alex Deucher <alexander.deucher@amd.com>
+TO: "Ilpo Järvinen" <ilpo.jarvinen@linux.intel.com>
+CC: Lee Jones <lee@kernel.org>
+CC: Tianfei zhang <tianfei.zhang@intel.com>
+CC: Russ Weight <russell.h.weight@intel.com>
+CC: Xu Yilun <yilun.xu@intel.com>
+
+Hi Ilpo,
+
+First bad commit (maybe != root cause):
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   b2bc47e9b2011a183f9d3d3454a294a938082fb9
-commit: 0ad7347a64ac4baec1786810709eebedc5f823d5 drm/amd: Add detailed GFXOFF stats to debugfs
-date:   8 months ago
-:::::: branch date: 5 hours ago
-:::::: commit date: 8 months ago
-config: s390-randconfig-m031-20230329 (https://download.01.org/0day-ci/archive/20230331/202303310939.ueFbvcJr-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 12.1.0
+head:   62bad54b26db8bc98e28749cd76b2d890edb4258
+commit: 603aed8ffd4c9cb633c05a514cfb5e8ca6b0751d mfd: intel-m10-bmc: Split into core and spi specific parts
+date:   9 weeks ago
+:::::: branch date: 3 hours ago
+:::::: commit date: 9 weeks ago
+config: arm-randconfig-c002-20230330 (https://download.01.org/0day-ci/archive/20230331/202303310938.qKUBoxg9-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=603aed8ffd4c9cb633c05a514cfb5e8ca6b0751d
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 603aed8ffd4c9cb633c05a514cfb5e8ca6b0751d
+        # save the config file
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross ARCH=arm KBUILD_USERCFLAGS='-fanalyzer -Wno-error'  olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross ARCH=arm KBUILD_USERCFLAGS='-fanalyzer -Wno-error' 
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202303310939.ueFbvcJr-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202303310938.qKUBoxg9-lkp@intel.com/
 
-New smatch warnings:
-drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c:1080 amdgpu_debugfs_gfxoff_residency_read() warn: ignoring unreachable code.
-drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c:1179 amdgpu_debugfs_gfxoff_count_read() warn: ignoring unreachable code.
+gcc_analyzer warnings: (new ones prefixed by >>)
+   drivers/base/regmap/regmap-spi-avmm.c: In function 'br_pkt_phy_tx_prepare':
+>> drivers/base/regmap/regmap-spi-avmm.c:324:9: warning: use of NULL 'pb_eop' where non-null expected [CWE-476] [-Wanalyzer-null-argument]
+     324 |         memmove(&br->phy_buf[aligned_phy_len - move_size], pb_eop, move_size);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     'regmap_spi_avmm_read': events 1-6
+       |
+       |  602 | static int regmap_spi_avmm_read(void *context,
+       |      |            ^~~~~~~~~~~~~~~~~~~~
+       |      |            |
+       |      |            (1) entry to 'regmap_spi_avmm_read'
+       |......
+       |  606 |         if (reg_len != SPI_AVMM_REG_SIZE)
+       |      |            ~
+       |      |            |
+       |      |            (2) following 'false' branch (when 'reg_len == 4')...
+       |......
+       |  609 |         if (!IS_ALIGNED(val_len, SPI_AVMM_VAL_SIZE))
+       |      |         ~~ ~
+       |      |         |  |
+       |      |         |  (4) following 'false' branch...
+       |      |         (3) ...to here
+       |......
+       |  612 |         return do_reg_access(context, true, *(u32 *)reg_buf, val_buf,
+       |      |         ~~~~~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |         |      |
+       |      |         |      (6) calling 'do_reg_access' from 'regmap_spi_avmm_read'
+       |      |         (5) ...to here
+       |  613 |                              (val_len / SPI_AVMM_VAL_SIZE));
+       |      |                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |
+       +--> 'do_reg_access': events 7-8
+              |
+              |  546 | static int do_reg_access(void *context, bool is_read, unsigned int reg,
+              |      |            ^~~~~~~~~~~~~
+              |      |            |
+              |      |            (7) entry to 'do_reg_access'
+              |......
+              |  556 |         ret = br_trans_tx_prepare(br, is_read, reg, value, count);
+              |      |               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |               |
+              |      |               (8) calling 'br_trans_tx_prepare' from 'do_reg_access'
+              |
+              +--> 'br_trans_tx_prepare': events 9-13
+                     |
+                     |  178 | static int br_trans_tx_prepare(struct spi_avmm_bridge *br, bool is_read, u32 reg,
+                     |      |            ^~~~~~~~~~~~~~~~~~~
+                     |      |            |
+                     |      |            (9) entry to 'br_trans_tx_prepare'
+                     |......
+                     |  187 |         if (is_read) {
+                     |      |            ~
+                     |      |            |
+                     |      |            (10) following 'true' branch (when 'is_read != 0')...
+                     |  188 |                 if (count == 1)
+                     |      |                 ~~
+                     |      |                 |
+                     |      |                 (11) ...to here
+                     |......
+                     |  207 |         if (!is_read) {
+                     |      |            ~
+                     |      |            |
+                     |      |            (12) following 'true' branch (when 'is_read != 0')...
+                     |......
+                     |  219 |         br->trans_len = trans_len;
+                     |      |         ~~  
+                     |      |         |
+                     |      |         (13) ...to here
+                     |
+              <------+
+              |
+            'do_reg_access': events 14-17
+              |
+              |  556 |         ret = br_trans_tx_prepare(br, is_read, reg, value, count);
+              |      |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |               |
+              |      |               (14) returning to 'do_reg_access' from 'br_trans_tx_prepare'
+              |  557 |         if (ret)
+              |      |            ~   
+              |      |            |
+              |      |            (15) following 'false' branch (when 'ret == 0')...
+              |......
+              |  560 |         ret = br_pkt_phy_tx_prepare(br);
+              |      |         ~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |         |     |
+              |      |         |     (17) calling 'br_pkt_phy_tx_prepare' from 'do_reg_access'
+              |      |         (16) ...to here
+              |
+              +--> 'br_pkt_phy_tx_prepare': events 18-27
+                     |
+                     |  247 | static int br_pkt_phy_tx_prepare(struct spi_avmm_bridge *br)
+                     |      |            ^~~~~~~~~~~~~~~~~~~~~
+                     |      |            |
+                     |      |            (18) entry to 'br_pkt_phy_tx_prepare'
+                     |......
+                     |  305 |         if (tb < tb_end)
+                     |      |            ~
+                     |      |            |
+                     |      |            (19) following 'false' branch (when 'tb >= tb_end')...
+                     |......
+                     |  309 |         br->phy_len = pb - br->phy_buf;
+                     |      |         ~~  
+                     |      |         |
 
-Old smatch warnings:
-drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c:386 amdgpu_debugfs_regs_pcie_read() warn: ignoring unreachable code.
-drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c:499 amdgpu_debugfs_regs_didt_read() warn: ignoring unreachable code.
-drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c:612 amdgpu_debugfs_regs_smc_read() warn: ignoring unreachable code.
-drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c:768 amdgpu_debugfs_gca_config_read() warn: ignoring unreachable code.
-drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c:846 amdgpu_debugfs_sensor_read() warn: ignoring unreachable code.
-drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c:932 amdgpu_debugfs_wave_read() warn: ignoring unreachable code.
-drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c:1025 amdgpu_debugfs_gpr_read() warn: ignoring unreachable code.
-drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c:1274 amdgpu_debugfs_gfxoff_read() warn: ignoring unreachable code.
-drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c:1315 amdgpu_debugfs_gfxoff_status_read() warn: ignoring unreachable code.
+vim +/pb_eop +324 drivers/base/regmap/regmap-spi-avmm.c
 
-vim +1080 drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c
+7f9fb67358a2bc Xu Yilun 2020-08-19  223  
+7f9fb67358a2bc Xu Yilun 2020-08-19  224  /*
+7f9fb67358a2bc Xu Yilun 2020-08-19  225   * Convert transaction layer data (in br->trans_buf) to phy layer data, store
+7f9fb67358a2bc Xu Yilun 2020-08-19  226   * them in br->phy_buf. Pad the phy_buf aligned with SPI's BPW. Store valid phy
+7f9fb67358a2bc Xu Yilun 2020-08-19  227   * layer data length in br->phy_len.
+7f9fb67358a2bc Xu Yilun 2020-08-19  228   *
+7f9fb67358a2bc Xu Yilun 2020-08-19  229   * phy_buf len should be aligned with SPI's BPW. Spare bytes should be padded
+7f9fb67358a2bc Xu Yilun 2020-08-19  230   * with PHY_IDLE, then the slave will just drop them.
+7f9fb67358a2bc Xu Yilun 2020-08-19  231   *
+7f9fb67358a2bc Xu Yilun 2020-08-19  232   * The driver will not simply pad 4a at the tail. The concern is that driver
+7f9fb67358a2bc Xu Yilun 2020-08-19  233   * will not store MISO data during tx phase, if the driver pads 4a at the tail,
+7f9fb67358a2bc Xu Yilun 2020-08-19  234   * it is possible that if the slave is fast enough to response at the padding
+7f9fb67358a2bc Xu Yilun 2020-08-19  235   * time. As a result these rx bytes are lost. In the following case, 7a,7c,00
+7f9fb67358a2bc Xu Yilun 2020-08-19  236   * will lost.
+7f9fb67358a2bc Xu Yilun 2020-08-19  237   * MOSI ...|7a|7c|00|10| |00|00|04|02| |4b|7d|5a|7b| |40|4a|4a|4a| |XX|XX|...
+7f9fb67358a2bc Xu Yilun 2020-08-19  238   * MISO ...|4a|4a|4a|4a| |4a|4a|4a|4a| |4a|4a|4a|4a| |4a|7a|7c|00| |78|56|...
+7f9fb67358a2bc Xu Yilun 2020-08-19  239   *
+7f9fb67358a2bc Xu Yilun 2020-08-19  240   * So the driver moves EOP and bytes after EOP to the end of the aligned size,
+7f9fb67358a2bc Xu Yilun 2020-08-19  241   * then fill the hole with PHY_IDLE. As following:
+7f9fb67358a2bc Xu Yilun 2020-08-19  242   * before pad ...|7a|7c|00|10| |00|00|04|02| |4b|7d|5a|7b| |40|
+7f9fb67358a2bc Xu Yilun 2020-08-19  243   * after pad  ...|7a|7c|00|10| |00|00|04|02| |4b|7d|5a|4a| |4a|4a|7b|40|
+7f9fb67358a2bc Xu Yilun 2020-08-19  244   * Then if the slave will not get the entire packet before the tx phase is
+7f9fb67358a2bc Xu Yilun 2020-08-19  245   * over, it can't responsed to anything either.
+7f9fb67358a2bc Xu Yilun 2020-08-19  246   */
+7f9fb67358a2bc Xu Yilun 2020-08-19  247  static int br_pkt_phy_tx_prepare(struct spi_avmm_bridge *br)
+7f9fb67358a2bc Xu Yilun 2020-08-19  248  {
+7f9fb67358a2bc Xu Yilun 2020-08-19  249  	char *tb, *tb_end, *pb, *pb_limit, *pb_eop = NULL;
+7f9fb67358a2bc Xu Yilun 2020-08-19  250  	unsigned int aligned_phy_len, move_size;
+7f9fb67358a2bc Xu Yilun 2020-08-19  251  	bool need_esc = false;
+7f9fb67358a2bc Xu Yilun 2020-08-19  252  
+7f9fb67358a2bc Xu Yilun 2020-08-19  253  	tb = br->trans_buf;
+7f9fb67358a2bc Xu Yilun 2020-08-19  254  	tb_end = tb + br->trans_len;
+7f9fb67358a2bc Xu Yilun 2020-08-19  255  	pb = br->phy_buf;
+7f9fb67358a2bc Xu Yilun 2020-08-19  256  	pb_limit = pb + ARRAY_SIZE(br->phy_buf);
+7f9fb67358a2bc Xu Yilun 2020-08-19  257  
+7f9fb67358a2bc Xu Yilun 2020-08-19  258  	*pb++ = PKT_SOP;
+7f9fb67358a2bc Xu Yilun 2020-08-19  259  
+7f9fb67358a2bc Xu Yilun 2020-08-19  260  	/*
+7f9fb67358a2bc Xu Yilun 2020-08-19  261  	 * The driver doesn't support multiple channels so the channel number
+7f9fb67358a2bc Xu Yilun 2020-08-19  262  	 * is always 0.
+7f9fb67358a2bc Xu Yilun 2020-08-19  263  	 */
+7f9fb67358a2bc Xu Yilun 2020-08-19  264  	*pb++ = PKT_CHANNEL;
+7f9fb67358a2bc Xu Yilun 2020-08-19  265  	*pb++ = 0x0;
+7f9fb67358a2bc Xu Yilun 2020-08-19  266  
+7f9fb67358a2bc Xu Yilun 2020-08-19  267  	for (; pb < pb_limit && tb < tb_end; pb++) {
+7f9fb67358a2bc Xu Yilun 2020-08-19  268  		if (need_esc) {
+7f9fb67358a2bc Xu Yilun 2020-08-19  269  			*pb = *tb++ ^ 0x20;
+7f9fb67358a2bc Xu Yilun 2020-08-19  270  			need_esc = false;
+7f9fb67358a2bc Xu Yilun 2020-08-19  271  			continue;
+7f9fb67358a2bc Xu Yilun 2020-08-19  272  		}
+7f9fb67358a2bc Xu Yilun 2020-08-19  273  
+7f9fb67358a2bc Xu Yilun 2020-08-19  274  		/* EOP should be inserted before the last valid char */
+7f9fb67358a2bc Xu Yilun 2020-08-19  275  		if (tb == tb_end - 1 && !pb_eop) {
+7f9fb67358a2bc Xu Yilun 2020-08-19  276  			*pb = PKT_EOP;
+7f9fb67358a2bc Xu Yilun 2020-08-19  277  			pb_eop = pb;
+7f9fb67358a2bc Xu Yilun 2020-08-19  278  			continue;
+7f9fb67358a2bc Xu Yilun 2020-08-19  279  		}
+7f9fb67358a2bc Xu Yilun 2020-08-19  280  
+7f9fb67358a2bc Xu Yilun 2020-08-19  281  		/*
+7f9fb67358a2bc Xu Yilun 2020-08-19  282  		 * insert an ESCAPE char if the data value equals any special
+7f9fb67358a2bc Xu Yilun 2020-08-19  283  		 * char.
+7f9fb67358a2bc Xu Yilun 2020-08-19  284  		 */
+7f9fb67358a2bc Xu Yilun 2020-08-19  285  		switch (*tb) {
+7f9fb67358a2bc Xu Yilun 2020-08-19  286  		case PKT_SOP:
+7f9fb67358a2bc Xu Yilun 2020-08-19  287  		case PKT_EOP:
+7f9fb67358a2bc Xu Yilun 2020-08-19  288  		case PKT_CHANNEL:
+7f9fb67358a2bc Xu Yilun 2020-08-19  289  		case PKT_ESC:
+7f9fb67358a2bc Xu Yilun 2020-08-19  290  			*pb = PKT_ESC;
+7f9fb67358a2bc Xu Yilun 2020-08-19  291  			need_esc = true;
+7f9fb67358a2bc Xu Yilun 2020-08-19  292  			break;
+7f9fb67358a2bc Xu Yilun 2020-08-19  293  		case PHY_IDLE:
+7f9fb67358a2bc Xu Yilun 2020-08-19  294  		case PHY_ESC:
+7f9fb67358a2bc Xu Yilun 2020-08-19  295  			*pb = PHY_ESC;
+7f9fb67358a2bc Xu Yilun 2020-08-19  296  			need_esc = true;
+7f9fb67358a2bc Xu Yilun 2020-08-19  297  			break;
+7f9fb67358a2bc Xu Yilun 2020-08-19  298  		default:
+7f9fb67358a2bc Xu Yilun 2020-08-19  299  			*pb = *tb++;
+7f9fb67358a2bc Xu Yilun 2020-08-19  300  			break;
+7f9fb67358a2bc Xu Yilun 2020-08-19  301  		}
+7f9fb67358a2bc Xu Yilun 2020-08-19  302  	}
+7f9fb67358a2bc Xu Yilun 2020-08-19  303  
+7f9fb67358a2bc Xu Yilun 2020-08-19  304  	/* The phy buffer is used out but transaction layer data remains */
+7f9fb67358a2bc Xu Yilun 2020-08-19  305  	if (tb < tb_end)
+7f9fb67358a2bc Xu Yilun 2020-08-19  306  		return -ENOMEM;
+7f9fb67358a2bc Xu Yilun 2020-08-19  307  
+7f9fb67358a2bc Xu Yilun 2020-08-19  308  	/* Store valid phy data length for spi transfer */
+7f9fb67358a2bc Xu Yilun 2020-08-19  309  	br->phy_len = pb - br->phy_buf;
+7f9fb67358a2bc Xu Yilun 2020-08-19  310  
+7f9fb67358a2bc Xu Yilun 2020-08-19  311  	if (br->word_len == 1)
+7f9fb67358a2bc Xu Yilun 2020-08-19  312  		return 0;
+7f9fb67358a2bc Xu Yilun 2020-08-19  313  
+7f9fb67358a2bc Xu Yilun 2020-08-19  314  	/* Do phy buf padding if word_len > 1 byte. */
+7f9fb67358a2bc Xu Yilun 2020-08-19  315  	aligned_phy_len = ALIGN(br->phy_len, br->word_len);
+7f9fb67358a2bc Xu Yilun 2020-08-19  316  	if (aligned_phy_len > sizeof(br->phy_buf))
+7f9fb67358a2bc Xu Yilun 2020-08-19  317  		return -ENOMEM;
+7f9fb67358a2bc Xu Yilun 2020-08-19  318  
+7f9fb67358a2bc Xu Yilun 2020-08-19  319  	if (aligned_phy_len == br->phy_len)
+7f9fb67358a2bc Xu Yilun 2020-08-19  320  		return 0;
+7f9fb67358a2bc Xu Yilun 2020-08-19  321  
+7f9fb67358a2bc Xu Yilun 2020-08-19  322  	/* move EOP and bytes after EOP to the end of aligned size */
+7f9fb67358a2bc Xu Yilun 2020-08-19  323  	move_size = pb - pb_eop;
+7f9fb67358a2bc Xu Yilun 2020-08-19 @324  	memmove(&br->phy_buf[aligned_phy_len - move_size], pb_eop, move_size);
+7f9fb67358a2bc Xu Yilun 2020-08-19  325  
+7f9fb67358a2bc Xu Yilun 2020-08-19  326  	/* fill the hole with PHY_IDLEs */
+7f9fb67358a2bc Xu Yilun 2020-08-19  327  	memset(pb_eop, PHY_IDLE, aligned_phy_len - br->phy_len);
+7f9fb67358a2bc Xu Yilun 2020-08-19  328  
+7f9fb67358a2bc Xu Yilun 2020-08-19  329  	/* update the phy data length */
+7f9fb67358a2bc Xu Yilun 2020-08-19  330  	br->phy_len = aligned_phy_len;
+7f9fb67358a2bc Xu Yilun 2020-08-19  331  
+7f9fb67358a2bc Xu Yilun 2020-08-19  332  	return 0;
+7f9fb67358a2bc Xu Yilun 2020-08-19  333  }
+7f9fb67358a2bc Xu Yilun 2020-08-19  334  
 
-75758255dc0fae Alex Deucher  2017-12-14  1044  
-0ad7347a64ac4b André Almeida 2022-08-10  1045  /**
-0ad7347a64ac4b André Almeida 2022-08-10  1046   * amdgpu_debugfs_gfxoff_residency_read - Read GFXOFF residency
-0ad7347a64ac4b André Almeida 2022-08-10  1047   *
-0ad7347a64ac4b André Almeida 2022-08-10  1048   * @f: open file handle
-0ad7347a64ac4b André Almeida 2022-08-10  1049   * @buf: User buffer to store read data in
-0ad7347a64ac4b André Almeida 2022-08-10  1050   * @size: Number of bytes to read
-0ad7347a64ac4b André Almeida 2022-08-10  1051   * @pos:  Offset to seek to
-0ad7347a64ac4b André Almeida 2022-08-10  1052   *
-0ad7347a64ac4b André Almeida 2022-08-10  1053   * Read the last residency value logged. It doesn't auto update, one needs to
-0ad7347a64ac4b André Almeida 2022-08-10  1054   * stop logging before getting the current value.
-0ad7347a64ac4b André Almeida 2022-08-10  1055   */
-0ad7347a64ac4b André Almeida 2022-08-10  1056  static ssize_t amdgpu_debugfs_gfxoff_residency_read(struct file *f, char __user *buf,
-0ad7347a64ac4b André Almeida 2022-08-10  1057  						    size_t size, loff_t *pos)
-0ad7347a64ac4b André Almeida 2022-08-10  1058  {
-0ad7347a64ac4b André Almeida 2022-08-10  1059  	struct amdgpu_device *adev = file_inode(f)->i_private;
-0ad7347a64ac4b André Almeida 2022-08-10  1060  	ssize_t result = 0;
-0ad7347a64ac4b André Almeida 2022-08-10  1061  	int r;
-0ad7347a64ac4b André Almeida 2022-08-10  1062  
-0ad7347a64ac4b André Almeida 2022-08-10  1063  	if (size & 0x3 || *pos & 0x3)
-0ad7347a64ac4b André Almeida 2022-08-10  1064  		return -EINVAL;
-0ad7347a64ac4b André Almeida 2022-08-10  1065  
-0ad7347a64ac4b André Almeida 2022-08-10  1066  	r = pm_runtime_get_sync(adev_to_drm(adev)->dev);
-0ad7347a64ac4b André Almeida 2022-08-10  1067  	if (r < 0) {
-0ad7347a64ac4b André Almeida 2022-08-10  1068  		pm_runtime_put_autosuspend(adev_to_drm(adev)->dev);
-0ad7347a64ac4b André Almeida 2022-08-10  1069  		return r;
-0ad7347a64ac4b André Almeida 2022-08-10  1070  	}
-0ad7347a64ac4b André Almeida 2022-08-10  1071  
-0ad7347a64ac4b André Almeida 2022-08-10  1072  	while (size) {
-0ad7347a64ac4b André Almeida 2022-08-10  1073  		uint32_t value;
-0ad7347a64ac4b André Almeida 2022-08-10  1074  
-0ad7347a64ac4b André Almeida 2022-08-10  1075  		r = amdgpu_get_gfx_off_residency(adev, &value);
-0ad7347a64ac4b André Almeida 2022-08-10  1076  		if (r)
-0ad7347a64ac4b André Almeida 2022-08-10  1077  			goto out;
-0ad7347a64ac4b André Almeida 2022-08-10  1078  
-0ad7347a64ac4b André Almeida 2022-08-10  1079  		r = put_user(value, (uint32_t *)buf);
-0ad7347a64ac4b André Almeida 2022-08-10 @1080  		if (r)
-0ad7347a64ac4b André Almeida 2022-08-10  1081  			goto out;
-0ad7347a64ac4b André Almeida 2022-08-10  1082  
-0ad7347a64ac4b André Almeida 2022-08-10  1083  		result += 4;
-0ad7347a64ac4b André Almeida 2022-08-10  1084  		buf += 4;
-0ad7347a64ac4b André Almeida 2022-08-10  1085  		*pos += 4;
-0ad7347a64ac4b André Almeida 2022-08-10  1086  		size -= 4;
-0ad7347a64ac4b André Almeida 2022-08-10  1087  	}
-0ad7347a64ac4b André Almeida 2022-08-10  1088  
-0ad7347a64ac4b André Almeida 2022-08-10  1089  	r = result;
-0ad7347a64ac4b André Almeida 2022-08-10  1090  out:
-0ad7347a64ac4b André Almeida 2022-08-10  1091  	pm_runtime_mark_last_busy(adev_to_drm(adev)->dev);
-0ad7347a64ac4b André Almeida 2022-08-10  1092  	pm_runtime_put_autosuspend(adev_to_drm(adev)->dev);
-0ad7347a64ac4b André Almeida 2022-08-10  1093  
-0ad7347a64ac4b André Almeida 2022-08-10  1094  	return r;
-0ad7347a64ac4b André Almeida 2022-08-10  1095  }
-0ad7347a64ac4b André Almeida 2022-08-10  1096  
-0ad7347a64ac4b André Almeida 2022-08-10  1097  /**
-0ad7347a64ac4b André Almeida 2022-08-10  1098   * amdgpu_debugfs_gfxoff_residency_write - Log GFXOFF Residency
-0ad7347a64ac4b André Almeida 2022-08-10  1099   *
-0ad7347a64ac4b André Almeida 2022-08-10  1100   * @f: open file handle
-0ad7347a64ac4b André Almeida 2022-08-10  1101   * @buf: User buffer to write data from
-0ad7347a64ac4b André Almeida 2022-08-10  1102   * @size: Number of bytes to write
-0ad7347a64ac4b André Almeida 2022-08-10  1103   * @pos:  Offset to seek to
-0ad7347a64ac4b André Almeida 2022-08-10  1104   *
-0ad7347a64ac4b André Almeida 2022-08-10  1105   * Write a 32-bit non-zero to start logging; write a 32-bit zero to stop
-0ad7347a64ac4b André Almeida 2022-08-10  1106   */
-0ad7347a64ac4b André Almeida 2022-08-10  1107  static ssize_t amdgpu_debugfs_gfxoff_residency_write(struct file *f, const char __user *buf,
-0ad7347a64ac4b André Almeida 2022-08-10  1108  						     size_t size, loff_t *pos)
-0ad7347a64ac4b André Almeida 2022-08-10  1109  {
-0ad7347a64ac4b André Almeida 2022-08-10  1110  	struct amdgpu_device *adev = file_inode(f)->i_private;
-0ad7347a64ac4b André Almeida 2022-08-10  1111  	ssize_t result = 0;
-0ad7347a64ac4b André Almeida 2022-08-10  1112  	int r;
-0ad7347a64ac4b André Almeida 2022-08-10  1113  
-0ad7347a64ac4b André Almeida 2022-08-10  1114  	if (size & 0x3 || *pos & 0x3)
-0ad7347a64ac4b André Almeida 2022-08-10  1115  		return -EINVAL;
-0ad7347a64ac4b André Almeida 2022-08-10  1116  
-0ad7347a64ac4b André Almeida 2022-08-10  1117  	r = pm_runtime_get_sync(adev_to_drm(adev)->dev);
-0ad7347a64ac4b André Almeida 2022-08-10  1118  	if (r < 0) {
-0ad7347a64ac4b André Almeida 2022-08-10  1119  		pm_runtime_put_autosuspend(adev_to_drm(adev)->dev);
-0ad7347a64ac4b André Almeida 2022-08-10  1120  		return r;
-0ad7347a64ac4b André Almeida 2022-08-10  1121  	}
-0ad7347a64ac4b André Almeida 2022-08-10  1122  
-0ad7347a64ac4b André Almeida 2022-08-10  1123  	while (size) {
-0ad7347a64ac4b André Almeida 2022-08-10  1124  		u32 value;
-0ad7347a64ac4b André Almeida 2022-08-10  1125  
-0ad7347a64ac4b André Almeida 2022-08-10  1126  		r = get_user(value, (uint32_t *)buf);
-0ad7347a64ac4b André Almeida 2022-08-10  1127  		if (r)
-0ad7347a64ac4b André Almeida 2022-08-10  1128  			goto out;
-0ad7347a64ac4b André Almeida 2022-08-10  1129  
-0ad7347a64ac4b André Almeida 2022-08-10  1130  		amdgpu_set_gfx_off_residency(adev, value ? true : false);
-0ad7347a64ac4b André Almeida 2022-08-10  1131  
-0ad7347a64ac4b André Almeida 2022-08-10  1132  		result += 4;
-0ad7347a64ac4b André Almeida 2022-08-10  1133  		buf += 4;
-0ad7347a64ac4b André Almeida 2022-08-10  1134  		*pos += 4;
-0ad7347a64ac4b André Almeida 2022-08-10  1135  		size -= 4;
-0ad7347a64ac4b André Almeida 2022-08-10  1136  	}
-0ad7347a64ac4b André Almeida 2022-08-10  1137  
-0ad7347a64ac4b André Almeida 2022-08-10  1138  	r = result;
-0ad7347a64ac4b André Almeida 2022-08-10  1139  out:
-0ad7347a64ac4b André Almeida 2022-08-10  1140  	pm_runtime_mark_last_busy(adev_to_drm(adev)->dev);
-0ad7347a64ac4b André Almeida 2022-08-10  1141  	pm_runtime_put_autosuspend(adev_to_drm(adev)->dev);
-0ad7347a64ac4b André Almeida 2022-08-10  1142  
-0ad7347a64ac4b André Almeida 2022-08-10  1143  	return r;
-0ad7347a64ac4b André Almeida 2022-08-10  1144  }
-0ad7347a64ac4b André Almeida 2022-08-10  1145  
-0ad7347a64ac4b André Almeida 2022-08-10  1146  
-0ad7347a64ac4b André Almeida 2022-08-10  1147  /**
-0ad7347a64ac4b André Almeida 2022-08-10  1148   * amdgpu_debugfs_gfxoff_count_read - Read GFXOFF entry count
-0ad7347a64ac4b André Almeida 2022-08-10  1149   *
-0ad7347a64ac4b André Almeida 2022-08-10  1150   * @f: open file handle
-0ad7347a64ac4b André Almeida 2022-08-10  1151   * @buf: User buffer to store read data in
-0ad7347a64ac4b André Almeida 2022-08-10  1152   * @size: Number of bytes to read
-0ad7347a64ac4b André Almeida 2022-08-10  1153   * @pos:  Offset to seek to
-0ad7347a64ac4b André Almeida 2022-08-10  1154   */
-0ad7347a64ac4b André Almeida 2022-08-10  1155  static ssize_t amdgpu_debugfs_gfxoff_count_read(struct file *f, char __user *buf,
-0ad7347a64ac4b André Almeida 2022-08-10  1156  						size_t size, loff_t *pos)
-0ad7347a64ac4b André Almeida 2022-08-10  1157  {
-0ad7347a64ac4b André Almeida 2022-08-10  1158  	struct amdgpu_device *adev = file_inode(f)->i_private;
-0ad7347a64ac4b André Almeida 2022-08-10  1159  	ssize_t result = 0;
-0ad7347a64ac4b André Almeida 2022-08-10  1160  	int r;
-0ad7347a64ac4b André Almeida 2022-08-10  1161  
-0ad7347a64ac4b André Almeida 2022-08-10  1162  	if (size & 0x3 || *pos & 0x3)
-0ad7347a64ac4b André Almeida 2022-08-10  1163  		return -EINVAL;
-0ad7347a64ac4b André Almeida 2022-08-10  1164  
-0ad7347a64ac4b André Almeida 2022-08-10  1165  	r = pm_runtime_get_sync(adev_to_drm(adev)->dev);
-0ad7347a64ac4b André Almeida 2022-08-10  1166  	if (r < 0) {
-0ad7347a64ac4b André Almeida 2022-08-10  1167  		pm_runtime_put_autosuspend(adev_to_drm(adev)->dev);
-0ad7347a64ac4b André Almeida 2022-08-10  1168  		return r;
-0ad7347a64ac4b André Almeida 2022-08-10  1169  	}
-0ad7347a64ac4b André Almeida 2022-08-10  1170  
-0ad7347a64ac4b André Almeida 2022-08-10  1171  	while (size) {
-0ad7347a64ac4b André Almeida 2022-08-10  1172  		u64 value = 0;
-0ad7347a64ac4b André Almeida 2022-08-10  1173  
-0ad7347a64ac4b André Almeida 2022-08-10  1174  		r = amdgpu_get_gfx_off_entrycount(adev, &value);
-0ad7347a64ac4b André Almeida 2022-08-10  1175  		if (r)
-0ad7347a64ac4b André Almeida 2022-08-10  1176  			goto out;
-0ad7347a64ac4b André Almeida 2022-08-10  1177  
-0ad7347a64ac4b André Almeida 2022-08-10  1178  		r = put_user(value, (u64 *)buf);
-0ad7347a64ac4b André Almeida 2022-08-10 @1179  		if (r)
-0ad7347a64ac4b André Almeida 2022-08-10  1180  			goto out;
-0ad7347a64ac4b André Almeida 2022-08-10  1181  
-0ad7347a64ac4b André Almeida 2022-08-10  1182  		result += 4;
-0ad7347a64ac4b André Almeida 2022-08-10  1183  		buf += 4;
-0ad7347a64ac4b André Almeida 2022-08-10  1184  		*pos += 4;
-0ad7347a64ac4b André Almeida 2022-08-10  1185  		size -= 4;
-0ad7347a64ac4b André Almeida 2022-08-10  1186  	}
-0ad7347a64ac4b André Almeida 2022-08-10  1187  
-0ad7347a64ac4b André Almeida 2022-08-10  1188  	r = result;
-0ad7347a64ac4b André Almeida 2022-08-10  1189  out:
-0ad7347a64ac4b André Almeida 2022-08-10  1190  	pm_runtime_mark_last_busy(adev_to_drm(adev)->dev);
-0ad7347a64ac4b André Almeida 2022-08-10  1191  	pm_runtime_put_autosuspend(adev_to_drm(adev)->dev);
-0ad7347a64ac4b André Almeida 2022-08-10  1192  
-0ad7347a64ac4b André Almeida 2022-08-10  1193  	return r;
-0ad7347a64ac4b André Almeida 2022-08-10  1194  }
-0ad7347a64ac4b André Almeida 2022-08-10  1195  
+:::::: The code at line 324 was first introduced by commit
+:::::: 7f9fb67358a2bcaacbdfeee12e0f19e98c8bdf55 regmap: add Intel SPI Slave to AVMM Bus Bridge support
+
+:::::: TO: Xu Yilun <yilun.xu@intel.com>
+:::::: CC: Mark Brown <broonie@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
