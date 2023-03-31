@@ -1,147 +1,114 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21A0015B9
-	for <oe-kbuild@lists.linux.dev>; Fri, 31 Mar 2023 02:32:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680229945; x=1711765945;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=+eZ7eAL/ve/vDTft3MZ0v1bqL3yGbUzjaVhOIP9x6yE=;
-  b=RU4y3OvOdcHFl9XlPf5102GRmynDXjqlz/01BLpzTXAiscv/cGIBgB1T
-   7Jzt1yP6XxQb5vCGeTklPDu1raPKON5FZ21hdfliNc5Gd/R0DAKMBkZeT
-   NYWfixNJ/ps7SZxtbMXe7EeyEy11XpPI1jjRUvrEgFt5l1tQ/09y1BgdA
-   7J8TER57Kc7zhmN+ovQTN7Od+6AjrAo5pD/cgj4vS+fjsRJeRT9dCJJ4E
-   pxQUXSwBZy5amJgRs64hJ59TW58Prn4YDEkA0vtIje2PZMn5MjFB7RMv5
-   ThmsCYltAhp5Yimub/MFsOv8OVxoN7pQTUQWe4t6wwFE/j8uAkIXaVWJu
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10665"; a="342985491"
-X-IronPort-AV: E=Sophos;i="5.98,306,1673942400"; 
-   d="scan'208";a="342985491"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2023 19:32:21 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10665"; a="1014665248"
-X-IronPort-AV: E=Sophos;i="5.98,306,1673942400"; 
-   d="scan'208";a="1014665248"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 30 Mar 2023 19:32:20 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pi4Yt-000LQO-2L;
-	Fri, 31 Mar 2023 02:32:19 +0000
-Date: Fri, 31 Mar 2023 10:32:08 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [tty:tty-next 6/24] drivers/tty/n_gsm.c:3751 gsmld_ioctl() warn:
- potential spectre issue 'gsm->dlci' [r] (local cap)
-Message-ID: <202303311049.D00HXznH-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A5C41C02;
+	Fri, 31 Mar 2023 04:39:37 +0000 (UTC)
+Received: by mail-wm1-f49.google.com with SMTP id i5-20020a05600c354500b003edd24054e0so14569215wmq.4;
+        Thu, 30 Mar 2023 21:39:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1680237576;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=7HB3lvYmnwPAvqI7YqRqQnPg5UbrGJRvfRpu4S+QUYs=;
+        b=Rpjvi8WZysdNrAbn7vnXWiqQnhtWzcy3rEYnNoctZ/iPFXSa+JySs03s5Z69MUxO/0
+         2o1S5eC2ZIoecdCTk26hMZCe+t3V14Tni1Ksx8hmVSMX6G0UceWlbxY6FgQ/dYhK4K9K
+         lxtQzHaJ2njsLOGQZFVbJaNhrrei6F2vbYCSWGct1lDgL4hWOvyWkLpKR85gcRUvgQgL
+         d0FH1DVkl3TEMmJ8mE6K1eTHnXZwjYSYozPj4yC36hDrMcnT3FdUMsJJkk8AOuwVTTzp
+         YYk7C18VNUetNJexdDny6RzxAPUr52yh2qMjepkZDTw5cPvmucZw1DKQMrJ1O8/hau41
+         sRXw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680237576;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=7HB3lvYmnwPAvqI7YqRqQnPg5UbrGJRvfRpu4S+QUYs=;
+        b=3gMCan32svt8IPYJmaj+HCtkJF0xFDy5oKpsORX6W7Ht7/elSKiz7ylNGW+S0H6D8z
+         gJfEBdFTo4pgCIltbl8n8/h0BSCbWe43JE2iugAd8SNbd34BgxHCCpyHelbmRjglZm4U
+         Mqv/miTdQ74qCvqwe237AqLOgB0icsao24DY3A5O4pW7gmbMexWTF+iOxQoDtNRnxxC4
+         ixv+cdbs1HBLCCFBFluCsoJlQGPkhlDJNzyVbdAqUM1DFealWqHSShieKL25Ry+k2CIy
+         9OzbGbWySIVSN0URyDGJtXv+3V57auw2h/J6ahCp1SPGAQQgpnytfAAyP2CQ/AYhe7MD
+         E1Mg==
+X-Gm-Message-State: AO0yUKUdCyogBwTKVQDmCGSa6lYsdONHE6UX8V0ogUji0BczOTFyl1tY
+	oJQ612H3V8t0ogSglXDxP7w4RwC9KLI=
+X-Google-Smtp-Source: AK7set9JgezVshFtmuiz+4tBPEESBGBiol6PG/SoJbmRUbn8PU8Gtxgp/RPbPrEKMXjGZ9BLITlJTw==
+X-Received: by 2002:a7b:c44a:0:b0:3ef:8b0:dbb1 with SMTP id l10-20020a7bc44a000000b003ef08b0dbb1mr19002902wmi.7.1680237575861;
+        Thu, 30 Mar 2023 21:39:35 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id o7-20020adfe807000000b002e4cd2ec5c7sm1031604wrm.86.2023.03.30.21.39.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 30 Mar 2023 21:39:35 -0700 (PDT)
+Date: Fri, 31 Mar 2023 07:39:27 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev, Roger Lu <roger.lu@mediatek.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [linux-next:master 1028/7844] drivers/soc/mediatek/mtk-svs.c:1740
+ svs_get_efuse_data() warn: passing zero to 'PTR_ERR'
+Message-ID: <5a5f15fd-4b79-4483-b9cd-75ef69fdacc5@kili.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-serial@vger.kernel.org
-TO: Daniel Starke <daniel.starke@siemens.com>
-CC: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-next
-head:   d30a28a764a8221874ab53b7cbe79f842c30b671
-commit: afe3154ba87e798de87ab65c72d6e3f6cd32d9d1 [6/24] tty: n_gsm: add ioctl for DLC config via ldisc handle
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: parisc-randconfig-m041-20230329 (https://download.01.org/0day-ci/archive/20230331/202303311049.D00HXznH-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   a6d9e3034536ba4b68ac34490c02267e6eec9c05
+commit: 9f195f3a1e696b6576988c1e58fa7389beae3351 [1028/7844] soc: mediatek: mtk-svs: use svs get efuse common function
+config: s390-randconfig-m031-20230329 (https://download.01.org/0day-ci/archive/20230331/202303310846.H0Ti6K3K-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202303311049.D00HXznH-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202303310846.H0Ti6K3K-lkp@intel.com/
 
 New smatch warnings:
-drivers/tty/n_gsm.c:3751 gsmld_ioctl() warn: potential spectre issue 'gsm->dlci' [r] (local cap)
-drivers/tty/n_gsm.c:3752 gsmld_ioctl() warn: possible spectre second half.  'dlci'
+drivers/soc/mediatek/mtk-svs.c:1740 svs_get_efuse_data() warn: passing zero to 'PTR_ERR'
 
 Old smatch warnings:
-drivers/tty/n_gsm.c:3767 gsmld_ioctl() warn: possible spectre second half.  'dlci'
+drivers/soc/mediatek/mtk-svs.c:1742 svs_get_efuse_data() warn: passing zero to 'PTR_ERR'
 
-vim +3751 drivers/tty/n_gsm.c
+vim +/PTR_ERR +1740 drivers/soc/mediatek/mtk-svs.c
 
-e1eaea46bb4020 drivers/char/n_gsm.c Alan Cox         2010-03-26  3713  
-d78328bcc4d0e6 drivers/tty/n_gsm.c  Jiri Slaby       2021-11-22  3714  static int gsmld_ioctl(struct tty_struct *tty, unsigned int cmd,
-d78328bcc4d0e6 drivers/tty/n_gsm.c  Jiri Slaby       2021-11-22  3715  		       unsigned long arg)
-e1eaea46bb4020 drivers/char/n_gsm.c Alan Cox         2010-03-26  3716  {
-e1eaea46bb4020 drivers/char/n_gsm.c Alan Cox         2010-03-26  3717  	struct gsm_config c;
-72206cc730b5c9 drivers/tty/n_gsm.c  Daniel Starke    2023-02-14  3718  	struct gsm_config_ext ce;
-afe3154ba87e79 drivers/tty/n_gsm.c  Daniel Starke    2023-03-15  3719  	struct gsm_dlci_config dc;
-e1eaea46bb4020 drivers/char/n_gsm.c Alan Cox         2010-03-26  3720  	struct gsm_mux *gsm = tty->disc_data;
-afe3154ba87e79 drivers/tty/n_gsm.c  Daniel Starke    2023-03-15  3721  	struct gsm_dlci *dlci;
-a7b121b4b8b0bc drivers/tty/n_gsm.c  Martin Hundebøll 2019-08-12  3722  	unsigned int base;
-e1eaea46bb4020 drivers/char/n_gsm.c Alan Cox         2010-03-26  3723  
-e1eaea46bb4020 drivers/char/n_gsm.c Alan Cox         2010-03-26  3724  	switch (cmd) {
-e1eaea46bb4020 drivers/char/n_gsm.c Alan Cox         2010-03-26  3725  	case GSMIOC_GETCONF:
-3384104082467e drivers/tty/n_gsm.c  Tony Lindgren    2019-01-13  3726  		gsm_copy_config_values(gsm, &c);
-edd05a735a391d drivers/tty/n_gsm.c  Jiri Slaby       2020-02-19  3727  		if (copy_to_user((void __user *)arg, &c, sizeof(c)))
-e1eaea46bb4020 drivers/char/n_gsm.c Alan Cox         2010-03-26  3728  			return -EFAULT;
-e1eaea46bb4020 drivers/char/n_gsm.c Alan Cox         2010-03-26  3729  		return 0;
-e1eaea46bb4020 drivers/char/n_gsm.c Alan Cox         2010-03-26  3730  	case GSMIOC_SETCONF:
-edd05a735a391d drivers/tty/n_gsm.c  Jiri Slaby       2020-02-19  3731  		if (copy_from_user(&c, (void __user *)arg, sizeof(c)))
-e1eaea46bb4020 drivers/char/n_gsm.c Alan Cox         2010-03-26  3732  			return -EFAULT;
-3384104082467e drivers/tty/n_gsm.c  Tony Lindgren    2019-01-13  3733  		return gsm_config(gsm, &c);
-a7b121b4b8b0bc drivers/tty/n_gsm.c  Martin Hundebøll 2019-08-12  3734  	case GSMIOC_GETFIRST:
-a7b121b4b8b0bc drivers/tty/n_gsm.c  Martin Hundebøll 2019-08-12  3735  		base = mux_num_to_base(gsm);
-a7b121b4b8b0bc drivers/tty/n_gsm.c  Martin Hundebøll 2019-08-12  3736  		return put_user(base + 1, (__u32 __user *)arg);
-72206cc730b5c9 drivers/tty/n_gsm.c  Daniel Starke    2023-02-14  3737  	case GSMIOC_GETCONF_EXT:
-72206cc730b5c9 drivers/tty/n_gsm.c  Daniel Starke    2023-02-14  3738  		gsm_copy_config_ext_values(gsm, &ce);
-72206cc730b5c9 drivers/tty/n_gsm.c  Daniel Starke    2023-02-14  3739  		if (copy_to_user((void __user *)arg, &ce, sizeof(ce)))
-72206cc730b5c9 drivers/tty/n_gsm.c  Daniel Starke    2023-02-14  3740  			return -EFAULT;
-72206cc730b5c9 drivers/tty/n_gsm.c  Daniel Starke    2023-02-14  3741  		return 0;
-72206cc730b5c9 drivers/tty/n_gsm.c  Daniel Starke    2023-02-14  3742  	case GSMIOC_SETCONF_EXT:
-72206cc730b5c9 drivers/tty/n_gsm.c  Daniel Starke    2023-02-14  3743  		if (copy_from_user(&ce, (void __user *)arg, sizeof(ce)))
-72206cc730b5c9 drivers/tty/n_gsm.c  Daniel Starke    2023-02-14  3744  			return -EFAULT;
-72206cc730b5c9 drivers/tty/n_gsm.c  Daniel Starke    2023-02-14  3745  		return gsm_config_ext(gsm, &ce);
-afe3154ba87e79 drivers/tty/n_gsm.c  Daniel Starke    2023-03-15  3746  	case GSMIOC_GETCONF_DLCI:
-afe3154ba87e79 drivers/tty/n_gsm.c  Daniel Starke    2023-03-15  3747  		if (copy_from_user(&dc, (void __user *)arg, sizeof(dc)))
-afe3154ba87e79 drivers/tty/n_gsm.c  Daniel Starke    2023-03-15  3748  			return -EFAULT;
-afe3154ba87e79 drivers/tty/n_gsm.c  Daniel Starke    2023-03-15  3749  		if (dc.channel == 0 || dc.channel >= NUM_DLCI)
-afe3154ba87e79 drivers/tty/n_gsm.c  Daniel Starke    2023-03-15  3750  			return -EINVAL;
-afe3154ba87e79 drivers/tty/n_gsm.c  Daniel Starke    2023-03-15 @3751  		dlci = gsm->dlci[dc.channel];
-afe3154ba87e79 drivers/tty/n_gsm.c  Daniel Starke    2023-03-15 @3752  		if (!dlci) {
-afe3154ba87e79 drivers/tty/n_gsm.c  Daniel Starke    2023-03-15  3753  			dlci = gsm_dlci_alloc(gsm, dc.channel);
-afe3154ba87e79 drivers/tty/n_gsm.c  Daniel Starke    2023-03-15  3754  			if (!dlci)
-afe3154ba87e79 drivers/tty/n_gsm.c  Daniel Starke    2023-03-15  3755  				return -ENOMEM;
-afe3154ba87e79 drivers/tty/n_gsm.c  Daniel Starke    2023-03-15  3756  		}
-afe3154ba87e79 drivers/tty/n_gsm.c  Daniel Starke    2023-03-15  3757  		gsm_dlci_copy_config_values(dlci, &dc);
-afe3154ba87e79 drivers/tty/n_gsm.c  Daniel Starke    2023-03-15  3758  		if (copy_to_user((void __user *)arg, &dc, sizeof(dc)))
-afe3154ba87e79 drivers/tty/n_gsm.c  Daniel Starke    2023-03-15  3759  			return -EFAULT;
-afe3154ba87e79 drivers/tty/n_gsm.c  Daniel Starke    2023-03-15  3760  		return 0;
-afe3154ba87e79 drivers/tty/n_gsm.c  Daniel Starke    2023-03-15  3761  	case GSMIOC_SETCONF_DLCI:
-afe3154ba87e79 drivers/tty/n_gsm.c  Daniel Starke    2023-03-15  3762  		if (copy_from_user(&dc, (void __user *)arg, sizeof(dc)))
-afe3154ba87e79 drivers/tty/n_gsm.c  Daniel Starke    2023-03-15  3763  			return -EFAULT;
-afe3154ba87e79 drivers/tty/n_gsm.c  Daniel Starke    2023-03-15  3764  		if (dc.channel == 0 || dc.channel >= NUM_DLCI)
-afe3154ba87e79 drivers/tty/n_gsm.c  Daniel Starke    2023-03-15  3765  			return -EINVAL;
-afe3154ba87e79 drivers/tty/n_gsm.c  Daniel Starke    2023-03-15  3766  		dlci = gsm->dlci[dc.channel];
-afe3154ba87e79 drivers/tty/n_gsm.c  Daniel Starke    2023-03-15  3767  		if (!dlci) {
-afe3154ba87e79 drivers/tty/n_gsm.c  Daniel Starke    2023-03-15  3768  			dlci = gsm_dlci_alloc(gsm, dc.channel);
-afe3154ba87e79 drivers/tty/n_gsm.c  Daniel Starke    2023-03-15  3769  			if (!dlci)
-afe3154ba87e79 drivers/tty/n_gsm.c  Daniel Starke    2023-03-15  3770  				return -ENOMEM;
-afe3154ba87e79 drivers/tty/n_gsm.c  Daniel Starke    2023-03-15  3771  		}
-afe3154ba87e79 drivers/tty/n_gsm.c  Daniel Starke    2023-03-15  3772  		return gsm_dlci_config(dlci, &dc, 0);
-e1eaea46bb4020 drivers/char/n_gsm.c Alan Cox         2010-03-26  3773  	default:
-7c783601a3bc22 drivers/tty/n_gsm.c  Jiri Slaby       2021-09-14  3774  		return n_tty_ioctl_helper(tty, cmd, arg);
-e1eaea46bb4020 drivers/char/n_gsm.c Alan Cox         2010-03-26  3775  	}
-e1eaea46bb4020 drivers/char/n_gsm.c Alan Cox         2010-03-26  3776  }
-e1eaea46bb4020 drivers/char/n_gsm.c Alan Cox         2010-03-26  3777  
+9f195f3a1e696b Roger Lu                   2023-02-02  1732  static int svs_get_efuse_data(struct svs_platform *svsp,
+9f195f3a1e696b Roger Lu                   2023-02-02  1733  			      const char *nvmem_cell_name,
+9f195f3a1e696b Roger Lu                   2023-02-02  1734  			      u32 **svsp_efuse, size_t *svsp_efuse_max)
+43819e38533066 AngeloGioacchino Del Regno 2022-08-25  1735  {
+43819e38533066 AngeloGioacchino Del Regno 2022-08-25  1736  	struct nvmem_cell *cell;
+43819e38533066 AngeloGioacchino Del Regno 2022-08-25  1737  
+9f195f3a1e696b Roger Lu                   2023-02-02  1738  	cell = nvmem_cell_get(svsp->dev, nvmem_cell_name);
+43819e38533066 AngeloGioacchino Del Regno 2022-08-25  1739  	if (IS_ERR_OR_NULL(cell)) {
+9f195f3a1e696b Roger Lu                   2023-02-02 @1740  		dev_err(svsp->dev, "no \"%s\"? %ld\n",
+9f195f3a1e696b Roger Lu                   2023-02-02  1741  			nvmem_cell_name, PTR_ERR(cell));
+
+nvmem_cell_get() cannot return NULL.  But if it could then it is a
+success case.  I have written a blog about this with more explanation:
+https://staticthinking.wordpress.com/2022/08/01/mixing-error-pointers-and-null/
+So this is wrong, but also it can't be NULL so it doesn't affect real
+life.
+
+43819e38533066 AngeloGioacchino Del Regno 2022-08-25  1742  		return PTR_ERR(cell);
+
+PTR_ERR(NULL) is success.
+
+43819e38533066 AngeloGioacchino Del Regno 2022-08-25  1743  	}
+43819e38533066 AngeloGioacchino Del Regno 2022-08-25  1744  
+9f195f3a1e696b Roger Lu                   2023-02-02  1745  	*svsp_efuse = nvmem_cell_read(cell, svsp_efuse_max);
+9f195f3a1e696b Roger Lu                   2023-02-02  1746  	if (IS_ERR(*svsp_efuse)) {
+9f195f3a1e696b Roger Lu                   2023-02-02  1747  		dev_err(svsp->dev, "cannot read \"%s\" efuse: %ld\n",
+9f195f3a1e696b Roger Lu                   2023-02-02  1748  			nvmem_cell_name, PTR_ERR(*svsp_efuse));
+43819e38533066 AngeloGioacchino Del Regno 2022-08-25  1749  		nvmem_cell_put(cell);
+9f195f3a1e696b Roger Lu                   2023-02-02  1750  		return PTR_ERR(*svsp_efuse);
+43819e38533066 AngeloGioacchino Del Regno 2022-08-25  1751  	}
+43819e38533066 AngeloGioacchino Del Regno 2022-08-25  1752  
+9f195f3a1e696b Roger Lu                   2023-02-02  1753  	*svsp_efuse_max /= sizeof(u32);
+43819e38533066 AngeloGioacchino Del Regno 2022-08-25  1754  	nvmem_cell_put(cell);
+43819e38533066 AngeloGioacchino Del Regno 2022-08-25  1755  
+43819e38533066 AngeloGioacchino Del Regno 2022-08-25  1756  	return 0;
+43819e38533066 AngeloGioacchino Del Regno 2022-08-25  1757  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
+
