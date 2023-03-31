@@ -1,42 +1,42 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 447FBD304
-	for <oe-kbuild@lists.linux.dev>; Thu, 30 Mar 2023 23:08:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8182B816
+	for <oe-kbuild@lists.linux.dev>; Fri, 31 Mar 2023 00:30:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680217699; x=1711753699;
+  t=1680222619; x=1711758619;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=p6UcpvM+bJrlhNvpuJ4+HZW4jW4qNi127zwbnXsRDco=;
-  b=Oo/GYdl4ap9AP5iDPvil/Kgj8KG1rAzw8cK9xNZ6BT9o7KKjWLZzF361
-   1qekQH+8D+gMxbU4zgfANCQndnhmzgdYBo9Fy6GarnKRA7HUKi0ZrGCd2
-   om1f+EJgMxzIIM2jbClbbLTImlzskJeCWiqLK1MtAsWzdwkShgKN6n2Ii
-   13NXVkkM2AlPgOpxGM9eRa2ydNP+0EZxjgEgJbxWQfo/Ng03BPF6CBGzG
-   Y20pwxwOiprLYs/qPzpHkQZqZ/gSjn1E//bUUyPNM1CRFBryOCo9tFqSD
-   SdABHE6oh3w3UhJYJYV2RFmwtoj7J6npsJYuFdhQEXFemmJY5a0f0DnJf
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10665"; a="342953035"
+  bh=+xZ7dUdK8i07V2ZYd+8CMPUycC4R7JByAI6P9VkrSwU=;
+  b=du5DTGRIQ+ypZx/+oARKEOC3CGxxkyFMwDWqW2C5Hp1+KK4wkvvxSmKO
+   EssE1qZ6Nt/pZmNtCnk2pztJOlr9oE7IuyrSrI8rukR7FeiF9IYj/SakO
+   qEbUtHShUWclhijL81oAZsFIlS6FW35DdQUPTxVJe2ykLUdler6vgv+Es
+   EQedWVI/TYklTQVhJGdpk19GFe+wbadYKMUKamLPlbbSuhcnLPtkYl3fn
+   AIHuigXJQeqcTmmo6zaSE5sRYTCOy7sR50naqpgnjS0CF4PrMSPmaJul4
+   SgLTiDkJ/INu/0AuXTT7g7gTiygRb7xCjcSTKcKcV+xJHgO7YH4Q1H08Y
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10665"; a="329844005"
 X-IronPort-AV: E=Sophos;i="5.98,306,1673942400"; 
-   d="scan'208";a="342953035"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2023 16:08:17 -0700
+   d="scan'208";a="329844005"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2023 17:30:18 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10665"; a="662211827"
+X-IronPort-AV: E=McAfee;i="6600,9927,10665"; a="715219704"
 X-IronPort-AV: E=Sophos;i="5.98,306,1673942400"; 
-   d="scan'208";a="662211827"
+   d="scan'208";a="715219704"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 30 Mar 2023 16:08:15 -0700
+  by orsmga008.jf.intel.com with ESMTP; 30 Mar 2023 17:30:17 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pi1NO-000LIQ-2H;
-	Thu, 30 Mar 2023 23:08:14 +0000
-Date: Fri, 31 Mar 2023 07:07:46 +0800
+	id 1pi2em-000LLe-2n;
+	Fri, 31 Mar 2023 00:30:16 +0000
+Date: Fri, 31 Mar 2023 08:29:22 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/net/phy/microchip_t1.c:269 lan87xx_phy_init_cmd() error:
- uninitialized symbol 'ret'.
-Message-ID: <202303310734.jQAIS2M7-lkp@intel.com>
+Subject: [linux-next:master 1028/7844] drivers/soc/mediatek/mtk-svs.c:1740
+ svs_get_efuse_data() warn: passing zero to 'PTR_ERR'
+Message-ID: <202303310846.H0Ti6K3K-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -48,55 +48,59 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Rakesh Sankaranarayanan <rakesh.sankaranarayanan@microchip.com>
-CC: Jakub Kicinski <kuba@kernel.org>
-CC: Andrew Lunn <andrew@lunn.ch>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Roger Lu <roger.lu@mediatek.com>
+CC: Matthias Brugger <matthias.bgg@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   b2bc47e9b2011a183f9d3d3454a294a938082fb9
-commit: d7bf56e0c591e189141430dc8bf4a1b4d0f117a2 net: phy: microchip: run phy initialization during each link update
-date:   9 weeks ago
-:::::: branch date: 2 hours ago
-:::::: commit date: 9 weeks ago
-config: parisc-randconfig-m041-20230329 (https://download.01.org/0day-ci/archive/20230331/202303310734.jQAIS2M7-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   a6d9e3034536ba4b68ac34490c02267e6eec9c05
+commit: 9f195f3a1e696b6576988c1e58fa7389beae3351 [1028/7844] soc: mediatek: mtk-svs: use svs get efuse common function
+:::::: branch date: 21 hours ago
+:::::: commit date: 3 weeks ago
+config: s390-randconfig-m031-20230329 (https://download.01.org/0day-ci/archive/20230331/202303310846.H0Ti6K3K-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202303310734.jQAIS2M7-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202303310846.H0Ti6K3K-lkp@intel.com/
 
-smatch warnings:
-drivers/net/phy/microchip_t1.c:269 lan87xx_phy_init_cmd() error: uninitialized symbol 'ret'.
+New smatch warnings:
+drivers/soc/mediatek/mtk-svs.c:1740 svs_get_efuse_data() warn: passing zero to 'PTR_ERR'
 
-vim +/ret +269 drivers/net/phy/microchip_t1.c
+Old smatch warnings:
+drivers/soc/mediatek/mtk-svs.c:1742 svs_get_efuse_data() warn: passing zero to 'PTR_ERR'
 
-26499499cae642 Yuiko Oshino            2021-11-01  247  
-d7bf56e0c591e1 Rakesh Sankaranarayanan 2023-01-20  248  static int lan87xx_phy_init_cmd(struct phy_device *phydev,
-d7bf56e0c591e1 Rakesh Sankaranarayanan 2023-01-20  249  				const struct access_ereg_val *cmd_seq, int cnt)
-d7bf56e0c591e1 Rakesh Sankaranarayanan 2023-01-20  250  {
-d7bf56e0c591e1 Rakesh Sankaranarayanan 2023-01-20  251  	int ret, i;
-d7bf56e0c591e1 Rakesh Sankaranarayanan 2023-01-20  252  
-d7bf56e0c591e1 Rakesh Sankaranarayanan 2023-01-20  253  	for (i = 0; i < cnt; i++) {
-d7bf56e0c591e1 Rakesh Sankaranarayanan 2023-01-20  254  		if (cmd_seq[i].mode == PHYACC_ATTR_MODE_POLL &&
-d7bf56e0c591e1 Rakesh Sankaranarayanan 2023-01-20  255  		    cmd_seq[i].bank == PHYACC_ATTR_BANK_SMI) {
-d7bf56e0c591e1 Rakesh Sankaranarayanan 2023-01-20  256  			ret = access_smi_poll_timeout(phydev,
-d7bf56e0c591e1 Rakesh Sankaranarayanan 2023-01-20  257  						      cmd_seq[i].offset,
-d7bf56e0c591e1 Rakesh Sankaranarayanan 2023-01-20  258  						      cmd_seq[i].val,
-d7bf56e0c591e1 Rakesh Sankaranarayanan 2023-01-20  259  						      cmd_seq[i].mask);
-d7bf56e0c591e1 Rakesh Sankaranarayanan 2023-01-20  260  		} else {
-d7bf56e0c591e1 Rakesh Sankaranarayanan 2023-01-20  261  			ret = access_ereg(phydev, cmd_seq[i].mode,
-d7bf56e0c591e1 Rakesh Sankaranarayanan 2023-01-20  262  					  cmd_seq[i].bank, cmd_seq[i].offset,
-d7bf56e0c591e1 Rakesh Sankaranarayanan 2023-01-20  263  					  cmd_seq[i].val);
-d7bf56e0c591e1 Rakesh Sankaranarayanan 2023-01-20  264  		}
-d7bf56e0c591e1 Rakesh Sankaranarayanan 2023-01-20  265  		if (ret < 0)
-d7bf56e0c591e1 Rakesh Sankaranarayanan 2023-01-20  266  			return ret;
-d7bf56e0c591e1 Rakesh Sankaranarayanan 2023-01-20  267  	}
-d7bf56e0c591e1 Rakesh Sankaranarayanan 2023-01-20  268  
-d7bf56e0c591e1 Rakesh Sankaranarayanan 2023-01-20 @269  	return ret;
-d7bf56e0c591e1 Rakesh Sankaranarayanan 2023-01-20  270  }
-d7bf56e0c591e1 Rakesh Sankaranarayanan 2023-01-20  271  
+vim +/PTR_ERR +1740 drivers/soc/mediatek/mtk-svs.c
+
+681a02e9500073 Roger Lu                   2022-05-16  1731  
+9f195f3a1e696b Roger Lu                   2023-02-02  1732  static int svs_get_efuse_data(struct svs_platform *svsp,
+9f195f3a1e696b Roger Lu                   2023-02-02  1733  			      const char *nvmem_cell_name,
+9f195f3a1e696b Roger Lu                   2023-02-02  1734  			      u32 **svsp_efuse, size_t *svsp_efuse_max)
+43819e38533066 AngeloGioacchino Del Regno 2022-08-25  1735  {
+43819e38533066 AngeloGioacchino Del Regno 2022-08-25  1736  	struct nvmem_cell *cell;
+43819e38533066 AngeloGioacchino Del Regno 2022-08-25  1737  
+9f195f3a1e696b Roger Lu                   2023-02-02  1738  	cell = nvmem_cell_get(svsp->dev, nvmem_cell_name);
+43819e38533066 AngeloGioacchino Del Regno 2022-08-25  1739  	if (IS_ERR_OR_NULL(cell)) {
+9f195f3a1e696b Roger Lu                   2023-02-02 @1740  		dev_err(svsp->dev, "no \"%s\"? %ld\n",
+9f195f3a1e696b Roger Lu                   2023-02-02  1741  			nvmem_cell_name, PTR_ERR(cell));
+43819e38533066 AngeloGioacchino Del Regno 2022-08-25  1742  		return PTR_ERR(cell);
+43819e38533066 AngeloGioacchino Del Regno 2022-08-25  1743  	}
+43819e38533066 AngeloGioacchino Del Regno 2022-08-25  1744  
+9f195f3a1e696b Roger Lu                   2023-02-02  1745  	*svsp_efuse = nvmem_cell_read(cell, svsp_efuse_max);
+9f195f3a1e696b Roger Lu                   2023-02-02  1746  	if (IS_ERR(*svsp_efuse)) {
+9f195f3a1e696b Roger Lu                   2023-02-02  1747  		dev_err(svsp->dev, "cannot read \"%s\" efuse: %ld\n",
+9f195f3a1e696b Roger Lu                   2023-02-02  1748  			nvmem_cell_name, PTR_ERR(*svsp_efuse));
+43819e38533066 AngeloGioacchino Del Regno 2022-08-25  1749  		nvmem_cell_put(cell);
+9f195f3a1e696b Roger Lu                   2023-02-02  1750  		return PTR_ERR(*svsp_efuse);
+43819e38533066 AngeloGioacchino Del Regno 2022-08-25  1751  	}
+43819e38533066 AngeloGioacchino Del Regno 2022-08-25  1752  
+9f195f3a1e696b Roger Lu                   2023-02-02  1753  	*svsp_efuse_max /= sizeof(u32);
+43819e38533066 AngeloGioacchino Del Regno 2022-08-25  1754  	nvmem_cell_put(cell);
+43819e38533066 AngeloGioacchino Del Regno 2022-08-25  1755  
+43819e38533066 AngeloGioacchino Del Regno 2022-08-25  1756  	return 0;
+43819e38533066 AngeloGioacchino Del Regno 2022-08-25  1757  }
+43819e38533066 AngeloGioacchino Del Regno 2022-08-25  1758  
 
 -- 
 0-DAY CI Kernel Test Service
