@@ -1,104 +1,242 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB99D1365
-	for <oe-kbuild@lists.linux.dev>; Fri, 31 Mar 2023 01:30:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 124F71365
+	for <oe-kbuild@lists.linux.dev>; Fri, 31 Mar 2023 01:51:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680226232; x=1711762232;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=keXNYWFBfg7OvL9hpDoNRrc4Uo9EOnfZvZOZ05L5y/g=;
-  b=LoZX3xh4hBPgHGNyPt3UoKsrd4S5LhvH+0tASZSAwNKKZVgBHgz2mEza
-   CK2kn0U41zy7D43VPK71fLM497ob0HHkQgr9KuEzG0Er1umOoRCpzCF8h
-   mLoDfVi5sEiub3diH1xG+7kz/IcDOdZ8wagi2S/XTGK3pLzxjIQ5mKWi9
-   QIxcqqiV21lZnfblrww1jLOpRsqzOlQ0xMVe5LFggIGkiMKtP9abe2KRo
-   k/rQM+Jidy/1yTUscu/E1Ypzr249PO+I9Fs4pfuLcSowdPpY9ACvUKRQp
-   3E8o6u59KxUx540KW+/gzzC+x1x+jvD1OElKz4A9C7mBQQE8uJxlma7Xy
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10665"; a="427603305"
+  t=1680227482; x=1711763482;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=Gm1tL/cNomyp8JImpMDdOaM9sJDswg6vRs2zT2GINJk=;
+  b=SiS2HXaDWmC8bho1VQp8gvxP9mcLWC2Fvus9DnGgm8NV2PtYoJiK99S3
+   47LcX5wg77T6uQYCCh6mFanHc12z6fU8gT7tPiM9QZvxB6us4NJULog3f
+   zZCSr8QfGaIaGVDQC7xKVuhijfK4wmj1gVf7ZMBRKATJ0Df4EeiEAdPPT
+   V6N/+Qs2Pu/aQm10neoPCDPztWdbUbzlHt5yGkI914HU8qnlSuxJ88sCY
+   yLTt7YIjsG24uvdSGOLyB2zkH0CKIvHJspfz8bboDoi0ITZ/MtRksxIsM
+   almGLDlaqgT4lWrbrDffsb6MR0B14/T3QbqnJj3trP2hEPMS2AhyPbMGP
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10665"; a="343835367"
 X-IronPort-AV: E=Sophos;i="5.98,306,1673942400"; 
-   d="scan'208";a="427603305"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2023 18:30:20 -0700
+   d="scan'208";a="343835367"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2023 18:51:21 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10665"; a="687473021"
+X-IronPort-AV: E=McAfee;i="6600,9927,10665"; a="662256595"
 X-IronPort-AV: E=Sophos;i="5.98,306,1673942400"; 
-   d="scan'208";a="687473021"
+   d="scan'208";a="662256595"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 30 Mar 2023 18:30:19 -0700
+  by orsmga006.jf.intel.com with ESMTP; 30 Mar 2023 18:51:20 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pi3as-000LNo-1d;
-	Fri, 31 Mar 2023 01:30:18 +0000
-Date: Fri, 31 Mar 2023 09:30:13 +0800
+	id 1pi3vD-000LP8-0N;
+	Fri, 31 Mar 2023 01:51:19 +0000
+Date: Fri, 31 Mar 2023 09:50:41 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [jani-drm:is-power-of-2 2/4] include/linux/log2.h:58:9: sparse: this
- was the original definition
-Message-ID: <202303310900.ic0wRNY4-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c:1080
+ amdgpu_debugfs_gfxoff_residency_read() warn: ignoring unreachable code.
+Message-ID: <202303310939.ueFbvcJr-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-
-:::::: 
-:::::: Manual check reason: "low confidence static check warning: include/linux/log2.h:58:9: sparse: this was the original definition"
-:::::: 
+Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Jani Nikula <jani.nikula@intel.com>
+CC: linux-kernel@vger.kernel.org
+TO: "André Almeida" <andrealmeid@igalia.com>
+CC: Alex Deucher <alexander.deucher@amd.com>
 
-tree:   git://people.freedesktop.org/~jani/drm is-power-of-2
-head:   051d03b7787fe9ae1e18d6c8724a5d5eda53bc77
-commit: 4235abad8fc74bbff10731f7db52beba111da70d [2/4] log2: have is_power_of_2() support bigger types than unsigned long
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: microblaze-randconfig-s032-20230329 (https://download.01.org/0day-ci/archive/20230331/202303310900.ic0wRNY4-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 12.1.0
-reproduce:
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        git remote add jani-drm git://people.freedesktop.org/~jani/drm
-        git fetch --no-tags jani-drm is-power-of-2
-        git checkout 4235abad8fc74bbff10731f7db52beba111da70d
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=microblaze olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=microblaze SHELL=/bin/bash arch/microblaze/mm/
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   b2bc47e9b2011a183f9d3d3454a294a938082fb9
+commit: 0ad7347a64ac4baec1786810709eebedc5f823d5 drm/amd: Add detailed GFXOFF stats to debugfs
+date:   8 months ago
+:::::: branch date: 5 hours ago
+:::::: commit date: 8 months ago
+config: s390-randconfig-m031-20230329 (https://download.01.org/0day-ci/archive/20230331/202303310939.ueFbvcJr-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/r/202303310900.ic0wRNY4-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Link: https://lore.kernel.org/r/202303310939.ueFbvcJr-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   arch/microblaze/mm/pgtable.c:188:9: sparse: sparse: preprocessor token is_power_of_2 redefined
-   arch/microblaze/mm/pgtable.c: note: in included file (through include/linux/kernel.h):
->> include/linux/log2.h:58:9: sparse: this was the original definition
+New smatch warnings:
+drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c:1080 amdgpu_debugfs_gfxoff_residency_read() warn: ignoring unreachable code.
+drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c:1179 amdgpu_debugfs_gfxoff_count_read() warn: ignoring unreachable code.
 
-vim +58 include/linux/log2.h
+Old smatch warnings:
+drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c:386 amdgpu_debugfs_regs_pcie_read() warn: ignoring unreachable code.
+drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c:499 amdgpu_debugfs_regs_didt_read() warn: ignoring unreachable code.
+drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c:612 amdgpu_debugfs_regs_smc_read() warn: ignoring unreachable code.
+drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c:768 amdgpu_debugfs_gca_config_read() warn: ignoring unreachable code.
+drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c:846 amdgpu_debugfs_sensor_read() warn: ignoring unreachable code.
+drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c:932 amdgpu_debugfs_wave_read() warn: ignoring unreachable code.
+drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c:1025 amdgpu_debugfs_gpr_read() warn: ignoring unreachable code.
+drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c:1274 amdgpu_debugfs_gfxoff_read() warn: ignoring unreachable code.
+drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c:1315 amdgpu_debugfs_gfxoff_status_read() warn: ignoring unreachable code.
 
-4235abad8fc74b Jani Nikula      2023-03-29  49  
-a1c4d24e02d093 Randy Dunlap     2017-09-30  50  /**
-a1c4d24e02d093 Randy Dunlap     2017-09-30  51   * is_power_of_2() - check if a value is a power of two
-a1c4d24e02d093 Randy Dunlap     2017-09-30  52   * @n: the value to check
-a1c4d24e02d093 Randy Dunlap     2017-09-30  53   *
-63c2f782e8f6aa Robert P. J. Day 2007-01-30  54   * Determine whether some value is a power of two, where zero is
-63c2f782e8f6aa Robert P. J. Day 2007-01-30  55   * *not* considered a power of two.
-a1c4d24e02d093 Randy Dunlap     2017-09-30  56   * Return: true if @n is a power of 2, otherwise false.
-63c2f782e8f6aa Robert P. J. Day 2007-01-30  57   */
-4235abad8fc74b Jani Nikula      2023-03-29 @58  #define is_power_of_2(n)						\
-4235abad8fc74b Jani Nikula      2023-03-29  59  	__builtin_choose_expr(sizeof(n) > sizeof(unsigned long),	\
-4235abad8fc74b Jani Nikula      2023-03-29  60  			      __is_power_of_2_ull(n),			\
-4235abad8fc74b Jani Nikula      2023-03-29  61  			      __is_power_of_2(n))
-63c2f782e8f6aa Robert P. J. Day 2007-01-30  62  
+vim +1080 drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c
+
+75758255dc0fae Alex Deucher  2017-12-14  1044  
+0ad7347a64ac4b André Almeida 2022-08-10  1045  /**
+0ad7347a64ac4b André Almeida 2022-08-10  1046   * amdgpu_debugfs_gfxoff_residency_read - Read GFXOFF residency
+0ad7347a64ac4b André Almeida 2022-08-10  1047   *
+0ad7347a64ac4b André Almeida 2022-08-10  1048   * @f: open file handle
+0ad7347a64ac4b André Almeida 2022-08-10  1049   * @buf: User buffer to store read data in
+0ad7347a64ac4b André Almeida 2022-08-10  1050   * @size: Number of bytes to read
+0ad7347a64ac4b André Almeida 2022-08-10  1051   * @pos:  Offset to seek to
+0ad7347a64ac4b André Almeida 2022-08-10  1052   *
+0ad7347a64ac4b André Almeida 2022-08-10  1053   * Read the last residency value logged. It doesn't auto update, one needs to
+0ad7347a64ac4b André Almeida 2022-08-10  1054   * stop logging before getting the current value.
+0ad7347a64ac4b André Almeida 2022-08-10  1055   */
+0ad7347a64ac4b André Almeida 2022-08-10  1056  static ssize_t amdgpu_debugfs_gfxoff_residency_read(struct file *f, char __user *buf,
+0ad7347a64ac4b André Almeida 2022-08-10  1057  						    size_t size, loff_t *pos)
+0ad7347a64ac4b André Almeida 2022-08-10  1058  {
+0ad7347a64ac4b André Almeida 2022-08-10  1059  	struct amdgpu_device *adev = file_inode(f)->i_private;
+0ad7347a64ac4b André Almeida 2022-08-10  1060  	ssize_t result = 0;
+0ad7347a64ac4b André Almeida 2022-08-10  1061  	int r;
+0ad7347a64ac4b André Almeida 2022-08-10  1062  
+0ad7347a64ac4b André Almeida 2022-08-10  1063  	if (size & 0x3 || *pos & 0x3)
+0ad7347a64ac4b André Almeida 2022-08-10  1064  		return -EINVAL;
+0ad7347a64ac4b André Almeida 2022-08-10  1065  
+0ad7347a64ac4b André Almeida 2022-08-10  1066  	r = pm_runtime_get_sync(adev_to_drm(adev)->dev);
+0ad7347a64ac4b André Almeida 2022-08-10  1067  	if (r < 0) {
+0ad7347a64ac4b André Almeida 2022-08-10  1068  		pm_runtime_put_autosuspend(adev_to_drm(adev)->dev);
+0ad7347a64ac4b André Almeida 2022-08-10  1069  		return r;
+0ad7347a64ac4b André Almeida 2022-08-10  1070  	}
+0ad7347a64ac4b André Almeida 2022-08-10  1071  
+0ad7347a64ac4b André Almeida 2022-08-10  1072  	while (size) {
+0ad7347a64ac4b André Almeida 2022-08-10  1073  		uint32_t value;
+0ad7347a64ac4b André Almeida 2022-08-10  1074  
+0ad7347a64ac4b André Almeida 2022-08-10  1075  		r = amdgpu_get_gfx_off_residency(adev, &value);
+0ad7347a64ac4b André Almeida 2022-08-10  1076  		if (r)
+0ad7347a64ac4b André Almeida 2022-08-10  1077  			goto out;
+0ad7347a64ac4b André Almeida 2022-08-10  1078  
+0ad7347a64ac4b André Almeida 2022-08-10  1079  		r = put_user(value, (uint32_t *)buf);
+0ad7347a64ac4b André Almeida 2022-08-10 @1080  		if (r)
+0ad7347a64ac4b André Almeida 2022-08-10  1081  			goto out;
+0ad7347a64ac4b André Almeida 2022-08-10  1082  
+0ad7347a64ac4b André Almeida 2022-08-10  1083  		result += 4;
+0ad7347a64ac4b André Almeida 2022-08-10  1084  		buf += 4;
+0ad7347a64ac4b André Almeida 2022-08-10  1085  		*pos += 4;
+0ad7347a64ac4b André Almeida 2022-08-10  1086  		size -= 4;
+0ad7347a64ac4b André Almeida 2022-08-10  1087  	}
+0ad7347a64ac4b André Almeida 2022-08-10  1088  
+0ad7347a64ac4b André Almeida 2022-08-10  1089  	r = result;
+0ad7347a64ac4b André Almeida 2022-08-10  1090  out:
+0ad7347a64ac4b André Almeida 2022-08-10  1091  	pm_runtime_mark_last_busy(adev_to_drm(adev)->dev);
+0ad7347a64ac4b André Almeida 2022-08-10  1092  	pm_runtime_put_autosuspend(adev_to_drm(adev)->dev);
+0ad7347a64ac4b André Almeida 2022-08-10  1093  
+0ad7347a64ac4b André Almeida 2022-08-10  1094  	return r;
+0ad7347a64ac4b André Almeida 2022-08-10  1095  }
+0ad7347a64ac4b André Almeida 2022-08-10  1096  
+0ad7347a64ac4b André Almeida 2022-08-10  1097  /**
+0ad7347a64ac4b André Almeida 2022-08-10  1098   * amdgpu_debugfs_gfxoff_residency_write - Log GFXOFF Residency
+0ad7347a64ac4b André Almeida 2022-08-10  1099   *
+0ad7347a64ac4b André Almeida 2022-08-10  1100   * @f: open file handle
+0ad7347a64ac4b André Almeida 2022-08-10  1101   * @buf: User buffer to write data from
+0ad7347a64ac4b André Almeida 2022-08-10  1102   * @size: Number of bytes to write
+0ad7347a64ac4b André Almeida 2022-08-10  1103   * @pos:  Offset to seek to
+0ad7347a64ac4b André Almeida 2022-08-10  1104   *
+0ad7347a64ac4b André Almeida 2022-08-10  1105   * Write a 32-bit non-zero to start logging; write a 32-bit zero to stop
+0ad7347a64ac4b André Almeida 2022-08-10  1106   */
+0ad7347a64ac4b André Almeida 2022-08-10  1107  static ssize_t amdgpu_debugfs_gfxoff_residency_write(struct file *f, const char __user *buf,
+0ad7347a64ac4b André Almeida 2022-08-10  1108  						     size_t size, loff_t *pos)
+0ad7347a64ac4b André Almeida 2022-08-10  1109  {
+0ad7347a64ac4b André Almeida 2022-08-10  1110  	struct amdgpu_device *adev = file_inode(f)->i_private;
+0ad7347a64ac4b André Almeida 2022-08-10  1111  	ssize_t result = 0;
+0ad7347a64ac4b André Almeida 2022-08-10  1112  	int r;
+0ad7347a64ac4b André Almeida 2022-08-10  1113  
+0ad7347a64ac4b André Almeida 2022-08-10  1114  	if (size & 0x3 || *pos & 0x3)
+0ad7347a64ac4b André Almeida 2022-08-10  1115  		return -EINVAL;
+0ad7347a64ac4b André Almeida 2022-08-10  1116  
+0ad7347a64ac4b André Almeida 2022-08-10  1117  	r = pm_runtime_get_sync(adev_to_drm(adev)->dev);
+0ad7347a64ac4b André Almeida 2022-08-10  1118  	if (r < 0) {
+0ad7347a64ac4b André Almeida 2022-08-10  1119  		pm_runtime_put_autosuspend(adev_to_drm(adev)->dev);
+0ad7347a64ac4b André Almeida 2022-08-10  1120  		return r;
+0ad7347a64ac4b André Almeida 2022-08-10  1121  	}
+0ad7347a64ac4b André Almeida 2022-08-10  1122  
+0ad7347a64ac4b André Almeida 2022-08-10  1123  	while (size) {
+0ad7347a64ac4b André Almeida 2022-08-10  1124  		u32 value;
+0ad7347a64ac4b André Almeida 2022-08-10  1125  
+0ad7347a64ac4b André Almeida 2022-08-10  1126  		r = get_user(value, (uint32_t *)buf);
+0ad7347a64ac4b André Almeida 2022-08-10  1127  		if (r)
+0ad7347a64ac4b André Almeida 2022-08-10  1128  			goto out;
+0ad7347a64ac4b André Almeida 2022-08-10  1129  
+0ad7347a64ac4b André Almeida 2022-08-10  1130  		amdgpu_set_gfx_off_residency(adev, value ? true : false);
+0ad7347a64ac4b André Almeida 2022-08-10  1131  
+0ad7347a64ac4b André Almeida 2022-08-10  1132  		result += 4;
+0ad7347a64ac4b André Almeida 2022-08-10  1133  		buf += 4;
+0ad7347a64ac4b André Almeida 2022-08-10  1134  		*pos += 4;
+0ad7347a64ac4b André Almeida 2022-08-10  1135  		size -= 4;
+0ad7347a64ac4b André Almeida 2022-08-10  1136  	}
+0ad7347a64ac4b André Almeida 2022-08-10  1137  
+0ad7347a64ac4b André Almeida 2022-08-10  1138  	r = result;
+0ad7347a64ac4b André Almeida 2022-08-10  1139  out:
+0ad7347a64ac4b André Almeida 2022-08-10  1140  	pm_runtime_mark_last_busy(adev_to_drm(adev)->dev);
+0ad7347a64ac4b André Almeida 2022-08-10  1141  	pm_runtime_put_autosuspend(adev_to_drm(adev)->dev);
+0ad7347a64ac4b André Almeida 2022-08-10  1142  
+0ad7347a64ac4b André Almeida 2022-08-10  1143  	return r;
+0ad7347a64ac4b André Almeida 2022-08-10  1144  }
+0ad7347a64ac4b André Almeida 2022-08-10  1145  
+0ad7347a64ac4b André Almeida 2022-08-10  1146  
+0ad7347a64ac4b André Almeida 2022-08-10  1147  /**
+0ad7347a64ac4b André Almeida 2022-08-10  1148   * amdgpu_debugfs_gfxoff_count_read - Read GFXOFF entry count
+0ad7347a64ac4b André Almeida 2022-08-10  1149   *
+0ad7347a64ac4b André Almeida 2022-08-10  1150   * @f: open file handle
+0ad7347a64ac4b André Almeida 2022-08-10  1151   * @buf: User buffer to store read data in
+0ad7347a64ac4b André Almeida 2022-08-10  1152   * @size: Number of bytes to read
+0ad7347a64ac4b André Almeida 2022-08-10  1153   * @pos:  Offset to seek to
+0ad7347a64ac4b André Almeida 2022-08-10  1154   */
+0ad7347a64ac4b André Almeida 2022-08-10  1155  static ssize_t amdgpu_debugfs_gfxoff_count_read(struct file *f, char __user *buf,
+0ad7347a64ac4b André Almeida 2022-08-10  1156  						size_t size, loff_t *pos)
+0ad7347a64ac4b André Almeida 2022-08-10  1157  {
+0ad7347a64ac4b André Almeida 2022-08-10  1158  	struct amdgpu_device *adev = file_inode(f)->i_private;
+0ad7347a64ac4b André Almeida 2022-08-10  1159  	ssize_t result = 0;
+0ad7347a64ac4b André Almeida 2022-08-10  1160  	int r;
+0ad7347a64ac4b André Almeida 2022-08-10  1161  
+0ad7347a64ac4b André Almeida 2022-08-10  1162  	if (size & 0x3 || *pos & 0x3)
+0ad7347a64ac4b André Almeida 2022-08-10  1163  		return -EINVAL;
+0ad7347a64ac4b André Almeida 2022-08-10  1164  
+0ad7347a64ac4b André Almeida 2022-08-10  1165  	r = pm_runtime_get_sync(adev_to_drm(adev)->dev);
+0ad7347a64ac4b André Almeida 2022-08-10  1166  	if (r < 0) {
+0ad7347a64ac4b André Almeida 2022-08-10  1167  		pm_runtime_put_autosuspend(adev_to_drm(adev)->dev);
+0ad7347a64ac4b André Almeida 2022-08-10  1168  		return r;
+0ad7347a64ac4b André Almeida 2022-08-10  1169  	}
+0ad7347a64ac4b André Almeida 2022-08-10  1170  
+0ad7347a64ac4b André Almeida 2022-08-10  1171  	while (size) {
+0ad7347a64ac4b André Almeida 2022-08-10  1172  		u64 value = 0;
+0ad7347a64ac4b André Almeida 2022-08-10  1173  
+0ad7347a64ac4b André Almeida 2022-08-10  1174  		r = amdgpu_get_gfx_off_entrycount(adev, &value);
+0ad7347a64ac4b André Almeida 2022-08-10  1175  		if (r)
+0ad7347a64ac4b André Almeida 2022-08-10  1176  			goto out;
+0ad7347a64ac4b André Almeida 2022-08-10  1177  
+0ad7347a64ac4b André Almeida 2022-08-10  1178  		r = put_user(value, (u64 *)buf);
+0ad7347a64ac4b André Almeida 2022-08-10 @1179  		if (r)
+0ad7347a64ac4b André Almeida 2022-08-10  1180  			goto out;
+0ad7347a64ac4b André Almeida 2022-08-10  1181  
+0ad7347a64ac4b André Almeida 2022-08-10  1182  		result += 4;
+0ad7347a64ac4b André Almeida 2022-08-10  1183  		buf += 4;
+0ad7347a64ac4b André Almeida 2022-08-10  1184  		*pos += 4;
+0ad7347a64ac4b André Almeida 2022-08-10  1185  		size -= 4;
+0ad7347a64ac4b André Almeida 2022-08-10  1186  	}
+0ad7347a64ac4b André Almeida 2022-08-10  1187  
+0ad7347a64ac4b André Almeida 2022-08-10  1188  	r = result;
+0ad7347a64ac4b André Almeida 2022-08-10  1189  out:
+0ad7347a64ac4b André Almeida 2022-08-10  1190  	pm_runtime_mark_last_busy(adev_to_drm(adev)->dev);
+0ad7347a64ac4b André Almeida 2022-08-10  1191  	pm_runtime_put_autosuspend(adev_to_drm(adev)->dev);
+0ad7347a64ac4b André Almeida 2022-08-10  1192  
+0ad7347a64ac4b André Almeida 2022-08-10  1193  	return r;
+0ad7347a64ac4b André Almeida 2022-08-10  1194  }
+0ad7347a64ac4b André Almeida 2022-08-10  1195  
 
 -- 
 0-DAY CI Kernel Test Service
