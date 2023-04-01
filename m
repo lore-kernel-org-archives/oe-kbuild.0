@@ -1,42 +1,43 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FB527C
-	for <oe-kbuild@lists.linux.dev>; Sat,  1 Apr 2023 01:22:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 578F417C7
+	for <oe-kbuild@lists.linux.dev>; Sat,  1 Apr 2023 04:16:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680312128; x=1711848128;
+  t=1680322573; x=1711858573;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=iuvxltwtGpRfNgVhim7tauFoJnnO6tGyMO83hZ4TZ10=;
-  b=fvU4mab+9IjxWTXRvy6n/NiuVNOWh3XCGGPGTyPKGHs9oM+/7Zew6iRw
-   9qSkrZszeo2xu8cSTkT+B6mc1GAIKPkZcgJ++Wks0M3ymaJ4Mlv2djzlG
-   cB7OUUQ7ARTZtftB0mcRRKH0Bk9ME17ncbLJl/unv8OGoK0viXtB1dABZ
-   Juobxkig1Cp+69e6PAYtSWHCCQuQV2IDmcxndcWnSAoOY+kp+76G3Li9Q
-   NT2bLliCFdhhN1wzxgqaxeRiomPy57LD428aPLPstpPQ0vjqk7ejrnsoT
-   iwKWQcdrMVFX/xXPJAp6fVMXsJDvD5Pbl43zmgy5pcC/eV2aYhxmSIm3x
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10666"; a="321987526"
+  bh=I8bcp0g6PaBt/qyN6pwQ5NSqZV+l+HK1jDVZvaQRt6c=;
+  b=j9KScl30SA9cDdnG7aBMhKnnS5b3yEoFO8/iQQOPktV/u2T7aoJctawm
+   zhl//y2lJYlCSncHvCgoarSElGWc0QY87YPsz8Ef3vCeEtYjVfoENVckN
+   pcxc7dwSIZ6z9CvaH4DeEZ2nX0sVs7HOYOxavWHwo4p1Qu5FsBQd2XsgK
+   kPCiqCFByDmNgeATDsel3pvZ2occlCa1iOl64x94zCrlYpf/muo/ei0dg
+   72KOksXPYY7x+MFcvsCwJQXnZVWeq5kp9x0SS6R+WRlO9VaerS5pkQDHn
+   vWBK9/HDSRIj1HbXg0xG9PAvnL5hN/GZFA+hJFJ6NKvknuJCbOZ5snORL
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10666"; a="339113046"
 X-IronPort-AV: E=Sophos;i="5.98,308,1673942400"; 
-   d="scan'208";a="321987526"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2023 18:22:07 -0700
+   d="scan'208";a="339113046"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2023 21:16:12 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10666"; a="809217728"
+X-IronPort-AV: E=McAfee;i="6600,9927,10666"; a="685327148"
 X-IronPort-AV: E=Sophos;i="5.98,308,1673942400"; 
-   d="scan'208";a="809217728"
+   d="scan'208";a="685327148"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 31 Mar 2023 18:22:06 -0700
+  by orsmga002.jf.intel.com with ESMTP; 31 Mar 2023 21:16:11 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1piPwT-000MKz-1r;
-	Sat, 01 Apr 2023 01:22:05 +0000
-Date: Sat, 1 Apr 2023 09:21:38 +0800
+	id 1piSew-000MR7-0w;
+	Sat, 01 Apr 2023 04:16:10 +0000
+Date: Sat, 1 Apr 2023 12:15:24 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [linux-next:master 7131/8375] net/vmw_vsock/vsock_bpf.c:41:2:
- warning: Dereference of null pointer [clang-analyzer-core.NullDereference]
-Message-ID: <202304010939.Rv5BSsng-lkp@intel.com>
+Subject: [djwong-xfs:xfile-page-caching 149/287]
+ fs/xfs/libxfs/xfs_bmap_btree.c:653:9: warning: use of NULL 'ifp' where
+ non-null expected [CWE-476]
+Message-ID: <202304011220.hA5lFBVr-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -47,270 +48,220 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "low confidence static check warning: net/vmw_vsock/vsock_bpf.c:41:2: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]"
+:::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "low confidence static check warning: fs/xfs/libxfs/xfs_bmap_btree.c:653:9: warning: use of NULL 'ifp' where non-null expected [CWE-476] [-Wanalyzer-null-argument]"
 :::::: 
 
 BCC: lkp@intel.com
-CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Bobby Eshleman <bobby.eshleman@bytedance.com>
-CC: Stefano Garzarella <sgarzare@redhat.com>
+TO: "Darrick J. Wong" <darrick.wong@oracle.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   4b0f4525dc4fe8af17b3daefe585f0c2eb0fe0a5
-commit: 634f1a7110b439c65fd8a809171c1d2d28bcea6f [7131/8375] vsock: support sockmap
-:::::: branch date: 21 hours ago
-:::::: commit date: 3 days ago
-config: s390-randconfig-c005-20230329 (https://download.01.org/0day-ci/archive/20230401/202304010939.Rv5BSsng-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git xfile-page-caching
+head:   10b2657dfdd633f83d3de6eba27b8e093cf0caa6
+commit: c8b467b62e13f716a045428dcc9fdf41e14818f4 [149/287] xfs: repair inode fork block mapping data structures
+:::::: branch date: 7 days ago
+:::::: commit date: 7 days ago
+config: arm-randconfig-c002-20230330 (https://download.01.org/0day-ci/archive/20230401/202304011220.hA5lFBVr-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install s390 cross compiling tool for clang build
-        # apt-get install binutils-s390x-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=634f1a7110b439c65fd8a809171c1d2d28bcea6f
-        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
-        git fetch --no-tags linux-next master
-        git checkout 634f1a7110b439c65fd8a809171c1d2d28bcea6f
+        # https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git/commit/?id=c8b467b62e13f716a045428dcc9fdf41e14818f4
+        git remote add djwong-xfs https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git
+        git fetch --no-tags djwong-xfs xfile-page-caching
+        git checkout c8b467b62e13f716a045428dcc9fdf41e14818f4
         # save the config file
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=s390 clang-analyzer  olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=s390 clang-analyzer 
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross ARCH=arm KBUILD_USERCFLAGS='-fanalyzer -Wno-error'  olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross ARCH=arm KBUILD_USERCFLAGS='-fanalyzer -Wno-error' 
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/r/202304010939.Rv5BSsng-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202304011220.hA5lFBVr-lkp@intel.com/
 
-clang_analyzer warnings: (new ones prefixed by >>)
-   include/linux/once_lite.h:19:16: note: expanded from macro '__ONCE_LITE_IF'
-                   if (unlikely(__ret_cond && !__already_done)) {          \
-                                ^~~~~~~~~~
-   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                               ^
-   net/core/gro.c:448:2: note: Left side of '&&' is false
-           memcpy(skb_tail_pointer(skb), NAPI_GRO_CB(skb)->frag0, grow);
-           ^
-   include/linux/fortify-string.h:630:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^
-   include/linux/fortify-string.h:578:2: note: expanded from macro '__fortify_memcpy_chk'
-           WARN_ONCE(fortify_memcpy_chk(__fortify_size, __p_size,          \
-           ^
-   include/asm-generic/bug.h:151:2: note: expanded from macro 'WARN_ONCE'
-           DO_ONCE_LITE_IF(condition, WARN, 1, format)
-           ^
-   include/linux/once_lite.h:30:7: note: expanded from macro 'DO_ONCE_LITE_IF'
-                   if (__ONCE_LITE_IF(__ret_do_once))                      \
-                       ^
-   include/linux/once_lite.h:19:27: note: expanded from macro '__ONCE_LITE_IF'
-                   if (unlikely(__ret_cond && !__already_done)) {          \
-                                           ^
-   net/core/gro.c:448:2: note: Taking false branch
-           memcpy(skb_tail_pointer(skb), NAPI_GRO_CB(skb)->frag0, grow);
-           ^
-   include/linux/fortify-string.h:630:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^
-   include/linux/fortify-string.h:578:2: note: expanded from macro '__fortify_memcpy_chk'
-           WARN_ONCE(fortify_memcpy_chk(__fortify_size, __p_size,          \
-           ^
-   include/asm-generic/bug.h:151:2: note: expanded from macro 'WARN_ONCE'
-           DO_ONCE_LITE_IF(condition, WARN, 1, format)
-           ^
-   include/linux/once_lite.h:30:7: note: expanded from macro 'DO_ONCE_LITE_IF'
-                   if (__ONCE_LITE_IF(__ret_do_once))                      \
-                       ^
-   include/linux/once_lite.h:19:3: note: expanded from macro '__ONCE_LITE_IF'
-                   if (unlikely(__ret_cond && !__already_done)) {          \
-                   ^
-   net/core/gro.c:448:2: note: Taking false branch
-           memcpy(skb_tail_pointer(skb), NAPI_GRO_CB(skb)->frag0, grow);
-           ^
-   include/linux/fortify-string.h:630:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^
-   include/linux/fortify-string.h:578:2: note: expanded from macro '__fortify_memcpy_chk'
-           WARN_ONCE(fortify_memcpy_chk(__fortify_size, __p_size,          \
-           ^
-   include/asm-generic/bug.h:151:2: note: expanded from macro 'WARN_ONCE'
-           DO_ONCE_LITE_IF(condition, WARN, 1, format)
-           ^
-   include/linux/once_lite.h:30:3: note: expanded from macro 'DO_ONCE_LITE_IF'
-                   if (__ONCE_LITE_IF(__ret_do_once))                      \
-                   ^
-   net/core/gro.c:448:2: note: Null pointer passed as 2nd argument to memory copy function
-           memcpy(skb_tail_pointer(skb), NAPI_GRO_CB(skb)->frag0, grow);
-           ^
-   include/linux/fortify-string.h:630:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:585:2: note: expanded from macro '__fortify_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^                    ~
-   note: expanded from here
-   include/linux/fortify-string.h:57:29: note: expanded from macro '__underlying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^
-   Suppressed 30 warnings (18 in non-user code, 12 with check filters).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   32 warnings generated.
-   arch/s390/include/asm/preempt.h:107:29: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]
-           S390_lowcore.preempt_count += val;
-                                      ^
-   net/vmw_vsock/vsock_bpf.c:82:10: note: Calling 'sk_psock_get'
-           psock = sk_psock_get(sk);
-                   ^~~~~~~~~~~~~~~~
-   include/linux/skmsg.h:440:2: note: Calling 'rcu_read_lock'
-           rcu_read_lock();
-           ^~~~~~~~~~~~~~~
-   include/linux/rcupdate.h:771:2: note: Calling '__rcu_read_lock'
-           __rcu_read_lock();
-           ^~~~~~~~~~~~~~~~~
-   include/linux/rcupdate.h:94:2: note: Calling '__preempt_count_add'
-           preempt_disable();
-           ^
-   include/linux/preempt.h:203:2: note: expanded from macro 'preempt_disable'
-           preempt_count_inc(); \
-           ^~~~~~~~~~~~~~~~~~~
-   include/linux/preempt.h:196:29: note: expanded from macro 'preempt_count_inc'
-   #define preempt_count_inc() preempt_count_add(1)
-                               ^~~~~~~~~~~~~~~~~~~~
-   include/linux/preempt.h:188:32: note: expanded from macro 'preempt_count_add'
-   #define preempt_count_add(val)  __preempt_count_add(val)
-                                   ^~~~~~~~~~~~~~~~~~~~~~~~
-   arch/s390/include/asm/preempt.h:107:29: note: Dereference of null pointer
-           S390_lowcore.preempt_count += val;
-                                      ^
->> net/vmw_vsock/vsock_bpf.c:41:2: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]
-           DEFINE_WAIT_FUNC(wait, woken_wake_function);
-           ^
-   include/linux/wait.h:1203:14: note: expanded from macro 'DEFINE_WAIT_FUNC'
-                   .private        = current,                                      \
-                                     ^~~~~~~
-   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'current'
-   #define current ((struct task_struct *const)S390_lowcore.current_task)
-                                               ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/s390/include/asm/lowcore.h:215:22: note: expanded from macro 'S390_lowcore'
-   #define S390_lowcore (*((struct lowcore *) 0))
-                        ^
-   net/vmw_vsock/vsock_bpf.c:41:2: note: Dereference of null pointer
-           DEFINE_WAIT_FUNC(wait, woken_wake_function);
-           ^
-   include/linux/wait.h:1203:14: note: expanded from macro 'DEFINE_WAIT_FUNC'
-                   .private        = current,                                      \
-                                     ^~~~~~~
-   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'current'
-   #define current ((struct task_struct *const)S390_lowcore.current_task)
-                                               ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/s390/include/asm/lowcore.h:215:22: note: expanded from macro 'S390_lowcore'
-   #define S390_lowcore (*((struct lowcore *) 0))
-                        ^
-   Suppressed 30 warnings (18 in non-user code, 12 with check filters).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   30 warnings generated.
-   Suppressed 30 warnings (18 in non-user code, 12 with check filters).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   23 warnings generated.
-   arch/s390/include/asm/preempt.h:107:29: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]
-           S390_lowcore.preempt_count += val;
-                                      ^
-   block/partitions/core.c:451:2: note: Taking false branch
-           if (!disk_live(disk)) {
-           ^
-   block/partitions/core.c:456:6: note: Calling 'partition_overlaps'
-           if (partition_overlaps(disk, start, length, -1)) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   block/partitions/core.c:430:2: note: Calling 'rcu_read_lock'
-           rcu_read_lock();
-           ^~~~~~~~~~~~~~~
-   include/linux/rcupdate.h:771:2: note: Calling '__rcu_read_lock'
-           __rcu_read_lock();
-           ^~~~~~~~~~~~~~~~~
-   include/linux/rcupdate.h:94:2: note: Calling '__preempt_count_add'
-           preempt_disable();
-           ^
-   include/linux/preempt.h:203:2: note: expanded from macro 'preempt_disable'
-           preempt_count_inc(); \
-           ^~~~~~~~~~~~~~~~~~~
-   include/linux/preempt.h:196:29: note: expanded from macro 'preempt_count_inc'
-   #define preempt_count_inc() preempt_count_add(1)
-                               ^~~~~~~~~~~~~~~~~~~~
-   include/linux/preempt.h:188:32: note: expanded from macro 'preempt_count_add'
-   #define preempt_count_add(val)  __preempt_count_add(val)
-                                   ^~~~~~~~~~~~~~~~~~~~~~~~
-   arch/s390/include/asm/preempt.h:107:29: note: Dereference of null pointer
-           S390_lowcore.preempt_count += val;
-                                      ^
-   Suppressed 22 warnings (10 in non-user code, 12 with check filters).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   22 warnings generated.
-   Suppressed 22 warnings (10 in non-user code, 12 with check filters).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   20 warnings generated.
-   Suppressed 20 warnings (8 in non-user code, 12 with check filters).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   29 warnings generated.
-   Suppressed 29 warnings (17 in non-user code, 12 with check filters).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   20 warnings generated.
-   Suppressed 20 warnings (8 in non-user code, 12 with check filters).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   29 warnings generated.
-   Suppressed 29 warnings (17 in non-user code, 12 with check filters).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   31 warnings generated.
-   Suppressed 31 warnings (19 in non-user code, 12 with check filters).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   drivers/clk/clkdev.c:379:9: warning: 3rd function call argument is an uninitialized value [clang-analyzer-core.CallAndMessage]
-           return devm_add_action_or_reset(dev, devm_clkdev_release, cl);
-                  ^                                                  ~~
-   drivers/clk/clkdev.c:372:2: note: 'cl' declared without an initial value
-           struct clk_lookup *cl;
-           ^~~~~~~~~~~~~~~~~~~~~
-   drivers/clk/clkdev.c:375:9: note: Calling 'do_clk_register_clkdev'
-           rval = do_clk_register_clkdev(hw, &cl, con_id, dev_id);
+gcc_analyzer warnings: (new ones prefixed by >>)
+   In file included from include/linux/byteorder/big_endian.h:5,
+                    from arch/arm/include/uapi/asm/byteorder.h:20,
+                    from include/asm-generic/bitops/le.h:6,
+                    from arch/arm/include/asm/bitops.h:269,
+                    from include/linux/bitops.h:68,
+                    from include/linux/log2.h:12,
+                    from include/asm-generic/div64.h:55,
+                    from arch/arm/include/asm/div64.h:107,
+                    from include/linux/math.h:6,
+                    from include/linux/math64.h:6,
+                    from include/linux/time64.h:5,
+                    from include/linux/restart_block.h:10,
+                    from include/linux/thread_info.h:14,
+                    from include/asm-generic/preempt.h:5,
+                    from ./arch/arm/include/generated/asm/preempt.h:1,
+                    from include/linux/preempt.h:78,
+                    from include/linux/spinlock.h:56,
+                    from include/linux/mmzone.h:8,
+                    from include/linux/gfp.h:7,
+                    from include/linux/slab.h:15,
+                    from fs/xfs/kmem.h:9,
+                    from fs/xfs/xfs_linux.h:24,
+                    from fs/xfs/xfs.h:22,
+                    from fs/xfs/libxfs/xfs_bmap_btree.c:6:
+   fs/xfs/libxfs/xfs_bmap_btree.c: In function 'xfs_bmbt_init_cursor':
+   fs/xfs/libxfs/xfs_bmap_btree.c:582:42: warning: dereference of NULL 'ifp' [CWE-476] [-Wanalyzer-null-dereference]
+     582 |         cur->bc_nlevels = be16_to_cpu(ifp->if_broot->bb_level) + 1;
+         |                                       ~~~^~~~~~~~~~
+   include/uapi/linux/byteorder/big_endian.h:43:51: note: in definition of macro '__be16_to_cpu'
+      43 | #define __be16_to_cpu(x) ((__force __u16)(__be16)(x))
+         |                                                   ^
+   fs/xfs/libxfs/xfs_bmap_btree.c:582:27: note: in expansion of macro 'be16_to_cpu'
+     582 |         cur->bc_nlevels = be16_to_cpu(ifp->if_broot->bb_level) + 1;
+         |                           ^~~~~~~~~~~
+     'xfs_bmbt_init_cursor': events 1-2
+       |
+       |  571 | xfs_bmbt_init_cursor(
+       |      | ^~~~~~~~~~~~~~~~~~~~
+       |      | |
+       |      | (1) entry to 'xfs_bmbt_init_cursor'
+       |......
+       |  580 |         cur = xfs_bmbt_init_common(mp, tp, ip, whichfork);
+       |      |               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |               |
+       |      |               (2) calling 'xfs_bmbt_init_common' from 'xfs_bmbt_init_cursor'
+       |
+       +--> 'xfs_bmbt_init_common': event 3
+              |
+              |  541 | xfs_bmbt_init_common(
+              |      | ^~~~~~~~~~~~~~~~~~~~
+              |      | |
+              |      | (3) entry to 'xfs_bmbt_init_common'
+              |
+            'xfs_bmbt_init_common': event 4
+              |
+              |fs/xfs/xfs_linux.h:215:33:
+              |  215 |         (likely(expr) ? (void)0 : asswarn(NULL, #expr, __FILE__, __LINE__))
+              |      |         ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |                                 |
+              |      |                                 (4) following 'false' branch...
+   fs/xfs/libxfs/xfs_bmap_btree.c:549:9: note: in expansion of macro 'ASSERT'
+              |  549 |         ASSERT(whichfork != XFS_COW_FORK);
+              |      |         ^~~~~~
+              |
+            'xfs_bmbt_init_common': event 5
+              |
+              |  551 |         cur = xfs_btree_alloc_cursor(mp, tp, XFS_BTNUM_BMAP,
+              |      |         ^~~
+              |      |         |
+              |      |         (5) ...to here
+              |
+       <------+
+       |
+     'xfs_bmbt_init_cursor': event 6
+       |
+       |  580 |         cur = xfs_bmbt_init_common(mp, tp, ip, whichfork);
+       |      |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |               |
+       |      |               (6) returning to 'xfs_bmbt_init_cursor' from 'xfs_bmbt_init_common'
+       |
+     'xfs_bmbt_init_cursor': event 7
+       |
+       |  582 |         cur->bc_nlevels = be16_to_cpu(ifp->if_broot->bb_level) + 1;
+       |      |                                       ~~~^~~~~~~~~~
+       |      |                                          |
+       |      |                                          (7) dereference of NULL 'ifp'
+   include/uapi/linux/byteorder/big_endian.h:43:51: note: in definition of macro '__be16_to_cpu'
+       |   43 | #define __be16_to_cpu(x) ((__force __u16)(__be16)(x))
+       |      |                                                   ^
+   fs/xfs/libxfs/xfs_bmap_btree.c:582:27: note: in expansion of macro 'be16_to_cpu'
+       |  582 |         cur->bc_nlevels = be16_to_cpu(ifp->if_broot->bb_level) + 1;
+       |      |                           ^~~~~~~~~~~
+       |
+   fs/xfs/libxfs/xfs_bmap_btree.c: In function 'xfs_bmbt_commit_staged_btree':
+>> fs/xfs/libxfs/xfs_bmap_btree.c:653:9: warning: use of NULL 'ifp' where non-null expected [CWE-476] [-Wanalyzer-null-argument]
+     653 |         memcpy(ifp, ifake->if_fork, sizeof(struct xfs_ifork));
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     'xfs_bmbt_commit_staged_btree': event 1
+       |
+       |  653 |         memcpy(ifp, ifake->if_fork, sizeof(struct xfs_ifork));
+       |      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |         |
+       |      |         (1) argument 1 ('ifp') NULL where non-null expected
+       |
+   In file included from include/linux/string.h:20,
+                    from include/linux/uuid.h:11,
+                    from fs/xfs/xfs_linux.h:10:
+   arch/arm/include/asm/string.h:20:15: note: argument 1 of 'memcpy' must be non-null
+      20 | extern void * memcpy(void *, const void *, __kernel_size_t);
+         |               ^~~~~~
+   In file included from include/linux/string.h:5:
+   fs/xfs/libxfs/xfs_bmap_btree.c: In function 'xfs_bmbt_change_owner':
+   fs/xfs/libxfs/xfs_bmap_btree.c:750:44: warning: dereference of NULL '0' [CWE-476] [-Wanalyzer-null-dereference]
+     750 |         ASSERT(xfs_ifork_ptr(ip, whichfork)->if_format == XFS_DINODE_FMT_BTREE);
+         |                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~
+   include/linux/compiler.h:77:45: note: in definition of macro 'likely'
+      77 | # define likely(x)      __builtin_expect(!!(x), 1)
+         |                                             ^
+   fs/xfs/libxfs/xfs_bmap_btree.c:750:9: note: in expansion of macro 'ASSERT'
+     750 |         ASSERT(xfs_ifork_ptr(ip, whichfork)->if_format == XFS_DINODE_FMT_BTREE);
+         |         ^~~~~~
+     'xfs_bmbt_change_owner': event 1
+       |
+       |  750 |         ASSERT(xfs_ifork_ptr(ip, whichfork)->if_format == XFS_DINODE_FMT_BTREE);
+       |      |                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~
+       |      |                                            |
+       |      |                                            (1) dereference of NULL 'xfs_ifork_ptr(ip,  whichfork)'
+   include/linux/compiler.h:77:45: note: in definition of macro 'likely'
+       |   77 | # define likely(x)      __builtin_expect(!!(x), 1)
+       |      |                                             ^
+   fs/xfs/libxfs/xfs_bmap_btree.c:750:9: note: in expansion of macro 'ASSERT'
+       |  750 |         ASSERT(xfs_ifork_ptr(ip, whichfork)->if_format == XFS_DINODE_FMT_BTREE);
+       |      |         ^~~~~~
+       |
 
-vim +41 net/vmw_vsock/vsock_bpf.c
+vim +/ifp +653 fs/xfs/libxfs/xfs_bmap_btree.c
 
-634f1a7110b439 Bobby Eshleman 2023-03-27  36  
-634f1a7110b439 Bobby Eshleman 2023-03-27  37  static bool vsock_msg_wait_data(struct sock *sk, struct sk_psock *psock, long timeo)
-634f1a7110b439 Bobby Eshleman 2023-03-27  38  {
-634f1a7110b439 Bobby Eshleman 2023-03-27  39  	bool ret;
-634f1a7110b439 Bobby Eshleman 2023-03-27  40  
-634f1a7110b439 Bobby Eshleman 2023-03-27 @41  	DEFINE_WAIT_FUNC(wait, woken_wake_function);
-634f1a7110b439 Bobby Eshleman 2023-03-27  42  
-634f1a7110b439 Bobby Eshleman 2023-03-27  43  	if (sk->sk_shutdown & RCV_SHUTDOWN)
-634f1a7110b439 Bobby Eshleman 2023-03-27  44  		return true;
-634f1a7110b439 Bobby Eshleman 2023-03-27  45  
-634f1a7110b439 Bobby Eshleman 2023-03-27  46  	if (!timeo)
-634f1a7110b439 Bobby Eshleman 2023-03-27  47  		return false;
-634f1a7110b439 Bobby Eshleman 2023-03-27  48  
-634f1a7110b439 Bobby Eshleman 2023-03-27  49  	add_wait_queue(sk_sleep(sk), &wait);
-634f1a7110b439 Bobby Eshleman 2023-03-27  50  	sk_set_bit(SOCKWQ_ASYNC_WAITDATA, sk);
-634f1a7110b439 Bobby Eshleman 2023-03-27  51  	ret = vsock_has_data(sk, psock);
-634f1a7110b439 Bobby Eshleman 2023-03-27  52  	if (!ret) {
-634f1a7110b439 Bobby Eshleman 2023-03-27  53  		wait_woken(&wait, TASK_INTERRUPTIBLE, timeo);
-634f1a7110b439 Bobby Eshleman 2023-03-27  54  		ret = vsock_has_data(sk, psock);
-634f1a7110b439 Bobby Eshleman 2023-03-27  55  	}
-634f1a7110b439 Bobby Eshleman 2023-03-27  56  	sk_clear_bit(SOCKWQ_ASYNC_WAITDATA, sk);
-634f1a7110b439 Bobby Eshleman 2023-03-27  57  	remove_wait_queue(sk_sleep(sk), &wait);
-634f1a7110b439 Bobby Eshleman 2023-03-27  58  	return ret;
-634f1a7110b439 Bobby Eshleman 2023-03-27  59  }
-634f1a7110b439 Bobby Eshleman 2023-03-27  60  
+c8b467b62e13f7 Darrick J. Wong 2023-03-06  624  
+c8b467b62e13f7 Darrick J. Wong 2023-03-06  625  /*
+c8b467b62e13f7 Darrick J. Wong 2023-03-06  626   * Swap in the new inode fork root.  Once we pass this point the newly rebuilt
+c8b467b62e13f7 Darrick J. Wong 2023-03-06  627   * mappings are in place and we have to kill off any old btree blocks.
+c8b467b62e13f7 Darrick J. Wong 2023-03-06  628   */
+c8b467b62e13f7 Darrick J. Wong 2023-03-06  629  void
+c8b467b62e13f7 Darrick J. Wong 2023-03-06  630  xfs_bmbt_commit_staged_btree(
+c8b467b62e13f7 Darrick J. Wong 2023-03-06  631  	struct xfs_btree_cur	*cur,
+c8b467b62e13f7 Darrick J. Wong 2023-03-06  632  	struct xfs_trans	*tp,
+c8b467b62e13f7 Darrick J. Wong 2023-03-06  633  	int			whichfork)
+c8b467b62e13f7 Darrick J. Wong 2023-03-06  634  {
+c8b467b62e13f7 Darrick J. Wong 2023-03-06  635  	struct xbtree_ifakeroot	*ifake = cur->bc_ino.ifake;
+c8b467b62e13f7 Darrick J. Wong 2023-03-06  636  	struct xfs_ifork	*ifp;
+c8b467b62e13f7 Darrick J. Wong 2023-03-06  637  	static const short	brootflag[2] =
+c8b467b62e13f7 Darrick J. Wong 2023-03-06  638  		{ XFS_ILOG_DBROOT, XFS_ILOG_ABROOT };
+c8b467b62e13f7 Darrick J. Wong 2023-03-06  639  	static const short	extflag[2] =
+c8b467b62e13f7 Darrick J. Wong 2023-03-06  640  		{ XFS_ILOG_DEXT, XFS_ILOG_AEXT };
+c8b467b62e13f7 Darrick J. Wong 2023-03-06  641  	int			flags = XFS_ILOG_CORE;
+c8b467b62e13f7 Darrick J. Wong 2023-03-06  642  
+c8b467b62e13f7 Darrick J. Wong 2023-03-06  643  	ASSERT(cur->bc_flags & XFS_BTREE_STAGING);
+c8b467b62e13f7 Darrick J. Wong 2023-03-06  644  	ASSERT(whichfork != XFS_COW_FORK);
+c8b467b62e13f7 Darrick J. Wong 2023-03-06  645  
+c8b467b62e13f7 Darrick J. Wong 2023-03-06  646  	/*
+c8b467b62e13f7 Darrick J. Wong 2023-03-06  647  	 * Free any resources hanging off the real fork, then shallow-copy the
+c8b467b62e13f7 Darrick J. Wong 2023-03-06  648  	 * staging fork's contents into the real fork to transfer everything
+c8b467b62e13f7 Darrick J. Wong 2023-03-06  649  	 * we just built.
+c8b467b62e13f7 Darrick J. Wong 2023-03-06  650  	 */
+c8b467b62e13f7 Darrick J. Wong 2023-03-06  651  	ifp = xfs_ifork_ptr(cur->bc_ino.ip, whichfork);
+c8b467b62e13f7 Darrick J. Wong 2023-03-06  652  	xfs_idestroy_fork(ifp);
+c8b467b62e13f7 Darrick J. Wong 2023-03-06 @653  	memcpy(ifp, ifake->if_fork, sizeof(struct xfs_ifork));
+c8b467b62e13f7 Darrick J. Wong 2023-03-06  654  
+c8b467b62e13f7 Darrick J. Wong 2023-03-06  655  	switch (ifp->if_format) {
+c8b467b62e13f7 Darrick J. Wong 2023-03-06  656  	case XFS_DINODE_FMT_EXTENTS:
+c8b467b62e13f7 Darrick J. Wong 2023-03-06  657  		flags |= extflag[whichfork];
+c8b467b62e13f7 Darrick J. Wong 2023-03-06  658  		break;
+c8b467b62e13f7 Darrick J. Wong 2023-03-06  659  	case XFS_DINODE_FMT_BTREE:
+c8b467b62e13f7 Darrick J. Wong 2023-03-06  660  		flags |= brootflag[whichfork];
+c8b467b62e13f7 Darrick J. Wong 2023-03-06  661  		break;
+c8b467b62e13f7 Darrick J. Wong 2023-03-06  662  	default:
+c8b467b62e13f7 Darrick J. Wong 2023-03-06  663  		ASSERT(0);
+c8b467b62e13f7 Darrick J. Wong 2023-03-06  664  		break;
+c8b467b62e13f7 Darrick J. Wong 2023-03-06  665  	}
+c8b467b62e13f7 Darrick J. Wong 2023-03-06  666  	xfs_trans_log_inode(tp, cur->bc_ino.ip, flags);
+c8b467b62e13f7 Darrick J. Wong 2023-03-06  667  	xfs_btree_commit_ifakeroot(cur, tp, whichfork, &xfs_bmbt_ops);
+c8b467b62e13f7 Darrick J. Wong 2023-03-06  668  }
+c8b467b62e13f7 Darrick J. Wong 2023-03-06  669  
 
 -- 
 0-DAY CI Kernel Test Service
