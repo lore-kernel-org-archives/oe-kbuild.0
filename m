@@ -1,325 +1,176 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CC1A8F64
-	for <oe-kbuild@lists.linux.dev>; Sat,  1 Apr 2023 20:30:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08A817C
+	for <oe-kbuild@lists.linux.dev>; Sun,  2 Apr 2023 00:38:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680381041; x=1711917041;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=AEJivJM9qOp980fTUyyn8UHwIjQR/dDtcsdmVu9MqkM=;
-  b=Z9rpFWEAa1JnQW22VbZCPhPVczWq/P5M5KNRiEEP2ULk9ww87V+JKBmg
-   NWyj7OiMRcZQGNpTls1P7oIBDZy9vEmMk/5qRPCMImEYyDtyQzMOCJpPE
-   C9xFAX++8kBoQDjdpEZO5o+8qYgH/zrS7QJOyzr/K/pGu2fXlaDsud4ki
-   R7rDOZH6v3x3ByrJQWQiRLRXV5DDWCW3TUQnYOya2NME3jRHFY4YwsNSn
-   e+GY47h34QgYho8a7DFefXCWNblDac6yEl1OR/jHva9DrgF4OctoJEfqb
-   lRFwkeiMJJWJeqrBqcChnBPmAs8PckeUC8OUxNuUT6+KPv1IIjTmjZCMT
+  t=1680395927; x=1711931927;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=jAsOuQEYQxMODen5QirXfiWV3MqZBQOGWDMKNRQ+RLU=;
+  b=ANfyJ2SWpwpYivKQ1r0m7B7QN4TgsP1w/9hHr8k5XsNeEgM0Ix+V188I
+   Kh0bgCEyL4AAD68D254hK+ddBgkUJs/4EoMXIBioWEiQOqN5dOD8MGAco
+   YLYZczHpnX0OlfT2neKIAWQqMoWblK7/WhvUfsB68AD9RkAahAAcrk8tg
+   ijysyJsUokZTEhvB65fEqjbDhJwtdDZhsVSJ/RTx9bmB94jAUC9ZDMCAN
+   9E1Qh8G8CpkLPlapxeoVMN/KnoLtbzDx/PFTUCteSefjC1B8LyfZDM+uB
+   33UQFnTirKmzsw7ugtTgvw5NZVS10so2rqydlt00uCcwCJ1dsglxHLWyU
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10667"; a="321337506"
+X-IronPort-AV: E=McAfee;i="6600,9927,10667"; a="427974105"
 X-IronPort-AV: E=Sophos;i="5.98,311,1673942400"; 
-   d="scan'208";a="321337506"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Apr 2023 13:30:40 -0700
+   d="scan'208";a="427974105"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Apr 2023 17:38:46 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10667"; a="718096759"
+X-IronPort-AV: E=McAfee;i="6600,9927,10667"; a="829140403"
 X-IronPort-AV: E=Sophos;i="5.98,311,1673942400"; 
-   d="scan'208";a="718096759"
+   d="scan'208";a="829140403"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 01 Apr 2023 13:30:38 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 01 Apr 2023 17:38:45 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pihrx-000N11-2w;
-	Sat, 01 Apr 2023 20:30:37 +0000
-Date: Sun, 2 Apr 2023 04:30:03 +0800
+	id 1pilk4-000N8j-1T;
+	Sun, 02 Apr 2023 00:38:44 +0000
+Date: Sun, 2 Apr 2023 08:37:55 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: net/unix/sysctl_net_unix.c:47:3: warning: Argument to kfree() is the
- address of the global variable 'unix_table', which is not memory allocated
- by malloc() [clang-analyzer-unix.Malloc]
-Message-ID: <202304020409.gEAfDAd4-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCH v3 7/7] drbd: Pass a peer device to the resync and online
+ verify functions
+Message-ID: <202304020852.dVP30hiV-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-
-:::::: 
-:::::: Manual check reason: "low confidence static check warning: net/unix/sysctl_net_unix.c:47:3: warning: Argument to kfree() is the address of the global variable 'unix_table', which is not memory allocated by malloc() [clang-analyzer-unix.Malloc]"
-:::::: 
+Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
-CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20230330102744.2128122-8-christoph.boehmwalder@linbit.com>
+References: <20230330102744.2128122-8-christoph.boehmwalder@linbit.com>
+TO: "Christoph Böhmwalder" <christoph.boehmwalder@linbit.com>
+TO: Jens Axboe <axboe@kernel.dk>
+CC: drbd-dev@lists.linbit.com
 CC: linux-kernel@vger.kernel.org
-TO: Kuniyuki Iwashima <kuniyu@amazon.com>
-CC: Jakub Kicinski <kuba@kernel.org>
+CC: Lars Ellenberg <lars.ellenberg@linbit.com>
+CC: Philipp Reisner <philipp.reisner@linbit.com>
+CC: linux-block@vger.kernel.org
+CC: "Christoph Böhmwalder" <christoph.boehmwalder@linbit.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   93e2b01740863cf2f4a58887ac1384e6324b50a2
-commit: 849d5aa3a1d833d0b3a18c2d5b816e23003cfe55 af_unix: Do not call kmemdup() for init_net's sysctl table.
-date:   9 months ago
-:::::: branch date: 4 hours ago
-:::::: commit date: 9 months ago
-config: x86_64-randconfig-c007-20230327 (https://download.01.org/0day-ci/archive/20230402/202304020409.gEAfDAd4-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=849d5aa3a1d833d0b3a18c2d5b816e23003cfe55
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 849d5aa3a1d833d0b3a18c2d5b816e23003cfe55
-        # save the config file
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=x86_64 clang-analyzer  olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=x86_64 clang-analyzer 
+Hi Christoph,
+
+I love your patch! Perhaps something to improve:
+
+[auto build test WARNING on 06965037ce942500c1ce3aa29ca217093a9c5720]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Christoph-B-hmwalder/genetlink-make-_genl_cmd_to_str-static/20230330-182912
+base:   06965037ce942500c1ce3aa29ca217093a9c5720
+patch link:    https://lore.kernel.org/r/20230330102744.2128122-8-christoph.boehmwalder%40linbit.com
+patch subject: [PATCH v3 7/7] drbd: Pass a peer device to the resync and online verify functions
+:::::: branch date: 3 days ago
+:::::: commit date: 3 days ago
+config: riscv-randconfig-m031-20230402 (https://download.01.org/0day-ci/archive/20230402/202304020852.dVP30hiV-lkp@intel.com/config)
+compiler: riscv32-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/r/202304020409.gEAfDAd4-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Link: https://lore.kernel.org/r/202304020852.dVP30hiV-lkp@intel.com/
 
-clang_analyzer warnings: (new ones prefixed by >>)
-                            ^
-   net/ipv4/tcp_output.c:3597:24: note: Passing null pointer value via 2nd parameter 'tp'
-           tcp_options_write(th, NULL, &opts);
-                                 ^
-   include/linux/stddef.h:8:14: note: expanded from macro 'NULL'
-   #define NULL ((void *)0)
-                ^~~~~~~~~~~
-   net/ipv4/tcp_output.c:3597:2: note: Calling 'tcp_options_write'
-           tcp_options_write(th, NULL, &opts);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/ipv4/tcp_output.c:616:6: note: Assuming the condition is true
-           if (unlikely(OPTION_MD5 & options)) {
-               ^
-   include/linux/compiler.h:78:40: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                             ^~~~
-   net/ipv4/tcp_output.c:616:2: note: Taking false branch
-           if (unlikely(OPTION_MD5 & options)) {
-           ^
-   net/ipv4/tcp_output.c:624:6: note: Assuming field 'mss' is 0
-           if (unlikely(opts->mss)) {
-               ^
-   include/linux/compiler.h:78:40: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                             ^~~~
-   net/ipv4/tcp_output.c:624:2: note: Taking false branch
-           if (unlikely(opts->mss)) {
-           ^
-   net/ipv4/tcp_output.c:630:6: note: Assuming the condition is true
-           if (likely(OPTION_TS & options)) {
-               ^
-   include/linux/compiler.h:77:38: note: expanded from macro 'likely'
-   # define likely(x)      __builtin_expect(!!(x), 1)
-                                             ^~~~
-   net/ipv4/tcp_output.c:630:2: note: Taking false branch
-           if (likely(OPTION_TS & options)) {
-           ^
-   net/ipv4/tcp_output.c:647:6: note: Assuming the condition is true
-           if (unlikely(OPTION_SACK_ADVERTISE & options)) {
-               ^
-   include/linux/compiler.h:78:40: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                             ^~~~
-   net/ipv4/tcp_output.c:647:2: note: Taking false branch
-           if (unlikely(OPTION_SACK_ADVERTISE & options)) {
-           ^
-   net/ipv4/tcp_output.c:654:6: note: Assuming the condition is true
-           if (unlikely(OPTION_WSCALE & options)) {
-               ^
-   include/linux/compiler.h:78:40: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                             ^~~~
-   net/ipv4/tcp_output.c:654:2: note: Taking false branch
-           if (unlikely(OPTION_WSCALE & options)) {
-           ^
-   net/ipv4/tcp_output.c:661:6: note: Assuming field 'num_sack_blocks' is not equal to 0
-           if (unlikely(opts->num_sack_blocks)) {
-               ^
-   include/linux/compiler.h:78:40: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                             ^~~~
-   net/ipv4/tcp_output.c:661:2: note: Taking true branch
-           if (unlikely(opts->num_sack_blocks)) {
-           ^
-   net/ipv4/tcp_output.c:662:31: note: Dereference of null pointer
-                   struct tcp_sack_block *sp = tp->rx_opt.dsack ?
-                                               ^~~~~~~~~~~~~~~~
-   Suppressed 4 warnings (3 in non-user code, 1 with check filters).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   net/unix/af_unix.c:1098:2: warning: Call to function 'sprintf' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'sprintf_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           sprintf(addr->name->sun_path + 1, "%05x", ordernum);
-           ^~~~~~~
-   net/unix/af_unix.c:1098:2: note: Call to function 'sprintf' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'sprintf_s' in case of C11
-           sprintf(addr->name->sun_path + 1, "%05x", ordernum);
-           ^~~~~~~
-   net/unix/af_unix.c:1678:3: warning: Value stored to 'err' is never read [clang-analyzer-deadcode.DeadStores]
-                   err = 0;
-                   ^     ~
-   net/unix/af_unix.c:1678:3: note: Value stored to 'err' is never read
-                   err = 0;
-                   ^     ~
-   net/unix/af_unix.c:2677:3: warning: Value stored to 'err' is never read [clang-analyzer-deadcode.DeadStores]
-                   err = -EOPNOTSUPP;
-                   ^     ~~~~~~~~~~~
-   net/unix/af_unix.c:2677:3: note: Value stored to 'err' is never read
-                   err = -EOPNOTSUPP;
-                   ^     ~~~~~~~~~~~
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   4 warnings generated.
->> net/unix/sysctl_net_unix.c:47:3: warning: Argument to kfree() is the address of the global variable 'unix_table', which is not memory allocated by malloc() [clang-analyzer-unix.Malloc]
-                   kfree(table);
-                   ^     ~~~~~
-   net/unix/sysctl_net_unix.c:29:6: note: Assuming the condition is true
-           if (net_eq(net, &init_net)) {
-               ^~~~~~~~~~~~~~~~~~~~~~
-   net/unix/sysctl_net_unix.c:29:2: note: Taking true branch
-           if (net_eq(net, &init_net)) {
-           ^
-   net/unix/sysctl_net_unix.c:40:6: note: Assuming field 'ctl' is equal to NULL
-           if (net->unx.ctl == NULL)
-               ^~~~~~~~~~~~~~~~~~~~
-   net/unix/sysctl_net_unix.c:40:2: note: Taking true branch
-           if (net->unx.ctl == NULL)
-           ^
-   net/unix/sysctl_net_unix.c:41:3: note: Control jumps to line 46
-                   goto err_reg;
-                   ^
-   net/unix/sysctl_net_unix.c:46:6: note: Assuming the condition is true
-           if (net_eq(net, &init_net))
-               ^~~~~~~~~~~~~~~~~~~~~~
-   net/unix/sysctl_net_unix.c:46:2: note: Taking true branch
-           if (net_eq(net, &init_net))
-           ^
-   net/unix/sysctl_net_unix.c:47:3: note: Argument to kfree() is the address of the global variable 'unix_table', which is not memory allocated by malloc()
-                   kfree(table);
-                   ^     ~~~~~
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   net/ipv4/tcp_ipv4.c:2915:3: warning: 2nd function call argument is an uninitialized value [clang-analyzer-core.CallAndMessage]
-                   unlock_sock_fast(sk, slow);
-                   ^                    ~~~~
-   net/ipv4/tcp_ipv4.c:2883:2: note: 'slow' declared without an initial value
-           bool slow;
-           ^~~~~~~~~
-   net/ipv4/tcp_ipv4.c:2887:6: note: Assuming 'v' is not equal to SEQ_START_TOKEN
-           if (v == SEQ_START_TOKEN)
-               ^~~~~~~~~~~~~~~~~~~~
-   net/ipv4/tcp_ipv4.c:2887:2: note: Taking false branch
-           if (v == SEQ_START_TOKEN)
-           ^
-   net/ipv4/tcp_ipv4.c:2890:6: note: Assuming the condition is false
-           if (sk_fullsock(sk))
-               ^~~~~~~~~~~~~~~
-   net/ipv4/tcp_ipv4.c:2890:2: note: Taking false branch
-           if (sk_fullsock(sk))
-           ^
-   net/ipv4/tcp_ipv4.c:2893:2: note: Taking false branch
-           if (unlikely(sk_unhashed(sk))) {
-           ^
-   net/ipv4/tcp_ipv4.c:2898:6: note: Assuming field 'skc_state' is equal to TCP_TIME_WAIT
-           if (sk->sk_state == TCP_TIME_WAIT) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/ipv4/tcp_ipv4.c:2898:2: note: Taking true branch
-           if (sk->sk_state == TCP_TIME_WAIT) {
-           ^
-   net/ipv4/tcp_ipv4.c:2914:6: note: Assuming the condition is true
-           if (sk_fullsock(sk))
-               ^~~~~~~~~~~~~~~
-   net/ipv4/tcp_ipv4.c:2914:2: note: Taking true branch
-           if (sk_fullsock(sk))
-           ^
-   net/ipv4/tcp_ipv4.c:2915:3: note: 2nd function call argument is an uninitialized value
-                   unlock_sock_fast(sk, slow);
-                   ^                    ~~~~
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   net/ipv4/tcp_cong.c:159:9: warning: Call to function 'strncpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'strncpy_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   ret = strncpy(buffer, ca->name,
-                         ^~~~~~~
-   net/ipv4/tcp_cong.c:159:9: note: Call to function 'strncpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'strncpy_s' in case of C11
-                   ret = strncpy(buffer, ca->name,
-                         ^~~~~~~
-   net/ipv4/tcp_cong.c:276:11: warning: Call to function 'snprintf' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'snprintf_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   offs += snprintf(buf + offs, maxlen - offs,
-                           ^~~~~~~~
-   net/ipv4/tcp_cong.c:276:11: note: Call to function 'snprintf' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'snprintf_s' in case of C11
-                   offs += snprintf(buf + offs, maxlen - offs,
-                           ^~~~~~~~
-   net/ipv4/tcp_cong.c:293:2: warning: Call to function 'strncpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'strncpy_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           strncpy(name, ca->name, TCP_CA_NAME_MAX);
-           ^~~~~~~
-   net/ipv4/tcp_cong.c:293:2: note: Call to function 'strncpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'strncpy_s' in case of C11
-           strncpy(name, ca->name, TCP_CA_NAME_MAX);
-           ^~~~~~~
-   net/ipv4/tcp_cong.c:308:11: warning: Call to function 'snprintf' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'snprintf_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   offs += snprintf(buf + offs, maxlen - offs,
-                           ^~~~~~~~
-   net/ipv4/tcp_cong.c:308:11: note: Call to function 'snprintf' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'snprintf_s' in case of C11
-                   offs += snprintf(buf + offs, maxlen - offs,
-                           ^~~~~~~~
-   net/ipv4/tcp_cong.c:430:32: warning: Division by zero [clang-analyzer-core.DivideZero]
-                   u32 delta = tp->snd_cwnd_cnt / w;
+smatch warnings:
+drivers/block/drbd/drbd_worker.c:588 make_resync_request() warn: variable dereferenced before check 'peer_device' (see line 587)
 
-vim +/unix_table +47 net/unix/sysctl_net_unix.c
+vim +/peer_device +588 drivers/block/drbd/drbd_worker.c
 
-^1da177e4c3f41 Linus Torvalds    2005-04-16  24  
-2c8c1e7297e19b Alexey Dobriyan   2010-01-17  25  int __net_init unix_sysctl_register(struct net *net)
-^1da177e4c3f41 Linus Torvalds    2005-04-16  26  {
-1597fbc0faf88c Pavel Emelyanov   2007-12-01  27  	struct ctl_table *table;
-1597fbc0faf88c Pavel Emelyanov   2007-12-01  28  
-849d5aa3a1d833 Kuniyuki Iwashima 2022-06-27  29  	if (net_eq(net, &init_net)) {
-849d5aa3a1d833 Kuniyuki Iwashima 2022-06-27  30  		table = unix_table;
-849d5aa3a1d833 Kuniyuki Iwashima 2022-06-27  31  	} else {
-1597fbc0faf88c Pavel Emelyanov   2007-12-01  32  		table = kmemdup(unix_table, sizeof(unix_table), GFP_KERNEL);
-849d5aa3a1d833 Kuniyuki Iwashima 2022-06-27  33  		if (!table)
-1597fbc0faf88c Pavel Emelyanov   2007-12-01  34  			goto err_alloc;
-1597fbc0faf88c Pavel Emelyanov   2007-12-01  35  
-a0a53c8ba95451 Denis V. Lunev    2007-12-11  36  		table[0].data = &net->unx.sysctl_max_dgram_qlen;
-849d5aa3a1d833 Kuniyuki Iwashima 2022-06-27  37  	}
-849d5aa3a1d833 Kuniyuki Iwashima 2022-06-27  38  
-ec8f23ce0f4005 Eric W. Biederman 2012-04-19  39  	net->unx.ctl = register_net_sysctl(net, "net/unix", table);
-a0a53c8ba95451 Denis V. Lunev    2007-12-11  40  	if (net->unx.ctl == NULL)
-1597fbc0faf88c Pavel Emelyanov   2007-12-01  41  		goto err_reg;
-1597fbc0faf88c Pavel Emelyanov   2007-12-01  42  
-1597fbc0faf88c Pavel Emelyanov   2007-12-01  43  	return 0;
-1597fbc0faf88c Pavel Emelyanov   2007-12-01  44  
-1597fbc0faf88c Pavel Emelyanov   2007-12-01  45  err_reg:
-849d5aa3a1d833 Kuniyuki Iwashima 2022-06-27  46  	if (net_eq(net, &init_net))
-1597fbc0faf88c Pavel Emelyanov   2007-12-01 @47  		kfree(table);
-1597fbc0faf88c Pavel Emelyanov   2007-12-01  48  err_alloc:
-1597fbc0faf88c Pavel Emelyanov   2007-12-01  49  	return -ENOMEM;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  50  }
-^1da177e4c3f41 Linus Torvalds    2005-04-16  51  
-
-:::::: The code at line 47 was first introduced by commit
-:::::: 1597fbc0faf88c42edb3fe42e92e53b83c3f120e [UNIX]: Make the unix sysctl tables per-namespace
-
-:::::: TO: Pavel Emelyanov <xemul@openvz.org>
-:::::: CC: David S. Miller <davem@davemloft.net>
+e65f440d474d7d Lars Ellenberg       2010-11-05  584  
+e68ceefa210f83 Christoph Böhmwalder 2023-03-30  585  static int make_resync_request(struct drbd_peer_device *const peer_device, int cancel)
+b411b3637fa71f Philipp Reisner      2009-09-25  586  {
+e68ceefa210f83 Christoph Böhmwalder 2023-03-30 @587  	struct drbd_device *const device = peer_device->device;
+44a4d551846b8c Lars Ellenberg       2013-11-22 @588  	struct drbd_connection *const connection = peer_device ? peer_device->connection : NULL;
+b411b3637fa71f Philipp Reisner      2009-09-25  589  	unsigned long bit;
+b411b3637fa71f Philipp Reisner      2009-09-25  590  	sector_t sector;
+155bd9d1abd604 Christoph Hellwig    2020-09-25  591  	const sector_t capacity = get_capacity(device->vdisk);
+1816a2b47afae8 Lars Ellenberg       2010-11-11  592  	int max_bio_size;
+e65f440d474d7d Lars Ellenberg       2010-11-05  593  	int number, rollback_i, size;
+506afb6248af57 Lars Ellenberg       2014-01-31  594  	int align, requeue = 0;
+0f0601f4ea2f53 Lars Ellenberg       2010-08-11  595  	int i = 0;
+92d94ae66aebda Philipp Reisner      2016-06-14  596  	int discard_granularity = 0;
+b411b3637fa71f Philipp Reisner      2009-09-25  597  
+b411b3637fa71f Philipp Reisner      2009-09-25  598  	if (unlikely(cancel))
+99920dc5c5fe52 Andreas Gruenbacher  2011-03-16  599  		return 0;
+b411b3637fa71f Philipp Reisner      2009-09-25  600  
+b30ab7913b0a7b Andreas Gruenbacher  2011-07-03  601  	if (device->rs_total == 0) {
+af85e8e83d160f Lars Ellenberg       2010-10-07  602  		/* empty resync? */
+e68ceefa210f83 Christoph Böhmwalder 2023-03-30  603  		drbd_resync_finished(peer_device);
+99920dc5c5fe52 Andreas Gruenbacher  2011-03-16  604  		return 0;
+af85e8e83d160f Lars Ellenberg       2010-10-07  605  	}
+af85e8e83d160f Lars Ellenberg       2010-10-07  606  
+b30ab7913b0a7b Andreas Gruenbacher  2011-07-03  607  	if (!get_ldev(device)) {
+b30ab7913b0a7b Andreas Gruenbacher  2011-07-03  608  		/* Since we only need to access device->rsync a
+b30ab7913b0a7b Andreas Gruenbacher  2011-07-03  609  		   get_ldev_if_state(device,D_FAILED) would be sufficient, but
+b411b3637fa71f Philipp Reisner      2009-09-25  610  		   to continue resync with a broken disk makes no sense at
+b411b3637fa71f Philipp Reisner      2009-09-25  611  		   all */
+d01801710265cf Andreas Gruenbacher  2011-07-03  612  		drbd_err(device, "Disk broke down during resync!\n");
+99920dc5c5fe52 Andreas Gruenbacher  2011-03-16  613  		return 0;
+b411b3637fa71f Philipp Reisner      2009-09-25  614  	}
+b411b3637fa71f Philipp Reisner      2009-09-25  615  
+9104d31a759fba Lars Ellenberg       2016-06-14  616  	if (connection->agreed_features & DRBD_FF_THIN_RESYNC) {
+92d94ae66aebda Philipp Reisner      2016-06-14  617  		rcu_read_lock();
+92d94ae66aebda Philipp Reisner      2016-06-14  618  		discard_granularity = rcu_dereference(device->ldev->disk_conf)->rs_discard_granularity;
+92d94ae66aebda Philipp Reisner      2016-06-14  619  		rcu_read_unlock();
+92d94ae66aebda Philipp Reisner      2016-06-14  620  	}
+92d94ae66aebda Philipp Reisner      2016-06-14  621  
+b30ab7913b0a7b Andreas Gruenbacher  2011-07-03  622  	max_bio_size = queue_max_hw_sectors(device->rq_queue) << 9;
+e68ceefa210f83 Christoph Böhmwalder 2023-03-30  623  	number = drbd_rs_number_requests(peer_device);
+0e49d7b014c5d5 Lars Ellenberg       2014-04-28  624  	if (number <= 0)
+0f0601f4ea2f53 Lars Ellenberg       2010-08-11  625  		goto requeue;
+b411b3637fa71f Philipp Reisner      2009-09-25  626  
+b411b3637fa71f Philipp Reisner      2009-09-25  627  	for (i = 0; i < number; i++) {
+506afb6248af57 Lars Ellenberg       2014-01-31  628  		/* Stop generating RS requests when half of the send buffer is filled,
+506afb6248af57 Lars Ellenberg       2014-01-31  629  		 * but notify TCP that we'd like to have more space. */
+44a4d551846b8c Lars Ellenberg       2013-11-22  630  		mutex_lock(&connection->data.mutex);
+44a4d551846b8c Lars Ellenberg       2013-11-22  631  		if (connection->data.socket) {
+506afb6248af57 Lars Ellenberg       2014-01-31  632  			struct sock *sk = connection->data.socket->sk;
+506afb6248af57 Lars Ellenberg       2014-01-31  633  			int queued = sk->sk_wmem_queued;
+506afb6248af57 Lars Ellenberg       2014-01-31  634  			int sndbuf = sk->sk_sndbuf;
+506afb6248af57 Lars Ellenberg       2014-01-31  635  			if (queued > sndbuf / 2) {
+506afb6248af57 Lars Ellenberg       2014-01-31  636  				requeue = 1;
+506afb6248af57 Lars Ellenberg       2014-01-31  637  				if (sk->sk_socket)
+506afb6248af57 Lars Ellenberg       2014-01-31  638  					set_bit(SOCK_NOSPACE, &sk->sk_socket->flags);
+b411b3637fa71f Philipp Reisner      2009-09-25  639  			}
+506afb6248af57 Lars Ellenberg       2014-01-31  640  		} else
+506afb6248af57 Lars Ellenberg       2014-01-31  641  			requeue = 1;
+44a4d551846b8c Lars Ellenberg       2013-11-22  642  		mutex_unlock(&connection->data.mutex);
+506afb6248af57 Lars Ellenberg       2014-01-31  643  		if (requeue)
+b411b3637fa71f Philipp Reisner      2009-09-25  644  			goto requeue;
+b411b3637fa71f Philipp Reisner      2009-09-25  645  
+b411b3637fa71f Philipp Reisner      2009-09-25  646  next_sector:
+b411b3637fa71f Philipp Reisner      2009-09-25  647  		size = BM_BLOCK_SIZE;
+b30ab7913b0a7b Andreas Gruenbacher  2011-07-03  648  		bit  = drbd_bm_find_next(device, device->bm_resync_fo);
+b411b3637fa71f Philipp Reisner      2009-09-25  649  
+4b0715f09655e7 Lars Ellenberg       2010-12-14  650  		if (bit == DRBD_END_OF_BITMAP) {
+b30ab7913b0a7b Andreas Gruenbacher  2011-07-03  651  			device->bm_resync_fo = drbd_bm_bits(device);
+b30ab7913b0a7b Andreas Gruenbacher  2011-07-03  652  			put_ldev(device);
+99920dc5c5fe52 Andreas Gruenbacher  2011-03-16  653  			return 0;
+b411b3637fa71f Philipp Reisner      2009-09-25  654  		}
+b411b3637fa71f Philipp Reisner      2009-09-25  655  
+b411b3637fa71f Philipp Reisner      2009-09-25  656  		sector = BM_BIT_TO_SECT(bit);
+b411b3637fa71f Philipp Reisner      2009-09-25  657  
+e68ceefa210f83 Christoph Böhmwalder 2023-03-30  658  		if (drbd_try_rs_begin_io(peer_device, sector)) {
+b30ab7913b0a7b Andreas Gruenbacher  2011-07-03  659  			device->bm_resync_fo = bit;
+b411b3637fa71f Philipp Reisner      2009-09-25  660  			goto requeue;
+b411b3637fa71f Philipp Reisner      2009-09-25  661  		}
+b30ab7913b0a7b Andreas Gruenbacher  2011-07-03  662  		device->bm_resync_fo = bit + 1;
+b411b3637fa71f Philipp Reisner      2009-09-25  663  
+b30ab7913b0a7b Andreas Gruenbacher  2011-07-03  664  		if (unlikely(drbd_bm_test_bit(device, bit) == 0)) {
+b30ab7913b0a7b Andreas Gruenbacher  2011-07-03  665  			drbd_rs_complete_io(device, sector);
+b411b3637fa71f Philipp Reisner      2009-09-25  666  			goto next_sector;
+b411b3637fa71f Philipp Reisner      2009-09-25  667  		}
+b411b3637fa71f Philipp Reisner      2009-09-25  668  
 
 -- 
 0-DAY CI Kernel Test Service
