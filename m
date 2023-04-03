@@ -1,52 +1,54 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AE77364;
-	Mon,  3 Apr 2023 04:31:25 +0000 (UTC)
-Received: by mail-ed1-f47.google.com with SMTP id i5so112284761eda.0;
-        Sun, 02 Apr 2023 21:31:25 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33CBF364;
+	Mon,  3 Apr 2023 04:41:25 +0000 (UTC)
+Received: by mail-ed1-f52.google.com with SMTP id r11so112147589edd.5;
+        Sun, 02 Apr 2023 21:41:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680496283;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=PkRESlJbZe0LvYDM0XBspGnFIPtDURNWtIWiJ2X5SjE=;
-        b=ZbHv2r8Ktd5QiZrnBtOxT7Mk+h1xwmbWqaCifz8aaEuh5wVoqBA3W6yZ9UfuBVK1Jm
-         qkeuc3aOOr2M8WsZeH3v9Jy7EdpZ0UojMHZwwsMK2rdNs+wIFqdBiZGPGtEY9wj/xCxZ
-         zRFRAI17/IeJf2hoLgbX87BCRHpQQV5tGYxe0bxJu4TRumN2Muk7u0Mq4eiQ8H8s1cpq
-         utvDWACs6rQQrKMdDH3wZ839QjPyGXoIQHbQbgs1fBAjUOCqrJq2/oDX2+UPMCKMVpM3
-         dgDxUYQ8LYQcCM5oG1W/FLwuAIQK6Hdi+nfrlQLi6U1tqp9ekAlolwF80LnMiJU1ZGb2
-         4w6g==
+        d=gmail.com; s=20210112; t=1680496883;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=v++hfWryTr4oGjGOfz4huDJo0FNuSMUw7ZZdhA+elBM=;
+        b=mKLXgQWXGu27rDKMPbp8/1EM+a28h7wkx1Y5rVwPJwd5AqRhYjs/dkIW/xCuwD1I+z
+         h4qKbV2CadeJ+BH35J/O5KQNnuSK5lIxy2+qEEloEyeVKqda5KbH6uIszITTmfZV5gqE
+         g4plvjfgBVjp9NMHxpSr3qcakwkNnQOU/avbZ6grPf2kAzTTnA/ubABD06CzOAgGlT/n
+         ULjUxiAIRia9QIHJvhQ3T2G9LsP0BscpFQXViwp2XUMm8JTXAm1Qs0Xrd1nrCEUoazGO
+         MxZlhxLzLzpJyrudHvLDXfrPetxzHZT/GdyiwszUxPRSAzIQVIstzq6ovDcvhBe+VEV4
+         pqgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680496283;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=PkRESlJbZe0LvYDM0XBspGnFIPtDURNWtIWiJ2X5SjE=;
-        b=gU1OzcFV2UN/+6JVRPP6TXan0meWYpXuED/9fkbck1dm2llplhiyGLkR1q+83TbmBa
-         ZOuCh+KFFA3Q5p6OIZ9L4QsoiRfaCDq7w/TezmbcO1ldrVLp67NTDYnl6j+nU14czXf2
-         uWp6O4xJ4w046NAykxcogCwYUV79Z8qsRpJvERLt86ds6UTnADgbJOmzyD1zucOVtrcW
-         WLa3Wy2r6ejT4nmaEuaCcHnuIBRN7PvwHAt3hDJaMv0S0QU4mQh4TbcUunnZ6Ux9Eed6
-         gtHRXaC/UdQEgJSX5MXtSHTs8qpal0lkuHzEWUlxzDYa08rDEDa5KOy8tlNcKGBgGYAu
-         6/8w==
-X-Gm-Message-State: AAQBX9e7zIcyHMv7jqU862tWqi0y7wNrx9C33NK3xG2n98obtCosQ0A6
-	N0ypkjKqF0TP34SXODbYTcX45QB3afs2OA==
-X-Google-Smtp-Source: AKy350aSFhOtVydWaJqjb11e28VLkg7kXSNCAvSug1OMlJ64zoMZT5BufdmLmdwKcl6y/x15x+6TqQ==
-X-Received: by 2002:a17:906:5646:b0:930:7d8f:15a4 with SMTP id v6-20020a170906564600b009307d8f15a4mr34497884ejr.53.1680496283252;
-        Sun, 02 Apr 2023 21:31:23 -0700 (PDT)
+        d=1e100.net; s=20210112; t=1680496883;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=v++hfWryTr4oGjGOfz4huDJo0FNuSMUw7ZZdhA+elBM=;
+        b=D7LnDjHN0/Yb5jWXVAugjnUUBLg+yMk/CBEvcC/cWOT4RNtrhRkZDKuiZK7aCZqa/P
+         ixlSH/dl8qNciT6YpmGOs0DOyDWWbvoOzJhwgVsYkSrSZhfFeY1Ly3/oXh3BU4+SM4pX
+         K0OHtJFi37DaLrzzApGyDQz6ktXV5C1t63ZyGrFb8am1zND4eCBw3rAeWPllfEdbib2O
+         KizJAUCNWPuah7zlJkN7iW9oGa4uF43cMI3b6tVTpUm5AWU6nSuLe0P2qb4jAR0xAdHC
+         2hZiZwmvMqBsEbIbbzNKyNCmZAsARE3JHpCGuhMK5Iyo+7SYkMrgqMUF1qxH2o1JGxra
+         mvGA==
+X-Gm-Message-State: AAQBX9fWaftdE+eQKrdXfJHi6F0BBSnhNg/CXB64/p43hDI0H2/vfEWm
+	O54+GS1ROVSw2z7vMViRPQEebiTprp9O7Q==
+X-Google-Smtp-Source: AKy350Y5L7wIeSJO056Wm7y7gnLJ/If2CjlZeCyWbLi+OGlz0K+jIWx221uL//p96EsRTXO+tnm6VQ==
+X-Received: by 2002:a17:907:724b:b0:93f:2256:fc05 with SMTP id ds11-20020a170907724b00b0093f2256fc05mr35126641ejc.55.1680496883042;
+        Sun, 02 Apr 2023 21:41:23 -0700 (PDT)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id z8-20020a1709063ac800b00947ed087a2csm2829652ejd.154.2023.04.02.21.31.22
+        by smtp.gmail.com with ESMTPSA id ae14-20020a17090725ce00b00947a939f6e0sm3685313ejc.77.2023.04.02.21.41.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 02 Apr 2023 21:31:22 -0700 (PDT)
-Date: Mon, 3 Apr 2023 07:31:19 +0300
+        Sun, 02 Apr 2023 21:41:22 -0700 (PDT)
+Date: Mon, 3 Apr 2023 07:41:19 +0300
 From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev,
-	Vincent Whitchurch <vincent.whitchurch@axis.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Daniel Lezcano <daniel.lezcano@linaro.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>
-Subject: drivers/clocksource/exynos_mct.c:635 mct_init_dt() warn: missing
- error code? 'ret'
-Message-ID: <20bf4e9b-c78d-4e6a-a5af-6accdd20a499@kili.mountain>
+To: oe-kbuild@lists.linux.dev, ye.xingchen@zte.com.cn,
+	sergio.paracuellos@gmail.com
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, lpieralisi@kernel.org,
+	kw@linux.com, robh@kernel.org, bhelgaas@google.com,
+	matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com,
+	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org
+Subject: Re: [PATCH] PCI: mt7621: Use dev_err_probe()
+Message-ID: <22081108-565d-4608-97f7-6e40ca3df2b6@kili.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -55,53 +57,90 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <202303231145121987818@zte.com.cn>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   00c7b5f4ddc5b346df62b757ec73f9357bb452af
-commit: e8550f0e7bde9bd31697e3c534d386f7f3b5787b clocksource/drivers/exynos_mct: Support frc-shared property
-config: arm64-randconfig-m041-20230329 (https://download.01.org/0day-ci/archive/20230402/202304021446.46XVKag0-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.1.0
+Hi,
+
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/ye-xingchen-zte-com-cn/PCI-mt7621-Use-dev_err_probe/20230323-114623
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
+patch link:    https://lore.kernel.org/r/202303231145121987818%40zte.com.cn
+patch subject: [PATCH] PCI: mt7621: Use dev_err_probe()
+config: s390-randconfig-m031-20230329 (https://download.01.org/0day-ci/archive/20230401/202304010325.2OPFvIm3-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202304021446.46XVKag0-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202304010325.2OPFvIm3-lkp@intel.com/
 
 smatch warnings:
-drivers/clocksource/exynos_mct.c:635 mct_init_dt() warn: missing error code? 'ret'
+drivers/pci/controller/pcie-mt7621.c:224 mt7621_pcie_parse_port() warn: passing zero to 'PTR_ERR'
+drivers/pci/controller/pcie-mt7621.c:227 mt7621_pcie_parse_port() warn: ignoring unreachable code.
 
-vim +/ret +635 drivers/clocksource/exynos_mct.c
+vim +/PTR_ERR +224 drivers/pci/controller/pcie-mt7621.c
 
-5e558ebd3d88d3 drivers/clocksource/exynos_mct.c Daniel Lezcano     2016-05-31  613  static int __init mct_init_dt(struct device_node *np, unsigned int int_type)
-228e3023eb0430 drivers/clocksource/exynos_mct.c Arnd Bergmann      2013-04-09  614  {
-e8550f0e7bde9b drivers/clocksource/exynos_mct.c Vincent Whitchurch 2022-06-09  615  	bool frc_shared = of_property_read_bool(np, "samsung,frc-shared");
-5e558ebd3d88d3 drivers/clocksource/exynos_mct.c Daniel Lezcano     2016-05-31  616  	int ret;
-36ba5d527e9567 arch/arm/mach-exynos/mct.c       Thomas Abraham     2013-03-09  617  
-7cd925a8823d16 drivers/clocksource/exynos_mct.c Marek Szyprowski   2021-11-01  618  	ret = exynos4_timer_resources(np);
-7cd925a8823d16 drivers/clocksource/exynos_mct.c Marek Szyprowski   2021-11-01  619  	if (ret)
-7cd925a8823d16 drivers/clocksource/exynos_mct.c Marek Szyprowski   2021-11-01  620  		return ret;
-3a062281129229 arch/arm/mach-exynos4/mct.c      Changhwan Youn     2011-10-04  621  
-7cd925a8823d16 drivers/clocksource/exynos_mct.c Marek Szyprowski   2021-11-01  622  	ret = exynos4_timer_interrupts(np, int_type);
-5e558ebd3d88d3 drivers/clocksource/exynos_mct.c Daniel Lezcano     2016-05-31  623  	if (ret)
-5e558ebd3d88d3 drivers/clocksource/exynos_mct.c Daniel Lezcano     2016-05-31  624  		return ret;
-5e558ebd3d88d3 drivers/clocksource/exynos_mct.c Daniel Lezcano     2016-05-31  625  
-e8550f0e7bde9b drivers/clocksource/exynos_mct.c Vincent Whitchurch 2022-06-09  626  	ret = exynos4_clocksource_init(frc_shared);
-5e558ebd3d88d3 drivers/clocksource/exynos_mct.c Daniel Lezcano     2016-05-31  627  	if (ret)
-5e558ebd3d88d3 drivers/clocksource/exynos_mct.c Daniel Lezcano     2016-05-31  628  		return ret;
-5e558ebd3d88d3 drivers/clocksource/exynos_mct.c Daniel Lezcano     2016-05-31  629  
-e8550f0e7bde9b drivers/clocksource/exynos_mct.c Vincent Whitchurch 2022-06-09  630  	/*
-e8550f0e7bde9b drivers/clocksource/exynos_mct.c Vincent Whitchurch 2022-06-09  631  	 * When the FRC is shared with a main processor, this secondary
-e8550f0e7bde9b drivers/clocksource/exynos_mct.c Vincent Whitchurch 2022-06-09  632  	 * processor cannot use the global comparator.
-e8550f0e7bde9b drivers/clocksource/exynos_mct.c Vincent Whitchurch 2022-06-09  633  	 */
-e8550f0e7bde9b drivers/clocksource/exynos_mct.c Vincent Whitchurch 2022-06-09  634  	if (frc_shared)
-e8550f0e7bde9b drivers/clocksource/exynos_mct.c Vincent Whitchurch 2022-06-09 @635  		return ret;
+ad9c87e129d139 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2018-11-04  198  static int mt7621_pcie_parse_port(struct mt7621_pcie *pcie,
+2d3d288f0eaf10 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2021-06-07  199  				  struct device_node *node,
+ad9c87e129d139 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2018-11-04  200  				  int slot)
+ad9c87e129d139 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2018-11-04  201  {
+ad9c87e129d139 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2018-11-04  202  	struct mt7621_pcie_port *port;
+ad9c87e129d139 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2018-11-04  203  	struct device *dev = pcie->dev;
+fab6710e4c51f4 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2020-04-13  204  	struct platform_device *pdev = to_platform_device(dev);
+61f9bde6ea578f drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2019-01-04  205  	char name[10];
+2d3d288f0eaf10 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2021-06-07  206  	int err;
+ad9c87e129d139 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2018-11-04  207  
+ad9c87e129d139 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2018-11-04  208  	port = devm_kzalloc(dev, sizeof(*port), GFP_KERNEL);
+ad9c87e129d139 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2018-11-04  209  	if (!port)
+ad9c87e129d139 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2018-11-04  210  		return -ENOMEM;
+ad9c87e129d139 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2018-11-04  211  
+108b2f2a972454 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2020-11-23  212  	port->base = devm_platform_ioremap_resource(pdev, slot + 1);
+ad9c87e129d139 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2018-11-04  213  	if (IS_ERR(port->base))
+ad9c87e129d139 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2018-11-04  214  		return PTR_ERR(port->base);
+ad9c87e129d139 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2018-11-04  215  
+2d3d288f0eaf10 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2021-06-07  216  	port->clk = devm_get_clk_from_child(dev, node, NULL);
+cc4e864a5ce4c1 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2021-05-05  217  	if (IS_ERR(port->clk)) {
+cc4e864a5ce4c1 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2021-05-05  218  		dev_err(dev, "failed to get pcie%d clock\n", slot);
+cc4e864a5ce4c1 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2021-05-05  219  		return PTR_ERR(port->clk);
+cc4e864a5ce4c1 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2021-05-05  220  	}
+cc4e864a5ce4c1 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2021-05-05  221  
+2d3d288f0eaf10 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2021-06-07  222  	port->pcie_rst = of_reset_control_get_exclusive(node, NULL);
+9873bac812f262 drivers/pci/controller/pcie-mt7621.c    Ye Xingchen        2023-03-23  223  
+9873bac812f262 drivers/pci/controller/pcie-mt7621.c    Ye Xingchen        2023-03-23 @224  	return dev_err_probe(dev, PTR_ERR(port->pcie_rst),
+                                                                                                                          ^^^^^^^^^^^^^^^^^^^^^^^
 
-This is zero, but it looks like it should be a negative.  Changing this
-to either "return 0;" or "return -EINVAL;" would clean up the ambiguity.
-
-e8550f0e7bde9b drivers/clocksource/exynos_mct.c Vincent Whitchurch 2022-06-09  636  
-5e558ebd3d88d3 drivers/clocksource/exynos_mct.c Daniel Lezcano     2016-05-31  637  	return exynos4_clockevent_init();
-30d8bead5a3094 arch/arm/mach-exynos4/mct.c      Changhwan Youn     2011-03-11  638  }
+9873bac812f262 drivers/pci/controller/pcie-mt7621.c    Ye Xingchen        2023-03-23  225  			     "failed to get pcie%d reset control\n", slot);
+ad9c87e129d139 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2018-11-04  226  
+61f9bde6ea578f drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2019-01-04 @227  	snprintf(name, sizeof(name), "pcie-phy%d", slot);
+2d3d288f0eaf10 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2021-06-07  228  	port->phy = devm_of_phy_get(dev, node, name);
+2d3d288f0eaf10 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2021-06-07  229  	if (IS_ERR(port->phy)) {
+2d3d288f0eaf10 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2021-06-07  230  		dev_err(dev, "failed to get pcie-phy%d\n", slot);
+2d3d288f0eaf10 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2021-06-07  231  		err = PTR_ERR(port->phy);
+2d3d288f0eaf10 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2021-06-07  232  		goto remove_reset;
+2d3d288f0eaf10 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2021-06-07  233  	}
+61f9bde6ea578f drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2019-01-04  234  
+b27e35f91c75cf drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2020-03-13  235  	port->gpio_rst = devm_gpiod_get_index_optional(dev, "reset", slot,
+b27e35f91c75cf drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2020-03-13  236  						       GPIOD_OUT_LOW);
+825c6f470c62da drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2020-03-20  237  	if (IS_ERR(port->gpio_rst)) {
+2bdd5238e756aa drivers/pci/controller/pcie-mt7621.c    Sergio Paracuellos 2021-09-22  238  		dev_err(dev, "failed to get GPIO for PCIe%d\n", slot);
+2d3d288f0eaf10 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2021-06-07  239  		err = PTR_ERR(port->gpio_rst);
+2d3d288f0eaf10 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2021-06-07  240  		goto remove_reset;
+825c6f470c62da drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2020-03-20  241  	}
+b27e35f91c75cf drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2020-03-13  242  
+ad9c87e129d139 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2018-11-04  243  	port->slot = slot;
+ad9c87e129d139 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2018-11-04  244  	port->pcie = pcie;
+ad9c87e129d139 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2018-11-04  245  
+ad9c87e129d139 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2018-11-04  246  	INIT_LIST_HEAD(&port->list);
+ad9c87e129d139 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2018-11-04  247  	list_add_tail(&port->list, &pcie->ports);
+ad9c87e129d139 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2018-11-04  248  
+ad9c87e129d139 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2018-11-04  249  	return 0;
+2d3d288f0eaf10 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2021-06-07  250  
+2d3d288f0eaf10 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2021-06-07  251  remove_reset:
+2d3d288f0eaf10 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2021-06-07  252  	reset_control_put(port->pcie_rst);
+2d3d288f0eaf10 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2021-06-07  253  	return err;
+ad9c87e129d139 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2018-11-04  254  }
+ad9c87e129d139 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos 2018-11-04  255  
 
 -- 
 0-DAY CI Kernel Test Service
