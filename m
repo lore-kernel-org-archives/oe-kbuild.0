@@ -1,42 +1,52 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCC05392
-	for <oe-kbuild@lists.linux.dev>; Mon,  3 Apr 2023 04:09:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680494991; x=1712030991;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=DmBAG7V+GG+tK9mrFzxGc0lFeXDkvs2KZUIdgaacDzU=;
-  b=jh4JhxED9rhC7s4nJ4kNCPlNpgKUqfy5rfnZA0cUOnOK0kyMHx5CbDUR
-   Vbq78TWtWi2TOEPTE69GRz/84n5KIDYN2tq4KPmhxdKy7DOdYMptlP7ql
-   9T3+NpPMpNyVD55zbcKxKVt+zBAmDkYGqRpJVQDUOJ0Ub64yflvDH4C2Y
-   kq7FqwYtNEfjyIm9R0nYyYGh7MCNJp9nxphG79YqiwT8Tn8oCsUFDdmAR
-   pgRpYcXKrzrhwNlsqJcsLqQjwbxvGmjvgIWSfcR3z4NRjxfDd9VzhvgHw
-   xxEXLxEm8EG2DiwjPLYfcW7gOEHVb8m52jK8XKA3lyxkE+Scp3G2jvFPK
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10668"; a="341827589"
-X-IronPort-AV: E=Sophos;i="5.98,314,1673942400"; 
-   d="scan'208";a="341827589"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2023 21:09:50 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10668"; a="718393402"
-X-IronPort-AV: E=Sophos;i="5.98,314,1673942400"; 
-   d="scan'208";a="718393402"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 02 Apr 2023 21:09:47 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pjBVq-000Nyj-1f;
-	Mon, 03 Apr 2023 04:09:46 +0000
-Date: Mon, 3 Apr 2023 12:08:47 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: drivers/net/wwan/t7xx/t7xx_pci.c:153:15: warning: Uninitialized
- variable: entity->id [uninitvar]
-Message-ID: <202304031256.57kUiyuN-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AE77364;
+	Mon,  3 Apr 2023 04:31:25 +0000 (UTC)
+Received: by mail-ed1-f47.google.com with SMTP id i5so112284761eda.0;
+        Sun, 02 Apr 2023 21:31:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1680496283;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=PkRESlJbZe0LvYDM0XBspGnFIPtDURNWtIWiJ2X5SjE=;
+        b=ZbHv2r8Ktd5QiZrnBtOxT7Mk+h1xwmbWqaCifz8aaEuh5wVoqBA3W6yZ9UfuBVK1Jm
+         qkeuc3aOOr2M8WsZeH3v9Jy7EdpZ0UojMHZwwsMK2rdNs+wIFqdBiZGPGtEY9wj/xCxZ
+         zRFRAI17/IeJf2hoLgbX87BCRHpQQV5tGYxe0bxJu4TRumN2Muk7u0Mq4eiQ8H8s1cpq
+         utvDWACs6rQQrKMdDH3wZ839QjPyGXoIQHbQbgs1fBAjUOCqrJq2/oDX2+UPMCKMVpM3
+         dgDxUYQ8LYQcCM5oG1W/FLwuAIQK6Hdi+nfrlQLi6U1tqp9ekAlolwF80LnMiJU1ZGb2
+         4w6g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680496283;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=PkRESlJbZe0LvYDM0XBspGnFIPtDURNWtIWiJ2X5SjE=;
+        b=gU1OzcFV2UN/+6JVRPP6TXan0meWYpXuED/9fkbck1dm2llplhiyGLkR1q+83TbmBa
+         ZOuCh+KFFA3Q5p6OIZ9L4QsoiRfaCDq7w/TezmbcO1ldrVLp67NTDYnl6j+nU14czXf2
+         uWp6O4xJ4w046NAykxcogCwYUV79Z8qsRpJvERLt86ds6UTnADgbJOmzyD1zucOVtrcW
+         WLa3Wy2r6ejT4nmaEuaCcHnuIBRN7PvwHAt3hDJaMv0S0QU4mQh4TbcUunnZ6Ux9Eed6
+         gtHRXaC/UdQEgJSX5MXtSHTs8qpal0lkuHzEWUlxzDYa08rDEDa5KOy8tlNcKGBgGYAu
+         6/8w==
+X-Gm-Message-State: AAQBX9e7zIcyHMv7jqU862tWqi0y7wNrx9C33NK3xG2n98obtCosQ0A6
+	N0ypkjKqF0TP34SXODbYTcX45QB3afs2OA==
+X-Google-Smtp-Source: AKy350aSFhOtVydWaJqjb11e28VLkg7kXSNCAvSug1OMlJ64zoMZT5BufdmLmdwKcl6y/x15x+6TqQ==
+X-Received: by 2002:a17:906:5646:b0:930:7d8f:15a4 with SMTP id v6-20020a170906564600b009307d8f15a4mr34497884ejr.53.1680496283252;
+        Sun, 02 Apr 2023 21:31:23 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id z8-20020a1709063ac800b00947ed087a2csm2829652ejd.154.2023.04.02.21.31.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 02 Apr 2023 21:31:22 -0700 (PDT)
+Date: Mon, 3 Apr 2023 07:31:19 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev,
+	Vincent Whitchurch <vincent.whitchurch@axis.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Daniel Lezcano <daniel.lezcano@linaro.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>
+Subject: drivers/clocksource/exynos_mct.c:635 mct_init_dt() warn: missing
+ error code? 'ret'
+Message-ID: <20bf4e9b-c78d-4e6a-a5af-6accdd20a499@kili.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -46,97 +56,54 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "low confidence static check first_new_problem: drivers/net/wwan/t7xx/t7xx_pci.c:153:15: warning: Uninitialized variable: entity->id [uninitvar]"
-:::::: 
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: "Souptick Joarder (HPE)" <jrdr.linux@gmail.com>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
-
-Hi Souptick,
-
-First bad commit (maybe != root cause):
-
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   7e364e56293bb98cae1b55fd835f5991c4e96e7d
-commit: 1298f83b546921506afa4050a833f21433ed4b88 ia64: old_rr4 added under CONFIG_HUGETLB_PAGE
-date:   9 months ago
-:::::: branch date: 7 hours ago
-:::::: commit date: 9 months ago
-compiler: ia64-linux-gcc (GCC) 12.1.0
-reproduce (cppcheck warning):
-        # apt-get install cppcheck
-        git checkout 1298f83b546921506afa4050a833f21433ed4b88
-        cppcheck --quiet --enable=style,performance,portability --template=gcc FILE
+head:   00c7b5f4ddc5b346df62b757ec73f9357bb452af
+commit: e8550f0e7bde9bd31697e3c534d386f7f3b5787b clocksource/drivers/exynos_mct: Support frc-shared property
+config: arm64-randconfig-m041-20230329 (https://download.01.org/0day-ci/archive/20230402/202304021446.46XVKag0-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/r/202304031256.57kUiyuN-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Link: https://lore.kernel.org/r/202304021446.46XVKag0-lkp@intel.com/
 
+smatch warnings:
+drivers/clocksource/exynos_mct.c:635 mct_init_dt() warn: missing error code? 'ret'
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+vim +/ret +635 drivers/clocksource/exynos_mct.c
 
->> drivers/net/wwan/t7xx/t7xx_pci.c:153:15: warning: Uninitialized variable: entity->id [uninitvar]
-     if (entity->id == pm_entity->id) {
-                 ^
-   drivers/net/wwan/t7xx/t7xx_pci.c:170:15: warning: Uninitialized variable: entity->id [uninitvar]
-     if (entity->id == pm_entity->id) {
-                 ^
->> drivers/net/wwan/t7xx/t7xx_pci.c:484:15: warning: Uninitialized variable: entity->resume_early [uninitvar]
-     if (entity->resume_early)
-                 ^
-   drivers/net/wwan/t7xx/t7xx_pci.c:411:42: note: Assuming condition is false
-    if (atomic_read(&t7xx_dev->md_pm_state) <= MTK_PM_INIT) {
-                                            ^
-   drivers/net/wwan/t7xx/t7xx_pci.c:484:15: note: Uninitialized variable: entity->resume_early
-     if (entity->resume_early)
-                 ^
---
->> drivers/net/wwan/t7xx/t7xx_state_monitor.c:83:17: warning: Uninitialized variable: notifier->notifier_fn [uninitvar]
-     if (notifier->notifier_fn)
-                   ^
->> drivers/net/wwan/t7xx/t7xx_state_monitor.c:465:14: warning: Uninitialized variable: event->event_id [uninitvar]
-     if (event->event_id == event_id)
-                ^
---
->> drivers/net/wwan/t7xx/t7xx_hif_cldma.c:376:16: warning: Uninitialized variable: req_cur->mapped_buff [uninitvar]
-     if (req_cur->mapped_buff && req_cur->skb) {
-                  ^
->> drivers/net/wwan/t7xx/t7xx_hif_cldma.c:794:12: warning: Uninitialized variable: req->skb [uninitvar]
-     if (req->skb) {
-              ^
+5e558ebd3d88d3 drivers/clocksource/exynos_mct.c Daniel Lezcano     2016-05-31  613  static int __init mct_init_dt(struct device_node *np, unsigned int int_type)
+228e3023eb0430 drivers/clocksource/exynos_mct.c Arnd Bergmann      2013-04-09  614  {
+e8550f0e7bde9b drivers/clocksource/exynos_mct.c Vincent Whitchurch 2022-06-09  615  	bool frc_shared = of_property_read_bool(np, "samsung,frc-shared");
+5e558ebd3d88d3 drivers/clocksource/exynos_mct.c Daniel Lezcano     2016-05-31  616  	int ret;
+36ba5d527e9567 arch/arm/mach-exynos/mct.c       Thomas Abraham     2013-03-09  617  
+7cd925a8823d16 drivers/clocksource/exynos_mct.c Marek Szyprowski   2021-11-01  618  	ret = exynos4_timer_resources(np);
+7cd925a8823d16 drivers/clocksource/exynos_mct.c Marek Szyprowski   2021-11-01  619  	if (ret)
+7cd925a8823d16 drivers/clocksource/exynos_mct.c Marek Szyprowski   2021-11-01  620  		return ret;
+3a062281129229 arch/arm/mach-exynos4/mct.c      Changhwan Youn     2011-10-04  621  
+7cd925a8823d16 drivers/clocksource/exynos_mct.c Marek Szyprowski   2021-11-01  622  	ret = exynos4_timer_interrupts(np, int_type);
+5e558ebd3d88d3 drivers/clocksource/exynos_mct.c Daniel Lezcano     2016-05-31  623  	if (ret)
+5e558ebd3d88d3 drivers/clocksource/exynos_mct.c Daniel Lezcano     2016-05-31  624  		return ret;
+5e558ebd3d88d3 drivers/clocksource/exynos_mct.c Daniel Lezcano     2016-05-31  625  
+e8550f0e7bde9b drivers/clocksource/exynos_mct.c Vincent Whitchurch 2022-06-09  626  	ret = exynos4_clocksource_init(frc_shared);
+5e558ebd3d88d3 drivers/clocksource/exynos_mct.c Daniel Lezcano     2016-05-31  627  	if (ret)
+5e558ebd3d88d3 drivers/clocksource/exynos_mct.c Daniel Lezcano     2016-05-31  628  		return ret;
+5e558ebd3d88d3 drivers/clocksource/exynos_mct.c Daniel Lezcano     2016-05-31  629  
+e8550f0e7bde9b drivers/clocksource/exynos_mct.c Vincent Whitchurch 2022-06-09  630  	/*
+e8550f0e7bde9b drivers/clocksource/exynos_mct.c Vincent Whitchurch 2022-06-09  631  	 * When the FRC is shared with a main processor, this secondary
+e8550f0e7bde9b drivers/clocksource/exynos_mct.c Vincent Whitchurch 2022-06-09  632  	 * processor cannot use the global comparator.
+e8550f0e7bde9b drivers/clocksource/exynos_mct.c Vincent Whitchurch 2022-06-09  633  	 */
+e8550f0e7bde9b drivers/clocksource/exynos_mct.c Vincent Whitchurch 2022-06-09  634  	if (frc_shared)
+e8550f0e7bde9b drivers/clocksource/exynos_mct.c Vincent Whitchurch 2022-06-09 @635  		return ret;
 
-vim +153 drivers/net/wwan/t7xx/t7xx_pci.c
+This is zero, but it looks like it should be a negative.  Changing this
+to either "return 0;" or "return -EINVAL;" would clean up the ambiguity.
 
-46e8f49ed7b306 Haijun Liu 2022-05-06  146  
-46e8f49ed7b306 Haijun Liu 2022-05-06  147  int t7xx_pci_pm_entity_register(struct t7xx_pci_dev *t7xx_dev, struct md_pm_entity *pm_entity)
-46e8f49ed7b306 Haijun Liu 2022-05-06  148  {
-46e8f49ed7b306 Haijun Liu 2022-05-06  149  	struct md_pm_entity *entity;
-46e8f49ed7b306 Haijun Liu 2022-05-06  150  
-46e8f49ed7b306 Haijun Liu 2022-05-06  151  	mutex_lock(&t7xx_dev->md_pm_entity_mtx);
-46e8f49ed7b306 Haijun Liu 2022-05-06  152  	list_for_each_entry(entity, &t7xx_dev->md_pm_entities, entity) {
-46e8f49ed7b306 Haijun Liu 2022-05-06 @153  		if (entity->id == pm_entity->id) {
-46e8f49ed7b306 Haijun Liu 2022-05-06  154  			mutex_unlock(&t7xx_dev->md_pm_entity_mtx);
-46e8f49ed7b306 Haijun Liu 2022-05-06  155  			return -EEXIST;
-46e8f49ed7b306 Haijun Liu 2022-05-06  156  		}
-46e8f49ed7b306 Haijun Liu 2022-05-06  157  	}
-46e8f49ed7b306 Haijun Liu 2022-05-06  158  
-46e8f49ed7b306 Haijun Liu 2022-05-06  159  	list_add_tail(&pm_entity->entity, &t7xx_dev->md_pm_entities);
-46e8f49ed7b306 Haijun Liu 2022-05-06  160  	mutex_unlock(&t7xx_dev->md_pm_entity_mtx);
-46e8f49ed7b306 Haijun Liu 2022-05-06  161  	return 0;
-46e8f49ed7b306 Haijun Liu 2022-05-06  162  }
-46e8f49ed7b306 Haijun Liu 2022-05-06  163  
-
-:::::: The code at line 153 was first introduced by commit
-:::::: 46e8f49ed7b3063f51e28f3ea2084b3da29c1503 net: wwan: t7xx: Introduce power management
-
-:::::: TO: Haijun Liu <haijun.liu@mediatek.com>
-:::::: CC: David S. Miller <davem@davemloft.net>
+e8550f0e7bde9b drivers/clocksource/exynos_mct.c Vincent Whitchurch 2022-06-09  636  
+5e558ebd3d88d3 drivers/clocksource/exynos_mct.c Daniel Lezcano     2016-05-31  637  	return exynos4_clockevent_init();
+30d8bead5a3094 arch/arm/mach-exynos4/mct.c      Changhwan Youn     2011-03-11  638  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
+
