@@ -1,135 +1,96 @@
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 842E8631;
-	Mon,  3 Apr 2023 06:11:26 +0000 (UTC)
-Received: by mail-ed1-f54.google.com with SMTP id cn12so112746518edb.4;
-        Sun, 02 Apr 2023 23:11:26 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 442251370;
+	Mon,  3 Apr 2023 06:11:30 +0000 (UTC)
+Received: by mail-ed1-f49.google.com with SMTP id y4so112769658edo.2;
+        Sun, 02 Apr 2023 23:11:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680502284;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=gP/NAOYyuv0YBnm/nFebw7X1khDfTArI7Js9IuJTeyU=;
-        b=fvXEIW64HYGcT3RzfX5lo60MtOsOPf4xOlyaT5Gjcv1vp00oIq8IZAh0cE+M6bW0J5
-         NeffADjSx/WOmYqJFZpwQNAnlk6zFOYrCgPClrSki0lXfMy46ipO3y5Tjjf54KsqQ8Uy
-         L4QByAtRMfW9Z+iiUcNfeDykSOLXfzSrvhjeLucMZnlOLHTvWByptBAkzm5KoJaLdhm/
-         tAHOl0RdryGwSxEBMPoDK/uYFuoQuUblB9xUQGmoQcU16PMebXbz++GN4X7PZw5AnCId
-         VO05btGwwuoTAk0ESP/rAqMJDVDD2gXRPC3iB37eBC8GXAehDgLZgn0UyZ6xpS37A6jK
-         KVNw==
+        d=gmail.com; s=20210112; t=1680502288;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=+PPixoHRDJ+Gnyytgct7eIf2W8PC3hRBuJOLjuDKdhY=;
+        b=iUB0JuzYzSTrZD/+G5G3iSZ+1srHcDapp+2yS8gUivSygEUOGHpj4cZmiOWxHvgQTy
+         iE+RPPaYIQ5Qi0ZZmd24zNSLYCD3sJsMCKGGJGByokv6zZ2zCyyW5xNTZ5zOplMQGJ0R
+         vgUFHkowl5yEBomYvwjill8yyhPtqe0AKiXgA57CND9aKt2qCFWEI7/f/0+r0pMXCYEM
+         nhsA71AVUwIGCI1HggH0vhhR099IYLKEehb+2/sLHOUErs2O5i5gF49rZge+iRglsVoC
+         t06dNmIb1MPArzL9pQYEGx9DCS+7iALBmKTPCavs4MrxLEwDUHFXfT6L8yLSh6o6H+DO
+         sTNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680502284;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=gP/NAOYyuv0YBnm/nFebw7X1khDfTArI7Js9IuJTeyU=;
-        b=L0UD3kLcit88OFDNsUx7fbmdqesGpQpZOcKdM/aId49ez5SNK3tQM+1OHHh80D3S/7
-         5HWv758p/fcGnAZbP2zjdhAIc6g26K0G7RMEO5iEwoWEzp91xCbxziXjG/jll34bKKSd
-         z8wQ8ZgVNfH54ckHAljvO3JvRSlraUwjaM/De7OYghxDO1gmAMXPwZJAhVN1YUZ4KiNF
-         3KKHKubpxb21gxUHDNA5JwOBtlfaA/o66U4sWAAw8b6mA23RUrEsrfoUQIYZdN3AMcja
-         mSebEaw8/vGPJLZQV2QmpI9BCgzNlRye61DZ/WLKpL5szRC8e/2lGcF/Y8r682Ji0XJw
-         FFiw==
-X-Gm-Message-State: AAQBX9cmwv1XZZjwnOajhby7GDHvy3adle1JOmHAJFZ+fowYS0eCsunX
-	Z9Xr2rMKl2iTFETR+PrJnLxzIQlP+FpLTBhc
-X-Google-Smtp-Source: AKy350Ye3LiLkSxBkKbzdxrTQTtUxqZAoBTleoqrk1A27MshnAmxLQ3Itn7a+kAQANDTvjUWfdBXFw==
-X-Received: by 2002:a05:6402:d3:b0:4fa:e1fd:5a30 with SMTP id i19-20020a05640200d300b004fae1fd5a30mr34077597edu.19.1680502284345;
-        Sun, 02 Apr 2023 23:11:24 -0700 (PDT)
+        d=1e100.net; s=20210112; t=1680502288;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=+PPixoHRDJ+Gnyytgct7eIf2W8PC3hRBuJOLjuDKdhY=;
+        b=3jdSChqpys/zhxXUSR+hDGFa4V+zZlXvfGz9gTL+iDKfIwVeYHnJ0e3h7k0UWj8qVx
+         VP2U6h0Ro7meFvNykd1CEcVUU5xDVwKoeMoEfejsRHpcmwg2y92Uf9L9uxQpwHQvUrxx
+         4Hl1Hob5BP0f3wRAfUy3r66QNOL8dnMGHO26QDr5cF4JAcDOqm/g9o39JNSlMLimc+Hw
+         XRmc+tBH/ZudzYJ2rsHJoVHMofL78CrOTrWuGHoyfcjDcn5u88K+BP6OyKX1qPywyuHQ
+         27xtyBnnSTElWEs/p032I4WiIznrBy8g9J5ujSg7R8vmsiXTVr9GUYYxkeFhQuh6m6xD
+         Eopg==
+X-Gm-Message-State: AAQBX9fc9t6iQix9ZZhSwklaYu5BqnkIjSA9Sr1HX4+/XyN3lbAnD9qA
+	Ehhz3ddz29TKnEqaEr9ULYI=
+X-Google-Smtp-Source: AKy350bBekRezxNQa7MFP8TwmpOwouUosfhIi/lGMrCD5/RMtWc0098xCYnOuGzvNELlfMlv0AK2gA==
+X-Received: by 2002:a17:906:eca1:b0:920:254c:1e2d with SMTP id qh1-20020a170906eca100b00920254c1e2dmr36630296ejb.39.1680502288354;
+        Sun, 02 Apr 2023 23:11:28 -0700 (PDT)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id u23-20020a50d517000000b004af720b855fsm4062690edi.82.2023.04.02.23.11.22
+        by smtp.gmail.com with ESMTPSA id q15-20020a17090676cf00b00947c0cecceasm3471757ejn.206.2023.04.02.23.11.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 02 Apr 2023 23:11:23 -0700 (PDT)
-Date: Mon, 3 Apr 2023 09:11:11 +0300
+        Sun, 02 Apr 2023 23:11:28 -0700 (PDT)
+Date: Mon, 3 Apr 2023 09:09:01 +0300
 From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, Avri Altman <avri.altman@wdc.com>,
-	"James E . J . Bottomley" <jejb@linux.vnet.ibm.com>,
-	"Martin K . Petersen" <martin.petersen@oracle.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Asutosh Das <quic_asutoshd@quicinc.com>, quic_cang@quicinc.com,
-	linux-scsi@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Johannes Thumshirn <Johannes.Thumshirn@wdc.com>,
-	Bart Van Assche <bvanassche@acm.org>,
-	Avri Altman <avri.altman@wdc.com>
-Subject: Re: [PATCH v2] scsi: ufs: mcq: Limit the amount of inflight requests
-Message-ID: <b5c43582-0a73-45ec-83c2-8c1bfd2af2a2@kili.mountain>
+To: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+Cc: oe-kbuild@lists.linux.dev, ye.xingchen@zte.com.cn, lkp@intel.com,
+	oe-kbuild-all@lists.linux.dev, lpieralisi@kernel.org, kw@linux.com,
+	robh@kernel.org, bhelgaas@google.com, matthias.bgg@gmail.com,
+	angelogioacchino.delregno@collabora.com, linux-pci@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org
+Subject: Re: [PATCH] PCI: mt7621: Use dev_err_probe()
+Message-ID: <4cfaa4eb-24ff-4129-b549-bd5a66352e9b@kili.mountain>
+References: <202303231145121987818@zte.com.cn>
+ <22081108-565d-4608-97f7-6e40ca3df2b6@kili.mountain>
+ <CAMhs-H9m=ZGREMo_upE3M48sQb-WpU3j2_b2xLyO2mDkezxC9g@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230331074650.75-1-avri.altman@wdc.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMhs-H9m=ZGREMo_upE3M48sQb-WpU3j2_b2xLyO2mDkezxC9g@mail.gmail.com>
 
-Hi Avri,
+On Mon, Apr 03, 2023 at 07:05:56AM +0200, Sergio Paracuellos wrote:
+> On Mon, Apr 3, 2023 at 6:41 AM Dan Carpenter <error27@gmail.com> wrote:
+> >
+> > Hi,
+> >
+> > https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> >
+> > url:    https://github.com/intel-lab-lkp/linux/commits/ye-xingchen-zte-com-cn/PCI-mt7621-Use-dev_err_probe/20230323-114623
+> > base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
+> > patch link:    https://lore.kernel.org/r/202303231145121987818%40zte.com.cn
+> 
+> So, I already replied to this proposed patch clearly saying that this
+> makes the rest of the code unreachable, so it is a clear NAK.
+> Why is this applied to the intel-lab-lkp tree? Just to be able to test
+> the changes?
+> 
 
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+These emails are automatically generated by kbuild-bot.  I don't know
+how kbuild-bot internals work.  I just review some of the Smatch related
+warnings and hit forward or ignore them.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Avri-Altman/scsi-ufs-mcq-Limit-the-amount-of-inflight-requests/20230331-155149
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/mkp/scsi.git for-next
-patch link:    https://lore.kernel.org/r/20230331074650.75-1-avri.altman%40wdc.com
-patch subject: [PATCH v2] scsi: ufs: mcq: Limit the amount of inflight requests
-config: parisc-randconfig-m031-20230329 (https://download.01.org/0day-ci/archive/20230401/202304011340.ltlHYazS-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 12.1.0
+Normally, I don't look at the context outside of the email but to be
+honest, I was curious enough about this one that I looked it up on the
+list.  I knew it was NAKed but I set the email anyway hoping that maybe
+people would see the extra Smatch warning and be encouraged to run
+Smatch on their code in the future to avoid potential embarrassment.
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202304011340.ltlHYazS-lkp@intel.com/
+regards,
+dan carpenter
 
-New smatch warnings:
-drivers/ufs/core/ufshcd.c:8473 ufshcd_alloc_mcq() warn: missing error code 'ret'
-
-Old smatch warnings:
-drivers/ufs/core/ufshcd.c:5412 ufshcd_uic_cmd_compl() error: we previously assumed 'hba->active_uic_cmd' could be null (see line 5400)
-drivers/ufs/core/ufshcd.c:2350 ufshcd_hba_capabilities() warn: missing error code? 'err'
-
-vim +/ret +8473 drivers/ufs/core/ufshcd.c
-
-57b1c0ef89ac9d drivers/ufs/core/ufshcd.c Asutosh Das   2023-01-13  8457  static int ufshcd_alloc_mcq(struct ufs_hba *hba)
-57b1c0ef89ac9d drivers/ufs/core/ufshcd.c Asutosh Das   2023-01-13  8458  {
-7224c806876e46 drivers/ufs/core/ufshcd.c Asutosh Das   2023-01-13  8459  	int ret;
-7224c806876e46 drivers/ufs/core/ufshcd.c Asutosh Das   2023-01-13  8460  	int old_nutrs = hba->nutrs;
-7224c806876e46 drivers/ufs/core/ufshcd.c Asutosh Das   2023-01-13  8461  
-7224c806876e46 drivers/ufs/core/ufshcd.c Asutosh Das   2023-01-13  8462  	ret = ufshcd_mcq_decide_queue_depth(hba);
-7224c806876e46 drivers/ufs/core/ufshcd.c Asutosh Das   2023-01-13  8463  	if (ret < 0)
-7224c806876e46 drivers/ufs/core/ufshcd.c Asutosh Das   2023-01-13  8464  		return ret;
-7224c806876e46 drivers/ufs/core/ufshcd.c Asutosh Das   2023-01-13  8465  
-7224c806876e46 drivers/ufs/core/ufshcd.c Asutosh Das   2023-01-13  8466  	hba->nutrs = ret;
-7224c806876e46 drivers/ufs/core/ufshcd.c Asutosh Das   2023-01-13  8467  	ret = ufshcd_mcq_init(hba);
-4682abfae2eb3a drivers/ufs/core/ufshcd.c Asutosh Das   2023-01-13  8468  	if (ret)
-4682abfae2eb3a drivers/ufs/core/ufshcd.c Asutosh Das   2023-01-13  8469  		goto err;
-4682abfae2eb3a drivers/ufs/core/ufshcd.c Asutosh Das   2023-01-13  8470  
-2580a95e61d461 drivers/ufs/core/ufshcd.c Avri Altman   2023-03-31  8471  	if (hba->nutrs * hba->nr_hw_queues > SZ_64K - 1) {
-2580a95e61d461 drivers/ufs/core/ufshcd.c Avri Altman   2023-03-31  8472  		dev_info(hba->dev, "there can be at most 64K inflight requests\n");
-2580a95e61d461 drivers/ufs/core/ufshcd.c Avri Altman   2023-03-31 @8473  		goto err;
-
-ret = -EINVAL;
-
-2580a95e61d461 drivers/ufs/core/ufshcd.c Avri Altman   2023-03-31  8474  	}
-2580a95e61d461 drivers/ufs/core/ufshcd.c Avri Altman   2023-03-31  8475  
-4682abfae2eb3a drivers/ufs/core/ufshcd.c Asutosh Das   2023-01-13  8476  	/*
-4682abfae2eb3a drivers/ufs/core/ufshcd.c Asutosh Das   2023-01-13  8477  	 * Previously allocated memory for nutrs may not be enough in MCQ mode.
-4682abfae2eb3a drivers/ufs/core/ufshcd.c Asutosh Das   2023-01-13  8478  	 * Number of supported tags in MCQ mode may be larger than SDB mode.
-6ccf44fe4cd7c4 drivers/scsi/ufs/ufshcd.c Seungwon Jeon 2013-06-26  8479  	 */
-4682abfae2eb3a drivers/ufs/core/ufshcd.c Asutosh Das   2023-01-13  8480  	if (hba->nutrs != old_nutrs) {
-4682abfae2eb3a drivers/ufs/core/ufshcd.c Asutosh Das   2023-01-13  8481  		ufshcd_release_sdb_queue(hba, old_nutrs);
-4682abfae2eb3a drivers/ufs/core/ufshcd.c Asutosh Das   2023-01-13  8482  		ret = ufshcd_memory_alloc(hba);
-4682abfae2eb3a drivers/ufs/core/ufshcd.c Asutosh Das   2023-01-13  8483  		if (ret)
-4682abfae2eb3a drivers/ufs/core/ufshcd.c Asutosh Das   2023-01-13  8484  			goto err;
-4682abfae2eb3a drivers/ufs/core/ufshcd.c Asutosh Das   2023-01-13  8485  		ufshcd_host_memory_configure(hba);
-7224c806876e46 drivers/ufs/core/ufshcd.c Asutosh Das   2023-01-13  8486  	}
-7224c806876e46 drivers/ufs/core/ufshcd.c Asutosh Das   2023-01-13  8487  
-4682abfae2eb3a drivers/ufs/core/ufshcd.c Asutosh Das   2023-01-13  8488  	ret = ufshcd_mcq_memory_alloc(hba);
-4682abfae2eb3a drivers/ufs/core/ufshcd.c Asutosh Das   2023-01-13  8489  	if (ret)
-4682abfae2eb3a drivers/ufs/core/ufshcd.c Asutosh Das   2023-01-13  8490  		goto err;
-4682abfae2eb3a drivers/ufs/core/ufshcd.c Asutosh Das   2023-01-13  8491  
-7224c806876e46 drivers/ufs/core/ufshcd.c Asutosh Das   2023-01-13  8492  	return 0;
-4682abfae2eb3a drivers/ufs/core/ufshcd.c Asutosh Das   2023-01-13  8493  err:
-4682abfae2eb3a drivers/ufs/core/ufshcd.c Asutosh Das   2023-01-13  8494  	hba->nutrs = old_nutrs;
-4682abfae2eb3a drivers/ufs/core/ufshcd.c Asutosh Das   2023-01-13  8495  	return ret;
-57b1c0ef89ac9d drivers/ufs/core/ufshcd.c Asutosh Das   2023-01-13  8496  }
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
 
