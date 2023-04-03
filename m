@@ -1,188 +1,179 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2934A20F2;
-	Mon,  3 Apr 2023 09:10:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CCA04C4339E;
-	Mon,  3 Apr 2023 09:10:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1680513056;
-	bh=48iR4u3n9K+PxbeYtFKNqoB1PmouHufH/K/8+z+ltr8=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=pUGoU8xlrNs3oUKWY+kDKvp9UpHs4QBaem8JXHsfGokdM2T4QTY29gJ9TDTHrep3/
-	 Y2knv+wWrmNDa76wQ4u5ZHNWRZhjg83gvM1SaRRzhmcQcwitQCYTGKVKBWA4X52JYO
-	 D/5aIiEKJO3jn07tL6ulp9irWcv1E99FIgAgCsM/BLrNRDUNzOqIqcLmZgK18zsJEn
-	 Jo+/2f4ykvqGpOc5o3Fm9fqdspFdqr/JxxNt4eWYCVxu0KNTr/b7+X7kll+vBX2TD4
-	 LL9Z994hqzKpiowsVXHtzEc6ctKl1xnsmmkVR59e/XaLsl88+mW8+5eGUO/kfklDfu
-	 ftk4n4AP3u8Dw==
-Received: by mail-lj1-f182.google.com with SMTP id o20so26642380ljp.3;
-        Mon, 03 Apr 2023 02:10:56 -0700 (PDT)
-X-Gm-Message-State: AAQBX9d072Jqu97+Zx1mE4/2en4BsrVIEpSwzd0tU6hV3GHitrE+sLsP
-	Rx3ResmFOPP6VtMx7SSvWcC2pSciN3PbltSAK08=
-X-Google-Smtp-Source: AKy350ZdPxupau2M0boOo8L/biMnTQ28Uw5714Q1j9LnHphUuB820PcFcQKHnoJuw+9n+/rHb4SXmrSpy1SeWBP4Sug=
-X-Received: by 2002:a2e:9d99:0:b0:2a5:fd80:fa6d with SMTP id
- c25-20020a2e9d99000000b002a5fd80fa6dmr7519010ljj.2.1680513054754; Mon, 03 Apr
- 2023 02:10:54 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB21733D2;
+	Mon,  3 Apr 2023 11:21:02 +0000 (UTC)
+Received: by mail-ed1-f41.google.com with SMTP id cn12so115912004edb.4;
+        Mon, 03 Apr 2023 04:21:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1680520861;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=pSGbPNvPB+JspcMZAM7knRh0d6tq6zqNpiPGf74AOAk=;
+        b=GSRqITYHxQvX4a+vFTAh0mGJOK8s75BHXaBTK7FjohiEENwEwJqpv8RnAt+DKFC4B0
+         PqYcfmzIduKRaEguCAIwu782Mn0U2Qmil6Rm2zwZiijMpb9zvKEBbzNeMQcS4KFhw/4B
+         v4nDpR9kcOl1pRePVbJm5lXI4c5DcEFfZL/z0R0lxAwKwvDiEUw0ns31TeUfu+gtrVuM
+         ZLrSCh/GlaGIt47LB3SCWmzqHaK+cn7Q76Eg8Oi1g09acL1Jd5j5ct71GBwbe3V0hi5P
+         PpToOZeh7QkcVUK9z7gxx4fiXZ7k6gcEZ6scoKIwMfcuPibX6J4Cl+OpD/JcGZmj7T1U
+         Lr9w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680520861;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=pSGbPNvPB+JspcMZAM7knRh0d6tq6zqNpiPGf74AOAk=;
+        b=jai27Ui6/L4LXGTCL/FxIqUrfCmjzSenqhrr1VQmQ/7uuGd92blbqva2JrRR3Bm2sR
+         /JmPYFhxPUPjEjb9RWMvls7oEoGwVMEhZzTLb8mJ6Wggcd5+kaKGkZ3FpIpbLj30kw09
+         bAuvW7d2JlyxBbGb16aOx0S9uW6KMQke4maZYrFhr0Z1xd2U/DpvGfyCHbY3Rh2tOCDH
+         gkGm74FDwfS5E4adZzEmq/tBXMgREuMcWIiu056Tu01+xXSvP2tgiYSPpKgEsCRWX/eS
+         SPJMG3IunlYJ2M0317hW+xGswANz+7MNw0FwkvP27CUhdChQoekESBjQN2fp8mMdIaLG
+         lS4g==
+X-Gm-Message-State: AAQBX9cpczYYP9+QGAJdDphE38nU1Wj+ZVB88ja/ZALm3kr58mEz2ZDn
+	tHtbH2naIckM8SatxqN7aR0=
+X-Google-Smtp-Source: AKy350Y758ypGm4nbge2JI3sswU+UqJX9IukkLLnBaBtKLA2khnktn53Px0p8a/quttJT+79zP8qbg==
+X-Received: by 2002:a17:906:1cc5:b0:931:42d2:a77f with SMTP id i5-20020a1709061cc500b0093142d2a77fmr34597474ejh.15.1680520860851;
+        Mon, 03 Apr 2023 04:21:00 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id kx6-20020a170907774600b009310d4dece9sm4402997ejc.62.2023.04.03.04.20.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 03 Apr 2023 04:21:00 -0700 (PDT)
+Date: Mon, 3 Apr 2023 14:20:55 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Joseph Qi <joseph.qi@linux.alibaba.com>, lkp@intel.com,
+	oe-kbuild-all@lists.linux.dev
+Cc: oe-kbuild@lists.linux.dev,
+	Heming Zhao via Ocfs2-devel <ocfs2-devel@oss.oracle.com>,
+	linux-kernel@vger.kernel.org,
+	Andrew Morton <akpm@linux-foundation.org>
+Subject: Re: fs/ocfs2/super.c:1809 ocfs2_mount_volume() warn: missing error
+ code 'status'
+Message-ID: <1e7d7076-ddd6-41b3-b824-673986c35477@kili.mountain>
+References: <9e1d6835-34fc-49cd-869e-d99d9b546d17@kili.mountain>
+ <4154b815-3be4-53de-1bc0-ca87ecb925a4@linux.alibaba.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <be46d0ab-8553-4a5d-af46-6fa909c45213@kili.mountain>
- <CAMj1kXEbaWNNp98GRACR_JUt7JOowU=3BaRKs0ZoOvibnbN_LA@mail.gmail.com> <589c4ea1-95e0-4e3e-9567-a4278860d256@kili.mountain>
-In-Reply-To: <589c4ea1-95e0-4e3e-9567-a4278860d256@kili.mountain>
-From: Ard Biesheuvel <ardb@kernel.org>
-Date: Mon, 3 Apr 2023 11:10:43 +0200
-X-Gmail-Original-Message-ID: <CAMj1kXEDbpwQSk1pmBR1MkeXcuiRb=ns0BSA6oh2D9UngV8OjA@mail.gmail.com>
-Message-ID: <CAMj1kXEDbpwQSk1pmBR1MkeXcuiRb=ns0BSA6oh2D9UngV8OjA@mail.gmail.com>
-Subject: Re: arch/arm64/kernel/compat_alignment.c:333 do_compat_alignment_fixup()
- error: uninitialized symbol 'tinst2'.
-To: Dan Carpenter <error27@gmail.com>
-Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, Catalin Marinas <catalin.marinas@arm.com>, 
-	Arnd Bergmann <arnd@arndb.de>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <4154b815-3be4-53de-1bc0-ca87ecb925a4@linux.alibaba.com>
 
-On Mon, 3 Apr 2023 at 10:34, Dan Carpenter <error27@gmail.com> wrote:
->
-> On Mon, Apr 03, 2023 at 10:03:15AM +0200, Ard Biesheuvel wrote:
-> > On Mon, 3 Apr 2023 at 08:29, Dan Carpenter <error27@gmail.com> wrote:
-> > >
-> > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> > > head:   00c7b5f4ddc5b346df62b757ec73f9357bb452af
-> > > commit: 3fc24ef32d3b9368f4c103dcd21d6a3f959b4870 arm64: compat: Implement misalignment fixups for multiword loads
-> > > config: arm64-randconfig-m041-20230329 (https://download.01.org/0day-ci/archive/20230402/202304021214.gekJ8yRc-lkp@intel.com/config)
-> > > compiler: aarch64-linux-gcc (GCC) 12.1.0
-> > >
-> > > If you fix the issue, kindly add following tag where applicable
-> > > | Reported-by: kernel test robot <lkp@intel.com>
-> > > | Reported-by: Dan Carpenter <error27@gmail.com>
-> > > | Link: https://lore.kernel.org/r/202304021214.gekJ8yRc-lkp@intel.com/
-> > >
-> > > smatch warnings:
-> > > arch/arm64/kernel/compat_alignment.c:333 do_compat_alignment_fixup() error: uninitialized symbol 'tinst2'.
-> > >
-> > > vim +/tinst2 +333 arch/arm64/kernel/compat_alignment.c
-> > >
-> > > 3fc24ef32d3b93 Ard Biesheuvel 2022-07-01  310  int do_compat_alignment_fixup(unsigned long addr, struct pt_regs *regs)
-> > > 3fc24ef32d3b93 Ard Biesheuvel 2022-07-01  311  {
-> > > 3fc24ef32d3b93 Ard Biesheuvel 2022-07-01  312   union offset_union offset;
-> > > 3fc24ef32d3b93 Ard Biesheuvel 2022-07-01  313   unsigned long instrptr;
-> > > 3fc24ef32d3b93 Ard Biesheuvel 2022-07-01  314   int (*handler)(unsigned long addr, u32 instr, struct pt_regs *regs);
-> > > 3fc24ef32d3b93 Ard Biesheuvel 2022-07-01  315   unsigned int type;
-> > > 3fc24ef32d3b93 Ard Biesheuvel 2022-07-01  316   u32 instr = 0;
-> > > 3fc24ef32d3b93 Ard Biesheuvel 2022-07-01  317   u16 tinstr = 0;
-> > > 3fc24ef32d3b93 Ard Biesheuvel 2022-07-01  318   int isize = 4;
-> > > 3fc24ef32d3b93 Ard Biesheuvel 2022-07-01  319   int thumb2_32b = 0;
-> > > 3fc24ef32d3b93 Ard Biesheuvel 2022-07-01  320   int fault;
-> > > 3fc24ef32d3b93 Ard Biesheuvel 2022-07-01  321
-> > > 3fc24ef32d3b93 Ard Biesheuvel 2022-07-01  322   instrptr = instruction_pointer(regs);
-> > > 3fc24ef32d3b93 Ard Biesheuvel 2022-07-01  323
-> > > 3fc24ef32d3b93 Ard Biesheuvel 2022-07-01  324   if (compat_thumb_mode(regs)) {
-> > > 3fc24ef32d3b93 Ard Biesheuvel 2022-07-01  325           __le16 __user *ptr = (__le16 __user *)(instrptr & ~1);
-> > > 3fc24ef32d3b93 Ard Biesheuvel 2022-07-01  326
-> > > 3fc24ef32d3b93 Ard Biesheuvel 2022-07-01  327           fault = alignment_get_thumb(regs, ptr, &tinstr);
-> > > 3fc24ef32d3b93 Ard Biesheuvel 2022-07-01  328           if (!fault) {
-> > > 3fc24ef32d3b93 Ard Biesheuvel 2022-07-01  329                   if (IS_T32(tinstr)) {
-> > > 3fc24ef32d3b93 Ard Biesheuvel 2022-07-01  330                           /* Thumb-2 32-bit */
-> > > 3fc24ef32d3b93 Ard Biesheuvel 2022-07-01  331                           u16 tinst2;
-> > > 3fc24ef32d3b93 Ard Biesheuvel 2022-07-01  332                           fault = alignment_get_thumb(regs, ptr + 1, &tinst2);
-> > > 3fc24ef32d3b93 Ard Biesheuvel 2022-07-01 @333                           instr = ((u32)tinstr << 16) | tinst2;
-> > >
-> > > Smatch is complaining that there is no error checking to see if the
-> > > copy_from_user() fails in alignment_get_thumb.  Eventually the syzbot
-> > > will learn to detect this as well.
-> > >
-> >
-> > That shouldn't matter.
-> >
-> >         u16 instr = 0;
-> >         int fault;
-> >
-> >         if (user_mode(regs))
-> >                 fault = get_user(instr, ip);
-> >         else
-> >                 fault = get_kernel_nofault(instr, ip);
-> >
-> >         *inst = __mem_to_opcode_thumb16(instr);
-> >
-> > So the *inst assignment is never ambiguous here, regardless of whether
-> > get_user() fails. The value could be wrong (i.e., get_user may have
-> > failed after reading only one byte) but the value is never
-> > uninitialized. Then, the fault value is always propagated so the
-> > calling function will not succeed spuriously when this happens.
-> >
->
-> I don't know what code that is...  We are looking at different code.
-> For me on linux-next it looks like this:
->
+Sorry, the kbuild bot is not supposed to send duplicate warnings.  I
+don't know why it was sent again...
 
-My bad (and this illustrates my point about not deviating from the
-original when there is a need for two copies of the code to exist in
-the same tree, only not in the way I thought)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   7b50567bdcad8925ca1e075feb7171c12015afd1
+commit: 0737e01de9c411e4db87dcedf4a9789d41b1c5c1 ocfs2: ocfs2_mount_volume does cleanup job before return error
+date:   11 months ago
+:::::: branch date: 15 hours ago
+       ^^^^^^^^^^^^^^^^^^^^^^^^^
+Something happened on Apr 1.
 
-So the ARM code is correct, and the arm64 version deviates from it,
-and introduces the issue you are reporting.
+:::::: commit date: 11 months ago
+config: arm64-randconfig-m041-20230329 (https://download.01.org/0day-ci/archive/20230401/202304012244.gX4H4rBO-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.1.0
 
-I agree that initializing tinst2 to 0 is the appropriate course of action here.
+regards,
+dan carpenter
 
-Thanks,
-Ard.
-
-
-> arch/arm64/kernel/compat_alignment.c
->    297  static int alignment_get_thumb(struct pt_regs *regs, __le16 __user *ip, u16 *inst)
->    298  {
->    299          __le16 instr = 0;
->    300          int fault;
->    301
->    302          fault = get_user(instr, ip);
->    303          if (fault)
->    304                  return fault;
->
-> *inst not initialized.
->
->    305
->    306          *inst = __le16_to_cpu(instr);
->    307          return 0;
->    308  }
->    309
->    310  int do_compat_alignment_fixup(unsigned long addr, struct pt_regs *regs)
->    311  {
->    312          union offset_union offset;
->    313          unsigned long instrptr;
->    314          int (*handler)(unsigned long addr, u32 instr, struct pt_regs *regs);
->    315          unsigned int type;
->    316          u32 instr = 0;
->    317          u16 tinstr = 0;
->    318          int isize = 4;
->    319          int thumb2_32b = 0;
->    320          int fault;
->    321
->    322          instrptr = instruction_pointer(regs);
->    323
->    324          if (compat_thumb_mode(regs)) {
->    325                  __le16 __user *ptr = (__le16 __user *)(instrptr & ~1);
->    326
->    327                  fault = alignment_get_thumb(regs, ptr, &tinstr);
->    328                  if (!fault) {
->    329                          if (IS_T32(tinstr)) {
->    330                                  /* Thumb-2 32-bit */
->    331                                  u16 tinst2;
->    332                                  fault = alignment_get_thumb(regs, ptr + 1, &tinst2);
->    333                                  instr = ((u32)tinstr << 16) | tinst2;
->                                                                       ^^^^^^
-> Uninitialized variable here.
->
->    334                                  thumb2_32b = 1;
->    335                          } else {
->    336                                  isize = 2;
->    337                                  instr = thumb2arm(tinstr);
->    338                          }
->    339                  }
->    340          } else {
->
-> regards,
-> dan carpenter
->
+On Mon, Apr 03, 2023 at 07:07:37PM +0800, Joseph Qi wrote:
+> Hi,
+> IIRC, we've discussed this before.
+> Success return is expected in case of 'hard readonly'.
+> So this a false positive report.
+> 
+> Thanks,
+> Joseph
+> 
+> On 4/3/23 2:14 PM, Dan Carpenter wrote:
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> > head:   7b50567bdcad8925ca1e075feb7171c12015afd1
+> > commit: 0737e01de9c411e4db87dcedf4a9789d41b1c5c1 ocfs2: ocfs2_mount_volume does cleanup job before return error
+> > config: arm64-randconfig-m041-20230329 (https://download.01.org/0day-ci/archive/20230401/202304012244.gX4H4rBO-lkp@intel.com/config)
+> > compiler: aarch64-linux-gcc (GCC) 12.1.0
+> > 
+> > If you fix the issue, kindly add following tag where applicable
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Reported-by: Dan Carpenter <error27@gmail.com>
+> > | Link: https://lore.kernel.org/r/202304012244.gX4H4rBO-lkp@intel.com/
+> > 
+> > smatch warnings:
+> > fs/ocfs2/super.c:1809 ocfs2_mount_volume() warn: missing error code 'status'
+> > 
+> > vim +/status +1809 fs/ocfs2/super.c
+> > 
+> > ccd979bdbce9fb Mark Fasheh                 2005-12-15  1803  static int ocfs2_mount_volume(struct super_block *sb)
+> > ccd979bdbce9fb Mark Fasheh                 2005-12-15  1804  {
+> > ccd979bdbce9fb Mark Fasheh                 2005-12-15  1805  	int status = 0;
+> > ccd979bdbce9fb Mark Fasheh                 2005-12-15  1806  	struct ocfs2_super *osb = OCFS2_SB(sb);
+> > ccd979bdbce9fb Mark Fasheh                 2005-12-15  1807  
+> > ccd979bdbce9fb Mark Fasheh                 2005-12-15  1808  	if (ocfs2_is_hard_readonly(osb))
+> > 0737e01de9c411 Heming Zhao via Ocfs2-devel 2022-04-29 @1809  		goto out;
+> > 
+> > Hard to tell if this should be an error path or not...  Canonical
+> > problem with do nothing gotos.
+> > 
+> > ccd979bdbce9fb Mark Fasheh                 2005-12-15  1810  
+> > 5500ab4ed3b8f0 Gang He                     2019-03-05  1811  	mutex_init(&osb->obs_trim_fs_mutex);
+> > 5500ab4ed3b8f0 Gang He                     2019-03-05  1812  
+> > ccd979bdbce9fb Mark Fasheh                 2005-12-15  1813  	status = ocfs2_dlm_init(osb);
+> > ccd979bdbce9fb Mark Fasheh                 2005-12-15  1814  	if (status < 0) {
+> > ccd979bdbce9fb Mark Fasheh                 2005-12-15  1815  		mlog_errno(status);
+> > a52370b3b182f7 Gang He                     2018-01-31  1816  		if (status == -EBADR && ocfs2_userspace_stack(osb))
+> > a52370b3b182f7 Gang He                     2018-01-31  1817  			mlog(ML_ERROR, "couldn't mount because cluster name on"
+> > a52370b3b182f7 Gang He                     2018-01-31  1818  			" disk does not match the running cluster name.\n");
+> > 0737e01de9c411 Heming Zhao via Ocfs2-devel 2022-04-29  1819  		goto out;
+> > ccd979bdbce9fb Mark Fasheh                 2005-12-15  1820  	}
+> > ccd979bdbce9fb Mark Fasheh                 2005-12-15  1821  
+> > ccd979bdbce9fb Mark Fasheh                 2005-12-15  1822  	status = ocfs2_super_lock(osb, 1);
+> > ccd979bdbce9fb Mark Fasheh                 2005-12-15  1823  	if (status < 0) {
+> > ccd979bdbce9fb Mark Fasheh                 2005-12-15  1824  		mlog_errno(status);
+> > 0737e01de9c411 Heming Zhao via Ocfs2-devel 2022-04-29  1825  		goto out_dlm;
+> > ccd979bdbce9fb Mark Fasheh                 2005-12-15  1826  	}
+> > ccd979bdbce9fb Mark Fasheh                 2005-12-15  1827  
+> > ccd979bdbce9fb Mark Fasheh                 2005-12-15  1828  	/* This will load up the node map and add ourselves to it. */
+> > ccd979bdbce9fb Mark Fasheh                 2005-12-15  1829  	status = ocfs2_find_slot(osb);
+> > ccd979bdbce9fb Mark Fasheh                 2005-12-15  1830  	if (status < 0) {
+> > ccd979bdbce9fb Mark Fasheh                 2005-12-15  1831  		mlog_errno(status);
+> > 0737e01de9c411 Heming Zhao via Ocfs2-devel 2022-04-29  1832  		goto out_super_lock;
+> > ccd979bdbce9fb Mark Fasheh                 2005-12-15  1833  	}
+> > ccd979bdbce9fb Mark Fasheh                 2005-12-15  1834  
+> > ccd979bdbce9fb Mark Fasheh                 2005-12-15  1835  	/* load all node-local system inodes */
+> > ccd979bdbce9fb Mark Fasheh                 2005-12-15  1836  	status = ocfs2_init_local_system_inodes(osb);
+> > ccd979bdbce9fb Mark Fasheh                 2005-12-15  1837  	if (status < 0) {
+> > ccd979bdbce9fb Mark Fasheh                 2005-12-15  1838  		mlog_errno(status);
+> > 0737e01de9c411 Heming Zhao via Ocfs2-devel 2022-04-29  1839  		goto out_super_lock;
+> > ccd979bdbce9fb Mark Fasheh                 2005-12-15  1840  	}
+> > ccd979bdbce9fb Mark Fasheh                 2005-12-15  1841  
+> > ccd979bdbce9fb Mark Fasheh                 2005-12-15  1842  	status = ocfs2_check_volume(osb);
+> > ccd979bdbce9fb Mark Fasheh                 2005-12-15  1843  	if (status < 0) {
+> > ccd979bdbce9fb Mark Fasheh                 2005-12-15  1844  		mlog_errno(status);
+> > 0737e01de9c411 Heming Zhao via Ocfs2-devel 2022-04-29  1845  		goto out_system_inodes;
+> > ccd979bdbce9fb Mark Fasheh                 2005-12-15  1846  	}
+> > ccd979bdbce9fb Mark Fasheh                 2005-12-15  1847  
+> > ccd979bdbce9fb Mark Fasheh                 2005-12-15  1848  	status = ocfs2_truncate_log_init(osb);
+> > 0737e01de9c411 Heming Zhao via Ocfs2-devel 2022-04-29  1849  	if (status < 0) {
+> > ccd979bdbce9fb Mark Fasheh                 2005-12-15  1850  		mlog_errno(status);
+> > 0737e01de9c411 Heming Zhao via Ocfs2-devel 2022-04-29  1851  		goto out_system_inodes;
+> > 0737e01de9c411 Heming Zhao via Ocfs2-devel 2022-04-29  1852  	}
+> > c271c5c22b0a7c Sunil Mushran               2006-12-05  1853  
+> > ccd979bdbce9fb Mark Fasheh                 2005-12-15  1854  	ocfs2_super_unlock(osb, 1);
+> > 0737e01de9c411 Heming Zhao via Ocfs2-devel 2022-04-29  1855  	return 0;
+> > ccd979bdbce9fb Mark Fasheh                 2005-12-15  1856  
+> > 0737e01de9c411 Heming Zhao via Ocfs2-devel 2022-04-29  1857  out_system_inodes:
+> > 0737e01de9c411 Heming Zhao via Ocfs2-devel 2022-04-29  1858  	if (osb->local_alloc_state == OCFS2_LA_ENABLED)
+> > 0737e01de9c411 Heming Zhao via Ocfs2-devel 2022-04-29  1859  		ocfs2_shutdown_local_alloc(osb);
+> > 0737e01de9c411 Heming Zhao via Ocfs2-devel 2022-04-29  1860  	ocfs2_release_system_inodes(osb);
+> > 0737e01de9c411 Heming Zhao via Ocfs2-devel 2022-04-29  1861  	/* before journal shutdown, we should release slot_info */
+> > 0737e01de9c411 Heming Zhao via Ocfs2-devel 2022-04-29  1862  	ocfs2_free_slot_info(osb);
+> > 0737e01de9c411 Heming Zhao via Ocfs2-devel 2022-04-29  1863  	ocfs2_journal_shutdown(osb);
+> > 0737e01de9c411 Heming Zhao via Ocfs2-devel 2022-04-29  1864  out_super_lock:
+> > 0737e01de9c411 Heming Zhao via Ocfs2-devel 2022-04-29  1865  	ocfs2_super_unlock(osb, 1);
+> > 0737e01de9c411 Heming Zhao via Ocfs2-devel 2022-04-29  1866  out_dlm:
+> > 0737e01de9c411 Heming Zhao via Ocfs2-devel 2022-04-29  1867  	ocfs2_dlm_shutdown(osb, 0);
+> > 0737e01de9c411 Heming Zhao via Ocfs2-devel 2022-04-29  1868  out:
+> > ccd979bdbce9fb Mark Fasheh                 2005-12-15  1869  	return status;
+> > ccd979bdbce9fb Mark Fasheh                 2005-12-15  1870  }
+> > 
