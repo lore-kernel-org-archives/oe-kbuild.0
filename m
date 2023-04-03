@@ -1,234 +1,135 @@
-Received: from mail-oa1-f45.google.com (mail-oa1-f45.google.com [209.85.160.45])
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5CD6364;
-	Mon,  3 Apr 2023 05:06:09 +0000 (UTC)
-Received: by mail-oa1-f45.google.com with SMTP id 586e51a60fabf-17aeb49429eso29514464fac.6;
-        Sun, 02 Apr 2023 22:06:09 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 842E8631;
+	Mon,  3 Apr 2023 06:11:26 +0000 (UTC)
+Received: by mail-ed1-f54.google.com with SMTP id cn12so112746518edb.4;
+        Sun, 02 Apr 2023 23:11:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680498369;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=TX/pPDCTZCz+AG0nfBsPg6tJiCJhJ51X8Wk4oxrCHIg=;
-        b=CMtL+I3C1ExYIZCjiqwv9rYd2NUb7Wn/BapXZ0gs5OfHUIem4aKiaKzoz7Ie0g12PO
-         4OggyvA5s3hwJ3KVMPmiUAxfCtHFlug7OR7PZcw7JopUz7zAHCiYctpknLkN2RaySGHl
-         DMAKL9rEBa4Z8tzlJsiMHFCjFQpTypF0xzgloG7I/TQL5ugKGTx/qZJgip6DTQjdywLe
-         USwn1agUrRgysnnvqsY6r35wI58cXjRmttiBP/Yg4FtoHVdFM70KMLyB4yPUSoAQ43k7
-         GGlNmMtkxEATPI4XPAhccbxSvJ5xJeKmvHUrJEe+8x/oZO2LmSTZEEPotoS+Y/5FRaVV
-         ISMw==
+        d=gmail.com; s=20210112; t=1680502284;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=gP/NAOYyuv0YBnm/nFebw7X1khDfTArI7Js9IuJTeyU=;
+        b=fvXEIW64HYGcT3RzfX5lo60MtOsOPf4xOlyaT5Gjcv1vp00oIq8IZAh0cE+M6bW0J5
+         NeffADjSx/WOmYqJFZpwQNAnlk6zFOYrCgPClrSki0lXfMy46ipO3y5Tjjf54KsqQ8Uy
+         L4QByAtRMfW9Z+iiUcNfeDykSOLXfzSrvhjeLucMZnlOLHTvWByptBAkzm5KoJaLdhm/
+         tAHOl0RdryGwSxEBMPoDK/uYFuoQuUblB9xUQGmoQcU16PMebXbz++GN4X7PZw5AnCId
+         VO05btGwwuoTAk0ESP/rAqMJDVDD2gXRPC3iB37eBC8GXAehDgLZgn0UyZ6xpS37A6jK
+         KVNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680498369;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=TX/pPDCTZCz+AG0nfBsPg6tJiCJhJ51X8Wk4oxrCHIg=;
-        b=vAhY1OlNvXBH/IazHRu+b+AZOSFPmjVEv1Y1OeS2PqSYI5drQ+7P+3jxDXFkicjIZO
-         0re2jnOrxO4RjbqNOk9b2o+spjDV+g0VO8/qbmVifoZmmFHMwJHwaFn0VTS3W2Kof3Na
-         VHEcmuCf5tE0GruKh6TbruHd8ms9fmay3cVZub/ZboOOMfnEGHKIV1nlf9OsIK7DUddF
-         zIMp3vzfdGURxwgKjLCtSMZD7etn9D1CetFdbuLDAczNdch+jSTpMe0xSqDbZGT+YP6S
-         PAEM0lmM2eQ09Cqauy+lwgUUCHJs6aviTYOf4v9IUavGQGFQwYsDwiUJ1flfQvsl4GhE
-         CaRg==
-X-Gm-Message-State: AAQBX9euxJeDadhVPC49RvLsGizJGn5VqPUbWx6qnXFrb4QgYuhDpjo1
-	5lcbP/IDHyfEwuvIJghVUKBryjyG0oYMl8P0BNA=
-X-Google-Smtp-Source: AKy350aItUVPylW6imR32DS1QMVxsj8sMTSt/fb5O6UU2IfSZizAMCu6CU5azwG7yYv9CKyUuj1P/Eiefv56mLkW5fs=
-X-Received: by 2002:a05:687c:10b:b0:177:b393:4007 with SMTP id
- ym11-20020a05687c010b00b00177b3934007mr11125983oab.0.1680498368771; Sun, 02
- Apr 2023 22:06:08 -0700 (PDT)
+        d=1e100.net; s=20210112; t=1680502284;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=gP/NAOYyuv0YBnm/nFebw7X1khDfTArI7Js9IuJTeyU=;
+        b=L0UD3kLcit88OFDNsUx7fbmdqesGpQpZOcKdM/aId49ez5SNK3tQM+1OHHh80D3S/7
+         5HWv758p/fcGnAZbP2zjdhAIc6g26K0G7RMEO5iEwoWEzp91xCbxziXjG/jll34bKKSd
+         z8wQ8ZgVNfH54ckHAljvO3JvRSlraUwjaM/De7OYghxDO1gmAMXPwZJAhVN1YUZ4KiNF
+         3KKHKubpxb21gxUHDNA5JwOBtlfaA/o66U4sWAAw8b6mA23RUrEsrfoUQIYZdN3AMcja
+         mSebEaw8/vGPJLZQV2QmpI9BCgzNlRye61DZ/WLKpL5szRC8e/2lGcF/Y8r682Ji0XJw
+         FFiw==
+X-Gm-Message-State: AAQBX9cmwv1XZZjwnOajhby7GDHvy3adle1JOmHAJFZ+fowYS0eCsunX
+	Z9Xr2rMKl2iTFETR+PrJnLxzIQlP+FpLTBhc
+X-Google-Smtp-Source: AKy350Ye3LiLkSxBkKbzdxrTQTtUxqZAoBTleoqrk1A27MshnAmxLQ3Itn7a+kAQANDTvjUWfdBXFw==
+X-Received: by 2002:a05:6402:d3:b0:4fa:e1fd:5a30 with SMTP id i19-20020a05640200d300b004fae1fd5a30mr34077597edu.19.1680502284345;
+        Sun, 02 Apr 2023 23:11:24 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id u23-20020a50d517000000b004af720b855fsm4062690edi.82.2023.04.02.23.11.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 02 Apr 2023 23:11:23 -0700 (PDT)
+Date: Mon, 3 Apr 2023 09:11:11 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev, Avri Altman <avri.altman@wdc.com>,
+	"James E . J . Bottomley" <jejb@linux.vnet.ibm.com>,
+	"Martin K . Petersen" <martin.petersen@oracle.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Asutosh Das <quic_asutoshd@quicinc.com>, quic_cang@quicinc.com,
+	linux-scsi@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Johannes Thumshirn <Johannes.Thumshirn@wdc.com>,
+	Bart Van Assche <bvanassche@acm.org>,
+	Avri Altman <avri.altman@wdc.com>
+Subject: Re: [PATCH v2] scsi: ufs: mcq: Limit the amount of inflight requests
+Message-ID: <b5c43582-0a73-45ec-83c2-8c1bfd2af2a2@kili.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202303231145121987818@zte.com.cn> <22081108-565d-4608-97f7-6e40ca3df2b6@kili.mountain>
-In-Reply-To: <22081108-565d-4608-97f7-6e40ca3df2b6@kili.mountain>
-From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
-Date: Mon, 3 Apr 2023 07:05:56 +0200
-Message-ID: <CAMhs-H9m=ZGREMo_upE3M48sQb-WpU3j2_b2xLyO2mDkezxC9g@mail.gmail.com>
-Subject: Re: [PATCH] PCI: mt7621: Use dev_err_probe()
-To: Dan Carpenter <error27@gmail.com>
-Cc: oe-kbuild@lists.linux.dev, ye.xingchen@zte.com.cn, lkp@intel.com, 
-	oe-kbuild-all@lists.linux.dev, lpieralisi@kernel.org, kw@linux.com, 
-	robh@kernel.org, bhelgaas@google.com, matthias.bgg@gmail.com, 
-	angelogioacchino.delregno@collabora.com, linux-pci@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-mediatek@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230331074650.75-1-avri.altman@wdc.com>
 
-On Mon, Apr 3, 2023 at 6:41=E2=80=AFAM Dan Carpenter <error27@gmail.com> wr=
-ote:
->
-> Hi,
->
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/ye-xingchen-zte-co=
-m-cn/PCI-mt7621-Use-dev_err_probe/20230323-114623
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
-> patch link:    https://lore.kernel.org/r/202303231145121987818%40zte.com.=
-cn
+Hi Avri,
 
-So, I already replied to this proposed patch clearly saying that this
-makes the rest of the code unreachable, so it is a clear NAK.
-Why is this applied to the intel-lab-lkp tree? Just to be able to test
-the changes?
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Thanks,
-    Sergio Paracuellos
+url:    https://github.com/intel-lab-lkp/linux/commits/Avri-Altman/scsi-ufs-mcq-Limit-the-amount-of-inflight-requests/20230331-155149
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/mkp/scsi.git for-next
+patch link:    https://lore.kernel.org/r/20230331074650.75-1-avri.altman%40wdc.com
+patch subject: [PATCH v2] scsi: ufs: mcq: Limit the amount of inflight requests
+config: parisc-randconfig-m031-20230329 (https://download.01.org/0day-ci/archive/20230401/202304011340.ltlHYazS-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 12.1.0
 
-> patch subject: [PATCH] PCI: mt7621: Use dev_err_probe()
-> config: s390-randconfig-m031-20230329 (https://download.01.org/0day-ci/ar=
-chive/20230401/202304010325.2OPFvIm3-lkp@intel.com/config)
-> compiler: s390-linux-gcc (GCC) 12.1.0
->
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <error27@gmail.com>
-> | Link: https://lore.kernel.org/r/202304010325.2OPFvIm3-lkp@intel.com/
->
-> smatch warnings:
-> drivers/pci/controller/pcie-mt7621.c:224 mt7621_pcie_parse_port() warn: p=
-assing zero to 'PTR_ERR'
-> drivers/pci/controller/pcie-mt7621.c:227 mt7621_pcie_parse_port() warn: i=
-gnoring unreachable code.
->
-> vim +/PTR_ERR +224 drivers/pci/controller/pcie-mt7621.c
->
-> ad9c87e129d139 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos=
- 2018-11-04  198  static int mt7621_pcie_parse_port(struct mt7621_pcie *pci=
-e,
-> 2d3d288f0eaf10 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos=
- 2021-06-07  199                                 struct device_node *node,
-> ad9c87e129d139 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos=
- 2018-11-04  200                                 int slot)
-> ad9c87e129d139 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos=
- 2018-11-04  201  {
-> ad9c87e129d139 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos=
- 2018-11-04  202       struct mt7621_pcie_port *port;
-> ad9c87e129d139 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos=
- 2018-11-04  203       struct device *dev =3D pcie->dev;
-> fab6710e4c51f4 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos=
- 2020-04-13  204       struct platform_device *pdev =3D to_platform_device(=
-dev);
-> 61f9bde6ea578f drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos=
- 2019-01-04  205       char name[10];
-> 2d3d288f0eaf10 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos=
- 2021-06-07  206       int err;
-> ad9c87e129d139 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos=
- 2018-11-04  207
-> ad9c87e129d139 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos=
- 2018-11-04  208       port =3D devm_kzalloc(dev, sizeof(*port), GFP_KERNEL=
-);
-> ad9c87e129d139 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos=
- 2018-11-04  209       if (!port)
-> ad9c87e129d139 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos=
- 2018-11-04  210               return -ENOMEM;
-> ad9c87e129d139 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos=
- 2018-11-04  211
-> 108b2f2a972454 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos=
- 2020-11-23  212       port->base =3D devm_platform_ioremap_resource(pdev, =
-slot + 1);
-> ad9c87e129d139 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos=
- 2018-11-04  213       if (IS_ERR(port->base))
-> ad9c87e129d139 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos=
- 2018-11-04  214               return PTR_ERR(port->base);
-> ad9c87e129d139 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos=
- 2018-11-04  215
-> 2d3d288f0eaf10 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos=
- 2021-06-07  216       port->clk =3D devm_get_clk_from_child(dev, node, NUL=
-L);
-> cc4e864a5ce4c1 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos=
- 2021-05-05  217       if (IS_ERR(port->clk)) {
-> cc4e864a5ce4c1 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos=
- 2021-05-05  218               dev_err(dev, "failed to get pcie%d clock\n",=
- slot);
-> cc4e864a5ce4c1 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos=
- 2021-05-05  219               return PTR_ERR(port->clk);
-> cc4e864a5ce4c1 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos=
- 2021-05-05  220       }
-> cc4e864a5ce4c1 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos=
- 2021-05-05  221
-> 2d3d288f0eaf10 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos=
- 2021-06-07  222       port->pcie_rst =3D of_reset_control_get_exclusive(no=
-de, NULL);
-> 9873bac812f262 drivers/pci/controller/pcie-mt7621.c    Ye Xingchen       =
- 2023-03-23  223
-> 9873bac812f262 drivers/pci/controller/pcie-mt7621.c    Ye Xingchen       =
- 2023-03-23 @224       return dev_err_probe(dev, PTR_ERR(port->pcie_rst),
->                                                                          =
-                                                 ^^^^^^^^^^^^^^^^^^^^^^^
->
-> 9873bac812f262 drivers/pci/controller/pcie-mt7621.c    Ye Xingchen       =
- 2023-03-23  225                            "failed to get pcie%d reset con=
-trol\n", slot);
-> ad9c87e129d139 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos=
- 2018-11-04  226
-> 61f9bde6ea578f drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos=
- 2019-01-04 @227       snprintf(name, sizeof(name), "pcie-phy%d", slot);
-> 2d3d288f0eaf10 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos=
- 2021-06-07  228       port->phy =3D devm_of_phy_get(dev, node, name);
-> 2d3d288f0eaf10 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos=
- 2021-06-07  229       if (IS_ERR(port->phy)) {
-> 2d3d288f0eaf10 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos=
- 2021-06-07  230               dev_err(dev, "failed to get pcie-phy%d\n", s=
-lot);
-> 2d3d288f0eaf10 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos=
- 2021-06-07  231               err =3D PTR_ERR(port->phy);
-> 2d3d288f0eaf10 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos=
- 2021-06-07  232               goto remove_reset;
-> 2d3d288f0eaf10 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos=
- 2021-06-07  233       }
-> 61f9bde6ea578f drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos=
- 2019-01-04  234
-> b27e35f91c75cf drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos=
- 2020-03-13  235       port->gpio_rst =3D devm_gpiod_get_index_optional(dev=
-, "reset", slot,
-> b27e35f91c75cf drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos=
- 2020-03-13  236                                                      GPIOD=
-_OUT_LOW);
-> 825c6f470c62da drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos=
- 2020-03-20  237       if (IS_ERR(port->gpio_rst)) {
-> 2bdd5238e756aa drivers/pci/controller/pcie-mt7621.c    Sergio Paracuellos=
- 2021-09-22  238               dev_err(dev, "failed to get GPIO for PCIe%d\=
-n", slot);
-> 2d3d288f0eaf10 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos=
- 2021-06-07  239               err =3D PTR_ERR(port->gpio_rst);
-> 2d3d288f0eaf10 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos=
- 2021-06-07  240               goto remove_reset;
-> 825c6f470c62da drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos=
- 2020-03-20  241       }
-> b27e35f91c75cf drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos=
- 2020-03-13  242
-> ad9c87e129d139 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos=
- 2018-11-04  243       port->slot =3D slot;
-> ad9c87e129d139 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos=
- 2018-11-04  244       port->pcie =3D pcie;
-> ad9c87e129d139 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos=
- 2018-11-04  245
-> ad9c87e129d139 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos=
- 2018-11-04  246       INIT_LIST_HEAD(&port->list);
-> ad9c87e129d139 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos=
- 2018-11-04  247       list_add_tail(&port->list, &pcie->ports);
-> ad9c87e129d139 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos=
- 2018-11-04  248
-> ad9c87e129d139 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos=
- 2018-11-04  249       return 0;
-> 2d3d288f0eaf10 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos=
- 2021-06-07  250
-> 2d3d288f0eaf10 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos=
- 2021-06-07  251  remove_reset:
-> 2d3d288f0eaf10 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos=
- 2021-06-07  252       reset_control_put(port->pcie_rst);
-> 2d3d288f0eaf10 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos=
- 2021-06-07  253       return err;
-> ad9c87e129d139 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos=
- 2018-11-04  254  }
-> ad9c87e129d139 drivers/staging/mt7621-pci/pci-mt7621.c Sergio Paracuellos=
- 2018-11-04  255
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests
->
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Link: https://lore.kernel.org/r/202304011340.ltlHYazS-lkp@intel.com/
+
+New smatch warnings:
+drivers/ufs/core/ufshcd.c:8473 ufshcd_alloc_mcq() warn: missing error code 'ret'
+
+Old smatch warnings:
+drivers/ufs/core/ufshcd.c:5412 ufshcd_uic_cmd_compl() error: we previously assumed 'hba->active_uic_cmd' could be null (see line 5400)
+drivers/ufs/core/ufshcd.c:2350 ufshcd_hba_capabilities() warn: missing error code? 'err'
+
+vim +/ret +8473 drivers/ufs/core/ufshcd.c
+
+57b1c0ef89ac9d drivers/ufs/core/ufshcd.c Asutosh Das   2023-01-13  8457  static int ufshcd_alloc_mcq(struct ufs_hba *hba)
+57b1c0ef89ac9d drivers/ufs/core/ufshcd.c Asutosh Das   2023-01-13  8458  {
+7224c806876e46 drivers/ufs/core/ufshcd.c Asutosh Das   2023-01-13  8459  	int ret;
+7224c806876e46 drivers/ufs/core/ufshcd.c Asutosh Das   2023-01-13  8460  	int old_nutrs = hba->nutrs;
+7224c806876e46 drivers/ufs/core/ufshcd.c Asutosh Das   2023-01-13  8461  
+7224c806876e46 drivers/ufs/core/ufshcd.c Asutosh Das   2023-01-13  8462  	ret = ufshcd_mcq_decide_queue_depth(hba);
+7224c806876e46 drivers/ufs/core/ufshcd.c Asutosh Das   2023-01-13  8463  	if (ret < 0)
+7224c806876e46 drivers/ufs/core/ufshcd.c Asutosh Das   2023-01-13  8464  		return ret;
+7224c806876e46 drivers/ufs/core/ufshcd.c Asutosh Das   2023-01-13  8465  
+7224c806876e46 drivers/ufs/core/ufshcd.c Asutosh Das   2023-01-13  8466  	hba->nutrs = ret;
+7224c806876e46 drivers/ufs/core/ufshcd.c Asutosh Das   2023-01-13  8467  	ret = ufshcd_mcq_init(hba);
+4682abfae2eb3a drivers/ufs/core/ufshcd.c Asutosh Das   2023-01-13  8468  	if (ret)
+4682abfae2eb3a drivers/ufs/core/ufshcd.c Asutosh Das   2023-01-13  8469  		goto err;
+4682abfae2eb3a drivers/ufs/core/ufshcd.c Asutosh Das   2023-01-13  8470  
+2580a95e61d461 drivers/ufs/core/ufshcd.c Avri Altman   2023-03-31  8471  	if (hba->nutrs * hba->nr_hw_queues > SZ_64K - 1) {
+2580a95e61d461 drivers/ufs/core/ufshcd.c Avri Altman   2023-03-31  8472  		dev_info(hba->dev, "there can be at most 64K inflight requests\n");
+2580a95e61d461 drivers/ufs/core/ufshcd.c Avri Altman   2023-03-31 @8473  		goto err;
+
+ret = -EINVAL;
+
+2580a95e61d461 drivers/ufs/core/ufshcd.c Avri Altman   2023-03-31  8474  	}
+2580a95e61d461 drivers/ufs/core/ufshcd.c Avri Altman   2023-03-31  8475  
+4682abfae2eb3a drivers/ufs/core/ufshcd.c Asutosh Das   2023-01-13  8476  	/*
+4682abfae2eb3a drivers/ufs/core/ufshcd.c Asutosh Das   2023-01-13  8477  	 * Previously allocated memory for nutrs may not be enough in MCQ mode.
+4682abfae2eb3a drivers/ufs/core/ufshcd.c Asutosh Das   2023-01-13  8478  	 * Number of supported tags in MCQ mode may be larger than SDB mode.
+6ccf44fe4cd7c4 drivers/scsi/ufs/ufshcd.c Seungwon Jeon 2013-06-26  8479  	 */
+4682abfae2eb3a drivers/ufs/core/ufshcd.c Asutosh Das   2023-01-13  8480  	if (hba->nutrs != old_nutrs) {
+4682abfae2eb3a drivers/ufs/core/ufshcd.c Asutosh Das   2023-01-13  8481  		ufshcd_release_sdb_queue(hba, old_nutrs);
+4682abfae2eb3a drivers/ufs/core/ufshcd.c Asutosh Das   2023-01-13  8482  		ret = ufshcd_memory_alloc(hba);
+4682abfae2eb3a drivers/ufs/core/ufshcd.c Asutosh Das   2023-01-13  8483  		if (ret)
+4682abfae2eb3a drivers/ufs/core/ufshcd.c Asutosh Das   2023-01-13  8484  			goto err;
+4682abfae2eb3a drivers/ufs/core/ufshcd.c Asutosh Das   2023-01-13  8485  		ufshcd_host_memory_configure(hba);
+7224c806876e46 drivers/ufs/core/ufshcd.c Asutosh Das   2023-01-13  8486  	}
+7224c806876e46 drivers/ufs/core/ufshcd.c Asutosh Das   2023-01-13  8487  
+4682abfae2eb3a drivers/ufs/core/ufshcd.c Asutosh Das   2023-01-13  8488  	ret = ufshcd_mcq_memory_alloc(hba);
+4682abfae2eb3a drivers/ufs/core/ufshcd.c Asutosh Das   2023-01-13  8489  	if (ret)
+4682abfae2eb3a drivers/ufs/core/ufshcd.c Asutosh Das   2023-01-13  8490  		goto err;
+4682abfae2eb3a drivers/ufs/core/ufshcd.c Asutosh Das   2023-01-13  8491  
+7224c806876e46 drivers/ufs/core/ufshcd.c Asutosh Das   2023-01-13  8492  	return 0;
+4682abfae2eb3a drivers/ufs/core/ufshcd.c Asutosh Das   2023-01-13  8493  err:
+4682abfae2eb3a drivers/ufs/core/ufshcd.c Asutosh Das   2023-01-13  8494  	hba->nutrs = old_nutrs;
+4682abfae2eb3a drivers/ufs/core/ufshcd.c Asutosh Das   2023-01-13  8495  	return ret;
+57b1c0ef89ac9d drivers/ufs/core/ufshcd.c Asutosh Das   2023-01-13  8496  }
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
+
