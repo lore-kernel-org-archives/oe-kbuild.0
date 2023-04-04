@@ -1,41 +1,42 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4632D62F
-	for <oe-kbuild@lists.linux.dev>; Tue,  4 Apr 2023 03:24:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10F7E7C
+	for <oe-kbuild@lists.linux.dev>; Tue,  4 Apr 2023 03:34:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680578640; x=1712114640;
+  t=1680579246; x=1712115246;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=zT4aBkv5yEl8uABYM1cSx83WwQkfckSMi5jzoxAMIXI=;
-  b=RJ2HFIYdwbzd8Nnx4D+zIBQTkfVWeyny29XZ0pT78y3syQC3MWP1p8ad
-   vvfOEvvKkC3/HmRTeQoYew0wFHg4w0NIxN64YnD4Wult+19Zvt+mHdYHm
-   1toZKLUxHXarW2VTTtqKVJsnoOnn5YMni2K8IIDNdLBj89uxJWDoEZgsU
-   EeFvSHaBroEtxUwt/GhmOjwiIeSqkmRAKZAoFTPoNbMJ83IkcZNMXhcNi
-   aP4BA3y5k0IsgriMB2UgCLl2rphl3XRoCKPpc0c4IcixPREu38chCDEEy
-   1tkBizADeLHYhEzbn720Qynf1ESV0qHVjNC8NOVIsizmxQl2IP0aBmHd5
+  bh=r4kat8Avocznf5IF8X6gbQtxuFnzFvYomqO4eYaphdc=;
+  b=BY8UKATv8Sd61S1Z8b55vPXtTifdfct4Kctqry8fasbt9w1BNfuGo26f
+   hgT8I00HV5tEaOMDW4B9NfsBxsiOaunvwMGCUJK7P9ZiDawX9aAqjuWBR
+   6x2Q5aSDiZliWc7w5JQBRstEzzhJIljhLTi9vmUjbN+Sp4crPg2qUynQv
+   T6XhCDlKBtZYMHKAga9gBes9+egUtECEVh7Asydfic7p0VbFqiE73oIqX
+   9QKzSi1jIpkjHYYhIR89vSpKlyP+q0am3Aw3YS8+eHrsUKkRwbYGmQQXI
+   xbi0oR+pBpDuaR4EbKNzswTa/X/WgaNFg0zxo9IXy8J9X49Q6iJzBUu+/
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="407138879"
+X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="369890616"
 X-IronPort-AV: E=Sophos;i="5.98,316,1673942400"; 
-   d="scan'208";a="407138879"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2023 20:23:59 -0700
+   d="scan'208";a="369890616"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2023 20:34:05 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="688727858"
+X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="797355809"
 X-IronPort-AV: E=Sophos;i="5.98,316,1673942400"; 
-   d="scan'208";a="688727858"
+   d="scan'208";a="797355809"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 03 Apr 2023 20:23:58 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 03 Apr 2023 20:34:04 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pjXH3-000P6r-2F;
-	Tue, 04 Apr 2023 03:23:57 +0000
-Date: Tue, 4 Apr 2023 11:23:04 +0800
+	id 1pjXQk-000P7T-1M;
+	Tue, 04 Apr 2023 03:33:58 +0000
+Date: Tue, 4 Apr 2023 11:33:37 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: mm/mempolicy.c:804:2: warning: syntax error [syntaxError]
-Message-ID: <202304041143.IoX77jRZ-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [paulmck-rcu:dev.2023.03.30a 28/35] kernel/rcu/tree.c:2149
+ rcu_do_batch() error: uninitialized symbol 'jlimit'.
+Message-ID: <202304041113.A5sNFc2y-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -45,100 +46,175 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "low confidence static check warning: mm/mempolicy.c:804:2: warning: syntax error [syntaxError]"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: "Liam R. Howlett" <Liam.Howlett@Oracle.com>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: "Paul E. McKenney" <paulmck@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   148341f0a2f53b5e8808d093333d85170586a15d
-commit: f10c2abcdac4a44795fae9118eaedfe56204afda mempolicy: convert to vma iterator
-date:   8 weeks ago
-:::::: branch date: 11 hours ago
-:::::: commit date: 8 weeks ago
-compiler: ia64-linux-gcc (GCC) 12.1.0
-reproduce (cppcheck warning):
-        # apt-get install cppcheck
-        git checkout f10c2abcdac4a44795fae9118eaedfe56204afda
-        cppcheck --quiet --enable=style,performance,portability --template=gcc FILE
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git dev.2023.03.30a
+head:   e222f9a512539c3f4093a55d16624d9da614800b
+commit: a63baab5f60110f3631c98b55d59066f1c68c4f7 [28/35] rcu: Employ jiffies-based backstop to callback time limit
+:::::: branch date: 6 hours ago
+:::::: commit date: 3 days ago
+config: openrisc-randconfig-m031-20230403 (https://download.01.org/0day-ci/archive/20230404/202304041113.A5sNFc2y-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/r/202304041143.IoX77jRZ-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Link: https://lore.kernel.org/r/202304041113.A5sNFc2y-lkp@intel.com/
 
+smatch warnings:
+kernel/rcu/tree.c:2149 rcu_do_batch() error: uninitialized symbol 'jlimit'.
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+vim +/jlimit +2149 kernel/rcu/tree.c
 
->> mm/mempolicy.c:804:2: warning: syntax error [syntaxError]
-    do {
-    ^
-
-vim +804 mm/mempolicy.c
-
-8d34694c1abf29 KOSAKI Motohiro    2012-10-08  785  
-^1da177e4c3f41 Linus Torvalds     2005-04-16  786  /* Step 2: apply policy to a range and do splits. */
-9d8cebd4bcd7c3 KOSAKI Motohiro    2010-03-05  787  static int mbind_range(struct mm_struct *mm, unsigned long start,
-9d8cebd4bcd7c3 KOSAKI Motohiro    2010-03-05  788  		       unsigned long end, struct mempolicy *new_pol)
-^1da177e4c3f41 Linus Torvalds     2005-04-16  789  {
-f10c2abcdac4a4 Liam R. Howlett    2023-01-20  790  	VMA_ITERATOR(vmi, mm, start);
-9d8cebd4bcd7c3 KOSAKI Motohiro    2010-03-05  791  	struct vm_area_struct *prev;
-9d8cebd4bcd7c3 KOSAKI Motohiro    2010-03-05  792  	struct vm_area_struct *vma;
-9d8cebd4bcd7c3 KOSAKI Motohiro    2010-03-05  793  	int err = 0;
-e26a51148f3ebd KOSAKI Motohiro    2011-12-28  794  	pgoff_t pgoff;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  795  
-f10c2abcdac4a4 Liam R. Howlett    2023-01-20  796  	prev = vma_prev(&vmi);
-f10c2abcdac4a4 Liam R. Howlett    2023-01-20  797  	vma = vma_find(&vmi, end);
-7329e3ebe3594b Liam Howlett       2022-10-15  798  	if (WARN_ON(!vma))
-7329e3ebe3594b Liam Howlett       2022-10-15  799  		return 0;
-7329e3ebe3594b Liam Howlett       2022-10-15  800  
-7329e3ebe3594b Liam Howlett       2022-10-15  801  	if (start > vma->vm_start)
-7329e3ebe3594b Liam Howlett       2022-10-15  802  		prev = vma;
-9d8cebd4bcd7c3 KOSAKI Motohiro    2010-03-05  803  
-f10c2abcdac4a4 Liam R. Howlett    2023-01-20 @804  	do {
-66850be55e8e5f Liam R. Howlett    2022-09-06  805  		unsigned long vmstart = max(start, vma->vm_start);
-66850be55e8e5f Liam R. Howlett    2022-09-06  806  		unsigned long vmend = min(end, vma->vm_end);
-9d8cebd4bcd7c3 KOSAKI Motohiro    2010-03-05  807  
-e26a51148f3ebd KOSAKI Motohiro    2011-12-28  808  		if (mpol_equal(vma_policy(vma), new_pol))
-66850be55e8e5f Liam R. Howlett    2022-09-06  809  			goto next;
-e26a51148f3ebd KOSAKI Motohiro    2011-12-28  810  
-e26a51148f3ebd KOSAKI Motohiro    2011-12-28  811  		pgoff = vma->vm_pgoff +
-e26a51148f3ebd KOSAKI Motohiro    2011-12-28  812  			((vmstart - vma->vm_start) >> PAGE_SHIFT);
-f10c2abcdac4a4 Liam R. Howlett    2023-01-20  813  		prev = vmi_vma_merge(&vmi, mm, prev, vmstart, vmend, vma->vm_flags,
-e26a51148f3ebd KOSAKI Motohiro    2011-12-28  814  				 vma->anon_vma, vma->vm_file, pgoff,
-9a10064f5625d5 Colin Cross        2022-01-14  815  				 new_pol, vma->vm_userfaultfd_ctx,
-5c26f6ac9416b6 Suren Baghdasaryan 2022-03-04  816  				 anon_vma_name(vma));
-9d8cebd4bcd7c3 KOSAKI Motohiro    2010-03-05  817  		if (prev) {
-9d8cebd4bcd7c3 KOSAKI Motohiro    2010-03-05  818  			vma = prev;
-3964acd0dbec12 Oleg Nesterov      2013-07-31  819  			goto replace;
-9d8cebd4bcd7c3 KOSAKI Motohiro    2010-03-05  820  		}
-9d8cebd4bcd7c3 KOSAKI Motohiro    2010-03-05  821  		if (vma->vm_start != vmstart) {
-f10c2abcdac4a4 Liam R. Howlett    2023-01-20  822  			err = vmi_split_vma(&vmi, vma->vm_mm, vma, vmstart, 1);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  823  			if (err)
-9d8cebd4bcd7c3 KOSAKI Motohiro    2010-03-05  824  				goto out;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  825  		}
-9d8cebd4bcd7c3 KOSAKI Motohiro    2010-03-05  826  		if (vma->vm_end != vmend) {
-f10c2abcdac4a4 Liam R. Howlett    2023-01-20  827  			err = vmi_split_vma(&vmi, vma->vm_mm, vma, vmend, 0);
-9d8cebd4bcd7c3 KOSAKI Motohiro    2010-03-05  828  			if (err)
-9d8cebd4bcd7c3 KOSAKI Motohiro    2010-03-05  829  				goto out;
-9d8cebd4bcd7c3 KOSAKI Motohiro    2010-03-05  830  		}
-3964acd0dbec12 Oleg Nesterov      2013-07-31  831  replace:
-869833f2c5c6e4 KOSAKI Motohiro    2012-10-08  832  		err = vma_replace_policy(vma, new_pol);
-9d8cebd4bcd7c3 KOSAKI Motohiro    2010-03-05  833  		if (err)
-9d8cebd4bcd7c3 KOSAKI Motohiro    2010-03-05  834  			goto out;
-66850be55e8e5f Liam R. Howlett    2022-09-06  835  next:
-66850be55e8e5f Liam R. Howlett    2022-09-06  836  		prev = vma;
-f10c2abcdac4a4 Liam R. Howlett    2023-01-20  837  	} for_each_vma_range(vmi, vma, end);
-9d8cebd4bcd7c3 KOSAKI Motohiro    2010-03-05  838  
-9d8cebd4bcd7c3 KOSAKI Motohiro    2010-03-05  839  out:
-^1da177e4c3f41 Linus Torvalds     2005-04-16  840  	return err;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  841  }
-^1da177e4c3f41 Linus Torvalds     2005-04-16  842  
+70c461b1465c5e kernel/rcu/tree.c Paul E. McKenney        2023-03-21  2060  
+64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney        2008-12-18  2061  /*
+64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney        2008-12-18  2062   * Invoke any RCU callbacks that have made it to the end of their grace
+a616aec9aa140e kernel/rcu/tree.c Ingo Molnar             2021-03-22  2063   * period.  Throttle as specified by rdp->blimit.
+64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney        2008-12-18  2064   */
+5bb5d09cc4f868 kernel/rcu/tree.c Paul E. McKenney        2018-07-03  2065  static void rcu_do_batch(struct rcu_data *rdp)
+64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney        2008-12-18  2066  {
+a63baab5f60110 kernel/rcu/tree.c Paul E. McKenney        2023-03-31  2067  	long bl;
+a63baab5f60110 kernel/rcu/tree.c Paul E. McKenney        2023-03-31  2068  	long count = 0;
+b5374b2df0ac1c kernel/rcu/tree.c Paul E. McKenney        2020-06-23  2069  	int div;
+b4e6039e8af8c2 kernel/rcu/tree.c Joel Fernandes (Google  2020-11-18  2070) 	bool __maybe_unused empty;
+64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney        2008-12-18  2071  	unsigned long flags;
+a63baab5f60110 kernel/rcu/tree.c Paul E. McKenney        2023-03-31  2072  	unsigned long jlimit;
+a63baab5f60110 kernel/rcu/tree.c Paul E. McKenney        2023-03-31  2073  	bool jlimit_check = false;
+a63baab5f60110 kernel/rcu/tree.c Paul E. McKenney        2023-03-31  2074  	long pending;
+15fecf89e46a96 kernel/rcu/tree.c Paul E. McKenney        2017-02-08  2075  	struct rcu_cblist rcl = RCU_CBLIST_INITIALIZER(rcl);
+a63baab5f60110 kernel/rcu/tree.c Paul E. McKenney        2023-03-31  2076  	struct rcu_head *rhp;
+a63baab5f60110 kernel/rcu/tree.c Paul E. McKenney        2023-03-31  2077  	long tlimit = 0;
+64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney        2008-12-18  2078  
+64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney        2008-12-18  2079  	/* If no callbacks are ready, just return. */
+15fecf89e46a96 kernel/rcu/tree.c Paul E. McKenney        2017-02-08  2080  	if (!rcu_segcblist_ready_cbs(&rdp->cblist)) {
+3c779dfef2c452 kernel/rcu/tree.c Paul E. McKenney        2018-07-05  2081  		trace_rcu_batch_start(rcu_state.name,
+15fecf89e46a96 kernel/rcu/tree.c Paul E. McKenney        2017-02-08  2082  				      rcu_segcblist_n_cbs(&rdp->cblist), 0);
+3c779dfef2c452 kernel/rcu/tree.c Paul E. McKenney        2018-07-05  2083  		trace_rcu_batch_end(rcu_state.name, 0,
+15fecf89e46a96 kernel/rcu/tree.c Paul E. McKenney        2017-02-08  2084  				    !rcu_segcblist_empty(&rdp->cblist),
+4968c300e1fa53 kernel/rcutree.c  Paul E. McKenney        2011-12-07  2085  				    need_resched(), is_idle_task(current),
+5103850654fdc6 kernel/rcu/tree.c Zqiang                  2022-04-29  2086  				    rcu_is_callbacks_kthread(rdp));
+64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney        2008-12-18  2087  		return;
+29c00b4a1d9e27 kernel/rcutree.c  Paul E. McKenney        2011-06-17  2088  	}
+64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney        2008-12-18  2089  
+64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney        2008-12-18  2090  	/*
+7b65dfa32dca1b kernel/rcu/tree.c Frederic Weisbecker     2021-10-19  2091  	 * Extract the list of ready callbacks, disabling IRQs to prevent
+15fecf89e46a96 kernel/rcu/tree.c Paul E. McKenney        2017-02-08  2092  	 * races with call_rcu() from interrupt handlers.  Leave the
+15fecf89e46a96 kernel/rcu/tree.c Paul E. McKenney        2017-02-08  2093  	 * callback counts, as rcu_barrier() needs to be conservative.
+64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney        2008-12-18  2094  	 */
+7b65dfa32dca1b kernel/rcu/tree.c Frederic Weisbecker     2021-10-19  2095  	rcu_nocb_lock_irqsave(rdp, flags);
+8146c4e2e2c197 kernel/rcutree.c  Paul E. McKenney        2012-01-10  2096  	WARN_ON_ONCE(cpu_is_offline(smp_processor_id()));
+253cbbff621407 kernel/rcu/tree.c Paul E. McKenney        2022-11-14  2097  	pending = rcu_segcblist_get_seglen(&rdp->cblist, RCU_DONE_TAIL);
+b5374b2df0ac1c kernel/rcu/tree.c Paul E. McKenney        2020-06-23  2098  	div = READ_ONCE(rcu_divisor);
+b5374b2df0ac1c kernel/rcu/tree.c Paul E. McKenney        2020-06-23  2099  	div = div < 0 ? 7 : div > sizeof(long) * 8 - 2 ? sizeof(long) * 8 - 2 : div;
+b5374b2df0ac1c kernel/rcu/tree.c Paul E. McKenney        2020-06-23  2100  	bl = max(rdp->blimit, pending >> div);
+70c461b1465c5e kernel/rcu/tree.c Paul E. McKenney        2023-03-21  2101  	if ((in_serving_softirq() || rdp->rcu_cpu_kthread_status == RCU_KTHREAD_RUNNING) &&
+a63baab5f60110 kernel/rcu/tree.c Paul E. McKenney        2023-03-31  2102  	    (IS_ENABLED(CONFIG_RCU_DOUBLE_CHECK_CB_TIME) || unlikely(bl > 100))) {
+a63baab5f60110 kernel/rcu/tree.c Paul E. McKenney        2023-03-31  2103  		const long npj = NSEC_PER_SEC / HZ;
+a2b354b9950bb8 kernel/rcu/tree.c Paul E. McKenney        2020-06-23  2104  		long rrn = READ_ONCE(rcu_resched_ns);
+a2b354b9950bb8 kernel/rcu/tree.c Paul E. McKenney        2020-06-23  2105  
+a2b354b9950bb8 kernel/rcu/tree.c Paul E. McKenney        2020-06-23  2106  		rrn = rrn < NSEC_PER_MSEC ? NSEC_PER_MSEC : rrn > NSEC_PER_SEC ? NSEC_PER_SEC : rrn;
+a2b354b9950bb8 kernel/rcu/tree.c Paul E. McKenney        2020-06-23  2107  		tlimit = local_clock() + rrn;
+a63baab5f60110 kernel/rcu/tree.c Paul E. McKenney        2023-03-31  2108  		jlimit = jiffies + (rrn + npj + 1) / npj;
+a63baab5f60110 kernel/rcu/tree.c Paul E. McKenney        2023-03-31  2109  		jlimit_check = true;
+a2b354b9950bb8 kernel/rcu/tree.c Paul E. McKenney        2020-06-23  2110  	}
+3c779dfef2c452 kernel/rcu/tree.c Paul E. McKenney        2018-07-05  2111  	trace_rcu_batch_start(rcu_state.name,
+15fecf89e46a96 kernel/rcu/tree.c Paul E. McKenney        2017-02-08  2112  			      rcu_segcblist_n_cbs(&rdp->cblist), bl);
+15fecf89e46a96 kernel/rcu/tree.c Paul E. McKenney        2017-02-08  2113  	rcu_segcblist_extract_done_cbs(&rdp->cblist, &rcl);
+344e219d7d2b28 kernel/rcu/tree.c Frederic Weisbecker     2021-10-19  2114  	if (rcu_rdp_is_offloaded(rdp))
+7f36ef82e5cf0b kernel/rcu/tree.c Paul E. McKenney        2019-05-28  2115  		rdp->qlen_last_fqs_check = rcu_segcblist_n_cbs(&rdp->cblist);
+3afe7fa535491e kernel/rcu/tree.c Joel Fernandes (Google  2020-11-14  2116) 
+3afe7fa535491e kernel/rcu/tree.c Joel Fernandes (Google  2020-11-14  2117) 	trace_rcu_segcb_stats(&rdp->cblist, TPS("SegCbDequeued"));
+5d6742b37727e1 kernel/rcu/tree.c Paul E. McKenney        2019-05-15  2118  	rcu_nocb_unlock_irqrestore(rdp, flags);
+64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney        2008-12-18  2119  
+64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney        2008-12-18  2120  	/* Invoke callbacks. */
+6a949b7af82db7 kernel/rcu/tree.c Paul E. McKenney        2019-07-28  2121  	tick_dep_set_task(current, TICK_DEP_BIT_RCU);
+15fecf89e46a96 kernel/rcu/tree.c Paul E. McKenney        2017-02-08  2122  	rhp = rcu_cblist_dequeue(&rcl);
+3afe7fa535491e kernel/rcu/tree.c Joel Fernandes (Google  2020-11-14  2123) 
+15fecf89e46a96 kernel/rcu/tree.c Paul E. McKenney        2017-02-08  2124  	for (; rhp; rhp = rcu_cblist_dequeue(&rcl)) {
+77a40f97030b27 kernel/rcu/tree.c Joel Fernandes (Google  2019-08-30  2125) 		rcu_callback_t f;
+77a40f97030b27 kernel/rcu/tree.c Joel Fernandes (Google  2019-08-30  2126) 
+6bc335828056f3 kernel/rcu/tree.c Joel Fernandes (Google  2020-11-03  2127) 		count++;
+15fecf89e46a96 kernel/rcu/tree.c Paul E. McKenney        2017-02-08  2128  		debug_rcu_head_unqueue(rhp);
+77a40f97030b27 kernel/rcu/tree.c Joel Fernandes (Google  2019-08-30  2129) 
+77a40f97030b27 kernel/rcu/tree.c Joel Fernandes (Google  2019-08-30  2130) 		rcu_lock_acquire(&rcu_callback_map);
+77a40f97030b27 kernel/rcu/tree.c Joel Fernandes (Google  2019-08-30  2131) 		trace_rcu_invoke_callback(rcu_state.name, rhp);
+77a40f97030b27 kernel/rcu/tree.c Joel Fernandes (Google  2019-08-30  2132) 
+77a40f97030b27 kernel/rcu/tree.c Joel Fernandes (Google  2019-08-30  2133) 		f = rhp->func;
+77a40f97030b27 kernel/rcu/tree.c Joel Fernandes (Google  2019-08-30  2134) 		WRITE_ONCE(rhp->func, (rcu_callback_t)0L);
+77a40f97030b27 kernel/rcu/tree.c Joel Fernandes (Google  2019-08-30  2135) 		f(rhp);
+77a40f97030b27 kernel/rcu/tree.c Joel Fernandes (Google  2019-08-30  2136) 
+77a40f97030b27 kernel/rcu/tree.c Joel Fernandes (Google  2019-08-30  2137) 		rcu_lock_release(&rcu_callback_map);
+77a40f97030b27 kernel/rcu/tree.c Joel Fernandes (Google  2019-08-30  2138) 
+15fecf89e46a96 kernel/rcu/tree.c Paul E. McKenney        2017-02-08  2139  		/*
+15fecf89e46a96 kernel/rcu/tree.c Paul E. McKenney        2017-02-08  2140  		 * Stop only if limit reached and CPU has something to do.
+15fecf89e46a96 kernel/rcu/tree.c Paul E. McKenney        2017-02-08  2141  		 */
+3e61e95e2d095e kernel/rcu/tree.c Frederic Weisbecker     2021-10-19  2142  		if (in_serving_softirq()) {
+3e61e95e2d095e kernel/rcu/tree.c Frederic Weisbecker     2021-10-19  2143  			if (count >= bl && (need_resched() || !is_idle_task(current)))
+64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney        2008-12-18  2144  				break;
+3e61e95e2d095e kernel/rcu/tree.c Frederic Weisbecker     2021-10-19  2145  			/*
+3e61e95e2d095e kernel/rcu/tree.c Frederic Weisbecker     2021-10-19  2146  			 * Make sure we don't spend too much time here and deprive other
+3e61e95e2d095e kernel/rcu/tree.c Frederic Weisbecker     2021-10-19  2147  			 * softirq vectors of CPU cycles.
+3e61e95e2d095e kernel/rcu/tree.c Frederic Weisbecker     2021-10-19  2148  			 */
+a63baab5f60110 kernel/rcu/tree.c Paul E. McKenney        2023-03-31 @2149  			if (rcu_do_batch_check_time(count, tlimit, jlimit_check, jlimit))
+cfcdef5e30469f kernel/rcu/tree.c Eric Dumazet            2019-07-24  2150  				break;
+a554ba288845fd kernel/rcu/tree.c Frederic Weisbecker     2021-10-19  2151  		} else {
+70c461b1465c5e kernel/rcu/tree.c Paul E. McKenney        2023-03-21  2152  			// In rcuc/rcuoc context, so no worries about
+70c461b1465c5e kernel/rcu/tree.c Paul E. McKenney        2023-03-21  2153  			// depriving other softirq vectors of CPU cycles.
+5d6742b37727e1 kernel/rcu/tree.c Paul E. McKenney        2019-05-15  2154  			local_bh_enable();
+5d6742b37727e1 kernel/rcu/tree.c Paul E. McKenney        2019-05-15  2155  			lockdep_assert_irqs_enabled();
+5d6742b37727e1 kernel/rcu/tree.c Paul E. McKenney        2019-05-15  2156  			cond_resched_tasks_rcu_qs();
+5d6742b37727e1 kernel/rcu/tree.c Paul E. McKenney        2019-05-15  2157  			lockdep_assert_irqs_enabled();
+5d6742b37727e1 kernel/rcu/tree.c Paul E. McKenney        2019-05-15  2158  			local_bh_disable();
+70c461b1465c5e kernel/rcu/tree.c Paul E. McKenney        2023-03-21  2159  			// But rcuc kthreads can delay quiescent-state
+70c461b1465c5e kernel/rcu/tree.c Paul E. McKenney        2023-03-21  2160  			// reporting, so check time limits for them.
+70c461b1465c5e kernel/rcu/tree.c Paul E. McKenney        2023-03-21  2161  			if (rdp->rcu_cpu_kthread_status == RCU_KTHREAD_RUNNING &&
+a63baab5f60110 kernel/rcu/tree.c Paul E. McKenney        2023-03-31  2162  			    rcu_do_batch_check_time(count, tlimit, jlimit_check, jlimit)) {
+70c461b1465c5e kernel/rcu/tree.c Paul E. McKenney        2023-03-21  2163  				rdp->rcu_cpu_has_work = 1;
+70c461b1465c5e kernel/rcu/tree.c Paul E. McKenney        2023-03-21  2164  				break;
+70c461b1465c5e kernel/rcu/tree.c Paul E. McKenney        2023-03-21  2165  			}
+5d6742b37727e1 kernel/rcu/tree.c Paul E. McKenney        2019-05-15  2166  		}
+64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney        2008-12-18  2167  	}
+64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney        2008-12-18  2168  
+7b65dfa32dca1b kernel/rcu/tree.c Frederic Weisbecker     2021-10-19  2169  	rcu_nocb_lock_irqsave(rdp, flags);
+e816d56fad57ba kernel/rcu/tree.c Paul E. McKenney        2020-05-01  2170  	rdp->n_cbs_invoked += count;
+3c779dfef2c452 kernel/rcu/tree.c Paul E. McKenney        2018-07-05  2171  	trace_rcu_batch_end(rcu_state.name, count, !!rcl.head, need_resched(),
+5103850654fdc6 kernel/rcu/tree.c Zqiang                  2022-04-29  2172  			    is_idle_task(current), rcu_is_callbacks_kthread(rdp));
+64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney        2008-12-18  2173  
+15fecf89e46a96 kernel/rcu/tree.c Paul E. McKenney        2017-02-08  2174  	/* Update counts and requeue any remaining callbacks. */
+15fecf89e46a96 kernel/rcu/tree.c Paul E. McKenney        2017-02-08  2175  	rcu_segcblist_insert_done_cbs(&rdp->cblist, &rcl);
+6bc335828056f3 kernel/rcu/tree.c Joel Fernandes (Google  2020-11-03  2176) 	rcu_segcblist_add_len(&rdp->cblist, -count);
+64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney        2008-12-18  2177  
+64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney        2008-12-18  2178  	/* Reinstate batch limit if we have worked down the excess. */
+15fecf89e46a96 kernel/rcu/tree.c Paul E. McKenney        2017-02-08  2179  	count = rcu_segcblist_n_cbs(&rdp->cblist);
+d5a9a8c3bc8068 kernel/rcu/tree.c Paul E. McKenney        2019-04-10  2180  	if (rdp->blimit >= DEFAULT_MAX_RCU_BLIMIT && count <= qlowmark)
+64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney        2008-12-18  2181  		rdp->blimit = blimit;
+64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney        2008-12-18  2182  
+37c72e56f6b234 kernel/rcutree.c  Paul E. McKenney        2009-10-14  2183  	/* Reset ->qlen_last_fqs_check trigger if enough CBs have drained. */
+15fecf89e46a96 kernel/rcu/tree.c Paul E. McKenney        2017-02-08  2184  	if (count == 0 && rdp->qlen_last_fqs_check != 0) {
+37c72e56f6b234 kernel/rcutree.c  Paul E. McKenney        2009-10-14  2185  		rdp->qlen_last_fqs_check = 0;
+2431774f04d105 kernel/rcu/tree.c Paul E. McKenney        2021-07-20  2186  		rdp->n_force_qs_snap = READ_ONCE(rcu_state.n_force_qs);
+15fecf89e46a96 kernel/rcu/tree.c Paul E. McKenney        2017-02-08  2187  	} else if (count < rdp->qlen_last_fqs_check - qhimark)
+15fecf89e46a96 kernel/rcu/tree.c Paul E. McKenney        2017-02-08  2188  		rdp->qlen_last_fqs_check = count;
+efd88b02bb9e6b kernel/rcu/tree.c Paul E. McKenney        2017-10-19  2189  
+efd88b02bb9e6b kernel/rcu/tree.c Paul E. McKenney        2017-10-19  2190  	/*
+efd88b02bb9e6b kernel/rcu/tree.c Paul E. McKenney        2017-10-19  2191  	 * The following usually indicates a double call_rcu().  To track
+efd88b02bb9e6b kernel/rcu/tree.c Paul E. McKenney        2017-10-19  2192  	 * this down, try building with CONFIG_DEBUG_OBJECTS_RCU_HEAD=y.
+efd88b02bb9e6b kernel/rcu/tree.c Paul E. McKenney        2017-10-19  2193  	 */
+b4e6039e8af8c2 kernel/rcu/tree.c Joel Fernandes (Google  2020-11-18  2194) 	empty = rcu_segcblist_empty(&rdp->cblist);
+b4e6039e8af8c2 kernel/rcu/tree.c Joel Fernandes (Google  2020-11-18  2195) 	WARN_ON_ONCE(count == 0 && !empty);
+d1b222c6be1f8b kernel/rcu/tree.c Paul E. McKenney        2019-07-02  2196  	WARN_ON_ONCE(!IS_ENABLED(CONFIG_RCU_NOCB_CPU) &&
+b4e6039e8af8c2 kernel/rcu/tree.c Joel Fernandes (Google  2020-11-18  2197) 		     count != 0 && empty);
+b4e6039e8af8c2 kernel/rcu/tree.c Joel Fernandes (Google  2020-11-18  2198) 	WARN_ON_ONCE(count == 0 && rcu_segcblist_n_segment_cbs(&rdp->cblist) != 0);
+b4e6039e8af8c2 kernel/rcu/tree.c Joel Fernandes (Google  2020-11-18  2199) 	WARN_ON_ONCE(!empty && rcu_segcblist_n_segment_cbs(&rdp->cblist) == 0);
+37c72e56f6b234 kernel/rcutree.c  Paul E. McKenney        2009-10-14  2200  
+5d6742b37727e1 kernel/rcu/tree.c Paul E. McKenney        2019-05-15  2201  	rcu_nocb_unlock_irqrestore(rdp, flags);
+64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney        2008-12-18  2202  
+6a949b7af82db7 kernel/rcu/tree.c Paul E. McKenney        2019-07-28  2203  	tick_dep_clear_task(current, TICK_DEP_BIT_RCU);
+64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney        2008-12-18  2204  }
+64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney        2008-12-18  2205  
 
 -- 
 0-DAY CI Kernel Test Service
