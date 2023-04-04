@@ -1,52 +1,42 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 902AF378;
-	Tue,  4 Apr 2023 04:43:28 +0000 (UTC)
-Received: by mail-wr1-f46.google.com with SMTP id d17so31380877wrb.11;
-        Mon, 03 Apr 2023 21:43:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680583407;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=re1Fu8h5d1FznhMWA0wx8m1E7VkYUirHBcrTkZUXBn4=;
-        b=aFl5ale2Po7yRZwpQCJr4wm8b4sumIJdBUe9QaGLOXqQK7GpKr4kM+Jz5Ld9wUFwzX
-         uD+gzKhCZNGNEv+H3goIM5rNGaGySlv7V+fYbp9+jUDxRfKlPLLWOi9cYV5ETlHPNPTJ
-         /fbFqjwWoxpzusR/7jZiV6ZstXe95DEEgTxhsQkmNZKguD8kn8cfniwryChugrCtW7Ih
-         cqrLaLvxunbiQFv4o1Exz0VFF1QyBETQF5sqPPmgH6lsMJF5DaaQ1Rd8ggZx65qwcSfg
-         s3xdcs6JK2CqAAOzu0jlpbKPQSz3e+V1MR5Fu790iiOkqUSslVGJT47bDzMlBMs4WZk1
-         aG+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680583407;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=re1Fu8h5d1FznhMWA0wx8m1E7VkYUirHBcrTkZUXBn4=;
-        b=GNvtNj9+f6I7LBtuk0OJO2PVnidWKVZq2s0yUyVGhSKlmZGDmzYyoQ7qjVkAqKGam8
-         iC8I+qJ3Ba1TcMQ/lkm8zp6SDw9MtFmxi3LyUdymghTvgqcYg/LR09dYMZW1NFX2yVAX
-         kFdeYbZuwANNisy1rCOLLNXW0EBHcJADNw3Ts+E+z23GjyU/ps/7aJ8QUw5v0DBpmzxb
-         OC+zQAn93qtu/zyVaxnUZiFMHhDEiXjscWxDwgu9OgL7VKdKOS6Oogdkspo8avIlp9zm
-         ltDy2bAGAwti7Y+yzAkk7o64ArJ41mpF4n0LOH5yLt2fgSCKzJfMpKRjkShlJf/PN3Q9
-         b4sA==
-X-Gm-Message-State: AAQBX9cQSJcqeys/fnkgGuJk1RjNoFRLAXbB9GED2bVbvk+3NopbZnb4
-	3rTUANpW6KVCDaaaaG1FkvU=
-X-Google-Smtp-Source: AKy350bHTT9KWJOCSg3+xUE5GosQdVj9kozohOfUkVQQDkUsTng0zo8Fbkt81mlMDWtdpJCHWXogfA==
-X-Received: by 2002:adf:dc8d:0:b0:2d0:7545:a544 with SMTP id r13-20020adfdc8d000000b002d07545a544mr544878wrj.7.1680583406439;
-        Mon, 03 Apr 2023 21:43:26 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id o5-20020adfcf05000000b002c592535839sm11235431wrj.17.2023.04.03.21.43.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Apr 2023 21:43:25 -0700 (PDT)
-Date: Tue, 4 Apr 2023 07:43:22 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: "Paul E. McKenney" <paulmck@kernel.org>
-Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [paulmck-rcu:dev.2023.03.30a 28/35] kernel/rcu/tree.c:2149
- rcu_do_batch() error: uninitialized symbol 'jlimit'.
-Message-ID: <e7650b46-851f-4341-a43f-33efe47fc65d@kili.mountain>
-References: <90f95e84-842c-4273-90a3-93afd5353fd2@kili.mountain>
- <322a0530-42ea-46dc-8226-e1fbefe2dffa@paulmck-laptop>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CDA0648
+	for <oe-kbuild@lists.linux.dev>; Tue,  4 Apr 2023 05:30:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1680586228; x=1712122228;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=WEKr1Zz2eM9Vxb0mF8jVm6aJohkQi9KaonkpKX31Dy4=;
+  b=UJaNrw6VnvHUWV5N2VWqhUahHvalZQ0KF3uqiAi3QHNFOr/H369aNKbE
+   n5cSIxQt1ZBN5b564OZs012fJL3tBhyoKiszulSYvkrG3xivJ51ATHWvs
+   lhOOWuIPWPala8OfUad+mv/4VeXAVbXCUM9WEWpkq7hTZ5mi9szUIr2uv
+   L7ysbqPjnram+8QXofGzlHAPBsN5r/IIR/KldP0FtxREjFzTzX1UDY6sZ
+   mzxFfVdnWh29d+QDkz6Hpezq4UHWbAbh1ASugYxSpOnYosRdoNLwYoZQE
+   AyxT5m9bHICv+rVEYIjcNZR9wXuv9wXJRi90ahbfwocDO6YSykOyCXyUD
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="428377398"
+X-IronPort-AV: E=Sophos;i="5.98,316,1673942400"; 
+   d="scan'208";a="428377398"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2023 22:30:26 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="686242078"
+X-IronPort-AV: E=Sophos;i="5.98,316,1673942400"; 
+   d="scan'208";a="686242078"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by orsmga002.jf.intel.com with ESMTP; 03 Apr 2023 22:30:08 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pjZF8-000PEi-1E;
+	Tue, 04 Apr 2023 05:30:06 +0000
+Date: Tue, 4 Apr 2023 13:29:43 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: Re: [RFC PATCH v2 7/9] fuse: add fuse device
+ ioctl(FUSE_DEV_IOC_REINIT)
+Message-ID: <202304041325.cDq5RlHR-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -55,138 +45,108 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <322a0530-42ea-46dc-8226-e1fbefe2dffa@paulmck-laptop>
 
-On Mon, Apr 03, 2023 at 09:18:58PM -0700, Paul E. McKenney wrote:
-> On Tue, Apr 04, 2023 at 07:04:06AM +0300, Dan Carpenter wrote:
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git dev.2023.03.30a
-> > head:   e222f9a512539c3f4093a55d16624d9da614800b
-> > commit: a63baab5f60110f3631c98b55d59066f1c68c4f7 [28/35] rcu: Employ jiffies-based backstop to callback time limit
-> > config: openrisc-randconfig-m031-20230403 (https://download.01.org/0day-ci/archive/20230404/202304041113.A5sNFc2y-lkp@intel.com/config)
-> > compiler: or1k-linux-gcc (GCC) 12.1.0
-> > 
-> > If you fix the issue, kindly add following tag where applicable
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Reported-by: Dan Carpenter <error27@gmail.com>
-> > | Link: https://lore.kernel.org/r/202304041113.A5sNFc2y-lkp@intel.com/
-> > 
-> > smatch warnings:
-> > kernel/rcu/tree.c:2149 rcu_do_batch() error: uninitialized symbol 'jlimit'.
-> > 
-> > vim +/jlimit +2149 kernel/rcu/tree.c
-> > 
-> > 5bb5d09cc4f868 kernel/rcu/tree.c Paul E. McKenney        2018-07-03  2065  static void rcu_do_batch(struct rcu_data *rdp)
-> > 64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney        2008-12-18  2066  {
-> > a63baab5f60110 kernel/rcu/tree.c Paul E. McKenney        2023-03-31  2067  	long bl;
-> > a63baab5f60110 kernel/rcu/tree.c Paul E. McKenney        2023-03-31  2068  	long count = 0;
-> > b5374b2df0ac1c kernel/rcu/tree.c Paul E. McKenney        2020-06-23  2069  	int div;
-> > b4e6039e8af8c2 kernel/rcu/tree.c Joel Fernandes (Google  2020-11-18  2070) 	bool __maybe_unused empty;
-> > 64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney        2008-12-18  2071  	unsigned long flags;
-> > a63baab5f60110 kernel/rcu/tree.c Paul E. McKenney        2023-03-31  2072  	unsigned long jlimit;
-> > a63baab5f60110 kernel/rcu/tree.c Paul E. McKenney        2023-03-31  2073  	bool jlimit_check = false;
-> > a63baab5f60110 kernel/rcu/tree.c Paul E. McKenney        2023-03-31  2074  	long pending;
-> > 15fecf89e46a96 kernel/rcu/tree.c Paul E. McKenney        2017-02-08  2075  	struct rcu_cblist rcl = RCU_CBLIST_INITIALIZER(rcl);
-> > a63baab5f60110 kernel/rcu/tree.c Paul E. McKenney        2023-03-31  2076  	struct rcu_head *rhp;
-> > a63baab5f60110 kernel/rcu/tree.c Paul E. McKenney        2023-03-31  2077  	long tlimit = 0;
-> > 64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney        2008-12-18  2078  
-> > 64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney        2008-12-18  2079  	/* If no callbacks are ready, just return. */
-> > 15fecf89e46a96 kernel/rcu/tree.c Paul E. McKenney        2017-02-08  2080  	if (!rcu_segcblist_ready_cbs(&rdp->cblist)) {
-> > 3c779dfef2c452 kernel/rcu/tree.c Paul E. McKenney        2018-07-05  2081  		trace_rcu_batch_start(rcu_state.name,
-> > 15fecf89e46a96 kernel/rcu/tree.c Paul E. McKenney        2017-02-08  2082  				      rcu_segcblist_n_cbs(&rdp->cblist), 0);
-> > 3c779dfef2c452 kernel/rcu/tree.c Paul E. McKenney        2018-07-05  2083  		trace_rcu_batch_end(rcu_state.name, 0,
-> > 15fecf89e46a96 kernel/rcu/tree.c Paul E. McKenney        2017-02-08  2084  				    !rcu_segcblist_empty(&rdp->cblist),
-> > 4968c300e1fa53 kernel/rcutree.c  Paul E. McKenney        2011-12-07  2085  				    need_resched(), is_idle_task(current),
-> > 5103850654fdc6 kernel/rcu/tree.c Zqiang                  2022-04-29  2086  				    rcu_is_callbacks_kthread(rdp));
-> > 64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney        2008-12-18  2087  		return;
-> > 29c00b4a1d9e27 kernel/rcutree.c  Paul E. McKenney        2011-06-17  2088  	}
-> > 64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney        2008-12-18  2089  
-> > 64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney        2008-12-18  2090  	/*
-> > 7b65dfa32dca1b kernel/rcu/tree.c Frederic Weisbecker     2021-10-19  2091  	 * Extract the list of ready callbacks, disabling IRQs to prevent
-> > 15fecf89e46a96 kernel/rcu/tree.c Paul E. McKenney        2017-02-08  2092  	 * races with call_rcu() from interrupt handlers.  Leave the
-> > 15fecf89e46a96 kernel/rcu/tree.c Paul E. McKenney        2017-02-08  2093  	 * callback counts, as rcu_barrier() needs to be conservative.
-> > 64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney        2008-12-18  2094  	 */
-> > 7b65dfa32dca1b kernel/rcu/tree.c Frederic Weisbecker     2021-10-19  2095  	rcu_nocb_lock_irqsave(rdp, flags);
-> > 8146c4e2e2c197 kernel/rcutree.c  Paul E. McKenney        2012-01-10  2096  	WARN_ON_ONCE(cpu_is_offline(smp_processor_id()));
-> > 253cbbff621407 kernel/rcu/tree.c Paul E. McKenney        2022-11-14  2097  	pending = rcu_segcblist_get_seglen(&rdp->cblist, RCU_DONE_TAIL);
-> > b5374b2df0ac1c kernel/rcu/tree.c Paul E. McKenney        2020-06-23  2098  	div = READ_ONCE(rcu_divisor);
-> > b5374b2df0ac1c kernel/rcu/tree.c Paul E. McKenney        2020-06-23  2099  	div = div < 0 ? 7 : div > sizeof(long) * 8 - 2 ? sizeof(long) * 8 - 2 : div;
-> > b5374b2df0ac1c kernel/rcu/tree.c Paul E. McKenney        2020-06-23  2100  	bl = max(rdp->blimit, pending >> div);
-> > 70c461b1465c5e kernel/rcu/tree.c Paul E. McKenney        2023-03-21  2101  	if ((in_serving_softirq() || rdp->rcu_cpu_kthread_status == RCU_KTHREAD_RUNNING) &&
-> > a63baab5f60110 kernel/rcu/tree.c Paul E. McKenney        2023-03-31  2102  	    (IS_ENABLED(CONFIG_RCU_DOUBLE_CHECK_CB_TIME) || unlikely(bl > 100))) {
-> >                                                                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> > jlimit is only initialized if one of these conditions is met.
-> > 
-> > a63baab5f60110 kernel/rcu/tree.c Paul E. McKenney        2023-03-31  2103  		const long npj = NSEC_PER_SEC / HZ;
-> > a2b354b9950bb8 kernel/rcu/tree.c Paul E. McKenney        2020-06-23  2104  		long rrn = READ_ONCE(rcu_resched_ns);
-> > a2b354b9950bb8 kernel/rcu/tree.c Paul E. McKenney        2020-06-23  2105  
-> > a2b354b9950bb8 kernel/rcu/tree.c Paul E. McKenney        2020-06-23  2106  		rrn = rrn < NSEC_PER_MSEC ? NSEC_PER_MSEC : rrn > NSEC_PER_SEC ? NSEC_PER_SEC : rrn;
-> > a2b354b9950bb8 kernel/rcu/tree.c Paul E. McKenney        2020-06-23  2107  		tlimit = local_clock() + rrn;
-> > a63baab5f60110 kernel/rcu/tree.c Paul E. McKenney        2023-03-31  2108  		jlimit = jiffies + (rrn + npj + 1) / npj;
-> > a63baab5f60110 kernel/rcu/tree.c Paul E. McKenney        2023-03-31  2109  		jlimit_check = true;
-> > a2b354b9950bb8 kernel/rcu/tree.c Paul E. McKenney        2020-06-23  2110  	}
-> > 3c779dfef2c452 kernel/rcu/tree.c Paul E. McKenney        2018-07-05  2111  	trace_rcu_batch_start(rcu_state.name,
-> > 15fecf89e46a96 kernel/rcu/tree.c Paul E. McKenney        2017-02-08  2112  			      rcu_segcblist_n_cbs(&rdp->cblist), bl);
-> > 15fecf89e46a96 kernel/rcu/tree.c Paul E. McKenney        2017-02-08  2113  	rcu_segcblist_extract_done_cbs(&rdp->cblist, &rcl);
-> > 344e219d7d2b28 kernel/rcu/tree.c Frederic Weisbecker     2021-10-19  2114  	if (rcu_rdp_is_offloaded(rdp))
-> > 7f36ef82e5cf0b kernel/rcu/tree.c Paul E. McKenney        2019-05-28  2115  		rdp->qlen_last_fqs_check = rcu_segcblist_n_cbs(&rdp->cblist);
-> > 3afe7fa535491e kernel/rcu/tree.c Joel Fernandes (Google  2020-11-14  2116) 
-> > 3afe7fa535491e kernel/rcu/tree.c Joel Fernandes (Google  2020-11-14  2117) 	trace_rcu_segcb_stats(&rdp->cblist, TPS("SegCbDequeued"));
-> > 5d6742b37727e1 kernel/rcu/tree.c Paul E. McKenney        2019-05-15  2118  	rcu_nocb_unlock_irqrestore(rdp, flags);
-> > 64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney        2008-12-18  2119  
-> > 64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney        2008-12-18  2120  	/* Invoke callbacks. */
-> > 6a949b7af82db7 kernel/rcu/tree.c Paul E. McKenney        2019-07-28  2121  	tick_dep_set_task(current, TICK_DEP_BIT_RCU);
-> > 15fecf89e46a96 kernel/rcu/tree.c Paul E. McKenney        2017-02-08  2122  	rhp = rcu_cblist_dequeue(&rcl);
-> > 3afe7fa535491e kernel/rcu/tree.c Joel Fernandes (Google  2020-11-14  2123) 
-> > 15fecf89e46a96 kernel/rcu/tree.c Paul E. McKenney        2017-02-08  2124  	for (; rhp; rhp = rcu_cblist_dequeue(&rcl)) {
-> > 77a40f97030b27 kernel/rcu/tree.c Joel Fernandes (Google  2019-08-30  2125) 		rcu_callback_t f;
-> > 77a40f97030b27 kernel/rcu/tree.c Joel Fernandes (Google  2019-08-30  2126) 
-> > 6bc335828056f3 kernel/rcu/tree.c Joel Fernandes (Google  2020-11-03  2127) 		count++;
-> > 15fecf89e46a96 kernel/rcu/tree.c Paul E. McKenney        2017-02-08  2128  		debug_rcu_head_unqueue(rhp);
-> > 77a40f97030b27 kernel/rcu/tree.c Joel Fernandes (Google  2019-08-30  2129) 
-> > 77a40f97030b27 kernel/rcu/tree.c Joel Fernandes (Google  2019-08-30  2130) 		rcu_lock_acquire(&rcu_callback_map);
-> > 77a40f97030b27 kernel/rcu/tree.c Joel Fernandes (Google  2019-08-30  2131) 		trace_rcu_invoke_callback(rcu_state.name, rhp);
-> > 77a40f97030b27 kernel/rcu/tree.c Joel Fernandes (Google  2019-08-30  2132) 
-> > 77a40f97030b27 kernel/rcu/tree.c Joel Fernandes (Google  2019-08-30  2133) 		f = rhp->func;
-> > 77a40f97030b27 kernel/rcu/tree.c Joel Fernandes (Google  2019-08-30  2134) 		WRITE_ONCE(rhp->func, (rcu_callback_t)0L);
-> > 77a40f97030b27 kernel/rcu/tree.c Joel Fernandes (Google  2019-08-30  2135) 		f(rhp);
-> > 77a40f97030b27 kernel/rcu/tree.c Joel Fernandes (Google  2019-08-30  2136) 
-> > 77a40f97030b27 kernel/rcu/tree.c Joel Fernandes (Google  2019-08-30  2137) 		rcu_lock_release(&rcu_callback_map);
-> > 77a40f97030b27 kernel/rcu/tree.c Joel Fernandes (Google  2019-08-30  2138) 
-> > 15fecf89e46a96 kernel/rcu/tree.c Paul E. McKenney        2017-02-08  2139  		/*
-> > 15fecf89e46a96 kernel/rcu/tree.c Paul E. McKenney        2017-02-08  2140  		 * Stop only if limit reached and CPU has something to do.
-> > 15fecf89e46a96 kernel/rcu/tree.c Paul E. McKenney        2017-02-08  2141  		 */
-> > 3e61e95e2d095e kernel/rcu/tree.c Frederic Weisbecker     2021-10-19  2142  		if (in_serving_softirq()) {
-> > 3e61e95e2d095e kernel/rcu/tree.c Frederic Weisbecker     2021-10-19  2143  			if (count >= bl && (need_resched() || !is_idle_task(current)))
-> > 64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney        2008-12-18  2144  				break;
-> > 3e61e95e2d095e kernel/rcu/tree.c Frederic Weisbecker     2021-10-19  2145  			/*
-> > 3e61e95e2d095e kernel/rcu/tree.c Frederic Weisbecker     2021-10-19  2146  			 * Make sure we don't spend too much time here and deprive other
-> > 3e61e95e2d095e kernel/rcu/tree.c Frederic Weisbecker     2021-10-19  2147  			 * softirq vectors of CPU cycles.
-> > 3e61e95e2d095e kernel/rcu/tree.c Frederic Weisbecker     2021-10-19  2148  			 */
-> > a63baab5f60110 kernel/rcu/tree.c Paul E. McKenney        2023-03-31 @2149  			if (rcu_do_batch_check_time(count, tlimit, jlimit_check, jlimit))
-> >                                                                                                                                                          ^^^^^^
-> > Uninitialized?
-> 
-> Except that in rcu_do_batch_check_time(), jlimit is referenced only if
-> jlimit_check is set, which it is only if jlimit is initialized.
-> 
-> I suppose that I could unconditionally initialize jlimit to (say) zero
-> to shut this up, but is there a better way to communicate the intent
-> to the tooling?
-> 
-> Or am I confused and there is a real use of the uninitialized value?
-> 
-> 							Thanx, Paul
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20230403144517.347517-8-aleksandr.mikhalitsyn@canonical.com>
+References: <20230403144517.347517-8-aleksandr.mikhalitsyn@canonical.com>
+TO: Alexander Mikhalitsyn <aleksandr.mikhalitsyn@canonical.com>
 
-I'm going to guess that on distro kernels they're going to automatically
-initialize stack variables to zero.  So it's not a bad option.
+Hi Alexander,
 
-The other thing is that rcu_do_batch_check_time() is always going to be
-inlined.  So this is officially a false positive.  If it weren't inlined
-then passing uninitialized data is a bug regardless of whether or not
-it's used.
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
 
-It's also totally okay to just ignore this false positive.
+[auto build test WARNING on c68ea140050e631d24d61b6e399ca8224a4a2219]
 
-regards,
-dan carpenter
+url:    https://github.com/intel-lab-lkp/linux/commits/Alexander-Mikhalitsyn/fuse-move-FUSE_DEFAULT_-defines-to-fuse-common-header/20230403-224904
+base:   c68ea140050e631d24d61b6e399ca8224a4a2219
+patch link:    https://lore.kernel.org/r/20230403144517.347517-8-aleksandr.mikhalitsyn%40canonical.com
+patch subject: [RFC PATCH v2 7/9] fuse: add fuse device ioctl(FUSE_DEV_IOC_REINIT)
+:::::: branch date: 15 hours ago
+:::::: commit date: 15 hours ago
+config: openrisc-randconfig-m031-20230403 (https://download.01.org/0day-ci/archive/20230404/202304041325.cDq5RlHR-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 12.1.0
 
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Link: https://lore.kernel.org/r/202304041325.cDq5RlHR-lkp@intel.com/
+
+New smatch warnings:
+fs/fuse/dev.c:2412 fuse_dev_ioctl() warn: statement has no effect 3
+
+Old smatch warnings:
+fs/fuse/dev.c:1339 fuse_dev_do_read() warn: inconsistent returns '&fiq->lock'.
+
+vim +2412 fs/fuse/dev.c
+
+00c570f4ba43ae Miklos Szeredi        2015-07-01  2379  
+00c570f4ba43ae Miklos Szeredi        2015-07-01  2380  static long fuse_dev_ioctl(struct file *file, unsigned int cmd,
+00c570f4ba43ae Miklos Szeredi        2015-07-01  2381  			   unsigned long arg)
+00c570f4ba43ae Miklos Szeredi        2015-07-01  2382  {
+f8425c9396639c Alessio Balsini       2021-01-25  2383  	int res;
+00c570f4ba43ae Miklos Szeredi        2015-07-01  2384  	int oldfd;
+f8425c9396639c Alessio Balsini       2021-01-25  2385  	struct fuse_dev *fud = NULL;
+f8425c9396639c Alessio Balsini       2021-01-25  2386  
+6076f5f341e612 Alessio Balsini       2021-03-19  2387  	switch (cmd) {
+6076f5f341e612 Alessio Balsini       2021-03-19  2388  	case FUSE_DEV_IOC_CLONE:
+f8425c9396639c Alessio Balsini       2021-01-25  2389  		res = -EFAULT;
+00c570f4ba43ae Miklos Szeredi        2015-07-01  2390  		if (!get_user(oldfd, (__u32 __user *)arg)) {
+00c570f4ba43ae Miklos Szeredi        2015-07-01  2391  			struct file *old = fget(oldfd);
+00c570f4ba43ae Miklos Szeredi        2015-07-01  2392  
+f8425c9396639c Alessio Balsini       2021-01-25  2393  			res = -EINVAL;
+00c570f4ba43ae Miklos Szeredi        2015-07-01  2394  			if (old) {
+8ed1f0e22f49ef Jann Horn             2015-08-16  2395  				/*
+8ed1f0e22f49ef Jann Horn             2015-08-16  2396  				 * Check against file->f_op because CUSE
+8ed1f0e22f49ef Jann Horn             2015-08-16  2397  				 * uses the same ioctl handler.
+8ed1f0e22f49ef Jann Horn             2015-08-16  2398  				 */
+0618021e34c6b1 Jann Horn             2022-09-14  2399  				if (old->f_op == file->f_op)
+8ed1f0e22f49ef Jann Horn             2015-08-16  2400  					fud = fuse_get_dev(old);
+00c570f4ba43ae Miklos Szeredi        2015-07-01  2401  
+cc080e9e9be16c Miklos Szeredi        2015-07-01  2402  				if (fud) {
+00c570f4ba43ae Miklos Szeredi        2015-07-01  2403  					mutex_lock(&fuse_mutex);
+f8425c9396639c Alessio Balsini       2021-01-25  2404  					res = fuse_device_clone(fud->fc, file);
+00c570f4ba43ae Miklos Szeredi        2015-07-01  2405  					mutex_unlock(&fuse_mutex);
+00c570f4ba43ae Miklos Szeredi        2015-07-01  2406  				}
+00c570f4ba43ae Miklos Szeredi        2015-07-01  2407  				fput(old);
+00c570f4ba43ae Miklos Szeredi        2015-07-01  2408  			}
+00c570f4ba43ae Miklos Szeredi        2015-07-01  2409  		}
+f8425c9396639c Alessio Balsini       2021-01-25  2410  		break;
+64bb2d35a39ce0 Alexander Mikhalitsyn 2023-04-03  2411  	case FUSE_DEV_IOC_REINIT:
+64bb2d35a39ce0 Alexander Mikhalitsyn 2023-04-03 @2412  		struct fuse_conn *fc;
+64bb2d35a39ce0 Alexander Mikhalitsyn 2023-04-03  2413  
+64bb2d35a39ce0 Alexander Mikhalitsyn 2023-04-03  2414  		if (!checkpoint_restore_ns_capable(file->f_cred->user_ns))
+64bb2d35a39ce0 Alexander Mikhalitsyn 2023-04-03  2415  			return -EPERM;
+64bb2d35a39ce0 Alexander Mikhalitsyn 2023-04-03  2416  
+64bb2d35a39ce0 Alexander Mikhalitsyn 2023-04-03  2417  		res = -EINVAL;
+64bb2d35a39ce0 Alexander Mikhalitsyn 2023-04-03  2418  		fud = fuse_get_dev(file);
+64bb2d35a39ce0 Alexander Mikhalitsyn 2023-04-03  2419  
+64bb2d35a39ce0 Alexander Mikhalitsyn 2023-04-03  2420  		/*
+64bb2d35a39ce0 Alexander Mikhalitsyn 2023-04-03  2421  		 * Only fuse mounts with an already initialized fuse
+64bb2d35a39ce0 Alexander Mikhalitsyn 2023-04-03  2422  		 * connection are supported
+64bb2d35a39ce0 Alexander Mikhalitsyn 2023-04-03  2423  		 */
+64bb2d35a39ce0 Alexander Mikhalitsyn 2023-04-03  2424  		if (file->f_op == &fuse_dev_operations && fud) {
+64bb2d35a39ce0 Alexander Mikhalitsyn 2023-04-03  2425  			mutex_lock(&fuse_mutex);
+64bb2d35a39ce0 Alexander Mikhalitsyn 2023-04-03  2426  			fc = fud->fc;
+64bb2d35a39ce0 Alexander Mikhalitsyn 2023-04-03  2427  			if (fc)
+64bb2d35a39ce0 Alexander Mikhalitsyn 2023-04-03  2428  				fc = fuse_conn_get(fc);
+64bb2d35a39ce0 Alexander Mikhalitsyn 2023-04-03  2429  			mutex_unlock(&fuse_mutex);
+64bb2d35a39ce0 Alexander Mikhalitsyn 2023-04-03  2430  
+64bb2d35a39ce0 Alexander Mikhalitsyn 2023-04-03  2431  			if (fc) {
+64bb2d35a39ce0 Alexander Mikhalitsyn 2023-04-03  2432  				res = fuse_reinit_conn(fc);
+64bb2d35a39ce0 Alexander Mikhalitsyn 2023-04-03  2433  				fuse_conn_put(fc);
+64bb2d35a39ce0 Alexander Mikhalitsyn 2023-04-03  2434  			}
+64bb2d35a39ce0 Alexander Mikhalitsyn 2023-04-03  2435  		}
+64bb2d35a39ce0 Alexander Mikhalitsyn 2023-04-03  2436  		break;
+f8425c9396639c Alessio Balsini       2021-01-25  2437  	default:
+f8425c9396639c Alessio Balsini       2021-01-25  2438  		res = -ENOTTY;
+f8425c9396639c Alessio Balsini       2021-01-25  2439  		break;
+00c570f4ba43ae Miklos Szeredi        2015-07-01  2440  	}
+f8425c9396639c Alessio Balsini       2021-01-25  2441  	return res;
+00c570f4ba43ae Miklos Szeredi        2015-07-01  2442  }
+00c570f4ba43ae Miklos Szeredi        2015-07-01  2443  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
