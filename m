@@ -1,42 +1,49 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10F7E7C
-	for <oe-kbuild@lists.linux.dev>; Tue,  4 Apr 2023 03:34:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680579246; x=1712115246;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=r4kat8Avocznf5IF8X6gbQtxuFnzFvYomqO4eYaphdc=;
-  b=BY8UKATv8Sd61S1Z8b55vPXtTifdfct4Kctqry8fasbt9w1BNfuGo26f
-   hgT8I00HV5tEaOMDW4B9NfsBxsiOaunvwMGCUJK7P9ZiDawX9aAqjuWBR
-   6x2Q5aSDiZliWc7w5JQBRstEzzhJIljhLTi9vmUjbN+Sp4crPg2qUynQv
-   T6XhCDlKBtZYMHKAga9gBes9+egUtECEVh7Asydfic7p0VbFqiE73oIqX
-   9QKzSi1jIpkjHYYhIR89vSpKlyP+q0am3Aw3YS8+eHrsUKkRwbYGmQQXI
-   xbi0oR+pBpDuaR4EbKNzswTa/X/WgaNFg0zxo9IXy8J9X49Q6iJzBUu+/
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="369890616"
-X-IronPort-AV: E=Sophos;i="5.98,316,1673942400"; 
-   d="scan'208";a="369890616"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2023 20:34:05 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="797355809"
-X-IronPort-AV: E=Sophos;i="5.98,316,1673942400"; 
-   d="scan'208";a="797355809"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 03 Apr 2023 20:34:04 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pjXQk-000P7T-1M;
-	Tue, 04 Apr 2023 03:33:58 +0000
-Date: Tue, 4 Apr 2023 11:33:37 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3222A7C;
+	Tue,  4 Apr 2023 04:04:13 +0000 (UTC)
+Received: by mail-wm1-f49.google.com with SMTP id d11-20020a05600c3acb00b003ef6e6754c5so15545790wms.5;
+        Mon, 03 Apr 2023 21:04:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1680581051;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=qSRUscbyHUS6zExlmd3Zmse1iYCyspkJlLCU6F5RK20=;
+        b=L0WAdt3iXsNN2l7mzLWxR1iYNHDSW08ODiGIqQPjFXLTTN47147FeBm1j+dGZtntQY
+         1YgaKZiM0Y1TN4Oo5fC1KyFYYY/zD338O4EzdfzQIYjPaX7UloymmpCn72U5fbcYbSfl
+         5d4DeOZejCsoWgoAldeO/9PcDQOmm7H902YJiYjQRlgWuy8ZH04QnVd9WEKhOVBAgbwD
+         tSVPalQWdKL8lggisfzCGFKhkgWBNHwRHZdb7Zd7SKbcqu7OJCnSxr2oiVIFdZ1nuUjF
+         ZMb8wE7K89YgPlzHMnVMLTrru5KTtDgOAXaSBtxo/Ehm5+VnQEPKGGboTdIqkNrEcTx9
+         AaDg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680581051;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=qSRUscbyHUS6zExlmd3Zmse1iYCyspkJlLCU6F5RK20=;
+        b=rqTJ7CmrWmaUqddlgvkWZq7ObBKFyrVxU5jqipsNnPwfLWiKOu6Io/F0uM+BKxhNBx
+         vVeGNUDTOE+WQaBhOs/s1fSb3za16F4WH+jvQRK1K+doqrVm6Eh5I1M4pzJrBQJloOIn
+         018OAv+u688uWLk0aLBQtUfWwvNmC19BYjIGa2Bs2KN7u6DE2jRrMIRRu/Y2NiVEhr5h
+         ZsOMYhlNRO0vTIzCVoPPB7RuDIwEVaOgSIfrxyRqP5GRlt3wGfpcizsABM9FfA1reAFb
+         nszt8xG7Gum7nfP772JnZajlzrPrkPjhyTgOhIWrp9UZoBJKYQpBC2KphYd5zDOCDcHq
+         TTkw==
+X-Gm-Message-State: AAQBX9fylWhBOi+Ntr1oewv9XlZ6bVyxcR3TSE4N9ky1Id3oZPx/3ImX
+	8I+HdswlbgVwnC5arVTaouv9/HsVPC1OcA==
+X-Google-Smtp-Source: AKy350YI+U9IhPE0Ckuv7TzFZ60nG6jWRUcEOgqUlGy/o3uX0alXLx2mt1YyN9XEindKNvudxQJQ3Q==
+X-Received: by 2002:a1c:7917:0:b0:3f0:5815:8a58 with SMTP id l23-20020a1c7917000000b003f058158a58mr1080201wme.15.1680581050892;
+        Mon, 03 Apr 2023 21:04:10 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id p12-20020a05600c358c00b003ef6f87118dsm21537417wmq.42.2023.04.03.21.04.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 03 Apr 2023 21:04:10 -0700 (PDT)
+Date: Tue, 4 Apr 2023 07:04:06 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev, "Paul E. McKenney" <paulmck@kernel.org>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org
 Subject: [paulmck-rcu:dev.2023.03.30a 28/35] kernel/rcu/tree.c:2149
  rcu_do_batch() error: uninitialized symbol 'jlimit'.
-Message-ID: <202304041113.A5sNFc2y-lkp@intel.com>
+Message-ID: <90f95e84-842c-4273-90a3-93afd5353fd2@kili.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -46,16 +53,9 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: "Paul E. McKenney" <paulmck@kernel.org>
-
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git dev.2023.03.30a
 head:   e222f9a512539c3f4093a55d16624d9da614800b
 commit: a63baab5f60110f3631c98b55d59066f1c68c4f7 [28/35] rcu: Employ jiffies-based backstop to callback time limit
-:::::: branch date: 6 hours ago
-:::::: commit date: 3 days ago
 config: openrisc-randconfig-m031-20230403 (https://download.01.org/0day-ci/archive/20230404/202304041113.A5sNFc2y-lkp@intel.com/config)
 compiler: or1k-linux-gcc (GCC) 12.1.0
 
@@ -69,11 +69,6 @@ kernel/rcu/tree.c:2149 rcu_do_batch() error: uninitialized symbol 'jlimit'.
 
 vim +/jlimit +2149 kernel/rcu/tree.c
 
-70c461b1465c5e kernel/rcu/tree.c Paul E. McKenney        2023-03-21  2060  
-64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney        2008-12-18  2061  /*
-64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney        2008-12-18  2062   * Invoke any RCU callbacks that have made it to the end of their grace
-a616aec9aa140e kernel/rcu/tree.c Ingo Molnar             2021-03-22  2063   * period.  Throttle as specified by rdp->blimit.
-64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney        2008-12-18  2064   */
 5bb5d09cc4f868 kernel/rcu/tree.c Paul E. McKenney        2018-07-03  2065  static void rcu_do_batch(struct rcu_data *rdp)
 64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney        2008-12-18  2066  {
 a63baab5f60110 kernel/rcu/tree.c Paul E. McKenney        2023-03-31  2067  	long bl;
@@ -112,6 +107,9 @@ b5374b2df0ac1c kernel/rcu/tree.c Paul E. McKenney        2020-06-23  2099  	div 
 b5374b2df0ac1c kernel/rcu/tree.c Paul E. McKenney        2020-06-23  2100  	bl = max(rdp->blimit, pending >> div);
 70c461b1465c5e kernel/rcu/tree.c Paul E. McKenney        2023-03-21  2101  	if ((in_serving_softirq() || rdp->rcu_cpu_kthread_status == RCU_KTHREAD_RUNNING) &&
 a63baab5f60110 kernel/rcu/tree.c Paul E. McKenney        2023-03-31  2102  	    (IS_ENABLED(CONFIG_RCU_DOUBLE_CHECK_CB_TIME) || unlikely(bl > 100))) {
+                                                                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+jlimit is only initialized if one of these conditions is met.
+
 a63baab5f60110 kernel/rcu/tree.c Paul E. McKenney        2023-03-31  2103  		const long npj = NSEC_PER_SEC / HZ;
 a2b354b9950bb8 kernel/rcu/tree.c Paul E. McKenney        2020-06-23  2104  		long rrn = READ_ONCE(rcu_resched_ns);
 a2b354b9950bb8 kernel/rcu/tree.c Paul E. McKenney        2020-06-23  2105  
@@ -159,6 +157,9 @@ a2b354b9950bb8 kernel/rcu/tree.c Paul E. McKenney        2020-06-23  2110  	}
 3e61e95e2d095e kernel/rcu/tree.c Frederic Weisbecker     2021-10-19  2147  			 * softirq vectors of CPU cycles.
 3e61e95e2d095e kernel/rcu/tree.c Frederic Weisbecker     2021-10-19  2148  			 */
 a63baab5f60110 kernel/rcu/tree.c Paul E. McKenney        2023-03-31 @2149  			if (rcu_do_batch_check_time(count, tlimit, jlimit_check, jlimit))
+                                                                                                                                                         ^^^^^^
+Uninitialized?
+
 cfcdef5e30469f kernel/rcu/tree.c Eric Dumazet            2019-07-24  2150  				break;
 a554ba288845fd kernel/rcu/tree.c Frederic Weisbecker     2021-10-19  2151  		} else {
 70c461b1465c5e kernel/rcu/tree.c Paul E. McKenney        2023-03-21  2152  			// In rcuc/rcuoc context, so no worries about
@@ -214,8 +215,8 @@ b4e6039e8af8c2 kernel/rcu/tree.c Joel Fernandes (Google  2020-11-18  2199) 	WARN
 64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney        2008-12-18  2202  
 6a949b7af82db7 kernel/rcu/tree.c Paul E. McKenney        2019-07-28  2203  	tick_dep_clear_task(current, TICK_DEP_BIT_RCU);
 64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney        2008-12-18  2204  }
-64db4cfff99c04 kernel/rcutree.c  Paul E. McKenney        2008-12-18  2205  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
+
