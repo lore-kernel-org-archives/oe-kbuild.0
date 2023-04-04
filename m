@@ -1,43 +1,42 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACD0528F3
-	for <oe-kbuild@lists.linux.dev>; Tue,  4 Apr 2023 17:30:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 483F5C951
+	for <oe-kbuild@lists.linux.dev>; Tue,  4 Apr 2023 17:51:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680629440; x=1712165440;
+  t=1680630701; x=1712166701;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=qZjWydydDpK1JpQisBgGK9E9UHg/fH0FrgiLa9uMbdQ=;
-  b=mBmL4ZnvxupZrRLfYVrRx538/BqkjdKimzNffslWpFt0mvYzkSUyYBae
-   oyI611EY4a3mW+0VO2YxXWbKg+NagGhH3/GIGB+CBvurAzlK+91/fZK6W
-   S3BXr4oDDiY6vbaNDFaSwJGn0lVVuIvC+tHcLRks4vVxvTKz0eVFYS6kS
-   wV0TKj6MV2Ez60ooGCAAEf2PrZ24xrm5/iRvH9PBsfRIV2PSf+SMC1XhV
-   1v63RevYNfvvIcU1jLaER7qS+qwtxIkQNs+xJdC5pqu8mbo16jTIVz9lK
-   oUpqSb/Ev9bB9sv7G6UZK1WIc/W2J7YgCM8c7Fd8YHR+w93/hS3LyaQ5+
+  bh=SKlkYHhZJFWXh9rthTUQ0pw5oSYpNkq0hTG5uLdX8RM=;
+  b=NX/X5ehh+JgZ4GEX6H6NKfcZqpNSYPXc759bgWiCwBapcb6fpBkIBRMg
+   08jUt4E8SKNmzaqtA/RRS4maZia/MmrzDyK3azmXpj65s75Jew36MrP1S
+   qpw0Zsaldx8ZCRTOyIqkWTKU27fnMkhz1tf+d3g3rxQ1OBszFv+xnI/cE
+   d+tD5tY6bMSJeY/uvEMB98Y4vn0NkgPUE8DL8MPlUw3M/Q/18Au/FLLFs
+   NGOgUBGWVFtnyu649OWNBTbUH3gnGS7Qb+0SNXYVzGoWo01rQYOs2HIGv
+   8tDhK966fR4sMJPNMQvXGHJ04qFUvQALWmzXt96gbAF6ZTnxQSG9/XQAL
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10670"; a="342275133"
+X-IronPort-AV: E=McAfee;i="6600,9927,10670"; a="428545523"
 X-IronPort-AV: E=Sophos;i="5.98,318,1673942400"; 
-   d="scan'208";a="342275133"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2023 10:30:39 -0700
+   d="scan'208";a="428545523"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2023 10:51:40 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10670"; a="663705150"
+X-IronPort-AV: E=McAfee;i="6600,9927,10670"; a="797599778"
 X-IronPort-AV: E=Sophos;i="5.98,318,1673942400"; 
-   d="scan'208";a="663705150"
+   d="scan'208";a="797599778"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 04 Apr 2023 10:30:38 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 04 Apr 2023 10:51:39 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pjkUP-000Pwo-18;
-	Tue, 04 Apr 2023 17:30:37 +0000
-Date: Wed, 5 Apr 2023 01:30:23 +0800
+	id 1pjkok-000Pxq-1N;
+	Tue, 04 Apr 2023 17:51:38 +0000
+Date: Wed, 5 Apr 2023 01:50:58 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:164:2: warning:
- Called function pointer is null (null dereference)
- [clang-analyzer-core.CallAndMessage]
-Message-ID: <202304050111.xkHc8OBv-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: Re: [RFC PATCH net-next 2/6] net: ethtool: record custom RSS
+ contexts in the IDR
+Message-ID: <202304050121.mBnnA2B8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -47,268 +46,217 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "low confidence static check warning: drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:164:2: warning: Called function pointer is null (null dereference) [clang-analyzer-core.CallAndMessage]"
-:::::: 
-
 BCC: lkp@intel.com
-CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-CC: Stephen Boyd <swboyd@chromium.org>
+In-Reply-To: <57c0a5a7d41e1341e8a7b0256ca8ed6f3e3ea9c0.1680538846.git.ecree.xilinx@gmail.com>
+References: <57c0a5a7d41e1341e8a7b0256ca8ed6f3e3ea9c0.1680538846.git.ecree.xilinx@gmail.com>
+TO: edward.cree@amd.com
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   148341f0a2f53b5e8808d093333d85170586a15d
-commit: c929ac60b3ed34accd25a052a4833e418900f466 drm/msm/dpu: allow just single IRQ callback
-date:   11 months ago
+Hi,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/edward-cree-amd-com/net-ethtool-attach-an-IDR-of-custom-RSS-contexts-to-a-netdevice/20230404-003917
+patch link:    https://lore.kernel.org/r/57c0a5a7d41e1341e8a7b0256ca8ed6f3e3ea9c0.1680538846.git.ecree.xilinx%40gmail.com
+patch subject: [RFC PATCH net-next 2/6] net: ethtool: record custom RSS contexts in the IDR
 :::::: branch date: 25 hours ago
-:::::: commit date: 11 months ago
-config: riscv-randconfig-c006-20230402 (https://download.01.org/0day-ci/archive/20230405/202304050111.xkHc8OBv-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=c929ac60b3ed34accd25a052a4833e418900f466
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout c929ac60b3ed34accd25a052a4833e418900f466
-        # save the config file
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=riscv clang-analyzer  olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=riscv clang-analyzer 
+:::::: commit date: 25 hours ago
+config: i386-randconfig-m021-20230403 (https://download.01.org/0day-ci/archive/20230405/202304050121.mBnnA2B8-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/r/202304050111.xkHc8OBv-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Link: https://lore.kernel.org/r/202304050121.mBnnA2B8-lkp@intel.com/
 
-clang_analyzer warnings: (new ones prefixed by >>)
-   35 warnings generated.
-   drivers/soc/qcom/cmd-db.c:151:2: warning: Call to function 'strncpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'strncpy_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           strncpy(query, id, sizeof(query));
-           ^~~~~~~
-   drivers/soc/qcom/cmd-db.c:151:2: note: Call to function 'strncpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'strncpy_s' in case of C11
-           strncpy(query, id, sizeof(query));
-           ^~~~~~~
-   Suppressed 34 warnings (34 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   23 warnings generated.
-   Suppressed 23 warnings (23 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   40 warnings generated.
-   drivers/soc/qcom/rpmh-rsc.c:942:2: warning: Call to function 'snprintf' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'snprintf_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           snprintf(drv_id, ARRAY_SIZE(drv_id), "drv-%d", drv->id);
-           ^~~~~~~~
-   drivers/soc/qcom/rpmh-rsc.c:942:2: note: Call to function 'snprintf' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'snprintf_s' in case of C11
-           snprintf(drv_id, ARRAY_SIZE(drv_id), "drv-%d", drv->id);
-           ^~~~~~~~
-   Suppressed 39 warnings (39 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   36 warnings generated.
-   drivers/soc/qcom/rpmh.c:209:2: warning: Call to function 'memcpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(req->cmd, cmd, n * sizeof(*cmd));
-           ^~~~~~
-   drivers/soc/qcom/rpmh.c:209:2: note: Call to function 'memcpy' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memcpy_s' in case of C11
-           memcpy(req->cmd, cmd, n * sizeof(*cmd));
-           ^~~~~~
-   Suppressed 35 warnings (35 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   35 warnings generated.
-   Suppressed 35 warnings (35 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   35 warnings generated.
-   Suppressed 35 warnings (35 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   35 warnings generated.
-   Suppressed 35 warnings (35 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   47 warnings generated.
-   Suppressed 47 warnings (47 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   36 warnings generated.
-   drivers/gpio/gpio-tqmx86.c:318:27: warning: Access to field 'domain' results in a dereference of an undefined pointer value (loaded from variable 'girq') [clang-analyzer-core.NullDereference]
-           irq_domain_set_pm_device(girq->domain, dev);
-                                    ^~~~
-   drivers/gpio/gpio-tqmx86.c:234:2: note: 'girq' declared without an initial value
-           struct gpio_irq_chip *girq;
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpio/gpio-tqmx86.c:240:6: note: Assuming 'irq' is >= 0
-           if (irq < 0 && irq != -ENXIO)
-               ^~~~~~~
-   drivers/gpio/gpio-tqmx86.c:240:14: note: Left side of '&&' is false
-           if (irq < 0 && irq != -ENXIO)
-                       ^
-   drivers/gpio/gpio-tqmx86.c:244:6: note: Assuming 'res' is non-null
-           if (!res) {
-               ^~~~
-   drivers/gpio/gpio-tqmx86.c:244:2: note: Taking false branch
-           if (!res) {
-           ^
-   drivers/gpio/gpio-tqmx86.c:250:6: note: Assuming 'io_base' is non-null
-           if (!io_base)
-               ^~~~~~~~
-   drivers/gpio/gpio-tqmx86.c:250:2: note: Taking false branch
-           if (!io_base)
-           ^
-   drivers/gpio/gpio-tqmx86.c:254:6: note: Assuming 'gpio' is non-null
-           if (!gpio)
-               ^~~~~
-   drivers/gpio/gpio-tqmx86.c:254:2: note: Taking false branch
-           if (!gpio)
-           ^
-   drivers/gpio/gpio-tqmx86.c:257:2: note: Loop condition is false.  Exiting loop
-           raw_spin_lock_init(&gpio->spinlock);
-           ^
-   include/linux/spinlock.h:111:2: note: expanded from macro 'raw_spin_lock_init'
-           do { *(lock) = __RAW_SPIN_LOCK_UNLOCKED(lock); } while (0)
-           ^
-   drivers/gpio/gpio-tqmx86.c:279:6: note: Assuming 'irq' is <= 0
-           if (irq > 0) {
-               ^~~~~~~
-   drivers/gpio/gpio-tqmx86.c:279:2: note: Taking false branch
-           if (irq > 0) {
-           ^
-   drivers/gpio/gpio-tqmx86.c:313:6: note: Assuming 'ret' is 0
-           if (ret) {
-               ^~~
-   drivers/gpio/gpio-tqmx86.c:313:2: note: Taking false branch
-           if (ret) {
-           ^
-   drivers/gpio/gpio-tqmx86.c:318:27: note: Access to field 'domain' results in a dereference of an undefined pointer value (loaded from variable 'girq')
-           irq_domain_set_pm_device(girq->domain, dev);
-                                    ^~~~
-   Suppressed 35 warnings (35 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   54 warnings generated.
-   Suppressed 54 warnings (54 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   55 warnings generated.
->> drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:164:2: warning: Called function pointer is null (null dereference) [clang-analyzer-core.CallAndMessage]
-           dpu_kms->hw_intr->irq_tbl[irq_idx].cb(dpu_kms->hw_intr->irq_tbl[irq_idx].arg, irq_idx);
-           ^
-   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:178:6: note: Assuming 'intr' is non-null
-           if (!intr)
-               ^~~~~
-   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:178:2: note: Taking false branch
-           if (!intr)
-           ^
-   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:181:2: note: Loop condition is false.  Exiting loop
-           spin_lock_irqsave(&intr->irq_lock, irq_flags);
-           ^
-   include/linux/spinlock.h:379:2: note: expanded from macro 'spin_lock_irqsave'
-           raw_spin_lock_irqsave(spinlock_check(lock), flags);     \
-           ^
-   include/linux/spinlock.h:240:2: note: expanded from macro 'raw_spin_lock_irqsave'
-           do {                                            \
-           ^
-   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:181:2: note: Loop condition is false.  Exiting loop
-           spin_lock_irqsave(&intr->irq_lock, irq_flags);
-           ^
-   include/linux/spinlock.h:377:43: note: expanded from macro 'spin_lock_irqsave'
-   #define spin_lock_irqsave(lock, flags)                          \
-                                                                   ^
-   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:182:2: note: Loop condition is true.  Entering loop body
-           for (reg_idx = 0; reg_idx < ARRAY_SIZE(dpu_intr_set); reg_idx++) {
-           ^
-   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:183:7: note: Assuming the condition is false
-                   if (!test_bit(reg_idx, &intr->irq_mask))
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:183:3: note: Taking false branch
-                   if (!test_bit(reg_idx, &intr->irq_mask))
-                   ^
-   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:193:7: note: Assuming 'irq_status' is not equal to 0
-                   if (irq_status)
-                       ^~~~~~~~~~
-   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:193:3: note: Taking true branch
-                   if (irq_status)
-                   ^
-   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:194:4: note: Value assigned to field 'cb'
-                           DPU_REG_WRITE(&intr->hw, dpu_intr_set[reg_idx].clr_off,
-                           ^
-   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h:310:36: note: expanded from macro 'DPU_REG_WRITE'
-   #define DPU_REG_WRITE(c, off, val) dpu_reg_write(c, off, val, #off)
-                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:200:7: note: Assuming 'irq_status' is not equal to 0
-                   if (!irq_status)
-                       ^~~~~~~~~~~
-   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:200:3: note: Taking false branch
-                   if (!irq_status)
-                   ^
-   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:206:3: note: Loop condition is true.  Entering loop body
-                   while ((bit = ffs(irq_status)) != 0) {
-                   ^
-   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:209:4: note: Calling 'dpu_core_irq_callback_handler'
-                           dpu_core_irq_callback_handler(dpu_kms, irq_idx);
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:154:2: note: Taking false branch
-           VERB("irq_idx=%d\n", irq_idx);
-           ^
-   drivers/gpu/drm/msm/msm_drv.h:509:24: note: expanded from macro 'VERB'
-   #define VERB(fmt, ...) if (0) DRM_DEBUG_DRIVER(fmt"\n", ##__VA_ARGS__)
-                          ^
-   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:156:6: note: Assuming field 'cb' is null
-           if (!dpu_kms->hw_intr->irq_tbl[irq_idx].cb)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:156:2: note: Taking true branch
-           if (!dpu_kms->hw_intr->irq_tbl[irq_idx].cb)
-           ^
-   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:164:2: note: Called function pointer is null (null dereference)
-           dpu_kms->hw_intr->irq_tbl[irq_idx].cb(dpu_kms->hw_intr->irq_tbl[irq_idx].arg, irq_idx);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 54 warnings (54 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   39 warnings generated.
-   kernel/trace/trace_event_perf.c:416:2: warning: Call to function 'memset' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(&raw_data[size - sizeof(u64)], 0, sizeof(u64));
-           ^~~~~~
-   kernel/trace/trace_event_perf.c:416:2: note: Call to function 'memset' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memset_s' in case of C11
-           memset(&raw_data[size - sizeof(u64)], 0, sizeof(u64));
-           ^~~~~~
-   kernel/trace/trace_event_perf.c:467:2: warning: Call to function 'memset' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(&regs, 0, sizeof(regs));
-           ^~~~~~
-   kernel/trace/trace_event_perf.c:467:2: note: Call to function 'memset' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memset_s' in case of C11
-           memset(&regs, 0, sizeof(regs));
-           ^~~~~~
-   Suppressed 37 warnings (37 in non-user code).
-   Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
-   55 warnings generated.
-   drivers/video/fbdev/metronomefb.c:333:2: warning: Call to function 'memset' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset((u8 *) (par->metromem_cmd->args + i), 0, (32-i)*2);
-           ^~~~~~
-   drivers/video/fbdev/metronomefb.c:333:2: note: Call to function 'memset' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memset_s' in case of C11
-           memset((u8 *) (par->metromem_cmd->args + i), 0, (32-i)*2);
-           ^~~~~~
-   drivers/video/fbdev/metronomefb.c:357:2: warning: Call to function 'memset' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(&par->metromem_cmd->args[i], 0,
-           ^~~~~~
-   drivers/video/fbdev/metronomefb.c:357:2: note: Call to function 'memset' is insecure as it does not provide security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'memset_s' in case of C11
-           memset(&par->metromem_cmd->args[i], 0,
+New smatch warnings:
+net/ethtool/ioctl.c:1402 ethtool_set_rxfh() error: uninitialized symbol 'ctx'.
 
-vim +164 drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c
+Old smatch warnings:
+net/ethtool/ioctl.c:1419 ethtool_set_rxfh() warn: possible memory leak of 'ctx'
 
-667e9985ee24cae Dmitry Baryshkov  2021-05-16  146  
-a73033619ea9040 Dmitry Baryshkov  2021-06-18  147  /**
-a73033619ea9040 Dmitry Baryshkov  2021-06-18  148   * dpu_core_irq_callback_handler - dispatch core interrupts
-07567d596eb0ad0 Vinod Koul        2022-02-10  149   * @dpu_kms:		Pointer to DPU's KMS structure
-a73033619ea9040 Dmitry Baryshkov  2021-06-18  150   * @irq_idx:		interrupt index
-a73033619ea9040 Dmitry Baryshkov  2021-06-18  151   */
-a73033619ea9040 Dmitry Baryshkov  2021-06-18  152  static void dpu_core_irq_callback_handler(struct dpu_kms *dpu_kms, int irq_idx)
-25fdd5933e4c0f5 Jeykumar Sankaran 2018-06-27  153  {
-a73033619ea9040 Dmitry Baryshkov  2021-06-18  154  	VERB("irq_idx=%d\n", irq_idx);
-a73033619ea9040 Dmitry Baryshkov  2021-06-18  155  
-c929ac60b3ed34a Dmitry Baryshkov  2022-02-17  156  	if (!dpu_kms->hw_intr->irq_tbl[irq_idx].cb)
-a73033619ea9040 Dmitry Baryshkov  2021-06-18  157  		DRM_ERROR("no registered cb, idx:%d\n", irq_idx);
-a73033619ea9040 Dmitry Baryshkov  2021-06-18  158  
-c929ac60b3ed34a Dmitry Baryshkov  2022-02-17  159  	atomic_inc(&dpu_kms->hw_intr->irq_tbl[irq_idx].count);
-a73033619ea9040 Dmitry Baryshkov  2021-06-18  160  
-a73033619ea9040 Dmitry Baryshkov  2021-06-18  161  	/*
-a73033619ea9040 Dmitry Baryshkov  2021-06-18  162  	 * Perform registered function callback
-a73033619ea9040 Dmitry Baryshkov  2021-06-18  163  	 */
-c929ac60b3ed34a Dmitry Baryshkov  2022-02-17 @164  	dpu_kms->hw_intr->irq_tbl[irq_idx].cb(dpu_kms->hw_intr->irq_tbl[irq_idx].arg, irq_idx);
-a73033619ea9040 Dmitry Baryshkov  2021-06-18  165  }
-a73033619ea9040 Dmitry Baryshkov  2021-06-18  166  
+vim +/ctx +1402 net/ethtool/ioctl.c
+
+3de0b592394d17 net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1245  
+3de0b592394d17 net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1246  static noinline_for_stack int ethtool_set_rxfh(struct net_device *dev,
+3de0b592394d17 net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1247  					       void __user *useraddr)
+3de0b592394d17 net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1248  {
+3de0b592394d17 net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1249  	int ret;
+3de0b592394d17 net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1250  	const struct ethtool_ops *ops = dev->ethtool_ops;
+59b320b4d43d43 net/ethtool/ioctl.c Edward Cree     2023-04-03  1251  	struct ethtool_rxfh_context *ctx;
+3de0b592394d17 net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1252  	struct ethtool_rxnfc rx_rings;
+f062a3844845d2 net/core/ethtool.c  Ben Hutchings   2014-05-15  1253  	struct ethtool_rxfh rxfh;
+59b320b4d43d43 net/ethtool/ioctl.c Edward Cree     2023-04-03  1254  	u32 dev_indir_size = 0, dev_key_size = 0, dev_priv_size = 0, i;
+3de0b592394d17 net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1255  	u32 *indir = NULL, indir_bytes = 0;
+3de0b592394d17 net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1256  	u8 *hkey = NULL;
+3de0b592394d17 net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1257  	u8 *rss_config;
+3de0b592394d17 net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1258  	u32 rss_cfg_offset = offsetof(struct ethtool_rxfh, rss_config[0]);
+59b320b4d43d43 net/ethtool/ioctl.c Edward Cree     2023-04-03  1259  	bool create = false, delete = false;
+3de0b592394d17 net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1260  
+892311f66f2411 net/core/ethtool.c  Eyal Perry      2014-12-02  1261  	if (!ops->get_rxnfc || !ops->set_rxfh)
+3de0b592394d17 net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1262  		return -EOPNOTSUPP;
+3de0b592394d17 net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1263  
+3de0b592394d17 net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1264  	if (ops->get_rxfh_indir_size)
+3de0b592394d17 net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1265  		dev_indir_size = ops->get_rxfh_indir_size(dev);
+3de0b592394d17 net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1266  	if (ops->get_rxfh_key_size)
+d340c862e76081 net/core/ethtool.c  Dan Carpenter   2015-02-20  1267  		dev_key_size = ops->get_rxfh_key_size(dev);
+3de0b592394d17 net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1268  
+f062a3844845d2 net/core/ethtool.c  Ben Hutchings   2014-05-15  1269  	if (copy_from_user(&rxfh, useraddr, sizeof(rxfh)))
+3de0b592394d17 net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1270  		return -EFAULT;
+3de0b592394d17 net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1271  
+f062a3844845d2 net/core/ethtool.c  Ben Hutchings   2014-05-15  1272  	/* Check that reserved fields are 0 for now */
+84a1d9c4820080 net/core/ethtool.c  Edward Cree     2018-03-08  1273  	if (rxfh.rsvd8[0] || rxfh.rsvd8[1] || rxfh.rsvd8[2] || rxfh.rsvd32)
+f062a3844845d2 net/core/ethtool.c  Ben Hutchings   2014-05-15  1274  		return -EINVAL;
+84a1d9c4820080 net/core/ethtool.c  Edward Cree     2018-03-08  1275  	/* Most drivers don't handle rss_context, check it's 0 as well */
+84a1d9c4820080 net/core/ethtool.c  Edward Cree     2018-03-08  1276  	if (rxfh.rss_context && !ops->set_rxfh_context)
+84a1d9c4820080 net/core/ethtool.c  Edward Cree     2018-03-08  1277  		return -EOPNOTSUPP;
+59b320b4d43d43 net/ethtool/ioctl.c Edward Cree     2023-04-03  1278  	create = rxfh.rss_context == ETH_RXFH_CONTEXT_ALLOC;
+59b320b4d43d43 net/ethtool/ioctl.c Edward Cree     2023-04-03  1279  	if (create && ops->get_rxfh_priv_size)
+59b320b4d43d43 net/ethtool/ioctl.c Edward Cree     2023-04-03  1280  		dev_priv_size = ops->get_rxfh_priv_size(dev);
+f062a3844845d2 net/core/ethtool.c  Ben Hutchings   2014-05-15  1281  
+892311f66f2411 net/core/ethtool.c  Eyal Perry      2014-12-02  1282  	/* If either indir, hash key or function is valid, proceed further.
+892311f66f2411 net/core/ethtool.c  Eyal Perry      2014-12-02  1283  	 * Must request at least one change: indir size, hash key or function.
+3de0b592394d17 net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1284  	 */
+f062a3844845d2 net/core/ethtool.c  Ben Hutchings   2014-05-15  1285  	if ((rxfh.indir_size &&
+f062a3844845d2 net/core/ethtool.c  Ben Hutchings   2014-05-15  1286  	     rxfh.indir_size != ETH_RXFH_INDIR_NO_CHANGE &&
+f062a3844845d2 net/core/ethtool.c  Ben Hutchings   2014-05-15  1287  	     rxfh.indir_size != dev_indir_size) ||
+f062a3844845d2 net/core/ethtool.c  Ben Hutchings   2014-05-15  1288  	    (rxfh.key_size && (rxfh.key_size != dev_key_size)) ||
+f062a3844845d2 net/core/ethtool.c  Ben Hutchings   2014-05-15  1289  	    (rxfh.indir_size == ETH_RXFH_INDIR_NO_CHANGE &&
+892311f66f2411 net/core/ethtool.c  Eyal Perry      2014-12-02  1290  	     rxfh.key_size == 0 && rxfh.hfunc == ETH_RSS_HASH_NO_CHANGE))
+3de0b592394d17 net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1291  		return -EINVAL;
+3de0b592394d17 net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1292  
+f062a3844845d2 net/core/ethtool.c  Ben Hutchings   2014-05-15  1293  	if (rxfh.indir_size != ETH_RXFH_INDIR_NO_CHANGE)
+3de0b592394d17 net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1294  		indir_bytes = dev_indir_size * sizeof(indir[0]);
+3de0b592394d17 net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1295  
+f062a3844845d2 net/core/ethtool.c  Ben Hutchings   2014-05-15  1296  	rss_config = kzalloc(indir_bytes + rxfh.key_size, GFP_USER);
+3de0b592394d17 net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1297  	if (!rss_config)
+3de0b592394d17 net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1298  		return -ENOMEM;
+3de0b592394d17 net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1299  
+3de0b592394d17 net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1300  	rx_rings.cmd = ETHTOOL_GRXRINGS;
+3de0b592394d17 net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1301  	ret = ops->get_rxnfc(dev, &rx_rings, NULL);
+3de0b592394d17 net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1302  	if (ret)
+7850f63f162051 net/core/ethtool.c  Ben Hutchings   2011-12-15  1303  		goto out;
+3de0b592394d17 net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1304  
+84a1d9c4820080 net/core/ethtool.c  Edward Cree     2018-03-08  1305  	/* rxfh.indir_size == 0 means reset the indir table to default (master
+84a1d9c4820080 net/core/ethtool.c  Edward Cree     2018-03-08  1306  	 * context) or delete the context (other RSS contexts).
+f062a3844845d2 net/core/ethtool.c  Ben Hutchings   2014-05-15  1307  	 * rxfh.indir_size == ETH_RXFH_INDIR_NO_CHANGE means leave it unchanged.
+3de0b592394d17 net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1308  	 */
+f062a3844845d2 net/core/ethtool.c  Ben Hutchings   2014-05-15  1309  	if (rxfh.indir_size &&
+f062a3844845d2 net/core/ethtool.c  Ben Hutchings   2014-05-15  1310  	    rxfh.indir_size != ETH_RXFH_INDIR_NO_CHANGE) {
+3de0b592394d17 net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1311  		indir = (u32 *)rss_config;
+3de0b592394d17 net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1312  		ret = ethtool_copy_validate_indir(indir,
+3de0b592394d17 net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1313  						  useraddr + rss_cfg_offset,
+3de0b592394d17 net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1314  						  &rx_rings,
+f062a3844845d2 net/core/ethtool.c  Ben Hutchings   2014-05-15  1315  						  rxfh.indir_size);
+3de0b592394d17 net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1316  		if (ret)
+3de0b592394d17 net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1317  			goto out;
+f062a3844845d2 net/core/ethtool.c  Ben Hutchings   2014-05-15  1318  	} else if (rxfh.indir_size == 0) {
+84a1d9c4820080 net/core/ethtool.c  Edward Cree     2018-03-08  1319  		if (rxfh.rss_context == 0) {
+3de0b592394d17 net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1320  			indir = (u32 *)rss_config;
+3de0b592394d17 net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1321  			for (i = 0; i < dev_indir_size; i++)
+3de0b592394d17 net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1322  				indir[i] = ethtool_rxfh_indir_default(i, rx_rings.data);
+84a1d9c4820080 net/core/ethtool.c  Edward Cree     2018-03-08  1323  		} else {
+84a1d9c4820080 net/core/ethtool.c  Edward Cree     2018-03-08  1324  			delete = true;
+84a1d9c4820080 net/core/ethtool.c  Edward Cree     2018-03-08  1325  		}
+7850f63f162051 net/core/ethtool.c  Ben Hutchings   2011-12-15  1326  	}
+3de0b592394d17 net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1327  
+f062a3844845d2 net/core/ethtool.c  Ben Hutchings   2014-05-15  1328  	if (rxfh.key_size) {
+3de0b592394d17 net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1329  		hkey = rss_config + indir_bytes;
+3de0b592394d17 net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1330  		if (copy_from_user(hkey,
+3de0b592394d17 net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1331  				   useraddr + rss_cfg_offset + indir_bytes,
+f062a3844845d2 net/core/ethtool.c  Ben Hutchings   2014-05-15  1332  				   rxfh.key_size)) {
+3de0b592394d17 net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1333  			ret = -EFAULT;
+3de0b592394d17 net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1334  			goto out;
+7850f63f162051 net/core/ethtool.c  Ben Hutchings   2011-12-15  1335  		}
+278bc4296bd64f net/core/ethtool.c  Ben Hutchings   2011-12-15  1336  	}
+7850f63f162051 net/core/ethtool.c  Ben Hutchings   2011-12-15  1337  
+59b320b4d43d43 net/ethtool/ioctl.c Edward Cree     2023-04-03  1338  	if (create) {
+59b320b4d43d43 net/ethtool/ioctl.c Edward Cree     2023-04-03  1339  		if (delete) {
+59b320b4d43d43 net/ethtool/ioctl.c Edward Cree     2023-04-03  1340  			ret = -EINVAL;
+59b320b4d43d43 net/ethtool/ioctl.c Edward Cree     2023-04-03  1341  			goto out;
+59b320b4d43d43 net/ethtool/ioctl.c Edward Cree     2023-04-03  1342  		}
+59b320b4d43d43 net/ethtool/ioctl.c Edward Cree     2023-04-03  1343  		ctx = kzalloc(ethtool_rxfh_context_size(dev_indir_size,
+59b320b4d43d43 net/ethtool/ioctl.c Edward Cree     2023-04-03  1344  							dev_key_size,
+59b320b4d43d43 net/ethtool/ioctl.c Edward Cree     2023-04-03  1345  							dev_priv_size),
+59b320b4d43d43 net/ethtool/ioctl.c Edward Cree     2023-04-03  1346  			      GFP_USER);
+59b320b4d43d43 net/ethtool/ioctl.c Edward Cree     2023-04-03  1347  		if (!ctx) {
+59b320b4d43d43 net/ethtool/ioctl.c Edward Cree     2023-04-03  1348  			ret = -ENOMEM;
+59b320b4d43d43 net/ethtool/ioctl.c Edward Cree     2023-04-03  1349  			goto out;
+59b320b4d43d43 net/ethtool/ioctl.c Edward Cree     2023-04-03  1350  		}
+59b320b4d43d43 net/ethtool/ioctl.c Edward Cree     2023-04-03  1351  		ctx->indir_size = dev_indir_size;
+59b320b4d43d43 net/ethtool/ioctl.c Edward Cree     2023-04-03  1352  		ctx->key_size = dev_key_size;
+59b320b4d43d43 net/ethtool/ioctl.c Edward Cree     2023-04-03  1353  		ctx->hfunc = rxfh.hfunc;
+59b320b4d43d43 net/ethtool/ioctl.c Edward Cree     2023-04-03  1354  		ctx->priv_size = dev_priv_size;
+59b320b4d43d43 net/ethtool/ioctl.c Edward Cree     2023-04-03  1355  	} else if (rxfh.rss_context) {
+59b320b4d43d43 net/ethtool/ioctl.c Edward Cree     2023-04-03  1356  		ctx = idr_find(&dev->rss_ctx, rxfh.rss_context);
+59b320b4d43d43 net/ethtool/ioctl.c Edward Cree     2023-04-03  1357  		if (!ctx) {
+59b320b4d43d43 net/ethtool/ioctl.c Edward Cree     2023-04-03  1358  			ret = -ENOENT;
+59b320b4d43d43 net/ethtool/ioctl.c Edward Cree     2023-04-03  1359  			goto out;
+59b320b4d43d43 net/ethtool/ioctl.c Edward Cree     2023-04-03  1360  		}
+59b320b4d43d43 net/ethtool/ioctl.c Edward Cree     2023-04-03  1361  	}
+59b320b4d43d43 net/ethtool/ioctl.c Edward Cree     2023-04-03  1362  
+84a1d9c4820080 net/core/ethtool.c  Edward Cree     2018-03-08  1363  	if (rxfh.rss_context)
+84a1d9c4820080 net/core/ethtool.c  Edward Cree     2018-03-08  1364  		ret = ops->set_rxfh_context(dev, indir, hkey, rxfh.hfunc,
+84a1d9c4820080 net/core/ethtool.c  Edward Cree     2018-03-08  1365  					    &rxfh.rss_context, delete);
+84a1d9c4820080 net/core/ethtool.c  Edward Cree     2018-03-08  1366  	else
+892311f66f2411 net/core/ethtool.c  Eyal Perry      2014-12-02  1367  		ret = ops->set_rxfh(dev, indir, hkey, rxfh.hfunc);
+d4ab4286276fcd net/core/ethtool.c  Keller, Jacob E 2016-02-08  1368  	if (ret)
+d4ab4286276fcd net/core/ethtool.c  Keller, Jacob E 2016-02-08  1369  		goto out;
+d4ab4286276fcd net/core/ethtool.c  Keller, Jacob E 2016-02-08  1370  
+84a1d9c4820080 net/core/ethtool.c  Edward Cree     2018-03-08  1371  	if (copy_to_user(useraddr + offsetof(struct ethtool_rxfh, rss_context),
+84a1d9c4820080 net/core/ethtool.c  Edward Cree     2018-03-08  1372  			 &rxfh.rss_context, sizeof(rxfh.rss_context)))
+84a1d9c4820080 net/core/ethtool.c  Edward Cree     2018-03-08  1373  		ret = -EFAULT;
+84a1d9c4820080 net/core/ethtool.c  Edward Cree     2018-03-08  1374  
+84a1d9c4820080 net/core/ethtool.c  Edward Cree     2018-03-08  1375  	if (!rxfh.rss_context) {
+d4ab4286276fcd net/core/ethtool.c  Keller, Jacob E 2016-02-08  1376  		/* indicate whether rxfh was set to default */
+d4ab4286276fcd net/core/ethtool.c  Keller, Jacob E 2016-02-08  1377  		if (rxfh.indir_size == 0)
+d4ab4286276fcd net/core/ethtool.c  Keller, Jacob E 2016-02-08  1378  			dev->priv_flags &= ~IFF_RXFH_CONFIGURED;
+d4ab4286276fcd net/core/ethtool.c  Keller, Jacob E 2016-02-08  1379  		else if (rxfh.indir_size != ETH_RXFH_INDIR_NO_CHANGE)
+d4ab4286276fcd net/core/ethtool.c  Keller, Jacob E 2016-02-08  1380  			dev->priv_flags |= IFF_RXFH_CONFIGURED;
+84a1d9c4820080 net/core/ethtool.c  Edward Cree     2018-03-08  1381  	}
+59b320b4d43d43 net/ethtool/ioctl.c Edward Cree     2023-04-03  1382  	/* Update rss_ctx tracking */
+59b320b4d43d43 net/ethtool/ioctl.c Edward Cree     2023-04-03  1383  	if (create) {
+59b320b4d43d43 net/ethtool/ioctl.c Edward Cree     2023-04-03  1384  		/* Ideally this should happen before calling the driver,
+59b320b4d43d43 net/ethtool/ioctl.c Edward Cree     2023-04-03  1385  		 * so that we can fail more cleanly; but we don't have the
+59b320b4d43d43 net/ethtool/ioctl.c Edward Cree     2023-04-03  1386  		 * context ID until the driver picks it, so we have to
+59b320b4d43d43 net/ethtool/ioctl.c Edward Cree     2023-04-03  1387  		 * wait until after.
+59b320b4d43d43 net/ethtool/ioctl.c Edward Cree     2023-04-03  1388  		 */
+59b320b4d43d43 net/ethtool/ioctl.c Edward Cree     2023-04-03  1389  		if (WARN_ON(idr_find(&dev->rss_ctx, rxfh.rss_context)))
+59b320b4d43d43 net/ethtool/ioctl.c Edward Cree     2023-04-03  1390  			/* context ID reused, our tracking is screwed */
+59b320b4d43d43 net/ethtool/ioctl.c Edward Cree     2023-04-03  1391  			goto out;
+59b320b4d43d43 net/ethtool/ioctl.c Edward Cree     2023-04-03  1392  		/* Allocate the exact ID the driver gave us */
+59b320b4d43d43 net/ethtool/ioctl.c Edward Cree     2023-04-03  1393  		WARN_ON(idr_alloc(&dev->rss_ctx, ctx, rxfh.rss_context,
+59b320b4d43d43 net/ethtool/ioctl.c Edward Cree     2023-04-03  1394  				  rxfh.rss_context + 1, GFP_KERNEL) !=
+59b320b4d43d43 net/ethtool/ioctl.c Edward Cree     2023-04-03  1395  			rxfh.rss_context);
+59b320b4d43d43 net/ethtool/ioctl.c Edward Cree     2023-04-03  1396  		ctx->indir_no_change = rxfh.indir_size == ETH_RXFH_INDIR_NO_CHANGE;
+59b320b4d43d43 net/ethtool/ioctl.c Edward Cree     2023-04-03  1397  		ctx->key_no_change = !rxfh.key_size;
+59b320b4d43d43 net/ethtool/ioctl.c Edward Cree     2023-04-03  1398  	}
+59b320b4d43d43 net/ethtool/ioctl.c Edward Cree     2023-04-03  1399  	if (delete) {
+59b320b4d43d43 net/ethtool/ioctl.c Edward Cree     2023-04-03  1400  		WARN_ON(idr_remove(&dev->rss_ctx, rxfh.rss_context) != ctx);
+59b320b4d43d43 net/ethtool/ioctl.c Edward Cree     2023-04-03  1401  		kfree(ctx);
+59b320b4d43d43 net/ethtool/ioctl.c Edward Cree     2023-04-03 @1402  	} else if (ctx) {
+59b320b4d43d43 net/ethtool/ioctl.c Edward Cree     2023-04-03  1403  		if (indir) {
+59b320b4d43d43 net/ethtool/ioctl.c Edward Cree     2023-04-03  1404  			for (i = 0; i < dev_indir_size; i++)
+59b320b4d43d43 net/ethtool/ioctl.c Edward Cree     2023-04-03  1405  				ethtool_rxfh_context_indir(ctx)[i] = indir[i];
+59b320b4d43d43 net/ethtool/ioctl.c Edward Cree     2023-04-03  1406  			ctx->indir_no_change = 0;
+59b320b4d43d43 net/ethtool/ioctl.c Edward Cree     2023-04-03  1407  		}
+59b320b4d43d43 net/ethtool/ioctl.c Edward Cree     2023-04-03  1408  		if (hkey) {
+59b320b4d43d43 net/ethtool/ioctl.c Edward Cree     2023-04-03  1409  			memcpy(ethtool_rxfh_context_key(ctx), hkey,
+59b320b4d43d43 net/ethtool/ioctl.c Edward Cree     2023-04-03  1410  			       dev_key_size);
+59b320b4d43d43 net/ethtool/ioctl.c Edward Cree     2023-04-03  1411  			ctx->key_no_change = 0;
+59b320b4d43d43 net/ethtool/ioctl.c Edward Cree     2023-04-03  1412  		}
+59b320b4d43d43 net/ethtool/ioctl.c Edward Cree     2023-04-03  1413  		if (rxfh.hfunc != ETH_RSS_HASH_NO_CHANGE)
+59b320b4d43d43 net/ethtool/ioctl.c Edward Cree     2023-04-03  1414  			ctx->hfunc = rxfh.hfunc;
+59b320b4d43d43 net/ethtool/ioctl.c Edward Cree     2023-04-03  1415  	}
+a5b6ee291e39e2 net/core/ethtool.c  Ben Hutchings   2010-06-30  1416  
+a5b6ee291e39e2 net/core/ethtool.c  Ben Hutchings   2010-06-30  1417  out:
+3de0b592394d17 net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1418  	kfree(rss_config);
+a5b6ee291e39e2 net/core/ethtool.c  Ben Hutchings   2010-06-30  1419  	return ret;
+a5b6ee291e39e2 net/core/ethtool.c  Ben Hutchings   2010-06-30  1420  }
+a5b6ee291e39e2 net/core/ethtool.c  Ben Hutchings   2010-06-30  1421  
 
 -- 
 0-DAY CI Kernel Test Service
