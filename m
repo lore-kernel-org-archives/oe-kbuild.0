@@ -1,42 +1,42 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CD7C7FC
-	for <oe-kbuild@lists.linux.dev>; Wed,  5 Apr 2023 07:50:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 561747470
+	for <oe-kbuild@lists.linux.dev>; Wed,  5 Apr 2023 16:52:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680681005; x=1712217005;
+  t=1680713552; x=1712249552;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=NtserVkhf2yxWwnwOdNCuBIZfK1FlCTtqp4sSxUyS9I=;
-  b=Ya+qbHoIRxAKzsndhp4GKxvrPO1IqVVelPMwEFA7GvlAxNfPyL1qPF6f
-   gO9PAJ7QarTLPacK63fe+JGJnznPloHj14+ATFNL9KlI+rgtPCPIRwcSe
-   yq1+J+XJZP2ObaXtcVOcibEUioasOF6BFGSd8rURkJ3fAKUOwelxsx6L3
-   k5t0moigH0gaC4Y1nkqMQ1nwFLot42UVbO8G8ew0wEO7zckD45ulJ0pCo
-   YKfhy4PAw51Bt20F7zVOcYNIEglXdSkWQSfIdU0RPsDz7kaPtl1ZEonvW
-   f4zp8znTdXRLdHpZAVtWJiqAQivijlZgsTKiRrymqmfonLy5Lc2nISeSY
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10670"; a="407469368"
-X-IronPort-AV: E=Sophos;i="5.98,319,1673942400"; 
-   d="scan'208";a="407469368"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Apr 2023 00:50:04 -0700
+  bh=5oorQQUqGn37dFbppVGiv/Lp45L+nbZd0/0yM3yWFZg=;
+  b=nc4k7qSFK24AGUdGzlQ0cNy4okEx5a8W8o0mtl5ncffGIC6votolFOgL
+   81dlP4793VCnAACo07/UntfHF6EnEJSdD8yd2lHbnXLnPKyJxJ/H7zgwT
+   6/A7+aMTgIMUz7YTJPMgT85lahOGvREGTf55ICrM1GCOSSHnOxDNZ093l
+   sw8bVHClPQMkOy8HckNn84m/Ax4uMg17DQ3AfxY2CszmsjAc+wy3XvQC9
+   lX/y/FtGFY/hO9VprlBRPt/0Km9h7BpPkosswrCldy1gG4n871Z9imYml
+   QGBF/tVxtynOTogvOt41ZxmxRdllLxMk9E6Ei+yv+PXw2Fz81k8PmPYoc
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10671"; a="344233799"
+X-IronPort-AV: E=Sophos;i="5.98,321,1673942400"; 
+   d="scan'208";a="344233799"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Apr 2023 09:52:21 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10670"; a="719223374"
-X-IronPort-AV: E=Sophos;i="5.98,319,1673942400"; 
-   d="scan'208";a="719223374"
+X-IronPort-AV: E=McAfee;i="6600,9927,10671"; a="861040514"
+X-IronPort-AV: E=Sophos;i="5.98,321,1673942400"; 
+   d="scan'208";a="861040514"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 05 Apr 2023 00:50:03 -0700
+  by orsmga005.jf.intel.com with ESMTP; 05 Apr 2023 09:52:19 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pjxu6-000QOs-11;
-	Wed, 05 Apr 2023 07:50:02 +0000
-Date: Wed, 5 Apr 2023 15:49:05 +0800
+	id 1pk6Ms-000Qeo-2U;
+	Wed, 05 Apr 2023 16:52:18 +0000
+Date: Thu, 6 Apr 2023 00:51:22 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/net/ethernet/sunplus/spl2sw_int.c:115 spl2sw_rx_poll()
- error: potentially dereferencing uninitialized 'h_desc'.
-Message-ID: <202304051527.TozyxyD5-lkp@intel.com>
+Subject: drivers/atm/he.c:1523 he_start() warn: 'he_dev->membase' from
+ ioremap() not released on lines: 1064.
+Message-ID: <202304060008.asvpyddw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -49,149 +49,90 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Wells Lu <wellslutw@gmail.com>
-CC: Paolo Abeni <pabeni@redhat.com>
-CC: Andrew Lunn <andrew@lunn.ch>
+TO: Kefeng Wang <wangkefeng.wang@huawei.com>
+CC: Will Deacon <will@kernel.org>
+CC: Anshuman Khandual <anshuman.khandual@arm.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   76f598ba7d8e2bfb4855b5298caedd5af0c374a8
-commit: fd3040b9394c58bcedb83554bcf1a073021d6b36 net: ethernet: Add driver for Sunplus SP7021
-date:   11 months ago
-:::::: branch date: 13 hours ago
-:::::: commit date: 11 months ago
-config: arm64-randconfig-m041-20230329 (https://download.01.org/0day-ci/archive/20230405/202304051527.TozyxyD5-lkp@intel.com/config)
+commit: f23eab0bfaefb3319c7de90c9c632bebf53a03bc arm64: mm: Convert to GENERIC_IOREMAP
+date:   9 months ago
+:::::: branch date: 22 hours ago
+:::::: commit date: 9 months ago
+config: arm64-randconfig-m041-20230329 (https://download.01.org/0day-ci/archive/20230406/202304060008.asvpyddw-lkp@intel.com/config)
 compiler: aarch64-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202304051527.TozyxyD5-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202304060008.asvpyddw-lkp@intel.com/
 
-smatch warnings:
-drivers/net/ethernet/sunplus/spl2sw_int.c:115 spl2sw_rx_poll() error: potentially dereferencing uninitialized 'h_desc'.
+New smatch warnings:
+drivers/atm/he.c:1523 he_start() warn: 'he_dev->membase' from ioremap() not released on lines: 1064.
+drivers/scsi/qla2xxx/qla_os.c:2088 qla2x00_iospace_config() warn: 'ha->iobase' from ioremap() not released on lines: 2088.
+drivers/scsi/qla2xxx/qla_os.c:2181 qla83xx_iospace_config() warn: 'ha->iobase' from ioremap() not released on lines: 2181.
+drivers/scsi/qla2xxx/qla_mr.c:805 qlafx00_iospace_config() warn: 'ha->cregbase' from ioremap() not released on lines: 805.
+drivers/scsi/qla2xxx/qla_mr.c:805 qlafx00_iospace_config() warn: 'ha->iobase' from ioremap() not released on lines: 805.
+drivers/scsi/qla4xxx/ql4_os.c:5563 qla4_8xxx_iospace_config() warn: 'ha->nx_pcibase' from ioremap() not released on lines: 5563.
+drivers/scsi/qla4xxx/ql4_os.c:5630 qla4xxx_iospace_config() warn: 'ha->reg' from ioremap() not released on lines: 5630.
 
-vim +/h_desc +115 drivers/net/ethernet/sunplus/spl2sw_int.c
+Old smatch warnings:
+drivers/scsi/qla2xxx/qla_os.c:4164 qla2x00_mem_alloc() warn: missing unwind goto?
+drivers/scsi/qla2xxx/qla_mr.c:1191 qlafx00_find_all_targets() warn: missing error code? 'rval'
+drivers/scsi/qla4xxx/ql4_os.c:5630 qla4xxx_iospace_config() warn: 'ha->pdev' from pci_request_regions() not released on lines: 5630.
+drivers/scsi/qla4xxx/ql4_os.c:6818 qla4xxx_build_st_list() warn: 'flash_index' 4294967295 can't fit into 65535 'st_ddb_idx->flash_ddb_idx'
 
-fd3040b9394c58 Wells Lu 2022-05-08   16  
-fd3040b9394c58 Wells Lu 2022-05-08   17  int spl2sw_rx_poll(struct napi_struct *napi, int budget)
-fd3040b9394c58 Wells Lu 2022-05-08   18  {
-fd3040b9394c58 Wells Lu 2022-05-08   19  	struct spl2sw_common *comm = container_of(napi, struct spl2sw_common, rx_napi);
-fd3040b9394c58 Wells Lu 2022-05-08   20  	struct spl2sw_mac_desc *desc, *h_desc;
-fd3040b9394c58 Wells Lu 2022-05-08   21  	struct net_device_stats *stats;
-fd3040b9394c58 Wells Lu 2022-05-08   22  	struct sk_buff *skb, *new_skb;
-fd3040b9394c58 Wells Lu 2022-05-08   23  	struct spl2sw_skb_info *sinfo;
-fd3040b9394c58 Wells Lu 2022-05-08   24  	int budget_left = budget;
-fd3040b9394c58 Wells Lu 2022-05-08   25  	unsigned long flags;
-fd3040b9394c58 Wells Lu 2022-05-08   26  	u32 rx_pos, pkg_len;
-fd3040b9394c58 Wells Lu 2022-05-08   27  	u32 num, rx_count;
-fd3040b9394c58 Wells Lu 2022-05-08   28  	s32 queue;
-fd3040b9394c58 Wells Lu 2022-05-08   29  	u32 mask;
-fd3040b9394c58 Wells Lu 2022-05-08   30  	int port;
-fd3040b9394c58 Wells Lu 2022-05-08   31  	u32 cmd;
-fd3040b9394c58 Wells Lu 2022-05-08   32  
-fd3040b9394c58 Wells Lu 2022-05-08   33  	/* Process high-priority queue and then low-priority queue. */
-fd3040b9394c58 Wells Lu 2022-05-08   34  	for (queue = 0; queue < RX_DESC_QUEUE_NUM; queue++) {
-fd3040b9394c58 Wells Lu 2022-05-08   35  		rx_pos = comm->rx_pos[queue];
-fd3040b9394c58 Wells Lu 2022-05-08   36  		rx_count = comm->rx_desc_num[queue];
-fd3040b9394c58 Wells Lu 2022-05-08   37  
-fd3040b9394c58 Wells Lu 2022-05-08   38  		for (num = 0; num < rx_count && budget_left; num++) {
-fd3040b9394c58 Wells Lu 2022-05-08   39  			sinfo = comm->rx_skb_info[queue] + rx_pos;
-fd3040b9394c58 Wells Lu 2022-05-08   40  			desc = comm->rx_desc[queue] + rx_pos;
-fd3040b9394c58 Wells Lu 2022-05-08   41  			cmd = desc->cmd1;
-fd3040b9394c58 Wells Lu 2022-05-08   42  
-fd3040b9394c58 Wells Lu 2022-05-08   43  			if (cmd & RXD_OWN)
-fd3040b9394c58 Wells Lu 2022-05-08   44  				break;
-fd3040b9394c58 Wells Lu 2022-05-08   45  
-fd3040b9394c58 Wells Lu 2022-05-08   46  			port = FIELD_GET(RXD_PKT_SP, cmd);
-fd3040b9394c58 Wells Lu 2022-05-08   47  			if (port < MAX_NETDEV_NUM && comm->ndev[port])
-fd3040b9394c58 Wells Lu 2022-05-08   48  				stats = &comm->ndev[port]->stats;
-fd3040b9394c58 Wells Lu 2022-05-08   49  			else
-fd3040b9394c58 Wells Lu 2022-05-08   50  				goto spl2sw_rx_poll_rec_err;
-fd3040b9394c58 Wells Lu 2022-05-08   51  
-fd3040b9394c58 Wells Lu 2022-05-08   52  			pkg_len = FIELD_GET(RXD_PKT_LEN, cmd);
-fd3040b9394c58 Wells Lu 2022-05-08   53  			if (unlikely((cmd & RXD_ERR_CODE) || pkg_len < ETH_ZLEN + 4)) {
-fd3040b9394c58 Wells Lu 2022-05-08   54  				stats->rx_length_errors++;
-fd3040b9394c58 Wells Lu 2022-05-08   55  				stats->rx_dropped++;
-fd3040b9394c58 Wells Lu 2022-05-08   56  				goto spl2sw_rx_poll_rec_err;
-fd3040b9394c58 Wells Lu 2022-05-08   57  			}
-fd3040b9394c58 Wells Lu 2022-05-08   58  
-fd3040b9394c58 Wells Lu 2022-05-08   59  			dma_unmap_single(&comm->pdev->dev, sinfo->mapping,
-fd3040b9394c58 Wells Lu 2022-05-08   60  					 comm->rx_desc_buff_size, DMA_FROM_DEVICE);
-fd3040b9394c58 Wells Lu 2022-05-08   61  
-fd3040b9394c58 Wells Lu 2022-05-08   62  			skb = sinfo->skb;
-fd3040b9394c58 Wells Lu 2022-05-08   63  			skb_put(skb, pkg_len - 4); /* Minus FCS */
-fd3040b9394c58 Wells Lu 2022-05-08   64  			skb->ip_summed = CHECKSUM_NONE;
-fd3040b9394c58 Wells Lu 2022-05-08   65  			skb->protocol = eth_type_trans(skb, comm->ndev[port]);
-fd3040b9394c58 Wells Lu 2022-05-08   66  			netif_receive_skb(skb);
-fd3040b9394c58 Wells Lu 2022-05-08   67  
-fd3040b9394c58 Wells Lu 2022-05-08   68  			stats->rx_packets++;
-fd3040b9394c58 Wells Lu 2022-05-08   69  			stats->rx_bytes += skb->len;
-fd3040b9394c58 Wells Lu 2022-05-08   70  
-fd3040b9394c58 Wells Lu 2022-05-08   71  			/* Allocate a new skb for receiving. */
-fd3040b9394c58 Wells Lu 2022-05-08   72  			new_skb = netdev_alloc_skb(NULL, comm->rx_desc_buff_size);
-fd3040b9394c58 Wells Lu 2022-05-08   73  			if (unlikely(!new_skb)) {
-fd3040b9394c58 Wells Lu 2022-05-08   74  				desc->cmd2 = (rx_pos == comm->rx_desc_num[queue] - 1) ?
-fd3040b9394c58 Wells Lu 2022-05-08   75  					     RXD_EOR : 0;
-fd3040b9394c58 Wells Lu 2022-05-08   76  				sinfo->skb = NULL;
-fd3040b9394c58 Wells Lu 2022-05-08   77  				sinfo->mapping = 0;
-fd3040b9394c58 Wells Lu 2022-05-08   78  				desc->addr1 = 0;
-fd3040b9394c58 Wells Lu 2022-05-08   79  				goto spl2sw_rx_poll_alloc_err;
-fd3040b9394c58 Wells Lu 2022-05-08   80  			}
-fd3040b9394c58 Wells Lu 2022-05-08   81  
-fd3040b9394c58 Wells Lu 2022-05-08   82  			sinfo->mapping = dma_map_single(&comm->pdev->dev, new_skb->data,
-fd3040b9394c58 Wells Lu 2022-05-08   83  							comm->rx_desc_buff_size,
-fd3040b9394c58 Wells Lu 2022-05-08   84  							DMA_FROM_DEVICE);
-fd3040b9394c58 Wells Lu 2022-05-08   85  			if (dma_mapping_error(&comm->pdev->dev, sinfo->mapping)) {
-fd3040b9394c58 Wells Lu 2022-05-08   86  				dev_kfree_skb_irq(new_skb);
-fd3040b9394c58 Wells Lu 2022-05-08   87  				desc->cmd2 = (rx_pos == comm->rx_desc_num[queue] - 1) ?
-fd3040b9394c58 Wells Lu 2022-05-08   88  					     RXD_EOR : 0;
-fd3040b9394c58 Wells Lu 2022-05-08   89  				sinfo->skb = NULL;
-fd3040b9394c58 Wells Lu 2022-05-08   90  				sinfo->mapping = 0;
-fd3040b9394c58 Wells Lu 2022-05-08   91  				desc->addr1 = 0;
-fd3040b9394c58 Wells Lu 2022-05-08   92  				goto spl2sw_rx_poll_alloc_err;
-fd3040b9394c58 Wells Lu 2022-05-08   93  			}
-fd3040b9394c58 Wells Lu 2022-05-08   94  
-fd3040b9394c58 Wells Lu 2022-05-08   95  			sinfo->skb = new_skb;
-fd3040b9394c58 Wells Lu 2022-05-08   96  			desc->addr1 = sinfo->mapping;
-fd3040b9394c58 Wells Lu 2022-05-08   97  
-fd3040b9394c58 Wells Lu 2022-05-08   98  spl2sw_rx_poll_rec_err:
-fd3040b9394c58 Wells Lu 2022-05-08   99  			desc->cmd2 = (rx_pos == comm->rx_desc_num[queue] - 1) ?
-fd3040b9394c58 Wells Lu 2022-05-08  100  				     RXD_EOR | comm->rx_desc_buff_size :
-fd3040b9394c58 Wells Lu 2022-05-08  101  				     comm->rx_desc_buff_size;
-fd3040b9394c58 Wells Lu 2022-05-08  102  
-fd3040b9394c58 Wells Lu 2022-05-08  103  			wmb();	/* Set RXD_OWN after other fields are effective. */
-fd3040b9394c58 Wells Lu 2022-05-08  104  			desc->cmd1 = RXD_OWN;
-fd3040b9394c58 Wells Lu 2022-05-08  105  
-fd3040b9394c58 Wells Lu 2022-05-08  106  spl2sw_rx_poll_alloc_err:
-fd3040b9394c58 Wells Lu 2022-05-08  107  			/* Move rx_pos to next position */
-fd3040b9394c58 Wells Lu 2022-05-08  108  			rx_pos = ((rx_pos + 1) == comm->rx_desc_num[queue]) ? 0 : rx_pos + 1;
-fd3040b9394c58 Wells Lu 2022-05-08  109  
-fd3040b9394c58 Wells Lu 2022-05-08  110  			budget_left--;
-fd3040b9394c58 Wells Lu 2022-05-08  111  
-fd3040b9394c58 Wells Lu 2022-05-08  112  			/* If there are packets in high-priority queue,
-fd3040b9394c58 Wells Lu 2022-05-08  113  			 * stop processing low-priority queue.
-fd3040b9394c58 Wells Lu 2022-05-08  114  			 */
-fd3040b9394c58 Wells Lu 2022-05-08 @115  			if (queue == 1 && !(h_desc->cmd1 & RXD_OWN))
-fd3040b9394c58 Wells Lu 2022-05-08  116  				break;
-fd3040b9394c58 Wells Lu 2022-05-08  117  		}
-fd3040b9394c58 Wells Lu 2022-05-08  118  
-fd3040b9394c58 Wells Lu 2022-05-08  119  		comm->rx_pos[queue] = rx_pos;
-fd3040b9394c58 Wells Lu 2022-05-08  120  
-fd3040b9394c58 Wells Lu 2022-05-08  121  		/* Save pointer to last rx descriptor of high-priority queue. */
-fd3040b9394c58 Wells Lu 2022-05-08  122  		if (queue == 0)
-fd3040b9394c58 Wells Lu 2022-05-08  123  			h_desc = comm->rx_desc[queue] + rx_pos;
-fd3040b9394c58 Wells Lu 2022-05-08  124  	}
-fd3040b9394c58 Wells Lu 2022-05-08  125  
-fd3040b9394c58 Wells Lu 2022-05-08  126  	spin_lock_irqsave(&comm->int_mask_lock, flags);
-fd3040b9394c58 Wells Lu 2022-05-08  127  	mask = readl(comm->l2sw_reg_base + L2SW_SW_INT_MASK_0);
-fd3040b9394c58 Wells Lu 2022-05-08  128  	mask &= ~MAC_INT_RX;
-fd3040b9394c58 Wells Lu 2022-05-08  129  	writel(mask, comm->l2sw_reg_base + L2SW_SW_INT_MASK_0);
-fd3040b9394c58 Wells Lu 2022-05-08  130  	spin_unlock_irqrestore(&comm->int_mask_lock, flags);
-fd3040b9394c58 Wells Lu 2022-05-08  131  
-fd3040b9394c58 Wells Lu 2022-05-08  132  	napi_complete(napi);
-fd3040b9394c58 Wells Lu 2022-05-08  133  	return budget - budget_left;
-fd3040b9394c58 Wells Lu 2022-05-08  134  }
-fd3040b9394c58 Wells Lu 2022-05-08  135  
+vim +1523 drivers/atm/he.c
+
+^1da177e4c3f415 Linus Torvalds 2005-04-16  1483  
+^1da177e4c3f415 Linus Torvalds 2005-04-16  1484  	if (sdh) {
+^1da177e4c3f415 Linus Torvalds 2005-04-16  1485  		/* this really should be in suni.c but for now... */
+^1da177e4c3f415 Linus Torvalds 2005-04-16  1486  		int val;
+^1da177e4c3f415 Linus Torvalds 2005-04-16  1487  
+^1da177e4c3f415 Linus Torvalds 2005-04-16  1488  		val = he_phy_get(he_dev->atm_dev, SUNI_TPOP_APM);
+^1da177e4c3f415 Linus Torvalds 2005-04-16  1489  		val = (val & ~SUNI_TPOP_APM_S) | (SUNI_TPOP_S_SDH << SUNI_TPOP_APM_S_SHIFT);
+^1da177e4c3f415 Linus Torvalds 2005-04-16  1490  		he_phy_put(he_dev->atm_dev, val, SUNI_TPOP_APM);
+65c3e4715b1b934 Chas Williams  2008-06-16  1491  		he_phy_put(he_dev->atm_dev, SUNI_TACP_IUCHP_CLP, SUNI_TACP_IUCHP);
+^1da177e4c3f415 Linus Torvalds 2005-04-16  1492  	}
+^1da177e4c3f415 Linus Torvalds 2005-04-16  1493  
+^1da177e4c3f415 Linus Torvalds 2005-04-16  1494  	/* 5.1.12 enable transmit and receive */
+^1da177e4c3f415 Linus Torvalds 2005-04-16  1495  
+^1da177e4c3f415 Linus Torvalds 2005-04-16  1496  	reg = he_readl_mbox(he_dev, CS_ERCTL0);
+^1da177e4c3f415 Linus Torvalds 2005-04-16  1497  	reg |= TX_ENABLE|ER_ENABLE;
+^1da177e4c3f415 Linus Torvalds 2005-04-16  1498  	he_writel_mbox(he_dev, reg, CS_ERCTL0);
+^1da177e4c3f415 Linus Torvalds 2005-04-16  1499  
+^1da177e4c3f415 Linus Torvalds 2005-04-16  1500  	reg = he_readl(he_dev, RC_CONFIG);
+^1da177e4c3f415 Linus Torvalds 2005-04-16  1501  	reg |= RX_ENABLE;
+^1da177e4c3f415 Linus Torvalds 2005-04-16  1502  	he_writel(he_dev, reg, RC_CONFIG);
+^1da177e4c3f415 Linus Torvalds 2005-04-16  1503  
+^1da177e4c3f415 Linus Torvalds 2005-04-16  1504  	for (i = 0; i < HE_NUM_CS_STPER; ++i) {
+^1da177e4c3f415 Linus Torvalds 2005-04-16  1505  		he_dev->cs_stper[i].inuse = 0;
+^1da177e4c3f415 Linus Torvalds 2005-04-16  1506  		he_dev->cs_stper[i].pcr = -1;
+^1da177e4c3f415 Linus Torvalds 2005-04-16  1507  	}
+^1da177e4c3f415 Linus Torvalds 2005-04-16  1508  	he_dev->total_bw = 0;
+^1da177e4c3f415 Linus Torvalds 2005-04-16  1509  
+^1da177e4c3f415 Linus Torvalds 2005-04-16  1510  
+^1da177e4c3f415 Linus Torvalds 2005-04-16  1511  	/* atm linux initialization */
+^1da177e4c3f415 Linus Torvalds 2005-04-16  1512  
+^1da177e4c3f415 Linus Torvalds 2005-04-16  1513  	he_dev->atm_dev->ci_range.vpi_bits = he_dev->vpibits;
+^1da177e4c3f415 Linus Torvalds 2005-04-16  1514  	he_dev->atm_dev->ci_range.vci_bits = he_dev->vcibits;
+^1da177e4c3f415 Linus Torvalds 2005-04-16  1515  
+^1da177e4c3f415 Linus Torvalds 2005-04-16  1516  	he_dev->irq_peak = 0;
+^1da177e4c3f415 Linus Torvalds 2005-04-16  1517  	he_dev->rbrq_peak = 0;
+^1da177e4c3f415 Linus Torvalds 2005-04-16  1518  	he_dev->rbpl_peak = 0;
+^1da177e4c3f415 Linus Torvalds 2005-04-16  1519  	he_dev->tbrq_peak = 0;
+^1da177e4c3f415 Linus Torvalds 2005-04-16  1520  
+^1da177e4c3f415 Linus Torvalds 2005-04-16  1521  	HPRINTK("hell bent for leather!\n");
+^1da177e4c3f415 Linus Torvalds 2005-04-16  1522  
+^1da177e4c3f415 Linus Torvalds 2005-04-16 @1523  	return 0;
+^1da177e4c3f415 Linus Torvalds 2005-04-16  1524  }
+^1da177e4c3f415 Linus Torvalds 2005-04-16  1525  
+
+:::::: The code at line 1523 was first introduced by commit
+:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+
+:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
 
 -- 
 0-DAY CI Kernel Test Service
