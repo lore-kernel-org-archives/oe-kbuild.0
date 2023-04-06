@@ -1,43 +1,51 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2824ECA
-	for <oe-kbuild@lists.linux.dev>; Thu,  6 Apr 2023 08:25:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680769546; x=1712305546;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=GsdEfo63ZzmByhsBEQIeh+TAuDF0wvHK1a7o5Phaw00=;
-  b=J68gsbfoN04NmWewYbuL4OJmFjZl6rxTIe1Sr0hWMPDBpb24HSW1DHUk
-   dBdgawpFvfDWJLfdigtEvXZlSbnKWM0OP3lWcV+Uh8p3nkLnfk6odZlW0
-   LChmtCPEORQJe0F6WDk8OSaodDpocsF+pjZRO3loUUOmnJWi0z48Yo8Pk
-   qOTjhZehfjkcWeUnYWuHqMEMj9p3RK3TtBdbjUAkO7I5GBVtOhmfO/bbV
-   UVbuhDBRV9ClSCrjS2ztFz0jYSOhHMp8AikIeFhH0miQI0Lc0G60+TvFS
-   l37jYVzFGko8FNnS2Y2F02OnkellmTB5WFsgFyxyL4tMjIayFiFbV+t2d
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10671"; a="344413668"
-X-IronPort-AV: E=Sophos;i="5.98,323,1673942400"; 
-   d="scan'208";a="344413668"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2023 01:25:46 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10671"; a="637186995"
-X-IronPort-AV: E=Sophos;i="5.98,323,1673942400"; 
-   d="scan'208";a="637186995"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 06 Apr 2023 01:25:44 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pkKwB-000RDI-37;
-	Thu, 06 Apr 2023 08:25:43 +0000
-Date: Thu, 6 Apr 2023 16:25:27 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD16EA21;
+	Thu,  6 Apr 2023 08:50:53 +0000 (UTC)
+Received: by mail-wr1-f44.google.com with SMTP id h17so38718572wrt.8;
+        Thu, 06 Apr 2023 01:50:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1680771052; x=1683363052;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=bDhNPVA0XWvICvpxlQ+nQDJLerJVHA4kYFUmCS/Urlo=;
+        b=C8DQ468SMWzgezaejMfjANSbKSfAKK0TWluRwDMsEU5WtMGa6wt5OCjXNPmlUv+Fh3
+         tdQsxpGW4Y/lK48WeMxQhBFM40KoXsWT9NbdMxYvmAPgUFf5s90enKi4wF93FXJXBrOQ
+         rx6jW7dM0VY4gg7X4RL+iHZhpz7RB+T3wMcBsnG5xIIu0wz5qro0t0Cigh/aGuydn/h1
+         Q7xUnjyWakQEN7YzhPVpftFxWewqfStefEE50oGKpYu/B8zidgT52/Xz3Cqvx7hCn7hE
+         hSaWiJmCzqEhX4APN+SOpaTstG/ZuO09Pru2c5fV4FgNhMDe1/vtkRiLAT4DtOpIDAWM
+         xxiA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680771052; x=1683363052;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=bDhNPVA0XWvICvpxlQ+nQDJLerJVHA4kYFUmCS/Urlo=;
+        b=S5/dJ94y0ywZQwtcnFJ+UcuDBQl7acJZOiux72MhgnB2oQEXo9bOitzkQ363zaRA1p
+         qOJChEH87b95tghmLLomZ3dO0ZVTkcTAGIr3NQ4DqiGNYSWpnVlb4UrO6TJ1CbxVOCQf
+         6qZJO5gMlwUdHvBQpNyfExFH1zeeX4xY3or0mOxNWjCRtlbAA+9dToMjjUJNxWTDTPnR
+         vV1hImHsBd6SAthAX9ut0W1S+82nG0z1bPM0G5X4Qpw541RmuA9GyE3r4gSkakeiv7T2
+         AOPs3conDieLgOQPDsh2qSEZb/g2slNtuUn0sCMnAZWPawElnJ4MB7P9UXpqtVAsBJZl
+         ltVg==
+X-Gm-Message-State: AAQBX9ewXQgE8TBZzJUulw9+vlYyW/RNQxWsgLhNIMbLTwncApMEPSSi
+	Vl0HitDk4/SW1TpLB/UpVLx9P1ef1iA=
+X-Google-Smtp-Source: AKy350aR4cFex0AcIkRKOLWor4z1UMSkpgsWHRC4/Me9NeeD6EH6aaUj4KRVXPnjyFRJ7FODfn/gVg==
+X-Received: by 2002:adf:eb05:0:b0:2d1:cc54:11b2 with SMTP id s5-20020adfeb05000000b002d1cc5411b2mr5686136wrn.70.1680771051536;
+        Thu, 06 Apr 2023 01:50:51 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id y8-20020adfee08000000b002c5a1bd5280sm1108342wrn.95.2023.04.06.01.50.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 06 Apr 2023 01:50:51 -0700 (PDT)
+Date: Thu, 6 Apr 2023 11:50:45 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev,
+	Takahiro Kuwano <Takahiro.Kuwano@infineon.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Tudor Ambarus <tudor.ambarus@linaro.org>
 Subject: [ambarus:s25hx02gt-v3 27/31] drivers/mtd/spi-nor/sfdp.c:1310
  spi_nor_parse_sccr_mc() warn: impossible condition '(params->n_dice > 255)
  => (0-255 > 255)'
-Message-ID: <202304061615.oiFHKH9Y-lkp@intel.com>
+Message-ID: <ee3873b7-d3da-4ce9-a01b-df1f5dab2d71@kili.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -47,16 +55,9 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: Takahiro Kuwano <Takahiro.Kuwano@infineon.com>
-CC: Tudor Ambarus <tudor.ambarus@linaro.org>
-
 tree:   https://github.com/ambarus/linux-0day s25hx02gt-v3
 head:   6b55d2284b55c6de88e5722bb756fad85487d3db
 commit: 89b7eb9508b28a48c4d0a8b1ef46983202a0d360 [27/31] mtd: spi-nor: sfdp: Add support for SCCR map for multi-chip device
-:::::: branch date: 23 hours ago
-:::::: commit date: 26 hours ago
 config: arm-randconfig-m041-20230403 (https://download.01.org/0day-ci/archive/20230406/202304061615.oiFHKH9Y-lkp@intel.com/config)
 compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
 
@@ -70,23 +71,17 @@ drivers/mtd/spi-nor/sfdp.c:1310 spi_nor_parse_sccr_mc() warn: impossible conditi
 
 vim +1310 drivers/mtd/spi-nor/sfdp.c
 
-89b7eb9508b28a Takahiro Kuwano 2023-02-08  1273  
-89b7eb9508b28a Takahiro Kuwano 2023-02-08  1274  /**
-89b7eb9508b28a Takahiro Kuwano 2023-02-08  1275   * spi_nor_parse_sccr_mc() - Parse the Status, Control and Configuration
-89b7eb9508b28a Takahiro Kuwano 2023-02-08  1276   *                           Register Map Offsets for Multi-Chip SPI Memory
-89b7eb9508b28a Takahiro Kuwano 2023-02-08  1277   *                           Devices.
-89b7eb9508b28a Takahiro Kuwano 2023-02-08  1278   * @nor:		pointer to a 'struct spi_nor'
-89b7eb9508b28a Takahiro Kuwano 2023-02-08  1279   * @sccr_mc_header:	pointer to the 'struct sfdp_parameter_header' describing
-89b7eb9508b28a Takahiro Kuwano 2023-02-08  1280   *			the SCCR Map offsets table length and version.
-89b7eb9508b28a Takahiro Kuwano 2023-02-08  1281   *
-89b7eb9508b28a Takahiro Kuwano 2023-02-08  1282   * Return: 0 on success, -errno otherwise.
-89b7eb9508b28a Takahiro Kuwano 2023-02-08  1283   */
 89b7eb9508b28a Takahiro Kuwano 2023-02-08  1284  static int spi_nor_parse_sccr_mc(struct spi_nor *nor,
 89b7eb9508b28a Takahiro Kuwano 2023-02-08  1285  				 const struct sfdp_parameter_header *sccr_mc_header)
 89b7eb9508b28a Takahiro Kuwano 2023-02-08  1286  {
 89b7eb9508b28a Takahiro Kuwano 2023-02-08  1287  	struct spi_nor_flash_parameter *params = nor->params;
 89b7eb9508b28a Takahiro Kuwano 2023-02-08  1288  	u32 *dwords, addr;
 89b7eb9508b28a Takahiro Kuwano 2023-02-08  1289  	u8 i, n_dice;
+                                                        ^^^^^^^^^^^^
+
+Declaring the iterator as u8 will lead to problems if we ever increase
+the max to higher than 255.
+
 89b7eb9508b28a Takahiro Kuwano 2023-02-08  1290  	size_t len;
 89b7eb9508b28a Takahiro Kuwano 2023-02-08  1291  	int ret;
 89b7eb9508b28a Takahiro Kuwano 2023-02-08  1292  
@@ -108,6 +103,10 @@ vim +1310 drivers/mtd/spi-nor/sfdp.c
 89b7eb9508b28a Takahiro Kuwano 2023-02-08  1308  	 */
 89b7eb9508b28a Takahiro Kuwano 2023-02-08  1309  	n_dice = 1 + sccr_mc_header->length / 2;
 89b7eb9508b28a Takahiro Kuwano 2023-02-08 @1310  	if (params->n_dice > SCCR_MC_MAX_DICE) {
+
+If "1 + sccr_mc_header->length / 2;" is larger than SCCR_MC_MAX_DICE,
+the value of n_dice will still be <= because of truncation.
+
 89b7eb9508b28a Takahiro Kuwano 2023-02-08  1311  		dev_dbg(nor->dev, "Improbable number of dice defined in SCCR MC table, use one die.\n");
 89b7eb9508b28a Takahiro Kuwano 2023-02-08  1312  		ret = -EINVAL;
 89b7eb9508b28a Takahiro Kuwano 2023-02-08  1313  		goto out;
@@ -132,8 +131,8 @@ vim +1310 drivers/mtd/spi-nor/sfdp.c
 89b7eb9508b28a Takahiro Kuwano 2023-02-08  1332  	kfree(dwords);
 89b7eb9508b28a Takahiro Kuwano 2023-02-08  1333  	return ret;
 89b7eb9508b28a Takahiro Kuwano 2023-02-08  1334  }
-89b7eb9508b28a Takahiro Kuwano 2023-02-08  1335  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
+
