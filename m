@@ -1,43 +1,50 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9934179F9
-	for <oe-kbuild@lists.linux.dev>; Thu,  6 Apr 2023 14:45:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680792358; x=1712328358;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=zx2O8udvJH0I5LJ6in3Z36iR8xCjPuiNLYm6/Lph6qw=;
-  b=WqLy4PmksB5I/lgkr6fYofY5q4Ir0XWUpJg2IlJ4hzfbLFv/V/JCPwrf
-   oF9HV1FhTXyh1abYBFUxVhK84aG0kFcoGRF/huxOKZBwu8kLy4frxK1oc
-   nJT/sqbnsm/QdhAtgpkuj/4AwDi/QmqoRgFz9fBwZwKqiFATDka+xup6E
-   6p6tZ7NQlFxMWyMoujb2zX15Bj04WdirUyifHyVaUEr6ubq8XUNbQGaCO
-   Hzub7U1hQZ9L0IDV+UO5J5VhZtR2vV7SteHwNOzp2nuaQtRSxb/rK1TqG
-   GrynJQL/j0NW1BfqBL0TZWkj0vYHNKWTEX4A6fpko4xYGkndRfqua/DUq
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10672"; a="326818038"
-X-IronPort-AV: E=Sophos;i="5.98,323,1673942400"; 
-   d="scan'208";a="326818038"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2023 07:45:57 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10672"; a="756384851"
-X-IronPort-AV: E=Sophos;i="5.98,323,1673942400"; 
-   d="scan'208";a="756384851"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 06 Apr 2023 07:45:56 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pkQs7-000RRy-1V;
-	Thu, 06 Apr 2023 14:45:55 +0000
-Date: Thu, 6 Apr 2023 22:45:38 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48E4B8476;
+	Thu,  6 Apr 2023 15:06:43 +0000 (UTC)
+Received: by mail-ej1-f47.google.com with SMTP id jw24so2143033ejc.3;
+        Thu, 06 Apr 2023 08:06:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1680793601; x=1683385601;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=+WobX980C6bMc9a38iuo0UCtbd0J2ivVsUR16UY6ld4=;
+        b=MbjEcDCeLAt/UlAvgojRTFhyllyipM6o0/nXwU2CQnlEpiM1Df2Gc/kp4B70n9b8ph
+         xVuxnV2xiZzAjQjD8eANKrazHpAP1aiza30Qw86zYdJJtIFL5m80pwLgCW0R/vfxeRgS
+         60AfcOPvFKNQxGy2OzqewIO3YIs0GJaPypWkxGQMV1g6J21rhK0HEVBHBxIohe3zLBU3
+         bBPG+su7LiH6WBECkMSqO4R9EO7y2wSYGXPjdOYzVcdSufOlsJQTpYVTcuK9ISq/ahss
+         jknjBNMvnzpcIvOKLAx4yLhqpkspp3+v8g1RvKNCC5Tgmt27IOF4vj928T8SYfg4uv66
+         C8+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680793601; x=1683385601;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=+WobX980C6bMc9a38iuo0UCtbd0J2ivVsUR16UY6ld4=;
+        b=II9sQDfs5xb/XcEdbKIyN0I39+hf5KdOoyOv/4UVQXFP6V5lVzuiXGyLQtj2zKU/dP
+         5s/1zIbBn3Z7hVibCjJTe1h13ZsY1GT8x5OWzOu23x2rKOXJbOrpFcKtwy+6ptaQpTpT
+         lFmjvQKm3XQ+Ex7wNUlItRyJdAF5BS5OuduXbb8CCiRCcTyFeyq+McWCnmQ5DiZ1JRhR
+         I+SdmhVGfst767Wn7HPj34blQxwc8u/qwig17PyzZ/cMGieAzlLsPs9MgdkumxFt2tDc
+         H1pP0unHrql9EWFo+HnHQjqigy8Q2I/emSMsDGVrzYRqqgxoCLxl6lau4Bm+yd4OxCqj
+         fV1g==
+X-Gm-Message-State: AAQBX9dmphPg6QObac2gvbxtvOrhMjICoRfvJ/LCk48Anv803GHNzNdS
+	VefF+otRAJDM2ZykZc0kE+yS3QyTb8IykA==
+X-Google-Smtp-Source: AKy350YF7/RUYmdyCg390bju08mY5ezvPSm6sjL3uS/A7+Tu2Y0TRFKbBmyPtN3P5PYRqqaVRl/HZg==
+X-Received: by 2002:a17:906:144d:b0:93f:fbe:ed17 with SMTP id q13-20020a170906144d00b0093f0fbeed17mr6551457ejc.62.1680793601226;
+        Thu, 06 Apr 2023 08:06:41 -0700 (PDT)
+Received: from localhost (h130e.n1.ips.mtn.co.ug. [41.210.147.14])
+        by smtp.gmail.com with ESMTPSA id i9-20020a1709063c4900b00947c0cecceasm896218ejg.206.2023.04.06.08.06.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 06 Apr 2023 08:06:40 -0700 (PDT)
+Date: Thu, 6 Apr 2023 17:53:34 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev, Yi Liu <yi.l.liu@intel.com>,
+	Kevin Tian <kevin.tian@intel.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
 Subject: [yiliu1765-iommufd:wip/iommufd_nesting-03292023-yi 3/42]
  drivers/iommu/iommufd/device.c:329 iommufd_device_get_hw_info() error:
  uninitialized symbol 'rc'.
-Message-ID: <202304062233.7sW2ckXj-lkp@intel.com>
+Message-ID: <e5fc1830-14b6-4e4c-8ded-0542ef601a81@kili.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -47,16 +54,9 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: Yi Liu <yi.l.liu@intel.com>
-TO: Kevin Tian <kevin.tian@intel.com>
-
 tree:   https://github.com/yiliu1765/iommufd.git wip/iommufd_nesting-03292023-yi
 head:   032ce679f2322b426350f8721d7a1afca1bb7aab
 commit: 06ac6c12f5cac61638684e9d6f3fee0fca1287d3 [3/42] iommufd: Add IOMMU_DEVICE_GET_HW_INFO
-:::::: branch date: 8 days ago
-:::::: commit date: 8 days ago
 config: i386-randconfig-m021-20230403 (https://download.01.org/0day-ci/archive/20230406/202304062233.7sW2ckXj-lkp@intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 
@@ -74,7 +74,6 @@ drivers/iommu/iommufd/device.c:1151 iommufd_access_rw() error: uninitialized sym
 
 vim +/rc +329 drivers/iommu/iommufd/device.c
 
-06ac6c12f5cac6 Yi Liu 2023-01-12  276  
 06ac6c12f5cac6 Yi Liu 2023-01-12  277  int iommufd_device_get_hw_info(struct iommufd_ucmd *ucmd)
 06ac6c12f5cac6 Yi Liu 2023-01-12  278  {
 06ac6c12f5cac6 Yi Liu 2023-01-12  279  	struct iommu_hw_info *cmd = ucmd->cmd;
@@ -125,6 +124,10 @@ vim +/rc +329 drivers/iommu/iommufd/device.c
 06ac6c12f5cac6 Yi Liu 2023-01-12  324  		rc = iommufd_zero_fill_user(cmd->data_ptr + length,
 06ac6c12f5cac6 Yi Liu 2023-01-12  325  					    cmd->data_len - length);
 06ac6c12f5cac6 Yi Liu 2023-01-12  326  	}
+
+rc not set on else path.
+
+
 06ac6c12f5cac6 Yi Liu 2023-01-12  327  
 06ac6c12f5cac6 Yi Liu 2023-01-12  328  out:
 06ac6c12f5cac6 Yi Liu 2023-01-12 @329  	if (!rc) {
@@ -137,8 +140,8 @@ vim +/rc +329 drivers/iommu/iommufd/device.c
 06ac6c12f5cac6 Yi Liu 2023-01-12  336  	iommufd_put_object(&idev->obj);
 06ac6c12f5cac6 Yi Liu 2023-01-12  337  	return rc;
 06ac6c12f5cac6 Yi Liu 2023-01-12  338  }
-06ac6c12f5cac6 Yi Liu 2023-01-12  339  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
+
