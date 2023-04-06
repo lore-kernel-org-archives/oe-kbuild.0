@@ -1,147 +1,119 @@
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com (mail-bn8nam04on2040.outbound.protection.outlook.com [40.107.100.40])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48E4B8476;
-	Thu,  6 Apr 2023 15:06:43 +0000 (UTC)
-Received: by mail-ej1-f47.google.com with SMTP id jw24so2143033ejc.3;
-        Thu, 06 Apr 2023 08:06:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680793601; x=1683385601;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=+WobX980C6bMc9a38iuo0UCtbd0J2ivVsUR16UY6ld4=;
-        b=MbjEcDCeLAt/UlAvgojRTFhyllyipM6o0/nXwU2CQnlEpiM1Df2Gc/kp4B70n9b8ph
-         xVuxnV2xiZzAjQjD8eANKrazHpAP1aiza30Qw86zYdJJtIFL5m80pwLgCW0R/vfxeRgS
-         60AfcOPvFKNQxGy2OzqewIO3YIs0GJaPypWkxGQMV1g6J21rhK0HEVBHBxIohe3zLBU3
-         bBPG+su7LiH6WBECkMSqO4R9EO7y2wSYGXPjdOYzVcdSufOlsJQTpYVTcuK9ISq/ahss
-         jknjBNMvnzpcIvOKLAx4yLhqpkspp3+v8g1RvKNCC5Tgmt27IOF4vj928T8SYfg4uv66
-         C8+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680793601; x=1683385601;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=+WobX980C6bMc9a38iuo0UCtbd0J2ivVsUR16UY6ld4=;
-        b=II9sQDfs5xb/XcEdbKIyN0I39+hf5KdOoyOv/4UVQXFP6V5lVzuiXGyLQtj2zKU/dP
-         5s/1zIbBn3Z7hVibCjJTe1h13ZsY1GT8x5OWzOu23x2rKOXJbOrpFcKtwy+6ptaQpTpT
-         lFmjvQKm3XQ+Ex7wNUlItRyJdAF5BS5OuduXbb8CCiRCcTyFeyq+McWCnmQ5DiZ1JRhR
-         I+SdmhVGfst767Wn7HPj34blQxwc8u/qwig17PyzZ/cMGieAzlLsPs9MgdkumxFt2tDc
-         H1pP0unHrql9EWFo+HnHQjqigy8Q2I/emSMsDGVrzYRqqgxoCLxl6lau4Bm+yd4OxCqj
-         fV1g==
-X-Gm-Message-State: AAQBX9dmphPg6QObac2gvbxtvOrhMjICoRfvJ/LCk48Anv803GHNzNdS
-	VefF+otRAJDM2ZykZc0kE+yS3QyTb8IykA==
-X-Google-Smtp-Source: AKy350YF7/RUYmdyCg390bju08mY5ezvPSm6sjL3uS/A7+Tu2Y0TRFKbBmyPtN3P5PYRqqaVRl/HZg==
-X-Received: by 2002:a17:906:144d:b0:93f:fbe:ed17 with SMTP id q13-20020a170906144d00b0093f0fbeed17mr6551457ejc.62.1680793601226;
-        Thu, 06 Apr 2023 08:06:41 -0700 (PDT)
-Received: from localhost (h130e.n1.ips.mtn.co.ug. [41.210.147.14])
-        by smtp.gmail.com with ESMTPSA id i9-20020a1709063c4900b00947c0cecceasm896218ejg.206.2023.04.06.08.06.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Apr 2023 08:06:40 -0700 (PDT)
-Date: Thu, 6 Apr 2023 17:53:34 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, Yi Liu <yi.l.liu@intel.com>,
-	Kevin Tian <kevin.tian@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B4758BE0;
+	Thu,  6 Apr 2023 15:46:05 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=I5dITUwdwjMtZuTUWbw92G/LOcKPDAM8bQquW0sdg6hCJS8sfEmEmJGQB3tvp3yul7Cc4X3wWJeKl93IUk5ms7y+XylH+/wr7hWpdhhPrtVqn1dfT+VTGPjGQHTZn1XLThBqvsmImrD3K912pq3X1Ad8gxzjAO4XQGrr3Is+tTWtxq/vFRiFIVSxemu6G79ntMTeCvGvNSkSrpasEAYaN0M3JRFS/IhoTJ0j1rbUGxtxiGraBABOMgGUmT8X6B/jsxh29CoE5Xe4JyrPTGFByXY3cuomPMBcZ2+rp1K8NCmELgwsANRv0CJ3l2POoDVXJaOwOOeGvrrXisnVNUnSzA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=mUx7ujWfOKOW6jJqR7nc3lYidBKqOdqWwqnb6bV7GGQ=;
+ b=gG5P4N/wiOJD69meYjbeBDcjbpa98nPx9vjoIsyRASphT8HJd3TKzW91MW0lumowetKOJPizfUBq7X7f5fMv0K/tZZTTZBOZkGcjSPGVpV3JBMLAKawTQbrzoSGW7MOXHYsx6tNofFaau7MR1dAMWJpLSdCC/cHiBBg/wI/n4+TEYQWbVkD7cQ6WmfNi43WbC4oPB08Gtjns0rAnJslThDS0CIhBSLz6E+rBXiqu/lbmY91ru1zU2cAzQ6T8Ie/RbvOE+3jT+eAqeM5+61RIH/lgu/LtNGcjWRYjJbx8XmJ4zv0vVbAVuRzah3Nd9HqBAtQbjW2DzE+qHK7/F75XGg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=mUx7ujWfOKOW6jJqR7nc3lYidBKqOdqWwqnb6bV7GGQ=;
+ b=5Nh+uqEyeulgi29QY5Nc7ijtrsA4W8w0gAaHLn58guI7Ltk83sFVoWnkth2E3GHKGaKqySeGKY1HzxV4DKU83XDw3Z4G6e2I35WIYUTQ86mjoo8MVWsn5S/zAwOvuMIysYYlYRlkppgdMfTgdhbj3btXWEAe/I9hsgNKZYHVlgU=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DM4PR12MB6207.namprd12.prod.outlook.com (2603:10b6:8:a6::10) by
+ CY5PR12MB6177.namprd12.prod.outlook.com (2603:10b6:930:26::15) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6254.35; Thu, 6 Apr 2023 15:46:02 +0000
+Received: from DM4PR12MB6207.namprd12.prod.outlook.com
+ ([fe80::17e4:b93f:e475:c51d]) by DM4PR12MB6207.namprd12.prod.outlook.com
+ ([fe80::17e4:b93f:e475:c51d%6]) with mapi id 15.20.6254.033; Thu, 6 Apr 2023
+ 15:46:02 +0000
+Message-ID: <cdbe65e7-db18-8d29-134f-20ce4ab5a5ec@amd.com>
+Date: Thu, 6 Apr 2023 16:45:56 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [RFC PATCH net-next 2/6] net: ethtool: record custom RSS contexts
+ in the IDR
+Content-Language: en-GB
+To: Dan Carpenter <error27@gmail.com>, oe-kbuild@lists.linux.dev,
+ edward.cree@amd.com
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [yiliu1765-iommufd:wip/iommufd_nesting-03292023-yi 3/42]
- drivers/iommu/iommufd/device.c:329 iommufd_device_get_hw_info() error:
- uninitialized symbol 'rc'.
-Message-ID: <e5fc1830-14b6-4e4c-8ded-0542ef601a81@kili.mountain>
+References: <ab0484a5-07a1-4fde-80be-940dbff6a014@kili.mountain>
+From: Edward Cree <ecree@amd.com>
+In-Reply-To: <ab0484a5-07a1-4fde-80be-940dbff6a014@kili.mountain>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: LO3P265CA0031.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:387::20) To DM4PR12MB6207.namprd12.prod.outlook.com
+ (2603:10b6:8:a6::10)
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR12MB6207:EE_|CY5PR12MB6177:EE_
+X-MS-Office365-Filtering-Correlation-Id: 96d56f0a-8616-43bc-892e-08db36b6063b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	CD1TKVu8k9yqnR4pZHuODYXesmDpsz7nwOeOFUvCAsmrJQgONfP5+tUcoHG4xZzUmObTRIsV6Vpglv1ahRImcDrkWLnSeM6IBv2NYITkGHoCcUW/emQYvU9KfsIJPHmmg7dr3iTveiQm2JcNYOUHEpVZsAT2UYYkEp/nxTPESSMT0AeFZyYy21q5IVgwwb74VIdG5ybjYav+lude7LNi5rZv/zOqrdgKCehnotgbX3jQxScdVJkMfoI6BPXkvKDK2QARmUNIm8+WzPHzHI1S4XyB7GDYOeqmP83RP2MP7KL0D4W+JVV99MWaCCW0ed+BwaVpM2Ghcq9jUq6GvmIQT+IYmhIN4D5Inq1JH81g/J67MNp5xHwmYxoPZ1qqURs7UCOlxKpvYeM2g/tdxf84MLHoAWYfH9FVw8DFuMUo2DnS61JCi94yK76i465br6dt0+wUAX/gseuXeL1Qi30zLyQemCpwpCE+18/PDQdhcdeWrSBSTF4hXtlLssRDcblOwgcQuc3pyxWf0XRJZ0Ug4omQGt00lOyJW7eUURK/Zcok7cRiRqSxF6httGW30eWoAclN7bdgtVAWYIItdpZMn/mLdVBzNwDRFXgcUbKQaNNzRpcCOLcaI52LbqssfQ1p19T+8X21I9sN5qCs1mztQw==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR12MB6207.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(136003)(366004)(39860400002)(346002)(376002)(396003)(451199021)(31686004)(36756003)(558084003)(38100700002)(5660300002)(66946007)(31696002)(66556008)(2906002)(8676002)(8936002)(41300700001)(4326008)(66476007)(6506007)(2616005)(26005)(83380400001)(6512007)(6486002)(53546011)(478600001)(6636002)(6666004)(186003)(316002)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?aFhYZTVtbG1GV2NYeWV2VCtRZmNYZVp4aDVRMS80aFRibC85TjNrV1VmSU5a?=
+ =?utf-8?B?akp1NFhZdHlsOUQxT1ZidDZWNmlBLzZ1dXhvbWN2RUZuVW5VZGRGWWllMndk?=
+ =?utf-8?B?cGRlK3FCUHp6ZWlIQUl6QUZUcGlodkFPMWNLa2d2VFdsNEhMSlVsSkNXUU9i?=
+ =?utf-8?B?bWsvbHAvZmJhWGx0OWFRdUJkQ2czSlVYbnBnRFlBQ3lMTXRmcTlDSVJhT3hF?=
+ =?utf-8?B?ZE82YXBOd1FGVytTNEE4RzJEME1YbE5rVjhkWXkvVVdlOVJYUk42OUdnZE1j?=
+ =?utf-8?B?N3NqSEU2b25mSXNJU3o0SENmeDZEZkJMSUJRZm9XRkk0cW9PcnY1bDVyUkF5?=
+ =?utf-8?B?N3hvUzNlZWRFeVFodDYzcXhLRTRXNVh3L1ZXQkRBdmJzSmt4M3dyZ1RkUXJq?=
+ =?utf-8?B?cVQ2bVdtMnJoSHA1em4vN0F3UFJuTjlFWjVVYTdOOTNHMldlRm9DMFF3d3pH?=
+ =?utf-8?B?clFaZDhtaXdsY3hXdXFFMlU2Q1JsN2lOdU1rT1IyblB0R0syM1htYVI0dkRE?=
+ =?utf-8?B?alExYTZGVWdJRGNzKzdTNEVNcEROay9hT3lmbVYyK045L04wOHduU1RQSW1y?=
+ =?utf-8?B?SHZ6ZG4rcEcvdjRqV3NIWWZGbzdYeVpEVVAzaDZ5eVJoZnB2ZkhoWTllZkFi?=
+ =?utf-8?B?TUV2MWJzcTkrUERzZ2xuWEFrRUFLUEtZTmkwc1JjR2R6ZHI3b1RaVjNWQ05W?=
+ =?utf-8?B?azhsNHhiNzdUQ29YdzNKSy9OT2dmbHluVGxjV2dZSnEycHRqYTcycVdvMGtz?=
+ =?utf-8?B?dkNvWTF5TUs5R2w2Z2ZiaytoZkx1YXpwcDZlS09TWm9vcitQbW5lZ0R0ZEg0?=
+ =?utf-8?B?aHpEWWNNZjFyQlJSL25VTXZsQkRsR3F1RU13aXdZWXp6VUFnb2hzUnBVallU?=
+ =?utf-8?B?RG03Y3R2dGw4ZmFOcEtFRDB0alZLK2paMVg4RkI3SkxvMnppRjErZHB6R2xk?=
+ =?utf-8?B?TnphNkRCQmJqdUcxMVBXT1VTWXBzc0doZTZ6aS9Gb0x3cTJTWmlzckNVT0JD?=
+ =?utf-8?B?VUlYcmxMY0dIWEwxL0hKUG16Y0lXSEpBN21GTTMvYUxwdE9wUGxpTFBsWERS?=
+ =?utf-8?B?blFZNEd5RUs2VXA3eWthZk0wY25HUjA4bEhIZHVNbDZYc3NKS2Vsaysrbmta?=
+ =?utf-8?B?Y3VPcm1XU004OXkrcThFZkJwazlKOTcvVHZrNWFiMzhDbE1sQ2N3clJiS3Ja?=
+ =?utf-8?B?Uy95RVZnY2tMTDlBazE1aE80bExCSTlMY2U2WUVwdGkwYmhnZEowMnh6WkFR?=
+ =?utf-8?B?VzEwVnFZdzB6UmZkRWcvQ0JUa1FZd0hQWVI3a1QvUkNxa08zSzIwdjRYaUgv?=
+ =?utf-8?B?NjJudFVndzZaakRMUzdBWXZSWHkrRmRuMkpPMjdmbmxtK2dTejBtVnA1RUU4?=
+ =?utf-8?B?TVZwQS9HTUZGQlNzWE5hVGNJeFQ2aWtDaGFoanZRSzYyUmVRZE00N2grMk5P?=
+ =?utf-8?B?SktoNjZjQTVmTnE0MkZscFpCdkVVY3JkcEJ3eWRRblV4cm8wMk03dkpTaTZ3?=
+ =?utf-8?B?Y0pzZDJ3M3FGak02Z2NWdGtlNjhGRmVZZUlncWN6YTFPQmlZYzJucWlTaWxt?=
+ =?utf-8?B?RVBDbzJCaGMwRVM0dlV3dTVIS2RFR1VZWVV6VkJBaHZSb2JhWGZrUVY5T0Jv?=
+ =?utf-8?B?R1BOMDZQTzY2NzMzK2xPb2JrWXE2aHQrbGFhQmFtMVJpWndvTkNxSFp2Vkxz?=
+ =?utf-8?B?em55MU9uQ1gwbTRyOXRLK3Y3czZodU9XR29hbnRTNlBZd29ZYmpJSHUxYnVz?=
+ =?utf-8?B?REpjOXBOUUJPaUlBZEdmcGFydUdycVpTV1ExNkkxMmJHWnRmamY5Tm1mMUc4?=
+ =?utf-8?B?MEdYaTJpUlJoRG8xWER3dmx3bXpQcXNwaWhqN3NIWXNablJzT0swUlFqN1Jo?=
+ =?utf-8?B?aEhwcUxNZ2k3SnhTWXlmOC83MXlRR2hDYkY5b3ZlUGs2RS8wWjlRK0VUMHdj?=
+ =?utf-8?B?dFR1TWVSZlFpelBBdUh0cWkwUC94b3NDRTdsbVc1NjJvY0pEb1BVVG5HQjFD?=
+ =?utf-8?B?RVB5cGlVdkFzMTBCWGFsSzNKTnlKQWwrRjVFUit2U1gvVWwrcStsQVVUazAx?=
+ =?utf-8?B?Vm9Wd3p3Y1VHRUI3M1dzNnllS3RmeCs2Q1lKZjU1WWRZUjJlbmFkYlh3VFV5?=
+ =?utf-8?Q?R71o=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 96d56f0a-8616-43bc-892e-08db36b6063b
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB6207.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Apr 2023 15:46:02.2217
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: zf9anK1cZgMxQgadajXk3zk5vwc+17GoRLVhwvVR4yg3NAQfQjzpG94EJo32dep1
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6177
 
-tree:   https://github.com/yiliu1765/iommufd.git wip/iommufd_nesting-03292023-yi
-head:   032ce679f2322b426350f8721d7a1afca1bb7aab
-commit: 06ac6c12f5cac61638684e9d6f3fee0fca1287d3 [3/42] iommufd: Add IOMMU_DEVICE_GET_HW_INFO
-config: i386-randconfig-m021-20230403 (https://download.01.org/0day-ci/archive/20230406/202304062233.7sW2ckXj-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+On 06/04/2023 10:07, Dan Carpenter wrote:
+> New smatch warnings:
+> net/ethtool/ioctl.c:1402 ethtool_set_rxfh() error: uninitialized symbol 'ctx'.
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202304062233.7sW2ckXj-lkp@intel.com/
-
-New smatch warnings:
-drivers/iommu/iommufd/device.c:329 iommufd_device_get_hw_info() error: uninitialized symbol 'rc'.
-drivers/iommu/iommufd/device.c:335 iommufd_device_get_hw_info() error: 'data' dereferencing possible ERR_PTR()
-
-Old smatch warnings:
-drivers/iommu/iommufd/device.c:1151 iommufd_access_rw() error: uninitialized symbol 'rc'.
-
-vim +/rc +329 drivers/iommu/iommufd/device.c
-
-06ac6c12f5cac6 Yi Liu 2023-01-12  277  int iommufd_device_get_hw_info(struct iommufd_ucmd *ucmd)
-06ac6c12f5cac6 Yi Liu 2023-01-12  278  {
-06ac6c12f5cac6 Yi Liu 2023-01-12  279  	struct iommu_hw_info *cmd = ucmd->cmd;
-06ac6c12f5cac6 Yi Liu 2023-01-12  280  	unsigned int length, data_len;
-06ac6c12f5cac6 Yi Liu 2023-01-12  281  	struct iommufd_device *idev;
-06ac6c12f5cac6 Yi Liu 2023-01-12  282  	const struct iommu_ops *ops;
-06ac6c12f5cac6 Yi Liu 2023-01-12  283  	void *data = NULL;
-06ac6c12f5cac6 Yi Liu 2023-01-12  284  	int rc;
-06ac6c12f5cac6 Yi Liu 2023-01-12  285  
-06ac6c12f5cac6 Yi Liu 2023-01-12  286  	if (cmd->flags || cmd->__reserved || !cmd->data_len)
-06ac6c12f5cac6 Yi Liu 2023-01-12  287  		return -EOPNOTSUPP;
-06ac6c12f5cac6 Yi Liu 2023-01-12  288  
-06ac6c12f5cac6 Yi Liu 2023-01-12  289  	idev = iommufd_get_device(ucmd, cmd->dev_id);
-06ac6c12f5cac6 Yi Liu 2023-01-12  290  	if (IS_ERR(idev))
-06ac6c12f5cac6 Yi Liu 2023-01-12  291  		return PTR_ERR(idev);
-06ac6c12f5cac6 Yi Liu 2023-01-12  292  
-06ac6c12f5cac6 Yi Liu 2023-01-12  293  	ops = dev_iommu_ops(idev->dev);
-06ac6c12f5cac6 Yi Liu 2023-01-12  294  	if (!ops->hw_info) {
-06ac6c12f5cac6 Yi Liu 2023-01-12  295  		rc = 0;
-06ac6c12f5cac6 Yi Liu 2023-01-12  296  		length = 0;
-06ac6c12f5cac6 Yi Liu 2023-01-12  297  		goto out;
-06ac6c12f5cac6 Yi Liu 2023-01-12  298  	}
-06ac6c12f5cac6 Yi Liu 2023-01-12  299  
-06ac6c12f5cac6 Yi Liu 2023-01-12  300  	/* driver has hw_info callback should have a unique hw_info_type */
-06ac6c12f5cac6 Yi Liu 2023-01-12  301  	if (ops->hw_info_type == IOMMU_HW_INFO_TYPE_NONE) {
-06ac6c12f5cac6 Yi Liu 2023-01-12  302  		pr_warn_ratelimited("iommu driver set an invalid type\n");
-06ac6c12f5cac6 Yi Liu 2023-01-12  303  		rc = -ENODEV;
-06ac6c12f5cac6 Yi Liu 2023-01-12  304  		goto out;
-06ac6c12f5cac6 Yi Liu 2023-01-12  305  	}
-06ac6c12f5cac6 Yi Liu 2023-01-12  306  
-06ac6c12f5cac6 Yi Liu 2023-01-12  307  	data = ops->hw_info(idev->dev, &data_len);
-06ac6c12f5cac6 Yi Liu 2023-01-12  308  	if (IS_ERR(data)) {
-06ac6c12f5cac6 Yi Liu 2023-01-12  309  		rc = PTR_ERR(data);
-06ac6c12f5cac6 Yi Liu 2023-01-12  310  		goto out;
-06ac6c12f5cac6 Yi Liu 2023-01-12  311  	}
-06ac6c12f5cac6 Yi Liu 2023-01-12  312  
-06ac6c12f5cac6 Yi Liu 2023-01-12  313  	length = min(cmd->data_len, data_len);
-06ac6c12f5cac6 Yi Liu 2023-01-12  314  	if (copy_to_user(u64_to_user_ptr(cmd->data_ptr), data, length)) {
-06ac6c12f5cac6 Yi Liu 2023-01-12  315  		rc = -EFAULT;
-06ac6c12f5cac6 Yi Liu 2023-01-12  316  		goto out;
-06ac6c12f5cac6 Yi Liu 2023-01-12  317  	}
-06ac6c12f5cac6 Yi Liu 2023-01-12  318  
-06ac6c12f5cac6 Yi Liu 2023-01-12  319  	/*
-06ac6c12f5cac6 Yi Liu 2023-01-12  320  	 * Zero the trailing bytes if the user buffer is bigger than the
-06ac6c12f5cac6 Yi Liu 2023-01-12  321  	 * data size kernel actually has.
-06ac6c12f5cac6 Yi Liu 2023-01-12  322  	 */
-06ac6c12f5cac6 Yi Liu 2023-01-12  323  	if (length < cmd->data_len) {
-06ac6c12f5cac6 Yi Liu 2023-01-12  324  		rc = iommufd_zero_fill_user(cmd->data_ptr + length,
-06ac6c12f5cac6 Yi Liu 2023-01-12  325  					    cmd->data_len - length);
-06ac6c12f5cac6 Yi Liu 2023-01-12  326  	}
-
-rc not set on else path.
-
-
-06ac6c12f5cac6 Yi Liu 2023-01-12  327  
-06ac6c12f5cac6 Yi Liu 2023-01-12  328  out:
-06ac6c12f5cac6 Yi Liu 2023-01-12 @329  	if (!rc) {
-06ac6c12f5cac6 Yi Liu 2023-01-12  330  		cmd->out_data_type = ops->hw_info_type;
-06ac6c12f5cac6 Yi Liu 2023-01-12  331  		cmd->data_len = length;
-06ac6c12f5cac6 Yi Liu 2023-01-12  332  		rc = iommufd_ucmd_respond(ucmd, sizeof(*cmd));
-06ac6c12f5cac6 Yi Liu 2023-01-12  333  	}
-06ac6c12f5cac6 Yi Liu 2023-01-12  334  
-06ac6c12f5cac6 Yi Liu 2023-01-12 @335  	kfree(data);
-06ac6c12f5cac6 Yi Liu 2023-01-12  336  	iommufd_put_object(&idev->obj);
-06ac6c12f5cac6 Yi Liu 2023-01-12  337  	return rc;
-06ac6c12f5cac6 Yi Liu 2023-01-12  338  }
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
-
+Yup, it needs to be initialised to NULL for the default context case.
+Thanks for catching.
