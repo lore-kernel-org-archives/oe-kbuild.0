@@ -1,119 +1,144 @@
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 854241C15
-	for <oe-kbuild@lists.linux.dev>; Thu,  6 Apr 2023 09:09:16 +0000 (UTC)
-Received: by mail-ed1-f49.google.com with SMTP id er13so106636609edb.9
-        for <oe-kbuild@lists.linux.dev>; Thu, 06 Apr 2023 02:09:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1680772155;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=izMJqOm2fG4oRXUj5e1mXGYopn3LP+t07f1iwKL2lDs=;
-        b=jpyS0sEPtAjX6jHwwG0Znx+OXlwZMWpNahThE4ZTFowRjzNnLV4wMeGvE1hpiMEokW
-         3ASVFl/cFJoWXW3CJM33UoVQKNQ4UJPsfXGvlrConzD0c2xGE/Av26bb48LSE6PnfeDC
-         yJIKDhnjXLxhGXZZ8G2C2bn5QqTDSUZu8J0MN/40Z3f8+xKeayi/fhTnCvvYhW/bqHmT
-         5KFM5HzoLQmp31D59S2b0RNjJgR5Ai/AoasaxrTRtLfSfuxmoeUDYmsz/PdtYqrrBJ2o
-         88+kvQiePvB8AqQRegJiONW/Vk5p/MTmvOf7AvJOMuT1oT1WbrAwuS/Ehat+YimlgVa+
-         pXyg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680772155;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=izMJqOm2fG4oRXUj5e1mXGYopn3LP+t07f1iwKL2lDs=;
-        b=6DztByW8yi7nQ/z2KEiJDArg0Sr74+Z7chmantmgaAIuSdyWcIyDOXkylD9lX7xyAL
-         4BZ5q8e/P1okpCFImT1E/xLbRWh9iPLCy9MJK1PvYTzodnZXvUrLtYfla12jPpOpWbZ6
-         ct973ad3+7Q2KwFuJaaIKgUBSufDBx8wz3l4aP5zB1vep/dtT72zGCx5rwPYy3AxYhfe
-         EBen2eeHCbn+v4gUyA6UVE61LL3JZ3qesxyKB1BTMP0h4C0JHiMWoGYAkCf+JjPcc9NR
-         fuUD2aFmI1QVzPhMq5zDIRuJG7JyMHAG9RF6f6PWyK10Sr7FvfJmZS2MfwjQ7tfGF9r5
-         zeTA==
-X-Gm-Message-State: AAQBX9e4HE4gPbneD4sS+GCmljRZRsrXaIouACrFVtF0gO5s1fiAp/gv
-	kHp3AvvrYThH0z41YHoOCOlJAA==
-X-Google-Smtp-Source: AKy350YcMK0ROtIKMKDvk83j0RJTTgNDHiMGHbohCizOHb4zVyDvKIR/xKZLNKVoThLvO6HY7haang==
-X-Received: by 2002:a17:906:d54b:b0:920:7827:302 with SMTP id cr11-20020a170906d54b00b0092078270302mr5500516ejc.18.1680772154753;
-        Thu, 06 Apr 2023 02:09:14 -0700 (PDT)
-Received: from [192.168.2.107] ([79.115.63.91])
-        by smtp.gmail.com with ESMTPSA id rj13-20020a1709076c8d00b00947ccb6150bsm413109ejc.102.2023.04.06.02.09.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 06 Apr 2023 02:09:13 -0700 (PDT)
-Message-ID: <2def10dd-a27e-72b1-c451-b7367da4c8ed@linaro.org>
-Date: Thu, 6 Apr 2023 10:09:11 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9934179F9
+	for <oe-kbuild@lists.linux.dev>; Thu,  6 Apr 2023 14:45:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1680792358; x=1712328358;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=zx2O8udvJH0I5LJ6in3Z36iR8xCjPuiNLYm6/Lph6qw=;
+  b=WqLy4PmksB5I/lgkr6fYofY5q4Ir0XWUpJg2IlJ4hzfbLFv/V/JCPwrf
+   oF9HV1FhTXyh1abYBFUxVhK84aG0kFcoGRF/huxOKZBwu8kLy4frxK1oc
+   nJT/sqbnsm/QdhAtgpkuj/4AwDi/QmqoRgFz9fBwZwKqiFATDka+xup6E
+   6p6tZ7NQlFxMWyMoujb2zX15Bj04WdirUyifHyVaUEr6ubq8XUNbQGaCO
+   Hzub7U1hQZ9L0IDV+UO5J5VhZtR2vV7SteHwNOzp2nuaQtRSxb/rK1TqG
+   GrynJQL/j0NW1BfqBL0TZWkj0vYHNKWTEX4A6fpko4xYGkndRfqua/DUq
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10672"; a="326818038"
+X-IronPort-AV: E=Sophos;i="5.98,323,1673942400"; 
+   d="scan'208";a="326818038"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2023 07:45:57 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10672"; a="756384851"
+X-IronPort-AV: E=Sophos;i="5.98,323,1673942400"; 
+   d="scan'208";a="756384851"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by fmsmga004.fm.intel.com with ESMTP; 06 Apr 2023 07:45:56 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pkQs7-000RRy-1V;
+	Thu, 06 Apr 2023 14:45:55 +0000
+Date: Thu, 6 Apr 2023 22:45:38 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [yiliu1765-iommufd:wip/iommufd_nesting-03292023-yi 3/42]
+ drivers/iommu/iommufd/device.c:329 iommufd_device_get_hw_info() error:
+ uninitialized symbol 'rc'.
+Message-ID: <202304062233.7sW2ckXj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [ambarus:s25hx02gt-v3 27/31] drivers/mtd/spi-nor/sfdp.c:1310
- spi_nor_parse_sccr_mc() warn: impossible condition '(params->n_dice > 255) =>
- (0-255 > 255)'
-Content-Language: en-US
-To: Dan Carpenter <error27@gmail.com>, oe-kbuild@lists.linux.dev,
- Takahiro Kuwano <Takahiro.Kuwano@infineon.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-References: <ee3873b7-d3da-4ce9-a01b-df1f5dab2d71@kili.mountain>
-From: Tudor Ambarus <tudor.ambarus@linaro.org>
-In-Reply-To: <ee3873b7-d3da-4ce9-a01b-df1f5dab2d71@kili.mountain>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: Yi Liu <yi.l.liu@intel.com>
+TO: Kevin Tian <kevin.tian@intel.com>
 
+tree:   https://github.com/yiliu1765/iommufd.git wip/iommufd_nesting-03292023-yi
+head:   032ce679f2322b426350f8721d7a1afca1bb7aab
+commit: 06ac6c12f5cac61638684e9d6f3fee0fca1287d3 [3/42] iommufd: Add IOMMU_DEVICE_GET_HW_INFO
+:::::: branch date: 8 days ago
+:::::: commit date: 8 days ago
+config: i386-randconfig-m021-20230403 (https://download.01.org/0day-ci/archive/20230406/202304062233.7sW2ckXj-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 
-On 4/6/23 09:50, Dan Carpenter wrote:
-> tree:   https://github.com/ambarus/linux-0day s25hx02gt-v3
-> head:   6b55d2284b55c6de88e5722bb756fad85487d3db
-> commit: 89b7eb9508b28a48c4d0a8b1ef46983202a0d360 [27/31] mtd: spi-nor: sfdp: Add support for SCCR map for multi-chip device
-> config: arm-randconfig-m041-20230403 (https://download.01.org/0day-ci/archive/20230406/202304061615.oiFHKH9Y-lkp@intel.com/config)
-> compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
-> 
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <error27@gmail.com>
-> | Link: https://lore.kernel.org/r/202304061615.oiFHKH9Y-lkp@intel.com/
-> 
-> smatch warnings:
-> drivers/mtd/spi-nor/sfdp.c:1310 spi_nor_parse_sccr_mc() warn: impossible condition '(params->n_dice > 255) => (0-255 > 255)'
-> 
-> vim +1310 drivers/mtd/spi-nor/sfdp.c
-> 
-> 89b7eb9508b28a Takahiro Kuwano 2023-02-08  1284  static int spi_nor_parse_sccr_mc(struct spi_nor *nor,
-> 89b7eb9508b28a Takahiro Kuwano 2023-02-08  1285  				 const struct sfdp_parameter_header *sccr_mc_header)
-> 89b7eb9508b28a Takahiro Kuwano 2023-02-08  1286  {
-> 89b7eb9508b28a Takahiro Kuwano 2023-02-08  1287  	struct spi_nor_flash_parameter *params = nor->params;
-> 89b7eb9508b28a Takahiro Kuwano 2023-02-08  1288  	u32 *dwords, addr;
-> 89b7eb9508b28a Takahiro Kuwano 2023-02-08  1289  	u8 i, n_dice;
->                                                         ^^^^^^^^^^^^
-> 
-> Declaring the iterator as u8 will lead to problems if we ever increase
-> the max to higher than 255.
-> 
-> 89b7eb9508b28a Takahiro Kuwano 2023-02-08  1290  	size_t len;
-> 89b7eb9508b28a Takahiro Kuwano 2023-02-08  1291  	int ret;
-> 89b7eb9508b28a Takahiro Kuwano 2023-02-08  1292  
-> 89b7eb9508b28a Takahiro Kuwano 2023-02-08  1293  	len = sccr_mc_header->length * sizeof(*dwords);
-> 89b7eb9508b28a Takahiro Kuwano 2023-02-08  1294  	dwords = kmalloc(len, GFP_KERNEL);
-> 89b7eb9508b28a Takahiro Kuwano 2023-02-08  1295  	if (!dwords)
-> 89b7eb9508b28a Takahiro Kuwano 2023-02-08  1296  		return -ENOMEM;
-> 89b7eb9508b28a Takahiro Kuwano 2023-02-08  1297  
-> 89b7eb9508b28a Takahiro Kuwano 2023-02-08  1298  	addr = SFDP_PARAM_HEADER_PTP(sccr_mc_header);
-> 89b7eb9508b28a Takahiro Kuwano 2023-02-08  1299  	ret = spi_nor_read_sfdp(nor, addr, len, dwords);
-> 89b7eb9508b28a Takahiro Kuwano 2023-02-08  1300  	if (ret)
-> 89b7eb9508b28a Takahiro Kuwano 2023-02-08  1301  		goto out;
-> 89b7eb9508b28a Takahiro Kuwano 2023-02-08  1302  
-> 89b7eb9508b28a Takahiro Kuwano 2023-02-08  1303  	le32_to_cpu_array(dwords, sccr_mc_header->length);
-> 89b7eb9508b28a Takahiro Kuwano 2023-02-08  1304  
-> 89b7eb9508b28a Takahiro Kuwano 2023-02-08  1305  	/*
-> 89b7eb9508b28a Takahiro Kuwano 2023-02-08  1306  	 * Pair of DOWRDs (volatile and non-volatile register offsets) per
-> 89b7eb9508b28a Takahiro Kuwano 2023-02-08  1307  	 * additional die. Hence, length = 2 * (number of additional dice).
-> 89b7eb9508b28a Takahiro Kuwano 2023-02-08  1308  	 */
-> 89b7eb9508b28a Takahiro Kuwano 2023-02-08  1309  	n_dice = 1 + sccr_mc_header->length / 2;
-> 89b7eb9508b28a Takahiro Kuwano 2023-02-08 @1310  	if (params->n_dice > SCCR_MC_MAX_DICE) {
-> 
-> If "1 + sccr_mc_header->length / 2;" is larger than SCCR_MC_MAX_DICE,
-> the value of n_dice will still be <= because of truncation.
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Link: https://lore.kernel.org/r/202304062233.7sW2ckXj-lkp@intel.com/
 
-Indeed. I'll handle it, thanks!
+New smatch warnings:
+drivers/iommu/iommufd/device.c:329 iommufd_device_get_hw_info() error: uninitialized symbol 'rc'.
+drivers/iommu/iommufd/device.c:335 iommufd_device_get_hw_info() error: 'data' dereferencing possible ERR_PTR()
+
+Old smatch warnings:
+drivers/iommu/iommufd/device.c:1151 iommufd_access_rw() error: uninitialized symbol 'rc'.
+
+vim +/rc +329 drivers/iommu/iommufd/device.c
+
+06ac6c12f5cac6 Yi Liu 2023-01-12  276  
+06ac6c12f5cac6 Yi Liu 2023-01-12  277  int iommufd_device_get_hw_info(struct iommufd_ucmd *ucmd)
+06ac6c12f5cac6 Yi Liu 2023-01-12  278  {
+06ac6c12f5cac6 Yi Liu 2023-01-12  279  	struct iommu_hw_info *cmd = ucmd->cmd;
+06ac6c12f5cac6 Yi Liu 2023-01-12  280  	unsigned int length, data_len;
+06ac6c12f5cac6 Yi Liu 2023-01-12  281  	struct iommufd_device *idev;
+06ac6c12f5cac6 Yi Liu 2023-01-12  282  	const struct iommu_ops *ops;
+06ac6c12f5cac6 Yi Liu 2023-01-12  283  	void *data = NULL;
+06ac6c12f5cac6 Yi Liu 2023-01-12  284  	int rc;
+06ac6c12f5cac6 Yi Liu 2023-01-12  285  
+06ac6c12f5cac6 Yi Liu 2023-01-12  286  	if (cmd->flags || cmd->__reserved || !cmd->data_len)
+06ac6c12f5cac6 Yi Liu 2023-01-12  287  		return -EOPNOTSUPP;
+06ac6c12f5cac6 Yi Liu 2023-01-12  288  
+06ac6c12f5cac6 Yi Liu 2023-01-12  289  	idev = iommufd_get_device(ucmd, cmd->dev_id);
+06ac6c12f5cac6 Yi Liu 2023-01-12  290  	if (IS_ERR(idev))
+06ac6c12f5cac6 Yi Liu 2023-01-12  291  		return PTR_ERR(idev);
+06ac6c12f5cac6 Yi Liu 2023-01-12  292  
+06ac6c12f5cac6 Yi Liu 2023-01-12  293  	ops = dev_iommu_ops(idev->dev);
+06ac6c12f5cac6 Yi Liu 2023-01-12  294  	if (!ops->hw_info) {
+06ac6c12f5cac6 Yi Liu 2023-01-12  295  		rc = 0;
+06ac6c12f5cac6 Yi Liu 2023-01-12  296  		length = 0;
+06ac6c12f5cac6 Yi Liu 2023-01-12  297  		goto out;
+06ac6c12f5cac6 Yi Liu 2023-01-12  298  	}
+06ac6c12f5cac6 Yi Liu 2023-01-12  299  
+06ac6c12f5cac6 Yi Liu 2023-01-12  300  	/* driver has hw_info callback should have a unique hw_info_type */
+06ac6c12f5cac6 Yi Liu 2023-01-12  301  	if (ops->hw_info_type == IOMMU_HW_INFO_TYPE_NONE) {
+06ac6c12f5cac6 Yi Liu 2023-01-12  302  		pr_warn_ratelimited("iommu driver set an invalid type\n");
+06ac6c12f5cac6 Yi Liu 2023-01-12  303  		rc = -ENODEV;
+06ac6c12f5cac6 Yi Liu 2023-01-12  304  		goto out;
+06ac6c12f5cac6 Yi Liu 2023-01-12  305  	}
+06ac6c12f5cac6 Yi Liu 2023-01-12  306  
+06ac6c12f5cac6 Yi Liu 2023-01-12  307  	data = ops->hw_info(idev->dev, &data_len);
+06ac6c12f5cac6 Yi Liu 2023-01-12  308  	if (IS_ERR(data)) {
+06ac6c12f5cac6 Yi Liu 2023-01-12  309  		rc = PTR_ERR(data);
+06ac6c12f5cac6 Yi Liu 2023-01-12  310  		goto out;
+06ac6c12f5cac6 Yi Liu 2023-01-12  311  	}
+06ac6c12f5cac6 Yi Liu 2023-01-12  312  
+06ac6c12f5cac6 Yi Liu 2023-01-12  313  	length = min(cmd->data_len, data_len);
+06ac6c12f5cac6 Yi Liu 2023-01-12  314  	if (copy_to_user(u64_to_user_ptr(cmd->data_ptr), data, length)) {
+06ac6c12f5cac6 Yi Liu 2023-01-12  315  		rc = -EFAULT;
+06ac6c12f5cac6 Yi Liu 2023-01-12  316  		goto out;
+06ac6c12f5cac6 Yi Liu 2023-01-12  317  	}
+06ac6c12f5cac6 Yi Liu 2023-01-12  318  
+06ac6c12f5cac6 Yi Liu 2023-01-12  319  	/*
+06ac6c12f5cac6 Yi Liu 2023-01-12  320  	 * Zero the trailing bytes if the user buffer is bigger than the
+06ac6c12f5cac6 Yi Liu 2023-01-12  321  	 * data size kernel actually has.
+06ac6c12f5cac6 Yi Liu 2023-01-12  322  	 */
+06ac6c12f5cac6 Yi Liu 2023-01-12  323  	if (length < cmd->data_len) {
+06ac6c12f5cac6 Yi Liu 2023-01-12  324  		rc = iommufd_zero_fill_user(cmd->data_ptr + length,
+06ac6c12f5cac6 Yi Liu 2023-01-12  325  					    cmd->data_len - length);
+06ac6c12f5cac6 Yi Liu 2023-01-12  326  	}
+06ac6c12f5cac6 Yi Liu 2023-01-12  327  
+06ac6c12f5cac6 Yi Liu 2023-01-12  328  out:
+06ac6c12f5cac6 Yi Liu 2023-01-12 @329  	if (!rc) {
+06ac6c12f5cac6 Yi Liu 2023-01-12  330  		cmd->out_data_type = ops->hw_info_type;
+06ac6c12f5cac6 Yi Liu 2023-01-12  331  		cmd->data_len = length;
+06ac6c12f5cac6 Yi Liu 2023-01-12  332  		rc = iommufd_ucmd_respond(ucmd, sizeof(*cmd));
+06ac6c12f5cac6 Yi Liu 2023-01-12  333  	}
+06ac6c12f5cac6 Yi Liu 2023-01-12  334  
+06ac6c12f5cac6 Yi Liu 2023-01-12 @335  	kfree(data);
+06ac6c12f5cac6 Yi Liu 2023-01-12  336  	iommufd_put_object(&idev->obj);
+06ac6c12f5cac6 Yi Liu 2023-01-12  337  	return rc;
+06ac6c12f5cac6 Yi Liu 2023-01-12  338  }
+06ac6c12f5cac6 Yi Liu 2023-01-12  339  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
