@@ -1,50 +1,50 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60D2EC2C7;
-	Fri,  7 Apr 2023 08:53:13 +0000 (UTC)
-Received: by mail-wr1-f50.google.com with SMTP id v1so41773018wrv.1;
-        Fri, 07 Apr 2023 01:53:13 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EB291FBC;
+	Fri,  7 Apr 2023 08:54:26 +0000 (UTC)
+Received: by mail-wm1-f51.google.com with SMTP id v14-20020a05600c470e00b003f06520825fso4066167wmo.0;
+        Fri, 07 Apr 2023 01:54:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680857591; x=1683449591;
+        d=gmail.com; s=20210112; t=1680857664; x=1683449664;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=G71T9GGseStTKAbGr+pTIDVcU56vAsuCBu0thw43efg=;
-        b=Kzsq6x+eLaatjVN7jq7mYXZX7WpIGDpdYUWco7xctcO9vsuwWmWy7M8c5DtsuaY/bR
-         PznrlOrqmM3ijKg5ukvwSQKuBBpBJggUgpl1pUUn6PEk1tsh05LtemUuqT5uF4hliNbA
-         AA5+y+Fvtw9qy7NVnV47DgYj6bi3aiOlNxmun9EeCFR+qyvoP9oNmpgXdr2bqnuxpyHP
-         FUhoSV5tHccl+EhbW3WuSGW9b3pSIgfE8sFLL0Hwih56rrYRf/gv+qntDHn4SpidOss0
-         ds4pHIAnb7yoiEtqlactVVXZWjY/iAYdBIFX+VZreWJd6LHRspgeKatCyah1iViCFc81
-         1rnA==
+        bh=aaKBcV3thczVG2Nc5f/R1elxYgYuzwXb5YeHi04c1UM=;
+        b=pjrzkvf4g2zYJ4KtRU+0mwfsmDdZMSPUGwru+mjnh6wqHyByyREN42EnWFU2wWj1N8
+         lYO0wAK28X/FhFLf3j+b4RJ3YpA23yp9BTEUy82H3fIyGBeZwzSX2rj3NJ8/TimNAHLj
+         IgSFc9S2jWMWChzoEK0QnVxpba5PAnVElmOjoQEKRYVkAQKhGTXnulcsPhVh0PvLQQrF
+         qu2Cvxmn/qUIDfTq2XifRirbGzBYM02LrN7FNXZdHJOHkr0k6pjQGsv1BcIBGLUULZdD
+         oh0PAQwS/k5jC4jpzKGQxSsjC5l0wRJ3SOeakLBB5Az2r8jPM9RDdRE8YYnUePN8OnTb
+         HL8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680857591; x=1683449591;
+        d=1e100.net; s=20210112; t=1680857664; x=1683449664;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=G71T9GGseStTKAbGr+pTIDVcU56vAsuCBu0thw43efg=;
-        b=y+cKhHijNevI0XLhany8IAc378dpTcTKXzSdgczJ5lyTGvl5sV6489MeSgnLFNAV0w
-         rY9CHdUqPbkUvnbNXayeKar9eH+AEhc/IM0w7+rO+yoVOBfLaeD56pEhaZzPk8Q5cq+H
-         6P5lYSjYnSVYiq5ahGQUfu2KB+otqDVPRp2W9/z4vsuAefX6FuoMWUPlCFAJ6O8NRQab
-         LGMDyopdzubkxIpkxMd0n+x+qFHQxnVrmoDlbSUg9hM5Jrk81aqRnUq0+o1zHVWktqNI
-         8o2VC5nKkur6A47NI89EINFRYK4aDJsZdByQc/Ew+dqV+S1rd7Hs1s+McA6a7mja+hkX
-         B0Fw==
-X-Gm-Message-State: AAQBX9eA4ZxlGm1+lW7QnHY2RC673guZDUQ/YZ9YB4a/POIVfupt2VnQ
-	P3HFu+vzsgSPDJoGtVq6Wbg4iKG8CS/0xw==
-X-Google-Smtp-Source: AKy350bzZyAQfAGMivyHXrgH3jecfQpT8GUM1THZT0oNFEKyGYTXQK1f1lbgGCiS1Ck8DenqxAUIQg==
-X-Received: by 2002:adf:dbc3:0:b0:2e4:b9a3:4426 with SMTP id e3-20020adfdbc3000000b002e4b9a34426mr871491wrj.27.1680857591148;
-        Fri, 07 Apr 2023 01:53:11 -0700 (PDT)
+        bh=aaKBcV3thczVG2Nc5f/R1elxYgYuzwXb5YeHi04c1UM=;
+        b=hoatTjdtaoGmdDFcVOrwYER9rsaMfZ81Hns1WU/Yy5FEpIzE5a289VhPYne+Vi/Re4
+         dtVxjs7d4Lsbw/F1MUBcMY9hHgAY2uO9dfF6lagpa+2EcYC6khUB5JcpVMXyLu/4RW4w
+         c104SchxaeAx5TxnCC6OKn2GVcVhmgESUbabziz1ML38OQ2jO+P9LudwG3h9ay+rUqLN
+         LVqttlWgzJAFJahdHdF2tNEXGc2MOQk/wxD9q8RtZzRnZWkA/0mbeTWHR6puKQGG4Gvw
+         IAZ8Uy1y1HxVVPxbOQdeyyh7BOvpiVaO02Huqq1JuMz7kHlAPLKI2zuvAt13JPnWt+g3
+         wnAg==
+X-Gm-Message-State: AAQBX9d/rnXScAXjgEdO6mSJSnfv0k6zW8hqdzERXSeahomAYS9SIeh8
+	A4rhdL7cBm8ahl9PYF67eq0XpBl4fJ/W1w==
+X-Google-Smtp-Source: AKy350ZUE5nUvrWAebaDyUpMUE+uHjc8PDtEnwZuIY6umr3NV5taJBhVOoe0ZykmWgzKeD3J9qj23A==
+X-Received: by 2002:a7b:c018:0:b0:3ed:6c71:9dc8 with SMTP id c24-20020a7bc018000000b003ed6c719dc8mr1202727wmb.22.1680857664232;
+        Fri, 07 Apr 2023 01:54:24 -0700 (PDT)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id f13-20020a5d50cd000000b002c71b4d476asm3936670wrt.106.2023.04.07.01.53.09
+        by smtp.gmail.com with ESMTPSA id bd5-20020a05600c1f0500b003f0472ffc7csm7666435wmb.11.2023.04.07.01.54.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 Apr 2023 01:53:10 -0700 (PDT)
-Date: Fri, 7 Apr 2023 11:53:05 +0300
+        Fri, 07 Apr 2023 01:54:23 -0700 (PDT)
+Date: Fri, 7 Apr 2023 11:54:20 +0300
 From: Dan Carpenter <error27@gmail.com>
 To: oe-kbuild@lists.linux.dev, Yi Liu <yi.l.liu@intel.com>,
 	Kevin Tian <kevin.tian@intel.com>
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [yiliu1765-iommufd:wip/iommufd_nesting-03292023-yi 9/42]
- drivers/iommu/iommufd/hw_pagetable.c:143 iommufd_hw_pagetable_alloc() error:
- uninitialized symbol 'rc'.
-Message-ID: <96a1dd3a-fee1-4dfe-8603-8f28ff1f1f46@kili.mountain>
+Subject: [yiliu1765-iommufd:wip/iommufd_nesting-03292023-yi 15/42]
+ drivers/iommu/iommufd/hw_pagetable.c:247 iommufd_hwpt_alloc() error:
+ uninitialized symbol 'klen'.
+Message-ID: <da386e9c-ba54-4ea3-a5ab-d538e1f3229b@kili.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -56,109 +56,147 @@ Content-Disposition: inline
 
 tree:   https://github.com/yiliu1765/iommufd.git wip/iommufd_nesting-03292023-yi
 head:   032ce679f2322b426350f8721d7a1afca1bb7aab
-commit: c1cf862f230cf33abdfd85051027ada354fecf14 [9/42] iommufd: Pass parent hwpt and user_data to iommufd_hw_pagetable_alloc()
-config: i386-randconfig-m021-20230403 (https://download.01.org/0day-ci/archive/20230407/202304070109.JNljFPM5-lkp@intel.com/config)
+commit: cfab6d45ee4dd485bc223d0135643093a7778923 [15/42] iommufd/selftest: Add domain_alloc_user() support in iommu mock
+config: i386-randconfig-m021-20230403 (https://download.01.org/0day-ci/archive/20230407/202304070422.X4wpZb1u-lkp@intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202304070109.JNljFPM5-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202304070422.X4wpZb1u-lkp@intel.com/
 
-smatch warnings:
-drivers/iommu/iommufd/hw_pagetable.c:143 iommufd_hw_pagetable_alloc() error: uninitialized symbol 'rc'.
+New smatch warnings:
+drivers/iommu/iommufd/hw_pagetable.c:247 iommufd_hwpt_alloc() error: uninitialized symbol 'klen'.
 
-vim +/rc +143 drivers/iommu/iommufd/hw_pagetable.c
+Old smatch warnings:
+drivers/iommu/iommufd/hw_pagetable.c:162 iommufd_hw_pagetable_alloc() error: uninitialized symbol 'rc'.
+drivers/iommu/iommufd/hw_pagetable.c:309 iommufd_hwpt_invalidate() warn: always true condition '(cmd->data_type >= (0 / 4 + (0))) => (0-u32max >= 0)'
 
-ea4acfac57b9dee Jason Gunthorpe 2022-11-29   59  struct iommufd_hw_pagetable *
-ea4acfac57b9dee Jason Gunthorpe 2022-11-29   60  iommufd_hw_pagetable_alloc(struct iommufd_ctx *ictx, struct iommufd_ioas *ioas,
-c1cf862f230cf33 Yi Liu          2023-03-03   61  			   struct iommufd_device *idev,
-c1cf862f230cf33 Yi Liu          2023-03-03   62  			   struct iommufd_hw_pagetable *parent,
-c1cf862f230cf33 Yi Liu          2023-03-03   63  			   void *user_data, bool immediate_attach)
-ea4acfac57b9dee Jason Gunthorpe 2022-11-29   64  {
-298c389caeaf008 Yi Liu          2023-01-19   65  	const struct iommu_ops *ops = dev_iommu_ops(idev->dev);
-c1cf862f230cf33 Yi Liu          2023-03-03   66  	struct iommu_domain *parent_domain = NULL;
-ea4acfac57b9dee Jason Gunthorpe 2022-11-29   67  	struct iommufd_hw_pagetable *hwpt;
-ea4acfac57b9dee Jason Gunthorpe 2022-11-29   68  	int rc;
-ea4acfac57b9dee Jason Gunthorpe 2022-11-29   69  
-339fbf3ae144263 Jason Gunthorpe 2023-03-01   70  	lockdep_assert_held(&ioas->mutex);
-339fbf3ae144263 Jason Gunthorpe 2023-03-01   71  
-c1cf862f230cf33 Yi Liu          2023-03-03   72  	if ((user_data || parent) && !ops->domain_alloc_user)
-c1cf862f230cf33 Yi Liu          2023-03-03   73  		return ERR_PTR(-EOPNOTSUPP);
-c1cf862f230cf33 Yi Liu          2023-03-03   74  
-ea4acfac57b9dee Jason Gunthorpe 2022-11-29   75  	hwpt = iommufd_object_alloc(ictx, hwpt, IOMMUFD_OBJ_HW_PAGETABLE);
-ea4acfac57b9dee Jason Gunthorpe 2022-11-29   76  	if (IS_ERR(hwpt))
-ea4acfac57b9dee Jason Gunthorpe 2022-11-29   77  		return hwpt;
-ea4acfac57b9dee Jason Gunthorpe 2022-11-29   78  
-ea4acfac57b9dee Jason Gunthorpe 2022-11-29   79  	INIT_LIST_HEAD(&hwpt->hwpt_item);
-ea4acfac57b9dee Jason Gunthorpe 2022-11-29   80  	/* Pairs with iommufd_hw_pagetable_destroy() */
-ea4acfac57b9dee Jason Gunthorpe 2022-11-29   81  	refcount_inc(&ioas->obj.users);
-ea4acfac57b9dee Jason Gunthorpe 2022-11-29   82  	hwpt->ioas = ioas;
-c1cf862f230cf33 Yi Liu          2023-03-03   83  	if (parent) {
-c1cf862f230cf33 Yi Liu          2023-03-03   84  		hwpt->parent = parent;
-c1cf862f230cf33 Yi Liu          2023-03-03   85  		parent_domain = parent->domain;
-c1cf862f230cf33 Yi Liu          2023-03-03   86  		refcount_inc(&parent->obj.users);
-c1cf862f230cf33 Yi Liu          2023-03-03   87  	}
-25cde97d953208b Jason Gunthorpe 2023-03-01   88  
-298c389caeaf008 Yi Liu          2023-01-19   89  	if (ops->domain_alloc_user)
-c1cf862f230cf33 Yi Liu          2023-03-03   90  		hwpt->domain = ops->domain_alloc_user(idev->dev,
-c1cf862f230cf33 Yi Liu          2023-03-03   91  						      parent_domain, user_data);
-298c389caeaf008 Yi Liu          2023-01-19   92  	else
-339fbf3ae144263 Jason Gunthorpe 2023-03-01   93  		hwpt->domain = iommu_domain_alloc(idev->dev->bus);
-25cde97d953208b Jason Gunthorpe 2023-03-01   94  	if (!hwpt->domain) {
-25cde97d953208b Jason Gunthorpe 2023-03-01   95  		rc = -ENOMEM;
-25cde97d953208b Jason Gunthorpe 2023-03-01   96  		goto out_abort;
-25cde97d953208b Jason Gunthorpe 2023-03-01   97  	}
-25cde97d953208b Jason Gunthorpe 2023-03-01   98  
-c1cf862f230cf33 Yi Liu          2023-03-03   99  	/* It must be either NESTED or UNMANAGED, depending on parent_domain */
-c1cf862f230cf33 Yi Liu          2023-03-03  100  	if (WARN_ON((parent_domain && hwpt->domain->type != IOMMU_DOMAIN_NESTED) ||
-c1cf862f230cf33 Yi Liu          2023-03-03  101  	            (!parent_domain && hwpt->domain->type != IOMMU_DOMAIN_UNMANAGED)))
-c1cf862f230cf33 Yi Liu          2023-03-03  102  		goto out_abort;
+vim +/klen +247 drivers/iommu/iommufd/hw_pagetable.c
 
-Needs an error code on this path.
+654fb5316ca27c Jason Gunthorpe 2023-02-16  173  int iommufd_hwpt_alloc(struct iommufd_ucmd *ucmd)
+654fb5316ca27c Jason Gunthorpe 2023-02-16  174  {
+a5314a527b1ab8 Yi Liu          2023-03-03  175  	struct iommufd_hw_pagetable *hwpt, *parent = NULL;
+654fb5316ca27c Jason Gunthorpe 2023-02-16  176  	struct iommu_hwpt_alloc *cmd = ucmd->cmd;
+a5314a527b1ab8 Yi Liu          2023-03-03  177  	struct iommufd_object *pt_obj;
+a5314a527b1ab8 Yi Liu          2023-03-03  178  	const struct iommu_ops *ops;
+654fb5316ca27c Jason Gunthorpe 2023-02-16  179  	struct iommufd_device *idev;
+654fb5316ca27c Jason Gunthorpe 2023-02-16  180  	struct iommufd_ioas *ioas;
+a5314a527b1ab8 Yi Liu          2023-03-03  181  	void *data = NULL;
+a5314a527b1ab8 Yi Liu          2023-03-03  182  	u32 klen;
+654fb5316ca27c Jason Gunthorpe 2023-02-16  183  	int rc;
+654fb5316ca27c Jason Gunthorpe 2023-02-16  184  
+654fb5316ca27c Jason Gunthorpe 2023-02-16  185  	if (cmd->flags || cmd->__reserved)
+654fb5316ca27c Jason Gunthorpe 2023-02-16  186  		return -EOPNOTSUPP;
+654fb5316ca27c Jason Gunthorpe 2023-02-16  187  
+654fb5316ca27c Jason Gunthorpe 2023-02-16  188  	idev = iommufd_get_device(ucmd, cmd->dev_id);
+654fb5316ca27c Jason Gunthorpe 2023-02-16  189  	if (IS_ERR(idev))
+654fb5316ca27c Jason Gunthorpe 2023-02-16  190  		return PTR_ERR(idev);
+654fb5316ca27c Jason Gunthorpe 2023-02-16  191  
+a5314a527b1ab8 Yi Liu          2023-03-03  192  	ops = dev_iommu_ops(idev->dev);
+a5314a527b1ab8 Yi Liu          2023-03-03  193  
+ee19e9e5b92641 Yi Liu          2023-03-03  194  	/*
+ee19e9e5b92641 Yi Liu          2023-03-03  195  	 * cmd->data_type should be a supported type marked in the
+ee19e9e5b92641 Yi Liu          2023-03-03  196  	 * ops->hwpt_type_bitmap. Otherwise, the allocation can continue
+ee19e9e5b92641 Yi Liu          2023-03-03  197  	 * only when the ops->hw_info_type==IOMMU_HW_INFO_TYPE_NONE and
+ee19e9e5b92641 Yi Liu          2023-03-03  198  	 * cmd->data_type==IOMMU_HWPT_TYPE_DEFAULT.
+ee19e9e5b92641 Yi Liu          2023-03-03  199  	 */
+ee19e9e5b92641 Yi Liu          2023-03-03  200  	if (!((1 << cmd->data_type) & ops->hwpt_type_bitmap) &&
+ee19e9e5b92641 Yi Liu          2023-03-03  201  	    ((ops->hw_info_type != IOMMU_HW_INFO_TYPE_NONE) ||
+ee19e9e5b92641 Yi Liu          2023-03-03  202  	     (cmd->data_type != IOMMU_HWPT_TYPE_DEFAULT))) {
+a5314a527b1ab8 Yi Liu          2023-03-03  203  		rc = -EINVAL;
+a5314a527b1ab8 Yi Liu          2023-03-03  204  		goto out_put_idev;
+a5314a527b1ab8 Yi Liu          2023-03-03  205  	}
+a5314a527b1ab8 Yi Liu          2023-03-03  206  
+a5314a527b1ab8 Yi Liu          2023-03-03  207  	pt_obj = iommufd_get_object(ucmd->ictx, cmd->pt_id, IOMMUFD_OBJ_ANY);
+a5314a527b1ab8 Yi Liu          2023-03-03  208  	if (IS_ERR(pt_obj)) {
+a5314a527b1ab8 Yi Liu          2023-03-03  209  		rc = -EINVAL;
+654fb5316ca27c Jason Gunthorpe 2023-02-16  210  		goto out_put_idev;
+654fb5316ca27c Jason Gunthorpe 2023-02-16  211  	}
+654fb5316ca27c Jason Gunthorpe 2023-02-16  212  
+a5314a527b1ab8 Yi Liu          2023-03-03  213  	switch (pt_obj->type) {
+a5314a527b1ab8 Yi Liu          2023-03-03  214  	case IOMMUFD_OBJ_IOAS:
+a5314a527b1ab8 Yi Liu          2023-03-03  215  		ioas = container_of(pt_obj, struct iommufd_ioas, obj);
+a5314a527b1ab8 Yi Liu          2023-03-03  216  		break;
+a5314a527b1ab8 Yi Liu          2023-03-03  217  	case IOMMUFD_OBJ_HW_PAGETABLE:
+a5314a527b1ab8 Yi Liu          2023-03-03  218  		/* pt_id points HWPT only when data_type is !IOMMU_HWPT_TYPE_DEFAULT */
+a5314a527b1ab8 Yi Liu          2023-03-03  219  		if (cmd->data_type == IOMMU_HWPT_TYPE_DEFAULT) {
+a5314a527b1ab8 Yi Liu          2023-03-03  220  			rc = -EINVAL;
+a5314a527b1ab8 Yi Liu          2023-03-03  221  			goto out_put_pt;
+a5314a527b1ab8 Yi Liu          2023-03-03  222  		}
+a5314a527b1ab8 Yi Liu          2023-03-03  223  
+a5314a527b1ab8 Yi Liu          2023-03-03  224  		parent = container_of(pt_obj, struct iommufd_hw_pagetable, obj);
+a5314a527b1ab8 Yi Liu          2023-03-03  225  		/*
+a5314a527b1ab8 Yi Liu          2023-03-03  226  		 * Cannot allocate user-managed hwpt linking to auto_created
+a5314a527b1ab8 Yi Liu          2023-03-03  227  		 * hwpt. If the parent hwpt is already a user-managed hwpt,
+a5314a527b1ab8 Yi Liu          2023-03-03  228  		 * don't allocate another user-managed hwpt linking to it.
+a5314a527b1ab8 Yi Liu          2023-03-03  229  		 */
+a5314a527b1ab8 Yi Liu          2023-03-03  230  		if (parent->auto_domain || parent->parent) {
+a5314a527b1ab8 Yi Liu          2023-03-03  231  			rc = -EINVAL;
+a5314a527b1ab8 Yi Liu          2023-03-03  232  			goto out_put_pt;
+a5314a527b1ab8 Yi Liu          2023-03-03  233  		}
+a5314a527b1ab8 Yi Liu          2023-03-03  234  		ioas = parent->ioas;
+a5314a527b1ab8 Yi Liu          2023-03-03  235  		break;
+a5314a527b1ab8 Yi Liu          2023-03-03  236  	default:
+a5314a527b1ab8 Yi Liu          2023-03-03  237  		rc = -EINVAL;
+a5314a527b1ab8 Yi Liu          2023-03-03  238  		goto out_put_pt;
+a5314a527b1ab8 Yi Liu          2023-03-03  239  	}
+a5314a527b1ab8 Yi Liu          2023-03-03  240  
+cfab6d45ee4dd4 Nicolin Chen    2023-02-26  241  	if (cmd->data_type != IOMMU_HWPT_TYPE_SELFTTEST)
+a5314a527b1ab8 Yi Liu          2023-03-03  242  		klen = iommufd_hwpt_alloc_data_size[cmd->data_type];
+cfab6d45ee4dd4 Nicolin Chen    2023-02-26  243  #ifdef CONFIG_IOMMUFD_TEST
+cfab6d45ee4dd4 Nicolin Chen    2023-02-26  244  	else
+cfab6d45ee4dd4 Nicolin Chen    2023-02-26  245  		klen = sizeof(struct iommu_hwpt_selftest);
+cfab6d45ee4dd4 Nicolin Chen    2023-02-26  246  #endif
 
-c1cf862f230cf33 Yi Liu          2023-03-03  103  
-403bdbf937722d2 Jason Gunthorpe 2023-02-16  104  	/*
-403bdbf937722d2 Jason Gunthorpe 2023-02-16  105  	 * Set the coherency mode before we do iopt_table_add_domain() as some
-403bdbf937722d2 Jason Gunthorpe 2023-02-16  106  	 * iommus have a per-PTE bit that controls it and need to decide before
-403bdbf937722d2 Jason Gunthorpe 2023-02-16  107  	 * doing any maps. It is an iommu driver bug to report
-403bdbf937722d2 Jason Gunthorpe 2023-02-16  108  	 * IOMMU_CAP_ENFORCE_CACHE_COHERENCY but fail enforce_cache_coherency on
-403bdbf937722d2 Jason Gunthorpe 2023-02-16  109  	 * a new domain.
-403bdbf937722d2 Jason Gunthorpe 2023-02-16  110  	 */
-403bdbf937722d2 Jason Gunthorpe 2023-02-16  111  	if (idev->enforce_cache_coherency) {
-403bdbf937722d2 Jason Gunthorpe 2023-02-16  112  		rc = iommufd_hw_pagetable_enforce_cc(hwpt);
-403bdbf937722d2 Jason Gunthorpe 2023-02-16  113  		if (WARN_ON(rc))
-403bdbf937722d2 Jason Gunthorpe 2023-02-16  114  			goto out_abort;
-403bdbf937722d2 Jason Gunthorpe 2023-02-16  115  	}
-403bdbf937722d2 Jason Gunthorpe 2023-02-16  116  
-339fbf3ae144263 Jason Gunthorpe 2023-03-01  117  	/*
-339fbf3ae144263 Jason Gunthorpe 2023-03-01  118  	 * immediate_attach exists only to accommodate iommu drivers that cannot
-339fbf3ae144263 Jason Gunthorpe 2023-03-01  119  	 * directly allocate a domain. These drivers do not finish creating the
-339fbf3ae144263 Jason Gunthorpe 2023-03-01  120  	 * domain until attach is completed. Thus we must have this call
-339fbf3ae144263 Jason Gunthorpe 2023-03-01  121  	 * sequence. Once those drivers are fixed this should be removed.
-36a117b606efcce Jason Gunthorpe 2023-02-16  122  	 *
-36a117b606efcce Jason Gunthorpe 2023-02-16  123  	 * Note we hold the igroup->lock here which prevents any other thread
-36a117b606efcce Jason Gunthorpe 2023-02-16  124  	 * from observing igroup->hwpt until we finish setting it up.
-339fbf3ae144263 Jason Gunthorpe 2023-03-01  125  	 */
-339fbf3ae144263 Jason Gunthorpe 2023-03-01  126  	if (immediate_attach) {
-339fbf3ae144263 Jason Gunthorpe 2023-03-01  127  		rc = iommufd_hw_pagetable_attach(hwpt, idev);
-339fbf3ae144263 Jason Gunthorpe 2023-03-01  128  		if (rc)
-36a117b606efcce Jason Gunthorpe 2023-02-16  129  			goto out_abort;
-339fbf3ae144263 Jason Gunthorpe 2023-03-01  130  	}
-339fbf3ae144263 Jason Gunthorpe 2023-03-01  131  
-339fbf3ae144263 Jason Gunthorpe 2023-03-01  132  	rc = iopt_table_add_domain(&hwpt->ioas->iopt, hwpt->domain);
-339fbf3ae144263 Jason Gunthorpe 2023-03-01  133  	if (rc)
-339fbf3ae144263 Jason Gunthorpe 2023-03-01  134  		goto out_detach;
-339fbf3ae144263 Jason Gunthorpe 2023-03-01  135  	list_add_tail(&hwpt->hwpt_item, &hwpt->ioas->hwpt_list);
-ea4acfac57b9dee Jason Gunthorpe 2022-11-29  136  	return hwpt;
-ea4acfac57b9dee Jason Gunthorpe 2022-11-29  137  
-339fbf3ae144263 Jason Gunthorpe 2023-03-01  138  out_detach:
-339fbf3ae144263 Jason Gunthorpe 2023-03-01  139  	if (immediate_attach)
-36a117b606efcce Jason Gunthorpe 2023-02-16  140  		iommufd_hw_pagetable_detach(idev);
-ea4acfac57b9dee Jason Gunthorpe 2022-11-29  141  out_abort:
-25cde97d953208b Jason Gunthorpe 2023-03-01  142  	iommufd_object_abort_and_destroy(ictx, &hwpt->obj);
-ea4acfac57b9dee Jason Gunthorpe 2022-11-29 @143  	return ERR_PTR(rc);
-ea4acfac57b9dee Jason Gunthorpe 2022-11-29  144  }
+Assume cmd->data_type == IOMMU_HWPT_TYPE_SELFTTEST and CONFIG_IOMMUFD_TEST
+is not defined.
+
+a5314a527b1ab8 Yi Liu          2023-03-03 @247  	if (klen) {
+a5314a527b1ab8 Yi Liu          2023-03-03  248  		if (!cmd->data_len) {
+a5314a527b1ab8 Yi Liu          2023-03-03  249  			rc = -EINVAL;
+a5314a527b1ab8 Yi Liu          2023-03-03  250  			goto out_put_pt;
+a5314a527b1ab8 Yi Liu          2023-03-03  251  		}
+a5314a527b1ab8 Yi Liu          2023-03-03  252  
+a5314a527b1ab8 Yi Liu          2023-03-03  253  		data = kzalloc(klen, GFP_KERNEL);
+a5314a527b1ab8 Yi Liu          2023-03-03  254  		if (!data) {
+a5314a527b1ab8 Yi Liu          2023-03-03  255  			rc = -ENOMEM;
+a5314a527b1ab8 Yi Liu          2023-03-03  256  			goto out_put_pt;
+a5314a527b1ab8 Yi Liu          2023-03-03  257  		}
+a5314a527b1ab8 Yi Liu          2023-03-03  258  
+a5314a527b1ab8 Yi Liu          2023-03-03  259  		rc = copy_struct_from_user(data, klen,
+a5314a527b1ab8 Yi Liu          2023-03-03  260  					   u64_to_user_ptr(cmd->data_uptr),
+a5314a527b1ab8 Yi Liu          2023-03-03  261  					   cmd->data_len);
+a5314a527b1ab8 Yi Liu          2023-03-03  262  		if (rc)
+a5314a527b1ab8 Yi Liu          2023-03-03  263  			goto out_free_data;
+a5314a527b1ab8 Yi Liu          2023-03-03  264  	}
+a5314a527b1ab8 Yi Liu          2023-03-03  265  
+654fb5316ca27c Jason Gunthorpe 2023-02-16  266  	mutex_lock(&ioas->mutex);
+c1cf862f230cf3 Yi Liu          2023-03-03  267  	hwpt = iommufd_hw_pagetable_alloc(ucmd->ictx, ioas, idev,
+a5314a527b1ab8 Yi Liu          2023-03-03  268  					  parent, data, false);
+654fb5316ca27c Jason Gunthorpe 2023-02-16  269  	mutex_unlock(&ioas->mutex);
+654fb5316ca27c Jason Gunthorpe 2023-02-16  270  	if (IS_ERR(hwpt)) {
+654fb5316ca27c Jason Gunthorpe 2023-02-16  271  		rc = PTR_ERR(hwpt);
+a5314a527b1ab8 Yi Liu          2023-03-03  272  		goto out_free_data;
+654fb5316ca27c Jason Gunthorpe 2023-02-16  273  	}
+654fb5316ca27c Jason Gunthorpe 2023-02-16  274  
+654fb5316ca27c Jason Gunthorpe 2023-02-16  275  	cmd->out_hwpt_id = hwpt->obj.id;
+654fb5316ca27c Jason Gunthorpe 2023-02-16  276  	rc = iommufd_ucmd_respond(ucmd, sizeof(*cmd));
+654fb5316ca27c Jason Gunthorpe 2023-02-16  277  	if (rc)
+654fb5316ca27c Jason Gunthorpe 2023-02-16  278  		goto out_hwpt;
+654fb5316ca27c Jason Gunthorpe 2023-02-16  279  	iommufd_object_finalize(ucmd->ictx, &hwpt->obj);
+a5314a527b1ab8 Yi Liu          2023-03-03  280  	goto out_free_data;
+654fb5316ca27c Jason Gunthorpe 2023-02-16  281  
+654fb5316ca27c Jason Gunthorpe 2023-02-16  282  out_hwpt:
+654fb5316ca27c Jason Gunthorpe 2023-02-16  283  	iommufd_object_abort_and_destroy(ucmd->ictx, &hwpt->obj);
+a5314a527b1ab8 Yi Liu          2023-03-03  284  out_free_data:
+a5314a527b1ab8 Yi Liu          2023-03-03  285  	kfree(data);
+a5314a527b1ab8 Yi Liu          2023-03-03  286  out_put_pt:
+a5314a527b1ab8 Yi Liu          2023-03-03  287  	iommufd_put_object(pt_obj);
+654fb5316ca27c Jason Gunthorpe 2023-02-16  288  out_put_idev:
+654fb5316ca27c Jason Gunthorpe 2023-02-16  289  	iommufd_put_object(&idev->obj);
+654fb5316ca27c Jason Gunthorpe 2023-02-16  290  	return rc;
+654fb5316ca27c Jason Gunthorpe 2023-02-16  291  }
 
 -- 
 0-DAY CI Kernel Test Service
