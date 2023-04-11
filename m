@@ -1,43 +1,50 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD25D5247
-	for <oe-kbuild@lists.linux.dev>; Tue, 11 Apr 2023 08:50:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681203009; x=1712739009;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/w+Aim1zC/cyFjplBwrqWPQGXDWyQ5DQDv0/qWG2Hqk=;
-  b=UwvSiKC9XiqzGBvkL29ycMHyqtE+sfK4szait9e1pyr34TrYmwb9LV6K
-   KSDj2R/7/SdD5v59Mj5r+UaV2eDFpWCbSo3bmjdOPel9QWe6oDH4wmrwR
-   IUVALrsEACY4OTIMMqyRRQjdPMXJoksMXVdEe/GZ/ip0EGO4o7ng+LhhG
-   ReDB1k1Eunca7lr5HJKYlaMAjqZ6zr1FXYgpukEfCZkYlrggbW5FaCiZG
-   fLQitpPuD/Smsyg/NQPlcMMm1tjRE/C9gDNltxBIS3uwfXeO+V8v21FQ+
-   NDmLF+a7oeZ8mP9xbrVYfQfNTMLKGf8xoIxUT0F/m4OkdgZJHyPgBPeXW
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10676"; a="327660318"
-X-IronPort-AV: E=Sophos;i="5.98,336,1673942400"; 
-   d="scan'208";a="327660318"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2023 01:50:07 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10676"; a="665902946"
-X-IronPort-AV: E=Sophos;i="5.98,336,1673942400"; 
-   d="scan'208";a="665902946"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 11 Apr 2023 01:50:03 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pm9hS-000W9a-1b;
-	Tue, 11 Apr 2023 08:50:02 +0000
-Date: Tue, 11 Apr 2023 16:49:13 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8769B4436;
+	Tue, 11 Apr 2023 08:56:07 +0000 (UTC)
+Received: by mail-wm1-f51.google.com with SMTP id gw11-20020a05600c850b00b003f07d305b32so4935400wmb.4;
+        Tue, 11 Apr 2023 01:56:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1681203365; x=1683795365;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=g2c6KSjMyOQtE3ZA0DlkwuZyqApj46xlAPVqYsupQKg=;
+        b=E7M9iWH31eeBfaKD7RNWNzG/s+ovShwELcJ9ZHEG8gQ+oKBnUQUfb0bfLiFbdpaoeF
+         7iRxSRXfLjj7Ps3gSc3Zy/S6N6fB4Lv5tKzRte3jHgAJpG9vQDgILqLk20Ijme2bxvdy
+         F2Mjn4dQma0stMDF57PjujotjodnitmMsbYwkokYdmMNZD8o/CXLfa20P/yyTrQOa+pA
+         YeZV3qBoW+ZqjptRF7tQkSfpYnlv9Mt+qXq215O8DpBGuDMV0LNMSt8sFFycqFhSzesk
+         2EWBLuODAMCwc6aTctbOZYviaDTCYDF3I8Pgbzr9Vv7a6sRAenpZfyINzlNj6+skvtcZ
+         DwBA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1681203365; x=1683795365;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=g2c6KSjMyOQtE3ZA0DlkwuZyqApj46xlAPVqYsupQKg=;
+        b=xryx9RKj+HQ00AYQleLaOXNavpVDu7/MoRzocOEDffMUs7jecdFQ0RWsKaXu7ilKqG
+         Zad7fmmCQr9rwV+Mc8+uv2j7y1Tsvcrpyg+Sa/b26cVkMWop4k4vNgSY7qM67SBrVSqs
+         7CwYj2tM/TrOKQ/VxtvsyBIuRrGc5HS8NWNEH4g7ttlWvb5RJFqhnI8Qv/skV9ckLX46
+         nnEMxF9i1ctWn8+47D4stsAo2y2lawCDhmXifVK2n69f6zwfR45LDF9UrWUzslK/AWzb
+         Uz+qL+oxTKbrW1w2MsfXy4TfB/Od19wm2Ac5iXhvZNZ9xlNxRZEarknG4chclO0++9e0
+         06Ig==
+X-Gm-Message-State: AAQBX9e4Eui8zGgK01zmu3PY2Jh4CiVnDPvb5bB94nB6f/19qIOoKUX2
+	KklkwD7VFkE/gmyz3xe5doMztfDApdY=
+X-Google-Smtp-Source: AKy350YLkmUhmfRi7UtVqBSd48aHEVZWLVUp+Ba4iTnaVnWZ7GykVuhJr78C0jBvJkjJz7bcNEA8pg==
+X-Received: by 2002:a1c:4c12:0:b0:3f0:4f83:22f4 with SMTP id z18-20020a1c4c12000000b003f04f8322f4mr5944906wmf.20.1681203363626;
+        Tue, 11 Apr 2023 01:56:03 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id q8-20020a1ce908000000b003ed2276cd0dsm16272183wmc.38.2023.04.11.01.56.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 11 Apr 2023 01:56:03 -0700 (PDT)
+Date: Tue, 11 Apr 2023 11:56:00 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
 Subject: [jic23-iio:testing 65/65]
  drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_core.c:2639
  lsm6dsx_get_acpi_mount_matrix() warn: signedness bug returning '(-22)'
-Message-ID: <202304111602.SD5o4kh1-lkp@intel.com>
+Message-ID: <79e02451-d658-4941-bd6e-2fe0d2a787ff@kili.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -47,15 +54,9 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git testing
 head:   4c3b188facb2011e9edcdaaf71f2f553e9c230df
 commit: 4c3b188facb2011e9edcdaaf71f2f553e9c230df [65/65] iio: imu: lsm6dsx: Add ACPI mount matrix retrieval
-:::::: branch date: 15 hours ago
-:::::: commit date: 15 hours ago
 config: x86_64-randconfig-m001 (https://download.01.org/0day-ci/archive/20230411/202304111602.SD5o4kh1-lkp@intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 
@@ -74,8 +75,9 @@ drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_core.c:2680 lsm6dsx_get_acpi_mount_matrix(
 
 vim +2639 drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_core.c
 
-f346b16f94af2a Lorenzo Bianconi 2020-11-17  2627  
 4c3b188facb201 Jonathan Cameron 2023-01-30  2628  static bool lsm6dsx_get_acpi_mount_matrix(struct device *dev,
+                                                         ^^^^
+
 4c3b188facb201 Jonathan Cameron 2023-01-30  2629  					  struct iio_mount_matrix *orientation)
 4c3b188facb201 Jonathan Cameron 2023-01-30  2630  {
 4c3b188facb201 Jonathan Cameron 2023-01-30  2631  	struct acpi_buffer buffer = { ACPI_ALLOCATE_BUFFER, NULL };
@@ -87,6 +89,9 @@ f346b16f94af2a Lorenzo Bianconi 2020-11-17  2627
 4c3b188facb201 Jonathan Cameron 2023-01-30  2637  
 4c3b188facb201 Jonathan Cameron 2023-01-30  2638  	if (!has_acpi_companion(dev))
 4c3b188facb201 Jonathan Cameron 2023-01-30 @2639  		return -EINVAL;
+
+return true/false?
+
 4c3b188facb201 Jonathan Cameron 2023-01-30  2640  
 4c3b188facb201 Jonathan Cameron 2023-01-30  2641  	if (!acpi_has_method(adev->handle, "ROTM"))
 4c3b188facb201 Jonathan Cameron 2023-01-30  2642  		return -EINVAL;
@@ -129,8 +134,8 @@ f346b16f94af2a Lorenzo Bianconi 2020-11-17  2627
 4c3b188facb201 Jonathan Cameron 2023-01-30  2679  	kfree(buffer.pointer);
 4c3b188facb201 Jonathan Cameron 2023-01-30  2680  	return -EINVAL;
 4c3b188facb201 Jonathan Cameron 2023-01-30  2681  }
-4c3b188facb201 Jonathan Cameron 2023-01-30  2682  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
+
