@@ -1,110 +1,131 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38DE72F2D;
-	Tue, 11 Apr 2023 08:21:28 +0000 (UTC)
-Received: by mail-wm1-f53.google.com with SMTP id j1-20020a05600c1c0100b003f04da00d07so361944wms.1;
-        Tue, 11 Apr 2023 01:21:28 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 466EA2F2D;
+	Tue, 11 Apr 2023 08:26:32 +0000 (UTC)
+Received: by mail-wm1-f48.google.com with SMTP id he13so9009065wmb.2;
+        Tue, 11 Apr 2023 01:26:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1681201286; x=1683793286;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=SLr50RMsIDHguyM3rr5tFIBceDphhXuonk+H7GyFFm8=;
-        b=qfZ+IZRFEywsCJDI+miVnTuR4P26yu38syNI7wIssrK0qm8/DzqCxqALazr+pu9dcX
-         ra/WU5uxDodu6mc/K9lN/s33PVdl0U9zvMzLY3SMBiZjG9OQQfTqpFZXUdtAyjUiQeQd
-         /2T17xKdquitLUK91nsIxD5eIor4LHT7VcbnAe11Hcu/zyFN3fuLSudOOcCXjjG0aFEO
-         naywweuXfZHliKp4N1u5shkEgNAjeknO/9hkMea9TLSe7W53N710udh1S9dSYyRhYXpO
-         t2z3j/73N+Inp4045oxEIdcwDEhKCb4UguYoXtufC9TouGvuOk1YyAnUAADH2rAreL9H
-         4b6A==
+        d=gmail.com; s=20210112; t=1681201590; x=1683793590;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=T2lPXKJbj1gOdKUQSI0raAvBDZgbuEz3CuHg5A0q854=;
+        b=GNQ+eU/Gplw59qh8MOKQ+Sd0Nh68rFXe/gBl2WngTdlIeiS6CGDZ8LFIE1ivQmZPgX
+         AmwwRII6L4CHkH7aQw36LzN0yWAfcyo4bERHAC0XxC8+155QjTAqS6ClgcOF4kiF+Xj1
+         liDS6MOBDEFEcCtjF/ABa+UipjcNLaeFzXW5xQzjA0euanRizTcELJYSUVJN/jn50Gyi
+         h7PDRjbtnTzLFUPxq5mpcgyAc1XGpKZqvpqvm59nMKnzNOQUnGtVxpCJ9mSJv0OmQgqG
+         YsjKQAKBOj48WCATbrCp8Ty6Nm4FLGJchl4emYTAUhtTpVGACZkzM2zGGQIHnrLt3mNR
+         BJSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1681201286; x=1683793286;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=SLr50RMsIDHguyM3rr5tFIBceDphhXuonk+H7GyFFm8=;
-        b=AJJzv36Q3ioVrqTmC0IqmQkdZM/2U1FQa/fxPDRCpQCsXnhjq6UxaziiI6hCBSgHUW
-         dateeeu1D6lN7+kugG1Zegjly+84970HMvx0TpPpbDx2xHztGPfGFGCb4FBNInGCoX5v
-         Z7ohmODOh/SzYxojNquHGGF0wSxNkWztx+s0JWkdHDXyBnunRDUxfccvRBLH34iWMJGz
-         ewo3VG84uWBG9uXZFggqqGLoMoaKlJacj1Yj4NY+pEyO9FwGqf0zMBqj5r3D7s3n9wsO
-         1YLsts0uDJ3LcCLKHTBU/4bykZBD80eurgUH28YmT16G0k07zcCJZzYW0x4fib1up5lo
-         f7kA==
-X-Gm-Message-State: AAQBX9eiMPM5uKtRv99FRISrAbE2B6tm6i+5qxZGQCyTtExLdVBN3lJs
-	grYVIjGjr30xOWJanbmJUTJaiVuTOic=
-X-Google-Smtp-Source: AKy350bYU2GaCxVYFn0H7UdmbMcQ3xgtIqSVkf77R+4E+DjGQQGZl8TPqbLRtpxRW4M8L08AllLVmw==
-X-Received: by 2002:a7b:ce97:0:b0:3eb:399f:6b70 with SMTP id q23-20020a7bce97000000b003eb399f6b70mr6466594wmj.31.1681201284572;
-        Tue, 11 Apr 2023 01:21:24 -0700 (PDT)
+        d=1e100.net; s=20210112; t=1681201590; x=1683793590;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:message-id:subject:cc:to:from:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=T2lPXKJbj1gOdKUQSI0raAvBDZgbuEz3CuHg5A0q854=;
+        b=xlEqx3UgWIeVrh+NrRsrNZdWPpF1eG+U19cf9HVy12BJeKmSCv7cQ6cZBAH6WH0wn0
+         92v1/vRjIkSdMFRCOK4QPbfiU1tm9bApq5JJacq4tZAIGEi/patgqJ1kUm+PzvnLyTCu
+         q54mShFzFWdTc3ZP6xam4zdWFnq1Qj63iOb/Gp/nxv2PwTVqeHFXVMJsyMZqjTlvvx9w
+         B4mz8EsHU3rlNSLKKXiWdtk5ju2lsUQpyLMj77cj4mdMoFIhyojlTtvxTSxNCq29Bm9p
+         PoZ9yKRTqnyS3vTypiV4qAXA+40nivjYO+SwaZci04wlwdscZfkB0Fe6cDvLEl7FBW08
+         XtPQ==
+X-Gm-Message-State: AAQBX9ctTpK1Kq/O/FN1p3oSonQJfrgdCfvBlg4VcRGmwYJhyg3KhsIm
+	zIYWfKRPaWyGZ4wiCEj+JPt3y0vJbIk=
+X-Google-Smtp-Source: AKy350Y+rmcfbwhQ0jNjSuuWfWfCcYmdMv5e4TlRIv7zyyjHwxfb9z/QM/N5EhrEf6WpUUd0WKMf+Q==
+X-Received: by 2002:a1c:7407:0:b0:3ee:5d1d:6c2d with SMTP id p7-20020a1c7407000000b003ee5d1d6c2dmr8784586wmc.35.1681201589916;
+        Tue, 11 Apr 2023 01:26:29 -0700 (PDT)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id p15-20020a7bcc8f000000b003ed4f6c6234sm16070930wma.23.2023.04.11.01.21.23
+        by smtp.gmail.com with ESMTPSA id g17-20020a05600c001100b003dd1bd0b915sm19784816wmc.22.2023.04.11.01.26.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Apr 2023 01:21:24 -0700 (PDT)
-Date: Tue, 11 Apr 2023 11:21:15 +0300
+        Tue, 11 Apr 2023 01:26:29 -0700 (PDT)
+Date: Tue, 11 Apr 2023 11:26:26 +0300
 From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, Biju Das <biju.das.jz@bp.renesas.com>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>
+To: oe-kbuild@lists.linux.dev,
+	=?iso-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>,
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+	Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+	Melissa Wen <mwen@igalia.com>,
+	Haneen Mohammed <hamohammed.sa@gmail.com>,
+	Igor Matheus Andrade Torrente <igormtorrente@gmail.com>
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Biju Das <biju.das.jz@bp.renesas.com>, linux-clk@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v4 2/3] drivers: clk: Add support for versa3 clock driver
-Message-ID: <7351b44c-f577-4df3-a01e-e9b1039fa928@kili.mountain>
+	=?iso-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>,
+	dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH] drm/vkms: add module parameter to set background color
+Message-ID: <2d60f63e-f29c-44cf-8f5b-bb3cd98d0094@kili.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20230404090823.148226-3-biju.das.jz@bp.renesas.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230406172002.124456-1-mcanal@igalia.com>
 
-Hi Biju,
+Hi Maíra,
 
 kernel test robot noticed the following build warnings:
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Biju-Das/dt-bindings-clock-Add-Renesas-versa3-clock-generator-bindings/20230404-171012
-base:   1bd575707d704530a52d5dd320c29d79e9cff42d
-patch link:    https://lore.kernel.org/r/20230404090823.148226-3-biju.das.jz%40bp.renesas.com
-patch subject: [PATCH v4 2/3] drivers: clk: Add support for versa3 clock driver
-config: arc-randconfig-m031-20230405 (https://download.01.org/0day-ci/archive/20230408/202304081045.5aflIfGy-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 12.1.0
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ma-ra-Canal/drm-vkms-add-module-parameter-to-set-background-color/20230407-012233
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20230406172002.124456-1-mcanal%40igalia.com
+patch subject: [PATCH] drm/vkms: add module parameter to set background color
+config: i386-randconfig-m031-20230403 (https://download.01.org/0day-ci/archive/20230408/202304082018.PXAwWhse-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202304081045.5aflIfGy-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202304082018.PXAwWhse-lkp@intel.com/
 
 smatch warnings:
-drivers/clk/clk-versaclock3.c:546 vc3_clk_mux_determine_rate() warn: replace divide condition 'req->best_parent_rate / req->rate' with 'req->best_parent_rate >= req->rate'
+drivers/gpu/drm/vkms/vkms_composer.c:93 blend() warn: right shifting more than type allows 32 vs 32
 
-vim +546 drivers/clk/clk-versaclock3.c
+vim +93 drivers/gpu/drm/vkms/vkms_composer.c
 
-fe68e1ca2f2871 Biju Das 2023-04-04  538  static int vc3_clk_mux_determine_rate(struct clk_hw *hw,
-fe68e1ca2f2871 Biju Das 2023-04-04  539  				      struct clk_rate_request *req)
-fe68e1ca2f2871 Biju Das 2023-04-04  540  {
-fe68e1ca2f2871 Biju Das 2023-04-04  541  	int ret;
-fe68e1ca2f2871 Biju Das 2023-04-04  542  	int frc;
-fe68e1ca2f2871 Biju Das 2023-04-04  543  
-fe68e1ca2f2871 Biju Das 2023-04-04  544  	ret = clk_mux_determine_rate_flags(hw, req, CLK_SET_RATE_PARENT);
-fe68e1ca2f2871 Biju Das 2023-04-04  545  	if (ret) {
-fe68e1ca2f2871 Biju Das 2023-04-04 @546  		if (req->best_parent_rate / req->rate) {
-                                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-What is this testing?  In terms of micro optimizing, divide operations
-are normally slow.  And >= is more readable.  But maybe this is
-something which makes sense with more context...
+d725068207852d drivers/gpu/drm/vkms/vkms_composer.c Maíra Canal     2023-04-06   82  static void blend(struct vkms_device *vkms_dev,
+d725068207852d drivers/gpu/drm/vkms/vkms_composer.c Maíra Canal     2023-04-06   83  		  struct vkms_writeback_job *wb,
+8ba1648567e289 drivers/gpu/drm/vkms/vkms_composer.c Igor Torrente   2022-09-05   84  		  struct vkms_crtc_state *crtc_state,
+8ba1648567e289 drivers/gpu/drm/vkms/vkms_composer.c Igor Torrente   2022-09-05   85  		  u32 *crc32, struct line_buffer *stage_buffer,
+8ba1648567e289 drivers/gpu/drm/vkms/vkms_composer.c Igor Torrente   2022-09-05   86  		  struct line_buffer *output_buffer, size_t row_size)
+39cba5cf8c2c23 drivers/gpu/drm/vkms/vkms_composer.c Melissa Wen     2020-08-25   87  {
+8ba1648567e289 drivers/gpu/drm/vkms/vkms_composer.c Igor Torrente   2022-09-05   88  	struct vkms_plane_state **plane = crtc_state->active_planes;
+8ba1648567e289 drivers/gpu/drm/vkms/vkms_composer.c Igor Torrente   2022-09-05   89  	u32 n_active_planes = crtc_state->num_active_planes;
+39cba5cf8c2c23 drivers/gpu/drm/vkms/vkms_composer.c Melissa Wen     2020-08-25   90  
+d725068207852d drivers/gpu/drm/vkms/vkms_composer.c Maíra Canal     2023-04-06   91  	const struct pixel_argb_u16 background_color = {
+d725068207852d drivers/gpu/drm/vkms/vkms_composer.c Maíra Canal     2023-04-06   92  		.a =  0xffff,
+d725068207852d drivers/gpu/drm/vkms/vkms_composer.c Maíra Canal     2023-04-06  @93  		.r = (*vkms_dev->config->background_color >> 32) & 0xffff,
+                                                                                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+This shift always results in zero.
 
-fe68e1ca2f2871 Biju Das 2023-04-04  547  			frc = DIV_ROUND_CLOSEST_ULL(req->best_parent_rate,
-fe68e1ca2f2871 Biju Das 2023-04-04  548  						    req->rate);
-fe68e1ca2f2871 Biju Das 2023-04-04  549  			req->rate *= frc;
-fe68e1ca2f2871 Biju Das 2023-04-04  550  			return clk_mux_determine_rate_flags(hw, req,
-fe68e1ca2f2871 Biju Das 2023-04-04  551  							    CLK_SET_RATE_PARENT);
-fe68e1ca2f2871 Biju Das 2023-04-04  552  		}
-fe68e1ca2f2871 Biju Das 2023-04-04  553  		ret = 0;
-fe68e1ca2f2871 Biju Das 2023-04-04  554  	}
-fe68e1ca2f2871 Biju Das 2023-04-04  555  
-fe68e1ca2f2871 Biju Das 2023-04-04  556  	return ret;
-fe68e1ca2f2871 Biju Das 2023-04-04  557  }
+d725068207852d drivers/gpu/drm/vkms/vkms_composer.c Maíra Canal     2023-04-06   94  		.g = (*vkms_dev->config->background_color >> 16) & 0xffff,
+d725068207852d drivers/gpu/drm/vkms/vkms_composer.c Maíra Canal     2023-04-06   95  		.b = *vkms_dev->config->background_color & 0xffff,
+d725068207852d drivers/gpu/drm/vkms/vkms_composer.c Maíra Canal     2023-04-06   96  	};
+32a1648aca4409 drivers/gpu/drm/vkms/vkms_composer.c Melissa Wen     2021-04-24   97  
+bc0d7fdefec62e drivers/gpu/drm/vkms/vkms_composer.c Igor Torrente   2022-09-05   98  	size_t crtc_y_limit = crtc_state->base.crtc->mode.vdisplay;
+39cba5cf8c2c23 drivers/gpu/drm/vkms/vkms_composer.c Melissa Wen     2020-08-25   99  
+bc0d7fdefec62e drivers/gpu/drm/vkms/vkms_composer.c Igor Torrente   2022-09-05  100  	for (size_t y = 0; y < crtc_y_limit; y++) {
+bc0d7fdefec62e drivers/gpu/drm/vkms/vkms_composer.c Igor Torrente   2022-09-05  101  		fill_background(&background_color, output_buffer);
+bc0d7fdefec62e drivers/gpu/drm/vkms/vkms_composer.c Igor Torrente   2022-09-05  102  
+bc0d7fdefec62e drivers/gpu/drm/vkms/vkms_composer.c Igor Torrente   2022-09-05  103  		/* The active planes are composed associatively in z-order. */
+bc0d7fdefec62e drivers/gpu/drm/vkms/vkms_composer.c Igor Torrente   2022-09-05  104  		for (size_t i = 0; i < n_active_planes; i++) {
+8ba1648567e289 drivers/gpu/drm/vkms/vkms_composer.c Igor Torrente   2022-09-05  105  			if (!check_y_limit(plane[i]->frame_info, y))
+8ba1648567e289 drivers/gpu/drm/vkms/vkms_composer.c Igor Torrente   2022-09-05  106  				continue;
+8ba1648567e289 drivers/gpu/drm/vkms/vkms_composer.c Igor Torrente   2022-09-05  107  
+8ba1648567e289 drivers/gpu/drm/vkms/vkms_composer.c Igor Torrente   2022-09-05  108  			plane[i]->plane_read(stage_buffer, plane[i]->frame_info, y);
+8ba1648567e289 drivers/gpu/drm/vkms/vkms_composer.c Igor Torrente   2022-09-05  109  			pre_mul_alpha_blend(plane[i]->frame_info, stage_buffer,
+8ba1648567e289 drivers/gpu/drm/vkms/vkms_composer.c Igor Torrente   2022-09-05  110  					    output_buffer);
+db7f419c06d7cc drivers/gpu/drm/vkms/vkms_crc.c      Haneen Mohammed 2018-09-06  111  		}
+8ba1648567e289 drivers/gpu/drm/vkms/vkms_composer.c Igor Torrente   2022-09-05  112  
+8ba1648567e289 drivers/gpu/drm/vkms/vkms_composer.c Igor Torrente   2022-09-05  113  		*crc32 = crc32_le(*crc32, (void *)output_buffer->pixels, row_size);
+8ba1648567e289 drivers/gpu/drm/vkms/vkms_composer.c Igor Torrente   2022-09-05  114  
+8ba1648567e289 drivers/gpu/drm/vkms/vkms_composer.c Igor Torrente   2022-09-05  115  		if (wb)
+8ba1648567e289 drivers/gpu/drm/vkms/vkms_composer.c Igor Torrente   2022-09-05  116  			wb->wb_write(&wb->wb_frame_info, output_buffer, y);
+db7f419c06d7cc drivers/gpu/drm/vkms/vkms_crc.c      Haneen Mohammed 2018-09-06  117  	}
+db7f419c06d7cc drivers/gpu/drm/vkms/vkms_crc.c      Haneen Mohammed 2018-09-06  118  }
 
 -- 
 0-DAY CI Kernel Test Service
