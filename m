@@ -1,42 +1,42 @@
 Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93A3220F0
-	for <oe-kbuild@lists.linux.dev>; Tue, 11 Apr 2023 05:55:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 594CA2F2D
+	for <oe-kbuild@lists.linux.dev>; Tue, 11 Apr 2023 08:19:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681192558; x=1712728558;
+  t=1681201144; x=1712737144;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=TauK+5FJjxMA4pRO6yTIlMtOi5LpDj9CEebph4Ziezs=;
-  b=Gp6FuX6nW+3Ews/fJP22EHjMYaoTe+q0VRJ4TLVwjkdd+7939EEo5Hvi
-   fUNKdjGthw4wdhiI3Sy1qsb22m2DsIM1PHjKz1WOh5c5TZMuqGwaj8Rl+
-   /Q+3pdKx5nU/eNnIIOD2BlwIKWsfLiJ3YtJQhefIlQVMLPelWPBOo7VLW
-   FqbMUiQ1JIREjHpW9UyzZLY3/A9B66bnxeiGFNPUOb1EGyZYS3789tPa5
-   FnIIWRrQJww9WHEnds97TPh49GWiNvn3D5LfvvFO9lLhglJVDyAgd+2nV
-   8oH4WYR+GDNl0fcSGCZfmNKr29GTnmXt7/CDjLRpnXNuWv9WP7RGSmfVP
+  bh=Q701Rkf8qzw+iuQ5X2YwUFyG0bFogzWQQ3uP97KoUfM=;
+  b=gB10S0k0lzFjpEcoWFUEhb+GWzVLQUT6xqkz65BUEV+uxNLGJdFTYWCa
+   pnbR7ulNaEK33j28S/IPZM65i+0dwZbQyeHjTD6cXDEs3f/AX/C398zNd
+   NXDGQJtTo+gDPkjr4SheJegutvicZugTSYKNabdtizxtfdb/I4PU+o8uZ
+   zm5wFhWAVA65wR+oyQ9RIYB8p9YyTB8LauM0EwTEiS61t964brlYXR/7J
+   6mIaPtz9KDi9qx/5Z8Sb345fI0YtfjZ6rBWeDehMkClyVPZtWyPoHhr3K
+   40UQhhXvGZcL/3adPFGo4Inn/ih6VyqkIU92bBPQ235sLpjHbOC7vVMDd
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10676"; a="327630382"
-X-IronPort-AV: E=Sophos;i="5.98,335,1673942400"; 
-   d="scan'208";a="327630382"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2023 22:55:58 -0700
+X-IronPort-AV: E=McAfee;i="6600,9927,10676"; a="327655291"
+X-IronPort-AV: E=Sophos;i="5.98,336,1673942400"; 
+   d="scan'208";a="327655291"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2023 01:19:03 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10676"; a="799767409"
-X-IronPort-AV: E=Sophos;i="5.98,335,1673942400"; 
-   d="scan'208";a="799767409"
+X-IronPort-AV: E=McAfee;i="6600,9927,10676"; a="832261468"
+X-IronPort-AV: E=Sophos;i="5.98,336,1673942400"; 
+   d="scan'208";a="832261468"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 10 Apr 2023 22:55:56 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 11 Apr 2023 01:19:02 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pm6yx-000W0y-2Y;
-	Tue, 11 Apr 2023 05:55:55 +0000
-Date: Tue, 11 Apr 2023 13:55:31 +0800
+	id 1pm9DR-000W8L-26;
+	Tue, 11 Apr 2023 08:19:01 +0000
+Date: Tue, 11 Apr 2023 16:18:33 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/gpio/gpiolib-of.c:232 of_gpio_set_polarity_by_property()
- warn: we never enter this loop
-Message-ID: <202304111328.bZYE3htE-lkp@intel.com>
+Subject: [linux-next:master 9381/10570] drivers/acpi/acpica/tbutils.c:181
+ acpi_tb_get_root_table_entry() error: uninitialized symbol 'address32'.
+Message-ID: <202304111600.jRNc8maR-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -48,61 +48,75 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-CC: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Tamir Duberstein <tamird@google.com>
+CC: "Rafael J. Wysocki" <rjw@rjwysocki.net>
+CC: Bob Moore <robert.moore@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   0d3eb744aed40ffce820cded61d7eac515199165
-commit: 34cb9352b62366038fd2d5b9d9f393f35d0be1e0 gpiolib: of: factor out quirk setting polarity via separate property
-date:   5 months ago
-:::::: branch date: 9 hours ago
-:::::: commit date: 5 months ago
-config: arc-randconfig-m031-20230410 (https://download.01.org/0day-ci/archive/20230411/202304111328.bZYE3htE-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   009795d283d1f9f043e5a4ff97d4140cde17e2d3
+commit: d56ba92b0ce659a235d8ed541c785fdb2f760449 [9381/10570] ACPICA: Avoid undefined behavior: load of misaligned address
+:::::: branch date: 64 minutes ago
+:::::: commit date: 5 days ago
+config: ia64-randconfig-m031-20230410 (https://download.01.org/0day-ci/archive/20230411/202304111600.jRNc8maR-lkp@intel.com/config)
+compiler: ia64-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202304111328.bZYE3htE-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202304111600.jRNc8maR-lkp@intel.com/
 
-smatch warnings:
-drivers/gpio/gpiolib-of.c:232 of_gpio_set_polarity_by_property() warn: we never enter this loop
+New smatch warnings:
+drivers/acpi/acpica/tbutils.c:181 acpi_tb_get_root_table_entry() error: uninitialized symbol 'address32'.
 
-vim +232 drivers/gpio/gpiolib-of.c
+Old smatch warnings:
+drivers/acpi/acpica/tbutils.c:201 acpi_tb_get_root_table_entry() error: uninitialized symbol 'address64'.
 
-99d18d42c94285 Dmitry Torokhov 2022-10-17  211  
-a603a2b8d86ee9 Linus Walleij   2017-12-30  212  		/*
-a603a2b8d86ee9 Linus Walleij   2017-12-30  213  		 * The regulator GPIO handles are specified such that the
-a603a2b8d86ee9 Linus Walleij   2017-12-30  214  		 * presence or absence of "enable-active-high" solely controls
-a603a2b8d86ee9 Linus Walleij   2017-12-30  215  		 * the polarity of the GPIO line. Any phandle flags must
-a603a2b8d86ee9 Linus Walleij   2017-12-30  216  		 * be actively ignored.
-a603a2b8d86ee9 Linus Walleij   2017-12-30  217  		 */
-34cb9352b62366 Dmitry Torokhov 2022-10-29  218  #if IS_ENABLED(CONFIG_REGULATOR_FIXED_VOLTAGE)
-34cb9352b62366 Dmitry Torokhov 2022-10-29  219  		{ "regulator-fixed",   "gpios",        "enable-active-high" },
-34cb9352b62366 Dmitry Torokhov 2022-10-29  220  		{ "regulator-fixed",   "gpio",         "enable-active-high" },
-34cb9352b62366 Dmitry Torokhov 2022-10-29  221  		{ "reg-fixed-voltage", "gpios",        "enable-active-high" },
-34cb9352b62366 Dmitry Torokhov 2022-10-29  222  		{ "reg-fixed-voltage", "gpio",         "enable-active-high" },
-34cb9352b62366 Dmitry Torokhov 2022-10-29  223  #endif
-34cb9352b62366 Dmitry Torokhov 2022-10-29  224  #if IS_ENABLED(CONFIG_REGULATOR_GPIO)
-34cb9352b62366 Dmitry Torokhov 2022-10-29  225  		{ "regulator-gpio",    "enable-gpio",  "enable-active-high" },
-34cb9352b62366 Dmitry Torokhov 2022-10-29  226  		{ "regulator-gpio",    "enable-gpios", "enable-active-high" },
-34cb9352b62366 Dmitry Torokhov 2022-10-29  227  #endif
-34cb9352b62366 Dmitry Torokhov 2022-10-29  228  	};
-34cb9352b62366 Dmitry Torokhov 2022-10-29  229  	unsigned int i;
-34cb9352b62366 Dmitry Torokhov 2022-10-29  230  	bool active_high;
-34cb9352b62366 Dmitry Torokhov 2022-10-29  231  
-34cb9352b62366 Dmitry Torokhov 2022-10-29 @232  	for (i = 0; i < ARRAY_SIZE(gpios); i++) {
-34cb9352b62366 Dmitry Torokhov 2022-10-29  233  		if (of_device_is_compatible(np, gpios[i].compatible) &&
-34cb9352b62366 Dmitry Torokhov 2022-10-29  234  		    !strcmp(propname, gpios[i].gpio_propname)) {
-34cb9352b62366 Dmitry Torokhov 2022-10-29  235  			active_high = of_property_read_bool(np,
-34cb9352b62366 Dmitry Torokhov 2022-10-29  236  						gpios[i].polarity_propname);
-e3186e36925fc1 Dmitry Torokhov 2022-10-17  237  			of_gpio_quirk_polarity(np, active_high, flags);
-34cb9352b62366 Dmitry Torokhov 2022-10-29  238  			break;
-34cb9352b62366 Dmitry Torokhov 2022-10-29  239  		}
-34cb9352b62366 Dmitry Torokhov 2022-10-29  240  	}
-a603a2b8d86ee9 Linus Walleij   2017-12-30  241  }
-34cb9352b62366 Dmitry Torokhov 2022-10-29  242  
+vim +/address32 +181 drivers/acpi/acpica/tbutils.c
+
+69ec87efa815d6 drivers/acpi/acpica/tbutils.c Lin Ming         2010-04-01  147  
+a4bbb810dedaec drivers/acpi/tables/tbutils.c Bob Moore        2007-02-02  148  /*******************************************************************************
+a4bbb810dedaec drivers/acpi/tables/tbutils.c Bob Moore        2007-02-02  149   *
+a4bbb810dedaec drivers/acpi/tables/tbutils.c Bob Moore        2007-02-02  150   * FUNCTION:    acpi_tb_get_root_table_entry
+a4bbb810dedaec drivers/acpi/tables/tbutils.c Bob Moore        2007-02-02  151   *
+a4bbb810dedaec drivers/acpi/tables/tbutils.c Bob Moore        2007-02-02  152   * PARAMETERS:  table_entry         - Pointer to the RSDT/XSDT table entry
+a4bbb810dedaec drivers/acpi/tables/tbutils.c Bob Moore        2007-02-02  153   *              table_entry_size    - sizeof 32 or 64 (RSDT or XSDT)
+a4bbb810dedaec drivers/acpi/tables/tbutils.c Bob Moore        2007-02-02  154   *
+a4bbb810dedaec drivers/acpi/tables/tbutils.c Bob Moore        2007-02-02  155   * RETURN:      Physical address extracted from the root table
+a4bbb810dedaec drivers/acpi/tables/tbutils.c Bob Moore        2007-02-02  156   *
+a4bbb810dedaec drivers/acpi/tables/tbutils.c Bob Moore        2007-02-02  157   * DESCRIPTION: Get one root table entry. Handles 32-bit and 64-bit cases on
+a4bbb810dedaec drivers/acpi/tables/tbutils.c Bob Moore        2007-02-02  158   *              both 32-bit and 64-bit platforms
+a4bbb810dedaec drivers/acpi/tables/tbutils.c Bob Moore        2007-02-02  159   *
+a4bbb810dedaec drivers/acpi/tables/tbutils.c Bob Moore        2007-02-02  160   * NOTE:        acpi_physical_address is 32-bit on 32-bit platforms, 64-bit on
+a4bbb810dedaec drivers/acpi/tables/tbutils.c Bob Moore        2007-02-02  161   *              64-bit platforms.
+a4bbb810dedaec drivers/acpi/tables/tbutils.c Bob Moore        2007-02-02  162   *
+a4bbb810dedaec drivers/acpi/tables/tbutils.c Bob Moore        2007-02-02  163   ******************************************************************************/
+a4bbb810dedaec drivers/acpi/tables/tbutils.c Bob Moore        2007-02-02  164  
+a4bbb810dedaec drivers/acpi/tables/tbutils.c Bob Moore        2007-02-02  165  static acpi_physical_address
+67a119f990063f drivers/acpi/tables/tbutils.c Bob Moore        2008-06-10  166  acpi_tb_get_root_table_entry(u8 *table_entry, u32 table_entry_size)
+a4bbb810dedaec drivers/acpi/tables/tbutils.c Bob Moore        2007-02-02  167  {
+d56ba92b0ce659 drivers/acpi/acpica/tbutils.c Tamir Duberstein 2023-04-05  168  	u32 address32;
+a4bbb810dedaec drivers/acpi/tables/tbutils.c Bob Moore        2007-02-02  169  	u64 address64;
+a4bbb810dedaec drivers/acpi/tables/tbutils.c Bob Moore        2007-02-02  170  
+a4bbb810dedaec drivers/acpi/tables/tbutils.c Bob Moore        2007-02-02  171  	/*
+a4bbb810dedaec drivers/acpi/tables/tbutils.c Bob Moore        2007-02-02  172  	 * Get the table physical address (32-bit for RSDT, 64-bit for XSDT):
+a4bbb810dedaec drivers/acpi/tables/tbutils.c Bob Moore        2007-02-02  173  	 * Note: Addresses are 32-bit aligned (not 64) in both RSDT and XSDT
+a4bbb810dedaec drivers/acpi/tables/tbutils.c Bob Moore        2007-02-02  174  	 */
+671cc68dc61f02 drivers/acpi/acpica/tbutils.c Lv Zheng         2014-01-08  175  	if (table_entry_size == ACPI_RSDT_ENTRY_SIZE) {
+a4bbb810dedaec drivers/acpi/tables/tbutils.c Bob Moore        2007-02-02  176  		/*
+a4bbb810dedaec drivers/acpi/tables/tbutils.c Bob Moore        2007-02-02  177  		 * 32-bit platform, RSDT: Return 32-bit table entry
+a4bbb810dedaec drivers/acpi/tables/tbutils.c Bob Moore        2007-02-02  178  		 * 64-bit platform, RSDT: Expand 32-bit to 64-bit and return
+a4bbb810dedaec drivers/acpi/tables/tbutils.c Bob Moore        2007-02-02  179  		 */
+d56ba92b0ce659 drivers/acpi/acpica/tbutils.c Tamir Duberstein 2023-04-05  180  		ACPI_MOVE_32_TO_32(&address32, table_entry);
+d56ba92b0ce659 drivers/acpi/acpica/tbutils.c Tamir Duberstein 2023-04-05 @181  		return address32;
+a4bbb810dedaec drivers/acpi/tables/tbutils.c Bob Moore        2007-02-02  182  	} else {
+a4bbb810dedaec drivers/acpi/tables/tbutils.c Bob Moore        2007-02-02  183  		/*
+a4bbb810dedaec drivers/acpi/tables/tbutils.c Bob Moore        2007-02-02  184  		 * 32-bit platform, XSDT: Truncate 64-bit to 32-bit and return
+ec41f193eadb63 drivers/acpi/acpica/tbutils.c Bob Moore        2009-02-18  185  		 * 64-bit platform, XSDT: Move (unaligned) 64-bit to local,
+ec41f193eadb63 drivers/acpi/acpica/tbutils.c Bob Moore        2009-02-18  186  		 *  return 64-bit
+a4bbb810dedaec drivers/acpi/tables/tbutils.c Bob Moore        2007-02-02  187  		 */
+a4bbb810dedaec drivers/acpi/tables/tbutils.c Bob Moore        2007-02-02  188  		ACPI_MOVE_64_TO_64(&address64, table_entry);
+a4bbb810dedaec drivers/acpi/tables/tbutils.c Bob Moore        2007-02-02  189  
 
 -- 
 0-DAY CI Kernel Test Service
