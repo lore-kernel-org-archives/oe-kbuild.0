@@ -1,48 +1,48 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52FC23D75;
-	Tue, 11 Apr 2023 08:30:07 +0000 (UTC)
-Received: by mail-wr1-f49.google.com with SMTP id d9so6748745wrb.11;
-        Tue, 11 Apr 2023 01:30:07 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45D0333D5;
+	Tue, 11 Apr 2023 08:30:57 +0000 (UTC)
+Received: by mail-wr1-f53.google.com with SMTP id w21so6565316wra.4;
+        Tue, 11 Apr 2023 01:30:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1681201805; x=1683793805;
+        d=gmail.com; s=20210112; t=1681201855; x=1683793855;
         h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
          :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=tvIDHs1BDBIaCYNw0AWNxbR/KttxAyH9HpS3lWDcgDM=;
-        b=UUa+XbRnhAQkZQgJXsOvuPyTM9Mbc4rUyF7qUWE85YLbHs4Utt3VdVDiJ5hia/jX4Y
-         VW1erJlArltl0xnbw2gWqjwxtTc7BxKXudNPoSO4wbaUp9ZfuP3RIvm6v6ns6SQkHf3Y
-         Mu1XvaJfLlnNOm5W1VXh6WQai6YOmuOs7aBCWOlh4HwXzbYbZPV/kqkkZrlwYouEAxcs
-         PQBEdKkpGx9qWBL+PXKV/u55SQUD5E0v/G7mWuyvUgjoC6itUVHRHH3r72vg0pJuaWn9
-         c1qLPrOExcA9bRfEQWxzW84wpNT4mE7DH2O56T6lbNQhZm5Bg/p+LqIoqNUlBcIXHe9n
-         IFZw==
+        bh=hQH4HNkXp40XRpw8t+5ZsZc7uONrjh1ogDpDzkk/7Qg=;
+        b=Iztq1DQcjwdrh2IOjDut4XzI3WqjoWPc+gWjBCYNxSoM9G/XEwI5aWGREH8MauZIu/
+         mvOTM000gIT3MrU87qC5ozeH17FVuN34c4cDfh5AE4DELVOXJIcxa1LF4CUn/qR4LFYl
+         hI5vgw6kbGOnhxztoM5hb65SVEpES/kibooMScykB1NPHfMhlad/9pJHyVk1CSoHsxmK
+         dTvCjM3RhRLudiQnzhWL7e3a/OtZkRwHWcoLRNsYL2+bMxDHeEqDQsdhjYgQjXQs3e2U
+         TXPQ6EJbZWxv32gOxmsWqhmrYGZP6Ujg4C7RXYB1OB/ezpvpEMA21SoYtqGI3jstxQkh
+         loog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1681201805; x=1683793805;
+        d=1e100.net; s=20210112; t=1681201855; x=1683793855;
         h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
          :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=tvIDHs1BDBIaCYNw0AWNxbR/KttxAyH9HpS3lWDcgDM=;
-        b=cD7vmZ9azUVY17NJ1FhS4KS5lc3l7gUnoLXXERWNBocTzWMyZ5alwqSfq8ZgBQ7/58
-         i9N6YuN5458kKhLilL+Q9yD4XAN69G8QmXMMfimrBrz3sDCsDigVb5ZryXM5+cpw6kCy
-         +Gx+Y4vQuopdjZmecJ5m8E3KXKQ3lo6AcZZRCmWxalMPdiWzyBiHhhSkSCHpZozE5c6W
-         8fyH5mrL6ZxL9AGd0SJH9b3PMSS9EWeH+J9VgR3gF+tsz3xGSm3upccuLEgGjLmYQ75G
-         R7t5cG3TZ43x8Bk9d1BdziSAaSy24N7pMeAgZ6gKT9OVeBHIDI4i/6gYaUPGEtazXLev
-         ZSKw==
-X-Gm-Message-State: AAQBX9c+XCkghAO7xaqnOuV761fiBKokI5eQ2bL/277kYa+Vwqx2nIun
-	ciBXiQdP+nhfQ8xzIQYANPapB3wTpFI=
-X-Google-Smtp-Source: AKy350ZCxBUthhUcJoR29XGcbeEfnFb8t0US6tBlKLvYzeEwYJIfo16YVpL8KHyMKhLhidF4ADow+g==
-X-Received: by 2002:a5d:60cb:0:b0:2ef:eb58:4697 with SMTP id x11-20020a5d60cb000000b002efeb584697mr5548030wrt.25.1681201805203;
-        Tue, 11 Apr 2023 01:30:05 -0700 (PDT)
+        bh=hQH4HNkXp40XRpw8t+5ZsZc7uONrjh1ogDpDzkk/7Qg=;
+        b=OVT92ytNftC56OGtbV3THITfS/sIkZZ5seMkQZ5Mw4z4d5QzPpJ1HyngBsvXYN6J6i
+         Z9fh6X93Ddx3Di6CZECavlzqtXjqDOD8jVuf3Rq0dUh6j34Yq5rpZBxjOkbRJMh4nzr7
+         3FshsZ9uVZeT9iDMUlSue3N2wWXy8+KEC5a3xaDhy2+bNLtuxTrNr+r1weAVURfIqOwG
+         rgyQRFeXb8qqAk8Bnhai+rvczHIJDiGM7ZKAEimeH3W7qcqnuz5W4n11vQnEzZ21bvHK
+         UdRt815STHuXZsqISZWW2X4H40cGfUYVbFsrSLvbwu9swLpw+6KhWtzS1pUfRUKcdQoU
+         2PhQ==
+X-Gm-Message-State: AAQBX9fH5GFfWNcE+6nwiXCI432F2viOjL0W1aSjMotQfYghLyImJigF
+	KRwMWF+QwcXrprwY093t/+oD6CNjuGQ=
+X-Google-Smtp-Source: AKy350Z2mOImdRwCLX0kFYS6t4+tO3zUdddGHmTTBsUDQ28PC9I0cAm4w9UsYmI/W9lbZ7yv7fZofQ==
+X-Received: by 2002:a5d:457b:0:b0:2ef:bada:2f04 with SMTP id a27-20020a5d457b000000b002efbada2f04mr6574012wrc.59.1681201855147;
+        Tue, 11 Apr 2023 01:30:55 -0700 (PDT)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id a17-20020a056000101100b002f21a96c161sm4257226wrx.70.2023.04.11.01.30.04
+        by smtp.gmail.com with ESMTPSA id a16-20020adffad0000000b002efb2d861dasm10614801wrs.77.2023.04.11.01.30.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Apr 2023 01:30:04 -0700 (PDT)
-Date: Tue, 11 Apr 2023 11:30:00 +0300
+        Tue, 11 Apr 2023 01:30:54 -0700 (PDT)
+Date: Tue, 11 Apr 2023 11:30:51 +0300
 From: Dan Carpenter <error27@gmail.com>
 To: oe-kbuild@lists.linux.dev, "zhaoyang.huang" <zhaoyang.huang@unisoc.com>
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
 Subject: Re: [RFC PATCH] mm: introduce defer free for cma
-Message-ID: <9df78cbd-3d4a-411e-b59f-97afdcbb6d72@kili.mountain>
+Message-ID: <d85c0c9e-50f4-4916-8011-db605678f81e@kili.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,76 +62,81 @@ url:    https://github.com/intel-lab-lkp/linux/commits/zhaoyang-huang/mm-introdu
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
 patch link:    https://lore.kernel.org/r/1680864131-4675-1-git-send-email-zhaoyang.huang%40unisoc.com
 patch subject: [RFC PATCH] mm: introduce defer free for cma
-config: x86_64-randconfig-m001 (https://download.01.org/0day-ci/archive/20230409/202304091523.IZcRaGI1-lkp@intel.com/config)
+config: i386-randconfig-m021 (https://download.01.org/0day-ci/archive/20230410/202304100654.yAZ2Wukx-lkp@intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202304091523.IZcRaGI1-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202304100654.yAZ2Wukx-lkp@intel.com/
 
 smatch warnings:
-mm/cma.c:449 cma_defer_area_fetch() error: dereferencing freed memory 'area'
-mm/cma.c:691 cma_defer_free_scan() error: dereferencing freed memory 'area'
+mm/cma.c:730 cma_defer_free_scan() warn: inconsistent returns '&cma->lock'.
 
-vim +/area +449 mm/cma.c
+vim +730 mm/cma.c
 
-7abee7e8d17803 Zhaoyang Huang   2023-04-07  429  static int cma_defer_area_fetch(struct cma *cma, unsigned long pfn,
-7abee7e8d17803 Zhaoyang Huang   2023-04-07  430  		unsigned long count)
-7abee7e8d17803 Zhaoyang Huang   2023-04-07  431  {
-7abee7e8d17803 Zhaoyang Huang   2023-04-07  432  	struct cma_defer_free_area *area;
-7abee7e8d17803 Zhaoyang Huang   2023-04-07  433  	unsigned long new_pfn;
-7abee7e8d17803 Zhaoyang Huang   2023-04-07  434  	int ret = -1;
-7abee7e8d17803 Zhaoyang Huang   2023-04-07  435  
-7abee7e8d17803 Zhaoyang Huang   2023-04-07  436  	if (!atomic64_read(&cma->defer_count))
-7abee7e8d17803 Zhaoyang Huang   2023-04-07  437  		return ret;
-7abee7e8d17803 Zhaoyang Huang   2023-04-07  438  	if (count <= atomic64_read(&cma->defer_count)) {
-7abee7e8d17803 Zhaoyang Huang   2023-04-07  439  		spin_lock_irq(&cma->lock);
-7abee7e8d17803 Zhaoyang Huang   2023-04-07  440  		list_for_each_entry(area, &cma->defer_free, list) {
-7abee7e8d17803 Zhaoyang Huang   2023-04-07  441  			/*area found for given pfn and count*/
-7abee7e8d17803 Zhaoyang Huang   2023-04-07  442  			if (pfn >= area->pfn && count <= area->count) {
-7abee7e8d17803 Zhaoyang Huang   2023-04-07  443  				list_del(&area->list);
-7abee7e8d17803 Zhaoyang Huang   2023-04-07  444  				/*set bits for allocated pfn*/
-7abee7e8d17803 Zhaoyang Huang   2023-04-07  445  				bitmap_set(cma->bitmap, pfn - cma->base_pfn, count);
-7abee7e8d17803 Zhaoyang Huang   2023-04-07  446  				kfree(area);
-                                                                                ^^^^^^^^^^^
-kfree
+7abee7e8d17803 Zhaoyang Huang 2023-04-07  673  static unsigned long cma_defer_free_scan(struct shrinker *shrinker,
+7abee7e8d17803 Zhaoyang Huang 2023-04-07  674  					struct shrink_control *sc)
+7abee7e8d17803 Zhaoyang Huang 2023-04-07  675  {
+7abee7e8d17803 Zhaoyang Huang 2023-04-07  676  	struct cma *cma = container_of(shrinker, struct cma, shrinker);
+7abee7e8d17803 Zhaoyang Huang 2023-04-07  677  	unsigned long to_scan;
+7abee7e8d17803 Zhaoyang Huang 2023-04-07  678  	struct cma_defer_free_area *area;
+7abee7e8d17803 Zhaoyang Huang 2023-04-07  679  	unsigned long new_pfn;
+7abee7e8d17803 Zhaoyang Huang 2023-04-07  680  	unsigned long defer_count;
+7abee7e8d17803 Zhaoyang Huang 2023-04-07  681  
+7abee7e8d17803 Zhaoyang Huang 2023-04-07  682  	if (sc->nr_to_scan < cma->batch)
+7abee7e8d17803 Zhaoyang Huang 2023-04-07  683  		return 0;
+7abee7e8d17803 Zhaoyang Huang 2023-04-07  684  
+7abee7e8d17803 Zhaoyang Huang 2023-04-07  685  	to_scan = cma->batch - sc->nr_to_scan;
+7abee7e8d17803 Zhaoyang Huang 2023-04-07  686  	defer_count = atomic64_read(&cma->defer_count);
+7abee7e8d17803 Zhaoyang Huang 2023-04-07  687  	spin_lock_irq(&cma->lock);
+7abee7e8d17803 Zhaoyang Huang 2023-04-07  688  
+7abee7e8d17803 Zhaoyang Huang 2023-04-07  689  	/*free all node*/
+7abee7e8d17803 Zhaoyang Huang 2023-04-07  690  	if (to_scan >= defer_count) {
+7abee7e8d17803 Zhaoyang Huang 2023-04-07  691  		list_for_each_entry(area, &cma->defer_free, list) {
+7abee7e8d17803 Zhaoyang Huang 2023-04-07  692  			list_del(&area->list);
+7abee7e8d17803 Zhaoyang Huang 2023-04-07  693  			free_contig_range(area->pfn, area->count);
+7abee7e8d17803 Zhaoyang Huang 2023-04-07  694  			cma_clear_bitmap(cma, area->pfn, area->count);
+7abee7e8d17803 Zhaoyang Huang 2023-04-07  695  			kfree(area);
+7abee7e8d17803 Zhaoyang Huang 2023-04-07  696  		}
+7abee7e8d17803 Zhaoyang Huang 2023-04-07  697  		atomic64_set(&cma->defer_count, 0);
+7abee7e8d17803 Zhaoyang Huang 2023-04-07  698  		return defer_count;
 
-7abee7e8d17803 Zhaoyang Huang   2023-04-07  447  				atomic64_sub(count, &cma->defer_count);
-7abee7e8d17803 Zhaoyang Huang   2023-04-07  448  				/*release the rest pfn to cma*/
-7abee7e8d17803 Zhaoyang Huang   2023-04-07 @449  				if (!list_empty(&cma->defer_free) && (pfn == area->pfn)) {
-                                                                                                                             ^^^^^^^^^
-use after free
+spin_unlock_irq
 
-7abee7e8d17803 Zhaoyang Huang   2023-04-07  450  					new_pfn = pfn + count;
-7abee7e8d17803 Zhaoyang Huang   2023-04-07  451  					cma_release(cma, pfn_to_page(new_pfn), area->count - count);
-                                                                                                                               ^^^^^^^^^^^
-
-7abee7e8d17803 Zhaoyang Huang   2023-04-07  452  				}
-7abee7e8d17803 Zhaoyang Huang   2023-04-07  453  				ret = 0;
-7abee7e8d17803 Zhaoyang Huang   2023-04-07  454  				spin_unlock_irq(&cma->lock);
-7abee7e8d17803 Zhaoyang Huang   2023-04-07  455  				return ret;
-7abee7e8d17803 Zhaoyang Huang   2023-04-07  456  			}
-7abee7e8d17803 Zhaoyang Huang   2023-04-07  457  		}
-7abee7e8d17803 Zhaoyang Huang   2023-04-07  458  	}
-7abee7e8d17803 Zhaoyang Huang   2023-04-07  459  	/*no area found, release all to buddy*/
-7abee7e8d17803 Zhaoyang Huang   2023-04-07  460  	list_for_each_entry(area, &cma->defer_free, list) {
-7abee7e8d17803 Zhaoyang Huang   2023-04-07  461  		list_del(&area->list);
-                                                                          ^^^^^^^^^^
-You need to use list_for_each_entry_safe() here to prevent a forever
-loop
-
-7abee7e8d17803 Zhaoyang Huang   2023-04-07  462  		free_contig_range(area->pfn, area->count);
-7abee7e8d17803 Zhaoyang Huang   2023-04-07  463  		cma_clear_bitmap(cma, area->pfn, area->count);
-7abee7e8d17803 Zhaoyang Huang   2023-04-07  464  		kfree(area);
-                                                                ^^^^^^^^^^^
-also list_for_each_entry_safe() prevents a use after free
-
-
-7abee7e8d17803 Zhaoyang Huang   2023-04-07  465  	}
-7abee7e8d17803 Zhaoyang Huang   2023-04-07  466  	spin_unlock_irq(&cma->lock);
-7abee7e8d17803 Zhaoyang Huang   2023-04-07  467  	return ret;
-7abee7e8d17803 Zhaoyang Huang   2023-04-07  468  }
+7abee7e8d17803 Zhaoyang Huang 2023-04-07  699  	}
+7abee7e8d17803 Zhaoyang Huang 2023-04-07  700  
+7abee7e8d17803 Zhaoyang Huang 2023-04-07  701  	list_for_each_entry(area, &cma->defer_free, list) {
+7abee7e8d17803 Zhaoyang Huang 2023-04-07  702  		if (to_scan <= area->count) {
+7abee7e8d17803 Zhaoyang Huang 2023-04-07  703  			list_del(&area->list);
+7abee7e8d17803 Zhaoyang Huang 2023-04-07  704  			free_contig_range(area->pfn, area->count);
+7abee7e8d17803 Zhaoyang Huang 2023-04-07  705  			cma_clear_bitmap(cma, area->pfn, area->count);
+7abee7e8d17803 Zhaoyang Huang 2023-04-07  706  			kfree(area);
+7abee7e8d17803 Zhaoyang Huang 2023-04-07  707  			atomic64_sub(to_scan, &cma->defer_count);
+7abee7e8d17803 Zhaoyang Huang 2023-04-07  708  			/*release the rest pfn to cma*/
+7abee7e8d17803 Zhaoyang Huang 2023-04-07  709  			if (!list_empty(&cma->defer_free)) {
+7abee7e8d17803 Zhaoyang Huang 2023-04-07  710  				new_pfn = area->pfn + to_scan;
+7abee7e8d17803 Zhaoyang Huang 2023-04-07  711  				cma_release(cma, pfn_to_page(new_pfn), area->count - to_scan);
+7abee7e8d17803 Zhaoyang Huang 2023-04-07  712  			}
+7abee7e8d17803 Zhaoyang Huang 2023-04-07  713  			break;
+7abee7e8d17803 Zhaoyang Huang 2023-04-07  714  		}
+7abee7e8d17803 Zhaoyang Huang 2023-04-07  715  		else {
+7abee7e8d17803 Zhaoyang Huang 2023-04-07  716  			list_del(&area->list);
+7abee7e8d17803 Zhaoyang Huang 2023-04-07  717  			free_contig_range(area->pfn, area->count);
+7abee7e8d17803 Zhaoyang Huang 2023-04-07  718  			cma_clear_bitmap(cma, area->pfn, area->count);
+7abee7e8d17803 Zhaoyang Huang 2023-04-07  719  			kfree(area);
+7abee7e8d17803 Zhaoyang Huang 2023-04-07  720  			to_scan = to_scan - atomic64_read(&cma->defer_count);
+7abee7e8d17803 Zhaoyang Huang 2023-04-07  721  			/*release the rest pfn to cma*/
+7abee7e8d17803 Zhaoyang Huang 2023-04-07  722  			if (!list_empty(&cma->defer_free)) {
+7abee7e8d17803 Zhaoyang Huang 2023-04-07  723  				new_pfn = area->pfn + to_scan;
+7abee7e8d17803 Zhaoyang Huang 2023-04-07  724  				cma_release(cma, pfn_to_page(new_pfn), area->count - to_scan);
+7abee7e8d17803 Zhaoyang Huang 2023-04-07  725  			}
+7abee7e8d17803 Zhaoyang Huang 2023-04-07  726  			continue;
+7abee7e8d17803 Zhaoyang Huang 2023-04-07  727  		}
+7abee7e8d17803 Zhaoyang Huang 2023-04-07  728  	}
+7abee7e8d17803 Zhaoyang Huang 2023-04-07  729  	spin_unlock_irq(&cma->lock);
+7abee7e8d17803 Zhaoyang Huang 2023-04-07 @730  	return 0;
+7abee7e8d17803 Zhaoyang Huang 2023-04-07  731  }
 
 -- 
 0-DAY CI Kernel Test Service
