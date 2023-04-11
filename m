@@ -1,56 +1,43 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6DA85388;
-	Tue, 11 Apr 2023 09:03:47 +0000 (UTC)
-Received: by mail-wm1-f48.google.com with SMTP id l26-20020a05600c1d1a00b003edd24054e0so5566025wms.4;
-        Tue, 11 Apr 2023 02:03:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1681203825; x=1683795825;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=VhbjHS7f684AMrsrL5Er1DA55AW7x3S5l3rSApeJOqk=;
-        b=Nu//j/rS3LtN3X2i17tHZhPw8EHilSW+C2VbUpolr9AHWgc1pp8iMooPiN7xqtsD+k
-         aI+zn+htnOginSj+ExUxrEyJQHuyW4677GTQuvPjsGPBBCBtTZkxvrDC9FGFcDnDSz8R
-         F1h6baNxvTROsUw3nyHNktusiJS6Ef7tVxsSnL/5hXbNLWjwlFG9eKcXBTjIPny+B1XP
-         PzYxsrZNvT6sVZ8ZLMo9iGR+LL+nMJMV3aqBH9IIYXy9hhtHHZEIU5Ekn/kSsj9L9umV
-         wU2cK3ZRXqoY0vtkUYBIHoxj7BnZ6kA+Xv7/vvcWQwPfcHr6Np1NwpCSsK/5nA8rXQzV
-         ZMWw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1681203825; x=1683795825;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=VhbjHS7f684AMrsrL5Er1DA55AW7x3S5l3rSApeJOqk=;
-        b=v3llpAlonhxzKAiOYYZFTbrW8/ETqUGQDT4vwiZoMJNCUmw74YS9gjAp2j2lwf5fbb
-         wWuO/mnZ8oCIoDJKqfgJvz0oAqOI0ZH/Fs9lLEBtNVIzC5FMxgd1f8WPKSofM793KHKe
-         1TshdZH2UNQP0nH+aVsFIbJ2ANUcDzxuCCXOeseofLf4etJSL7NF2o/unNHIyV9vC7JV
-         PrdwHBC6Ut/rrvxEdTEZ8TCV8AsjfzQngozhvpZWdXzU2xBxbRlKPF1yoqrtAgO+i5z4
-         45cBphcVoGqgvHp0SKB/7ftRklOlpYGglltgq/p+vT260uja40af7D9y/bASIbkXkqfx
-         1q3Q==
-X-Gm-Message-State: AAQBX9fMlT6gHn+rp/SAueP/taDf0m6yv6E9W5N1+o2EzmRQ9CBqaZqu
-	KTK2sCeU7EVWskK2qahrsRxOXts3ErE=
-X-Google-Smtp-Source: AKy350bgg5RwSlOXMKRI4ovS6rDs7ITa/A3clS+O5rtifEu1hG9ZuyjaxXafENTRSStFwgtTrOIKDA==
-X-Received: by 2002:a05:600c:298:b0:3f0:7e02:a159 with SMTP id 24-20020a05600c029800b003f07e02a159mr8881545wmk.15.1681203824036;
-        Tue, 11 Apr 2023 02:03:44 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id g9-20020a05600c310900b003f080b2f9f4sm10959042wmo.27.2023.04.11.02.03.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Apr 2023 02:03:43 -0700 (PDT)
-Date: Tue, 11 Apr 2023 12:03:39 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, Lyude Paul <lyude@redhat.com>,
-	dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Karol Herbst <kherbst@redhat.com>,
-	Jani Nikula <jani.nikula@intel.com>,
-	open list <linux-kernel@vger.kernel.org>,
-	Ben Skeggs <bskeggs@redhat.com>, Dave Airlie <airlied@redhat.com>,
-	Kees Cook <keescook@chromium.org>
-Subject: Re: [PATCH 2/2] drm/nouveau/kms: Add INHERIT ioctl to nvkm/nvif for
- reading IOR state
-Message-ID: <7d0bca47-db75-4a68-9565-7bdb5995d1e3@kili.mountain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8E802F29;
+	Tue, 11 Apr 2023 10:40:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1681209643; x=1712745643;
+  h=date:from:to:cc:subject:message-id:reply-to:references:
+   mime-version:in-reply-to;
+  bh=vWuPhEow+bv1xLCoUjFGBZbl4l4kxf+h+NuTflIQOm8=;
+  b=IgJLAYOcPQK0hqOwUV9Q/mt1eAHhcC4BhTdetb657cz5DAjkr+m89SaY
+   fheB4ydDO8xNeY2aw9StxpokaSw666z+YPnOekYMKr82Ja4/ZBPAzLiG6
+   QZ+pa6xc7HDHwuwMnngiBsvYKCADc3mdqs0YM9BDxR1TADVEI9xenpKid
+   HhkW/GApyAm5F2vNFuHkDZghuBK9T9KDyr3aAQk3tmdr8Nama/T4V22Xq
+   OrclksyEAktRcQtILezc/tCpwzJlUjaT7d4ehQB0FPm6gzoaLxbIFfaZu
+   H01fyKc6PMjB6FbgXXESJXP1dmkuQ7OrlZaySbxGOK/eGdqMrKylK64aA
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10676"; a="332268298"
+X-IronPort-AV: E=Sophos;i="5.98,336,1673942400"; 
+   d="scan'208";a="332268298"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2023 03:40:31 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10676"; a="832298824"
+X-IronPort-AV: E=Sophos;i="5.98,336,1673942400"; 
+   d="scan'208";a="832298824"
+Received: from ideak-desk.fi.intel.com ([10.237.72.58])
+  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2023 03:40:23 -0700
+Date: Tue, 11 Apr 2023 13:40:20 +0300
+From: Imre Deak <imre.deak@intel.com>
+To: Dan Carpenter <error27@gmail.com>
+Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Mika Kahola <mika.kahola@intel.com>
+Subject: Re: [linux-next:master 8027/9787]
+ drivers/gpu/drm/i915/display/intel_tc.c:424 icl_tc_phy_hpd_live_status()
+ error: uninitialized symbol 'fia_isr'.
+Message-ID: <ZDU5FCt8jQJhio/G@ideak-desk.fi.intel.com>
+Reply-To: imre.deak@intel.com
+References: <9b05194d-0f98-40ef-a067-a8d6b05c586f@kili.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -59,110 +46,73 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230407222133.1425969-2-lyude@redhat.com>
+In-Reply-To: <9b05194d-0f98-40ef-a067-a8d6b05c586f@kili.mountain>
 
-Hi Lyude,
+On Fri, Apr 07, 2023 at 11:57:10AM +0300, Dan Carpenter wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+> head:   e134c93f788fb93fd6a3ec3af9af850a2048c7e6
+> commit: 8979918af711b057620c7c5f9d29a0043f927753 [8027/9787] drm/i915/tc: Get power ref for reading the HPD live status register
+> config: i386-randconfig-m031-20230403 (https://download.01.org/0day-ci/archive/20230407/202304070402.p78bkshq-lkp@intel.com/config)
+> compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+> 
+> If you fix the issue, kindly add following tag where applicable
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <error27@gmail.com>
+> | Link: https://lore.kernel.org/r/202304070402.p78bkshq-lkp@intel.com/
+> 
+> New smatch warnings:
+> drivers/gpu/drm/i915/display/intel_tc.c:424 icl_tc_phy_hpd_live_status() error: uninitialized symbol 'fia_isr'.
+> drivers/gpu/drm/i915/display/intel_tc.c:436 icl_tc_phy_hpd_live_status() error: uninitialized symbol 'pch_isr'.
+> drivers/gpu/drm/i915/display/intel_tc.c:709 adlp_tc_phy_hpd_live_status() error: uninitialized symbol 'cpu_isr'.
+> drivers/gpu/drm/i915/display/intel_tc.c:714 adlp_tc_phy_hpd_live_status() error: uninitialized symbol 'pch_isr'.
+> 
+> Old smatch warnings:
+> drivers/gpu/drm/i915/display/intel_tc.c:660 tgl_tc_phy_init() error: uninitialized symbol 'val'.
+> 
+> vim +/fia_isr +424 drivers/gpu/drm/i915/display/intel_tc.c
+> 
+> 3eafcddf766b6b Imre Deak     2023-03-23  409  static u32 icl_tc_phy_hpd_live_status(struct intel_tc_port *tc)
+> c905eb28bd3f43 Imre Deak     2019-06-28  410  {
+> 3eafcddf766b6b Imre Deak     2023-03-23  411  	struct drm_i915_private *i915 = tc_to_i915(tc);
+> 3eafcddf766b6b Imre Deak     2023-03-23  412  	struct intel_digital_port *dig_port = tc->dig_port;
+> 5a4dd6f0e84654 Jani Nikula   2022-08-24  413  	u32 isr_bit = i915->display.hotplug.pch_hpd[dig_port->base.hpd_pin];
+> 8979918af711b0 Imre Deak     2023-03-23  414  	intel_wakeref_t wakeref;
+> 8979918af711b0 Imre Deak     2023-03-23  415  	u32 fia_isr;
+> 8979918af711b0 Imre Deak     2023-03-23  416  	u32 pch_isr;
+> c905eb28bd3f43 Imre Deak     2019-06-28  417  	u32 mask = 0;
+> c905eb28bd3f43 Imre Deak     2019-06-28  418  
+> 8979918af711b0 Imre Deak     2023-03-23  419  	with_intel_display_power(i915, tc_phy_cold_off_domain(tc), wakeref) {
+> 8979918af711b0 Imre Deak     2023-03-23  420  		fia_isr = intel_de_read(i915, PORT_TX_DFLEXDPSP(tc->phy_fia));
+> 8979918af711b0 Imre Deak     2023-03-23  421  		pch_isr = intel_de_read(i915, SDEISR);
+> 
+> What's the story with with_intel_display_power()?  I guess it must
+> always be true.  I've asked about it several times before but no one
+> ever responds to my emails about it.
 
-kernel test robot noticed the following build warnings:
+Yes, it's guaranteed that the block inside with_intel_display_power() {}
+will run.
 
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Lyude-Paul/drm-nouveau-kms-Add-INHERIT-ioctl-to-nvkm-nvif-for-reading-IOR-state/20230408-062329
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20230407222133.1425969-2-lyude%40redhat.com
-patch subject: [PATCH 2/2] drm/nouveau/kms: Add INHERIT ioctl to nvkm/nvif for reading IOR state
-config: csky-randconfig-m031-20230409 (https://download.01.org/0day-ci/archive/20230409/202304091929.Sr0CfHlN-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 12.1.0
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202304091929.Sr0CfHlN-lkp@intel.com/
-
-New smatch warnings:
-drivers/gpu/drm/nouveau/dispnv50/disp.c:2518 nv50_display_read_hw_or_state() error: uninitialized symbol 'head_idx'.
-
-vim +/head_idx +2518 drivers/gpu/drm/nouveau/dispnv50/disp.c
-
-a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2477  static inline void
-a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2478  nv50_display_read_hw_or_state(struct drm_device *dev, struct nv50_disp *disp,
-a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2479  			      struct nouveau_encoder *outp)
-a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2480  {
-a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2481  	struct drm_crtc *crtc;
-a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2482  	struct drm_connector_list_iter conn_iter;
-a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2483  	struct drm_connector *conn;
-a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2484  	struct nv50_head_atom *armh;
-a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2485  	const u32 encoder_mask = drm_encoder_mask(&outp->base.base);
-a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2486  	bool found_conn = false, found_head = false;
-a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2487  	u8 proto;
-a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2488  	int head_idx;
-a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2489  	int ret;
-a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2490  
-a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2491  	switch (outp->dcb->type) {
-a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2492  	case DCB_OUTPUT_TMDS:
-a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2493  		ret = nvif_outp_inherit_tmds(&outp->outp, &proto);
-a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2494  		break;
-a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2495  	case DCB_OUTPUT_DP:
-a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2496  		ret = nvif_outp_inherit_dp(&outp->outp, &proto);
-a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2497  		break;
-a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2498  	case DCB_OUTPUT_LVDS:
-a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2499  		ret = nvif_outp_inherit_lvds(&outp->outp, &proto);
-a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2500  		break;
-a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2501  	case DCB_OUTPUT_ANALOG:
-a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2502  		ret = nvif_outp_inherit_rgb_crt(&outp->outp, &proto);
-a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2503  		break;
-a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2504  	default:
-a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2505  		drm_dbg_kms(dev, "Readback for %s not implemented yet, skipping\n",
-a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2506  			    outp->base.base.name);
-a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2507  		drm_WARN_ON(dev, true);
-a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2508  		return;
-a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2509  	}
-a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2510  	if (ret >= 0) {
-a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2511  		head_idx = ret;
-a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2512  		ret = 0;
-a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2513  	} else if (ret == -ENODEV) {
-
-What if it fails with a different error code?
-
-a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2514  		return;
-a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2515  	}
-a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2516  
-a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2517  	drm_for_each_crtc(crtc, dev) {
-a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07 @2518  		if (crtc->index != head_idx)
-a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2519  			continue;
-a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2520  
-a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2521  		armh = nv50_head_atom(crtc->state);
-a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2522  		found_head = true;
-a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2523  		break;
-a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2524  	}
-a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2525  	if (drm_WARN_ON(dev, !found_head))
-a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2526  		return;
-a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2527  
-a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2528  	/* Figure out which connector is being used by this encoder */
-a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2529  	drm_connector_list_iter_begin(dev, &conn_iter);
-a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2530  	nouveau_for_each_non_mst_connector_iter(conn, &conn_iter) {
-a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2531  		if (nouveau_connector(conn)->index == outp->dcb->connector) {
-a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2532  			found_conn = true;
-a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2533  			break;
-a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2534  		}
-a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2535  	}
-a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2536  	drm_connector_list_iter_end(&conn_iter);
-a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2537  	if (drm_WARN_ON(dev, !found_conn))
-a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2538  		return;
-a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2539  
-a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2540  	armh->state.encoder_mask = encoder_mask;
-a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2541  	armh->state.connector_mask = drm_connector_mask(conn);
-a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2542  	armh->state.active = true;
-a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2543  	armh->state.enable = true;
-a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2544  
-a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2545  	outp->crtc = crtc;
-a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2546  	outp->ctrl = NVVAL(NV507D, SOR_SET_CONTROL, PROTOCOL, proto) | BIT(crtc->index);
-a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2547  
-a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2548  	conn->state->crtc = crtc;
-a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2549  	conn->state->best_encoder = &outp->base.base;
-a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2550  }
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
-
+> 8979918af711b0 Imre Deak     2023-03-23  422  	}
+> c905eb28bd3f43 Imre Deak     2019-06-28  423  
+> 8979918af711b0 Imre Deak     2023-03-23 @424  	if (fia_isr == 0xffffffff) {
+> c4d162618216f7 Wambui Karuga 2020-01-30  425  		drm_dbg_kms(&i915->drm,
+> c4d162618216f7 Wambui Karuga 2020-01-30  426  			    "Port %s: PHY in TCCOLD, nothing connected\n",
+> 3eafcddf766b6b Imre Deak     2023-03-23  427  			    tc->port_name);
+> 424f109f5c5d9c Imre Deak     2019-06-28  428  		return mask;
+> 424f109f5c5d9c Imre Deak     2019-06-28  429  	}
+> 424f109f5c5d9c Imre Deak     2019-06-28  430  
+> 8979918af711b0 Imre Deak     2023-03-23  431  	if (fia_isr & TC_LIVE_STATE_TBT(tc->phy_fia_idx))
+> c905eb28bd3f43 Imre Deak     2019-06-28  432  		mask |= BIT(TC_PORT_TBT_ALT);
+> 8979918af711b0 Imre Deak     2023-03-23  433  	if (fia_isr & TC_LIVE_STATE_TC(tc->phy_fia_idx))
+> c905eb28bd3f43 Imre Deak     2019-06-28  434  		mask |= BIT(TC_PORT_DP_ALT);
+> c905eb28bd3f43 Imre Deak     2019-06-28  435  
+> 8979918af711b0 Imre Deak     2023-03-23 @436  	if (pch_isr & isr_bit)
+> c905eb28bd3f43 Imre Deak     2019-06-28  437  		mask |= BIT(TC_PORT_LEGACY);
+> c905eb28bd3f43 Imre Deak     2019-06-28  438  
+> c905eb28bd3f43 Imre Deak     2019-06-28  439  	return mask;
+> c905eb28bd3f43 Imre Deak     2019-06-28  440  }
+> 
+> -- 
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests
+> 
