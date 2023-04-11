@@ -1,50 +1,56 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8769B4436;
-	Tue, 11 Apr 2023 08:56:07 +0000 (UTC)
-Received: by mail-wm1-f51.google.com with SMTP id gw11-20020a05600c850b00b003f07d305b32so4935400wmb.4;
-        Tue, 11 Apr 2023 01:56:07 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6DA85388;
+	Tue, 11 Apr 2023 09:03:47 +0000 (UTC)
+Received: by mail-wm1-f48.google.com with SMTP id l26-20020a05600c1d1a00b003edd24054e0so5566025wms.4;
+        Tue, 11 Apr 2023 02:03:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1681203365; x=1683795365;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=g2c6KSjMyOQtE3ZA0DlkwuZyqApj46xlAPVqYsupQKg=;
-        b=E7M9iWH31eeBfaKD7RNWNzG/s+ovShwELcJ9ZHEG8gQ+oKBnUQUfb0bfLiFbdpaoeF
-         7iRxSRXfLjj7Ps3gSc3Zy/S6N6fB4Lv5tKzRte3jHgAJpG9vQDgILqLk20Ijme2bxvdy
-         F2Mjn4dQma0stMDF57PjujotjodnitmMsbYwkokYdmMNZD8o/CXLfa20P/yyTrQOa+pA
-         YeZV3qBoW+ZqjptRF7tQkSfpYnlv9Mt+qXq215O8DpBGuDMV0LNMSt8sFFycqFhSzesk
-         2EWBLuODAMCwc6aTctbOZYviaDTCYDF3I8Pgbzr9Vv7a6sRAenpZfyINzlNj6+skvtcZ
-         DwBA==
+        d=gmail.com; s=20210112; t=1681203825; x=1683795825;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=VhbjHS7f684AMrsrL5Er1DA55AW7x3S5l3rSApeJOqk=;
+        b=Nu//j/rS3LtN3X2i17tHZhPw8EHilSW+C2VbUpolr9AHWgc1pp8iMooPiN7xqtsD+k
+         aI+zn+htnOginSj+ExUxrEyJQHuyW4677GTQuvPjsGPBBCBtTZkxvrDC9FGFcDnDSz8R
+         F1h6baNxvTROsUw3nyHNktusiJS6Ef7tVxsSnL/5hXbNLWjwlFG9eKcXBTjIPny+B1XP
+         PzYxsrZNvT6sVZ8ZLMo9iGR+LL+nMJMV3aqBH9IIYXy9hhtHHZEIU5Ekn/kSsj9L9umV
+         wU2cK3ZRXqoY0vtkUYBIHoxj7BnZ6kA+Xv7/vvcWQwPfcHr6Np1NwpCSsK/5nA8rXQzV
+         ZMWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1681203365; x=1683795365;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=g2c6KSjMyOQtE3ZA0DlkwuZyqApj46xlAPVqYsupQKg=;
-        b=xryx9RKj+HQ00AYQleLaOXNavpVDu7/MoRzocOEDffMUs7jecdFQ0RWsKaXu7ilKqG
-         Zad7fmmCQr9rwV+Mc8+uv2j7y1Tsvcrpyg+Sa/b26cVkMWop4k4vNgSY7qM67SBrVSqs
-         7CwYj2tM/TrOKQ/VxtvsyBIuRrGc5HS8NWNEH4g7ttlWvb5RJFqhnI8Qv/skV9ckLX46
-         nnEMxF9i1ctWn8+47D4stsAo2y2lawCDhmXifVK2n69f6zwfR45LDF9UrWUzslK/AWzb
-         Uz+qL+oxTKbrW1w2MsfXy4TfB/Od19wm2Ac5iXhvZNZ9xlNxRZEarknG4chclO0++9e0
-         06Ig==
-X-Gm-Message-State: AAQBX9e4Eui8zGgK01zmu3PY2Jh4CiVnDPvb5bB94nB6f/19qIOoKUX2
-	KklkwD7VFkE/gmyz3xe5doMztfDApdY=
-X-Google-Smtp-Source: AKy350YLkmUhmfRi7UtVqBSd48aHEVZWLVUp+Ba4iTnaVnWZ7GykVuhJr78C0jBvJkjJz7bcNEA8pg==
-X-Received: by 2002:a1c:4c12:0:b0:3f0:4f83:22f4 with SMTP id z18-20020a1c4c12000000b003f04f8322f4mr5944906wmf.20.1681203363626;
-        Tue, 11 Apr 2023 01:56:03 -0700 (PDT)
+        d=1e100.net; s=20210112; t=1681203825; x=1683795825;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=VhbjHS7f684AMrsrL5Er1DA55AW7x3S5l3rSApeJOqk=;
+        b=v3llpAlonhxzKAiOYYZFTbrW8/ETqUGQDT4vwiZoMJNCUmw74YS9gjAp2j2lwf5fbb
+         wWuO/mnZ8oCIoDJKqfgJvz0oAqOI0ZH/Fs9lLEBtNVIzC5FMxgd1f8WPKSofM793KHKe
+         1TshdZH2UNQP0nH+aVsFIbJ2ANUcDzxuCCXOeseofLf4etJSL7NF2o/unNHIyV9vC7JV
+         PrdwHBC6Ut/rrvxEdTEZ8TCV8AsjfzQngozhvpZWdXzU2xBxbRlKPF1yoqrtAgO+i5z4
+         45cBphcVoGqgvHp0SKB/7ftRklOlpYGglltgq/p+vT260uja40af7D9y/bASIbkXkqfx
+         1q3Q==
+X-Gm-Message-State: AAQBX9fMlT6gHn+rp/SAueP/taDf0m6yv6E9W5N1+o2EzmRQ9CBqaZqu
+	KTK2sCeU7EVWskK2qahrsRxOXts3ErE=
+X-Google-Smtp-Source: AKy350bgg5RwSlOXMKRI4ovS6rDs7ITa/A3clS+O5rtifEu1hG9ZuyjaxXafENTRSStFwgtTrOIKDA==
+X-Received: by 2002:a05:600c:298:b0:3f0:7e02:a159 with SMTP id 24-20020a05600c029800b003f07e02a159mr8881545wmk.15.1681203824036;
+        Tue, 11 Apr 2023 02:03:44 -0700 (PDT)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id q8-20020a1ce908000000b003ed2276cd0dsm16272183wmc.38.2023.04.11.01.56.02
+        by smtp.gmail.com with ESMTPSA id g9-20020a05600c310900b003f080b2f9f4sm10959042wmo.27.2023.04.11.02.03.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Apr 2023 01:56:03 -0700 (PDT)
-Date: Tue, 11 Apr 2023 11:56:00 +0300
+        Tue, 11 Apr 2023 02:03:43 -0700 (PDT)
+Date: Tue, 11 Apr 2023 12:03:39 +0300
 From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [jic23-iio:testing 65/65]
- drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_core.c:2639
- lsm6dsx_get_acpi_mount_matrix() warn: signedness bug returning '(-22)'
-Message-ID: <79e02451-d658-4941-bd6e-2fe0d2a787ff@kili.mountain>
+To: oe-kbuild@lists.linux.dev, Lyude Paul <lyude@redhat.com>,
+	dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Karol Herbst <kherbst@redhat.com>,
+	Jani Nikula <jani.nikula@intel.com>,
+	open list <linux-kernel@vger.kernel.org>,
+	Ben Skeggs <bskeggs@redhat.com>, Dave Airlie <airlied@redhat.com>,
+	Kees Cook <keescook@chromium.org>
+Subject: Re: [PATCH 2/2] drm/nouveau/kms: Add INHERIT ioctl to nvkm/nvif for
+ reading IOR state
+Message-ID: <7d0bca47-db75-4a68-9565-7bdb5995d1e3@kili.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -53,87 +59,108 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230407222133.1425969-2-lyude@redhat.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git testing
-head:   4c3b188facb2011e9edcdaaf71f2f553e9c230df
-commit: 4c3b188facb2011e9edcdaaf71f2f553e9c230df [65/65] iio: imu: lsm6dsx: Add ACPI mount matrix retrieval
-config: x86_64-randconfig-m001 (https://download.01.org/0day-ci/archive/20230411/202304111602.SD5o4kh1-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+Hi Lyude,
+
+kernel test robot noticed the following build warnings:
+
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Lyude-Paul/drm-nouveau-kms-Add-INHERIT-ioctl-to-nvkm-nvif-for-reading-IOR-state/20230408-062329
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20230407222133.1425969-2-lyude%40redhat.com
+patch subject: [PATCH 2/2] drm/nouveau/kms: Add INHERIT ioctl to nvkm/nvif for reading IOR state
+config: csky-randconfig-m031-20230409 (https://download.01.org/0day-ci/archive/20230409/202304091929.Sr0CfHlN-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202304111602.SD5o4kh1-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202304091929.Sr0CfHlN-lkp@intel.com/
 
 New smatch warnings:
-drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_core.c:2639 lsm6dsx_get_acpi_mount_matrix() warn: signedness bug returning '(-22)'
+drivers/gpu/drm/nouveau/dispnv50/disp.c:2518 nv50_display_read_hw_or_state() error: uninitialized symbol 'head_idx'.
 
-Old smatch warnings:
-drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_core.c:2642 lsm6dsx_get_acpi_mount_matrix() warn: signedness bug returning '(-22)'
-drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_core.c:2647 lsm6dsx_get_acpi_mount_matrix() warn: signedness bug returning '(-22)'
-drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_core.c:2680 lsm6dsx_get_acpi_mount_matrix() warn: signedness bug returning '(-22)'
+vim +/head_idx +2518 drivers/gpu/drm/nouveau/dispnv50/disp.c
 
-vim +2639 drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_core.c
+a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2477  static inline void
+a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2478  nv50_display_read_hw_or_state(struct drm_device *dev, struct nv50_disp *disp,
+a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2479  			      struct nouveau_encoder *outp)
+a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2480  {
+a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2481  	struct drm_crtc *crtc;
+a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2482  	struct drm_connector_list_iter conn_iter;
+a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2483  	struct drm_connector *conn;
+a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2484  	struct nv50_head_atom *armh;
+a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2485  	const u32 encoder_mask = drm_encoder_mask(&outp->base.base);
+a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2486  	bool found_conn = false, found_head = false;
+a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2487  	u8 proto;
+a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2488  	int head_idx;
+a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2489  	int ret;
+a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2490  
+a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2491  	switch (outp->dcb->type) {
+a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2492  	case DCB_OUTPUT_TMDS:
+a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2493  		ret = nvif_outp_inherit_tmds(&outp->outp, &proto);
+a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2494  		break;
+a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2495  	case DCB_OUTPUT_DP:
+a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2496  		ret = nvif_outp_inherit_dp(&outp->outp, &proto);
+a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2497  		break;
+a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2498  	case DCB_OUTPUT_LVDS:
+a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2499  		ret = nvif_outp_inherit_lvds(&outp->outp, &proto);
+a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2500  		break;
+a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2501  	case DCB_OUTPUT_ANALOG:
+a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2502  		ret = nvif_outp_inherit_rgb_crt(&outp->outp, &proto);
+a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2503  		break;
+a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2504  	default:
+a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2505  		drm_dbg_kms(dev, "Readback for %s not implemented yet, skipping\n",
+a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2506  			    outp->base.base.name);
+a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2507  		drm_WARN_ON(dev, true);
+a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2508  		return;
+a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2509  	}
+a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2510  	if (ret >= 0) {
+a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2511  		head_idx = ret;
+a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2512  		ret = 0;
+a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2513  	} else if (ret == -ENODEV) {
 
-4c3b188facb201 Jonathan Cameron 2023-01-30  2628  static bool lsm6dsx_get_acpi_mount_matrix(struct device *dev,
-                                                         ^^^^
+What if it fails with a different error code?
 
-4c3b188facb201 Jonathan Cameron 2023-01-30  2629  					  struct iio_mount_matrix *orientation)
-4c3b188facb201 Jonathan Cameron 2023-01-30  2630  {
-4c3b188facb201 Jonathan Cameron 2023-01-30  2631  	struct acpi_buffer buffer = { ACPI_ALLOCATE_BUFFER, NULL };
-4c3b188facb201 Jonathan Cameron 2023-01-30  2632  	struct acpi_device *adev = ACPI_COMPANION(dev);
-4c3b188facb201 Jonathan Cameron 2023-01-30  2633  	union acpi_object *obj, *elements;
-4c3b188facb201 Jonathan Cameron 2023-01-30  2634  	acpi_status status;
-4c3b188facb201 Jonathan Cameron 2023-01-30  2635  	int i, j, val[3];
-4c3b188facb201 Jonathan Cameron 2023-01-30  2636  	char *str;
-4c3b188facb201 Jonathan Cameron 2023-01-30  2637  
-4c3b188facb201 Jonathan Cameron 2023-01-30  2638  	if (!has_acpi_companion(dev))
-4c3b188facb201 Jonathan Cameron 2023-01-30 @2639  		return -EINVAL;
-
-return true/false?
-
-4c3b188facb201 Jonathan Cameron 2023-01-30  2640  
-4c3b188facb201 Jonathan Cameron 2023-01-30  2641  	if (!acpi_has_method(adev->handle, "ROTM"))
-4c3b188facb201 Jonathan Cameron 2023-01-30  2642  		return -EINVAL;
-4c3b188facb201 Jonathan Cameron 2023-01-30  2643  
-4c3b188facb201 Jonathan Cameron 2023-01-30  2644  	status = acpi_evaluate_object(adev->handle, "ROTM", NULL, &buffer);
-4c3b188facb201 Jonathan Cameron 2023-01-30  2645  	if (ACPI_FAILURE(status)) {
-4c3b188facb201 Jonathan Cameron 2023-01-30  2646  		dev_warn(dev, "Failed to get ACPI mount matrix: %d\n", status);
-4c3b188facb201 Jonathan Cameron 2023-01-30  2647  		return -EINVAL;
-4c3b188facb201 Jonathan Cameron 2023-01-30  2648  	}
-4c3b188facb201 Jonathan Cameron 2023-01-30  2649  
-4c3b188facb201 Jonathan Cameron 2023-01-30  2650  	obj = buffer.pointer;
-4c3b188facb201 Jonathan Cameron 2023-01-30  2651  	if (obj->type != ACPI_TYPE_PACKAGE || obj->package.count != 3)
-4c3b188facb201 Jonathan Cameron 2023-01-30  2652  		goto unknown_format;
-4c3b188facb201 Jonathan Cameron 2023-01-30  2653  
-4c3b188facb201 Jonathan Cameron 2023-01-30  2654  	elements = obj->package.elements;
-4c3b188facb201 Jonathan Cameron 2023-01-30  2655  	for (i = 0; i < 3; i++) {
-4c3b188facb201 Jonathan Cameron 2023-01-30  2656  		if (elements[i].type != ACPI_TYPE_STRING)
-4c3b188facb201 Jonathan Cameron 2023-01-30  2657  			goto unknown_format;
-4c3b188facb201 Jonathan Cameron 2023-01-30  2658  
-4c3b188facb201 Jonathan Cameron 2023-01-30  2659  		str = elements[i].string.pointer;
-4c3b188facb201 Jonathan Cameron 2023-01-30  2660  		if (sscanf(str, "%d %d %d", &val[0], &val[1], &val[2]) != 3)
-4c3b188facb201 Jonathan Cameron 2023-01-30  2661  			goto unknown_format;
-4c3b188facb201 Jonathan Cameron 2023-01-30  2662  
-4c3b188facb201 Jonathan Cameron 2023-01-30  2663  		for (j = 0; j < 3; j++) {
-4c3b188facb201 Jonathan Cameron 2023-01-30  2664  			switch (val[j]) {
-4c3b188facb201 Jonathan Cameron 2023-01-30  2665  			case -1: str = "-1"; break;
-4c3b188facb201 Jonathan Cameron 2023-01-30  2666  			case 0:  str = "0";  break;
-4c3b188facb201 Jonathan Cameron 2023-01-30  2667  			case 1:  str = "1";  break;
-4c3b188facb201 Jonathan Cameron 2023-01-30  2668  			default: goto unknown_format;
-4c3b188facb201 Jonathan Cameron 2023-01-30  2669  			}
-4c3b188facb201 Jonathan Cameron 2023-01-30  2670  			orientation->rotation[i * 3 + j] = str;
-4c3b188facb201 Jonathan Cameron 2023-01-30  2671  		}
-4c3b188facb201 Jonathan Cameron 2023-01-30  2672  	}
-4c3b188facb201 Jonathan Cameron 2023-01-30  2673  
-4c3b188facb201 Jonathan Cameron 2023-01-30  2674  	kfree(buffer.pointer);
-4c3b188facb201 Jonathan Cameron 2023-01-30  2675  	return 0;
-4c3b188facb201 Jonathan Cameron 2023-01-30  2676  
-4c3b188facb201 Jonathan Cameron 2023-01-30  2677  unknown_format:
-4c3b188facb201 Jonathan Cameron 2023-01-30  2678  	dev_warn(dev, "Unknown ACPI mount matrix format, ignoring\n");
-4c3b188facb201 Jonathan Cameron 2023-01-30  2679  	kfree(buffer.pointer);
-4c3b188facb201 Jonathan Cameron 2023-01-30  2680  	return -EINVAL;
-4c3b188facb201 Jonathan Cameron 2023-01-30  2681  }
+a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2514  		return;
+a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2515  	}
+a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2516  
+a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2517  	drm_for_each_crtc(crtc, dev) {
+a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07 @2518  		if (crtc->index != head_idx)
+a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2519  			continue;
+a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2520  
+a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2521  		armh = nv50_head_atom(crtc->state);
+a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2522  		found_head = true;
+a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2523  		break;
+a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2524  	}
+a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2525  	if (drm_WARN_ON(dev, !found_head))
+a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2526  		return;
+a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2527  
+a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2528  	/* Figure out which connector is being used by this encoder */
+a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2529  	drm_connector_list_iter_begin(dev, &conn_iter);
+a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2530  	nouveau_for_each_non_mst_connector_iter(conn, &conn_iter) {
+a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2531  		if (nouveau_connector(conn)->index == outp->dcb->connector) {
+a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2532  			found_conn = true;
+a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2533  			break;
+a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2534  		}
+a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2535  	}
+a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2536  	drm_connector_list_iter_end(&conn_iter);
+a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2537  	if (drm_WARN_ON(dev, !found_conn))
+a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2538  		return;
+a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2539  
+a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2540  	armh->state.encoder_mask = encoder_mask;
+a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2541  	armh->state.connector_mask = drm_connector_mask(conn);
+a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2542  	armh->state.active = true;
+a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2543  	armh->state.enable = true;
+a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2544  
+a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2545  	outp->crtc = crtc;
+a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2546  	outp->ctrl = NVVAL(NV507D, SOR_SET_CONTROL, PROTOCOL, proto) | BIT(crtc->index);
+a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2547  
+a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2548  	conn->state->crtc = crtc;
+a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2549  	conn->state->best_encoder = &outp->base.base;
+a3d963915cf6f2 drivers/gpu/drm/nouveau/dispnv50/disp.c Lyude Paul 2023-04-07  2550  }
 
 -- 
 0-DAY CI Kernel Test Service
