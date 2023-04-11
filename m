@@ -1,42 +1,49 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B13628EE
-	for <oe-kbuild@lists.linux.dev>; Tue, 11 Apr 2023 14:38:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681223897; x=1712759897;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=htPGqO2d0setuRae069mslJnjAqQN8lnAxWxE8v+Obs=;
-  b=PVH+WcqQfhQ12MTflDb8xgYntCG5SXtTPv20cA6tiVR6t3h7QyLLoAFz
-   Sf1BMTTLqGKUCtgcOepjMlO8fMirxEs2RGIWbE03OBDkMNosxGlBYbetU
-   43SkKwEPINXHCA1hhuoMjkBhhiowwfmqD16q6nScUo6ekacJ6H068q8v2
-   O79O/b1WPVdBLFrpnk6FbU8OBScA7M+dUCUp4f2/bRLkrjSLsdqSA1dz+
-   oPh0vjXGDYi3+fZS5EmtW1966k2SGxqrbOPEr0Et0uEMryHPj46fzK+wx
-   VoAkBZT1yp0IkvD28FHnB/A7T/nWfiQhVi4N1KrbpmZXH5eCW9sXrUrvr
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10677"; a="343636223"
-X-IronPort-AV: E=Sophos;i="5.98,336,1673942400"; 
-   d="scan'208";a="343636223"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2023 07:38:16 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10677"; a="666000212"
-X-IronPort-AV: E=Sophos;i="5.98,336,1673942400"; 
-   d="scan'208";a="666000212"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 11 Apr 2023 07:38:14 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pmF8P-000WOf-0t;
-	Tue, 11 Apr 2023 14:38:13 +0000
-Date: Tue, 11 Apr 2023 22:37:38 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD7FC8F4D;
+	Tue, 11 Apr 2023 15:53:46 +0000 (UTC)
+Received: by mail-wr1-f54.google.com with SMTP id w21so7969407wra.4;
+        Tue, 11 Apr 2023 08:53:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1681228424; x=1683820424;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=gBGL+Im1rox4Uv0NK/kcpdR4O0HNqrG2SVFh/C2ggpU=;
+        b=PUqDr0mHiWFNGwyyMCM8VeXO9RJegj/pEVno3lflcjqi5+kH9iu3tWUolnloJsXWzh
+         sdiMlyCt2XxcIcy6aAkJx73WLiagB4tcLA1oMyyNvlkcxd7IDJWNLIh/cHr5WA203F31
+         3XdIcEJhDkPfzgQvki6I2mWlntVfhqCZnQ21LhB1Ii1zyH3lD7sAumaZaAxqF6t2Jqum
+         wwTQFzsaS+E1jg4f/glpl5o+TpJn2ghZ2uo0Q/TzLappUACNRoLJnBC0E9VQY42w6Ag6
+         ogK+OrwwqJSYazNgkjRsjXU3kJCu3ZWEriuzhtdYTHn188tBwdPJQFmmjLkMh2GlL1pr
+         w55Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1681228424; x=1683820424;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=gBGL+Im1rox4Uv0NK/kcpdR4O0HNqrG2SVFh/C2ggpU=;
+        b=RgtKj1/jtix/x1OHMTcEICEHEZkKJ5sVsiTKqTICRYn7mVfDT0z17rT5WJfKyGaLbC
+         oDvcauajgWDBCi7bpruqCUeNjImGk9wM4NyAoySDB9fWo84/Q9+6qVFjnvHtoyk5POaR
+         2Ntl9174EXNnPtLGMGKj6X5IIuMwZAtPaqKJnuosOCykCqjIcfj8fiuJGRNJZJJiXgri
+         DgHOshdbUSyFCvm3/SeV9hg5dXc+AsG4Za6W7JeK/mH1oowJZRPtZRc4BYawCQfpZhCb
+         /psSuv1PPTfXnfWemH3OVuYBR8tG/jEaA85W+C4LhMrc0xquFVxxe5to2ioe9M62qxKv
+         LNYA==
+X-Gm-Message-State: AAQBX9fO4Aw1pCVK8F4QlwI7UjRn3wPnF5ewVCKfOHbekfke1m98Nl6X
+	dRVIB7XuPqqoHJ/540qpQ/wT6wIhSvQ=
+X-Google-Smtp-Source: AKy350aMrrtErrZvG8A0vET19FgxoAynSgCjpuQRE0JbWNHiDufHzNtsQ3ArPWPoI+x9ITQDjc84Eg==
+X-Received: by 2002:adf:fd91:0:b0:2f2:a03f:605f with SMTP id d17-20020adffd91000000b002f2a03f605fmr2500037wrr.63.1681228424395;
+        Tue, 11 Apr 2023 08:53:44 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id c4-20020a5d5284000000b002d1801018e2sm14880727wrv.63.2023.04.11.08.53.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 11 Apr 2023 08:53:43 -0700 (PDT)
+Date: Tue, 11 Apr 2023 18:53:39 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev,
+	Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
 Subject: [intel-tdx:guest-filter-upstream 12/39] drivers/acpi/dalt.c:122
  parse_dalt_table() error: uninitialized symbol 'devid'.
-Message-ID: <202304112205.SpBYYgia-lkp@intel.com>
+Message-ID: <5bbbadeb-bd05-41e3-a100-aafa0fc38e66@kili.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -46,15 +53,9 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>
-
 tree:   https://github.com/intel/tdx.git guest-filter-upstream
 head:   359e363de7b2f8863a0cbfb771cceaefb7a80873
 commit: 7930762a9eb63a3bfb1fc6fdc1ab121e926d00d6 [12/39] ACPI: DALT: Add support to parse DALT ACPI table
-:::::: branch date: 17 hours ago
-:::::: commit date: 35 hours ago
 config: i386-randconfig-m021 (https://download.01.org/0day-ci/archive/20230411/202304112205.SpBYYgia-lkp@intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 
@@ -68,7 +69,6 @@ drivers/acpi/dalt.c:122 parse_dalt_table() error: uninitialized symbol 'devid'.
 
 vim +/devid +122 drivers/acpi/dalt.c
 
-7930762a9eb63a Kuppuswamy Sathyanarayanan 2023-04-10   76  
 7930762a9eb63a Kuppuswamy Sathyanarayanan 2023-04-10   77  static int parse_dalt_table(struct acpi_table_dalt *dalt)
 7930762a9eb63a Kuppuswamy Sathyanarayanan 2023-04-10   78  {
 7930762a9eb63a Kuppuswamy Sathyanarayanan 2023-04-10   79  	struct acpi_dalt_device *ddev = (struct acpi_dalt_device *)dalt->devices;
@@ -102,6 +102,9 @@ vim +/devid +122 drivers/acpi/dalt.c
 7930762a9eb63a Kuppuswamy Sathyanarayanan 2023-04-10  107  				devid = pci_id;
 7930762a9eb63a Kuppuswamy Sathyanarayanan 2023-04-10  108  			} else {
 7930762a9eb63a Kuppuswamy Sathyanarayanan 2023-04-10  109  				pr_warn("Invalid PCI device %s\n", ddev->name);
+
+devid not initialized on this path.
+
 7930762a9eb63a Kuppuswamy Sathyanarayanan 2023-04-10  110  			}
 7930762a9eb63a Kuppuswamy Sathyanarayanan 2023-04-10  111  		} else if ((ddev->type == ACPI_DALT_ACPI_DEV) ||
 7930762a9eb63a Kuppuswamy Sathyanarayanan 2023-04-10  112  			   (ddev->type == ACPI_DALT_PLATFORM_DEV)) {
@@ -130,8 +133,8 @@ vim +/devid +122 drivers/acpi/dalt.c
 7930762a9eb63a Kuppuswamy Sathyanarayanan 2023-04-10  135  	free_da_bus_list();
 7930762a9eb63a Kuppuswamy Sathyanarayanan 2023-04-10  136  	return ret;
 7930762a9eb63a Kuppuswamy Sathyanarayanan 2023-04-10  137  }
-7930762a9eb63a Kuppuswamy Sathyanarayanan 2023-04-10  138  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
+
