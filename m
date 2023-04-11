@@ -1,131 +1,137 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 466EA2F2D;
-	Tue, 11 Apr 2023 08:26:32 +0000 (UTC)
-Received: by mail-wm1-f48.google.com with SMTP id he13so9009065wmb.2;
-        Tue, 11 Apr 2023 01:26:32 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52FC23D75;
+	Tue, 11 Apr 2023 08:30:07 +0000 (UTC)
+Received: by mail-wr1-f49.google.com with SMTP id d9so6748745wrb.11;
+        Tue, 11 Apr 2023 01:30:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1681201590; x=1683793590;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=T2lPXKJbj1gOdKUQSI0raAvBDZgbuEz3CuHg5A0q854=;
-        b=GNQ+eU/Gplw59qh8MOKQ+Sd0Nh68rFXe/gBl2WngTdlIeiS6CGDZ8LFIE1ivQmZPgX
-         AmwwRII6L4CHkH7aQw36LzN0yWAfcyo4bERHAC0XxC8+155QjTAqS6ClgcOF4kiF+Xj1
-         liDS6MOBDEFEcCtjF/ABa+UipjcNLaeFzXW5xQzjA0euanRizTcELJYSUVJN/jn50Gyi
-         h7PDRjbtnTzLFUPxq5mpcgyAc1XGpKZqvpqvm59nMKnzNOQUnGtVxpCJ9mSJv0OmQgqG
-         YsjKQAKBOj48WCATbrCp8Ty6Nm4FLGJchl4emYTAUhtTpVGACZkzM2zGGQIHnrLt3mNR
-         BJSg==
+        d=gmail.com; s=20210112; t=1681201805; x=1683793805;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=tvIDHs1BDBIaCYNw0AWNxbR/KttxAyH9HpS3lWDcgDM=;
+        b=UUa+XbRnhAQkZQgJXsOvuPyTM9Mbc4rUyF7qUWE85YLbHs4Utt3VdVDiJ5hia/jX4Y
+         VW1erJlArltl0xnbw2gWqjwxtTc7BxKXudNPoSO4wbaUp9ZfuP3RIvm6v6ns6SQkHf3Y
+         Mu1XvaJfLlnNOm5W1VXh6WQai6YOmuOs7aBCWOlh4HwXzbYbZPV/kqkkZrlwYouEAxcs
+         PQBEdKkpGx9qWBL+PXKV/u55SQUD5E0v/G7mWuyvUgjoC6itUVHRHH3r72vg0pJuaWn9
+         c1qLPrOExcA9bRfEQWxzW84wpNT4mE7DH2O56T6lbNQhZm5Bg/p+LqIoqNUlBcIXHe9n
+         IFZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1681201590; x=1683793590;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:message-id:subject:cc:to:from:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=T2lPXKJbj1gOdKUQSI0raAvBDZgbuEz3CuHg5A0q854=;
-        b=xlEqx3UgWIeVrh+NrRsrNZdWPpF1eG+U19cf9HVy12BJeKmSCv7cQ6cZBAH6WH0wn0
-         92v1/vRjIkSdMFRCOK4QPbfiU1tm9bApq5JJacq4tZAIGEi/patgqJ1kUm+PzvnLyTCu
-         q54mShFzFWdTc3ZP6xam4zdWFnq1Qj63iOb/Gp/nxv2PwTVqeHFXVMJsyMZqjTlvvx9w
-         B4mz8EsHU3rlNSLKKXiWdtk5ju2lsUQpyLMj77cj4mdMoFIhyojlTtvxTSxNCq29Bm9p
-         PoZ9yKRTqnyS3vTypiV4qAXA+40nivjYO+SwaZci04wlwdscZfkB0Fe6cDvLEl7FBW08
-         XtPQ==
-X-Gm-Message-State: AAQBX9ctTpK1Kq/O/FN1p3oSonQJfrgdCfvBlg4VcRGmwYJhyg3KhsIm
-	zIYWfKRPaWyGZ4wiCEj+JPt3y0vJbIk=
-X-Google-Smtp-Source: AKy350Y+rmcfbwhQ0jNjSuuWfWfCcYmdMv5e4TlRIv7zyyjHwxfb9z/QM/N5EhrEf6WpUUd0WKMf+Q==
-X-Received: by 2002:a1c:7407:0:b0:3ee:5d1d:6c2d with SMTP id p7-20020a1c7407000000b003ee5d1d6c2dmr8784586wmc.35.1681201589916;
-        Tue, 11 Apr 2023 01:26:29 -0700 (PDT)
+        d=1e100.net; s=20210112; t=1681201805; x=1683793805;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=tvIDHs1BDBIaCYNw0AWNxbR/KttxAyH9HpS3lWDcgDM=;
+        b=cD7vmZ9azUVY17NJ1FhS4KS5lc3l7gUnoLXXERWNBocTzWMyZ5alwqSfq8ZgBQ7/58
+         i9N6YuN5458kKhLilL+Q9yD4XAN69G8QmXMMfimrBrz3sDCsDigVb5ZryXM5+cpw6kCy
+         +Gx+Y4vQuopdjZmecJ5m8E3KXKQ3lo6AcZZRCmWxalMPdiWzyBiHhhSkSCHpZozE5c6W
+         8fyH5mrL6ZxL9AGd0SJH9b3PMSS9EWeH+J9VgR3gF+tsz3xGSm3upccuLEgGjLmYQ75G
+         R7t5cG3TZ43x8Bk9d1BdziSAaSy24N7pMeAgZ6gKT9OVeBHIDI4i/6gYaUPGEtazXLev
+         ZSKw==
+X-Gm-Message-State: AAQBX9c+XCkghAO7xaqnOuV761fiBKokI5eQ2bL/277kYa+Vwqx2nIun
+	ciBXiQdP+nhfQ8xzIQYANPapB3wTpFI=
+X-Google-Smtp-Source: AKy350ZCxBUthhUcJoR29XGcbeEfnFb8t0US6tBlKLvYzeEwYJIfo16YVpL8KHyMKhLhidF4ADow+g==
+X-Received: by 2002:a5d:60cb:0:b0:2ef:eb58:4697 with SMTP id x11-20020a5d60cb000000b002efeb584697mr5548030wrt.25.1681201805203;
+        Tue, 11 Apr 2023 01:30:05 -0700 (PDT)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id g17-20020a05600c001100b003dd1bd0b915sm19784816wmc.22.2023.04.11.01.26.28
+        by smtp.gmail.com with ESMTPSA id a17-20020a056000101100b002f21a96c161sm4257226wrx.70.2023.04.11.01.30.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Apr 2023 01:26:29 -0700 (PDT)
-Date: Tue, 11 Apr 2023 11:26:26 +0300
+        Tue, 11 Apr 2023 01:30:04 -0700 (PDT)
+Date: Tue, 11 Apr 2023 11:30:00 +0300
 From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev,
-	=?iso-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
-	Melissa Wen <mwen@igalia.com>,
-	Haneen Mohammed <hamohammed.sa@gmail.com>,
-	Igor Matheus Andrade Torrente <igormtorrente@gmail.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	=?iso-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>,
-	dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH] drm/vkms: add module parameter to set background color
-Message-ID: <2d60f63e-f29c-44cf-8f5b-bb3cd98d0094@kili.mountain>
+To: oe-kbuild@lists.linux.dev, "zhaoyang.huang" <zhaoyang.huang@unisoc.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH] mm: introduce defer free for cma
+Message-ID: <9df78cbd-3d4a-411e-b59f-97afdcbb6d72@kili.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230406172002.124456-1-mcanal@igalia.com>
+In-Reply-To: <1680864131-4675-1-git-send-email-zhaoyang.huang@unisoc.com>
 
-Hi Maíra,
+Hi zhaoyang.huang,
 
+[This is a private test report for your RFC patch.]
 kernel test robot noticed the following build warnings:
 
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ma-ra-Canal/drm-vkms-add-module-parameter-to-set-background-color/20230407-012233
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20230406172002.124456-1-mcanal%40igalia.com
-patch subject: [PATCH] drm/vkms: add module parameter to set background color
-config: i386-randconfig-m031-20230403 (https://download.01.org/0day-ci/archive/20230408/202304082018.PXAwWhse-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/zhaoyang-huang/mm-introduce-defer-free-for-cma/20230407-184459
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/1680864131-4675-1-git-send-email-zhaoyang.huang%40unisoc.com
+patch subject: [RFC PATCH] mm: introduce defer free for cma
+config: x86_64-randconfig-m001 (https://download.01.org/0day-ci/archive/20230409/202304091523.IZcRaGI1-lkp@intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202304082018.PXAwWhse-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202304091523.IZcRaGI1-lkp@intel.com/
 
 smatch warnings:
-drivers/gpu/drm/vkms/vkms_composer.c:93 blend() warn: right shifting more than type allows 32 vs 32
+mm/cma.c:449 cma_defer_area_fetch() error: dereferencing freed memory 'area'
+mm/cma.c:691 cma_defer_free_scan() error: dereferencing freed memory 'area'
 
-vim +93 drivers/gpu/drm/vkms/vkms_composer.c
+vim +/area +449 mm/cma.c
 
-d725068207852d drivers/gpu/drm/vkms/vkms_composer.c Maíra Canal     2023-04-06   82  static void blend(struct vkms_device *vkms_dev,
-d725068207852d drivers/gpu/drm/vkms/vkms_composer.c Maíra Canal     2023-04-06   83  		  struct vkms_writeback_job *wb,
-8ba1648567e289 drivers/gpu/drm/vkms/vkms_composer.c Igor Torrente   2022-09-05   84  		  struct vkms_crtc_state *crtc_state,
-8ba1648567e289 drivers/gpu/drm/vkms/vkms_composer.c Igor Torrente   2022-09-05   85  		  u32 *crc32, struct line_buffer *stage_buffer,
-8ba1648567e289 drivers/gpu/drm/vkms/vkms_composer.c Igor Torrente   2022-09-05   86  		  struct line_buffer *output_buffer, size_t row_size)
-39cba5cf8c2c23 drivers/gpu/drm/vkms/vkms_composer.c Melissa Wen     2020-08-25   87  {
-8ba1648567e289 drivers/gpu/drm/vkms/vkms_composer.c Igor Torrente   2022-09-05   88  	struct vkms_plane_state **plane = crtc_state->active_planes;
-8ba1648567e289 drivers/gpu/drm/vkms/vkms_composer.c Igor Torrente   2022-09-05   89  	u32 n_active_planes = crtc_state->num_active_planes;
-39cba5cf8c2c23 drivers/gpu/drm/vkms/vkms_composer.c Melissa Wen     2020-08-25   90  
-d725068207852d drivers/gpu/drm/vkms/vkms_composer.c Maíra Canal     2023-04-06   91  	const struct pixel_argb_u16 background_color = {
-d725068207852d drivers/gpu/drm/vkms/vkms_composer.c Maíra Canal     2023-04-06   92  		.a =  0xffff,
-d725068207852d drivers/gpu/drm/vkms/vkms_composer.c Maíra Canal     2023-04-06  @93  		.r = (*vkms_dev->config->background_color >> 32) & 0xffff,
-                                                                                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-This shift always results in zero.
+7abee7e8d17803 Zhaoyang Huang   2023-04-07  429  static int cma_defer_area_fetch(struct cma *cma, unsigned long pfn,
+7abee7e8d17803 Zhaoyang Huang   2023-04-07  430  		unsigned long count)
+7abee7e8d17803 Zhaoyang Huang   2023-04-07  431  {
+7abee7e8d17803 Zhaoyang Huang   2023-04-07  432  	struct cma_defer_free_area *area;
+7abee7e8d17803 Zhaoyang Huang   2023-04-07  433  	unsigned long new_pfn;
+7abee7e8d17803 Zhaoyang Huang   2023-04-07  434  	int ret = -1;
+7abee7e8d17803 Zhaoyang Huang   2023-04-07  435  
+7abee7e8d17803 Zhaoyang Huang   2023-04-07  436  	if (!atomic64_read(&cma->defer_count))
+7abee7e8d17803 Zhaoyang Huang   2023-04-07  437  		return ret;
+7abee7e8d17803 Zhaoyang Huang   2023-04-07  438  	if (count <= atomic64_read(&cma->defer_count)) {
+7abee7e8d17803 Zhaoyang Huang   2023-04-07  439  		spin_lock_irq(&cma->lock);
+7abee7e8d17803 Zhaoyang Huang   2023-04-07  440  		list_for_each_entry(area, &cma->defer_free, list) {
+7abee7e8d17803 Zhaoyang Huang   2023-04-07  441  			/*area found for given pfn and count*/
+7abee7e8d17803 Zhaoyang Huang   2023-04-07  442  			if (pfn >= area->pfn && count <= area->count) {
+7abee7e8d17803 Zhaoyang Huang   2023-04-07  443  				list_del(&area->list);
+7abee7e8d17803 Zhaoyang Huang   2023-04-07  444  				/*set bits for allocated pfn*/
+7abee7e8d17803 Zhaoyang Huang   2023-04-07  445  				bitmap_set(cma->bitmap, pfn - cma->base_pfn, count);
+7abee7e8d17803 Zhaoyang Huang   2023-04-07  446  				kfree(area);
+                                                                                ^^^^^^^^^^^
+kfree
 
-d725068207852d drivers/gpu/drm/vkms/vkms_composer.c Maíra Canal     2023-04-06   94  		.g = (*vkms_dev->config->background_color >> 16) & 0xffff,
-d725068207852d drivers/gpu/drm/vkms/vkms_composer.c Maíra Canal     2023-04-06   95  		.b = *vkms_dev->config->background_color & 0xffff,
-d725068207852d drivers/gpu/drm/vkms/vkms_composer.c Maíra Canal     2023-04-06   96  	};
-32a1648aca4409 drivers/gpu/drm/vkms/vkms_composer.c Melissa Wen     2021-04-24   97  
-bc0d7fdefec62e drivers/gpu/drm/vkms/vkms_composer.c Igor Torrente   2022-09-05   98  	size_t crtc_y_limit = crtc_state->base.crtc->mode.vdisplay;
-39cba5cf8c2c23 drivers/gpu/drm/vkms/vkms_composer.c Melissa Wen     2020-08-25   99  
-bc0d7fdefec62e drivers/gpu/drm/vkms/vkms_composer.c Igor Torrente   2022-09-05  100  	for (size_t y = 0; y < crtc_y_limit; y++) {
-bc0d7fdefec62e drivers/gpu/drm/vkms/vkms_composer.c Igor Torrente   2022-09-05  101  		fill_background(&background_color, output_buffer);
-bc0d7fdefec62e drivers/gpu/drm/vkms/vkms_composer.c Igor Torrente   2022-09-05  102  
-bc0d7fdefec62e drivers/gpu/drm/vkms/vkms_composer.c Igor Torrente   2022-09-05  103  		/* The active planes are composed associatively in z-order. */
-bc0d7fdefec62e drivers/gpu/drm/vkms/vkms_composer.c Igor Torrente   2022-09-05  104  		for (size_t i = 0; i < n_active_planes; i++) {
-8ba1648567e289 drivers/gpu/drm/vkms/vkms_composer.c Igor Torrente   2022-09-05  105  			if (!check_y_limit(plane[i]->frame_info, y))
-8ba1648567e289 drivers/gpu/drm/vkms/vkms_composer.c Igor Torrente   2022-09-05  106  				continue;
-8ba1648567e289 drivers/gpu/drm/vkms/vkms_composer.c Igor Torrente   2022-09-05  107  
-8ba1648567e289 drivers/gpu/drm/vkms/vkms_composer.c Igor Torrente   2022-09-05  108  			plane[i]->plane_read(stage_buffer, plane[i]->frame_info, y);
-8ba1648567e289 drivers/gpu/drm/vkms/vkms_composer.c Igor Torrente   2022-09-05  109  			pre_mul_alpha_blend(plane[i]->frame_info, stage_buffer,
-8ba1648567e289 drivers/gpu/drm/vkms/vkms_composer.c Igor Torrente   2022-09-05  110  					    output_buffer);
-db7f419c06d7cc drivers/gpu/drm/vkms/vkms_crc.c      Haneen Mohammed 2018-09-06  111  		}
-8ba1648567e289 drivers/gpu/drm/vkms/vkms_composer.c Igor Torrente   2022-09-05  112  
-8ba1648567e289 drivers/gpu/drm/vkms/vkms_composer.c Igor Torrente   2022-09-05  113  		*crc32 = crc32_le(*crc32, (void *)output_buffer->pixels, row_size);
-8ba1648567e289 drivers/gpu/drm/vkms/vkms_composer.c Igor Torrente   2022-09-05  114  
-8ba1648567e289 drivers/gpu/drm/vkms/vkms_composer.c Igor Torrente   2022-09-05  115  		if (wb)
-8ba1648567e289 drivers/gpu/drm/vkms/vkms_composer.c Igor Torrente   2022-09-05  116  			wb->wb_write(&wb->wb_frame_info, output_buffer, y);
-db7f419c06d7cc drivers/gpu/drm/vkms/vkms_crc.c      Haneen Mohammed 2018-09-06  117  	}
-db7f419c06d7cc drivers/gpu/drm/vkms/vkms_crc.c      Haneen Mohammed 2018-09-06  118  }
+7abee7e8d17803 Zhaoyang Huang   2023-04-07  447  				atomic64_sub(count, &cma->defer_count);
+7abee7e8d17803 Zhaoyang Huang   2023-04-07  448  				/*release the rest pfn to cma*/
+7abee7e8d17803 Zhaoyang Huang   2023-04-07 @449  				if (!list_empty(&cma->defer_free) && (pfn == area->pfn)) {
+                                                                                                                             ^^^^^^^^^
+use after free
+
+7abee7e8d17803 Zhaoyang Huang   2023-04-07  450  					new_pfn = pfn + count;
+7abee7e8d17803 Zhaoyang Huang   2023-04-07  451  					cma_release(cma, pfn_to_page(new_pfn), area->count - count);
+                                                                                                                               ^^^^^^^^^^^
+
+7abee7e8d17803 Zhaoyang Huang   2023-04-07  452  				}
+7abee7e8d17803 Zhaoyang Huang   2023-04-07  453  				ret = 0;
+7abee7e8d17803 Zhaoyang Huang   2023-04-07  454  				spin_unlock_irq(&cma->lock);
+7abee7e8d17803 Zhaoyang Huang   2023-04-07  455  				return ret;
+7abee7e8d17803 Zhaoyang Huang   2023-04-07  456  			}
+7abee7e8d17803 Zhaoyang Huang   2023-04-07  457  		}
+7abee7e8d17803 Zhaoyang Huang   2023-04-07  458  	}
+7abee7e8d17803 Zhaoyang Huang   2023-04-07  459  	/*no area found, release all to buddy*/
+7abee7e8d17803 Zhaoyang Huang   2023-04-07  460  	list_for_each_entry(area, &cma->defer_free, list) {
+7abee7e8d17803 Zhaoyang Huang   2023-04-07  461  		list_del(&area->list);
+                                                                          ^^^^^^^^^^
+You need to use list_for_each_entry_safe() here to prevent a forever
+loop
+
+7abee7e8d17803 Zhaoyang Huang   2023-04-07  462  		free_contig_range(area->pfn, area->count);
+7abee7e8d17803 Zhaoyang Huang   2023-04-07  463  		cma_clear_bitmap(cma, area->pfn, area->count);
+7abee7e8d17803 Zhaoyang Huang   2023-04-07  464  		kfree(area);
+                                                                ^^^^^^^^^^^
+also list_for_each_entry_safe() prevents a use after free
+
+
+7abee7e8d17803 Zhaoyang Huang   2023-04-07  465  	}
+7abee7e8d17803 Zhaoyang Huang   2023-04-07  466  	spin_unlock_irq(&cma->lock);
+7abee7e8d17803 Zhaoyang Huang   2023-04-07  467  	return ret;
+7abee7e8d17803 Zhaoyang Huang   2023-04-07  468  }
 
 -- 
 0-DAY CI Kernel Test Service
