@@ -1,163 +1,159 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B104A364
-	for <oe-kbuild@lists.linux.dev>; Wed, 12 Apr 2023 01:11:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DB512F2C
+	for <oe-kbuild@lists.linux.dev>; Wed, 12 Apr 2023 08:51:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681261898; x=1712797898;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=TM85LzhTwKj3uhYOMAmfb0wukQs9p74VqF6ur0qrqoA=;
-  b=gPUGGO36UpshtJ7EA1vIjsdPP31p8hTrGXFJW/220Wai+u7bkxg5+UDx
-   vDk5DYkAfPq9+qFlokd/pYD8eTPnOujct6nTX0wvDruVU6pCeQ0K6mm4F
-   HCfs9/OFOyvQtRC1gNdg4vWTf1SfY4tGg46o/j+5Kc9WF59dxR0WcJVaY
-   2JuPRVx9MS/pfE349mLLLkMI/p8JavmUF51qQV/huo3dx80ZgJNHt9OoA
-   /E07PyeVHlcVd2WUMubq1xm202GRlv1n4t+BNOoLTiCKqUkvwn72gDvXm
-   iu+OeTl8joLkuS+ljmZo4FVD3Ginuzj/2r6vKpBkNQvE3hodfjUlHarhn
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10677"; a="430059101"
-X-IronPort-AV: E=Sophos;i="5.98,336,1673942400"; 
-   d="scan'208";a="430059101"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2023 18:11:38 -0700
+  t=1681289466; x=1712825466;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=I0zi3QHo5MgtXjZOG2DL3FCtmQS0PNovEXBSNkwCg0A=;
+  b=itGWDLL12NAALxiPAVXWq31IH/foe0qdp1ocfP8v0QngdT2VTPDBbvAm
+   KbLUa/g2kEy4NfNVM08QLI9RDN75LkW+Ymi+ODAsFVhjeb3e0rFOy8aNB
+   vJ+xGxfIYV44ukOpRdaWGGx3MR0JmwM7j3+fM95CxBU5YasM1JFoNxWGF
+   KASNRpYrSHypikG/w30/oKVOTTn4Qz7YYu6xz6xp674r+nXW4oox22kPm
+   Mfs8G4q8+jA975Y3vn51Ld8YfE8Vhm1gtFkHIelBgwCI7AhCe3Li1EOlR
+   Zb26KqwCNTB/0eCHJFcmwy8H/dNVs1WvckBQDDm+OH3OVkwwinCvxOkWU
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10677"; a="343844509"
+X-IronPort-AV: E=Sophos;i="5.98,338,1673942400"; 
+   d="scan'208";a="343844509"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2023 01:51:05 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10677"; a="753334471"
-X-IronPort-AV: E=Sophos;i="5.98,336,1673942400"; 
-   d="scan'208";a="753334471"
+X-IronPort-AV: E=McAfee;i="6600,9927,10677"; a="691478199"
+X-IronPort-AV: E=Sophos;i="5.98,338,1673942400"; 
+   d="scan'208";a="691478199"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 11 Apr 2023 18:11:36 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 12 Apr 2023 01:51:04 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pmP1L-000Wtn-2m;
-	Wed, 12 Apr 2023 01:11:35 +0000
-Date: Wed, 12 Apr 2023 09:11:29 +0800
+	id 1pmWBy-000XXh-3D;
+	Wed, 12 Apr 2023 08:51:02 +0000
+Date: Wed, 12 Apr 2023 16:50:39 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [RFC PATCH v2 net-next 07/14] net: dsa: mt7530: call port 6
- setup from mt7530_mac_config()
-Message-ID: <202304120805.3RJUxz5z-lkp@intel.com>
+Subject: [linux-next:master 9067/10976]
+ drivers/crypto/intel/qat/qat_common/adf_cfg.c:262
+ adf_cfg_add_key_value_param() warn: argument 4 to %lx specifier is cast from
+ pointer
+Message-ID: <202304121609.mbj9HzBo-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20230407134626.47928-8-arinc.unal@arinc9.com>
-References: <20230407134626.47928-8-arinc.unal@arinc9.com>
-TO: arinc9.unal@gmail.com
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Tom Zanussi <tom.zanussi@linux.intel.com>
+CC: Herbert Xu <herbert@gondor.apana.org.au>
 
-Hi,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/arinc9-unal-gmail-com/net-dsa-mt7530-fix-phylink-for-port-5-and-fix-port-5-modes/20230407-224714
-patch link:    https://lore.kernel.org/r/20230407134626.47928-8-arinc.unal%40arinc9.com
-patch subject: [RFC PATCH v2 net-next 07/14] net: dsa: mt7530: call port 6 setup from mt7530_mac_config()
-:::::: branch date: 4 days ago
-:::::: commit date: 4 days ago
-config: csky-randconfig-m041-20230409 (https://download.01.org/0day-ci/archive/20230412/202304120805.3RJUxz5z-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   7d8214bba44c1aa6a75921a09a691945d26a8d43
+commit: a4b16dad46576ce08ecb660fc923d0857dcae107 [9067/10976] crypto: qat - Move driver to drivers/crypto/intel/qat
+:::::: branch date: 4 hours ago
+:::::: commit date: 6 days ago
+config: ia64-randconfig-m031-20230410 (https://download.01.org/0day-ci/archive/20230412/202304121609.mbj9HzBo-lkp@intel.com/config)
+compiler: ia64-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202304120805.3RJUxz5z-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202304121609.mbj9HzBo-lkp@intel.com/
 
-New smatch warnings:
-drivers/net/dsa/mt7530.c:455 mt7530_setup_port6() error: uninitialized symbol 'ncpo1'.
+smatch warnings:
+drivers/crypto/intel/qat/qat_common/adf_cfg.c:262 adf_cfg_add_key_value_param() warn: argument 4 to %lx specifier is cast from pointer
 
-Old smatch warnings:
-drivers/net/dsa/mt7530.c:900 mt7530_set_ageing_time() error: uninitialized symbol 'age_count'.
-drivers/net/dsa/mt7530.c:900 mt7530_set_ageing_time() error: uninitialized symbol 'age_unit'.
+vim +262 drivers/crypto/intel/qat/qat_common/adf_cfg.c
 
-vim +/ncpo1 +455 drivers/net/dsa/mt7530.c
+d8cba25d2c6899 drivers/crypto/qat/qat_common/adf_cfg.c Tadeusz Struk    2014-06-05  219  
+d8cba25d2c6899 drivers/crypto/qat/qat_common/adf_cfg.c Tadeusz Struk    2014-06-05  220  /**
+d8cba25d2c6899 drivers/crypto/qat/qat_common/adf_cfg.c Tadeusz Struk    2014-06-05  221   * adf_cfg_add_key_value_param() - Add key-value config entry to config table.
+d8cba25d2c6899 drivers/crypto/qat/qat_common/adf_cfg.c Tadeusz Struk    2014-06-05  222   * @accel_dev:  Pointer to acceleration device.
+d8cba25d2c6899 drivers/crypto/qat/qat_common/adf_cfg.c Tadeusz Struk    2014-06-05  223   * @section_name: Name of the section where the param will be added
+d8cba25d2c6899 drivers/crypto/qat/qat_common/adf_cfg.c Tadeusz Struk    2014-06-05  224   * @key: The key string
+d8cba25d2c6899 drivers/crypto/qat/qat_common/adf_cfg.c Tadeusz Struk    2014-06-05  225   * @val: Value pain for the given @key
+d8cba25d2c6899 drivers/crypto/qat/qat_common/adf_cfg.c Tadeusz Struk    2014-06-05  226   * @type: Type - string, int or address
+d8cba25d2c6899 drivers/crypto/qat/qat_common/adf_cfg.c Tadeusz Struk    2014-06-05  227   *
+d8cba25d2c6899 drivers/crypto/qat/qat_common/adf_cfg.c Tadeusz Struk    2014-06-05  228   * Function adds configuration key - value entry in the appropriate section
+92bf269fbfe940 drivers/crypto/qat/qat_common/adf_cfg.c Giovanni Cabiddu 2022-06-27  229   * in the given acceleration device. If the key exists already, the value
+92bf269fbfe940 drivers/crypto/qat/qat_common/adf_cfg.c Giovanni Cabiddu 2022-06-27  230   * is updated.
+d8cba25d2c6899 drivers/crypto/qat/qat_common/adf_cfg.c Tadeusz Struk    2014-06-05  231   * To be used by QAT device specific drivers.
+d8cba25d2c6899 drivers/crypto/qat/qat_common/adf_cfg.c Tadeusz Struk    2014-06-05  232   *
+ec0d6fa3e8849f drivers/crypto/qat/qat_common/adf_cfg.c Ahsan Atta       2015-07-24  233   * Return: 0 on success, error code otherwise.
+d8cba25d2c6899 drivers/crypto/qat/qat_common/adf_cfg.c Tadeusz Struk    2014-06-05  234   */
+d8cba25d2c6899 drivers/crypto/qat/qat_common/adf_cfg.c Tadeusz Struk    2014-06-05  235  int adf_cfg_add_key_value_param(struct adf_accel_dev *accel_dev,
+d8cba25d2c6899 drivers/crypto/qat/qat_common/adf_cfg.c Tadeusz Struk    2014-06-05  236  				const char *section_name,
+d8cba25d2c6899 drivers/crypto/qat/qat_common/adf_cfg.c Tadeusz Struk    2014-06-05  237  				const char *key, const void *val,
+d8cba25d2c6899 drivers/crypto/qat/qat_common/adf_cfg.c Tadeusz Struk    2014-06-05  238  				enum adf_cfg_val_type type)
+d8cba25d2c6899 drivers/crypto/qat/qat_common/adf_cfg.c Tadeusz Struk    2014-06-05  239  {
+d8cba25d2c6899 drivers/crypto/qat/qat_common/adf_cfg.c Tadeusz Struk    2014-06-05  240  	struct adf_cfg_device_data *cfg = accel_dev->cfg;
+d8cba25d2c6899 drivers/crypto/qat/qat_common/adf_cfg.c Tadeusz Struk    2014-06-05  241  	struct adf_cfg_key_val *key_val;
+d8cba25d2c6899 drivers/crypto/qat/qat_common/adf_cfg.c Tadeusz Struk    2014-06-05  242  	struct adf_cfg_section *section = adf_cfg_sec_find(accel_dev,
+d8cba25d2c6899 drivers/crypto/qat/qat_common/adf_cfg.c Tadeusz Struk    2014-06-05  243  							   section_name);
+92bf269fbfe940 drivers/crypto/qat/qat_common/adf_cfg.c Giovanni Cabiddu 2022-06-27  244  	char temp_val[ADF_CFG_MAX_VAL_LEN_IN_BYTES];
+92bf269fbfe940 drivers/crypto/qat/qat_common/adf_cfg.c Giovanni Cabiddu 2022-06-27  245  
+d8cba25d2c6899 drivers/crypto/qat/qat_common/adf_cfg.c Tadeusz Struk    2014-06-05  246  	if (!section)
+d8cba25d2c6899 drivers/crypto/qat/qat_common/adf_cfg.c Tadeusz Struk    2014-06-05  247  		return -EFAULT;
+d8cba25d2c6899 drivers/crypto/qat/qat_common/adf_cfg.c Tadeusz Struk    2014-06-05  248  
+d8cba25d2c6899 drivers/crypto/qat/qat_common/adf_cfg.c Tadeusz Struk    2014-06-05  249  	key_val = kzalloc(sizeof(*key_val), GFP_KERNEL);
+d8cba25d2c6899 drivers/crypto/qat/qat_common/adf_cfg.c Tadeusz Struk    2014-06-05  250  	if (!key_val)
+d8cba25d2c6899 drivers/crypto/qat/qat_common/adf_cfg.c Tadeusz Struk    2014-06-05  251  		return -ENOMEM;
+d8cba25d2c6899 drivers/crypto/qat/qat_common/adf_cfg.c Tadeusz Struk    2014-06-05  252  
+d8cba25d2c6899 drivers/crypto/qat/qat_common/adf_cfg.c Tadeusz Struk    2014-06-05  253  	INIT_LIST_HEAD(&key_val->list);
+28855860057ac0 drivers/crypto/qat/qat_common/adf_cfg.c Wolfram Sang     2022-08-18  254  	strscpy(key_val->key, key, sizeof(key_val->key));
+d8cba25d2c6899 drivers/crypto/qat/qat_common/adf_cfg.c Tadeusz Struk    2014-06-05  255  
+d8cba25d2c6899 drivers/crypto/qat/qat_common/adf_cfg.c Tadeusz Struk    2014-06-05  256  	if (type == ADF_DEC) {
+d8cba25d2c6899 drivers/crypto/qat/qat_common/adf_cfg.c Tadeusz Struk    2014-06-05  257  		snprintf(key_val->val, ADF_CFG_MAX_VAL_LEN_IN_BYTES,
+d8cba25d2c6899 drivers/crypto/qat/qat_common/adf_cfg.c Tadeusz Struk    2014-06-05  258  			 "%ld", (*((long *)val)));
+d8cba25d2c6899 drivers/crypto/qat/qat_common/adf_cfg.c Tadeusz Struk    2014-06-05  259  	} else if (type == ADF_STR) {
+28855860057ac0 drivers/crypto/qat/qat_common/adf_cfg.c Wolfram Sang     2022-08-18  260  		strscpy(key_val->val, (char *)val, sizeof(key_val->val));
+d8cba25d2c6899 drivers/crypto/qat/qat_common/adf_cfg.c Tadeusz Struk    2014-06-05  261  	} else if (type == ADF_HEX) {
+d8cba25d2c6899 drivers/crypto/qat/qat_common/adf_cfg.c Tadeusz Struk    2014-06-05 @262  		snprintf(key_val->val, ADF_CFG_MAX_VAL_LEN_IN_BYTES,
+d8cba25d2c6899 drivers/crypto/qat/qat_common/adf_cfg.c Tadeusz Struk    2014-06-05  263  			 "0x%lx", (unsigned long)val);
+d8cba25d2c6899 drivers/crypto/qat/qat_common/adf_cfg.c Tadeusz Struk    2014-06-05  264  	} else {
+665503049bada5 drivers/crypto/qat/qat_common/adf_cfg.c Allan, Bruce W   2015-03-19  265  		dev_err(&GET_DEV(accel_dev), "Unknown type given.\n");
+d8cba25d2c6899 drivers/crypto/qat/qat_common/adf_cfg.c Tadeusz Struk    2014-06-05  266  		kfree(key_val);
+69d0fc22cf91c9 drivers/crypto/qat/qat_common/adf_cfg.c Giovanni Cabiddu 2020-10-12  267  		return -EINVAL;
+d8cba25d2c6899 drivers/crypto/qat/qat_common/adf_cfg.c Tadeusz Struk    2014-06-05  268  	}
+d8cba25d2c6899 drivers/crypto/qat/qat_common/adf_cfg.c Tadeusz Struk    2014-06-05  269  	key_val->type = type;
+92bf269fbfe940 drivers/crypto/qat/qat_common/adf_cfg.c Giovanni Cabiddu 2022-06-27  270  
+92bf269fbfe940 drivers/crypto/qat/qat_common/adf_cfg.c Giovanni Cabiddu 2022-06-27  271  	/* Add the key-value pair as below policy:
+92bf269fbfe940 drivers/crypto/qat/qat_common/adf_cfg.c Giovanni Cabiddu 2022-06-27  272  	 * 1. if the key doesn't exist, add it;
+92bf269fbfe940 drivers/crypto/qat/qat_common/adf_cfg.c Giovanni Cabiddu 2022-06-27  273  	 * 2. if the key already exists with a different value then update it
+92bf269fbfe940 drivers/crypto/qat/qat_common/adf_cfg.c Giovanni Cabiddu 2022-06-27  274  	 *    to the new value (the key is deleted and the newly created
+92bf269fbfe940 drivers/crypto/qat/qat_common/adf_cfg.c Giovanni Cabiddu 2022-06-27  275  	 *    key_val containing the new value is added to the database);
+92bf269fbfe940 drivers/crypto/qat/qat_common/adf_cfg.c Giovanni Cabiddu 2022-06-27  276  	 * 3. if the key exists with the same value, then return without doing
+92bf269fbfe940 drivers/crypto/qat/qat_common/adf_cfg.c Giovanni Cabiddu 2022-06-27  277  	 *    anything (the newly created key_val is freed).
+92bf269fbfe940 drivers/crypto/qat/qat_common/adf_cfg.c Giovanni Cabiddu 2022-06-27  278  	 */
+92bf269fbfe940 drivers/crypto/qat/qat_common/adf_cfg.c Giovanni Cabiddu 2022-06-27  279  	if (!adf_cfg_key_val_get(accel_dev, section_name, key, temp_val)) {
+92bf269fbfe940 drivers/crypto/qat/qat_common/adf_cfg.c Giovanni Cabiddu 2022-06-27  280  		if (strncmp(temp_val, key_val->val, sizeof(temp_val))) {
+92bf269fbfe940 drivers/crypto/qat/qat_common/adf_cfg.c Giovanni Cabiddu 2022-06-27  281  			adf_cfg_keyval_remove(key, section);
+92bf269fbfe940 drivers/crypto/qat/qat_common/adf_cfg.c Giovanni Cabiddu 2022-06-27  282  		} else {
+92bf269fbfe940 drivers/crypto/qat/qat_common/adf_cfg.c Giovanni Cabiddu 2022-06-27  283  			kfree(key_val);
+92bf269fbfe940 drivers/crypto/qat/qat_common/adf_cfg.c Giovanni Cabiddu 2022-06-27  284  			return 0;
+92bf269fbfe940 drivers/crypto/qat/qat_common/adf_cfg.c Giovanni Cabiddu 2022-06-27  285  		}
+92bf269fbfe940 drivers/crypto/qat/qat_common/adf_cfg.c Giovanni Cabiddu 2022-06-27  286  	}
+92bf269fbfe940 drivers/crypto/qat/qat_common/adf_cfg.c Giovanni Cabiddu 2022-06-27  287  
+d8cba25d2c6899 drivers/crypto/qat/qat_common/adf_cfg.c Tadeusz Struk    2014-06-05  288  	down_write(&cfg->lock);
+d8cba25d2c6899 drivers/crypto/qat/qat_common/adf_cfg.c Tadeusz Struk    2014-06-05  289  	adf_cfg_keyval_add(key_val, section);
+d8cba25d2c6899 drivers/crypto/qat/qat_common/adf_cfg.c Tadeusz Struk    2014-06-05  290  	up_write(&cfg->lock);
+d8cba25d2c6899 drivers/crypto/qat/qat_common/adf_cfg.c Tadeusz Struk    2014-06-05  291  	return 0;
+d8cba25d2c6899 drivers/crypto/qat/qat_common/adf_cfg.c Tadeusz Struk    2014-06-05  292  }
+d8cba25d2c6899 drivers/crypto/qat/qat_common/adf_cfg.c Tadeusz Struk    2014-06-05  293  EXPORT_SYMBOL_GPL(adf_cfg_add_key_value_param);
+d8cba25d2c6899 drivers/crypto/qat/qat_common/adf_cfg.c Tadeusz Struk    2014-06-05  294  
 
-c8b8a3c601f2cf Vladimir Oltean 2023-03-07  401  
-fdcc8ccd823740 Arınç ÜNAL      2023-03-20  402  /* Setup port 6 interface mode and TRGMII TX circuit */
-b8f126a8d54318 Sean Wang       2017-04-07  403  static int
-09b2bbe1e53d30 Arınç ÜNAL      2023-04-07  404  mt7530_setup_port6(struct dsa_switch *ds, phy_interface_t interface)
-b8f126a8d54318 Sean Wang       2017-04-07  405  {
-b8f126a8d54318 Sean Wang       2017-04-07  406  	struct mt7530_priv *priv = ds->priv;
-fdcc8ccd823740 Arınç ÜNAL      2023-03-20  407  	u32 ncpo1, ssc_delta, trgint, xtal;
-7ef6f6f8d237fa René van Dorst  2019-06-20  408  
-7ef6f6f8d237fa René van Dorst  2019-06-20  409  	xtal = mt7530_read(priv, MT7530_MHWTRAP) & HWTRAP_XTAL_MASK;
-7ef6f6f8d237fa René van Dorst  2019-06-20  410  
-7ef6f6f8d237fa René van Dorst  2019-06-20  411  	if (xtal == HWTRAP_XTAL_20MHZ) {
-7ef6f6f8d237fa René van Dorst  2019-06-20  412  		dev_err(priv->dev,
-7ef6f6f8d237fa René van Dorst  2019-06-20  413  			"%s: MT7530 with a 20MHz XTAL is not supported!\n",
-7ef6f6f8d237fa René van Dorst  2019-06-20  414  			__func__);
-7ef6f6f8d237fa René van Dorst  2019-06-20  415  		return -EINVAL;
-7ef6f6f8d237fa René van Dorst  2019-06-20  416  	}
-b8f126a8d54318 Sean Wang       2017-04-07  417  
-88bdef8be9f649 Landen Chao     2020-09-11  418  	switch (interface) {
-b8f126a8d54318 Sean Wang       2017-04-07  419  	case PHY_INTERFACE_MODE_RGMII:
-b8f126a8d54318 Sean Wang       2017-04-07  420  		trgint = 0;
-b8f126a8d54318 Sean Wang       2017-04-07  421  		break;
-b8f126a8d54318 Sean Wang       2017-04-07  422  	case PHY_INTERFACE_MODE_TRGMII:
-b8f126a8d54318 Sean Wang       2017-04-07  423  		trgint = 1;
-407b508bdd70b6 Arınç ÜNAL      2023-03-20  424  		if (xtal == HWTRAP_XTAL_25MHZ)
-407b508bdd70b6 Arınç ÜNAL      2023-03-20  425  			ssc_delta = 0x57;
-407b508bdd70b6 Arınç ÜNAL      2023-03-20  426  		else
-407b508bdd70b6 Arınç ÜNAL      2023-03-20  427  			ssc_delta = 0x87;
-7ef6f6f8d237fa René van Dorst  2019-06-20  428  		if (priv->id == ID_MT7621) {
-7ef6f6f8d237fa René van Dorst  2019-06-20  429  			/* PLL frequency: 150MHz: 1.2GBit */
-7ef6f6f8d237fa René van Dorst  2019-06-20  430  			if (xtal == HWTRAP_XTAL_40MHZ)
-7ef6f6f8d237fa René van Dorst  2019-06-20  431  				ncpo1 = 0x0780;
-7ef6f6f8d237fa René van Dorst  2019-06-20  432  			if (xtal == HWTRAP_XTAL_25MHZ)
-7ef6f6f8d237fa René van Dorst  2019-06-20  433  				ncpo1 = 0x0a00;
-7ef6f6f8d237fa René van Dorst  2019-06-20  434  		} else { /* PLL frequency: 250MHz: 2.0Gbit */
-7ef6f6f8d237fa René van Dorst  2019-06-20  435  			if (xtal == HWTRAP_XTAL_40MHZ)
-7ef6f6f8d237fa René van Dorst  2019-06-20  436  				ncpo1 = 0x0c80;
-7ef6f6f8d237fa René van Dorst  2019-06-20  437  			if (xtal == HWTRAP_XTAL_25MHZ)
-b8f126a8d54318 Sean Wang       2017-04-07  438  				ncpo1 = 0x1400;
-7ef6f6f8d237fa René van Dorst  2019-06-20  439  		}
-b8f126a8d54318 Sean Wang       2017-04-07  440  		break;
-b8f126a8d54318 Sean Wang       2017-04-07  441  	default:
-88bdef8be9f649 Landen Chao     2020-09-11  442  		dev_err(priv->dev, "xMII interface %d not supported\n",
-88bdef8be9f649 Landen Chao     2020-09-11  443  			interface);
-b8f126a8d54318 Sean Wang       2017-04-07  444  		return -EINVAL;
-b8f126a8d54318 Sean Wang       2017-04-07  445  	}
-b8f126a8d54318 Sean Wang       2017-04-07  446  
-b8f126a8d54318 Sean Wang       2017-04-07  447  	mt7530_rmw(priv, MT7530_P6ECR, P6_INTF_MODE_MASK,
-b8f126a8d54318 Sean Wang       2017-04-07  448  		   P6_INTF_MODE(trgint));
-b8f126a8d54318 Sean Wang       2017-04-07  449  
-0b086d76e7b011 Arınç ÜNAL      2023-03-10  450  	if (trgint) {
-8f058a6ef99f0b Arınç ÜNAL      2023-03-20  451  		/* Disable the MT7530 TRGMII clocks */
-8f058a6ef99f0b Arınç ÜNAL      2023-03-20  452  		core_clear(priv, CORE_TRGMII_GSW_CLK_CG, REG_TRGMIICK_EN);
-b8f126a8d54318 Sean Wang       2017-04-07  453  
-b8f126a8d54318 Sean Wang       2017-04-07  454  		/* Setup the MT7530 TRGMII Tx Clock */
-b8f126a8d54318 Sean Wang       2017-04-07 @455  		core_write(priv, CORE_PLL_GROUP5, RG_LCDDS_PCW_NCPO1(ncpo1));
-b8f126a8d54318 Sean Wang       2017-04-07  456  		core_write(priv, CORE_PLL_GROUP6, RG_LCDDS_PCW_NCPO0(0));
-b8f126a8d54318 Sean Wang       2017-04-07  457  		core_write(priv, CORE_PLL_GROUP10, RG_LCDDS_SSC_DELTA(ssc_delta));
-b8f126a8d54318 Sean Wang       2017-04-07  458  		core_write(priv, CORE_PLL_GROUP11, RG_LCDDS_SSC_DELTA1(ssc_delta));
-b8f126a8d54318 Sean Wang       2017-04-07  459  		core_write(priv, CORE_PLL_GROUP4,
-b8f126a8d54318 Sean Wang       2017-04-07  460  			   RG_SYSPLL_DDSFBK_EN | RG_SYSPLL_BIAS_EN |
-b8f126a8d54318 Sean Wang       2017-04-07  461  			   RG_SYSPLL_BIAS_LPF_EN);
-b8f126a8d54318 Sean Wang       2017-04-07  462  		core_write(priv, CORE_PLL_GROUP2,
-b8f126a8d54318 Sean Wang       2017-04-07  463  			   RG_SYSPLL_EN_NORMAL | RG_SYSPLL_VODEN |
-b8f126a8d54318 Sean Wang       2017-04-07  464  			   RG_SYSPLL_POSDIV(1));
-b8f126a8d54318 Sean Wang       2017-04-07  465  		core_write(priv, CORE_PLL_GROUP7,
-b8f126a8d54318 Sean Wang       2017-04-07  466  			   RG_LCDDS_PCW_NCPO_CHG | RG_LCCDS_C(3) |
-b8f126a8d54318 Sean Wang       2017-04-07  467  			   RG_LCDDS_PWDB | RG_LCDDS_ISO_EN);
-4732315ca9fe9f Ilya Lipnitskiy 2021-03-26  468  
-8f058a6ef99f0b Arınç ÜNAL      2023-03-20  469  		/* Enable the MT7530 TRGMII clocks */
-8f058a6ef99f0b Arınç ÜNAL      2023-03-20  470  		core_set(priv, CORE_TRGMII_GSW_CLK_CG, REG_TRGMIICK_EN);
-0b086d76e7b011 Arınç ÜNAL      2023-03-10  471  	}
-0b086d76e7b011 Arınç ÜNAL      2023-03-10  472  
-b8f126a8d54318 Sean Wang       2017-04-07  473  	return 0;
-b8f126a8d54318 Sean Wang       2017-04-07  474  }
-b8f126a8d54318 Sean Wang       2017-04-07  475  
+:::::: The code at line 262 was first introduced by commit
+:::::: d8cba25d2c68992a6e7c1d329b690a9ebe01167d crypto: qat - Intel(R) QAT driver framework
+
+:::::: TO: Tadeusz Struk <tadeusz.struk@intel.com>
+:::::: CC: Herbert Xu <herbert@gondor.apana.org.au>
 
 -- 
 0-DAY CI Kernel Test Service
