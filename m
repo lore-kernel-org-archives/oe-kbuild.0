@@ -1,119 +1,155 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2119.outbound.protection.outlook.com [40.107.113.119])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 351E264E;
-	Thu, 13 Apr 2023 05:06:20 +0000 (UTC)
-Received: by mail-wm1-f42.google.com with SMTP id eo6-20020a05600c82c600b003ee5157346cso9274476wmb.1;
-        Wed, 12 Apr 2023 22:06:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1681362378; x=1683954378;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=YTuX7BWQccR072xh88lyub0yD8ThTjPxkRbEwjzVO2U=;
-        b=Tsm5sDvSPz4J0dpPBeveoe7ImIhAy7msJzCfoxr8qMcmyEe/defVCfiuUtkve0L0NS
-         w5jJgSCaLjzzcfFQJr9slYNKtOA5v8rKHu9lY0VkrbSsdgA67GtzZitwfzQRw/dcDYN3
-         VGACYaNNnM6FWOJgrSWvcM0Xj9pv4PaVCvNvNCloFaFWIiHeiR7da5PpgzY2vLaw7qXy
-         KsSEnRGx2KVvdIbuuGk+zFZk5Wy/lLNDt+CpB7cjCL8BcnFmWiHctQvE5gI2Avbuq3iY
-         uAQp0eWbAmm25svTRmV5jLcED/tbHNyLHqVBVcpL/hF48pd55ksGWD5B4MnHxDFFHILC
-         ZcoA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681362378; x=1683954378;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=YTuX7BWQccR072xh88lyub0yD8ThTjPxkRbEwjzVO2U=;
-        b=Z/THt8YDqoUP1BPf3W4GfGeThX/kNeXfeNof+Q6a9iYffV3dph887QqxxZvMpiOWfP
-         eY6MzVPMPTLC6gbu5o+E6KDT8BfvBa3SRubijBXRXr3CHAMd0g6/iZ+7ln6oZkpoQstJ
-         DyaoGddPkskiP15z0I2SmJiPfCR2FfB0qN4WhrF98/HH8vt9Nv4GofLRY9d61zIRWu++
-         ABTmGaoz/JoqS1l0GhcsF3wZMQLYF7wocRWsuFUOU5zk3vq4LbjvfpAOQ2gO1fkgMuXj
-         Edt/+zRO18ZDDOkv5I/I31d4PPj3djdZIcqBk45DH5emrJNYWIU0ODAxR/UmM+en/roq
-         IufA==
-X-Gm-Message-State: AAQBX9fqYVrP3NTNl8cW3VFhM2i0+OLbkb/1EL7pPJ7j8sXWzHj0Mypt
-	wCipRtLp52tO9nZerphsdi9rfkFfKbU=
-X-Google-Smtp-Source: AKy350YX14Lih8aW1AsCNtKAFTbEzC43tJ5WfeOSTjWOxDlT+e2/27FjtTwNhzhVoUyT5RtR3poiBQ==
-X-Received: by 2002:a1c:7509:0:b0:3f0:7f4f:2aa8 with SMTP id o9-20020a1c7509000000b003f07f4f2aa8mr732728wmc.9.1681362378055;
-        Wed, 12 Apr 2023 22:06:18 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id m10-20020a05600c3b0a00b003ef5e5f93f5sm4365724wms.19.2023.04.12.22.06.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Apr 2023 22:06:17 -0700 (PDT)
-Date: Thu, 13 Apr 2023 08:04:55 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, Jens Axboe <axboe@kernel.dk>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [axboe-block:epoll-min_ts.2 9/10] fs/eventpoll.c:2484
- __do_sys_epoll_pwait3() error: uninitialized symbol 'sigmask_sz'.
-Message-ID: <7a1b3993-ded9-4c2e-8537-965d118b1264@kili.mountain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FF407E;
+	Thu, 13 Apr 2023 07:22:44 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=MEv4I1pNmAOKV2rwCdZJlwayKUJaOPLe2Mqg9cH3sMMDxCM8A3F04bV1X1Z3dW+D83z9mgW2MDhGaUrmWMv9UnJOlq1o5VckaFs3YLy4mUnbkjgpOMNGc4JaZ1dkP//KYP9qY3TXo1cb9cmMscfFZvVQLBtMWqeml02id+NQzNxWr6tcaRfBj/wfl46d43ryLGuSzQdoGpnrpX57fwJevAqsGzEKDPUGAt2/sxlQFy/Sp1uWVDqjwCMuZ0EYpYRt+45Kw1n2XeYkdj2RX6gupbHOzGg4PVUCxx8uHjIoKF+9fuAVCcYb3lHj9pxTskozPZdmU4+LYdBIuIXh67iqzA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=YJB+WJNY+4iKrT6dS0jnYNH4vH1Yy+LimSo06+nY5q8=;
+ b=KfOKznWZYGn0/IpsbfGUe7D+fsJ29wnWBtCgGKiW0CZ9Ld958hMzdASkmio8xBIMCdwQp5+SBUnMCLGYX7CcfSuZkNRTDMqX9zaxEcz0tPvMn5AUu9IPCU795ei0UbBzHKEUj9KRczr1rjYxGT0E4sEaCahYVjTb234GyjFplja7mJPqU9cIDwhK85re/eI40Dzyk6UfeFFiCCaaOECWU2a7szEQ9kRMXMGfknKjBKZIQuNXHn4Bt6x9N65+co/Y3bJ0bEhWiTNDcFHmQngB4eVetGlL9LVY2aXcR7eTnwntiz7f8njGmJSsJLJK//N6f3N0O2BsFWBNhQL0eEBJvA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=YJB+WJNY+4iKrT6dS0jnYNH4vH1Yy+LimSo06+nY5q8=;
+ b=IU/uK5L+vYayFevIUaehhl56mflcsx1l3YmFd8JyMWgU16Kl5Mb6Dhz9U7OZ48V4LiO4BfEbzyGqsAIO9oGdBBkkuj6d8mdcEnTJPdY1I95xgJTbSI+9sMvJR8EpHxPYaW1fy1YPi38o4WsW7gNx4ZCnw8i6rSTYY13E9JalUVw=
+Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
+ by TY3PR01MB11483.jpnprd01.prod.outlook.com (2603:1096:400:3dd::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6298.28; Thu, 13 Apr
+ 2023 07:22:41 +0000
+Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
+ ([fe80::bd0a:a38d:b4d2:5d2]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
+ ([fe80::bd0a:a38d:b4d2:5d2%5]) with mapi id 15.20.6298.030; Thu, 13 Apr 2023
+ 07:22:39 +0000
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: Dan Carpenter <error27@gmail.com>
+CC: "oe-kbuild@lists.linux.dev" <oe-kbuild@lists.linux.dev>, Michael Turquette
+	<mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, "lkp@intel.com"
+	<lkp@intel.com>, "oe-kbuild-all@lists.linux.dev"
+	<oe-kbuild-all@lists.linux.dev>, "linux-clk@vger.kernel.org"
+	<linux-clk@vger.kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>,
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
+Subject: RE: [PATCH v4 2/3] drivers: clk: Add support for versa3 clock driver
+Thread-Topic: [PATCH v4 2/3] drivers: clk: Add support for versa3 clock driver
+Thread-Index: AQHZZtUKenNCkns3JkyXtPHgRXRPcK8lz4CAgABvYgCAAnnzAIAAKVDA
+Date: Thu, 13 Apr 2023 07:22:39 +0000
+Message-ID:
+ <OS0PR01MB5922C0F4AD089E6E015B34AB86989@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+References: <20230404090823.148226-3-biju.das.jz@bp.renesas.com>
+ <7351b44c-f577-4df3-a01e-e9b1039fa928@kili.mountain>
+ <OS0PR01MB5922390F504FC1F51F3B4025869A9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <dcae7c28-89b5-4f3f-b13b-1a1dc5779d1c@kili.mountain>
+In-Reply-To: <dcae7c28-89b5-4f3f-b13b-1a1dc5779d1c@kili.mountain>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: OS0PR01MB5922:EE_|TY3PR01MB11483:EE_
+x-ms-office365-filtering-correlation-id: fcee6d30-ab09-4919-fc0d-08db3befdcf3
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info:
+ BC9Lmx4kbtk7ecXzEL2CfuMHn2x6M/pHNa/zMsUVfz6jkhiLf2KJU+22oBGmrRG3yPYlljQjq+sdb/XOxhSCrXdZAMcRyd2AO8L9wrgKwf5KiW+oFEcHOX6Ff3P0UJwYlMyveK9G3VuNT3cPzusJYDpzYK+QqaQIE2053gEQ8QlyBJNdc7yeyPcSwsZRJTgGE53MwgYp8x8GP2/gfDzf/pFzHTC0RGljdalmYg3sk0lw99vbJpaIl2W5P4Io7bi+OJP8kvzGnOReY2+cY1u/vcw0g8Gd+779BWqWIz8MHxSCpuWeTLMtBswK4xP9s7c0o7PVgOgT3hLU6UOsM8WgzwAf3l9tml87UJH/ofrs6jKC/a+PMW++ZZcWbF4DbumCwW2KSoi+S3J7du2QCaUsUPOSbHjKeocIQpzPRrjzuFApjwHxTTGAmgDkBDSWEHjQbrSn0MxyzItKzCxbcin73LvS35NhKLXtBUTPiQbWElrYS4zAWjVvotYjQwilqnzFNzEDT/VHWh2nI3JqV9SxpDCyjTkE4kySS/hVQlYpxVSPaulQSAXrAkJf2Fklb/vsSRrgH/2ODcL0grGkj2MghBmGcRaYhr8+Nr66v3cOUkk=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(376002)(366004)(136003)(39860400002)(396003)(346002)(451199021)(5660300002)(38100700002)(2906002)(38070700005)(52536014)(316002)(55016003)(86362001)(8676002)(8936002)(4326008)(66476007)(66446008)(122000001)(66556008)(41300700001)(6916009)(64756008)(33656002)(66946007)(966005)(76116006)(83380400001)(54906003)(186003)(26005)(6506007)(53546011)(9686003)(478600001)(7696005)(71200400001);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?yrHSj8yjPmJWcBumtjjgKEtfi5Z0VBsWpWrVEYeHS7E8yN6gzABiL/MSScrQ?=
+ =?us-ascii?Q?ppdFkS+X64BIKEg0PhaInedI/62l3sfvOxk+mhsnF4VeW47QWq1bQzOK1Yva?=
+ =?us-ascii?Q?otGv8LQeQuElm0teWbT6fOCGBMccWTD+OFaBdaPblL3k60W7rRZr49iQfr9J?=
+ =?us-ascii?Q?txWsIr0ZKMVTNmk4rCiJNRMaIJTRfg4k7LWMyBzHxRTRn7/96L8xZwuOjKUX?=
+ =?us-ascii?Q?sXlGa3nUH47bl/q5jJFX03StxAtXYEZUcA48UVBNCWSXuYvDPFW9yH11CapP?=
+ =?us-ascii?Q?47WCVu3Mt2B+eq9Iw0dNLrPw6RPoGTXO8DAr5pPY8zoCF98NzdJSZ0jtdNwg?=
+ =?us-ascii?Q?Cw3VNX7LHtc/rNNNg4t1vy6SUzc+uuz8E4/crP4DEyavlUGSYgDVM+Y5qKqv?=
+ =?us-ascii?Q?R7Fng9wfgIZXM3rVrof9EMNsKxJkU2g7IsyQincWiwJKiOQW9bY5J1thKiYd?=
+ =?us-ascii?Q?kxbLNung/tmSBSp1QxXQGRif3SuYrogYDOM2antzHQI50DrkR59kByz1GNg8?=
+ =?us-ascii?Q?sTBrJYCxwKUtIjzcGxOKim0amutdLcMwQMjsPy4u9Ptp1UD85yHPjQ0Z64XG?=
+ =?us-ascii?Q?bbEbmAA8gBPCnxEMfXRRimR/fOuCi0TLDyWHdnFCzPrB/QX2RvqXnXbbQQrS?=
+ =?us-ascii?Q?Mv4qR9n6qxQFUlAifBFp5NGxN0kcLO3oYjtqzLeCiZeM/vd/rE+FwskmHweZ?=
+ =?us-ascii?Q?No6xnEWnmlsae5G9k4ito4basdjleAD67OrKDb+I/Oon3vepcZzfgwAlZ6eJ?=
+ =?us-ascii?Q?r4ZRQAGGXxTmiC66JkI098quHM/iPtQXsYv8G4n3GIJCAoGS2SUbYik1m2TQ?=
+ =?us-ascii?Q?jcb4HY9kmPhHVkgVDF/rRUag3QHuhEscYJq+pxvroP3/xH4ji7q0CX9WOspA?=
+ =?us-ascii?Q?wuNCbXxYIebOkzC+Z+FEq0+bo+bJrxMG+LhU43J6v/1B6uq76FdP+e1qbdfr?=
+ =?us-ascii?Q?QcPYZOzlLcIYoDoP3gZmBo3BvyhOgcILu2gQyYoPUNydzXO33dx0v2rWhR5y?=
+ =?us-ascii?Q?TR58GPOeazydAc4hO//EktVua4JY6F9wcPyvXvr2AOG1LbuGrGICtDPOJXpq?=
+ =?us-ascii?Q?OwxC9CYt+05ZwLRKAEF2teIgSWBCN9ScC9auNM0Xy5B+u6E4spqd6IP8R2AY?=
+ =?us-ascii?Q?v5tIzfK8XDhZbG9Pom67dK9JeX7la+BlhYl5xhAbQcSazlD2DKCz38vM5fg0?=
+ =?us-ascii?Q?MFmFCNQSST9WS1PSrItkh3i2Zrz/nxmwfQNbQlhI60Emf9+0AIlM2PJSIZW+?=
+ =?us-ascii?Q?UkyjAidw5TqtNnVTLq/L6VjWc+t+w0MAkGSH5IfxQ21kndtRhEq59l6ap/4N?=
+ =?us-ascii?Q?8OIyPSek/f7b8jP52WTA25GxhF+Lsff54SBc8huTBq8FPJ3AD6/CwXIul/rx?=
+ =?us-ascii?Q?8AusfouxIk+CroM05Mt+0jrnjTy5j2OCzmYEa+fhRYAPmj25aoXwAFPX/5Rl?=
+ =?us-ascii?Q?1pZZWRRblFL8uBsXpre71TSkttFo05ubIcTk4tlFtsz1wbwJaf9ZBLPVXuV+?=
+ =?us-ascii?Q?ncP7DcMTH/b8s3wiX+nR0jPLBnddju7dG7Mp1CUkj1ia2DIY0TNy4lmMvOGp?=
+ =?us-ascii?Q?Ab4U8VIm581bFb/AeO0PxKjhHcEGsfYSxJhTEeJx?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fcee6d30-ab09-4919-fc0d-08db3befdcf3
+X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Apr 2023 07:22:39.2678
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: nP0u3BAILgO0AVeM4nHcFMaPlzm98dlZQrXmeDCjk/9QTnixf6ierbjvwTDU0SFSfMkt13NMwQ/jhFYzu4DF417aV10t1Xb2eaVjqQHKPrQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY3PR01MB11483
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git epoll-min_ts.2
-head:   b9cf9474f08ccfc0d8b4afad26ba2ca82e64a67b
-commit: 343353f60bfa9ffcf17dee8189972f43575bbe5e [9/10] eventpoll: add epoll_pwait3()
-config: x86_64-randconfig-m001 (https://download.01.org/0day-ci/archive/20230413/202304131131.jk3EMTyS-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+Hi Dan Carpenter,
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202304131131.jk3EMTyS-lkp@intel.com/
+Thanks for the feedback.
 
-smatch warnings:
-fs/eventpoll.c:2484 __do_sys_epoll_pwait3() error: uninitialized symbol 'sigmask_sz'.
-fs/eventpoll.c:2484 __do_sys_epoll_pwait3() error: uninitialized symbol 'sigmask_sz'.
+> -----Original Message-----
+> From: Dan Carpenter <error27@gmail.com>
+> Sent: Thursday, April 13, 2023 5:49 AM
+> To: Biju Das <biju.das.jz@bp.renesas.com>
+> Cc: oe-kbuild@lists.linux.dev; Michael Turquette <mturquette@baylibre.com=
+>;
+> Stephen Boyd <sboyd@kernel.org>; lkp@intel.com; oe-kbuild-
+> all@lists.linux.dev; linux-clk@vger.kernel.org; Geert Uytterhoeven
+> <geert+renesas@glider.be>; Prabhakar Mahadev Lad <prabhakar.mahadev-
+> lad.rj@bp.renesas.com>; linux-renesas-soc@vger.kernel.org
+> Subject: Re: [PATCH v4 2/3] drivers: clk: Add support for versa3 clock
+> driver
+>=20
+> The divide makes sense in context then...  Thanks for the explanation.
+>=20
+> This check seemed like a useful thing and found a couple bugs but it turn=
+s
+> out that condition divides can be the most readable thing in context.  So=
+ it
+> maybe has a too high false positive rate.
 
-vim +/sigmask_sz +2484 fs/eventpoll.c
+From the execution point of view the code suggested by you is faster.
+So I would like to use that.
 
-343353f60bfa9f Jens Axboe       2023-04-12  2455  SYSCALL_DEFINE5(epoll_pwait3, int, epfd, struct epoll_event __user *, events,
-343353f60bfa9f Jens Axboe       2023-04-12  2456  		int, maxevents, int, flags,
-343353f60bfa9f Jens Axboe       2023-04-12  2457  		struct epoll_pwait_data __user *, data)
-343353f60bfa9f Jens Axboe       2023-04-12  2458  {
-343353f60bfa9f Jens Axboe       2023-04-12  2459  	struct timespec64 ts, *to = NULL;
-343353f60bfa9f Jens Axboe       2023-04-12  2460  	const sigset_t __user *sigmask = NULL;
-343353f60bfa9f Jens Axboe       2023-04-12  2461  	unsigned int min_wait_ts = 0;
-343353f60bfa9f Jens Axboe       2023-04-12  2462  	size_t sigmask_sz;
-343353f60bfa9f Jens Axboe       2023-04-12  2463  
-343353f60bfa9f Jens Axboe       2023-04-12  2464  	if (flags & ~EPOLL_PWAIT_FLAGS)
-343353f60bfa9f Jens Axboe       2023-04-12  2465  		return -EINVAL;
-343353f60bfa9f Jens Axboe       2023-04-12  2466  
-343353f60bfa9f Jens Axboe       2023-04-12  2467  	if (flags & EPOLL_PWAIT_TIMEOUT) {
-343353f60bfa9f Jens Axboe       2023-04-12  2468  		if (get_timespec64(&ts, &data->timeout))
-343353f60bfa9f Jens Axboe       2023-04-12  2469  			return -EFAULT;
-343353f60bfa9f Jens Axboe       2023-04-12  2470  		to = &ts;
-343353f60bfa9f Jens Axboe       2023-04-12  2471  		if (poll_select_set_timeout(to, ts.tv_sec, ts.tv_nsec))
-343353f60bfa9f Jens Axboe       2023-04-12  2472  			return -EINVAL;
-343353f60bfa9f Jens Axboe       2023-04-12  2473  	}
-343353f60bfa9f Jens Axboe       2023-04-12  2474  	if (flags & EPOLL_PWAIT_SIGMASK) {
-343353f60bfa9f Jens Axboe       2023-04-12  2475  		sigmask = &data->sigmask;
-343353f60bfa9f Jens Axboe       2023-04-12  2476  		if (get_user(sigmask_sz, &data->sigmask_sz))
-343353f60bfa9f Jens Axboe       2023-04-12  2477  			return -EFAULT;
+For readability point. I will put a comment like below in next version.
 
-sigmask_sz not initialized on else path.
+/* The below check is equivalent to req->best_parent_rate / req->rate */
+if (req->best_parent_rate >=3D req->rate)
 
-343353f60bfa9f Jens Axboe       2023-04-12  2478  	}
-343353f60bfa9f Jens Axboe       2023-04-12  2479  	if (flags & EPOLL_PWAIT_MINWAIT) {
-343353f60bfa9f Jens Axboe       2023-04-12  2480  		if (get_user(min_wait_ts, &data->min_wait_ts))
-343353f60bfa9f Jens Axboe       2023-04-12  2481  			return -EFAULT;
-343353f60bfa9f Jens Axboe       2023-04-12  2482  	}
-343353f60bfa9f Jens Axboe       2023-04-12  2483  
-343353f60bfa9f Jens Axboe       2023-04-12 @2484  	return do_epoll_pwait(epfd, events, maxevents, to, sigmask, sigmask_sz,
-343353f60bfa9f Jens Axboe       2023-04-12  2485  				min_wait_ts);
+Apart from this I need to send some change in next version based on [1],
+as some of mux missing determine_rate.
 
-This is obviously uninitialized when we pass it, but it's almost certain
-that the uninitialized isn't used.  We've had this debate in other
-threads, becuase strictly speaking passing uninitialized data is
-undefined behavior, but also we don't care too much about the C
-standard.  I think the result of the debate is that if the function is
-inlined then it's not a bug but if it isn't inlined then it is a bug.
+[1] https://lore.kernel.org/linux-renesas-soc/20221018-clk-range-checks-fix=
+es-v3-0-9a1358472d52@cerno.tech/T/#t
 
-343353f60bfa9f Jens Axboe       2023-04-12  2486  }
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
-
+Cheers,
+Biju
