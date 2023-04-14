@@ -1,268 +1,261 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C52727C
-	for <oe-kbuild@lists.linux.dev>; Fri, 14 Apr 2023 05:16:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B07697C
+	for <oe-kbuild@lists.linux.dev>; Fri, 14 Apr 2023 05:37:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681449378; x=1712985378;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=RPM1cEdDbwmi28zVwdFnzyBMARkFOzPCeorSdwxfEcA=;
-  b=W3pi0eQy2JgO+OsEERm7aGZeQYdBPqp0gQ0s4H+PgBhixhan7D+sdgwD
-   E0KGnvEVvxiG7EoclDpTJp01xHuD8lp2xl9LtKXUTPJq5b+ypoDW+OH8Y
-   MJF/x2Bz3/bq3KIleCg3M5+dspGtKfIwESwywIoVt41X4mYqqN+6qtHMx
-   Kmp4XfbVvjNVa5U8SsTaGJi9ajRwj4nhVjSI36nm9GJEmdjXWhmsjj4Jd
-   t0ppTi91hKE/zRNAjz+XEKDtCc3HQbrXra5DoI1NdyouBMvMDCyVAouzn
-   12zk6kC+E/IWISUmnb7Iyk5N9QZwiE8Qu9F+G7a9xR47i8JObrK680vUM
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10679"; a="407256205"
+  t=1681450640; x=1712986640;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=GTKVMI22No76ddlVqFrBDYAmVFJSi9gXxQ2WU4badxI=;
+  b=KVI5cO3X+m4/gIQlZca/WVc+lazNH5YboMjIEiV6HDE3U0rwGVzpD2oN
+   VsPI5ORwI5LCvUhEAjK38Wa03pmPFj01eNAaE8N8+9sPnizfe3i7Nav8F
+   Cj3gK5S8szw3dfGIPRAVGo9dGciDBGDIh8L/0FwsMkvGt0gXbwer9Gza7
+   D5V061yvTK17Pm0ZVO1NVWumrkpwmfvigmVBxXsmhK9wX04xRR2yx4MAG
+   2MY50UKOVa5mhWIQ4rwLAZURVr2Q9RhrHPJ3AvkvhqkkKnsZsnb3Ue0c6
+   iuyRWMuVFtgIjT6dHmbm5luNnctZAOirGir2yh2x66XZ+mKNxLvUSFtMf
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10679"; a="324014800"
 X-IronPort-AV: E=Sophos;i="5.99,195,1677571200"; 
-   d="scan'208";a="407256205"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2023 22:16:18 -0700
+   d="scan'208";a="324014800"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2023 22:37:19 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10679"; a="801048186"
+X-IronPort-AV: E=McAfee;i="6600,9927,10679"; a="864074458"
 X-IronPort-AV: E=Sophos;i="5.99,195,1677571200"; 
-   d="scan'208";a="801048186"
+   d="scan'208";a="864074458"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 13 Apr 2023 22:16:16 -0700
+  by orsmga005.jf.intel.com with ESMTP; 13 Apr 2023 22:37:17 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pnBnD-000ZGB-2R;
-	Fri, 14 Apr 2023 05:16:15 +0000
-Date: Fri, 14 Apr 2023 13:16:00 +0800
+	id 1pnC7Y-000ZH1-1E;
+	Fri, 14 Apr 2023 05:37:16 +0000
+Date: Fri, 14 Apr 2023 13:36:59 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH RFC net-next v2 3/4] vsock: Add lockless sendmsg() support
-Message-ID: <202304141302.mVWCQivU-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [ceph-client:testing 14/77] fs/ceph/mds_client.c:218
+ parse_reply_info_in() warn: missing unwind goto?
+Message-ID: <202304141339.hI61myEG-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-
-:::::: 
-:::::: Manual check reason: "low confidence static check warning: net/vmw_vsock/vmci_transport.c:1326:17: sparse: sparse: typename in expression"
-:::::: 
+Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20230413-b4-vsock-dgram-v2-3-079cc7cee62e@bytedance.com>
-References: <20230413-b4-vsock-dgram-v2-3-079cc7cee62e@bytedance.com>
-TO: Bobby Eshleman <bobby.eshleman@bytedance.com>
+CC: ceph-devel@vger.kernel.org
+TO: Jeff Layton <jlayton@kernel.org>
+CC: Xiubo Li <xiubli@redhat.com>
+CC: "Luís Henriques" <lhenriques@suse.de>
 
-Hi Bobby,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on ed72bd5a6790a0c3747cb32b0427f921bd03bb71]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Bobby-Eshleman/virtio-vsock-support-dgram/20230414-082831
-base:   ed72bd5a6790a0c3747cb32b0427f921bd03bb71
-patch link:    https://lore.kernel.org/r/20230413-b4-vsock-dgram-v2-3-079cc7cee62e%40bytedance.com
-patch subject: [PATCH RFC net-next v2 3/4] vsock: Add lockless sendmsg() support
-:::::: branch date: 5 hours ago
-:::::: commit date: 5 hours ago
-config: i386-randconfig-s002 (https://download.01.org/0day-ci/archive/20230414/202304141302.mVWCQivU-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-reproduce:
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://github.com/intel-lab-lkp/linux/commit/de4d5e13dd5c747996abbc4e9ce38eeb3093ea01
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Bobby-Eshleman/virtio-vsock-support-dgram/20230414-082831
-        git checkout de4d5e13dd5c747996abbc4e9ce38eeb3093ea01
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 olddefconfig
-        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 SHELL=/bin/bash net/vmw_vsock/
+tree:   https://github.com/ceph/ceph-client.git testing
+head:   1e100514184d3b952bb0ed339bde4035c3ca946e
+commit: 2267f6a66c3507bb3ffd8f73c1545091b7219a58 [14/77] ceph: fscrypt_auth handling for ceph
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: csky-randconfig-m041-20230409 (https://download.01.org/0day-ci/archive/20230414/202304141339.hI61myEG-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/r/202304141302.mVWCQivU-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Link: https://lore.kernel.org/r/202304141339.hI61myEG-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> net/vmw_vsock/vmci_transport.c:1326:17: sparse: sparse: typename in expression
-   net/vmw_vsock/vmci_transport.c:1326:24: sparse: sparse: Expected ; at end of statement
-   net/vmw_vsock/vmci_transport.c:1326:24: sparse: sparse: got sockaddr_vm_rcu
-   net/vmw_vsock/vmci_transport.c:1326:17: sparse: sparse: undefined identifier 'struct'
-   net/vmw_vsock/vmci_transport.c:1329:17: sparse: sparse: undefined identifier 'remote_addr'
->> net/vmw_vsock/vmci_transport.c:1329:31: sparse: sparse: incompatible types in comparison expression (different address spaces):
->> net/vmw_vsock/vmci_transport.c:1329:31: sparse:    struct sockaddr_vm_rcu [noderef] __rcu *
->> net/vmw_vsock/vmci_transport.c:1329:31: sparse:    struct sockaddr_vm_rcu *
-   net/vmw_vsock/vmci_transport.c:1330:22: sparse: sparse: undefined identifier 'remote_addr'
-   net/vmw_vsock/vmci_transport.c:1338:47: sparse: sparse: undefined identifier 'remote_addr'
---
->> net/vmw_vsock/af_vsock.c:1026:23: sparse: sparse: incompatible types in comparison expression (different address spaces):
->> net/vmw_vsock/af_vsock.c:1026:23: sparse:    struct sockaddr_vm_rcu [noderef] __rcu *
->> net/vmw_vsock/af_vsock.c:1026:23: sparse:    struct sockaddr_vm_rcu *
->> net/vmw_vsock/af_vsock.c:1026:23: sparse: sparse: incompatible types in comparison expression (different address spaces):
->> net/vmw_vsock/af_vsock.c:1026:23: sparse:    struct sockaddr_vm_rcu [noderef] __rcu *
->> net/vmw_vsock/af_vsock.c:1026:23: sparse:    struct sockaddr_vm_rcu *
-   net/vmw_vsock/af_vsock.c:154:23: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   net/vmw_vsock/af_vsock.c:154:23: sparse:    struct sockaddr_vm_rcu [noderef] __rcu *
-   net/vmw_vsock/af_vsock.c:154:23: sparse:    struct sockaddr_vm_rcu *
-   net/vmw_vsock/af_vsock.c:172:23: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   net/vmw_vsock/af_vsock.c:172:23: sparse:    struct sockaddr_vm_rcu [noderef] __rcu *
-   net/vmw_vsock/af_vsock.c:172:23: sparse:    struct sockaddr_vm_rcu *
-   net/vmw_vsock/af_vsock.c:202:23: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   net/vmw_vsock/af_vsock.c:202:23: sparse:    struct sockaddr_vm_rcu [noderef] __rcu *
-   net/vmw_vsock/af_vsock.c:202:23: sparse:    struct sockaddr_vm_rcu *
-   net/vmw_vsock/af_vsock.c:228:15: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   net/vmw_vsock/af_vsock.c:228:15: sparse:    struct sockaddr_vm_rcu [noderef] __rcu *
-   net/vmw_vsock/af_vsock.c:228:15: sparse:    struct sockaddr_vm_rcu *
-   net/vmw_vsock/af_vsock.c:239:15: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   net/vmw_vsock/af_vsock.c:239:15: sparse:    struct sockaddr_vm_rcu [noderef] __rcu *
-   net/vmw_vsock/af_vsock.c:239:15: sparse:    struct sockaddr_vm_rcu *
-   net/vmw_vsock/af_vsock.c:239:15: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   net/vmw_vsock/af_vsock.c:239:15: sparse:    struct sockaddr_vm_rcu [noderef] __rcu *
-   net/vmw_vsock/af_vsock.c:239:15: sparse:    struct sockaddr_vm_rcu *
-   net/vmw_vsock/af_vsock.c:256:15: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   net/vmw_vsock/af_vsock.c:256:15: sparse:    struct sockaddr_vm_rcu [noderef] __rcu *
-   net/vmw_vsock/af_vsock.c:256:15: sparse:    struct sockaddr_vm_rcu *
-   net/vmw_vsock/af_vsock.c:256:15: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   net/vmw_vsock/af_vsock.c:256:15: sparse:    struct sockaddr_vm_rcu [noderef] __rcu *
-   net/vmw_vsock/af_vsock.c:256:15: sparse:    struct sockaddr_vm_rcu *
-   net/vmw_vsock/af_vsock.c:269:23: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   net/vmw_vsock/af_vsock.c:269:23: sparse:    struct sockaddr_vm_rcu [noderef] __rcu *
-   net/vmw_vsock/af_vsock.c:269:23: sparse:    struct sockaddr_vm_rcu *
-   net/vmw_vsock/af_vsock.c:393:31: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   net/vmw_vsock/af_vsock.c:393:31: sparse:    struct sockaddr_vm_rcu [noderef] __rcu *
-   net/vmw_vsock/af_vsock.c:393:31: sparse:    struct sockaddr_vm_rcu *
-   net/vmw_vsock/af_vsock.c:418:23: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   net/vmw_vsock/af_vsock.c:418:23: sparse:    struct sockaddr_vm_rcu [noderef] __rcu *
-   net/vmw_vsock/af_vsock.c:418:23: sparse:    struct sockaddr_vm_rcu *
-   net/vmw_vsock/af_vsock.c:934:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   net/vmw_vsock/af_vsock.c:934:9: sparse:    struct sockaddr_vm_rcu [noderef] __rcu *
-   net/vmw_vsock/af_vsock.c:934:9: sparse:    struct sockaddr_vm_rcu *
-   net/vmw_vsock/af_vsock.c:1131:27: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   net/vmw_vsock/af_vsock.c:1131:27: sparse:    struct sockaddr_vm_rcu [noderef] __rcu *
-   net/vmw_vsock/af_vsock.c:1131:27: sparse:    struct sockaddr_vm_rcu *
->> net/vmw_vsock/af_vsock.c:239:15: sparse: sparse: dereference of noderef expression
-   net/vmw_vsock/af_vsock.c:219:5: sparse: sparse: context imbalance in 'vsock_remote_addr_update_cid_port' - different lock contexts for basic block
-   net/vmw_vsock/af_vsock.c:256:15: sparse: sparse: dereference of noderef expression
-   net/vmw_vsock/af_vsock.c:1026:23: sparse: sparse: dereference of noderef expression
-   net/vmw_vsock/af_vsock.c:1158:9: sparse: sparse: context imbalance in 'vsock_getname' - different lock contexts for basic block
+smatch warnings:
+fs/ceph/mds_client.c:218 parse_reply_info_in() warn: missing unwind goto?
 
-vim +1326 net/vmw_vsock/vmci_transport.c
+vim +218 fs/ceph/mds_client.c
 
-d021c344051af9 Andy King       2013-02-06  1292  
-d021c344051af9 Andy King       2013-02-06  1293  static int
-d021c344051af9 Andy King       2013-02-06  1294  vmci_transport_recv_connecting_client(struct sock *sk,
-d021c344051af9 Andy King       2013-02-06  1295  				      struct vmci_transport_packet *pkt)
-d021c344051af9 Andy King       2013-02-06  1296  {
-d021c344051af9 Andy King       2013-02-06  1297  	struct vsock_sock *vsk;
-d021c344051af9 Andy King       2013-02-06  1298  	int err;
-d021c344051af9 Andy King       2013-02-06  1299  	int skerr;
-d021c344051af9 Andy King       2013-02-06  1300  
-d021c344051af9 Andy King       2013-02-06  1301  	vsk = vsock_sk(sk);
-d021c344051af9 Andy King       2013-02-06  1302  
-d021c344051af9 Andy King       2013-02-06  1303  	switch (pkt->type) {
-d021c344051af9 Andy King       2013-02-06  1304  	case VMCI_TRANSPORT_PACKET_TYPE_ATTACH:
-d021c344051af9 Andy King       2013-02-06  1305  		if (vmci_handle_is_invalid(pkt->u.handle) ||
-d021c344051af9 Andy King       2013-02-06  1306  		    !vmci_handle_is_equal(pkt->u.handle,
-d021c344051af9 Andy King       2013-02-06  1307  					  vmci_trans(vsk)->qp_handle)) {
-d021c344051af9 Andy King       2013-02-06  1308  			skerr = EPROTO;
-d021c344051af9 Andy King       2013-02-06  1309  			err = -EINVAL;
-d021c344051af9 Andy King       2013-02-06  1310  			goto destroy;
-d021c344051af9 Andy King       2013-02-06  1311  		}
-d021c344051af9 Andy King       2013-02-06  1312  
-d021c344051af9 Andy King       2013-02-06  1313  		/* Signify the socket is connected and wakeup the waiter in
-d021c344051af9 Andy King       2013-02-06  1314  		 * connect(). Also place the socket in the connected table for
-d021c344051af9 Andy King       2013-02-06  1315  		 * accounting (it can already be found since it's in the bound
-d021c344051af9 Andy King       2013-02-06  1316  		 * table).
-d021c344051af9 Andy King       2013-02-06  1317  		 */
-3b4477d2dcf270 Stefan Hajnoczi 2017-10-05  1318  		sk->sk_state = TCP_ESTABLISHED;
-d021c344051af9 Andy King       2013-02-06  1319  		sk->sk_socket->state = SS_CONNECTED;
-d021c344051af9 Andy King       2013-02-06  1320  		vsock_insert_connected(vsk);
-d021c344051af9 Andy King       2013-02-06  1321  		sk->sk_state_change(sk);
-d021c344051af9 Andy King       2013-02-06  1322  
-d021c344051af9 Andy King       2013-02-06  1323  		break;
-d021c344051af9 Andy King       2013-02-06  1324  	case VMCI_TRANSPORT_PACKET_TYPE_NEGOTIATE:
-d021c344051af9 Andy King       2013-02-06  1325  	case VMCI_TRANSPORT_PACKET_TYPE_NEGOTIATE2:
-de4d5e13dd5c74 Bobby Eshleman  2023-04-14 @1326  		struct sockaddr_vm_rcu *remote_addr;
-de4d5e13dd5c74 Bobby Eshleman  2023-04-14  1327  
-de4d5e13dd5c74 Bobby Eshleman  2023-04-14  1328  		rcu_read_lock();
-de4d5e13dd5c74 Bobby Eshleman  2023-04-14 @1329  		remote_addr = rcu_dereference(vsk->remote_addr);
-de4d5e13dd5c74 Bobby Eshleman  2023-04-14  1330  		if (!remote_addr) {
-de4d5e13dd5c74 Bobby Eshleman  2023-04-14  1331  			skerr = EPROTO;
-de4d5e13dd5c74 Bobby Eshleman  2023-04-14  1332  			err = -EINVAL;
-de4d5e13dd5c74 Bobby Eshleman  2023-04-14  1333  			rcu_read_unlock();
-de4d5e13dd5c74 Bobby Eshleman  2023-04-14  1334  			goto destroy;
-de4d5e13dd5c74 Bobby Eshleman  2023-04-14  1335  		}
-de4d5e13dd5c74 Bobby Eshleman  2023-04-14  1336  
-d021c344051af9 Andy King       2013-02-06  1337  		if (pkt->u.size == 0
-de4d5e13dd5c74 Bobby Eshleman  2023-04-14  1338  		    || pkt->dg.src.context != remote_addr->addr.svm_cid
-de4d5e13dd5c74 Bobby Eshleman  2023-04-14  1339  		    || pkt->src_port != remote_addr->addr.svm_port
-d021c344051af9 Andy King       2013-02-06  1340  		    || !vmci_handle_is_invalid(vmci_trans(vsk)->qp_handle)
-d021c344051af9 Andy King       2013-02-06  1341  		    || vmci_trans(vsk)->qpair
-d021c344051af9 Andy King       2013-02-06  1342  		    || vmci_trans(vsk)->produce_size != 0
-d021c344051af9 Andy King       2013-02-06  1343  		    || vmci_trans(vsk)->consume_size != 0
-d021c344051af9 Andy King       2013-02-06  1344  		    || vmci_trans(vsk)->detach_sub_id != VMCI_INVALID_ID) {
-d021c344051af9 Andy King       2013-02-06  1345  			skerr = EPROTO;
-d021c344051af9 Andy King       2013-02-06  1346  			err = -EINVAL;
-de4d5e13dd5c74 Bobby Eshleman  2023-04-14  1347  			rcu_read_unlock();
-d021c344051af9 Andy King       2013-02-06  1348  			goto destroy;
-d021c344051af9 Andy King       2013-02-06  1349  		}
-de4d5e13dd5c74 Bobby Eshleman  2023-04-14  1350  		rcu_read_unlock();
-d021c344051af9 Andy King       2013-02-06  1351  
-d021c344051af9 Andy King       2013-02-06  1352  		err = vmci_transport_recv_connecting_client_negotiate(sk, pkt);
-d021c344051af9 Andy King       2013-02-06  1353  		if (err) {
-d021c344051af9 Andy King       2013-02-06  1354  			skerr = -err;
-d021c344051af9 Andy King       2013-02-06  1355  			goto destroy;
-d021c344051af9 Andy King       2013-02-06  1356  		}
-d021c344051af9 Andy King       2013-02-06  1357  
-d021c344051af9 Andy King       2013-02-06  1358  		break;
-d021c344051af9 Andy King       2013-02-06  1359  	case VMCI_TRANSPORT_PACKET_TYPE_INVALID:
-d021c344051af9 Andy King       2013-02-06  1360  		err = vmci_transport_recv_connecting_client_invalid(sk, pkt);
-d021c344051af9 Andy King       2013-02-06  1361  		if (err) {
-d021c344051af9 Andy King       2013-02-06  1362  			skerr = -err;
-d021c344051af9 Andy King       2013-02-06  1363  			goto destroy;
-d021c344051af9 Andy King       2013-02-06  1364  		}
-d021c344051af9 Andy King       2013-02-06  1365  
-d021c344051af9 Andy King       2013-02-06  1366  		break;
-d021c344051af9 Andy King       2013-02-06  1367  	case VMCI_TRANSPORT_PACKET_TYPE_RST:
-d021c344051af9 Andy King       2013-02-06  1368  		/* Older versions of the linux code (WS 6.5 / ESX 4.0) used to
-d021c344051af9 Andy King       2013-02-06  1369  		 * continue processing here after they sent an INVALID packet.
-d021c344051af9 Andy King       2013-02-06  1370  		 * This meant that we got a RST after the INVALID. We ignore a
-d021c344051af9 Andy King       2013-02-06  1371  		 * RST after an INVALID. The common code doesn't send the RST
-d021c344051af9 Andy King       2013-02-06  1372  		 * ... so we can hang if an old version of the common code
-d021c344051af9 Andy King       2013-02-06  1373  		 * fails between getting a REQUEST and sending an OFFER back.
-d021c344051af9 Andy King       2013-02-06  1374  		 * Not much we can do about it... except hope that it doesn't
-d021c344051af9 Andy King       2013-02-06  1375  		 * happen.
-d021c344051af9 Andy King       2013-02-06  1376  		 */
-d021c344051af9 Andy King       2013-02-06  1377  		if (vsk->ignore_connecting_rst) {
-d021c344051af9 Andy King       2013-02-06  1378  			vsk->ignore_connecting_rst = false;
-d021c344051af9 Andy King       2013-02-06  1379  		} else {
-d021c344051af9 Andy King       2013-02-06  1380  			skerr = ECONNRESET;
-d021c344051af9 Andy King       2013-02-06  1381  			err = 0;
-d021c344051af9 Andy King       2013-02-06  1382  			goto destroy;
-d021c344051af9 Andy King       2013-02-06  1383  		}
-d021c344051af9 Andy King       2013-02-06  1384  
-d021c344051af9 Andy King       2013-02-06  1385  		break;
-d021c344051af9 Andy King       2013-02-06  1386  	default:
-d021c344051af9 Andy King       2013-02-06  1387  		/* Close and cleanup the connection. */
-d021c344051af9 Andy King       2013-02-06  1388  		skerr = EPROTO;
-d021c344051af9 Andy King       2013-02-06  1389  		err = -EINVAL;
-d021c344051af9 Andy King       2013-02-06  1390  		goto destroy;
-d021c344051af9 Andy King       2013-02-06  1391  	}
-d021c344051af9 Andy King       2013-02-06  1392  
-d021c344051af9 Andy King       2013-02-06  1393  	return 0;
-d021c344051af9 Andy King       2013-02-06  1394  
-d021c344051af9 Andy King       2013-02-06  1395  destroy:
-d021c344051af9 Andy King       2013-02-06  1396  	vmci_transport_send_reset(sk, pkt);
-d021c344051af9 Andy King       2013-02-06  1397  
-3b4477d2dcf270 Stefan Hajnoczi 2017-10-05  1398  	sk->sk_state = TCP_CLOSE;
-d021c344051af9 Andy King       2013-02-06  1399  	sk->sk_err = skerr;
-e3ae2365efc142 Alexander Aring 2021-06-27  1400  	sk_error_report(sk);
-d021c344051af9 Andy King       2013-02-06  1401  	return err;
-d021c344051af9 Andy King       2013-02-06  1402  }
-d021c344051af9 Andy King       2013-02-06  1403  
+b37fe1f923fb4b Yan, Zheng       2019-01-09   96  
+2f2dc053404feb Sage Weil        2009-10-06   97  /*
+2f2dc053404feb Sage Weil        2009-10-06   98   * parse individual inode info
+2f2dc053404feb Sage Weil        2009-10-06   99   */
+2f2dc053404feb Sage Weil        2009-10-06  100  static int parse_reply_info_in(void **p, void *end,
+14303d20f3ae3e Sage Weil        2010-12-14  101  			       struct ceph_mds_reply_info_in *info,
+12b4629a9fb80f Ilya Dryomov     2013-12-24  102  			       u64 features)
+2f2dc053404feb Sage Weil        2009-10-06  103  {
+b37fe1f923fb4b Yan, Zheng       2019-01-09  104  	int err = 0;
+b37fe1f923fb4b Yan, Zheng       2019-01-09  105  	u8 struct_v = 0;
+b37fe1f923fb4b Yan, Zheng       2019-01-09  106  
+b37fe1f923fb4b Yan, Zheng       2019-01-09  107  	if (features == (u64)-1) {
+b37fe1f923fb4b Yan, Zheng       2019-01-09  108  		u32 struct_len;
+b37fe1f923fb4b Yan, Zheng       2019-01-09  109  		u8 struct_compat;
+b37fe1f923fb4b Yan, Zheng       2019-01-09  110  		ceph_decode_8_safe(p, end, struct_v, bad);
+b37fe1f923fb4b Yan, Zheng       2019-01-09  111  		ceph_decode_8_safe(p, end, struct_compat, bad);
+b37fe1f923fb4b Yan, Zheng       2019-01-09  112  		/* struct_v is expected to be >= 1. we only understand
+b37fe1f923fb4b Yan, Zheng       2019-01-09  113  		 * encoding with struct_compat == 1. */
+b37fe1f923fb4b Yan, Zheng       2019-01-09  114  		if (!struct_v || struct_compat != 1)
+b37fe1f923fb4b Yan, Zheng       2019-01-09  115  			goto bad;
+b37fe1f923fb4b Yan, Zheng       2019-01-09  116  		ceph_decode_32_safe(p, end, struct_len, bad);
+b37fe1f923fb4b Yan, Zheng       2019-01-09  117  		ceph_decode_need(p, end, struct_len, bad);
+b37fe1f923fb4b Yan, Zheng       2019-01-09  118  		end = *p + struct_len;
+b37fe1f923fb4b Yan, Zheng       2019-01-09  119  	}
+2f2dc053404feb Sage Weil        2009-10-06  120  
+b37fe1f923fb4b Yan, Zheng       2019-01-09  121  	ceph_decode_need(p, end, sizeof(struct ceph_mds_reply_inode), bad);
+2f2dc053404feb Sage Weil        2009-10-06  122  	info->in = *p;
+2f2dc053404feb Sage Weil        2009-10-06  123  	*p += sizeof(struct ceph_mds_reply_inode) +
+2f2dc053404feb Sage Weil        2009-10-06  124  		sizeof(*info->in->fragtree.splits) *
+2f2dc053404feb Sage Weil        2009-10-06  125  		le32_to_cpu(info->in->fragtree.nsplits);
+2f2dc053404feb Sage Weil        2009-10-06  126  
+2f2dc053404feb Sage Weil        2009-10-06  127  	ceph_decode_32_safe(p, end, info->symlink_len, bad);
+2f2dc053404feb Sage Weil        2009-10-06  128  	ceph_decode_need(p, end, info->symlink_len, bad);
+2f2dc053404feb Sage Weil        2009-10-06  129  	info->symlink = *p;
+2f2dc053404feb Sage Weil        2009-10-06  130  	*p += info->symlink_len;
+2f2dc053404feb Sage Weil        2009-10-06  131  
+14303d20f3ae3e Sage Weil        2010-12-14  132  	ceph_decode_copy_safe(p, end, &info->dir_layout,
+14303d20f3ae3e Sage Weil        2010-12-14  133  			      sizeof(info->dir_layout), bad);
+2f2dc053404feb Sage Weil        2009-10-06  134  	ceph_decode_32_safe(p, end, info->xattr_len, bad);
+2f2dc053404feb Sage Weil        2009-10-06  135  	ceph_decode_need(p, end, info->xattr_len, bad);
+2f2dc053404feb Sage Weil        2009-10-06  136  	info->xattr_data = *p;
+2f2dc053404feb Sage Weil        2009-10-06  137  	*p += info->xattr_len;
+fb01d1f8b0343f Yan, Zheng       2014-11-14  138  
+b37fe1f923fb4b Yan, Zheng       2019-01-09  139  	if (features == (u64)-1) {
+b37fe1f923fb4b Yan, Zheng       2019-01-09  140  		/* inline data */
+b37fe1f923fb4b Yan, Zheng       2019-01-09  141  		ceph_decode_64_safe(p, end, info->inline_version, bad);
+b37fe1f923fb4b Yan, Zheng       2019-01-09  142  		ceph_decode_32_safe(p, end, info->inline_len, bad);
+b37fe1f923fb4b Yan, Zheng       2019-01-09  143  		ceph_decode_need(p, end, info->inline_len, bad);
+b37fe1f923fb4b Yan, Zheng       2019-01-09  144  		info->inline_data = *p;
+b37fe1f923fb4b Yan, Zheng       2019-01-09  145  		*p += info->inline_len;
+b37fe1f923fb4b Yan, Zheng       2019-01-09  146  		/* quota */
+b37fe1f923fb4b Yan, Zheng       2019-01-09  147  		err = parse_reply_info_quota(p, end, info);
+b37fe1f923fb4b Yan, Zheng       2019-01-09  148  		if (err < 0)
+b37fe1f923fb4b Yan, Zheng       2019-01-09  149  			goto out_bad;
+b37fe1f923fb4b Yan, Zheng       2019-01-09  150  		/* pool namespace */
+b37fe1f923fb4b Yan, Zheng       2019-01-09  151  		ceph_decode_32_safe(p, end, info->pool_ns_len, bad);
+b37fe1f923fb4b Yan, Zheng       2019-01-09  152  		if (info->pool_ns_len > 0) {
+b37fe1f923fb4b Yan, Zheng       2019-01-09  153  			ceph_decode_need(p, end, info->pool_ns_len, bad);
+b37fe1f923fb4b Yan, Zheng       2019-01-09  154  			info->pool_ns_data = *p;
+b37fe1f923fb4b Yan, Zheng       2019-01-09  155  			*p += info->pool_ns_len;
+b37fe1f923fb4b Yan, Zheng       2019-01-09  156  		}
+245ce991cca55e Jeff Layton      2019-05-29  157  
+245ce991cca55e Jeff Layton      2019-05-29  158  		/* btime */
+245ce991cca55e Jeff Layton      2019-05-29  159  		ceph_decode_need(p, end, sizeof(info->btime), bad);
+245ce991cca55e Jeff Layton      2019-05-29  160  		ceph_decode_copy(p, &info->btime, sizeof(info->btime));
+245ce991cca55e Jeff Layton      2019-05-29  161  
+245ce991cca55e Jeff Layton      2019-05-29  162  		/* change attribute */
+a35ead314e0b92 Jeff Layton      2019-06-06  163  		ceph_decode_64_safe(p, end, info->change_attr, bad);
+b37fe1f923fb4b Yan, Zheng       2019-01-09  164  
+08796873a5183b Yan, Zheng       2019-01-09  165  		/* dir pin */
+08796873a5183b Yan, Zheng       2019-01-09  166  		if (struct_v >= 2) {
+08796873a5183b Yan, Zheng       2019-01-09  167  			ceph_decode_32_safe(p, end, info->dir_pin, bad);
+08796873a5183b Yan, Zheng       2019-01-09  168  		} else {
+08796873a5183b Yan, Zheng       2019-01-09  169  			info->dir_pin = -ENODATA;
+08796873a5183b Yan, Zheng       2019-01-09  170  		}
+08796873a5183b Yan, Zheng       2019-01-09  171  
+193e7b37628e97 David Disseldorp 2019-04-18  172  		/* snapshot birth time, remains zero for v<=2 */
+193e7b37628e97 David Disseldorp 2019-04-18  173  		if (struct_v >= 3) {
+193e7b37628e97 David Disseldorp 2019-04-18  174  			ceph_decode_need(p, end, sizeof(info->snap_btime), bad);
+193e7b37628e97 David Disseldorp 2019-04-18  175  			ceph_decode_copy(p, &info->snap_btime,
+193e7b37628e97 David Disseldorp 2019-04-18  176  					 sizeof(info->snap_btime));
+193e7b37628e97 David Disseldorp 2019-04-18  177  		} else {
+193e7b37628e97 David Disseldorp 2019-04-18  178  			memset(&info->snap_btime, 0, sizeof(info->snap_btime));
+193e7b37628e97 David Disseldorp 2019-04-18  179  		}
+193e7b37628e97 David Disseldorp 2019-04-18  180  
+e7f72952508ac4 Yanhu Cao        2020-08-28  181  		/* snapshot count, remains zero for v<=3 */
+e7f72952508ac4 Yanhu Cao        2020-08-28  182  		if (struct_v >= 4) {
+e7f72952508ac4 Yanhu Cao        2020-08-28  183  			ceph_decode_64_safe(p, end, info->rsnaps, bad);
+e7f72952508ac4 Yanhu Cao        2020-08-28  184  		} else {
+e7f72952508ac4 Yanhu Cao        2020-08-28  185  			info->rsnaps = 0;
+e7f72952508ac4 Yanhu Cao        2020-08-28  186  		}
+e7f72952508ac4 Yanhu Cao        2020-08-28  187  
+2267f6a66c3507 Jeff Layton      2020-07-27  188  		if (struct_v >= 5) {
+2267f6a66c3507 Jeff Layton      2020-07-27  189  			u32 alen;
+2267f6a66c3507 Jeff Layton      2020-07-27  190  
+2267f6a66c3507 Jeff Layton      2020-07-27  191  			ceph_decode_32_safe(p, end, alen, bad);
+2267f6a66c3507 Jeff Layton      2020-07-27  192  
+2267f6a66c3507 Jeff Layton      2020-07-27  193  			while (alen--) {
+2267f6a66c3507 Jeff Layton      2020-07-27  194  				u32 len;
+2267f6a66c3507 Jeff Layton      2020-07-27  195  
+2267f6a66c3507 Jeff Layton      2020-07-27  196  				/* key */
+2267f6a66c3507 Jeff Layton      2020-07-27  197  				ceph_decode_32_safe(p, end, len, bad);
+2267f6a66c3507 Jeff Layton      2020-07-27  198  				ceph_decode_skip_n(p, end, len, bad);
+2267f6a66c3507 Jeff Layton      2020-07-27  199  				/* value */
+2267f6a66c3507 Jeff Layton      2020-07-27  200  				ceph_decode_32_safe(p, end, len, bad);
+2267f6a66c3507 Jeff Layton      2020-07-27  201  				ceph_decode_skip_n(p, end, len, bad);
+2267f6a66c3507 Jeff Layton      2020-07-27  202  			}
+2267f6a66c3507 Jeff Layton      2020-07-27  203  		}
+2267f6a66c3507 Jeff Layton      2020-07-27  204  
+2267f6a66c3507 Jeff Layton      2020-07-27  205  		/* fscrypt flag -- ignore */
+2267f6a66c3507 Jeff Layton      2020-07-27  206  		if (struct_v >= 6)
+2267f6a66c3507 Jeff Layton      2020-07-27  207  			ceph_decode_skip_8(p, end, bad);
+2267f6a66c3507 Jeff Layton      2020-07-27  208  
+2267f6a66c3507 Jeff Layton      2020-07-27  209  		info->fscrypt_auth = NULL;
+2267f6a66c3507 Jeff Layton      2020-07-27  210  		info->fscrypt_auth_len = 0;
+2267f6a66c3507 Jeff Layton      2020-07-27  211  		info->fscrypt_file = NULL;
+2267f6a66c3507 Jeff Layton      2020-07-27  212  		info->fscrypt_file_len = 0;
+2267f6a66c3507 Jeff Layton      2020-07-27  213  		if (struct_v >= 7) {
+2267f6a66c3507 Jeff Layton      2020-07-27  214  			ceph_decode_32_safe(p, end, info->fscrypt_auth_len, bad);
+2267f6a66c3507 Jeff Layton      2020-07-27  215  			if (info->fscrypt_auth_len) {
+2267f6a66c3507 Jeff Layton      2020-07-27  216  				info->fscrypt_auth = kmalloc(info->fscrypt_auth_len, GFP_KERNEL);
+2267f6a66c3507 Jeff Layton      2020-07-27  217  				if (!info->fscrypt_auth)
+2267f6a66c3507 Jeff Layton      2020-07-27 @218  					return -ENOMEM;
+2267f6a66c3507 Jeff Layton      2020-07-27  219  				ceph_decode_copy_safe(p, end, info->fscrypt_auth,
+2267f6a66c3507 Jeff Layton      2020-07-27  220  						      info->fscrypt_auth_len, bad);
+2267f6a66c3507 Jeff Layton      2020-07-27  221  			}
+2267f6a66c3507 Jeff Layton      2020-07-27  222  			ceph_decode_32_safe(p, end, info->fscrypt_file_len, bad);
+2267f6a66c3507 Jeff Layton      2020-07-27  223  			if (info->fscrypt_file_len) {
+2267f6a66c3507 Jeff Layton      2020-07-27  224  				info->fscrypt_file = kmalloc(info->fscrypt_file_len, GFP_KERNEL);
+2267f6a66c3507 Jeff Layton      2020-07-27  225  				if (!info->fscrypt_file)
+2267f6a66c3507 Jeff Layton      2020-07-27  226  					return -ENOMEM;
+2267f6a66c3507 Jeff Layton      2020-07-27  227  				ceph_decode_copy_safe(p, end, info->fscrypt_file,
+2267f6a66c3507 Jeff Layton      2020-07-27  228  						      info->fscrypt_file_len, bad);
+2267f6a66c3507 Jeff Layton      2020-07-27  229  			}
+2267f6a66c3507 Jeff Layton      2020-07-27  230  		}
+b37fe1f923fb4b Yan, Zheng       2019-01-09  231  		*p = end;
+b37fe1f923fb4b Yan, Zheng       2019-01-09  232  	} else {
+2267f6a66c3507 Jeff Layton      2020-07-27  233  		/* legacy (unversioned) struct */
+fb01d1f8b0343f Yan, Zheng       2014-11-14  234  		if (features & CEPH_FEATURE_MDS_INLINE_DATA) {
+fb01d1f8b0343f Yan, Zheng       2014-11-14  235  			ceph_decode_64_safe(p, end, info->inline_version, bad);
+fb01d1f8b0343f Yan, Zheng       2014-11-14  236  			ceph_decode_32_safe(p, end, info->inline_len, bad);
+fb01d1f8b0343f Yan, Zheng       2014-11-14  237  			ceph_decode_need(p, end, info->inline_len, bad);
+fb01d1f8b0343f Yan, Zheng       2014-11-14  238  			info->inline_data = *p;
+fb01d1f8b0343f Yan, Zheng       2014-11-14  239  			*p += info->inline_len;
+fb01d1f8b0343f Yan, Zheng       2014-11-14  240  		} else
+fb01d1f8b0343f Yan, Zheng       2014-11-14  241  			info->inline_version = CEPH_INLINE_NONE;
+fb01d1f8b0343f Yan, Zheng       2014-11-14  242  
+fb18a57568c2b8 Luis Henriques   2018-01-05  243  		if (features & CEPH_FEATURE_MDS_QUOTA) {
+b37fe1f923fb4b Yan, Zheng       2019-01-09  244  			err = parse_reply_info_quota(p, end, info);
+b37fe1f923fb4b Yan, Zheng       2019-01-09  245  			if (err < 0)
+b37fe1f923fb4b Yan, Zheng       2019-01-09  246  				goto out_bad;
+fb18a57568c2b8 Luis Henriques   2018-01-05  247  		} else {
+fb18a57568c2b8 Luis Henriques   2018-01-05  248  			info->max_bytes = 0;
+fb18a57568c2b8 Luis Henriques   2018-01-05  249  			info->max_files = 0;
+fb18a57568c2b8 Luis Henriques   2018-01-05  250  		}
+fb18a57568c2b8 Luis Henriques   2018-01-05  251  
+779fe0fb8e1883 Yan, Zheng       2016-03-07  252  		info->pool_ns_len = 0;
+779fe0fb8e1883 Yan, Zheng       2016-03-07  253  		info->pool_ns_data = NULL;
+5ea5c5e0a7f70b Yan, Zheng       2016-02-14  254  		if (features & CEPH_FEATURE_FS_FILE_LAYOUT_V2) {
+5ea5c5e0a7f70b Yan, Zheng       2016-02-14  255  			ceph_decode_32_safe(p, end, info->pool_ns_len, bad);
+779fe0fb8e1883 Yan, Zheng       2016-03-07  256  			if (info->pool_ns_len > 0) {
+5ea5c5e0a7f70b Yan, Zheng       2016-02-14  257  				ceph_decode_need(p, end, info->pool_ns_len, bad);
+779fe0fb8e1883 Yan, Zheng       2016-03-07  258  				info->pool_ns_data = *p;
+5ea5c5e0a7f70b Yan, Zheng       2016-02-14  259  				*p += info->pool_ns_len;
+779fe0fb8e1883 Yan, Zheng       2016-03-07  260  			}
+5ea5c5e0a7f70b Yan, Zheng       2016-02-14  261  		}
+08796873a5183b Yan, Zheng       2019-01-09  262  
+245ce991cca55e Jeff Layton      2019-05-29  263  		if (features & CEPH_FEATURE_FS_BTIME) {
+245ce991cca55e Jeff Layton      2019-05-29  264  			ceph_decode_need(p, end, sizeof(info->btime), bad);
+245ce991cca55e Jeff Layton      2019-05-29  265  			ceph_decode_copy(p, &info->btime, sizeof(info->btime));
+a35ead314e0b92 Jeff Layton      2019-06-06  266  			ceph_decode_64_safe(p, end, info->change_attr, bad);
+245ce991cca55e Jeff Layton      2019-05-29  267  		}
+245ce991cca55e Jeff Layton      2019-05-29  268  
+08796873a5183b Yan, Zheng       2019-01-09  269  		info->dir_pin = -ENODATA;
+e7f72952508ac4 Yanhu Cao        2020-08-28  270  		/* info->snap_btime and info->rsnaps remain zero */
+b37fe1f923fb4b Yan, Zheng       2019-01-09  271  	}
+2f2dc053404feb Sage Weil        2009-10-06  272  	return 0;
+2f2dc053404feb Sage Weil        2009-10-06  273  bad:
+b37fe1f923fb4b Yan, Zheng       2019-01-09  274  	err = -EIO;
+b37fe1f923fb4b Yan, Zheng       2019-01-09  275  out_bad:
+2f2dc053404feb Sage Weil        2009-10-06  276  	return err;
+2f2dc053404feb Sage Weil        2009-10-06  277  }
+2f2dc053404feb Sage Weil        2009-10-06  278  
 
 -- 
 0-DAY CI Kernel Test Service
