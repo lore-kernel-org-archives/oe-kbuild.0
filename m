@@ -1,42 +1,52 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C9922115
-	for <oe-kbuild@lists.linux.dev>; Fri, 14 Apr 2023 14:36:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681482997; x=1713018997;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=cxKu4wJwM6M7/R1TS+fH1P4hvB7X13BroOm85KrtH0I=;
-  b=EhSHN/6dQX6JgYbfsNcUglE9H/sm6SvPh9HwXqC+sj9w0dVI4pYy+GsZ
-   5s85llXhO4waFJHH0eD1VE2QfPpYbSUJvf/iiRLHFKXBbjrdVa6uGaXqP
-   bDUtB1p5P0LhLSL2edoGTysl5gHHOXQL59OxyIORm/SkfH8q3EpZb+A3B
-   Rw56nB4HsEbpk2pFzDYpQDaLrxLnLYDyIHBopG2xfeA/whRw/jQUYAYUA
-   zvWkQC8DrA/YyLSyvo2UZv/j6y9TnPcwdDkec9+P+z1WkGmd1oIFjEzjd
-   7TeSHjLSL33nA9A3BIO52QLXXWaDct+e29ZClIEr8SXT6k0uzLHzpaznf
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10680"; a="324104989"
-X-IronPort-AV: E=Sophos;i="5.99,197,1677571200"; 
-   d="scan'208";a="324104989"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2023 07:35:40 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10680"; a="936032169"
-X-IronPort-AV: E=Sophos;i="5.99,197,1677571200"; 
-   d="scan'208";a="936032169"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 14 Apr 2023 07:35:39 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pnKWT-000Zcn-38;
-	Fri, 14 Apr 2023 14:35:33 +0000
-Date: Fri, 14 Apr 2023 22:35:21 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/gpio/gpio-exar.c:52 exar_offset_to_sel_addr() warn: replace
- divide condition 'pin / 8' with 'pin >= 8'
-Message-ID: <202304142200.J0o1tpYn-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64AD17C;
+	Fri, 14 Apr 2023 16:33:34 +0000 (UTC)
+Received: by mail-ej1-f48.google.com with SMTP id q23so37541327ejz.3;
+        Fri, 14 Apr 2023 09:33:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1681490012; x=1684082012;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=x9UGFfR9XzGT0N9Pt0NWw2qMZUnEalV9PygfxkGsIJs=;
+        b=hqfY++6C67ZwEJIb12vT5qmncCG0l+mWpeVA4Vy+BqvQ+NnLy8/IecyYTrUYfw0po2
+         Ih0Uv6DC0iZQfy3mY2dM7sFGWLHMt5iVsrAyRGsRjTQplTruY2l6goiIcofgINtQq4tn
+         YtTLJLUHeNSemgWKsdkBRxFpNJ7VDVOghnbLowQuHUiuKWzsv2yeAb4VZjdrLqt8nB0X
+         bwxsE3GceHx+DJePwbYEifoqKySAKmrCSUSDDsqAqmAKxsK4jgK2vLmKJGyN0a8I6/Pq
+         wxqTcbCa6bJO1Nf53iZ6Ekp4RWG9+GAYdzVyFWVA3XgdjfTG3HepHdjMOkwgzMJ6Bmj8
+         d5jQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1681490012; x=1684082012;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=x9UGFfR9XzGT0N9Pt0NWw2qMZUnEalV9PygfxkGsIJs=;
+        b=TYUGvsqdhKPXNswvnsLGMKYjHGWa0X60k/JavsNcrlX13MgulgA4oypYImMSCZpGje
+         /ORItDQd0nj1UDVJm5F1IVicu/Nxnzmp0FYZEXue2ELxDVH9LcocETHBoPg0BQ4Z7jH8
+         LiqtgFhs7aJRKAHJUoAl86ZVYX5xQ0yXHHNAR0dDwijCTvLJyPTUVkKV0R037PlwFyqZ
+         yK2IM6GWXLtaTev+h00jhFrtKIKXYgwo7QAJPXP8VKP41Fzm4/lhLj8KjWCZY3ftgp+0
+         KpFTvgPNPAzGautsalkdvu+rDFCYUXQ8gOd2m0FTejoaDyBRjxT38Qggr0LqYTP70D0C
+         ZVaw==
+X-Gm-Message-State: AAQBX9fF0cMJH9xGo2dODsYupXPU7MtXUn2W30oN6qmM0zfm/pJfjwDp
+	azgLMUV+NyOQxotW7i1bG2g1m2Y7agk=
+X-Google-Smtp-Source: AKy350bCZ57T3rFmBGJFSz55ZW9N7QkTp4DRBV90olFLcERGZPvycLMagAjuo4YKXiY13uCwc+bN/Q==
+X-Received: by 2002:a17:906:f2d8:b0:94e:c43f:316b with SMTP id gz24-20020a170906f2d800b0094ec43f316bmr4442815ejb.19.1681490012048;
+        Fri, 14 Apr 2023 09:33:32 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id w27-20020a17090633db00b0094a512b0972sm2592174eja.117.2023.04.14.09.33.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 14 Apr 2023 09:33:31 -0700 (PDT)
+Date: Fri, 14 Apr 2023 19:33:27 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev,
+	Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Atish Patra <Atish.Patra@wdc.com>,
+	Rajnesh Kanwal <rkanwal@rivosinc.com>
+Subject: [atishp04:cove_integeration_v2 75/136] drivers/base/da_firmware.c:67
+ pci_parse_devices() warn: Please consider using kcalloc instead of
+ kmalloc_array
+Message-ID: <ee0228b8-ed7d-4ed2-91e2-0294595097e1@kili.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -46,55 +56,44 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Qingtao Cao <qingtao.cao.au@gmail.com>
-CC: Bartosz Golaszewski <brgl@bgdev.pl>
-CC: Andy Shevchenko <andy.shevchenko@gmail.com>
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   44149752e9987a9eac5ad78e6d3a20934b5e018d
-commit: 5134272f9f3f71d4e1f3aa15cb09321af49b3646 gpio: exar: access MPIO registers on cascaded chips
-date:   7 months ago
-:::::: branch date: 15 hours ago
-:::::: commit date: 7 months ago
-config: microblaze-randconfig-m041-20230413 (https://download.01.org/0day-ci/archive/20230414/202304142200.J0o1tpYn-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 12.1.0
+tree:   https://github.com/atishp04/linux cove_integeration_v2
+head:   94c0fb847a505a21d11c0de2e0acefc2e9965311
+commit: 896621978781d8378b4f51a9e33c33846439695d [75/136] driver core: Add support to parse device authorize firmware
+config: csky-randconfig-m031-20230411 (https://download.01.org/0day-ci/archive/20230414/202304141419.mRARWHGd-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202304142200.J0o1tpYn-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202304141419.mRARWHGd-lkp@intel.com/
 
 smatch warnings:
-drivers/gpio/gpio-exar.c:52 exar_offset_to_sel_addr() warn: replace divide condition 'pin / 8' with 'pin >= 8'
-drivers/gpio/gpio-exar.c:62 exar_offset_to_lvl_addr() warn: replace divide condition 'pin / 8' with 'pin >= 8'
+drivers/base/da_firmware.c:67 pci_parse_devices() warn: Please consider using kcalloc instead of kmalloc_array
 
-vim +52 drivers/gpio/gpio-exar.c
+vim +67 drivers/base/da_firmware.c
 
-6596e59e63cd4c Sudip Mukherjee     2017-01-19  46  
-696868d0a79c21 Bartosz Golaszewski 2020-09-30  47  static unsigned int
-696868d0a79c21 Bartosz Golaszewski 2020-09-30  48  exar_offset_to_sel_addr(struct exar_gpio_chip *exar_gpio, unsigned int offset)
-696868d0a79c21 Bartosz Golaszewski 2020-09-30  49  {
-5134272f9f3f71 Qingtao Cao         2022-09-02  50  	unsigned int pin = exar_gpio->first_pin + (offset % 16);
-5134272f9f3f71 Qingtao Cao         2022-09-02  51  	unsigned int cascaded = offset / 16;
-5134272f9f3f71 Qingtao Cao         2022-09-02 @52  	unsigned int addr = pin / 8 ? EXAR_OFFSET_MPIOSEL_HI : EXAR_OFFSET_MPIOSEL_LO;
-5134272f9f3f71 Qingtao Cao         2022-09-02  53  
-5134272f9f3f71 Qingtao Cao         2022-09-02  54  	return addr + (cascaded ? exar_gpio->cascaded_offset : 0);
-696868d0a79c21 Bartosz Golaszewski 2020-09-30  55  }
-696868d0a79c21 Bartosz Golaszewski 2020-09-30  56  
-696868d0a79c21 Bartosz Golaszewski 2020-09-30  57  static unsigned int
-696868d0a79c21 Bartosz Golaszewski 2020-09-30  58  exar_offset_to_lvl_addr(struct exar_gpio_chip *exar_gpio, unsigned int offset)
-696868d0a79c21 Bartosz Golaszewski 2020-09-30  59  {
-5134272f9f3f71 Qingtao Cao         2022-09-02  60  	unsigned int pin = exar_gpio->first_pin + (offset % 16);
-5134272f9f3f71 Qingtao Cao         2022-09-02  61  	unsigned int cascaded = offset / 16;
-5134272f9f3f71 Qingtao Cao         2022-09-02 @62  	unsigned int addr = pin / 8 ? EXAR_OFFSET_MPIOLVL_HI : EXAR_OFFSET_MPIOLVL_LO;
-5134272f9f3f71 Qingtao Cao         2022-09-02  63  
-5134272f9f3f71 Qingtao Cao         2022-09-02  64  	return addr + (cascaded ? exar_gpio->cascaded_offset : 0);
-696868d0a79c21 Bartosz Golaszewski 2020-09-30  65  }
-696868d0a79c21 Bartosz Golaszewski 2020-09-30  66  
+896621978781d8 Kuppuswamy Sathyanarayanan 2022-12-22  61  static size_t pci_parse_devices(struct da_bus_node *node, void *data)
+896621978781d8 Kuppuswamy Sathyanarayanan 2022-12-22  62  {
+896621978781d8 Kuppuswamy Sathyanarayanan 2022-12-22  63  	struct da_pci_device_id *da_id = data;
+896621978781d8 Kuppuswamy Sathyanarayanan 2022-12-22  64  	struct pci_device_id *ids;
+896621978781d8 Kuppuswamy Sathyanarayanan 2022-12-22  65  	unsigned int i;
+896621978781d8 Kuppuswamy Sathyanarayanan 2022-12-22  66  
+896621978781d8 Kuppuswamy Sathyanarayanan 2022-12-22 @67  	ids = kmalloc_array(node->count, sizeof(*ids), GFP_KERNEL | __GFP_ZERO);
+                                                                                                                            ^^^^^^^^^^
+If you want zeroed memory the traditional way is to use kcalloc().
+
+896621978781d8 Kuppuswamy Sathyanarayanan 2022-12-22  68  	if (!ids)
+896621978781d8 Kuppuswamy Sathyanarayanan 2022-12-22  69  		return 0;
+896621978781d8 Kuppuswamy Sathyanarayanan 2022-12-22  70  
+896621978781d8 Kuppuswamy Sathyanarayanan 2022-12-22  71  	for (i = 0; i < node->count; i++)
+896621978781d8 Kuppuswamy Sathyanarayanan 2022-12-22  72  		memcpy(&ids[i], &da_id[i], sizeof(*da_id));
+896621978781d8 Kuppuswamy Sathyanarayanan 2022-12-22  73  
+896621978781d8 Kuppuswamy Sathyanarayanan 2022-12-22  74  	node->dev_ids = ids;
+896621978781d8 Kuppuswamy Sathyanarayanan 2022-12-22  75  
+896621978781d8 Kuppuswamy Sathyanarayanan 2022-12-22  76  	return sizeof(*da_id) * node->count;
+896621978781d8 Kuppuswamy Sathyanarayanan 2022-12-22  77  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
+
