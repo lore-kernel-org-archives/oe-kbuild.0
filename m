@@ -1,42 +1,50 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C0FB137C
-	for <oe-kbuild@lists.linux.dev>; Sat, 15 Apr 2023 11:26:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681557994; x=1713093994;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=VzkJGiB7Vfb3Q8N3oZLA0ov+D+/7KuvYZHRio5t2f7s=;
-  b=KdWuugf7d/NIJtR8YK1woMu7lPSIFUFUppUelB4j6HxxPyfc6y3dZ8fd
-   Qe50rKPiO8jTvqJthgyjxIc1mgb2MgQC6wQRTfAsuS3D+D0rBTTtWc7uO
-   ytL5JZQtmUv90Pd7RuovIfBn0KAUchBohj0Sj/ZCCq/ik9VbMLGOVPWOH
-   xjmUr07FgnHST9G6ed5E4wz3EntJf10BE8r5aMv/cG9JQp95wMLhMdequ
-   muPtv8CFSFntuj1KdArJZnf0hUSf8l63TD50seOzYEMikSQ9wZv/NP+xf
-   wEwPye/1zFLpF6KuGVtOEYSu1WeSHHLWx82n2Ts++taPy4AiV81gRoZre
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10680"; a="343394618"
-X-IronPort-AV: E=Sophos;i="5.99,199,1677571200"; 
-   d="scan'208";a="343394618"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2023 04:26:33 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10680"; a="779557825"
-X-IronPort-AV: E=Sophos;i="5.99,199,1677571200"; 
-   d="scan'208";a="779557825"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 15 Apr 2023 04:26:32 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pne35-000aw3-1D;
-	Sat, 15 Apr 2023 11:26:31 +0000
-Date: Sat, 15 Apr 2023 19:25:49 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D47B41868;
+	Sat, 15 Apr 2023 11:37:49 +0000 (UTC)
+Received: by mail-ej1-f54.google.com with SMTP id xi5so52048232ejb.13;
+        Sat, 15 Apr 2023 04:37:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1681558668; x=1684150668;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=9gGVDnQxXRcNBB+gIcNBM42K2M5PMWJ09VpXJBsTwcI=;
+        b=gha1QMoUmDF6WDoTY0G7NEzu7WdheZvXRT+g956hiOcIV+qJpMdUoPhtz2od7CKPpK
+         llXwAccMshWROOkI0yVsi+uqpdtKXwpBKOJQVz0TGNDPvZxMJGbAS1GSpbngUtbNd06x
+         Rt5LBvgQVttZaog9RqsKcXUx84cI0T5ZXxh4fhS6O8/5XSHo8GnP5INA57ZIBDlqJZ2y
+         fRr777T2JTY7FN+ftSlsA5ufOSoI8K0q0rpnqOJHrWTwc/OEA809xhTYA6GmMk5HSRQu
+         H4lCM1j1xmvEWuCiXA4twTLS36vw2bDLe6MMB2yDF0HO7LTNcnL0w6cuQ8y6VWt18jJo
+         PiNA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1681558668; x=1684150668;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=9gGVDnQxXRcNBB+gIcNBM42K2M5PMWJ09VpXJBsTwcI=;
+        b=Fi43EZPmpL9vWDXEV7X2QKvwTFqhCXpG479lWUaOp4I5pdo3Ag6kHl8s8Eh6Rjjofa
+         zetpePVHFyma4IQfp5uL00M0iiOcatyc2cH1NTEV1d4ZBiu7ERI49gDi3f6HGxXwLqs6
+         S4Q5SMJEeHSFR5PBEhS0RnUZbbgaeDY1TlGtEukR7UspjafqM8CuAvJNEvsHQ4F/ztmg
+         QIhHipi4qfN/n3SDpitAFLM3jQoVE35+2NFHPsKpgMDycO5p6IUkTDVEa4E8sfgqJwIB
+         cGu8eyGBMOJpxPpvlGV6KySBoCbV3ae9d5tmVvzb/hn+XkrpRhsbV5H89Cj3LS81vUQ0
+         j6lg==
+X-Gm-Message-State: AAQBX9c3YEJDXDzfSkecY7kUGYBiLXfYrPRdwmETxpD7LXpdmg6UBqLJ
+	SiMwlRbtPADUh1o8cc6d16i3qhpa9tM=
+X-Google-Smtp-Source: AKy350bsAWqhR1gZ3XJlBAT2ROvJsdzGaBHGX+jdvZ8Sb0wK5EVIhDUMDasH7H6buMeD/8QNBqlBNA==
+X-Received: by 2002:a17:906:5e1a:b0:926:fce:c080 with SMTP id n26-20020a1709065e1a00b009260fcec080mr1616983eju.17.1681558667569;
+        Sat, 15 Apr 2023 04:37:47 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id gv35-20020a1709072be300b0094f07545d43sm1162521ejc.188.2023.04.15.04.37.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 15 Apr 2023 04:37:46 -0700 (PDT)
+Date: Sat, 15 Apr 2023 14:37:42 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev,
+	Manikanta Pubbisetty <quic_mpubbise@quicinc.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Kalle Valo <quic_kvalo@quicinc.com>
 Subject: drivers/net/wireless/ath/ath11k/core.c:1309
  ath11k_core_qmi_firmware_ready() warn: missing unwind goto?
-Message-ID: <202304151955.oqAetVFd-lkp@intel.com>
+Message-ID: <b559bd3c-c7c2-409e-ab36-455236572fe5@kili.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -46,18 +54,9 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Manikanta Pubbisetty <quic_mpubbise@quicinc.com>
-CC: Kalle Valo <quic_kvalo@quicinc.com>
-
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   7a934f4bd7d6f9da84c8812da3ba42ee10f5778e
 commit: 33b67a4b4e64275b6f2cbc4318f1596c70659111 ath11k: Update WBM idle ring HP after FW mode on
-date:   12 months ago
-:::::: branch date: 18 hours ago
-:::::: commit date: 12 months ago
 config: openrisc-randconfig-m041-20230414 (https://download.01.org/0day-ci/archive/20230415/202304151955.oqAetVFd-lkp@intel.com/config)
 compiler: or1k-linux-gcc (GCC) 12.1.0
 
@@ -71,7 +70,6 @@ drivers/net/wireless/ath/ath11k/core.c:1309 ath11k_core_qmi_firmware_ready() war
 
 vim +1309 drivers/net/wireless/ath/ath11k/core.c
 
-ec038c6127fa77 Wen Gong                  2021-12-20  1275  
 d5c65159f28953 Kalle Valo                2019-11-23  1276  int ath11k_core_qmi_firmware_ready(struct ath11k_base *ab)
 d5c65159f28953 Kalle Valo                2019-11-23  1277  {
 d5c65159f28953 Kalle Valo                2019-11-23  1278  	int ret;
@@ -106,6 +104,10 @@ aa2092a9bab3f8 Venkateswara Naralasetty  2020-09-08  1306  		break;
 aa2092a9bab3f8 Venkateswara Naralasetty  2020-09-08  1307  	default:
 aa2092a9bab3f8 Venkateswara Naralasetty  2020-09-08  1308  		ath11k_info(ab, "invalid crypto_mode: %d\n", ath11k_crypto_mode);
 aa2092a9bab3f8 Venkateswara Naralasetty  2020-09-08 @1309  		return -EINVAL;
+
+	ret = -EINVAL;
+	goto err_dp_free;
+
 aa2092a9bab3f8 Venkateswara Naralasetty  2020-09-08  1310  	}
 aa2092a9bab3f8 Venkateswara Naralasetty  2020-09-08  1311  
 aa2092a9bab3f8 Venkateswara Naralasetty  2020-09-08  1312  	if (ath11k_frame_mode == ATH11K_HW_TXRX_RAW)
@@ -148,12 +150,7 @@ d5c65159f28953 Kalle Valo                2019-11-23  1348  	return ret;
 d5c65159f28953 Kalle Valo                2019-11-23  1349  }
 d5c65159f28953 Kalle Valo                2019-11-23  1350  
 
-:::::: The code at line 1309 was first introduced by commit
-:::::: aa2092a9bab3f87c42f9d531b5b2889c6b823658 ath11k: add raw mode and software crypto support
-
-:::::: TO: Venkateswara Naralasetty <vnaralas@codeaurora.org>
-:::::: CC: Kalle Valo <kvalo@codeaurora.org>
-
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
+
