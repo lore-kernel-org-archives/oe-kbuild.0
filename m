@@ -1,50 +1,42 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D47B41868;
-	Sat, 15 Apr 2023 11:37:49 +0000 (UTC)
-Received: by mail-ej1-f54.google.com with SMTP id xi5so52048232ejb.13;
-        Sat, 15 Apr 2023 04:37:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1681558668; x=1684150668;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=9gGVDnQxXRcNBB+gIcNBM42K2M5PMWJ09VpXJBsTwcI=;
-        b=gha1QMoUmDF6WDoTY0G7NEzu7WdheZvXRT+g956hiOcIV+qJpMdUoPhtz2od7CKPpK
-         llXwAccMshWROOkI0yVsi+uqpdtKXwpBKOJQVz0TGNDPvZxMJGbAS1GSpbngUtbNd06x
-         Rt5LBvgQVttZaog9RqsKcXUx84cI0T5ZXxh4fhS6O8/5XSHo8GnP5INA57ZIBDlqJZ2y
-         fRr777T2JTY7FN+ftSlsA5ufOSoI8K0q0rpnqOJHrWTwc/OEA809xhTYA6GmMk5HSRQu
-         H4lCM1j1xmvEWuCiXA4twTLS36vw2bDLe6MMB2yDF0HO7LTNcnL0w6cuQ8y6VWt18jJo
-         PiNA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681558668; x=1684150668;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=9gGVDnQxXRcNBB+gIcNBM42K2M5PMWJ09VpXJBsTwcI=;
-        b=Fi43EZPmpL9vWDXEV7X2QKvwTFqhCXpG479lWUaOp4I5pdo3Ag6kHl8s8Eh6Rjjofa
-         zetpePVHFyma4IQfp5uL00M0iiOcatyc2cH1NTEV1d4ZBiu7ERI49gDi3f6HGxXwLqs6
-         S4Q5SMJEeHSFR5PBEhS0RnUZbbgaeDY1TlGtEukR7UspjafqM8CuAvJNEvsHQ4F/ztmg
-         QIhHipi4qfN/n3SDpitAFLM3jQoVE35+2NFHPsKpgMDycO5p6IUkTDVEa4E8sfgqJwIB
-         cGu8eyGBMOJpxPpvlGV6KySBoCbV3ae9d5tmVvzb/hn+XkrpRhsbV5H89Cj3LS81vUQ0
-         j6lg==
-X-Gm-Message-State: AAQBX9c3YEJDXDzfSkecY7kUGYBiLXfYrPRdwmETxpD7LXpdmg6UBqLJ
-	SiMwlRbtPADUh1o8cc6d16i3qhpa9tM=
-X-Google-Smtp-Source: AKy350bsAWqhR1gZ3XJlBAT2ROvJsdzGaBHGX+jdvZ8Sb0wK5EVIhDUMDasH7H6buMeD/8QNBqlBNA==
-X-Received: by 2002:a17:906:5e1a:b0:926:fce:c080 with SMTP id n26-20020a1709065e1a00b009260fcec080mr1616983eju.17.1681558667569;
-        Sat, 15 Apr 2023 04:37:47 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id gv35-20020a1709072be300b0094f07545d43sm1162521ejc.188.2023.04.15.04.37.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 15 Apr 2023 04:37:46 -0700 (PDT)
-Date: Sat, 15 Apr 2023 14:37:42 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev,
-	Manikanta Pubbisetty <quic_mpubbise@quicinc.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Kalle Valo <quic_kvalo@quicinc.com>
-Subject: drivers/net/wireless/ath/ath11k/core.c:1309
- ath11k_core_qmi_firmware_ready() warn: missing unwind goto?
-Message-ID: <b559bd3c-c7c2-409e-ab36-455236572fe5@kili.mountain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A63E92103
+	for <oe-kbuild@lists.linux.dev>; Sat, 15 Apr 2023 13:10:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1681564243; x=1713100243;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=pBkDLJAnlPZMzTL57MiaRj6oHRFrvO0gphdqoXno2CU=;
+  b=CZJw1+wc0M2KRxYuRcc1YQ2r6qrXZItN3tV94rIJXHqptjIXDnYXIPA8
+   2dVwoLXT7/n5+JXOufLSO22chpAIBOyiTjjWXNIcTJtmxpIJnX1Z8D/jo
+   6HFJaiKX3z0HQU2iaTrCYEPsfuXgFcGVvT5ar8XeeMIgxOTlzbGtjlprz
+   MhqYSFS/h0efoFg07ny4MeC6mRVE1QpVdQiobPmCx7FEWY7RhisHQuXmG
+   mbjIUyZkU9FEPLFhFgdAL84E6bzkvlb/3B5O/xkDe+UkmpzGDUsFCADzq
+   EthetuXgZLVMFJXUY5LasL3EkajJTKtfoff1G/GhnSBK3Sc8E9AypaJBd
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10681"; a="342138352"
+X-IronPort-AV: E=Sophos;i="5.99,199,1677571200"; 
+   d="scan'208";a="342138352"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2023 06:10:42 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10681"; a="692770274"
+X-IronPort-AV: E=Sophos;i="5.99,199,1677571200"; 
+   d="scan'208";a="692770274"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by fmsmga007.fm.intel.com with ESMTP; 15 Apr 2023 06:10:40 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pnffs-000b2x-1B;
+	Sat, 15 Apr 2023 13:10:40 +0000
+Date: Sat, 15 Apr 2023 21:10:09 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: drivers/net/wireless/ath/ath11k/debugfs.c:1009
+ ath11k_debugfs_soc_create() warn: passing zero to 'PTR_ERR'
+Message-ID: <202304152142.ssXYxFdQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -54,103 +46,73 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+TO: Kalle Valo <quic_kvalo@quicinc.com>
+
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   7a934f4bd7d6f9da84c8812da3ba42ee10f5778e
-commit: 33b67a4b4e64275b6f2cbc4318f1596c70659111 ath11k: Update WBM idle ring HP after FW mode on
-config: openrisc-randconfig-m041-20230414 (https://download.01.org/0day-ci/archive/20230415/202304151955.oqAetVFd-lkp@intel.com/config)
+commit: 323d91d4684d238f6bc3693fed93caf795378fe0 wifi: ath11k: debugfs: fix to work with multiple PCI devices
+date:   3 months ago
+:::::: branch date: 19 hours ago
+:::::: commit date: 3 months ago
+config: openrisc-randconfig-m041-20230414 (https://download.01.org/0day-ci/archive/20230415/202304152142.ssXYxFdQ-lkp@intel.com/config)
 compiler: or1k-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202304151955.oqAetVFd-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202304152142.ssXYxFdQ-lkp@intel.com/
 
-smatch warnings:
-drivers/net/wireless/ath/ath11k/core.c:1309 ath11k_core_qmi_firmware_ready() warn: missing unwind goto?
+New smatch warnings:
+drivers/net/wireless/ath/ath11k/debugfs.c:1009 ath11k_debugfs_soc_create() warn: passing zero to 'PTR_ERR'
 
-vim +1309 drivers/net/wireless/ath/ath11k/core.c
+Old smatch warnings:
+drivers/net/wireless/ath/ath11k/debugfs.c:882 ath11k_write_fw_dbglog() warn: potential spectre issue 'ar->debug.module_id_bitmap' [w] (local cap)
+drivers/net/wireless/ath/ath11k/debugfs.c:1022 ath11k_debugfs_soc_create() warn: passing zero to 'PTR_ERR'
 
-d5c65159f28953 Kalle Valo                2019-11-23  1276  int ath11k_core_qmi_firmware_ready(struct ath11k_base *ab)
-d5c65159f28953 Kalle Valo                2019-11-23  1277  {
-d5c65159f28953 Kalle Valo                2019-11-23  1278  	int ret;
-d5c65159f28953 Kalle Valo                2019-11-23  1279  
-33b67a4b4e6427 Manikanta Pubbisetty      2022-04-06  1280  	ret = ath11k_core_start_firmware(ab, ATH11K_FIRMWARE_MODE_NORMAL);
-33b67a4b4e6427 Manikanta Pubbisetty      2022-04-06  1281  	if (ret) {
-33b67a4b4e6427 Manikanta Pubbisetty      2022-04-06  1282  		ath11k_err(ab, "failed to start firmware: %d\n", ret);
-33b67a4b4e6427 Manikanta Pubbisetty      2022-04-06  1283  		return ret;
-33b67a4b4e6427 Manikanta Pubbisetty      2022-04-06  1284  	}
-33b67a4b4e6427 Manikanta Pubbisetty      2022-04-06  1285  
-d5c65159f28953 Kalle Valo                2019-11-23  1286  	ret = ath11k_ce_init_pipes(ab);
-d5c65159f28953 Kalle Valo                2019-11-23  1287  	if (ret) {
-d5c65159f28953 Kalle Valo                2019-11-23  1288  		ath11k_err(ab, "failed to initialize CE: %d\n", ret);
-33b67a4b4e6427 Manikanta Pubbisetty      2022-04-06  1289  		goto err_firmware_stop;
-d5c65159f28953 Kalle Valo                2019-11-23  1290  	}
-d5c65159f28953 Kalle Valo                2019-11-23  1291  
-d5c65159f28953 Kalle Valo                2019-11-23  1292  	ret = ath11k_dp_alloc(ab);
-d5c65159f28953 Kalle Valo                2019-11-23  1293  	if (ret) {
-d5c65159f28953 Kalle Valo                2019-11-23  1294  		ath11k_err(ab, "failed to init DP: %d\n", ret);
-33b67a4b4e6427 Manikanta Pubbisetty      2022-04-06  1295  		goto err_firmware_stop;
-d5c65159f28953 Kalle Valo                2019-11-23  1296  	}
-d5c65159f28953 Kalle Valo                2019-11-23  1297  
-aa2092a9bab3f8 Venkateswara Naralasetty  2020-09-08  1298  	switch (ath11k_crypto_mode) {
-aa2092a9bab3f8 Venkateswara Naralasetty  2020-09-08  1299  	case ATH11K_CRYPT_MODE_SW:
-aa2092a9bab3f8 Venkateswara Naralasetty  2020-09-08  1300  		set_bit(ATH11K_FLAG_HW_CRYPTO_DISABLED, &ab->dev_flags);
-aa2092a9bab3f8 Venkateswara Naralasetty  2020-09-08  1301  		set_bit(ATH11K_FLAG_RAW_MODE, &ab->dev_flags);
-aa2092a9bab3f8 Venkateswara Naralasetty  2020-09-08  1302  		break;
-aa2092a9bab3f8 Venkateswara Naralasetty  2020-09-08  1303  	case ATH11K_CRYPT_MODE_HW:
-aa2092a9bab3f8 Venkateswara Naralasetty  2020-09-08  1304  		clear_bit(ATH11K_FLAG_HW_CRYPTO_DISABLED, &ab->dev_flags);
-aa2092a9bab3f8 Venkateswara Naralasetty  2020-09-08  1305  		clear_bit(ATH11K_FLAG_RAW_MODE, &ab->dev_flags);
-aa2092a9bab3f8 Venkateswara Naralasetty  2020-09-08  1306  		break;
-aa2092a9bab3f8 Venkateswara Naralasetty  2020-09-08  1307  	default:
-aa2092a9bab3f8 Venkateswara Naralasetty  2020-09-08  1308  		ath11k_info(ab, "invalid crypto_mode: %d\n", ath11k_crypto_mode);
-aa2092a9bab3f8 Venkateswara Naralasetty  2020-09-08 @1309  		return -EINVAL;
+vim +/PTR_ERR +1009 drivers/net/wireless/ath/ath11k/debugfs.c
 
-	ret = -EINVAL;
-	goto err_dp_free;
-
-aa2092a9bab3f8 Venkateswara Naralasetty  2020-09-08  1310  	}
-aa2092a9bab3f8 Venkateswara Naralasetty  2020-09-08  1311  
-aa2092a9bab3f8 Venkateswara Naralasetty  2020-09-08  1312  	if (ath11k_frame_mode == ATH11K_HW_TXRX_RAW)
-aa2092a9bab3f8 Venkateswara Naralasetty  2020-09-08  1313  		set_bit(ATH11K_FLAG_RAW_MODE, &ab->dev_flags);
-aa2092a9bab3f8 Venkateswara Naralasetty  2020-09-08  1314  
-d5c65159f28953 Kalle Valo                2019-11-23  1315  	mutex_lock(&ab->core_lock);
-33b67a4b4e6427 Manikanta Pubbisetty      2022-04-06  1316  	ret = ath11k_core_start(ab);
-d5c65159f28953 Kalle Valo                2019-11-23  1317  	if (ret) {
-d5c65159f28953 Kalle Valo                2019-11-23  1318  		ath11k_err(ab, "failed to start core: %d\n", ret);
-d5c65159f28953 Kalle Valo                2019-11-23  1319  		goto err_dp_free;
-d5c65159f28953 Kalle Valo                2019-11-23  1320  	}
-d5c65159f28953 Kalle Valo                2019-11-23  1321  
-d5c65159f28953 Kalle Valo                2019-11-23  1322  	ret = ath11k_core_pdev_create(ab);
-d5c65159f28953 Kalle Valo                2019-11-23  1323  	if (ret) {
-d5c65159f28953 Kalle Valo                2019-11-23  1324  		ath11k_err(ab, "failed to create pdev core: %d\n", ret);
-d5c65159f28953 Kalle Valo                2019-11-23  1325  		goto err_core_stop;
-d5c65159f28953 Kalle Valo                2019-11-23  1326  	}
-31858805f91ac7 Govind Singh              2020-05-08  1327  	ath11k_hif_irq_enable(ab);
-ec038c6127fa77 Wen Gong                  2021-12-20  1328  
-ec038c6127fa77 Wen Gong                  2021-12-20  1329  	ret = ath11k_core_rfkill_config(ab);
-ec038c6127fa77 Wen Gong                  2021-12-20  1330  	if (ret && ret != -EOPNOTSUPP) {
-ec038c6127fa77 Wen Gong                  2021-12-20  1331  		ath11k_err(ab, "failed to config rfkill: %d\n", ret);
-ec038c6127fa77 Wen Gong                  2021-12-20  1332  		goto err_core_stop;
-ec038c6127fa77 Wen Gong                  2021-12-20  1333  	}
-ec038c6127fa77 Wen Gong                  2021-12-20  1334  
-d5c65159f28953 Kalle Valo                2019-11-23  1335  	mutex_unlock(&ab->core_lock);
-d5c65159f28953 Kalle Valo                2019-11-23  1336  
-d5c65159f28953 Kalle Valo                2019-11-23  1337  	return 0;
-d5c65159f28953 Kalle Valo                2019-11-23  1338  
-d5c65159f28953 Kalle Valo                2019-11-23  1339  err_core_stop:
-d5c65159f28953 Kalle Valo                2019-11-23  1340  	ath11k_core_stop(ab);
-0366f42640a410 Vasanthakumar Thiagarajan 2019-11-28  1341  	ath11k_mac_destroy(ab);
-d5c65159f28953 Kalle Valo                2019-11-23  1342  err_dp_free:
-d5c65159f28953 Kalle Valo                2019-11-23  1343  	ath11k_dp_free(ab);
-ba47923974fb67 Govindaraj Saminathan     2019-11-27  1344  	mutex_unlock(&ab->core_lock);
-33b67a4b4e6427 Manikanta Pubbisetty      2022-04-06  1345  err_firmware_stop:
-33b67a4b4e6427 Manikanta Pubbisetty      2022-04-06  1346  	ath11k_qmi_firmware_stop(ab);
-33b67a4b4e6427 Manikanta Pubbisetty      2022-04-06  1347  
-d5c65159f28953 Kalle Valo                2019-11-23  1348  	return ret;
-d5c65159f28953 Kalle Valo                2019-11-23  1349  }
-d5c65159f28953 Kalle Valo                2019-11-23  1350  
+da3a9d3c15769b Kalle Valo 2020-09-16   997  
+cb4e57db2ff0c8 Kalle Valo 2020-09-16   998  int ath11k_debugfs_soc_create(struct ath11k_base *ab)
+da3a9d3c15769b Kalle Valo 2020-09-16   999  {
+323d91d4684d23 Kalle Valo 2022-12-22  1000  	struct dentry *root;
+323d91d4684d23 Kalle Valo 2022-12-22  1001  	bool dput_needed;
+323d91d4684d23 Kalle Valo 2022-12-22  1002  	char name[64];
+323d91d4684d23 Kalle Valo 2022-12-22  1003  	int ret;
+323d91d4684d23 Kalle Valo 2022-12-22  1004  
+323d91d4684d23 Kalle Valo 2022-12-22  1005  	root = debugfs_lookup("ath11k", NULL);
+323d91d4684d23 Kalle Valo 2022-12-22  1006  	if (!root) {
+323d91d4684d23 Kalle Valo 2022-12-22  1007  		root = debugfs_create_dir("ath11k", NULL);
+323d91d4684d23 Kalle Valo 2022-12-22  1008  		if (IS_ERR_OR_NULL(root))
+323d91d4684d23 Kalle Valo 2022-12-22 @1009  			return PTR_ERR(root);
+323d91d4684d23 Kalle Valo 2022-12-22  1010  
+323d91d4684d23 Kalle Valo 2022-12-22  1011  		dput_needed = false;
+323d91d4684d23 Kalle Valo 2022-12-22  1012  	} else {
+323d91d4684d23 Kalle Valo 2022-12-22  1013  		/* a dentry from lookup() needs dput() after we don't use it */
+323d91d4684d23 Kalle Valo 2022-12-22  1014  		dput_needed = true;
+323d91d4684d23 Kalle Valo 2022-12-22  1015  	}
+323d91d4684d23 Kalle Valo 2022-12-22  1016  
+323d91d4684d23 Kalle Valo 2022-12-22  1017  	scnprintf(name, sizeof(name), "%s-%s", ath11k_bus_str(ab->hif.bus),
+323d91d4684d23 Kalle Valo 2022-12-22  1018  		  dev_name(ab->dev));
+da3a9d3c15769b Kalle Valo 2020-09-16  1019  
+323d91d4684d23 Kalle Valo 2022-12-22  1020  	ab->debugfs_soc = debugfs_create_dir(name, root);
+323d91d4684d23 Kalle Valo 2022-12-22  1021  	if (IS_ERR_OR_NULL(ab->debugfs_soc)) {
+323d91d4684d23 Kalle Valo 2022-12-22  1022  		ret = PTR_ERR(ab->debugfs_soc);
+323d91d4684d23 Kalle Valo 2022-12-22  1023  		goto out;
+323d91d4684d23 Kalle Valo 2022-12-22  1024  	}
+323d91d4684d23 Kalle Valo 2022-12-22  1025  
+323d91d4684d23 Kalle Valo 2022-12-22  1026  	ret = 0;
+323d91d4684d23 Kalle Valo 2022-12-22  1027  
+323d91d4684d23 Kalle Valo 2022-12-22  1028  out:
+323d91d4684d23 Kalle Valo 2022-12-22  1029  	if (dput_needed)
+323d91d4684d23 Kalle Valo 2022-12-22  1030  		dput(root);
+323d91d4684d23 Kalle Valo 2022-12-22  1031  
+323d91d4684d23 Kalle Valo 2022-12-22  1032  	return ret;
+da3a9d3c15769b Kalle Valo 2020-09-16  1033  }
+da3a9d3c15769b Kalle Valo 2020-09-16  1034  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
-
