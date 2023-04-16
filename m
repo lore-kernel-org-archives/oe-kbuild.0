@@ -1,158 +1,136 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86FA0A40
-	for <oe-kbuild@lists.linux.dev>; Sun, 16 Apr 2023 02:18:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C90D7B
+	for <oe-kbuild@lists.linux.dev>; Sun, 16 Apr 2023 04:53:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1681611482; x=1713147482;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=y4kKTaIbZ0wJdw0bZSFtpbnRebOUyDdV7LWT7e9fvlI=;
-  b=NXWnKCv5P1sLAvGS1Ad15ZvrBTh5XxpCKSpqOzkyEq5L1SkQVNMhuzl/
-   Rx0czaeE8rHBquZVT394R0hd22bNQ5ml+309ouDfE5s6/lsEzKhg7skIo
-   QmGuBcEoyOaQGv8hzcFzf/hOoP3GrYNMYhLSIk5ex3smCpV0qtTEmlFvb
-   sRUx2v8AV1P143As35k7e/Frgb72CPnNAo93ZNBulKjyxUM8FwAlyPNWp
-   OJa1mjMxHQMnBOonL9tMDkgb9uUqIrtMsBGlBEtUU6RRWnGoIzN8fRrRV
-   cte+5a7mOv0zzyCT4sOfN3Na6YEHsqFetHSFTujywZ1otZg9YgLzdWzxU
+  t=1681620784; x=1713156784;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=OrWqgOJcFCF3yIwsE8Fr+gP8eUHGbsKIFS7cBkN2vWA=;
+  b=HtDf2fj568pbzv9S1atrLGGZCII4q8oWN33VBjCA2SbBdNe8IR7jz6/q
+   OfPFTIcNPBjYff6tAVb97kKGi0WR00JBKUS/cHQciHZTlNdmzgB6m6hlR
+   sfmX4RUJgBRcT/qa+msL9VHSnjJwkt7ljl2s9D4+ZgS3Xp4S6v2dbcp99
+   5SM/fRPZueRb6NJ83q/Piz4M6cUb7KDKCqdGYIaGApiHT4ARH0z5tPpFc
+   Yk+6jjMI1nlUlG+JuWgLtb6zNFMm46o4p7FN3kryRz8+BlPq+D5GttGS5
+   KkNpPJ9wetJXXjmLlVNNK314rRxGEAMJ2qHUq+7Xp0LU8ZjL/MO6ipnh4
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10681"; a="325039169"
+X-IronPort-AV: E=McAfee;i="6600,9927,10681"; a="343460467"
 X-IronPort-AV: E=Sophos;i="5.99,201,1677571200"; 
-   d="scan'208";a="325039169"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2023 19:18:01 -0700
+   d="scan'208";a="343460467"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2023 21:53:03 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10681"; a="814364176"
+X-IronPort-AV: E=McAfee;i="6600,9927,10681"; a="692891912"
 X-IronPort-AV: E=Sophos;i="5.99,201,1677571200"; 
-   d="scan'208";a="814364176"
+   d="scan'208";a="692891912"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 15 Apr 2023 19:18:00 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 15 Apr 2023 21:53:01 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pnrxn-000bTn-00;
-	Sun, 16 Apr 2023 02:17:59 +0000
-Date: Sun, 16 Apr 2023 10:17:45 +0800
+	id 1pnuNp-000bWZ-0O;
+	Sun, 16 Apr 2023 04:53:01 +0000
+Date: Sun, 16 Apr 2023 12:52:17 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/gpu/drm/rockchip/rockchip_drm_vop2.c:548
- vop2_afbc_transform_offset() error: uninitialized symbol 'tx'.
-Message-ID: <202304161033.nSvRmoU0-lkp@intel.com>
+Subject: drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c:1164
+ amdgpu_debugfs_gfxoff_status_read() warn: ignoring unreachable code.
+Message-ID: <202304161228.7jec4P7s-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Andy Yan <andy.yan@rock-chips.com>
-CC: Heiko Stuebner <heiko@sntech.de>
-CC: Sascha Hauer <s.hauer@pengutronix.de>
+TO: "André Almeida" <andrealmeid@igalia.com>
+CC: Alex Deucher <alexander.deucher@amd.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   a7a55e27ad72fb0dc9281d6211cffeebef8dde65
-commit: 604be85547ce4d61b89292d2f9a78c721b778c16 drm/rockchip: Add VOP2 driver
-date:   12 months ago
-:::::: branch date: 8 hours ago
-:::::: commit date: 12 months ago
-config: s390-randconfig-m031-20230415 (https://download.01.org/0day-ci/archive/20230416/202304161033.nSvRmoU0-lkp@intel.com/config)
+head:   3e7bb4f2461710b70887704af7f175383251088e
+commit: 4686177f7d2140cdd9d031702c2b53ac4c89340a drm/amd/debugfs: Expose GFXOFF state to userspace
+date:   9 months ago
+:::::: branch date: 3 hours ago
+:::::: commit date: 9 months ago
+config: s390-randconfig-m031-20230415 (https://download.01.org/0day-ci/archive/20230416/202304161228.7jec4P7s-lkp@intel.com/config)
 compiler: s390-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202304161033.nSvRmoU0-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202304161228.7jec4P7s-lkp@intel.com/
 
 New smatch warnings:
-drivers/gpu/drm/rockchip/rockchip_drm_vop2.c:548 vop2_afbc_transform_offset() error: uninitialized symbol 'tx'.
-drivers/gpu/drm/rockchip/rockchip_drm_vop2.c:549 vop2_afbc_transform_offset() error: uninitialized symbol 'ty'.
-drivers/gpu/drm/rockchip/rockchip_drm_vop2.c:2317 vop2_create_crtc() error: uninitialized symbol 'possible_crtcs'.
+drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c:1164 amdgpu_debugfs_gfxoff_status_read() warn: ignoring unreachable code.
 
 Old smatch warnings:
-drivers/gpu/drm/rockchip/rockchip_drm_vop2.c:1616 vop2_crtc_atomic_enable() warn: inconsistent returns '&vop2->vop2_lock'.
+drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c:386 amdgpu_debugfs_regs_pcie_read() warn: ignoring unreachable code.
+drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c:499 amdgpu_debugfs_regs_didt_read() warn: ignoring unreachable code.
+drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c:612 amdgpu_debugfs_regs_smc_read() warn: ignoring unreachable code.
+drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c:768 amdgpu_debugfs_gca_config_read() warn: ignoring unreachable code.
+drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c:846 amdgpu_debugfs_sensor_read() warn: ignoring unreachable code.
+drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c:932 amdgpu_debugfs_wave_read() warn: ignoring unreachable code.
+drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c:1025 amdgpu_debugfs_gpr_read() warn: ignoring unreachable code.
+drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c:1123 amdgpu_debugfs_gfxoff_read() warn: ignoring unreachable code.
 
-vim +/tx +548 drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+vim +1164 drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c
 
-604be85547ce4d Andy Yan 2022-04-22  476  
-604be85547ce4d Andy Yan 2022-04-22  477  static u32 vop2_afbc_transform_offset(struct drm_plane_state *pstate,
-604be85547ce4d Andy Yan 2022-04-22  478  				      bool afbc_half_block_en)
-604be85547ce4d Andy Yan 2022-04-22  479  {
-604be85547ce4d Andy Yan 2022-04-22  480  	struct drm_rect *src = &pstate->src;
-604be85547ce4d Andy Yan 2022-04-22  481  	struct drm_framebuffer *fb = pstate->fb;
-604be85547ce4d Andy Yan 2022-04-22  482  	u32 bpp = fb->format->cpp[0] * 8;
-604be85547ce4d Andy Yan 2022-04-22  483  	u32 vir_width = (fb->pitches[0] << 3) / bpp;
-604be85547ce4d Andy Yan 2022-04-22  484  	u32 width = drm_rect_width(src) >> 16;
-604be85547ce4d Andy Yan 2022-04-22  485  	u32 height = drm_rect_height(src) >> 16;
-604be85547ce4d Andy Yan 2022-04-22  486  	u32 act_xoffset = src->x1 >> 16;
-604be85547ce4d Andy Yan 2022-04-22  487  	u32 act_yoffset = src->y1 >> 16;
-604be85547ce4d Andy Yan 2022-04-22  488  	u32 align16_crop = 0;
-604be85547ce4d Andy Yan 2022-04-22  489  	u32 align64_crop = 0;
-604be85547ce4d Andy Yan 2022-04-22  490  	u32 height_tmp;
-604be85547ce4d Andy Yan 2022-04-22  491  	u8 tx, ty;
-604be85547ce4d Andy Yan 2022-04-22  492  	u8 bottom_crop_line_num = 0;
-604be85547ce4d Andy Yan 2022-04-22  493  
-604be85547ce4d Andy Yan 2022-04-22  494  	/* 16 pixel align */
-604be85547ce4d Andy Yan 2022-04-22  495  	if (height & 0xf)
-604be85547ce4d Andy Yan 2022-04-22  496  		align16_crop = 16 - (height & 0xf);
-604be85547ce4d Andy Yan 2022-04-22  497  
-604be85547ce4d Andy Yan 2022-04-22  498  	height_tmp = height + align16_crop;
-604be85547ce4d Andy Yan 2022-04-22  499  
-604be85547ce4d Andy Yan 2022-04-22  500  	/* 64 pixel align */
-604be85547ce4d Andy Yan 2022-04-22  501  	if (height_tmp & 0x3f)
-604be85547ce4d Andy Yan 2022-04-22  502  		align64_crop = 64 - (height_tmp & 0x3f);
-604be85547ce4d Andy Yan 2022-04-22  503  
-604be85547ce4d Andy Yan 2022-04-22  504  	bottom_crop_line_num = align16_crop + align64_crop;
-604be85547ce4d Andy Yan 2022-04-22  505  
-604be85547ce4d Andy Yan 2022-04-22  506  	switch (pstate->rotation &
-604be85547ce4d Andy Yan 2022-04-22  507  		(DRM_MODE_REFLECT_X | DRM_MODE_REFLECT_Y |
-604be85547ce4d Andy Yan 2022-04-22  508  		 DRM_MODE_ROTATE_90 | DRM_MODE_ROTATE_270)) {
-604be85547ce4d Andy Yan 2022-04-22  509  	case DRM_MODE_REFLECT_X | DRM_MODE_REFLECT_Y:
-604be85547ce4d Andy Yan 2022-04-22  510  		tx = 16 - ((act_xoffset + width) & 0xf);
-604be85547ce4d Andy Yan 2022-04-22  511  		ty = bottom_crop_line_num - act_yoffset;
-604be85547ce4d Andy Yan 2022-04-22  512  		break;
-604be85547ce4d Andy Yan 2022-04-22  513  	case DRM_MODE_REFLECT_X | DRM_MODE_ROTATE_90:
-604be85547ce4d Andy Yan 2022-04-22  514  		tx = bottom_crop_line_num - act_yoffset;
-604be85547ce4d Andy Yan 2022-04-22  515  		ty = vir_width - width - act_xoffset;
-604be85547ce4d Andy Yan 2022-04-22  516  		break;
-604be85547ce4d Andy Yan 2022-04-22  517  	case DRM_MODE_REFLECT_X | DRM_MODE_ROTATE_270:
-604be85547ce4d Andy Yan 2022-04-22  518  		tx = act_yoffset;
-604be85547ce4d Andy Yan 2022-04-22  519  		ty = act_xoffset;
-604be85547ce4d Andy Yan 2022-04-22  520  		break;
-604be85547ce4d Andy Yan 2022-04-22  521  	case DRM_MODE_REFLECT_X:
-604be85547ce4d Andy Yan 2022-04-22  522  		tx = 16 - ((act_xoffset + width) & 0xf);
-604be85547ce4d Andy Yan 2022-04-22  523  		ty = act_yoffset;
-604be85547ce4d Andy Yan 2022-04-22  524  		break;
-604be85547ce4d Andy Yan 2022-04-22  525  	case DRM_MODE_REFLECT_Y:
-604be85547ce4d Andy Yan 2022-04-22  526  		tx = act_xoffset;
-604be85547ce4d Andy Yan 2022-04-22  527  		ty = bottom_crop_line_num - act_yoffset;
-604be85547ce4d Andy Yan 2022-04-22  528  		break;
-604be85547ce4d Andy Yan 2022-04-22  529  	case DRM_MODE_ROTATE_90:
-604be85547ce4d Andy Yan 2022-04-22  530  		tx = bottom_crop_line_num - act_yoffset;
-604be85547ce4d Andy Yan 2022-04-22  531  		ty = act_xoffset;
-604be85547ce4d Andy Yan 2022-04-22  532  		break;
-604be85547ce4d Andy Yan 2022-04-22  533  	case DRM_MODE_ROTATE_270:
-604be85547ce4d Andy Yan 2022-04-22  534  		tx = act_yoffset;
-604be85547ce4d Andy Yan 2022-04-22  535  		ty = vir_width - width - act_xoffset;
-604be85547ce4d Andy Yan 2022-04-22  536  		break;
-604be85547ce4d Andy Yan 2022-04-22  537  	case 0:
-604be85547ce4d Andy Yan 2022-04-22  538  		tx = act_xoffset;
-604be85547ce4d Andy Yan 2022-04-22  539  		ty = act_yoffset;
-604be85547ce4d Andy Yan 2022-04-22  540  		break;
-604be85547ce4d Andy Yan 2022-04-22  541  	}
-604be85547ce4d Andy Yan 2022-04-22  542  
-604be85547ce4d Andy Yan 2022-04-22  543  	if (afbc_half_block_en)
-604be85547ce4d Andy Yan 2022-04-22  544  		ty &= 0x7f;
-604be85547ce4d Andy Yan 2022-04-22  545  
-604be85547ce4d Andy Yan 2022-04-22  546  #define TRANSFORM_XOFFSET GENMASK(7, 0)
-604be85547ce4d Andy Yan 2022-04-22  547  #define TRANSFORM_YOFFSET GENMASK(23, 16)
-604be85547ce4d Andy Yan 2022-04-22 @548  	return FIELD_PREP(TRANSFORM_XOFFSET, tx) |
-604be85547ce4d Andy Yan 2022-04-22 @549  		FIELD_PREP(TRANSFORM_YOFFSET, ty);
-604be85547ce4d Andy Yan 2022-04-22  550  }
-604be85547ce4d Andy Yan 2022-04-22  551  
+4686177f7d2140 André Almeida 2022-07-14  1139  
+4686177f7d2140 André Almeida 2022-07-14  1140  static ssize_t amdgpu_debugfs_gfxoff_status_read(struct file *f, char __user *buf,
+4686177f7d2140 André Almeida 2022-07-14  1141  						 size_t size, loff_t *pos)
+4686177f7d2140 André Almeida 2022-07-14  1142  {
+4686177f7d2140 André Almeida 2022-07-14  1143  	struct amdgpu_device *adev = file_inode(f)->i_private;
+4686177f7d2140 André Almeida 2022-07-14  1144  	ssize_t result = 0;
+4686177f7d2140 André Almeida 2022-07-14  1145  	int r;
+4686177f7d2140 André Almeida 2022-07-14  1146  
+4686177f7d2140 André Almeida 2022-07-14  1147  	if (size & 0x3 || *pos & 0x3)
+4686177f7d2140 André Almeida 2022-07-14  1148  		return -EINVAL;
+4686177f7d2140 André Almeida 2022-07-14  1149  
+4686177f7d2140 André Almeida 2022-07-14  1150  	r = pm_runtime_get_sync(adev_to_drm(adev)->dev);
+4686177f7d2140 André Almeida 2022-07-14  1151  	if (r < 0) {
+4686177f7d2140 André Almeida 2022-07-14  1152  		pm_runtime_put_autosuspend(adev_to_drm(adev)->dev);
+4686177f7d2140 André Almeida 2022-07-14  1153  		return r;
+4686177f7d2140 André Almeida 2022-07-14  1154  	}
+4686177f7d2140 André Almeida 2022-07-14  1155  
+4686177f7d2140 André Almeida 2022-07-14  1156  	while (size) {
+4686177f7d2140 André Almeida 2022-07-14  1157  		u32 value;
+443c7f3c3641c7 Jinzhou.Su    2020-07-07  1158  
+443c7f3c3641c7 Jinzhou.Su    2020-07-07  1159  		r = amdgpu_get_gfx_off_status(adev, &value);
+edadd6fc28b24d André Almeida 2022-07-04  1160  		if (r)
+edadd6fc28b24d André Almeida 2022-07-04  1161  			goto out;
+443c7f3c3641c7 Jinzhou.Su    2020-07-07  1162  
+4686177f7d2140 André Almeida 2022-07-14  1163  		r = put_user(value, (u32 *)buf);
+edadd6fc28b24d André Almeida 2022-07-04 @1164  		if (r)
+edadd6fc28b24d André Almeida 2022-07-04  1165  			goto out;
+443c7f3c3641c7 Jinzhou.Su    2020-07-07  1166  
+443c7f3c3641c7 Jinzhou.Su    2020-07-07  1167  		result += 4;
+443c7f3c3641c7 Jinzhou.Su    2020-07-07  1168  		buf += 4;
+443c7f3c3641c7 Jinzhou.Su    2020-07-07  1169  		*pos += 4;
+443c7f3c3641c7 Jinzhou.Su    2020-07-07  1170  		size -= 4;
+443c7f3c3641c7 Jinzhou.Su    2020-07-07  1171  	}
+443c7f3c3641c7 Jinzhou.Su    2020-07-07  1172  
+edadd6fc28b24d André Almeida 2022-07-04  1173  	r = result;
+edadd6fc28b24d André Almeida 2022-07-04  1174  out:
+4a580877bdcb83 Luben Tuikov  2020-08-24  1175  	pm_runtime_mark_last_busy(adev_to_drm(adev)->dev);
+4a580877bdcb83 Luben Tuikov  2020-08-24  1176  	pm_runtime_put_autosuspend(adev_to_drm(adev)->dev);
+443c7f3c3641c7 Jinzhou.Su    2020-07-07  1177  
+edadd6fc28b24d André Almeida 2022-07-04  1178  	return r;
+443c7f3c3641c7 Jinzhou.Su    2020-07-07  1179  }
+443c7f3c3641c7 Jinzhou.Su    2020-07-07  1180  
+
+:::::: The code at line 1164 was first introduced by commit
+:::::: edadd6fc28b24dd5806dafc4b38633494ff423e6 drm/amdpgu/debugfs: Simplify some exit paths
+
+:::::: TO: André Almeida <andrealmeid@igalia.com>
+:::::: CC: Alex Deucher <alexander.deucher@amd.com>
 
 -- 
 0-DAY CI Kernel Test Service
