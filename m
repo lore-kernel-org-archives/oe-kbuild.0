@@ -1,54 +1,49 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC4C27E3;
-	Mon, 17 Apr 2023 04:46:24 +0000 (UTC)
-Received: by mail-wm1-f43.google.com with SMTP id n43-20020a05600c502b00b003f17466a9c1so501727wmr.2;
-        Sun, 16 Apr 2023 21:46:24 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC976C2E4;
+	Mon, 17 Apr 2023 07:53:42 +0000 (UTC)
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-3f16b99b936so6461555e9.3;
+        Mon, 17 Apr 2023 00:53:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1681706783; x=1684298783;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=GeskV7AfZd5vcDiFC+fAWJSkuUYGKL1Je9Bk/JlcSFY=;
-        b=gOE58ePNYPwg0JUgPpHGpTgaUF33CejFgCBw2cYWixLilAQ1pdQizQxnlJS+P/LmZn
-         5PPOaN6B8cbIgSPKjerguDwEmvd1Grv6IvBcyUZxp034YL/7z80dGWsAM8l6tTDBdDh+
-         eebMQQ1QC1EpcJdo5/USY5DEaeVRNRdYHPmbIh4+o8wNxgbB/L8gEiogK8OwKsSLGt7x
-         Ry12/ts3iu3C8hLA31nO/9tsBGXLIbuRdf3/exCcLD/bh56CSLAHzIQaMDJiJXMctK23
-         EwYxQIQNyEvXgu0eCp2FV8UEP4uuDOnHDk9iswrn3N/yhvweEgh/ZzTk+Jw0iJphdpPD
-         mfzw==
+        d=gmail.com; s=20221208; t=1681718020; x=1684310020;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=erph9EYHqt1MM1Op80BFXZ+Z8QjUsK6NGG+TevBKnRk=;
+        b=C0Gru8YGphp5zJUgJdd63GtTcBcd6KRldsEi89RkaZtUWhQUJK5GXd08OOzHmf06vh
+         CttLKSL5XmQ2byfoMxVtyMtJFLI1K93F0nkXw1FMfEnI0hb6TGr8uypD4SWcR1e+dmO7
+         LRxo7Dr0ivXhhi/x7zbNJJZmYKWYfE1rY6hxNTSo5HCxHzBrRkmld3ZjVhxKDq+hdWBf
+         aG1pv+LSlcdL8PjXEQZteA7U2Gay/vhQYg9cH52NdDJWxIZtpdrV3BpK0+heP/RSNKhm
+         8KI1/LVGVr/a7zCdbb4oJKT3WPt1ha5wl+cVll6S5rJXG869Oo0baiZ5s7ajnwZ92mpr
+         bZTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681706783; x=1684298783;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=GeskV7AfZd5vcDiFC+fAWJSkuUYGKL1Je9Bk/JlcSFY=;
-        b=iQjJx6yzdfF2zL9O3wVr28GZDZ5uo8BcXjfaAgxv91YmuQVn6FxuikUPi0Q4avnWzJ
-         aH2YBPBgw1jAdDXVKTlFfpKwRji+p/TOuO8J8aJTdPXMpBi1Lz2y3+Q7t5TrNrp3Lo8g
-         yV3BrzqoaRVJeAwJ+R+9UhuHUWUg5bo4gTncICMDkt6rSQ9eS+mJYVWjY3bV7/8NIQdJ
-         fIJwXmxlvm+CdcwBOEyGJlz+I9JAPL9CBhsvlN49SveLE+maQNxDDMxL7Az9wlpV4wqj
-         HWLM6NXsmmviyAMyPs96ECCiSvyYxv+NNIFGT7foxeomYEjj+y4UiW581hdzSjGBzqsk
-         7Ueg==
-X-Gm-Message-State: AAQBX9ft0oZT2ycODBKVKaH+Udf9ygLKhEG84f2hG2uJayXKePX5z9Ab
-	wzOLGNnOXawRwx6l4PtSuAFjxl1L85s=
-X-Google-Smtp-Source: AKy350bSCQr3l7bNo7xi8yN3xRkO3Kvuy+8NozSgmn6NPmCNg7t4Ivxl8JVuKXZc3qmrhovLd4kduA==
-X-Received: by 2002:a7b:ca45:0:b0:3ee:9c0e:c78f with SMTP id m5-20020a7bca45000000b003ee9c0ec78fmr9492063wml.5.1681706782643;
-        Sun, 16 Apr 2023 21:46:22 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1681718020; x=1684310020;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=erph9EYHqt1MM1Op80BFXZ+Z8QjUsK6NGG+TevBKnRk=;
+        b=hYP3GvP8Yp20kJ7Sd5cC18gdtDW1h4/rbnJEKhQBVnxlq+4+AgpMCPQaNh0ddNGZlx
+         SBBK5wLxr9KlkS+mkl1hylSUHWw53EWaLHtMYeD5hqlxcMwUXPyBfQ5efSRuDU55N+gr
+         I/PutrKEDG1sFJFo1B7CZdryXaAuCB2AONCXm4Owhw3b2/H7hZcnoyC/lKKgt8dubSCC
+         yhX5+iYjBTwE9uHs8DNP8QzKk5By7EQcLkYIbi55iEYGOVgtSEDgfOwWLmSQsR9GNEKi
+         rJTXlLZl4eOQAjyXr2pTJH1BxaaTlJSKWAwbJvcBxXGEBBpgDf0RcAYnoHLzwQQkRaR/
+         jHTQ==
+X-Gm-Message-State: AAQBX9fek2kQydnSO2t0Jp2k3UDNmWGMdZ8WIMhhBlVipmPxj9WMyIUS
+	f/e4F0vZ/mvNxiaIi9665xHNDl++s0k=
+X-Google-Smtp-Source: AKy350b2U+ErpNRVWmiNUAuh3pFFVyIrR8ePaaFBER5mMEtfAPKK99zBFSe2wmg8sxnW7NtRHzvQUQ==
+X-Received: by 2002:a5d:564c:0:b0:2f9:e211:e869 with SMTP id j12-20020a5d564c000000b002f9e211e869mr2502323wrw.43.1681718020662;
+        Mon, 17 Apr 2023 00:53:40 -0700 (PDT)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id u13-20020a05600c00cd00b003edf2dc7ca3sm10724682wmm.34.2023.04.16.21.46.21
+        by smtp.gmail.com with ESMTPSA id p11-20020a5d458b000000b002efb31d3c24sm9810774wrq.32.2023.04.17.00.53.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 16 Apr 2023 21:46:22 -0700 (PDT)
-Date: Mon, 17 Apr 2023 07:46:18 +0300
+        Mon, 17 Apr 2023 00:53:40 -0700 (PDT)
+Date: Mon, 17 Apr 2023 10:53:37 +0300
 From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, Johannes Zink <j.zink@pengutronix.de>,
-	thierry.reding@gmail.com, sam@ravnborg.org, airlied@gmail.com,
-	daniel@ffwll.ch, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, dri-devel@lists.freedesktop.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	kernel@pengutronix.de
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Johannes Zink <j.zink@pengutronix.de>
-Subject: Re: [PATCH 2/2] drm/panel-simple: allow LVDS format override
-Message-ID: <29810a2d-7249-4181-8d39-a40739ff2e05@kili.mountain>
+To: oe-kbuild@lists.linux.dev, Amir Goldstein <amir73il@gmail.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [amir73il:fan_unmount 5/5] fs/notify/fanotify/fanotify.c:624
+ fanotify_alloc_fid_event() warn: variable dereferenced before check 'hash'
+ (see line 618)
+Message-ID: <3417fce1-7954-4078-917f-24fd6cfb1761@kili.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -57,208 +52,56 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230414161116.3673911-3-j.zink@pengutronix.de>
 
-Hi Johannes,
-
-kernel test robot noticed the following build warnings:
-
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Johannes-Zink/dt-bindings-display-simple-support-non-default-data-mapping/20230415-001256
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20230414161116.3673911-3-j.zink%40pengutronix.de
-patch subject: [PATCH 2/2] drm/panel-simple: allow LVDS format override
-config: loongarch-randconfig-m031-20230415 (https://download.01.org/0day-ci/archive/20230416/202304160359.4LHmFOlU-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 12.1.0
+tree:   https://github.com/amir73il/linux fan_unmount
+head:   efaac6f096e1da1a16d690c1c2d344b2dc2c2665
+commit: 2da6209964005a9817160559de6021b13cc66860 [5/5] fanotify: add support for FAN_UNMOUNT event
+config: csky-randconfig-m031-20230411 (https://download.01.org/0day-ci/archive/20230414/202304142243.TY4tlJXX-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202304160359.4LHmFOlU-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202304142243.TY4tlJXX-lkp@intel.com/
 
 smatch warnings:
-drivers/gpu/drm/panel/panel-simple.c:635 panel_simple_probe() warn: missing unwind goto?
+fs/notify/fanotify/fanotify.c:624 fanotify_alloc_fid_event() warn: variable dereferenced before check 'hash' (see line 618)
 
-vim +635 drivers/gpu/drm/panel/panel-simple.c
+vim +/hash +624 fs/notify/fanotify/fanotify.c
 
-5f04e7ce392db9 Douglas Anderson      2021-09-14  556  static int panel_simple_probe(struct device *dev, const struct panel_desc *desc)
-280921de7241ee Thierry Reding        2013-08-30  557  {
-280921de7241ee Thierry Reding        2013-08-30  558  	struct panel_simple *panel;
-b8a2948fa2b3a5 Sean Paul             2019-07-11  559  	struct display_timing dt;
-0fe1564bd61642 Sam Ravnborg          2019-12-07  560  	struct device_node *ddc;
-9f069c6fbc7266 Sam Ravnborg          2020-07-26  561  	int connector_type;
-ddb8e853dc8507 Sam Ravnborg          2020-07-26  562  	u32 bus_flags;
-fad6396eea4946 Johannes Zink         2023-04-14  563  	int err, ret;
-280921de7241ee Thierry Reding        2013-08-30  564  
-280921de7241ee Thierry Reding        2013-08-30  565  	panel = devm_kzalloc(dev, sizeof(*panel), GFP_KERNEL);
-280921de7241ee Thierry Reding        2013-08-30  566  	if (!panel)
-280921de7241ee Thierry Reding        2013-08-30  567  		return -ENOMEM;
-280921de7241ee Thierry Reding        2013-08-30  568  
-280921de7241ee Thierry Reding        2013-08-30  569  	panel->enabled = false;
-4beb04beb24afe Douglas Anderson      2020-11-09  570  	panel->prepared_time = 0;
-280921de7241ee Thierry Reding        2013-08-30  571  	panel->desc = desc;
-280921de7241ee Thierry Reding        2013-08-30  572  
-280921de7241ee Thierry Reding        2013-08-30  573  	panel->supply = devm_regulator_get(dev, "power");
-280921de7241ee Thierry Reding        2013-08-30  574  	if (IS_ERR(panel->supply))
-280921de7241ee Thierry Reding        2013-08-30  575  		return PTR_ERR(panel->supply);
-280921de7241ee Thierry Reding        2013-08-30  576  
-a61400d85c3ba4 Alexandre Courbot     2014-10-23  577  	panel->enable_gpio = devm_gpiod_get_optional(dev, "enable",
-a61400d85c3ba4 Alexandre Courbot     2014-10-23  578  						     GPIOD_OUT_LOW);
-c9b48b91e2fbb7 Yuan Can              2022-09-29  579  	if (IS_ERR(panel->enable_gpio))
-c9b48b91e2fbb7 Yuan Can              2022-09-29  580  		return dev_err_probe(dev, PTR_ERR(panel->enable_gpio),
-c9b48b91e2fbb7 Yuan Can              2022-09-29  581  				     "failed to request GPIO\n");
-280921de7241ee Thierry Reding        2013-08-30  582  
-5759c9674c20ff Dmitry Osipenko       2020-08-14  583  	err = of_drm_get_panel_orientation(dev->of_node, &panel->orientation);
-5759c9674c20ff Dmitry Osipenko       2020-08-14  584  	if (err) {
-5759c9674c20ff Dmitry Osipenko       2020-08-14  585  		dev_err(dev, "%pOF: failed to get orientation %d\n", dev->of_node, err);
-5759c9674c20ff Dmitry Osipenko       2020-08-14  586  		return err;
-5759c9674c20ff Dmitry Osipenko       2020-08-14  587  	}
-5759c9674c20ff Dmitry Osipenko       2020-08-14  588  
-280921de7241ee Thierry Reding        2013-08-30  589  	ddc = of_parse_phandle(dev->of_node, "ddc-i2c-bus", 0);
-280921de7241ee Thierry Reding        2013-08-30  590  	if (ddc) {
-280921de7241ee Thierry Reding        2013-08-30  591  		panel->ddc = of_find_i2c_adapter_by_node(ddc);
-280921de7241ee Thierry Reding        2013-08-30  592  		of_node_put(ddc);
-280921de7241ee Thierry Reding        2013-08-30  593  
-0fe1564bd61642 Sam Ravnborg          2019-12-07  594  		if (!panel->ddc)
-0fe1564bd61642 Sam Ravnborg          2019-12-07  595  			return -EPROBE_DEFER;
-280921de7241ee Thierry Reding        2013-08-30  596  	}
-280921de7241ee Thierry Reding        2013-08-30  597  
-4a1d0dbc833223 Sam Ravnborg          2020-02-16  598  	if (desc == &panel_dpi) {
-4a1d0dbc833223 Sam Ravnborg          2020-02-16  599  		/* Handle the generic panel-dpi binding */
-4a1d0dbc833223 Sam Ravnborg          2020-02-16  600  		err = panel_dpi_probe(dev, panel);
-4a1d0dbc833223 Sam Ravnborg          2020-02-16  601  		if (err)
-4a1d0dbc833223 Sam Ravnborg          2020-02-16  602  			goto free_ddc;
-6df4432a5eca10 Christoph Niedermaier 2022-02-01  603  		desc = panel->desc;
-4a1d0dbc833223 Sam Ravnborg          2020-02-16  604  	} else {
-b8a2948fa2b3a5 Sean Paul             2019-07-11  605  		if (!of_get_display_timing(dev->of_node, "panel-timing", &dt))
-e362cc6a247551 Douglas Anderson      2019-07-12  606  			panel_simple_parse_panel_timing_node(dev, panel, &dt);
-4a1d0dbc833223 Sam Ravnborg          2020-02-16  607  	}
-b8a2948fa2b3a5 Sean Paul             2019-07-11  608  
-fad6396eea4946 Johannes Zink         2023-04-14  609  
-fad6396eea4946 Johannes Zink         2023-04-14  610  	/* optional data-mapping property for overriding bus format */
-fad6396eea4946 Johannes Zink         2023-04-14  611  	ret = drm_of_lvds_get_data_mapping(dev->of_node);
-fad6396eea4946 Johannes Zink         2023-04-14  612  	if (ret == -EINVAL) {
-fad6396eea4946 Johannes Zink         2023-04-14  613  		dev_warn(dev, "Ignore invalid data-mapping property");
-fad6396eea4946 Johannes Zink         2023-04-14  614  	} else if (ret != -ENODEV) {
-fad6396eea4946 Johannes Zink         2023-04-14  615  		int bpc;
-fad6396eea4946 Johannes Zink         2023-04-14  616  
-fad6396eea4946 Johannes Zink         2023-04-14  617  		switch (ret) {
-fad6396eea4946 Johannes Zink         2023-04-14  618  		default:
-fad6396eea4946 Johannes Zink         2023-04-14  619  			WARN_ON(1);
-fad6396eea4946 Johannes Zink         2023-04-14  620  			fallthrough;
-fad6396eea4946 Johannes Zink         2023-04-14  621  		case MEDIA_BUS_FMT_RGB888_1X7X4_SPWG:
-fad6396eea4946 Johannes Zink         2023-04-14  622  			fallthrough;
-fad6396eea4946 Johannes Zink         2023-04-14  623  		case MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA:
-fad6396eea4946 Johannes Zink         2023-04-14  624  			bpc = 8;
-fad6396eea4946 Johannes Zink         2023-04-14  625  			break;
-fad6396eea4946 Johannes Zink         2023-04-14  626  		case MEDIA_BUS_FMT_RGB666_1X7X3_SPWG:
-fad6396eea4946 Johannes Zink         2023-04-14  627  			bpc = 6;
-fad6396eea4946 Johannes Zink         2023-04-14  628  		}
-fad6396eea4946 Johannes Zink         2023-04-14  629  
-fad6396eea4946 Johannes Zink         2023-04-14  630  		if (desc->bpc != bpc || desc->bus_format != ret) {
-fad6396eea4946 Johannes Zink         2023-04-14  631  			struct panel_desc *override_desc;
-fad6396eea4946 Johannes Zink         2023-04-14  632  
-fad6396eea4946 Johannes Zink         2023-04-14  633  			override_desc = devm_kmemdup(dev, desc, sizeof(*desc), GFP_KERNEL);
-fad6396eea4946 Johannes Zink         2023-04-14  634  			if (!override_desc)
-fad6396eea4946 Johannes Zink         2023-04-14 @635  				return -ENOMEM;
+9c61f3b560f5dd Amir Goldstein 2020-03-30  603  static struct fanotify_event *fanotify_alloc_fid_event(struct inode *id,
+9c61f3b560f5dd Amir Goldstein 2020-03-30  604  						       __kernel_fsid_t *fsid,
+2da6209964005a Amir Goldstein 2023-04-09  605  						       struct mount *mnt,
+7e3e5c69439949 Amir Goldstein 2021-03-04  606  						       unsigned int *hash,
+9c61f3b560f5dd Amir Goldstein 2020-03-30  607  						       gfp_t gfp)
+9c61f3b560f5dd Amir Goldstein 2020-03-30  608  {
+2da6209964005a Amir Goldstein 2023-04-09  609  	unsigned int fh_len = fanotify_encode_fh_len(id);
+9c61f3b560f5dd Amir Goldstein 2020-03-30  610  	struct fanotify_fid_event *ffe;
+9c61f3b560f5dd Amir Goldstein 2020-03-30  611  
+9c61f3b560f5dd Amir Goldstein 2020-03-30  612  	ffe = kmem_cache_alloc(fanotify_fid_event_cachep, gfp);
+9c61f3b560f5dd Amir Goldstein 2020-03-30  613  	if (!ffe)
+9c61f3b560f5dd Amir Goldstein 2020-03-30  614  		return NULL;
+9c61f3b560f5dd Amir Goldstein 2020-03-30  615  
+9c61f3b560f5dd Amir Goldstein 2020-03-30  616  	ffe->fae.type = FANOTIFY_EVENT_TYPE_FID;
+9c61f3b560f5dd Amir Goldstein 2020-03-30  617  	ffe->fsid = *fsid;
+7e3e5c69439949 Amir Goldstein 2021-03-04 @618  	*hash ^= fanotify_hash_fsid(fsid);
 
-goto free_ddc;
+Unchecked dereference
 
-fad6396eea4946 Johannes Zink         2023-04-14  636  
-fad6396eea4946 Johannes Zink         2023-04-14  637  			override_desc->bus_format = ret;
-fad6396eea4946 Johannes Zink         2023-04-14  638  			override_desc->bpc = bpc;
-fad6396eea4946 Johannes Zink         2023-04-14  639  			panel->desc = override_desc;
-fad6396eea4946 Johannes Zink         2023-04-14  640  		}
-fad6396eea4946 Johannes Zink         2023-04-14  641  	}
-fad6396eea4946 Johannes Zink         2023-04-14  642  
-9f069c6fbc7266 Sam Ravnborg          2020-07-26  643  	connector_type = desc->connector_type;
-ddb8e853dc8507 Sam Ravnborg          2020-07-26  644  	/* Catch common mistakes for panels. */
-9f069c6fbc7266 Sam Ravnborg          2020-07-26  645  	switch (connector_type) {
-ddb8e853dc8507 Sam Ravnborg          2020-07-26  646  	case 0:
-ddb8e853dc8507 Sam Ravnborg          2020-07-26  647  		dev_warn(dev, "Specify missing connector_type\n");
-9f069c6fbc7266 Sam Ravnborg          2020-07-26  648  		connector_type = DRM_MODE_CONNECTOR_DPI;
-ddb8e853dc8507 Sam Ravnborg          2020-07-26  649  		break;
-ddb8e853dc8507 Sam Ravnborg          2020-07-26  650  	case DRM_MODE_CONNECTOR_LVDS:
-c4715837b02393 Laurent Pinchart      2020-06-30  651  		WARN_ON(desc->bus_flags &
-c4715837b02393 Laurent Pinchart      2020-06-30  652  			~(DRM_BUS_FLAG_DE_LOW |
-c4715837b02393 Laurent Pinchart      2020-06-30  653  			  DRM_BUS_FLAG_DE_HIGH |
-c4715837b02393 Laurent Pinchart      2020-06-30  654  			  DRM_BUS_FLAG_DATA_MSB_TO_LSB |
-c4715837b02393 Laurent Pinchart      2020-06-30  655  			  DRM_BUS_FLAG_DATA_LSB_TO_MSB));
-1185c406f11a49 Laurent Pinchart      2020-06-30  656  		WARN_ON(desc->bus_format != MEDIA_BUS_FMT_RGB666_1X7X3_SPWG &&
-1185c406f11a49 Laurent Pinchart      2020-06-30  657  			desc->bus_format != MEDIA_BUS_FMT_RGB888_1X7X4_SPWG &&
-1185c406f11a49 Laurent Pinchart      2020-06-30  658  			desc->bus_format != MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA);
-1185c406f11a49 Laurent Pinchart      2020-06-30  659  		WARN_ON(desc->bus_format == MEDIA_BUS_FMT_RGB666_1X7X3_SPWG &&
-1185c406f11a49 Laurent Pinchart      2020-06-30  660  			desc->bpc != 6);
-1185c406f11a49 Laurent Pinchart      2020-06-30  661  		WARN_ON((desc->bus_format == MEDIA_BUS_FMT_RGB888_1X7X4_SPWG ||
-1185c406f11a49 Laurent Pinchart      2020-06-30  662  			 desc->bus_format == MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA) &&
-1185c406f11a49 Laurent Pinchart      2020-06-30  663  			desc->bpc != 8);
-ddb8e853dc8507 Sam Ravnborg          2020-07-26  664  		break;
-ddb8e853dc8507 Sam Ravnborg          2020-07-26  665  	case DRM_MODE_CONNECTOR_eDP:
-5f04e7ce392db9 Douglas Anderson      2021-09-14  666  		dev_warn(dev, "eDP panels moved to panel-edp\n");
-5f04e7ce392db9 Douglas Anderson      2021-09-14  667  		err = -EINVAL;
-5f04e7ce392db9 Douglas Anderson      2021-09-14  668  		goto free_ddc;
-ddb8e853dc8507 Sam Ravnborg          2020-07-26  669  	case DRM_MODE_CONNECTOR_DSI:
-ddb8e853dc8507 Sam Ravnborg          2020-07-26  670  		if (desc->bpc != 6 && desc->bpc != 8)
-ddb8e853dc8507 Sam Ravnborg          2020-07-26  671  			dev_warn(dev, "Expected bpc in {6,8} but got: %u\n", desc->bpc);
-ddb8e853dc8507 Sam Ravnborg          2020-07-26  672  		break;
-ddb8e853dc8507 Sam Ravnborg          2020-07-26  673  	case DRM_MODE_CONNECTOR_DPI:
-ddb8e853dc8507 Sam Ravnborg          2020-07-26  674  		bus_flags = DRM_BUS_FLAG_DE_LOW |
-ddb8e853dc8507 Sam Ravnborg          2020-07-26  675  			    DRM_BUS_FLAG_DE_HIGH |
-ddb8e853dc8507 Sam Ravnborg          2020-07-26  676  			    DRM_BUS_FLAG_PIXDATA_SAMPLE_POSEDGE |
-ddb8e853dc8507 Sam Ravnborg          2020-07-26  677  			    DRM_BUS_FLAG_PIXDATA_SAMPLE_NEGEDGE |
-ddb8e853dc8507 Sam Ravnborg          2020-07-26  678  			    DRM_BUS_FLAG_DATA_MSB_TO_LSB |
-ddb8e853dc8507 Sam Ravnborg          2020-07-26  679  			    DRM_BUS_FLAG_DATA_LSB_TO_MSB |
-ddb8e853dc8507 Sam Ravnborg          2020-07-26  680  			    DRM_BUS_FLAG_SYNC_SAMPLE_POSEDGE |
-ddb8e853dc8507 Sam Ravnborg          2020-07-26  681  			    DRM_BUS_FLAG_SYNC_SAMPLE_NEGEDGE;
-ddb8e853dc8507 Sam Ravnborg          2020-07-26  682  		if (desc->bus_flags & ~bus_flags)
-ddb8e853dc8507 Sam Ravnborg          2020-07-26  683  			dev_warn(dev, "Unexpected bus_flags(%d)\n", desc->bus_flags & ~bus_flags);
-ddb8e853dc8507 Sam Ravnborg          2020-07-26  684  		if (!(desc->bus_flags & bus_flags))
-ddb8e853dc8507 Sam Ravnborg          2020-07-26  685  			dev_warn(dev, "Specify missing bus_flags\n");
-ddb8e853dc8507 Sam Ravnborg          2020-07-26  686  		if (desc->bus_format == 0)
-ddb8e853dc8507 Sam Ravnborg          2020-07-26  687  			dev_warn(dev, "Specify missing bus_format\n");
-ddb8e853dc8507 Sam Ravnborg          2020-07-26  688  		if (desc->bpc != 6 && desc->bpc != 8)
-ddb8e853dc8507 Sam Ravnborg          2020-07-26  689  			dev_warn(dev, "Expected bpc in {6,8} but got: %u\n", desc->bpc);
-ddb8e853dc8507 Sam Ravnborg          2020-07-26  690  		break;
-ddb8e853dc8507 Sam Ravnborg          2020-07-26  691  	default:
-ddb8e853dc8507 Sam Ravnborg          2020-07-26  692  		dev_warn(dev, "Specify a valid connector_type: %d\n", desc->connector_type);
-9f069c6fbc7266 Sam Ravnborg          2020-07-26  693  		connector_type = DRM_MODE_CONNECTOR_DPI;
-ddb8e853dc8507 Sam Ravnborg          2020-07-26  694  		break;
-1185c406f11a49 Laurent Pinchart      2020-06-30  695  	}
-c4715837b02393 Laurent Pinchart      2020-06-30  696  
-3235b0f20a0a41 Douglas Anderson      2021-04-16  697  	dev_set_drvdata(dev, panel);
-3235b0f20a0a41 Douglas Anderson      2021-04-16  698  
-3235b0f20a0a41 Douglas Anderson      2021-04-16  699  	/*
-3235b0f20a0a41 Douglas Anderson      2021-04-16  700  	 * We use runtime PM for prepare / unprepare since those power the panel
-3235b0f20a0a41 Douglas Anderson      2021-04-16  701  	 * on and off and those can be very slow operations. This is important
-3235b0f20a0a41 Douglas Anderson      2021-04-16  702  	 * to optimize powering the panel on briefly to read the EDID before
-3235b0f20a0a41 Douglas Anderson      2021-04-16  703  	 * fully enabling the panel.
-3235b0f20a0a41 Douglas Anderson      2021-04-16  704  	 */
-3235b0f20a0a41 Douglas Anderson      2021-04-16  705  	pm_runtime_enable(dev);
-3235b0f20a0a41 Douglas Anderson      2021-04-16  706  	pm_runtime_set_autosuspend_delay(dev, 1000);
-3235b0f20a0a41 Douglas Anderson      2021-04-16  707  	pm_runtime_use_autosuspend(dev);
-3235b0f20a0a41 Douglas Anderson      2021-04-16  708  
-9f069c6fbc7266 Sam Ravnborg          2020-07-26  709  	drm_panel_init(&panel->base, dev, &panel_simple_funcs, connector_type);
-280921de7241ee Thierry Reding        2013-08-30  710  
-0fe1564bd61642 Sam Ravnborg          2019-12-07  711  	err = drm_panel_of_backlight(&panel->base);
-d9e74da2f1fc42 Alexander Stein       2022-06-21  712  	if (err) {
-d9e74da2f1fc42 Alexander Stein       2022-06-21  713  		dev_err_probe(dev, err, "Could not find backlight\n");
-70e12560126685 Douglas Anderson      2021-04-23  714  		goto disable_pm_runtime;
-d9e74da2f1fc42 Alexander Stein       2022-06-21  715  	}
-0fe1564bd61642 Sam Ravnborg          2019-12-07  716  
-c3ee8c65f63799 Bernard Zhao          2020-08-01  717  	drm_panel_add(&panel->base);
-280921de7241ee Thierry Reding        2013-08-30  718  
-280921de7241ee Thierry Reding        2013-08-30  719  	return 0;
-280921de7241ee Thierry Reding        2013-08-30  720  
-70e12560126685 Douglas Anderson      2021-04-23  721  disable_pm_runtime:
-a596fcd9cbc781 Douglas Anderson      2021-05-17  722  	pm_runtime_dont_use_autosuspend(dev);
-70e12560126685 Douglas Anderson      2021-04-23  723  	pm_runtime_disable(dev);
-280921de7241ee Thierry Reding        2013-08-30  724  free_ddc:
-5f04e7ce392db9 Douglas Anderson      2021-09-14  725  	if (panel->ddc)
-280921de7241ee Thierry Reding        2013-08-30  726  		put_device(&panel->ddc->dev);
-280921de7241ee Thierry Reding        2013-08-30  727  
-280921de7241ee Thierry Reding        2013-08-30  728  	return err;
-280921de7241ee Thierry Reding        2013-08-30  729  }
+2da6209964005a Amir Goldstein 2023-04-09  619  	fanotify_encode_fh(&ffe->object_fh, id, fh_len, hash, gfp);
+2da6209964005a Amir Goldstein 2023-04-09  620  	/* Store mntid in fid_event with fsid and null fh */
+2da6209964005a Amir Goldstein 2023-04-09  621  	if (mnt && !WARN_ON_ONCE(!fh_len)) {
+2da6209964005a Amir Goldstein 2023-04-09  622  		ffe->mnt_id = mnt->mnt_id;
+2da6209964005a Amir Goldstein 2023-04-09  623  		ffe->object_fh.flags = FANOTIFY_FH_FLAG_MNT_ID;
+2da6209964005a Amir Goldstein 2023-04-09 @624  		if (hash)
+
+Checked too late.
+
+2da6209964005a Amir Goldstein 2023-04-09  625  			*hash ^= fanotify_hash_mntid(mnt->mnt_id);
+2da6209964005a Amir Goldstein 2023-04-09  626  	}
+9c61f3b560f5dd Amir Goldstein 2020-03-30  627  
+9c61f3b560f5dd Amir Goldstein 2020-03-30  628  	return &ffe->fae;
+9c61f3b560f5dd Amir Goldstein 2020-03-30  629  }
 
 -- 
 0-DAY CI Kernel Test Service
