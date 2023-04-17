@@ -1,135 +1,117 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2B7C8460;
-	Mon, 17 Apr 2023 14:43:02 +0000 (UTC)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 33HCtV7Z007267;
-	Mon, 17 Apr 2023 14:42:51 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
- subject : references : date : in-reply-to : message-id : mime-version :
- content-type; s=qcppdkim1;
- bh=5qzd+c0AETChtvpI0vuLSbl7U7FbPzJnd0FfoOEhIaE=;
- b=d83kJ4LEVgpDwRbJIfScjM0ci2P9l7VFJg8STkWtX1Vk3RhnMg62DLAte+wcJjjZFwSK
- hpSsm6R9SirIQawc0FyNmpR2dqj/AfCB+IlEOlukxyt/pHw5VLULAc3tfvUdChjHlC2c
- ITR9VKacjAJ2zNVsl58jupmLNDC7p45UCZ88Pgr97wkplcGVXEy7dBi30E/iPtowZYUa
- 7lg9FVQX+mpQKjsyca6+WYXrWD1K5YUmMd3pYM4wwmLs301Jnbc0yCr8D5BiWxb2icOM
- a50Wbo2dPAZtv0/Zxdy2yUwKnfPQeaZ2POWtcH/iSPuUCwEcKzPnzQwBU45j516VpQsz UQ== 
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3q11er8y0v-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 17 Apr 2023 14:42:51 +0000
-Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
-	by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 33HEgnI2002301
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 17 Apr 2023 14:42:50 GMT
-Received: from kvalo10 (10.80.80.8) by nalasex01c.na.qualcomm.com
- (10.47.97.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Mon, 17 Apr
- 2023 07:42:41 -0700
-From: Kalle Valo <quic_kvalo@quicinc.com>
-To: Dan Carpenter <error27@gmail.com>
-CC: <oe-kbuild@lists.linux.dev>, <lkp@intel.com>,
-        <oe-kbuild-all@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
-        <ath11k@lists.infradead.org>
-Subject: Re: drivers/net/wireless/ath/ath11k/debugfs.c:1009
- ath11k_debugfs_soc_create() warn: passing zero to 'PTR_ERR'
-References: <278dae1d-0cc2-4963-b7f0-5d611a5b31a4@kili.mountain>
-Date: Mon, 17 Apr 2023 17:42:38 +0300
-In-Reply-To: <278dae1d-0cc2-4963-b7f0-5d611a5b31a4@kili.mountain> (Dan
-	Carpenter's message of "Sat, 15 Apr 2023 16:15:07 +0300")
-Message-ID: <87o7nm4lk1.fsf@kvalo10.eu.qualcomm.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19AB88BEB
+	for <oe-kbuild@lists.linux.dev>; Mon, 17 Apr 2023 20:16:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1681762566; x=1713298566;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=qTXuNI42D1Tm5QXilsMunH5OVGC6tyKCmwbi30zUc2Y=;
+  b=SoFcdepqaPoOvBLIxksAc8TB0U0GwQy46bGjXDWdOrkp9GlgBZ6XJGCQ
+   wO/tcLdiyDvOCzrD4XTvE7q0afxfoWc/TzRNnoapFLwAt7ZDjI3kx/TSo
+   W5k4Vs0orwiqe0Mx/KdTr6hDAx6JBhGdGuxO/x4VA1HVh4DY0lCQBBSHl
+   fNaJYWh/e99FlUug9EBbZ3T/YvhRiH43lZxOmx/b7xZLawBAropV75/Ez
+   ooWJRe/+Kleq7Uv+0y3I0ltDkQwsKVm2X6QvbRdRdP5eNmsa61ek77mEF
+   vXkCx6R71KEp//80fknR57BhEw/acNDXuDIPvgLfLkIMd1CKHOPjy+uRo
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10683"; a="410215370"
+X-IronPort-AV: E=Sophos;i="5.99,205,1677571200"; 
+   d="scan'208";a="410215370"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2023 13:16:05 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10683"; a="693357799"
+X-IronPort-AV: E=Sophos;i="5.99,205,1677571200"; 
+   d="scan'208";a="693357799"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by fmsmga007.fm.intel.com with ESMTP; 17 Apr 2023 13:16:02 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1poVGd-000cf1-0D;
+	Mon, 17 Apr 2023 20:16:03 +0000
+Date: Tue, 18 Apr 2023 04:15:22 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [ceph-client:testing 77/77] fs/ceph/mds_client.c:1957
+ wake_up_session_cb() error: potentially dereferencing uninitialized 'cap'.
+Message-ID: <202304180424.Dok2kyeU-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01c.na.qualcomm.com (10.47.97.35)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: H9A4xvmLo5N9w1APDOkTIhTehPqH1_oK
-X-Proofpoint-ORIG-GUID: H9A4xvmLo5N9w1APDOkTIhTehPqH1_oK
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-04-17_08,2023-04-17_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 impostorscore=0
- phishscore=0 malwarescore=0 lowpriorityscore=0 clxscore=1015 adultscore=0
- suspectscore=0 priorityscore=1501 mlxscore=0 spamscore=0 mlxlogscore=429
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2303200000
- definitions=main-2304170131
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-+ ath11k list
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: ceph-devel@vger.kernel.org
+TO: Xiubo Li <xiubli@redhat.com>
 
-Including the full report below.
+tree:   https://github.com/ceph/ceph-client.git testing
+head:   3fef7c3fd10c5f078e0f6ec8c683f2d1e14eb05d
+commit: 3fef7c3fd10c5f078e0f6ec8c683f2d1e14eb05d [77/77] ceph: fix potential use-after-free bug when trimming caps
+:::::: branch date: 14 hours ago
+:::::: commit date: 14 hours ago
+config: i386-randconfig-m021-20230417 (https://download.01.org/0day-ci/archive/20230418/202304180424.Dok2kyeU-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 
-Kalle
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Link: https://lore.kernel.org/r/202304180424.Dok2kyeU-lkp@intel.com/
 
-Dan Carpenter <error27@gmail.com> writes:
+New smatch warnings:
+fs/ceph/mds_client.c:1957 wake_up_session_cb() error: potentially dereferencing uninitialized 'cap'.
 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   7a934f4bd7d6f9da84c8812da3ba42ee10f5778e
-> commit: 323d91d4684d238f6bc3693fed93caf795378fe0 wifi: ath11k: debugfs: fix to work with multiple PCI devices
-> config: openrisc-randconfig-m041-20230414
-> (https://download.01.org/0day-ci/archive/20230415/202304152142.ssXYxFdQ-lkp@intel.com/config)
-> compiler: or1k-linux-gcc (GCC) 12.1.0
->
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <error27@gmail.com>
-> | Link: https://lore.kernel.org/r/202304152142.ssXYxFdQ-lkp@intel.com/
->
-> New smatch warnings:
-> drivers/net/wireless/ath/ath11k/debugfs.c:1009 ath11k_debugfs_soc_create() warn: passing zero to 'PTR_ERR'
->
-> Old smatch warnings:
-> drivers/net/wireless/ath/ath11k/debugfs.c:1022 ath11k_debugfs_soc_create() warn: passing zero to 'PTR_ERR'
->
-> vim +/PTR_ERR +1009 drivers/net/wireless/ath/ath11k/debugfs.c
->
-> cb4e57db2ff0c8 Kalle Valo 2020-09-16   998  int ath11k_debugfs_soc_create(struct ath11k_base *ab)
-> da3a9d3c15769b Kalle Valo 2020-09-16   999  {
-> 323d91d4684d23 Kalle Valo 2022-12-22  1000  	struct dentry *root;
-> 323d91d4684d23 Kalle Valo 2022-12-22  1001  	bool dput_needed;
-> 323d91d4684d23 Kalle Valo 2022-12-22  1002  	char name[64];
-> 323d91d4684d23 Kalle Valo 2022-12-22  1003  	int ret;
-> 323d91d4684d23 Kalle Valo 2022-12-22  1004  
-> 323d91d4684d23 Kalle Valo 2022-12-22  1005  	root = debugfs_lookup("ath11k", NULL);
-> 323d91d4684d23 Kalle Valo 2022-12-22  1006  	if (!root) {
-> 323d91d4684d23 Kalle Valo 2022-12-22  1007  		root = debugfs_create_dir("ath11k", NULL);
-> 323d91d4684d23 Kalle Valo 2022-12-22  1008  		if (IS_ERR_OR_NULL(root))
-> 323d91d4684d23 Kalle Valo 2022-12-22 @1009  			return PTR_ERR(root);
->
-> Debugfs used to return a mix of error pointers and NULL but we changed
-> the NULL return to an error pointer to encourage people to just delete
-> all debugfs error handling code.
->
-> 323d91d4684d23 Kalle Valo 2022-12-22  1010  
-> 323d91d4684d23 Kalle Valo 2022-12-22  1011  		dput_needed = false;
-> 323d91d4684d23 Kalle Valo 2022-12-22  1012  	} else {
-> 323d91d4684d23 Kalle Valo 2022-12-22 1013 /* a dentry from lookup()
-> needs dput() after we don't use it */
-> 323d91d4684d23 Kalle Valo 2022-12-22  1014  		dput_needed = true;
-> 323d91d4684d23 Kalle Valo 2022-12-22  1015  	}
-> 323d91d4684d23 Kalle Valo 2022-12-22  1016  
-> 323d91d4684d23 Kalle Valo 2022-12-22  1017  	scnprintf(name, sizeof(name), "%s-%s", ath11k_bus_str(ab->hif.bus),
-> 323d91d4684d23 Kalle Valo 2022-12-22  1018  		  dev_name(ab->dev));
-> da3a9d3c15769b Kalle Valo 2020-09-16  1019  
-> 323d91d4684d23 Kalle Valo 2022-12-22  1020  	ab->debugfs_soc = debugfs_create_dir(name, root);
-> 323d91d4684d23 Kalle Valo 2022-12-22  1021  	if (IS_ERR_OR_NULL(ab->debugfs_soc)) {
-> 323d91d4684d23 Kalle Valo 2022-12-22  1022  		ret = PTR_ERR(ab->debugfs_soc);
-> 323d91d4684d23 Kalle Valo 2022-12-22  1023  		goto out;
-> 323d91d4684d23 Kalle Valo 2022-12-22  1024  	}
-> 323d91d4684d23 Kalle Valo 2022-12-22  1025  
-> 323d91d4684d23 Kalle Valo 2022-12-22  1026  	ret = 0;
-> 323d91d4684d23 Kalle Valo 2022-12-22  1027  
-> 323d91d4684d23 Kalle Valo 2022-12-22  1028  out:
-> 323d91d4684d23 Kalle Valo 2022-12-22  1029  	if (dput_needed)
-> 323d91d4684d23 Kalle Valo 2022-12-22  1030  		dput(root);
-> 323d91d4684d23 Kalle Valo 2022-12-22  1031  
-> 323d91d4684d23 Kalle Valo 2022-12-22  1032  	return ret;
-> da3a9d3c15769b Kalle Valo 2020-09-16  1033  }
+Old smatch warnings:
+fs/ceph/mds_client.c:219 parse_reply_info_in() warn: missing unwind goto?
+
+vim +/cap +1957 fs/ceph/mds_client.c
+
+d2f8bb27c87945 Yan, Zheng  2018-12-10  1938  
+2f2dc053404feb Sage Weil   2009-10-06  1939  /*
+2f2dc053404feb Sage Weil   2009-10-06  1940   * wake up any threads waiting on this session's caps.  if the cap is
+2f2dc053404feb Sage Weil   2009-10-06  1941   * old (didn't get renewed on the client reconnect), remove it now.
+2f2dc053404feb Sage Weil   2009-10-06  1942   *
+2f2dc053404feb Sage Weil   2009-10-06  1943   * caller must hold s_mutex.
+2f2dc053404feb Sage Weil   2009-10-06  1944   */
+3fef7c3fd10c5f Xiubo Li    2023-04-14  1945  static int wake_up_session_cb(struct inode *inode, struct rb_node *ci_node, void *arg)
+2f2dc053404feb Sage Weil   2009-10-06  1946  {
+0dc2570fab222a Sage Weil   2009-11-20  1947  	struct ceph_inode_info *ci = ceph_inode(inode);
+d2f8bb27c87945 Yan, Zheng  2018-12-10  1948  	unsigned long ev = (unsigned long)arg;
+3fef7c3fd10c5f Xiubo Li    2023-04-14  1949  	struct ceph_cap *cap;
+0dc2570fab222a Sage Weil   2009-11-20  1950  
+d2f8bb27c87945 Yan, Zheng  2018-12-10  1951  	if (ev == RECONNECT) {
+be655596b3de58 Sage Weil   2011-11-30  1952  		spin_lock(&ci->i_ceph_lock);
+0dc2570fab222a Sage Weil   2009-11-20  1953  		ci->i_wanted_max_size = 0;
+0dc2570fab222a Sage Weil   2009-11-20  1954  		ci->i_requested_max_size = 0;
+be655596b3de58 Sage Weil   2011-11-30  1955  		spin_unlock(&ci->i_ceph_lock);
+d2f8bb27c87945 Yan, Zheng  2018-12-10  1956  	} else if (ev == RENEWCAPS) {
+52d60f8e18b855 Jeff Layton 2021-06-04 @1957  		if (cap->cap_gen < atomic_read(&cap->session->s_cap_gen)) {
+d2f8bb27c87945 Yan, Zheng  2018-12-10  1958  			/* mds did not re-issue stale cap */
+d2f8bb27c87945 Yan, Zheng  2018-12-10  1959  			spin_lock(&ci->i_ceph_lock);
+3fef7c3fd10c5f Xiubo Li    2023-04-14  1960  			cap = rb_entry(ci_node, struct ceph_cap, ci_node);
+3fef7c3fd10c5f Xiubo Li    2023-04-14  1961  			if (cap)
+d2f8bb27c87945 Yan, Zheng  2018-12-10  1962  				cap->issued = cap->implemented = CEPH_CAP_PIN;
+d2f8bb27c87945 Yan, Zheng  2018-12-10  1963  			spin_unlock(&ci->i_ceph_lock);
+d2f8bb27c87945 Yan, Zheng  2018-12-10  1964  		}
+d2f8bb27c87945 Yan, Zheng  2018-12-10  1965  	} else if (ev == FORCE_RO) {
+0dc2570fab222a Sage Weil   2009-11-20  1966  	}
+e536030934aebf Yan, Zheng  2016-05-19  1967  	wake_up_all(&ci->i_cap_wq);
+2f2dc053404feb Sage Weil   2009-10-06  1968  	return 0;
+2f2dc053404feb Sage Weil   2009-10-06  1969  }
+2f2dc053404feb Sage Weil   2009-10-06  1970  
+
+:::::: The code at line 1957 was first introduced by commit
+:::::: 52d60f8e18b855d67ecdc4fa34ae1b894d36c7b9 ceph: eliminate session->s_gen_ttl_lock
+
+:::::: TO: Jeff Layton <jlayton@kernel.org>
+:::::: CC: Ilya Dryomov <idryomov@gmail.com>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
