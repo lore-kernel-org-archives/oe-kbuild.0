@@ -1,129 +1,97 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 662D8816
-	for <oe-kbuild@lists.linux.dev>; Tue, 18 Apr 2023 06:38:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1681799919;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dUq4DBoYKw2CrRQTHlHo7wdWkO9/bwTxxLkECJNUP2Y=;
-	b=baS4EeWJ1PghixGPRVBK1zL7QDRI77dk+ahHOfU7CwIN8DtAN8w6jnwCWOS05jIszpBZxC
-	r1V9C5cMTazDKlVYzYhssfcsiqEwn157MZHE3HyyfWd9b1PW7h3DtuhSWg91mZGWk5C/Fs
-	c83mtH2LaCScQB4BsWlFxpIneRg5u+o=
-Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com
- [209.85.210.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-614-nOO9AyFGOpWY6eRcg_o8fg-1; Tue, 18 Apr 2023 02:38:36 -0400
-X-MC-Unique: nOO9AyFGOpWY6eRcg_o8fg-1
-Received: by mail-pf1-f200.google.com with SMTP id d2e1a72fcca58-63b63bd77a8so1656420b3a.2
-        for <oe-kbuild@lists.linux.dev>; Mon, 17 Apr 2023 23:38:35 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681799915; x=1684391915;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=dUq4DBoYKw2CrRQTHlHo7wdWkO9/bwTxxLkECJNUP2Y=;
-        b=Iey/usIdtU6KOlyil0TeVjV/j0NZaY8rnoprhPpfUqHLDrT70P4XvMpiz7cC02+Iwt
-         eFmK4ijh5R4RyB+hn6247lZkVVIsUWV7JiSZyd2NcD54+JKnufyaE+Hoi8f8LZXKA7zb
-         ZZwqCcT6tqLtadBwtAlxSkjckTSj6J6b7Zid5mO21P6ClpxnMYDtRUA+7lldBCgohElq
-         W+DHYihAPKUx2LktbfzqvhWdmMr+nB32M3vVk6Zv4DXvmnDscyVYN3fbsoYqOR33AZNO
-         ld3vP13YcN236Li6IYKSG6KvNOK81/PvsHQZ8+ysZrrRdAEflknI4hL2UKjxFxqLisyp
-         /bUQ==
-X-Gm-Message-State: AAQBX9cf64AUh5KqtqWQjbze65pO7AsJmrmKsqDSyp5uDmKuW+iajTbL
-	8q4o/KT8z6MA2n9lelEln2HlanF4bTAQCjXoSeSOIXVqZak5kiGDcwXcDgropiVKB9ide0DE0zM
-	TCLONpktgWTq2U/rtATVN
-X-Received: by 2002:a05:6a00:179a:b0:63b:8eeb:77b8 with SMTP id s26-20020a056a00179a00b0063b8eeb77b8mr8656928pfg.13.1681799914930;
-        Mon, 17 Apr 2023 23:38:34 -0700 (PDT)
-X-Google-Smtp-Source: AKy350ZNbXSNUUYsBhTQbe9GMU0xrqcf8HbI9WS2+Jfi5zGuFwjotUORgVkX4FbdGyl/MFe3tdOccg==
-X-Received: by 2002:a05:6a00:179a:b0:63b:8eeb:77b8 with SMTP id s26-20020a056a00179a00b0063b8eeb77b8mr8656912pfg.13.1681799914607;
-        Mon, 17 Apr 2023 23:38:34 -0700 (PDT)
-Received: from [10.72.12.132] ([43.228.180.230])
-        by smtp.gmail.com with ESMTPSA id y6-20020aa78546000000b0063d238b1e4bsm2576855pfn.160.2023.04.17.23.38.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 17 Apr 2023 23:38:34 -0700 (PDT)
-Message-ID: <447bea60-537d-5872-bfad-37caf97ccc43@redhat.com>
-Date: Tue, 18 Apr 2023 14:38:28 +0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 035BC1C02
+	for <oe-kbuild@lists.linux.dev>; Tue, 18 Apr 2023 15:26:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1681831564; x=1713367564;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=yU+mtEw9hF5OAcUkWP9h/w0iZ4hgHiBq3lmi0i53jBE=;
+  b=SETHsl88HyNisJ+9WecJfdeHmo7Jhfzod/oZ47rTvOKpZva/CAuZ5Jwl
+   Z96pbHhohj7hD3bGgnZpDPz/Q6QcFFBWnfn748bYeO/cebkkfDFHcePE6
+   UamxkiIo2KZNp+mnrACq0hkaunit8RnZbnp8ZaWC1hBv/Tv1rDPhEiSYO
+   /ilYs51ErIy52HPal5g8xWch32L+X/TuPSpnjl6s/RYWQZdNHixPMb39d
+   3KiHaSqp2f03DvpnxN+/XnuG2jq+ZixRm5rWXYU86NiL9MolLPgEmIMru
+   vPbDhk4rhxFL35F1AnKcAcf5Yr8Fp5OPU/2zKWvfTH6LBL/iIG7SFf5p/
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10684"; a="431488244"
+X-IronPort-AV: E=Sophos;i="5.99,207,1677571200"; 
+   d="scan'208";a="431488244"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2023 08:25:53 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10684"; a="815250417"
+X-IronPort-AV: E=Sophos;i="5.99,207,1677571200"; 
+   d="scan'208";a="815250417"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by orsmga004.jf.intel.com with ESMTP; 18 Apr 2023 08:25:53 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1ponDM-000dfz-0L;
+	Tue, 18 Apr 2023 15:25:52 +0000
+Date: Tue, 18 Apr 2023 23:25:13 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [hverkuil-media-tree:saa7146-clean 218/218]
+ drivers/staging/media/av7110/av7110_v4l.c:616 av7110_vbi_reset() warn:
+ ignoring unreachable code.
+Message-ID: <202304182327.ZUETtPKO-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.1
-Subject: Re: [ceph-client:testing 77/77] fs/ceph/mds_client.c:1957
- wake_up_session_cb() error: potentially dereferencing uninitialized 'cap'.
-To: Dan Carpenter <error27@gmail.com>, oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, ceph-devel@vger.kernel.org
-References: <1a89b8e8-f52c-4005-a4ad-85935679f275@kili.mountain>
-From: Xiubo Li <xiubli@redhat.com>
-In-Reply-To: <1a89b8e8-f52c-4005-a4ad-85935679f275@kili.mountain>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi Dan,
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: Hans Verkuil <hverkuil@xs4all.nl>
 
-Thanks for reporting.
+tree:   git://linuxtv.org/hverkuil/media_tree.git saa7146-clean
+head:   2e2bb011da69df51b7792a197fd655c88e4eb0fd
+commit: 2e2bb011da69df51b7792a197fd655c88e4eb0fd [218/218] staging: media: av7110: fix VBI output support
+:::::: branch date: 6 days ago
+:::::: commit date: 6 days ago
+config: openrisc-randconfig-m031-20230416 (https://download.01.org/0day-ci/archive/20230418/202304182327.ZUETtPKO-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 12.1.0
 
-This has been fixed already.
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Link: https://lore.kernel.org/r/202304182327.ZUETtPKO-lkp@intel.com/
 
-- Xiubo
+smatch warnings:
+drivers/staging/media/av7110/av7110_v4l.c:616 av7110_vbi_reset() warn: ignoring unreachable code.
 
-On 4/18/23 12:25, Dan Carpenter wrote:
-> tree:   https://github.com/ceph/ceph-client.git testing
-> head:   3fef7c3fd10c5f078e0f6ec8c683f2d1e14eb05d
-> commit: 3fef7c3fd10c5f078e0f6ec8c683f2d1e14eb05d [77/77] ceph: fix potential use-after-free bug when trimming caps
-> config: i386-randconfig-m021-20230417 (https://download.01.org/0day-ci/archive/20230418/202304180424.Dok2kyeU-lkp@intel.com/config)
-> compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
->
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <error27@gmail.com>
-> | Link: https://lore.kernel.org/r/202304180424.Dok2kyeU-lkp@intel.com/
->
-> New smatch warnings:
-> fs/ceph/mds_client.c:1957 wake_up_session_cb() error: potentially dereferencing uninitialized 'cap'.
->
-> Old smatch warnings:
-> fs/ceph/mds_client.c:219 parse_reply_info_in() warn: missing unwind goto?
->
-> vim +/cap +1957 fs/ceph/mds_client.c
->
-> 3fef7c3fd10c5f Xiubo Li    2023-04-14  1945  static int wake_up_session_cb(struct inode *inode, struct rb_node *ci_node, void *arg)
-> 2f2dc053404feb Sage Weil   2009-10-06  1946  {
-> 0dc2570fab222a Sage Weil   2009-11-20  1947  	struct ceph_inode_info *ci = ceph_inode(inode);
-> d2f8bb27c87945 Yan, Zheng  2018-12-10  1948  	unsigned long ev = (unsigned long)arg;
-> 3fef7c3fd10c5f Xiubo Li    2023-04-14  1949  	struct ceph_cap *cap;
-> 0dc2570fab222a Sage Weil   2009-11-20  1950
-> d2f8bb27c87945 Yan, Zheng  2018-12-10  1951  	if (ev == RECONNECT) {
-> be655596b3de58 Sage Weil   2011-11-30  1952  		spin_lock(&ci->i_ceph_lock);
-> 0dc2570fab222a Sage Weil   2009-11-20  1953  		ci->i_wanted_max_size = 0;
-> 0dc2570fab222a Sage Weil   2009-11-20  1954  		ci->i_requested_max_size = 0;
-> be655596b3de58 Sage Weil   2011-11-30  1955  		spin_unlock(&ci->i_ceph_lock);
-> d2f8bb27c87945 Yan, Zheng  2018-12-10  1956  	} else if (ev == RENEWCAPS) {
-> 52d60f8e18b855 Jeff Layton 2021-06-04 @1957  		if (cap->cap_gen < atomic_read(&cap->session->s_cap_gen)) {
->                                                              ^^^^^^^^^^^^               ^^^^^^^^^^^^^
->
-> d2f8bb27c87945 Yan, Zheng  2018-12-10  1958  			/* mds did not re-issue stale cap */
-> d2f8bb27c87945 Yan, Zheng  2018-12-10  1959  			spin_lock(&ci->i_ceph_lock);
-> 3fef7c3fd10c5f Xiubo Li    2023-04-14  1960  			cap = rb_entry(ci_node, struct ceph_cap, ci_node);
->                                                                  ^^^^^^^^^^^^^^
-> Initialized too late.
->
-> 3fef7c3fd10c5f Xiubo Li    2023-04-14  1961  			if (cap)
-> d2f8bb27c87945 Yan, Zheng  2018-12-10  1962  				cap->issued = cap->implemented = CEPH_CAP_PIN;
-> d2f8bb27c87945 Yan, Zheng  2018-12-10  1963  			spin_unlock(&ci->i_ceph_lock);
-> d2f8bb27c87945 Yan, Zheng  2018-12-10  1964  		}
-> d2f8bb27c87945 Yan, Zheng  2018-12-10  1965  	} else if (ev == FORCE_RO) {
-> 0dc2570fab222a Sage Weil   2009-11-20  1966  	}
-> e536030934aebf Yan, Zheng  2016-05-19  1967  	wake_up_all(&ci->i_cap_wq);
-> 2f2dc053404feb Sage Weil   2009-10-06  1968  	return 0;
-> 2f2dc053404feb Sage Weil   2009-10-06  1969  }
->
+vim +616 drivers/staging/media/av7110/av7110_v4l.c
 
+^1da177e4c3f41 drivers/media/dvb/ttpci/av7110_v4l.c      Linus Torvalds  2005-04-16  609  
+bec43661b1dc00 drivers/media/dvb/ttpci/av7110_v4l.c      Hans Verkuil    2008-12-30  610  static int av7110_vbi_reset(struct file *file)
+5b0fa4fff17d94 drivers/media/dvb/ttpci/av7110_v4l.c      Oliver Endriss  2006-01-09  611  {
+49f5c13b21823c drivers/staging/media/av7110/av7110_v4l.c Hans Verkuil    2023-03-01  612  	struct saa7146_dev *dev = video_drvdata(file);
+5b0fa4fff17d94 drivers/media/dvb/ttpci/av7110_v4l.c      Oliver Endriss  2006-01-09  613  	struct av7110 *av7110 = (struct av7110*) dev->ext_priv;
+5b0fa4fff17d94 drivers/media/dvb/ttpci/av7110_v4l.c      Oliver Endriss  2006-01-09  614  
+2e2bb011da69df drivers/staging/media/av7110/av7110_v4l.c Hans Verkuil    2023-03-22  615  	return 0;
+3ca7fc84e37c5c drivers/media/dvb/ttpci/av7110_v4l.c      Harvey Harrison 2008-04-08 @616  	dprintk(2, "%s\n", __func__);
+5b0fa4fff17d94 drivers/media/dvb/ttpci/av7110_v4l.c      Oliver Endriss  2006-01-09  617  	av7110->wssMode = 0;
+5b0fa4fff17d94 drivers/media/dvb/ttpci/av7110_v4l.c      Oliver Endriss  2006-01-09  618  	av7110->wssData = 0;
+5b0fa4fff17d94 drivers/media/dvb/ttpci/av7110_v4l.c      Oliver Endriss  2006-01-09  619  	if (FW_VERSION(av7110->arm_app) < 0x2623)
+5b0fa4fff17d94 drivers/media/dvb/ttpci/av7110_v4l.c      Oliver Endriss  2006-01-09  620  		return 0;
+5b0fa4fff17d94 drivers/media/dvb/ttpci/av7110_v4l.c      Oliver Endriss  2006-01-09  621  	else
+5b0fa4fff17d94 drivers/media/dvb/ttpci/av7110_v4l.c      Oliver Endriss  2006-01-09  622  		return av7110_fw_cmd(av7110, COMTYPE_ENCODER, SetWSSConfig, 1, 0);
+5b0fa4fff17d94 drivers/media/dvb/ttpci/av7110_v4l.c      Oliver Endriss  2006-01-09  623  }
+5b0fa4fff17d94 drivers/media/dvb/ttpci/av7110_v4l.c      Oliver Endriss  2006-01-09  624  
+
+:::::: The code at line 616 was first introduced by commit
+:::::: 3ca7fc84e37c5cf446fe4137f885f74e71373d7f V4L/DVB (7515): media/dvb/ttpci replace remaining __FUNCTION__ occurrences
+
+:::::: TO: Harvey Harrison <harvey.harrison@gmail.com>
+:::::: CC: Mauro Carvalho Chehab <mchehab@infradead.org>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
