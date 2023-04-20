@@ -1,274 +1,106 @@
-Received: from esa6.hgst.iphmx.com (esa6.hgst.iphmx.com [216.71.154.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AB41539D;
-	Thu, 20 Apr 2023 10:01:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1681984869; x=1713520869;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=D6nw+5+KZlazb3ijdZ9U8oT6Xznd+p1DsNbmDO99q8s=;
-  b=KqOigqq7rI28qZ8O6oGrYMk9W63l41ov8wf/M9HAPMuGtVKOHKdgq10h
-   a44kTJT5DF9LqOgy28yboJy++gYSnmkepc3rbQOrOhivBP6n7V/ZAYSDu
-   LPxiAUpoAfpuKpHw08X3ul9kY7COPWeGGZlwC38zyQE2eAi2NfBHG/T4y
-   T8nfElH5r7s9TGtXV0RLeTSdCi/eMBj7eLes492k9qL/Go9iN73Xbd/hP
-   SsL5L9V8cRVJDfzHucnIcrKQrV+8kxZxJdFbDW4mcbC8zlgK3Sfnnexe0
-   iqGkramcWnT96XKyRaokmq9ZDLOUnvL7KIMEo2vLC3n7z94ft98VRpN+r
-   A==;
-X-IronPort-AV: E=Sophos;i="5.99,212,1677513600"; 
-   d="scan'208";a="229001470"
-Received: from mail-bn8nam12lp2177.outbound.protection.outlook.com (HELO NAM12-BN8-obe.outbound.protection.outlook.com) ([104.47.55.177])
-  by ob1.hgst.iphmx.com with ESMTP; 20 Apr 2023 17:59:59 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=m7ZyGTVxN6Xqocd7gsj72RyHNyF1EygMJu6tdMNbA6cPQlI0ysAPYVvQWqiOcNhHmR/he2Bi0U5cC782+BUS9E8NpvUsizrqXjx6/h/A7Xb0HUmqMIIdUtkRo4vttot3d0fS4qAYwLNC36Yq5T+2TqmreuqE+IwI5kdaTMN+5yuy6cNH0HG+9VNDoVLCZ4zVRYMAdQUb6VC7/CEv5trkCnUPiv92qBFab8C+JFqUxUx2RnW6FCqQB3U1FpkY6GVNrkr6XI8zIr0cGhJ+kJlB+x82icdKtekiUtYfah7Ro696ktdhbnc6NGVTYZxn+MKIZ+YQLDhxOl3MBACHgDmk1w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=NVpwYMyIXT5TAB/fZpZTpOIkTLp6e5q1spkJWQ6emTs=;
- b=k9kv8wceu2xhIVeuBSXi6wZwBCtzgFbh45I3oZxI7vdeUx3XAs5nAE/nCIJB67bY29SxVwBtmnMJjlnoB2smgVmWEGsOXEa1hT93WU1guRkIW4dD4bKsn9efyF+Q9Ruvu/y3Yek1cj05xXuSjbjcp2C5XmseNd+Ai2cz9O+GkmCdLCl18zgCnZ4vptyBN9S+XRyzvK0WWLzA7wugSc697mrs30cI04IP/YWW9BgC2kgf5htCLVzH5U57wESYRxmWaCeMirzCrQfmW13yAyDvtbfMbxBO1Nz3Kyj6Q1MKn6oFsRUgebtw/zwoazOxzMrbTAltsFKT+eZMewMCuXg4pA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6252953B5
+	for <oe-kbuild@lists.linux.dev>; Thu, 20 Apr 2023 10:18:11 +0000 (UTC)
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-2f58125b957so419133f8f.3
+        for <oe-kbuild@lists.linux.dev>; Thu, 20 Apr 2023 03:18:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NVpwYMyIXT5TAB/fZpZTpOIkTLp6e5q1spkJWQ6emTs=;
- b=LTNjv4aTXOCbODYlpmnyxAvjlEkVnz+yhS+U3tgoFTvpGiL6mOfoqEF8zlCYWqNz2A2pMLOawyi17UY0Y1wKGI7H/E/los0byi+XTIV/E0k2Mq+90MgZ7oVvgqJP26opmDLeAOvzZvWz3CYRBzE8B6+DZhIsQCoY/aiW2KTxKuo=
-Received: from DM6PR04MB6575.namprd04.prod.outlook.com (2603:10b6:5:1b7::7) by
- SA1PR04MB8520.namprd04.prod.outlook.com (2603:10b6:806:339::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6298.45; Thu, 20 Apr
- 2023 09:59:57 +0000
-Received: from DM6PR04MB6575.namprd04.prod.outlook.com
- ([fe80::188b:9005:b09b:81e2]) by DM6PR04MB6575.namprd04.prod.outlook.com
- ([fe80::188b:9005:b09b:81e2%7]) with mapi id 15.20.6319.022; Thu, 20 Apr 2023
- 09:59:56 +0000
-From: Avri Altman <Avri.Altman@wdc.com>
-To: Dan Carpenter <error27@gmail.com>, "oe-kbuild@lists.linux.dev"
-	<oe-kbuild@lists.linux.dev>, "James E . J . Bottomley"
-	<jejb@linux.vnet.ibm.com>, "Martin K . Petersen" <martin.petersen@oracle.com>
-CC: "lkp@intel.com" <lkp@intel.com>, "oe-kbuild-all@lists.linux.dev"
-	<oe-kbuild-all@lists.linux.dev>, Asutosh Das <quic_asutoshd@quicinc.com>,
-	"quic_cang@quicinc.com" <quic_cang@quicinc.com>, "linux-scsi@vger.kernel.org"
-	<linux-scsi@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, Johannes Thumshirn
-	<Johannes.Thumshirn@wdc.com>, Bart Van Assche <bvanassche@acm.org>
-Subject: RE: [PATCH v2] scsi: ufs: mcq: Limit the amount of inflight requests
-Thread-Topic: [PATCH v2] scsi: ufs: mcq: Limit the amount of inflight requests
-Thread-Index: AQHZY6T/4Blt3rJSVUiRYWFGAGGxLK8ZHuKAgBr3aqA=
-Date: Thu, 20 Apr 2023 09:59:56 +0000
-Message-ID:
- <DM6PR04MB65751D81F92C86E81C1AEE57FC639@DM6PR04MB6575.namprd04.prod.outlook.com>
-References: <20230331074650.75-1-avri.altman@wdc.com>
- <b5c43582-0a73-45ec-83c2-8c1bfd2af2a2@kili.mountain>
-In-Reply-To: <b5c43582-0a73-45ec-83c2-8c1bfd2af2a2@kili.mountain>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=wdc.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM6PR04MB6575:EE_|SA1PR04MB8520:EE_
-x-ms-office365-filtering-correlation-id: a4deb78c-1bee-4b9d-23a4-08db4185fefa
-wdcipoutbound: EOP-TRUE
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:
- 25Kk8RDsx6ybybePNv6GiyyC3bWkfQjDvswhkrSX5vj8BlGMmOKq5vfDOOI53D2afefvbq5LZRrNE3dKWiXJcjKyEMD59cZPtHXFXramXu5OwGVRUn8KpjbGUSg7gZjB3Q7rPWnuveg+puF3S/Rzflx+86uXwFqW4aBhEWb8YAlSIfJEp/pzL7yGsnVrG9edJflX+qRNw1H+lxku9MN+zQUtLEFQQSpKebM2ihZYF+1GjHwy6KhSo7uZJvs+4tiGU06T4x8epq4KfPQtpCOt27DRJRnIiIeV8DYJfvnhJGBSMQ5Jsxf7SnnKX8iiqAUryVT2XVW202/qWmwpaFEtCNXWjzgCPemMu60zckQloQ5SRIj5XPV+9Imd5lF686Bj6NHz9fDPm1E8SZcdHBGkBQbjoS1aUx2OrNYCXt07xXxziOVEDM2SEO7ZJachkblKzpP1P4K5ubA0pOiAFLQmuLYUrFvefx04BZ2zgiCWfeE5VDtaRPx4q0iXfYEPJAcin9K9VZEQj6qfJye9MVgG6MC0WDJ36J3wBRNm/Zd9dyXBtlnI64gb7gAO4Q0U6k0lZaEEs0pwkbxTp5VZkyjHbHSQIhbWERSXXpF5xtiS4dOgtUW8Dq0eV3zbLHSghtl/PrTOvQ9pM7NPMQoRLwM+GQ==
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR04MB6575.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(346002)(366004)(136003)(376002)(396003)(39860400002)(451199021)(316002)(54906003)(110136005)(966005)(64756008)(66476007)(66946007)(66446008)(76116006)(4326008)(66556008)(6506007)(9686003)(26005)(38100700002)(83380400001)(122000001)(55016003)(41300700001)(5660300002)(8676002)(8936002)(71200400001)(7696005)(478600001)(38070700005)(33656002)(86362001)(186003)(7416002)(2906002)(52536014)(82960400001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?BVfRFd0xIpPHiEJrzx97yDtKdtU873GvE/ijZgWBrbi0jSs/wrvp2VC0pLG2?=
- =?us-ascii?Q?oKEK/8fzOAw/vkNJ1tPmDOJcgnVOogEcHs98KWeoXAw18M66iH16EekwFP+B?=
- =?us-ascii?Q?YSgF8rF8kqbysHRweiV9mSeQkGFv5U07KG18+RW19vVqRnjsfzn8GD5HYHzt?=
- =?us-ascii?Q?19T6Ww/2NB3Yd6CHsD+fGlpmtUE2UOj3+6I9oW/8/OM80NNJ5ZkilYTAfPSX?=
- =?us-ascii?Q?dnNpq7Aq90g0RH0EmNZt7EM11kqNMaDsS+9QadHt9qqQcIUMXeKAfUlj7/qu?=
- =?us-ascii?Q?aeCroYNBYaJIQZ53ahm8jT50PgQAT3CuU3vq9MxBmzFtCFnQqyXffafnhyRb?=
- =?us-ascii?Q?K3A9ZeeDrKFTrHr6J7RW9nhSkq/168+sSnvG7IEZ3OiVbUQU9BXBH6mQ0T6D?=
- =?us-ascii?Q?/KBc96eM4U8kyH/ByAPdH34pMItGyQXsLO2l2EmvSyxoarw2M2hzMLVswyRE?=
- =?us-ascii?Q?pIvP0lnmXJZrIcNrZNZ7juFZcnBQBRwD7bXXsQksdLFAqzk/s/DkTQo9vnaP?=
- =?us-ascii?Q?L63uUUqp90Htu9VXF6t04jrOjRzZBhDp87YwT0GiOo4JJijuozS9JRddFO2n?=
- =?us-ascii?Q?1MEzc1L85QQEoJN3RpDtxtVwEeg2ElZfLtlXjb8UGSyTqF1VoIlGQQFn75Ot?=
- =?us-ascii?Q?0+1a+/E8iqMH6vE4MjI2D3OY5+0J4K3xSip8NrRvFU7o/2ZwAgnTpFQXp6US?=
- =?us-ascii?Q?LKh+bBzQqU6sAE3+gjH/xwpyWH2CPkTr/uzkeHddrW6etrIxH516g0O1Sgb3?=
- =?us-ascii?Q?eKjPUY+CId2y4KbIvkMKoRpjDY7ISvW/ybImcFuTNM2sHhRZR+CEyTx8UXpz?=
- =?us-ascii?Q?78ANktBU9UzBbHSTJ6RLqQ7JG6o5SsmyBKxBGgHgJk32kGDtKoQCipmypamh?=
- =?us-ascii?Q?7WTXauZNgaGQbow3z9RaO2vz1ii/GuVQI8YR8Ap7Yd+zrUHcqm0Kb8qEI42T?=
- =?us-ascii?Q?oVACHecSWegioLNPCkfaspfpgS59MDG4IgIyk5hGcHc4Nk2OCrTUhv9eaRy9?=
- =?us-ascii?Q?46M3AAxrUctJib00lCoKHvFCjg8GHsNM5HjqNxWOzxNisOZOZKF6cXQJZVlJ?=
- =?us-ascii?Q?qiJHFBleL8plJN65wNw7VHoGgUxCwGLOxkdu+E827Lf2XmejtJYfGqbHLAlB?=
- =?us-ascii?Q?F8GZhIrYSLllit8737M9m99xcu6Okg/rDGwzLze0Fx1nt8o6Qh1UBkAORG86?=
- =?us-ascii?Q?ov7iD3Kqwn78X1ZULeX+8Yl5ErA57Mrebs82Et+yGOHZylKugJnVOPTHFHRJ?=
- =?us-ascii?Q?tjm2OCD+reN2oKy4n5lwrJYwzxmgAHq3YjUd4DwvAzObaYaL9rDbKn6VkHsF?=
- =?us-ascii?Q?zGz6Tdq97V2tprCetPKfH2PNQMhTU3/NRD3OTBy6cUHTwoqXpVC4cFzgMNi1?=
- =?us-ascii?Q?FH1aHPDu2UUUv9KI5T2wlNLdUXOw8TNptU+r+C+WO1SUk0IH7QCP8wMXVFZV?=
- =?us-ascii?Q?QSjIUNr427c4N4GBRT7evxPONG60EecyhU1kHz2rJ7uVx6lSfnpjFAYtE4dz?=
- =?us-ascii?Q?5HUzlGhJS+QPDyoqhzb+wJnRj9G0TzDVvdxlaiqPs5GNOVk0U5t90kX4IWY0?=
- =?us-ascii?Q?wHmGV30qCbcTngdrGR42CPBGrT+PmnDNoyVeUVdz?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        d=linaro.org; s=google; t=1681985889; x=1684577889;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=pw9A5+zsiMect2+0K0DcF9fBy0AzZZUeAaf+XrZGrao=;
+        b=afy9EH6s0rirq7SWDYgJL6ui/k2P9RqWy9PbaDYLOo1XZtV1GwOZ5hsqOcX8Jjj+s3
+         I6B9XMrvxHZ7q/Hj4mqiA7aU2GFfJphWAJrcGR470JSGI8mcQvX5b5RPjOjBmY8nPcK3
+         hYWoc+AOheBDuCSiD2hZRVKQVk+AAa+p2w+qc4ctGyHYKSQtpTz280CCiNTTC6kqKT6Q
+         0Zt/XXkganHv//YTDvErdJMcPv70hgvzmrwxyr7UHgaN46Ki9PiaPPuN/f5IBdo9ovgN
+         7tAQn2xVjknqRH9dV9q+6M7CZDLxq1HFMbfRcrlrkOy3Mr6blSpgAnT3X//GUKC6nyJg
+         IfLA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1681985889; x=1684577889;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=pw9A5+zsiMect2+0K0DcF9fBy0AzZZUeAaf+XrZGrao=;
+        b=G42R6HH3/T6IurNLIRpjAvrXzE34Gqfa6qH8duN1/27/pvUEHLZbLIg78EbGBmePlu
+         sl2MFyQ/+HT24NfvV6ubYSsGyLBzFQQX9V/bTdl9NezgwcWiGlzMqZMIxT+HXvSaNA5M
+         A+fEiZueZMzJJmk+GwMqp4tCHZG5JJJxCQllm/LltqF6wcdAaXye18CMdbLYdsXCjZ8H
+         Hy5XcjH6ah67y9queXvuYgHW6OdNzv1HXvHdRrlWNJZfXj3WYSjd//8txcj8bV4XfaYm
+         oNVBbGoRTL9trIbVY2mlOsB6cEvvlpHWyvxGFGOA/MHCEul+EU0avN4SQzJOkJ8roVRz
+         X7Dg==
+X-Gm-Message-State: AAQBX9fX5KWDbfvRlw0RW24CEnd5o081BEoAECF3UpRxUiPjjb+lUwpy
+	gKhxuBDYgV5HK4nqzW7BElZILm99KiI6q3XNQOztu71d
+X-Google-Smtp-Source: AKy350aJN3ko2EWo+eWfwj+J89HRyw/epA6v2yJ4NbXNS8KwuC16UQVRPDOQLerGiLr2myJzPATEWg==
+X-Received: by 2002:adf:efca:0:b0:2f5:5538:2589 with SMTP id i10-20020adfefca000000b002f555382589mr962090wrp.31.1681985889335;
+        Thu, 20 Apr 2023 03:18:09 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id w23-20020a05600c099700b003f17af4c4e0sm4925611wmp.9.2023.04.20.03.18.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 20 Apr 2023 03:18:08 -0700 (PDT)
+Date: Thu, 20 Apr 2023 13:18:05 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Sumit Gupta <sumitg@nvidia.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Thierry Reding <treding@nvidia.com>
+Subject: drivers/soc/tegra/cbb/tegra-cbb.c:96 tegra_cbb_err_debugfs_init()
+ warn: passing zero to 'PTR_ERR'
+Message-ID: <531e22c6-39e8-4a39-a190-c752c4d146be@kili.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	=?us-ascii?Q?BiBmka4CYW2cZZglIEl37F+PPl5Nhz9TU7OJ19ON6FC91FGcafcCblwLwwhy?=
- =?us-ascii?Q?WCMgqbGzbG/+ae81nwtTiEfoR+wUWVTiVAitbdJzMJMlEUiWVBFnHOdTWopG?=
- =?us-ascii?Q?WFBe09IX64jAXKQa485kz5QW8LB2nBOlS4zGKnYStAwoYAJ9sC6lTeeErQU/?=
- =?us-ascii?Q?ZlaQxjStmdMizaw2JSqTY0hK0wgj2svKLSIo9z2xVyg7i+QTuoEL5Hn5kc07?=
- =?us-ascii?Q?din24KNvDAJl53oqyE2/LIGZ612oII6/7rw8hwqfWfXG7VuzHYhIFlA32a4h?=
- =?us-ascii?Q?gYzzUf7KpPrEqJNIQ5P1/OkLw0nP03aQSR1G6XzF5BSWzyDMBZA3jw797Wnz?=
- =?us-ascii?Q?py88zgerjFztbKq4m1RZZIWPBEWWkYKeDWAJL6+sSvu034i8M+Lc+A0Ax0kD?=
- =?us-ascii?Q?hvBIiML5aVISGbP8xwxlsCV9cWi8pbj8Jr5jNHEIZ2MSNVonUu9ZV9dPiWyp?=
- =?us-ascii?Q?stLYX4jJTmCV1DjI9reaDwLjep006TEsP3dgI6wXDDiPm5vCeAhtV01CUKBd?=
- =?us-ascii?Q?70Rc2sEHq9eW+QL+mO7xPuzR2/dtt2tmgi9mCcmZnZEq/iPrbW/PROJDVicI?=
- =?us-ascii?Q?kpev84T6otdT/GyjwKilWaHw1fUZRgQ5Sq8BcijKpoXhQV65E6sSaQCL7p6/?=
- =?us-ascii?Q?hnFD3tofcGDj9pS7mCJJZAVRAZBMemw/8DtrqvG4KWQ44tiIyx+wSSWGGgoI?=
- =?us-ascii?Q?cHVEJGyLTfnTesLeRzL3162gwHCXMrRZei6ihIgn/IWVSckWTc2peoXUP4Rj?=
- =?us-ascii?Q?FcFDMTQ9+Vz0efUfX0tC9K9jfBmhMpBjNmJ0SxdtiTMqmGvMrnKcw7rujwKk?=
- =?us-ascii?Q?xR1j3UJrgOfY+sg2mjo2l7X+uytPy2t9mjkF9q1aZsv0+BuWVZ4QxyOlFqGz?=
- =?us-ascii?Q?z0Ix6f49tumD1xQ0t2swf8dvrnDftEb02IAeKAv78gbwccJzmQTCWttMZDlK?=
- =?us-ascii?Q?4WuxgqaRZiLrFv1x02VQjPZdrNzugS8sk6Hl4iWs4FlsPF94hia4Am8li1td?=
- =?us-ascii?Q?lraI?=
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR04MB6575.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a4deb78c-1bee-4b9d-23a4-08db4185fefa
-X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Apr 2023 09:59:56.6800
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: fEJq/oXyoJbPbBti7voiwKH4wRrnPXkVelRaGK+UqgtHx/H52HSZ2FqSgq3pK5+aTjrT3v15pgzqt+MQFBdHZQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR04MB8520
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-> Hi Avri,
->=20
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->=20
-> url:    https://github.com/intel-lab-lkp/linux/commits/Avri-Altman/scsi-u=
-fs-
-> mcq-Limit-the-amount-of-inflight-requests/20230331-155149
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/mkp/scsi.git for-=
-next
-> patch link:    https://lore.kernel.org/r/20230331074650.75-1-
-> avri.altman%40wdc.com
-> patch subject: [PATCH v2] scsi: ufs: mcq: Limit the amount of inflight re=
-quests
-> config: parisc-randconfig-m031-20230329 (https://download.01.org/0day-
-> ci/archive/20230401/202304011340.ltlHYazS-lkp@intel.com/config)
-> compiler: hppa-linux-gcc (GCC) 12.1.0
->=20
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <error27@gmail.com>
-> | Link: https://lore.kernel.org/r/202304011340.ltlHYazS-lkp@intel.com/
->=20
-> New smatch warnings:
-> drivers/ufs/core/ufshcd.c:8473 ufshcd_alloc_mcq() warn: missing error cod=
-e
-> 'ret'
->=20
-> Old smatch warnings:
-> drivers/ufs/core/ufshcd.c:5412 ufshcd_uic_cmd_compl() error: we previousl=
-y
-> assumed 'hba->active_uic_cmd' could be null (see line 5400)
-> drivers/ufs/core/ufshcd.c:2350 ufshcd_hba_capabilities() warn: missing er=
-ror
-> code? 'err'
->=20
-> vim +/ret +8473 drivers/ufs/core/ufshcd.c
->=20
-> 57b1c0ef89ac9d drivers/ufs/core/ufshcd.c Asutosh Das   2023-01-13  8457
-> static int ufshcd_alloc_mcq(struct ufs_hba *hba)
-> 57b1c0ef89ac9d drivers/ufs/core/ufshcd.c Asutosh Das   2023-01-13  8458  =
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   cb0856346a60fe3eb837ba5e73588a41f81ac05f
+commit: b7134422146692e096e807751656fc58ee1a717d soc/tegra: cbb: Add CBB 1.0 driver for Tegra194
+config: arm64-randconfig-m041-20230419 (https://download.01.org/0day-ci/archive/20230420/202304201719.AnFYgA2p-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.1.0
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Link: https://lore.kernel.org/r/202304201719.AnFYgA2p-lkp@intel.com/
+
+smatch warnings:
+drivers/soc/tegra/cbb/tegra-cbb.c:96 tegra_cbb_err_debugfs_init() warn: passing zero to 'PTR_ERR'
+
+vim +/PTR_ERR +96 drivers/soc/tegra/cbb/tegra-cbb.c
+
+b7134422146692 Sumit Gupta 2022-05-12   88  static int tegra_cbb_err_debugfs_init(struct tegra_cbb *cbb)
+b7134422146692 Sumit Gupta 2022-05-12   89  {
+b7134422146692 Sumit Gupta 2022-05-12   90  	static struct dentry *root;
+b7134422146692 Sumit Gupta 2022-05-12   91  
+b7134422146692 Sumit Gupta 2022-05-12   92  	if (!root) {
+b7134422146692 Sumit Gupta 2022-05-12   93  		root = debugfs_create_file("tegra_cbb_err", 0444, NULL, cbb, &tegra_cbb_err_fops);
+b7134422146692 Sumit Gupta 2022-05-12   94  		if (IS_ERR_OR_NULL(root)) {
+b7134422146692 Sumit Gupta 2022-05-12   95  			pr_err("%s(): could not create debugfs node\n", __func__);
+b7134422146692 Sumit Gupta 2022-05-12  @96  			return PTR_ERR(root);
+b7134422146692 Sumit Gupta 2022-05-12   97  		}
+b7134422146692 Sumit Gupta 2022-05-12   98  	}
+b7134422146692 Sumit Gupta 2022-05-12   99  
+b7134422146692 Sumit Gupta 2022-05-12  100  	return 0;
+
+Debugfs stopped returning NULL years ago.  Debugfs is weird, it's not
+supposed to be checked for errors.  So the correct way to write this
+is:
+
+static void tegra_cbb_err_debugfs_init(struct tegra_cbb *cbb)
 {
-> 7224c806876e46 drivers/ufs/core/ufshcd.c Asutosh Das   2023-01-13  8459
-> int ret;
-> 7224c806876e46 drivers/ufs/core/ufshcd.c Asutosh Das   2023-01-13  8460
-> int old_nutrs =3D hba->nutrs;
-> 7224c806876e46 drivers/ufs/core/ufshcd.c Asutosh Das   2023-01-13  8461
-> 7224c806876e46 drivers/ufs/core/ufshcd.c Asutosh Das   2023-01-13  8462
-> ret =3D ufshcd_mcq_decide_queue_depth(hba);
-> 7224c806876e46 drivers/ufs/core/ufshcd.c Asutosh Das   2023-01-13  8463
-> if (ret < 0)
-> 7224c806876e46 drivers/ufs/core/ufshcd.c Asutosh Das   2023-01-13  8464
-> return ret;
-> 7224c806876e46 drivers/ufs/core/ufshcd.c Asutosh Das   2023-01-13  8465
-> 7224c806876e46 drivers/ufs/core/ufshcd.c Asutosh Das   2023-01-13  8466
-> hba->nutrs =3D ret;
-> 7224c806876e46 drivers/ufs/core/ufshcd.c Asutosh Das   2023-01-13  8467
-> ret =3D ufshcd_mcq_init(hba);
-> 4682abfae2eb3a drivers/ufs/core/ufshcd.c Asutosh Das   2023-01-13  8468
-> if (ret)
-> 4682abfae2eb3a drivers/ufs/core/ufshcd.c Asutosh Das   2023-01-13  8469
-> goto err;
-> 4682abfae2eb3a drivers/ufs/core/ufshcd.c Asutosh Das   2023-01-13  8470
-> 2580a95e61d461 drivers/ufs/core/ufshcd.c Avri Altman   2023-03-31  8471
-> if (hba->nutrs * hba->nr_hw_queues > SZ_64K - 1) {
-> 2580a95e61d461 drivers/ufs/core/ufshcd.c Avri Altman   2023-03-31  8472
-> dev_info(hba->dev, "there can be at most 64K inflight requests\n");
-> 2580a95e61d461 drivers/ufs/core/ufshcd.c Avri Altman   2023-03-31 @8473
-> goto err;
->=20
-> ret =3D -EINVAL;
-Thanks.
+	static struct dentry *root;
 
-Avri
-
->=20
-> 2580a95e61d461 drivers/ufs/core/ufshcd.c Avri Altman   2023-03-31  8474
-> }
-> 2580a95e61d461 drivers/ufs/core/ufshcd.c Avri Altman   2023-03-31  8475
-> 4682abfae2eb3a drivers/ufs/core/ufshcd.c Asutosh Das   2023-01-13  8476
-> /*
-> 4682abfae2eb3a drivers/ufs/core/ufshcd.c Asutosh Das   2023-01-13  8477
-> * Previously allocated memory for nutrs may not be enough in MCQ mode.
-> 4682abfae2eb3a drivers/ufs/core/ufshcd.c Asutosh Das   2023-01-13  8478
-> * Number of supported tags in MCQ mode may be larger than SDB mode.
-> 6ccf44fe4cd7c4 drivers/scsi/ufs/ufshcd.c Seungwon Jeon 2013-06-26  8479
-> */
-> 4682abfae2eb3a drivers/ufs/core/ufshcd.c Asutosh Das   2023-01-13  8480
-> if (hba->nutrs !=3D old_nutrs) {
-> 4682abfae2eb3a drivers/ufs/core/ufshcd.c Asutosh Das   2023-01-13  8481
-> ufshcd_release_sdb_queue(hba, old_nutrs);
-> 4682abfae2eb3a drivers/ufs/core/ufshcd.c Asutosh Das   2023-01-13  8482
-> ret =3D ufshcd_memory_alloc(hba);
-> 4682abfae2eb3a drivers/ufs/core/ufshcd.c Asutosh Das   2023-01-13  8483
-> if (ret)
-> 4682abfae2eb3a drivers/ufs/core/ufshcd.c Asutosh Das   2023-01-13  8484
-> goto err;
-> 4682abfae2eb3a drivers/ufs/core/ufshcd.c Asutosh Das   2023-01-13  8485
-> ufshcd_host_memory_configure(hba);
-> 7224c806876e46 drivers/ufs/core/ufshcd.c Asutosh Das   2023-01-13  8486
-> }
-> 7224c806876e46 drivers/ufs/core/ufshcd.c Asutosh Das   2023-01-13  8487
-> 4682abfae2eb3a drivers/ufs/core/ufshcd.c Asutosh Das   2023-01-13  8488
-> ret =3D ufshcd_mcq_memory_alloc(hba);
-> 4682abfae2eb3a drivers/ufs/core/ufshcd.c Asutosh Das   2023-01-13  8489
-> if (ret)
-> 4682abfae2eb3a drivers/ufs/core/ufshcd.c Asutosh Das   2023-01-13  8490
-> goto err;
-> 4682abfae2eb3a drivers/ufs/core/ufshcd.c Asutosh Das   2023-01-13  8491
-> 7224c806876e46 drivers/ufs/core/ufshcd.c Asutosh Das   2023-01-13  8492
-> return 0;
-> 4682abfae2eb3a drivers/ufs/core/ufshcd.c Asutosh Das   2023-01-13  8493
-> err:
-> 4682abfae2eb3a drivers/ufs/core/ufshcd.c Asutosh Das   2023-01-13  8494
-> hba->nutrs =3D old_nutrs;
-> 4682abfae2eb3a drivers/ufs/core/ufshcd.c Asutosh Das   2023-01-13  8495
-> return ret;
-> 57b1c0ef89ac9d drivers/ufs/core/ufshcd.c Asutosh Das   2023-01-13  8496  =
+	if (!root)
+		root = debugfs_create_file("tegra_cbb_err", 0444, NULL, cbb, &tegra_cbb_err_fops);
 }
->=20
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests
+
+regards,
+dan carpenter
+
+b7134422146692 Sumit Gupta 2022-05-12  101  }
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
 
