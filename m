@@ -1,43 +1,42 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C422C3C05
-	for <oe-kbuild@lists.linux.dev>; Fri, 21 Apr 2023 13:36:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD2326FD7
+	for <oe-kbuild@lists.linux.dev>; Fri, 21 Apr 2023 20:56:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682084181; x=1713620181;
+  t=1682110585; x=1713646585;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=T5bwCpRpfRrJylAZmzPe4vnbNlQpsPFbMn//3sjbdAA=;
-  b=Gn3H5/XpPt3z2X3BeWvFDNLJHSBHdI2qDASKgVs2LiUu6h/0p3paoxyy
-   KKuSLUURCE7QSbhkOiOkUjJpLdpE3FPxV7A7jAzyOBampx8BlrsJMlZX8
-   cqt6cwqNimHu2Spp//ATSXDl37hrtjwV2ruibG9aK14yuMOkicje20/9u
-   dewvrBvYmFYOZ4GHuxnBtXJeaWyIs2UYKQCpqCGPzdHSGYIu9DFJyXYtJ
-   i18iDCj/1NfLcXyGr+9WsMRfWbOJ7PL03d+nYLQsfqubQAS7FJoH8nIXY
-   eGAcnOrXoRNazqTP/rc03TDr6YGYd8iFQadAwwDANwBAw+YIYmduY/EEr
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10686"; a="348788254"
-X-IronPort-AV: E=Sophos;i="5.99,214,1677571200"; 
-   d="scan'208";a="348788254"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2023 06:36:16 -0700
+  bh=EMkoED/2tGCg9mJ7BDa0UrOQMwiSORXaD5nGyut9BvA=;
+  b=JGxwA693MoHo0LA+vwy+KY9P37uiITQ13GVNeJQzlIib9+jVgsS6Ms+g
+   eF3ISqCK60HKrDiLBxENkx4t64dN9fepPsx8HxjHg1cesAnIqDb7dE9Nd
+   L6nmIqLDSBI2ombAn2C8obnz+MiGBUuMGc0R+j4pNwbWS5KGHJ6lRbaRj
+   Mz7p48BIA2I8m2YG+9/eWRjzXGcUlZrca48r+X5h/tvCR3rEzahV5Ii0S
+   L1ODdQmTI9vjw4l6j4JtNQK0iMU9vyxKVWymNKda/dAyaIEZuA0WQX3ol
+   CJQL4DdVhGX7RV95JhcMEcxp/ocZFwLXJriNPxTSsq/ybjcj983+XVO8G
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10687"; a="374015690"
+X-IronPort-AV: E=Sophos;i="5.99,216,1677571200"; 
+   d="scan'208";a="374015690"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2023 13:56:24 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10686"; a="694968515"
-X-IronPort-AV: E=Sophos;i="5.99,214,1677571200"; 
-   d="scan'208";a="694968515"
+X-IronPort-AV: E=McAfee;i="6600,9927,10687"; a="692399617"
+X-IronPort-AV: E=Sophos;i="5.99,216,1677571200"; 
+   d="scan'208";a="692399617"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 21 Apr 2023 06:36:15 -0700
+  by orsmga002.jf.intel.com with ESMTP; 21 Apr 2023 13:56:23 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ppqvu-000gcC-1k;
-	Fri, 21 Apr 2023 13:36:14 +0000
-Date: Fri, 21 Apr 2023 21:35:40 +0800
+	id 1ppxnq-000gnk-1w;
+	Fri, 21 Apr 2023 20:56:22 +0000
+Date: Sat, 22 Apr 2023 04:55:28 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [jsarha:topic/cros-sof-v4.14-rebase 3532/9999]
- sound/soc/soc-topology.c:1138:60: sparse: sparse: incorrect type in argument
- 3 (different base types)
-Message-ID: <202304212135.zvR5py9L-lkp@intel.com>
+Subject: drivers/scsi/qedi/qedi_fw.c:1460:31: sparse: sparse: incorrect type
+ in assignment (different base types)
+Message-ID: <202304220437.ItinKtrg-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -53,356 +52,280 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Liam Girdwood <liam.r.girdwood@linux.intel.com>
-CC: Samaga Prasanna Krishna <samaga.krishna@intel.corp-partner.google.com>
-CC: Curtis Malainey <cujomalainey@chromium.org>
+CC: linux-kernel@vger.kernel.org
+TO: Justin Stitt <jstitt007@gmail.com>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+CC: Nathan Chancellor <nathan@kernel.org>
 
-tree:   https://github.com/jsarha/linux topic/cros-sof-v4.14-rebase
-head:   18a233f3f676a98dde00947535d99ab1a54da340
-commit: 9e1491388e755ed2b1dcffbaa54f76b2ad7a67ea [3532/9999] FROMLIST: ASoC: SOF: Add Build support for SOF core and Intel drivers
-:::::: branch date: 3 years, 11 months ago
-:::::: commit date: 4 years, 6 months ago
-config: parisc-randconfig-s051-20230420 (https://download.01.org/0day-ci/archive/20230421/202304212135.zvR5py9L-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 7.5.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   c337b23f32c87320dffd389e4f0f793db35f0a9b
+commit: d30dfd490f7dc4cb6a7c11a647bd1ff7a22139e7 include/uapi/linux/swab.h: move explicit cast outside ternary
+date:   10 months ago
+:::::: branch date: 3 hours ago
+:::::: commit date: 10 months ago
+config: alpha-randconfig-s032-20230421 (https://download.01.org/0day-ci/archive/20230422/202304220437.ItinKtrg-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 12.1.0
 reproduce:
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
         # apt-get install sparse
         # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://github.com/jsarha/linux/commit/9e1491388e755ed2b1dcffbaa54f76b2ad7a67ea
-        git remote add jsarha https://github.com/jsarha/linux
-        git fetch --no-tags jsarha topic/cros-sof-v4.14-rebase
-        git checkout 9e1491388e755ed2b1dcffbaa54f76b2ad7a67ea
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=d30dfd490f7dc4cb6a7c11a647bd1ff7a22139e7
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout d30dfd490f7dc4cb6a7c11a647bd1ff7a22139e7
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-7.5.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=parisc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-7.5.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=parisc SHELL=/bin/bash sound/soc/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=alpha olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=alpha SHELL=/bin/bash drivers/md/ drivers/scsi/qedi/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/r/202304212135.zvR5py9L-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202304220437.ItinKtrg-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
-   sound/soc/soc-topology.c:2503:45: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:261:28: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:262:39: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted __le32 [usertype] reg @@
-   sound/soc/soc-topology.c:262:39: sparse:     expected int
-   sound/soc/soc-topology.c:262:39: sparse:     got restricted __le32 [usertype] reg
-   sound/soc/soc-topology.c:274:28: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:275:39: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted __le32 [usertype] shift @@
-   sound/soc/soc-topology.c:275:39: sparse:     expected int
-   sound/soc/soc-topology.c:275:39: sparse:     got restricted __le32 [usertype] shift
-   sound/soc/soc-topology.c:604:21: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:623:70: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:625:70: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:640:60: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:642:60: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:644:61: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:657:60: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:659:60: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:661:61: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:720:14: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int @@     got restricted __le32 [usertype] min @@
-   sound/soc/soc-topology.c:720:14: sparse:     expected unsigned int
-   sound/soc/soc-topology.c:720:14: sparse:     got restricted __le32 [usertype] min
-   sound/soc/soc-topology.c:721:22: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:733:17: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:736:17: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:738:33: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:789:33: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:799:27: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [addressable] [assigned] access @@     got restricted __le32 [usertype] access @@
-   sound/soc/soc-topology.c:799:27: sparse:     expected unsigned int [addressable] [assigned] access
-   sound/soc/soc-topology.c:799:27: sparse:     got restricted __le32 [usertype] access
-   sound/soc/soc-topology.c:801:26: sparse: sparse: incorrect type in assignment (different base types) @@     expected int max @@     got restricted __le32 [usertype] max @@
-   sound/soc/soc-topology.c:801:26: sparse:     expected int max
-   sound/soc/soc-topology.c:801:26: sparse:     got restricted __le32 [usertype] max
-   sound/soc/soc-topology.c:869:33: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:879:27: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [addressable] [assigned] access @@     got restricted __le32 [usertype] access @@
-   sound/soc/soc-topology.c:879:27: sparse:     expected unsigned int [addressable] [assigned] access
-   sound/soc/soc-topology.c:879:27: sparse:     got restricted __le32 [usertype] access
-   sound/soc/soc-topology.c:891:25: sparse: sparse: incorrect type in assignment (different base types) @@     expected int max @@     got restricted __le32 [usertype] max @@
-   sound/soc/soc-topology.c:891:25: sparse:     expected int max
-   sound/soc/soc-topology.c:891:25: sparse:     got restricted __le32 [usertype] max
-   sound/soc/soc-topology.c:892:25: sparse: sparse: incorrect type in assignment (different base types) @@     expected int min @@     got restricted __le32 [usertype] min @@
-   sound/soc/soc-topology.c:892:25: sparse:     expected int min
-   sound/soc/soc-topology.c:892:25: sparse:     got restricted __le32 [usertype] min
-   sound/soc/soc-topology.c:893:28: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int invert:1 @@     got restricted __le32 [usertype] invert @@
-   sound/soc/soc-topology.c:893:28: sparse:     expected unsigned int invert:1
-   sound/soc/soc-topology.c:893:28: sparse:     got restricted __le32 [usertype] invert
-   sound/soc/soc-topology.c:894:34: sparse: sparse: incorrect type in assignment (different base types) @@     expected int platform_max @@     got restricted __le32 [usertype] platform_max @@
-   sound/soc/soc-topology.c:894:34: sparse:     expected int platform_max
-   sound/soc/soc-topology.c:894:34: sparse:     got restricted __le32 [usertype] platform_max
-   sound/soc/soc-topology.c:944:44: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:948:27: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:976:15: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:980:46: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:1008:33: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:1026:27: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [addressable] [assigned] access @@     got restricted __le32 [usertype] access @@
-   sound/soc/soc-topology.c:1026:27: sparse:     expected unsigned int [addressable] [assigned] access
-   sound/soc/soc-topology.c:1026:27: sparse:     got restricted __le32 [usertype] access
-   sound/soc/soc-topology.c:1034:27: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int items @@     got restricted __le32 [usertype] items @@
-   sound/soc/soc-topology.c:1034:27: sparse:     expected unsigned int items
-   sound/soc/soc-topology.c:1034:27: sparse:     got restricted __le32 [usertype] items
-   sound/soc/soc-topology.c:1035:26: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int mask @@     got restricted __le32 [usertype] mask @@
-   sound/soc/soc-topology.c:1035:26: sparse:     expected unsigned int mask
-   sound/soc/soc-topology.c:1035:26: sparse:     got restricted __le32 [usertype] mask
-   sound/soc/soc-topology.c:1041:36: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:1041:36: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:1041:36: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:1041:36: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:1041:36: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:1114:33: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:1114:45: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:1121:28: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:1125:32: sparse: sparse: restricted __le32 degrades to integer
->> sound/soc/soc-topology.c:1138:60: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected unsigned long [usertype] size @@     got restricted __le32 [usertype] payload_size @@
-   sound/soc/soc-topology.c:1138:60: sparse:     expected unsigned long [usertype] size
-   sound/soc/soc-topology.c:1138:60: sparse:     got restricted __le32 [usertype] payload_size
-   sound/soc/soc-topology.c:1145:59: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected unsigned long [usertype] size @@     got restricted __le32 [usertype] payload_size @@
-   sound/soc/soc-topology.c:1145:59: sparse:     expected unsigned long [usertype] size
-   sound/soc/soc-topology.c:1145:59: sparse:     got restricted __le32 [usertype] payload_size
-   sound/soc/soc-topology.c:1148:60: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected unsigned long [usertype] size @@     got restricted __le32 [usertype] payload_size @@
-   sound/soc/soc-topology.c:1148:60: sparse:     expected unsigned long [usertype] size
-   sound/soc/soc-topology.c:1148:60: sparse:     got restricted __le32 [usertype] payload_size
-   sound/soc/soc-topology.c:1130:41: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:1130:41: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:1130:41: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:1130:41: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:1130:41: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:1130:41: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:1130:41: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:1130:41: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:1130:41: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:1130:41: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:1130:41: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:1130:41: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:1130:41: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:1176:24: sparse: sparse: incorrect type in initializer (different base types) @@     expected int count @@     got restricted __le32 [usertype] count @@
-   sound/soc/soc-topology.c:1176:24: sparse:     expected int count
-   sound/soc/soc-topology.c:1176:24: sparse:     got restricted __le32 [usertype] count
-   sound/soc/soc-topology.c:1179:33: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:1179:45: sparse: sparse: restricted __le32 degrades to integer
->> sound/soc/soc-topology.c:1185:27: sparse: sparse: incorrect type in argument 4 (different base types) @@     expected unsigned long [usertype] bytes @@     got restricted __le32 [usertype] payload_size @@
-   sound/soc/soc-topology.c:1185:27: sparse:     expected unsigned long [usertype] bytes
-   sound/soc/soc-topology.c:1185:27: sparse:     got restricted __le32 [usertype] payload_size
-   sound/soc/soc-topology.c:1246:33: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:1261:30: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int access @@     got restricted __le32 [usertype] access @@
-   sound/soc/soc-topology.c:1261:30: sparse:     expected unsigned int access
-   sound/soc/soc-topology.c:1261:30: sparse:     got restricted __le32 [usertype] access
-   sound/soc/soc-topology.c:1273:25: sparse: sparse: incorrect type in assignment (different base types) @@     expected int max @@     got restricted __le32 [usertype] max @@
-   sound/soc/soc-topology.c:1273:25: sparse:     expected int max
-   sound/soc/soc-topology.c:1273:25: sparse:     got restricted __le32 [usertype] max
-   sound/soc/soc-topology.c:1274:25: sparse: sparse: incorrect type in assignment (different base types) @@     expected int min @@     got restricted __le32 [usertype] min @@
-   sound/soc/soc-topology.c:1274:25: sparse:     expected int min
-   sound/soc/soc-topology.c:1274:25: sparse:     got restricted __le32 [usertype] min
-   sound/soc/soc-topology.c:1275:28: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int invert:1 @@     got restricted __le32 [usertype] invert @@
-   sound/soc/soc-topology.c:1275:28: sparse:     expected unsigned int invert:1
-   sound/soc/soc-topology.c:1275:28: sparse:     got restricted __le32 [usertype] invert
-   sound/soc/soc-topology.c:1276:34: sparse: sparse: incorrect type in assignment (different base types) @@     expected int platform_max @@     got restricted __le32 [usertype] platform_max @@
-   sound/soc/soc-topology.c:1276:34: sparse:     expected int platform_max
-   sound/soc/soc-topology.c:1276:34: sparse:     got restricted __le32 [usertype] platform_max
-   sound/soc/soc-topology.c:1345:30: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int access @@     got restricted __le32 [usertype] access @@
-   sound/soc/soc-topology.c:1345:30: sparse:     expected unsigned int access
-   sound/soc/soc-topology.c:1345:30: sparse:     got restricted __le32 [usertype] access
-   sound/soc/soc-topology.c:1354:27: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int items @@     got restricted __le32 [usertype] items @@
-   sound/soc/soc-topology.c:1354:27: sparse:     expected unsigned int items
-   sound/soc/soc-topology.c:1354:27: sparse:     got restricted __le32 [usertype] items
-   sound/soc/soc-topology.c:1355:26: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int mask @@     got restricted __le32 [usertype] mask @@
-   sound/soc/soc-topology.c:1355:26: sparse:     expected unsigned int mask
-   sound/soc/soc-topology.c:1355:26: sparse:     got restricted __le32 [usertype] mask
-   sound/soc/soc-topology.c:1358:36: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:1358:36: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:1358:36: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:1358:36: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:1358:36: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:1401:41: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:1414:35: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:1451:33: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:1462:30: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int access @@     got restricted __le32 [usertype] access @@
-   sound/soc/soc-topology.c:1462:30: sparse:     expected unsigned int access
-   sound/soc/soc-topology.c:1462:30: sparse:     got restricted __le32 [usertype] access
-   sound/soc/soc-topology.c:1464:26: sparse: sparse: incorrect type in assignment (different base types) @@     expected int max @@     got restricted __le32 [usertype] max @@
-   sound/soc/soc-topology.c:1464:26: sparse:     expected int max
-   sound/soc/soc-topology.c:1464:26: sparse:     got restricted __le32 [usertype] max
-   sound/soc/soc-topology.c:1521:38: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected int tplg_type @@     got restricted __le32 [usertype] id @@
-   sound/soc/soc-topology.c:1521:38: sparse:     expected int tplg_type
-   sound/soc/soc-topology.c:1521:38: sparse:     got restricted __le32 [usertype] id
-   sound/soc/soc-topology.c:1534:22: sparse: sparse: incorrect type in assignment (different base types) @@     expected int [addressable] [assigned] reg @@     got restricted __le32 [usertype] reg @@
-   sound/soc/soc-topology.c:1534:22: sparse:     expected int [addressable] [assigned] reg
-   sound/soc/soc-topology.c:1534:22: sparse:     got restricted __le32 [usertype] reg
-   sound/soc/soc-topology.c:1535:24: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned char [addressable] [assigned] shift @@     got restricted __le32 [usertype] shift @@
-   sound/soc/soc-topology.c:1535:24: sparse:     expected unsigned char [addressable] [assigned] shift
-   sound/soc/soc-topology.c:1535:24: sparse:     got restricted __le32 [usertype] shift
-   sound/soc/soc-topology.c:1536:23: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [addressable] [assigned] mask @@     got restricted __le32 [usertype] mask @@
-   sound/soc/soc-topology.c:1536:23: sparse:     expected unsigned int [addressable] [assigned] mask
-   sound/soc/soc-topology.c:1536:23: sparse:     got restricted __le32 [usertype] mask
-   sound/soc/soc-topology.c:1537:25: sparse: sparse: incorrect type in assignment (different base types) @@     expected int [addressable] [assigned] subseq @@     got restricted __le32 [usertype] subseq @@
-   sound/soc/soc-topology.c:1537:25: sparse:     expected int [addressable] [assigned] subseq
-   sound/soc/soc-topology.c:1537:25: sparse:     got restricted __le32 [usertype] subseq
-   sound/soc/soc-topology.c:1540:33: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned char [addressable] [assigned] ignore_suspend:1 @@     got restricted __le32 [usertype] ignore_suspend @@
-   sound/soc/soc-topology.c:1540:33: sparse:     expected unsigned char [addressable] [assigned] ignore_suspend:1
-   sound/soc/soc-topology.c:1540:33: sparse:     got restricted __le32 [usertype] ignore_suspend
-   sound/soc/soc-topology.c:1541:30: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [addressable] [assigned] event_flags @@     got restricted __le16 [usertype] event_flags @@
-   sound/soc/soc-topology.c:1541:30: sparse:     expected unsigned short [addressable] [assigned] event_flags
-   sound/soc/soc-topology.c:1541:30: sparse:     got restricted __le16 [usertype] event_flags
-   sound/soc/soc-topology.c:1545:67: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:1564:40: sparse: sparse: incorrect type in assignment (different base types) @@     expected int [addressable] [assigned] num_kcontrols @@     got restricted __le32 [usertype] num_kcontrols @@
-   sound/soc/soc-topology.c:1564:40: sparse:     expected int [addressable] [assigned] num_kcontrols
-   sound/soc/soc-topology.c:1564:40: sparse:     got restricted __le32 [usertype] num_kcontrols
-   sound/soc/soc-topology.c:1579:40: sparse: sparse: incorrect type in assignment (different base types) @@     expected int [addressable] [assigned] num_kcontrols @@     got restricted __le32 [usertype] num_kcontrols @@
-   sound/soc/soc-topology.c:1579:40: sparse:     expected int [addressable] [assigned] num_kcontrols
-   sound/soc/soc-topology.c:1579:40: sparse:     got restricted __le32 [usertype] num_kcontrols
-   sound/soc/soc-topology.c:1590:40: sparse: sparse: incorrect type in assignment (different base types) @@     expected int [addressable] [assigned] num_kcontrols @@     got restricted __le32 [usertype] num_kcontrols @@
-   sound/soc/soc-topology.c:1590:40: sparse:     expected int [addressable] [assigned] num_kcontrols
-   sound/soc/soc-topology.c:1590:40: sparse:     got restricted __le32 [usertype] num_kcontrols
-   sound/soc/soc-topology.c:1556:33: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:1556:33: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:1556:33: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:1556:33: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/soc-topology.c:1556:33: sparse: sparse: too many warnings
-   sound/soc/soc-topology.c: In function 'soc_tplg_denum_create':
-   sound/soc/soc-topology.c:1045:7: warning: this statement may fall through [-Wimplicit-fallthrough=]
-       if (err < 0) {
-          ^
-   sound/soc/soc-topology.c:1053:3: note: here
-      case SND_SOC_TPLG_CTL_ENUM:
-      ^~~~
-   sound/soc/soc-topology.c: In function 'soc_tplg_dapm_widget_denum_create':
-   sound/soc/soc-topology.c:1362:7: warning: this statement may fall through [-Wimplicit-fallthrough=]
-       if (err < 0) {
-          ^
-   sound/soc/soc-topology.c:1368:3: note: here
-      case SND_SOC_TPLG_CTL_ENUM:
-      ^~~~
+   drivers/scsi/qedi/qedi_fw.c:1459:30: sparse: sparse: cast to restricted itt_t
+   drivers/scsi/qedi/qedi_fw.c:1459:28: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [addressable] [usertype] itt @@     got unsigned int [usertype] @@
+   drivers/scsi/qedi/qedi_fw.c:1459:28: sparse:     expected restricted __le32 [addressable] [usertype] itt
+   drivers/scsi/qedi/qedi_fw.c:1459:28: sparse:     got unsigned int [usertype]
+>> drivers/scsi/qedi/qedi_fw.c:1460:31: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [addressable] [usertype] cmd_sn @@     got unsigned int [usertype] @@
+   drivers/scsi/qedi/qedi_fw.c:1460:31: sparse:     expected restricted __le32 [addressable] [usertype] cmd_sn
+   drivers/scsi/qedi/qedi_fw.c:1460:31: sparse:     got unsigned int [usertype]
+   drivers/scsi/qedi/qedi_fw.c:1463:33: sparse: sparse: cast to restricted __be32
+   drivers/scsi/qedi/qedi_fw.c:1463:33: sparse: sparse: cast to restricted __be32
+   drivers/scsi/qedi/qedi_fw.c:1463:33: sparse: sparse: cast to restricted __be32
+   drivers/scsi/qedi/qedi_fw.c:1463:33: sparse: sparse: cast to restricted __be32
+   drivers/scsi/qedi/qedi_fw.c:1463:33: sparse: sparse: cast to restricted __be32
+   drivers/scsi/qedi/qedi_fw.c:1463:33: sparse: sparse: cast to restricted __be32
+>> drivers/scsi/qedi/qedi_fw.c:1463:31: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [addressable] [usertype] lo @@     got unsigned int [usertype] @@
+   drivers/scsi/qedi/qedi_fw.c:1463:31: sparse:     expected restricted __le32 [addressable] [usertype] lo
+   drivers/scsi/qedi/qedi_fw.c:1463:31: sparse:     got unsigned int [usertype]
+   drivers/scsi/qedi/qedi_fw.c:1464:33: sparse: sparse: cast to restricted __be32
+   drivers/scsi/qedi/qedi_fw.c:1464:33: sparse: sparse: cast to restricted __be32
+   drivers/scsi/qedi/qedi_fw.c:1464:33: sparse: sparse: cast to restricted __be32
+   drivers/scsi/qedi/qedi_fw.c:1464:33: sparse: sparse: cast to restricted __be32
+   drivers/scsi/qedi/qedi_fw.c:1464:33: sparse: sparse: cast to restricted __be32
+   drivers/scsi/qedi/qedi_fw.c:1464:33: sparse: sparse: cast to restricted __be32
+>> drivers/scsi/qedi/qedi_fw.c:1464:31: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [addressable] [usertype] hi @@     got unsigned int [usertype] @@
+   drivers/scsi/qedi/qedi_fw.c:1464:31: sparse:     expected restricted __le32 [addressable] [usertype] hi
+   drivers/scsi/qedi/qedi_fw.c:1464:31: sparse:     got unsigned int [usertype]
+   drivers/scsi/qedi/qedi_fw.c:1469:36: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [addressable] [usertype] rtt @@     got unsigned int [usertype] @@
+   drivers/scsi/qedi/qedi_fw.c:1469:36: sparse:     expected restricted __le32 [addressable] [usertype] rtt
+   drivers/scsi/qedi/qedi_fw.c:1469:36: sparse:     got unsigned int [usertype]
+   drivers/scsi/qedi/qedi_fw.c:1473:36: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [addressable] [usertype] rtt @@     got unsigned int @@
+   drivers/scsi/qedi/qedi_fw.c:1473:36: sparse:     expected restricted __le32 [addressable] [usertype] rtt
+   drivers/scsi/qedi/qedi_fw.c:1473:36: sparse:     got unsigned int
+   drivers/scsi/qedi/qedi_fw.c:1478:41: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [addressable] [assigned] [usertype] hdr_second_dword @@     got int @@
+   drivers/scsi/qedi/qedi_fw.c:1478:41: sparse:     expected restricted __le32 [addressable] [assigned] [usertype] hdr_second_dword
+   drivers/scsi/qedi/qedi_fw.c:1478:41: sparse:     got int
+>> drivers/scsi/qedi/qedi_fw.c:1479:35: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [addressable] [assigned] [usertype] ref_cmd_sn @@     got unsigned int [usertype] @@
+   drivers/scsi/qedi/qedi_fw.c:1479:35: sparse:     expected restricted __le32 [addressable] [assigned] [usertype] ref_cmd_sn
+   drivers/scsi/qedi/qedi_fw.c:1479:35: sparse:     got unsigned int [usertype]
+   drivers/scsi/qedi/qedi_fw.c:50:25: sparse: sparse: restricted __le16 degrades to integer
+   drivers/scsi/qedi/qedi_fw.c:51:28: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] val @@     got restricted __le32 [usertype] stat_sn @@
+   drivers/scsi/qedi/qedi_fw.c:51:28: sparse:     expected unsigned int [usertype] val
+   drivers/scsi/qedi/qedi_fw.c:51:28: sparse:     got restricted __le32 [usertype] stat_sn
+   drivers/scsi/qedi/qedi_fw.c:51:28: sparse: sparse: cast from restricted __le32
+   drivers/scsi/qedi/qedi_fw.c:51:28: sparse: sparse: cast from restricted __le32
+   drivers/scsi/qedi/qedi_fw.c:51:28: sparse: sparse: cast from restricted __le32
+   drivers/scsi/qedi/qedi_fw.c:51:28: sparse: sparse: cast from restricted __le32
+   drivers/scsi/qedi/qedi_fw.c:52:31: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] val @@     got restricted __le32 [usertype] exp_cmd_sn @@
+   drivers/scsi/qedi/qedi_fw.c:52:31: sparse:     expected unsigned int [usertype] val
+   drivers/scsi/qedi/qedi_fw.c:52:31: sparse:     got restricted __le32 [usertype] exp_cmd_sn
+   drivers/scsi/qedi/qedi_fw.c:52:31: sparse: sparse: cast from restricted __le32
+   drivers/scsi/qedi/qedi_fw.c:52:31: sparse: sparse: cast from restricted __le32
+   drivers/scsi/qedi/qedi_fw.c:52:31: sparse: sparse: cast from restricted __le32
+   drivers/scsi/qedi/qedi_fw.c:52:31: sparse: sparse: cast from restricted __le32
+   drivers/scsi/qedi/qedi_fw.c:53:31: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] val @@     got restricted __le32 [usertype] max_cmd_sn @@
+   drivers/scsi/qedi/qedi_fw.c:53:31: sparse:     expected unsigned int [usertype] val
+   drivers/scsi/qedi/qedi_fw.c:53:31: sparse:     got restricted __le32 [usertype] max_cmd_sn
+   drivers/scsi/qedi/qedi_fw.c:53:31: sparse: sparse: cast from restricted __le32
+   drivers/scsi/qedi/qedi_fw.c:53:31: sparse: sparse: cast from restricted __le32
+   drivers/scsi/qedi/qedi_fw.c:53:31: sparse: sparse: cast from restricted __le32
+   drivers/scsi/qedi/qedi_fw.c:53:31: sparse: sparse: cast from restricted __le32
+   drivers/scsi/qedi/qedi_fw.c:55:28: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] val @@     got restricted __le16 [usertype] time_2_wait @@
+   drivers/scsi/qedi/qedi_fw.c:55:28: sparse:     expected unsigned int [usertype] val
+   drivers/scsi/qedi/qedi_fw.c:55:28: sparse:     got restricted __le16 [usertype] time_2_wait
+   drivers/scsi/qedi/qedi_fw.c:55:28: sparse: sparse: cast from restricted __le16
+   drivers/scsi/qedi/qedi_fw.c:55:28: sparse: sparse: cast from restricted __le16
+   drivers/scsi/qedi/qedi_fw.c:55:28: sparse: sparse: cast from restricted __le16
+   drivers/scsi/qedi/qedi_fw.c:55:28: sparse: sparse: cast from restricted __le16
+   drivers/scsi/qedi/qedi_fw.c:55:26: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be16 [usertype] t2wait @@     got restricted __be32 [usertype] @@
+   drivers/scsi/qedi/qedi_fw.c:55:26: sparse:     expected restricted __be16 [usertype] t2wait
+   drivers/scsi/qedi/qedi_fw.c:55:26: sparse:     got restricted __be32 [usertype]
+   drivers/scsi/qedi/qedi_fw.c:56:30: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] val @@     got restricted __le16 [usertype] time_2_retain @@
+   drivers/scsi/qedi/qedi_fw.c:56:30: sparse:     expected unsigned int [usertype] val
+   drivers/scsi/qedi/qedi_fw.c:56:30: sparse:     got restricted __le16 [usertype] time_2_retain
+   drivers/scsi/qedi/qedi_fw.c:56:30: sparse: sparse: cast from restricted __le16
+   drivers/scsi/qedi/qedi_fw.c:56:30: sparse: sparse: cast from restricted __le16
+   drivers/scsi/qedi/qedi_fw.c:56:30: sparse: sparse: cast from restricted __le16
+   drivers/scsi/qedi/qedi_fw.c:56:30: sparse: sparse: cast from restricted __le16
+   drivers/scsi/qedi/qedi_fw.c:56:28: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be16 [usertype] t2retain @@     got restricted __be32 [usertype] @@
+   drivers/scsi/qedi/qedi_fw.c:56:28: sparse:     expected restricted __be16 [usertype] t2retain
+   drivers/scsi/qedi/qedi_fw.c:56:28: sparse:     got restricted __be32 [usertype]
+   drivers/scsi/qedi/qedi_fw.c:105:9: sparse: sparse: restricted __le32 degrades to integer
+   drivers/scsi/qedi/qedi_fw.c:105:9: sparse: sparse: restricted __le32 degrades to integer
+   drivers/scsi/qedi/qedi_fw.c:105:9: sparse: sparse: restricted __le32 degrades to integer
+   drivers/scsi/qedi/qedi_fw.c:109:29: sparse: sparse: restricted __le16 degrades to integer
+   drivers/scsi/qedi/qedi_fw.c:111:27: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be32 [usertype] ttt @@     got restricted __le32 [usertype] ttt @@
+   drivers/scsi/qedi/qedi_fw.c:111:27: sparse:     expected restricted __be32 [usertype] ttt
+   drivers/scsi/qedi/qedi_fw.c:111:27: sparse:     got restricted __le32 [usertype] ttt
+   drivers/scsi/qedi/qedi_fw.c:112:32: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] val @@     got restricted __le32 [usertype] stat_sn @@
+   drivers/scsi/qedi/qedi_fw.c:112:32: sparse:     expected unsigned int [usertype] val
+   drivers/scsi/qedi/qedi_fw.c:112:32: sparse:     got restricted __le32 [usertype] stat_sn
+   drivers/scsi/qedi/qedi_fw.c:112:32: sparse: sparse: cast from restricted __le32
+   drivers/scsi/qedi/qedi_fw.c:112:32: sparse: sparse: cast from restricted __le32
+   drivers/scsi/qedi/qedi_fw.c:112:32: sparse: sparse: cast from restricted __le32
+   drivers/scsi/qedi/qedi_fw.c:112:32: sparse: sparse: cast from restricted __le32
+   drivers/scsi/qedi/qedi_fw.c:113:35: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] val @@     got restricted __le32 [usertype] exp_cmd_sn @@
+   drivers/scsi/qedi/qedi_fw.c:113:35: sparse:     expected unsigned int [usertype] val
+   drivers/scsi/qedi/qedi_fw.c:113:35: sparse:     got restricted __le32 [usertype] exp_cmd_sn
+   drivers/scsi/qedi/qedi_fw.c:113:35: sparse: sparse: cast from restricted __le32
+   drivers/scsi/qedi/qedi_fw.c:113:35: sparse: sparse: cast from restricted __le32
+   drivers/scsi/qedi/qedi_fw.c:113:35: sparse: sparse: cast from restricted __le32
+   drivers/scsi/qedi/qedi_fw.c:113:35: sparse: sparse: cast from restricted __le32
+   drivers/scsi/qedi/qedi_fw.c:114:35: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] val @@     got restricted __le32 [usertype] max_cmd_sn @@
+   drivers/scsi/qedi/qedi_fw.c:114:35: sparse:     expected unsigned int [usertype] val
+   drivers/scsi/qedi/qedi_fw.c:114:35: sparse:     got restricted __le32 [usertype] max_cmd_sn
+   drivers/scsi/qedi/qedi_fw.c:114:35: sparse: sparse: cast from restricted __le32
+   drivers/scsi/qedi/qedi_fw.c:114:35: sparse: sparse: cast from restricted __le32
+   drivers/scsi/qedi/qedi_fw.c:114:35: sparse: sparse: cast from restricted __le32
+   drivers/scsi/qedi/qedi_fw.c:114:35: sparse: sparse: cast from restricted __le32
+   drivers/scsi/qedi/qedi_fw.c:116:36: sparse: sparse: restricted __le32 degrades to integer
+   drivers/scsi/qedi/qedi_fw.c:211:9: sparse: sparse: restricted __le32 degrades to integer
+   drivers/scsi/qedi/qedi_fw.c:211:9: sparse: sparse: restricted __le32 degrades to integer
+   drivers/scsi/qedi/qedi_fw.c:211:9: sparse: sparse: restricted __le32 degrades to integer
+   drivers/scsi/qedi/qedi_fw.c:214:29: sparse: sparse: restricted __le16 degrades to integer
+   drivers/scsi/qedi/qedi_fw.c:216:32: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] val @@     got restricted __le32 [usertype] stat_sn @@
+   drivers/scsi/qedi/qedi_fw.c:216:32: sparse:     expected unsigned int [usertype] val
+   drivers/scsi/qedi/qedi_fw.c:216:32: sparse:     got restricted __le32 [usertype] stat_sn
+   drivers/scsi/qedi/qedi_fw.c:216:32: sparse: sparse: cast from restricted __le32
+   drivers/scsi/qedi/qedi_fw.c:216:32: sparse: sparse: cast from restricted __le32
+   drivers/scsi/qedi/qedi_fw.c:216:32: sparse: sparse: cast from restricted __le32
+   drivers/scsi/qedi/qedi_fw.c:216:32: sparse: sparse: cast from restricted __le32
+   drivers/scsi/qedi/qedi_fw.c:217:36: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] val @@     got restricted __le32 [usertype] exp_cmd_sn @@
+   drivers/scsi/qedi/qedi_fw.c:217:36: sparse:     expected unsigned int [usertype] val
+   drivers/scsi/qedi/qedi_fw.c:217:36: sparse:     got restricted __le32 [usertype] exp_cmd_sn
+   drivers/scsi/qedi/qedi_fw.c:217:36: sparse: sparse: cast from restricted __le32
+   drivers/scsi/qedi/qedi_fw.c:217:36: sparse: sparse: cast from restricted __le32
+   drivers/scsi/qedi/qedi_fw.c:217:36: sparse: sparse: cast from restricted __le32
+   drivers/scsi/qedi/qedi_fw.c:217:36: sparse: sparse: cast from restricted __le32
+   drivers/scsi/qedi/qedi_fw.c:218:35: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] val @@     got restricted __le32 [usertype] max_cmd_sn @@
+   drivers/scsi/qedi/qedi_fw.c:218:35: sparse:     expected unsigned int [usertype] val
+   drivers/scsi/qedi/qedi_fw.c:218:35: sparse:     got restricted __le32 [usertype] max_cmd_sn
+   drivers/scsi/qedi/qedi_fw.c:218:35: sparse: sparse: cast from restricted __le32
+   drivers/scsi/qedi/qedi_fw.c:218:35: sparse: sparse: cast from restricted __le32
+   drivers/scsi/qedi/qedi_fw.c:218:35: sparse: sparse: cast from restricted __le32
+   drivers/scsi/qedi/qedi_fw.c:218:35: sparse: sparse: cast from restricted __le32
+   drivers/scsi/qedi/qedi_fw.c:282:9: sparse: sparse: restricted __le32 degrades to integer
+   drivers/scsi/qedi/qedi_fw.c:282:9: sparse: sparse: restricted __le32 degrades to integer
+   drivers/scsi/qedi/qedi_fw.c:282:9: sparse: sparse: restricted __le32 degrades to integer
+   drivers/scsi/qedi/qedi_fw.c:285:29: sparse: sparse: restricted __le16 degrades to integer
+>> drivers/scsi/qedi/qedi_fw.c:287:28: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be16 [usertype] tsih @@     got restricted __le16 [usertype] tsih @@
+   drivers/scsi/qedi/qedi_fw.c:287:28: sparse:     expected restricted __be16 [usertype] tsih
+   drivers/scsi/qedi/qedi_fw.c:287:28: sparse:     got restricted __le16 [usertype] tsih
+   drivers/scsi/qedi/qedi_fw.c:288:32: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] val @@     got restricted __le32 [usertype] stat_sn @@
+   drivers/scsi/qedi/qedi_fw.c:288:32: sparse:     expected unsigned int [usertype] val
+   drivers/scsi/qedi/qedi_fw.c:288:32: sparse:     got restricted __le32 [usertype] stat_sn
+   drivers/scsi/qedi/qedi_fw.c:288:32: sparse: sparse: cast from restricted __le32
+   drivers/scsi/qedi/qedi_fw.c:288:32: sparse: sparse: cast from restricted __le32
+   drivers/scsi/qedi/qedi_fw.c:288:32: sparse: sparse: cast from restricted __le32
+   drivers/scsi/qedi/qedi_fw.c:288:32: sparse: sparse: cast from restricted __le32
+   drivers/scsi/qedi/qedi_fw.c:289:35: sparse: sparse: too many warnings
 
-vim +1138 sound/soc/soc-topology.c
+vim +1460 drivers/scsi/qedi/qedi_fw.c
 
-8a9782346dccd8 Liam Girdwood 2015-05-29  1106  
-8a9782346dccd8 Liam Girdwood 2015-05-29  1107  static int soc_tplg_kcontrol_elems_load(struct soc_tplg *tplg,
-8a9782346dccd8 Liam Girdwood 2015-05-29  1108  	struct snd_soc_tplg_hdr *hdr)
-8a9782346dccd8 Liam Girdwood 2015-05-29  1109  {
-8a9782346dccd8 Liam Girdwood 2015-05-29  1110  	struct snd_soc_tplg_ctl_hdr *control_hdr;
-8a9782346dccd8 Liam Girdwood 2015-05-29  1111  	int i;
-8a9782346dccd8 Liam Girdwood 2015-05-29  1112  
-8a9782346dccd8 Liam Girdwood 2015-05-29  1113  	if (tplg->pass != SOC_TPLG_PASS_MIXER) {
-8a9782346dccd8 Liam Girdwood 2015-05-29  1114  		tplg->pos += hdr->size + hdr->payload_size;
-8a9782346dccd8 Liam Girdwood 2015-05-29  1115  		return 0;
-8a9782346dccd8 Liam Girdwood 2015-05-29  1116  	}
-8a9782346dccd8 Liam Girdwood 2015-05-29  1117  
-8a9782346dccd8 Liam Girdwood 2015-05-29  1118  	dev_dbg(tplg->dev, "ASoC: adding %d kcontrols at 0x%lx\n", hdr->count,
-8a9782346dccd8 Liam Girdwood 2015-05-29  1119  		soc_tplg_get_offset(tplg));
-8a9782346dccd8 Liam Girdwood 2015-05-29  1120  
-8a9782346dccd8 Liam Girdwood 2015-05-29  1121  	for (i = 0; i < hdr->count; i++) {
-8a9782346dccd8 Liam Girdwood 2015-05-29  1122  
-8a9782346dccd8 Liam Girdwood 2015-05-29  1123  		control_hdr = (struct snd_soc_tplg_ctl_hdr *)tplg->pos;
-8a9782346dccd8 Liam Girdwood 2015-05-29  1124  
-06eb49f72fa57f Mengdong Lin  2016-04-27  1125  		if (control_hdr->size != sizeof(*control_hdr)) {
-06eb49f72fa57f Mengdong Lin  2016-04-27  1126  			dev_err(tplg->dev, "ASoC: invalid control size\n");
-06eb49f72fa57f Mengdong Lin  2016-04-27  1127  			return -EINVAL;
-06eb49f72fa57f Mengdong Lin  2016-04-27  1128  		}
-06eb49f72fa57f Mengdong Lin  2016-04-27  1129  
-8a9782346dccd8 Liam Girdwood 2015-05-29  1130  		switch (control_hdr->ops.info) {
-8a9782346dccd8 Liam Girdwood 2015-05-29  1131  		case SND_SOC_TPLG_CTL_VOLSW:
-8a9782346dccd8 Liam Girdwood 2015-05-29  1132  		case SND_SOC_TPLG_CTL_STROBE:
-8a9782346dccd8 Liam Girdwood 2015-05-29  1133  		case SND_SOC_TPLG_CTL_VOLSW_SX:
-8a9782346dccd8 Liam Girdwood 2015-05-29  1134  		case SND_SOC_TPLG_CTL_VOLSW_XR_SX:
-8a9782346dccd8 Liam Girdwood 2015-05-29  1135  		case SND_SOC_TPLG_CTL_RANGE:
-8a9782346dccd8 Liam Girdwood 2015-05-29  1136  		case SND_SOC_TPLG_DAPM_CTL_VOLSW:
-8a9782346dccd8 Liam Girdwood 2015-05-29  1137  		case SND_SOC_TPLG_DAPM_CTL_PIN:
-8a9782346dccd8 Liam Girdwood 2015-05-29 @1138  			soc_tplg_dmixer_create(tplg, 1, hdr->payload_size);
-8a9782346dccd8 Liam Girdwood 2015-05-29  1139  			break;
-8a9782346dccd8 Liam Girdwood 2015-05-29  1140  		case SND_SOC_TPLG_CTL_ENUM:
-8a9782346dccd8 Liam Girdwood 2015-05-29  1141  		case SND_SOC_TPLG_CTL_ENUM_VALUE:
-8a9782346dccd8 Liam Girdwood 2015-05-29  1142  		case SND_SOC_TPLG_DAPM_CTL_ENUM_DOUBLE:
-8a9782346dccd8 Liam Girdwood 2015-05-29  1143  		case SND_SOC_TPLG_DAPM_CTL_ENUM_VIRT:
-8a9782346dccd8 Liam Girdwood 2015-05-29  1144  		case SND_SOC_TPLG_DAPM_CTL_ENUM_VALUE:
-8a9782346dccd8 Liam Girdwood 2015-05-29  1145  			soc_tplg_denum_create(tplg, 1, hdr->payload_size);
-8a9782346dccd8 Liam Girdwood 2015-05-29  1146  			break;
-8a9782346dccd8 Liam Girdwood 2015-05-29  1147  		case SND_SOC_TPLG_CTL_BYTES:
-8a9782346dccd8 Liam Girdwood 2015-05-29  1148  			soc_tplg_dbytes_create(tplg, 1, hdr->payload_size);
-8a9782346dccd8 Liam Girdwood 2015-05-29  1149  			break;
-8a9782346dccd8 Liam Girdwood 2015-05-29  1150  		default:
-8a9782346dccd8 Liam Girdwood 2015-05-29  1151  			soc_bind_err(tplg, control_hdr, i);
-8a9782346dccd8 Liam Girdwood 2015-05-29  1152  			return -EINVAL;
-8a9782346dccd8 Liam Girdwood 2015-05-29  1153  		}
-8a9782346dccd8 Liam Girdwood 2015-05-29  1154  	}
-8a9782346dccd8 Liam Girdwood 2015-05-29  1155  
-8a9782346dccd8 Liam Girdwood 2015-05-29  1156  	return 0;
-8a9782346dccd8 Liam Girdwood 2015-05-29  1157  }
-8a9782346dccd8 Liam Girdwood 2015-05-29  1158  
-cefcae315215e6 Liam Girdwood 2018-06-14  1159  /* optionally pass new dynamic kcontrol to component driver. */
-cefcae315215e6 Liam Girdwood 2018-06-14  1160  static int soc_tplg_add_route(struct soc_tplg *tplg,
-cefcae315215e6 Liam Girdwood 2018-06-14  1161  	struct snd_soc_dapm_route *route)
-cefcae315215e6 Liam Girdwood 2018-06-14  1162  {
-cefcae315215e6 Liam Girdwood 2018-06-14  1163  	if (tplg->comp && tplg->ops && tplg->ops->dapm_route_load)
-cefcae315215e6 Liam Girdwood 2018-06-14  1164  		return tplg->ops->dapm_route_load(tplg->comp, tplg->index,
-cefcae315215e6 Liam Girdwood 2018-06-14  1165  			route);
-cefcae315215e6 Liam Girdwood 2018-06-14  1166  
-cefcae315215e6 Liam Girdwood 2018-06-14  1167  	return 0;
-cefcae315215e6 Liam Girdwood 2018-06-14  1168  }
-cefcae315215e6 Liam Girdwood 2018-06-14  1169  
-8a9782346dccd8 Liam Girdwood 2015-05-29  1170  static int soc_tplg_dapm_graph_elems_load(struct soc_tplg *tplg,
-8a9782346dccd8 Liam Girdwood 2015-05-29  1171  	struct snd_soc_tplg_hdr *hdr)
-8a9782346dccd8 Liam Girdwood 2015-05-29  1172  {
-8a9782346dccd8 Liam Girdwood 2015-05-29  1173  	struct snd_soc_dapm_context *dapm = &tplg->comp->dapm;
-8a9782346dccd8 Liam Girdwood 2015-05-29  1174  	struct snd_soc_dapm_route route;
-8a9782346dccd8 Liam Girdwood 2015-05-29  1175  	struct snd_soc_tplg_dapm_graph_elem *elem;
-8a9782346dccd8 Liam Girdwood 2015-05-29  1176  	int count = hdr->count, i;
-8a9782346dccd8 Liam Girdwood 2015-05-29  1177  
-8a9782346dccd8 Liam Girdwood 2015-05-29  1178  	if (tplg->pass != SOC_TPLG_PASS_GRAPH) {
-8a9782346dccd8 Liam Girdwood 2015-05-29  1179  		tplg->pos += hdr->size + hdr->payload_size;
-8a9782346dccd8 Liam Girdwood 2015-05-29  1180  		return 0;
-8a9782346dccd8 Liam Girdwood 2015-05-29  1181  	}
-8a9782346dccd8 Liam Girdwood 2015-05-29  1182  
-8a9782346dccd8 Liam Girdwood 2015-05-29  1183  	if (soc_tplg_check_elem_count(tplg,
-8a9782346dccd8 Liam Girdwood 2015-05-29  1184  		sizeof(struct snd_soc_tplg_dapm_graph_elem),
-8a9782346dccd8 Liam Girdwood 2015-05-29 @1185  		count, hdr->payload_size, "graph")) {
-8a9782346dccd8 Liam Girdwood 2015-05-29  1186  
-8a9782346dccd8 Liam Girdwood 2015-05-29  1187  		dev_err(tplg->dev, "ASoC: invalid count %d for DAPM routes\n",
-8a9782346dccd8 Liam Girdwood 2015-05-29  1188  			count);
-8a9782346dccd8 Liam Girdwood 2015-05-29  1189  		return -EINVAL;
-8a9782346dccd8 Liam Girdwood 2015-05-29  1190  	}
-8a9782346dccd8 Liam Girdwood 2015-05-29  1191  
-b75a65118d287a Liam Girdwood 2017-06-29  1192  	dev_dbg(tplg->dev, "ASoC: adding %d DAPM routes for index %d\n", count,
-b75a65118d287a Liam Girdwood 2017-06-29  1193  		hdr->index);
-8a9782346dccd8 Liam Girdwood 2015-05-29  1194  
-8a9782346dccd8 Liam Girdwood 2015-05-29  1195  	for (i = 0; i < count; i++) {
-8a9782346dccd8 Liam Girdwood 2015-05-29  1196  		elem = (struct snd_soc_tplg_dapm_graph_elem *)tplg->pos;
-8a9782346dccd8 Liam Girdwood 2015-05-29  1197  		tplg->pos += sizeof(struct snd_soc_tplg_dapm_graph_elem);
-8a9782346dccd8 Liam Girdwood 2015-05-29  1198  
-8a9782346dccd8 Liam Girdwood 2015-05-29  1199  		/* validate routes */
-8a9782346dccd8 Liam Girdwood 2015-05-29  1200  		if (strnlen(elem->source, SNDRV_CTL_ELEM_ID_NAME_MAXLEN) ==
-8a9782346dccd8 Liam Girdwood 2015-05-29  1201  			SNDRV_CTL_ELEM_ID_NAME_MAXLEN)
-8a9782346dccd8 Liam Girdwood 2015-05-29  1202  			return -EINVAL;
-8a9782346dccd8 Liam Girdwood 2015-05-29  1203  		if (strnlen(elem->sink, SNDRV_CTL_ELEM_ID_NAME_MAXLEN) ==
-8a9782346dccd8 Liam Girdwood 2015-05-29  1204  			SNDRV_CTL_ELEM_ID_NAME_MAXLEN)
-8a9782346dccd8 Liam Girdwood 2015-05-29  1205  			return -EINVAL;
-8a9782346dccd8 Liam Girdwood 2015-05-29  1206  		if (strnlen(elem->control, SNDRV_CTL_ELEM_ID_NAME_MAXLEN) ==
-8a9782346dccd8 Liam Girdwood 2015-05-29  1207  			SNDRV_CTL_ELEM_ID_NAME_MAXLEN)
-8a9782346dccd8 Liam Girdwood 2015-05-29  1208  			return -EINVAL;
-8a9782346dccd8 Liam Girdwood 2015-05-29  1209  
-8a9782346dccd8 Liam Girdwood 2015-05-29  1210  		route.source = elem->source;
-8a9782346dccd8 Liam Girdwood 2015-05-29  1211  		route.sink = elem->sink;
-8a9782346dccd8 Liam Girdwood 2015-05-29  1212  		route.connected = NULL; /* set to NULL atm for tplg users */
-8a9782346dccd8 Liam Girdwood 2015-05-29  1213  		if (strnlen(elem->control, SNDRV_CTL_ELEM_ID_NAME_MAXLEN) == 0)
-8a9782346dccd8 Liam Girdwood 2015-05-29  1214  			route.control = NULL;
-8a9782346dccd8 Liam Girdwood 2015-05-29  1215  		else
-8a9782346dccd8 Liam Girdwood 2015-05-29  1216  			route.control = elem->control;
-8a9782346dccd8 Liam Girdwood 2015-05-29  1217  
-cefcae315215e6 Liam Girdwood 2018-06-14  1218  		soc_tplg_add_route(tplg, &route);
-cefcae315215e6 Liam Girdwood 2018-06-14  1219  
-8a9782346dccd8 Liam Girdwood 2015-05-29  1220  		/* add route, but keep going if some fail */
-8a9782346dccd8 Liam Girdwood 2015-05-29  1221  		snd_soc_dapm_add_routes(dapm, &route, 1);
-8a9782346dccd8 Liam Girdwood 2015-05-29  1222  	}
-8a9782346dccd8 Liam Girdwood 2015-05-29  1223  
-8a9782346dccd8 Liam Girdwood 2015-05-29  1224  	return 0;
-8a9782346dccd8 Liam Girdwood 2015-05-29  1225  }
-8a9782346dccd8 Liam Girdwood 2015-05-29  1226  
+ace7f46ba5fde7 Manish Rangankar            2016-12-01  1421  
+60a0d379f11bc7 Mike Christie               2021-05-25  1422  static int send_iscsi_tmf(struct qedi_conn *qedi_conn, struct iscsi_task *mtask,
+60a0d379f11bc7 Mike Christie               2021-05-25  1423  			  struct iscsi_task *ctask)
+ace7f46ba5fde7 Manish Rangankar            2016-12-01  1424  {
+be086e7c53f1fa Mintz, Yuval                2017-03-11  1425  	struct iscsi_tmf_request_hdr tmf_pdu_header;
+be086e7c53f1fa Mintz, Yuval                2017-03-11  1426  	struct iscsi_task_params task_params;
+ace7f46ba5fde7 Manish Rangankar            2016-12-01  1427  	struct qedi_ctx *qedi = qedi_conn->qedi;
+fb09a1ed5c6e50 Shai Malin                  2021-10-04  1428  	struct iscsi_task_context *fw_task_ctx;
+ace7f46ba5fde7 Manish Rangankar            2016-12-01  1429  	struct iscsi_tm *tmf_hdr;
+be086e7c53f1fa Mintz, Yuval                2017-03-11  1430  	struct qedi_cmd *qedi_cmd;
+be086e7c53f1fa Mintz, Yuval                2017-03-11  1431  	struct qedi_cmd *cmd;
+be086e7c53f1fa Mintz, Yuval                2017-03-11  1432  	struct qedi_endpoint *ep;
+be086e7c53f1fa Mintz, Yuval                2017-03-11  1433  	u32 scsi_lun[2];
+be086e7c53f1fa Mintz, Yuval                2017-03-11  1434  	s16 tid = 0;
+be086e7c53f1fa Mintz, Yuval                2017-03-11  1435  	u16 sq_idx = 0;
+ace7f46ba5fde7 Manish Rangankar            2016-12-01  1436  
+ace7f46ba5fde7 Manish Rangankar            2016-12-01  1437  	tmf_hdr = (struct iscsi_tm *)mtask->hdr;
+be086e7c53f1fa Mintz, Yuval                2017-03-11  1438  	qedi_cmd = (struct qedi_cmd *)mtask->dd_data;
+be086e7c53f1fa Mintz, Yuval                2017-03-11  1439  	ep = qedi_conn->ep;
+b19775e4785996 manish.rangankar@cavium.com 2017-05-19  1440  	if (!ep)
+b19775e4785996 manish.rangankar@cavium.com 2017-05-19  1441  		return -ENODEV;
+ace7f46ba5fde7 Manish Rangankar            2016-12-01  1442  
+be086e7c53f1fa Mintz, Yuval                2017-03-11  1443  	tid = qedi_get_task_idx(qedi);
+be086e7c53f1fa Mintz, Yuval                2017-03-11  1444  	if (tid == -1)
+be086e7c53f1fa Mintz, Yuval                2017-03-11  1445  		return -ENOMEM;
+ace7f46ba5fde7 Manish Rangankar            2016-12-01  1446  
+be086e7c53f1fa Mintz, Yuval                2017-03-11  1447  	fw_task_ctx =
+fb09a1ed5c6e50 Shai Malin                  2021-10-04  1448  	     (struct iscsi_task_context *)qedi_get_task_mem(&qedi->tasks,
+21dd79e82f00b2 Tomer Tayar                 2017-12-27  1449  							       tid);
+fb09a1ed5c6e50 Shai Malin                  2021-10-04  1450  	memset(fw_task_ctx, 0, sizeof(struct iscsi_task_context));
+ace7f46ba5fde7 Manish Rangankar            2016-12-01  1451  
+be086e7c53f1fa Mintz, Yuval                2017-03-11  1452  	qedi_cmd->task_id = tid;
+ace7f46ba5fde7 Manish Rangankar            2016-12-01  1453  
+be086e7c53f1fa Mintz, Yuval                2017-03-11  1454  	memset(&task_params, 0, sizeof(task_params));
+be086e7c53f1fa Mintz, Yuval                2017-03-11  1455  	memset(&tmf_pdu_header, 0, sizeof(tmf_pdu_header));
+ace7f46ba5fde7 Manish Rangankar            2016-12-01  1456  
+be086e7c53f1fa Mintz, Yuval                2017-03-11  1457  	/* Update header info */
+be086e7c53f1fa Mintz, Yuval                2017-03-11  1458  	qedi_update_itt_map(qedi, tid, mtask->itt, qedi_cmd);
+be086e7c53f1fa Mintz, Yuval                2017-03-11  1459  	tmf_pdu_header.itt = qedi_set_itt(tid, get_itt(mtask->itt));
+be086e7c53f1fa Mintz, Yuval                2017-03-11 @1460  	tmf_pdu_header.cmd_sn = be32_to_cpu(tmf_hdr->cmdsn);
+be086e7c53f1fa Mintz, Yuval                2017-03-11  1461  
+be086e7c53f1fa Mintz, Yuval                2017-03-11  1462  	memcpy(scsi_lun, &tmf_hdr->lun, sizeof(struct scsi_lun));
+be086e7c53f1fa Mintz, Yuval                2017-03-11 @1463  	tmf_pdu_header.lun.lo = be32_to_cpu(scsi_lun[0]);
+be086e7c53f1fa Mintz, Yuval                2017-03-11 @1464  	tmf_pdu_header.lun.hi = be32_to_cpu(scsi_lun[1]);
+ace7f46ba5fde7 Manish Rangankar            2016-12-01  1465  
+ace7f46ba5fde7 Manish Rangankar            2016-12-01  1466  	if ((tmf_hdr->flags & ISCSI_FLAG_TM_FUNC_MASK) ==
+ace7f46ba5fde7 Manish Rangankar            2016-12-01  1467  	     ISCSI_TM_FUNC_ABORT_TASK) {
+ace7f46ba5fde7 Manish Rangankar            2016-12-01  1468  		cmd = (struct qedi_cmd *)ctask->dd_data;
+be086e7c53f1fa Mintz, Yuval                2017-03-11  1469  		tmf_pdu_header.rtt =
+ace7f46ba5fde7 Manish Rangankar            2016-12-01  1470  				qedi_set_itt(cmd->task_id,
+ace7f46ba5fde7 Manish Rangankar            2016-12-01  1471  					     get_itt(tmf_hdr->rtt));
+ace7f46ba5fde7 Manish Rangankar            2016-12-01  1472  	} else {
+be086e7c53f1fa Mintz, Yuval                2017-03-11  1473  		tmf_pdu_header.rtt = ISCSI_RESERVED_TAG;
+be086e7c53f1fa Mintz, Yuval                2017-03-11  1474  	}
+ace7f46ba5fde7 Manish Rangankar            2016-12-01  1475  
+be086e7c53f1fa Mintz, Yuval                2017-03-11  1476  	tmf_pdu_header.opcode = tmf_hdr->opcode;
+be086e7c53f1fa Mintz, Yuval                2017-03-11  1477  	tmf_pdu_header.function = tmf_hdr->flags;
+be086e7c53f1fa Mintz, Yuval                2017-03-11  1478  	tmf_pdu_header.hdr_second_dword = ntoh24(tmf_hdr->dlength);
+be086e7c53f1fa Mintz, Yuval                2017-03-11 @1479  	tmf_pdu_header.ref_cmd_sn = be32_to_cpu(tmf_hdr->refcmdsn);
+be086e7c53f1fa Mintz, Yuval                2017-03-11  1480  
+be086e7c53f1fa Mintz, Yuval                2017-03-11  1481  	/* Fill fw input params */
+be086e7c53f1fa Mintz, Yuval                2017-03-11  1482  	task_params.context = fw_task_ctx;
+be086e7c53f1fa Mintz, Yuval                2017-03-11  1483  	task_params.conn_icid = (u16)qedi_conn->iscsi_conn_id;
+be086e7c53f1fa Mintz, Yuval                2017-03-11  1484  	task_params.itid = tid;
+be086e7c53f1fa Mintz, Yuval                2017-03-11  1485  	task_params.cq_rss_number = 0;
+be086e7c53f1fa Mintz, Yuval                2017-03-11  1486  	task_params.tx_io_size = 0;
+be086e7c53f1fa Mintz, Yuval                2017-03-11  1487  	task_params.rx_io_size = 0;
+be086e7c53f1fa Mintz, Yuval                2017-03-11  1488  
+be086e7c53f1fa Mintz, Yuval                2017-03-11  1489  	sq_idx = qedi_get_wqe_idx(qedi_conn);
+be086e7c53f1fa Mintz, Yuval                2017-03-11  1490  	task_params.sqe = &ep->sq[sq_idx];
+be086e7c53f1fa Mintz, Yuval                2017-03-11  1491  
+be086e7c53f1fa Mintz, Yuval                2017-03-11  1492  	memset(task_params.sqe, 0, sizeof(struct iscsi_wqe));
+f7eea75262fc8e Mike Christie               2021-05-25  1493  	init_initiator_tmf_request_task(&task_params, &tmf_pdu_header);
+ace7f46ba5fde7 Manish Rangankar            2016-12-01  1494  
+ace7f46ba5fde7 Manish Rangankar            2016-12-01  1495  	spin_lock(&qedi_conn->list_lock);
+ace7f46ba5fde7 Manish Rangankar            2016-12-01  1496  	list_add_tail(&qedi_cmd->io_cmd, &qedi_conn->active_cmd_list);
+ace7f46ba5fde7 Manish Rangankar            2016-12-01  1497  	qedi_cmd->io_cmd_in_list = true;
+ace7f46ba5fde7 Manish Rangankar            2016-12-01  1498  	qedi_conn->active_cmd_count++;
+ace7f46ba5fde7 Manish Rangankar            2016-12-01  1499  	spin_unlock(&qedi_conn->list_lock);
+ace7f46ba5fde7 Manish Rangankar            2016-12-01  1500  
+ace7f46ba5fde7 Manish Rangankar            2016-12-01  1501  	qedi_ring_doorbell(qedi_conn);
+ace7f46ba5fde7 Manish Rangankar            2016-12-01  1502  	return 0;
+ace7f46ba5fde7 Manish Rangankar            2016-12-01  1503  }
+ace7f46ba5fde7 Manish Rangankar            2016-12-01  1504  
 
-:::::: The code at line 1138 was first introduced by commit
-:::::: 8a9782346dccd82cf912552735bda619de4efd8c ASoC: topology: Add topology core
+:::::: The code at line 1460 was first introduced by commit
+:::::: be086e7c53f1fac51eed14523b28f2214b548dd2 qed*: Utilize Firmware 8.15.3.0
 
-:::::: TO: Liam Girdwood <liam.r.girdwood@linux.intel.com>
-:::::: CC: Mark Brown <broonie@kernel.org>
+:::::: TO: Mintz, Yuval <Yuval.Mintz@cavium.com>
+:::::: CC: David S. Miller <davem@davemloft.net>
 
 -- 
 0-DAY CI Kernel Test Service
