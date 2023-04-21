@@ -1,54 +1,43 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2766A2597
-	for <oe-kbuild@lists.linux.dev>; Fri, 21 Apr 2023 10:16:00 +0000 (UTC)
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-2fde2879eabso1422863f8f.1
-        for <oe-kbuild@lists.linux.dev>; Fri, 21 Apr 2023 03:16:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1682072158; x=1684664158;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=iCS6UB5yhpVd9FlAu5D2RsqlgHbxjxqTiThujYIO26I=;
-        b=Tr7uZOTVdT3fU9pVg6MhBuKWMoHzStRCsFnN0PZJ+tPJ79ZhrtK6ItCtjGJY5H8lS0
-         f8bR7E0pWgWs2mgE349w4xIbKdaPEYeZ8ixpoKTt+9Ss8HIzFqJd8yFe2znVXOy+JGX3
-         1PY6PhxzJLZ8TZZ7VH1bPWe9YiKIF5YkkQFenZyscwoI05L27BCTMVGimL0phanly6WI
-         jQ5PPLmNWsyhb56dCm3nofUBCwFlhKJHAPJjJtmZaHr1Zp6o9iz73q0pmHn3aj2CtADR
-         iKK614INhLbjVKukgQpy1l4AWqQXeVsqoN7VcnD5Yg20BrNebQcVHItIQUvQ03cHyHzr
-         qOnQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682072158; x=1684664158;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=iCS6UB5yhpVd9FlAu5D2RsqlgHbxjxqTiThujYIO26I=;
-        b=JOlJnM76/IMl2cko3yTqoLZv361NcUVsWAtjHox5ag5gia1q43Y9+56G2DZLrCA7TN
-         3bdm2ISeLE09EA7u7SL7fBLM+nMdGADPsWWMBH9cpHrU3pCAoW/j/s6HPA1dl1VHDpls
-         294wt1UJBDotkTNMk57K/O8tAwD03f3BgTyOp1zM88ZxQROIy5lg3Ta/m08sms/4hGQG
-         AmVhOmBQyVbi7R3CVX36QVqNSIqmPLOz4Yv04e5layT22qPKhVa/aV/k/DiQr7tgBCcC
-         HQe0stlb2ryCw5sJoZGrTgKZ5PPhR7B5CBGUPiaEL4tBk/Hk2JA27zYbjgxjyZT7Wbyk
-         EOHg==
-X-Gm-Message-State: AAQBX9czC/gLdKVVPDFvikFQ4sdd2FbjHi7VFwKFbM6KXZThsfFKdPmo
-	ZIZnF6hgXTmbmaqbfgjgvVMj9yFua8OQTT3gMUo=
-X-Google-Smtp-Source: AKy350ZLm1eCEyq7MBHvkNSsG5Ca7omGLEgsTHz/sCeHJtawAMCRjfI9X7LfTEaXFO9VHGoPjJ62Pw==
-X-Received: by 2002:a5d:6a09:0:b0:2fa:385b:f104 with SMTP id m9-20020a5d6a09000000b002fa385bf104mr3411657wru.22.1682072157736;
-        Fri, 21 Apr 2023 03:15:57 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id k18-20020a05600c0b5200b003edf2dc7ca3sm4367140wmr.34.2023.04.21.03.15.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 Apr 2023 03:15:57 -0700 (PDT)
-Date: Fri, 21 Apr 2023 13:15:53 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev,
-	Shubhrajyoti Datta <shubhrajyoti.datta@amd.com>,
-	devicetree@vger.kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, git@amd.com,
-	linux-clk@vger.kernel.org, robh+dt@kernel.org, sboyd@kernel.org,
-	mturquette@baylibre.com, krzysztof.kozlowski+dt@linaro.org,
-	michal.simek@xilinx.com
-Subject: Re: [PATCH v1 2/2] clocking-wizard: Add support for versal clocking
- wizard
-Message-ID: <a233ebad-8c2d-4059-a0a7-abecd0f446d9@kili.mountain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C422C3C05
+	for <oe-kbuild@lists.linux.dev>; Fri, 21 Apr 2023 13:36:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1682084181; x=1713620181;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=T5bwCpRpfRrJylAZmzPe4vnbNlQpsPFbMn//3sjbdAA=;
+  b=Gn3H5/XpPt3z2X3BeWvFDNLJHSBHdI2qDASKgVs2LiUu6h/0p3paoxyy
+   KKuSLUURCE7QSbhkOiOkUjJpLdpE3FPxV7A7jAzyOBampx8BlrsJMlZX8
+   cqt6cwqNimHu2Spp//ATSXDl37hrtjwV2ruibG9aK14yuMOkicje20/9u
+   dewvrBvYmFYOZ4GHuxnBtXJeaWyIs2UYKQCpqCGPzdHSGYIu9DFJyXYtJ
+   i18iDCj/1NfLcXyGr+9WsMRfWbOJ7PL03d+nYLQsfqubQAS7FJoH8nIXY
+   eGAcnOrXoRNazqTP/rc03TDr6YGYd8iFQadAwwDANwBAw+YIYmduY/EEr
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10686"; a="348788254"
+X-IronPort-AV: E=Sophos;i="5.99,214,1677571200"; 
+   d="scan'208";a="348788254"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2023 06:36:16 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10686"; a="694968515"
+X-IronPort-AV: E=Sophos;i="5.99,214,1677571200"; 
+   d="scan'208";a="694968515"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by fmsmga007.fm.intel.com with ESMTP; 21 Apr 2023 06:36:15 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1ppqvu-000gcC-1k;
+	Fri, 21 Apr 2023 13:36:14 +0000
+Date: Fri, 21 Apr 2023 21:35:40 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: [jsarha:topic/cros-sof-v4.14-rebase 3532/9999]
+ sound/soc/soc-topology.c:1138:60: sparse: sparse: incorrect type in argument
+ 3 (different base types)
+Message-ID: <202304212135.zvR5py9L-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -57,283 +46,364 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230418102855.6791-3-shubhrajyoti.datta@amd.com>
 
-Hi Shubhrajyoti,
+:::::: 
+:::::: Manual check reason: "low confidence bisect report"
+:::::: 
 
-kernel test robot noticed the following build warnings:
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: Liam Girdwood <liam.r.girdwood@linux.intel.com>
+CC: Samaga Prasanna Krishna <samaga.krishna@intel.corp-partner.google.com>
+CC: Curtis Malainey <cujomalainey@chromium.org>
 
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Shubhrajyoti-Datta/dt-bindings-clocking-wizard-add-versal-compatible/20230418-183046
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git clk-next
-patch link:    https://lore.kernel.org/r/20230418102855.6791-3-shubhrajyoti.datta%40amd.com
-patch subject: [PATCH v1 2/2] clocking-wizard: Add support for versal clocking wizard
-config: arm64-randconfig-m041-20230419 (https://download.01.org/0day-ci/archive/20230421/202304211427.AoG9GhQ1-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.1.0
+tree:   https://github.com/jsarha/linux topic/cros-sof-v4.14-rebase
+head:   18a233f3f676a98dde00947535d99ab1a54da340
+commit: 9e1491388e755ed2b1dcffbaa54f76b2ad7a67ea [3532/9999] FROMLIST: ASoC: SOF: Add Build support for SOF core and Intel drivers
+:::::: branch date: 3 years, 11 months ago
+:::::: commit date: 4 years, 6 months ago
+config: parisc-randconfig-s051-20230420 (https://download.01.org/0day-ci/archive/20230421/202304212135.zvR5py9L-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 7.5.0
+reproduce:
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://github.com/jsarha/linux/commit/9e1491388e755ed2b1dcffbaa54f76b2ad7a67ea
+        git remote add jsarha https://github.com/jsarha/linux
+        git fetch --no-tags jsarha topic/cros-sof-v4.14-rebase
+        git checkout 9e1491388e755ed2b1dcffbaa54f76b2ad7a67ea
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-7.5.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=parisc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-7.5.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=parisc SHELL=/bin/bash sound/soc/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202304211427.AoG9GhQ1-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202304212135.zvR5py9L-lkp@intel.com/
 
-New smatch warnings:
-drivers/clk/xilinx/clk-xlnx-clock-wizard.c:1075 clk_wzrd_probe() warn: 'clk_wzrd->axi_clk' from clk_prepare_enable() not released on lines: 897.
+sparse warnings: (new ones prefixed by >>)
+   sound/soc/soc-topology.c:2503:45: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:261:28: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:262:39: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted __le32 [usertype] reg @@
+   sound/soc/soc-topology.c:262:39: sparse:     expected int
+   sound/soc/soc-topology.c:262:39: sparse:     got restricted __le32 [usertype] reg
+   sound/soc/soc-topology.c:274:28: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:275:39: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted __le32 [usertype] shift @@
+   sound/soc/soc-topology.c:275:39: sparse:     expected int
+   sound/soc/soc-topology.c:275:39: sparse:     got restricted __le32 [usertype] shift
+   sound/soc/soc-topology.c:604:21: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:623:70: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:625:70: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:640:60: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:642:60: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:644:61: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:657:60: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:659:60: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:661:61: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:720:14: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int @@     got restricted __le32 [usertype] min @@
+   sound/soc/soc-topology.c:720:14: sparse:     expected unsigned int
+   sound/soc/soc-topology.c:720:14: sparse:     got restricted __le32 [usertype] min
+   sound/soc/soc-topology.c:721:22: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:733:17: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:736:17: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:738:33: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:789:33: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:799:27: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [addressable] [assigned] access @@     got restricted __le32 [usertype] access @@
+   sound/soc/soc-topology.c:799:27: sparse:     expected unsigned int [addressable] [assigned] access
+   sound/soc/soc-topology.c:799:27: sparse:     got restricted __le32 [usertype] access
+   sound/soc/soc-topology.c:801:26: sparse: sparse: incorrect type in assignment (different base types) @@     expected int max @@     got restricted __le32 [usertype] max @@
+   sound/soc/soc-topology.c:801:26: sparse:     expected int max
+   sound/soc/soc-topology.c:801:26: sparse:     got restricted __le32 [usertype] max
+   sound/soc/soc-topology.c:869:33: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:879:27: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [addressable] [assigned] access @@     got restricted __le32 [usertype] access @@
+   sound/soc/soc-topology.c:879:27: sparse:     expected unsigned int [addressable] [assigned] access
+   sound/soc/soc-topology.c:879:27: sparse:     got restricted __le32 [usertype] access
+   sound/soc/soc-topology.c:891:25: sparse: sparse: incorrect type in assignment (different base types) @@     expected int max @@     got restricted __le32 [usertype] max @@
+   sound/soc/soc-topology.c:891:25: sparse:     expected int max
+   sound/soc/soc-topology.c:891:25: sparse:     got restricted __le32 [usertype] max
+   sound/soc/soc-topology.c:892:25: sparse: sparse: incorrect type in assignment (different base types) @@     expected int min @@     got restricted __le32 [usertype] min @@
+   sound/soc/soc-topology.c:892:25: sparse:     expected int min
+   sound/soc/soc-topology.c:892:25: sparse:     got restricted __le32 [usertype] min
+   sound/soc/soc-topology.c:893:28: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int invert:1 @@     got restricted __le32 [usertype] invert @@
+   sound/soc/soc-topology.c:893:28: sparse:     expected unsigned int invert:1
+   sound/soc/soc-topology.c:893:28: sparse:     got restricted __le32 [usertype] invert
+   sound/soc/soc-topology.c:894:34: sparse: sparse: incorrect type in assignment (different base types) @@     expected int platform_max @@     got restricted __le32 [usertype] platform_max @@
+   sound/soc/soc-topology.c:894:34: sparse:     expected int platform_max
+   sound/soc/soc-topology.c:894:34: sparse:     got restricted __le32 [usertype] platform_max
+   sound/soc/soc-topology.c:944:44: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:948:27: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:976:15: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:980:46: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:1008:33: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:1026:27: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [addressable] [assigned] access @@     got restricted __le32 [usertype] access @@
+   sound/soc/soc-topology.c:1026:27: sparse:     expected unsigned int [addressable] [assigned] access
+   sound/soc/soc-topology.c:1026:27: sparse:     got restricted __le32 [usertype] access
+   sound/soc/soc-topology.c:1034:27: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int items @@     got restricted __le32 [usertype] items @@
+   sound/soc/soc-topology.c:1034:27: sparse:     expected unsigned int items
+   sound/soc/soc-topology.c:1034:27: sparse:     got restricted __le32 [usertype] items
+   sound/soc/soc-topology.c:1035:26: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int mask @@     got restricted __le32 [usertype] mask @@
+   sound/soc/soc-topology.c:1035:26: sparse:     expected unsigned int mask
+   sound/soc/soc-topology.c:1035:26: sparse:     got restricted __le32 [usertype] mask
+   sound/soc/soc-topology.c:1041:36: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:1041:36: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:1041:36: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:1041:36: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:1041:36: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:1114:33: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:1114:45: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:1121:28: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:1125:32: sparse: sparse: restricted __le32 degrades to integer
+>> sound/soc/soc-topology.c:1138:60: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected unsigned long [usertype] size @@     got restricted __le32 [usertype] payload_size @@
+   sound/soc/soc-topology.c:1138:60: sparse:     expected unsigned long [usertype] size
+   sound/soc/soc-topology.c:1138:60: sparse:     got restricted __le32 [usertype] payload_size
+   sound/soc/soc-topology.c:1145:59: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected unsigned long [usertype] size @@     got restricted __le32 [usertype] payload_size @@
+   sound/soc/soc-topology.c:1145:59: sparse:     expected unsigned long [usertype] size
+   sound/soc/soc-topology.c:1145:59: sparse:     got restricted __le32 [usertype] payload_size
+   sound/soc/soc-topology.c:1148:60: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected unsigned long [usertype] size @@     got restricted __le32 [usertype] payload_size @@
+   sound/soc/soc-topology.c:1148:60: sparse:     expected unsigned long [usertype] size
+   sound/soc/soc-topology.c:1148:60: sparse:     got restricted __le32 [usertype] payload_size
+   sound/soc/soc-topology.c:1130:41: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:1130:41: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:1130:41: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:1130:41: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:1130:41: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:1130:41: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:1130:41: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:1130:41: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:1130:41: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:1130:41: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:1130:41: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:1130:41: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:1130:41: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:1176:24: sparse: sparse: incorrect type in initializer (different base types) @@     expected int count @@     got restricted __le32 [usertype] count @@
+   sound/soc/soc-topology.c:1176:24: sparse:     expected int count
+   sound/soc/soc-topology.c:1176:24: sparse:     got restricted __le32 [usertype] count
+   sound/soc/soc-topology.c:1179:33: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:1179:45: sparse: sparse: restricted __le32 degrades to integer
+>> sound/soc/soc-topology.c:1185:27: sparse: sparse: incorrect type in argument 4 (different base types) @@     expected unsigned long [usertype] bytes @@     got restricted __le32 [usertype] payload_size @@
+   sound/soc/soc-topology.c:1185:27: sparse:     expected unsigned long [usertype] bytes
+   sound/soc/soc-topology.c:1185:27: sparse:     got restricted __le32 [usertype] payload_size
+   sound/soc/soc-topology.c:1246:33: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:1261:30: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int access @@     got restricted __le32 [usertype] access @@
+   sound/soc/soc-topology.c:1261:30: sparse:     expected unsigned int access
+   sound/soc/soc-topology.c:1261:30: sparse:     got restricted __le32 [usertype] access
+   sound/soc/soc-topology.c:1273:25: sparse: sparse: incorrect type in assignment (different base types) @@     expected int max @@     got restricted __le32 [usertype] max @@
+   sound/soc/soc-topology.c:1273:25: sparse:     expected int max
+   sound/soc/soc-topology.c:1273:25: sparse:     got restricted __le32 [usertype] max
+   sound/soc/soc-topology.c:1274:25: sparse: sparse: incorrect type in assignment (different base types) @@     expected int min @@     got restricted __le32 [usertype] min @@
+   sound/soc/soc-topology.c:1274:25: sparse:     expected int min
+   sound/soc/soc-topology.c:1274:25: sparse:     got restricted __le32 [usertype] min
+   sound/soc/soc-topology.c:1275:28: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int invert:1 @@     got restricted __le32 [usertype] invert @@
+   sound/soc/soc-topology.c:1275:28: sparse:     expected unsigned int invert:1
+   sound/soc/soc-topology.c:1275:28: sparse:     got restricted __le32 [usertype] invert
+   sound/soc/soc-topology.c:1276:34: sparse: sparse: incorrect type in assignment (different base types) @@     expected int platform_max @@     got restricted __le32 [usertype] platform_max @@
+   sound/soc/soc-topology.c:1276:34: sparse:     expected int platform_max
+   sound/soc/soc-topology.c:1276:34: sparse:     got restricted __le32 [usertype] platform_max
+   sound/soc/soc-topology.c:1345:30: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int access @@     got restricted __le32 [usertype] access @@
+   sound/soc/soc-topology.c:1345:30: sparse:     expected unsigned int access
+   sound/soc/soc-topology.c:1345:30: sparse:     got restricted __le32 [usertype] access
+   sound/soc/soc-topology.c:1354:27: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int items @@     got restricted __le32 [usertype] items @@
+   sound/soc/soc-topology.c:1354:27: sparse:     expected unsigned int items
+   sound/soc/soc-topology.c:1354:27: sparse:     got restricted __le32 [usertype] items
+   sound/soc/soc-topology.c:1355:26: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int mask @@     got restricted __le32 [usertype] mask @@
+   sound/soc/soc-topology.c:1355:26: sparse:     expected unsigned int mask
+   sound/soc/soc-topology.c:1355:26: sparse:     got restricted __le32 [usertype] mask
+   sound/soc/soc-topology.c:1358:36: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:1358:36: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:1358:36: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:1358:36: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:1358:36: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:1401:41: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:1414:35: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:1451:33: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:1462:30: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int access @@     got restricted __le32 [usertype] access @@
+   sound/soc/soc-topology.c:1462:30: sparse:     expected unsigned int access
+   sound/soc/soc-topology.c:1462:30: sparse:     got restricted __le32 [usertype] access
+   sound/soc/soc-topology.c:1464:26: sparse: sparse: incorrect type in assignment (different base types) @@     expected int max @@     got restricted __le32 [usertype] max @@
+   sound/soc/soc-topology.c:1464:26: sparse:     expected int max
+   sound/soc/soc-topology.c:1464:26: sparse:     got restricted __le32 [usertype] max
+   sound/soc/soc-topology.c:1521:38: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected int tplg_type @@     got restricted __le32 [usertype] id @@
+   sound/soc/soc-topology.c:1521:38: sparse:     expected int tplg_type
+   sound/soc/soc-topology.c:1521:38: sparse:     got restricted __le32 [usertype] id
+   sound/soc/soc-topology.c:1534:22: sparse: sparse: incorrect type in assignment (different base types) @@     expected int [addressable] [assigned] reg @@     got restricted __le32 [usertype] reg @@
+   sound/soc/soc-topology.c:1534:22: sparse:     expected int [addressable] [assigned] reg
+   sound/soc/soc-topology.c:1534:22: sparse:     got restricted __le32 [usertype] reg
+   sound/soc/soc-topology.c:1535:24: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned char [addressable] [assigned] shift @@     got restricted __le32 [usertype] shift @@
+   sound/soc/soc-topology.c:1535:24: sparse:     expected unsigned char [addressable] [assigned] shift
+   sound/soc/soc-topology.c:1535:24: sparse:     got restricted __le32 [usertype] shift
+   sound/soc/soc-topology.c:1536:23: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [addressable] [assigned] mask @@     got restricted __le32 [usertype] mask @@
+   sound/soc/soc-topology.c:1536:23: sparse:     expected unsigned int [addressable] [assigned] mask
+   sound/soc/soc-topology.c:1536:23: sparse:     got restricted __le32 [usertype] mask
+   sound/soc/soc-topology.c:1537:25: sparse: sparse: incorrect type in assignment (different base types) @@     expected int [addressable] [assigned] subseq @@     got restricted __le32 [usertype] subseq @@
+   sound/soc/soc-topology.c:1537:25: sparse:     expected int [addressable] [assigned] subseq
+   sound/soc/soc-topology.c:1537:25: sparse:     got restricted __le32 [usertype] subseq
+   sound/soc/soc-topology.c:1540:33: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned char [addressable] [assigned] ignore_suspend:1 @@     got restricted __le32 [usertype] ignore_suspend @@
+   sound/soc/soc-topology.c:1540:33: sparse:     expected unsigned char [addressable] [assigned] ignore_suspend:1
+   sound/soc/soc-topology.c:1540:33: sparse:     got restricted __le32 [usertype] ignore_suspend
+   sound/soc/soc-topology.c:1541:30: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [addressable] [assigned] event_flags @@     got restricted __le16 [usertype] event_flags @@
+   sound/soc/soc-topology.c:1541:30: sparse:     expected unsigned short [addressable] [assigned] event_flags
+   sound/soc/soc-topology.c:1541:30: sparse:     got restricted __le16 [usertype] event_flags
+   sound/soc/soc-topology.c:1545:67: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:1564:40: sparse: sparse: incorrect type in assignment (different base types) @@     expected int [addressable] [assigned] num_kcontrols @@     got restricted __le32 [usertype] num_kcontrols @@
+   sound/soc/soc-topology.c:1564:40: sparse:     expected int [addressable] [assigned] num_kcontrols
+   sound/soc/soc-topology.c:1564:40: sparse:     got restricted __le32 [usertype] num_kcontrols
+   sound/soc/soc-topology.c:1579:40: sparse: sparse: incorrect type in assignment (different base types) @@     expected int [addressable] [assigned] num_kcontrols @@     got restricted __le32 [usertype] num_kcontrols @@
+   sound/soc/soc-topology.c:1579:40: sparse:     expected int [addressable] [assigned] num_kcontrols
+   sound/soc/soc-topology.c:1579:40: sparse:     got restricted __le32 [usertype] num_kcontrols
+   sound/soc/soc-topology.c:1590:40: sparse: sparse: incorrect type in assignment (different base types) @@     expected int [addressable] [assigned] num_kcontrols @@     got restricted __le32 [usertype] num_kcontrols @@
+   sound/soc/soc-topology.c:1590:40: sparse:     expected int [addressable] [assigned] num_kcontrols
+   sound/soc/soc-topology.c:1590:40: sparse:     got restricted __le32 [usertype] num_kcontrols
+   sound/soc/soc-topology.c:1556:33: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:1556:33: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:1556:33: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:1556:33: sparse: sparse: restricted __le32 degrades to integer
+   sound/soc/soc-topology.c:1556:33: sparse: sparse: too many warnings
+   sound/soc/soc-topology.c: In function 'soc_tplg_denum_create':
+   sound/soc/soc-topology.c:1045:7: warning: this statement may fall through [-Wimplicit-fallthrough=]
+       if (err < 0) {
+          ^
+   sound/soc/soc-topology.c:1053:3: note: here
+      case SND_SOC_TPLG_CTL_ENUM:
+      ^~~~
+   sound/soc/soc-topology.c: In function 'soc_tplg_dapm_widget_denum_create':
+   sound/soc/soc-topology.c:1362:7: warning: this statement may fall through [-Wimplicit-fallthrough=]
+       if (err < 0) {
+          ^
+   sound/soc/soc-topology.c:1368:3: note: here
+      case SND_SOC_TPLG_CTL_ENUM:
+      ^~~~
 
-vim +1075 drivers/clk/xilinx/clk-xlnx-clock-wizard.c
+vim +1138 sound/soc/soc-topology.c
 
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   832  static int clk_wzrd_probe(struct platform_device *pdev)
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   833  {
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   834  	const char *clkout_name, *clk_name, *clk_mul_name;
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   835  	u32 regl, regh, edge, regld, reghd, edged, div;
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   836  	const struct versal_clk_data *data;
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   837  	const struct of_device_id *match;
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   838  	int i, ret;
-91d695d71841ab drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Shubhrajyoti Datta 2021-02-24   839  	u32 reg, reg_f, mult;
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   840  	unsigned long rate;
-87a40bfb09f213 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Shubhrajyoti Datta 2021-02-24   841  	void __iomem *ctrl_reg;
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   842  	struct clk_wzrd *clk_wzrd;
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   843  	struct device_node *np = pdev->dev.of_node;
-92a7590427d666 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Shubhrajyoti Datta 2021-02-24   844  	int nr_outputs;
-87a40bfb09f213 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Shubhrajyoti Datta 2021-02-24   845  	unsigned long flags = 0;
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   846  	bool is_versal = 0;
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   847  
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   848  	clk_wzrd = devm_kzalloc(&pdev->dev, sizeof(*clk_wzrd), GFP_KERNEL);
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   849  	if (!clk_wzrd)
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   850  		return -ENOMEM;
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   851  	platform_set_drvdata(pdev, clk_wzrd);
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   852  
-f595f03bfdfc3c drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c YueHaibing         2019-10-09   853  	clk_wzrd->base = devm_platform_ioremap_resource(pdev, 0);
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   854  	if (IS_ERR(clk_wzrd->base))
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   855  		return PTR_ERR(clk_wzrd->base);
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   856  
-17aa33ff569980 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Shubhrajyoti Datta 2021-02-24   857  	ret = of_property_read_u32(np, "xlnx,speed-grade", &clk_wzrd->speed_grade);
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   858  	if (!ret) {
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   859  		if (clk_wzrd->speed_grade < 1 || clk_wzrd->speed_grade > 3) {
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   860  			dev_warn(&pdev->dev, "invalid speed grade '%d'\n",
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   861  				 clk_wzrd->speed_grade);
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   862  			clk_wzrd->speed_grade = 0;
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   863  		}
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   864  	}
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   865  
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   866  	clk_wzrd->clk_in1 = devm_clk_get(&pdev->dev, "clk_in1");
-fd30ac84f3022e drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Yang Yingliang     2022-09-13   867  	if (IS_ERR(clk_wzrd->clk_in1))
-fd30ac84f3022e drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Yang Yingliang     2022-09-13   868  		return dev_err_probe(&pdev->dev, PTR_ERR(clk_wzrd->clk_in1),
-fd30ac84f3022e drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Yang Yingliang     2022-09-13   869  				     "clk_in1 not found\n");
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   870  
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   871  	clk_wzrd->axi_clk = devm_clk_get(&pdev->dev, "s_axi_aclk");
-fd30ac84f3022e drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Yang Yingliang     2022-09-13   872  	if (IS_ERR(clk_wzrd->axi_clk))
-fd30ac84f3022e drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Yang Yingliang     2022-09-13   873  		return dev_err_probe(&pdev->dev, PTR_ERR(clk_wzrd->axi_clk),
-fd30ac84f3022e drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Yang Yingliang     2022-09-13   874  				     "s_axi_aclk not found\n");
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   875  	ret = clk_prepare_enable(clk_wzrd->axi_clk);
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   876  	if (ret) {
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   877  		dev_err(&pdev->dev, "enabling s_axi_aclk failed\n");
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   878  		return ret;
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   879  	}
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   880  	rate = clk_get_rate(clk_wzrd->axi_clk);
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   881  	if (rate > WZRD_ACLK_MAX_FREQ) {
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   882  		dev_err(&pdev->dev, "s_axi_aclk frequency (%lu) too high\n",
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   883  			rate);
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   884  		ret = -EINVAL;
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   885  		goto err_disable_clk;
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   886  	}
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   887  
-595c88cda65d30 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-03-27   888  	ret = of_property_read_u32(np, "xlnx,nr-outputs", &nr_outputs);
-595c88cda65d30 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-03-27   889  	if (ret || nr_outputs > WZRD_NUM_OUTPUTS) {
-595c88cda65d30 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-03-27   890  		ret = -EINVAL;
-595c88cda65d30 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-03-27   891  		goto err_disable_clk;
-595c88cda65d30 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-03-27   892  	}
-595c88cda65d30 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-03-27   893  
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   894  	match = of_match_node(clk_wzrd_ids, np);
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   895  	if (!match) {
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   896  		dev_err(&pdev->dev, "of_match_node failed\n");
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   897  		return -ENODEV;
+8a9782346dccd8 Liam Girdwood 2015-05-29  1106  
+8a9782346dccd8 Liam Girdwood 2015-05-29  1107  static int soc_tplg_kcontrol_elems_load(struct soc_tplg *tplg,
+8a9782346dccd8 Liam Girdwood 2015-05-29  1108  	struct snd_soc_tplg_hdr *hdr)
+8a9782346dccd8 Liam Girdwood 2015-05-29  1109  {
+8a9782346dccd8 Liam Girdwood 2015-05-29  1110  	struct snd_soc_tplg_ctl_hdr *control_hdr;
+8a9782346dccd8 Liam Girdwood 2015-05-29  1111  	int i;
+8a9782346dccd8 Liam Girdwood 2015-05-29  1112  
+8a9782346dccd8 Liam Girdwood 2015-05-29  1113  	if (tplg->pass != SOC_TPLG_PASS_MIXER) {
+8a9782346dccd8 Liam Girdwood 2015-05-29  1114  		tplg->pos += hdr->size + hdr->payload_size;
+8a9782346dccd8 Liam Girdwood 2015-05-29  1115  		return 0;
+8a9782346dccd8 Liam Girdwood 2015-05-29  1116  	}
+8a9782346dccd8 Liam Girdwood 2015-05-29  1117  
+8a9782346dccd8 Liam Girdwood 2015-05-29  1118  	dev_dbg(tplg->dev, "ASoC: adding %d kcontrols at 0x%lx\n", hdr->count,
+8a9782346dccd8 Liam Girdwood 2015-05-29  1119  		soc_tplg_get_offset(tplg));
+8a9782346dccd8 Liam Girdwood 2015-05-29  1120  
+8a9782346dccd8 Liam Girdwood 2015-05-29  1121  	for (i = 0; i < hdr->count; i++) {
+8a9782346dccd8 Liam Girdwood 2015-05-29  1122  
+8a9782346dccd8 Liam Girdwood 2015-05-29  1123  		control_hdr = (struct snd_soc_tplg_ctl_hdr *)tplg->pos;
+8a9782346dccd8 Liam Girdwood 2015-05-29  1124  
+06eb49f72fa57f Mengdong Lin  2016-04-27  1125  		if (control_hdr->size != sizeof(*control_hdr)) {
+06eb49f72fa57f Mengdong Lin  2016-04-27  1126  			dev_err(tplg->dev, "ASoC: invalid control size\n");
+06eb49f72fa57f Mengdong Lin  2016-04-27  1127  			return -EINVAL;
+06eb49f72fa57f Mengdong Lin  2016-04-27  1128  		}
+06eb49f72fa57f Mengdong Lin  2016-04-27  1129  
+8a9782346dccd8 Liam Girdwood 2015-05-29  1130  		switch (control_hdr->ops.info) {
+8a9782346dccd8 Liam Girdwood 2015-05-29  1131  		case SND_SOC_TPLG_CTL_VOLSW:
+8a9782346dccd8 Liam Girdwood 2015-05-29  1132  		case SND_SOC_TPLG_CTL_STROBE:
+8a9782346dccd8 Liam Girdwood 2015-05-29  1133  		case SND_SOC_TPLG_CTL_VOLSW_SX:
+8a9782346dccd8 Liam Girdwood 2015-05-29  1134  		case SND_SOC_TPLG_CTL_VOLSW_XR_SX:
+8a9782346dccd8 Liam Girdwood 2015-05-29  1135  		case SND_SOC_TPLG_CTL_RANGE:
+8a9782346dccd8 Liam Girdwood 2015-05-29  1136  		case SND_SOC_TPLG_DAPM_CTL_VOLSW:
+8a9782346dccd8 Liam Girdwood 2015-05-29  1137  		case SND_SOC_TPLG_DAPM_CTL_PIN:
+8a9782346dccd8 Liam Girdwood 2015-05-29 @1138  			soc_tplg_dmixer_create(tplg, 1, hdr->payload_size);
+8a9782346dccd8 Liam Girdwood 2015-05-29  1139  			break;
+8a9782346dccd8 Liam Girdwood 2015-05-29  1140  		case SND_SOC_TPLG_CTL_ENUM:
+8a9782346dccd8 Liam Girdwood 2015-05-29  1141  		case SND_SOC_TPLG_CTL_ENUM_VALUE:
+8a9782346dccd8 Liam Girdwood 2015-05-29  1142  		case SND_SOC_TPLG_DAPM_CTL_ENUM_DOUBLE:
+8a9782346dccd8 Liam Girdwood 2015-05-29  1143  		case SND_SOC_TPLG_DAPM_CTL_ENUM_VIRT:
+8a9782346dccd8 Liam Girdwood 2015-05-29  1144  		case SND_SOC_TPLG_DAPM_CTL_ENUM_VALUE:
+8a9782346dccd8 Liam Girdwood 2015-05-29  1145  			soc_tplg_denum_create(tplg, 1, hdr->payload_size);
+8a9782346dccd8 Liam Girdwood 2015-05-29  1146  			break;
+8a9782346dccd8 Liam Girdwood 2015-05-29  1147  		case SND_SOC_TPLG_CTL_BYTES:
+8a9782346dccd8 Liam Girdwood 2015-05-29  1148  			soc_tplg_dbytes_create(tplg, 1, hdr->payload_size);
+8a9782346dccd8 Liam Girdwood 2015-05-29  1149  			break;
+8a9782346dccd8 Liam Girdwood 2015-05-29  1150  		default:
+8a9782346dccd8 Liam Girdwood 2015-05-29  1151  			soc_bind_err(tplg, control_hdr, i);
+8a9782346dccd8 Liam Girdwood 2015-05-29  1152  			return -EINVAL;
+8a9782346dccd8 Liam Girdwood 2015-05-29  1153  		}
+8a9782346dccd8 Liam Girdwood 2015-05-29  1154  	}
+8a9782346dccd8 Liam Girdwood 2015-05-29  1155  
+8a9782346dccd8 Liam Girdwood 2015-05-29  1156  	return 0;
+8a9782346dccd8 Liam Girdwood 2015-05-29  1157  }
+8a9782346dccd8 Liam Girdwood 2015-05-29  1158  
+cefcae315215e6 Liam Girdwood 2018-06-14  1159  /* optionally pass new dynamic kcontrol to component driver. */
+cefcae315215e6 Liam Girdwood 2018-06-14  1160  static int soc_tplg_add_route(struct soc_tplg *tplg,
+cefcae315215e6 Liam Girdwood 2018-06-14  1161  	struct snd_soc_dapm_route *route)
+cefcae315215e6 Liam Girdwood 2018-06-14  1162  {
+cefcae315215e6 Liam Girdwood 2018-06-14  1163  	if (tplg->comp && tplg->ops && tplg->ops->dapm_route_load)
+cefcae315215e6 Liam Girdwood 2018-06-14  1164  		return tplg->ops->dapm_route_load(tplg->comp, tplg->index,
+cefcae315215e6 Liam Girdwood 2018-06-14  1165  			route);
+cefcae315215e6 Liam Girdwood 2018-06-14  1166  
+cefcae315215e6 Liam Girdwood 2018-06-14  1167  	return 0;
+cefcae315215e6 Liam Girdwood 2018-06-14  1168  }
+cefcae315215e6 Liam Girdwood 2018-06-14  1169  
+8a9782346dccd8 Liam Girdwood 2015-05-29  1170  static int soc_tplg_dapm_graph_elems_load(struct soc_tplg *tplg,
+8a9782346dccd8 Liam Girdwood 2015-05-29  1171  	struct snd_soc_tplg_hdr *hdr)
+8a9782346dccd8 Liam Girdwood 2015-05-29  1172  {
+8a9782346dccd8 Liam Girdwood 2015-05-29  1173  	struct snd_soc_dapm_context *dapm = &tplg->comp->dapm;
+8a9782346dccd8 Liam Girdwood 2015-05-29  1174  	struct snd_soc_dapm_route route;
+8a9782346dccd8 Liam Girdwood 2015-05-29  1175  	struct snd_soc_tplg_dapm_graph_elem *elem;
+8a9782346dccd8 Liam Girdwood 2015-05-29  1176  	int count = hdr->count, i;
+8a9782346dccd8 Liam Girdwood 2015-05-29  1177  
+8a9782346dccd8 Liam Girdwood 2015-05-29  1178  	if (tplg->pass != SOC_TPLG_PASS_GRAPH) {
+8a9782346dccd8 Liam Girdwood 2015-05-29  1179  		tplg->pos += hdr->size + hdr->payload_size;
+8a9782346dccd8 Liam Girdwood 2015-05-29  1180  		return 0;
+8a9782346dccd8 Liam Girdwood 2015-05-29  1181  	}
+8a9782346dccd8 Liam Girdwood 2015-05-29  1182  
+8a9782346dccd8 Liam Girdwood 2015-05-29  1183  	if (soc_tplg_check_elem_count(tplg,
+8a9782346dccd8 Liam Girdwood 2015-05-29  1184  		sizeof(struct snd_soc_tplg_dapm_graph_elem),
+8a9782346dccd8 Liam Girdwood 2015-05-29 @1185  		count, hdr->payload_size, "graph")) {
+8a9782346dccd8 Liam Girdwood 2015-05-29  1186  
+8a9782346dccd8 Liam Girdwood 2015-05-29  1187  		dev_err(tplg->dev, "ASoC: invalid count %d for DAPM routes\n",
+8a9782346dccd8 Liam Girdwood 2015-05-29  1188  			count);
+8a9782346dccd8 Liam Girdwood 2015-05-29  1189  		return -EINVAL;
+8a9782346dccd8 Liam Girdwood 2015-05-29  1190  	}
+8a9782346dccd8 Liam Girdwood 2015-05-29  1191  
+b75a65118d287a Liam Girdwood 2017-06-29  1192  	dev_dbg(tplg->dev, "ASoC: adding %d DAPM routes for index %d\n", count,
+b75a65118d287a Liam Girdwood 2017-06-29  1193  		hdr->index);
+8a9782346dccd8 Liam Girdwood 2015-05-29  1194  
+8a9782346dccd8 Liam Girdwood 2015-05-29  1195  	for (i = 0; i < count; i++) {
+8a9782346dccd8 Liam Girdwood 2015-05-29  1196  		elem = (struct snd_soc_tplg_dapm_graph_elem *)tplg->pos;
+8a9782346dccd8 Liam Girdwood 2015-05-29  1197  		tplg->pos += sizeof(struct snd_soc_tplg_dapm_graph_elem);
+8a9782346dccd8 Liam Girdwood 2015-05-29  1198  
+8a9782346dccd8 Liam Girdwood 2015-05-29  1199  		/* validate routes */
+8a9782346dccd8 Liam Girdwood 2015-05-29  1200  		if (strnlen(elem->source, SNDRV_CTL_ELEM_ID_NAME_MAXLEN) ==
+8a9782346dccd8 Liam Girdwood 2015-05-29  1201  			SNDRV_CTL_ELEM_ID_NAME_MAXLEN)
+8a9782346dccd8 Liam Girdwood 2015-05-29  1202  			return -EINVAL;
+8a9782346dccd8 Liam Girdwood 2015-05-29  1203  		if (strnlen(elem->sink, SNDRV_CTL_ELEM_ID_NAME_MAXLEN) ==
+8a9782346dccd8 Liam Girdwood 2015-05-29  1204  			SNDRV_CTL_ELEM_ID_NAME_MAXLEN)
+8a9782346dccd8 Liam Girdwood 2015-05-29  1205  			return -EINVAL;
+8a9782346dccd8 Liam Girdwood 2015-05-29  1206  		if (strnlen(elem->control, SNDRV_CTL_ELEM_ID_NAME_MAXLEN) ==
+8a9782346dccd8 Liam Girdwood 2015-05-29  1207  			SNDRV_CTL_ELEM_ID_NAME_MAXLEN)
+8a9782346dccd8 Liam Girdwood 2015-05-29  1208  			return -EINVAL;
+8a9782346dccd8 Liam Girdwood 2015-05-29  1209  
+8a9782346dccd8 Liam Girdwood 2015-05-29  1210  		route.source = elem->source;
+8a9782346dccd8 Liam Girdwood 2015-05-29  1211  		route.sink = elem->sink;
+8a9782346dccd8 Liam Girdwood 2015-05-29  1212  		route.connected = NULL; /* set to NULL atm for tplg users */
+8a9782346dccd8 Liam Girdwood 2015-05-29  1213  		if (strnlen(elem->control, SNDRV_CTL_ELEM_ID_NAME_MAXLEN) == 0)
+8a9782346dccd8 Liam Girdwood 2015-05-29  1214  			route.control = NULL;
+8a9782346dccd8 Liam Girdwood 2015-05-29  1215  		else
+8a9782346dccd8 Liam Girdwood 2015-05-29  1216  			route.control = elem->control;
+8a9782346dccd8 Liam Girdwood 2015-05-29  1217  
+cefcae315215e6 Liam Girdwood 2018-06-14  1218  		soc_tplg_add_route(tplg, &route);
+cefcae315215e6 Liam Girdwood 2018-06-14  1219  
+8a9782346dccd8 Liam Girdwood 2015-05-29  1220  		/* add route, but keep going if some fail */
+8a9782346dccd8 Liam Girdwood 2015-05-29  1221  		snd_soc_dapm_add_routes(dapm, &route, 1);
+8a9782346dccd8 Liam Girdwood 2015-05-29  1222  	}
+8a9782346dccd8 Liam Girdwood 2015-05-29  1223  
+8a9782346dccd8 Liam Girdwood 2015-05-29  1224  	return 0;
+8a9782346dccd8 Liam Girdwood 2015-05-29  1225  }
+8a9782346dccd8 Liam Girdwood 2015-05-29  1226  
 
-goto err_disable_clk;
+:::::: The code at line 1138 was first introduced by commit
+:::::: 8a9782346dccd82cf912552735bda619de4efd8c ASoC: topology: Add topology core
 
-Might be better to convert this to devm_clk_get_enabled().
-
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   898  	}
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   899  
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   900  	data = match->data;
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   901  	if (data)
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   902  		is_versal = data->is_versal;
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   903  
-595c88cda65d30 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-03-27   904  	clkout_name = devm_kasprintf(&pdev->dev, GFP_KERNEL, "%s_out0", dev_name(&pdev->dev));
-595c88cda65d30 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-03-27   905  	if (nr_outputs == 1) {
-595c88cda65d30 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-03-27   906  		clk_wzrd->clkout[0] = clk_wzrd_register_divider
-595c88cda65d30 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-03-27   907  				(&pdev->dev, clkout_name,
-595c88cda65d30 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-03-27   908  				__clk_get_name(clk_wzrd->clk_in1), 0,
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   909  				clk_wzrd->base, WZRD_CLK_CFG_REG(is_versal, 3),
-595c88cda65d30 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-03-27   910  				WZRD_CLKOUT_DIVIDE_SHIFT,
-595c88cda65d30 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-03-27   911  				WZRD_CLKOUT_DIVIDE_WIDTH,
-595c88cda65d30 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-03-27   912  				CLK_DIVIDER_ONE_BASED | CLK_DIVIDER_ALLOW_ZERO,
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   913  				DIV_ALL, is_versal, &clkwzrd_lock);
-595c88cda65d30 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-03-27   914  
-595c88cda65d30 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-03-27   915  		goto out;
-595c88cda65d30 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-03-27   916  	}
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   917  	if (is_versal) {
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   918  		/* register multiplier */
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   919  		edge = !!(readl(clk_wzrd->base + WZRD_CLK_CFG_REG(is_versal, 0)) &
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   920  				BIT(8));
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   921  		regl = (readl(clk_wzrd->base + WZRD_CLK_CFG_REG(is_versal, 1)) &
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   922  			     WZRD_CLKFBOUT_L_MASK) >> WZRD_CLKFBOUT_L_SHIFT;
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   923  		regh = (readl(clk_wzrd->base + WZRD_CLK_CFG_REG(is_versal, 1)) &
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   924  			     WZRD_CLKFBOUT_H_MASK) >> WZRD_CLKFBOUT_H_SHIFT;
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   925  		mult = regl + regh + edge;
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   926  		if (!mult)
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   927  			mult = 1;
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   928  		mult = mult * WZRD_FRAC_GRADIENT;
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   929  
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   930  		regl = readl(clk_wzrd->base + WZRD_CLK_CFG_REG(is_versal, 51)) &
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   931  			     WZRD_CLKFBOUT_FRAC_EN;
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   932  		if (regl) {
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   933  			regl = readl(clk_wzrd->base + WZRD_CLK_CFG_REG(is_versal, 48)) &
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   934  				WZRD_VERSAL_FRAC_MASK;
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   935  			mult = mult + regl;
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   936  		}
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   937  	} else {
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   938  		reg = readl(clk_wzrd->base + WZRD_CLK_CFG_REG(is_versal, 0));
-91d695d71841ab drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Shubhrajyoti Datta 2021-02-24   939  		reg_f = reg & WZRD_CLKFBOUT_FRAC_MASK;
-91d695d71841ab drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Shubhrajyoti Datta 2021-02-24   940  		reg_f =  reg_f >> WZRD_CLKFBOUT_FRAC_SHIFT;
-91d695d71841ab drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Shubhrajyoti Datta 2021-02-24   941  
-91d695d71841ab drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Shubhrajyoti Datta 2021-02-24   942  		reg = reg & WZRD_CLKFBOUT_MULT_MASK;
-91d695d71841ab drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Shubhrajyoti Datta 2021-02-24   943  		reg =  reg >> WZRD_CLKFBOUT_MULT_SHIFT;
-91d695d71841ab drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Shubhrajyoti Datta 2021-02-24   944  		mult = (reg * 1000) + reg_f;
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   945  	}
-595c88cda65d30 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-03-27   946  	clk_name = devm_kasprintf(&pdev->dev, GFP_KERNEL, "%s_mul", dev_name(&pdev->dev));
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   947  	if (!clk_name) {
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   948  		ret = -ENOMEM;
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   949  		goto err_disable_clk;
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   950  	}
-d5213236151ba6 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Ioannis Valasakis  2018-10-04   951  	clk_wzrd->clks_internal[wzrd_clk_mul] = clk_register_fixed_factor
-d5213236151ba6 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Ioannis Valasakis  2018-10-04   952  			(&pdev->dev, clk_name,
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   953  			 __clk_get_name(clk_wzrd->clk_in1),
-91d695d71841ab drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Shubhrajyoti Datta 2021-02-24   954  			0, mult, 1000);
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   955  	if (IS_ERR(clk_wzrd->clks_internal[wzrd_clk_mul])) {
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   956  		dev_err(&pdev->dev, "unable to register fixed-factor clock\n");
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   957  		ret = PTR_ERR(clk_wzrd->clks_internal[wzrd_clk_mul]);
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   958  		goto err_disable_clk;
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   959  	}
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   960  
-595c88cda65d30 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-03-27   961  	clk_name = devm_kasprintf(&pdev->dev, GFP_KERNEL, "%s_mul_div", dev_name(&pdev->dev));
-5f18611038f9c9 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Devendra Naga      2014-11-29   962  	if (!clk_name) {
-5f18611038f9c9 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Devendra Naga      2014-11-29   963  		ret = -ENOMEM;
-5f18611038f9c9 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Devendra Naga      2014-11-29   964  		goto err_rm_int_clk;
-5f18611038f9c9 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Devendra Naga      2014-11-29   965  	}
-5f18611038f9c9 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Devendra Naga      2014-11-29   966  
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   967  	if (is_versal) {
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   968  		edged = !!(readl(clk_wzrd->base + WZRD_CLK_CFG_REG(is_versal, 20)) &
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   969  			     BIT(10));
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   970  		regld = (readl(clk_wzrd->base + WZRD_CLK_CFG_REG(is_versal, 21)) &
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   971  			     WZRD_CLKFBOUT_L_MASK) >> WZRD_CLKFBOUT_L_SHIFT;
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   972  		reghd = (readl(clk_wzrd->base + WZRD_CLK_CFG_REG(is_versal, 21)) &
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   973  		     WZRD_CLKFBOUT_H_MASK) >> WZRD_CLKFBOUT_H_SHIFT;
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   974  		div = (regld  + reghd + edged);
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   975  		if (!div)
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   976  			div = 1;
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   977  
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   978  		clk_mul_name = __clk_get_name(clk_wzrd->clks_internal[wzrd_clk_mul]);
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   979  		clk_wzrd->clks_internal[wzrd_clk_mul_div] =
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   980  			clk_register_fixed_factor(&pdev->dev, clk_name,
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   981  						  clk_mul_name, 0, 1, div);
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   982  	} else {
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   983  		ctrl_reg = clk_wzrd->base + WZRD_CLK_CFG_REG(is_versal, 0);
-87a40bfb09f213 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Shubhrajyoti Datta 2021-02-24   984  		clk_wzrd->clks_internal[wzrd_clk_mul_div] = clk_register_divider
-d5213236151ba6 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Ioannis Valasakis  2018-10-04   985  			(&pdev->dev, clk_name,
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   986  			 __clk_get_name(clk_wzrd->clks_internal[wzrd_clk_mul]),
-87a40bfb09f213 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Shubhrajyoti Datta 2021-02-24   987  			flags, ctrl_reg, 0, 8, CLK_DIVIDER_ONE_BASED |
-87a40bfb09f213 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Shubhrajyoti Datta 2021-02-24   988  			CLK_DIVIDER_ALLOW_ZERO, &clkwzrd_lock);
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   989  	}
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   990  	if (IS_ERR(clk_wzrd->clks_internal[wzrd_clk_mul_div])) {
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   991  		dev_err(&pdev->dev, "unable to register divider clock\n");
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   992  		ret = PTR_ERR(clk_wzrd->clks_internal[wzrd_clk_mul_div]);
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   993  		goto err_rm_int_clk;
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   994  	}
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   995  
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   996  	/* register div per output */
-a0d1a3864cad08 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Shubhrajyoti Datta 2021-02-24   997  	for (i = nr_outputs - 1; i >= 0 ; i--) {
-595c88cda65d30 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-03-27   998  		clkout_name = devm_kasprintf(&pdev->dev, GFP_KERNEL,
-595c88cda65d30 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-03-27   999  					     "%s_out%d", dev_name(&pdev->dev), i);
-a0d1a3864cad08 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Shubhrajyoti Datta 2021-02-24  1000  		if (!clkout_name) {
-a0d1a3864cad08 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Shubhrajyoti Datta 2021-02-24  1001  			ret = -ENOMEM;
-a0d1a3864cad08 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Shubhrajyoti Datta 2021-02-24  1002  			goto err_rm_int_clk;
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02  1003  		}
-a0d1a3864cad08 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Shubhrajyoti Datta 2021-02-24  1004  
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18  1005  		if (is_versal) {
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18  1006  			clk_wzrd->clkout[i] = clk_wzrd_register_divider
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18  1007  						(&pdev->dev,
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18  1008  						 clkout_name, clk_name, 0,
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18  1009  						 clk_wzrd->base,
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18  1010  						 (WZRD_CLK_CFG_REG(is_versal, 3) + i * 8),
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18  1011  						 WZRD_CLKOUT_DIVIDE_SHIFT,
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18  1012  						 WZRD_CLKOUT_DIVIDE_WIDTH,
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18  1013  						 CLK_DIVIDER_ONE_BASED |
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18  1014  						 CLK_DIVIDER_ALLOW_ZERO,
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18  1015  						 DIV_O, true, &clkwzrd_lock);
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18  1016  		} else {
-91d695d71841ab drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Shubhrajyoti Datta 2021-02-24  1017  			if (!i)
-91d695d71841ab drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Shubhrajyoti Datta 2021-02-24  1018  				clk_wzrd->clkout[i] = clk_wzrd_register_divf
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18  1019  					(&pdev->dev, clkout_name, clk_name, flags, clk_wzrd->base,
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18  1020  					(WZRD_CLK_CFG_REG(is_versal, 2) + i * 12),
-91d695d71841ab drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Shubhrajyoti Datta 2021-02-24  1021  					WZRD_CLKOUT_DIVIDE_SHIFT,
-91d695d71841ab drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Shubhrajyoti Datta 2021-02-24  1022  					WZRD_CLKOUT_DIVIDE_WIDTH,
-91d695d71841ab drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Shubhrajyoti Datta 2021-02-24  1023  					CLK_DIVIDER_ONE_BASED | CLK_DIVIDER_ALLOW_ZERO,
-595c88cda65d30 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-03-27  1024  					DIV_O, &clkwzrd_lock);
-91d695d71841ab drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Shubhrajyoti Datta 2021-02-24  1025  			else
-91d695d71841ab drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Shubhrajyoti Datta 2021-02-24  1026  				clk_wzrd->clkout[i] = clk_wzrd_register_divider
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18  1027  					(&pdev->dev, clkout_name, clk_name, 0, clk_wzrd->base,
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18  1028  					(WZRD_CLK_CFG_REG(is_versal, 2) + i * 12),
-5a853722eb3218 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Shubhrajyoti Datta 2021-02-24  1029  					WZRD_CLKOUT_DIVIDE_SHIFT,
-5a853722eb3218 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Shubhrajyoti Datta 2021-02-24  1030  					WZRD_CLKOUT_DIVIDE_WIDTH,
-5a853722eb3218 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Shubhrajyoti Datta 2021-02-24  1031  					CLK_DIVIDER_ONE_BASED | CLK_DIVIDER_ALLOW_ZERO,
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18  1032  					DIV_O, false,  &clkwzrd_lock);
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18  1033  		}
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02  1034  		if (IS_ERR(clk_wzrd->clkout[i])) {
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02  1035  			int j;
-e66f7a27521119 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Athira Sharikkal   2014-11-30  1036  
-a0d1a3864cad08 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Shubhrajyoti Datta 2021-02-24  1037  			for (j = i + 1; j < nr_outputs; j++)
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02  1038  				clk_unregister(clk_wzrd->clkout[j]);
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02  1039  			dev_err(&pdev->dev,
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02  1040  				"unable to register divider clock\n");
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02  1041  			ret = PTR_ERR(clk_wzrd->clkout[i]);
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02  1042  			goto err_rm_int_clks;
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02  1043  		}
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02  1044  	}
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02  1045  
-595c88cda65d30 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-03-27  1046  out:
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02  1047  	clk_wzrd->clk_data.clks = clk_wzrd->clkout;
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02  1048  	clk_wzrd->clk_data.clk_num = ARRAY_SIZE(clk_wzrd->clkout);
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02  1049  	of_clk_add_provider(np, of_clk_src_onecell_get, &clk_wzrd->clk_data);
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02  1050  
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02  1051  	if (clk_wzrd->speed_grade) {
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02  1052  		clk_wzrd->nb.notifier_call = clk_wzrd_clk_notifier;
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02  1053  
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02  1054  		ret = clk_notifier_register(clk_wzrd->clk_in1,
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02  1055  					    &clk_wzrd->nb);
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02  1056  		if (ret)
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02  1057  			dev_warn(&pdev->dev,
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02  1058  				 "unable to register clock notifier\n");
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02  1059  
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02  1060  		ret = clk_notifier_register(clk_wzrd->axi_clk, &clk_wzrd->nb);
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02  1061  		if (ret)
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02  1062  			dev_warn(&pdev->dev,
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02  1063  				 "unable to register clock notifier\n");
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02  1064  	}
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02  1065  
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02  1066  	return 0;
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02  1067  
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02  1068  err_rm_int_clks:
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02  1069  	clk_unregister(clk_wzrd->clks_internal[1]);
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02  1070  err_rm_int_clk:
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02  1071  	clk_unregister(clk_wzrd->clks_internal[0]);
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02  1072  err_disable_clk:
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02  1073  	clk_disable_unprepare(clk_wzrd->axi_clk);
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02  1074  
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02 @1075  	return ret;
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02  1076  }
+:::::: TO: Liam Girdwood <liam.r.girdwood@linux.intel.com>
+:::::: CC: Mark Brown <broonie@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
-
