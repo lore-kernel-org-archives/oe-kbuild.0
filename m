@@ -1,42 +1,48 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 210BC17EF
-	for <oe-kbuild@lists.linux.dev>; Fri, 21 Apr 2023 07:17:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682061433; x=1713597433;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=20bdSr+Hu9jtHkaYyZouujSb7GormZQpW8Hi5BSc0HA=;
-  b=nQ3lPuELTNhgBagdKillwNHHnLfb6y2wtj6xCRKXpm8n6xRdgO1GZ83k
-   UHoICzjAlyMvdWrGYYEzpE7S2a4yqwk6WEfJZvjJlKuF/gZKejBtUoAe1
-   5XDLhY4NPiIZzydt0Ox4xFUT3Q7yb+IKzbt8W5JKwa8cTKaF3LlDQJYJv
-   Q0y0/1aUxumQ54GX7SIgMptuGzdGWgXxWNWBA9mc4LmYdMdJdRhvqg/rw
-   EgbzGtoCWFKetFLB7CHjxLb91WsWuw4kVcAZsZiZWAT8AE8QGZqFLYws1
-   ghQgJzmnZj+/t2Emt7lc4PkodA+RAsVZoNQ6BRJ67TNEWnq9OGXh/uvh0
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10686"; a="325535467"
-X-IronPort-AV: E=Sophos;i="5.99,214,1677571200"; 
-   d="scan'208";a="325535467"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2023 00:17:09 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10686"; a="724713820"
-X-IronPort-AV: E=Sophos;i="5.99,214,1677571200"; 
-   d="scan'208";a="724713820"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 21 Apr 2023 00:17:06 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1ppl10-000gPp-0c;
-	Fri, 21 Apr 2023 07:17:06 +0000
-Date: Fri, 21 Apr 2023 15:17:01 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH v1 2/2] clocking-wizard: Add support for versal clocking
- wizard
-Message-ID: <202304211427.AoG9GhQ1-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A23128E7
+	for <oe-kbuild@lists.linux.dev>; Fri, 21 Apr 2023 10:13:34 +0000 (UTC)
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-2f833bda191so959521f8f.1
+        for <oe-kbuild@lists.linux.dev>; Fri, 21 Apr 2023 03:13:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1682072012; x=1684664012;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=VwAVpOe8HyiBsLWI2uR6DTiaht1Jfj1mGZUYsAr3LWU=;
+        b=xPpmWIKL3UPNkzQNcJFeBUa/lGtXk1An5hTSxrHqz4ZR2GeCo5p3AFEacW69+q4L96
+         lGI9gKW9N++9pPhwIGSY9qqLEyi2yH3DoMaeCHh4mdhklTPdAS0MndI/a6Rr55Ha4MBu
+         sG9V60sxdUyrtNCGe5u7FkcgCvYwb/qHoFae7iAJ9sGPqoN0JVwci5Np/9kE7q+xJQKp
+         5I1WmIDxwCH1GNhoE6JCjl/9wUCMdO24962fBHG5h9lWUJVB0p00d0wUlikgoRNOZPHq
+         +DMRcGWd1YQGEkjVj4WjuQj3eEN20EbOpG3qI0bmxlIsgAIlXLeF3sZEIuEzUn0D6W4D
+         wTSQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1682072012; x=1684664012;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=VwAVpOe8HyiBsLWI2uR6DTiaht1Jfj1mGZUYsAr3LWU=;
+        b=lPRRuAql261MotPsPwjv5Xg+ZL4nJjU20TDkIUZoJrVYr+10e6ye5bhScJtKxheFgh
+         uS+0ui6IuXBzTJOUmmC6fNXmN4QZ9ig/ZbgjaLkIKDZtYvi+pdvArZxx/JUK/nKhCV7m
+         xq8iCZmL4OSFV7nQEJufdFucb80hGucjLmhBcJnJHPM6h/8N2dWMeiHl1J4nZlo8h+As
+         UAOvCngCRK+h0NKlL7zJl/ToY8Zk6fQKg59JwUvFFb+CGssUopnRAuG+jPYebSyY+r8m
+         PBz6Q7QEWDnZwvf5ymzRO+IuwjdSUZ+09s2e+3jwF8qUvpS82L42wo916d8L3uCb8BbB
+         slgQ==
+X-Gm-Message-State: AAQBX9fMap8DB+tl2Q+9avbxi0S+XX4UJpl7EXLIRP5LHlas0hm5pGZz
+	MkK8s9E3002+UWn9CcyJKOrKIJH7YvEL5t+APaQ=
+X-Google-Smtp-Source: AKy350YX4xGYeX/f4MoGf7DJj6Fji1G/I4Z5+F9cp+QX93wWPC+seGeoRUiXl288z5uauWmP9ZXAOw==
+X-Received: by 2002:a5d:49ce:0:b0:2c7:fc61:12d4 with SMTP id t14-20020a5d49ce000000b002c7fc6112d4mr3453281wrs.47.1682072012214;
+        Fri, 21 Apr 2023 03:13:32 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id n17-20020a5d4c51000000b002d6f285c0a2sm4096589wrt.42.2023.04.21.03.13.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 21 Apr 2023 03:13:31 -0700 (PDT)
+Date: Fri, 21 Apr 2023 13:13:27 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Scott Mayhew <smayhew@redhat.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH 5/5] SUNRPC: store GSS creds in keyrings
+Message-ID: <2572a5e0-c6e6-4061-8d9f-782caaa787d3@kili.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -45,302 +51,164 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230420202004.239116-6-smayhew@redhat.com>
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20230418102855.6791-3-shubhrajyoti.datta@amd.com>
-References: <20230418102855.6791-3-shubhrajyoti.datta@amd.com>
-TO: Shubhrajyoti Datta <shubhrajyoti.datta@amd.com>
-TO: devicetree@vger.kernel.org
-CC: git@amd.com
-CC: linux-clk@vger.kernel.org
-CC: robh+dt@kernel.org
-CC: sboyd@kernel.org
-CC: mturquette@baylibre.com
-CC: krzysztof.kozlowski+dt@linaro.org
-CC: michal.simek@xilinx.com
+Hi Scott,
 
-Hi Shubhrajyoti,
-
+[This is a private test report for your RFC patch.]
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on clk/clk-next]
-[also build test WARNING on next-20230420]
-[cannot apply to xilinx-xlnx/master robh/for-next linus/master v6.3-rc7]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Shubhrajyoti-Datta/dt-bindings-clocking-wizard-add-versal-compatible/20230418-183046
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git clk-next
-patch link:    https://lore.kernel.org/r/20230418102855.6791-3-shubhrajyoti.datta%40amd.com
-patch subject: [PATCH v1 2/2] clocking-wizard: Add support for versal clocking wizard
-:::::: branch date: 3 days ago
-:::::: commit date: 3 days ago
-config: arm64-randconfig-m041-20230419 (https://download.01.org/0day-ci/archive/20230421/202304211427.AoG9GhQ1-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.1.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Scott-Mayhew/keys-export-keyring_ptr_to_key/20230421-042202
+base:   git://git.linux-nfs.org/projects/trondmy/linux-nfs.git linux-next
+patch link:    https://lore.kernel.org/r/20230420202004.239116-6-smayhew%40redhat.com
+patch subject: [RFC PATCH 5/5] SUNRPC: store GSS creds in keyrings
+config: x86_64-randconfig-m001 (https://download.01.org/0day-ci/archive/20230421/202304211447.EkD6EpWB-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202304211427.AoG9GhQ1-lkp@intel.com/
+| Link: https://lore.kernel.org/r/202304211447.EkD6EpWB-lkp@intel.com/
 
 New smatch warnings:
-drivers/clk/xilinx/clk-xlnx-clock-wizard.c:1075 clk_wzrd_probe() warn: 'clk_wzrd->axi_clk' from clk_prepare_enable() not released on lines: 897.
+net/sunrpc/auth_gss/auth_gss.c:1189 gss_create_new() error: we previously assumed 'gss_auth' could be null (see line 1089)
+net/sunrpc/auth_gss/auth_gss.c:1189 gss_create_new() error: dereferencing freed memory 'gss_auth'
 
 Old smatch warnings:
-drivers/clk/xilinx/clk-xlnx-clock-wizard.c:264 clk_wzrd_dynamic_reconfig() error: uninitialized symbol 'value'.
+net/sunrpc/auth_gss/auth_gss.c:2183 gss_wrap_req_priv() warn: missing error code 'status'
 
-vim +1075 drivers/clk/xilinx/clk-xlnx-clock-wizard.c
+vim +/gss_auth +1189 net/sunrpc/auth_gss/auth_gss.c
 
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   831  
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   832  static int clk_wzrd_probe(struct platform_device *pdev)
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   833  {
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   834  	const char *clkout_name, *clk_name, *clk_mul_name;
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   835  	u32 regl, regh, edge, regld, reghd, edged, div;
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   836  	const struct versal_clk_data *data;
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   837  	const struct of_device_id *match;
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   838  	int i, ret;
-91d695d71841ab drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Shubhrajyoti Datta 2021-02-24   839  	u32 reg, reg_f, mult;
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   840  	unsigned long rate;
-87a40bfb09f213 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Shubhrajyoti Datta 2021-02-24   841  	void __iomem *ctrl_reg;
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   842  	struct clk_wzrd *clk_wzrd;
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   843  	struct device_node *np = pdev->dev.of_node;
-92a7590427d666 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Shubhrajyoti Datta 2021-02-24   844  	int nr_outputs;
-87a40bfb09f213 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Shubhrajyoti Datta 2021-02-24   845  	unsigned long flags = 0;
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   846  	bool is_versal = 0;
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   847  
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   848  	clk_wzrd = devm_kzalloc(&pdev->dev, sizeof(*clk_wzrd), GFP_KERNEL);
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   849  	if (!clk_wzrd)
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   850  		return -ENOMEM;
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   851  	platform_set_drvdata(pdev, clk_wzrd);
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   852  
-f595f03bfdfc3c drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c YueHaibing         2019-10-09   853  	clk_wzrd->base = devm_platform_ioremap_resource(pdev, 0);
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   854  	if (IS_ERR(clk_wzrd->base))
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   855  		return PTR_ERR(clk_wzrd->base);
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   856  
-17aa33ff569980 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Shubhrajyoti Datta 2021-02-24   857  	ret = of_property_read_u32(np, "xlnx,speed-grade", &clk_wzrd->speed_grade);
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   858  	if (!ret) {
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   859  		if (clk_wzrd->speed_grade < 1 || clk_wzrd->speed_grade > 3) {
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   860  			dev_warn(&pdev->dev, "invalid speed grade '%d'\n",
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   861  				 clk_wzrd->speed_grade);
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   862  			clk_wzrd->speed_grade = 0;
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   863  		}
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   864  	}
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   865  
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   866  	clk_wzrd->clk_in1 = devm_clk_get(&pdev->dev, "clk_in1");
-fd30ac84f3022e drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Yang Yingliang     2022-09-13   867  	if (IS_ERR(clk_wzrd->clk_in1))
-fd30ac84f3022e drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Yang Yingliang     2022-09-13   868  		return dev_err_probe(&pdev->dev, PTR_ERR(clk_wzrd->clk_in1),
-fd30ac84f3022e drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Yang Yingliang     2022-09-13   869  				     "clk_in1 not found\n");
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   870  
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   871  	clk_wzrd->axi_clk = devm_clk_get(&pdev->dev, "s_axi_aclk");
-fd30ac84f3022e drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Yang Yingliang     2022-09-13   872  	if (IS_ERR(clk_wzrd->axi_clk))
-fd30ac84f3022e drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Yang Yingliang     2022-09-13   873  		return dev_err_probe(&pdev->dev, PTR_ERR(clk_wzrd->axi_clk),
-fd30ac84f3022e drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Yang Yingliang     2022-09-13   874  				     "s_axi_aclk not found\n");
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   875  	ret = clk_prepare_enable(clk_wzrd->axi_clk);
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   876  	if (ret) {
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   877  		dev_err(&pdev->dev, "enabling s_axi_aclk failed\n");
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   878  		return ret;
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   879  	}
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   880  	rate = clk_get_rate(clk_wzrd->axi_clk);
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   881  	if (rate > WZRD_ACLK_MAX_FREQ) {
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   882  		dev_err(&pdev->dev, "s_axi_aclk frequency (%lu) too high\n",
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   883  			rate);
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   884  		ret = -EINVAL;
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   885  		goto err_disable_clk;
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   886  	}
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   887  
-595c88cda65d30 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-03-27   888  	ret = of_property_read_u32(np, "xlnx,nr-outputs", &nr_outputs);
-595c88cda65d30 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-03-27   889  	if (ret || nr_outputs > WZRD_NUM_OUTPUTS) {
-595c88cda65d30 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-03-27   890  		ret = -EINVAL;
-595c88cda65d30 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-03-27   891  		goto err_disable_clk;
-595c88cda65d30 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-03-27   892  	}
-595c88cda65d30 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-03-27   893  
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   894  	match = of_match_node(clk_wzrd_ids, np);
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   895  	if (!match) {
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   896  		dev_err(&pdev->dev, "of_match_node failed\n");
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   897  		return -ENODEV;
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   898  	}
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   899  
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   900  	data = match->data;
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   901  	if (data)
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   902  		is_versal = data->is_versal;
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   903  
-595c88cda65d30 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-03-27   904  	clkout_name = devm_kasprintf(&pdev->dev, GFP_KERNEL, "%s_out0", dev_name(&pdev->dev));
-595c88cda65d30 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-03-27   905  	if (nr_outputs == 1) {
-595c88cda65d30 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-03-27   906  		clk_wzrd->clkout[0] = clk_wzrd_register_divider
-595c88cda65d30 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-03-27   907  				(&pdev->dev, clkout_name,
-595c88cda65d30 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-03-27   908  				__clk_get_name(clk_wzrd->clk_in1), 0,
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   909  				clk_wzrd->base, WZRD_CLK_CFG_REG(is_versal, 3),
-595c88cda65d30 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-03-27   910  				WZRD_CLKOUT_DIVIDE_SHIFT,
-595c88cda65d30 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-03-27   911  				WZRD_CLKOUT_DIVIDE_WIDTH,
-595c88cda65d30 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-03-27   912  				CLK_DIVIDER_ONE_BASED | CLK_DIVIDER_ALLOW_ZERO,
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   913  				DIV_ALL, is_versal, &clkwzrd_lock);
-595c88cda65d30 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-03-27   914  
-595c88cda65d30 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-03-27   915  		goto out;
-595c88cda65d30 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-03-27   916  	}
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   917  	if (is_versal) {
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   918  		/* register multiplier */
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   919  		edge = !!(readl(clk_wzrd->base + WZRD_CLK_CFG_REG(is_versal, 0)) &
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   920  				BIT(8));
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   921  		regl = (readl(clk_wzrd->base + WZRD_CLK_CFG_REG(is_versal, 1)) &
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   922  			     WZRD_CLKFBOUT_L_MASK) >> WZRD_CLKFBOUT_L_SHIFT;
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   923  		regh = (readl(clk_wzrd->base + WZRD_CLK_CFG_REG(is_versal, 1)) &
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   924  			     WZRD_CLKFBOUT_H_MASK) >> WZRD_CLKFBOUT_H_SHIFT;
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   925  		mult = regl + regh + edge;
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   926  		if (!mult)
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   927  			mult = 1;
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   928  		mult = mult * WZRD_FRAC_GRADIENT;
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   929  
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   930  		regl = readl(clk_wzrd->base + WZRD_CLK_CFG_REG(is_versal, 51)) &
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   931  			     WZRD_CLKFBOUT_FRAC_EN;
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   932  		if (regl) {
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   933  			regl = readl(clk_wzrd->base + WZRD_CLK_CFG_REG(is_versal, 48)) &
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   934  				WZRD_VERSAL_FRAC_MASK;
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   935  			mult = mult + regl;
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   936  		}
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   937  	} else {
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   938  		reg = readl(clk_wzrd->base + WZRD_CLK_CFG_REG(is_versal, 0));
-91d695d71841ab drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Shubhrajyoti Datta 2021-02-24   939  		reg_f = reg & WZRD_CLKFBOUT_FRAC_MASK;
-91d695d71841ab drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Shubhrajyoti Datta 2021-02-24   940  		reg_f =  reg_f >> WZRD_CLKFBOUT_FRAC_SHIFT;
-91d695d71841ab drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Shubhrajyoti Datta 2021-02-24   941  
-91d695d71841ab drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Shubhrajyoti Datta 2021-02-24   942  		reg = reg & WZRD_CLKFBOUT_MULT_MASK;
-91d695d71841ab drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Shubhrajyoti Datta 2021-02-24   943  		reg =  reg >> WZRD_CLKFBOUT_MULT_SHIFT;
-91d695d71841ab drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Shubhrajyoti Datta 2021-02-24   944  		mult = (reg * 1000) + reg_f;
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   945  	}
-595c88cda65d30 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-03-27   946  	clk_name = devm_kasprintf(&pdev->dev, GFP_KERNEL, "%s_mul", dev_name(&pdev->dev));
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   947  	if (!clk_name) {
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   948  		ret = -ENOMEM;
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   949  		goto err_disable_clk;
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   950  	}
-d5213236151ba6 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Ioannis Valasakis  2018-10-04   951  	clk_wzrd->clks_internal[wzrd_clk_mul] = clk_register_fixed_factor
-d5213236151ba6 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Ioannis Valasakis  2018-10-04   952  			(&pdev->dev, clk_name,
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   953  			 __clk_get_name(clk_wzrd->clk_in1),
-91d695d71841ab drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Shubhrajyoti Datta 2021-02-24   954  			0, mult, 1000);
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   955  	if (IS_ERR(clk_wzrd->clks_internal[wzrd_clk_mul])) {
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   956  		dev_err(&pdev->dev, "unable to register fixed-factor clock\n");
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   957  		ret = PTR_ERR(clk_wzrd->clks_internal[wzrd_clk_mul]);
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   958  		goto err_disable_clk;
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   959  	}
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   960  
-595c88cda65d30 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-03-27   961  	clk_name = devm_kasprintf(&pdev->dev, GFP_KERNEL, "%s_mul_div", dev_name(&pdev->dev));
-5f18611038f9c9 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Devendra Naga      2014-11-29   962  	if (!clk_name) {
-5f18611038f9c9 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Devendra Naga      2014-11-29   963  		ret = -ENOMEM;
-5f18611038f9c9 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Devendra Naga      2014-11-29   964  		goto err_rm_int_clk;
-5f18611038f9c9 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Devendra Naga      2014-11-29   965  	}
-5f18611038f9c9 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Devendra Naga      2014-11-29   966  
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   967  	if (is_versal) {
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   968  		edged = !!(readl(clk_wzrd->base + WZRD_CLK_CFG_REG(is_versal, 20)) &
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   969  			     BIT(10));
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   970  		regld = (readl(clk_wzrd->base + WZRD_CLK_CFG_REG(is_versal, 21)) &
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   971  			     WZRD_CLKFBOUT_L_MASK) >> WZRD_CLKFBOUT_L_SHIFT;
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   972  		reghd = (readl(clk_wzrd->base + WZRD_CLK_CFG_REG(is_versal, 21)) &
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   973  		     WZRD_CLKFBOUT_H_MASK) >> WZRD_CLKFBOUT_H_SHIFT;
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   974  		div = (regld  + reghd + edged);
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   975  		if (!div)
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   976  			div = 1;
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   977  
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   978  		clk_mul_name = __clk_get_name(clk_wzrd->clks_internal[wzrd_clk_mul]);
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   979  		clk_wzrd->clks_internal[wzrd_clk_mul_div] =
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   980  			clk_register_fixed_factor(&pdev->dev, clk_name,
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   981  						  clk_mul_name, 0, 1, div);
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   982  	} else {
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   983  		ctrl_reg = clk_wzrd->base + WZRD_CLK_CFG_REG(is_versal, 0);
-87a40bfb09f213 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Shubhrajyoti Datta 2021-02-24   984  		clk_wzrd->clks_internal[wzrd_clk_mul_div] = clk_register_divider
-d5213236151ba6 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Ioannis Valasakis  2018-10-04   985  			(&pdev->dev, clk_name,
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   986  			 __clk_get_name(clk_wzrd->clks_internal[wzrd_clk_mul]),
-87a40bfb09f213 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Shubhrajyoti Datta 2021-02-24   987  			flags, ctrl_reg, 0, 8, CLK_DIVIDER_ONE_BASED |
-87a40bfb09f213 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Shubhrajyoti Datta 2021-02-24   988  			CLK_DIVIDER_ALLOW_ZERO, &clkwzrd_lock);
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18   989  	}
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   990  	if (IS_ERR(clk_wzrd->clks_internal[wzrd_clk_mul_div])) {
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   991  		dev_err(&pdev->dev, "unable to register divider clock\n");
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   992  		ret = PTR_ERR(clk_wzrd->clks_internal[wzrd_clk_mul_div]);
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   993  		goto err_rm_int_clk;
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   994  	}
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   995  
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02   996  	/* register div per output */
-a0d1a3864cad08 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Shubhrajyoti Datta 2021-02-24   997  	for (i = nr_outputs - 1; i >= 0 ; i--) {
-595c88cda65d30 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-03-27   998  		clkout_name = devm_kasprintf(&pdev->dev, GFP_KERNEL,
-595c88cda65d30 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-03-27   999  					     "%s_out%d", dev_name(&pdev->dev), i);
-a0d1a3864cad08 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Shubhrajyoti Datta 2021-02-24  1000  		if (!clkout_name) {
-a0d1a3864cad08 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Shubhrajyoti Datta 2021-02-24  1001  			ret = -ENOMEM;
-a0d1a3864cad08 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Shubhrajyoti Datta 2021-02-24  1002  			goto err_rm_int_clk;
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02  1003  		}
-a0d1a3864cad08 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Shubhrajyoti Datta 2021-02-24  1004  
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18  1005  		if (is_versal) {
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18  1006  			clk_wzrd->clkout[i] = clk_wzrd_register_divider
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18  1007  						(&pdev->dev,
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18  1008  						 clkout_name, clk_name, 0,
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18  1009  						 clk_wzrd->base,
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18  1010  						 (WZRD_CLK_CFG_REG(is_versal, 3) + i * 8),
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18  1011  						 WZRD_CLKOUT_DIVIDE_SHIFT,
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18  1012  						 WZRD_CLKOUT_DIVIDE_WIDTH,
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18  1013  						 CLK_DIVIDER_ONE_BASED |
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18  1014  						 CLK_DIVIDER_ALLOW_ZERO,
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18  1015  						 DIV_O, true, &clkwzrd_lock);
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18  1016  		} else {
-91d695d71841ab drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Shubhrajyoti Datta 2021-02-24  1017  			if (!i)
-91d695d71841ab drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Shubhrajyoti Datta 2021-02-24  1018  				clk_wzrd->clkout[i] = clk_wzrd_register_divf
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18  1019  					(&pdev->dev, clkout_name, clk_name, flags, clk_wzrd->base,
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18  1020  					(WZRD_CLK_CFG_REG(is_versal, 2) + i * 12),
-91d695d71841ab drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Shubhrajyoti Datta 2021-02-24  1021  					WZRD_CLKOUT_DIVIDE_SHIFT,
-91d695d71841ab drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Shubhrajyoti Datta 2021-02-24  1022  					WZRD_CLKOUT_DIVIDE_WIDTH,
-91d695d71841ab drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Shubhrajyoti Datta 2021-02-24  1023  					CLK_DIVIDER_ONE_BASED | CLK_DIVIDER_ALLOW_ZERO,
-595c88cda65d30 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-03-27  1024  					DIV_O, &clkwzrd_lock);
-91d695d71841ab drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Shubhrajyoti Datta 2021-02-24  1025  			else
-91d695d71841ab drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Shubhrajyoti Datta 2021-02-24  1026  				clk_wzrd->clkout[i] = clk_wzrd_register_divider
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18  1027  					(&pdev->dev, clkout_name, clk_name, 0, clk_wzrd->base,
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18  1028  					(WZRD_CLK_CFG_REG(is_versal, 2) + i * 12),
-5a853722eb3218 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Shubhrajyoti Datta 2021-02-24  1029  					WZRD_CLKOUT_DIVIDE_SHIFT,
-5a853722eb3218 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Shubhrajyoti Datta 2021-02-24  1030  					WZRD_CLKOUT_DIVIDE_WIDTH,
-5a853722eb3218 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Shubhrajyoti Datta 2021-02-24  1031  					CLK_DIVIDER_ONE_BASED | CLK_DIVIDER_ALLOW_ZERO,
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18  1032  					DIV_O, false,  &clkwzrd_lock);
-143916412aa6a4 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-04-18  1033  		}
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02  1034  		if (IS_ERR(clk_wzrd->clkout[i])) {
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02  1035  			int j;
-e66f7a27521119 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Athira Sharikkal   2014-11-30  1036  
-a0d1a3864cad08 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Shubhrajyoti Datta 2021-02-24  1037  			for (j = i + 1; j < nr_outputs; j++)
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02  1038  				clk_unregister(clk_wzrd->clkout[j]);
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02  1039  			dev_err(&pdev->dev,
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02  1040  				"unable to register divider clock\n");
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02  1041  			ret = PTR_ERR(clk_wzrd->clkout[i]);
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02  1042  			goto err_rm_int_clks;
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02  1043  		}
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02  1044  	}
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02  1045  
-595c88cda65d30 drivers/clk/xilinx/clk-xlnx-clock-wizard.c              Shubhrajyoti Datta 2023-03-27  1046  out:
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02  1047  	clk_wzrd->clk_data.clks = clk_wzrd->clkout;
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02  1048  	clk_wzrd->clk_data.clk_num = ARRAY_SIZE(clk_wzrd->clkout);
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02  1049  	of_clk_add_provider(np, of_clk_src_onecell_get, &clk_wzrd->clk_data);
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02  1050  
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02  1051  	if (clk_wzrd->speed_grade) {
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02  1052  		clk_wzrd->nb.notifier_call = clk_wzrd_clk_notifier;
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02  1053  
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02  1054  		ret = clk_notifier_register(clk_wzrd->clk_in1,
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02  1055  					    &clk_wzrd->nb);
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02  1056  		if (ret)
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02  1057  			dev_warn(&pdev->dev,
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02  1058  				 "unable to register clock notifier\n");
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02  1059  
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02  1060  		ret = clk_notifier_register(clk_wzrd->axi_clk, &clk_wzrd->nb);
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02  1061  		if (ret)
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02  1062  			dev_warn(&pdev->dev,
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02  1063  				 "unable to register clock notifier\n");
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02  1064  	}
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02  1065  
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02  1066  	return 0;
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02  1067  
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02  1068  err_rm_int_clks:
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02  1069  	clk_unregister(clk_wzrd->clks_internal[1]);
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02  1070  err_rm_int_clk:
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02  1071  	clk_unregister(clk_wzrd->clks_internal[0]);
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02  1072  err_disable_clk:
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02  1073  	clk_disable_unprepare(clk_wzrd->axi_clk);
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02  1074  
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02 @1075  	return ret;
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02  1076  }
-812283cd546376 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c Soren Brinkmann    2014-10-02  1077  
+eb6dc19d8e72ce Trond Myklebust      2013-08-28  1076  static struct gss_auth *
+82b98ca566ca2a Sargun Dhillon       2018-07-05  1077  gss_create_new(const struct rpc_auth_create_args *args, struct rpc_clnt *clnt)
+^1da177e4c3f41 Linus Torvalds       2005-04-16  1078  {
+c2190661039b38 Trond Myklebust      2013-08-26  1079  	rpc_authflavor_t flavor = args->pseudoflavor;
+^1da177e4c3f41 Linus Torvalds       2005-04-16  1080  	struct gss_auth *gss_auth;
+1917228435eebd Trond Myklebust      2013-08-26  1081  	struct gss_pipe *gss_pipe;
+^1da177e4c3f41 Linus Torvalds       2005-04-16  1082  	struct rpc_auth * auth;
+6a19275ada9137 J. Bruce Fields      2005-06-22  1083  	int err = -ENOMEM; /* XXX? */
+6a654188690846 Scott Mayhew         2023-04-20  1084  	struct cred *cred;
+6a654188690846 Scott Mayhew         2023-04-20  1085  	struct key *keyring;
+^1da177e4c3f41 Linus Torvalds       2005-04-16  1086  
+^1da177e4c3f41 Linus Torvalds       2005-04-16  1087  	if (!try_module_get(THIS_MODULE))
+6a19275ada9137 J. Bruce Fields      2005-06-22  1088  		return ERR_PTR(err);
+^1da177e4c3f41 Linus Torvalds       2005-04-16 @1089  	if (!(gss_auth = kmalloc(sizeof(*gss_auth), GFP_KERNEL)))
+^1da177e4c3f41 Linus Torvalds       2005-04-16  1090  		goto out_dec;
+
+gss_auth is NULL.
+
+eb6dc19d8e72ce Trond Myklebust      2013-08-28  1091  	INIT_HLIST_NODE(&gss_auth->hash);
+bd4a3eb15bb422 Trond Myklebust      2013-08-23  1092  	gss_auth->target_name = NULL;
+c2190661039b38 Trond Myklebust      2013-08-26  1093  	if (args->target_name) {
+c2190661039b38 Trond Myklebust      2013-08-26  1094  		gss_auth->target_name = kstrdup(args->target_name, GFP_KERNEL);
+bd4a3eb15bb422 Trond Myklebust      2013-08-23  1095  		if (gss_auth->target_name == NULL)
+bd4a3eb15bb422 Trond Myklebust      2013-08-23  1096  			goto err_free;
+bd4a3eb15bb422 Trond Myklebust      2013-08-23  1097  	}
+^1da177e4c3f41 Linus Torvalds       2005-04-16  1098  	gss_auth->client = clnt;
+9b1831e56c7f33 Eric Dumazet         2022-01-27  1099  	gss_auth->net = get_net_track(rpc_net_ns(clnt), &gss_auth->ns_tracker,
+9b1831e56c7f33 Eric Dumazet         2022-01-27  1100  				      GFP_KERNEL);
+6a19275ada9137 J. Bruce Fields      2005-06-22  1101  	err = -EINVAL;
+^1da177e4c3f41 Linus Torvalds       2005-04-16  1102  	gss_auth->mech = gss_mech_get_by_pseudoflavor(flavor);
+0c77668ddb4e7b Chuck Lever          2019-02-11  1103  	if (!gss_auth->mech)
+e726340ac9cf6b Trond Myklebust      2013-08-23  1104  		goto err_put_net;
+^1da177e4c3f41 Linus Torvalds       2005-04-16  1105  	gss_auth->service = gss_pseudoflavor_to_service(gss_auth->mech, flavor);
+438b6fdebf2a2e J. Bruce Fields      2005-06-22  1106  	if (gss_auth->service == 0)
+438b6fdebf2a2e J. Bruce Fields      2005-06-22  1107  		goto err_put_mech;
+a699d65ec4ff82 Trond Myklebust      2014-02-10  1108  	if (!gssd_running(gss_auth->net))
+a699d65ec4ff82 Trond Myklebust      2014-02-10  1109  		goto err_put_mech;
+^1da177e4c3f41 Linus Torvalds       2005-04-16  1110  	auth = &gss_auth->rpc_auth;
+^1da177e4c3f41 Linus Torvalds       2005-04-16  1111  	auth->au_cslack = GSS_CRED_SLACK >> 2;
+6e460c230d2dfb Chuck Lever          2023-01-15  1112  	BUILD_BUG_ON(GSS_KRB5_MAX_SLACK_NEEDED > RPC_MAX_AUTH_SIZE);
+df513a77117127 Olga Kornievskaia    2020-03-26  1113  	auth->au_rslack = GSS_KRB5_MAX_SLACK_NEEDED >> 2;
+a00275baa68e1e Chuck Lever          2019-02-11  1114  	auth->au_verfsize = GSS_VERF_SLACK >> 2;
+35e77d21baa04b Chuck Lever          2019-02-11  1115  	auth->au_ralign = GSS_VERF_SLACK >> 2;
+53bc19f17f2173 Chuck Lever          2020-05-12  1116  	__set_bit(RPCAUTH_AUTH_UPDATE_SLACK, &auth->au_flags);
+^1da177e4c3f41 Linus Torvalds       2005-04-16  1117  	auth->au_ops = &authgss_ops;
+^1da177e4c3f41 Linus Torvalds       2005-04-16  1118  	auth->au_flavor = flavor;
+65b80179f9b817 Chuck Lever          2016-06-29  1119  	if (gss_pseudoflavor_to_datatouch(gss_auth->mech, flavor))
+53bc19f17f2173 Chuck Lever          2020-05-12  1120  		__set_bit(RPCAUTH_AUTH_DATATOUCH, &auth->au_flags);
+331bc71cb1751d Trond Myklebust      2018-10-14  1121  	refcount_set(&auth->au_count, 1);
+0285ed1f12298e Trond Myklebust      2007-06-27  1122  	kref_init(&gss_auth->kref);
+^1da177e4c3f41 Linus Torvalds       2005-04-16  1123  
+1917228435eebd Trond Myklebust      2013-08-26  1124  	err = rpcauth_init_credcache(auth);
+1917228435eebd Trond Myklebust      2013-08-26  1125  	if (err)
+1917228435eebd Trond Myklebust      2013-08-26  1126  		goto err_put_mech;
+34769fc488b463 \"J. Bruce Fields\   2008-12-23  1127  	/*
+34769fc488b463 \"J. Bruce Fields\   2008-12-23  1128  	 * Note: if we created the old pipe first, then someone who
+34769fc488b463 \"J. Bruce Fields\   2008-12-23  1129  	 * examined the directory at the right moment might conclude
+34769fc488b463 \"J. Bruce Fields\   2008-12-23  1130  	 * that we supported only the old pipe.  So we instead create
+34769fc488b463 \"J. Bruce Fields\   2008-12-23  1131  	 * the new pipe first.
+34769fc488b463 \"J. Bruce Fields\   2008-12-23  1132  	 */
+414a6295984094 Trond Myklebust      2013-08-27  1133  	gss_pipe = gss_pipe_get(clnt, "gssd", &gss_upcall_ops_v1);
+1917228435eebd Trond Myklebust      2013-08-26  1134  	if (IS_ERR(gss_pipe)) {
+1917228435eebd Trond Myklebust      2013-08-26  1135  		err = PTR_ERR(gss_pipe);
+1917228435eebd Trond Myklebust      2013-08-26  1136  		goto err_destroy_credcache;
+6a19275ada9137 J. Bruce Fields      2005-06-22  1137  	}
+1917228435eebd Trond Myklebust      2013-08-26  1138  	gss_auth->gss_pipe[1] = gss_pipe;
+^1da177e4c3f41 Linus Torvalds       2005-04-16  1139  
+414a6295984094 Trond Myklebust      2013-08-27  1140  	gss_pipe = gss_pipe_get(clnt, gss_auth->mech->gm_name,
+1917228435eebd Trond Myklebust      2013-08-26  1141  			&gss_upcall_ops_v0);
+1917228435eebd Trond Myklebust      2013-08-26  1142  	if (IS_ERR(gss_pipe)) {
+1917228435eebd Trond Myklebust      2013-08-26  1143  		err = PTR_ERR(gss_pipe);
+c239d83b9921b8 Stanislav Kinsbursky 2011-12-26  1144  		goto err_destroy_pipe_1;
+c239d83b9921b8 Stanislav Kinsbursky 2011-12-26  1145  	}
+1917228435eebd Trond Myklebust      2013-08-26  1146  	gss_auth->gss_pipe[0] = gss_pipe;
+07a2bf1da4765d Trond Myklebust      2007-06-09  1147  
+6a654188690846 Scott Mayhew         2023-04-20  1148  	if (use_keyring) {
+6a654188690846 Scott Mayhew         2023-04-20  1149  		cred = prepare_kernel_cred(&init_task);
+6a654188690846 Scott Mayhew         2023-04-20  1150  		if (!cred) {
+6a654188690846 Scott Mayhew         2023-04-20  1151  			err = -ENOMEM;
+6a654188690846 Scott Mayhew         2023-04-20  1152  			goto err_destroy_pipe_0;
+6a654188690846 Scott Mayhew         2023-04-20  1153  		}
+6a654188690846 Scott Mayhew         2023-04-20  1154  		keyring = keyring_alloc("gss_keyring",
+6a654188690846 Scott Mayhew         2023-04-20  1155  					GLOBAL_ROOT_UID, GLOBAL_ROOT_GID, cred,
+6a654188690846 Scott Mayhew         2023-04-20  1156  					(KEY_POS_ALL & ~KEY_POS_SETATTR) |
+6a654188690846 Scott Mayhew         2023-04-20  1157  					KEY_USR_VIEW | KEY_USR_READ,
+6a654188690846 Scott Mayhew         2023-04-20  1158  					KEY_ALLOC_NOT_IN_QUOTA, NULL, NULL);
+6a654188690846 Scott Mayhew         2023-04-20  1159  		if (IS_ERR(keyring)) {
+6a654188690846 Scott Mayhew         2023-04-20  1160  			err = PTR_ERR(keyring);
+6a654188690846 Scott Mayhew         2023-04-20  1161  			goto err_destroy_cred;
+6a654188690846 Scott Mayhew         2023-04-20  1162  		}
+6a654188690846 Scott Mayhew         2023-04-20  1163  		set_bit(KEY_FLAG_ROOT_CAN_CLEAR, &keyring->flags);
+6a654188690846 Scott Mayhew         2023-04-20  1164  		cred->thread_keyring = keyring;
+6a654188690846 Scott Mayhew         2023-04-20  1165  		cred->jit_keyring = KEY_REQKEY_DEFL_THREAD_KEYRING;
+6a654188690846 Scott Mayhew         2023-04-20  1166  		gss_auth->keyring_cred = cred;
+6a654188690846 Scott Mayhew         2023-04-20  1167  	}
+6a654188690846 Scott Mayhew         2023-04-20  1168  
+6a654188690846 Scott Mayhew         2023-04-20  1169  	trace_rpcgss_createauth(flavor, err, gss_auth->keyring_cred ?
+6a654188690846 Scott Mayhew         2023-04-20  1170  				gss_auth->keyring_cred->thread_keyring : NULL);
+eb6dc19d8e72ce Trond Myklebust      2013-08-28  1171  	return gss_auth;
+6a654188690846 Scott Mayhew         2023-04-20  1172  err_destroy_cred:
+6a654188690846 Scott Mayhew         2023-04-20  1173  	put_cred(cred);
+6a654188690846 Scott Mayhew         2023-04-20  1174  err_destroy_pipe_0:
+6a654188690846 Scott Mayhew         2023-04-20  1175  	gss_pipe_free(gss_auth->gss_pipe[0]);
+c239d83b9921b8 Stanislav Kinsbursky 2011-12-26  1176  err_destroy_pipe_1:
+414a6295984094 Trond Myklebust      2013-08-27  1177  	gss_pipe_free(gss_auth->gss_pipe[1]);
+1917228435eebd Trond Myklebust      2013-08-26  1178  err_destroy_credcache:
+1917228435eebd Trond Myklebust      2013-08-26  1179  	rpcauth_destroy_credcache(auth);
+^1da177e4c3f41 Linus Torvalds       2005-04-16  1180  err_put_mech:
+^1da177e4c3f41 Linus Torvalds       2005-04-16  1181  	gss_mech_put(gss_auth->mech);
+e726340ac9cf6b Trond Myklebust      2013-08-23  1182  err_put_net:
+9b1831e56c7f33 Eric Dumazet         2022-01-27  1183  	put_net_track(gss_auth->net, &gss_auth->ns_tracker);
+^1da177e4c3f41 Linus Torvalds       2005-04-16  1184  err_free:
+bd4a3eb15bb422 Trond Myklebust      2013-08-23  1185  	kfree(gss_auth->target_name);
+^1da177e4c3f41 Linus Torvalds       2005-04-16  1186  	kfree(gss_auth);
+                                                              ^^^^^^^^
+Freed.
+
+^1da177e4c3f41 Linus Torvalds       2005-04-16  1187  out_dec:
+^1da177e4c3f41 Linus Torvalds       2005-04-16  1188  	module_put(THIS_MODULE);
+6a654188690846 Scott Mayhew         2023-04-20 @1189  	trace_rpcgss_createauth(flavor, err, gss_auth->keyring_cred ?
+6a654188690846 Scott Mayhew         2023-04-20  1190  				gss_auth->keyring_cred->thread_keyring : NULL);
+
+gss_auth is never valid at this point.
+
+6a19275ada9137 J. Bruce Fields      2005-06-22  1191  	return ERR_PTR(err);
+^1da177e4c3f41 Linus Torvalds       2005-04-16  1192  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
+
